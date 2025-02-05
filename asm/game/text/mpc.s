@@ -3,11 +3,11 @@
 
 	.text
 
-	arm_func_start MPC__GetUnknownCount
-MPC__GetUnknownCount: // 0x02053810
+	arm_func_start MPC__GetSequenceCount
+MPC__GetSequenceCount: // 0x02053810
 	ldrh r0, [r0, #0xa]
 	bx lr
-	arm_func_end MPC__GetUnknownCount
+	arm_func_end MPC__GetSequenceCount
 
 	arm_func_start MPC__GetSequenceDialogCount
 MPC__GetSequenceDialogCount: // 0x02053818
@@ -57,8 +57,8 @@ _020538A8:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end MPC__GetDisplayLineLength
 
-	arm_func_start MPC__Func_20538B0
-MPC__Func_20538B0: // 0x020538B0
+	arm_func_start MPC__GetDialogLineCount
+MPC__GetDialogLineCount: // 0x020538B0
 	ldr r3, [r0, #0x10]
 	ldr ip, [r0, #0x14]
 	add r3, r0, r3
@@ -70,7 +70,7 @@ MPC__Func_20538B0: // 0x020538B0
 	mov r0, r0, lsr #0xe
 	ldrh r0, [r0, r1]
 	bx lr
-	arm_func_end MPC__Func_20538B0
+	arm_func_end MPC__GetDialogLineCount
 
 	arm_func_start MPC__GetLineLength
 MPC__GetLineLength: // 0x020538DC
@@ -171,8 +171,8 @@ MPC__GetText: // 0x0205398C
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	arm_func_end MPC__GetText
 
-	arm_func_start MPC__CheckUnknown1Alt
-MPC__CheckUnknown1Alt: // 0x02053A38
+	arm_func_start MPC__IsSpecialCharacter
+MPC__IsSpecialCharacter: // 0x02053A38
 	ldrh r0, [r0, #4]
 	cmp r1, r0
 	movls r0, #0
@@ -182,7 +182,7 @@ MPC__CheckUnknown1Alt: // 0x02053A38
 	movle r0, #1
 	movgt r0, #0
 	bx lr
-	arm_func_end MPC__CheckUnknown1Alt
+	arm_func_end MPC__IsSpecialCharacter
 
 	arm_func_start MPC__ShouldRunCallback
 MPC__ShouldRunCallback: // 0x02053A5C

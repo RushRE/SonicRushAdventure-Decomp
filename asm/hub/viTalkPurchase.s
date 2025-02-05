@@ -128,7 +128,7 @@ ViTalkPurchase__CreateInternal: // 0x02169918
 	cmp r0, #0
 	beq _0216995C
 	add r0, r0, #0x14
-	bl ViEvtCmnTalk__Constructor
+	bl _ZN13CViEvtCmnTalkC1Ev
 _0216995C:
 	mov r0, r4
 	add sp, sp, #0xc
@@ -636,7 +636,7 @@ ViTalkPurchase__Func_2169FC0: // 0x02169FC0
 	cmp r4, #0
 	beq _02169FE4
 	add r0, r4, #0x14
-	bl ViEvtCmnTalk__VTableFunc_216D618
+	bl _ZN13CViEvtCmnTalkD1Ev
 	mov r0, r4
 	bl _ZdlPv
 _02169FE4:

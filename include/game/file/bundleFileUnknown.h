@@ -5,6 +5,11 @@
 #include <game/system/allocator.h>
 #include <game/graphics/renderCore.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -18,5 +23,9 @@
 
 void *BundleFileUnknown__LoadFile(const char *path, void *memory);
 void *BundleFileUnknown__LoadFileFromBundle(const char *bundlePath, u16 id, void *memory);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_BUNDLEFILEUNKNOWN_H

@@ -1,139 +1,103 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <hub/cvi3dObject.hpp>
+#include <hub/cviShadow.hpp>
+#include <hub/cvi3dArrow.hpp>
+#include <game/util/cppHelpers.hpp>
+#include <game/file/fileUnknown.h>
+#include <game/file/bundleFileUnknown.h>
+#include <hub/cviDockNpc.hpp>
 
-	.public _ZTVN10__cxxabiv117__class_type_infoE
-	.public _ZTVN10__cxxabiv120__si_class_type_infoE
+// resources
+#include <resources/narc/vi_shadow_lz7.h>
+#include <resources/bb/vi_npc.h>
 
-	.text
+// --------------------
+// TEMP
+// --------------------
 
-	arm_func_start Vi3dObject__Constructor
-Vi3dObject__Constructor: // 0x021674AC
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #0x18
-	mov r4, r0
-	ldr r1, _021675CC // =0x021738E8
-	add r0, r4, #8
-	str r1, [r4]
-	bl CPPHelpers__Func_2085EE8
-	add r0, r4, #0x14
-	bl CPPHelpers__Func_2085EE8
-	add r0, r4, #0x20
-	bl CPPHelpers__Func_2085EE8
-	add r0, r4, #0x2c
-	bl CPPHelpers__Func_2085EE8
-	mov r1, #0
-	add r0, sp, #0xc
-	mov r2, r1
-	mov r3, r1
-	str r1, [r4, #4]
-	bl CPPHelpers__VEC_Set
-	add r0, r4, #8
-	add r1, sp, #0xc
-	bl CPPHelpers__Func_2085FA8
-	add r0, r4, #0x14
-	add r1, r4, #8
-	bl CPPHelpers__Func_2085FA8
-	mov r1, #0x1000
-	add r0, sp, #0
-	mov r2, r1
-	mov r3, r1
-	bl CPPHelpers__VEC_Set
-	add r0, r4, #0x20
-	add r1, sp, #0
-	bl CPPHelpers__Func_2085FA8
-	add r0, r4, #0x2c
-	add r1, r4, #0x20
-	bl CPPHelpers__Func_2085FA8
-	mov r1, #0
-	strh r1, [r4, #0x38]
-	strh r1, [r4, #0x3a]
-	ldrh r3, [r4, #0x38]
-	ldr r2, _021675D0 // =0x0000FFFF
-	add r0, r4, #0x100
-	strh r3, [r4, #0x3c]
-	strh r1, [r4, #0x3e]
-	strh r1, [r4, #0x40]
-	strh r1, [r4, #0x42]
-	strh r2, [r0, #0x88]
-	strh r2, [r0, #0x8a]
-	strh r2, [r0, #0x8c]
-	strh r2, [r0, #0x8e]
-	strh r2, [r0, #0x90]
-	strh r2, [r0, #0x92]
-	add r0, r4, #0x200
-	strh r2, [r0, #0xd8]
-	strh r2, [r0, #0xda]
-	str r1, [r4, #0x2dc]
-	str r1, [r4, #0x2e0]
-	str r1, [r4, #0x2e4]
-	str r1, [r4, #0x2e8]
-	str r1, [r4, #0x2ec]
-	str r1, [r4, #0x2f0]
-	str r1, [r4, #0x2f4]
-	str r1, [r4, #0x2f8]
-	add r0, r4, #0x44
-	str r1, [r4, #0x2fc]
-	bl AnimatorMDL__Init
-	add r0, r4, #0x194
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r0, r4
-	add sp, sp, #0x18
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021675CC: .word 0x021738E8
-_021675D0: .word 0x0000FFFF
-	arm_func_end Vi3dObject__Constructor
+extern "C"
+{
+NOT_DECOMPILED void _ZN9CViShadow12Func_21680B8Ev(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_21677C4Ev(void);
+}
 
-	arm_func_start Vi3dObject__VTableFunc_21675D4
-Vi3dObject__VTableFunc_21675D4: // 0x021675D4
-	stmdb sp!, {r4, lr}
-	ldr r1, _021675F0 // =0x021738E8
-	mov r4, r0
-	str r1, [r4]
-	bl Vi3dObject__Func_21677C4
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021675F0: .word 0x021738E8
-	arm_func_end Vi3dObject__VTableFunc_21675D4
+// --------------------
+// VARIABLES
+// --------------------
 
-	arm_func_start Vi3dObject__VTableFunc_21675F4
-Vi3dObject__VTableFunc_21675F4: // 0x021675F4
-	stmdb sp!, {r4, lr}
-	ldr r1, _02167618 // =0x021738E8
-	mov r4, r0
-	str r1, [r4]
-	bl Vi3dObject__Func_21677C4
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02167618: .word 0x021738E8
-	arm_func_end Vi3dObject__VTableFunc_21675F4
+static const u8 viShadow__dlList[] = {
+    0x40, 0, 0x22, 0x24, 1,    0, 0,    0, 0,    0, 0, 0, 0,    0,    0, 0, 0,    0, 0, 0, 0x22, 0x24, 0x22, 0x24, 0, 0, 0x10, 0,
+    0,    0, 0,    4,    0x10, 0, 0x10, 0, 0x40, 0, 0, 4, 0x22, 0x24, 0, 0, 0x10, 0, 0, 0, 0x40, 0,    0,    0,    0, 0, 0,    0,
+};
 
-	arm_func_start Vi3dObject__Func_216761C
-Vi3dObject__Func_216761C: // 0x0216761C
-	stmdb sp!, {r4, lr}
-	ldr r1, _02167638 // =0x021738E8
-	mov r4, r0
-	str r1, [r4]
-	bl Vi3dObject__Func_21677C4
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02167638: .word 0x021738E8
-	arm_func_end Vi3dObject__Func_216761C
+// --------------------
+// FUNCTIONS
+// --------------------
 
-	arm_func_start Vi3dObject__Func_216763C
-Vi3dObject__Func_216763C: // 0x0216763C
+// CVi3dObject
+CVi3dObject::CVi3dObject()
+{
+    CPPHelpers__Func_2085EE8(&this->translation1);
+    CPPHelpers__Func_2085EE8(&this->translation2);
+    CPPHelpers__Func_2085EE8(&this->scale1);
+    CPPHelpers__Func_2085EE8(&this->scale2);
+
+    this->flags = 0;
+
+    VecFx32 a1a;
+    CPPHelpers__VEC_Set(&a1a, 0, 0, 0);
+    CPPHelpers__Func_2085FA8(&this->translation1, &a1a);
+
+    VecFx32 a2;
+    CPPHelpers__Func_2085FA8(&this->translation2, &this->translation1);
+    CPPHelpers__VEC_Set(&a2, FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
+    CPPHelpers__Func_2085FA8(&this->scale1, &a2);
+    CPPHelpers__Func_2085FA8(&this->scale2, &this->scale1);
+
+    this->angle           = 0;
+    this->rotationAngle   = 0;
+    this->rotationY2      = this->angle;
+    this->field_3E        = 0;
+    this->rotationX       = 0;
+    this->rotationZ       = 0;
+    this->id1             = -1;
+    this->animator1AnimID = -1;
+    this->field_18C       = -1;
+    this->field_18E       = -1;
+    this->field_190       = -1;
+    this->field_192       = -1;
+    this->id2             = -1;
+    this->animID2         = -1;
+    this->field_2DC       = 0;
+    this->resources[0]    = NULL;
+    this->resources[1]    = NULL;
+    this->resources[2]    = NULL;
+    this->resources[3]    = NULL;
+    this->resources[4]    = NULL;
+    this->resources[5]    = NULL;
+    this->setJoint        = FALSE;
+    this->setMaterial     = FALSE;
+    AnimatorMDL__Init(&this->animator1, 0);
+    AnimatorMDL__Init(&this->animator2, 0);
+}
+
+CVi3dObject::~CVi3dObject()
+{
+    this->Func_21677C4();
+}
+
+NONMATCH_FUNC void CVi3dObject::Func_216763C(void *resMdl, u16 id1, BOOL setJoint, BOOL setMaterial, void *resAnimJoint, void *resAnimMaterial,
+                                            void *resAnimPattern, void *resAnimTexture, void *resAnimVisibility, u16 id2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	mov r7, r1
 	mov r6, r2
 	mov r4, r3
-	bl Vi3dObject__Func_21677C4
+	bl _ZN11CVi3dObject12Func_21677C4Ev
 	mov r0, #0
 	str r0, [r5, #0x2dc]
 	add r0, r5, #0x100
@@ -167,7 +131,7 @@ Vi3dObject__Func_216763C: // 0x0216763C
 	bl AnimatorMDL__SetResource
 	add r0, r5, #0x200
 	ldrh r2, [r0, #0xd8]
-	ldr r0, _02167700 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r2, r0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r1, [r5, #0x2fc]
@@ -177,18 +141,23 @@ Vi3dObject__Func_216763C: // 0x0216763C
 	ldr r3, [r5, #0x2f8]
 	bl AnimatorMDL__SetResource
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_02167700: .word 0x0000FFFF
-	arm_func_end Vi3dObject__Func_216763C
 
-	arm_func_start Vi3dObject__Func_2167704
-Vi3dObject__Func_2167704: // 0x02167704
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CVi3dObject::Func_2167704(CVi3dObject *other, u16 id1, BOOL setJoint, BOOL setMaterial, u16 id2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r0
 	mov r5, r1
 	mov r7, r2
 	mov r4, r3
-	bl Vi3dObject__Func_21677C4
+	bl _ZN11CVi3dObject12Func_21677C4Ev
 	mov r0, #1
 	str r0, [r6, #0x2dc]
 	add r2, r6, #0x100
@@ -220,7 +189,7 @@ Vi3dObject__Func_2167704: // 0x02167704
 	bl AnimatorMDL__SetResource
 	add r0, r6, #0x200
 	ldrh r2, [r0, #0xd8]
-	ldr r0, _021677C0 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r2, r0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r1, [r6, #0x2fc]
@@ -230,12 +199,17 @@ Vi3dObject__Func_2167704: // 0x02167704
 	ldr r3, [r6, #0x2f8]
 	bl AnimatorMDL__SetResource
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_021677C0: .word 0x0000FFFF
-	arm_func_end Vi3dObject__Func_2167704
 
-	arm_func_start Vi3dObject__Func_21677C4
-Vi3dObject__Func_21677C4: // 0x021677C4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CVi3dObject::Func_21677C4()
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x18
 	mov r4, r0
@@ -246,7 +220,7 @@ Vi3dObject__Func_21677C4: // 0x021677C4
 	bl AnimatorMDL__Init
 	add r0, r4, #0x200
 	ldrh r1, [r0, #0xd8]
-	ldr r0, _021678FC // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	beq _0216780C
 	add r0, r4, #0x194
@@ -290,7 +264,7 @@ _02167828:
 	strh r3, [r4, #0x38]
 	strh r3, [r4, #0x3a]
 	ldrh r2, [r4, #0x38]
-	ldr r1, _021678FC // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	add r0, r4, #0x100
 	strh r2, [r4, #0x3c]
 	strh r3, [r4, #0x3e]
@@ -316,12 +290,17 @@ _02167828:
 	str r3, [r4, #0x2fc]
 	add sp, sp, #0x18
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021678FC: .word 0x0000FFFF
-	arm_func_end Vi3dObject__Func_21677C4
 
-	arm_func_start Vi3dObject__Func_2167900
-Vi3dObject__Func_2167900: // 0x02167900
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CVi3dObject::Func_2167900(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL a6)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #0x10
 	ldr ip, [sp, #0x1c]
@@ -341,13 +320,20 @@ Vi3dObject__Func_2167900: // 0x02167900
 	ldr r2, [r0, #0x2e4]
 	ldrh r3, [ip, #0x8a]
 	add r0, r0, #0x44
-	bl ViShadow__Func_21680B8
+	bl _ZN9CViShadow12Func_21680B8Ev
 	add sp, sp, #0x10
 	ldmia sp!, {r3, pc}
-	arm_func_end Vi3dObject__Func_2167900
 
-	arm_func_start Vi3dObject__Func_2167958
-Vi3dObject__Func_2167958: // 0x02167958
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CVi3dObject::Func_2167958(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL a6)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #0x10
 	ldr ip, [sp, #0x1c]
@@ -367,13 +353,20 @@ Vi3dObject__Func_2167958: // 0x02167958
 	ldr r2, [r0, #0x2e4]
 	ldrh r3, [ip, #0xda]
 	add r0, r0, #0x194
-	bl ViShadow__Func_21680B8
+	bl _ZN9CViShadow12Func_21680B8Ev
 	add sp, sp, #0x10
 	ldmia sp!, {r3, pc}
-	arm_func_end Vi3dObject__Func_2167958
 
-	arm_func_start Vi3dObject__Func_21679B0
-Vi3dObject__Func_21679B0: // 0x021679B0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CVi3dObject::Func_21679B0(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL a6)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #0x10
 	ldr ip, [sp, #0x1c]
@@ -394,13 +387,20 @@ Vi3dObject__Func_21679B0: // 0x021679B0
 	ldrh r3, [ip, #0x8e]
 	add r0, r0, #0x44
 	mov r1, #1
-	bl ViShadow__Func_21680B8
+	bl _ZN9CViShadow12Func_21680B8Ev
 	add sp, sp, #0x10
 	ldmia sp!, {r3, pc}
-	arm_func_end Vi3dObject__Func_21679B0
 
-	arm_func_start Vi3dObject__Func_2167A0C
-Vi3dObject__Func_2167A0C: // 0x02167A0C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CVi3dObject::Func_2167A0C(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL a6)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x10
 	ldr ip, [sp, #0x24]
@@ -427,13 +427,20 @@ Vi3dObject__Func_2167A0C: // 0x02167A0C
 	ldr r2, [r4, #0x2f0]
 	add r0, r4, #0x44
 	mov r1, #2
-	bl ViShadow__Func_21680B8
+	bl _ZN9CViShadow12Func_21680B8Ev
 	add sp, sp, #0x10
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end Vi3dObject__Func_2167A0C
 
-	arm_func_start Vi3dObject__Func_2167A80
-Vi3dObject__Func_2167A80: // 0x02167A80
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CVi3dObject::Func_2167A80()
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #0x10
 	ldr ip, [sp, #0x1c]
@@ -454,13 +461,20 @@ Vi3dObject__Func_2167A80: // 0x02167A80
 	ldrh r3, [ip, #0x92]
 	add r0, r0, #0x44
 	mov r1, #3
-	bl ViShadow__Func_21680B8
+	bl _ZN9CViShadow12Func_21680B8Ev
 	add sp, sp, #0x10
 	ldmia sp!, {r3, pc}
-	arm_func_end Vi3dObject__Func_2167A80
 
-	arm_func_start Vi3dObject__ProcessAnimation
-Vi3dObject__ProcessAnimation: // 0x02167ADC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CVi3dObject::ProcessAnimation()
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #4]
@@ -507,24 +521,29 @@ _02167B6C:
 	bl AnimatorMDL__ProcessAnimation
 	add r0, r4, #0x200
 	ldrh r1, [r0, #0xd8]
-	ldr r0, _02167B94 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	ldmeqia sp!, {r4, pc}
 	add r0, r4, #0x194
 	bl AnimatorMDL__ProcessAnimation
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02167B94: .word 0x0000FFFF
-	arm_func_end Vi3dObject__ProcessAnimation
 
-	arm_func_start Vi3dObject__Draw
-Vi3dObject__Draw: // 0x02167B98
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CVi3dObject::Draw()
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x48
 	mov r4, r0
 	ldr r1, [r4, #8]
 	ldr r0, [r4, #0x14]
-	ldr r3, _02167D68 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	add r0, r1, r0
 	str r0, [r4, #0x8c]
 	ldr r2, [r4, #0xc]
@@ -579,7 +598,7 @@ Vi3dObject__Draw: // 0x02167B98
 	mov r0, r0, asr #4
 	mov r1, r0, lsl #1
 	add r0, r1, #1
-	ldr r2, _02167D68 // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	mov r1, r1, lsl #1
 	mov r0, r0, lsl #1
 	ldrsh r1, [r2, r1]
@@ -597,7 +616,7 @@ _02167CB4:
 	mov r0, r0, asr #4
 	mov r1, r0, lsl #1
 	add r0, r1, #1
-	ldr r2, _02167D68 // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	mov r1, r1, lsl #1
 	mov r0, r0, lsl #1
 	ldrsh r1, [r2, r1]
@@ -613,7 +632,7 @@ _02167CF8:
 	bl AnimatorMDL__Draw
 	add r0, r4, #0x200
 	ldrh r1, [r0, #0xd8]
-	ldr r0, _02167D6C // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	addeq sp, sp, #0x48
 	ldmeqia sp!, {r4, pc}
@@ -637,140 +656,76 @@ _02167CF8:
 	bl AnimatorMDL__Draw
 	add sp, sp, #0x48
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02167D68: .word FX_SinCosTable_
-_02167D6C: .word 0x0000FFFF
-	arm_func_end Vi3dObject__Draw
 
-	arm_func_start ViShadow__Constructor
-ViShadow__Constructor: // 0x02167D70
-	ldr r2, _02167D9C // =_ZTV9CViShadow+0x08
-	mov r1, #0
-	str r2, [r0]
-	str r1, [r0, #4]
-	str r1, [r0, #8]
-	str r1, [r0, #0xc]
-	mov r1, #0x6000
-	str r1, [r0, #0x10]
-	mov r1, #0xf
-	strh r1, [r0, #0x14]
-	bx lr
-	.align 2, 0
-_02167D9C: .word _ZTV9CViShadow+0x08
-	arm_func_end ViShadow__Constructor
+// clang-format on
+#endif
+}
 
-	arm_func_start ViShadow__VTableFunc_2167DA0
-ViShadow__VTableFunc_2167DA0: // 0x02167DA0
-	stmdb sp!, {r4, lr}
-	ldr r1, _02167DBC // =_ZTV9CViShadow+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViShadow__Func_2167E9C
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02167DBC: .word _ZTV9CViShadow+0x08
-	arm_func_end ViShadow__VTableFunc_2167DA0
+// CViShadow
+CViShadow::CViShadow()
+{
+    this->archive = NULL;
+    this->texture = NULL;
+    this->palette = NULL;
+    this->scale   = FLOAT_TO_FX32(6.0);
+    this->word14  = 15;
+}
 
-	arm_func_start ViShadow__VTableFunc_2167DC0
-ViShadow__VTableFunc_2167DC0: // 0x02167DC0
-	stmdb sp!, {r4, lr}
-	ldr r1, _02167DE4 // =_ZTV9CViShadow+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViShadow__Func_2167E9C
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02167DE4: .word _ZTV9CViShadow+0x08
-	arm_func_end ViShadow__VTableFunc_2167DC0
+CViShadow::~CViShadow()
+{
+    this->Func_2167E9C();
+}
 
-	arm_func_start ViShadow__LoadAssets
-ViShadow__LoadAssets: // 0x02167DE8
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	mov r4, r0
-	bl ViShadow__Func_2167E9C
-	ldr r0, _02167E98 // =aNarcViShadowLz
-	mvn r1, #0
-	bl BundleFileUnknown__LoadFile
-	str r0, [r4, #4]
-	mov r1, #0
-	bl FileUnknown__GetAOUFileSize
-	mov r8, r0
-	ldr r0, [r4, #4]
-	mov r1, #1
-	bl FileUnknown__GetAOUFileSize
-	mov r7, r0
-	ldr r0, [r4, #4]
-	mov r1, #0
-	bl FileUnknown__GetAOUFile
-	mov r6, r0
-	ldr r0, [r4, #4]
-	mov r1, #1
-	bl FileUnknown__GetAOUFile
-	mov r5, r0
-	mov r0, r8
-	mov r1, #0
-	bl VRAMSystem__AllocTexture
-	mov r7, r7, lsr #1
-	str r0, [r4, #8]
-	mov r0, r7, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r1, #0
-	bl VRAMSystem__AllocPalette
-	str r0, [r4, #0xc]
-	ldr r3, [r4, #8]
-	mov r1, r8
-	mov r0, r6
-	mov r2, #1
-	bl QueueUncompressedPixels
-	mov r1, r7, lsl #0x10
-	ldr r3, [r4, #0xc]
-	mov r0, r5
-	mov r1, r1, lsr #0x10
-	mov r2, #5
-	bl QueueUncompressedPalette
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02167E98: .word aNarcViShadowLz
-	arm_func_end ViShadow__LoadAssets
+void CViShadow::LoadAssets()
+{
+    this->Func_2167E9C();
 
-	arm_func_start ViShadow__Func_2167E9C
-ViShadow__Func_2167E9C: // 0x02167E9C
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #4]
-	cmp r0, #0
-	beq _02167EBC
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #4]
-_02167EBC:
-	ldr r0, [r4, #8]
-	tst r0, #0x80000000
-	beq _02167ED4
-	bl VRAMSystem__FreeTexture
-	mov r0, #0
-	str r0, [r4, #8]
-_02167ED4:
-	ldr r0, [r4, #0xc]
-	tst r0, #0x80000000
-	beq _02167EEC
-	bl VRAMSystem__FreePalette
-	mov r0, #0
-	str r0, [r4, #0xc]
-_02167EEC:
-	mov r0, #0x6000
-	str r0, [r4, #0x10]
-	mov r0, #0xf
-	strh r0, [r4, #0x14]
-	ldmia sp!, {r4, pc}
-	arm_func_end ViShadow__Func_2167E9C
+    this->archive = BundleFileUnknown__LoadFile("narc/vi_shadow_lz7.narc", BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+    
+    u32 textureSize = FileUnknown__GetAOUFileSize(this->archive, ARCHIVE_VI_SHADOW_LZ7_FILE_VI_SHADOW_NTFT);
+    u32 shadowSize  = FileUnknown__GetAOUFileSize(this->archive, ARCHIVE_VI_SHADOW_LZ7_FILE_VI_SHADOW_NTFP);
 
-	arm_func_start ViShadow__Func_2167F00
-ViShadow__Func_2167F00: // 0x02167F00
+    void *textureFile = FileUnknown__GetAOUFile(this->archive, ARCHIVE_VI_SHADOW_LZ7_FILE_VI_SHADOW_NTFT);
+    void *shadowFile  = FileUnknown__GetAOUFile(this->archive, ARCHIVE_VI_SHADOW_LZ7_FILE_VI_SHADOW_NTFP);
+
+    this->texture = VRAMSystem__AllocTexture(textureSize, FALSE);
+    shadowSize >>= 1;
+    this->palette = VRAMSystem__AllocPalette((u16)shadowSize, FALSE);
+
+    QueueUncompressedPixels(textureFile, textureSize, PIXEL_MODE_TEXTURE, VRAMKEY_TO_ADDR(this->texture));
+    QueueUncompressedPalette(shadowFile, shadowSize, PALETTE_MODE_TEXTURE, VRAMKEY_TO_KEY(this->palette));
+}
+
+void CViShadow::Func_2167E9C()
+{
+    if (this->archive != NULL)
+    {
+        HeapFree(HEAP_USER, this->archive);
+        this->archive = NULL;
+    }
+
+    if ((VRAMKEY_TO_KEY(this->texture) & VRAMSYSTEM_FLAG_ALLOCATED) != 0)
+    {
+        VRAMSystem__FreeTexture(this->texture);
+        this->texture = NULL;
+    }
+
+    if ((VRAMKEY_TO_KEY(this->palette) & VRAMSYSTEM_FLAG_ALLOCATED) != 0)
+    {
+        VRAMSystem__FreePalette(this->palette);
+        this->palette = NULL;
+    }
+
+    this->scale  = FLOAT_TO_FX32(6.0);
+    this->word14 = 15;
+}
+
+NONMATCH_FUNC void CViShadow::Func_2167F00()
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x7c
 	mov r4, r1
@@ -795,10 +750,10 @@ ViShadow__Func_2167F00: // 0x02167F00
 	bl NNS_G3dGlbSetBaseScale
 	add r0, sp, #0x28
 	bl MTX_Identity33_
-	ldr r1, _0216809C // =NNS_G3dGlb+0x000000BC
+	ldr r1, =NNS_G3dGlb+0x000000BC
 	add r0, sp, #0x28
 	bl MI_Copy36B
-	ldr r1, _021680A0 // =NNS_G3dGlb
+	ldr r1, =NNS_G3dGlb
 	add r0, sp, #0x1c
 	ldr r2, [r1, #0xfc]
 	bic r2, r2, #0xa4
@@ -825,8 +780,8 @@ ViShadow__Func_2167F00: // 0x02167F00
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
 	ldr r2, [r5, #8]
-	ldr r0, _021680A4 // =0x0007FFFF
-	ldr r1, _021680A8 // =0x69B00000
+	ldr r0, =0x0007FFFF
+	ldr r1, =0x69B00000
 	and r0, r2, r0
 	orr r0, r1, r0, lsr #3
 	str r0, [sp, #0x10]
@@ -835,7 +790,7 @@ ViShadow__Func_2167F00: // 0x02167F00
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
 	ldr r2, [r5, #0xc]
-	ldr r1, _021680AC // =0x0001FFFF
+	ldr r1, =0x0001FFFF
 	mov r0, #0x2b
 	and r1, r2, r1
 	mov r1, r1, lsr #3
@@ -858,13 +813,13 @@ ViShadow__Func_2167F00: // 0x02167F00
 	str r3, [sp, #0x4c]
 	str r3, [sp, #0x5c]
 	bl NNS_G3dGeBufferOP_N
-	ldr r3, _021680B0 // =0x00007FFF
+	ldr r3, =0x00007FFF
 	add r1, sp, #4
 	mov r0, #0x20
 	mov r2, #1
 	str r3, [sp, #4]
 	bl NNS_G3dGeBufferOP_N
-	ldr r0, _021680B4 // =viShadow__dlList
+	ldr r0, =viShadow__dlList
 	mov r1, #0x38
 	bl NNS_G3dGeSendDL
 	mov r2, #1
@@ -874,18 +829,17 @@ ViShadow__Func_2167F00: // 0x02167F00
 	bl NNS_G3dGeBufferOP_N
 	add sp, sp, #0x7c
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_0216809C: .word NNS_G3dGlb+0x000000BC
-_021680A0: .word NNS_G3dGlb
-_021680A4: .word 0x0007FFFF
-_021680A8: .word 0x69B00000
-_021680AC: .word 0x0001FFFF
-_021680B0: .word 0x00007FFF
-_021680B4: .word viShadow__dlList
-	arm_func_end ViShadow__Func_2167F00
 
-	arm_func_start ViShadow__Func_21680B8
-ViShadow__Func_21680B8: // 0x021680B8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CViShadow::Func_21680B8()
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r5, r1
@@ -1000,174 +954,47 @@ _021681DC:
 	str r4, [r1]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	arm_func_end ViShadow__Func_21680B8
 
-	arm_func_start Vi3dArrow__Constructor
-Vi3dArrow__Constructor: // 0x0216823C
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl ViDockNpc__Func_2167384
-	ldr r0, _02168264 // =_ZTV10CVi3dArrow+0x08
-	mov r1, #0
-	str r0, [r4]
-	str r1, [r4, #0x300]
-	mov r0, r4
-	str r1, [r4, #0x304]
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02168264: .word _ZTV10CVi3dArrow+0x08
-	arm_func_end Vi3dArrow__Constructor
+// clang-format on
+#endif
+}
 
-	arm_func_start Vi3dArrow__VTableFunc_2168268
-Vi3dArrow__VTableFunc_2168268: // 0x02168268
-	stmdb sp!, {r4, lr}
-	ldr r1, _0216828C // =_ZTV10CVi3dArrow+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl Vi3dArrow__Func_2168358
-	mov r0, r4
-	bl Vi3dObject__Func_216761C
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216828C: .word _ZTV10CVi3dArrow+0x08
-	arm_func_end Vi3dArrow__VTableFunc_2168268
+// CVi3dArrow
+CVi3dArrow::CVi3dArrow()
+{
+    this->materialAnimFile = NULL;
+    this->modelFile        = NULL;
+}
 
-	arm_func_start Vi3dArrow__VTableFunc_2168290
-Vi3dArrow__VTableFunc_2168290: // 0x02168290
-	stmdb sp!, {r4, lr}
-	ldr r1, _021682BC // =_ZTV10CVi3dArrow+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl Vi3dArrow__Func_2168358
-	mov r0, r4
-	bl Vi3dObject__Func_216761C
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021682BC: .word _ZTV10CVi3dArrow+0x08
-	arm_func_end Vi3dArrow__VTableFunc_2168290
+CVi3dArrow::~CVi3dArrow()
+{
+    this->Func_2168358();
+}
 
-	arm_func_start Vi3dArrow__LoadAssets
-Vi3dArrow__LoadAssets: // 0x021682C0
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0x1c
-	mov r4, r0
-	bl Vi3dArrow__Func_2168358
-	ldr r0, _02168350 // =aBbViNpcBb_0
-	mov r1, #0x1c
-	mov r2, #0
-	bl BundleFileUnknown__LoadFileFromBundle
-	str r0, [r4, #0x300]
-	ldr r0, _02168350 // =aBbViNpcBb_0
-	mov r1, #0x1d
-	mov r2, #0
-	bl BundleFileUnknown__LoadFileFromBundle
-	str r0, [r4, #0x304]
-	mov r2, #0
-	str r2, [sp]
-	ldr r1, [r4, #0x304]
-	ldr r0, _02168354 // =0x0000FFFF
-	stmib sp, {r1, r2}
-	str r2, [sp, #0xc]
-	str r2, [sp, #0x10]
-	str r2, [sp, #0x14]
-	str r0, [sp, #0x18]
-	ldr r1, [r4, #0x300]
-	mov r0, r4
-	mov r3, r2
-	bl Vi3dObject__Func_216763C
-	mov r1, #0
-	str r1, [sp]
-	mov r0, r4
-	mov r2, #1
-	mov r3, r1
-	str r1, [sp, #4]
-	bl Vi3dObject__Func_2167900
-	add sp, sp, #0x1c
-	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_02168350: .word aBbViNpcBb_0
-_02168354: .word 0x0000FFFF
-	arm_func_end Vi3dArrow__LoadAssets
+void CVi3dArrow::LoadAssets()
+{
+    this->Func_2168358();
 
-	arm_func_start Vi3dArrow__Func_2168358
-Vi3dArrow__Func_2168358: // 0x02168358
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl Vi3dObject__Func_21677C4
-	ldr r0, [r4, #0x304]
-	cmp r0, #0
-	beq _0216837C
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x304]
-_0216837C:
-	ldr r0, [r4, #0x300]
-	cmp r0, #0
-	ldmeqia sp!, {r4, pc}
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x300]
-	ldmia sp!, {r4, pc}
-	arm_func_end Vi3dArrow__Func_2168358
-	
-	.rodata
+    this->materialAnimFile = BundleFileUnknown__LoadFileFromBundle("bb/vi_npc.bb", BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_ARROW_NSBMD, BUNDLEFILEUNKNOWN_AUTO_ALLOC_HEAD);
+    this->modelFile        = BundleFileUnknown__LoadFileFromBundle("bb/vi_npc.bb", BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_ARROW_NSBCA, BUNDLEFILEUNKNOWN_AUTO_ALLOC_HEAD);
 
-.public viShadow__dlList
-viShadow__dlList: // 0x02173158
-	.byte 0x40, 0, 0x22, 0x24, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0x22, 0x24, 0x22, 0x24, 0, 0, 0x10
-	.byte 0, 0, 0, 0, 4, 0x10, 0, 0x10, 0, 0x40, 0, 0, 4, 0x22
-	.byte 0x24, 0, 0, 0x10, 0, 0, 0, 0x40, 0, 0, 0, 0, 0, 0
-	.byte 0
-	
-	.data
+    this->Func_216763C(this->materialAnimFile, 0, FALSE, FALSE, this->modelFile, NULL, NULL, NULL, NULL, 0xFFFF);
+    this->Func_2167900(0, TRUE, FALSE, FALSE, FALSE);
+}
 
-.public _ZTI11CVi3dObject_1
-_ZTI11CVi3dObject_1: // 0x021738A8
-    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS11CVi3dObject
+void CVi3dArrow::Func_2168358()
+{
+    this->Func_21677C4();
 
-.public _ZTI9CViShadow
-_ZTI9CViShadow: // 0x021738B0
-    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS9CViShadow
+    if (this->modelFile != NULL)
+    {
+        HeapFree(HEAP_USER, this->modelFile);
+        this->modelFile = NULL;
+    }
 
-.public _ZTI10CVi3dArrow
-_ZTI10CVi3dArrow: // 0x021738B8
-    .word _ZTVN10__cxxabiv120__si_class_type_infoE+8, _ZTS10CVi3dArrow, _ZTI11CVi3dObject
-
-.public _ZTS9CViShadow
-_ZTS9CViShadow: // 0x021738C4
-	.asciz "9CViShadow"
-	.align 4
-
-.public _ZTS10CVi3dArrow
-_ZTS10CVi3dArrow: // 0x021738D0
-	.asciz "10CVi3dArrow"
-	.align 4
-
-.public _ZTV11CVi3dObject
-_ZTV11CVi3dObject: // 0x021738E0
-    .word 0, _ZTI11CVi3dObject
-_021738E8: // 0x021738E8
-    .word Vi3dObject__VTableFunc_21675D4, Vi3dObject__VTableFunc_21675F4
-
-.public _ZTV10CVi3dArrow
-_ZTV10CVi3dArrow: // 0x021738F0
-    .word 0, _ZTI10CVi3dArrow
-    .word Vi3dArrow__VTableFunc_2168268, Vi3dArrow__VTableFunc_2168290
-
-.public _ZTV9CViShadow
-_ZTV9CViShadow: // 0x02173900
-    .word 0, _ZTI9CViShadow
-    .word ViShadow__VTableFunc_2167DA0, ViShadow__VTableFunc_2167DC0
-
-aNarcViShadowLz: // 0x02173910
-	.asciz "narc/vi_shadow_lz7.narc"
-	.align 4
-
-aBbViNpcBb_0: // 0x02173928
-	.asciz "bb/vi_npc.bb"
-	.align 4
+    if (this->materialAnimFile != NULL)
+    {
+        HeapFree(HEAP_USER, this->materialAnimFile);
+        this->materialAnimFile = NULL;
+    }
+}

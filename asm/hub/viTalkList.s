@@ -54,7 +54,7 @@ ViTalkMissionList__CreateInternal: // 0x0216A218
 	bl _ZnwmPv
 	cmp r0, #0
 	beq _0216A258
-	bl ViEvtCmnTalk__Constructor
+	bl _ZN13CViEvtCmnTalkC1Ev
 _0216A258:
 	mov r0, r4
 	add sp, sp, #0xc
@@ -71,7 +71,7 @@ ViTalkMissionList__ThreadFunc: // 0x0216A268
 	mov r1, #0xf
 	bl FileUnknown__GetAOUFile
 	str r0, [r4, #0x4b8]
-	bl MPC__GetUnknownCount
+	bl MPC__GetSequenceCount
 	mov r1, #3
 	bl FX_DivS32
 	add r1, r4, #0x400
@@ -974,7 +974,7 @@ ViTalkMissionList__Func_216AF04: // 0x0216AF04
 	cmp r4, #0
 	beq _0216AF28
 	mov r0, r4
-	bl ViEvtCmnTalk__VTableFunc_216D618
+	bl _ZN13CViEvtCmnTalkD1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0216AF28:

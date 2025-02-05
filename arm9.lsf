@@ -666,10 +666,13 @@ Overlay Hub
     Object asm/hub/hubHUD.o
     Object asm/hub/viMapBack.o
     Object asm/hub/viMapIcon.o
-    Object asm/hub/viDockBack.o
-    Object asm/hub/viDockPlayer.o
-    Object asm/hub/viDockNpc.o
-    Object asm/hub/vi3dObject.o
+    Object asm/hub/viDockBack_vars.o
+    Object src/hub/cviDockBack.o
+    Object src/hub/cviDockPlayer.o
+    Object asm/hub/viDockPlayer_vars2.o
+    Object src/hub/cviDockNpc.o
+    Object asm/hub/viDockNpc_vars2.o
+    Object src/hub/cvi3dObject.o
     Object src/hub/cviDockNpcGroup.o
     Object src/hub/cviDockNpcGroup_vars.o #TODO: figure if these can be merged into the above file
     Object asm/hub/viDockNpcTalk.o
@@ -677,7 +680,7 @@ Overlay Hub
     Object asm/hub/viTalkPurchase.o
     Object asm/hub/viTalkList.o
     Object asm/hub/viTalkAnnounce.o
-    Object asm/hub/viEvtCmn.o
+    Object src/hub/cviEvtCmn.o
     Object asm/hub/npcUnknown.o
     Object asm/hub/npcCutsceneViewer.o
     Object asm/hub/npcMission.o

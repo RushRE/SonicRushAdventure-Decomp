@@ -1,6 +1,7 @@
 #ifndef RUSH_CVIDOCKNPCGROUP_HPP
 #define RUSH_CVIDOCKNPCGROUP_HPP
 
+#include <hub/cvi3dObject.hpp>
 #include <hub/cvi3dArrow.hpp>
 #include <hub/cviDockNpc.hpp>
 

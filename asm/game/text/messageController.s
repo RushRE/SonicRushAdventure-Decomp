@@ -176,7 +176,7 @@ MessageController__GetSequenceCount: // 0x02053D7C
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl MPC__GetUnknownCount
+	bl MPC__GetSequenceCount
 	ldmia sp!, {r3, pc}
 	arm_func_end MessageController__GetSequenceCount
 
@@ -237,13 +237,13 @@ MessageController__GetDialogID: // 0x02053E10
 
 	arm_func_start MessageController__GetDialogLineCount
 MessageController__GetDialogLineCount: // 0x02053E18
-	ldr ip, _02053E2C // =MPC__Func_20538B0
+	ldr ip, _02053E2C // =MPC__GetDialogLineCount
 	ldrh r1, [r0, #0xc]
 	ldrh r2, [r0, #0xe]
 	ldr r0, [r0, #0x64]
 	bx ip
 	.align 2, 0
-_02053E2C: .word MPC__Func_20538B0
+_02053E2C: .word MPC__GetDialogLineCount
 	arm_func_end MessageController__GetDialogLineCount
 
 	arm_func_start MessageController__SetLineID
@@ -274,7 +274,7 @@ MessageController__SetLineID: // 0x02053E30
 	ldrsh r1, [r4, #0x2e]
 	strh r1, [r4, #0xa]
 	strh r1, [r4, #6]
-	bl MessageController__Func_205442C
+	bl MessageController__ClearPixels
 	ldmia sp!, {r4, pc}
 	arm_func_end MessageController__SetLineID
 
@@ -287,7 +287,7 @@ MessageController__GetLineWidth: // 0x02053EA0
 	ldrh r2, [r0, #0xe]
 	ldrh r3, [r0, #0x10]
 	ldr r0, [r0, #0x64]
-	bl MessageController__MPC__Func_2054524
+	bl MessageController__GetLineWidthEx
 	ldmia sp!, {r3, pc}
 	arm_func_end MessageController__GetLineWidth
 
@@ -315,8 +315,8 @@ MessageController__GetPosition: // 0x02053ED8
 	bx lr
 	arm_func_end MessageController__GetPosition
 
-	arm_func_start MessageController__Func_2053EF4
-MessageController__Func_2053EF4: // 0x02053EF4
+	arm_func_start MessageController__LoadCharacters
+MessageController__LoadCharacters: // 0x02053EF4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	mov r10, r0
@@ -386,16 +386,16 @@ _02053FB4:
 	ldrsh r3, [r10, #0xa]
 	mov r0, r10
 	mov r2, r6
-	bl MessageController__Func_2054734
+	bl MessageController__SetUnknown
 	mov r0, r10
-	bl MessageController__Func_20546AC
+	bl MessageController__ApplyUnknown
 	ldr r0, [r10, #0x68]
 	str r0, [sp]
 	ldrh r1, [r10, #0xc]
 	ldrh r2, [r10, #0xe]
 	ldrh r3, [r10, #0x10]
 	ldr r0, [r10, #0x64]
-	bl MessageController__MPC__Func_2054524
+	bl MessageController__GetLineWidthEx
 	mov r1, r0
 	ldrh r0, [r10, #0x3c]
 	ldrsh r3, [r10, #0x2c]
@@ -425,9 +425,9 @@ _02054068:
 	ldrsh r3, [r10, #0xa]
 	mov r0, r10
 	mov r2, r6
-	bl MessageController__Func_2054734
+	bl MessageController__SetUnknown
 	mov r0, r10
-	bl MessageController__Func_20546AC
+	bl MessageController__ApplyUnknown
 	mov r6, #0
 	mov r11, r6
 	b _02054140
@@ -478,12 +478,12 @@ _02054140:
 	mov r0, r10
 	mov r1, r11
 	mov r2, r6
-	bl MessageController__Func_2054734
+	bl MessageController__SetUnknown
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02054168: .word 0x0000FFFF
-	arm_func_end MessageController__Func_2053EF4
+	arm_func_end MessageController__LoadCharacters
 
 	arm_func_start MessageController__Func_205416C
 MessageController__Func_205416C: // 0x0205416C
@@ -540,9 +540,9 @@ _02054214:
 	ldr r1, [sp, #8]
 	mov r0, r10
 	mov r2, r6
-	bl MessageController__Func_2054734
+	bl MessageController__SetUnknown
 	mov r0, r10
-	bl MessageController__Func_20546AC
+	bl MessageController__ApplyUnknown
 	mov r6, #0
 	str r6, [sp, #8]
 	b _020542DC
@@ -592,15 +592,15 @@ _020542DC:
 	ldr r1, [sp, #8]
 	mov r0, r10
 	mov r2, r6
-	bl MessageController__Func_2054734
+	bl MessageController__SetUnknown
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02054304: .word 0x0000FFFF
 	arm_func_end MessageController__Func_205416C
 
-	arm_func_start MessageController__Func_2054308
-MessageController__Func_2054308: // 0x02054308
+	arm_func_start MessageController__IsLastDialog
+MessageController__IsLastDialog: // 0x02054308
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldrh r0, [r5, #0x12]
@@ -613,7 +613,7 @@ MessageController__Func_2054308: // 0x02054308
 	mov r4, r0
 	ldr r0, [r5, #0x64]
 	mov r1, r4
-	bl MPC__CheckUnknown1Alt
+	bl MPC__IsSpecialCharacter
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
@@ -624,10 +624,10 @@ MessageController__Func_2054308: // 0x02054308
 	moveq r0, #1
 	movne r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end MessageController__Func_2054308
+	arm_func_end MessageController__IsLastDialog
 
-	arm_func_start MessageController__Func_2054364
-MessageController__Func_2054364: // 0x02054364
+	arm_func_start MessageController__IsEndOfLine
+MessageController__IsEndOfLine: // 0x02054364
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldrh r0, [r5, #0x12]
@@ -640,7 +640,7 @@ MessageController__Func_2054364: // 0x02054364
 	mov r4, r0
 	ldr r0, [r5, #0x64]
 	mov r1, r4
-	bl MPC__CheckUnknown1Alt
+	bl MPC__IsSpecialCharacter
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
@@ -654,7 +654,7 @@ MessageController__Func_2054364: // 0x02054364
 	moveq r0, #1
 	movne r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end MessageController__Func_2054364
+	arm_func_end MessageController__IsEndOfLine
 
 	arm_func_start MessageController__AdvanceDialog
 MessageController__AdvanceDialog: // 0x020543CC
@@ -688,8 +688,8 @@ MessageController__AdvanceLineID: // 0x020543FC
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end MessageController__AdvanceLineID
 
-	arm_func_start MessageController__Func_205442C
-MessageController__Func_205442C: // 0x0205442C
+	arm_func_start MessageController__ClearPixels
+MessageController__ClearPixels: // 0x0205442C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x5c]
@@ -713,12 +713,12 @@ _02054468:
 	mov r1, #1
 	mov r0, r4
 	str r1, [r4, #0x5c]
-	bl MessageController__Func_2054670
+	bl MessageController__ResetUnknown
 	ldmia sp!, {r4, pc}
-	arm_func_end MessageController__Func_205442C
+	arm_func_end MessageController__ClearPixels
 
-	arm_func_start MessageController__Func_2054488
-MessageController__Func_2054488: // 0x02054488
+	arm_func_start MessageController__UnknownIsValid1
+MessageController__UnknownIsValid1: // 0x02054488
 	ldrh r2, [r0, #0x18]
 	ldrh r1, [r0, #0x1c]
 	cmp r2, r1
@@ -730,10 +730,10 @@ MessageController__Func_2054488: // 0x02054488
 	movlo r0, #1
 	movhs r0, #0
 	bx lr
-	arm_func_end MessageController__Func_2054488
+	arm_func_end MessageController__UnknownIsValid1
 
-	arm_func_start MessageController__Func_20544B4
-MessageController__Func_20544B4: // 0x020544B4
+	arm_func_start MessageController__UnknownIsValid2
+MessageController__UnknownIsValid2: // 0x020544B4
 	ldrh r2, [r0, #0x20]
 	ldrh r1, [r0, #0x24]
 	cmp r2, r1
@@ -745,10 +745,10 @@ MessageController__Func_20544B4: // 0x020544B4
 	movlo r0, #1
 	movhs r0, #0
 	bx lr
-	arm_func_end MessageController__Func_20544B4
+	arm_func_end MessageController__UnknownIsValid2
 
-	arm_func_start MessageController__Func_20544E0
-MessageController__Func_20544E0: // 0x020544E0
+	arm_func_start MessageController__GetUnknown
+MessageController__GetUnknown: // 0x020544E0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r2
@@ -766,12 +766,12 @@ _02054500:
 	bl MIi_CpuCopy32
 _02054518:
 	mov r0, r5
-	bl MessageController__Func_2054644
+	bl MessageController__ClearUnknown
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end MessageController__Func_20544E0
+	arm_func_end MessageController__GetUnknown
 
-	arm_func_start MessageController__MPC__Func_2054524
-MessageController__MPC__Func_2054524: // 0x02054524
+	arm_func_start MessageController__GetLineWidthEx
+MessageController__GetLineWidthEx: // 0x02054524
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x38
 	str r1, [sp, #0xc]
@@ -828,7 +828,7 @@ _020545E4:
 	mov r0, r6
 	add sp, sp, #0x38
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end MessageController__MPC__Func_2054524
+	arm_func_end MessageController__GetLineWidthEx
 
 	arm_func_start MessageController__GetStartPos
 MessageController__GetStartPos: // 0x020545F0
@@ -859,8 +859,8 @@ _0205463C:
 	bx lr
 	arm_func_end MessageController__GetStartPos
 
-	arm_func_start MessageController__Func_2054644
-MessageController__Func_2054644: // 0x02054644
+	arm_func_start MessageController__ClearUnknown
+MessageController__ClearUnknown: // 0x02054644
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x18
@@ -872,10 +872,10 @@ MessageController__Func_2054644: // 0x02054644
 	mov r2, #8
 	bl MIi_CpuClear32
 	ldmia sp!, {r4, pc}
-	arm_func_end MessageController__Func_2054644
+	arm_func_end MessageController__ClearUnknown
 
-	arm_func_start MessageController__Func_2054670
-MessageController__Func_2054670: // 0x02054670
+	arm_func_start MessageController__ResetUnknown
+MessageController__ResetUnknown: // 0x02054670
 	stmdb sp!, {r3, lr}
 	mov ip, r0
 	mov r0, #0
@@ -891,10 +891,10 @@ MessageController__Func_2054670: // 0x02054670
 	strh r3, [ip, #0x1e]
 	bl MIi_CpuClear32
 	ldmia sp!, {r3, pc}
-	arm_func_end MessageController__Func_2054670
+	arm_func_end MessageController__ResetUnknown
 
-	arm_func_start MessageController__Func_20546AC
-MessageController__Func_20546AC: // 0x020546AC
+	arm_func_start MessageController__ApplyUnknown
+MessageController__ApplyUnknown: // 0x020546AC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrh r2, [r4, #0x18]
@@ -931,10 +931,10 @@ _02054720:
 	mov r2, #8
 	bl MIi_CpuClear32
 	ldmia sp!, {r4, pc}
-	arm_func_end MessageController__Func_20546AC
+	arm_func_end MessageController__ApplyUnknown
 
-	arm_func_start MessageController__Func_2054734
-MessageController__Func_2054734: // 0x02054734
+	arm_func_start MessageController__SetUnknown
+MessageController__SetUnknown: // 0x02054734
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr ip, [sp, #0x10]
 	cmp ip, #0
@@ -1007,12 +1007,12 @@ _0205480C:
 	cmp r2, r1
 	strgth r2, [r0, #0x26]
 _0205483C:
-	bl MessageController__Func_2054844
+	bl MessageController__ValidateUnknown
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end MessageController__Func_2054734
+	arm_func_end MessageController__SetUnknown
 
-	arm_func_start MessageController__Func_2054844
-MessageController__Func_2054844: // 0x02054844
+	arm_func_start MessageController__ValidateUnknown
+MessageController__ValidateUnknown: // 0x02054844
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	ldrh lr, [r0, #0x1c]
 	ldrh ip, [r0, #0x20]
@@ -1082,7 +1082,7 @@ _02054914:
 	ldrhsh r1, [r0, #0x24]
 	strhsh r1, [r0, #0x20]
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end MessageController__Func_2054844
+	arm_func_end MessageController__ValidateUnknown
 
 	arm_func_start MessageController__RunCallback
 MessageController__RunCallback: // 0x02054940

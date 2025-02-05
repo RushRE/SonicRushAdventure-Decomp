@@ -20,6 +20,7 @@
 #include <game/cutscene/script.h>
 #include <hub/npcCutsceneViewer.hpp>
 #include <hub/cviTalkPurchase.hpp>
+#include <sail/vikingCupManager.h>
 
 // resources
 #include <resources/narc/vi_act_lz7.h>
@@ -40,8 +41,6 @@
 extern "C"
 {
 
-NOT_DECOMPILED void MultibootManager__Func_2063C60(s32 a1);
-
 NOT_DECOMPILED void _ZN10HubControl10HandleFadeEsss(void);
 NOT_DECOMPILED void _ZN10HubControl12Func_2159740EPS_(void);
 NOT_DECOMPILED void _ZN10HubControl12Main_2158868Ev(void);
@@ -51,6 +50,7 @@ NOT_DECOMPILED void _ZN10HubControl12Main_21588D4Ev(void);
 NOT_DECOMPILED void _ZN10HubControl12Func_21591A8Ev(void);
 NOT_DECOMPILED void _ZN10HubControl12Func_21598B4EPS_(void);
 NOT_DECOMPILED void _ZN10HubControl12Main_21578CCEv(void);
+
 }
 
 // --------------------
@@ -2457,27 +2457,27 @@ void HubControl::Func_215A2E0(s32 a1, s32 a2)
             case 2:
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_3)
                 {
-                    MultibootManager__Func_2063C60(0);
+                    VikingCupManager__EventStartVikingCup(0);
                 }
                 else
                 {
-                    MultibootManager__Func_2063C60(1);
+                    VikingCupManager__EventStartVikingCup(1);
                     gameState.talk.field_DC = 1;
                 }
                 break;
 
             case 3:
-                MultibootManager__Func_2063C60(2);
+                VikingCupManager__EventStartVikingCup(2);
                 gameState.talk.field_DC = 1;
                 break;
 
             case 4:
-                MultibootManager__Func_2063C60(3);
+                VikingCupManager__EventStartVikingCup(3);
                 gameState.talk.field_DC = 1;
                 break;
 
             case 5:
-                MultibootManager__Func_2063C60(4);
+                VikingCupManager__EventStartVikingCup(4);
                 gameState.talk.field_DC = 1;
                 break;
         }

@@ -5,12 +5,7 @@
 #include <game/system/sysEvent.h>
 #include <game/system/task.h>
 #include <seaMap/seaMapView.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void MultibootManager__Func_2063C40(void);
+#include <sail/vikingCupManager.h>
 
 // --------------------
 // FUNCTION DECLS
@@ -35,7 +30,7 @@ void SailExitEvent_Main(void)
         return;
 
     state->sailUnknownFlags &= ~1;
-    MultibootManager__Func_2063C40();
+    VikingCupManager__Func_2063C40();
 
     for (u8 id = 0; id < 6; id++)
     {

@@ -6,15 +6,10 @@
 #include <game/file/binaryBundle.h>
 #include <game/object/objectManager.h>
 #include <sail/sailExitEvent.h>
+#include <sail/vikingCupManager.h>
 
 // resources
 #include <resources/bb/gm_demoplay.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void MultibootManager__Func_2063C60(s32 id);
 
 // --------------------
 // STRUCTS
@@ -76,7 +71,7 @@ void CreateSailDemoPlayer(void)
     CreateReplayRecorderPad(REPLAYRECORDER_TYPE_PLAY_FILE, &padInput, sailDemoList[state->curDemoID].keyDataPad, NULL, 0);
     CreateReplayRecorderTouch(REPLAYRECORDER_TYPE_PLAY_FILE, &touchInput, sailDemoList[state->curDemoID].keyDataTouch, NULL, 0);
 
-    MultibootManager__Func_2063C60(sailDemoList[state->curDemoID].id);
+    VikingCupManager__EventStartVikingCup(sailDemoList[state->curDemoID].id);
 }
 
 void SailDemoPlayer_State_Playback(StageTask *work)

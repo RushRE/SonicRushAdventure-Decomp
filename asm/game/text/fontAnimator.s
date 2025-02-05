@@ -517,20 +517,20 @@ _02058A9C: .word MessageController__GetDialogID
 
 	arm_func_start FontAnimator__LoadCharacters
 FontAnimator__LoadCharacters: // 0x02058AA0
-	ldr ip, _02058AAC // =MessageController__Func_2053EF4
+	ldr ip, _02058AAC // =MessageController__LoadCharacters
 	add r0, r0, #0x20
 	bx ip
 	.align 2, 0
-_02058AAC: .word MessageController__Func_2053EF4
+_02058AAC: .word MessageController__LoadCharacters
 	arm_func_end FontAnimator__LoadCharacters
 
 	arm_func_start FontAnimator__IsEndOfLine
 FontAnimator__IsEndOfLine: // 0x02058AB0
-	ldr ip, _02058ABC // =MessageController__Func_2054364
+	ldr ip, _02058ABC // =MessageController__IsEndOfLine
 	add r0, r0, #0x20
 	bx ip
 	.align 2, 0
-_02058ABC: .word MessageController__Func_2054364
+_02058ABC: .word MessageController__IsEndOfLine
 	arm_func_end FontAnimator__IsEndOfLine
 
 	arm_func_start FontAnimator__AdvanceDialog
@@ -540,7 +540,7 @@ FontAnimator__AdvanceDialog: // 0x02058AC0
 	add r0, r4, #0x20
 	bl MessageController__AdvanceDialog
 	add r0, r4, #0x20
-	bl MessageController__Func_2054308
+	bl MessageController__IsLastDialog
 	cmp r0, #0
 	moveq r0, #1
 	movne r0, #0
@@ -549,20 +549,20 @@ FontAnimator__AdvanceDialog: // 0x02058AC0
 
 	arm_func_start FontAnimator__IsLastDialog
 FontAnimator__IsLastDialog: // 0x02058AE8
-	ldr ip, _02058AF4 // =MessageController__Func_2054308
+	ldr ip, _02058AF4 // =MessageController__IsLastDialog
 	add r0, r0, #0x20
 	bx ip
 	.align 2, 0
-_02058AF4: .word MessageController__Func_2054308
+_02058AF4: .word MessageController__IsLastDialog
 	arm_func_end FontAnimator__IsLastDialog
 
 	arm_func_start FontAnimator__ClearPixels
 FontAnimator__ClearPixels: // 0x02058AF8
-	ldr ip, _02058B04 // =MessageController__Func_205442C
+	ldr ip, _02058B04 // =MessageController__ClearPixels
 	add r0, r0, #0x20
 	bx ip
 	.align 2, 0
-_02058B04: .word MessageController__Func_205442C
+_02058B04: .word MessageController__ClearPixels
 	arm_func_end FontAnimator__ClearPixels
 
 	arm_func_start FontAnimator__Draw
@@ -571,15 +571,15 @@ FontAnimator__Draw: // 0x02058B08
 	sub sp, sp, #0x1c
 	mov r7, r0
 	add r0, r7, #0x20
-	bl MessageController__Func_2054488
+	bl MessageController__UnknownIsValid1
 	mov r4, r0
 	add r0, r7, #0x20
-	bl MessageController__Func_20544B4
+	bl MessageController__UnknownIsValid2
 	mov r5, r0
 	add r1, sp, #0x14
 	add r2, sp, #0xc
 	add r0, r7, #0x20
-	bl MessageController__Func_20544E0
+	bl MessageController__GetUnknown
 	cmp r4, #0
 	beq _02058B90
 	cmp r5, #0

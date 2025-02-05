@@ -82,13 +82,13 @@ ViDock__CreateInternal: // 0x0215DB20
 	bl ViDockBack__Constructor
 	add r0, r4, #0x1f8
 	add r0, r0, #0xc00
-	bl ViDockPlayer__Constructor
+	bl _ZN13CViDockPlayerC1Ev
 	add r0, r4, #0x130
 	add r0, r0, #0x1000
 	bl _ZN15CViDockNpcGroupC1Ev
 	add r0, r4, #0x48
 	add r0, r0, #0x1400
-	bl ViShadow__Constructor
+	bl _ZN9CViShadowC1Ev
 _0215DB8C:
 	mov r0, r5
 	add sp, sp, #0xc
@@ -951,7 +951,7 @@ ViDock__Func_215E678: // 0x0215E678
 	bl ViDock__Func_215EB04
 	add r0, r4, #0x48
 	add r0, r0, #0x1400
-	bl ViShadow__LoadAssets
+	bl _ZN9CViShadow10LoadAssetsEv
 	add r0, r4, #0x490
 	add r0, r0, #0x1000
 	bl FontWindowAnimator__Init
@@ -979,7 +979,7 @@ ViDock__Func_215E6E4: // 0x0215E6E4
 	mov r2, #0
 	add r0, r0, #0x1400
 	str r2, [r1, #0xb28]
-	bl ViShadow__Func_2167E9C
+	bl _ZN9CViShadow12Func_2167E9CEv
 	mov r0, r4
 	bl ViDock__Func_215EF3C
 	mov r0, r4
@@ -2207,7 +2207,7 @@ _0215F7EC:
 	add r1, r4, #0x1400
 	bl ViDockBack__Func_2164BF4
 	mov r0, r9
-	bl Vi3dObject__Draw
+	bl _ZN11CVi3dObject4DrawEv
 	add r0, r5, #0x1000
 	mov r1, r9
 	bl _ZN15CViDockNpcGroup10GetNextNpcEP10CViDockNpc
@@ -2240,7 +2240,7 @@ _0215F838:
 	bl ViDockBack__Func_2164BF4
 	add r0, r10, #0x1f8
 	add r0, r0, #0xc00
-	bl Vi3dObject__Draw
+	bl _ZN11CVi3dObject4DrawEv
 _0215F8A4:
 	ldr r0, [sp, #4]
 	cmp r0, #0
@@ -2744,13 +2744,13 @@ ViDock__Func_215FF6C: // 0x0215FF6C
 	beq _0215FFB4
 	add r0, r4, #0x48
 	add r0, r0, #0x1400
-	bl ViShadow__VTableFunc_2167DA0
+	bl _ZN9CViShadowD1Ev
 	add r0, r4, #0x130
 	add r0, r0, #0x1000
 	bl _ZN15CViDockNpcGroupD1Ev
 	add r0, r4, #0x1f8
 	add r0, r0, #0xc00
-	bl ViDockPlayer__VTableFunc_21665AC
+	bl _ZN13CViDockPlayerD1Ev
 	add r0, r4, #0xf8
 	bl ViDockBack__VTableFunc_21644C0
 	mov r0, r4

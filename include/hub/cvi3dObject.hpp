@@ -1,8 +1,9 @@
-#ifndef RUSH_VI3DOBJECT_HPP
-#define RUSH_VI3DOBJECT_HPP
+#ifndef RUSH_CVI3DOBJECT_HPP
+#define RUSH_CVI3DOBJECT_HPP
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
+#include <game/graphics/vramSystem.h>
 
 // --------------------
 // STRUCTS
@@ -10,14 +11,14 @@
 
 class CVi3dObject
 {
-    void *vTable;
-
 public:
+    CVi3dObject();
+    virtual ~CVi3dObject();
 
     // --------------------
     // VARIABLES
     // --------------------
-    
+
     u32 flags;
     VecFx32 translation1;
     VecFx32 translation2;
@@ -48,37 +49,77 @@ public:
     // MEMBER FUNCTIONS
     // --------------------
 
+    void Func_216763C(void *resMdl, u16 id1, BOOL setJoint, BOOL setMaterial, void *resAnimJoint, void *resAnimMaterial, void *resAnimPattern, void *resAnimTexture,
+                      void *resAnimVisibility, u16 id2);
+    void Func_2167704(CVi3dObject *other, u16 id1, BOOL setJoint, BOOL setMaterial, u16 id2);
+    void Func_21677C4();
+    void Func_2167900(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL a6);
+    void Func_2167958(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL a6);
+    void Func_21679B0(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL a6);
+    void Func_2167A0C(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL a6);
+    void Func_2167A80();
+    void ProcessAnimation();
+    void Draw();
+
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
 };
 
-// --------------------
-// FUNCTIONS
-// --------------------
-
-#ifdef __cplusplus
-extern "C"
+class CVi3dArrow : public CVi3dObject
 {
-#endif
+public:
+    CVi3dArrow();
+    virtual ~CVi3dArrow();
 
-NOT_DECOMPILED void Vi3dObject__Constructor(void);
-NOT_DECOMPILED void Vi3dObject__VTableFunc_21675D4(void);
-NOT_DECOMPILED void Vi3dObject__VTableFunc_21675F4(void);
-NOT_DECOMPILED void Vi3dObject__Func_216761C(void);
-NOT_DECOMPILED void Vi3dObject__Func_216763C(void);
-NOT_DECOMPILED void Vi3dObject__Func_2167704(void);
-NOT_DECOMPILED void Vi3dObject__Func_21677C4(void);
-NOT_DECOMPILED void Vi3dObject__Func_2167900(void);
-NOT_DECOMPILED void Vi3dObject__Func_2167958(void);
-NOT_DECOMPILED void Vi3dObject__Func_21679B0(void);
-NOT_DECOMPILED void Vi3dObject__Func_2167A0C(void);
-NOT_DECOMPILED void Vi3dObject__Func_2167A80(void);
-NOT_DECOMPILED void Vi3dObject__ProcessAnimation(CVi3dObject *work);
-NOT_DECOMPILED void Vi3dObject__Draw(CVi3dObject *work);
+    // --------------------
+    // VARIABLES
+    // --------------------
 
-#ifdef __cplusplus
-}
-#endif
+    void *materialAnimFile;
+    void *modelFile;
 
-#endif // RUSH_VI3DOBJECT_HPP
+    // --------------------
+    // MEMBER FUNCTIONS
+    // --------------------
+
+    void LoadAssets();
+    void Func_2168358();
+
+    // --------------------
+    // STATIC FUNCTIONS
+    // --------------------
+};
+
+class CViShadow
+{
+public:
+    CViShadow();
+    virtual ~CViShadow();
+
+    // --------------------
+    // VARIABLES
+    // --------------------
+
+    void *archive;
+    VRAMPixelKey texture;
+    VRAMPaletteKey palette;
+    fx32 scale;
+    u16 word14;
+
+    // --------------------
+    // MEMBER FUNCTIONS
+    // --------------------
+
+    void LoadAssets();
+    void Func_2167E9C();
+
+    void Func_2167F00();
+    void Func_21680B8();
+
+    // --------------------
+    // STATIC FUNCTIONS
+    // --------------------
+};
+
+#endif // RUSH_CVI3DOBJECT_HPP

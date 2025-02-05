@@ -1,67 +1,55 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <hub/cviEvtCmn.hpp>
+#include <hub/hubAudio.h>
+#include <game/input/padInput.h>
+#include <game/file/fileUnknown.h>
+#include <game/text/mpc.h>
 
-	.public _ZTVN10__cxxabiv117__class_type_infoE
-	.public _ZTVN10__cxxabiv120__si_class_type_infoE
+// --------------------
+// TEMP
+// --------------------
 
-	.text
+extern "C"
+{
 
-	arm_func_start ViEvtCmnMsg__Constructor
-ViEvtCmnMsg__Constructor: // 0x0216B94C
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, _0216B988 // =_ZTV12CViEvtCmnMsg+0x08
-	add r0, r4, #0x20
-	str r1, [r4]
-	bl FontAnimator__Init
-	add r0, r4, #0xe4
-	bl FontWindowAnimator__Init
-	mov r1, #0
-	str r1, [r4, #0x1ac]
-	mov r0, r4
-	str r1, [r4, #0x218]
-	bl ViEvtCmnMsg__Func_216BC08
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216B988: .word _ZTV12CViEvtCmnMsg+0x08
-	arm_func_end ViEvtCmnMsg__Constructor
+NOT_DECOMPILED void _ZdlPv(void);
 
-	arm_func_start ViEvtCmnMsg__VTableFunc_216B98C
-ViEvtCmnMsg__VTableFunc_216B98C: // 0x0216B98C
-	stmdb sp!, {r4, lr}
-	ldr r1, _0216B9A8 // =_ZTV12CViEvtCmnMsg+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViEvtCmnMsg__Func_216BC08
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216B9A8: .word _ZTV12CViEvtCmnMsg+0x08
-	arm_func_end ViEvtCmnMsg__VTableFunc_216B98C
+NOT_DECOMPILED void _ZN10HubControl10GetField54Ev(void);
+NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViMsgEv(void);
+NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViActEt(void);
+NOT_DECOMPILED void _ZN10HubControl17GetTKDMNameSpriteEv(void);
 
-	arm_func_start ViEvtCmnMsg__VTableFunc_216B9AC
-ViEvtCmnMsg__VTableFunc_216B9AC: // 0x0216B9AC
-	stmdb sp!, {r4, lr}
-	ldr r1, _0216B9D0 // =_ZTV12CViEvtCmnMsg+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViEvtCmnMsg__Func_216BC08
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216B9D0: .word _ZTV12CViEvtCmnMsg+0x08
-	arm_func_end ViEvtCmnMsg__VTableFunc_216B9AC
+}
 
-	arm_func_start ViEvtCmnMsg__Func_216B9D4
-ViEvtCmnMsg__Func_216B9D4: // 0x0216B9D4
+// --------------------
+// FUNCTIONS
+// --------------------
+
+// CViEvtCmnMsg
+CViEvtCmnMsg::CViEvtCmnMsg()
+{
+    FontAnimator__Init(&this->fontAnimator);
+    FontWindowAnimator__Init(&this->fontWindowAnimator);
+    this->vramName       = NULL;
+    this->vramNextButton = NULL;
+    ViEvtCmnMsg__ReleaseGraphics(this);
+}
+
+CViEvtCmnMsg::~CViEvtCmnMsg(void)
+{
+    ViEvtCmnMsg__ReleaseGraphics(this);
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216B9D4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x28
 	mov r4, r0
 	mov r5, r1
-	bl ViEvtCmnMsg__Func_216BC08
+	bl ViEvtCmnMsg__ReleaseGraphics
 	str r5, [r4, #0xc]
 	bl _ZN10HubControl10GetField54Ev
 	mov r3, #3
@@ -131,7 +119,7 @@ ViEvtCmnMsg__Func_216B9D4: // 0x0216B9D4
 	str r2, [sp]
 	str r2, [sp, #4]
 	ldr r1, [r4, #0x1ac]
-	ldr r0, _0216BBF8 // =0x05000200
+	ldr r0, =0x05000200
 	str r1, [sp, #8]
 	str r2, [sp, #0xc]
 	str r0, [sp, #0x10]
@@ -158,7 +146,7 @@ ViEvtCmnMsg__Func_216B9D4: // 0x0216B9D4
 	str r2, [sp]
 	str r2, [sp, #4]
 	ldr r1, [r4, #0x218]
-	ldr r0, _0216BBF8 // =0x05000200
+	ldr r0, =0x05000200
 	str r1, [sp, #8]
 	str r2, [sp, #0xc]
 	str r0, [sp, #0x10]
@@ -181,28 +169,30 @@ ViEvtCmnMsg__Func_216B9D4: // 0x0216B9D4
 	str r0, [r4, #0x224]
 	add r0, r4, #0x260
 	bl TouchField__Init
-	ldr r1, _0216BBFC // =ViEvtCmnTalk__Func_216DC84
-	ldr r2, _0216BC00 // =TouchField__PointInRect
+	ldr r1, =ViEvtCmnTalk__Func_216DC84
+	ldr r2, =TouchField__PointInRect
 	stmia sp, {r1, r4}
 	mov r1, #0
 	add r0, r4, #0x228
 	mov r3, r1
 	bl TouchField__InitAreaShape
-	ldr r2, _0216BC04 // =0x0000FFFF
+	ldr r2, =0x0000FFFF
 	add r0, r4, #0x260
 	add r1, r4, #0x228
 	bl TouchField__AddArea
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216BBF8: .word 0x05000200
-_0216BBFC: .word ViEvtCmnTalk__Func_216DC84
-_0216BC00: .word TouchField__PointInRect
-_0216BC04: .word 0x0000FFFF
-	arm_func_end ViEvtCmnMsg__Func_216B9D4
 
-	arm_func_start ViEvtCmnMsg__Func_216BC08
-ViEvtCmnMsg__Func_216BC08: // 0x0216BC08
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__ReleaseGraphics(CViEvtCmnMsg *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x218]
@@ -229,7 +219,7 @@ _0216BC48:
 	str r0, [r4, #4]
 	str r0, [r4, #8]
 	mov r1, #0
-	ldr r0, _0216BCA4 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	str r1, [r4, #0xc]
 	strh r0, [r4, #0x10]
 	strh r0, [r4, #0x12]
@@ -244,12 +234,16 @@ _0216BC48:
 	str r1, [r4, #0x21c]
 	str r1, [r4, #0x27c]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216BCA4: .word 0x0000FFFF
-	arm_func_end ViEvtCmnMsg__Func_216BC08
 
-	arm_func_start ViEvtCmnMsg__Func_216BCA8
-ViEvtCmnMsg__Func_216BCA8: // 0x0216BCA8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BCA8(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov ip, #0
 	str ip, [r0, #8]
 	strh r1, [r0, #0x10]
@@ -263,21 +257,28 @@ ViEvtCmnMsg__Func_216BCA8: // 0x0216BCA8
 	str r1, [r0, #0x278]
 	str ip, [r0, #0x280]
 	bx lr
-	arm_func_end ViEvtCmnMsg__Func_216BCA8
 
-	arm_func_start ViEvtCmnMsg__Func_216BCDC
-ViEvtCmnMsg__Func_216BCDC: // 0x0216BCDC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BCDC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	ldr r0, [r4, #0xc]
 	mov r7, r1
 	mov r6, r2
 	mov r5, r3
-	bl MPC__GetUnknownCount
+	bl MPC__GetSequenceCount
 	cmp r7, r0
 	blo _0216BD34
 	mov r1, #5
-	ldr r0, _0216BD6C // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	str r1, [r4, #8]
 	strh r0, [r4, #0x10]
 	strh r0, [r4, #0x12]
@@ -304,37 +305,58 @@ _0216BD34:
 	mov r0, #0
 	str r0, [r4, #0x280]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216BD6C: .word 0x0000FFFF
-	arm_func_end ViEvtCmnMsg__Func_216BCDC
 
-	arm_func_start ViEvtCmnMsg__Func_216BD70
-ViEvtCmnMsg__Func_216BD70: // 0x0216BD70
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BD70(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	strh r1, [r0, #0x14]
 	strh r2, [r0, #0x16]
 	bx lr
-	arm_func_end ViEvtCmnMsg__Func_216BD70
 
-	arm_func_start ViEvtCmnMsg__Func_216BD7C
-ViEvtCmnMsg__Func_216BD7C: // 0x0216BD7C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BD7C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldrh r1, [r0, #0x14]
-	ldr r0, _0216BD94 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	.align 2, 0
-_0216BD94: .word 0x0000FFFF
-	arm_func_end ViEvtCmnMsg__Func_216BD7C
 
-	arm_func_start ViEvtCmnMsg__Func_216BD98
-ViEvtCmnMsg__Func_216BD98: // 0x0216BD98
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BD98(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	str r1, [r0, #0x1c]
 	bx lr
-	arm_func_end ViEvtCmnMsg__Func_216BD98
 
-	arm_func_start ViEvtCmnMsg__Func_216BDA0
-ViEvtCmnMsg__Func_216BDA0: // 0x0216BDA0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BDA0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r3, [r4, #0x278]
@@ -426,10 +448,16 @@ _0216BEBC:
 	movne r0, #1
 	strne r0, [r4, #0x278]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViEvtCmnMsg__Func_216BDA0
 
-	arm_func_start ViEvtCmnMsg__Func_216BED8
-ViEvtCmnMsg__Func_216BED8: // 0x0216BED8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BED8(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r1, [r0, #4]
 	ldr r0, [r0, #8]
 	cmp r1, r0
@@ -440,10 +468,17 @@ ViEvtCmnMsg__Func_216BED8: // 0x0216BED8
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	arm_func_end ViEvtCmnMsg__Func_216BED8
 
-	arm_func_start ViEvtCmnMsg__Func_216BF00
-ViEvtCmnMsg__Func_216BF00: // 0x0216BF00
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BF00(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r2, [r0, #0x220]
 	cmp r2, #1
@@ -452,26 +487,43 @@ ViEvtCmnMsg__Func_216BF00: // 0x0216BF00
 	ldmlsia sp!, {r3, pc}
 	bl ViEvtCmnMsg__Func_216C448
 	ldmia sp!, {r3, pc}
-	arm_func_end ViEvtCmnMsg__Func_216BF00
 
-	arm_func_start ViEvtCmnMsg__Func_216BF20
-ViEvtCmnMsg__Func_216BF20: // 0x0216BF20
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BF20(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r1, #1
 	str r1, [r0, #0x224]
 	bx lr
-	arm_func_end ViEvtCmnMsg__Func_216BF20
 
-	arm_func_start ViEvtCmnMsg__Func_216BF2C
-ViEvtCmnMsg__Func_216BF2C: // 0x0216BF2C
-	ldr ip, _0216BF38 // =ViEvtCmnMsg__Func_216C448
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BF2C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =ViEvtCmnMsg__Func_216C448
 	mov r1, #0
 	bx ip
-	.align 2, 0
-_0216BF38: .word ViEvtCmnMsg__Func_216C448
-	arm_func_end ViEvtCmnMsg__Func_216BF2C
 
-	arm_func_start ViEvtCmnMsg__Func_216BF3C
-ViEvtCmnMsg__Func_216BF3C: // 0x0216BF3C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BF3C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ViEvtCmnMsg__Func_216C4D4
@@ -479,10 +531,17 @@ ViEvtCmnMsg__Func_216BF3C: // 0x0216BF3C
 	bl ViEvtCmnMsg__Func_216C4F4
 	mov r0, #1
 	ldmia sp!, {r4, pc}
-	arm_func_end ViEvtCmnMsg__Func_216BF3C
 
-	arm_func_start ViEvtCmnMsg__Func_216BF58
-ViEvtCmnMsg__Func_216BF58: // 0x0216BF58
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BF58(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -501,10 +560,17 @@ ViEvtCmnMsg__Func_216BF58: // 0x0216BF58
 	bl ViEvtCmnMsg__Func_216C448
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ViEvtCmnMsg__Func_216BF58
 
-	arm_func_start ViEvtCmnMsg__Func_216BFA0
-ViEvtCmnMsg__Func_216BFA0: // 0x0216BFA0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BFA0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0xe4
@@ -524,17 +590,24 @@ ViEvtCmnMsg__Func_216BFA0: // 0x0216BFA0
 _0216BFE0:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViEvtCmnMsg__Func_216BFA0
 
-	arm_func_start ViEvtCmnMsg__Func_216BFE8
-ViEvtCmnMsg__Func_216BFE8: // 0x0216BFE8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216BFE8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrh r1, [r4, #0x12]
 	ldrh r0, [r4, #0x18]
 	cmp r1, r0
 	beq _0216C01C
-	ldr r0, _0216C040 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	beq _0216C014
 	add r0, r4, #0x148
@@ -552,12 +625,17 @@ _0216C01C:
 	mov r0, #0
 	str r0, [r4, #0x27c]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216C040: .word 0x0000FFFF
-	arm_func_end ViEvtCmnMsg__Func_216BFE8
 
-	arm_func_start ViEvtCmnMsg__Func_216C044
-ViEvtCmnMsg__Func_216C044: // 0x0216C044
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216C044(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	add r0, r7, #0x260
@@ -611,7 +689,7 @@ _0216C0D8:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0216C100:
 	ldrh r1, [r7, #0x12]
-	ldr r0, _0216C2C0 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	beq _0216C128
 	mov r1, #0
@@ -637,7 +715,7 @@ _0216C140:
 	blo _0216C1FC
 _0216C15C:
 	ldrh r2, [r7, #0x14]
-	ldr r1, _0216C2C0 // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	add r0, r7, #0x20
 	strh r2, [r7, #0x10]
 	ldrh r2, [r7, #0x16]
@@ -650,7 +728,7 @@ _0216C15C:
 	ldrh r0, [r7, #0x18]
 	cmp r1, r0
 	beq _0216C1B0
-	ldr r0, _0216C2C0 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	beq _0216C1A8
 	add r0, r7, #0x148
@@ -719,7 +797,7 @@ _0216C26C:
 	bl FontAnimator__LoadCharacters
 _0216C278:
 	ldrh r1, [r7, #0x12]
-	ldr r0, _0216C2C0 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	beq _0216C2A0
 	mov r1, #0
@@ -737,28 +815,37 @@ _0216C2A0:
 	bl ViEvtCmnMsg__Func_216C4F4
 	mov r0, #2
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216C2C0: .word 0x0000FFFF
-	arm_func_end ViEvtCmnMsg__Func_216C044
 
-	arm_func_start ViEvtCmnMsg__Func_216C2C4
-ViEvtCmnMsg__Func_216C2C4: // 0x0216C2C4
-	ldr ip, _0216C2D0 // =ViEvtCmnMsg__Func_216C448
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216C2C4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =ViEvtCmnMsg__Func_216C448
 	mov r1, #1
 	bx ip
-	.align 2, 0
-_0216C2D0: .word ViEvtCmnMsg__Func_216C448
-	arm_func_end ViEvtCmnMsg__Func_216C2C4
 
-	arm_func_start ViEvtCmnMsg__Func_216C2D4
-ViEvtCmnMsg__Func_216C2D4: // 0x0216C2D4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216C2D4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ViEvtCmnMsg__Func_216C4D4
 	mov r0, r4
 	bl ViEvtCmnMsg__Func_216C4F4
 	ldrh r1, [r4, #0x12]
-	ldr r0, _0216C318 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	beq _0216C310
 	mov r1, #0
@@ -770,12 +857,17 @@ ViEvtCmnMsg__Func_216C2D4: // 0x0216C2D4
 _0216C310:
 	mov r0, #3
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216C318: .word 0x0000FFFF
-	arm_func_end ViEvtCmnMsg__Func_216C2D4
 
-	arm_func_start ViEvtCmnMsg__Func_216C31C
-ViEvtCmnMsg__Func_216C31C: // 0x0216C31C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216C31C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -796,10 +888,17 @@ ViEvtCmnMsg__Func_216C31C: // 0x0216C31C
 	bl ViEvtCmnMsg__Func_216C448
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ViEvtCmnMsg__Func_216C31C
 
-	arm_func_start ViEvtCmnMsg__Func_216C36C
-ViEvtCmnMsg__Func_216C36C: // 0x0216C36C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216C36C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0xe4
@@ -819,20 +918,27 @@ ViEvtCmnMsg__Func_216C36C: // 0x0216C36C
 _0216C3AC:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViEvtCmnMsg__Func_216C36C
 
-	arm_func_start ViEvtCmnMsg__Func_216C3B4
-ViEvtCmnMsg__Func_216C3B4: // 0x0216C3B4
-	bx lr
-	arm_func_end ViEvtCmnMsg__Func_216C3B4
+// clang-format on
+#endif
+}
 
-	arm_func_start ViEvtCmnMsg__Func_216C3B8
-ViEvtCmnMsg__Func_216C3B8: // 0x0216C3B8
+void ViEvtCmnMsg__Func_216C3B4(void)
+{
+    // Nothing.
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216C3B8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0xe4
 	bl FontWindowAnimator__SetWindowOpen
-	ldr r1, _0216C3F0 // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	mov r0, #0
 	strh r1, [r4, #0x10]
 	strh r1, [r4, #0x12]
@@ -842,25 +948,33 @@ ViEvtCmnMsg__Func_216C3B8: // 0x0216C3B8
 	str r0, [r4, #0x27c]
 	mov r0, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216C3F0: .word 0x0000FFFF
-	arm_func_end ViEvtCmnMsg__Func_216C3B8
 
-	arm_func_start ViEvtCmnMsg__Func_216C3F4
-ViEvtCmnMsg__Func_216C3F4: // 0x0216C3F4
-	ldr r0, _0216C40C // =padInput
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216C3F4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #1
 	movne r0, #1
 	moveq r0, #0
 	bx lr
-	.align 2, 0
-_0216C40C: .word padInput
-	arm_func_end ViEvtCmnMsg__Func_216C3F4
 
-	arm_func_start ViEvtCmnMsg__Func_216C410
-ViEvtCmnMsg__Func_216C410: // 0x0216C410
-	ldr r1, _0216C444 // =padInput
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216C410(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r1, =padInput
 	ldrh r1, [r1, #0]
 	tst r1, #2
 	beq _0216C434
@@ -875,12 +989,17 @@ _0216C434:
 _0216C43C:
 	mov r0, #0
 	bx lr
-	.align 2, 0
-_0216C444: .word padInput
-	arm_func_end ViEvtCmnMsg__Func_216C410
 
-	arm_func_start ViEvtCmnMsg__Func_216C448
-ViEvtCmnMsg__Func_216C448: // 0x0216C448
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216C448(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x220]
@@ -924,23 +1043,33 @@ _0216C4B4:
 _0216C4CC:
 	str r5, [r6, #0x220]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ViEvtCmnMsg__Func_216C448
 
-	arm_func_start ViEvtCmnMsg__Func_216C4D4
-ViEvtCmnMsg__Func_216C4D4: // 0x0216C4D4
-	ldr ip, _0216C4EC // =AnimatorSprite__ProcessAnimation
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216C4D4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =AnimatorSprite__ProcessAnimation
 	mov r2, r0
 	add r0, r2, #0x1b4
-	ldr r1, _0216C4F0 // =ViEvtCmnTalk__Func_216DC14
+	ldr r1, =ViEvtCmnTalk__Func_216DC14
 	add r2, r2, #0x228
 	bx ip
-	.align 2, 0
-_0216C4EC: .word AnimatorSprite__ProcessAnimation
-_0216C4F0: .word ViEvtCmnTalk__Func_216DC14
-	arm_func_end ViEvtCmnMsg__Func_216C4D4
 
-	arm_func_start ViEvtCmnMsg__Func_216C4F4
-ViEvtCmnMsg__Func_216C4F4: // 0x0216C4F4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216C4F4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x220]
 	cmp r1, #0
@@ -948,73 +1077,48 @@ ViEvtCmnMsg__Func_216C4F4: // 0x0216C4F4
 	add r0, r0, #0x1b4
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r3, pc}
-	arm_func_end ViEvtCmnMsg__Func_216C4F4
 
-	arm_func_start ViEvtCmnMsg__Func_216C510
-ViEvtCmnMsg__Func_216C510: // 0x0216C510
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnMsg__Func_216C510(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r2, [r0, #0x224]
 	mov r1, #0
 	str r1, [r0, #0x224]
 	mov r0, r2
 	bx lr
-	arm_func_end ViEvtCmnMsg__Func_216C510
 
-	arm_func_start ViEvtCmnSelect__Constructor
-ViEvtCmnSelect__Constructor: // 0x0216C524
-	stmdb sp!, {r4, lr}
-	ldr r1, _0216C574 // =_ZTV15CViEvtCmnSelect+0x08
-	mov r4, r0
-	str r1, [r4]
-	mov r1, #0
-	add r0, r4, #0x34
-	str r1, [r4, #0x10]
-	bl FontAnimator__Init
-	add r0, r4, #0xf8
-	bl FontWindowAnimator__Init
-	add r0, r4, #0x15c
-	bl FontWindowMWControl__Init
-	add r1, r4, #0x1b0
-	mov r0, #0
-	mov r2, #0x64
-	bl MIi_CpuClear16
-	mov r0, r4
-	bl ViEvtCmnSelect__Func_216C70C
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216C574: .word _ZTV15CViEvtCmnSelect+0x08
-	arm_func_end ViEvtCmnSelect__Constructor
+// clang-format on
+#endif
+}
 
-	arm_func_start ViEvtCmnSelect__VTableFunc_216C578
-ViEvtCmnSelect__VTableFunc_216C578: // 0x0216C578
-	stmdb sp!, {r4, lr}
-	ldr r1, _0216C594 // =_ZTV15CViEvtCmnSelect+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViEvtCmnSelect__Func_216C70C
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216C594: .word _ZTV15CViEvtCmnSelect+0x08
-	arm_func_end ViEvtCmnSelect__VTableFunc_216C578
+// CViEvtCmnSelect
+CViEvtCmnSelect::CViEvtCmnSelect()
+{
+    this->mpcFile = NULL;
+    FontAnimator__Init(&this->fontAnimator);
+    FontWindowAnimator__Init(&this->fontWindowAnimator);
+    FontWindowMWControl__Init(&this->fontWindowMWControl);
+    MI_CpuClear16(&this->aniSprite1, sizeof(this->aniSprite1));
+    ViEvtCmnSelect__Func_216C70C(this);
+}
 
-	arm_func_start ViEvtCmnSelect__VTableFunc_216C598
-ViEvtCmnSelect__VTableFunc_216C598: // 0x0216C598
-	stmdb sp!, {r4, lr}
-	ldr r1, _0216C5BC // =_ZTV15CViEvtCmnSelect+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViEvtCmnSelect__Func_216C70C
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216C5BC: .word _ZTV15CViEvtCmnSelect+0x08
-	arm_func_end ViEvtCmnSelect__VTableFunc_216C598
+CViEvtCmnSelect::~CViEvtCmnSelect()
+{
+    ViEvtCmnSelect__Func_216C70C(this);
+}
 
-	arm_func_start ViEvtCmnSelect__Func_216C5C0
-ViEvtCmnSelect__Func_216C5C0: // 0x0216C5C0
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216C5C0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x1c
 	mov r4, r0
@@ -1078,7 +1182,7 @@ ViEvtCmnSelect__Func_216C5C0: // 0x0216C5C0
 	str r2, [sp, #4]
 	str r0, [sp, #8]
 	str r2, [sp, #0xc]
-	ldr r3, _0216C708 // =0x05000200
+	ldr r3, =0x05000200
 	add r0, r4, #0x1b0
 	str r3, [sp, #0x10]
 	str r2, [sp, #0x14]
@@ -1097,12 +1201,17 @@ ViEvtCmnSelect__Func_216C5C0: // 0x0216C5C0
 	str r0, [r4, #8]
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_0216C708: .word 0x05000200
-	arm_func_end ViEvtCmnSelect__Func_216C5C0
 
-	arm_func_start ViEvtCmnSelect__Func_216C70C
-ViEvtCmnSelect__Func_216C70C: // 0x0216C70C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216C70C(CViEvtCmnSelect *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x1b0
@@ -1121,7 +1230,7 @@ ViEvtCmnSelect__Func_216C70C: // 0x0216C70C
 	str r0, [r4, #4]
 	str r0, [r4, #8]
 	mov r1, #0
-	ldr r0, _0216C798 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	str r1, [r4, #0x10]
 	strh r0, [r4, #0x14]
 	mov r0, #1
@@ -1138,22 +1247,33 @@ ViEvtCmnSelect__Func_216C70C: // 0x0216C70C
 	strh r1, [r4, #0x32]
 	str r1, [r4, #0xc]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216C798: .word 0x0000FFFF
-	arm_func_end ViEvtCmnSelect__Func_216C70C
 
-	arm_func_start ViEvtCmnSelect__Func_216C79C
-ViEvtCmnSelect__Func_216C79C: // 0x0216C79C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216C79C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r2, #0
 	str r2, [r0, #8]
 	strh r1, [r0, #0x14]
 	mov r1, #1
 	str r1, [r0, #0x18]
 	bx lr
-	arm_func_end ViEvtCmnSelect__Func_216C79C
 
-	arm_func_start ViEvtCmnSelect__Func_216C7B4
-ViEvtCmnSelect__Func_216C7B4: // 0x0216C7B4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216C7B4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r3, [r4, #0x18]
@@ -1264,25 +1384,44 @@ _0216C910:
 	addeq r0, r0, #1
 	str r0, [r4, #0xc]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViEvtCmnSelect__Func_216C7B4
 
-	arm_func_start ViEvtCmnSelect__Func_216C92C
-ViEvtCmnSelect__Func_216C92C: // 0x0216C92C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216C92C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r0, [r0, #4]
 	cmp r0, #8
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	arm_func_end ViEvtCmnSelect__Func_216C92C
 
-	arm_func_start ViEvtCmnSelect__Func_216C940
-ViEvtCmnSelect__Func_216C940: // 0x0216C940
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216C940(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldrh r0, [r0, #0x1c]
 	bx lr
-	arm_func_end ViEvtCmnSelect__Func_216C940
 
-	arm_func_start ViEvtCmnSelect__Func_216C948
-ViEvtCmnSelect__Func_216C948: // 0x0216C948
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216C948(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x28
 	mov r7, r0
@@ -1290,7 +1429,7 @@ ViEvtCmnSelect__Func_216C948: // 0x0216C948
 	strh r2, [r7, #0x1c]
 	ldrh r1, [r7, #0x14]
 	ldr r0, [r7, #0x10]
-	bl MPC__Func_20538B0
+	bl MPC__GetDialogLineCount
 	strh r0, [r7, #0x1e]
 	bl _ZN10HubControl10GetField54Ev
 	bl FontWindow__GetFont
@@ -1308,7 +1447,7 @@ _0216C990:
 	ldr r0, [r7, #0x10]
 	mov r2, r8
 	mov r3, r3, lsr #0x10
-	bl MessageController__MPC__Func_2054524
+	bl MessageController__GetLineWidthEx
 	cmp r0, r6
 	movhi r6, r0
 	ldrh r0, [r7, #0x1e]
@@ -1373,16 +1512,29 @@ _0216C9E8:
 	bl FontWindowAnimator__SetWindowClosed
 	add sp, sp, #0x28
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end ViEvtCmnSelect__Func_216C948
 
-	arm_func_start ViEvtCmnSelect__Func_216CAA4
-ViEvtCmnSelect__Func_216CAA4: // 0x0216CAA4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CAA4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r0, #1
 	bx lr
-	arm_func_end ViEvtCmnSelect__Func_216CAA4
 
-	arm_func_start ViEvtCmnSelect__Func_216CAAC
-ViEvtCmnSelect__Func_216CAAC: // 0x0216CAAC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CAAC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -1400,10 +1552,17 @@ ViEvtCmnSelect__Func_216CAAC: // 0x0216CAAC
 	bl PlayHubSfx
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ViEvtCmnSelect__Func_216CAAC
 
-	arm_func_start ViEvtCmnSelect__Func_216CAF0
-ViEvtCmnSelect__Func_216CAF0: // 0x0216CAF0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CAF0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0xf8
@@ -1419,10 +1578,17 @@ ViEvtCmnSelect__Func_216CAF0: // 0x0216CAF0
 _0216CB20:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViEvtCmnSelect__Func_216CAF0
 
-	arm_func_start ViEvtCmnSelect__Func_216CB28
-ViEvtCmnSelect__Func_216CB28: // 0x0216CB28
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CB28(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrh r1, [r4, #0x14]
@@ -1438,10 +1604,17 @@ ViEvtCmnSelect__Func_216CB28: // 0x0216CB28
 	mov r2, r2, asr #0x10
 	bl FontAnimator__InitStartPos
 	ldmia sp!, {r4, pc}
-	arm_func_end ViEvtCmnSelect__Func_216CB28
 
-	arm_func_start ViEvtCmnSelect__Func_216CB64
-ViEvtCmnSelect__Func_216CB64: // 0x0216CB64
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CB64(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x34
@@ -1451,21 +1624,32 @@ ViEvtCmnSelect__Func_216CB64: // 0x0216CB64
 	bl FontAnimator__Draw
 	mov r0, #3
 	ldmia sp!, {r4, pc}
-	arm_func_end ViEvtCmnSelect__Func_216CB64
 
-	arm_func_start ViEvtCmnSelect__Func_216CB88
-ViEvtCmnSelect__Func_216CB88: // 0x0216CB88
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CB88(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r2, #0
-	ldr r1, _0216CB9C // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	strh r2, [r0, #0x1c]
 	strh r1, [r0, #0x20]
 	bx lr
-	.align 2, 0
-_0216CB9C: .word 0x0000FFFF
-	arm_func_end ViEvtCmnSelect__Func_216CB88
 
-	arm_func_start ViEvtCmnSelect__Func_216CBA0
-ViEvtCmnSelect__Func_216CBA0: // 0x0216CBA0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CBA0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r6, r0
 	mov r4, #3
@@ -1480,7 +1664,7 @@ ViEvtCmnSelect__Func_216CBA0: // 0x0216CBA0
 	bl AnimatorSprite__SetAnimation
 	mov r0, r4
 	bl PlayHubSfx
-	ldr r0, _0216CD58 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	strh r7, [r6, #0x1c]
 	strh r0, [r6, #0x20]
 	b _0216CC4C
@@ -1497,7 +1681,7 @@ _0216CBE8:
 	b _0216CC4C
 _0216CC10:
 	ldrh r7, [r6, #0x20]
-	ldr r0, _0216CD58 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r7, r0
 	beq _0216CC4C
 	mov r0, r6
@@ -1583,17 +1767,22 @@ _0216CD48:
 	movne r4, #4
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	.align 2, 0
-_0216CD58: .word 0x0000FFFF
-	arm_func_end ViEvtCmnSelect__Func_216CBA0
 
-	arm_func_start ViEvtCmnSelect__Func_216CD5C
-ViEvtCmnSelect__Func_216CD5C: // 0x0216CD5C
-	bx lr
-	arm_func_end ViEvtCmnSelect__Func_216CD5C
+// clang-format on
+#endif
+}
 
-	arm_func_start ViEvtCmnSelect__Func_216CD60
-ViEvtCmnSelect__Func_216CD60: // 0x0216CD60
+void ViEvtCmnSelect__Func_216CD5C(void)
+{
+    // Nothing.
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CD60(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	add r0, r4, #0x15c
@@ -1628,10 +1817,17 @@ ViEvtCmnSelect__Func_216CD60: // 0x0216CD60
 	movhs r0, #5
 	movlo r0, #4
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ViEvtCmnSelect__Func_216CD60
 
-	arm_func_start ViEvtCmnSelect__Func_216CDE8
-ViEvtCmnSelect__Func_216CDE8: // 0x0216CDE8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CDE8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -1649,10 +1845,17 @@ ViEvtCmnSelect__Func_216CDE8: // 0x0216CDE8
 	bl FontAnimator__Draw
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ViEvtCmnSelect__Func_216CDE8
 
-	arm_func_start ViEvtCmnSelect__Func_216CE2C
-ViEvtCmnSelect__Func_216CE2C: // 0x0216CE2C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CE2C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0xf8
@@ -1668,49 +1871,70 @@ ViEvtCmnSelect__Func_216CE2C: // 0x0216CE2C
 _0216CE5C:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViEvtCmnSelect__Func_216CE2C
 
-	arm_func_start ViEvtCmnSelect__Func_216CE64
-ViEvtCmnSelect__Func_216CE64: // 0x0216CE64
-	bx lr
-	arm_func_end ViEvtCmnSelect__Func_216CE64
+// clang-format on
+#endif
+}
 
-	arm_func_start ViEvtCmnSelect__Func_216CE68
-ViEvtCmnSelect__Func_216CE68: // 0x0216CE68
+void ViEvtCmnSelect__Func_216CE64(void)
+{
+    // Nothing.
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CE68(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	add r0, r0, #0xf8
 	bl FontWindowAnimator__SetWindowOpen
 	mov r0, #8
 	ldmia sp!, {r3, pc}
-	arm_func_end ViEvtCmnSelect__Func_216CE68
 
-	arm_func_start ViEvtCmnSelect__Func_216CE7C
-ViEvtCmnSelect__Func_216CE7C: // 0x0216CE7C
-	ldr r0, _0216CE94 // =padInput
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CE7C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #1
 	movne r0, #1
 	moveq r0, #0
 	bx lr
-	.align 2, 0
-_0216CE94: .word padInput
-	arm_func_end ViEvtCmnSelect__Func_216CE7C
 
-	arm_func_start ViEvtCmnSelect__Func_216CE98
-ViEvtCmnSelect__Func_216CE98: // 0x0216CE98
-	ldr r0, _0216CEB0 // =padInput
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CE98(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #2
 	movne r0, #1
 	moveq r0, #0
 	bx lr
-	.align 2, 0
-_0216CEB0: .word padInput
-	arm_func_end ViEvtCmnSelect__Func_216CE98
 
-	arm_func_start ViEvtCmnSelect__Func_216CEB4
-ViEvtCmnSelect__Func_216CEB4: // 0x0216CEB4
-	ldr r1, _0216CF04 // =padInput
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CEB4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r1, =padInput
 	mvn r2, #0
 	ldrh r3, [r1, #8]
 	tst r3, #0x40
@@ -1732,12 +1956,17 @@ _0216CEDC:
 _0216CEFC:
 	mov r0, r2
 	bx lr
-	.align 2, 0
-_0216CF04: .word padInput
-	arm_func_end ViEvtCmnSelect__Func_216CEB4
 
-	arm_func_start ViEvtCmnSelect__Func_216CF08
-ViEvtCmnSelect__Func_216CF08: // 0x0216CF08
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnSelect__Func_216CF08(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	cmp r1, #0
@@ -1746,7 +1975,7 @@ ViEvtCmnSelect__Func_216CF08: // 0x0216CF08
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _0216CF3C
-	ldr r0, _0216D008 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #4
 	movne r0, #1
@@ -1757,7 +1986,7 @@ _0216CF40:
 	cmp r0, #0
 	mvneq r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
-	ldr r0, _0216D008 // =touchInput
+	ldr r0, =touchInput
 	ldrh r6, [r0, #0x1c]
 	ldrh r2, [r0, #0x1e]
 	b _0216CF98
@@ -1765,7 +1994,7 @@ _0216CF5C:
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _0216CF7C
-	ldr r0, _0216D008 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #8
 	movne r0, #1
@@ -1776,7 +2005,7 @@ _0216CF80:
 	cmp r0, #0
 	mvneq r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
-	ldr r0, _0216D008 // =touchInput
+	ldr r0, =touchInput
 	ldrh r6, [r0, #0x20]
 	ldrh r2, [r0, #0x22]
 _0216CF98:
@@ -1811,58 +2040,30 @@ _0216CFF0:
 _0216D000:
 	mov r0, r4
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216D008: .word touchInput
-	arm_func_end ViEvtCmnSelect__Func_216CF08
 
-	arm_func_start ViEvtCmnAnnounce__Constructor
-ViEvtCmnAnnounce__Constructor: // 0x0216D00C
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, _0216D03C // =_ZTV17CViEvtCmnAnnounce+0x08
-	add r0, r4, #0x24
-	str r1, [r4]
-	bl FontAnimator__Init
-	add r0, r4, #0xe8
-	bl FontWindowAnimator__Init
-	mov r0, r4
-	bl ViEvtCmnAnnounce__Func_216D194
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216D03C: .word _ZTV17CViEvtCmnAnnounce+0x08
-	arm_func_end ViEvtCmnAnnounce__Constructor
+// clang-format on
+#endif
+}
 
-	arm_func_start ViEvtCmnAnnounce__VTableFunc_216D040
-ViEvtCmnAnnounce__VTableFunc_216D040: // 0x0216D040
-	stmdb sp!, {r4, lr}
-	ldr r1, _0216D05C // =_ZTV17CViEvtCmnAnnounce+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViEvtCmnAnnounce__Func_216D194
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216D05C: .word _ZTV17CViEvtCmnAnnounce+0x08
-	arm_func_end ViEvtCmnAnnounce__VTableFunc_216D040
+// CViEvtCmnAnnounce
+CViEvtCmnAnnounce::CViEvtCmnAnnounce()
+{
+    FontAnimator__Init(&this->fontAnimator);
+    FontWindowAnimator__Init(&this->fontWindowAnimator);
+    ViEvtCmnAnnounce__Func_216D194(this);
+}
 
-	arm_func_start ViEvtCmnAnnounce__VTableFunc_216D060
-ViEvtCmnAnnounce__VTableFunc_216D060: // 0x0216D060
-	stmdb sp!, {r4, lr}
-	ldr r1, _0216D084 // =_ZTV17CViEvtCmnAnnounce+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViEvtCmnAnnounce__Func_216D194
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216D084: .word _ZTV17CViEvtCmnAnnounce+0x08
-	arm_func_end ViEvtCmnAnnounce__VTableFunc_216D060
+CViEvtCmnAnnounce::~CViEvtCmnAnnounce()
+{
+    ViEvtCmnAnnounce__Func_216D194(this);
+}
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D088
-ViEvtCmnAnnounce__Func_216D088: // 0x0216D088
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D088(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x28
 	mov r4, r0
@@ -1930,10 +2131,17 @@ ViEvtCmnAnnounce__Func_216D088: // 0x0216D088
 	strh r0, [r4, #4]
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViEvtCmnAnnounce__Func_216D088
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D194
-ViEvtCmnAnnounce__Func_216D194: // 0x0216D194
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D194(CViEvtCmnAnnounce *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0xe8
@@ -1942,7 +2150,7 @@ ViEvtCmnAnnounce__Func_216D194: // 0x0216D194
 	bl FontAnimator__Release
 	mov r1, #5
 	strh r1, [r4, #4]
-	ldr r0, _0216D1F0 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	strh r1, [r4, #6]
 	strh r0, [r4, #0xa]
 	mov r0, #0
@@ -1957,21 +2165,32 @@ ViEvtCmnAnnounce__Func_216D194: // 0x0216D194
 	strh r0, [r4, #0x1e]
 	strh r0, [r4, #0x20]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216D1F0: .word 0x0000FFFF
-	arm_func_end ViEvtCmnAnnounce__Func_216D194
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D1F4
-ViEvtCmnAnnounce__Func_216D1F4: // 0x0216D1F4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D1F4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	strh r1, [r0, #0xa]
 	str r2, [r0, #0x14c]
 	mov r1, #1
 	strh r1, [r0, #4]
 	bx lr
-	arm_func_end ViEvtCmnAnnounce__Func_216D1F4
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D208
-ViEvtCmnAnnounce__Func_216D208: // 0x0216D208
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D208(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrh r1, [r4, #4]
@@ -2038,10 +2257,16 @@ _0216D2D8:
 	add r0, r0, #1
 	strh r0, [r4, #8]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViEvtCmnAnnounce__Func_216D208
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D2E8
-ViEvtCmnAnnounce__Func_216D2E8: // 0x0216D2E8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D2E8(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldrh r1, [r0, #4]
 	ldrh r0, [r0, #6]
 	cmp r1, r0
@@ -2054,10 +2279,17 @@ ViEvtCmnAnnounce__Func_216D2E8: // 0x0216D2E8
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	arm_func_end ViEvtCmnAnnounce__Func_216D2E8
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D318
-ViEvtCmnAnnounce__Func_216D318: // 0x0216D318
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D318(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -2087,10 +2319,17 @@ ViEvtCmnAnnounce__Func_216D318: // 0x0216D318
 	bl PlayHubSfx
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ViEvtCmnAnnounce__Func_216D318
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D38C
-ViEvtCmnAnnounce__Func_216D38C: // 0x0216D38C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D38C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0xe8
@@ -2108,10 +2347,17 @@ ViEvtCmnAnnounce__Func_216D38C: // 0x0216D38C
 _0216D3C4:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViEvtCmnAnnounce__Func_216D38C
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D3CC
-ViEvtCmnAnnounce__Func_216D3CC: // 0x0216D3CC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D3CC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrh r1, [r4, #0xa]
@@ -2141,10 +2387,17 @@ ViEvtCmnAnnounce__Func_216D3CC: // 0x0216D3CC
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViEvtCmnAnnounce__Func_216D3CC
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D440
-ViEvtCmnAnnounce__Func_216D440: // 0x0216D440
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D440(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r4, #0
@@ -2165,14 +2418,14 @@ ViEvtCmnAnnounce__Func_216D440: // 0x0216D440
 	movhs r4, #1
 	cmp r0, #0x3c
 	blo _0216D4D0
-	ldr r0, _0216D4E0 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #1
 	bne _0216D4CC
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _0216D4C0
-	ldr r0, _0216D4E4 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #4
 	movne r0, #1
@@ -2190,13 +2443,17 @@ _0216D4D0:
 _0216D4D8:
 	mov r0, r5
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216D4E0: .word padInput
-_0216D4E4: .word touchInput
-	arm_func_end ViEvtCmnAnnounce__Func_216D440
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D4E8
-ViEvtCmnAnnounce__Func_216D4E8: // 0x0216D4E8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D4E8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -2225,10 +2482,17 @@ ViEvtCmnAnnounce__Func_216D4E8: // 0x0216D4E8
 	str r0, [r2]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ViEvtCmnAnnounce__Func_216D4E8
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D558
-ViEvtCmnAnnounce__Func_216D558: // 0x0216D558
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D558(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0xe8
@@ -2246,15 +2510,22 @@ ViEvtCmnAnnounce__Func_216D558: // 0x0216D558
 _0216D590:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViEvtCmnAnnounce__Func_216D558
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D598
-ViEvtCmnAnnounce__Func_216D598: // 0x0216D598
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D598(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0xe8
 	bl FontWindowAnimator__SetWindowOpen
-	ldr r0, _0216D5D8 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	mov r2, #0x4000000
 	strh r0, [r4, #0xa]
 	ldr r1, [r2, #0]
@@ -2266,72 +2537,40 @@ ViEvtCmnAnnounce__Func_216D598: // 0x0216D598
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216D5D8: .word 0x0000FFFF
-	arm_func_end ViEvtCmnAnnounce__Func_216D598
 
-	arm_func_start ViEvtCmnAnnounce__Func_216D5DC
-ViEvtCmnAnnounce__Func_216D5DC: // 0x0216D5DC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnAnnounce__Func_216D5DC(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r0, #0
 	bx lr
-	arm_func_end ViEvtCmnAnnounce__Func_216D5DC
 
-	arm_func_start ViEvtCmnTalk__Constructor
-ViEvtCmnTalk__Constructor: // 0x0216D5E4
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, _0216D614 // =_ZTV13CViEvtCmnTalk+0x08
-	add r0, r4, #0x20
-	str r1, [r4]
-	bl ViEvtCmnMsg__Constructor
-	add r0, r4, #0x2a4
-	bl ViEvtCmnSelect__Constructor
-	mov r0, r4
-	bl ViEvtCmnTalk__Func_216D72C
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216D614: .word _ZTV13CViEvtCmnTalk+0x08
-	arm_func_end ViEvtCmnTalk__Constructor
+// clang-format on
+#endif
+}
 
-	arm_func_start ViEvtCmnTalk__VTableFunc_216D618
-ViEvtCmnTalk__VTableFunc_216D618: // 0x0216D618
-	stmdb sp!, {r4, lr}
-	ldr r1, _0216D644 // =_ZTV13CViEvtCmnTalk+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViEvtCmnTalk__Func_216D72C
-	add r0, r4, #0x2a4
-	bl ViEvtCmnSelect__VTableFunc_216C578
-	add r0, r4, #0x20
-	bl ViEvtCmnMsg__VTableFunc_216B98C
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216D644: .word _ZTV13CViEvtCmnTalk+0x08
-	arm_func_end ViEvtCmnTalk__VTableFunc_216D618
+// CViEvtCmnTalk
+CViEvtCmnTalk::CViEvtCmnTalk()
+{
+    ViEvtCmnTalk__Func_216D72C(this);
+}
 
-	arm_func_start ViEvtCmnTalk__VTableFunc_216D648
-ViEvtCmnTalk__VTableFunc_216D648: // 0x0216D648
-	stmdb sp!, {r4, lr}
-	ldr r1, _0216D67C // =_ZTV13CViEvtCmnTalk+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViEvtCmnTalk__Func_216D72C
-	add r0, r4, #0x2a4
-	bl ViEvtCmnSelect__VTableFunc_216C578
-	add r0, r4, #0x20
-	bl ViEvtCmnMsg__VTableFunc_216B98C
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216D67C: .word _ZTV13CViEvtCmnTalk+0x08
-	arm_func_end ViEvtCmnTalk__VTableFunc_216D648
+CViEvtCmnTalk::~CViEvtCmnTalk()
+{
+    ViEvtCmnTalk__Func_216D72C(this);
+}
 
-	arm_func_start ViEvtCmnTalk__Func_216D680
-ViEvtCmnTalk__Func_216D680: // 0x0216D680
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216D680(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	mov r7, r1
@@ -2342,20 +2581,20 @@ ViEvtCmnTalk__Func_216D680: // 0x0216D680
 	add r0, r4, #0x18
 	str r7, [r4, #0x14]
 	bl viMessageController__SetCtrlFile
-	ldr r0, _0216D728 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r5, r0
 	beq _0216D6CC
 	mov r1, r5
 	add r0, r4, #0x18
 	bl viMessageController__SetInteractionID
-	ldr r0, _0216D728 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	strh r6, [r4, #0xa]
 	b _0216D6E0
 _0216D6CC:
 	mov r1, r6
 	add r0, r4, #0x18
 	bl viMessageController__SetInteractionID
-	ldr r0, _0216D728 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	strh r0, [r4, #0xa]
 _0216D6E0:
 	strh r0, [r4, #0xc]
@@ -2376,12 +2615,17 @@ _0216D6E0:
 	mov r0, #0
 	strh r0, [r4, #4]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216D728: .word 0x0000FFFF
-	arm_func_end ViEvtCmnTalk__Func_216D680
 
-	arm_func_start ViEvtCmnTalk__Func_216D72C
-ViEvtCmnTalk__Func_216D72C: // 0x0216D72C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216D72C(CViEvtCmnTalk *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #5
@@ -2389,28 +2633,33 @@ ViEvtCmnTalk__Func_216D72C: // 0x0216D72C
 	mov r0, #0x18
 	strh r0, [r4, #6]
 	mov r1, #0
-	ldr r0, _0216D774 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	strh r1, [r4, #8]
 	strh r0, [r4, #0xa]
 	strh r0, [r4, #0xc]
 	str r1, [r4, #0x10]
 	add r0, r4, #0x20
 	str r1, [r4, #0x14]
-	bl ViEvtCmnMsg__Func_216BC08
+	bl ViEvtCmnMsg__ReleaseGraphics
 	add r0, r4, #0x2a4
 	bl ViEvtCmnSelect__Func_216C70C
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216D774: .word 0x0000FFFF
-	arm_func_end ViEvtCmnTalk__Func_216D72C
 
-	arm_func_start ViEvtCmnTalk__Func_216D778
-ViEvtCmnTalk__Func_216D778: // 0x0216D778
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216D778(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
 	ldrh r1, [r4, #0xa]
-	ldr r0, _0216D7CC // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	beq _0216D7BC
 	ldr r1, [r4, #0x14]
@@ -2428,16 +2677,21 @@ _0216D7BC:
 	bl viMessageController__GetPageCount
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216D7CC: .word 0x0000FFFF
-	arm_func_end ViEvtCmnTalk__Func_216D778
 
-	arm_func_start ViEvtCmnTalk__Func_216D7D0
-ViEvtCmnTalk__Func_216D7D0: // 0x0216D7D0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216D7D0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldrh r2, [r5, #0xa]
-	ldr r0, _0216D818 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	mov r4, r1
 	cmp r2, r0
 	add r0, r5, #0x18
@@ -2448,18 +2702,23 @@ ViEvtCmnTalk__Func_216D7D0: // 0x0216D7D0
 	b _0216D80C
 _0216D800:
 	bl viMessageController__SetPageID
-	ldr r0, _0216D818 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	strh r0, [r5, #0xc]
 _0216D80C:
 	mov r0, #1
 	strh r0, [r5, #4]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216D818: .word 0x0000FFFF
-	arm_func_end ViEvtCmnTalk__Func_216D7D0
 
-	arm_func_start ViEvtCmnTalk__Func_216D81C
-ViEvtCmnTalk__Func_216D81C: // 0x0216D81C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216D81C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrh r1, [r4, #4]
@@ -2493,40 +2752,69 @@ _0216D87C:
 	bl ViEvtCmnTalk__Func_216DC0C
 	strh r0, [r4, #4]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViEvtCmnTalk__Func_216D81C
 
-	arm_func_start ViEvtCmnTalk__Func_216D888
-ViEvtCmnTalk__Func_216D888: // 0x0216D888
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216D888(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldrh r0, [r0, #4]
 	cmp r0, #5
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	arm_func_end ViEvtCmnTalk__Func_216D888
 
-	arm_func_start ViEvtCmnTalk__Func_216D89C
-ViEvtCmnTalk__Func_216D89C: // 0x0216D89C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216D89C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldrh r0, [r0, #6]
 	bx lr
-	arm_func_end ViEvtCmnTalk__Func_216D89C
 
-	arm_func_start ViEvtCmnTalk__Func_216D8A4
-ViEvtCmnTalk__Func_216D8A4: // 0x0216D8A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216D8A4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldrh r0, [r0, #8]
 	bx lr
-	arm_func_end ViEvtCmnTalk__Func_216D8A4
 
-	arm_func_start ViEvtCmnTalk__Func_216D8AC
-ViEvtCmnTalk__Func_216D8AC: // 0x0216D8AC
-	ldr ip, _0216D8B8 // =FontAnimator__SetCallback
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216D8AC(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =FontAnimator__SetCallback
 	add r0, r0, #0x40
 	bx ip
-	.align 2, 0
-_0216D8B8: .word FontAnimator__SetCallback
-	arm_func_end ViEvtCmnTalk__Func_216D8AC
 
-	arm_func_start ViEvtCmnTalk__Func_216D8BC
-ViEvtCmnTalk__Func_216D8BC: // 0x0216D8BC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216D8BC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -2536,13 +2824,13 @@ ViEvtCmnTalk__Func_216D8BC: // 0x0216D8BC
 	add r0, r5, #0x18
 	bl viMessageController__HasName
 	cmp r0, #0
-	ldreq r2, _0216D940 // =0x0000FFFF
+	ldreq r2, =0x0000FFFF
 	beq _0216D8F4
 	add r0, r5, #0x18
 	bl viMessageController__GetNameAnim
 	mov r2, r0
 _0216D8F4:
-	ldr r3, _0216D940 // =0x0000FFFF
+	ldr r3, =0x0000FFFF
 	mov r1, r4
 	str r3, [sp]
 	mov ip, #1
@@ -2561,12 +2849,17 @@ _0216D8F4:
 	mov r0, #2
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216D940: .word 0x0000FFFF
-	arm_func_end ViEvtCmnTalk__Func_216D8BC
 
-	arm_func_start ViEvtCmnTalk__Func_216D944
-ViEvtCmnTalk__Func_216D944: // 0x0216D944
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216D944(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	add r0, r6, #0x20
@@ -2606,7 +2899,7 @@ _0216D9B8:
 	add r0, r6, #0x18
 	bl viMessageController__HasName
 	cmp r0, #0
-	ldreq r2, _0216DA60 // =0x0000FFFF
+	ldreq r2, =0x0000FFFF
 	beq _0216D9EC
 	add r0, r6, #0x18
 	bl viMessageController__GetNameAnim
@@ -2643,12 +2936,17 @@ _0216D9F8:
 _0216DA58:
 	mov r0, r4
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216DA60: .word 0x0000FFFF
-	arm_func_end ViEvtCmnTalk__Func_216D944
 
-	arm_func_start ViEvtCmnTalk__Func_216DA64
-ViEvtCmnTalk__Func_216DA64: // 0x0216DA64
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216DA64(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -2671,7 +2969,7 @@ ViEvtCmnTalk__Func_216DA64: // 0x0216DA64
 	cmp r0, #0
 	beq _0216DB6C
 	ldrh r1, [r4, #0xa]
-	ldr r0, _0216DBC4 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	beq _0216DB48
 	add r0, r4, #0x18
@@ -2684,7 +2982,7 @@ ViEvtCmnTalk__Func_216DA64: // 0x0216DA64
 	ldrh r1, [r4, #0xc]
 	add r0, r4, #0x18
 	bl viMessageController__SetPageID
-	ldr r1, _0216DBC4 // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	add r0, r4, #0x18
 	strh r1, [r4, #0xa]
 	strh r1, [r4, #0xc]
@@ -2693,13 +2991,13 @@ ViEvtCmnTalk__Func_216DA64: // 0x0216DA64
 	add r0, r4, #0x18
 	bl viMessageController__HasName
 	cmp r0, #0
-	ldreq r2, _0216DBC4 // =0x0000FFFF
+	ldreq r2, =0x0000FFFF
 	beq _0216DB28
 	add r0, r4, #0x18
 	bl viMessageController__GetNameAnim
 	mov r2, r0
 _0216DB28:
-	ldr r3, _0216DBC4 // =0x0000FFFF
+	ldr r3, =0x0000FFFF
 	mov r1, r5
 	str r3, [sp]
 	mov ip, #1
@@ -2708,7 +3006,7 @@ _0216DB28:
 	bl ViEvtCmnMsg__Func_216BCDC
 	b _0216DBB4
 _0216DB48:
-	ldr r1, _0216DBC4 // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	add r0, r4, #0x20
 	mov r2, r1
 	mov r3, r1
@@ -2724,13 +3022,13 @@ _0216DB6C:
 	add r0, r4, #0x18
 	bl viMessageController__HasName
 	cmp r0, #0
-	ldreq r2, _0216DBC4 // =0x0000FFFF
+	ldreq r2, =0x0000FFFF
 	beq _0216DB98
 	add r0, r4, #0x18
 	bl viMessageController__GetNameAnim
 	mov r2, r0
 _0216DB98:
-	ldr r3, _0216DBC4 // =0x0000FFFF
+	ldr r3, =0x0000FFFF
 	mov r1, r5
 	str r3, [sp]
 	mov ip, #1
@@ -2743,12 +3041,17 @@ _0216DBB8:
 	mov r0, r5
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216DBC4: .word 0x0000FFFF
-	arm_func_end ViEvtCmnTalk__Func_216DA64
 
-	arm_func_start ViEvtCmnTalk__Func_216DBC8
-ViEvtCmnTalk__Func_216DBC8: // 0x0216DBC8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216DBC8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x18
@@ -2767,16 +3070,29 @@ _0216DC00:
 	strh r0, [r4, #8]
 	mov r0, #5
 	ldmia sp!, {r4, pc}
-	arm_func_end ViEvtCmnTalk__Func_216DBC8
 
-	arm_func_start ViEvtCmnTalk__Func_216DC0C
-ViEvtCmnTalk__Func_216DC0C: // 0x0216DC0C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216DC0C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r0, #5
 	bx lr
-	arm_func_end ViEvtCmnTalk__Func_216DC0C
 
-	arm_func_start ViEvtCmnTalk__Func_216DC14
-ViEvtCmnTalk__Func_216DC14: // 0x0216DC14
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216DC14(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x10
 	ldrh r1, [r0, #0]
@@ -2805,10 +3121,17 @@ ViEvtCmnTalk__Func_216DC14: // 0x0216DC14
 	bl TouchField__SetHitbox
 	add sp, sp, #0x10
 	ldmia sp!, {r4, pc}
-	arm_func_end ViEvtCmnTalk__Func_216DC14
 
-	arm_func_start ViEvtCmnTalk__Func_216DC84
-ViEvtCmnTalk__Func_216DC84: // 0x0216DC84
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViEvtCmnTalk__Func_216DC84(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r0, [r0, #0]
 	cmp r0, #0x400000
@@ -2851,66 +3174,7 @@ _0216DCF8:
 	mov r1, #2
 	bl ViEvtCmnMsg__Func_216BF00
 	ldmia sp!, {r3, pc}
-	arm_func_end ViEvtCmnTalk__Func_216DC84
 
-	.data
-
-.public _ZTI15CViEvtCmnSelect
-_ZTI15CViEvtCmnSelect: // 0x02173994
-	.word _ZTVN10__cxxabiv117__class_type_infoE+8
-	.word _ZTS15CViEvtCmnSelect // reference to type's name
-
-.public _ZTI17CViEvtCmnAnnounce
-_ZTI17CViEvtCmnAnnounce: // 0x0217399C
-	.word _ZTVN10__cxxabiv117__class_type_infoE+8
-	.word _ZTS17CViEvtCmnAnnounce // reference to type's name
-
-.public _ZTI12CViEvtCmnMsg
-_ZTI12CViEvtCmnMsg: // 0x021739A4
-	.word _ZTVN10__cxxabiv117__class_type_infoE+8
-	.word _ZTS12CViEvtCmnMsg  // reference to type's name
-
-.public _ZTI13CViEvtCmnTalk
-_ZTI13CViEvtCmnTalk: // 0x021739AC
-	.word _ZTVN10__cxxabiv117__class_type_infoE+8
-	.word _ZTS13CViEvtCmnTalk // reference to type's name
-
-.public _ZTS12CViEvtCmnMsg
-_ZTS12CViEvtCmnMsg: // 0x021739B4
-	.asciz "12CViEvtCmnMsg"
-	.align 4
-
-.public _ZTV15CViEvtCmnSelect
-_ZTV15CViEvtCmnSelect: // 0x021739C4
-    .word 0, _ZTI15CViEvtCmnSelect
-    .word ViEvtCmnSelect__VTableFunc_216C578, ViEvtCmnSelect__VTableFunc_216C598
-
-.public _ZTV12CViEvtCmnMsg
-_ZTV12CViEvtCmnMsg: // 0x021739D4
-    .word 0, _ZTI12CViEvtCmnMsg
-    .word ViEvtCmnMsg__VTableFunc_216B98C, ViEvtCmnMsg__VTableFunc_216B9AC
-
-.public _ZTS13CViEvtCmnTalk
-_ZTS13CViEvtCmnTalk: // 0x021739E4
-	.asciz "13CViEvtCmnTalk"
-	.align 4
-
-.public _ZTV17CViEvtCmnAnnounce
-_ZTV17CViEvtCmnAnnounce: // 0x021739F4
-    .word 0, _ZTI17CViEvtCmnAnnounce
-    .word ViEvtCmnAnnounce__VTableFunc_216D040, ViEvtCmnAnnounce__VTableFunc_216D060
-
-.public _ZTV13CViEvtCmnTalk
-_ZTV13CViEvtCmnTalk: // 0x02173A04
-    .word 0, _ZTI13CViEvtCmnTalk
-    .word ViEvtCmnTalk__VTableFunc_216D618, ViEvtCmnTalk__VTableFunc_216D648
-
-.public _ZTS15CViEvtCmnSelect
-_ZTS15CViEvtCmnSelect: // 0x02173A14
-	.asciz "15CViEvtCmnSelect"
-	.align 4
-
-.public _ZTS17CViEvtCmnAnnounce
-_ZTS17CViEvtCmnAnnounce: // 0x02173A28
-	.asciz "17CViEvtCmnAnnounce"
-	.align 4
+// clang-format on
+#endif
+}

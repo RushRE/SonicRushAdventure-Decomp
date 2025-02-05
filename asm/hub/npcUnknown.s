@@ -55,7 +55,7 @@ NpcUnknown__CreateInternal: // 0x0216DD8C
 	bl _ZnwmPv
 	cmp r0, #0
 	beq _0216DDCC
-	bl ViEvtCmnTalk__Constructor
+	bl _ZN13CViEvtCmnTalkC1Ev
 _0216DDCC:
 	mov r0, r4
 	add sp, sp, #0xc
@@ -414,7 +414,7 @@ NpcUnknown__Func_216E24C: // 0x0216E24C
 	cmp r4, #0
 	beq _0216E270
 	mov r0, r4
-	bl ViEvtCmnTalk__VTableFunc_216D618
+	bl _ZN13CViEvtCmnTalkD1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0216E270:
@@ -1709,7 +1709,7 @@ _0216F3F4:
 	ldr r0, [r8, #4]
 	add r1, r1, r6, lsl #3
 	ldrh r1, [r1, #4]
-	bl MPC__Func_20538B0
+	bl MPC__GetDialogLineCount
 	ldr r1, [r9, #0x384]
 	add r1, r1, r6, lsl #3
 	strb r0, [r1, #1]
@@ -2326,7 +2326,7 @@ _0216FC8C:
 	add r0, r10, #0x300
 	bl MessageController__InitStartPos
 	add r0, r10, #0x300
-	bl MessageController__Func_2054364
+	bl MessageController__IsEndOfLine
 	cmp r0, #0
 	addne sp, sp, #0x28
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -2346,7 +2346,7 @@ _0216FCE8:
 	mov r1, r0, lsl #0x10
 	add r0, r10, #0x300
 	mov r9, r1, asr #0x10
-	bl MessageController__Func_2054364
+	bl MessageController__IsEndOfLine
 	cmp r0, #0
 	beq _0216FCE8
 	add sp, sp, #0x28

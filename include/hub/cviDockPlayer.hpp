@@ -1,13 +1,13 @@
 #ifndef RUSH_CVIDOCKPLAYER_HPP
 #define RUSH_CVIDOCKPLAYER_HPP
 
-#include <hub/cviDockNpc.hpp>
+#include <hub/cvi3dObject.hpp>
 
 // --------------------
 // STRUCTS
 // --------------------
 
-class CViDockPlayer : public CViDockNpc
+class CViDockPlayer : public CVi3dObject
 {
 public:
     CViDockPlayer();
@@ -48,17 +48,14 @@ extern "C"
 {
 #endif
 
-NOT_DECOMPILED void ViDockPlayer__Constructor(void);
-NOT_DECOMPILED void ViDockPlayer__VTableFunc_21665AC(void);
-NOT_DECOMPILED void ViDockPlayer__VTableFunc_21665D4(void);
-NOT_DECOMPILED void ViDockPlayer__LoadAssets(void);
-NOT_DECOMPILED void ViDockPlayer__Func_2166748(void);
-NOT_DECOMPILED void ViDockPlayer__Func_21667A0(void);
-NOT_DECOMPILED void ViDockPlayer__Func_21667A8(void);
-NOT_DECOMPILED void ViDockPlayer__Func_21667BC(void);
-NOT_DECOMPILED void ViDockPlayer__Func_21667D4(void);
-NOT_DECOMPILED void ViDockPlayer__Func_2166B80(void);
-NOT_DECOMPILED void ViDockPlayer__Func_2166B90(void);
+void ViDockPlayer__LoadAssets(CViDockPlayer *work);
+void ViDockPlayer__Func_2166748(CViDockPlayer *work);
+void ViDockPlayer__Func_21667A0(CViDockPlayer *work);
+void ViDockPlayer__Func_21667A8(CViDockPlayer *work);
+void ViDockPlayer__Func_21667BC(CViDockPlayer *work);
+void ViDockPlayer__Func_21667D4(CViDockPlayer *work);
+void ViDockPlayer__Func_2166B80(CViDockPlayer *work);
+void ViDockPlayer__Func_2166B90(CViDockPlayer *work);
 
 #ifdef __cplusplus
 }

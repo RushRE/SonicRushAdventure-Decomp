@@ -153,7 +153,7 @@ ViDockNpcTalk__CreateInternal: // 0x0216897C
 	cmp r0, #0
 	beq _021689C0
 	add r0, r0, #4
-	bl ViEvtCmnTalk__Constructor
+	bl _ZN13CViEvtCmnTalkC1Ev
 _021689C0:
 	mov r0, r4
 	add sp, sp, #0xc
@@ -350,7 +350,7 @@ ViDockNpcTalk__Func_2168C0C: // 0x02168C0C
 	cmp r4, #0
 	beq _02168C30
 	add r0, r4, #4
-	bl ViEvtCmnTalk__VTableFunc_216D618
+	bl _ZN13CViEvtCmnTalkD1Ev
 	mov r0, r4
 	bl _ZdlPv
 _02168C30:

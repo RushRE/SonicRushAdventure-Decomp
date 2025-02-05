@@ -85,7 +85,7 @@ ViTalkAnnounce__CreateInternal: // 0x0216B7A8
 	cmp r0, #0
 	beq _0216B7EC
 	add r0, r0, #4
-	bl ViEvtCmnAnnounce__Constructor
+	bl _ZN17CViEvtCmnAnnounceC1Ev
 _0216B7EC:
 	mov r0, r4
 	add sp, sp, #0xc
@@ -182,7 +182,7 @@ ViTalkAnnounce__Func_216B8FC: // 0x0216B8FC
 	cmp r4, #0
 	beq _0216B920
 	add r0, r4, #4
-	bl ViEvtCmnAnnounce__VTableFunc_216D040
+	bl _ZN17CViEvtCmnAnnounceD1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0216B920:

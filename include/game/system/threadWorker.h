@@ -3,6 +3,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -37,5 +42,9 @@ BOOL IsThreadWorkerFinished(Thread *thread);
 void JoinThreadWorker(Thread *thread);
 void DestroyThreadWorker(Thread *thread);
 void ReleaseThreadWorker(Thread *thread);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_THREAD_H

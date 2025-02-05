@@ -3,8 +3,8 @@
 
 	.text
 
-	arm_func_start MultibootManager__Func_2063C40
-MultibootManager__Func_2063C40: // 0x02063C40
+	arm_func_start VikingCupManager__Func_2063C40
+VikingCupManager__Func_2063C40: // 0x02063C40
 	ldr r0, _02063C5C // =gameState
 	mov r1, #0
 	str r1, [r0, #0xa8]
@@ -14,10 +14,10 @@ MultibootManager__Func_2063C40: // 0x02063C40
 	bx lr
 	.align 2, 0
 _02063C5C: .word gameState
-	arm_func_end MultibootManager__Func_2063C40
+	arm_func_end VikingCupManager__Func_2063C40
 
-	arm_func_start MultibootManager__Func_2063C60
-MultibootManager__Func_2063C60: // 0x02063C60
+	arm_func_start VikingCupManager__EventStartVikingCup
+VikingCupManager__EventStartVikingCup: // 0x02063C60
 	stmdb sp!, {r4, lr}
 	ldr r1, _02063CE0 // =gameState
 	cmp r0, #0x11
@@ -57,10 +57,10 @@ _02063CE4: .word sailMissionList
 _02063CE8: .word 0x0211162D
 _02063CEC: .word 0x0211162E
 _02063CF0: .word 0x0211162F
-	arm_func_end MultibootManager__Func_2063C60
+	arm_func_end VikingCupManager__EventStartVikingCup
 
-	arm_func_start MultibootManager__Func_2063CF4
-MultibootManager__Func_2063CF4: // 0x02063CF4
+	arm_func_start VikingCupManager__Func_2063CF4
+VikingCupManager__Func_2063CF4: // 0x02063CF4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	ldr r6, _02063E2C // =_0211160C
@@ -146,13 +146,17 @@ _02063DD8:
 	.align 2, 0
 _02063E2C: .word _0211160C
 _02063E30: .word 0x000036A0
-	arm_func_end MultibootManager__Func_2063CF4
+	arm_func_end VikingCupManager__Func_2063CF4
 
     .rodata
 
 .public _0211160C
 _0211160C: // 0x0211160C
-    .word 1080000, 108000, 18000, 1800, 300, 30, 10, 1
+    .word 1080000, 108000, 18000, 1800
+
+.public _0211161C
+_0211161C: // 0x0211161C
+    .word 300, 30, 10, 1
 
 .public sailMissionList
 sailMissionList: // 0x0211162C

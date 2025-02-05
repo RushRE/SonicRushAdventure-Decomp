@@ -64,7 +64,7 @@ NpcMission__CreateInternal: // 0x02171658
 	bl _ZnwmPv
 	cmp r0, #0
 	beq _02171698
-	bl ViEvtCmnTalk__Constructor
+	bl _ZN13CViEvtCmnTalkC1Ev
 _02171698:
 	mov r0, r4
 	add sp, sp, #0xc
@@ -200,7 +200,7 @@ NpcMission__Func_21717FC: // 0x021717FC
 	cmp r4, #0
 	beq _02171820
 	mov r0, r4
-	bl ViEvtCmnTalk__VTableFunc_216D618
+	bl _ZN13CViEvtCmnTalkD1Ev
 	mov r0, r4
 	bl _ZdlPv
 _02171820:

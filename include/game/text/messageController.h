@@ -3,6 +3,7 @@
 #define RUSH_MESSAGECONTROLLER_H
 
 #include <game/text/fontField9C.h>
+#include <game/math/mtMath.h>
 
 #ifdef __cplusplus
 extern "C"

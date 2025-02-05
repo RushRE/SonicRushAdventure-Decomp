@@ -496,7 +496,7 @@ _02153FF0:
 	ldr r0, _02154010 // =DockHelpers__MissionForID
 	mov r1, r4, lsl #1
 	ldrh r0, [r0, r1]
-	bl MultibootManager__Func_2063C60
+	bl VikingCupManager__EventStartVikingCup
 	mov r0, #0x1b
 	bl RequestNewSysEventChange
 	ldmia sp!, {r4, pc}

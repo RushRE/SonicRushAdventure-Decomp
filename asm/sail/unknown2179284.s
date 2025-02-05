@@ -267,7 +267,7 @@ _02179604:
 	bl SailRetireEvent__CreateFadeOut
 	b _02179664
 _02179638:
-	bl MultibootManager__Func_2063C40
+	bl VikingCupManager__Func_2063C40
 	add r0, r5, #0x500
 	mov r1, #0
 	strh r1, [r0, #0xd0]

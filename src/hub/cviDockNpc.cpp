@@ -1,17 +1,59 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <hub/cviDockNpc.hpp>
+#include <hub/dockHelpers.h>
+#include <game/util/cppHelpers.hpp>
+#include <game/file/bundleFileUnknown.h>
 
-	.public _ZTVN10__cxxabiv117__class_type_infoE
-	.public _ZTVN10__cxxabiv120__si_class_type_infoE
+// --------------------
+// TEMP
+// --------------------
 
-	.text
+extern "C"
+{
 
-	arm_func_start ViDockNpc__Constructor
-ViDockNpc__Constructor: // 0x02166B98
+NOT_DECOMPILED void *_N_ZTV10CViDockNpc;
+NOT_DECOMPILED void *ovl05_0217305C;
+NOT_DECOMPILED void *aBbViNpcBb_ovl05;
+NOT_DECOMPILED void *ViDockNpc__MaterialAnimlList;
+NOT_DECOMPILED void *ViDockNpc__JointAnimList;
+NOT_DECOMPILED void *ViDockNpc__ModelList;
+NOT_DECOMPILED void *ViDockNpc__AssetInfoList;
+
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A80Ev(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A0CEtiiii(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_21679B0Etiiii(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167958Etiiii(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167900Etiiii(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_21677C4Ev(void);
+}
+
+// --------------------
+// VARIABLES
+// --------------------
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+CViDockNpc::CViDockNpc()
+{
+#ifndef NON_MATCHING
+    this->model         = NULL;
+    this->aniJoints     = NULL;
+    this->aniMaterial   = NULL;
+    this->aniVisibility = NULL;
+    this->aniTexture    = NULL;
+    ViDockNpc__Func_2166F10(this);
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ViDockNpc__Func_2167384
-	ldr r0, _02166BD4 // =_ZTV10CViDockNpc+0x08
+	bl _ZN11CVi3dObjectC2Ev
+	ldr r0, =_N_ZTV10CViDockNpc+0x08
 	mov r1, #0
 	str r0, [r4]
 	str r1, [r4, #0x314]
@@ -23,44 +65,37 @@ ViDockNpc__Constructor: // 0x02166B98
 	bl ViDockNpc__Func_2166F10
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02166BD4: .word _ZTV10CViDockNpc+0x08
-	arm_func_end ViDockNpc__Constructor
 
-	arm_func_start ViDockNpc__VTableFunc_2166BD8
-ViDockNpc__VTableFunc_2166BD8: // 0x02166BD8
+// clang-format on
+#endif
+}
+
+CViDockNpc::~CViDockNpc()
+{
+#ifndef NON_MATCHING
+    ViDockNpc__Func_2166F10(this);
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _02166BFC // =_ZTV10CViDockNpc+0x08
+	ldr r1, =_N_ZTV10CViDockNpc+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViDockNpc__Func_2166F10
 	mov r0, r4
-	bl Vi3dObject__Func_216761C
+	bl _ZN11CVi3dObjectD2Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02166BFC: .word _ZTV10CViDockNpc+0x08
-	arm_func_end ViDockNpc__VTableFunc_2166BD8
 
-	arm_func_start ViDockNpc__VTableFunc_2166C00
-ViDockNpc__VTableFunc_2166C00: // 0x02166C00
-	stmdb sp!, {r4, lr}
-	ldr r1, _02166C2C // =_ZTV10CViDockNpc+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViDockNpc__Func_2166F10
-	mov r0, r4
-	bl Vi3dObject__Func_216761C
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02166C2C: .word _ZTV10CViDockNpc+0x08
-	arm_func_end ViDockNpc__VTableFunc_2166C00
+// clang-format on
+#endif
+}
 
-	arm_func_start ViDockNpc__LoadAssets
-ViDockNpc__LoadAssets: // 0x02166C30
+NONMATCH_FUNC void ViDockNpc__LoadAssets(CViDockNpc *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x1c
 	mov r4, r1
@@ -77,19 +112,19 @@ ViDockNpc__LoadAssets: // 0x02166C30
 	mov r1, #0xc
 	strh r2, [r0, #0x12]
 	mul r0, r2, r1
-	ldr r3, _02166EF4 // =ViDockNpc__AssetInfoList
+	ldr r3, =ViDockNpc__AssetInfoList
 	sub r2, r1, #0xd
 	add r4, r3, r0
 	ldrb r3, [r3, r0]
-	ldr r1, _02166EF8 // =ViDockNpc__ModelList
-	ldr r0, _02166EFC // =aBbViNpcBb_ovl05
+	ldr r1, =ViDockNpc__ModelList
+	ldr r0, =aBbViNpcBb_ovl05
 	mov r3, r3, lsl #1
 	ldrh r1, [r1, r3]
 	bl BundleFileUnknown__LoadFileFromBundle
 	str r0, [r7, #0x314]
 	ldrb r3, [r4, #1]
-	ldr r1, _02166F00 // =ViDockNpc__JointAnimList
-	ldr r0, _02166EFC // =aBbViNpcBb_ovl05
+	ldr r1, =ViDockNpc__JointAnimList
+	ldr r0, =aBbViNpcBb_ovl05
 	mov r3, r3, lsl #1
 	ldrh r1, [r1, r3]
 	mvn r2, #0
@@ -98,10 +133,10 @@ ViDockNpc__LoadAssets: // 0x02166C30
 	ldrb r1, [r4, #2]
 	cmp r1, #0xff
 	beq _02166CE0
-	ldr r0, _02166F04 // =ViDockNpc__MaterialAnimlList
+	ldr r0, =ViDockNpc__MaterialAnimlList
 	mov r1, r1, lsl #1
 	ldrh r1, [r0, r1]
-	ldr r0, _02166EFC // =aBbViNpcBb_ovl05
+	ldr r0, =aBbViNpcBb_ovl05
 	mvn r2, #0
 	bl BundleFileUnknown__LoadFileFromBundle
 	str r0, [r7, #0x31c]
@@ -109,10 +144,10 @@ _02166CE0:
 	ldrb r1, [r4, #3]
 	cmp r1, #0xff
 	beq _02166D08
-	ldr r0, _02166F04 // =ViDockNpc__MaterialAnimlList
+	ldr r0, =ViDockNpc__MaterialAnimlList
 	mov r1, r1, lsl #1
 	ldrh r1, [r0, r1]
-	ldr r0, _02166EFC // =aBbViNpcBb_ovl05
+	ldr r0, =aBbViNpcBb_ovl05
 	mvn r2, #0
 	bl BundleFileUnknown__LoadFileFromBundle
 	str r0, [r7, #0x320]
@@ -120,17 +155,17 @@ _02166D08:
 	ldrb r1, [r4, #4]
 	cmp r1, #0xff
 	beq _02166D30
-	ldr r0, _02166F04 // =ViDockNpc__MaterialAnimlList
+	ldr r0, =ViDockNpc__MaterialAnimlList
 	mov r1, r1, lsl #1
 	ldrh r1, [r0, r1]
-	ldr r0, _02166EFC // =aBbViNpcBb_ovl05
+	ldr r0, =aBbViNpcBb_ovl05
 	mvn r2, #0
 	bl BundleFileUnknown__LoadFileFromBundle
 	str r0, [r7, #0x324]
 _02166D30:
 	ldrb r1, [r4, #7]
 	mov r0, #0xc
-	ldr r2, _02166F08 // =ovl05_0217305C
+	ldr r2, =ovl05_0217305C
 	smulbb r1, r1, r0
 	ldr r0, [r2, r1]
 	add r1, r2, r1
@@ -145,7 +180,7 @@ _02166D30:
 	str r2, [sp]
 	bne _02166DC8
 	ldr r0, [r7, #0x318]
-	ldr r1, _02166F0C // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	stmib sp, {r0, r2}
 	ldr r3, [r7, #0x31c]
 	mov r0, r7
@@ -157,14 +192,14 @@ _02166D30:
 	str ip, [sp, #0x14]
 	str r1, [sp, #0x18]
 	ldr r1, [r7, #0x314]
-	bl Vi3dObject__Func_216763C
+	bl _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t
 	mov r3, #0
 	str r3, [sp]
 	str r3, [sp, #4]
 	ldrb r1, [r4, #5]
 	mov r0, r7
 	mov r2, #1
-	bl Vi3dObject__Func_2167900
+	bl _ZN11CVi3dObject12Func_2167900Etiiii
 	b _02166E38
 _02166DC8:
 	ldr r0, [r7, #0x318]
@@ -180,21 +215,21 @@ _02166DC8:
 	str ip, [sp, #0x14]
 	str r1, [sp, #0x18]
 	ldr r1, [r7, #0x314]
-	bl Vi3dObject__Func_216763C
+	bl _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t
 	mov r3, #0
 	str r3, [sp]
 	str r3, [sp, #4]
 	ldrb r1, [r4, #5]
 	mov r0, r7
 	mov r2, #1
-	bl Vi3dObject__Func_2167900
+	bl _ZN11CVi3dObject12Func_2167900Etiiii
 	mov r3, #0
 	str r3, [sp]
 	str r3, [sp, #4]
 	ldrb r1, [r4, #8]
 	mov r0, r7
 	mov r2, #1
-	bl Vi3dObject__Func_2167958
+	bl _ZN11CVi3dObject12Func_2167958Etiiii
 _02166E38:
 	ldr r0, [r7, #0x31c]
 	cmp r0, #0
@@ -205,7 +240,7 @@ _02166E38:
 	mov r3, r1
 	mov r2, #1
 	str r1, [sp, #4]
-	bl Vi3dObject__Func_21679B0
+	bl _ZN11CVi3dObject12Func_21679B0Etiiii
 _02166E60:
 	ldr r0, [r7, #0x320]
 	cmp r0, #0
@@ -216,7 +251,7 @@ _02166E60:
 	mov r3, r1
 	mov r2, #1
 	str r1, [sp, #4]
-	bl Vi3dObject__Func_2167A80
+	bl _ZN11CVi3dObject12Func_2167A80Ev
 _02166E88:
 	ldr r0, [r7, #0x324]
 	cmp r0, #0
@@ -227,7 +262,7 @@ _02166E88:
 	mov r3, r1
 	mov r2, #1
 	str r1, [sp, #4]
-	bl Vi3dObject__Func_2167A0C
+	bl _ZN11CVi3dObject12Func_2167A0CEtiiii
 _02166EB0:
 	mov r1, r6
 	add r0, r7, #8
@@ -246,21 +281,20 @@ _02166EB0:
 	str r1, [r7, #0x334]
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02166EF4: .word ViDockNpc__AssetInfoList
-_02166EF8: .word ViDockNpc__ModelList
-_02166EFC: .word aBbViNpcBb_ovl05
-_02166F00: .word ViDockNpc__JointAnimList
-_02166F04: .word ViDockNpc__MaterialAnimlList
-_02166F08: .word ovl05_0217305C
-_02166F0C: .word 0x0000FFFF
-	arm_func_end ViDockNpc__LoadAssets
 
-	arm_func_start ViDockNpc__Func_2166F10
-ViDockNpc__Func_2166F10: // 0x02166F10
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDockNpc__Func_2166F10(CViDockNpc *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl Vi3dObject__Func_21677C4
+	bl _ZN11CVi3dObject12Func_21677C4Ev
 	ldr r0, [r4, #0x314]
 	cmp r0, #0
 	beq _02166F34
@@ -310,10 +344,17 @@ _02166F94:
 	mov r1, #0xe
 	strh r1, [r0, #0x12]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViDockNpc__Func_2166F10
 
-	arm_func_start ViDockNpc__Func_2166FCC
-ViDockNpc__Func_2166FCC: // 0x02166FCC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDockNpc__Func_2166FCC(CViDockNpc *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -328,15 +369,15 @@ ViDockNpc__Func_2166FCC: // 0x02166FCC
 	ldrh r1, [r0, #0x12]
 	mov r0, #0xc
 	mul r3, r1, r0
-	ldr r1, _02167060 // =0x021730AE
+	ldr r1, =0x021730AE
 	mov r0, r4
 	ldrb r1, [r1, r3]
 	mov r3, r2
-	bl Vi3dObject__Func_2167900
+	bl _ZN11CVi3dObject12Func_2167900Etiiii
 	add r0, r4, #0x300
 	ldrh r2, [r0, #0x12]
 	mov r0, #0xc
-	ldr r1, _02167064 // =0x021730B1
+	ldr r1, =0x021730B1
 	mul r0, r2, r0
 	ldrb r1, [r1, r0]
 	cmp r1, #0xff
@@ -348,16 +389,20 @@ ViDockNpc__Func_2166FCC: // 0x02166FCC
 	mov r0, r4
 	mov r3, r2
 	str ip, [sp, #4]
-	bl Vi3dObject__Func_2167958
+	bl _ZN11CVi3dObject12Func_2167958Etiiii
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02167060: .word 0x021730AE
-_02167064: .word 0x021730B1
-	arm_func_end ViDockNpc__Func_2166FCC
 
-	arm_func_start ViDockNpc__Func_2167068
-ViDockNpc__Func_2167068: // 0x02167068
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDockNpc__Func_2167068(CViDockNpc *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -374,15 +419,15 @@ ViDockNpc__Func_2167068: // 0x02167068
 	ldrh r1, [r0, #0x12]
 	mov r0, #0xc
 	mul r3, r1, r0
-	ldr r1, _02167104 // =0x021730AD
+	ldr r1, =0x021730AD
 	mov r0, r4
 	ldrb r1, [r1, r3]
 	mov r3, r2
-	bl Vi3dObject__Func_2167900
+	bl _ZN11CVi3dObject12Func_2167900Etiiii
 	add r0, r4, #0x300
 	ldrh r2, [r0, #0x12]
 	mov r0, #0xc
-	ldr r1, _02167108 // =0x021730B0
+	ldr r1, =0x021730B0
 	mul r0, r2, r0
 	ldrb r1, [r1, r0]
 	cmp r1, #0xff
@@ -394,16 +439,20 @@ ViDockNpc__Func_2167068: // 0x02167068
 	mov r0, r4
 	mov r3, r2
 	str ip, [sp, #4]
-	bl Vi3dObject__Func_2167958
+	bl _ZN11CVi3dObject12Func_2167958Etiiii
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02167104: .word 0x021730AD
-_02167108: .word 0x021730B0
-	arm_func_end ViDockNpc__Func_2167068
 
-	arm_func_start ViDockNpc__Func_216710C
-ViDockNpc__Func_216710C: // 0x0216710C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL ViDockNpc__Func_216710C(CViDockNpc *work, VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r5, r2
 	ldr r2, [r5, #0]
@@ -485,10 +534,17 @@ _02167208:
 _0216723C:
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	arm_func_end ViDockNpc__Func_216710C
 
-	arm_func_start ViDockNpc__Func_2167244
-ViDockNpc__Func_2167244: // 0x02167244
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL ViDockNpc__Func_2167244(CViDockNpc *work, VecFx32 *position, s32 a3, s32 a4, BOOL *flag)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r9, r0
 	mov r8, r1
@@ -512,13 +568,13 @@ ViDockNpc__Func_2167244: // 0x02167244
 	mov r9, #0xc
 	smull lr, r0, ip, ip
 	mul r8, r2, r9
-	ldr r2, _02167370 // =0x021730AF
+	ldr r2, =0x021730AF
 	mov r3, r3, lsr #0xc
 	ldrb r8, [r2, r8]
 	adc r2, r1, #0
 	adds r1, lr, #0x800
 	smulbb r8, r8, r9
-	ldr r9, _02167374 // =ovl05_0217305C
+	ldr r9, =ovl05_0217305C
 	adc r10, r0, #0
 	mov r1, r1, lsr #0xc
 	add lr, r9, r8
@@ -545,7 +601,7 @@ ViDockNpc__Func_2167244: // 0x02167244
 	ldmgtia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r0, r7, asr #4
 	mov r2, r0, lsl #1
-	ldr r1, _02167378 // =FX_SinCosTable_
+	ldr r1, =FX_SinCosTable_
 	mov r0, r2, lsl #1
 	ldrsh r0, [r1, r0]
 	add r2, r2, #1
@@ -567,185 +623,20 @@ _0216735C:
 _02167368:
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	.align 2, 0
-_02167370: .word 0x021730AF
-_02167374: .word ovl05_0217305C
-_02167378: .word FX_SinCosTable_
-	arm_func_end ViDockNpc__Func_2167244
 
-	arm_func_start ViDockNpc__Func_216737C
-ViDockNpc__Func_216737C: // 0x0216737C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL ViDockNpc__Func_216737C(CViDockNpc *work, s32 a2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r0, #1
 	bx lr
-	arm_func_end ViDockNpc__Func_216737C
 
-	arm_func_start ViDockNpc__Func_2167384
-ViDockNpc__Func_2167384: // 0x02167384
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #0x18
-	mov r4, r0
-	ldr r1, _021674A4 // =0x021738E8
-	add r0, r4, #8
-	str r1, [r4]
-	bl CPPHelpers__Func_2085EE8
-	add r0, r4, #0x14
-	bl CPPHelpers__Func_2085EE8
-	add r0, r4, #0x20
-	bl CPPHelpers__Func_2085EE8
-	add r0, r4, #0x2c
-	bl CPPHelpers__Func_2085EE8
-	mov r1, #0
-	add r0, sp, #0xc
-	mov r2, r1
-	mov r3, r1
-	str r1, [r4, #4]
-	bl CPPHelpers__VEC_Set
-	add r0, r4, #8
-	add r1, sp, #0xc
-	bl CPPHelpers__Func_2085FA8
-	add r0, r4, #0x14
-	add r1, r4, #8
-	bl CPPHelpers__Func_2085FA8
-	mov r1, #0x1000
-	add r0, sp, #0
-	mov r2, r1
-	mov r3, r1
-	bl CPPHelpers__VEC_Set
-	add r0, r4, #0x20
-	add r1, sp, #0
-	bl CPPHelpers__Func_2085FA8
-	add r0, r4, #0x2c
-	add r1, r4, #0x20
-	bl CPPHelpers__Func_2085FA8
-	mov r1, #0
-	strh r1, [r4, #0x38]
-	strh r1, [r4, #0x3a]
-	ldrh r3, [r4, #0x38]
-	ldr r2, _021674A8 // =0x0000FFFF
-	add r0, r4, #0x100
-	strh r3, [r4, #0x3c]
-	strh r1, [r4, #0x3e]
-	strh r1, [r4, #0x40]
-	strh r1, [r4, #0x42]
-	strh r2, [r0, #0x88]
-	strh r2, [r0, #0x8a]
-	strh r2, [r0, #0x8c]
-	strh r2, [r0, #0x8e]
-	strh r2, [r0, #0x90]
-	strh r2, [r0, #0x92]
-	add r0, r4, #0x200
-	strh r2, [r0, #0xd8]
-	strh r2, [r0, #0xda]
-	str r1, [r4, #0x2dc]
-	str r1, [r4, #0x2e0]
-	str r1, [r4, #0x2e4]
-	str r1, [r4, #0x2e8]
-	str r1, [r4, #0x2ec]
-	str r1, [r4, #0x2f0]
-	str r1, [r4, #0x2f4]
-	str r1, [r4, #0x2f8]
-	add r0, r4, #0x44
-	str r1, [r4, #0x2fc]
-	bl AnimatorMDL__Init
-	add r0, r4, #0x194
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r0, r4
-	add sp, sp, #0x18
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021674A4: .word 0x021738E8
-_021674A8: .word 0x0000FFFF
-	arm_func_end ViDockNpc__Func_2167384
-	
-	.rodata
-
-.public ovl05_02173040
-ovl05_02173040: // 0x02173040
-    .word 0x2000, 0x800, 0x20
-	.word 0x2000, 0x800, 0x100
-
-.public ViDockNpc__MaterialAnimlList
-ViDockNpc__MaterialAnimlList: // ViDockNpc__MaterialAnimlList
-	.hword 0x1B, 0x00
-	
-.public ovl05_0217305C
-ovl05_0217305C: // 0x0217305C
-    .word 0x6000, 0x6000, 0x6000
-	.word 0xC000, 0x8000, 0xC000
-
-.public ViDockNpc__ModelList
-ViDockNpc__ModelList: // ViDockNpc__ModelList
-	.hword 0x00
-	.hword 0x02
-	.hword 0x04
-	.hword 0x06
-	.hword 0x08
-	.hword 0x0A
-	.hword 0x0C
-	.hword 0x0E
-	.hword 0x10
-	.hword 0x12
-	.hword 0x14
-	.hword 0x16
-	.hword 0x19
-	
-.public ViDockNpc__JointAnimList
-ViDockNpc__JointAnimList: // 0x0217308E
-	.hword 0x01
-	.hword 0x03
-	.hword 0x05
-	.hword 0x07
-	.hword 0x09
-	.hword 0x0B
-	.hword 0x0D
-	.hword 0x0F
-	.hword 0x11
-	.hword 0x13
-	.hword 0x15
-	.hword 0x17
-	.hword 0x1A
-
-.public ViDockNpc__AssetInfoList
-ViDockNpc__AssetInfoList: // 0x021730A8
-	.byte 0, 0, 0xFF, 0xFF, 0xFF, 0, 1, 0, 2, 3, 0, 0
-	.byte 1, 1, 0xFF, 0xFF, 0xFF, 0, 1, 0, 0xFF, 0xFF, 0, 0
-	.byte 2, 2, 0xFF, 0xFF, 0xFF, 0, 1, 0, 0xFF, 0xFF, 0, 0
-	.byte 3, 3, 0xFF, 0xFF, 0xFF, 0, 0, 1, 0xFF, 0xFF, 0, 0
-	.byte 4, 4, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
-	.byte 5, 5, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
-	.byte 6, 6, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
-	.byte 7, 7, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
-	.byte 8, 8, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
-	.byte 9, 9, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
-	.byte 0xA, 0xA, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
-	.byte 0xB, 0xB, 0xFF, 0, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
-	.byte 0xC, 0xC, 0, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
-
-aBbViNpcBb_ovl05: // 0x02173144
-	.asciz "bb/vi_npc.bb"
-	.align 4
-
-.public ovl05_02173154
-ovl05_02173154: // 0x02173154                     
-	.word 0x400
-
-	.data
-
-.public _ZTI11CVi3dObject_0
-_ZTI11CVi3dObject_0: // 0x02173874
-    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS11CVi3dObject
-
-.public _ZTI10CViDockNpc
-_ZTI10CViDockNpc: // 0x0217387C
-    .word _ZTVN10__cxxabiv120__si_class_type_infoE+8, _ZTS10CViDockNpc, _ZTI11CVi3dObject
-
-.public _ZTS10CViDockNpc
-_ZTS10CViDockNpc: // 0x02173888
-	.asciz "10CViDockNpc"
-	.align 4
-
-.public _ZTV10CViDockNpc
-_ZTV10CViDockNpc: // 0x02173898
-    .word 0, _ZTI10CViDockNpc
-    .word ViDockNpc__VTableFunc_2166BD8, ViDockNpc__VTableFunc_2166C00
+// clang-format on
+#endif
+}

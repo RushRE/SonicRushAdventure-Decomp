@@ -190,7 +190,7 @@ _0204B780:
 	bl RequestSysEventChange
 	b _0204B7AC
 _0204B794:
-	bl MultibootManager__Func_2063C40
+	bl VikingCupManager__Func_2063C40
 	ldr r1, _0204B7B4 // =gameState
 	mov r2, #0
 	mov r0, #1

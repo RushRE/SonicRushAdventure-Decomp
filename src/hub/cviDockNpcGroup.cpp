@@ -16,13 +16,20 @@ static u32 selection;
 extern CViDockNpcGroupTalk ViDockNpcGroup__talkAction;
 extern DockNpcGroupFunc ViDockNpcGroup__talkActionTable[];
 
+extern "C"
+{
+    NOT_DECOMPILED void _Znwm(void);
+    NOT_DECOMPILED void _ZdlPv(void);
+    NOT_DECOMPILED void _ZN10CViDockNpcC1Ev(void);
+    NOT_DECOMPILED void _ZN10CViDockNpcD1Ev(void);
+}
+
 // --------------------
 // FUNCTIONS
 // --------------------
 
 CViDockNpcGroup::CViDockNpcGroup()
 {
-    Vi3dArrow__Constructor(&this->viArrow);
     this->npcListSize  = 0;
     this->npcListStart = NULL;
     this->npcListEnd   = NULL;
@@ -31,12 +38,11 @@ CViDockNpcGroup::CViDockNpcGroup()
 CViDockNpcGroup::~CViDockNpcGroup()
 {
     ClearNpcList();
-    Vi3dArrow__VTableFunc_2168268(&this->viArrow);
 }
 
 void CViDockNpcGroup::ClearNpcList()
 {
-    Vi3dArrow__Func_2168358(&viArrow);
+    viArrow.Func_2168358();
 
     CViDockNpc *npc = npcListStart;
     if (npc == NULL)
@@ -52,12 +58,10 @@ void CViDockNpcGroup::ClearNpcList()
     }
 }
 
-CViDockNpc *CViDockNpcGroup::AddNpc()
+NONMATCH_FUNC CViDockNpc *CViDockNpcGroup::AddNpc()
 {
+#ifdef NON_MATCHING
     CViDockNpc *newNpc = new CViDockNpc;
-
-    if (newNpc != NULL)
-        ViDockNpc__Constructor(newNpc);
 
     if (npcListStart != NULL)
     {
@@ -78,10 +82,43 @@ CViDockNpc *CViDockNpcGroup::AddNpc()
     npcListSize++;
 
     return newNpc;
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r0
+	mov r0, #0x340
+	bl _Znwm
+	movs r4, r0
+	beq _02168488
+	bl _ZN10CViDockNpcC1Ev
+_02168488:
+	ldr r0, [r5, #8]
+	cmp r0, #0
+	mov r0, #0
+	streq r0, [r4, #0x338]
+	streq r0, [r4, #0x33c]
+	streq r4, [r5, #8]
+	beq _021684B8
+	str r0, [r4, #0x338]
+	ldr r0, [r5, #0xc]
+	str r0, [r4, #0x33c]
+	ldr r0, [r5, #0xc]
+	str r4, [r0, #0x338]
+_021684B8:
+	str r4, [r5, #0xc]
+	ldr r1, [r5, #4]
+	mov r0, r4
+	add r1, r1, #1
+	str r1, [r5, #4]
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
 }
 
-void CViDockNpcGroup::RemoveNpc(CViDockNpc *npc)
+NONMATCH_FUNC void CViDockNpcGroup::RemoveNpc(CViDockNpc *npc)
 {
+#ifdef NON_MATCHING
     if (npc->prev != NULL)
         npc->prev->next = npc->next;
     else
@@ -94,11 +131,39 @@ void CViDockNpcGroup::RemoveNpc(CViDockNpc *npc)
 
     if (npc != NULL)
     {
-        ViDockNpc__VTableFunc_2166BD8(npc);
         delete npc;
     }
 
     npcListSize--;
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r4, r1
+	ldr r1, [r4, #0x33c]
+	mov r5, r0
+	ldr r0, [r4, #0x338]
+	cmp r1, #0
+	strne r0, [r1, #0x338]
+	streq r0, [r5, #8]
+	ldr r1, [r4, #0x338]
+	ldr r0, [r4, #0x33c]
+	cmp r1, #0
+	strne r0, [r1, #0x33c]
+	streq r0, [r5, #0xc]
+	cmp r4, #0
+	beq _0216851C
+	mov r0, r4
+	bl _ZN10CViDockNpcD1Ev
+	mov r0, r4
+	bl _ZdlPv
+_0216851C:
+	ldr r0, [r5, #4]
+	sub r0, r0, #1
+	str r0, [r5, #4]
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
 }
 
 CViDockNpc *CViDockNpcGroup::GetNextNpc(CViDockNpc *npc)
@@ -113,7 +178,7 @@ CViDockNpc *CViDockNpcGroup::GetNextNpc(CViDockNpc *npc)
 
 void CViDockNpcGroup::LoadAssets()
 {
-    Vi3dArrow__LoadAssets(&viArrow);
+    viArrow.LoadAssets();
 }
 
 void CViDockNpcGroup::Animate()
@@ -125,12 +190,12 @@ void CViDockNpcGroup::Animate()
 
     while (npc != NULL)
     {
-        Vi3dObject__ProcessAnimation(npc);
+        npc->ProcessAnimation();
 
         npc = GetNextNpc(npc);
     }
 
-    Vi3dObject__ProcessAnimation(&viArrow);
+    viArrow.ProcessAnimation();
 }
 
 void CViDockNpcGroup::Draw(s32 a2)
@@ -147,7 +212,7 @@ void CViDockNpcGroup::Draw(s32 a2)
             if (ViDockNpc__Func_216737C(npc, a2))
             {
                 CPPHelpers__VEC_Copy_Alt(&viArrow.translation1, CPPHelpers__Func_2085F9C(&npc->translation1));
-                Vi3dObject__Draw(&viArrow);
+                viArrow.Draw();
             }
         }
 

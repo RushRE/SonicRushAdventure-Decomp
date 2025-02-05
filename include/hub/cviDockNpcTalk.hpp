@@ -1,7 +1,7 @@
 #ifndef RUSH_CVIDOCKNPCTALK_HPP
 #define RUSH_CVIDOCKNPCTALK_HPP
 
-#include <hub/cviEvtCmn.h>
+#include <hub/cviEvtCmn.hpp>
 
 // --------------------
 // STRUCTS
