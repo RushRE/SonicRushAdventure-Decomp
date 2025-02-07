@@ -107,7 +107,7 @@ void TouchField__Process(TouchField *work)
     }
 }
 
-void TouchField__InitAreaShape(TouchArea *area, Vec2Fx16 *pos, TouchAreaBoundsCheckFunc boundsCheckFunc, TouchRect *rect, TouchAreaCallback callback, void *context)
+void TouchField__InitAreaShape(TouchArea *area, Vec2Fx16 *pos, TouchAreaBoundsCheckFunc boundsCheckFunc, TouchRectUnknown *rect, TouchAreaCallback callback, void *context)
 {
     MI_CpuClear8(area, sizeof(*area));
 
@@ -136,9 +136,9 @@ void TouchField__ResetArea(TouchArea *area)
     area->prevResponseFlags = TOUCHAREA_RESPONSE_NONE;
 }
 
-void TouchField__SetHitbox(TouchArea *area, TouchRect *rect)
+void TouchField__SetHitbox(TouchArea *area, TouchRectUnknown *rect)
 {
-    MI_CpuCopy8(rect, &area->sprite.rect, sizeof(area->sprite.rect));
+    MI_CpuCopy8(rect, &area->sprite.rect, sizeof(TouchRectUnknown));
 }
 
 void TouchField__InitAreaSprite(TouchArea *area, void *animator, s32 id, s16 flags, TouchAreaCallback callback, void *context)

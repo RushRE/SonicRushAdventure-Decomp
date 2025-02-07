@@ -302,7 +302,7 @@ ViTalkPurchase__Func_2169B70: // 0x02169B70
 	mov r0, r4
 	bl ViTalkPurchase__Func_2169BC4
 	add r0, r4, #0x14
-	bl ViEvtCmnTalk__Func_216D72C
+	bl _ZN13CViEvtCmnTalk7ReleaseEv
 	mov r0, r4
 	bl ViTalkPurchase__Func_2169BB4
 	ldmia sp!, {r4, pc}
@@ -394,11 +394,11 @@ _02169C9C:
 	ldrh r2, [r5, #2]
 	ldr r3, _02169CE4 // =0x0000FFFF
 	add r0, r4, #0x14
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	ldr r1, _02169CE8 // =ViTalkPurchase__Func_2169FF0
 	mov r2, r4
 	add r0, r4, #0x14
-	bl ViEvtCmnTalk__Func_216D8AC
+	bl _ZN13CViEvtCmnTalk11SetCallbackEPFvmP13FontAnimator_PvES2_
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
 	bl NpcUnknown__Func_216EC50
@@ -431,7 +431,7 @@ ViTalkPurchase__Func_2169CF0: // 0x02169CF0
 	mov r1, r0, lsl #0x10
 	add r0, r4, #0x14
 	mov r1, r1, lsr #0x10
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _02169D48 // =ViTalkPurchase__Func_2169D4C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
@@ -445,7 +445,7 @@ ViTalkPurchase__Func_2169D4C: // 0x02169D4C
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	add r0, r4, #0x14
-	bl ViEvtCmnTalk__Func_216D81C
+	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
 	bl NpcUnknown__Func_216E8F0
@@ -482,7 +482,7 @@ _02169DC0:
 	bl AnimatorSprite__DrawFrame
 _02169DE0:
 	add r0, r4, #0x14
-	bl ViEvtCmnTalk__Func_216D888
+	bl _ZN13CViEvtCmnTalk10IsFinishedEv
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	add r0, r4, #0x1fc
@@ -522,7 +522,7 @@ ViTalkPurchase__Func_2169E4C: // 0x02169E4C
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	add r0, r4, #0x14
-	bl ViEvtCmnTalk__Func_216D89C
+	bl _ZN13CViEvtCmnTalk9GetActionEv
 	cmp r0, #2
 	beq _02169E7C
 	cmp r0, #0x14

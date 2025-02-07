@@ -713,11 +713,11 @@ void NameMenu__InitTouchField(NameMenuWorker *work)
     work->touchField.mode           = TOUCHFIELD_MODE_0;
     work->touchField.delayDuration1 = 0;
 
-    TouchRect rect;
-    rect.id       = 0;
-    rect.flags    = 4;
-    rect.box.left = 68;
-    rect.box.top  = 24;
+    TouchRectUnknown rect;
+    rect.box.left   = 0;
+    rect.box.top    = 4;
+    rect.box.right  = 68;
+    rect.box.bottom = 24;
 
     Vec2Fx16 pos;
     pos.x = 20;

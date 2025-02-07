@@ -93,7 +93,7 @@ NOT_DECOMPILED void MessageController__ClearPixels(void);
 NOT_DECOMPILED void MessageController__UnknownIsValid1(void);
 NOT_DECOMPILED void MessageController__UnknownIsValid2(void);
 NOT_DECOMPILED void MessageController__GetUnknown(void);
-NOT_DECOMPILED void MessageController__GetLineWidthEx(void);
+NOT_DECOMPILED s32 MessageController__GetLineWidthEx(void *work, u16 sequenceID, u16 dialogID, u16 lineID, void *fontFile);
 NOT_DECOMPILED void MessageController__GetStartPos(void);
 NOT_DECOMPILED void MessageController__ClearUnknown(void);
 NOT_DECOMPILED void MessageController__ResetUnknown(void);

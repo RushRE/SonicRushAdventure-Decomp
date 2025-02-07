@@ -9,6 +9,12 @@
 #include <hub/viMessageController.h>
 
 // --------------------
+// CONSTANTS/MACROS
+// --------------------
+
+#define CVIEVTCMN_RESOURCE_NONE (u16)(-1)
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -17,6 +23,31 @@ class CViEvtCmnMsg
 public:
     CViEvtCmnMsg();
     virtual ~CViEvtCmnMsg();
+
+    // --------------------
+    // ENUMS
+    // --------------------
+
+    enum DialogState
+    {
+        DIALOGSTATE_INIT,
+        DIALOGSTATE_OPENING_WINDOW,
+        DIALOGSTATE_REVEALING_TEXT,
+        DIALOGSTATE_SHOW_TEXT,
+        DIALOGSTATE_UNUSED1,
+        DIALOGSTATE_CLOSING_WINDOW,
+        DIALOGSTATE_CLOSED_WINDOW,
+        DIALOGSTATE_UNUSED2,
+        DIALOGSTATE_DONE,
+    };
+
+    enum NextButtonState
+    {
+        NEXTBTNSTATE_INACTIVE,
+        NEXTBTNSTATE_DISABLED,
+        NEXTBTNSTATE_PROMPTING,
+        NEXTBTNSTATE_HELD,
+    };
 
     // --------------------
     // VARIABLES
@@ -30,8 +61,8 @@ public:
     u16 nextSequence;
     u16 nextNameAnimID;
     u16 prevNameAnimID;
-    u16 word1A;
-    u32 field_1C;
+    u16 unused;
+    BOOL isLastSequence;
     FontAnimator fontAnimator;
     FontWindowAnimator fontWindowAnimator;
     AnimatorSprite aniName;
@@ -40,21 +71,56 @@ public:
     AnimatorSprite aniNextButton;
     VRAMPixelKey vramNextButton;
     void *sprNextButton;
-    BOOL nextButtonState;
+    u32 nextButtonState;
     BOOL autoAdvanceFlag;
     TouchArea touchArea;
     TouchField touchField;
-    u32 field_278;
+    BOOL dialogStateChanged;
     u32 timer;
-    s32 field_280;
+    BOOL allowBackPress;
 
     // --------------------
     // MEMBER FUNCTIONS
     // --------------------
 
+    void Init(void *mpcFile);
+    void Release();
+    void SetSequence(u16 sequence, u16 nameAnimID, u16 nextSequence, u16 nextName, BOOL isLastSequence);
+    void SetSequenceFromMPC(u16 sequence, u16 nameAnimID, u16 nextSequence, u16 nextName, BOOL isLastSequence);
+    void SetNextSequence(u16 nextSequence, u16 nextNameAnimID);
+    BOOL HasNoNextSequence();
+    void SetIsLastSequence(BOOL isLastSequence);
+    void ProcessDialog();
+    BOOL CheckIdle();
+    void TrySetNextButtonState(u32 a2);
+    void SetAutoAdvance();
+
+    void InitDialogState_Init();
+    s32 DialogState_Init();
+    void InitDialogState_OpenWindow();
+    s32 DialogState_OpenWindow();
+    void InitDialogState_ProcessTextReveal();
+    s32 DialogState_ProcessTextReveal();
+    void InitDialogState_ShowText();
+    s32 DialogState_ShowText();
+    void InitDialogState_CloseWindow();
+    s32 DialogState_CloseWindow();
+    void InitDialogState_ClosedWindow();
+    s32 DialogState_ClosedWindow();
+
+    BOOL CheckConfirmBtnPress();
+    BOOL CheckBackBtnPress();
+    void SetNextButtonState(s32 state);
+    void ProcessNextButtonAnimation();
+    void DrawNextButton();
+    BOOL ShouldAutoAdvance();
+
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
+
+    static void SpriteCallback(BACFrameGroupBlockHeader *block, AnimatorSprite *animator, void *userData);
+    static void TouchAreaCallback(TouchAreaResponse *responce, TouchArea *area, void *userData);
 };
 
 class CViEvtCmnSelect
@@ -64,28 +130,45 @@ public:
     virtual ~CViEvtCmnSelect();
 
     // --------------------
+    // ENUMS
+    // --------------------
+
+    enum DialogState
+    {
+        DIALOGSTATE_INIT,
+        DIALOGSTATE_OPENING_WINDOW,
+        DIALOGSTATE_PREPARE_CHARS,
+        DIALOGSTATE_SELECTION_ACTIVE,
+        DIALOGSTATE_SELECTION_MADE,
+        DIALOGSTATE_CLOSING_WINDOW,
+        DIALOGSTATE_CLOSED_WINDOW,
+        DIALOGSTATE_UNUSED1,
+        DIALOGSTATE_FINISHED,
+    };
+
+    // --------------------
     // VARIABLES
     // --------------------
 
     u32 dialogState;
     u32 nextDialogState;
-    s32 field_C;
+    u32 timer;
     void *mpcFile;
-    u16 dialogID;
-    s16 field_16;
-    s32 field_18;
+    u16 sequence;
+    u16 field_16;
+    s32 dialogStateChanged;
     u16 selection;
     u16 selectionCount;
-    s16 field_20;
-    s16 field_22;
-    s16 field_24;
-    s16 field_26;
-    s16 field_28;
-    s16 field_2A;
-    s16 field_2C;
-    s16 field_2E;
-    s16 field_30;
-    s16 field_32;
+    u16 prevTouchSelection;
+    u16 unused22;
+    u16 lineWidthInner;
+    u16 lineHeightInnter;
+    u16 windowWidth;
+    u16 windowHeight;
+    u16 lineStart;
+    u16 lineHeight;
+    u16 lineSize;
+    u16 field_32;
     FontAnimator fontAnimator;
     FontWindowAnimator fontWindowAnimator;
     FontWindowMWControl fontWindowMWControl;
@@ -95,9 +178,32 @@ public:
     // MEMBER FUNCTIONS
     // --------------------
 
-    // --------------------
-    // STATIC FUNCTIONS
-    // --------------------
+    void Init(void *mpcFile);
+    void Release();
+    void SetSequence(u16 id);
+    void ProcessDialog();
+    BOOL CheckFinished();
+    u16 GetSelection();
+
+    void InitDialogState_Init();
+    s32 DialogState_Init();
+    void InitDialogState_OpeningWindow();
+    s32 DialogState_OpeningWindow();
+    void InitDialogState_PrepareCharacters();
+    s32 DialogState_PrepareCharacters();
+    void InitDialogState_SelectionActive();
+    s32 DialogState_SelectionActive();
+    void InitDialogState_SelectionMade();
+    s32 DialogState_SelectionMade();
+    void InitDialogState_ClosingWindow();
+    s32 DialogState_ClosingWindow();
+    void InitDialogState_ClosedWindow();
+    s32 DialogState_ClosedWindow();
+
+    BOOL CheckConfirmBtnPress();
+    BOOL CheckBackBtnPress();
+    s32 HandleBtnSelectionControl();
+    s32 HandleTouchSelectionControl(BOOL usePull);
 };
 
 class CViEvtCmnAnnounce
@@ -107,35 +213,59 @@ public:
     virtual ~CViEvtCmnAnnounce();
 
     // --------------------
+    // ENUMS
+    // --------------------
+
+    enum DialogState
+    {
+        DIALOGSTATE_IDLE,
+        DIALOGSTATE_OPENING_WINDOW,
+        DIALOGSTATE_SHOW_TEXT,
+        DIALOGSTATE_CLOSING_WINDOW,
+        DIALOGSTATE_CLOSED_WINDOW,
+        DIALOGSTATE_INACTIVE,
+    };
+
+    // --------------------
     // VARIABLES
     // --------------------
 
     u16 dialogState;
     u16 prevDialogState;
     u16 timer;
-    s16 field_A;
+    u16 msgSequence;
     void *mpcFile;
-    s16 field_10;
-    s16 field_12;
-    s16 field_14;
-    s16 field_16;
-    s16 field_18;
-    s16 field_1A;
-    s16 field_1C;
-    s16 field_1E;
-    s16 field_20;
-    s16 field_22;
+    s16 unused10;
+    s16 unused12;
+    s16 unused14;
+    s16 unused16;
+    s16 unused18;
+    s16 unused1A;
+    s16 unused1C;
+    s16 unused1E;
+    s16 startPos;
     FontAnimator fontAnimator;
     FontWindowAnimator fontWindowAnimator;
-    u32 sfx;
+    s32 sfx;
 
     // --------------------
     // MEMBER FUNCTIONS
     // --------------------
 
-    // --------------------
-    // STATIC FUNCTIONS
-    // --------------------
+    void Init(void *mpcFile);
+    void Release();
+    void SetSequence(u16 msgSequence, u16 sfx);
+    void Process();
+    BOOL CheckIdle();
+
+    void InitDialogState_OpeningWindow();
+    s32 DialogState_OpeningWindow();
+    void InitDialogState_ShowText();
+    s32 DialogState_ShowText();
+    void InitDialogState_ClosingWindow();
+    s32 DialogState_ClosingWindow();
+    void InitDialogState_ClosedWindow();
+    s32 DialogState_ClosedWindow();
 };
 
 class CViEvtCmnTalk
@@ -145,15 +275,28 @@ public:
     virtual ~CViEvtCmnTalk();
 
     // --------------------
+    // ENUMS
+    // --------------------
+
+    enum DialogState
+    {
+        DIALOGSTATE_INACTIVE,
+        DIALOGSTATE_INIT,
+        DIALOGSTATE_REVEALING_TEXT,
+        DIALOGSTATE_SELECTION_ACTIVE,
+        DIALOGSTATE_FINALIZE_ACTIONS,
+        DIALOGSTATE_FINISHED,
+    };
+
+    // --------------------
     // VARIABLES
     // --------------------
 
-    s16 dialogState;
-    u16 ctrlEntry3Value1;
-    u16 ctrlEntry3Value2;
+    u16 dialogState;
+    u16 ctrlAction;
+    u16 ctrlSelection;
     u16 interactionID;
     u16 pageID;
-    s16 field_E;
     void *msgText;
     void *msgCtrlFile;
     ViMessageController msgCtrl;
@@ -164,112 +307,21 @@ public:
     // MEMBER FUNCTIONS
     // --------------------
 
-    // --------------------
-    // STATIC FUNCTIONS
-    // --------------------
+    void Init(void *mpcCtrlFile, u16 interactionID, u16 interactionID2);
+    void Release();
+    u16 SetInteraction();
+    void SetPage(u16 pageID);
+    void ProcessDialog();
+    BOOL IsFinished();
+    s32 GetAction();
+    s32 GetSelection();
+    void SetCallback(FontCallback callback, void *context);
+
+    s32 DialogState_Init();
+    s32 DialogState_ProcessTextReveal();
+    s32 DialogState_ProcessSelections();
+    s32 DialogState_FinalizeActions();
+    s32 DialogState_Finished();
 };
-
-// --------------------
-// FUNCTIONS
-// --------------------
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-// CViEvtCmnMsg
-void ViEvtCmnMsg__Func_216B9D4(void);
-void ViEvtCmnMsg__ReleaseGraphics(CViEvtCmnMsg *work);
-void ViEvtCmnMsg__Func_216BCA8(void);
-void ViEvtCmnMsg__Func_216BCDC(void);
-void ViEvtCmnMsg__Func_216BD70(void);
-void ViEvtCmnMsg__Func_216BD7C(void);
-void ViEvtCmnMsg__Func_216BD98(void);
-void ViEvtCmnMsg__Func_216BDA0(void);
-void ViEvtCmnMsg__Func_216BED8(void);
-void ViEvtCmnMsg__Func_216BF00(void);
-void ViEvtCmnMsg__Func_216BF20(void);
-void ViEvtCmnMsg__Func_216BF2C(void);
-void ViEvtCmnMsg__Func_216BF3C(void);
-void ViEvtCmnMsg__Func_216BF58(void);
-void ViEvtCmnMsg__Func_216BFA0(void);
-void ViEvtCmnMsg__Func_216BFE8(void);
-void ViEvtCmnMsg__Func_216C044(void);
-void ViEvtCmnMsg__Func_216C2C4(void);
-void ViEvtCmnMsg__Func_216C2D4(void);
-void ViEvtCmnMsg__Func_216C31C(void);
-void ViEvtCmnMsg__Func_216C36C(void);
-void ViEvtCmnMsg__Func_216C3B4(void);
-void ViEvtCmnMsg__Func_216C3B8(void);
-void ViEvtCmnMsg__Func_216C3F4(void);
-void ViEvtCmnMsg__Func_216C410(void);
-void ViEvtCmnMsg__Func_216C448(void);
-void ViEvtCmnMsg__Func_216C4D4(void);
-void ViEvtCmnMsg__Func_216C4F4(void);
-void ViEvtCmnMsg__Func_216C510(void);
-
-// CViEvtCmnSelect
-void ViEvtCmnSelect__Func_216C5C0(void);
-void ViEvtCmnSelect__Func_216C70C(CViEvtCmnSelect *work);
-void ViEvtCmnSelect__Func_216C79C(void);
-void ViEvtCmnSelect__Func_216C7B4(void);
-void ViEvtCmnSelect__Func_216C92C(void);
-void ViEvtCmnSelect__Func_216C940(void);
-void ViEvtCmnSelect__Func_216C948(void);
-void ViEvtCmnSelect__Func_216CAA4(void);
-void ViEvtCmnSelect__Func_216CAAC(void);
-void ViEvtCmnSelect__Func_216CAF0(void);
-void ViEvtCmnSelect__Func_216CB28(void);
-void ViEvtCmnSelect__Func_216CB64(void);
-void ViEvtCmnSelect__Func_216CB88(void);
-void ViEvtCmnSelect__Func_216CBA0(void);
-void ViEvtCmnSelect__Func_216CD5C(void);
-void ViEvtCmnSelect__Func_216CD60(void);
-void ViEvtCmnSelect__Func_216CDE8(void);
-void ViEvtCmnSelect__Func_216CE2C(void);
-void ViEvtCmnSelect__Func_216CE64(void);
-void ViEvtCmnSelect__Func_216CE68(void);
-void ViEvtCmnSelect__Func_216CE7C(void);
-void ViEvtCmnSelect__Func_216CE98(void);
-void ViEvtCmnSelect__Func_216CEB4(void);
-void ViEvtCmnSelect__Func_216CF08(void);
-
-// CViEvtCmnAnnounce
-void ViEvtCmnAnnounce__Func_216D088(void);
-void ViEvtCmnAnnounce__Func_216D194(CViEvtCmnAnnounce *work);
-void ViEvtCmnAnnounce__Func_216D1F4(void);
-void ViEvtCmnAnnounce__Func_216D208(void);
-void ViEvtCmnAnnounce__Func_216D2E8(void);
-void ViEvtCmnAnnounce__Func_216D318(void);
-void ViEvtCmnAnnounce__Func_216D38C(void);
-void ViEvtCmnAnnounce__Func_216D3CC(void);
-void ViEvtCmnAnnounce__Func_216D440(void);
-void ViEvtCmnAnnounce__Func_216D4E8(void);
-void ViEvtCmnAnnounce__Func_216D558(void);
-void ViEvtCmnAnnounce__Func_216D598(void);
-void ViEvtCmnAnnounce__Func_216D5DC(void);
-
-// CViEvtCmnTalk
-void ViEvtCmnTalk__Func_216D680(void);
-void ViEvtCmnTalk__Func_216D72C(CViEvtCmnTalk *work);
-void ViEvtCmnTalk__Func_216D778(void);
-void ViEvtCmnTalk__Func_216D7D0(void);
-void ViEvtCmnTalk__Func_216D81C(void);
-void ViEvtCmnTalk__Func_216D888(void);
-void ViEvtCmnTalk__Func_216D89C(void);
-void ViEvtCmnTalk__Func_216D8A4(void);
-void ViEvtCmnTalk__Func_216D8AC(void);
-void ViEvtCmnTalk__Func_216D8BC(void);
-void ViEvtCmnTalk__Func_216D944(void);
-void ViEvtCmnTalk__Func_216DA64(void);
-void ViEvtCmnTalk__Func_216DBC8(void);
-void ViEvtCmnTalk__Func_216DC0C(void);
-void ViEvtCmnTalk__Func_216DC14(void);
-void ViEvtCmnTalk__Func_216DC84(void);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // RUSH_CVIEVTCMN_HPP

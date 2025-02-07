@@ -88,7 +88,7 @@ NpcUnknown__Func_216DDEC: // 0x0216DDEC
 	add r0, r0, #0x400
 	bl ReleaseThreadWorker
 	mov r0, r4
-	bl ViEvtCmnTalk__Func_216D72C
+	bl _ZN13CViEvtCmnTalk7ReleaseEv
 	mov r0, r4
 	bl NpcUnknown__Func_216DE20
 	ldmia sp!, {r4, pc}
@@ -121,10 +121,10 @@ NpcUnknown__Main: // 0x0216DE2C
 	ldrh r2, [r4, #2]
 	mov r0, r5
 	ldr r3, _0216DE8C // =0x0000FFFF
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r0, r5
 	mov r1, #0
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _0216DE90 // =NpcUnknown__Main_216DE94
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
@@ -138,18 +138,18 @@ NpcUnknown__Main_216DE94: // 0x0216DE94
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
-	bl ViEvtCmnTalk__Func_216D81C
+	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D888
+	bl _ZN13CViEvtCmnTalk10IsFinishedEv
 	cmp r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
 	bl DockHelpers__GetOptionsMessageInfo
 	mov r6, r0
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D89C
+	bl _ZN13CViEvtCmnTalk9GetActionEv
 	mov r4, r0
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D8A4
+	bl _ZN13CViEvtCmnTalk12GetSelectionEv
 	cmp r4, #0
 	bne _0216DEE0
 	cmp r0, #0
@@ -175,10 +175,10 @@ _0216DEF8:
 	ldr r3, _0216DFD0 // =0x0000FFFF
 	mov r0, r5
 	mov r2, r4
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r0, r5
 	mov r1, #0
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _0216DFD4 // =NpcUnknown__Main_216DFE0
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
@@ -196,10 +196,10 @@ _0216DF48:
 	ldr r3, _0216DFD0 // =0x0000FFFF
 	mov r0, r5
 	mov r2, r4
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r0, r5
 	mov r1, #0
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _0216DFD8 // =NpcUnknown__Main_216E0B8
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
@@ -211,10 +211,10 @@ _0216DF98:
 	ldrh r2, [r6, #0xc]
 	ldr r3, _0216DFD0 // =0x0000FFFF
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r0, r5
 	mov r1, #0
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _0216DFDC // =NpcUnknown__Main_216E190
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
@@ -231,18 +231,18 @@ NpcUnknown__Main_216DFE0: // 0x0216DFE0
 	mov r7, #0
 	bl GetCurrentTaskWork_
 	mov r5, r0
-	bl ViEvtCmnTalk__Func_216D81C
+	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D888
+	bl _ZN13CViEvtCmnTalk10IsFinishedEv
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	bl DockHelpers__GetOptionsMessageInfo
 	mov r6, r0
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D89C
+	bl _ZN13CViEvtCmnTalk9GetActionEv
 	mov r4, r0
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D8A4
+	bl _ZN13CViEvtCmnTalk12GetSelectionEv
 	cmp r4, #0
 	bne _0216E058
 	cmp r0, #1
@@ -275,10 +275,10 @@ _0216E078:
 	ldrh r2, [r6, #2]
 	ldr r3, _0216E0B0 // =0x0000FFFF
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r0, r5
 	mov r1, #0
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _0216E0B4 // =NpcUnknown__Main_216DE94
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
@@ -293,18 +293,18 @@ NpcUnknown__Main_216E0B8: // 0x0216E0B8
 	mov r7, #0
 	bl GetCurrentTaskWork_
 	mov r5, r0
-	bl ViEvtCmnTalk__Func_216D81C
+	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D888
+	bl _ZN13CViEvtCmnTalk10IsFinishedEv
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	bl DockHelpers__GetOptionsMessageInfo
 	mov r6, r0
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D89C
+	bl _ZN13CViEvtCmnTalk9GetActionEv
 	mov r4, r0
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D8A4
+	bl _ZN13CViEvtCmnTalk12GetSelectionEv
 	cmp r4, #0
 	bne _0216E130
 	cmp r0, #1
@@ -337,10 +337,10 @@ _0216E150:
 	ldrh r2, [r6, #2]
 	ldr r3, _0216E188 // =0x0000FFFF
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r0, r5
 	mov r1, #0
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _0216E18C // =NpcUnknown__Main_216DE94
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
@@ -354,18 +354,18 @@ NpcUnknown__Main_216E190: // 0x0216E190
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
-	bl ViEvtCmnTalk__Func_216D81C
+	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D888
+	bl _ZN13CViEvtCmnTalk10IsFinishedEv
 	cmp r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
 	bl DockHelpers__GetOptionsMessageInfo
 	mov r6, r0
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D89C
+	bl _ZN13CViEvtCmnTalk9GetActionEv
 	mov r4, r0
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D8A4
+	bl _ZN13CViEvtCmnTalk12GetSelectionEv
 	cmp r4, #0
 	cmpeq r0, #1
 	bne _0216E1F0
@@ -383,10 +383,10 @@ _0216E1F0:
 	ldrh r2, [r6, #2]
 	ldr r3, _0216E228 // =0x0000FFFF
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r0, r5
 	mov r1, #0
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _0216E22C // =NpcUnknown__Main_216DE94
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}

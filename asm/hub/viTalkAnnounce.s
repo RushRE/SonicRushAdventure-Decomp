@@ -37,7 +37,7 @@ ViTalkAnnounce__Create: // 0x0216B6C0
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	add r0, r5, #4
-	bl ViEvtCmnAnnounce__Func_216D088
+	bl _ZN17CViEvtCmnAnnounce4InitEPv
 	ldrh r0, [r5, #0]
 	bl ViTalkAnnounce__Func_216B92C
 	cmp r0, #0
@@ -48,14 +48,14 @@ ViTalkAnnounce__Create: // 0x0216B6C0
 	ldrh r1, [r4, #2]
 	add r0, r5, #4
 	mov r2, #9
-	bl ViEvtCmnAnnounce__Func_216D1F4
+	bl _ZN17CViEvtCmnAnnounce11SetSequenceEtt
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 _0216B778:
 	ldrh r1, [r4, #2]
 	add r0, r5, #4
 	mov r2, #4
-	bl ViEvtCmnAnnounce__Func_216D1F4
+	bl _ZN17CViEvtCmnAnnounce11SetSequenceEtt
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
@@ -96,7 +96,7 @@ _0216B7EC:
 ViTalkAnnounce__Func_216B7F8: // 0x0216B7F8
 	stmdb sp!, {r3, lr}
 	add r0, r0, #4
-	bl ViEvtCmnAnnounce__Func_216D194
+	bl _ZN17CViEvtCmnAnnounce7ReleaseEv
 	bl _ZN10HubControl12Func_215A96CEv
 	ldmia sp!, {r3, pc}
 	arm_func_end ViTalkAnnounce__Func_216B7F8
@@ -107,9 +107,9 @@ ViTalkAnnounce__Main: // 0x0216B80C
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	add r0, r4, #4
-	bl ViEvtCmnAnnounce__Func_216D208
+	bl _ZN17CViEvtCmnAnnounce7ProcessEv
 	add r0, r4, #4
-	bl ViEvtCmnAnnounce__Func_216D2E8
+	bl _ZN17CViEvtCmnAnnounce9CheckIdleEv
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	ldrh r0, [r4, #0]

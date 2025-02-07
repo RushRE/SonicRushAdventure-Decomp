@@ -403,7 +403,7 @@ void SetupSoundTestBackgrounds(SoundTest *work)
     Vec2Fx16 posShape1 = { 103, 127 };
     u16 unknown[2]     = { 0x400, 0x000 };
 
-    TouchRect touchRect;
+    TouchRectUnknown touchRect;
 
 #ifndef NON_MATCHING
     // dunno what this is, it's unreferenced and uncompiled but it's the only way I've gotten the static variables to match
@@ -437,12 +437,12 @@ void SetupSoundTestBackgrounds(SoundTest *work)
     {
         if (SoundTest__touchAreaTable[i] == 1)
         {
-            touchRect.id_flags_value = (0x01 | 0x02 | 0x04 | 0x10) << 12; // TODO: document this better
+            *(s32 *)&touchRect.box.left = FLOAT_TO_FX32(23.0); // TODO: document this better
             TouchField__InitAreaShape(&work->touchAreas[i], &posShape2, TouchField__PointInCircle, &touchRect, NULL, NULL);
         }
         else if (SoundTest__touchAreaTable[i] == 2)
         {
-            touchRect.id_flags_value = (0x01 | 0x02 | 0x04 | 0x10) << 12; // TODO: document this better
+            *(s32 *)&touchRect.box.left = FLOAT_TO_FX32(23.0); // TODO: document this better
             TouchField__InitAreaShape(&work->touchAreas[i], &posShape1, TouchField__PointInCircle, &touchRect, NULL, NULL);
         }
         else

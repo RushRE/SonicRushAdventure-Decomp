@@ -105,10 +105,10 @@ NONMATCH_FUNC void CreateSpriteButton(SpriteButtonConfig *config)
             button->animator.pos.x = buttonConfig->pos.x;
             button->animator.pos.y = buttonConfig->pos.y;
 
-            HitboxRect hitbox;
-            AnimatorSprite__GetBlockData(&button->animator, 0, &hitbox);
+            TouchRectUnknown rect;
+            AnimatorSprite__GetBlockData(&button->animator, 0, &rect.box);
 
-            TouchField__InitAreaShape(&button->touchArea, &button->animator.pos, TouchField__PointInRect, &hitbox, buttonConfig->callback, work);
+            TouchField__InitAreaShape(&button->touchArea, &button->animator.pos, TouchField__PointInRect, &rect, buttonConfig->callback, work);
             TouchField__AddArea(work->touchFieldPtr, &button->touchArea, 0);
             SetSpriteButtonState(button, SPRITE_BUTTON_STATE_IDLE);
         }

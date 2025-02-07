@@ -293,7 +293,7 @@ void *HubControl::GetFileFrom_ViMsgCtrl()
     return work->viMsgCtrlArchive;
 }
 
-void *HubControl::GetField54()
+FontWindow *HubControl::GetField54()
 {
     HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
 

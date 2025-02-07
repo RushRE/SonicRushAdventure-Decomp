@@ -553,10 +553,10 @@ ViTalkMissionList__Main: // 0x0216A93C
 	ldr r3, _0216A994 // =0x0000FFFF
 	mov r0, r4
 	mov r2, #0
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r0, r4
 	mov r1, #0
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _0216A998 // =ViTalkMissionList__Main_216A99C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
@@ -570,13 +570,13 @@ ViTalkMissionList__Main_216A99C: // 0x0216A99C
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl ViEvtCmnTalk__Func_216D81C
+	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	mov r0, r4
-	bl ViEvtCmnTalk__Func_216D888
+	bl _ZN13CViEvtCmnTalk10IsFinishedEv
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ViEvtCmnTalk__Func_216D72C
+	bl _ZN13CViEvtCmnTalk7ReleaseEv
 	mov r0, #0
 	bl ViTalkMissionList__Func_216B4C4
 	mov r0, #0
@@ -711,7 +711,7 @@ ViTalkMissionList__Main_216AB10: // 0x0216AB10
 	ldr r3, _0216AC68 // =0x0000FFFF
 	mov r0, r4
 	mov r2, #0x19
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	b _0216ABD0
 _0216ABB0:
 	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
@@ -721,11 +721,11 @@ _0216ABB0:
 	ldr r3, _0216AC68 // =0x0000FFFF
 	mov r0, r4
 	mov r2, #0x18
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 _0216ABD0:
 	mov r0, r4
 	mov r1, #0
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _0216AC6C // =ViTalkMissionList__Main_216AD1C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
@@ -737,10 +737,10 @@ _0216ABE8:
 	mov r1, r0
 	mov r0, r4
 	rsb r3, r2, #0x10000
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r0, r4
 	mov r1, #0
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _0216AC70 // =ViTalkMissionList__Main_216AC78
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
@@ -756,10 +756,10 @@ _0216AC20:
 	ldr r3, _0216AC68 // =0x0000FFFF
 	mov r0, r4
 	mov r2, #2
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r0, r4
 	mov r1, #0
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _0216AC74 // =ViTalkMissionList__Main_216AD94
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
@@ -777,16 +777,16 @@ ViTalkMissionList__Main_216AC78: // 0x0216AC78
 	mov r5, r0
 	bl ViTalkMissionList__Func_216B094
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D81C
+	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D888
+	bl _ZN13CViEvtCmnTalk10IsFinishedEv
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D8A4
+	bl _ZN13CViEvtCmnTalk12GetSelectionEv
 	mov r4, r0
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D72C
+	bl _ZN13CViEvtCmnTalk7ReleaseEv
 	cmp r4, #0
 	beq _0216ACD0
 	cmp r4, #1
@@ -823,13 +823,13 @@ ViTalkMissionList__Main_216AD1C: // 0x0216AD1C
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl ViEvtCmnTalk__Func_216D81C
+	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	mov r0, r4
-	bl ViEvtCmnTalk__Func_216D888
+	bl _ZN13CViEvtCmnTalk10IsFinishedEv
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ViEvtCmnTalk__Func_216D89C
+	bl _ZN13CViEvtCmnTalk9GetActionEv
 	cmp r0, #0x10
 	bne _0216AD5C
 	mov r0, #1
@@ -859,16 +859,16 @@ ViTalkMissionList__Main_216AD94: // 0x0216AD94
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
-	bl ViEvtCmnTalk__Func_216D81C
+	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D888
+	bl _ZN13CViEvtCmnTalk10IsFinishedEv
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D8A4
+	bl _ZN13CViEvtCmnTalk12GetSelectionEv
 	mov r4, r0
 	mov r0, r5
-	bl ViEvtCmnTalk__Func_216D72C
+	bl _ZN13CViEvtCmnTalk7ReleaseEv
 	cmp r4, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	cmp r4, #1

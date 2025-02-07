@@ -170,7 +170,7 @@ public:
     static void *GetFileFrom_ViBG(u16 id);
     static void *GetFileFrom_ViMsg();
     static void *GetFileFrom_ViMsgCtrl();
-    static void *GetField54();
+    static FontWindow *GetField54();
     static void *GetTKDMNameSprite();
     static void Func_2157288();
     static void Func_21572B8();

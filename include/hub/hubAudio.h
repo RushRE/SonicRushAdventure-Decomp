@@ -20,6 +20,7 @@ enum HubSfxIDs_
     HUB_SFX_WAVE,
 
     HUB_SFX_COUNT,
+    HUB_SFX_INVALID,
 };
 typedef u32 HubSfxIDs;
 

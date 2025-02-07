@@ -23,21 +23,21 @@ typedef struct ViMessageController_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void viMessageController__SetCtrlFile(void);
-NOT_DECOMPILED void viMessageController__GetMPCFile(void);
-NOT_DECOMPILED void viMessageController__SetInteractionID(void);
-NOT_DECOMPILED void viMessageController__GetPageCount(void);
-NOT_DECOMPILED void viMessageController__SetPageID(void);
-NOT_DECOMPILED void viMessageController__HasName(void);
-NOT_DECOMPILED void viMessageController__GetNameAnim(void);
-NOT_DECOMPILED void viMessageController__GetPageSequence(void);
-NOT_DECOMPILED void viMessageController__IsDialogIDValid(void);
-NOT_DECOMPILED void viMessageController__GetDialogID(void);
-NOT_DECOMPILED void viMessageController__IsDialogIDValid_2(void);
-NOT_DECOMPILED void viMessageController__Entry3Enabled2(void);
-NOT_DECOMPILED void viMessageController__GetEntry3ValueFromID(void);
-NOT_DECOMPILED void viMessageController__GetEntry3Value2(void);
-NOT_DECOMPILED void viMessageController__Entry3Enabled(void);
+NOT_DECOMPILED void viMessageController__SetCtrlFile(ViMessageController *work, void *ctrlFile);
+NOT_DECOMPILED u16 viMessageController__GetMPCFile(ViMessageController *work);
+NOT_DECOMPILED void viMessageController__SetInteractionID(ViMessageController *work, u16 id);
+NOT_DECOMPILED u16 viMessageController__GetPageCount(ViMessageController *work);
+NOT_DECOMPILED void viMessageController__SetPageID(ViMessageController *work, u16 pageID);
+NOT_DECOMPILED BOOL viMessageController__HasName(ViMessageController *work);
+NOT_DECOMPILED u16 viMessageController__GetNameAnim(ViMessageController *work);
+NOT_DECOMPILED u16 viMessageController__GetPageSequence(ViMessageController *work);
+NOT_DECOMPILED s32 viMessageController__IsDialogIDValid(ViMessageController *work);
+NOT_DECOMPILED u16 viMessageController__GetDialogID(ViMessageController *work);
+NOT_DECOMPILED BOOL viMessageController__IsDialogIDValid_2(ViMessageController *work, s32 a2);
+NOT_DECOMPILED BOOL viMessageController__Entry3Enabled2(ViMessageController *work);
+NOT_DECOMPILED s32 viMessageController__GetEntry3ValueFromID(ViMessageController *work);
+NOT_DECOMPILED s32 viMessageController__GetEntry3Value2(ViMessageController *work);
+NOT_DECOMPILED BOOL viMessageController__Entry3Enabled(ViMessageController *work);
 
 #ifdef __cplusplus
 }

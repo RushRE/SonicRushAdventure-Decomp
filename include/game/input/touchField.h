@@ -111,6 +111,13 @@ typedef struct TouchRect_
     s32 unknown;
 } TouchRect;
 
+typedef struct TouchRectUnknown_
+{
+    HitboxRect box;
+    s32 unknown1;
+    s32 unknown2;
+} TouchRectUnknown;
+
 struct TouchAreaResponse_
 {
     TouchAreaResponseFlags flags;
@@ -174,9 +181,9 @@ typedef struct TouchField_
 
 void TouchField__Init(TouchField *field);
 void TouchField__Process(TouchField *field);
-void TouchField__InitAreaShape(TouchArea *area, Vec2Fx16 *pos, TouchAreaBoundsCheckFunc boundsCheckFunc, TouchRect *rect, TouchAreaCallback callback, void *context);
+void TouchField__InitAreaShape(TouchArea *area, Vec2Fx16 *pos, TouchAreaBoundsCheckFunc boundsCheckFunc, TouchRectUnknown *rect, TouchAreaCallback callback, void *context);
 void TouchField__ResetArea(TouchArea *area);
-void TouchField__SetHitbox(TouchArea *area, TouchRect *rect);
+void TouchField__SetHitbox(TouchArea *area, TouchRectUnknown *rect);
 void TouchField__InitAreaSprite(TouchArea *area, void *animator, s32 id, s16 flags, TouchAreaCallback callback, void *context);
 void TouchField__SetAreaHitbox(TouchArea *area, HitboxRect *hitbox);
 void TouchField__AddArea(TouchField *manager, TouchArea *area, u32 priority);

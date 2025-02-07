@@ -72,7 +72,7 @@ _02168858:
 	ldr r3, _02168978 // =0x0000FFFF
 	mov r2, r8
 	add r0, r4, #4
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r6, #0
 	mov r1, #1
 _021688A8:
@@ -99,7 +99,7 @@ _021688DC:
 	ldrh r2, [sp, #0xe]
 	ldrh r3, [sp, #0xc]
 	add r0, r4, #4
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r6, #0
 	bl ViDock__Func_215E098
 	b _02168948
@@ -111,9 +111,9 @@ _02168910:
 	ldrh r2, [sp, #0xa]
 	ldrh r3, [sp, #0xc]
 	add r0, r4, #4
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	add r0, r4, #4
-	bl ViEvtCmnTalk__Func_216D778
+	bl _ZN13CViEvtCmnTalk14SetInteractionEv
 	mov r1, r0
 	mov r0, r7
 	bl FX_ModS32
@@ -122,7 +122,7 @@ _02168948:
 	mov r1, r6, lsl #0x10
 	add r0, r4, #4
 	mov r1, r1, lsr #0x10
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	mov r0, #1
 	mov r1, r0
 	bl ViDock__Func_215E340
@@ -166,7 +166,7 @@ _021689CC: .word 0x000004BC
 ViDockNpcTalk__Func_21689D0: // 0x021689D0
 	stmdb sp!, {r3, lr}
 	add r0, r0, #4
-	bl ViEvtCmnTalk__Func_216D72C
+	bl _ZN13CViEvtCmnTalk7ReleaseEv
 	bl _ZN10HubControl12Func_215A96CEv
 	ldmia sp!, {r3, pc}
 	arm_func_end ViDockNpcTalk__Func_21689D0
@@ -177,16 +177,16 @@ ViDockNpcTalk__Main: // 0x021689E4
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	add r0, r4, #4
-	bl ViEvtCmnTalk__Func_216D81C
+	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	add r0, r4, #4
-	bl ViEvtCmnTalk__Func_216D888
+	bl _ZN13CViEvtCmnTalk10IsFinishedEv
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	add r0, r4, #4
-	bl ViEvtCmnTalk__Func_216D8A4
+	bl _ZN13CViEvtCmnTalk12GetSelectionEv
 	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	add r0, r4, #4
-	bl ViEvtCmnTalk__Func_216D89C
+	bl _ZN13CViEvtCmnTalk9GetActionEv
 	cmp r0, #0x16
 	addls pc, pc, r0, lsl #2
 	b _02168BE0
@@ -274,7 +274,7 @@ _02168B30:
 	mov r0, #7
 	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	add r0, r4, #4
-	bl ViEvtCmnTalk__Func_216D8A4
+	bl _ZN13CViEvtCmnTalk12GetSelectionEv
 	add r0, r0, #5
 	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _02168BE8
@@ -306,13 +306,13 @@ _02168B98:
 	mov r0, #7
 	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	add r0, r4, #4
-	bl ViEvtCmnTalk__Func_216D8A4
+	bl _ZN13CViEvtCmnTalk12GetSelectionEv
 	add r0, r0, #0x1d
 	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _02168BE8
 _02168BB4:
 	add r0, r4, #4
-	bl ViEvtCmnTalk__Func_216D8A4
+	bl _ZN13CViEvtCmnTalk12GetSelectionEv
 	mov r4, r0
 	bl SaveGame__GetProgressFlags_0x100000
 	cmp r0, #0

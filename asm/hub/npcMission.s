@@ -97,7 +97,7 @@ NpcMission__Func_21716B8: // 0x021716B8
 	add r0, r0, #0x400
 	bl ReleaseThreadWorker
 	mov r0, r4
-	bl ViEvtCmnTalk__Func_216D72C
+	bl _ZN13CViEvtCmnTalk7ReleaseEv
 	mov r0, r4
 	bl NpcMission__Func_21716EC
 	ldmia sp!, {r4, pc}
@@ -132,10 +132,10 @@ NpcMission__Main: // 0x021716F8
 	ldr r3, _02171760 // =0x0000FFFF
 	mov r0, r4
 	mov r2, r5
-	bl ViEvtCmnTalk__Func_216D680
+	bl _ZN13CViEvtCmnTalk4InitEPvtt
 	mov r0, r4
 	mov r1, #0
-	bl ViEvtCmnTalk__Func_216D7D0
+	bl _ZN13CViEvtCmnTalk7SetPageEt
 	ldr r0, _02171764 // =NpcMission__Main_2171768
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
@@ -149,17 +149,17 @@ NpcMission__Main_2171768: // 0x02171768
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl ViEvtCmnTalk__Func_216D81C
+	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	mov r0, r4
-	bl ViEvtCmnTalk__Func_216D888
+	bl _ZN13CViEvtCmnTalk10IsFinishedEv
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ViEvtCmnTalk__Func_216D89C
+	bl _ZN13CViEvtCmnTalk9GetActionEv
 	cmp r0, #0x12
 	bne _021717C8
 	mov r0, r4
-	bl ViEvtCmnTalk__Func_216D8A4
+	bl _ZN13CViEvtCmnTalk12GetSelectionEv
 	cmp r0, #0
 	bne _021717B4
 	mov r0, #0x1b
