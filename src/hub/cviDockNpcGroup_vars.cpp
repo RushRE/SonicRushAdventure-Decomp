@@ -5,7 +5,7 @@
 #include <hub/cviTalkMissionList.hpp>
 #include <hub/npcUnknown.hpp>
 #include <hub/npcCutsceneViewer.hpp>
-#include <hub/npcMission.hpp>
+#include <hub/npcRetry.hpp>
 
 // --------------------
 // VARIABLES
@@ -16,5 +16,5 @@ CViDockNpcGroupTalk ViDockNpcGroup__talkAction = { 32 };
 
 DockNpcGroupFunc ViDockNpcGroup__talkActionTable[11] = {
     CreateViDockNpcTalk,           ViSailPrompt__Create, ViTalkPurchase__Create,    ViTalkMissionList__Create, CViDockNpcGroup::Func_2168764, ViTalkMissionList__Func_216B6B4,
-    CViDockNpcGroup::Func_2168798, NpcUnknown__Create,   NpcCutsceneViewer__Create, NpcMission__Create,        CViDockNpcGroup::Func_216879C,
+    CViDockNpcGroup::Func_2168798, NpcUnknown__Create,   NpcCutsceneViewer__Create, NpcRetry::Create,          CViDockNpcGroup::Func_216879C,
 };

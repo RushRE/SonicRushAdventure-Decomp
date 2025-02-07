@@ -685,7 +685,7 @@ Overlay Hub
     Object src/hub/cviEvtCmn.o
     Object asm/hub/npcUnknown.o
     Object asm/hub/npcCutsceneViewer.o
-    Object asm/hub/npcMission.o
+    Object src/hub/npcRetry.o
 }
 
 # Overlay06/Sail => Sailing
