@@ -11,8 +11,8 @@ class CViDockNpc : public CVi3dObject
 {
 
 public:
-    CViDockNpc();
-    virtual ~CViDockNpc();
+    // CViDockNpc();
+    // virtual ~CViDockNpc();
 
     // --------------------
     // VARIABLES
@@ -53,6 +53,10 @@ public:
 extern "C"
 {
 #endif
+
+NOT_DECOMPILED void _ZN10CViDockNpcC1Ev();
+NOT_DECOMPILED void _ZN10CViDockNpcD0Ev();
+NOT_DECOMPILED void _ZN10CViDockNpcD1Ev();
 
 void ViDockNpc__LoadAssets(CViDockNpc *work);
 void ViDockNpc__Func_2166F10(CViDockNpc *work);

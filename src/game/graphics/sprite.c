@@ -3074,7 +3074,7 @@ void AnimatorSprite3D__Init(AnimatorSprite3D *animator, u32 flags3D, void *fileD
                          SPRITE_ORDER_0);
 
     // set alpha to 0x1F (opaque), set polygon mode (PM) to "MODULATE", set front (FR) & back (BK) faces to not be culled
-    animator->polygonAttr = (animator->polygonAttr & ~REG_G3_POLYGON_ATTR_PM_MASK | ((1 << REG_G3_POLYGON_ATTR_BK_SHIFT) | (1 << REG_G3_POLYGON_ATTR_FR_SHIFT)))
+    animator->polygonAttr = (animator->polygonAttr & ~REG_G3_POLYGON_ATTR_PM_MASK | (GX_CULL_NONE << REG_G3_POLYGON_ATTR_BK_SHIFT))
                                 & ~(0x1F << REG_G3_POLYGON_ATTR_ALPHA_SHIFT)
                             | (GX_COLOR_FROM_888(0xFF) << REG_G3_POLYGON_ATTR_ALPHA_SHIFT);
 

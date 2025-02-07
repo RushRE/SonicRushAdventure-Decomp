@@ -18,6 +18,10 @@ NOT_DECOMPILED void _ZN11CVi3dObject16ProcessAnimationEv(void);
 NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167900Etiiii(void);
 NOT_DECOMPILED void _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t(void);
 NOT_DECOMPILED void _ZN11CVi3dObject12Func_21677C4Ev(void);
+
+NOT_DECOMPILED void _ZdlPv(void);
+
+NOT_DECOMPILED void *_ZTV13CViDockPlayer;
 }
 
 // --------------------
@@ -28,9 +32,10 @@ NOT_DECOMPILED void _ZN11CVi3dObject12Func_21677C4Ev(void);
 // FUNCTIONS
 // --------------------
 
-CViDockPlayer::CViDockPlayer()
+// NONMATCH_FUNC CViDockPlayer::CViDockPlayer()
+NONMATCH_FUNC void _ZN13CViDockPlayerC1Ev()
 {
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
     this->resModel  = NULL;
     this->resAnims  = NULL;
     this->field_310 = 0;
@@ -39,7 +44,7 @@ CViDockPlayer::CViDockPlayer()
     // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl _ZN11CVi3dObjectC2Ev
+	bl _ZN11CVi3dObjectC1Ev
 	ldr r0, =_ZTV13CViDockPlayer+0x08
 	mov r1, #0
 	str r0, [r4]
@@ -55,9 +60,10 @@ CViDockPlayer::CViDockPlayer()
 #endif
 }
 
-CViDockPlayer::~CViDockPlayer()
+// NONMATCH_FUNC CViDockPlayer::~CViDockPlayer()
+NONMATCH_FUNC void _ZN13CViDockPlayerD0Ev()
 {
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
     ViDockPlayer__Func_2166748(this);
 #else
     // clang-format off
@@ -68,6 +74,29 @@ CViDockPlayer::~CViDockPlayer()
 	bl ViDockPlayer__Func_2166748
 	mov r0, r4
 	bl _ZN11CVi3dObjectD2Ev
+	mov r0, r4
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+// NONMATCH_FUNC CViDockPlayer::~CViDockPlayer()
+NONMATCH_FUNC void _ZN13CViDockPlayerD1Ev()
+{
+#ifdef NON_MATCHING
+    ViDockPlayer__Func_2166748(this);
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	ldr r1, =_ZTV13CViDockPlayer+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl ViDockPlayer__Func_2166748
+	mov r0, r4
+	bl _ZN11CVi3dObjectD2Ev
+	mov r0, r4
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 

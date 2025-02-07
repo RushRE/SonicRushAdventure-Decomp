@@ -10,8 +10,8 @@
 class CViDockPlayer : public CVi3dObject
 {
 public:
-    CViDockPlayer();
-    virtual ~CViDockPlayer();
+    // CViDockPlayer();
+    // virtual ~CViDockPlayer();
 
     // --------------------
     // VARIABLES
@@ -47,6 +47,10 @@ public:
 extern "C"
 {
 #endif
+
+void _ZN13CViDockPlayerC1Ev();
+void _ZN13CViDockPlayerD0Ev();
+void _ZN13CViDockPlayerD1Ev();
 
 void ViDockPlayer__LoadAssets(CViDockPlayer *work);
 void ViDockPlayer__Func_2166748(CViDockPlayer *work);

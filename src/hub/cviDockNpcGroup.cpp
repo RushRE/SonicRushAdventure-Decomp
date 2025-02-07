@@ -18,10 +18,11 @@ extern DockNpcGroupFunc ViDockNpcGroup__talkActionTable[];
 
 extern "C"
 {
-    NOT_DECOMPILED void _Znwm(void);
-    NOT_DECOMPILED void _ZdlPv(void);
-    NOT_DECOMPILED void _ZN10CViDockNpcC1Ev(void);
-    NOT_DECOMPILED void _ZN10CViDockNpcD1Ev(void);
+NOT_DECOMPILED void _Znwm(void);
+NOT_DECOMPILED void _ZdlPv(void);
+
+NOT_DECOMPILED void _ZN10CViDockNpcC1Ev(void);
+NOT_DECOMPILED void _ZN10CViDockNpcD1Ev(void);
 }
 
 // --------------------
@@ -30,6 +31,9 @@ extern "C"
 
 CViDockNpcGroup::CViDockNpcGroup()
 {
+    // TODO: remove this, it will be called implicitly by the compiler when CVi3dArrow::CVi3dArrow is decompiled
+    _ZN10CVi3dArrowC1Ev(&this->viArrow);
+
     this->npcListSize  = 0;
     this->npcListStart = NULL;
     this->npcListEnd   = NULL;
@@ -38,6 +42,9 @@ CViDockNpcGroup::CViDockNpcGroup()
 CViDockNpcGroup::~CViDockNpcGroup()
 {
     ClearNpcList();
+
+    // TODO: remove this, it will be called implicitly by the compiler when CVi3dArrow::~CVi3dArrow is decompiled
+    _ZN10CVi3dArrowD0Ev(&this->viArrow);
 }
 
 void CViDockNpcGroup::ClearNpcList()
@@ -60,6 +67,8 @@ void CViDockNpcGroup::ClearNpcList()
 
 NONMATCH_FUNC CViDockNpc *CViDockNpcGroup::AddNpc()
 {
+    // https://decomp.me/scratch/CXvwX -> 81.40%
+    // issues with 'new CViDockNpc'
 #ifdef NON_MATCHING
     CViDockNpc *newNpc = new CViDockNpc;
 
@@ -118,6 +127,8 @@ _021684B8:
 
 NONMATCH_FUNC void CViDockNpcGroup::RemoveNpc(CViDockNpc *npc)
 {
+    // https://decomp.me/scratch/2i48y -> 64.13%
+    // issues with 'delete npc'
 #ifdef NON_MATCHING
     if (npc->prev != NULL)
         npc->prev->next = npc->next;
@@ -153,7 +164,7 @@ NONMATCH_FUNC void CViDockNpcGroup::RemoveNpc(CViDockNpc *npc)
 	cmp r4, #0
 	beq _0216851C
 	mov r0, r4
-	bl _ZN10CViDockNpcD1Ev
+	bl _ZN10CViDockNpcD0Ev
 	mov r0, r4
 	bl _ZdlPv
 _0216851C:

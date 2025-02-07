@@ -668,10 +668,13 @@ Overlay Hub
     Object asm/hub/viMapIcon.o
     Object asm/hub/viDockBack_vars.o
     Object src/hub/cviDockBack.o
+    Object asm/hub/cviDockPlayer_rtti.o
     Object src/hub/cviDockPlayer.o
     Object asm/hub/viDockPlayer_vars2.o
+    Object asm/hub/cviDockNpc_rtti.o
     Object src/hub/cviDockNpc.o
     Object asm/hub/viDockNpc_vars2.o
+    Object asm/hub/cvi3dObject_rtti.o
     Object src/hub/cvi3dObject.o
     Object src/hub/cviDockNpcGroup.o
     Object src/hub/cviDockNpcGroup_vars.o #TODO: figure if these can be merged into the above file

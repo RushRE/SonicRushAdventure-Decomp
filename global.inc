@@ -14239,7 +14239,7 @@
 .public _ZN11CVi3dObject12Func_2167958Etiiii
 .public _ZN11CVi3dObject12Func_21679B0Etiiii
 .public _ZN11CVi3dObject12Func_2167A0CEtiiii
-.public _ZN11CVi3dObject12Func_2167A80Ev
+.public _ZN11CVi3dObject12Func_2167A80Etiiii
 .public _ZN11CVi3dObject16ProcessAnimationEv
 .public _ZN11CVi3dObject4DrawEv
 .public _ZN9CViShadowC1Ev
@@ -14248,7 +14248,7 @@
 .public _ZN9CViShadow10LoadAssetsEv
 .public _ZN9CViShadow12Func_2167E9CEv
 .public _ZN9CViShadow12Func_2167F00Ev
-.public _ZN9CViShadow12Func_21680B8Ev
+.public _ZN11CVi3dObject12Func_21680B8EP12AnimatorMDL_lPvtiiiS2_
 .public _ZN10CVi3dArrowC1Ev
 .public _ZN10CVi3dArrowD0Ev
 .public _ZN10CVi3dArrowD1Ev

@@ -2744,13 +2744,13 @@ ViDock__Func_215FF6C: // 0x0215FF6C
 	beq _0215FFB4
 	add r0, r4, #0x48
 	add r0, r0, #0x1400
-	bl _ZN9CViShadowD1Ev
+	bl _ZN9CViShadowD0Ev
 	add r0, r4, #0x130
 	add r0, r0, #0x1000
 	bl _ZN15CViDockNpcGroupD1Ev
 	add r0, r4, #0x1f8
 	add r0, r0, #0xc00
-	bl _ZN13CViDockPlayerD1Ev
+	bl _ZN13CViDockPlayerD0Ev
 	add r0, r4, #0xf8
 	bl ViDockBack__VTableFunc_21644C0
 	mov r0, r4

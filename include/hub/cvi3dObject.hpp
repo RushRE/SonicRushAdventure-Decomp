@@ -11,9 +11,11 @@
 
 class CVi3dObject
 {
+    void *vTable; // TODO: remove this when constructor/destructors are decompiled properly
 public:
-    CVi3dObject();
-    virtual ~CVi3dObject();
+    // TODO: uncomment these when they are properly decompiled
+    // CVi3dObject();
+    // virtual ~CVi3dObject();
 
     // --------------------
     // VARIABLES
@@ -41,7 +43,7 @@ public:
     u16 id2;
     u16 animID2;
     u32 field_2DC;
-    void *resources[6];
+    void *resources[B3D_RESOURCE_MAX];
     BOOL setJoint;
     BOOL setMaterial;
 
@@ -53,24 +55,27 @@ public:
                       void *resAnimVisibility, u16 id2);
     void Func_2167704(CVi3dObject *other, u16 id1, BOOL setJoint, BOOL setMaterial, u16 id2);
     void Func_21677C4();
-    void Func_2167900(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL a6);
-    void Func_2167958(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL a6);
-    void Func_21679B0(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL a6);
-    void Func_2167A0C(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL a6);
-    void Func_2167A80();
+    void Func_2167900(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
+    void Func_2167958(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
+    void Func_21679B0(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
+    void Func_2167A0C(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
+    void Func_2167A80(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
     void ProcessAnimation();
     void Draw();
 
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
+    
+    static void Func_21680B8(AnimatorMDL *animator, s32 resourceType, void *resource, u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, void *texResource);
 };
 
 class CVi3dArrow : public CVi3dObject
 {
 public:
-    CVi3dArrow();
-    virtual ~CVi3dArrow();
+    // TODO: uncomment these when they are properly decompiled
+    // CVi3dArrow();
+    // virtual ~CVi3dArrow();
 
     // --------------------
     // VARIABLES
@@ -85,17 +90,15 @@ public:
 
     void LoadAssets();
     void Func_2168358();
-
-    // --------------------
-    // STATIC FUNCTIONS
-    // --------------------
 };
 
 class CViShadow
 {
+    void *vTable; // TODO: remove this when constructor/destructors are decompiled properly
 public:
-    CViShadow();
-    virtual ~CViShadow();
+    // TODO: uncomment these when they are properly decompiled
+    // CViShadow();
+    // virtual ~CViShadow();
 
     // --------------------
     // VARIABLES
@@ -114,12 +117,26 @@ public:
     void LoadAssets();
     void Func_2167E9C();
 
-    void Func_2167F00();
-    void Func_21680B8();
-
-    // --------------------
-    // STATIC FUNCTIONS
-    // --------------------
+    void Func_2167F00(VecFx32 *position);
 };
+
+extern "C"
+{
+
+NOT_DECOMPILED void _ZN11CVi3dObjectC1Ev(CVi3dObject *work);
+NOT_DECOMPILED void _ZN11CVi3dObjectC2Ev(CVi3dObject *work);
+NOT_DECOMPILED void _ZN11CVi3dObjectD0Ev(CVi3dObject *work);
+NOT_DECOMPILED void _ZN11CVi3dObjectD1Ev(CVi3dObject *work);
+NOT_DECOMPILED void _ZN11CVi3dObjectD2Ev(CVi3dObject *work);
+
+NOT_DECOMPILED void _ZN9CViShadowC1Ev(CViShadow *work);
+NOT_DECOMPILED void _ZN9CViShadowD0Ev(CViShadow *work);
+NOT_DECOMPILED void _ZN9CViShadowD1Ev(CViShadow *work);
+
+NOT_DECOMPILED void _ZN10CVi3dArrowC1Ev(CVi3dArrow *work);
+NOT_DECOMPILED void _ZN10CVi3dArrowD0Ev(CVi3dArrow *work);
+NOT_DECOMPILED void _ZN10CVi3dArrowD1Ev(CVi3dArrow *work);
+
+}
 
 #endif // RUSH_CVI3DOBJECT_HPP

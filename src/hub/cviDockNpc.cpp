@@ -10,7 +10,7 @@
 extern "C"
 {
 
-NOT_DECOMPILED void *_N_ZTV10CViDockNpc;
+NOT_DECOMPILED void *_ZTV10CViDockNpc;
 NOT_DECOMPILED void *ovl05_0217305C;
 NOT_DECOMPILED void *aBbViNpcBb_ovl05;
 NOT_DECOMPILED void *ViDockNpc__MaterialAnimlList;
@@ -18,13 +18,17 @@ NOT_DECOMPILED void *ViDockNpc__JointAnimList;
 NOT_DECOMPILED void *ViDockNpc__ModelList;
 NOT_DECOMPILED void *ViDockNpc__AssetInfoList;
 
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A80Ev(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A80Etiiii(void);
 NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A0CEtiiii(void);
 NOT_DECOMPILED void _ZN11CVi3dObject12Func_21679B0Etiiii(void);
 NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167958Etiiii(void);
 NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167900Etiiii(void);
 NOT_DECOMPILED void _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t(void);
 NOT_DECOMPILED void _ZN11CVi3dObject12Func_21677C4Ev(void);
+
+NOT_DECOMPILED void _ZdlPv(void);
+
+NOT_DECOMPILED void *_ZTV10CViDockNpc;
 }
 
 // --------------------
@@ -39,9 +43,10 @@ NOT_DECOMPILED void _ZN11CVi3dObject12Func_21677C4Ev(void);
 // FUNCTIONS
 // --------------------
 
-CViDockNpc::CViDockNpc()
+// NONMATCH_FUNC CViDockNpc::CViDockNpc()
+NONMATCH_FUNC void _ZN10CViDockNpcC1Ev()
 {
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
     this->model         = NULL;
     this->aniJoints     = NULL;
     this->aniMaterial   = NULL;
@@ -52,8 +57,8 @@ CViDockNpc::CViDockNpc()
     // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl _ZN11CVi3dObjectC2Ev
-	ldr r0, =_N_ZTV10CViDockNpc+0x08
+	bl _ZN11CVi3dObjectC1Ev
+	ldr r0, =_ZTV10CViDockNpc+0x08
 	mov r1, #0
 	str r0, [r4]
 	str r1, [r4, #0x314]
@@ -70,19 +75,43 @@ CViDockNpc::CViDockNpc()
 #endif
 }
 
-CViDockNpc::~CViDockNpc()
+// NONMATCH_FUNC CViDockNpc::~CViDockNpc()
+NONMATCH_FUNC void _ZN10CViDockNpcD0Ev()
 {
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
     ViDockNpc__Func_2166F10(this);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, =_N_ZTV10CViDockNpc+0x08
+	ldr r1, =_ZTV10CViDockNpc+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViDockNpc__Func_2166F10
 	mov r0, r4
 	bl _ZN11CVi3dObjectD2Ev
+	mov r0, r4
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+// NONMATCH_FUNC CViDockNpc::~CViDockNpc()
+NONMATCH_FUNC void _ZN10CViDockNpcD1Ev()
+{
+#ifdef NON_MATCHING
+    ViDockNpc__Func_2166F10(this);
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	ldr r1, =_ZTV10CViDockNpc+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl ViDockNpc__Func_2166F10
+	mov r0, r4
+	bl _ZN11CVi3dObjectD2Ev
+	mov r0, r4
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 
@@ -251,7 +280,7 @@ _02166E60:
 	mov r3, r1
 	mov r2, #1
 	str r1, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167A80Ev
+	bl _ZN11CVi3dObject12Func_2167A80Etiiii
 _02166E88:
 	ldr r0, [r7, #0x324]
 	cmp r0, #0

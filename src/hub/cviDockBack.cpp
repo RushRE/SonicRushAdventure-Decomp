@@ -24,18 +24,16 @@ extern "C"
 
     NOT_DECOMPILED void _ZdlPv(void);
 
-    NOT_DECOMPILED void _ZN11CVi3dObjectC1Ev(void);
-    NOT_DECOMPILED void _ZN11CVi3dObjectD1Ev(void);
     NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167704EPS_tiit(void);
     NOT_DECOMPILED void _ZN11CVi3dObject12Func_21677C4Ev(void);
     NOT_DECOMPILED void _ZN11CVi3dObject16ProcessAnimationEv(void);
     NOT_DECOMPILED void _ZN11CVi3dObject4DrawEv(void);
     NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A0CEtiiii(void);
-    NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A80Ev(void);
+    NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A80Etiiii(void);
     NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167900Etiiii(void);
     NOT_DECOMPILED void _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t(void);
 
-    NOT_DECOMPILED void _ZN9CViShadow12Func_2167F00Ev(void);
+    NOT_DECOMPILED void _ZN9CViShadow12Func_2167F00EP7VecFx32(VecFx32 *position);
 
     NOT_DECOMPILED void Unknown2051334__Func_2051450(void);
     NOT_DECOMPILED void Unknown2051334__Func_2051334(void);
@@ -60,14 +58,14 @@ NONMATCH_FUNC void ViDockBack__Constructor(void)
 	ldr r1, =_ZTV11CViDockBack+0x08
 	add r0, r4, #8
 	str r1, [r4]
-	bl _ZN11CVi3dObjectC1Ev
+	bl _ZN11CVi3dObjectC2Ev
 	add r0, r4, #0x308
-	bl _ZN11CVi3dObjectC1Ev
+	bl _ZN11CVi3dObjectC2Ev
 	add r0, r4, #0x208
 	add r0, r0, #0x400
-	bl _ZN11CVi3dObjectC1Ev
+	bl _ZN11CVi3dObjectC2Ev
 	add r0, r4, #0x920
-	bl _ZN11CVi3dObjectC1Ev
+	bl _ZN11CVi3dObjectC2Ev
 	mov r0, #0x20000
 	bl _AllocHeadHEAP_USER
 	str r0, [r4, #0x90c]
@@ -130,14 +128,14 @@ NONMATCH_FUNC void ViDockBack__VTableFunc_21644C0(void)
 	ldr r0, [r4, #0x90c]
 	bl _FreeHEAP_USER
 	add r0, r4, #0x920
-	bl _ZN11CVi3dObjectD1Ev
+	bl _ZN11CVi3dObjectD0Ev
 	add r0, r4, #0x208
 	add r0, r0, #0x400
-	bl _ZN11CVi3dObjectD1Ev
+	bl _ZN11CVi3dObjectD0Ev
 	add r0, r4, #0x308
-	bl _ZN11CVi3dObjectD1Ev
+	bl _ZN11CVi3dObjectD0Ev
 	add r0, r4, #8
-	bl _ZN11CVi3dObjectD1Ev
+	bl _ZN11CVi3dObjectD0Ev
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 
@@ -172,14 +170,14 @@ NONMATCH_FUNC void ViDockBack__VTableFunc_2164540(void)
 	ldr r0, [r4, #0x90c]
 	bl _FreeHEAP_USER
 	add r0, r4, #0x920
-	bl _ZN11CVi3dObjectD1Ev
+	bl _ZN11CVi3dObjectD0Ev
 	add r0, r4, #0x208
 	add r0, r0, #0x400
-	bl _ZN11CVi3dObjectD1Ev
+	bl _ZN11CVi3dObjectD0Ev
 	add r0, r4, #0x308
-	bl _ZN11CVi3dObjectD1Ev
+	bl _ZN11CVi3dObjectD0Ev
 	add r0, r4, #8
-	bl _ZN11CVi3dObjectD1Ev
+	bl _ZN11CVi3dObjectD0Ev
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -285,7 +283,7 @@ _021646F4:
 	add r0, r9, #8
 	mov r2, #1
 	str r1, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167A80Ev
+	bl _ZN11CVi3dObject12Func_2167A80Etiiii
 _02164720:
 	ldrh r1, [r4, #0xe]
 	ldr r0, =0x0000FFFF
@@ -2677,7 +2675,7 @@ NONMATCH_FUNC void ViDockBack__Func_21664C0(void)
 	str r0, [sp, #4]
 	add r1, sp, #0
 	mov r0, r4
-	bl _ZN9CViShadow12Func_2167F00Ev
+	bl _ZN9CViShadow12Func_2167F00EP7VecFx32
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
 
@@ -2704,7 +2702,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166500(void)
 	str r0, [sp, #4]
 	add r1, sp, #0
 	mov r0, r4
-	bl _ZN9CViShadow12Func_2167F00Ev
+	bl _ZN9CViShadow12Func_2167F00EP7VecFx32
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
 
