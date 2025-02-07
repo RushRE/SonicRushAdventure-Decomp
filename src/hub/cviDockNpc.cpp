@@ -3,6 +3,78 @@
 #include <game/util/cppHelpers.hpp>
 #include <game/file/bundleFileUnknown.h>
 
+// resources
+#include <resources/bb/vi_npc.h>
+
+// --------------------
+// CONSTANTS/MACROS
+// --------------------
+
+#define CVIDOCKNPC_RESOURCE_NONE (u8)(-1)
+
+// --------------------
+// ENUMS
+// --------------------
+
+enum CViDockNpcResCommonID
+{
+    CVIDOCKNPC_RESCMN_BLAZE,
+    CVIDOCKNPC_RESCMN_TAILS,
+    CVIDOCKNPC_RESCMN_MARINE,
+    CVIDOCKNPC_RESCMN_NORMAN,
+    CVIDOCKNPC_RESCMN_SETTER,
+    CVIDOCKNPC_RESCMN_TABBY,
+    CVIDOCKNPC_RESCMN_COLONEL,
+    CVIDOCKNPC_RESCMN_GARDON,
+    CVIDOCKNPC_RESCMN_DAIKUN,
+    CVIDOCKNPC_RESCMN_KYLOK,
+    CVIDOCKNPC_RESCMN_MUZY,
+    CVIDOCKNPC_RESCMN_HOURGLASS,
+    CVIDOCKNPC_RESCMN_OLDDS,
+};
+
+enum CViDockNpcResTexAniID
+{
+    CVIDOCKNPC_RESTEXANI_HOURGLASS,
+};
+
+enum CViDockNpcResMatAniID
+{
+    CVIDOCKNPC_RESMATANI_OLDDS,
+};
+
+enum CViDockNpcUnknownID
+{
+    CVIDOCKNPC_SIZE_REGULAR,
+    CVIDOCKNPC_SIZE_BIG,
+};
+
+// --------------------
+// STRUCTS
+// --------------------
+
+struct ViDockNpcAssetInfo
+{
+    u8 modelIndex;
+    u8 animIndex;
+    u8 materialAnim;
+    u8 visibilityAnim;
+    u8 textureAnim;
+    u8 ani2_1;
+    u8 ani1_1;
+    u8 unknownID;
+    u8 ani2_Tail;
+    u8 ani1_Tail;
+    u8 __padding1;
+    u8 __padding2;
+};
+
+struct CViDockNpcAssetBundle
+{
+    const char path[16];
+    u32 unknown;
+};
+
 // --------------------
 // TEMP
 // --------------------
@@ -11,33 +83,110 @@ extern "C"
 {
 
 NOT_DECOMPILED void *_ZTV10CViDockNpc;
-NOT_DECOMPILED void *ovl05_0217305C;
-NOT_DECOMPILED void *aBbViNpcBb_ovl05;
-NOT_DECOMPILED void *ViDockNpc__MaterialAnimlList;
-NOT_DECOMPILED void *ViDockNpc__JointAnimList;
-NOT_DECOMPILED void *ViDockNpc__ModelList;
-NOT_DECOMPILED void *ViDockNpc__AssetInfoList;
-
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A80Etiiii(void);
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A0CEtiiii(void);
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_21679B0Etiiii(void);
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167958Etiiii(void);
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167900Etiiii(void);
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t(void);
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_21677C4Ev(void);
 
 NOT_DECOMPILED void _ZdlPv(void);
-
-NOT_DECOMPILED void *_ZTV10CViDockNpc;
 }
 
 // --------------------
 // VARIABLES
 // --------------------
 
-// --------------------
-// FUNCTIONS
-// --------------------
+static const u16 resMatAnimFileTable[] = { BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_OLD_DS_NSBMA };
+
+static const VecFx32 npcHitboxSizeTable[] = {
+    { FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(6.0) },   // Regular
+    { FLOAT_TO_FX32(12.0), FLOAT_TO_FX32(8.0), FLOAT_TO_FX32(12.0) }, // Big
+};
+
+static const u16 resModelFileTable[] = {
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_BLZ_NSBMD,       // Blaze
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_TAILS_NSBMD,     // Tails
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_MARINE_NSBMD,    // Marine
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_VIKING_NSBMD,    // Norman
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_SETTER_NSBMD,    // Setter
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_TABBY_NSBMD,     // Tabby
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_COLONEL_NSBMD,   // Colonel
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_GARDON_NSBMD,    // Gardon
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_DAIKUN_NSBMD,    // Daikun
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_KYLOK_NSBMD,     // Kylok
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_MUZY_NSBMD,      // Muzy
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_HOURGLASS_NSBMD, // Hourglass
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_OLD_DS_NSBMD,    // OldDS
+};
+
+static const u16 resJointAnimFileTable[] = {
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_BLZ_NSBCA,       // Blaze
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_TAILS_NSBCA,     // Tails
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_MARINE_NSBCA,    // Marine
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_VIKING_NSBCA,    // Norman
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_SETTER_NSBCA,    // Setter
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_TABBY_NSBCA,     // Tabby
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_COLONEL_NSBCA,   // Colonel
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_GARDON_NSBCA,    // Gardon
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_DAIKUN_NSBCA,    // Daikun
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_KYLOK_NSBCA,     // Kylok
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_MUZY_NSBCA,      // Muzy
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_HOURGLASS_NSBCA, // Hourglass
+    BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_OLD_DS_NSBCA,    // OldDS
+};
+
+static const struct ViDockNpcAssetInfo resConfigFileTable[] = {
+    // Blaze
+    { CVIDOCKNPC_RESCMN_BLAZE, CVIDOCKNPC_RESCMN_BLAZE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE, CViDockNpc::ANI_TALK,
+      CVIDOCKNPC_SIZE_REGULAR, CViDockNpc::ANI_TAIL_IDLE, CViDockNpc::ANI_TAIL_TALK, 0, 0 },
+
+    // Tails
+    { CVIDOCKNPC_RESCMN_TAILS, CVIDOCKNPC_RESCMN_TAILS, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE, CViDockNpc::ANI_TALK,
+      CVIDOCKNPC_SIZE_REGULAR, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, 0, 0 },
+
+    // Marine
+    { CVIDOCKNPC_RESCMN_MARINE, CVIDOCKNPC_RESCMN_MARINE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE, CViDockNpc::ANI_TALK,
+      CVIDOCKNPC_SIZE_REGULAR, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, 0, 0 },
+
+    // Norman
+    { CVIDOCKNPC_RESCMN_NORMAN, CVIDOCKNPC_RESCMN_NORMAN, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE, CViDockNpc::ANI_IDLE,
+      CVIDOCKNPC_SIZE_BIG, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, 0, 0 },
+
+    // Setter
+    { CVIDOCKNPC_RESCMN_SETTER, CVIDOCKNPC_RESCMN_SETTER, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE, CViDockNpc::ANI_IDLE,
+      CVIDOCKNPC_SIZE_REGULAR, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, 0, 0 },
+
+    // Tabby
+    { CVIDOCKNPC_RESCMN_TABBY, CVIDOCKNPC_RESCMN_TABBY, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE, CViDockNpc::ANI_IDLE,
+      CVIDOCKNPC_SIZE_REGULAR, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, 0, 0 },
+
+    // Colonel
+    { CVIDOCKNPC_RESCMN_COLONEL, CVIDOCKNPC_RESCMN_COLONEL, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE,
+      CViDockNpc::ANI_IDLE, CVIDOCKNPC_SIZE_REGULAR, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, 0, 0 },
+
+    // Gardon
+    { CVIDOCKNPC_RESCMN_GARDON, CVIDOCKNPC_RESCMN_GARDON, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE, CViDockNpc::ANI_IDLE,
+      CVIDOCKNPC_SIZE_REGULAR, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, 0, 0 },
+
+    // Daikun
+    { CVIDOCKNPC_RESCMN_DAIKUN, CVIDOCKNPC_RESCMN_DAIKUN, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE, CViDockNpc::ANI_IDLE,
+      CVIDOCKNPC_SIZE_REGULAR, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, 0, 0 },
+
+    // Kylok
+    { CVIDOCKNPC_RESCMN_KYLOK, CVIDOCKNPC_RESCMN_KYLOK, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE, CViDockNpc::ANI_IDLE,
+      CVIDOCKNPC_SIZE_REGULAR, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, 0, 0 },
+
+    // Muzy
+    { CVIDOCKNPC_RESCMN_MUZY, CVIDOCKNPC_RESCMN_MUZY, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE, CViDockNpc::ANI_IDLE,
+      CVIDOCKNPC_SIZE_REGULAR, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, 0, 0 },
+
+    // Hourglass
+    { CVIDOCKNPC_RESCMN_HOURGLASS, CVIDOCKNPC_RESCMN_HOURGLASS, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESTEXANI_HOURGLASS, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE,
+      CViDockNpc::ANI_IDLE, CVIDOCKNPC_SIZE_REGULAR, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, 0, 0 },
+
+    // OldDS
+    { CVIDOCKNPC_RESCMN_OLDDS, CVIDOCKNPC_RESCMN_OLDDS, CVIDOCKNPC_RESMATANI_OLDDS, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE, CViDockNpc::ANI_IDLE,
+      CVIDOCKNPC_SIZE_REGULAR, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, 0, 0 },
+};
+
+// TODO: uncomment this when all funcs are decompiled, until then it doesn't seem like the variables want to to align properly?
+// static const CViDockNpcAssetBundle dockNpcAssets[1] = { { "bb/vi_npc.bb", 0x400 } };
+extern const CViDockNpcAssetBundle dockNpcAssets[1];
 
 // --------------------
 // FUNCTIONS
@@ -52,7 +201,7 @@ NONMATCH_FUNC void _ZN10CViDockNpcC1Ev()
     this->aniMaterial   = NULL;
     this->aniVisibility = NULL;
     this->aniTexture    = NULL;
-    ViDockNpc__Func_2166F10(this);
+    ViDockNpc__ReleaseAssets(this);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -67,7 +216,7 @@ NONMATCH_FUNC void _ZN10CViDockNpcC1Ev()
 	str r1, [r4, #0x320]
 	mov r0, r4
 	str r1, [r4, #0x324]
-	bl ViDockNpc__Func_2166F10
+	bl ViDockNpc__ReleaseAssets
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 
@@ -79,14 +228,14 @@ NONMATCH_FUNC void _ZN10CViDockNpcC1Ev()
 NONMATCH_FUNC void _ZN10CViDockNpcD0Ev()
 {
 #ifdef NON_MATCHING
-    ViDockNpc__Func_2166F10(this);
+    ViDockNpc__ReleaseAssets(this);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV10CViDockNpc+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViDockNpc__Func_2166F10
+	bl ViDockNpc__ReleaseAssets
 	mov r0, r4
 	bl _ZN11CVi3dObjectD2Ev
 	mov r0, r4
@@ -100,14 +249,14 @@ NONMATCH_FUNC void _ZN10CViDockNpcD0Ev()
 NONMATCH_FUNC void _ZN10CViDockNpcD1Ev()
 {
 #ifdef NON_MATCHING
-    ViDockNpc__Func_2166F10(this);
+    ViDockNpc__ReleaseAssets(this);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV10CViDockNpc+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViDockNpc__Func_2166F10
+	bl ViDockNpc__ReleaseAssets
 	mov r0, r4
 	bl _ZN11CVi3dObjectD2Ev
 	mov r0, r4
@@ -119,459 +268,196 @@ NONMATCH_FUNC void _ZN10CViDockNpcD1Ev()
 #endif
 }
 
-NONMATCH_FUNC void ViDockNpc__LoadAssets(CViDockNpc *work)
+void ViDockNpc__LoadAssets(CViDockNpc *work, s32 type, VecFx32 *position, u16 angle, BOOL snapToAngle)
 {
-#ifdef NON_MATCHING
+    ViDockNpc__ReleaseAssets(work);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0x1c
-	mov r4, r1
-	mov r7, r0
-	mov r6, r2
-	mov r5, r3
-	bl ViDockNpc__Func_2166F10
-	mov r0, r4, lsl #0x10
-	str r4, [r7, #0x300]
-	mov r0, r0, lsr #0x10
-	bl DockHelpers__GetNpcConfig
-	ldrh r2, [r0, #0]
-	add r0, r7, #0x300
-	mov r1, #0xc
-	strh r2, [r0, #0x12]
-	mul r0, r2, r1
-	ldr r3, =ViDockNpc__AssetInfoList
-	sub r2, r1, #0xd
-	add r4, r3, r0
-	ldrb r3, [r3, r0]
-	ldr r1, =ViDockNpc__ModelList
-	ldr r0, =aBbViNpcBb_ovl05
-	mov r3, r3, lsl #1
-	ldrh r1, [r1, r3]
-	bl BundleFileUnknown__LoadFileFromBundle
-	str r0, [r7, #0x314]
-	ldrb r3, [r4, #1]
-	ldr r1, =ViDockNpc__JointAnimList
-	ldr r0, =aBbViNpcBb_ovl05
-	mov r3, r3, lsl #1
-	ldrh r1, [r1, r3]
-	mvn r2, #0
-	bl BundleFileUnknown__LoadFileFromBundle
-	str r0, [r7, #0x318]
-	ldrb r1, [r4, #2]
-	cmp r1, #0xff
-	beq _02166CE0
-	ldr r0, =ViDockNpc__MaterialAnimlList
-	mov r1, r1, lsl #1
-	ldrh r1, [r0, r1]
-	ldr r0, =aBbViNpcBb_ovl05
-	mvn r2, #0
-	bl BundleFileUnknown__LoadFileFromBundle
-	str r0, [r7, #0x31c]
-_02166CE0:
-	ldrb r1, [r4, #3]
-	cmp r1, #0xff
-	beq _02166D08
-	ldr r0, =ViDockNpc__MaterialAnimlList
-	mov r1, r1, lsl #1
-	ldrh r1, [r0, r1]
-	ldr r0, =aBbViNpcBb_ovl05
-	mvn r2, #0
-	bl BundleFileUnknown__LoadFileFromBundle
-	str r0, [r7, #0x320]
-_02166D08:
-	ldrb r1, [r4, #4]
-	cmp r1, #0xff
-	beq _02166D30
-	ldr r0, =ViDockNpc__MaterialAnimlList
-	mov r1, r1, lsl #1
-	ldrh r1, [r0, r1]
-	ldr r0, =aBbViNpcBb_ovl05
-	mvn r2, #0
-	bl BundleFileUnknown__LoadFileFromBundle
-	str r0, [r7, #0x324]
-_02166D30:
-	ldrb r1, [r4, #7]
-	mov r0, #0xc
-	ldr r2, =ovl05_0217305C
-	smulbb r1, r1, r0
-	ldr r0, [r2, r1]
-	add r1, r2, r1
-	str r0, [r7, #0x328]
-	ldr r0, [r1, #4]
-	mov r2, #0
-	str r0, [r7, #0x32c]
-	ldr r0, [r1, #8]
-	str r0, [r7, #0x330]
-	ldrb r0, [r4, #8]
-	cmp r0, #0xff
-	str r2, [sp]
-	bne _02166DC8
-	ldr r0, [r7, #0x318]
-	ldr r1, =0x0000FFFF
-	stmib sp, {r0, r2}
-	ldr r3, [r7, #0x31c]
-	mov r0, r7
-	str r3, [sp, #0xc]
-	ldr ip, [r7, #0x324]
-	mov r3, r2
-	str ip, [sp, #0x10]
-	ldr ip, [r7, #0x320]
-	str ip, [sp, #0x14]
-	str r1, [sp, #0x18]
-	ldr r1, [r7, #0x314]
-	bl _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t
-	mov r3, #0
-	str r3, [sp]
-	str r3, [sp, #4]
-	ldrb r1, [r4, #5]
-	mov r0, r7
-	mov r2, #1
-	bl _ZN11CVi3dObject12Func_2167900Etiiii
-	b _02166E38
-_02166DC8:
-	ldr r0, [r7, #0x318]
-	mov r1, #1
-	stmib sp, {r0, r2}
-	ldr r3, [r7, #0x31c]
-	mov r0, r7
-	str r3, [sp, #0xc]
-	ldr ip, [r7, #0x324]
-	mov r3, r2
-	str ip, [sp, #0x10]
-	ldr ip, [r7, #0x320]
-	str ip, [sp, #0x14]
-	str r1, [sp, #0x18]
-	ldr r1, [r7, #0x314]
-	bl _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t
-	mov r3, #0
-	str r3, [sp]
-	str r3, [sp, #4]
-	ldrb r1, [r4, #5]
-	mov r0, r7
-	mov r2, #1
-	bl _ZN11CVi3dObject12Func_2167900Etiiii
-	mov r3, #0
-	str r3, [sp]
-	str r3, [sp, #4]
-	ldrb r1, [r4, #8]
-	mov r0, r7
-	mov r2, #1
-	bl _ZN11CVi3dObject12Func_2167958Etiiii
-_02166E38:
-	ldr r0, [r7, #0x31c]
-	cmp r0, #0
-	beq _02166E60
-	mov r1, #0
-	str r1, [sp]
-	mov r0, r7
-	mov r3, r1
-	mov r2, #1
-	str r1, [sp, #4]
-	bl _ZN11CVi3dObject12Func_21679B0Etiiii
-_02166E60:
-	ldr r0, [r7, #0x320]
-	cmp r0, #0
-	beq _02166E88
-	mov r1, #0
-	str r1, [sp]
-	mov r0, r7
-	mov r3, r1
-	mov r2, #1
-	str r1, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167A80Etiiii
-_02166E88:
-	ldr r0, [r7, #0x324]
-	cmp r0, #0
-	beq _02166EB0
-	mov r1, #0
-	str r1, [sp]
-	mov r0, r7
-	mov r3, r1
-	mov r2, #1
-	str r1, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167A0CEtiiii
-_02166EB0:
-	mov r1, r6
-	add r0, r7, #8
-	bl CPPHelpers__VEC_Copy_Alt
-	strh r5, [r7, #0x38]
-	ldrh r1, [r7, #0x38]
-	mov r2, #0x5b0
-	add r0, r7, #0x300
-	strh r1, [r7, #0x3a]
-	ldr r3, [r7, #4]
-	ldr r1, [sp, #0x30]
-	orr r3, r3, #1
-	str r3, [r7, #4]
-	strh r2, [r7, #0x3e]
-	strh r5, [r0, #0x10]
-	str r1, [r7, #0x334]
-	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    work->npcType             = type;
+    work->resConfigTableIndex = DockHelpers__GetNpcConfig(type)->field_0;
 
-// clang-format on
-#endif
+    const ViDockNpcAssetInfo *config = &resConfigFileTable[work->resConfigTableIndex];
+
+    work->model     = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resModelFileTable[config->modelIndex], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+    work->aniJoints = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resJointAnimFileTable[config->animIndex], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+
+    if (config->materialAnim != CVIDOCKNPC_RESOURCE_NONE)
+        work->aniMaterial = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resMatAnimFileTable[config->materialAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+
+    // NOTE: is this bugged? shouldn't it utilise a unique table instead of 'resMatAnimFileTable'?
+    if (config->visibilityAnim != CVIDOCKNPC_RESOURCE_NONE)
+        work->aniVisibility = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resMatAnimFileTable[config->visibilityAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+
+    // NOTE: is this bugged? shouldn't it utilise a unique table instead of 'resMatAnimFileTable'?
+    if (config->textureAnim != CVIDOCKNPC_RESOURCE_NONE)
+        work->aniTexture = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resMatAnimFileTable[config->textureAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+
+    work->size = npcHitboxSizeTable[config->unknownID];
+
+    if (config->ani2_Tail == CVIDOCKNPC_RESOURCE_NONE)
+    {
+        work->Func_216763C(work->model, 0, FALSE, FALSE, work->aniJoints, NULL, work->aniMaterial, work->aniTexture, work->aniVisibility, 0xFFFF);
+        work->Func_2167900(config->ani2_1, TRUE, FALSE, FALSE, FALSE);
+    }
+    else
+    {
+        work->Func_216763C(work->model, 0, FALSE, FALSE, work->aniJoints, NULL, work->aniMaterial, work->aniTexture, work->aniVisibility, 1);
+        work->Func_2167900(config->ani2_1, TRUE, FALSE, FALSE, FALSE);
+        work->Func_2167958(config->ani2_Tail, TRUE, FALSE, FALSE, FALSE);
+    }
+
+    if (work->aniMaterial != NULL)
+        work->Func_21679B0(0, TRUE, FALSE, FALSE, FALSE);
+
+    if (work->aniVisibility != NULL)
+        work->Func_2167A80(0, TRUE, FALSE, FALSE, FALSE);
+
+    if (work->aniTexture != NULL)
+        work->Func_2167A0C(0, TRUE, FALSE, FALSE, FALSE);
+
+    CPPHelpers__VEC_Copy_Alt(&work->translation1, position);
+
+    work->targetTurnAngle  = angle;
+    work->currentTurnAngle = work->targetTurnAngle;
+    work->flags |= CVi3dObject::FLAG_1;
+    work->turnSpeed    = FLOAT_DEG_TO_IDX(8.0);
+    work->initialAngle = angle;
+    work->snapToAngle  = snapToAngle;
 }
 
-NONMATCH_FUNC void ViDockNpc__Func_2166F10(CViDockNpc *work)
+void ViDockNpc__ReleaseAssets(CViDockNpc *work)
 {
-#ifdef NON_MATCHING
+    work->Func_21677C4();
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl _ZN11CVi3dObject12Func_21677C4Ev
-	ldr r0, [r4, #0x314]
-	cmp r0, #0
-	beq _02166F34
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x314]
-_02166F34:
-	ldr r0, [r4, #0x318]
-	cmp r0, #0
-	beq _02166F4C
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x318]
-_02166F4C:
-	ldr r0, [r4, #0x31c]
-	cmp r0, #0
-	beq _02166F64
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x31c]
-_02166F64:
-	ldr r0, [r4, #0x320]
-	cmp r0, #0
-	beq _02166F7C
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x320]
-_02166F7C:
-	ldr r0, [r4, #0x324]
-	cmp r0, #0
-	beq _02166F94
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x324]
-_02166F94:
-	mov r0, #0xc
-	mov r1, #0
-	str r0, [r4, #0x304]
-	str r1, [r4, #0x308]
-	sub r0, r1, #1
-	str r0, [r4, #0x30c]
-	str r1, [r4, #0x328]
-	str r1, [r4, #0x32c]
-	str r1, [r4, #0x330]
-	add r0, r4, #0x300
-	strh r1, [r0, #0x10]
-	mov r1, #0xe
-	strh r1, [r0, #0x12]
-	ldmia sp!, {r4, pc}
+    if (work->model != NULL)
+    {
+        HeapFree(HEAP_USER, work->model);
+        work->model = NULL;
+    }
 
-// clang-format on
-#endif
+    if (work->aniJoints != NULL)
+    {
+        HeapFree(HEAP_USER, work->aniJoints);
+        work->aniJoints = NULL;
+    }
+
+    if (work->aniMaterial != NULL)
+    {
+        HeapFree(HEAP_USER, work->aniMaterial);
+        work->aniMaterial = NULL;
+    }
+
+    if (work->aniVisibility != NULL)
+    {
+        HeapFree(HEAP_USER, work->aniVisibility);
+        work->aniVisibility = NULL;
+    }
+
+    if (work->aniTexture != NULL)
+    {
+        HeapFree(HEAP_USER, work->aniTexture);
+        work->aniTexture = NULL;
+    }
+
+    work->field_304           = 12;
+    work->field_308           = 0;
+    work->field_30C           = -1;
+    work->size.x              = FLOAT_TO_FX32(0.0);
+    work->size.y              = FLOAT_TO_FX32(0.0);
+    work->size.z              = FLOAT_TO_FX32(0.0);
+    work->initialAngle        = 0;
+    work->resConfigTableIndex = ARRAY_COUNT(resConfigFileTable) + 1;
 }
 
-NONMATCH_FUNC void ViDockNpc__Func_2166FCC(CViDockNpc *work)
+void ViDockNpc__SetState1(CViDockNpc *work, u16 angle)
 {
-#ifdef NON_MATCHING
+    if (work->snapToAngle)
+        work->targetTurnAngle = angle;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r0, [r4, #0x334]
-	mov r2, #1
-	cmp r0, #0
-	strneh r1, [r4, #0x38]
-	mov r0, #0
-	str r0, [sp]
-	str r0, [sp, #4]
-	add r0, r4, #0x300
-	ldrh r1, [r0, #0x12]
-	mov r0, #0xc
-	mul r3, r1, r0
-	ldr r1, =0x021730AE
-	mov r0, r4
-	ldrb r1, [r1, r3]
-	mov r3, r2
-	bl _ZN11CVi3dObject12Func_2167900Etiiii
-	add r0, r4, #0x300
-	ldrh r2, [r0, #0x12]
-	mov r0, #0xc
-	ldr r1, =0x021730B1
-	mul r0, r2, r0
-	ldrb r1, [r1, r0]
-	cmp r1, #0xff
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	mov ip, #0
-	mov r2, #1
-	str ip, [sp]
-	mov r0, r4
-	mov r3, r2
-	str ip, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167958Etiiii
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    work->Func_2167900(resConfigFileTable[work->resConfigTableIndex].ani1_1, TRUE, TRUE, FALSE, FALSE);
 
-// clang-format on
-#endif
+    if (resConfigFileTable[work->resConfigTableIndex].ani1_Tail != CVIDOCKNPC_RESOURCE_NONE)
+        work->Func_2167958(resConfigFileTable[work->resConfigTableIndex].ani1_Tail, TRUE, TRUE, FALSE, FALSE);
 }
 
-NONMATCH_FUNC void ViDockNpc__Func_2167068(CViDockNpc *work)
+void ViDockNpc__SetState2(CViDockNpc *work)
 {
-#ifdef NON_MATCHING
+    if (work->snapToAngle)
+        work->targetTurnAngle = work->initialAngle;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r0, [r4, #0x334]
-	mov r2, #1
-	cmp r0, #0
-	addne r0, r4, #0x300
-	ldrneh r0, [r0, #0x10]
-	strneh r0, [r4, #0x38]
-	mov r0, #0
-	str r0, [sp]
-	str r0, [sp, #4]
-	add r0, r4, #0x300
-	ldrh r1, [r0, #0x12]
-	mov r0, #0xc
-	mul r3, r1, r0
-	ldr r1, =0x021730AD
-	mov r0, r4
-	ldrb r1, [r1, r3]
-	mov r3, r2
-	bl _ZN11CVi3dObject12Func_2167900Etiiii
-	add r0, r4, #0x300
-	ldrh r2, [r0, #0x12]
-	mov r0, #0xc
-	ldr r1, =0x021730B0
-	mul r0, r2, r0
-	ldrb r1, [r1, r0]
-	cmp r1, #0xff
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	mov ip, #0
-	mov r2, #1
-	str ip, [sp]
-	mov r0, r4
-	mov r3, r2
-	str ip, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167958Etiiii
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    work->Func_2167900(resConfigFileTable[work->resConfigTableIndex].ani2_1, TRUE, TRUE, FALSE, FALSE);
 
-// clang-format on
-#endif
+    if (resConfigFileTable[work->resConfigTableIndex].ani2_Tail != CVIDOCKNPC_RESOURCE_NONE)
+        work->Func_2167958(resConfigFileTable[work->resConfigTableIndex].ani2_Tail, TRUE, TRUE, FALSE, FALSE);
 }
 
-NONMATCH_FUNC BOOL ViDockNpc__Func_216710C(CViDockNpc *work, VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5)
+BOOL ViDockNpc__Func_216710C(CViDockNpc *work, VecFx32 *a2, VecFx32 *a3, VecFx32 *dest, fx32 a5)
 {
-#ifdef NON_MATCHING
+    *dest = *a3;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	mov r5, r2
-	ldr r2, [r5, #0]
-	mov r4, r3
-	str r2, [r4]
-	ldr r2, [r5, #4]
-	mov r6, r1
-	str r2, [r4, #4]
-	ldr r1, [r5, #8]
-	mov r7, r0
-	str r1, [r4, #8]
-	ldr r1, [r6, #0]
-	ldr r0, [r5, #0]
-	cmp r1, r0
-	ldreq r1, [r6, #4]
-	ldreq r0, [r5, #4]
-	cmpeq r1, r0
-	ldreq r1, [r6, #8]
-	ldreq r0, [r5, #8]
-	cmpeq r1, r0
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	ldr r9, [sp, #0x20]
-	ldr r1, [r7, #0x328]
-	ldr r0, [r7, #0x330]
-	smull r2, r3, r1, r9
-	adds r8, r2, #0x800
-	smull r2, r1, r0, r9
-	adc r3, r3, #0
-	adds r0, r2, #0x800
-	mov r9, r8, lsr #0xc
-	adc r1, r1, #0
-	mov r8, r0, lsr #0xc
-	add r0, r7, #8
-	orr r9, r9, r3, lsl #20
-	orr r8, r8, r1, lsl #20
-	bl CPPHelpers__Func_2085F9C
-	ldr r1, [r0, #0]
-	add r0, r7, #8
-	sub r10, r1, r9
-	bl CPPHelpers__Func_2085F9C
-	ldr r1, [r0, #0]
-	add r0, r7, #8
-	add r9, r9, r1
-	bl CPPHelpers__Func_2085F9C
-	ldr r1, [r0, #8]
-	add r0, r7, #8
-	sub r7, r1, r8
-	bl CPPHelpers__Func_2085F9C
-	ldr r1, [r0, #8]
-	ldr r0, [r5, #0]
-	add r1, r8, r1
-	cmp r0, r10
-	ble _02167200
-	cmp r0, r9
-	bge _02167200
-	ldr r0, [r5, #8]
-	cmp r0, r7
-	ble _02167200
-	cmp r0, r1
-	blt _02167208
-_02167200:
-	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-_02167208:
-	ldr r0, [r6, #0]
-	cmp r0, r10
-	strle r10, [r4]
-	ble _0216723C
-	cmp r0, r9
-	strge r9, [r4]
-	bge _0216723C
-	ldr r0, [r6, #8]
-	cmp r0, r7
-	strle r7, [r4, #8]
-	ble _0216723C
-	cmp r0, r1
-	strge r1, [r4, #8]
-_0216723C:
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+    if (a2->x == a3->x && a2->y == a3->y && a2->z == a3->z)
+        return FALSE;
 
-// clang-format on
-#endif
+    s32 centerX = MultiplyFX(work->size.x, a5);
+    s32 centerY = MultiplyFX(work->size.z, a5);
+    s32 x1      = CPPHelpers__Func_2085F9C(&work->translation1)->x - centerX;
+    s32 x2      = CPPHelpers__Func_2085F9C(&work->translation1)->x + centerX;
+    s32 z1      = CPPHelpers__Func_2085F9C(&work->translation1)->z - centerY;
+    s32 z2      = CPPHelpers__Func_2085F9C(&work->translation1)->z + centerY;
+
+    if (a3->x <= x1 || a3->x >= x2 || a3->z <= z1 || a3->z >= z2)
+        return FALSE;
+
+    if (a2->x <= x1)
+    {
+        dest->x = x1;
+    }
+    else if (a2->x >= x2)
+    {
+        dest->x = x2;
+    }
+    else if (a2->z <= z1)
+    {
+        dest->z = z1;
+    }
+    else if (a2->z >= z2)
+    {
+        dest->z = z2;
+    }
+
+    return TRUE;
 }
 
 NONMATCH_FUNC BOOL ViDockNpc__Func_2167244(CViDockNpc *work, VecFx32 *position, s32 a3, s32 a4, BOOL *flag)
 {
+    // https://decomp.me/scratch/6CdR9 -> 65.06%
 #ifdef NON_MATCHING
+    s32 x = CPPHelpers__Func_2085F9C(&work->translation1)->x - position->x;
+    s32 z = CPPHelpers__Func_2085F9C(&work->translation1)->z - position->z;
 
+    Unknown217305C *config = &npcHitboxSizeTable[resConfigFileTable[work->resConfigTableIndex].unknownID];
+
+    s32 v12 = MultiplyFX(x, x) + MultiplyFX(z, z);
+    s32 v13 = MultiplyFX(MATH_MAX(config->field_0, config->field_8), a4);
+    s32 v15 = MultiplyFX(v13 + (v13 >> 1), v13 + (v13 >> 1));
+
+    BOOL result = FALSE;
+
+    if (v12 <= v15)
+    {
+        if (x * SinFX(a3) >= 0 && z * CosFX(a3) < 0)
+        {
+            if (flag != NULL)
+                *flag = FALSE;
+        }
+        else
+        {
+            if (flag != NULL)
+                *flag = TRUE;
+        }
+        result = TRUE;
+    }
+
+    return result;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
@@ -603,7 +489,7 @@ NONMATCH_FUNC BOOL ViDockNpc__Func_2167244(CViDockNpc *work, VecFx32 *position, 
 	adc r2, r1, #0
 	adds r1, lr, #0x800
 	smulbb r8, r8, r9
-	ldr r9, =ovl05_0217305C
+	ldr r9, =npcHitboxSizeTable
 	adc r10, r0, #0
 	mov r1, r1, lsr #0xc
 	add lr, r9, r8
@@ -657,15 +543,9 @@ _02167368:
 #endif
 }
 
-NONMATCH_FUNC BOOL ViDockNpc__Func_216737C(CViDockNpc *work, s32 a2)
+BOOL ViDockNpc__Func_216737C(CViDockNpc *work, VecFx32 *position)
 {
-#ifdef NON_MATCHING
+    UNUSED(position);
 
-#else
-    // clang-format off
-	mov r0, #1
-	bx lr
-
-// clang-format on
-#endif
+    return TRUE;
 }

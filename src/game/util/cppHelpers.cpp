@@ -104,7 +104,7 @@ void CPPHelpers__Func_2085E3C(void)
     // nothing?
 }
 
-void CPPHelpers__Func_2085E40(void)
+void CPPHelpers__Func_2085E40(MtxFx33 *mtx)
 {
     // nothing?
 }
@@ -120,12 +120,12 @@ MtxFx33 *CPPHelpers__Func_2085E6C(MtxFx33 *mtx)
     return mtx;
 }
 
-MtxFx33 *CPPHelpers__Func_2085E70(VecFx32 *vec)
+MtxFx33 *CPPHelpers__Func_2085E70(MtxFx33 *mtx)
 {
-    return (MtxFx33 *)vec;
+    return mtx;
 }
 
-VecFx32 *CPPHelpers__Func_2085E74(VecFx32 *lhs, VecFx32 *rhs)
+VecFx32 *CPPHelpers__Func_2085E74(VecFx32 *lhs, MtxFx33 *rhs)
 {
     CPPHelpers__VEC_MultiplyMtx33(CPPHelpers__Func_2085F98(lhs), CPPHelpers__Func_2085E70(rhs));
     return lhs;

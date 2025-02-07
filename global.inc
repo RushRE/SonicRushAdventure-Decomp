@@ -14221,9 +14221,9 @@
 .public _ZN10CViDockNpcD0Ev
 .public _ZN10CViDockNpcD1Ev
 .public ViDockNpc__LoadAssets
-.public ViDockNpc__Func_2166F10
-.public ViDockNpc__Func_2166FCC
-.public ViDockNpc__Func_2167068
+.public ViDockNpc__ReleaseAssets
+.public ViDockNpc__SetState1
+.public ViDockNpc__SetState2
 .public ViDockNpc__Func_216710C
 .public ViDockNpc__Func_2167244
 .public ViDockNpc__Func_216737C
@@ -14666,7 +14666,7 @@
 .public aBbViDockBb_0
 .public ovl05_02173040
 .public ViDockNpc__MaterialAnimlList
-.public ovl05_0217305C
+.public npcHitboxSizeTable
 .public ViDockNpc__ModelList
 .public ViDockNpc__JointAnimList
 .public ViDockNpc__AssetInfoList
@@ -18238,7 +18238,7 @@
 .public _ZN15CViDockNpcGroup10GetNextNpcEP10CViDockNpc
 .public _ZN15CViDockNpcGroup10LoadAssetsEv
 .public _ZN15CViDockNpcGroup7AnimateEv
-.public _ZN15CViDockNpcGroup4DrawEl
+.public _ZN15CViDockNpcGroup4DrawEP7VecFx32
 .public _ZN15CViDockNpcGroup12Func_2168608EP7VecFx32S1_S1_l
 .public _ZN15CViDockNpcGroup12Func_2168674EP7VecFx32llPiP10CViDockNpc
 .public _ZN15CViDockNpcGroup12RunActionEll

@@ -14,28 +14,60 @@ public:
     // virtual ~CViDockPlayer();
 
     // --------------------
+    // ENUMS
+    // --------------------
+
+    enum AnimIDs
+    {
+        ANI_IDLE,
+        ANI_WALK, 
+        ANI_RUN,
+        ANI_BORED_00,
+        ANI_BORED_01,
+    };
+
+    enum MoveFlag
+    {
+        MOVEFLAG_WALKING,
+        MOVEFLAG_RUNNING,
+        MOVEFLAG_INVALID,
+        MOVEFLAG_NO_INPUTS,
+    };
+
+    enum MoveState
+    {
+        MOVESTATE_IDLE,
+        MOVESTATE_WALKING,
+        MOVESTATE_RUNNING,
+    };
+
+    enum IdleState
+    {
+        IDLESTATE_ANIM_STARTING,
+        IDLESTATE_BORED,
+        IDLESTATE_UNUSED,
+        IDLESTATE_INACTIVE,
+    };
+
+    // --------------------
     // VARIABLES
     // --------------------
 
-    s32 walkAnim;
-    s32 lastWalkAnim;
-    s32 idleAnim;
-    s32 idleTimer;
-    s32 field_310;
-    s32 field_314;
+    MoveState moveState;
+    MoveState prevMoveState;
+    IdleState idleState;
+    u32 idleTimer;
+    BOOL loadedAssets;
+    BOOL allowBored;
     VecFx32 translationUnknown;
     fx32 velocity;
     u32 moveFlag;
     fx32 topSpeed;
-    NNSG3dResFileHeader *resModel;
-    u8 *resAnims;
+    void *resModel;
+    void *resAnims;
 
     // --------------------
     // MEMBER FUNCTIONS
-    // --------------------
-
-    // --------------------
-    // STATIC FUNCTIONS
     // --------------------
 };
 
@@ -54,12 +86,12 @@ void _ZN13CViDockPlayerD1Ev();
 
 void ViDockPlayer__LoadAssets(CViDockPlayer *work);
 void ViDockPlayer__Func_2166748(CViDockPlayer *work);
-void ViDockPlayer__Func_21667A0(CViDockPlayer *work);
-void ViDockPlayer__Func_21667A8(CViDockPlayer *work);
-void ViDockPlayer__Func_21667BC(CViDockPlayer *work);
-void ViDockPlayer__Func_21667D4(CViDockPlayer *work);
-void ViDockPlayer__Func_2166B80(CViDockPlayer *work);
-void ViDockPlayer__Func_2166B90(CViDockPlayer *work);
+VecFx32 *ViDockPlayer__Func_21667A0(CViDockPlayer *work);
+void ViDockPlayer__Func_21667A8(CViDockPlayer *work, u16 angle, BOOL snap);
+void ViDockPlayer__Func_21667BC(CViDockPlayer *work, u16 angle, BOOL isRunning);
+void ViDockPlayer__Func_21667D4(CViDockPlayer *work, fx32 speed);
+void ViDockPlayer__Func_2166B80(CViDockPlayer *work, BOOL allowBored);
+void ViDockPlayer__Func_2166B90(CViDockPlayer *work, fx32 topSpeed);
 
 #ifdef __cplusplus
 }

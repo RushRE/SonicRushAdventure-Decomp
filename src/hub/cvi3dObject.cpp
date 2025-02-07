@@ -52,11 +52,11 @@ NONMATCH_FUNC void _ZN11CVi3dObjectC1Ev(CVi3dObject *work)
     CPPHelpers__Func_2085EE8(&this->scale1);
     CPPHelpers__Func_2085EE8(&this->scale2);
 
-    this->flags = 0;
+    this->flags = FLAG_NONE;
 
-    VecFx32 a1a;
-    CPPHelpers__VEC_Set(&a1a, 0, 0, 0);
-    CPPHelpers__Func_2085FA8(&this->translation1, &a1a);
+    VecFx32 a1;
+    CPPHelpers__VEC_Set(&a1, 0, 0, 0);
+    CPPHelpers__Func_2085FA8(&this->translation1, &a1);
 
     VecFx32 a2;
     CPPHelpers__Func_2085FA8(&this->translation2, &this->translation1);
@@ -64,31 +64,31 @@ NONMATCH_FUNC void _ZN11CVi3dObjectC1Ev(CVi3dObject *work)
     CPPHelpers__Func_2085FA8(&this->scale1, &a2);
     CPPHelpers__Func_2085FA8(&this->scale2, &this->scale1);
 
-    this->angle           = 0;
-    this->rotationAngle   = 0;
-    this->rotationY2      = this->angle;
-    this->field_3E        = 0;
-    this->rotationX       = 0;
-    this->rotationZ       = 0;
-    this->id1             = -1;
-    this->animator1AnimID = -1;
-    this->field_18C       = -1;
-    this->field_18E       = -1;
-    this->field_190       = -1;
-    this->field_192       = -1;
-    this->id2             = -1;
-    this->animID2         = -1;
-    this->field_2DC       = 0;
-    this->resources[0]    = NULL;
-    this->resources[1]    = NULL;
-    this->resources[2]    = NULL;
-    this->resources[3]    = NULL;
-    this->resources[4]    = NULL;
-    this->resources[5]    = NULL;
-    this->setJoint        = FALSE;
-    this->setMaterial     = FALSE;
-    AnimatorMDL__Init(&this->animator1, 0);
-    AnimatorMDL__Init(&this->animator2, 0);
+    this->targetTurnAngle               = 0;
+    this->currentTurnAngle              = 0;
+    this->rotationY                     = this->targetTurnAngle;
+    this->turnSpeed                     = 0;
+    this->rotationX                     = 0;
+    this->rotationZ                     = 0;
+    this->bodyModelSlot                 = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_JOINT_ANIM] = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_MAT_ANIM]   = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_PAT_ANIM]   = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_TEX_ANIM]   = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_VIS_ANIM]   = CVI3DOBJECT_RESOURCE_NONE;
+    this->tailModelSlot                 = CVI3DOBJECT_RESOURCE_NONE;
+    this->tailAnim                      = CVI3DOBJECT_RESOURCE_NONE;
+    this->isChild                       = FALSE;
+    this->resources[0]                  = NULL;
+    this->resources[1]                  = NULL;
+    this->resources[2]                  = NULL;
+    this->resources[3]                  = NULL;
+    this->resources[4]                  = NULL;
+    this->resources[5]                  = NULL;
+    this->setJoint                      = FALSE;
+    this->setMaterial                   = FALSE;
+    AnimatorMDL__Init(&this->aniBody, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__Init(&this->aniTail, ANIMATOR_FLAG_NONE);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -176,7 +176,7 @@ NONMATCH_FUNC void _ZN11CVi3dObjectC2Ev(CVi3dObject *work)
     CPPHelpers__Func_2085EE8(&this->scale1);
     CPPHelpers__Func_2085EE8(&this->scale2);
 
-    this->flags = 0;
+    this->flags = FLAG_NONE;
 
     VecFx32 a1a;
     CPPHelpers__VEC_Set(&a1a, 0, 0, 0);
@@ -188,31 +188,31 @@ NONMATCH_FUNC void _ZN11CVi3dObjectC2Ev(CVi3dObject *work)
     CPPHelpers__Func_2085FA8(&this->scale1, &a2);
     CPPHelpers__Func_2085FA8(&this->scale2, &this->scale1);
 
-    this->angle           = 0;
-    this->rotationAngle   = 0;
-    this->rotationY2      = this->angle;
-    this->field_3E        = 0;
-    this->rotationX       = 0;
-    this->rotationZ       = 0;
-    this->id1             = -1;
-    this->animator1AnimID = -1;
-    this->field_18C       = -1;
-    this->field_18E       = -1;
-    this->field_190       = -1;
-    this->field_192       = -1;
-    this->id2             = -1;
-    this->animID2         = -1;
-    this->field_2DC       = 0;
-    this->resources[0]    = NULL;
-    this->resources[1]    = NULL;
-    this->resources[2]    = NULL;
-    this->resources[3]    = NULL;
-    this->resources[4]    = NULL;
-    this->resources[5]    = NULL;
-    this->setJoint        = FALSE;
-    this->setMaterial     = FALSE;
-    AnimatorMDL__Init(&this->animator1, 0);
-    AnimatorMDL__Init(&this->animator2, 0);
+    this->targetTurnAngle               = 0;
+    this->currentTurnAngle              = 0;
+    this->rotationY                     = this->targetTurnAngle;
+    this->turnSpeed                     = 0;
+    this->rotationX                     = 0;
+    this->rotationZ                     = 0;
+    this->bodyModelSlot                 = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_JOINT_ANIM] = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_MAT_ANIM]   = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_PAT_ANIM]   = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_TEX_ANIM]   = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_VIS_ANIM]   = CVI3DOBJECT_RESOURCE_NONE;
+    this->tailModelSlot                 = CVI3DOBJECT_RESOURCE_NONE;
+    this->tailAnim                      = CVI3DOBJECT_RESOURCE_NONE;
+    this->isChild                       = FALSE;
+    this->resources[0]                  = NULL;
+    this->resources[1]                  = NULL;
+    this->resources[2]                  = NULL;
+    this->resources[3]                  = NULL;
+    this->resources[4]                  = NULL;
+    this->resources[5]                  = NULL;
+    this->setJoint                      = FALSE;
+    this->setMaterial                   = FALSE;
+    AnimatorMDL__Init(&this->aniBody, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__Init(&this->aniTail, ANIMATOR_FLAG_NONE);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -347,13 +347,13 @@ NONMATCH_FUNC void _ZN11CVi3dObjectD2Ev(CVi3dObject *work)
 #endif
 }
 
-void CVi3dObject::Func_216763C(void *resMdl, u16 id1, BOOL setJoint, BOOL setMaterial, void *resAnimJoint, void *resAnimMaterial, void *resAnimPattern, void *resAnimTexture,
-                               void *resAnimVisibility, u16 id2)
+void CVi3dObject::Func_216763C(void *resMdl, u16 bodyModelSlot, BOOL setJoint, BOOL setMaterial, void *resAnimJoint, void *resAnimMaterial, void *resAnimPattern,
+                               void *resAnimTexture, void *resAnimVisibility, u16 tailModelSlot)
 {
     this->Func_21677C4();
 
-    this->field_2DC                          = FALSE;
-    this->id1                                = id1;
+    this->isChild                            = FALSE;
+    this->bodyModelSlot                      = bodyModelSlot;
     this->resources[B3D_RESOURCE_MODEL]      = resMdl;
     this->resources[B3D_RESOURCE_JOINT_ANIM] = resAnimJoint;
     this->resources[B3D_RESOURCE_MAT_ANIM]   = resAnimMaterial;
@@ -362,21 +362,21 @@ void CVi3dObject::Func_216763C(void *resMdl, u16 id1, BOOL setJoint, BOOL setMat
     this->resources[B3D_RESOURCE_VIS_ANIM]   = resAnimVisibility;
     this->setJoint                           = setJoint;
     this->setMaterial                        = setMaterial;
-    this->id2                                = id2;
+    this->tailModelSlot                      = tailModelSlot;
 
     NNS_G3dResDefaultSetup(this->resources[B3D_RESOURCE_MODEL]);
-    AnimatorMDL__SetResource(&this->animator1, (const NNSG3dResFileHeader *)this->resources[B3D_RESOURCE_MODEL], this->id1, this->setJoint, this->setMaterial);
+    AnimatorMDL__SetResource(&this->aniBody, (const NNSG3dResFileHeader *)this->resources[B3D_RESOURCE_MODEL], this->bodyModelSlot, this->setJoint, this->setMaterial);
 
-    if (this->id2 != 0xFFFF)
-        AnimatorMDL__SetResource(&this->animator2, (const NNSG3dResFileHeader *)this->resources[B3D_RESOURCE_MODEL], this->id2, this->setJoint, this->setMaterial);
+    if (this->tailModelSlot != CVI3DOBJECT_RESOURCE_NONE)
+        AnimatorMDL__SetResource(&this->aniTail, (const NNSG3dResFileHeader *)this->resources[B3D_RESOURCE_MODEL], this->tailModelSlot, this->setJoint, this->setMaterial);
 }
 
-void CVi3dObject::Func_2167704(CVi3dObject *other, u16 id1, BOOL setJoint, BOOL setMaterial, u16 id2)
+void CVi3dObject::Func_2167704(CVi3dObject *other, u16 bodyModelSlot, BOOL setJoint, BOOL setMaterial, u16 tailModelSlot)
 {
     this->Func_21677C4();
 
-    this->field_2DC                          = TRUE;
-    this->id1                                = id1;
+    this->isChild                            = TRUE;
+    this->bodyModelSlot                      = bodyModelSlot;
     this->resources[B3D_RESOURCE_MODEL]      = other->resources[B3D_RESOURCE_MODEL];
     this->resources[B3D_RESOURCE_JOINT_ANIM] = other->resources[B3D_RESOURCE_JOINT_ANIM];
     this->resources[B3D_RESOURCE_MAT_ANIM]   = other->resources[B3D_RESOURCE_MAT_ANIM];
@@ -385,31 +385,31 @@ void CVi3dObject::Func_2167704(CVi3dObject *other, u16 id1, BOOL setJoint, BOOL 
     this->resources[B3D_RESOURCE_VIS_ANIM]   = other->resources[B3D_RESOURCE_VIS_ANIM];
     this->setJoint                           = setJoint;
     this->setMaterial                        = setMaterial;
-    this->id2                                = id2;
+    this->tailModelSlot                      = tailModelSlot;
 
-    AnimatorMDL__SetResource(&this->animator1, (const NNSG3dResFileHeader *)this->resources[B3D_RESOURCE_MODEL], this->id1, this->setJoint, this->setMaterial);
+    AnimatorMDL__SetResource(&this->aniBody, (const NNSG3dResFileHeader *)this->resources[B3D_RESOURCE_MODEL], this->bodyModelSlot, this->setJoint, this->setMaterial);
 
-    if (this->id2 != 0xFFFF)
-        AnimatorMDL__SetResource(&this->animator2, (const NNSG3dResFileHeader *)this->resources[B3D_RESOURCE_MODEL], this->id2, this->setJoint, this->setMaterial);
+    if (this->tailModelSlot != CVI3DOBJECT_RESOURCE_NONE)
+        AnimatorMDL__SetResource(&this->aniTail, (const NNSG3dResFileHeader *)this->resources[B3D_RESOURCE_MODEL], this->tailModelSlot, this->setJoint, this->setMaterial);
 }
 
 void CVi3dObject::Func_21677C4()
 {
-    AnimatorMDL__Release(&this->animator1);
-    AnimatorMDL__Init(&this->animator1, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__Release(&this->aniBody);
+    AnimatorMDL__Init(&this->aniBody, ANIMATOR_FLAG_NONE);
 
-    if (this->id2 != 0xFFFF)
+    if (this->tailModelSlot != CVI3DOBJECT_RESOURCE_NONE)
     {
-        AnimatorMDL__Release(&this->animator2);
-        AnimatorMDL__Init(&this->animator2, ANIMATOR_FLAG_NONE);
+        AnimatorMDL__Release(&this->aniTail);
+        AnimatorMDL__Init(&this->aniTail, ANIMATOR_FLAG_NONE);
     }
 
-    if (this->resources[B3D_RESOURCE_MODEL] != NULL && !this->field_2DC)
+    if (this->resources[B3D_RESOURCE_MODEL] != NULL && !this->isChild)
     {
         NNS_G3dResDefaultRelease(this->resources[B3D_RESOURCE_MODEL]);
     }
 
-    this->flags = 0;
+    this->flags = FLAG_NONE;
 
     VecFx32 a1;
     CPPHelpers__VEC_Set(&a1, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
@@ -421,21 +421,21 @@ void CVi3dObject::Func_21677C4()
     CPPHelpers__Func_2085FA8(&this->scale1, &a2);
     CPPHelpers__Func_2085FA8(&this->scale2, &this->scale1);
 
-    this->angle                              = 0;
-    this->rotationAngle                      = 0;
-    this->rotationY2                         = this->angle;
-    this->field_3E                           = 0;
+    this->targetTurnAngle                    = 0;
+    this->currentTurnAngle                   = 0;
+    this->rotationY                          = this->targetTurnAngle;
+    this->turnSpeed                          = 0;
     this->rotationX                          = 0;
     this->rotationZ                          = 0;
-    this->id1                                = -1;
-    this->animator1AnimID                    = -1;
-    this->field_18C                          = -1;
-    this->field_18E                          = -1;
-    this->field_190                          = -1;
-    this->field_192                          = -1;
-    this->id2                                = -1;
-    this->animID2                            = -1;
-    this->field_2DC                          = 0;
+    this->bodyModelSlot                      = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_JOINT_ANIM]      = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_MAT_ANIM]        = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_PAT_ANIM]        = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_TEX_ANIM]        = CVI3DOBJECT_RESOURCE_NONE;
+    this->bodyAnim[B3D_ANIM_VIS_ANIM]        = CVI3DOBJECT_RESOURCE_NONE;
+    this->tailModelSlot                      = CVI3DOBJECT_RESOURCE_NONE;
+    this->tailAnim                           = CVI3DOBJECT_RESOURCE_NONE;
+    this->isChild                            = FALSE;
     this->resources[B3D_RESOURCE_MODEL]      = NULL;
     this->resources[B3D_RESOURCE_JOINT_ANIM] = NULL;
     this->resources[B3D_RESOURCE_MAT_ANIM]   = NULL;
@@ -448,137 +448,140 @@ void CVi3dObject::Func_21677C4()
 
 void CVi3dObject::Func_2167900(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply)
 {
-    if (forceApply || this->animator1AnimID != animID)
+    if (forceApply || this->bodyAnim[B3D_ANIM_JOINT_ANIM] != animID)
     {
-        this->animator1AnimID = animID;
-        CVi3dObject::Func_21680B8(&this->animator1, B3D_ANIM_JOINT_ANIM, this->resources[B3D_RESOURCE_JOINT_ANIM], this->animator1AnimID, canLoop, blendAnims, keepFrame, NULL);
+        this->bodyAnim[B3D_ANIM_JOINT_ANIM] = animID;
+        CVi3dObject::Func_21680B8(&this->aniBody, B3D_ANIM_JOINT_ANIM, this->resources[B3D_RESOURCE_JOINT_ANIM], this->bodyAnim[B3D_ANIM_JOINT_ANIM], canLoop, blendAnims,
+                                  keepFrame, NULL);
     }
 }
 
 void CVi3dObject::Func_2167958(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply)
 {
-    if (forceApply || this->animID2 != animID)
+    if (forceApply || this->tailAnim != animID)
     {
-        this->animID2 = animID;
-        CVi3dObject::Func_21680B8(&this->animator2, B3D_ANIM_JOINT_ANIM, this->resources[B3D_RESOURCE_JOINT_ANIM], this->animID2, canLoop, blendAnims, keepFrame, NULL);
+        this->tailAnim = animID;
+        CVi3dObject::Func_21680B8(&this->aniTail, B3D_ANIM_JOINT_ANIM, this->resources[B3D_RESOURCE_JOINT_ANIM], this->tailAnim, canLoop, blendAnims, keepFrame, NULL);
     }
 }
 
 void CVi3dObject::Func_21679B0(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply)
 {
-    if (forceApply || this->field_18E != animID)
+    if (forceApply || this->bodyAnim[B3D_ANIM_PAT_ANIM] != animID)
     {
-        this->field_18E = animID;
-        CVi3dObject::Func_21680B8(&this->animator1, B3D_ANIM_MAT_ANIM, this->resources[B3D_RESOURCE_PAT_ANIM], this->field_18E, canLoop, blendAnims, keepFrame, NULL);
+        this->bodyAnim[B3D_ANIM_PAT_ANIM] = animID;
+        CVi3dObject::Func_21680B8(&this->aniBody, B3D_ANIM_MAT_ANIM, this->resources[B3D_RESOURCE_PAT_ANIM], this->bodyAnim[B3D_ANIM_PAT_ANIM], canLoop, blendAnims, keepFrame,
+                                  NULL);
     }
 }
 
 void CVi3dObject::Func_2167A0C(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply)
 {
-    if (forceApply || this->field_190 != animID)
+    if (forceApply || this->bodyAnim[B3D_ANIM_TEX_ANIM] != animID)
     {
-        this->field_190 = animID;
-        CVi3dObject::Func_21680B8(&this->animator1, B3D_ANIM_PAT_ANIM, this->resources[B3D_RESOURCE_TEX_ANIM], this->field_190, canLoop, blendAnims, keepFrame,
+        this->bodyAnim[B3D_ANIM_TEX_ANIM] = animID;
+        CVi3dObject::Func_21680B8(&this->aniBody, B3D_ANIM_PAT_ANIM, this->resources[B3D_RESOURCE_TEX_ANIM], this->bodyAnim[B3D_ANIM_TEX_ANIM], canLoop, blendAnims, keepFrame,
                                   NNS_G3dGetTex((const NNSG3dResFileHeader *)this->resources[B3D_RESOURCE_MODEL]));
     }
 }
 
 void CVi3dObject::Func_2167A80(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply)
 {
-    if (forceApply || this->field_192 != animID)
+    if (forceApply || this->bodyAnim[B3D_ANIM_VIS_ANIM] != animID)
     {
-        this->field_192 = animID;
-        CVi3dObject::Func_21680B8(&this->animator1, B3D_ANIM_TEX_ANIM, this->resources[B3D_RESOURCE_VIS_ANIM], this->field_192, canLoop, blendAnims, keepFrame, NULL);
+        this->bodyAnim[B3D_ANIM_VIS_ANIM] = animID;
+        CVi3dObject::Func_21680B8(&this->aniBody, B3D_ANIM_TEX_ANIM, this->resources[B3D_RESOURCE_VIS_ANIM], this->bodyAnim[B3D_ANIM_VIS_ANIM], canLoop, blendAnims, keepFrame,
+                                  NULL);
     }
 }
 
 void CVi3dObject::ProcessAnimation()
 {
-    if ((this->flags & 1) != 0)
+    if ((this->flags & FLAG_1) != 0)
     {
-        if (this->angle != this->rotationAngle)
+        if (this->targetTurnAngle != this->currentTurnAngle)
         {
-            s32 targetAngle  = this->angle + FLOAT_DEG_TO_IDX(360.0);
-            s32 currentAngle = this->rotationAngle + FLOAT_DEG_TO_IDX(360.0);
+            s32 targetTurnAngle = this->targetTurnAngle + FLOAT_DEG_TO_IDX(360.0);
+            s32 currentAngle    = this->currentTurnAngle + FLOAT_DEG_TO_IDX(360.0);
 
-            if (targetAngle < currentAngle)
+            if (targetTurnAngle < currentAngle)
             {
-                if (currentAngle - targetAngle >= FLOAT_DEG_TO_IDX(180.0))
+                if (currentAngle - targetTurnAngle >= FLOAT_DEG_TO_IDX(180.0))
                 {
                     currentAngle -= FLOAT_DEG_TO_IDX(360.0);
                 }
             }
             else
             {
-                if (targetAngle - currentAngle >= FLOAT_DEG_TO_IDX(180.0))
+                if (targetTurnAngle - currentAngle >= FLOAT_DEG_TO_IDX(180.0))
                 {
-                    targetAngle -= FLOAT_DEG_TO_IDX(360.0);
+                    targetTurnAngle -= FLOAT_DEG_TO_IDX(360.0);
                 }
             }
 
-            if (currentAngle < targetAngle)
+            if (currentAngle < targetTurnAngle)
             {
-                currentAngle += this->field_3E;
-                if (currentAngle > targetAngle)
-                    currentAngle = targetAngle;
+                currentAngle += this->turnSpeed;
+                if (currentAngle > targetTurnAngle)
+                    currentAngle = targetTurnAngle;
             }
-            else if (currentAngle > targetAngle)
+            else if (currentAngle > targetTurnAngle)
             {
-                currentAngle -= this->field_3E;
-                if (currentAngle < targetAngle)
-                    currentAngle = targetAngle;
+                currentAngle -= this->turnSpeed;
+                if (currentAngle < targetTurnAngle)
+                    currentAngle = targetTurnAngle;
             }
 
-            this->rotationAngle = currentAngle;
+            this->currentTurnAngle = currentAngle;
         }
     }
     else
     {
-        this->rotationAngle = this->angle;
+        this->currentTurnAngle = this->targetTurnAngle;
     }
 
-    AnimatorMDL__ProcessAnimation(&this->animator1);
-    if (this->id2 != 0xFFFF)
-        AnimatorMDL__ProcessAnimation(&this->animator2);
+    AnimatorMDL__ProcessAnimation(&this->aniBody);
+    if (this->tailModelSlot != CVI3DOBJECT_RESOURCE_NONE)
+        AnimatorMDL__ProcessAnimation(&this->aniTail);
 }
 
 void CVi3dObject::Draw()
 {
-    this->animator1.work.translation.x = this->translation1.x + this->translation2.x;
-    this->animator1.work.translation.y = this->translation1.y + this->translation2.y;
-    this->animator1.work.translation.z = this->translation1.z + this->translation2.z;
-    this->animator1.work.scale.x       = MultiplyFX(this->scale1.x, this->scale2.x);
-    this->animator1.work.scale.y       = MultiplyFX(this->scale1.y, this->scale2.y);
-    this->animator1.work.scale.z       = MultiplyFX(this->scale1.z, this->scale2.z);
-    MTX_RotY33(&this->animator1.work.matrix33, SinFX(this->rotationAngle + this->rotationY2), CosFX(this->rotationAngle + this->rotationY2));
+    this->aniBody.work.translation.x = this->translation1.x + this->translation2.x;
+    this->aniBody.work.translation.y = this->translation1.y + this->translation2.y;
+    this->aniBody.work.translation.z = this->translation1.z + this->translation2.z;
+    this->aniBody.work.scale.x       = MultiplyFX(this->scale1.x, this->scale2.x);
+    this->aniBody.work.scale.y       = MultiplyFX(this->scale1.y, this->scale2.y);
+    this->aniBody.work.scale.z       = MultiplyFX(this->scale1.z, this->scale2.z);
+    MTX_RotY33(&this->aniBody.work.matrix33, SinFX(this->currentTurnAngle + this->rotationY), CosFX(this->currentTurnAngle + this->rotationY));
 
     if (this->rotationX != FLOAT_DEG_TO_IDX(0.0))
     {
         MtxFx33 mtx;
         MTX_RotX33(&mtx, SinFX(this->rotationX), CosFX(this->rotationX));
-        MTX_Concat33(&this->animator1.work.matrix33, &mtx, &this->animator1.work.matrix33);
+        MTX_Concat33(&this->aniBody.work.matrix33, &mtx, &this->aniBody.work.matrix33);
     }
 
     if (this->rotationZ != FLOAT_DEG_TO_IDX(0.0))
     {
         MtxFx33 mtx;
         MTX_RotZ33(&mtx, SinFX(this->rotationZ), CosFX(this->rotationZ));
-        MTX_Concat33(&this->animator1.work.matrix33, &mtx, &this->animator1.work.matrix33);
+        MTX_Concat33(&this->aniBody.work.matrix33, &mtx, &this->aniBody.work.matrix33);
     }
 
-    AnimatorMDL__Draw(&this->animator1);
+    AnimatorMDL__Draw(&this->aniBody);
 
-    if (this->id2 != 0xFFFF)
+    if (this->tailModelSlot != CVI3DOBJECT_RESOURCE_NONE)
     {
-        this->animator2.work.translation.x = this->animator1.work.translation.x;
-        this->animator2.work.translation.y = this->animator1.work.translation.y;
-        this->animator2.work.translation.z = this->animator1.work.translation.z;
-        this->animator2.work.scale.x       = this->animator1.work.scale.x;
-        this->animator2.work.scale.y       = this->animator1.work.scale.y;
-        this->animator2.work.scale.z       = this->animator1.work.scale.z;
-        MI_CpuCopy16(&this->animator1.work.matrix33, &this->animator2.work.matrix33, sizeof(this->animator1.work.matrix33));
+        this->aniTail.work.translation.x = this->aniBody.work.translation.x;
+        this->aniTail.work.translation.y = this->aniBody.work.translation.y;
+        this->aniTail.work.translation.z = this->aniBody.work.translation.z;
+        this->aniTail.work.scale.x       = this->aniBody.work.scale.x;
+        this->aniTail.work.scale.y       = this->aniBody.work.scale.y;
+        this->aniTail.work.scale.z       = this->aniBody.work.scale.z;
+        MI_CpuCopy16(&this->aniBody.work.matrix33, &this->aniTail.work.matrix33, sizeof(this->aniBody.work.matrix33));
 
-        AnimatorMDL__Draw(&this->animator2);
+        AnimatorMDL__Draw(&this->aniTail);
     }
 }
 
@@ -880,7 +883,7 @@ void CVi3dArrow::LoadAssets()
     this->materialAnimFile = BundleFileUnknown__LoadFileFromBundle("bb/vi_npc.bb", BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_ARROW_NSBMD, BUNDLEFILEUNKNOWN_AUTO_ALLOC_HEAD);
     this->modelFile        = BundleFileUnknown__LoadFileFromBundle("bb/vi_npc.bb", BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_ARROW_NSBCA, BUNDLEFILEUNKNOWN_AUTO_ALLOC_HEAD);
 
-    this->Func_216763C(this->materialAnimFile, 0, FALSE, FALSE, this->modelFile, NULL, NULL, NULL, NULL, 0xFFFF);
+    this->Func_216763C(this->materialAnimFile, 0, FALSE, FALSE, this->modelFile, NULL, NULL, NULL, NULL, CVI3DOBJECT_RESOURCE_NONE);
     this->Func_2167900(0, TRUE, FALSE, FALSE, FALSE);
 }
 

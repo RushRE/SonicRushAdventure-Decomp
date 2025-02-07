@@ -6,6 +6,12 @@
 #include <game/graphics/vramSystem.h>
 
 // --------------------
+// CONSTANTS/MACROS
+// --------------------
+
+#define CVI3DOBJECT_RESOURCE_NONE (u16)(-1)
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -18,6 +24,17 @@ public:
     // virtual ~CVi3dObject();
 
     // --------------------
+    // ENUMS
+    // --------------------
+
+    enum RotationFlags
+    {
+        FLAG_NONE = 0x00,
+
+        FLAG_1 = 1 << 0,
+    };
+
+    // --------------------
     // VARIABLES
     // --------------------
 
@@ -26,23 +43,19 @@ public:
     VecFx32 translation2;
     VecFx32 scale1;
     VecFx32 scale2;
-    u16 angle;
-    u16 rotationAngle;
-    u16 rotationY2;
-    u16 field_3E;
+    u16 targetTurnAngle;
+    u16 currentTurnAngle;
+    u16 rotationY;
+    u16 turnSpeed;
     u16 rotationX;
     u16 rotationZ;
-    AnimatorMDL animator1;
-    u16 id1;
-    u16 animator1AnimID;
-    u16 field_18C;
-    u16 field_18E;
-    u16 field_190;
-    u16 field_192;
-    AnimatorMDL animator2;
-    u16 id2;
-    u16 animID2;
-    u32 field_2DC;
+    AnimatorMDL aniBody;
+    u16 bodyModelSlot;
+    u16 bodyAnim[B3D_ANIM_MAX];
+    AnimatorMDL aniTail;
+    u16 tailModelSlot;
+    u16 tailAnim;
+    BOOL isChild;
     void *resources[B3D_RESOURCE_MAX];
     BOOL setJoint;
     BOOL setMaterial;
@@ -51,9 +64,9 @@ public:
     // MEMBER FUNCTIONS
     // --------------------
 
-    void Func_216763C(void *resMdl, u16 id1, BOOL setJoint, BOOL setMaterial, void *resAnimJoint, void *resAnimMaterial, void *resAnimPattern, void *resAnimTexture,
-                      void *resAnimVisibility, u16 id2);
-    void Func_2167704(CVi3dObject *other, u16 id1, BOOL setJoint, BOOL setMaterial, u16 id2);
+    void Func_216763C(void *resMdl, u16 bodyModelSlot, BOOL setJoint, BOOL setMaterial, void *resAnimJoint, void *resAnimMaterial, void *resAnimPattern, void *resAnimTexture,
+                      void *resAnimVisibility, u16 tailModelSlot);
+    void Func_2167704(CVi3dObject *other, u16 bodyModelSlot, BOOL setJoint, BOOL setMaterial, u16 tailModelSlot);
     void Func_21677C4();
     void Func_2167900(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
     void Func_2167958(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);

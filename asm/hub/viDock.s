@@ -624,7 +624,7 @@ ViDock__Func_215E178: // 0x0215E178
 	add r0, r4, #0x1000
 	ldr r0, [r0, #0x468]
 	mov r1, r5
-	bl ViDockNpc__Func_2166FCC
+	bl ViDockNpc__SetState1
 	ldr r1, _0215E338 // =0xFFFF8001
 	add r0, r4, #0x1f8
 	add r1, r5, r1
@@ -759,7 +759,7 @@ ViDock__Func_215E410: // 0x0215E410
 	ldr r0, [r0, #0x468]
 	cmp r0, #0
 	beq _0215E45C
-	bl ViDockNpc__Func_2167068
+	bl ViDockNpc__SetState2
 	add r0, r4, #0x1000
 	ldr r0, [r0, #0x474]
 	cmp r0, #0
@@ -2251,7 +2251,7 @@ _0215F8A4:
 	add r2, r10, #0x130
 	mov r1, r0
 	add r0, r2, #0x1000
-	bl _ZN15CViDockNpcGroup4DrawEl
+	bl _ZN15CViDockNpcGroup4DrawEP7VecFx32
 _0215F8CC:
 	mov r2, #1
 	add r1, sp, #8

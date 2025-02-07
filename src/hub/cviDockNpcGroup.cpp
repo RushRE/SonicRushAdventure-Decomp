@@ -209,7 +209,7 @@ void CViDockNpcGroup::Animate()
     viArrow.ProcessAnimation();
 }
 
-void CViDockNpcGroup::Draw(s32 a2)
+void CViDockNpcGroup::Draw(VecFx32 *position)
 {
     CViDockNpc *npc = npcListStart;
 
@@ -220,7 +220,7 @@ void CViDockNpcGroup::Draw(s32 a2)
     {
         if ((s32)npc->npcType == 7 || npc->npcType == 8)
         {
-            if (ViDockNpc__Func_216737C(npc, a2))
+            if (ViDockNpc__Func_216737C(npc, position))
             {
                 CPPHelpers__VEC_Copy_Alt(&viArrow.translation1, CPPHelpers__Func_2085F9C(&npc->translation1));
                 viArrow.Draw();

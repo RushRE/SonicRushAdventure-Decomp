@@ -114,7 +114,7 @@ NOT_DECOMPILED void DockHelpers__GetUnknownPurchaseCost(void);
 NOT_DECOMPILED void DockHelpers__GetInfoPurchaseCost(void);
 NOT_DECOMPILED void DockHelpers__GetShipUpgradeCost(void);
 NOT_DECOMPILED void DockHelpers__GetDockBackInfo(void);
-NOT_DECOMPILED CViNpcConfig *DockHelpers__GetNpcConfig(s32 a1);
+NOT_DECOMPILED CViNpcConfig *DockHelpers__GetNpcConfig(u16 a1);
 NOT_DECOMPILED void DockHelpers__Func_2152A20(void);
 NOT_DECOMPILED void DockHelpers__Func_2152A30(void);
 NOT_DECOMPILED void DockHelpers__Func_2152A40(void);

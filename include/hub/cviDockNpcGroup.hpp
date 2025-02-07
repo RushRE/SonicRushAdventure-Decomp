@@ -45,7 +45,7 @@ public:
 
     void LoadAssets();
     void Animate();
-    void Draw(s32 a2);
+    void Draw(VecFx32 *position);
     CViDockNpc *Func_2168608(VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5);
     CViDockNpc *Func_2168674(VecFx32 *a2, s32 a3, s32 a4, BOOL *a5, CViDockNpc *startNpc);
 
