@@ -27,7 +27,7 @@ def ReadXMAP(path):
             if split.startswith("# ."):
                 region = split.replace("# .", "")
 
-            result = re.match(r"^([0-9A-Fa-f]*) ([0-9A-Fa-f]*) (\.[A-Za-z]*)\s*([A-Za-z0-9_]*)\s*\(([A-Za-z0-9_.]*)([^\)]*)\)", split)
+            result = re.match(r"^([0-9A-Fa-f]*) ([0-9A-Fa-f]*) (\.[A-Za-z]*)\s*([A-Za-z0-9_:]*)\s*\(([A-Za-z0-9_.]*)([^\)]*)\)", split)
             if result:
                 info = Address(result.group(1), result.group(2), result.group(3), result.group(4), result.group(5), True)
 
