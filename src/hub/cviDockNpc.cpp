@@ -193,7 +193,7 @@ extern const CViDockNpcAssetBundle dockNpcAssets[1];
 // --------------------
 
 // NONMATCH_FUNC CViDockNpc::CViDockNpc()
-NONMATCH_FUNC void _ZN10CViDockNpcC1Ev()
+NONMATCH_FUNC void _ZN10CViDockNpcC1Ev(CViDockNpc *work)
 {
 #ifdef NON_MATCHING
     this->model         = NULL;
@@ -225,7 +225,7 @@ NONMATCH_FUNC void _ZN10CViDockNpcC1Ev()
 }
 
 // NONMATCH_FUNC CViDockNpc::~CViDockNpc()
-NONMATCH_FUNC void _ZN10CViDockNpcD0Ev()
+NONMATCH_FUNC void _ZN10CViDockNpcD0Ev(CViDockNpc *work)
 {
 #ifdef NON_MATCHING
     ViDockNpc__ReleaseAssets(this);
@@ -246,7 +246,7 @@ NONMATCH_FUNC void _ZN10CViDockNpcD0Ev()
 }
 
 // NONMATCH_FUNC CViDockNpc::~CViDockNpc()
-NONMATCH_FUNC void _ZN10CViDockNpcD1Ev()
+NONMATCH_FUNC void _ZN10CViDockNpcD1Ev(CViDockNpc *work)
 {
 #ifdef NON_MATCHING
     ViDockNpc__ReleaseAssets(this);

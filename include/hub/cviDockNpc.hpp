@@ -45,8 +45,6 @@ public:
     void *aniTexture;
     VecFx32 size;
     BOOL snapToAngle;
-    CViDockNpc *next;
-    CViDockNpc *prev;
 
     // --------------------
     // MEMBER FUNCTIONS
@@ -62,9 +60,9 @@ extern "C"
 {
 #endif
 
-NOT_DECOMPILED void _ZN10CViDockNpcC1Ev();
-NOT_DECOMPILED void _ZN10CViDockNpcD0Ev();
-NOT_DECOMPILED void _ZN10CViDockNpcD1Ev();
+NOT_DECOMPILED void _ZN10CViDockNpcC1Ev(CViDockNpc *work);
+NOT_DECOMPILED void _ZN10CViDockNpcD0Ev(CViDockNpc *work);
+NOT_DECOMPILED void _ZN10CViDockNpcD1Ev(CViDockNpc *work);
 
 void ViDockNpc__LoadAssets(CViDockNpc *work, s32 type, VecFx32 *position, u16 angle, BOOL snapToAngle);
 void ViDockNpc__ReleaseAssets(CViDockNpc *work);

@@ -557,7 +557,7 @@ _0215E148:
 	streq r1, [r0, #0x468]
 	ldmeqia sp!, {r4, r5, r6, pc}
 	add r0, r4, #0x1000
-	bl _ZN15CViDockNpcGroup10GetNextNpcEP10CViDockNpc
+	bl _ZN15CViDockNpcGroup10GetNextNpcEP20CViDockNpcGroupEntry
 	movs r1, r0
 	bne _0215E148
 	ldmia sp!, {r4, r5, r6, pc}
@@ -847,7 +847,7 @@ _0215E52C:
 	bl TalkHelpers__Func_2152EB8
 	mov r1, r4
 	add r0, r5, #0x1000
-	bl _ZN15CViDockNpcGroup10GetNextNpcEP10CViDockNpc
+	bl _ZN15CViDockNpcGroup10GetNextNpcEP20CViDockNpcGroupEntry
 	add r1, r6, #1
 	movs r4, r0
 	mov r0, r1, lsl #0x10
@@ -912,7 +912,7 @@ _0215E624:
 _0215E630:
 	mov r1, r7
 	add r0, r5, #0x1000
-	bl _ZN15CViDockNpcGroup10GetNextNpcEP10CViDockNpc
+	bl _ZN15CViDockNpcGroup10GetNextNpcEP20CViDockNpcGroupEntry
 	add r1, r6, #1
 	movs r7, r0
 	mov r0, r1, lsl #0x10
@@ -2210,7 +2210,7 @@ _0215F7EC:
 	bl _ZN11CVi3dObject4DrawEv
 	add r0, r5, #0x1000
 	mov r1, r9
-	bl _ZN15CViDockNpcGroup10GetNextNpcEP10CViDockNpc
+	bl _ZN15CViDockNpcGroup10GetNextNpcEP20CViDockNpcGroupEntry
 	movs r9, r0
 	bne _0215F7EC
 _0215F838:
@@ -2498,7 +2498,7 @@ _0215FC0C:
 	mov r1, r6
 	mov r2, r10
 	add r0, r5, #0x1000
-	bl _ZN15CViDockNpcGroup12Func_2168674EP7VecFx32llPiP10CViDockNpc
+	bl _ZN15CViDockNpcGroup12Func_2168674EP7VecFx32llPiP20CViDockNpcGroupEntry
 	movs r8, r0
 	beq _0215FCF0
 	ldr r0, [sp, #0x14]

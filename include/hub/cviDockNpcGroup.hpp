@@ -19,6 +19,13 @@ struct CViDockNpcGroupTalk
     u32 action;
 };
 
+struct CViDockNpcGroupEntry
+{
+    CViDockNpc npc;
+    CViDockNpcGroupEntry *next;
+    CViDockNpcGroupEntry *prev;
+};
+
 class CViDockNpcGroup
 {
 public:
@@ -30,8 +37,8 @@ public:
     // --------------------
 
     u32 npcListSize;
-    CViDockNpc *npcListStart;
-    CViDockNpc *npcListEnd;
+    CViDockNpcGroupEntry *npcListStart;
+    CViDockNpcGroupEntry *npcListEnd;
     CVi3dArrow viArrow;
 
     // --------------------
@@ -39,15 +46,15 @@ public:
     // --------------------
 
     void ClearNpcList();
-    CViDockNpc *AddNpc();
-    void RemoveNpc(CViDockNpc *npc);
-    CViDockNpc *GetNextNpc(CViDockNpc *npc);
+    CViDockNpcGroupEntry *AddNpc();
+    void RemoveNpc(CViDockNpcGroupEntry *npc);
+    CViDockNpcGroupEntry *GetNextNpc(CViDockNpcGroupEntry *npc);
 
     void LoadAssets();
     void Animate();
     void Draw(VecFx32 *position);
-    CViDockNpc *Func_2168608(VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5);
-    CViDockNpc *Func_2168674(VecFx32 *a2, s32 a3, s32 a4, BOOL *a5, CViDockNpc *startNpc);
+    CViDockNpcGroupEntry *Func_2168608(VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5);
+    CViDockNpcGroupEntry *Func_2168674(VecFx32 *a2, s32 a3, s32 a4, BOOL *a5, CViDockNpcGroupEntry *startNpc);
 
     // --------------------
     // STATIC FUNCTIONS
