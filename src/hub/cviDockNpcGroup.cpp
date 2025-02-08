@@ -8,15 +8,6 @@
 #include <hub/cviDockNpcTalk.hpp>
 
 // --------------------
-// VARIABLES
-// --------------------
-
-static u32 selection;
-
-extern CViDockNpcGroupTalk ViDockNpcGroup__talkAction;
-extern DockNpcGroupFunc ViDockNpcGroup__talkActionTable[];
-
-// --------------------
 // FUNCTIONS
 // --------------------
 
@@ -211,58 +202,4 @@ CViDockNpcGroupEntry *CViDockNpcGroup::Func_2168674(VecFx32 *a2, s32 a3, s32 a4,
     }
 
     return NULL;
-}
-
-void CViDockNpcGroup::RunAction(s32 id, s32 param)
-{
-    ViDockNpcGroup__talkAction.action = 32;
-
-    ViDockNpcGroup__talkActionTable[id](param);
-}
-
-u32 CViDockNpcGroup::GetTalkAction(void)
-{
-    return ViDockNpcGroup__talkAction.action;
-}
-
-u32 CViDockNpcGroup::GetSelection(void)
-{
-    return selection;
-}
-
-void CViDockNpcGroup::SetTalkAction(u32 value)
-{
-    ViDockNpcGroup__talkAction.action = value;
-}
-
-void CViDockNpcGroup::SetSelection(s32 value)
-{
-    selection = value;
-}
-
-void CViDockNpcGroup::Func_2168764(s32 param)
-{
-    u16 talkParam;
-
-    if (gameState.missionFlag == FALSE)
-    {
-        talkParam = 7;
-    }
-    else
-    {
-        talkParam = 6;
-        MissionHelpers__Func_2153E4C(MissionHelpers__GetMissionID());
-    }
-
-    CreateViDockNpcTalk(talkParam);
-}
-
-void CViDockNpcGroup::Func_2168798(s32 param)
-{
-    // nothing
-}
-
-void CViDockNpcGroup::Func_216879C(s32 param)
-{
-    ViDockNpcGroup__talkAction.action = param;
 }

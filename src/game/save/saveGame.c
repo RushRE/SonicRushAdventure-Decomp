@@ -1594,12 +1594,12 @@ void SaveGame__SetBoughtInfo(u8 id)
     saveGame.stage.progress.flags |= 0x20 << id;
 }
 
-BOOL SaveGame__GetProgressFlags_0x100000(u8 id)
+BOOL SaveGame__GetProgressFlags_0x100000(u32 id)
 {
     return (saveGame.stage.progress.flags & (0x100000 << id)) != 0;
 }
 
-void SaveGame__SetProgressFlags_0x100000(u8 id)
+void SaveGame__SetProgressFlags_0x100000(u32 id)
 {
     saveGame.stage.progress.flags |= 0x100000 << id;
 }

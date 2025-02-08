@@ -537,12 +537,12 @@ _02169E7C:
 	bl DockHelpers__GetInfoPurchaseCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #6
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	ldr r1, [r4, #4]
 	ldr r0, _02169FA0 // =ovl05_02173190
 	mov r1, r1, lsl #1
 	ldrh r0, [r0, r1]
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	b _02169F98
 _02169EB0:
 	ldr r0, [r4, #0]
@@ -551,9 +551,9 @@ _02169EB0:
 	bl DockHelpers__GetShipBuildCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #4
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	ldr r0, [r4, #0]
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	b _02169F98
 _02169ED8:
 	ldr r0, [r4, #8]
@@ -562,17 +562,17 @@ _02169ED8:
 	bl DockHelpers__GetShipUpgradeCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #0x1d
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	ldr r0, [r4, #8]
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	b _02169F98
 _02169F00:
 	bl DockHelpers__GetUnknownPurchaseCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #6
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #7
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	b _02169F98
 _02169F1C:
 	ldr r0, [r4, #8]
@@ -581,15 +581,15 @@ _02169F1C:
 	bl DockHelpers__GetShipUpgradeCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #0x1d
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	ldr r0, [r4, #8]
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	b _02169F98
 _02169F44:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	b _02169F98
 _02169F58:
 	mov r0, #0
@@ -601,15 +601,15 @@ _02169F58:
 	bl SaveGame__UseRingsForPurchase
 _02169F74:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	b _02169F98
 _02169F88:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 _02169F98:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}

@@ -116,23 +116,23 @@ ViTalkAnnounce__Main: // 0x0216B80C
 	cmp r0, #0
 	bne _0216B850
 	mov r0, #0x11
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	b _0216B87C
 _0216B850:
 	cmp r0, #0xc
 	bne _0216B86C
 	mov r0, #0x15
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0x1c
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	b _0216B87C
 _0216B86C:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 _0216B87C:
 	ldrh r0, [r4, #0]
 	cmp r0, #0x1d

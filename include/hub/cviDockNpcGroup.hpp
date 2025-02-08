@@ -55,20 +55,6 @@ public:
     void Draw(VecFx32 *position);
     CViDockNpcGroupEntry *Func_2168608(VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5);
     CViDockNpcGroupEntry *Func_2168674(VecFx32 *a2, s32 a3, s32 a4, BOOL *a5, CViDockNpcGroupEntry *startNpc);
-
-    // --------------------
-    // STATIC FUNCTIONS
-    // --------------------
-
-    static void RunAction(s32 id, s32 param);
-    static u32 GetTalkAction(void);
-    static u32 GetSelection(void);
-    static void SetTalkAction(u32 value);
-    static void SetSelection(s32 value);
-
-    static void Func_2168764(s32 param);
-    static void Func_2168798(s32 param);
-    static void Func_216879C(s32 param);
 };
 
 #endif // RUSH_CVIDOCKNPCGROUP_HPP

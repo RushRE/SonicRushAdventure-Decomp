@@ -100,6 +100,14 @@ typedef struct CViNpcConfig_
     u16 *(*field_8)(void);
 } CViNpcConfig;
 
+typedef struct NpcMsgInfo_
+{
+    u16 msgCtrlFile;
+    u16 msgTextID1;
+    u16 msgTextID2;
+    u16 msgTextID3;
+} NpcMsgInfo;
+
 // --------------------
 // FUNCTIONS
 // --------------------
@@ -133,7 +141,7 @@ NOT_DECOMPILED void DockHelpers__Func_2152ADC(void);
 NOT_DECOMPILED void DockHelpers__Func_2152AE8(void);
 NOT_DECOMPILED void DockHelpers__Func_2152AF4(void);
 NOT_DECOMPILED void DockHelpers__Func_2152B00(void);
-NOT_DECOMPILED void DockHelpers__GetNpcMessageInfo(void);
+NOT_DECOMPILED NpcMsgInfo *DockHelpers__GetNpcMessageInfo(s32 id);
 NOT_DECOMPILED void DockHelpers__Func_2152B1C(void);
 NOT_DECOMPILED void DockHelpers__Func_2152B2C(void);
 NOT_DECOMPILED void DockHelpers__Func_2152B38(void);

@@ -10,9 +10,6 @@
 class CViDockNpcTalk
 {
 public:
-    // CViDockNpcTalk();
-    // virtual ~CViDockNpcTalk();
-
     // --------------------
     // VARIABLES
     // --------------------
@@ -25,30 +22,28 @@ public:
     // MEMBER FUNCTIONS
     // --------------------
 
+    void Release();
+
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
+
+    static void RunAction(s32 id, s32 param);
+    static u32 GetTalkAction(void);
+    static u32 GetSelection(void);
+    static void SetTalkAction(u32 value);
+    static void SetSelection(s32 value);
+
+    static void CreateMission(s32 param);
+    static void CreateUnknown(s32 param);
+    static void CreateTalkAction(s32 param);
+
+    static void Create(s32 messageID);
+
+private:
+    static void CreatePrivate(s32 messageID);
+    static void Main(void);
+    static void Destructor(Task *task);
 };
-
-// --------------------
-// FUNCTIONS
-// --------------------
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-NOT_DECOMPILED void CreateViDockNpcTalk(s32 messageID);
-NOT_DECOMPILED void ViDockNpcTalk__Create(s32 messageID);
-NOT_DECOMPILED void ViDockNpcTalk__CreateInternal(void);
-NOT_DECOMPILED void ViDockNpcTalk__Func_21689D0(void);
-NOT_DECOMPILED void ViDockNpcTalk__Main(void);
-NOT_DECOMPILED void ViDockNpcTalk__Destructor(void);
-NOT_DECOMPILED void ViDockNpcTalk__Func_2168C0C(void);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // RUSH_CVIDOCKNPCTALK_HPP

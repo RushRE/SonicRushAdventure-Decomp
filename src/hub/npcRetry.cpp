@@ -1,6 +1,6 @@
 #include <hub/npcRetry.hpp>
 #include <hub/hubControl.hpp>
-#include <hub/cviDockNpcGroup.hpp>
+#include <hub/cviDockNpcTalk.hpp>
 #include <game/save/saveGame.h>
 #include <game/file/fileUnknown.h>
 
@@ -81,20 +81,20 @@ void NpcRetry::Main_Talking(void)
         {
             if (work->evtCmnTalk.GetSelection() == 0)
             {
-                CViDockNpcGroup::SetTalkAction(27);
+                CViDockNpcTalk::SetTalkAction(27);
             }
             else
             {
-                CViDockNpcGroup::SetTalkAction(0);
+                CViDockNpcTalk::SetTalkAction(0);
                 SaveGame__GsExit(0);
             }
         }
         else
         {
-            CViDockNpcGroup::SetTalkAction(0);
+            CViDockNpcTalk::SetTalkAction(0);
         }
 
-        CViDockNpcGroup::SetSelection(0);
+        CViDockNpcTalk::SetSelection(0);
         DestroyCurrentTask();
     }
 }

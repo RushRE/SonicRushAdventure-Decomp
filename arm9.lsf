@@ -676,8 +676,7 @@ Overlay Hub
     Object asm/hub/cvi3dObject_rtti.o
     Object src/hub/cvi3dObject.o
     Object src/hub/cviDockNpcGroup.o
-    Object src/hub/cviDockNpcGroup_vars.o #TODO: figure if these can be merged into the above file
-    Object asm/hub/viDockNpcTalk.o
+    Object src/hub/cviDockNpcTalk.o
     Object asm/hub/viSailPrompt.o
     Object asm/hub/viTalkPurchase.o
     Object asm/hub/viTalkList.o

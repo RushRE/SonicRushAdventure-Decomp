@@ -316,15 +316,15 @@ _02171470:
 	cmp r4, r0
 	beq _02171494
 	mov r0, #0x14
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, r4
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	ldmia sp!, {r4, pc}
 _02171494:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021714A8: .word NpcCutsceneViewer__entryList

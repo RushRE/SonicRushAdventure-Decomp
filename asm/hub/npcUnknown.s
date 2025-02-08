@@ -156,9 +156,9 @@ NpcUnknown__Main_216DE94: // 0x0216DE94
 	bne _0216DEF8
 _0216DEE0:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, r5, r6, pc}
 _0216DEF8:
@@ -262,9 +262,9 @@ _0216E058:
 	cmp r7, #0
 	beq _0216E078
 	mov r0, #0x1e
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	bl DestroyCurrentTask
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0216E078:
@@ -324,9 +324,9 @@ _0216E130:
 	cmp r7, #0
 	beq _0216E150
 	mov r0, #0x1e
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	bl DestroyCurrentTask
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0216E150:
@@ -370,9 +370,9 @@ NpcUnknown__Main_216E190: // 0x0216E190
 	cmpeq r0, #1
 	bne _0216E1F0
 	mov r0, #0xe
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, r5, r6, pc}
 _0216E1F0:

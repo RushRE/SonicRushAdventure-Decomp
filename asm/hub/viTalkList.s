@@ -930,9 +930,9 @@ ViTalkMissionList__Destructor: // 0x0216AE54
 	bl MissionHelpers__ResetMissionAttempted
 _0216AE88:
 	mov r0, #0xb
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0x63
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	b _0216AEF0
 _0216AE9C:
 	ldr r0, [r4, #0x4c0]
@@ -949,15 +949,15 @@ _0216AE9C:
 	bl MissionHelpers__ResetMissionAttempted
 _0216AECC:
 	mov r0, #9
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, r5
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	b _0216AEF0
 _0216AEE0:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup13SetTalkActionEm
+	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12SetSelectionEl
+	bl _ZN14CViDockNpcTalk12SetSelectionEl
 _0216AEF0:
 	mov r0, r4
 	bl ViTalkMissionList__Func_216A848
