@@ -682,8 +682,10 @@ Overlay Hub
     Object asm/hub/viTalkList.o
     Object asm/hub/viTalkAnnounce.o
     Object src/hub/cviEvtCmn.o
-    Object asm/hub/npcUnknown.o
-    Object asm/hub/npcCutsceneViewer.o
+    Object asm/hub/npcOptions.o
+    Object asm/hub/npcPurchase.o
+    Object asm/hub/npcTalkList.o
+    Object src/hub/npcCutsceneViewer.o
     Object src/hub/npcRetry.o
 }
 

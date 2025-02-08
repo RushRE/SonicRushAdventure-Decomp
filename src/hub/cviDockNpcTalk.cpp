@@ -12,7 +12,7 @@
 #include <hub/cviSailPrompt.hpp>
 #include <hub/cviTalkPurchase.hpp>
 #include <hub/cviTalkMissionList.hpp>
-#include <hub/npcUnknown.hpp>
+#include <hub/npcOptions.hpp>
 #include <hub/npcCutsceneViewer.hpp>
 #include <hub/npcRetry.hpp>
 
@@ -26,7 +26,7 @@ CViDockNpcGroupTalk talkAction = { 32 };
 
 DockNpcGroupFunc talkActionTable[] = {
     CViDockNpcTalk::Create,        ViSailPrompt__Create, ViTalkPurchase__Create,    ViTalkMissionList__Create, CViDockNpcTalk::CreateMission,    ViTalkMissionList__Func_216B6B4,
-    CViDockNpcTalk::CreateUnknown, NpcUnknown__Create,   NpcCutsceneViewer__Create, NpcRetry::Create,          CViDockNpcTalk::CreateTalkAction,
+    CViDockNpcTalk::CreateUnknown, NpcOptions__Create,   NpcCutsceneViewer::Create, NpcRetry::Create,          CViDockNpcTalk::CreateTalkAction,
 };
 
 // --------------------

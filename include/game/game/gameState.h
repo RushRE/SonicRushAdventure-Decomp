@@ -217,7 +217,8 @@ struct GameTalkState
     u8 field_DF;
     struct GameTalkUnknown1 field_E0[1];
     struct GameTalkUnknown2 field_14[4];
-    s32 field_40;
+    u16 field_40;
+    u16 field_42;
     s32 field_44;
 };
 

@@ -236,7 +236,7 @@ BOOL SaveGame__Func_205BC7C(void)
     return FALSE;
 }
 
-void SaveGame__SetMissionStatus(u8 id, MissionState status)
+void SaveGame__SetMissionStatus(u16 id, MissionState status)
 {
     u32 state = saveGame.stage.missionState[id / 4];
     u32 shift = (id % 4) << 1;
@@ -245,12 +245,12 @@ void SaveGame__SetMissionStatus(u8 id, MissionState status)
     saveGame.stage.missionState[id / 4] = state | (status << shift);
 }
 
-MissionState SaveGame__GetMissionStatus(u8 id)
+MissionState SaveGame__GetMissionStatus(u16 id)
 {
     return (saveGame.stage.missionState[id / 4] >> ((id % 4) << 1)) & 3;
 }
 
-void SaveGame__SetMissionAttempted(u8 id, BOOL attempted)
+void SaveGame__SetMissionAttempted(u16 id, BOOL attempted)
 {
     u32 shift = (id % 8);
     if (attempted)
@@ -259,7 +259,7 @@ void SaveGame__SetMissionAttempted(u8 id, BOOL attempted)
         saveGame.stage.missionAttemptState[id / 8] &= ~(1 << shift);
 }
 
-BOOL SaveGame__GetMissionAttempted(u8 id)
+BOOL SaveGame__GetMissionAttempted(u16 id)
 {
     return (saveGame.stage.missionAttemptState[id / 8] & (1 << (id % 8))) != 0;
 }

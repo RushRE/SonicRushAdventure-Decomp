@@ -124,11 +124,11 @@ extern "C" void InitHubSysEvent(void)
     {
         if (TalkHelpers__Func_2152F88() == 4)
         {
-            u16 value = NpcCutsceneViewer__Func_2171150(gameState.cutscene.cutsceneID);
-            if (value != 0 && !gameState.cutscene.canSkip)
+            u16 cutscene = NpcCutsceneViewer::GetNextCutscene(gameState.cutscene.cutsceneID);
+            if (cutscene != CUTSCENE_NONE && !gameState.cutscene.canSkip)
             {
                 HubControl::Func_21572B8();
-                HubControl::Func_215B8FC(value);
+                HubControl::Func_215B8FC(cutscene);
                 RequestNewSysEventChange(SYSEVENT_CUTSCENE);
                 NextSysEvent();
                 return;

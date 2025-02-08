@@ -80,7 +80,7 @@ NOT_DECOMPILED void ViDock__Func_215E178(void);
 NOT_DECOMPILED void ViDock__Func_215E340(s32 a1, s32 a2);
 NOT_DECOMPILED void ViDock__Func_215E410(void);
 NOT_DECOMPILED BOOL ViDock__Func_215E4A0(void);
-NOT_DECOMPILED void ViDock__Func_215E4BC(void);
+NOT_DECOMPILED void ViDock__Func_215E4BC(s32 a1);
 NOT_DECOMPILED void ViDock__Func_215E4DC(void);
 NOT_DECOMPILED void ViDock__Func_215E578(BOOL a1);
 NOT_DECOMPILED void ViDock__Func_215E658(s32 a1);
