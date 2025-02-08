@@ -25,7 +25,6 @@ extern "C"
 
 #define SAVEGAME_MATERIAL_MAX        99
 #define SAVEGAME_MATERIAL_NONE       0xFF
-#define SAVEGAME_MATERIAL_TYPE_COUNT 9
 
 #define SAVEGAME_VSRECORD_MAX 9999
 
@@ -133,6 +132,21 @@ enum SaveVsRecordType_
 };
 typedef u32 SaveVsRecordType;
 
+enum MaterialType_
+{
+    SAVE_MATERIAL_BLUE,
+    SAVE_MATERIAL_IRON,
+    SAVE_MATERIAL_GREEN,
+    SAVE_MATERIAL_BRONZE,
+    SAVE_MATERIAL_RED,
+    SAVE_MATERIAL_SILVER,
+    SAVE_MATERIAL_AQUA,
+    SAVE_MATERIAL_GOLD,
+    SAVE_MATERIAL_BLACK,
+
+    SAVE_MATERIAL_COUNT,
+};
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -206,7 +220,7 @@ typedef struct SaveBlockStage_
         u32 lives : 7;
     } status;
 
-    u8 materialCount[9];
+    u8 materialCount[SAVE_MATERIAL_COUNT];
 } SaveBlockStage;
 
 typedef struct SaveBlockChart_

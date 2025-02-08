@@ -37,7 +37,7 @@ typedef struct Thread_
 // --------------------
 
 void InitThreadWorker(Thread *thread, s32 stackSize);
-void CreateThreadWorker(Thread *thread, ThreadFunc func, void *arg, int prio);
+void CreateThreadWorker(Thread *thread, ThreadFunc func, void *arg, s32 prio);
 BOOL IsThreadWorkerFinished(Thread *thread);
 void JoinThreadWorker(Thread *thread);
 void DestroyThreadWorker(Thread *thread);

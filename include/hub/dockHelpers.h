@@ -108,6 +108,12 @@ typedef struct NpcMsgInfo_
     u16 msgTextID3;
 } NpcMsgInfo;
 
+typedef struct OptionsMessageConfig_
+{
+    u16 msgCtrlFile;
+    u16 msgTextID[7];
+} OptionsMessageConfig;
+
 // --------------------
 // FUNCTIONS
 // --------------------
@@ -148,7 +154,7 @@ NOT_DECOMPILED void DockHelpers__Func_2152B38(void);
 NOT_DECOMPILED void DockHelpers__Func_2152B48(void);
 NOT_DECOMPILED void DockHelpers__Func_2152B58(void);
 NOT_DECOMPILED void DockHelpers__GetAnnounceConfig(void);
-NOT_DECOMPILED void DockHelpers__GetOptionsMessageInfo(void);
+NOT_DECOMPILED OptionsMessageConfig *DockHelpers__GetOptionsMessageInfo(void);
 
 #ifdef __cplusplus
 }

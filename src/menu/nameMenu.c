@@ -212,7 +212,7 @@ NONMATCH_FUNC void NameMenu__InitAnimators(NameMenuWorker *work)
     void *sprCommon = FileUnknown__GetAOUFile(work->archiveDmni, ARCHIVE_DMNI_LZ7_FILE_DMNI_CMN_BAC);
     void *sprLang   = FileUnknown__GetAOUFile(work->archiveDmni, GetGameLanguage() + ARCHIVE_DMNI_LZ7_FILE_DMNI_JPN_BAC);
 
-    NameMenuGetSpriteSizeFunc getSpriteSize;
+    GetSpriteSizeFromAnimFunc getSpriteSize;
     switch (GXS_GetOBJVRamModeChar())
     {
         case GX_OBJVRAMMODE_CHAR_1D_32K:
@@ -738,7 +738,7 @@ void NameMenu__ThreadFunc(void *arg)
     NameMenu__Init(work);
 }
 
-void NameMenu__InitAnimator(AnimatorSprite *work, void *fileData, BOOL useEngineB, BOOL disableLooping, BOOL enableScale, NameMenuGetSpriteSizeFunc getSpriteSize, u16 animID,
+void NameMenu__InitAnimator(AnimatorSprite *work, void *fileData, BOOL useEngineB, BOOL disableLooping, BOOL enableScale, GetSpriteSizeFromAnimFunc getSpriteSize, u16 animID,
                             u16 paletteRow, u8 oamPriority, u8 oamOrder)
 {
     u32 flags = ANIMATOR_FLAG_NONE;

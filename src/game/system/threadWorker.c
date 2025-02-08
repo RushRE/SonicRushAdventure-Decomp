@@ -18,7 +18,7 @@ void InitThreadWorker(Thread *thread, s32 stackSize)
     thread->isThreadActive = FALSE;
 }
 
-void CreateThreadWorker(Thread *thread, void (*func)(void *), void *arg, int prio)
+void CreateThreadWorker(Thread *thread, ThreadFunc func, void *arg, s32 prio)
 {
     DestroyThreadWorker(thread);
 

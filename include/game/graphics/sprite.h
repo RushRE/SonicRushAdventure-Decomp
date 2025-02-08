@@ -27,6 +27,9 @@ typedef struct AnimatorSprite_ AnimatorSprite;
 
 typedef void (*SpriteFrameCallback)(BACFrameGroupBlockHeader *block, AnimatorSprite *animator, void *userData);
 
+typedef u16 (*GetSpriteSizeFunc)(void *fileData);
+typedef u16 (*GetSpriteSizeFromAnimFunc)(void *fileData, u16 animID);
+
 // --------------------
 // ENUMS
 // --------------------

@@ -11,12 +11,6 @@
 #include <game/system/threadWorker.h>
 
 // --------------------
-// TYPES
-// --------------------
-
-typedef u16 (*NameMenuGetSpriteSizeFunc)(void *fileData, u16 animID);
-
-// --------------------
 // STRUCTS
 // --------------------
 
@@ -68,7 +62,7 @@ void NameMenu__InitBackgrounds(NameMenuWorker *work);
 void NameMenu__InitUnknown2056570(NameMenuWorker *work);
 void NameMenu__InitTouchField(NameMenuWorker *work);
 void NameMenu__ThreadFunc(void *arg);
-void NameMenu__InitAnimator(AnimatorSprite *work, void *fileData, BOOL useEngineB, BOOL disableLooping, BOOL enableScale, NameMenuGetSpriteSizeFunc getSpriteSize,
+void NameMenu__InitAnimator(AnimatorSprite *work, void *fileData, BOOL useEngineB, BOOL disableLooping, BOOL enableScale, GetSpriteSizeFromAnimFunc getSpriteSize,
                                            u16 animID, u16 paletteRow, u8 oamPriority, u8 oamOrder);
 void NameMenu__InitFontWindow(NameMenuWorker *work);
 void NameMenu__Release(NameMenuWorker *work);

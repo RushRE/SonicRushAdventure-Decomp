@@ -26,7 +26,7 @@ CViDockNpcGroupTalk talkAction = { 32 };
 
 DockNpcGroupFunc talkActionTable[] = {
     CViDockNpcTalk::Create,        ViSailPrompt__Create, ViTalkPurchase__Create,    ViTalkMissionList__Create, CViDockNpcTalk::CreateMission,    ViTalkMissionList__Func_216B6B4,
-    CViDockNpcTalk::CreateUnknown, NpcOptions__Create,   NpcCutsceneViewer::Create, NpcRetry::Create,          CViDockNpcTalk::CreateTalkAction,
+    CViDockNpcTalk::CreateUnknown, NpcOptions::Create,   NpcCutsceneViewer::Create, NpcRetry::Create,          CViDockNpcTalk::CreateTalkAction,
 };
 
 // --------------------

@@ -4,6 +4,11 @@
 #include <game/system/task.h>
 #include <game/system/threadWorker.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -86,5 +91,9 @@ BOOL TryCreateGameData(void);
 void CreateCreateSaveWorker(SaveGameCreateManager *work, s32 prio);
 BOOL AwaitCreateSaveCompletion(SaveGameCreateManager *work);
 BOOL GetCreateSaveSuccess(SaveGameCreateManager *work);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_SAVEMANAGER_H

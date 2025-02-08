@@ -203,10 +203,10 @@ void NpcCutsceneViewer::Release()
     ReleaseThreadWorker(&this->thread);
 
     this->ReleaseList();
-    this->ReleaseDisplay();
+    this->ResetDisplay();
 }
 
-void NpcCutsceneViewer::ReleaseDisplay()
+void NpcCutsceneViewer::ResetDisplay()
 {
     HubControl::Func_215A96C();
 }

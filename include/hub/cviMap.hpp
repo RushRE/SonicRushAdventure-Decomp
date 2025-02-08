@@ -65,7 +65,7 @@ NOT_DECOMPILED void ViMap__Func_215C84C(s32 a1);
 NOT_DECOMPILED void ViMap__Func_215C878(s16 x, s16 y);
 NOT_DECOMPILED void ViMapPaletteAnimation__Create(void);
 NOT_DECOMPILED void ViMap__Func_215C960(void);
-NOT_DECOMPILED void ViMap__Func_215C98C(void);
+NOT_DECOMPILED AnimatorSprite *ViMap__Func_215C98C(u16 id);
 NOT_DECOMPILED void ViMap__Func_215C9B4(void);
 NOT_DECOMPILED void ViMap__Func_215CA1C(void);
 NOT_DECOMPILED void ViMap__Func_215CA60(void);

@@ -45,7 +45,7 @@ NONMATCH_FUNC void SaveGame__SaveClearCallback_Common(SaveGame *save, SaveBlockF
 
     if ((blockFlags & SAVE_BLOCK_FLAG_STAGE) != 0)
     {
-        for (i = 0; i < SAVEGAME_MATERIAL_TYPE_COUNT; i++)
+        for (i = 0; i < SAVE_MATERIAL_COUNT; i++)
         {
             save->stage.materialCount[i] = SAVEGAME_MATERIAL_NONE;
         }

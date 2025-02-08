@@ -1,7 +1,7 @@
 #ifndef RUSH_NPCOPTIONS_HPP
 #define RUSH_NPCOPTIONS_HPP
 
-#include <game/system/task.h>
+#include <hub/hubTask.hpp>
 #include <game/system/threadWorker.h>
 #include <hub/cviEvtCmn.hpp>
 
@@ -23,41 +23,28 @@ public:
     // MEMBER FUNCTIONS
     // --------------------
 
+    void InitDisplay();
+    void Release();
+    void ResetDisplay();
+
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
+
+    static void Create(s32 param);
+    static void ThreadFunc(void *arg);
+
+    static void Main_Init(void);
+    static void Main_ChooseOption(void);
+    static void Main_ChangeDifficulty(void);
+    static void Main_ChangeTimeLimit(void);
+    static void Main_ClearSaveDataWarning(void);
+    static void Destructor(Task *task);
+
+    static BOOL GetNormalDifficultyEnabled(void);
+    static BOOL GetTimeLimit(void);
+    static BOOL EnableNormalDifficulty(BOOL enabled);
+    static BOOL EnableTimeLimit(BOOL enabled);
 };
-
-// --------------------
-// FUNCTIONS
-// --------------------
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-// NpcOptions
-NOT_DECOMPILED void NpcOptions__Create(s32 param);
-NOT_DECOMPILED void NpcOptions__CreateInternal(void);
-NOT_DECOMPILED void NpcOptions__ThreadFunc(void *arg);
-NOT_DECOMPILED void NpcOptions__Func_216DDE0(NpcOptions *work);
-NOT_DECOMPILED void NpcOptions__Func_216DDEC(NpcOptions *work);
-NOT_DECOMPILED void NpcOptions__Func_216DE20(NpcOptions *work);
-NOT_DECOMPILED void NpcOptions__Main(void);
-NOT_DECOMPILED void NpcOptions__Main_216DE94(void);
-NOT_DECOMPILED void NpcOptions__Main_216DFE0(void);
-NOT_DECOMPILED void NpcOptions__Main_216E0B8(void);
-NOT_DECOMPILED void NpcOptions__Main_216E190(void);
-NOT_DECOMPILED void NpcOptions__Destructor(Task *task);
-NOT_DECOMPILED void NpcOptions__Func_216E24C(void);
-NOT_DECOMPILED BOOL NpcOptions__GetDifficulty(void);
-NOT_DECOMPILED BOOL NpcOptions__GetTimeLimit(void);
-NOT_DECOMPILED void NpcOptions__EnableNormalMode(BOOL enabled);
-NOT_DECOMPILED void NpcOptions__EnableTimeLimit(BOOL enabled);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // RUSH_NPCOPTIONS_HPP

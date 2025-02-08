@@ -32,7 +32,7 @@ public:
     void InitDisplay();
     void InitList();
     void Release();
-    void ReleaseDisplay();
+    void ResetDisplay();
     void ReleaseList();
 
     // --------------------

@@ -270,7 +270,7 @@ ViTalkPurchase__Func_2169B20: // 0x02169B20
 	mov r4, r0
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcPurchase__Init
+	bl _ZN11NpcPurchase4InitEv
 	mov r1, #3
 	add r0, r4, #0x1fc
 	mov r2, #0x3c0
@@ -282,7 +282,7 @@ ViTalkPurchase__Func_2169B20: // 0x02169B20
 	add r3, r2, #0x3f
 	mov r1, #2
 	str ip, [sp, #8]
-	bl NpcPurchase__Load
+	bl _ZN11NpcPurchase4LoadEtttttt
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
 	arm_func_end ViTalkPurchase__Func_2169B20
@@ -338,12 +338,12 @@ _02169BFC: .word 0x0000FFFF
 
 	arm_func_start ViTalkPurchase__Func_2169C00
 ViTalkPurchase__Func_2169C00: // 0x02169C00
-	ldr ip, _02169C10 // =NpcPurchase__Release
+	ldr ip, _02169C10 // =_ZN11NpcPurchase7ReleaseEv
 	add r0, r0, #0x1fc
 	add r0, r0, #0x400
 	bx ip
 	.align 2, 0
-_02169C10: .word NpcPurchase__Release
+_02169C10: .word _ZN11NpcPurchase7ReleaseEv
 	arm_func_end ViTalkPurchase__Func_2169C00
 
 	arm_func_start ViTalkPurchase__Main
@@ -401,7 +401,7 @@ _02169C9C:
 	bl _ZN13CViEvtCmnTalk11SetCallbackEPFvmP13FontAnimator_PvES2_
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcPurchase__ProcessGraphics
+	bl _ZN11NpcPurchase15ProcessGraphicsEv
 	ldr r0, _02169CEC // =ViTalkPurchase__Func_2169CF0
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
@@ -418,10 +418,10 @@ ViTalkPurchase__Func_2169CF0: // 0x02169CF0
 	mov r4, r0
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcPurchase__Process
+	bl _ZN11NpcPurchase7ProcessEv
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcPurchase__Func_216ED10
+	bl _ZN11NpcPurchase7IsReadyEv
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	ldr r0, [r4, #0x10]
@@ -448,7 +448,7 @@ ViTalkPurchase__Func_2169D4C: // 0x02169D4C
 	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcPurchase__Process
+	bl _ZN11NpcPurchase7ProcessEv
 	add r0, r4, #0x500
 	ldrh r1, [r0, #0xf8]
 	ldr r0, _02169E08 // =0x0000FFFF
@@ -487,7 +487,7 @@ _02169DE0:
 	ldmeqia sp!, {r4, pc}
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcPurchase__Func_216ED24
+	bl _ZN11NpcPurchase11CloseWindowEv
 	ldr r0, _02169E0C // =ViTalkPurchase__Func_2169E10
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
@@ -503,10 +503,10 @@ ViTalkPurchase__Func_2169E10: // 0x02169E10
 	mov r4, r0
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcPurchase__Process
+	bl _ZN11NpcPurchase7ProcessEv
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcPurchase__Func_216ED60
+	bl _ZN11NpcPurchase8IsActiveEv
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	ldr r0, _02169E48 // =ViTalkPurchase__Func_2169E4C
