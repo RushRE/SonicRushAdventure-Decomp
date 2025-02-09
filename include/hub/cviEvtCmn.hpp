@@ -6,7 +6,7 @@
 #include <game/text/fontWindowMWControl.h>
 #include <game/graphics/sprite.h>
 #include <game/input/touchField.h>
-#include <hub/viMessageController.h>
+#include <hub/cviMessageController.hpp>
 
 // --------------------
 // CONSTANTS/MACROS
@@ -301,7 +301,7 @@ public:
     u16 pageID;
     void *msgText;
     void *msgCtrlFile;
-    ViMessageController msgCtrl;
+    CViMessageController msgCtrl;
     CViEvtCmnMsg evtCmnMsg;
     CViEvtCmnSelect evtCmnSelect;
 

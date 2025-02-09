@@ -1302,21 +1302,21 @@ void CViEvtCmnTalk::Init(void *mpcCtrlFile, u16 interactionID, u16 interactionID
 
     this->msgCtrlFile = mpcCtrlFile;
 
-    viMessageController__SetCtrlFile(&this->msgCtrl, mpcCtrlFile);
+    this->msgCtrl.SetControlFile(mpcCtrlFile);
     if (interactionID2 != CVIEVTCMN_RESOURCE_NONE)
     {
-        viMessageController__SetInteractionID(&this->msgCtrl, interactionID2);
+        this->msgCtrl.SetInteraction(interactionID2);
         this->interactionID = interactionID;
         this->pageID        = CVIEVTCMN_RESOURCE_NONE;
     }
     else
     {
-        viMessageController__SetInteractionID(&this->msgCtrl, interactionID);
+        this->msgCtrl.SetInteraction(interactionID);
         this->interactionID = CVIEVTCMN_RESOURCE_NONE;
         this->pageID        = CVIEVTCMN_RESOURCE_NONE;
     }
 
-    this->msgText = FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsg(), viMessageController__GetMPCFile(&this->msgCtrl));
+    this->msgText = FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsg(), this->msgCtrl.GetTextFileIndex());
     this->evtCmnMsg.Init(this->msgText);
     this->evtCmnSelect.Init(this->msgText);
     this->dialogState = CViEvtCmnTalk::DIALOGSTATE_INACTIVE;
@@ -1340,25 +1340,25 @@ u16 CViEvtCmnTalk::SetInteraction()
 {
     if (this->interactionID != CVIEVTCMN_RESOURCE_NONE)
     {
-        ViMessageController controller;
-        viMessageController__SetCtrlFile(&controller, this->msgCtrlFile);
-        viMessageController__SetInteractionID(&controller, this->interactionID);
-        return viMessageController__GetPageCount(&controller);
+        CViMessageController controller;
+        controller.SetControlFile(this->msgCtrlFile);
+        controller.SetInteraction(this->interactionID);
+        return controller.GetPageCount();
     }
 
-    return viMessageController__GetPageCount(&this->msgCtrl);
+    return this->msgCtrl.GetPageCount();
 }
 
 void CViEvtCmnTalk::SetPage(u16 pageID)
 {
     if (this->interactionID != CVIEVTCMN_RESOURCE_NONE)
     {
-        viMessageController__SetPageID(&this->msgCtrl, 0);
+        this->msgCtrl.SetPageID(0);
         this->pageID = pageID;
     }
     else
     {
-        viMessageController__SetPageID(&this->msgCtrl, pageID);
+        this->msgCtrl.SetPageID(pageID);
         this->pageID = CVIEVTCMN_RESOURCE_NONE;
     }
     this->dialogState = CViEvtCmnTalk::DIALOGSTATE_INIT;
@@ -1412,13 +1412,13 @@ void CViEvtCmnTalk::SetCallback(FontCallback callback, void *context)
 
 s32 CViEvtCmnTalk::DialogState_Init()
 {
-    u16 pageSequence = viMessageController__GetPageSequence(&this->msgCtrl);
+    u16 pageSequence = this->msgCtrl.GetPageSequence();
 
     u16 nameAnimID;
-    if (viMessageController__HasName(&this->msgCtrl) == FALSE)
+    if (this->msgCtrl.CheckPageHasNameAnim() == FALSE)
         nameAnimID = CVIEVTCMN_RESOURCE_NONE;
     else
-        nameAnimID = viMessageController__GetNameAnim(&this->msgCtrl);
+        nameAnimID = this->msgCtrl.GetPageNameAnim();
     this->evtCmnMsg.SetSequence(pageSequence, nameAnimID, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, 1);
 
     GX_SetVisiblePlane(GX_GetVisiblePlane() | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3);
@@ -1430,30 +1430,30 @@ s32 CViEvtCmnTalk::DialogState_ProcessTextReveal()
 {
     s32 nextState = CViEvtCmnTalk::DIALOGSTATE_REVEALING_TEXT;
 
-    if (this->evtCmnMsg.HasNoNextSequence() && !viMessageController__Entry3Enabled(&this->msgCtrl))
+    if (this->evtCmnMsg.HasNoNextSequence() && !this->msgCtrl.CheckPageHasActions())
     {
-        if (viMessageController__IsDialogIDValid(&this->msgCtrl))
+        if (this->msgCtrl.CheckPageHasSequenceUnknown())
         {
             this->evtCmnMsg.SetIsLastSequence(FALSE);
         }
         else
         {
-            viMessageController__IsDialogIDValid_2(&this->msgCtrl, 0);
+            this->msgCtrl.AdvancePage(0);
 
-            if (viMessageController__Entry3Enabled(&this->msgCtrl))
+            if (this->msgCtrl.CheckPageHasActions())
             {
                 this->evtCmnMsg.SetIsLastSequence(TRUE);
             }
             else
             {
                 this->evtCmnMsg.SetIsLastSequence(FALSE);
-                u16 pageSequence = viMessageController__GetPageSequence(&this->msgCtrl);
+                u16 pageSequence = this->msgCtrl.GetPageSequence();
 
                 u16 nameAnim;
-                if (!viMessageController__HasName(&this->msgCtrl))
+                if (!this->msgCtrl.CheckPageHasNameAnim())
                     nameAnim = CVIEVTCMN_RESOURCE_NONE;
                 else
-                    nameAnim = viMessageController__GetNameAnim(&this->msgCtrl);
+                    nameAnim = this->msgCtrl.GetPageNameAnim();
 
                 this->evtCmnMsg.SetNextSequence(pageSequence, nameAnim);
             }
@@ -1465,19 +1465,19 @@ s32 CViEvtCmnTalk::DialogState_ProcessTextReveal()
 
     if (this->evtCmnMsg.CheckIdle())
     {
-        if (viMessageController__Entry3Enabled(&this->msgCtrl))
+        if (this->msgCtrl.CheckPageHasActions())
         {
             nextState = CViEvtCmnTalk::DIALOGSTATE_FINALIZE_ACTIONS;
         }
         else
         {
-            if (!viMessageController__IsDialogIDValid(&this->msgCtrl))
+            if (!this->msgCtrl.CheckPageHasSequenceUnknown())
             {
                 nextState = CViEvtCmnTalk::DIALOGSTATE_FINALIZE_ACTIONS;
             }
             else
             {
-                this->evtCmnSelect.SetSequence(viMessageController__GetDialogID(&this->msgCtrl));
+                this->evtCmnSelect.SetSequence(this->msgCtrl.GetPageSequenceUnknown());
                 nextState = CViEvtCmnTalk::DIALOGSTATE_SELECTION_ACTIVE;
             }
         }
@@ -1495,27 +1495,27 @@ s32 CViEvtCmnTalk::DialogState_ProcessSelections()
 
     if (this->evtCmnSelect.CheckFinished())
     {
-        viMessageController__IsDialogIDValid_2(&this->msgCtrl, this->evtCmnSelect.GetSelection());
+        this->msgCtrl.AdvancePage(this->evtCmnSelect.GetSelection());
 
         u16 sequence;
         u16 nameAnimID;
-        if (viMessageController__Entry3Enabled(&this->msgCtrl))
+        if (this->msgCtrl.CheckPageHasActions())
         {
-            if (this->interactionID != CVIEVTCMN_RESOURCE_NONE && viMessageController__GetEntry3ValueFromID(&this->msgCtrl) == 9)
+            if (this->interactionID != CVIEVTCMN_RESOURCE_NONE && this->msgCtrl.GetPageActionType() == 9)
             {
-                viMessageController__SetInteractionID(&this->msgCtrl, this->interactionID);
-                viMessageController__SetPageID(&this->msgCtrl, this->pageID);
+                this->msgCtrl.SetInteraction(this->interactionID);
+                this->msgCtrl.SetPageID(this->pageID);
                 this->interactionID = CVIEVTCMN_RESOURCE_NONE;
                 this->pageID        = CVIEVTCMN_RESOURCE_NONE;
 
-                sequence = viMessageController__GetPageSequence(&this->msgCtrl);
-                if (!viMessageController__HasName(&this->msgCtrl))
+                sequence = this->msgCtrl.GetPageSequence();
+                if (!this->msgCtrl.CheckPageHasNameAnim())
                 {
                     nameAnimID = CVIEVTCMN_RESOURCE_NONE;
                 }
                 else
                 {
-                    nameAnimID = viMessageController__GetNameAnim(&this->msgCtrl);
+                    nameAnimID = this->msgCtrl.GetPageNameAnim();
                 }
 
                 this->evtCmnMsg.SetSequenceFromMPC(sequence, nameAnimID, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, TRUE);
@@ -1527,14 +1527,14 @@ s32 CViEvtCmnTalk::DialogState_ProcessSelections()
         }
         else
         {
-            sequence = viMessageController__GetPageSequence(&this->msgCtrl);
-            if (!viMessageController__HasName(&this->msgCtrl))
+            sequence = this->msgCtrl.GetPageSequence();
+            if (!this->msgCtrl.CheckPageHasNameAnim())
             {
                 nameAnimID = CVIEVTCMN_RESOURCE_NONE;
             }
             else
             {
-                nameAnimID = viMessageController__GetNameAnim(&this->msgCtrl);
+                nameAnimID = this->msgCtrl.GetPageNameAnim();
             }
 
             this->evtCmnMsg.SetSequenceFromMPC(sequence, nameAnimID, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, TRUE);
@@ -1548,10 +1548,10 @@ s32 CViEvtCmnTalk::DialogState_ProcessSelections()
 
 s32 CViEvtCmnTalk::DialogState_FinalizeActions()
 {
-    if (viMessageController__Entry3Enabled2(&this->msgCtrl))
+    if (this->msgCtrl.CheckPageActionEnabled())
     {
-        this->ctrlAction    = viMessageController__GetEntry3ValueFromID(&this->msgCtrl);
-        this->ctrlSelection = viMessageController__GetEntry3Value2(&this->msgCtrl);
+        this->ctrlAction    = this->msgCtrl.GetPageActionType();
+        this->ctrlSelection = this->msgCtrl.GetPageActionSelection();
     }
     else
     {

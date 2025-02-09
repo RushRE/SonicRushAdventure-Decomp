@@ -650,7 +650,7 @@ Overlay Hub
     ## HUB HELPERS ##
     Object src/hub/hubConfig.o
     Object src/hub/hubConfig_2.o
-    Object asm/hub/viMessageController.o
+    Object src/hub/cviMessageController.o
     Object asm/hub/hubTalkHelpers.o
     Object asm/hub/hubMissionHelpers.o
     Object src/hub/hubAudio.o
