@@ -203,7 +203,7 @@ public:
     BOOL CheckConfirmBtnPress();
     BOOL CheckBackBtnPress();
     s32 HandleBtnSelectionControl();
-    s32 HandleTouchSelectionControl(BOOL usePull);
+    s32 HandleTouchSelectionControl(BOOL usePush);
 };
 
 class CViEvtCmnAnnounce

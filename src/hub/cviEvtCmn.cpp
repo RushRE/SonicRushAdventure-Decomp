@@ -10,14 +10,6 @@
 #include <resources/narc/vi_act_lz7.h>
 
 // --------------------
-// WRAPPER FUNCTIONS
-// --------------------
-
-extern "C"
-{
-}
-
-// --------------------
 // INLINE FUNCTIONS
 // --------------------
 
@@ -1025,13 +1017,13 @@ s32 CViEvtCmnSelect::HandleBtnSelectionControl()
     return selection;
 }
 
-s32 CViEvtCmnSelect::HandleTouchSelectionControl(BOOL usePull)
+s32 CViEvtCmnSelect::HandleTouchSelectionControl(BOOL usePush)
 {
     s32 selection = -1;
 
     u16 x;
     u16 y;
-    if (usePull)
+    if (usePush)
     {
         if (!CheckTouchPushEnabled())
             return -1;
