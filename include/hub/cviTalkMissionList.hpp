@@ -14,8 +14,6 @@
 // STRUCTS
 // --------------------
 
-#ifdef __cplusplus
-
 class CViTalkMissionList
 {
 
@@ -58,8 +56,6 @@ public:
     // STATIC FUNCTIONS
     // --------------------
 };
-
-#endif
 
 // --------------------
 // FUNCTIONS

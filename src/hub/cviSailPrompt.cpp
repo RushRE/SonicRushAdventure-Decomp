@@ -1,27 +1,64 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <hub/cviSailPrompt.hpp>
+#include <hub/hubControl.hpp>
+#include <hub/hubAudio.h>
+#include <hub/cviDockNpcTalk.hpp>
+#include <game/save/saveGame.h>
+#include <game/input/padInput.h>
+#include <game/input/touchInput.h>
+#include <game/file/fileUnknown.h>
 
-	.text
+// --------------------
+// TEMP
+// --------------------
 
-	arm_func_start ViSailPrompt__Create
-ViSailPrompt__Create: // 0x02168C3C
-	ldr ip, _02168C44 // =ViSailPrompt__CreateInternal
+extern "C"
+{
+
+NOT_DECOMPILED void _ZN10HubControl12Func_215A888Ev(void);
+NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViMsgEv(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215A96CEv(void);
+NOT_DECOMPILED void _ZN10HubControl10GetField54Ev(void);
+NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViActEt(void);
+NOT_DECOMPILED void _ZN14CViDockNpcTalk12SetSelectionEl(void);
+NOT_DECOMPILED void _ZN14CViDockNpcTalk13SetTalkActionEm(void);
+NOT_DECOMPILED void _ZN17CViEvtCmnAnnounce11SetSequenceEtt(void);
+NOT_DECOMPILED void _ZN17CViEvtCmnAnnounceC1Ev(void);
+NOT_DECOMPILED void _ZdlPv(void);
+
+}
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC void ViSailPrompt__Create(s32 param)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr ip, =ViSailPrompt__CreateInternal
 	bx ip
-	.align 2, 0
-_02168C44: .word ViSailPrompt__CreateInternal
-	arm_func_end ViSailPrompt__Create
 
-	arm_func_start ViSailPrompt__CreateInternal
-ViSailPrompt__CreateInternal: // 0x02168C48
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__CreateInternal(s32 param)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
-	ldr r1, _02168CA8 // =0x00001010
+	ldr r1, =0x00001010
 	mov r5, r0
 	mov r2, #0
 	str r1, [sp]
 	mov r4, #0x10
-	ldr r0, _02168CAC // =ViSailPrompt__Main
-	ldr r1, _02168CB0 // =ViSailPrompt__Destructor
+	ldr r0, =ViSailPrompt__Main
+	ldr r1, =ViSailPrompt__Destructor
 	mov r3, r2
 	str r4, [sp, #4]
 	mov r4, #0x1f4
@@ -29,7 +66,7 @@ ViSailPrompt__CreateInternal: // 0x02168C48
 	bl TaskCreate_
 	bl GetTaskWork_
 	mov r4, r0
-	ldr r1, _02168CB4 // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	str r5, [r4]
 	strh r1, [r4, #8]
 	bl ViSailPrompt__InitDisplay
@@ -37,15 +74,17 @@ ViSailPrompt__CreateInternal: // 0x02168C48
 	bl ViSailPrompt__InitGraphics
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_02168CA8: .word 0x00001010
-_02168CAC: .word ViSailPrompt__Main
-_02168CB0: .word ViSailPrompt__Destructor
-_02168CB4: .word 0x0000FFFF
-	arm_func_end ViSailPrompt__CreateInternal
 
-	arm_func_start ViSailPrompt__InitDisplay
-ViSailPrompt__InitDisplay: // 0x02168CB8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__InitDisplay(CViSailPrompt *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN10HubControl12Func_215A888Ev
@@ -54,10 +93,17 @@ ViSailPrompt__InitDisplay: // 0x02168CB8
 	mov r0, r4
 	bl ViSailPrompt__Func_21696AC
 	ldmia sp!, {r4, pc}
-	arm_func_end ViSailPrompt__InitDisplay
 
-	arm_func_start ViSailPrompt__InitGraphics
-ViSailPrompt__InitGraphics: // 0x02168CD8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__InitGraphics(CViSailPrompt *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #0
@@ -77,28 +123,47 @@ ViSailPrompt__InitGraphics: // 0x02168CD8
 	bl _ZN10HubControl17GetFileFrom_ViMsgEv
 	str r0, [r4, #0x1f0]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViSailPrompt__InitGraphics
 
-	arm_func_start ViSailPrompt__Release
-ViSailPrompt__Release: // 0x02168D24
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Release(CViSailPrompt *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ViSailPrompt__ReleaseGraphics
 	mov r0, r4
 	bl ViSailPrompt__ResetDisplay
 	ldmia sp!, {r4, pc}
-	arm_func_end ViSailPrompt__Release
 
-	arm_func_start ViSailPrompt__ResetDisplay
-ViSailPrompt__ResetDisplay: // 0x02168D3C
-	ldr ip, _02168D44 // =_ZN10HubControl12Func_215A96CEv
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__ResetDisplay(CViSailPrompt *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr ip, =_ZN10HubControl12Func_215A96CEv
 	bx ip
-	.align 2, 0
-_02168D44: .word _ZN10HubControl12Func_215A96CEv
-	arm_func_end ViSailPrompt__ResetDisplay
 
-	arm_func_start ViSailPrompt__ReleaseGraphics
-ViSailPrompt__ReleaseGraphics: // 0x02168D48
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__ReleaseGraphics(CViSailPrompt *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x18c
@@ -110,10 +175,17 @@ ViSailPrompt__ReleaseGraphics: // 0x02168D48
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__Release
 	ldmia sp!, {r4, pc}
-	arm_func_end ViSailPrompt__ReleaseGraphics
 
-	arm_func_start ViSailPrompt__Main
-ViSailPrompt__Main: // 0x02168D74
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x28
 	bl GetCurrentTaskWork_
@@ -158,18 +230,23 @@ ViSailPrompt__Main: // 0x02168D74
 	bl FontWindowAnimator__StartAnimating
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__Draw
-	ldr r0, _02168E3C // =ViSailPrompt__Main_2168E40
+	ldr r0, =ViSailPrompt__Main_2168E40
 	bl SetCurrentTaskMainEvent
 	mov r0, #4
 	bl PlayHubSfx
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02168E3C: .word ViSailPrompt__Main_2168E40
-	arm_func_end ViSailPrompt__Main
 
-	arm_func_start ViSailPrompt__Main_2168E40
-ViSailPrompt__Main_2168E40: // 0x02168E40
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Main_2168E40(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
@@ -234,16 +311,21 @@ _02168F18:
 	bl FontAnimator__ClearPixels
 	add r0, r4, #0x10
 	bl FontAnimator__Draw
-	ldr r0, _02168F48 // =ViSailPrompt__Main_2168F4C
+	ldr r0, =ViSailPrompt__Main_2168F4C
 	bl SetCurrentTaskMainEvent
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_02168F48: .word ViSailPrompt__Main_2168F4C
-	arm_func_end ViSailPrompt__Main_2168E40
 
-	arm_func_start ViSailPrompt__Main_2168F4C
-ViSailPrompt__Main_2168F4C: // 0x02168F4C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Main_2168F4C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
@@ -291,7 +373,7 @@ ViSailPrompt__Main_2168F4C: // 0x02168F4C
 	str r2, [sp, #4]
 	str r0, [sp, #8]
 	str r2, [sp, #0xc]
-	ldr r3, _021690C0 // =0x05000200
+	ldr r3, =0x05000200
 	add r0, r4, #0x18c
 	str r3, [sp, #0x10]
 	str r2, [sp, #0x14]
@@ -334,31 +416,34 @@ _02169098:
 	mov r1, #0
 	bl FontAnimator__GetDialogLineCount
 	strh r0, [r4, #6]
-	ldr r1, _021690C4 // =0x0000FFFF
-	ldr r0, _021690C8 // =ViSailPrompt__Main_21690CC
+	ldr r1, =0x0000FFFF
+	ldr r0, =ViSailPrompt__Main_21690CC
 	strh r1, [r4, #8]
 	bl SetCurrentTaskMainEvent
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_021690C0: .word 0x05000200
-_021690C4: .word 0x0000FFFF
-_021690C8: .word ViSailPrompt__Main_21690CC
-	arm_func_end ViSailPrompt__Main_2168F4C
 
-	arm_func_start ViSailPrompt__Main_21690CC
-ViSailPrompt__Main_21690CC: // 0x021690CC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Main_21690CC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	ldr r6, _02169330 // =0x0000FFFF
+	ldr r6, =0x0000FFFF
 	bl GetCurrentTaskWork_
-	ldr r1, _02169334 // =padInput
+	ldr r1, =padInput
 	mov r4, r0
 	ldrh r0, [r1, #8]
 	mov r5, #0
 	tst r0, #0x40
 	beq _02169118
 	ldrh r0, [r4, #4]
-	ldr r1, _02169330 // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	cmp r0, #0
 	ldreqh r0, [r4, #6]
 	sub r0, r0, #1
@@ -368,7 +453,7 @@ ViSailPrompt__Main_21690CC: // 0x021690CC
 	strh r1, [r4, #8]
 	bl PlayHubSfx
 _02169118:
-	ldr r0, _02169334 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #8]
 	tst r0, #0x80
 	beq _0216915C
@@ -382,18 +467,18 @@ _02169118:
 	mov r0, r0, lsl #0x10
 	mov r6, r0, lsr #0x10
 _0216914C:
-	ldr r1, _02169330 // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	mov r0, #3
 	strh r1, [r4, #8]
 	bl PlayHubSfx
 _0216915C:
-	ldr r0, _02169330 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r6, r0
 	bne _021691BC
 	mov r0, r4
 	mov r1, #1
 	bl ViSailPrompt__Func_21694F0
-	ldr r1, _02169330 // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	mov r6, r0
 	cmp r6, r1
 	strneh r6, [r4, #8]
@@ -425,7 +510,7 @@ _021691BC:
 	mov r1, #0
 	bl AnimatorSprite__SetAnimation
 _021691EC:
-	ldr r0, _02169334 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #1
 	beq _02169208
@@ -435,7 +520,7 @@ _021691EC:
 _02169208:
 	cmp r5, #0
 	bne _02169284
-	ldr r0, _02169334 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #2
 	beq _02169284
@@ -509,17 +594,20 @@ _02169308:
 	mov r1, #1
 	str r2, [r4, #0xc]
 	bl FontWindowMWControl__SetPaletteAnim
-	ldr r0, _02169338 // =ViSailPrompt__Main_216933C
+	ldr r0, =ViSailPrompt__Main_216933C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_02169330: .word 0x0000FFFF
-_02169334: .word padInput
-_02169338: .word ViSailPrompt__Main_216933C
-	arm_func_end ViSailPrompt__Main_21690CC
 
-	arm_func_start ViSailPrompt__Main_216933C
-ViSailPrompt__Main_216933C: // 0x0216933C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Main_216933C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	bl GetCurrentTaskWork_
@@ -552,16 +640,21 @@ ViSailPrompt__Main_216933C: // 0x0216933C
 	bl FontWindowAnimator__InitAnimation
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__StartAnimating
-	ldr r0, _021693CC // =ViSailPrompt__Main_21693D0
+	ldr r0, =ViSailPrompt__Main_21693D0
 	bl SetCurrentTaskMainEvent
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_021693CC: .word ViSailPrompt__Main_21693D0
-	arm_func_end ViSailPrompt__Main_216933C
 
-	arm_func_start ViSailPrompt__Main_21693D0
-ViSailPrompt__Main_21693D0: // 0x021693D0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Main_21693D0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -579,15 +672,20 @@ ViSailPrompt__Main_21693D0: // 0x021693D0
 	bl ViSailPrompt__Func_21695E4
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__SetWindowClosed
-	ldr r0, _02169420 // =ViSailPrompt__Main_2169424
+	ldr r0, =ViSailPrompt__Main_2169424
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02169420: .word ViSailPrompt__Main_2169424
-	arm_func_end ViSailPrompt__Main_21693D0
 
-	arm_func_start ViSailPrompt__Main_2169424
-ViSailPrompt__Main_2169424: // 0x02169424
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Main_2169424(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -641,18 +739,32 @@ _021694C8:
 _021694D8:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}
-	arm_func_end ViSailPrompt__Main_2169424
 
-	arm_func_start ViSailPrompt__Destructor
-ViSailPrompt__Destructor: // 0x021694E0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetTaskWork_
 	bl ViSailPrompt__Release
 	ldmia sp!, {r3, pc}
-	arm_func_end ViSailPrompt__Destructor
 
-	arm_func_start ViSailPrompt__Func_21694F0
-ViSailPrompt__Func_21694F0: // 0x021694F0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 ViSailPrompt__Func_21694F0(CViSailPrompt *work, BOOL usePull)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	cmp r1, #0
@@ -660,7 +772,7 @@ ViSailPrompt__Func_21694F0: // 0x021694F0
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _02169520
-	ldr r0, _021695DC // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #4
 	movne r0, #1
@@ -669,9 +781,9 @@ _02169520:
 	mov r0, #0
 _02169524:
 	cmp r0, #0
-	ldreq r0, _021695E0 // =0x0000FFFF
+	ldreq r0, =0x0000FFFF
 	ldmeqia sp!, {r4, pc}
-	ldr r0, _021695DC // =touchInput
+	ldr r0, =touchInput
 	ldrh r1, [r0, #0x1c]
 	ldrh ip, [r0, #0x1e]
 	b _0216957C
@@ -679,7 +791,7 @@ _02169540:
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _02169560
-	ldr r0, _021695DC // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #8
 	movne r0, #1
@@ -688,9 +800,9 @@ _02169560:
 	mov r0, #0
 _02169564:
 	cmp r0, #0
-	ldreq r0, _021695E0 // =0x0000FFFF
+	ldreq r0, =0x0000FFFF
 	ldmeqia sp!, {r4, pc}
-	ldr r0, _021695DC // =touchInput
+	ldr r0, =touchInput
 	ldrh r1, [r0, #0x20]
 	ldrh ip, [r0, #0x22]
 _0216957C:
@@ -719,15 +831,19 @@ _021695C4:
 	add r3, r3, #2
 	blt _0216959C
 _021695D4:
-	ldr r0, _021695E0 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021695DC: .word touchInput
-_021695E0: .word 0x0000FFFF
-	arm_func_end ViSailPrompt__Func_21694F0
 
-	arm_func_start ViSailPrompt__Func_21695E4
-ViSailPrompt__Func_21695E4: // 0x021695E4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Func_21695E4(BOOL enabled)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	cmp r0, #0
 	mov r2, #0x4000000
 	beq _02169614
@@ -750,10 +866,17 @@ _02169614:
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
 	bx lr
-	arm_func_end ViSailPrompt__Func_21695E4
 
-	arm_func_start ViSailPrompt__Func_2169638
-ViSailPrompt__Func_2169638: // 0x02169638
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Func_2169638(BOOL enabled)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	cmp r0, #0
 	mov r2, #0x4000000
 	beq _02169668
@@ -776,25 +899,35 @@ _02169668:
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
 	bx lr
-	arm_func_end ViSailPrompt__Func_2169638
 
-	arm_func_start ViSailPrompt__Func_216968C
-ViSailPrompt__Func_216968C: // 0x0216968C
-	ldr ip, _021696A0 // =MIi_CpuClear32
-	ldr r0, _021696A4 // =0x03FF03FF
-	ldr r1, _021696A8 // =0x06000800
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Func_216968C(CViSailPrompt *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr ip, =MIi_CpuClear32
+	ldr r0, =0x03FF03FF
+	ldr r1, =0x06000800
 	mov r2, #0x800
 	bx ip
-	.align 2, 0
-_021696A0: .word MIi_CpuClear32
-_021696A4: .word 0x03FF03FF
-_021696A8: .word 0x06000800
-	arm_func_end ViSailPrompt__Func_216968C
 
-	arm_func_start ViSailPrompt__Func_21696AC
-ViSailPrompt__Func_21696AC: // 0x021696AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViSailPrompt__Func_21696AC(CViSailPrompt *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r1, _021696D4 // =0x06007FE0
+	ldr r1, =0x06007FE0
 	mov r0, #0
 	mov r2, #0x20
 	bl MIi_CpuClearFast
@@ -803,22 +936,34 @@ ViSailPrompt__Func_21696AC: // 0x021696AC
 	mov r2, #0x600
 	bl MIi_CpuClearFast
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021696D4: .word 0x06007FE0
-	arm_func_end ViSailPrompt__Func_21696AC
 
-	arm_func_start ViSailPrompt__CheckTrainingDisabled
-ViSailPrompt__CheckTrainingDisabled: // 0x021696D8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL ViSailPrompt__CheckTrainingDisabled()
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	bl SaveGame__GetGameProgress
 	cmp r0, #3
 	movlt r0, #1
 	movge r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ViSailPrompt__CheckTrainingDisabled
 
-	arm_func_start ViSailPrompt__Func_21696F0
-ViSailPrompt__Func_21696F0: // 0x021696F0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL ViSailPrompt__Func_21696F0(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SaveGame__GetGameProgress
@@ -849,10 +994,17 @@ _02169740:
 _0216974C:
 	mov r0, #0
 	ldmia sp!, {r4, pc}
-	arm_func_end ViSailPrompt__Func_21696F0
 
-	arm_func_start ViSailPrompt__Func_2169754
-ViSailPrompt__Func_2169754: // 0x02169754
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 ViSailPrompt__Func_2169754(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02169798
@@ -878,4 +1030,7 @@ _02169790:
 _02169798:
 	mov r0, #0
 	bx lr
-	arm_func_end ViSailPrompt__Func_2169754
+
+// clang-format on
+#endif
+}

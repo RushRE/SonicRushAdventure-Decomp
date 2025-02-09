@@ -120,6 +120,12 @@ typedef struct PurchaseCostConfig_
     u8 materialCost[9];
 } PurchaseCostConfig;
 
+typedef struct AnnounceConfig_
+{
+    u16 mpcFile;
+    u16 sequence;
+} AnnounceConfig;
+
 // --------------------
 // FUNCTIONS
 // --------------------
@@ -129,10 +135,10 @@ NOT_DECOMPILED DockStageConfig *HubConfig__Func_2152970(u16 a1);
 NOT_DECOMPILED void HubConfig__Func_2152984(void);
 NOT_DECOMPILED DockMapConfig *HubConfig__Func_2152994(u16 a1);
 NOT_DECOMPILED Unknown2171CCC *HubConfig__Func_21529A8(u16 a1);
-NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetShipBuildCost(void);
-NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetUnknownPurchaseCost(void);
-NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetInfoPurchaseCost(void);
-NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetShipUpgradeCost(void);
+NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id);
+NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetUnknownPurchaseCost(s32 id);
+NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetInfoPurchaseCost(s32 id);
+NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id);
 NOT_DECOMPILED void HubConfig__GetDockBackInfo(void);
 NOT_DECOMPILED CViNpcConfig *HubConfig__GetNpcConfig(u16 a1);
 NOT_DECOMPILED void HubConfig__Func_2152A20(void);
@@ -159,7 +165,7 @@ NOT_DECOMPILED void HubConfig__Func_2152B2C(void);
 NOT_DECOMPILED void HubConfig__Func_2152B38(void);
 NOT_DECOMPILED void HubConfig__Func_2152B48(void);
 NOT_DECOMPILED void HubConfig__Func_2152B58(void);
-NOT_DECOMPILED void HubConfig__GetAnnounceConfig(void);
+NOT_DECOMPILED AnnounceConfig *HubConfig__GetAnnounceConfig(s32 id);
 NOT_DECOMPILED OptionsMessageConfig *HubConfig__GetOptionsMessageInfo(void);
 
 #ifdef __cplusplus

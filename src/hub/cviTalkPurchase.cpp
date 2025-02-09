@@ -1,17 +1,76 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <hub/cviTalkPurchase.hpp>
+#include <hub/cviSailPrompt.hpp>
+#include <hub/hubControl.hpp>
+#include <hub/hubAudio.h>
+#include <hub/cviDockNpcTalk.hpp>
+#include <game/save/saveGame.h>
+#include <game/input/padInput.h>
+#include <game/input/touchInput.h>
+#include <game/file/fileUnknown.h>
+#include <game/text/fontAnimator.h>
 
-	.text
+// --------------------
+// TEMP
+// --------------------
 
-	arm_func_start ViTalkPurchase__Create
-ViTalkPurchase__Create: // 0x021697A0
+extern "C"
+{
+
+NOT_DECOMPILED void _ZN10HubControl12Func_215B4E0Ev(void);
+NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViMsgEv(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215A96CEv(void);
+NOT_DECOMPILED void _ZN10HubControl10GetField54Ev(void);
+NOT_DECOMPILED void _ZN11NpcPurchase15ProcessGraphicsEv(void);
+NOT_DECOMPILED void _ZN13CViEvtCmnTalk7SetPageEt(void);
+NOT_DECOMPILED void _ZN11NpcPurchase11CloseWindowEv(void);
+NOT_DECOMPILED void _ZN11NpcPurchase8IsActiveEv(void);
+NOT_DECOMPILED void _ZN13CViEvtCmnTalkD1Ev(void);
+NOT_DECOMPILED void _ZN11NpcPurchase7ReleaseEv(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215AB84Ev(void);
+NOT_DECOMPILED void _ZN11NpcPurchase4LoadEtttttt(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215AAB4Ev(void);
+NOT_DECOMPILED void _ZN13CViEvtCmnTalkC1Ev(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215A888Ev(void);
+NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViActEt(void);
+NOT_DECOMPILED void _ZN11NpcPurchase4InitEv(void);
+NOT_DECOMPILED void _ZN13CViEvtCmnTalk7ReleaseEv(void);
+NOT_DECOMPILED void _ZN13CViEvtCmnTalk11SetCallbackEPFvmP13FontAnimator_PvES2_(void);
+NOT_DECOMPILED void _ZN11NpcPurchase7IsReadyEv(void);
+NOT_DECOMPILED void _ZN13CViEvtCmnTalk10IsFinishedEv(void);
+NOT_DECOMPILED void _ZN11NpcPurchase7ProcessEv(void);
+NOT_DECOMPILED void _ZN14CViDockNpcTalk12SetSelectionEl(void);
+NOT_DECOMPILED void _ZN13CViEvtCmnTalk4InitEPvtt(void);
+NOT_DECOMPILED void _ZN13CViEvtCmnTalk13ProcessDialogEv(void);
+NOT_DECOMPILED void _ZN14CViDockNpcTalk13SetTalkActionEm(void);
+NOT_DECOMPILED void _ZN10HubControl21GetFileFrom_ViMsgCtrlEv(void);
+NOT_DECOMPILED void _ZN13CViEvtCmnTalk9GetActionEv(void);
+NOT_DECOMPILED void _ZdlPv(void);
+NOT_DECOMPILED void _ZnwmPv(void);
+}
+
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED void *ovl05_02173190;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC void ViTalkPurchase__Create(s32 param)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
-	ldr r4, _02169908 // =0x00001010
+	ldr r4, =0x00001010
 	mov r5, r0
 	mov r2, #0
-	ldr r0, _0216990C // =ViTalkPurchase__Main
-	ldr r1, _02169910 // =ViTalkPurchase__Destructor
+	ldr r0, =ViTalkPurchase__Main
+	ldr r1, =ViTalkPurchase__Destructor
 	mov r3, r2
 	str r4, [sp]
 	mov r4, #0x10
@@ -96,34 +155,36 @@ _021698D0:
 	mov r1, #0x400
 	bl InitThreadWorker
 	add r0, r4, #0x130
-	ldr r1, _02169914 // =ViTalkPurchase__ThreadFunc
+	ldr r1, =ViTalkPurchase__ThreadFunc
 	mov r2, r4
 	add r0, r0, #0x1000
 	mov r3, #0x14
 	bl CreateThreadWorker
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	.align 2, 0
-_02169908: .word 0x00001010
-_0216990C: .word ViTalkPurchase__Main
-_02169910: .word ViTalkPurchase__Destructor
-_02169914: .word ViTalkPurchase__ThreadFunc
-	arm_func_end ViTalkPurchase__Create
 
-	arm_func_start ViTalkPurchase__CreateInternal
-ViTalkPurchase__CreateInternal: // 0x02169918
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViTalkPurchase__CreateInternal(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	ldrh r4, [sp, #0x18]
 	ldrb lr, [sp, #0x1c]
-	ldr ip, _02169968 // =0x000011FC
+	ldr ip, =0x000011FC
 	stmia sp, {r4, lr}
 	str ip, [sp, #8]
 	bl TaskCreate_
 	mov r4, r0
 	bl GetTaskWork_
 	mov r1, r0
-	ldr r0, _02169968 // =0x000011FC
+	ldr r0, =0x000011FC
 	bl _ZnwmPv
 	cmp r0, #0
 	beq _0216995C
@@ -133,39 +194,36 @@ _0216995C:
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_02169968: .word 0x000011FC
-	arm_func_end ViTalkPurchase__CreateInternal
 
-	arm_func_start ViTalkPurchase__MakeTutorialPurchase
-ViTalkPurchase__MakeTutorialPurchase: // 0x0216996C
-	stmdb sp!, {r3, lr}
-	mov r0, #0
-	bl HubConfig__GetShipBuildCost
-	bl ViTalkPurchase__MakePurchase
-	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__MakeTutorialPurchase
+// clang-format on
+#endif
+}
 
-	arm_func_start ViTalkPurchase__ThreadFunc
-ViTalkPurchase__ThreadFunc: // 0x02169980
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl ViTalkPurchase__InitSprites
-	mov r0, r4
-	bl ViTalkPurchase__InitNpcPurchase
-	ldmia sp!, {r4, pc}
-	arm_func_end ViTalkPurchase__ThreadFunc
+void ViTalkPurchase__MakeTutorialPurchase(void)
+{
+    ViTalkPurchase__MakePurchase(HubConfig__GetShipBuildCost(SHIP_JET));
+}
 
-	arm_func_start ViTalkPurchase__InitDisplay
-ViTalkPurchase__InitDisplay: // 0x02169998
-	stmdb sp!, {r3, lr}
-	bl _ZN10HubControl12Func_215A888Ev
-	bl _ZN10HubControl12Func_215AAB4Ev
-	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__InitDisplay
+void ViTalkPurchase__ThreadFunc(void *arg)
+{
+    CViTalkPurchase *work = (CViTalkPurchase *)arg;
 
-	arm_func_start ViTalkPurchase__InitSprites
-ViTalkPurchase__InitSprites: // 0x021699A8
+    ViTalkPurchase__InitSprites(work);
+    ViTalkPurchase__InitNpcPurchase(work);
+}
+
+void ViTalkPurchase__InitDisplay(CViTalkPurchase *work)
+{
+    HubControl::Func_215A888();
+    HubControl::Func_215AAB4();
+}
+
+NONMATCH_FUNC void ViTalkPurchase__InitSprites(CViTalkPurchase *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x1c
 	mov r4, r0
@@ -182,7 +240,7 @@ ViTalkPurchase__InitSprites: // 0x021699A8
 	str r2, [sp, #4]
 	str r0, [sp, #8]
 	str r2, [sp, #0xc]
-	ldr r3, _02169B18 // =0x05000200
+	ldr r3, =0x05000200
 	add r0, r4, #0xcc
 	str r3, [sp, #0x10]
 	add r0, r0, #0x400
@@ -211,7 +269,7 @@ ViTalkPurchase__InitSprites: // 0x021699A8
 	str r2, [sp, #4]
 	str r0, [sp, #8]
 	str r2, [sp, #0xc]
-	ldr r3, _02169B18 // =0x05000200
+	ldr r3, =0x05000200
 	add r0, r4, #0x530
 	str r3, [sp, #0x10]
 	str r2, [sp, #0x14]
@@ -238,7 +296,7 @@ ViTalkPurchase__InitSprites: // 0x021699A8
 	str r3, [sp, #4]
 	str r0, [sp, #8]
 	add r0, r4, #0x194
-	ldr r1, _02169B18 // =0x05000200
+	ldr r1, =0x05000200
 	str r3, [sp, #0xc]
 	str r1, [sp, #0x10]
 	mov r1, r5
@@ -253,18 +311,22 @@ ViTalkPurchase__InitSprites: // 0x021699A8
 	mov r1, #0x18
 	strh r1, [r0, #0x9e]
 	mov r2, #9
-	ldr r1, _02169B1C // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	strh r2, [r0, #0xe4]
 	strh r1, [r0, #0xf8]
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_02169B18: .word 0x05000200
-_02169B1C: .word 0x0000FFFF
-	arm_func_end ViTalkPurchase__InitSprites
 
-	arm_func_start ViTalkPurchase__InitNpcPurchase
-ViTalkPurchase__InitNpcPurchase: // 0x02169B20
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViTalkPurchase__InitNpcPurchase(CViTalkPurchase *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
@@ -285,69 +347,50 @@ ViTalkPurchase__InitNpcPurchase: // 0x02169B20
 	bl _ZN11NpcPurchase4LoadEtttttt
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ViTalkPurchase__InitNpcPurchase
 
-	arm_func_start ViTalkPurchase__Release
-ViTalkPurchase__Release: // 0x02169B70
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r0, r4, #0x130
-	add r0, r0, #0x1000
-	bl JoinThreadWorker
-	add r0, r4, #0x130
-	add r0, r0, #0x1000
-	bl ReleaseThreadWorker
-	mov r0, r4
-	bl ViTalkPurchase__ReleaseNpcPurchase
-	mov r0, r4
-	bl ViTalkPurchase__ReleaseSprites
-	add r0, r4, #0x14
-	bl _ZN13CViEvtCmnTalk7ReleaseEv
-	mov r0, r4
-	bl ViTalkPurchase__ResetDisplay
-	ldmia sp!, {r4, pc}
-	arm_func_end ViTalkPurchase__Release
+// clang-format on
+#endif
+}
 
-	arm_func_start ViTalkPurchase__ResetDisplay
-ViTalkPurchase__ResetDisplay: // 0x02169BB4
-	stmdb sp!, {r3, lr}
-	bl _ZN10HubControl12Func_215A96CEv
-	bl _ZN10HubControl12Func_215AB84Ev
-	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__ResetDisplay
+void ViTalkPurchase__Release(CViTalkPurchase *work)
+{
+    JoinThreadWorker(&work->threadWorker);
+    ReleaseThreadWorker(&work->threadWorker);
 
-	arm_func_start ViTalkPurchase__ReleaseSprites
-ViTalkPurchase__ReleaseSprites: // 0x02169BC4
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r0, r4, #0x194
-	add r0, r0, #0x400
-	bl AnimatorSprite__Release
-	add r0, r4, #0x530
-	bl AnimatorSprite__Release
-	add r0, r4, #0xcc
-	add r0, r0, #0x400
-	bl AnimatorSprite__Release
-	ldr r1, _02169BFC // =0x0000FFFF
-	add r0, r4, #0x500
-	strh r1, [r0, #0xf8]
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02169BFC: .word 0x0000FFFF
-	arm_func_end ViTalkPurchase__ReleaseSprites
+    ViTalkPurchase__ReleaseNpcPurchase(work);
+    ViTalkPurchase__ReleaseSprites(work);
 
-	arm_func_start ViTalkPurchase__ReleaseNpcPurchase
-ViTalkPurchase__ReleaseNpcPurchase: // 0x02169C00
-	ldr ip, _02169C10 // =_ZN11NpcPurchase7ReleaseEv
-	add r0, r0, #0x1fc
-	add r0, r0, #0x400
-	bx ip
-	.align 2, 0
-_02169C10: .word _ZN11NpcPurchase7ReleaseEv
-	arm_func_end ViTalkPurchase__ReleaseNpcPurchase
+    work->evtCmnTalk.Release();
 
-	arm_func_start ViTalkPurchase__Main
-ViTalkPurchase__Main: // 0x02169C14
+    ViTalkPurchase__ResetDisplay(work);
+}
+
+void ViTalkPurchase__ResetDisplay(CViTalkPurchase *work)
+{
+    HubControl::Func_215A96C();
+    HubControl::Func_215AB84();
+}
+
+void ViTalkPurchase__ReleaseSprites(CViTalkPurchase *work)
+{
+    AnimatorSprite__Release(&work->aniCostBackground);
+    AnimatorSprite__Release(&work->aniRing);
+    AnimatorSprite__Release(&work->aniMaterial);
+
+    work->costType = -1;
+}
+
+void ViTalkPurchase__ReleaseNpcPurchase(CViTalkPurchase *work)
+{
+    work->npcPurchase.Release();
+}
+
+NONMATCH_FUNC void ViTalkPurchase__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -392,27 +435,30 @@ _02169C9C:
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	ldrh r2, [r5, #2]
-	ldr r3, _02169CE4 // =0x0000FFFF
+	ldr r3, =0x0000FFFF
 	add r0, r4, #0x14
 	bl _ZN13CViEvtCmnTalk4InitEPvtt
-	ldr r1, _02169CE8 // =ViTalkPurchase__TalkCallback
+	ldr r1, =ViTalkPurchase__TalkCallback
 	mov r2, r4
 	add r0, r4, #0x14
 	bl _ZN13CViEvtCmnTalk11SetCallbackEPFvmP13FontAnimator_PvES2_
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
 	bl _ZN11NpcPurchase15ProcessGraphicsEv
-	ldr r0, _02169CEC // =ViTalkPurchase__Main_2169CF0
+	ldr r0, =ViTalkPurchase__Main_2169CF0
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02169CE4: .word 0x0000FFFF
-_02169CE8: .word ViTalkPurchase__TalkCallback
-_02169CEC: .word ViTalkPurchase__Main_2169CF0
-	arm_func_end ViTalkPurchase__Main
 
-	arm_func_start ViTalkPurchase__Main_2169CF0
-ViTalkPurchase__Main_2169CF0: // 0x02169CF0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViTalkPurchase__Main_2169CF0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -432,15 +478,20 @@ ViTalkPurchase__Main_2169CF0: // 0x02169CF0
 	add r0, r4, #0x14
 	mov r1, r1, lsr #0x10
 	bl _ZN13CViEvtCmnTalk7SetPageEt
-	ldr r0, _02169D48 // =ViTalkPurchase__Main_2169D4C
+	ldr r0, =ViTalkPurchase__Main_2169D4C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02169D48: .word ViTalkPurchase__Main_2169D4C
-	arm_func_end ViTalkPurchase__Main_2169CF0
 
-	arm_func_start ViTalkPurchase__Main_2169D4C
-ViTalkPurchase__Main_2169D4C: // 0x02169D4C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViTalkPurchase__Main_2169D4C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -451,7 +502,7 @@ ViTalkPurchase__Main_2169D4C: // 0x02169D4C
 	bl _ZN11NpcPurchase7ProcessEv
 	add r0, r4, #0x500
 	ldrh r1, [r0, #0xf8]
-	ldr r0, _02169E08 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	beq _02169DE0
 	cmp r1, #9
@@ -488,16 +539,20 @@ _02169DE0:
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
 	bl _ZN11NpcPurchase11CloseWindowEv
-	ldr r0, _02169E0C // =ViTalkPurchase__Main_2169E10
+	ldr r0, =ViTalkPurchase__Main_2169E10
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02169E08: .word 0x0000FFFF
-_02169E0C: .word ViTalkPurchase__Main_2169E10
-	arm_func_end ViTalkPurchase__Main_2169D4C
 
-	arm_func_start ViTalkPurchase__Main_2169E10
-ViTalkPurchase__Main_2169E10: // 0x02169E10
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViTalkPurchase__Main_2169E10(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -509,15 +564,20 @@ ViTalkPurchase__Main_2169E10: // 0x02169E10
 	bl _ZN11NpcPurchase8IsActiveEv
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldr r0, _02169E48 // =ViTalkPurchase__Main_2169E4C
+	ldr r0, =ViTalkPurchase__Main_2169E4C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02169E48: .word ViTalkPurchase__Main_2169E4C
-	arm_func_end ViTalkPurchase__Main_2169E10
 
-	arm_func_start ViTalkPurchase__Main_2169E4C
-ViTalkPurchase__Main_2169E4C: // 0x02169E4C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViTalkPurchase__Main_2169E4C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -539,7 +599,7 @@ _02169E7C:
 	mov r0, #6
 	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	ldr r1, [r4, #4]
-	ldr r0, _02169FA0 // =ovl05_02173190
+	ldr r0, =ovl05_02173190
 	mov r1, r1, lsl #1
 	ldrh r0, [r0, r1]
 	bl _ZN14CViDockNpcTalk12SetSelectionEl
@@ -613,40 +673,26 @@ _02169F88:
 _02169F98:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02169FA0: .word ovl05_02173190
-	arm_func_end ViTalkPurchase__Main_2169E4C
 
-	arm_func_start ViTalkPurchase__Destructor
-ViTalkPurchase__Destructor: // 0x02169FA4
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl GetTaskWork_
-	bl ViTalkPurchase__Release
-	mov r0, r4
-	bl ViTalkPurchase__Func_2169FC0
-	ldmia sp!, {r4, pc}
-	arm_func_end ViTalkPurchase__Destructor
+// clang-format on
+#endif
+}
 
-	arm_func_start ViTalkPurchase__Func_2169FC0
-ViTalkPurchase__Func_2169FC0: // 0x02169FC0
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r4, [r5, #0x10]
-	cmp r4, #0
-	beq _02169FE4
-	add r0, r4, #0x14
-	bl _ZN13CViEvtCmnTalkD1Ev
-	mov r0, r4
-	bl _ZdlPv
-_02169FE4:
-	mov r0, #0
-	str r0, [r5, #0x10]
-	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViTalkPurchase__Func_2169FC0
+void ViTalkPurchase__Destructor(Task *task)
+{
+    CViTalkPurchase *work = TaskGetWork(task, CViTalkPurchase);
 
-	arm_func_start ViTalkPurchase__TalkCallback
-ViTalkPurchase__TalkCallback: // 0x02169FF0
+    ViTalkPurchase__Release(work);
+
+    HubTaskDestroy<CViTalkPurchase>(task);
+}
+
+NONMATCH_FUNC void ViTalkPurchase__TalkCallback(CViTalkPurchase *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	cmp r0, #0xa
@@ -676,7 +722,7 @@ _0216A03C:
 _0216A050:
 	cmp r0, #0x14
 	ldmneia sp!, {r4, pc}
-	ldr ip, _0216A078 // =0x0000FFFF
+	ldr ip, =0x0000FFFF
 	add r3, r2, #0x500
 	mov r1, #0
 	mov r0, r4
@@ -684,67 +730,59 @@ _0216A050:
 	strh ip, [r3, #0xf8]
 	bl FontAnimator__InitStartPos
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216A078: .word 0x0000FFFF
-	arm_func_end ViTalkPurchase__TalkCallback
 
-	arm_func_start ViTalkPurchase__CanPurchaseShipBuild
-ViTalkPurchase__CanPurchaseShipBuild: // 0x0216A07C
-	stmdb sp!, {r3, lr}
-	bl HubConfig__GetShipBuildCost
-	bl ViTalkPurchase__CanMakePurchase
-	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__CanPurchaseShipBuild
+// clang-format on
+#endif
+}
 
-	arm_func_start ViTalkPurchase__CanPurchaseUnknown
-ViTalkPurchase__CanPurchaseUnknown: // 0x0216A08C
-	stmdb sp!, {r3, lr}
-	bl HubConfig__GetUnknownPurchaseCost
-	bl ViTalkPurchase__CanMakePurchase
-	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__CanPurchaseUnknown
+BOOL ViTalkPurchase__CanPurchaseShipBuild(s32 id)
+{
+    return ViTalkPurchase__CanMakePurchase(HubConfig__GetShipBuildCost(id));
+}
 
-	arm_func_start ViTalkPurchase__CanPurchaseInfo
-ViTalkPurchase__CanPurchaseInfo: // 0x0216A09C
-	stmdb sp!, {r3, lr}
-	bl HubConfig__GetInfoPurchaseCost
-	bl ViTalkPurchase__CanMakePurchase
-	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__CanPurchaseInfo
+BOOL ViTalkPurchase__CanPurchaseUnknown(s32 id)
+{
+    return ViTalkPurchase__CanMakePurchase(HubConfig__GetUnknownPurchaseCost(id));
+}
 
-	arm_func_start ViTalkPurchase__CanPurchaseShipUpgrade
-ViTalkPurchase__CanPurchaseShipUpgrade: // 0x0216A0AC
-	stmdb sp!, {r3, lr}
-	bl HubConfig__GetShipUpgradeCost
-	bl ViTalkPurchase__CanMakePurchase
-	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__CanPurchaseShipUpgrade
+BOOL ViTalkPurchase__CanPurchaseInfo(s32 id)
+{
+    return ViTalkPurchase__CanMakePurchase(HubConfig__GetInfoPurchaseCost(id));
+}
 
-	arm_func_start ViTalkPurchase__GetMaterialCount
-ViTalkPurchase__GetMaterialCount: // 0x0216A0BC
-	stmdb sp!, {r3, lr}
-	mov r1, r0
-	cmp r1, #9
-	movhs r0, #0
-	ldmhsia sp!, {r3, pc}
-	ldr r0, _0216A0DC // =saveGame+0x00000028
-	bl SaveGame__GetMaterialCount
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0216A0DC: .word saveGame+0x00000028
-	arm_func_end ViTalkPurchase__GetMaterialCount
+BOOL ViTalkPurchase__CanPurchaseShipUpgrade(s32 id)
+{
+    return ViTalkPurchase__CanMakePurchase(HubConfig__GetShipUpgradeCost(id));
+}
 
-	arm_func_start ViTalkPurchase__GetRingCount
-ViTalkPurchase__GetRingCount: // 0x0216A0E0
-	ldr r0, _0216A0EC // =saveGame
-	ldr r0, [r0, #0x1bc]
-	bx lr
-	.align 2, 0
-_0216A0EC: .word saveGame
-	arm_func_end ViTalkPurchase__GetRingCount
+u32 ViTalkPurchase__GetMaterialCount(u16 type)
+{
+    if (type < SAVE_MATERIAL_COUNT)
+        return SaveGame__GetMaterialCount(&saveGame.stage, type);
+    else
+        return 0;
+}
 
-	arm_func_start ViTalkPurchase__CanMakePurchase
-ViTalkPurchase__CanMakePurchase: // 0x0216A0F0
+BOOL ViTalkPurchase__GetRingCount()
+{
+    return saveGame.stage.ringCount;
+}
+
+NONMATCH_FUNC BOOL ViTalkPurchase__CanMakePurchase(PurchaseCostConfig *config)
+{
+#ifdef NON_MATCHING
+    if (config->ringCost > ViTalkPurchase__GetRingCount())
+        return FALSE;
+
+    for (s32 t = 0; t < SAVE_MATERIAL_COUNT; t++)
+    {
+        if (config->materialCost[t] > ViTalkPurchase__GetMaterialCount(t))
+            return FALSE;
+    }
+
+    return TRUE;
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl ViTalkPurchase__GetRingCount
@@ -767,42 +805,19 @@ _0216A110:
 	blt _0216A110
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViTalkPurchase__CanMakePurchase
 
-	arm_func_start ViTalkPurchase__MakePurchase
-ViTalkPurchase__MakePurchase: // 0x0216A144
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r0
-	ldr r2, [r4, #0]
-	cmp r2, #0
-	beq _0216A168
-	ldr r0, _0216A19C // =saveGame
-	ldr r1, [r0, #0x1bc]
-	sub r1, r1, r2
-	str r1, [r0, #0x1bc]
-_0216A168:
-	ldr r5, _0216A1A0 // =saveGame+0x00000028
-	mov r6, #0
-_0216A170:
-	add r0, r4, r6
-	ldrb r2, [r0, #4]
-	cmp r2, #0
-	beq _0216A18C
-	mov r0, r5
-	mov r1, r6
-	bl SaveGame__UseMaterial
-_0216A18C:
-	add r6, r6, #1
-	cmp r6, #9
-	blt _0216A170
-	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216A19C: .word saveGame
-_0216A1A0: .word saveGame+0x00000028
-	arm_func_end ViTalkPurchase__MakePurchase
-	
-	.rodata
+// clang-format on
+#endif
+}
 
-.public ovl05_02173190
-ovl05_02173190: // 0x02173190
-    .hword 5, 8, 0x11, 0
+void ViTalkPurchase__MakePurchase(PurchaseCostConfig *config)
+{
+    if (config->ringCost != 0)
+        saveGame.stage.ringCount -= config->ringCost;
+
+    for (s32 t = 0; t < SAVE_MATERIAL_COUNT; t++)
+    {
+        if (config->materialCost[t] != 0)
+            SaveGame__UseMaterial(&saveGame.stage, t, config->materialCost[t]);
+    }
+}

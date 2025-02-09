@@ -274,7 +274,7 @@ void SaveGame__GsExit(u16 value)
     gameState.saveFile.field_52 = value;
 }
 
-void SaveGame__UnlockShip(u8 shipID, s32 shipLevel)
+void SaveGame__UnlockShip(u16 shipID, u16 shipLevel)
 {
     u32 id = 0x800 << (2 * shipID) << (shipLevel - 1);
 

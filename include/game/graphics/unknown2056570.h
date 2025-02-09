@@ -3,6 +3,11 @@
 
 #include <game/system/task.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -47,5 +52,9 @@ NOT_DECOMPILED void Unknown2056570__Func_2056A58(Unknown2056570 *work);
 NOT_DECOMPILED void Unknown2056570__Func_2056A94(Unknown2056570 *work);
 NOT_DECOMPILED void Unknown2056570__Func_2056B8C(Unknown2056570 *work);
 NOT_DECOMPILED void Unknown2056570__Func_2056C18(Unknown2056570 *work);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_UNKNOWN2056570_H

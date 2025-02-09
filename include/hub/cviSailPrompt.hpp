@@ -11,8 +11,6 @@
 // STRUCTS
 // --------------------
 
-#ifdef __cplusplus
-
 class CViSailPrompt
 {
 
@@ -40,8 +38,6 @@ public:
     // STATIC FUNCTIONS
     // --------------------
 };
-
-#endif
 
 // --------------------
 // FUNCTIONS

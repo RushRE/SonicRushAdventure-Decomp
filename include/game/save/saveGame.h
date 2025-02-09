@@ -357,7 +357,7 @@ void SaveGame__SetMissionAttempted(u16 id, BOOL attempted);
 BOOL SaveGame__GetMissionAttempted(u16 id);
 u16 SaveGame__GetSystemGameProgress(void);
 void SaveGame__GsExit(u16 value);
-void SaveGame__UnlockShip(u8 shipID, s32 shipLevel);
+void SaveGame__UnlockShip(u16 shipID, u16 shipLevel);
 BOOL SaveGame__GetNextShipUpgrade(u16 *ship, u16 *level);
 BOOL SaveGame__Func_205BEDC(void);
 void SaveGame__Block1__SetFlags1_0x80000(void);
