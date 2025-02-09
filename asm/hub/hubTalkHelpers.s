@@ -892,12 +892,12 @@ HubConfig__Func_2153848: // 0x02153848
 _02153864:
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl SaveGame__Func_205D520
+	bl SaveGame__CanBuyDecoration
 	cmp r0, #0
 	beq _02153890
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl SaveGame__GetBoughtInfo
+	bl SaveGame__GetBoughtDecoration
 	cmp r0, #0
 	moveq r5, #1
 	beq _0215389C

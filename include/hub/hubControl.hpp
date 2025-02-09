@@ -195,7 +195,7 @@ public:
     static void Func_215B3D0();
     static void Func_215B470(s32 a1, s32 a2);
     static BOOL Func_215B498(s32 a1);
-    static s32 Func_215B4E0();
+    static s32 GetNextShipToBuild();
     static BOOL Func_215B51C(s32 a1);
     static void Func_215B588(s32 a1, s32 a2);
     static BOOL Func_215B6C4(s32 a1);

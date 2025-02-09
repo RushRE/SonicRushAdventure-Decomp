@@ -18,6 +18,7 @@
 #include <game/graphics/oamSystem.h>
 #include <menu/credits.h>
 #include <game/cutscene/script.h>
+#include <hub/cviTalkPurchase.hpp>
 
 // resources
 #include <resources/narc/vi_act_lz7.h>
@@ -480,9 +481,11 @@ void HubControl::Func_215B3D0()
 
 RUSH_INLINE u8 GetHubControlProgressTable1(s32 a1)
 {
-    static const u8 progressTable[8] = { SAVE_PROGRESS_2, SAVE_PROGRESS_9, SAVE_PROGRESS_22, SAVE_PROGRESS_26, SAVE_PROGRESS_38, SAVE_PROGRESS_0, SAVE_PROGRESS_0, SAVE_PROGRESS_0 };
+    static const u8 progressTable[8] = {
+        SAVE_PROGRESS_2, SAVE_PROGRESS_9, SAVE_PROGRESS_22, SAVE_PROGRESS_26, SAVE_PROGRESS_38, SAVE_PROGRESS_0, SAVE_PROGRESS_0, SAVE_PROGRESS_0
+    };
 
-	return progressTable[a1];
+    return progressTable[a1];
 }
 
 void HubControl::Func_215B470(s32 a1, s32 a2)
@@ -503,13 +506,19 @@ BOOL HubControl::Func_215B498(s32 a1)
         return SaveGame__GetGameProgress() >= GetHubControlProgressTable1(a1);
 }
 
-s32 HubControl::Func_215B4E0()
+s32 HubControl::GetNextShipToBuild()
 {
-    static const u8 progressTable[5] = { SAVE_PROGRESS_1, SAVE_PROGRESS_8, SAVE_PROGRESS_21, SAVE_PROGRESS_25, 0xFF };
+    static const u8 progressTable[5] = {
+        SAVE_PROGRESS_1,  // SHIP_JET
+        SAVE_PROGRESS_8,  // SHIP_BOAT
+        SAVE_PROGRESS_21, // SHIP_HOVER
+        SAVE_PROGRESS_25, // SHIP_SUBMARINE
+        0xFF              // SHIP_DRILL (unused, condition is never valid)
+    };
 
     u16 progress = SaveGame__GetGameProgress();
 
-    for (s32 i = 0; i < 5; i++)
+    for (s32 i = 0; i < SHIP_COUNT + 1; i++)
     {
         if (progressTable[i] == progress)
         {
@@ -517,12 +526,14 @@ s32 HubControl::Func_215B4E0()
         }
     }
 
-    return 6;
+    return CViTalkPurchase::CONSTRUCT_INVALID;
 }
 
 BOOL HubControl::Func_215B51C(s32 a1)
 {
-    static const u8 progressTable[8] = { SAVE_PROGRESS_0, SAVE_PROGRESS_2, SAVE_PROGRESS_9, SAVE_PROGRESS_22, SAVE_PROGRESS_26, SAVE_PROGRESS_0, SAVE_PROGRESS_38, SAVE_PROGRESS_0 };
+    static const u8 progressTable[8] = {
+        SAVE_PROGRESS_0, SAVE_PROGRESS_2, SAVE_PROGRESS_9, SAVE_PROGRESS_22, SAVE_PROGRESS_26, SAVE_PROGRESS_0, SAVE_PROGRESS_38, SAVE_PROGRESS_0
+    };
 
     if (a1 == 0 && SaveGame__GetGameProgress() == SAVE_PROGRESS_0 && SaveGame__GetUnknown2() <= 6)
         return FALSE;
@@ -544,15 +555,15 @@ void HubControl::Func_215B588(s32 a1, s32 a2)
         switch (a1)
         {
             case 5:
-                SaveGame__SetBoughtInfo(0);
+                SaveGame__SetBoughtDecoration(0);
                 break;
 
             case 8:
-                SaveGame__SetBoughtInfo(1);
+                SaveGame__SetBoughtDecoration(1);
                 break;
 
             case 17:
-                SaveGame__SetBoughtInfo(2);
+                SaveGame__SetBoughtDecoration(2);
                 break;
 
             case 1:
@@ -625,13 +636,13 @@ BOOL HubControl::Func_215B6C4(s32 a1)
             return SaveGame__GetGameProgress() >= SAVE_PROGRESS_25;
 
         case 5:
-            return SaveGame__GetBoughtInfo(0);
+            return SaveGame__GetBoughtDecoration(0);
 
         case 8:
-            return SaveGame__GetBoughtInfo(1);
+            return SaveGame__GetBoughtDecoration(1);
 
         case 17:
-            return SaveGame__GetBoughtInfo(2);
+            return SaveGame__GetBoughtDecoration(2);
 
         case 1:
         case 9:

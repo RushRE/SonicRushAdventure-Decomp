@@ -17,19 +17,90 @@ class CViTalkPurchase
 
 public:
     // --------------------
+    // ENUMS
+    // --------------------
+
+    enum PurchaseType
+    {
+        PURCHASE_CONSTRUCTION,
+        PURCHASE_DECORATION,
+        PURCHASE_SHIP_UPGRADE,
+        PURCHASE_INFO,
+    };
+
+    enum ConstructionType
+    {
+        CONSTRUCT_JET,
+        CONSTRUCT_BOAT,
+        CONSTRUCT_HOVER,
+        CONSTRUCT_SUBMARINE,
+        CONSTRUCT_DRILL, // not used in-game
+        CONSTRUCT_RADIO_TOWER,
+
+        CONSTRUCT_INVALID,
+    };
+
+    enum DecorType
+    {
+        DECOR_1,
+        DECOR_2,
+        DECOR_3,
+
+        DECOR_COUNT,
+        DECOR_INVALID,
+    };
+
+    enum UpgradeType
+    {
+        UPGRADE_JET_LEVEL1,
+        UPGRADE_JET_LEVEL2,
+        UPGRADE_BOAT_LEVEL1,
+        UPGRADE_BOAT_LEVEL2,
+        UPGRADE_HOVER_LEVEL1,
+        UPGRADE_HOVER_LEVEL2,
+        UPGRADE_SUBMARINE_LEVEL1,
+        UPGRADE_SUBMARINE_LEVEL2,
+
+        UPGRADE_COUNT,
+        UPGRADE_INVALID,
+    };
+
+    enum InfoType
+    {
+        INFO_INVALID,
+        INFO_HINT,
+    };
+
+    enum CostType
+    {
+        COST_MATERIAL_BLUE,
+        COST_MATERIAL_IRON,
+        COST_MATERIAL_GREEN,
+        COST_MATERIAL_BRONZE,
+        COST_MATERIAL_RED,
+        COST_MATERIAL_SILVER,
+        COST_MATERIAL_AQUA,
+        COST_MATERIAL_GOLD,
+        COST_MATERIAL_BLACK,
+        COST_RINGS,
+
+        COST_INVALID = 0xFFFF,
+    };
+
+    // --------------------
     // VARIABLES
     // --------------------
-    s32 field_0;
-    u32 infoPurchaseID;
-    u32 shipUpgradeID;
-    u32 unknown2PurchaseID;
+
+    s32 constructionID;
+    s32 decorPurchaseID;
+    s32 shipUpgradeID;
+    s32 infoPurchaseID;
     BOOL canPurchase;
     CViEvtCmnTalk evtCmnTalk;
     AnimatorSprite aniMaterial;
     AnimatorSprite aniRing;
     AnimatorSprite aniCostBackground;
     u16 costType;
-    u16 field_5FA;
     NpcPurchase npcPurchase;
     Thread threadWorker;
 
@@ -37,49 +108,39 @@ public:
     // MEMBER FUNCTIONS
     // --------------------
 
+    void InitDisplay();
+    void InitSprites();
+    void InitNpcPurchase();
+    void Release();
+    void ResetDisplay();
+    void ReleaseSprites();
+    void ReleaseNpcPurchase();
+
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
+
+    static void Create(s32 param);
+    static void MakeTutorialPurchase(void);
+
+private:
+    static void ThreadFunc(void *arg);
+    static void Main_Init(void);
+    static void Main_OpenWindow(void);
+    static void Main_ShowPurchasePrompt(void);
+    static void Main_CloseWindow(void);
+    static void Main_ApplyPurchase(void);
+    static void Destructor(Task *task);
+    static void TalkCallback(u32 type, struct FontAnimator_ *animator, void *context);
+
+    static BOOL CanPurchaseShipBuild(s32 id);
+    static BOOL CanPurchaseRadioTower();
+    static BOOL CanPurchaseDecor(s32 id);
+    static BOOL CanPurchaseShipUpgrade(s32 id);
+    static s32 GetMaterialCount(u16 type);
+    static BOOL GetRingCount();
+    static BOOL CanMakePurchase(PurchaseCostConfig *config);
+    static void MakePurchase(PurchaseCostConfig *config);
 };
-
-// --------------------
-// FUNCTIONS
-// --------------------
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-void ViTalkPurchase__Create(s32 param);
-void ViTalkPurchase__CreateInternal(void);
-void ViTalkPurchase__MakeTutorialPurchase(void);
-void ViTalkPurchase__ThreadFunc(void *arg);
-void ViTalkPurchase__InitDisplay(CViTalkPurchase *work);
-void ViTalkPurchase__InitSprites(CViTalkPurchase *work);
-void ViTalkPurchase__InitNpcPurchase(CViTalkPurchase *work);
-void ViTalkPurchase__Release(CViTalkPurchase *work);
-void ViTalkPurchase__ResetDisplay(CViTalkPurchase *work);
-void ViTalkPurchase__ReleaseSprites(CViTalkPurchase *work);
-void ViTalkPurchase__ReleaseNpcPurchase(CViTalkPurchase *work);
-void ViTalkPurchase__Main(void);
-void ViTalkPurchase__Main_2169CF0(void);
-void ViTalkPurchase__Main_2169D4C(void);
-void ViTalkPurchase__Main_2169E10(void);
-void ViTalkPurchase__Main_2169E4C(void);
-void ViTalkPurchase__Destructor(Task *task);
-void ViTalkPurchase__TalkCallback(CViTalkPurchase *work);
-BOOL ViTalkPurchase__CanPurchaseShipBuild(s32 id);
-BOOL ViTalkPurchase__CanPurchaseUnknown(s32 id);
-BOOL ViTalkPurchase__CanPurchaseInfo(s32 id);
-BOOL ViTalkPurchase__CanPurchaseShipUpgrade(s32 id);
-u32 ViTalkPurchase__GetMaterialCount(u16 type);
-BOOL ViTalkPurchase__GetRingCount();
-BOOL ViTalkPurchase__CanMakePurchase(PurchaseCostConfig *config);
-void ViTalkPurchase__MakePurchase(PurchaseCostConfig *config);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // RUSH_CVITALKPURCHASE_HPP

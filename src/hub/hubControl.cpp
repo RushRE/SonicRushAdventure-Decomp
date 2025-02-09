@@ -1083,7 +1083,7 @@ void HubControl::Main_2158160()
         case 4:
             work->field_1C = CViDockNpcTalk::GetSelection();
             if (work->field_1C == 0)
-                ViTalkPurchase__MakeTutorialPurchase();
+                CViTalkPurchase::MakeTutorialPurchase();
 
             work->field_28 = ViDock__Func_215E0CC();
             work->field_8  = work->field_4;

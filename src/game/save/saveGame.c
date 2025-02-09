@@ -1572,7 +1572,7 @@ void SaveGame__SetProgressFlags_0x10(void)
     saveGame.stage.progress.flags |= 0x10;
 }
 
-BOOL SaveGame__Func_205D520(s32 id)
+BOOL SaveGame__CanBuyDecoration(u16 id)
 {
     s32 gameProgress     = SaveGame__GetGameProgress();
     s32 unknownProgress1 = SaveGame__GetUnknownProgress1();
@@ -1584,12 +1584,12 @@ BOOL SaveGame__Func_205D520(s32 id)
         return FALSE;
 }
 
-BOOL SaveGame__GetBoughtInfo(u8 id)
+BOOL SaveGame__GetBoughtDecoration(u16 id)
 {
     return (saveGame.stage.progress.flags & (0x20 << id)) != 0;
 }
 
-void SaveGame__SetBoughtInfo(u8 id)
+void SaveGame__SetBoughtDecoration(u16 id)
 {
     saveGame.stage.progress.flags |= 0x20 << id;
 }
@@ -1609,12 +1609,12 @@ BOOL SaveGame__CheckProgress29(void)
     return SaveGame__GetGameProgress() == SAVE_PROGRESS_29;
 }
 
-BOOL SaveGame__CheckRingsForPurchase(void)
+BOOL SaveGame__CanBuyInfoHint(void)
 {
     return saveGame.stage.ringCount >= 800;
 }
 
-void SaveGame__UseRingsForPurchase(void)
+void SaveGame__BuyInfoHint(void)
 {
     saveGame.stage.ringCount -= 800;
 }

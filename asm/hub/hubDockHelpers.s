@@ -60,22 +60,22 @@ HubConfig__GetShipBuildCost: // 0x021529BC
 _021529C8: .word HubConfig__shipBuildCost
 	arm_func_end HubConfig__GetShipBuildCost
 
-	arm_func_start HubConfig__GetUnknownPurchaseCost
-HubConfig__GetUnknownPurchaseCost: // 0x021529CC
+	arm_func_start HubConfig__GetRadioTowerPurchaseCost
+HubConfig__GetRadioTowerPurchaseCost: // 0x021529CC
 	ldr r0, _021529D4 // =ovl05_02171838
 	bx lr
 	.align 2, 0
 _021529D4: .word ovl05_02171838
-	arm_func_end HubConfig__GetUnknownPurchaseCost
+	arm_func_end HubConfig__GetRadioTowerPurchaseCost
 
-	arm_func_start HubConfig__GetInfoPurchaseCost
-HubConfig__GetInfoPurchaseCost: // 0x021529D8
+	arm_func_start HubConfig__GetDecorPurchaseCost
+HubConfig__GetDecorPurchaseCost: // 0x021529D8
 	ldr r1, _021529E4 // =HubConfig__infoPurchaseCost
 	add r0, r1, r0, lsl #4
 	bx lr
 	.align 2, 0
 _021529E4: .word HubConfig__infoPurchaseCost
-	arm_func_end HubConfig__GetInfoPurchaseCost
+	arm_func_end HubConfig__GetDecorPurchaseCost
 
 	arm_func_start HubConfig__GetShipUpgradeCost
 HubConfig__GetShipUpgradeCost: // 0x021529E8
