@@ -114,47 +114,53 @@ typedef struct OptionsMessageConfig_
     u16 msgTextID[7];
 } OptionsMessageConfig;
 
+typedef struct PurchaseCostConfig_
+{
+    u32 ringCost;
+    u8 materialCost[9];
+} PurchaseCostConfig;
+
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED Unknown2171FE8 *DockHelpers__Func_2152960(u16 a1);
-NOT_DECOMPILED DockStageConfig *DockHelpers__Func_2152970(u16 a1);
-NOT_DECOMPILED void DockHelpers__Func_2152984(void);
-NOT_DECOMPILED DockMapConfig *DockHelpers__Func_2152994(u16 a1);
-NOT_DECOMPILED Unknown2171CCC *DockHelpers__Func_21529A8(u16 a1);
-NOT_DECOMPILED void DockHelpers__GetShipBuildCost(void);
-NOT_DECOMPILED void DockHelpers__GetUnknownPurchaseCost(void);
-NOT_DECOMPILED void DockHelpers__GetInfoPurchaseCost(void);
-NOT_DECOMPILED void DockHelpers__GetShipUpgradeCost(void);
-NOT_DECOMPILED void DockHelpers__GetDockBackInfo(void);
-NOT_DECOMPILED CViNpcConfig *DockHelpers__GetNpcConfig(u16 a1);
-NOT_DECOMPILED void DockHelpers__Func_2152A20(void);
-NOT_DECOMPILED void DockHelpers__Func_2152A30(void);
-NOT_DECOMPILED void DockHelpers__Func_2152A40(void);
-NOT_DECOMPILED void DockHelpers__GetMapBackConfig(void);
-NOT_DECOMPILED void DockHelpers__Func_2152A60(void);
-NOT_DECOMPILED void DockHelpers__Func_2152A70(void);
-NOT_DECOMPILED void DockHelpers__Func_2152A7C(void);
-NOT_DECOMPILED void DockHelpers__Func_2152A88(void);
-NOT_DECOMPILED void DockHelpers__Func_2152A94(void);
-NOT_DECOMPILED void DockHelpers__Func_2152AA0(void);
-NOT_DECOMPILED void DockHelpers__Func_2152AAC(void);
-NOT_DECOMPILED void DockHelpers__Func_2152AB8(void);
-NOT_DECOMPILED void DockHelpers__Func_2152AC4(void);
-NOT_DECOMPILED void DockHelpers__Func_2152AD0(void);
-NOT_DECOMPILED void DockHelpers__Func_2152ADC(void);
-NOT_DECOMPILED void DockHelpers__Func_2152AE8(void);
-NOT_DECOMPILED void DockHelpers__Func_2152AF4(void);
-NOT_DECOMPILED void DockHelpers__Func_2152B00(void);
-NOT_DECOMPILED NpcMsgInfo *DockHelpers__GetNpcMessageInfo(s32 id);
-NOT_DECOMPILED void DockHelpers__Func_2152B1C(void);
-NOT_DECOMPILED void DockHelpers__Func_2152B2C(void);
-NOT_DECOMPILED void DockHelpers__Func_2152B38(void);
-NOT_DECOMPILED void DockHelpers__Func_2152B48(void);
-NOT_DECOMPILED void DockHelpers__Func_2152B58(void);
-NOT_DECOMPILED void DockHelpers__GetAnnounceConfig(void);
-NOT_DECOMPILED OptionsMessageConfig *DockHelpers__GetOptionsMessageInfo(void);
+NOT_DECOMPILED Unknown2171FE8 *HubConfig__Func_2152960(u16 a1);
+NOT_DECOMPILED DockStageConfig *HubConfig__Func_2152970(u16 a1);
+NOT_DECOMPILED void HubConfig__Func_2152984(void);
+NOT_DECOMPILED DockMapConfig *HubConfig__Func_2152994(u16 a1);
+NOT_DECOMPILED Unknown2171CCC *HubConfig__Func_21529A8(u16 a1);
+NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetShipBuildCost(void);
+NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetUnknownPurchaseCost(void);
+NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetInfoPurchaseCost(void);
+NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetShipUpgradeCost(void);
+NOT_DECOMPILED void HubConfig__GetDockBackInfo(void);
+NOT_DECOMPILED CViNpcConfig *HubConfig__GetNpcConfig(u16 a1);
+NOT_DECOMPILED void HubConfig__Func_2152A20(void);
+NOT_DECOMPILED void HubConfig__Func_2152A30(void);
+NOT_DECOMPILED void HubConfig__Func_2152A40(void);
+NOT_DECOMPILED void HubConfig__GetMapBackConfig(void);
+NOT_DECOMPILED void HubConfig__Func_2152A60(void);
+NOT_DECOMPILED void HubConfig__Func_2152A70(void);
+NOT_DECOMPILED void HubConfig__Func_2152A7C(void);
+NOT_DECOMPILED void HubConfig__Func_2152A88(void);
+NOT_DECOMPILED void HubConfig__Func_2152A94(void);
+NOT_DECOMPILED void HubConfig__Func_2152AA0(void);
+NOT_DECOMPILED void HubConfig__Func_2152AAC(void);
+NOT_DECOMPILED void HubConfig__Func_2152AB8(void);
+NOT_DECOMPILED void HubConfig__Func_2152AC4(void);
+NOT_DECOMPILED void HubConfig__Func_2152AD0(void);
+NOT_DECOMPILED void HubConfig__Func_2152ADC(void);
+NOT_DECOMPILED void HubConfig__Func_2152AE8(void);
+NOT_DECOMPILED void HubConfig__Func_2152AF4(void);
+NOT_DECOMPILED void HubConfig__Func_2152B00(void);
+NOT_DECOMPILED NpcMsgInfo *HubConfig__GetNpcMessageInfo(s32 id);
+NOT_DECOMPILED void HubConfig__Func_2152B1C(void);
+NOT_DECOMPILED void HubConfig__Func_2152B2C(void);
+NOT_DECOMPILED void HubConfig__Func_2152B38(void);
+NOT_DECOMPILED void HubConfig__Func_2152B48(void);
+NOT_DECOMPILED void HubConfig__Func_2152B58(void);
+NOT_DECOMPILED void HubConfig__GetAnnounceConfig(void);
+NOT_DECOMPILED OptionsMessageConfig *HubConfig__GetOptionsMessageInfo(void);
 
 #ifdef __cplusplus
 }

@@ -1,5 +1,5 @@
-#ifndef RUSH_NPCOPTIONS_HPP
-#define RUSH_NPCOPTIONS_HPP
+#ifndef RUSH_NPCPURCHASE_HPP
+#define RUSH_NPCPURCHASE_HPP
 
 #include <hub/hubTask.hpp>
 #include <game/graphics/sprite.h>
@@ -65,4 +65,4 @@ public:
     static u32 GetRingCount(void);
 };
 
-#endif // RUSH_NPCOPTIONS_HPP
+#endif // RUSH_NPCPURCHASE_HPP

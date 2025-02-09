@@ -3,8 +3,8 @@
 
     .text
 
-	arm_func_start TalkHelpers__Func_2152DA0
-TalkHelpers__Func_2152DA0: // 0x02152DA0
+	arm_func_start HubState__Clear
+HubState__Clear: // 0x02152DA0
 	stmdb sp!, {r4, lr}
 	ldr r4, _02152DD0 // =gameState+0xDC
 	mov r0, #0
@@ -19,46 +19,46 @@ TalkHelpers__Func_2152DA0: // 0x02152DA0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02152DD0: .word gameState+0xDC
-	arm_func_end TalkHelpers__Func_2152DA0
+	arm_func_end HubState__Clear
 
-	arm_func_start TalkHelpers__Func_2152DD4
-TalkHelpers__Func_2152DD4: // 0x02152DD4
+	arm_func_start HubState__Func_2152DD4
+HubState__Func_2152DD4: // 0x02152DD4
 	ldr r1, _02152DE0 // =gameState
 	strb r0, [r1, #0xdd]
 	bx lr
 	.align 2, 0
 _02152DE0: .word gameState
-	arm_func_end TalkHelpers__Func_2152DD4
+	arm_func_end HubState__Func_2152DD4
 
-	arm_func_start TalkHelpers__Func_2152DE4
-TalkHelpers__Func_2152DE4: // 0x02152DE4
+	arm_func_start HubState__Func_2152DE4
+HubState__Func_2152DE4: // 0x02152DE4
 	ldr r0, _02152DF0 // =gameState
 	ldrb r0, [r0, #0xdd]
 	bx lr
 	.align 2, 0
 _02152DF0: .word gameState
-	arm_func_end TalkHelpers__Func_2152DE4
+	arm_func_end HubState__Func_2152DE4
 
-	arm_func_start TalkHelpers__Func_2152DF4
-TalkHelpers__Func_2152DF4: // 0x02152DF4
+	arm_func_start HubState__Func_2152DF4
+HubState__Func_2152DF4: // 0x02152DF4
 	ldr r1, _02152E00 // =gameState
 	strb r0, [r1, #0xde]
 	bx lr
 	.align 2, 0
 _02152E00: .word gameState
-	arm_func_end TalkHelpers__Func_2152DF4
+	arm_func_end HubState__Func_2152DF4
 
-	arm_func_start TalkHelpers__Func_2152E04
-TalkHelpers__Func_2152E04: // 0x02152E04
+	arm_func_start HubState__Func_2152E04
+HubState__Func_2152E04: // 0x02152E04
 	ldr r0, _02152E10 // =gameState
 	ldrb r0, [r0, #0xde]
 	bx lr
 	.align 2, 0
 _02152E10: .word gameState
-	arm_func_end TalkHelpers__Func_2152E04
+	arm_func_end HubState__Func_2152E04
 
-	arm_func_start TalkHelpers__Func_2152E14
-TalkHelpers__Func_2152E14: // 0x02152E14
+	arm_func_start HubState__Func_2152E14
+HubState__Func_2152E14: // 0x02152E14
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r3, _02152E68 // =gameState+0x000000E0
 	mov r6, r0
@@ -84,10 +84,10 @@ TalkHelpers__Func_2152E14: // 0x02152E14
 _02152E68: .word gameState+0x000000E0
 _02152E6C: .word gameState+0x000000EE
 _02152E70: .word gameState+0x000000EC
-	arm_func_end TalkHelpers__Func_2152E14
+	arm_func_end HubState__Func_2152E14
 
-	arm_func_start TalkHelpers__Func_2152E74
-TalkHelpers__Func_2152E74: // 0x02152E74
+	arm_func_start HubState__Func_2152E74
+HubState__Func_2152E74: // 0x02152E74
 	ldr r1, _02152E90 // =gameState+0x000000EE
 	mov r0, r0, lsl #4
 	ldrh r0, [r1, r0]
@@ -97,29 +97,29 @@ TalkHelpers__Func_2152E74: // 0x02152E74
 	bx lr
 	.align 2, 0
 _02152E90: .word gameState+0x000000EE
-	arm_func_end TalkHelpers__Func_2152E74
+	arm_func_end HubState__Func_2152E74
 
-	arm_func_start TalkHelpers__GetPlayerInfo
-TalkHelpers__GetPlayerInfo: // 0x02152E94
+	arm_func_start HubState__GetPlayerInfo
+HubState__GetPlayerInfo: // 0x02152E94
 	ldr r1, _02152EA0 // =gameState+0x000000E0
 	add r0, r1, r0, lsl #4
 	bx lr
 	.align 2, 0
 _02152EA0: .word gameState+0x000000E0
-	arm_func_end TalkHelpers__GetPlayerInfo
+	arm_func_end HubState__GetPlayerInfo
 
-	arm_func_start TalkHelpers__Func_2152EA4
-TalkHelpers__Func_2152EA4: // 0x02152EA4
+	arm_func_start HubState__Func_2152EA4
+HubState__Func_2152EA4: // 0x02152EA4
 	ldr r1, _02152EB4 // =gameState+0x000000EC
 	mov r0, r0, lsl #4
 	ldrh r0, [r1, r0]
 	bx lr
 	.align 2, 0
 _02152EB4: .word gameState+0x000000EC
-	arm_func_end TalkHelpers__Func_2152EA4
+	arm_func_end HubState__Func_2152EA4
 
-	arm_func_start TalkHelpers__Func_2152EB8
-TalkHelpers__Func_2152EB8: // 0x02152EB8
+	arm_func_start HubState__Func_2152EB8
+HubState__Func_2152EB8: // 0x02152EB8
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r2
 	mov r2, #0x14
@@ -147,10 +147,10 @@ _02152F10: .word gameState+0x000000F0
 _02152F14: .word gameState+0x000000FE
 _02152F18: .word gameState+0x000000FC
 _02152F1C: .word gameState+0x00000100
-	arm_func_end TalkHelpers__Func_2152EB8
+	arm_func_end HubState__Func_2152EB8
 
-	arm_func_start TalkHelpers__Func_2152F20
-TalkHelpers__Func_2152F20: // 0x02152F20
+	arm_func_start HubState__Func_2152F20
+HubState__Func_2152F20: // 0x02152F20
 	mov r1, #0x14
 	mul r1, r0, r1
 	ldr r0, _02152F40 // =gameState+0x000000FE
@@ -161,20 +161,20 @@ TalkHelpers__Func_2152F20: // 0x02152F20
 	bx lr
 	.align 2, 0
 _02152F40: .word gameState+0x000000FE
-	arm_func_end TalkHelpers__Func_2152F20
+	arm_func_end HubState__Func_2152F20
 
-	arm_func_start TalkHelpers__GetNpcInfo
-TalkHelpers__GetNpcInfo: // 0x02152F44
+	arm_func_start HubState__GetNpcInfo
+HubState__GetNpcInfo: // 0x02152F44
 	ldr r2, _02152F54 // =gameState+0x000000F0
 	mov r1, #0x14
 	mla r0, r1, r0, r2
 	bx lr
 	.align 2, 0
 _02152F54: .word gameState+0x000000F0
-	arm_func_end TalkHelpers__GetNpcInfo
+	arm_func_end HubState__GetNpcInfo
 
-	arm_func_start TalkHelpers__Func_2152F58
-TalkHelpers__Func_2152F58: // 0x02152F58
+	arm_func_start HubState__Func_2152F58
+HubState__Func_2152F58: // 0x02152F58
 	mov r1, #0x14
 	mul r1, r0, r1
 	ldr r0, _02152F6C // =gameState+0x000000FC
@@ -182,10 +182,10 @@ TalkHelpers__Func_2152F58: // 0x02152F58
 	bx lr
 	.align 2, 0
 _02152F6C: .word gameState+0x000000FC
-	arm_func_end TalkHelpers__Func_2152F58
+	arm_func_end HubState__Func_2152F58
 
-	arm_func_start TalkHelpers__Func_2152F70
-TalkHelpers__Func_2152F70: // 0x02152F70
+	arm_func_start HubState__Func_2152F70
+HubState__Func_2152F70: // 0x02152F70
 	mov r1, #0x14
 	mul r1, r0, r1
 	ldr r0, _02152F84 // =gameState+0x00000100
@@ -193,16 +193,16 @@ TalkHelpers__Func_2152F70: // 0x02152F70
 	bx lr
 	.align 2, 0
 _02152F84: .word gameState+0x00000100
-	arm_func_end TalkHelpers__Func_2152F70
+	arm_func_end HubState__Func_2152F70
 
-	arm_func_start TalkHelpers__Func_2152F88
-TalkHelpers__Func_2152F88: // 0x02152F88
+	arm_func_start HubState__Func_2152F88
+HubState__Func_2152F88: // 0x02152F88
 	ldr r0, _02152F94 // =gameState
 	ldrb r0, [r0, #0xdc]
 	bx lr
 	.align 2, 0
 _02152F94: .word gameState
-	arm_func_end TalkHelpers__Func_2152F88
+	arm_func_end HubState__Func_2152F88
 
 	arm_func_start TalkHelpers__Func_2152F98
 TalkHelpers__Func_2152F98: // 0x02152F98
@@ -215,8 +215,8 @@ TalkHelpers__Func_2152F98: // 0x02152F98
 _02152FAC: .word MIi_CpuClear32
 	arm_func_end TalkHelpers__Func_2152F98
 
-	arm_func_start TalkHelpers__Func_2152FB0
-TalkHelpers__Func_2152FB0: // 0x02152FB0
+	arm_func_start TalkHelpersUnknown__Init
+TalkHelpersUnknown__Init: // 0x02152FB0
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r2
 	mov r6, r0
@@ -256,14 +256,14 @@ TalkHelpers__Func_2152FB0: // 0x02152FB0
 	ldr r0, [r6, #0x1c]
 	ldr r1, [r6, #0x20]
 	ldrsh r2, [r6, #0xe]
-	bl TalkHelpers__Func_21534E4
+	bl TalkHelpersUnknown2__Func_21534E4
 	ldr r0, [r6, #0]
 	orr r0, r0, #0x20000
 	str r0, [r6]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02153060: .word 0x0000FFFF
-	arm_func_end TalkHelpers__Func_2152FB0
+	arm_func_end TalkHelpersUnknown__Init
 
 	arm_func_start TalkHelpers__Func_2153064
 TalkHelpers__Func_2153064: // 0x02153064
@@ -492,7 +492,7 @@ TalkHelpers__Func_2153350: // 0x02153350
 	ldrsh r2, [r4, #0xe]
 	ldr r0, [r4, #0x1c]
 	ldr r1, [r4, #0x20]
-	bl TalkHelpers__Func_21534E4
+	bl TalkHelpersUnknown2__Func_21534E4
 	ldr r0, [r4, #0]
 	orr r0, r0, #0x20000
 	str r0, [r4]
@@ -596,8 +596,8 @@ _021534B4:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end TalkHelpers__Func_2153388
 
-	arm_func_start TalkHelpers__Func_21534E4
-TalkHelpers__Func_21534E4: // 0x021534E4
+	arm_func_start TalkHelpersUnknown2__Func_21534E4
+TalkHelpersUnknown2__Func_21534E4: // 0x021534E4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r9, r0
 	mov r0, r1
@@ -625,10 +625,10 @@ _02153508:
 	cmp r7, #0x10
 	blt _02153508
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	arm_func_end TalkHelpers__Func_21534E4
+	arm_func_end TalkHelpersUnknown2__Func_21534E4
 
-	arm_func_start TalkHelpers__Func_215354C
-TalkHelpers__Func_215354C: // 0x0215354C
+	arm_func_start TalkHelpersUnknown2__Func_215354C
+TalkHelpersUnknown2__Func_215354C: // 0x0215354C
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x10
 	mov r8, r0
@@ -680,10 +680,10 @@ TalkHelpers__Func_215354C: // 0x0215354C
 	.align 2, 0
 _0215360C: .word VRAMSystem__VRAM_BG
 _02153610: .word 0x11111111
-	arm_func_end TalkHelpers__Func_215354C
+	arm_func_end TalkHelpersUnknown2__Func_215354C
 
-	arm_func_start TalkHelpers__Func_2153614
-TalkHelpers__Func_2153614: // 0x02153614
+	arm_func_start TalkHelpersUnknown2__Func_2153614
+TalkHelpersUnknown2__Func_2153614: // 0x02153614
 	stmdb sp!, {r3, lr}
 	strh r1, [r0, #8]
 	ldr r1, [r0, #0]
@@ -700,20 +700,20 @@ TalkHelpers__Func_2153614: // 0x02153614
 _02153648:
 	bl QueueUncompressedPalette
 	ldmia sp!, {r3, pc}
-	arm_func_end TalkHelpers__Func_2153614
+	arm_func_end TalkHelpersUnknown2__Func_2153614
 
-	arm_func_start TalkHelpers__Func_2153650
-TalkHelpers__Func_2153650: // 0x02153650
+	arm_func_start TalkHelpers__GetInteractionCtrl
+TalkHelpers__GetInteractionCtrl: // 0x02153650
 	ldr r1, _02153660 // =TalkHelpers__MesssageControlList
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
 	.align 2, 0
 _02153660: .word TalkHelpers__MesssageControlList
-	arm_func_end TalkHelpers__Func_2153650
+	arm_func_end TalkHelpers__GetInteractionCtrl
 
-	arm_func_start TalkHelpers__GetInteractionID_2
-TalkHelpers__GetInteractionID_2: // 0x02153664
+	arm_func_start TalkHelpers__GetInteractionText1
+TalkHelpers__GetInteractionText1: // 0x02153664
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl TalkHelpers__Func_2153700
@@ -724,10 +724,10 @@ TalkHelpers__GetInteractionID_2: // 0x02153664
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02153684: .word _021734E8
-	arm_func_end TalkHelpers__GetInteractionID_2
+	arm_func_end TalkHelpers__GetInteractionText1
 
-	arm_func_start TalkHelpers__GetInteractionID2
-TalkHelpers__GetInteractionID2: // 0x02153688
+	arm_func_start TalkHelpers__GetInteractionText2
+TalkHelpers__GetInteractionText2: // 0x02153688
 	stmdb sp!, {r3, lr}
 	ldr r1, _021536A8 // =_021733E0
 	ldr r0, [r1, r0, lsl #2]
@@ -739,10 +739,10 @@ TalkHelpers__GetInteractionID2: // 0x02153688
 	.align 2, 0
 _021536A8: .word _021733E0
 _021536AC: .word 0x0000FFFF
-	arm_func_end TalkHelpers__GetInteractionID2
+	arm_func_end TalkHelpers__GetInteractionText2
 
-	arm_func_start TalkHelpers__GetInteractionID
-TalkHelpers__GetInteractionID: // 0x021536B0
+	arm_func_start TalkHelpers__GetInteractionText3
+TalkHelpers__GetInteractionText3: // 0x021536B0
 	stmdb sp!, {r3, lr}
 	ldr r1, _021536D0 // =_02173438
 	ldr r0, [r1, r0, lsl #2]
@@ -754,7 +754,7 @@ TalkHelpers__GetInteractionID: // 0x021536B0
 	.align 2, 0
 _021536D0: .word _02173438
 _021536D4: .word 0x0000FFFF
-	arm_func_end TalkHelpers__GetInteractionID
+	arm_func_end TalkHelpers__GetInteractionText3
 
 	arm_func_start TalkHelpers__Func_21536D8
 TalkHelpers__Func_21536D8: // 0x021536D8
@@ -862,8 +862,8 @@ _02153804:
 _02153820: .word 0x0000FFFF
 	arm_func_end TalkHelpers__Func_21537BC
 
-	arm_func_start DockHelpers__Func_2153824
-DockHelpers__Func_2153824: // 0x02153824
+	arm_func_start HubConfig__Func_2153824
+HubConfig__Func_2153824: // 0x02153824
 	stmdb sp!, {r3, lr}
 	bl MissionHelpers__GetUnlockedMissionCount
 	cmp r0, #0
@@ -872,16 +872,16 @@ DockHelpers__Func_2153824: // 0x02153824
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215383C: .word 0x0000FFFF
-	arm_func_end DockHelpers__Func_2153824
+	arm_func_end HubConfig__Func_2153824
 
-	arm_func_start DockHelpers__Func_2153840
-DockHelpers__Func_2153840: // 0x02153840
+	arm_func_start HubConfig__Func_2153840
+HubConfig__Func_2153840: // 0x02153840
 	mov r0, #0
 	bx lr
-	arm_func_end DockHelpers__Func_2153840
+	arm_func_end HubConfig__Func_2153840
 
-	arm_func_start DockHelpers__Func_2153848
-DockHelpers__Func_2153848: // 0x02153848
+	arm_func_start HubConfig__Func_2153848
+HubConfig__Func_2153848: // 0x02153848
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, #0
 	mov r5, r4
@@ -919,36 +919,36 @@ _0215389C:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _021538C8: .word 0x0000FFFF
-	arm_func_end DockHelpers__Func_2153848
+	arm_func_end HubConfig__Func_2153848
 
-	arm_func_start DockHelpers__Func_21538CC
-DockHelpers__Func_21538CC: // 0x021538CC
+	arm_func_start HubConfig__Func_21538CC
+HubConfig__Func_21538CC: // 0x021538CC
 	mov r0, #0
 	bx lr
-	arm_func_end DockHelpers__Func_21538CC
+	arm_func_end HubConfig__Func_21538CC
 
-	arm_func_start DockHelpers__Func_21538D4
-DockHelpers__Func_21538D4: // 0x021538D4
+	arm_func_start HubConfig__Func_21538D4
+HubConfig__Func_21538D4: // 0x021538D4
 	mov r0, #0
 	bx lr
-	arm_func_end DockHelpers__Func_21538D4
+	arm_func_end HubConfig__Func_21538D4
 
-	arm_func_start DockHelpers__Func_21538DC
-DockHelpers__Func_21538DC: // 0x021538DC
+	arm_func_start HubConfig__Func_21538DC
+HubConfig__Func_21538DC: // 0x021538DC
 	mov r0, #0
 	bx lr
-	arm_func_end DockHelpers__Func_21538DC
+	arm_func_end HubConfig__Func_21538DC
 
-	arm_func_start DockHelpers__Func_21538E4
-DockHelpers__Func_21538E4: // 0x021538E4
+	arm_func_start HubConfig__Func_21538E4
+HubConfig__Func_21538E4: // 0x021538E4
 	ldr r0, _021538EC // =0x0000FFFF
 	bx lr
 	.align 2, 0
 _021538EC: .word 0x0000FFFF
-	arm_func_end DockHelpers__Func_21538E4
+	arm_func_end HubConfig__Func_21538E4
 
-	arm_func_start DockHelpers__Func_21538F0
-DockHelpers__Func_21538F0: // 0x021538F0
+	arm_func_start HubConfig__Func_21538F0
+HubConfig__Func_21538F0: // 0x021538F0
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	ldr ip, _02153944 // =ovl05_02172524
@@ -977,10 +977,10 @@ _02153948: .word ovl05_0217248C
 _0215394C: .word ovl05_02172592
 _02153950: .word ovl05_02172468
 _02153954: .word 0x0000FFFF
-	arm_func_end DockHelpers__Func_21538F0
+	arm_func_end HubConfig__Func_21538F0
 
-	arm_func_start DockHelpers__Func_2153958
-DockHelpers__Func_2153958: // 0x02153958
+	arm_func_start HubConfig__Func_2153958
+HubConfig__Func_2153958: // 0x02153958
 	stmdb sp!, {r3, lr}
 	ldr ip, _0215397C // =ovl05_02172480
 	ldr r1, _02153980 // =ovl05_0217243E
@@ -995,10 +995,10 @@ _0215397C: .word ovl05_02172480
 _02153980: .word ovl05_0217243E
 _02153984: .word ovl05_021724D4
 _02153988: .word ovl05_02172438
-	arm_func_end DockHelpers__Func_2153958
+	arm_func_end HubConfig__Func_2153958
 
-	arm_func_start DockHelpers__Func_215398C
-DockHelpers__Func_215398C: // 0x0215398C
+	arm_func_start HubConfig__Func_215398C
+HubConfig__Func_215398C: // 0x0215398C
 	stmdb sp!, {r3, lr}
 	ldr ip, _021539B0 // =ovl05_021724F8
 	ldr r1, _021539B4 // =ovl05_0217245E
@@ -1013,13 +1013,13 @@ _021539B0: .word ovl05_021724F8
 _021539B4: .word ovl05_0217245E
 _021539B8: .word ovl05_02172574
 _021539BC: .word ovl05_02172454
-	arm_func_end DockHelpers__Func_215398C
+	arm_func_end HubConfig__Func_215398C
 
-	arm_func_start DockHelpers__Func_21539C0
-DockHelpers__Func_21539C0: // 0x021539C0
+	arm_func_start HubConfig__Func_21539C0
+HubConfig__Func_21539C0: // 0x021539C0
 	stmdb sp!, {r3, lr}
 	ldr ip, _021539E4 // =ovl05_0217253C
-	ldr r1, _021539E8 // =DockHelpers__BlazeMissionIDs
+	ldr r1, _021539E8 // =HubConfig__BlazeMissionIDs
 	ldr r2, _021539EC // =ovl05_021725B6
 	ldr r3, _021539F0 // =ovl05_02172498
 	mov r0, #7
@@ -1028,13 +1028,13 @@ DockHelpers__Func_21539C0: // 0x021539C0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _021539E4: .word ovl05_0217253C
-_021539E8: .word DockHelpers__BlazeMissionIDs
+_021539E8: .word HubConfig__BlazeMissionIDs
 _021539EC: .word ovl05_021725B6
 _021539F0: .word ovl05_02172498
-	arm_func_end DockHelpers__Func_21539C0
+	arm_func_end HubConfig__Func_21539C0
 
-	arm_func_start DockHelpers__Func_21539F4
-DockHelpers__Func_21539F4: // 0x021539F4
+	arm_func_start HubConfig__Func_21539F4
+HubConfig__Func_21539F4: // 0x021539F4
 	stmdb sp!, {r3, lr}
 	ldr ip, _02153A18 // =ovl05_02172474
 	ldr r1, _02153A1C // =ovl05_02172432
@@ -1049,10 +1049,10 @@ _02153A18: .word ovl05_02172474
 _02153A1C: .word ovl05_02172432
 _02153A20: .word ovl05_021724E6
 _02153A24: .word ovl05_0217242C
-	arm_func_end DockHelpers__Func_21539F4
+	arm_func_end HubConfig__Func_21539F4
 
-	arm_func_start DockHelpers__Func_2153A28
-DockHelpers__Func_2153A28: // 0x02153A28
+	arm_func_start HubConfig__Func_2153A28
+HubConfig__Func_2153A28: // 0x02153A28
 	stmdb sp!, {r3, lr}
 	ldr ip, _02153A4C // =ovl05_021724B4
 	ldr r1, _02153A50 // =ovl05_0217244C
@@ -1067,7 +1067,7 @@ _02153A4C: .word ovl05_021724B4
 _02153A50: .word ovl05_0217244C
 _02153A54: .word ovl05_0217250C
 _02153A58: .word ovl05_02172444
-	arm_func_end DockHelpers__Func_2153A28
+	arm_func_end HubConfig__Func_2153A28
 
 	.rodata
 
@@ -1127,8 +1127,8 @@ ovl05_0217248C: // 0x0217248C
 ovl05_02172498: // 0x02172498
     .hword 0xFFFF, 3, 0xFFFF, 9, 5, 0xFFFF, 0xFFFF
 	
-.public DockHelpers__BlazeMissionIDs
-DockHelpers__BlazeMissionIDs: // 0x021724A6
+.public HubConfig__BlazeMissionIDs
+HubConfig__BlazeMissionIDs: // 0x021724A6
 	.hword 19, 77, 29, 86, 81, 69, 71
 	
 .public ovl05_021724B4
@@ -1170,8 +1170,8 @@ ovl05_02172524: // 0x02172524
 ovl05_0217253C: // 0x0217253C
     .hword 0xA, 0xB, 0xC, 0xD, 0xE, 0xF, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17
 
-.public DockHelpers__PostGameMissionList2
-DockHelpers__PostGameMissionList2: // 0x02172558
+.public HubConfig__PostGameMissionList2
+HubConfig__PostGameMissionList2: // 0x02172558
 	.hword 2, 7, 13, 17, 23, 27, 33, 37, 43, 48, 53, 57, 63, 67
 	
 .public ovl05_02172574
@@ -1301,27 +1301,27 @@ ovl05_021729CC: // 0x021729CC
 .public _021733E0
 _021733E0: // 0x021733E0
 	.word TalkHelpers__Func_21537BC
-	.word DockHelpers__Func_2153824
+	.word HubConfig__Func_2153824
 	.word 0
 	.word 0
-	.word DockHelpers__Func_2153848
-	.word DockHelpers__Func_2153840
-	.word DockHelpers__Func_2153848
+	.word HubConfig__Func_2153848
+	.word HubConfig__Func_2153840
+	.word HubConfig__Func_2153848
 	.word 0
 	.word 0
 	.word TalkHelpers__Func_21537BC
-	.word DockHelpers__Func_2153824
+	.word HubConfig__Func_2153824
 	.word 0
-	.word DockHelpers__Func_21538CC
-	.word DockHelpers__Func_2153848
+	.word HubConfig__Func_21538CC
+	.word HubConfig__Func_2153848
 	.word 0
-	.word DockHelpers__Func_21538DC
-	.word DockHelpers__Func_2153848
+	.word HubConfig__Func_21538DC
+	.word HubConfig__Func_2153848
 	.word 0
-	.word DockHelpers__Func_2153848
+	.word HubConfig__Func_2153848
 	.word 0
 	.word 0
-	.word DockHelpers__Func_21538D4
+	.word HubConfig__Func_21538D4
 
 .public _02173438
 _02173438: // 0x02173438
@@ -1351,26 +1351,26 @@ _02173438: // 0x02173438
 .public _02173490
 _02173490: // 0x02173490
 	.word 0
-	.word DockHelpers__Func_21538E4
+	.word HubConfig__Func_21538E4
 	.word 0
-	.word DockHelpers__Func_2153958
+	.word HubConfig__Func_2153958
 	.word 0
-	.word DockHelpers__Func_21538F0
-	.word 0
-	.word 0
+	.word HubConfig__Func_21538F0
 	.word 0
 	.word 0
-	.word DockHelpers__Func_21538E4
-	.word DockHelpers__Func_2153958
-	.word DockHelpers__Func_215398C
 	.word 0
-	.word DockHelpers__Func_21539C0
-	.word DockHelpers__Func_2153A28
 	.word 0
-	.word DockHelpers__Func_21539F4
+	.word HubConfig__Func_21538E4
+	.word HubConfig__Func_2153958
+	.word HubConfig__Func_215398C
 	.word 0
-	.word DockHelpers__Func_21539F4
-	.word DockHelpers__Func_2153958
+	.word HubConfig__Func_21539C0
+	.word HubConfig__Func_2153A28
+	.word 0
+	.word HubConfig__Func_21539F4
+	.word 0
+	.word HubConfig__Func_21539F4
+	.word HubConfig__Func_2153958
 	.word MissionHelpers__Func_2153A5C
 
 .public _021734E8

@@ -208,7 +208,7 @@ _021645E8:
 	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r0, r4, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__GetDockBackInfo
+	bl HubConfig__GetDockBackInfo
 	mov r4, r0
 	cmp r8, #0
 	bne _02164814

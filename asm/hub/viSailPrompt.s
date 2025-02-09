@@ -32,9 +32,9 @@ ViSailPrompt__CreateInternal: // 0x02168C48
 	ldr r1, _02168CB4 // =0x0000FFFF
 	str r5, [r4]
 	strh r1, [r4, #8]
-	bl ViSailPrompt__Func_2168CB8
+	bl ViSailPrompt__InitDisplay
 	mov r0, r4
-	bl ViSailPrompt__Func_2168CD8
+	bl ViSailPrompt__InitGraphics
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
@@ -44,8 +44,8 @@ _02168CB0: .word ViSailPrompt__Destructor
 _02168CB4: .word 0x0000FFFF
 	arm_func_end ViSailPrompt__CreateInternal
 
-	arm_func_start ViSailPrompt__Func_2168CB8
-ViSailPrompt__Func_2168CB8: // 0x02168CB8
+	arm_func_start ViSailPrompt__InitDisplay
+ViSailPrompt__InitDisplay: // 0x02168CB8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN10HubControl12Func_215A888Ev
@@ -54,10 +54,10 @@ ViSailPrompt__Func_2168CB8: // 0x02168CB8
 	mov r0, r4
 	bl ViSailPrompt__Func_21696AC
 	ldmia sp!, {r4, pc}
-	arm_func_end ViSailPrompt__Func_2168CB8
+	arm_func_end ViSailPrompt__InitDisplay
 
-	arm_func_start ViSailPrompt__Func_2168CD8
-ViSailPrompt__Func_2168CD8: // 0x02168CD8
+	arm_func_start ViSailPrompt__InitGraphics
+ViSailPrompt__InitGraphics: // 0x02168CD8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #0
@@ -77,28 +77,28 @@ ViSailPrompt__Func_2168CD8: // 0x02168CD8
 	bl _ZN10HubControl17GetFileFrom_ViMsgEv
 	str r0, [r4, #0x1f0]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViSailPrompt__Func_2168CD8
+	arm_func_end ViSailPrompt__InitGraphics
 
-	arm_func_start ViSailPrompt__Func_2168D24
-ViSailPrompt__Func_2168D24: // 0x02168D24
+	arm_func_start ViSailPrompt__Release
+ViSailPrompt__Release: // 0x02168D24
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ViSailPrompt__Func_2168D48
+	bl ViSailPrompt__ReleaseGraphics
 	mov r0, r4
-	bl ViSailPrompt__Func_2168D3C
+	bl ViSailPrompt__ResetDisplay
 	ldmia sp!, {r4, pc}
-	arm_func_end ViSailPrompt__Func_2168D24
+	arm_func_end ViSailPrompt__Release
 
-	arm_func_start ViSailPrompt__Func_2168D3C
-ViSailPrompt__Func_2168D3C: // 0x02168D3C
+	arm_func_start ViSailPrompt__ResetDisplay
+ViSailPrompt__ResetDisplay: // 0x02168D3C
 	ldr ip, _02168D44 // =_ZN10HubControl12Func_215A96CEv
 	bx ip
 	.align 2, 0
 _02168D44: .word _ZN10HubControl12Func_215A96CEv
-	arm_func_end ViSailPrompt__Func_2168D3C
+	arm_func_end ViSailPrompt__ResetDisplay
 
-	arm_func_start ViSailPrompt__Func_2168D48
-ViSailPrompt__Func_2168D48: // 0x02168D48
+	arm_func_start ViSailPrompt__ReleaseGraphics
+ViSailPrompt__ReleaseGraphics: // 0x02168D48
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x18c
@@ -110,7 +110,7 @@ ViSailPrompt__Func_2168D48: // 0x02168D48
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__Release
 	ldmia sp!, {r4, pc}
-	arm_func_end ViSailPrompt__Func_2168D48
+	arm_func_end ViSailPrompt__ReleaseGraphics
 
 	arm_func_start ViSailPrompt__Main
 ViSailPrompt__Main: // 0x02168D74
@@ -118,7 +118,7 @@ ViSailPrompt__Main: // 0x02168D74
 	sub sp, sp, #0x28
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl ViSailPrompt__Func_21696D8
+	bl ViSailPrompt__CheckTrainingDisabled
 	cmp r0, #0
 	movne r5, #6
 	moveq r5, #8
@@ -158,18 +158,18 @@ ViSailPrompt__Main: // 0x02168D74
 	bl FontWindowAnimator__StartAnimating
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__Draw
-	ldr r0, _02168E3C // =ViSailPrompt__Func_2168E40
+	ldr r0, _02168E3C // =ViSailPrompt__Main_2168E40
 	bl SetCurrentTaskMainEvent
 	mov r0, #4
 	bl PlayHubSfx
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02168E3C: .word ViSailPrompt__Func_2168E40
+_02168E3C: .word ViSailPrompt__Main_2168E40
 	arm_func_end ViSailPrompt__Main
 
-	arm_func_start ViSailPrompt__Func_2168E40
-ViSailPrompt__Func_2168E40: // 0x02168E40
+	arm_func_start ViSailPrompt__Main_2168E40
+ViSailPrompt__Main_2168E40: // 0x02168E40
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
@@ -215,7 +215,7 @@ ViSailPrompt__Func_2168E40: // 0x02168E40
 	mov r1, r0
 	add r0, r4, #0x10
 	bl FontAnimator__LoadMPCFile
-	bl ViSailPrompt__Func_21696D8
+	bl ViSailPrompt__CheckTrainingDisabled
 	cmp r0, #0
 	add r0, r4, #0x10
 	beq _02168F10
@@ -234,16 +234,16 @@ _02168F18:
 	bl FontAnimator__ClearPixels
 	add r0, r4, #0x10
 	bl FontAnimator__Draw
-	ldr r0, _02168F48 // =ViSailPrompt__Func_2168F4C
+	ldr r0, _02168F48 // =ViSailPrompt__Main_2168F4C
 	bl SetCurrentTaskMainEvent
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_02168F48: .word ViSailPrompt__Func_2168F4C
-	arm_func_end ViSailPrompt__Func_2168E40
+_02168F48: .word ViSailPrompt__Main_2168F4C
+	arm_func_end ViSailPrompt__Main_2168E40
 
-	arm_func_start ViSailPrompt__Func_2168F4C
-ViSailPrompt__Func_2168F4C: // 0x02168F4C
+	arm_func_start ViSailPrompt__Main_2168F4C
+ViSailPrompt__Main_2168F4C: // 0x02168F4C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
@@ -305,7 +305,7 @@ ViSailPrompt__Func_2168F4C: // 0x02168F4C
 	mov r1, #0
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	bl ViSailPrompt__Func_21696D8
+	bl ViSailPrompt__CheckTrainingDisabled
 	cmp r0, #0
 	bne _02169064
 	ldr r0, [r4, #0]
@@ -335,7 +335,7 @@ _02169098:
 	bl FontAnimator__GetDialogLineCount
 	strh r0, [r4, #6]
 	ldr r1, _021690C4 // =0x0000FFFF
-	ldr r0, _021690C8 // =ViSailPrompt__Func_21690CC
+	ldr r0, _021690C8 // =ViSailPrompt__Main_21690CC
 	strh r1, [r4, #8]
 	bl SetCurrentTaskMainEvent
 	add sp, sp, #0x1c
@@ -343,11 +343,11 @@ _02169098:
 	.align 2, 0
 _021690C0: .word 0x05000200
 _021690C4: .word 0x0000FFFF
-_021690C8: .word ViSailPrompt__Func_21690CC
-	arm_func_end ViSailPrompt__Func_2168F4C
+_021690C8: .word ViSailPrompt__Main_21690CC
+	arm_func_end ViSailPrompt__Main_2168F4C
 
-	arm_func_start ViSailPrompt__Func_21690CC
-ViSailPrompt__Func_21690CC: // 0x021690CC
+	arm_func_start ViSailPrompt__Main_21690CC
+ViSailPrompt__Main_21690CC: // 0x021690CC
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r6, _02169330 // =0x0000FFFF
 	bl GetCurrentTaskWork_
@@ -439,7 +439,7 @@ _02169208:
 	ldrh r0, [r0, #4]
 	tst r0, #2
 	beq _02169284
-	bl ViSailPrompt__Func_21696D8
+	bl ViSailPrompt__CheckTrainingDisabled
 	cmp r0, #0
 	ldrh r0, [r4, #4]
 	beq _0216925C
@@ -509,17 +509,17 @@ _02169308:
 	mov r1, #1
 	str r2, [r4, #0xc]
 	bl FontWindowMWControl__SetPaletteAnim
-	ldr r0, _02169338 // =ViSailPrompt__Func_216933C
+	ldr r0, _02169338 // =ViSailPrompt__Main_216933C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02169330: .word 0x0000FFFF
 _02169334: .word padInput
-_02169338: .word ViSailPrompt__Func_216933C
-	arm_func_end ViSailPrompt__Func_21690CC
+_02169338: .word ViSailPrompt__Main_216933C
+	arm_func_end ViSailPrompt__Main_21690CC
 
-	arm_func_start ViSailPrompt__Func_216933C
-ViSailPrompt__Func_216933C: // 0x0216933C
+	arm_func_start ViSailPrompt__Main_216933C
+ViSailPrompt__Main_216933C: // 0x0216933C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	bl GetCurrentTaskWork_
@@ -552,16 +552,16 @@ ViSailPrompt__Func_216933C: // 0x0216933C
 	bl FontWindowAnimator__InitAnimation
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__StartAnimating
-	ldr r0, _021693CC // =ViSailPrompt__Func_21693D0
+	ldr r0, _021693CC // =ViSailPrompt__Main_21693D0
 	bl SetCurrentTaskMainEvent
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_021693CC: .word ViSailPrompt__Func_21693D0
-	arm_func_end ViSailPrompt__Func_216933C
+_021693CC: .word ViSailPrompt__Main_21693D0
+	arm_func_end ViSailPrompt__Main_216933C
 
-	arm_func_start ViSailPrompt__Func_21693D0
-ViSailPrompt__Func_21693D0: // 0x021693D0
+	arm_func_start ViSailPrompt__Main_21693D0
+ViSailPrompt__Main_21693D0: // 0x021693D0
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -579,21 +579,21 @@ ViSailPrompt__Func_21693D0: // 0x021693D0
 	bl ViSailPrompt__Func_21695E4
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__SetWindowClosed
-	ldr r0, _02169420 // =ViSailPrompt__Func_2169424
+	ldr r0, _02169420 // =ViSailPrompt__Main_2169424
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02169420: .word ViSailPrompt__Func_2169424
-	arm_func_end ViSailPrompt__Func_21693D0
+_02169420: .word ViSailPrompt__Main_2169424
+	arm_func_end ViSailPrompt__Main_21693D0
 
-	arm_func_start ViSailPrompt__Func_2169424
-ViSailPrompt__Func_2169424: // 0x02169424
+	arm_func_start ViSailPrompt__Main_2169424
+ViSailPrompt__Main_2169424: // 0x02169424
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__SetWindowOpen
-	bl ViSailPrompt__Func_21696D8
+	bl ViSailPrompt__CheckTrainingDisabled
 	cmp r0, #0
 	ldrh r0, [r4, #4]
 	beq _02169478
@@ -641,13 +641,13 @@ _021694C8:
 _021694D8:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}
-	arm_func_end ViSailPrompt__Func_2169424
+	arm_func_end ViSailPrompt__Main_2169424
 
 	arm_func_start ViSailPrompt__Destructor
 ViSailPrompt__Destructor: // 0x021694E0
 	stmdb sp!, {r3, lr}
 	bl GetTaskWork_
-	bl ViSailPrompt__Func_2168D24
+	bl ViSailPrompt__Release
 	ldmia sp!, {r3, pc}
 	arm_func_end ViSailPrompt__Destructor
 
@@ -807,15 +807,15 @@ ViSailPrompt__Func_21696AC: // 0x021696AC
 _021696D4: .word 0x06007FE0
 	arm_func_end ViSailPrompt__Func_21696AC
 
-	arm_func_start ViSailPrompt__Func_21696D8
-ViSailPrompt__Func_21696D8: // 0x021696D8
+	arm_func_start ViSailPrompt__CheckTrainingDisabled
+ViSailPrompt__CheckTrainingDisabled: // 0x021696D8
 	stmdb sp!, {r3, lr}
 	bl SaveGame__GetGameProgress
 	cmp r0, #3
 	movlt r0, #1
 	movge r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ViSailPrompt__Func_21696D8
+	arm_func_end ViSailPrompt__CheckTrainingDisabled
 
 	arm_func_start ViSailPrompt__Func_21696F0
 ViSailPrompt__Func_21696F0: // 0x021696F0

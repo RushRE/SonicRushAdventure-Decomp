@@ -12,6 +12,7 @@
 #include <hub/cviSailPrompt.hpp>
 #include <hub/cviTalkPurchase.hpp>
 #include <hub/cviTalkMissionList.hpp>
+#include <hub/cviTalkAnnounce.hpp>
 #include <hub/npcOptions.hpp>
 #include <hub/npcCutsceneViewer.hpp>
 #include <hub/npcRetry.hpp>
@@ -25,7 +26,7 @@ static u32 selection;
 CViDockNpcGroupTalk talkAction = { 32 };
 
 DockNpcGroupFunc talkActionTable[] = {
-    CViDockNpcTalk::Create,        ViSailPrompt__Create, ViTalkPurchase__Create,    ViTalkMissionList__Create, CViDockNpcTalk::CreateMission,    ViTalkMissionList__Func_216B6B4,
+    CViDockNpcTalk::Create,        ViSailPrompt__Create, ViTalkPurchase__Create,    ViTalkMissionList__Create, CViDockNpcTalk::CreateMission,    ViTalkAnnounce__Create2,
     CViDockNpcTalk::CreateUnknown, NpcOptions::Create,   NpcCutsceneViewer::Create, NpcRetry::Create,          CViDockNpcTalk::CreateTalkAction,
 };
 
@@ -111,14 +112,14 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
     if (work->messageID == 0)
     {
         id              = ViDock__Func_215E0CC();
-        msg.msgCtrlFile = TalkHelpers__Func_2153650(id);
-        msg.msgTextID1  = TalkHelpers__GetInteractionID_2(id);
-        msg.msgTextID2  = TalkHelpers__GetInteractionID2(id);
-        msg.msgTextID3  = TalkHelpers__GetInteractionID(id);
+        msg.msgCtrlFile = TalkHelpers__GetInteractionCtrl(id);
+        msg.msgTextID1  = TalkHelpers__GetInteractionText1(id);
+        msg.msgTextID2  = TalkHelpers__GetInteractionText2(id);
+        msg.msgTextID3  = TalkHelpers__GetInteractionText3(id);
     }
     else
     {
-        MI_CpuCopy16(DockHelpers__GetNpcMessageInfo(work->messageID), &msg, sizeof(msg));
+        MI_CpuCopy16(HubConfig__GetNpcMessageInfo(work->messageID), &msg, sizeof(msg));
     }
 
     flag = FALSE;

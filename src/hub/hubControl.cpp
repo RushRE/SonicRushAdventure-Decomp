@@ -9,7 +9,7 @@
 #include <game/audio/sysSound.h>
 #include <hub/dockHelpers.h>
 #include <hub/missionHelpers.h>
-#include <hub/talkHelpers.h>
+#include <hub/hubState.h>
 #include <game/game/gameState.h>
 #include <game/save/saveGame.h>
 #include <game/file/fileUnknown.h>
@@ -75,7 +75,7 @@ extern "C" void InitHubSysEvent(void)
     MI_CpuFill16(OAMSystem__GetList2(GRAPHICS_ENGINE_A), 0x200, HW_OAM_SIZE);
     MI_CpuFill16(OAMSystem__GetList2(GRAPHICS_ENGINE_B), 0x200, HW_OAM_SIZE);
 
-    if (TalkHelpers__Func_2152F88() != 7)
+    if (HubState__Func_2152F88() != 7)
         gameState.saveFile.field_52 = 0;
 
     if (SaveGame__Func_205BC7C())
@@ -122,7 +122,7 @@ extern "C" void InitHubSysEvent(void)
     }
     else
     {
-        if (TalkHelpers__Func_2152F88() == 4)
+        if (HubState__Func_2152F88() == 4)
         {
             u16 cutscene = NpcCutsceneViewer::GetNextCutscene(gameState.cutscene.cutsceneID);
             if (cutscene != CUTSCENE_NONE && !gameState.cutscene.canSkip)
@@ -139,7 +139,7 @@ extern "C" void InitHubSysEvent(void)
             gameState.cutscene.cutsceneID = CUTSCENE_NONE;
         }
 
-        if (TalkHelpers__Func_2152F88() == 5 && gameState.missionFlag)
+        if (HubState__Func_2152F88() == 5 && gameState.missionFlag)
         {
             u32 missionID = MissionHelpers__GetBlazeMissionCount(MissionHelpers__GetMissionID());
             if (missionID < 7)
@@ -174,10 +174,10 @@ void HubControl::Func_215700C()
 
 void HubControl::Func_215701C(s32 a1)
 {
-    if (TalkHelpers__Func_2152F88() == 6 || TalkHelpers__Func_2152F88() == 7)
+    if (HubState__Func_2152F88() == 6 || HubState__Func_2152F88() == 7)
     {
         u32 field_134;
-        if (TalkHelpers__Func_2152F88() == 7)
+        if (HubState__Func_2152F88() == 7)
             field_134 = 1;
         else
             field_134 = 0;
@@ -190,15 +190,15 @@ void HubControl::Func_215701C(s32 a1)
     }
     else
     {
-        if (TalkHelpers__Func_2152DE4() == 0)
+        if (HubState__Func_2152DE4() == 0)
         {
-            HubControl::Create(TalkHelpers__Func_2152E04());
+            HubControl::Create(HubState__Func_2152E04());
         }
         else
         {
-            if (TalkHelpers__Func_2152DE4() == 1)
+            if (HubState__Func_2152DE4() == 1)
             {
-                HubControl::Create2(TalkHelpers__Func_2152E04(), 1, 0);
+                HubControl::Create2(HubState__Func_2152E04(), 1, 0);
             }
             else
             {
@@ -212,9 +212,9 @@ void HubControl::Func_21570B8(s32 a1)
 {
     u8 value;
 
-    if (a1 && TalkHelpers__Func_2152DE4() == 1)
+    if (a1 && HubState__Func_2152DE4() == 1)
     {
-        value = TalkHelpers__Func_2152E04();
+        value = HubState__Func_2152E04();
 
         if (value != 0 && value != 1)
             value = 0;
@@ -335,7 +335,7 @@ void HubControl::Create(s32 area)
     work->hubAreaPreview = NULL;
     work->nextEvent      = 16;
     work->field_C        = 8;
-    work->field_10       = DockHelpers__Func_2152960(area)->field_8;
+    work->field_10       = HubConfig__Func_2152960(area)->field_8;
     work->nextAreaID2 = work->nextAreaID = area;
     work->field_1C                       = 6;
     work->field_20                       = 23;
@@ -380,7 +380,7 @@ void HubControl::Create(s32 area)
     work->field_130 = 0;
     work->field_134 = 0;
 
-    TalkHelpers__Func_2152DA0();
+    HubState__Clear();
     InitHubAudio();
     PlayHubBGM();
 }
@@ -400,7 +400,7 @@ void HubControl::Create2(s32 a1, BOOL a2, s32 a3)
     work->nextEvent      = 16;
     work->field_C        = a1;
     work->field_10       = 9;
-    work->nextAreaID2 = work->nextAreaID = DockHelpers__Func_2152970(a1)->nextArea;
+    work->nextAreaID2 = work->nextAreaID = HubConfig__Func_2152970(a1)->nextArea;
     work->field_1C                       = 6;
     work->field_20                       = 23;
     work->field_24                       = 9;
@@ -418,7 +418,7 @@ void HubControl::Create2(s32 a1, BOOL a2, s32 a3)
     if (a2)
     {
         BOOL v8 = TRUE;
-        if (TalkHelpers__Func_2152F88() == 1 || TalkHelpers__Func_2152F88() == 3 || TalkHelpers__Func_2152F88() == 5)
+        if (HubState__Func_2152F88() == 1 || HubState__Func_2152F88() == 3 || HubState__Func_2152F88() == 5)
             v8 = FALSE;
 
         ViDock__Func_215E578(v8);
@@ -450,21 +450,21 @@ void HubControl::Create2(s32 a1, BOOL a2, s32 a3)
 
     if (a2)
     {
-        if (TalkHelpers__Func_2152F88() == 2)
+        if (HubState__Func_2152F88() == 2)
         {
             work->field_124 = 1;
         }
-        else if (TalkHelpers__Func_2152F88() == 4)
+        else if (HubState__Func_2152F88() == 4)
         {
             work->field_128 = 1;
         }
-        else if (TalkHelpers__Func_2152F88() == 5)
+        else if (HubState__Func_2152F88() == 5)
         {
             work->field_12C = 1;
         }
     }
 
-    TalkHelpers__Func_2152DA0();
+    HubState__Clear();
     InitHubAudio();
     PlayHubBGM();
 }
@@ -545,10 +545,10 @@ NONMATCH_FUNC void HubControl::Main1()
         work->nextAreaID = area;
         work->field_0 |= 0x10000;
 
-        if (DockHelpers__Func_2152960(area)->field_4 < 7)
+        if (HubConfig__Func_2152960(area)->field_4 < 7)
         {
             ViDock__Func_215E658(work->field_11C);
-            work->field_C = DockHelpers__Func_2152960(area)->field_4;
+            work->field_C = HubConfig__Func_2152960(area)->field_4;
             SetCurrentTaskMainEvent(HubControl::Main_2157C0C);
         }
         else
@@ -650,7 +650,7 @@ _021577E8:
 	orr r1, r1, #0x10000
 	str r1, [r4]
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152960
+	bl HubConfig__Func_2152960
 	ldr r0, [r0, #4]
 	cmp r0, #7
 	bge _02157868
@@ -658,7 +658,7 @@ _021577E8:
 	bl ViDock__Func_215E658
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152960
+	bl HubConfig__Func_2152960
 	ldr r1, [r0, #4]
 	ldr r0, =_ZN10HubControl12Main_2157C0CEv
 	str r1, [r4, #0xc]
@@ -742,9 +742,9 @@ void HubControl::Main_21578CC()
             work->nextAreaID = area;
             work->field_0 |= 0x10000;
 
-            if (DockHelpers__Func_2152960(area)->field_4 < 7)
+            if (HubConfig__Func_2152960(area)->field_4 < 7)
             {
-                work->field_C = DockHelpers__Func_2152960(area)->field_4;
+                work->field_C = HubConfig__Func_2152960(area)->field_4;
                 SetCurrentTaskMainEvent(HubControl::Main_2157C0C);
             }
             else
@@ -1033,7 +1033,7 @@ void HubControl::Main_2158108()
 
     if (ViDock__Func_215DD00())
     {
-        u32 area = DockHelpers__Func_2152970(work->field_C)->nextArea;
+        u32 area = HubConfig__Func_2152970(work->field_C)->nextArea;
         if (area != work->nextAreaID)
         {
             work->nextAreaID = area;
@@ -1083,7 +1083,7 @@ void HubControl::Main_2158160()
         case 4:
             work->field_1C = CViDockNpcTalk::GetSelection();
             if (work->field_1C == 0)
-                ViTalkPurchase__Func_216996C();
+                ViTalkPurchase__MakeTutorialPurchase();
 
             work->field_28 = ViDock__Func_215E0CC();
             work->field_8  = work->field_4;
@@ -1331,7 +1331,7 @@ void HubControl::Main_21587D8()
 
     if (HubControl::HandleFade(RENDERCORE_BRIGHTNESS_BLACK, RENDERCORE_BRIGHTNESS_BLACK, 1) == 0)
     {
-        work->field_10 = DockHelpers__Func_2152960(work->nextAreaID)->field_8;
+        work->field_10 = HubConfig__Func_2152960(work->nextAreaID)->field_8;
         ViDock__Func_215DD64(work->field_10, 0);
         work->nextAreaID2 = work->nextAreaID;
         CViHubAreaPreview::Create(work);
@@ -1547,7 +1547,7 @@ void CViHubAreaPreview::Main()
             }
             else
             {
-                hubControl->field_10 = DockHelpers__Func_2152960(area)->field_8;
+                hubControl->field_10 = HubConfig__Func_2152960(area)->field_8;
 
                 if (hubControl->field_10 < 8)
                 {
@@ -1722,7 +1722,7 @@ void HubControl::Func_2158F64()
         {
             if (work->field_1C < 5)
             {
-                s32 v3 = DockHelpers__Func_2152960(DockHelpers__Func_2152994(work->field_1C)->field_4)->field_3C;
+                s32 v3 = HubConfig__Func_2152960(HubConfig__Func_2152994(work->field_1C)->field_4)->field_3C;
                 ViMap__Func_215C524(v3);
                 ViMap__Func_215C638(v3);
                 HubControl::Func_215AE84();
@@ -1730,7 +1730,7 @@ void HubControl::Func_2158F64()
             }
             else
             {
-                Unknown2171FE8 *v5 = DockHelpers__Func_2152960(DockHelpers__Func_21529A8(work->field_24)->field_4);
+                Unknown2171FE8 *v5 = HubConfig__Func_2152960(HubConfig__Func_21529A8(work->field_24)->field_4);
                 ViMap__Func_215C76C(v5->field_3C);
             }
 
@@ -2054,17 +2054,17 @@ void HubControl::Func_2159740(HubControl *work)
 
 void HubControl::Func_2159758(s32 a2)
 {
-    TalkHelpers__Func_2152DA0();
+    HubState__Clear();
 
     if (a2)
     {
-        TalkHelpers__Func_2152DD4(0);
-        TalkHelpers__Func_2152DF4(this->nextAreaID);
+        HubState__Func_2152DD4(0);
+        HubState__Func_2152DF4(this->nextAreaID);
     }
     else
     {
-        TalkHelpers__Func_2152DD4(1);
-        TalkHelpers__Func_2152DF4(this->field_C);
+        HubState__Func_2152DD4(1);
+        HubState__Func_2152DF4(this->field_C);
         ViDock__Func_215E4DC();
     }
 }
@@ -2073,13 +2073,13 @@ void HubControl::Func_21597A4(s16 a1, s32 a2)
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    TalkHelpers__Func_2152DA0();
-    TalkHelpers__Func_2152DD4(1);
+    HubState__Clear();
+    HubState__Func_2152DD4(1);
 
     if (a2 < 7)
-        TalkHelpers__Func_2152DF4(a2);
+        HubState__Func_2152DF4(a2);
     else
-        TalkHelpers__Func_2152DF4(work->field_C);
+        HubState__Func_2152DF4(work->field_C);
 
     work->field_120 = 0;
     work->field_138 = a1;
@@ -2092,7 +2092,7 @@ void HubControl::Func_2159810()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    TalkHelpers__Func_2152DA0();
+    HubState__Clear();
 
     work->field_120 = 0;
     work->field_138 = 0xFFFE;
@@ -2308,7 +2308,7 @@ void HubControl::Func_2159D84(s32 area)
                 {
                     if (HubControl::Func_215B858(npcID))
                     {
-                        u8 animID = npcAnimIDList[DockHelpers__GetNpcConfig(npcID)->field_0];
+                        u8 animID = npcAnimIDList[HubConfig__GetNpcConfig(npcID)->field_0];
                         if (animID != 0xFF)
                         {
                             activeNpcAnimList[this->npcCount] = animID;

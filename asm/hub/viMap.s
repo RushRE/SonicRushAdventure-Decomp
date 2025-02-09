@@ -358,11 +358,11 @@ ViMap__Func_215BE14: // 0x0215BE14
 	ldr r0, [r8, #0x7dc]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152994
+	bl HubConfig__Func_2152994
 	ldr r0, [r0, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152960
+	bl HubConfig__Func_2152960
 	ldrh r1, [r0, #0x3c]
 	add r0, r8, #0x700
 	mov r9, #0
@@ -439,7 +439,7 @@ _0215BEF8:
 	mov r2, #0
 	mov r3, #1
 	str r2, [sp, #4]
-	bl TalkHelpers__Func_2152FB0
+	bl TalkHelpersUnknown__Init
 	ldr r2, _0215BFC0 // =0x04001000
 	ldr r1, [r2, #0]
 	ldr r0, [r2, #0]
@@ -472,13 +472,13 @@ ViMap__Func_215BFC4: // 0x0215BFC4
 	mov r1, #9
 	mov r0, r0, lsr #0x10
 	str r1, [r4, #0x7e4]
-	bl DockHelpers__Func_2152A60
+	bl HubConfig__Func_2152A60
 	cmp r0, #0
 	ldreq r1, _0215C0D0 // =0x0000FFFF
 	beq _0215C01C
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152A20
+	bl HubConfig__Func_2152A20
 	ldrh r1, [r0, #0]
 _0215C01C:
 	add r0, r4, #0x700
@@ -513,7 +513,7 @@ _0215C01C:
 	mov r2, #0
 	mov r3, #1
 	str r2, [sp, #4]
-	bl TalkHelpers__Func_2152FB0
+	bl TalkHelpersUnknown__Init
 	ldr r2, _0215C0D4 // =0x04001000
 	ldr r1, [r2, #0]
 	ldr r0, [r2, #0]
@@ -547,11 +547,11 @@ ViMap__Func_215C0D8: // 0x0215C0D8
 	str r1, [r8, #0x7e0]
 	str r4, [r8, #0x7e4]
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_21529A8
+	bl HubConfig__Func_21529A8
 	ldr r0, [r0, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152960
+	bl HubConfig__Func_2152960
 	ldrh r1, [r0, #0x3c]
 	add r0, r8, #0x700
 	mov r9, #0
@@ -628,7 +628,7 @@ _0215C1B8:
 	mov r2, #0
 	mov r3, #1
 	str r2, [sp, #4]
-	bl TalkHelpers__Func_2152FB0
+	bl TalkHelpersUnknown__Init
 	ldr r2, _0215C280 // =0x04001000
 	ldr r1, [r2, #0]
 	ldr r0, [r2, #0]
@@ -671,7 +671,7 @@ ViMap__Func_215C284: // 0x0215C284
 	ldr r1, _0215C404 // =0x0000FFFF
 	cmp r0, r1
 	beq _0215C32C
-	bl DockHelpers__Func_2152A30
+	bl HubConfig__Func_2152A30
 	ldrh r1, [r0, #0]
 	add r2, sp, #0xa
 	add r3, sp, #8
@@ -693,7 +693,7 @@ _0215C32C:
 	ldr r0, [r4, #0x7e0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152A20
+	bl HubConfig__Func_2152A20
 	ldrh r0, [r0, #0]
 	add r1, sp, #0xa
 	add r2, sp, #8
@@ -762,13 +762,13 @@ ViMap__Func_215C408: // 0x0215C408
 	bge _0215C438
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152994
+	bl HubConfig__Func_2152994
 	b _0215C448
 _0215C438:
 	ldr r0, [r4, #0x7e4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_21529A8
+	bl HubConfig__Func_21529A8
 _0215C448:
 	add r1, r4, #0x700
 	mov r2, #0
@@ -853,12 +853,12 @@ ViMap__Func_215C524: // 0x0215C524
 	mov r4, r0
 	bl ViMap__Func_215D374
 	mov r0, r5
-	bl DockHelpers__Func_2152A30
+	bl HubConfig__Func_2152A30
 	ldrh r1, [r0, #0]
 	mov r0, r4
 	bl ViMapBack__Func_21619B0
 	mov r0, r5
-	bl DockHelpers__Func_2152A30
+	bl HubConfig__Func_2152A30
 	ldrh r1, [r0, #0]
 	mov r0, r4
 	bl ViMapBack__Func_2161ADC
@@ -883,21 +883,21 @@ ViMap__Func_215C58C: // 0x0215C58C
 	bl GetTaskWork_
 	mov r5, r0
 	mov r0, r6
-	bl DockHelpers__Func_2152A20
+	bl HubConfig__Func_2152A20
 	mov r4, r0
 	mov r0, r6
-	bl DockHelpers__Func_2152A60
+	bl HubConfig__Func_2152A60
 	cmp r0, #0
 	beq _0215C620
 	mov r0, r5
 	bl ViMap__Func_215D374
 	ldrh r0, [r4, #0]
-	bl DockHelpers__Func_2152A30
+	bl HubConfig__Func_2152A30
 	ldrh r1, [r0, #0]
 	mov r0, r5
 	bl ViMapBack__Func_21619B0
 	ldrh r0, [r4, #0]
-	bl DockHelpers__Func_2152A30
+	bl HubConfig__Func_2152A30
 	ldrh r1, [r0, #0]
 	mov r0, r5
 	bl ViMapBack__Func_2161ADC
@@ -982,13 +982,13 @@ _0215C6D8:
 	ldr r0, [r4, #0x7e0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152A60
+	bl HubConfig__Func_2152A60
 	cmp r0, #0
 	beq _0215C744
 	ldr r0, [r4, #0x7e0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152A20
+	bl HubConfig__Func_2152A20
 	ldrh r5, [r0, #0]
 	mov r0, r4
 	mov r1, r5
@@ -1518,7 +1518,7 @@ ViMap__Func_215CDE0: // 0x0215CDE0
 	bge _0215CE18
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152994
+	bl HubConfig__Func_2152994
 	mov r7, r0
 	b _0215CE38
 _0215CE18:
@@ -1528,7 +1528,7 @@ _0215CE18:
 	bge _0215CE38
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_21529A8
+	bl HubConfig__Func_21529A8
 	mov r7, r0
 _0215CE38:
 	ldr r0, [r6, #0x7d8]
@@ -1686,7 +1686,7 @@ _0215D018:
 	ldr r0, [r6, #0x7e0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152A60
+	bl HubConfig__Func_2152A60
 	cmp r0, #0
 	beq _0215D088
 _0215D078:
@@ -1940,13 +1940,13 @@ _0215D394:
 	beq _0215D3D4
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152994
+	bl HubConfig__Func_2152994
 	ldr r0, [r0, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152960
+	bl HubConfig__Func_2152960
 	ldrh r0, [r0, #0x3c]
-	bl DockHelpers__Func_2152A30
+	bl HubConfig__Func_2152A30
 	ldrh r1, [r0, #0]
 	mov r0, r4
 	bl ViMapBack__Func_21619B0
@@ -1962,15 +1962,15 @@ _0215D3E4:
 	beq _0215D43C
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152A20
+	bl HubConfig__Func_2152A20
 	mov r1, r6, lsl #0x10
 	mov r5, r0
 	mov r0, r1, lsr #0x10
-	bl DockHelpers__Func_2152A60
+	bl HubConfig__Func_2152A60
 	cmp r0, #0
 	beq _0215D430
 	ldrh r0, [r5, #0]
-	bl DockHelpers__Func_2152A30
+	bl HubConfig__Func_2152A30
 	ldrh r1, [r0, #0]
 	mov r0, r4
 	bl ViMapBack__Func_21619B0
@@ -2025,13 +2025,13 @@ ViMap__Func_215D4B4: // 0x0215D4B4
 	bge _0215D4D8
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152994
+	bl HubConfig__Func_2152994
 	b _0215D4E8
 _0215D4D8:
 	ldr r0, [r10, #0x7e4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_21529A8
+	bl HubConfig__Func_21529A8
 _0215D4E8:
 	mov r5, #0
 	mov r9, r0
@@ -2255,17 +2255,17 @@ ViMap__Func_215D7D8: // 0x0215D7D8
 	mov r0, r5
 	bl ViMap__Func_215D374
 	mov r0, r4
-	bl DockHelpers__Func_2152A30
+	bl HubConfig__Func_2152A30
 	ldrh r1, [r0, #0]
 	mov r0, r5
 	bl ViMapBack__Func_21619B0
 	mov r0, r4
-	bl DockHelpers__Func_2152A30
+	bl HubConfig__Func_2152A30
 	ldrh r1, [r0, #0]
 	mov r0, r5
 	bl ViMapBack__Func_2161BE4
 	mov r0, r4
-	bl DockHelpers__Func_2152A30
+	bl HubConfig__Func_2152A30
 	add r2, sp, #0x12
 	str r2, [sp]
 	add r1, sp, #0x10
@@ -2404,7 +2404,7 @@ ViMap__Func_215D9EC: // 0x0215D9EC
 	mov r2, #1
 	mov r3, #2
 	str r1, [sp]
-	bl TalkHelpers__Func_215354C
+	bl TalkHelpersUnknown2__Func_215354C
 	ldr r2, _0215DA34 // =0x04001000
 	ldr r1, [r2, #0]
 	ldr r0, [r2, #0]
@@ -2425,7 +2425,7 @@ ViMap__Func_215DA38: // 0x0215DA38
 	mov r4, r0
 	add r0, r4, #0x35c
 	add r0, r0, #0xc00
-	bl TalkHelpers__Func_2153614
+	bl TalkHelpersUnknown2__Func_2153614
 	ldr r1, [r4, #0x7e0]
 	mov r0, r4
 	mov r1, r1, lsl #0x10
@@ -2439,3 +2439,9 @@ ViMap__Func_215DA38: // 0x0215DA38
 ViMap__Func_215DA68: // 0x0215DA68
 	bx lr
 	arm_func_end ViMap__Func_215DA68
+
+	.data
+
+aBpaViMapBpa: // 0x02173684
+	.asciz "bpa/vi_map.bpa"
+	.align 4

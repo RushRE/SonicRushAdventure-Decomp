@@ -33,14 +33,14 @@ ViTalkPurchase__Create: // 0x021697A0
 	str r0, [r4]
 	cmp r0, #5
 	bge _0216981C
-	bl ViTalkPurchase__Func_216A07C
+	bl ViTalkPurchase__CanPurchaseShipBuild
 	str r0, [r4, #0x10]
 	b _021698D0
 _0216981C:
 	bl SaveGame__GetGameProgress
 	cmp r0, #0x10
 	bne _021698D0
-	bl ViTalkPurchase__Func_216A08C
+	bl ViTalkPurchase__CanPurchaseUnknown
 	str r0, [r4, #0x10]
 	b _021698D0
 _02169834:
@@ -64,7 +64,7 @@ _02169868:
 	blt _0216983C
 _02169874:
 	ldr r0, [r4, #4]
-	bl ViTalkPurchase__Func_216A09C
+	bl ViTalkPurchase__CanPurchaseInfo
 	str r0, [r4, #0x10]
 	b _021698D0
 _02169884:
@@ -78,7 +78,7 @@ _02169884:
 	sub r1, r1, #1
 	add r0, r1, r0, lsl #1
 	str r0, [r4, #8]
-	bl ViTalkPurchase__Func_216A0AC
+	bl ViTalkPurchase__CanPurchaseShipUpgrade
 	str r0, [r4, #0x10]
 	b _021698D0
 _021698B8:
@@ -90,13 +90,13 @@ _021698B8:
 	str r0, [r4, #0x10]
 _021698D0:
 	mov r0, r4
-	bl ViTalkPurchase__Func_2169998
+	bl ViTalkPurchase__InitDisplay
 	add r0, r4, #0x130
 	add r0, r0, #0x1000
 	mov r1, #0x400
 	bl InitThreadWorker
 	add r0, r4, #0x130
-	ldr r1, _02169914 // =ViTalkPurchase__Func_2169980
+	ldr r1, _02169914 // =ViTalkPurchase__ThreadFunc
 	mov r2, r4
 	add r0, r0, #0x1000
 	mov r3, #0x14
@@ -107,7 +107,7 @@ _021698D0:
 _02169908: .word 0x00001010
 _0216990C: .word ViTalkPurchase__Main
 _02169910: .word ViTalkPurchase__Destructor
-_02169914: .word ViTalkPurchase__Func_2169980
+_02169914: .word ViTalkPurchase__ThreadFunc
 	arm_func_end ViTalkPurchase__Create
 
 	arm_func_start ViTalkPurchase__CreateInternal
@@ -137,35 +137,35 @@ _0216995C:
 _02169968: .word 0x000011FC
 	arm_func_end ViTalkPurchase__CreateInternal
 
-	arm_func_start ViTalkPurchase__Func_216996C
-ViTalkPurchase__Func_216996C: // 0x0216996C
+	arm_func_start ViTalkPurchase__MakeTutorialPurchase
+ViTalkPurchase__MakeTutorialPurchase: // 0x0216996C
 	stmdb sp!, {r3, lr}
 	mov r0, #0
-	bl DockHelpers__GetShipBuildCost
-	bl ViTalkPurchase__Func_216A144
+	bl HubConfig__GetShipBuildCost
+	bl ViTalkPurchase__MakePurchase
 	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__Func_216996C
+	arm_func_end ViTalkPurchase__MakeTutorialPurchase
 
-	arm_func_start ViTalkPurchase__Func_2169980
-ViTalkPurchase__Func_2169980: // 0x02169980
+	arm_func_start ViTalkPurchase__ThreadFunc
+ViTalkPurchase__ThreadFunc: // 0x02169980
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ViTalkPurchase__Func_21699A8
+	bl ViTalkPurchase__InitSprites
 	mov r0, r4
-	bl ViTalkPurchase__Func_2169B20
+	bl ViTalkPurchase__InitNpcPurchase
 	ldmia sp!, {r4, pc}
-	arm_func_end ViTalkPurchase__Func_2169980
+	arm_func_end ViTalkPurchase__ThreadFunc
 
-	arm_func_start ViTalkPurchase__Func_2169998
-ViTalkPurchase__Func_2169998: // 0x02169998
+	arm_func_start ViTalkPurchase__InitDisplay
+ViTalkPurchase__InitDisplay: // 0x02169998
 	stmdb sp!, {r3, lr}
 	bl _ZN10HubControl12Func_215A888Ev
 	bl _ZN10HubControl12Func_215AAB4Ev
 	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__Func_2169998
+	arm_func_end ViTalkPurchase__InitDisplay
 
-	arm_func_start ViTalkPurchase__Func_21699A8
-ViTalkPurchase__Func_21699A8: // 0x021699A8
+	arm_func_start ViTalkPurchase__InitSprites
+ViTalkPurchase__InitSprites: // 0x021699A8
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x1c
 	mov r4, r0
@@ -261,10 +261,10 @@ ViTalkPurchase__Func_21699A8: // 0x021699A8
 	.align 2, 0
 _02169B18: .word 0x05000200
 _02169B1C: .word 0x0000FFFF
-	arm_func_end ViTalkPurchase__Func_21699A8
+	arm_func_end ViTalkPurchase__InitSprites
 
-	arm_func_start ViTalkPurchase__Func_2169B20
-ViTalkPurchase__Func_2169B20: // 0x02169B20
+	arm_func_start ViTalkPurchase__InitNpcPurchase
+ViTalkPurchase__InitNpcPurchase: // 0x02169B20
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
@@ -285,10 +285,10 @@ ViTalkPurchase__Func_2169B20: // 0x02169B20
 	bl _ZN11NpcPurchase4LoadEtttttt
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ViTalkPurchase__Func_2169B20
+	arm_func_end ViTalkPurchase__InitNpcPurchase
 
-	arm_func_start ViTalkPurchase__Func_2169B70
-ViTalkPurchase__Func_2169B70: // 0x02169B70
+	arm_func_start ViTalkPurchase__Release
+ViTalkPurchase__Release: // 0x02169B70
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x130
@@ -298,26 +298,26 @@ ViTalkPurchase__Func_2169B70: // 0x02169B70
 	add r0, r0, #0x1000
 	bl ReleaseThreadWorker
 	mov r0, r4
-	bl ViTalkPurchase__Func_2169C00
+	bl ViTalkPurchase__ReleaseNpcPurchase
 	mov r0, r4
-	bl ViTalkPurchase__Func_2169BC4
+	bl ViTalkPurchase__ReleaseSprites
 	add r0, r4, #0x14
 	bl _ZN13CViEvtCmnTalk7ReleaseEv
 	mov r0, r4
-	bl ViTalkPurchase__Func_2169BB4
+	bl ViTalkPurchase__ResetDisplay
 	ldmia sp!, {r4, pc}
-	arm_func_end ViTalkPurchase__Func_2169B70
+	arm_func_end ViTalkPurchase__Release
 
-	arm_func_start ViTalkPurchase__Func_2169BB4
-ViTalkPurchase__Func_2169BB4: // 0x02169BB4
+	arm_func_start ViTalkPurchase__ResetDisplay
+ViTalkPurchase__ResetDisplay: // 0x02169BB4
 	stmdb sp!, {r3, lr}
 	bl _ZN10HubControl12Func_215A96CEv
 	bl _ZN10HubControl12Func_215AB84Ev
 	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__Func_2169BB4
+	arm_func_end ViTalkPurchase__ResetDisplay
 
-	arm_func_start ViTalkPurchase__Func_2169BC4
-ViTalkPurchase__Func_2169BC4: // 0x02169BC4
+	arm_func_start ViTalkPurchase__ReleaseSprites
+ViTalkPurchase__ReleaseSprites: // 0x02169BC4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x194
@@ -334,17 +334,17 @@ ViTalkPurchase__Func_2169BC4: // 0x02169BC4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02169BFC: .word 0x0000FFFF
-	arm_func_end ViTalkPurchase__Func_2169BC4
+	arm_func_end ViTalkPurchase__ReleaseSprites
 
-	arm_func_start ViTalkPurchase__Func_2169C00
-ViTalkPurchase__Func_2169C00: // 0x02169C00
+	arm_func_start ViTalkPurchase__ReleaseNpcPurchase
+ViTalkPurchase__ReleaseNpcPurchase: // 0x02169C00
 	ldr ip, _02169C10 // =_ZN11NpcPurchase7ReleaseEv
 	add r0, r0, #0x1fc
 	add r0, r0, #0x400
 	bx ip
 	.align 2, 0
 _02169C10: .word _ZN11NpcPurchase7ReleaseEv
-	arm_func_end ViTalkPurchase__Func_2169C00
+	arm_func_end ViTalkPurchase__ReleaseNpcPurchase
 
 	arm_func_start ViTalkPurchase__Main
 ViTalkPurchase__Main: // 0x02169C14
@@ -359,32 +359,32 @@ ViTalkPurchase__Main: // 0x02169C14
 	ldr r0, [r4, #4]
 	cmp r0, #3
 	bge _02169C4C
-	bl DockHelpers__Func_2152B38
+	bl HubConfig__Func_2152B38
 	mov r5, r0
 	b _02169C9C
 _02169C4C:
 	ldr r0, [r4, #0]
 	cmp r0, #5
 	bge _02169C64
-	bl DockHelpers__Func_2152B1C
+	bl HubConfig__Func_2152B1C
 	mov r5, r0
 	b _02169C9C
 _02169C64:
 	ldr r0, [r4, #8]
 	cmp r0, #8
 	bge _02169C7C
-	bl DockHelpers__Func_2152B48
+	bl HubConfig__Func_2152B48
 	mov r5, r0
 	b _02169C9C
 _02169C7C:
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
 	beq _02169C94
-	bl DockHelpers__Func_2152B58
+	bl HubConfig__Func_2152B58
 	mov r5, r0
 	b _02169C9C
 _02169C94:
-	bl DockHelpers__Func_2152B2C
+	bl HubConfig__Func_2152B2C
 	mov r5, r0
 _02169C9C:
 	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
@@ -395,24 +395,24 @@ _02169C9C:
 	ldr r3, _02169CE4 // =0x0000FFFF
 	add r0, r4, #0x14
 	bl _ZN13CViEvtCmnTalk4InitEPvtt
-	ldr r1, _02169CE8 // =ViTalkPurchase__Func_2169FF0
+	ldr r1, _02169CE8 // =ViTalkPurchase__TalkCallback
 	mov r2, r4
 	add r0, r4, #0x14
 	bl _ZN13CViEvtCmnTalk11SetCallbackEPFvmP13FontAnimator_PvES2_
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
 	bl _ZN11NpcPurchase15ProcessGraphicsEv
-	ldr r0, _02169CEC // =ViTalkPurchase__Func_2169CF0
+	ldr r0, _02169CEC // =ViTalkPurchase__Main_2169CF0
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02169CE4: .word 0x0000FFFF
-_02169CE8: .word ViTalkPurchase__Func_2169FF0
-_02169CEC: .word ViTalkPurchase__Func_2169CF0
+_02169CE8: .word ViTalkPurchase__TalkCallback
+_02169CEC: .word ViTalkPurchase__Main_2169CF0
 	arm_func_end ViTalkPurchase__Main
 
-	arm_func_start ViTalkPurchase__Func_2169CF0
-ViTalkPurchase__Func_2169CF0: // 0x02169CF0
+	arm_func_start ViTalkPurchase__Main_2169CF0
+ViTalkPurchase__Main_2169CF0: // 0x02169CF0
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -432,15 +432,15 @@ ViTalkPurchase__Func_2169CF0: // 0x02169CF0
 	add r0, r4, #0x14
 	mov r1, r1, lsr #0x10
 	bl _ZN13CViEvtCmnTalk7SetPageEt
-	ldr r0, _02169D48 // =ViTalkPurchase__Func_2169D4C
+	ldr r0, _02169D48 // =ViTalkPurchase__Main_2169D4C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02169D48: .word ViTalkPurchase__Func_2169D4C
-	arm_func_end ViTalkPurchase__Func_2169CF0
+_02169D48: .word ViTalkPurchase__Main_2169D4C
+	arm_func_end ViTalkPurchase__Main_2169CF0
 
-	arm_func_start ViTalkPurchase__Func_2169D4C
-ViTalkPurchase__Func_2169D4C: // 0x02169D4C
+	arm_func_start ViTalkPurchase__Main_2169D4C
+ViTalkPurchase__Main_2169D4C: // 0x02169D4C
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -488,16 +488,16 @@ _02169DE0:
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
 	bl _ZN11NpcPurchase11CloseWindowEv
-	ldr r0, _02169E0C // =ViTalkPurchase__Func_2169E10
+	ldr r0, _02169E0C // =ViTalkPurchase__Main_2169E10
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02169E08: .word 0x0000FFFF
-_02169E0C: .word ViTalkPurchase__Func_2169E10
-	arm_func_end ViTalkPurchase__Func_2169D4C
+_02169E0C: .word ViTalkPurchase__Main_2169E10
+	arm_func_end ViTalkPurchase__Main_2169D4C
 
-	arm_func_start ViTalkPurchase__Func_2169E10
-ViTalkPurchase__Func_2169E10: // 0x02169E10
+	arm_func_start ViTalkPurchase__Main_2169E10
+ViTalkPurchase__Main_2169E10: // 0x02169E10
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -509,15 +509,15 @@ ViTalkPurchase__Func_2169E10: // 0x02169E10
 	bl _ZN11NpcPurchase8IsActiveEv
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldr r0, _02169E48 // =ViTalkPurchase__Func_2169E4C
+	ldr r0, _02169E48 // =ViTalkPurchase__Main_2169E4C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02169E48: .word ViTalkPurchase__Func_2169E4C
-	arm_func_end ViTalkPurchase__Func_2169E10
+_02169E48: .word ViTalkPurchase__Main_2169E4C
+	arm_func_end ViTalkPurchase__Main_2169E10
 
-	arm_func_start ViTalkPurchase__Func_2169E4C
-ViTalkPurchase__Func_2169E4C: // 0x02169E4C
+	arm_func_start ViTalkPurchase__Main_2169E4C
+ViTalkPurchase__Main_2169E4C: // 0x02169E4C
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -534,8 +534,8 @@ _02169E7C:
 	ldr r0, [r4, #4]
 	cmp r0, #3
 	bge _02169EB0
-	bl DockHelpers__GetInfoPurchaseCost
-	bl ViTalkPurchase__Func_216A144
+	bl HubConfig__GetInfoPurchaseCost
+	bl ViTalkPurchase__MakePurchase
 	mov r0, #6
 	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	ldr r1, [r4, #4]
@@ -548,8 +548,8 @@ _02169EB0:
 	ldr r0, [r4, #0]
 	cmp r0, #5
 	bge _02169ED8
-	bl DockHelpers__GetShipBuildCost
-	bl ViTalkPurchase__Func_216A144
+	bl HubConfig__GetShipBuildCost
+	bl ViTalkPurchase__MakePurchase
 	mov r0, #4
 	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	ldr r0, [r4, #0]
@@ -559,16 +559,16 @@ _02169ED8:
 	ldr r0, [r4, #8]
 	cmp r0, #8
 	bge _02169F00
-	bl DockHelpers__GetShipUpgradeCost
-	bl ViTalkPurchase__Func_216A144
+	bl HubConfig__GetShipUpgradeCost
+	bl ViTalkPurchase__MakePurchase
 	mov r0, #0x1d
 	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	ldr r0, [r4, #8]
 	bl _ZN14CViDockNpcTalk12SetSelectionEl
 	b _02169F98
 _02169F00:
-	bl DockHelpers__GetUnknownPurchaseCost
-	bl ViTalkPurchase__Func_216A144
+	bl HubConfig__GetUnknownPurchaseCost
+	bl ViTalkPurchase__MakePurchase
 	mov r0, #6
 	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	mov r0, #7
@@ -578,8 +578,8 @@ _02169F1C:
 	ldr r0, [r4, #8]
 	cmp r0, #8
 	bge _02169F44
-	bl DockHelpers__GetShipUpgradeCost
-	bl ViTalkPurchase__Func_216A144
+	bl HubConfig__GetShipUpgradeCost
+	bl ViTalkPurchase__MakePurchase
 	mov r0, #0x1d
 	bl _ZN14CViDockNpcTalk13SetTalkActionEm
 	ldr r0, [r4, #8]
@@ -615,14 +615,14 @@ _02169F98:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02169FA0: .word ovl05_02173190
-	arm_func_end ViTalkPurchase__Func_2169E4C
+	arm_func_end ViTalkPurchase__Main_2169E4C
 
 	arm_func_start ViTalkPurchase__Destructor
 ViTalkPurchase__Destructor: // 0x02169FA4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl GetTaskWork_
-	bl ViTalkPurchase__Func_2169B70
+	bl ViTalkPurchase__Release
 	mov r0, r4
 	bl ViTalkPurchase__Func_2169FC0
 	ldmia sp!, {r4, pc}
@@ -645,8 +645,8 @@ _02169FE4:
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end ViTalkPurchase__Func_2169FC0
 
-	arm_func_start ViTalkPurchase__Func_2169FF0
-ViTalkPurchase__Func_2169FF0: // 0x02169FF0
+	arm_func_start ViTalkPurchase__TalkCallback
+ViTalkPurchase__TalkCallback: // 0x02169FF0
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	cmp r0, #0xa
@@ -686,42 +686,42 @@ _0216A050:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216A078: .word 0x0000FFFF
-	arm_func_end ViTalkPurchase__Func_2169FF0
+	arm_func_end ViTalkPurchase__TalkCallback
 
-	arm_func_start ViTalkPurchase__Func_216A07C
-ViTalkPurchase__Func_216A07C: // 0x0216A07C
+	arm_func_start ViTalkPurchase__CanPurchaseShipBuild
+ViTalkPurchase__CanPurchaseShipBuild: // 0x0216A07C
 	stmdb sp!, {r3, lr}
-	bl DockHelpers__GetShipBuildCost
-	bl ViTalkPurchase__Func_216A0F0
+	bl HubConfig__GetShipBuildCost
+	bl ViTalkPurchase__CanMakePurchase
 	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__Func_216A07C
+	arm_func_end ViTalkPurchase__CanPurchaseShipBuild
 
-	arm_func_start ViTalkPurchase__Func_216A08C
-ViTalkPurchase__Func_216A08C: // 0x0216A08C
+	arm_func_start ViTalkPurchase__CanPurchaseUnknown
+ViTalkPurchase__CanPurchaseUnknown: // 0x0216A08C
 	stmdb sp!, {r3, lr}
-	bl DockHelpers__GetUnknownPurchaseCost
-	bl ViTalkPurchase__Func_216A0F0
+	bl HubConfig__GetUnknownPurchaseCost
+	bl ViTalkPurchase__CanMakePurchase
 	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__Func_216A08C
+	arm_func_end ViTalkPurchase__CanPurchaseUnknown
 
-	arm_func_start ViTalkPurchase__Func_216A09C
-ViTalkPurchase__Func_216A09C: // 0x0216A09C
+	arm_func_start ViTalkPurchase__CanPurchaseInfo
+ViTalkPurchase__CanPurchaseInfo: // 0x0216A09C
 	stmdb sp!, {r3, lr}
-	bl DockHelpers__GetInfoPurchaseCost
-	bl ViTalkPurchase__Func_216A0F0
+	bl HubConfig__GetInfoPurchaseCost
+	bl ViTalkPurchase__CanMakePurchase
 	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__Func_216A09C
+	arm_func_end ViTalkPurchase__CanPurchaseInfo
 
-	arm_func_start ViTalkPurchase__Func_216A0AC
-ViTalkPurchase__Func_216A0AC: // 0x0216A0AC
+	arm_func_start ViTalkPurchase__CanPurchaseShipUpgrade
+ViTalkPurchase__CanPurchaseShipUpgrade: // 0x0216A0AC
 	stmdb sp!, {r3, lr}
-	bl DockHelpers__GetShipUpgradeCost
-	bl ViTalkPurchase__Func_216A0F0
+	bl HubConfig__GetShipUpgradeCost
+	bl ViTalkPurchase__CanMakePurchase
 	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkPurchase__Func_216A0AC
+	arm_func_end ViTalkPurchase__CanPurchaseShipUpgrade
 
-	arm_func_start ViTalkPurchase__Func_216A0BC
-ViTalkPurchase__Func_216A0BC: // 0x0216A0BC
+	arm_func_start ViTalkPurchase__GetMaterialCount
+ViTalkPurchase__GetMaterialCount: // 0x0216A0BC
 	stmdb sp!, {r3, lr}
 	mov r1, r0
 	cmp r1, #9
@@ -732,22 +732,22 @@ ViTalkPurchase__Func_216A0BC: // 0x0216A0BC
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216A0DC: .word saveGame+0x00000028
-	arm_func_end ViTalkPurchase__Func_216A0BC
+	arm_func_end ViTalkPurchase__GetMaterialCount
 
-	arm_func_start ViTalkPurchase__Func_216A0E0
-ViTalkPurchase__Func_216A0E0: // 0x0216A0E0
+	arm_func_start ViTalkPurchase__GetRingCount
+ViTalkPurchase__GetRingCount: // 0x0216A0E0
 	ldr r0, _0216A0EC // =saveGame
 	ldr r0, [r0, #0x1bc]
 	bx lr
 	.align 2, 0
 _0216A0EC: .word saveGame
-	arm_func_end ViTalkPurchase__Func_216A0E0
+	arm_func_end ViTalkPurchase__GetRingCount
 
-	arm_func_start ViTalkPurchase__Func_216A0F0
-ViTalkPurchase__Func_216A0F0: // 0x0216A0F0
+	arm_func_start ViTalkPurchase__CanMakePurchase
+ViTalkPurchase__CanMakePurchase: // 0x0216A0F0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
-	bl ViTalkPurchase__Func_216A0E0
+	bl ViTalkPurchase__GetRingCount
 	ldr r1, [r5, #0]
 	cmp r1, r0
 	movhi r0, #0
@@ -756,7 +756,7 @@ ViTalkPurchase__Func_216A0F0: // 0x0216A0F0
 _0216A110:
 	mov r0, r4, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ViTalkPurchase__Func_216A0BC
+	bl ViTalkPurchase__GetMaterialCount
 	add r1, r5, r4
 	ldrb r1, [r1, #4]
 	cmp r1, r0
@@ -767,10 +767,10 @@ _0216A110:
 	blt _0216A110
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViTalkPurchase__Func_216A0F0
+	arm_func_end ViTalkPurchase__CanMakePurchase
 
-	arm_func_start ViTalkPurchase__Func_216A144
-ViTalkPurchase__Func_216A144: // 0x0216A144
+	arm_func_start ViTalkPurchase__MakePurchase
+ViTalkPurchase__MakePurchase: // 0x0216A144
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldr r2, [r4, #0]
@@ -799,7 +799,7 @@ _0216A18C:
 	.align 2, 0
 _0216A19C: .word saveGame
 _0216A1A0: .word saveGame+0x00000028
-	arm_func_end ViTalkPurchase__Func_216A144
+	arm_func_end ViTalkPurchase__MakePurchase
 	
 	.rodata
 

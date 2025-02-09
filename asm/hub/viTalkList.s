@@ -84,27 +84,27 @@ ViTalkMissionList__ThreadFunc: // 0x0216A268
 	strh r2, [r1, #0xbe]
 	str r2, [r4, #0x4c0]
 	str r2, [r4, #0x4c4]
-	bl ViTalkMissionList__Func_216A2CC
+	bl ViTalkMissionList__InitDisplay
 	mov r0, r4
-	bl ViTalkMissionList__LoadMissionSprites
+	bl ViTalkMissionList__InitSprites
 	mov r0, r4
-	bl ViTalkMissionList__Func_216A6D8
+	bl ViTalkMissionList__InitList
 	ldmia sp!, {r4, pc}
 	arm_func_end ViTalkMissionList__ThreadFunc
 
-	arm_func_start ViTalkMissionList__Func_216A2CC
-ViTalkMissionList__Func_216A2CC: // 0x0216A2CC
+	arm_func_start ViTalkMissionList__InitDisplay
+ViTalkMissionList__InitDisplay: // 0x0216A2CC
 	stmdb sp!, {r3, lr}
 	bl _ZN10HubControl12Func_215A888Ev
 	bl _ZN10HubControl12Func_215A9D8Ev
 	mov r0, #0
 	mov r1, r0
-	bl ViTalkMissionList__Func_216B61C
+	bl ViTalkMissionList__InitWindow
 	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkMissionList__Func_216A2CC
+	arm_func_end ViTalkMissionList__InitDisplay
 
-	arm_func_start ViTalkMissionList__LoadMissionSprites
-ViTalkMissionList__LoadMissionSprites: // 0x0216A2E8
+	arm_func_start ViTalkMissionList__InitSprites
+ViTalkMissionList__InitSprites: // 0x0216A2E8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x24
 	mov r7, r0
@@ -358,10 +358,10 @@ ViTalkMissionList__LoadMissionSprites: // 0x0216A2E8
 	.align 2, 0
 _0216A6D0: .word 0x05000420
 _0216A6D4: .word 0x05000600
-	arm_func_end ViTalkMissionList__LoadMissionSprites
+	arm_func_end ViTalkMissionList__InitSprites
 
-	arm_func_start ViTalkMissionList__Func_216A6D8
-ViTalkMissionList__Func_216A6D8: // 0x0216A6D8
+	arm_func_start ViTalkMissionList__InitList
+ViTalkMissionList__InitList: // 0x0216A6D8
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x2c
 	mov r11, r0
@@ -457,10 +457,10 @@ _0216A7A4:
 	bl NpcUnknown__Func_216EDF8
 	add sp, sp, #0x2c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end ViTalkMissionList__Func_216A6D8
+	arm_func_end ViTalkMissionList__InitList
 
-	arm_func_start ViTalkMissionList__Func_216A848
-ViTalkMissionList__Func_216A848: // 0x0216A848
+	arm_func_start ViTalkMissionList__Release
+ViTalkMissionList__Release: // 0x0216A848
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ViTalkMissionList__Func_216B418
@@ -468,27 +468,27 @@ ViTalkMissionList__Func_216A848: // 0x0216A848
 	add r0, r0, #0xc00
 	bl ReleaseThreadWorker
 	mov r0, r4
-	bl ViTalkMissionList__Func_216A90C
+	bl ViTalkMissionList__ReleaseList
 	mov r0, r4
-	bl ViTalkMissionList__Func_216A898
+	bl ViTalkMissionList__ReleaseGraphics
 	mov r0, r4
-	bl ViTalkMissionList__Func_216A87C
+	bl ViTalkMissionList__ResetDisplay
 	ldmia sp!, {r4, pc}
-	arm_func_end ViTalkMissionList__Func_216A848
+	arm_func_end ViTalkMissionList__Release
 
-	arm_func_start ViTalkMissionList__Func_216A87C
-ViTalkMissionList__Func_216A87C: // 0x0216A87C
+	arm_func_start ViTalkMissionList__ResetDisplay
+ViTalkMissionList__ResetDisplay: // 0x0216A87C
 	stmdb sp!, {r3, lr}
 	bl _ZN10HubControl12Func_215A96CEv
 	bl _ZN10HubControl12Func_215AB84Ev
 	mov r0, #0
 	mov r1, r0
-	bl ViTalkMissionList__Func_216B61C
+	bl ViTalkMissionList__InitWindow
 	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkMissionList__Func_216A87C
+	arm_func_end ViTalkMissionList__ResetDisplay
 
-	arm_func_start ViTalkMissionList__Func_216A898
-ViTalkMissionList__Func_216A898: // 0x0216A898
+	arm_func_start ViTalkMissionList__ReleaseGraphics
+ViTalkMissionList__ReleaseGraphics: // 0x0216A898
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x830
@@ -518,10 +518,10 @@ ViTalkMissionList__Func_216A898: // 0x0216A898
 	add r0, r4, #0x4e0
 	bl FontWindowAnimator__Release
 	ldmia sp!, {r4, pc}
-	arm_func_end ViTalkMissionList__Func_216A898
+	arm_func_end ViTalkMissionList__ReleaseGraphics
 
-	arm_func_start ViTalkMissionList__Func_216A90C
-ViTalkMissionList__Func_216A90C: // 0x0216A90C
+	arm_func_start ViTalkMissionList__ReleaseList
+ViTalkMissionList__ReleaseList: // 0x0216A90C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x94
@@ -534,7 +534,7 @@ ViTalkMissionList__Func_216A90C: // 0x0216A90C
 	mov r0, #0
 	str r0, [r4, #0xd14]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViTalkMissionList__Func_216A90C
+	arm_func_end ViTalkMissionList__ReleaseList
 
 	arm_func_start ViTalkMissionList__Main
 ViTalkMissionList__Main: // 0x0216A93C
@@ -593,7 +593,7 @@ ViTalkMissionList__Main_216A99C: // 0x0216A99C
 	mov r0, r4
 	add r1, r4, #0x400
 	ldrh r1, [r1, #0xbe]
-	bl ViTalkMissionList__Func_216AF34
+	bl ViTalkMissionList__DrawBackground
 	add r0, r4, #0x4e0
 	bl FontWindowAnimator__Func_20599B4
 	add r0, r4, #0x144
@@ -624,9 +624,9 @@ ViTalkMissionList__Main_216AA38: // 0x0216AA38
 	strh r0, [r1, #0xbe]
 	ldrh r1, [r1, #0xbe]
 	mov r0, r4
-	bl ViTalkMissionList__Func_216AF34
+	bl ViTalkMissionList__DrawBackground
 	mov r0, r4
-	bl ViTalkMissionList__Func_216B094
+	bl ViTalkMissionList__Draw
 	add r0, r4, #0x94
 	add r0, r0, #0x800
 	bl NpcUnknown__Func_216EF80
@@ -642,7 +642,7 @@ ViTalkMissionList__Main_216AA38: // 0x0216AA38
 	bne _0216AABC
 	mov r0, r4
 	sub r1, r1, #0x10000
-	bl ViTalkMissionList__Func_216AF34
+	bl ViTalkMissionList__DrawBackground
 	b _0216AADC
 _0216AABC:
 	add r0, r4, #0x94
@@ -652,7 +652,7 @@ _0216AABC:
 	bne _0216AADC
 	mov r0, r4
 	mvn r1, #0
-	bl ViTalkMissionList__Func_216AF34
+	bl ViTalkMissionList__DrawBackground
 _0216AADC:
 	ldr r0, _0216AB0C // =ViTalkMissionList__Main_216AB10
 	bl SetCurrentTaskMainEvent
@@ -680,7 +680,7 @@ ViTalkMissionList__Main_216AB10: // 0x0216AB10
 	add r0, r0, #0x800
 	bl NpcUnknown__Func_216EF50
 	mov r0, r4
-	bl ViTalkMissionList__Func_216B094
+	bl ViTalkMissionList__Draw
 	add r0, r4, #0x94
 	add r0, r0, #0x800
 	bl NpcUnknown__Func_216EFC0
@@ -697,7 +697,7 @@ ViTalkMissionList__Main_216AB10: // 0x0216AB10
 	cmp r0, #0x63
 	bne _0216ABE8
 	mov r0, r4
-	bl ViTalkMissionList__Func_216B3D4
+	bl ViTalkMissionList__ReleaseThread
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, #0x63
@@ -746,7 +746,7 @@ _0216ABE8:
 	ldmia sp!, {r4, pc}
 _0216AC20:
 	mov r0, r4
-	bl ViTalkMissionList__Func_216B3D4
+	bl ViTalkMissionList__ReleaseThread
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
@@ -775,7 +775,7 @@ ViTalkMissionList__Main_216AC78: // 0x0216AC78
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
-	bl ViTalkMissionList__Func_216B094
+	bl ViTalkMissionList__Draw
 	mov r0, r5
 	bl _ZN13CViEvtCmnTalk13ProcessDialogEv
 	mov r0, r5
@@ -799,7 +799,7 @@ _0216ACD0:
 	mov r0, r5
 	sub r1, r2, #2
 	str r2, [r5, #0x4c0]
-	bl ViTalkMissionList__Func_216AF34
+	bl ViTalkMissionList__DrawBackground
 	ldr r0, _0216AD14 // =ViTalkMissionList__Func_216AE2C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
@@ -846,7 +846,7 @@ _0216AD5C:
 	add r0, r4, #0x400
 	ldrh r1, [r0, #0xbe]
 	mov r0, r4
-	bl ViTalkMissionList__Func_216AF34
+	bl ViTalkMissionList__DrawBackground
 	ldr r0, _0216AD90 // =ViTalkMissionList__Main_216AA38
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
@@ -891,7 +891,7 @@ _0216ADF4:
 	add r0, r5, #0x400
 	ldrh r1, [r0, #0xbe]
 	mov r0, r5
-	bl ViTalkMissionList__Func_216AF34
+	bl ViTalkMissionList__DrawBackground
 	ldr r0, _0216AE28 // =ViTalkMissionList__Main_216AA38
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
@@ -904,9 +904,9 @@ ViTalkMissionList__Func_216AE2C: // 0x0216AE2C
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl ViTalkMissionList__Func_216B094
+	bl ViTalkMissionList__Draw
 	mov r0, r4
-	bl ViTalkMissionList__Func_216B3D4
+	bl ViTalkMissionList__ReleaseThread
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	bl DestroyCurrentTask
@@ -960,7 +960,7 @@ _0216AEE0:
 	bl _ZN14CViDockNpcTalk12SetSelectionEl
 _0216AEF0:
 	mov r0, r4
-	bl ViTalkMissionList__Func_216A848
+	bl ViTalkMissionList__Release
 	mov r0, r6
 	bl ViTalkMissionList__Func_216AF04
 	ldmia sp!, {r4, r5, r6, pc}
@@ -983,8 +983,8 @@ _0216AF28:
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end ViTalkMissionList__Func_216AF04
 
-	arm_func_start ViTalkMissionList__Func_216AF34
-ViTalkMissionList__Func_216AF34: // 0x0216AF34
+	arm_func_start ViTalkMissionList__DrawBackground
+ViTalkMissionList__DrawBackground: // 0x0216AF34
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #4
 	mov r9, r0
@@ -1077,10 +1077,10 @@ _0216B088:
 	str r8, [r9, #0x4d0]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	arm_func_end ViTalkMissionList__Func_216AF34
+	arm_func_end ViTalkMissionList__DrawBackground
 
-	arm_func_start ViTalkMissionList__Func_216B094
-ViTalkMissionList__Func_216B094: // 0x0216B094
+	arm_func_start ViTalkMissionList__Draw
+ViTalkMissionList__Draw: // 0x0216B094
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x1c
 	ldr r3, _0216B3C8 // =ovl05_02173198
@@ -1303,10 +1303,10 @@ _0216B3B8:
 _0216B3C8: .word ovl05_02173198
 _0216B3CC: .word ovl05_021731A5
 _0216B3D0: .word ViTalkMissionList__Func_216B448
-	arm_func_end ViTalkMissionList__Func_216B094
+	arm_func_end ViTalkMissionList__Draw
 
-	arm_func_start ViTalkMissionList__Func_216B3D4
-ViTalkMissionList__Func_216B3D4: // 0x0216B3D4
+	arm_func_start ViTalkMissionList__ReleaseThread
+ViTalkMissionList__ReleaseThread: // 0x0216B3D4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x4d0]
@@ -1325,7 +1325,7 @@ ViTalkMissionList__Func_216B3D4: // 0x0216B3D4
 _0216B410:
 	mov r0, #0
 	ldmia sp!, {r4, pc}
-	arm_func_end ViTalkMissionList__Func_216B3D4
+	arm_func_end ViTalkMissionList__ReleaseThread
 
 	arm_func_start ViTalkMissionList__Func_216B418
 ViTalkMissionList__Func_216B418: // 0x0216B418
@@ -1487,8 +1487,8 @@ _0216B5F4:
 _0216B618: .word 0x04001000
 	arm_func_end ViTalkMissionList__Func_216B5C4
 
-	arm_func_start ViTalkMissionList__Func_216B61C
-ViTalkMissionList__Func_216B61C: // 0x0216B61C
+	arm_func_start ViTalkMissionList__InitWindow
+ViTalkMissionList__InitWindow: // 0x0216B61C
 	stmdb sp!, {r3, lr}
 	cmp r1, #0
 	moveq r0, #0
@@ -1528,15 +1528,7 @@ ViTalkMissionList__Func_216B61C: // 0x0216B61C
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216B6B0: .word renderCoreGFXControlB
-	arm_func_end ViTalkMissionList__Func_216B61C
-
-	arm_func_start ViTalkMissionList__Func_216B6B4
-ViTalkMissionList__Func_216B6B4: // 0x0216B6B4
-	ldr ip, _0216B6BC // =ViTalkAnnounce__Create
-	bx ip
-	.align 2, 0
-_0216B6BC: .word ViTalkAnnounce__Create
-	arm_func_end ViTalkMissionList__Func_216B6B4
+	arm_func_end ViTalkMissionList__InitWindow
 	
 	.rodata
 	

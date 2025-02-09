@@ -273,7 +273,7 @@ void ViDockNpc__LoadAssets(CViDockNpc *work, s32 type, VecFx32 *position, u16 an
     ViDockNpc__ReleaseAssets(work);
 
     work->npcType             = type;
-    work->resConfigTableIndex = DockHelpers__GetNpcConfig(type)->field_0;
+    work->resConfigTableIndex = HubConfig__GetNpcConfig(type)->field_0;
 
     const ViDockNpcAssetInfo *config = &resConfigFileTable[work->resConfigTableIndex];
 

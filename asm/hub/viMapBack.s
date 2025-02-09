@@ -435,7 +435,7 @@ ViMapBack__LoadAssets: // 0x021613A4
 _0216149C:
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__GetMapBackConfig
+	bl HubConfig__GetMapBackConfig
 	mov r7, r0
 	cmp r5, #4
 	mov r0, r4
@@ -1413,7 +1413,7 @@ _021621A4:
 _021621B8:
 	mov r0, r9, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl DockHelpers__Func_2152A40
+	bl HubConfig__Func_2152A40
 	ldrh r1, [r0, #0]
 	mov r0, #0x64
 	cmp r11, #0
@@ -1524,12 +1524,12 @@ ViMapBack__Func_216233C: // 0x0216233C
 	mov r7, r0
 	mov r0, r4
 	mov r6, r2
-	bl DockHelpers__Func_2152A60
+	bl HubConfig__Func_2152A60
 	cmp r0, #0
 	addne sp, sp, #0x2c
 	ldmneia sp!, {r4, r5, r6, r7, pc}
 	mov r0, r4
-	bl DockHelpers__Func_2152A20
+	bl HubConfig__Func_2152A20
 	ldrh r5, [r0, #0]
 	add r0, r7, r5, lsl #2
 	ldr r0, [r0, #0x50]
@@ -1537,7 +1537,7 @@ ViMapBack__Func_216233C: // 0x0216233C
 	addeq sp, sp, #0x2c
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
 	mov r0, r5
-	bl DockHelpers__Func_2152A40
+	bl HubConfig__Func_2152A40
 	ldrh r1, [r0, #0]
 	add r2, r7, #0x8c
 	mov r0, #0x64
@@ -1648,12 +1648,12 @@ ViMapBack__Func_2162508: // 0x02162508
 	mov r0, r7
 	mov r5, r2
 	mov r4, r3
-	bl DockHelpers__Func_2152A60
+	bl HubConfig__Func_2152A60
 	cmp r0, #0
 	addne sp, sp, #0x28
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	mov r0, r7
-	bl DockHelpers__Func_2152A20
+	bl HubConfig__Func_2152A20
 	ldrh r2, [r0, #0]
 	add r0, r6, r2, lsl #2
 	ldr r0, [r0, #0x50]
@@ -2497,10 +2497,6 @@ aBbViMapBackBb: // 0x0217301C
 	.align 4
 
 	.data
-
-aBpaViMapBpa: // 0x02173684
-	.asciz "bpa/vi_map.bpa"
-	.align 4
 
 .public _ZTI13CViMapVmiFile
 _ZTI13CViMapVmiFile: // 0x02173694

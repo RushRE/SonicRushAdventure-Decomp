@@ -52,7 +52,7 @@ void NpcOptions::Main_Init(void)
 
     if (IsThreadWorkerFinished(&work->thread))
     {
-        OptionsMessageConfig *config = DockHelpers__GetOptionsMessageInfo();
+        OptionsMessageConfig *config = HubConfig__GetOptionsMessageInfo();
 
         work->viEvtCmnTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), config->msgCtrlFile), config->msgTextID[0], CVIEVTCMN_RESOURCE_NONE);
         work->viEvtCmnTalk.SetPage(0);
@@ -70,7 +70,7 @@ void NpcOptions::Main_ChooseOption(void)
     work->viEvtCmnTalk.ProcessDialog();
     if (work->viEvtCmnTalk.IsFinished())
     {
-        config = DockHelpers__GetOptionsMessageInfo();
+        config = HubConfig__GetOptionsMessageInfo();
 
         u32 action    = work->viEvtCmnTalk.GetAction();
         u32 selection = work->viEvtCmnTalk.GetSelection();
@@ -127,7 +127,7 @@ void NpcOptions::Main_ChangeDifficulty(void)
     work->viEvtCmnTalk.ProcessDialog();
     if (work->viEvtCmnTalk.IsFinished())
     {
-        config = DockHelpers__GetOptionsMessageInfo();
+        config = HubConfig__GetOptionsMessageInfo();
 
         u32 action    = work->viEvtCmnTalk.GetAction();
         u32 selection = work->viEvtCmnTalk.GetSelection();
@@ -174,7 +174,7 @@ void NpcOptions::Main_ChangeTimeLimit(void)
     work->viEvtCmnTalk.ProcessDialog();
     if (work->viEvtCmnTalk.IsFinished())
     {
-        config = DockHelpers__GetOptionsMessageInfo();
+        config = HubConfig__GetOptionsMessageInfo();
 
         u32 action    = work->viEvtCmnTalk.GetAction();
         u32 selection = work->viEvtCmnTalk.GetSelection();
@@ -216,7 +216,7 @@ void NpcOptions::Main_ClearSaveDataWarning(void)
     work->viEvtCmnTalk.ProcessDialog();
     if (work->viEvtCmnTalk.IsFinished())
     {
-        OptionsMessageConfig *config = DockHelpers__GetOptionsMessageInfo();
+        OptionsMessageConfig *config = HubConfig__GetOptionsMessageInfo();
 
         s32 action    = work->viEvtCmnTalk.GetAction();
         s32 selection = work->viEvtCmnTalk.GetSelection();

@@ -3,6 +3,14 @@
 
 	.text
 
+	arm_func_start ViTalkAnnounce__Create2
+ViTalkAnnounce__Create2: // 0x0216B6B4
+	ldr ip, _0216B6BC // =ViTalkAnnounce__Create
+	bx ip
+	.align 2, 0
+_0216B6BC: .word ViTalkAnnounce__Create
+	arm_func_end ViTalkAnnounce__Create2
+
 	arm_func_start ViTalkAnnounce__Create
 ViTalkAnnounce__Create: // 0x0216B6C0
 	stmdb sp!, {r4, r5, r6, lr}
@@ -30,7 +38,7 @@ ViTalkAnnounce__Create: // 0x0216B6C0
 	mov r2, #0x20
 	bl MIi_CpuClearFast
 	ldrh r0, [r5, #0]
-	bl DockHelpers__GetAnnounceConfig
+	bl HubConfig__GetAnnounceConfig
 	mov r4, r0
 	bl _ZN10HubControl17GetFileFrom_ViMsgEv
 	ldrh r1, [r4, #0]
@@ -92,14 +100,14 @@ _0216B7EC:
 	ldmia sp!, {r3, r4, pc}
 	arm_func_end ViTalkAnnounce__CreateInternal
 
-	arm_func_start ViTalkAnnounce__Func_216B7F8
-ViTalkAnnounce__Func_216B7F8: // 0x0216B7F8
+	arm_func_start ViTalkAnnounce__Release
+ViTalkAnnounce__Release: // 0x0216B7F8
 	stmdb sp!, {r3, lr}
 	add r0, r0, #4
 	bl _ZN17CViEvtCmnAnnounce7ReleaseEv
 	bl _ZN10HubControl12Func_215A96CEv
 	ldmia sp!, {r3, pc}
-	arm_func_end ViTalkAnnounce__Func_216B7F8
+	arm_func_end ViTalkAnnounce__Release
 
 	arm_func_start ViTalkAnnounce__Main
 ViTalkAnnounce__Main: // 0x0216B80C
@@ -168,7 +176,7 @@ ViTalkAnnounce__Destructor: // 0x0216B8E0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl GetTaskWork_
-	bl ViTalkAnnounce__Func_216B7F8
+	bl ViTalkAnnounce__Release
 	mov r0, r4
 	bl ViTalkAnnounce__Func_216B8FC
 	ldmia sp!, {r4, pc}

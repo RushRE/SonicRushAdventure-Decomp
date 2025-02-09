@@ -65,12 +65,12 @@ MissionHelpers__PostGameMissionCount2: // 0x02153AE0
 
 	arm_func_start MissionHelpers__GetPostGameMission2
 MissionHelpers__GetPostGameMission2: // 0x02153AE8
-	ldr r1, _02153AF8 // =DockHelpers__PostGameMissionList2
+	ldr r1, _02153AF8 // =HubConfig__PostGameMissionList2
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
 	.align 2, 0
-_02153AF8: .word DockHelpers__PostGameMissionList2
+_02153AF8: .word HubConfig__PostGameMissionList2
 	arm_func_end MissionHelpers__GetPostGameMission2
 
 	arm_func_start MissionHelpers__BlazeMissionCount
@@ -81,12 +81,12 @@ MissionHelpers__BlazeMissionCount: // 0x02153AFC
 
 	arm_func_start MissionHelpers__IsBlazeMission
 MissionHelpers__IsBlazeMission: // 0x02153B04
-	ldr r1, _02153B14 // =DockHelpers__BlazeMissionIDs
+	ldr r1, _02153B14 // =HubConfig__BlazeMissionIDs
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
 	.align 2, 0
-_02153B14: .word DockHelpers__BlazeMissionIDs
+_02153B14: .word HubConfig__BlazeMissionIDs
 	arm_func_end MissionHelpers__IsBlazeMission
 
 	arm_func_start MissionHelpers__Func_2153B18
@@ -451,7 +451,7 @@ MissionHelpers__StartMission: // 0x02153F38
 	strb r0, [r1, #0xdc]
 	cmp r4, #0x5f
 	bge _02153FF0
-	ldr r0, _02154010 // =DockHelpers__MissionForID
+	ldr r0, _02154010 // =HubConfig__MissionForID
 	mov r1, r4, lsl #1
 	ldrh r0, [r0, r1]
 	bl InitStageMission
@@ -493,7 +493,7 @@ _02153FDC:
 	bl RequestNewSysEventChange
 	ldmia sp!, {r4, pc}
 _02153FF0:
-	ldr r0, _02154010 // =DockHelpers__MissionForID
+	ldr r0, _02154010 // =HubConfig__MissionForID
 	mov r1, r4, lsl #1
 	ldrh r0, [r0, r1]
 	bl VikingCupManager__EventStartVikingCup
@@ -502,7 +502,7 @@ _02153FF0:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215400C: .word gameState
-_02154010: .word DockHelpers__MissionForID
+_02154010: .word HubConfig__MissionForID
 	arm_func_end MissionHelpers__StartMission
 
 	arm_func_start MissionHelpers__GetMissionID
@@ -831,8 +831,8 @@ MissionHelpers__missionIndexFromSelection: // MissionHelpers__missionIndexFromSe
 	.hword 65, 66, 67, 68, 69, 70, 71, 78, 80, 82, 87, 90, 92
 	.hword 94, 95, 96, 97, 98, 99
 
-.public DockHelpers__MissionForID
-DockHelpers__MissionForID: // 0x02172C3C
+.public HubConfig__MissionForID
+HubConfig__MissionForID: // 0x02172C3C
 	.hword 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	.hword 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
 	.hword 20, 21, 22, 23, 24, 25, 26, 27, 28, 29
