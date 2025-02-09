@@ -27,7 +27,7 @@ void CViTalkAnnounce::CreatePrivate(s32 param)
     MI_CpuFill32((u8 *)VRAM_BG + 0x800, 0x3FF03FF, 0x800);
     MI_CpuClearFast((u8 *)VRAM_BG + (0x8000 - 0x20), 0x20);
 
-    AnnounceConfig *config = HubConfig__GetAnnounceConfig(work->type);
+    const AnnounceConfig *config = HubConfig__GetAnnounceConfig(work->type);
     work->announce.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsg(), config->mpcFile));
     if (CViTalkAnnounce::IsItemAnnouncement(work->type))
     {

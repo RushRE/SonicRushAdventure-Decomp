@@ -18,6 +18,8 @@
 // STRUCTS
 // --------------------
 
+#ifdef __cplusplus
+
 class CViEvtCmnMsg
 {
 public:
@@ -323,5 +325,7 @@ public:
     s32 DialogState_FinalizeActions();
     s32 DialogState_Finished();
 };
+
+#endif
 
 #endif // RUSH_CVIEVTCMN_HPP

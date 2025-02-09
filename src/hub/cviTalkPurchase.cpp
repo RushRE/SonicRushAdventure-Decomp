@@ -166,7 +166,7 @@ void CViTalkPurchase::Main_Init(void)
 
     if (IsThreadWorkerFinished(&work->threadWorker))
     {
-        ViTalkPurchaseMsgConfig *config;
+        const ViTalkPurchaseMsgConfig *config;
         if (work->decorPurchaseID < CViTalkPurchase::DECOR_COUNT)
         {
             config = HubConfig__Func_2152B38(work->decorPurchaseID);
@@ -380,7 +380,7 @@ BOOL CViTalkPurchase::GetRingCount()
     return saveGame.stage.ringCount;
 }
 
-BOOL CViTalkPurchase::CanMakePurchase(PurchaseCostConfig *config)
+BOOL CViTalkPurchase::CanMakePurchase(const PurchaseCostConfig *config)
 {
     if (config->ringCost > CViTalkPurchase::GetRingCount())
         return FALSE;
@@ -394,7 +394,7 @@ BOOL CViTalkPurchase::CanMakePurchase(PurchaseCostConfig *config)
     return TRUE;
 }
 
-void CViTalkPurchase::MakePurchase(PurchaseCostConfig *config)
+void CViTalkPurchase::MakePurchase(const PurchaseCostConfig *config)
 {
     if (config->ringCost != 0)
         saveGame.stage.ringCount -= config->ringCost;

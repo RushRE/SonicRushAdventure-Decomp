@@ -24,6 +24,9 @@ enum DockArea_
 };
 typedef u32 DockArea;
 
+
+#ifdef __cplusplus
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -119,6 +122,8 @@ NOT_DECOMPILED void ViDock__Func_215FFF4(void);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 #endif // RUSH_CVIDOCK_HPP

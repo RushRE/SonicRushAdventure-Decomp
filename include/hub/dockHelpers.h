@@ -91,13 +91,19 @@ typedef struct Unknown2171CCC_
     s32 field_24;
 } Unknown2171CCC;
 
+typedef struct ViNpcUnknown_
+{
+    u16 field_0;
+    u16 field_2;
+} ViNpcUnknown;
+
 typedef struct CViNpcConfig_
 {
     u16 field_0;
     u16 spawnAngle;
     s16 spawnX;
     s16 spawnZ;
-    u16 *(*field_8)(void);
+    const ViNpcUnknown *(*field_8)(void);
 } CViNpcConfig;
 
 typedef struct NpcMsgInfo_
@@ -132,47 +138,59 @@ typedef struct ViTalkPurchaseMsgConfig_
     u16 interactionID;
 } ViTalkPurchaseMsgConfig;
 
+typedef struct Unknown2171914_
+{
+    u32 areaID;
+    u32 field_4;
+} Unknown2171914;
+
+typedef struct ViMapBackConfig_
+{
+    u16 flags;
+    u16 animID;
+} ViMapBackConfig;
+
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED Unknown2171FE8 *HubConfig__Func_2152960(u16 a1);
-NOT_DECOMPILED DockStageConfig *HubConfig__Func_2152970(u16 a1);
-NOT_DECOMPILED void HubConfig__Func_2152984(void);
-NOT_DECOMPILED DockMapConfig *HubConfig__Func_2152994(u16 a1);
-NOT_DECOMPILED Unknown2171CCC *HubConfig__Func_21529A8(u16 a1);
-NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id);
-NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost();
-NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id);
-NOT_DECOMPILED PurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id);
-NOT_DECOMPILED void HubConfig__GetDockBackInfo(void);
-NOT_DECOMPILED CViNpcConfig *HubConfig__GetNpcConfig(u16 a1);
-NOT_DECOMPILED void HubConfig__Func_2152A20(void);
-NOT_DECOMPILED void HubConfig__Func_2152A30(void);
-NOT_DECOMPILED void HubConfig__Func_2152A40(void);
-NOT_DECOMPILED void HubConfig__GetMapBackConfig(void);
-NOT_DECOMPILED void HubConfig__Func_2152A60(void);
-NOT_DECOMPILED void HubConfig__Func_2152A70(void);
-NOT_DECOMPILED void HubConfig__Func_2152A7C(void);
-NOT_DECOMPILED void HubConfig__Func_2152A88(void);
-NOT_DECOMPILED void HubConfig__Func_2152A94(void);
-NOT_DECOMPILED void HubConfig__Func_2152AA0(void);
-NOT_DECOMPILED void HubConfig__Func_2152AAC(void);
-NOT_DECOMPILED void HubConfig__Func_2152AB8(void);
-NOT_DECOMPILED void HubConfig__Func_2152AC4(void);
-NOT_DECOMPILED void HubConfig__Func_2152AD0(void);
-NOT_DECOMPILED void HubConfig__Func_2152ADC(void);
-NOT_DECOMPILED void HubConfig__Func_2152AE8(void);
-NOT_DECOMPILED void HubConfig__Func_2152AF4(void);
-NOT_DECOMPILED void HubConfig__Func_2152B00(void);
-NOT_DECOMPILED NpcMsgInfo *HubConfig__GetNpcMessageInfo(s32 id);
-NOT_DECOMPILED ViTalkPurchaseMsgConfig *HubConfig__Func_2152B1C(s32 id);
-NOT_DECOMPILED ViTalkPurchaseMsgConfig *HubConfig__Func_2152B2C(void);
-NOT_DECOMPILED ViTalkPurchaseMsgConfig *HubConfig__Func_2152B38(s32 id);
-NOT_DECOMPILED ViTalkPurchaseMsgConfig *HubConfig__Func_2152B48(s32 id);
-NOT_DECOMPILED ViTalkPurchaseMsgConfig *HubConfig__Func_2152B58(void);
-NOT_DECOMPILED AnnounceConfig *HubConfig__GetAnnounceConfig(s32 id);
-NOT_DECOMPILED OptionsMessageConfig *HubConfig__GetOptionsMessageInfo(void);
+const Unknown2171FE8 *HubConfig__Func_2152960(u16 id);
+const DockStageConfig *HubConfig__Func_2152970(u16 id);
+const Unknown2171914 *HubConfig__Func_2152984(u16 id);
+const DockMapConfig *HubConfig__Func_2152994(u16 id);
+const Unknown2171CCC *HubConfig__Func_21529A8(u16 id);
+const PurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id);
+const PurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void);
+const PurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id);
+const PurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id);
+const ViDockBackConfig *HubConfig__GetDockBackInfo(s32 id);
+const CViNpcConfig *HubConfig__GetNpcConfig(u16 id);
+const u16 *HubConfig__Func_2152A20(s32 id);
+const u16 *HubConfig__Func_2152A30(s32 id);
+const u16 *HubConfig__Func_2152A40(s32 id);
+const ViMapBackConfig *HubConfig__GetMapBackConfig(s32 id);
+BOOL HubConfig__Func_2152A60(u16 id);
+const ViNpcUnknown *HubConfig__Func_2152A70(void);
+const ViNpcUnknown *HubConfig__Func_2152A7C(void);
+const ViNpcUnknown *HubConfig__Func_2152A88(void);
+const ViNpcUnknown *HubConfig__Func_2152A94(void);
+const ViNpcUnknown *HubConfig__Func_2152AA0(void);
+const ViNpcUnknown *HubConfig__Func_2152AAC(void);
+const ViNpcUnknown *HubConfig__Func_2152AB8(void);
+const ViNpcUnknown *HubConfig__Func_2152AC4(void);
+const ViNpcUnknown *HubConfig__Func_2152AD0(void);
+const ViNpcUnknown *HubConfig__Func_2152ADC(void);
+const ViNpcUnknown *HubConfig__Func_2152AE8(void);
+const ViNpcUnknown *HubConfig__Func_2152AF4(void);
+const ViNpcUnknown *HubConfig__Func_2152B00(void);
+const NpcMsgInfo *HubConfig__GetNpcMessageInfo(s32 id);
+const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B1C(s32 id);
+const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B2C(void);
+const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B38(s32 id);
+const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B48(s32 id);
+const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B58(void);
+const AnnounceConfig *HubConfig__GetAnnounceConfig(s32 id);
+const OptionsMessageConfig *HubConfig__GetOptionsMessageInfo(void);
 
 #ifdef __cplusplus
 }

@@ -1730,8 +1730,8 @@ void HubControl::Func_2158F64()
             }
             else
             {
-                Unknown2171FE8 *v5 = HubConfig__Func_2152960(HubConfig__Func_21529A8(work->field_24)->field_4);
-                ViMap__Func_215C76C(v5->field_3C);
+                const Unknown2171FE8 *config = HubConfig__Func_2152960(HubConfig__Func_21529A8(work->field_24)->field_4);
+                ViMap__Func_215C76C(config->field_3C);
             }
 
             work->field_8 = work->field_4;
