@@ -358,7 +358,7 @@ ViMap__Func_215BE14: // 0x0215BE14
 	ldr r0, [r8, #0x7dc]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl HubConfig__Func_2152994
+	bl HubConfig__GetDockMapConfig
 	ldr r0, [r0, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -762,7 +762,7 @@ ViMap__Func_215C408: // 0x0215C408
 	bge _0215C438
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl HubConfig__Func_2152994
+	bl HubConfig__GetDockMapConfig
 	b _0215C448
 _0215C438:
 	ldr r0, [r4, #0x7e4]
@@ -1518,7 +1518,7 @@ ViMap__Func_215CDE0: // 0x0215CDE0
 	bge _0215CE18
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl HubConfig__Func_2152994
+	bl HubConfig__GetDockMapConfig
 	mov r7, r0
 	b _0215CE38
 _0215CE18:
@@ -1940,7 +1940,7 @@ _0215D394:
 	beq _0215D3D4
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl HubConfig__Func_2152994
+	bl HubConfig__GetDockMapConfig
 	ldr r0, [r0, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -2025,7 +2025,7 @@ ViMap__Func_215D4B4: // 0x0215D4B4
 	bge _0215D4D8
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl HubConfig__Func_2152994
+	bl HubConfig__GetDockMapConfig
 	b _0215D4E8
 _0215D4D8:
 	ldr r0, [r10, #0x7e4]

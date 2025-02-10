@@ -601,7 +601,7 @@ void SoundTest_Main_Active(void)
     if (work->stateDraw3D == NULL && work->state == NULL)
     {
         DestroyCurrentTask();
-        gameState.talk.field_DC = 1;
+        gameState.talk.state.field_DC = 1;
         RequestSysEventChange(0); // SYSEVENT_RETURN_TO_HUB
         NextSysEvent();
     }

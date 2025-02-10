@@ -198,7 +198,7 @@ struct GameTalkUnknown1
 {
     VecFx32 translation;
     u16 rotationY;
-    s16 field_E;
+    u16 field_E;
 };
 
 struct GameTalkUnknown2
@@ -211,12 +211,15 @@ struct GameTalkUnknown2
 
 struct GameTalkState
 {
-    u8 field_DC;
-    u8 field_DD;
-    u8 field_DE;
-    u8 field_DF;
-    struct GameTalkUnknown1 field_E0[1];
-    struct GameTalkUnknown2 field_14[4];
+    struct
+    {
+        u8 field_DC;
+        u8 hubType;
+        u8 hubArea;
+        struct GameTalkUnknown1 field_E0[1];
+        struct GameTalkUnknown2 field_14[4];
+    } state;
+    
     u16 field_40;
     u16 field_42;
     s32 field_44;

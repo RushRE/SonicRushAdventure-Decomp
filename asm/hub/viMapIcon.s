@@ -1258,7 +1258,7 @@ _02164030:
 	bge _02164090
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl HubConfig__Func_2152970
+	bl HubConfig__GetDockStageConfig
 	ldr r2, [r0, #0x14]
 	mov r1, #0
 	str r2, [r4, #0xc]
@@ -1398,7 +1398,7 @@ ViMapIcon__Func_2164224: // 0x02164224
 	ldmgeia sp!, {r4, pc}
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl HubConfig__Func_2152970
+	bl HubConfig__GetDockStageConfig
 	ldr r1, [r0, #0x1c]
 	str r1, [r4]
 	ldr r1, [r0, #0x20]

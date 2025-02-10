@@ -13,21 +13,21 @@ extern "C"
 // --------------------
 
 // HubState
-NOT_DECOMPILED void HubState__Clear(void);
-NOT_DECOMPILED void HubState__Func_2152DD4(u8 a1);
-NOT_DECOMPILED u8 HubState__Func_2152DE4(void);
-NOT_DECOMPILED void HubState__Func_2152DF4(u8 a1);
-NOT_DECOMPILED u8 HubState__Func_2152E04(void);
-NOT_DECOMPILED void HubState__Func_2152E14(s32 id, VecFx32 *pos, u16 angle);
-NOT_DECOMPILED BOOL HubState__Func_2152E74(s32 id);
-NOT_DECOMPILED VecFx32 *HubState__GetPlayerInfo(s32 id);
-NOT_DECOMPILED u16 HubState__Func_2152EA4(s32 id);
-NOT_DECOMPILED void HubState__Func_2152EB8(s32 id, VecFx32 *pos, u16 angle);
-NOT_DECOMPILED BOOL HubState__Func_2152F20(s32 id);
-NOT_DECOMPILED VecFx32 *HubState__GetNpcInfo(s32 id);
-NOT_DECOMPILED s32 HubState__Func_2152F58(s32 id);
-NOT_DECOMPILED s32 HubState__Func_2152F70(s32 id);
-NOT_DECOMPILED u8 HubState__Func_2152F88(void);
+void ResetHubState(void);
+void HubState__SetHubType(u8 value);
+u8 HubState__GetHubType(void);
+void HubState__SetHubArea(u8 value);
+u8 HubState__GetHubArea(void);
+void HubState__SetPlayerState(s32 id, VecFx32 *pos, u16 angle);
+BOOL HubState__CheckHasPlayerState(s32 id);
+VecFx32 *HubState__GetPlayerPosition(s32 id);
+u16 HubState__GetPlayerAngle(s32 id);
+void HubState__SetNpcState(s32 id, VecFx32 *pos, u16 angle);
+BOOL HubState__CheckHasNpcState(s32 id);
+VecFx32 *HubState__GetNpcPosition(s32 id);
+s32 HubState__GetNpcAngle(s32 id);
+s32 HubState__GetNpcUnknown(s32 id);
+u8 HubState__GetFieldDC(void);
 
 #ifdef __cplusplus
 }

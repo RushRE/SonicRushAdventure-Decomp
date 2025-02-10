@@ -51,7 +51,6 @@ NOT_DECOMPILED void _ZN10HubControl12Main_21588D4Ev(void);
 NOT_DECOMPILED void _ZN10HubControl12Func_21591A8Ev(void);
 NOT_DECOMPILED void _ZN10HubControl12Func_21598B4EPS_(void);
 NOT_DECOMPILED void _ZN10HubControl12Main_21578CCEv(void);
-
 }
 
 // --------------------
@@ -75,7 +74,7 @@ extern "C" void InitHubSysEvent(void)
     MI_CpuFill16(OAMSystem__GetList2(GRAPHICS_ENGINE_A), 0x200, HW_OAM_SIZE);
     MI_CpuFill16(OAMSystem__GetList2(GRAPHICS_ENGINE_B), 0x200, HW_OAM_SIZE);
 
-    if (HubState__Func_2152F88() != 7)
+    if (HubState__GetFieldDC() != 7)
         gameState.saveFile.field_52 = 0;
 
     if (SaveGame__Func_205BC7C())
@@ -108,21 +107,21 @@ extern "C" void InitHubSysEvent(void)
     }
     else if (progress == SAVE_PROGRESS_1)
     {
-        if (gameState.talk.field_DC)
+        if (gameState.talk.state.field_DC)
             HubControl::Func_21570B8(1);
         else
             HubControl::Func_21570B8(0);
     }
     else if (progress < SAVE_PROGRESS_3)
     {
-        if (gameState.talk.field_DC)
+        if (gameState.talk.state.field_DC)
             HubControl::Func_215710C(1);
         else
             HubControl::Func_215710C(0);
     }
     else
     {
-        if (HubState__Func_2152F88() == 4)
+        if (HubState__GetFieldDC() == 4)
         {
             u16 cutscene = NpcCutsceneViewer::GetNextCutscene(gameState.cutscene.cutsceneID);
             if (cutscene != CUTSCENE_NONE && !gameState.cutscene.canSkip)
@@ -139,7 +138,7 @@ extern "C" void InitHubSysEvent(void)
             gameState.cutscene.cutsceneID = CUTSCENE_NONE;
         }
 
-        if (HubState__Func_2152F88() == 5 && gameState.missionFlag)
+        if (HubState__GetFieldDC() == 5 && gameState.missionFlag)
         {
             u32 missionID = MissionHelpers__GetBlazeMissionCount(MissionHelpers__GetMissionID());
             if (missionID < 7)
@@ -153,36 +152,35 @@ extern "C" void InitHubSysEvent(void)
                 return;
             }
         }
+
+        if (gameState.talk.state.field_DC && gameState.talk.state.field_DC < 8)
         {
-            if (gameState.talk.field_DC && gameState.talk.field_DC < 8)
-            {
-                HubControl::Func_215701C(gameState.talk.field_DC);
-            }
-            else
-            {
-                MI_CpuClear32(&gameState.talk, sizeof(gameState.talk));
-                HubControl::Func_215700C();
-            }
+            HubControl::Func_215701C(gameState.talk.state.field_DC);
+        }
+        else
+        {
+            MI_CpuClear32(&gameState.talk, sizeof(gameState.talk));
+            HubControl::Func_215700C();
         }
     }
 }
 
 void HubControl::Func_215700C()
 {
-    HubControl::Create(0);
+    HubControl::Create(DOCKAREA_BASE);
 }
 
 void HubControl::Func_215701C(s32 a1)
 {
-    if (HubState__Func_2152F88() == 6 || HubState__Func_2152F88() == 7)
+    if (HubState__GetFieldDC() == 6 || HubState__GetFieldDC() == 7)
     {
         u32 field_134;
-        if (HubState__Func_2152F88() == 7)
+        if (HubState__GetFieldDC() == 7)
             field_134 = 1;
         else
             field_134 = 0;
 
-        HubControl::Create2(0, 0, 0);
+        HubControl::Create2(DOCKAREA_BASE, 0, 0);
 
         HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
         work->field_130  = 1;
@@ -190,15 +188,15 @@ void HubControl::Func_215701C(s32 a1)
     }
     else
     {
-        if (HubState__Func_2152DE4() == 0)
+        if (HubState__GetHubType() == 0)
         {
-            HubControl::Create(HubState__Func_2152E04());
+            HubControl::Create(HubState__GetHubArea());
         }
         else
         {
-            if (HubState__Func_2152DE4() == 1)
+            if (HubState__GetHubType() == 1)
             {
-                HubControl::Create2(HubState__Func_2152E04(), 1, 0);
+                HubControl::Create2(HubState__GetHubArea(), 1, 0);
             }
             else
             {
@@ -210,40 +208,40 @@ void HubControl::Func_215701C(s32 a1)
 
 void HubControl::Func_21570B8(s32 a1)
 {
-    u8 value;
+    u8 area;
 
-    if (a1 && HubState__Func_2152DE4() == 1)
+    if (a1 && HubState__GetHubType() == 1)
     {
-        value = HubState__Func_2152E04();
+        area = HubState__GetHubArea();
 
-        if (value != 0 && value != 1)
-            value = 0;
+        if (area != DOCKAREA_BASE && area != DOCKAREA_BASE_NEXT)
+            area = DOCKAREA_BASE;
 
-        if (gameState.talk.field_DC == 2)
-            value = 1;
+        if (gameState.talk.state.field_DC == 2)
+            area = DOCKAREA_BASE_NEXT;
     }
     else
     {
-        value = 0;
+        area = DOCKAREA_BASE;
     }
 
-    HubControl::Create2(value, a1, 1);
+    HubControl::Create2(area, a1, 1);
 }
 
 void HubControl::Func_215710C(BOOL a2)
 {
-    HubControl::Create2(2, a2, 1);
+    HubControl::Create2(DOCKAREA_JET, a2, 1);
 }
 
 void HubControl::Func_2157124()
 {
-    HubControl::Create(5);
+    HubControl::Create(DOCKAREA_SUBMARINE);
     HubControl::Func_21576AC(7);
 }
 
 void HubControl::Func_215713C()
 {
-    HubControl::Create(7);
+    HubControl::Create(DOCKAREA_DRILL);
     HubControl::Func_21576AC(0);
 }
 
@@ -333,8 +331,8 @@ void HubControl::Create(s32 area)
     work->field_4        = 0;
     work->field_8        = 0;
     work->hubAreaPreview = NULL;
-    work->nextEvent      = 16;
-    work->field_C        = 8;
+    work->nextEvent      = HUBEVENT_INVALID;
+    work->field_C        = DOCKAREA_NONE;
     work->field_10       = HubConfig__Func_2152960(area)->field_8;
     work->nextAreaID2 = work->nextAreaID = area;
     work->field_1C                       = 6;
@@ -380,12 +378,12 @@ void HubControl::Create(s32 area)
     work->field_130 = 0;
     work->field_134 = 0;
 
-    HubState__Clear();
+    ResetHubState();
     InitHubAudio();
     PlayHubBGM();
 }
 
-void HubControl::Create2(s32 a1, BOOL a2, s32 a3)
+void HubControl::Create2(s32 area, BOOL a2, s32 a3)
 {
     HubControl::Func_215A520();
 
@@ -397,10 +395,10 @@ void HubControl::Create2(s32 a1, BOOL a2, s32 a3)
     work->field_4        = 0;
     work->field_8        = 0;
     work->hubAreaPreview = 0;
-    work->nextEvent      = 16;
-    work->field_C        = a1;
+    work->nextEvent      = HUBEVENT_INVALID;
+    work->field_C        = area;
     work->field_10       = 9;
-    work->nextAreaID2 = work->nextAreaID = HubConfig__Func_2152970(a1)->nextArea;
+    work->nextAreaID2 = work->nextAreaID = HubConfig__GetDockStageConfig(area)->nextArea;
     work->field_1C                       = 6;
     work->field_20                       = 23;
     work->field_24                       = 9;
@@ -417,11 +415,11 @@ void HubControl::Create2(s32 a1, BOOL a2, s32 a3)
 
     if (a2)
     {
-        BOOL v8 = TRUE;
-        if (HubState__Func_2152F88() == 1 || HubState__Func_2152F88() == 3 || HubState__Func_2152F88() == 5)
-            v8 = FALSE;
+        BOOL flag = TRUE;
+        if (HubState__GetFieldDC() == 1 || HubState__GetFieldDC() == 3 || HubState__GetFieldDC() == 5)
+            flag = FALSE;
 
-        ViDock__Func_215E578(v8);
+        ViDock__Func_215E578(flag);
     }
 
     ViDock__Func_215DF64(0);
@@ -450,21 +448,21 @@ void HubControl::Create2(s32 a1, BOOL a2, s32 a3)
 
     if (a2)
     {
-        if (HubState__Func_2152F88() == 2)
+        if (HubState__GetFieldDC() == 2)
         {
             work->field_124 = 1;
         }
-        else if (HubState__Func_2152F88() == 4)
+        else if (HubState__GetFieldDC() == 4)
         {
             work->field_128 = 1;
         }
-        else if (HubState__Func_2152F88() == 5)
+        else if (HubState__GetFieldDC() == 5)
         {
             work->field_12C = 1;
         }
     }
 
-    HubState__Clear();
+    ResetHubState();
     InitHubAudio();
     PlayHubBGM();
 }
@@ -883,7 +881,7 @@ void HubControl::Main2()
         else if (work->field_128)
         {
             work->field_128 = 0;
-            if (work->field_C == 2)
+            if (work->field_C == DOCKAREA_JET)
                 ViDock__Func_215E104(12);
 
             ViDock__Func_215E178();
@@ -913,31 +911,31 @@ void HubControl::Main2()
             work->field_130 = 0;
             work->field_134 = 0;
         }
-        else if (SaveGame__CheckProgress24() && work->field_C == 0)
+        else if (SaveGame__CheckProgress24() && work->field_C == DOCKAREA_BASE)
         {
             SaveGame__Func_205BC18();
             HubControl::Func_21597A4(47, 8);
         }
         else
         {
-            if (SaveGame__CheckProgressForShip(SHIP_JET) && work->field_C == 3)
+            if (SaveGame__CheckProgressForShip(SHIP_JET) && work->field_C == DOCKAREA_SHIP)
             {
                 SaveGame__Func_205BC38(SHIP_JET);
                 HubControl::Func_21597A4(CUTSCENE_OCEAN_TORNADO_COMPLETE, 0);
             }
-            else if (SaveGame__CheckProgressForShip(SHIP_BOAT) && work->field_C == 4)
+            else if (SaveGame__CheckProgressForShip(SHIP_BOAT) && work->field_C == DOCKAREA_BOAT)
             {
                 SaveGame__Func_205BC38(SHIP_BOAT);
                 HubControl::Func_21597A4(CUTSCENE_AQUA_BLAST_COMPLETE, 8);
             }
-            else if (SaveGame__CheckProgressForShip(SHIP_HOVER) && work->field_C == 5)
+            else if (SaveGame__CheckProgressForShip(SHIP_HOVER) && work->field_C == DOCKAREA_SUBMARINE)
             {
                 SaveGame__Func_205BC38(SHIP_HOVER);
                 HubControl::Func_21597A4(CUTSCENE_DEEP_TYPHOON_COMPLETE, 8);
             }
             else
             {
-                if (SaveGame__GetGameProgress() == SAVE_PROGRESS_37 && work->field_C == 0)
+                if (SaveGame__GetGameProgress() == SAVE_PROGRESS_37 && work->field_C == DOCKAREA_BASE)
                 {
                     HubControl::Func_2159810();
                 }
@@ -1020,9 +1018,9 @@ void HubControl::Main_21580C0()
 
     if (HubControl::HandleFade(RENDERCORE_BRIGHTNESS_BLACK, RENDERCORE_BRIGHTNESS_DEFAULT, 1) == 0)
     {
-        s32 value = ViDock__Func_215DFE4();
-        ViDock__Func_215DC80(value, work->field_C);
-        work->field_C = value;
+        s32 area = ViDock__Func_215DFE4();
+        ViDock__Func_215DC80(area, work->field_C);
+        work->field_C = area;
         SetCurrentTaskMainEvent(HubControl::Main_2158108);
     }
 }
@@ -1033,7 +1031,7 @@ void HubControl::Main_2158108()
 
     if (ViDock__Func_215DD00())
     {
-        u32 area = HubConfig__Func_2152970(work->field_C)->nextArea;
+        u32 area = HubConfig__GetDockStageConfig(work->field_C)->nextArea;
         if (area != work->nextAreaID)
         {
             work->nextAreaID = area;
@@ -1115,7 +1113,7 @@ void HubControl::Main_2158160()
 
         case 9:
             work->Func_2159758(0);
-            work->nextEvent       = HUBEVENT_INVALID;
+            work->nextEvent       = HUBEVENT_UNKNOWN;
             work->nextSelectionID = CViDockNpcTalk::GetSelection();
             ViDock__Func_215DF64(0);
             HubControl::Func_21598B4(work);
@@ -1722,7 +1720,7 @@ void HubControl::Func_2158F64()
         {
             if (work->field_1C < 5)
             {
-                s32 v3 = HubConfig__Func_2152960(HubConfig__Func_2152994(work->field_1C)->field_4)->field_3C;
+                s32 v3 = HubConfig__Func_2152960(HubConfig__GetDockMapConfig(work->field_1C)->field_4)->field_3C;
                 ViMap__Func_215C524(v3);
                 ViMap__Func_215C638(v3);
                 HubControl::Func_215AE84();
@@ -1888,8 +1886,8 @@ void HubControl::Func_21591A8()
         if (work->field_1C < 5 || work->field_20 == 7 || work->field_24 < 8)
         {
             work->nextAreaID  = DOCKAREA_BASE;
-            work->nextAreaID2 = 0;
-            work->field_C     = 0;
+            work->nextAreaID2 = DOCKAREA_BASE;
+            work->field_C     = DOCKAREA_BASE;
             ViMap__Func_215C82C();
             ViMap__Func_215BCE4(work->nextAreaID, 0);
             ViDock__Func_215DBC8(work->field_C);
@@ -2054,17 +2052,17 @@ void HubControl::Func_2159740(HubControl *work)
 
 void HubControl::Func_2159758(s32 a2)
 {
-    HubState__Clear();
+    ResetHubState();
 
     if (a2)
     {
-        HubState__Func_2152DD4(0);
-        HubState__Func_2152DF4(this->nextAreaID);
+        HubState__SetHubType(0);
+        HubState__SetHubArea(this->nextAreaID);
     }
     else
     {
-        HubState__Func_2152DD4(1);
-        HubState__Func_2152DF4(this->field_C);
+        HubState__SetHubType(1);
+        HubState__SetHubArea(this->field_C);
         ViDock__Func_215E4DC();
     }
 }
@@ -2073,13 +2071,13 @@ void HubControl::Func_21597A4(s16 a1, s32 a2)
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    HubState__Clear();
-    HubState__Func_2152DD4(1);
+    ResetHubState();
+    HubState__SetHubType(1);
 
     if (a2 < 7)
-        HubState__Func_2152DF4(a2);
+        HubState__SetHubArea(a2);
     else
-        HubState__Func_2152DF4(work->field_C);
+        HubState__SetHubArea(work->field_C);
 
     work->field_120 = 0;
     work->field_138 = a1;
@@ -2092,7 +2090,7 @@ void HubControl::Func_2159810()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    HubState__Clear();
+    ResetHubState();
 
     work->field_120 = 0;
     work->field_138 = 0xFFFE;
@@ -2110,7 +2108,7 @@ BOOL HubControl::Func_2159854(s32 event)
         case HUBEVENT_DELETE_SAVE_MENU:
         case HUBEVENT_CUTSCENE_1:
         case HUBEVENT_CUTSCENE_2:
-        case HUBEVENT_INVALID:
+        case HUBEVENT_UNKNOWN:
         case HUBEVENT_LOAD_STAGE_1:
         case HUBEVENT_SOUND_TEST:
         case HUBEVENT_LOAD_STAGE_2:
@@ -2463,23 +2461,23 @@ void HubControl::Func_215A2E0(s32 a1, s32 a2)
                 else
                 {
                     VikingCupManager__EventStartVikingCup(1);
-                    gameState.talk.field_DC = 1;
+                    gameState.talk.state.field_DC = 1;
                 }
                 break;
 
             case 3:
                 VikingCupManager__EventStartVikingCup(2);
-                gameState.talk.field_DC = 1;
+                gameState.talk.state.field_DC = 1;
                 break;
 
             case 4:
                 VikingCupManager__EventStartVikingCup(3);
-                gameState.talk.field_DC = 1;
+                gameState.talk.state.field_DC = 1;
                 break;
 
             case 5:
                 VikingCupManager__EventStartVikingCup(4);
-                gameState.talk.field_DC = 1;
+                gameState.talk.state.field_DC = 1;
                 break;
         }
     }
@@ -2515,8 +2513,6 @@ void HubControl::Func_215A3EC()
 
 void HubControl::Func_215A400(s32 eventID, s32 selection)
 {
-    // will match when 'HubControl::EventList' is decompiled
-#ifndef NON_MATCHING
     if (eventID >= HUBEVENT_COUNT)
         eventID = HUBEVENT_UPDATE_PROGRESS;
 
@@ -2538,7 +2534,7 @@ void HubControl::Func_215A400(s32 eventID, s32 selection)
             HubControl::Func_215B92C(selection);
             break;
 
-        case HUBEVENT_INVALID:
+        case HUBEVENT_UNKNOWN:
             MissionHelpers__StartMission(selection);
             break;
 
@@ -2568,89 +2564,4 @@ void HubControl::Func_215A400(s32 eventID, s32 selection)
         RequestNewSysEventChange(sysEventID);
 
     NextSysEvent();
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #0x20
-	mov r4, r0
-	cmp r4, #0xf
-	movge r4, #0
-	cmp r4, #0xe
-	addls pc, pc, r4, lsl #2
-	b _0215A4B8
-_0215A420: // jump table
-	b _0215A45C // case 0
-	b _0215A4B8 // case 1
-	b _0215A468 // case 2
-	b _0215A4B8 // case 3
-	b _0215A4B8 // case 4
-	b _0215A4B8 // case 5
-	b _0215A4B8 // case 6
-	b _0215A478 // case 7
-	b _0215A488 // case 8
-	b _0215A498 // case 9
-	b _0215A4A4 // case 10
-	b _0215A4B8 // case 11
-	b _0215A4AC // case 12
-	b _0215A4B8 // case 13
-	b _0215A4B8 // case 14
-_0215A45C:
-	mov r0, r1
-	bl SaveGame__SetUnknown1
-	b _0215A4B8
-_0215A468:
-	ldr r0, =gameState+0x00000100
-	mov r1, #0
-	strh r1, [r0, #0x54]
-	b _0215A4B8
-_0215A478:
-	mov r0, r1, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl HubControl::Func_215B8FC
-	b _0215A4B8
-_0215A488:
-	mov r0, r1, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl HubControl::Func_215B92C
-	b _0215A4B8
-_0215A498:
-	mov r0, r1
-	bl MissionHelpers__StartMission
-	b _0215A4B8
-_0215A4A4:
-	bl HubControl::Func_215B958
-	b _0215A4B8
-_0215A4AC:
-	ldr r0, =gameState
-	mov r1, #0
-	str r1, [r0, #0xc4]
-_0215A4B8:
-	bl HubControl::Func_21572B8
-	ldr ip, =HubControl::EventList
-	add r3, sp, #0
-	mov r2, #7
-_0215A4C8:
-	ldrh r1, [ip]
-	ldrh r0, [ip, #2]
-	add ip, ip, #4
-	strh r1, [r3]
-	strh r0, [r3, #2]
-	add r3, r3, #4
-	subs r2, r2, #1
-	bne _0215A4C8
-	ldrh r2, [ip]
-	add r0, sp, #0
-	mov r1, r4, lsl #1
-	strh r2, [r3]
-	ldrsh r0, [r0, r1]
-	cmp r0, #0
-	blt _0215A508
-	bl RequestNewSysEventChange
-_0215A508:
-	bl NextSysEvent
-	add sp, sp, #0x20
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }

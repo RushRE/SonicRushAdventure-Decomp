@@ -154,10 +154,10 @@ typedef struct ViMapBackConfig_
 // FUNCTIONS
 // --------------------
 
-const Unknown2171FE8 *HubConfig__Func_2152960(u16 id);
-const DockStageConfig *HubConfig__Func_2152970(u16 id);
-const Unknown2171914 *HubConfig__Func_2152984(u16 id);
-const DockMapConfig *HubConfig__Func_2152994(u16 id);
+const Unknown2171FE8 *HubConfig__Func_2152960(u16 area);
+const DockStageConfig *HubConfig__GetDockStageConfig(u16 area);
+const Unknown2171914 *HubConfig__GetDockUnknownConfig(u16 id);
+const DockMapConfig *HubConfig__GetDockMapConfig(u16 id);
 const Unknown2171CCC *HubConfig__Func_21529A8(u16 id);
 const PurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id);
 const PurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void);

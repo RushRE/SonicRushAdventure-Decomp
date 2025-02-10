@@ -30,7 +30,7 @@ void EndExBossStage(ExFinishMode mode)
 
         case EXFINISHMODE_GAME_OVER:
             saveGame.stage.status.lives = PLAYER_STARTING_LIVES;
-            gameState.talk.field_DC     = 6;
+            gameState.talk.state.field_DC     = 6;
             RequestSysEventChange(1); // SYSEVENT_LOAD_STAGE
             break;
 

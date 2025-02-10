@@ -515,127 +515,130 @@ static const Unknown2171CCC ovl05_02171CCC[] = {
 };
 
 static const DockStageConfig HubConfig__dockStageConfig[] = {
-    { .areaID         = DOCKAREA_BASE,
-      .nextArea       = DOCKAREA_BASE,
-      .field_8        = { 0, 0, -0x17000 },
-      .field_14       = 0x3C000,
-      .field_18       = 0xF1C8,
-      .field_1C       = 0,
-      .field_20       = 0x3000,
-      .field_24       = 0xFFFFC000,
-      .field_28       = 0,
-      .field_2C       = 0x3000,
-      .field_30       = 0x4000,
-      .field_34       = 8,
-      .playerTopSpeed = 0x800,
-      .field_3C       = 0,
-      .field_40       = 0x1000,
-      .field_42       = 0 },
+    [DOCKAREA_BASE] = { .areaID         = DOCKAREA_BASE,
+                        .nextArea       = DOCKAREA_BASE,
+                        .field_8        = { 0, 0, -0x17000 },
+                        .field_14       = 0x3C000,
+                        .field_18       = 0xF1C8,
+                        .field_1C       = 0,
+                        .field_20       = 0x3000,
+                        .field_24       = 0xFFFFC000,
+                        .field_28       = 0,
+                        .field_2C       = 0x3000,
+                        .field_30       = 0x4000,
+                        .field_34       = 8,
+                        .playerTopSpeed = 0x800,
+                        .field_3C       = 0,
+                        .field_40       = 0x1000,
+                        .field_42       = 0 },
 
-    { .areaID         = DOCKAREA_BASE_NEXT,
-      .nextArea       = DOCKAREA_BASE,
-      .field_8        = { 0, 0, -0x17000 },
-      .field_14       = 0x3C000,
-      .field_18       = 0xF1C8,
-      .field_1C       = 0,
-      .field_20       = 0x3000,
-      .field_24       = 0xFFFFC000,
-      .field_28       = 0,
-      .field_2C       = 0x3000,
-      .field_30       = 0x4000,
-      .field_34       = 8,
-      .playerTopSpeed = 0x800,
-      .field_3C       = 0,
-      .field_40       = 0x1000,
-      .field_42       = 0 },
+    [DOCKAREA_BASE_NEXT] = { .areaID         = DOCKAREA_BASE_NEXT,
+                             .nextArea       = DOCKAREA_BASE,
+                             .field_8        = { 0, 0, -0x17000 },
+                             .field_14       = 0x3C000,
+                             .field_18       = 0xF1C8,
+                             .field_1C       = 0,
+                             .field_20       = 0x3000,
+                             .field_24       = 0xFFFFC000,
+                             .field_28       = 0,
+                             .field_2C       = 0x3000,
+                             .field_30       = 0x4000,
+                             .field_34       = 8,
+                             .playerTopSpeed = 0x800,
+                             .field_3C       = 0,
+                             .field_40       = 0x1000,
+                             .field_42       = 0 },
 
-    { .areaID         = DOCKAREA_JET,
-      .nextArea       = DOCKAREA_BASE_NEXT,
-      .field_8        = { 0, 0, -0xF000 },
-      .field_14       = 0x50000,
-      .field_18       = 0xF1C8,
-      .field_1C       = 0xFFFEC000,
-      .field_20       = 0,
-      .field_24       = 0x20000,
-      .field_28       = 0x14000,
-      .field_2C       = 0,
-      .field_30       = 0x32000,
-      .field_34       = 0x10,
-      .playerTopSpeed = 0x1000,
-      .field_3C       = 1,
-      .field_40       = 0x1000,
-      .field_42       = 0 },
+    [DOCKAREA_JET] = { .areaID         = DOCKAREA_JET,
+                       .nextArea       = DOCKAREA_BASE_NEXT,
+                       .field_8        = { 0, 0, -0xF000 },
+                       .field_14       = 0x50000,
+                       .field_18       = 0xF1C8,
+                       .field_1C       = 0xFFFEC000,
+                       .field_20       = 0,
+                       .field_24       = 0x20000,
+                       .field_28       = 0x14000,
+                       .field_2C       = 0,
+                       .field_30       = 0x32000,
+                       .field_34       = 0x10,
+                       .playerTopSpeed = 0x1000,
+                       .field_3C       = 1,
+                       .field_40       = 0x1000,
+                       .field_42       = 0 },
 
-    { .areaID         = DOCKAREA_SHIP,
-      .nextArea       = DOCKAREA_JET,
-      .field_8        = { 0, 0, -0x1E000 },
-      .field_14       = 0x80000,
-      .field_18       = 0xEAAB,
-      .field_1C       = 0xFFF97000,
-      .field_20       = 0,
-      .field_24       = 0,
-      .field_28       = 0x69000,
-      .field_2C       = 0,
-      .field_30       = 0x4C000,
-      .field_34       = 0xC,
-      .playerTopSpeed = 0x2000,
-      .field_3C       = 1,
-      .field_40       = 0x1800,
-      .field_42       = 0 },
+    [DOCKAREA_SHIP] = { .areaID         = DOCKAREA_SHIP,
+                        .nextArea       = DOCKAREA_JET,
+                        .field_8        = { 0, 0, -0x1E000 },
+                        .field_14       = 0x80000,
+                        .field_18       = 0xEAAB,
+                        .field_1C       = 0xFFF97000,
+                        .field_20       = 0,
+                        .field_24       = 0,
+                        .field_28       = 0x69000,
+                        .field_2C       = 0,
+                        .field_30       = 0x4C000,
+                        .field_34       = 0xC,
+                        .playerTopSpeed = 0x2000,
+                        .field_3C       = 1,
+                        .field_40       = 0x1800,
+                        .field_42       = 0 },
 
-    { .areaID         = DOCKAREA_BOAT,
-      .nextArea       = DOCKAREA_SHIP,
-      .field_8        = { 0, 0, -0x1E000 },
-      .field_14       = 0x80000,
-      .field_18       = 0xEAAB,
-      .field_1C       = 0xFFFAB000,
-      .field_20       = 0,
-      .field_24       = 0,
-      .field_28       = 0x2D000,
-      .field_2C       = 0,
-      .field_30       = 0x4C000,
-      .field_34       = 0xC,
-      .playerTopSpeed = 0x2000,
-      .field_3C       = 1,
-      .field_40       = 0x1800,
-      .field_42       = 0 },
+    [DOCKAREA_BOAT] = { .areaID         = DOCKAREA_BOAT,
+                        .nextArea       = DOCKAREA_SHIP,
+                        .field_8        = { 0, 0, -0x1E000 },
+                        .field_14       = 0x80000,
+                        .field_18       = 0xEAAB,
+                        .field_1C       = 0xFFFAB000,
+                        .field_20       = 0,
+                        .field_24       = 0,
+                        .field_28       = 0x2D000,
+                        .field_2C       = 0,
+                        .field_30       = 0x4C000,
+                        .field_34       = 0xC,
+                        .playerTopSpeed = 0x2000,
+                        .field_3C       = 1,
+                        .field_40       = 0x1800,
+                        .field_42       = 0 },
 
-    { .areaID         = DOCKAREA_SUBMARINE,
-      .nextArea       = DOCKAREA_BOAT,
-      .field_8        = { 0, 0, -0x1E000 },
-      .field_14       = 0x80000,
-      .field_18       = 0xEAAB,
-      .field_1C       = 0xFFFD3000,
-      .field_20       = 0,
-      .field_24       = 0,
-      .field_28       = 0x2D000,
-      .field_2C       = 0,
-      .field_30       = 0x4C000,
-      .field_34       = 0xC,
-      .playerTopSpeed = 0x2000,
-      .field_3C       = 1,
-      .field_40       = 0x1800,
-      .field_42       = 0 },
+    [DOCKAREA_SUBMARINE] = { .areaID         = DOCKAREA_SUBMARINE,
+                             .nextArea       = DOCKAREA_BOAT,
+                             .field_8        = { 0, 0, -0x1E000 },
+                             .field_14       = 0x80000,
+                             .field_18       = 0xEAAB,
+                             .field_1C       = 0xFFFD3000,
+                             .field_20       = 0,
+                             .field_24       = 0,
+                             .field_28       = 0x2D000,
+                             .field_2C       = 0,
+                             .field_30       = 0x4C000,
+                             .field_34       = 0xC,
+                             .playerTopSpeed = 0x2000,
+                             .field_3C       = 1,
+                             .field_40       = 0x1800,
+                             .field_42       = 0 },
 
-    { .areaID         = DOCKAREA_BEACH,
-      .nextArea       = DOCKAREA_SUBMARINE,
-      .field_8        = { 0, 0, -0x8000 },
-      .field_14       = 0x64000,
-      .field_18       = 0xE38F,
-      .field_1C       = 0xFFFF5000,
-      .field_20       = 0,
-      .field_24       = 0xFFF00000,
-      .field_28       = 0xB000,
-      .field_2C       = 0,
-      .field_30       = 0x21000,
-      .field_34       = 0x10,
-      .playerTopSpeed = 0x2000,
-      .field_3C       = 1,
-      .field_40       = 0x1000,
-      .field_42       = 0 },
+    [DOCKAREA_BEACH] = { .areaID         = DOCKAREA_BEACH,
+                         .nextArea       = DOCKAREA_SUBMARINE,
+                         .field_8        = { 0, 0, -0x8000 },
+                         .field_14       = 0x64000,
+                         .field_18       = 0xE38F,
+                         .field_1C       = 0xFFFF5000,
+                         .field_20       = 0,
+                         .field_24       = 0xFFF00000,
+                         .field_28       = 0xB000,
+                         .field_2C       = 0,
+                         .field_30       = 0x21000,
+                         .field_34       = 0x10,
+                         .playerTopSpeed = 0x2000,
+                         .field_3C       = 1,
+                         .field_40       = 0x1000,
+                         .field_42       = 0 },
+
+    // No stage for DOCKAREA_DRILL
 };
 
 static const Unknown2171FE8 ovl05_02171FE8[] = {
+    [DOCKAREA_BASE] = 
     {
         .field_0  = 0x90,
         .field_2  = 0x94,
@@ -649,6 +652,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
+    [DOCKAREA_BASE_NEXT] = 
     {
         .field_0  = 0x78,
         .field_2  = 0xD4,
@@ -662,6 +666,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
+    [DOCKAREA_JET] = 
     {
         .field_0  = 0x104,
         .field_2  = 0xBE,
@@ -675,6 +680,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
+    [DOCKAREA_SHIP] = 
     {
         .field_0  = 0x3C,
         .field_2  = 0x9E,
@@ -688,6 +694,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
+    [DOCKAREA_BOAT] = 
     {
         .field_0  = 0x50,
         .field_2  = 0x64,
@@ -701,6 +708,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
+    [DOCKAREA_SUBMARINE] = 
     {
         .field_0  = 0x2C,
         .field_2  = 0xCC,
@@ -714,6 +722,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
+    [DOCKAREA_BEACH] = 
     {
         .field_0  = 0x9A,
         .field_2  = 0x50,
@@ -727,6 +736,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
+    [DOCKAREA_DRILL] = 
     {
         .field_0  = 0x114,
         .field_2  = 0x68,
@@ -745,22 +755,22 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
 // FUNCTIONS
 // --------------------
 
-const Unknown2171FE8 *HubConfig__Func_2152960(u16 id)
+const Unknown2171FE8 *HubConfig__Func_2152960(u16 area)
 {
-    return &ovl05_02171FE8[id];
+    return &ovl05_02171FE8[area];
 }
 
-const DockStageConfig *HubConfig__Func_2152970(u16 id)
+const DockStageConfig *HubConfig__GetDockStageConfig(u16 area)
 {
-    return &HubConfig__dockStageConfig[id];
+    return &HubConfig__dockStageConfig[area];
 }
 
-const Unknown2171914 *HubConfig__Func_2152984(u16 id)
+const Unknown2171914 *HubConfig__GetDockUnknownConfig(u16 id)
 {
     return &dockUnknownConfig[id];
 }
 
-const DockMapConfig *HubConfig__Func_2152994(u16 id)
+const DockMapConfig *HubConfig__GetDockMapConfig(u16 id)
 {
     return &dockMapConfig[id];
 }

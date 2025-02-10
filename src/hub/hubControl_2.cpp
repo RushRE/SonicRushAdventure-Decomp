@@ -753,7 +753,7 @@ void HubControl::Func_215B8FC(u16 id)
     cutscene->nextSysEvent             = SYSEVENT_RETURN_TO_HUB;
     cutscene->canSkip                  = TRUE;
 
-    gameState.talk.field_DC = 4;
+    gameState.talk.state.field_DC = 4;
 }
 
 void HubControl::Func_215B92C(u16 id)
@@ -763,7 +763,7 @@ void HubControl::Func_215B92C(u16 id)
     cutscene->nextSysEvent             = SYSEVENT_RETURN_TO_HUB;
     cutscene->canSkip                  = TRUE;
 
-    gameState.talk.field_DC = 1;
+    gameState.talk.state.field_DC = 1;
 }
 
 void HubControl::Func_215B958()
