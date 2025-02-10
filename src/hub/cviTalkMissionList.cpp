@@ -1,8 +1,8 @@
 #include <hub/cviTalkMissionList.hpp>
 #include <hub/hubControl.hpp>
 #include <hub/hubAudio.h>
-#include <hub/dockHelpers.h>
-#include <hub/missionHelpers.h>
+#include <hub/hubConfig.h>
+#include <hub/missionConfig.h>
 #include <hub/cviDockNpcTalk.hpp>
 #include <game/save/saveGame.h>
 #include <game/input/padInput.h>
@@ -464,11 +464,11 @@ _0216A714:
 	ldr r5, [r11, #0xd14]
 	mov r0, r0, lsr #0x10
 	add r7, r5, r8
-	bl MissionHelpers__GetMissionFromSelection_REAL
+	bl MissionHelpers__GetMissionFromSelection
 	mov r1, #0
 	strh r1, [r5, r8]
 	mov r10, r0
-	bl MissionHelpers__IsMissionUnlocked
+	bl MissionHelpers__CheckMissionUnlocked
 	cmp r0, #0
 	ldreqh r0, [r4, #0xbc]
 	addeq r0, r0, r0, lsl #1
@@ -480,13 +480,13 @@ _0216A714:
 	strh r9, [r7, #2]
 _0216A75C:
 	mov r0, r10
-	bl MissionHelpers__GetMissionAttempted
+	bl MissionHelpers__CheckMissionAttempted
 	cmp r0, #1
 	ldreqh r0, [r7, #0]
 	orreq r0, r0, #2
 	streqh r0, [r7]
 	mov r0, r10
-	bl MissionHelpers__IsMissionComplete
+	bl MissionHelpers__CheckMissionBeaten
 	cmp r0, #1
 	ldreqh r0, [r7, #0]
 	add r6, r6, #1
@@ -831,7 +831,7 @@ NONMATCH_FUNC void ViTalkMissionList__Main_216AB10(void)
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, #0x63
-	bl MissionHelpers__IsMissionBeaten
+	bl MissionHelpers__CheckMissionCompleted
 	cmp r0, #0
 	beq _0216ABB0
 	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
@@ -1076,7 +1076,7 @@ NONMATCH_FUNC void ViTalkMissionList__Destructor(Task *task)
 	cmp r0, #0
 	beq _0216AE9C
 	mov r0, #0x63
-	bl MissionHelpers__GetMissionAttempted
+	bl MissionHelpers__CheckMissionAttempted
 	cmp r0, #0
 	beq _0216AE88
 	mov r0, #0x63
@@ -1093,9 +1093,9 @@ _0216AE9C:
 	beq _0216AEE0
 	add r0, r4, #0x400
 	ldrh r0, [r0, #0xbe]
-	bl MissionHelpers__GetMissionFromSelection_REAL
+	bl MissionHelpers__GetMissionFromSelection
 	mov r5, r0
-	bl MissionHelpers__GetMissionAttempted
+	bl MissionHelpers__CheckMissionAttempted
 	cmp r0, #0
 	beq _0216AECC
 	mov r0, r5
@@ -1376,7 +1376,7 @@ _0216B1E4:
 	beq _0216B35C
 	mov r0, r2, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl MissionHelpers__GetUnknown2172B10
+	bl MissionHelpers__GetNpcNameAnimForMission
 	add r1, r5, #0x368
 	add r6, r1, #0x400
 	mov r4, r0

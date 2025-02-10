@@ -4,7 +4,7 @@
 #include <game/system/threadWorker.h>
 #include <game/unknown/unknown2085404.h>
 #include <game/file/bundleFileUnknown.h>
-#include <hub/dockHelpers.h>
+#include <hub/hubConfig.h>
 
 // --------------------
 // TEMP

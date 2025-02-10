@@ -4,7 +4,7 @@
 #include <game/save/saveGame.h>
 #include <game/save/saveManager.h>
 #include <game/file/fileUnknown.h>
-#include <hub/dockHelpers.h>
+#include <hub/hubConfig.h>
 
 // --------------------
 // FUNCTIONS

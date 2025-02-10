@@ -1,5 +1,5 @@
 #include <hub/cviDockNpcGroup.hpp>
-#include <hub/missionHelpers.h>
+#include <hub/missionConfig.h>
 #include <game/util/cppHelpers.hpp>
 #include <game/game/gameState.h>
 

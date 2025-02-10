@@ -1,7 +1,6 @@
-#ifndef RUSH_DOCKHELPERS_H
-#define RUSH_DOCKHELPERS_H
+#ifndef RUSH_HUBCONFIG_H
+#define RUSH_HUBCONFIG_H
 
-#include <global.h>
 #include <hub/cviDock.hpp>
 
 #ifdef __cplusplus
@@ -196,4 +195,4 @@ const OptionsMessageConfig *HubConfig__GetOptionsMessageInfo(void);
 }
 #endif
 
-#endif // RUSH_DOCKHELPERS_H
+#endif // RUSH_HUBCONFIG_H

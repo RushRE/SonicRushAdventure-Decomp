@@ -10,16 +10,11 @@
 #include <game/graphics/drawFadeTask.h>
 #include <game/save/saveGame.h>
 #include <game/audio/sysSound.h>
+#include <hub/missionConfig.h>
 
 // resources
 #include <resources/narc/dmsr_lz7.h>
 #include <resources/narc/tkdm_lz7.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED BOOL MissionHelpers__CheckPostGameMissionUnlock(void);
 
 // --------------------
 // ENUMS

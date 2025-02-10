@@ -6,7 +6,7 @@
 #include <hub/npcPurchase.hpp>
 #include <game/graphics/sprite.h>
 #include <game/system/threadWorker.h>
-#include <hub/dockHelpers.h>
+#include <hub/hubConfig.h>
 
 // --------------------
 // STRUCTS

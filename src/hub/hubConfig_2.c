@@ -1,4 +1,4 @@
-#include <hub/dockHelpers.h>
+#include <hub/hubConfig.h>
 #include <game/save/saveGame.h>
 #include <hub/cviEvtCmn.hpp>
 

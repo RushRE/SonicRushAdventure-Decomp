@@ -147,6 +147,34 @@ enum MaterialType_
     SAVE_MATERIAL_COUNT,
 };
 
+enum SaveIslandState_
+{
+    SAVE_ISLAND_STATE_LOCKED,    // island is locked
+    SAVE_ISLAND_STATE_UNLOCKED,  // island is discovered, but not beaten
+    SAVE_ISLAND_STATE_BEATEN,    // island has been cleared
+};
+typedef s32 SaveIslandState;
+
+enum SaveIslandProgress
+{
+    SAVE_ISLAND_0,  
+    SAVE_ISLAND_1,  
+    SAVE_ISLAND_2,  
+    SAVE_ISLAND_3,  
+    SAVE_ISLAND_4,  
+    SAVE_ISLAND_5,  
+    SAVE_ISLAND_6,  
+    SAVE_ISLAND_7,  
+    SAVE_ISLAND_8,  
+    SAVE_ISLAND_9,  
+    SAVE_ISLAND_10,  
+    SAVE_ISLAND_11,  
+    SAVE_ISLAND_12,  
+    SAVE_ISLAND_13,  
+
+    SAVE_ISLAND_COUNT,  
+};
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -470,8 +498,8 @@ void SaveGame__SaveSaveCallback_OnlineProfile(SaveGame *save, SaveBlockFlags blo
 void SaveGame__SaveLoadCallback_Unknown(SaveGame *save);
 size_t SaveGame__GetPlayerNameLength(SaveBlockSystem *work);
 void SaveGame__SetPlayerName(SavePlayerName *name, char16 *text, size_t len);
-s32 SaveGame__GetIslandProgress(SaveGameProgress *progress, s32 id);
-void SaveGame__SetIslandProgress(SaveGameProgress *progress, s32 id, s32 state);
+SaveIslandState SaveGame__GetIslandProgress(SaveGameProgress *progress, s32 id);
+void SaveGame__SetIslandProgress(SaveGameProgress *progress, s32 id, SaveIslandState state);
 void SaveGame__GiveRings(SaveBlockStage *work, s32 amount);
 BOOL SaveGame__HasChaosEmerald(SaveBlockChart *work, u8 id);
 void SaveGame__SetChaosEmeraldCollected(SaveBlockChart *work, u8 id);

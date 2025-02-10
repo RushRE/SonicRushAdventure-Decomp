@@ -652,8 +652,10 @@ Overlay Hub
     Object src/hub/hubConfig_2.o
     Object src/hub/cviMessageController.o
     Object src/hub/hubState.o
-    Object asm/hub/hubTalkHelpers.o
-    Object asm/hub/hubMissionHelpers.o
+    Object asm/hub/talkHelpersUnknown.o
+    Object asm/hub/talkHelpersUnknown2.o
+    Object src/hub/missionConfig.o
+    Object src/hub/missionHelpers_2.o
     Object src/hub/hubAudio.o
 
     ## CREDITS ##

@@ -3,8 +3,8 @@
 #include <hub/hubControl.hpp>
 #include <hub/cviDockNpcGroup.hpp>
 #include <hub/talkHelpers.h>
-#include <hub/dockHelpers.h>
-#include <hub/missionHelpers.h>
+#include <hub/hubConfig.h>
+#include <hub/missionConfig.h>
 #include <game/save/saveGame.h>
 #include <game/file/fileUnknown.h>
 
@@ -72,7 +72,7 @@ void CViDockNpcTalk::CreateMission(s32 param)
     else
     {
         talkParam = 6;
-        MissionHelpers__Func_2153E4C(MissionHelpers__GetMissionID());
+        MissionHelpers__BeatMission(MissionHelpers__GetMissionID());
     }
 
     CViDockNpcTalk::Create(talkParam);
@@ -111,7 +111,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
     NpcMsgInfo msg;
     if (work->messageID == 0)
     {
-        id              = ViDock__Func_215E0CC();
+        id              = ViDock__GetTalkingNpc();
         msg.msgCtrlFile = TalkHelpers__GetInteractionCtrl(id);
         msg.msgTextID1  = TalkHelpers__GetInteractionText1(id);
         msg.msgTextID2  = TalkHelpers__GetInteractionText2(id);
@@ -142,7 +142,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
         flag = FALSE;
         if (work->messageID == 0)
         {
-            msg.msgTextID3 = TalkHelpers__Func_21536D8(id);
+            msg.msgTextID3 = TalkHelpers__GetInteractionText4(id);
             if (msg.msgTextID3 != CVIEVTCMN_RESOURCE_NONE)
                 flag = TRUE;
         }

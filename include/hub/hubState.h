@@ -14,9 +14,9 @@ extern "C"
 
 // HubState
 void ResetHubState(void);
-void HubState__SetHubType(u8 value);
+void HubState__SetHubType(u8 type);
 u8 HubState__GetHubType(void);
-void HubState__SetHubArea(u8 value);
+void HubState__SetHubArea(u8 area);
 u8 HubState__GetHubArea(void);
 void HubState__SetPlayerState(s32 id, VecFx32 *pos, u16 angle);
 BOOL HubState__CheckHasPlayerState(s32 id);

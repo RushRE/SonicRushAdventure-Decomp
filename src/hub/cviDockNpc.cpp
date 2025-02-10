@@ -1,5 +1,5 @@
 #include <hub/cviDockNpc.hpp>
-#include <hub/dockHelpers.h>
+#include <hub/hubConfig.h>
 #include <game/util/cppHelpers.hpp>
 #include <game/file/bundleFileUnknown.h>
 

@@ -240,7 +240,7 @@ void SaveGame__SetMissionStatus(u16 id, MissionState status)
 {
     u32 state = saveGame.stage.missionState[id / 4];
     u32 shift = (id % 4) << 1;
-    
+
     state &= ~(MISSION_STATE_COMPLETED << shift);
     saveGame.stage.missionState[id / 4] = state | (status << shift);
 }
@@ -397,7 +397,7 @@ void SaveGame__UpdateProgress(void)
 SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
 {
     SaveGameNextAction *config;
-	
+
     u16 gameProgress;
     u16 unknownProgress1;
     u16 unknownProgress2;
@@ -408,8 +408,8 @@ SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
     unknownProgress1 = SaveGame__GetUnknownProgress1();
     unknownProgress2 = SaveGame__GetUnknownProgress2();
 
-    unknown1         = SaveGame__GetUnknown2();
-    unknown2         = SaveGame__GetUnknown1();
+    unknown1 = SaveGame__GetUnknown2();
+    unknown2 = SaveGame__GetUnknown1();
 
     if (unknown2 == 4)
         unknown2 = 3;
@@ -663,11 +663,11 @@ void SaveGame__UpdateProgress2_Func_205C3A8(void)
             SaveGame__SetProgressFlags_0x100();
     }
 
-    for (s32 s = 0; s < 14; s++)
+    for (s32 s = 0; s < SAVE_ISLAND_COUNT; s++)
     {
-        if (stageID == SaveGame__hiddenIslandList[s] && SaveGame__GetIslandProgress(&saveGame.stage.progress, s) < 2)
+        if (stageID == SaveGame__hiddenIslandList[s] && SaveGame__GetIslandProgress(&saveGame.stage.progress, s) < SAVE_ISLAND_STATE_BEATEN)
         {
-            SaveGame__SetIslandProgress(&saveGame.stage.progress, s, 2);
+            SaveGame__SetIslandProgress(&saveGame.stage.progress, s, SAVE_ISLAND_STATE_BEATEN);
             break;
         }
     }
@@ -786,7 +786,7 @@ void SaveGame__UpdateProgress2_Func_205C3A8(void)
 void SaveGame__UpdateProgress2_Func_205C700(void)
 {
     gameState.saveFile.chaosEmeraldID = -1;
-    gameState.saveFile.solEmeraldID = -1;
+    gameState.saveFile.solEmeraldID   = -1;
     SaveGame__StartSailRivalRace();
 }
 
@@ -915,11 +915,11 @@ void SaveGame__UpdateProgress2_Func_205C91C(void)
     }
     else
     {
-        for (s32 i = 0; i < 14; i++)
+        for (s32 i = 0; i < SAVE_ISLAND_COUNT; i++)
         {
-            if (stage == SaveGame__hiddenIslandList[i] && SaveGame__GetIslandProgress(&saveGame.stage.progress, i) < 1)
+            if (stage == SaveGame__hiddenIslandList[i] && SaveGame__GetIslandProgress(&saveGame.stage.progress, i) < SAVE_ISLAND_STATE_UNLOCKED)
             {
-                SaveGame__SetIslandProgress(&saveGame.stage.progress, i, 1);
+                SaveGame__SetIslandProgress(&saveGame.stage.progress, i, SAVE_ISLAND_STATE_UNLOCKED);
                 SaveGame__ApplySystemProgress();
                 break;
             }
@@ -1286,9 +1286,9 @@ void SaveGame__ApplySystemProgress(void)
             systemProgress->flags |= 0x400;
     }
 
-    systemProgress->flags |= stageProgress->flags & ~0xFFF00701;
+    systemProgress->flags |= stageProgress->flags & ~(0x1 | 0x700 | 0xFFF00000);
 
-    for (s32 i = 0; i < 14; i++)
+    for (s32 i = 0; i < SAVE_ISLAND_COUNT; i++)
     {
         s32 islandProgress = SaveGame__GetIslandProgress(stageProgress, i);
         if (SaveGame__GetIslandProgress(systemProgress, i) < islandProgress)

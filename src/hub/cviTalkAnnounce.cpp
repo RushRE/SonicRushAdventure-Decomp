@@ -1,7 +1,7 @@
 #include <hub/cviTalkAnnounce.hpp>
 #include <hub/hubControl.hpp>
 #include <hub/hubAudio.h>
-#include <hub/dockHelpers.h>
+#include <hub/hubConfig.h>
 #include <hub/cviDockNpcTalk.hpp>
 #include <game/save/saveGame.h>
 #include <game/file/fileUnknown.h>

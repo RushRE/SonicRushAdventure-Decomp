@@ -6,8 +6,8 @@
 #include <hub/hubHUD.hpp>
 #include <hub/hubAudio.h>
 #include <game/audio/sysSound.h>
-#include <hub/dockHelpers.h>
-#include <hub/missionHelpers.h>
+#include <hub/hubConfig.h>
+#include <hub/missionConfig.h>
 #include <hub/talkHelpers.h>
 #include <game/game/gameState.h>
 #include <game/save/saveGame.h>
@@ -567,55 +567,55 @@ void HubControl::Func_215B588(s32 a1, s32 a2)
                 break;
 
             case 1:
-                MissionHelpers__BeatMission(83);
+                MissionHelpers__CompleteMission(MISSION_83);
                 break;
 
             case 2:
-                MissionHelpers__BeatMission(39);
+                MissionHelpers__CompleteMission(MISSION_39);
                 break;
 
             case 4:
-                MissionHelpers__BeatMission(91);
+                MissionHelpers__CompleteMission(MISSION_91);
                 break;
 
             case 6:
-                MissionHelpers__BeatMission(99);
+                MissionHelpers__CompleteMission(MISSION_99);
                 break;
 
             case 10:
-                MissionHelpers__BeatMission(79);
+                MissionHelpers__CompleteMission(MISSION_79);
                 break;
 
             case 11:
-                MissionHelpers__BeatMission(89);
+                MissionHelpers__CompleteMission(MISSION_89);
                 break;
 
             case 12:
-                MissionHelpers__BeatMission(93);
+                MissionHelpers__CompleteMission(MISSION_93);
                 break;
 
             case 13:
-                MissionHelpers__BeatMission(59);
+                MissionHelpers__CompleteMission(MISSION_59);
                 break;
 
             case 16:
-                MissionHelpers__BeatMission(9);
+                MissionHelpers__CompleteMission(MISSION_9);
                 break;
 
             case 18:
-                MissionHelpers__BeatMission(88);
+                MissionHelpers__CompleteMission(MISSION_88);
                 break;
 
             case 19:
-                MissionHelpers__BeatMission(49);
+                MissionHelpers__CompleteMission(MISSION_49);
                 break;
 
             case 20:
-                MissionHelpers__BeatMission(84);
+                MissionHelpers__CompleteMission(MISSION_84);
                 break;
 
             case 21:
-                MissionHelpers__BeatMission(85);
+                MissionHelpers__CompleteMission(MISSION_85);
                 break;
         }
     }
@@ -646,51 +646,51 @@ BOOL HubControl::Func_215B6C4(s32 a1)
 
         case 1:
         case 9:
-            return MissionHelpers__IsMissionBeaten(83);
+            return MissionHelpers__CheckMissionCompleted(MISSION_83);
 
         case 2:
-            return MissionHelpers__IsMissionBeaten(39);
+            return MissionHelpers__CheckMissionCompleted(MISSION_39);
 
         case 4:
-            return MissionHelpers__IsMissionBeaten(91);
+            return MissionHelpers__CheckMissionCompleted(MISSION_91);
 
         case 10:
-            return MissionHelpers__IsMissionBeaten(79);
+            return MissionHelpers__CheckMissionCompleted(MISSION_79);
 
         case 11:
-            return MissionHelpers__IsMissionBeaten(89);
+            return MissionHelpers__CheckMissionCompleted(MISSION_89);
 
         case 12:
-            return MissionHelpers__IsMissionBeaten(93);
+            return MissionHelpers__CheckMissionCompleted(MISSION_93);
 
         case 13:
-            return MissionHelpers__IsMissionBeaten(59);
+            return MissionHelpers__CheckMissionCompleted(MISSION_59);
 
         case 15:
-            if (MissionHelpers__IsMissionBeaten(88))
+            if (MissionHelpers__CheckMissionCompleted(MISSION_88))
                 return FALSE;
             return TRUE;
 
         case 18:
-            return MissionHelpers__IsMissionBeaten(88);
+            return MissionHelpers__CheckMissionCompleted(MISSION_88);
 
         case 16:
-            return MissionHelpers__IsMissionBeaten(9);
+            return MissionHelpers__CheckMissionCompleted(MISSION_9);
 
         case 19:
-            return MissionHelpers__IsMissionBeaten(49);
+            return MissionHelpers__CheckMissionCompleted(MISSION_49);
 
         case 20:
-            if (MissionHelpers__IsMissionBeaten(85))
+            if (MissionHelpers__CheckMissionCompleted(MISSION_85))
                 return FALSE;
 
-            return MissionHelpers__IsMissionBeaten(84);
+            return MissionHelpers__CheckMissionCompleted(MISSION_84);
 
         case 21:
-            return MissionHelpers__IsMissionBeaten(85);
+            return MissionHelpers__CheckMissionCompleted(MISSION_85);
 
         case 6:
-            return MissionHelpers__IsMissionBeaten(99);
+            return MissionHelpers__CheckMissionCompleted(MISSION_99);
     }
 
     return FALSE;
@@ -723,7 +723,7 @@ BOOL HubControl::Func_215B858(s32 type)
         if (gameProgress < table[i].gameProgress)
             break;
 
-        if (type == 15 && table[i].gameProgress == 24)
+        if (type == 15 && table[i].gameProgress == SAVE_PROGRESS_24)
         {
             if (unknownProgress1 < 4)
             {
@@ -732,7 +732,7 @@ BOOL HubControl::Func_215B858(s32 type)
         }
         else
         {
-            if ((type == 17 || type == 19) && table[i].gameProgress == 24 && unknownProgress2 < 2)
+            if ((type == 17 || type == 19) && table[i].gameProgress == SAVE_PROGRESS_24 && unknownProgress2 < 2)
             {
                 break;
             }

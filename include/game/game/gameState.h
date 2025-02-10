@@ -222,7 +222,7 @@ struct GameTalkState
     
     u16 field_40;
     u16 field_42;
-    s32 field_44;
+    s32 missionID;
 };
 
 typedef struct GameState_

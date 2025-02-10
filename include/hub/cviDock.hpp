@@ -77,7 +77,7 @@ NOT_DECOMPILED BOOL ViDock__Func_215E000(void);
 NOT_DECOMPILED void ViDock__Func_215E02C(s32 *id, s32 *param);
 NOT_DECOMPILED s32 ViDock__Func_215E06C(void);
 NOT_DECOMPILED void ViDock__Func_215E098(void);
-NOT_DECOMPILED s32 ViDock__Func_215E0CC(void);
+NOT_DECOMPILED s32 ViDock__GetTalkingNpc(void);
 NOT_DECOMPILED void ViDock__Func_215E104(s32 a1);
 NOT_DECOMPILED void ViDock__Func_215E178(void);
 NOT_DECOMPILED void ViDock__Func_215E340(s32 a1, s32 a2);

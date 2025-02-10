@@ -511,8 +511,8 @@ ViDock__Func_215E098: // 0x0215E098
 _0215E0C8: .word ViDock__TaskSingleton
 	arm_func_end ViDock__Func_215E098
 
-	arm_func_start ViDock__Func_215E0CC
-ViDock__Func_215E0CC: // 0x0215E0CC
+	arm_func_start ViDock__GetTalkingNpc
+ViDock__GetTalkingNpc: // 0x0215E0CC
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215E100 // =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
@@ -528,7 +528,7 @@ ViDock__Func_215E0CC: // 0x0215E0CC
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215E100: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215E0CC
+	arm_func_end ViDock__GetTalkingNpc
 
 	arm_func_start ViDock__Func_215E104
 ViDock__Func_215E104: // 0x0215E104

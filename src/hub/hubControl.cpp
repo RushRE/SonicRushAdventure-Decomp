@@ -7,8 +7,8 @@
 #include <hub/hubHUD.hpp>
 #include <hub/hubAudio.h>
 #include <game/audio/sysSound.h>
-#include <hub/dockHelpers.h>
-#include <hub/missionHelpers.h>
+#include <hub/hubConfig.h>
+#include <hub/missionConfig.h>
 #include <hub/hubState.h>
 #include <game/game/gameState.h>
 #include <game/save/saveGame.h>
@@ -140,13 +140,13 @@ extern "C" void InitHubSysEvent(void)
 
         if (HubState__GetFieldDC() == 5 && gameState.missionFlag)
         {
-            u32 missionID = MissionHelpers__GetBlazeMissionCount(MissionHelpers__GetMissionID());
-            if (missionID < 7)
+            u32 emeraldID = MissionHelpers__GetSolEmeraldIDFromMissionID(MissionHelpers__GetMissionID());
+            if (emeraldID < 7)
             {
                 HubControl::Func_21572B8();
                 gameState.saveFile.chaosEmeraldID = -1;
-                gameState.saveFile.solEmeraldID   = missionID;
-                SaveGame__SetSolEmeraldCollected(&saveGame.stage, missionID);
+                gameState.saveFile.solEmeraldID   = emeraldID;
+                SaveGame__SetSolEmeraldCollected(&saveGame.stage, emeraldID);
                 RequestNewSysEventChange(SYSEVENT_EMERALD_COLLECTED);
                 NextSysEvent();
                 return;
@@ -558,7 +558,7 @@ NONMATCH_FUNC void HubControl::Main1()
             }
             else if (area == DOCKAREA_DRILL)
             {
-                work->nextEvent       = HUBEVENT_LOAD_STAGE_1;
+                work->nextEvent       = HUBEVENT_START_TUTORIAL;
                 work->nextSelectionID = 0;
             }
             HubControl::Func_21598B4(work);
@@ -754,7 +754,7 @@ void HubControl::Main_21578CC()
                 }
                 else if (area == DOCKAREA_DRILL)
                 {
-                    work->nextEvent       = HUBEVENT_LOAD_STAGE_1;
+                    work->nextEvent       = HUBEVENT_START_TUTORIAL;
                     work->nextSelectionID = 0;
                 }
 
@@ -1083,7 +1083,7 @@ void HubControl::Main_2158160()
             if (work->field_1C == 0)
                 CViTalkPurchase::MakeTutorialPurchase();
 
-            work->field_28 = ViDock__Func_215E0CC();
+            work->field_28 = ViDock__GetTalkingNpc();
             work->field_8  = work->field_4;
             SetCurrentTaskMainEvent(HubControl::Func_2158D28);
             FadeOutHubBGM(12);
@@ -1096,7 +1096,7 @@ void HubControl::Main_2158160()
 
         case 6:
             work->field_20 = CViDockNpcTalk::GetSelection();
-            work->field_28 = ViDock__Func_215E0CC();
+            work->field_28 = ViDock__GetTalkingNpc();
             work->field_8  = work->field_4;
             SetCurrentTaskMainEvent(HubControl::Func_2158D28);
             ViDock__Func_215DF64(0);
@@ -1113,7 +1113,7 @@ void HubControl::Main_2158160()
 
         case 9:
             work->Func_2159758(0);
-            work->nextEvent       = HUBEVENT_UNKNOWN;
+            work->nextEvent       = HUBEVENT_START_MISSION;
             work->nextSelectionID = CViDockNpcTalk::GetSelection();
             ViDock__Func_215DF64(0);
             HubControl::Func_21598B4(work);
@@ -1121,18 +1121,18 @@ void HubControl::Main_2158160()
             break;
 
         case 10:
-            MissionHelpers__GetPostGameMission(CViDockNpcTalk::GetSelection());
+            MissionHelpers__UnlockMission(CViDockNpcTalk::GetSelection());
             CViDockNpcTalk::RunAction(5, 28);
             break;
 
         case 11: // mission selection
-            if (CViDockNpcTalk::GetSelection() < 100)
+            if (CViDockNpcTalk::GetSelection() < MISSION_COUNT)
             {
                 u32 selection = CViDockNpcTalk::GetSelection();
-                if (MissionHelpers__GetMissionFromSelection(selection) < 22)
+                if (MissionHelpers__GetMissionCompletedReward(selection) < 22)
                 {
-                    work->field_20 = MissionHelpers__GetMissionFromSelection(selection);
-                    work->field_28 = ViDock__Func_215E0CC();
+                    work->field_20 = MissionHelpers__GetMissionCompletedReward(selection);
+                    work->field_28 = ViDock__GetTalkingNpc();
                     work->field_8  = work->field_4;
                     SetCurrentTaskMainEvent(HubControl::Func_2158D28);
                     ViDock__Func_215DF64(0);
@@ -1140,14 +1140,14 @@ void HubControl::Main_2158160()
                 }
                 else
                 {
-                    MissionHelpers__BeatMission(selection);
+                    MissionHelpers__CompleteMission(selection);
                     ViDock__Func_215E410();
                     SetCurrentTaskMainEvent(HubControl::Main_2157F2C);
                 }
             }
             else
             {
-                MissionHelpers__HandlePostGameMissionBeaten();
+                MissionHelpers__HandleCompletedMuzyMissions();
                 ViDock__Func_215E410();
                 SetCurrentTaskMainEvent(HubControl::Main_2157F2C);
             }
@@ -1258,20 +1258,20 @@ void HubControl::Main_2158160()
             break;
 
         case 26:
-            u32 missionID = 101;
+            s32 missionID = MISSIONLIST_INVALID;
 
-            for (s32 i = 0; i < MissionHelpers__PostGameMissionCount2(); i++)
+            for (s32 i = 0; i < MissionHelpers__MarinePostGameMissionCount(); i++)
             {
-                if (MissionHelpers__GetPostGameMission2(i) == MissionHelpers__GetMissionID())
+                if (MissionHelpers__GetMarinePostGameMission(i) == MissionHelpers__GetMissionID())
                 {
                     missionID = MissionHelpers__GetMissionID();
                     break;
                 }
             }
 
-            if (missionID != 101 && !MissionHelpers__IsMissionBeaten(missionID))
+            if (missionID != MISSIONLIST_INVALID && !MissionHelpers__CheckMissionCompleted(missionID))
             {
-                MissionHelpers__BeatMission(missionID);
+                MissionHelpers__CompleteMission(missionID);
                 CViDockNpcTalk::RunAction(5, 27);
                 break;
             }
@@ -1282,7 +1282,7 @@ void HubControl::Main_2158160()
 
         case 27:
             work->Func_2159758(0);
-            work->nextEvent       = HUBEVENT_LOAD_STAGE_2;
+            work->nextEvent       = HUBEVENT_LOAD_STAGE;
             work->nextSelectionID = 0;
             ViDock__Func_215DF64(0);
             HubControl::Func_21598B4(work);
@@ -1295,7 +1295,7 @@ void HubControl::Main_2158160()
 
         case 29:
             work->field_24 = CViDockNpcTalk::GetSelection();
-            work->field_28 = ViDock__Func_215E0CC();
+            work->field_28 = ViDock__GetTalkingNpc();
             work->field_8  = work->field_4;
             SetCurrentTaskMainEvent(HubControl::Func_2158D28);
             FadeOutHubBGM(12);
@@ -2108,10 +2108,10 @@ BOOL HubControl::Func_2159854(s32 event)
         case HUBEVENT_DELETE_SAVE_MENU:
         case HUBEVENT_CUTSCENE_1:
         case HUBEVENT_CUTSCENE_2:
-        case HUBEVENT_UNKNOWN:
-        case HUBEVENT_LOAD_STAGE_1:
+        case HUBEVENT_START_MISSION:
+        case HUBEVENT_START_TUTORIAL:
         case HUBEVENT_SOUND_TEST:
-        case HUBEVENT_LOAD_STAGE_2:
+        case HUBEVENT_LOAD_STAGE:
         case HUBEVENT_CORRUPT_SAVE_WARNING:
             return TRUE;
 
@@ -2534,11 +2534,11 @@ void HubControl::Func_215A400(s32 eventID, s32 selection)
             HubControl::Func_215B92C(selection);
             break;
 
-        case HUBEVENT_UNKNOWN:
+        case HUBEVENT_START_MISSION:
             MissionHelpers__StartMission(selection);
             break;
 
-        case HUBEVENT_LOAD_STAGE_1:
+        case HUBEVENT_START_TUTORIAL:
             HubControl::Func_215B958();
             break;
 
@@ -2546,7 +2546,7 @@ void HubControl::Func_215A400(s32 eventID, s32 selection)
             gameState.vikingCupID = 0;
             break;
 
-        case HUBEVENT_LOAD_STAGE_2:
+        case HUBEVENT_LOAD_STAGE:
         case HUBEVENT_CORRUPT_SAVE_WARNING:
             break;
     }

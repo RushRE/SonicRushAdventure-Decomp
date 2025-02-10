@@ -262,12 +262,12 @@ void SaveGame__SetPlayerName(SavePlayerName *name, char16 *text, size_t len)
     }
 }
 
-s32 SaveGame__GetIslandProgress(SaveGameProgress *progress, s32 id)
+SaveIslandState SaveGame__GetIslandProgress(SaveGameProgress *progress, s32 id)
 {
     return (progress->islandProgress[id >> 2] >> ((u8)(id << 6) / 32)) & 3;
 }
 
-void SaveGame__SetIslandProgress(SaveGameProgress *progress, s32 id, s32 state)
+void SaveGame__SetIslandProgress(SaveGameProgress *progress, s32 id, SaveIslandState state)
 {
     u32 shift = (id & 3) << 1;
     
