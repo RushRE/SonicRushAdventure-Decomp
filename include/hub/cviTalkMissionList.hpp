@@ -66,36 +66,34 @@ extern "C"
 {
 #endif
 
-NOT_DECOMPILED void ViTalkMissionList__Create(s32 param);
-NOT_DECOMPILED void ViTalkMissionList__CreateInternal(void);
-NOT_DECOMPILED void ViTalkMissionList__ThreadFunc(void *arg);
-NOT_DECOMPILED void ViTalkMissionList__InitDisplay(void);
-NOT_DECOMPILED void ViTalkMissionList__InitSprites(CViTalkMissionList *work);
-NOT_DECOMPILED void ViTalkMissionList__InitList(CViTalkMissionList *work);
-NOT_DECOMPILED void ViTalkMissionList__Release(CViTalkMissionList *work);
-NOT_DECOMPILED void ViTalkMissionList__ResetDisplay(CViTalkMissionList *work);
-NOT_DECOMPILED void ViTalkMissionList__ReleaseGraphics(CViTalkMissionList *work);
-NOT_DECOMPILED void ViTalkMissionList__ReleaseList(CViTalkMissionList *work);
-NOT_DECOMPILED void ViTalkMissionList__Main(void);
-NOT_DECOMPILED void ViTalkMissionList__Main_216A99C(void);
-NOT_DECOMPILED void ViTalkMissionList__Main_216AA38(void);
-NOT_DECOMPILED void ViTalkMissionList__Main_216AB10(void);
-NOT_DECOMPILED void ViTalkMissionList__Main_216AC78(void);
-NOT_DECOMPILED void ViTalkMissionList__Main_216AD1C(void);
-NOT_DECOMPILED void ViTalkMissionList__Main_216AD94(void);
-NOT_DECOMPILED void ViTalkMissionList__Func_216AE2C(void);
-NOT_DECOMPILED void ViTalkMissionList__Destructor(Task *task);
-NOT_DECOMPILED void ViTalkMissionList__Func_216AF04(void);
-NOT_DECOMPILED void ViTalkMissionList__DrawBackground(CViTalkMissionList *work, s32 a2);
-NOT_DECOMPILED void ViTalkMissionList__Draw(CViTalkMissionList *work);
-NOT_DECOMPILED BOOL ViTalkMissionList__ReleaseThread(CViTalkMissionList *work);
-NOT_DECOMPILED void ViTalkMissionList__Func_216B418(CViTalkMissionList *work);
-NOT_DECOMPILED void ViTalkMissionList__Func_216B448(CViTalkMissionList *work);
-NOT_DECOMPILED void ViTalkMissionList__Func_216B4C4(BOOL enabled);
-NOT_DECOMPILED void ViTalkMissionList__Func_216B518(BOOL enabled);
-NOT_DECOMPILED void ViTalkMissionList__Func_216B570(BOOL enabled);
-NOT_DECOMPILED void ViTalkMissionList__Func_216B5C4(BOOL enabled);
-NOT_DECOMPILED void ViTalkMissionList__InitWindow(CViTalkMissionList *work, s32 y);
+void ViTalkMissionList__Create(s32 param);
+void ViTalkMissionList__ThreadFunc(void *arg);
+void ViTalkMissionList__InitDisplay(void);
+void ViTalkMissionList__InitSprites(CViTalkMissionList *work);
+void ViTalkMissionList__InitList(CViTalkMissionList *work);
+void ViTalkMissionList__Release(CViTalkMissionList *work);
+void ViTalkMissionList__ResetDisplay(CViTalkMissionList *work);
+void ViTalkMissionList__ReleaseGraphics(CViTalkMissionList *work);
+void ViTalkMissionList__ReleaseList(CViTalkMissionList *work);
+void ViTalkMissionList__Main(void);
+void ViTalkMissionList__Main_216A99C(void);
+void ViTalkMissionList__Main_216AA38(void);
+void ViTalkMissionList__Main_216AB10(void);
+void ViTalkMissionList__Main_216AC78(void);
+void ViTalkMissionList__Main_216AD1C(void);
+void ViTalkMissionList__Main_216AD94(void);
+void ViTalkMissionList__Func_216AE2C(void);
+void ViTalkMissionList__Destructor(Task *task);
+void ViTalkMissionList__DrawBackground(CViTalkMissionList *work, s32 a2);
+void ViTalkMissionList__Draw(CViTalkMissionList *work);
+BOOL ViTalkMissionList__ReleaseThread(CViTalkMissionList *work);
+void ViTalkMissionList__Func_216B418(CViTalkMissionList *work);
+void ViTalkMissionList__Func_216B448(CViTalkMissionList *work);
+void ViTalkMissionList__Func_216B4C4(BOOL enabled);
+void ViTalkMissionList__Func_216B518(BOOL enabled);
+void ViTalkMissionList__Func_216B570(BOOL enabled);
+void ViTalkMissionList__Func_216B5C4(BOOL enabled);
+void ViTalkMissionList__InitWindow(CViTalkMissionList *work, s32 y);
 
 #ifdef __cplusplus
 }

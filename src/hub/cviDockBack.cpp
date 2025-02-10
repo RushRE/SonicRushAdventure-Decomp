@@ -12,179 +12,116 @@
 
 extern "C"
 {
-    NOT_DECOMPILED void *_ZTV11CViDockBack;
 
-    NOT_DECOMPILED void *_02173774;
-    NOT_DECOMPILED void *_02173790;
-    NOT_DECOMPILED void *_021737C8;
-    NOT_DECOMPILED void *_021737E4;
-    NOT_DECOMPILED void *_021737AC;
+NOT_DECOMPILED void *aBbViDockBb_0;
 
-    NOT_DECOMPILED void *aBbViDockBb_0;
+NOT_DECOMPILED void _ZdlPv(void);
 
-    NOT_DECOMPILED void _ZdlPv(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167704EPS_tiit(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_21677C4Ev(void);
+NOT_DECOMPILED void _ZN11CVi3dObject16ProcessAnimationEv(void);
+NOT_DECOMPILED void _ZN11CVi3dObject4DrawEv(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A0CEtiiii(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A80Etiiii(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167900Etiiii(void);
+NOT_DECOMPILED void _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t(void);
 
-    NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167704EPS_tiit(void);
-    NOT_DECOMPILED void _ZN11CVi3dObject12Func_21677C4Ev(void);
-    NOT_DECOMPILED void _ZN11CVi3dObject16ProcessAnimationEv(void);
-    NOT_DECOMPILED void _ZN11CVi3dObject4DrawEv(void);
-    NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A0CEtiiii(void);
-    NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A80Etiiii(void);
-    NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167900Etiiii(void);
-    NOT_DECOMPILED void _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t(void);
+NOT_DECOMPILED void _ZN9CViShadow12Func_2167F00EP7VecFx32(VecFx32 *position);
 
-    NOT_DECOMPILED void _ZN9CViShadow12Func_2167F00EP7VecFx32(VecFx32 *position);
-
-    NOT_DECOMPILED void Unknown2051334__Func_2051450(void);
-    NOT_DECOMPILED void Unknown2051334__Func_2051334(void);
+NOT_DECOMPILED void Unknown2051334__Func_2051450(void);
+NOT_DECOMPILED void Unknown2051334__Func_2051334(void);
 }
 
 // --------------------
 // VARIABLES
 // --------------------
 
+static void (*_021737C8[])(void) = 
+{
+    ViDockBack__Func_2166480, ViDockBack__Func_2166480,
+	ViDockBack__Func_2166480, ViDockBack__Func_2166480,
+	ViDockBack__Func_2166480, ViDockBack__Func_2166488,
+	ViDockBack__Func_2166480,
+};
+
+static void (*_021737AC[])(void) = 
+{
+    ViDockBack__Func_2166368, ViDockBack__Func_21663B4,
+	ViDockBack__Func_21663D8, ViDockBack__Func_2166400,
+	ViDockBack__Func_2166420, ViDockBack__Func_2166440,
+	ViDockBack__Func_2166460,
+};
+
+static void (*_02173774[])(void) = 
+{
+     ViDockBack__Func_2164C44, ViDockBack__Func_216509C,
+	 ViDockBack__Func_2165268, ViDockBack__Func_21654C8,
+	 ViDockBack__Func_2165914, ViDockBack__Func_2165D60,
+	 ViDockBack__Func_2166158,
+};
+
+static void (*_02173790[])(void) = 
+{
+    ViDockBack__Func_21662E8, ViDockBack__Func_21662FC,
+	ViDockBack__Func_2166304, ViDockBack__Func_2166318,
+	ViDockBack__Func_216632C, ViDockBack__Func_2166340,
+	ViDockBack__Func_2166354,
+};
+
+static void (*_021737E4[])(void) = 
+{
+    ViDockBack__Func_21664C0, ViDockBack__Func_21664C0,
+	ViDockBack__Func_21664C0, ViDockBack__Func_21664C0,
+	ViDockBack__Func_21664C0, ViDockBack__Func_2166500,
+	ViDockBack__Func_21664C0,
+};
+
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC void ViDockBack__Constructor(void)
+CViDockBack::CViDockBack()
 {
-#ifdef NON_MATCHING
+	// TODO: remove when these are decompiled properly
+    _ZN11CVi3dObjectC2Ev(&this->object1);
+    _ZN11CVi3dObjectC2Ev(&this->object2);
+    _ZN11CVi3dObjectC2Ev(&this->object3);
+    _ZN11CVi3dObjectC2Ev(&this->object4);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, =_ZTV11CViDockBack+0x08
-	add r0, r4, #8
-	str r1, [r4]
-	bl _ZN11CVi3dObjectC2Ev
-	add r0, r4, #0x308
-	bl _ZN11CVi3dObjectC2Ev
-	add r0, r4, #0x208
-	add r0, r0, #0x400
-	bl _ZN11CVi3dObjectC2Ev
-	add r0, r4, #0x920
-	bl _ZN11CVi3dObjectC2Ev
-	mov r0, #0x20000
-	bl _AllocHeadHEAP_USER
-	str r0, [r4, #0x90c]
-	mov r0, #0x2000
-	bl _AllocHeadHEAP_USER
-	str r0, [r4, #0x910]
-	mov r0, #0x40000
-	bl _AllocHeadHEAP_USER
-	str r0, [r4, #0xc24]
-	mov r0, #0x2000
-	bl _AllocHeadHEAP_USER
-	str r0, [r4, #0xc28]
-	mov r0, #0x2000
-	bl _AllocHeadHEAP_USER
-	str r0, [r4, #0x914]
-	mov r0, #0x800
-	bl _AllocHeadHEAP_USER
-	str r0, [r4, #0x918]
-	mov r0, #0
-	str r0, [r4, #0x908]
-	str r0, [r4, #0xc20]
-	str r0, [r4, #0x91c]
-	add r0, r4, #0x2c
-	add r0, r0, #0xc00
-	mov r1, #0x800
-	bl InitThreadWorker
-	mov r0, r4
-	bl ViDockBack__Func_2164968
-	mov r0, r4
-	ldmia sp!, {r4, pc}
+    this->resModel2      = HeapAllocHead(HEAP_USER, 0x20000);
+    this->resUnknown     = HeapAllocHead(HEAP_USER, 0x2000);
+    this->resModel1      = HeapAllocHead(HEAP_USER, 0x40000);
+    this->resJointAnim   = HeapAllocHead(HEAP_USER, 0x2000);
+    this->resTextureAnim = HeapAllocHead(HEAP_USER, 0x2000);
+    this->resPatternAnim = HeapAllocHead(HEAP_USER, 0x800);
+	
+    this->field_908      = 0;
+    this->field_C20      = 0;
+    this->field_91C      = 0;
 
-// clang-format on
-#endif
+    InitThreadWorker(&this->thread, 0x800);
+
+    ViDockBack__Func_2164968(this);
 }
 
-NONMATCH_FUNC void ViDockBack__VTableFunc_21644C0(void)
+CViDockBack::~CViDockBack()
 {
-#ifdef NON_MATCHING
+    ViDockBack__Func_2164968(this);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, =_ZTV11CViDockBack+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViDockBack__Func_2164968
-	add r0, r4, #0x2c
-	add r0, r0, #0xc00
-	bl ReleaseThreadWorker
-	ldr r0, [r4, #0x918]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0x914]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0xc28]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0xc24]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0x910]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0x90c]
-	bl _FreeHEAP_USER
-	add r0, r4, #0x920
-	bl _ZN11CVi3dObjectD0Ev
-	add r0, r4, #0x208
-	add r0, r0, #0x400
-	bl _ZN11CVi3dObjectD0Ev
-	add r0, r4, #0x308
-	bl _ZN11CVi3dObjectD0Ev
-	add r0, r4, #8
-	bl _ZN11CVi3dObjectD0Ev
-	mov r0, r4
-	ldmia sp!, {r4, pc}
+    ReleaseThreadWorker(&this->thread);
 
-// clang-format on
-#endif
-}
+    HeapFree(HEAP_USER, this->resPatternAnim);
+    HeapFree(HEAP_USER, this->resTextureAnim);
+    HeapFree(HEAP_USER, this->resJointAnim);
+    HeapFree(HEAP_USER, this->resModel1);
+    HeapFree(HEAP_USER, this->resUnknown);
+    HeapFree(HEAP_USER, this->resModel2);
 
-NONMATCH_FUNC void ViDockBack__VTableFunc_2164540(void)
-{
-#ifdef NON_MATCHING
-
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, =_ZTV11CViDockBack+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViDockBack__Func_2164968
-	add r0, r4, #0x2c
-	add r0, r0, #0xc00
-	bl ReleaseThreadWorker
-	ldr r0, [r4, #0x918]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0x914]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0xc28]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0xc24]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0x910]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0x90c]
-	bl _FreeHEAP_USER
-	add r0, r4, #0x920
-	bl _ZN11CVi3dObjectD0Ev
-	add r0, r4, #0x208
-	add r0, r0, #0x400
-	bl _ZN11CVi3dObjectD0Ev
-	add r0, r4, #0x308
-	bl _ZN11CVi3dObjectD0Ev
-	add r0, r4, #8
-	bl _ZN11CVi3dObjectD0Ev
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+	// TODO: remove when these are decompiled properly
+    _ZN11CVi3dObjectD0Ev(&this->object4);
+    _ZN11CVi3dObjectD0Ev(&this->object3);
+    _ZN11CVi3dObjectD0Ev(&this->object2);
+    _ZN11CVi3dObjectD0Ev(&this->object1);
 }
 
 NONMATCH_FUNC void ViDockBack__LoadAssets(void)
@@ -192,7 +129,7 @@ NONMATCH_FUNC void ViDockBack__LoadAssets(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x28
 	mov r9, r0
@@ -427,7 +364,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164918(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -447,12 +384,11 @@ NONMATCH_FUNC void ViDockBack__Func_2164918(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164954(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2164954(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	ldr ip, =IsThreadWorkerFinished
 	add r0, r0, #0x2c
 	add r0, r0, #0xc00
@@ -462,12 +398,12 @@ NONMATCH_FUNC void ViDockBack__Func_2164954(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164968(void)
+NONMATCH_FUNC void ViDockBack__Func_2164968(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x2c
@@ -509,7 +445,7 @@ NONMATCH_FUNC void ViDockBack__Func_21649DC(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x908]
@@ -544,7 +480,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164A38(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -576,7 +512,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164A8C(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	str r1, [sp, #8]
@@ -597,7 +533,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164AB4(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	ldr r0, [r7, #0x908]
@@ -650,7 +586,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164B58(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
 	ldr lr, [sp, #0x14]
@@ -672,12 +608,11 @@ NONMATCH_FUNC void ViDockBack__Func_2164B58(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164B9C(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2164B9C(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r0, r1, r2, r3}
 	stmdb sp!, {r3, lr}
 	ldr r2, [r0, #4]
@@ -693,12 +628,11 @@ NONMATCH_FUNC void ViDockBack__Func_2164B9C(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164BC8(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2164BC8(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r0, r1, r2, r3}
 	stmdb sp!, {r3, lr}
 	ldr r2, [r0, #4]
@@ -719,7 +653,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164BF4(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr lr, [r0, #4]
 	ldr ip, =_021737E4
@@ -740,7 +674,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164C20(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr ip, =_021737AC
 	ldr ip, [ip, r0, lsl #2]
@@ -759,7 +693,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164C44(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x18
 	mov r6, r2
@@ -1063,7 +997,7 @@ NONMATCH_FUNC void ViDockBack__Func_216509C(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x18
 	mov r6, r2
@@ -1193,7 +1127,7 @@ NONMATCH_FUNC void ViDockBack__Func_2165268(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x18
 	ldr r6, [sp, #0x38]
@@ -1365,7 +1299,7 @@ NONMATCH_FUNC void ViDockBack__Func_21654C8(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	ldr r5, [sp, #0x48]
@@ -1667,7 +1601,7 @@ NONMATCH_FUNC void ViDockBack__Func_2165914(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	ldr r5, [sp, #0x48]
@@ -1969,7 +1903,7 @@ NONMATCH_FUNC void ViDockBack__Func_2165D60(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x18
 	ldr r5, [sp, #0x30]
@@ -2251,7 +2185,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166158(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x18
 	mov r5, r2
@@ -2361,12 +2295,11 @@ _021662DC:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21662E8(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_21662E8(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	ldr r0, [r0, #8]
 	cmp r0, #0x18000
 	movge r0, #1
@@ -2377,12 +2310,11 @@ NONMATCH_FUNC void ViDockBack__Func_21662E8(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21662FC(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_21662FC(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	mov r0, #0
 	bx lr
 
@@ -2390,12 +2322,11 @@ NONMATCH_FUNC void ViDockBack__Func_21662FC(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166304(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2166304(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	ldr r0, [r0, #8]
 	cmp r0, #0x50000
 	movge r0, #1
@@ -2406,12 +2337,11 @@ NONMATCH_FUNC void ViDockBack__Func_2166304(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166318(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2166318(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	ldr r0, [r0, #8]
 	cmp r0, #0x7e000
 	movge r0, #1
@@ -2422,12 +2352,11 @@ NONMATCH_FUNC void ViDockBack__Func_2166318(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_216632C(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_216632C(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	ldr r0, [r0, #8]
 	cmp r0, #0x7e000
 	movge r0, #1
@@ -2438,12 +2367,11 @@ NONMATCH_FUNC void ViDockBack__Func_216632C(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166340(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2166340(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	ldr r0, [r0, #8]
 	cmp r0, #0x7e000
 	movge r0, #1
@@ -2454,12 +2382,11 @@ NONMATCH_FUNC void ViDockBack__Func_2166340(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166354(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2166354(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	ldr r0, [r0, #8]
 	cmp r0, #0x3e000
 	movge r0, #1
@@ -2470,12 +2397,11 @@ NONMATCH_FUNC void ViDockBack__Func_2166354(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166368(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2166368(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	cmp r2, #1
 	bne _02166394
 	mov r2, #0x14000
@@ -2501,12 +2427,11 @@ _02166394:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21663B4(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_21663B4(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	mov r2, #0x10000
 	rsb r2, r2, #0
 	str r2, [r0]
@@ -2521,12 +2446,11 @@ NONMATCH_FUNC void ViDockBack__Func_21663B4(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21663D8(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_21663D8(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	mov r2, #0x1e000
 	rsb r2, r2, #0
 	str r2, [r0]
@@ -2542,12 +2466,11 @@ NONMATCH_FUNC void ViDockBack__Func_21663D8(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166400(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2166400(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	mov r2, #0
 	str r2, [r0]
 	str r2, [r0, #4]
@@ -2561,12 +2484,11 @@ NONMATCH_FUNC void ViDockBack__Func_2166400(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166420(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2166420(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	mov r2, #0
 	str r2, [r0]
 	str r2, [r0, #4]
@@ -2580,12 +2502,11 @@ NONMATCH_FUNC void ViDockBack__Func_2166420(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166440(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2166440(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	mov r2, #0
 	str r2, [r0]
 	str r2, [r0, #4]
@@ -2599,12 +2520,11 @@ NONMATCH_FUNC void ViDockBack__Func_2166440(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166460(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2166460(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	mov r2, #0
 	str r2, [r0]
 	str r2, [r0, #4]
@@ -2618,12 +2538,11 @@ NONMATCH_FUNC void ViDockBack__Func_2166460(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166480(void)
-{
+NONMATCH_FUNC void ViDockBack__Func_2166480(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	mov r0, #0
 	bx lr
 
@@ -2636,7 +2555,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166488(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r0, [r0, #8]
 	cmp r0, #0x3c000
@@ -2661,7 +2580,7 @@ NONMATCH_FUNC void ViDockBack__Func_21664C0(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
@@ -2688,7 +2607,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166500(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
@@ -2715,7 +2634,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166540(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #0x14

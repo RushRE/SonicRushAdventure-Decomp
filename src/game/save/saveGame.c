@@ -650,7 +650,7 @@ void SaveGame__UpdateProgress2_Func_205C3A8(void)
     else if (stageID == STAGE_Z51)
     {
         if (SaveGame__GetUnknownProgress1() == 2)
-            SaveGame__SetBoughtInfo0();
+            SaveGame__SetProgressFlags_0x200();
     }
     else if (stageID == STAGE_Z61)
     {
@@ -1301,7 +1301,7 @@ void SaveGame__SetProgressFlags_0x100(void)
     saveGame.stage.progress.flags |= 0x100;
 }
 
-void SaveGame__SetBoughtInfo0(void)
+void SaveGame__SetProgressFlags_0x200(void)
 {
     saveGame.stage.progress.flags |= 0x200;
 }

@@ -1,30 +1,65 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <hub/cviMap.hpp>
+#include <game/input/padInput.h>
+#include <game/input/touchInput.h>
+#include <hub/hubConfig.h>
+#include <hub/hubAudio.h>
+#include <game/graphics/paletteAnimation.h>
+#include <game/file/fsRequest.h>
 
-	.bss
-	
-ViMap__TaskSingleton: // 0x02173A4C
-	.space 0x04
-	
-ViMapPaletteAnimation__Singleton: // 0x02173A50
-	.space 0x04
+// --------------------
+// TEMP
+// --------------------
 
-	.text
+extern "C"
+{
 
-	arm_func_start ViMap__Create
-ViMap__Create: // 0x0215B9E0
+NOT_DECOMPILED void _ZN10HubControl16GetFileFrom_ViBGEt(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215B168Ev(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215B250Ev(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215B3B4Ev(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215B03CEv(void);
+NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViActEt(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215B6C4El(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215B498El(void);
+
+NOT_DECOMPILED void _ZdlPv(void);
+NOT_DECOMPILED void _ZnwmPv(void);
+
+NOT_DECOMPILED void Unknown2051334__Func_2051534(void);
+
+}
+
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED Task *ViMap__TaskSingleton;
+NOT_DECOMPILED Task *ViMapPaletteAnimation__Singleton;
+
+NOT_DECOMPILED void *aBpaViMapBpa;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC void ViMap__Create(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, #0x1040
 	mov r2, #0
-	ldr r0, _0215BA88 // =ViMap__Main
-	ldr r1, _0215BA8C // =ViMap__Destructor
+	ldr r0, =ViMap__Main
+	ldr r1, =ViMap__Destructor
 	mov r3, r2
 	str r4, [sp]
 	mov r4, #0x10
 	str r4, [sp, #4]
 	bl ViMap__CreateInternal
-	ldr r1, _0215BA90 // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	str r0, [r1]
 	bl GetTaskWork_
 	mov r4, r0
@@ -55,19 +90,22 @@ ViMap__Create: // 0x0215B9E0
 	bl ViMap__Func_215D9E8
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215BA88: .word ViMap__Main
-_0215BA8C: .word ViMap__Destructor
-_0215BA90: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Create
 
-	arm_func_start ViMap__CreateInternal
-ViMap__CreateInternal: // 0x0215BA94
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__CreateInternal(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	ldrh lr, [sp, #0x18]
 	ldrb ip, [sp, #0x1c]
-	ldr r4, _0215BAEC // =0x00000FB4
+	ldr r4, =0x00000FB4
 	str lr, [sp]
 	str ip, [sp, #4]
 	str r4, [sp, #8]
@@ -79,40 +117,50 @@ ViMap__CreateInternal: // 0x0215BA94
 	bl _ZnwmPv
 	movs r4, r0
 	beq _0215BAE0
-	bl ViMapBack__Constructor
+	bl _ZN10CViMapBackC1Ev
 	add r0, r4, #0x5d0
-	bl ViMapIcon__Constructor
+	bl _ZN10CViMapIconC1Ev
 _0215BAE0:
 	mov r0, r5
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_0215BAEC: .word 0x00000FB4
-	arm_func_end ViMap__CreateInternal
 
-	arm_func_start ViMap__Func_215BAF0
-ViMap__Func_215BAF0: // 0x0215BAF0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215BAF0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215BB24 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetTaskWork_
-	ldr r0, _0215BB24 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	ldr r0, [r0, #0]
 	bl DestroyTask
-	ldr r0, _0215BB24 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	mov r1, #0
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215BB24: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215BAF0
 
-	arm_func_start ViMap__Func_215BB28
-ViMap__Func_215BB28: // 0x0215BB28
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215BB28(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _0215BB9C // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -124,36 +172,38 @@ ViMap__Func_215BB28: // 0x0215BB28
 	beq _0215BB80
 	ldmia sp!, {r4, pc}
 _0215BB58:
-	ldr r0, _0215BB9C // =ViMap__TaskSingleton
-	ldr r1, _0215BBA0 // =ViMap__Func_215CC94
+	ldr r0, =ViMap__TaskSingleton
+	ldr r1, =ViMap__Func_215CC94
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, pc}
 _0215BB6C:
-	ldr r0, _0215BB9C // =ViMap__TaskSingleton
-	ldr r1, _0215BBA4 // =ViMap__Main
+	ldr r0, =ViMap__TaskSingleton
+	ldr r1, =ViMap__Main
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, pc}
 _0215BB80:
-	ldr r1, _0215BB9C // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r2, #6
 	str r2, [r0, #0x7d8]
 	ldr r0, [r1, #0]
-	ldr r1, _0215BBA8 // =ViMap__Func_215CDE0
+	ldr r1, =ViMap__Func_215CDE0
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215BB9C: .word ViMap__TaskSingleton
-_0215BBA0: .word ViMap__Func_215CC94
-_0215BBA4: .word ViMap__Main
-_0215BBA8: .word ViMap__Func_215CDE0
-	arm_func_end ViMap__Func_215BB28
 
-	arm_func_start ViMap__Func_215BBAC
-ViMap__Func_215BBAC: // 0x0215BBAC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215BBAC(u16 x, u16 y)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r2, _0215BBF0 // =ViMap__TaskSingleton
+	ldr r2, =ViMap__TaskSingleton
 	mov r5, r0
 	ldr r0, [r2, #0]
 	mov r4, r1
@@ -169,14 +219,19 @@ ViMap__Func_215BBAC: // 0x0215BBAC
 	strh r1, [r0, #0xcc]
 	strh r1, [r0, #0xce]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215BBF0: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215BBAC
 
-	arm_func_start ViMap__Func_215BBF4
-ViMap__Func_215BBF4: // 0x0215BBF4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215BBF4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r3, _0215BC3C // =ViMap__TaskSingleton
+	ldr r3, =ViMap__TaskSingleton
 	mov r6, r0
 	ldr r0, [r3, #0]
 	mov r5, r1
@@ -193,14 +248,19 @@ ViMap__Func_215BBF4: // 0x0215BBF4
 	strh r4, [r0, #0xcc]
 	strh r1, [r0, #0xce]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0215BC3C: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215BBF4
 
-	arm_func_start ViMap__Func_215BC40
-ViMap__Func_215BC40: // 0x0215BC40
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215BC40(u16 *x, u16 *y)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r2, _0215BC7C // =ViMap__TaskSingleton
+	ldr r2, =ViMap__TaskSingleton
 	mov r5, r0
 	ldr r0, [r2, #0]
 	mov r4, r1
@@ -214,27 +274,37 @@ ViMap__Func_215BC40: // 0x0215BC40
 	ldrneh r0, [r0, #0xc2]
 	strneh r0, [r4]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215BC7C: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215BC40
 
-	arm_func_start ViMap__Func_215BC80
-ViMap__Func_215BC80: // 0x0215BC80
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 ViMap__Func_215BC80(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215BC9C // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x5d0
 	bl ViMapIcon__Func_21634F4
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215BC9C: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215BC80
 
-	arm_func_start ViMap__Func_215BCA0
-ViMap__Func_215BCA0: // 0x0215BCA0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 ViMap__Func_215BCA0(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, _0215BCE0 // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r5, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -250,15 +320,20 @@ _0215BCD4:
 	add r0, r4, #0x5d0
 	bl ViMapIcon__Func_21633F8
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215BCE0: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215BCA0
 
-	arm_func_start ViMap__Func_215BCE4
-ViMap__Func_215BCE4: // 0x0215BCE4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215BCE4(u32 a1, s32 a2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
-	ldr r2, _0215BDC8 // =ViMap__TaskSingleton
+	ldr r2, =ViMap__TaskSingleton
 	mov r6, r0
 	ldr r0, [r2, #0]
 	mov r5, r1
@@ -314,12 +389,17 @@ _0215BD70:
 	bl ViMap__Func_215BBAC
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	.align 2, 0
-_0215BDC8: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215BCE4
 
-	arm_func_start ViMap__Func_215BDCC
-ViMap__Func_215BDCC: // 0x0215BDCC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 ViMap__Func_215BDCC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r0, #1
 	bl ViMap__Func_215BCA0
@@ -331,21 +411,26 @@ ViMap__Func_215BDCC: // 0x0215BDCC
 	cmp r4, r0
 	moveq r0, r4
 	ldmeqia sp!, {r4, pc}
-	ldr r0, _0215BE10 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #1
 	moveq r4, #9
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215BE10: .word padInput
-	arm_func_end ViMap__Func_215BDCC
 
-	arm_func_start ViMap__Func_215BE14
-ViMap__Func_215BE14: // 0x0215BE14
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215BE14(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0xc
-	ldr r1, _0215BFBC // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -440,7 +525,7 @@ _0215BEF8:
 	mov r3, #1
 	str r2, [sp, #4]
 	bl TalkHelpersUnknown__Init
-	ldr r2, _0215BFC0 // =0x04001000
+	ldr r2, =0x04001000
 	ldr r1, [r2, #0]
 	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
@@ -451,16 +536,20 @@ _0215BEF8:
 	str r0, [r2]
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	.align 2, 0
-_0215BFBC: .word ViMap__TaskSingleton
-_0215BFC0: .word 0x04001000
-	arm_func_end ViMap__Func_215BE14
 
-	arm_func_start ViMap__Func_215BFC4
-ViMap__Func_215BFC4: // 0x0215BFC4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215BFC4(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
-	ldr r1, _0215C0CC // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r5, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -474,7 +563,7 @@ ViMap__Func_215BFC4: // 0x0215BFC4
 	str r1, [r4, #0x7e4]
 	bl HubConfig__Func_2152A60
 	cmp r0, #0
-	ldreq r1, _0215C0D0 // =0x0000FFFF
+	ldreq r1, =0x0000FFFF
 	beq _0215C01C
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -514,7 +603,7 @@ _0215C01C:
 	mov r3, #1
 	str r2, [sp, #4]
 	bl TalkHelpersUnknown__Init
-	ldr r2, _0215C0D4 // =0x04001000
+	ldr r2, =0x04001000
 	ldr r1, [r2, #0]
 	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
@@ -525,17 +614,20 @@ _0215C01C:
 	str r0, [r2]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_0215C0CC: .word ViMap__TaskSingleton
-_0215C0D0: .word 0x0000FFFF
-_0215C0D4: .word 0x04001000
-	arm_func_end ViMap__Func_215BFC4
 
-	arm_func_start ViMap__Func_215C0D8
-ViMap__Func_215C0D8: // 0x0215C0D8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C0D8(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0xc
-	ldr r1, _0215C27C // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -629,7 +721,7 @@ _0215C1B8:
 	mov r3, #1
 	str r2, [sp, #4]
 	bl TalkHelpersUnknown__Init
-	ldr r2, _0215C280 // =0x04001000
+	ldr r2, =0x04001000
 	ldr r1, [r2, #0]
 	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
@@ -640,16 +732,20 @@ _0215C1B8:
 	str r0, [r2]
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	.align 2, 0
-_0215C27C: .word ViMap__TaskSingleton
-_0215C280: .word 0x04001000
-	arm_func_end ViMap__Func_215C0D8
 
-	arm_func_start ViMap__Func_215C284
-ViMap__Func_215C284: // 0x0215C284
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C284(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
-	ldr r1, _0215C400 // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r5, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -668,7 +764,7 @@ ViMap__Func_215C284: // 0x0215C284
 	bl ViMap__Func_215D27C
 	add r0, r4, #0x700
 	ldrh r0, [r0, #0xe8]
-	ldr r1, _0215C404 // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	cmp r0, r1
 	beq _0215C32C
 	bl HubConfig__Func_2152A30
@@ -745,15 +841,19 @@ _0215C3D0:
 	strh r1, [r0, #0xd2]
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	.align 2, 0
-_0215C400: .word ViMap__TaskSingleton
-_0215C404: .word 0x0000FFFF
-	arm_func_end ViMap__Func_215C284
 
-	arm_func_start ViMap__Func_215C408
-ViMap__Func_215C408: // 0x0215C408
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C408(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r0, _0215C488 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
@@ -786,14 +886,19 @@ _0215C448:
 	mov r0, #2
 	str r0, [r4, #0x7d8]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215C488: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C408
 
-	arm_func_start ViMap__Func_215C48C
-ViMap__Func_215C48C: // 0x0215C48C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL ViMap__Func_215C48C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215C4C8 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, [r0, #0x7dc]
@@ -807,14 +912,19 @@ ViMap__Func_215C48C: // 0x0215C48C
 	movhs r0, #1
 	movlo r0, #0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215C4C8: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C48C
 
-	arm_func_start ViMap__Func_215C4CC
-ViMap__Func_215C4CC: // 0x0215C4CC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C4CC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215C4F4 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #3
@@ -823,14 +933,19 @@ ViMap__Func_215C4CC: // 0x0215C4CC
 	mov r1, #0
 	strh r1, [r0, #0xea]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215C4F4: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C4CC
 
-	arm_func_start ViMap__Func_215C4F8
-ViMap__Func_215C4F8: // 0x0215C4F8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL ViMap__Func_215C4F8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215C520 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x700
@@ -839,14 +954,19 @@ ViMap__Func_215C4F8: // 0x0215C4F8
 	movhs r0, #1
 	movlo r0, #0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215C520: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C4F8
 
-	arm_func_start ViMap__Func_215C524
-ViMap__Func_215C524: // 0x0215C524
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C524(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, _0215C584 // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r5, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -862,22 +982,26 @@ ViMap__Func_215C524: // 0x0215C524
 	ldrh r1, [r0, #0]
 	mov r0, r4
 	bl ViMapBack__Func_2161ADC
-	ldr r1, _0215C588 // =0x0620C040
+	ldr r1, =0x0620C040
 	mov r0, r4
 	mov r2, #0
 	bl ViMapBack__Func_2161F3C
 	mov r0, r4
 	bl ViMapBack__Func_2161DC8
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215C584: .word ViMap__TaskSingleton
-_0215C588: .word 0x0620C040
-	arm_func_end ViMap__Func_215C524
 
-	arm_func_start ViMap__Func_215C58C
-ViMap__Func_215C58C: // 0x0215C58C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C58C(u16 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r1, _0215C630 // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r6, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -901,7 +1025,7 @@ ViMap__Func_215C58C: // 0x0215C58C
 	ldrh r1, [r0, #0]
 	mov r0, r5
 	bl ViMapBack__Func_2161ADC
-	ldr r1, _0215C634 // =0x0620C040
+	ldr r1, =0x0620C040
 	mov r0, r5
 	mov r2, #0
 	bl ViMapBack__Func_2161F3C
@@ -918,15 +1042,19 @@ _0215C620:
 	mov r0, r5
 	bl ViMapBack__Func_21620FC
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0215C630: .word ViMap__TaskSingleton
-_0215C634: .word 0x0620C040
-	arm_func_end ViMap__Func_215C58C
 
-	arm_func_start ViMap__Func_215C638
-ViMap__Func_215C638: // 0x0215C638
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C638(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, _0215C6A8 // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -954,14 +1082,19 @@ _0215C668:
 	mov r1, #0
 	strh r1, [r0, #0xea]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215C6A8: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C638
 
-	arm_func_start ViMap__Func_215C6AC
-ViMap__Func_215C6AC: // 0x0215C6AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C6AC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r0, _0215C768 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
@@ -1010,14 +1143,19 @@ _0215C750:
 	mov r1, #0
 	strh r1, [r0, #0xea]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215C768: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C6AC
 
-	arm_func_start ViMap__Func_215C76C
-ViMap__Func_215C76C: // 0x0215C76C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C76C(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, _0215C7DC // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -1045,14 +1183,19 @@ _0215C79C:
 	mov r1, #0
 	strh r1, [r0, #0xea]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215C7DC: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C76C
 
-	arm_func_start ViMap__Func_215C7E0
-ViMap__Func_215C7E0: // 0x0215C7E0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C7E0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r0, _0215C828 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
@@ -1069,27 +1212,37 @@ ViMap__Func_215C7E0: // 0x0215C7E0
 	bl ViMap__Func_215DA68
 	bl _ZN10HubControl12Func_215B3B4Ev
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215C828: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C7E0
 
-	arm_func_start ViMap__Func_215C82C
-ViMap__Func_215C82C: // 0x0215C82C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C82C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215C848 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x5d0
 	bl ViMapIcon__Func_21636A0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215C848: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C82C
 
-	arm_func_start ViMap__Func_215C84C
-ViMap__Func_215C84C: // 0x0215C84C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C84C(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _0215C874 // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -1098,14 +1251,19 @@ ViMap__Func_215C84C: // 0x0215C84C
 	mov r1, #1
 	bl ViMapIcon__Func_2163340
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215C874: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C84C
 
-	arm_func_start ViMap__Func_215C878
-ViMap__Func_215C878: // 0x0215C878
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C878(s16 x, s16 y)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r2, _0215C8A4 // =ViMap__TaskSingleton
+	ldr r2, =ViMap__TaskSingleton
 	mov r5, r0
 	ldr r0, [r2, #0]
 	mov r4, r1
@@ -1115,31 +1273,36 @@ ViMap__Func_215C878: // 0x0215C878
 	add r0, r0, #0x5d0
 	bl ViMapIcon__Func_21636AC
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215C8A4: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C878
 
-	arm_func_start ViMapPaletteAnimation__Create
-ViMapPaletteAnimation__Create: // 0x0215C8A8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapPaletteAnimation__Create(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc
 	bl ViMap__Func_215C960
-	ldr r0, _0215C94C // =0x00001041
+	ldr r0, =0x00001041
 	mov r2, #0
 	str r0, [sp]
 	mov r4, #0x10
 	str r4, [sp, #4]
 	mov r4, #0x64
-	ldr r0, _0215C950 // =ViMapPaletteAnimation__Main
-	ldr r1, _0215C954 // =ViMapPaletteAnimation__Destructor
+	ldr r0, =ViMapPaletteAnimation__Main
+	ldr r1, =ViMapPaletteAnimation__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
-	ldr r1, _0215C958 // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	str r0, [r1, #4]
 	bl GetTaskWork_
 	mov r7, r0
-	ldr r0, _0215C95C // =aBpaViMapBpa
+	ldr r0, =aBpaViMapBpa
 	mov r1, #0
 	bl FSRequestFileSync
 	mov r8, #0
@@ -1163,34 +1326,40 @@ _0215C914:
 	blt _0215C914
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
-	.align 2, 0
-_0215C94C: .word 0x00001041
-_0215C950: .word ViMapPaletteAnimation__Main
-_0215C954: .word ViMapPaletteAnimation__Destructor
-_0215C958: .word ViMap__TaskSingleton
-_0215C95C: .word aBpaViMapBpa
-	arm_func_end ViMapPaletteAnimation__Create
 
-	arm_func_start ViMap__Func_215C960
-ViMap__Func_215C960: // 0x0215C960
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C960(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215C988 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl DestroyTask
-	ldr r0, _0215C988 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	mov r1, #0
 	str r1, [r0, #4]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215C988: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C960
 
-	arm_func_start ViMap__Func_215C98C
-ViMap__Func_215C98C: // 0x0215C98C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC AnimatorSprite *ViMap__Func_215C98C(u16 id)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _0215C9B0 // =ViMap__TaskSingleton
+	ldr r1, =ViMap__TaskSingleton
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -1198,12 +1367,17 @@ ViMap__Func_215C98C: // 0x0215C98C
 	mov r0, #0x64
 	mla r0, r4, r0, r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215C9B0: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Func_215C98C
 
-	arm_func_start ViMap__Func_215C9B4
-ViMap__Func_215C9B4: // 0x0215C9B4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215C9B4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ViMapBack__LoadAssets
@@ -1211,7 +1385,7 @@ ViMap__Func_215C9B4: // 0x0215C9B4
 	mov r0, r4
 	mov r2, r1
 	bl ViMapBack__Func_2161F08
-	ldr r1, _0215CA14 // =0x0620A000
+	ldr r1, =0x0620A000
 	mov r0, r4
 	mov r2, #1
 	bl ViMapBack__Func_2162010
@@ -1222,19 +1396,23 @@ ViMap__Func_215C9B4: // 0x0215C9B4
 	mov r0, r4
 	bl ViMapBack__Func_2161A40
 	mov r0, r4
-	ldr r1, _0215CA18 // =0x0620C040
+	ldr r1, =0x0620C040
 	mov r2, #0
 	bl ViMapBack__Func_2161F3C
 	mov r0, r4
 	bl ViMapBack__Func_2161DC8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215CA14: .word 0x0620A000
-_0215CA18: .word 0x0620C040
-	arm_func_end ViMap__Func_215C9B4
 
-	arm_func_start ViMap__Func_215CA1C
-ViMap__Func_215CA1C: // 0x0215CA1C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215CA1C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x5d0
@@ -1252,10 +1430,17 @@ ViMap__Func_215CA1C: // 0x0215CA1C
 	add r0, r4, #0x5d0
 	bl ViMapIcon__Func_2163340
 	ldmia sp!, {r4, pc}
-	arm_func_end ViMap__Func_215CA1C
 
-	arm_func_start ViMap__Func_215CA60
-ViMap__Func_215CA60: // 0x0215CA60
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215CA60(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ViMap__Func_215D214
@@ -1265,10 +1450,17 @@ ViMap__Func_215CA60: // 0x0215CA60
 	mov r0, r4
 	bl ViMapBack__Func_2162648
 	ldmia sp!, {r4, pc}
-	arm_func_end ViMap__Func_215CA60
 
-	arm_func_start ViMap__Func_215CA84
-ViMap__Func_215CA84: // 0x0215CA84
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215CA84(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	str r0, [sp, #0x1c]
@@ -1323,7 +1515,7 @@ _0215CAB8:
 	str r2, [sp, #4]
 	str r0, [sp, #8]
 	ldr r0, [sp, #0x1c]
-	ldr r3, _0215CC10 // =0x05000600
+	ldr r3, =0x05000600
 	str r2, [sp, #0xc]
 	str r3, [sp, #0x10]
 	add r0, r0, #0x394
@@ -1341,7 +1533,7 @@ _0215CAB8:
 	ldr r0, [sp, #0x1c]
 	mov r8, #0
 	add r0, r0, #0x3f8
-	ldr r11, _0215CC10 // =0x05000600
+	ldr r11, =0x05000600
 	add r6, r0, #0x800
 	mov r5, #1
 	mov r4, r8
@@ -1370,12 +1562,17 @@ _0215CBB0:
 	blt _0215CBB0
 	add sp, sp, #0x20
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0215CC10: .word 0x05000600
-	arm_func_end ViMap__Func_215CA84
 
-	arm_func_start ViMap__Func_215CC14
-ViMap__Func_215CC14: // 0x0215CC14
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215CC14(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	add r0, r4, #0x338
@@ -1410,10 +1607,17 @@ _0215CC68:
 	mov r0, r4
 	bl ViMapBack__Func_2161680
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ViMap__Func_215CC14
 
-	arm_func_start ViMap__Func_215CC94
-ViMap__Func_215CC94: // 0x0215CC94
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215CC94(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -1480,10 +1684,17 @@ _0215CD50:
 	add r0, r4, #0x5d0
 	bl ViMapIcon__Func_2163440
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViMap__Func_215CC94
 
-	arm_func_start ViMap__Main
-ViMap__Main: // 0x0215CD94
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -1503,10 +1714,17 @@ ViMap__Main: // 0x0215CD94
 	add r0, r4, #0x5d0
 	bl ViMapIcon__Func_2163440
 	ldmia sp!, {r4, pc}
-	arm_func_end ViMap__Main
 
-	arm_func_start ViMap__Func_215CDE0
-ViMap__Func_215CDE0: // 0x0215CDE0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215CDE0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	mov r0, #0
@@ -1737,45 +1955,64 @@ _0215D114:
 	bl ViMapBack__Func_2162158
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end ViMap__Func_215CDE0
 
-	arm_func_start ViMap__Destructor
-ViMap__Destructor: // 0x0215D124
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl GetTaskWork_
 	bl ViMap__Func_215CC14
 	mov r0, r4
 	bl ViMap__Func_215D150
-	ldr r0, _0215D14C // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	mov r1, #0
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215D14C: .word ViMap__TaskSingleton
-	arm_func_end ViMap__Destructor
 
-	arm_func_start ViMap__Func_215D150
-ViMap__Func_215D150: // 0x0215D150
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D150(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x10]
 	cmp r4, #0
 	beq _0215D17C
 	add r0, r4, #0x5d0
-	bl ViMapIcon__VTableFunc_2163010
+	bl _ZN10CViMapIconD1Ev
 	mov r0, r4
-	bl ViMapBack__VTableFunc_216132C
+	bl _ZN10CViMapBackD0Ev
 	mov r0, r4
 	bl _ZdlPv
 _0215D17C:
 	mov r0, #0
 	str r0, [r5, #0x10]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViMap__Func_215D150
 
-	arm_func_start ViMapPaletteAnimation__Main
-ViMapPaletteAnimation__Main: // 0x0215D188
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapPaletteAnimation__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
@@ -1790,10 +2027,17 @@ _0215D198:
 	add r5, r5, #0x20
 	blt _0215D198
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViMapPaletteAnimation__Main
 
-	arm_func_start ViMapPaletteAnimation__Destructor
-ViMapPaletteAnimation__Destructor: // 0x0215D1BC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapPaletteAnimation__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetTaskWork_
 	mov r5, r0
@@ -1813,16 +2057,21 @@ _0215D1D0:
 	mov r0, #0
 	str r0, [r5, #0x60]
 _0215D200:
-	ldr r0, _0215D210 // =ViMap__TaskSingleton
+	ldr r0, =ViMap__TaskSingleton
 	mov r1, #0
 	str r1, [r0, #4]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0215D210: .word ViMap__TaskSingleton
-	arm_func_end ViMapPaletteAnimation__Destructor
 
-	arm_func_start ViMap__Func_215D214
-ViMap__Func_215D214: // 0x0215D214
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D214(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -1849,10 +2098,17 @@ ViMap__Func_215D214: // 0x0215D214
 	bl ViMap__Func_215BBAC
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ViMap__Func_215D214
 
-	arm_func_start ViMap__Func_215D27C
-ViMap__Func_215D27C: // 0x0215D27C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D27C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	subs r0, r0, #0x80
 	sub r1, r1, #0x60
 	movmi r0, #0
@@ -1867,10 +2123,17 @@ ViMap__Func_215D27C: // 0x0215D27C
 	cmp r3, #0
 	strneh r1, [r3]
 	bx lr
-	arm_func_end ViMap__Func_215D27C
 
-	arm_func_start ViMap__Func_215D2B4
-ViMap__Func_215D2B4: // 0x0215D2B4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D2B4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r0, r4, #0x700
@@ -1921,10 +2184,17 @@ _0215D35C:
 	mov r0, r4
 	bl ViMapBack__Func_2162648
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViMap__Func_215D2B4
 
-	arm_func_start ViMap__Func_215D374
-ViMap__Func_215D374: // 0x0215D374
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D374(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	mov r1, #0
@@ -1984,10 +2254,17 @@ _0215D43C:
 	cmp r6, #0x16
 	blt _0215D3E4
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ViMap__Func_215D374
 
-	arm_func_start ViMap__Func_215D44C
-ViMap__Func_215D44C: // 0x0215D44C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D44C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	add r3, r4, #0x700
@@ -2014,10 +2291,17 @@ ViMap__Func_215D44C: // 0x0215D44C
 	add r0, r0, #0xc00
 	bl TalkHelpers__Func_21530A8
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ViMap__Func_215D44C
 
-	arm_func_start ViMap__Func_215D4B4
-ViMap__Func_215D4B4: // 0x0215D4B4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D4B4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r10, r0
 	ldr r0, [r10, #0x7dc]
@@ -2063,13 +2347,13 @@ _0215D4F8:
 _0215D550:
 	mov r0, r7, asr #4
 	mov r1, r0, lsl #1
-	ldr r0, _0215D600 // =FX_SinCosTable_
+	ldr r0, =FX_SinCosTable_
 	mov r2, r1, lsl #1
 	add r0, r0, r1, lsl #1
 	add r3, r10, r8, lsl #2
 	ldrsh r1, [r0, #2]
 	ldr r0, [r3, #0x7f0]
-	ldr r3, _0215D600 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	ldrsh ip, [r3, r2]
 	mul r2, r0, r1
 	mul r1, r0, ip
@@ -2106,12 +2390,17 @@ _0215D5DC:
 	mov r7, r0, lsr #0x10
 	blt _0215D550
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0215D600: .word FX_SinCosTable_
-	arm_func_end ViMap__Func_215D4B4
 
-	arm_func_start ViMap__Func_215D604
-ViMap__Func_215D604: // 0x0215D604
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D604(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r6, r0
 	mov r5, #0
@@ -2121,11 +2410,11 @@ _0215D610:
 	ldrsh r0, [r0, #0x18]
 	cmp r0, #0x400
 	bne _0215D718
-	ldr r3, _0215D728 // =_mt_math_rand
+	ldr r3, =_mt_math_rand
 	add r0, r6, #0x3f8
 	ldr r4, [r3, #0]
-	ldr r1, _0215D72C // =0x00196225
-	ldr r2, _0215D730 // =0x3C6EF35F
+	ldr r1, =0x00196225
+	ldr r2, =0x3C6EF35F
 	add r7, r0, #0x800
 	mla r2, r4, r1, r2
 	mov r0, #0x64
@@ -2140,11 +2429,11 @@ _0215D610:
 	mov r0, r4
 	mov r1, r1, lsr #0x10
 	bl AnimatorSprite__SetAnimation
-	ldr r8, _0215D728 // =_mt_math_rand
+	ldr r8, =_mt_math_rand
 	add r0, r6, r5, lsl #2
 	ldr r1, [r8, #0]
-	ldr r2, _0215D72C // =0x00196225
-	ldr r3, _0215D730 // =0x3C6EF35F
+	ldr r2, =0x00196225
+	ldr r3, =0x3C6EF35F
 	add r7, r0, #0xf00
 	mla r0, r1, r2, r3
 	mov r1, r0, lsr #0x10
@@ -2187,14 +2476,17 @@ _0215D718:
 	cmp r5, #8
 	blt _0215D610
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_0215D728: .word _mt_math_rand
-_0215D72C: .word 0x00196225
-_0215D730: .word 0x3C6EF35F
-	arm_func_end ViMap__Func_215D604
 
-	arm_func_start ViMap__Func_215D734
-ViMap__Func_215D734: // 0x0215D734
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D734(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r6, r0
 	add r0, r6, #0x3f8
@@ -2229,24 +2521,36 @@ _0215D7A0:
 	add r5, r5, #0x64
 	blt _0215D750
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end ViMap__Func_215D734
 
-	arm_func_start ViMap__Func_215D7B4
-ViMap__Func_215D7B4: // 0x0215D7B4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D7B4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	add r1, r0, #0xf00
 	mov r2, #0
 	add r0, r0, #0x36c
 	strh r2, [r1, #0x68]
-	ldr ip, _0215D7D4 // =Unknown2056FDC__Init
+	ldr ip, =Unknown2056FDC__Init
 	add r0, r0, #0xc00
 	strh r2, [r1, #0x6a]
 	bx ip
-	.align 2, 0
-_0215D7D4: .word Unknown2056FDC__Init
-	arm_func_end ViMap__Func_215D7B4
 
-	arm_func_start ViMap__Func_215D7D8
-ViMap__Func_215D7D8: // 0x0215D7D8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D7D8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x18
 	mov r5, r0
@@ -2333,10 +2637,17 @@ ViMap__Func_215D7D8: // 0x0215D7D8
 	bl _FreeHEAP_USER
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViMap__Func_215D7D8
 
-	arm_func_start ViMap__Func_215D930
-ViMap__Func_215D930: // 0x0215D930
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D930(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r1
 	add r1, sp, #2
@@ -2374,29 +2685,48 @@ ViMap__Func_215D930: // 0x0215D930
 	add r0, r0, #0xc00
 	bl Unknown2056FDC__Func_2057614
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViMap__Func_215D930
 
-	arm_func_start ViMap__Func_215D9C4
-ViMap__Func_215D9C4: // 0x0215D9C4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D9C4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	add r1, r0, #0xf00
 	mov r2, #0
 	add r0, r0, #0x36c
 	strh r2, [r1, #0x68]
-	ldr ip, _0215D9E4 // =Unknown2056FDC__Release
+	ldr ip, =Unknown2056FDC__Release
 	add r0, r0, #0xc00
 	strh r2, [r1, #0x6a]
 	bx ip
-	.align 2, 0
-_0215D9E4: .word Unknown2056FDC__Release
-	arm_func_end ViMap__Func_215D9C4
 
-	arm_func_start ViMap__Func_215D9E8
-ViMap__Func_215D9E8: // 0x0215D9E8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D9E8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	bx lr
-	arm_func_end ViMap__Func_215D9E8
 
-	arm_func_start ViMap__Func_215D9EC
-ViMap__Func_215D9EC: // 0x0215D9EC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215D9EC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	add r0, r0, #0x35c
 	mov r1, #0
@@ -2405,7 +2735,7 @@ ViMap__Func_215D9EC: // 0x0215D9EC
 	mov r3, #2
 	str r1, [sp]
 	bl TalkHelpersUnknown2__Func_215354C
-	ldr r2, _0215DA34 // =0x04001000
+	ldr r2, =0x04001000
 	ldr r1, [r2, #0]
 	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
@@ -2415,12 +2745,17 @@ ViMap__Func_215D9EC: // 0x0215D9EC
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215DA34: .word 0x04001000
-	arm_func_end ViMap__Func_215D9EC
 
-	arm_func_start ViMap__Func_215DA38
-ViMap__Func_215DA38: // 0x0215DA38
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215DA38(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x35c
@@ -2433,15 +2768,19 @@ ViMap__Func_215DA38: // 0x0215DA38
 	mov r2, #1
 	bl ViMapBack__Func_216233C
 	ldmia sp!, {r4, pc}
-	arm_func_end ViMap__Func_215DA38
 
-	arm_func_start ViMap__Func_215DA68
-ViMap__Func_215DA68: // 0x0215DA68
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMap__Func_215DA68(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	bx lr
-	arm_func_end ViMap__Func_215DA68
 
-	.data
-
-aBpaViMapBpa: // 0x02173684
-	.asciz "bpa/vi_map.bpa"
-	.align 4
+// clang-format on
+#endif
+}

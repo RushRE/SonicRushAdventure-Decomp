@@ -1,7 +1,7 @@
 #ifndef RUSH_HUBCONFIG_H
 #define RUSH_HUBCONFIG_H
 
-#include <hub/cviDock.hpp>
+#include <hub/dockCommon.h>
 
 #ifdef __cplusplus
 extern "C"

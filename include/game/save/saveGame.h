@@ -456,7 +456,7 @@ void SaveGame__EnableStateFlags(u16 mask);
 void SaveGame__DisableStateFlags(u16 mask);
 void SaveGame__ApplySystemProgress(void);
 void SaveGame__SetProgressFlags_0x100(void);
-void SaveGame__SetBoughtInfo0(void);
+void SaveGame__SetProgressFlags_0x200(void);
 void SaveGame__SetProgressFlags_0x400(void);
 void SaveGame__RemoveProgressFlags_0x100(void);
 void SaveGame__RemoveProgressFlags_0x200(void);

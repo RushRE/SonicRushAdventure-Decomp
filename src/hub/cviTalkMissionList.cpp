@@ -4,6 +4,7 @@
 #include <hub/hubConfig.h>
 #include <hub/missionConfig.h>
 #include <hub/cviDockNpcTalk.hpp>
+#include <hub/cviDock.hpp>
 #include <game/save/saveGame.h>
 #include <game/input/padInput.h>
 #include <game/input/touchInput.h>
@@ -42,7 +43,6 @@ NOT_DECOMPILED void _ZN10HubControl21GetFileFrom_ViMsgCtrlEv(void);
 NOT_DECOMPILED void _ZN10HubControl10GetField54Ev(void);
 NOT_DECOMPILED void _ZdlPv(void);
 NOT_DECOMPILED void _ZnwmPv(void);
-
 }
 
 // --------------------
@@ -56,71 +56,15 @@ NOT_DECOMPILED void *ovl05_02173198;
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC void ViTalkMissionList__Create(s32 param)
+void ViTalkMissionList__Create(s32 param)
 {
-#ifdef NON_MATCHING
+    Task *task =
+        HubTaskCreate(ViTalkMissionList__Main, ViTalkMissionList__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1010, TASK_GROUP(16), CViTalkMissionList);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	ldr r4, =0x00001010
-	mov r2, #0
-	ldr r0, =ViTalkMissionList__Main
-	ldr r1, =ViTalkMissionList__Destructor
-	mov r3, r2
-	str r4, [sp]
-	mov r4, #0x10
-	str r4, [sp, #4]
-	bl ViTalkMissionList__CreateInternal
-	bl GetTaskWork_
-	mov r4, r0
-	add r0, r4, #0x118
-	add r0, r0, #0xc00
-	mov r1, #0x800
-	bl InitThreadWorker
-	add r0, r4, #0x118
-	ldr r1, =ViTalkMissionList__ThreadFunc
-	add r0, r0, #0xc00
-	mov r2, r4
-	mov r3, #0x14
-	bl CreateThreadWorker
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    CViTalkMissionList *work = TaskGetWork(task, CViTalkMissionList);
 
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViTalkMissionList__CreateInternal(void)
-{
-#ifdef NON_MATCHING
-
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0xc
-	ldrh r4, [sp, #0x18]
-	ldrb lr, [sp, #0x1c]
-	ldr ip, =0x00000DE4
-	stmia sp, {r4, lr}
-	str ip, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	bl GetTaskWork_
-	mov r1, r0
-	ldr r0, =0x00000DE4
-	bl _ZnwmPv
-	cmp r0, #0
-	beq _0216A258
-	bl _ZN13CViEvtCmnTalkC1Ev
-_0216A258:
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-
-// clang-format on
-#endif
+    InitThreadWorker(&work->thread, 0x800);
+    CreateThreadWorker(&work->thread, ViTalkMissionList__ThreadFunc, work, 20);
 }
 
 NONMATCH_FUNC void ViTalkMissionList__ThreadFunc(void *arg)
@@ -128,7 +72,7 @@ NONMATCH_FUNC void ViTalkMissionList__ThreadFunc(void *arg)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN10HubControl17GetFileFrom_ViMsgEv
@@ -164,7 +108,7 @@ NONMATCH_FUNC void ViTalkMissionList__InitDisplay(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl _ZN10HubControl12Func_215A888Ev
 	bl _ZN10HubControl12Func_215A9D8Ev
@@ -182,7 +126,7 @@ NONMATCH_FUNC void ViTalkMissionList__InitSprites(CViTalkMissionList *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x24
 	mov r7, r0
@@ -443,7 +387,7 @@ NONMATCH_FUNC void ViTalkMissionList__InitList(CViTalkMissionList *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x2c
 	mov r11, r0
@@ -549,7 +493,7 @@ NONMATCH_FUNC void ViTalkMissionList__Release(CViTalkMissionList *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ViTalkMissionList__Func_216B418
@@ -573,7 +517,7 @@ NONMATCH_FUNC void ViTalkMissionList__ResetDisplay(CViTalkMissionList *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl _ZN10HubControl12Func_215A96CEv
 	bl _ZN10HubControl12Func_215AB84Ev
@@ -591,7 +535,7 @@ NONMATCH_FUNC void ViTalkMissionList__ReleaseGraphics(CViTalkMissionList *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x830
@@ -631,7 +575,7 @@ NONMATCH_FUNC void ViTalkMissionList__ReleaseList(CViTalkMissionList *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x94
@@ -654,7 +598,7 @@ NONMATCH_FUNC void ViTalkMissionList__Main(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -687,7 +631,7 @@ NONMATCH_FUNC void ViTalkMissionList__Main_216A99C(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -736,7 +680,7 @@ NONMATCH_FUNC void ViTalkMissionList__Main_216AA38(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -802,7 +746,7 @@ NONMATCH_FUNC void ViTalkMissionList__Main_216AB10(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -903,7 +847,7 @@ NONMATCH_FUNC void ViTalkMissionList__Main_216AC78(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
@@ -955,7 +899,7 @@ NONMATCH_FUNC void ViTalkMissionList__Main_216AD1C(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -996,7 +940,7 @@ NONMATCH_FUNC void ViTalkMissionList__Main_216AD94(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
@@ -1046,7 +990,7 @@ NONMATCH_FUNC void ViTalkMissionList__Func_216AE2C(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -1062,88 +1006,36 @@ NONMATCH_FUNC void ViTalkMissionList__Func_216AE2C(void)
 #endif
 }
 
-NONMATCH_FUNC void ViTalkMissionList__Destructor(Task *task)
+void ViTalkMissionList__Destructor(Task *task)
 {
-#ifdef NON_MATCHING
+    CViTalkMissionList *work = TaskGetWork(task, CViTalkMissionList);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	bl GetTaskWork_
-	mov r4, r0
-	ldr r0, [r4, #0x4c4]
-	cmp r0, #0
-	beq _0216AE9C
-	mov r0, #0x63
-	bl MissionHelpers__CheckMissionAttempted
-	cmp r0, #0
-	beq _0216AE88
-	mov r0, #0x63
-	bl MissionHelpers__ResetMissionAttempted
-_0216AE88:
-	mov r0, #0xb
-	bl _ZN14CViDockNpcTalk13SetTalkActionEm
-	mov r0, #0x63
-	bl _ZN14CViDockNpcTalk12SetSelectionEl
-	b _0216AEF0
-_0216AE9C:
-	ldr r0, [r4, #0x4c0]
-	cmp r0, #0
-	beq _0216AEE0
-	add r0, r4, #0x400
-	ldrh r0, [r0, #0xbe]
-	bl MissionHelpers__GetMissionFromSelection
-	mov r5, r0
-	bl MissionHelpers__CheckMissionAttempted
-	cmp r0, #0
-	beq _0216AECC
-	mov r0, r5
-	bl MissionHelpers__ResetMissionAttempted
-_0216AECC:
-	mov r0, #9
-	bl _ZN14CViDockNpcTalk13SetTalkActionEm
-	mov r0, r5
-	bl _ZN14CViDockNpcTalk12SetSelectionEl
-	b _0216AEF0
-_0216AEE0:
-	mov r0, #0
-	bl _ZN14CViDockNpcTalk13SetTalkActionEm
-	mov r0, #0
-	bl _ZN14CViDockNpcTalk12SetSelectionEl
-_0216AEF0:
-	mov r0, r4
-	bl ViTalkMissionList__Release
-	mov r0, r6
-	bl ViTalkMissionList__Func_216AF04
-	ldmia sp!, {r4, r5, r6, pc}
+    if (work->field_4C4)
+    {
+        if (MissionHelpers__CheckMissionAttempted(MISSION_99))
+            MissionHelpers__ResetMissionAttempted(MISSION_99);
 
-// clang-format on
-#endif
-}
+        CViDockNpcTalk::SetTalkAction(11);
+        CViDockNpcTalk::SetSelection(MISSION_99);
+    }
+    else if (work->field_4C0)
+    {
+        s32 id = MissionHelpers__GetMissionFromSelection(work->selection);
+        if (MissionHelpers__CheckMissionAttempted(id))
+            MissionHelpers__ResetMissionAttempted(id);
 
-NONMATCH_FUNC void ViTalkMissionList__Func_216AF04(void)
-{
-#ifdef NON_MATCHING
-
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r4, [r5, #0x10]
-	cmp r4, #0
-	beq _0216AF28
-	mov r0, r4
-	bl _ZN13CViEvtCmnTalkD1Ev
-	mov r0, r4
-	bl _ZdlPv
-_0216AF28:
-	mov r0, #0
-	str r0, [r5, #0x10]
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+        CViDockNpcTalk::SetTalkAction(9);
+        CViDockNpcTalk::SetSelection(id);
+    }
+    else
+    {
+        CViDockNpcTalk::SetTalkAction(0);
+        CViDockNpcTalk::SetSelection(0);
+    }
+    
+    ViTalkMissionList__Release(work);
+    
+    HubTaskDestroy<CViTalkMissionList>(task);
 }
 
 NONMATCH_FUNC void ViTalkMissionList__DrawBackground(CViTalkMissionList *work, s32 a2)
@@ -1151,7 +1043,7 @@ NONMATCH_FUNC void ViTalkMissionList__DrawBackground(CViTalkMissionList *work, s
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #4
 	mov r9, r0
@@ -1254,7 +1146,7 @@ NONMATCH_FUNC void ViTalkMissionList__Draw(CViTalkMissionList *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x1c
 	ldr r3, =ovl05_02173198
@@ -1483,7 +1375,7 @@ NONMATCH_FUNC BOOL ViTalkMissionList__ReleaseThread(CViTalkMissionList *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x4d0]
@@ -1512,7 +1404,7 @@ NONMATCH_FUNC void ViTalkMissionList__Func_216B418(CViTalkMissionList *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x4d8]
@@ -1535,7 +1427,7 @@ NONMATCH_FUNC void ViTalkMissionList__Func_216B448(CViTalkMissionList *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x400
@@ -1573,12 +1465,11 @@ _0216B4B4:
 #endif
 }
 
-NONMATCH_FUNC void ViTalkMissionList__Func_216B4C4(BOOL enabled)
-{
+NONMATCH_FUNC void ViTalkMissionList__Func_216B4C4(BOOL enabled){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	cmp r0, #0
 	mov r2, #0x4000000
 	beq _0216B4F4
@@ -1606,12 +1497,11 @@ _0216B4F4:
 #endif
 }
 
-NONMATCH_FUNC void ViTalkMissionList__Func_216B518(BOOL enabled)
-{
+NONMATCH_FUNC void ViTalkMissionList__Func_216B518(BOOL enabled){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	cmp r0, #0
 	ldr r2, =0x04001000
 	beq _0216B548
@@ -1639,12 +1529,11 @@ _0216B548:
 #endif
 }
 
-NONMATCH_FUNC void ViTalkMissionList__Func_216B570(BOOL enabled)
-{
+NONMATCH_FUNC void ViTalkMissionList__Func_216B570(BOOL enabled){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	cmp r0, #0
 	mov r2, #0x4000000
 	beq _0216B5A0
@@ -1672,12 +1561,11 @@ _0216B5A0:
 #endif
 }
 
-NONMATCH_FUNC void ViTalkMissionList__Func_216B5C4(BOOL enabled)
-{
+NONMATCH_FUNC void ViTalkMissionList__Func_216B5C4(BOOL enabled){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	cmp r0, #0
 	ldr r2, =0x04001000
 	beq _0216B5F4
@@ -1710,7 +1598,7 @@ NONMATCH_FUNC void ViTalkMissionList__InitWindow(CViTalkMissionList *work, s32 y
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	cmp r1, #0
 	moveq r0, #0

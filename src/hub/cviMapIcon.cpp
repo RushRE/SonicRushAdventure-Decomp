@@ -1,81 +1,70 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <hub/cviMapIcon.hpp>
+#include <game/file/fileUnknown.h>
+#include <game/file/binaryBundle.h>
+#include <game/input/padInput.h>
+#include <game/input/touchInput.h>
+#include <game/graphics/drawState.h>
+#include <game/graphics/drawReqTask.h>
+#include <hub/hubConfig.h>
 
-	.public _ZTVN10__cxxabiv117__class_type_infoE
-	.public _ZTVN10__cxxabiv120__si_class_type_infoE
+// --------------------
+// TEMP
+// --------------------
 
-	.text
+extern "C"
+{
 
-	arm_func_start ViMapIcon__Constructor
-ViMapIcon__Constructor: // 0x02162FA8
-	stmdb sp!, {r4, lr}
-	ldr r1, _0216300C // =_ZTV10CViMapIcon+0x08
-	mov r4, r0
-	str r1, [r4]
-	mov r0, #0
-	add r1, r4, #0x10
-	mov r2, #0x64
-	str r0, [r4, #8]
-	bl MIi_CpuClear32
-	add r1, r4, #0x74
-	mov r0, #0
-	mov r2, #0x64
-	bl MIi_CpuClear32
-	add r1, r4, #0xd8
-	mov r0, #0
-	mov r2, #0x64
-	bl MIi_CpuClear32
-	add r1, r4, #0x18c
-	mov r0, #0
-	mov r2, #0x64
-	bl MIi_CpuClear32
-	mov r0, r4
-	bl ViMapIcon__Func_2163294
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216300C: .word _ZTV10CViMapIcon+0x08
-	arm_func_end ViMapIcon__Constructor
+NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViActEt(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_2157178Ev(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215B51CEl(void);
 
-	arm_func_start ViMapIcon__VTableFunc_2163010
-ViMapIcon__VTableFunc_2163010: // 0x02163010
-	stmdb sp!, {r4, lr}
-	ldr r1, _0216302C // =_ZTV10CViMapIcon+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViMapIcon__Func_2163294
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216302C: .word _ZTV10CViMapIcon+0x08
-	arm_func_end ViMapIcon__VTableFunc_2163010
+NOT_DECOMPILED void Unknown2051334__Func_20516B8(void);
+NOT_DECOMPILED void Unknown2051334__Func_2051600(void);
 
-	arm_func_start ViMapIcon__VTableFunc_2163030
-ViMapIcon__VTableFunc_2163030: // 0x02163030
-	stmdb sp!, {r4, lr}
-	ldr r1, _02163054 // =_ZTV10CViMapIcon+0x08
-	mov r4, r0
-	str r1, [r4]
-	bl ViMapIcon__Func_2163294
-	mov r0, r4
-	bl _ZdlPv
-	mov r0, r4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02163054: .word _ZTV10CViMapIcon+0x08
-	arm_func_end ViMapIcon__VTableFunc_2163030
+}
 
-	arm_func_start ViMapIcon__Func_2163058
-ViMapIcon__Func_2163058: // 0x02163058
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED void *aBbViDockBb;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+CViMapIcon::CViMapIcon()
+{
+    this->sprIcon = NULL;
+
+    MI_CpuClear32(&this->aniIconOutline, sizeof(this->aniCursor));
+    MI_CpuClear32(&this->aniIconCenter, sizeof(this->aniCursor));
+    MI_CpuClear32(&this->aniSonicMarker, sizeof(this->aniCursor));
+    MI_CpuClear32(&this->aniCursor, sizeof(this->aniCursor));
+
+    ViMapIcon__Func_2163294(this);
+}
+
+CViMapIcon::~CViMapIcon()
+{
+    ViMapIcon__Func_2163294(this);
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163058(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x1c
 	mov r5, r1
 	mov r6, r0
 	bl ViMapIcon__Func_2163294
 	cmp r5, #0
-	ldreq r4, _0216328C // =0x05000200
+	ldreq r4, =0x05000200
 	mov r0, #0
-	ldrne r4, _02163290 // =0x05000600
+	ldrne r4, =0x05000600
 	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r1, #0
 	str r0, [r6, #8]
@@ -208,13 +197,17 @@ ViMapIcon__Func_2163058: // 0x02163058
 	str r0, [r6, #0x1c8]
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	.align 2, 0
-_0216328C: .word 0x05000200
-_02163290: .word 0x05000600
-	arm_func_end ViMapIcon__Func_2163058
 
-	arm_func_start ViMapIcon__Func_2163294
-ViMapIcon__Func_2163294: // 0x02163294
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163294(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x18c
@@ -258,10 +251,16 @@ ViMapIcon__Func_2163294: // 0x02163294
 	str r1, [r4, #0x144]
 	str r1, [r4, #0x148]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViMapIcon__Func_2163294
 
-	arm_func_start ViMapIcon__Func_2163340
-ViMapIcon__Func_2163340: // 0x02163340
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163340(CViMapIcon *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	cmp r2, #0
 	ldrne r3, [r0, #4]
 	mov r2, #1
@@ -271,17 +270,29 @@ ViMapIcon__Func_2163340: // 0x02163340
 	andeq r1, r2, r1
 	str r1, [r0, #4]
 	bx lr
-	arm_func_end ViMapIcon__Func_2163340
 
-	arm_func_start ViMapIcon__Func_2163364
-ViMapIcon__Func_2163364: // 0x02163364
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163364(CViMapIcon *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	strh r1, [r0, #0xc]
 	strh r2, [r0, #0xe]
 	bx lr
-	arm_func_end ViMapIcon__Func_2163364
 
-	arm_func_start ViMapIcon__Func_2163370
-ViMapIcon__Func_2163370: // 0x02163370
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163370(CViMapIcon *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	cmp r2, #0
 	beq _02163388
 	add ip, r0, r1, lsl #3
@@ -296,10 +307,16 @@ _02163388:
 	ldrh r0, [r0, #0x52]
 	strh r0, [r3]
 	bx lr
-	arm_func_end ViMapIcon__Func_2163370
 
-	arm_func_start ViMapIcon__Func_21633A4
-ViMapIcon__Func_21633A4: // 0x021633A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21633A4(CViMapIcon *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	str r1, [r0, #0x13c]
 	add r1, r0, #0x100
 	mov r2, #0
@@ -308,10 +325,17 @@ ViMapIcon__Func_21633A4: // 0x021633A4
 	str r2, [r0, #0x144]
 	str r2, [r0, #0x148]
 	bx lr
-	arm_func_end ViMapIcon__Func_21633A4
 
-	arm_func_start ViMapIcon__Func_21633C4
-ViMapIcon__Func_21633C4: // 0x021633C4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21633C4(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r2, r5, #0x42
@@ -325,16 +349,28 @@ ViMapIcon__Func_21633C4: // 0x021633C4
 	mov r0, #0
 	str r0, [r5, #0x148]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViMapIcon__Func_21633C4
 
-	arm_func_start ViMapIcon__Func_21633F8
-ViMapIcon__Func_21633F8: // 0x021633F8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21633F8(CViMapIcon *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r0, [r0, #0x13c]
 	bx lr
-	arm_func_end ViMapIcon__Func_21633F8
 
-	arm_func_start ViMapIcon__Func_2163400
-ViMapIcon__Func_2163400: // 0x02163400
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163400(CViMapIcon *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r2, [r0, #0x148]
 	ldr r1, [r0, #0x144]
 	cmp r2, r1
@@ -351,10 +387,17 @@ ViMapIcon__Func_2163400: // 0x02163400
 	str r2, [r0, #0x144]
 	str r2, [r0, #0x148]
 	bx lr
-	arm_func_end ViMapIcon__Func_2163400
 
-	arm_func_start ViMapIcon__Func_2163440
-ViMapIcon__Func_2163440: // 0x02163440
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163440(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r1, [r5, #4]
@@ -403,16 +446,23 @@ _021634E4:
 	cmp r4, #8
 	blt _021634A0
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViMapIcon__Func_2163440
 
-	arm_func_start ViMapIcon__Func_21634F4
-ViMapIcon__Func_21634F4: // 0x021634F4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21634F4(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _0216351C
-	ldr r0, _021635D8 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #4
 	movne r0, #1
@@ -429,7 +479,7 @@ _02163534:
 	mov r0, #9
 	ldmia sp!, {r3, r4, r5, pc}
 _0216353C:
-	ldr r0, _021635D8 // =touchInput
+	ldr r0, =touchInput
 	ldrh r1, [r4, #0xc]
 	ldrh r3, [r0, #0x1c]
 	ldrh r2, [r0, #0x1e]
@@ -470,32 +520,37 @@ _021635C8:
 	cmp r1, #8
 	blt _02163568
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021635D8: .word touchInput
-	arm_func_end ViMapIcon__Func_21634F4
 
-	arm_func_start ViMapIcon__Func_21635DC
-ViMapIcon__Func_21635DC: // 0x021635DC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21635DC(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x148]
 	ldr r0, [r4, #0x144]
 	cmp r1, r0
-	ldrlo r0, _02163674 // =padInput
+	ldrlo r0, =padInput
 	ldrloh r0, [r0, #4]
-	ldrhs r0, _02163674 // =padInput
+	ldrhs r0, =padInput
 	ldrhsh r0, [r0, #0]
 	tst r0, #0x20
-	ldrne r5, _02163678 // =ViMapIcon__Func_2163904
+	ldrne r5, =ViMapIcon__Func_2163904
 	bne _02163638
 	tst r0, #0x40
-	ldrne r5, _0216367C // =ViMapIcon__Func_216392C
+	ldrne r5, =ViMapIcon__Func_216392C
 	bne _02163638
 	tst r0, #0x10
-	ldrne r5, _02163680 // =ViMapIcon__Func_2163954
+	ldrne r5, =ViMapIcon__Func_2163954
 	bne _02163638
 	tst r0, #0x80
-	ldrne r5, _02163684 // =ViMapIcon__Func_216397C
+	ldrne r5, =ViMapIcon__Func_216397C
 	bne _02163638
 	mov r0, #9
 	ldmia sp!, {r4, r5, r6, pc}
@@ -516,46 +571,61 @@ _0216363C:
 	tst r1, #1
 	beq _0216363C
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02163674: .word padInput
-_02163678: .word ViMapIcon__Func_2163904
-_0216367C: .word ViMapIcon__Func_216392C
-_02163680: .word ViMapIcon__Func_2163954
-_02163684: .word ViMapIcon__Func_216397C
-	arm_func_end ViMapIcon__Func_21635DC
 
-	arm_func_start ViMapIcon__Func_2163688
-ViMapIcon__Func_2163688: // 0x02163688
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163688(CViMapIcon *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r1, [r0, #0x148]
 	ldr r0, [r0, #0x144]
 	cmp r1, r0
 	movlo r0, #1
 	movhs r0, #0
 	bx lr
-	arm_func_end ViMapIcon__Func_2163688
 
-	arm_func_start ViMapIcon__Func_21636A0
-ViMapIcon__Func_21636A0: // 0x021636A0
-	ldr ip, _021636A8 // =ViMapIcon__Func_21636C8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21636A0(CViMapIcon *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =ViMapIcon__Func_21636C8
 	bx ip
-	.align 2, 0
-_021636A8: .word ViMapIcon__Func_21636C8
-	arm_func_end ViMapIcon__Func_21636A0
 
-	arm_func_start ViMapIcon__Func_21636AC
-ViMapIcon__Func_21636AC: // 0x021636AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21636AC(CViMapIcon *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	add r3, r0, #0x100
 	strh r1, [r3, #0x94]
-	ldr ip, _021636C4 // =AnimatorSprite__DrawFrame
+	ldr ip, =AnimatorSprite__DrawFrame
 	add r0, r0, #0x18c
 	strh r2, [r3, #0x96]
 	bx ip
-	.align 2, 0
-_021636C4: .word AnimatorSprite__DrawFrame
-	arm_func_end ViMapIcon__Func_21636AC
 
-	arm_func_start ViMapIcon__Func_21636C8
-ViMapIcon__Func_21636C8: // 0x021636C8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21636C8(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	add r1, r4, #0x14c
@@ -586,10 +656,17 @@ _02163720:
 	add r7, r7, #8
 	blt _021636F0
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ViMapIcon__Func_21636C8
 
-	arm_func_start ViMapIcon__Func_2163738
-ViMapIcon__Func_2163738: // 0x02163738
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163738(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r1
 	mvn r1, #0xf
@@ -616,10 +693,17 @@ ViMapIcon__Func_2163738: // 0x02163738
 	str r1, [r6, #0x68]
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ViMapIcon__Func_2163738
 
-	arm_func_start ViMapIcon__Func_21637A0
-ViMapIcon__Func_21637A0: // 0x021637A0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21637A0(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r9, r1
 	ldr r1, [r0, #0x144]
@@ -688,10 +772,17 @@ _02163874:
 	mov r0, r0, asr #0xc
 	strh r0, [r8]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	arm_func_end ViMapIcon__Func_21637A0
 
-	arm_func_start ViMapIcon__Func_21638A4
-ViMapIcon__Func_21638A4: // 0x021638A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21638A4(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	strh r1, [r4, #0xe0]
@@ -703,10 +794,17 @@ ViMapIcon__Func_21638A4: // 0x021638A4
 	add r0, r4, #0xd8
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r4, pc}
-	arm_func_end ViMapIcon__Func_21638A4
 
-	arm_func_start ViMapIcon__Func_21638D0
-ViMapIcon__Func_21638D0: // 0x021638D0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21638D0(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r0, r0, lsl #0x10
 	mov r5, r1
@@ -720,10 +818,17 @@ ViMapIcon__Func_21638D0: // 0x021638D0
 	ldrneh r0, [r0, #2]
 	strneh r0, [r4]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViMapIcon__Func_21638D0
 
-	arm_func_start ViMapIcon__Func_2163904
-ViMapIcon__Func_2163904: // 0x02163904
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163904(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r0, r0, lsl #0x10
 	mov r4, r1
@@ -734,10 +839,17 @@ ViMapIcon__Func_2163904: // 0x02163904
 	addlo r0, r0, r4, lsl #2
 	ldrlo r0, [r0, #0xc]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViMapIcon__Func_2163904
 
-	arm_func_start ViMapIcon__Func_216392C
-ViMapIcon__Func_216392C: // 0x0216392C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_216392C(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r0, r0, lsl #0x10
 	mov r4, r1
@@ -748,10 +860,17 @@ ViMapIcon__Func_216392C: // 0x0216392C
 	addlo r0, r0, r4, lsl #2
 	ldrlo r0, [r0, #0x18]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViMapIcon__Func_216392C
 
-	arm_func_start ViMapIcon__Func_2163954
-ViMapIcon__Func_2163954: // 0x02163954
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163954(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r0, r0, lsl #0x10
 	mov r4, r1
@@ -762,10 +881,17 @@ ViMapIcon__Func_2163954: // 0x02163954
 	addlo r0, r0, r4, lsl #2
 	ldrlo r0, [r0, #0x24]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViMapIcon__Func_2163954
 
-	arm_func_start ViMapIcon__Func_216397C
-ViMapIcon__Func_216397C: // 0x0216397C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_216397C(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r0, r0, lsl #0x10
 	mov r4, r1
@@ -776,10 +902,17 @@ ViMapIcon__Func_216397C: // 0x0216397C
 	addlo r0, r0, r4, lsl #2
 	ldrlo r0, [r0, #0x30]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViMapIcon__Func_216397C
 
-	arm_func_start ViMapIcon__Func_21639A4
-ViMapIcon__Func_21639A4: // 0x021639A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21639A4(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r1
 	mov r6, r0
@@ -800,7 +933,7 @@ ViMapIcon__Func_21639A4: // 0x021639A4
 	mov r0, r0, lsr #0x10
 	bl HubConfig__GetDockBackInfo
 	ldrh r1, [r0, #0x10]
-	ldr r0, _02163A4C // =aBbViDockBb
+	ldr r0, =aBbViDockBb
 	mov r2, #0
 	bl ReadFileFromBundle
 	str r0, [r6, #0xdc]
@@ -822,12 +955,17 @@ ViMapIcon__Func_21639A4: // 0x021639A4
 	mov r0, r6
 	bl ViMapIcon__Func_2163C80
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02163A4C: .word aBbViDockBb
-	arm_func_end ViMapIcon__Func_21639A4
 
-	arm_func_start ViMapIcon__Func_2163A50
-ViMapIcon__Func_2163A50: // 0x02163A50
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163A50(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0xdc]
@@ -840,16 +978,28 @@ _02163A70:
 	mov r0, #9
 	str r0, [r4, #4]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViMapIcon__Func_2163A50
 
-	arm_func_start ViMapIcon__Func_2163A7C
-ViMapIcon__Func_2163A7C: // 0x02163A7C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163A7C(CViMapIcon *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	str r1, [r0]
 	bx lr
-	arm_func_end ViMapIcon__Func_2163A7C
 
-	arm_func_start ViMapIcon__Func_2163A84
-ViMapIcon__Func_2163A84: // 0x02163A84
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163A84(CViMapIcon *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r2, [r1, #0]
 	str r2, [r0, #8]
 	ldr r2, [r1, #4]
@@ -857,10 +1007,17 @@ ViMapIcon__Func_2163A84: // 0x02163A84
 	ldr r1, [r1, #8]
 	str r1, [r0, #0x10]
 	bx lr
-	arm_func_end ViMapIcon__Func_2163A84
 
-	arm_func_start ViMapIcon__Func_2163AA0
-ViMapIcon__Func_2163AA0: // 0x02163AA0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163AA0(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r7, r0
 	mov r4, r1
@@ -916,7 +1073,7 @@ _02163B20:
 	mov r1, r1, lsr #0xc
 	str r2, [r7, #0x34]
 	orr r1, r1, r0, lsl #20
-	ldr r0, _02163C24 // =0x0000F8E4
+	ldr r0, =0x0000F8E4
 	str r1, [r7, #0x3c]
 	strh r0, [r7, #0x40]
 	ldr r0, [r5, #8]
@@ -929,8 +1086,8 @@ _02163B20:
 	bhs _02163BD4
 	ldr r1, [sp, #0x24]
 	cmp r1, #0
-	ldrne r2, _02163C28 // =0x000031C7
-	ldreq r2, _02163C2C // =0x00002AAA
+	ldrne r2, =0x000031C7
+	ldreq r2, =0x00002AAA
 	cmp r0, r2
 	blo _02163C00
 	ldrh r1, [r7, #0x1a]
@@ -942,8 +1099,8 @@ _02163B20:
 _02163BD4:
 	ldr r1, [sp, #0x24]
 	cmp r1, #0
-	ldrne r2, _02163C30 // =0x00005C71
-	ldreq r2, _02163C34 // =0x00005555
+	ldrne r2, =0x00005C71
+	ldreq r2, =0x00005555
 	cmp r0, r2
 	bhi _02163C00
 	ldrh r1, [r7, #0x1a]
@@ -952,7 +1109,7 @@ _02163BD4:
 	mov r0, r0, lsl #0x10
 	mov r4, r0, lsr #0x10
 _02163C00:
-	ldr r0, _02163C38 // =0x00000E38
+	ldr r0, =0x00000E38
 	strh r4, [r7, #0x42]
 	strh r0, [r7, #0x44]
 	strh r6, [r7, #0x78]
@@ -961,17 +1118,17 @@ _02163C00:
 	mov r0, #1
 	str r0, [r7, #0x2c]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	.align 2, 0
-_02163C24: .word 0x0000F8E4
-_02163C28: .word 0x000031C7
-_02163C2C: .word 0x00002AAA
-_02163C30: .word 0x00005C71
-_02163C34: .word 0x00005555
-_02163C38: .word 0x00000E38
-	arm_func_end ViMapIcon__Func_2163AA0
 
-	arm_func_start ViMapIcon__Func_2163C3C
-ViMapIcon__Func_2163C3C: // 0x02163C3C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163C3C(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -989,10 +1146,17 @@ ViMapIcon__Func_2163C3C: // 0x02163C3C
 	mov r0, #2
 	str r0, [r5, #0x2c]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViMapIcon__Func_2163C3C
 
-	arm_func_start ViMapIcon__Func_2163C80
-ViMapIcon__Func_2163C80: // 0x02163C80
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163C80(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x50
 	mov r4, r0
@@ -1087,7 +1251,7 @@ _02163DC0:
 	mov r1, #0x1000
 	str r0, [r4, #0xa4]
 	ldr r0, [r4, #0x68]
-	ldr r3, _02163EB8 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	str r0, [r4, #0xa8]
 	str ip, [r4, #0x94]
 	str ip, [r4, #0x98]
@@ -1109,7 +1273,7 @@ _02163DC0:
 	ldrsh r2, [r3, r2]
 	bl MTX_RotX33_
 	ldrh r1, [r4, #0x72]
-	ldr r3, _02163EB8 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	add r0, sp, #8
 	sub r1, r1, #0x8000
 	mov r1, r1, lsl #0x10
@@ -1142,20 +1306,25 @@ _02163DC0:
 	bl VEC_Add
 	add sp, sp, #0x50
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_02163EB8: .word FX_SinCosTable_
-	arm_func_end ViMapIcon__Func_2163C80
 
-	arm_func_start ViMapIcon__Func_2163EBC
-ViMapIcon__Func_2163EBC: // 0x02163EBC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2163EBC(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x54
-	ldr r2, _02163FF8 // =0xBFFF0000
-	ldr r1, _02163FFC // =NNS_G3dGlb
+	ldr r2, =0xBFFF0000
+	ldr r1, =NNS_G3dGlb
 	mov r4, r0
 	str r2, [r1, #0xa0]
 	ldr r0, [r4, #0xdc]
-	ldr r1, _02164000 // =0x001FFFF8
+	ldr r1, =0x001FFFF8
 	bl LoadDrawState
 	add r1, sp, #4
 	mov r0, #0
@@ -1172,7 +1341,7 @@ ViMapIcon__Func_2163EBC: // 0x02163EBC
 	strh r1, [sp, #4]
 	bl Camera3D__LoadState
 	mov r0, #0
-	ldr r2, _02164004 // =0x00007FFF
+	ldr r2, =0x00007FFF
 	str r0, [sp]
 	mov r1, #0x1f
 	mov r3, r0
@@ -1182,8 +1351,8 @@ ViMapIcon__Func_2163EBC: // 0x02163EBC
 	addeq sp, sp, #0x54
 	ldmeqia sp!, {r4, r5, pc}
 	ldr r0, [r4, #0x94]
-	ldr ip, _02163FFC // =NNS_G3dGlb
-	ldr lr, _02164008 // =NNS_G3dGlb+0x0000004C
+	ldr ip, =NNS_G3dGlb
+	ldr lr, =NNS_G3dGlb+0x0000004C
 	str r0, [ip, #0x240]
 	ldr r1, [r4, #0x98]
 	add r0, r4, #0x94
@@ -1207,7 +1376,7 @@ ViMapIcon__Func_2163EBC: // 0x02163EBC
 	str r5, [ip, #0x260]
 	str lr, [sp]
 	bl G3i_LookAt_
-	ldr r0, _02163FFC // =NNS_G3dGlb
+	ldr r0, =NNS_G3dGlb
 	mov r5, #0
 	ldr r1, [r0, #0xfc]
 	bic r1, r1, #0xe8
@@ -1228,16 +1397,17 @@ _02163FBC:
 	blt _02163FBC
 	add sp, sp, #0x54
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_02163FF8: .word 0xBFFF0000
-_02163FFC: .word NNS_G3dGlb
-_02164000: .word 0x001FFFF8
-_02164004: .word 0x00007FFF
-_02164008: .word NNS_G3dGlb+0x0000004C
-	arm_func_end ViMapIcon__Func_2163EBC
 
-	arm_func_start ViMapIcon__Func_216400C
-ViMapIcon__Func_216400C: // 0x0216400C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_216400C(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	cmp r1, #8
@@ -1267,7 +1437,7 @@ _02164030:
 	str r1, [r4, #8]
 	ldrh r2, [r0, #0x18]
 	mov r1, #0x8000
-	ldr r0, _021640F0 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	strh r2, [r4, #0x10]
 	strh r1, [r4, #0x12]
 	strh r0, [r4, #0x14]
@@ -1281,7 +1451,7 @@ _02164090:
 	str r0, [r4, #8]
 	strh r0, [r4, #0x10]
 	mov r1, #0x8000
-	ldr r0, _021640F0 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	strh r1, [r4, #0x12]
 	strh r0, [r4, #0x14]
 	ldmia sp!, {r4, pc}
@@ -1294,16 +1464,21 @@ _021640C0:
 	str r0, [r4, #8]
 	strh r0, [r4, #0x10]
 	mov r1, #0x8000
-	ldr r0, _021640F0 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	strh r1, [r4, #0x12]
 	strh r0, [r4, #0x14]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021640F0: .word 0x0000FFFF
-	arm_func_end ViMapIcon__Func_216400C
 
-	arm_func_start ViMapIcon__Func_21640F4
-ViMapIcon__Func_21640F4: // 0x021640F4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21640F4(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x50
 	mov r5, r2
@@ -1337,7 +1512,7 @@ ViMapIcon__Func_21640F4: // 0x021640F4
 	mov r0, r0, lsr #0x10
 	bl HubConfig__GetDockBackInfo
 	ldrh r1, [r0, #0x18]
-	ldr r3, _02164220 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	add r0, sp, #0xc
 	mov r1, r1, asr #4
 	mov r2, r1, lsl #1
@@ -1380,12 +1555,17 @@ _021641B0:
 	blt _021641B0
 	add sp, sp, #0x50
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02164220: .word FX_SinCosTable_
-	arm_func_end ViMapIcon__Func_21640F4
 
-	arm_func_start ViMapIcon__Func_2164224
-ViMapIcon__Func_2164224: // 0x02164224
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_2164224(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	cmp r1, #8
@@ -1412,10 +1592,17 @@ ViMapIcon__Func_2164224: // 0x02164224
 	ldr r0, [r0, #0x30]
 	str r0, [r4, #0x14]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViMapIcon__Func_2164224
 
-	arm_func_start ViMapIcon__Func_216428C
-ViMapIcon__Func_216428C: // 0x0216428C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_216428C(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #0x20
 	ldr r0, [r0, #0xdc]
@@ -1424,10 +1611,17 @@ ViMapIcon__Func_216428C: // 0x0216428C
 	ldrh r0, [sp]
 	add sp, sp, #0x20
 	ldmia sp!, {r3, pc}
-	arm_func_end ViMapIcon__Func_216428C
 
-	arm_func_start ViMapIcon__Func_21642AC
-ViMapIcon__Func_21642AC: // 0x021642AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21642AC(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r9, r0
 	mov r8, r1
@@ -1498,10 +1692,17 @@ _02164380:
 	bl Unknown2051334__Func_20516B8
 	strh r0, [r4, #0x14]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	arm_func_end ViMapIcon__Func_21642AC
 
-	arm_func_start ViMapIcon__Func_21643AC
-ViMapIcon__Func_21643AC: // 0x021643AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViMapIcon__Func_21643AC(CViMapIcon *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r2, [r0, #0x7c]
 	ldr r3, [r1, #0]
 	cmp r3, r2
@@ -1529,24 +1730,7 @@ _021643EC:
 	cmp r2, r0
 	strgt r0, [r1, #8]
 	bx lr
-	arm_func_end ViMapIcon__Func_21643AC
 
-	.data
-
-.public _ZTI10CViMapIcon
-_ZTI10CViMapIcon: // 0x02173734
-    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS10CViMapIcon
-
-.public _ZTS10CViMapIcon
-_ZTS10CViMapIcon: // 0x0217373C
-	.asciz "10CViMapIcon"
-	.align 4
-
-.public _ZTV10CViMapIcon
-_ZTV10CViMapIcon: // 0x0217374C
-    .word 0, _ZTI10CViMapIcon
-    .word ViMapIcon__VTableFunc_2163010, ViMapIcon__VTableFunc_2163030
-
-aBbViDockBb: // 0x0217375C
-	.asciz "bb/vi_dock.bb"
-	.align 4
+// clang-format on
+#endif
+}

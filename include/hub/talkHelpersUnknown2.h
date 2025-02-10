@@ -9,6 +9,20 @@ extern "C"
 #endif
 
 // --------------------
+// STRUCTS
+// --------------------
+
+typedef struct TalkHelpersUnknown2_
+{
+    u32 field_0;
+    u16 *field_4;
+    u16 field_8;
+    u16 field_A;
+    u16 field_C;
+    u16 field_E;
+} TalkHelpersUnknown2;
+
+// --------------------
 // FUNCTIONS
 // --------------------
 

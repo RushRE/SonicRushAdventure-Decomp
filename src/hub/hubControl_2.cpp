@@ -1,7 +1,7 @@
 #include <hub/hubControl.hpp>
 #include <hub/cviHubAreaPreview.hpp>
 #include <hub/cviMap.hpp>
-#include <hub/cviDock.hpp>
+#include <hub/dockCommon.h>
 #include <hub/cviDockNpcGroup.hpp>
 #include <hub/hubHUD.hpp>
 #include <hub/hubAudio.h>

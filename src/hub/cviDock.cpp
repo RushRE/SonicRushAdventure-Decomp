@@ -1,29 +1,97 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <hub/cviDock.hpp>
+#include <hub/cviMapIcon.hpp>
+#include <hub/hubConfig.h>
+#include <hub/hubState.h>
+#include <game/input/padInput.h>
+#include <game/input/touchInput.h>
+#include <hub/hubAudio.h>
+#include <hub/hubControl.hpp>
+#include <game/graphics/unknown2056570.h>
+#include <game/file/fileUnknown.h>
 
-.public _ZN15CViDockNpcGroupD1Ev
+// --------------------
+// TEMP
+// --------------------
 
-	.bss
-	
-ViDock__TaskSingleton: // 0x02173A54
-	.space 0x04
+extern "C"
+{
 
-	.text
+NOT_DECOMPILED void _ZN15CViDockNpcGroupC1Ev(void);
+NOT_DECOMPILED void _ZN15CViDockNpcGroup10GetNextNpcEP20CViDockNpcGroupEntry(void);
+NOT_DECOMPILED void _ZN9CViShadow10LoadAssetsEv(void);
+NOT_DECOMPILED void _ZN9CViShadow12Func_2167E9CEv(void);
+NOT_DECOMPILED void _ZnwmPv(void);
+NOT_DECOMPILED void _ZdlPv(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_2157178Ev(void);
+NOT_DECOMPILED void _ZN15CViDockNpcGroup10LoadAssetsEv(void);
+NOT_DECOMPILED void _ZN15CViDockNpcGroup12ClearNpcListEv(void);
+NOT_DECOMPILED void _ZN15CViDockNpcGroup4DrawEP7VecFx32(void);
+NOT_DECOMPILED void _ZN15CViDockNpcGroup7AnimateEv(void);
+NOT_DECOMPILED void _ZN15CViDockNpcGroup6AddNpcEv(void);
+NOT_DECOMPILED void _ZN10HubControl10GetField54Ev(void);
+NOT_DECOMPILED void _ZN11CVi3dObject4DrawEv(void);
+NOT_DECOMPILED void _ZN15CViDockNpcGroup12Func_2168674EP7VecFx32llPiP20CViDockNpcGroupEntry(void);
+NOT_DECOMPILED void _ZN15CViDockNpcGroupD1Ev(void);
+NOT_DECOMPILED void _ZN15CViDockNpcGroup12Func_2168608EP7VecFx32S1_S1_l(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215B858El(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_215B850El(void);
+NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViMsgEv(void);
 
-	arm_func_start ViDock__Create
-ViDock__Create: // 0x0215DA6C
+NOT_DECOMPILED void Unknown2051334__Func_20514DC(void);
+NOT_DECOMPILED void Unknown2051334__Func_20516EC(void);
+}
+
+// --------------------
+// VARIABLES
+// --------------------
+
+static Task *ViDock__TaskSingleton;
+
+NOT_DECOMPILED void *ovl05_02172EB4;
+NOT_DECOMPILED void *ovl05_02172EBC;
+NOT_DECOMPILED void *ovl05_02172ECA;
+NOT_DECOMPILED void *ovl05_02172ED8;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC void ViDock__Create(void)
+{
+    // TODO: should match when constructors are decompiled for 'CViDockPlayer' 'CViDockNpcGroup', 'CViShadow' && 'CViDockBack'
+#ifdef NON_MATCHING
+    ViDock__TaskSingleton = HubTaskCreate(ViDock__Main, ViDock__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16), HubHUD);
+
+    CViDock *work = TaskGetWork(ViDock__TaskSingleton, CViDock);
+
+    work->hitboxID        = 8;
+    work->field_2         = 4;
+    work->field_4         = 8;
+    work->field_8         = 0;
+    work->field_C         = 0;
+    work->field_10        = 1;
+    work->talkActionID    = 12;
+    work->talkActionParam = 0;
+    work->field_1468      = 0;
+    work->field_1470      = 0;
+    work->field_1B24      = 0;
+    work->field_1B28      = 0;
+    InitThreadWorker(&work->thread, 0x1000);
+    ViDock__Func_215E678(work);
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
-	ldr r4, _0215DB10 // =0x00001030
+	ldr r4, =0x00001030
 	mov r2, #0
-	ldr r0, _0215DB14 // =ViDock__Main
-	ldr r1, _0215DB18 // =ViDock__Destructor
+	ldr r0, =ViDock__Main
+	ldr r1, =ViDock__Destructor
 	mov r3, r2
 	str r4, [sp]
 	mov r4, #0x10
 	str r4, [sp, #4]
 	bl ViDock__CreateInternal
-	ldr r1, _0215DB1C // =ViDock__TaskSingleton
+	ldr r1, =ViDock__TaskSingleton
 	str r0, [r1]
 	bl GetTaskWork_
 	mov r4, r0
@@ -53,20 +121,22 @@ ViDock__Create: // 0x0215DA6C
 	bl ViDock__Func_215E678
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215DB10: .word 0x00001030
-_0215DB14: .word ViDock__Main
-_0215DB18: .word ViDock__Destructor
-_0215DB1C: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Create
 
-	arm_func_start ViDock__CreateInternal
-ViDock__CreateInternal: // 0x0215DB20
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__CreateInternal(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	ldrh lr, [sp, #0x18]
 	ldrb ip, [sp, #0x1c]
-	ldr r4, _0215DB98 // =0x00001BF8
+	ldr r4, =0x00001BF8
 	str lr, [sp]
 	str ip, [sp, #4]
 	str r4, [sp, #8]
@@ -79,7 +149,7 @@ ViDock__CreateInternal: // 0x0215DB20
 	movs r4, r0
 	beq _0215DB8C
 	add r0, r4, #0xf8
-	bl ViDockBack__Constructor
+	bl _ZN11CViDockBackC1Ev
 	add r0, r4, #0x1f8
 	add r0, r0, #0xc00
 	bl _ZN13CViDockPlayerC1Ev
@@ -93,30 +163,40 @@ _0215DB8C:
 	mov r0, r5
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_0215DB98: .word 0x00001BF8
-	arm_func_end ViDock__CreateInternal
 
-	arm_func_start ViDock__Func_215DB9C
-ViDock__Func_215DB9C: // 0x0215DB9C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215DB9C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215DBC4 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl DestroyTask
-	ldr r0, _0215DBC4 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	mov r1, #0
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215DBC4: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215DB9C
 
-	arm_func_start ViDock__Func_215DBC8
-ViDock__Func_215DBC8: // 0x0215DBC8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215DBC8(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, _0215DC78 // =ViDock__TaskSingleton
+	ldr r1, =ViDock__TaskSingleton
 	mov r5, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -154,20 +234,24 @@ ViDock__Func_215DBC8: // 0x0215DBC8
 	str r1, [r0, #0xb24]
 	add r0, r4, #0x18
 	bl ViMapIcon__Func_2163A7C
-	ldr r0, _0215DC78 // =ViDock__TaskSingleton
-	ldr r1, _0215DC7C // =ViDock__Func_215F9CC
+	ldr r0, =ViDock__TaskSingleton
+	ldr r1, =ViDock__Func_215F9CC
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215DC78: .word ViDock__TaskSingleton
-_0215DC7C: .word ViDock__Func_215F9CC
-	arm_func_end ViDock__Func_215DBC8
 
-	arm_func_start ViDock__Func_215DC80
-ViDock__Func_215DC80: // 0x0215DC80
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215DC80(s32 a1, s32 a2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r2, _0215DCF4 // =ViDock__TaskSingleton
+	ldr r2, =ViDock__TaskSingleton
 	mov r6, r0
 	ldr r0, [r2, #0]
 	mov r5, r1
@@ -184,27 +268,30 @@ ViDock__Func_215DC80: // 0x0215DC80
 	add ip, r4, #0x1000
 	str r3, [ip, #0xb24]
 	mov lr, #1
-	ldr r1, _0215DCF8 // =ViDock__Func_215FFF4
+	ldr r1, =ViDock__Func_215FFF4
 	mov r2, r4
 	add r0, r0, #0x1800
 	mov r3, #0x18
 	str lr, [ip, #0xb28]
 	bl CreateThreadWorker
-	ldr r0, _0215DCF4 // =ViDock__TaskSingleton
-	ldr r1, _0215DCFC // =ViDock__Func_215FFC0
+	ldr r0, =ViDock__TaskSingleton
+	ldr r1, =ViDock__Func_215FFC0
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0215DCF4: .word ViDock__TaskSingleton
-_0215DCF8: .word ViDock__Func_215FFF4
-_0215DCFC: .word ViDock__Func_215FFC0
-	arm_func_end ViDock__Func_215DC80
 
-	arm_func_start ViDock__Func_215DD00
-ViDock__Func_215DD00: // 0x0215DD00
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL ViDock__Func_215DD00(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215DD28 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x1000
@@ -213,33 +300,42 @@ ViDock__Func_215DD00: // 0x0215DD00
 	moveq r0, #1
 	movne r0, #0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215DD28: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215DD00
 
-	arm_func_start ViDock__Func_215DD2C
-ViDock__Func_215DD2C: // 0x0215DD2C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215DD2C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215DD5C // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x18
 	mov r1, #0
 	bl ViMapIcon__Func_2163A7C
-	ldr r0, _0215DD5C // =ViDock__TaskSingleton
-	ldr r1, _0215DD60 // =ViDock__Func_215F9CC
+	ldr r0, =ViDock__TaskSingleton
+	ldr r1, =ViDock__Func_215F9CC
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215DD5C: .word ViDock__TaskSingleton
-_0215DD60: .word ViDock__Func_215F9CC
-	arm_func_end ViDock__Func_215DD2C
 
-	arm_func_start ViDock__Func_215DD64
-ViDock__Func_215DD64: // 0x0215DD64
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215DD64(s32 a1, s32 a2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r2, _0215DE34 // =ViDock__TaskSingleton
+	ldr r2, =ViDock__TaskSingleton
 	mov r6, r0
 	ldr r0, [r2, #0]
 	mov r5, r1
@@ -279,29 +375,32 @@ _0215DDDC:
 	bl ViMapIcon__Func_2163A7C
 	cmp r5, #0
 	beq _0215DE20
-	ldr r0, _0215DE34 // =ViDock__TaskSingleton
-	ldr r1, _0215DE38 // =ViDock__Func_215FE00
+	ldr r0, =ViDock__TaskSingleton
+	ldr r1, =ViDock__Func_215FE00
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	mov r0, #0
 	str r0, [r4, #0xc]
 	ldmia sp!, {r4, r5, r6, pc}
 _0215DE20:
-	ldr r0, _0215DE34 // =ViDock__TaskSingleton
-	ldr r1, _0215DE3C // =ViDock__Func_215F998
+	ldr r0, =ViDock__TaskSingleton
+	ldr r1, =ViDock__Func_215F998
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0215DE34: .word ViDock__TaskSingleton
-_0215DE38: .word ViDock__Func_215FE00
-_0215DE3C: .word ViDock__Func_215F998
-	arm_func_end ViDock__Func_215DD64
 
-	arm_func_start ViDock__Func_215DE40
-ViDock__Func_215DE40: // 0x0215DE40
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215DE40(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, _0215DEEC // =ViDock__TaskSingleton
+	ldr r1, =ViDock__TaskSingleton
 	mov r5, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -338,20 +437,24 @@ ViDock__Func_215DE40: // 0x0215DE40
 	add r0, r4, #0x18
 	mov r1, #2
 	bl ViMapIcon__Func_2163A7C
-	ldr r0, _0215DEEC // =ViDock__TaskSingleton
-	ldr r1, _0215DEF0 // =ViDock__Func_215FE68
+	ldr r0, =ViDock__TaskSingleton
+	ldr r1, =ViDock__Func_215FE68
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215DEEC: .word ViDock__TaskSingleton
-_0215DEF0: .word ViDock__Func_215FE68
-	arm_func_end ViDock__Func_215DE40
 
-	arm_func_start ViDock__Func_215DEF4
-ViDock__Func_215DEF4: // 0x0215DEF4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215DEF4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r0, _0215DF60 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
@@ -371,45 +474,60 @@ ViDock__Func_215DEF4: // 0x0215DEF4
 	strh r1, [r4]
 	mov r0, #4
 	strh r0, [r4, #2]
-	ldr r0, _0215DF60 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	str r1, [r4, #4]
 	ldr r0, [r0, #0]
 	mov r1, #0
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215DF60: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215DEF4
 
-	arm_func_start ViDock__Func_215DF64
-ViDock__Func_215DF64: // 0x0215DF64
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215DF64(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _0215DF80 // =ViDock__TaskSingleton
+	ldr r1, =ViDock__TaskSingleton
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	str r4, [r0, #8]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215DF80: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215DF64
 
-	arm_func_start ViDock__Func_215DF84
-ViDock__Func_215DF84: // 0x0215DF84
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215DF84(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215DF9C // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	bl ViDock__Func_215EE7C
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215DF9C: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215DF84
 
-	arm_func_start ViDock__Func_215DFA0
-ViDock__Func_215DFA0: // 0x0215DFA0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL ViDock__Func_215DFA0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r0, _0215DFE0 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
@@ -424,26 +542,36 @@ ViDock__Func_215DFA0: // 0x0215DFA0
 	ldmia r1, {r1, r2, r3}
 	bl ViDockBack__Func_2164B9C
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215DFE0: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215DFA0
 
-	arm_func_start ViDock__Func_215DFE4
-ViDock__Func_215DFE4: // 0x0215DFE4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 ViDock__Func_215DFE4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215DFFC // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #4]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215DFFC: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215DFE4
 
-	arm_func_start ViDock__Func_215E000
-ViDock__Func_215E000: // 0x0215E000
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL ViDock__Func_215E000(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215E028 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x1000
@@ -452,14 +580,19 @@ ViDock__Func_215E000: // 0x0215E000
 	movlt r0, #1
 	movge r0, #0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215E028: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215E000
 
-	arm_func_start ViDock__Func_215E02C
-ViDock__Func_215E02C: // 0x0215E02C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E02C(s32 *id, s32 *param)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r2, _0215E068 // =ViDock__TaskSingleton
+	ldr r2, =ViDock__TaskSingleton
 	mov r5, r0
 	ldr r0, [r2, #0]
 	mov r4, r1
@@ -473,14 +606,19 @@ ViDock__Func_215E02C: // 0x0215E02C
 	ldrne r0, [r0, #0x464]
 	strne r0, [r4]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215E068: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215E02C
 
-	arm_func_start ViDock__Func_215E06C
-ViDock__Func_215E06C: // 0x0215E06C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 ViDock__Func_215E06C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215E094 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x1000
@@ -489,14 +627,19 @@ ViDock__Func_215E06C: // 0x0215E06C
 	ldrne r0, [r0, #0x30c]
 	moveq r0, #0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215E094: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215E06C
 
-	arm_func_start ViDock__Func_215E098
-ViDock__Func_215E098: // 0x0215E098
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E098(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215E0C8 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x1000
@@ -507,14 +650,19 @@ ViDock__Func_215E098: // 0x0215E098
 	subne r0, r0, #1
 	strne r0, [r1, #0x30c]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215E0C8: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215E098
 
-	arm_func_start ViDock__GetTalkingNpc
-ViDock__GetTalkingNpc: // 0x0215E0CC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 ViDock__GetTalkingNpc(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215E100 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	moveq r0, #0x17
@@ -526,14 +674,19 @@ ViDock__GetTalkingNpc: // 0x0215E0CC
 	moveq r0, #0x17
 	ldrne r0, [r0, #0x300]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215E100: .word ViDock__TaskSingleton
-	arm_func_end ViDock__GetTalkingNpc
 
-	arm_func_start ViDock__Func_215E104
-ViDock__Func_215E104: // 0x0215E104
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E104(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r1, _0215E174 // =ViDock__TaskSingleton
+	ldr r1, =ViDock__TaskSingleton
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -561,15 +714,20 @@ _0215E148:
 	movs r1, r0
 	bne _0215E148
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0215E174: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215E104
 
-	arm_func_start ViDock__Func_215E178
-ViDock__Func_215E178: // 0x0215E178
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E178(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x48
-	ldr r0, _0215E334 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
@@ -625,7 +783,7 @@ ViDock__Func_215E178: // 0x0215E178
 	ldr r0, [r0, #0x468]
 	mov r1, r5
 	bl ViDockNpc__SetState1
-	ldr r1, _0215E338 // =0xFFFF8001
+	ldr r1, =0xFFFF8001
 	add r0, r4, #0x1f8
 	add r1, r5, r1
 	mov r1, r1, lsl #0x10
@@ -673,23 +831,26 @@ ViDock__Func_215E178: // 0x0215E178
 	ldr r0, [r0, #8]
 	str r0, [r1, #0x48c]
 _0215E31C:
-	ldr r0, _0215E334 // =ViDock__TaskSingleton
-	ldr r1, _0215E33C // =ViDock__Func_215FD48
+	ldr r0, =ViDock__TaskSingleton
+	ldr r1, =ViDock__Func_215FD48
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	add sp, sp, #0x48
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215E334: .word ViDock__TaskSingleton
-_0215E338: .word 0xFFFF8001
-_0215E33C: .word ViDock__Func_215FD48
-	arm_func_end ViDock__Func_215E178
 
-	arm_func_start ViDock__Func_215E340
-ViDock__Func_215E340: // 0x0215E340
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E340(s32 a1, s32 a2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
-	ldr r2, _0215E40C // =ViDock__TaskSingleton
+	ldr r2, =ViDock__TaskSingleton
 	mov r6, r0
 	ldr r0, [r2, #0]
 	mov r5, r1
@@ -742,14 +903,19 @@ _0215E3FC:
 	str r6, [r0, #0x474]
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0215E40C: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215E340
 
-	arm_func_start ViDock__Func_215E410
-ViDock__Func_215E410: // 0x0215E410
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E410(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r0, _0215E498 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
@@ -778,45 +944,59 @@ _0215E45C:
 	mov r1, #1
 	str r3, [r2, #0x468]
 	bl ViDockPlayer__Func_2166B80
-	ldr r0, _0215E498 // =ViDock__TaskSingleton
-	ldr r1, _0215E49C // =ViDock__Func_215F9CC
+	ldr r0, =ViDock__TaskSingleton
+	ldr r1, =ViDock__Func_215F9CC
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215E498: .word ViDock__TaskSingleton
-_0215E49C: .word ViDock__Func_215F9CC
-	arm_func_end ViDock__Func_215E410
 
-	arm_func_start ViDock__Func_215E4A0
-ViDock__Func_215E4A0: // 0x0215E4A0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL ViDock__Func_215E4A0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0215E4B8 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0xc]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215E4B8: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215E4A0
 
-	arm_func_start ViDock__Func_215E4BC
-ViDock__Func_215E4BC: // 0x0215E4BC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E4BC(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _0215E4D8 // =ViDock__TaskSingleton
+	ldr r1, =ViDock__TaskSingleton
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	str r4, [r0, #0x10]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215E4D8: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215E4BC
 
-	arm_func_start ViDock__Func_215E4DC
-ViDock__Func_215E4DC: // 0x0215E4DC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E4DC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	ldr r0, _0215E574 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r5, r0
@@ -854,14 +1034,19 @@ _0215E52C:
 	mov r6, r0, lsr #0x10
 	bne _0215E52C
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_0215E574: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215E4DC
 
-	arm_func_start ViDock__Func_215E578
-ViDock__Func_215E578: // 0x0215E578
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E578(BOOL a1)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	ldr r1, _0215E654 // =ViDock__TaskSingleton
+	ldr r1, =ViDock__TaskSingleton
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -919,25 +1104,35 @@ _0215E630:
 	mov r6, r0, lsr #0x10
 	bne _0215E5EC
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0215E654: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215E578
 
-	arm_func_start ViDock__Func_215E658
-ViDock__Func_215E658: // 0x0215E658
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E658(s32 a1)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _0215E674 // =ViDock__TaskSingleton
+	ldr r1, =ViDock__TaskSingleton
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	str r4, [r0, #0x14]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215E674: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Func_215E658
 
-	arm_func_start ViDock__Func_215E678
-ViDock__Func_215E678: // 0x0215E678
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E678(CViDock *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #8
@@ -965,10 +1160,17 @@ ViDock__Func_215E678: // 0x0215E678
 	str r0, [r4, #0xc]
 	str r1, [r4, #0x14]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViDock__Func_215E678
 
-	arm_func_start ViDock__Func_215E6E4
-ViDock__Func_215E6E4: // 0x0215E6E4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E6E4(CViDock *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x32c
@@ -997,10 +1199,17 @@ ViDock__Func_215E6E4: // 0x0215E6E4
 	str r1, [r0, #0x46c]
 	str r1, [r4, #0xc]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViDock__Func_215E6E4
 
-	arm_func_start ViDock__Func_215E754
-ViDock__Func_215E754: // 0x0215E754
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E754(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x10
 	mov r4, r0
@@ -1053,20 +1262,31 @@ _0215E7B4:
 	bl ViDockPlayer__Func_2166B90
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViDock__Func_215E754
 
-	arm_func_start ViDock__Func_215E81C
-ViDock__Func_215E81C: // 0x0215E81C
-	ldr ip, _0215E82C // =ViDockPlayer__Func_2166748
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E81C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =ViDockPlayer__Func_2166748
 	add r0, r0, #0x1f8
 	add r0, r0, #0xc00
 	bx ip
-	.align 2, 0
-_0215E82C: .word ViDockPlayer__Func_2166748
-	arm_func_end ViDock__Func_215E81C
 
-	arm_func_start ViDock__Func_215E830
-ViDock__Func_215E830: // 0x0215E830
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E830(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x18
 	mov r9, r0
@@ -1079,7 +1299,7 @@ ViDock__Func_215E830: // 0x0215E830
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _0215E874
-	ldr r0, _0215E9EC // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #1
 	movne r0, #1
@@ -1094,7 +1314,7 @@ _0215E878:
 	beq _0215E93C
 	add r0, sp, #0xc
 	bl CPPHelpers__Func_2085EE8
-	ldr r1, _0215E9EC // =touchInput
+	ldr r1, =touchInput
 	add r0, r9, #0xe00
 	ldrh r7, [r1, #0x14]
 	ldrh r8, [r1, #0x16]
@@ -1141,7 +1361,7 @@ _0215E900:
 _0215E93C:
 	cmp r4, #0
 	bne _0215E9C0
-	ldr r0, _0215E9F0 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #0]
 	tst r0, #0x40
 	beq _0215E970
@@ -1187,13 +1407,17 @@ _0215E9C0:
 	bl ViDockPlayer__Func_21667BC
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	.align 2, 0
-_0215E9EC: .word touchInput
-_0215E9F0: .word padInput
-	arm_func_end ViDock__Func_215E830
 
-	arm_func_start ViDock__Func_215E9F4
-ViDock__Func_215E9F4: // 0x0215E9F4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215E9F4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldrh r0, [r5, #2]
@@ -1232,19 +1456,30 @@ _0215EA68:
 	mov r2, #0
 	bl ViDockBack__LoadAssets
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViDock__Func_215E9F4
 
-	arm_func_start ViDock__Func_215EA7C
-ViDock__Func_215EA7C: // 0x0215EA7C
-	ldr ip, _0215EA88 // =ViDockBack__Func_2164968
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215EA7C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =ViDockBack__Func_2164968
 	add r0, r0, #0xf8
 	bx ip
-	.align 2, 0
-_0215EA88: .word ViDockBack__Func_2164968
-	arm_func_end ViDock__Func_215EA7C
 
-	arm_func_start ViDock__Func_215EA8C
-ViDock__Func_215EA8C: // 0x0215EA8C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215EA8C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrh r0, [r4, #2]
@@ -1275,29 +1510,40 @@ _0215EAE8:
 	add r0, r4, #0x18
 	bl ViMapIcon__Func_21639A4
 	ldmia sp!, {r4, pc}
-	arm_func_end ViDock__Func_215EA8C
 
-	arm_func_start ViDock__Func_215EAF4
-ViDock__Func_215EAF4: // 0x0215EAF4
-	ldr ip, _0215EB00 // =ViMapIcon__Func_2163A50
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215EAF4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =ViMapIcon__Func_2163A50
 	add r0, r0, #0x18
 	bx ip
-	.align 2, 0
-_0215EB00: .word ViMapIcon__Func_2163A50
-	arm_func_end ViDock__Func_215EAF4
 
-	arm_func_start ViDock__Func_215EB04
-ViDock__Func_215EB04: // 0x0215EB04
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215EB04(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	mov r10, r0
 	ldrh r1, [r10, #0]
 	cmp r1, #7
 	bhs _0215EC28
-	ldr r0, _0215EC3C // =ovl05_02172EBC
+	ldr r0, =ovl05_02172EBC
 	mov r1, r1, lsl #1
 	ldrh r11, [r0, r1]
-	ldr r0, _0215EC40 // =ovl05_02172ECA
+	ldr r0, =ovl05_02172ECA
 	mov r4, #0
 	ldrh r0, [r0, r1]
 	cmp r11, #0
@@ -1369,23 +1615,31 @@ _0215EC28:
 	bl _ZN15CViDockNpcGroup10LoadAssetsEv
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0215EC3C: .word ovl05_02172EBC
-_0215EC40: .word ovl05_02172ECA
-	arm_func_end ViDock__Func_215EB04
 
-	arm_func_start ViDock__Func_215EC44
-ViDock__Func_215EC44: // 0x0215EC44
-	ldr ip, _0215EC54 // =_ZN15CViDockNpcGroup12ClearNpcListEv
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215EC44(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =_ZN15CViDockNpcGroup12ClearNpcListEv
 	add r0, r0, #0x130
 	add r0, r0, #0x1000
 	bx ip
-	.align 2, 0
-_0215EC54: .word _ZN15CViDockNpcGroup12ClearNpcListEv
-	arm_func_end ViDock__Func_215EC44
 
-	arm_func_start ViDock__Func_215EC58
-ViDock__Func_215EC58: // 0x0215EC58
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215EC58(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x38
 	ldrh r4, [r0, #0]
@@ -1393,7 +1647,7 @@ ViDock__Func_215EC58: // 0x0215EC58
 	addhs sp, sp, #0x38
 	movhs r0, #0
 	ldmhsia sp!, {r4, r5, r6, pc}
-	ldr r6, _0215ED08 // =ovl05_02172ED8
+	ldr r6, =ovl05_02172ED8
 	add r5, sp, #0
 	mov r4, #0xe
 _0215EC80:
@@ -1432,12 +1686,17 @@ _0215ECFC:
 	mov r0, #0
 	add sp, sp, #0x38
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0215ED08: .word ovl05_02172ED8
-	arm_func_end ViDock__Func_215EC58
 
-	arm_func_start ViDock__Func_215ED0C
-ViDock__Func_215ED0C: // 0x0215ED0C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215ED0C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x24
 	mov r4, r0
@@ -1522,10 +1781,17 @@ _0215EDEC:
 	bl FontWindowAnimator__Func_20599B4
 	add sp, sp, #0x24
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	arm_func_end ViDock__Func_215ED0C
 
-	arm_func_start ViDock__Func_215EE58
-ViDock__Func_215EE58: // 0x0215EE58
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215EE58(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x490
@@ -1535,10 +1801,17 @@ ViDock__Func_215EE58: // 0x0215EE58
 	add r0, r0, #0x1400
 	bl FontAnimator__Release
 	ldmia sp!, {r4, pc}
-	arm_func_end ViDock__Func_215EE58
 
-	arm_func_start ViDock__Func_215EE7C
-ViDock__Func_215EE7C: // 0x0215EE7C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215EE7C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0xf4
@@ -1548,17 +1821,24 @@ ViDock__Func_215EE7C: // 0x0215EE7C
 	add r0, r0, #0x1000
 	bl FontWindowAnimator__Draw
 	ldmia sp!, {r4, pc}
-	arm_func_end ViDock__Func_215EE7C
 
-	arm_func_start ViDock__Func_215EEA0
-ViDock__Func_215EEA0: // 0x0215EEA0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215EEA0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	mov r0, #0x10000
 	mov r1, #0x10
 	bl FX_DivS32
 	mov r3, #0
-	ldr r5, _0215EF38 // =FX_SinCosTable_
+	ldr r5, =FX_SinCosTable_
 	mov r1, r3
 	mov r2, r4
 	mov ip, r0, lsl #0x10
@@ -1591,17 +1871,28 @@ _0215EEC8:
 	mov r1, #0
 	str r1, [r0, #0x680]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0215EF38: .word FX_SinCosTable_
-	arm_func_end ViDock__Func_215EEA0
 
-	arm_func_start ViDock__Func_215EF3C
-ViDock__Func_215EF3C: // 0x0215EF3C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215EF3C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	bx lr
-	arm_func_end ViDock__Func_215EF3C
 
-	arm_func_start ViDock__Func_215EF40
-ViDock__Func_215EF40: // 0x0215EF40
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215EF40(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	mov r4, r0
@@ -1624,7 +1915,7 @@ _0215EF60:
 	add r0, r4, #0x1600
 	mov r1, #0x1000
 	strh r1, [r0, #0x92]
-	ldr r7, _0215F198 // =ovl05_02172EB4
+	ldr r7, =ovl05_02172EB4
 	mov r0, #1
 	add r1, r4, #0x1000
 _0215EFA0:
@@ -1656,20 +1947,20 @@ _0215EFF8: // jump table
 	b _0215F020 // case 2
 	b _0215F02C // case 3
 _0215F008:
-	ldr r5, _0215F19C // =0x00007BF7
-	ldr r6, _0215F1A0 // =0x00006FE0
+	ldr r5, =0x00007BF7
+	ldr r6, =0x00006FE0
 	b _0215F034
 _0215F014:
-	ldr r5, _0215F1A0 // =0x00006FE0
-	ldr r6, _0215F19C // =0x00007BF7
+	ldr r5, =0x00006FE0
+	ldr r6, =0x00007BF7
 	b _0215F034
 _0215F020:
-	ldr r5, _0215F19C // =0x00007BF7
-	ldr r6, _0215F1A4 // =0x00007FFF
+	ldr r5, =0x00007BF7
+	ldr r6, =0x00007FFF
 	b _0215F034
 _0215F02C:
-	ldr r5, _0215F1A4 // =0x00007FFF
-	ldr r6, _0215F19C // =0x00007BF7
+	ldr r5, =0x00007FFF
+	ldr r6, =0x00007BF7
 _0215F034:
 	add r0, r4, #0x1600
 	ldrsh r2, [r0, #0x7e]
@@ -1692,20 +1983,20 @@ _0215F070: // jump table
 	b _0215F098 // case 2
 	b _0215F0A4 // case 3
 _0215F080:
-	ldr r5, _0215F19C // =0x00007BF7
-	ldr r6, _0215F1A0 // =0x00006FE0
+	ldr r5, =0x00007BF7
+	ldr r6, =0x00006FE0
 	b _0215F0AC
 _0215F08C:
-	ldr r5, _0215F1A0 // =0x00006FE0
-	ldr r6, _0215F19C // =0x00007BF7
+	ldr r5, =0x00006FE0
+	ldr r6, =0x00007BF7
 	b _0215F0AC
 _0215F098:
-	ldr r5, _0215F19C // =0x00007BF7
-	ldr r6, _0215F1A4 // =0x00007FFF
+	ldr r5, =0x00007BF7
+	ldr r6, =0x00007FFF
 	b _0215F0AC
 _0215F0A4:
-	ldr r5, _0215F1A4 // =0x00007FFF
-	ldr r6, _0215F19C // =0x00007BF7
+	ldr r5, =0x00007FFF
+	ldr r6, =0x00007BF7
 _0215F0AC:
 	add r0, r4, #0x1600
 	ldrsh r2, [r0, #0x7e]
@@ -1769,15 +2060,17 @@ _0215F138:
 	blt _0215F130
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0215F198: .word ovl05_02172EB4
-_0215F19C: .word 0x00007BF7
-_0215F1A0: .word 0x00006FE0
-_0215F1A4: .word 0x00007FFF
-	arm_func_end ViDock__Func_215EF40
 
-	arm_func_start ViDock__Func_215F1A8
-ViDock__Func_215F1A8: // 0x0215F1A8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215F1A8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xa0
 	mov r5, #0
@@ -1798,15 +2091,15 @@ ViDock__Func_215F1A8: // 0x0215F1A8
 	bl NNS_G3dGlbSetBaseTrans
 	add r0, sp, #0x88
 	bl NNS_G3dGlbSetBaseScale
-	ldr r1, _0215F6BC // =NNS_G3dGlb+0x000000BC
+	ldr r1, =NNS_G3dGlb+0x000000BC
 	add r0, sp, #0x64
 	bl MI_Copy36B
-	ldr r0, _0215F6C0 // =NNS_G3dGlb
+	ldr r0, =NNS_G3dGlb
 	ldr r1, [r0, #0xfc]
 	bic r1, r1, #0xa4
 	str r1, [r0, #0xfc]
 	bl NNS_G3dGlbFlushWVP
-	ldr r1, _0215F6C4 // =0x001F00C0
+	ldr r1, =0x001F00C0
 	mov r0, #0x29
 	str r1, [sp, #0x60]
 	add r1, sp, #0x60
@@ -2110,14 +2403,17 @@ _0215F690:
 	bl NNS_G3dGeBufferOP_N
 	add sp, sp, #0xa0
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0215F6BC: .word NNS_G3dGlb+0x000000BC
-_0215F6C0: .word NNS_G3dGlb
-_0215F6C4: .word 0x001F00C0
-	arm_func_end ViDock__Func_215F1A8
 
-	arm_func_start ViDock__Func_215F6C8
-ViDock__Func_215F6C8: // 0x0215F6C8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215F6C8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	mov r10, r0
@@ -2260,10 +2556,17 @@ _0215F8CC:
 	bl NNS_G3dGeBufferOP_N
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end ViDock__Func_215F6C8
 
-	arm_func_start ViDock__Func_215F8E8
-ViDock__Func_215F8E8: // 0x0215F8E8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215F8E8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrh r0, [r4, #2]
@@ -2288,10 +2591,17 @@ _0215F92C:
 	sub r1, r1, #1
 	str r1, [r0, #0xb24]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViDock__Func_215F8E8
 
-	arm_func_start ViDock__Main
-ViDock__Main: // 0x0215F940
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -2314,10 +2624,17 @@ ViDock__Main: // 0x0215F940
 	mov r3, r1
 	bl ViDock__Func_215F6C8
 	ldmia sp!, {r4, pc}
-	arm_func_end ViDock__Main
 
-	arm_func_start ViDock__Func_215F998
-ViDock__Func_215F998: // 0x0215F998
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215F998(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -2331,10 +2648,17 @@ ViDock__Func_215F998: // 0x0215F998
 	mov r3, #1
 	bl ViDock__Func_215F6C8
 	ldmia sp!, {r4, pc}
-	arm_func_end ViDock__Func_215F998
 
-	arm_func_start ViDock__Func_215F9CC
-ViDock__Func_215F9CC: // 0x0215F9CC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215F9CC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x30
 	bl GetCurrentTaskWork_
@@ -2378,7 +2702,7 @@ ViDock__Func_215F9CC: // 0x0215F9CC
 	ldr r0, [sp, #0x20]
 	cmp r0, #0
 	beq _0215FAAC
-	ldr r0, _0215FD40 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #1
 	bne _0215FA9C
@@ -2504,7 +2828,7 @@ _0215FC0C:
 	ldr r0, [sp, #0x14]
 	cmp r0, #0
 	beq _0215FC64
-	ldr r0, _0215FD40 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #1
 	movne r9, #1
@@ -2512,7 +2836,7 @@ _0215FC64:
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _0215FC84
-	ldr r0, _0215FD44 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #4
 	movne r0, #1
@@ -2525,7 +2849,7 @@ _0215FC88:
 	bl _ZN10HubControl12Func_2157178Ev
 	cmp r0, #0
 	beq _0215FCE0
-	ldr r0, _0215FD44 // =touchInput
+	ldr r0, =touchInput
 	ldrh r6, [r0, #0x1c]
 	ldrh r10, [r0, #0x1e]
 	add r0, r8, #8
@@ -2568,13 +2892,17 @@ _0215FCF0:
 	str r8, [r0, #0x468]
 	add sp, sp, #0x30
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0215FD40: .word padInput
-_0215FD44: .word touchInput
-	arm_func_end ViDock__Func_215F9CC
 
-	arm_func_start ViDock__Func_215FD48
-ViDock__Func_215FD48: // 0x0215FD48
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215FD48(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	bl GetCurrentTaskWork_
@@ -2623,10 +2951,17 @@ _0215FDD0:
 	bl ViDock__Func_215F6C8
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end ViDock__Func_215FD48
 
-	arm_func_start ViDock__Func_215FE00
-ViDock__Func_215FE00: // 0x0215FE00
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215FE00(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -2636,15 +2971,20 @@ ViDock__Func_215FE00: // 0x0215FE00
 	ldr r1, [r0, #0]
 	add r0, r4, #0xf8
 	bl ViDockBack__Func_2164918
-	ldr r0, _0215FE30 // =ViDock__Func_215FE34
+	ldr r0, =ViDock__Func_215FE34
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215FE30: .word ViDock__Func_215FE34
-	arm_func_end ViDock__Func_215FE00
 
-	arm_func_start ViDock__Func_215FE34
-ViDock__Func_215FE34: // 0x0215FE34
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215FE34(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -2652,17 +2992,22 @@ ViDock__Func_215FE34: // 0x0215FE34
 	bl ViDockBack__Func_2164954
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldr r0, _0215FE64 // =ViDock__Func_215F998
+	ldr r0, =ViDock__Func_215F998
 	bl SetCurrentTaskMainEvent
 	mov r0, #1
 	str r0, [r4, #0xc]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215FE64: .word ViDock__Func_215F998
-	arm_func_end ViDock__Func_215FE34
 
-	arm_func_start ViDock__Func_215FE68
-ViDock__Func_215FE68: // 0x0215FE68
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215FE68(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	bl GetCurrentTaskWork_
@@ -2717,26 +3062,45 @@ ViDock__Func_215FE68: // 0x0215FE68
 	strh r1, [r0, #0xb8]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViDock__Func_215FE68
 
-	arm_func_start ViDock__Destructor
-ViDock__Destructor: // 0x0215FF40
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Destructor(Task *task)
+{
+    // TODO: should match when destructors are decompiled for 'CViDockPlayer' 'CViDockNpcGroup', 'CViShadow' && 'CViDockBack'
+#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(task, CViDock);
+
+    ViDock__Func_215E6E4(work);
+
+    HubTaskDestroy<CViDock>(task);
+
+    ViDock__TaskSingleton = NULL;
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl GetTaskWork_
 	bl ViDock__Func_215E6E4
 	mov r0, r4
 	bl ViDock__Func_215FF6C
-	ldr r0, _0215FF68 // =ViDock__TaskSingleton
+	ldr r0, =ViDock__TaskSingleton
 	mov r1, #0
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215FF68: .word ViDock__TaskSingleton
-	arm_func_end ViDock__Destructor
 
-	arm_func_start ViDock__Func_215FF6C
-ViDock__Func_215FF6C: // 0x0215FF6C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215FF6C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x10]
@@ -2752,17 +3116,24 @@ ViDock__Func_215FF6C: // 0x0215FF6C
 	add r0, r0, #0xc00
 	bl _ZN13CViDockPlayerD0Ev
 	add r0, r4, #0xf8
-	bl ViDockBack__VTableFunc_21644C0
+	bl _ZN11CViDockBackD1Ev
 	mov r0, r4
 	bl _ZdlPv
 _0215FFB4:
 	mov r0, #0
 	str r0, [r5, #0x10]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ViDock__Func_215FF6C
 
-	arm_func_start ViDock__Func_215FFC0
-ViDock__Func_215FFC0: // 0x0215FFC0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215FFC0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -2776,10 +3147,17 @@ ViDock__Func_215FFC0: // 0x0215FFC0
 	str r0, [r1, #0xb28]
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
-	arm_func_end ViDock__Func_215FFC0
 
-	arm_func_start ViDock__Func_215FFF4
-ViDock__Func_215FFF4: // 0x0215FFF4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ViDock__Func_215FFF4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrh r1, [r4, #0]
@@ -2799,38 +3177,7 @@ ViDock__Func_215FFF4: // 0x0215FFF4
 	add r0, r4, #0x1400
 	strh r1, [r0, #0x5c]
 	ldmia sp!, {r4, pc}
-	arm_func_end ViDock__Func_215FFF4
-	
-	.rodata
 
-.public ovl05_02172EB4
-ovl05_02172EB4: // 0x02172EB4
-    .byte 224, 111, 247, 123, 255, 127, 247, 123
-	
-.public ovl05_02172EBC
-ovl05_02172EBC: // 0x02172EBC
-    .hword 5, 4, 4, 3, 2, 2, 2
-	
-.public ovl05_02172ECA
-ovl05_02172ECA: // 0x02172ECA
-    .hword 0, 5, 9, 0xD, 0x10, 0x12, 0x14
-	
-.public ovl05_02172ED8
-ovl05_02172ED8: // 0x02172ED8
-    .hword 0xFFF0, 0xFFE0
-	.hword 0x10, 8
-	.hword 0xFFF0, 0xFFE0
-	.hword 0x10, 8
-	.hword 0xFFF0, 0xFFE0
-	.hword 0x10, 8
-	.hword 0xFFF4, 0xFFE8
-	.hword 0xC, 4
-	.hword 0xFFF4, 0xFFE8
-	.hword 0xC, 4
-	.hword 0xFFF4, 0xFFE8
-	.hword 0xC, 4
-	.hword 0xFFF4, 0xFFE8
-	.hword 0xC, 4
-	.hword 0x32, 0x10
-	.hword 8, 0
-	.hword 0x64, 0
+// clang-format on
+#endif
+}

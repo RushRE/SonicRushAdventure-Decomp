@@ -1,84 +1,81 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <hub/hubHUD.hpp>
+#include <game/file/fileUnknown.h>
+#include <game/file/binaryBundle.h>
+#include <game/input/padInput.h>
+#include <game/input/touchInput.h>
+#include <game/graphics/drawState.h>
+#include <game/graphics/drawReqTask.h>
+#include <hub/hubConfig.h>
 
-	.bss
-	
-HubHUD__TaskSingleton: // 0x02173A58
-	.space 0x04
+// --------------------
+// TEMP
+// --------------------
 
-	.text
+extern "C"
+{
 
-	arm_func_start HubHUD__Create
-HubHUD__Create: // 0x02160040
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	ldr r4, _02160090 // =0x00001020
-	mov r2, #0
-	ldr r0, _02160094 // =HubHUD__Main
-	ldr r1, _02160098 // =HubHUD__Destructor
-	mov r3, r2
-	str r4, [sp]
-	mov r4, #0x10
-	str r4, [sp, #4]
-	bl HubHUD__CreateInternal
-	ldr r1, _0216009C // =HubHUD__TaskSingleton
-	str r0, [r1]
-	bl GetTaskWork_
-	mov r4, r0
-	bl HubHUD__Func_216040C
-	mov r0, #7
-	str r0, [r4, #0x234]
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02160090: .word 0x00001020
-_02160094: .word HubHUD__Main
-_02160098: .word HubHUD__Destructor
-_0216009C: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Create
+NOT_DECOMPILED void _ZdlPv(void);
+NOT_DECOMPILED void _ZnwmPv(void);
 
-	arm_func_start HubHUD__CreateInternal
-HubHUD__CreateInternal: // 0x021600A0
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0xc
-	ldrh lr, [sp, #0x18]
-	ldrb ip, [sp, #0x1c]
-	mov r4, #0x254
-	str lr, [sp]
-	str ip, [sp, #4]
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	bl GetTaskWork_
-	mov r1, r0
-	mov r0, #0x254
-	bl _ZnwmPv
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-	arm_func_end HubHUD__CreateInternal
+NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViActEt(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_2157178Ev(void);
+NOT_DECOMPILED void _ZN10HubControl20GetFileFrom_ViActLocEt(void);
+NOT_DECOMPILED void _ZN10HubControl12Func_2157154Ev(void);
 
-	arm_func_start HubHUD__Func_21600E4
-HubHUD__Func_21600E4: // 0x021600E4
+NOT_DECOMPILED void Unknown2051334__Func_20516B8(void);
+NOT_DECOMPILED void Unknown2051334__Func_2051600(void);
+}
+
+// --------------------
+// VARIABLES
+// --------------------
+
+static Task *HubHUD__TaskSingleton;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+void HubHUD__Create(void)
+{
+    HubHUD__TaskSingleton = HubTaskCreate(HubHUD__Main, HubHUD__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1020, TASK_GROUP(16), HubHUD);
+
+    HubHUD *work = TaskGetWork(HubHUD__TaskSingleton, HubHUD);
+
+    HubHUD__Func_216040C(work);
+    work->field_234 = 7;
+}
+
+NONMATCH_FUNC void HubHUD__Func_21600E4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _0216010C // =HubHUD__TaskSingleton
+	ldr r0, =HubHUD__TaskSingleton
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl DestroyTask
-	ldr r0, _0216010C // =HubHUD__TaskSingleton
+	ldr r0, =HubHUD__TaskSingleton
 	mov r1, #0
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0216010C: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Func_21600E4
 
-	arm_func_start HubHUD__Func_2160110
-HubHUD__Func_2160110: // 0x02160110
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160110(s32 a1, s32 a2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	movs r6, r0
-	ldr r0, _02160168 // =HubHUD__TaskSingleton
+	ldr r0, =HubHUD__TaskSingleton
 	mov r5, r1
 	ldr r0, [r0, #0]
 	moveq r5, #0
@@ -100,14 +97,19 @@ _02160158:
 	mov r1, r5
 	bl HubHUD__Func_2160D10
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02160168: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Func_2160110
 
-	arm_func_start HubHUD__Func_216016C
-HubHUD__Func_216016C: // 0x0216016C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL HubHUD__Func_216016C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _02160190 // =HubHUD__TaskSingleton
+	ldr r0, =HubHUD__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0]
@@ -115,14 +117,19 @@ HubHUD__Func_216016C: // 0x0216016C
 	movne r0, #1
 	moveq r0, #0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02160190: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Func_216016C
 
-	arm_func_start HubHUD__Func_2160194
-HubHUD__Func_2160194: // 0x02160194
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160194(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _021601B8 // =HubHUD__TaskSingleton
+	ldr r0, =HubHUD__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, [r0, #0]
@@ -130,110 +137,136 @@ HubHUD__Func_2160194: // 0x02160194
 	str r1, [r0]
 	bl HubHUD__Func_2160AE0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021601B8: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Func_2160194
 
-	arm_func_start HubHUD__Func_21601BC
-HubHUD__Func_21601BC: // 0x021601BC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL HubHUD__Func_21601BC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _021601F4 // =HubHUD__TaskSingleton
+	ldr r0, =HubHUD__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0]
 	tst r0, #2
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	ldr r0, _021601F8 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #0]
 	tst r0, #0x20
 	movne r0, #1
 	moveq r0, #0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021601F4: .word HubHUD__TaskSingleton
-_021601F8: .word padInput
-	arm_func_end HubHUD__Func_21601BC
 
-	arm_func_start HubHUD__Func_21601FC
-HubHUD__Func_21601FC: // 0x021601FC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL HubHUD__Func_21601FC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _02160234 // =HubHUD__TaskSingleton
+	ldr r0, =HubHUD__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0]
 	tst r0, #2
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	ldr r0, _02160238 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #0]
 	tst r0, #0x40
 	movne r0, #1
 	moveq r0, #0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02160234: .word HubHUD__TaskSingleton
-_02160238: .word padInput
-	arm_func_end HubHUD__Func_21601FC
 
-	arm_func_start HubHUD__Func_216023C
-HubHUD__Func_216023C: // 0x0216023C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL HubHUD__Func_216023C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _02160274 // =HubHUD__TaskSingleton
+	ldr r0, =HubHUD__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0]
 	tst r0, #2
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	ldr r0, _02160278 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #0]
 	tst r0, #0x10
 	movne r0, #1
 	moveq r0, #0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02160274: .word HubHUD__TaskSingleton
-_02160278: .word padInput
-	arm_func_end HubHUD__Func_216023C
 
-	arm_func_start HubHUD__Func_216027C
-HubHUD__Func_216027C: // 0x0216027C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL HubHUD__Func_216027C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _021602B4 // =HubHUD__TaskSingleton
+	ldr r0, =HubHUD__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0]
 	tst r0, #2
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	ldr r0, _021602B8 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #0]
 	tst r0, #0x80
 	movne r0, #1
 	moveq r0, #0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021602B4: .word HubHUD__TaskSingleton
-_021602B8: .word padInput
-	arm_func_end HubHUD__Func_216027C
 
-	arm_func_start HubHUD__Func_21602BC
-HubHUD__Func_21602BC: // 0x021602BC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL HubHUD__Func_21602BC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _021602D4 // =HubHUD__TaskSingleton
+	ldr r0, =HubHUD__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0x244]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021602D4: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Func_21602BC
 
-	arm_func_start HubHUD__Func_21602D8
-HubHUD__Func_21602D8: // 0x021602D8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_21602D8(s16 *x, s16 *y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r2, _02160340 // =HubHUD__TaskSingleton
+	ldr r2, =HubHUD__TaskSingleton
 	mov r5, r0
 	ldr r0, [r2, #0]
 	mov r4, r1
@@ -259,14 +292,19 @@ _02160324:
 	movne r0, #0
 	strneh r0, [r4]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02160340: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Func_21602D8
 
-	arm_func_start HubHUD__Func_2160344
-HubHUD__Func_2160344: // 0x02160344
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160344(s16 *x, s16 *y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r2, _021603AC // =HubHUD__TaskSingleton
+	ldr r2, =HubHUD__TaskSingleton
 	mov r5, r0
 	ldr r0, [r2, #0]
 	mov r4, r1
@@ -292,15 +330,20 @@ _02160390:
 	movne r0, #0
 	strneh r0, [r4]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021603AC: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Func_2160344
 
-	arm_func_start HubHUD__Func_21603B0
-HubHUD__Func_21603B0: // 0x021603B0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_21603B0(s32 x, s32 y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	movs r5, r0
-	ldr r0, _021603EC // =HubHUD__TaskSingleton
+	ldr r0, =HubHUD__TaskSingleton
 	mov r4, r1
 	ldr r0, [r0, #0]
 	moveq r4, #0
@@ -313,24 +356,34 @@ HubHUD__Func_21603B0: // 0x021603B0
 	mov r1, r4
 	bl HubHUD__Func_2160CC4
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021603EC: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Func_21603B0
 
-	arm_func_start HubHUD__Func_21603F0
-HubHUD__Func_21603F0: // 0x021603F0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL HubHUD__Func_21603F0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _02160408 // =HubHUD__TaskSingleton
+	ldr r0, =HubHUD__TaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0x238]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02160408: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Func_21603F0
 
-	arm_func_start HubHUD__Func_216040C
-HubHUD__Func_216040C: // 0x0216040C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_216040C(HubHUD *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #1
@@ -348,10 +401,17 @@ HubHUD__Func_216040C: // 0x0216040C
 	mov r0, #0
 	str r0, [r4, #0x244]
 	ldmia sp!, {r4, pc}
-	arm_func_end HubHUD__Func_216040C
 
-	arm_func_start HubHUD__Func_2160450
-HubHUD__Func_2160450: // 0x02160450
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160450(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x1c
 	mov r4, r0
@@ -370,7 +430,7 @@ HubHUD__Func_2160450: // 0x02160450
 	str r2, [sp, #4]
 	str r0, [sp, #8]
 	str r2, [sp, #0xc]
-	ldr r1, _02160534 // =0x05000600
+	ldr r1, =0x05000600
 	add r0, r4, #4
 	str r1, [sp, #0x10]
 	str r2, [sp, #0x14]
@@ -394,7 +454,7 @@ HubHUD__Func_2160450: // 0x02160450
 	str r2, [sp, #4]
 	str r0, [sp, #8]
 	str r2, [sp, #0xc]
-	ldr r1, _02160534 // =0x05000600
+	ldr r1, =0x05000600
 	add r0, r4, #0x68
 	str r1, [sp, #0x10]
 	str r2, [sp, #0x14]
@@ -409,12 +469,17 @@ HubHUD__Func_2160450: // 0x02160450
 	strh r0, [r4, #0xbc]
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_02160534: .word 0x05000600
-	arm_func_end HubHUD__Func_2160450
 
-	arm_func_start HubHUD__Func_2160538
-HubHUD__Func_2160538: // 0x02160538
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160538(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x1c
 	mov r4, r0
@@ -435,7 +500,7 @@ HubHUD__Func_2160538: // 0x02160538
 	str r2, [sp, #4]
 	str r0, [sp, #8]
 	str r2, [sp, #0xc]
-	ldr r1, _02160624 // =0x05000200
+	ldr r1, =0x05000200
 	mov r0, #1
 	str r1, [sp, #0x10]
 	str r2, [sp, #0x14]
@@ -460,7 +525,7 @@ HubHUD__Func_2160538: // 0x02160538
 	str r2, [sp, #4]
 	str r0, [sp, #8]
 	str r2, [sp, #0xc]
-	ldr r1, _02160628 // =0x05000600
+	ldr r1, =0x05000600
 	mov r0, r5
 	str r1, [sp, #0x10]
 	str r2, [sp, #0x14]
@@ -474,32 +539,36 @@ HubHUD__Func_2160538: // 0x02160538
 	strh r0, [r5, #0x54]
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_02160624: .word 0x05000200
-_02160628: .word 0x05000600
-	arm_func_end HubHUD__Func_2160538
 
-	arm_func_start HubHUD__Func_216062C
-HubHUD__Func_216062C: // 0x0216062C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_216062C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
 	add r0, r4, #0x19c
 	bl TouchField__Init
 	mov r1, #0
-	ldr r0, _021606A0 // =HubHUD__Func_2160DCC
+	ldr r0, =HubHUD__Func_2160DCC
 	strb r1, [r4, #0x1ac]
 	str r0, [sp]
-	ldr r2, _021606A4 // =TouchField__PointInRect
+	ldr r2, =TouchField__PointInRect
 	mov r3, r1
 	add r0, r4, #0x1b4
 	str r1, [sp, #4]
 	bl TouchField__InitAreaShape
 	mov r1, #0
-	ldr r0, _021606A8 // =HubHUD__Func_2160EC0
+	ldr r0, =HubHUD__Func_2160EC0
 	str r1, [r4, #0x22c]
 	str r0, [sp]
-	ldr r2, _021606A4 // =TouchField__PointInRect
+	ldr r2, =TouchField__PointInRect
 	mov r3, r1
 	add r0, r4, #0x1ec
 	str r1, [sp, #4]
@@ -510,14 +579,17 @@ HubHUD__Func_216062C: // 0x0216062C
 	bl HubHUD__Func_2160CA4
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021606A0: .word HubHUD__Func_2160DCC
-_021606A4: .word TouchField__PointInRect
-_021606A8: .word HubHUD__Func_2160EC0
-	arm_func_end HubHUD__Func_216062C
 
-	arm_func_start HubHUD__Func_21606AC
-HubHUD__Func_21606AC: // 0x021606AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_21606AC(HubHUD *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl HubHUD__Func_216074C
@@ -526,10 +598,17 @@ HubHUD__Func_21606AC: // 0x021606AC
 	mov r0, r4
 	bl HubHUD__Func_21606CC
 	ldmia sp!, {r4, pc}
-	arm_func_end HubHUD__Func_21606AC
 
-	arm_func_start HubHUD__Func_21606CC
-HubHUD__Func_21606CC: // 0x021606CC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_21606CC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, #0
 	add r7, r0, #4
@@ -547,10 +626,17 @@ _021606E0:
 	add r7, r7, #0x64
 	blt _021606E0
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end HubHUD__Func_21606CC
 
-	arm_func_start HubHUD__Func_216070C
-HubHUD__Func_216070C: // 0x0216070C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_216070C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, #0
 	add r7, r0, #0xd4
@@ -568,10 +654,17 @@ _02160720:
 	add r7, r7, #0x64
 	blt _02160720
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end HubHUD__Func_216070C
 
-	arm_func_start HubHUD__Func_216074C
-HubHUD__Func_216074C: // 0x0216074C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_216074C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x19c
@@ -587,10 +680,17 @@ HubHUD__Func_216074C: // 0x0216074C
 	mov r2, #8
 	bl MIi_CpuClear32
 	ldmia sp!, {r4, pc}
-	arm_func_end HubHUD__Func_216074C
 
-	arm_func_start HubHUD__Main
-HubHUD__Main: // 0x02160788
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -620,7 +720,7 @@ _021607EC:
 	tst r7, #2
 	movne r6, #1
 _021607F4:
-	ldr r0, _021608D4 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #0x400
 	movne r5, #1
@@ -647,7 +747,7 @@ _0216084C:
 	tst r7, #2
 	movne r6, #1
 _02160854:
-	ldr r0, _021608D4 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #0x800
 	movne r0, #1
@@ -666,7 +766,7 @@ _02160868:
 	mov r1, #2
 	str r2, [r4, #0x244]
 	bl AnimatorSprite__SetAnimation
-	ldr r0, _021608D8 // =HubHUD__Main_21608DC
+	ldr r0, =HubHUD__Main_21608DC
 	bl SetCurrentTaskMainEvent
 _021608A4:
 	mov r0, r4
@@ -681,13 +781,17 @@ _021608A4:
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	bl _ZN10HubControl12Func_2157154Ev
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_021608D4: .word padInput
-_021608D8: .word HubHUD__Main_21608DC
-	arm_func_end HubHUD__Main
 
-	arm_func_start HubHUD__Main_21608DC
-HubHUD__Main_21608DC: // 0x021608DC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Main_21608DC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -706,8 +810,8 @@ HubHUD__Main_21608DC: // 0x021608DC
 	strne r0, [r4, #0x224]
 	movne r5, #1
 _02160920:
-	ldr r1, _02160A88 // =padInput
-	ldr r0, _02160A8C // =0x00000402
+	ldr r1, =padInput
+	ldr r0, =0x00000402
 	ldrh r1, [r1, #4]
 	tst r1, r0
 	movne r5, #1
@@ -719,7 +823,7 @@ _02160920:
 	mov r1, r0
 	str r2, [r4]
 	bl HubHUD__Func_21603B0
-	ldr r0, _02160A90 // =HubHUD__Main
+	ldr r0, =HubHUD__Main
 	bl SetCurrentTaskMainEvent
 	mov r0, r4
 	bl HubHUD__Func_2160AE0
@@ -741,7 +845,7 @@ _02160978:
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _021609BC
-	ldr r0, _02160A94 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #1
 	movne r0, #1
@@ -753,7 +857,7 @@ _021609C0:
 	moveq r0, #0
 	streq r0, [r4, #0x244]
 	beq _02160A68
-	ldr r1, _02160A94 // =touchInput
+	ldr r1, =touchInput
 	add r0, r4, #0x200
 	ldrh ip, [r1, #0x14]
 	ldrh r2, [r0, #0x40]
@@ -770,7 +874,7 @@ _02160A04:
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _02160A24
-	ldr r0, _02160A94 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #4
 	movne r0, #1
@@ -781,7 +885,7 @@ _02160A28:
 	cmp r0, #0
 	beq _02160A68
 	mov r0, #1
-	ldr r1, _02160A94 // =touchInput
+	ldr r1, =touchInput
 	str r0, [r4, #0x244]
 	ldrh r3, [r1, #0x1c]
 	add r0, r4, #0x200
@@ -804,52 +908,42 @@ _02160A68:
 	str r0, [r4, #0x238]
 	str r0, [r4, #0x23c]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02160A88: .word padInput
-_02160A8C: .word 0x00000402
-_02160A90: .word HubHUD__Main
-_02160A94: .word touchInput
-	arm_func_end HubHUD__Main_21608DC
 
-	arm_func_start HubHUD__Destructor
-HubHUD__Destructor: // 0x02160A98
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl GetTaskWork_
-	bl HubHUD__Func_21606AC
-	mov r0, r4
-	bl HubHUD__Func_2160AC4
-	ldr r0, _02160AC0 // =HubHUD__TaskSingleton
-	mov r1, #0
-	str r1, [r0]
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02160AC0: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Destructor
+// clang-format on
+#endif
+}
 
-	arm_func_start HubHUD__Func_2160AC4
-HubHUD__Func_2160AC4: // 0x02160AC4
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0x10]
-	bl _ZdlPv
-	mov r0, #0
-	str r0, [r4, #0x10]
-	ldmia sp!, {r4, pc}
-	arm_func_end HubHUD__Func_2160AC4
+void HubHUD__Destructor(Task *task)
+{
+    HubHUD *work = TaskGetWork(task, HubHUD);
 
-	arm_func_start HubHUD__Func_2160AE0
-HubHUD__Func_2160AE0: // 0x02160AE0
-	ldr ip, _02160AF0 // =AnimatorSprite__SetAnimation
+    HubHUD__Func_21606AC(work);
+
+    HubTaskDestroy<HubHUD>(task);
+
+    HubHUD__TaskSingleton = NULL;
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160AE0(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =AnimatorSprite__SetAnimation
 	add r0, r0, #0x68
 	mov r1, #3
 	bx ip
-	.align 2, 0
-_02160AF0: .word AnimatorSprite__SetAnimation
-	arm_func_end HubHUD__Func_2160AE0
 
-	arm_func_start HubHUD__Func_2160AF4
-HubHUD__Func_2160AF4: // 0x02160AF4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160AF4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -860,7 +954,7 @@ HubHUD__Func_2160AF4: // 0x02160AF4
 	ldmeqia sp!, {r4, pc}
 	mov r0, #0
 	str r0, [sp, #4]
-	ldr r1, _02160B54 // =HubHUD__Func_2160FC0
+	ldr r1, =HubHUD__Func_2160FC0
 	add r2, sp, #0
 	add r0, r4, #4
 	bl AnimatorSprite__ProcessAnimation
@@ -874,12 +968,17 @@ HubHUD__Func_2160AF4: // 0x02160AF4
 	bl AnimatorSprite__ProcessAnimation
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02160B54: .word HubHUD__Func_2160FC0
-	arm_func_end HubHUD__Func_2160AF4
 
-	arm_func_start HubHUD__Func_2160B58
-HubHUD__Func_2160B58: // 0x02160B58
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160B58(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0]
@@ -924,13 +1023,20 @@ HubHUD__Func_2160B58: // 0x02160B58
 	mov r3, #0x8000
 	bl AnimatorSprite__DrawFrameRotoZoom
 	ldmia sp!, {r4, pc}
-	arm_func_end HubHUD__Func_2160B58
 
-	arm_func_start HubHUD__Func_2160C08
-HubHUD__Func_2160C08: // 0x02160C08
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160C08(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
-	ldr r1, _02160C60 // =renderCurrentDisplay
+	ldr r1, =renderCurrentDisplay
 	str r0, [sp]
 	ldr r1, [r1, #0]
 	cmp r1, #1
@@ -944,21 +1050,25 @@ HubHUD__Func_2160C08: // 0x02160C08
 	mov r0, #0x64
 	mla r0, r2, r0, r1
 	mov r3, #1
-	ldr r1, _02160C64 // =HubHUD__Func_2160FC0
+	ldr r1, =HubHUD__Func_2160FC0
 	add r2, sp, #0
 	str r3, [sp, #4]
 	bl AnimatorSprite__ProcessAnimation
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02160C60: .word renderCurrentDisplay
-_02160C64: .word HubHUD__Func_2160FC0
-	arm_func_end HubHUD__Func_2160C08
 
-	arm_func_start HubHUD__Func_2160C68
-HubHUD__Func_2160C68: // 0x02160C68
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160C68(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r1, _02160CA0 // =renderCurrentDisplay
+	ldr r1, =renderCurrentDisplay
 	ldr r1, [r1, #0]
 	cmp r1, #1
 	moveq r2, #1
@@ -971,12 +1081,17 @@ HubHUD__Func_2160C68: // 0x02160C68
 	mla r0, r2, r0, r1
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02160CA0: .word renderCurrentDisplay
-	arm_func_end HubHUD__Func_2160C68
 
-	arm_func_start HubHUD__Func_2160CA4
-HubHUD__Func_2160CA4: // 0x02160CA4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160CA4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -985,10 +1100,17 @@ HubHUD__Func_2160CA4: // 0x02160CA4
 	mov r1, #0
 	bl HubHUD__Func_2160CC4
 	ldmia sp!, {r4, pc}
-	arm_func_end HubHUD__Func_2160CA4
 
-	arm_func_start HubHUD__Func_2160CC4
-HubHUD__Func_2160CC4: // 0x02160CC4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160CC4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	cmp r1, #0
 	mov r4, r0
@@ -1009,10 +1131,17 @@ _02160CE8:
 	mov r1, #0
 	bl AnimatorSprite__SetAnimation
 	ldmia sp!, {r4, pc}
-	arm_func_end HubHUD__Func_2160CC4
 
-	arm_func_start HubHUD__Func_2160D10
-HubHUD__Func_2160D10: // 0x02160D10
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160D10(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	cmp r1, #0
 	mov r1, #0
@@ -1026,10 +1155,17 @@ _02160D30:
 	str r1, [r0, #0x224]
 	bl HubHUD__Func_2160D40
 	ldmia sp!, {r3, pc}
-	arm_func_end HubHUD__Func_2160D10
 
-	arm_func_start HubHUD__Func_2160D40
-HubHUD__Func_2160D40: // 0x02160D40
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160D40(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	mov r4, r1
@@ -1042,7 +1178,7 @@ HubHUD__Func_2160D40: // 0x02160D40
 	add r1, r5, #0x1b4
 	mov r0, #0x38
 	mla r1, r4, r0, r1
-	ldr r2, _02160DC8 // =0x0000FFFF
+	ldr r2, =0x0000FFFF
 	add r0, r5, #0x19c
 	bl TouchField__AddArea
 	add r0, r5, r4, lsl #2
@@ -1065,14 +1201,19 @@ _02160D8C:
 	add r0, r5, r4, lsl #2
 	str r1, [r0, #0x22c]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02160DC8: .word 0x0000FFFF
-	arm_func_end HubHUD__Func_2160D40
 
-	arm_func_start HubHUD__Func_2160DCC
-HubHUD__Func_2160DCC: // 0x02160DCC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160DCC(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r2, _02160EBC // =HubHUD__TaskSingleton
+	ldr r2, =HubHUD__TaskSingleton
 	mov r6, r0
 	ldr r0, [r2, #0]
 	mov r5, r1
@@ -1139,14 +1280,19 @@ _02160EB0:
 	mov r1, #0
 	bl AnimatorSprite__SetAnimation
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02160EBC: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Func_2160DCC
 
-	arm_func_start HubHUD__Func_2160EC0
-HubHUD__Func_2160EC0: // 0x02160EC0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160EC0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r2, _02160FBC // =HubHUD__TaskSingleton
+	ldr r2, =HubHUD__TaskSingleton
 	mov r6, r0
 	ldr r0, [r2, #0]
 	mov r5, r1
@@ -1215,12 +1361,17 @@ _02160F94:
 	mov r1, #0
 	bl AnimatorSprite__SetAnimation
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02160FBC: .word HubHUD__TaskSingleton
-	arm_func_end HubHUD__Func_2160EC0
 
-	arm_func_start HubHUD__Func_2160FC0
-HubHUD__Func_2160FC0: // 0x02160FC0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void HubHUD__Func_2160FC0(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x10
 	ldrh r1, [r0, #0]
@@ -1240,4 +1391,7 @@ HubHUD__Func_2160FC0: // 0x02160FC0
 	bl TouchField__SetHitbox
 	add sp, sp, #0x10
 	ldmia sp!, {r4, pc}
-	arm_func_end HubHUD__Func_2160FC0
+
+// clang-format on
+#endif
+}
