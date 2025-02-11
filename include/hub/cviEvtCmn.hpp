@@ -163,10 +163,10 @@ public:
     u16 selectionCount;
     u16 prevTouchSelection;
     u16 unused22;
-    u16 lineWidthInner;
-    u16 lineHeightInnter;
-    u16 windowWidth;
-    u16 windowHeight;
+    u16 windowStartX;
+    u16 windowStartY;
+    u16 windowSizeX;
+    u16 windowSizeY;
     u16 lineStart;
     u16 lineHeight;
     u16 lineSize;

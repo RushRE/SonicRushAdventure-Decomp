@@ -102,13 +102,14 @@ void CViSailPrompt::Main_Init(void)
 {
     CViSailPrompt *work = TaskGetWorkCurrent(CViSailPrompt);
 
-    s32 a9;
+    s32 windowSizeY;
     if (CViSailPrompt::CheckTrainingDisabled())
-        a9 = 6;
+        windowSizeY = PIXEL_TO_TILE(48);
     else
-        a9 = 8;
+        windowSizeY = PIXEL_TO_TILE(64);
 
-    FontWindowAnimator__Load1(&work->fontWindowAnimator, HubControl::GetField54(), 0, 0, 2, 4, 0, 24, a9, GRAPHICS_ENGINE_A, BACKGROUND_2, 3, 0x3C0, 0x3FF);
+    FontWindowAnimator__Load1(&work->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(32),
+                              PIXEL_TO_TILE(0), PIXEL_TO_TILE(192), windowSizeY, GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_3, 960, 1023);
     FontWindowAnimator__SetWindowClosed(&work->fontWindowAnimator);
     FontWindowAnimator__InitAnimation(&work->fontWindowAnimator, 1, 8, 0, 0);
     FontWindowAnimator__StartAnimating(&work->fontWindowAnimator);
@@ -131,7 +132,8 @@ void CViSailPrompt::Main_OpeningWindow(void)
     {
         FontWindowAnimator__SetWindowOpen(&work->fontWindowAnimator);
 
-        FontAnimator__LoadFont1(&work->fontAnimator, HubControl::GetField54(), 0, 5, 1, 22, 6, GRAPHICS_ENGINE_A, BACKGROUND_3, 0, 128);
+        FontAnimator__LoadFont1(&work->fontAnimator, HubControl::GetField54(), 0, PIXEL_TO_TILE(40), PIXEL_TO_TILE(8), PIXEL_TO_TILE(176), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_A,
+                                BACKGROUND_3, PALETTE_ROW_0, 128);
         FontAnimator__LoadPaletteFunc(&work->fontAnimator);
         FontAnimator__LoadMappingsFunc(&work->fontAnimator);
         FontAnimator__LoadMPCFile(&work->fontAnimator, FileUnknown__GetAOUFile(work->archive, ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_COMMON_MPC));
@@ -159,7 +161,8 @@ void CViSailPrompt::Main_ShowingText(void)
 
     if (FontAnimator__IsEndOfLine(&work->fontAnimator))
     {
-        FontWindowMWControl__Load(&work->fontWindowMWControl, HubControl::GetField54(), 0, 1, 176, 16, 0, 1, 0, 12);
+        FontWindowMWControl__Load(&work->fontWindowMWControl, HubControl::GetField54(), 0, FONTWINDOWMW_FILL, 176, 16, GRAPHICS_ENGINE_A, SPRITE_PRIORITY_1, SPRITE_ORDER_0,
+                                  PALETTE_ROW_12);
 
         void *sprCursor         = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
         VRAMPixelKey vramPixels = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize1FromAnim(sprCursor, 0));

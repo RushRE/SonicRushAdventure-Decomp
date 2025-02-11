@@ -47,7 +47,7 @@ public:
     // --------------------
 
     void Init();
-    void Load(u16 backgroundID, u16 a3, u16 a4, u16 a5, u16 hudPaletteRow, u16 materialPaletteRow);
+    void Load(u16 backgroundID, u16 windowStartTile, u16 windowFillTile, u16 windowPaletteRow, u16 hudPaletteRow, u16 materialPaletteRow);
     void Release();
     void Process();
     void ProcessGraphics();

@@ -25,14 +25,30 @@ typedef struct FontWindowAnimatorUnknown_
     s16 field_6;
     u16 field_8;
     u16 field_A;
-    void *fileData;
+    void *background;
     u32 archiveID;
-    u32 funcID;
+    u32 type;
     BOOL useEngineB;
-    u16 bgID;
-    u16 paletteRow;
-    u16 priority;
-    u16 flags2;
+    union
+    {
+        struct
+        {
+
+            u16 bgID;
+            u16 paletteRow;
+            u16 priority;
+            u16 flags2;
+        } type0;
+        
+        struct
+        {
+            u16 startX;
+            u16 startY;
+            u8 oamPriority;
+            u8 oamOrder;
+            u8 paletteRow;
+        } type1;
+    };
     u16 flags3;
     u16 dynamicBGTileCount;
     struct FontWindowTiles *dynamicBG;

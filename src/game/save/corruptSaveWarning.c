@@ -53,14 +53,16 @@ void CreateCorruptSaveWarning(void)
     FontWindow__Init(&work->fontWindow);
     FontWindow__LoadFromMemory(&work->fontWindow, work->fontPtr, 1);
     FontAnimator__Init(&work->fontAnimator);
-    FontAnimator__LoadFont2(&work->fontAnimator, &work->fontWindow, 8, 1, 9, 30, 6, 1, 0, 1, 0);
+    FontAnimator__LoadFont2(&work->fontAnimator, &work->fontWindow, 8, PIXEL_TO_TILE(8), PIXEL_TO_TILE(72), PIXEL_TO_TILE(240), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_B,
+                            SPRITE_PRIORITY_0, SPRITE_ORDER_1, PALETTE_ROW_0);
 
     // Init font resources
     FontAnimator__LoadMPCFile(&work->fontAnimator, FileUnknown__GetAOUFile(work->archive, ARCHIVE_DM_SAVE_ERROR_LZ7_FILE_DM_SAVE_ERROR_JPN_MPC + GetGameLanguage()));
     FontAnimator__SetCallbackType(&work->fontAnimator, 1);
     FontAnimator__LoadPaletteFunc2(&work->fontAnimator);
     FontWindowAnimator__Init(&work->fontWindowAnimator);
-    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, 0, 2, 0, 7, 32, 10, TRUE, BACKGROUND_1, 3, 700, 0);
+    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+                              PIXEL_TO_TILE(56), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(80), GRAPHICS_ENGINE_B, BACKGROUND_1, PALETTE_ROW_3, 700, 0);
     FontAnimator__SetMsgSequence(&work->fontAnimator, gameState.lastSaveError);
     FontAnimator__InitStartPos(&work->fontAnimator, 1, 0);
     FontAnimator__LoadCharacters(&work->fontAnimator, 0);
@@ -69,11 +71,11 @@ void CreateCorruptSaveWarning(void)
     FontWindow__PrepareSwapBuffer(&work->fontWindow);
 
     // Init sprites
-    AnimatorSprite__Init(&work->aniButtonPrompt, FileUnknown__GetAOUFile(work->archive, ARCHIVE_DM_SAVE_ERROR_LZ7_FILE_DMCMN_FIX_NEXT_BAC), 2, ANIMATOR_FLAG_DISABLE_LOOPING, 1, PIXEL_MODE_SPRITE,
-                         VRAMSystem__AllocSpriteVram(TRUE, 4), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
+    AnimatorSprite__Init(&work->aniButtonPrompt, FileUnknown__GetAOUFile(work->archive, ARCHIVE_DM_SAVE_ERROR_LZ7_FILE_DMCMN_FIX_NEXT_BAC), 2, ANIMATOR_FLAG_DISABLE_LOOPING, 1,
+                         PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(TRUE, 4), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
     work->aniButtonPrompt.cParam.palette = PALETTE_ROW_1;
-    work->aniButtonPrompt.pos.x   = 216;
-    work->aniButtonPrompt.pos.y   = 104;
+    work->aniButtonPrompt.pos.x          = 216;
+    work->aniButtonPrompt.pos.y          = 104;
     AnimatorSprite__ProcessAnimationFast(&work->aniButtonPrompt);
 
     GXS_SetVisiblePlane(GX_PLANEMASK_BG1 | GX_PLANEMASK_OBJ);

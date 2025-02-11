@@ -60,9 +60,11 @@ void CViEvtCmnMsg::Init(void *mpcFile)
 
     this->mpcFile = mpcFile;
 
-    FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetField54(), 0, 2, 3, 26, 6, GRAPHICS_ENGINE_A, BACKGROUND_3, 0, 128);
+    FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetField54(), 0, PIXEL_TO_TILE(16), PIXEL_TO_TILE(24), PIXEL_TO_TILE(208), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_A,
+                            BACKGROUND_3, PALETTE_ROW_0, 128);
     FontAnimator__ClearPixels(&this->fontAnimator);
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, 0, 2, 0, 0, 0x20, 0xA, 0, 2, 3, 0x3C0, 0x3FF);
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+                              PIXEL_TO_TILE(0), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(80), GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_3, 960, 1023);
     FontAnimator__LoadMPCFile(&this->fontAnimator, this->mpcFile);
     FontAnimator__ClearPixels(&this->fontAnimator);
     FontAnimator__Draw(&this->fontAnimator);
@@ -604,14 +606,16 @@ void CViEvtCmnSelect::Init(void *mpcFile)
 
     this->mpcFile = mpcFile;
 
-    FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetField54(), 0, 1, 11, 30, 8, GRAPHICS_ENGINE_A, BACKGROUND_3, 0, 296);
+    FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetField54(), 0, PIXEL_TO_TILE(8), PIXEL_TO_TILE(88), PIXEL_TO_TILE(240), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_A,
+                            BACKGROUND_3, PALETTE_ROW_0, 296);
     FontAnimator__LoadMPCFile(&this->fontAnimator, this->mpcFile);
     FontAnimator__ClearPixels(&this->fontAnimator);
     FontAnimator__Draw(&this->fontAnimator);
     FontAnimator__LoadPaletteFunc(&this->fontAnimator);
     FontAnimator__LoadMappingsFunc(&this->fontAnimator);
 
-    FontWindowMWControl__Load(&this->fontWindowMWControl, HubControl::GetField54(), 0, 1, 8, 8, 0, 1, 0, 5);
+    FontWindowMWControl__Load(&this->fontWindowMWControl, HubControl::GetField54(), 0, FONTWINDOWMW_FILL, 8, 8, GRAPHICS_ENGINE_A, SPRITE_PRIORITY_1, SPRITE_ORDER_0,
+                              PALETTE_ROW_5);
 
     void *sprFile = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
     AnimatorSprite__Init(&this->aniSprite1, sprFile, 0, ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_A, PIXEL_MODE_SPRITE,
@@ -640,10 +644,10 @@ void CViEvtCmnSelect::Release()
     this->dialogStateChanged = TRUE;
     this->selection          = 0;
     this->selectionCount     = 0;
-    this->lineWidthInner     = 0;
-    this->lineHeightInnter   = 0;
-    this->windowWidth        = 0;
-    this->windowHeight       = 0;
+    this->windowStartX       = 0;
+    this->windowStartY       = 0;
+    this->windowSizeX        = 0;
+    this->windowSizeY        = 0;
     this->lineStart          = 0;
     this->lineHeight         = 0;
     this->lineSize           = 0;
@@ -771,28 +775,28 @@ void CViEvtCmnSelect::InitDialogState_Init()
     }
 
     u16 lineSize = (maxLineWidth + 15) >> 3;
-    if (lineSize > 30)
+    if (lineSize > PIXEL_TO_TILE(HW_LCD_WIDTH) - PIXEL_TO_TILE(16))
     {
-        lineSize = 30;
+        lineSize = PIXEL_TO_TILE(HW_LCD_WIDTH) - PIXEL_TO_TILE(16);
     }
     else
     {
-        if (lineSize + 2 < 14u)
-            lineSize = 12;
+        if (lineSize + PIXEL_TO_TILE(16) < (u32)PIXEL_TO_TILE(112))
+            lineSize = PIXEL_TO_TILE(96);
     }
-    u32 sizeX = lineSize + 2;
+    u32 sizeX = lineSize + PIXEL_TO_TILE(16);
 
-    this->lineWidthInner   = 32 - sizeX;
-    this->lineHeightInnter = 10;
-    this->windowWidth      = sizeX;
-    this->windowHeight     = 2 * this->selectionCount + 2;
-    this->lineStart        = this->lineWidthInner + 1;
-    this->lineHeight       = 11;
-    this->lineSize         = lineSize;
-    this->field_32         = 2 * this->selectionCount;
+    this->windowStartX = PIXEL_TO_TILE(HW_LCD_WIDTH) - sizeX;
+    this->windowStartY = PIXEL_TO_TILE(80);
+    this->windowSizeX  = sizeX;
+    this->windowSizeY  = (PIXEL_TO_TILE(16) * this->selectionCount) + PIXEL_TO_TILE(16);
+    this->lineStart    = this->windowStartX + 1;
+    this->lineHeight   = 11;
+    this->lineSize     = lineSize;
+    this->field_32     = 2 * this->selectionCount;
 
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, 0, 2, this->lineWidthInner, this->lineHeightInnter, this->windowWidth, this->windowHeight, 0,
-                              2, 3, 0x3C0, 0x3FF);
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, this->windowStartX,
+                              this->windowStartY, this->windowSizeX, this->windowSizeY, GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_3, 960, 1023);
     FontWindowAnimator__SetWindowClosed(&this->fontWindowAnimator);
 }
 
@@ -1075,14 +1079,16 @@ void CViEvtCmnAnnounce::Init(void *mpcFile)
 
     this->mpcFile = mpcFile;
 
-    FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetField54(), 0, 2, 10, 28, 4, GRAPHICS_ENGINE_A, BACKGROUND_3, 0, 128);
+    FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetField54(), 0, PIXEL_TO_TILE(16), PIXEL_TO_TILE(80), PIXEL_TO_TILE(224), PIXEL_TO_TILE(32), GRAPHICS_ENGINE_A,
+                            BACKGROUND_3, PALETTE_ROW_0, 128);
     FontAnimator__LoadMPCFile(&this->fontAnimator, this->mpcFile);
     FontAnimator__ClearPixels(&this->fontAnimator);
     FontAnimator__Draw(&this->fontAnimator);
     FontAnimator__LoadPaletteFunc(&this->fontAnimator);
     FontAnimator__LoadMappingsFunc(&this->fontAnimator);
 
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, 0, 2, 1, 9, 30, 6, 0, 2, 3, 0x3C0, 0x3FF);
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(8),
+                              PIXEL_TO_TILE(72), PIXEL_TO_TILE(240), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_3, 960, 1023);
     FontWindowAnimator__SetWindowClosed(&this->fontWindowAnimator);
 
     this->sfx         = HUB_SFX_INVALID;

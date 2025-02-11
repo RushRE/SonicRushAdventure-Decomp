@@ -95,35 +95,36 @@ void NetworkErrorMenu__Create(BOOL flag)
                          MAPPINGS_MODE_TEXT_256x256_B, 0, 29, 0, 0, 32, 24);
         DrawBackground(&animator);
 
-        work->fontFile = FSRequestFileSync("fnt/font_all.fnt", FSREQ_AUTO_ALLOC_HEAD);
-        work->archiveDmwfLang =
-            BundleFileUnknown__LoadFileFromBundle("/bb/dmwf_lang.bb", BUNDLE_DMWF_LANG_FILE_RESOURCES_BB_DMWF_LANG_DMWF_LANG_JPN_NARC + GetGameLanguage(), BUNDLEFILEUNKNOWN_AUTO_ALLOC_HEAD);
+        work->fontFile        = FSRequestFileSync("fnt/font_all.fnt", FSREQ_AUTO_ALLOC_HEAD);
+        work->archiveDmwfLang = BundleFileUnknown__LoadFileFromBundle("/bb/dmwf_lang.bb", BUNDLE_DMWF_LANG_FILE_RESOURCES_BB_DMWF_LANG_DMWF_LANG_JPN_NARC + GetGameLanguage(),
+                                                                      BUNDLEFILEUNKNOWN_AUTO_ALLOC_HEAD);
 
         FontWindow__Init(&work->fontWindow);
         FontWindow__LoadFromMemory(&work->fontWindow, work->fontFile, TRUE);
 
         void *mpc = FileUnknown__GetAOUFile(work->archiveDmwfLang, ARCHIVE_DMWF_LANG_ENG_FILE_DMWF_LANG_MPC);
-        u16 a4;
-        u16 a5;
-        u16 a6;
-        u16 a7;
+        u16 windowStartX;
+        u16 windowStartY;
+        u16 windowSizeX;
+        u16 windowSizeY;
         if (gameState.displayDWCErrorCode == FALSE)
         {
-            a4 = 2;
-            a5 = 9;
-            a6 = 28;
-            a7 = 6;
+            windowStartX = PIXEL_TO_TILE(16);
+            windowStartY = PIXEL_TO_TILE(72);
+            windowSizeX  = PIXEL_TO_TILE(224);
+            windowSizeY  = PIXEL_TO_TILE(48);
         }
         else
         {
-            a4 = 2;
-            a5 = 3;
-            a6 = 28;
-            a7 = 18;
+            windowStartX = PIXEL_TO_TILE(16);
+            windowStartY = PIXEL_TO_TILE(24);
+            windowSizeX  = PIXEL_TO_TILE(224);
+            windowSizeY  = PIXEL_TO_TILE(144);
         }
 
         FontAnimator__Init(&work->fontAnimator);
-        FontAnimator__LoadFont2(&work->fontAnimator, &work->fontWindow, 8, a4, a5, a6, a7, 1, 0, 1, 0);
+        FontAnimator__LoadFont2(&work->fontAnimator, &work->fontWindow, 8, windowStartX, windowStartY, windowSizeX, windowSizeY, GRAPHICS_ENGINE_B, SPRITE_PRIORITY_0,
+                                SPRITE_ORDER_1, PALETTE_ROW_0);
         FontAnimator__LoadMPCFile(&work->fontAnimator, mpc);
         FontAnimator__SetCallbackType(&work->fontAnimator, 1);
         FontAnimator__LoadPaletteFunc2(&work->fontAnimator);
@@ -134,7 +135,8 @@ void NetworkErrorMenu__Create(BOOL flag)
         if (gameState.displayDWCErrorCode == TRUE)
         {
             FontAnimator__Init(&work->fontAnimator2);
-            FontAnimator__LoadFont2(&work->fontAnimator2, &work->fontWindow, 8, 2, 20, 15, 2, 1, 0, 1, 0);
+            FontAnimator__LoadFont2(&work->fontAnimator2, &work->fontWindow, 8, PIXEL_TO_TILE(16), PIXEL_TO_TILE(160), PIXEL_TO_TILE(120), PIXEL_TO_TILE(16), GRAPHICS_ENGINE_B,
+                                    SPRITE_PRIORITY_0, SPRITE_ORDER_1, PALETTE_ROW_0);
             FontAnimator__LoadMPCFile(&work->fontAnimator2, mpc);
             FontAnimator__SetCallbackType(&work->fontAnimator2, 1);
             FontAnimator__SetMsgSequence(&work->fontAnimator2, 55);
@@ -151,7 +153,8 @@ void NetworkErrorMenu__Create(BOOL flag)
                 FontAnimator *fntAniDigit = &work->fntErrorCode[i];
 
                 FontAnimator__Init(fntAniDigit);
-                FontAnimator__LoadFont2(fntAniDigit, &work->fontWindow, 8, i + 19, 20, 2, 2, 1, 0, 1, 0);
+                FontAnimator__LoadFont2(fntAniDigit, &work->fontWindow, 8, i + PIXEL_TO_TILE(152), PIXEL_TO_TILE(160), PIXEL_TO_TILE(16), PIXEL_TO_TILE(16), GRAPHICS_ENGINE_B,
+                                        SPRITE_PRIORITY_0, SPRITE_ORDER_1, PALETTE_ROW_0);
                 FontAnimator__LoadMPCFile(fntAniDigit, mpc);
                 FontAnimator__SetCallbackType(fntAniDigit, 1);
 
@@ -164,7 +167,9 @@ void NetworkErrorMenu__Create(BOOL flag)
             }
         }
         FontWindowAnimator__Init(&work->fontWindowAnimator);
-        FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, 0, 2, a4 - 1, a5 - 2, a6 + 2, a7 + 4, 1, 1, 3, 0x2BC, 0);
+        FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG,
+                                  windowStartX - PIXEL_TO_TILE(8), windowStartY - PIXEL_TO_TILE(16), windowSizeX + PIXEL_TO_TILE(16), windowSizeY + PIXEL_TO_TILE(32),
+                                  GRAPHICS_ENGINE_B, BACKGROUND_1, PALETTE_ROW_3, 700, 0);
 
         AnimatorSprite__Init(&work->aniNextPrompt, FileUnknown__GetAOUFile(work->archiveDmwfError, ARCHIVE_DMWF_ERROR_LZ7_FILE_DMCMN_FIX_NEXT_BAC), 0,
                              ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_B, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, 4), PALETTE_MODE_SPRITE,

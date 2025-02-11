@@ -412,7 +412,7 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     for (u16 i = 0; i < 6; i++, aniIcon++)
     {
         ObjAction2dBACLoad(aniIcon, "/act/ac_fix_tut_check.bac", 2, &sVars.textIconFile, sVars.archive);
-        aniIcon->work.cParam.palette      = ObjDrawAllocSpritePalette(sVars.textIconFile.fileData, i, iconAllocIDs[i]);
+        aniIcon->work.cParam.palette = ObjDrawAllocSpritePalette(sVars.textIconFile.fileData, i, iconAllocIDs[i]);
         aniIcon->cParam[0].palette = aniIcon->cParam[1].palette = aniIcon->work.cParam.palette;
 
         aniIcon->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
@@ -423,7 +423,7 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     AnimatorSpriteDS *aniNextPrompt = &work->aniNextPrompt;
     ObjAction2dBACLoad(aniNextPrompt, "/act/dmcmn_fix_next.bac", 4, &sVars.nextPromptFile, sVars.archive);
-    aniNextPrompt->work.cParam.palette      = ObjDrawAllocSpritePalette(sVars.nextPromptFile.fileData, 2, 127);
+    aniNextPrompt->work.cParam.palette = ObjDrawAllocSpritePalette(sVars.nextPromptFile.fileData, 2, 127);
     aniNextPrompt->cParam[0].palette = aniNextPrompt->cParam[1].palette = aniNextPrompt->work.cParam.palette;
     aniNextPrompt->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING;
     StageTask__SetOAMOrder(&aniNextPrompt->work, SPRITE_ORDER_1);
@@ -438,7 +438,7 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     for (i = 0; i < 3; i++, aniKey++)
     {
         ObjAction2dBACLoad(aniKey, "/act/ac_fix_key.bac", buttonSpriteSizes[i], &sVars.buttonPromptFile, gameArchiveStage);
-        aniKey->work.cParam.palette      = ObjDrawAllocSpritePalette(sVars.buttonPromptFile.fileData, 0, 90);
+        aniKey->work.cParam.palette = ObjDrawAllocSpritePalette(sVars.buttonPromptFile.fileData, 0, 90);
         aniKey->cParam[0].palette = aniKey->cParam[1].palette = aniKey->work.cParam.palette;
 
         aniKey->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING;
@@ -458,17 +458,20 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     u8 palette2 = ObjDrawAllocSpritePalette(sVars.characterIconFile.fileData, 0, 123);
     u8 palette3 = ObjDrawAllocSpritePalette(sVars.characterIconFile.fileData, 0, 124);
     FontAnimator__Init(&work->fontAnimator);
-    FontAnimator__LoadFont2(&work->fontAnimator, &work->fontWindow, 8, 8, 1, 23, 8, 0, 0, 1, palette1);
+    FontAnimator__LoadFont2(&work->fontAnimator, &work->fontWindow, 8, PIXEL_TO_TILE(64), PIXEL_TO_TILE(8), PIXEL_TO_TILE(184), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_A,
+                            SPRITE_PRIORITY_0, SPRITE_ORDER_1, palette1);
     FontAnimator__LoadMPCFile(&work->fontAnimator, FileUnknown__GetAOUFile(sVars.archive, GetGameLanguage()));
     FontWindowAnimator__Init(work->fontWindowAnimator);
-    FontWindowAnimator__Load2(work->fontWindowAnimator, &work->fontWindow, 0, 0, 2u, 0, 0, 32, 8, 0, 0, 3, palette2);
+    FontWindowAnimator__Load2(work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+                              PIXEL_TO_TILE(0), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_A, SPRITE_PRIORITY_0, SPRITE_ORDER_3, palette2);
     FontUnknown2058D78__Func_2058D54(&work->fontUnknown);
-    FontUnknown2058D78__Init(&work->fontUnknown, &work->fontAnimator, 0, 8, 1, 1, 0, 1, palette1);
+    FontUnknown2058D78__Init(&work->fontUnknown, &work->fontAnimator, 0, 8, 1, GRAPHICS_ENGINE_B, SPRITE_PRIORITY_0, SPRITE_ORDER_1, palette1);
     FontUnknown2058D78__LoadPalette2(&work->fontUnknown);
     FontWindowAnimator__Init(&work->fontWindowAnimator[1]);
-    FontWindowAnimator__Load2(&work->fontWindowAnimator[1], &work->fontWindow, 8, 0, 2, 0, 0, 32, 8, 1, 0, 3, palette2);
+    FontWindowAnimator__Load2(&work->fontWindowAnimator[1], &work->fontWindow, 8, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+                              PIXEL_TO_TILE(0), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_B, SPRITE_PRIORITY_0, SPRITE_ORDER_3, palette2);
     FontWindowMWControl__Init(&work->fontMWControl);
-    FontWindowMWControl__Load(&work->fontMWControl, &work->fontWindow, 0, 1, 184, 16, 0, 0, 2, palette3);
+    FontWindowMWControl__Load(&work->fontMWControl, &work->fontWindow, 0, FONTWINDOWMW_FILL, 184, 16, GRAPHICS_ENGINE_A, SPRITE_PRIORITY_0, SPRITE_ORDER_2, palette3);
     FontAnimator__SetCallbackType(&work->fontAnimator, 1);
     FontAnimator__LoadPaletteFunc2(&work->fontAnimator);
     FontUnknown2058D78__LoadPalette2(&work->fontUnknown);
@@ -1967,7 +1970,7 @@ NONMATCH_FUNC void HandleTutorialNextPrompt(Tutorial *work)
         else
         {
             FontAnimator__DisableFlags(&work->fontAnimator, 0x40);
-            FontAnimator__Func_2058D48(&work->fontAnimator, x, y);
+            FontAnimator__SetSpriteStartPos(&work->fontAnimator, x, y);
         }
 
         y += BOTTOM_SCREEN_CAMERA_OFFSET;
@@ -2104,7 +2107,7 @@ _0217E8AC:
 	mov r1, r4
 	mov r2, r5
 	add r0, r6, #0x440
-	bl FontAnimator__Func_2058D48
+	bl FontAnimator__SetSpriteStartPos
 _0217E8C8:
 	add r0, r5, #0x110
 	mov r0, r0, lsl #0x10

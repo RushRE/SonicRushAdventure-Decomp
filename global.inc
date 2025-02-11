@@ -1992,7 +1992,7 @@
 .public FontAnimator__LoadMappingsFunc
 .public FontAnimator__LoadPaletteFunc
 .public FontAnimator__LoadPaletteFunc2
-.public FontAnimator__Func_2058D48
+.public FontAnimator__SetSpriteStartPos
 .public FontUnknown2058D78__Func_2058D54
 .public FontUnknown2058D78__Init
 .public FontUnknown2058D78__Release

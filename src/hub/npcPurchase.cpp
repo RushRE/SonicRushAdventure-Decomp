@@ -21,7 +21,7 @@ void NpcPurchase::Init()
     MI_CpuClear32(this->paletteColors, sizeof(this->paletteColors));
 }
 
-void NpcPurchase::Load(u16 backgroundID, u16 a3, u16 a4, u16 a5, u16 hudPaletteRow, u16 materialPaletteRow)
+void NpcPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFillTile, u16 windowPaletteRow, u16 hudPaletteRow, u16 materialPaletteRow)
 {
     this->Release();
 
@@ -146,7 +146,8 @@ void NpcPurchase::Load(u16 backgroundID, u16 a3, u16 a4, u16 a5, u16 hudPaletteR
     }
 
     FontWindowAnimator__Init(&this->fontWindowAnimator);
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, 0, 1, 0, 13, 26, 11, GRAPHICS_ENGINE_B, backgroundID, a5, a3, a4);
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_B_BBG, PIXEL_TO_TILE(0),
+                              PIXEL_TO_TILE(104), PIXEL_TO_TILE(208), PIXEL_TO_TILE(88), GRAPHICS_ENGINE_B, backgroundID, windowPaletteRow, windowStartTile, windowFillTile);
 
     for (t = 0; t < SAVE_MATERIAL_COUNT; t++)
     {

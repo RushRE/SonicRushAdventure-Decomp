@@ -472,15 +472,15 @@ void CreateDoorPuzzleBGPillarFlame(DoorPuzzle *parent)
     AnimatorSprite__Init(&work->aniFire1, sprFire, 0, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(sprFire)),
                          PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_2);
     work->aniFire1.cParam.palette = PALETTE_ROW_1;
-    work->aniFire1.pos.x   = 24;
-    work->aniFire1.pos.y   = 16;
+    work->aniFire1.pos.x          = 24;
+    work->aniFire1.pos.y          = 16;
 
     sprFire = FileUnknown__GetAOUFile(parent->archiveDoorPuzzle, ARCHIVE_DMPZ_LZ7_FILE_FIRE_BAC);
     AnimatorSprite__Init(&work->aniFire2, sprFire, 1, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(sprFire)),
                          PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_2);
     work->aniFire2.cParam.palette = PALETTE_ROW_2;
-    work->aniFire2.pos.x   = 200;
-    work->aniFire2.pos.y   = 16;
+    work->aniFire2.pos.x          = 200;
+    work->aniFire2.pos.y          = 16;
 }
 
 void DoorPuzzleBGPillarFlame_Destructor(Task *task)
@@ -541,15 +541,15 @@ void DoorPuzzleDialogue_Create(DoorPuzzle *parent)
         AnimatorSprite__Init(&work->aniCutInIcon[c], parent->sprCutin, cutInAnimTable[c], ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                              VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(parent->sprCutin)), PALETTE_MODE_OBJ, NULL, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
         work->aniCutInIcon[c].cParam.palette = c + PALETTE_ROW_1;
-        work->aniCutInIcon[c].pos.x   = cutInPosTable[c].x;
-        work->aniCutInIcon[c].pos.y   = cutInPosTable[c].y;
+        work->aniCutInIcon[c].pos.x          = cutInPosTable[c].x;
+        work->aniCutInIcon[c].pos.y          = cutInPosTable[c].y;
         AnimatorSprite__ProcessAnimationFast(&work->aniCutInIcon[c]);
 
         AnimatorSprite__Init(&work->aniCutInPanel[c], parent->sprCutin, 0, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                              VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(parent->sprCutin)), PALETTE_MODE_OBJ, NULL, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
         work->aniCutInPanel[c].cParam.palette = PALETTE_ROW_4;
-        work->aniCutInPanel[c].pos.x   = cutInPosTable[c].x;
-        work->aniCutInPanel[c].pos.y   = cutInPosTable[c].y;
+        work->aniCutInPanel[c].pos.x          = cutInPosTable[c].x;
+        work->aniCutInPanel[c].pos.y          = cutInPosTable[c].y;
         AnimatorSprite__ProcessAnimationFast(&work->aniCutInPanel[c]);
     }
 
@@ -557,8 +557,8 @@ void DoorPuzzleDialogue_Create(DoorPuzzle *parent)
     AnimatorSprite__Init(&work->aniNextPrompt, sprNextPrompt, ADVANCEPROMPT_ANI_DISABLED, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(sprNextPrompt)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
     work->aniNextPrompt.cParam.palette = PALETTE_ROW_0;
-    work->aniNextPrompt.pos.x   = 224;
-    work->aniNextPrompt.pos.y   = 160;
+    work->aniNextPrompt.pos.x          = 224;
+    work->aniNextPrompt.pos.y          = 160;
 }
 
 void DoorPuzzleDialogue_Destructor(Task *task)
@@ -963,9 +963,11 @@ void InitDoorPuzzleDialogueText(DoorPuzzleDialogue *work)
     FontWindow__Init(&work->fontWindow);
     FontWindow__LoadFromMemory(&work->fontWindow, work->parent->fntAll, TRUE);
     FontWindowAnimator__Init(&work->fontWindowAnimator);
-    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, 0, 2, 0, 14, 32, 10, FALSE, BACKGROUND_1, 0, 1, 0);
+    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+                              PIXEL_TO_TILE(112), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(80), GRAPHICS_ENGINE_A, BACKGROUND_1, PALETTE_ROW_0, 1, 0);
     FontAnimator__Init(&work->fontAnimator);
-    FontAnimator__LoadFont1(&work->fontAnimator, &work->fontWindow, 0, 11, 15, 21, 8, FALSE, BACKGROUND_2, 1, 1);
+    FontAnimator__LoadFont1(&work->fontAnimator, &work->fontWindow, 0, PIXEL_TO_TILE(88), PIXEL_TO_TILE(120), PIXEL_TO_TILE(168), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_A,
+                            BACKGROUND_2, PALETTE_ROW_1, 1);
 
     FontAnimator__LoadMPCFile(&work->fontAnimator, FileUnknown__GetAOUFile(work->parent->archiveDoorPuzzle, GetGameLanguage() + ARCHIVE_DMPZ_LZ7_FILE_MSG_JPN_MPC));
     FontAnimator__SetCallback(&work->fontAnimator, DoorPuzzleDialogue_FontCallback, work);
@@ -1213,8 +1215,8 @@ void DoorPuzzleKeySys_InitKey(DoorPuzzleKeySys *work, s32 id, s16 x, s16 y)
     AnimatorSprite__Init(&work->stoneKeys[id].aniSprite, sprKey, stoneKeyAnimTable[id], ANIMATOR_FLAG_DISABLE_LOOPING, TRUE, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(TRUE, Sprite__GetSpriteSize3(sprKey)), PALETTE_MODE_SUB_OBJ, 0, SPRITE_PRIORITY_3, SPRITE_ORDER_1);
     key->aniSprite.cParam.palette = id;
-    key->aniSprite.pos.x   = key->pos.x;
-    key->aniSprite.pos.y   = key->pos.y;
+    key->aniSprite.pos.x          = key->pos.x;
+    key->aniSprite.pos.y          = key->pos.y;
 
     void *palAniKey = FileUnknown__GetAOUFile(work->parent->archiveDoorPuzzle, ARCHIVE_DMPZ_LZ7_FILE_PANEL_BPA);
     InitPaletteAnimator(&work->stoneKeys[id].aniPalette, palAniKey, 0, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_SUB_OBJ, VRAMKEY_TO_ADDR(id << 9));
@@ -1311,7 +1313,7 @@ void DoorPuzzleKeySys_KeyState_Active(DoorPuzzleKey *work)
                 fx32 prevTouchY = FX32_FROM_WHOLE(touchInput.prev.y);
                 fx32 prevTouchX = FX32_FROM_WHOLE(touchInput.prev.x);
 
-                u16 curAngle = FX_Atan2Idx(touchPos.y - center.y, touchPos.x - center.x);
+                u16 curAngle  = FX_Atan2Idx(touchPos.y - center.y, touchPos.x - center.x);
                 u16 prevAngle = FX_Atan2Idx(prevTouchY - center.y, prevTouchX - center.x);
 
                 s32 angleDistance = (curAngle - prevAngle);
@@ -1623,13 +1625,13 @@ void DoorPuzzle_Main_Active(void)
     if ((work->flags & DOORPUZZLE_FLAG_START_FADE_OUT) != 0)
     {
         if (work->fadeOutDelay != 0)
-		{
+        {
             work->fadeOutDelay--;
-		}
+        }
         else
-		{
+        {
             SetCurrentTaskMainEvent(DoorPuzzle_Main_InitFadeOut);
-		}
+        }
     }
 }
 

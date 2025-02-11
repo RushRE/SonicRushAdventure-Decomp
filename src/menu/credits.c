@@ -1060,9 +1060,9 @@ void Credits_Main_DimWandRoom(void)
 
     if (work->bgBrightness >= FLOAT_TO_FX32(6.0))
     {
-        work->bgBrightness                  = FLOAT_TO_FX32(6.0);
+        work->bgBrightness                         = FLOAT_TO_FX32(6.0);
         gfxControl->blendManager.coefficient.value = FX32_TO_WHOLE(work->bgBrightness);
-        work->delay                         = 90;
+        work->delay                                = 90;
         SetCurrentTaskMainEvent(Credits_Main_DimDelay);
     }
     else
@@ -1112,7 +1112,7 @@ void Credits_Main_ScrollText(void)
             }
             else
             {
-                work->bgBrightness                  = FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_DEFAULT);
+                work->bgBrightness                         = FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_DEFAULT);
                 gfxControl->blendManager.coefficient.value = FX32_TO_WHOLE(work->bgBrightness);
 
                 if (work->fadeDelay != 0)
@@ -1343,9 +1343,9 @@ void CreditsEx_Main_DimBackground(void)
 
     if (work->bgBrightness >= FLOAT_TO_FX32(6.0))
     {
-        work->bgBrightness                  = FLOAT_TO_FX32(6.0);
+        work->bgBrightness                         = FLOAT_TO_FX32(6.0);
         gfxControl->blendManager.coefficient.value = FX32_TO_WHOLE(work->bgBrightness);
-        work->delay                         = 90;
+        work->delay                                = 90;
         SetCurrentTaskMainEvent(CreditsEx_Main_DimDelay);
     }
     else
@@ -1395,7 +1395,7 @@ void CreditsEx_Main_ScrollText(void)
             }
             else
             {
-                work->bgBrightness                  = FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_DEFAULT);
+                work->bgBrightness                         = FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_DEFAULT);
                 gfxControl->blendManager.coefficient.value = FX32_TO_WHOLE(work->bgBrightness);
 
                 if (work->fadeDelay != 0)
@@ -1747,8 +1747,8 @@ void CreateCreditsNotification(Credits *parent, CreditsNotificationType type)
     AnimatorSprite__Init(&work->aniContinueButton, sprNext, 0, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2(sprNext)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
     work->aniContinueButton.cParam.palette = PALETTE_ROW_0;
-    work->aniContinueButton.pos.x   = 224;
-    work->aniContinueButton.pos.y   = 96;
+    work->aniContinueButton.pos.x          = 224;
+    work->aniContinueButton.pos.y          = 96;
 }
 
 void CreditsNotification_Destructor(Task *task)
@@ -1855,9 +1855,11 @@ void InitCreditsNotificationWindow(CreditsNotification *work)
     FontWindow__Init(&work->fontWindow);
     FontWindow__LoadFromMemory(&work->fontWindow, work->parent->assets.font, 1);
     FontWindowAnimator__Init(&work->fontWindowAnimator);
-    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, 0, 2, 0, 8, 32, 8, FALSE, BACKGROUND_2, 1, 1, 0);
+    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+                              PIXEL_TO_TILE(64), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_1, 1, 0);
     FontAnimator__Init(&work->fontAnimator);
-    FontAnimator__LoadFont1(&work->fontAnimator, &work->fontWindow, 0, 2, 10, 27, 4, FALSE, BACKGROUND_3, 2, 1);
+    FontAnimator__LoadFont1(&work->fontAnimator, &work->fontWindow, 0, PIXEL_TO_TILE(16), PIXEL_TO_TILE(80), PIXEL_TO_TILE(216), PIXEL_TO_TILE(32), GRAPHICS_ENGINE_A, BACKGROUND_3,
+                            PALETTE_ROW_2, 1);
 
     FontAnimator__LoadMPCFile(&work->fontAnimator, FileUnknown__GetAOUFile(work->parent->assets.dmsrArchive, GetGameLanguage() + ARCHIVE_DMSR_LZ7_FILE_MSG_JPN_MPC));
     switch (work->type)

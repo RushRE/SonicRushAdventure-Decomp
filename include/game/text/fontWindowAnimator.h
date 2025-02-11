@@ -5,11 +5,27 @@
 #include <game/text/fontAnimatorCore.h>
 #include <game/text/fontWindow.h>
 #include <game/text/fontWindowAnimatorUnknown.h>
+#include <game/graphics/tileHelpers.h>
+
+// resources
+#include <resources/narc/win_simple_lz7.h>
+#include <resources/narc/mw_frame_lz7.h>
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
+
+// --------------------
+// ENUMS
+// --------------------
+
+enum FontWindowAnimatorArchive
+{
+    FONTWINDOWANIMATOR_ARC_0,
+    FONTWINDOWANIMATOR_ARC_1,
+    FONTWINDOWANIMATOR_ARC_COUNT,
+};
 
 // --------------------
 // STRUCTS
@@ -20,7 +36,7 @@ typedef struct FontWindowAnimator_
     FontAnimatorCore base;
     u32 flags;
     FontWindowAnimatorUnknown unknown;
-    u32 funcID1;
+    u32 type;
     BOOL useEngineB;
     s16 bgID;
     s16 field_4E;
@@ -39,10 +55,10 @@ typedef struct FontWindowAnimator_
 // --------------------
 
 NOT_DECOMPILED void FontWindowAnimator__Init(FontWindowAnimator *work);
-NOT_DECOMPILED void FontWindowAnimator__Load1(FontWindowAnimator *work, FontWindow *file, u32 flags, u32 archiveID, u16 fileID, u16 a6, u16 a7, u16 a8, u16 a9, BOOL useEngineB,
-                                              u8 bgID, u8 a12, u16 a13, u16 a14);
-NOT_DECOMPILED void FontWindowAnimator__Load2(FontWindowAnimator *work, FontWindow *font, u32 flags, u32 archiveID, u16 fileID, u16 a6, u16 a7, u16 a8, u16 a9, BOOL useEngineB,
-                                              u8 a11, u8 a12, u8 a13);
+NOT_DECOMPILED void FontWindowAnimator__Load1(FontWindowAnimator *work, FontWindow *file, u32 flags, u32 archiveID, u16 fileID, u16 startX, u16 startY, u16 sizeX, u16 sizeY,
+                                              BOOL useEngineB, u8 bgID, u8 paletteRow, u16 startTile, u16 fillTile);
+NOT_DECOMPILED void FontWindowAnimator__Load2(FontWindowAnimator *work, FontWindow *font, u32 flags, u32 archiveID, u16 fileID, u16 startX, u16 startY, u16 sizeX, u16 sizeY,
+                                              BOOL useEngineB, u8 oamPriority, u8 oamOrder, u8 paletteRow);
 NOT_DECOMPILED void FontWindowAnimator__Release(FontWindowAnimator *work);
 NOT_DECOMPILED void FontWindowAnimator__EnableFlags(FontWindowAnimator *work, u32 flags);
 NOT_DECOMPILED void FontWindowAnimator__DisableFlags(FontWindowAnimator *work, u32 flags);

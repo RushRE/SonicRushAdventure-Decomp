@@ -738,12 +738,12 @@ FontAnimator__LoadPaletteFunc2: // 0x02058D34
 _02058D44: .word FontAnimator__LoadPalette2
 	arm_func_end FontAnimator__LoadPaletteFunc2
 
-	arm_func_start FontAnimator__Func_2058D48
-FontAnimator__Func_2058D48: // 0x02058D48
+	arm_func_start FontAnimator__SetSpriteStartPos
+FontAnimator__SetSpriteStartPos: // 0x02058D48
 	strh r1, [r0, #0xac]
 	strh r2, [r0, #0xae]
 	bx lr
-	arm_func_end FontAnimator__Func_2058D48
+	arm_func_end FontAnimator__SetSpriteStartPos
 
 	arm_func_start FontUnknown2058D78__Func_2058D54
 FontUnknown2058D78__Func_2058D54: // 0x02058D54

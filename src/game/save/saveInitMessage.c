@@ -57,9 +57,11 @@ void CreateSaveInitMessage(SaveInitManager *parent, GameInitMessageTypes type)
     FontWindow__Init(&work->fontWindow);
     FontWindow__LoadFromMemory(&work->fontWindow, work->fontPtr, 1);
     FontWindowAnimator__Init(&work->fontWindowAnimator);
-    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, 0, 2, 0, 7, 32, 10, 0, 0, 1, 1, 0);
+    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+                              PIXEL_TO_TILE(56), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(80), GRAPHICS_ENGINE_A, BACKGROUND_0, PALETTE_ROW_1, 1, 0);
     FontAnimator__Init(&work->fontAnimator);
-    FontAnimator__LoadFont1(&work->fontAnimator, &work->fontWindow, 0, 1, 9, 30, 4, 0, 1, 0, 1);
+    FontAnimator__LoadFont1(&work->fontAnimator, &work->fontWindow, 0, PIXEL_TO_TILE(8), PIXEL_TO_TILE(72), PIXEL_TO_TILE(240), PIXEL_TO_TILE(32), GRAPHICS_ENGINE_A, BACKGROUND_1,
+                            PALETTE_ROW_0, 1);
 
     FontAnimator__LoadMPCFile(&work->fontAnimator, FileUnknown__GetAOUFile(work->dmblArchive, ARCHIVE_DMBL_LZ7_FILE_MSG_JPN_MPC + GetGameLanguage()));
 
@@ -88,8 +90,8 @@ void CreateSaveInitMessage(SaveInitManager *parent, GameInitMessageTypes type)
     AnimatorSprite__Init(&work->aniSprite, spriteFile, 0, ANIMATOR_FLAG_DISABLE_LOOPING, 0, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2(spriteFile)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
     work->aniSprite.cParam.palette = PALETTE_ROW_0;
-    work->aniSprite.pos.x   = 128;
-    work->aniSprite.pos.y   = 116;
+    work->aniSprite.pos.x          = 128;
+    work->aniSprite.pos.y          = 116;
 }
 
 void SaveInitMessage_Destructor(Task *task)

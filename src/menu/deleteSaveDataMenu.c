@@ -123,8 +123,9 @@ void LoadDeleteSaveDataMenuAssets(DeleteSaveDataMenu *work)
 {
     SetupDisplayForDeleteSaveDataMenu(work);
 
-    work->mpcDeleteSaveData = ReadFileFromBundle("bb/dm_save_del.bb", BUNDLE_DM_SAVE_DEL_FILE_RESOURCES_BB_DM_SAVE_DEL_DM_SAVE_DEL_JPN_MPC + GetGameLanguage(), BINARYBUNDLE_AUTO_ALLOC_HEAD);
-    work->fntAll            = FSRequestFileSync("fnt/font_all.fnt", FSREQ_AUTO_ALLOC_HEAD);
+    work->mpcDeleteSaveData =
+        ReadFileFromBundle("bb/dm_save_del.bb", BUNDLE_DM_SAVE_DEL_FILE_RESOURCES_BB_DM_SAVE_DEL_DM_SAVE_DEL_JPN_MPC + GetGameLanguage(), BINARYBUNDLE_AUTO_ALLOC_HEAD);
+    work->fntAll = FSRequestFileSync("fnt/font_all.fnt", FSREQ_AUTO_ALLOC_HEAD);
 
     FontWindow__Init(&work->fontWindow);
     FontWindow__LoadFromMemory(&work->fontWindow, work->fntAll, TRUE);
@@ -194,14 +195,16 @@ void SetupDisplayForDeleteSaveDataMenu(DeleteSaveDataMenu *work)
 void InitDeleteSaveDataMenuFontWindow(DeleteSaveDataMenu *work)
 {
     FontWindowAnimator__Init(&work->fontWindowAnimatorMain);
-    FontWindowAnimator__Load1(&work->fontWindowAnimatorMain, &work->fontWindow, 0, 0, 2, 0, 0, 32, 12, FALSE, 2, 2, 1, 0);
+    FontWindowAnimator__Load1(&work->fontWindowAnimatorMain, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+                              PIXEL_TO_TILE(0), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(96), GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_2, 1, 0);
     FontWindowAnimator__Init(&work->fntWindowSelection);
 }
 
 void InitDeleteSaveDataMenuText(DeleteSaveDataMenu *work)
 {
     FontAnimator__Init(&work->aniFontMain);
-    FontAnimator__LoadFont1(&work->aniFontMain, &work->fontWindow, 0, 1, 1, 30, 10, FALSE, BACKGROUND_1, 1, 1);
+    FontAnimator__LoadFont1(&work->aniFontMain, &work->fontWindow, 0, PIXEL_TO_TILE(8), PIXEL_TO_TILE(8), PIXEL_TO_TILE(240), PIXEL_TO_TILE(80), GRAPHICS_ENGINE_A, BACKGROUND_1,
+                            PALETTE_ROW_1, 1);
     FontAnimator__LoadMPCFile(&work->aniFontMain, work->mpcDeleteSaveData);
     FontAnimator__SetMsgSequence(&work->aniFontMain, DELETESAVE_MSGSEQ_DELETING_SAVE_DATA);
     FontAnimator__InitStartPos(&work->aniFontMain, 1, 0);
@@ -210,7 +213,8 @@ void InitDeleteSaveDataMenuText(DeleteSaveDataMenu *work)
     FontAnimator__LoadPaletteFunc(&work->aniFontMain);
 
     FontAnimator__Init(&work->aniFontSelection);
-    FontAnimator__LoadFont1(&work->aniFontSelection, &work->fontWindow, 0, 5, 14, 22, 6, FALSE, BACKGROUND_0, 1, 1);
+    FontAnimator__LoadFont1(&work->aniFontSelection, &work->fontWindow, 0, PIXEL_TO_TILE(40), PIXEL_TO_TILE(112), PIXEL_TO_TILE(176), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_A,
+                            BACKGROUND_0, PALETTE_ROW_1, 1);
     FontAnimator__LoadMPCFile(&work->aniFontSelection, work->mpcDeleteSaveData);
     FontAnimator__SetMsgSequence(&work->aniFontSelection, DELETESAVE_MSGSEQ_DELETING_SAVE_DATA);
     FontAnimator__InitStartPos(&work->aniFontSelection, 1, 0);
@@ -222,7 +226,7 @@ void InitDeleteSaveDataMenuText(DeleteSaveDataMenu *work)
 void InitDeleteSaveDataMenuSprites(DeleteSaveDataMenu *work)
 {
     FontWindowMWControl__Init(&work->fontMWControl);
-    FontWindowMWControl__Load(&work->fontMWControl, &work->fontWindow, 0, FONTWINDOWMW_FILL, 176, 16, FALSE, GX_OAM_MODE_XLU, SPRITE_ORDER_0, PALETTE_ROW_0);
+    FontWindowMWControl__Load(&work->fontMWControl, &work->fontWindow, 0, FONTWINDOWMW_FILL, 176, 16, GRAPHICS_ENGINE_A, SPRITE_PRIORITY_1, SPRITE_ORDER_0, PALETTE_ROW_0);
 
     void *sprCursor = FileUnknown__GetAOUFile(work->archiveSaveDelete, ARCHIVE_DM_SD_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
     AnimatorSprite__Init(&work->aniCursor, sprCursor, 0, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
@@ -319,7 +323,7 @@ void DeleteSaveDataMenu_Main(void)
         else
         {
             gameState.talk.state.field_DC = 2;
-            nextEvent               = 1; // SYSEVENT_RETURN_TO_HUB
+            nextEvent                     = 1; // SYSEVENT_RETURN_TO_HUB
         }
 
         DestroyCurrentTask();
@@ -634,8 +638,9 @@ void DeleteSaveDataMenu_State_FadeOut(DeleteSaveDataMenu *work)
 void DeleteSaveDataMenu_StateSelect_Init(DeleteSaveDataMenu *work)
 {
     FontAnimator__SetMsgSequence(&work->aniFontSelection, work->msgSelection);
-    FontWindowAnimator__Load1(&work->fntWindowSelection, &work->fontWindow, 0, 0, 2, 4, 13, 24, 2 * FontAnimator__GetDialogLineCount(&work->aniFontSelection, 0) + 2, FALSE,
-                              BACKGROUND_2, 2, 512, 0);
+    FontWindowAnimator__Load1(&work->fntWindowSelection, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(32),
+                              PIXEL_TO_TILE(104), PIXEL_TO_TILE(192), (PIXEL_TO_TILE(16) * FontAnimator__GetDialogLineCount(&work->aniFontSelection, 0)) + PIXEL_TO_TILE(16),
+                              GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_2, 512, 0);
     FontWindowAnimator__InitAnimation(&work->fntWindowSelection, 1, 8, 0, 0);
     FontWindowAnimator__StartAnimating(&work->fntWindowSelection);
     FontWindowAnimator__Func_20599B4(&work->fntWindowSelection);

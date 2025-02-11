@@ -5,6 +5,7 @@
 #include <game/graphics/paletteQueue.h>
 #include <game/graphics/mappingsQueue.h>
 #include <game/graphics/pixelsQueue.h>
+#include <game/graphics/tileHelpers.h>
 #include <game/math/mtMath.h>
 
 #ifdef __cplusplus
@@ -16,10 +17,10 @@ extern "C"
 // CONSTANTS
 // --------------------
 
-#define BG_DISPLAY_FULL_WIDTH       (HW_LCD_WIDTH / 8)                // cover entire screen horizontally
-#define BG_DISPLAY_SINGLE_HEIGHT    (HW_LCD_HEIGHT / 8)               // cover one entire screen vertically
-#define BG_DISPLAY_SINGLE_HEIGHT_EX ((HW_LCD_HEIGHT + 64) / 8)        // cover one entire screen vertically + 64 padding pixels
-#define BG_DISPLAY_DOUBLE_HEIGHT    (BG_DISPLAY_SINGLE_HEIGHT_EX * 2) // cover both screens vertically
+#define BG_DISPLAY_FULL_WIDTH       (PIXEL_TO_TILE(HW_LCD_WIDTH))       // cover entire screen horizontally
+#define BG_DISPLAY_SINGLE_HEIGHT    (PIXEL_TO_TILE(HW_LCD_HEIGHT))      // cover one entire screen vertically
+#define BG_DISPLAY_SINGLE_HEIGHT_EX (PIXEL_TO_TILE(HW_LCD_HEIGHT + 64)) // cover one entire screen vertically + 64 padding pixels
+#define BG_DISPLAY_DOUBLE_HEIGHT    (BG_DISPLAY_SINGLE_HEIGHT_EX * 2)   // cover both screens vertically
 
 #define BG_DISPLAY_SINGLE_TILE_SIZE (BG_DISPLAY_FULL_WIDTH * BG_DISPLAY_SINGLE_HEIGHT_EX) // amount of tiles needed for single (ex) displays
 #define BG_DISPLAY_DOUBLE_TILE_SIZE (BG_DISPLAY_FULL_WIDTH * BG_DISPLAY_DOUBLE_HEIGHT)    // amount of tiles needed for double displays

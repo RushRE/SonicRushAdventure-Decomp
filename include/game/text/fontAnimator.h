@@ -3,6 +3,7 @@
 
 #include <game/text/fontAnimatorCore.h>
 #include <game/text/messageController.h>
+#include <game/graphics/tileHelpers.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -21,13 +22,29 @@ typedef void (*FontCallback)(u32 type, struct FontAnimator_ *animator, void *con
 // STRUCTS
 // --------------------
 
-typedef struct FontAnimatorPalette_
+typedef union FontAnimatorPalette_
 {
-    BOOL useEngineB;
-    u16 field_4;
-    u16 field_6;
-    void *dstPixels;
-    void *pixelPtr;
+    struct
+    {
+        BOOL useEngineB;
+        u8 backgroundID;
+        u8 paletteRow;
+        u16 field_6;
+        u8 *dstPixels;
+        u8 *pixelPtr;
+    } background;
+
+    struct
+    {
+        BOOL useEngineB;
+        u16 startX;
+        u16 startY;
+        u8 oamPriority;
+        u8 oamOrder;
+        u8 paletteRow;
+        u8 field_B;
+        u16 *pixelPtr;
+    } sprite;
 } FontAnimatorPalette;
 
 typedef struct FontUnknown2058D78_
@@ -36,7 +53,7 @@ typedef struct FontUnknown2058D78_
     u16 field_4;
     u16 field_6;
     FontField_9C unknown;
-    u32 applyMode;
+    u32 paletteControlMode;
     FontAnimatorPalette paletteControl;
     struct FontUnknown2058D78_ *next;
     struct FontAnimator_ *parent;
@@ -46,12 +63,12 @@ struct FontAnimator_
 {
     FontAnimatorCore base;
     u32 flags;
-    u16 field_C;
-    u16 field_E;
-    u16 pixelWidth;
-    u16 pixelHeight;
-    u16 width;
-    u16 height;
+    u16 startX;
+    u16 startY;
+    u16 sizeX;
+    u16 sizeY;
+    u16 alignedSizeX; // sizeX but aligned to 4-tile intervals
+    u16 alignedSizeY; // sizeY but aligned to 2-tile intervals
     u16 field_18;
     u16 field_1A;
     u32 callbackType;
@@ -59,7 +76,7 @@ struct FontAnimator_
     void *pixels;
     u32 field_98;
     FontField_9C field_9C;
-    u32 applyMode;
+    u32 paletteControlMode;
     FontAnimatorPalette paletteControl;
     FontCallback callback;
     void *callbackContext;
@@ -77,10 +94,10 @@ NOT_DECOMPILED GXRgb FontAnimator__Palettes[9][4];
 // --------------------
 
 NOT_DECOMPILED void FontAnimator__Init(FontAnimator *work);
-NOT_DECOMPILED u16 FontAnimator__LoadFont1(FontAnimator *work, struct FontWindow_ *window, u32 flags, u16 a4, u16 a5, u16 width, u16 height, BOOL useEngineB, u8 bgID, u8 a10,
-                                            u32 a11);
-NOT_DECOMPILED void FontAnimator__LoadFont2(FontAnimator *work, struct FontWindow_ *window, u32 flags, u16 a4, u16 a5, u16 width, u16 height, BOOL useEngineB, u8 bgID, u8 a10,
-                                            u32 a11);
+NOT_DECOMPILED u16 FontAnimator__LoadFont1(FontAnimator *work, struct FontWindow_ *window, u32 flags, u16 startX, u16 startY, u16 sizeX, u16 sizeY, BOOL useEngineB,
+                                           u8 backgroundID, u8 paletteRow, u32 startTile);
+NOT_DECOMPILED void FontAnimator__LoadFont2(FontAnimator *work, struct FontWindow_ *window, u32 flags, u16 startX, u16 startY, u16 sizeX, u16 sizeY, BOOL useEngineB,
+                                            u8 oamPriority, u8 oamOrder, u8 paletteRow);
 NOT_DECOMPILED void FontAnimator__Release(FontAnimator *work);
 NOT_DECOMPILED void FontAnimator__EnableFlags(FontAnimator *work, u32 flags);
 NOT_DECOMPILED void FontAnimator__DisableFlags(FontAnimator *work, u32 flags);
@@ -106,10 +123,10 @@ NOT_DECOMPILED void FontAnimator__Draw(FontAnimator *work);
 NOT_DECOMPILED void FontAnimator__LoadMappingsFunc(FontAnimator *work);
 NOT_DECOMPILED void FontAnimator__LoadPaletteFunc(FontAnimator *work);
 NOT_DECOMPILED void FontAnimator__LoadPaletteFunc2(FontAnimator *work);
-NOT_DECOMPILED void FontAnimator__Func_2058D48(FontAnimator *work, s16 x, s16 y);
+NOT_DECOMPILED void FontAnimator__SetSpriteStartPos(FontAnimator *work, s16 x, s16 y);
 
 NOT_DECOMPILED void FontUnknown2058D78__Func_2058D54(FontUnknown2058D78 *work);
-NOT_DECOMPILED void FontUnknown2058D78__Init(FontUnknown2058D78 *work, FontAnimator *parent, s32 a3, s16 a4, s16 a5, BOOL useEngineB, u8 a7, u8 a8, u8 a9);
+NOT_DECOMPILED void FontUnknown2058D78__Init(FontUnknown2058D78 *work, FontAnimator *parent, u32 flags, u16 startX, u16 startY, BOOL useEngineB, u8 oamPriority, u8 oamOrder, u8 paletteRow);
 NOT_DECOMPILED void FontUnknown2058D78__Release(FontUnknown2058D78 *work, FontAnimator *a2);
 NOT_DECOMPILED void FontUnknown2058D78__EnableFlags(FontUnknown2058D78 *work, u32 mask);
 NOT_DECOMPILED void FontUnknown2058D78__DisableFlags(FontUnknown2058D78 *work, u32 mask);

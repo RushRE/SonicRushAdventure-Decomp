@@ -769,7 +769,8 @@ void NameMenu__InitFontWindow(NameMenuWorker *work)
 
     FontWindowAnimator fontWindow;
     FontWindowAnimator__Init(&fontWindow);
-    FontWindowAnimator__Load1(&fontWindow, work->fontWindowPtr, 0x38, 0, 2, 3, 7, 0x1A, 8, FALSE, BACKGROUND_1, 1, 1, 0);
+    FontWindowAnimator__Load1(&fontWindow, work->fontWindowPtr, 0x38, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(24), PIXEL_TO_TILE(56),
+                              PIXEL_TO_TILE(208), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_A, BACKGROUND_1, PALETTE_ROW_1, 1, 0);
     FontWindowAnimator__Func_20599C4(&fontWindow);
     FontWindowAnimator__Draw(&fontWindow);
     FontWindowAnimator__Release(&fontWindow);
@@ -777,7 +778,8 @@ void NameMenu__InitFontWindow(NameMenuWorker *work)
     FontAnimator fontAnimator;
     void *mpcFile = FileUnknown__GetAOUFile(work->archiveDmni, GetGameLanguage() + ARCHIVE_DMNI_LZ7_FILE_DMNI_MSG_JPN_MPC);
     FontAnimator__Init(&fontAnimator);
-    FontAnimator__LoadFont1(&fontAnimator, work->fontWindowPtr, 0x38, 4, 8, 24, 6, 0, 0, 0, 256);
+    FontAnimator__LoadFont1(&fontAnimator, work->fontWindowPtr, 0x38, PIXEL_TO_TILE(32), PIXEL_TO_TILE(64), PIXEL_TO_TILE(192), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_A, BACKGROUND_0,
+                            PALETTE_ROW_0, 256);
     FontAnimator__LoadMappingsFunc(&fontAnimator);
     FontAnimator__LoadPaletteFunc(&fontAnimator);
     FontAnimator__LoadMPCFile(&fontAnimator, mpcFile);
@@ -789,6 +791,7 @@ void NameMenu__InitFontWindow(NameMenuWorker *work)
         case 1:
             FontAnimator__AdvanceLine(&fontAnimator, 16);
             break;
+
         case 2:
             FontAnimator__AdvanceLine(&fontAnimator, 8);
             break;

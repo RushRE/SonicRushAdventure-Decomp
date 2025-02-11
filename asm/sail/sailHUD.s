@@ -5811,7 +5811,7 @@ _02173538:
 _02173548:
 	ldr r0, [r4, #0xc]
 	mov r1, #0
-	bl FontAnimator__Func_2058D48
+	bl FontAnimator__SetSpriteStartPos
 	ldr r0, [r4, #0x10]
 	cmp r0, #0
 	beq _02173578

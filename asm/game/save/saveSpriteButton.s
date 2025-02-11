@@ -1135,7 +1135,7 @@ SaveSpriteButton__Func_20653AC: // 0x020653AC
 	strh r5, [r3, #0x70]
 	add r0, r6, #0x244
 	strh r4, [r3, #0x72]
-	bl FontAnimator__Func_2058D48
+	bl FontAnimator__SetSpriteStartPos
 	mov r1, r5
 	mov r2, r4
 	add r0, r6, #0x308

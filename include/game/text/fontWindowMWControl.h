@@ -54,7 +54,7 @@ typedef struct FontWindowMWControl_
 // --------------------
 
 NOT_DECOMPILED void FontWindowMWControl__Init(FontWindowMWControl *work);
-NOT_DECOMPILED void FontWindowMWControl__Load(FontWindowMWControl *work, FontWindow *window, s32 flags, FontWindowMWFrames frame, s16 offsetX, s16 offsetY, BOOL useEngineB, u8 oamMode, u8 oamOrder, u8 paletteRow);
+NOT_DECOMPILED void FontWindowMWControl__Load(FontWindowMWControl *work, FontWindow *window, s32 flags, FontWindowMWFrames frame, s16 offsetX, s16 offsetY, BOOL useEngineB, u8 oamPriority, u8 oamOrder, u8 paletteRow);
 NOT_DECOMPILED void FontWindowMWControl__Release(FontWindowMWControl *work);
 NOT_DECOMPILED void FontWindowMWControl__SetPaletteAnim(FontWindowMWControl *work, u16 anim);
 NOT_DECOMPILED void FontWindowMWControl__ValidatePaletteAnim(FontWindowMWControl *work);

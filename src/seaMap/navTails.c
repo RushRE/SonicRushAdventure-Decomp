@@ -767,7 +767,7 @@ void LoadNavTailsFont(NavTails *work, FontWindow *window)
     }
 
     FontAnimator__Init(&work->fontAnimator);
-    FontAnimator__LoadFont1(&work->fontAnimator, work->fontWindow, 0, 0, 0, 20, 10, work->useEngineB, BACKGROUND_0, 15, 296);
+    FontAnimator__LoadFont1(&work->fontAnimator, work->fontWindow, 0, PIXEL_TO_TILE(0), PIXEL_TO_TILE(0), PIXEL_TO_TILE(160), PIXEL_TO_TILE(80), work->useEngineB, BACKGROUND_0, PALETTE_ROW_15, 296);
     FontAnimator__LoadMPCFile(&work->fontAnimator, work->assets.mpcText);
     FontAnimator__SetCallbackType(&work->fontAnimator, 8);
     ClearNavTailsBackground(work);
