@@ -77,7 +77,7 @@ NOT_DECOMPILED GXRgb FontAnimator__Palettes[9][4];
 // --------------------
 
 NOT_DECOMPILED void FontAnimator__Init(FontAnimator *work);
-NOT_DECOMPILED void FontAnimator__LoadFont1(FontAnimator *work, struct FontWindow_ *window, u32 flags, u16 a4, u16 a5, u16 width, u16 height, BOOL useEngineB, u8 bgID, u8 a10,
+NOT_DECOMPILED u16 FontAnimator__LoadFont1(FontAnimator *work, struct FontWindow_ *window, u32 flags, u16 a4, u16 a5, u16 width, u16 height, BOOL useEngineB, u8 bgID, u8 a10,
                                             u32 a11);
 NOT_DECOMPILED void FontAnimator__LoadFont2(FontAnimator *work, struct FontWindow_ *window, u32 flags, u16 a4, u16 a5, u16 width, u16 height, BOOL useEngineB, u8 bgID, u8 a10,
                                             u32 a11);

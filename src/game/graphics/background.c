@@ -63,9 +63,9 @@ void InitBackgroundEx(Background *background, void *fileData, BackgroundFlags fl
     background->flags       = flags;
     background->fileData    = fileData;
     background->bgID        = bgID;
-    background->paletteData = GetBackgroundPalette(fileData);
-    background->pixelData   = GetBackgroundPixels(fileData);
-    background->mappingData = GetBackgroundMappings(fileData);
+    background->paletteData = (void *)GetBackgroundPalette(fileData);
+    background->pixelData   = (void *)GetBackgroundPixels(fileData);
+    background->mappingData = (void *)GetBackgroundMappings(fileData);
     background->width       = GetFile(fileData)->width;
     background->height      = GetFile(fileData)->height;
     background->useEngineB  = useEngineB;
@@ -459,31 +459,31 @@ u16 GetBackgroundTileCount(void *fileData)
     }
 }
 
-void *GetBackgroundPalette(void *fileData)
+BackgroundBlock *GetBackgroundPalette(void *fileData)
 {
     u32 offset = GetFile(fileData)->paletteOffset;
     if (offset == 0)
         return NULL;
 
-    return GetFileBlock(fileData, offset);
+    return (BackgroundBlock *)GetFileBlock(fileData, offset);
 }
 
-void *GetBackgroundPixels(void *fileData)
+BackgroundBlock *GetBackgroundPixels(void *fileData)
 {
     u32 offset = GetFile(fileData)->pixelOffset;
     if (offset == 0)
         return NULL;
 
-    return GetFileBlock(fileData, offset);
+    return (BackgroundBlock *)GetFileBlock(fileData, offset);
 }
 
-void *GetBackgroundMappings(void *fileData)
+BackgroundBlock *GetBackgroundMappings(void *fileData)
 {
     u32 offset = GetFile(fileData)->mappingsOffset;
     if (offset == 0)
         return NULL;
 
-    return GetFileBlock(fileData, offset);
+    return (BackgroundBlock *)GetFileBlock(fileData, offset);
 }
 
 void InitBackgroundPixelsForCharacter(Background *background)

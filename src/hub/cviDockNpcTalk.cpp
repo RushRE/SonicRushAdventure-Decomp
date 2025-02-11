@@ -26,8 +26,8 @@ static u32 selection;
 CViDockNpcGroupTalk talkAction = { 32 };
 
 DockNpcGroupFunc talkActionTable[] = {
-    CViDockNpcTalk::Create,        CViSailPrompt::Create, CViTalkPurchase::Create,   ViTalkMissionList__Create, CViDockNpcTalk::CreateMission,    CViTalkAnnounce::Create,
-    CViDockNpcTalk::CreateUnknown, NpcOptions::Create,    NpcCutsceneViewer::Create, NpcRetry::Create,          CViDockNpcTalk::CreateTalkAction,
+    CViDockNpcTalk::Create,        CViSailPrompt::Create, CViTalkPurchase::Create,   CViTalkMissionList::Create, CViDockNpcTalk::CreateMission,    CViTalkAnnounce::Create,
+    CViDockNpcTalk::CreateUnknown, NpcOptions::Create,    NpcCutsceneViewer::Create, NpcRetry::Create,           CViDockNpcTalk::CreateTalkAction,
 };
 
 // --------------------

@@ -77,6 +77,12 @@ typedef u8 BackgroundID;
 // STRUCTS
 // --------------------
 
+typedef struct BackgroundBlock_
+{
+    MICompressionHeader header;
+    u8 data[1];
+} BackgroundBlock;
+
 typedef struct Background_
 {
     BackgroundFlags flags;
@@ -134,9 +140,9 @@ u16 GetBackgroundWidth(void *fileData);
 u16 GetBackgroundHeight(void *fileData);
 BOOL GetBackgroundFlag(void *fileData);
 u16 GetBackgroundTileCount(void *fileData);
-void *GetBackgroundPalette(void *fileData);
-void *GetBackgroundPixels(void *fileData);
-void *GetBackgroundMappings(void *fileData);
+BackgroundBlock *GetBackgroundPalette(void *fileData);
+BackgroundBlock *GetBackgroundPixels(void *fileData);
+BackgroundBlock *GetBackgroundMappings(void *fileData);
 
 #ifdef __cplusplus
 }

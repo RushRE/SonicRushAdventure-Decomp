@@ -695,7 +695,7 @@ void NameMenu__InitUnknown2056570(NameMenuWorker *work)
     work->field_E28 = HeapAllocHead(HEAP_USER, 0x6C0);
     MI_CpuClear32(work->field_E28, 0x6C0);
 
-    Unknown2056570__Init(&work->field_DF8, 1, 1, 0, 8, 1, 18, 3, work->field_E28, 0, 32);
+    Unknown2056570__Init(&work->field_DF8, GRAPHICS_ENGINE_B, BACKGROUND_1, 0, 8, 1, 18, 3, work->field_E28, 0, 32);
     Unknown2056570__Func_2056688(&work->field_DF8, 1);
 
     MI_CpuCopy16(FontAnimator__Palettes[1], &((GXRgb *)VRAM_DB_BG_PLTT)[17], sizeof(FontAnimator__Palettes[1]));

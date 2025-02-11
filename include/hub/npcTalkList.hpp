@@ -117,7 +117,7 @@ NOT_DECOMPILED void NpcUnknown__Func_216EDF8(NpcTalkList *work, ViTalkListConfig
 NOT_DECOMPILED void NpcUnknown__Func_216EE98(NpcTalkList *work);
 NOT_DECOMPILED void NpcUnknown__Func_216EEC0(NpcTalkList *work, s32 a2, s32 a3);
 NOT_DECOMPILED void NpcUnknown__Func_216EF50(NpcTalkList *work);
-NOT_DECOMPILED void NpcUnknown__Func_216EF70(NpcTalkList *work);
+NOT_DECOMPILED u16 NpcUnknown__Func_216EF70(NpcTalkList *work);
 NOT_DECOMPILED BOOL NpcUnknown__Func_216EF78(NpcTalkList *work);
 NOT_DECOMPILED BOOL NpcUnknown__Func_216EF80(NpcTalkList *work);
 NOT_DECOMPILED BOOL NpcUnknown__Func_216EF88(NpcTalkList *work);

@@ -16,10 +16,10 @@ typedef struct Unknown2056570_
 {
     s32 field_0;
     BOOL useEngineB;
-    u16 word8;
-    u16 wordA;
-    u16 wordC;
-    u16 wordE;
+    u16 startX;
+    u16 startY;
+    u16 sizeX;
+    u16 sizeY;
     u16 bgID;
     u8 byte12;
     u8 byte13;
@@ -31,14 +31,14 @@ typedef struct Unknown2056570_
     u32 dword20;
     u32 dword24;
     u32 dword28;
-    void *spritePixels;
+    void *pixelBuffer;
 } Unknown2056570;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void Unknown2056570__Init(Unknown2056570 *work, BOOL useEngineB, u16 bgID, s32 a4, u16 a5, u16 a6, u16 a7, u16 a8, void *a9, s32 a10, s32 a11);
+NOT_DECOMPILED void Unknown2056570__Init(Unknown2056570 *work, BOOL useEngineB, u16 bgID, s32 a4, u16 startX, u16 startY, u16 sizeX, u16 sizeY, void *pixelBuffer, s32 a10, s32 a11);
 NOT_DECOMPILED void Unknown2056570__Func_2056670(Unknown2056570 *work);
 NOT_DECOMPILED void Unknown2056570__Func_2056688(Unknown2056570 *work, s32 a2);
 NOT_DECOMPILED u16 Unknown2056570__Func_2056824(Unknown2056570 *work);

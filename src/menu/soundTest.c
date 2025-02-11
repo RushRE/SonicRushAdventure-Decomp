@@ -694,7 +694,7 @@ NONMATCH_FUNC void InitSoundTestDrumBG(SoundTest *work)
 {
     // https://decomp.me/scratch/IX4im -> 93.23%
 #ifdef NON_MATCHING
-    LoadUncompressedPalette(((u16 *)GetBackgroundPalette(work->assets.bgDrumValue)) + 2, 16, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_DB_BG_PLTT)[16]));
+    LoadUncompressedPalette(GetBackgroundPalette(work->assets.bgDrumValue)->data, 16, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_DB_BG_PLTT)[16]));
 
     u16 *mappings = HeapAllocHead(HEAP_USER, BG_DISPLAY_FULL_WIDTH * BG_DISPLAY_SINGLE_HEIGHT * sizeof(GXScrFmtText));
     MI_CpuFill16(mappings, GX_SCRFMT_TEXT(1, 0, 0, 0x000), BG_DISPLAY_FULL_WIDTH * BG_DISPLAY_SINGLE_HEIGHT * sizeof(GXScrFmtText));
