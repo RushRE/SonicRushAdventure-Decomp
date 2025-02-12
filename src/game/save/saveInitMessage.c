@@ -57,7 +57,7 @@ void CreateSaveInitMessage(SaveInitManager *parent, GameInitMessageTypes type)
     FontWindow__Init(&work->fontWindow);
     FontWindow__LoadFromMemory(&work->fontWindow, work->fontPtr, 1);
     FontWindowAnimator__Init(&work->fontWindowAnimator);
-    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
                               PIXEL_TO_TILE(56), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(80), GRAPHICS_ENGINE_A, BACKGROUND_0, PALETTE_ROW_1, 1, 0);
     FontAnimator__Init(&work->fontAnimator);
     FontAnimator__LoadFont1(&work->fontAnimator, &work->fontWindow, 0, PIXEL_TO_TILE(8), PIXEL_TO_TILE(72), PIXEL_TO_TILE(240), PIXEL_TO_TILE(32), GRAPHICS_ENGINE_A, BACKGROUND_1,

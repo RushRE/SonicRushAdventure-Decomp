@@ -769,7 +769,7 @@ void NameMenu__InitFontWindow(NameMenuWorker *work)
 
     FontWindowAnimator fontWindow;
     FontWindowAnimator__Init(&fontWindow);
-    FontWindowAnimator__Load1(&fontWindow, work->fontWindowPtr, 0x38, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(24), PIXEL_TO_TILE(56),
+    FontWindowAnimator__Load1(&fontWindow, work->fontWindowPtr, 0x38, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(24), PIXEL_TO_TILE(56),
                               PIXEL_TO_TILE(208), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_A, BACKGROUND_1, PALETTE_ROW_1, 1, 0);
     FontWindowAnimator__Func_20599C4(&fontWindow);
     FontWindowAnimator__Draw(&fontWindow);

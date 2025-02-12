@@ -1,5 +1,5 @@
-#ifndef RUSH_NPCUNKNOWN_HPP
-#define RUSH_NPCUNKNOWN_HPP
+#ifndef RUSH_CVIEVTCMNLIST_HPP
+#define RUSH_CVIEVTCMNLIST_HPP
 
 #include <game/text/fontWindow.h>
 #include <game/text/fontWindowAnimator.h>
@@ -12,21 +12,21 @@
 // CONSTANTS/MACROS
 // --------------------
 
-#define NPCTALKLIST_SELECTION_NONE (-1)
+#define CVIEVTCMNLIST_SELECTION_NONE (-1)
 
 // --------------------
 // ENUMS
 // --------------------
 
-enum NpcTalkListConfigEntryFlag_
+enum CViEvtCmnListConfigEntryFlag_
 {
-    NPCTALKLISTENTRY_FLAG_NONE = 0x00,
+    CVIEVTCMNLISTENTRY_FLAG_NONE = 0x00,
 
-    NPCTALKLISTENTRY_FLAG_UNLOCKED  = 1 << 0,
-    NPCTALKLISTENTRY_FLAG_ATTEMPTED = 1 << 1,
-    NPCTALKLISTENTRY_FLAG_CLEARED   = 1 << 2,
+    CVIEVTCMNLISTENTRY_FLAG_UNLOCKED  = 1 << 0,
+    CVIEVTCMNLISTENTRY_FLAG_ATTEMPTED = 1 << 1,
+    CVIEVTCMNLISTENTRY_FLAG_CLEARED   = 1 << 2,
 };
-typedef u8 NpcTalkListConfigEntryFlag;
+typedef u8 CViEvtCmnListConfigEntryFlag;
 
 // --------------------
 // STRUCTS
@@ -34,27 +34,27 @@ typedef u8 NpcTalkListConfigEntryFlag;
 
 #ifdef __cplusplus
 
-typedef struct NpcTalkListConfigEntry_
+typedef struct CViEvtCmnListConfigEntry_
 {
-    NpcTalkListConfigEntryFlag flags;
+    CViEvtCmnListConfigEntryFlag flags;
     u8 lineCount;
     u16 scrollPos;
     u16 sequence;
     u8 field_6;
     u8 field_7;
-} NpcTalkListConfigEntry;
+} CViEvtCmnListConfigEntry;
 
-typedef struct NpcTalkListEntry_
+typedef struct CViEvtCmnListEntry_
 {
     u16 flags;
     u16 id;
-} NpcTalkListEntry;
+} CViEvtCmnListEntry;
 
-typedef struct ViTalkListConfig
+typedef struct CViEvtCmnListConfig
 {
     FontWindow *fontWindow;
     void *mpcFile;
-    NpcTalkListEntry *entryList;
+    CViEvtCmnListEntry *entryList;
     u16 entryCount;
     u16 selection;
     void *sprMapLocHUD;
@@ -66,9 +66,9 @@ typedef struct ViTalkListConfig
     u16 windowSizeX;
     u16 windowSizeY;
     u16 windowFrame;
-} ViTalkListConfig;
+} CViEvtCmnListConfig;
 
-class NpcTalkList
+class CViEvtCmnList
 {
 public:
     // --------------------
@@ -76,7 +76,7 @@ public:
     // --------------------
 
     u32 timer;
-    NpcTalkListEntry *entryList;
+    CViEvtCmnListEntry *entryList;
     u16 entryCount;
     u16 currentSelection;
     u16 chosenSelection;
@@ -84,7 +84,7 @@ public:
     s16 unused;
     s16 numDigitCount;
     u16 lastHeldTouchSelection;
-    ViTalkListConfig listConfig;
+    CViEvtCmnListConfig listConfig;
     BOOL isWindowOpen;
     BOOL isWindowAnimating;
     BOOL isWindowClosing;
@@ -101,7 +101,7 @@ public:
     u32 listTextPixelSize;
     void *listTextPixels;
     GXScrText32x32 *listTextMappings;
-    NpcTalkListConfigEntry *entries;
+    CViEvtCmnListConfigEntry *entries;
     s32 scrollPos;
     s32 prevScrollPos;
     u32 scrollPosLimit;
@@ -115,15 +115,15 @@ public:
     TouchField touchField;
     TouchArea touchArea[3];
     BOOL touchAreaEnabled[3];
-    void (*state)(NpcTalkList *work);
-    void (*prevState)(NpcTalkList *work);
+    void (*state)(CViEvtCmnList *work);
+    void (*prevState)(CViEvtCmnList *work);
 
     // --------------------
     // MEMBER FUNCTIONS
     // --------------------
 
     void Init();
-    void Load(ViTalkListConfig *config);
+    void Load(CViEvtCmnListConfig *config);
     void Release();
     void ShowWindow(s32 selection, BOOL flag);
     void Process();
@@ -135,9 +135,9 @@ public:
     u16 GetSelectedEntry();
 
 private:
-    void InitSprites(ViTalkListConfig *config);
-    void InitMappings(ViTalkListConfig *config);
-    void InitTouchField(ViTalkListConfig *config);
+    void InitSprites(CViEvtCmnListConfig *config);
+    void InitMappings(CViEvtCmnListConfig *config);
+    void InitTouchField(CViEvtCmnListConfig *config);
     void ReleaseList();
     void ReleaseMappings();
     void ReleaseTouchField();
@@ -179,15 +179,15 @@ private:
     static void PixelClearCallback(void *context);
     static void SpriteCallback(BACFrameGroupBlockHeader *block, AnimatorSprite *animator, void *userData);
 
-    static void State_OpenWindow(NpcTalkList *work);
-    static void State_ListActive(NpcTalkList *work);
-    static void State_SelectionMade(NpcTalkList *work);
-    static void State_CloseWindow(NpcTalkList *work);
-    static void State_ClosedWindow(NpcTalkList *work);
-    static void State_Finished(NpcTalkList *work);
+    static void State_OpenWindow(CViEvtCmnList *work);
+    static void State_ListActive(CViEvtCmnList *work);
+    static void State_SelectionMade(CViEvtCmnList *work);
+    static void State_CloseWindow(CViEvtCmnList *work);
+    static void State_ClosedWindow(CViEvtCmnList *work);
+    static void State_Finished(CViEvtCmnList *work);
     static void EnableKeyRepeat(BOOL enabled);
 };
 
 #endif
 
-#endif // RUSH_NPCUNKNOWN_HPP
+#endif // RUSH_CVIEVTCMNLIST_HPP

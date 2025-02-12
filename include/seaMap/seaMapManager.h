@@ -24,6 +24,10 @@ enum ShipType_
 
     SHIP_COUNT,
 
+    // rarely-used values for magma hurricane
+    SHIP_DRILL = SHIP_COUNT,
+    SHIP_COUNT_DRILL,
+
     SHIP_MENU = SHIP_COUNT, // SeaMap menu
 };
 typedef u32 ShipType;

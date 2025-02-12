@@ -3,7 +3,7 @@
 
 #include <hub/hubTask.hpp>
 #include <hub/cviEvtCmn.hpp>
-#include <hub/npcPurchase.hpp>
+#include <hub/cviEvtCmnPurchase.hpp>
 #include <game/graphics/sprite.h>
 #include <game/system/threadWorker.h>
 #include <hub/hubConfig.h>
@@ -96,12 +96,12 @@ public:
     s32 shipUpgradeID;
     s32 infoPurchaseID;
     BOOL canPurchase;
-    CViEvtCmnTalk evtCmnTalk;
+    CViEvtCmnTalk eventTalk;
     AnimatorSprite aniMaterial;
     AnimatorSprite aniRing;
     AnimatorSprite aniCostBackground;
     u16 costType;
-    NpcPurchase npcPurchase;
+    CViEvtCmnPurchase eventPurchase;
     Thread threadWorker;
 
     // --------------------
@@ -110,11 +110,11 @@ public:
 
     void InitDisplay();
     void InitSprites();
-    void InitNpcPurchase();
+    void InitEventPurchase();
     void Release();
     void ResetDisplay();
     void ReleaseSprites();
-    void ReleaseNpcPurchase();
+    void ReleaseEventPurchase();
 
     // --------------------
     // STATIC FUNCTIONS
@@ -139,8 +139,8 @@ private:
     static BOOL CanPurchaseShipUpgrade(s32 id);
     static s32 GetMaterialCount(u16 type);
     static BOOL GetRingCount();
-    static BOOL CanMakePurchase(const PurchaseCostConfig *config);
-    static void MakePurchase(const PurchaseCostConfig *config);
+    static BOOL CanMakePurchase(const HubPurchaseCostConfig *config);
+    static void MakePurchase(const HubPurchaseCostConfig *config);
 };
 
 #endif // RUSH_CVITALKPURCHASE_HPP

@@ -7,7 +7,7 @@
 #include <game/text/fontAnimator.h>
 #include <game/text/fontWindowAnimator.h>
 #include <game/graphics/unknown2056570.h>
-#include <hub/npcTalkList.hpp>
+#include <hub/cviEvtCmnList.hpp>
 #include <game/system/threadWorker.h>
 
 // --------------------
@@ -22,7 +22,7 @@ public:
     // VARIABLES
     // --------------------
 
-    CViEvtCmnTalk viEvtCmnTalk;
+    CViEvtCmnTalk eventTalk;
     void *mpcFile;
     u16 missionCount;
     u16 selection;
@@ -44,8 +44,8 @@ public:
     AnimatorSprite aniCharacterName;
     AnimatorSprite aniCharacterCircle;
     AnimatorSprite aniCharacterPortrait;
-    NpcTalkList npcTalk;
-    NpcTalkListEntry *missionList;
+    CViEvtCmnList eventSelectList;
+    CViEvtCmnListEntry *missionList;
     Thread thread;
 
     // --------------------

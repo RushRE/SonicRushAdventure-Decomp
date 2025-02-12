@@ -1,24 +1,22 @@
-#ifndef RUSH_NPCRETRY_HPP
-#define RUSH_NPCRETRY_HPP
+#ifndef RUSH_CVITALKOPTIONS_HPP
+#define RUSH_CVITALKOPTIONS_HPP
 
-#include <hub/cviEvtCmn.hpp>
+#include <hub/hubTask.hpp>
 #include <game/system/threadWorker.h>
+#include <hub/cviEvtCmn.hpp>
 
 // --------------------
 // STRUCTS
 // --------------------
 
-#ifdef __cplusplus
-
-class NpcRetry
+class CViTalkOptions
 {
 public:
     // --------------------
     // VARIABLES
     // --------------------
 
-    CViEvtCmnTalk evtCmnTalk;
-    BOOL disableRetryPrompt;
+    CViEvtCmnTalk eventTalk;
     Thread thread;
 
     // --------------------
@@ -37,14 +35,16 @@ public:
     static void ThreadFunc(void *arg);
 
     static void Main_Init(void);
-    static void Main_Talking(void);
+    static void Main_ChooseOption(void);
+    static void Main_ChangeDifficulty(void);
+    static void Main_ChangeTimeLimit(void);
+    static void Main_ClearSaveDataWarning(void);
     static void Destructor(Task *task);
+
+    static BOOL GetNormalDifficultyEnabled(void);
+    static BOOL GetTimeLimit(void);
+    static BOOL EnableNormalDifficulty(BOOL enabled);
+    static BOOL EnableTimeLimit(BOOL enabled);
 };
 
-#endif
-
-// --------------------
-// FUNCTIONS
-// --------------------
-
-#endif // RUSH_NPCRETRY_HPP
+#endif // RUSH_CVITALKOPTIONS_HPP

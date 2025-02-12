@@ -1,22 +1,28 @@
-#ifndef RUSH_NPCOPTIONS_HPP
-#define RUSH_NPCOPTIONS_HPP
+#ifndef RUSH_CVITALKMOVIELIST_HPP
+#define RUSH_CVITALKMOVIELIST_HPP
 
 #include <hub/hubTask.hpp>
 #include <game/system/threadWorker.h>
-#include <hub/cviEvtCmn.hpp>
+#include <hub/cviEvtCmnList.hpp>
 
 // --------------------
 // STRUCTS
 // --------------------
 
-class NpcOptions
+class CViTalkMovieList
 {
+
 public:
     // --------------------
     // VARIABLES
     // --------------------
 
-    CViEvtCmnTalk viEvtCmnTalk;
+    CViEvtCmnList eventSelectList;
+    CViEvtCmnListEntry *cutsceneList;
+    u16 cutsceneCount;
+    u16 unused1;
+    s32 unused2;
+    void *mpcFile;
     Thread thread;
 
     // --------------------
@@ -24,27 +30,25 @@ public:
     // --------------------
 
     void InitDisplay();
+    void InitList();
     void Release();
     void ResetDisplay();
+    void ReleaseList();
 
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
 
     static void Create(s32 param);
+    static u16 GetNextCutscene(u16 id);
     static void ThreadFunc(void *arg);
 
-    static void Main_Init(void);
-    static void Main_ChooseOption(void);
-    static void Main_ChangeDifficulty(void);
-    static void Main_ChangeTimeLimit(void);
-    static void Main_ClearSaveDataWarning(void);
+    static void Main_Init();
+    static void Main_Active();
+    static void Main_CloseWindow();
     static void Destructor(Task *task);
-
-    static BOOL GetNormalDifficultyEnabled(void);
-    static BOOL GetTimeLimit(void);
-    static BOOL EnableNormalDifficulty(BOOL enabled);
-    static BOOL EnableTimeLimit(BOOL enabled);
+    static BOOL CheckCutsceneUnlocked(u16 id);
+    static u16 GetSelectionFromCutscene();
 };
 
-#endif // RUSH_NPCOPTIONS_HPP
+#endif // RUSH_CVITALKMOVIELIST_HPP

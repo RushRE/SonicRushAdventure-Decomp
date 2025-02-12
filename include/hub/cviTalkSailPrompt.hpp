@@ -1,5 +1,5 @@
-#ifndef RUSH_CVISAILPROMPT_HPP
-#define RUSH_CVISAILPROMPT_HPP
+#ifndef RUSH_CVITALKSAILPROMPT_HPP
+#define RUSH_CVITALKSAILPROMPT_HPP
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -11,10 +11,24 @@
 // STRUCTS
 // --------------------
 
-class CViSailPrompt
+class CViTalkSailPrompt
 {
 
 public:
+    // --------------------
+    // ENUM
+    // --------------------
+
+    enum Type
+    {
+        TYPE_0,
+        TYPE_1,
+        TYPE_2,
+        TYPE_3,
+        TYPE_4,
+        TYPE_5,
+    };
+
     // --------------------
     // VARIABLES
     // --------------------
@@ -41,8 +55,8 @@ public:
     void ReleaseGraphics();
 
     u16 HandleTouchSelectionControl(BOOL usePush);
-    void InitBackgroundVRAM();
-    void InitBackground2VRAM();
+    void InitPromptWindowBackgroundVRAM();
+    void InitPromptTextBackgroundVRAM();
 
     // --------------------
     // STATIC FUNCTIONS
@@ -60,11 +74,11 @@ private:
     static void Main_ClosingWindow(void);
     static void Main_ApplyChoice(void);
     static void Destructor(Task *task);
-    static void SetBackground2Visible(BOOL enabled);
-    static void SetBackground3Visible(BOOL enabled);
+    static void SetPromptWindowBackgroundVisible(BOOL enabled);
+    static void SetPromptTextBackgroundVisible(BOOL enabled);
     static BOOL CheckTrainingDisabled();
-    static BOOL Func_21696F0(u16 a1);
-    static s32 Func_2169754(u16 a1);
+    static BOOL IsFirstTimeUsingShip(u16 a1);
+    static s32 ShipTypeFromPromptType(u16 a1);
 };
 
-#endif // RUSH_CVISAILPROMPT_HPP
+#endif // RUSH_CVITALKSAILPROMPT_HPP

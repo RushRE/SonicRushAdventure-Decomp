@@ -963,7 +963,7 @@ void InitDoorPuzzleDialogueText(DoorPuzzleDialogue *work)
     FontWindow__Init(&work->fontWindow);
     FontWindow__LoadFromMemory(&work->fontWindow, work->parent->fntAll, TRUE);
     FontWindowAnimator__Init(&work->fontWindowAnimator);
-    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
                               PIXEL_TO_TILE(112), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(80), GRAPHICS_ENGINE_A, BACKGROUND_1, PALETTE_ROW_0, 1, 0);
     FontAnimator__Init(&work->fontAnimator);
     FontAnimator__LoadFont1(&work->fontAnimator, &work->fontWindow, 0, PIXEL_TO_TILE(88), PIXEL_TO_TILE(120), PIXEL_TO_TILE(168), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_A,

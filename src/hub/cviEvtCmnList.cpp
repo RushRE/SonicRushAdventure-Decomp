@@ -1,5 +1,5 @@
 
-#include <hub/npcTalkList.hpp>
+#include <hub/cviEvtCmnList.hpp>
 #include <hub/hubControl.hpp>
 #include <hub/hubAudio.h>
 #include <game/graphics/renderCore.h>
@@ -26,9 +26,9 @@ NOT_DECOMPILED void BackgroundUnknown__CopyPixels(void *pixels, s32 unitWidth, s
 
 NOT_DECOMPILED void _ZN10HubControl16GetFileFrom_ViBGEt(void);
 
-NOT_DECOMPILED void _ZN11NpcTalkList23UpdateListEntryMappingsEt(void);
-NOT_DECOMPILED void _ZN11NpcTalkList28UpdateListBackgroundMappingsEt(void);
-NOT_DECOMPILED void _ZN11NpcTalkList21GetVisibleEntryBoundsEmPtS0_(void);
+NOT_DECOMPILED void _ZN13CViEvtCmnList23UpdateListEntryMappingsEt(void);
+NOT_DECOMPILED void _ZN13CViEvtCmnList28UpdateListBackgroundMappingsEt(void);
+NOT_DECOMPILED void _ZN13CViEvtCmnList21GetVisibleEntryBoundsEmPtS0_(void);
 }
 
 // --------------------
@@ -36,15 +36,15 @@ NOT_DECOMPILED void _ZN11NpcTalkList21GetVisibleEntryBoundsEmPtS0_(void);
 // --------------------
 
 // display 6 entries + the number of the 7th
-#define NPCTALKLIST_VIEW_SIZE (TILE_TO_PIXEL(3 * 6) + TILE_TO_PIXEL(1))
+#define CVIEVTCMNLIST_VIEW_SIZE (TILE_TO_PIXEL(3 * 6) + TILE_TO_PIXEL(1))
 
 // --------------------
 // STRUCTS
 // --------------------
 
-struct NpcTalkListSpriteCallbackUserData
+struct CViEvtCmnListSpriteCallbackUserData
 {
-    NpcTalkList *talkList;
+    CViEvtCmnList *talkList;
     u32 id;
 };
 
@@ -52,18 +52,18 @@ struct NpcTalkListSpriteCallbackUserData
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED const GXRgb NpcTalkList__MissionTextLockedPalette[3];
-NOT_DECOMPILED const GXRgb NpcTalkList__MissionTextClearedPalette[3];
-NOT_DECOMPILED const GXRgb NpcTalkList__MovieTextLockedPalette[3];
-NOT_DECOMPILED const GXRgb NpcTalkList__MovieTextClearedPalette[3];
+NOT_DECOMPILED const GXRgb CViEvtCmnList__MissionTextLockedPalette[3];
+NOT_DECOMPILED const GXRgb CViEvtCmnList__MissionTextClearedPalette[3];
+NOT_DECOMPILED const GXRgb CViEvtCmnList__MovieTextLockedPalette[3];
+NOT_DECOMPILED const GXRgb CViEvtCmnList__MovieTextClearedPalette[3];
 
-NOT_DECOMPILED const u16 NpcTalkList__keyRepeatRepeatTime[];
-NOT_DECOMPILED const u16 NpcTalkList__keyRepeatInitialTime[];
+NOT_DECOMPILED const u16 CViEvtCmnList__keyRepeatRepeatTime[];
+NOT_DECOMPILED const u16 CViEvtCmnList__keyRepeatInitialTime[];
 
-// static const GXRgb NpcTalkList__MissionTextLockedPalette[3] = { GX_RGB_888(0x70, 0x88, 0xC8), GX_RGB_888(0x38, 0x50, 0x80), GX_RGB_888(0x00, 0x18, 0x38) };
-// static const GXRgb NpcTalkList__MissionTextClearedPalette[3] = { GX_RGB_888(0xF8, 0xD8, 0x00), GX_RGB_888(0xC0, 0x98, 0x00), GX_RGB_888(0x20, 0x50, 0x00) };
-// static const GXRgb NpcTalkList__MovieTextLockedPalette[3] = { GX_RGB_888(0xC0, 0x58, 0x00), GX_RGB_888(0x78, 0x78, 0x00), GX_RGB_888(0x38, 0x30, 0x00) };
-// static const GXRgb NpcTalkList__MovieTextClearedPalette[3] = { GX_RGB_888(0xC0, 0x58, 0x00), GX_RGB_888(0x78, 0x78, 0x00), GX_RGB_888(0x38, 0x30, 0x00) };
+// static const GXRgb CViEvtCmnList__MissionTextLockedPalette[3] = { GX_RGB_888(0x70, 0x88, 0xC8), GX_RGB_888(0x38, 0x50, 0x80), GX_RGB_888(0x00, 0x18, 0x38) };
+// static const GXRgb CViEvtCmnList__MissionTextClearedPalette[3] = { GX_RGB_888(0xF8, 0xD8, 0x00), GX_RGB_888(0xC0, 0x98, 0x00), GX_RGB_888(0x20, 0x50, 0x00) };
+// static const GXRgb CViEvtCmnList__MovieTextLockedPalette[3] = { GX_RGB_888(0xC0, 0x58, 0x00), GX_RGB_888(0x78, 0x78, 0x00), GX_RGB_888(0x38, 0x30, 0x00) };
+// static const GXRgb CViEvtCmnList__MovieTextClearedPalette[3] = { GX_RGB_888(0xC0, 0x58, 0x00), GX_RGB_888(0x78, 0x78, 0x00), GX_RGB_888(0x38, 0x30, 0x00) };
 
 // --------------------
 // INLINE FUNCTIONS
@@ -95,8 +95,8 @@ RUSH_INLINE BOOL CheckTouchPullEnabled()
 // FUNCTIONS
 // --------------------
 
-// NpcTalkList
-void NpcTalkList::Init()
+// CViEvtCmnList
+void CViEvtCmnList::Init()
 {
     MI_CpuClear32(this, sizeof(*this));
 
@@ -104,16 +104,16 @@ void NpcTalkList::Init()
     FontWindowMWControl__Init(&this->fontWindowMWControl);
 }
 
-void NpcTalkList::Load(ViTalkListConfig *config)
+void CViEvtCmnList::Load(CViEvtCmnListConfig *config)
 {
     this->entryList              = config->entryList;
     this->entryCount             = config->entryCount;
     this->currentSelection       = config->selection;
     this->chosenSelection        = config->selection;
-    this->selectedEntry          = NPCTALKLIST_SELECTION_NONE;
+    this->selectedEntry          = CVIEVTCMNLIST_SELECTION_NONE;
     this->numDigitCount          = config->numDigitCount;
     this->fontWindow             = config->fontWindow;
-    this->lastHeldTouchSelection = NPCTALKLIST_SELECTION_NONE;
+    this->lastHeldTouchSelection = CVIEVTCMNLIST_SELECTION_NONE;
 
     MI_CpuCopy16(config, &this->listConfig, sizeof(this->listConfig));
     this->InitMappings(config);
@@ -123,10 +123,10 @@ void NpcTalkList::Load(ViTalkListConfig *config)
     this->isWindowAnimating = FALSE;
     this->isWindowClosing   = FALSE;
 
-    this->state = NpcTalkList::State_Finished;
+    this->state = CViEvtCmnList::State_Finished;
 }
 
-void NpcTalkList::Release()
+void CViEvtCmnList::Release()
 {
     this->ReleaseTouchField();
     this->ReleaseList();
@@ -134,11 +134,11 @@ void NpcTalkList::Release()
     this->Init();
 }
 
-void NpcTalkList::ShowWindow(s32 selection, BOOL flag)
+void CViEvtCmnList::ShowWindow(s32 selection, BOOL flag)
 {
     this->EnableKeyRepeat(TRUE);
 
-    this->selectedEntry = NPCTALKLIST_SELECTION_NONE;
+    this->selectedEntry = CVIEVTCMNLIST_SELECTION_NONE;
     this->SetListWindowVisible(FALSE);
     this->SetListTextVisible(FALSE);
 
@@ -152,14 +152,14 @@ void NpcTalkList::ShowWindow(s32 selection, BOOL flag)
     else
         FontWindowAnimator__Func_20599B4(&this->fontWindowAnimator);
 
-    this->state = NpcTalkList::State_OpenWindow;
+    this->state = CViEvtCmnList::State_OpenWindow;
 
     PlayHubSfx(HUB_SFX_V_POPUP);
 }
 
-void NpcTalkList::Process()
+void CViEvtCmnList::Process()
 {
-    void (*state)(NpcTalkList *work) = this->state;
+    void (*state)(CViEvtCmnList *work) = this->state;
 
     if (state != NULL)
         state(this);
@@ -167,43 +167,43 @@ void NpcTalkList::Process()
     this->prevState = state;
 }
 
-u16 NpcTalkList::GetSelection()
+u16 CViEvtCmnList::GetSelection()
 {
     return this->chosenSelection;
 }
 
-BOOL NpcTalkList::IsWindowOpen()
+BOOL CViEvtCmnList::IsWindowOpen()
 {
     return this->isWindowOpen;
 }
 
-BOOL NpcTalkList::IsWindowClosing()
+BOOL CViEvtCmnList::IsWindowClosing()
 {
     return this->isWindowClosing;
 }
 
-BOOL NpcTalkList::CheckSelectionMade()
+BOOL CViEvtCmnList::CheckSelectionMade()
 {
     if (this->IsFinished() == FALSE)
         return FALSE;
 
-    if (this->GetSelectedEntry() == (u16)NPCTALKLIST_SELECTION_NONE)
+    if (this->GetSelectedEntry() == (u16)CVIEVTCMNLIST_SELECTION_NONE)
         return FALSE;
 
     return TRUE;
 }
 
-BOOL NpcTalkList::IsFinished()
+BOOL CViEvtCmnList::IsFinished()
 {
-    return this->state == NpcTalkList::State_Finished;
+    return this->state == CViEvtCmnList::State_Finished;
 }
 
-u16 NpcTalkList::GetSelectedEntry()
+u16 CViEvtCmnList::GetSelectedEntry()
 {
     return this->selectedEntry;
 }
 
-void NpcTalkList::InitSprites(ViTalkListConfig *config)
+void CViEvtCmnList::InitSprites(CViEvtCmnListConfig *config)
 {
     FontWindowAnimator__Init(&this->fontWindowAnimator);
     FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, config->windowSizeX, config->windowSizeY, PIXEL_TO_TILE(0), PIXEL_TO_TILE(0),
@@ -259,24 +259,24 @@ void NpcTalkList::InitSprites(ViTalkListConfig *config)
     MessageController__SetFont(&this->msgController, FontWindow__GetFont(this->fontWindow));
     MessageController__LoadMPCFile(&this->msgController, config->mpcFile);
     MessageController__Setup(&this->msgController, this->listTextPixels, VRAM_BACKGROUND_32x32_WIDTH - 7, VRAM_BACKGROUND_32x32_HEIGHT, 0, 0, 0);
-    MessageController__SetClearPixelCallback(&this->msgController, NpcTalkList::PixelClearCallback, this);
+    MessageController__SetClearPixelCallback(&this->msgController, CViEvtCmnList::PixelClearCallback, this);
 
-    this->entries = (NpcTalkListConfigEntry *)HeapAllocHead(HEAP_SYSTEM, sizeof(NpcTalkListConfigEntry) * this->entryCount);
+    this->entries = (CViEvtCmnListConfigEntry *)HeapAllocHead(HEAP_SYSTEM, sizeof(CViEvtCmnListConfigEntry) * this->entryCount);
 
     s32 i;
     s32 scrollPos = 0;
     for (i = 0; i < this->entryCount; i++)
     {
-        this->entries[i].flags = NPCTALKLISTENTRY_FLAG_NONE;
+        this->entries[i].flags = CVIEVTCMNLISTENTRY_FLAG_NONE;
 
-        if ((this->entryList[i].flags & NPCTALKLISTENTRY_FLAG_UNLOCKED) != 0)
-            this->entries[i].flags |= NPCTALKLISTENTRY_FLAG_UNLOCKED;
+        if ((this->entryList[i].flags & CVIEVTCMNLISTENTRY_FLAG_UNLOCKED) != 0)
+            this->entries[i].flags |= CVIEVTCMNLISTENTRY_FLAG_UNLOCKED;
 
-        if ((this->entryList[i].flags & NPCTALKLISTENTRY_FLAG_ATTEMPTED) != 0)
-            this->entries[i].flags |= NPCTALKLISTENTRY_FLAG_ATTEMPTED;
+        if ((this->entryList[i].flags & CVIEVTCMNLISTENTRY_FLAG_ATTEMPTED) != 0)
+            this->entries[i].flags |= CVIEVTCMNLISTENTRY_FLAG_ATTEMPTED;
 
-        if ((this->entryList[i].flags & NPCTALKLISTENTRY_FLAG_CLEARED) != 0)
-            this->entries[i].flags |= NPCTALKLISTENTRY_FLAG_CLEARED;
+        if ((this->entryList[i].flags & CVIEVTCMNLISTENTRY_FLAG_CLEARED) != 0)
+            this->entries[i].flags |= CVIEVTCMNLISTENTRY_FLAG_CLEARED;
 
         this->entries[i].sequence  = this->entryList[i].id;
         this->entries[i].lineCount = MPC__GetDialogLineCount(config->mpcFile, this->entries[i].sequence, 0);
@@ -286,7 +286,7 @@ void NpcTalkList::InitSprites(ViTalkListConfig *config)
         scrollPos += TILE_TO_PIXEL(1);
     }
 
-    this->scrollPosLimit = scrollPos - NPCTALKLIST_VIEW_SIZE;
+    this->scrollPosLimit = scrollPos - CVIEVTCMNLIST_VIEW_SIZE;
     if (this->scrollPosLimit >= scrollPos)
         this->scrollPosLimit = 0;
 
@@ -298,7 +298,7 @@ void NpcTalkList::InitSprites(ViTalkListConfig *config)
     this->unknownFlag = FALSE;
 }
 
-void NpcTalkList::InitMappings(ViTalkListConfig *config)
+void CViEvtCmnList::InitMappings(CViEvtCmnListConfig *config)
 {
     if (config->windowFrame == FONTWINDOWMW_FILL_MISSION)
         ((GXRgb *)VRAM_BG_PLTT)[65] = GX_RGB_888(0x00, 0x30, 0x50);
@@ -332,7 +332,7 @@ void NpcTalkList::InitMappings(ViTalkListConfig *config)
                  VRAM_BACKGROUND_32x32_WIDTH * sizeof(GXScrFmtText));
 }
 
-void NpcTalkList::InitTouchField(ViTalkListConfig *config)
+void CViEvtCmnList::InitTouchField(CViEvtCmnListConfig *config)
 {
     TouchRectUnknown touchRect;
 
@@ -362,7 +362,7 @@ void NpcTalkList::InitTouchField(ViTalkListConfig *config)
     this->EnableAllTouchAreas(FALSE);
 }
 
-void NpcTalkList::ReleaseList()
+void CViEvtCmnList::ReleaseList()
 {
     if (this->entries != NULL)
     {
@@ -392,7 +392,7 @@ void NpcTalkList::ReleaseList()
     FontWindowAnimator__Release(&this->fontWindowAnimator);
 }
 
-void NpcTalkList::ReleaseMappings()
+void CViEvtCmnList::ReleaseMappings()
 {
     if (this->listEntryMapping_Blank != NULL)
     {
@@ -419,12 +419,12 @@ void NpcTalkList::ReleaseMappings()
     }
 }
 
-void NpcTalkList::ReleaseTouchField()
+void CViEvtCmnList::ReleaseTouchField()
 {
     // Do nothing.
 }
 
-NONMATCH_FUNC void NpcTalkList::InitListTextGraphics()
+NONMATCH_FUNC void CViEvtCmnList::InitListTextGraphics()
 {
     // https://decomp.me/scratch/srGTE -> 97.36%
 #ifdef NON_MATCHING
@@ -517,7 +517,7 @@ _0216F828:
 	mov r0, r10
 	add r2, r10, #0x394
 	add r3, r3, #0x300
-	bl _ZN11NpcTalkList21GetVisibleEntryBoundsEmPtS0_
+	bl _ZN13CViEvtCmnList21GetVisibleEntryBoundsEmPtS0_
 	add r4, r10, #0x300
 	ldrh r5, [r4, #0x94]
 	ldrh r0, [r4, #0x96]
@@ -526,10 +526,10 @@ _0216F828:
 _0216F8C0:
 	mov r0, r10
 	mov r1, r5
-	bl _ZN11NpcTalkList28UpdateListBackgroundMappingsEt
+	bl _ZN13CViEvtCmnList28UpdateListBackgroundMappingsEt
 	mov r0, r10
 	mov r1, r5
-	bl _ZN11NpcTalkList23UpdateListEntryMappingsEt
+	bl _ZN13CViEvtCmnList23UpdateListEntryMappingsEt
 	add r0, r5, #1
 	mov r0, r0, lsl #0x10
 	ldrh r1, [r4, #0x96]
@@ -542,7 +542,7 @@ _0216F8C0:
 #endif
 }
 
-void NpcTalkList::UpdateListBorderMappings(u32 scrollPos, u16 entrySize)
+void CViEvtCmnList::UpdateListBorderMappings(u32 scrollPos, u16 entrySize)
 {
     u32 scroll = FX_ModS32(scrollPos, VRAM_WINDOW_HEIGHT);
     if (scroll + entrySize > VRAM_WINDOW_HEIGHT)
@@ -556,9 +556,9 @@ void NpcTalkList::UpdateListBorderMappings(u32 scrollPos, u16 entrySize)
     }
 }
 
-void NpcTalkList::UpdateListBackgroundMappings(u16 id)
+void CViEvtCmnList::UpdateListBackgroundMappings(u16 id)
 {
-    NpcTalkListConfigEntry *entry = &this->entries[id];
+    CViEvtCmnListConfigEntry *entry = &this->entries[id];
 
     s32 scroll = FX_ModS32(entry->scrollPos, VRAM_WINDOW_HEIGHT);
     this->UpdateListBorderMappings(entry->scrollPos, TILE_TO_PIXEL(2) * entry->lineCount + TILE_TO_PIXEL(1));
@@ -571,16 +571,16 @@ void NpcTalkList::UpdateListBackgroundMappings(u16 id)
         this->UpdateListTextMappings(id, (scroll - VRAM_WINDOW_HEIGHT), entry->sequence);
 }
 
-NONMATCH_FUNC void NpcTalkList::UpdateListTextMappings(s32 id, s16 scroll, u16 sequence)
+NONMATCH_FUNC void CViEvtCmnList::UpdateListTextMappings(s32 id, s16 scroll, u16 sequence)
 {
     // https://decomp.me/scratch/Xbqaa -> 75.03%
 #ifdef NON_MATCHING
     s32 paletteRow;
-    if ((this->entries[id].flags & NPCTALKLISTENTRY_FLAG_CLEARED) != 0)
+    if ((this->entries[id].flags & CVIEVTCMNLISTENTRY_FLAG_CLEARED) != 0)
     {
         paletteRow = PALETTE_ROW_2 << GX_SCRFMT_TEXT_COLORPLTT_SHIFT;
     }
-    else if ((this->entries[id].flags & NPCTALKLISTENTRY_FLAG_UNLOCKED) != 0)
+    else if ((this->entries[id].flags & CVIEVTCMNLISTENTRY_FLAG_UNLOCKED) != 0)
     {
         paletteRow = PALETTE_ROW_0 << GX_SCRFMT_TEXT_COLORPLTT_SHIFT;
     }
@@ -641,7 +641,7 @@ NONMATCH_FUNC void NpcTalkList::UpdateListTextMappings(s32 id, s16 scroll, u16 s
         }
 
         // "New!" text
-        if ((this->entries[id].flags & NPCTALKLISTENTRY_FLAG_ATTEMPTED) != 0)
+        if ((this->entries[id].flags & CVIEVTCMNLISTENTRY_FLAG_ATTEMPTED) != 0)
             BackgroundUnknown__CopyPixels(pixelBlock->data, 13, 80, 0, 24, 8, this->listTextPixels, 25, 8 * this->numDigitCount, y, 0);
     }
 
@@ -864,14 +864,14 @@ _0216FCE8:
 #endif
 }
 
-NONMATCH_FUNC s16 NpcTalkList::GetScrollDistance(s32 id, u32 scrollPos)
+NONMATCH_FUNC s16 CViEvtCmnList::GetScrollDistance(s32 id, u32 scrollPos)
 {
     // https://decomp.me/scratch/Fcd4t -> 97.50%
 #ifdef NON_MATCHING
     if (scrollPos == -1)
         scrollPos = this->scrollPos;
 
-    NpcTalkListConfigEntry *entry = &this->entries[id];
+    CViEvtCmnListConfigEntry *entry = &this->entries[id];
 
     s32 entrySize;
     entrySize = TILE_TO_PIXEL(2) * entry->lineCount;
@@ -881,10 +881,10 @@ NONMATCH_FUNC s16 NpcTalkList::GetScrollDistance(s32 id, u32 scrollPos)
     {
         s32 entryScrollPos = entry->scrollPos + entrySize;
 
-        if (scrollPos + NPCTALKLIST_VIEW_SIZE >= entryScrollPos)
+        if (scrollPos + CVIEVTCMNLIST_VIEW_SIZE >= entryScrollPos)
             return 0;
 
-        return entryScrollPos - (scrollPos + NPCTALKLIST_VIEW_SIZE);
+        return entryScrollPos - (scrollPos + CVIEVTCMNLIST_VIEW_SIZE);
     }
 
     return -(scrollPos - entry->scrollPos);
@@ -920,14 +920,14 @@ _0216FD80:
 #endif
 }
 
-u16 NpcTalkList::HandleTouchSelectionControl(BOOL usePush)
+u16 CViEvtCmnList::HandleTouchSelectionControl(BOOL usePush)
 {
     u16 x;
     u16 y;
     if (usePush)
     {
         if (!CheckTouchPushEnabled())
-            return NPCTALKLIST_SELECTION_NONE;
+            return CVIEVTCMNLIST_SELECTION_NONE;
 
         x = touchInput.push.x;
         y = touchInput.push.y;
@@ -935,7 +935,7 @@ u16 NpcTalkList::HandleTouchSelectionControl(BOOL usePush)
     else
     {
         if (!CheckTouchPullEnabled())
-            return NPCTALKLIST_SELECTION_NONE;
+            return CVIEVTCMNLIST_SELECTION_NONE;
 
         x = touchInput.pull.x;
         y = touchInput.pull.y;
@@ -943,7 +943,7 @@ u16 NpcTalkList::HandleTouchSelectionControl(BOOL usePush)
 
     u32 x2 = x - 16;
     u32 y2 = y - 32;
-    if (x2 < 200 && y2 < NPCTALKLIST_VIEW_SIZE)
+    if (x2 < 200 && y2 < CVIEVTCMNLIST_VIEW_SIZE)
     {
         u32 scrollOffset;
         s32 firstVisibleEntry;
@@ -962,10 +962,10 @@ u16 NpcTalkList::HandleTouchSelectionControl(BOOL usePush)
         }
     }
 
-    return NPCTALKLIST_SELECTION_NONE;
+    return CVIEVTCMNLIST_SELECTION_NONE;
 }
 
-void NpcTalkList::UpdateListBackgroundGraphics(u32 scrollPos)
+void CViEvtCmnList::UpdateListBackgroundGraphics(u32 scrollPos)
 {
     u16 firstVisibleEntry;
     u16 lastVisibleEntry;
@@ -1013,7 +1013,7 @@ void NpcTalkList::UpdateListBackgroundGraphics(u32 scrollPos)
     renderCoreGFXControlA.bgPosition[BACKGROUND_1].y = scrollPos - 32;
 }
 
-void NpcTalkList::GetVisibleEntryBounds(u32 scrollPos, u16 *firstVisibleEntry, u16 *lastVisibleEntry)
+void CViEvtCmnList::GetVisibleEntryBounds(u32 scrollPos, u16 *firstVisibleEntry, u16 *lastVisibleEntry)
 {
     u16 i;
 
@@ -1032,7 +1032,7 @@ void NpcTalkList::GetVisibleEntryBounds(u32 scrollPos, u16 *firstVisibleEntry, u
 
     for (; i < this->entryCount; i++)
     {
-        if (this->entries[i].scrollPos > scrollPos + NPCTALKLIST_VIEW_SIZE)
+        if (this->entries[i].scrollPos > scrollPos + CVIEVTCMNLIST_VIEW_SIZE)
         {
             break;
         }
@@ -1044,7 +1044,7 @@ void NpcTalkList::GetVisibleEntryBounds(u32 scrollPos, u16 *firstVisibleEntry, u
         *lastVisibleEntry = this->entryCount - 1;
 }
 
-void NpcTalkList::ApplyListTextGraphics(BOOL uncompressed)
+void CViEvtCmnList::ApplyListTextGraphics(BOOL uncompressed)
 {
     DC_StoreRange(this->listTextPixels, this->listTextPixelSize);
     if (uncompressed)
@@ -1069,38 +1069,38 @@ void NpcTalkList::ApplyListTextGraphics(BOOL uncompressed)
     const GXRgb *clearedPalette;
     if (this->listConfig.windowFrame == FONTWINDOWMW_FILL_MISSION)
     {
-        lockedPalette  = NpcTalkList__MissionTextLockedPalette;
-        clearedPalette = NpcTalkList__MissionTextClearedPalette;
+        lockedPalette  = CViEvtCmnList__MissionTextLockedPalette;
+        clearedPalette = CViEvtCmnList__MissionTextClearedPalette;
     }
     else
     {
-        lockedPalette  = NpcTalkList__MovieTextLockedPalette;
-        clearedPalette = NpcTalkList__MovieTextClearedPalette;
+        lockedPalette  = CViEvtCmnList__MovieTextLockedPalette;
+        clearedPalette = CViEvtCmnList__MovieTextClearedPalette;
     }
 
     if (uncompressed)
     {
         QueueUncompressedPalette((void *)FontAnimator__Palettes[1], ARRAY_COUNT(FontAnimator__Palettes[1]), PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_BG_PLTT)[1]));
-        QueueUncompressedPalette((void *)lockedPalette, ARRAY_COUNT(NpcTalkList__MissionTextLockedPalette), PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_BG_PLTT)[17]));
-        QueueUncompressedPalette((void *)clearedPalette, ARRAY_COUNT(NpcTalkList__MissionTextLockedPalette), PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_BG_PLTT)[33]));
+        QueueUncompressedPalette((void *)lockedPalette, ARRAY_COUNT(CViEvtCmnList__MissionTextLockedPalette), PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_BG_PLTT)[17]));
+        QueueUncompressedPalette((void *)clearedPalette, ARRAY_COUNT(CViEvtCmnList__MissionTextLockedPalette), PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_BG_PLTT)[33]));
         QueueCompressedPalette((void *)GetBackgroundPalette(bgMsNumber), PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_BG_PLTT)[80]));
     }
     else
     {
         LoadUncompressedPalette((void *)FontAnimator__Palettes[1], ARRAY_COUNT(FontAnimator__Palettes[1]), PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_BG_PLTT)[1]));
-        LoadUncompressedPalette((void *)lockedPalette, ARRAY_COUNT(NpcTalkList__MissionTextLockedPalette), PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_BG_PLTT)[17]));
-        LoadUncompressedPalette((void *)clearedPalette, ARRAY_COUNT(NpcTalkList__MissionTextLockedPalette), PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_BG_PLTT)[33]));
+        LoadUncompressedPalette((void *)lockedPalette, ARRAY_COUNT(CViEvtCmnList__MissionTextLockedPalette), PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_BG_PLTT)[17]));
+        LoadUncompressedPalette((void *)clearedPalette, ARRAY_COUNT(CViEvtCmnList__MissionTextLockedPalette), PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_BG_PLTT)[33]));
         LoadCompressedPalette((void *)GetBackgroundPalette(bgMsNumber), PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_BG_PLTT)[80]));
     }
 }
 
-void NpcTalkList::ApplyListTextMappings()
+void CViEvtCmnList::ApplyListTextMappings()
 {
     DC_StoreRange(this->listTextMappings, sizeof(GXScrText32x32));
     Mappings__ReadMappingsCompressed(this->listTextMappings, 0, 0, 32, 0, MAPPINGS_MODE_TEXT_256x256_A, 0, 0, 0, 0, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT_EX);
 }
 
-void NpcTalkList::ResetListTextBackground()
+void CViEvtCmnList::ResetListTextBackground()
 {
     MI_CpuFill32((u8 *)VRAM_BG, VRAM_SCRFMT_TEXT_x2(VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0), VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0)),
                  2 * sizeof(GXScrText32x32));
@@ -1110,17 +1110,17 @@ void NpcTalkList::ResetListTextBackground()
     renderCoreGFXControlA.bgPosition[BACKGROUND_3].y = 0;
 }
 
-void NpcTalkList::DrawHeader()
+void CViEvtCmnList::DrawHeader()
 {
     AnimatorSprite__ProcessAnimationFast(&this->aniHeader);
     AnimatorSprite__DrawFrame(&this->aniHeader);
 }
 
-void NpcTalkList::DrawSelectionBox(BOOL enabled)
+void CViEvtCmnList::DrawSelectionBox(BOOL enabled)
 {
     if (this->currentSelection < this->entryCount)
     {
-        NpcTalkListConfigEntry *entry = &this->entries[this->currentSelection];
+        CViEvtCmnListConfigEntry *entry = &this->entries[this->currentSelection];
 
         s16 posY    = entry->scrollPos - this->scrollPos + 40;
         u16 offsetY = TILE_TO_PIXEL(2) * entry->lineCount;
@@ -1137,7 +1137,7 @@ void NpcTalkList::DrawSelectionBox(BOOL enabled)
     }
 }
 
-void NpcTalkList::SetSelectionBoxSelected(BOOL enabled)
+void CViEvtCmnList::SetSelectionBoxSelected(BOOL enabled)
 {
     if (enabled)
         FontWindowMWControl__SetPaletteAnim(&this->fontWindowMWControl, 0);
@@ -1147,7 +1147,7 @@ void NpcTalkList::SetSelectionBoxSelected(BOOL enabled)
     FontWindowMWControl__ValidatePaletteAnim(&this->fontWindowMWControl);
 }
 
-void NpcTalkList::DrawCursor(BOOL useChosenSelection)
+void CViEvtCmnList::DrawCursor(BOOL useChosenSelection)
 {
     u16 selection;
     if (useChosenSelection)
@@ -1157,7 +1157,7 @@ void NpcTalkList::DrawCursor(BOOL useChosenSelection)
 
     if (selection < this->entryCount)
     {
-        NpcTalkListConfigEntry *entry = &this->entries[selection];
+        CViEvtCmnListConfigEntry *entry = &this->entries[selection];
 
         s16 cursorStart = entry->scrollPos - this->scrollPos + 40;
         u16 cursorPos   = TILE_TO_PIXEL(2) * entry->lineCount;
@@ -1178,12 +1178,12 @@ void NpcTalkList::DrawCursor(BOOL useChosenSelection)
     }
 }
 
-void NpcTalkList::InitCursor()
+void CViEvtCmnList::InitCursor()
 {
     AnimatorSprite__SetAnimation(&this->aniCursor, 1);
 }
 
-void NpcTalkList::DrawUpDownButtons()
+void CViEvtCmnList::DrawUpDownButtons()
 {
     u16 buttonUpAnim;
     if (this->currentSelection > 0)
@@ -1224,9 +1224,9 @@ void NpcTalkList::DrawUpDownButtons()
     AnimatorSprite__DrawFrame(&this->aniButtonDown);
 }
 
-void NpcTalkList::DrawBackButton()
+void CViEvtCmnList::DrawBackButton()
 {
-    NpcTalkListSpriteCallbackUserData userData;
+    CViEvtCmnListSpriteCallbackUserData userData;
     userData.talkList = this;
     userData.id       = 2;
 
@@ -1239,19 +1239,19 @@ void NpcTalkList::DrawBackButton()
     if (this->aniBackButton.animID != anim)
         AnimatorSprite__SetAnimation(&this->aniBackButton, anim);
 
-    AnimatorSprite__ProcessAnimation(&this->aniBackButton, NpcTalkList::SpriteCallback, &userData);
+    AnimatorSprite__ProcessAnimation(&this->aniBackButton, CViEvtCmnList::SpriteCallback, &userData);
     AnimatorSprite__DrawFrame(&this->aniBackButton);
 }
 
-void NpcTalkList::PixelClearCallback(void *context)
+void CViEvtCmnList::PixelClearCallback(void *context)
 {
     UNUSED(context);
     // Do nothing.
 }
 
-void NpcTalkList::UpdateListEntryMappings(u16 id)
+void CViEvtCmnList::UpdateListEntryMappings(u16 id)
 {
-    NpcTalkListConfigEntry *entry = &this->entries[id];
+    CViEvtCmnListConfigEntry *entry = &this->entries[id];
 
     u16 scrollPos = FX_ModS32(entry->scrollPos, VRAM_WINDOW_HEIGHT) >> 3;
     MI_CpuCopyFast(this->listEntryMapping_Blank, this->listEntryMappings->scr[scrollPos], sizeof(this->listEntryMappings->scr[scrollPos]));
@@ -1266,7 +1266,7 @@ void NpcTalkList::UpdateListEntryMappings(u16 id)
     }
 }
 
-void NpcTalkList::ApplyListEntryMappings(BOOL uncompressed)
+void CViEvtCmnList::ApplyListEntryMappings(BOOL uncompressed)
 {
     DC_StoreRange(this->listEntryMappings, sizeof(GXScrText32x32));
 
@@ -1278,14 +1278,14 @@ void NpcTalkList::ApplyListEntryMappings(BOOL uncompressed)
                               BG_DISPLAY_SINGLE_HEIGHT_EX);
 }
 
-void NpcTalkList::EnableAllTouchAreas(BOOL enabled)
+void CViEvtCmnList::EnableAllTouchAreas(BOOL enabled)
 {
     this->EnableUpButtonTouchArea(enabled);
     this->EnableDownButtonTouchArea(enabled);
     this->EnableBackButtonTouchArea(enabled);
 }
 
-void NpcTalkList::EnableUpButtonTouchArea(BOOL enabled)
+void CViEvtCmnList::EnableUpButtonTouchArea(BOOL enabled)
 {
     if (this->touchAreaEnabled[0] != enabled)
     {
@@ -1302,7 +1302,7 @@ void NpcTalkList::EnableUpButtonTouchArea(BOOL enabled)
     }
 }
 
-void NpcTalkList::EnableDownButtonTouchArea(BOOL enabled)
+void CViEvtCmnList::EnableDownButtonTouchArea(BOOL enabled)
 {
     if (this->touchAreaEnabled[1] != enabled)
     {
@@ -1319,7 +1319,7 @@ void NpcTalkList::EnableDownButtonTouchArea(BOOL enabled)
     }
 }
 
-void NpcTalkList::EnableBackButtonTouchArea(BOOL enabled)
+void CViEvtCmnList::EnableBackButtonTouchArea(BOOL enabled)
 {
     if (this->touchAreaEnabled[2] != enabled)
     {
@@ -1336,7 +1336,7 @@ void NpcTalkList::EnableBackButtonTouchArea(BOOL enabled)
     }
 }
 
-BOOL NpcTalkList::CheckUpButtonTouchHeld()
+BOOL CViEvtCmnList::CheckUpButtonTouchHeld()
 {
     if ((this->touchArea[0].responseFlags & TOUCHAREA_RESPONSE_CHECK_RECT2) == 0 && (this->touchArea[0].responseFlags & TOUCHAREA_RESPONSE_ENTERED_AREA_3) != 0)
         return TRUE;
@@ -1344,7 +1344,7 @@ BOOL NpcTalkList::CheckUpButtonTouchHeld()
     return FALSE;
 }
 
-BOOL NpcTalkList::CheckDownButtonTouchHeld()
+BOOL CViEvtCmnList::CheckDownButtonTouchHeld()
 {
     if ((this->touchArea[1].responseFlags & TOUCHAREA_RESPONSE_CHECK_RECT2) == 0 && (this->touchArea[1].responseFlags & TOUCHAREA_RESPONSE_ENTERED_AREA_3) != 0)
         return TRUE;
@@ -1352,7 +1352,7 @@ BOOL NpcTalkList::CheckDownButtonTouchHeld()
     return FALSE;
 }
 
-BOOL NpcTalkList::CheckBackButtonTouchHeld()
+BOOL CViEvtCmnList::CheckBackButtonTouchHeld()
 {
     if (!this->touchAreaEnabled[2])
         return FALSE;
@@ -1366,10 +1366,10 @@ BOOL NpcTalkList::CheckBackButtonTouchHeld()
     return FALSE;
 }
 
-void NpcTalkList::SpriteCallback(BACFrameGroupBlockHeader *block, AnimatorSprite *animator, void *userData)
+void CViEvtCmnList::SpriteCallback(BACFrameGroupBlockHeader *block, AnimatorSprite *animator, void *userData)
 {
-    NpcTalkListSpriteCallbackUserData *work = (NpcTalkListSpriteCallbackUserData *)userData;
-    BACFrameGroupBlock_Hitbox *blockHitbox  = (BACFrameGroupBlock_Hitbox *)block;
+    CViEvtCmnListSpriteCallbackUserData *work = (CViEvtCmnListSpriteCallbackUserData *)userData;
+    BACFrameGroupBlock_Hitbox *blockHitbox    = (BACFrameGroupBlock_Hitbox *)block;
 
     if (blockHitbox->header.blockID == SPRITE_BLOCK_CALLBACK2)
     {
@@ -1383,7 +1383,7 @@ void NpcTalkList::SpriteCallback(BACFrameGroupBlockHeader *block, AnimatorSprite
     }
 }
 
-void NpcTalkList::SetListWindowVisible(BOOL enabled)
+void CViEvtCmnList::SetListWindowVisible(BOOL enabled)
 {
     if (enabled)
         GX_SetVisiblePlane(GX_GetVisiblePlane() | GX_PLANEMASK_BG2);
@@ -1391,7 +1391,7 @@ void NpcTalkList::SetListWindowVisible(BOOL enabled)
         GX_SetVisiblePlane(GX_GetVisiblePlane() & ~GX_PLANEMASK_BG2);
 }
 
-void NpcTalkList::SetListTextVisible(BOOL enabled)
+void CViEvtCmnList::SetListTextVisible(BOOL enabled)
 {
     if (enabled)
         GX_SetVisiblePlane(GX_GetVisiblePlane() | (GX_PLANEMASK_BG1 | GX_PLANEMASK_BG3));
@@ -1399,7 +1399,7 @@ void NpcTalkList::SetListTextVisible(BOOL enabled)
         GX_SetVisiblePlane(GX_GetVisiblePlane() & ~(GX_PLANEMASK_BG1 | GX_PLANEMASK_BG3));
 }
 
-void NpcTalkList::InitWindow(BOOL enabled)
+void CViEvtCmnList::InitWindow(BOOL enabled)
 {
     if (enabled)
     {
@@ -1428,7 +1428,7 @@ void NpcTalkList::InitWindow(BOOL enabled)
     }
 }
 
-void NpcTalkList::State_OpenWindow(NpcTalkList *work)
+void CViEvtCmnList::State_OpenWindow(CViEvtCmnList *work)
 {
     work->SetListWindowVisible(TRUE);
 
@@ -1469,11 +1469,11 @@ void NpcTalkList::State_OpenWindow(NpcTalkList *work)
 
         work->EnableBackButtonTouchArea(TRUE);
 
-        work->state = NpcTalkList::State_ListActive;
+        work->state = CViEvtCmnList::State_ListActive;
     }
 }
 
-void NpcTalkList::State_ListActive(NpcTalkList *work)
+void CViEvtCmnList::State_ListActive(CViEvtCmnList *work)
 {
     u16 selection;
     u16 touchSelectionPush;
@@ -1510,7 +1510,7 @@ void NpcTalkList::State_ListActive(NpcTalkList *work)
     {
         if (selection > 0)
         {
-            work->lastHeldTouchSelection = NPCTALKLIST_SELECTION_NONE;
+            work->lastHeldTouchSelection = CVIEVTCMNLIST_SELECTION_NONE;
             selection--;
         }
     }
@@ -1518,7 +1518,7 @@ void NpcTalkList::State_ListActive(NpcTalkList *work)
     {
         if (selection < work->entryCount - 1)
         {
-            work->lastHeldTouchSelection = NPCTALKLIST_SELECTION_NONE;
+            work->lastHeldTouchSelection = CVIEVTCMNLIST_SELECTION_NONE;
             selection++;
         }
     }
@@ -1529,14 +1529,15 @@ void NpcTalkList::State_ListActive(NpcTalkList *work)
     }
     else
     {
-        if (work->lastHeldTouchSelection != (u16)NPCTALKLIST_SELECTION_NONE)
+        if (work->lastHeldTouchSelection != (u16)CVIEVTCMNLIST_SELECTION_NONE)
         {
-            if (work->lastHeldTouchSelection == touchSelectionPull && work->lastHeldTouchSelection == selection && work->GetScrollDistance(selection, NPCTALKLIST_SELECTION_NONE) == 0)
+            if (work->lastHeldTouchSelection == touchSelectionPull && work->lastHeldTouchSelection == selection
+                && work->GetScrollDistance(selection, CVIEVTCMNLIST_SELECTION_NONE) == 0)
                 confirmPressed = TRUE;
         }
     }
 
-    if (confirmPressed && (work->entries[selection].flags & NPCTALKLISTENTRY_FLAG_UNLOCKED) == 0)
+    if (confirmPressed && (work->entries[selection].flags & CVIEVTCMNLISTENTRY_FLAG_UNLOCKED) == 0)
     {
         confirmPressed    = FALSE;
         work->unknownFlag = FALSE;
@@ -1547,21 +1548,21 @@ void NpcTalkList::State_ListActive(NpcTalkList *work)
         work->currentSelection       = selection;
         work->chosenSelection        = selection;
         work->selectedEntry          = work->currentSelection;
-        work->lastHeldTouchSelection = NPCTALKLIST_SELECTION_NONE;
+        work->lastHeldTouchSelection = CVIEVTCMNLIST_SELECTION_NONE;
         work->EnableAllTouchAreas(FALSE);
         PlayHubSfx(HUB_SFX_V_DECIDE);
 
         work->timer = 0;
         work->SetSelectionBoxSelected(FALSE);
 
-        work->state = NpcTalkList::State_SelectionMade;
+        work->state = CViEvtCmnList::State_SelectionMade;
     }
     else
     {
         if (backPressed)
         {
-            work->selectedEntry          = NPCTALKLIST_SELECTION_NONE;
-            work->lastHeldTouchSelection = NPCTALKLIST_SELECTION_NONE;
+            work->selectedEntry          = CVIEVTCMNLIST_SELECTION_NONE;
+            work->lastHeldTouchSelection = CVIEVTCMNLIST_SELECTION_NONE;
             work->SetListTextVisible(FALSE);
             work->InitWindow(FALSE);
             FontWindowAnimator__InitAnimation(&work->fontWindowAnimator, 4, 12, 0, 0);
@@ -1573,7 +1574,7 @@ void NpcTalkList::State_ListActive(NpcTalkList *work)
 
             PlayHubSfx(HUB_SFX_V_CANCELL);
 
-            work->state = NpcTalkList::State_CloseWindow;
+            work->state = CViEvtCmnList::State_CloseWindow;
         }
         else if (selection != work->currentSelection)
         {
@@ -1581,7 +1582,7 @@ void NpcTalkList::State_ListActive(NpcTalkList *work)
             work->InitCursor();
             PlayHubSfx(HUB_SFX_CURSOL);
 
-            s32 scrollPos = work->GetScrollDistance(selection, NPCTALKLIST_SELECTION_NONE);
+            s32 scrollPos = work->GetScrollDistance(selection, CVIEVTCMNLIST_SELECTION_NONE);
             if (scrollPos != 0)
             {
                 work->chosenSelection = selection;
@@ -1589,7 +1590,7 @@ void NpcTalkList::State_ListActive(NpcTalkList *work)
                 work->scrollPos = work->prevScrollPos = work->scrollPos + scrollPos;
                 work->UpdateListBackgroundGraphics(work->scrollPos);
                 work->currentSelection = work->chosenSelection;
-                work->state            = NpcTalkList::State_ListActive;
+                work->state            = CViEvtCmnList::State_ListActive;
             }
             else
             {
@@ -1610,7 +1611,7 @@ void NpcTalkList::State_ListActive(NpcTalkList *work)
     }
 }
 
-void NpcTalkList::State_SelectionMade(NpcTalkList *work)
+void CViEvtCmnList::State_SelectionMade(CViEvtCmnList *work)
 {
     work->DrawHeader();
     work->DrawSelectionBox(FALSE);
@@ -1630,11 +1631,11 @@ void NpcTalkList::State_SelectionMade(NpcTalkList *work)
         work->isWindowOpen      = FALSE;
         work->isWindowClosing   = TRUE;
 
-        work->state = NpcTalkList::State_CloseWindow;
+        work->state = CViEvtCmnList::State_CloseWindow;
     }
 }
 
-void NpcTalkList::State_CloseWindow(NpcTalkList *work)
+void CViEvtCmnList::State_CloseWindow(CViEvtCmnList *work)
 {
     FontWindowAnimator__ProcessWindowAnim(&work->fontWindowAnimator);
     FontWindowAnimator__Draw(&work->fontWindowAnimator);
@@ -1646,11 +1647,11 @@ void NpcTalkList::State_CloseWindow(NpcTalkList *work)
         work->SetListWindowVisible(FALSE);
         work->ResetListTextBackground();
 
-        work->state = NpcTalkList::State_ClosedWindow;
+        work->state = CViEvtCmnList::State_ClosedWindow;
     }
 }
 
-void NpcTalkList::State_ClosedWindow(NpcTalkList *work)
+void CViEvtCmnList::State_ClosedWindow(CViEvtCmnList *work)
 {
     FontWindowAnimator__SetWindowOpen(&work->fontWindowAnimator);
 
@@ -1660,15 +1661,15 @@ void NpcTalkList::State_ClosedWindow(NpcTalkList *work)
 
     work->EnableKeyRepeat(FALSE);
 
-    work->state = NpcTalkList::State_Finished;
+    work->state = CViEvtCmnList::State_Finished;
 }
 
-void NpcTalkList::State_Finished(NpcTalkList *work)
+void CViEvtCmnList::State_Finished(CViEvtCmnList *work)
 {
     // Do nothing.
 }
 
-NONMATCH_FUNC void NpcTalkList::EnableKeyRepeat(BOOL enabled)
+NONMATCH_FUNC void CViEvtCmnList::EnableKeyRepeat(BOOL enabled)
 {
     // should match when 'keyRepeatInitialTime' & 'keyRepeatRepeatTime' are decompiled
 #ifdef NON_MATCHING
@@ -1683,7 +1684,7 @@ NONMATCH_FUNC void NpcTalkList::EnableKeyRepeat(BOOL enabled)
     // clang-format off
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #0x30
-	ldr lr, =NpcTalkList__keyRepeatInitialTime
+	ldr lr, =CViEvtCmnList__keyRepeatInitialTime
 	add ip, sp, #0x18
 	mov r3, #6
 _0217100C:
@@ -1695,7 +1696,7 @@ _0217100C:
 	add ip, ip, #4
 	subs r3, r3, #1
 	bne _0217100C
-	ldr lr, =NpcTalkList__keyRepeatRepeatTime
+	ldr lr, =CViEvtCmnList__keyRepeatRepeatTime
 	add ip, sp, #0
 	mov r3, #6
 _02171038:

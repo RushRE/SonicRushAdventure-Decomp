@@ -61,7 +61,7 @@ void CreateCorruptSaveWarning(void)
     FontAnimator__SetCallbackType(&work->fontAnimator, 1);
     FontAnimator__LoadPaletteFunc2(&work->fontAnimator);
     FontWindowAnimator__Init(&work->fontWindowAnimator);
-    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+    FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
                               PIXEL_TO_TILE(56), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(80), GRAPHICS_ENGINE_B, BACKGROUND_1, PALETTE_ROW_3, 700, 0);
     FontAnimator__SetMsgSequence(&work->fontAnimator, gameState.lastSaveError);
     FontAnimator__InitStartPos(&work->fontAnimator, 1, 0);

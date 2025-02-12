@@ -19,7 +19,7 @@
 #include <game/graphics/oamSystem.h>
 #include <menu/credits.h>
 #include <game/cutscene/script.h>
-#include <hub/npcCutsceneViewer.hpp>
+#include <hub/cviTalkMovieList.hpp>
 #include <hub/cviTalkPurchase.hpp>
 #include <sail/vikingCupManager.h>
 
@@ -123,7 +123,7 @@ extern "C" void InitHubSysEvent(void)
     {
         if (HubState__GetFieldDC() == 4)
         {
-            u16 cutscene = NpcCutsceneViewer::GetNextCutscene(gameState.cutscene.cutsceneID);
+            u16 cutscene = CViTalkMovieList::GetNextCutscene(gameState.cutscene.cutsceneID);
             if (cutscene != CUTSCENE_NONE && !gameState.cutscene.canSkip)
             {
                 HubControl::Func_21572B8();

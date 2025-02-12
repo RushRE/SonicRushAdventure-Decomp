@@ -9,13 +9,13 @@
 #include <game/file/fileUnknown.h>
 
 // talk actions
-#include <hub/cviSailPrompt.hpp>
+#include <hub/cviTalkSailPrompt.hpp>
 #include <hub/cviTalkPurchase.hpp>
 #include <hub/cviTalkMissionList.hpp>
 #include <hub/cviTalkAnnounce.hpp>
-#include <hub/npcOptions.hpp>
-#include <hub/npcCutsceneViewer.hpp>
-#include <hub/npcRetry.hpp>
+#include <hub/cviTalkOptions.hpp>
+#include <hub/cviTalkMovieList.hpp>
+#include <hub/cviTalkGameOver.hpp>
 
 // --------------------
 // VARIABLES
@@ -26,8 +26,8 @@ static u32 selection;
 CViDockNpcGroupTalk talkAction = { 32 };
 
 DockNpcGroupFunc talkActionTable[] = {
-    CViDockNpcTalk::Create,        CViSailPrompt::Create, CViTalkPurchase::Create,   CViTalkMissionList::Create, CViDockNpcTalk::CreateMission,    CViTalkAnnounce::Create,
-    CViDockNpcTalk::CreateUnknown, NpcOptions::Create,    NpcCutsceneViewer::Create, NpcRetry::Create,           CViDockNpcTalk::CreateTalkAction,
+    CViDockNpcTalk::Create,        CViTalkSailPrompt::Create,  CViTalkPurchase::Create,  CViTalkMissionList::Create, CViDockNpcTalk::CreateMission,    CViTalkAnnounce::Create,
+    CViDockNpcTalk::CreateUnknown, CViTalkOptions::Create, CViTalkMovieList::Create, CViTalkGameOver::Create,    CViDockNpcTalk::CreateTalkAction,
 };
 
 // --------------------
@@ -108,7 +108,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
     value           = ViDock__Func_215E06C();
     HubControl::InitEngineAForTalk();
 
-    NpcMsgInfo msg;
+    HubNpcMsgConfig msg;
     if (work->messageID == 0)
     {
         id              = ViDock__GetTalkingNpc();
@@ -119,7 +119,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
     }
     else
     {
-        MI_CpuCopy16(HubConfig__GetNpcMessageInfo(work->messageID), &msg, sizeof(msg));
+        MI_CpuCopy16(HubConfig__GetNpcMsgConfig(work->messageID), &msg, sizeof(msg));
     }
 
     flag = FALSE;
@@ -127,7 +127,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
     {
         if (value == 0)
         {
-            work->viEvtCmnTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), msg.msgCtrlFile), msg.msgTextID3, CVIEVTCMN_RESOURCE_NONE);
+            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), msg.msgCtrlFile), msg.msgTextID3, CVIEVTCMN_RESOURCE_NONE);
             page = 0;
             flag = TRUE;
         }
@@ -149,24 +149,24 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
 
         if (flag)
         {
-            work->viEvtCmnTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), msg.msgCtrlFile), msg.msgTextID3, msg.msgTextID2);
+            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), msg.msgCtrlFile), msg.msgTextID3, msg.msgTextID2);
             page = 0;
             ViDock__Func_215E098();
         }
         else
         {
-            work->viEvtCmnTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), msg.msgCtrlFile), msg.msgTextID1, msg.msgTextID2);
-            page = FX_ModS32(value, work->viEvtCmnTalk.SetInteraction());
+            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), msg.msgCtrlFile), msg.msgTextID1, msg.msgTextID2);
+            page = FX_ModS32(value, work->eventTalk.SetInteraction());
         }
     }
 
-    work->viEvtCmnTalk.SetPage(page);
+    work->eventTalk.SetPage(page);
     ViDock__Func_215E340(1, 1);
 }
 
 void CViDockNpcTalk::Release()
 {
-    this->viEvtCmnTalk.Release();
+    this->eventTalk.Release();
     HubControl::InitEngineAFor3DHub();
 }
 
@@ -174,12 +174,12 @@ void CViDockNpcTalk::Main(void)
 {
     CViDockNpcTalk *work = TaskGetWorkCurrent(CViDockNpcTalk);
 
-    work->viEvtCmnTalk.ProcessDialog();
-    if (work->viEvtCmnTalk.IsFinished())
+    work->eventTalk.ProcessDialog();
+    if (work->eventTalk.IsFinished())
     {
-        CViDockNpcTalk::SetSelection(work->viEvtCmnTalk.GetSelection());
+        CViDockNpcTalk::SetSelection(work->eventTalk.GetSelection());
 
-        switch (work->viEvtCmnTalk.GetAction())
+        switch (work->eventTalk.GetAction())
         {
             case 1:
                 CViDockNpcTalk::SetTalkAction(3);
@@ -236,7 +236,7 @@ void CViDockNpcTalk::Main(void)
 
             case 15:
                 CViDockNpcTalk::SetTalkAction(7);
-                CViDockNpcTalk::SetSelection(work->viEvtCmnTalk.GetSelection() + 5);
+                CViDockNpcTalk::SetSelection(work->eventTalk.GetSelection() + 5);
                 break;
 
             case 8:
@@ -262,11 +262,11 @@ void CViDockNpcTalk::Main(void)
 
             case 21:
                 CViDockNpcTalk::SetTalkAction(7);
-                CViDockNpcTalk::SetSelection(work->viEvtCmnTalk.GetSelection() + 29);
+                CViDockNpcTalk::SetSelection(work->eventTalk.GetSelection() + 29);
                 break;
 
             case 22: {
-                s32 selection = work->viEvtCmnTalk.GetSelection();
+                s32 selection = work->eventTalk.GetSelection();
                 if (!SaveGame__GetProgressFlags_0x100000(selection))
                     SaveGame__SetProgressFlags_0x100000(selection);
 

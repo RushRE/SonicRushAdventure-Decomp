@@ -63,7 +63,7 @@ void CViEvtCmnMsg::Init(void *mpcFile)
     FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetField54(), 0, PIXEL_TO_TILE(16), PIXEL_TO_TILE(24), PIXEL_TO_TILE(208), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_A,
                             BACKGROUND_3, PALETTE_ROW_0, 128);
     FontAnimator__ClearPixels(&this->fontAnimator);
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
                               PIXEL_TO_TILE(0), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(80), GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_3, 960, 1023);
     FontAnimator__LoadMPCFile(&this->fontAnimator, this->mpcFile);
     FontAnimator__ClearPixels(&this->fontAnimator);
@@ -795,7 +795,7 @@ void CViEvtCmnSelect::InitDialogState_Init()
     this->lineSize     = lineSize;
     this->field_32     = 2 * this->selectionCount;
 
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, this->windowStartX,
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, this->windowStartX,
                               this->windowStartY, this->windowSizeX, this->windowSizeY, GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_3, 960, 1023);
     FontWindowAnimator__SetWindowClosed(&this->fontWindowAnimator);
 }
@@ -1087,7 +1087,7 @@ void CViEvtCmnAnnounce::Init(void *mpcFile)
     FontAnimator__LoadPaletteFunc(&this->fontAnimator);
     FontAnimator__LoadMappingsFunc(&this->fontAnimator);
 
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(8),
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(8),
                               PIXEL_TO_TILE(72), PIXEL_TO_TILE(240), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_3, 960, 1023);
     FontWindowAnimator__SetWindowClosed(&this->fontWindowAnimator);
 
@@ -1323,8 +1323,8 @@ void CViEvtCmnTalk::Init(void *mpcCtrlFile, u16 interactionID, u16 interactionID
     }
 
     this->msgText = FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsg(), this->msgCtrl.GetTextFileIndex());
-    this->evtCmnMsg.Init(this->msgText);
-    this->evtCmnSelect.Init(this->msgText);
+    this->eventMessage.Init(this->msgText);
+    this->eventSelection.Init(this->msgText);
     this->dialogState = CViEvtCmnTalk::DIALOGSTATE_INACTIVE;
 }
 
@@ -1338,8 +1338,8 @@ void CViEvtCmnTalk::Release()
     this->msgText       = NULL;
     this->msgCtrlFile   = NULL;
 
-    this->evtCmnMsg.Release();
-    this->evtCmnSelect.Release();
+    this->eventMessage.Release();
+    this->eventSelection.Release();
 }
 
 u16 CViEvtCmnTalk::SetInteraction()
@@ -1413,7 +1413,7 @@ s32 CViEvtCmnTalk::GetSelection()
 
 void CViEvtCmnTalk::SetCallback(FontCallback callback, void *context)
 {
-    FontAnimator__SetCallback(&this->evtCmnMsg.fontAnimator, callback, context);
+    FontAnimator__SetCallback(&this->eventMessage.fontAnimator, callback, context);
 }
 
 s32 CViEvtCmnTalk::DialogState_Init()
@@ -1425,7 +1425,7 @@ s32 CViEvtCmnTalk::DialogState_Init()
         nameAnimID = CVIEVTCMN_RESOURCE_NONE;
     else
         nameAnimID = this->msgCtrl.GetPageNameAnim();
-    this->evtCmnMsg.SetSequence(pageSequence, nameAnimID, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, 1);
+    this->eventMessage.SetSequence(pageSequence, nameAnimID, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, 1);
 
     GX_SetVisiblePlane(GX_GetVisiblePlane() | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3);
 
@@ -1436,11 +1436,11 @@ s32 CViEvtCmnTalk::DialogState_ProcessTextReveal()
 {
     s32 nextState = CViEvtCmnTalk::DIALOGSTATE_REVEALING_TEXT;
 
-    if (this->evtCmnMsg.HasNoNextSequence() && !this->msgCtrl.CheckPageHasActions())
+    if (this->eventMessage.HasNoNextSequence() && !this->msgCtrl.CheckPageHasActions())
     {
         if (this->msgCtrl.CheckPageHasSequenceUnknown())
         {
-            this->evtCmnMsg.SetIsLastSequence(FALSE);
+            this->eventMessage.SetIsLastSequence(FALSE);
         }
         else
         {
@@ -1448,11 +1448,11 @@ s32 CViEvtCmnTalk::DialogState_ProcessTextReveal()
 
             if (this->msgCtrl.CheckPageHasActions())
             {
-                this->evtCmnMsg.SetIsLastSequence(TRUE);
+                this->eventMessage.SetIsLastSequence(TRUE);
             }
             else
             {
-                this->evtCmnMsg.SetIsLastSequence(FALSE);
+                this->eventMessage.SetIsLastSequence(FALSE);
                 u16 pageSequence = this->msgCtrl.GetPageSequence();
 
                 u16 nameAnim;
@@ -1461,15 +1461,15 @@ s32 CViEvtCmnTalk::DialogState_ProcessTextReveal()
                 else
                     nameAnim = this->msgCtrl.GetPageNameAnim();
 
-                this->evtCmnMsg.SetNextSequence(pageSequence, nameAnim);
+                this->eventMessage.SetNextSequence(pageSequence, nameAnim);
             }
         }
     }
 
-    this->evtCmnMsg.ProcessDialog();
-    this->evtCmnSelect.ProcessDialog();
+    this->eventMessage.ProcessDialog();
+    this->eventSelection.ProcessDialog();
 
-    if (this->evtCmnMsg.CheckIdle())
+    if (this->eventMessage.CheckIdle())
     {
         if (this->msgCtrl.CheckPageHasActions())
         {
@@ -1483,7 +1483,7 @@ s32 CViEvtCmnTalk::DialogState_ProcessTextReveal()
             }
             else
             {
-                this->evtCmnSelect.SetSequence(this->msgCtrl.GetPageSequenceUnknown());
+                this->eventSelection.SetSequence(this->msgCtrl.GetPageSequenceUnknown());
                 nextState = CViEvtCmnTalk::DIALOGSTATE_SELECTION_ACTIVE;
             }
         }
@@ -1496,12 +1496,12 @@ s32 CViEvtCmnTalk::DialogState_ProcessSelections()
 {
     s32 nextState = CViEvtCmnTalk::DIALOGSTATE_SELECTION_ACTIVE;
 
-    this->evtCmnMsg.ProcessDialog();
-    this->evtCmnSelect.ProcessDialog();
+    this->eventMessage.ProcessDialog();
+    this->eventSelection.ProcessDialog();
 
-    if (this->evtCmnSelect.CheckFinished())
+    if (this->eventSelection.CheckFinished())
     {
-        this->msgCtrl.AdvancePage(this->evtCmnSelect.GetSelection());
+        this->msgCtrl.AdvancePage(this->eventSelection.GetSelection());
 
         u16 sequence;
         u16 nameAnimID;
@@ -1524,11 +1524,11 @@ s32 CViEvtCmnTalk::DialogState_ProcessSelections()
                     nameAnimID = this->msgCtrl.GetPageNameAnim();
                 }
 
-                this->evtCmnMsg.SetSequenceFromMPC(sequence, nameAnimID, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, TRUE);
+                this->eventMessage.SetSequenceFromMPC(sequence, nameAnimID, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, TRUE);
             }
             else
             {
-                this->evtCmnMsg.SetSequenceFromMPC(CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, TRUE);
+                this->eventMessage.SetSequenceFromMPC(CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, TRUE);
             }
         }
         else
@@ -1543,7 +1543,7 @@ s32 CViEvtCmnTalk::DialogState_ProcessSelections()
                 nameAnimID = this->msgCtrl.GetPageNameAnim();
             }
 
-            this->evtCmnMsg.SetSequenceFromMPC(sequence, nameAnimID, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, TRUE);
+            this->eventMessage.SetSequenceFromMPC(sequence, nameAnimID, CVIEVTCMN_RESOURCE_NONE, CVIEVTCMN_RESOURCE_NONE, TRUE);
         }
 
         nextState = CViEvtCmnTalk::DIALOGSTATE_REVEALING_TEXT;
@@ -1591,26 +1591,26 @@ void CViEvtCmnMsg::SpriteCallback(BACFrameGroupBlockHeader *block, AnimatorSprit
 
 void CViEvtCmnMsg::TouchAreaCallback(TouchAreaResponse *responce, TouchArea *area, void *userData)
 {
-    CViEvtCmnMsg *evtCmnMsg = (CViEvtCmnMsg *)userData;
+    CViEvtCmnMsg *eventMessage = (CViEvtCmnMsg *)userData;
 
     switch (responce->flags)
     {
         case TOUCHAREA_RESPONSE_40000:
-            evtCmnMsg->SetAutoAdvance();
+            eventMessage->SetAutoAdvance();
             break;
 
         case TOUCHAREA_RESPONSE_ENTERED_AREA_ALT:
-            evtCmnMsg->TrySetNextButtonState(CViEvtCmnMsg::NEXTBTNSTATE_HELD);
+            eventMessage->TrySetNextButtonState(CViEvtCmnMsg::NEXTBTNSTATE_HELD);
             break;
 
         case TOUCHAREA_RESPONSE_ENTERED_AREA:
             if ((area->responseFlags & TOUCHAREA_RESPONSE_CHECK_RECT2) == 0)
-                evtCmnMsg->TrySetNextButtonState(CViEvtCmnMsg::NEXTBTNSTATE_HELD);
+                eventMessage->TrySetNextButtonState(CViEvtCmnMsg::NEXTBTNSTATE_HELD);
             break;
 
         case TOUCHAREA_RESPONSE_EXITED_AREA:
             if ((area->responseFlags & TOUCHAREA_RESPONSE_CHECK_RECT2) == 0)
-                evtCmnMsg->TrySetNextButtonState(CViEvtCmnMsg::NEXTBTNSTATE_PROMPTING);
+                eventMessage->TrySetNextButtonState(CViEvtCmnMsg::NEXTBTNSTATE_PROMPTING);
             break;
     }
 }

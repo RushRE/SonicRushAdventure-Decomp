@@ -462,13 +462,13 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
                             SPRITE_PRIORITY_0, SPRITE_ORDER_1, palette1);
     FontAnimator__LoadMPCFile(&work->fontAnimator, FileUnknown__GetAOUFile(sVars.archive, GetGameLanguage()));
     FontWindowAnimator__Init(work->fontWindowAnimator);
-    FontWindowAnimator__Load2(work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+    FontWindowAnimator__Load2(work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
                               PIXEL_TO_TILE(0), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_A, SPRITE_PRIORITY_0, SPRITE_ORDER_3, palette2);
     FontUnknown2058D78__Func_2058D54(&work->fontUnknown);
     FontUnknown2058D78__Init(&work->fontUnknown, &work->fontAnimator, 0, 8, 1, GRAPHICS_ENGINE_B, SPRITE_PRIORITY_0, SPRITE_ORDER_1, palette1);
     FontUnknown2058D78__LoadPalette2(&work->fontUnknown);
     FontWindowAnimator__Init(&work->fontWindowAnimator[1]);
-    FontWindowAnimator__Load2(&work->fontWindowAnimator[1], &work->fontWindow, 8, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+    FontWindowAnimator__Load2(&work->fontWindowAnimator[1], &work->fontWindow, 8, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
                               PIXEL_TO_TILE(0), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_B, SPRITE_PRIORITY_0, SPRITE_ORDER_3, palette2);
     FontWindowMWControl__Init(&work->fontMWControl);
     FontWindowMWControl__Load(&work->fontMWControl, &work->fontWindow, 0, FONTWINDOWMW_FILL, 184, 16, GRAPHICS_ENGINE_A, SPRITE_PRIORITY_0, SPRITE_ORDER_2, palette3);

@@ -302,8 +302,8 @@ public:
     void *msgText;
     void *msgCtrlFile;
     CViMessageController msgCtrl;
-    CViEvtCmnMsg evtCmnMsg;
-    CViEvtCmnSelect evtCmnSelect;
+    CViEvtCmnMsg eventMessage;
+    CViEvtCmnSelect eventSelection;
 
     // --------------------
     // MEMBER FUNCTIONS

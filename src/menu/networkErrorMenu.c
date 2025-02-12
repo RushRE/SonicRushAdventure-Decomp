@@ -167,7 +167,7 @@ void NetworkErrorMenu__Create(BOOL flag)
             }
         }
         FontWindowAnimator__Init(&work->fontWindowAnimator);
-        FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG,
+        FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG,
                                   windowStartX - PIXEL_TO_TILE(8), windowStartY - PIXEL_TO_TILE(16), windowSizeX + PIXEL_TO_TILE(16), windowSizeY + PIXEL_TO_TILE(32),
                                   GRAPHICS_ENGINE_B, BACKGROUND_1, PALETTE_ROW_3, 700, 0);
 

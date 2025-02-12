@@ -358,14 +358,14 @@ BOOL SaveGame__Func_205BF24(void)
     return (saveGame.system.progress.flags & 0x80000) != 0;
 }
 
-void SaveGame__Func_205BF5C(s32 id)
+void SaveGame__SetDoneFirstShipVoyage(s32 id)
 {
     SaveGame__EnableStateFlags(4 << id);
 }
 
-BOOL SaveGame__Func_205BF78(s32 id)
+BOOL SaveGame__HasDoneFirstShipVoyage(s32 id)
 {
-    if (id == 0)
+    if (id == SHIP_JET)
         return TRUE;
 
     return SaveGame__GetStateFlag(4 << id);
@@ -1011,9 +1011,9 @@ BOOL SaveGame__ProgressCheckFunc_205CB44(s32 id)
     return id == gameState.field_80;
 }
 
-void SaveGame__UpdateProgress1_Func_205CB60(SaveGameNextAction *a1)
+void SaveGame__UpdateProgress1_Func_205CB60(SaveGameNextAction *action)
 {
-    u16 cutscene = a1->id;
+    u16 cutscene = action->id;
 
     if (cutscene == CUTSCENE_LEGENDARY_ANCIENT_RUINS_1)
     {
@@ -1031,37 +1031,37 @@ void SaveGame__UpdateProgress1_Func_205CB60(SaveGameNextAction *a1)
             SaveGame__SetUnknown1(0);
     }
 
-    SaveGame__StartCutscene(cutscene, a1->nextSysEvent, FALSE);
+    SaveGame__StartCutscene(cutscene, action->nextSysEvent, FALSE);
 }
 
-void SaveGame__UpdateProgress1_Func_205CBC4(SaveGameNextAction *a1)
+void SaveGame__UpdateProgress1_Func_205CBC4(SaveGameNextAction *action)
 {
     SaveGame__StartTutorial();
 }
 
-void SaveGame__UpdateProgress1_Func_205CBD0(SaveGameNextAction *a1)
+void SaveGame__UpdateProgress1_Func_205CBD0(SaveGameNextAction *action)
 {
     SaveGame__StartEvent37();
 }
 
-void SaveGame__UpdateProgress1_Func_205CBDC(SaveGameNextAction *a1)
+void SaveGame__UpdateProgress1_Func_205CBDC(SaveGameNextAction *action)
 {
     SaveGame__StartSailJetTraining();
 }
 
-void SaveGame__UpdateProgress1_Func_205CBE8(SaveGameNextAction *a1)
+void SaveGame__UpdateProgress1_Func_205CBE8(SaveGameNextAction *action)
 {
     SaveGame__StartHubMenu();
 }
 
-void SaveGame__UpdateProgress1_Func_205CBF4(SaveGameNextAction *a1)
+void SaveGame__UpdateProgress1_Func_205CBF4(SaveGameNextAction *action)
 {
-    SaveGame__StartDoorPuzzle(a1->id);
+    SaveGame__StartDoorPuzzle(action->id);
 }
 
-void SaveGame__UpdateProgress1_Func_205CC04(SaveGameNextAction *a1)
+void SaveGame__UpdateProgress1_Func_205CC04(SaveGameNextAction *action)
 {
-    if (a1->id == 0)
+    if (action->id == 0)
         SeaMapManager__SetUnknown1(0);
     else
         SeaMapManager__SetUnknown1(1);
@@ -1070,12 +1070,12 @@ void SaveGame__UpdateProgress1_Func_205CC04(SaveGameNextAction *a1)
     SaveGame__ChangeEvent(SYSEVENT_38);
 }
 
-void SaveGame__UpdateProgress1_Func_205CC3C(SaveGameNextAction *a1)
+void SaveGame__UpdateProgress1_Func_205CC3C(SaveGameNextAction *action)
 {
-    if (a1->id == 24)
+    if (action->id == 24)
         SaveGame__EnableStateFlags(2);
 
-    gameState.stageID = a1->id;
+    gameState.stageID = action->id;
     SaveGame__SetUnknown1(3);
     SaveGame__RestartEvent();
 }

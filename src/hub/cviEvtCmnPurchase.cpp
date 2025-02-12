@@ -1,4 +1,4 @@
-#include <hub/npcPurchase.hpp>
+#include <hub/cviEvtCmnPurchase.hpp>
 #include <hub/cviMap.hpp>
 #include <hub/hubControl.hpp>
 
@@ -9,9 +9,9 @@
 // FUNCTIONS
 // --------------------
 
-void NpcPurchase::Init()
+void CViEvtCmnPurchase::Init()
 {
-    this->state = NpcPurchase::STATE_INACTIVE;
+    this->state = CViEvtCmnPurchase::STATE_INACTIVE;
 
     FontWindowAnimator__Init(&this->fontWindowAnimator);
 
@@ -21,7 +21,7 @@ void NpcPurchase::Init()
     MI_CpuClear32(this->paletteColors, sizeof(this->paletteColors));
 }
 
-void NpcPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFillTile, u16 windowPaletteRow, u16 hudPaletteRow, u16 materialPaletteRow)
+void CViEvtCmnPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFillTile, u16 windowPaletteRow, u16 hudPaletteRow, u16 materialPaletteRow)
 {
     this->Release();
 
@@ -146,12 +146,12 @@ void NpcPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFillTile
     }
 
     FontWindowAnimator__Init(&this->fontWindowAnimator);
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_B_BBG, PIXEL_TO_TILE(0),
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_B_BBG, PIXEL_TO_TILE(0),
                               PIXEL_TO_TILE(104), PIXEL_TO_TILE(208), PIXEL_TO_TILE(88), GRAPHICS_ENGINE_B, backgroundID, windowPaletteRow, windowStartTile, windowFillTile);
 
     for (t = 0; t < SAVE_MATERIAL_COUNT; t++)
     {
-        if (!NpcPurchase::HasMaterial(t))
+        if (!CViEvtCmnPurchase::HasMaterial(t))
         {
             MI_CpuFill16(&this->aniMaterialNum[t], 0xFFFF, sizeof(this->aniMaterialNum[t]));
         }
@@ -159,7 +159,7 @@ void NpcPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFillTile
         {
             s32 slot;
 
-            s32 count = NpcPurchase::GetMaterialCount(t);
+            s32 count = CViEvtCmnPurchase::GetMaterialCount(t);
             if (count > SAVEGAME_MATERIAL_MAX)
                 count = SAVEGAME_MATERIAL_MAX;
 
@@ -181,7 +181,7 @@ void NpcPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFillTile
         }
     }
 
-    s32 ringCount = NpcPurchase::GetRingCount();
+    s32 ringCount = CViEvtCmnPurchase::GetRingCount();
     if (ringCount > SAVEGAME_RING_MAX)
         ringCount = SAVEGAME_RING_MAX;
 
@@ -192,10 +192,10 @@ void NpcPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFillTile
         ringCount                = div;
     }
 
-    this->state = NpcPurchase::STATE_READY;
+    this->state = CViEvtCmnPurchase::STATE_READY;
 }
 
-void NpcPurchase::Release()
+void CViEvtCmnPurchase::Release()
 {
     FontWindowAnimator__Release(&this->fontWindowAnimator);
     AnimatorSprite__Release(&this->aniRingCountFrame);
@@ -207,10 +207,10 @@ void NpcPurchase::Release()
 
     AnimatorSprite__Release(&this->aniMaterialFrame);
 
-    this->state = NpcPurchase::STATE_INACTIVE;
+    this->state = CViEvtCmnPurchase::STATE_INACTIVE;
 }
 
-void NpcPurchase::Process()
+void CViEvtCmnPurchase::Process()
 {
     GXRgb unknown[] = { GX_RGB_888(0x40, 0x08, 0x00), GX_RGB_888(0xC0, 0x28, 0x00), GX_RGB_888(0x00, 0x30, 0x50), GX_RGB_888(0x58, 0x50, 0x00) };
 
@@ -219,7 +219,7 @@ void NpcPurchase::Process()
 
     s32 i;
 
-    if (this->state == NpcPurchase::STATE_ACTIVE)
+    if (this->state == CViEvtCmnPurchase::STATE_ACTIVE)
     {
         u32 slot;
         AnimatorSprite *aniDigit;
@@ -276,7 +276,7 @@ void NpcPurchase::Process()
             }
         }
     }
-    else if (this->state == NpcPurchase::STATE_OPENING_WINDOW)
+    else if (this->state == CViEvtCmnPurchase::STATE_OPENING_WINDOW)
     {
         FontWindowAnimator__ProcessWindowAnim(&this->fontWindowAnimator);
         FontWindowAnimator__Draw(&this->fontWindowAnimator);
@@ -297,17 +297,17 @@ void NpcPurchase::Process()
             u16 *paletteColors = this->paletteColors;
             for (i = 0; i < SAVE_MATERIAL_COUNT; i++)
             {
-                if (!NpcPurchase::HasMaterial(i))
+                if (!CViEvtCmnPurchase::HasMaterial(i))
                     MIi_CpuClear16(GX_RGB_888(0x78, 0x78, 0x78), paletteColors, 0x10 * sizeof(GXRgb));
 
                 paletteColors += 0x10;
             }
             QueueUncompressedPalette(this->paletteColors, ARRAY_COUNT(this->paletteColors), PALETTE_MODE_SUB_OBJ,
                                      (this->materialPaletteRow * ARRAY_COUNT(this->paletteColors) * sizeof(GXRgb)));
-            this->state = NpcPurchase::STATE_ACTIVE;
+            this->state = CViEvtCmnPurchase::STATE_ACTIVE;
         }
     }
-    else if (this->state == NpcPurchase::STATE_CLOSING_WINDOW)
+    else if (this->state == CViEvtCmnPurchase::STATE_CLOSING_WINDOW)
     {
         FontWindowAnimator__ProcessWindowAnim(&this->fontWindowAnimator);
         FontWindowAnimator__Draw(&this->fontWindowAnimator);
@@ -315,17 +315,17 @@ void NpcPurchase::Process()
         {
             GXS_SetVisiblePlane(GXS_GetVisiblePlane() & ~(1 << this->backgroundID));
             FontWindowAnimator__SetWindowClosed(&this->fontWindowAnimator);
-            this->state = NpcPurchase::STATE_CLOSED_WINDOW;
+            this->state = CViEvtCmnPurchase::STATE_CLOSED_WINDOW;
         }
     }
-    else if (this->state == NpcPurchase::STATE_CLOSED_WINDOW)
+    else if (this->state == CViEvtCmnPurchase::STATE_CLOSED_WINDOW)
     {
         FontWindowAnimator__SetWindowOpen(&this->fontWindowAnimator);
-        this->state = NpcPurchase::STATE_READY;
+        this->state = CViEvtCmnPurchase::STATE_READY;
     }
 }
 
-void NpcPurchase::ProcessGraphics()
+void CViEvtCmnPurchase::ProcessGraphics()
 {
     FontWindowAnimator__Func_20599B4(&this->fontWindowAnimator);
 
@@ -343,28 +343,28 @@ void NpcPurchase::ProcessGraphics()
     aniMaterial->flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     ViMap__Func_215C98C(0)->cParam.palette = this->materialPaletteRow;
 
-    this->state = NpcPurchase::STATE_OPENING_WINDOW;
+    this->state = CViEvtCmnPurchase::STATE_OPENING_WINDOW;
 }
 
-BOOL NpcPurchase::IsReady()
+BOOL CViEvtCmnPurchase::IsReady()
 {
-    return this->state == NpcPurchase::STATE_ACTIVE;
+    return this->state == CViEvtCmnPurchase::STATE_ACTIVE;
 }
 
-void NpcPurchase::CloseWindow()
+void CViEvtCmnPurchase::CloseWindow()
 {
     FontWindowAnimator__InitAnimation(&this->fontWindowAnimator, 4, 8, 0, 0);
     FontWindowAnimator__StartAnimating(&this->fontWindowAnimator);
 
-    this->state = NpcPurchase::STATE_CLOSING_WINDOW;
+    this->state = CViEvtCmnPurchase::STATE_CLOSING_WINDOW;
 }
 
-BOOL NpcPurchase::IsActive()
+BOOL CViEvtCmnPurchase::IsActive()
 {
-    return this->state == NpcPurchase::STATE_READY;
+    return this->state == CViEvtCmnPurchase::STATE_READY;
 }
 
-BOOL NpcPurchase::HasMaterial(u16 type)
+BOOL CViEvtCmnPurchase::HasMaterial(u16 type)
 {
     if (type < SAVE_MATERIAL_COUNT)
         return SaveGame__HasMaterial(&saveGame.stage, type);
@@ -372,7 +372,7 @@ BOOL NpcPurchase::HasMaterial(u16 type)
         return FALSE;
 }
 
-u32 NpcPurchase::GetMaterialCount(u16 type)
+u32 CViEvtCmnPurchase::GetMaterialCount(u16 type)
 {
     if (type < SAVE_MATERIAL_COUNT)
         return SaveGame__GetMaterialCount(&saveGame.stage, type);
@@ -380,7 +380,7 @@ u32 NpcPurchase::GetMaterialCount(u16 type)
         return 0;
 }
 
-u32 NpcPurchase::GetRingCount(void)
+u32 CViEvtCmnPurchase::GetRingCount(void)
 {
     return saveGame.stage.ringCount;
 }

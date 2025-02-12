@@ -195,7 +195,7 @@ void SetupDisplayForDeleteSaveDataMenu(DeleteSaveDataMenu *work)
 void InitDeleteSaveDataMenuFontWindow(DeleteSaveDataMenu *work)
 {
     FontWindowAnimator__Init(&work->fontWindowAnimatorMain);
-    FontWindowAnimator__Load1(&work->fontWindowAnimatorMain, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+    FontWindowAnimator__Load1(&work->fontWindowAnimatorMain, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
                               PIXEL_TO_TILE(0), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(96), GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_2, 1, 0);
     FontWindowAnimator__Init(&work->fntWindowSelection);
 }
@@ -638,7 +638,7 @@ void DeleteSaveDataMenu_State_FadeOut(DeleteSaveDataMenu *work)
 void DeleteSaveDataMenu_StateSelect_Init(DeleteSaveDataMenu *work)
 {
     FontAnimator__SetMsgSequence(&work->aniFontSelection, work->msgSelection);
-    FontWindowAnimator__Load1(&work->fntWindowSelection, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_0, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(32),
+    FontWindowAnimator__Load1(&work->fntWindowSelection, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(32),
                               PIXEL_TO_TILE(104), PIXEL_TO_TILE(192), (PIXEL_TO_TILE(16) * FontAnimator__GetDialogLineCount(&work->aniFontSelection, 0)) + PIXEL_TO_TILE(16),
                               GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_2, 512, 0);
     FontWindowAnimator__InitAnimation(&work->fntWindowSelection, 1, 8, 0, 0);

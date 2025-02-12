@@ -9,6 +9,53 @@ extern "C"
 #endif
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum CViTalkAnnounceType
+{
+    CVITALKANNOUNCE_TYPE_UNLOCKED_JET,
+    CVITALKANNOUNCE_TYPE_UNLOCKED_BOAT,
+    CVITALKANNOUNCE_TYPE_UNLOCKED_HOVER,
+    CVITALKANNOUNCE_TYPE_UNLOCKED_SUBMARINE,
+    CVITALKANNOUNCE_TYPE_UNLOCKED_DRILL,
+    CVITALKANNOUNCE_TYPE_UNUSED5,
+    CVITALKANNOUNCE_TYPE_UNUSED6,
+    CVITALKANNOUNCE_TYPE_UNUSED7,
+    CVITALKANNOUNCE_TYPE_UNUSED8,
+    CVITALKANNOUNCE_TYPE_UNUSED9,
+    CVITALKANNOUNCE_TYPE_DECOR_1,
+    CVITALKANNOUNCE_TYPE_UNUSED11,
+    CVITALKANNOUNCE_TYPE_UNLOCKED_RADIO_TOWER,
+    CVITALKANNOUNCE_TYPE_DECOR_2,
+    CVITALKANNOUNCE_TYPE_UNUSED14,
+    CVITALKANNOUNCE_TYPE_UNUSED15,
+    CVITALKANNOUNCE_TYPE_UNUSED16,
+    CVITALKANNOUNCE_TYPE_UNUSED17,
+    CVITALKANNOUNCE_TYPE_UNUSED18,
+    CVITALKANNOUNCE_TYPE_UNUSED19,
+    CVITALKANNOUNCE_TYPE_UNUSED20,
+    CVITALKANNOUNCE_TYPE_UNUSED21,
+    CVITALKANNOUNCE_TYPE_DECOR_3,
+    CVITALKANNOUNCE_TYPE_UNUSED23,
+    CVITALKANNOUNCE_TYPE_UNUSED24,
+    CVITALKANNOUNCE_TYPE_UNUSED25,
+    CVITALKANNOUNCE_TYPE_UNUSED26,
+    CVITALKANNOUNCE_TYPE_UNLOCKED_NEW_MISSION,
+    CVITALKANNOUNCE_TYPE_UNLOCKED_MEDAL,
+    CVITALKANNOUNCE_TYPE_UPGRADED_JET_LEVEL1,
+    CVITALKANNOUNCE_TYPE_UPGRADED_JET_LEVEL2,
+    CVITALKANNOUNCE_TYPE_UPGRADED_BOAT_LEVEL1,
+    CVITALKANNOUNCE_TYPE_UPGRADED_BOAT_LEVEL2,
+    CVITALKANNOUNCE_TYPE_UPGRADED_HOVER_LEVEL1,
+    CVITALKANNOUNCE_TYPE_UPGRADED_HOVER_LEVEL2,
+    CVITALKANNOUNCE_TYPE_UPGRADED_SUBMARINE_LEVEL1,
+    CVITALKANNOUNCE_TYPE_UPGRADED_SUBMARINE_LEVEL2,
+
+    CVITALKANNOUNCE_TYPE_COUNT,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -96,46 +143,46 @@ typedef struct ViNpcUnknown_
     u16 field_2;
 } ViNpcUnknown;
 
-typedef struct CViNpcConfig_
+typedef struct HubNpcSpawnConfig_
 {
     u16 field_0;
     u16 spawnAngle;
     s16 spawnX;
     s16 spawnZ;
     const ViNpcUnknown *(*field_8)(void);
-} CViNpcConfig;
+} HubNpcSpawnConfig;
 
-typedef struct NpcMsgInfo_
+typedef struct HubNpcMsgConfig_
 {
     u16 msgCtrlFile;
     u16 msgTextID1;
     u16 msgTextID2;
     u16 msgTextID3;
-} NpcMsgInfo;
+} HubNpcMsgConfig;
 
-typedef struct OptionsMessageConfig_
+typedef struct HubOptionsMsgConfig_
 {
     u16 msgCtrlFile;
     u16 msgTextID[7];
-} OptionsMessageConfig;
+} HubOptionsMsgConfig;
 
-typedef struct PurchaseCostConfig_
+typedef struct HubPurchaseCostConfig_
 {
     u32 ringCost;
     u8 materialCost[9];
-} PurchaseCostConfig;
+} HubPurchaseCostConfig;
 
-typedef struct AnnounceConfig_
+typedef struct HubAnnounceMsgConfig_
 {
     u16 mpcFile;
     u16 sequence;
-} AnnounceConfig;
+} HubAnnounceMsgConfig;
 
-typedef struct ViTalkPurchaseMsgConfig_
+typedef struct HubPurchaseMsgConfig_
 {
     u16 fileID;
     u16 interactionID;
-} ViTalkPurchaseMsgConfig;
+} HubPurchaseMsgConfig;
 
 typedef struct Unknown2171914_
 {
@@ -158,12 +205,12 @@ const DockStageConfig *HubConfig__GetDockStageConfig(u16 area);
 const Unknown2171914 *HubConfig__GetDockUnknownConfig(u16 id);
 const DockMapConfig *HubConfig__GetDockMapConfig(u16 id);
 const Unknown2171CCC *HubConfig__Func_21529A8(u16 id);
-const PurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id);
-const PurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void);
-const PurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id);
-const PurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id);
+const HubPurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id);
+const HubPurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void);
+const HubPurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id);
+const HubPurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id);
 const ViDockBackConfig *HubConfig__GetDockBackInfo(s32 id);
-const CViNpcConfig *HubConfig__GetNpcConfig(u16 id);
+const HubNpcSpawnConfig *HubConfig__GetNpcConfig(u16 id);
 const u16 *HubConfig__Func_2152A20(s32 id);
 const u16 *HubConfig__Func_2152A30(s32 id);
 const u16 *HubConfig__Func_2152A40(s32 id);
@@ -182,14 +229,14 @@ const ViNpcUnknown *HubConfig__Func_2152ADC(void);
 const ViNpcUnknown *HubConfig__Func_2152AE8(void);
 const ViNpcUnknown *HubConfig__Func_2152AF4(void);
 const ViNpcUnknown *HubConfig__Func_2152B00(void);
-const NpcMsgInfo *HubConfig__GetNpcMessageInfo(s32 id);
-const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B1C(s32 id);
-const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B2C(void);
-const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B38(s32 id);
-const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B48(s32 id);
-const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B58(void);
-const AnnounceConfig *HubConfig__GetAnnounceConfig(s32 id);
-const OptionsMessageConfig *HubConfig__GetOptionsMessageInfo(void);
+const HubNpcMsgConfig *HubConfig__GetNpcMsgConfig(s32 id);
+const HubPurchaseMsgConfig *HubConfig__GetConstructionPurchaseMsgConfig(s32 id);
+const HubPurchaseMsgConfig *HubConfig__GetRadioTowerPurchaseMsgConfig(void);
+const HubPurchaseMsgConfig *HubConfig__GetDecorationPurchaseMsgConfig(s32 id);
+const HubPurchaseMsgConfig *HubConfig__GetShipUpgradePurchaseMsgConfig(s32 id);
+const HubPurchaseMsgConfig *HubConfig__GetInfoPurchaseMsgConfig(void);
+const HubAnnounceMsgConfig *HubConfig__GetAnnounceMsgConfig(s32 id);
+const HubOptionsMsgConfig *HubConfig__GetOptionsMsgConfig(void);
 
 #ifdef __cplusplus
 }

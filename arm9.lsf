@@ -648,8 +648,8 @@ Overlay Hub
     After arm9
 
     ## HUB HELPERS ##
-    Object src/hub/hubConfig.o
-    Object src/hub/hubConfig_2.o
+    Object src/hub/hubCmnConfig.o
+    Object src/hub/hubMsgConfig.o
     Object src/hub/cviMessageController.o
     Object src/hub/hubState.o
     Object asm/hub/talkHelpersUnknown.o
@@ -686,17 +686,17 @@ Overlay Hub
     Object src/hub/cvi3dObject.o
     Object src/hub/cviDockNpcGroup.o
     Object src/hub/cviDockNpcTalk.o
-    Object src/hub/cviSailPrompt.o
+    Object src/hub/cviTalkSailPrompt.o
     Object src/hub/cviTalkPurchase.o
     Object src/hub/cviTalkMissionList.o
     Object src/hub/cviTalkAnnounce.o
     Object src/hub/cviEvtCmn.o
-    Object src/hub/npcOptions.o
-    Object src/hub/npcPurchase.o
-    Object asm/hub/npcTalkList_vars.o
-    Object src/hub/npcTalkList.o
-    Object src/hub/npcCutsceneViewer.o
-    Object src/hub/npcRetry.o
+    Object src/hub/cviTalkOptions.o
+    Object src/hub/cviEvtCmnPurchase.o
+    Object asm/hub/cviEvtCmnList_vars.o
+    Object src/hub/cviEvtCmnList.o
+    Object src/hub/cviTalkMovieList.o
+    Object src/hub/cviTalkGameOver.o
 }
 
 # Overlay06/Sail => Sailing

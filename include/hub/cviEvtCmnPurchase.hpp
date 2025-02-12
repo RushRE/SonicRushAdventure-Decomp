@@ -1,5 +1,5 @@
-#ifndef RUSH_NPCPURCHASE_HPP
-#define RUSH_NPCPURCHASE_HPP
+#ifndef RUSH_CVIEVTCMNPURCHASE_HPP
+#define RUSH_CVIEVTCMNPURCHASE_HPP
 
 #include <hub/hubTask.hpp>
 #include <game/graphics/sprite.h>
@@ -10,7 +10,7 @@
 // STRUCTS
 // --------------------
 
-class NpcPurchase
+class CViEvtCmnPurchase
 {
 public:
     // --------------------
@@ -65,4 +65,4 @@ public:
     static u32 GetRingCount(void);
 };
 
-#endif // RUSH_NPCPURCHASE_HPP
+#endif // RUSH_CVIEVTCMNPURCHASE_HPP

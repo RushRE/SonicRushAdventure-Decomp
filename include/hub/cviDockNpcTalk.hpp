@@ -16,7 +16,7 @@ public:
 
     u16 messageID;
     u16 field_2;
-    CViEvtCmnTalk viEvtCmnTalk;
+    CViEvtCmnTalk eventTalk;
 
     // --------------------
     // MEMBER FUNCTIONS

@@ -1,5 +1,4 @@
 #include <hub/cviTalkPurchase.hpp>
-#include <hub/cviSailPrompt.hpp>
 #include <hub/hubControl.hpp>
 #include <hub/hubAudio.h>
 #include <hub/cviDockNpcTalk.hpp>
@@ -83,7 +82,7 @@ void CViTalkPurchase::ThreadFunc(void *arg)
     CViTalkPurchase *work = (CViTalkPurchase *)arg;
 
     work->InitSprites();
-    work->InitNpcPurchase();
+    work->InitEventPurchase();
 }
 
 void CViTalkPurchase::InitDisplay()
@@ -121,10 +120,10 @@ void CViTalkPurchase::InitSprites()
     this->costType = CViTalkPurchase::COST_INVALID;
 }
 
-void CViTalkPurchase::InitNpcPurchase()
+void CViTalkPurchase::InitEventPurchase()
 {
-    this->npcPurchase.Init();
-    this->npcPurchase.Load(BACKGROUND_2, 0x3C0, 0x3FF, 3, PALETTE_ROW_12, PALETTE_ROW_15);
+    this->eventPurchase.Init();
+    this->eventPurchase.Load(BACKGROUND_2, 960, 1023, 3, PALETTE_ROW_12, PALETTE_ROW_15);
 }
 
 void CViTalkPurchase::Release()
@@ -132,10 +131,10 @@ void CViTalkPurchase::Release()
     JoinThreadWorker(&this->threadWorker);
     ReleaseThreadWorker(&this->threadWorker);
 
-    this->ReleaseNpcPurchase();
+    this->ReleaseEventPurchase();
     this->ReleaseSprites();
 
-    this->evtCmnTalk.Release();
+    this->eventTalk.Release();
 
     this->ResetDisplay();
 }
@@ -155,9 +154,9 @@ void CViTalkPurchase::ReleaseSprites()
     this->costType = CViTalkPurchase::COST_INVALID;
 }
 
-void CViTalkPurchase::ReleaseNpcPurchase()
+void CViTalkPurchase::ReleaseEventPurchase()
 {
-    this->npcPurchase.Release();
+    this->eventPurchase.Release();
 }
 
 void CViTalkPurchase::Main_Init(void)
@@ -166,31 +165,31 @@ void CViTalkPurchase::Main_Init(void)
 
     if (IsThreadWorkerFinished(&work->threadWorker))
     {
-        const ViTalkPurchaseMsgConfig *config;
+        const HubPurchaseMsgConfig *config;
         if (work->decorPurchaseID < CViTalkPurchase::DECOR_COUNT)
         {
-            config = HubConfig__Func_2152B38(work->decorPurchaseID);
+            config = HubConfig__GetDecorationPurchaseMsgConfig(work->decorPurchaseID);
         }
         else if (work->constructionID < CViTalkPurchase::CONSTRUCT_RADIO_TOWER)
         {
-            config = HubConfig__Func_2152B1C(work->constructionID);
+            config = HubConfig__GetConstructionPurchaseMsgConfig(work->constructionID);
         }
         else if (work->shipUpgradeID < CViTalkPurchase::UPGRADE_COUNT)
         {
-            config = HubConfig__Func_2152B48(work->shipUpgradeID);
+            config = HubConfig__GetShipUpgradePurchaseMsgConfig(work->shipUpgradeID);
         }
         else if (work->infoPurchaseID != CViTalkPurchase::INFO_INVALID)
         {
-            config = HubConfig__Func_2152B58();
+            config = HubConfig__GetInfoPurchaseMsgConfig();
         }
         else
         {
-            config = HubConfig__Func_2152B2C();
+            config = HubConfig__GetRadioTowerPurchaseMsgConfig();
         }
 
-        work->evtCmnTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), config->fileID), config->interactionID, CVIEVTCMN_RESOURCE_NONE);
-        work->evtCmnTalk.SetCallback(CViTalkPurchase::TalkCallback, (void *)work);
-        work->npcPurchase.ProcessGraphics();
+        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), config->fileID), config->interactionID, CVIEVTCMN_RESOURCE_NONE);
+        work->eventTalk.SetCallback(CViTalkPurchase::TalkCallback, (void *)work);
+        work->eventPurchase.ProcessGraphics();
         SetCurrentTaskMainEvent(CViTalkPurchase::Main_OpenWindow);
     }
 }
@@ -199,10 +198,10 @@ void CViTalkPurchase::Main_OpenWindow(void)
 {
     CViTalkPurchase *work = TaskGetWorkCurrent(CViTalkPurchase);
 
-    work->npcPurchase.Process();
-    if (work->npcPurchase.IsReady())
+    work->eventPurchase.Process();
+    if (work->eventPurchase.IsReady())
     {
-        work->evtCmnTalk.SetPage(work->canPurchase == FALSE ? 1 : 0);
+        work->eventTalk.SetPage(work->canPurchase == FALSE ? 1 : 0);
         SetCurrentTaskMainEvent(CViTalkPurchase::Main_ShowPurchasePrompt);
     }
 }
@@ -211,8 +210,8 @@ void CViTalkPurchase::Main_ShowPurchasePrompt(void)
 {
     CViTalkPurchase *work = TaskGetWorkCurrent(CViTalkPurchase);
 
-    work->evtCmnTalk.ProcessDialog();
-    work->npcPurchase.Process();
+    work->eventTalk.ProcessDialog();
+    work->eventPurchase.Process();
 
     if (work->costType != CViTalkPurchase::COST_INVALID)
     {
@@ -231,9 +230,9 @@ void CViTalkPurchase::Main_ShowPurchasePrompt(void)
         AnimatorSprite__DrawFrame(&work->aniCostBackground);
     }
 
-    if (work->evtCmnTalk.IsFinished())
+    if (work->eventTalk.IsFinished())
     {
-        work->npcPurchase.CloseWindow();
+        work->eventPurchase.CloseWindow();
         SetCurrentTaskMainEvent(CViTalkPurchase::Main_CloseWindow);
     }
 }
@@ -242,8 +241,8 @@ void CViTalkPurchase::Main_CloseWindow(void)
 {
     CViTalkPurchase *work = TaskGetWorkCurrent(CViTalkPurchase);
 
-    work->npcPurchase.Process();
-    if (work->npcPurchase.IsActive())
+    work->eventPurchase.Process();
+    if (work->eventPurchase.IsActive())
         SetCurrentTaskMainEvent(CViTalkPurchase::Main_ApplyPurchase);
 }
 
@@ -253,7 +252,7 @@ void CViTalkPurchase::Main_ApplyPurchase(void)
 
     CViTalkPurchase *work = TaskGetWorkCurrent(CViTalkPurchase);
 
-    switch (work->evtCmnTalk.GetAction())
+    switch (work->eventTalk.GetAction())
     {
         case 2:
             if (work->decorPurchaseID < CViTalkPurchase::DECOR_COUNT)
@@ -380,7 +379,7 @@ BOOL CViTalkPurchase::GetRingCount()
     return saveGame.stage.ringCount;
 }
 
-BOOL CViTalkPurchase::CanMakePurchase(const PurchaseCostConfig *config)
+BOOL CViTalkPurchase::CanMakePurchase(const HubPurchaseCostConfig *config)
 {
     if (config->ringCost > CViTalkPurchase::GetRingCount())
         return FALSE;
@@ -394,7 +393,7 @@ BOOL CViTalkPurchase::CanMakePurchase(const PurchaseCostConfig *config)
     return TRUE;
 }
 
-void CViTalkPurchase::MakePurchase(const PurchaseCostConfig *config)
+void CViTalkPurchase::MakePurchase(const HubPurchaseCostConfig *config)
 {
     if (config->ringCost != 0)
         saveGame.stage.ringCount -= config->ringCost;

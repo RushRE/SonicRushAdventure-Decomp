@@ -1,4 +1,4 @@
-#include <hub/npcCutsceneViewer.hpp>
+#include <hub/cviTalkMovieList.hpp>
 #include <game/game/gameState.h>
 #include <game/save/saveGame.h>
 #include <game/file/fileUnknown.h>
@@ -16,8 +16,8 @@
 // CONSTANTS/MACROS
 // --------------------
 
-#define NPCCUTSCENEVIEWER_UNLOCK_ALWAYS          0xFFFF
-#define NPCCUTSCENEVIEWER_UNLOCK_AFTER_DEEP_CORE 0xFFFE
+#define CVITALKMOVIELIST_UNLOCK_ALWAYS          0xFFFF
+#define CVITALKMOVIELIST_UNLOCK_AFTER_DEEP_CORE 0xFFFE
 
 // --------------------
 // STRUCTS
@@ -43,7 +43,7 @@ static const u16 cutsceneTransitionList[5][2] = {
 };
 
 static const CutsceneListEntry cutsceneListEntryConfig[] = {
-    { CUTSCENE_OPENING, 0, NPCCUTSCENEVIEWER_UNLOCK_ALWAYS },
+    { CUTSCENE_OPENING, 0, CVITALKMOVIELIST_UNLOCK_ALWAYS },
     { CUTSCENE_MARINE_APPEARS, 1, 6 },
     { CUTSCENE_ENCOUNTER, 2, 6 },
     { CUTSCENE_RICKETY_SHIP_LAUNCH, 3, 6 },
@@ -103,34 +103,34 @@ static const CutsceneListEntry cutsceneListEntryConfig[] = {
     { CUTSCENE_DUEL_WITH_GHOST_TITAN, 57, 47 },
     { CUTSCENE_GHOST_TITANS_IMPACT, 58, 47 },
     { CUTSCENE_ENDING, 59, 47 },
-    { CUTSCENE_EX_PROLOGUE, 60, NPCCUTSCENEVIEWER_UNLOCK_AFTER_DEEP_CORE },
-    { CUTSCENE_EGGMANS_DOUBLE_APPEARANCE_3D, 61, NPCCUTSCENEVIEWER_UNLOCK_AFTER_DEEP_CORE },
-    { CUTSCENE_MAGMA_HURRICANE_COMPLETE, 62, NPCCUTSCENEVIEWER_UNLOCK_AFTER_DEEP_CORE },
-    { CUTSCENE_MAGMA_HURRICANE_LAUNCH, 63, NPCCUTSCENEVIEWER_UNLOCK_AFTER_DEEP_CORE },
-    { CUTSCENE_EGGMANS_THE_SOURCE_OF_POWER_3D, 64, NPCCUTSCENEVIEWER_UNLOCK_AFTER_DEEP_CORE },
-    { CUTSCENE_SONIC_AND_BLAZE_TRANSFORM, 65, NPCCUTSCENEVIEWER_UNLOCK_AFTER_DEEP_CORE },
-    { CUTSCENE_FINAL_BATTLE_EGG_WIZARD, 66, NPCCUTSCENEVIEWER_UNLOCK_AFTER_DEEP_CORE },
-    { CUTSCENE_EGG_WIZARD_DESTROYED, 67, NPCCUTSCENEVIEWER_UNLOCK_AFTER_DEEP_CORE },
-    { CUTSCENE_EX_ENDING, 68, NPCCUTSCENEVIEWER_UNLOCK_AFTER_DEEP_CORE },
-    { CUTSCENE_WE_WILL_MEET_AGAIN, 69, NPCCUTSCENEVIEWER_UNLOCK_AFTER_DEEP_CORE },
+    { CUTSCENE_EX_PROLOGUE, 60, CVITALKMOVIELIST_UNLOCK_AFTER_DEEP_CORE },
+    { CUTSCENE_EGGMANS_DOUBLE_APPEARANCE_3D, 61, CVITALKMOVIELIST_UNLOCK_AFTER_DEEP_CORE },
+    { CUTSCENE_MAGMA_HURRICANE_COMPLETE, 62, CVITALKMOVIELIST_UNLOCK_AFTER_DEEP_CORE },
+    { CUTSCENE_MAGMA_HURRICANE_LAUNCH, 63, CVITALKMOVIELIST_UNLOCK_AFTER_DEEP_CORE },
+    { CUTSCENE_EGGMANS_THE_SOURCE_OF_POWER_3D, 64, CVITALKMOVIELIST_UNLOCK_AFTER_DEEP_CORE },
+    { CUTSCENE_SONIC_AND_BLAZE_TRANSFORM, 65, CVITALKMOVIELIST_UNLOCK_AFTER_DEEP_CORE },
+    { CUTSCENE_FINAL_BATTLE_EGG_WIZARD, 66, CVITALKMOVIELIST_UNLOCK_AFTER_DEEP_CORE },
+    { CUTSCENE_EGG_WIZARD_DESTROYED, 67, CVITALKMOVIELIST_UNLOCK_AFTER_DEEP_CORE },
+    { CUTSCENE_EX_ENDING, 68, CVITALKMOVIELIST_UNLOCK_AFTER_DEEP_CORE },
+    { CUTSCENE_WE_WILL_MEET_AGAIN, 69, CVITALKMOVIELIST_UNLOCK_AFTER_DEEP_CORE },
 };
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-void NpcCutsceneViewer::Create(s32 param)
+void CViTalkMovieList::Create(s32 param)
 {
     Task *task =
-        HubTaskCreate(NpcCutsceneViewer::Main_Init, NpcCutsceneViewer::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1010, TASK_GROUP(16), NpcCutsceneViewer);
+        HubTaskCreate(CViTalkMovieList::Main_Init, CViTalkMovieList::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1010, TASK_GROUP(16), CViTalkMovieList);
 
-    NpcCutsceneViewer *work = TaskGetWork(task, NpcCutsceneViewer);
+    CViTalkMovieList *work = TaskGetWork(task, CViTalkMovieList);
 
     InitThreadWorker(&work->thread, 0x800);
-    CreateThreadWorker(&work->thread, NpcCutsceneViewer::ThreadFunc, work, 20);
+    CreateThreadWorker(&work->thread, CViTalkMovieList::ThreadFunc, work, 20);
 }
 
-u16 NpcCutsceneViewer::GetNextCutscene(u16 id)
+u16 CViTalkMovieList::GetNextCutscene(u16 id)
 {
     for (s32 i = 0; i < 5; i++)
     {
@@ -141,9 +141,9 @@ u16 NpcCutsceneViewer::GetNextCutscene(u16 id)
     return CUTSCENE_NONE;
 }
 
-void NpcCutsceneViewer::ThreadFunc(void *arg)
+void CViTalkMovieList::ThreadFunc(void *arg)
 {
-    NpcCutsceneViewer *work = (NpcCutsceneViewer *)arg;
+    CViTalkMovieList *work = (CViTalkMovieList *)arg;
 
     work->mpcFile       = FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsg(), ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_DEMO_VIEWER_MPC);
     work->cutsceneCount = ARRAY_COUNT(cutsceneListEntryConfig);
@@ -152,24 +152,24 @@ void NpcCutsceneViewer::ThreadFunc(void *arg)
     work->InitList();
 }
 
-void NpcCutsceneViewer::InitDisplay()
+void CViTalkMovieList::InitDisplay()
 {
     HubControl::InitEngineAForTalk();
 }
 
-void NpcCutsceneViewer::InitList()
+void CViTalkMovieList::InitList()
 {
-    this->cutsceneList = (NpcTalkListEntry *)HeapAllocHead(HEAP_SYSTEM, sizeof(NpcTalkListEntry) * this->cutsceneCount);
+    this->cutsceneList = (CViEvtCmnListEntry *)HeapAllocHead(HEAP_SYSTEM, sizeof(CViEvtCmnListEntry) * this->cutsceneCount);
 
     for (s32 i = 0; i < this->cutsceneCount; i++)
     {
-        NpcTalkListEntry *entry = &this->cutsceneList[i];
+        CViEvtCmnListEntry *entry = &this->cutsceneList[i];
 
-        entry->flags = NPCTALKLISTENTRY_FLAG_NONE;
+        entry->flags = CVIEVTCMNLISTENTRY_FLAG_NONE;
 
-        if (NpcCutsceneViewer::CheckCutsceneUnlocked(i))
+        if (CViTalkMovieList::CheckCutsceneUnlocked(i))
         {
-            entry->flags |= NPCTALKLISTENTRY_FLAG_UNLOCKED;
+            entry->flags |= CVIEVTCMNLISTENTRY_FLAG_UNLOCKED;
             entry->id = cutsceneListEntryConfig[i].id;
         }
         else
@@ -178,12 +178,12 @@ void NpcCutsceneViewer::InitList()
         }
     }
 
-    ViTalkListConfig config;
+    CViEvtCmnListConfig config;
     config.fontWindow    = HubControl::GetField54();
     config.mpcFile       = this->mpcFile;
     config.entryList     = this->cutsceneList;
     config.entryCount    = this->cutsceneCount;
-    config.selection     = NpcCutsceneViewer::GetSelectionFromCutscene();
+    config.selection     = CViTalkMovieList::GetSelectionFromCutscene();
     config.numDigitCount = 2;
     config.sprMapLocHUD  = HubControl::GetFileFrom_ViActLoc(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
     config.sprMenu       = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
@@ -194,11 +194,11 @@ void NpcCutsceneViewer::InitList()
     config.windowSizeY   = 5;
     config.windowFrame   = FONTWINDOWMW_FILL_VIEWER;
 
-    this->npcTalk.Init();
-    this->npcTalk.Load(&config);
+    this->eventSelectList.Init();
+    this->eventSelectList.Load(&config);
 }
 
-void NpcCutsceneViewer::Release()
+void CViTalkMovieList::Release()
 {
     ReleaseThreadWorker(&this->thread);
 
@@ -206,14 +206,14 @@ void NpcCutsceneViewer::Release()
     this->ResetDisplay();
 }
 
-void NpcCutsceneViewer::ResetDisplay()
+void CViTalkMovieList::ResetDisplay()
 {
     HubControl::InitEngineAFor3DHub();
 }
 
-void NpcCutsceneViewer::ReleaseList()
+void CViTalkMovieList::ReleaseList()
 {
-    this->npcTalk.Release();
+    this->eventSelectList.Release();
 
     if (this->cutsceneList != NULL)
     {
@@ -222,56 +222,56 @@ void NpcCutsceneViewer::ReleaseList()
     }
 }
 
-void NpcCutsceneViewer::Main_Init()
+void CViTalkMovieList::Main_Init()
 {
-    NpcCutsceneViewer *work = TaskGetWorkCurrent(NpcCutsceneViewer);
+    CViTalkMovieList *work = TaskGetWorkCurrent(CViTalkMovieList);
 
     if (IsThreadWorkerFinished(&work->thread))
     {
-        work->npcTalk.ShowWindow(gameState.talk.lastSelectedMovie, TRUE);
+        work->eventSelectList.ShowWindow(gameState.talk.lastSelectedMovie, TRUE);
         gameState.talk.lastSelectedMovie = 0;
-        SetCurrentTaskMainEvent(NpcCutsceneViewer::Main_Active);
+        SetCurrentTaskMainEvent(CViTalkMovieList::Main_Active);
     }
 }
 
-void NpcCutsceneViewer::Main_Active()
+void CViTalkMovieList::Main_Active()
 {
-    NpcCutsceneViewer *work = TaskGetWorkCurrent(NpcCutsceneViewer);
+    CViTalkMovieList *work = TaskGetWorkCurrent(CViTalkMovieList);
 
-    work->npcTalk.Process();
-    if (work->npcTalk.IsWindowClosing())
+    work->eventSelectList.Process();
+    if (work->eventSelectList.IsWindowClosing())
     {
         ViDock__Func_215E4BC(1);
-        SetCurrentTaskMainEvent(NpcCutsceneViewer::Main_CloseWindow);
+        SetCurrentTaskMainEvent(CViTalkMovieList::Main_CloseWindow);
     }
-    else if (work->npcTalk.IsWindowOpen())
+    else if (work->eventSelectList.IsWindowOpen())
     {
         ViDock__Func_215E4BC(0);
     }
 }
 
-void NpcCutsceneViewer::Main_CloseWindow()
+void CViTalkMovieList::Main_CloseWindow()
 {
-    NpcCutsceneViewer *work = TaskGetWorkCurrent(NpcCutsceneViewer);
+    CViTalkMovieList *work = TaskGetWorkCurrent(CViTalkMovieList);
 
-    work->npcTalk.Process();
-    if (work->npcTalk.IsFinished())
+    work->eventSelectList.Process();
+    if (work->eventSelectList.IsFinished())
     {
         s32 selection;
-        if (work->npcTalk.CheckSelectionMade())
+        if (work->eventSelectList.CheckSelectionMade())
         {
-            selection                        = cutsceneListEntryConfig[work->npcTalk.GetSelectedEntry()].cutsceneID;
-            gameState.talk.lastSelectedMovie = work->npcTalk.GetSelectedEntry();
+            selection                        = cutsceneListEntryConfig[work->eventSelectList.GetSelectedEntry()].cutsceneID;
+            gameState.talk.lastSelectedMovie = work->eventSelectList.GetSelectedEntry();
         }
         else
         {
-            selection                        = (u16)NPCTALKLIST_SELECTION_NONE;
+            selection                        = (u16)CVIEVTCMNLIST_SELECTION_NONE;
             gameState.talk.lastSelectedMovie = 0;
         }
 
         DestroyCurrentTask();
 
-        if (selection != (u16)NPCTALKLIST_SELECTION_NONE)
+        if (selection != (u16)CVIEVTCMNLIST_SELECTION_NONE)
         {
             CViDockNpcTalk::SetTalkAction(20);
             CViDockNpcTalk::SetSelection(selection);
@@ -284,29 +284,29 @@ void NpcCutsceneViewer::Main_CloseWindow()
     }
 }
 
-void NpcCutsceneViewer::Destructor(Task *task)
+void CViTalkMovieList::Destructor(Task *task)
 {
-    NpcCutsceneViewer *work = TaskGetWork(task, NpcCutsceneViewer);
+    CViTalkMovieList *work = TaskGetWork(task, CViTalkMovieList);
 
     work->Release();
 
-    HubTaskDestroy<NpcCutsceneViewer>(task);
+    HubTaskDestroy<CViTalkMovieList>(task);
 }
 
-BOOL NpcCutsceneViewer::CheckCutsceneUnlocked(u16 id)
+BOOL CViTalkMovieList::CheckCutsceneUnlocked(u16 id)
 {
     u16 unlock = cutsceneListEntryConfig[id].unlock;
 
-    if (unlock == NPCCUTSCENEVIEWER_UNLOCK_ALWAYS)
+    if (unlock == CVITALKMOVIELIST_UNLOCK_ALWAYS)
         return TRUE;
 
-    if (unlock == NPCCUTSCENEVIEWER_UNLOCK_AFTER_DEEP_CORE)
+    if (unlock == CVITALKMOVIELIST_UNLOCK_AFTER_DEEP_CORE)
         return SaveGame__GetGameProgress() >= SAVE_PROGRESS_39;
 
     return SaveGame__GetMissionStatus(unlock) == MISSION_STATE_COMPLETED;
 }
 
-u16 NpcCutsceneViewer::GetSelectionFromCutscene()
+u16 CViTalkMovieList::GetSelectionFromCutscene()
 {
     s32 i;
 

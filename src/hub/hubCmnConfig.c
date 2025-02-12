@@ -14,7 +14,7 @@ static const ViNpcUnknown npcUnknown3 = { .field_0 = 10, .field_2 = 15 };
 static const ViNpcUnknown npcUnknown1 = { .field_0 = 0, .field_2 = 0 };
 static const ViNpcUnknown npcUnknown2 = { .field_0 = 10, .field_2 = 16 };
 
-static const PurchaseCostConfig radioTowerCost[] =
+static const HubPurchaseCostConfig radioTowerCost[] =
 {
     {
         .ringCost = 1000,
@@ -36,7 +36,7 @@ static const u16 ovl05_02171848[] = { 0, 1, 4, 3, 5, 2, 10, 6, 7, 8, 9, 11, 12, 
 static const u16 ovl05_02171864[] = { 0, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 static const u16 ovl05_02171882[] = { 7, 8, 9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 0 };
 
-static const PurchaseCostConfig decorPurchaseCost[] =
+static const HubPurchaseCostConfig decorPurchaseCost[] =
 {
     {
         .ringCost = 600,
@@ -96,8 +96,9 @@ static const Unknown2171914 dockUnknownConfig[] = {
     { .areaID = DOCKAREA_DRILL, .field_4 = 8 },
 };
 
-static const PurchaseCostConfig shipBuildCost[]  =
+static const HubPurchaseCostConfig shipBuildCost[] =
 {
+    [SHIP_JET] = 
     {
         .ringCost = 0,
         .materialCost = {
@@ -113,6 +114,7 @@ static const PurchaseCostConfig shipBuildCost[]  =
         },
     },
 
+    [SHIP_BOAT] = 
     {
         .ringCost = 0,
         .materialCost = {
@@ -128,6 +130,7 @@ static const PurchaseCostConfig shipBuildCost[]  =
         },
     },
 
+    [SHIP_HOVER] = 
     {
         .ringCost = 0,
         .materialCost = {
@@ -143,6 +146,7 @@ static const PurchaseCostConfig shipBuildCost[]  =
         },
     },
 
+    [SHIP_SUBMARINE] = 
     {
         .ringCost = 0,
         .materialCost = {
@@ -158,6 +162,9 @@ static const PurchaseCostConfig shipBuildCost[]  =
         },
     },
 
+    // This goes unused.
+    // The magma hurricane does not need to be built manually in the final game.
+    [SHIP_DRILL] = 
     {
         .ringCost = 0,
         .materialCost = {
@@ -174,7 +181,7 @@ static const PurchaseCostConfig shipBuildCost[]  =
     },
 };
 
-static const PurchaseCostConfig shipUpgradeCost[] =
+static const HubPurchaseCostConfig shipUpgradeCost[] =
 {
     {
         .ringCost = 0,
@@ -457,7 +464,7 @@ static const ViDockBackConfig dockBackInfo[] = {
       .field_18           = FLOAT_DEG_TO_IDX(0.0) },
 };
 
-static const CViNpcConfig npcConfig[] = {
+static const HubNpcSpawnConfig npcSpawnConfig[] = {
     { .field_0 = 1, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 9, .spawnZ = 0, .field_8 = HubConfig__Func_2152A70 },
 
     { .field_0 = 2, .spawnAngle = FLOAT_DEG_TO_IDX(90.0), .spawnX = -15, .spawnZ = 18, .field_8 = HubConfig__Func_2152A7C },
@@ -780,22 +787,22 @@ const Unknown2171CCC *HubConfig__Func_21529A8(u16 id)
     return &ovl05_02171CCC[id];
 }
 
-const PurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id)
+const HubPurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id)
 {
     return &shipBuildCost[id];
 }
 
-const PurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void)
+const HubPurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void)
 {
     return &radioTowerCost[0];
 }
 
-const PurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id)
+const HubPurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id)
 {
     return &decorPurchaseCost[id];
 }
 
-const PurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id)
+const HubPurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id)
 {
     return &shipUpgradeCost[id];
 }
@@ -805,9 +812,9 @@ const ViDockBackConfig *HubConfig__GetDockBackInfo(s32 id)
     return &dockBackInfo[id];
 }
 
-const CViNpcConfig *HubConfig__GetNpcConfig(u16 id)
+const HubNpcSpawnConfig *HubConfig__GetNpcConfig(u16 id)
 {
-    return &npcConfig[id];
+    return &npcSpawnConfig[id];
 }
 
 const u16 *HubConfig__Func_2152A20(s32 id)

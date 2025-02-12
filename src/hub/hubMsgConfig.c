@@ -10,64 +10,88 @@
 // VARIABLES
 // --------------------
 
-static const ViTalkPurchaseMsgConfig ovl05_021721EC = {
+static const HubPurchaseMsgConfig radioTowerPurchaseMsgConfig = {
     .fileID        = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF,
     .interactionID = 9,
 };
 
-static const ViTalkPurchaseMsgConfig ovl05_021721E8 = { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_DECO_MCF, .interactionID = 6 };
+static const HubPurchaseMsgConfig infoPurchaseMsgConfig = { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_DECO_MCF, .interactionID = 6 };
 
-static const ViTalkPurchaseMsgConfig decorationTalkConfig[] = {
+static const HubPurchaseMsgConfig decorationPurchaseMsgConfig[] = {
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_DECO_MCF, .interactionID = 0 },
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_DECO_MCF, .interactionID = 2 },
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_DECO_MCF, .interactionID = 4 },
 };
 
-FORCE_INCLUDE_ARRAY(ViTalkPurchaseMsgConfig, ovl05_021721F0, 3,
+// this appears to be an unused talk config for missions?
+// these files point to the text for the first mission in the mission list
+FORCE_INCLUDE_ARRAY(HubPurchaseMsgConfig, unusedMissionTalkConfig, 3,
                     {
                         { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF, .interactionID = 0 },
                         { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF, .interactionID = 1 },
                         { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF, .interactionID = 2 },
                     })
 
-static const OptionsMessageConfig optionsMessageConfig = { .msgCtrlFile = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_OP_MCF, .msgTextID = { 0, 1, 2, 3, 4, 5, 0 } };
+static const HubOptionsMsgConfig optionsMsgConfig = { .msgCtrlFile = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_OP_MCF, .msgTextID = { 0, 1, 2, 3, 4, 5, 0 } };
 
-static const ViTalkPurchaseMsgConfig ovl05_02172218[] = {
-    { .fileID = CVIEVTCMN_RESOURCE_NONE, .interactionID = CVIEVTCMN_RESOURCE_NONE },  { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .interactionID = 1 },
-    { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .interactionID = 3 }, { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .interactionID = 5 },
-    { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .interactionID = 7 },
+static const HubPurchaseMsgConfig constructionPurchaseMsgConfig[] = {
+    [SHIP_JET]       = { .fileID = CVIEVTCMN_RESOURCE_NONE, .interactionID = CVIEVTCMN_RESOURCE_NONE },
+    [SHIP_BOAT]      = { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .interactionID = 1 },
+    [SHIP_HOVER]     = { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .interactionID = 3 },
+    [SHIP_SUBMARINE] = { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .interactionID = 5 },
+
+    // this goes unused in the final game. There is no dialog when building the magma hurricane.
+    [SHIP_DRILL] = { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .interactionID = 7 },
 };
 
-static const ViTalkPurchaseMsgConfig ovl05_0217222C[] = {
+static const HubPurchaseMsgConfig shipUpgradePurchaseMsgConfig[] = {
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 0 },  { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 2 },
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 4 },  { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 6 },
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 8 },  { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 10 },
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 12 }, { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 14 },
 };
 
-static const AnnounceConfig announcementConfig[] = {
-    { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 5 },         { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 9 },
-    { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 13 },        { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 17 },
-    { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 21 },        { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
-    { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },       { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
-    { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },       { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
-    { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_DECO_MPC, .sequence = 8 },          { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
-    { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 25 },        { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_DECO_MPC, .sequence = 12 },
-    { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },       { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
-    { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },       { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
-    { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },       { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
-    { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },       { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
-    { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_DECO_MPC, .sequence = 16 },         { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
-    { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },       { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
-    { .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },       { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_MISSION_BASE_MPC, .sequence = 9 },
-    { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_MISSION_BASE_MPC, .sequence = 10 }, { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 9 },
-    { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 9 },           { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 14 },
-    { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 14 },          { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 19 },
-    { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 19 },          { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 24 },
-    { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 24 },
+static const HubAnnounceMsgConfig announcementMsgConfig[] = {
+    /*[CVITALKANNOUNCE_TYPE_UNLOCKED_JET]              =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 5 },
+    /*[CVITALKANNOUNCE_TYPE_UNLOCKED_BOAT]             =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 9 },
+    /*[CVITALKANNOUNCE_TYPE_UNLOCKED_HOVER]            =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 13 },
+    /*[CVITALKANNOUNCE_TYPE_UNLOCKED_SUBMARINE]        =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 17 },
+    /*[CVITALKANNOUNCE_TYPE_UNLOCKED_DRILL]            =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 21 },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED5]                   =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED6]                   =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED7]                   =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED8]                   =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED9]                   =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_DECOR_1]                   =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_DECO_MPC, .sequence = 8 },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED11]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNLOCKED_RADIO_TOWER]      =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 25 },
+    /*[CVITALKANNOUNCE_TYPE_DECOR_2]                   =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_DECO_MPC, .sequence = 12 },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED14]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED15]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED16]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED17]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED18]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED19]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED20]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED21]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_DECOR_3]                   =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_DECO_MPC, .sequence = 16 },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED23]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED24]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED25]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNUSED26]                  =*/{ .mpcFile = CVIEVTCMN_RESOURCE_NONE, .sequence = CVIEVTCMN_RESOURCE_NONE },
+    /*[CVITALKANNOUNCE_TYPE_UNLOCKED_NEW_MISSION]      =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_MISSION_BASE_MPC, .sequence = 9 },
+    /*[CVITALKANNOUNCE_TYPE_UNLOCKED_MEDAL]            =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_MISSION_BASE_MPC, .sequence = 10 },
+    /*[CVITALKANNOUNCE_TYPE_UPGRADED_JET_LEVEL1]       =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 9 },
+    /*[CVITALKANNOUNCE_TYPE_UPGRADED_JET_LEVEL2]       =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 9 },
+    /*[CVITALKANNOUNCE_TYPE_UPGRADED_BOAT_LEVEL1]      =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 14 },
+    /*[CVITALKANNOUNCE_TYPE_UPGRADED_BOAT_LEVEL2]      =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 14 },
+    /*[CVITALKANNOUNCE_TYPE_UPGRADED_HOVER_LEVEL1]     =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 19 },
+    /*[CVITALKANNOUNCE_TYPE_UPGRADED_HOVER_LEVEL2]     =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 19 },
+    /*[CVITALKANNOUNCE_TYPE_UPGRADED_SUBMARINE_LEVEL1] =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 24 },
+    /*[CVITALKANNOUNCE_TYPE_UPGRADED_SUBMARINE_LEVEL2] =*/{ .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 24 },
 };
 
-static const NpcMsgInfo npcTalkConfig[] = {
+static const HubNpcMsgConfig npcMsgConfig[] = {
     { .msgCtrlFile = CVIEVTCMN_RESOURCE_NONE, .msgTextID1 = CVIEVTCMN_RESOURCE_NONE, .msgTextID2 = CVIEVTCMN_RESOURCE_NONE, .msgTextID3 = CVIEVTCMN_RESOURCE_NONE },
     { .msgCtrlFile = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .msgTextID1 = 0, .msgTextID2 = CVIEVTCMN_RESOURCE_NONE, .msgTextID3 = CVIEVTCMN_RESOURCE_NONE },
     { .msgCtrlFile = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .msgTextID1 = 2, .msgTextID2 = CVIEVTCMN_RESOURCE_NONE, .msgTextID3 = CVIEVTCMN_RESOURCE_NONE },
@@ -114,42 +138,42 @@ static const NpcMsgInfo npcTalkConfig[] = {
 // FUNCTIONS
 // --------------------
 
-const NpcMsgInfo *HubConfig__GetNpcMessageInfo(s32 id)
+const HubNpcMsgConfig *HubConfig__GetNpcMsgConfig(s32 id)
 {
-    return &npcTalkConfig[id];
+    return &npcMsgConfig[id];
 }
 
-const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B1C(s32 id)
+const HubPurchaseMsgConfig *HubConfig__GetConstructionPurchaseMsgConfig(s32 id)
 {
-    return &ovl05_02172218[id];
+    return &constructionPurchaseMsgConfig[id];
 }
 
-const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B2C(void)
+const HubPurchaseMsgConfig *HubConfig__GetRadioTowerPurchaseMsgConfig(void)
 {
-    return &ovl05_021721EC;
+    return &radioTowerPurchaseMsgConfig;
 }
 
-const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B38(s32 id)
+const HubPurchaseMsgConfig *HubConfig__GetDecorationPurchaseMsgConfig(s32 id)
 {
-    return &decorationTalkConfig[id];
+    return &decorationPurchaseMsgConfig[id];
 }
 
-const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B48(s32 id)
+const HubPurchaseMsgConfig *HubConfig__GetShipUpgradePurchaseMsgConfig(s32 id)
 {
-    return &ovl05_0217222C[id];
+    return &shipUpgradePurchaseMsgConfig[id];
 }
 
-const ViTalkPurchaseMsgConfig *HubConfig__Func_2152B58(void)
+const HubPurchaseMsgConfig *HubConfig__GetInfoPurchaseMsgConfig(void)
 {
-    return &ovl05_021721E8;
+    return &infoPurchaseMsgConfig;
 }
 
-const AnnounceConfig *HubConfig__GetAnnounceConfig(s32 id)
+const HubAnnounceMsgConfig *HubConfig__GetAnnounceMsgConfig(s32 id)
 {
-    return &announcementConfig[id];
+    return &announcementMsgConfig[id];
 }
 
-const OptionsMessageConfig *HubConfig__GetOptionsMessageInfo(void)
+const HubOptionsMsgConfig *HubConfig__GetOptionsMsgConfig(void)
 {
-    return &optionsMessageConfig;
+    return &optionsMsgConfig;
 }
