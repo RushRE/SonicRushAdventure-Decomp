@@ -55,6 +55,23 @@ enum CViTalkAnnounceType
     CVITALKANNOUNCE_TYPE_COUNT,
 };
 
+enum CViDockNpcType
+{
+    CVIDOCKNPC_TYPE_BLAZE,
+    CVIDOCKNPC_TYPE_TAILS,
+    CVIDOCKNPC_TYPE_MARINE,
+    CVIDOCKNPC_TYPE_NORMAN,
+    CVIDOCKNPC_TYPE_SETTER,
+    CVIDOCKNPC_TYPE_TABBY,
+    CVIDOCKNPC_TYPE_COLONEL,
+    CVIDOCKNPC_TYPE_GARDON,
+    CVIDOCKNPC_TYPE_DAIKUN,
+    CVIDOCKNPC_TYPE_KYLOK,
+    CVIDOCKNPC_TYPE_MUZY,
+    CVIDOCKNPC_TYPE_HOURGLASS,
+    CVIDOCKNPC_TYPE_OLDDS,
+};
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -137,19 +154,19 @@ typedef struct Unknown2171CCC_
     s32 field_24;
 } Unknown2171CCC;
 
-typedef struct ViNpcUnknown_
+typedef struct HubNpcTalkActionConfig_
 {
-    u16 field_0;
-    u16 field_2;
-} ViNpcUnknown;
+    u16 talkActionType;
+    u16 talkActionParam;
+} HubNpcTalkActionConfig;
 
 typedef struct HubNpcSpawnConfig_
 {
-    u16 field_0;
+    u16 type;
     u16 spawnAngle;
     s16 spawnX;
     s16 spawnZ;
-    const ViNpcUnknown *(*field_8)(void);
+    const HubNpcTalkActionConfig *(*getActionConfig)(void);
 } HubNpcSpawnConfig;
 
 typedef struct HubNpcMsgConfig_
@@ -216,19 +233,19 @@ const u16 *HubConfig__Func_2152A30(s32 id);
 const u16 *HubConfig__Func_2152A40(s32 id);
 const ViMapBackConfig *HubConfig__GetMapBackConfig(s32 id);
 BOOL HubConfig__Func_2152A60(u16 id);
-const ViNpcUnknown *HubConfig__Func_2152A70(void);
-const ViNpcUnknown *HubConfig__Func_2152A7C(void);
-const ViNpcUnknown *HubConfig__Func_2152A88(void);
-const ViNpcUnknown *HubConfig__Func_2152A94(void);
-const ViNpcUnknown *HubConfig__Func_2152AA0(void);
-const ViNpcUnknown *HubConfig__Func_2152AAC(void);
-const ViNpcUnknown *HubConfig__Func_2152AB8(void);
-const ViNpcUnknown *HubConfig__Func_2152AC4(void);
-const ViNpcUnknown *HubConfig__Func_2152AD0(void);
-const ViNpcUnknown *HubConfig__Func_2152ADC(void);
-const ViNpcUnknown *HubConfig__Func_2152AE8(void);
-const ViNpcUnknown *HubConfig__Func_2152AF4(void);
-const ViNpcUnknown *HubConfig__Func_2152B00(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Tails(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Marine(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Blaze(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Setter(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Tabby(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Colonel(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Gardon(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Daikun(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Kylok(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Muzy(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Norman(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Hourglass(void);
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_OldDS(void);
 const HubNpcMsgConfig *HubConfig__GetNpcMsgConfig(s32 id);
 const HubPurchaseMsgConfig *HubConfig__GetConstructionPurchaseMsgConfig(s32 id);
 const HubPurchaseMsgConfig *HubConfig__GetRadioTowerPurchaseMsgConfig(void);

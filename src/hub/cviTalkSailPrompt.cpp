@@ -362,13 +362,13 @@ void CViTalkSailPrompt::Main_ApplyChoice(void)
         switch (work->selection)
         {
             case 0:
-                CViDockNpcTalk::SetTalkAction(1);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_1);
                 CViDockNpcTalk::SetSelection(work->type);
                 break;
 
             // case 1:
             default:
-                CViDockNpcTalk::SetTalkAction(0);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
                 CViDockNpcTalk::SetSelection(0);
                 break;
         }
@@ -378,19 +378,19 @@ void CViTalkSailPrompt::Main_ApplyChoice(void)
         switch (work->selection)
         {
             case 0:
-                CViDockNpcTalk::SetTalkAction(1);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_1);
                 CViDockNpcTalk::SetSelection(work->type);
                 break;
 
             case 1:
-                CViDockNpcTalk::SetTalkAction(2);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_2);
                 CViDockNpcTalk::SetSelection(work->type);
                 SaveGame__SetDoneFirstShipVoyage(CViTalkSailPrompt::ShipTypeFromPromptType(work->type));
                 break;
 
             // case 2:
             default:
-                CViDockNpcTalk::SetTalkAction(0);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
                 CViDockNpcTalk::SetSelection(0);
                 break;
         }

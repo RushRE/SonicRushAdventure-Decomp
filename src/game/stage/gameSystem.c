@@ -1387,7 +1387,7 @@ void InitStageMission(s32 id)
 {
     gameState.gameFlag         = GAME_FLAG_NONE;
     gameState.gameMode         = GAMEMODE_MISSION;
-    gameState.missionFlag      = FALSE;
+    gameState.clearedMission   = FALSE;
     gameState.stageID          = missionList[id].stageID;
     gameState.missionType      = missionList[id].type;
     gameState.missionTimeLimit = missionList[id].config[gameState.difficulty].timeLimit;
@@ -2302,7 +2302,7 @@ void GameOfflineSystem_Main(void)
         }
         else if (state->gameMode == GAMEMODE_MISSION)
         {
-            gameState.missionFlag = TRUE;
+            gameState.clearedMission = TRUE;
         }
         else if (state->gameMode == GAMEMODE_DEMO)
         {

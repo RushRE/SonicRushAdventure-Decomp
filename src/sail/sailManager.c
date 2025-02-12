@@ -222,8 +222,8 @@ SailManager *SailManager__Create(void)
 
         if (work->missionType == MISSION_TYPE_REACH_GOAL)
         {
-            state->missionFlag = FALSE;
-            work->field_5DC    = 2;
+            state->clearedMission = FALSE;
+            work->field_5DC       = 2;
         }
     }
     else if (SailManager__GetShipType() == SHIP_JET && state->sailVsJohnny)

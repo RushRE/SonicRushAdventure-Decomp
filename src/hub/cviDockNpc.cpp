@@ -1,5 +1,6 @@
 #include <hub/cviDockNpc.hpp>
 #include <hub/hubConfig.h>
+#include <hub/cviDockNpcTalk.hpp>
 #include <game/util/cppHelpers.hpp>
 #include <game/file/bundleFileUnknown.h>
 
@@ -273,9 +274,9 @@ void ViDockNpc__LoadAssets(CViDockNpc *work, s32 type, VecFx32 *position, u16 an
     ViDockNpc__ReleaseAssets(work);
 
     work->npcType             = type;
-    work->resConfigTableIndex = HubConfig__GetNpcConfig(type)->field_0;
+    work->type = HubConfig__GetNpcConfig(type)->type;
 
-    const ViDockNpcAssetInfo *config = &resConfigFileTable[work->resConfigTableIndex];
+    const ViDockNpcAssetInfo *config = &resConfigFileTable[work->type];
 
     work->model     = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resModelFileTable[config->modelIndex], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
     work->aniJoints = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resJointAnimFileTable[config->animIndex], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
@@ -358,14 +359,14 @@ void ViDockNpc__ReleaseAssets(CViDockNpc *work)
         work->aniTexture = NULL;
     }
 
-    work->field_304           = 12;
-    work->field_308           = 0;
+    work->talkActionType      = CVIDOCKNPCTALK_INVALID;
+    work->talkActionParam     = 0;
     work->field_30C           = -1;
     work->size.x              = FLOAT_TO_FX32(0.0);
     work->size.y              = FLOAT_TO_FX32(0.0);
     work->size.z              = FLOAT_TO_FX32(0.0);
     work->initialAngle        = 0;
-    work->resConfigTableIndex = ARRAY_COUNT(resConfigFileTable) + 1;
+    work->type = ARRAY_COUNT(resConfigFileTable) + 1;
 }
 
 void ViDockNpc__SetState1(CViDockNpc *work, u16 angle)
@@ -373,10 +374,10 @@ void ViDockNpc__SetState1(CViDockNpc *work, u16 angle)
     if (work->snapToAngle)
         work->targetTurnAngle = angle;
 
-    work->Func_2167900(resConfigFileTable[work->resConfigTableIndex].ani1_1, TRUE, TRUE, FALSE, FALSE);
+    work->Func_2167900(resConfigFileTable[work->type].ani1_1, TRUE, TRUE, FALSE, FALSE);
 
-    if (resConfigFileTable[work->resConfigTableIndex].ani1_Tail != CVIDOCKNPC_RESOURCE_NONE)
-        work->Func_2167958(resConfigFileTable[work->resConfigTableIndex].ani1_Tail, TRUE, TRUE, FALSE, FALSE);
+    if (resConfigFileTable[work->type].ani1_Tail != CVIDOCKNPC_RESOURCE_NONE)
+        work->Func_2167958(resConfigFileTable[work->type].ani1_Tail, TRUE, TRUE, FALSE, FALSE);
 }
 
 void ViDockNpc__SetState2(CViDockNpc *work)
@@ -384,10 +385,10 @@ void ViDockNpc__SetState2(CViDockNpc *work)
     if (work->snapToAngle)
         work->targetTurnAngle = work->initialAngle;
 
-    work->Func_2167900(resConfigFileTable[work->resConfigTableIndex].ani2_1, TRUE, TRUE, FALSE, FALSE);
+    work->Func_2167900(resConfigFileTable[work->type].ani2_1, TRUE, TRUE, FALSE, FALSE);
 
-    if (resConfigFileTable[work->resConfigTableIndex].ani2_Tail != CVIDOCKNPC_RESOURCE_NONE)
-        work->Func_2167958(resConfigFileTable[work->resConfigTableIndex].ani2_Tail, TRUE, TRUE, FALSE, FALSE);
+    if (resConfigFileTable[work->type].ani2_Tail != CVIDOCKNPC_RESOURCE_NONE)
+        work->Func_2167958(resConfigFileTable[work->type].ani2_Tail, TRUE, TRUE, FALSE, FALSE);
 }
 
 BOOL ViDockNpc__Func_216710C(CViDockNpc *work, VecFx32 *a2, VecFx32 *a3, VecFx32 *dest, fx32 a5)
@@ -434,7 +435,7 @@ NONMATCH_FUNC BOOL ViDockNpc__Func_2167244(CViDockNpc *work, VecFx32 *position, 
     s32 x = CPPHelpers__Func_2085F9C(&work->translation1)->x - position->x;
     s32 z = CPPHelpers__Func_2085F9C(&work->translation1)->z - position->z;
 
-    Unknown217305C *config = &npcHitboxSizeTable[resConfigFileTable[work->resConfigTableIndex].unknownID];
+    Unknown217305C *config = &npcHitboxSizeTable[resConfigFileTable[work->type].unknownID];
 
     s32 v12 = MultiplyFX(x, x) + MultiplyFX(z, z);
     s32 v13 = MultiplyFX(MATH_MAX(config->field_0, config->field_8), a4);

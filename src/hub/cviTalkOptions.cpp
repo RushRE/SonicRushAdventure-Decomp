@@ -74,9 +74,9 @@ void CViTalkOptions::Main_ChooseOption(void)
 
         u32 action    = work->eventTalk.GetAction();
         u32 selection = work->eventTalk.GetSelection();
-        if (action != 0 || selection == 0)
+        if (action != CViEvtCmnTalk::ACTION_0 || selection == 0)
         {
-            CViDockNpcTalk::SetTalkAction(0);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
             CViDockNpcTalk::SetSelection(0);
             DestroyCurrentTask();
         }
@@ -131,7 +131,7 @@ void CViTalkOptions::Main_ChangeDifficulty(void)
 
         u32 action    = work->eventTalk.GetAction();
         u32 selection = work->eventTalk.GetSelection();
-        if (action == 0 && selection >= 1)
+        if (action == CViEvtCmnTalk::ACTION_0 && selection >= 1)
         {
             switch (selection)
             {
@@ -149,7 +149,7 @@ void CViTalkOptions::Main_ChangeDifficulty(void)
 
         if (saveError)
         {
-            CViDockNpcTalk::SetTalkAction(30);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_30);
             CViDockNpcTalk::SetSelection(0);
             DestroyCurrentTask();
         }
@@ -178,7 +178,7 @@ void CViTalkOptions::Main_ChangeTimeLimit(void)
 
         u32 action    = work->eventTalk.GetAction();
         u32 selection = work->eventTalk.GetSelection();
-        if (action == 0 && selection >= 1)
+        if (action == CViEvtCmnTalk::ACTION_0 && selection >= 1)
         {
             switch (selection)
             {
@@ -196,7 +196,7 @@ void CViTalkOptions::Main_ChangeTimeLimit(void)
 
         if (saveError)
         {
-            CViDockNpcTalk::SetTalkAction(30);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_30);
             CViDockNpcTalk::SetSelection(0);
             DestroyCurrentTask();
         }
@@ -220,9 +220,9 @@ void CViTalkOptions::Main_ClearSaveDataWarning(void)
 
         s32 action    = work->eventTalk.GetAction();
         s32 selection = work->eventTalk.GetSelection();
-        if (action == 0 && selection == 1)
+        if (action == CViEvtCmnTalk::ACTION_0 && selection == 1)
         {
-            CViDockNpcTalk::SetTalkAction(14);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_14);
             CViDockNpcTalk::SetSelection(0);
             DestroyCurrentTask();
         }

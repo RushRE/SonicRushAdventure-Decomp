@@ -254,60 +254,60 @@ void CViTalkPurchase::Main_ApplyPurchase(void)
 
     switch (work->eventTalk.GetAction())
     {
-        case 2:
+        case CViEvtCmnTalk::ACTION_2:
             if (work->decorPurchaseID < CViTalkPurchase::DECOR_COUNT)
             {
                 CViTalkPurchase::MakePurchase(HubConfig__GetDecorPurchaseCost(work->decorPurchaseID));
-                CViDockNpcTalk::SetTalkAction(6);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_6);
                 CViDockNpcTalk::SetSelection(decorPurchaseSelection[work->decorPurchaseID]);
             }
             else if (work->constructionID < CViTalkPurchase::CONSTRUCT_RADIO_TOWER)
             {
                 CViTalkPurchase::MakePurchase(HubConfig__GetShipBuildCost(work->constructionID));
-                CViDockNpcTalk::SetTalkAction(4);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_4);
                 CViDockNpcTalk::SetSelection(work->constructionID);
             }
             else if (work->shipUpgradeID < CViTalkPurchase::UPGRADE_COUNT)
             {
                 CViTalkPurchase::MakePurchase(HubConfig__GetShipUpgradeCost(work->shipUpgradeID));
-                CViDockNpcTalk::SetTalkAction(29);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_29);
                 CViDockNpcTalk::SetSelection(work->shipUpgradeID);
             }
             else
             {
                 CViTalkPurchase::MakePurchase(HubConfig__GetRadioTowerPurchaseCost());
-                CViDockNpcTalk::SetTalkAction(6);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_6);
                 CViDockNpcTalk::SetSelection(7);
             }
             break;
 
-        case 20:
+        case CViEvtCmnTalk::ACTION_20:
             if (work->shipUpgradeID < CViTalkPurchase::UPGRADE_COUNT)
             {
                 CViTalkPurchase::MakePurchase(HubConfig__GetShipUpgradeCost(work->shipUpgradeID));
-                CViDockNpcTalk::SetTalkAction(29);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_29);
                 CViDockNpcTalk::SetSelection(work->shipUpgradeID);
             }
             else
             {
-                CViDockNpcTalk::SetTalkAction(0);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
                 CViDockNpcTalk::SetSelection(0);
             }
             break;
 
-        case 22:
+        case CViEvtCmnTalk::ACTION_22:
             if (!SaveGame__GetProgressFlags_0x100000(0))
             {
                 SaveGame__SetProgressFlags_0x100000(0);
                 SaveGame__BuyInfoHint();
             }
 
-            CViDockNpcTalk::SetTalkAction(0);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
             CViDockNpcTalk::SetSelection(0);
             break;
 
         default:
-            CViDockNpcTalk::SetTalkAction(0);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
             CViDockNpcTalk::SetSelection(0);
             break;
     }

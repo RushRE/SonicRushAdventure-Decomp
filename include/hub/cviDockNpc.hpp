@@ -33,11 +33,11 @@ public:
     // --------------------
 
     s32 npcType;
-    s32 field_304;
-    s32 field_308;
+    s32 talkActionType;
+    s32 talkActionParam;
     s32 field_30C;
     u16 initialAngle;
-    u16 resConfigTableIndex;
+    u16 type;
     void *model;
     void *aniJoints;
     void *aniMaterial;

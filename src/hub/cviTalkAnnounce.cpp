@@ -57,17 +57,17 @@ void CViTalkAnnounce::Main(void)
     {
         if (work->type == CVITALKANNOUNCE_TYPE_UNLOCKED_JET)
         {
-            CViDockNpcTalk::SetTalkAction(17);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_17);
             CViDockNpcTalk::SetSelection(0);
         }
         else if (work->type == CVITALKANNOUNCE_TYPE_UNLOCKED_RADIO_TOWER)
         {
-            CViDockNpcTalk::SetTalkAction(21);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_21);
             CViDockNpcTalk::SetSelection(28);
         }
         else
         {
-            CViDockNpcTalk::SetTalkAction(0);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
             CViDockNpcTalk::SetSelection(0);
         }
 

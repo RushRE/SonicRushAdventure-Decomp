@@ -24,8 +24,8 @@ static const HubPurchaseMsgConfig decorationPurchaseMsgConfig[] = {
 };
 
 // this appears to be an unused talk config for missions?
-// these files point to the text for the first mission in the mission list
-FORCE_INCLUDE_ARRAY(HubPurchaseMsgConfig, unusedMissionTalkConfig, 3,
+// these files point to the text for the "Please select a mission" & related text
+FORCE_INCLUDE_ARRAY(HubPurchaseMsgConfig, missionMsgConfig, 3,
                     {
                         { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF, .interactionID = 0 },
                         { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF, .interactionID = 1 },

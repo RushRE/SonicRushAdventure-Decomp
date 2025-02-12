@@ -400,7 +400,7 @@ void CViTalkMissionList::Main_ClearedAllMissionsDialog(void)
     work->eventTalk.ProcessDialog();
     if (work->eventTalk.IsFinished())
     {
-        if (work->eventTalk.GetAction() == 16)
+        if (work->eventTalk.GetAction() == CViEvtCmnTalk::ACTION_16)
         {
             work->lastMissionSelected = TRUE;
             DestroyCurrentTask();
@@ -462,7 +462,7 @@ void CViTalkMissionList::Destructor(Task *task)
         if (MissionHelpers__CheckMissionAttempted(MISSION_99))
             MissionHelpers__ResetMissionAttempted(MISSION_99);
 
-        CViDockNpcTalk::SetTalkAction(11);
+        CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_11);
         CViDockNpcTalk::SetSelection(MISSION_99);
     }
     else if (work->missionSelected)
@@ -471,12 +471,12 @@ void CViTalkMissionList::Destructor(Task *task)
         if (MissionHelpers__CheckMissionAttempted(id))
             MissionHelpers__ResetMissionAttempted(id);
 
-        CViDockNpcTalk::SetTalkAction(9);
+        CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_9);
         CViDockNpcTalk::SetSelection(id);
     }
     else
     {
-        CViDockNpcTalk::SetTalkAction(0);
+        CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
         CViDockNpcTalk::SetSelection(0);
     }
 

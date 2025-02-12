@@ -77,21 +77,21 @@ void CViTalkGameOver::Main_Talking(void)
     work->eventTalk.ProcessDialog();
     if (work->eventTalk.IsFinished())
     {
-        if (work->eventTalk.GetAction() == 18)
+        if (work->eventTalk.GetAction() == CViEvtCmnTalk::ACTION_18)
         {
             if (work->eventTalk.GetSelection() == 0)
             {
-                CViDockNpcTalk::SetTalkAction(27);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_27);
             }
             else
             {
-                CViDockNpcTalk::SetTalkAction(0);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
                 SaveGame__GsExit(0);
             }
         }
         else
         {
-            CViDockNpcTalk::SetTalkAction(0);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
         }
 
         CViDockNpcTalk::SetSelection(0);

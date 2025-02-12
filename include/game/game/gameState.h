@@ -219,7 +219,7 @@ struct GameTalkState
         struct GameTalkUnknown1 field_E0[1];
         struct GameTalkUnknown2 field_14[4];
     } state;
-    
+
     u16 lastSelectedMovie;
     u16 field_42;
     s32 missionID; // last cutscene watched by the user
@@ -262,7 +262,7 @@ typedef struct GameState_
     MissionType missionType;
     s32 missionTimeLimit;
     u32 missionQuota;
-    BOOL missionFlag;
+    BOOL clearedMission;
     s32 field_80;
     SeaMapManagerNodeList seaMapNodeList;
     u32 sailUnknownFlags;

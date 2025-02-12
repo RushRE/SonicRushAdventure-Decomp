@@ -1,6 +1,7 @@
 #include <hub/hubConfig.h>
 #include <game/save/saveGame.h>
 #include <hub/cviEvtCmn.hpp>
+#include <hub/cviDockNpcTalk.hpp>
 
 // resources
 #include <resources/narc/vi_msg_ctrl_lz7.h>
@@ -10,9 +11,9 @@
 // VARIABLES
 // --------------------
 
-static const ViNpcUnknown npcUnknown3 = { .field_0 = 10, .field_2 = 15 };
-static const ViNpcUnknown npcUnknown1 = { .field_0 = 0, .field_2 = 0 };
-static const ViNpcUnknown npcUnknown2 = { .field_0 = 10, .field_2 = 16 };
+static const HubNpcTalkActionConfig npcTalkActionOldDS = { .talkActionType = CVIDOCKNPCTALK_ACTION, .talkActionParam = CVIDOCKNPCTALK_ACTION_15 };
+static const HubNpcTalkActionConfig npcTalkActionCommon   = { .talkActionType = CVIDOCKNPCTALK_NPC, .talkActionParam = 0 };
+static const HubNpcTalkActionConfig npcTalkActionHourglass = { .talkActionType = CVIDOCKNPCTALK_ACTION, .talkActionParam = CVIDOCKNPCTALK_ACTION_16 };
 
 static const HubPurchaseCostConfig radioTowerCost[] =
 {
@@ -465,49 +466,49 @@ static const ViDockBackConfig dockBackInfo[] = {
 };
 
 static const HubNpcSpawnConfig npcSpawnConfig[] = {
-    { .field_0 = 1, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 9, .spawnZ = 0, .field_8 = HubConfig__Func_2152A70 },
+    { .type = CVIDOCKNPC_TYPE_TAILS, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 9, .spawnZ = 0, .getActionConfig = HubConfig__GetNpcActionConfig_Tails },
 
-    { .field_0 = 2, .spawnAngle = FLOAT_DEG_TO_IDX(90.0), .spawnX = -15, .spawnZ = 18, .field_8 = HubConfig__Func_2152A7C },
+    { .type = CVIDOCKNPC_TYPE_MARINE, .spawnAngle = FLOAT_DEG_TO_IDX(90.0), .spawnX = -15, .spawnZ = 18, .getActionConfig = HubConfig__GetNpcActionConfig_Marine },
 
-    { .field_0 = 0, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -9, .spawnZ = 0, .field_8 = HubConfig__Func_2152A88 },
+    { .type = CVIDOCKNPC_TYPE_BLAZE, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -9, .spawnZ = 0, .getActionConfig = HubConfig__GetNpcActionConfig_Blaze },
 
-    { .field_0 = 5, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -9, .spawnZ = 0, .field_8 = HubConfig__Func_2152AA0 },
+    { .type = CVIDOCKNPC_TYPE_TABBY, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -9, .spawnZ = 0, .getActionConfig = HubConfig__GetNpcActionConfig_Tabby },
 
-    { .field_0 = 6, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -9, .spawnZ = 0, .field_8 = HubConfig__Func_2152AAC },
+    { .type = CVIDOCKNPC_TYPE_COLONEL, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -9, .spawnZ = 0, .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
 
-    { .field_0 = 4, .spawnAngle = FLOAT_DEG_TO_IDX(270.0), .spawnX = 11, .spawnZ = 8, .field_8 = HubConfig__Func_2152A94 },
+    { .type = CVIDOCKNPC_TYPE_SETTER, .spawnAngle = FLOAT_DEG_TO_IDX(270.0), .spawnX = 11, .spawnZ = 8, .getActionConfig = HubConfig__GetNpcActionConfig_Setter },
 
-    { .field_0 = 6, .spawnAngle = FLOAT_DEG_TO_IDX(90.0), .spawnX = -11, .spawnZ = 8, .field_8 = HubConfig__Func_2152AAC },
+    { .type = CVIDOCKNPC_TYPE_COLONEL, .spawnAngle = FLOAT_DEG_TO_IDX(90.0), .spawnX = -11, .spawnZ = 8, .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
 
-    { .field_0 = 11, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -7, .spawnZ = -11, .field_8 = HubConfig__Func_2152AF4 },
+    { .type = CVIDOCKNPC_TYPE_HOURGLASS, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -7, .spawnZ = -11, .getActionConfig = HubConfig__GetNpcActionConfig_Hourglass },
 
-    { .field_0 = 12, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 7, .spawnZ = -11, .field_8 = HubConfig__Func_2152B00 },
+    { .type = CVIDOCKNPC_TYPE_OLDDS, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 7, .spawnZ = -11, .getActionConfig = HubConfig__GetNpcActionConfig_OldDS },
 
-    { .field_0 = 1, .spawnAngle = FLOAT_DEG_TO_IDX(320.0), .spawnX = 32, .spawnZ = 33, .field_8 = HubConfig__Func_2152A70 },
+    { .type = CVIDOCKNPC_TYPE_TAILS, .spawnAngle = FLOAT_DEG_TO_IDX(320.0), .spawnX = 32, .spawnZ = 33, .getActionConfig = HubConfig__GetNpcActionConfig_Tails },
 
-    { .field_0 = 2, .spawnAngle = FLOAT_DEG_TO_IDX(270.0), .spawnX = 16, .spawnZ = 45, .field_8 = HubConfig__Func_2152A7C },
+    { .type = CVIDOCKNPC_TYPE_MARINE, .spawnAngle = FLOAT_DEG_TO_IDX(270.0), .spawnX = 16, .spawnZ = 45, .getActionConfig = HubConfig__GetNpcActionConfig_Marine },
 
-    { .field_0 = 5, .spawnAngle = FLOAT_DEG_TO_IDX(90.0), .spawnX = 32, .spawnZ = 45, .field_8 = HubConfig__Func_2152AA0 },
+    { .type = CVIDOCKNPC_TYPE_TABBY, .spawnAngle = FLOAT_DEG_TO_IDX(90.0), .spawnX = 32, .spawnZ = 45, .getActionConfig = HubConfig__GetNpcActionConfig_Tabby },
 
-    { .field_0 = 9, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 12, .spawnZ = 45, .field_8 = HubConfig__Func_2152AD0 },
+    { .type = CVIDOCKNPC_TYPE_KYLOK, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 12, .spawnZ = 45, .getActionConfig = HubConfig__GetNpcActionConfig_Kylok },
 
-    { .field_0 = 6, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -21, .spawnZ = 84, .field_8 = HubConfig__Func_2152AAC },
+    { .type = CVIDOCKNPC_TYPE_COLONEL, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
 
-    { .field_0 = 7, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 21, .spawnZ = 84, .field_8 = HubConfig__Func_2152AB8 },
+    { .type = CVIDOCKNPC_TYPE_GARDON, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Gardon },
 
-    { .field_0 = 3, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -21, .spawnZ = 84, .field_8 = HubConfig__Func_2152AE8 },
+    { .type = CVIDOCKNPC_TYPE_NORMAN, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Norman },
 
-    { .field_0 = 6, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 21, .spawnZ = 84, .field_8 = HubConfig__Func_2152AAC },
+    { .type = CVIDOCKNPC_TYPE_COLONEL, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
 
-    { .field_0 = 8, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -21, .spawnZ = 84, .field_8 = HubConfig__Func_2152AC4 },
+    { .type = CVIDOCKNPC_TYPE_DAIKUN, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Daikun },
 
-    { .field_0 = 6, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 21, .spawnZ = 84, .field_8 = HubConfig__Func_2152AAC },
+    { .type = CVIDOCKNPC_TYPE_COLONEL, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
 
-    { .field_0 = 8, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -21, .spawnZ = 84, .field_8 = HubConfig__Func_2152AC4 },
+    { .type = CVIDOCKNPC_TYPE_DAIKUN, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Daikun },
 
-    { .field_0 = 5, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -5, .spawnZ = 27, .field_8 = HubConfig__Func_2152AA0 },
+    { .type = CVIDOCKNPC_TYPE_TABBY, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -5, .spawnZ = 27, .getActionConfig = HubConfig__GetNpcActionConfig_Tabby },
 
-    { .field_0 = 10, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -5, .spawnZ = 27, .field_8 = HubConfig__Func_2152ADC },
+    { .type = CVIDOCKNPC_TYPE_MUZY, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -5, .spawnZ = 27, .getActionConfig = HubConfig__GetNpcActionConfig_Muzy },
 };
 
 static const Unknown2171CCC ovl05_02171CCC[] = {
@@ -842,67 +843,67 @@ BOOL HubConfig__Func_2152A60(u16 id)
     return id <= 6;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152A70(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Tails(void)
 {
-    return &npcUnknown1;
+    return &npcTalkActionCommon;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152A7C(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Marine(void)
 {
-    return &npcUnknown1;
+    return &npcTalkActionCommon;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152A88(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Blaze(void)
 {
-    return &npcUnknown1;
+    return &npcTalkActionCommon;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152A94(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Setter(void)
 {
-    return &npcUnknown1;
+    return &npcTalkActionCommon;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152AA0(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Tabby(void)
 {
-    return &npcUnknown1;
+    return &npcTalkActionCommon;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152AAC(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Colonel(void)
 {
-    return &npcUnknown1;
+    return &npcTalkActionCommon;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152AB8(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Gardon(void)
 {
-    return &npcUnknown1;
+    return &npcTalkActionCommon;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152AC4(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Daikun(void)
 {
-    return &npcUnknown1;
+    return &npcTalkActionCommon;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152AD0(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Kylok(void)
 {
-    return &npcUnknown1;
+    return &npcTalkActionCommon;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152ADC(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Muzy(void)
 {
-    return &npcUnknown1;
+    return &npcTalkActionCommon;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152AE8(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Norman(void)
 {
-    return &npcUnknown1;
+    return &npcTalkActionCommon;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152AF4(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Hourglass(void)
 {
-    return &npcUnknown2;
+    return &npcTalkActionHourglass;
 }
 
-const ViNpcUnknown *HubConfig__Func_2152B00(void)
+const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_OldDS(void)
 {
-    return &npcUnknown3;
+    return &npcTalkActionOldDS;
 }

@@ -90,7 +90,7 @@ void ChangeEventForStageFinish(BOOL willRestartStage)
             {
                 if (willRestartStage == FALSE)
                 {
-                    nextEvent               = 3; // SYSEVENT_UPDATE_PROGRESS
+                    nextEvent                     = 3; // SYSEVENT_UPDATE_PROGRESS
                     gameState.talk.state.field_DC = 7;
                     SaveGame__SetUnknown1(0);
                 }
@@ -125,9 +125,9 @@ void ChangeEventForStageFinish(BOOL willRestartStage)
             break;
 
         case GAMEMODE_MISSION:
-            if (!state->missionFlag)
+            if (!state->clearedMission)
             {
-                nextEvent               = 5; // SYSEVENT_21
+                nextEvent                     = 5; // SYSEVENT_21
                 gameState.talk.state.field_DC = 5;
                 SaveGame__SetUnknown1(0);
             }
@@ -162,7 +162,7 @@ void ChangeEventForPauseMenuAction(BOOL isRestart)
 
             case GAMEMODE_MISSION:
                 gameState.talk.state.field_DC = 5;
-                nextEvent               = 3; // SYSEVENT_UPDATE_PROGRESS
+                nextEvent                     = 3; // SYSEVENT_UPDATE_PROGRESS
                 SaveGame__SetUnknown1(0);
                 break;
 

@@ -138,7 +138,7 @@ extern "C" void InitHubSysEvent(void)
             gameState.cutscene.cutsceneID = CUTSCENE_NONE;
         }
 
-        if (HubState__GetFieldDC() == 5 && gameState.missionFlag)
+        if (HubState__GetFieldDC() == 5 && gameState.clearedMission)
         {
             u32 emeraldID = MissionHelpers__GetSolEmeraldIDFromMissionID(MissionHelpers__GetMissionID());
             if (emeraldID < 7)
@@ -875,7 +875,7 @@ void HubControl::Main2()
             ViDock__Func_215E104(5);
             ViDock__Func_215E178();
             HubHUD__Func_21603B0(0, 1);
-            CViDockNpcTalk::RunAction(7, 0);
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_OPTIONS, 0);
             SetCurrentTaskMainEvent(HubControl::Main_2158160);
         }
         else if (work->field_128)
@@ -886,7 +886,7 @@ void HubControl::Main2()
 
             ViDock__Func_215E178();
             HubHUD__Func_21603B0(0, 1);
-            CViDockNpcTalk::RunAction(8, 0);
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_MOVIELIST, 0);
             SetCurrentTaskMainEvent(HubControl::Main_2158160);
         }
         else if (work->field_12C)
@@ -895,7 +895,7 @@ void HubControl::Main2()
             ViDock__Func_215E104(1);
             ViDock__Func_215E178();
             HubHUD__Func_21603B0(0, 1);
-            CViDockNpcTalk::RunAction(4, 0);
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_MISSIONCLEARED, 0);
             SetCurrentTaskMainEvent(HubControl::Main_2158160);
         }
         else if (work->field_130)
@@ -904,9 +904,9 @@ void HubControl::Main2()
             ViDock__Func_215E178();
             HubHUD__Func_21603B0(0, 1);
             if (work->field_134)
-                CViDockNpcTalk::RunAction(9, 1);
+                CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_GAMEOVER, 1);
             else
-                CViDockNpcTalk::RunAction(9, 0);
+                CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_GAMEOVER, 0);
             SetCurrentTaskMainEvent(HubControl::Main_2158160);
             work->field_130 = 0;
             work->field_134 = 0;
@@ -988,12 +988,12 @@ void HubControl::Main_2157F64()
             s32 param;
             ViDock__Func_215E02C(&id, &param);
 
-            if (id == 0 || id == 10)
+            if (id == CVIDOCKNPCTALK_NPC || id == CVIDOCKNPCTALK_ACTION)
                 PlayHubSfx(HUB_SFX_V_DECIDE);
 
             ViDock__Func_215E178();
             HubHUD__Func_21603B0(0, 1);
-            CViDockNpcTalk::RunAction(id, param);
+            CViDockNpcTalk::CreateTalk(id, param);
             SetCurrentTaskMainEvent(HubControl::Main_2158160);
         }
         else if (HubHUD__Func_21603F0())
@@ -1049,12 +1049,12 @@ void HubControl::Main_2158160()
 
     switch (CViDockNpcTalk::GetTalkAction())
     {
-        case 0:
+        case CVIDOCKNPCTALK_ACTION_0:
             ViDock__Func_215E410();
             SetCurrentTaskMainEvent(HubControl::Main_2157F2C);
             break;
 
-        case 1:
+        case CVIDOCKNPCTALK_ACTION_1:
             work->Func_2159758(0);
             HubControl::Func_215A2E0(work->field_C, 0);
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
@@ -1064,7 +1064,7 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 2:
+        case CVIDOCKNPCTALK_ACTION_2:
             work->Func_2159758(0);
             HubControl::Func_215A2E0(work->field_C, 1);
             work->nextEvent       = HUBEVENT_SAILING;
@@ -1074,11 +1074,11 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 3:
-            CViDockNpcTalk::RunAction(2, 0);
+        case CVIDOCKNPCTALK_ACTION_3:
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_PURCHASE, CViTalkPurchase::PURCHASE_CONSTRUCTION);
             break;
 
-        case 4:
+        case CVIDOCKNPCTALK_ACTION_4:
             work->field_1C = CViDockNpcTalk::GetSelection();
             if (work->field_1C == 0)
                 CViTalkPurchase::MakeTutorialPurchase();
@@ -1090,11 +1090,11 @@ void HubControl::Main_2158160()
             ViDock__Func_215DF64(0);
             break;
 
-        case 5:
-            CViDockNpcTalk::RunAction(2, 1);
+        case CVIDOCKNPCTALK_ACTION_5:
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_PURCHASE, CViTalkPurchase::PURCHASE_DECORATION);
             break;
 
-        case 6:
+        case CVIDOCKNPCTALK_ACTION_6:
             work->field_20 = CViDockNpcTalk::GetSelection();
             work->field_28 = ViDock__GetTalkingNpc();
             work->field_8  = work->field_4;
@@ -1103,15 +1103,15 @@ void HubControl::Main_2158160()
             work->Func_2159758(0);
             break;
 
-        case 7:
-            CViDockNpcTalk::RunAction(5, CViDockNpcTalk::GetSelection());
+        case CVIDOCKNPCTALK_ACTION_7:
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_ANNOUNCE, CViDockNpcTalk::GetSelection());
             break;
 
-        case 8:
-            CViDockNpcTalk::RunAction(3, 0);
+        case CVIDOCKNPCTALK_ACTION_8:
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_MISSIONLIST, 0);
             break;
 
-        case 9:
+        case CVIDOCKNPCTALK_ACTION_9:
             work->Func_2159758(0);
             work->nextEvent       = HUBEVENT_START_MISSION;
             work->nextSelectionID = CViDockNpcTalk::GetSelection();
@@ -1120,12 +1120,12 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 10:
+        case CVIDOCKNPCTALK_ACTION_10:
             MissionHelpers__UnlockMission(CViDockNpcTalk::GetSelection());
-            CViDockNpcTalk::RunAction(5, 28);
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_ANNOUNCE, CVITALKANNOUNCE_TYPE_UNLOCKED_MEDAL);
             break;
 
-        case 11: // mission selection
+        case CVIDOCKNPCTALK_ACTION_11: // mission selection
             if (CViDockNpcTalk::GetSelection() < MISSION_COUNT)
             {
                 u32 selection = CViDockNpcTalk::GetSelection();
@@ -1153,11 +1153,11 @@ void HubControl::Main_2158160()
             }
             break;
 
-        case 12:
-            CViDockNpcTalk::RunAction(7, 0);
+        case CVIDOCKNPCTALK_ACTION_12:
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_OPTIONS, 0);
             break;
 
-        case 13:
+        case CVIDOCKNPCTALK_ACTION_13:
             work->Func_2159758(0);
             work->nextEvent       = HUBEVENT_PLAYER_NAME_MENU;
             work->nextSelectionID = 0;
@@ -1166,7 +1166,7 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 14:
+        case CVIDOCKNPCTALK_ACTION_14:
             work->Func_2159758(0);
             work->nextEvent       = HUBEVENT_DELETE_SAVE_MENU;
             work->nextSelectionID = 0;
@@ -1175,7 +1175,7 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 15:
+        case CVIDOCKNPCTALK_ACTION_15:
             work->Func_2159758(0);
             work->nextEvent       = HUBEVENT_VS_MAIN_MENU;
             work->nextSelectionID = 0;
@@ -1184,7 +1184,7 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 16:
+        case CVIDOCKNPCTALK_ACTION_16:
             work->Func_2159758(0);
             work->nextEvent       = HUBEVENT_STAGE_SELECT;
             work->nextSelectionID = 0;
@@ -1193,7 +1193,7 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 17:
+        case CVIDOCKNPCTALK_ACTION_17:
             work->field_114 = 1;
             ViDock__Func_215E410();
             work->field_0 |= 0x10000;
@@ -1201,7 +1201,7 @@ void HubControl::Main_2158160()
             PlayHubSfx(HUB_SFX_V_CHANGE);
             break;
 
-        case 18:
+        case CVIDOCKNPCTALK_ACTION_18:
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
             work->nextSelectionID = 0;
             ViDock__Func_215DF64(0);
@@ -1209,11 +1209,11 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 19:
-            CViDockNpcTalk::RunAction(8, 0);
+        case CVIDOCKNPCTALK_ACTION_19:
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_MOVIELIST, 0);
             break;
 
-        case 20:
+        case CVIDOCKNPCTALK_ACTION_20:
             work->Func_2159758(0);
             work->nextEvent       = HUBEVENT_CUTSCENE_1;
             work->nextSelectionID = CViDockNpcTalk::GetSelection();
@@ -1222,7 +1222,7 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 21:
+        case CVIDOCKNPCTALK_ACTION_21:
             work->Func_2159758(0);
             work->nextEvent       = HUBEVENT_CUTSCENE_2;
             work->nextSelectionID = CViDockNpcTalk::GetSelection();
@@ -1231,14 +1231,14 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 22:
+        case CVIDOCKNPCTALK_ACTION_22:
             if (SaveGame__GetProgressFlags_0x100000(0) || SaveGame__HasDoorPuzzlePiece(0))
-                CViDockNpcTalk::RunAction(0, 38);
+                CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_NPC, 38);
             else
-                CViDockNpcTalk::RunAction(2, 3);
+                CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_PURCHASE, CViTalkPurchase::PURCHASE_INFO);
             break;
 
-        case 23:
+        case CVIDOCKNPCTALK_ACTION_23:
             work->Func_2159758(0);
             work->nextEvent       = HUBEVENT_SOUND_TEST;
             work->nextSelectionID = 0;
@@ -1247,8 +1247,8 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 24:
-        case 25:
+        case CVIDOCKNPCTALK_ACTION_24:
+        case CVIDOCKNPCTALK_ACTION_25:
             work->Func_2159758(0);
             work->nextEvent       = HUBEVENT_VIKING_CUP;
             work->nextSelectionID = 0;
@@ -1257,7 +1257,7 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 26:
+        case CVIDOCKNPCTALK_ACTION_26:
             s32 missionID = MISSIONLIST_INVALID;
 
             for (s32 i = 0; i < MissionHelpers__MarinePostGameMissionCount(); i++)
@@ -1272,7 +1272,7 @@ void HubControl::Main_2158160()
             if (missionID != MISSIONLIST_INVALID && !MissionHelpers__CheckMissionCompleted(missionID))
             {
                 MissionHelpers__CompleteMission(missionID);
-                CViDockNpcTalk::RunAction(5, 27);
+                CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_ANNOUNCE, CVITALKANNOUNCE_TYPE_UNLOCKED_NEW_MISSION);
                 break;
             }
 
@@ -1280,7 +1280,7 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2157F2C);
             break;
 
-        case 27:
+        case CVIDOCKNPCTALK_ACTION_27:
             work->Func_2159758(0);
             work->nextEvent       = HUBEVENT_LOAD_STAGE;
             work->nextSelectionID = 0;
@@ -1289,11 +1289,11 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 28:
-            CViDockNpcTalk::RunAction(2, 2);
+        case CVIDOCKNPCTALK_ACTION_28:
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_PURCHASE, CViTalkPurchase::PURCHASE_SHIP_UPGRADE);
             break;
 
-        case 29:
+        case CVIDOCKNPCTALK_ACTION_29:
             work->field_24 = CViDockNpcTalk::GetSelection();
             work->field_28 = ViDock__GetTalkingNpc();
             work->field_8  = work->field_4;
@@ -1302,7 +1302,7 @@ void HubControl::Main_2158160()
             ViDock__Func_215DF64(0);
             break;
 
-        case 30:
+        case CVIDOCKNPCTALK_ACTION_30:
             work->nextEvent       = HUBEVENT_CORRUPT_SAVE_WARNING;
             work->nextSelectionID = 0;
             ViDock__Func_215DF64(0);
@@ -1310,7 +1310,7 @@ void HubControl::Main_2158160()
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
             break;
 
-        case 32:
+        case CVIDOCKNPCTALK_ACTION_32:
             break;
 
         default:
@@ -1937,14 +1937,14 @@ void HubControl::Func_21592E0()
 
             ViDock__Func_215E104(work->field_28);
             ViDock__Func_215E178();
-            CViDockNpcTalk::RunAction(0, i);
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_NPC, i);
             SetCurrentTaskMainEvent(HubControl::Main_2158160);
         }
         else if (work->field_20 < 22)
         {
             ViDock__Func_215E104(work->field_28);
             ViDock__Func_215E178();
-            CViDockNpcTalk::RunAction(0, work->field_20 + 8);
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_NPC, work->field_20 + 8);
             SetCurrentTaskMainEvent(HubControl::Main_2158160);
         }
         else if (work->field_24 < 8)
@@ -1955,7 +1955,7 @@ void HubControl::Func_21592E0()
 
             ViDock__Func_215E104(work->field_28);
             ViDock__Func_215E178();
-            CViDockNpcTalk::RunAction(0, level + 29 + 2 * ship);
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_NPC, level + 29 + 2 * ship);
             SetCurrentTaskMainEvent(HubControl::Main_2158160);
         }
 
@@ -2306,7 +2306,7 @@ void HubControl::Func_2159D84(s32 area)
                 {
                     if (HubControl::Func_215B858(npcID))
                     {
-                        u8 animID = npcAnimIDList[HubConfig__GetNpcConfig(npcID)->field_0];
+                        u8 animID = npcAnimIDList[HubConfig__GetNpcConfig(npcID)->type];
                         if (animID != 0xFF)
                         {
                             activeNpcAnimList[this->npcCount] = animID;

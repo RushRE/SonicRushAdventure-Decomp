@@ -23,22 +23,31 @@
 
 static u32 selection;
 
-CViDockNpcGroupTalk talkAction = { 32 };
+CViDockNpcGroupTalk talkAction = { CVIDOCKNPCTALK_ACTION_32 };
 
-DockNpcGroupFunc talkActionTable[] = {
-    CViDockNpcTalk::Create,        CViTalkSailPrompt::Create,  CViTalkPurchase::Create,  CViTalkMissionList::Create, CViDockNpcTalk::CreateMission,    CViTalkAnnounce::Create,
-    CViDockNpcTalk::CreateUnknown, CViTalkOptions::Create, CViTalkMovieList::Create, CViTalkGameOver::Create,    CViDockNpcTalk::CreateTalkAction,
+DockNpcGroupFunc talkActionTable[CVIDOCKNPCTALK_COUNT] = {
+    CViDockNpcTalk::Create,                 // CVIDOCKNPCTALK_NPC
+    CViTalkSailPrompt::Create,              // CVIDOCKNPCTALK_SAILPROMPT
+    CViTalkPurchase::Create,                // CVIDOCKNPCTALK_PURCHASE
+    CViTalkMissionList::Create,             // CVIDOCKNPCTALK_MISSIONLIST
+    CViDockNpcTalk::CreateMissionClearTalk, // CVIDOCKNPCTALK_MISSIONCLEARED
+    CViTalkAnnounce::Create,                // CVIDOCKNPCTALK_ANNOUNCE
+    CViDockNpcTalk::CreateUnknown,          // CVIDOCKNPCTALK_6
+    CViTalkOptions::Create,                 // CVIDOCKNPCTALK_OPTIONS
+    CViTalkMovieList::Create,               // CVIDOCKNPCTALK_MOVIELIST
+    CViTalkGameOver::Create,                // CVIDOCKNPCTALK_GAMEOVER
+    CViDockNpcTalk::CreateTalkAction,       // CVIDOCKNPCTALK_ACTION
 };
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-void CViDockNpcTalk::RunAction(s32 id, s32 param)
+void CViDockNpcTalk::CreateTalk(s32 type, s32 param)
 {
-    talkAction.action = 32;
+    talkAction.action = CVIDOCKNPCTALK_ACTION_32;
 
-    talkActionTable[id](param);
+    talkActionTable[type](param);
 }
 
 u32 CViDockNpcTalk::GetTalkAction(void)
@@ -51,26 +60,28 @@ u32 CViDockNpcTalk::GetSelection(void)
     return selection;
 }
 
-void CViDockNpcTalk::SetTalkAction(u32 value)
+void CViDockNpcTalk::SetTalkAction(u32 action)
 {
-    talkAction.action = value;
+    talkAction.action = action;
 }
 
-void CViDockNpcTalk::SetSelection(s32 value)
+void CViDockNpcTalk::SetSelection(s32 param)
 {
-    selection = value;
+    selection = param;
 }
 
-void CViDockNpcTalk::CreateMission(s32 param)
+void CViDockNpcTalk::CreateMissionClearTalk(s32 param)
 {
     u16 talkParam;
 
-    if (gameState.missionFlag == FALSE)
+    if (gameState.clearedMission == FALSE)
     {
+        // "Aw, that's too bad. No worries, though, ay, mate? No worries, though, ay, mate?"
         talkParam = 7;
     }
     else
     {
+        // "You did it, mate! That was ace!"
         talkParam = 6;
         MissionHelpers__BeatMission(MissionHelpers__GetMissionID());
     }
@@ -80,7 +91,7 @@ void CViDockNpcTalk::CreateMission(s32 param)
 
 void CViDockNpcTalk::CreateUnknown(s32 param)
 {
-    // nothing
+    // Nothing.
 }
 
 void CViDockNpcTalk::CreateTalkAction(s32 param)
@@ -181,101 +192,101 @@ void CViDockNpcTalk::Main(void)
 
         switch (work->eventTalk.GetAction())
         {
-            case 1:
-                CViDockNpcTalk::SetTalkAction(3);
+            case CViEvtCmnTalk::ACTION_1:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_3);
                 break;
 
-            case 2:
-                CViDockNpcTalk::SetTalkAction(4);
+            case CViEvtCmnTalk::ACTION_2:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_4);
                 CViDockNpcTalk::SetSelection((u16)HubControl::GetNextShipToBuild());
                 break;
 
-            case 3:
-                CViDockNpcTalk::SetTalkAction(7);
+            case CViEvtCmnTalk::ACTION_3:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_7);
                 break;
 
-            case 4:
-                CViDockNpcTalk::SetTalkAction(8);
+            case CViEvtCmnTalk::ACTION_4:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_8);
                 break;
 
-            case 5:
-                CViDockNpcTalk::SetTalkAction(12);
+            case CViEvtCmnTalk::ACTION_5:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_12);
                 break;
 
-            case 6:
-                CViDockNpcTalk::SetTalkAction(13);
+            case CViEvtCmnTalk::ACTION_6:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_13);
                 break;
 
-            case 7:
-                CViDockNpcTalk::SetTalkAction(19);
+            case CViEvtCmnTalk::ACTION_7:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_19);
                 break;
 
-            case 9:
-                CViDockNpcTalk::SetTalkAction(0);
+            case CViEvtCmnTalk::ACTION_9:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
                 break;
 
-            case 10:
-                CViDockNpcTalk::SetTalkAction(22);
+            case CViEvtCmnTalk::ACTION_10:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_22);
                 break;
 
-            case 11:
-                CViDockNpcTalk::SetTalkAction(5);
+            case CViEvtCmnTalk::ACTION_11:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_5);
                 break;
 
-            case 12:
-                CViDockNpcTalk::SetTalkAction(23);
+            case CViEvtCmnTalk::ACTION_12:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_23);
                 break;
 
-            case 13:
-                CViDockNpcTalk::SetTalkAction(24);
+            case CViEvtCmnTalk::ACTION_13:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_24);
                 break;
 
-            case 14:
-                CViDockNpcTalk::SetTalkAction(25);
+            case CViEvtCmnTalk::ACTION_14:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_25);
                 break;
 
-            case 15:
-                CViDockNpcTalk::SetTalkAction(7);
+            case CViEvtCmnTalk::ACTION_15:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_7);
                 CViDockNpcTalk::SetSelection(work->eventTalk.GetSelection() + 5);
                 break;
 
-            case 8:
-                CViDockNpcTalk::SetTalkAction(10);
+            case CViEvtCmnTalk::ACTION_8:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_10);
                 break;
 
-            case 16:
-                CViDockNpcTalk::SetTalkAction(11);
+            case CViEvtCmnTalk::ACTION_16:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_11);
                 break;
 
-            case 17:
-                CViDockNpcTalk::SetTalkAction(26);
+            case CViEvtCmnTalk::ACTION_17:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_26);
                 break;
 
-            case 19:
-                CViDockNpcTalk::SetTalkAction(28);
+            case CViEvtCmnTalk::ACTION_19:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_28);
                 break;
 
-            case 20:
-                CViDockNpcTalk::SetTalkAction(29);
+            case CViEvtCmnTalk::ACTION_20:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_29);
                 CViDockNpcTalk::SetSelection((u16)HubControl::Func_215B978());
                 break;
 
-            case 21:
-                CViDockNpcTalk::SetTalkAction(7);
+            case CViEvtCmnTalk::ACTION_21:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_7);
                 CViDockNpcTalk::SetSelection(work->eventTalk.GetSelection() + 29);
                 break;
 
-            case 22: {
+            case CViEvtCmnTalk::ACTION_22: {
                 s32 selection = work->eventTalk.GetSelection();
                 if (!SaveGame__GetProgressFlags_0x100000(selection))
                     SaveGame__SetProgressFlags_0x100000(selection);
 
-                CViDockNpcTalk::SetTalkAction(0);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
             }
             break;
 
             default:
-                CViDockNpcTalk::SetTalkAction(0);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
                 break;
         }
 

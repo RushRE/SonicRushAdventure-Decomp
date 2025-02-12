@@ -273,12 +273,12 @@ void CViTalkMovieList::Main_CloseWindow()
 
         if (selection != (u16)CVIEVTCMNLIST_SELECTION_NONE)
         {
-            CViDockNpcTalk::SetTalkAction(20);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_20);
             CViDockNpcTalk::SetSelection(selection);
         }
         else
         {
-            CViDockNpcTalk::SetTalkAction(0);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
             CViDockNpcTalk::SetSelection(0);
         }
     }
