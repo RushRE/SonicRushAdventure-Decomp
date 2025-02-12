@@ -322,7 +322,7 @@ void HubControl::Func_21572B8()
 
 void HubControl::Create(s32 area)
 {
-    HubControl::Func_215A520();
+    HubControl::InitDisplay();
 
     hubControlTaskSingleton = HubTaskCreate(HubControl::Main1, HubControl::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1050, TASK_GROUP(16), HubControl);
 
@@ -385,7 +385,7 @@ void HubControl::Create(s32 area)
 
 void HubControl::Create2(s32 area, BOOL a2, s32 a3)
 {
-    HubControl::Func_215A520();
+    HubControl::InitDisplay();
 
     hubControlTaskSingleton = HubTaskCreate(HubControl::Main2, HubControl::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1050, TASK_GROUP(16), HubControl);
 
@@ -473,15 +473,15 @@ void HubControl::Func_21576AC(s32 a1)
     work->field_114  = a1;
 }
 
-void HubControl::Func_21576CC()
+void HubControl::Release()
 {
     CViHubAreaPreview::Func_2158C04(this);
-    this->Func_2159D08();
+    this->ReleaseGraphics();
     ViMap__Func_215C960();
     HubHUD__Func_21600E4();
     ViDock__Func_215DB9C();
     ViMap__Func_215BAF0();
-    this->Func_215966C();
+    this->ReleaseAssets();
     ReleaseHubAudio(HubControl::Func_2159854(this->nextEvent));
 }
 
@@ -1351,7 +1351,7 @@ void HubControl::Main_2158868()
         s32 event     = work->nextEvent;
         s32 selection = work->nextSelectionID;
 
-        work->Func_21576CC();
+        work->Release();
         DestroyCurrentTask();
         ClearPixelsQueue();
         ClearPaletteQueue();
@@ -1494,7 +1494,7 @@ void HubControl::Destructor(Task *task)
 {
     HubControl *work = TaskGetWork(task, HubControl);
 
-    work->Func_21576CC();
+    work->Release();
     HubTaskDestroy<HubControl>(task);
 
     hubControlTaskSingleton = NULL;
@@ -1611,7 +1611,7 @@ void HubControl::Func_2158D28()
 
         ViDock__Func_215DEF4();
         work->nextAreaID2 = DOCKAREA_INVALID;
-        HubControl::Func_215ADA0();
+        HubControl::InitEngineAForCutscene();
         work->field_110 = 0;
         work->field_8   = work->field_4;
         SetCurrentTaskMainEvent(HubControl::Func_2158E14);
@@ -1723,7 +1723,7 @@ void HubControl::Func_2158F64()
                 s32 v3 = HubConfig__Func_2152960(HubConfig__GetDockMapConfig(work->field_1C)->field_4)->field_3C;
                 ViMap__Func_215C524(v3);
                 ViMap__Func_215C638(v3);
-                HubControl::Func_215AE84();
+                HubControl::InitEngineAForUnknown();
                 ViDock__Func_215DE40(work->field_1C);
             }
             else
@@ -1875,11 +1875,11 @@ void HubControl::Func_21591A8()
             if (work->field_20 < 22)
             {
                 HubControl::Func_215B588(work->field_20, 1);
-                HubControl::Func_215AE84();
+                HubControl::InitEngineAForUnknown();
             }
             else
             {
-                HubControl::Func_215AE84();
+                HubControl::InitEngineAForUnknown();
             }
         }
 
@@ -1991,7 +1991,7 @@ void HubControl::LoadArchives()
     FontWindow__SetDMA(&this->fontWindow, 1);
 }
 
-void HubControl::Func_215966C()
+void HubControl::ReleaseAssets()
 {
     if (this->viMsgArchive != NULL)
     {
@@ -2148,7 +2148,7 @@ void HubControl::ClearAnimators()
 
 void HubControl::Func_215993C()
 {
-    HubControl::Func_215ABF8();
+    HubControl::InitEngineAForAreaSelect();
 
     void *sprDockHUD    = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_DOCK_UP_BAC);
     void *sprDockHUDLoc = HubControl::GetFileFrom_ViActLoc(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_DOCK_UP_LOC_BAC);
@@ -2236,13 +2236,13 @@ void HubControl::ReleaseAnimators()
 
     AnimatorSprite__Release(&this->aniNpcBackground);
 
-    HubControl::Func_215AD34();
+    HubControl::InitEngineAForExitHub();
     this->ClearAnimators();
 
     MI_CpuClear16(&renderCoreGFXControlA.blendManager, sizeof(renderCoreGFXControlA.blendManager));
 }
 
-void HubControl::Func_2159D08()
+void HubControl::ReleaseGraphics()
 {
     this->ReleaseAnimators();
 }

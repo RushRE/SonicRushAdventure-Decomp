@@ -158,7 +158,7 @@ void TitleCard__LoadSprites(TitleCard *work)
 
 NONMATCH_FUNC void TitleCard__InitAnimators(TitleCard *work)
 {
-    // https://decomp.me/scratch/NMs7S -> 98.26%
+    // https://decomp.me/scratch/1Vekh -> 98.26%
 #ifdef NON_MATCHING
     static TitleCardAnimConfig readyGoTextConfig[] = {
         {
@@ -275,33 +275,35 @@ NONMATCH_FUNC void TitleCard__InitAnimators(TitleCard *work)
     };
 
     s32 i;
-    void *vramLocation = GetObjPalette(FALSE);
+    VRAMPaletteKey vramPalette = VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[GRAPHICS_ENGINE_A]);
 
     for (i = 0; i < 2; i++)
     {
-        TitleCardAnimConfig *config  = &nameplateConfig[i];
+        TitleCardAnimConfig *config = &nameplateConfig[i];
         AnimatorSprite *aniNameplate = &work->aniNameplate[i];
 
+        VRAMPixelKey vramPixels = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize2FromAnim(work->zoneSprites, config->animID));
         AnimatorSprite__Init(aniNameplate, work->zoneSprites, config->animID,
                              ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_DISABLE_PALETTES, 0, PIXEL_MODE_SPRITE,
-                             VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(work->zoneSprites, config->animID)), PALETTE_MODE_SPRITE, vramLocation,
+                             vramPixels, PALETTE_MODE_SPRITE, vramPalette,
                              SPRITE_PRIORITY_0, config->oamOrder);
-        aniNameplate->palette = ObjDrawAllocSpritePalette(work->zoneSprites, config->animID, config->flags);
-        ObjDraw__TintPaletteColors(aniNameplate->palette, 0, 15, 0, 0, 0);
+        aniNameplate->cParam.palette = ObjDrawAllocSpritePalette(work->zoneSprites, config->animID, config->flags);
+        ObjDraw__TintPaletteColors(aniNameplate->cParam.palette, 0, 15, 0, 0, 0);
         AnimatorSprite__ProcessAnimationFast(aniNameplate);
     }
 
     for (i = 0; i < 2; i++)
     {
-        TitleCardAnimConfig *config  = &actBannerConfig[i];
+        TitleCardAnimConfig *config = &actBannerConfig[i];
         AnimatorSprite *aniActBanner = &work->aniActBanner[i];
 
+        VRAMPixelKey vramPixels = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize2FromAnim(work->zoneSprites, config->animID));
         AnimatorSprite__Init(aniActBanner, work->zoneSprites, config->animID,
                              ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_DISABLE_PALETTES, 0, PIXEL_MODE_SPRITE,
-                             VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(work->zoneSprites, config->animID)), PALETTE_MODE_SPRITE, vramLocation,
+                             vramPixels, PALETTE_MODE_SPRITE, vramPalette,
                              SPRITE_PRIORITY_0, config->oamOrder);
-        aniActBanner->palette = ObjDrawAllocSpritePalette(work->zoneSprites, config->animID, config->flags);
-        ObjDraw__TintPaletteColors(aniActBanner->palette, 0, 15, 0, 0, 0);
+        aniActBanner->cParam.palette = ObjDrawAllocSpritePalette(work->zoneSprites, config->animID, config->flags);
+        ObjDraw__TintPaletteColors(aniActBanner->cParam.palette, 0, 15, 0, 0, 0);
     }
 
     TitleCardAnimConfig *nameLetterConfig;
@@ -324,12 +326,13 @@ NONMATCH_FUNC void TitleCard__InitAnimators(TitleCard *work)
     {
         AnimatorSprite *aniNameLetter = &work->aniNameLetters[i];
 
+        VRAMPixelKey vramPixels = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize2FromAnim(work->commonSprites, nameLetterConfig[i].animID));
         AnimatorSprite__Init(aniNameLetter, work->commonSprites, nameLetterConfig[i].animID,
                              ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_DISABLE_PALETTES, 0, PIXEL_MODE_SPRITE,
-                             VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(work->commonSprites, nameLetterConfig[i].animID)), PALETTE_MODE_SPRITE, vramLocation,
-                             SPRITE_PRIORITY_0, nameLetterConfig[i].oamOrder);
-        aniNameLetter->palette = ObjDrawAllocSpritePalette(work->commonSprites, nameLetterConfig[i].animID, nameLetterConfig[i].flags);
-        ObjDraw__TintPaletteColors(aniNameLetter->palette, 0, 15, 0, 0, 0);
+                             vramPixels, PALETTE_MODE_SPRITE,
+                             vramPalette, SPRITE_PRIORITY_0, nameLetterConfig[i].oamOrder);
+        aniNameLetter->cParam.palette = ObjDrawAllocSpritePalette(work->commonSprites, nameLetterConfig[i].animID, nameLetterConfig[i].flags);
+        ObjDraw__TintPaletteColors(aniNameLetter->cParam.palette, 0, 15, 0, 0, 0);
     }
 
     work->flags |= TITLECARD_FLAG_LOADED_MAIN_SPRITES;
@@ -538,26 +541,28 @@ void TitleCard__DestroyAnimators(TitleCard *work)
 
 NONMATCH_FUNC void TitleCard__InitReadyGoAnimators(TitleCard *work)
 {
-    // https://decomp.me/scratch/ANVxl -> 99.40%
+    // https://decomp.me/scratch/xvHUQ -> 99.40%
 #ifdef NON_MATCHING
-    AnimatorSprite *aniGo = &work->aniGo;
-    void *vramLocation    = VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[GRAPHICS_ENGINE_A]);
+    AnimatorSprite *aniGo;
 
+    void *vramPalette = VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[GRAPHICS_ENGINE_A]);
+
+    aniGo                   = &work->aniGo;
+    VRAMPixelKey vramPixels = VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(work->commonSprites, 0));
     AnimatorSprite__Init(aniGo, work->commonSprites, TITLECARD_ANI_GO_TEXT, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_DISABLE_PALETTES,
-                         0, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(work->commonSprites, 0)), PALETTE_MODE_SPRITE, vramLocation,
-                         SPRITE_PRIORITY_0, SPRITE_ORDER_0);
-    aniGo->palette = ObjDrawAllocSpritePalette(work->commonSprites, TITLECARD_ANI_GO_TEXT, 0x77);
-    ObjDraw__TintPaletteColors(aniGo->palette, 0, 15, 0, 0, 0);
+                         0, PIXEL_MODE_SPRITE, vramPixels, PALETTE_MODE_SPRITE, vramPalette, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+    aniGo->cParam.palette = ObjDrawAllocSpritePalette(work->commonSprites, TITLECARD_ANI_GO_TEXT, 0x77);
+    ObjDraw__TintPaletteColors(aniGo->cParam.palette, 0, 15, 0, 0, 0);
     aniGo->pos.x = 128;
     aniGo->pos.y = 64;
 
     AnimatorSprite *aniReady = &work->aniReady;
+    vramPixels               = VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(work->commonSprites, 1));
     AnimatorSprite__Init(aniReady, work->commonSprites, TITLECARD_ANI_READY_TEXT,
-                         ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_DISABLE_PALETTES, 0, PIXEL_MODE_SPRITE,
-                         VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(work->commonSprites, 1)), PALETTE_MODE_SPRITE, vramLocation, SPRITE_PRIORITY_0,
-                         SPRITE_ORDER_0);
-    aniReady->palette = ObjDrawAllocSpritePalette(work->commonSprites, TITLECARD_ANI_READY_TEXT, 0x77);
-    ObjDraw__TintPaletteColors(aniReady->palette, 0, 15, 0, 0, 0);
+                         ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_DISABLE_PALETTES, 0, PIXEL_MODE_SPRITE, vramPixels,
+                         PALETTE_MODE_SPRITE, vramPalette, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+    aniReady->cParam.palette = ObjDrawAllocSpritePalette(work->commonSprites, TITLECARD_ANI_READY_TEXT, 0x77);
+    ObjDraw__TintPaletteColors(aniReady->cParam.palette, 0, 15, 0, 0, 0);
     aniReady->pos.x = 128;
     aniReady->pos.y = 64;
 

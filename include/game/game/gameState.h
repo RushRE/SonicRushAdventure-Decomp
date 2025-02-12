@@ -220,9 +220,9 @@ struct GameTalkState
         struct GameTalkUnknown2 field_14[4];
     } state;
     
-    u16 field_40;
+    u16 lastSelectedMovie;
     u16 field_42;
-    s32 missionID;
+    s32 missionID; // last cutscene watched by the user
 };
 
 typedef struct GameState_

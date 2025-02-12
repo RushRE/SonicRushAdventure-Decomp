@@ -42,7 +42,7 @@ extern HubControlSaveUnknown const *_0217362C[];
 // FUNCTIONS
 // --------------------
 
-void HubControl::Func_215A520()
+void HubControl::InitDisplay()
 {
     if (renderCoreGFXControlA.brightness > RENDERCORE_BRIGHTNESS_DEFAULT)
     {
@@ -61,7 +61,7 @@ void HubControl::Func_215A520()
     GX_SetPower(GX_POWER_ALL);
     reg_GX_POWCNT |= GX_POWER_3D; // not sure why this line is here, maybe it's a leftover?
 
-    HubControl::Func_215B3D0();
+    HubControl::InitVRAMSystem();
 
     GX_SetBGScrOffset(GX_BGSCROFFSET_0x00000);
     GX_SetBGCharOffset(GX_BGCHAROFFSET_0x00000);
@@ -137,7 +137,7 @@ void HubControl::Func_215A520()
     renderCoreGFXControlA.windowManager.visible = 0;
 }
 
-void HubControl::Func_215A888()
+void HubControl::InitEngineAForTalk()
 {
     renderCoreGFXControlA.bgPosition[BACKGROUND_2].x = 0;
     renderCoreGFXControlA.bgPosition[BACKGROUND_2].y = 0;
@@ -155,11 +155,11 @@ void HubControl::Func_215A888()
     G2_SetBG2ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0800, GX_BG_CHARBASE_0x00000);
     G2_SetBG3ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0000, GX_BG_CHARBASE_0x00000);
 
-    MI_CpuFill32(VRAM_BG, 0x3FF03FF, 0x1000);
-    MI_CpuClearFast((u8 *)VRAM_BG + (0x8000 - 0x20), 0x20);
+    MI_CpuFill32(VRAM_BG, VRAM_SCRFMT_TEXT_x2(VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0), VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0)), 2 * sizeof(GXScrText32x32));
+    MI_CpuClearFast((u8 *)VRAM_BG + (0x8000 - sizeof(GXCharFmt16)), sizeof(GXCharFmt16));
 }
 
-void HubControl::Func_215A96C()
+void HubControl::InitEngineAFor3DHub()
 {
     G2_SetBG0Priority(3);
     G2_SetBG1Priority(1);
@@ -169,7 +169,7 @@ void HubControl::Func_215A96C()
     GX_SetVisiblePlane(GX_GetVisiblePlane() & ~(GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3));
 }
 
-void HubControl::Func_215A9D8()
+void HubControl::InitEngineBForMissionList()
 {
     renderCoreGFXControlB.bgPosition[BACKGROUND_2].x = 0;
     renderCoreGFXControlB.bgPosition[BACKGROUND_2].y = 0;
@@ -186,11 +186,11 @@ void HubControl::Func_215A9D8()
     G2S_SetBG2ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0800, GX_BG_CHARBASE_0x00000);
     G2S_SetBG3ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0000, GX_BG_CHARBASE_0x00000);
 
-    MI_CpuFill32(VRAM_DB_BG, 0x3FF03FF, 0x1000);
-    MI_CpuClearFast((u8 *)VRAM_DB_BG + (0x8000 - 0x20), 0x20);
+    MI_CpuFill32(VRAM_DB_BG, VRAM_SCRFMT_TEXT_x2(VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0), VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0)), 2 * sizeof(GXScrText32x32));
+    MI_CpuClearFast((u8 *)VRAM_DB_BG + (0x8000 - sizeof(GXCharFmt16)), sizeof(GXCharFmt16));
 }
 
-void HubControl::Func_215AAB4()
+void HubControl::InitEngineBForTalkPurchase()
 {
     renderCoreGFXControlB.bgPosition[BACKGROUND_2].x = 0;
     renderCoreGFXControlB.bgPosition[BACKGROUND_2].y = 0;
@@ -206,11 +206,11 @@ void HubControl::Func_215AAB4()
 
     G2S_SetBG2ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0800, GX_BG_CHARBASE_0x00000);
 
-    MI_CpuFill32(VRAM_DB_BG, 0x3FF03FF, 0x1000);
-    MI_CpuClearFast((u8 *)VRAM_DB_BG + (0x8000 - 0x20), 0x20);
+    MI_CpuFill32(VRAM_DB_BG, VRAM_SCRFMT_TEXT_x2(VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0), VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0)), 2 * sizeof(GXScrText32x32));
+    MI_CpuClearFast((u8 *)VRAM_DB_BG + (0x8000 - sizeof(GXCharFmt16)), sizeof(GXCharFmt16));
 }
 
-void HubControl::Func_215AB84()
+void HubControl::InitEngineBFor3DHub()
 {
     G2S_SetBG2Priority(0);
     G2S_SetBG3Priority(1);
@@ -220,7 +220,7 @@ void HubControl::Func_215AB84()
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() & ~(GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3));
 }
 
-void HubControl::Func_215ABF8()
+void HubControl::InitEngineAForAreaSelect()
 {
     renderCoreGFXControlA.bgPosition[BACKGROUND_1].x = 0;
     renderCoreGFXControlA.bgPosition[BACKGROUND_1].y = 0;
@@ -248,7 +248,7 @@ void HubControl::Func_215ABF8()
     MI_CpuClearFast((u8 *)VRAM_BG + 0x0000, 0x20);
 }
 
-void HubControl::Func_215AD34()
+void HubControl::InitEngineAForExitHub()
 {
     G2_SetBG0Priority(3);
     G2_SetBG1Priority(1);
@@ -258,7 +258,7 @@ void HubControl::Func_215AD34()
     GX_SetVisiblePlane(GX_GetVisiblePlane() & ~(GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3));
 }
 
-void HubControl::Func_215ADA0()
+void HubControl::InitEngineAForCutscene()
 {
     renderCoreGFXControlA.bgPosition[BACKGROUND_1].x = 0;
     renderCoreGFXControlA.bgPosition[BACKGROUND_1].y = 0;
@@ -279,7 +279,7 @@ void HubControl::Func_215ADA0()
     HeapFree(HEAP_USER, backgroundFile);
 }
 
-void HubControl::Func_215AE84()
+void HubControl::InitEngineAForUnknown()
 {
     G2_SetBG0Priority(3);
     G2_SetBG1Priority(1);
@@ -458,7 +458,7 @@ void HubControl::Func_215B3B4()
     renderCoreGFXControlB.windowManager.visible = 0;
 }
 
-void HubControl::Func_215B3D0()
+void HubControl::InitVRAMSystem()
 {
     VRAMSystem__Reset();
     VRAMSystem__SetupTextureBank(GX_VRAM_TEX_01_AB);

@@ -106,7 +106,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
 
     work->messageID = messageID;
     value           = ViDock__Func_215E06C();
-    HubControl::Func_215A888();
+    HubControl::InitEngineAForTalk();
 
     NpcMsgInfo msg;
     if (work->messageID == 0)
@@ -167,7 +167,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
 void CViDockNpcTalk::Release()
 {
     this->viEvtCmnTalk.Release();
-    HubControl::Func_215A96C();
+    HubControl::InitEngineAFor3DHub();
 }
 
 void CViDockNpcTalk::Main(void)

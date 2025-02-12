@@ -34,7 +34,7 @@ void NpcRetry::ThreadFunc(void *arg)
 
 void NpcRetry::InitDisplay()
 {
-    HubControl::Func_215A888();
+    HubControl::InitEngineAForTalk();
 }
 
 void NpcRetry::Release()
@@ -49,7 +49,7 @@ void NpcRetry::Release()
 
 void NpcRetry::ResetDisplay()
 {
-    HubControl::Func_215A96C();
+    HubControl::InitEngineAFor3DHub();
 }
 
 void NpcRetry::Main_Init(void)

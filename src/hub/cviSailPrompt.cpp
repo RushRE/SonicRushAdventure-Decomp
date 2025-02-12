@@ -60,7 +60,7 @@ void CViSailPrompt::CreatePrivate(s32 param)
 
 void CViSailPrompt::InitDisplay()
 {
-    HubControl::Func_215A888();
+    HubControl::InitEngineAForTalk();
 
     this->InitBackgroundVRAM();
     this->InitBackground2VRAM();
@@ -87,7 +87,7 @@ void CViSailPrompt::Release()
 
 void CViSailPrompt::ResetDisplay()
 {
-    HubControl::Func_215A96C();
+    HubControl::InitEngineAFor3DHub();
 }
 
 void CViSailPrompt::ReleaseGraphics()
@@ -451,12 +451,13 @@ void CViSailPrompt::SetBackground3Visible(BOOL enabled)
 
 void CViSailPrompt::InitBackgroundVRAM()
 {
-    MI_CpuFill32((u8 *)VRAM_BG + 0x800, 0x3FF03FF, 0x800);
+    MI_CpuFill32((u8 *)VRAM_BG + sizeof(GXScrText32x32), VRAM_SCRFMT_TEXT_x2(VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0), VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0)),
+                 sizeof(GXScrText32x32));
 }
 
 void CViSailPrompt::InitBackground2VRAM()
 {
-    MI_CpuClearFast((u8 *)VRAM_BG + (0x8000 - 0x20), 0x20);
+    MI_CpuClearFast((u8 *)VRAM_BG + (0x8000 - sizeof(GXCharFmt16)), sizeof(GXCharFmt16));
     MI_CpuClearFast((u8 *)VRAM_BG, 0x600);
 }
 

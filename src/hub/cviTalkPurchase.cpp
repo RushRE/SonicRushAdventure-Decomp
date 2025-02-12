@@ -88,8 +88,8 @@ void CViTalkPurchase::ThreadFunc(void *arg)
 
 void CViTalkPurchase::InitDisplay()
 {
-    HubControl::Func_215A888();
-    HubControl::Func_215AAB4();
+    HubControl::InitEngineAForTalk();
+    HubControl::InitEngineBForTalkPurchase();
 }
 
 void CViTalkPurchase::InitSprites()
@@ -142,8 +142,8 @@ void CViTalkPurchase::Release()
 
 void CViTalkPurchase::ResetDisplay()
 {
-    HubControl::Func_215A96C();
-    HubControl::Func_215AB84();
+    HubControl::InitEngineAFor3DHub();
+    HubControl::InitEngineBFor3DHub();
 }
 
 void CViTalkPurchase::ReleaseSprites()

@@ -22,10 +22,10 @@ void CViTalkAnnounce::CreatePrivate(s32 param)
     CViTalkAnnounce *work = TaskGetWork(task, CViTalkAnnounce);
     work->type            = param;
 
-    HubControl::Func_215A888();
+    HubControl::InitEngineAForTalk();
 
-    MI_CpuFill32((u8 *)VRAM_BG + 0x800, 0x3FF03FF, 0x800);
-    MI_CpuClearFast((u8 *)VRAM_BG + (0x8000 - 0x20), 0x20);
+    MI_CpuFill32((u8 *)VRAM_BG + sizeof(GXScrText32x32), VRAM_SCRFMT_TEXT_x2(VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0), VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0)), sizeof(GXScrText32x32));
+    MI_CpuClearFast((u8 *)VRAM_BG + (0x8000 - sizeof(GXCharFmt16)), sizeof(GXCharFmt16));
 
     const AnnounceConfig *config = HubConfig__GetAnnounceConfig(work->type);
     work->announce.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsg(), config->mpcFile));
@@ -45,7 +45,7 @@ void CViTalkAnnounce::Release()
 {
     this->announce.Release();
 
-    HubControl::Func_215A96C();
+    HubControl::InitEngineAFor3DHub();
 }
 
 void CViTalkAnnounce::Main(void)

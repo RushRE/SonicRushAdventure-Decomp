@@ -693,7 +693,8 @@ Overlay Hub
     Object src/hub/cviEvtCmn.o
     Object src/hub/npcOptions.o
     Object src/hub/npcPurchase.o
-    Object asm/hub/npcTalkList.o
+    Object asm/hub/npcTalkList_vars.o
+    Object src/hub/npcTalkList.o
     Object src/hub/npcCutsceneViewer.o
     Object src/hub/npcRetry.o
 }

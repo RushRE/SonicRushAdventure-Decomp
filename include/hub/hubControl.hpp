@@ -102,15 +102,15 @@ public:
     // MEMBER FUNCTIONS
     // --------------------
 
-    void Func_21576CC();
+    void Release();
 
     void LoadArchives();
-    void Func_215966C();
+    void ReleaseAssets();
     void Func_2159758(s32 a2);
     void ClearAnimators();
     void Func_215993C();
     void ReleaseAnimators();
-    void Func_2159D08();
+    void ReleaseGraphics();
     BOOL Func_2159D14();
     BOOL Func_2159D4C();
     void Func_2159D84(s32 area);
@@ -179,21 +179,21 @@ public:
     static void Main_2158160();
     static void Main_2158AB4();
 
-    static void Func_215A520();
-    static void Func_215A888();
-    static void Func_215A96C();
-    static void Func_215A9D8();
-    static void Func_215AAB4();
-    static void Func_215AB84();
-    static void Func_215ABF8();
-    static void Func_215AD34();
-    static void Func_215ADA0();
-    static void Func_215AE84();
+    static void InitDisplay();
+    static void InitEngineAForTalk();
+    static void InitEngineAFor3DHub();
+    static void InitEngineBForMissionList();
+    static void InitEngineBForTalkPurchase();
+    static void InitEngineBFor3DHub();
+    static void InitEngineAForAreaSelect();
+    static void InitEngineAForExitHub();
+    static void InitEngineAForCutscene();
+    static void InitEngineAForUnknown();
     static void Func_215B03C();
     static void Func_215B168();
     static void Func_215B250();
     static void Func_215B3B4();
-    static void Func_215B3D0();
+    static void InitVRAMSystem();
     static void Func_215B470(s32 a1, s32 a2);
     static BOOL Func_215B498(s32 a1);
     static s32 GetNextShipToBuild();

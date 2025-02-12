@@ -27,6 +27,20 @@ extern "C"
 
 #define VRAMSYSTEM_FLAG_ALLOCATED 0x80000000
 
+// VRAM window sizes
+#define VRAM_WINDOW_WIDTH  256
+#define VRAM_WINDOW_HEIGHT 256
+
+// 32x32 Text layer sizes
+#define VRAM_BACKGROUND_32x32_WIDTH  32
+#define VRAM_BACKGROUND_32x32_HEIGHT 32
+
+// mappings creation
+#define VRAM_SCRFMT_TEXT(tile, flipX, flipY, paletteRow) GX_SCRFMT_TEXT(paletteRow, flipY, flipX, tile)
+
+// mappings creation (used for Fill32 type functions)
+#define VRAM_SCRFMT_TEXT_x2(lower, upper) ((lower) | ((upper) << 16))
+
 // --------------------
 // MACROS
 // --------------------

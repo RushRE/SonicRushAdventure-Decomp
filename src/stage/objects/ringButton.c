@@ -10,14 +10,14 @@
 // CONSTANTS
 // --------------------
 
-#define RINGBUTTON_DURATION SECONDS_TO_FRAMES(17.0)
+#define RINGBUTTON_REACTIVATE_DURATION SECONDS_TO_FRAMES(17.0)
 
 // --------------------
 // MAPOBJECT PARAMS
 // --------------------
 
-#define mapObjectParam_width  mapObject->width
-#define mapObjectParam_height mapObject->height
+#define mapObjectParam_reactivateTime1 mapObject->width
+#define mapObjectParam_reactivateTime2 mapObject->height
 
 // --------------------
 // ENUMS
@@ -32,10 +32,10 @@ enum RingButtonObjectFlags
 
 enum RingButtonFlags
 {
-    RINGBUTTON_FLAG_1 = 1 << 0,
-    RINGBUTTON_FLAG_MOVE_BACK = 1 << 1,
+    RINGBUTTON_FLAG_1            = 1 << 0,
+    RINGBUTTON_FLAG_MOVE_BACK    = 1 << 1,
     RINGBUTTON_FLAG_MOVE_FORWARD = 1 << 2,
-    RINGBUTTON_FLAG_ACTIVATED = 1 << 3,
+    RINGBUTTON_FLAG_ACTIVATED    = 1 << 3,
 };
 
 enum RingButtonAnimID
@@ -84,9 +84,9 @@ RingButton *CreateRingButton(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     AnimatorSpriteDS *aniBase = &work->aniBase;
     ObjAction2dBACLoad(aniBase, "/act/ac_gmk_switch.bac", 0, GetObjectFileWork(OBJDATAWORK_106), gameArchiveCommon);
 
-    aniBase->vramPixels[0]     = (void *)ObjActionAllocSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + OBJDATAWORK_109), FALSE, 2);
-    aniBase->vramPixels[1]     = (void *)ObjActionAllocSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + OBJDATAWORK_110), TRUE, 2);
-    aniBase->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniBase->vramPixels[0]       = (void *)ObjActionAllocSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + OBJDATAWORK_109), FALSE, 2);
+    aniBase->vramPixels[1]       = (void *)ObjActionAllocSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + OBJDATAWORK_110), TRUE, 2);
+    aniBase->work.cParam.palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     aniBase->cParam[0].palette = aniBase->cParam[1].palette = aniBase->work.cParam.palette;
 
     aniBase->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
@@ -175,7 +175,7 @@ void RingButton_Action_Init(RingButton *work)
                 work->gameWork.objWork.position.x += FLOAT_TO_FX32(2.0);
         }
 
-        RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_DURATION;
+        RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
         UpdateRingButtonPalette(work, TRUE);
     }
     else
@@ -237,7 +237,8 @@ void RingButton_State_Vertical(RingButton *work)
                     RingButtonSfxManager__Create(work->gameWork.RingButton_mapObjectParam_id, work->gameWork.mapObject->flags & RINGBUTTON_OBJFLAG_PLAY_SFX);
                     UpdateRingButtonPalette(work, TRUE);
                 }
-                RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = 2 * (work->gameWork.mapObjectParam_width + work->gameWork.mapObjectParam_height);
+                RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] =
+                    2 * (work->gameWork.mapObjectParam_reactivateTime1 + work->gameWork.mapObjectParam_reactivateTime2);
             }
             else
             {
@@ -246,7 +247,7 @@ void RingButton_State_Vertical(RingButton *work)
                     GameObject__SendPacket(&work->gameWork, (Player *)toucherObj, GAMEOBJECT_PACKET_OBJ_COLLISION);
                     UpdateRingButtonPalette(work, TRUE);
                 }
-                RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_DURATION;
+                RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
             }
             activated = TRUE;
 
@@ -332,7 +333,8 @@ void RingButton_State_Horizontal(RingButton *work)
                 RingButtonSfxManager__Create(work->gameWork.RingButton_mapObjectParam_id, work->gameWork.mapObject->flags & RINGBUTTON_OBJFLAG_PLAY_SFX);
                 UpdateRingButtonPalette(work, TRUE);
             }
-            RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = 2 * (work->gameWork.mapObjectParam_width + work->gameWork.mapObjectParam_height);
+            RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] =
+                2 * (work->gameWork.mapObjectParam_reactivateTime1 + work->gameWork.mapObjectParam_reactivateTime2);
         }
         else
         {
@@ -341,7 +343,7 @@ void RingButton_State_Horizontal(RingButton *work)
                 GameObject__SendPacket(&work->gameWork, (Player *)toucherObj, GAMEOBJECT_PACKET_OBJ_COLLISION);
                 UpdateRingButtonPalette(work, TRUE);
             }
-            RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_DURATION;
+            RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
         }
         activated = TRUE;
 
@@ -424,7 +426,7 @@ void RingButton_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER && gmCheckRingBattle())
     {
         button->onActivated(button);
-        RingButtonSfxManager__timerTable[button->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_DURATION;
+        RingButtonSfxManager__timerTable[button->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
         UpdateRingButtonPalette(button, TRUE);
         button->gameWork.flags |= RINGBUTTON_FLAG_MOVE_BACK;
         button->gameWork.flags &= ~RINGBUTTON_FLAG_MOVE_FORWARD;
@@ -448,8 +450,8 @@ void UpdateRingButtonPalette(RingButton *work, BOOL activated)
             work->gameWork.flags &= ~RINGBUTTON_FLAG_ACTIVATED;
         }
 
-        AnimatorSpriteDS *aniBase  = &work->aniBase;
-        aniBase->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+        AnimatorSpriteDS *aniBase    = &work->aniBase;
+        aniBase->work.cParam.palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
         aniBase->cParam[0].palette = aniBase->cParam[1].palette = aniBase->work.cParam.palette;
     }
 }

@@ -23,7 +23,7 @@
 // CONSTANTS/MACROS
 // --------------------
 
-#define CVITALKMISSIONLIST_ID_INVALID -1
+#define CVITALKMISSIONLIST_LIST_DIGIT_COUNT 3
 
 // --------------------
 // ENUMS
@@ -74,17 +74,17 @@ void CViTalkMissionList::ThreadFunc_Load(void *arg)
 
 void CViTalkMissionList::InitDisplay()
 {
-    HubControl::Func_215A888();
-    HubControl::Func_215A9D8();
+    HubControl::InitEngineAForTalk();
+    HubControl::InitEngineBForMissionList();
 
     CViTalkMissionList::InitWindow(FALSE, 0);
 }
 
 void CViTalkMissionList::InitSprites()
 {
-    this->lastDrawnMissionNum = CVITALKMISSIONLIST_ID_INVALID;
-    this->missionID           = CVITALKMISSIONLIST_ID_INVALID;
-    this->nextMissionID       = CVITALKMISSIONLIST_ID_INVALID;
+    this->lastDrawnMissionNum = NPCTALKLIST_SELECTION_NONE;
+    this->missionID           = NPCTALKLIST_SELECTION_NONE;
+    this->nextMissionID       = NPCTALKLIST_SELECTION_NONE;
     this->isWindowOpen        = FALSE;
 
     FontWindowAnimator__Init(&this->fontWindowAnimator);
@@ -98,8 +98,9 @@ void CViTalkMissionList::InitSprites()
 
     FontAnimator__LoadMPCFile(&this->fontAnimator, this->mpcFile);
 
-    this->missionNumberPixels = HeapAllocHead(HEAP_USER, 0x20 * 3);
-    Unknown2056570__Init(&this->unknown, GRAPHICS_ENGINE_B, BACKGROUND_3, 0, 5, 3, 3, 1, this->missionNumberPixels, 0, fontSize * 32);
+    this->missionNumberPixels = HeapAllocHead(HEAP_USER, CVITALKMISSIONLIST_LIST_DIGIT_COUNT * sizeof(GXCharFmt16));
+    Unknown2056570__Init(&this->unknown, GRAPHICS_ENGINE_B, BACKGROUND_3, 0, PIXEL_TO_TILE(40), PIXEL_TO_TILE(24), PIXEL_TO_TILE(CVITALKMISSIONLIST_LIST_DIGIT_COUNT * 8),
+                         PIXEL_TO_TILE(8), this->missionNumberPixels, 0, fontSize * sizeof(GXCharFmt16));
     Unknown2056570__Func_2056688(&this->unknown, 1);
     Unknown2056570__Func_205683C(&this->unknown);
 
@@ -143,7 +144,7 @@ void CViTalkMissionList::InitSprites()
 
 void CViTalkMissionList::InitList()
 {
-    this->missionList = (NpcTalkListEntry *)HeapAllocHead(HEAP_SYSTEM, 4 * this->missionCount);
+    this->missionList = (NpcTalkListEntry *)HeapAllocHead(HEAP_SYSTEM, sizeof(NpcTalkListEntry) * this->missionCount);
 
     for (s32 i = 0; i < this->missionCount; i++)
     {
@@ -151,10 +152,11 @@ void CViTalkMissionList::InitList()
 
         u16 missionID = MissionHelpers__GetMissionFromSelection(i);
 
-        entry->flags = 0;
+        entry->flags = NPCTALKLISTENTRY_FLAG_NONE;
+
         if (MissionHelpers__CheckMissionUnlocked(missionID))
         {
-            entry->flags |= 1;
+            entry->flags |= NPCTALKLISTENTRY_FLAG_UNLOCKED;
             entry->id = MISSIONLIST_SEQ_COUNT * i;
         }
         else
@@ -164,33 +166,33 @@ void CViTalkMissionList::InitList()
 
         if (MissionHelpers__CheckMissionAttempted(missionID) == TRUE)
         {
-            entry->flags |= 2;
+            entry->flags |= NPCTALKLISTENTRY_FLAG_ATTEMPTED;
         }
 
         if (MissionHelpers__CheckMissionBeaten(missionID) == TRUE)
         {
-            entry->flags |= 4;
+            entry->flags |= NPCTALKLISTENTRY_FLAG_CLEARED;
         }
     }
 
     ViTalkListConfig config;
-    config.fontWindow      = HubControl::GetField54();
-    config.mpcFile         = this->mpcFile;
-    config.entryList       = this->missionList;
-    config.entryCount      = this->missionCount;
-    config.selection       = 0;
-    config.field_22        = 3;
-    config.vi_fix_loc      = HubControl::GetFileFrom_ViActLoc(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
-    config.vi_menu         = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
-    config.vi_ms_ret       = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MS_RET_BAC);
-    config.nl_cursor_ikari = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
-    config.headerAnim      = 5;
-    config.windowSizeX     = 0;
-    config.windowSizeY     = 4;
-    config.field_28        = 2;
+    config.fontWindow    = HubControl::GetField54();
+    config.mpcFile       = this->mpcFile;
+    config.entryList     = this->missionList;
+    config.entryCount    = this->missionCount;
+    config.selection     = 0;
+    config.numDigitCount = CVITALKMISSIONLIST_LIST_DIGIT_COUNT;
+    config.sprMapLocHUD  = HubControl::GetFileFrom_ViActLoc(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
+    config.sprMenu       = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
+    config.sprBackButton = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MS_RET_BAC);
+    config.sprCursor     = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
+    config.headerAnim    = 5;
+    config.windowSizeX   = 0;
+    config.windowSizeY   = 4;
+    config.windowFrame   = FONTWINDOWMW_FILL_MISSION;
 
-    NpcUnknown__Func_216EDCC(&this->npcTalk);
-    NpcUnknown__Func_216EDF8(&this->npcTalk, &config);
+    this->npcTalk.Init();
+    this->npcTalk.Load(&config);
 }
 
 void CViTalkMissionList::Release()
@@ -206,8 +208,8 @@ void CViTalkMissionList::Release()
 
 void CViTalkMissionList::ResetDisplay()
 {
-    HubControl::Func_215A96C();
-    HubControl::Func_215AB84();
+    HubControl::InitEngineAFor3DHub();
+    HubControl::InitEngineBFor3DHub();
 
     CViTalkMissionList::InitWindow(FALSE, 0);
 }
@@ -231,7 +233,7 @@ void CViTalkMissionList::ReleaseGraphics()
 
 void CViTalkMissionList::ReleaseList()
 {
-    NpcUnknown__Func_216EE98(&this->npcTalk);
+    this->npcTalk.Release();
 
     if (this->missionList != NULL)
     {
@@ -267,7 +269,7 @@ void CViTalkMissionList::Main_ShowMissionSelectPrompt(void)
         CViTalkMissionList::SetMissionListVisible(FALSE);
         CViTalkMissionList::SetMissionDescriptionVisible(FALSE);
 
-        NpcUnknown__Func_216EEC0(&work->npcTalk, 0, 1);
+        work->npcTalk.ShowWindow(0, TRUE);
 
         work->DrawUpperMissionNumber(work->selection);
 
@@ -283,28 +285,28 @@ void CViTalkMissionList::Main_OpeningMissionList(void)
 {
     CViTalkMissionList *work = TaskGetWorkCurrent(CViTalkMissionList);
 
-    NpcUnknown__Func_216EF50(&work->npcTalk);
-    work->selection = NpcUnknown__Func_216EF70(&work->npcTalk);
+    work->npcTalk.Process();
+    work->selection = work->npcTalk.GetSelection();
 
     work->DrawUpperMissionNumber(work->selection);
     work->Draw();
 
-    if (NpcUnknown__Func_216EF80(&work->npcTalk))
+    if (work->npcTalk.IsWindowClosing())
     {
         ViDock__Func_215E4BC(1);
 
-        if (NpcUnknown__Func_216EFDC(&work->npcTalk) == 0xFFFF)
+        if (work->npcTalk.GetSelectedEntry() == (u16)NPCTALKLIST_SELECTION_NONE)
         {
-            work->DrawUpperMissionNumber(CVITALKMISSIONLIST_ID_INVALID);
+            work->DrawUpperMissionNumber(NPCTALKLIST_SELECTION_NONE);
         }
-        else if (NpcUnknown__Func_216EFDC(&work->npcTalk) == MISSION_99)
+        else if (work->npcTalk.GetSelectedEntry() == MISSION_99)
         {
-            work->DrawUpperMissionNumber(CVITALKMISSIONLIST_ID_INVALID);
+            work->DrawUpperMissionNumber(NPCTALKLIST_SELECTION_NONE);
         }
 
         SetCurrentTaskMainEvent(CViTalkMissionList::Main_MissionListActive);
     }
-    else if (NpcUnknown__Func_216EF78(&work->npcTalk))
+    else if (work->npcTalk.IsWindowOpen())
     {
         ViDock__Func_215E4BC(0);
     }
@@ -314,14 +316,14 @@ void CViTalkMissionList::Main_MissionListActive(void)
 {
     CViTalkMissionList *work = TaskGetWorkCurrent(CViTalkMissionList);
 
-    NpcUnknown__Func_216EF50(&work->npcTalk);
+    work->npcTalk.Process();
     work->Draw();
 
-    if (NpcUnknown__Func_216EFC0(&work->npcTalk))
+    if (work->npcTalk.IsFinished())
     {
-        if (NpcUnknown__Func_216EF88(&work->npcTalk))
+        if (work->npcTalk.CheckSelectionMade())
         {
-            if (NpcUnknown__Func_216EFDC(&work->npcTalk) == MISSION_99)
+            if (work->npcTalk.GetSelectedEntry() == MISSION_99)
             {
                 if (work->CheckThreadIdle())
                 {
@@ -376,7 +378,7 @@ void CViTalkMissionList::Main_MissionSelected(void)
         {
             case 0:
                 work->missionSelected = TRUE;
-                work->DrawUpperMissionNumber(CVITALKMISSIONLIST_ID_INVALID);
+                work->DrawUpperMissionNumber(NPCTALKLIST_SELECTION_NONE);
                 SetCurrentTaskMainEvent(CViTalkMissionList::Main_Finished);
                 break;
 
@@ -384,7 +386,7 @@ void CViTalkMissionList::Main_MissionSelected(void)
                 break;
 
             case 2:
-                NpcUnknown__Func_216EEC0(&work->npcTalk, work->selection, 1);
+                work->npcTalk.ShowWindow(work->selection, TRUE);
                 SetCurrentTaskMainEvent(CViTalkMissionList::Main_OpeningMissionList);
                 break;
         }
@@ -405,7 +407,7 @@ void CViTalkMissionList::Main_ClearedAllMissionsDialog(void)
         }
         else
         {
-            NpcUnknown__Func_216EEC0(&work->npcTalk, work->selection, 1);
+            work->npcTalk.ShowWindow(work->selection, TRUE);
             work->DrawUpperMissionNumber(work->selection);
             SetCurrentTaskMainEvent(CViTalkMissionList::Main_OpeningMissionList);
         }
@@ -433,7 +435,7 @@ void CViTalkMissionList::Main_CloseMissionListDialog(void)
                 break;
 
             case 2:
-                NpcUnknown__Func_216EEC0(&work->npcTalk, work->selection, 1);
+                work->npcTalk.ShowWindow(work->selection, TRUE);
                 work->DrawUpperMissionNumber(work->selection);
                 SetCurrentTaskMainEvent(CViTalkMissionList::Main_OpeningMissionList);
                 break;
@@ -487,7 +489,7 @@ void CViTalkMissionList::DrawUpperMissionNumber(s32 selection)
 {
     if (this->lastDrawnMissionNum != selection)
     {
-        if (selection == CVITALKMISSIONLIST_ID_INVALID)
+        if (selection == NPCTALKLIST_SELECTION_NONE)
         {
             Unknown2056570__Func_205683C(&this->unknown);
         }
@@ -507,16 +509,16 @@ void CViTalkMissionList::DrawUpperMissionNumber(s32 selection)
             s32 digit1 = FX_DivS32(div, 10);
 
             u8 *dest = (u8 *)Unknown2056570__Func_2056834(&this->unknown);
-            MI_CpuCopyFast(&pixels[32 * digit1], &dest[0x00], 0x20);
-            MI_CpuCopyFast(&pixels[32 * digit2], &dest[0x20], 0x20);
-            MI_CpuCopyFast(&pixels[32 * digit3], &dest[0x40], 0x20);
+            MI_CpuCopyFast(&pixels[sizeof(GXCharFmt16) * digit1], &dest[0 * sizeof(GXCharFmt16)], sizeof(GXCharFmt16));
+            MI_CpuCopyFast(&pixels[sizeof(GXCharFmt16) * digit2], &dest[1 * sizeof(GXCharFmt16)], sizeof(GXCharFmt16));
+            MI_CpuCopyFast(&pixels[sizeof(GXCharFmt16) * digit3], &dest[2 * sizeof(GXCharFmt16)], sizeof(GXCharFmt16));
         }
 
         Unknown2056570__Func_2056B8C(&this->unknown);
 
-        if (selection == CVITALKMISSIONLIST_ID_INVALID)
+        if (selection == NPCTALKLIST_SELECTION_NONE)
         {
-            if (this->lastDrawnMissionNum != CVITALKMISSIONLIST_ID_INVALID)
+            if (this->lastDrawnMissionNum != NPCTALKLIST_SELECTION_NONE)
             {
                 FontWindowAnimator__InitAnimation(&this->fontWindowAnimator, 4, 12, 0, 0);
                 FontWindowAnimator__StartAnimating(&this->fontWindowAnimator);
@@ -525,7 +527,7 @@ void CViTalkMissionList::DrawUpperMissionNumber(s32 selection)
         }
         else
         {
-            if (this->lastDrawnMissionNum == CVITALKMISSIONLIST_ID_INVALID)
+            if (this->lastDrawnMissionNum == NPCTALKLIST_SELECTION_NONE)
             {
                 FontWindowAnimator__InitAnimation(&this->fontWindowAnimator, 1, 12, 0, 0);
                 FontWindowAnimator__StartAnimating(&this->fontWindowAnimator);
@@ -542,41 +544,41 @@ void CViTalkMissionList::Draw()
     u8 charNameAniTable[]   = { 2, 1, 6, 7, 8, 9, 10, 12, 11, 13, 14, 0xFF, 0xFF };
     u8 charCircleAniTable[] = { 10, 8, 9, 11, 1, 2, 3, 4, 5, 6, 7, 0xFF, 0xFF };
 
-    if (this->nextMissionID != CVITALKMISSIONLIST_ID_INVALID && IsThreadWorkerFinished(&this->thread))
+    if (this->nextMissionID != NPCTALKLIST_SELECTION_NONE && IsThreadWorkerFinished(&this->thread))
     {
         this->missionID = this->nextMissionID;
         if (this->missionID > this->missionCount)
-            this->missionID = CVITALKMISSIONLIST_ID_INVALID;
+            this->missionID = NPCTALKLIST_SELECTION_NONE;
 
-        this->nextMissionID = CVITALKMISSIONLIST_ID_INVALID;
+        this->nextMissionID = NPCTALKLIST_SELECTION_NONE;
     }
 
     if (this->lastDrawnMissionNum == this->missionID)
     {
         FontAnimator__Draw(&this->fontAnimator);
-        if (this->isWindowOpen || this->lastDrawnMissionNum == CVITALKMISSIONLIST_ID_INVALID)
+        if (this->isWindowOpen || this->lastDrawnMissionNum == NPCTALKLIST_SELECTION_NONE)
             CViTalkMissionList::SetMissionDescriptionVisible(FALSE);
         else
             CViTalkMissionList::SetMissionDescriptionVisible(TRUE);
     }
-    else if (this->nextMissionID == CVITALKMISSIONLIST_ID_INVALID)
+    else if (this->nextMissionID == NPCTALKLIST_SELECTION_NONE)
     {
-        if (this->lastDrawnMissionNum == CVITALKMISSIONLIST_ID_INVALID)
+        if (this->lastDrawnMissionNum == NPCTALKLIST_SELECTION_NONE)
             this->nextMissionID = this->missionCount + 1;
         else
             this->nextMissionID = this->lastDrawnMissionNum;
         CreateThreadWorker(&this->thread, CViTalkMissionList::ThreadFunc_ChangeMissionText, this, 20);
     }
 
-    if (!this->isWindowOpen && this->missionID != CVITALKMISSIONLIST_ID_INVALID)
+    if (!this->isWindowOpen && this->missionID != NPCTALKLIST_SELECTION_NONE)
     {
-        AnimatorSprite__ProcessAnimation(&this->aniMissionNumBackdrop, 0, 0);
+        AnimatorSprite__ProcessAnimationFast(&this->aniMissionNumBackdrop);
         AnimatorSprite__DrawFrame(&this->aniMissionNumBackdrop);
 
-        AnimatorSprite__ProcessAnimation(&this->aniMissionStatusBackdrop, 0, 0);
+        AnimatorSprite__ProcessAnimationFast(&this->aniMissionStatusBackdrop);
         AnimatorSprite__DrawFrame(&this->aniMissionStatusBackdrop);
 
-        if ((this->missionList[this->missionID].flags & 1) != 0)
+        if ((this->missionList[this->missionID].flags & NPCTALKLISTENTRY_FLAG_UNLOCKED) != 0)
         {
             u16 npcType = MissionHelpers__GetNpcNameAnimForMission(this->missionID);
 
@@ -602,7 +604,7 @@ void CViTalkMissionList::Draw()
             AnimatorSprite__ProcessAnimationFast(aniCharacterPortrait);
             AnimatorSprite__DrawFrame(aniCharacterPortrait);
 
-            if ((this->missionList[this->missionID].flags & 4) != 0)
+            if ((this->missionList[this->missionID].flags & NPCTALKLISTENTRY_FLAG_CLEARED) != 0)
             {
                 AnimatorSprite__ProcessAnimationFast(&this->aniMissionStatus);
                 AnimatorSprite__DrawFrame(&this->aniMissionStatus);
@@ -620,21 +622,21 @@ void CViTalkMissionList::Draw()
         }
     }
 
-    if (this->isWindowOpen || (this->lastDrawnMissionNum != CVITALKMISSIONLIST_ID_INVALID && this->missionID != CVITALKMISSIONLIST_ID_INVALID))
+    if (this->isWindowOpen || (this->lastDrawnMissionNum != NPCTALKLIST_SELECTION_NONE && this->missionID != NPCTALKLIST_SELECTION_NONE))
         FontWindowAnimator__Draw(&this->fontWindowAnimator);
 }
 
 BOOL CViTalkMissionList::CheckThreadIdle()
 {
-    return this->lastDrawnMissionNum == CVITALKMISSIONLIST_ID_INVALID && IsThreadWorkerFinished(&this->thread) && !this->isWindowOpen;
+    return this->lastDrawnMissionNum == NPCTALKLIST_SELECTION_NONE && IsThreadWorkerFinished(&this->thread) && !this->isWindowOpen;
 }
 
 void CViTalkMissionList::StopThreadWorker()
 {
-    if (this->nextMissionID != CVITALKMISSIONLIST_ID_INVALID)
+    if (this->nextMissionID != NPCTALKLIST_SELECTION_NONE)
     {
         JoinThreadWorker(&this->thread);
-        this->nextMissionID = CVITALKMISSIONLIST_ID_INVALID;
+        this->nextMissionID = NPCTALKLIST_SELECTION_NONE;
     }
 }
 
@@ -645,7 +647,7 @@ void CViTalkMissionList::ThreadFunc_ChangeMissionText(void *arg)
     if (work->nextMissionID <= work->missionCount)
     {
         u16 sequence;
-        if ((work->missionList[work->nextMissionID].flags & 1) != 0)
+        if ((work->missionList[work->nextMissionID].flags & NPCTALKLISTENTRY_FLAG_UNLOCKED) != 0)
             sequence = MISSIONLIST_SEQ_COUNT * work->nextMissionID + MISSIONLIST_SEQ_CLIENT;
         else
             sequence = MISSIONLIST_SEQ_COUNT * work->missionCount + MISSIONLIST_SEQ_CLIENT;
@@ -703,7 +705,7 @@ void CViTalkMissionList::InitWindow(BOOL enabled, s32 scrollPos)
     }
     else
     {
-        renderCoreGFXControlB.windowManager.registers.win0X2 = CVITALKMISSIONLIST_ID_INVALID;
+        renderCoreGFXControlB.windowManager.registers.win0X2 = -1;
         renderCoreGFXControlB.windowManager.registers.win0X1 = 0;
         renderCoreGFXControlB.windowManager.registers.win0Y2 = scrollPos;
         renderCoreGFXControlB.windowManager.registers.win0Y1 = 0;

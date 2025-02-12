@@ -29,7 +29,7 @@ void NpcOptions::ThreadFunc(void *arg)
 
 void NpcOptions::InitDisplay()
 {
-    HubControl::Func_215A888();
+    HubControl::InitEngineAForTalk();
 }
 
 void NpcOptions::Release()
@@ -43,7 +43,7 @@ void NpcOptions::Release()
 
 void NpcOptions::ResetDisplay()
 {
-    HubControl::Func_215A96C();
+    HubControl::InitEngineAFor3DHub();
 }
 
 void NpcOptions::Main_Init(void)

@@ -154,22 +154,22 @@ void NpcCutsceneViewer::ThreadFunc(void *arg)
 
 void NpcCutsceneViewer::InitDisplay()
 {
-    HubControl::Func_215A888();
+    HubControl::InitEngineAForTalk();
 }
 
 void NpcCutsceneViewer::InitList()
 {
-    this->cutsceneList = (NpcTalkListEntry *)HeapAllocHead(HEAP_SYSTEM, 4 * this->cutsceneCount);
+    this->cutsceneList = (NpcTalkListEntry *)HeapAllocHead(HEAP_SYSTEM, sizeof(NpcTalkListEntry) * this->cutsceneCount);
 
     for (s32 i = 0; i < this->cutsceneCount; i++)
     {
         NpcTalkListEntry *entry = &this->cutsceneList[i];
 
-        entry->flags = 0;
+        entry->flags = NPCTALKLISTENTRY_FLAG_NONE;
 
         if (NpcCutsceneViewer::CheckCutsceneUnlocked(i))
         {
-            entry->flags |= 1;
+            entry->flags |= NPCTALKLISTENTRY_FLAG_UNLOCKED;
             entry->id = cutsceneListEntryConfig[i].id;
         }
         else
@@ -179,23 +179,23 @@ void NpcCutsceneViewer::InitList()
     }
 
     ViTalkListConfig config;
-    config.fontWindow      = HubControl::GetField54();
-    config.mpcFile         = this->mpcFile;
-    config.entryList       = this->cutsceneList;
-    config.entryCount      = this->cutsceneCount;
-    config.selection       = NpcCutsceneViewer::GetSelectionFromCutscene();
-    config.field_22        = 2;
-    config.vi_fix_loc      = HubControl::GetFileFrom_ViActLoc(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
-    config.vi_menu         = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
-    config.vi_ms_ret       = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MS_RET_BAC);
-    config.nl_cursor_ikari = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
-    config.headerAnim      = 6;
-    config.windowSizeX     = 0;
-    config.windowSizeY     = 5;
-    config.field_28        = 3;
+    config.fontWindow    = HubControl::GetField54();
+    config.mpcFile       = this->mpcFile;
+    config.entryList     = this->cutsceneList;
+    config.entryCount    = this->cutsceneCount;
+    config.selection     = NpcCutsceneViewer::GetSelectionFromCutscene();
+    config.numDigitCount = 2;
+    config.sprMapLocHUD  = HubControl::GetFileFrom_ViActLoc(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
+    config.sprMenu       = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
+    config.sprBackButton = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MS_RET_BAC);
+    config.sprCursor     = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
+    config.headerAnim    = 6;
+    config.windowSizeX   = 0;
+    config.windowSizeY   = 5;
+    config.windowFrame   = FONTWINDOWMW_FILL_VIEWER;
 
-    NpcUnknown__Func_216EDCC(&this->npcTalk);
-    NpcUnknown__Func_216EDF8(&this->npcTalk, &config);
+    this->npcTalk.Init();
+    this->npcTalk.Load(&config);
 }
 
 void NpcCutsceneViewer::Release()
@@ -208,12 +208,12 @@ void NpcCutsceneViewer::Release()
 
 void NpcCutsceneViewer::ResetDisplay()
 {
-    HubControl::Func_215A96C();
+    HubControl::InitEngineAFor3DHub();
 }
 
 void NpcCutsceneViewer::ReleaseList()
 {
-    NpcUnknown__Func_216EE98(&this->npcTalk);
+    this->npcTalk.Release();
 
     if (this->cutsceneList != NULL)
     {
@@ -228,8 +228,8 @@ void NpcCutsceneViewer::Main_Init()
 
     if (IsThreadWorkerFinished(&work->thread))
     {
-        NpcUnknown__Func_216EEC0(&work->npcTalk, gameState.talk.field_40, 1);
-        gameState.talk.field_40 = 0;
+        work->npcTalk.ShowWindow(gameState.talk.lastSelectedMovie, TRUE);
+        gameState.talk.lastSelectedMovie = 0;
         SetCurrentTaskMainEvent(NpcCutsceneViewer::Main_Active);
     }
 }
@@ -238,13 +238,13 @@ void NpcCutsceneViewer::Main_Active()
 {
     NpcCutsceneViewer *work = TaskGetWorkCurrent(NpcCutsceneViewer);
 
-    NpcUnknown__Func_216EF50(&work->npcTalk);
-    if (NpcUnknown__Func_216EF80(&work->npcTalk))
+    work->npcTalk.Process();
+    if (work->npcTalk.IsWindowClosing())
     {
         ViDock__Func_215E4BC(1);
         SetCurrentTaskMainEvent(NpcCutsceneViewer::Main_CloseWindow);
     }
-    else if (NpcUnknown__Func_216EF78(&work->npcTalk))
+    else if (work->npcTalk.IsWindowOpen())
     {
         ViDock__Func_215E4BC(0);
     }
@@ -254,24 +254,24 @@ void NpcCutsceneViewer::Main_CloseWindow()
 {
     NpcCutsceneViewer *work = TaskGetWorkCurrent(NpcCutsceneViewer);
 
-    NpcUnknown__Func_216EF50(&work->npcTalk);
-    if (NpcUnknown__Func_216EFC0(&work->npcTalk))
+    work->npcTalk.Process();
+    if (work->npcTalk.IsFinished())
     {
         s32 selection;
-        if (NpcUnknown__Func_216EF88(&work->npcTalk))
+        if (work->npcTalk.CheckSelectionMade())
         {
-            selection               = cutsceneListEntryConfig[NpcUnknown__Func_216EFDC(&work->npcTalk)].cutsceneID;
-            gameState.talk.field_40 = NpcUnknown__Func_216EFDC(&work->npcTalk);
+            selection                        = cutsceneListEntryConfig[work->npcTalk.GetSelectedEntry()].cutsceneID;
+            gameState.talk.lastSelectedMovie = work->npcTalk.GetSelectedEntry();
         }
         else
         {
-            selection               = 0xFFFF;
-            gameState.talk.field_40 = 0;
+            selection                        = (u16)NPCTALKLIST_SELECTION_NONE;
+            gameState.talk.lastSelectedMovie = 0;
         }
 
         DestroyCurrentTask();
 
-        if (selection != 0xFFFF)
+        if (selection != (u16)NPCTALKLIST_SELECTION_NONE)
         {
             CViDockNpcTalk::SetTalkAction(20);
             CViDockNpcTalk::SetSelection(selection);
@@ -320,7 +320,7 @@ u16 NpcCutsceneViewer::GetSelectionFromCutscene()
             id = cutsceneTransitionList[i][0];
     }
 
-    for (i = 0; i < 70; i++)
+    for (i = 0; i < (s32)ARRAY_COUNT(cutsceneListEntryConfig); i++)
     {
         if (id == cutsceneListEntryConfig[i].cutsceneID)
             return i;
