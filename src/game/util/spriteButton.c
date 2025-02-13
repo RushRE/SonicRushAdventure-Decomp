@@ -383,11 +383,11 @@ void SpriteButton_Draw(SpriteButton *work)
     }
 }
 
-void SpriteButtonTouchAreaResponceHandler(TouchAreaResponse *responce, TouchArea *area, SpriteButton *work, s32 id)
+void SpriteButtonTouchAreaResponceHandler(TouchAreaResponse *response, TouchArea *area, SpriteButton *work, s32 id)
 {
     TouchAreaResponseFlags flags = area->responseFlags;
 
-    switch (responce->flags)
+    switch (response->flags)
     {
         case TOUCHAREA_RESPONSE_40000:
             work->selectedButton = id;

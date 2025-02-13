@@ -12,31 +12,69 @@
 class HubHUD
 {
 public:
+    // --------------------
+    // ENUMS
+    // --------------------
+
+    enum ButtonFlags
+    {
+        BUTTONFLAG_NONE = 0x00,
+
+        BUTTONFLAG_VISIBLE = 1 << 0,
+        BUTTONFLAG_ACTIVE  = 1 << 1,
+    };
+
+    enum TouchAreaFlags
+    {
+        TOUCHAREAFLAG_NONE = 0x00,
+
+        TOUCHAREAFLAG_ENABLED         = 1 << 0,
+        TOUCHAREAFLAG_BUTTON_HELD     = 1 << 1,
+        TOUCHAREAFLAG_BUTTON_RELEASED = 1 << 2,
+    };
+
+    // --------------------
+    // STRUCTS
+    // --------------------
+
+    struct ViewButton
+    {
+        u32 flags;
+        union
+        {
+            struct
+            {
+                AnimatorSprite aniButton;
+                AnimatorSprite aniArrow;
+            };
+
+            AnimatorSprite animators[2];
+        };
+    };
+
+    struct MenuButton
+    {
+        u32 flags;
+        s32 unused;
+        AnimatorSprite aniSprite[GRAPHICS_ENGINE_COUNT];
+    };
 
     // --------------------
     // VARIABLES
     // --------------------
 
-    s32 field_0;
-    AnimatorSprite aniViewButton;
-    AnimatorSprite aniViewCursor;
-    s32 field_CC;
-    s32 field_D0;
-    AnimatorSprite aniMenuButtonA;
-    AnimatorSprite aniMenuButtonB;
-    TouchField field_19C;
-    TouchArea field_1B4;
-    TouchArea field_1EC;
-    s32 field_224;
-    s32 field_228;
-    s32 field_22C;
-    s32 field_230;
-    s32 field_234;
-    s32 openMainMenu;
-    s32 field_23C;
-    s32 field_240;
-    s32 field_244;
-    s32 field_248;
+    ViewButton viewButton;
+    MenuButton menuButton;
+    TouchField touchField;
+    TouchArea touchArea[2];
+    BOOL touchAreaFlags[2];
+    BOOL touchAreaEnabled[2];
+    s32 unknown1;
+    BOOL openMainMenu;
+    s32 unknown2;
+    TouchPos touchPos;
+    BOOL touchHeld;
+    Vec2Fx16 touchMove;
     void *sprViFix;
     void *sprViFixLoc;
 
@@ -47,59 +85,44 @@ public:
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
+
+    static void Create(void);
+    static void Destroy(void);
+    static void ConfigureViewButton(BOOL visible, BOOL enabled);
+    static BOOL LookAroundEnabled(void);
+    static void DisableLookAround(void);
+    static BOOL GetLookAroundBtnLeft(void);
+    static BOOL GetLookAroundBtnUp(void);
+    static BOOL GetLookAroundBtnRight(void);
+    static BOOL GetLookAroundBtnDown(void);
+    static BOOL GetTouchHeld(void);
+    static void GetTouchMove(s16 *x, s16 *y);
+    static void GetTouchPos(s16 *x, s16 *y);
+    static void ConfigureMenuButton(BOOL visible, BOOL enabled);
+    static BOOL ShouldOpenMainMenu(void);
+    static void InitGraphics(HubHUD *work);
+    static void InitViewButtons(HubHUD *work);
+    static void InitMenuButton(HubHUD *work);
+    static void InitTouchField(HubHUD *work);
+    static void Release(HubHUD *work);
+    static void ReleaseViewButtons(HubHUD *work);
+    static void ReleaseMenuButtons(HubHUD *work);
+    static void ReleaseTouchField(HubHUD *work);
+    static void Main_Idle(void);
+    static void Main_LookAround(void);
+    static void Destructor(Task *task);
+    static void EnableViewCursor(HubHUD *work);
+    static void ProcessViewButtons(HubHUD *work);
+    static void DrawViewButtons(HubHUD *work);
+    static void ProcessMenuButton(HubHUD *work);
+    static void DrawMenuButton(HubHUD *work);
+    static void SetAllTouchAreasDisabled(HubHUD *work);
+    static void SetMenuButtonTouchAreaEnabled(HubHUD *work, BOOL enabled);
+    static void SetViewButtonTouchAreaEnabled(HubHUD *work, BOOL enabled);
+    static void ConfigureTouchArea(HubHUD *work, s32 id, BOOL enabled);
+    static void TouchAreaCallback_ViewButton(TouchAreaResponse *response, TouchArea *area, void *userData);
+    static void TouchAreaCallback_MenuButton(TouchAreaResponse *response, TouchArea *area, void *userData);
+    static void SpriteCallback(BACFrameGroupBlockHeader *block, AnimatorSprite *animator, void *userData);
 };
-
-// --------------------
-// FUNCTIONS
-// --------------------
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-void HubHUD__Create(void);
-void HubHUD__CreateInternal(void);
-void HubHUD__Func_21600E4(void);
-void HubHUD__Func_2160110(s32 a1, s32 a2);
-BOOL HubHUD__Func_216016C(void);
-void HubHUD__Func_2160194(void);
-BOOL HubHUD__Func_21601BC(void);
-BOOL HubHUD__Func_21601FC(void);
-BOOL HubHUD__Func_216023C(void);
-BOOL HubHUD__Func_216027C(void);
-BOOL HubHUD__Func_21602BC(void);
-void HubHUD__Func_21602D8(s16 *x, s16 *y);
-void HubHUD__Func_2160344(s16 *x, s16 *y);
-void HubHUD__Func_21603B0(s32 x, s32 y);
-BOOL HubHUD__Func_21603F0(void);
-void HubHUD__Func_216040C(HubHUD *work);
-void HubHUD__Func_2160450(void);
-void HubHUD__Func_2160538(void);
-void HubHUD__Func_216062C(void);
-void HubHUD__Func_21606AC(HubHUD *work);
-void HubHUD__Func_21606CC(void);
-void HubHUD__Func_216070C(void);
-void HubHUD__Func_216074C(void);
-void HubHUD__Main(void);
-void HubHUD__Main_21608DC(void);
-void HubHUD__Destructor(Task *task);
-void HubHUD__Func_2160AC4(void);
-void HubHUD__Func_2160AE0(void);
-void HubHUD__Func_2160AF4(void);
-void HubHUD__Func_2160B58(void);
-void HubHUD__Func_2160C08(void);
-void HubHUD__Func_2160C68(void);
-void HubHUD__Func_2160CA4(void);
-void HubHUD__Func_2160CC4(void);
-void HubHUD__Func_2160D10(void);
-void HubHUD__Func_2160D40(void);
-void HubHUD__Func_2160DCC(void);
-void HubHUD__Func_2160EC0(void);
-void HubHUD__Func_2160FC0(void);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // RUSH_HUBHUD_HPP

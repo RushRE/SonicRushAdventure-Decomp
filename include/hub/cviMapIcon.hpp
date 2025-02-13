@@ -2,10 +2,60 @@
 #define RUSH_CVIMAPICON_HPP
 
 #include <game/graphics/sprite.h>
+#include <game/graphics/drawReqTask.h>
 
 // --------------------
 // STRUCTS
 // --------------------
+
+struct CViMapUnknown
+{
+    s32 field_0;
+    u32 area;
+    u32 dword8;
+    s32 field_C;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    u16 word1C;
+    u16 field_1E;
+    s32 field_20;
+    s32 field_24;
+    s32 field_28;
+    s32 field_2C;
+    s32 field_30;
+    s32 field_34;
+    s32 field_38;
+    s32 field_3C;
+    s32 field_40;
+    s32 field_44;
+    s32 field_48;
+    s32 field_4C;
+    s32 field_50;
+    s32 field_54;
+    s32 field_58;
+    s32 field_5C;
+    VecFx32 field_60;
+    s32 field_6C;
+    u16 field_70;
+    u16 field_72;
+    s32 field_74;
+    u16 field_78;
+    u16 field_7A;
+    s32 field_7C;
+    s32 field_80;
+    s32 field_84;
+    s32 field_88;
+    s32 field_8C;
+    s32 field_90;
+    VecFx32 field_94;
+    VecFx32 field_A0;
+    VecFx32 field_AC;
+    u16 field_B8;
+    u16 field_BA;
+    DirLight lights[4];
+    void *drawState;
+};
 
 struct CViMapIconUnknown
 {

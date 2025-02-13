@@ -168,25 +168,13 @@ _0215DB8C:
 #endif
 }
 
-NONMATCH_FUNC void ViDock__Func_215DB9C(void)
+void ViDock__Func_215DB9C(void)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	bl DestroyTask
-	ldr r0, =ViDock__TaskSingleton
-	mov r1, #0
-	str r1, [r0]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if (ViDock__TaskSingleton != NULL)
+    {
+        DestroyTask(ViDock__TaskSingleton);
+        ViDock__TaskSingleton = NULL;
+    }
 }
 
 NONMATCH_FUNC void ViDock__Func_215DBC8(s32 a1)
@@ -235,7 +223,7 @@ NONMATCH_FUNC void ViDock__Func_215DBC8(s32 a1)
 	add r0, r4, #0x18
 	bl ViMapIcon__Func_2163A7C
 	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Func_215F9CC
+	ldr r1, =ViDock__Main_215F9CC
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
@@ -319,7 +307,7 @@ NONMATCH_FUNC void ViDock__Func_215DD2C(void)
 	mov r1, #0
 	bl ViMapIcon__Func_2163A7C
 	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Func_215F9CC
+	ldr r1, =ViDock__Main_215F9CC
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, pc}
@@ -376,7 +364,7 @@ _0215DDDC:
 	cmp r5, #0
 	beq _0215DE20
 	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Func_215FE00
+	ldr r1, =ViDock__Main_215FE00
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	mov r0, #0
@@ -384,7 +372,7 @@ _0215DDDC:
 	ldmia sp!, {r4, r5, r6, pc}
 _0215DE20:
 	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Func_215F998
+	ldr r1, =ViDock__Main_215F998
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
@@ -438,7 +426,7 @@ NONMATCH_FUNC void ViDock__Func_215DE40(s32 a1)
 	mov r1, #2
 	bl ViMapIcon__Func_2163A7C
 	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Func_215FE68
+	ldr r1, =ViDock__Main_215FE68
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
@@ -832,7 +820,7 @@ NONMATCH_FUNC void ViDock__Func_215E178(void)
 	str r0, [r1, #0x48c]
 _0215E31C:
 	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Func_215FD48
+	ldr r1, =ViDock__Main_215FD48
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	add sp, sp, #0x48
@@ -945,7 +933,7 @@ _0215E45C:
 	str r3, [r2, #0x468]
 	bl ViDockPlayer__Func_2166B80
 	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Func_215F9CC
+	ldr r1, =ViDock__Main_215F9CC
 	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, pc}
@@ -2629,7 +2617,7 @@ NONMATCH_FUNC void ViDock__Main(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDock__Func_215F998(void)
+NONMATCH_FUNC void ViDock__Main_215F998(void)
 {
 #ifdef NON_MATCHING
 
@@ -2653,7 +2641,7 @@ NONMATCH_FUNC void ViDock__Func_215F998(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDock__Func_215F9CC(void)
+NONMATCH_FUNC void ViDock__Main_215F9CC(void)
 {
 #ifdef NON_MATCHING
 
@@ -2897,7 +2885,7 @@ _0215FCF0:
 #endif
 }
 
-NONMATCH_FUNC void ViDock__Func_215FD48(void)
+NONMATCH_FUNC void ViDock__Main_215FD48(void)
 {
 #ifdef NON_MATCHING
 
@@ -2956,7 +2944,7 @@ _0215FDD0:
 #endif
 }
 
-NONMATCH_FUNC void ViDock__Func_215FE00(void)
+NONMATCH_FUNC void ViDock__Main_215FE00(void)
 {
 #ifdef NON_MATCHING
 
@@ -2971,7 +2959,7 @@ NONMATCH_FUNC void ViDock__Func_215FE00(void)
 	ldr r1, [r0, #0]
 	add r0, r4, #0xf8
 	bl ViDockBack__Func_2164918
-	ldr r0, =ViDock__Func_215FE34
+	ldr r0, =ViDock__Main_215FE34
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 
@@ -2979,7 +2967,7 @@ NONMATCH_FUNC void ViDock__Func_215FE00(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDock__Func_215FE34(void)
+NONMATCH_FUNC void ViDock__Main_215FE34(void)
 {
 #ifdef NON_MATCHING
 
@@ -2992,7 +2980,7 @@ NONMATCH_FUNC void ViDock__Func_215FE34(void)
 	bl ViDockBack__Func_2164954
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldr r0, =ViDock__Func_215F998
+	ldr r0, =ViDock__Main_215F998
 	bl SetCurrentTaskMainEvent
 	mov r0, #1
 	str r0, [r4, #0xc]
@@ -3002,7 +2990,7 @@ NONMATCH_FUNC void ViDock__Func_215FE34(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDock__Func_215FE68(void)
+NONMATCH_FUNC void ViDock__Main_215FE68(void)
 {
 #ifdef NON_MATCHING
 

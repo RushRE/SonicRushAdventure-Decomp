@@ -494,7 +494,7 @@ void CutsceneFadeManager__Draw(CutsceneFadeManager *work, s32 mode, s32 timer);
 // SpriteButton touch area
 void CutsceneSpriteButtonManager__AddTouchArea(void);
 void CutsceneSpriteButtonManager__RemoveTouchArea(void);
-void CutsceneSpriteButtonManager__TouchAreaCallback(TouchAreaResponse *responce, TouchArea *area, void *userData);
+void CutsceneSpriteButtonManager__TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData);
 
 void CutsceneTextWorker__Init(CutsceneTextWorker *work);
 void CutsceneTextWorker__Draw(CutsceneTextWorker *work);

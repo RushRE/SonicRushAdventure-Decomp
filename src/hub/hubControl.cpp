@@ -36,24 +36,6 @@
 #include <resources/bb/tkdm_down.h>
 
 // --------------------
-// TEMP
-// --------------------
-
-extern "C"
-{
-
-NOT_DECOMPILED void _ZN10HubControl10HandleFadeEsss(void);
-NOT_DECOMPILED void _ZN10HubControl12Func_2159740EPS_(void);
-NOT_DECOMPILED void _ZN10HubControl12Main_2158868Ev(void);
-NOT_DECOMPILED void _ZN10HubControl12Main_2157C0CEv(void);
-NOT_DECOMPILED void _ZN10HubControl12Main_2158A04Ev(void);
-NOT_DECOMPILED void _ZN10HubControl12Main_21588D4Ev(void);
-NOT_DECOMPILED void _ZN10HubControl12Func_21591A8Ev(void);
-NOT_DECOMPILED void _ZN10HubControl12Func_21598B4EPS_(void);
-NOT_DECOMPILED void _ZN10HubControl12Main_21578CCEv(void);
-}
-
-// --------------------
 // VARIABLES
 // --------------------
 
@@ -360,9 +342,9 @@ void HubControl::Create(s32 area)
     }
 
     work->ClearAnimators();
-    HubHUD__Create();
-    HubHUD__Func_2160110(0, 1);
-    HubHUD__Func_21603B0(0, 1);
+    HubHUD::Create();
+    HubHUD::ConfigureViewButton(FALSE, TRUE);
+    HubHUD::ConfigureMenuButton(FALSE, TRUE);
     ViMapPaletteAnimation__Create();
     CViHubAreaPreview::Create(work);
     ResetTouchInput();
@@ -427,9 +409,9 @@ void HubControl::Create2(s32 area, BOOL a2, s32 a3)
 
     work->ClearAnimators();
 
-    HubHUD__Create();
-    HubHUD__Func_2160110(0, 1);
-    HubHUD__Func_21603B0(0, 1);
+    HubHUD::Create();
+    HubHUD::ConfigureViewButton(FALSE, TRUE);
+    HubHUD::ConfigureMenuButton(FALSE, TRUE);
 
     ViMapPaletteAnimation__Create();
 
@@ -478,28 +460,26 @@ void HubControl::Release()
     CViHubAreaPreview::Func_2158C04(this);
     this->ReleaseGraphics();
     ViMap__Func_215C960();
-    HubHUD__Func_21600E4();
+    HubHUD::Destroy();
     ViDock__Func_215DB9C();
     ViMap__Func_215BAF0();
     this->ReleaseAssets();
     ReleaseHubAudio(HubControl::Func_2159854(this->nextEvent));
 }
 
-NONMATCH_FUNC void HubControl::Main1()
+void HubControl::Main1()
 {
-    // https://decomp.me/scratch/qSPwI -> 96.42%
-    // register issue near 'work->field_114'
-#ifdef NON_MATCHING
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    u32 area = DOCKAREA_INVALID;
+    s32 area = DOCKAREA_INVALID;
     if (HubControl::HandleFade(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_DEFAULT, 1) == 0)
     {
         work->field_0 &= ~0x10000;
 
-        if (work->field_114 < 8)
+        if (work->field_114 < DOCKAREA_COUNT)
         {
-            if (work->field_114 == ViMap__Func_215BCA0(1))
+            s32 value = ViMap__Func_215BCA0(1);
+            if (work->field_114 == value)
             {
                 area            = work->field_114;
                 work->field_114 = DOCKAREA_INVALID;
@@ -525,8 +505,8 @@ NONMATCH_FUNC void HubControl::Main1()
             else
             {
                 ViMap__Func_215BB28(0);
-                HubHUD__Func_2160110(1, 1);
-                HubHUD__Func_21603B0(1, 1);
+                HubHUD::ConfigureViewButton(TRUE, TRUE);
+                HubHUD::ConfigureMenuButton(TRUE, TRUE);
                 SetCurrentTaskMainEvent(HubControl::Main_21578CC);
             }
         }
@@ -535,8 +515,8 @@ NONMATCH_FUNC void HubControl::Main1()
     if (area < DOCKAREA_COUNT)
     {
         ViMap__Func_215BB28(1);
-        HubHUD__Func_2160110(0, 1);
-        HubHUD__Func_21603B0(0, 1);
+        HubHUD::ConfigureViewButton(FALSE, TRUE);
+        HubHUD::ConfigureMenuButton(FALSE, TRUE);
 
         PlayHubSfx(HUB_SFX_D_DECISION);
 
@@ -567,128 +547,6 @@ NONMATCH_FUNC void HubControl::Main1()
     }
 
     HubControl::Func_2159740(work);
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	mov r0, #0
-	mov r1, r0
-	mov r2, #1
-	mov r5, #9
-	bl _ZN10HubControl10HandleFadeEsss
-	cmp r0, #0
-	bne _021577E8
-	ldr r0, [r4, #0]
-	bic r0, r0, #0x10000
-	str r0, [r4]
-	ldr r0, [r4, #0x114]
-	cmp r0, #8
-	bge _02157780
-	mov r0, #1
-	bl ViMap__Func_215BCA0
-	ldr r1, [r4, #0x114]
-	cmp r1, r0
-	bne _0215776C
-	mov r0, r5
-	mov r5, r1
-	str r0, [r4, #0x114]
-	b _021577E8
-_0215776C:
-	ldr r0, =_ZN10HubControl12Main_21588D4Ev
-	mov r1, #0
-	str r1, [r4, #0x120]
-	bl SetCurrentTaskMainEvent
-	b _021577E8
-_02157780:
-	bl SaveGame__CheckProgress15
-	cmp r0, #0
-	beq _021577A0
-	ldr r0, =_ZN10HubControl12Main_2158A04Ev
-	mov r1, #0
-	str r1, [r4, #0x120]
-	bl SetCurrentTaskMainEvent
-	b _021577E8
-_021577A0:
-	bl SaveGame__CheckProgress30
-	cmp r0, #0
-	beq _021577C0
-	ldr r0, =_ZN10HubControl12Main_2158A04Ev
-	mov r1, #0
-	str r1, [r4, #0x120]
-	bl SetCurrentTaskMainEvent
-	b _021577E8
-_021577C0:
-	mov r0, #0
-	bl ViMap__Func_215BB28
-	mov r0, #1
-	mov r1, r0
-	bl HubHUD__Func_2160110
-	mov r0, #1
-	mov r1, r0
-	bl HubHUD__Func_21603B0
-	ldr r0, =_ZN10HubControl12Main_21578CCEv
-	bl SetCurrentTaskMainEvent
-_021577E8:
-	cmp r5, #8
-	bge _021578AC
-	mov r0, #1
-	bl ViMap__Func_215BB28
-	mov r0, #0
-	mov r1, #1
-	bl HubHUD__Func_2160110
-	mov r0, #0
-	mov r1, #1
-	bl HubHUD__Func_21603B0
-	mov r0, #5
-	bl PlayHubSfx
-	str r5, [r4, #0x14]
-	ldr r1, [r4, #0]
-	mov r0, r5, lsl #0x10
-	orr r1, r1, #0x10000
-	str r1, [r4]
-	mov r0, r0, lsr #0x10
-	bl HubConfig__Func_2152960
-	ldr r0, [r0, #4]
-	cmp r0, #7
-	bge _02157868
-	ldr r0, [r4, #0x11c]
-	bl ViDock__Func_215E658
-	mov r0, r5, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl HubConfig__Func_2152960
-	ldr r1, [r0, #4]
-	ldr r0, =_ZN10HubControl12Main_2157C0CEv
-	str r1, [r4, #0xc]
-	bl SetCurrentTaskMainEvent
-	b _021578AC
-_02157868:
-	cmp r5, #6
-	bne _02157884
-	mov r0, #0
-	str r0, [r4, #0x104]
-	mov r0, #8
-	str r0, [r4, #0x108]
-	b _0215789C
-_02157884:
-	cmp r5, #7
-	bne _0215789C
-	mov r0, #0xa
-	str r0, [r4, #0x104]
-	mov r0, #0
-	str r0, [r4, #0x108]
-_0215789C:
-	mov r0, r4
-	bl _ZN10HubControl12Func_21598B4EPS_
-	ldr r0, =_ZN10HubControl12Main_2158868Ev
-	bl SetCurrentTaskMainEvent
-_021578AC:
-	mov r0, r4
-	bl _ZN10HubControl12Func_2159740EPS_
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
 }
 
 void HubControl::Main_21578CC()
@@ -698,16 +556,16 @@ void HubControl::Main_21578CC()
     BOOL flag = FALSE;
     if (ViMap__Func_215BCA0(1) < 8)
     {
-        HubHUD__Func_2160110(1, 1);
-        HubHUD__Func_21603B0(1, 1);
-        if (HubHUD__Func_216016C())
+        HubHUD::ConfigureViewButton(TRUE, TRUE);
+        HubHUD::ConfigureMenuButton(TRUE, TRUE);
+        if (HubHUD::LookAroundEnabled())
         {
             ViMap__Func_215BB28(1);
             SetCurrentTaskMainEvent(HubControl::Main_2157A94);
-            HubHUD__Func_21603B0(0, 1);
+            HubHUD::ConfigureMenuButton(FALSE, TRUE);
             flag = TRUE;
         }
-        else if (HubHUD__Func_21603F0())
+        else if (HubHUD::ShouldOpenMainMenu())
         {
             work->Func_2159758(1);
             PlayHubSfx(HUB_SFX_PAUSE);
@@ -716,15 +574,15 @@ void HubControl::Main_21578CC()
             ViMap__Func_215BB28(1);
             HubControl::Func_21598B4(work);
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
-            HubHUD__Func_2160110(0, 1);
-            HubHUD__Func_21603B0(0, 1);
+            HubHUD::ConfigureViewButton(FALSE, TRUE);
+            HubHUD::ConfigureMenuButton(FALSE, TRUE);
             flag = TRUE;
         }
     }
     else
     {
-        HubHUD__Func_2160110(1, 0);
-        HubHUD__Func_21603B0(1, 0);
+        HubHUD::ConfigureViewButton(TRUE, FALSE);
+        HubHUD::ConfigureMenuButton(TRUE, FALSE);
     }
 
     if (!flag)
@@ -733,8 +591,8 @@ void HubControl::Main_21578CC()
         if (area < DOCKAREA_NONE)
         {
             ViMap__Func_215BB28(1);
-            HubHUD__Func_2160110(0, 1);
-            HubHUD__Func_21603B0(0, 1);
+            HubHUD::ConfigureViewButton(FALSE, TRUE);
+            HubHUD::ConfigureMenuButton(FALSE, TRUE);
 
             PlayHubSfx(HUB_SFX_D_DECISION);
             work->nextAreaID = area;
@@ -772,7 +630,7 @@ void HubControl::Main_2157A94()
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
     BOOL flag = FALSE;
-    if (!HubHUD__Func_216016C())
+    if (!HubHUD::LookAroundEnabled())
     {
         ViMap__Func_215BB28(0);
         SetCurrentTaskMainEvent(HubControl::Main_21578CC);
@@ -784,7 +642,7 @@ void HubControl::Main_2157A94()
         s32 area = ViMap__Func_215BC80();
         if (area < DOCKAREA_COUNT)
         {
-            HubHUD__Func_2160194();
+            HubHUD::DisableLookAround();
             ViMap__Func_215BB28(0);
             ViMap__Func_215BCE4(area, 1);
             SetCurrentTaskMainEvent(HubControl::Main_21578CC);
@@ -796,40 +654,40 @@ void HubControl::Main_2157A94()
     {
         u16 startY;
         u16 startX;
-        s16 currentY;
-        s16 currentX;
+        s16 touchMoveY;
+        s16 touchMoveX;
 
-        currentX = 0;
-        currentY = 0;
+        touchMoveX = 0;
+        touchMoveY = 0;
 
         ViMap__Func_215BC40(&startX, &startY);
 
-        if (HubHUD__Func_21602BC())
+        if (HubHUD::GetTouchHeld())
         {
-            s16 y;
-            s16 x;
+            s16 touchY;
+            s16 touchX;
 
-            HubHUD__Func_21602D8(&currentX, &currentY);
-            HubHUD__Func_2160344(&x, &y);
-            ViMap__Func_215C878(x, y);
+            HubHUD::GetTouchMove(&touchMoveX, &touchMoveY);
+            HubHUD::GetTouchPos(&touchX, &touchY);
+            ViMap__Func_215C878(touchX, touchY);
         }
         else
         {
-            if (HubHUD__Func_21601BC())
-                currentX += 2;
+            if (HubHUD::GetLookAroundBtnLeft())
+                touchMoveX += 2;
 
-            if (HubHUD__Func_21601FC())
-                currentY += 2;
+            if (HubHUD::GetLookAroundBtnUp())
+                touchMoveY += 2;
 
-            if (HubHUD__Func_216023C())
-                currentX -= 2;
+            if (HubHUD::GetLookAroundBtnRight())
+                touchMoveX -= 2;
 
-            if (HubHUD__Func_216027C())
-                currentY -= 2;
+            if (HubHUD::GetLookAroundBtnDown())
+                touchMoveY -= 2;
         }
 
-        startX = ClampS32(startX - currentX, 0, 64);
-        startY = ClampS32(startY - currentY, 16, 64);
+        startX = ClampS32(startX - touchMoveX, 0, 64);
+        startY = ClampS32(startY - touchMoveY, 16, 64);
         ViMap__Func_215BBAC(startX, startY);
     }
 
@@ -874,7 +732,7 @@ void HubControl::Main2()
             work->field_124 = 0;
             ViDock__Func_215E104(5);
             ViDock__Func_215E178();
-            HubHUD__Func_21603B0(0, 1);
+            HubHUD::ConfigureMenuButton(FALSE, TRUE);
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_OPTIONS, 0);
             SetCurrentTaskMainEvent(HubControl::Main_2158160);
         }
@@ -885,7 +743,7 @@ void HubControl::Main2()
                 ViDock__Func_215E104(12);
 
             ViDock__Func_215E178();
-            HubHUD__Func_21603B0(0, 1);
+            HubHUD::ConfigureMenuButton(FALSE, TRUE);
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_MOVIELIST, 0);
             SetCurrentTaskMainEvent(HubControl::Main_2158160);
         }
@@ -894,7 +752,7 @@ void HubControl::Main2()
             work->field_12C = 0;
             ViDock__Func_215E104(1);
             ViDock__Func_215E178();
-            HubHUD__Func_21603B0(0, 1);
+            HubHUD::ConfigureMenuButton(FALSE, TRUE);
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_MISSIONCLEARED, 0);
             SetCurrentTaskMainEvent(HubControl::Main_2158160);
         }
@@ -902,7 +760,7 @@ void HubControl::Main2()
         {
             ViDock__Func_215E104(0);
             ViDock__Func_215E178();
-            HubHUD__Func_21603B0(0, 1);
+            HubHUD::ConfigureMenuButton(FALSE, TRUE);
             if (work->field_134)
                 CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_GAMEOVER, 1);
             else
@@ -955,7 +813,7 @@ void HubControl::Main_2157F2C()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
     ViDock__Func_215DF64(1);
-    HubHUD__Func_21603B0(1, 1);
+    HubHUD::ConfigureMenuButton(TRUE, TRUE);
     SetCurrentTaskMainEvent(HubControl::Main_2157F64);
     HubControl::Func_2159740(work);
 }
@@ -967,7 +825,7 @@ void HubControl::Main_2157F64()
     if (ViDock__Func_215DFA0())
     {
         ViDock__Func_215DF64(0);
-        HubHUD__Func_21603B0(0, 0);
+        HubHUD::ConfigureMenuButton(FALSE, FALSE);
         work->field_0 |= 0x10000;
         SetCurrentTaskMainEvent(HubControl::Main_21587D8);
         PlayHubSfx(HUB_SFX_V_CHANGE);
@@ -975,7 +833,7 @@ void HubControl::Main_2157F64()
     else if (work->field_C != ViDock__Func_215DFE4())
     {
         ViDock__Func_215DF64(0);
-        HubHUD__Func_21603B0(0, 0);
+        HubHUD::ConfigureMenuButton(FALSE, FALSE);
         work->field_0 |= 0x10000;
         SetCurrentTaskMainEvent(HubControl::Main_21580C0);
         PlayHubSfx(HUB_SFX_V_CHANGE);
@@ -992,18 +850,18 @@ void HubControl::Main_2157F64()
                 PlayHubSfx(HUB_SFX_V_DECIDE);
 
             ViDock__Func_215E178();
-            HubHUD__Func_21603B0(0, 1);
+            HubHUD::ConfigureMenuButton(FALSE, TRUE);
             CViDockNpcTalk::CreateTalk(id, param);
             SetCurrentTaskMainEvent(HubControl::Main_2158160);
         }
-        else if (HubHUD__Func_21603F0())
+        else if (HubHUD::ShouldOpenMainMenu())
         {
             work->Func_2159758(0);
             PlayHubSfx(HUB_SFX_PAUSE);
             ViDock__Func_215DF64(0);
             work->nextEvent       = HUBEVENT_MAIN_MENU;
             work->nextSelectionID = 0;
-            HubHUD__Func_21603B0(0, 1);
+            HubHUD::ConfigureMenuButton(FALSE, TRUE);
             HubControl::Func_21598B4(work);
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
         }
@@ -1763,36 +1621,37 @@ void HubControl::Func_2159084()
     HubControl::Func_2159740(work);
 }
 
-NONMATCH_FUNC void HubControl::Func_2159104()
+void HubControl::Func_2159104()
 {
-    // https://decomp.me/scratch/TOOyj -> 97.93%
-    // minor register issues
-#ifdef NON_MATCHING
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    u32 v4;
-    u32 v0;
-    u32 v1;
+    u32 timer;
+    u32 duration1;
+    u32 duration2;
+    s16 fadeTargetA;
     if (work->field_1C < 5)
     {
-        v0 = 210;
-        v1 = 450;
+        fadeTargetA = RENDERCORE_BRIGHTNESS_DEFAULT;
+        duration1 = 210;
+        duration2 = 450;
     }
     else
     {
-        v0 = 120;
-        v1 = 256;
+        fadeTargetA = RENDERCORE_BRIGHTNESS_DEFAULT;
+        duration1 = 120;
+        duration2 = 256;
     }
-    v4 = work->field_4 - work->field_8;
+    timer = work->field_4 - work->field_8;
 
-    if (v4 > 60 && HubControl::HandleFade(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_DEFAULT, 1) == 0)
+    s16 fadeTargetB = RENDERCORE_BRIGHTNESS_DEFAULT;
+    if (timer > 60 && HubControl::HandleFade(fadeTargetA, fadeTargetB, 1) == 0)
     {
-        if (v4 > v0)
+        if (timer > duration1)
         {
             if (work->field_1C < 5)
                 ViDock__Func_215DF84();
 
-            if (v4 > v1)
+            if (timer > duration2)
             {
                 if (work->field_1C < 5)
                     FadeSysTrack(12);
@@ -1804,54 +1663,6 @@ NONMATCH_FUNC void HubControl::Func_2159104()
     }
 
     HubControl::Func_2159740(work);
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	ldr r0, [r4, #0x1c]
-	ldr r2, [r4, #4]
-	cmp r0, #5
-	ldr r1, [r4, #8]
-	movlt r6, #0xd2
-	addlt r7, r6, #0xf0
-	sub r5, r2, r1
-	mov r0, #0
-	movge r6, #0x78
-	movge r7, #0x100
-	cmp r5, #0x3c
-	bls _02159198
-	mov r1, #0
-	mov r2, #1
-	bl _ZN10HubControl10HandleFadeEsss
-	cmp r0, #0
-	bne _02159198
-	cmp r5, r6
-	bls _02159198
-	ldr r0, [r4, #0x1c]
-	cmp r0, #5
-	bge _0215916C
-	bl ViDock__Func_215DF84
-_0215916C:
-	cmp r5, r7
-	bls _02159198
-	ldr r0, [r4, #0x1c]
-	cmp r0, #5
-	bge _02159188
-	mov r0, #0xc
-	bl FadeSysTrack
-_02159188:
-	ldr r1, [r4, #4]
-	ldr r0, =_ZN10HubControl12Func_21591A8Ev
-	str r1, [r4, #8]
-	bl SetCurrentTaskMainEvent
-_02159198:
-	mov r0, r4
-	bl _ZN10HubControl12Func_2159740EPS_
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 void HubControl::Func_21591A8()

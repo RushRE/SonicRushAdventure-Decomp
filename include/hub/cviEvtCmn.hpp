@@ -122,7 +122,7 @@ public:
     // --------------------
 
     static void SpriteCallback(BACFrameGroupBlockHeader *block, AnimatorSprite *animator, void *userData);
-    static void TouchAreaCallback(TouchAreaResponse *responce, TouchArea *area, void *userData);
+    static void TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData);
 };
 
 class CViEvtCmnSelect

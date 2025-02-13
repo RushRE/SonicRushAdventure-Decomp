@@ -4,11 +4,14 @@
 #include <global.h>
 
 #ifdef __cplusplus
+
 #include <hub/hubTask.hpp>
 #include <hub/cviDockBack.hpp>
 #include <hub/cviDockNpcGroup.hpp>
 #include <hub/cvi3dObject.hpp>
+#include <hub/cviDockNpc.hpp>
 #include <hub/cviDockPlayer.hpp>
+#include <hub/cviMapIcon.hpp>
 #include <game/text/fontAnimator.h>
 #include <game/text/fontWindowAnimator.h>
 #include <game/system/threadWorker.h>
@@ -23,6 +26,41 @@ public:
     // --------------------
     // VARIABLES
     // --------------------
+
+    u16 area;
+    u16 field_2;
+    s32 field_4;
+    s32 field_8;
+    s32 field_C;
+    s32 field_10;
+    s32 field_14;
+    CViMapUnknown mapUnknown;
+    CViDockBack dockBack;
+    CViDockPlayer player;
+    CViDockNpcGroup npcGroup;
+    CViShadow shadow;
+    s32 talkActionType;
+    s32 talkActionParam;
+    CViDockNpc *field_1468;
+    s32 field_146C;
+    s32 field_1470;
+    s32 field_1474;
+    VecFx32 field_1478;
+    VecFx32 field_1484;
+    FontWindowAnimator fontWindowAnimator;
+    FontAnimator fontAnimator;
+    s16 field_15B8;
+    s16 field_15BA;
+    VecFx32 field_15BC[16];
+    u16 field_167C;
+    u16 field_167E;
+    s32 field_1680;
+    s16 field_1684[9];
+    u16 colors[7];
+    VecFx32 field_16A4[16][6];
+    s32 field_1B24;
+    s32 field_1B28;
+    Thread thread;
 
     // --------------------
     // MEMBER FUNCTIONS
@@ -92,12 +130,12 @@ void ViDock__Func_215F1A8(void);
 void ViDock__Func_215F6C8(void);
 void ViDock__Func_215F8E8(void);
 void ViDock__Main(void);
-void ViDock__Func_215F998(void);
-void ViDock__Func_215F9CC(void);
-void ViDock__Func_215FD48(void);
-void ViDock__Func_215FE00(void);
-void ViDock__Func_215FE34(void);
-void ViDock__Func_215FE68(void);
+void ViDock__Main_215F998(void);
+void ViDock__Main_215F9CC(void);
+void ViDock__Main_215FD48(void);
+void ViDock__Main_215FE00(void);
+void ViDock__Main_215FE34(void);
+void ViDock__Main_215FE68(void);
 void ViDock__Destructor(Task *task);
 void ViDock__Func_215FF6C(void);
 void ViDock__Func_215FFC0(void);

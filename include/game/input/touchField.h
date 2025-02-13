@@ -19,7 +19,7 @@ typedef struct TouchAreaResponse_ TouchAreaResponse;
 typedef u32 TouchAreaResponseFlags;
 
 typedef BOOL (*TouchAreaBoundsCheckFunc)(TouchArea *area);
-typedef void (*TouchAreaCallback)(TouchAreaResponse *responce, TouchArea *area, void *userData);
+typedef void (*TouchAreaCallback)(TouchAreaResponse *response, TouchArea *area, void *userData);
 
 // --------------------
 // CONSTANTS

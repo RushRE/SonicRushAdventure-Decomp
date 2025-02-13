@@ -7592,7 +7592,7 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__RemoveTouchArea(void)
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__TouchAreaCallback(TouchAreaResponse *responce, TouchArea *area, void *userData)
+NONMATCH_FUNC void CutsceneSpriteButtonManager__TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData)
 {
 #ifdef NON_MATCHING
 

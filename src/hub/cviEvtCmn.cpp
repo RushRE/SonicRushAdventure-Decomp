@@ -1589,11 +1589,11 @@ void CViEvtCmnMsg::SpriteCallback(BACFrameGroupBlockHeader *block, AnimatorSprit
     }
 }
 
-void CViEvtCmnMsg::TouchAreaCallback(TouchAreaResponse *responce, TouchArea *area, void *userData)
+void CViEvtCmnMsg::TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData)
 {
     CViEvtCmnMsg *eventMessage = (CViEvtCmnMsg *)userData;
 
-    switch (responce->flags)
+    switch (response->flags)
     {
         case TOUCHAREA_RESPONSE_40000:
             eventMessage->SetAutoAdvance();

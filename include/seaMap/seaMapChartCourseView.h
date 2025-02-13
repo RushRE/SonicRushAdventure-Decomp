@@ -108,7 +108,7 @@ typedef struct SeaMapChartCourseView_
 NOT_DECOMPILED void SeaMapChartCourseView__Create(BOOL useEngineB, ShipType shipType, s32 mode);
 NOT_DECOMPILED void SeaMapChartCourseView__Destroy(void);
 NOT_DECOMPILED BOOL SeaMapChartCourseView__Func_2040978(void);
-NOT_DECOMPILED void SeaMapChartCourseView__TouchAreaCallback(TouchAreaResponse *responce, TouchArea *area, void *userData);
+NOT_DECOMPILED void SeaMapChartCourseView__TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData);
 NOT_DECOMPILED void SeaMapChartCourseView__Func_2040B90(SeaMapChartCourseView *work);
 NOT_DECOMPILED void SeaMapChartCourseView__Func_2040C54(SeaMapChartCourseView *work);
 NOT_DECOMPILED void SeaMapChartCourseView__Func_2040C7C(SeaMapChartCourseView *work);
