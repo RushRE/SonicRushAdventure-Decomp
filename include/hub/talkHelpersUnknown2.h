@@ -27,9 +27,9 @@ typedef struct TalkHelpersUnknown2_
 // --------------------
 
 // TalkHelpersUnknown2
-NOT_DECOMPILED void TalkHelpersUnknown2__Func_21534E4(void);
-NOT_DECOMPILED void TalkHelpersUnknown2__Func_215354C(void);
-NOT_DECOMPILED void TalkHelpersUnknown2__Func_2153614(void);
+NOT_DECOMPILED void TalkHelpersUnknown2__Func_21534E4(TalkHelpersUnknown2 *work);
+NOT_DECOMPILED void TalkHelpersUnknown2__Func_215354C(TalkHelpersUnknown2 *work, s32 a2, BOOL useEngineB, u8 bgID, u16 paletteRow);
+NOT_DECOMPILED void TalkHelpersUnknown2__Func_2153614(TalkHelpersUnknown2 *work, u16 a2);
 
 #ifdef __cplusplus
 }

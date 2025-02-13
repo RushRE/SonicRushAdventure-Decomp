@@ -77,33 +77,33 @@ typedef u32 SaveBlockFlags;
 
 enum SaveProgress_
 {
-    SAVE_PROGRESS_0,
-    SAVE_PROGRESS_1,
-    SAVE_PROGRESS_2,
+    SAVE_PROGRESS_0, // fresh save
+    SAVE_PROGRESS_1, // cleared training
+    SAVE_PROGRESS_2, // built wave cyclone
     SAVE_PROGRESS_3,
     SAVE_PROGRESS_4,
-    SAVE_PROGRESS_5,
+    SAVE_PROGRESS_5, // cleared plant kingdom boss
     SAVE_PROGRESS_6,
     SAVE_PROGRESS_7,
-    SAVE_PROGRESS_8,
-    SAVE_PROGRESS_9,
+    SAVE_PROGRESS_8, // cleared machine labyrinth boss
+    SAVE_PROGRESS_9, // built ocean tornado
     SAVE_PROGRESS_10,
     SAVE_PROGRESS_11,
     SAVE_PROGRESS_12,
     SAVE_PROGRESS_13,
     SAVE_PROGRESS_14,
     SAVE_PROGRESS_15,
-    SAVE_PROGRESS_16,
+    SAVE_PROGRESS_16, // cleared coral cave boss
     SAVE_PROGRESS_17,
     SAVE_PROGRESS_18,
     SAVE_PROGRESS_19,
     SAVE_PROGRESS_20,
-    SAVE_PROGRESS_21,
-    SAVE_PROGRESS_22,
+    SAVE_PROGRESS_21, // cleared haunted ship boss
+    SAVE_PROGRESS_22, // built aqua blast
     SAVE_PROGRESS_23,
     SAVE_PROGRESS_24,
     SAVE_PROGRESS_25,
-    SAVE_PROGRESS_26,
+    SAVE_PROGRESS_26, // built deep typhoon
     SAVE_PROGRESS_27,
     SAVE_PROGRESS_28,
     SAVE_PROGRESS_29,
@@ -112,15 +112,43 @@ enum SaveProgress_
     SAVE_PROGRESS_32,
     SAVE_PROGRESS_33,
     SAVE_PROGRESS_34,
-    SAVE_PROGRESS_35,
-    SAVE_PROGRESS_36,
-    SAVE_PROGRESS_37,
-    SAVE_PROGRESS_38,
-    SAVE_PROGRESS_39,
+    SAVE_PROGRESS_35, // cleared pirates island boss
+    SAVE_PROGRESS_36, // cleared big swell boss
+    SAVE_PROGRESS_37, // collected all emeralds
+    SAVE_PROGRESS_38, // built magma hurricane
+    SAVE_PROGRESS_39, // cleared deep core
 
     SAVE_PROGRESS_COUNT,
 };
 typedef s32 SaveProgress;
+
+// Blizzard peaks progress
+enum SaveProgressZone5_
+{
+    SAVE_ZONE5_PROGRESS_0,
+    SAVE_ZONE5_PROGRESS_1,
+    SAVE_ZONE5_PROGRESS_2,
+    SAVE_ZONE5_PROGRESS_3,
+    SAVE_ZONE5_PROGRESS_4,
+
+    SAVE_ZONE5_PROGRESS_COUNT,
+};
+typedef s32 SaveProgressZone5;
+
+// Sky babylon progress
+enum SaveProgressZone6_
+{
+    SAVE_ZONE6_PROGRESS_0,
+    SAVE_ZONE6_PROGRESS_1,
+    SAVE_ZONE6_PROGRESS_2,
+    SAVE_ZONE6_PROGRESS_3,
+    SAVE_ZONE6_PROGRESS_4,
+    SAVE_ZONE6_PROGRESS_5,
+    SAVE_ZONE6_PROGRESS_6,
+
+    SAVE_ZONE6_PROGRESS_COUNT,
+};
+typedef s32 SaveProgressZone6;
 
 enum SaveVsRecordType_
 {
@@ -372,13 +400,13 @@ s32 SaveGame__GetUnknownProgress1(void);
 void SaveGame__SetUnknownProgress1(s32 progress);
 s32 SaveGame__GetUnknownProgress2(void);
 void SaveGame__SetUnknownProgress2(s32 progress);
-void SaveGame__Func_205BBBC(void);
+void SaveGame__IncrementUnknown2ForUnknown(void);
 BOOL SaveGame__HasDoorPuzzlePiece(u16 id);
 void SaveGame__GetPuzzlePiece(u16 id);
 void SaveGame__Func_205BC18(void);
 void SaveGame__Func_205BC28(void);
 void SaveGame__Func_205BC38(u32 type);
-BOOL SaveGame__Func_205BC7C(void);
+BOOL SaveGame__CheckCollectedAllEmeraldsEvent(void);
 void SaveGame__SetMissionStatus(u16 id, MissionState status);
 MissionState SaveGame__GetMissionStatus(u16 id);
 void SaveGame__SetMissionAttempted(u16 id, BOOL attempted);

@@ -42,15 +42,15 @@ CViMapIcon::CViMapIcon()
     MI_CpuClear32(&this->aniSonicMarker, sizeof(this->aniCursor));
     MI_CpuClear32(&this->aniCursor, sizeof(this->aniCursor));
 
-    ViMapIcon__Func_2163294(this);
+    ViMapIcon__Release(this);
 }
 
 CViMapIcon::~CViMapIcon()
 {
-    ViMapIcon__Func_2163294(this);
+    ViMapIcon__Release(this);
 }
 
-NONMATCH_FUNC void ViMapIcon__Func_2163058(CViMapIcon *work)
+NONMATCH_FUNC void ViMapIcon__Func_2163058(CViMapIcon *work, BOOL useEngineB)
 {
 #ifdef NON_MATCHING
 
@@ -60,7 +60,7 @@ NONMATCH_FUNC void ViMapIcon__Func_2163058(CViMapIcon *work)
 	sub sp, sp, #0x1c
 	mov r5, r1
 	mov r6, r0
-	bl ViMapIcon__Func_2163294
+	bl ViMapIcon__Release
 	cmp r5, #0
 	ldreq r4, =0x05000200
 	mov r0, #0
@@ -202,7 +202,7 @@ NONMATCH_FUNC void ViMapIcon__Func_2163058(CViMapIcon *work)
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__Func_2163294(CViMapIcon *work)
+NONMATCH_FUNC void ViMapIcon__Release(CViMapIcon *work)
 {
 #ifdef NON_MATCHING
 
@@ -256,7 +256,7 @@ NONMATCH_FUNC void ViMapIcon__Func_2163294(CViMapIcon *work)
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__Func_2163340(CViMapIcon *work){
+NONMATCH_FUNC void ViMapIcon__Func_2163340(CViMapIcon *work, u8 id, BOOL enabled){
 #ifdef NON_MATCHING
 
 #else
@@ -275,7 +275,7 @@ NONMATCH_FUNC void ViMapIcon__Func_2163340(CViMapIcon *work){
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__Func_2163364(CViMapIcon *work){
+NONMATCH_FUNC void ViMapIcon__Func_2163364(CViMapIcon *work, u16 x, u16 y){
 #ifdef NON_MATCHING
 
 #else
@@ -288,7 +288,7 @@ NONMATCH_FUNC void ViMapIcon__Func_2163364(CViMapIcon *work){
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__Func_2163370(CViMapIcon *work){
+NONMATCH_FUNC void ViMapIcon__GetIconPosition(CViMapIcon *work, u32 area, u16 *x, u16 *y){
 #ifdef NON_MATCHING
 
 #else
@@ -312,7 +312,7 @@ _02163388:
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__Func_21633A4(CViMapIcon *work){
+NONMATCH_FUNC void ViMapIcon__SetIconID2(CViMapIcon *work, u32 icon){
 #ifdef NON_MATCHING
 
 #else
@@ -330,7 +330,7 @@ NONMATCH_FUNC void ViMapIcon__Func_21633A4(CViMapIcon *work){
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__Func_21633C4(CViMapIcon *work)
+NONMATCH_FUNC void ViMapIcon__SetIconID(CViMapIcon *work, u32 icon)
 {
 #ifdef NON_MATCHING
 
@@ -354,7 +354,7 @@ NONMATCH_FUNC void ViMapIcon__Func_21633C4(CViMapIcon *work)
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__Func_21633F8(CViMapIcon *work){
+NONMATCH_FUNC s32 ViMapIcon__GetCurrentIcon(CViMapIcon *work){
 #ifdef NON_MATCHING
 
 #else
@@ -451,7 +451,7 @@ _021634E4:
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__Func_21634F4(CViMapIcon *work)
+NONMATCH_FUNC s32 ViMapIcon__GetIconFromTouchPos(CViMapIcon *work)
 {
 #ifdef NON_MATCHING
 
@@ -525,7 +525,7 @@ _021635C8:
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__Func_21635DC(CViMapIcon *work)
+NONMATCH_FUNC s32 ViMapIcon__Func_21635DC(CViMapIcon *work)
 {
 #ifdef NON_MATCHING
 
@@ -576,7 +576,7 @@ _0216363C:
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__Func_2163688(CViMapIcon *work){
+NONMATCH_FUNC BOOL ViMapIcon__IsMoving(CViMapIcon *work){
 #ifdef NON_MATCHING
 
 #else
@@ -604,7 +604,7 @@ NONMATCH_FUNC void ViMapIcon__Func_21636A0(CViMapIcon *work){
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__Func_21636AC(CViMapIcon *work){
+NONMATCH_FUNC void ViMapIcon__Func_21636AC(CViMapIcon *work, s16 x, s16 y){
 #ifdef NON_MATCHING
 
 #else

@@ -155,7 +155,8 @@ void HubControl::InitEngineAForTalk()
     G2_SetBG2ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0800, GX_BG_CHARBASE_0x00000);
     G2_SetBG3ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0000, GX_BG_CHARBASE_0x00000);
 
-    MI_CpuFill32(VRAM_BG, VRAM_SCRFMT_TEXT_x2(VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0), VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0)), 2 * sizeof(GXScrText32x32));
+    MI_CpuFill32(VRAM_BG, VRAM_SCRFMT_TEXT_x2(VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0), VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0)),
+                 2 * sizeof(GXScrText32x32));
     MI_CpuClearFast((u8 *)VRAM_BG + (0x8000 - sizeof(GXCharFmt16)), sizeof(GXCharFmt16));
 }
 
@@ -186,7 +187,8 @@ void HubControl::InitEngineBForMissionList()
     G2S_SetBG2ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0800, GX_BG_CHARBASE_0x00000);
     G2S_SetBG3ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0000, GX_BG_CHARBASE_0x00000);
 
-    MI_CpuFill32(VRAM_DB_BG, VRAM_SCRFMT_TEXT_x2(VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0), VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0)), 2 * sizeof(GXScrText32x32));
+    MI_CpuFill32(VRAM_DB_BG, VRAM_SCRFMT_TEXT_x2(VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0), VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0)),
+                 2 * sizeof(GXScrText32x32));
     MI_CpuClearFast((u8 *)VRAM_DB_BG + (0x8000 - sizeof(GXCharFmt16)), sizeof(GXCharFmt16));
 }
 
@@ -206,7 +208,8 @@ void HubControl::InitEngineBForTalkPurchase()
 
     G2S_SetBG2ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0800, GX_BG_CHARBASE_0x00000);
 
-    MI_CpuFill32(VRAM_DB_BG, VRAM_SCRFMT_TEXT_x2(VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0), VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0)), 2 * sizeof(GXScrText32x32));
+    MI_CpuFill32(VRAM_DB_BG, VRAM_SCRFMT_TEXT_x2(VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0), VRAM_SCRFMT_TEXT(1023, FALSE, FALSE, PALETTE_ROW_0)),
+                 2 * sizeof(GXScrText32x32));
     MI_CpuClearFast((u8 *)VRAM_DB_BG + (0x8000 - sizeof(GXCharFmt16)), sizeof(GXCharFmt16));
 }
 
@@ -479,31 +482,35 @@ void HubControl::InitVRAMSystem()
     VRAMSystem__InitSpriteBuffer(GRAPHICS_ENGINE_B);
 }
 
-RUSH_INLINE u8 GetHubControlProgressTable1(s32 a1)
+RUSH_INLINE u8 GetProgressForShipConstructed(s32 shipType)
 {
-    static const u8 progressTable[8] = {
-        SAVE_PROGRESS_2, SAVE_PROGRESS_9, SAVE_PROGRESS_22, SAVE_PROGRESS_26, SAVE_PROGRESS_38, SAVE_PROGRESS_0, SAVE_PROGRESS_0, SAVE_PROGRESS_0
+    static const u8 progressTable[] = {
+        SAVE_PROGRESS_2,  // SHIP_JET
+        SAVE_PROGRESS_9,  // SHIP_BOAT
+        SAVE_PROGRESS_22, // SHIP_HOVER
+        SAVE_PROGRESS_26, // SHIP_SUBMARINE
+        SAVE_PROGRESS_38, // SHIP_DRILL
     };
 
-    return progressTable[a1];
+    return progressTable[shipType];
 }
 
-void HubControl::Func_215B470(s32 a1, s32 a2)
+void HubControl::UpdateSaveProgressForShipConstructed(s32 shipType, BOOL unknown)
 {
-    u8 progress = GetHubControlProgressTable1(a1);
+    u8 progress = GetProgressForShipConstructed(shipType);
 
-    if (a1 == 0)
-        SaveGame__Func_205BBBC();
+    if (shipType == SHIP_JET)
+        SaveGame__IncrementUnknown2ForUnknown();
     else
         SaveGame__SetGameProgress(progress);
 }
 
-BOOL HubControl::Func_215B498(s32 a1)
+BOOL HubControl::CheckShipConstructed(s32 shipType)
 {
-    if (a1 == 0 && SaveGame__GetGameProgress() == SAVE_PROGRESS_1 && SaveGame__GetUnknown2() >= 1)
+    if (shipType == SHIP_JET && SaveGame__GetGameProgress() == SAVE_PROGRESS_1 && SaveGame__GetUnknown2() >= 1)
         return TRUE;
     else
-        return SaveGame__GetGameProgress() >= GetHubControlProgressTable1(a1);
+        return SaveGame__GetGameProgress() >= GetProgressForShipConstructed(shipType);
 }
 
 s32 HubControl::GetNextShipToBuild()
@@ -518,7 +525,7 @@ s32 HubControl::GetNextShipToBuild()
 
     u16 progress = SaveGame__GetGameProgress();
 
-    for (s32 i = 0; i < SHIP_COUNT + 1; i++)
+    for (s32 i = 0; i < SHIP_COUNT_DRILL; i++)
     {
         if (progressTable[i] == progress)
         {

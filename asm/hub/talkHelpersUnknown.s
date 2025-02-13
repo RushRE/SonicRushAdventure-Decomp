@@ -21,7 +21,7 @@ TalkHelpersUnknown__Init: // 0x02152FB0
 	mov r6, r0
 	mov r5, r1
 	mov r4, r3
-	bl TalkHelpers__Func_2153064
+	bl TalkHelpersUnknown__Release
 	mov r0, r7, lsl #0x10
 	mov r0, r0, lsr #0x10
 	str r0, [r6]
@@ -64,8 +64,8 @@ TalkHelpersUnknown__Init: // 0x02152FB0
 _02153060: .word 0x0000FFFF
 	arm_func_end TalkHelpersUnknown__Init
 
-	arm_func_start TalkHelpers__Func_2153064
-TalkHelpers__Func_2153064: // 0x02153064
+	arm_func_start TalkHelpersUnknown__Release
+TalkHelpersUnknown__Release: // 0x02153064
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x1c]
@@ -85,7 +85,7 @@ _0215309C:
 	mov r0, r4
 	bl TalkHelpers__Func_2152F98
 	ldmia sp!, {r4, pc}
-	arm_func_end TalkHelpers__Func_2153064
+	arm_func_end TalkHelpersUnknown__Release
 
 	arm_func_start TalkHelpers__Func_21530A8
 TalkHelpers__Func_21530A8: // 0x021530A8

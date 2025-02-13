@@ -54,24 +54,24 @@ typedef struct Unknown2056FDC_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void Unknown2056C5C__Init(void);
-NOT_DECOMPILED void Unknown2056C5C__Func_2056C84(void);
-NOT_DECOMPILED void Unknown2056C5C__Release(void);
-NOT_DECOMPILED void Unknown2056C5C__Func_2056E08(void);
-NOT_DECOMPILED void Unknown2056C5C__Func_2056F78(void);
+NOT_DECOMPILED void Unknown2056C5C__Init(Unknown2056C5C *work);
+NOT_DECOMPILED void Unknown2056C5C__Func_2056C84(Unknown2056C5C *work);
+NOT_DECOMPILED void Unknown2056C5C__Release(Unknown2056C5C *work);
+NOT_DECOMPILED void Unknown2056C5C__Func_2056E08(Unknown2056C5C *work);
+NOT_DECOMPILED void Unknown2056C5C__Func_2056F78(Unknown2056C5C *work);
 
-NOT_DECOMPILED void Unknown2056FDC__Init(void);
-NOT_DECOMPILED void Unknown2056FDC__Func_2057004(void);
-NOT_DECOMPILED void Unknown2056FDC__Release(void);
-NOT_DECOMPILED void Unknown2056FDC__Func_2057460(void);
-NOT_DECOMPILED void Unknown2056FDC__Func_2057484(void);
-NOT_DECOMPILED void Unknown2056FDC__Func_2057614(void);
+NOT_DECOMPILED void Unknown2056FDC__Init(Unknown2056FDC *work);
+NOT_DECOMPILED void Unknown2056FDC__Func_2057004(Unknown2056FDC *work);
+NOT_DECOMPILED void Unknown2056FDC__Release(Unknown2056FDC *work);
+NOT_DECOMPILED void Unknown2056FDC__Func_2057460(Unknown2056FDC *work, BOOL a2, BOOL a3);
+NOT_DECOMPILED void Unknown2056FDC__Func_2057484(Unknown2056FDC *work);
+NOT_DECOMPILED void Unknown2056FDC__Func_2057614(Unknown2056FDC *work);
 
-NOT_DECOMPILED void Unknown2056C5C__AllocSprite(void);
-NOT_DECOMPILED void Unknown2056C5C__AddSprite1(void);
-NOT_DECOMPILED void Unknown2056C5C__AddSprite2(void);
-NOT_DECOMPILED void Unknown2056C5C__GetSpriteSize(void);
-NOT_DECOMPILED void Unknown2056C5C__AddAffineSprite(void);
+NOT_DECOMPILED void Unknown2056C5C__AllocSprite(Unknown2056C5C *work);
+NOT_DECOMPILED void Unknown2056C5C__AddSprite1(Unknown2056C5C *work);
+NOT_DECOMPILED void Unknown2056C5C__AddSprite2(Unknown2056C5C *work);
+NOT_DECOMPILED void Unknown2056C5C__GetSpriteSize(Unknown2056C5C *work);
+NOT_DECOMPILED void Unknown2056C5C__AddAffineSprite(Unknown2056C5C *work);
 
 #ifdef __cplusplus
 }

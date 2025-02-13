@@ -58,9 +58,9 @@ public:
     s32 field_10;
     s32 nextAreaID;
     s32 nextAreaID2;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
+    s32 shipConstructID;
+    s32 decorConstructID;
+    s32 shipUpgradeID;
     s32 field_28;
     u32 flags;
     Task *hubAreaPreview;
@@ -194,8 +194,8 @@ public:
     static void Func_215B250();
     static void Func_215B3B4();
     static void InitVRAMSystem();
-    static void Func_215B470(s32 a1, s32 a2);
-    static BOOL Func_215B498(s32 a1);
+    static void UpdateSaveProgressForShipConstructed(s32 shipType, BOOL unknown);
+    static BOOL CheckShipConstructed(s32 shipType);
     static s32 GetNextShipToBuild();
     static BOOL Func_215B51C(s32 a1);
     static void Func_215B588(s32 a1, s32 a2);

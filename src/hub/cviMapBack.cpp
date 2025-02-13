@@ -338,7 +338,7 @@ NONMATCH_FUNC void _ZN10CViMapBackC1Ev(CViMapBack *work)
     FontDMAControl__Init(&this->fontDmaControl);
     MI_CpuClear16(this->aniDecoration, sizeof(this->aniDecoration));
 
-    ViMapBack__Func_2161680(this);
+    ViMapBack__Release(this);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -368,7 +368,7 @@ NONMATCH_FUNC void _ZN10CViMapBackC1Ev(CViMapBack *work)
 	ldr r2, =0x00000514
 	bl MIi_CpuClear16
 	mov r0, r4
-	bl ViMapBack__Func_2161680
+	bl ViMapBack__Release
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 // clang-format on
@@ -379,14 +379,14 @@ NONMATCH_FUNC void _ZN10CViMapBackC1Ev(CViMapBack *work)
 NONMATCH_FUNC void _ZN10CViMapBackD0Ev(CViMapBack *work)
 {
 #ifdef NON_MATCHING
-    ViMapBack__Func_2161680(this);
+    ViMapBack__Release(this);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV10CViMapBack+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapBack__Func_2161680
+	bl ViMapBack__Release
 	add r0, r4, #0x18
 	bl _ZN13CViMapVmcFileD0Ev
 	add r0, r4, #0x10
@@ -403,14 +403,14 @@ NONMATCH_FUNC void _ZN10CViMapBackD0Ev(CViMapBack *work)
 NONMATCH_FUNC void _ZN10CViMapBackD1Ev(CViMapBack *work)
 {
 #ifdef NON_MATCHING
-    ViMapBack__Func_2161680(this);
+    ViMapBack__Release(this);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV10CViMapBack+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapBack__Func_2161680
+	bl ViMapBack__Release
 	add r0, r4, #0x18
 	bl _ZN13CViMapVmcFileD0Ev
 	add r0, r4, #0x10
@@ -425,7 +425,7 @@ NONMATCH_FUNC void _ZN10CViMapBackD1Ev(CViMapBack *work)
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__LoadAssets(void)
+NONMATCH_FUNC void ViMapBack__LoadAssets(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -436,7 +436,7 @@ NONMATCH_FUNC void ViMapBack__LoadAssets(void)
 	mov r1, #0
 	mov r11, r0
 	str r1, [sp, #0x1c]
-	bl ViMapBack__Func_2161680
+	bl ViMapBack__Release
 	ldr r0, =aBbViMapBackBb
 	mov r1, #0
 	bl GetBundleFileSize
@@ -621,7 +621,7 @@ _021615E4:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161680(CViMapBack *work)
+NONMATCH_FUNC void ViMapBack__Release(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -729,7 +729,7 @@ _021617AC:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_21617E4(void)
+NONMATCH_FUNC void ViMapBack__Func_21617E4(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -775,7 +775,7 @@ _02161840:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161864(void)
+NONMATCH_FUNC void ViMapBack__Func_2161864(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -813,7 +813,7 @@ _0216189C:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_21618CC(void)
+NONMATCH_FUNC void ViMapBack__Func_21618CC(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -845,7 +845,7 @@ NONMATCH_FUNC void ViMapBack__Func_21618CC(void)
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161924(void)
+NONMATCH_FUNC void ViMapBack__Func_2161924(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -872,7 +872,7 @@ _0216193C:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161960(void){
+NONMATCH_FUNC void ViMapBack__Func_2161960(CViMapBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -888,7 +888,7 @@ NONMATCH_FUNC void ViMapBack__Func_2161960(void){
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161978(void)
+NONMATCH_FUNC void ViMapBack__Func_2161978(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -913,7 +913,7 @@ NONMATCH_FUNC void ViMapBack__Func_2161978(void)
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_21619B0(void)
+NONMATCH_FUNC void ViMapBack__Func_21619B0(CViMapBack *work, u16 a2)
 {
 #ifdef NON_MATCHING
 
@@ -962,7 +962,7 @@ _02161A24:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161A40(void)
+NONMATCH_FUNC void ViMapBack__Func_2161A40(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -1014,7 +1014,7 @@ _02161AC8:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161ADC(void)
+NONMATCH_FUNC void ViMapBack__Func_2161ADC(CViMapBack *work, u16 a2)
 {
 #ifdef NON_MATCHING
 
@@ -1094,7 +1094,7 @@ _02161BD0:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161BE4(void)
+NONMATCH_FUNC void ViMapBack__Func_2161BE4(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -1236,7 +1236,7 @@ _02161DB4:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161DC8(void)
+NONMATCH_FUNC void ViMapBack__Func_2161DC8(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -1270,7 +1270,7 @@ _02161E04:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161E20(void){
+NONMATCH_FUNC void ViMapBack__Func_2161E20(CViMapBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1283,7 +1283,7 @@ NONMATCH_FUNC void ViMapBack__Func_2161E20(void){
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161E30(void)
+NONMATCH_FUNC void ViMapBack__Func_2161E30(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -1349,7 +1349,7 @@ _02161EB4:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161F08(void)
+NONMATCH_FUNC void ViMapBack__Func_2161F08(CViMapBack *work, u16 a2, u16 a3)
 {
 #ifdef NON_MATCHING
 
@@ -1373,7 +1373,7 @@ NONMATCH_FUNC void ViMapBack__Func_2161F08(void)
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161F3C(void)
+NONMATCH_FUNC void ViMapBack__Func_2161F3C(CViMapBack *work, void *vramPixels, s32 a3)
 {
 #ifdef NON_MATCHING
 
@@ -1442,7 +1442,7 @@ _02161FF4:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162010(void)
+NONMATCH_FUNC void ViMapBack__Func_2162010(CViMapBack *work, void *vramPixels, s32 a3)
 {
 #ifdef NON_MATCHING
 
@@ -1516,7 +1516,7 @@ _021620B8:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_21620FC(void){
+NONMATCH_FUNC void ViMapBack__Func_21620FC(CViMapBack *work, s32 id){
 #ifdef NON_MATCHING
 
 #else
@@ -1531,7 +1531,7 @@ NONMATCH_FUNC void ViMapBack__Func_21620FC(void){
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162110(void)
+NONMATCH_FUNC void ViMapBack__Func_2162110(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -1561,7 +1561,7 @@ _02162124:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162158(void)
+NONMATCH_FUNC void ViMapBack__Func_2162158(CViMapBack *work, s32 a2)
 {
 #ifdef NON_MATCHING
 
@@ -1697,7 +1697,7 @@ _02162318:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_216233C(void)
+NONMATCH_FUNC void ViMapBack__Func_216233C(CViMapBack *work, u16 a2, BOOL a3)
 {
 #ifdef NON_MATCHING
 
@@ -1821,7 +1821,7 @@ _021624A8:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162508(void)
+NONMATCH_FUNC void ViMapBack__Func_2162508(CViMapBack *work, u16 a2, u16 *a3, u16 *a4, BOOL a5, BOOL a6)
 {
 #ifdef NON_MATCHING
 
@@ -1909,7 +1909,7 @@ _02162620:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162648(void)
+NONMATCH_FUNC void ViMapBack__Func_2162648(CViMapBack *work, s16 a2, s16 a3)
 {
 #ifdef NON_MATCHING
 
@@ -1996,7 +1996,7 @@ _02162748:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162774(void){
+NONMATCH_FUNC void ViMapBack__Func_2162774(CViMapBack *work, s16 *x, s16 *y){
 #ifdef NON_MATCHING
 
 #else
@@ -2015,7 +2015,7 @@ NONMATCH_FUNC void ViMapBack__Func_2162774(void){
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162798(void){
+NONMATCH_FUNC void ViMapBack__Func_2162798(CViMapBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2039,7 +2039,7 @@ _021627B0:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_21627D4(void)
+NONMATCH_FUNC void ViMapBack__Func_21627D4(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2094,7 +2094,7 @@ _02162860:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162874(void)
+NONMATCH_FUNC void ViMapBack__Func_2162874(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2170,7 +2170,7 @@ _021628E8:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162974(void)
+NONMATCH_FUNC void ViMapBack__Func_2162974(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2323,7 +2323,7 @@ _02162AE4:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162B90(void)
+NONMATCH_FUNC void ViMapBack__Func_2162B90(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2352,7 +2352,7 @@ NONMATCH_FUNC void ViMapBack__Func_2162B90(void)
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162BD8(void)
+NONMATCH_FUNC void ViMapBack__Func_2162BD8(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2374,7 +2374,7 @@ NONMATCH_FUNC void ViMapBack__Func_2162BD8(void)
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162C04(void)
+NONMATCH_FUNC void ViMapBack__Func_2162C04(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2405,7 +2405,7 @@ _02162C48:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162C50(void){
+NONMATCH_FUNC void ViMapBack__Func_2162C50(CViMapBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2427,7 +2427,7 @@ NONMATCH_FUNC void ViMapBack__Func_2162C50(void){
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162C80(void){
+NONMATCH_FUNC void ViMapBack__Func_2162C80(CViMapBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2451,7 +2451,7 @@ NONMATCH_FUNC void ViMapBack__Func_2162C80(void){
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162CB8(void)
+NONMATCH_FUNC void ViMapBack__Func_2162CB8(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2569,7 +2569,7 @@ _02162DF0:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162E54(void)
+NONMATCH_FUNC void ViMapBack__Func_2162E54(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2595,7 +2595,7 @@ NONMATCH_FUNC void ViMapBack__Func_2162E54(void)
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162E90(void)
+NONMATCH_FUNC void ViMapBack__Func_2162E90(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2645,7 +2645,7 @@ _02162ED4:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162F2C(void)
+NONMATCH_FUNC void ViMapBack__Func_2162F2C(CViMapBack *work)
 {
 #ifdef NON_MATCHING
 

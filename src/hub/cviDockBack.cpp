@@ -475,7 +475,7 @@ _02164A18:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164A38(void)
+NONMATCH_FUNC void ViDockBack__SetShipPosition(void)
 {
 #ifdef NON_MATCHING
 
@@ -507,7 +507,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164A38(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164A8C(void)
+NONMATCH_FUNC void ViDockBack__SetShipScale(void)
 {
 #ifdef NON_MATCHING
 
@@ -528,7 +528,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164A8C(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164AB4(void)
+NONMATCH_FUNC void ViDockBack__DrawDock(void)
 {
 #ifdef NON_MATCHING
 

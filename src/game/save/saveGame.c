@@ -40,9 +40,9 @@ NOT_DECOMPILED void (*SaveGame__ClearDataCallbacks[])(SaveGame *saveGame, SaveBl
 NOT_DECOMPILED void *_02110DDC;
 NOT_DECOMPILED void (*SaveGame__UnknownTable1[])(SaveGameNextAction *state);
 NOT_DECOMPILED const char *aSonicRush2;
-NOT_DECOMPILED SaveGameNextAction *SaveGame__gameProgressUnknown[40];
-NOT_DECOMPILED SaveGameNextAction *SaveGame__unknownProgress1Unknown[5];
-NOT_DECOMPILED SaveGameNextAction *SaveGame__unknownProgress2Unknown[7];
+NOT_DECOMPILED SaveGameNextAction *SaveGame__gameProgressUnknown[SAVE_PROGRESS_COUNT];
+NOT_DECOMPILED SaveGameNextAction *SaveGame__unknownProgress1Unknown[SAVE_ZONE5_PROGRESS_COUNT];
+NOT_DECOMPILED SaveGameNextAction *SaveGame__unknownProgress2Unknown[SAVE_ZONE6_PROGRESS_COUNT];
 NOT_DECOMPILED size_t savedataBlockSizes[9];
 NOT_DECOMPILED size_t savedataBlockOffsets[9];
 NOT_DECOMPILED u16 _021108DC[];
@@ -175,7 +175,7 @@ void SaveGame__SetUnknownProgress2(s32 progress)
     SaveGame__ApplySystemProgress();
 }
 
-void SaveGame__Func_205BBBC(void)
+void SaveGame__IncrementUnknown2ForUnknown(void)
 {
     gameState.saveFile.unknown2++;
 }
@@ -205,21 +205,21 @@ void SaveGame__Func_205BC38(u32 type)
 {
     switch (type)
     {
-        case SHIP_JET:
+        case SHIP_BOAT - 1:
             SaveGame__SetGameProgress(SAVE_PROGRESS_10);
             break;
 
-        case SHIP_BOAT:
+        case SHIP_HOVER - 1:
             SaveGame__SetGameProgress(SAVE_PROGRESS_23);
             break;
 
-        case SHIP_HOVER:
+        case SHIP_SUBMARINE - 1:
             SaveGame__SetGameProgress(SAVE_PROGRESS_27);
             break;
     }
 }
 
-BOOL SaveGame__Func_205BC7C(void)
+BOOL SaveGame__CheckCollectedAllEmeraldsEvent(void)
 {
     SaveBlockChart *chartSave = &saveGame.chart;
     SaveBlockStage *stageSave = &saveGame.stage;
@@ -692,7 +692,7 @@ void SaveGame__UpdateProgress2_Func_205C3A8(void)
             static const u16 cutsceneIDList[] = { CUTSCENE_GHOST_TITANS_IMPACT, CUTSCENE_ENDING, CUTSCENE_INVALID };
 
             u16 cutsceneID = cutsceneIDList[SaveGame__GetUnknown2()];
-            SaveGame__Func_205BBBC();
+            SaveGame__IncrementUnknown2ForUnknown();
             if (SaveGame__GetUnknown2() >= 3)
             {
                 SaveGame__ResetUnknown2();
@@ -819,7 +819,7 @@ void SaveGame__UpdateProgress2_Func_205C780(void)
     else
     {
         u16 id = _021108EA[SaveGame__GetUnknown2()];
-        SaveGame__Func_205BBBC();
+        SaveGame__IncrementUnknown2ForUnknown();
         SaveGame__StartCutscene(id, SYSEVENT_UPDATE_PROGRESS, SaveGame__GetGameProgress() >= SAVE_PROGRESS_38);
     }
 }
@@ -830,7 +830,7 @@ void SaveGame__UpdateProgress2_Func_205C7E8(void)
     {
         if (!SaveGame__GetUnknown2())
         {
-            SaveGame__Func_205BBBC();
+            SaveGame__IncrementUnknown2ForUnknown();
             SaveGame__ChangeEvent(SYSEVENT_STAGE_CLEAR_EX);
         }
         else
@@ -855,7 +855,7 @@ void SaveGame__UpdateProgress2_Func_205C7E8(void)
         u32 id       = SaveGame__GetUnknown2();
         u16 cutscene = _021107B4[id];
 
-        SaveGame__Func_205BBBC();
+        SaveGame__IncrementUnknown2ForUnknown();
 
         if (cutscene != CUTSCENE_INVALID)
         {
@@ -889,7 +889,7 @@ void SaveGame__UpdateProgress2_Func_205C7E8(void)
 
 void SaveGame__UpdateProgress2_Func_205C904(void)
 {
-    SaveGame__Func_205BBBC();
+    SaveGame__IncrementUnknown2ForUnknown();
     SaveGame__SetUnknown1(3);
     SaveGame__RestartEvent();
 }
@@ -1456,47 +1456,47 @@ BOOL SaveGame__CheckZoneBeaten(s32 id)
 
     switch (id)
     {
-        case 0:
+        case ZONE_PLANT_KINGDOM:
             if (gameProgress >= SAVE_PROGRESS_5)
                 return TRUE;
             break;
 
-        case 1:
+        case ZONE_MACHINE_LABYRINTH:
             if (gameProgress >= SAVE_PROGRESS_8)
                 return TRUE;
             break;
 
-        case 2:
+        case ZONE_CORAL_CAVE:
             if (gameProgress >= SAVE_PROGRESS_16)
                 return TRUE;
             break;
 
-        case 3:
+        case ZONE_HAUNTED_SHIP:
             if (gameProgress >= SAVE_PROGRESS_21)
                 return TRUE;
             break;
 
-        case 4:
+        case ZONE_BLIZZARD_PEAKS:
             if (unknownProgress1 >= 4)
                 return TRUE;
             break;
 
-        case 5:
+        case ZONE_SKY_BABYLON:
             if (unknownProgress2 >= 6)
                 return TRUE;
             break;
 
-        case 6:
+        case ZONE_PIRATES_ISLAND:
             if (gameProgress >= SAVE_PROGRESS_35)
                 return TRUE;
             break;
 
-        case 7:
+        case ZONE_BIG_SWELL:
             if (gameProgress >= SAVE_PROGRESS_36)
                 return TRUE;
             break;
 
-        case 8:
+        case ZONE_DEEP_CORE:
             if (gameProgress >= SAVE_PROGRESS_39)
                 return TRUE;
             break;
@@ -1546,15 +1546,15 @@ BOOL SaveGame__CheckProgressForShip(u32 id)
     SaveProgress progress;
     switch (id)
     {
-        case 0:
+        case SHIP_BOAT - 1:
             progress = SAVE_PROGRESS_9;
             break;
 
-        case 1:
+        case SHIP_HOVER - 1:
             progress = SAVE_PROGRESS_22;
             break;
 
-        case 2:
+        case SHIP_SUBMARINE - 1:
             progress = SAVE_PROGRESS_26;
             break;
     }

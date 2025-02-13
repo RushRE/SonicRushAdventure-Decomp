@@ -33,14 +33,14 @@ typedef struct TalkHelpersUnknown_
 // --------------------
 
 // TalkHelpersUnknown
-NOT_DECOMPILED void TalkHelpers__Func_2152F98(void);
-NOT_DECOMPILED void TalkHelpersUnknown__Init(void);
-NOT_DECOMPILED void TalkHelpers__Func_2153064(void);
-NOT_DECOMPILED void TalkHelpers__Func_21530A8(void);
-NOT_DECOMPILED void TalkHelpers__Func_215332C(void);
-NOT_DECOMPILED void TalkHelpers__Func_2153338(void);
-NOT_DECOMPILED void TalkHelpers__Func_2153350(void);
-NOT_DECOMPILED void TalkHelpers__Func_2153388(void);
+NOT_DECOMPILED void TalkHelpers__Func_2152F98(TalkHelpersUnknown *work);
+NOT_DECOMPILED void TalkHelpersUnknown__Init(TalkHelpersUnknown *work, void *background, u16 flags, u16 useEngineB, u16 bgID, u16 paletteRow);
+NOT_DECOMPILED void TalkHelpersUnknown__Release(TalkHelpersUnknown *work);
+NOT_DECOMPILED void TalkHelpers__Func_21530A8(TalkHelpersUnknown *work);
+NOT_DECOMPILED void TalkHelpers__Func_215332C(TalkHelpersUnknown *work, s16 x, s16 y);
+NOT_DECOMPILED void TalkHelpers__Func_2153338(TalkHelpersUnknown *work, s32 a2);
+NOT_DECOMPILED void TalkHelpers__Func_2153350(TalkHelpersUnknown *work, s16 a2);
+NOT_DECOMPILED void TalkHelpers__Func_2153388(TalkHelpersUnknown *work);
 
 #ifdef __cplusplus
 }

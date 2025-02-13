@@ -1156,7 +1156,7 @@ void Credits_Main_ShowSegaLogo(void)
     if (work->scrollState != NULL)
         work->scrollState(work);
 
-    if (!SaveGame__CheckZoneBeaten(8) && work->timer < 330)
+    if (!SaveGame__CheckZoneBeaten(ZONE_DEEP_CORE) && work->timer < 330)
         work->flags |= CREDITS_FLAG_SHOW_STINGER;
 
     if (work->timer != 0)

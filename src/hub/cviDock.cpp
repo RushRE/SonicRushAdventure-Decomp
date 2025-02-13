@@ -2449,7 +2449,7 @@ _0215F728:
 	mov r1, r5
 	mov r3, r2
 	add r0, r10, #0xf8
-	bl ViDockBack__Func_2164AB4
+	bl ViDockBack__DrawDock
 _0215F784:
 	ldrh r0, [r10, #0]
 	bl HubConfig__GetDockStageConfig
@@ -3029,16 +3029,16 @@ NONMATCH_FUNC void ViDock__Main_215FE68(void)
 	bl ViDock__Func_215F1A8
 	ldr r1, [r4, #0xc]
 	add r0, r5, #0xf8
-	bl ViDockBack__Func_2164A38
+	bl ViDockBack__SetShipPosition
 	ldr r1, [r4, #8]
 	add r0, r5, #0xf8
-	bl ViDockBack__Func_2164A8C
+	bl ViDockBack__SetShipScale
 	add r1, r5, #0x1500
 	ldrh r2, [r4, #0x10]
 	ldrh r1, [r1, #0xb8]
 	add r0, r5, #0xf8
 	mov r3, #0
-	bl ViDockBack__Func_2164AB4
+	bl ViDockBack__DrawDock
 	mov r2, #1
 	mov r0, #0x12
 	add r1, sp, #0

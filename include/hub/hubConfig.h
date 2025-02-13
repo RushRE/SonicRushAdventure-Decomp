@@ -113,16 +113,14 @@ typedef struct DockStageConfig_
 typedef struct DockMapConfig_
 {
     DockArea areaID;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    u16 field_10;
-    u16 msgSeq;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
+    DockArea unknownArea;
+    fx32 shipScale;
+    fx32 shipPosY;
+    u16 rotationX;
+    u16 msgSeqShipCompleted;
+    u16 materialCount;
+    u16 field_16;
+    u16 materials[8];
 } DockMapConfig;
 
 typedef struct ViDockBackConfig_
@@ -139,20 +137,6 @@ typedef struct ViDockBackConfig_
     s32 field_14;
     s32 field_18;
 } ViDockBackConfig;
-
-typedef struct Unknown2171CCC_
-{
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-} Unknown2171CCC;
 
 typedef struct HubNpcTalkActionConfig_
 {
@@ -219,18 +203,18 @@ typedef struct ViMapBackConfig_
 
 const Unknown2171FE8 *HubConfig__Func_2152960(u16 area);
 const DockStageConfig *HubConfig__GetDockStageConfig(u16 area);
-const Unknown2171914 *HubConfig__GetDockUnknownConfig(u16 id);
-const DockMapConfig *HubConfig__GetDockMapConfig(u16 id);
-const Unknown2171CCC *HubConfig__Func_21529A8(u16 id);
+const Unknown2171914 *HubConfig__GetDockUnknownConfig(u16 area);
+const DockMapConfig *HubConfig__GetDockMapConfig(u16 area);
+const DockMapConfig *HubConfig__GetDockMapUnknownConfig(u16 area);
 const HubPurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id);
 const HubPurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void);
 const HubPurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id);
 const HubPurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id);
 const ViDockBackConfig *HubConfig__GetDockBackInfo(s32 id);
 const HubNpcSpawnConfig *HubConfig__GetNpcConfig(u16 id);
-const u16 *HubConfig__Func_2152A20(s32 id);
-const u16 *HubConfig__Func_2152A30(s32 id);
-const u16 *HubConfig__Func_2152A40(s32 id);
+const u16 *HubConfig__Func_2152A20(u16 id);
+const u16 *HubConfig__Func_2152A30(u16 id);
+const u16 *HubConfig__Func_2152A40(u16 id);
 const ViMapBackConfig *HubConfig__GetMapBackConfig(s32 id);
 BOOL HubConfig__Func_2152A60(u16 id);
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Tails(void);
