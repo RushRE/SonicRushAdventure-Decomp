@@ -15,16 +15,16 @@
 typedef struct SaveGameUnknown205D150_
 {
     u8 gameProgress;
-    u8 unknownProgress1;
-    u8 unknownProgress2;
+    u8 zone5Progress;
+    u8 zone6Progress;
     u8 mode;
 } SaveGameUnknown205D150;
 
 typedef struct SaveGameUnknown205D65C_
 {
     u16 gameProgress;
-    u16 unknownProgress1;
-    u16 unknownProgress2;
+    u16 zone5Progress;
+    u16 zone6Progress;
 } SaveGameUnknown205D65C;
 
 // --------------------
@@ -80,9 +80,9 @@ void SaveGame__UpdateProgressEvent(void)
     SaveGame__UpdateProgress();
 }
 
-void SaveGame__SetUnknown1(s32 value)
+void SaveGame__SetProgressType(s32 type)
 {
-    gameState.saveFile.unknown1 = value;
+    gameState.saveFile.progressType = type;
 }
 
 SaveProgress SaveGame__GetGameProgress(void)
@@ -93,25 +93,25 @@ SaveProgress SaveGame__GetGameProgress(void)
 void SaveGame__SetGameProgress(SaveProgress progress)
 {
     saveGame.stage.progress.gameProgress = progress;
-    gameState.saveFile.unknown2          = 0;
+    gameState.saveFile.progressCounter   = 0;
 
     if (progress < SAVE_PROGRESS_24)
     {
-        saveGame.stage.progress.unknownProgress1 = 0;
-        saveGame.stage.progress.unknownProgress2 = 0;
+        saveGame.stage.progress.zone5Progress = SAVE_ZONE5_PROGRESS_0;
+        saveGame.stage.progress.zone6Progress = SAVE_ZONE6_PROGRESS_0;
     }
     else if (progress >= SAVE_PROGRESS_25)
     {
-        saveGame.stage.progress.unknownProgress1 = 4;
-        saveGame.stage.progress.unknownProgress2 = 6;
+        saveGame.stage.progress.zone5Progress = SAVE_ZONE5_PROGRESS_4;
+        saveGame.stage.progress.zone6Progress = SAVE_ZONE6_PROGRESS_6;
     }
     else
     {
-        if (saveGame.stage.progress.unknownProgress1 == 0)
-            saveGame.stage.progress.unknownProgress1 = 1;
+        if (saveGame.stage.progress.zone5Progress == SAVE_ZONE5_PROGRESS_0)
+            saveGame.stage.progress.zone5Progress = SAVE_ZONE5_PROGRESS_1;
 
-        if (saveGame.stage.progress.unknownProgress2 == 0)
-            saveGame.stage.progress.unknownProgress2 = 1;
+        if (saveGame.stage.progress.zone6Progress == SAVE_ZONE6_PROGRESS_0)
+            saveGame.stage.progress.zone6Progress = SAVE_ZONE6_PROGRESS_1;
     }
 
     if (progress < SAVE_PROGRESS_29)
@@ -140,35 +140,35 @@ void SaveGame__SetGameProgress(SaveProgress progress)
     SaveGame__ApplySystemProgress();
 }
 
-u8 SaveGame__GetUnknown2(void)
+u8 SaveGame__GetProgressCounter(void)
 {
-    return gameState.saveFile.unknown2;
+    return gameState.saveFile.progressCounter;
 }
 
-s32 SaveGame__GetUnknownProgress1(void)
+s32 SaveGame__GetZone5Progress(void)
 {
-    return saveGame.stage.progress.unknownProgress1;
+    return saveGame.stage.progress.zone5Progress;
 }
 
-void SaveGame__SetUnknownProgress1(s32 progress)
+void SaveGame__SetZone5Progress(s32 progress)
 {
-    saveGame.stage.progress.unknownProgress1 = progress;
-    gameState.saveFile.unknown2              = 0;
+    saveGame.stage.progress.zone5Progress = progress;
+    gameState.saveFile.progressCounter    = 0;
     saveGame.stage.progress.flags &= ~1;
 
     SaveGame__RemoveProgressFlags_0x200();
     SaveGame__ApplySystemProgress();
 }
 
-s32 SaveGame__GetUnknownProgress2(void)
+s32 SaveGame__GetZone6Progress(void)
 {
-    return saveGame.stage.progress.unknownProgress2;
+    return saveGame.stage.progress.zone6Progress;
 }
 
-void SaveGame__SetUnknownProgress2(s32 progress)
+void SaveGame__SetZone6Progress(s32 progress)
 {
-    saveGame.stage.progress.unknownProgress2 = progress;
-    gameState.saveFile.unknown2              = 0;
+    saveGame.stage.progress.zone6Progress = progress;
+    gameState.saveFile.progressCounter    = 0;
     saveGame.stage.progress.flags |= 1;
 
     SaveGame__RemoveProgressFlags_0x400();
@@ -177,7 +177,7 @@ void SaveGame__SetUnknownProgress2(s32 progress)
 
 void SaveGame__IncrementUnknown2ForUnknown(void)
 {
-    gameState.saveFile.unknown2++;
+    gameState.saveFile.progressCounter++;
 }
 
 BOOL SaveGame__HasDoorPuzzlePiece(u16 id)
@@ -191,12 +191,12 @@ void SaveGame__GetPuzzlePiece(u16 id)
     SaveGame__ApplySystemProgress();
 }
 
-void SaveGame__Func_205BC18(void)
+void SaveGame__UpdateProgressForZone5Zone6Cleared(void)
 {
     SaveGame__SetGameProgress(SAVE_PROGRESS_25);
 }
 
-void SaveGame__Func_205BC28(void)
+void SaveGame__UpdateProgressForAllDoorPuzzleKeysCollected(void)
 {
     SaveGame__SetGameProgress(SAVE_PROGRESS_31);
 }
@@ -390,7 +390,7 @@ void SaveGame__UpdateProgress(void)
     }
     else
     {
-        SaveGame__UnknownTable2[SaveGame__GetUnknown1()]();
+        SaveGame__UnknownTable2[SaveGame__GetProgressType()]();
     }
 }
 
@@ -399,29 +399,29 @@ SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
     SaveGameNextAction *config;
 
     u16 gameProgress;
-    u16 unknownProgress1;
-    u16 unknownProgress2;
-    u16 unknown1;
-    u16 unknown2;
+    u16 zone5Progress;
+    u16 zone6Progress;
+    u16 progressCounter;
+    u16 progressType;
 
-    gameProgress     = SaveGame__GetGameProgress();
-    unknownProgress1 = SaveGame__GetUnknownProgress1();
-    unknownProgress2 = SaveGame__GetUnknownProgress2();
+    gameProgress  = SaveGame__GetGameProgress();
+    zone5Progress = SaveGame__GetZone5Progress();
+    zone6Progress = SaveGame__GetZone6Progress();
 
-    unknown1 = SaveGame__GetUnknown2();
-    unknown2 = SaveGame__GetUnknown1();
+    progressCounter = SaveGame__GetProgressCounter();
+    progressType    = SaveGame__GetProgressType();
 
-    if (unknown2 == 4)
-        unknown2 = 3;
+    if (progressType == SAVE_PROGRESSTYPE_4)
+        progressType = SAVE_PROGRESSTYPE_3;
 
-    if (unknown2 == 5)
+    if (progressType == SAVE_PROGRESSTYPE_5)
     {
         if (SaveGame__Func_205D150(gameState.stageID))
         {
             SaveGame__GsExit(0);
         }
     }
-    else if (unknown2 == 9)
+    else if (progressType == SAVE_PROGRESSTYPE_9)
     {
         if (SaveGame__GetGameProgress() < SAVE_PROGRESS_39)
         {
@@ -435,15 +435,15 @@ SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
     {
         default:
             count = _02110B20[gameProgress];
-            if (unknown1 < count)
+            if (progressCounter < count)
             {
                 config = SaveGame__gameProgressUnknown[gameProgress];
 
                 if (config != NULL)
                 {
-                    config += unknown1;
+                    config += progressCounter;
 
-                    if (config->field_0 < 12 && (config->field_0 != unknown2 || !SaveGame__ProgressCheckTable[unknown2](config->progressCheckValue)))
+                    if (config->type < SAVE_PROGRESSTYPE_COUNT && (config->type != progressType || !SaveGame__ProgressCheckTable[progressType](config->progressCheckValue)))
                     {
                         config = NULL;
                     }
@@ -451,14 +451,14 @@ SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
                     {
                         if (config->allowProgressIncrement)
                         {
-                            if (unknown1 + 1 < count)
+                            if (progressCounter + 1 < count)
                             {
-                                SaveGame__IncrementUnknown2();
+                                SaveGame__IncrementProgressCounter();
                             }
                             else
                             {
                                 SaveGame__IncrementGameProgress();
-                                SaveGame__ResetUnknown2();
+                                SaveGame__ResetProgressCounter();
                             }
                         }
 
@@ -477,17 +477,17 @@ SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
             // this was probably an inline function?
             if (0 == NULL)
             {
-                count = _021107BE[unknownProgress1];
+                count = _021107BE[zone5Progress];
 
-                if (unknown1 < count)
+                if (progressCounter < count)
                 {
-                    config = SaveGame__unknownProgress1Unknown[unknownProgress1];
+                    config = SaveGame__unknownProgress1Unknown[zone5Progress];
 
                     if (config != NULL)
                     {
-                        config += unknown1;
+                        config += progressCounter;
 
-                        if (config->field_0 < 12 && (config->field_0 != unknown2 || !SaveGame__ProgressCheckTable[unknown2](config->progressCheckValue)))
+                        if (config->type < SAVE_PROGRESSTYPE_COUNT && (config->type != progressType || !SaveGame__ProgressCheckTable[progressType](config->progressCheckValue)))
                         {
                             config = NULL;
                         }
@@ -495,14 +495,14 @@ SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
                         {
                             if (config->allowProgressIncrement)
                             {
-                                if (unknown1 + 1 < count)
+                                if (progressCounter + 1 < count)
                                 {
-                                    SaveGame__IncrementUnknown2();
+                                    SaveGame__IncrementProgressCounter();
                                 }
                                 else
                                 {
                                     SaveGame__IncrementUnknownProgress1();
-                                    SaveGame__ResetUnknown2();
+                                    SaveGame__ResetProgressCounter();
                                 }
                             }
 
@@ -514,16 +514,16 @@ SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
 
             if (config == NULL)
             {
-                count = _021108DC[unknownProgress2];
+                count = _021108DC[zone6Progress];
 
-                if (unknown1 < count)
+                if (progressCounter < count)
                 {
-                    config = SaveGame__unknownProgress2Unknown[unknownProgress2];
+                    config = SaveGame__unknownProgress2Unknown[zone6Progress];
                     if (config != NULL)
                     {
-                        config += unknown1;
+                        config += progressCounter;
 
-                        if (config->field_0 < 12 && (config->field_0 != unknown2 || !SaveGame__ProgressCheckTable[unknown2](config->progressCheckValue)))
+                        if (config->type < SAVE_PROGRESSTYPE_COUNT && (config->type != progressType || !SaveGame__ProgressCheckTable[progressType](config->progressCheckValue)))
                         {
                             config = NULL;
                         }
@@ -531,14 +531,14 @@ SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
                         {
                             if (config->allowProgressIncrement)
                             {
-                                if (unknown1 + 1 < count)
+                                if (progressCounter + 1 < count)
                                 {
-                                    SaveGame__IncrementUnknown2();
+                                    SaveGame__IncrementProgressCounter();
                                 }
                                 else
                                 {
                                     SaveGame__IncrementUnknownProgress2();
-                                    SaveGame__ResetUnknown2();
+                                    SaveGame__ResetProgressCounter();
                                 }
                             }
 
@@ -553,17 +553,17 @@ SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
     return config;
 }
 
-void SaveGame__UpdateProgress2_Func_205C28C(void)
+void SaveGame__UpdateProgress2_Type0(void)
 {
     SaveGame__ChangeEvent(SYSEVENT_RETURN_TO_HUB);
 }
 
-void SaveGame__UpdateProgress2_Func_205C29C(void)
+void SaveGame__UpdateProgress2_Type1(void)
 {
-    SaveGame__StartEvent35();
+    SaveGame__StartSeaMapUnknown();
 }
 
-void SaveGame__UpdateProgress2_Func_205C2A8(void)
+void SaveGame__UpdateProgress2_Type2(void)
 {
     if (SaveGame__GetStateFlag(1) || gameState.sailUnknown1 != 0)
     {
@@ -596,17 +596,17 @@ void SaveGame__UpdateProgress2_Func_205C2A8(void)
                 break;
         }
 
-        SaveGame__SetUnknown1(2);
+        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_2);
         SaveGame__EnableStateFlags(1);
         SaveGame__StartCutscene(cutscene, SYSEVENT_UPDATE_PROGRESS, TRUE);
     }
 }
 
-void SaveGame__UpdateProgress2_Func_205C344(void)
+void SaveGame__UpdateProgress2_Type3(void)
 {
     if (gameState.stageID == STAGE_Z71 && SaveGame__GetGameProgress() < SAVE_PROGRESS_33)
     {
-        SaveGame__StartDoorPuzzle(1);
+        SaveGame__StartDoorPuzzle(TRUE);
     }
     else
     {
@@ -619,12 +619,12 @@ void SaveGame__UpdateProgress2_Func_205C344(void)
     }
 }
 
-void SaveGame__UpdateProgress2_Func_205C39C(void)
+void SaveGame__UpdateProgress2_Type4(void)
 {
     SaveGame__StartStoryMode();
 }
 
-void SaveGame__UpdateProgress2_Func_205C3A8(void)
+void SaveGame__UpdateProgress2_Type5(void)
 {
     u32 stageID = gameState.stageID;
     if (stageID == STAGE_Z11)
@@ -649,12 +649,12 @@ void SaveGame__UpdateProgress2_Func_205C3A8(void)
     }
     else if (stageID == STAGE_Z51)
     {
-        if (SaveGame__GetUnknownProgress1() == 2)
+        if (SaveGame__GetZone5Progress() == SAVE_ZONE5_PROGRESS_2)
             SaveGame__SetProgressFlags_0x200();
     }
     else if (stageID == STAGE_Z61)
     {
-        if (SaveGame__GetUnknownProgress2() == 4)
+        if (SaveGame__GetZone6Progress() == SAVE_ZONE6_PROGRESS_4)
             SaveGame__SetProgressFlags_0x400();
     }
     else if (stageID == STAGE_Z71)
@@ -684,18 +684,19 @@ void SaveGame__UpdateProgress2_Func_205C3A8(void)
         u32 nextStage = SaveGame__nextStage[stageID];
         if (stageID != nextStage)
         {
+			// next stage (act) lined up, so advance to the next stage.
             gameState.stageID = nextStage;
-            SaveGame__SetUnknown1(4);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_4);
         }
         else if (stageID == STAGE_BOSS_FINAL)
         {
             static const u16 cutsceneIDList[] = { CUTSCENE_GHOST_TITANS_IMPACT, CUTSCENE_ENDING, CUTSCENE_INVALID };
 
-            u16 cutsceneID = cutsceneIDList[SaveGame__GetUnknown2()];
+            u16 cutsceneID = cutsceneIDList[SaveGame__GetProgressCounter()];
             SaveGame__IncrementUnknown2ForUnknown();
-            if (SaveGame__GetUnknown2() >= 3)
+            if (SaveGame__GetProgressCounter() >= 3)
             {
-                SaveGame__ResetUnknown2();
+                SaveGame__ResetProgressCounter();
                 if (SaveGame__GetGameProgress() <= SAVE_PROGRESS_35)
                     SaveGame__SetGameProgress(SAVE_PROGRESS_36);
             }
@@ -724,7 +725,7 @@ void SaveGame__UpdateProgress2_Func_205C3A8(void)
             {
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_29)
                 {
-                    SaveGame__SetUnknown1(0);
+                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
                     SaveGame__StartCutscene(CUTSCENE_MYSTERIOUS_MARKER_NO_1, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
@@ -733,7 +734,7 @@ void SaveGame__UpdateProgress2_Func_205C3A8(void)
                     if (!SaveGame__HasDoorPuzzlePiece(0))
                     {
                         SaveGame__GetPuzzlePiece(0);
-                        SaveGame__SetUnknown1(0);
+                        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
                         SaveGame__StartCutscene(CUTSCENE_CLUE_NO_1, SYSEVENT_UPDATE_PROGRESS, TRUE);
                         return;
                     }
@@ -743,7 +744,7 @@ void SaveGame__UpdateProgress2_Func_205C3A8(void)
             {
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_29)
                 {
-                    SaveGame__SetUnknown1(0);
+                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
                     SaveGame__StartCutscene(CUTSCENE_MYSTERIOUS_MARKER_NO_2, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
@@ -751,7 +752,7 @@ void SaveGame__UpdateProgress2_Func_205C3A8(void)
                 if (!SaveGame__HasDoorPuzzlePiece(1))
                 {
                     SaveGame__GetPuzzlePiece(1);
-                    SaveGame__SetUnknown1(0);
+                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
                     SaveGame__StartCutscene(CUTSCENE_CLUE_NO_2, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
@@ -760,7 +761,7 @@ void SaveGame__UpdateProgress2_Func_205C3A8(void)
             {
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_29)
                 {
-                    SaveGame__SetUnknown1(0);
+                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
                     SaveGame__StartCutscene(CUTSCENE_MYSTERIOUS_MARKER_NO_1, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
@@ -769,28 +770,28 @@ void SaveGame__UpdateProgress2_Func_205C3A8(void)
                     if (!SaveGame__HasDoorPuzzlePiece(2))
                     {
                         SaveGame__GetPuzzlePiece(2);
-                        SaveGame__SetUnknown1(0);
+                        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
                         SaveGame__StartCutscene(CUTSCENE_CLUE_NO_3, SYSEVENT_UPDATE_PROGRESS, TRUE);
                         return;
                     }
                 }
             }
 
-            SaveGame__SetUnknown1(0);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
         }
 
         SaveGame__RestartEvent();
     }
 }
 
-void SaveGame__UpdateProgress2_Func_205C700(void)
+void SaveGame__UpdateProgress2_Type6(void)
 {
     gameState.saveFile.chaosEmeraldID = -1;
     gameState.saveFile.solEmeraldID   = -1;
     SaveGame__StartSailRivalRace();
 }
 
-void SaveGame__UpdateProgress2_Func_205C720(void)
+void SaveGame__UpdateProgress2_Type7(void)
 {
     gameState.sailShipType = gameState.sailStoredShipType;
 
@@ -807,42 +808,42 @@ void SaveGame__UpdateProgress2_Func_205C720(void)
     }
 }
 
-void SaveGame__UpdateProgress2_Func_205C780(void)
+void SaveGame__UpdateProgress2_Type8(void)
 {
-    if (SaveGame__GetUnknown2() >= 7)
+    if (SaveGame__GetProgressCounter() >= 7)
     {
-        SaveGame__ResetUnknown2();
+        SaveGame__ResetProgressCounter();
         if (SaveGame__GetGameProgress() <= SAVE_PROGRESS_37)
             SaveGame__SetGameProgress(SAVE_PROGRESS_38);
         SaveGame__StartExBoss();
     }
     else
     {
-        u16 id = _021108EA[SaveGame__GetUnknown2()];
+        u16 id = _021108EA[SaveGame__GetProgressCounter()];
         SaveGame__IncrementUnknown2ForUnknown();
         SaveGame__StartCutscene(id, SYSEVENT_UPDATE_PROGRESS, SaveGame__GetGameProgress() >= SAVE_PROGRESS_38);
     }
 }
 
-void SaveGame__UpdateProgress2_Func_205C7E8(void)
+void SaveGame__UpdateProgress2_Type9(void)
 {
     if (gameState.saveFile.field_52 == 1)
     {
-        if (!SaveGame__GetUnknown2())
+        if (!SaveGame__GetProgressCounter())
         {
             SaveGame__IncrementUnknown2ForUnknown();
             SaveGame__ChangeEvent(SYSEVENT_STAGE_CLEAR_EX);
         }
         else
         {
-            SaveGame__ResetUnknown2();
+            SaveGame__ResetProgressCounter();
             gameState.saveFile.field_54 = 1;
             SaveGame__ChangeEvent(SYSEVENT_MAIN_MENU);
         }
     }
-    else if (SaveGame__GetUnknown2() >= 5)
+    else if (SaveGame__GetProgressCounter() >= 5)
     {
-        SaveGame__ResetUnknown2();
+        SaveGame__ResetProgressCounter();
 
         if (SaveGame__GetGameProgress() <= SAVE_PROGRESS_38)
             SaveGame__SetGameProgress(SAVE_PROGRESS_39);
@@ -852,7 +853,7 @@ void SaveGame__UpdateProgress2_Func_205C7E8(void)
     }
     else
     {
-        u32 id       = SaveGame__GetUnknown2();
+        u32 id       = SaveGame__GetProgressCounter();
         u16 cutscene = _021107B4[id];
 
         SaveGame__IncrementUnknown2ForUnknown();
@@ -887,30 +888,30 @@ void SaveGame__UpdateProgress2_Func_205C7E8(void)
     }
 }
 
-void SaveGame__UpdateProgress2_Func_205C904(void)
+void SaveGame__UpdateProgress2_Type10(void)
 {
     SaveGame__IncrementUnknown2ForUnknown();
-    SaveGame__SetUnknown1(3);
+    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_3);
     SaveGame__RestartEvent();
 }
 
-void SaveGame__UpdateProgress2_Func_205C91C(void)
+void SaveGame__UpdateProgress2_Type11(void)
 {
     u16 stage = _02110B70[gameState.field_80];
 
     if (gameState.field_80 == 14 && SaveGame__GetGameProgress() < SAVE_PROGRESS_17)
     {
-        SaveGame__SetUnknown1(0);
+        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
         SaveGame__StartCutscene(CUTSCENE_KYLOK_ISLAND_EMPTY, SYSEVENT_UPDATE_PROGRESS, TRUE);
     }
     else if (gameState.field_80 == 14 && SaveGame__GetGameProgress() > SAVE_PROGRESS_17)
     {
-        SaveGame__SetUnknown1(0);
+        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
         SaveGame__StartCutscene(CUTSCENE_DAIKUN_ISLAND_EMPTY, SYSEVENT_UPDATE_PROGRESS, TRUE);
     }
-    else if (gameState.field_80 == 12 && SaveGame__GetUnknownProgress2() > 1)
+    else if (gameState.field_80 == 12 && SaveGame__GetZone6Progress() > SAVE_ZONE6_PROGRESS_1)
     {
-        SaveGame__SetUnknown1(0);
+        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
         SaveGame__StartCutscene(CUTSCENE_DAIKUN_ISLAND_EMPTY, SYSEVENT_UPDATE_PROGRESS, TRUE);
     }
     else
@@ -928,18 +929,18 @@ void SaveGame__UpdateProgress2_Func_205C91C(void)
         if (stage < STAGE_COUNT)
         {
             gameState.stageID = stage;
-            SaveGame__SetUnknown1(3);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_3);
             SaveGame__RestartEvent();
         }
         else
         {
-            SaveGame__SetUnknown1(0);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
             SaveGame__RestartEvent();
         }
     }
 }
 
-BOOL SaveGame__ProgressCheckFunc_205CA68(s32 id)
+BOOL SaveGame__ProgressCheck_Type0(s32 id)
 {
     if (id == 1)
     {
@@ -956,57 +957,57 @@ BOOL SaveGame__ProgressCheckFunc_205CA68(s32 id)
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheckFunc_205CAB8(s32 id)
+BOOL SaveGame__ProgressCheck_Type1(s32 id)
 {
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheckFunc_205CAC0(s32 id)
+BOOL SaveGame__ProgressCheck_Type2(s32 id)
 {
     return id == gameState.sailShipType;
 }
 
-BOOL SaveGame__ProgressCheckFunc_205CADC(s32 id)
+BOOL SaveGame__ProgressCheck_Type3(s32 id)
 {
     return id == gameState.stageID;
 }
 
-BOOL SaveGame__ProgressCheckFunc_205CAF8(s32 id)
+BOOL SaveGame__ProgressCheck_Type4(s32 id)
 {
     return FALSE;
 }
 
-BOOL SaveGame__ProgressCheckFunc_205CB00(s32 id)
+BOOL SaveGame__ProgressCheck_Type5(s32 id)
 {
     return id == gameState.stageID;
 }
 
-BOOL SaveGame__ProgressCheckFunc_205CB1C(s32 id)
+BOOL SaveGame__ProgressCheck_Type6(s32 id)
 {
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheckFunc_205CB24(s32 id)
+BOOL SaveGame__ProgressCheck_Type7(s32 id)
 {
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheckFunc_205CB2C(s32 id)
+BOOL SaveGame__ProgressCheck_Type8(s32 id)
 {
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheckFunc_205CB34(s32 id)
+BOOL SaveGame__ProgressCheck_Type9(s32 id)
 {
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheckFunc_205CB3C(s32 id)
+BOOL SaveGame__ProgressCheck_Type10(s32 id)
 {
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheckFunc_205CB44(s32 id)
+BOOL SaveGame__ProgressCheck_Type11(s32 id)
 {
     return id == gameState.field_80;
 }
@@ -1017,18 +1018,18 @@ void SaveGame__UpdateProgress1_Func_205CB60(SaveGameNextAction *action)
 
     if (cutscene == CUTSCENE_LEGENDARY_ANCIENT_RUINS_1)
     {
-        if (SaveGame__GetUnknownProgress2() == 6)
+        if (SaveGame__GetZone6Progress() == SAVE_ZONE6_PROGRESS_6)
             cutscene = CUTSCENE_PIRATE_HIDEOUT_IN_DEPTHS_1;
     }
     else if (cutscene == CUTSCENE_LEGENDARY_ANCIENT_RUINS_2)
     {
-        if (SaveGame__GetUnknownProgress1() != 4)
+        if (SaveGame__GetZone5Progress() != SAVE_ZONE5_PROGRESS_4)
             cutscene = CUTSCENE_PIRATE_HIDEOUT_IN_DEPTHS_2;
     }
     else
     {
         if (cutscene == CUTSCENE_KYLOK_FOUND || cutscene == CUTSCENE_DAIKUN_DISCOVERED)
-            SaveGame__SetUnknown1(0);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
     }
 
     SaveGame__StartCutscene(cutscene, action->nextSysEvent, FALSE);
@@ -1066,8 +1067,8 @@ void SaveGame__UpdateProgress1_Func_205CC04(SaveGameNextAction *action)
     else
         SeaMapManager__SetUnknown1(1);
 
-    SaveGame__SetUnknown1(5);
-    SaveGame__ChangeEvent(SYSEVENT_38);
+    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_5);
+    SaveGame__ChangeEvent(SYSEVENT_SEAMAPCUTSCENE);
 }
 
 void SaveGame__UpdateProgress1_Func_205CC3C(SaveGameNextAction *action)
@@ -1076,7 +1077,7 @@ void SaveGame__UpdateProgress1_Func_205CC3C(SaveGameNextAction *action)
         SaveGame__EnableStateFlags(2);
 
     gameState.stageID = action->id;
-    SaveGame__SetUnknown1(3);
+    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_3);
     SaveGame__RestartEvent();
 }
 
@@ -1144,7 +1145,7 @@ void SaveGame__StartHubMenu(void)
     SaveGame__ChangeEvent(SYSEVENT_RETURN_TO_HUB);
 }
 
-void SaveGame__StartEvent35(void)
+void SaveGame__StartSeaMapUnknown(void)
 {
     SaveGame__ChangeEvent(SYSEVENT_SEAMAP_UNKNOWN);
 }
@@ -1188,7 +1189,7 @@ void SaveGame__StartDoorPuzzle(BOOL flag)
             gameState.doorPuzzleEvent = DOORPUZZLE_EVENT_HAVE_KEYS;
     }
 
-    SaveGame__SetUnknown1(10);
+    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_10);
     SaveGame__ChangeEvent(SYSEVENT_DOOR_PUZZLE);
 }
 
@@ -1201,7 +1202,7 @@ void SaveGame__StartStageSelect(void)
 
 void SaveGame__StartEmeraldCollected(void)
 {
-    SaveGame__SetUnknown1(7);
+    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_7);
     SaveGame__ChangeEvent(SYSEVENT_EMERALD_COLLECTED);
 }
 
@@ -1212,27 +1213,27 @@ void SaveGame__IncrementGameProgress(void)
 
 void SaveGame__IncrementUnknownProgress1(void)
 {
-    SaveGame__SetUnknownProgress1(saveGame.stage.progress.unknownProgress1 + 1);
+    SaveGame__SetZone5Progress(saveGame.stage.progress.zone5Progress + 1);
 }
 
 void SaveGame__IncrementUnknownProgress2(void)
 {
-    SaveGame__SetUnknownProgress2(saveGame.stage.progress.unknownProgress2 + 1);
+    SaveGame__SetZone6Progress(saveGame.stage.progress.zone6Progress + 1);
 }
 
-void SaveGame__IncrementUnknown2(void)
+void SaveGame__IncrementProgressCounter(void)
 {
-    gameState.saveFile.unknown2++;
+    gameState.saveFile.progressCounter++;
 }
 
-void SaveGame__ResetUnknown2(void)
+void SaveGame__ResetProgressCounter(void)
 {
-    gameState.saveFile.unknown2 = 0;
+    gameState.saveFile.progressCounter = 0;
 }
 
-s32 SaveGame__GetUnknown1(void)
+s32 SaveGame__GetProgressType(void)
 {
-    return gameState.saveFile.unknown1;
+    return gameState.saveFile.progressType;
 }
 
 BOOL SaveGame__GetStateFlag(u16 id)
@@ -1270,19 +1271,19 @@ void SaveGame__ApplySystemProgress(void)
             systemProgress->flags |= 0x100;
     }
 
-    if (systemProgress->unknownProgress1 <= stageProgress->unknownProgress1)
+    if (systemProgress->zone5Progress <= stageProgress->zone5Progress)
     {
-        systemProgress->unknownProgress1 = stageProgress->unknownProgress1;
+        systemProgress->zone5Progress = stageProgress->zone5Progress;
 
-        if (stageProgress->unknownProgress1 == 2 && (stageProgress->flags & 0x200) != 0)
+        if (stageProgress->zone5Progress == SAVE_ZONE5_PROGRESS_2 && (stageProgress->flags & 0x200) != 0)
             systemProgress->flags |= 0x200;
     }
 
-    if (systemProgress->unknownProgress2 <= stageProgress->unknownProgress2)
+    if (systemProgress->zone6Progress <= stageProgress->zone6Progress)
     {
-        systemProgress->unknownProgress2 = stageProgress->unknownProgress2;
+        systemProgress->zone6Progress = stageProgress->zone6Progress;
 
-        if (stageProgress->unknownProgress2 == 4 && (stageProgress->flags & 0x400) != 0)
+        if (stageProgress->zone6Progress == SAVE_ZONE6_PROGRESS_4 && (stageProgress->flags & 0x400) != 0)
             systemProgress->flags |= 0x400;
     }
 
@@ -1328,9 +1329,9 @@ void SaveGame__RemoveProgressFlags_0x400(void)
 
 BOOL SaveGame__Func_205D150(s32 stageID)
 {
-    u8 gameProgress     = SaveGame__GetGameProgress();
-    u8 unknownProgress1 = SaveGame__GetUnknownProgress1();
-    u8 unknownProgress2 = SaveGame__GetUnknownProgress2();
+    u8 gameProgress  = SaveGame__GetGameProgress();
+    u8 zone5Progress = SaveGame__GetZone5Progress();
+    u8 zone6Progress = SaveGame__GetZone6Progress();
 
     BOOL flag100;
     if ((saveGame.stage.progress.flags & 0x100) != 0)
@@ -1360,12 +1361,12 @@ BOOL SaveGame__Func_205D150(s32 stageID)
             return FALSE;
         }
 
-        if (progress->unknownProgress1 != 0xFF && progress->unknownProgress1 != unknownProgress1)
+        if (progress->zone5Progress != 0xFF && progress->zone5Progress != zone5Progress)
         {
             return FALSE;
         }
 
-        if (progress->unknownProgress2 != 0xFF && progress->unknownProgress2 != unknownProgress2)
+        if (progress->zone6Progress != 0xFF && progress->zone6Progress != zone6Progress)
         {
             return FALSE;
         }
@@ -1451,8 +1452,8 @@ BOOL SaveGame__BlazeUnlocked(void)
 BOOL SaveGame__CheckZoneBeaten(s32 id)
 {
     SaveProgress gameProgress = SaveGame__GetGameProgress();
-    s32 unknownProgress1      = SaveGame__GetUnknownProgress1();
-    s32 unknownProgress2      = SaveGame__GetUnknownProgress2();
+    s32 zone5Progress         = SaveGame__GetZone5Progress();
+    s32 zone6Progress         = SaveGame__GetZone6Progress();
 
     switch (id)
     {
@@ -1477,12 +1478,12 @@ BOOL SaveGame__CheckZoneBeaten(s32 id)
             break;
 
         case ZONE_BLIZZARD_PEAKS:
-            if (unknownProgress1 >= 4)
+            if (zone5Progress >= SAVE_ZONE5_PROGRESS_4)
                 return TRUE;
             break;
 
         case ZONE_SKY_BABYLON:
-            if (unknownProgress2 >= 6)
+            if (zone6Progress >= SAVE_ZONE6_PROGRESS_6)
                 return TRUE;
             break;
 
@@ -1520,15 +1521,15 @@ BOOL SaveGame__CheckProgress12(void)
     return SaveGame__GetGameProgress() >= SAVE_PROGRESS_12;
 }
 
-BOOL SaveGame__CheckProgress24(void)
+BOOL SaveGame__CheckProgressZone5OrZone6NotClear(void)
 {
     if (SaveGame__GetGameProgress() != SAVE_PROGRESS_24)
         return FALSE;
 
-    if (SaveGame__GetUnknownProgress1() != 4)
+    if (SaveGame__GetZone5Progress() != SAVE_ZONE5_PROGRESS_4)
         return FALSE;
 
-    return SaveGame__GetUnknownProgress2() == 6;
+    return SaveGame__GetZone6Progress() == SAVE_ZONE6_PROGRESS_6;
 }
 
 BOOL SaveGame__CheckProgress30(void)
@@ -1538,7 +1539,7 @@ BOOL SaveGame__CheckProgress30(void)
 
 BOOL SaveGame__CheckProgress15(void)
 {
-    return SaveGame__GetGameProgress() == SAVE_PROGRESS_15 && SaveGame__GetUnknown2() >= 1;
+    return SaveGame__GetGameProgress() == SAVE_PROGRESS_15 && SaveGame__GetProgressCounter() >= 1;
 }
 
 BOOL SaveGame__CheckProgressForShip(u32 id)
@@ -1574,11 +1575,11 @@ void SaveGame__SetProgressFlags_0x10(void)
 
 BOOL SaveGame__CanBuyDecoration(u16 id)
 {
-    s32 gameProgress     = SaveGame__GetGameProgress();
-    s32 unknownProgress1 = SaveGame__GetUnknownProgress1();
-    s32 unknownProgress2 = SaveGame__GetUnknownProgress2();
+    s32 gameProgress  = SaveGame__GetGameProgress();
+    s32 zone5Progress = SaveGame__GetZone5Progress();
+    s32 zone6Progress = SaveGame__GetZone6Progress();
 
-    if (gameProgress >= _02110D00[id].gameProgress && unknownProgress1 >= _02110D00[id].unknownProgress1 && unknownProgress2 >= _02110D00[id].unknownProgress2)
+    if (gameProgress >= _02110D00[id].gameProgress && zone5Progress >= _02110D00[id].zone5Progress && zone6Progress >= _02110D00[id].zone6Progress)
         return TRUE;
     else
         return FALSE;
@@ -1604,7 +1605,7 @@ void SaveGame__SetProgressFlags_0x100000(u32 id)
     saveGame.stage.progress.flags |= 0x100000 << id;
 }
 
-BOOL SaveGame__CheckProgress29(void)
+BOOL SaveGame__CheckProgressIsHuntingForClues(void)
 {
     return SaveGame__GetGameProgress() == SAVE_PROGRESS_29;
 }
@@ -1619,7 +1620,7 @@ void SaveGame__BuyInfoHint(void)
     saveGame.stage.ringCount -= 800;
 }
 
-BOOL SaveGame__CheckProgress37(void)
+BOOL SaveGame__CheckProgressIsAllEmeraldsCollected(void)
 {
     return SaveGame__GetGameProgress() >= SAVE_PROGRESS_37;
 }
@@ -1634,9 +1635,9 @@ NONMATCH_FUNC s32 SaveGame__Func_205D65C(s32 id)
 	sub sp, sp, #4
 	bl SaveGame__GetGameProgress
 	and r10, r0, #0xff
-	bl SaveGame__GetUnknownProgress1
+	bl SaveGame__GetZone5Progress
 	strb r0, [sp]
-	bl SaveGame__GetUnknownProgress2
+	bl SaveGame__GetZone6Progress
 	mov r8, #0
 	ldr r9, =_02110D48
 	ldr r6, =_02110D12
@@ -1710,9 +1711,9 @@ NONMATCH_FUNC s32 SaveGame__Func_205D758(s32 id)
 	mov r10, r0
 	bl SaveGame__GetGameProgress
 	and r9, r0, #0xff
-	bl SaveGame__GetUnknownProgress1
+	bl SaveGame__GetZone5Progress
 	strb r0, [sp]
-	bl SaveGame__GetUnknownProgress2
+	bl SaveGame__GetZone6Progress
 	mov r7, #0
 	ldr r8, =_02110D48
 	ldr r5, =_02110D12

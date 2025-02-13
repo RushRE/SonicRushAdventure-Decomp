@@ -322,7 +322,7 @@ void DeleteSaveDataMenu_Main(void)
         }
         else
         {
-            gameState.talk.state.field_DC = 2;
+            gameState.talk.state.hubStartAction = 2;
             nextEvent                     = 1; // SYSEVENT_RETURN_TO_HUB
         }
 

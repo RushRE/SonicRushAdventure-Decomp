@@ -48,7 +48,7 @@ _0204672C:
 	movlt r0, #0
 	ldmia sp!, {r3, pc}
 _02046740:
-	bl SaveGame__GetUnknownProgress2
+	bl SaveGame__GetZone6Progress
 	cmp r0, #4
 	movge r0, #1
 	movlt r0, #0
@@ -944,13 +944,13 @@ _0204724C:
 	movgt r0, #0
 	ldmia sp!, {r4, pc}
 _02047260:
-	bl SaveGame__GetUnknownProgress1
+	bl SaveGame__GetZone5Progress
 	cmp r4, r0
 	movle r0, #1
 	movgt r0, #0
 	ldmia sp!, {r4, pc}
 _02047274:
-	bl SaveGame__GetUnknownProgress2
+	bl SaveGame__GetZone6Progress
 	cmp r4, r0
 	movle r0, #1
 	movgt r0, #0

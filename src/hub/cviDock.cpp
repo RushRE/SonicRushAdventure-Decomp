@@ -2,6 +2,7 @@
 #include <hub/cviMapIcon.hpp>
 #include <hub/hubConfig.h>
 #include <hub/hubState.h>
+#include <hub/cviDockNpcTalk.hpp>
 #include <game/input/padInput.h>
 #include <game/input/touchInput.h>
 #include <hub/hubAudio.h>
@@ -56,21 +57,21 @@ NOT_DECOMPILED void *ovl05_02172ED8;
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC void ViDock__Create(void)
+void ViDock__Create(void)
 {
-    // TODO: should match when constructors are decompiled for 'CViDockPlayer' 'CViDockNpcGroup', 'CViShadow' && 'CViDockBack'
-#ifdef NON_MATCHING
-    ViDock__TaskSingleton = HubTaskCreate(ViDock__Main, ViDock__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16), HubHUD);
+    // TODO: use 'HubTaskCreate' when 'ViDock__CreateInternal' matches
+    // ViDock__TaskSingleton = HubTaskCreate(ViDock__Main, ViDock__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16), CViDock);
+    ViDock__TaskSingleton = ViDock__CreateInternal(ViDock__Main, ViDock__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16));
 
     CViDock *work = TaskGetWork(ViDock__TaskSingleton, CViDock);
 
-    work->hitboxID        = 8;
+    work->area            = DOCKAREA_COUNT;
     work->field_2         = 4;
     work->field_4         = 8;
     work->field_8         = 0;
     work->field_C         = 0;
     work->field_10        = 1;
-    work->talkActionID    = 12;
+    work->talkActionType  = CVIDOCKNPCTALK_INVALID;
     work->talkActionParam = 0;
     work->field_1468      = 0;
     work->field_1470      = 0;
@@ -78,55 +79,10 @@ NONMATCH_FUNC void ViDock__Create(void)
     work->field_1B28      = 0;
     InitThreadWorker(&work->thread, 0x1000);
     ViDock__Func_215E678(work);
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	ldr r4, =0x00001030
-	mov r2, #0
-	ldr r0, =ViDock__Main
-	ldr r1, =ViDock__Destructor
-	mov r3, r2
-	str r4, [sp]
-	mov r4, #0x10
-	str r4, [sp, #4]
-	bl ViDock__CreateInternal
-	ldr r1, =ViDock__TaskSingleton
-	str r0, [r1]
-	bl GetTaskWork_
-	mov r4, r0
-	mov r2, #8
-	add r0, r4, #0x32c
-	strh r2, [r4]
-	mov r1, #4
-	strh r1, [r4, #2]
-	str r2, [r4, #4]
-	mov r3, #0
-	str r3, [r4, #8]
-	str r3, [r4, #0xc]
-	mov r1, #1
-	str r1, [r4, #0x10]
-	add r2, r4, #0x1000
-	mov r1, #0xc
-	str r1, [r2, #0x460]
-	str r3, [r2, #0x464]
-	str r3, [r2, #0x468]
-	str r3, [r2, #0x470]
-	str r3, [r2, #0xb24]
-	add r0, r0, #0x1800
-	mov r1, #0x1000
-	str r3, [r2, #0xb28]
-	bl InitThreadWorker
-	mov r0, r4
-	bl ViDock__Func_215E678
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC void ViDock__CreateInternal(void)
+// TODO: should match when constructors are decompiled for 'CViDockPlayer' 'CViDockNpcGroup', 'CViShadow' && 'CViDockBack'
+NONMATCH_FUNC Task *ViDock__CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group)
 {
 #ifdef NON_MATCHING
 
@@ -3055,35 +3011,21 @@ NONMATCH_FUNC void ViDock__Main_215FE68(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDock__Destructor(Task *task)
+void ViDock__Destructor(Task *task)
 {
-    // TODO: should match when destructors are decompiled for 'CViDockPlayer' 'CViDockNpcGroup', 'CViShadow' && 'CViDockBack'
-#ifdef NON_MATCHING
     CViDock *work = TaskGetWork(task, CViDock);
 
     ViDock__Func_215E6E4(work);
 
-    HubTaskDestroy<CViDock>(task);
+    // TODO: use 'HubTaskDestroy' when ViDock__Func_215FF6C matches
+    // HubTaskDestroy<CViDock>(task);
+    ViDock__Func_215FF6C(task);
 
     ViDock__TaskSingleton = NULL;
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl GetTaskWork_
-	bl ViDock__Func_215E6E4
-	mov r0, r4
-	bl ViDock__Func_215FF6C
-	ldr r0, =ViDock__TaskSingleton
-	mov r1, #0
-	str r1, [r0]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC void ViDock__Func_215FF6C(void)
+// TODO: should match when destructors are decompiled for 'CViDockPlayer' 'CViDockNpcGroup', 'CViShadow' && 'CViDockBack'
+NONMATCH_FUNC void ViDock__Func_215FF6C(Task *task)
 {
 #ifdef NON_MATCHING
 
@@ -3116,34 +3058,27 @@ _0215FFB4:
 #endif
 }
 
-NONMATCH_FUNC void ViDock__Func_215FFC0(void)
+void ViDock__Func_215FFC0(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWorkCurrent(CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	add r0, r4, #0x32c
-	add r0, r0, #0x1800
-	bl IsThreadWorkerFinished
-	cmp r0, #0
-	ldmeqia sp!, {r4, pc}
-	add r1, r4, #0x1000
-	mov r0, #0
-	str r0, [r1, #0xb28]
-	bl SetCurrentTaskMainEvent
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if (IsThreadWorkerFinished(&work->thread))
+    {
+        work->field_1B28 = 0;
+        SetCurrentTaskMainEvent(NULL);
+    }
 }
 
 NONMATCH_FUNC void ViDock__Func_215FFF4(void)
 {
 #ifdef NON_MATCHING
-
+    s32 area   = work->area;
+    work->area = work->field_4;
+    ViDock__LoadPlayer(work, area);
+    ViDock__Func_215E9F4(work, 0);
+    ViDock__Func_215EA8C(work);
+    ViDock__CreateNpcs(work);
+    work->shadow.field_14 = HubConfig__GetDockStageConfig(work->area)->field_34;
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}

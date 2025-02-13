@@ -179,8 +179,8 @@ typedef u32 VSBattleType;
 
 struct GameSaveInfo
 {
-    s32 unknown1;
-    u16 unknown2;
+    s32 progressType;
+    u16 progressCounter;
     u16 flags;
     u8 chaosEmeraldID;
     u8 solEmeraldID;
@@ -216,7 +216,7 @@ struct GameTalkState
 {
     struct
     {
-        u8 field_DC;
+        u8 hubStartAction;
         u8 hubType;
         u8 hubArea;
         struct GameTalkUnknown1 field_E0[1];

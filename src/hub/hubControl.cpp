@@ -51,17 +51,17 @@ static const u16 npcStartIDForArea[DOCKAREA_COUNT] = { 0, 9, 13, 16, 18, 20, 0, 
 
 extern "C" void InitHubSysEvent(void)
 {
-    HubControl::Func_2157288();
+    HubControl::InitMainMemoryPriorityForHub();
 
     MI_CpuFill16(OAMSystem__GetList2(GRAPHICS_ENGINE_A), 0x200, HW_OAM_SIZE);
     MI_CpuFill16(OAMSystem__GetList2(GRAPHICS_ENGINE_B), 0x200, HW_OAM_SIZE);
 
-    if (HubState__GetFieldDC() != 7)
+    if (HubState__GetHubStartAction() != 7)
         gameState.saveFile.field_52 = 0;
 
     if (SaveGame__CheckCollectedAllEmeraldsEvent())
     {
-        HubControl::Func_21572B8();
+        HubControl::ResetMainMemoryPriorityFromHub();
         gameState.creditsMode = CREDITS_MODE_EXTRA_STAGE_NOTIF;
         RequestNewSysEventChange(SYSEVENT_CREDITS);
         NextSysEvent();
@@ -70,45 +70,45 @@ extern "C" void InitHubSysEvent(void)
 
     if (MissionHelpers__CheckPostGameMissionUnlock())
     {
-        HubControl::Func_21572B8();
+        HubControl::ResetMainMemoryPriorityFromHub();
         gameState.creditsMode = CREDITS_MODE_MISSION_NOTIF;
         RequestNewSysEventChange(SYSEVENT_CREDITS);
         NextSysEvent();
         return;
     }
 
-    u16 progress = SaveGame__GetGameProgress();
-    u8 unknown2  = SaveGame__GetUnknown2();
+    u16 progress       = SaveGame__GetGameProgress();
+    u8 progressCounter = SaveGame__GetProgressCounter();
 
     if (progress == SAVE_PROGRESS_0)
     {
-        if (unknown2 <= 6)
+        if (progressCounter <= 6)
             HubControl::Func_2157124();
         else
             HubControl::Func_215713C();
     }
     else if (progress == SAVE_PROGRESS_1)
     {
-        if (gameState.talk.state.field_DC)
+        if (gameState.talk.state.hubStartAction)
             HubControl::Func_21570B8(1);
         else
             HubControl::Func_21570B8(0);
     }
     else if (progress < SAVE_PROGRESS_3)
     {
-        if (gameState.talk.state.field_DC)
+        if (gameState.talk.state.hubStartAction)
             HubControl::Func_215710C(1);
         else
             HubControl::Func_215710C(0);
     }
     else
     {
-        if (HubState__GetFieldDC() == 4)
+        if (HubState__GetHubStartAction() == 4)
         {
             u16 cutscene = CViTalkMovieList::GetNextCutscene(gameState.cutscene.cutsceneID);
             if (cutscene != CUTSCENE_NONE && !gameState.cutscene.canSkip)
             {
-                HubControl::Func_21572B8();
+                HubControl::ResetMainMemoryPriorityFromHub();
                 HubControl::Func_215B8FC(cutscene);
                 RequestNewSysEventChange(SYSEVENT_CUTSCENE);
                 NextSysEvent();
@@ -120,12 +120,12 @@ extern "C" void InitHubSysEvent(void)
             gameState.cutscene.cutsceneID = CUTSCENE_NONE;
         }
 
-        if (HubState__GetFieldDC() == 5 && gameState.clearedMission)
+        if (HubState__GetHubStartAction() == 5 && gameState.clearedMission)
         {
             u32 emeraldID = MissionHelpers__GetSolEmeraldIDFromMissionID(MissionHelpers__GetMissionID());
             if (emeraldID < 7)
             {
-                HubControl::Func_21572B8();
+                HubControl::ResetMainMemoryPriorityFromHub();
                 gameState.saveFile.chaosEmeraldID = -1;
                 gameState.saveFile.solEmeraldID   = emeraldID;
                 SaveGame__SetSolEmeraldCollected(&saveGame.stage, emeraldID);
@@ -135,9 +135,9 @@ extern "C" void InitHubSysEvent(void)
             }
         }
 
-        if (gameState.talk.state.field_DC && gameState.talk.state.field_DC < 8)
+        if (gameState.talk.state.hubStartAction && gameState.talk.state.hubStartAction < 8)
         {
-            HubControl::Func_215701C(gameState.talk.state.field_DC);
+            HubControl::Func_215701C(gameState.talk.state.hubStartAction);
         }
         else
         {
@@ -154,10 +154,10 @@ void HubControl::Func_215700C()
 
 void HubControl::Func_215701C(s32 a1)
 {
-    if (HubState__GetFieldDC() == 6 || HubState__GetFieldDC() == 7)
+    if (HubState__GetHubStartAction() == 6 || HubState__GetHubStartAction() == 7)
     {
         u32 field_134;
-        if (HubState__GetFieldDC() == 7)
+        if (HubState__GetHubStartAction() == 7)
             field_134 = 1;
         else
             field_134 = 0;
@@ -199,7 +199,7 @@ void HubControl::Func_21570B8(s32 a1)
         if (area != DOCKAREA_BASE && area != DOCKAREA_BASE_NEXT)
             area = DOCKAREA_BASE;
 
-        if (gameState.talk.state.field_DC == 2)
+        if (gameState.talk.state.hubStartAction == 2)
             area = DOCKAREA_BASE_NEXT;
     }
     else
@@ -288,13 +288,13 @@ void *HubControl::GetTKDMNameSprite()
     return work->tkdmNameSprite;
 }
 
-void HubControl::Func_2157288()
+void HubControl::InitMainMemoryPriorityForHub()
 {
     hubMiProcessor = MI_GetMainMemoryPriority();
     MI_SetMainMemoryPriority(MI_PROCESSOR_ARM7);
 }
 
-void HubControl::Func_21572B8()
+void HubControl::ResetMainMemoryPriorityFromHub()
 {
     if (hubMiProcessor != MI_PROCESSOR_ARM7 && hubMiProcessor != MI_PROCESSOR_ARM9)
         hubMiProcessor = MI_PROCESSOR_ARM9;
@@ -398,7 +398,7 @@ void HubControl::Create2(s32 area, BOOL a2, s32 a3)
     if (a2)
     {
         BOOL flag = TRUE;
-        if (HubState__GetFieldDC() == 1 || HubState__GetFieldDC() == 3 || HubState__GetFieldDC() == 5)
+        if (HubState__GetHubStartAction() == 1 || HubState__GetHubStartAction() == 3 || HubState__GetHubStartAction() == 5)
             flag = FALSE;
 
         ViDock__Func_215E578(flag);
@@ -430,15 +430,15 @@ void HubControl::Create2(s32 area, BOOL a2, s32 a3)
 
     if (a2)
     {
-        if (HubState__GetFieldDC() == 2)
+        if (HubState__GetHubStartAction() == 2)
         {
             work->field_124 = 1;
         }
-        else if (HubState__GetFieldDC() == 4)
+        else if (HubState__GetHubStartAction() == 4)
         {
             work->field_128 = 1;
         }
-        else if (HubState__GetFieldDC() == 5)
+        else if (HubState__GetHubStartAction() == 5)
         {
             work->field_12C = 1;
         }
@@ -534,7 +534,7 @@ void HubControl::Main1()
             if (area == DOCKAREA_BEACH)
             {
                 work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-                work->nextSelectionID = 8;
+                work->nextSelectionID = SAVE_PROGRESSTYPE_8;
             }
             else if (area == DOCKAREA_DRILL)
             {
@@ -608,7 +608,7 @@ void HubControl::Main_21578CC()
                 if (iconArea == DOCKAREA_BEACH)
                 {
                     work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-                    work->nextSelectionID = 8;
+                    work->nextSelectionID = SAVE_PROGRESSTYPE_8;
                 }
                 else if (iconArea == DOCKAREA_DRILL)
                 {
@@ -769,9 +769,9 @@ void HubControl::Main2()
             work->field_130 = 0;
             work->field_134 = 0;
         }
-        else if (SaveGame__CheckProgress24() && work->field_C == DOCKAREA_BASE)
+        else if (SaveGame__CheckProgressZone5OrZone6NotClear() && work->field_C == DOCKAREA_BASE)
         {
-            SaveGame__Func_205BC18();
+            SaveGame__UpdateProgressForZone5Zone6Cleared();
             HubControl::Func_21597A4(CUTSCENE_EARTHQUAKE, 8);
         }
         else
@@ -916,7 +916,7 @@ void HubControl::Main_2158160()
             work->Func_2159758(0);
             HubControl::Func_215A2E0(work->field_C, 0);
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = 1;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_1;
             ViDock__Func_215DF64(0);
             HubControl::Func_21598B4(work);
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
@@ -1061,7 +1061,7 @@ void HubControl::Main_2158160()
 
         case CVIDOCKNPCTALK_ACTION_18:
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = 0;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_0;
             ViDock__Func_215DF64(0);
             HubControl::Func_21598B4(work);
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
@@ -1261,7 +1261,7 @@ void HubControl::Main_2158958()
     {
         if (work->field_114 == 0)
         {
-            HubControl::Func_215A3EC();
+            HubControl::IncrementGameProgress();
             work->field_11C = 1;
         }
         else if (work->field_114 == 1)
@@ -1272,7 +1272,7 @@ void HubControl::Main_2158958()
         else if (work->field_114 == 7)
         {
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = 0;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_0;
             work->field_0 |= 0x10000;
             HubControl::Func_21598B4(work);
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
@@ -1295,10 +1295,10 @@ void HubControl::Main_2158A04()
     {
         if (SaveGame__CheckProgress30())
         {
-            SaveGame__Func_205BC28();
+            SaveGame__UpdateProgressForAllDoorPuzzleKeysCollected();
             work->Func_2159758(1);
             work->nextEvent       = HUBEVENT_CUTSCENE_2;
-            work->nextSelectionID = 57;
+            work->nextSelectionID = CUTSCENE_CRUEL_TO_BE_KIND;
             work->field_0 |= 0x10000;
             HubControl::Func_21598B4(work);
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
@@ -1306,7 +1306,7 @@ void HubControl::Main_2158A04()
         else if (SaveGame__CheckProgress15())
         {
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = 0;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_0;
             work->field_0 |= 0x10000;
             HubControl::Func_21598B4(work);
             SetCurrentTaskMainEvent(HubControl::Main_2158868);
@@ -1326,12 +1326,12 @@ void HubControl::Main_2158AB4()
         if (work->field_138 == 0xFFFE)
         {
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = 8;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_8;
         }
         else if (work->field_138 == 0xFFFF)
         {
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = 0;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_0;
         }
         else
         {
@@ -1685,7 +1685,7 @@ void HubControl::Func_21591A8()
         {
             if (work->decorConstructID < CViMap::CONSTRUCT_DECOR_COUNT)
             {
-                HubControl::Func_215B588(work->decorConstructID, 1);
+                HubControl::UpdateSaveForDecorConstruction(work->decorConstructID, TRUE);
                 HubControl::InitEngineAForUnknown();
             }
             else
@@ -1885,7 +1885,7 @@ void HubControl::Func_21597A4(s16 a1, s32 a2)
     ResetHubState();
     HubState__SetHubType(1);
 
-    if (a2 < 7)
+    if (a2 < DOCKAREA_DRILL)
         HubState__SetHubArea(a2);
     else
         HubState__SetHubArea(work->field_C);
@@ -2272,23 +2272,23 @@ void HubControl::Func_215A2E0(s32 a1, s32 a2)
                 else
                 {
                     VikingCupManager__EventStartVikingCup(1);
-                    gameState.talk.state.field_DC = 1;
+                    gameState.talk.state.hubStartAction = 1;
                 }
                 break;
 
             case 3:
                 VikingCupManager__EventStartVikingCup(2);
-                gameState.talk.state.field_DC = 1;
+                gameState.talk.state.hubStartAction = 1;
                 break;
 
             case 4:
                 VikingCupManager__EventStartVikingCup(3);
-                gameState.talk.state.field_DC = 1;
+                gameState.talk.state.hubStartAction = 1;
                 break;
 
             case 5:
                 VikingCupManager__EventStartVikingCup(4);
-                gameState.talk.state.field_DC = 1;
+                gameState.talk.state.hubStartAction = 1;
                 break;
         }
     }
@@ -2317,7 +2317,7 @@ void HubControl::Func_215A2E0(s32 a1, s32 a2)
     }
 }
 
-void HubControl::Func_215A3EC()
+void HubControl::IncrementGameProgress()
 {
     SaveGame__SetGameProgress(SaveGame__GetGameProgress() + 1);
 }
@@ -2330,7 +2330,7 @@ void HubControl::Func_215A400(s32 eventID, s32 selection)
     switch (eventID)
     {
         case HUBEVENT_UPDATE_PROGRESS:
-            SaveGame__SetUnknown1(selection);
+            SaveGame__SetProgressType(selection);
             break;
 
         case HUBEVENT_MAIN_MENU:
@@ -2362,7 +2362,7 @@ void HubControl::Func_215A400(s32 eventID, s32 selection)
             break;
     }
 
-    HubControl::Func_21572B8();
+    HubControl::ResetMainMemoryPriorityFromHub();
 
     const s16 sysEventList[] = {
         SYSEVENT_UPDATE_PROGRESS, SYSEVENT_SAILING,    SYSEVENT_MAIN_MENU,  SYSEVENT_DELETE_SAVE_MENU, SYSEVENT_PLAYER_NAME_MENU,

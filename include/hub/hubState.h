@@ -27,7 +27,7 @@ BOOL HubState__CheckHasNpcState(s32 id);
 VecFx32 *HubState__GetNpcPosition(s32 id);
 s32 HubState__GetNpcAngle(s32 id);
 s32 HubState__GetNpcUnknown(s32 id);
-u8 HubState__GetFieldDC(void);
+u8 HubState__GetHubStartAction(void);
 
 #ifdef __cplusplus
 }

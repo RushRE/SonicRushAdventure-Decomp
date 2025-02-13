@@ -91,8 +91,8 @@ void ChangeEventForStageFinish(BOOL willRestartStage)
                 if (willRestartStage == FALSE)
                 {
                     nextEvent                     = 3; // SYSEVENT_UPDATE_PROGRESS
-                    gameState.talk.state.field_DC = 7;
-                    SaveGame__SetUnknown1(0);
+                    gameState.talk.state.hubStartAction = 7;
+                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
                 }
             }
             else
@@ -128,8 +128,8 @@ void ChangeEventForStageFinish(BOOL willRestartStage)
             if (!state->clearedMission)
             {
                 nextEvent                     = 5; // SYSEVENT_21
-                gameState.talk.state.field_DC = 5;
-                SaveGame__SetUnknown1(0);
+                gameState.talk.state.hubStartAction = 5;
+                SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
             }
             else
             {
@@ -161,9 +161,9 @@ void ChangeEventForPauseMenuAction(BOOL isRestart)
                 break;
 
             case GAMEMODE_MISSION:
-                gameState.talk.state.field_DC = 5;
+                gameState.talk.state.hubStartAction = 5;
                 nextEvent                     = 3; // SYSEVENT_UPDATE_PROGRESS
-                SaveGame__SetUnknown1(0);
+                SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
                 break;
 
             // case GAMEMODE_STORY:
@@ -171,7 +171,7 @@ void ChangeEventForPauseMenuAction(BOOL isRestart)
             // case GAMEMODE_DEMO:
             default:
                 nextEvent = 3; // SYSEVENT_UPDATE_PROGRESS
-                SaveGame__SetUnknown1(0);
+                SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
                 break;
         }
     }

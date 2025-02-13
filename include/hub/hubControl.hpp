@@ -155,7 +155,7 @@ public:
     static void Func_2159810();
     static BOOL Func_2159854(s32 event);
     static void Func_215A2E0(s32 a1, s32 a2);
-    static void Func_215A3EC();
+    static void IncrementGameProgress();
     static void Func_215A400(s32 eventID, s32 selection);
 
     static void Func_215700C();
@@ -173,8 +173,8 @@ public:
     static void *GetFileFrom_ViMsgCtrl();
     static FontWindow *GetField54();
     static void *GetTKDMNameSprite();
-    static void Func_2157288();
-    static void Func_21572B8();
+    static void InitMainMemoryPriorityForHub();
+    static void ResetMainMemoryPriorityFromHub();
 
     static void Main_2158160();
     static void Main_2158AB4();
@@ -198,8 +198,8 @@ public:
     static BOOL CheckShipConstructed(s32 shipType);
     static s32 GetNextShipToBuild();
     static BOOL Func_215B51C(s32 a1);
-    static void Func_215B588(s32 a1, s32 a2);
-    static BOOL Func_215B6C4(s32 a1);
+    static void UpdateSaveForDecorConstruction(s32 a1, s32 a2);
+    static BOOL CheckDecorConstructed(s32 a1);
     static BOOL Func_215B850(s32 a1);
     static BOOL Func_215B858(s32 type);
     static void Func_215B8FC(u16 id);

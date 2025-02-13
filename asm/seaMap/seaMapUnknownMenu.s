@@ -112,7 +112,7 @@ SeaMapUnknown__Destroy: // 0x0216FDD8
 	b _0216FE28
 _0216FE04:
 	mov r0, #2
-	bl SaveGame__SetUnknown1
+	bl SaveGame__SetProgressType
 	mov r0, #0
 	bl RequestSysEventChange
 	b _0216FE28

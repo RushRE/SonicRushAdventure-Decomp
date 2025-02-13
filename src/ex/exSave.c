@@ -19,7 +19,7 @@ void EndExBossStage(ExFinishMode mode)
             playerGameStatus.stageTimer += 10 * GetExSystemStatus()->time.tenSeconds;
             playerGameStatus.stageTimer = 60 * (playerGameStatus.stageTimer + 60 * GetExSystemStatus()->time.minutes);
             saveGame.stage.status.lives = GetExSystemLifeCount();
-            SaveGame__SetUnknown1(9);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_9);
             RequestSysEventChange(0); // SYSEVENT_TITLE
             break;
 
@@ -30,7 +30,7 @@ void EndExBossStage(ExFinishMode mode)
 
         case EXFINISHMODE_GAME_OVER:
             saveGame.stage.status.lives = PLAYER_STARTING_LIVES;
-            gameState.talk.state.field_DC     = 6;
+            gameState.talk.state.hubStartAction     = 6;
             RequestSysEventChange(1); // SYSEVENT_LOAD_STAGE
             break;
 

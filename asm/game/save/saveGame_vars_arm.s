@@ -154,33 +154,33 @@ _02110994: // 0x02110994
 
 .public SaveGame__UnknownTable2
 SaveGame__UnknownTable2: // 0x021109B8
-    .word SaveGame__UpdateProgress2_Func_205C28C
-    .word SaveGame__UpdateProgress2_Func_205C29C
-    .word SaveGame__UpdateProgress2_Func_205C2A8
-    .word SaveGame__UpdateProgress2_Func_205C344
-    .word SaveGame__UpdateProgress2_Func_205C39C
-    .word SaveGame__UpdateProgress2_Func_205C3A8
-    .word SaveGame__UpdateProgress2_Func_205C700
-    .word SaveGame__UpdateProgress2_Func_205C720
-    .word SaveGame__UpdateProgress2_Func_205C780
-    .word SaveGame__UpdateProgress2_Func_205C7E8
-    .word SaveGame__UpdateProgress2_Func_205C904
-    .word SaveGame__UpdateProgress2_Func_205C91C
+    .word SaveGame__UpdateProgress2_Type0
+    .word SaveGame__UpdateProgress2_Type1
+    .word SaveGame__UpdateProgress2_Type2
+    .word SaveGame__UpdateProgress2_Type3
+    .word SaveGame__UpdateProgress2_Type4
+    .word SaveGame__UpdateProgress2_Type5
+    .word SaveGame__UpdateProgress2_Type6
+    .word SaveGame__UpdateProgress2_Type7
+    .word SaveGame__UpdateProgress2_Type8
+    .word SaveGame__UpdateProgress2_Type9
+    .word SaveGame__UpdateProgress2_Type10
+    .word SaveGame__UpdateProgress2_Type11
 
 .public SaveGame__ProgressCheckTable
 SaveGame__ProgressCheckTable: // 0x021109E8
-    .word SaveGame__ProgressCheckFunc_205CA68
-    .word SaveGame__ProgressCheckFunc_205CAB8
-    .word SaveGame__ProgressCheckFunc_205CAC0
-    .word SaveGame__ProgressCheckFunc_205CADC
-    .word SaveGame__ProgressCheckFunc_205CAF8
-    .word SaveGame__ProgressCheckFunc_205CB00
-    .word SaveGame__ProgressCheckFunc_205CB1C
-    .word SaveGame__ProgressCheckFunc_205CB24
-    .word SaveGame__ProgressCheckFunc_205CB2C
-    .word SaveGame__ProgressCheckFunc_205CB34
-    .word SaveGame__ProgressCheckFunc_205CB3C
-    .word SaveGame__ProgressCheckFunc_205CB44
+    .word SaveGame__ProgressCheck_Type0
+    .word SaveGame__ProgressCheck_Type1
+    .word SaveGame__ProgressCheck_Type2
+    .word SaveGame__ProgressCheck_Type3
+    .word SaveGame__ProgressCheck_Type4
+    .word SaveGame__ProgressCheck_Type5
+    .word SaveGame__ProgressCheck_Type6
+    .word SaveGame__ProgressCheck_Type7
+    .word SaveGame__ProgressCheck_Type8
+    .word SaveGame__ProgressCheck_Type9
+    .word SaveGame__ProgressCheck_Type10
+    .word SaveGame__ProgressCheck_Type11
 
 .public _02110A18
 _02110A18: // 0x02110A18

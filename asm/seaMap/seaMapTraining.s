@@ -116,7 +116,7 @@ SeaMapTraining__Destroy: // 0x02170C20
 	b _02170C68
 _02170C58:
 	mov r0, #2
-	bl SaveGame__SetUnknown1
+	bl SaveGame__SetProgressType
 	mov r0, #0
 	bl RequestSysEventChange
 _02170C68:

@@ -426,7 +426,7 @@ _02156EF2: // jump table
 	.hword _02156F58 - _02156EF2 - 2 // case 5
 _02156EFE:
 	mov r0, #5
-	bl SaveGame__SetUnknown1
+	bl SaveGame__SetProgressType
 	mov r1, #1
 	mov r0, #5
 	lsl r1, r1, #0xc
@@ -436,7 +436,7 @@ _02156EFE:
 	b _02156F8A
 _02156F16:
 	mov r0, #5
-	bl SaveGame__SetUnknown1
+	bl SaveGame__SetProgressType
 	mov r0, #4
 	lsl r1, r0, #0xa
 	bl CreateDrawFadeTask
@@ -445,7 +445,7 @@ _02156F16:
 	b _02156F8A
 _02156F2C:
 	mov r0, #5
-	bl SaveGame__SetUnknown1
+	bl SaveGame__SetProgressType
 	mov r0, #4
 	lsl r1, r0, #0xa
 	bl CreateDrawFadeTask
@@ -454,7 +454,7 @@ _02156F2C:
 	b _02156F8A
 _02156F42:
 	mov r0, #5
-	bl SaveGame__SetUnknown1
+	bl SaveGame__SetProgressType
 	mov r0, #4
 	lsl r1, r0, #0xa
 	bl CreateDrawFadeTask
@@ -463,7 +463,7 @@ _02156F42:
 	b _02156F8A
 _02156F58:
 	mov r0, #5
-	bl SaveGame__SetUnknown1
+	bl SaveGame__SetProgressType
 	mov r0, #4
 	lsl r1, r0, #0xa
 	bl CreateDrawFadeTask
@@ -472,7 +472,7 @@ _02156F58:
 	b _02156F8A
 _02156F6E:
 	mov r0, #0
-	bl SaveGame__SetUnknown1
+	bl SaveGame__SetProgressType
 	mov r0, #4
 	lsl r1, r0, #0xa
 	bl CreateDrawFadeTask

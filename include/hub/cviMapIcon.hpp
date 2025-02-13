@@ -8,7 +8,7 @@
 // STRUCTS
 // --------------------
 
-struct CViMapUnknown
+struct CViDockDrawState
 {
     s32 field_0;
     u32 area;
@@ -132,6 +132,8 @@ void ViMapIcon__Func_2163904(CViMapIcon *work);
 void ViMapIcon__Func_216392C(CViMapIcon *work);
 void ViMapIcon__Func_2163954(CViMapIcon *work);
 void ViMapIcon__Func_216397C(CViMapIcon *work);
+
+
 void ViMapIcon__Func_21639A4(CViMapIcon *work);
 void ViMapIcon__Func_2163A50(CViMapIcon *work);
 void ViMapIcon__Func_2163A7C(CViMapIcon *work);

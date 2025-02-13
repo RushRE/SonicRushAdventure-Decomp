@@ -1148,9 +1148,9 @@ void ViMap__Func_215D374(CViMap *work)
         }
     }
 
-    for (s32 i = 0; i < 22; i++)
+    for (s32 i = 0; i < CViMap::CONSTRUCT_DECOR_COUNT; i++)
     {
-        if (HubControl::Func_215B6C4(i))
+        if (HubControl::CheckDecorConstructed(i))
         {
             const u16 *value = HubConfig__Func_2152A20(i);
             if (HubConfig__Func_2152A60(i))

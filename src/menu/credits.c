@@ -1182,7 +1182,7 @@ void Credits_Main_UndimWandRoom(void)
     {
         DestroyDrawFadeTask();
 
-        if (SaveGame__CheckProgress37())
+        if (SaveGame__CheckProgressIsAllEmeraldsCollected())
             SetCurrentTaskMainEvent(Credits_Main_InitExit);
         else
             SetCurrentTaskMainEvent(Credits_Main_InitEmeraldStingerNotif);

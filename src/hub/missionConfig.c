@@ -49,24 +49,24 @@ static const u16 missionIslandTable_Gardon[] = { MISSION_INVALID, SAVE_ISLAND_3,
 static const u16 missionValueTable_Norman[] = { 7, 8, 9, 10, 11, 12, 13, 14 };
 
 static const MissionHelpersProgressCheck missionProgressTable_Tabby[] = {
-    { .gameProgress = SAVE_PROGRESS_5, .unknownProgress1 = 0, .unknownProgress2 = 0 },
-    { .gameProgress = SAVE_PROGRESS_26, .unknownProgress1 = 4, .unknownProgress2 = 6 },
-    { .gameProgress = SAVE_PROGRESS_35, .unknownProgress1 = 0, .unknownProgress2 = 0 },
+    { .gameProgress = SAVE_PROGRESS_5, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
+    { .gameProgress = SAVE_PROGRESS_26, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
+    { .gameProgress = SAVE_PROGRESS_35, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
 };
 
 static const MissionHelpersProgressCheck missionProgressTable_Daikun[] = {
-    { .gameProgress = SAVE_PROGRESS_24, .unknownProgress1 = 4, .unknownProgress2 = 0 },
-    { .gameProgress = SAVE_PROGRESS_24, .unknownProgress1 = 0, .unknownProgress2 = 6 },
-    { .gameProgress = SAVE_PROGRESS_35, .unknownProgress1 = 4, .unknownProgress2 = 6 },
+    { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
+    { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
+    { .gameProgress = SAVE_PROGRESS_35, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
 };
 
 static const u16 missionValueTable_Kylok[] = { 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
 
 static const MissionHelpersProgressCheck missionProgressTable_Norman[] = {
-    { .gameProgress = SAVE_PROGRESS_36, .unknownProgress1 = 4, .unknownProgress2 = 6 },
-    { .gameProgress = SAVE_PROGRESS_36, .unknownProgress1 = 4, .unknownProgress2 = 6 },
-    { .gameProgress = SAVE_PROGRESS_36, .unknownProgress1 = 4, .unknownProgress2 = 6 },
-    { .gameProgress = SAVE_PROGRESS_36, .unknownProgress1 = 4, .unknownProgress2 = 6 },
+    { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
+    { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
+    { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
+    { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
 };
 
 static const u16 missionValueTable_Setter[] = { 8, 9, 11, 12, 14, 15, 17, 18, 20, 21, 23, 24 };
@@ -77,22 +77,30 @@ static const u16 postGameMissionListMarine[] = { MISSION_2,  MISSION_7,  MISSION
                                                  MISSION_37, MISSION_43, MISSION_48, MISSION_53, MISSION_57, MISSION_63, MISSION_67 };
 
 static const MissionHelpersProgressCheck missionProgressTable_Kylok[] = {
-    { .gameProgress = SAVE_PROGRESS_21, .unknownProgress1 = 0, .unknownProgress2 = 0 }, { .gameProgress = SAVE_PROGRESS_24, .unknownProgress1 = 4, .unknownProgress2 = 0 },
-    { .gameProgress = SAVE_PROGRESS_24, .unknownProgress1 = 4, .unknownProgress2 = 6 }, { .gameProgress = SAVE_PROGRESS_35, .unknownProgress1 = 4, .unknownProgress2 = 6 },
-    { .gameProgress = SAVE_PROGRESS_36, .unknownProgress1 = 4, .unknownProgress2 = 6 },
+    { .gameProgress = SAVE_PROGRESS_21, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
+    { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
+    { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
+    { .gameProgress = SAVE_PROGRESS_35, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
+    { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
 };
 
 static const MissionHelpersProgressCheck missionProgressTable_Setter[] = {
-    { .gameProgress = SAVE_PROGRESS_8, .unknownProgress1 = 0, .unknownProgress2 = 0 },  { .gameProgress = SAVE_PROGRESS_9, .unknownProgress1 = 0, .unknownProgress2 = 0 },
-    { .gameProgress = SAVE_PROGRESS_16, .unknownProgress1 = 0, .unknownProgress2 = 0 }, { .gameProgress = SAVE_PROGRESS_24, .unknownProgress1 = 1, .unknownProgress2 = 6 },
-    { .gameProgress = SAVE_PROGRESS_24, .unknownProgress1 = 1, .unknownProgress2 = 6 }, { .gameProgress = SAVE_PROGRESS_30, .unknownProgress1 = 4, .unknownProgress2 = 6 },
+    { .gameProgress = SAVE_PROGRESS_8, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
+    { .gameProgress = SAVE_PROGRESS_9, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
+    { .gameProgress = SAVE_PROGRESS_16, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
+    { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_1, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
+    { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_1, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
+    { .gameProgress = SAVE_PROGRESS_30, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
 };
 
 static const MissionHelpersProgressCheck missionProgressTable_Gardon[] = {
-    { .gameProgress = SAVE_PROGRESS_16, .unknownProgress1 = 0, .unknownProgress2 = 0 }, { .gameProgress = SAVE_PROGRESS_21, .unknownProgress1 = 0, .unknownProgress2 = 0 },
-    { .gameProgress = SAVE_PROGRESS_24, .unknownProgress1 = 4, .unknownProgress2 = 0 }, { .gameProgress = SAVE_PROGRESS_24, .unknownProgress1 = 4, .unknownProgress2 = 6 },
-    { .gameProgress = SAVE_PROGRESS_30, .unknownProgress1 = 4, .unknownProgress2 = 6 }, { .gameProgress = SAVE_PROGRESS_36, .unknownProgress1 = 4, .unknownProgress2 = 6 },
-    { .gameProgress = SAVE_PROGRESS_36, .unknownProgress1 = 4, .unknownProgress2 = 6 },
+    { .gameProgress = SAVE_PROGRESS_16, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
+    { .gameProgress = SAVE_PROGRESS_21, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
+    { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
+    { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
+    { .gameProgress = SAVE_PROGRESS_30, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
+    { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
+    { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
 };
 
 static const u16 messageControlFileTable[TALKINTERACTION_COUNT] = {
@@ -822,11 +830,11 @@ u16 TalkHelpers__GetInteractionText4(s32 id)
 
 u16 TalkHelpers__GetInteraction0ID(s32 id)
 {
-    u16 gameProgress     = SaveGame__GetGameProgress();
-    u16 unknownProgress1 = SaveGame__GetUnknownProgress1();
-    u16 unknownProgress2 = SaveGame__GetUnknownProgress2();
+    u16 gameProgress  = SaveGame__GetGameProgress();
+    u16 zone5Progress = SaveGame__GetZone5Progress();
+    u16 zone6Progress = SaveGame__GetZone6Progress();
 
-    if (gameProgress < SAVE_PROGRESS_24 || (gameProgress == SAVE_PROGRESS_24 && unknownProgress1 == 1 && unknownProgress2 == 1))
+    if (gameProgress < SAVE_PROGRESS_24 || (gameProgress == SAVE_PROGRESS_24 && zone5Progress == SAVE_ZONE5_PROGRESS_1 && zone6Progress == SAVE_ZONE6_PROGRESS_1))
     {
         return (s32)gameProgress;
     }
@@ -841,7 +849,7 @@ u16 TalkHelpers__GetInteraction0ID(s32 id)
         {
             flag = TRUE;
         }
-        else if (unknownProgress2 >= 4)
+        else if (zone6Progress >= SAVE_ZONE6_PROGRESS_4)
         {
             flag = SaveGame__GetProgressFlags_0x1();
         }
@@ -853,10 +861,10 @@ u16 TalkHelpers__GetInteraction0ID(s32 id)
         switch (flag)
         {
             default:
-                return unknownProgress1 + 23;
+                return zone5Progress + 23;
 
             case FALSE:
-                return unknownProgress2 + 26;
+                return zone6Progress + 26;
         }
     }
 
@@ -897,11 +905,11 @@ u16 TalkHelpers__Interaction1_Setter(void)
 
 u16 TalkHelpers__Interaction1_Colonel(void)
 {
-    BOOL unknownFlag      = FALSE;
+    BOOL huntingForClues  = FALSE;
     BOOL canBuyDecoration = FALSE;
 
-    if (SaveGame__CheckProgress29())
-        unknownFlag = TRUE;
+    if (SaveGame__CheckProgressIsHuntingForClues())
+        huntingForClues = TRUE;
 
     for (s32 i = 0; i < 3; i++)
     {
@@ -912,10 +920,10 @@ u16 TalkHelpers__Interaction1_Colonel(void)
         }
     }
 
-    if (unknownFlag && canBuyDecoration)
+    if (huntingForClues && canBuyDecoration)
         return 2;
 
-    if (unknownFlag)
+    if (huntingForClues)
         return 0;
 
     if (canBuyDecoration)
@@ -1114,11 +1122,11 @@ u16 TalkHelpers__Interaction2_Daikun(void)
 
 BOOL MissionHelpers__CheckSaveProgress(MissionHelpersProgressCheck *progress)
 {
-    s32 gameProgress     = SaveGame__GetGameProgress();
-    s32 unknownProgress1 = SaveGame__GetUnknownProgress1();
-    s32 unknownProgress2 = SaveGame__GetUnknownProgress2();
+    s32 gameProgress  = SaveGame__GetGameProgress();
+    s32 zone5Progress = SaveGame__GetZone5Progress();
+    s32 zone6Progress = SaveGame__GetZone6Progress();
 
-    return gameProgress >= progress->gameProgress && unknownProgress1 >= progress->unknownProgress1 && unknownProgress2 >= progress->unknownProgress2;
+    return gameProgress >= progress->gameProgress && zone5Progress >= progress->zone5Progress && zone6Progress >= progress->zone6Progress;
 }
 
 BOOL MissionHelpers__CheckIslandBeaten(s32 id)

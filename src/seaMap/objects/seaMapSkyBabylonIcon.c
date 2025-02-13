@@ -33,7 +33,7 @@ SeaMapObject *CreateSeaMapSkyBabylonIcon(CHEVObjectType *objectType, CHEVObject 
     work = TaskGetWork(task, SeaMapSkyBabylonIcon);
     TaskInitWork16(work);
 
-    if (SaveGame__GetUnknownProgress2() >= 4)
+    if (SaveGame__GetZone6Progress() >= SAVE_ZONE6_PROGRESS_4)
         work->state = SeaMapSkyBabylonIcon_State_BeginHover;
     else
         work->state = SeaMapSkyBabylonIcon_State_Hidden;

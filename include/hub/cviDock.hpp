@@ -34,7 +34,7 @@ public:
     s32 field_C;
     s32 field_10;
     s32 field_14;
-    CViMapUnknown mapUnknown;
+    CViDockDrawState dockDrawState;
     CViDockBack dockBack;
     CViDockPlayer player;
     CViDockNpcGroup npcGroup;
@@ -81,7 +81,7 @@ extern "C"
 #endif
 
 void ViDock__Create(void);
-void ViDock__CreateInternal(void);
+Task *ViDock__CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group);
 void ViDock__Func_215DB9C(void);
 void ViDock__Func_215DBC8(s32 a1);
 void ViDock__Func_215DC80(s32 a1, s32 a2);
@@ -137,7 +137,7 @@ void ViDock__Main_215FE00(void);
 void ViDock__Main_215FE34(void);
 void ViDock__Main_215FE68(void);
 void ViDock__Destructor(Task *task);
-void ViDock__Func_215FF6C(void);
+void ViDock__Func_215FF6C(Task *task);
 void ViDock__Func_215FFC0(void);
 void ViDock__Func_215FFF4(void);
 

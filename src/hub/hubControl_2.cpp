@@ -507,7 +507,7 @@ void HubControl::UpdateSaveProgressForShipConstructed(s32 shipType, BOOL unknown
 
 BOOL HubControl::CheckShipConstructed(s32 shipType)
 {
-    if (shipType == SHIP_JET && SaveGame__GetGameProgress() == SAVE_PROGRESS_1 && SaveGame__GetUnknown2() >= 1)
+    if (shipType == SHIP_JET && SaveGame__GetGameProgress() == SAVE_PROGRESS_1 && SaveGame__GetProgressCounter() >= 1)
         return TRUE;
     else
         return SaveGame__GetGameProgress() >= GetProgressForShipConstructed(shipType);
@@ -542,161 +542,161 @@ BOOL HubControl::Func_215B51C(s32 a1)
         SAVE_PROGRESS_0, SAVE_PROGRESS_2, SAVE_PROGRESS_9, SAVE_PROGRESS_22, SAVE_PROGRESS_26, SAVE_PROGRESS_0, SAVE_PROGRESS_38, SAVE_PROGRESS_0
     };
 
-    if (a1 == 0 && SaveGame__GetGameProgress() == SAVE_PROGRESS_0 && SaveGame__GetUnknown2() <= 6)
+    if (a1 == 0 && SaveGame__GetGameProgress() == SAVE_PROGRESS_0 && SaveGame__GetProgressCounter() <= 6)
         return FALSE;
 
-    if (a1 == 1 && SaveGame__GetGameProgress() == SAVE_PROGRESS_1 && SaveGame__GetUnknown2() >= 1)
+    if (a1 == 1 && SaveGame__GetGameProgress() == SAVE_PROGRESS_1 && SaveGame__GetProgressCounter() >= 1)
         return TRUE;
 
     return SaveGame__GetGameProgress() >= progressTable[a1];
 }
 
-void HubControl::Func_215B588(s32 a1, s32 a2)
+void HubControl::UpdateSaveForDecorConstruction(s32 id, s32 a2)
 {
-    if (a1 == 7)
+    if (id == CViMap::CONSTRUCT_DECOR_7)
     {
         SaveGame__SetGameProgress(SAVE_PROGRESS_17);
     }
     else
     {
-        switch (a1)
+        switch (id)
         {
-            case 5:
+            case CViMap::CONSTRUCT_DECOR_5:
                 SaveGame__SetBoughtDecoration(0);
                 break;
 
-            case 8:
+            case CViMap::CONSTRUCT_DECOR_8:
                 SaveGame__SetBoughtDecoration(1);
                 break;
 
-            case 17:
+            case CViMap::CONSTRUCT_DECOR_17:
                 SaveGame__SetBoughtDecoration(2);
                 break;
 
-            case 1:
+            case CViMap::CONSTRUCT_DECOR_1:
                 MissionHelpers__CompleteMission(MISSION_83);
                 break;
 
-            case 2:
+            case CViMap::CONSTRUCT_DECOR_2:
                 MissionHelpers__CompleteMission(MISSION_39);
                 break;
 
-            case 4:
+            case CViMap::CONSTRUCT_DECOR_4:
                 MissionHelpers__CompleteMission(MISSION_91);
                 break;
 
-            case 6:
+            case CViMap::CONSTRUCT_DECOR_6:
                 MissionHelpers__CompleteMission(MISSION_99);
                 break;
 
-            case 10:
+            case CViMap::CONSTRUCT_DECOR_10:
                 MissionHelpers__CompleteMission(MISSION_79);
                 break;
 
-            case 11:
+            case CViMap::CONSTRUCT_DECOR_11:
                 MissionHelpers__CompleteMission(MISSION_89);
                 break;
 
-            case 12:
+            case CViMap::CONSTRUCT_DECOR_12:
                 MissionHelpers__CompleteMission(MISSION_93);
                 break;
 
-            case 13:
+            case CViMap::CONSTRUCT_DECOR_13:
                 MissionHelpers__CompleteMission(MISSION_59);
                 break;
 
-            case 16:
+            case CViMap::CONSTRUCT_DECOR_16:
                 MissionHelpers__CompleteMission(MISSION_9);
                 break;
 
-            case 18:
+            case CViMap::CONSTRUCT_DECOR_18:
                 MissionHelpers__CompleteMission(MISSION_88);
                 break;
 
-            case 19:
+            case CViMap::CONSTRUCT_DECOR_19:
                 MissionHelpers__CompleteMission(MISSION_49);
                 break;
 
-            case 20:
+            case CViMap::CONSTRUCT_DECOR_20:
                 MissionHelpers__CompleteMission(MISSION_84);
                 break;
 
-            case 21:
+            case CViMap::CONSTRUCT_DECOR_21:
                 MissionHelpers__CompleteMission(MISSION_85);
                 break;
         }
     }
 }
 
-BOOL HubControl::Func_215B6C4(s32 a1)
+BOOL HubControl::CheckDecorConstructed(s32 a1)
 {
     switch (a1)
     {
-        case 0:
+        case CViMap::CONSTRUCT_DECOR_0:
             return TRUE;
 
-        case 7:
+        case CViMap::CONSTRUCT_DECOR_7:
             return SaveGame__GetGameProgress() >= SAVE_PROGRESS_17;
 
-        case 3:
-        case 14:
+        case CViMap::CONSTRUCT_DECOR_3:
+        case CViMap::CONSTRUCT_DECOR_14:
             return SaveGame__GetGameProgress() >= SAVE_PROGRESS_25;
 
-        case 5:
+        case CViMap::CONSTRUCT_DECOR_5:
             return SaveGame__GetBoughtDecoration(0);
 
-        case 8:
+        case CViMap::CONSTRUCT_DECOR_8:
             return SaveGame__GetBoughtDecoration(1);
 
-        case 17:
+        case CViMap::CONSTRUCT_DECOR_17:
             return SaveGame__GetBoughtDecoration(2);
 
-        case 1:
-        case 9:
+        case CViMap::CONSTRUCT_DECOR_1:
+        case CViMap::CONSTRUCT_DECOR_9:
             return MissionHelpers__CheckMissionCompleted(MISSION_83);
 
-        case 2:
+        case CViMap::CONSTRUCT_DECOR_2:
             return MissionHelpers__CheckMissionCompleted(MISSION_39);
 
-        case 4:
+        case CViMap::CONSTRUCT_DECOR_4:
             return MissionHelpers__CheckMissionCompleted(MISSION_91);
 
-        case 10:
+        case CViMap::CONSTRUCT_DECOR_10:
             return MissionHelpers__CheckMissionCompleted(MISSION_79);
 
-        case 11:
+        case CViMap::CONSTRUCT_DECOR_11:
             return MissionHelpers__CheckMissionCompleted(MISSION_89);
 
-        case 12:
+        case CViMap::CONSTRUCT_DECOR_12:
             return MissionHelpers__CheckMissionCompleted(MISSION_93);
 
-        case 13:
+        case CViMap::CONSTRUCT_DECOR_13:
             return MissionHelpers__CheckMissionCompleted(MISSION_59);
 
-        case 15:
+        case CViMap::CONSTRUCT_DECOR_15:
             if (MissionHelpers__CheckMissionCompleted(MISSION_88))
                 return FALSE;
             return TRUE;
 
-        case 18:
+        case CViMap::CONSTRUCT_DECOR_18:
             return MissionHelpers__CheckMissionCompleted(MISSION_88);
 
-        case 16:
+        case CViMap::CONSTRUCT_DECOR_16:
             return MissionHelpers__CheckMissionCompleted(MISSION_9);
 
-        case 19:
+        case CViMap::CONSTRUCT_DECOR_19:
             return MissionHelpers__CheckMissionCompleted(MISSION_49);
 
-        case 20:
+        case CViMap::CONSTRUCT_DECOR_20:
             if (MissionHelpers__CheckMissionCompleted(MISSION_85))
                 return FALSE;
 
             return MissionHelpers__CheckMissionCompleted(MISSION_84);
 
-        case 21:
+        case CViMap::CONSTRUCT_DECOR_21:
             return MissionHelpers__CheckMissionCompleted(MISSION_85);
 
-        case 6:
+        case CViMap::CONSTRUCT_DECOR_6:
             return MissionHelpers__CheckMissionCompleted(MISSION_99);
     }
 
@@ -714,13 +714,13 @@ BOOL HubControl::Func_215B858(s32 type)
 
     s32 i;
     u16 gameProgress;
-    u16 unknownProgress1;
-    u16 unknownProgress2;
+    u16 zone5Progress;
+    u16 zone6Progress;
     BOOL flag;
 
     gameProgress     = SaveGame__GetGameProgress();
-    unknownProgress1 = SaveGame__GetUnknownProgress1();
-    unknownProgress2 = SaveGame__GetUnknownProgress2();
+    zone5Progress = SaveGame__GetZone5Progress();
+    zone6Progress = SaveGame__GetZone6Progress();
 
     flag = FALSE;
 
@@ -732,14 +732,14 @@ BOOL HubControl::Func_215B858(s32 type)
 
         if (type == 15 && table[i].gameProgress == SAVE_PROGRESS_24)
         {
-            if (unknownProgress1 < 4)
+            if (zone5Progress < SAVE_ZONE5_PROGRESS_4)
             {
                 break;
             }
         }
         else
         {
-            if ((type == 17 || type == 19) && table[i].gameProgress == SAVE_PROGRESS_24 && unknownProgress2 < 2)
+            if ((type == 17 || type == 19) && table[i].gameProgress == SAVE_PROGRESS_24 && zone6Progress < SAVE_ZONE6_PROGRESS_2)
             {
                 break;
             }
@@ -760,7 +760,7 @@ void HubControl::Func_215B8FC(u16 id)
     cutscene->nextSysEvent             = SYSEVENT_RETURN_TO_HUB;
     cutscene->canSkip                  = TRUE;
 
-    gameState.talk.state.field_DC = 4;
+    gameState.talk.state.hubStartAction = 4;
 }
 
 void HubControl::Func_215B92C(u16 id)
@@ -770,7 +770,7 @@ void HubControl::Func_215B92C(u16 id)
     cutscene->nextSysEvent             = SYSEVENT_RETURN_TO_HUB;
     cutscene->canSkip                  = TRUE;
 
-    gameState.talk.state.field_DC = 1;
+    gameState.talk.state.hubStartAction = 1;
 }
 
 void HubControl::Func_215B958()

@@ -11,7 +11,7 @@ void ResetHubState(void)
     struct GameTalkState *hub = &gameState.talk;
     MI_CpuClear32(&hub->state, sizeof(hub->state));
     
-    hub->state.field_DC = 0;
+    hub->state.hubStartAction = 0;
     hub->state.hubType = -1;
     hub->state.hubArea = -1;
 }
@@ -96,7 +96,7 @@ s32 HubState__GetNpcUnknown(s32 id)
     return gameState.talk.state.field_14[id].field_10;
 }
 
-u8 HubState__GetFieldDC(void)
+u8 HubState__GetHubStartAction(void)
 {
-    return gameState.talk.state.field_DC;
+    return gameState.talk.state.hubStartAction;
 }

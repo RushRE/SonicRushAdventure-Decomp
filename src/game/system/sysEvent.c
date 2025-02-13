@@ -546,7 +546,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
         .overlay     = FS_OVERLAY_ID(Menus1),
     },
 
-    // SYSEVENT_38
+    // SYSEVENT_SEAMAPCUTSCENE
     {
         .initFunc    = SeaMapCutscene__Create,
         .exitFunc    = NULL,

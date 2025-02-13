@@ -23,8 +23,8 @@ extern "C"
 typedef struct MissionHelpersProgressCheck_
 {
     u16 gameProgress;
-    u16 unknownProgress1;
-    u16 unknownProgress2;
+    u16 zone5Progress;
+    u16 zone6Progress;
 } MissionHelpersProgressCheck;
 
 // --------------------

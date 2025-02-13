@@ -1581,7 +1581,7 @@ void StageClearEx_State_FadeOut(StageClearEx *work)
 
     if (work->timer == 32)
     {
-        SaveGame__SetUnknown1(9);
+        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_9);
         RequestSysEventChange(0); // SYSEVENT_UPDATE_PROGRESS
         NextSysEvent();
         DestroyStageClearEx(work);

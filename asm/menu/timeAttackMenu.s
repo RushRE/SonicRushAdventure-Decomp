@@ -3385,7 +3385,7 @@ _0216E11E:
 	cmp r0, #0
 	bne _0216E160
 	mov r0, #4
-	bl SaveGame__SetUnknown1
+	bl SaveGame__SetProgressType
 	mov r0, #1
 	bl TimeAttackMenu__Func_216C730
 	pop {r4, pc}

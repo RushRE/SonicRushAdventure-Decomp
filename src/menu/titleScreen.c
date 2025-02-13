@@ -313,8 +313,8 @@ void ChangeEventForTitleScreen(TitleScreenNextEvent id)
     switch (id)
     {
         case TITLESCREEN_NEXTEVENT_HUB:
-            gameState.talk.state.field_DC = 0;
-            SaveGame__SetUnknown1(0);
+            gameState.talk.state.hubStartAction = 0;
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
             // fallthrough
 
         case TITLESCREEN_NEXTEVENT_DEMO:
