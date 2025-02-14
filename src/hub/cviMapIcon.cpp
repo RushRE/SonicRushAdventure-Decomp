@@ -15,7 +15,7 @@ extern "C"
 {
 
 NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViActEt(void);
-NOT_DECOMPILED void _ZN10HubControl12Func_2157178Ev(void);
+NOT_DECOMPILED void _ZN10HubControl12TouchEnabledEv(void);
 NOT_DECOMPILED void _ZN10HubControl12Func_215B51CEl(void);
 
 }
@@ -279,7 +279,7 @@ NONMATCH_FUNC void ViMapIcon__Func_2163364(CViMapIcon *work, u16 x, u16 y){
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__GetIconPosition(CViMapIcon *work, u32 area, u16 *x, u16 *y){
+NONMATCH_FUNC void ViMapIcon__GetIconPosition(CViMapIcon *work, MapArea mapArea, u16 *x, u16 *y){
 #ifdef NON_MATCHING
 
 #else
@@ -303,7 +303,7 @@ _02163388:
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__SetIconID2(CViMapIcon *work, u32 icon){
+NONMATCH_FUNC void ViMapIcon__SetIconID2(CViMapIcon *work, MapArea mapArea){
 #ifdef NON_MATCHING
 
 #else
@@ -321,7 +321,7 @@ NONMATCH_FUNC void ViMapIcon__SetIconID2(CViMapIcon *work, u32 icon){
 #endif
 }
 
-NONMATCH_FUNC void ViMapIcon__SetIconID(CViMapIcon *work, u32 icon)
+NONMATCH_FUNC void ViMapIcon__SetIconID(CViMapIcon *work, MapArea mapArea)
 {
 #ifdef NON_MATCHING
 
@@ -345,7 +345,7 @@ NONMATCH_FUNC void ViMapIcon__SetIconID(CViMapIcon *work, u32 icon)
 #endif
 }
 
-NONMATCH_FUNC s32 ViMapIcon__GetCurrentIcon(CViMapIcon *work){
+NONMATCH_FUNC MapArea ViMapIcon__GetCurrentIcon(CViMapIcon *work){
 #ifdef NON_MATCHING
 
 #else
@@ -442,7 +442,7 @@ _021634E4:
 #endif
 }
 
-NONMATCH_FUNC s32 ViMapIcon__GetIconFromTouchPos(CViMapIcon *work)
+NONMATCH_FUNC MapArea ViMapIcon__GetIconFromTouchPos(CViMapIcon *work)
 {
 #ifdef NON_MATCHING
 
@@ -463,7 +463,7 @@ _0216351C:
 _02163520:
 	cmp r0, #0
 	beq _02163534
-	bl _ZN10HubControl12Func_2157178Ev
+	bl _ZN10HubControl12TouchEnabledEv
 	cmp r0, #0
 	bne _0216353C
 _02163534:

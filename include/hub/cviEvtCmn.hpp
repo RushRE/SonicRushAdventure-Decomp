@@ -340,7 +340,7 @@ public:
 
     void Init(void *mpcCtrlFile, u16 interactionID, u16 interactionID2);
     void Release();
-    u16 SetInteraction();
+    u16 GetPageCount();
     void SetPage(u16 pageID);
     void ProcessDialog();
     BOOL IsFinished();

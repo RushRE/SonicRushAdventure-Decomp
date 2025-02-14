@@ -113,10 +113,10 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
     BOOL flag;
     s32 id;
     s32 page;
-    u16 value;
+    u16 talkCount;
 
     work->messageID = messageID;
-    value           = CViDock::Func_215E06C();
+    talkCount       = CViDock::GetTalkingNpcTalkCount();
     HubControl::InitEngineAForTalk();
 
     HubNpcMsgConfig msg;
@@ -136,7 +136,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
     flag = FALSE;
     if (msg.msgTextID3 != CVIEVTCMN_RESOURCE_NONE)
     {
-        if (value == 0)
+        if (talkCount == 0)
         {
             work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), msg.msgCtrlFile), msg.msgTextID3, CVIEVTCMN_RESOURCE_NONE);
             page = 0;
@@ -144,7 +144,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
         }
         else
         {
-            value--;
+            talkCount--;
         }
     }
 
@@ -167,7 +167,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
         else
         {
             work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), msg.msgCtrlFile), msg.msgTextID1, msg.msgTextID2);
-            page = FX_ModS32(value, work->eventTalk.SetInteraction());
+            page = FX_ModS32(talkCount, work->eventTalk.GetPageCount());
         }
     }
 

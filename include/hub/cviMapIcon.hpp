@@ -2,6 +2,7 @@
 #define RUSH_CVIMAPICON_HPP
 
 #include <game/graphics/sprite.h>
+#include <hub/dockCommon.h>
 
 // --------------------
 // STRUCTS
@@ -62,13 +63,13 @@ void ViMapIcon__Func_2163058(CViMapIcon *work, BOOL useEngineB);
 void ViMapIcon__Release(CViMapIcon *work);
 void ViMapIcon__Func_2163340(CViMapIcon *work, u8 id, BOOL enabled);
 void ViMapIcon__Func_2163364(CViMapIcon *work, u16 x, u16 y);
-void ViMapIcon__GetIconPosition(CViMapIcon *work, u32 area, u16 *x, u16 *y);
-void ViMapIcon__SetIconID2(CViMapIcon *work, u32 icon);
-void ViMapIcon__SetIconID(CViMapIcon *work, u32 icon);
-s32 ViMapIcon__GetCurrentIcon(CViMapIcon *work);
+void ViMapIcon__GetIconPosition(CViMapIcon *work, MapArea mapArea, u16 *x, u16 *y);
+void ViMapIcon__SetIconID2(CViMapIcon *work, MapArea mapArea);
+void ViMapIcon__SetIconID(CViMapIcon *work, MapArea mapArea);
+MapArea ViMapIcon__GetCurrentIcon(CViMapIcon *work);
 void ViMapIcon__Func_2163400(CViMapIcon *work);
 void ViMapIcon__Func_2163440(CViMapIcon *work);
-s32 ViMapIcon__GetIconFromTouchPos(CViMapIcon *work);
+MapArea ViMapIcon__GetIconFromTouchPos(CViMapIcon *work);
 s32 ViMapIcon__Func_21635DC(CViMapIcon *work);
 BOOL ViMapIcon__IsMoving(CViMapIcon *work);
 void ViMapIcon__Func_21636A0(CViMapIcon *work);

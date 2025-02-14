@@ -1,7 +1,7 @@
 #ifndef RUSH_HUBSTATE_H
 #define RUSH_HUBSTATE_H
 
-#include <global.h>
+#include <hub/dockCommon.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -26,7 +26,7 @@ void HubState__SetNpcState(s32 id, VecFx32 *pos, u16 angle, s32 unknown);
 BOOL HubState__CheckHasNpcState(s32 id);
 VecFx32 *HubState__GetNpcPosition(s32 id);
 s32 HubState__GetNpcAngle(s32 id);
-s32 HubState__GetNpcUnknown(s32 id);
+s32 HubState__GetNpcTalkCount(s32 id);
 u8 HubState__GetHubStartAction(void);
 
 #ifdef __cplusplus

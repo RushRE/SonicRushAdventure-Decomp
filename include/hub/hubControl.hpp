@@ -31,17 +31,17 @@ enum HubEventIDs
     HUBEVENT_INVALID,
 };
 
-#ifdef __cplusplus
-
 // --------------------
 // STRUCTS
 // --------------------
 
-struct HubControlSaveUnknown
+typedef struct HubControlNpcSpawnCheck_
 {
     u16 gameProgress;
-    u16 flag;
-};
+    u16 canSpawn;
+} HubControlNpcSpawnCheck;
+
+#ifdef __cplusplus
 
 class HubControl
 {
@@ -51,18 +51,18 @@ class HubControl
     // --------------------
 
 public:
-    s32 field_0;
-    u32 field_4;
+    s32 flags;
+    u32 genericTimer;
     u32 field_8;
-    s32 field_C;
+    s32 dockArea;
     s32 field_10;
-    s32 nextAreaID;
-    s32 nextAreaID2;
+    s32 mapArea;
+    s32 nextMapArea;
     s32 shipConstructID;
     s32 decorConstructID;
     s32 shipUpgradeID;
-    s32 field_28;
-    u32 flags;
+    s32 talkingNpc;
+    u32 touchFlags;
     Task *hubAreaPreview;
     void *viActArchive;
     void *viActLocArchive;
@@ -78,21 +78,21 @@ public:
     s32 field_10C;
     s16 field_110;
     s16 field_112;
-    s32 field_114;
+    s32 mapIconArea;
     s32 field_118;
     s32 field_11C;
-    u32 field_120;
+    u32 timer;
     s32 field_124;
     s32 field_128;
     s32 field_12C;
     s32 field_130;
     s32 field_134;
-    u16 field_138;
+    u16 cutsceneID;
     u16 field_13A;
     u16 curAreaID;
     u16 npcCount;
     u16 field_140;
-    s16 field_142;
+    s16 npcIconPos;
     AnimatorSprite aniNpcIcon[5];
     AnimatorSprite aniNpcBackground;
     AnimatorSprite aniOptionsIcon[2];
@@ -106,38 +106,38 @@ public:
 
     void LoadArchives();
     void ReleaseAssets();
-    void Func_2159758(s32 a2);
+    void SaveState(BOOL isMap);
     void ClearAnimators();
-    void Func_215993C();
+    void SetAreaSpritesForInit();
     void ReleaseAnimators();
     void ReleaseGraphics();
-    BOOL Func_2159D14();
-    BOOL Func_2159D4C();
-    void Func_2159D84(s32 area);
-    void Func_215A014();
-    
+    BOOL ProcessHideNpcIcons();
+    BOOL ProcessShowNpcIcons();
+    void SetAreaSpritesForAreaChange(s32 area);
+    void DrawNpcIcons();
+
     // TODO: make these member functions when all xrefs have been decompiled
-    static void Func_21598B4(HubControl *work);
-    static void Func_2159740(HubControl *work);
+    static void TryFadeOutBGM(HubControl *work);
+    static void ProcessGenericTimer(HubControl *work);
 
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
 
-    static void Create(s32 area);
-    static void Create2(s32 a1, BOOL a2, s32 a3);
-    static void Func_21576AC(s32 a1);
-    static void Main1();
+    static void CreateForMap(s32 mapArea);
+    static void CreateForDock(s32 dockArea, BOOL loadCharacterStates, s32 a3);
+    static void SetMapIconArea(s32 mapArea);
+    static void Main_InitMap();
     static void Main_21578CC();
     static void Main_2157A94();
     static void Main_2157C0C();
-    static void Main2();
-    static void Main_2157F2C();
-    static void Main_2157F64();
-    static void Main_21580C0();
-    static void Main_2158108();
-    static void Main_21587D8();
-    static void Main_2158868();
+    static void Main_InitDock();
+    static void Main_InitDockPlayerControl();
+    static void Main_ProcessDock();
+    static void Main_FadeOutForDockChange();
+    static void Main_WaitForDockChanged();
+    static void Main_FadeOutForExitDockArea();
+    static void Main_FadeOutForEventChange();
     static void Main_21588D4();
     static void Main_2158918();
     static void Main_2158958();
@@ -151,21 +151,21 @@ public:
     static void Func_2159104();
     static void Func_21591A8();
     static void Func_21592E0();
-    static void Func_21597A4(s16 a1, s32 a2);
-    static void Func_2159810();
-    static BOOL Func_2159854(s32 event);
+    static void StartHubCutscene(s16 cutscene, s32 dockArea);
+    static void StartHubCutsceneUnknown();
+    static BOOL CheckEventHasBGMChange(s32 event);
     static void Func_215A2E0(s32 a1, s32 a2);
     static void IncrementGameProgress();
-    static void Func_215A400(s32 eventID, s32 selection);
+    static void ChangeEvent(s32 eventID, s32 selection);
 
     static void InitForNoState();
     static void Func_215701C(s32 a1);
     static void Func_21570B8(s32 a1);
     static void Func_215710C(BOOL a2);
-    static void Func_2157124();
-    static void Func_215713C();
-    static void Func_2157154();
-    static BOOL Func_2157178();
+    static void InitForNewSave();
+    static void InitForUnfinishedTutorial();
+    static void DisableTouchInteractions();
+    static BOOL TouchEnabled();
     static void *GetFileFrom_ViAct(u16 id);
     static void *GetFileFrom_ViActLoc(u16 id);
     static void *GetFileFrom_ViBG(u16 id);
@@ -176,7 +176,7 @@ public:
     static void InitMainMemoryPriorityForHub();
     static void ResetMainMemoryPriorityFromHub();
 
-    static void Main_2158160();
+    static void Main_DoTalkAction();
     static void Main_2158AB4();
 
     static void InitDisplay();
@@ -199,9 +199,9 @@ public:
     static s32 GetNextShipToBuild();
     static BOOL Func_215B51C(s32 a1);
     static void UpdateSaveForDecorConstruction(s32 a1, s32 a2);
-    static BOOL CheckDecorConstructed(s32 a1);
-    static BOOL Func_215B850(s32 a1);
-    static BOOL Func_215B858(s32 type);
+    static BOOL CheckDecorConstructed(s32 id);
+    static BOOL CanSpawnNpcType(s32 npcType);
+    static BOOL CanSpawnNpc(s32 npcType);
     static void Func_215B8FC(u16 id);
     static void Func_215B92C(u16 id);
     static void Func_215B958();

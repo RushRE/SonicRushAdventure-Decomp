@@ -15,7 +15,7 @@ public:
     // --------------------
 
     static void Create(HubControl *parent);
-    static void Func_2158C04(HubControl *parent);
+    static void Destroy(HubControl *parent);
     static void Main(void);
     static void Destructor(Task *task);
 };

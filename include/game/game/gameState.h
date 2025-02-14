@@ -197,19 +197,19 @@ struct GameCutsceneState
     u32 field_C;
 };
 
-struct GameTalkUnknown1
+struct GameHubPlayerState
 {
     VecFx32 translation;
     u16 rotationY;
-    u16 field_E;
+    u16 flags;
 };
 
-struct GameTalkUnknown2
+struct GameHubNpcState
 {
     VecFx32 translation;
-    u16 field_C;
+    u16 rotationY;
     u16 flags;
-    int field_10;
+    s32 talkCount;
 };
 
 struct GameTalkState
@@ -219,12 +219,11 @@ struct GameTalkState
         u8 hubStartAction;
         u8 hubType;
         u8 hubArea;
-        struct GameTalkUnknown1 field_E0[1];
-        struct GameTalkUnknown2 field_14[4];
+        struct GameHubPlayerState player[1];
+        struct GameHubNpcState npc[4];
     } state;
 
     u16 lastSelectedMovie;
-    u16 field_42;
     s32 missionID; // last cutscene watched by the user
 };
 

@@ -324,12 +324,12 @@ void HubHUD::Main_Idle(void)
     TouchField__Process(&work->touchField);
 
     BOOL viewButtonPressed;
-    BOOL unknownFlag;
+    BOOL touchDisabled;
 
     work->openMainMenu = FALSE;
     work->unknown2     = 0;
 
-    unknownFlag       = FALSE;
+    touchDisabled     = FALSE;
     viewButtonPressed = FALSE;
 
     if ((work->viewButton.flags & HubHUD::BUTTONFLAG_VISIBLE) != 0)
@@ -337,17 +337,17 @@ void HubHUD::Main_Idle(void)
         u32 flags = work->touchAreaFlags[0];
         if ((flags & HubHUD::TOUCHAREAFLAG_ENABLED) != 0)
         {
-            if (HubControl::Func_2157178())
+            if (HubControl::TouchEnabled())
             {
                 if ((flags & HubHUD::TOUCHAREAFLAG_BUTTON_RELEASED) != 0)
                 {
                     viewButtonPressed = TRUE;
-                    unknownFlag       = TRUE;
+                    touchDisabled     = TRUE;
                     work->touchAreaFlags[0] &= ~HubHUD::TOUCHAREAFLAG_BUTTON_RELEASED;
                 }
 
                 if ((flags & HubHUD::TOUCHAREAFLAG_BUTTON_HELD) != 0)
-                    unknownFlag = TRUE;
+                    touchDisabled = TRUE;
             }
 
             if ((padInput.btnPress & PAD_BUTTON_X) != 0)
@@ -360,17 +360,17 @@ void HubHUD::Main_Idle(void)
         u32 flags = work->touchAreaFlags[1];
         if ((flags & HubHUD::TOUCHAREAFLAG_ENABLED) != 0)
         {
-            if (HubControl::Func_2157178())
+            if (HubControl::TouchEnabled())
             {
                 if ((flags & HubHUD::TOUCHAREAFLAG_BUTTON_RELEASED) != 0)
                 {
-                    unknownFlag        = TRUE;
+                    touchDisabled      = TRUE;
                     work->openMainMenu = TRUE;
                     work->touchAreaFlags[1] &= ~HubHUD::TOUCHAREAFLAG_BUTTON_RELEASED;
                 }
 
                 if ((flags & HubHUD::TOUCHAREAFLAG_BUTTON_HELD) != 0)
-                    unknownFlag = TRUE;
+                    touchDisabled = TRUE;
             }
 
             if ((padInput.btnPress & PAD_BUTTON_Y) != 0)
@@ -392,8 +392,8 @@ void HubHUD::Main_Idle(void)
     HubHUD::ProcessMenuButton(work);
     HubHUD::DrawMenuButton(work);
 
-    if (unknownFlag)
-        HubControl::Func_2157154();
+    if (touchDisabled)
+        HubControl::DisableTouchInteractions();
 }
 
 void HubHUD::Main_LookAround(void)
@@ -407,7 +407,7 @@ void HubHUD::Main_LookAround(void)
     if ((work->viewButton.flags & HubHUD::BUTTONFLAG_ACTIVE) == 0)
         flag = TRUE;
 
-    if (HubControl::Func_2157178())
+    if (HubControl::TouchEnabled())
     {
         if ((work->touchAreaFlags[0] & HubHUD::TOUCHAREAFLAG_BUTTON_RELEASED) != 0)
         {
@@ -428,7 +428,7 @@ void HubHUD::Main_LookAround(void)
         work->touchHeld = FALSE;
         AnimatorSprite__SetAnimation(&work->viewButton.aniButton, 0);
     }
-    else if (HubControl::Func_2157178() && (work->touchAreaFlags[0] & HubHUD::TOUCHAREAFLAG_BUTTON_HELD) == 0)
+    else if (HubControl::TouchEnabled() && (work->touchAreaFlags[0] & HubHUD::TOUCHAREAFLAG_BUTTON_HELD) == 0)
     {
         if (work->touchHeld)
         {

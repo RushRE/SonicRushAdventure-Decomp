@@ -361,7 +361,7 @@ void ViDockNpc__ReleaseAssets(CViDockNpc *work)
 
     work->talkActionType      = CVIDOCKNPCTALK_INVALID;
     work->talkActionParam     = 0;
-    work->field_30C           = -1;
+    work->talkCount           = -1;
     work->size.x              = FLOAT_TO_FX32(0.0);
     work->size.y              = FLOAT_TO_FX32(0.0);
     work->size.z              = FLOAT_TO_FX32(0.0);
@@ -369,7 +369,7 @@ void ViDockNpc__ReleaseAssets(CViDockNpc *work)
     work->type = ARRAY_COUNT(resConfigFileTable) + 1;
 }
 
-void ViDockNpc__SetState1(CViDockNpc *work, u16 angle)
+void ViDockNpc__SetAngleForTalking(CViDockNpc *work, u16 angle)
 {
     if (work->snapToAngle)
         work->targetTurnAngle = angle;
@@ -380,7 +380,7 @@ void ViDockNpc__SetState1(CViDockNpc *work, u16 angle)
         work->Func_2167958(resConfigFileTable[work->type].ani1_Tail, TRUE, TRUE, FALSE, FALSE);
 }
 
-void ViDockNpc__SetState2(CViDockNpc *work)
+void ViDockNpc__SetAngleForIdle(CViDockNpc *work)
 {
     if (work->snapToAngle)
         work->targetTurnAngle = work->initialAngle;
@@ -428,12 +428,12 @@ BOOL ViDockNpc__Func_216710C(CViDockNpc *work, VecFx32 *a2, VecFx32 *a3, VecFx32
     return TRUE;
 }
 
-NONMATCH_FUNC BOOL ViDockNpc__Func_2167244(CViDockNpc *work, VecFx32 *position, s32 a3, s32 a4, BOOL *flag)
+NONMATCH_FUNC BOOL ViDockNpc__Func_2167244(CViDockNpc *work, VecFx32 *playerPos, s32 playerAngle, s32 a4, BOOL *flag)
 {
     // https://decomp.me/scratch/6CdR9 -> 65.06%
 #ifdef NON_MATCHING
-    s32 x = CPPHelpers__Func_2085F9C(&work->translation1)->x - position->x;
-    s32 z = CPPHelpers__Func_2085F9C(&work->translation1)->z - position->z;
+    s32 x = CPPHelpers__Func_2085F9C(&work->translation1)->x - playerPos->x;
+    s32 z = CPPHelpers__Func_2085F9C(&work->translation1)->z - playerPos->z;
 
     Unknown217305C *config = &npcHitboxSizeTable[resConfigFileTable[work->type].unknownID];
 
@@ -445,7 +445,7 @@ NONMATCH_FUNC BOOL ViDockNpc__Func_2167244(CViDockNpc *work, VecFx32 *position, 
 
     if (v12 <= v15)
     {
-        if (x * SinFX(a3) >= 0 && z * CosFX(a3) < 0)
+        if (x * SinFX(playerAngle) >= 0 && z * CosFX(playerAngle) < 0)
         {
             if (flag != NULL)
                 *flag = FALSE;

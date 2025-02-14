@@ -581,7 +581,7 @@ _02164B28:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164B58(CViDockBack *work, VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *flag0, BOOL *flag1, BOOL *flag2)
+NONMATCH_FUNC void ViDockBack__ProcessCollision(CViDockBack *work, VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *flag0, BOOL *flag1, BOOL *flag2)
 {
 #ifdef NON_MATCHING
 
@@ -628,7 +628,7 @@ NONMATCH_FUNC BOOL ViDockBack__Func_2164B9C(CViDockBack *work, VecFx32 pos){
 #endif
 }
 
-NONMATCH_FUNC fx32 ViDockBack__Func_2164BC8(CViDockBack *work, VecFx32 pos){
+NONMATCH_FUNC fx32 ViDockBack__GetFloorPosition(CViDockBack *work, VecFx32 pos){
 #ifdef NON_MATCHING
 
 #else

@@ -1342,7 +1342,7 @@ void CViEvtCmnTalk::Release()
     this->eventSelection.Release();
 }
 
-u16 CViEvtCmnTalk::SetInteraction()
+u16 CViEvtCmnTalk::GetPageCount()
 {
     if (this->interactionID != CVIEVTCMN_RESOURCE_NONE)
     {

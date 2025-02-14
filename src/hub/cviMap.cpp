@@ -169,32 +169,32 @@ void ViMap__Func_215BC40(u16 *x, u16 *y)
         *y = work->field_7C2;
 }
 
-s32 ViMap__GetMapIconDockAreaFromTouchPos(void)
+MapArea ViMap__GetMapIconDockAreaFromTouchPos(void)
 {
     CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
 
     return ViMapIcon__GetIconFromTouchPos(&work->mapIcon);
 }
 
-s32 ViMap__GetMapIconDockArea(BOOL mustBeIdle)
+MapArea ViMap__GetMapIconDockArea(BOOL mustBeIdle)
 {
     CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
 
     if (mustBeIdle && ViMapIcon__IsMoving(&work->mapIcon))
-        return DOCKAREA_INVALID;
+        return MAPAREA_INVALID;
 
     return ViMapIcon__GetCurrentIcon(&work->mapIcon);
 }
 
-void ViMap__Func_215BCE4(u32 area, BOOL a2)
+void ViMap__Func_215BCE4(u32 mapArea, BOOL a2)
 {
     CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
 
     u16 y, x;
     if (a2)
     {
-        ViMapIcon__SetIconID(&work->mapIcon, area);
-        ViMapIcon__GetIconPosition(&work->mapIcon, area, &x, &y);
+        ViMapIcon__SetIconID(&work->mapIcon, mapArea);
+        ViMapIcon__GetIconPosition(&work->mapIcon, mapArea, &x, &y);
 
         x += 8;
         y += 8;
@@ -203,8 +203,8 @@ void ViMap__Func_215BCE4(u32 area, BOOL a2)
     }
     else
     {
-        ViMapIcon__SetIconID2(&work->mapIcon, area);
-        ViMapIcon__GetIconPosition(&work->mapIcon, area, &x, &y);
+        ViMapIcon__SetIconID2(&work->mapIcon, mapArea);
+        ViMapIcon__GetIconPosition(&work->mapIcon, mapArea, &x, &y);
 
         x += 8;
         y += 8;
@@ -213,20 +213,20 @@ void ViMap__Func_215BCE4(u32 area, BOOL a2)
     }
 }
 
-s32 ViMap__GetDockAreaFromMapIcon(void)
+MapArea ViMap__GetDockAreaFromMapIcon(void)
 {
-    s32 area = ViMap__GetMapIconDockArea(TRUE);
+    MapArea mapArea = ViMap__GetMapIconDockArea(TRUE);
 
-    if (area >= DOCKAREA_COUNT)
+    if (mapArea >= MAPAREA_COUNT)
         return DOCKAREA_INVALID;
 
-    if (area == ViMap__GetMapIconDockAreaFromTouchPos())
-        return area;
+    if (mapArea == ViMap__GetMapIconDockAreaFromTouchPos())
+        return mapArea;
 
     if ((padInput.btnPress & PAD_BUTTON_A) == 0)
-        area = DOCKAREA_INVALID;
+        mapArea = MAPAREA_INVALID;
 
-    return area;
+    return mapArea;
 }
 
 void ViMap__StartShipConstructCutscene(s32 id)

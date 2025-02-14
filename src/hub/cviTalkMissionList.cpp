@@ -293,7 +293,7 @@ void CViTalkMissionList::Main_OpeningMissionList(void)
 
     if (work->eventSelectList.IsWindowClosing())
     {
-        CViDock::Func_215E4BC(1);
+        CViDock::SetCharactersEnabled(TRUE);
 
         if (work->eventSelectList.GetSelectedEntry() == (u16)CVIEVTCMNLIST_SELECTION_NONE)
         {
@@ -308,7 +308,7 @@ void CViTalkMissionList::Main_OpeningMissionList(void)
     }
     else if (work->eventSelectList.IsWindowOpen())
     {
-        CViDock::Func_215E4BC(0);
+        CViDock::SetCharactersEnabled(FALSE);
     }
 }
 

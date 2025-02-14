@@ -22,7 +22,7 @@ enum DockArea_
     DOCKAREA_NONE    = DOCKAREA_COUNT,
     DOCKAREA_INVALID = DOCKAREA_NONE + 1,
 };
-typedef u32 DockArea;
+typedef s32 DockArea;
 
 enum MapArea_
 {
@@ -38,6 +38,13 @@ enum MapArea_
     MAPAREA_COUNT,
     MAPAREA_INVALID,
 };
-typedef u32 MapIconArea;
+typedef s32 MapArea;
+
+enum HubType_
+{
+    HUB_TYPE_MAP,
+    HUB_TYPE_DOCK,
+};
+typedef s32 HubType;
 
 #endif // RUSH_DOCKCOMMON_H

@@ -35,7 +35,7 @@ public:
     s32 npcType;
     s32 talkActionType;
     s32 talkActionParam;
-    s32 field_30C;
+    s32 talkCount;
     u16 initialAngle;
     u16 type;
     void *model;
@@ -66,8 +66,8 @@ NOT_DECOMPILED void _ZN10CViDockNpcD1Ev(CViDockNpc *work);
 
 void ViDockNpc__LoadAssets(CViDockNpc *work, s32 type, VecFx32 *position, u16 angle, BOOL snapToAngle);
 void ViDockNpc__ReleaseAssets(CViDockNpc *work);
-void ViDockNpc__SetState1(CViDockNpc *work, u16 angle);
-void ViDockNpc__SetState2(CViDockNpc *work);
+void ViDockNpc__SetAngleForTalking(CViDockNpc *work, u16 angle);
+void ViDockNpc__SetAngleForIdle(CViDockNpc *work);
 BOOL ViDockNpc__Func_216710C(CViDockNpc *work, VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5);
 BOOL ViDockNpc__Func_2167244(CViDockNpc *work, VecFx32 *position, s32 a3, s32 a4, BOOL *flag);
 BOOL ViDockNpc__Func_216737C(CViDockNpc *work, VecFx32 *position);

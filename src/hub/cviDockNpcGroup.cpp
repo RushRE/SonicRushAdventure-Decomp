@@ -163,7 +163,7 @@ CViDockNpcGroupEntry *CViDockNpcGroup::Func_2168608(VecFx32 *a2, VecFx32 *a3, Ve
     return NULL;
 }
 
-CViDockNpcGroupEntry *CViDockNpcGroup::Func_2168674(VecFx32 *a2, s32 a3, s32 a4, BOOL *a5, CViDockNpcGroupEntry *startNpc)
+CViDockNpcGroupEntry *CViDockNpcGroup::Func_2168674(VecFx32 *playerPos, s32 playerAngle, s32 a4, BOOL *a5, CViDockNpcGroupEntry *startNpc)
 {
     CViDockNpcGroupEntry *entry;
 
@@ -178,7 +178,7 @@ CViDockNpcGroupEntry *CViDockNpcGroup::Func_2168674(VecFx32 *a2, s32 a3, s32 a4,
 
     while (entry != NULL)
     {
-        if (ViDockNpc__Func_2167244(&entry->npc, a2, a3, a4, a5))
+        if (ViDockNpc__Func_2167244(&entry->npc, playerPos, playerAngle, a4, a5))
         {
             return entry;
         }

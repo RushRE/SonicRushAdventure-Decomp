@@ -20,7 +20,7 @@ public:
     // VARIABLES
     // --------------------
 
-    DockArea areaID;
+    DockArea area;
     CVi3dObject object1;
     CVi3dObject object2;
     CVi3dObject object3;
@@ -68,9 +68,9 @@ void ViDockBack__Func_21649DC(CViDockBack *work);
 void ViDockBack__SetShipPosition(CViDockBack *work, fx32 y);
 void ViDockBack__SetShipScale(CViDockBack *work, fx32 scale);
 void ViDockBack__DrawDock(CViDockBack *work, u16 rotationY, u16 rotationX, u16 rotationZ);
-void ViDockBack__Func_2164B58(CViDockBack *work, VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *flag0, BOOL *flag1, BOOL *flag2);
+void ViDockBack__ProcessCollision(CViDockBack *work, VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *flag0, BOOL *flag1, BOOL *flag2);
 BOOL ViDockBack__Func_2164B9C(CViDockBack *work, VecFx32 pos);
-fx32 ViDockBack__Func_2164BC8(CViDockBack *work, VecFx32 pos);
+fx32 ViDockBack__GetFloorPosition(CViDockBack *work, VecFx32 pos);
 void ViDockBack__DrawShadow(CViDockBack *work, CViShadow *shadow, fx32 scale, fx32 x, fx32 z);
 void ViDockBack__GetPlayerSpawnConfig(s32 id, VecFx32 *position, u16 *angle, s32 area);
 void ViDockBack__Func_2164C44(CViDockBack *work);

@@ -36,7 +36,7 @@
 // VARIABLES
 // --------------------
 
-extern HubControlSaveUnknown const *_0217362C[];
+extern HubControlNpcSpawnCheck const *hubNpcSpawnCheckTable[];
 
 // --------------------
 // FUNCTIONS
@@ -628,9 +628,9 @@ void HubControl::UpdateSaveForDecorConstruction(s32 id, s32 a2)
     }
 }
 
-BOOL HubControl::CheckDecorConstructed(s32 a1)
+BOOL HubControl::CheckDecorConstructed(s32 id)
 {
-    switch (a1)
+    switch (id)
     {
         case CViMap::CONSTRUCT_DECOR_0:
             return TRUE;
@@ -703,34 +703,34 @@ BOOL HubControl::CheckDecorConstructed(s32 a1)
     return FALSE;
 }
 
-BOOL HubControl::Func_215B850(s32 a1)
+BOOL HubControl::CanSpawnNpcType(s32 npcType)
 {
     return TRUE;
 }
 
-BOOL HubControl::Func_215B858(s32 type)
+BOOL HubControl::CanSpawnNpc(s32 npcType)
 {
-    const HubControlSaveUnknown *table = _0217362C[type];
+    const HubControlNpcSpawnCheck *spawnCheck = hubNpcSpawnCheckTable[npcType];
 
     s32 i;
     u16 gameProgress;
     u16 zone5Progress;
     u16 zone6Progress;
-    BOOL flag;
+    BOOL canSpawn;
 
-    gameProgress     = SaveGame__GetGameProgress();
+    gameProgress  = SaveGame__GetGameProgress();
     zone5Progress = SaveGame__GetZone5Progress();
     zone6Progress = SaveGame__GetZone6Progress();
 
-    flag = FALSE;
+    canSpawn = FALSE;
 
     i = 0;
     while (TRUE)
     {
-        if (gameProgress < table[i].gameProgress)
+        if (gameProgress < spawnCheck[i].gameProgress)
             break;
 
-        if (type == 15 && table[i].gameProgress == SAVE_PROGRESS_24)
+        if (npcType == CVIDOCK_NPC_BOAT_NORMAN && spawnCheck[i].gameProgress == SAVE_PROGRESS_24)
         {
             if (zone5Progress < SAVE_ZONE5_PROGRESS_4)
             {
@@ -739,18 +739,21 @@ BOOL HubControl::Func_215B858(s32 type)
         }
         else
         {
-            if ((type == 17 || type == 19) && table[i].gameProgress == SAVE_PROGRESS_24 && zone6Progress < SAVE_ZONE6_PROGRESS_2)
+            if ((npcType == CVIDOCK_NPC_HOVER_DAIKUN || npcType == CVIDOCK_NPC_SUBMARINE_DAIKUN) && spawnCheck[i].gameProgress == SAVE_PROGRESS_24)
             {
-                break;
+                if (zone6Progress < SAVE_ZONE6_PROGRESS_2)
+                {
+                    break;
+                }
             }
         }
 
-        flag = table[i].flag;
+        canSpawn = spawnCheck[i].canSpawn;
 
         i++;
     }
 
-    return flag != FALSE;
+    return canSpawn != FALSE;
 }
 
 void HubControl::Func_215B8FC(u16 id)

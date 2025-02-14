@@ -72,6 +72,35 @@ enum CViDockNpcType
     CVIDOCKNPC_TYPE_OLDDS,
 };
 
+enum CViDockNpcSpawnType
+{
+    CVIDOCK_NPC_BASE_TAILS,
+    CVIDOCK_NPC_BASE_MARINE,
+    CVIDOCK_NPC_BASE_BLAZE,
+    CVIDOCK_NPC_BASE_TABBY,
+    CVIDOCK_NPC_BASE_COLONEL,
+    CVIDOCK_NPC_BASENEXT_SETTER,
+    CVIDOCK_NPC_BASENEXT_COLONEL,
+    CVIDOCK_NPC_BASENEXT_HOURGLASS,
+    CVIDOCK_NPC_BASENEXT_OLDDS,
+    CVIDOCK_NPC_JET_TAILS,
+    CVIDOCK_NPC_JET_MARINE,
+    CVIDOCK_NPC_JET_TABBY,
+    CVIDOCK_NPC_JET_KYLOK,
+    CVIDOCK_NPC_BOAT_COLONEL,
+    CVIDOCK_NPC_BOAT_GARDON,
+    CVIDOCK_NPC_BOAT_NORMAN,
+    CVIDOCK_NPC_HOVER_COLONEL,
+    CVIDOCK_NPC_HOVER_DAIKUN,
+    CVIDOCK_NPC_SUBMARINE_COLONEL,
+    CVIDOCK_NPC_SUBMARINE_DAIKUN,
+    CVIDOCK_NPC_BEACH_TABBY,
+    CVIDOCK_NPC_BEACH_MUZY,
+
+    CVIDOCK_NPC_COUNT,
+    CVIDOCK_NPC_INVALID,
+};
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -80,7 +109,7 @@ typedef struct Unknown2171FE8_
 {
     s16 field_0;
     s16 field_2;
-    s32 field_4;
+    DockArea dockArea;
     s32 field_8;
     u32 field_C[3];
     u32 field_18[3];
@@ -92,8 +121,8 @@ typedef struct Unknown2171FE8_
 
 typedef struct DockStageConfig_
 {
-    DockArea areaID;
-    DockArea nextArea;
+    DockArea dockArea;
+    MapArea mapArea;
     VecFx32 field_8;
     s32 field_14;
     s32 field_18;
@@ -112,7 +141,7 @@ typedef struct DockStageConfig_
 
 typedef struct DockMapConfig_
 {
-    DockArea areaID;
+    DockArea dockArea;
     DockArea unknownArea;
     fx32 shipScale;
     fx32 shipPosY;
@@ -187,7 +216,7 @@ typedef struct HubPurchaseMsgConfig_
 
 typedef struct Unknown2171914_
 {
-    u32 areaID;
+    u32 dockArea;
     u32 field_4;
 } Unknown2171914;
 

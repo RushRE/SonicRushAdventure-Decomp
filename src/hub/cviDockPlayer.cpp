@@ -49,7 +49,7 @@ NONMATCH_FUNC void _ZN13CViDockPlayerC1Ev()
     this->resModel     = NULL;
     this->resAnims     = NULL;
     this->loadedAssets = 0;
-    ViDockPlayer__Func_2166748(this);
+    ViDockPlayer__Release(this);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -62,7 +62,7 @@ NONMATCH_FUNC void _ZN13CViDockPlayerC1Ev()
 	str r1, [r4, #0x334]
 	mov r0, r4
 	str r1, [r4, #0x310]
-	bl ViDockPlayer__Func_2166748
+	bl ViDockPlayer__Release
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 
@@ -74,14 +74,14 @@ NONMATCH_FUNC void _ZN13CViDockPlayerC1Ev()
 NONMATCH_FUNC void _ZN13CViDockPlayerD0Ev()
 {
 #ifdef NON_MATCHING
-    ViDockPlayer__Func_2166748(this);
+    ViDockPlayer__Release(this);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViDockPlayer+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViDockPlayer__Func_2166748
+	bl ViDockPlayer__Release
 	mov r0, r4
 	bl _ZN11CVi3dObjectD2Ev
 	mov r0, r4
@@ -95,14 +95,14 @@ NONMATCH_FUNC void _ZN13CViDockPlayerD0Ev()
 NONMATCH_FUNC void _ZN13CViDockPlayerD1Ev()
 {
 #ifdef NON_MATCHING
-    ViDockPlayer__Func_2166748(this);
+    ViDockPlayer__Release(this);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViDockPlayer+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViDockPlayer__Func_2166748
+	bl ViDockPlayer__Release
 	mov r0, r4
 	bl _ZN11CVi3dObjectD2Ev
 	mov r0, r4
@@ -114,7 +114,7 @@ NONMATCH_FUNC void _ZN13CViDockPlayerD1Ev()
 #endif
 }
 
-void ViDockPlayer__LoadAssets(CViDockPlayer *work)
+void ViDockPlayer__Init(CViDockPlayer *work)
 {
     if (!work->loadedAssets)
     {
@@ -142,7 +142,7 @@ void ViDockPlayer__LoadAssets(CViDockPlayer *work)
     work->topSpeed             = FLOAT_TO_FX32(1.0);
 }
 
-void ViDockPlayer__Func_2166748(CViDockPlayer *work)
+void ViDockPlayer__Release(CViDockPlayer *work)
 {
     work->Func_21677C4();
 
@@ -168,7 +168,7 @@ VecFx32 *ViDockPlayer__GetTranslationUnknown(CViDockPlayer *work)
     return &work->translationUnknown;
 }
 
-void ViDockPlayer__Func_21667A8(CViDockPlayer *work, u16 angle, BOOL snap)
+void ViDockPlayer__SetTurnAngle(CViDockPlayer *work, u16 angle, BOOL snap)
 {
     work->targetTurnAngle = angle;
 	
@@ -176,7 +176,7 @@ void ViDockPlayer__Func_21667A8(CViDockPlayer *work, u16 angle, BOOL snap)
         work->currentTurnAngle = work->targetTurnAngle;
 }
 
-void ViDockPlayer__Func_21667BC(CViDockPlayer *work, u16 angle, BOOL isRunning)
+void ViDockPlayer__SetMoveAngle(CViDockPlayer *work, u16 angle, BOOL isRunning)
 {
     work->targetTurnAngle = angle;
     work->moveFlag        = isRunning != FALSE ? CViDockPlayer::MOVEFLAG_RUNNING : CViDockPlayer::MOVEFLAG_WALKING;
@@ -329,13 +329,13 @@ void ViDockPlayer__Process(CViDockPlayer *work, fx32 speed)
     work->moveFlag  = CViDockPlayer::MOVEFLAG_NO_INPUTS;
 }
 
-void ViDockPlayer__Func_2166B80(CViDockPlayer *work, BOOL allowBored)
+void ViDockPlayer__AllowBored(CViDockPlayer *work, BOOL allowBored)
 {
     work->allowBored = allowBored;
     work->idleTimer  = 0;
 }
 
-void ViDockPlayer__Func_2166B90(CViDockPlayer *work, fx32 topSpeed)
+void ViDockPlayer__SetTopSpeed(CViDockPlayer *work, fx32 topSpeed)
 {
     work->topSpeed = topSpeed;
 }

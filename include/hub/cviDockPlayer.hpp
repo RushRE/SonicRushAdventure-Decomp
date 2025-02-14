@@ -84,14 +84,14 @@ void _ZN13CViDockPlayerC1Ev();
 void _ZN13CViDockPlayerD0Ev();
 void _ZN13CViDockPlayerD1Ev();
 
-void ViDockPlayer__LoadAssets(CViDockPlayer *work);
-void ViDockPlayer__Func_2166748(CViDockPlayer *work);
+void ViDockPlayer__Init(CViDockPlayer *work);
+void ViDockPlayer__Release(CViDockPlayer *work);
 VecFx32 *ViDockPlayer__GetTranslationUnknown(CViDockPlayer *work);
-void ViDockPlayer__Func_21667A8(CViDockPlayer *work, u16 angle, BOOL snap);
-void ViDockPlayer__Func_21667BC(CViDockPlayer *work, u16 angle, BOOL isRunning);
+void ViDockPlayer__SetTurnAngle(CViDockPlayer *work, u16 angle, BOOL snap);
+void ViDockPlayer__SetMoveAngle(CViDockPlayer *work, u16 angle, BOOL isRunning);
 void ViDockPlayer__Process(CViDockPlayer *work, fx32 speed);
-void ViDockPlayer__Func_2166B80(CViDockPlayer *work, BOOL allowBored);
-void ViDockPlayer__Func_2166B90(CViDockPlayer *work, fx32 topSpeed);
+void ViDockPlayer__AllowBored(CViDockPlayer *work, BOOL allowBored);
+void ViDockPlayer__SetTopSpeed(CViDockPlayer *work, fx32 topSpeed);
 
 #ifdef __cplusplus
 }

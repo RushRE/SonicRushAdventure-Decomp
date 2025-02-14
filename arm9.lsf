@@ -664,7 +664,7 @@ Overlay Hub
     ## HUB/SOUTHERN ISLAND ##
     Object src/hub/hubControl.o 
     Object src/hub/hubControl_2.o
-    Object src/hub/hubControl_vars.o #TODO: figure if these can be merged into one file
+    Object src/hub/hubNpcSpawnConfig.o
     Object src/hub/cviMap.o
     Object asm/hub/cviDock_vars.o
     Object src/hub/cviDock.o

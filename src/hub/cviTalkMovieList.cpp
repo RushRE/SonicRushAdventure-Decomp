@@ -241,12 +241,12 @@ void CViTalkMovieList::Main_Active()
     work->eventSelectList.Process();
     if (work->eventSelectList.IsWindowClosing())
     {
-        CViDock::Func_215E4BC(1);
+        CViDock::SetCharactersEnabled(TRUE);
         SetCurrentTaskMainEvent(CViTalkMovieList::Main_CloseWindow);
     }
     else if (work->eventSelectList.IsWindowOpen())
     {
-        CViDock::Func_215E4BC(0);
+        CViDock::SetCharactersEnabled(FALSE);
     }
 }
 

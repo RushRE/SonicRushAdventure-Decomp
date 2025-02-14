@@ -92,9 +92,9 @@ static const ViMapBackConfig mapDecorGraphicsConfig[] = {
 };
 
 static const Unknown2171914 dockUnknownConfig[] = {
-    { .areaID = DOCKAREA_BASE, .field_4 = 0 },  { .areaID = DOCKAREA_JET, .field_4 = 2 },       { .areaID = DOCKAREA_BOAT, .field_4 = 3 },
-    { .areaID = DOCKAREA_HOVER, .field_4 = 4 },  { .areaID = DOCKAREA_SUBMARINE, .field_4 = 5 }, { .areaID = DOCKAREA_BEACH, .field_4 = 6 },
-    { .areaID = DOCKAREA_DRILL, .field_4 = 8 },
+    { .dockArea = DOCKAREA_BASE, .field_4 = 0 },  { .dockArea = DOCKAREA_JET, .field_4 = 2 },       { .dockArea = DOCKAREA_BOAT, .field_4 = 3 },
+    { .dockArea = DOCKAREA_HOVER, .field_4 = 4 }, { .dockArea = DOCKAREA_SUBMARINE, .field_4 = 5 }, { .dockArea = DOCKAREA_BEACH, .field_4 = 6 },
+    { .dockArea = DOCKAREA_DRILL, .field_4 = 8 },
 };
 
 static const HubPurchaseCostConfig shipBuildCost[] =
@@ -308,7 +308,7 @@ static const HubPurchaseCostConfig shipUpgradeCost[] =
 static const DockMapConfig dockMapConfig[] = {
     [SHIP_JET] = 
     {
-        .areaID              = DOCKAREA_JET,
+        .dockArea            = DOCKAREA_JET,
         .unknownArea         = DOCKAREA_BASE_NEXT,
         .shipScale           = FLOAT_TO_FX32(3.0),
         .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -321,7 +321,7 @@ static const DockMapConfig dockMapConfig[] = {
 
     [SHIP_BOAT] = 
     {
-        .areaID              = DOCKAREA_BOAT,
+        .dockArea            = DOCKAREA_BOAT,
         .unknownArea         = DOCKAREA_JET,
         .shipScale           = FLOAT_TO_FX32(0.5),
         .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -334,7 +334,7 @@ static const DockMapConfig dockMapConfig[] = {
 
     [SHIP_HOVER] = 
     {
-        .areaID              = DOCKAREA_HOVER,
+        .dockArea            = DOCKAREA_HOVER,
         .unknownArea         = DOCKAREA_BOAT,
         .shipScale           = FLOAT_TO_FX32(0.5),
         .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -347,7 +347,7 @@ static const DockMapConfig dockMapConfig[] = {
 
     [SHIP_SUBMARINE] = 
     {
-        .areaID              = DOCKAREA_SUBMARINE,
+        .dockArea            = DOCKAREA_SUBMARINE,
         .unknownArea         = DOCKAREA_HOVER,
         .shipScale           = FLOAT_TO_FX32(0.5),
         .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -361,7 +361,7 @@ static const DockMapConfig dockMapConfig[] = {
     // unused in the final game. The magma hurricane cannot be built, and thus this config isn't needed
     [SHIP_DRILL] = 
     {
-        .areaID              = DOCKAREA_DRILL,
+        .dockArea            = DOCKAREA_DRILL,
         .unknownArea         = DOCKAREA_BEACH,
         .shipScale           = FLOAT_TO_FX32(0.5),
         .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -471,54 +471,142 @@ static const ViDockBackConfig dockBackInfo[] = {
       .field_18           = FLOAT_DEG_TO_IDX(0.0) },
 };
 
-static const HubNpcSpawnConfig npcSpawnConfig[] = {
-    { .type = CVIDOCKNPC_TYPE_TAILS, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 9, .spawnZ = 0, .getActionConfig = HubConfig__GetNpcActionConfig_Tails },
+static const HubNpcSpawnConfig npcSpawnConfig[CVIDOCK_NPC_COUNT] = {
+    [CVIDOCK_NPC_BASE_TAILS] = { .type            = CVIDOCKNPC_TYPE_TAILS,
+                                 .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                 .spawnX          = 9,
+                                 .spawnZ          = 0,
+                                 .getActionConfig = HubConfig__GetNpcActionConfig_Tails },
 
-    { .type = CVIDOCKNPC_TYPE_MARINE, .spawnAngle = FLOAT_DEG_TO_IDX(90.0), .spawnX = -15, .spawnZ = 18, .getActionConfig = HubConfig__GetNpcActionConfig_Marine },
+    [CVIDOCK_NPC_BASE_MARINE] = { .type            = CVIDOCKNPC_TYPE_MARINE,
+                                  .spawnAngle      = FLOAT_DEG_TO_IDX(90.0),
+                                  .spawnX          = -15,
+                                  .spawnZ          = 18,
+                                  .getActionConfig = HubConfig__GetNpcActionConfig_Marine },
 
-    { .type = CVIDOCKNPC_TYPE_BLAZE, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -9, .spawnZ = 0, .getActionConfig = HubConfig__GetNpcActionConfig_Blaze },
+    [CVIDOCK_NPC_BASE_BLAZE] = { .type            = CVIDOCKNPC_TYPE_BLAZE,
+                                 .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                 .spawnX          = -9,
+                                 .spawnZ          = 0,
+                                 .getActionConfig = HubConfig__GetNpcActionConfig_Blaze },
 
-    { .type = CVIDOCKNPC_TYPE_TABBY, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -9, .spawnZ = 0, .getActionConfig = HubConfig__GetNpcActionConfig_Tabby },
+    [CVIDOCK_NPC_BASE_TABBY] = { .type            = CVIDOCKNPC_TYPE_TABBY,
+                                 .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                 .spawnX          = -9,
+                                 .spawnZ          = 0,
+                                 .getActionConfig = HubConfig__GetNpcActionConfig_Tabby },
 
-    { .type = CVIDOCKNPC_TYPE_COLONEL, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -9, .spawnZ = 0, .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
+    [CVIDOCK_NPC_BASE_COLONEL] = { .type            = CVIDOCKNPC_TYPE_COLONEL,
+                                   .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                   .spawnX          = -9,
+                                   .spawnZ          = 0,
+                                   .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
 
-    { .type = CVIDOCKNPC_TYPE_SETTER, .spawnAngle = FLOAT_DEG_TO_IDX(270.0), .spawnX = 11, .spawnZ = 8, .getActionConfig = HubConfig__GetNpcActionConfig_Setter },
+    [CVIDOCK_NPC_BASENEXT_SETTER] = { .type            = CVIDOCKNPC_TYPE_SETTER,
+                                      .spawnAngle      = FLOAT_DEG_TO_IDX(270.0),
+                                      .spawnX          = 11,
+                                      .spawnZ          = 8,
+                                      .getActionConfig = HubConfig__GetNpcActionConfig_Setter },
 
-    { .type = CVIDOCKNPC_TYPE_COLONEL, .spawnAngle = FLOAT_DEG_TO_IDX(90.0), .spawnX = -11, .spawnZ = 8, .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
+    [CVIDOCK_NPC_BASENEXT_COLONEL] = { .type            = CVIDOCKNPC_TYPE_COLONEL,
+                                       .spawnAngle      = FLOAT_DEG_TO_IDX(90.0),
+                                       .spawnX          = -11,
+                                       .spawnZ          = 8,
+                                       .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
 
-    { .type = CVIDOCKNPC_TYPE_HOURGLASS, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -7, .spawnZ = -11, .getActionConfig = HubConfig__GetNpcActionConfig_Hourglass },
+    [CVIDOCK_NPC_BASENEXT_HOURGLASS] = { .type            = CVIDOCKNPC_TYPE_HOURGLASS,
+                                         .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                         .spawnX          = -7,
+                                         .spawnZ          = -11,
+                                         .getActionConfig = HubConfig__GetNpcActionConfig_Hourglass },
 
-    { .type = CVIDOCKNPC_TYPE_OLDDS, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 7, .spawnZ = -11, .getActionConfig = HubConfig__GetNpcActionConfig_OldDS },
+    [CVIDOCK_NPC_BASENEXT_OLDDS] = { .type            = CVIDOCKNPC_TYPE_OLDDS,
+                                     .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                     .spawnX          = 7,
+                                     .spawnZ          = -11,
+                                     .getActionConfig = HubConfig__GetNpcActionConfig_OldDS },
 
-    { .type = CVIDOCKNPC_TYPE_TAILS, .spawnAngle = FLOAT_DEG_TO_IDX(320.0), .spawnX = 32, .spawnZ = 33, .getActionConfig = HubConfig__GetNpcActionConfig_Tails },
+    [CVIDOCK_NPC_JET_TAILS] = { .type            = CVIDOCKNPC_TYPE_TAILS,
+                                .spawnAngle      = FLOAT_DEG_TO_IDX(320.0),
+                                .spawnX          = 32,
+                                .spawnZ          = 33,
+                                .getActionConfig = HubConfig__GetNpcActionConfig_Tails },
 
-    { .type = CVIDOCKNPC_TYPE_MARINE, .spawnAngle = FLOAT_DEG_TO_IDX(270.0), .spawnX = 16, .spawnZ = 45, .getActionConfig = HubConfig__GetNpcActionConfig_Marine },
+    [CVIDOCK_NPC_JET_MARINE] = { .type            = CVIDOCKNPC_TYPE_MARINE,
+                                 .spawnAngle      = FLOAT_DEG_TO_IDX(270.0),
+                                 .spawnX          = 16,
+                                 .spawnZ          = 45,
+                                 .getActionConfig = HubConfig__GetNpcActionConfig_Marine },
 
-    { .type = CVIDOCKNPC_TYPE_TABBY, .spawnAngle = FLOAT_DEG_TO_IDX(90.0), .spawnX = 32, .spawnZ = 45, .getActionConfig = HubConfig__GetNpcActionConfig_Tabby },
+    [CVIDOCK_NPC_JET_TABBY] = { .type            = CVIDOCKNPC_TYPE_TABBY,
+                                .spawnAngle      = FLOAT_DEG_TO_IDX(90.0),
+                                .spawnX          = 32,
+                                .spawnZ          = 45,
+                                .getActionConfig = HubConfig__GetNpcActionConfig_Tabby },
 
-    { .type = CVIDOCKNPC_TYPE_KYLOK, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 12, .spawnZ = 45, .getActionConfig = HubConfig__GetNpcActionConfig_Kylok },
+    [CVIDOCK_NPC_JET_KYLOK] = { .type            = CVIDOCKNPC_TYPE_KYLOK,
+                                .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                .spawnX          = 12,
+                                .spawnZ          = 45,
+                                .getActionConfig = HubConfig__GetNpcActionConfig_Kylok },
 
-    { .type = CVIDOCKNPC_TYPE_COLONEL, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
+    [CVIDOCK_NPC_BOAT_COLONEL] = { .type            = CVIDOCKNPC_TYPE_COLONEL,
+                                   .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                   .spawnX          = -21,
+                                   .spawnZ          = 84,
+                                   .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
 
-    { .type = CVIDOCKNPC_TYPE_GARDON, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Gardon },
+    [CVIDOCK_NPC_BOAT_GARDON] = { .type            = CVIDOCKNPC_TYPE_GARDON,
+                                  .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                  .spawnX          = 21,
+                                  .spawnZ          = 84,
+                                  .getActionConfig = HubConfig__GetNpcActionConfig_Gardon },
 
-    { .type = CVIDOCKNPC_TYPE_NORMAN, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Norman },
+    [CVIDOCK_NPC_BOAT_NORMAN] = { .type            = CVIDOCKNPC_TYPE_NORMAN,
+                                  .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                  .spawnX          = -21,
+                                  .spawnZ          = 84,
+                                  .getActionConfig = HubConfig__GetNpcActionConfig_Norman },
 
-    { .type = CVIDOCKNPC_TYPE_COLONEL, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
+    [CVIDOCK_NPC_HOVER_COLONEL] = { .type            = CVIDOCKNPC_TYPE_COLONEL,
+                                    .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                    .spawnX          = 21,
+                                    .spawnZ          = 84,
+                                    .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
 
-    { .type = CVIDOCKNPC_TYPE_DAIKUN, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Daikun },
+    [CVIDOCK_NPC_HOVER_DAIKUN] = { .type            = CVIDOCKNPC_TYPE_DAIKUN,
+                                   .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                   .spawnX          = -21,
+                                   .spawnZ          = 84,
+                                   .getActionConfig = HubConfig__GetNpcActionConfig_Daikun },
 
-    { .type = CVIDOCKNPC_TYPE_COLONEL, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = 21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
+    [CVIDOCK_NPC_SUBMARINE_COLONEL] = { .type            = CVIDOCKNPC_TYPE_COLONEL,
+                                        .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                        .spawnX          = 21,
+                                        .spawnZ          = 84,
+                                        .getActionConfig = HubConfig__GetNpcActionConfig_Colonel },
 
-    { .type = CVIDOCKNPC_TYPE_DAIKUN, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -21, .spawnZ = 84, .getActionConfig = HubConfig__GetNpcActionConfig_Daikun },
+    [CVIDOCK_NPC_SUBMARINE_DAIKUN] = { .type            = CVIDOCKNPC_TYPE_DAIKUN,
+                                       .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                       .spawnX          = -21,
+                                       .spawnZ          = 84,
+                                       .getActionConfig = HubConfig__GetNpcActionConfig_Daikun },
 
-    { .type = CVIDOCKNPC_TYPE_TABBY, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -5, .spawnZ = 27, .getActionConfig = HubConfig__GetNpcActionConfig_Tabby },
+    [CVIDOCK_NPC_BEACH_TABBY] = { .type            = CVIDOCKNPC_TYPE_TABBY,
+                                  .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                  .spawnX          = -5,
+                                  .spawnZ          = 27,
+                                  .getActionConfig = HubConfig__GetNpcActionConfig_Tabby },
 
-    { .type = CVIDOCKNPC_TYPE_MUZY, .spawnAngle = FLOAT_DEG_TO_IDX(0.0), .spawnX = -5, .spawnZ = 27, .getActionConfig = HubConfig__GetNpcActionConfig_Muzy },
+    [CVIDOCK_NPC_BEACH_MUZY] = { .type            = CVIDOCKNPC_TYPE_MUZY,
+                                 .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
+                                 .spawnX          = -5,
+                                 .spawnZ          = 27,
+                                 .getActionConfig = HubConfig__GetNpcActionConfig_Muzy },
 };
 
 static const DockMapConfig dockMapConfig_Unknown[] = {
-    [(2 * SHIP_JET) + (SHIP_LEVEL_1 - 1)] = { .areaID              = DOCKAREA_INVALID,
+    [(2 * SHIP_JET) + (SHIP_LEVEL_1 - 1)] = { .dockArea            = DOCKAREA_INVALID,
                                               .unknownArea         = DOCKAREA_BASE_NEXT,
                                               .shipScale           = FLOAT_TO_FX32(0.0),
                                               .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -528,7 +616,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                               .field_16            = 0,
                                               .materials           = { SAVE_MATERIAL_BLUE, SAVE_MATERIAL_IRON, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
-    [(2 * SHIP_JET) + (SHIP_LEVEL_2 - 1)] = { .areaID              = DOCKAREA_INVALID,
+    [(2 * SHIP_JET) + (SHIP_LEVEL_2 - 1)] = { .dockArea            = DOCKAREA_INVALID,
                                               .unknownArea         = DOCKAREA_BASE_NEXT,
                                               .shipScale           = FLOAT_TO_FX32(0.0),
                                               .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -538,7 +626,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                               .field_16            = 0,
                                               .materials           = { SAVE_MATERIAL_BLUE, SAVE_MATERIAL_IRON, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
-    [(2 * SHIP_BOAT) + (SHIP_LEVEL_1 - 1)] = { .areaID              = DOCKAREA_INVALID,
+    [(2 * SHIP_BOAT) + (SHIP_LEVEL_1 - 1)] = { .dockArea            = DOCKAREA_INVALID,
                                                .unknownArea         = DOCKAREA_JET,
                                                .shipScale           = FLOAT_TO_FX32(0.0),
                                                .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -548,7 +636,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                                .field_16            = 0,
                                                .materials           = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
-    [(2 * SHIP_BOAT) + (SHIP_LEVEL_2 - 1)] = { .areaID              = DOCKAREA_INVALID,
+    [(2 * SHIP_BOAT) + (SHIP_LEVEL_2 - 1)] = { .dockArea            = DOCKAREA_INVALID,
                                                .unknownArea         = DOCKAREA_JET,
                                                .shipScale           = FLOAT_TO_FX32(0.0),
                                                .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -558,7 +646,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                                .field_16            = 0,
                                                .materials           = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
-    [(2 * SHIP_HOVER) + (SHIP_LEVEL_1 - 1)] = { .areaID              = DOCKAREA_INVALID,
+    [(2 * SHIP_HOVER) + (SHIP_LEVEL_1 - 1)] = { .dockArea            = DOCKAREA_INVALID,
                                                 .unknownArea         = DOCKAREA_BOAT,
                                                 .shipScale           = FLOAT_TO_FX32(0.0),
                                                 .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -568,7 +656,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                                 .field_16            = 0,
                                                 .materials = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_RED, SAVE_MATERIAL_SILVER, SAVE_MATERIAL_BLACK, 0, 0, 0 } },
 
-    [(2 * SHIP_HOVER) + (SHIP_LEVEL_2 - 1)] = { .areaID              = DOCKAREA_INVALID,
+    [(2 * SHIP_HOVER) + (SHIP_LEVEL_2 - 1)] = { .dockArea            = DOCKAREA_INVALID,
                                                 .unknownArea         = DOCKAREA_BOAT,
                                                 .shipScale           = FLOAT_TO_FX32(0.0),
                                                 .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -579,7 +667,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                                 .materials = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_RED, SAVE_MATERIAL_SILVER, SAVE_MATERIAL_BLACK, 0, 0, 0 } },
 
     [(2 * SHIP_SUBMARINE)
-        + (SHIP_LEVEL_1 - 1)] = { .areaID              = DOCKAREA_INVALID,
+        + (SHIP_LEVEL_1 - 1)] = { .dockArea            = DOCKAREA_INVALID,
                                   .unknownArea         = DOCKAREA_HOVER,
                                   .shipScale           = FLOAT_TO_FX32(0.0),
                                   .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -590,7 +678,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                   .materials           = { SAVE_MATERIAL_RED, SAVE_MATERIAL_SILVER, SAVE_MATERIAL_AQUA, SAVE_MATERIAL_GOLD, SAVE_MATERIAL_BLACK, 0, 0, 0 } },
 
     [(2 * SHIP_SUBMARINE)
-        + (SHIP_LEVEL_2 - 1)] = { .areaID              = DOCKAREA_INVALID,
+        + (SHIP_LEVEL_2 - 1)] = { .dockArea            = DOCKAREA_INVALID,
                                   .unknownArea         = DOCKAREA_HOVER,
                                   .shipScale           = FLOAT_TO_FX32(0.0),
                                   .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -602,8 +690,8 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
 };
 
 static const DockStageConfig HubConfig__dockStageConfig[] = {
-    [DOCKAREA_BASE] = { .areaID         = DOCKAREA_BASE,
-                        .nextArea       = DOCKAREA_BASE,
+    [DOCKAREA_BASE] = { .dockArea       = DOCKAREA_BASE,
+                        .mapArea        = MAPAREA_BASE,
                         .field_8        = { 0, 0, -0x17000 },
                         .field_14       = 0x3C000,
                         .field_18       = 0xF1C8,
@@ -619,8 +707,8 @@ static const DockStageConfig HubConfig__dockStageConfig[] = {
                         .scale          = FLOAT_TO_FX32(1.0),
                         .field_42       = 0 },
 
-    [DOCKAREA_BASE_NEXT] = { .areaID         = DOCKAREA_BASE_NEXT,
-                             .nextArea       = DOCKAREA_BASE,
+    [DOCKAREA_BASE_NEXT] = { .dockArea       = DOCKAREA_BASE_NEXT,
+                             .mapArea        = MAPAREA_BASE,
                              .field_8        = { 0, 0, -0x17000 },
                              .field_14       = 0x3C000,
                              .field_18       = 0xF1C8,
@@ -636,8 +724,8 @@ static const DockStageConfig HubConfig__dockStageConfig[] = {
                              .scale          = FLOAT_TO_FX32(1.0),
                              .field_42       = 0 },
 
-    [DOCKAREA_JET] = { .areaID         = DOCKAREA_JET,
-                       .nextArea       = DOCKAREA_BASE_NEXT,
+    [DOCKAREA_JET] = { .dockArea       = DOCKAREA_JET,
+                       .mapArea        = MAPAREA_JET,
                        .field_8        = { 0, 0, -0xF000 },
                        .field_14       = 0x50000,
                        .field_18       = 0xF1C8,
@@ -653,8 +741,8 @@ static const DockStageConfig HubConfig__dockStageConfig[] = {
                        .scale          = FLOAT_TO_FX32(1.0),
                        .field_42       = 0 },
 
-    [DOCKAREA_BOAT] = { .areaID         = DOCKAREA_BOAT,
-                        .nextArea       = DOCKAREA_JET,
+    [DOCKAREA_BOAT] = { .dockArea       = DOCKAREA_BOAT,
+                        .mapArea        = MAPAREA_BOAT,
                         .field_8        = { 0, 0, -0x1E000 },
                         .field_14       = 0x80000,
                         .field_18       = 0xEAAB,
@@ -670,25 +758,25 @@ static const DockStageConfig HubConfig__dockStageConfig[] = {
                         .scale          = FLOAT_TO_FX32(1.5),
                         .field_42       = 0 },
 
-    [DOCKAREA_HOVER] = { .areaID         = DOCKAREA_HOVER,
-                        .nextArea       = DOCKAREA_BOAT,
-                        .field_8        = { 0, 0, -0x1E000 },
-                        .field_14       = 0x80000,
-                        .field_18       = 0xEAAB,
-                        .field_1C       = -0x55000,
-                        .field_20       = 0,
-                        .field_24       = 0,
-                        .field_28       = 0x2D000,
-                        .field_2C       = 0,
-                        .field_30       = 0x4C000,
-                        .shadowAlpha    = GX_COLOR_FROM_888(0x60),
-                        .playerTopSpeed = FLOAT_TO_FX32(2.0),
-                        .field_3C       = 1,
-                        .scale          = FLOAT_TO_FX32(1.5),
-                        .field_42       = 0 },
+    [DOCKAREA_HOVER] = { .dockArea       = DOCKAREA_HOVER,
+                         .mapArea        = MAPAREA_HOVER,
+                         .field_8        = { 0, 0, -0x1E000 },
+                         .field_14       = 0x80000,
+                         .field_18       = 0xEAAB,
+                         .field_1C       = -0x55000,
+                         .field_20       = 0,
+                         .field_24       = 0,
+                         .field_28       = 0x2D000,
+                         .field_2C       = 0,
+                         .field_30       = 0x4C000,
+                         .shadowAlpha    = GX_COLOR_FROM_888(0x60),
+                         .playerTopSpeed = FLOAT_TO_FX32(2.0),
+                         .field_3C       = 1,
+                         .scale          = FLOAT_TO_FX32(1.5),
+                         .field_42       = 0 },
 
-    [DOCKAREA_SUBMARINE] = { .areaID         = DOCKAREA_SUBMARINE,
-                             .nextArea       = DOCKAREA_HOVER,
+    [DOCKAREA_SUBMARINE] = { .dockArea       = DOCKAREA_SUBMARINE,
+                             .mapArea        = MAPAREA_SUBMARINE,
                              .field_8        = { 0, 0, -0x1E000 },
                              .field_14       = 0x80000,
                              .field_18       = 0xEAAB,
@@ -704,8 +792,8 @@ static const DockStageConfig HubConfig__dockStageConfig[] = {
                              .scale          = FLOAT_TO_FX32(1.5),
                              .field_42       = 0 },
 
-    [DOCKAREA_BEACH] = { .areaID         = DOCKAREA_BEACH,
-                         .nextArea       = DOCKAREA_SUBMARINE,
+    [DOCKAREA_BEACH] = { .dockArea       = DOCKAREA_BEACH,
+                         .mapArea        = MAPAREA_BEACH,
                          .field_8        = { 0, 0, -0x8000 },
                          .field_14       = 0x64000,
                          .field_18       = 0xE38F,
@@ -729,7 +817,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
     {
         .field_0  = 0x90,
         .field_2  = 0x94,
-        .field_4  = 0,
+        .dockArea = DOCKAREA_BASE,
         .field_8  = 0,
         .field_C  = { 3, 4, 5 },
         .field_18 = { 6, 4, 7 },
@@ -743,7 +831,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
     {
         .field_0  = 0x78,
         .field_2  = 0xD4,
-        .field_4  = 2,
+        .dockArea = DOCKAREA_JET,
         .field_8  = 1,
         .field_C  = { 5, 3, 4 },
         .field_18 = { 0, 9, 9 },
@@ -757,7 +845,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
     {
         .field_0  = 0x104,
         .field_2  = 0xBE,
-        .field_4  = 3,
+        .dockArea = DOCKAREA_BOAT,
         .field_8  = 2,
         .field_C  = { 0, 9, 9 },
         .field_18 = { 7, 9, 9 },
@@ -771,7 +859,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
     {
         .field_0  = 0x3C,
         .field_2  = 0x9E,
-        .field_4  = 4,
+        .dockArea = DOCKAREA_HOVER,
         .field_8  = 3,
         .field_C  = { 9, 9, 9 },
         .field_18 = { 4, 9, 9 },
@@ -785,7 +873,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
     {
         .field_0  = 0x50,
         .field_2  = 0x64,
-        .field_4  = 5,
+        .dockArea = DOCKAREA_SUBMARINE,
         .field_8  = 4,
         .field_C  = { 3, 9, 9 },
         .field_18 = { 6, 9, 9 },
@@ -799,7 +887,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
     {
         .field_0  = 0x2C,
         .field_2  = 0xCC,
-        .field_4  = 6,
+        .dockArea = DOCKAREA_BEACH,
         .field_8  = 5,
         .field_C  = { 9, 9, 9 },
         .field_18 = { 3, 9, 9 },
@@ -813,7 +901,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
     {
         .field_0  = 0x9A,
         .field_2  = 0x50,
-        .field_4  = 8,
+        .dockArea = DOCKAREA_COUNT,
         .field_8  = 6,
         .field_C  = { 4, 9, 9 },
         .field_18 = { 9, 9, 9 },
@@ -827,7 +915,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
     {
         .field_0  = 0x114,
         .field_2  = 0x68,
-        .field_4  = 8,
+        .dockArea = DOCKAREA_COUNT,
         .field_8  = 7,
         .field_C  = { 6, 0, 9 },
         .field_18 = { 6, 9, 9 },

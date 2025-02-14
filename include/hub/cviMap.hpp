@@ -2,6 +2,7 @@
 #define RUSH_CVIMAP_HPP
 
 #include <hub/hubTask.hpp>
+#include <hub/dockCommon.h>
 #include <hub/cviMapBack.hpp>
 #include <hub/cviMapIcon.hpp>
 #include <game/graphics/sprite.h>
@@ -143,10 +144,10 @@ void ViMap__SetType(s32 type);
 void ViMap__Func_215BBAC(u16 x, u16 y);
 void ViMap__Func_215BBF4(u16 x, u16 y, u16 a3);
 void ViMap__Func_215BC40(u16 *x, u16 *y);
-s32 ViMap__GetMapIconDockAreaFromTouchPos(void);
-s32 ViMap__GetMapIconDockArea(BOOL mustBeIdle);
-void ViMap__Func_215BCE4(u32 area, BOOL a2);
-s32 ViMap__GetDockAreaFromMapIcon(void);
+MapArea ViMap__GetMapIconDockAreaFromTouchPos(void);
+MapArea ViMap__GetMapIconDockArea(BOOL mustBeIdle);
+void ViMap__Func_215BCE4(u32 mapArea, BOOL a2);
+MapArea ViMap__GetDockAreaFromMapIcon(void);
 void ViMap__StartShipConstructCutscene(s32 id);
 void ViMap__StartDecorConstructCutscene(s32 id);
 void ViMap__StartShipUpgradeCutscene(s32 id);
