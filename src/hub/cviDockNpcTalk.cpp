@@ -116,13 +116,13 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
     u16 value;
 
     work->messageID = messageID;
-    value           = ViDock__Func_215E06C();
+    value           = CViDock::Func_215E06C();
     HubControl::InitEngineAForTalk();
 
     HubNpcMsgConfig msg;
     if (work->messageID == 0)
     {
-        id              = ViDock__GetTalkingNpc();
+        id              = CViDock::GetTalkingNpc();
         msg.msgCtrlFile = TalkHelpers__GetInteractionCtrl(id);
         msg.msgTextID1  = TalkHelpers__GetInteractionText1(id);
         msg.msgTextID2  = TalkHelpers__GetInteractionText2(id);
@@ -162,7 +162,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
         {
             work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), msg.msgCtrlFile), msg.msgTextID3, msg.msgTextID2);
             page = 0;
-            ViDock__Func_215E098();
+            CViDock::Func_215E098();
         }
         else
         {
@@ -172,7 +172,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
     }
 
     work->eventTalk.SetPage(page);
-    ViDock__Func_215E340(1, 1);
+    CViDock::Func_215E340(1, 1);
 }
 
 void CViDockNpcTalk::Release()

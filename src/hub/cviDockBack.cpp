@@ -15,7 +15,7 @@ extern "C"
 
 NOT_DECOMPILED void *aBbViDockBb_0;
 
-NOT_DECOMPILED void _ZdlPv(void);
+NOT_DECOMPILED void _ZdlPv(CViDockBack *work);
 
 NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167704EPS_tiit(void);
 NOT_DECOMPILED void _ZN11CVi3dObject12Func_21677C4Ev(void);
@@ -36,7 +36,7 @@ NOT_DECOMPILED void Unknown2051334__Func_2051334(void);
 // VARIABLES
 // --------------------
 
-static void (*_021737C8[])(void) = 
+static void (*_021737C8[])(CViDockBack *work) = 
 {
     ViDockBack__Func_2166480, ViDockBack__Func_2166480,
 	ViDockBack__Func_2166480, ViDockBack__Func_2166480,
@@ -44,7 +44,7 @@ static void (*_021737C8[])(void) =
 	ViDockBack__Func_2166480,
 };
 
-static void (*_021737AC[])(void) = 
+static void (*_021737AC[])(CViDockBack *work) = 
 {
     ViDockBack__Func_2166368, ViDockBack__Func_21663B4,
 	ViDockBack__Func_21663D8, ViDockBack__Func_2166400,
@@ -52,7 +52,7 @@ static void (*_021737AC[])(void) =
 	ViDockBack__Func_2166460,
 };
 
-static void (*_02173774[])(void) = 
+static void (*_02173774[])(CViDockBack *work) = 
 {
      ViDockBack__Func_2164C44, ViDockBack__Func_216509C,
 	 ViDockBack__Func_2165268, ViDockBack__Func_21654C8,
@@ -60,7 +60,7 @@ static void (*_02173774[])(void) =
 	 ViDockBack__Func_2166158,
 };
 
-static void (*_02173790[])(void) = 
+static void (*_02173790[])(CViDockBack *work) = 
 {
     ViDockBack__Func_21662E8, ViDockBack__Func_21662FC,
 	ViDockBack__Func_2166304, ViDockBack__Func_2166318,
@@ -68,7 +68,7 @@ static void (*_02173790[])(void) =
 	ViDockBack__Func_2166354,
 };
 
-static void (*_021737E4[])(void) = 
+static void (*_021737E4[])(CViDockBack *work) = 
 {
     ViDockBack__Func_21664C0, ViDockBack__Func_21664C0,
 	ViDockBack__Func_21664C0, ViDockBack__Func_21664C0,
@@ -124,7 +124,7 @@ CViDockBack::~CViDockBack()
     _ZN11CVi3dObjectD0Ev(&this->object1);
 }
 
-NONMATCH_FUNC void ViDockBack__LoadAssets(void)
+NONMATCH_FUNC void ViDockBack__LoadAssets(CViDockBack *work, s32 areaID, BOOL a3, BOOL a4)
 {
 #ifdef NON_MATCHING
 
@@ -359,7 +359,7 @@ _02164900:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164918(void)
+NONMATCH_FUNC void ViDockBack__Func_2164918(CViDockBack *work, s32 area)
 {
 #ifdef NON_MATCHING
 
@@ -384,7 +384,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164918(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164954(void){
+NONMATCH_FUNC BOOL ViDockBack__Func_2164954(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -440,7 +440,7 @@ _021649C8:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21649DC(void)
+NONMATCH_FUNC void ViDockBack__Func_21649DC(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -475,7 +475,7 @@ _02164A18:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__SetShipPosition(void)
+NONMATCH_FUNC void ViDockBack__SetShipPosition(CViDockBack *work, fx32 y)
 {
 #ifdef NON_MATCHING
 
@@ -507,7 +507,7 @@ NONMATCH_FUNC void ViDockBack__SetShipPosition(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__SetShipScale(void)
+NONMATCH_FUNC void ViDockBack__SetShipScale(CViDockBack *work, fx32 scale)
 {
 #ifdef NON_MATCHING
 
@@ -528,7 +528,7 @@ NONMATCH_FUNC void ViDockBack__SetShipScale(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__DrawDock(void)
+NONMATCH_FUNC void ViDockBack__DrawDock(CViDockBack *work, u16 rotationY, u16 rotationX, u16 rotationZ)
 {
 #ifdef NON_MATCHING
 
@@ -581,7 +581,7 @@ _02164B28:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164B58(void)
+NONMATCH_FUNC void ViDockBack__Func_2164B58(CViDockBack *work, VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *flag0, BOOL *flag1, BOOL *flag2)
 {
 #ifdef NON_MATCHING
 
@@ -608,7 +608,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164B58(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164B9C(void){
+NONMATCH_FUNC BOOL ViDockBack__Func_2164B9C(CViDockBack *work, VecFx32 pos){
 #ifdef NON_MATCHING
 
 #else
@@ -628,7 +628,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164B9C(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164BC8(void){
+NONMATCH_FUNC fx32 ViDockBack__Func_2164BC8(CViDockBack *work, VecFx32 pos){
 #ifdef NON_MATCHING
 
 #else
@@ -648,7 +648,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164BC8(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164BF4(void)
+NONMATCH_FUNC void ViDockBack__DrawShadow(CViDockBack *work, CViShadow *shadow, fx32 scale, fx32 x, fx32 z)
 {
 #ifdef NON_MATCHING
 
@@ -669,7 +669,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164BF4(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164C20(void)
+NONMATCH_FUNC void ViDockBack__GetPlayerSpawnConfig(s32 id, VecFx32 *position, u16 *angle, s32 area)
 {
 #ifdef NON_MATCHING
 
@@ -688,7 +688,7 @@ NONMATCH_FUNC void ViDockBack__Func_2164C20(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164C44(void)
+NONMATCH_FUNC void ViDockBack__Func_2164C44(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -992,7 +992,7 @@ _02165090:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_216509C(void)
+NONMATCH_FUNC void ViDockBack__Func_216509C(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -1122,7 +1122,7 @@ _0216525C:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2165268(void)
+NONMATCH_FUNC void ViDockBack__Func_2165268(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -1294,7 +1294,7 @@ _021654BC:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21654C8(void)
+NONMATCH_FUNC void ViDockBack__Func_21654C8(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -1596,7 +1596,7 @@ _02165908:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2165914(void)
+NONMATCH_FUNC void ViDockBack__Func_2165914(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -1898,7 +1898,7 @@ _02165D54:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2165D60(void)
+NONMATCH_FUNC void ViDockBack__Func_2165D60(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2180,7 +2180,7 @@ _0216614C:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166158(void)
+NONMATCH_FUNC void ViDockBack__Func_2166158(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2295,7 +2295,7 @@ _021662DC:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21662E8(void){
+NONMATCH_FUNC void ViDockBack__Func_21662E8(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2310,7 +2310,7 @@ NONMATCH_FUNC void ViDockBack__Func_21662E8(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21662FC(void){
+NONMATCH_FUNC void ViDockBack__Func_21662FC(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2322,7 +2322,7 @@ NONMATCH_FUNC void ViDockBack__Func_21662FC(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166304(void){
+NONMATCH_FUNC void ViDockBack__Func_2166304(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2337,7 +2337,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166304(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166318(void){
+NONMATCH_FUNC void ViDockBack__Func_2166318(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2352,7 +2352,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166318(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_216632C(void){
+NONMATCH_FUNC void ViDockBack__Func_216632C(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2367,7 +2367,7 @@ NONMATCH_FUNC void ViDockBack__Func_216632C(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166340(void){
+NONMATCH_FUNC void ViDockBack__Func_2166340(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2382,7 +2382,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166340(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166354(void){
+NONMATCH_FUNC void ViDockBack__Func_2166354(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2397,7 +2397,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166354(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166368(void){
+NONMATCH_FUNC void ViDockBack__Func_2166368(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2427,7 +2427,7 @@ _02166394:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21663B4(void){
+NONMATCH_FUNC void ViDockBack__Func_21663B4(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2446,7 +2446,7 @@ NONMATCH_FUNC void ViDockBack__Func_21663B4(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21663D8(void){
+NONMATCH_FUNC void ViDockBack__Func_21663D8(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2466,7 +2466,7 @@ NONMATCH_FUNC void ViDockBack__Func_21663D8(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166400(void){
+NONMATCH_FUNC void ViDockBack__Func_2166400(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2484,7 +2484,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166400(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166420(void){
+NONMATCH_FUNC void ViDockBack__Func_2166420(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2502,7 +2502,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166420(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166440(void){
+NONMATCH_FUNC void ViDockBack__Func_2166440(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2520,7 +2520,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166440(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166460(void){
+NONMATCH_FUNC void ViDockBack__Func_2166460(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2538,7 +2538,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166460(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166480(void){
+NONMATCH_FUNC void ViDockBack__Func_2166480(CViDockBack *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2550,7 +2550,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166480(void){
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166488(void)
+NONMATCH_FUNC void ViDockBack__Func_2166488(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2575,7 +2575,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166488(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21664C0(void)
+NONMATCH_FUNC void ViDockBack__Func_21664C0(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2602,7 +2602,7 @@ NONMATCH_FUNC void ViDockBack__Func_21664C0(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166500(void)
+NONMATCH_FUNC void ViDockBack__Func_2166500(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 
@@ -2629,7 +2629,7 @@ NONMATCH_FUNC void ViDockBack__Func_2166500(void)
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166540(void)
+NONMATCH_FUNC void ViDockBack__Func_2166540(CViDockBack *work)
 {
 #ifdef NON_MATCHING
 

@@ -63,7 +63,7 @@ u16 HubState__GetPlayerAngle(s32 id)
     return gameState.talk.state.field_E0[id].rotationY;
 }
 
-void HubState__SetNpcState(s32 id, VecFx32 *pos, u16 angle)
+void HubState__SetNpcState(s32 id, VecFx32 *pos, u16 angle, s32 unknown)
 {
     MI_CpuClear32(&gameState.talk.state.field_14[id], sizeof(gameState.talk.state.field_14[id]));
 

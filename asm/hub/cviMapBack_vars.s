@@ -3,6 +3,10 @@
 
 	.rodata
 	
+.public ovl05_02172F10
+ovl05_02172F10: // 0x02172F10
+    .hword 50, 16, 8, 0, 100, 0
+	
 .public ovl05_02172F1C
 ovl05_02172F1C: // 0x02172F1C
     .hword 128, 114

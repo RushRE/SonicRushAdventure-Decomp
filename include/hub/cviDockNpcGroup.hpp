@@ -48,6 +48,17 @@ public:
     void ClearNpcList();
     CViDockNpcGroupEntry *AddNpc();
     void RemoveNpc(CViDockNpcGroupEntry *npc);
+
+    inline CViDockNpcGroupEntry *GetFirstNpc()
+    {
+        CViDockNpcGroupEntry *start = npcListStart;
+
+        if (start == NULL)
+            return NULL;
+
+        return start;
+    }
+
     CViDockNpcGroupEntry *GetNextNpc(CViDockNpcGroupEntry *npc);
 
     void LoadAssets();

@@ -22,7 +22,7 @@ void HubState__SetPlayerState(s32 id, VecFx32 *pos, u16 angle);
 BOOL HubState__CheckHasPlayerState(s32 id);
 VecFx32 *HubState__GetPlayerPosition(s32 id);
 u16 HubState__GetPlayerAngle(s32 id);
-void HubState__SetNpcState(s32 id, VecFx32 *pos, u16 angle);
+void HubState__SetNpcState(s32 id, VecFx32 *pos, u16 angle, s32 unknown);
 BOOL HubState__CheckHasNpcState(s32 id);
 VecFx32 *HubState__GetNpcPosition(s32 id);
 s32 HubState__GetNpcAngle(s32 id);

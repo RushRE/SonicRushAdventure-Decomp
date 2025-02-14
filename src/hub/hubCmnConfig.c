@@ -92,8 +92,8 @@ static const ViMapBackConfig mapDecorGraphicsConfig[] = {
 };
 
 static const Unknown2171914 dockUnknownConfig[] = {
-    { .areaID = DOCKAREA_BASE, .field_4 = 0 },  { .areaID = DOCKAREA_JET, .field_4 = 2 },       { .areaID = DOCKAREA_SHIP, .field_4 = 3 },
-    { .areaID = DOCKAREA_BOAT, .field_4 = 4 },  { .areaID = DOCKAREA_SUBMARINE, .field_4 = 5 }, { .areaID = DOCKAREA_BEACH, .field_4 = 6 },
+    { .areaID = DOCKAREA_BASE, .field_4 = 0 },  { .areaID = DOCKAREA_JET, .field_4 = 2 },       { .areaID = DOCKAREA_BOAT, .field_4 = 3 },
+    { .areaID = DOCKAREA_HOVER, .field_4 = 4 },  { .areaID = DOCKAREA_SUBMARINE, .field_4 = 5 }, { .areaID = DOCKAREA_BEACH, .field_4 = 6 },
     { .areaID = DOCKAREA_DRILL, .field_4 = 8 },
 };
 
@@ -321,7 +321,7 @@ static const DockMapConfig dockMapConfig[] = {
 
     [SHIP_BOAT] = 
     {
-        .areaID              = DOCKAREA_SHIP,
+        .areaID              = DOCKAREA_BOAT,
         .unknownArea         = DOCKAREA_JET,
         .shipScale           = FLOAT_TO_FX32(0.5),
         .shipPosY            = FLOAT_TO_FX32(0.0),
@@ -334,8 +334,8 @@ static const DockMapConfig dockMapConfig[] = {
 
     [SHIP_HOVER] = 
     {
-        .areaID              = DOCKAREA_BOAT,
-        .unknownArea         = DOCKAREA_SHIP,
+        .areaID              = DOCKAREA_HOVER,
+        .unknownArea         = DOCKAREA_BOAT,
         .shipScale           = FLOAT_TO_FX32(0.5),
         .shipPosY            = FLOAT_TO_FX32(0.0),
         .rotationX           = FLOAT_DEG_TO_IDX(20.0),
@@ -348,7 +348,7 @@ static const DockMapConfig dockMapConfig[] = {
     [SHIP_SUBMARINE] = 
     {
         .areaID              = DOCKAREA_SUBMARINE,
-        .unknownArea         = DOCKAREA_BOAT,
+        .unknownArea         = DOCKAREA_HOVER,
         .shipScale           = FLOAT_TO_FX32(0.5),
         .shipPosY            = FLOAT_TO_FX32(0.0),
         .rotationX           = FLOAT_DEG_TO_IDX(20.0),
@@ -410,7 +410,7 @@ static const ViDockBackConfig dockBackInfo[] = {
       .field_14           = -FLOAT_TO_FX32(4.0),
       .field_18           = FLOAT_DEG_TO_IDX(270.0) },
 
-    { .field_0            = DOCKAREA_SHIP,
+    { .field_0            = DOCKAREA_BOAT,
       .resModelShip       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SHIP_NSBMD,
       .resJointAnimShip   = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SHIP_NSBCA,
       .resModelDock       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SHIP_DOCK_NSBMD,
@@ -422,7 +422,7 @@ static const ViDockBackConfig dockBackInfo[] = {
       .field_14           = -FLOAT_TO_FX32(10.0),
       .field_18           = FLOAT_DEG_TO_IDX(270.0) },
 
-    { .field_0            = DOCKAREA_BOAT,
+    { .field_0            = DOCKAREA_HOVER,
       .resModelShip       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_BOAT_NSBMD,
       .resJointAnimShip   = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_BOAT_NSBCA,
       .resModelDock       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_BOAT_DOCK_NSBMD,
@@ -559,7 +559,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                                .materials           = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
     [(2 * SHIP_HOVER) + (SHIP_LEVEL_1 - 1)] = { .areaID              = DOCKAREA_INVALID,
-                                                .unknownArea         = DOCKAREA_SHIP,
+                                                .unknownArea         = DOCKAREA_BOAT,
                                                 .shipScale           = FLOAT_TO_FX32(0.0),
                                                 .shipPosY            = FLOAT_TO_FX32(0.0),
                                                 .rotationX           = FLOAT_DEG_TO_IDX(0.0),
@@ -569,7 +569,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                                 .materials = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_RED, SAVE_MATERIAL_SILVER, SAVE_MATERIAL_BLACK, 0, 0, 0 } },
 
     [(2 * SHIP_HOVER) + (SHIP_LEVEL_2 - 1)] = { .areaID              = DOCKAREA_INVALID,
-                                                .unknownArea         = DOCKAREA_SHIP,
+                                                .unknownArea         = DOCKAREA_BOAT,
                                                 .shipScale           = FLOAT_TO_FX32(0.0),
                                                 .shipPosY            = FLOAT_TO_FX32(0.0),
                                                 .rotationX           = FLOAT_DEG_TO_IDX(0.0),
@@ -580,7 +580,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
 
     [(2 * SHIP_SUBMARINE)
         + (SHIP_LEVEL_1 - 1)] = { .areaID              = DOCKAREA_INVALID,
-                                  .unknownArea         = DOCKAREA_BOAT,
+                                  .unknownArea         = DOCKAREA_HOVER,
                                   .shipScale           = FLOAT_TO_FX32(0.0),
                                   .shipPosY            = FLOAT_TO_FX32(0.0),
                                   .rotationX           = FLOAT_DEG_TO_IDX(0.0),
@@ -591,7 +591,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
 
     [(2 * SHIP_SUBMARINE)
         + (SHIP_LEVEL_2 - 1)] = { .areaID              = DOCKAREA_INVALID,
-                                  .unknownArea         = DOCKAREA_BOAT,
+                                  .unknownArea         = DOCKAREA_HOVER,
                                   .shipScale           = FLOAT_TO_FX32(0.0),
                                   .shipPosY            = FLOAT_TO_FX32(0.0),
                                   .rotationX           = FLOAT_DEG_TO_IDX(0.0),
@@ -609,14 +609,14 @@ static const DockStageConfig HubConfig__dockStageConfig[] = {
                         .field_18       = 0xF1C8,
                         .field_1C       = 0,
                         .field_20       = 0x3000,
-                        .field_24       = 0xFFFFC000,
+                        .field_24       = -0x4000,
                         .field_28       = 0,
                         .field_2C       = 0x3000,
                         .field_30       = 0x4000,
-                        .field_34       = 8,
+                        .shadowAlpha    = GX_COLOR_FROM_888(0x40),
                         .playerTopSpeed = FLOAT_TO_FX32(0.5),
                         .field_3C       = 0,
-                        .field_40       = 0x1000,
+                        .scale          = FLOAT_TO_FX32(1.0),
                         .field_42       = 0 },
 
     [DOCKAREA_BASE_NEXT] = { .areaID         = DOCKAREA_BASE_NEXT,
@@ -626,14 +626,14 @@ static const DockStageConfig HubConfig__dockStageConfig[] = {
                              .field_18       = 0xF1C8,
                              .field_1C       = 0,
                              .field_20       = 0x3000,
-                             .field_24       = 0xFFFFC000,
+                             .field_24       = -0x4000,
                              .field_28       = 0,
                              .field_2C       = 0x3000,
                              .field_30       = 0x4000,
-                             .field_34       = 8,
+                             .shadowAlpha    = GX_COLOR_FROM_888(0x40),
                              .playerTopSpeed = FLOAT_TO_FX32(0.5),
                              .field_3C       = 0,
-                             .field_40       = 0x1000,
+                             .scale          = FLOAT_TO_FX32(1.0),
                              .field_42       = 0 },
 
     [DOCKAREA_JET] = { .areaID         = DOCKAREA_JET,
@@ -641,67 +641,67 @@ static const DockStageConfig HubConfig__dockStageConfig[] = {
                        .field_8        = { 0, 0, -0xF000 },
                        .field_14       = 0x50000,
                        .field_18       = 0xF1C8,
-                       .field_1C       = 0xFFFEC000,
+                       .field_1C       = -0x14000,
                        .field_20       = 0,
                        .field_24       = 0x20000,
                        .field_28       = 0x14000,
                        .field_2C       = 0,
                        .field_30       = 0x32000,
-                       .field_34       = 0x10,
+                       .shadowAlpha    = GX_COLOR_FROM_888(0x80),
                        .playerTopSpeed = FLOAT_TO_FX32(1.0),
                        .field_3C       = 1,
-                       .field_40       = 0x1000,
+                       .scale          = FLOAT_TO_FX32(1.0),
                        .field_42       = 0 },
 
-    [DOCKAREA_SHIP] = { .areaID         = DOCKAREA_SHIP,
+    [DOCKAREA_BOAT] = { .areaID         = DOCKAREA_BOAT,
                         .nextArea       = DOCKAREA_JET,
                         .field_8        = { 0, 0, -0x1E000 },
                         .field_14       = 0x80000,
                         .field_18       = 0xEAAB,
-                        .field_1C       = 0xFFF97000,
+                        .field_1C       = -0x69000,
                         .field_20       = 0,
                         .field_24       = 0,
                         .field_28       = 0x69000,
                         .field_2C       = 0,
                         .field_30       = 0x4C000,
-                        .field_34       = 0xC,
+                        .shadowAlpha    = GX_COLOR_FROM_888(0x60),
                         .playerTopSpeed = FLOAT_TO_FX32(2.0),
                         .field_3C       = 1,
-                        .field_40       = 0x1800,
+                        .scale          = FLOAT_TO_FX32(1.5),
                         .field_42       = 0 },
 
-    [DOCKAREA_BOAT] = { .areaID         = DOCKAREA_BOAT,
-                        .nextArea       = DOCKAREA_SHIP,
+    [DOCKAREA_HOVER] = { .areaID         = DOCKAREA_HOVER,
+                        .nextArea       = DOCKAREA_BOAT,
                         .field_8        = { 0, 0, -0x1E000 },
                         .field_14       = 0x80000,
                         .field_18       = 0xEAAB,
-                        .field_1C       = 0xFFFAB000,
+                        .field_1C       = -0x55000,
                         .field_20       = 0,
                         .field_24       = 0,
                         .field_28       = 0x2D000,
                         .field_2C       = 0,
                         .field_30       = 0x4C000,
-                        .field_34       = 0xC,
+                        .shadowAlpha    = GX_COLOR_FROM_888(0x60),
                         .playerTopSpeed = FLOAT_TO_FX32(2.0),
                         .field_3C       = 1,
-                        .field_40       = 0x1800,
+                        .scale          = FLOAT_TO_FX32(1.5),
                         .field_42       = 0 },
 
     [DOCKAREA_SUBMARINE] = { .areaID         = DOCKAREA_SUBMARINE,
-                             .nextArea       = DOCKAREA_BOAT,
+                             .nextArea       = DOCKAREA_HOVER,
                              .field_8        = { 0, 0, -0x1E000 },
                              .field_14       = 0x80000,
                              .field_18       = 0xEAAB,
-                             .field_1C       = 0xFFFD3000,
+                             .field_1C       = -0x2D000,
                              .field_20       = 0,
                              .field_24       = 0,
                              .field_28       = 0x2D000,
                              .field_2C       = 0,
                              .field_30       = 0x4C000,
-                             .field_34       = 0xC,
+                             .shadowAlpha    = GX_COLOR_FROM_888(0x60),
                              .playerTopSpeed = FLOAT_TO_FX32(2.0),
                              .field_3C       = 1,
-                             .field_40       = 0x1800,
+                             .scale          = FLOAT_TO_FX32(1.5),
                              .field_42       = 0 },
 
     [DOCKAREA_BEACH] = { .areaID         = DOCKAREA_BEACH,
@@ -709,23 +709,23 @@ static const DockStageConfig HubConfig__dockStageConfig[] = {
                          .field_8        = { 0, 0, -0x8000 },
                          .field_14       = 0x64000,
                          .field_18       = 0xE38F,
-                         .field_1C       = 0xFFFF5000,
+                         .field_1C       = -0xB000,
                          .field_20       = 0,
-                         .field_24       = 0xFFF00000,
+                         .field_24       = -0x100000,
                          .field_28       = 0xB000,
                          .field_2C       = 0,
                          .field_30       = 0x21000,
-                         .field_34       = 0x10,
+                         .shadowAlpha    = GX_COLOR_FROM_888(0x80),
                          .playerTopSpeed = FLOAT_TO_FX32(2.0),
                          .field_3C       = 1,
-                         .field_40       = 0x1000,
+                         .scale          = FLOAT_TO_FX32(1.0),
                          .field_42       = 0 },
 
     // No stage for DOCKAREA_DRILL
 };
 
 static const Unknown2171FE8 ovl05_02171FE8[] = {
-    [DOCKAREA_BASE] = 
+    [MAPAREA_BASE] = 
     {
         .field_0  = 0x90,
         .field_2  = 0x94,
@@ -739,7 +739,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
-    [DOCKAREA_BASE_NEXT] = 
+    [MAPAREA_JET] = 
     {
         .field_0  = 0x78,
         .field_2  = 0xD4,
@@ -753,7 +753,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
-    [DOCKAREA_JET] = 
+    [MAPAREA_BOAT] = 
     {
         .field_0  = 0x104,
         .field_2  = 0xBE,
@@ -767,7 +767,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
-    [DOCKAREA_SHIP] = 
+    [MAPAREA_HOVER] = 
     {
         .field_0  = 0x3C,
         .field_2  = 0x9E,
@@ -781,7 +781,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
-    [DOCKAREA_BOAT] = 
+    [MAPAREA_SUBMARINE] = 
     {
         .field_0  = 0x50,
         .field_2  = 0x64,
@@ -795,7 +795,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
-    [DOCKAREA_SUBMARINE] = 
+    [MAPAREA_BEACH] = 
     {
         .field_0  = 0x2C,
         .field_2  = 0xCC,
@@ -809,7 +809,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
-    [DOCKAREA_BEACH] = 
+    [MAPAREA_DRILL] = 
     {
         .field_0  = 0x9A,
         .field_2  = 0x50,
@@ -823,7 +823,7 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
         .field_3E = 0,
     },
 
-    [DOCKAREA_DRILL] = 
+    [MAPAREA_TUTORIAL] = 
     {
         .field_0  = 0x114,
         .field_2  = 0x68,
@@ -887,7 +887,7 @@ const HubPurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id)
     return &shipUpgradeCost[id];
 }
 
-const ViDockBackConfig *HubConfig__GetDockBackInfo(s32 id)
+const ViDockBackConfig *HubConfig__GetDockBackInfo(u16 id)
 {
     return &dockBackInfo[id];
 }

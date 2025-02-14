@@ -158,7 +158,7 @@ public:
     static void IncrementGameProgress();
     static void Func_215A400(s32 eventID, s32 selection);
 
-    static void Func_215700C();
+    static void InitForNoState();
     static void Func_215701C(s32 a1);
     static void Func_21570B8(s32 a1);
     static void Func_215710C(BOOL a2);

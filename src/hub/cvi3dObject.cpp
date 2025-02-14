@@ -594,7 +594,7 @@ NONMATCH_FUNC void _ZN9CViShadowC1Ev(CViShadow *work)
     this->texture = NULL;
     this->palette = NULL;
     this->scale   = FLOAT_TO_FX32(6.0);
-    this->word14  = 15;
+    this->alpha   = GX_COLOR_FROM_888(0x7F);
 #else
     // clang-format off
 	ldr r2, =_ZTV9CViShadow+0x08
@@ -690,8 +690,8 @@ void CViShadow::Func_2167E9C()
         this->palette = NULL;
     }
 
-    this->scale  = FLOAT_TO_FX32(6.0);
-    this->word14 = 15;
+    this->scale = FLOAT_TO_FX32(6.0);
+    this->alpha = GX_COLOR_FROM_888(0x7F);
 }
 
 void CViShadow::Func_2167F00(VecFx32 *position)
@@ -717,7 +717,7 @@ void CViShadow::Func_2167F00(VecFx32 *position)
     NNS_G3dGlbSetBaseTrans(&scale);
     NNS_G3dGlbFlushVP();
 
-    NNS_G3dGePolygonAttr(GX_LIGHTMASK_NONE, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, this->word14, GX_POLYGON_ATTR_MISC_NONE);
+    NNS_G3dGePolygonAttr(GX_LIGHTMASK_NONE, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, this->alpha, GX_POLYGON_ATTR_MISC_NONE);
 
     NNS_G3dGeTexImageParam(GX_TEXFMT_PLTT4, GX_TEXGEN_TEXCOORD, GX_TEXSIZE_S64, GX_TEXSIZE_T64, GX_TEXREPEAT_NONE, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS,
                            VRAMKEY_TO_KEY(this->texture) & 0x7FFFF);

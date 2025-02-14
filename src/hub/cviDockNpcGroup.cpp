@@ -33,17 +33,13 @@ void CViDockNpcGroup::ClearNpcList()
 {
     viArrow.Func_2168358();
 
-    CViDockNpcGroupEntry *entry = npcListStart;
-    if (entry == NULL)
-        entry = NULL;
+    CViDockNpcGroupEntry *entry = GetFirstNpc();
 
     while (entry != NULL)
     {
         RemoveNpc(entry);
 
-        entry = npcListStart;
-        if (entry == NULL)
-            entry = NULL;
+        entry = GetFirstNpc();
     }
 }
 
@@ -119,10 +115,7 @@ void CViDockNpcGroup::LoadAssets()
 
 void CViDockNpcGroup::Animate()
 {
-    CViDockNpcGroupEntry *entry = npcListStart;
-
-    if (entry == NULL)
-        entry = NULL;
+    CViDockNpcGroupEntry *entry = GetFirstNpc();
 
     while (entry != NULL)
     {
@@ -136,10 +129,7 @@ void CViDockNpcGroup::Animate()
 
 void CViDockNpcGroup::Draw(VecFx32 *position)
 {
-    CViDockNpcGroupEntry *entry = npcListStart;
-
-    if (entry == NULL)
-        entry = NULL;
+    CViDockNpcGroupEntry *entry = GetFirstNpc();
 
     while (entry != NULL)
     {
@@ -158,10 +148,7 @@ void CViDockNpcGroup::Draw(VecFx32 *position)
 
 CViDockNpcGroupEntry *CViDockNpcGroup::Func_2168608(VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5)
 {
-    CViDockNpcGroupEntry *entry = npcListStart;
-
-    if (entry == NULL)
-        entry = NULL;
+    CViDockNpcGroupEntry *entry = GetFirstNpc();
 
     while (entry != NULL)
     {
@@ -186,9 +173,7 @@ CViDockNpcGroupEntry *CViDockNpcGroup::Func_2168674(VecFx32 *a2, s32 a3, s32 a4,
     }
     else
     {
-        entry = npcListStart;
-        if (entry == NULL)
-            entry = NULL;
+        entry = GetFirstNpc();
     }
 
     while (entry != NULL)

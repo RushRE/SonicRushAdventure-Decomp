@@ -216,13 +216,11 @@ VecFx32 *CPPHelpers__VEC_Normalize(VecFx32 *vec)
 }
 
 // TODO: figure what operator/function this _really_ is
-s32 CPPHelpers__VEC_Magnitude(s32 *magnitude, VecFx32 *vec)
+void CPPHelpers__VEC_Magnitude(s32 *magnitude, VecFx32 *vec)
 {
     VecFx32 *v = CPPHelpers__Func_2085FA4(vec);
 
     *magnitude = VEC_Mag(v);
-
-    return *magnitude;
 }
 
 // TODO: figure what operator this is

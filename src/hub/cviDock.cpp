@@ -10,6 +10,9 @@
 #include <game/graphics/unknown2056570.h>
 #include <game/file/fileUnknown.h>
 
+// resources
+#include <resources/bb/vi_msg/vi_msg_eng.h>
+
 // --------------------
 // TEMP
 // --------------------
@@ -19,70 +22,78 @@ extern "C"
 
 NOT_DECOMPILED void _ZN15CViDockNpcGroupC1Ev(void);
 NOT_DECOMPILED void _ZN15CViDockNpcGroup10GetNextNpcEP20CViDockNpcGroupEntry(void);
-NOT_DECOMPILED void _ZN9CViShadow10LoadAssetsEv(void);
-NOT_DECOMPILED void _ZN9CViShadow12Func_2167E9CEv(void);
 NOT_DECOMPILED void _ZnwmPv(void);
 NOT_DECOMPILED void _ZdlPv(void);
 NOT_DECOMPILED void _ZN10HubControl12Func_2157178Ev(void);
-NOT_DECOMPILED void _ZN15CViDockNpcGroup10LoadAssetsEv(void);
-NOT_DECOMPILED void _ZN15CViDockNpcGroup12ClearNpcListEv(void);
 NOT_DECOMPILED void _ZN15CViDockNpcGroup4DrawEP7VecFx32(void);
-NOT_DECOMPILED void _ZN15CViDockNpcGroup7AnimateEv(void);
-NOT_DECOMPILED void _ZN15CViDockNpcGroup6AddNpcEv(void);
-NOT_DECOMPILED void _ZN10HubControl10GetField54Ev(void);
 NOT_DECOMPILED void _ZN11CVi3dObject4DrawEv(void);
-NOT_DECOMPILED void _ZN15CViDockNpcGroup12Func_2168674EP7VecFx32llPiP20CViDockNpcGroupEntry(void);
 NOT_DECOMPILED void _ZN15CViDockNpcGroupD1Ev(void);
-NOT_DECOMPILED void _ZN15CViDockNpcGroup12Func_2168608EP7VecFx32S1_S1_l(void);
-NOT_DECOMPILED void _ZN10HubControl12Func_215B858El(void);
-NOT_DECOMPILED void _ZN10HubControl12Func_215B850El(void);
-NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViMsgEv(void);
 
-NOT_DECOMPILED void Unknown2051334__Func_20514DC(void);
-NOT_DECOMPILED void Unknown2051334__Func_20516EC(void);
+NOT_DECOMPILED void Unknown2051334__Func_20514DC(VecFx32 *dest, VecFx32 *a2, VecFx32 *a3, fx32 a4);
+NOT_DECOMPILED GXRgb Unknown2051334__Func_20516EC(GXRgb color1, GXRgb color2, s32 a3, s32 a4);
 }
 
 // --------------------
 // VARIABLES
 // --------------------
 
-static Task *ViDock__TaskSingleton;
+static Task *taskSingleton;
 
-NOT_DECOMPILED void *ovl05_02172EB4;
-NOT_DECOMPILED void *ovl05_02172EBC;
-NOT_DECOMPILED void *ovl05_02172ECA;
-NOT_DECOMPILED void *ovl05_02172ED8;
+// static const u16 ovl05_02172EB4[] = { 224, 111, 247, 123, 255, 127, 247, 123 };
+NOT_DECOMPILED const u16 ovl05_02172EB4[];
+
+// --------------------
+// INLINE FUNCTIONS
+// --------------------
+
+RUSH_INLINE BOOL CheckTouchPushEnabled()
+{
+    if (IsTouchInputEnabled())
+    {
+        if (TOUCH_HAS_PUSH(touchInput.flags))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static Task *CViDock__CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group);
+static void CViDock__Func_215FF6C(Task *task);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-void ViDock__Create(void)
+void CViDock::Create(void)
 {
-    // TODO: use 'HubTaskCreate' when 'ViDock__CreateInternal' matches
-    // ViDock__TaskSingleton = HubTaskCreate(ViDock__Main, ViDock__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16), CViDock);
-    ViDock__TaskSingleton = ViDock__CreateInternal(ViDock__Main, ViDock__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16));
+    // TODO: use 'HubTaskCreate' when 'CViDock__CreateInternal' matches
+    // taskSingleton = HubTaskCreate(CViDock::Main, CViDock::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16), CViDock);
+    taskSingleton = CViDock__CreateInternal(CViDock::Main, CViDock::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16));
 
-    CViDock *work = TaskGetWork(ViDock__TaskSingleton, CViDock);
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-    work->area            = DOCKAREA_COUNT;
-    work->field_2         = 4;
-    work->field_4         = 8;
-    work->field_8         = 0;
-    work->field_C         = 0;
-    work->field_10        = 1;
-    work->talkActionType  = CVIDOCKNPCTALK_INVALID;
-    work->talkActionParam = 0;
-    work->field_1468      = 0;
-    work->field_1470      = 0;
-    work->field_1B24      = 0;
-    work->field_1B28      = 0;
+    work->area                = CViDock::AREA_INVALID;
+    work->type                = CViDock::TYPE_INVALID;
+    work->areaUnknown         = CViDock::AREA_INVALID;
+    work->field_8             = 0;
+    work->field_C             = 0;
+    work->field_10            = 1;
+    work->talkActionType      = CVIDOCKNPCTALK_INVALID;
+    work->talkActionParam     = 0;
+    work->talkNpc             = 0;
+    work->field_1470          = 0;
+    work->environmentSfxTimer = 0;
+    work->field_1B28          = 0;
     InitThreadWorker(&work->thread, 0x1000);
-    ViDock__Func_215E678(work);
+    CViDock::Func_215E678(work);
 }
 
 // TODO: should match when constructors are decompiled for 'CViDockPlayer' 'CViDockNpcGroup', 'CViShadow' && 'CViDockBack'
-NONMATCH_FUNC Task *ViDock__CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group)
+NONMATCH_FUNC Task *CViDock__CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group)
 {
 #ifdef NON_MATCHING
 
@@ -124,1111 +135,603 @@ _0215DB8C:
 #endif
 }
 
-void ViDock__Func_215DB9C(void)
+void CViDock::Func_215DB9C(void)
 {
-    if (ViDock__TaskSingleton != NULL)
+    if (taskSingleton != NULL)
     {
-        DestroyTask(ViDock__TaskSingleton);
-        ViDock__TaskSingleton = NULL;
+        DestroyTask(taskSingleton);
+        taskSingleton = NULL;
     }
 }
 
-NONMATCH_FUNC void ViDock__Func_215DBC8(s32 a1)
+void CViDock::Func_215DBC8(s32 area)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, =ViDock__TaskSingleton
-	mov r5, r0
-	ldr r0, [r1, #0]
-	bl GetTaskWork_
-	mov r4, r0
-	bl ViDock__Func_215EF3C
-	mov r0, r4
-	bl ViDock__Func_215EE58
-	mov r0, r4
-	bl ViDock__Func_215EC44
-	mov r0, r4
-	bl ViDock__Func_215EAF4
-	mov r0, r4
-	bl ViDock__Func_215EA7C
-	strh r5, [r4]
-	mov r0, #0
-	strh r0, [r4, #2]
-	str r5, [r4, #4]
-	mov r0, r4
-	mov r1, #8
-	bl ViDock__Func_215E754
-	mov r0, r4
-	mov r1, #0
-	bl ViDock__Func_215E9F4
-	mov r0, r4
-	bl ViDock__Func_215EA8C
-	mov r0, r4
-	bl ViDock__Func_215EB04
-	ldrh r0, [r4, #0]
-	bl HubConfig__GetDockStageConfig
-	ldrh r2, [r0, #0x34]
-	add r0, r4, #0x1400
-	mov r1, #0
-	strh r2, [r0, #0x5c]
-	add r0, r4, #0x1000
-	str r1, [r0, #0xb24]
-	add r0, r4, #0x18
-	bl ViMapIcon__Func_2163A7C
-	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Main_215F9CC
-	ldr r0, [r0, #0]
-	bl SetTaskMainEvent
-	ldmia sp!, {r3, r4, r5, pc}
+    CViDock::Func_215EF3C(work);
+    CViDock::Func_215EE58(work);
+    CViDock::ClearNpcGroup(work);
+    CViDock::Func_215EAF4(work);
+    CViDock::Func_215EA7C(work);
 
-// clang-format on
-#endif
+    work->area        = area;
+    work->type        = CViDock::TYPE_0;
+    work->areaUnknown = area;
+
+    CViDock::LoadPlayer(work, 8);
+    CViDock::Func_215E9F4(work, FALSE);
+    CViDock::Func_215EA8C(work);
+    CViDock::CreateNpcs(work);
+
+    work->shadow.alpha        = HubConfig__GetDockStageConfig(work->area)->shadowAlpha;
+    work->environmentSfxTimer = 0;
+
+    ViDockDrawState__Func_2163A7C(&work->dockDrawState, 0);
+
+    SetTaskMainEvent(taskSingleton, CViDock::Main_215F9CC);
 }
 
-NONMATCH_FUNC void ViDock__Func_215DC80(s32 a1, s32 a2)
+void CViDock::Func_215DC80(s32 a1, s32 area)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r2, =ViDock__TaskSingleton
-	mov r6, r0
-	ldr r0, [r2, #0]
-	mov r5, r1
-	bl GetTaskWork_
-	mov r4, r0
-	bl ViDock__Func_215DEF4
-	cmp r5, #7
-	movge r5, r6
-	strh r5, [r4]
-	add r0, r4, #0x32c
-	str r6, [r4, #4]
-	mov r3, #0
-	strh r3, [r4, #2]
-	add ip, r4, #0x1000
-	str r3, [ip, #0xb24]
-	mov lr, #1
-	ldr r1, =ViDock__Func_215FFF4
-	mov r2, r4
-	add r0, r0, #0x1800
-	mov r3, #0x18
-	str lr, [ip, #0xb28]
-	bl CreateThreadWorker
-	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Func_215FFC0
-	ldr r0, [r0, #0]
-	bl SetTaskMainEvent
-	ldmia sp!, {r4, r5, r6, pc}
+    CViDock::Func_215DEF4();
 
-// clang-format on
-#endif
+    if (area >= CViDock::AREA_COUNT)
+        area = a1;
+
+    work->area                = area;
+    work->areaUnknown         = a1;
+    work->type                = CViDock::TYPE_0;
+    work->environmentSfxTimer = 0;
+    work->field_1B28          = 1;
+
+    CreateThreadWorker(&work->thread, CViDock::ThreadFunc, work, 24);
+    SetTaskMainEvent(taskSingleton, CViDock::Main_215FFC0);
 }
 
-NONMATCH_FUNC BOOL ViDock__Func_215DD00(void)
+BOOL CViDock::Func_215DD00(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0xb28]
-	cmp r0, #0
-	moveq r0, #1
-	movne r0, #0
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    return work->field_1B28 == 0;
 }
 
-NONMATCH_FUNC void ViDock__Func_215DD2C(void)
+void CViDock::Func_215DD2C(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	add r0, r0, #0x18
-	mov r1, #0
-	bl ViMapIcon__Func_2163A7C
-	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Main_215F9CC
-	ldr r0, [r0, #0]
-	bl SetTaskMainEvent
-	ldmia sp!, {r3, pc}
+    ViDockDrawState__Func_2163A7C(&work->dockDrawState, 0);
 
-// clang-format on
-#endif
+    SetTaskMainEvent(taskSingleton, CViDock::Main_215F9CC);
 }
 
-NONMATCH_FUNC void ViDock__Func_215DD64(s32 a1, s32 a2)
+void CViDock::Func_215DD64(s32 area, s32 a2)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r2, =ViDock__TaskSingleton
-	mov r6, r0
-	ldr r0, [r2, #0]
-	mov r5, r1
-	bl GetTaskWork_
-	mov r4, r0
-	bl ViDock__Func_215EF3C
-	mov r0, r4
-	bl ViDock__Func_215EE58
-	mov r0, r4
-	bl ViDock__Func_215EC44
-	mov r0, r4
-	bl ViDock__Func_215EAF4
-	mov r0, r4
-	bl ViDock__Func_215EA7C
-	strh r6, [r4]
-	cmp r5, #0
-	mov r0, #1
-	strh r0, [r4, #2]
-	mov r0, #8
-	str r0, [r4, #4]
-	mov r1, #0
-	add r0, r4, #0x1000
-	str r1, [r0, #0xb24]
-	bne _0215DDDC
-	mov r0, r4
-	bl ViDock__Func_215E9F4
-	mov r0, r4
-	bl ViDock__Func_215EA8C
-_0215DDDC:
-	ldrh r0, [r4, #0]
-	bl HubConfig__GetDockStageConfig
-	ldrh r3, [r0, #0x34]
-	add r2, r4, #0x1400
-	add r0, r4, #0x18
-	mov r1, #1
-	strh r3, [r2, #0x5c]
-	bl ViMapIcon__Func_2163A7C
-	cmp r5, #0
-	beq _0215DE20
-	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Main_215FE00
-	ldr r0, [r0, #0]
-	bl SetTaskMainEvent
-	mov r0, #0
-	str r0, [r4, #0xc]
-	ldmia sp!, {r4, r5, r6, pc}
-_0215DE20:
-	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Main_215F998
-	ldr r0, [r0, #0]
-	bl SetTaskMainEvent
-	ldmia sp!, {r4, r5, r6, pc}
+    CViDock::Func_215EF3C(work);
+    CViDock::Func_215EE58(work);
+    CViDock::ClearNpcGroup(work);
+    CViDock::Func_215EAF4(work);
+    CViDock::Func_215EA7C(work);
 
-// clang-format on
-#endif
+    work->area                = area;
+    work->type                = CViDock::TYPE_1;
+    work->areaUnknown         = CViDock::AREA_INVALID;
+    work->environmentSfxTimer = 0;
+
+    if (!a2)
+    {
+        CViDock::Func_215E9F4(work, FALSE);
+        CViDock::Func_215EA8C(work);
+    }
+
+    work->shadow.alpha = HubConfig__GetDockStageConfig(work->area)->shadowAlpha;
+    ViDockDrawState__Func_2163A7C(&work->dockDrawState, 1);
+
+    if (a2)
+    {
+        SetTaskMainEvent(taskSingleton, CViDock::Main_215FE00);
+        work->field_C = 0;
+    }
+    else
+    {
+        SetTaskMainEvent(taskSingleton, CViDock::Main_215F998);
+    }
 }
 
-NONMATCH_FUNC void ViDock__Func_215DE40(s32 a1)
+void CViDock::Func_215DE40(s32 area)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, =ViDock__TaskSingleton
-	mov r5, r0
-	ldr r0, [r1, #0]
-	bl GetTaskWork_
-	mov r4, r0
-	bl ViDock__Func_215EF3C
-	mov r0, r4
-	bl ViDock__Func_215EE58
-	mov r0, r4
-	bl ViDock__Func_215EC44
-	mov r0, r4
-	bl ViDock__Func_215EAF4
-	mov r0, r4
-	bl ViDock__Func_215EA7C
-	strh r5, [r4]
-	mov r0, #2
-	strh r0, [r4, #2]
-	mov r0, #8
-	str r0, [r4, #4]
-	mov r0, r4
-	mov r2, #0
-	add r1, r4, #0x1000
-	str r2, [r1, #0xb24]
-	bl ViDock__Func_215EA8C
-	mov r0, r4
-	mov r1, #1
-	bl ViDock__Func_215E9F4
-	mov r1, #0
-	add r0, r4, #0x1500
-	strh r1, [r0, #0xb8]
-	mov r0, r4
-	bl ViDock__Func_215ED0C
-	mov r0, r4
-	bl ViDock__Func_215EEA0
-	add r0, r4, #0x18
-	mov r1, #2
-	bl ViMapIcon__Func_2163A7C
-	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Main_215FE68
-	ldr r0, [r0, #0]
-	bl SetTaskMainEvent
-	ldmia sp!, {r3, r4, r5, pc}
+    CViDock::Func_215EF3C(work);
+    CViDock::Func_215EE58(work);
+    CViDock::ClearNpcGroup(work);
+    CViDock::Func_215EAF4(work);
+    CViDock::Func_215EA7C(work);
 
-// clang-format on
-#endif
+    work->area                = area;
+    work->type                = CViDock::TYPE_2;
+    work->areaUnknown         = CViDock::AREA_INVALID;
+    work->environmentSfxTimer = 0;
+
+    CViDock::Func_215EA8C(work);
+    CViDock::Func_215E9F4(work, TRUE);
+
+    work->rotationY = 0;
+
+    CViDock::Func_215ED0C(work);
+    CViDock::Func_215EEA0(work);
+    ViDockDrawState__Func_2163A7C(&work->dockDrawState, 2);
+    SetTaskMainEvent(taskSingleton, CViDock::Main_215FE68);
 }
 
-NONMATCH_FUNC void ViDock__Func_215DEF4(void)
+void CViDock::Func_215DEF4(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	mov r4, r0
-	add r1, r4, #0x1000
-	mov r2, #0
-	str r2, [r1, #0xb24]
-	bl ViDock__Func_215EF3C
-	mov r0, r4
-	bl ViDock__Func_215EE58
-	mov r0, r4
-	bl ViDock__Func_215EC44
-	mov r0, r4
-	bl ViDock__Func_215EAF4
-	mov r0, r4
-	bl ViDock__Func_215EA7C
-	mov r1, #8
-	strh r1, [r4]
-	mov r0, #4
-	strh r0, [r4, #2]
-	ldr r0, =ViDock__TaskSingleton
-	str r1, [r4, #4]
-	ldr r0, [r0, #0]
-	mov r1, #0
-	bl SetTaskMainEvent
-	ldmia sp!, {r4, pc}
+    work->environmentSfxTimer = 0;
 
-// clang-format on
-#endif
+    CViDock::Func_215EF3C(work);
+    CViDock::Func_215EE58(work);
+    CViDock::ClearNpcGroup(work);
+    CViDock::Func_215EAF4(work);
+    CViDock::Func_215EA7C(work);
+
+    work->area        = CViDock::AREA_INVALID;
+    work->type        = CViDock::TYPE_INVALID;
+    work->areaUnknown = CViDock::AREA_INVALID;
+
+    SetTaskMainEvent(taskSingleton, NULL);
 }
 
-NONMATCH_FUNC void ViDock__Func_215DF64(s32 a1)
+void CViDock::Func_215DF64(s32 a1)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, =ViDock__TaskSingleton
-	mov r4, r0
-	ldr r0, [r1, #0]
-	bl GetTaskWork_
-	str r4, [r0, #8]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    work->field_8 = a1;
 }
 
-NONMATCH_FUNC void ViDock__Func_215DF84(void)
+void CViDock::Func_215DF84(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	bl ViDock__Func_215EE7C
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    CViDock::Func_215EE7C(work);
 }
 
-NONMATCH_FUNC BOOL ViDock__Func_215DFA0(void)
+BOOL CViDock::Func_215DFA0(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	mov r4, r0
-	ldr r0, [r4, #0x14]
-	cmp r0, #0
-	movne r0, #0
-	ldmneia sp!, {r4, pc}
-	add r0, r4, #0xe00
-	bl CPPHelpers__Func_2085F9C
-	mov r1, r0
-	add r0, r4, #0xf8
-	ldmia r1, {r1, r2, r3}
-	bl ViDockBack__Func_2164B9C
-	ldmia sp!, {r4, pc}
+    if (work->field_14)
+        return FALSE;
 
-// clang-format on
-#endif
+    return ViDockBack__Func_2164B9C(&work->dockBack, *CPPHelpers__Func_2085F9C(&work->player.translation1));
 }
 
-NONMATCH_FUNC s32 ViDock__Func_215DFE4(void)
+s32 CViDock::Func_215DFE4(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	ldr r0, [r0, #4]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    return work->areaUnknown;
 }
 
-NONMATCH_FUNC BOOL ViDock__Func_215E000(void)
+BOOL CViDock::Func_215E000(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x460]
-	cmp r0, #0xb
-	movlt r0, #1
-	movge r0, #0
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    return work->talkActionType < CVIDOCKNPCTALK_COUNT;
 }
 
-NONMATCH_FUNC void ViDock__Func_215E02C(s32 *id, s32 *param)
+void CViDock::Func_215E02C(s32 *type, s32 *param)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r2, =ViDock__TaskSingleton
-	mov r5, r0
-	ldr r0, [r2, #0]
-	mov r4, r1
-	bl GetTaskWork_
-	cmp r5, #0
-	addne r1, r0, #0x1000
-	ldrne r1, [r1, #0x460]
-	strne r1, [r5]
-	cmp r4, #0
-	addne r0, r0, #0x1000
-	ldrne r0, [r0, #0x464]
-	strne r0, [r4]
-	ldmia sp!, {r3, r4, r5, pc}
+    if (type != NULL)
+        *type = work->talkActionType;
 
-// clang-format on
-#endif
+    if (param != NULL)
+        *param = work->talkActionParam;
 }
 
-NONMATCH_FUNC s32 ViDock__Func_215E06C(void)
+s32 CViDock::Func_215E06C(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x468]
-	cmp r0, #0
-	ldrne r0, [r0, #0x30c]
-	moveq r0, #0
-	ldmia sp!, {r3, pc}
+    CViDockNpc *npc = work->talkNpc;
+    if (npc != NULL)
+        return npc->field_30C;
 
-// clang-format on
-#endif
+    return 0;
 }
 
-NONMATCH_FUNC void ViDock__Func_215E098(void)
+void CViDock::Func_215E098(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	add r0, r0, #0x1000
-	ldr r1, [r0, #0x468]
-	cmp r1, #0
-	ldrne r0, [r1, #0x30c]
-	cmpne r0, #0
-	subne r0, r0, #1
-	strne r0, [r1, #0x30c]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    CViDockNpc *npc = work->talkNpc;
+    if (npc != NULL && npc->field_30C != 0)
+        npc->field_30C--;
 }
 
-NONMATCH_FUNC s32 ViDock__GetTalkingNpc(void)
+s32 CViDock::GetTalkingNpc(void)
 {
-#ifdef NON_MATCHING
+    if (taskSingleton == NULL)
+        return 23;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	cmp r0, #0
-	moveq r0, #0x17
-	ldmeqia sp!, {r3, pc}
-	bl GetTaskWork_
-	add r0, r0, #0x1000
-	ldr r0, [r0, #0x468]
-	cmp r0, #0
-	moveq r0, #0x17
-	ldrne r0, [r0, #0x300]
-	ldmia sp!, {r3, pc}
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-// clang-format on
-#endif
+    CViDockNpc *npc = work->talkNpc;
+    if (npc == NULL)
+        return 23;
+
+    return npc->npcType;
 }
 
-NONMATCH_FUNC void ViDock__Func_215E104(s32 a1)
+void CViDock::Func_215E104(s32 a1)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r1, =ViDock__TaskSingleton
-	mov r4, r0
-	ldr r0, [r1, #0]
-	bl GetTaskWork_
-	mov r1, r4, lsl #0x10
-	mov r5, r0
-	mov r0, r1, lsr #0x10
-	bl HubConfig__GetNpcConfig
-	add r1, r5, #0x1000
-	ldr r1, [r1, #0x138]
-	ldrh r6, [r0, #0]
-	cmp r1, #0
-	moveq r1, #0
-	cmp r1, #0
-	ldmeqia sp!, {r4, r5, r6, pc}
-	add r4, r5, #0x130
-_0215E148:
-	add r0, r1, #0x300
-	ldrh r0, [r0, #0x12]
-	cmp r6, r0
-	addeq r0, r5, #0x1000
-	streq r1, [r0, #0x468]
-	ldmeqia sp!, {r4, r5, r6, pc}
-	add r0, r4, #0x1000
-	bl _ZN15CViDockNpcGroup10GetNextNpcEP20CViDockNpcGroupEntry
-	movs r1, r0
-	bne _0215E148
-	ldmia sp!, {r4, r5, r6, pc}
+    const HubNpcSpawnConfig *config = HubConfig__GetNpcConfig(a1);
 
-// clang-format on
-#endif
+    u16 type = config->type;
+
+    CViDockNpcGroupEntry *entry = work->npcGroup.npcListStart;
+
+    // ???
+    if (entry == NULL)
+        entry = NULL;
+
+    while (entry != NULL)
+    {
+        if (type == entry->npc.type)
+        {
+            work->talkNpc = &entry->npc;
+            return;
+        }
+
+        entry = work->npcGroup.GetNextNpc(entry);
+    }
 }
 
-NONMATCH_FUNC void ViDock__Func_215E178(void)
+void CViDock::Func_215E178(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #0x48
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	mov r4, r0
-	add r0, r4, #0x1f8
-	add r2, r4, #0x1000
-	mov r1, #1
-	str r1, [r2, #0x470]
-	mov r1, #0
-	add r0, r0, #0xc00
-	str r1, [r2, #0x474]
-	bl ViDockPlayer__Func_2166B80
-	add r0, r4, #0x1000
-	ldr r0, [r0, #0x468]
-	cmp r0, #0
-	beq _0215E31C
-	add r0, r4, #0xe00
-	bl CPPHelpers__Func_2085F9C
-	mov r1, r0
-	add r0, sp, #0x3c
-	bl CPPHelpers__VEC_SetFromVec_2
-	add r0, r4, #0x1000
-	ldr r0, [r0, #0x468]
-	add r0, r0, #8
-	bl CPPHelpers__Func_2085F9C
-	mov r1, r0
-	add r0, sp, #0x30
-	bl CPPHelpers__VEC_SetFromVec_2
-	add r0, sp, #0x24
-	bl CPPHelpers__Func_2085EE8
-	add r0, sp, #0x18
-	bl CPPHelpers__Func_2085EE8
-	add r0, sp, #0xc
-	add r1, sp, #0x3c
-	add r2, sp, #0x30
-	bl CPPHelpers__VEC_Subtract_Alt
-	add r0, sp, #0xc
-	bl CPPHelpers__VEC_Normalize
-	mov r1, r0
-	add r0, sp, #0x24
-	bl CPPHelpers__Func_2085FA8
-	ldr r0, [sp, #0x2c]
-	bl Math__Func_207B1A4
-	mov r5, r0
-	ldr r0, [sp, #0x24]
-	cmp r0, #0
-	movlt r0, #1
-	movge r0, #0
-	cmp r0, #0
-	rsbne r0, r5, #0x10000
-	movne r0, r0, lsl #0x10
-	movne r5, r0, lsr #0x10
-	add r0, r4, #0x1000
-	ldr r0, [r0, #0x468]
-	mov r1, r5
-	bl ViDockNpc__SetState1
-	ldr r1, =0xFFFF8001
-	add r0, r4, #0x1f8
-	add r1, r5, r1
-	mov r1, r1, lsl #0x10
-	add r0, r0, #0xc00
-	mov r1, r1, lsr #0x10
-	mov r2, #0
-	bl ViDockPlayer__Func_21667A8
-	add r0, sp, #0
-	add r1, sp, #0x30
-	add r2, sp, #0x3c
-	bl CPPHelpers__VEC_Subtract_Alt
-	add r0, sp, #0x18
-	add r1, sp, #0
-	bl CPPHelpers__Func_2085FA8
-	ldr r2, [sp, #0x18]
-	ldr r1, [sp, #0x1c]
-	mov r2, r2, asr #1
-	mov r1, r1, asr #1
-	str r1, [sp, #0x28]
-	ldr r0, [sp, #0x20]
-	str r2, [sp, #0x24]
-	mov r2, r0, asr #1
-	add r0, sp, #0x24
-	add r1, sp, #0x3c
-	str r2, [sp, #0x2c]
-	bl CPPHelpers__VEC_Add_Alt
-	add r0, sp, #0x18
-	bl CPPHelpers__VEC_Normalize
-	add r0, sp, #0x24
-	bl CPPHelpers__Func_2085F98
-	ldr r2, [r0, #0]
-	add r1, r4, #0x1000
-	str r2, [r1, #0x478]
-	ldr r2, [r0, #4]
-	str r2, [r1, #0x47c]
-	ldr r2, [r0, #8]
-	add r0, sp, #0x18
-	str r2, [r1, #0x480]
-	bl CPPHelpers__Func_2085F98
-	ldr r2, [r0, #0]
-	add r1, r4, #0x1000
-	str r2, [r1, #0x484]
-	ldr r2, [r0, #4]
-	str r2, [r1, #0x488]
-	ldr r0, [r0, #8]
-	str r0, [r1, #0x48c]
-_0215E31C:
-	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Main_215FD48
-	ldr r0, [r0, #0]
-	bl SetTaskMainEvent
-	add sp, sp, #0x48
-	ldmia sp!, {r3, r4, r5, pc}
+    work->field_1470 = 1;
+    work->field_1474 = 0;
+    ViDockPlayer__Func_2166B80(&work->player, 0);
+    if (work->talkNpc != NULL)
+    {
+        VecFx32 v10;
+        CPPHelpers__VEC_SetFromVec_2(&v10, CPPHelpers__Func_2085F9C(&work->player.translation1));
 
-// clang-format on
-#endif
+        VecFx32 v9;
+        CPPHelpers__VEC_SetFromVec_2(&v9, CPPHelpers__Func_2085F9C(&work->talkNpc->translation1));
+
+        VecFx32 a1;
+        VecFx32 vec;
+        CPPHelpers__Func_2085EE8(&a1);
+        CPPHelpers__Func_2085EE8(&vec);
+
+        VecFx32 v6;
+        CPPHelpers__VEC_Subtract_Alt(&v6, &v10, &v9);
+        CPPHelpers__Func_2085FA8(&a1, CPPHelpers__VEC_Normalize(&v6));
+
+        u16 angle = Math__Func_207B1A4(a1.z);
+
+        BOOL flag = a1.x < 0;
+        if (flag)
+            angle = 0x10000 - angle;
+
+        ViDockNpc__SetState1(work->talkNpc, angle);
+        ViDockPlayer__Func_21667A8(&work->player, angle - 0x7FFF, FALSE);
+
+        VecFx32 a2;
+        CPPHelpers__VEC_Subtract_Alt(&a2, &v9, &v10);
+        CPPHelpers__Func_2085FA8(&vec, &a2);
+
+        a1.x = vec.x >> 1;
+        a1.y = vec.y >> 1;
+        a1.z = vec.z >> 1;
+        CPPHelpers__VEC_Add_Alt(&a1, &v10);
+        CPPHelpers__VEC_Normalize(&vec);
+
+        work->field_1478 = *CPPHelpers__Func_2085F98(&a1);
+        work->field_1484 = *CPPHelpers__Func_2085F98(&vec);
+    }
+
+    SetTaskMainEvent(taskSingleton, CViDock::Main_215FD48);
 }
 
-NONMATCH_FUNC void ViDock__Func_215E340(s32 a1, s32 a2)
+void CViDock::Func_215E340(s32 a1, s32 a2)
 {
-#ifdef NON_MATCHING
+    if (taskSingleton == NULL)
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #8
-	ldr r2, =ViDock__TaskSingleton
-	mov r6, r0
-	ldr r0, [r2, #0]
-	mov r5, r1
-	cmp r0, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, r5, r6, pc}
-	bl GetTaskWork_
-	mov r4, r0
-	add r0, r4, #0x1000
-	ldr r1, [r0, #0x470]
-	cmp r1, #0
-	ldrne r0, [r0, #0x468]
-	cmpne r0, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, r5, r6, pc}
-	ldrh r0, [r4, #2]
-	cmp r0, #0
-	bne _0215E3B0
-	ldrh r0, [r4, #0]
-	cmp r0, #7
-	bhs _0215E3B0
-	bl HubConfig__GetDockStageConfig
-	ldr r0, [r0, #0x3c]
-	cmp r0, #0
-	bne _0215E3B4
-_0215E3B0:
-	mov r6, #0
-_0215E3B4:
-	cmp r6, #0
-	beq _0215E3F0
-	ldrh r0, [r4, #0]
-	bl HubConfig__GetDockStageConfig
-	ldrsh r0, [r0, #0x40]
-	add r1, r4, #0x78
-	add r2, r4, #0x84
-	str r0, [sp]
-	add r0, r4, #0x18
-	add r1, r1, #0x1400
-	add r3, r2, #0x1400
-	mov r2, #0x20
-	str r5, [sp, #4]
-	bl ViMapIcon__Func_2163AA0
-	b _0215E3FC
-_0215E3F0:
-	add r0, r4, #0x18
-	mov r1, #0x20
-	bl ViMapIcon__Func_2163C3C
-_0215E3FC:
-	add r0, r4, #0x1000
-	str r6, [r0, #0x474]
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, pc}
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-// clang-format on
-#endif
+    if (work->field_1470 != 0 && work->talkNpc != 0)
+    {
+        if (work->type != CViDock::TYPE_0 || work->area >= CViDock::AREA_COUNT || !HubConfig__GetDockStageConfig(work->area)->field_3C)
+            a1 = 0;
+
+        if (a1)
+        {
+            ViDockDrawState__Func_2163AA0(&work->dockDrawState, &work->field_1478, 32, &work->field_1484, HubConfig__GetDockStageConfig(work->area)->scale, a2);
+        }
+        else
+        {
+            ViDockDrawState__Func_2163C3C(&work->dockDrawState, 32);
+        }
+
+        work->field_1474 = a1;
+    }
 }
 
-NONMATCH_FUNC void ViDock__Func_215E410(void)
+void CViDock::Func_215E410(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	mov r4, r0
-	add r0, r4, #0x1000
-	mov r1, #0
-	str r1, [r0, #0x470]
-	ldr r0, [r0, #0x468]
-	cmp r0, #0
-	beq _0215E45C
-	bl ViDockNpc__SetState2
-	add r0, r4, #0x1000
-	ldr r0, [r0, #0x474]
-	cmp r0, #0
-	beq _0215E45C
-	add r0, r4, #0x18
-	mov r1, #0x20
-	bl ViMapIcon__Func_2163C3C
-_0215E45C:
-	add r2, r4, #0x1000
-	mov r1, #0xc
-	add r0, r4, #0x1f8
-	str r1, [r2, #0x460]
-	mov r3, #0
-	str r3, [r2, #0x464]
-	add r0, r0, #0xc00
-	mov r1, #1
-	str r3, [r2, #0x468]
-	bl ViDockPlayer__Func_2166B80
-	ldr r0, =ViDock__TaskSingleton
-	ldr r1, =ViDock__Main_215F9CC
-	ldr r0, [r0, #0]
-	bl SetTaskMainEvent
-	ldmia sp!, {r4, pc}
+    work->field_1470 = 0;
 
-// clang-format on
-#endif
+    CViDockNpc *npc = work->talkNpc;
+    if (npc != NULL)
+    {
+        ViDockNpc__SetState2(npc);
+        if (work->field_1474)
+            ViDockDrawState__Func_2163C3C(&work->dockDrawState, 32);
+    }
+    work->talkActionType  = CVIDOCKNPCTALK_INVALID;
+    work->talkActionParam = 0;
+    work->talkNpc         = NULL;
+
+    ViDockPlayer__Func_2166B80(&work->player, TRUE);
+    SetTaskMainEvent(taskSingleton, CViDock::Main_215F9CC);
 }
 
-NONMATCH_FUNC BOOL ViDock__Func_215E4A0(void)
+BOOL CViDock::Func_215E4A0(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	ldr r0, [r0, #0xc]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    return work->field_C;
 }
 
-NONMATCH_FUNC void ViDock__Func_215E4BC(s32 a1)
+void CViDock::Func_215E4BC(s32 a1)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, =ViDock__TaskSingleton
-	mov r4, r0
-	ldr r0, [r1, #0]
-	bl GetTaskWork_
-	str r4, [r0, #0x10]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    work->field_10 = a1;
 }
 
-NONMATCH_FUNC void ViDock__Func_215E4DC(void)
+void CViDock::Func_215E4DC(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	ldr r0, =ViDock__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	mov r5, r0
-	add r0, r5, #0xe00
-	ldrh r4, [r0, #0x32]
-	bl CPPHelpers__Func_2085F9C
-	mov r1, r0
-	mov r2, r4
-	mov r0, #0
-	bl HubState__SetPlayerState
-	add r0, r5, #0x1000
-	ldr r4, [r0, #0x138]
-	mov r6, #0
-	cmp r4, #0
-	moveq r4, #0
-	cmp r4, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	add r5, r5, #0x130
-_0215E52C:
-	ldrh r7, [r4, #0x3a]
-	ldr r8, [r4, #0x30c]
-	add r0, r4, #8
-	bl CPPHelpers__Func_2085F9C
-	mov r1, r0
-	mov r0, r6
-	mov r2, r7
-	mov r3, r8
-	bl HubState__SetNpcState
-	mov r1, r4
-	add r0, r5, #0x1000
-	bl _ZN15CViDockNpcGroup10GetNextNpcEP20CViDockNpcGroupEntry
-	add r1, r6, #1
-	movs r4, r0
-	mov r0, r1, lsl #0x10
-	mov r6, r0, lsr #0x10
-	bne _0215E52C
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+    u16 playerAngle    = work->player.currentTurnAngle;
+    VecFx32 *playerPos = CPPHelpers__Func_2085F9C(&work->player.translation1);
+    HubState__SetPlayerState(0, playerPos, playerAngle);
 
-// clang-format on
-#endif
+    CViDockNpcGroupEntry *entry = work->npcGroup.GetFirstNpc();
+
+    u16 id = 0;
+    while (entry != NULL)
+    {
+        u16 npcAngle    = entry->npc.currentTurnAngle;
+        s32 npcUnknown  = entry->npc.field_30C;
+        VecFx32 *npcPos = CPPHelpers__Func_2085F9C(&entry->npc.translation1);
+        HubState__SetNpcState(id, npcPos, npcAngle, npcUnknown);
+
+        entry = work->npcGroup.GetNextNpc(entry);
+        id++;
+    }
 }
 
-NONMATCH_FUNC void ViDock__Func_215E578(BOOL a1)
+void CViDock::Func_215E578(BOOL a1)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	ldr r1, =ViDock__TaskSingleton
-	mov r4, r0
-	ldr r0, [r1, #0]
-	bl GetTaskWork_
-	mov r5, r0
-	mov r0, #0
-	bl HubState__CheckHasPlayerState
-	cmp r0, #0
-	beq _0215E5CC
-	mov r0, #0
-	bl HubState__GetPlayerPosition
-	mov r1, r0
-	add r0, r5, #0xe00
-	bl CPPHelpers__VEC_Copy_Alt
-	mov r0, #0
-	bl HubState__GetPlayerAngle
-	add r1, r5, #0xe00
-	strh r0, [r1, #0x30]
-	ldrh r0, [r1, #0x30]
-	strh r0, [r1, #0x32]
-_0215E5CC:
-	add r0, r5, #0x1000
-	ldr r7, [r0, #0x138]
-	mov r6, #0
-	cmp r7, #0
-	moveq r7, #0
-	cmp r7, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	add r5, r5, #0x130
-_0215E5EC:
-	mov r0, r6
-	bl HubState__CheckHasNpcState
-	cmp r0, #0
-	beq _0215E630
-	mov r0, r6
-	bl HubState__GetNpcPosition
-	mov r1, r0
-	add r0, r7, #8
-	bl CPPHelpers__VEC_Copy_Alt
-	cmp r4, #0
-	beq _0215E624
-	mov r0, r6
-	bl HubState__GetNpcAngle
-	strh r0, [r7, #0x38]
-_0215E624:
-	mov r0, r6
-	bl HubState__GetNpcUnknown
-	str r0, [r7, #0x30c]
-_0215E630:
-	mov r1, r7
-	add r0, r5, #0x1000
-	bl _ZN15CViDockNpcGroup10GetNextNpcEP20CViDockNpcGroupEntry
-	add r1, r6, #1
-	movs r7, r0
-	mov r0, r1, lsl #0x10
-	mov r6, r0, lsr #0x10
-	bne _0215E5EC
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    if (HubState__CheckHasPlayerState(0))
+    {
+        CPPHelpers__VEC_Copy_Alt(&work->player.translation1, HubState__GetPlayerPosition(0));
+        work->player.targetTurnAngle  = HubState__GetPlayerAngle(0);
+        work->player.currentTurnAngle = work->player.targetTurnAngle;
+    }
 
-// clang-format on
-#endif
+    CViDockNpcGroupEntry *entry = work->npcGroup.GetFirstNpc();
+
+    u16 id = 0;
+    while (entry != NULL)
+    {
+        if (HubState__CheckHasNpcState(id))
+        {
+            CPPHelpers__VEC_Copy_Alt(&entry->npc.translation1, HubState__GetNpcPosition(id));
+
+            if (a1)
+                entry->npc.targetTurnAngle = HubState__GetNpcAngle(id);
+
+            entry->npc.field_30C = HubState__GetNpcUnknown(id);
+        }
+
+        entry = work->npcGroup.GetNextNpc(entry);
+        id++;
+    }
 }
 
-NONMATCH_FUNC void ViDock__Func_215E658(s32 a1)
+void CViDock::Func_215E658(s32 a1)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, =ViDock__TaskSingleton
-	mov r4, r0
-	ldr r0, [r1, #0]
-	bl GetTaskWork_
-	str r4, [r0, #0x14]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    work->field_14 = a1;
 }
 
-NONMATCH_FUNC void ViDock__Func_215E678(CViDock *work)
+void CViDock::Func_215E678(CViDock *work)
 {
-#ifdef NON_MATCHING
+    CViDock::LoadPlayer(work, 8);
+    CViDock::Func_215E9F4(work, FALSE);
+    CViDock::Func_215EA8C(work);
+    CViDock::CreateNpcs(work);
+    work->shadow.LoadAssets();
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r1, #8
-	bl ViDock__Func_215E754
-	mov r0, r4
-	mov r1, #0
-	bl ViDock__Func_215E9F4
-	mov r0, r4
-	bl ViDock__Func_215EA8C
-	mov r0, r4
-	bl ViDock__Func_215EB04
-	add r0, r4, #0x48
-	add r0, r0, #0x1400
-	bl _ZN9CViShadow10LoadAssetsEv
-	add r0, r4, #0x490
-	add r0, r0, #0x1000
-	bl FontWindowAnimator__Init
-	add r0, r4, #0xf4
-	add r0, r0, #0x1400
-	bl FontAnimator__Init
-	add r0, r4, #0x1000
-	mov r1, #0
-	str r1, [r0, #0x46c]
-	mov r0, #1
-	str r0, [r4, #0xc]
-	str r1, [r4, #0x14]
-	ldmia sp!, {r4, pc}
+    FontWindowAnimator__Init(&work->fontWindowAnimator);
+    FontAnimator__Init(&work->fontAnimator);
 
-// clang-format on
-#endif
+    work->field_146C = 0;
+    work->field_C    = 1;
+    work->field_14   = 0;
 }
 
-NONMATCH_FUNC void ViDock__Func_215E6E4(CViDock *work)
+void CViDock::Func_215E6E4(CViDock *work)
 {
-#ifdef NON_MATCHING
+    ReleaseThreadWorker(&work->thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r0, r4, #0x32c
-	add r0, r0, #0x1800
-	bl ReleaseThreadWorker
-	add r0, r4, #0x48
-	add r1, r4, #0x1000
-	mov r2, #0
-	add r0, r0, #0x1400
-	str r2, [r1, #0xb28]
-	bl _ZN9CViShadow12Func_2167E9CEv
-	mov r0, r4
-	bl ViDock__Func_215EF3C
-	mov r0, r4
-	bl ViDock__Func_215EE58
-	mov r0, r4
-	bl ViDock__Func_215EC44
-	mov r0, r4
-	bl ViDock__Func_215EAF4
-	mov r0, r4
-	bl ViDock__Func_215EA7C
-	mov r0, r4
-	bl ViDock__Func_215E81C
-	add r0, r4, #0x1000
-	mov r1, #0
-	str r1, [r0, #0x46c]
-	str r1, [r4, #0xc]
-	ldmia sp!, {r4, pc}
+    work->field_1B28 = 0;
 
-// clang-format on
-#endif
+    work->shadow.Func_2167E9C();
+
+    CViDock::Func_215EF3C(work);
+    CViDock::Func_215EE58(work);
+    CViDock::ClearNpcGroup(work);
+    CViDock::Func_215EAF4(work);
+    CViDock::Func_215EA7C(work);
+    CViDock::Func_215E81C(work);
+
+    work->field_146C = 0;
+    work->field_C    = 0;
 }
 
-NONMATCH_FUNC void ViDock__Func_215E754(void)
+void CViDock::LoadPlayer(CViDock *work, s32 area)
 {
-#ifdef NON_MATCHING
+    ViDockPlayer__LoadAssets(&work->player);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #0x10
-	mov r4, r0
-	add r0, r4, #0x1f8
-	add r0, r0, #0xc00
-	mov r5, r1
-	bl ViDockPlayer__LoadAssets
-	ldrh r0, [r4, #0]
-	cmp r0, #7
-	addhs sp, sp, #0x10
-	ldmhsia sp!, {r3, r4, r5, pc}
-	ldrh r1, [r4, #2]
-	cmp r1, #0
-	bne _0215E7A0
-	add r1, sp, #4
-	add r2, sp, #0
-	mov r3, r5
-	bl ViDockBack__Func_2164C20
-	b _0215E7B4
-_0215E7A0:
-	mov r0, #0
-	str r0, [sp, #0xc]
-	str r0, [sp, #8]
-	str r0, [sp, #4]
-	strh r0, [sp]
-_0215E7B4:
-	add r1, sp, #4
-	add r0, r4, #0xe00
-	bl CPPHelpers__VEC_Copy_Alt
-	add r0, r4, #0x1f8
-	ldrh r1, [sp]
-	add r0, r0, #0xc00
-	mov r2, #1
-	bl ViDockPlayer__Func_21667A8
-	ldrh r0, [r4, #0]
-	bl HubConfig__GetDockStageConfig
-	ldrsh r2, [r0, #0x40]
-	add r0, r4, #0x218
-	add r1, sp, #4
-	str r2, [sp, #0xc]
-	str r2, [sp, #8]
-	str r2, [sp, #4]
-	add r0, r0, #0xc00
-	bl CPPHelpers__VEC_Copy_Alt
-	ldrh r0, [r4, #0]
-	bl HubConfig__GetDockStageConfig
-	add r2, r4, #0x1f8
-	ldr r1, [r0, #0x38]
-	add r0, r2, #0xc00
-	bl ViDockPlayer__Func_2166B90
-	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, pc}
+    if (work->area < CViDock::AREA_COUNT)
+    {
+        VecFx32 position;
+        u16 angle;
+        if (work->type == CViDock::TYPE_0)
+        {
+            ViDockBack__GetPlayerSpawnConfig(work->area, &position, &angle, area);
+        }
+        else
+        {
+            position.x = position.y = position.z = 0;
+            angle                                = 0;
+        }
 
-// clang-format on
-#endif
+        CPPHelpers__VEC_Copy_Alt(&work->player.translation1, &position);
+        ViDockPlayer__Func_21667A8(&work->player, angle, TRUE);
+
+        position.x = position.y = position.z = HubConfig__GetDockStageConfig(work->area)->scale;
+        CPPHelpers__VEC_Copy_Alt(&work->player.scale1, &position);
+
+        ViDockPlayer__Func_2166B90(&work->player, HubConfig__GetDockStageConfig(work->area)->playerTopSpeed);
+    }
 }
 
-NONMATCH_FUNC void ViDock__Func_215E81C(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =ViDockPlayer__Func_2166748
-	add r0, r0, #0x1f8
-	add r0, r0, #0xc00
-	bx ip
-
-// clang-format on
-#endif
+void CViDock::Func_215E81C(CViDock *work)
+{
+    ViDockPlayer__Func_2166748(&work->player);
 }
 
-NONMATCH_FUNC void ViDock__Func_215E830(void)
+NONMATCH_FUNC void CViDock::HandlePlayerMovement(CViDock *work)
 {
+    // https://decomp.me/scratch/t8Mfr -> 98.94%
 #ifdef NON_MATCHING
+    if (work->field_8)
+    {
+        BOOL isMoving  = FALSE;
+        BOOL isRunning = FALSE;
+        s32 angle;
 
+        BOOL touchEnabled = IsTouchInputEnabled() && TOUCH_HAS_ON(touchInput.flags);
+        if (touchEnabled && HubControl::Func_2157178())
+        {
+            VecFx32 vec;
+            CPPHelpers__Func_2085EE8(&vec);
+            u16 onX = touchInput.on.x;
+            u16 onY = touchInput.on.y;
+
+            int px;
+            int py;
+            NNS_G3dWorldPosToScrPos(CPPHelpers__Func_2085F9C(&work->player.translation1), &px, &py);
+
+            vec.x = FX32_FROM_WHOLE(onX - px);
+            vec.y = FX32_FROM_WHOLE(onY - py);
+            vec.z = 0;
+
+            if (MATH_ABS(vec.x) > FLOAT_TO_FX32(64.0) || MATH_ABS(vec.y) > FLOAT_TO_FX32(48.0))
+                isRunning = TRUE;
+
+            s32 magnitude;
+            CPPHelpers__VEC_Magnitude(&magnitude, &vec);
+            if (FX32_TO_WHOLE(magnitude) >= 4)
+            {
+                CPPHelpers__VEC_Normalize(&vec);
+                angle    = FX_Atan2Idx(vec.x, vec.y);
+                isMoving = TRUE;
+            }
+        }
+
+        if (isMoving == FALSE)
+        {
+            if ((padInput.btnDown & PAD_KEY_UP) != 0)
+            {
+                if ((padInput.btnDown & PAD_KEY_LEFT) != 0)
+                {
+                    angle = FLOAT_DEG_TO_IDX(225.0);
+                }
+                else if ((padInput.btnDown & PAD_KEY_RIGHT) != 0)
+                {
+                    angle = FLOAT_DEG_TO_IDX(135.0);
+                }
+                else
+                {
+                    angle = FLOAT_DEG_TO_IDX(180.0);
+                }
+            }
+            else if ((padInput.btnDown & PAD_KEY_DOWN) != 0)
+            {
+                if ((padInput.btnDown & PAD_KEY_LEFT) != 0)
+                {
+                    angle = FLOAT_DEG_TO_IDX(315.0);
+                }
+                else if ((padInput.btnDown & PAD_KEY_RIGHT) != 0)
+                {
+                    angle = FLOAT_DEG_TO_IDX(45.0);
+                }
+                else
+                {
+                    angle = FLOAT_DEG_TO_IDX(0.0);
+                }
+            }
+            else
+            {
+                if ((padInput.btnDown & PAD_KEY_LEFT) != 0)
+                {
+                    angle = FLOAT_DEG_TO_IDX(270.0);
+                }
+                else if ((padInput.btnDown & PAD_KEY_RIGHT) != 0)
+                {
+                    angle = FLOAT_DEG_TO_IDX(90.0);
+                }
+                else
+                {
+                    angle = -1;
+                }
+            }
+
+            if (angle >= 0)
+            {
+                isMoving = TRUE;
+                if ((padInput.btnDown & PAD_BUTTON_B) != 0)
+                    isRunning = TRUE;
+            }
+        }
+
+        if (isMoving)
+            ViDockPlayer__Func_21667BC(&work->player, angle, isRunning);
+    }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -1356,485 +859,291 @@ _0215E9C0:
 #endif
 }
 
-NONMATCH_FUNC void ViDock__Func_215E9F4(void)
+void CViDock::Func_215E9F4(CViDock *work, BOOL a2)
 {
-#ifdef NON_MATCHING
+    s32 areaID = DOCKAREA_INVALID;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldrh r0, [r5, #2]
-	mov r4, r1
-	mov r1, #9
-	cmp r0, #0
-	beq _0215EA24
-	cmp r0, #1
-	beq _0215EA3C
-	cmp r0, #2
-	beq _0215EA54
-	b _0215EA68
-_0215EA24:
-	ldrh r0, [r5, #0]
-	cmp r0, #7
-	bhs _0215EA68
-	bl HubConfig__GetDockStageConfig
-	ldr r1, [r0, #0]
-	b _0215EA68
-_0215EA3C:
-	ldrh r0, [r5, #0]
-	cmp r0, #8
-	bhs _0215EA68
-	bl HubConfig__GetDockUnknownConfig
-	ldr r1, [r0, #0]
-	b _0215EA68
-_0215EA54:
-	ldrh r0, [r5, #0]
-	cmp r0, #5
-	bhs _0215EA68
-	bl HubConfig__GetDockMapConfig
-	ldr r1, [r0, #0]
-_0215EA68:
-	mov r3, r4
-	add r0, r5, #0xf8
-	mov r2, #0
-	bl ViDockBack__LoadAssets
-	ldmia sp!, {r3, r4, r5, pc}
+    switch (work->type)
+    {
+        case CViDock::TYPE_0:
+            if (work->area < CViDock::AREA_COUNT)
+                areaID = HubConfig__GetDockStageConfig(work->area)->areaID;
+            break;
 
-// clang-format on
-#endif
+        case CViDock::TYPE_1:
+            if (work->area < 8)
+                areaID = HubConfig__GetDockUnknownConfig(work->area)->areaID;
+            break;
+
+        case CViDock::TYPE_2:
+            if (work->area < 5)
+                areaID = HubConfig__GetDockMapConfig(work->area)->areaID;
+            break;
+    }
+
+    ViDockBack__LoadAssets(&work->dockBack, areaID, FALSE, a2);
 }
 
-NONMATCH_FUNC void ViDock__Func_215EA7C(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =ViDockBack__Func_2164968
-	add r0, r0, #0xf8
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDock__Func_215EA8C(void)
+void CViDock::Func_215EA7C(CViDock *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldrh r0, [r4, #2]
-	mov r1, #9
-	cmp r0, #1
-	bne _0215EAC0
-	ldrh r0, [r4, #0]
-	cmp r0, #8
-	bhs _0215EAB8
-	bl HubConfig__GetDockUnknownConfig
-	ldr r1, [r0, #0]
-_0215EAB8:
-	mov r2, #1
-	b _0215EAE8
-_0215EAC0:
-	cmp r0, #2
-	moveq r1, #0
-	moveq r2, #2
-	beq _0215EAE8
-	ldrh r0, [r4, #0]
-	cmp r0, #7
-	bhs _0215EAE4
-	bl HubConfig__GetDockStageConfig
-	ldr r1, [r0, #0]
-_0215EAE4:
-	mov r2, #0
-_0215EAE8:
-	add r0, r4, #0x18
-	bl ViMapIcon__Func_21639A4
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    ViDockBack__Func_2164968(&work->dockBack);
 }
 
-NONMATCH_FUNC void ViDock__Func_215EAF4(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =ViMapIcon__Func_2163A50
-	add r0, r0, #0x18
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDock__Func_215EB04(void)
+void CViDock::Func_215EA8C(CViDock *work)
 {
-#ifdef NON_MATCHING
+    s32 area = DOCKAREA_INVALID;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x24
-	mov r10, r0
-	ldrh r1, [r10, #0]
-	cmp r1, #7
-	bhs _0215EC28
-	ldr r0, =ovl05_02172EBC
-	mov r1, r1, lsl #1
-	ldrh r11, [r0, r1]
-	ldr r0, =ovl05_02172ECA
-	mov r4, #0
-	ldrh r0, [r0, r1]
-	cmp r11, #0
-	str r0, [sp, #4]
-	ble _0215EC28
-	add r0, r10, #0x130
-	str r0, [sp, #8]
-_0215EB48:
-	ldr r0, [sp, #4]
-	add r5, r0, r4
-	mov r0, r5
-	bl _ZN10HubControl12Func_215B850El
-	cmp r0, #0
-	beq _0215EC1C
-	mov r0, r5
-	bl _ZN10HubControl12Func_215B858El
-	cmp r0, #0
-	beq _0215EC1C
-	mov r0, r5, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl HubConfig__GetNpcConfig
-	mov r6, r0
-	ldr r0, [r6, #8]
-	blx r0
-	mov r7, r0
-	ldr r0, [sp, #8]
-	add r0, r0, #0x1000
-	bl _ZN15CViDockNpcGroup6AddNpcEv
-	ldrsh r1, [r6, #4]
-	ldrsh r3, [r6, #6]
-	mov r8, r0
-	sub r0, r5, #7
-	cmp r0, #1
-	movhi r9, #1
-	add r0, sp, #0xc
-	mov r2, #0
-	mov r1, r1, lsl #0xc
-	mov r3, r3, lsl #0xc
-	movls r9, #0
-	bl CPPHelpers__VEC_Set
-	add r0, sp, #0xc
-	bl CPPHelpers__Func_2085F98
-	str r9, [sp]
-	mov r2, r0
-	ldrh r3, [r6, #2]
-	mov r1, r5
-	mov r0, r8
-	bl ViDockNpc__LoadAssets
-	ldrh r0, [r10, #0]
-	bl HubConfig__GetDockStageConfig
-	ldrsh r2, [r0, #0x40]
-	add r0, r8, #0x20
-	add r1, sp, #0x18
-	str r2, [sp, #0x20]
-	str r2, [sp, #0x1c]
-	str r2, [sp, #0x18]
-	bl CPPHelpers__VEC_Copy_Alt
-	ldrh r1, [r7, #2]
-	ldrh r0, [r7, #0]
-	str r0, [r8, #0x304]
-	str r1, [r8, #0x308]
-_0215EC1C:
-	add r4, r4, #1
-	cmp r4, r11
-	blt _0215EB48
-_0215EC28:
-	add r0, r10, #0x130
-	add r0, r0, #0x1000
-	bl _ZN15CViDockNpcGroup10LoadAssetsEv
-	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    s32 type;
+    if (work->type == CViDock::TYPE_1)
+    {
+        if (work->area < 8)
+            area = HubConfig__GetDockUnknownConfig(work->area)->areaID;
 
-// clang-format on
-#endif
+        type = CViDock::TYPE_1;
+    }
+    else if (work->type == CViDock::TYPE_2)
+    {
+        area = 0;
+
+        type = CViDock::TYPE_2;
+    }
+    else
+    {
+        if (work->area < CViDock::AREA_COUNT)
+            area = HubConfig__GetDockStageConfig(work->area)->areaID;
+
+        type = CViDock::TYPE_0;
+    }
+
+    ViDockDrawState__Func_21639A4(&work->dockDrawState, area, type);
 }
 
-NONMATCH_FUNC void ViDock__Func_215EC44(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =_ZN15CViDockNpcGroup12ClearNpcListEv
-	add r0, r0, #0x130
-	add r0, r0, #0x1000
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDock__Func_215EC58(void)
+void CViDock::Func_215EAF4(CViDock *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #0x38
-	ldrh r4, [r0, #0]
-	cmp r4, #7
-	addhs sp, sp, #0x38
-	movhs r0, #0
-	ldmhsia sp!, {r4, r5, r6, pc}
-	ldr r6, =ovl05_02172ED8
-	add r5, sp, #0
-	mov r4, #0xe
-_0215EC80:
-	ldrh lr, [r6]
-	ldrh ip, [r6, #2]
-	add r6, r6, #4
-	strh lr, [r5]
-	strh ip, [r5, #2]
-	add r5, r5, #4
-	subs r4, r4, #1
-	bne _0215EC80
-	ldrh ip, [r0]
-	add lr, sp, #0
-	mov r0, ip, lsl #3
-	ldrsh r0, [lr, r0]
-	add ip, lr, ip, lsl #3
-	add r0, r3, r0
-	cmp r1, r0
-	blt _0215ECFC
-	ldrsh r0, [ip, #4]
-	add r0, r3, r0
-	cmp r1, r0
-	bgt _0215ECFC
-	ldrsh r0, [ip, #2]
-	ldr r1, [sp, #0x48]
-	add r0, r1, r0
-	cmp r2, r0
-	blt _0215ECFC
-	ldrsh r0, [ip, #6]
-	add r0, r1, r0
-	cmp r2, r0
-	addle sp, sp, #0x38
-	movle r0, #1
-	ldmleia sp!, {r4, r5, r6, pc}
-_0215ECFC:
-	mov r0, #0
-	add sp, sp, #0x38
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    ViDockDrawState__Func_2163A50(&work->dockDrawState);
 }
 
-NONMATCH_FUNC void ViDock__Func_215ED0C(void)
+void CViDock::CreateNpcs(CViDock *work)
 {
-#ifdef NON_MATCHING
+    static const u16 npcCountForArea[CViDock::AREA_COUNT]     = { 5, 4, 4, 3, 2, 2, 2 };
+    static const u16 npcStartTypeForArea[CViDock::AREA_COUNT] = { 0, 5, 9, 13, 16, 18, 20 };
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0x24
-	mov r4, r0
-	bl _ZN10HubControl17GetFileFrom_ViMsgEv
-	mov r1, #0xd
-	bl FileUnknown__GetAOUFile
-	mov r5, r0
-	bl _ZN10HubControl10GetField54Ev
-	mov r1, r0
-	mov r0, #0x13
-	str r0, [sp]
-	mov r0, #0x1e
-	str r0, [sp, #4]
-	mov r0, #4
-	str r0, [sp, #8]
-	mov r2, #0
-	str r2, [sp, #0xc]
-	str r2, [sp, #0x10]
-	str r2, [sp, #0x14]
-	str r0, [sp, #0x18]
-	add r0, r4, #0xf4
-	add r0, r0, #0x1400
-	mov r3, #1
-	bl FontAnimator__LoadFont2
-	add r0, r4, #0xf4
-	mov r1, r5
-	add r0, r0, #0x1400
-	bl FontAnimator__LoadMPCFile
-	ldrh r0, [r4, #0]
-	bl HubConfig__GetDockMapConfig
-	ldrh r1, [r0, #0x12]
-	add r0, r4, #0xf4
-	add r0, r0, #0x1400
-	bl FontAnimator__SetMsgSequence
-	add r0, r4, #0xf4
-	add r0, r0, #0x1400
-	mov r1, #1
-	mov r2, #0
-	bl FontAnimator__InitStartPos
-	add r0, r4, #0xf4
-	add r0, r0, #0x1400
-	bl FontAnimator__LoadPaletteFunc2
-	add r0, r4, #0xf4
-	add r0, r0, #0x1400
-	mov r1, #0
-	bl FontAnimator__GetDialogLineCount
-	cmp r0, #1
-	movne r5, #0x12
-	movne r6, #6
-	bne _0215EDEC
-	add r0, r4, #0xf4
-	add r0, r0, #0x1400
-	mov r1, #0x10
-	bl FontAnimator__AdvanceLine
-	mov r5, #0x14
-	mov r6, #4
-_0215EDEC:
-	add r0, r4, #0xf4
-	add r0, r0, #0x1400
-	mov r1, #0
-	bl FontAnimator__LoadCharacters
-	bl _ZN10HubControl10GetField54Ev
-	mov r2, #0
-	mov r1, #2
-	stmia sp, {r1, r2, r5}
-	mov r1, #0x20
-	str r1, [sp, #0xc]
-	str r6, [sp, #0x10]
-	str r2, [sp, #0x14]
-	mov r1, r0
-	str r2, [sp, #0x18]
-	mov lr, #1
-	add ip, r4, #0x490
-	str lr, [sp, #0x1c]
-	mov r0, #5
-	str r0, [sp, #0x20]
-	mov r3, r2
-	add r0, ip, #0x1000
-	bl FontWindowAnimator__Load2
-	add r0, r4, #0x490
-	add r0, r0, #0x1000
-	bl FontWindowAnimator__Func_20599B4
-	add sp, sp, #0x24
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    if (work->area < CViDock::AREA_COUNT)
+    {
+        u16 count     = npcCountForArea[work->area];
+        s32 startType = npcStartTypeForArea[work->area];
 
-// clang-format on
-#endif
+        for (s32 i = 0; i < count; i++)
+        {
+            s32 type = startType + i;
+            if (HubControl::Func_215B850(type) && HubControl::Func_215B858(type))
+            {
+                const HubNpcSpawnConfig *config            = HubConfig__GetNpcConfig(type);
+                const HubNpcTalkActionConfig *actionConfig = config->getActionConfig();
+
+                CViDockNpcGroupEntry *entry = work->npcGroup.AddNpc();
+                BOOL snapToAngle;
+                if (type == 7 || type == 8)
+                    snapToAngle = FALSE;
+                else
+                    snapToAngle = TRUE;
+
+                VecFx32 a2;
+                VecFx32 a1a;
+                CPPHelpers__VEC_Set(&a1a, FX32_FROM_WHOLE(config->spawnX), FLOAT_TO_FX32(0.0), FX32_FROM_WHOLE(config->spawnZ));
+                ViDockNpc__LoadAssets(&entry->npc, type, CPPHelpers__Func_2085F98(&a1a), config->spawnAngle, snapToAngle);
+
+                a2.x = a2.y = a2.z = HubConfig__GetDockStageConfig(work->area)->scale;
+                CPPHelpers__VEC_Copy_Alt(&entry->npc.scale1, &a2);
+
+                u32 type  = actionConfig->talkActionType;
+                u32 param = actionConfig->talkActionParam;
+
+                entry->npc.talkActionType  = type;
+                entry->npc.talkActionParam = param;
+            }
+        }
+    }
+
+    work->npcGroup.LoadAssets();
 }
 
-NONMATCH_FUNC void ViDock__Func_215EE58(void)
+void CViDock::ClearNpcGroup(CViDock *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r0, r4, #0x490
-	add r0, r0, #0x1000
-	bl FontWindowAnimator__Release
-	add r0, r4, #0xf4
-	add r0, r0, #0x1400
-	bl FontAnimator__Release
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    work->npcGroup.ClearNpcList();
 }
 
-NONMATCH_FUNC void ViDock__Func_215EE7C(void)
+BOOL CViDock::CheckTouchRect(CViDock *work, s32 touchX, s32 touchY, int px, int py)
 {
-#ifdef NON_MATCHING
+    if (work->area >= CViDock::AREA_COUNT)
+        return FALSE;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r0, r4, #0xf4
-	add r0, r0, #0x1400
-	bl FontAnimator__Draw
-	add r0, r4, #0x490
-	add r0, r0, #0x1000
-	bl FontWindowAnimator__Draw
-	ldmia sp!, {r4, pc}
+    const HitboxRect areaRects[CViDock::AREA_COUNT] = {
+        { -16, -32, 16, 8 }, { -16, -32, 16, 8 }, { -16, -32, 16, 8 }, { -12, -24, 12, 4 }, { -12, -24, 12, 4 }, { -12, -24, 12, 4 }, { -12, -24, 12, 4 },
+    };
 
-// clang-format on
-#endif
+    const HitboxRect *rect = &areaRects[work->area];
+    return touchX >= px + rect->left && touchX <= px + rect->right && touchY >= py + rect->top && touchY <= py + rect->bottom;
 }
 
-NONMATCH_FUNC void ViDock__Func_215EEA0(void)
+void CViDock::Func_215ED0C(CViDock *work)
 {
-#ifdef NON_MATCHING
+    void *msgShipComp = FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsg(), ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_AN_SHIP_COMP_MPC);
+    FontAnimator__LoadFont2(&work->fontAnimator, HubControl::GetField54(), 0, PIXEL_TO_TILE(8), PIXEL_TO_TILE(152), PIXEL_TO_TILE(240), PIXEL_TO_TILE(32), GRAPHICS_ENGINE_A,
+                            SPRITE_PRIORITY_0, SPRITE_ORDER_0, PALETTE_ROW_4);
+    FontAnimator__LoadMPCFile(&work->fontAnimator, msgShipComp);
+    FontAnimator__SetMsgSequence(&work->fontAnimator, HubConfig__GetDockMapConfig(work->area)->msgSeqShipCompleted);
+    FontAnimator__InitStartPos(&work->fontAnimator, 1, 0);
+    FontAnimator__LoadPaletteFunc2(&work->fontAnimator);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r0
-	mov r0, #0x10000
-	mov r1, #0x10
-	bl FX_DivS32
-	mov r3, #0
-	ldr r5, =FX_SinCosTable_
-	mov r1, r3
-	mov r2, r4
-	mov ip, r0, lsl #0x10
-_0215EEC8:
-	mov r0, r3, asr #4
-	mov r6, r0, lsl #1
-	add r0, r5, r6, lsl #1
-	ldrsh lr, [r0, #2]
-	add r0, r2, #0x1000
-	add r3, r3, ip, lsr #16
-	str lr, [r0, #0x5bc]
-	mov lr, r6, lsl #1
-	ldrsh lr, [r5, lr]
-	mov r3, r3, lsl #0x10
-	add r1, r1, #1
-	str lr, [r0, #0x5c0]
-	cmp r1, #0x10
-	mov r3, r3, lsr #0x10
-	add r2, r2, #0xc
-	blt _0215EEC8
-	add r2, r4, #0x1600
-	mov r3, #0
-	mov r0, #0x1000
-	mov r1, #6
-	strh r3, [r2, #0x7c]
-	bl FX_DivS32
-	add r1, r4, #0x1600
-	strh r0, [r1, #0x7e]
-	add r0, r4, #0x1000
-	mov r1, #0
-	str r1, [r0, #0x680]
-	ldmia sp!, {r4, r5, r6, pc}
+    u16 startY;
+    u16 sizeY;
+    if (FontAnimator__GetDialogLineCount(&work->fontAnimator, 0) == 1)
+    {
+        FontAnimator__AdvanceLine(&work->fontAnimator, 16);
+        startY = PIXEL_TO_TILE(160);
+        sizeY  = PIXEL_TO_TILE(32);
+    }
+    else
+    {
+        startY = PIXEL_TO_TILE(144);
+        sizeY  = PIXEL_TO_TILE(48);
+    }
 
-// clang-format on
-#endif
+    FontAnimator__LoadCharacters(&work->fontAnimator, 0);
+    FontWindowAnimator__Load2(&work->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG,
+                              PIXEL_TO_TILE(0), startY, PIXEL_TO_TILE(HW_LCD_WIDTH), sizeY, GRAPHICS_ENGINE_A, SPRITE_PRIORITY_0, SPRITE_ORDER_1, PALETTE_ROW_5);
+    FontWindowAnimator__Func_20599B4(&work->fontWindowAnimator);
 }
 
-NONMATCH_FUNC void ViDock__Func_215EF3C(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDock__Func_215EF40(void)
+void CViDock::Func_215EE58(CViDock *work)
 {
-#ifdef NON_MATCHING
+    FontWindowAnimator__Release(&work->fontWindowAnimator);
+    FontAnimator__Release(&work->fontAnimator);
+}
 
+void CViDock::Func_215EE7C(CViDock *work)
+{
+    FontAnimator__Draw(&work->fontAnimator);
+    FontWindowAnimator__Draw(&work->fontWindowAnimator);
+}
+
+void CViDock::Func_215EEA0(CViDock *work)
+{
+    u16 step  = FX_DivS32(FLOAT_TO_FX32(16.0), 16);
+    u16 angle = 0;
+    for (s32 i = 0; i < 16; i++)
+    {
+        work->field_15BC[i].x = CosFX(angle);
+        work->field_15BC[i].y = SinFX(angle);
+
+        angle += step;
+    }
+
+    work->field_167C = 0;
+    work->field_167E = FX_DivS32(FLOAT_TO_FX32(1.0), 6);
+    work->field_1680 = 0;
+}
+
+void CViDock::Func_215EF3C(CViDock *work)
+{
+    // Nothing to do.
+}
+
+NONMATCH_FUNC void CViDock::Func_215EF40(CViDock *work)
+{
+    // https://decomp.me/scratch/6UpB7 -> 98.34%
+#ifdef NON_MATCHING
+    s32 c;
+
+    work->field_1684[0] = 0;
+
+    s16 value = work->field_167C;
+    for (c = 1; c < 7; c++)
+    {
+        work->field_1684[c] = value;
+
+        value += work->field_167E;
+    }
+    work->field_1684[7] = 4096;
+
+    for (c = 1; c < 7; c++)
+    {
+        work->colors[c - 1] = ovl05_02172EB4[(work->field_1680 + c) & 3];
+    }
+
+    GXRgb color1;
+    GXRgb color2;
+
+    s16 value2 = 0x1000 - work->field_1684[6];
+    switch (work->field_1680 & 3)
+    {
+        case 0:
+            color1 = 0x7BF7;
+            color2 = 28640;
+            break;
+
+        case 1:
+            color1 = 28640;
+            color2 = 0x7BF7;
+            break;
+
+        case 2:
+            color1 = 0x7BF7;
+            color2 = 0x7FFF;
+            break;
+
+        case 3:
+            color1 = 0x7FFF;
+            color2 = 0x7BF7;
+            break;
+    }
+    work->field_1684[8] = Unknown2051334__Func_20516EC(color1, color2, work->field_167E, value2);
+
+    switch ((work->field_1680 + 7) & 3)
+    {
+        case 0:
+            color1 = 0x7BF7;
+            color2 = 28640;
+            break;
+
+        case 1:
+            color1 = 28640;
+            color2 = 0x7BF7;
+            break;
+
+        case 2:
+            color1 = 0x7BF7;
+            color2 = 0x7FFF;
+            break;
+
+        case 3:
+            color1 = 0x7FFF;
+            color2 = 0x7BF7;
+            break;
+    }
+
+    work->colors[6] = Unknown2051334__Func_20516EC(color1, color2, work->field_167E, value2);
+
+    work->field_167C += 32;
+    if (work->field_167C >= work->field_167E)
+    {
+        work->field_167C -= work->field_167E;
+        work->field_1680 += 3;
+    }
+
+    VecFx32 vec;
+    for (s32 v = 0; v < 16; v++)
+    {
+        VecFx32 *pos = work->field_16A4[v];
+        for (s32 i = 0; i < 6; i++)
+        {
+            vec.x = vec.y = vec.z = 0;
+
+            Unknown2051334__Func_20514DC(&pos[i], &vec, &work->field_15BC[v], work->field_1684[i + 1]);
+            pos[i].z = 0;
+        }
+    }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -2009,353 +1318,156 @@ _0215F138:
 #endif
 }
 
-NONMATCH_FUNC void ViDock__Func_215F1A8(void)
+void CViDock::Func_215F1A8(CViDock *work)
 {
-#ifdef NON_MATCHING
+    s32 i;
+    s32 v;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0xa0
-	mov r5, #0
-	mov r10, r0
-	sub r4, r5, #0x400000
-	mov r3, #0x400000
-	mov r2, #0x300000
-	mov r1, #0x1000
-	add r0, sp, #0x64
-	str r5, [sp, #0x94]
-	str r5, [sp, #0x98]
-	str r4, [sp, #0x9c]
-	str r3, [sp, #0x88]
-	str r2, [sp, #0x8c]
-	str r1, [sp, #0x90]
-	bl MTX_Identity33_
-	add r0, sp, #0x94
-	bl NNS_G3dGlbSetBaseTrans
-	add r0, sp, #0x88
-	bl NNS_G3dGlbSetBaseScale
-	ldr r1, =NNS_G3dGlb+0x000000BC
-	add r0, sp, #0x64
-	bl MI_Copy36B
-	ldr r0, =NNS_G3dGlb
-	ldr r1, [r0, #0xfc]
-	bic r1, r1, #0xa4
-	str r1, [r0, #0xfc]
-	bl NNS_G3dGlbFlushWVP
-	ldr r1, =0x001F00C0
-	mov r0, #0x29
-	str r1, [sp, #0x60]
-	add r1, sp, #0x60
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-	mov r0, #0x20000000
-	str r0, [sp, #0x5c]
-	mov r0, #0x2a
-	add r1, sp, #0x5c
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-	mov r0, r5
-	str r0, [sp, #0x58]
-	mov r0, #0x2b
-	add r1, sp, #0x58
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-	mov r0, #2
-	str r0, [sp, #0x54]
-	mov r0, #0x10
-	add r1, sp, #0x54
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-	mov r1, r5
-	mov r0, #0x11
-	mov r2, r1
-	bl NNS_G3dGeBufferOP_N
-	mov r0, r5
-	str r0, [sp, #4]
-	str r10, [sp]
-	mov r8, r10
-_0215F298:
-	mov r3, #2
-	add r1, sp, #0x50
-	mov r0, #0x40
-	mov r2, #1
-	str r3, [sp, #0x50]
-	bl NNS_G3dGeBufferOP_N
-	add r0, r10, #0x1600
-	ldrsh r2, [r0, #0x84]
-	ldrsh r1, [r0, #0x86]
-	cmp r2, r1
-	bge _0215F2F4
-	ldrh r3, [r0, #0x94]
-	add r1, sp, #0x4c
-	mov r0, #0x20
-	mov r2, #1
-	str r3, [sp, #0x4c]
-	bl NNS_G3dGeBufferOP_N
-	mov r3, #0
-	add r1, sp, #0x48
-	mov r0, #0x25
-	mov r2, #1
-	str r3, [sp, #0x48]
-	bl NNS_G3dGeBufferOP_N
-_0215F2F4:
-	ldr r9, [sp]
-	mov r7, #0
-	mov r6, #0x20
-	add r5, sp, #0x44
-	mov r4, #1
-	mov r11, #0x25
-_0215F30C:
-	add r0, r10, r7, lsl #1
-	add r0, r0, #0x1600
-	ldrh r2, [r0, #0x96]
-	mov r0, r6
-	mov r1, r5
-	str r2, [sp, #0x44]
-	mov r2, r4
-	bl NNS_G3dGeBufferOP_N
-	add r0, r9, #0x1000
-	ldr r1, [r0, #0x6a8]
-	ldr r2, [r0, #0x6a4]
-	mov r1, r1, lsl #0x10
-	mov r0, r2, lsl #0x10
-	mov r1, r1, asr #0x10
-	mov r1, r1, lsl #0x10
-	mov r0, r0, asr #0x10
-	mov r1, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r1, r1, lsl #0x10
-	orr r0, r1, r0, lsr #16
-	str r0, [sp, #0x40]
-	mov r0, r11
-	add r1, sp, #0x40
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-	add r0, r9, #0x1000
-	ldr r1, [r0, #0x6f0]
-	ldr r2, [r0, #0x6ec]
-	mov r1, r1, lsl #0x10
-	mov r0, r2, lsl #0x10
-	mov r1, r1, asr #0x10
-	mov r1, r1, lsl #0x10
-	mov r0, r0, asr #0x10
-	mov r1, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r1, r1, lsl #0x10
-	orr r0, r1, r0, lsr #16
-	str r0, [sp, #0x3c]
-	mov r0, #0x25
-	add r1, sp, #0x3c
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-	add r7, r7, #1
-	add r9, r9, #0xc
-	cmp r7, #6
-	blt _0215F30C
-	add r0, r10, #0x1600
-	ldrsh r2, [r0, #0x90]
-	ldrsh r1, [r0, #0x92]
-	cmp r2, r1
-	bge _0215F478
-	ldrh r3, [r0, #0xa2]
-	add r1, sp, #0x38
-	mov r0, #0x20
-	mov r2, #1
-	str r3, [sp, #0x38]
-	bl NNS_G3dGeBufferOP_N
-	add r0, r8, #0x1000
-	ldr r1, [r0, #0x5c0]
-	ldr r2, [r0, #0x5bc]
-	mov r0, r1, lsl #0x10
-	mov r1, r0, asr #0x10
-	mov r0, r2, lsl #0x10
-	mov r1, r1, lsl #0x10
-	mov r0, r0, asr #0x10
-	mov r1, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r1, r1, lsl #0x10
-	orr r3, r1, r0, lsr #16
-	add r1, sp, #0x34
-	mov r0, #0x25
-	mov r2, #1
-	str r3, [sp, #0x34]
-	bl NNS_G3dGeBufferOP_N
-	add r0, r8, #0x1000
-	ldr r1, [r0, #0x5cc]
-	ldr r2, [r0, #0x5c8]
-	mov r0, r1, lsl #0x10
-	mov r1, r0, asr #0x10
-	mov r0, r2, lsl #0x10
-	mov r1, r1, lsl #0x10
-	mov r0, r0, asr #0x10
-	mov r1, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r1, r1, lsl #0x10
-	orr r3, r1, r0, lsr #16
-	add r1, sp, #0x30
-	mov r0, #0x25
-	mov r2, #1
-	str r3, [sp, #0x30]
-	bl NNS_G3dGeBufferOP_N
-_0215F478:
-	mov r1, #0
-	mov r2, r1
-	mov r0, #0x41
-	bl NNS_G3dGeBufferOP_N
-	ldr r0, [sp, #4]
-	add r8, r8, #0xc
-	add r0, r0, #1
-	str r0, [sp, #4]
-	cmp r0, #0xf
-	ldr r0, [sp]
-	add r0, r0, #0x48
-	str r0, [sp]
-	blt _0215F298
-	mov r3, #2
-	add r1, sp, #0x2c
-	mov r0, #0x40
-	mov r2, #1
-	str r3, [sp, #0x2c]
-	bl NNS_G3dGeBufferOP_N
-	add r0, r10, #0x1600
-	ldrsh r2, [r0, #0x84]
-	ldrsh r1, [r0, #0x86]
-	cmp r2, r1
-	bge _0215F508
-	ldrh r3, [r0, #0x94]
-	add r1, sp, #0x28
-	mov r0, #0x20
-	mov r2, #1
-	str r3, [sp, #0x28]
-	bl NNS_G3dGeBufferOP_N
-	mov r3, #0
-	add r1, sp, #0x24
-	mov r0, #0x25
-	mov r2, #1
-	str r3, [sp, #0x24]
-	bl NNS_G3dGeBufferOP_N
-_0215F508:
-	mov r8, r10
-	mov r9, #0
-	mov r7, #0x20
-	add r6, sp, #0x20
-	mov r5, #1
-	mov r4, #0x25
-	add r11, sp, #0x1c
-_0215F524:
-	add r0, r10, r9, lsl #1
-	add r0, r0, #0x1600
-	ldrh r2, [r0, #0x96]
-	mov r0, r7
-	mov r1, r6
-	str r2, [sp, #0x20]
-	mov r2, r5
-	bl NNS_G3dGeBufferOP_N
-	add r0, r8, #0x1000
-	ldr r1, [r0, #0xae0]
-	ldr r2, [r0, #0xadc]
-	mov r1, r1, lsl #0x10
-	mov r0, r2, lsl #0x10
-	mov r1, r1, asr #0x10
-	mov r1, r1, lsl #0x10
-	mov r0, r0, asr #0x10
-	mov r1, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r1, r1, lsl #0x10
-	orr r0, r1, r0, lsr #16
-	str r0, [sp, #0x1c]
-	mov r0, r4
-	mov r1, r11
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-	add r0, r8, #0x1000
-	ldr r1, [r0, #0x6a8]
-	ldr r2, [r0, #0x6a4]
-	mov r1, r1, lsl #0x10
-	mov r0, r2, lsl #0x10
-	mov r1, r1, asr #0x10
-	mov r1, r1, lsl #0x10
-	mov r0, r0, asr #0x10
-	mov r1, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r1, r1, lsl #0x10
-	orr r0, r1, r0, lsr #16
-	str r0, [sp, #0x18]
-	mov r0, #0x25
-	add r1, sp, #0x18
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-	add r9, r9, #1
-	add r8, r8, #0xc
-	cmp r9, #6
-	blt _0215F524
-	add r0, r10, #0x1600
-	ldrsh r2, [r0, #0x90]
-	ldrsh r1, [r0, #0x92]
-	cmp r2, r1
-	bge _0215F690
-	ldrh r3, [r0, #0xa2]
-	add r1, sp, #0x14
-	mov r0, #0x20
-	mov r2, #1
-	str r3, [sp, #0x14]
-	bl NNS_G3dGeBufferOP_N
-	add r0, r10, #0x1000
-	ldr r1, [r0, #0x674]
-	ldr r2, [r0, #0x670]
-	mov r0, r1, lsl #0x10
-	mov r1, r0, asr #0x10
-	mov r0, r2, lsl #0x10
-	mov r1, r1, lsl #0x10
-	mov r0, r0, asr #0x10
-	mov r1, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r1, r1, lsl #0x10
-	orr r3, r1, r0, lsr #16
-	add r1, sp, #0x10
-	mov r0, #0x25
-	mov r2, #1
-	str r3, [sp, #0x10]
-	bl NNS_G3dGeBufferOP_N
-	add r0, r10, #0x1000
-	ldr r1, [r0, #0x5c0]
-	ldr r2, [r0, #0x5bc]
-	mov r0, r1, lsl #0x10
-	mov r1, r0, asr #0x10
-	mov r0, r2, lsl #0x10
-	mov r1, r1, lsl #0x10
-	mov r0, r0, asr #0x10
-	mov r1, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r1, r1, lsl #0x10
-	orr r3, r1, r0, lsr #16
-	add r1, sp, #0xc
-	mov r0, #0x25
-	mov r2, #1
-	str r3, [sp, #0xc]
-	bl NNS_G3dGeBufferOP_N
-_0215F690:
-	mov r1, #0
-	mov r2, r1
-	mov r0, #0x41
-	bl NNS_G3dGeBufferOP_N
-	mov r2, #1
-	add r1, sp, #8
-	mov r0, #0x12
-	str r2, [sp, #8]
-	bl NNS_G3dGeBufferOP_N
-	add sp, sp, #0xa0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    VecFx32 translation;
+    VecFx32 scale;
+    MtxFx33 mtxRot;
 
-// clang-format on
-#endif
+    translation.x = FLOAT_TO_FX32(0.0);
+    translation.y = FLOAT_TO_FX32(0.0);
+    translation.z = -FLOAT_TO_FX32(1024.0);
+
+    scale.x = FLOAT_TO_FX32(1024.0);
+    scale.y = FLOAT_TO_FX32(768.0);
+    scale.z = FLOAT_TO_FX32(1.0);
+
+    MTX_Identity33(&mtxRot);
+
+    NNS_G3dGlbSetBaseTrans(&translation);
+    NNS_G3dGlbSetBaseScale(&scale);
+    NNS_G3dGlbSetBaseRot(&mtxRot);
+    NNS_G3dGlbFlushAlt();
+
+    NNS_G3dGePolygonAttr(GX_LIGHTMASK_NONE, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, GX_COLOR_FROM_888(0xFF), GX_POLYGON_ATTR_MISC_NONE);
+    NNS_G3dGeTexImageParam(GX_TEXFMT_NONE, GX_TEXGEN_NONE, GX_TEXSIZE_S8, GX_TEXSIZE_T8, GX_TEXREPEAT_NONE, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS, 0x00000000);
+    NNS_G3dGeTexPlttBase(0x00000000, GX_TEXFMT_NONE);
+
+    NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
+    NNS_G3dGePushMtx();
+
+    for (v = 0; v < 15; v++)
+    {
+        NNS_G3dGeBegin(GX_BEGIN_TRIANGLE_STRIP);
+
+        if (work->field_1684[0] < work->field_1684[1])
+        {
+            NNS_G3dGeColor(work->field_1684[8]);
+            NNS_G3dGeVtxXY(0, 0);
+        }
+
+        for (i = 0; i < 6; i++)
+        {
+            NNS_G3dGeColor(work->colors[i]);
+
+            NNS_G3dGeVtxXY(work->field_16A4[v + 0][i].x, work->field_16A4[v + 0][i].y);
+            NNS_G3dGeVtxXY(work->field_16A4[v + 1][i].x, work->field_16A4[v + 1][i].y);
+        }
+
+        if (work->field_1684[6] < work->field_1684[7])
+        {
+            NNS_G3dGeColor(work->colors[6]);
+
+            NNS_G3dGeVtxXY(work->field_15BC[v + 0].x, work->field_15BC[v + 0].y);
+            NNS_G3dGeVtxXY(work->field_15BC[v + 1].x, work->field_15BC[v + 1].y);
+        }
+
+        NNS_G3dGeEnd();
+    }
+
+    {
+        NNS_G3dGeBegin(GX_BEGIN_TRIANGLE_STRIP);
+
+        if (work->field_1684[0] < work->field_1684[1])
+        {
+            NNS_G3dGeColor(work->field_1684[8]);
+            NNS_G3dGeVtxXY(0, 0);
+        }
+
+        for (i = 0; i < 6; i++)
+        {
+            NNS_G3dGeColor(work->colors[i]);
+
+            NNS_G3dGeVtxXY(work->field_16A4[15][i].x, work->field_16A4[15][i].y);
+            NNS_G3dGeVtxXY(work->field_16A4[0][i].x, work->field_16A4[0][i].y);
+        }
+
+        if (work->field_1684[6] < work->field_1684[7])
+        {
+            NNS_G3dGeColor(work->colors[6]);
+
+            NNS_G3dGeVtxXY(work->field_15BC[15].x, work->field_15BC[15].y);
+            NNS_G3dGeVtxXY(work->field_15BC[0].x, work->field_15BC[0].y);
+        }
+
+        NNS_G3dGeEnd();
+    }
+
+    NNS_G3dGePopMtx(1);
 }
 
-NONMATCH_FUNC void ViDock__Func_215F6C8(void)
+NONMATCH_FUNC void CViDock::Draw(CViDock *work, BOOL drawPlayer, BOOL drawNpcs, BOOL drawDock)
 {
+    // https://decomp.me/scratch/tZD63 -> 93.09%
 #ifdef NON_MATCHING
+    u16 rotationY;
+    if (work->type == CViDock::TYPE_1 || work->type == CViDock::TYPE_2)
+    {
+        rotationY = 0;
+    }
+    else
+    {
+        if (work->area < CViDock::AREA_COUNT)
+        {
+            rotationY = HubConfig__GetDockBackInfo(HubConfig__GetDockStageConfig(work->area)->areaID)->field_18;
+        }
+        else
+        {
+            rotationY = 0;
+        }
+    }
 
+    NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
+    NNS_G3dGePushMtx();
+
+    NNS_G3dGeIdentity();
+    ViDockDrawState__Func_2163EBC(&work->dockDrawState);
+    if (drawDock)
+        ViDockBack__DrawDock(&work->dockBack, rotationY, FLOAT_DEG_TO_IDX(0.0), FLOAT_DEG_TO_IDX(0.0));
+
+    fx32 scale = HubConfig__GetDockStageConfig(work->area)->scale;
+    if (drawNpcs)
+    {
+        CViDockNpcGroupEntry *entry = work->npcGroup.GetFirstNpc();
+
+        while (entry != NULL)
+        {
+            fx32 shadowScale = MultiplyFX(0x5000, scale);
+            ViDockBack__DrawShadow(&work->dockBack, &work->shadow, shadowScale, CPPHelpers__Func_2085F9C(&entry->npc.translation1)->x,
+                                   CPPHelpers__Func_2085F9C(&entry->npc.translation1)->z);
+            entry->npc.Draw();
+
+            entry = work->npcGroup.GetNextNpc(entry);
+        }
+    }
+
+    if (drawPlayer)
+    {
+        fx32 shadowScale = MultiplyFX(0x5000, scale);
+        ViDockBack__DrawShadow(&work->dockBack, &work->shadow, shadowScale, CPPHelpers__Func_2085F9C(&work->player.translation1)->x,
+                               CPPHelpers__Func_2085F9C(&work->player.translation1)->z);
+        work->player.Draw();
+    }
+
+    if (drawNpcs && drawPlayer)
+    {
+        work->npcGroup.Draw(CPPHelpers__Func_2085F9C(&work->player.translation1));
+    }
+
+    NNS_G3dGePopMtx(1);
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -2398,7 +1510,7 @@ _0215F728:
 	mov r0, #0x15
 	bl NNS_G3dGeBufferOP_N
 	add r0, r10, #0x18
-	bl ViMapIcon__Func_2163EBC
+	bl ViDockDrawState__Func_2163EBC
 	cmp r4, #0
 	beq _0215F784
 	mov r2, #0
@@ -2445,7 +1557,7 @@ _0215F7EC:
 	ldr r3, [r0, #0]
 	add r0, r10, #0xf8
 	add r1, r4, #0x1400
-	bl ViDockBack__Func_2164BF4
+	bl ViDockBack__DrawShadow
 	mov r0, r9
 	bl _ZN11CVi3dObject4DrawEv
 	add r0, r5, #0x1000
@@ -2477,7 +1589,7 @@ _0215F838:
 	add r0, r10, #0xf8
 	add r1, r1, #0x1400
 	orr r2, r2, r4, lsl #20
-	bl ViDockBack__Func_2164BF4
+	bl ViDockBack__DrawShadow
 	add r0, r10, #0x1f8
 	add r0, r0, #0xc00
 	bl _ZN11CVi3dObject4DrawEv
@@ -2505,527 +1617,265 @@ _0215F8CC:
 #endif
 }
 
-NONMATCH_FUNC void ViDock__Func_215F8E8(void)
+void CViDock::HandleEnvironmentSfx(CViDock *work)
 {
-#ifdef NON_MATCHING
+    if (work->type == CViDock::TYPE_0 && work->area == CViDock::AREA_BEACH)
+    {
+        if (work->environmentSfxTimer == 140)
+        {
+            PlayHubSfx(HUB_SFX_WAVE);
+        }
+        else if (work->environmentSfxTimer == 0)
+        {
+            work->environmentSfxTimer = 200;
+        }
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldrh r0, [r4, #2]
-	cmp r0, #0
-	ldreqh r0, [r4, #0]
-	cmpeq r0, #6
-	ldmneia sp!, {r4, pc}
-	add r0, r4, #0x1000
-	ldr r1, [r0, #0xb24]
-	cmp r1, #0x8c
-	bne _0215F920
-	mov r0, #7
-	bl PlayHubSfx
-	b _0215F92C
-_0215F920:
-	cmp r1, #0
-	moveq r1, #0xc8
-	streq r1, [r0, #0xb24]
-_0215F92C:
-	add r0, r4, #0x1000
-	ldr r1, [r0, #0xb24]
-	sub r1, r1, #1
-	str r1, [r0, #0xb24]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+        work->environmentSfxTimer--;
+    }
 }
 
-NONMATCH_FUNC void ViDock__Main(void)
+void CViDock::Main(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWorkCurrent(CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	add r0, r4, #0xe00
-	bl CPPHelpers__Func_2085F9C
-	mov r1, r0
-	add r0, r4, #0x18
-	bl ViMapIcon__Func_2163A84
-	add r0, r4, #0x18
-	bl ViMapIcon__Func_2163C80
-	add r0, r4, #0x1f8
-	add r0, r0, #0xc00
-	mov r1, #0x1000
-	bl ViDockPlayer__Func_21667D4
-	add r0, r4, #0xf8
-	bl ViDockBack__Func_21649DC
-	mov r0, r4
-	mov r1, #1
-	mov r2, r1
-	mov r3, r1
-	bl ViDock__Func_215F6C8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    ViDockDrawState__Func_2163A84(&work->dockDrawState, CPPHelpers__Func_2085F9C(&work->player.translation1));
+    ViDockDrawState__Func_2163C80(&work->dockDrawState);
+    ViDockPlayer__Process(&work->player, FLOAT_TO_FX32(1.0));
+    ViDockBack__Func_21649DC(&work->dockBack);
+    CViDock::Draw(work, TRUE, TRUE, TRUE);
 }
 
-NONMATCH_FUNC void ViDock__Main_215F998(void)
+void CViDock::Main_215F998(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWorkCurrent(CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	add r0, r4, #0x18
-	bl ViMapIcon__Func_2163C80
-	add r0, r4, #0xf8
-	bl ViDockBack__Func_21649DC
-	mov r1, #0
-	mov r0, r4
-	mov r2, r1
-	mov r3, #1
-	bl ViDock__Func_215F6C8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    ViDockDrawState__Func_2163C80(&work->dockDrawState);
+    ViDockBack__Func_21649DC(&work->dockBack);
+    CViDock::Draw(work, FALSE, FALSE, TRUE);
 }
 
-NONMATCH_FUNC void ViDock__Main_215F9CC(void)
+void CViDock::Main_215F9CC(void)
 {
+    CViDock *work = TaskGetWorkCurrent(CViDock);
+
+    const DockStageConfig *config = HubConfig__GetDockStageConfig(work->area);
+    CViDock::HandlePlayerMovement(work);
+
+    ViDockPlayer__Process(&work->player, HubConfig__GetDockStageConfig(work->area)->scale);
+
+    VecFx32 *v5                  = CPPHelpers__Func_2085F9C(&work->player.translation1);
+    VecFx32 *translationUnknown1 = ViDockPlayer__GetTranslationUnknown(&work->player);
+
+    VecFx32 dest;
+    BOOL isSailPrompt, flag1, area;
+    ViDockBack__Func_2164B58(&work->dockBack, translationUnknown1, v5, &dest, &isSailPrompt, &flag1, &area);
+    dest.y = ViDockBack__Func_2164BC8(&work->dockBack, dest);
+    CPPHelpers__VEC_Copy_Alt(&work->player.translation1, &dest);
+
+    if (isSailPrompt)
+    {
+        if ((padInput.btnPress & PAD_BUTTON_A) == 0 && work->field_146C)
+            isSailPrompt = FALSE;
+
+        work->field_146C = 1;
+    }
+    else
+    {
+        work->field_146C = 0;
+    }
+
+    if (flag1)
+        isSailPrompt = TRUE;
+
+    v5                  = CPPHelpers__Func_2085F9C(&work->player.translation1);
+    translationUnknown1 = ViDockPlayer__GetTranslationUnknown(&work->player);
+
+    if (work->npcGroup.Func_2168608(translationUnknown1, v5, &dest, HubConfig__GetDockStageConfig(work->area)->scale) != NULL)
+        CPPHelpers__VEC_Copy_Alt(&work->player.translation1, &dest);
+    ViDockBack__Func_21649DC(&work->dockBack);
+    work->npcGroup.Animate();
+
+    VecFx32 *temp = CPPHelpers__Func_2085F9C(&work->player.translation1);
+    dest.x        = temp->x;
+    dest.y        = temp->y;
+    dest.z        = temp->z;
+
+    if (work->area < CViDock::AREA_COUNT)
+        VEC_Add(&dest, &config->field_8, &dest);
+    ViDockDrawState__Func_2163A84(&work->dockDrawState, &dest);
+    ViDockDrawState__Func_2163C80(&work->dockDrawState);
+    CViDock::HandleEnvironmentSfx(work);
+    CViDock::Draw(work, TRUE, TRUE, TRUE);
+    work->talkActionType  = CVIDOCKNPCTALK_INVALID;
+    work->talkActionParam = 0;
+    work->talkNpc         = 0;
+
+    if (isSailPrompt)
+    {
+        work->talkActionType  = CVIDOCKNPCTALK_SAILPROMPT;
+        work->talkActionParam = work->area;
+    }
+    else
+    {
+        if (area != CViDock::AREA_INVALID && area != work->area)
+        {
+            work->areaUnknown = area;
+        }
+        else
+        {
+            CViDockNpcGroupEntry *entry;
+            BOOL interacted;
+
+            interacted = FALSE;
+            entry      = NULL;
+            do
+            {
+                u16 angle            = work->player.currentTurnAngle;
+                VecFx32 *translation = ViDockPlayer__GetTranslationUnknown(&work->player);
+
+                config = HubConfig__GetDockStageConfig(work->area);
+
+                BOOL flag;
+                entry = work->npcGroup.Func_2168674(translation, angle, config->scale, &flag, entry);
+                if (entry == NULL)
+                    break;
+
+                if (flag && (padInput.btnPress & PAD_BUTTON_A) != 0)
+                    interacted = TRUE;
+
+                if (CheckTouchPushEnabled())
+                {
+                    if (HubControl::Func_2157178())
+                    {
+                        u16 pushX = touchInput.push.x;
+                        u16 pushY = touchInput.push.y;
+
+                        int px;
+                        int py;
+                        NNS_G3dWorldPosToScrPos(CPPHelpers__Func_2085F9C(&entry->npc.translation1), &px, &py);
+                        if (CViDock::CheckTouchRect(work, pushX, pushY, px, py))
+                            interacted = TRUE;
+                    }
+                }
+            } while (!interacted && entry != NULL);
+
+            if (interacted)
+            {
+                // not sure how to match this "properly"...
+                // using a simple offset will match it for now I suppose.
+                // if anyone reading this would like to try matching it, the scratch is here: https://decomp.me/scratch/MlAsa
 #ifdef NON_MATCHING
-
+                if (work->talkActionType != CVIDOCKNPCTALK_NPC)
 #else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x30
-	bl GetCurrentTaskWork_
-	mov r7, r0
-	ldrh r0, [r7, #0]
-	bl HubConfig__GetDockStageConfig
-	mov r4, r0
-	mov r0, r7
-	bl ViDock__Func_215E830
-	ldrh r0, [r7, #0]
-	bl HubConfig__GetDockStageConfig
-	ldrsh r1, [r0, #0x40]
-	add r0, r7, #0x1f8
-	add r0, r0, #0xc00
-	bl ViDockPlayer__Func_21667D4
-	add r0, r7, #0xe00
-	bl CPPHelpers__Func_2085F9C
-	mov r5, r0
-	add r0, r7, #0x1f8
-	add r0, r0, #0xc00
-	bl ViDockPlayer__Func_21667A0
-	add r3, sp, #0x20
-	mov r1, r0
-	str r3, [sp]
-	add r0, sp, #0x1c
-	str r0, [sp, #4]
-	add r3, sp, #0x18
-	str r3, [sp, #8]
-	mov r2, r5
-	add r0, r7, #0xf8
-	add r3, sp, #0x24
-	bl ViDockBack__Func_2164B58
-	add r1, sp, #0x24
-	ldmia r1, {r1, r2, r3}
-	add r0, r7, #0xf8
-	bl ViDockBack__Func_2164BC8
-	str r0, [sp, #0x28]
-	add r0, r7, #0xe00
-	add r1, sp, #0x24
-	bl CPPHelpers__VEC_Copy_Alt
-	ldr r0, [sp, #0x20]
-	cmp r0, #0
-	beq _0215FAAC
-	ldr r0, =padInput
-	ldrh r0, [r0, #4]
-	tst r0, #1
-	bne _0215FA9C
-	add r0, r7, #0x1000
-	ldr r0, [r0, #0x46c]
-	cmp r0, #0
-	movne r0, #0
-	strne r0, [sp, #0x20]
-_0215FA9C:
-	add r0, r7, #0x1000
-	mov r1, #1
-	str r1, [r0, #0x46c]
-	b _0215FAB8
-_0215FAAC:
-	add r0, r7, #0x1000
-	mov r1, #0
-	str r1, [r0, #0x46c]
-_0215FAB8:
-	ldr r0, [sp, #0x1c]
-	cmp r0, #0
-	movne r0, #1
-	strne r0, [sp, #0x20]
-	add r0, r7, #0xe00
-	bl CPPHelpers__Func_2085F9C
-	add r1, r7, #0x1f8
-	mov r6, r0
-	add r0, r1, #0xc00
-	bl ViDockPlayer__Func_21667A0
-	mov r5, r0
-	ldrh r0, [r7, #0]
-	bl HubConfig__GetDockStageConfig
-	ldrsh r3, [r0, #0x40]
-	add r0, r7, #0x130
-	mov r1, r5
-	str r3, [sp]
-	mov r2, r6
-	add r0, r0, #0x1000
-	add r3, sp, #0x24
-	bl _ZN15CViDockNpcGroup12Func_2168608EP7VecFx32S1_S1_l
-	cmp r0, #0
-	beq _0215FB20
-	add r1, sp, #0x24
-	add r0, r7, #0xe00
-	bl CPPHelpers__VEC_Copy_Alt
-_0215FB20:
-	add r0, r7, #0xf8
-	bl ViDockBack__Func_21649DC
-	add r0, r7, #0x130
-	add r0, r0, #0x1000
-	bl _ZN15CViDockNpcGroup7AnimateEv
-	add r0, r7, #0xe00
-	bl CPPHelpers__Func_2085F9C
-	ldr r1, [r0, #0]
-	str r1, [sp, #0x24]
-	ldr r1, [r0, #4]
-	str r1, [sp, #0x28]
-	ldr r0, [r0, #8]
-	str r0, [sp, #0x2c]
-	ldrh r0, [r7, #0]
-	cmp r0, #7
-	bhs _0215FB70
-	add r0, sp, #0x24
-	add r1, r4, #8
-	mov r2, r0
-	bl VEC_Add
-_0215FB70:
-	add r1, sp, #0x24
-	add r0, r7, #0x18
-	bl ViMapIcon__Func_2163A84
-	add r0, r7, #0x18
-	bl ViMapIcon__Func_2163C80
-	mov r0, r7
-	bl ViDock__Func_215F8E8
-	mov r1, #1
-	mov r0, r7
-	mov r2, r1
-	mov r3, r1
-	bl ViDock__Func_215F6C8
-	add r0, r7, #0x1000
-	mov r1, #0xc
-	str r1, [r0, #0x460]
-	mov r1, #0
-	str r1, [r0, #0x464]
-	str r1, [r0, #0x468]
-	ldr r1, [sp, #0x20]
-	cmp r1, #0
-	beq _0215FBDC
-	mov r1, #1
-	str r1, [r0, #0x460]
-	ldrh r1, [r7, #0]
-	add sp, sp, #0x30
-	str r1, [r0, #0x464]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-_0215FBDC:
-	ldr r1, [sp, #0x18]
-	cmp r1, #8
-	ldrneh r0, [r7, #0]
-	cmpne r1, r0
-	addne sp, sp, #0x30
-	strne r1, [r7, #4]
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	mov r9, #0
-	mov r8, r9
-	add r4, r7, #0x1f8
-	add r5, r7, #0x130
-	add r11, r7, #0xe00
-_0215FC0C:
-	add r0, r4, #0xc00
-	ldrh r10, [r11, #0x32]
-	bl ViDockPlayer__Func_21667A0
-	mov r6, r0
-	ldrh r0, [r7, #0]
-	bl HubConfig__GetDockStageConfig
-	add r3, sp, #0x14
-	stmia sp, {r3, r8}
-	ldrsh r3, [r0, #0x40]
-	mov r1, r6
-	mov r2, r10
-	add r0, r5, #0x1000
-	bl _ZN15CViDockNpcGroup12Func_2168674EP7VecFx32llPiP20CViDockNpcGroupEntry
-	movs r8, r0
-	beq _0215FCF0
-	ldr r0, [sp, #0x14]
-	cmp r0, #0
-	beq _0215FC64
-	ldr r0, =padInput
-	ldrh r0, [r0, #4]
-	tst r0, #1
-	movne r9, #1
-_0215FC64:
-	bl IsTouchInputEnabled
-	cmp r0, #0
-	beq _0215FC84
-	ldr r0, =touchInput
-	ldrh r0, [r0, #0x12]
-	tst r0, #4
-	movne r0, #1
-	bne _0215FC88
-_0215FC84:
-	mov r0, #0
-_0215FC88:
-	cmp r0, #0
-	beq _0215FCE0
-	bl _ZN10HubControl12Func_2157178Ev
-	cmp r0, #0
-	beq _0215FCE0
-	ldr r0, =touchInput
-	ldrh r6, [r0, #0x1c]
-	ldrh r10, [r0, #0x1e]
-	add r0, r8, #8
-	bl CPPHelpers__Func_2085F9C
-	add r1, sp, #0x10
-	add r2, sp, #0xc
-	bl NNS_G3dWorldPosToScrPos
-	ldr r3, [sp, #0xc]
-	mov r1, r6
-	str r3, [sp]
-	ldr r3, [sp, #0x10]
-	mov r2, r10
-	mov r0, r7
-	bl ViDock__Func_215EC58
-	cmp r0, #0
-	movne r9, #1
-_0215FCE0:
-	cmp r9, #0
-	bne _0215FCF0
-	cmp r8, #0
-	bne _0215FC0C
-_0215FCF0:
-	cmp r9, #0
-	addeq sp, sp, #0x30
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	add r0, r7, #0x460
-	adds r0, r0, #0x1000
-	ldrne r1, [r8, #0x304]
-	addne r0, r7, #0x1000
-	strne r1, [r0, #0x460]
-	add r0, r7, #0x64
-	adds r0, r0, #0x1400
-	ldrne r1, [r8, #0x308]
-	addne r0, r7, #0x1000
-	strne r1, [r0, #0x464]
-	ldr r1, [r8, #0x30c]
-	add r0, r7, #0x1000
-	add r1, r1, #1
-	str r1, [r8, #0x30c]
-	str r8, [r0, #0x468]
-	add sp, sp, #0x30
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
+                if ((u8 *)work + 0x1460)
 #endif
+                {
+                    work->talkActionType = entry->npc.talkActionType;
+                }
+
+                // not sure how to match this "properly"...
+                // using a simple offset will match it for now I suppose.
+                // if anyone reading this would like to try matching it, the scratch is here: https://decomp.me/scratch/MlAsa
+#ifdef NON_MATCHING
+                if (work->talkActionParam != CVIDOCKNPCTALK_NPC)
+#else
+                if ((u8 *)work + 0x1464)
+#endif
+                {
+                    work->talkActionParam = entry->npc.talkActionParam;
+                }
+
+                entry->npc.field_30C++;
+                work->talkNpc = &entry->npc;
+            }
+        }
+    }
 }
 
-NONMATCH_FUNC void ViDock__Main_215FD48(void)
+void CViDock::Main_215FD48(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWorkCurrent(CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0xc
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	ldrh r0, [r4, #0]
-	bl HubConfig__GetDockStageConfig
-	ldr r1, [r4, #0x10]
-	mov r5, r0
-	cmp r1, #0
-	beq _0215FD8C
-	add r0, r4, #0x1f8
-	add r0, r0, #0xc00
-	mov r1, #0x1000
-	bl ViDockPlayer__Func_21667D4
-	add r0, r4, #0x130
-	add r0, r0, #0x1000
-	bl _ZN15CViDockNpcGroup7AnimateEv
-_0215FD8C:
-	add r0, r4, #0xf8
-	bl ViDockBack__Func_21649DC
-	add r0, r4, #0xe00
-	bl CPPHelpers__Func_2085F9C
-	ldr r1, [r0, #0]
-	str r1, [sp]
-	ldr r1, [r0, #4]
-	str r1, [sp, #4]
-	ldr r0, [r0, #8]
-	str r0, [sp, #8]
-	ldrh r0, [r4, #0]
-	cmp r0, #7
-	bhs _0215FDD0
-	add r0, sp, #0
-	add r1, r5, #8
-	mov r2, r0
-	bl VEC_Add
-_0215FDD0:
-	add r1, sp, #0
-	add r0, r4, #0x18
-	bl ViMapIcon__Func_2163A84
-	add r0, r4, #0x18
-	bl ViMapIcon__Func_2163C80
-	ldr r1, [r4, #0x10]
-	mov r0, r4
-	mov r2, r1
-	mov r3, #1
-	bl ViDock__Func_215F6C8
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, pc}
+    const DockStageConfig *config = HubConfig__GetDockStageConfig(work->area);
+    if (work->field_10)
+    {
+        ViDockPlayer__Process(&work->player, FLOAT_TO_FX32(1.0));
+        work->npcGroup.Animate();
+    }
 
-// clang-format on
-#endif
+    ViDockBack__Func_21649DC(&work->dockBack);
+
+    VecFx32 *temp = CPPHelpers__Func_2085F9C(&work->player.translation1);
+    VecFx32 dest;
+    dest.x = temp->x;
+    dest.y = temp->y;
+    dest.z = temp->z;
+    if (work->area < CViDock::AREA_COUNT)
+        VEC_Add(&dest, &config->field_8, &dest);
+
+    ViDockDrawState__Func_2163A84(&work->dockDrawState, &dest);
+    ViDockDrawState__Func_2163C80(&work->dockDrawState);
+
+    CViDock::Draw(work, work->field_10, work->field_10, 1);
 }
 
-NONMATCH_FUNC void ViDock__Main_215FE00(void)
+void CViDock::Main_215FE00(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWorkCurrent(CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	bl ViDock__Func_215EA8C
-	ldrh r0, [r4, #0]
-	bl HubConfig__GetDockUnknownConfig
-	ldr r1, [r0, #0]
-	add r0, r4, #0xf8
-	bl ViDockBack__Func_2164918
-	ldr r0, =ViDock__Main_215FE34
-	bl SetCurrentTaskMainEvent
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    CViDock::Func_215EA8C(work);
+    ViDockBack__Func_2164918(&work->dockBack, HubConfig__GetDockUnknownConfig(work->area)->areaID);
+    SetCurrentTaskMainEvent(CViDock::Main_215FE34);
 }
 
-NONMATCH_FUNC void ViDock__Main_215FE34(void)
+void CViDock::Main_215FE34(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWorkCurrent(CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	add r0, r4, #0xf8
-	bl ViDockBack__Func_2164954
-	cmp r0, #0
-	ldmeqia sp!, {r4, pc}
-	ldr r0, =ViDock__Main_215F998
-	bl SetCurrentTaskMainEvent
-	mov r0, #1
-	str r0, [r4, #0xc]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if (ViDockBack__Func_2164954(&work->dockBack))
+    {
+        SetCurrentTaskMainEvent(CViDock::Main_215F998);
+        work->field_C = 1;
+    }
 }
 
-NONMATCH_FUNC void ViDock__Main_215FE68(void)
+void CViDock::Main_215FE68(void)
 {
-#ifdef NON_MATCHING
+    CViDock *work = TaskGetWorkCurrent(CViDock);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	bl GetCurrentTaskWork_
-	mov r5, r0
-	ldrh r0, [r5, #0]
-	bl HubConfig__GetDockMapConfig
-	mov r4, r0
-	add r0, r5, #0x18
-	bl ViMapIcon__Func_2163C80
-	add r0, r5, #0xf8
-	bl ViDockBack__Func_21649DC
-	mov r0, r5
-	bl ViDock__Func_215EF40
-	mov r0, #2
-	str r0, [sp, #4]
-	mov r0, #0x10
-	add r1, sp, #4
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-	mov r1, #0
-	mov r0, #0x11
-	mov r2, r1
-	bl NNS_G3dGeBufferOP_N
-	mov r1, #0
-	mov r0, #0x15
-	mov r2, r1
-	bl NNS_G3dGeBufferOP_N
-	add r0, r5, #0x18
-	bl ViMapIcon__Func_2163EBC
-	mov r0, r5
-	bl ViDock__Func_215F1A8
-	ldr r1, [r4, #0xc]
-	add r0, r5, #0xf8
-	bl ViDockBack__SetShipPosition
-	ldr r1, [r4, #8]
-	add r0, r5, #0xf8
-	bl ViDockBack__SetShipScale
-	add r1, r5, #0x1500
-	ldrh r2, [r4, #0x10]
-	ldrh r1, [r1, #0xb8]
-	add r0, r5, #0xf8
-	mov r3, #0
-	bl ViDockBack__DrawDock
-	mov r2, #1
-	mov r0, #0x12
-	add r1, sp, #0
-	str r2, [sp]
-	bl NNS_G3dGeBufferOP_N
-	add r0, r5, #0x1500
-	ldrh r1, [r0, #0xb8]
-	add r1, r1, #0x100
-	strh r1, [r0, #0xb8]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
+    const DockMapConfig *config = HubConfig__GetDockMapConfig(work->area);
 
-// clang-format on
-#endif
+    ViDockDrawState__Func_2163C80(&work->dockDrawState);
+    ViDockBack__Func_21649DC(&work->dockBack);
+    CViDock::Func_215EF40(work);
+    NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
+    NNS_G3dGePushMtx();
+    NNS_G3dGeIdentity();
+    ViDockDrawState__Func_2163EBC(&work->dockDrawState);
+    CViDock::Func_215F1A8(work);
+    ViDockBack__SetShipPosition(&work->dockBack, config->shipPosY);
+    ViDockBack__SetShipScale(&work->dockBack, config->shipScale);
+    ViDockBack__DrawDock(&work->dockBack, work->rotationY, config->rotationX, FLOAT_DEG_TO_IDX(0.0));
+    NNS_G3dGePopMtx(1);
+
+    work->rotationY += FLOAT_DEG_TO_IDX(1.40625);
 }
 
-void ViDock__Destructor(Task *task)
+void CViDock::Destructor(Task *task)
 {
     CViDock *work = TaskGetWork(task, CViDock);
 
-    ViDock__Func_215E6E4(work);
+    CViDock::Func_215E6E4(work);
 
-    // TODO: use 'HubTaskDestroy' when ViDock__Func_215FF6C matches
+    // TODO: use 'HubTaskDestroy' when CViDock__Func_215FF6C matches
     // HubTaskDestroy<CViDock>(task);
-    ViDock__Func_215FF6C(task);
+    CViDock__Func_215FF6C(task);
 
-    ViDock__TaskSingleton = NULL;
+    taskSingleton = NULL;
 }
 
 // TODO: should match when destructors are decompiled for 'CViDockPlayer' 'CViDockNpcGroup', 'CViShadow' && 'CViDockBack'
-NONMATCH_FUNC void ViDock__Func_215FF6C(Task *task)
+NONMATCH_FUNC void CViDock__Func_215FF6C(Task *task)
 {
 #ifdef NON_MATCHING
 
@@ -3058,7 +1908,7 @@ _0215FFB4:
 #endif
 }
 
-void ViDock__Func_215FFC0(void)
+void CViDock::Main_215FFC0(void)
 {
     CViDock *work = TaskGetWorkCurrent(CViDock);
 
@@ -3069,38 +1919,17 @@ void ViDock__Func_215FFC0(void)
     }
 }
 
-NONMATCH_FUNC void ViDock__Func_215FFF4(void)
+void CViDock::ThreadFunc(void *arg)
 {
-#ifdef NON_MATCHING
-    s32 area   = work->area;
-    work->area = work->field_4;
-    ViDock__LoadPlayer(work, area);
-    ViDock__Func_215E9F4(work, 0);
-    ViDock__Func_215EA8C(work);
-    ViDock__CreateNpcs(work);
-    work->shadow.field_14 = HubConfig__GetDockStageConfig(work->area)->field_34;
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldrh r1, [r4, #0]
-	ldr r2, [r4, #4]
-	strh r2, [r4]
-	bl ViDock__Func_215E754
-	mov r0, r4
-	mov r1, #0
-	bl ViDock__Func_215E9F4
-	mov r0, r4
-	bl ViDock__Func_215EA8C
-	mov r0, r4
-	bl ViDock__Func_215EB04
-	ldrh r0, [r4, #0]
-	bl HubConfig__GetDockStageConfig
-	ldrh r1, [r0, #0x34]
-	add r0, r4, #0x1400
-	strh r1, [r0, #0x5c]
-	ldmia sp!, {r4, pc}
+    CViDock *work = (CViDock *)arg;
 
-// clang-format on
-#endif
+    s32 area   = work->area;
+    work->area = work->areaUnknown;
+
+    CViDock::LoadPlayer(work, area);
+    CViDock::Func_215E9F4(work, FALSE);
+    CViDock::Func_215EA8C(work);
+    CViDock::CreateNpcs(work);
+
+    work->shadow.alpha = HubConfig__GetDockStageConfig(work->area)->shadowAlpha;
 }

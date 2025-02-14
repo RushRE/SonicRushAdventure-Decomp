@@ -121,7 +121,7 @@ public:
     VRAMPixelKey texture;
     VRAMPaletteKey palette;
     fx32 scale;
-    u16 word14;
+    u16 alpha;
 
     // --------------------
     // MEMBER FUNCTIONS

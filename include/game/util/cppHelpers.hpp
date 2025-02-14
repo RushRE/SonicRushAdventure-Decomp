@@ -81,7 +81,7 @@ VecFx32 *CPPHelpers__VEC_Set(VecFx32 *vec, fx32 x, fx32 y, fx32 z);
 VecFx32 *CPPHelpers__VEC_SetFromVec(VecFx32 *lhs, VecFx32 *rhs);
 VecFx32 *CPPHelpers__VEC_SetFromVec_2(VecFx32 *lhs, VecFx32 *rhs);
 VecFx32 *CPPHelpers__VEC_Normalize(VecFx32 *vec);
-s32 CPPHelpers__VEC_Magnitude(s32 *magnitude, VecFx32 *vec);
+void CPPHelpers__VEC_Magnitude(s32 *magnitude, VecFx32 *vec);
 VecFx32 *CPPHelpers__Func_2085F98(VecFx32 *vec);
 VecFx32 *CPPHelpers__Func_2085F9C(VecFx32 *vec);
 VecFx32 *CPPHelpers__Func_2085FA0(VecFx32 *vec);

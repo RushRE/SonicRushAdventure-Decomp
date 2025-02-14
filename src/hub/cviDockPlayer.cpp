@@ -163,7 +163,7 @@ void ViDockPlayer__Func_2166748(CViDockPlayer *work)
     work->loadedAssets = FALSE;
 }
 
-VecFx32 *ViDockPlayer__Func_21667A0(CViDockPlayer *work)
+VecFx32 *ViDockPlayer__GetTranslationUnknown(CViDockPlayer *work)
 {
     return &work->translationUnknown;
 }
@@ -182,7 +182,7 @@ void ViDockPlayer__Func_21667BC(CViDockPlayer *work, u16 angle, BOOL isRunning)
     work->moveFlag        = isRunning != FALSE ? CViDockPlayer::MOVEFLAG_RUNNING : CViDockPlayer::MOVEFLAG_WALKING;
 }
 
-void ViDockPlayer__Func_21667D4(CViDockPlayer *work, fx32 speed)
+void ViDockPlayer__Process(CViDockPlayer *work, fx32 speed)
 {
     MtxFx33 mtx1;
     MtxFx33 mtx2;

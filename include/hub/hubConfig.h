@@ -103,10 +103,10 @@ typedef struct DockStageConfig_
     s32 field_28;
     s32 field_2C;
     s32 field_30;
-    s32 field_34;
+    GXRgb shadowAlpha;
     fx32 playerTopSpeed;
     s32 field_3C;
-    s16 field_40;
+    s16 scale;
     s16 field_42;
 } DockStageConfig;
 
@@ -135,7 +135,7 @@ typedef struct ViDockBackConfig_
     u16 field_10;
     u16 field_12;
     s32 field_14;
-    s32 field_18;
+    u16 field_18;
 } ViDockBackConfig;
 
 typedef struct HubNpcTalkActionConfig_
@@ -210,7 +210,7 @@ const HubPurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id);
 const HubPurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void);
 const HubPurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id);
 const HubPurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id);
-const ViDockBackConfig *HubConfig__GetDockBackInfo(s32 id);
+const ViDockBackConfig *HubConfig__GetDockBackInfo(u16 id);
 const HubNpcSpawnConfig *HubConfig__GetNpcConfig(u16 id);
 const u16 *HubConfig__Func_2152A20(u16 id);
 const u16 *HubConfig__Func_2152A30(u16 id);
