@@ -1,4 +1,5 @@
 #include <hub/cviDockBack.hpp>
+#include <hub/cviDock.hpp>
 #include <hub/cvi3dObject.hpp>
 #include <game/util/cppHelpers.hpp>
 #include <game/system/threadWorker.h>
@@ -7,74 +8,55 @@
 #include <hub/hubConfig.h>
 
 // --------------------
+// STRUCTS
+// --------------------
+
+struct CViDockBackAssetBundle
+{
+    const char path[16];
+};
+
+// --------------------
 // TEMP
 // --------------------
 
 extern "C"
 {
 
-NOT_DECOMPILED void *aBbViDockBb_0;
-
-NOT_DECOMPILED void _ZdlPv(CViDockBack *work);
-
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167704EPS_tiit(void);
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_21677C4Ev(void);
-NOT_DECOMPILED void _ZN11CVi3dObject16ProcessAnimationEv(void);
-NOT_DECOMPILED void _ZN11CVi3dObject4DrawEv(void);
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A0CEtiiii(void);
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167A80Etiiii(void);
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_2167900Etiiii(void);
-NOT_DECOMPILED void _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t(void);
-
-NOT_DECOMPILED void _ZN9CViShadow12Func_2167F00EP7VecFx32(VecFx32 *position);
-
-NOT_DECOMPILED void Unknown2051334__Func_2051450(void);
-NOT_DECOMPILED void Unknown2051334__Func_2051334(void);
+NOT_DECOMPILED BOOL Unknown2051334__Func_2051450(fx32 x, fx32 z, fx32 *outX, fx32 *outZ, fx32 a5, fx32 a6, fx32 a7, fx32 a8);
+NOT_DECOMPILED void Unknown2051334__Func_2051334(fx32 a1, fx32 a2, fx32 a3, fx32 a4, fx32 x, fx32 z, fx32 *outX, fx32 *outZ);
 }
 
 // --------------------
 // VARIABLES
 // --------------------
 
-static void (*_021737C8[])(CViDockBack *work) = 
-{
-    ViDockBack__Func_2166480, ViDockBack__Func_2166480,
-	ViDockBack__Func_2166480, ViDockBack__Func_2166480,
-	ViDockBack__Func_2166480, ViDockBack__Func_2166488,
-	ViDockBack__Func_2166480,
+static fx32 (*getGroundPosForDockArea[CViDock::AREA_COUNT])(VecFx32 *pos) = {
+    CViDockBack::GetGroundPos_Common, CViDockBack::GetGroundPos_Common,    CViDockBack::GetGroundPos_Common, CViDockBack::GetGroundPos_Common,
+    CViDockBack::GetGroundPos_Common, CViDockBack::GetGroundPos_Submarine, CViDockBack::GetGroundPos_Common,
 };
 
-static void (*_021737AC[])(CViDockBack *work) = 
-{
-    ViDockBack__Func_2166368, ViDockBack__Func_21663B4,
-	ViDockBack__Func_21663D8, ViDockBack__Func_2166400,
-	ViDockBack__Func_2166420, ViDockBack__Func_2166440,
-	ViDockBack__Func_2166460,
+static void (*drawShadowForArea[CViDock::AREA_COUNT])(CViShadow *work, fx32 scale, fx32 x, fx32 z) = {
+    CViDockBack::DrawShadow_Common, CViDockBack::DrawShadow_Common,    CViDockBack::DrawShadow_Common, CViDockBack::DrawShadow_Common,
+    CViDockBack::DrawShadow_Common, CViDockBack::DrawShadow_Submarine, CViDockBack::DrawShadow_Common,
 };
 
-static void (*_02173774[])(CViDockBack *work) = 
-{
-     ViDockBack__Func_2164C44, ViDockBack__Func_216509C,
-	 ViDockBack__Func_2165268, ViDockBack__Func_21654C8,
-	 ViDockBack__Func_2165914, ViDockBack__Func_2165D60,
-	 ViDockBack__Func_2166158,
+static BOOL (*checkAreaExitForArea[CViDock::AREA_COUNT])(VecFx32 *pos) = {
+    CViDockBack::CheckExitArea_Base,  CViDockBack::CheckExitArea_BaseNext,  CViDockBack::CheckExitArea_Jet,   CViDockBack::CheckExitArea_Boat,
+    CViDockBack::CheckExitArea_Hover, CViDockBack::CheckExitArea_Submarine, CViDockBack::CheckExitArea_Beach,
 };
 
-static void (*_02173790[])(CViDockBack *work) = 
-{
-    ViDockBack__Func_21662E8, ViDockBack__Func_21662FC,
-	ViDockBack__Func_2166304, ViDockBack__Func_2166318,
-	ViDockBack__Func_216632C, ViDockBack__Func_2166340,
-	ViDockBack__Func_2166354,
+static BOOL (*handleCollisionsForArea[CViDock::AREA_COUNT])(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area) = {
+    CViDockBack::Collide_Base,  CViDockBack::Collide_BaseNext,  CViDockBack::Collide_Jet,   CViDockBack::Collide_Boat,
+    CViDockBack::Collide_Hover, CViDockBack::Collide_Submarine, CViDockBack::Collide_Beach,
 };
 
-static void (*_021737E4[])(CViDockBack *work) = 
-{
-    ViDockBack__Func_21664C0, ViDockBack__Func_21664C0,
-	ViDockBack__Func_21664C0, ViDockBack__Func_21664C0,
-	ViDockBack__Func_21664C0, ViDockBack__Func_2166500,
-	ViDockBack__Func_21664C0,
+static void (*getPlayerSpawnConfigForArea[CViDock::AREA_COUNT])(VecFx32 *position, u16 *angle, s32 area) = {
+    CViDockBack::PlayerSpawnConfig_Base,  CViDockBack::PlayerSpawnConfig_BaseNext,  CViDockBack::PlayerSpawnConfig_Jet,   CViDockBack::PlayerSpawnConfig_Boat,
+    CViDockBack::PlayerSpawnConfig_Hover, CViDockBack::PlayerSpawnConfig_Submarine, CViDockBack::PlayerSpawnConfig_Beach,
 };
+
+static const CViDockBackAssetBundle dockBackAssets[1] = { { "bb/vi_dock.bb" } };
 
 // --------------------
 // FUNCTIONS
@@ -82,616 +64,462 @@ static void (*_021737E4[])(CViDockBack *work) =
 
 CViDockBack::CViDockBack()
 {
-	// TODO: remove when these are decompiled properly
-    _ZN11CVi3dObjectC2Ev(&this->object1);
-    _ZN11CVi3dObjectC2Ev(&this->object2);
-    _ZN11CVi3dObjectC2Ev(&this->object3);
-    _ZN11CVi3dObjectC2Ev(&this->object4);
+    // TODO: remove when these are decompiled properly
+    _ZN11CVi3dObjectC2Ev(&this->dockObj[0]);
+    _ZN11CVi3dObjectC2Ev(&this->dockObj[1]);
+    _ZN11CVi3dObjectC2Ev(&this->dockObj[2]);
+    _ZN11CVi3dObjectC2Ev(&this->shipObj);
 
-    this->resModel2      = HeapAllocHead(HEAP_USER, 0x20000);
-    this->resUnknown     = HeapAllocHead(HEAP_USER, 0x2000);
-    this->resModel1      = HeapAllocHead(HEAP_USER, 0x40000);
-    this->resJointAnim   = HeapAllocHead(HEAP_USER, 0x2000);
-    this->resTextureAnim = HeapAllocHead(HEAP_USER, 0x2000);
-    this->resPatternAnim = HeapAllocHead(HEAP_USER, 0x800);
-	
-    this->field_908      = 0;
-    this->field_C20      = 0;
-    this->field_91C      = 0;
+    this->resModelDock     = HeapAllocHead(HEAP_USER, 0x20000);
+    this->resJointAnimDock = HeapAllocHead(HEAP_USER, 0x2000);
+    this->resModelShip     = HeapAllocHead(HEAP_USER, 0x40000);
+    this->resJointAnimShip = HeapAllocHead(HEAP_USER, 0x2000);
+    this->resTextureAnim   = HeapAllocHead(HEAP_USER, 0x2000);
+    this->resPatternAnim   = HeapAllocHead(HEAP_USER, 0x800);
 
-    InitThreadWorker(&this->thread, 0x800);
+    this->dockVisible = FALSE;
+    this->shipVisible = FALSE;
+    this->shipLoaded  = FALSE;
 
-    ViDockBack__Func_2164968(this);
+    InitThreadWorker(&this->threadWorker.thread, 0x800);
+
+    this->Release();
 }
 
 CViDockBack::~CViDockBack()
 {
-    ViDockBack__Func_2164968(this);
+    this->Release();
 
-    ReleaseThreadWorker(&this->thread);
+    ReleaseThreadWorker(&this->threadWorker.thread);
 
     HeapFree(HEAP_USER, this->resPatternAnim);
     HeapFree(HEAP_USER, this->resTextureAnim);
-    HeapFree(HEAP_USER, this->resJointAnim);
-    HeapFree(HEAP_USER, this->resModel1);
-    HeapFree(HEAP_USER, this->resUnknown);
-    HeapFree(HEAP_USER, this->resModel2);
+    HeapFree(HEAP_USER, this->resJointAnimShip);
+    HeapFree(HEAP_USER, this->resModelShip);
+    HeapFree(HEAP_USER, this->resJointAnimDock);
+    HeapFree(HEAP_USER, this->resModelDock);
 
-	// TODO: remove when these are decompiled properly
-    _ZN11CVi3dObjectD0Ev(&this->object4);
-    _ZN11CVi3dObjectD0Ev(&this->object3);
-    _ZN11CVi3dObjectD0Ev(&this->object2);
-    _ZN11CVi3dObjectD0Ev(&this->object1);
+    // TODO: remove when these are decompiled properly
+    _ZN11CVi3dObjectD0Ev(&this->shipObj);
+    _ZN11CVi3dObjectD0Ev(&this->dockObj[2]);
+    _ZN11CVi3dObjectD0Ev(&this->dockObj[1]);
+    _ZN11CVi3dObjectD0Ev(&this->dockObj[0]);
 }
 
-NONMATCH_FUNC void ViDockBack__LoadAssets(CViDockBack *work, s32 areaID, BOOL a3, BOOL a4)
+void CViDockBack::Init(s32 dockArea, BOOL noAssetRelease, BOOL disableAnimations)
 {
-#ifdef NON_MATCHING
+    if (noAssetRelease == FALSE)
+        this->Release();
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	sub sp, sp, #0x28
-	mov r9, r0
-	mov r4, r1
-	mov r8, r3
-	cmp r2, #0
-	bne _021645E8
-	bl ViDockBack__Func_2164968
-_021645E8:
-	cmp r4, #8
-	addge sp, sp, #0x28
-	str r4, [r9, #4]
-	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	mov r0, r4, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl HubConfig__GetDockBackInfo
-	mov r4, r0
-	cmp r8, #0
-	bne _02164814
-	ldrh r1, [r4, #8]
-	ldr r2, [r9, #0x90c]
-	mov r7, #0
-	ldr r0, =aBbViDockBb_0
-	mov r6, r7
-	mov r5, r7
-	bl BundleFileUnknown__LoadFileFromBundle
-	ldrh r1, [r4, #0xa]
-	ldr r0, =0x0000FFFF
-	cmp r1, r0
-	beq _0216464C
-	ldr r2, [r9, #0x910]
-	ldr r0, =aBbViDockBb_0
-	bl BundleFileUnknown__LoadFileFromBundle
-	ldr r5, [r9, #0x910]
-_0216464C:
-	ldrh r1, [r4, #0xc]
-	ldr r0, =0x0000FFFF
-	cmp r1, r0
-	beq _0216466C
-	ldr r2, [r9, #0x914]
-	ldr r0, =aBbViDockBb_0
-	bl BundleFileUnknown__LoadFileFromBundle
-	ldr r7, [r9, #0x914]
-_0216466C:
-	ldrh r1, [r4, #0xe]
-	ldr r0, =0x0000FFFF
-	cmp r1, r0
-	beq _0216468C
-	ldr r2, [r9, #0x918]
-	ldr r0, =aBbViDockBb_0
-	bl BundleFileUnknown__LoadFileFromBundle
-	ldr r6, [r9, #0x918]
-_0216468C:
-	ldr r0, [r9, #4]
-	mov r2, #0
-	cmp r0, #6
-	ldr r0, =0x0000FFFF
-	stmia sp, {r2, r5}
-	beq _02164750
-	str r2, [sp, #8]
-	str r2, [sp, #0xc]
-	str r6, [sp, #0x10]
-	str r7, [sp, #0x14]
-	str r0, [sp, #0x18]
-	ldr r1, [r9, #0x90c]
-	mov r3, r2
-	add r0, r9, #8
-	bl _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t
-	ldrh r1, [r4, #0xa]
-	ldr r0, =0x0000FFFF
-	cmp r1, r0
-	beq _021646F4
-	mov r1, #0
-	str r1, [sp]
-	mov r3, r1
-	add r0, r9, #8
-	mov r2, #1
-	str r1, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167900Etiiii
-_021646F4:
-	ldrh r1, [r4, #0xc]
-	ldr r0, =0x0000FFFF
-	cmp r1, r0
-	beq _02164720
-	mov r1, #0
-	str r1, [sp]
-	mov r3, r1
-	add r0, r9, #8
-	mov r2, #1
-	str r1, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167A80Etiiii
-_02164720:
-	ldrh r1, [r4, #0xe]
-	ldr r0, =0x0000FFFF
-	cmp r1, r0
-	beq _0216480C
-	mov r1, #0
-	str r1, [sp]
-	mov r3, r1
-	add r0, r9, #8
-	mov r2, #1
-	str r1, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167A0CEtiiii
-	b _0216480C
-_02164750:
-	str r2, [sp, #8]
-	str r2, [sp, #0xc]
-	str r6, [sp, #0x10]
-	str r7, [sp, #0x14]
-	str r0, [sp, #0x18]
-	ldr r1, [r9, #0x90c]
-	mov r3, r2
-	add r0, r9, #8
-	bl _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t
-	ldr r5, =0x0000FFFF
-	mov r3, #0
-	add r0, r9, #0x308
-	add r1, r9, #8
-	mov r2, #1
-	stmia sp, {r3, r5}
-	bl _ZN11CVi3dObject12Func_2167704EPS_tiit
-	mov r1, #0
-	str r1, [sp]
-	mov r3, r1
-	add r0, r9, #0x308
-	mov r2, #1
-	str r1, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167900Etiiii
-	mov r1, #0
-	str r1, [sp]
-	add r0, r9, #0x308
-	mov r2, #1
-	mov r3, r1
-	str r1, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167A0CEtiiii
-	mov r3, #0
-	add r0, r9, #0x208
-	str r3, [sp]
-	mov r1, r5
-	str r1, [sp, #4]
-	add r0, r0, #0x400
-	add r1, r9, #8
-	mov r2, #2
-	bl _ZN11CVi3dObject12Func_2167704EPS_tiit
-	mov r3, #0
-	add r0, r9, #0x208
-	mov r1, #1
-	str r3, [sp]
-	add r0, r0, #0x400
-	mov r2, r1
-	str r3, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167900Etiiii
-_0216480C:
-	mov r0, #1
-	str r0, [r9, #0x908]
-_02164814:
-	ldrh r1, [r4, #4]
-	ldr r0, =0x0000FFFF
-	cmp r1, r0
-	beq _021648F8
-	ldr r2, [r9, #0xc24]
-	ldr r0, =aBbViDockBb_0
-	mov r5, #0
-	bl BundleFileUnknown__LoadFileFromBundle
-	cmp r8, #0
-	bne _0216485C
-	ldrh r1, [r4, #6]
-	ldr r0, =0x0000FFFF
-	cmp r1, r0
-	beq _0216485C
-	ldr r2, [r9, #0xc28]
-	ldr r0, =aBbViDockBb_0
-	bl BundleFileUnknown__LoadFileFromBundle
-	ldr r5, [r9, #0xc28]
-_0216485C:
-	mov r2, #0
-	stmia sp, {r2, r5}
-	str r2, [sp, #8]
-	str r2, [sp, #0xc]
-	str r2, [sp, #0x10]
-	ldr r0, =0x0000FFFF
-	str r2, [sp, #0x14]
-	str r0, [sp, #0x18]
-	ldr r1, [r9, #0xc24]
-	mov r3, r2
-	add r0, r9, #0x920
-	bl _ZN11CVi3dObject12Func_216763CEPvtiiS0_S0_S0_S0_S0_t
-	cmp r8, #0
-	bne _021648EC
-	ldrh r1, [r4, #6]
-	ldr r0, =0x0000FFFF
-	cmp r1, r0
-	beq _021648C0
-	mov r1, #0
-	str r1, [sp]
-	mov r3, r1
-	add r0, r9, #0x920
-	mov r2, #1
-	str r1, [sp, #4]
-	bl _ZN11CVi3dObject12Func_2167900Etiiii
-_021648C0:
-	mov r1, #0
-	ldr r2, [r4, #0x14]
-	add r0, sp, #0x1c
-	mov r3, r1
-	bl CPPHelpers__VEC_Set
-	add r0, sp, #0x1c
-	bl CPPHelpers__Func_2085F98
-	add r2, r9, #0x128
-	mov r1, r0
-	add r0, r2, #0x800
-	bl CPPHelpers__VEC_Copy_Alt
-_021648EC:
-	mov r0, #1
-	str r0, [r9, #0x91c]
-	b _02164900
-_021648F8:
-	mov r0, #0
-	str r0, [r9, #0x91c]
-_02164900:
-	mov r0, #1
-	str r0, [r9, #0xc20]
-	add sp, sp, #0x28
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+    this->dockArea = dockArea;
+    if (dockArea < DOCKAREA_NONE)
+    {
+        const ViDockBackConfig *config = HubConfig__GetDockBackInfo(dockArea);
+        if (disableAnimations == FALSE)
+        {
+            void *resJointAnimDock;
+            void *resPatternAnim;
+            void *resTextureAnim;
 
-// clang-format on
-#endif
+            resTextureAnim   = NULL;
+            resPatternAnim   = NULL;
+            resJointAnimDock = NULL;
+
+            BundleFileUnknown__LoadFileFromBundle(dockBackAssets[0].path, config->resModelDock, this->resModelDock);
+
+            if (config->resJointAnimDock != CVI3DOBJECT_RESOURCE_NONE)
+            {
+                BundleFileUnknown__LoadFileFromBundle(dockBackAssets[0].path, config->resJointAnimDock, this->resJointAnimDock);
+                resJointAnimDock = this->resJointAnimDock;
+            }
+
+            if (config->resTextureAnimDock != CVI3DOBJECT_RESOURCE_NONE)
+            {
+                BundleFileUnknown__LoadFileFromBundle(dockBackAssets[0].path, config->resTextureAnimDock, this->resTextureAnim);
+                resTextureAnim = this->resTextureAnim;
+            }
+
+            if (config->resPatternAnimDock != CVI3DOBJECT_RESOURCE_NONE)
+            {
+                BundleFileUnknown__LoadFileFromBundle(dockBackAssets[0].path, config->resPatternAnimDock, this->resPatternAnim);
+                resPatternAnim = this->resPatternAnim;
+            }
+
+            if (this->dockArea != DOCKAREA_BEACH)
+            {
+                this->dockObj[0].SetResources(this->resModelDock, 0, FALSE, FALSE, resJointAnimDock, NULL, NULL, resPatternAnim, resTextureAnim, CVI3DOBJECT_RESOURCE_NONE);
+
+                if (config->resJointAnimDock != CVI3DOBJECT_RESOURCE_NONE)
+                    this->dockObj[0].SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+
+                if (config->resTextureAnimDock != CVI3DOBJECT_RESOURCE_NONE)
+                    this->dockObj[0].SetVisibilityAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+
+                if (config->resPatternAnimDock != CVI3DOBJECT_RESOURCE_NONE)
+                    this->dockObj[0].SetTextureAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+            }
+            else
+            {
+                this->dockObj[0].SetResources(this->resModelDock, 0, FALSE, FALSE, resJointAnimDock, NULL, NULL, resPatternAnim, resTextureAnim, CVI3DOBJECT_RESOURCE_NONE);
+
+                this->dockObj[1].SetResources(&this->dockObj[0], 1, FALSE, FALSE, CVI3DOBJECT_RESOURCE_NONE);
+                this->dockObj[1].SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+                this->dockObj[1].SetTextureAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+
+                this->dockObj[2].SetResources(&this->dockObj[0], 2, FALSE, FALSE, CVI3DOBJECT_RESOURCE_NONE);
+                this->dockObj[2].SetJointAnimForBody(1, TRUE, FALSE, FALSE, FALSE);
+            }
+
+            this->dockVisible = TRUE;
+        }
+
+        if (config->resModelShip != CVI3DOBJECT_RESOURCE_NONE)
+        {
+            void *resJointAnim = NULL;
+            BundleFileUnknown__LoadFileFromBundle(dockBackAssets[0].path, config->resModelShip, this->resModelShip);
+
+            if (disableAnimations == FALSE)
+            {
+                if (config->resJointAnimShip != CVI3DOBJECT_RESOURCE_NONE)
+                {
+                    BundleFileUnknown__LoadFileFromBundle(dockBackAssets[0].path, config->resJointAnimShip, this->resJointAnimShip);
+                    resJointAnim = this->resJointAnimShip;
+                }
+            }
+
+            this->shipObj.SetResources(this->resModelShip, 0, FALSE, FALSE, resJointAnim, NULL, NULL, NULL, NULL, CVI3DOBJECT_RESOURCE_NONE);
+
+            if (disableAnimations == FALSE)
+            {
+                if (config->resJointAnimShip != CVI3DOBJECT_RESOURCE_NONE)
+                    this->shipObj.SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+
+                VecFx32 a1;
+                CPPHelpers__VEC_Set(&a1, 0, config->field_14, 0);
+                CPPHelpers__VEC_Copy_Alt(&this->shipObj.position, CPPHelpers__Func_2085F98(&a1));
+            }
+
+            this->shipLoaded = TRUE;
+        }
+        else
+        {
+            this->shipLoaded = FALSE;
+        }
+
+        this->shipVisible = TRUE;
+    }
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164918(CViDockBack *work, s32 area)
+void CViDockBack::SetArea(s32 area)
 {
-#ifdef NON_MATCHING
+    this->Release();
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r4, r1
-	bl ViDockBack__Func_2164968
-	add r2, r5, #0x2c
-	str r4, [r5, #4]
-	str r5, [r5, #0xcf8]
-	ldr r1, =ViDockBack__Func_2166540
-	add r0, r2, #0xc00
-	add r2, r2, #0xc00
-	mov r3, #0x14
-	str r4, [r5, #0xcfc]
-	bl CreateThreadWorker
-	ldmia sp!, {r3, r4, r5, pc}
+    this->dockArea = area;
 
-// clang-format on
-#endif
+    this->threadWorker.parent = this;
+    this->threadWorker.area   = area;
+    CreateThreadWorker(&this->threadWorker.thread, CViDockBack::ThreadFunc, &this->threadWorker, 20);
 }
 
-NONMATCH_FUNC BOOL ViDockBack__Func_2164954(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =IsThreadWorkerFinished
-	add r0, r0, #0x2c
-	add r0, r0, #0xc00
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_2164968(CViDockBack *work)
+BOOL CViDockBack::IsThreadIdle()
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r0, r4, #0x2c
-	add r0, r0, #0xc00
-	bl JoinThreadWorker
-	ldr r0, [r4, #0x908]
-	cmp r0, #0
-	beq _021649AC
-	add r0, r4, #8
-	bl _ZN11CVi3dObject12Func_21677C4Ev
-	add r0, r4, #0x308
-	bl _ZN11CVi3dObject12Func_21677C4Ev
-	add r0, r4, #0x208
-	add r0, r0, #0x400
-	bl _ZN11CVi3dObject12Func_21677C4Ev
-	mov r0, #0
-	str r0, [r4, #0x908]
-_021649AC:
-	ldr r0, [r4, #0xc20]
-	cmp r0, #0
-	beq _021649C8
-	add r0, r4, #0x920
-	bl _ZN11CVi3dObject12Func_21677C4Ev
-	mov r0, #0
-	str r0, [r4, #0xc20]
-_021649C8:
-	mov r0, #0
-	str r0, [r4, #0x91c]
-	mov r0, #9
-	str r0, [r4, #4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    return IsThreadWorkerFinished(&this->threadWorker.thread);
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21649DC(CViDockBack *work)
+void CViDockBack::Release()
 {
-#ifdef NON_MATCHING
+    JoinThreadWorker(&this->threadWorker.thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0x908]
-	cmp r0, #0
-	beq _02164A18
-	add r0, r4, #8
-	bl _ZN11CVi3dObject16ProcessAnimationEv
-	ldr r0, [r4, #4]
-	cmp r0, #6
-	bne _02164A18
-	add r0, r4, #0x308
-	bl _ZN11CVi3dObject16ProcessAnimationEv
-	add r0, r4, #0x208
-	add r0, r0, #0x400
-	bl _ZN11CVi3dObject16ProcessAnimationEv
-_02164A18:
-	ldr r0, [r4, #0x91c]
-	cmp r0, #0
-	ldrne r0, [r4, #0xc20]
-	cmpne r0, #0
-	ldmeqia sp!, {r4, pc}
-	add r0, r4, #0x920
-	bl _ZN11CVi3dObject16ProcessAnimationEv
-	ldmia sp!, {r4, pc}
+    if (this->dockVisible)
+    {
+        this->dockObj[0].Release();
+        this->dockObj[1].Release();
+        this->dockObj[2].Release();
+        this->dockVisible = FALSE;
+    }
 
-// clang-format on
-#endif
+    if (this->shipVisible)
+    {
+        this->shipObj.Release();
+        this->shipVisible = FALSE;
+    }
+
+    this->shipLoaded = FALSE;
+    this->dockArea   = DOCKAREA_INVALID;
 }
 
-NONMATCH_FUNC void ViDockBack__SetShipPosition(CViDockBack *work, fx32 y)
+void CViDockBack::Process()
 {
-#ifdef NON_MATCHING
+    if (this->dockVisible)
+    {
+        this->dockObj[0].Process();
+        if (this->dockArea == DOCKAREA_BEACH)
+        {
+            this->dockObj[1].Process();
+            this->dockObj[2].Process();
+        }
+    }
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0xc
-	mov r5, r0
-	add r0, r5, #0x128
-	add r0, r0, #0x800
-	mov r4, r1
-	bl CPPHelpers__Func_2085F9C
-	ldr r1, [r0, #0]
-	add r0, r5, #0x128
-	str r1, [sp]
-	str r4, [sp, #4]
-	add r0, r0, #0x800
-	bl CPPHelpers__Func_2085F9C
-	ldr r2, [r0, #8]
-	add r0, r5, #0x128
-	add r1, sp, #0
-	add r0, r0, #0x800
-	str r2, [sp, #8]
-	bl CPPHelpers__VEC_Copy_Alt
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, pc}
-
-// clang-format on
-#endif
+    if (this->shipLoaded && this->shipVisible)
+        this->shipObj.Process();
 }
 
-NONMATCH_FUNC void ViDockBack__SetShipScale(CViDockBack *work, fx32 scale)
+void CViDockBack::SetShipPosition(fx32 y)
 {
-#ifdef NON_MATCHING
+    VecFx32 translation;
+    translation.x = CPPHelpers__Func_2085F9C(&this->shipObj.position)->x;
+    translation.y = y;
+    translation.z = CPPHelpers__Func_2085F9C(&this->shipObj.position)->z;
 
-#else
-    // clang-format off
-	stmdb sp!, {lr}
-	sub sp, sp, #0xc
-	str r1, [sp, #8]
-	str r1, [sp, #4]
-	str r1, [sp]
-	add r1, sp, #0
-	add r0, r0, #0x940
-	bl CPPHelpers__VEC_Copy_Alt
-	add sp, sp, #0xc
-	ldmia sp!, {pc}
-
-// clang-format on
-#endif
+    CPPHelpers__VEC_Copy_Alt(&this->shipObj.position, &translation);
 }
 
-NONMATCH_FUNC void ViDockBack__DrawDock(CViDockBack *work, u16 rotationY, u16 rotationX, u16 rotationZ)
+void CViDockBack::SetShipScale(fx32 scale)
 {
-#ifdef NON_MATCHING
+    VecFx32 scaleVec;
+    scaleVec.x = scaleVec.y = scaleVec.z = scale;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r7, r0
-	ldr r0, [r7, #0x908]
-	mov r6, r1
-	mov r5, r2
-	mov r4, r3
-	cmp r0, #0
-	beq _02164B28
-	strh r6, [r7, #0x40]
-	strh r5, [r7, #0x48]
-	strh r4, [r7, #0x4a]
-	add r0, r7, #8
-	bl _ZN11CVi3dObject4DrawEv
-	ldr r0, [r7, #4]
-	cmp r0, #6
-	bne _02164B28
-	add r1, r7, #0x300
-	strh r6, [r1, #0x40]
-	strh r5, [r1, #0x48]
-	add r0, r7, #0x308
-	strh r4, [r1, #0x4a]
-	bl _ZN11CVi3dObject4DrawEv
-	add r1, r7, #0x600
-	strh r6, [r1, #0x40]
-	add r0, r7, #0x208
-	strh r5, [r1, #0x48]
-	add r0, r0, #0x400
-	strh r4, [r1, #0x4a]
-	bl _ZN11CVi3dObject4DrawEv
-_02164B28:
-	ldr r0, [r7, #0x91c]
-	cmp r0, #0
-	ldrne r0, [r7, #0xc20]
-	cmpne r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	add r1, r7, #0x900
-	strh r6, [r1, #0x58]
-	strh r5, [r1, #0x60]
-	add r0, r7, #0x920
-	strh r4, [r1, #0x62]
-	bl _ZN11CVi3dObject4DrawEv
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
+    CPPHelpers__VEC_Copy_Alt(&this->shipObj.scale, &scaleVec);
 }
 
-NONMATCH_FUNC void ViDockBack__ProcessCollision(CViDockBack *work, VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *flag0, BOOL *flag1, BOOL *flag2)
+void CViDockBack::DrawDock(u16 rotationY, u16 rotationX, u16 rotationZ)
 {
-#ifdef NON_MATCHING
+    if (this->dockVisible)
+    {
+        this->dockObj[0].targetTurnAngle = rotationY;
+        this->dockObj[0].rotationX       = rotationX;
+        this->dockObj[0].rotationZ       = rotationZ;
+        this->dockObj[0].Draw();
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	sub sp, sp, #8
-	ldr lr, [sp, #0x14]
-	ldr ip, [sp, #0x18]
-	str lr, [sp]
-	str ip, [sp, #4]
-	ldr lr, [r0, #4]
-	ldr ip, =_02173774
-	mov r0, r1
-	mov r1, r2
-	mov r2, r3
-	ldr r3, [sp, #0x10]
-	ldr ip, [ip, lr, lsl #2]
-	blx ip
-	add sp, sp, #8
-	ldmia sp!, {r3, pc}
+        if (this->dockArea == DOCKAREA_BEACH)
+        {
+            this->dockObj[1].targetTurnAngle = rotationY;
+            this->dockObj[1].rotationX       = rotationX;
+            this->dockObj[1].rotationZ       = rotationZ;
+            this->dockObj[1].Draw();
 
-// clang-format on
-#endif
+            this->dockObj[2].targetTurnAngle = rotationY;
+            this->dockObj[2].rotationX       = rotationX;
+            this->dockObj[2].rotationZ       = rotationZ;
+            this->dockObj[2].Draw();
+        }
+    }
+
+    if (this->shipLoaded && this->shipVisible)
+    {
+        this->shipObj.targetTurnAngle = rotationY;
+        this->shipObj.rotationX       = rotationX;
+        this->shipObj.rotationZ       = rotationZ;
+        this->shipObj.Draw();
+    }
 }
 
-NONMATCH_FUNC BOOL ViDockBack__Func_2164B9C(CViDockBack *work, VecFx32 pos){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r0, r1, r2, r3}
-	stmdb sp!, {r3, lr}
-	ldr r2, [r0, #4]
-	ldr r1, =_02173790
-	add r0, sp, #0xc
-	ldr r1, [r1, r2, lsl #2]
-	blx r1
-	ldmia sp!, {r3, lr}
-	add sp, sp, #0x10
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC fx32 ViDockBack__GetFloorPosition(CViDockBack *work, VecFx32 pos){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r0, r1, r2, r3}
-	stmdb sp!, {r3, lr}
-	ldr r2, [r0, #4]
-	ldr r1, =_021737C8
-	add r0, sp, #0xc
-	ldr r1, [r1, r2, lsl #2]
-	blx r1
-	ldmia sp!, {r3, lr}
-	add sp, sp, #0x10
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__DrawShadow(CViDockBack *work, CViShadow *shadow, fx32 scale, fx32 x, fx32 z)
+BOOL CViDockBack::ProcessCollision(VecFx32 *prevPlayerPos, VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr lr, [r0, #4]
-	ldr ip, =_021737E4
-	mov r0, r1
-	mov r1, r2
-	mov r2, r3
-	ldr r3, [sp, #8]
-	ldr ip, [ip, lr, lsl #2]
-	blx ip
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    return handleCollisionsForArea[this->dockArea](prevPlayerPos, curPlayerPos, newPlayerPos, isSailPrompt, a5, area);
 }
 
-NONMATCH_FUNC void ViDockBack__GetPlayerSpawnConfig(s32 id, VecFx32 *position, u16 *angle, s32 area)
+BOOL CViDockBack::DidExitArea(VecFx32 pos)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr ip, =_021737AC
-	ldr ip, [ip, r0, lsl #2]
-	mov r0, r1
-	mov r1, r2
-	mov r2, r3
-	blx ip
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    return checkAreaExitForArea[this->dockArea](&pos);
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2164C44(CViDockBack *work)
+fx32 CViDockBack::GetFloorPosition(VecFx32 pos)
 {
-#ifdef NON_MATCHING
+    return getGroundPosForDockArea[this->dockArea](&pos);
+}
 
+void CViDockBack::DrawShadow(CViShadow *shadow, fx32 scale, fx32 x, fx32 z)
+{
+    drawShadowForArea[this->dockArea](shadow, scale, x, z);
+}
+
+void CViDockBack::GetPlayerSpawnConfig(s32 id, VecFx32 *position, u16 *angle, s32 area)
+{
+    getPlayerSpawnConfigForArea[id](position, angle, area);
+}
+
+NONMATCH_FUNC BOOL CViDockBack::Collide_Base(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+{
+    // https://decomp.me/scratch/ytRAy -> 93.62%
+#ifdef NON_MATCHING
+    BOOL collided = FALSE;
+
+    if (isSailPrompt != NULL)
+        *isSailPrompt = FALSE;
+
+    if (a5 != NULL)
+        *a5 = FALSE;
+
+    if (area != NULL)
+        *area = DOCKAREA_BASE;
+
+    fx32 x1 = pos1->x;
+    fx32 x0 = pos0->x;
+    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    {
+        pos2->x = pos1->x;
+        pos2->y = pos1->y;
+        pos2->z = pos1->z;
+    }
+    else
+    {
+        fx32 z0   = pos0->z;
+        fx32 outX = pos1->x;
+        fx32 z1   = pos1->z;
+        fx32 outZ = pos1->z;
+
+        if (z0 > FLOAT_TO_FX32(19.0))
+        {
+            if (outZ > FLOAT_TO_FX32(26.0))
+                outZ = FLOAT_TO_FX32(26.0);
+
+            if (outX < -FLOAT_TO_FX32(2.0))
+            {
+                if (outZ > FLOAT_TO_FX32(23.0))
+                {
+                    outX = -FLOAT_TO_FX32(2.0);
+                }
+                else
+                {
+                    Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, -FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(23.0), -FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(19.0));
+                }
+            }
+            else
+            {
+                if (outX > FLOAT_TO_FX32(2.0))
+                {
+                    if (outZ > FLOAT_TO_FX32(23.0))
+                    {
+                        outX = FLOAT_TO_FX32(2.0);
+                    }
+                    else
+                    {
+                        Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(19.0), FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(23.0));
+                    }
+                }
+            }
+        }
+        else if (x0 < -FLOAT_TO_FX32(10.0))
+        {
+            if (outZ > FLOAT_TO_FX32(19.0))
+                outZ = FLOAT_TO_FX32(19.0);
+
+            if (outZ < FLOAT_TO_FX32(12.0))
+                outZ = FLOAT_TO_FX32(12.0);
+
+            if (outX < -FLOAT_TO_FX32(15.0))
+                outX = -FLOAT_TO_FX32(15.0);
+        }
+        else if (x0 < FLOAT_TO_FX32(8.0))
+        {
+            if (outZ > FLOAT_TO_FX32(19.0))
+            {
+                if (outX < -FLOAT_TO_FX32(6.0) || outX > FLOAT_TO_FX32(6.0))
+                {
+                    outZ = FLOAT_TO_FX32(19.0);
+                }
+                else
+                {
+                    if (outX < -FLOAT_TO_FX32(2.0))
+                    {
+                        Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, -FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(23.0), -FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(19.0));
+                    }
+                    else if (outX > FLOAT_TO_FX32(2.0))
+                    {
+                        Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(19.0), FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(23.0));
+                    }
+                }
+            }
+
+            if (outZ < FLOAT_TO_FX32(5.0))
+                outZ = FLOAT_TO_FX32(5.0);
+
+            if (outZ < FLOAT_TO_FX32(12.0) && outX < -FLOAT_TO_FX32(10.0))
+                outX = -FLOAT_TO_FX32(10.0);
+        }
+        else if (z0 > FLOAT_TO_FX32(4.0))
+        {
+            if (outZ > FLOAT_TO_FX32(19.0))
+                outZ = FLOAT_TO_FX32(19.0);
+
+            if (outX > FLOAT_TO_FX32(16.0))
+            {
+                if (outZ > FLOAT_TO_FX32(8.0))
+                {
+                    outX = FLOAT_TO_FX32(16.0);
+                }
+                else
+                {
+                    Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, 81920, FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(16.0), FLOAT_TO_FX32(8.0));
+                }
+            }
+
+            if (outZ < FLOAT_TO_FX32(5.0) && outX < FLOAT_TO_FX32(9.0))
+                outX = FLOAT_TO_FX32(9.0);
+        }
+        else if (x0 > FLOAT_TO_FX32(16.0))
+        {
+            if (outX > FLOAT_TO_FX32(25.0))
+                outX = FLOAT_TO_FX32(25.0);
+
+            if (outZ > FLOAT_TO_FX32(4.0))
+            {
+                if (outX > FLOAT_TO_FX32(20.0))
+                {
+                    outZ = FLOAT_TO_FX32(4.0);
+                }
+                else
+                {
+                    Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, FLOAT_TO_FX32(20.0), FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(16.0), FLOAT_TO_FX32(8.0));
+                }
+            }
+
+            if (outZ < -FLOAT_TO_FX32(2.0))
+            {
+                if (outX > FLOAT_TO_FX32(20.0))
+                {
+                    outZ = -FLOAT_TO_FX32(2.0);
+                }
+                else
+                {
+                    Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, FLOAT_TO_FX32(16.0), -FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(20.0), -FLOAT_TO_FX32(2.0));
+                }
+            }
+        }
+        else
+        {
+            if (outX < FLOAT_TO_FX32(9.0))
+                outX = FLOAT_TO_FX32(9.0);
+
+            if (outZ < -FLOAT_TO_FX32(6.0))
+                outZ = -FLOAT_TO_FX32(6.0);
+
+            if (outZ < -FLOAT_TO_FX32(2.0))
+            {
+                if (outZ < -FLOAT_TO_FX32(6.0))
+                {
+                    outX = FLOAT_TO_FX32(16.0);
+                }
+                else
+                {
+                    Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, FLOAT_TO_FX32(16.0), -FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(20.0), -FLOAT_TO_FX32(2.0));
+                }
+            }
+        }
+
+        pos2->x = outX;
+        pos2->y = pos1->y;
+        pos2->z = outZ;
+
+        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+            collided = TRUE;
+
+        if (pos2->x >= FLOAT_TO_FX32(23.0) && area != NULL)
+            *area = DOCKAREA_BASE_NEXT;
+    }
+
+    return collided;
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
@@ -992,10 +820,87 @@ _02165090:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_216509C(CViDockBack *work)
+NONMATCH_FUNC BOOL CViDockBack::Collide_BaseNext(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
+    // https://decomp.me/scratch/iQo2Y -> 97.87%
 #ifdef NON_MATCHING
+    BOOL collided = FALSE;
 
+    if (isSailPrompt != NULL)
+        *isSailPrompt = FALSE;
+
+    if (a5 != NULL)
+        *a5 = FALSE;
+
+    if (area != NULL)
+        *area = DOCKAREA_BASE_NEXT;
+
+    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    {
+        pos2->x = pos1->x;
+        pos2->y = pos1->y;
+        pos2->z = pos1->z;
+    }
+    else
+    {
+        fx32 outX;
+        fx32 outZ;
+        fx32 x0;
+
+        x0   = pos0->x;
+        outX = pos1->x;
+        outZ = pos1->z;
+
+        if (outZ < -FLOAT_TO_FX32(3.0))
+            outZ = -FLOAT_TO_FX32(3.0);
+
+        if (outZ > FLOAT_TO_FX32(16.0))
+            outZ = FLOAT_TO_FX32(16.0);
+
+        if (outX > FLOAT_TO_FX32(14.0))
+            outX = FLOAT_TO_FX32(14.0);
+
+        if (x0 < -FLOAT_TO_FX32(14.0))
+        {
+            if (outZ > FLOAT_TO_FX32(3.0))
+            {
+                if (outX < -FLOAT_TO_FX32(18.0))
+                {
+                    outZ = FLOAT_TO_FX32(3.0);
+                }
+                else
+                {
+                    Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, -FLOAT_TO_FX32(14.0), FLOAT_TO_FX32(7.0), -FLOAT_TO_FX32(18.0), FLOAT_TO_FX32(3.0));
+                }
+            }
+        }
+        else if (outX < -FLOAT_TO_FX32(14.0))
+        {
+            if (outZ > FLOAT_TO_FX32(3.0))
+            {
+                if (outZ > FLOAT_TO_FX32(7.0))
+                {
+                    outX = -FLOAT_TO_FX32(14.0);
+                }
+                else
+                {
+                    Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, -FLOAT_TO_FX32(14.0), FLOAT_TO_FX32(7.0), -FLOAT_TO_FX32(18.0), FLOAT_TO_FX32(3.0));
+                }
+            }
+        }
+
+        pos2->x = outX;
+        pos2->y = pos1->y;
+        pos2->z = outZ;
+
+        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+            collided = TRUE;
+
+        if (pos2->x <= -FLOAT_TO_FX32(22.0) && area != NULL)
+            *area = DOCKAREA_BASE;
+    }
+
+    return collided;
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
@@ -1122,10 +1027,119 @@ _0216525C:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2165268(CViDockBack *work)
+NONMATCH_FUNC BOOL CViDockBack::Collide_Jet(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
+    // https://decomp.me/scratch/sFudn -> 98.95%
 #ifdef NON_MATCHING
+    BOOL collided = FALSE;
 
+    if (isSailPrompt != NULL)
+        *isSailPrompt = FALSE;
+
+    if (a5 != NULL)
+        *a5 = FALSE;
+
+    if (area != NULL)
+        *area = DOCKAREA_JET;
+
+    fx32 x1 = pos1->x;
+    fx32 x0 = pos0->x;
+
+    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    {
+        pos2->x = pos1->x;
+        pos2->y = pos1->y;
+        pos2->z = pos1->z;
+    }
+    else
+    {
+        fx32 z0   = pos0->z;
+        fx32 outX = pos1->x;
+        fx32 outZ = pos1->z;
+
+        if (z0 > FLOAT_TO_FX32(47.0))
+        {
+            if (outZ > FLOAT_TO_FX32(94.0))
+                outZ = FLOAT_TO_FX32(94.0);
+
+            if (outX < -FLOAT_TO_FX32(33.0))
+                outX = -FLOAT_TO_FX32(33.0);
+
+            if (outX > -FLOAT_TO_FX32(26.0))
+            {
+                if (outZ <= FLOAT_TO_FX32(55.0))
+                {
+                    Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, -FLOAT_TO_FX32(20.0), FLOAT_TO_FX32(47.0), -FLOAT_TO_FX32(26.0), FLOAT_TO_FX32(55.0));
+                }
+                else
+                {
+                    outX = -FLOAT_TO_FX32(26.0);
+                }
+            }
+        }
+        else
+        {
+            if (x1 < -FLOAT_TO_FX32(33.0))
+                outX = -FLOAT_TO_FX32(33.0);
+
+            if (outX > FLOAT_TO_FX32(32.0))
+                outX = FLOAT_TO_FX32(32.0);
+
+            if (outZ < FLOAT_TO_FX32(18.0))
+            {
+                outZ = FLOAT_TO_FX32(18.0);
+
+                if (a5 != NULL)
+                    *a5 = TRUE;
+            }
+
+            if (outX > -FLOAT_TO_FX32(26.0) && outZ > FLOAT_TO_FX32(47.0))
+            {
+                if (outX <= -FLOAT_TO_FX32(20.0))
+                {
+                    Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, -FLOAT_TO_FX32(20.0), FLOAT_TO_FX32(47.0), -FLOAT_TO_FX32(26.0), FLOAT_TO_FX32(55.0));
+                }
+                else
+                {
+                    outZ = FLOAT_TO_FX32(47.0);
+                }
+            }
+
+            if (x0 <= FLOAT_TO_FX32(10.0))
+            {
+                if (outX > FLOAT_TO_FX32(10.0))
+                {
+                    if (outZ < FLOAT_TO_FX32(29.0))
+                        outX = FLOAT_TO_FX32(10.0);
+                }
+            }
+            else
+            {
+                if (outZ < FLOAT_TO_FX32(29.0))
+                    outZ = FLOAT_TO_FX32(29.0);
+            }
+        }
+
+        pos2->x = outX;
+        pos2->y = pos1->y;
+        pos2->z = outZ;
+
+        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+            collided = TRUE;
+    }
+
+    if (pos2->z <= FLOAT_TO_FX32(18.0) && pos2->x >= -FLOAT_TO_FX32(10.0) && pos2->x <= FLOAT_TO_FX32(5.0))
+    {
+        if (isSailPrompt != NULL)
+            *isSailPrompt = TRUE;
+    }
+    else
+    {
+        if (a5 != NULL)
+            *a5 = FALSE;
+    }
+
+    return collided;
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -1294,614 +1308,575 @@ _021654BC:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21654C8(CViDockBack *work)
+BOOL CViDockBack::Collide_Boat(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
-#ifdef NON_MATCHING
+    BOOL collided = FALSE;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x20
-	ldr r5, [sp, #0x48]
-	mov r7, r2
-	movs r6, r3
-	mov r4, #0
-	strne r4, [r6]
-	ldr r2, [sp, #0x4c]
-	mov r8, r1
-	cmp r5, #0
-	movne r1, #0
-	strne r1, [r5]
-	cmp r2, #0
-	movne r1, #3
-	strne r1, [r2]
-	ldr r9, [r8, #0]
-	ldr r2, [r0, #0]
-	cmp r2, r9
-	ldreq r3, [r0, #4]
-	ldreq r1, [r8, #4]
-	cmpeq r3, r1
-	ldreq r3, [r0, #8]
-	ldreq r1, [r8, #8]
-	cmpeq r3, r1
-	bne _02165544
-	str r9, [r7]
-	ldr r0, [r8, #4]
-	str r0, [r7, #4]
-	ldr r0, [r8, #8]
-	str r0, [r7, #8]
-	b _021658E0
-_02165544:
-	ldr r0, [r0, #8]
-	mov r3, #0x19000
-	str r9, [sp, #0x1c]
-	ldr r1, [r8, #8]
-	rsb r3, r3, #0
-	str r1, [sp, #0x18]
-	cmp r2, r3
-	bge _021655DC
-	sub r0, r3, #0x77000
-	cmp r9, r0
-	strlt r0, [sp, #0x1c]
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x76000
-	movgt r0, #0x76000
-	strgt r0, [sp, #0x18]
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x47000
-	movlt r0, #0x47000
-	strlt r0, [sp, #0x18]
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x4d000
-	bge _021658A0
-	mov r1, #0x3e000
-	ldr r3, [sp, #0x1c]
-	rsb r1, r1, #0
-	cmp r3, r1
-	ble _021658A0
-	add r0, r1, #0x18000
-	cmp r3, r0
-	bge _021658A0
-	cmp r2, r1
-	strle r1, [sp, #0x1c]
-	ble _021658A0
-	cmp r2, r0
-	strge r0, [sp, #0x1c]
-	movlt r0, #0x4d000
-	strlt r0, [sp, #0x18]
-	b _021658A0
-_021655DC:
-	cmp r2, #0x19000
-	ble _02165658
-	cmp r9, #0x90000
-	movgt r0, #0x90000
-	strgt r0, [sp, #0x1c]
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x76000
-	movgt r0, #0x76000
-	strgt r0, [sp, #0x18]
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x47000
-	movlt r0, #0x47000
-	strlt r0, [sp, #0x18]
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x4d000
-	bge _021658A0
-	ldr r0, [sp, #0x1c]
-	cmp r0, #0x2e000
-	ble _021658A0
-	cmp r0, #0x46000
-	bge _021658A0
-	cmp r2, #0x2e000
-	movle r0, #0x2e000
-	strle r0, [sp, #0x1c]
-	ble _021658A0
-	cmp r2, #0x46000
-	movge r0, #0x46000
-	strge r0, [sp, #0x1c]
-	movlt r0, #0x4d000
-	strlt r0, [sp, #0x18]
-	b _021658A0
-_02165658:
-	cmp r0, #0x76000
-	ble _02165708
-	add r0, r3, #0xe000
-	cmp r9, r0
-	bge _021656A8
-	cmp r1, #0x7c000
-	strgt r0, [sp, #0x1c]
-	bgt _021656A8
-	mov r2, r0
-	mov r0, #0x7c000
-	str r2, [sp]
-	str r0, [sp, #4]
-	sub r10, r0, #0x8d000
-	mov r0, r9
-	add r2, sp, #0x1c
-	add r3, sp, #0x18
-	str r10, [sp, #8]
-	mov r9, #0x76000
-	str r9, [sp, #0xc]
-	bl Unknown2051334__Func_2051450
-_021656A8:
-	ldr r0, [sp, #0x1c]
-	cmp r0, #0xb000
-	ble _021656F4
-	ldr r1, [sp, #0x18]
-	cmp r1, #0x7c000
-	movgt r0, #0xb000
-	strgt r0, [sp, #0x1c]
-	bgt _021656F4
-	mov r2, #0x11000
-	str r2, [sp]
-	mov r2, #0x76000
-	str r2, [sp, #4]
-	mov r9, #0xb000
-	str r9, [sp, #8]
-	mov r9, #0x7c000
-	add r2, sp, #0x1c
-	add r3, sp, #0x18
-	str r9, [sp, #0xc]
-	bl Unknown2051334__Func_2051450
-_021656F4:
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x86000
-	movgt r0, #0x86000
-	strgt r0, [sp, #0x18]
-	b _021658A0
-_02165708:
-	cmp r0, #0x4d000
-	ble _021657B4
-	cmp r1, #0x76000
-	ble _021658A0
-	add r0, r3, #0x8000
-	cmp r9, r0
-	blt _0216572C
-	cmp r9, #0x11000
-	ble _02165738
-_0216572C:
-	mov r0, #0x76000
-	str r0, [sp, #0x18]
-	b _021658A0
-_02165738:
-	add r0, r3, #0xe000
-	cmp r9, r0
-	bge _02165778
-	mov r2, r0
-	mov r0, #0x7c000
-	str r2, [sp]
-	str r0, [sp, #4]
-	sub r10, r0, #0x8d000
-	mov r0, r9
-	add r2, sp, #0x1c
-	add r3, sp, #0x18
-	str r10, [sp, #8]
-	mov r9, #0x76000
-	str r9, [sp, #0xc]
-	bl Unknown2051334__Func_2051450
-	b _021658A0
-_02165778:
-	cmp r9, #0xb000
-	ble _021658A0
-	mov r0, #0x11000
-	str r0, [sp]
-	mov r0, #0x76000
-	str r0, [sp, #4]
-	mov r10, #0xb000
-	mov r0, r9
-	add r2, sp, #0x1c
-	add r3, sp, #0x18
-	str r10, [sp, #8]
-	mov r9, #0x7c000
-	str r9, [sp, #0xc]
-	bl Unknown2051334__Func_2051450
-	b _021658A0
-_021657B4:
-	cmp r1, #0x31000
-	bge _021657D0
-	cmp r5, #0
-	movne r0, #1
-	strne r0, [r5]
-	mov r0, #0x31000
-	str r0, [sp, #0x18]
-_021657D0:
-	ldr r0, [sp, #0x1c]
-	mov r3, #0x16000
-	cmp r0, #0
-	rsblt r0, r0, #0
-	strlt r0, [sp, #0x1c]
-	ldr r0, [sp, #0x1c]
-	mov r2, #0x800
-	sub r10, r0, #0x19000
-	sub ip, r2, #0x10800
-	mvn r2, #0
-	rsb r3, r3, #0
-	str r0, [sp, #0x14]
-	umull r0, lr, r10, r3
-	mov r11, #0
-	movlt r11, #1
-	adds r0, r0, #0x800
-	mla lr, r10, r2, lr
-	mov r9, r10, asr #0x1f
-	mla lr, r9, r3, lr
-	str r2, [sp, #0x10]
-	ldr r1, [sp, #0x18]
-	adc r2, lr, #0
-	sub lr, r1, #0x47000
-	mov r0, r0, lsr #0xc
-	orr r0, r0, r2, lsl #20
-	ldr r2, [sp, #0x10]
-	umull r10, r9, lr, ip
-	mla r9, lr, r2, r9
-	mov r3, lr, asr #0x1f
-	mla r9, r3, ip, r9
-	adds r3, r10, #0x800
-	adc r2, r9, #0
-	mov r3, r3, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	subs r0, r0, r3
-	bpl _02165890
-	ldr r0, [sp, #0x14]
-	add r9, sp, #0x18
-	str r0, [sp]
-	str r1, [sp, #4]
-	add r0, sp, #0x1c
-	str r0, [sp, #8]
-	mov r0, #0x19000
-	mov r1, #0x47000
-	mov r2, #0x9000
-	mov r3, #0x31000
-	str r9, [sp, #0xc]
-	bl Unknown2051334__Func_2051334
-_02165890:
-	cmp r11, #0
-	ldrne r0, [sp, #0x1c]
-	rsbne r0, r0, #0
-	strne r0, [sp, #0x1c]
-_021658A0:
-	ldr r0, [sp, #0x1c]
-	str r0, [r7]
-	ldr r0, [r8, #4]
-	str r0, [r7, #4]
-	ldr r0, [sp, #0x18]
-	str r0, [r7, #8]
-	ldr r1, [r7, #0]
-	ldr r0, [r8, #0]
-	cmp r1, r0
-	ldreq r1, [r7, #4]
-	ldreq r0, [r8, #4]
-	cmpeq r1, r0
-	ldreq r1, [r7, #8]
-	ldreq r0, [r8, #8]
-	cmpeq r1, r0
-	movne r4, #1
-_021658E0:
-	ldr r0, [r7, #8]
-	cmp r0, #0x31000
-	bgt _021658FC
-	cmp r6, #0
-	movne r0, #1
-	strne r0, [r6]
-	b _02165908
-_021658FC:
-	cmp r5, #0
-	movne r0, #0
-	strne r0, [r5]
-_02165908:
-	mov r0, r4
-	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    if (isSailPrompt != NULL)
+        *isSailPrompt = FALSE;
 
-// clang-format on
-#endif
+    if (a5 != NULL)
+        *a5 = FALSE;
+
+    if (area != NULL)
+        *area = DOCKAREA_BOAT;
+
+    fx32 x1 = pos1->x;
+    fx32 x0 = pos0->x;
+
+    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    {
+        pos2->x = pos1->x;
+        pos2->y = pos1->y;
+        pos2->z = pos1->z;
+    }
+    else
+    {
+        fx32 z0   = pos0->z;
+        fx32 outX = pos1->x;
+        fx32 outZ = pos1->z;
+
+        if (x0 < -FLOAT_TO_FX32(25.0))
+        {
+            if (x1 < -FLOAT_TO_FX32(144.0))
+                outX = -FLOAT_TO_FX32(144.0);
+
+            if (outZ > FLOAT_TO_FX32(118.0))
+                outZ = FLOAT_TO_FX32(118.0);
+
+            if (outZ < FLOAT_TO_FX32(71.0))
+                outZ = FLOAT_TO_FX32(71.0);
+
+            if (outZ < FLOAT_TO_FX32(77.0) && outX > -FLOAT_TO_FX32(62.0) && outX < -FLOAT_TO_FX32(38.0))
+            {
+                if (x0 <= -FLOAT_TO_FX32(62.0))
+                {
+                    outX = -FLOAT_TO_FX32(62.0);
+                }
+                else if (x0 >= -FLOAT_TO_FX32(38.0))
+                {
+                    outX = -FLOAT_TO_FX32(38.0);
+                }
+                else
+                {
+                    outZ = FLOAT_TO_FX32(77.0);
+                }
+            }
+        }
+        else
+        {
+            if (x0 > FLOAT_TO_FX32(25.0))
+            {
+                if (x1 > FLOAT_TO_FX32(144.0))
+                    outX = FLOAT_TO_FX32(144.0);
+
+                if (outZ > FLOAT_TO_FX32(118.0))
+                    outZ = FLOAT_TO_FX32(118.0);
+
+                if (outZ < FLOAT_TO_FX32(71.0))
+                    outZ = FLOAT_TO_FX32(71.0);
+
+                if (outZ < FLOAT_TO_FX32(77.0) && outX > FLOAT_TO_FX32(46.0) && outX < FLOAT_TO_FX32(70.0))
+                {
+                    if (x0 <= FLOAT_TO_FX32(46.0))
+                    {
+                        outX = FLOAT_TO_FX32(46.0);
+                    }
+                    else if (x0 >= FLOAT_TO_FX32(70.0))
+                    {
+                        outX = FLOAT_TO_FX32(70.0);
+                    }
+                    else
+                    {
+                        outZ = FLOAT_TO_FX32(77.0);
+                    }
+                }
+            }
+            else
+            {
+                if (z0 > FLOAT_TO_FX32(118.0))
+                {
+                    if (x1 < -FLOAT_TO_FX32(11.0))
+                    {
+                        if (outZ <= FLOAT_TO_FX32(124.0))
+                        {
+                            Unknown2051334__Func_2051450(x1, outZ, &outX, &outZ, -FLOAT_TO_FX32(11.0), FLOAT_TO_FX32(124.0), -FLOAT_TO_FX32(17.0), FLOAT_TO_FX32(118.0));
+                        }
+                        else
+                        {
+                            outX = -FLOAT_TO_FX32(11.0);
+                        }
+                    }
+
+                    if (outX > FLOAT_TO_FX32(11.0))
+                    {
+                        if (outZ <= FLOAT_TO_FX32(124.0))
+                        {
+                            Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, FLOAT_TO_FX32(17.0), FLOAT_TO_FX32(118.0), FLOAT_TO_FX32(11.0), FLOAT_TO_FX32(124.0));
+                        }
+                        else
+                        {
+                            outX = FLOAT_TO_FX32(11.0);
+                        }
+                    }
+
+                    if (outZ > FLOAT_TO_FX32(134.0))
+                        outZ = FLOAT_TO_FX32(134.0);
+                }
+                else
+                {
+                    if (z0 > FLOAT_TO_FX32(77.0))
+                    {
+                        if (outZ > FLOAT_TO_FX32(118.0))
+                        {
+                            if (x1 < -FLOAT_TO_FX32(17.0) || x1 > FLOAT_TO_FX32(17.0))
+                            {
+                                outZ = FLOAT_TO_FX32(118.0);
+                            }
+                            else
+                            {
+                                if (x1 < -FLOAT_TO_FX32(11.0))
+                                {
+                                    Unknown2051334__Func_2051450(x1, outZ, &outX, &outZ, -FLOAT_TO_FX32(11.0), FLOAT_TO_FX32(124.0), -FLOAT_TO_FX32(17.0), FLOAT_TO_FX32(118.0));
+                                }
+                                else if (x1 > FLOAT_TO_FX32(11.0))
+                                {
+                                    Unknown2051334__Func_2051450(x1, outZ, &outX, &outZ, FLOAT_TO_FX32(17.0), FLOAT_TO_FX32(118.0), FLOAT_TO_FX32(11.0), FLOAT_TO_FX32(124.0));
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (outZ < FLOAT_TO_FX32(49.0))
+                        {
+                            if (a5)
+                                *a5 = TRUE;
+
+                            outZ = FLOAT_TO_FX32(49.0);
+                        }
+
+                        BOOL flip = FALSE;
+                        if (outX < 0)
+                        {
+                            outX = -outX;
+                            flip = TRUE;
+                        }
+
+                        if (MultiplyFX(-FLOAT_TO_FX32(22.0), (outX - FLOAT_TO_FX32(25.0))) - MultiplyFX(-FLOAT_TO_FX32(16.0), (outZ - FLOAT_TO_FX32(71.0))) < 0)
+                        {
+                            Unknown2051334__Func_2051334(FLOAT_TO_FX32(25.0), FLOAT_TO_FX32(71.0), FLOAT_TO_FX32(9.0), FLOAT_TO_FX32(49.0), outX, outZ, &outX, &outZ);
+                        }
+
+                        if (flip)
+                            outX = -outX;
+                    }
+                }
+            }
+        }
+
+        pos2->x = outX;
+        pos2->y = pos1->y;
+        pos2->z = outZ;
+
+        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+            collided = TRUE;
+    }
+
+    if (pos2->z <= FLOAT_TO_FX32(49.0))
+    {
+        if (isSailPrompt != NULL)
+            *isSailPrompt = TRUE;
+    }
+    else
+    {
+        if (a5 != NULL)
+            *a5 = FALSE;
+    }
+
+    return collided;
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2165914(CViDockBack *work)
+BOOL CViDockBack::Collide_Hover(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
-#ifdef NON_MATCHING
+    BOOL collided = FALSE;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x20
-	ldr r5, [sp, #0x48]
-	mov r7, r2
-	movs r6, r3
-	mov r4, #0
-	strne r4, [r6]
-	ldr r2, [sp, #0x4c]
-	mov r8, r1
-	cmp r5, #0
-	movne r1, #0
-	strne r1, [r5]
-	cmp r2, #0
-	movne r1, #4
-	strne r1, [r2]
-	ldr r9, [r8, #0]
-	ldr r2, [r0, #0]
-	cmp r2, r9
-	ldreq r3, [r0, #4]
-	ldreq r1, [r8, #4]
-	cmpeq r3, r1
-	ldreq r3, [r0, #8]
-	ldreq r1, [r8, #8]
-	cmpeq r3, r1
-	bne _02165990
-	str r9, [r7]
-	ldr r0, [r8, #4]
-	str r0, [r7, #4]
-	ldr r0, [r8, #8]
-	str r0, [r7, #8]
-	b _02165D2C
-_02165990:
-	ldr r0, [r0, #8]
-	mov r3, #0x19000
-	str r9, [sp, #0x1c]
-	ldr r1, [r8, #8]
-	rsb r3, r3, #0
-	str r1, [sp, #0x18]
-	cmp r2, r3
-	bge _02165A28
-	sub r0, r3, #0x63000
-	cmp r9, r0
-	strlt r0, [sp, #0x1c]
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x76000
-	movgt r0, #0x76000
-	strgt r0, [sp, #0x18]
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x47000
-	movlt r0, #0x47000
-	strlt r0, [sp, #0x18]
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x4d000
-	bge _02165CEC
-	mov r1, #0x3e000
-	ldr r3, [sp, #0x1c]
-	rsb r1, r1, #0
-	cmp r3, r1
-	ble _02165CEC
-	add r0, r1, #0x18000
-	cmp r3, r0
-	bge _02165CEC
-	cmp r2, r1
-	strle r1, [sp, #0x1c]
-	ble _02165CEC
-	cmp r2, r0
-	strge r0, [sp, #0x1c]
-	movlt r0, #0x4d000
-	strlt r0, [sp, #0x18]
-	b _02165CEC
-_02165A28:
-	cmp r2, #0x19000
-	ble _02165AA4
-	cmp r9, #0x54000
-	movgt r0, #0x54000
-	strgt r0, [sp, #0x1c]
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x76000
-	movgt r0, #0x76000
-	strgt r0, [sp, #0x18]
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x47000
-	movlt r0, #0x47000
-	strlt r0, [sp, #0x18]
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x4d000
-	bge _02165CEC
-	ldr r0, [sp, #0x1c]
-	cmp r0, #0x2e000
-	ble _02165CEC
-	cmp r0, #0x46000
-	bge _02165CEC
-	cmp r2, #0x2e000
-	movle r0, #0x2e000
-	strle r0, [sp, #0x1c]
-	ble _02165CEC
-	cmp r2, #0x46000
-	movge r0, #0x46000
-	strge r0, [sp, #0x1c]
-	movlt r0, #0x4d000
-	strlt r0, [sp, #0x18]
-	b _02165CEC
-_02165AA4:
-	cmp r0, #0x76000
-	ble _02165B54
-	add r0, r3, #0xe000
-	cmp r9, r0
-	bge _02165AF4
-	cmp r1, #0x7c000
-	strgt r0, [sp, #0x1c]
-	bgt _02165AF4
-	mov r2, r0
-	mov r0, #0x7c000
-	str r2, [sp]
-	str r0, [sp, #4]
-	sub r10, r0, #0x8d000
-	mov r0, r9
-	add r2, sp, #0x1c
-	add r3, sp, #0x18
-	str r10, [sp, #8]
-	mov r9, #0x76000
-	str r9, [sp, #0xc]
-	bl Unknown2051334__Func_2051450
-_02165AF4:
-	ldr r0, [sp, #0x1c]
-	cmp r0, #0xb000
-	ble _02165B40
-	ldr r1, [sp, #0x18]
-	cmp r1, #0x7c000
-	movgt r0, #0xb000
-	strgt r0, [sp, #0x1c]
-	bgt _02165B40
-	mov r2, #0x11000
-	str r2, [sp]
-	mov r2, #0x76000
-	str r2, [sp, #4]
-	mov r9, #0xb000
-	str r9, [sp, #8]
-	mov r9, #0x7c000
-	add r2, sp, #0x1c
-	add r3, sp, #0x18
-	str r9, [sp, #0xc]
-	bl Unknown2051334__Func_2051450
-_02165B40:
-	ldr r0, [sp, #0x18]
-	cmp r0, #0x86000
-	movgt r0, #0x86000
-	strgt r0, [sp, #0x18]
-	b _02165CEC
-_02165B54:
-	cmp r0, #0x4d000
-	ble _02165C00
-	cmp r1, #0x76000
-	ble _02165CEC
-	add r0, r3, #0x8000
-	cmp r9, r0
-	blt _02165B78
-	cmp r9, #0x11000
-	ble _02165B84
-_02165B78:
-	mov r0, #0x76000
-	str r0, [sp, #0x18]
-	b _02165CEC
-_02165B84:
-	add r0, r3, #0xe000
-	cmp r9, r0
-	bge _02165BC4
-	mov r2, r0
-	mov r0, #0x7c000
-	str r2, [sp]
-	str r0, [sp, #4]
-	sub r10, r0, #0x8d000
-	mov r0, r9
-	add r2, sp, #0x1c
-	add r3, sp, #0x18
-	str r10, [sp, #8]
-	mov r9, #0x76000
-	str r9, [sp, #0xc]
-	bl Unknown2051334__Func_2051450
-	b _02165CEC
-_02165BC4:
-	cmp r9, #0xb000
-	ble _02165CEC
-	mov r0, #0x11000
-	str r0, [sp]
-	mov r0, #0x76000
-	str r0, [sp, #4]
-	mov r10, #0xb000
-	mov r0, r9
-	add r2, sp, #0x1c
-	add r3, sp, #0x18
-	str r10, [sp, #8]
-	mov r9, #0x7c000
-	str r9, [sp, #0xc]
-	bl Unknown2051334__Func_2051450
-	b _02165CEC
-_02165C00:
-	cmp r1, #0x31000
-	bge _02165C1C
-	cmp r5, #0
-	movne r0, #1
-	strne r0, [r5]
-	mov r0, #0x31000
-	str r0, [sp, #0x18]
-_02165C1C:
-	ldr r0, [sp, #0x1c]
-	mov r3, #0x16000
-	cmp r0, #0
-	rsblt r0, r0, #0
-	strlt r0, [sp, #0x1c]
-	ldr r0, [sp, #0x1c]
-	mov r2, #0x800
-	sub r10, r0, #0x19000
-	sub ip, r2, #0x10800
-	mvn r2, #0
-	rsb r3, r3, #0
-	str r0, [sp, #0x14]
-	umull r0, lr, r10, r3
-	mov r11, #0
-	movlt r11, #1
-	adds r0, r0, #0x800
-	mla lr, r10, r2, lr
-	mov r9, r10, asr #0x1f
-	mla lr, r9, r3, lr
-	str r2, [sp, #0x10]
-	ldr r1, [sp, #0x18]
-	adc r2, lr, #0
-	sub lr, r1, #0x47000
-	mov r0, r0, lsr #0xc
-	orr r0, r0, r2, lsl #20
-	ldr r2, [sp, #0x10]
-	umull r10, r9, lr, ip
-	mla r9, lr, r2, r9
-	mov r3, lr, asr #0x1f
-	mla r9, r3, ip, r9
-	adds r3, r10, #0x800
-	adc r2, r9, #0
-	mov r3, r3, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	subs r0, r0, r3
-	bpl _02165CDC
-	ldr r0, [sp, #0x14]
-	add r9, sp, #0x18
-	str r0, [sp]
-	str r1, [sp, #4]
-	add r0, sp, #0x1c
-	str r0, [sp, #8]
-	mov r0, #0x19000
-	mov r1, #0x47000
-	mov r2, #0x9000
-	mov r3, #0x31000
-	str r9, [sp, #0xc]
-	bl Unknown2051334__Func_2051334
-_02165CDC:
-	cmp r11, #0
-	ldrne r0, [sp, #0x1c]
-	rsbne r0, r0, #0
-	strne r0, [sp, #0x1c]
-_02165CEC:
-	ldr r0, [sp, #0x1c]
-	str r0, [r7]
-	ldr r0, [r8, #4]
-	str r0, [r7, #4]
-	ldr r0, [sp, #0x18]
-	str r0, [r7, #8]
-	ldr r1, [r7, #0]
-	ldr r0, [r8, #0]
-	cmp r1, r0
-	ldreq r1, [r7, #4]
-	ldreq r0, [r8, #4]
-	cmpeq r1, r0
-	ldreq r1, [r7, #8]
-	ldreq r0, [r8, #8]
-	cmpeq r1, r0
-	movne r4, #1
-_02165D2C:
-	ldr r0, [r7, #8]
-	cmp r0, #0x31000
-	bgt _02165D48
-	cmp r6, #0
-	movne r0, #1
-	strne r0, [r6]
-	b _02165D54
-_02165D48:
-	cmp r5, #0
-	movne r0, #0
-	strne r0, [r5]
-_02165D54:
-	mov r0, r4
-	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    if (isSailPrompt != NULL)
+        *isSailPrompt = FALSE;
 
-// clang-format on
-#endif
+    if (a5 != NULL)
+        *a5 = FALSE;
+
+    if (area != NULL)
+        *area = DOCKAREA_HOVER;
+
+    fx32 x1 = pos1->x;
+    fx32 x0 = pos0->x;
+
+    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    {
+        pos2->x = x1;
+        pos2->y = pos1->y;
+        pos2->z = pos1->z;
+    }
+    else
+    {
+        fx32 z0   = pos0->z;
+        fx32 outX = pos1->x;
+        fx32 outZ = pos1->z;
+
+        if (x0 < -FLOAT_TO_FX32(25.0))
+        {
+            if (x1 < -FLOAT_TO_FX32(124.0))
+                outX = -FLOAT_TO_FX32(124.0);
+
+            if (outZ > FLOAT_TO_FX32(118.0))
+                outZ = FLOAT_TO_FX32(118.0);
+
+            if (outZ < FLOAT_TO_FX32(71.0))
+                outZ = FLOAT_TO_FX32(71.0);
+
+            if (outZ < FLOAT_TO_FX32(77.0) && outX > -FLOAT_TO_FX32(62.0) && outX < -FLOAT_TO_FX32(38.0))
+            {
+                if (x0 <= -FLOAT_TO_FX32(62.0))
+                {
+                    outX = -FLOAT_TO_FX32(62.0);
+                }
+                else if (x0 >= -FLOAT_TO_FX32(38.0))
+                {
+                    outX = -FLOAT_TO_FX32(38.0);
+                }
+                else
+                {
+                    outZ = FLOAT_TO_FX32(77.0);
+                }
+            }
+        }
+        else
+        {
+            if (x0 > FLOAT_TO_FX32(25.0))
+            {
+                if (x1 > FLOAT_TO_FX32(84.0))
+                    outX = FLOAT_TO_FX32(84.0);
+
+                if (outZ > FLOAT_TO_FX32(118.0))
+                    outZ = FLOAT_TO_FX32(118.0);
+
+                if (outZ < FLOAT_TO_FX32(71.0))
+                    outZ = FLOAT_TO_FX32(71.0);
+
+                if (outZ < FLOAT_TO_FX32(77.0) && outX > FLOAT_TO_FX32(46.0) && outX < FLOAT_TO_FX32(70.0))
+                {
+                    if (x0 <= FLOAT_TO_FX32(46.0))
+                    {
+                        outX = FLOAT_TO_FX32(46.0);
+                    }
+                    else if (x0 >= FLOAT_TO_FX32(70.0))
+                    {
+                        outX = FLOAT_TO_FX32(70.0);
+                    }
+                    else
+                    {
+                        outZ = FLOAT_TO_FX32(77.0);
+                    }
+                }
+            }
+            else
+            {
+                if (z0 > FLOAT_TO_FX32(118.0))
+                {
+                    if (x1 < -FLOAT_TO_FX32(11.0))
+                    {
+                        if (outZ <= FLOAT_TO_FX32(124.0))
+                        {
+                            Unknown2051334__Func_2051450(x1, outZ, &outX, &outZ, -FLOAT_TO_FX32(11.0), FLOAT_TO_FX32(124.0), -FLOAT_TO_FX32(17.0), FLOAT_TO_FX32(118.0));
+                        }
+                        else
+                        {
+                            outX = -FLOAT_TO_FX32(11.0);
+                        }
+                    }
+
+                    if (outX > FLOAT_TO_FX32(11.0))
+                    {
+                        if (outZ <= FLOAT_TO_FX32(124.0))
+                        {
+                            Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, FLOAT_TO_FX32(17.0), FLOAT_TO_FX32(118.0), FLOAT_TO_FX32(11.0), FLOAT_TO_FX32(124.0));
+                        }
+                        else
+                        {
+                            outX = FLOAT_TO_FX32(11.0);
+                        }
+                    }
+
+                    if (outZ > FLOAT_TO_FX32(134.0))
+                        outZ = FLOAT_TO_FX32(134.0);
+                }
+                else
+                {
+                    if (z0 > FLOAT_TO_FX32(77.0))
+                    {
+                        if (outZ > FLOAT_TO_FX32(118.0))
+                        {
+                            if (x1 < -FLOAT_TO_FX32(17.0) || x1 > FLOAT_TO_FX32(17.0))
+                            {
+                                outZ = FLOAT_TO_FX32(118.0);
+                            }
+                            else
+                            {
+                                if (x1 < -FLOAT_TO_FX32(11.0))
+                                {
+                                    Unknown2051334__Func_2051450(x1, outZ, &outX, &outZ, -FLOAT_TO_FX32(11.0), FLOAT_TO_FX32(124.0), -FLOAT_TO_FX32(17.0), FLOAT_TO_FX32(118.0));
+                                }
+                                else if (x1 > FLOAT_TO_FX32(11.0))
+                                {
+                                    Unknown2051334__Func_2051450(x1, outZ, &outX, &outZ, FLOAT_TO_FX32(17.0), FLOAT_TO_FX32(118.0), FLOAT_TO_FX32(11.0), FLOAT_TO_FX32(124.0));
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (outZ < FLOAT_TO_FX32(49.0))
+                        {
+                            if (a5 != NULL)
+                                *a5 = TRUE;
+
+                            outZ = FLOAT_TO_FX32(49.0);
+                        }
+
+                        BOOL flip = FALSE;
+                        if (outX < 0)
+                        {
+                            outX = -outX;
+                            flip = TRUE;
+                        }
+
+                        if (MultiplyFX(-FLOAT_TO_FX32(22.0), (outX - FLOAT_TO_FX32(25.0))) - MultiplyFX(-FLOAT_TO_FX32(16.0), (outZ - FLOAT_TO_FX32(71.0))) < 0)
+                        {
+                            Unknown2051334__Func_2051334(FLOAT_TO_FX32(25.0), FLOAT_TO_FX32(71.0), FLOAT_TO_FX32(9.0), FLOAT_TO_FX32(49.0), outX, outZ, &outX, &outZ);
+                        }
+
+                        if (flip)
+                            outX = -outX;
+                    }
+                }
+            }
+        }
+
+        pos2->x = outX;
+        pos2->y = pos1->y;
+        pos2->z = outZ;
+
+        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+            collided = TRUE;
+    }
+
+    if (pos2->z <= FLOAT_TO_FX32(49.0))
+    {
+        if (isSailPrompt != NULL)
+            *isSailPrompt = TRUE;
+    }
+    else
+    {
+        if (a5 != NULL)
+            *a5 = FALSE;
+    }
+
+    return collided;
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2165D60(CViDockBack *work)
+NONMATCH_FUNC BOOL CViDockBack::Collide_Submarine(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
+    // https://decomp.me/scratch/Fgcs0 -> 91.21%
 #ifdef NON_MATCHING
+    BOOL collided = FALSE;
 
+    if (isSailPrompt != NULL)
+        *isSailPrompt = FALSE;
+
+    if (a5 != NULL)
+        *a5 = FALSE;
+
+    if (area != NULL)
+        *area = DOCKAREA_SUBMARINE;
+
+    fx32 x1 = pos1->x;
+    fx32 x0 = pos0->x;
+
+    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    {
+        pos2->x = pos1->x;
+        pos2->y = pos1->y;
+        pos2->z = pos1->z;
+    }
+    else
+    {
+        fx32 z0   = pos0->z;
+        fx32 outX = pos1->x;
+        fx32 outZ = pos1->z;
+
+        if (z0 >= FLOAT_TO_FX32(30.0) && z0 <= FLOAT_TO_FX32(60.0))
+            outZ = z0 + ((outZ - z0) >> 1);
+
+        if (x0 < -FLOAT_TO_FX32(25.0))
+        {
+            if (outX < -FLOAT_TO_FX32(84.0))
+                outX = -FLOAT_TO_FX32(84.0);
+
+            if (outZ > FLOAT_TO_FX32(118.0))
+                outZ = FLOAT_TO_FX32(118.0);
+
+            if (outZ < FLOAT_TO_FX32(71.0))
+                outZ = FLOAT_TO_FX32(71.0);
+
+            if (outZ < FLOAT_TO_FX32(77.0) && outX > -FLOAT_TO_FX32(62.0) && outX < -FLOAT_TO_FX32(38.0))
+            {
+                if (x0 <= -FLOAT_TO_FX32(62.0))
+                {
+                    outX = -FLOAT_TO_FX32(62.0);
+                }
+                else if (x0 >= -FLOAT_TO_FX32(38.0))
+                {
+                    outX = -FLOAT_TO_FX32(38.0);
+                }
+                else
+                {
+                    outZ = FLOAT_TO_FX32(77.0);
+                }
+            }
+        }
+        else
+        {
+            if (x0 > FLOAT_TO_FX32(25.0))
+            {
+                if (outX > FLOAT_TO_FX32(84.0))
+                    outX = FLOAT_TO_FX32(84.0);
+
+                if (outZ > FLOAT_TO_FX32(118.0))
+                    outZ = FLOAT_TO_FX32(118.0);
+
+                if (outZ < FLOAT_TO_FX32(71.0))
+                    outZ = FLOAT_TO_FX32(71.0);
+
+                if (outZ < FLOAT_TO_FX32(77.0) && outX > FLOAT_TO_FX32(46.0) && outX < FLOAT_TO_FX32(70.0))
+                {
+                    if (x0 <= FLOAT_TO_FX32(46.0))
+                    {
+                        outX = FLOAT_TO_FX32(46.0);
+                    }
+                    else if (x0 >= FLOAT_TO_FX32(70.0))
+                    {
+                        outX = FLOAT_TO_FX32(70.0);
+                    }
+                    else
+                    {
+                        outZ = FLOAT_TO_FX32(77.0);
+                    }
+                }
+            }
+            else
+            {
+                if (z0 > FLOAT_TO_FX32(118.0))
+                {
+                    if (outX < -FLOAT_TO_FX32(9.0))
+                    {
+                        if (outZ <= FLOAT_TO_FX32(124.0))
+                        {
+                            Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, -FLOAT_TO_FX32(9.0), FLOAT_TO_FX32(124.0), -FLOAT_TO_FX32(14.0), FLOAT_TO_FX32(118.0));
+                        }
+                        else
+                        {
+                            outX = -FLOAT_TO_FX32(9.0);
+                        }
+                    }
+
+                    if (outX > FLOAT_TO_FX32(9.0))
+                    {
+                        if (outZ <= FLOAT_TO_FX32(124.0))
+                        {
+                            Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, FLOAT_TO_FX32(14.0), FLOAT_TO_FX32(118.0), FLOAT_TO_FX32(9.0), FLOAT_TO_FX32(124.0));
+                        }
+                        else
+                        {
+                            outX = FLOAT_TO_FX32(9.0);
+                        }
+                    }
+
+                    if (outZ > FLOAT_TO_FX32(134.0))
+                        outZ = FLOAT_TO_FX32(134.0);
+                }
+                else
+                {
+                    if (z0 > FLOAT_TO_FX32(77.0))
+                    {
+                        if (outZ > FLOAT_TO_FX32(118.0))
+                        {
+                            if (outX < -FLOAT_TO_FX32(14.0) || outX > FLOAT_TO_FX32(14.0))
+                            {
+                                outZ = FLOAT_TO_FX32(118.0);
+                            }
+                            else
+                            {
+                                if (outX < -FLOAT_TO_FX32(9.0))
+                                {
+                                    Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, -FLOAT_TO_FX32(9.0), FLOAT_TO_FX32(124.0), -FLOAT_TO_FX32(14.0), FLOAT_TO_FX32(118.0));
+                                }
+                                else if (outX > FLOAT_TO_FX32(9.0))
+                                {
+                                    Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, FLOAT_TO_FX32(14.0), FLOAT_TO_FX32(118.0), FLOAT_TO_FX32(9.0), FLOAT_TO_FX32(124.0));
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (z0 < FLOAT_TO_FX32(71.0))
+                        {
+                            if (outX < -FLOAT_TO_FX32(10.0))
+                                outX = -FLOAT_TO_FX32(10.0);
+
+                            if (outX > FLOAT_TO_FX32(10.0))
+                                outX = FLOAT_TO_FX32(10.0);
+
+                            if (outZ < FLOAT_TO_FX32(10.0))
+                            {
+                                if (a5 != NULL)
+                                    *a5 = TRUE;
+
+                                outZ = FLOAT_TO_FX32(10.0);
+                            }
+                        }
+                        else
+                        {
+                            if ((outX < -FLOAT_TO_FX32(10.0) || outX > FLOAT_TO_FX32(10.0)) && outZ < FLOAT_TO_FX32(71.0))
+                                outZ = FLOAT_TO_FX32(71.0);
+                        }
+                    }
+                }
+            }
+        }
+
+        pos2->x = outX;
+        pos2->y = pos1->y;
+        pos2->z = outZ;
+
+        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+            collided = TRUE;
+    }
+
+    if (pos2->z <= FLOAT_TO_FX32(10.0))
+    {
+        if (isSailPrompt != NULL)
+            *isSailPrompt = TRUE;
+    }
+    else
+    {
+        if (a5 != NULL)
+            *a5 = FALSE;
+    }
+
+    return collided;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
@@ -2180,475 +2155,216 @@ _0216614C:
 #endif
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166158(CViDockBack *work)
+BOOL CViDockBack::Collide_Beach(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
-#ifdef NON_MATCHING
+    BOOL collided = FALSE;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #0x18
-	mov r5, r2
-	ldr r2, [sp, #0x28]
-	mov r4, #0
-	cmp r3, #0
-	strne r4, [r3]
-	mov r6, r1
-	cmp r2, #0
-	movne r1, #0
-	strne r1, [r2]
-	ldr r2, [sp, #0x2c]
-	cmp r2, #0
-	movne r1, #6
-	strne r1, [r2]
-	ldr ip, [r6]
-	ldr r1, [r0, #0]
-	cmp r1, ip
-	ldreq r2, [r0, #4]
-	ldreq r1, [r6, #4]
-	cmpeq r2, r1
-	ldreq r1, [r0, #8]
-	ldreq r0, [r6, #8]
-	cmpeq r1, r0
-	bne _021661D4
-	str ip, [r5]
-	ldr r0, [r6, #4]
-	str r0, [r5, #4]
-	ldr r0, [r6, #8]
-	str r0, [r5, #8]
-	b _021662DC
-_021661D4:
-	str ip, [sp, #0x14]
-	ldr r1, [r6, #8]
-	cmp ip, #0x11000
-	str r1, [sp, #0x10]
-	bge _02166268
-	cmp r1, #0xa000
-	ble _02166268
-	cmp r1, #0x12000
-	bge _02166268
-	cmp r1, #0xe000
-	add r3, sp, #0x10
-	bge _02166238
-	mov r2, #0x11000
-	rsb r2, r2, #0
-	mov r0, #0xe000
-	str r2, [sp]
-	str r0, [sp, #4]
-	sub lr, r0, #0x22000
-	mov r0, ip
-	add r2, sp, #0x14
-	str lr, [sp, #8]
-	mov ip, #0xa000
-	str ip, [sp, #0xc]
-	bl Unknown2051334__Func_2051450
-	b _02166268
-_02166238:
-	mov r2, #0x14000
-	rsb r2, r2, #0
-	mov r0, #0x12000
-	str r2, [sp]
-	str r0, [sp, #4]
-	sub lr, r0, #0x23000
-	mov r0, ip
-	add r2, sp, #0x14
-	str lr, [sp, #8]
-	mov ip, #0xe000
-	str ip, [sp, #0xc]
-	bl Unknown2051334__Func_2051450
-_02166268:
-	ldr r0, [sp, #0x10]
-	cmp r0, #0x7000
-	movlt r0, #0x7000
-	strlt r0, [sp, #0x10]
-	ldr r0, [sp, #0x14]
-	cmp r0, #0x14000
-	movgt r0, #0x14000
-	strgt r0, [sp, #0x14]
-	mov r0, #0x14000
-	ldr r1, [sp, #0x14]
-	rsb r0, r0, #0
-	cmp r1, r0
-	strlt r0, [sp, #0x14]
-	ldr r0, [sp, #0x14]
-	str r0, [r5]
-	ldr r0, [r6, #4]
-	str r0, [r5, #4]
-	ldr r0, [sp, #0x10]
-	str r0, [r5, #8]
-	ldr r1, [r5, #0]
-	ldr r0, [r6, #0]
-	cmp r1, r0
-	ldreq r1, [r5, #4]
-	ldreq r0, [r6, #4]
-	cmpeq r1, r0
-	ldreq r1, [r5, #8]
-	ldreq r0, [r6, #8]
-	cmpeq r1, r0
-	movne r4, #1
-_021662DC:
-	mov r0, r4
-	add sp, sp, #0x18
-	ldmia sp!, {r4, r5, r6, pc}
+    if (isSailPrompt != NULL)
+        *isSailPrompt = FALSE;
 
-// clang-format on
-#endif
+    if (a5 != NULL)
+        *a5 = FALSE;
+
+    if (area != NULL)
+        *area = DOCKAREA_BEACH;
+
+    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    {
+        pos2->x = pos1->x;
+        pos2->y = pos1->y;
+        pos2->z = pos1->z;
+    }
+    else
+    {
+        fx32 outX = pos1->x;
+        fx32 outZ = pos1->z;
+
+        if (outX < FLOAT_TO_FX32(17.0) && outZ > FLOAT_TO_FX32(10.0) && outZ < FLOAT_TO_FX32(18.0))
+        {
+            if (outZ < FLOAT_TO_FX32(14.0))
+                Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, -FLOAT_TO_FX32(17.0), FLOAT_TO_FX32(14.0), -FLOAT_TO_FX32(20.0), FLOAT_TO_FX32(10.0));
+            else
+                Unknown2051334__Func_2051450(outX, outZ, &outX, &outZ, -FLOAT_TO_FX32(20.0), FLOAT_TO_FX32(18.0), -FLOAT_TO_FX32(17.0), FLOAT_TO_FX32(14.0));
+        }
+
+        if (outZ < FLOAT_TO_FX32(7.0))
+            outZ = FLOAT_TO_FX32(7.0);
+
+        if (outX > FLOAT_TO_FX32(20.0))
+            outX = FLOAT_TO_FX32(20.0);
+
+        if (outX < -FLOAT_TO_FX32(20.0))
+            outX = -FLOAT_TO_FX32(20.0);
+
+        pos2->x = outX;
+        pos2->y = pos1->y;
+        pos2->z = outZ;
+
+        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+            collided = TRUE;
+    }
+
+    return collided;
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21662E8(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #8]
-	cmp r0, #0x18000
-	movge r0, #1
-	movlt r0, #0
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_21662FC(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r0, #0
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_2166304(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #8]
-	cmp r0, #0x50000
-	movge r0, #1
-	movlt r0, #0
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_2166318(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #8]
-	cmp r0, #0x7e000
-	movge r0, #1
-	movlt r0, #0
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_216632C(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #8]
-	cmp r0, #0x7e000
-	movge r0, #1
-	movlt r0, #0
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_2166340(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #8]
-	cmp r0, #0x7e000
-	movge r0, #1
-	movlt r0, #0
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_2166354(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #8]
-	cmp r0, #0x3e000
-	movge r0, #1
-	movlt r0, #0
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_2166368(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	cmp r2, #1
-	bne _02166394
-	mov r2, #0x14000
-	str r2, [r0]
-	mov r2, #0
-	str r2, [r0, #4]
-	mov r2, #0x800
-	str r2, [r0, #8]
-	mov r0, #0xc000
-	strh r0, [r1]
-	bx lr
-_02166394:
-	mov r2, #0
-	str r2, [r0]
-	str r2, [r0, #4]
-	mov r2, #0x13000
-	str r2, [r0, #8]
-	mov r0, #0x8000
-	strh r0, [r1]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_21663B4(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r2, #0x10000
-	rsb r2, r2, #0
-	str r2, [r0]
-	mov r2, #0
-	str r2, [r0, #4]
-	str r2, [r0, #8]
-	mov r0, #0x4000
-	strh r0, [r1]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_21663D8(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r2, #0x1e000
-	rsb r2, r2, #0
-	str r2, [r0]
-	mov r2, #0
-	str r2, [r0, #4]
-	mov r2, #0x46000
-	str r2, [r0, #8]
-	mov r0, #0x8000
-	strh r0, [r1]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_2166400(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r2, #0
-	str r2, [r0]
-	str r2, [r0, #4]
-	mov r2, #0x6e000
-	str r2, [r0, #8]
-	mov r0, #0x8000
-	strh r0, [r1]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_2166420(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r2, #0
-	str r2, [r0]
-	str r2, [r0, #4]
-	mov r2, #0x6e000
-	str r2, [r0, #8]
-	mov r0, #0x8000
-	strh r0, [r1]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_2166440(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r2, #0
-	str r2, [r0]
-	str r2, [r0, #4]
-	mov r2, #0x6e000
-	str r2, [r0, #8]
-	mov r0, #0x8000
-	strh r0, [r1]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_2166460(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r2, #0
-	str r2, [r0]
-	str r2, [r0, #4]
-	mov r2, #0x37000
-	str r2, [r0, #8]
-	mov r0, #0x8000
-	strh r0, [r1]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_2166480(CViDockBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r0, #0
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViDockBack__Func_2166488(CViDockBack *work)
+BOOL CViDockBack::CheckExitArea_Base(VecFx32 *pos)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, [r0, #8]
-	cmp r0, #0x3c000
-	movge r0, #0
-	ldmgeia sp!, {r3, pc}
-	cmp r0, #0x1e000
-	movlt r0, #0x1a000
-	ldmltia sp!, {r3, pc}
-	rsb r1, r0, #0x3c000
-	mov r0, #0x1a
-	mul r0, r1, r0
-	mov r1, #0x1e
-	bl FX_DivS32
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    return pos->z >= FLOAT_TO_FX32(24.0);
 }
 
-NONMATCH_FUNC void ViDockBack__Func_21664C0(CViDockBack *work)
+BOOL CViDockBack::CheckExitArea_BaseNext(VecFx32 *pos)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0xc
-	mov r4, r0
-	str r1, [r4, #0x10]
-	mov r1, #0
-	add r0, sp, #0
-	str r1, [sp, #4]
-	str r2, [sp]
-	str r3, [sp, #8]
-	bl ViDockBack__Func_2166480
-	str r0, [sp, #4]
-	add r1, sp, #0
-	mov r0, r4
-	bl _ZN9CViShadow12Func_2167F00EP7VecFx32
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-
-// clang-format on
-#endif
+    return FALSE;
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166500(CViDockBack *work)
+BOOL CViDockBack::CheckExitArea_Jet(VecFx32 *pos)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0xc
-	mov r4, r0
-	str r1, [r4, #0x10]
-	mov r1, #0
-	add r0, sp, #0
-	str r1, [sp, #4]
-	str r2, [sp]
-	str r3, [sp, #8]
-	bl ViDockBack__Func_2166488
-	str r0, [sp, #4]
-	add r1, sp, #0
-	mov r0, r4
-	bl _ZN9CViShadow12Func_2167F00EP7VecFx32
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-
-// clang-format on
-#endif
+    return pos->z >= FLOAT_TO_FX32(80.0);
 }
 
-NONMATCH_FUNC void ViDockBack__Func_2166540(CViDockBack *work)
+BOOL CViDockBack::CheckExitArea_Boat(VecFx32 *pos)
 {
-#ifdef NON_MATCHING
+    return pos->z >= FLOAT_TO_FX32(126.0);
+}
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r0, #0x14
-	bl CARD_SetThreadPriority
-	mov r4, r0
-	ldr r0, [r5, #0xcc]
-	ldr r1, [r5, #0xd0]
-	mov r2, #1
-	mov r3, #0
-	bl ViDockBack__LoadAssets
-	mov r0, r4
-	bl CARD_SetThreadPriority
-	ldmia sp!, {r3, r4, r5, pc}
+BOOL CViDockBack::CheckExitArea_Hover(VecFx32 *pos)
+{
+    return pos->z >= FLOAT_TO_FX32(126.0);
+}
 
-// clang-format on
-#endif
+BOOL CViDockBack::CheckExitArea_Submarine(VecFx32 *pos)
+{
+    return pos->z >= FLOAT_TO_FX32(126.0);
+}
+
+BOOL CViDockBack::CheckExitArea_Beach(VecFx32 *pos)
+{
+    return pos->z >= FLOAT_TO_FX32(62.0);
+}
+
+void CViDockBack::PlayerSpawnConfig_Base(VecFx32 *position, u16 *angle, s32 area)
+{
+    if (area == 1)
+    {
+        position->x = FLOAT_TO_FX32(20.0);
+        position->y = FLOAT_TO_FX32(0.0);
+        position->z = FLOAT_TO_FX32(0.5);
+
+        *angle = FLOAT_DEG_TO_IDX(270.0);
+    }
+    else
+    {
+        position->x = FLOAT_TO_FX32(0.0);
+        position->y = FLOAT_TO_FX32(0.0);
+        position->z = FLOAT_TO_FX32(19.0);
+
+        *angle = FLOAT_DEG_TO_IDX(180.0);
+    }
+}
+
+void CViDockBack::PlayerSpawnConfig_BaseNext(VecFx32 *position, u16 *angle, s32 area)
+{
+    position->x = -FLOAT_TO_FX32(16.0);
+    position->y = FLOAT_TO_FX32(0.0);
+    position->z = FLOAT_TO_FX32(0.0);
+
+    *angle = FLOAT_DEG_TO_IDX(90.0);
+}
+
+void CViDockBack::PlayerSpawnConfig_Jet(VecFx32 *position, u16 *angle, s32 area)
+{
+    position->x = -FLOAT_TO_FX32(30.0);
+    position->y = FLOAT_TO_FX32(0.0);
+    position->z = FLOAT_TO_FX32(70.0);
+
+    *angle = FLOAT_DEG_TO_IDX(180.0);
+}
+
+void CViDockBack::PlayerSpawnConfig_Boat(VecFx32 *position, u16 *angle, s32 area)
+{
+    position->x = FLOAT_TO_FX32(0.0);
+    position->y = FLOAT_TO_FX32(0.0);
+    position->z = FLOAT_TO_FX32(110.0);
+
+    *angle = FLOAT_DEG_TO_IDX(180.0);
+}
+
+void CViDockBack::PlayerSpawnConfig_Hover(VecFx32 *position, u16 *angle, s32 area)
+{
+    position->x = FLOAT_TO_FX32(0.0);
+    position->y = FLOAT_TO_FX32(0.0);
+    position->z = FLOAT_TO_FX32(110.0);
+
+    *angle = FLOAT_DEG_TO_IDX(180.0);
+}
+
+void CViDockBack::PlayerSpawnConfig_Submarine(VecFx32 *position, u16 *angle, s32 area)
+{
+    position->x = FLOAT_TO_FX32(0.0);
+    position->y = FLOAT_TO_FX32(0.0);
+    position->z = FLOAT_TO_FX32(110.0);
+
+    *angle = FLOAT_DEG_TO_IDX(180.0);
+}
+
+void CViDockBack::PlayerSpawnConfig_Beach(VecFx32 *position, u16 *angle, s32 area)
+{
+    position->x = FLOAT_TO_FX32(0.0);
+    position->y = FLOAT_TO_FX32(0.0);
+    position->z = FLOAT_TO_FX32(55.0);
+
+    *angle = FLOAT_DEG_TO_IDX(180.0);
+}
+
+fx32 CViDockBack::GetGroundPos_Common(VecFx32 *pos)
+{
+    return FLOAT_TO_FX32(0.0);
+}
+
+fx32 CViDockBack::GetGroundPos_Submarine(VecFx32 *pos)
+{
+    if (pos->z >= FLOAT_TO_FX32(60.0))
+        return FLOAT_TO_FX32(0.0);
+
+    if (pos->z >= FLOAT_TO_FX32(30.0))
+        return FX_DivS32(26 * (FLOAT_TO_FX32(60.0) - pos->z), 30);
+
+    return FLOAT_TO_FX32(26.0);
+}
+
+void CViDockBack::DrawShadow_Common(CViShadow *work, fx32 scale, fx32 x, fx32 z)
+{
+    work->scale = scale;
+
+    VecFx32 position;
+    position.x = x;
+    position.y = FLOAT_TO_FX32(0.0);
+    position.z = z;
+
+    position.y = CViDockBack::GetGroundPos_Common(&position);
+
+    work->Draw(&position);
+}
+
+void CViDockBack::DrawShadow_Submarine(CViShadow *work, fx32 scale, fx32 x, fx32 z)
+{
+    work->scale = scale;
+
+    VecFx32 position;
+    position.x = x;
+    position.y = FLOAT_TO_FX32(0.0);
+    position.z = z;
+
+    position.y = CViDockBack::GetGroundPos_Submarine(&position);
+
+    work->Draw(&position);
+}
+
+void CViDockBack::ThreadFunc(void *arg)
+{
+    CViDockBack::ThreadWorker *work = (CViDockBack::ThreadWorker *)arg;
+
+    u32 prio = CARD_SetThreadPriority(20);
+    work->parent->Init(work->area, TRUE, FALSE);
+    CARD_SetThreadPriority(prio);
 }

@@ -20,7 +20,7 @@ public:
     enum AnimIDs
     {
         ANI_IDLE,
-        ANI_WALK, 
+        ANI_WALK,
         ANI_RUN,
         ANI_BORED_00,
         ANI_BORED_01,
@@ -59,7 +59,7 @@ public:
     u32 idleTimer;
     BOOL loadedAssets;
     BOOL allowBored;
-    VecFx32 translationUnknown;
+    VecFx32 prevPos;
     fx32 velocity;
     u32 moveFlag;
     fx32 topSpeed;
@@ -69,6 +69,15 @@ public:
     // --------------------
     // MEMBER FUNCTIONS
     // --------------------
+
+    void Init();
+    void Release();
+    VecFx32 *GetPrevPosition();
+    void SetTurnAngle(u16 angle, BOOL snap);
+    void SetMoveAngle(u16 angle, BOOL isRunning);
+    void Process(fx32 speed);
+    void AllowBored(BOOL allowBored);
+    void SetTopSpeed(fx32 topSpeed);
 };
 
 // --------------------
@@ -83,15 +92,6 @@ extern "C"
 void _ZN13CViDockPlayerC1Ev();
 void _ZN13CViDockPlayerD0Ev();
 void _ZN13CViDockPlayerD1Ev();
-
-void ViDockPlayer__Init(CViDockPlayer *work);
-void ViDockPlayer__Release(CViDockPlayer *work);
-VecFx32 *ViDockPlayer__GetTranslationUnknown(CViDockPlayer *work);
-void ViDockPlayer__SetTurnAngle(CViDockPlayer *work, u16 angle, BOOL snap);
-void ViDockPlayer__SetMoveAngle(CViDockPlayer *work, u16 angle, BOOL isRunning);
-void ViDockPlayer__Process(CViDockPlayer *work, fx32 speed);
-void ViDockPlayer__AllowBored(CViDockPlayer *work, BOOL allowBored);
-void ViDockPlayer__SetTopSpeed(CViDockPlayer *work, fx32 topSpeed);
 
 #ifdef __cplusplus
 }

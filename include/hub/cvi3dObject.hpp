@@ -31,7 +31,7 @@ public:
     {
         FLAG_NONE = 0x00,
 
-        FLAG_1 = 1 << 0,
+        FLAG_TURNING = 1 << 0,
     };
 
     // --------------------
@@ -39,10 +39,10 @@ public:
     // --------------------
 
     u32 flags;
-    VecFx32 translation1;
-    VecFx32 translation2;
-    VecFx32 scale1;
-    VecFx32 scale2;
+    VecFx32 position;
+    VecFx32 worldPosition;
+    VecFx32 scale;
+    VecFx32 worldScale;
     u16 targetTurnAngle;
     u16 currentTurnAngle;
     u16 rotationY;
@@ -64,23 +64,24 @@ public:
     // MEMBER FUNCTIONS
     // --------------------
 
-    void Func_216763C(void *resMdl, u16 bodyModelSlot, BOOL setJoint, BOOL setMaterial, void *resAnimJoint, void *resAnimMaterial, void *resAnimPattern, void *resAnimTexture,
+    void SetResources(void *resMdl, u16 bodyModelSlot, BOOL setJoint, BOOL setMaterial, void *resAnimJoint, void *resAnimMaterial, void *resAnimPattern, void *resAnimTexture,
                       void *resAnimVisibility, u16 tailModelSlot);
-    void Func_2167704(CVi3dObject *other, u16 bodyModelSlot, BOOL setJoint, BOOL setMaterial, u16 tailModelSlot);
-    void Func_21677C4();
-    void Func_2167900(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
-    void Func_2167958(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
-    void Func_21679B0(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
-    void Func_2167A0C(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
-    void Func_2167A80(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
-    void ProcessAnimation();
+    void SetResources(CVi3dObject *other, u16 bodyModelSlot, BOOL setJoint, BOOL setMaterial, u16 tailModelSlot);
+    void Release();
+    void SetJointAnimForBody(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
+    void SetJointAnimForTail(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
+    void SetPatternAnimForBody(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
+    void SetTextureAnimForBody(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
+    void SetVisibilityAnimForBody(u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, BOOL forceApply);
+    void Process();
     void Draw();
 
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
     
-    static void Func_21680B8(AnimatorMDL *animator, s32 resourceType, void *resource, u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, void *texResource);
+private:
+    static void LoadAnimation(AnimatorMDL *animator, s32 resourceType, void *resource, u16 animID, BOOL canLoop, BOOL blendAnims, BOOL keepFrame, void *texResource);
 };
 
 class CVi3dArrow : public CVi3dObject
@@ -101,8 +102,8 @@ public:
     // MEMBER FUNCTIONS
     // --------------------
 
-    void LoadAssets();
-    void Func_2168358();
+    void Init();
+    void Release();
 };
 
 class CViShadow
@@ -127,10 +128,10 @@ public:
     // MEMBER FUNCTIONS
     // --------------------
 
-    void LoadAssets();
-    void Func_2167E9C();
+    void Init();
+    void Release();
 
-    void Func_2167F00(VecFx32 *position);
+    void Draw(VecFx32 *position);
 };
 
 extern "C"

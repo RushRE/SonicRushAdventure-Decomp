@@ -63,7 +63,7 @@ struct ViDockNpcAssetInfo
     u8 textureAnim;
     u8 ani2_1;
     u8 ani1_1;
-    u8 unknownID;
+    u8 size;
     u8 ani2_Tail;
     u8 ani1_Tail;
     u8 __padding1;
@@ -86,6 +86,8 @@ extern "C"
 NOT_DECOMPILED void *_ZTV10CViDockNpc;
 
 NOT_DECOMPILED void _ZdlPv(void);
+
+NOT_DECOMPILED void _ZN10CViDockNpc7ReleaseEv(void);
 }
 
 // --------------------
@@ -202,7 +204,8 @@ NONMATCH_FUNC void _ZN10CViDockNpcC1Ev(CViDockNpc *work)
     this->aniMaterial   = NULL;
     this->aniVisibility = NULL;
     this->aniTexture    = NULL;
-    ViDockNpc__ReleaseAssets(this);
+
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -217,7 +220,7 @@ NONMATCH_FUNC void _ZN10CViDockNpcC1Ev(CViDockNpc *work)
 	str r1, [r4, #0x320]
 	mov r0, r4
 	str r1, [r4, #0x324]
-	bl ViDockNpc__ReleaseAssets
+	bl _ZN10CViDockNpc7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 
@@ -229,14 +232,14 @@ NONMATCH_FUNC void _ZN10CViDockNpcC1Ev(CViDockNpc *work)
 NONMATCH_FUNC void _ZN10CViDockNpcD0Ev(CViDockNpc *work)
 {
 #ifdef NON_MATCHING
-    ViDockNpc__ReleaseAssets(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV10CViDockNpc+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViDockNpc__ReleaseAssets
+	bl _ZN10CViDockNpc7ReleaseEv
 	mov r0, r4
 	bl _ZN11CVi3dObjectD2Ev
 	mov r0, r4
@@ -250,14 +253,14 @@ NONMATCH_FUNC void _ZN10CViDockNpcD0Ev(CViDockNpc *work)
 NONMATCH_FUNC void _ZN10CViDockNpcD1Ev(CViDockNpc *work)
 {
 #ifdef NON_MATCHING
-    ViDockNpc__ReleaseAssets(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV10CViDockNpc+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViDockNpc__ReleaseAssets
+	bl _ZN10CViDockNpc7ReleaseEv
 	mov r0, r4
 	bl _ZN11CVi3dObjectD2Ev
 	mov r0, r4
@@ -269,196 +272,195 @@ NONMATCH_FUNC void _ZN10CViDockNpcD1Ev(CViDockNpc *work)
 #endif
 }
 
-void ViDockNpc__LoadAssets(CViDockNpc *work, s32 type, VecFx32 *position, u16 angle, BOOL snapToAngle)
+void CViDockNpc::Init(s32 type, VecFx32 *position, u16 angle, BOOL snapToAngle)
 {
-    ViDockNpc__ReleaseAssets(work);
+    this->Release();
 
-    work->npcType             = type;
-    work->type = HubConfig__GetNpcConfig(type)->type;
+    this->npcType = type;
+    this->type    = HubConfig__GetNpcConfig(type)->type;
 
-    const ViDockNpcAssetInfo *config = &resConfigFileTable[work->type];
+    const ViDockNpcAssetInfo *config = &resConfigFileTable[this->type];
 
-    work->model     = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resModelFileTable[config->modelIndex], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
-    work->aniJoints = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resJointAnimFileTable[config->animIndex], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+    this->model     = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resModelFileTable[config->modelIndex], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+    this->aniJoints = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resJointAnimFileTable[config->animIndex], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
 
     if (config->materialAnim != CVIDOCKNPC_RESOURCE_NONE)
-        work->aniMaterial = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resMatAnimFileTable[config->materialAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+        this->aniMaterial = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resMatAnimFileTable[config->materialAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
 
     // NOTE: is this bugged? shouldn't it utilise a unique table instead of 'resMatAnimFileTable'?
     if (config->visibilityAnim != CVIDOCKNPC_RESOURCE_NONE)
-        work->aniVisibility = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resMatAnimFileTable[config->visibilityAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+        this->aniVisibility = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resMatAnimFileTable[config->visibilityAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
 
     // NOTE: is this bugged? shouldn't it utilise a unique table instead of 'resMatAnimFileTable'?
     if (config->textureAnim != CVIDOCKNPC_RESOURCE_NONE)
-        work->aniTexture = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resMatAnimFileTable[config->textureAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+        this->aniTexture = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resMatAnimFileTable[config->textureAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
 
-    work->size = npcHitboxSizeTable[config->unknownID];
+    this->size = npcHitboxSizeTable[config->size];
 
     if (config->ani2_Tail == CVIDOCKNPC_RESOURCE_NONE)
     {
-        work->Func_216763C(work->model, 0, FALSE, FALSE, work->aniJoints, NULL, work->aniMaterial, work->aniTexture, work->aniVisibility, 0xFFFF);
-        work->Func_2167900(config->ani2_1, TRUE, FALSE, FALSE, FALSE);
+        this->SetResources(this->model, 0, FALSE, FALSE, this->aniJoints, NULL, this->aniMaterial, this->aniTexture, this->aniVisibility, 0xFFFF);
+        this->SetJointAnimForBody(config->ani2_1, TRUE, FALSE, FALSE, FALSE);
     }
     else
     {
-        work->Func_216763C(work->model, 0, FALSE, FALSE, work->aniJoints, NULL, work->aniMaterial, work->aniTexture, work->aniVisibility, 1);
-        work->Func_2167900(config->ani2_1, TRUE, FALSE, FALSE, FALSE);
-        work->Func_2167958(config->ani2_Tail, TRUE, FALSE, FALSE, FALSE);
+        this->SetResources(this->model, 0, FALSE, FALSE, this->aniJoints, NULL, this->aniMaterial, this->aniTexture, this->aniVisibility, 1);
+        this->SetJointAnimForBody(config->ani2_1, TRUE, FALSE, FALSE, FALSE);
+        this->SetJointAnimForTail(config->ani2_Tail, TRUE, FALSE, FALSE, FALSE);
     }
 
-    if (work->aniMaterial != NULL)
-        work->Func_21679B0(0, TRUE, FALSE, FALSE, FALSE);
+    if (this->aniMaterial != NULL)
+        this->SetPatternAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
-    if (work->aniVisibility != NULL)
-        work->Func_2167A80(0, TRUE, FALSE, FALSE, FALSE);
+    if (this->aniVisibility != NULL)
+        this->SetVisibilityAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
-    if (work->aniTexture != NULL)
-        work->Func_2167A0C(0, TRUE, FALSE, FALSE, FALSE);
+    if (this->aniTexture != NULL)
+        this->SetTextureAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
-    CPPHelpers__VEC_Copy_Alt(&work->translation1, position);
+    CPPHelpers__VEC_Copy_Alt(&this->position, position);
 
-    work->targetTurnAngle  = angle;
-    work->currentTurnAngle = work->targetTurnAngle;
-    work->flags |= CVi3dObject::FLAG_1;
-    work->turnSpeed    = FLOAT_DEG_TO_IDX(8.0);
-    work->initialAngle = angle;
-    work->snapToAngle  = snapToAngle;
+    this->targetTurnAngle  = angle;
+    this->currentTurnAngle = this->targetTurnAngle;
+    this->flags |= CVi3dObject::FLAG_TURNING;
+    this->turnSpeed    = FLOAT_DEG_TO_IDX(8.0);
+    this->initialAngle = angle;
+    this->snapToAngle  = snapToAngle;
 }
 
-void ViDockNpc__ReleaseAssets(CViDockNpc *work)
+void CViDockNpc::Release()
 {
-    work->Func_21677C4();
+    CVi3dObject::Release();
 
-    if (work->model != NULL)
+    if (this->model != NULL)
     {
-        HeapFree(HEAP_USER, work->model);
-        work->model = NULL;
+        HeapFree(HEAP_USER, this->model);
+        this->model = NULL;
     }
 
-    if (work->aniJoints != NULL)
+    if (this->aniJoints != NULL)
     {
-        HeapFree(HEAP_USER, work->aniJoints);
-        work->aniJoints = NULL;
+        HeapFree(HEAP_USER, this->aniJoints);
+        this->aniJoints = NULL;
     }
 
-    if (work->aniMaterial != NULL)
+    if (this->aniMaterial != NULL)
     {
-        HeapFree(HEAP_USER, work->aniMaterial);
-        work->aniMaterial = NULL;
+        HeapFree(HEAP_USER, this->aniMaterial);
+        this->aniMaterial = NULL;
     }
 
-    if (work->aniVisibility != NULL)
+    if (this->aniVisibility != NULL)
     {
-        HeapFree(HEAP_USER, work->aniVisibility);
-        work->aniVisibility = NULL;
+        HeapFree(HEAP_USER, this->aniVisibility);
+        this->aniVisibility = NULL;
     }
 
-    if (work->aniTexture != NULL)
+    if (this->aniTexture != NULL)
     {
-        HeapFree(HEAP_USER, work->aniTexture);
-        work->aniTexture = NULL;
+        HeapFree(HEAP_USER, this->aniTexture);
+        this->aniTexture = NULL;
     }
 
-    work->talkActionType      = CVIDOCKNPCTALK_INVALID;
-    work->talkActionParam     = 0;
-    work->talkCount           = -1;
-    work->size.x              = FLOAT_TO_FX32(0.0);
-    work->size.y              = FLOAT_TO_FX32(0.0);
-    work->size.z              = FLOAT_TO_FX32(0.0);
-    work->initialAngle        = 0;
-    work->type = ARRAY_COUNT(resConfigFileTable) + 1;
+    this->talkActionType  = CVIDOCKNPCTALK_INVALID;
+    this->talkActionParam = 0;
+    this->talkCount       = -1;
+    this->size.x          = FLOAT_TO_FX32(0.0);
+    this->size.y          = FLOAT_TO_FX32(0.0);
+    this->size.z          = FLOAT_TO_FX32(0.0);
+    this->initialAngle    = 0;
+    this->type            = ARRAY_COUNT(resConfigFileTable) + 1;
 }
 
-void ViDockNpc__SetAngleForTalking(CViDockNpc *work, u16 angle)
+void CViDockNpc::SetAngleForTalking(u16 angle)
 {
-    if (work->snapToAngle)
-        work->targetTurnAngle = angle;
+    if (this->snapToAngle)
+        this->targetTurnAngle = angle;
 
-    work->Func_2167900(resConfigFileTable[work->type].ani1_1, TRUE, TRUE, FALSE, FALSE);
+    this->SetJointAnimForBody(resConfigFileTable[this->type].ani1_1, TRUE, TRUE, FALSE, FALSE);
 
-    if (resConfigFileTable[work->type].ani1_Tail != CVIDOCKNPC_RESOURCE_NONE)
-        work->Func_2167958(resConfigFileTable[work->type].ani1_Tail, TRUE, TRUE, FALSE, FALSE);
+    if (resConfigFileTable[this->type].ani1_Tail != CVIDOCKNPC_RESOURCE_NONE)
+        this->SetJointAnimForTail(resConfigFileTable[this->type].ani1_Tail, TRUE, TRUE, FALSE, FALSE);
 }
 
-void ViDockNpc__SetAngleForIdle(CViDockNpc *work)
+void CViDockNpc::SetAngleForIdle()
 {
-    if (work->snapToAngle)
-        work->targetTurnAngle = work->initialAngle;
+    if (this->snapToAngle)
+        this->targetTurnAngle = this->initialAngle;
 
-    work->Func_2167900(resConfigFileTable[work->type].ani2_1, TRUE, TRUE, FALSE, FALSE);
+    this->SetJointAnimForBody(resConfigFileTable[this->type].ani2_1, TRUE, TRUE, FALSE, FALSE);
 
-    if (resConfigFileTable[work->type].ani2_Tail != CVIDOCKNPC_RESOURCE_NONE)
-        work->Func_2167958(resConfigFileTable[work->type].ani2_Tail, TRUE, TRUE, FALSE, FALSE);
+    if (resConfigFileTable[this->type].ani2_Tail != CVIDOCKNPC_RESOURCE_NONE)
+        this->SetJointAnimForTail(resConfigFileTable[this->type].ani2_Tail, TRUE, TRUE, FALSE, FALSE);
 }
 
-BOOL ViDockNpc__Func_216710C(CViDockNpc *work, VecFx32 *a2, VecFx32 *a3, VecFx32 *dest, fx32 a5)
+BOOL CViDockNpc::HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale)
 {
-    *dest = *a3;
+    *newPlayerPos = *curPlayerPos;
 
-    if (a2->x == a3->x && a2->y == a3->y && a2->z == a3->z)
+    if (prevPlayerPos->x == curPlayerPos->x && prevPlayerPos->y == curPlayerPos->y && prevPlayerPos->z == curPlayerPos->z)
         return FALSE;
 
-    s32 centerX = MultiplyFX(work->size.x, a5);
-    s32 centerY = MultiplyFX(work->size.z, a5);
-    s32 x1      = CPPHelpers__Func_2085F9C(&work->translation1)->x - centerX;
-    s32 x2      = CPPHelpers__Func_2085F9C(&work->translation1)->x + centerX;
-    s32 z1      = CPPHelpers__Func_2085F9C(&work->translation1)->z - centerY;
-    s32 z2      = CPPHelpers__Func_2085F9C(&work->translation1)->z + centerY;
+    s32 centerX = MultiplyFX(this->size.x, scale);
+    s32 centerY = MultiplyFX(this->size.z, scale);
+    s32 x1      = CPPHelpers__Func_2085F9C(&this->position)->x - centerX;
+    s32 x2      = CPPHelpers__Func_2085F9C(&this->position)->x + centerX;
+    s32 z1      = CPPHelpers__Func_2085F9C(&this->position)->z - centerY;
+    s32 z2      = CPPHelpers__Func_2085F9C(&this->position)->z + centerY;
 
-    if (a3->x <= x1 || a3->x >= x2 || a3->z <= z1 || a3->z >= z2)
+    if (curPlayerPos->x <= x1 || curPlayerPos->x >= x2 || curPlayerPos->z <= z1 || curPlayerPos->z >= z2)
         return FALSE;
 
-    if (a2->x <= x1)
+    if (prevPlayerPos->x <= x1)
     {
-        dest->x = x1;
+        newPlayerPos->x = x1;
     }
-    else if (a2->x >= x2)
+    else if (prevPlayerPos->x >= x2)
     {
-        dest->x = x2;
+        newPlayerPos->x = x2;
     }
-    else if (a2->z <= z1)
+    else if (prevPlayerPos->z <= z1)
     {
-        dest->z = z1;
+        newPlayerPos->z = z1;
     }
-    else if (a2->z >= z2)
+    else if (prevPlayerPos->z >= z2)
     {
-        dest->z = z2;
+        newPlayerPos->z = z2;
     }
 
     return TRUE;
 }
 
-NONMATCH_FUNC BOOL ViDockNpc__Func_2167244(CViDockNpc *work, VecFx32 *playerPos, s32 playerAngle, s32 a4, BOOL *flag)
+NONMATCH_FUNC BOOL CViDockNpc::CheckPlayerInTalkRange(VecFx32 *playerPos, u16 playerAngle, fx32 scale, BOOL *canTalk)
 {
-    // https://decomp.me/scratch/6CdR9 -> 65.06%
+    // https://decomp.me/scratch/6CdR9 -> 98.08%
 #ifdef NON_MATCHING
-    s32 x = CPPHelpers__Func_2085F9C(&work->translation1)->x - playerPos->x;
-    s32 z = CPPHelpers__Func_2085F9C(&work->translation1)->z - playerPos->z;
+    fx32 x = CPPHelpers__Func_2085F9C(&this->position)->x - playerPos->x;
+    fx32 z = CPPHelpers__Func_2085F9C(&this->position)->z - playerPos->z;
 
-    Unknown217305C *config = &npcHitboxSizeTable[resConfigFileTable[work->type].unknownID];
+    fx32 radius = MultiplyFX(x, x) + MultiplyFX(z, z);
 
-    s32 v12 = MultiplyFX(x, x) + MultiplyFX(z, z);
-    s32 v13 = MultiplyFX(MATH_MAX(config->field_0, config->field_8), a4);
-    s32 v15 = MultiplyFX(v13 + (v13 >> 1), v13 + (v13 >> 1));
+    const VecFx32 *size = &npcHitboxSizeTable[resConfigFileTable[this->type].size];
+    fx32 scaledSize     = MultiplyFX(MATH_MAX(size->x, size->z), scale);
+    scaledSize += (scaledSize >> 1);
 
-    BOOL result = FALSE;
-
-    if (v12 <= v15)
+    if (radius <= MultiplyFX(scaledSize, scaledSize))
     {
-        if (x * SinFX(playerAngle) >= 0 && z * CosFX(playerAngle) < 0)
+        if (x * SinFX(playerAngle) < 0 || z * CosFX(playerAngle) < 0)
         {
-            if (flag != NULL)
-                *flag = FALSE;
+            if (canTalk != NULL)
+                *canTalk = FALSE;
         }
         else
         {
-            if (flag != NULL)
-                *flag = TRUE;
+            if (canTalk != NULL)
+                *canTalk = TRUE;
         }
-        result = TRUE;
+
+        return TRUE;
     }
 
-    return result;
+    return FALSE;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
@@ -544,7 +546,7 @@ _02167368:
 #endif
 }
 
-BOOL ViDockNpc__Func_216737C(CViDockNpc *work, VecFx32 *position)
+BOOL CViDockNpc::Allow3dArrow(VecFx32 *position)
 {
     UNUSED(position);
 

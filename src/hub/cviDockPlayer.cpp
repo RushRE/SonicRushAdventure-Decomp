@@ -10,7 +10,7 @@
 // STRUCTS
 // --------------------
 
-struct CVIDockPlayerMoveConfig
+struct CViDockPlayerMoveConfig
 {
     fx32 topSpeed;
     fx32 minSpeed;
@@ -27,13 +27,15 @@ extern "C"
 NOT_DECOMPILED void *_ZTV13CViDockPlayer;
 
 NOT_DECOMPILED void _ZdlPv(void);
+
+NOT_DECOMPILED void _ZN13CViDockPlayer7ReleaseEv(void);
 }
 
 // --------------------
 // VARIABLES
 // --------------------
 
-static const CVIDockPlayerMoveConfig cviDockPlayerMoveConfig[2] = {
+static const CViDockPlayerMoveConfig cviDockPlayerMoveConfig[2] = {
     { FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(0.0078125) },
     { FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(0.0625) },
 };
@@ -48,8 +50,9 @@ NONMATCH_FUNC void _ZN13CViDockPlayerC1Ev()
 #ifdef NON_MATCHING
     this->resModel     = NULL;
     this->resAnims     = NULL;
-    this->loadedAssets = 0;
-    ViDockPlayer__Release(this);
+    this->loadedAssets = FALSE;
+
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -62,7 +65,7 @@ NONMATCH_FUNC void _ZN13CViDockPlayerC1Ev()
 	str r1, [r4, #0x334]
 	mov r0, r4
 	str r1, [r4, #0x310]
-	bl ViDockPlayer__Release
+	bl _ZN13CViDockPlayer7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 
@@ -74,14 +77,14 @@ NONMATCH_FUNC void _ZN13CViDockPlayerC1Ev()
 NONMATCH_FUNC void _ZN13CViDockPlayerD0Ev()
 {
 #ifdef NON_MATCHING
-    ViDockPlayer__Release(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViDockPlayer+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViDockPlayer__Release
+	bl _ZN13CViDockPlayer7ReleaseEv
 	mov r0, r4
 	bl _ZN11CVi3dObjectD2Ev
 	mov r0, r4
@@ -95,14 +98,14 @@ NONMATCH_FUNC void _ZN13CViDockPlayerD0Ev()
 NONMATCH_FUNC void _ZN13CViDockPlayerD1Ev()
 {
 #ifdef NON_MATCHING
-    ViDockPlayer__Release(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViDockPlayer+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViDockPlayer__Release
+	bl _ZN13CViDockPlayer7ReleaseEv
 	mov r0, r4
 	bl _ZN11CVi3dObjectD2Ev
 	mov r0, r4
@@ -114,75 +117,75 @@ NONMATCH_FUNC void _ZN13CViDockPlayerD1Ev()
 #endif
 }
 
-void ViDockPlayer__Init(CViDockPlayer *work)
+void CViDockPlayer::Init()
 {
-    if (!work->loadedAssets)
+    if (!this->loadedAssets)
     {
-        GetCompressedFileFromBundle("bb/vi_son.bb", BUNDLE_VI_SON_FILE_RESOURCES_BB_VI_SON_SON_NSBMD, &work->resModel, TRUE, FALSE);
-        GetCompressedFileFromBundle("bb/vi_son.bb", BUNDLE_VI_SON_FILE_RESOURCES_BB_VI_SON_SON_NSBCA, &work->resAnims, TRUE, FALSE);
+        GetCompressedFileFromBundle("bb/vi_son.bb", BUNDLE_VI_SON_FILE_RESOURCES_BB_VI_SON_SON_NSBMD, &this->resModel, TRUE, FALSE);
+        GetCompressedFileFromBundle("bb/vi_son.bb", BUNDLE_VI_SON_FILE_RESOURCES_BB_VI_SON_SON_NSBCA, &this->resAnims, TRUE, FALSE);
 
-        work->Func_216763C(work->resModel, CViDockPlayer::ANI_IDLE, FALSE, FALSE, work->resAnims, NULL, NULL, NULL, NULL, CVI3DOBJECT_RESOURCE_NONE);
-        work->aniBody.speed[B3D_ANIM_JOINT_ANIM] = FLOAT_TO_FX32(0.25);
-        work->Func_2167900(CViDockPlayer::ANI_IDLE, TRUE, FALSE, FALSE, TRUE);
+        this->SetResources(this->resModel, CViDockPlayer::ANI_IDLE, FALSE, FALSE, this->resAnims, NULL, NULL, NULL, NULL, CVI3DOBJECT_RESOURCE_NONE);
+        this->aniBody.speed[B3D_ANIM_JOINT_ANIM] = FLOAT_TO_FX32(0.25);
+        this->SetJointAnimForBody(CViDockPlayer::ANI_IDLE, TRUE, FALSE, FALSE, TRUE);
 
-        work->flags |= CVi3dObject::FLAG_1;
-        work->turnSpeed    = FLOAT_DEG_TO_IDX(20.0);
-        work->loadedAssets = TRUE;
+        this->flags |= CVi3dObject::FLAG_TURNING;
+        this->turnSpeed    = FLOAT_DEG_TO_IDX(20.0);
+        this->loadedAssets = TRUE;
     }
 
-    work->moveState            = CViDockPlayer::MOVESTATE_IDLE;
-    work->prevMoveState        = CViDockPlayer::MOVESTATE_IDLE;
-    work->idleState            = CViDockPlayer::IDLESTATE_INACTIVE;
-    work->idleTimer            = 0;
-    work->translationUnknown.x = FLOAT_TO_FX32(0.0);
-    work->translationUnknown.y = FLOAT_TO_FX32(0.0);
-    work->translationUnknown.z = FLOAT_TO_FX32(0.0);
-    work->velocity             = FLOAT_TO_FX32(0.0);
-    work->moveFlag             = CViDockPlayer::MOVEFLAG_NO_INPUTS;
-    work->topSpeed             = FLOAT_TO_FX32(1.0);
+    this->moveState     = CViDockPlayer::MOVESTATE_IDLE;
+    this->prevMoveState = CViDockPlayer::MOVESTATE_IDLE;
+    this->idleState     = CViDockPlayer::IDLESTATE_INACTIVE;
+    this->idleTimer     = 0;
+    this->prevPos.x     = FLOAT_TO_FX32(0.0);
+    this->prevPos.y     = FLOAT_TO_FX32(0.0);
+    this->prevPos.z     = FLOAT_TO_FX32(0.0);
+    this->velocity      = FLOAT_TO_FX32(0.0);
+    this->moveFlag      = CViDockPlayer::MOVEFLAG_NO_INPUTS;
+    this->topSpeed      = FLOAT_TO_FX32(1.0);
 }
 
-void ViDockPlayer__Release(CViDockPlayer *work)
+void CViDockPlayer::Release()
 {
-    work->Func_21677C4();
+    CVi3dObject::Release();
 
-    if (work->resModel != NULL)
+    if (this->resModel != NULL)
     {
-        NNS_G3dResDefaultRelease(work->resModel);
-        HeapFree(HEAP_USER, work->resModel);
-        work->resModel = NULL;
+        NNS_G3dResDefaultRelease(this->resModel);
+        HeapFree(HEAP_USER, this->resModel);
+        this->resModel = NULL;
     }
 
-    if (work->resAnims != NULL)
+    if (this->resAnims != NULL)
     {
-        HeapFree(HEAP_USER, work->resAnims);
-        work->resAnims = NULL;
+        HeapFree(HEAP_USER, this->resAnims);
+        this->resAnims = NULL;
     }
 
-    work->allowBored   = TRUE;
-    work->loadedAssets = FALSE;
+    this->allowBored   = TRUE;
+    this->loadedAssets = FALSE;
 }
 
-VecFx32 *ViDockPlayer__GetTranslationUnknown(CViDockPlayer *work)
+VecFx32 *CViDockPlayer::GetPrevPosition()
 {
-    return &work->translationUnknown;
+    return &this->prevPos;
 }
 
-void ViDockPlayer__SetTurnAngle(CViDockPlayer *work, u16 angle, BOOL snap)
+void CViDockPlayer::SetTurnAngle(u16 angle, BOOL snap)
 {
-    work->targetTurnAngle = angle;
-	
+    this->targetTurnAngle = angle;
+
     if (snap)
-        work->currentTurnAngle = work->targetTurnAngle;
+        this->currentTurnAngle = this->targetTurnAngle;
 }
 
-void ViDockPlayer__SetMoveAngle(CViDockPlayer *work, u16 angle, BOOL isRunning)
+void CViDockPlayer::SetMoveAngle(u16 angle, BOOL isRunning)
 {
-    work->targetTurnAngle = angle;
-    work->moveFlag        = isRunning != FALSE ? CViDockPlayer::MOVEFLAG_RUNNING : CViDockPlayer::MOVEFLAG_WALKING;
+    this->targetTurnAngle = angle;
+    this->moveFlag        = isRunning != FALSE ? CViDockPlayer::MOVEFLAG_RUNNING : CViDockPlayer::MOVEFLAG_WALKING;
 }
 
-void ViDockPlayer__Process(CViDockPlayer *work, fx32 speed)
+void CViDockPlayer::Process(fx32 speed)
 {
     MtxFx33 mtx1;
     MtxFx33 mtx2;
@@ -193,8 +196,8 @@ void ViDockPlayer__Process(CViDockPlayer *work, fx32 speed)
     CPPHelpers__Func_2085EE8(&moveVelocity);
 
     s32 sin2;
-    s32 sin = SinFX(work->targetTurnAngle);
-    s32 cos = CosFX(work->targetTurnAngle);
+    s32 sin = SinFX(this->targetTurnAngle);
+    s32 cos = CosFX(this->targetTurnAngle);
     sin2    = sin;
     CPPHelpers__MtxRotY33(&mtx1, &sin2, &cos);
 
@@ -203,139 +206,139 @@ void ViDockPlayer__Process(CViDockPlayer *work, fx32 speed)
     moveVelocity.z = FLOAT_TO_FX32(1.0);
     CPPHelpers__Func_2085E74(&moveVelocity, &mtx1);
 
-    if (work->moveFlag < CViDockPlayer::MOVEFLAG_INVALID)
+    if (this->moveFlag < CViDockPlayer::MOVEFLAG_INVALID)
     {
-        const CVIDockPlayerMoveConfig *config = &cviDockPlayerMoveConfig[work->moveFlag];
+        const CViDockPlayerMoveConfig *config = &cviDockPlayerMoveConfig[this->moveFlag];
 
-        if (work->velocity < config->minSpeed)
+        if (this->velocity < config->minSpeed)
         {
-            work->velocity = config->minSpeed;
+            this->velocity = config->minSpeed;
         }
         else
         {
-            if (work->velocity < config->topSpeed)
+            if (this->velocity < config->topSpeed)
             {
-                work->velocity += config->acceleration;
-                if (work->velocity > config->topSpeed)
-                    work->velocity = config->topSpeed;
+                this->velocity += config->acceleration;
+                if (this->velocity > config->topSpeed)
+                    this->velocity = config->topSpeed;
             }
             else
             {
-                if (work->velocity > config->topSpeed)
+                if (this->velocity > config->topSpeed)
                 {
-                    work->velocity -= FLOAT_TO_FX32(0.03125);
-                    if (work->velocity < config->topSpeed)
-                        work->velocity = config->topSpeed;
+                    this->velocity -= FLOAT_TO_FX32(0.03125);
+                    if (this->velocity < config->topSpeed)
+                        this->velocity = config->topSpeed;
                 }
             }
         }
 
-        if (work->moveFlag != CViDockPlayer::MOVEFLAG_RUNNING)
+        if (this->moveFlag != CViDockPlayer::MOVEFLAG_RUNNING)
         {
-            if (work->velocity > work->topSpeed)
-                work->velocity = work->topSpeed;
+            if (this->velocity > this->topSpeed)
+                this->velocity = this->topSpeed;
         }
     }
     else
     {
-        work->velocity = FLOAT_TO_FX32(0.0);
+        this->velocity = FLOAT_TO_FX32(0.0);
     }
 
-    CPPHelpers__VEC_Multiply_Alt(&moveVelocity, MultiplyFX(work->velocity, speed));
+    CPPHelpers__VEC_Multiply_Alt(&moveVelocity, MultiplyFX(this->velocity, speed));
 
-    if (work->velocity == FLOAT_TO_FX32(0.0))
-        work->moveState = CViDockPlayer::MOVESTATE_IDLE;
-    else if (work->velocity <= FLOAT_TO_FX32(1.0))
-        work->moveState = CViDockPlayer::MOVESTATE_WALKING;
+    if (this->velocity == FLOAT_TO_FX32(0.0))
+        this->moveState = CViDockPlayer::MOVESTATE_IDLE;
+    else if (this->velocity <= FLOAT_TO_FX32(1.0))
+        this->moveState = CViDockPlayer::MOVESTATE_WALKING;
     else
-        work->moveState = CViDockPlayer::MOVESTATE_RUNNING;
+        this->moveState = CViDockPlayer::MOVESTATE_RUNNING;
 
-    if (work->moveState != work->prevMoveState)
+    if (this->moveState != this->prevMoveState)
     {
-        switch (work->moveState)
+        switch (this->moveState)
         {
             case CViDockPlayer::MOVESTATE_IDLE:
-                work->Func_2167900(CViDockPlayer::ANI_IDLE, TRUE, TRUE, FALSE, FALSE);
+                this->SetJointAnimForBody(CViDockPlayer::ANI_IDLE, TRUE, TRUE, FALSE, FALSE);
                 break;
 
             case CViDockPlayer::MOVESTATE_WALKING:
-                work->Func_2167900(CViDockPlayer::ANI_WALK, TRUE, TRUE, TRUE, FALSE);
+                this->SetJointAnimForBody(CViDockPlayer::ANI_WALK, TRUE, TRUE, TRUE, FALSE);
                 break;
 
             case CViDockPlayer::MOVESTATE_RUNNING:
-                work->Func_2167900(CViDockPlayer::ANI_RUN, TRUE, TRUE, TRUE, FALSE);
+                this->SetJointAnimForBody(CViDockPlayer::ANI_RUN, TRUE, TRUE, TRUE, FALSE);
                 break;
         }
 
-        work->prevMoveState = work->moveState;
-        work->idleState     = CViDockPlayer::IDLESTATE_INACTIVE;
-        work->idleTimer     = 0;
+        this->prevMoveState = this->moveState;
+        this->idleState     = CViDockPlayer::IDLESTATE_INACTIVE;
+        this->idleTimer     = 0;
     }
     else
     {
-        if (work->moveState == CViDockPlayer::MOVESTATE_IDLE && work->idleState != CViDockPlayer::IDLESTATE_INACTIVE && !work->allowBored)
+        if (this->moveState == CViDockPlayer::MOVESTATE_IDLE && this->idleState != CViDockPlayer::IDLESTATE_INACTIVE && !this->allowBored)
         {
-            work->Func_2167900(CViDockPlayer::ANI_IDLE, TRUE, TRUE, FALSE, FALSE);
-            work->idleState = CViDockPlayer::IDLESTATE_INACTIVE;
-            work->idleTimer = 0;
+            this->SetJointAnimForBody(CViDockPlayer::ANI_IDLE, TRUE, TRUE, FALSE, FALSE);
+            this->idleState = CViDockPlayer::IDLESTATE_INACTIVE;
+            this->idleTimer = 0;
         }
         else
         {
-            if (work->allowBored && work->moveState == CViDockPlayer::MOVESTATE_IDLE && work->idleTimer >= SECONDS_TO_FRAMES(3.0))
+            if (this->allowBored && this->moveState == CViDockPlayer::MOVESTATE_IDLE && this->idleTimer >= SECONDS_TO_FRAMES(3.0))
             {
-                if (work->idleState != CViDockPlayer::IDLESTATE_ANIM_STARTING)
+                if (this->idleState != CViDockPlayer::IDLESTATE_ANIM_STARTING)
                 {
-                    if (work->idleState != CViDockPlayer::IDLESTATE_BORED && work->idleState == CViDockPlayer::IDLESTATE_INACTIVE)
+                    if (this->idleState != CViDockPlayer::IDLESTATE_BORED && this->idleState == CViDockPlayer::IDLESTATE_INACTIVE)
                     {
-                        work->Func_2167900(CViDockPlayer::ANI_BORED_00, FALSE, FALSE, FALSE, FALSE);
-                        work->idleState = CViDockPlayer::IDLESTATE_ANIM_STARTING;
+                        this->SetJointAnimForBody(CViDockPlayer::ANI_BORED_00, FALSE, FALSE, FALSE, FALSE);
+                        this->idleState = CViDockPlayer::IDLESTATE_ANIM_STARTING;
                     }
                 }
-                else if ((work->aniBody.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
+                else if ((this->aniBody.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
                 {
-                    work->Func_2167900(CViDockPlayer::ANI_BORED_01, TRUE, FALSE, FALSE, FALSE);
-                    work->idleState = CViDockPlayer::IDLESTATE_BORED;
+                    this->SetJointAnimForBody(CViDockPlayer::ANI_BORED_01, TRUE, FALSE, FALSE, FALSE);
+                    this->idleState = CViDockPlayer::IDLESTATE_BORED;
                 }
             }
         }
     }
 
-    switch (work->moveState)
+    switch (this->moveState)
     {
         case CViDockPlayer::MOVESTATE_IDLE:
-            work->aniBody.speed[0] = FLOAT_TO_FX32(1.0);
+            this->aniBody.speed[0] = FLOAT_TO_FX32(1.0);
             break;
 
         case CViDockPlayer::MOVESTATE_WALKING:
-            work->aniBody.speed[0] = 2 * work->velocity;
+            this->aniBody.speed[0] = 2 * this->velocity;
             break;
 
         case CViDockPlayer::MOVESTATE_RUNNING:
-            work->aniBody.speed[0] = work->velocity + (work->velocity >> 1);
+            this->aniBody.speed[0] = this->velocity + (this->velocity >> 1);
             break;
     }
 
-    work->translationUnknown = *CPPHelpers__Func_2085F9C(&work->translation1);
+    this->prevPos = *CPPHelpers__Func_2085F9C(&this->position);
 
     // Apply velocity
     VecFx32 vecResult;
-    CPPHelpers__VEC_Add_Alt2(&vecResult, &moveVelocity, &work->translationUnknown);
-    CPPHelpers__VEC_Copy_Alt(&work->translation1, CPPHelpers__Func_2085F98(&vecResult));
+    CPPHelpers__VEC_Add_Alt2(&vecResult, &moveVelocity, &this->prevPos);
+    CPPHelpers__VEC_Copy_Alt(&this->position, CPPHelpers__Func_2085F98(&vecResult));
 
-    work->ProcessAnimation();
+    CVi3dObject::Process();
 
-    work->idleTimer++;
-    work->moveState = CViDockPlayer::MOVESTATE_IDLE;
-    work->moveFlag  = CViDockPlayer::MOVEFLAG_NO_INPUTS;
+    this->idleTimer++;
+    this->moveState = CViDockPlayer::MOVESTATE_IDLE;
+    this->moveFlag  = CViDockPlayer::MOVEFLAG_NO_INPUTS;
 }
 
-void ViDockPlayer__AllowBored(CViDockPlayer *work, BOOL allowBored)
+void CViDockPlayer::AllowBored(BOOL allowBored)
 {
-    work->allowBored = allowBored;
-    work->idleTimer  = 0;
+    this->allowBored = allowBored;
+    this->idleTimer  = 0;
 }
 
-void ViDockPlayer__SetTopSpeed(CViDockPlayer *work, fx32 topSpeed)
+void CViDockPlayer::SetTopSpeed(fx32 topSpeed)
 {
-    work->topSpeed = topSpeed;
+    this->topSpeed = topSpeed;
 }

@@ -49,6 +49,14 @@ public:
     // --------------------
     // MEMBER FUNCTIONS
     // --------------------
+
+    void Init(s32 type, VecFx32 *position, u16 angle, BOOL snapToAngle);
+    void Release();
+    void SetAngleForTalking(u16 angle);
+    void SetAngleForIdle();
+    BOOL HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale);
+    BOOL CheckPlayerInTalkRange(VecFx32 *playerPos, u16 playerAngle, fx32 scale, BOOL *canTalk);
+    BOOL Allow3dArrow(VecFx32 *position);
 };
 
 // --------------------
@@ -63,14 +71,6 @@ extern "C"
 NOT_DECOMPILED void _ZN10CViDockNpcC1Ev(CViDockNpc *work);
 NOT_DECOMPILED void _ZN10CViDockNpcD0Ev(CViDockNpc *work);
 NOT_DECOMPILED void _ZN10CViDockNpcD1Ev(CViDockNpc *work);
-
-void ViDockNpc__LoadAssets(CViDockNpc *work, s32 type, VecFx32 *position, u16 angle, BOOL snapToAngle);
-void ViDockNpc__ReleaseAssets(CViDockNpc *work);
-void ViDockNpc__SetAngleForTalking(CViDockNpc *work, u16 angle);
-void ViDockNpc__SetAngleForIdle(CViDockNpc *work);
-BOOL ViDockNpc__Func_216710C(CViDockNpc *work, VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5);
-BOOL ViDockNpc__Func_2167244(CViDockNpc *work, VecFx32 *position, s32 a3, s32 a4, BOOL *flag);
-BOOL ViDockNpc__Func_216737C(CViDockNpc *work, VecFx32 *position);
 
 #ifdef __cplusplus
 }

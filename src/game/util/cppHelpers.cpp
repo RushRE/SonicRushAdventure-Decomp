@@ -104,38 +104,50 @@ void CPPHelpers__Func_2085E3C(void)
     // nothing?
 }
 
+// TODO: figure what operator/function this _really_ is
+// guess: CMatrix33::CMatrix33()
 void CPPHelpers__Func_2085E40(MtxFx33 *mtx)
 {
     // nothing?
 }
 
+// TODO: figure what operator/function this _really_ is
+// guess: CMatrix33::Rotate(sin, cos)
 MtxFx33 *CPPHelpers__MtxRotY33(MtxFx33 *mtx, fx32 *sin, fx32 *cos)
 {
     MTX_RotY33(CPPHelpers__Func_2085E6C(mtx), *sin, *cos);
     return mtx;
 }
 
+// TODO: figure what operator/function this _really_ is
 MtxFx33 *CPPHelpers__Func_2085E6C(MtxFx33 *mtx)
 {
     return mtx;
 }
 
+// TODO: figure what operator/function this _really_ is
 MtxFx33 *CPPHelpers__Func_2085E70(MtxFx33 *mtx)
 {
     return mtx;
 }
 
+// TODO: figure what operator/function this _really_ is
+// guess: CMatrix33::MultiplyVector(CVector3 vec, CMatrix33)
 VecFx32 *CPPHelpers__Func_2085E74(VecFx32 *lhs, MtxFx33 *rhs)
 {
     CPPHelpers__VEC_MultiplyMtx33(CPPHelpers__Func_2085F98(lhs), CPPHelpers__Func_2085E70(rhs));
     return lhs;
 }
 
+// TODO: figure what operator/function this _really_ is
+// guess: CMatrix33::CopyTo43()
 void CPPHelpers__MtxCopy33To43(MtxFx33 *src, MtxFx43 *dst)
 {
     MTX_Copy33To43(src, dst);
 }
 
+// TODO: figure what operator/function this _really_ is
+// guess: CMatrix33::MultiplyVector(VecFx32 vec, MtxFx33)
 void CPPHelpers__VEC_MultiplyMtx33(VecFx32 *vec, MtxFx33 *mtx)
 {
     MtxFx43 mtx43;
@@ -155,6 +167,7 @@ void CPPHelpers__Func_2085EE4(void)
 }
 
 // TODO: figure what operator/function this _really_ is
+// guess: CVector3::CVector3()
 VecFx32 *CPPHelpers__Func_2085EE8(VecFx32 *vec)
 {
     return vec;
@@ -205,6 +218,7 @@ VecFx32 *CPPHelpers__VEC_SetFromVec_2(VecFx32 *lhs, VecFx32 *rhs)
 }
 
 // TODO: figure what operator/function this _really_ is
+// guess: CVector3::Normalize()
 VecFx32 *CPPHelpers__VEC_Normalize(VecFx32 *vec)
 {
     VecFx32 *v    = CPPHelpers__Func_2085FA0(vec);
@@ -216,6 +230,7 @@ VecFx32 *CPPHelpers__VEC_Normalize(VecFx32 *vec)
 }
 
 // TODO: figure what operator/function this _really_ is
+// guess: CVector3::Magnitude(mag, vec)
 void CPPHelpers__VEC_Magnitude(s32 *magnitude, VecFx32 *vec)
 {
     VecFx32 *v = CPPHelpers__Func_2085FA4(vec);
@@ -290,11 +305,13 @@ void CPPHelpers__VEC_Subtract_Alt(VecFx32 *lhs, VecFx32 *rhs, VecFx32 *dest)
 }
 
 // TODO: figure what operator this is
+// guess: CVector3::Set(x, y, z)
 void CPPHelpers__VEC_Copy(VecFx32 *lhs, VecFx32 *rhs)
 {
     VEC_Set(lhs, rhs->x, rhs->y, rhs->z);
 }
 
+// guess: operator*(CVector3, CVector3)
 VecFx32 *CPPHelpers__VEC_Add(const VecFx32 *lhs, const VecFx32 *rhs)
 {
     VEC_Add(lhs, rhs, (VecFx32 *)lhs);
@@ -308,6 +325,7 @@ VecFx32 &operator+(VecFx32 &lhs, VecFx32 &rhs)
     return lhs;
 }
 
+// guess: operator-(CVector3, CVector3)
 VecFx32 *CPPHelpers__VEC_Subtract(VecFx32 *lhs, VecFx32 *rhs)
 {
     VEC_Subtract(lhs, rhs, lhs);
@@ -321,6 +339,7 @@ VecFx32 &operator-(VecFx32 &lhs, VecFx32 &rhs)
     return lhs;
 }
 
+// guess operator*(CVector3, fx32)
 void CPPHelpers__VEC_Multiply(VecFx32 *lhs, fx32 value)
 {
     lhs->x = MultiplyFX(lhs->x, value);

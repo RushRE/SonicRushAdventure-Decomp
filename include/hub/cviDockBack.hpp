@@ -17,39 +17,89 @@ public:
     virtual ~CViDockBack();
 
     // --------------------
+    // STRUCTS
+    // --------------------
+
+    struct ThreadWorker
+    {
+        Thread thread;
+        CViDockBack *parent;
+        DockArea area;
+    };
+
+    // --------------------
     // VARIABLES
     // --------------------
 
-    DockArea area;
-    CVi3dObject object1;
-    CVi3dObject object2;
-    CVi3dObject object3;
-    s32 field_908;
-    void *resModel2;
-    void *resUnknown;
+    DockArea dockArea;
+    CVi3dObject dockObj[3];
+    BOOL dockVisible;
+    void *resModelDock;
+    void *resJointAnimDock;
     void *resTextureAnim;
     void *resPatternAnim;
-    s32 field_91C;
-    CVi3dObject object4;
-    s32 field_C20;
-    void *resModel1;
-    void *resJointAnim;
-    Thread thread;
-    s32 field_CF8;
-    s32 field_CFC;
+    BOOL shipLoaded;
+    CVi3dObject shipObj;
+    BOOL shipVisible;
+    void *resModelShip;
+    void *resJointAnimShip;
+    ThreadWorker threadWorker;
 
     // --------------------
     // MEMBER FUNCTIONS
     // --------------------
+    
+    void Init(s32 dockArea, BOOL noAssetRelease, BOOL disableAnimations);
+    void SetArea(s32 area);
+    BOOL IsThreadIdle();
+    void Release();
+    void Process();
+    void SetShipPosition(fx32 y);
+    void SetShipScale(fx32 scale);
+    void DrawDock(u16 rotationY, u16 rotationX, u16 rotationZ);
+    BOOL ProcessCollision(VecFx32 *prevPlayerPos, VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    BOOL DidExitArea(VecFx32 pos);
+    fx32 GetFloorPosition(VecFx32 pos);
+    void DrawShadow(CViShadow *shadow, fx32 scale, fx32 x, fx32 z);
 
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
-};
 
-// --------------------
-// FUNCTIONS
-// --------------------
+    static void GetPlayerSpawnConfig(s32 id, VecFx32 *position, u16 *angle, s32 area);
+
+    static BOOL Collide_Base(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_BaseNext(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Jet(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Boat(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Hover(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Submarine(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Beach(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+
+    static BOOL CheckExitArea_Base(VecFx32 *pos);
+    static BOOL CheckExitArea_BaseNext(VecFx32 *pos);
+    static BOOL CheckExitArea_Jet(VecFx32 *pos);
+    static BOOL CheckExitArea_Boat(VecFx32 *pos);
+    static BOOL CheckExitArea_Hover(VecFx32 *pos);
+    static BOOL CheckExitArea_Submarine(VecFx32 *pos);
+    static BOOL CheckExitArea_Beach(VecFx32 *pos);
+
+    static void PlayerSpawnConfig_Base(VecFx32 *position, u16 *angle, s32 area);
+    static void PlayerSpawnConfig_BaseNext(VecFx32 *position, u16 *angle, s32 area);
+    static void PlayerSpawnConfig_Jet(VecFx32 *position, u16 *angle, s32 area);
+    static void PlayerSpawnConfig_Boat(VecFx32 *position, u16 *angle, s32 area);
+    static void PlayerSpawnConfig_Hover(VecFx32 *position, u16 *angle, s32 area);
+    static void PlayerSpawnConfig_Submarine(VecFx32 *position, u16 *angle, s32 area);
+    static void PlayerSpawnConfig_Beach(VecFx32 *position, u16 *angle, s32 area);
+
+    static fx32 GetGroundPos_Common(VecFx32 *pos);
+    static fx32 GetGroundPos_Submarine(VecFx32 *pos);
+
+    static void DrawShadow_Common(CViShadow *work, fx32 scale, fx32 x, fx32 z);
+    static void DrawShadow_Submarine(CViShadow *work, fx32 scale, fx32 x, fx32 z);
+
+    static void ThreadFunc(void *arg);
+};
 
 #ifdef __cplusplus
 extern "C"
@@ -59,46 +109,6 @@ extern "C"
 void _ZN11CViDockBackC1Ev(CViDockBack *work);
 void _ZN11CViDockBackD0Ev(CViDockBack *work);
 void _ZN11CViDockBackD1Ev(CViDockBack *work);
-
-void ViDockBack__LoadAssets(CViDockBack *work, s32 areaID, BOOL a3, BOOL a4);
-void ViDockBack__Func_2164918(CViDockBack *work, s32 area);
-BOOL ViDockBack__Func_2164954(CViDockBack *work);
-void ViDockBack__Func_2164968(CViDockBack *work);
-void ViDockBack__Func_21649DC(CViDockBack *work);
-void ViDockBack__SetShipPosition(CViDockBack *work, fx32 y);
-void ViDockBack__SetShipScale(CViDockBack *work, fx32 scale);
-void ViDockBack__DrawDock(CViDockBack *work, u16 rotationY, u16 rotationX, u16 rotationZ);
-void ViDockBack__ProcessCollision(CViDockBack *work, VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *flag0, BOOL *flag1, BOOL *flag2);
-BOOL ViDockBack__Func_2164B9C(CViDockBack *work, VecFx32 pos);
-fx32 ViDockBack__GetFloorPosition(CViDockBack *work, VecFx32 pos);
-void ViDockBack__DrawShadow(CViDockBack *work, CViShadow *shadow, fx32 scale, fx32 x, fx32 z);
-void ViDockBack__GetPlayerSpawnConfig(s32 id, VecFx32 *position, u16 *angle, s32 area);
-void ViDockBack__Func_2164C44(CViDockBack *work);
-void ViDockBack__Func_216509C(CViDockBack *work);
-void ViDockBack__Func_2165268(CViDockBack *work);
-void ViDockBack__Func_21654C8(CViDockBack *work);
-void ViDockBack__Func_2165914(CViDockBack *work);
-void ViDockBack__Func_2165D60(CViDockBack *work);
-void ViDockBack__Func_2166158(CViDockBack *work);
-void ViDockBack__Func_21662E8(CViDockBack *work);
-void ViDockBack__Func_21662FC(CViDockBack *work);
-void ViDockBack__Func_2166304(CViDockBack *work);
-void ViDockBack__Func_2166318(CViDockBack *work);
-void ViDockBack__Func_216632C(CViDockBack *work);
-void ViDockBack__Func_2166340(CViDockBack *work);
-void ViDockBack__Func_2166354(CViDockBack *work);
-void ViDockBack__Func_2166368(CViDockBack *work);
-void ViDockBack__Func_21663B4(CViDockBack *work);
-void ViDockBack__Func_21663D8(CViDockBack *work);
-void ViDockBack__Func_2166400(CViDockBack *work);
-void ViDockBack__Func_2166420(CViDockBack *work);
-void ViDockBack__Func_2166440(CViDockBack *work);
-void ViDockBack__Func_2166460(CViDockBack *work);
-void ViDockBack__Func_2166480(CViDockBack *work);
-void ViDockBack__Func_2166488(CViDockBack *work);
-void ViDockBack__Func_21664C0(CViDockBack *work);
-void ViDockBack__Func_2166500(CViDockBack *work);
-void ViDockBack__Func_2166540(CViDockBack *work);
 
 #ifdef __cplusplus
 }

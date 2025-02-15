@@ -1,5 +1,6 @@
 #include <hub/cviDockNpcGroup.hpp>
 #include <hub/missionConfig.h>
+#include <hub/hubConfig.h>
 #include <game/util/cppHelpers.hpp>
 #include <game/game/gameState.h>
 
@@ -31,7 +32,7 @@ CViDockNpcGroup::~CViDockNpcGroup()
 
 void CViDockNpcGroup::ClearNpcList()
 {
-    viArrow.Func_2168358();
+    viArrow.Release();
 
     CViDockNpcGroupEntry *entry = GetFirstNpc();
 
@@ -101,30 +102,29 @@ CViDockNpcGroupEntry *CViDockNpcGroup::GetNextNpc(CViDockNpcGroupEntry *npc)
 {
     CViDockNpcGroupEntry *next = npc->next;
 
-    // ???
     if (next == NULL)
-        next = NULL;
+        return NULL;
 
     return next;
 }
 
-void CViDockNpcGroup::LoadAssets()
+void CViDockNpcGroup::Init()
 {
-    viArrow.LoadAssets();
+    viArrow.Init();
 }
 
-void CViDockNpcGroup::Animate()
+void CViDockNpcGroup::Process()
 {
     CViDockNpcGroupEntry *entry = GetFirstNpc();
 
     while (entry != NULL)
     {
-        entry->npc.ProcessAnimation();
+        entry->npc.Process();
 
         entry = GetNextNpc(entry);
     }
 
-    viArrow.ProcessAnimation();
+    viArrow.Process();
 }
 
 void CViDockNpcGroup::Draw(VecFx32 *position)
@@ -133,11 +133,11 @@ void CViDockNpcGroup::Draw(VecFx32 *position)
 
     while (entry != NULL)
     {
-        if ((s32)entry->npc.npcType == 7 || entry->npc.npcType == 8)
+        if ((s32)entry->npc.npcType == CVIDOCK_NPC_BASENEXT_HOURGLASS || entry->npc.npcType == CVIDOCK_NPC_BASENEXT_OLDDS)
         {
-            if (ViDockNpc__Func_216737C(&entry->npc, position))
+            if (entry->npc.Allow3dArrow(position))
             {
-                CPPHelpers__VEC_Copy_Alt(&viArrow.translation1, CPPHelpers__Func_2085F9C(&entry->npc.translation1));
+                CPPHelpers__VEC_Copy_Alt(&viArrow.position, CPPHelpers__Func_2085F9C(&entry->npc.position));
                 viArrow.Draw();
             }
         }
@@ -146,13 +146,13 @@ void CViDockNpcGroup::Draw(VecFx32 *position)
     }
 }
 
-CViDockNpcGroupEntry *CViDockNpcGroup::Func_2168608(VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5)
+CViDockNpcGroupEntry *CViDockNpcGroup::HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale)
 {
     CViDockNpcGroupEntry *entry = GetFirstNpc();
 
     while (entry != NULL)
     {
-        if (ViDockNpc__Func_216710C(&entry->npc, a2, a3, a4, a5))
+        if (entry->npc.HandlePlayerSolidCollisions(prevPlayerPos, curPlayerPos, newPlayerPos, scale))
         {
             return entry;
         }
@@ -163,7 +163,7 @@ CViDockNpcGroupEntry *CViDockNpcGroup::Func_2168608(VecFx32 *a2, VecFx32 *a3, Ve
     return NULL;
 }
 
-CViDockNpcGroupEntry *CViDockNpcGroup::Func_2168674(VecFx32 *playerPos, s32 playerAngle, s32 a4, BOOL *a5, CViDockNpcGroupEntry *startNpc)
+CViDockNpcGroupEntry *CViDockNpcGroup::FindNpcInTalkRange(VecFx32 *playerPos, u16 playerAngle, fx32 scale, BOOL *canTalk, CViDockNpcGroupEntry *startNpc)
 {
     CViDockNpcGroupEntry *entry;
 
@@ -178,7 +178,7 @@ CViDockNpcGroupEntry *CViDockNpcGroup::Func_2168674(VecFx32 *playerPos, s32 play
 
     while (entry != NULL)
     {
-        if (ViDockNpc__Func_2167244(&entry->npc, playerPos, playerAngle, a4, a5))
+        if (entry->npc.CheckPlayerInTalkRange(playerPos, playerAngle, scale, canTalk))
         {
             return entry;
         }

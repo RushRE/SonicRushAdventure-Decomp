@@ -61,11 +61,11 @@ public:
 
     CViDockNpcGroupEntry *GetNextNpc(CViDockNpcGroupEntry *npc);
 
-    void LoadAssets();
-    void Animate();
+    void Init();
+    void Process();
     void Draw(VecFx32 *position);
-    CViDockNpcGroupEntry *Func_2168608(VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5);
-    CViDockNpcGroupEntry *Func_2168674(VecFx32 *a2, s32 a3, s32 a4, BOOL *a5, CViDockNpcGroupEntry *startNpc);
+    CViDockNpcGroupEntry *HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale);
+    CViDockNpcGroupEntry *FindNpcInTalkRange(VecFx32 *playerPos, u16 playerAngle, fx32 scale, BOOL *canTalk, CViDockNpcGroupEntry *startNpc);
 };
 
 #endif // RUSH_CVIDOCKNPCGROUP_HPP
