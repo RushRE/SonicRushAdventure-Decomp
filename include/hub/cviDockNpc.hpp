@@ -50,11 +50,11 @@ public:
     // MEMBER FUNCTIONS
     // --------------------
 
-    void Init(s32 type, VecFx32 *position, u16 angle, BOOL snapToAngle);
+    void Init(s32 type, VecFx32 &position, u16 angle, BOOL snapToAngle);
     void Release();
     void SetAngleForTalking(u16 angle);
     void SetAngleForIdle();
-    BOOL HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale);
+    BOOL HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale);
     BOOL CheckPlayerInTalkRange(VecFx32 *playerPos, u16 playerAngle, fx32 scale, BOOL *canTalk);
     BOOL Allow3dArrow(VecFx32 *position);
 };

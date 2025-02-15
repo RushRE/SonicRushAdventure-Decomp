@@ -28,12 +28,17 @@ NOT_DECOMPILED void _ZdlPv(void);
 NOT_DECOMPILED void _ZN10HubControl12TouchEnabledEv(void);
 NOT_DECOMPILED void _ZN15CViDockNpcGroup4DrawEP7VecFx32(void);
 NOT_DECOMPILED void _ZN11CVi3dObject4DrawEv(void);
-NOT_DECOMPILED void _ZN15CViDockNpcGroupD1Ev(void);
 
 NOT_DECOMPILED void _ZN11CViDockBack8DrawDockEttt(void);
 NOT_DECOMPILED void _ZN11CViDockBack10DrawShadowEP9CViShadowlll(void);
 
 NOT_DECOMPILED void _ZN13CViDockPlayer12SetMoveAngleEti(void);
+
+NOT_DECOMPILED void _ZNK8CVector317ToConstVecFx32RefEv(void);
+NOT_DECOMPILED void _ZN8CVector39MagnitudeEPlPKS_(void);
+NOT_DECOMPILED void _ZN8CVector39NormalizeEv(void);
+
+NOT_DECOMPILED void _ZN8CVector3C1Ev(void);
 
 NOT_DECOMPILED void Unknown2051334__Func_20514DC(VecFx32 *dest, VecFx32 *a2, VecFx32 *a3, fx32 a4);
 NOT_DECOMPILED GXRgb Unknown2051334__Func_20516EC(GXRgb color1, GXRgb color2, s32 a3, s32 a4);
@@ -313,7 +318,7 @@ BOOL CViDock::DidExitArea(void)
     if (work->disableExitArea)
         return FALSE;
 
-    return work->dockBack.DidExitArea(*CPPHelpers__Func_2085F9C(&work->player.position));
+    return work->dockBack.DidExitArea(work->player.position.ToConstVecFx32Ref());
 }
 
 s32 CViDock::GetNextArea(void)
@@ -411,20 +416,13 @@ void CViDock::StartTalkingToNpc(void)
 
     if (work->talkNpc != NULL)
     {
-        VecFx32 v10;
-        CPPHelpers__VEC_SetFromVec_2(&v10, CPPHelpers__Func_2085F9C(&work->player.position));
+        CVector3 v10 = work->player.position.ToConstVecFx32Ref();
+        CVector3 v9  = work->talkNpc->position.ToConstVecFx32Ref();
 
-        VecFx32 v9;
-        CPPHelpers__VEC_SetFromVec_2(&v9, CPPHelpers__Func_2085F9C(&work->talkNpc->position));
+        CVector3 a1;
+        CVector3 vec;
 
-        VecFx32 a1;
-        VecFx32 vec;
-        CPPHelpers__Func_2085EE8(&a1);
-        CPPHelpers__Func_2085EE8(&vec);
-
-        VecFx32 v6;
-        CPPHelpers__VEC_Subtract_Alt(&v6, &v10, &v9);
-        CPPHelpers__Func_2085FA8(&a1, CPPHelpers__VEC_Normalize(&v6));
+        a1 = (v10 - v9).Normalize();
 
         u16 angle = Math__Func_207B1A4(a1.z);
 
@@ -435,18 +433,16 @@ void CViDock::StartTalkingToNpc(void)
         work->talkNpc->SetAngleForTalking(angle);
         work->player.SetTurnAngle(angle - 0x7FFF, FALSE);
 
-        VecFx32 a2;
-        CPPHelpers__VEC_Subtract_Alt(&a2, &v9, &v10);
-        CPPHelpers__Func_2085FA8(&vec, &a2);
+        vec = (v9 - v10);
 
         a1.x = vec.x >> 1;
         a1.y = vec.y >> 1;
         a1.z = vec.z >> 1;
-        CPPHelpers__VEC_Add_Alt(&a1, &v10);
-        CPPHelpers__VEC_Normalize(&vec);
+        a1 += v10;
+        vec.Normalize();
 
-        work->field_1478 = *CPPHelpers__Func_2085F98(&a1);
-        work->field_1484 = *CPPHelpers__Func_2085F98(&vec);
+        work->field_1478 = a1.ToVecFx32Ref();
+        work->field_1484 = vec.ToVecFx32Ref();
     }
 
     SetTaskMainEvent(taskSingleton, CViDock::Main_TalkActive);
@@ -516,19 +512,19 @@ void CViDock::SaveCharacterStates(void)
 {
     CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
-    u16 playerAngle    = work->player.currentTurnAngle;
-    VecFx32 *playerPos = CPPHelpers__Func_2085F9C(&work->player.position);
-    HubState__SetPlayerState(0, playerPos, playerAngle);
+    u16 playerAngle          = work->player.currentTurnAngle;
+    const VecFx32 &playerPos = work->player.position.ToConstVecFx32Ref();
+    HubState__SetPlayerState(0, &playerPos, playerAngle);
 
     CViDockNpcGroupEntry *entry = work->npcGroup.GetFirstNpc();
 
     u16 id = 0;
     while (entry != NULL)
     {
-        u16 npcAngle     = entry->npc.currentTurnAngle;
-        s32 npcTalkCount = entry->npc.talkCount;
-        VecFx32 *npcPos  = CPPHelpers__Func_2085F9C(&entry->npc.position);
-        HubState__SetNpcState(id, npcPos, npcAngle, npcTalkCount);
+        u16 npcAngle          = entry->npc.currentTurnAngle;
+        s32 npcTalkCount      = entry->npc.talkCount;
+        const VecFx32 &npcPos = entry->npc.position.ToConstVecFx32Ref();
+        HubState__SetNpcState(id, &npcPos, npcAngle, npcTalkCount);
 
         entry = work->npcGroup.GetNextNpc(entry);
         id++;
@@ -541,7 +537,7 @@ void CViDock::LoadCharacterStates(BOOL loadAngle)
 
     if (HubState__CheckHasPlayerState(0))
     {
-        CPPHelpers__VEC_Copy_Alt(&work->player.position, HubState__GetPlayerPosition(0));
+        work->player.position = *HubState__GetPlayerPosition(0);
         work->player.targetTurnAngle  = HubState__GetPlayerAngle(0);
         work->player.currentTurnAngle = work->player.targetTurnAngle;
     }
@@ -553,7 +549,7 @@ void CViDock::LoadCharacterStates(BOOL loadAngle)
     {
         if (HubState__CheckHasNpcState(id))
         {
-            CPPHelpers__VEC_Copy_Alt(&entry->npc.position, HubState__GetNpcPosition(id));
+            entry->npc.position = *HubState__GetNpcPosition(id);
 
             if (loadAngle)
                 entry->npc.targetTurnAngle = HubState__GetNpcAngle(id);
@@ -626,11 +622,11 @@ void CViDock::InitPlayer(CViDock *work, s32 area)
             angle                                = 0;
         }
 
-        CPPHelpers__VEC_Copy_Alt(&work->player.position, &position);
+        work->player.position = position;
         work->player.SetTurnAngle(angle, TRUE);
 
         position.x = position.y = position.z = HubConfig__GetDockStageConfig(work->area)->scale;
-        CPPHelpers__VEC_Copy_Alt(&work->player.scale, &position);
+        work->player.scale = position;
 
         work->player.SetTopSpeed(HubConfig__GetDockStageConfig(work->area)->playerTopSpeed);
     }
@@ -655,13 +651,13 @@ NONMATCH_FUNC void CViDock::HandlePlayerMovement(CViDock *work)
         if (touchEnabled && HubControl::TouchEnabled())
         {
             VecFx32 vec;
-            CPPHelpers__Func_2085EE8(&vec);
+
             u16 onX = touchInput.on.x;
             u16 onY = touchInput.on.y;
 
             int px;
             int py;
-            NNS_G3dWorldPosToScrPos(CPPHelpers__Func_2085F9C(&work->player.position), &px, &py);
+            NNS_G3dWorldPosToScrPos(&work->player.position.ToConstVecFx32Ref(), &px, &py);
 
             vec.x = FX32_FROM_WHOLE(onX - px);
             vec.y = FX32_FROM_WHOLE(onY - py);
@@ -671,10 +667,10 @@ NONMATCH_FUNC void CViDock::HandlePlayerMovement(CViDock *work)
                 isRunning = TRUE;
 
             s32 magnitude;
-            CPPHelpers__VEC_Magnitude(&magnitude, &vec);
+            CVector3::Magnitude(&magnitude, &vec);
             if (FX32_TO_WHOLE(magnitude) >= 4)
             {
-                CPPHelpers__VEC_Normalize(&vec);
+                vec.Normalize(vec);
                 angle    = FX_Atan2Idx(vec.x, vec.y);
                 isMoving = TRUE;
             }
@@ -767,12 +763,12 @@ _0215E878:
 	cmp r0, #0
 	beq _0215E93C
 	add r0, sp, #0xc
-	bl CPPHelpers__Func_2085EE8
+	bl _ZN8CVector3C1Ev
 	ldr r1, =touchInput
 	add r0, r9, #0xe00
 	ldrh r7, [r1, #0x14]
 	ldrh r8, [r1, #0x16]
-	bl CPPHelpers__Func_2085F9C
+	bl _ZNK8CVector317ToConstVecFx32RefEv
 	add r1, sp, #8
 	add r2, sp, #4
 	bl NNS_G3dWorldPosToScrPos
@@ -799,14 +795,14 @@ _0215E8FC:
 _0215E900:
 	add r0, sp, #0
 	add r1, sp, #0xc
-	bl CPPHelpers__VEC_Magnitude
+	bl _ZN8CVector39MagnitudeEPlPKS_
 	add r0, sp, #0
 	ldr r0, [r0, #0]
 	mov r0, r0, asr #0xc
 	cmp r0, #4
 	blt _0215E93C
 	add r0, sp, #0xc
-	bl CPPHelpers__VEC_Normalize
+	bl _ZN8CVector39NormalizeEv
 	ldr r0, [sp, #0xc]
 	ldr r1, [sp, #0x10]
 	bl FX_Atan2Idx
@@ -957,12 +953,11 @@ void CViDock::InitNpcs(CViDock *work)
                     snapToAngle = TRUE;
 
                 VecFx32 a2;
-                VecFx32 a1a;
-                CPPHelpers__VEC_Set(&a1a, FX32_FROM_WHOLE(config->spawnX), FLOAT_TO_FX32(0.0), FX32_FROM_WHOLE(config->spawnZ));
-                entry->npc.Init(type, CPPHelpers__Func_2085F98(&a1a), config->spawnAngle, snapToAngle);
+                CVector3 a1a(FX32_FROM_WHOLE(config->spawnX), FLOAT_TO_FX32(0.0), FX32_FROM_WHOLE(config->spawnZ));
+                entry->npc.Init(type, a1a.ToVecFx32Ref(), config->spawnAngle, snapToAngle);
 
                 a2.x = a2.y = a2.z = HubConfig__GetDockStageConfig(work->area)->scale;
-                CPPHelpers__VEC_Copy_Alt(&entry->npc.scale, &a2);
+                entry->npc.scale = a2;
 
                 u32 type  = actionConfig->talkActionType;
                 u32 param = actionConfig->talkActionParam;
@@ -1454,7 +1449,7 @@ NONMATCH_FUNC void CViDock::Draw(CViDock *work, BOOL drawPlayer, BOOL drawNpcs, 
         while (entry != NULL)
         {
             fx32 shadowScale = MultiplyFX(0x5000, scale);
-            work->dockBack.DrawShadow(&work->shadow, shadowScale, CPPHelpers__Func_2085F9C(&entry->npc.position)->x, CPPHelpers__Func_2085F9C(&entry->npc.position)->z);
+            work->dockBack.DrawShadow(&work->shadow, shadowScale, entry->npc.position.ToConstVecFx32Ref().x, entry->npc.position.ToConstVecFx32Ref().z);
             entry->npc.Draw();
 
             entry = work->npcGroup.GetNextNpc(entry);
@@ -1464,13 +1459,13 @@ NONMATCH_FUNC void CViDock::Draw(CViDock *work, BOOL drawPlayer, BOOL drawNpcs, 
     if (drawPlayer)
     {
         fx32 shadowScale = MultiplyFX(0x5000, scale);
-        work->dockBack.DrawShadow(&work->shadow, shadowScale, CPPHelpers__Func_2085F9C(&work->player.position)->x, CPPHelpers__Func_2085F9C(&work->player.position)->z);
+        work->dockBack.DrawShadow(&work->shadow, shadowScale, work->player.position.ToConstVecFx32Ref().x, work->player.position.ToConstVecFx32Ref().z);
         work->player.Draw();
     }
 
     if (drawNpcs && drawPlayer)
     {
-        work->npcGroup.Draw(CPPHelpers__Func_2085F9C(&work->player.position));
+        work->npcGroup.Draw(&work->player.position.ToConstVecFx32Ref());
     }
 
     NNS_G3dGePopMtx(1);
@@ -1553,10 +1548,10 @@ _0215F784:
 	add r5, r10, #0x130
 _0215F7EC:
 	add r0, r9, #8
-	bl CPPHelpers__Func_2085F9C
+	bl _ZNK8CVector317ToConstVecFx32RefEv
 	mov r6, r0
 	add r0, r9, #8
-	bl CPPHelpers__Func_2085F9C
+	bl _ZNK8CVector317ToConstVecFx32RefEv
 	ldr r1, [r6, #8]
 	mov r2, r8
 	str r1, [sp]
@@ -1575,10 +1570,10 @@ _0215F838:
 	cmp r11, #0
 	beq _0215F8A4
 	add r0, r10, #0xe00
-	bl CPPHelpers__Func_2085F9C
+	bl _ZNK8CVector317ToConstVecFx32RefEv
 	mov r4, r0
 	add r0, r10, #0xe00
-	bl CPPHelpers__Func_2085F9C
+	bl _ZNK8CVector317ToConstVecFx32RefEv
 	ldr r1, [r4, #8]
 	mov r2, #0x5000
 	mov r4, #0
@@ -1605,7 +1600,7 @@ _0215F8A4:
 	cmpne r11, #0
 	beq _0215F8CC
 	add r0, r10, #0xe00
-	bl CPPHelpers__Func_2085F9C
+	bl _ZNK8CVector317ToConstVecFx32RefEv
 	add r2, r10, #0x130
 	mov r1, r0
 	add r0, r2, #0x1000
@@ -1644,7 +1639,7 @@ void CViDock::Main_Init(void)
 {
     CViDock *work = TaskGetWorkCurrent(CViDock);
 
-    ViDockDrawState__Func_2163A84(&work->dockDrawState, CPPHelpers__Func_2085F9C(&work->player.position));
+    ViDockDrawState__Func_2163A84(&work->dockDrawState, &work->player.position.ToConstVecFx32Ref());
     ViDockDrawState__Func_2163C80(&work->dockDrawState);
     work->player.Process(FLOAT_TO_FX32(1.0));
     work->dockBack.Process();
@@ -1670,8 +1665,8 @@ void CViDock::Main_PlayerActive(void)
 
     work->player.Process(HubConfig__GetDockStageConfig(work->area)->scale);
 
-    VecFx32 *curPlayerPos  = CPPHelpers__Func_2085F9C(&work->player.position);
-    VecFx32 *prevPlayerPos = work->player.GetPrevPosition();
+    const VecFx32 *curPlayerPos = &work->player.position.ToConstVecFx32Ref();
+    VecFx32 *prevPlayerPos      = work->player.GetPrevPosition();
 
     VecFx32 newPlayerPos;
     BOOL isSailPrompt;
@@ -1679,7 +1674,7 @@ void CViDock::Main_PlayerActive(void)
     u32 area;
     work->dockBack.ProcessCollision(prevPlayerPos, curPlayerPos, &newPlayerPos, &isSailPrompt, &flag1, &area);
     newPlayerPos.y = work->dockBack.GetFloorPosition(newPlayerPos);
-    CPPHelpers__VEC_Copy_Alt(&work->player.position, &newPlayerPos);
+    work->player.position = newPlayerPos;
 
     if (isSailPrompt)
     {
@@ -1696,19 +1691,19 @@ void CViDock::Main_PlayerActive(void)
     if (flag1)
         isSailPrompt = TRUE;
 
-    curPlayerPos  = CPPHelpers__Func_2085F9C(&work->player.position);
+    curPlayerPos  = &work->player.position.ToConstVecFx32Ref();
     prevPlayerPos = work->player.GetPrevPosition();
 
     if (work->npcGroup.HandlePlayerSolidCollisions(prevPlayerPos, curPlayerPos, &newPlayerPos, HubConfig__GetDockStageConfig(work->area)->scale) != NULL)
-        CPPHelpers__VEC_Copy_Alt(&work->player.position, &newPlayerPos);
+        work->player.position = newPlayerPos;
 
     work->dockBack.Process();
     work->npcGroup.Process();
 
-    VecFx32 *temp  = CPPHelpers__Func_2085F9C(&work->player.position);
-    newPlayerPos.x = temp->x;
-    newPlayerPos.y = temp->y;
-    newPlayerPos.z = temp->z;
+    const VecFx32 *temp = &work->player.position.ToConstVecFx32Ref();
+    newPlayerPos.x      = temp->x;
+    newPlayerPos.y      = temp->y;
+    newPlayerPos.z      = temp->z;
 
     if (work->area < CViDock::AREA_COUNT)
         VEC_Add(&newPlayerPos, &config->field_8, &newPlayerPos);
@@ -1762,7 +1757,7 @@ void CViDock::Main_PlayerActive(void)
 
                         int px;
                         int py;
-                        NNS_G3dWorldPosToScrPos(CPPHelpers__Func_2085F9C(&entry->npc.position), &px, &py);
+                        NNS_G3dWorldPosToScrPos(&entry->npc.position.ToConstVecFx32Ref(), &px, &py);
                         if (CViDock::CheckTouchRect(work, pushX, pushY, px, py))
                             interacted = TRUE;
                     }
@@ -1815,11 +1810,11 @@ void CViDock::Main_TalkActive(void)
 
     work->dockBack.Process();
 
-    VecFx32 *temp = CPPHelpers__Func_2085F9C(&work->player.position);
+    const VecFx32 &temp = work->player.position.ToConstVecFx32Ref();
     VecFx32 dest;
-    dest.x = temp->x;
-    dest.y = temp->y;
-    dest.z = temp->z;
+    dest.x = temp.x;
+    dest.y = temp.y;
+    dest.z = temp.z;
     if (work->area < CViDock::AREA_COUNT)
         VEC_Add(&dest, &config->field_8, &dest);
 
@@ -1901,12 +1896,12 @@ NONMATCH_FUNC void CViDock__Func_215FF6C(Task *task)
 	bl _ZN9CViShadowD0Ev
 	add r0, r4, #0x130
 	add r0, r0, #0x1000
-	bl _ZN15CViDockNpcGroupD1Ev
+	bl _ZN15CViDockNpcGroupD0Ev
 	add r0, r4, #0x1f8
 	add r0, r0, #0xc00
 	bl _ZN13CViDockPlayerD0Ev
 	add r0, r4, #0xf8
-	bl _ZN11CViDockBackD1Ev
+	bl _ZN11CViDockBackD0Ev
 	mov r0, r4
 	bl _ZdlPv
 _0215FFB4:

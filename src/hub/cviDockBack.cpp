@@ -1,7 +1,7 @@
 #include <hub/cviDockBack.hpp>
 #include <hub/cviDock.hpp>
 #include <hub/cvi3dObject.hpp>
-#include <game/util/cppHelpers.hpp>
+#include <game/math/cppMath.hpp>
 #include <game/system/threadWorker.h>
 #include <game/unknown/unknown2085404.h>
 #include <game/file/bundleFileUnknown.h>
@@ -23,6 +23,12 @@ struct CViDockBackAssetBundle
 extern "C"
 {
 
+NOT_DECOMPILED void *_ZTV11CViDockBack;
+
+NOT_DECOMPILED void _ZdlPv(void);
+
+NOT_DECOMPILED void _ZN11CViDockBack7ReleaseEv(void);
+
 NOT_DECOMPILED BOOL Unknown2051334__Func_2051450(fx32 x, fx32 z, fx32 *outX, fx32 *outZ, fx32 a5, fx32 a6, fx32 a7, fx32 a8);
 NOT_DECOMPILED void Unknown2051334__Func_2051334(fx32 a1, fx32 a2, fx32 a3, fx32 a4, fx32 x, fx32 z, fx32 *outX, fx32 *outZ);
 }
@@ -31,7 +37,14 @@ NOT_DECOMPILED void Unknown2051334__Func_2051334(fx32 a1, fx32 a2, fx32 a3, fx32
 // VARIABLES
 // --------------------
 
-static fx32 (*getGroundPosForDockArea[CViDock::AREA_COUNT])(VecFx32 *pos) = {
+NOT_DECOMPILED fx32 (*getGroundPosForDockArea[CViDock::AREA_COUNT])(const VecFx32 *pos);
+NOT_DECOMPILED void (*drawShadowForArea[CViDock::AREA_COUNT])(CViShadow *work, fx32 scale, fx32 x, fx32 z);
+NOT_DECOMPILED BOOL (*checkAreaExitForArea[CViDock::AREA_COUNT])(const VecFx32 *pos);
+NOT_DECOMPILED BOOL (*handleCollisionsForArea[CViDock::AREA_COUNT])(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+NOT_DECOMPILED void (*getPlayerSpawnConfigForArea[CViDock::AREA_COUNT])(VecFx32 *position, u16 *angle, s32 area);
+
+/*
+static fx32 (*getGroundPosForDockArea[CViDock::AREA_COUNT])(const VecFx32 *pos) = {
     CViDockBack::GetGroundPos_Common, CViDockBack::GetGroundPos_Common,    CViDockBack::GetGroundPos_Common, CViDockBack::GetGroundPos_Common,
     CViDockBack::GetGroundPos_Common, CViDockBack::GetGroundPos_Submarine, CViDockBack::GetGroundPos_Common,
 };
@@ -41,12 +54,12 @@ static void (*drawShadowForArea[CViDock::AREA_COUNT])(CViShadow *work, fx32 scal
     CViDockBack::DrawShadow_Common, CViDockBack::DrawShadow_Submarine, CViDockBack::DrawShadow_Common,
 };
 
-static BOOL (*checkAreaExitForArea[CViDock::AREA_COUNT])(VecFx32 *pos) = {
+static BOOL (*checkAreaExitForArea[CViDock::AREA_COUNT])(const VecFx32 *pos) = {
     CViDockBack::CheckExitArea_Base,  CViDockBack::CheckExitArea_BaseNext,  CViDockBack::CheckExitArea_Jet,   CViDockBack::CheckExitArea_Boat,
     CViDockBack::CheckExitArea_Hover, CViDockBack::CheckExitArea_Submarine, CViDockBack::CheckExitArea_Beach,
 };
 
-static BOOL (*handleCollisionsForArea[CViDock::AREA_COUNT])(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area) = {
+static BOOL (*handleCollisionsForArea[CViDock::AREA_COUNT])(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area) = {
     CViDockBack::Collide_Base,  CViDockBack::Collide_BaseNext,  CViDockBack::Collide_Jet,   CViDockBack::Collide_Boat,
     CViDockBack::Collide_Hover, CViDockBack::Collide_Submarine, CViDockBack::Collide_Beach,
 };
@@ -55,6 +68,7 @@ static void (*getPlayerSpawnConfigForArea[CViDock::AREA_COUNT])(VecFx32 *positio
     CViDockBack::PlayerSpawnConfig_Base,  CViDockBack::PlayerSpawnConfig_BaseNext,  CViDockBack::PlayerSpawnConfig_Jet,   CViDockBack::PlayerSpawnConfig_Boat,
     CViDockBack::PlayerSpawnConfig_Hover, CViDockBack::PlayerSpawnConfig_Submarine, CViDockBack::PlayerSpawnConfig_Beach,
 };
+*/
 
 static const CViDockBackAssetBundle dockBackAssets[1] = { { "bb/vi_dock.bb" } };
 
@@ -62,14 +76,11 @@ static const CViDockBackAssetBundle dockBackAssets[1] = { { "bb/vi_dock.bb" } };
 // FUNCTIONS
 // --------------------
 
-CViDockBack::CViDockBack()
+// NONMATCH_FUNC CViDockBack::CViDockBack()
+NONMATCH_FUNC void _ZN11CViDockBackC1Ev(CViDockBack *work)
 {
-    // TODO: remove when these are decompiled properly
-    _ZN11CVi3dObjectC2Ev(&this->dockObj[0]);
-    _ZN11CVi3dObjectC2Ev(&this->dockObj[1]);
-    _ZN11CVi3dObjectC2Ev(&this->dockObj[2]);
-    _ZN11CVi3dObjectC2Ev(&this->shipObj);
-
+    // will match when 'CVi3dObject' constructor is decompiled
+#ifdef NON_MATCHING
     this->resModelDock     = HeapAllocHead(HEAP_USER, 0x20000);
     this->resJointAnimDock = HeapAllocHead(HEAP_USER, 0x2000);
     this->resModelShip     = HeapAllocHead(HEAP_USER, 0x40000);
@@ -84,10 +95,60 @@ CViDockBack::CViDockBack()
     InitThreadWorker(&this->threadWorker.thread, 0x800);
 
     this->Release();
+#else
+    // clang-format off
+    stmdb sp!, {r4, lr}
+    mov r4, r0
+    ldr r1, =_ZTV11CViDockBack+0x08
+    add r0, r4, #8
+    str r1, [r4]
+    bl _ZN11CVi3dObjectC2Ev
+    add r0, r4, #0x308
+    bl _ZN11CVi3dObjectC2Ev
+    add r0, r4, #0x208
+    add r0, r0, #0x400
+    bl _ZN11CVi3dObjectC2Ev
+    add r0, r4, #0x920
+    bl _ZN11CVi3dObjectC2Ev
+    mov r0, #0x20000
+    bl _AllocHeadHEAP_USER
+    str r0, [r4, #0x90c]
+    mov r0, #0x2000
+    bl _AllocHeadHEAP_USER
+    str r0, [r4, #0x910]
+    mov r0, #0x40000
+    bl _AllocHeadHEAP_USER
+    str r0, [r4, #0xc24]
+    mov r0, #0x2000
+    bl _AllocHeadHEAP_USER
+    str r0, [r4, #0xc28]
+    mov r0, #0x2000
+    bl _AllocHeadHEAP_USER
+    str r0, [r4, #0x914]
+    mov r0, #0x800
+    bl _AllocHeadHEAP_USER
+    str r0, [r4, #0x918]
+    mov r0, #0
+    str r0, [r4, #0x908]
+    str r0, [r4, #0xc20]
+    str r0, [r4, #0x91c]
+    add r0, r4, #0x2c
+    add r0, r0, #0xc00
+    mov r1, #0x800
+    bl InitThreadWorker
+    mov r0, r4
+    bl _ZN11CViDockBack7ReleaseEv
+    mov r0, r4
+    ldmia sp!, {r4, pc}
+// clang-format on
+#endif
 }
 
-CViDockBack::~CViDockBack()
+// CViDockBack::~CViDockBack()
+NONMATCH_FUNC void _ZN11CViDockBackD0Ev(CViDockBack *work)
 {
+    // will match when 'CVi3dObject' destructor is decompiled
+#ifdef NON_MATCHING
     this->Release();
 
     ReleaseThreadWorker(&this->threadWorker.thread);
@@ -98,12 +159,96 @@ CViDockBack::~CViDockBack()
     HeapFree(HEAP_USER, this->resModelShip);
     HeapFree(HEAP_USER, this->resJointAnimDock);
     HeapFree(HEAP_USER, this->resModelDock);
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	ldr r1, =_ZTV11CViDockBack+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl _ZN11CViDockBack7ReleaseEv
+	add r0, r4, #0x2c
+	add r0, r0, #0xc00
+	bl ReleaseThreadWorker
+	ldr r0, [r4, #0x918]
+	bl _FreeHEAP_USER
+	ldr r0, [r4, #0x914]
+	bl _FreeHEAP_USER
+	ldr r0, [r4, #0xc28]
+	bl _FreeHEAP_USER
+	ldr r0, [r4, #0xc24]
+	bl _FreeHEAP_USER
+	ldr r0, [r4, #0x910]
+	bl _FreeHEAP_USER
+	ldr r0, [r4, #0x90c]
+	bl _FreeHEAP_USER
+	add r0, r4, #0x920
+	bl _ZN11CVi3dObjectD0Ev
+	add r0, r4, #0x208
+	add r0, r0, #0x400
+	bl _ZN11CVi3dObjectD0Ev
+	add r0, r4, #0x308
+	bl _ZN11CVi3dObjectD0Ev
+	add r0, r4, #8
+	bl _ZN11CVi3dObjectD0Ev
+	mov r0, r4
+	ldmia sp!, {r4, pc}
 
-    // TODO: remove when these are decompiled properly
-    _ZN11CVi3dObjectD0Ev(&this->shipObj);
-    _ZN11CVi3dObjectD0Ev(&this->dockObj[2]);
-    _ZN11CVi3dObjectD0Ev(&this->dockObj[1]);
-    _ZN11CVi3dObjectD0Ev(&this->dockObj[0]);
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void _ZN11CViDockBackD1Ev(CViDockBack *work)
+{
+    // will match when 'CVi3dObject' destructor is decompiled
+#ifdef NON_MATCHING
+    this->Release();
+
+    ReleaseThreadWorker(&this->threadWorker.thread);
+
+    HeapFree(HEAP_USER, this->resPatternAnim);
+    HeapFree(HEAP_USER, this->resTextureAnim);
+    HeapFree(HEAP_USER, this->resJointAnimShip);
+    HeapFree(HEAP_USER, this->resModelShip);
+    HeapFree(HEAP_USER, this->resJointAnimDock);
+    HeapFree(HEAP_USER, this->resModelDock);
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	ldr r1, =_ZTV11CViDockBack+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl _ZN11CViDockBack7ReleaseEv
+	add r0, r4, #0x2c
+	add r0, r0, #0xc00
+	bl ReleaseThreadWorker
+	ldr r0, [r4, #0x918]
+	bl _FreeHEAP_USER
+	ldr r0, [r4, #0x914]
+	bl _FreeHEAP_USER
+	ldr r0, [r4, #0xc28]
+	bl _FreeHEAP_USER
+	ldr r0, [r4, #0xc24]
+	bl _FreeHEAP_USER
+	ldr r0, [r4, #0x910]
+	bl _FreeHEAP_USER
+	ldr r0, [r4, #0x90c]
+	bl _FreeHEAP_USER
+	add r0, r4, #0x920
+	bl _ZN11CVi3dObjectD0Ev
+	add r0, r4, #0x208
+	add r0, r0, #0x400
+	bl _ZN11CVi3dObjectD0Ev
+	add r0, r4, #0x308
+	bl _ZN11CVi3dObjectD0Ev
+	add r0, r4, #8
+	bl _ZN11CVi3dObjectD0Ev
+	mov r0, r4
+	bl _ZdlPv
+	mov r0, r4
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
 }
 
 void CViDockBack::Init(s32 dockArea, BOOL noAssetRelease, BOOL disableAnimations)
@@ -194,9 +339,8 @@ void CViDockBack::Init(s32 dockArea, BOOL noAssetRelease, BOOL disableAnimations
                 if (config->resJointAnimShip != CVI3DOBJECT_RESOURCE_NONE)
                     this->shipObj.SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
-                VecFx32 a1;
-                CPPHelpers__VEC_Set(&a1, 0, config->field_14, 0);
-                CPPHelpers__VEC_Copy_Alt(&this->shipObj.position, CPPHelpers__Func_2085F98(&a1));
+                CVector3 a1(0, config->field_14, 0);
+                this->shipObj.position = a1.ToVecFx32Ref();
             }
 
             this->shipLoaded = TRUE;
@@ -267,11 +411,11 @@ void CViDockBack::Process()
 void CViDockBack::SetShipPosition(fx32 y)
 {
     VecFx32 translation;
-    translation.x = CPPHelpers__Func_2085F9C(&this->shipObj.position)->x;
+    translation.x = this->shipObj.position.ToConstVecFx32Ref().x;
     translation.y = y;
-    translation.z = CPPHelpers__Func_2085F9C(&this->shipObj.position)->z;
+    translation.z = this->shipObj.position.ToConstVecFx32Ref().z;
 
-    CPPHelpers__VEC_Copy_Alt(&this->shipObj.position, &translation);
+    this->shipObj.position = translation;
 }
 
 void CViDockBack::SetShipScale(fx32 scale)
@@ -279,7 +423,7 @@ void CViDockBack::SetShipScale(fx32 scale)
     VecFx32 scaleVec;
     scaleVec.x = scaleVec.y = scaleVec.z = scale;
 
-    CPPHelpers__VEC_Copy_Alt(&this->shipObj.scale, &scaleVec);
+    this->shipObj.scale = scaleVec;
 }
 
 void CViDockBack::DrawDock(u16 rotationY, u16 rotationX, u16 rotationZ)
@@ -314,7 +458,7 @@ void CViDockBack::DrawDock(u16 rotationY, u16 rotationX, u16 rotationZ)
     }
 }
 
-BOOL CViDockBack::ProcessCollision(VecFx32 *prevPlayerPos, VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+BOOL CViDockBack::ProcessCollision(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     return handleCollisionsForArea[this->dockArea](prevPlayerPos, curPlayerPos, newPlayerPos, isSailPrompt, a5, area);
 }
@@ -339,7 +483,7 @@ void CViDockBack::GetPlayerSpawnConfig(s32 id, VecFx32 *position, u16 *angle, s3
     getPlayerSpawnConfigForArea[id](position, angle, area);
 }
 
-NONMATCH_FUNC BOOL CViDockBack::Collide_Base(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+NONMATCH_FUNC BOOL CViDockBack::Collide_Base(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     // https://decomp.me/scratch/ytRAy -> 93.62%
 #ifdef NON_MATCHING
@@ -820,7 +964,7 @@ _02165090:
 #endif
 }
 
-NONMATCH_FUNC BOOL CViDockBack::Collide_BaseNext(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+NONMATCH_FUNC BOOL CViDockBack::Collide_BaseNext(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     // https://decomp.me/scratch/iQo2Y -> 97.87%
 #ifdef NON_MATCHING
@@ -1027,7 +1171,7 @@ _0216525C:
 #endif
 }
 
-NONMATCH_FUNC BOOL CViDockBack::Collide_Jet(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+NONMATCH_FUNC BOOL CViDockBack::Collide_Jet(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     // https://decomp.me/scratch/sFudn -> 98.95%
 #ifdef NON_MATCHING
@@ -1308,7 +1452,7 @@ _021654BC:
 #endif
 }
 
-BOOL CViDockBack::Collide_Boat(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+BOOL CViDockBack::Collide_Boat(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     BOOL collided = FALSE;
 
@@ -1497,7 +1641,7 @@ BOOL CViDockBack::Collide_Boat(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL
     return collided;
 }
 
-BOOL CViDockBack::Collide_Hover(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+BOOL CViDockBack::Collide_Hover(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     BOOL collided = FALSE;
 
@@ -1686,7 +1830,7 @@ BOOL CViDockBack::Collide_Hover(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOO
     return collided;
 }
 
-NONMATCH_FUNC BOOL CViDockBack::Collide_Submarine(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+NONMATCH_FUNC BOOL CViDockBack::Collide_Submarine(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     // https://decomp.me/scratch/Fgcs0 -> 91.21%
 #ifdef NON_MATCHING
@@ -2155,7 +2299,7 @@ _0216614C:
 #endif
 }
 
-BOOL CViDockBack::Collide_Beach(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+BOOL CViDockBack::Collide_Beach(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     BOOL collided = FALSE;
 
@@ -2207,37 +2351,37 @@ BOOL CViDockBack::Collide_Beach(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOO
     return collided;
 }
 
-BOOL CViDockBack::CheckExitArea_Base(VecFx32 *pos)
+BOOL CViDockBack::CheckExitArea_Base(const VecFx32 *pos)
 {
     return pos->z >= FLOAT_TO_FX32(24.0);
 }
 
-BOOL CViDockBack::CheckExitArea_BaseNext(VecFx32 *pos)
+BOOL CViDockBack::CheckExitArea_BaseNext(const VecFx32 *pos)
 {
     return FALSE;
 }
 
-BOOL CViDockBack::CheckExitArea_Jet(VecFx32 *pos)
+BOOL CViDockBack::CheckExitArea_Jet(const VecFx32 *pos)
 {
     return pos->z >= FLOAT_TO_FX32(80.0);
 }
 
-BOOL CViDockBack::CheckExitArea_Boat(VecFx32 *pos)
+BOOL CViDockBack::CheckExitArea_Boat(const VecFx32 *pos)
 {
     return pos->z >= FLOAT_TO_FX32(126.0);
 }
 
-BOOL CViDockBack::CheckExitArea_Hover(VecFx32 *pos)
+BOOL CViDockBack::CheckExitArea_Hover(const VecFx32 *pos)
 {
     return pos->z >= FLOAT_TO_FX32(126.0);
 }
 
-BOOL CViDockBack::CheckExitArea_Submarine(VecFx32 *pos)
+BOOL CViDockBack::CheckExitArea_Submarine(const VecFx32 *pos)
 {
     return pos->z >= FLOAT_TO_FX32(126.0);
 }
 
-BOOL CViDockBack::CheckExitArea_Beach(VecFx32 *pos)
+BOOL CViDockBack::CheckExitArea_Beach(const VecFx32 *pos)
 {
     return pos->z >= FLOAT_TO_FX32(62.0);
 }
@@ -2316,12 +2460,12 @@ void CViDockBack::PlayerSpawnConfig_Beach(VecFx32 *position, u16 *angle, s32 are
     *angle = FLOAT_DEG_TO_IDX(180.0);
 }
 
-fx32 CViDockBack::GetGroundPos_Common(VecFx32 *pos)
+fx32 CViDockBack::GetGroundPos_Common(const VecFx32 *pos)
 {
     return FLOAT_TO_FX32(0.0);
 }
 
-fx32 CViDockBack::GetGroundPos_Submarine(VecFx32 *pos)
+fx32 CViDockBack::GetGroundPos_Submarine(const VecFx32 *pos)
 {
     if (pos->z >= FLOAT_TO_FX32(60.0))
         return FLOAT_TO_FX32(0.0);

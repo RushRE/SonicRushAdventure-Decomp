@@ -10,7 +10,7 @@
 #include <game/audio/spatialAudio.h>
 #include <game/unknown/unknown2085404.h>
 #include <game/file/fsRequest.h>
-#include <game/util/cppHelpers.hpp>
+#include <game/math/cppMath.hpp>
 
 // --------------------
 // VARIABLES
@@ -54,7 +54,7 @@ void InitSystems(void)
     InitUnknown2085404System();
     InitPaletteAnimationSystem();
     InitSpatialAudioSystem();
-    CPPHelpers__InitSystem();
+    InitUnknown2085D08System();
     ReleaseAudioSystem();
     ReleaseAudioSystem();
     ReleaseAudioSystem();

@@ -1,5 +1,5 @@
 #include <hub/cviDockPlayer.hpp>
-#include <game/util/cppHelpers.hpp>
+#include <game/math/cppMath.hpp>
 #include <game/graphics/renderCore.h>
 #include <game/file/binaryBundle.h>
 
@@ -187,24 +187,20 @@ void CViDockPlayer::SetMoveAngle(u16 angle, BOOL isRunning)
 
 void CViDockPlayer::Process(fx32 speed)
 {
-    MtxFx33 mtx1;
-    MtxFx33 mtx2;
-    VecFx32 moveVelocity;
-
-    CPPHelpers__Func_2085E40(&mtx1);
-    CPPHelpers__Func_2085E40(&mtx2);
-    CPPHelpers__Func_2085EE8(&moveVelocity);
+    CMatrix33 mtx1;
+    CMatrix33 mtx2;
+    CVector3 moveVelocity;
 
     s32 sin2;
     s32 sin = SinFX(this->targetTurnAngle);
     s32 cos = CosFX(this->targetTurnAngle);
     sin2    = sin;
-    CPPHelpers__MtxRotY33(&mtx1, &sin2, &cos);
+    mtx1.RotateY(&sin2, &cos);
 
     moveVelocity.x = FLOAT_TO_FX32(0.0);
     moveVelocity.y = FLOAT_TO_FX32(0.0);
     moveVelocity.z = FLOAT_TO_FX32(1.0);
-    CPPHelpers__Func_2085E74(&moveVelocity, &mtx1);
+    CMatrix33::MultiplyVector(moveVelocity, &mtx1);
 
     if (this->moveFlag < CViDockPlayer::MOVEFLAG_INVALID)
     {
@@ -244,7 +240,7 @@ void CViDockPlayer::Process(fx32 speed)
         this->velocity = FLOAT_TO_FX32(0.0);
     }
 
-    CPPHelpers__VEC_Multiply_Alt(&moveVelocity, MultiplyFX(this->velocity, speed));
+    moveVelocity *= MultiplyFX(this->velocity, speed);
 
     if (this->velocity == FLOAT_TO_FX32(0.0))
         this->moveState = CViDockPlayer::MOVESTATE_IDLE;
@@ -318,12 +314,10 @@ void CViDockPlayer::Process(fx32 speed)
             break;
     }
 
-    this->prevPos = *CPPHelpers__Func_2085F9C(&this->position);
+    this->prevPos = this->position.ToConstVecFx32Ref();
 
     // Apply velocity
-    VecFx32 vecResult;
-    CPPHelpers__VEC_Add_Alt2(&vecResult, &moveVelocity, &this->prevPos);
-    CPPHelpers__VEC_Copy_Alt(&this->position, CPPHelpers__Func_2085F98(&vecResult));
+    this->position = (moveVelocity + this->prevPos).ToVecFx32Ref();
 
     CVi3dObject::Process();
 

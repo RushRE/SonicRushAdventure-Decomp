@@ -36,7 +36,7 @@ u8 HubState__GetHubArea(void)
     return gameState.talk.state.hubArea;
 }
 
-void HubState__SetPlayerState(s32 id, VecFx32 *pos, u16 angle)
+void HubState__SetPlayerState(s32 id, const VecFx32 *pos, u16 angle)
 {
     MI_CpuClear32(&gameState.talk.state.player[id], sizeof(gameState.talk.state.player[id]));
 
@@ -63,7 +63,7 @@ u16 HubState__GetPlayerAngle(s32 id)
     return gameState.talk.state.player[id].rotationY;
 }
 
-void HubState__SetNpcState(s32 id, VecFx32 *pos, u16 angle, s32 talkCount)
+void HubState__SetNpcState(s32 id, const VecFx32 *pos, u16 angle, s32 talkCount)
 {
     MI_CpuClear32(&gameState.talk.state.npc[id], sizeof(gameState.talk.state.npc[id]));
 

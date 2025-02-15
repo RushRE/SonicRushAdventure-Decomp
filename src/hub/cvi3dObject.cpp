@@ -1,5 +1,5 @@
 #include <hub/cvi3dObject.hpp>
-#include <game/util/cppHelpers.hpp>
+#include <game/math/cppMath.hpp>
 #include <game/file/fileUnknown.h>
 #include <game/file/bundleFileUnknown.h>
 #include <hub/cviDockNpc.hpp>
@@ -22,6 +22,10 @@ NOT_DECOMPILED void _ZN11CVi3dObject7ReleaseEv(void);
 NOT_DECOMPILED void _ZN11CVi3dObject12Func_21680B8EP12AnimatorMDL_lPvtiiiS2_(void);
 
 NOT_DECOMPILED void _ZdlPv(void);
+
+NOT_DECOMPILED void _ZN8CVector3C1Ev(void);
+NOT_DECOMPILED void _ZN8CVector3C1Elll(void);
+NOT_DECOMPILED void _ZN8CVector3aSERKS_(void);
 
 NOT_DECOMPILED void *_ZTV11CVi3dObject;
 NOT_DECOMPILED void *_ZTV10CVi3dArrow;
@@ -47,22 +51,12 @@ static const u8 viShadow__dlList[] = {
 NONMATCH_FUNC void _ZN11CVi3dObjectC1Ev(CVi3dObject *work)
 {
 #ifdef NON_MATCHING
-    CPPHelpers__Func_2085EE8(&this->position);
-    CPPHelpers__Func_2085EE8(&this->worldPosition);
-    CPPHelpers__Func_2085EE8(&this->scale);
-    CPPHelpers__Func_2085EE8(&this->worldScale);
-
     this->flags = FLAG_NONE;
 
-    VecFx32 a1;
-    CPPHelpers__VEC_Set(&a1, 0, 0, 0);
-    CPPHelpers__Func_2085FA8(&this->position, &a1);
-
-    VecFx32 a2;
-    CPPHelpers__Func_2085FA8(&this->worldPosition, &this->position);
-    CPPHelpers__VEC_Set(&a2, FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
-    CPPHelpers__Func_2085FA8(&this->scale, &a2);
-    CPPHelpers__Func_2085FA8(&this->worldScale, &this->scale);
+    this->position      = CVector3(0, 0, 0);
+    this->worldPosition = this->position;
+    this->scale         = CVector3(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
+    this->worldScale    = this->scale;
 
     this->targetTurnAngle               = 0;
     this->currentTurnAngle              = 0;
@@ -97,36 +91,36 @@ NONMATCH_FUNC void _ZN11CVi3dObjectC1Ev(CVi3dObject *work)
 	ldr r1, =_ZTV11CVi3dObject+0x08
 	add r0, r4, #8
 	str r1, [r4]
-	bl CPPHelpers__Func_2085EE8
+	bl _ZN8CVector3C1Ev
 	add r0, r4, #0x14
-	bl CPPHelpers__Func_2085EE8
+	bl _ZN8CVector3C1Ev
 	add r0, r4, #0x20
-	bl CPPHelpers__Func_2085EE8
+	bl _ZN8CVector3C1Ev
 	add r0, r4, #0x2c
-	bl CPPHelpers__Func_2085EE8
+	bl _ZN8CVector3C1Ev
 	mov r1, #0
 	add r0, sp, #0xc
 	mov r2, r1
 	mov r3, r1
 	str r1, [r4, #4]
-	bl CPPHelpers__VEC_Set
+	bl _ZN8CVector3C1Elll
 	add r0, r4, #8
 	add r1, sp, #0xc
-	bl CPPHelpers__Func_2085FA8
+	bl _ZN8CVector3aSERKS_
 	add r0, r4, #0x14
 	add r1, r4, #8
-	bl CPPHelpers__Func_2085FA8
+	bl _ZN8CVector3aSERKS_
 	mov r1, #0x1000
 	add r0, sp, #0
 	mov r2, r1
 	mov r3, r1
-	bl CPPHelpers__VEC_Set
+	bl _ZN8CVector3C1Elll
 	add r0, r4, #0x20
 	add r1, sp, #0
-	bl CPPHelpers__Func_2085FA8
+	bl _ZN8CVector3aSERKS_
 	add r0, r4, #0x2c
 	add r1, r4, #0x20
-	bl CPPHelpers__Func_2085FA8
+	bl _ZN8CVector3aSERKS_
 	mov r1, #0
 	strh r1, [r4, #0x38]
 	strh r1, [r4, #0x3a]
@@ -171,22 +165,12 @@ NONMATCH_FUNC void _ZN11CVi3dObjectC1Ev(CVi3dObject *work)
 NONMATCH_FUNC void _ZN11CVi3dObjectC2Ev(CVi3dObject *work)
 {
 #ifdef NON_MATCHING
-    CPPHelpers__Func_2085EE8(&this->position);
-    CPPHelpers__Func_2085EE8(&this->worldPosition);
-    CPPHelpers__Func_2085EE8(&this->scale);
-    CPPHelpers__Func_2085EE8(&this->worldScale);
-
     this->flags = FLAG_NONE;
 
-    VecFx32 a1a;
-    CPPHelpers__VEC_Set(&a1a, 0, 0, 0);
-    CPPHelpers__Func_2085FA8(&this->position, &a1a);
-
-    VecFx32 a2;
-    CPPHelpers__Func_2085FA8(&this->worldPosition, &this->position);
-    CPPHelpers__VEC_Set(&a2, FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
-    CPPHelpers__Func_2085FA8(&this->scale, &a2);
-    CPPHelpers__Func_2085FA8(&this->worldScale, &this->scale);
+    this->position      = CVector3(0, 0, 0);
+    this->worldPosition = this->position;
+    this->scale         = CVector3(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
+    this->worldScale    = this->scale;
 
     this->targetTurnAngle               = 0;
     this->currentTurnAngle              = 0;
@@ -221,36 +205,36 @@ NONMATCH_FUNC void _ZN11CVi3dObjectC2Ev(CVi3dObject *work)
 	ldr r1, =_ZTV11CVi3dObject+0x08
 	add r0, r4, #8
 	str r1, [r4]
-	bl CPPHelpers__Func_2085EE8
+	bl _ZN8CVector3C1Ev
 	add r0, r4, #0x14
-	bl CPPHelpers__Func_2085EE8
+	bl _ZN8CVector3C1Ev
 	add r0, r4, #0x20
-	bl CPPHelpers__Func_2085EE8
+	bl _ZN8CVector3C1Ev
 	add r0, r4, #0x2c
-	bl CPPHelpers__Func_2085EE8
+	bl _ZN8CVector3C1Ev
 	mov r1, #0
 	add r0, sp, #0xc
 	mov r2, r1
 	mov r3, r1
 	str r1, [r4, #4]
-	bl CPPHelpers__VEC_Set
+	bl _ZN8CVector3C1Elll
 	add r0, r4, #8
 	add r1, sp, #0xc
-	bl CPPHelpers__Func_2085FA8
+	bl _ZN8CVector3aSERKS_
 	add r0, r4, #0x14
 	add r1, r4, #8
-	bl CPPHelpers__Func_2085FA8
+	bl _ZN8CVector3aSERKS_
 	mov r1, #0x1000
 	add r0, sp, #0
 	mov r2, r1
 	mov r3, r1
-	bl CPPHelpers__VEC_Set
+	bl _ZN8CVector3C1Elll
 	add r0, r4, #0x20
 	add r1, sp, #0
-	bl CPPHelpers__Func_2085FA8
+	bl _ZN8CVector3aSERKS_
 	add r0, r4, #0x2c
 	add r1, r4, #0x20
-	bl CPPHelpers__Func_2085FA8
+	bl _ZN8CVector3aSERKS_
 	mov r1, #0
 	strh r1, [r4, #0x38]
 	strh r1, [r4, #0x3a]
@@ -411,15 +395,10 @@ void CVi3dObject::Release()
 
     this->flags = FLAG_NONE;
 
-    VecFx32 a1;
-    CPPHelpers__VEC_Set(&a1, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
-    CPPHelpers__Func_2085FA8(&this->position, &a1);
-    CPPHelpers__Func_2085FA8(&this->worldPosition, &this->position);
-
-    VecFx32 a2;
-    CPPHelpers__VEC_Set(&a2, FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
-    CPPHelpers__Func_2085FA8(&this->scale, &a2);
-    CPPHelpers__Func_2085FA8(&this->worldScale, &this->scale);
+    this->position      = CVector3(0, 0, 0);
+    this->worldPosition = this->position;
+    this->scale         = CVector3(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
+    this->worldScale    = this->scale;
 
     this->targetTurnAngle                    = 0;
     this->currentTurnAngle                   = 0;
@@ -452,7 +431,7 @@ void CVi3dObject::SetJointAnimForBody(u16 animID, BOOL canLoop, BOOL blendAnims,
     {
         this->bodyAnim[B3D_ANIM_JOINT_ANIM] = animID;
         CVi3dObject::LoadAnimation(&this->aniBody, B3D_ANIM_JOINT_ANIM, this->resources[B3D_RESOURCE_JOINT_ANIM], this->bodyAnim[B3D_ANIM_JOINT_ANIM], canLoop, blendAnims,
-                                  keepFrame, NULL);
+                                   keepFrame, NULL);
     }
 }
 
@@ -471,7 +450,7 @@ void CVi3dObject::SetPatternAnimForBody(u16 animID, BOOL canLoop, BOOL blendAnim
     {
         this->bodyAnim[B3D_ANIM_PAT_ANIM] = animID;
         CVi3dObject::LoadAnimation(&this->aniBody, B3D_ANIM_MAT_ANIM, this->resources[B3D_RESOURCE_PAT_ANIM], this->bodyAnim[B3D_ANIM_PAT_ANIM], canLoop, blendAnims, keepFrame,
-                                  NULL);
+                                   NULL);
     }
 }
 
@@ -481,7 +460,7 @@ void CVi3dObject::SetTextureAnimForBody(u16 animID, BOOL canLoop, BOOL blendAnim
     {
         this->bodyAnim[B3D_ANIM_TEX_ANIM] = animID;
         CVi3dObject::LoadAnimation(&this->aniBody, B3D_ANIM_PAT_ANIM, this->resources[B3D_RESOURCE_TEX_ANIM], this->bodyAnim[B3D_ANIM_TEX_ANIM], canLoop, blendAnims, keepFrame,
-                                  NNS_G3dGetTex((const NNSG3dResFileHeader *)this->resources[B3D_RESOURCE_MODEL]));
+                                   NNS_G3dGetTex((const NNSG3dResFileHeader *)this->resources[B3D_RESOURCE_MODEL]));
     }
 }
 
@@ -491,7 +470,7 @@ void CVi3dObject::SetVisibilityAnimForBody(u16 animID, BOOL canLoop, BOOL blendA
     {
         this->bodyAnim[B3D_ANIM_VIS_ANIM] = animID;
         CVi3dObject::LoadAnimation(&this->aniBody, B3D_ANIM_TEX_ANIM, this->resources[B3D_RESOURCE_VIS_ANIM], this->bodyAnim[B3D_ANIM_VIS_ANIM], canLoop, blendAnims, keepFrame,
-                                  NULL);
+                                   NULL);
     }
 }
 

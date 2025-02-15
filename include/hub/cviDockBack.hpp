@@ -12,9 +12,11 @@
 
 class CViDockBack
 {
+    void *vTable;
+    
 public:
-    CViDockBack();
-    virtual ~CViDockBack();
+    // CViDockBack();
+    // virtual ~CViDockBack();
 
     // --------------------
     // STRUCTS
@@ -57,7 +59,7 @@ public:
     void SetShipPosition(fx32 y);
     void SetShipScale(fx32 scale);
     void DrawDock(u16 rotationY, u16 rotationX, u16 rotationZ);
-    BOOL ProcessCollision(VecFx32 *prevPlayerPos, VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    BOOL ProcessCollision(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area);
     BOOL DidExitArea(VecFx32 pos);
     fx32 GetFloorPosition(VecFx32 pos);
     void DrawShadow(CViShadow *shadow, fx32 scale, fx32 x, fx32 z);
@@ -68,21 +70,21 @@ public:
 
     static void GetPlayerSpawnConfig(s32 id, VecFx32 *position, u16 *angle, s32 area);
 
-    static BOOL Collide_Base(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
-    static BOOL Collide_BaseNext(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
-    static BOOL Collide_Jet(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
-    static BOOL Collide_Boat(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
-    static BOOL Collide_Hover(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
-    static BOOL Collide_Submarine(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
-    static BOOL Collide_Beach(VecFx32 *pos0, VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Base(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_BaseNext(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Jet(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Boat(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Hover(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Submarine(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Beach(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
 
-    static BOOL CheckExitArea_Base(VecFx32 *pos);
-    static BOOL CheckExitArea_BaseNext(VecFx32 *pos);
-    static BOOL CheckExitArea_Jet(VecFx32 *pos);
-    static BOOL CheckExitArea_Boat(VecFx32 *pos);
-    static BOOL CheckExitArea_Hover(VecFx32 *pos);
-    static BOOL CheckExitArea_Submarine(VecFx32 *pos);
-    static BOOL CheckExitArea_Beach(VecFx32 *pos);
+    static BOOL CheckExitArea_Base(const VecFx32 *pos);
+    static BOOL CheckExitArea_BaseNext(const VecFx32 *pos);
+    static BOOL CheckExitArea_Jet(const VecFx32 *pos);
+    static BOOL CheckExitArea_Boat(const VecFx32 *pos);
+    static BOOL CheckExitArea_Hover(const VecFx32 *pos);
+    static BOOL CheckExitArea_Submarine(const VecFx32 *pos);
+    static BOOL CheckExitArea_Beach(const VecFx32 *pos);
 
     static void PlayerSpawnConfig_Base(VecFx32 *position, u16 *angle, s32 area);
     static void PlayerSpawnConfig_BaseNext(VecFx32 *position, u16 *angle, s32 area);
@@ -92,8 +94,8 @@ public:
     static void PlayerSpawnConfig_Submarine(VecFx32 *position, u16 *angle, s32 area);
     static void PlayerSpawnConfig_Beach(VecFx32 *position, u16 *angle, s32 area);
 
-    static fx32 GetGroundPos_Common(VecFx32 *pos);
-    static fx32 GetGroundPos_Submarine(VecFx32 *pos);
+    static fx32 GetGroundPos_Common(const VecFx32 *pos);
+    static fx32 GetGroundPos_Submarine(const VecFx32 *pos);
 
     static void DrawShadow_Common(CViShadow *work, fx32 scale, fx32 x, fx32 z);
     static void DrawShadow_Submarine(CViShadow *work, fx32 scale, fx32 x, fx32 z);

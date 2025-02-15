@@ -189,7 +189,7 @@ Static arm9
     Object src/game/unknown/unknown2085404.o
     Object src/game/audio/spatialAudio.o
     Object src/game/graphics/paletteAnimation.o
-    Object src/game/util/cppHelpers.o
+    Object src/game/math/cppMath.o
     
     ### NitroDWC ###
     Object lib/NitroDWC/asm/ARM9/dwci_ac.o # TODO: split asm blob into proper files
@@ -676,6 +676,7 @@ Overlay Hub
     Object src/hub/cviDockDrawState.o
     Object asm/hub/cviDockDrawState_vars.o
     Object src/hub/cviDockBack.o
+    Object asm/hub/cviDockBack_rtti.o
     Object asm/hub/cviDockPlayer_rtti.o
     Object src/hub/cviDockPlayer.o
     Object asm/hub/cviDockNpc_rtti.o
@@ -683,6 +684,7 @@ Overlay Hub
     Object asm/hub/cviDockNpc_vars.o
     Object asm/hub/cvi3dObject_rtti.o
     Object src/hub/cvi3dObject.o
+    Object asm/hub/cviDockNpcGroup_rtti.o
     Object src/hub/cviDockNpcGroup.o
     Object src/hub/cviDockNpcTalk.o
     Object src/hub/cviTalkSailPrompt.o

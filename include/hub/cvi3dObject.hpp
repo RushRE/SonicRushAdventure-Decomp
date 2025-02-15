@@ -4,6 +4,7 @@
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
 #include <game/graphics/vramSystem.h>
+#include <game/math/cppMath.hpp>
 
 // --------------------
 // CONSTANTS/MACROS
@@ -39,10 +40,10 @@ public:
     // --------------------
 
     u32 flags;
-    VecFx32 position;
-    VecFx32 worldPosition;
-    VecFx32 scale;
-    VecFx32 worldScale;
+    CVector3 position;
+    CVector3 worldPosition;
+    CVector3 scale;
+    CVector3 worldScale;
     u16 targetTurnAngle;
     u16 currentTurnAngle;
     u16 rotationY;

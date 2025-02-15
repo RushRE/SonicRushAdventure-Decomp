@@ -2,7 +2,7 @@
 #define RUSH_HUBTASK_HPP
 
 #include <game/system/task.h>
-#include <game/util/cppHelpers.hpp>
+#include <game/math/cppMath.hpp>
 
 #ifdef __cplusplus
 

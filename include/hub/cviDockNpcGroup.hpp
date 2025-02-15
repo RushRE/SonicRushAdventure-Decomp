@@ -28,9 +28,10 @@ struct CViDockNpcGroupEntry
 
 class CViDockNpcGroup
 {
+    void *vTable;
 public:
-    CViDockNpcGroup();
-    virtual ~CViDockNpcGroup();
+    // CViDockNpcGroup();
+    // virtual ~CViDockNpcGroup();
 
     // --------------------
     // VARIABLES
@@ -64,8 +65,17 @@ public:
     void Init();
     void Process();
     void Draw(VecFx32 *position);
-    CViDockNpcGroupEntry *HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale);
+    CViDockNpcGroupEntry *HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale);
     CViDockNpcGroupEntry *FindNpcInTalkRange(VecFx32 *playerPos, u16 playerAngle, fx32 scale, BOOL *canTalk, CViDockNpcGroupEntry *startNpc);
 };
+
+extern "C"
+{
+
+void _ZN15CViDockNpcGroupC1Ev();
+void _ZN15CViDockNpcGroupD0Ev();
+void _ZN15CViDockNpcGroupD1Ev();
+
+}
 
 #endif // RUSH_CVIDOCKNPCGROUP_HPP

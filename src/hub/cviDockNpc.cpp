@@ -1,7 +1,7 @@
 #include <hub/cviDockNpc.hpp>
 #include <hub/hubConfig.h>
 #include <hub/cviDockNpcTalk.hpp>
-#include <game/util/cppHelpers.hpp>
+#include <game/math/cppMath.hpp>
 #include <game/file/bundleFileUnknown.h>
 
 // resources
@@ -88,6 +88,9 @@ NOT_DECOMPILED void *_ZTV10CViDockNpc;
 NOT_DECOMPILED void _ZdlPv(void);
 
 NOT_DECOMPILED void _ZN10CViDockNpc7ReleaseEv(void);
+
+NOT_DECOMPILED void _ZNK8CVector317ToConstVecFx32RefEv(void);
+
 }
 
 // --------------------
@@ -272,7 +275,7 @@ NONMATCH_FUNC void _ZN10CViDockNpcD1Ev(CViDockNpc *work)
 #endif
 }
 
-void CViDockNpc::Init(s32 type, VecFx32 *position, u16 angle, BOOL snapToAngle)
+void CViDockNpc::Init(s32 type, VecFx32 &position, u16 angle, BOOL snapToAngle)
 {
     this->Release();
 
@@ -318,7 +321,7 @@ void CViDockNpc::Init(s32 type, VecFx32 *position, u16 angle, BOOL snapToAngle)
     if (this->aniTexture != NULL)
         this->SetTextureAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
-    CPPHelpers__VEC_Copy_Alt(&this->position, position);
+    this->position = position;
 
     this->targetTurnAngle  = angle;
     this->currentTurnAngle = this->targetTurnAngle;
@@ -394,7 +397,7 @@ void CViDockNpc::SetAngleForIdle()
         this->SetJointAnimForTail(resConfigFileTable[this->type].ani2_Tail, TRUE, TRUE, FALSE, FALSE);
 }
 
-BOOL CViDockNpc::HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale)
+BOOL CViDockNpc::HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale)
 {
     *newPlayerPos = *curPlayerPos;
 
@@ -403,10 +406,10 @@ BOOL CViDockNpc::HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, VecFx32 *cu
 
     s32 centerX = MultiplyFX(this->size.x, scale);
     s32 centerY = MultiplyFX(this->size.z, scale);
-    s32 x1      = CPPHelpers__Func_2085F9C(&this->position)->x - centerX;
-    s32 x2      = CPPHelpers__Func_2085F9C(&this->position)->x + centerX;
-    s32 z1      = CPPHelpers__Func_2085F9C(&this->position)->z - centerY;
-    s32 z2      = CPPHelpers__Func_2085F9C(&this->position)->z + centerY;
+    s32 x1      = this->position.ToConstVecFx32Ref().x - centerX;
+    s32 x2      = this->position.ToConstVecFx32Ref().x + centerX;
+    s32 z1      = this->position.ToConstVecFx32Ref().z - centerY;
+    s32 z2      = this->position.ToConstVecFx32Ref().z + centerY;
 
     if (curPlayerPos->x <= x1 || curPlayerPos->x >= x2 || curPlayerPos->z <= z1 || curPlayerPos->z >= z2)
         return FALSE;
@@ -435,8 +438,8 @@ NONMATCH_FUNC BOOL CViDockNpc::CheckPlayerInTalkRange(VecFx32 *playerPos, u16 pl
 {
     // https://decomp.me/scratch/6CdR9 -> 98.08%
 #ifdef NON_MATCHING
-    fx32 x = CPPHelpers__Func_2085F9C(&this->position)->x - playerPos->x;
-    fx32 z = CPPHelpers__Func_2085F9C(&this->position)->z - playerPos->z;
+    fx32 x = this->position.ToConstVecFx32Ref().x - playerPos->x;
+    fx32 z = this->position.ToConstVecFx32Ref().z - playerPos->z;
 
     fx32 radius = MultiplyFX(x, x) + MultiplyFX(z, z);
 
@@ -470,12 +473,12 @@ NONMATCH_FUNC BOOL CViDockNpc::CheckPlayerInTalkRange(VecFx32 *playerPos, u16 pl
 	mov r7, r2
 	mov r6, r3
 	ldr r5, [sp, #0x20]
-	bl CPPHelpers__Func_2085F9C
+	bl _ZNK8CVector317ToConstVecFx32RefEv
 	ldr r2, [r0, #0]
 	ldr r1, [r8, #0]
 	add r0, r9, #8
 	sub r4, r2, r1
-	bl CPPHelpers__Func_2085F9C
+	bl _ZNK8CVector317ToConstVecFx32RefEv
 	add r2, r9, #0x300
 	ldr r10, [r0, #8]
 	ldr r0, [r8, #8]
