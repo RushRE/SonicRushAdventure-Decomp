@@ -117,7 +117,7 @@ NONMATCH_FUNC void ViDockDrawState__Func_2163A7C(CViDockDrawState *work, s32 a2)
 #endif
 }
 
-NONMATCH_FUNC void ViDockDrawState__Func_2163A84(CViDockDrawState *work, const VecFx32 *a2){
+NONMATCH_FUNC void ViDockDrawState__SetCamTarget(CViDockDrawState *work, const VecFx32 *a2){
 #ifdef NON_MATCHING
 
 #else

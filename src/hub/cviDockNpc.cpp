@@ -549,7 +549,7 @@ _02167368:
 #endif
 }
 
-BOOL CViDockNpc::Allow3dArrow(VecFx32 *position)
+BOOL CViDockNpc::Allow3dArrow(VecFx32 &position)
 {
     UNUSED(position);
 

@@ -15,7 +15,7 @@ static const HubNpcTalkActionConfig npcTalkActionOldDS     = { .talkActionType =
 static const HubNpcTalkActionConfig npcTalkActionCommon    = { .talkActionType = CVIDOCKNPCTALK_NPC, .talkActionParam = 0 };
 static const HubNpcTalkActionConfig npcTalkActionHourglass = { .talkActionType = CVIDOCKNPCTALK_ACTION, .talkActionParam = CVIDOCKNPCTALK_ACTION_16 };
 
-static const HubPurchaseCostConfig radioTowerCost[] =
+static const CViPurchaseCostConfig radioTowerCost[] =
 {
     {
         .ringCost = 1000,
@@ -37,7 +37,7 @@ static const u16 ovl05_02171848[] = { 0, 1, 4, 3, 5, 2, 10, 6, 7, 8, 9, 11, 12, 
 static const u16 ovl05_02171864[] = { 0, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 static const u16 ovl05_02171882[] = { 7, 8, 9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 0 };
 
-static const HubPurchaseCostConfig decorPurchaseCost[] =
+static const CViPurchaseCostConfig decorPurchaseCost[] =
 {
     {
         .ringCost = 600,
@@ -85,19 +85,19 @@ static const HubPurchaseCostConfig decorPurchaseCost[] =
     },
 };
 
-static const ViMapBackConfig mapDecorGraphicsConfig[] = {
+static const CViMapDecorConfig mapDecorGraphicsConfig[] = {
     { .flags = 0, .animID = 0 },  { .flags = 0, .animID = 1 },  { .flags = 0, .animID = 2 },  { .flags = 0, .animID = 3 },  { .flags = 0, .animID = 4 },
     { .flags = 2, .animID = 7 },  { .flags = 0, .animID = 8 },  { .flags = 0, .animID = 9 },  { .flags = 0, .animID = 10 }, { .flags = 1, .animID = 11 },
     { .flags = 1, .animID = 12 }, { .flags = 1, .animID = 13 }, { .flags = 1, .animID = 14 },
 };
 
 static const Unknown2171914 dockUnknownConfig[] = {
-    { .dockArea = DOCKAREA_BASE, .field_4 = 0 },  { .dockArea = DOCKAREA_JET, .field_4 = 2 },       { .dockArea = DOCKAREA_BOAT, .field_4 = 3 },
-    { .dockArea = DOCKAREA_HOVER, .field_4 = 4 }, { .dockArea = DOCKAREA_SUBMARINE, .field_4 = 5 }, { .dockArea = DOCKAREA_BEACH, .field_4 = 6 },
-    { .dockArea = DOCKAREA_DRILL, .field_4 = 8 },
+    { .dockArea = DOCKAREA_BASE, .unknown = 0 },  { .dockArea = DOCKAREA_JET, .unknown = 2 },       { .dockArea = DOCKAREA_BOAT, .unknown = 3 },
+    { .dockArea = DOCKAREA_HOVER, .unknown = 4 }, { .dockArea = DOCKAREA_SUBMARINE, .unknown = 5 }, { .dockArea = DOCKAREA_BEACH, .unknown = 6 },
+    { .dockArea = DOCKAREA_DRILL, .unknown = 8 },
 };
 
-static const HubPurchaseCostConfig shipBuildCost[] =
+static const CViPurchaseCostConfig shipBuildCost[] =
 {
     [SHIP_JET] = 
     {
@@ -182,7 +182,7 @@ static const HubPurchaseCostConfig shipBuildCost[] =
     },
 };
 
-static const HubPurchaseCostConfig shipUpgradeCost[] =
+static const CViPurchaseCostConfig shipUpgradeCost[] =
 {
     {
         .ringCost = 0,
@@ -305,7 +305,7 @@ static const HubPurchaseCostConfig shipUpgradeCost[] =
     },
 };
 
-static const DockMapConfig dockMapConfig[] = {
+static const CViMapAreaConfig mapAreaConfig[] = {
     [SHIP_JET] = 
     {
         .dockArea            = DOCKAREA_JET,
@@ -315,7 +315,7 @@ static const DockMapConfig dockMapConfig[] = {
         .rotationX           = FLOAT_DEG_TO_IDX(10.0),
         .msgSeqShipCompleted = 0,
         .materialCount       = 2,
-        .field_16            = 0,
+        .unknown             = 0,
         .materials           = { SAVE_MATERIAL_BLUE, SAVE_MATERIAL_IRON, 0, 0, 0, 0, 0, 0 },
     },
 
@@ -328,7 +328,7 @@ static const DockMapConfig dockMapConfig[] = {
         .rotationX           = FLOAT_DEG_TO_IDX(20.0),
         .msgSeqShipCompleted = 1,
         .materialCount       = 2,
-        .field_16            = 0,
+        .unknown             = 0,
         .materials           = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, 0, 0, 0, 0, 0, 0 },
     },
 
@@ -341,7 +341,7 @@ static const DockMapConfig dockMapConfig[] = {
         .rotationX           = FLOAT_DEG_TO_IDX(20.0),
         .msgSeqShipCompleted = 2,
         .materialCount       = 6,
-        .field_16            = 0,
+        .unknown             = 0,
         .materials           = { SAVE_MATERIAL_BLUE, SAVE_MATERIAL_IRON, SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_RED, SAVE_MATERIAL_SILVER, 0, 0 },
     },
 
@@ -354,7 +354,7 @@ static const DockMapConfig dockMapConfig[] = {
         .rotationX           = FLOAT_DEG_TO_IDX(20.0),
         .msgSeqShipCompleted = 3,
         .materialCount       = 8,
-        .field_16            = 0,
+        .unknown             = 0,
         .materials           = { SAVE_MATERIAL_BLUE, SAVE_MATERIAL_IRON, SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_RED, SAVE_MATERIAL_SILVER, SAVE_MATERIAL_AQUA, SAVE_MATERIAL_GOLD },
     },
 
@@ -368,107 +368,107 @@ static const DockMapConfig dockMapConfig[] = {
         .rotationX           = FLOAT_DEG_TO_IDX(20.0),
         .msgSeqShipCompleted = 4,
         .materialCount       = 1,
-        .field_16            = 0,
+        .unknown             = 0,
         .materials           = { SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0, 0, 0 },
     },
 };
 
-static const ViDockBackConfig dockBackInfo[] = {
-    { .field_0            = DOCKAREA_BASE,
+static const CViDockBackAreaConfig dockBackAreaConfig[] = {
+    { .dockArea           = DOCKAREA_BASE,
       .resModelShip       = CVIEVTCMN_RESOURCE_NONE,
       .resJointAnimShip   = CVIEVTCMN_RESOURCE_NONE,
       .resModelDock       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SON_BASE_NSBMD,
       .resJointAnimDock   = CVIEVTCMN_RESOURCE_NONE,
       .resTextureAnimDock = CVIEVTCMN_RESOURCE_NONE,
       .resPatternAnimDock = CVIEVTCMN_RESOURCE_NONE,
-      .field_10           = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SON_BASE_BSD,
-      .field_12           = CVIEVTCMN_RESOURCE_NONE,
-      .field_14           = -FLOAT_TO_FX32(4.0),
-      .field_18           = FLOAT_DEG_TO_IDX(0.0) },
+      .resDrawState       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SON_BASE_BSD,
+      .resUnknown         = CVIEVTCMN_RESOURCE_NONE,
+      .shipPosY           = -FLOAT_TO_FX32(4.0),
+      .dockRotationY      = FLOAT_DEG_TO_IDX(0.0) },
 
-    { .field_0            = DOCKAREA_BASE_NEXT,
+    { .dockArea           = DOCKAREA_BASE_NEXT,
       .resModelShip       = CVIEVTCMN_RESOURCE_NONE,
       .resJointAnimShip   = CVIEVTCMN_RESOURCE_NONE,
       .resModelDock       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_DOCK_BASE_NEXT_NSBMD,
       .resJointAnimDock   = CVIEVTCMN_RESOURCE_NONE,
       .resTextureAnimDock = CVIEVTCMN_RESOURCE_NONE,
       .resPatternAnimDock = CVIEVTCMN_RESOURCE_NONE,
-      .field_10           = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_DOCK_BASE_NEXT_BSD,
-      .field_12           = CVIEVTCMN_RESOURCE_NONE,
-      .field_14           = -FLOAT_TO_FX32(4.0),
-      .field_18           = FLOAT_DEG_TO_IDX(0.0) },
+      .resDrawState       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_DOCK_BASE_NEXT_BSD,
+      .resUnknown         = CVIEVTCMN_RESOURCE_NONE,
+      .shipPosY           = -FLOAT_TO_FX32(4.0),
+      .dockRotationY      = FLOAT_DEG_TO_IDX(0.0) },
 
-    { .field_0            = DOCKAREA_JET,
+    { .dockArea           = DOCKAREA_JET,
       .resModelShip       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_JET_NSBMD,
       .resJointAnimShip   = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_JET_NSBCA,
       .resModelDock       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_JET_DOCK_NSBMD,
       .resJointAnimDock   = CVIEVTCMN_RESOURCE_NONE,
       .resTextureAnimDock = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_JET_DOCK_NSBTA,
       .resPatternAnimDock = CVIEVTCMN_RESOURCE_NONE,
-      .field_10           = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_JET_DOCK_BSD,
-      .field_12           = CVIEVTCMN_RESOURCE_NONE,
-      .field_14           = -FLOAT_TO_FX32(4.0),
-      .field_18           = FLOAT_DEG_TO_IDX(270.0) },
+      .resDrawState       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_JET_DOCK_BSD,
+      .resUnknown         = CVIEVTCMN_RESOURCE_NONE,
+      .shipPosY           = -FLOAT_TO_FX32(4.0),
+      .dockRotationY      = FLOAT_DEG_TO_IDX(270.0) },
 
-    { .field_0            = DOCKAREA_BOAT,
+    { .dockArea           = DOCKAREA_BOAT,
       .resModelShip       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SHIP_NSBMD,
       .resJointAnimShip   = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SHIP_NSBCA,
       .resModelDock       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SHIP_DOCK_NSBMD,
       .resJointAnimDock   = CVIEVTCMN_RESOURCE_NONE,
       .resTextureAnimDock = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SHIP_DOCK_NSBTA,
       .resPatternAnimDock = CVIEVTCMN_RESOURCE_NONE,
-      .field_10           = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SHIP_DOCK_BSD,
-      .field_12           = CVIEVTCMN_RESOURCE_NONE,
-      .field_14           = -FLOAT_TO_FX32(10.0),
-      .field_18           = FLOAT_DEG_TO_IDX(270.0) },
+      .resDrawState       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SHIP_DOCK_BSD,
+      .resUnknown         = CVIEVTCMN_RESOURCE_NONE,
+      .shipPosY           = -FLOAT_TO_FX32(10.0),
+      .dockRotationY      = FLOAT_DEG_TO_IDX(270.0) },
 
-    { .field_0            = DOCKAREA_HOVER,
+    { .dockArea           = DOCKAREA_HOVER,
       .resModelShip       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_BOAT_NSBMD,
       .resJointAnimShip   = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_BOAT_NSBCA,
       .resModelDock       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_BOAT_DOCK_NSBMD,
       .resJointAnimDock   = CVIEVTCMN_RESOURCE_NONE,
       .resTextureAnimDock = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_BOAT_DOCK_NSBTA,
       .resPatternAnimDock = CVIEVTCMN_RESOURCE_NONE,
-      .field_10           = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_BOAT_DOCK_BSD,
-      .field_12           = CVIEVTCMN_RESOURCE_NONE,
-      .field_14           = FLOAT_TO_FX32(0.0),
-      .field_18           = FLOAT_DEG_TO_IDX(270.0) },
+      .resDrawState       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_BOAT_DOCK_BSD,
+      .resUnknown         = CVIEVTCMN_RESOURCE_NONE,
+      .shipPosY           = FLOAT_TO_FX32(0.0),
+      .dockRotationY      = FLOAT_DEG_TO_IDX(270.0) },
 
-    { .field_0            = DOCKAREA_SUBMARINE,
+    { .dockArea           = DOCKAREA_SUBMARINE,
       .resModelShip       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SUBMARINE_NSBMD,
       .resJointAnimShip   = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SUBMARINE_NSBCA,
       .resModelDock       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SUBMARINE_DOCK_NSBMD,
       .resJointAnimDock   = CVIEVTCMN_RESOURCE_NONE,
       .resTextureAnimDock = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SUBMARINE_DOCK_NSBTA,
       .resPatternAnimDock = CVIEVTCMN_RESOURCE_NONE,
-      .field_10           = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SUBMARINE_DOCK_BSD,
-      .field_12           = CVIEVTCMN_RESOURCE_NONE,
-      .field_14           = FLOAT_TO_FX32(0.0),
-      .field_18           = FLOAT_DEG_TO_IDX(270.0) },
+      .resDrawState       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_SUBMARINE_DOCK_BSD,
+      .resUnknown         = CVIEVTCMN_RESOURCE_NONE,
+      .shipPosY           = FLOAT_TO_FX32(0.0),
+      .dockRotationY      = FLOAT_DEG_TO_IDX(270.0) },
 
-    { .field_0            = DOCKAREA_BEACH,
+    { .dockArea           = DOCKAREA_BEACH,
       .resModelShip       = CVIEVTCMN_RESOURCE_NONE,
       .resJointAnimShip   = CVIEVTCMN_RESOURCE_NONE,
       .resModelDock       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_BEACH_DOCK_NSBMD,
       .resJointAnimDock   = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_BEACH_DOCK_NSBCA,
       .resTextureAnimDock = CVIEVTCMN_RESOURCE_NONE,
       .resPatternAnimDock = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_BEACH_DOCK_NSBTP,
-      .field_10           = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_BEACH_DOCK_BSD,
-      .field_12           = CVIEVTCMN_RESOURCE_NONE,
-      .field_14           = -FLOAT_TO_FX32(4.0),
-      .field_18           = FLOAT_DEG_TO_IDX(0.0) },
+      .resDrawState       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_BEACH_DOCK_BSD,
+      .resUnknown         = CVIEVTCMN_RESOURCE_NONE,
+      .shipPosY           = -FLOAT_TO_FX32(4.0),
+      .dockRotationY      = FLOAT_DEG_TO_IDX(0.0) },
 
-    { .field_0            = DOCKAREA_NONE,
+    { .dockArea           = DOCKAREA_NONE,
       .resModelShip       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_DRILL_NSBMD,
       .resJointAnimShip   = CVIEVTCMN_RESOURCE_NONE,
       .resModelDock       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_DRILL_DOCK_NSBMD,
       .resJointAnimDock   = CVIEVTCMN_RESOURCE_NONE,
       .resTextureAnimDock = CVIEVTCMN_RESOURCE_NONE,
       .resPatternAnimDock = CVIEVTCMN_RESOURCE_NONE,
-      .field_10           = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_DRILL_DOCK_BSD,
-      .field_12           = CVIEVTCMN_RESOURCE_NONE,
-      .field_14           = -FLOAT_TO_FX32(10.0),
-      .field_18           = FLOAT_DEG_TO_IDX(0.0) },
+      .resDrawState       = BUNDLE_VI_DOCK_FILE_RESOURCES_BB_VI_DOCK_SONIC_DRILL_DOCK_BSD,
+      .resUnknown         = CVIEVTCMN_RESOURCE_NONE,
+      .shipPosY           = -FLOAT_TO_FX32(10.0),
+      .dockRotationY      = FLOAT_DEG_TO_IDX(0.0) },
 };
 
 static const HubNpcSpawnConfig npcSpawnConfig[CVIDOCK_NPC_COUNT] = {
@@ -605,7 +605,7 @@ static const HubNpcSpawnConfig npcSpawnConfig[CVIDOCK_NPC_COUNT] = {
                                  .getActionConfig = HubConfig__GetNpcActionConfig_Muzy },
 };
 
-static const DockMapConfig dockMapConfig_Unknown[] = {
+static const CViMapAreaConfig mapAreaUpgradeConfig[] = {
     [(2 * SHIP_JET) + (SHIP_LEVEL_1 - 1)] = { .dockArea            = DOCKAREA_INVALID,
                                               .unknownArea         = DOCKAREA_BASE_NEXT,
                                               .shipScale           = FLOAT_TO_FX32(0.0),
@@ -613,7 +613,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                               .rotationX           = FLOAT_DEG_TO_IDX(0.0),
                                               .msgSeqShipCompleted = 0,
                                               .materialCount       = 3,
-                                              .field_16            = 0,
+                                              .unknown             = 0,
                                               .materials           = { SAVE_MATERIAL_BLUE, SAVE_MATERIAL_IRON, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
     [(2 * SHIP_JET) + (SHIP_LEVEL_2 - 1)] = { .dockArea            = DOCKAREA_INVALID,
@@ -623,7 +623,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                               .rotationX           = FLOAT_DEG_TO_IDX(0.0),
                                               .msgSeqShipCompleted = 0,
                                               .materialCount       = 3,
-                                              .field_16            = 0,
+                                              .unknown             = 0,
                                               .materials           = { SAVE_MATERIAL_BLUE, SAVE_MATERIAL_IRON, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
     [(2 * SHIP_BOAT) + (SHIP_LEVEL_1 - 1)] = { .dockArea            = DOCKAREA_INVALID,
@@ -633,7 +633,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                                .rotationX           = FLOAT_DEG_TO_IDX(0.0),
                                                .msgSeqShipCompleted = 0,
                                                .materialCount       = 3,
-                                               .field_16            = 0,
+                                               .unknown             = 0,
                                                .materials           = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
     [(2 * SHIP_BOAT) + (SHIP_LEVEL_2 - 1)] = { .dockArea            = DOCKAREA_INVALID,
@@ -643,7 +643,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                                .rotationX           = FLOAT_DEG_TO_IDX(0.0),
                                                .msgSeqShipCompleted = 0,
                                                .materialCount       = 3,
-                                               .field_16            = 0,
+                                               .unknown             = 0,
                                                .materials           = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
     [(2 * SHIP_HOVER) + (SHIP_LEVEL_1 - 1)] = { .dockArea            = DOCKAREA_INVALID,
@@ -653,7 +653,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                                 .rotationX           = FLOAT_DEG_TO_IDX(0.0),
                                                 .msgSeqShipCompleted = 0,
                                                 .materialCount       = 5,
-                                                .field_16            = 0,
+                                                .unknown             = 0,
                                                 .materials = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_RED, SAVE_MATERIAL_SILVER, SAVE_MATERIAL_BLACK, 0, 0, 0 } },
 
     [(2 * SHIP_HOVER) + (SHIP_LEVEL_2 - 1)] = { .dockArea            = DOCKAREA_INVALID,
@@ -663,7 +663,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                                 .rotationX           = FLOAT_DEG_TO_IDX(0.0),
                                                 .msgSeqShipCompleted = 0,
                                                 .materialCount       = 5,
-                                                .field_16            = 0,
+                                                .unknown             = 0,
                                                 .materials = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_RED, SAVE_MATERIAL_SILVER, SAVE_MATERIAL_BLACK, 0, 0, 0 } },
 
     [(2 * SHIP_SUBMARINE)
@@ -674,7 +674,7 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                   .rotationX           = FLOAT_DEG_TO_IDX(0.0),
                                   .msgSeqShipCompleted = 0,
                                   .materialCount       = 5,
-                                  .field_16            = 0,
+                                  .unknown             = 0,
                                   .materials           = { SAVE_MATERIAL_RED, SAVE_MATERIAL_SILVER, SAVE_MATERIAL_AQUA, SAVE_MATERIAL_GOLD, SAVE_MATERIAL_BLACK, 0, 0, 0 } },
 
     [(2 * SHIP_SUBMARINE)
@@ -685,129 +685,108 @@ static const DockMapConfig dockMapConfig_Unknown[] = {
                                   .rotationX           = FLOAT_DEG_TO_IDX(0.0),
                                   .msgSeqShipCompleted = 0,
                                   .materialCount       = 5,
-                                  .field_16            = 0,
+                                  .unknown             = 0,
                                   .materials           = { SAVE_MATERIAL_RED, SAVE_MATERIAL_SILVER, SAVE_MATERIAL_AQUA, SAVE_MATERIAL_GOLD, SAVE_MATERIAL_BLACK, 0, 0, 0 } },
 };
 
-static const DockStageConfig HubConfig__dockStageConfig[] = {
+static const CViDockAreaConfig dockAreaConfig[] = {
     [DOCKAREA_BASE] = { .dockArea       = DOCKAREA_BASE,
                         .mapArea        = MAPAREA_BASE,
-                        .field_8        = { 0, 0, -0x17000 },
-                        .field_14       = 0x3C000,
-                        .field_18       = 0xF1C8,
-                        .field_1C       = 0,
-                        .field_20       = 0x3000,
-                        .field_24       = -0x4000,
-                        .field_28       = 0,
-                        .field_2C       = 0x3000,
-                        .field_30       = 0x4000,
+                        .camOffset      = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(23.0) },
+                        .camPosZ        = FLOAT_TO_FX32(60.0),
+                        .camAngle       = FLOAT_DEG_TO_IDX(340.005),
+                        .camBounds = {
+                            .min        = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(3.0), -FLOAT_TO_FX32(4.0) },
+                            .max        = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(3.0), FLOAT_TO_FX32(4.0) },
+                        },
                         .shadowAlpha    = GX_COLOR_FROM_888(0x40),
                         .playerTopSpeed = FLOAT_TO_FX32(0.5),
-                        .field_3C       = 0,
-                        .scale          = FLOAT_TO_FX32(1.0),
-                        .field_42       = 0 },
+                        .camFlag        = FALSE,
+                        .scale          = FLOAT_TO_FX32(1.0), },
 
     [DOCKAREA_BASE_NEXT] = { .dockArea       = DOCKAREA_BASE_NEXT,
                              .mapArea        = MAPAREA_BASE,
-                             .field_8        = { 0, 0, -0x17000 },
-                             .field_14       = 0x3C000,
-                             .field_18       = 0xF1C8,
-                             .field_1C       = 0,
-                             .field_20       = 0x3000,
-                             .field_24       = -0x4000,
-                             .field_28       = 0,
-                             .field_2C       = 0x3000,
-                             .field_30       = 0x4000,
+                             .camOffset      = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(23.0) },
+                             .camPosZ        = FLOAT_TO_FX32(60.0),
+                             .camAngle       = FLOAT_DEG_TO_IDX(340.005),
+                             .camBounds = {
+                                .min         = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(3.0), -FLOAT_TO_FX32(4.0) },
+                                .max         = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(3.0), FLOAT_TO_FX32(4.0) },
+                             },
                              .shadowAlpha    = GX_COLOR_FROM_888(0x40),
                              .playerTopSpeed = FLOAT_TO_FX32(0.5),
-                             .field_3C       = 0,
-                             .scale          = FLOAT_TO_FX32(1.0),
-                             .field_42       = 0 },
+                             .camFlag        = FALSE,
+                             .scale          = FLOAT_TO_FX32(1.0), },
 
     [DOCKAREA_JET] = { .dockArea       = DOCKAREA_JET,
                        .mapArea        = MAPAREA_JET,
-                       .field_8        = { 0, 0, -0xF000 },
-                       .field_14       = 0x50000,
-                       .field_18       = 0xF1C8,
-                       .field_1C       = -0x14000,
-                       .field_20       = 0,
-                       .field_24       = 0x20000,
-                       .field_28       = 0x14000,
-                       .field_2C       = 0,
-                       .field_30       = 0x32000,
+                       .camOffset      = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(15.0) },
+                       .camPosZ        = FLOAT_TO_FX32(80.0),
+                       .camAngle       = FLOAT_DEG_TO_IDX(340.005),
+                       .camBounds = {
+                            .min       = { -FLOAT_TO_FX32(20.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(32.0) },
+                            .max       = { FLOAT_TO_FX32(20.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(50.0) },
+                        },
                        .shadowAlpha    = GX_COLOR_FROM_888(0x80),
                        .playerTopSpeed = FLOAT_TO_FX32(1.0),
-                       .field_3C       = 1,
-                       .scale          = FLOAT_TO_FX32(1.0),
-                       .field_42       = 0 },
+                       .camFlag        = TRUE,
+                       .scale          = FLOAT_TO_FX32(1.0), },
 
     [DOCKAREA_BOAT] = { .dockArea       = DOCKAREA_BOAT,
                         .mapArea        = MAPAREA_BOAT,
-                        .field_8        = { 0, 0, -0x1E000 },
-                        .field_14       = 0x80000,
-                        .field_18       = 0xEAAB,
-                        .field_1C       = -0x69000,
-                        .field_20       = 0,
-                        .field_24       = 0,
-                        .field_28       = 0x69000,
-                        .field_2C       = 0,
-                        .field_30       = 0x4C000,
+                        .camOffset      = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(30.0) },
+                        .camPosZ        = FLOAT_TO_FX32(128.0),
+                        .camAngle       = FLOAT_DEG_TO_IDX(330.005),
+                        .camBounds = {
+                            .min        = { -FLOAT_TO_FX32(105.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0) },
+                            .max        = { FLOAT_TO_FX32(105.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(76.0) },
+                        },
                         .shadowAlpha    = GX_COLOR_FROM_888(0x60),
                         .playerTopSpeed = FLOAT_TO_FX32(2.0),
-                        .field_3C       = 1,
-                        .scale          = FLOAT_TO_FX32(1.5),
-                        .field_42       = 0 },
+                        .camFlag        = TRUE,
+                        .scale          = FLOAT_TO_FX32(1.5), },
 
     [DOCKAREA_HOVER] = { .dockArea       = DOCKAREA_HOVER,
                          .mapArea        = MAPAREA_HOVER,
-                         .field_8        = { 0, 0, -0x1E000 },
-                         .field_14       = 0x80000,
-                         .field_18       = 0xEAAB,
-                         .field_1C       = -0x55000,
-                         .field_20       = 0,
-                         .field_24       = 0,
-                         .field_28       = 0x2D000,
-                         .field_2C       = 0,
-                         .field_30       = 0x4C000,
+                         .camOffset      = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(30.0) },
+                         .camPosZ        = FLOAT_TO_FX32(128.0),
+                         .camAngle       = FLOAT_DEG_TO_IDX(330.005),
+                         .camBounds = {
+                            .min         = { -FLOAT_TO_FX32(85.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0) },
+                            .max         = { FLOAT_TO_FX32(45.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(76.0) },
+                         },
                          .shadowAlpha    = GX_COLOR_FROM_888(0x60),
                          .playerTopSpeed = FLOAT_TO_FX32(2.0),
-                         .field_3C       = 1,
-                         .scale          = FLOAT_TO_FX32(1.5),
-                         .field_42       = 0 },
+                         .camFlag        = TRUE,
+                         .scale          = FLOAT_TO_FX32(1.5), },
 
     [DOCKAREA_SUBMARINE] = { .dockArea       = DOCKAREA_SUBMARINE,
                              .mapArea        = MAPAREA_SUBMARINE,
-                             .field_8        = { 0, 0, -0x1E000 },
-                             .field_14       = 0x80000,
-                             .field_18       = 0xEAAB,
-                             .field_1C       = -0x2D000,
-                             .field_20       = 0,
-                             .field_24       = 0,
-                             .field_28       = 0x2D000,
-                             .field_2C       = 0,
-                             .field_30       = 0x4C000,
+                             .camOffset      = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(30.0) },
+                             .camPosZ        = FLOAT_TO_FX32(128.0),
+                             .camAngle       = FLOAT_DEG_TO_IDX(330.005),
+                             .camBounds = {
+                                .min         = { -FLOAT_TO_FX32(45.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0) },
+                                .max         = { FLOAT_TO_FX32(45.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(76.0) },
+                             },
                              .shadowAlpha    = GX_COLOR_FROM_888(0x60),
                              .playerTopSpeed = FLOAT_TO_FX32(2.0),
-                             .field_3C       = 1,
-                             .scale          = FLOAT_TO_FX32(1.5),
-                             .field_42       = 0 },
+                             .camFlag        = TRUE,
+                             .scale          = FLOAT_TO_FX32(1.5), },
 
     [DOCKAREA_BEACH] = { .dockArea       = DOCKAREA_BEACH,
                          .mapArea        = MAPAREA_BEACH,
-                         .field_8        = { 0, 0, -0x8000 },
-                         .field_14       = 0x64000,
-                         .field_18       = 0xE38F,
-                         .field_1C       = -0xB000,
-                         .field_20       = 0,
-                         .field_24       = -0x100000,
-                         .field_28       = 0xB000,
-                         .field_2C       = 0,
-                         .field_30       = 0x21000,
+                         .camOffset      = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(8.0) },
+                         .camPosZ        = FLOAT_TO_FX32(100.0),
+                         .camAngle       = FLOAT_DEG_TO_IDX(320.005),
+                         .camBounds = {
+                            .min         = {-FLOAT_TO_FX32(11.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(256.0) },
+                            .max         = {FLOAT_TO_FX32(11.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(33.0) },
+                         },
                          .shadowAlpha    = GX_COLOR_FROM_888(0x80),
                          .playerTopSpeed = FLOAT_TO_FX32(2.0),
-                         .field_3C       = 1,
-                         .scale          = FLOAT_TO_FX32(1.0),
-                         .field_42       = 0 },
+                         .camFlag        = TRUE,
+                         .scale          = FLOAT_TO_FX32(1.0), },
 
     // No stage for DOCKAREA_DRILL
 };
@@ -935,9 +914,9 @@ const Unknown2171FE8 *HubConfig__Func_2152960(u16 area)
     return &ovl05_02171FE8[area];
 }
 
-const DockStageConfig *HubConfig__GetDockStageConfig(u16 area)
+const CViDockAreaConfig *HubConfig__GetDockStageConfig(u16 area)
 {
-    return &HubConfig__dockStageConfig[area];
+    return &dockAreaConfig[area];
 }
 
 const Unknown2171914 *HubConfig__GetDockUnknownConfig(u16 area)
@@ -945,39 +924,39 @@ const Unknown2171914 *HubConfig__GetDockUnknownConfig(u16 area)
     return &dockUnknownConfig[area];
 }
 
-const DockMapConfig *HubConfig__GetDockMapConfig(u16 area)
+const CViMapAreaConfig *HubConfig__GetDockMapConfig(u16 area)
 {
-    return &dockMapConfig[area];
+    return &mapAreaConfig[area];
 }
 
-const DockMapConfig *HubConfig__GetDockMapUnknownConfig(u16 area)
+const CViMapAreaConfig *HubConfig__GetDockMapUnknownConfig(u16 area)
 {
-    return &dockMapConfig_Unknown[area];
+    return &mapAreaUpgradeConfig[area];
 }
 
-const HubPurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id)
+const CViPurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id)
 {
     return &shipBuildCost[id];
 }
 
-const HubPurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void)
+const CViPurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void)
 {
     return &radioTowerCost[0];
 }
 
-const HubPurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id)
+const CViPurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id)
 {
     return &decorPurchaseCost[id];
 }
 
-const HubPurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id)
+const CViPurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id)
 {
     return &shipUpgradeCost[id];
 }
 
-const ViDockBackConfig *HubConfig__GetDockBackInfo(u16 id)
+const CViDockBackAreaConfig *HubConfig__GetDockBackInfo(u16 id)
 {
-    return &dockBackInfo[id];
+    return &dockBackAreaConfig[id];
 }
 
 const HubNpcSpawnConfig *HubConfig__GetNpcConfig(u16 id)
@@ -1000,7 +979,7 @@ const u16 *HubConfig__Func_2152A40(u16 id)
     return &ovl05_02171864[id];
 }
 
-const ViMapBackConfig *HubConfig__GetMapBackConfig(s32 id)
+const CViMapDecorConfig *HubConfig__GetMapBackConfig(s32 id)
 {
     return &mapDecorGraphicsConfig[id];
 }

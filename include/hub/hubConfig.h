@@ -105,6 +105,12 @@ enum CViDockNpcSpawnType
 // STRUCTS
 // --------------------
 
+struct CViDockCameraBounds
+{
+    VecFx32 min;
+    VecFx32 max;
+};
+
 typedef struct Unknown2171FE8_
 {
     s16 field_0;
@@ -123,21 +129,15 @@ typedef struct DockStageConfig_
 {
     DockArea dockArea;
     MapArea mapArea;
-    VecFx32 field_8;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
+    VecFx32 camOffset;
+    fx32 camPosZ;
+    u16 camAngle;
+    struct CViDockCameraBounds camBounds;
     GXRgb shadowAlpha;
     fx32 playerTopSpeed;
-    s32 field_3C;
-    s16 scale;
-    s16 field_42;
-} DockStageConfig;
+    BOOL camFlag;
+    fx16 scale;
+} CViDockAreaConfig;
 
 typedef struct DockMapConfig_
 {
@@ -148,24 +148,24 @@ typedef struct DockMapConfig_
     u16 rotationX;
     u16 msgSeqShipCompleted;
     u16 materialCount;
-    u16 field_16;
+    u16 unknown;
     u16 materials[8];
-} DockMapConfig;
+} CViMapAreaConfig;
 
 typedef struct ViDockBackConfig_
 {
-    s32 field_0;
+    DockArea dockArea;
     u16 resModelShip;
     u16 resJointAnimShip;
     u16 resModelDock;
     u16 resJointAnimDock;
     u16 resTextureAnimDock;
     u16 resPatternAnimDock;
-    u16 field_10;
-    u16 field_12;
-    s32 field_14;
-    u16 field_18;
-} ViDockBackConfig;
+    u16 resDrawState;
+    u16 resUnknown;
+    fx32 shipPosY;
+    u16 dockRotationY;
+} CViDockBackAreaConfig;
 
 typedef struct HubNpcTalkActionConfig_
 {
@@ -200,7 +200,7 @@ typedef struct HubPurchaseCostConfig_
 {
     u32 ringCost;
     u8 materialCost[9];
-} HubPurchaseCostConfig;
+} CViPurchaseCostConfig;
 
 typedef struct HubAnnounceMsgConfig_
 {
@@ -217,34 +217,34 @@ typedef struct HubPurchaseMsgConfig_
 typedef struct Unknown2171914_
 {
     u32 dockArea;
-    u32 field_4;
+    u32 unknown;
 } Unknown2171914;
 
 typedef struct ViMapBackConfig_
 {
     u16 flags;
     u16 animID;
-} ViMapBackConfig;
+} CViMapDecorConfig;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
 const Unknown2171FE8 *HubConfig__Func_2152960(u16 area);
-const DockStageConfig *HubConfig__GetDockStageConfig(u16 area);
+const CViDockAreaConfig *HubConfig__GetDockStageConfig(u16 area);
 const Unknown2171914 *HubConfig__GetDockUnknownConfig(u16 area);
-const DockMapConfig *HubConfig__GetDockMapConfig(u16 area);
-const DockMapConfig *HubConfig__GetDockMapUnknownConfig(u16 area);
-const HubPurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id);
-const HubPurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void);
-const HubPurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id);
-const HubPurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id);
-const ViDockBackConfig *HubConfig__GetDockBackInfo(u16 id);
+const CViMapAreaConfig *HubConfig__GetDockMapConfig(u16 area);
+const CViMapAreaConfig *HubConfig__GetDockMapUnknownConfig(u16 area);
+const CViPurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id);
+const CViPurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void);
+const CViPurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id);
+const CViPurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id);
+const CViDockBackAreaConfig *HubConfig__GetDockBackInfo(u16 id);
 const HubNpcSpawnConfig *HubConfig__GetNpcConfig(u16 id);
 const u16 *HubConfig__Func_2152A20(u16 id);
 const u16 *HubConfig__Func_2152A30(u16 id);
 const u16 *HubConfig__Func_2152A40(u16 id);
-const ViMapBackConfig *HubConfig__GetMapBackConfig(s32 id);
+const CViMapDecorConfig *HubConfig__GetMapBackConfig(s32 id);
 BOOL HubConfig__Func_2152A60(u16 id);
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Tails(void);
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Marine(void);

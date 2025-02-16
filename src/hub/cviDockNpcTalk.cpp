@@ -172,7 +172,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
     }
 
     work->eventTalk.SetPage(page);
-    CViDock::Func_215E340(1, 1);
+    CViDock::Func_215E340(TRUE, TRUE);
 }
 
 void CViDockNpcTalk::Release()

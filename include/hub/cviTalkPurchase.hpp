@@ -139,8 +139,8 @@ private:
     static BOOL CanPurchaseShipUpgrade(s32 id);
     static s32 GetMaterialCount(u16 type);
     static BOOL GetRingCount();
-    static BOOL CanMakePurchase(const HubPurchaseCostConfig *config);
-    static void MakePurchase(const HubPurchaseCostConfig *config);
+    static BOOL CanMakePurchase(const CViPurchaseCostConfig *config);
+    static void MakePurchase(const CViPurchaseCostConfig *config);
 };
 
 #endif // RUSH_CVITALKPURCHASE_HPP

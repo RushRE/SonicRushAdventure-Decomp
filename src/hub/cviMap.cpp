@@ -870,7 +870,7 @@ void ViMap__Main_ConstructionCutscene(void)
 {
     CViMap *work;
     GXRgb color;
-    const DockMapConfig *config;
+    const CViMapAreaConfig *config;
     BOOL flag = FALSE;
     u16 v4;
     s16 v3;
@@ -1142,7 +1142,7 @@ void ViMap__Func_215D374(CViMap *work)
     {
         if (HubControl::CheckShipConstructed(i))
         {
-            const DockMapConfig *config = HubConfig__GetDockMapConfig(i);
+            const CViMapAreaConfig *config = HubConfig__GetDockMapConfig(i);
 
             ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__Func_2152A30(HubConfig__Func_2152960(config->unknownArea)->field_3C));
         }
@@ -1177,7 +1177,7 @@ NONMATCH_FUNC void ViMap__Func_215D4B4(CViMap *work)
 {
     // https://decomp.me/scratch/ZoGxf -> 95.65%
 #ifdef NON_MATCHING
-    const DockMapConfig *config;
+    const CViMapAreaConfig *config;
     if (work->shipConstructionID < CViMap::CONSTRUCT_SHIP_COUNT)
         config = HubConfig__GetDockMapConfig(work->shipConstructionID);
     else

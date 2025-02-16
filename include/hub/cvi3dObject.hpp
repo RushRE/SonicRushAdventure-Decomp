@@ -132,7 +132,7 @@ public:
     void Init();
     void Release();
 
-    void Draw(VecFx32 *position);
+    void Draw(VecFx32 &position);
 };
 
 extern "C"

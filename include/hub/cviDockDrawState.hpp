@@ -2,6 +2,7 @@
 #define RUSH_CVIDOCKDRAWSTATE_HPP
 
 #include <game/graphics/drawReqTask.h>
+#include <hub/hubConfig.h>
 
 // --------------------
 // STRUCTS
@@ -14,12 +15,6 @@ struct CViDockDrawStateUnknown
     u16 angle1;
     u16 angle2;
     u16 projFOV;
-};
-
-struct CViDockDrawStateUnknown2
-{
-    VecFx32 field_0;
-    VecFx32 field_C;
 };
 
 struct CViDockDrawState
@@ -36,7 +31,7 @@ struct CViDockDrawState
     CViDockDrawStateUnknown field_60;
     u16 field_78;
     u16 field_7A;
-    CViDockDrawStateUnknown2 field_7C;
+    CViDockCameraBounds bounds;
     VecFx32 camPos;
     VecFx32 camTarget;
     VecFx32 camUp;
@@ -58,7 +53,7 @@ extern "C"
 void ViDockDrawState__Func_21639A4(CViDockDrawState *work, s32 area, s32 a3);
 void ViDockDrawState__Func_2163A50(CViDockDrawState *work);
 void ViDockDrawState__Func_2163A7C(CViDockDrawState *work, s32 a2);
-void ViDockDrawState__Func_2163A84(CViDockDrawState *work, const VecFx32 *a2);
+void ViDockDrawState__SetCamTarget(CViDockDrawState *work, const VecFx32 *a2);
 void ViDockDrawState__Func_2163AA0(CViDockDrawState *work, VecFx32 *pos, u16 a3, VecFx32 *a4, fx32 a5, BOOL a6);
 void ViDockDrawState__Func_2163C3C(CViDockDrawState *work, u16 a2);
 void ViDockDrawState__Func_2163C80(CViDockDrawState *work);

@@ -34,7 +34,9 @@ public:
     // --------------------
 
     DockArea dockArea;
-    CVi3dObject dockObj[3];
+    CVi3dObject dockObj0;
+    CVi3dObject dockObj1;
+    CVi3dObject dockObj2;
     BOOL dockVisible;
     void *resModelDock;
     void *resJointAnimDock;
@@ -70,13 +72,13 @@ public:
 
     static void GetPlayerSpawnConfig(s32 id, VecFx32 *position, u16 *angle, s32 area);
 
-    static BOOL Collide_Base(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
-    static BOOL Collide_BaseNext(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
-    static BOOL Collide_Jet(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
-    static BOOL Collide_Boat(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
-    static BOOL Collide_Hover(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
-    static BOOL Collide_Submarine(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
-    static BOOL Collide_Beach(VecFx32 *pos0, const VecFx32 *pos, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Base(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_BaseNext(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Jet(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Boat(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Hover(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Submarine(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+    static BOOL Collide_Beach(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area);
 
     static BOOL CheckExitArea_Base(const VecFx32 *pos);
     static BOOL CheckExitArea_BaseNext(const VecFx32 *pos);

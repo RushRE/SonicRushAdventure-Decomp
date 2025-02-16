@@ -40,7 +40,7 @@ public:
     u32 npcListSize;
     CViDockNpcGroupEntry *npcListStart;
     CViDockNpcGroupEntry *npcListEnd;
-    CVi3dArrow viArrow;
+    CVi3dArrow npcArrow;
 
     // --------------------
     // MEMBER FUNCTIONS
@@ -64,7 +64,7 @@ public:
 
     void Init();
     void Process();
-    void Draw(VecFx32 *position);
+    void Draw(VecFx32 &position);
     CViDockNpcGroupEntry *HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale);
     CViDockNpcGroupEntry *FindNpcInTalkRange(VecFx32 *playerPos, u16 playerAngle, fx32 scale, BOOL *canTalk, CViDockNpcGroupEntry *startNpc);
 };

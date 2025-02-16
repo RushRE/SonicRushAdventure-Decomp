@@ -14153,7 +14153,7 @@
 .public ViDockDrawState__Func_21639A4
 .public ViDockDrawState__Func_2163A50
 .public ViDockDrawState__Func_2163A7C
-.public ViDockDrawState__Func_2163A84
+.public ViDockDrawState__SetCamTarget
 .public ViDockDrawState__Func_2163AA0
 .public ViDockDrawState__Func_2163C3C
 .public ViDockDrawState__Func_2163C80
@@ -14568,8 +14568,8 @@
 .public HubConfig__dockMapConfig
 .public HubConfig__DockBackInfo
 .public HubConfig__npcConfig
-.public dockMapConfig_Unknown
-.public HubConfig__dockStageConfig
+.public mapAreaUpgradeConfig
+.public dockAreaConfig
 .public ovl05_02171FE8
 .public ovl05_021721E8
 .public ovl05_021721EC

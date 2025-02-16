@@ -26,7 +26,7 @@ NOT_DECOMPILED void _ZN15CViDockNpcGroup10GetNextNpcEP20CViDockNpcGroupEntry(voi
 NOT_DECOMPILED void _ZnwmPv(void);
 NOT_DECOMPILED void _ZdlPv(void);
 NOT_DECOMPILED void _ZN10HubControl12TouchEnabledEv(void);
-NOT_DECOMPILED void _ZN15CViDockNpcGroup4DrawEP7VecFx32(void);
+NOT_DECOMPILED void _ZN15CViDockNpcGroup4DrawER7VecFx32(void);
 NOT_DECOMPILED void _ZN11CVi3dObject4DrawEv(void);
 
 NOT_DECOMPILED void _ZN11CViDockBack8DrawDockEttt(void);
@@ -416,39 +416,39 @@ void CViDock::StartTalkingToNpc(void)
 
     if (work->talkNpc != NULL)
     {
-        CVector3 v10 = work->player.position.ToConstVecFx32Ref();
-        CVector3 v9  = work->talkNpc->position.ToConstVecFx32Ref();
+        CVector3 playerPos = work->player.position.ToConstVecFx32Ref();
+        CVector3 npcPos    = work->talkNpc->position.ToConstVecFx32Ref();
 
-        CVector3 a1;
-        CVector3 vec;
+        CVector3 camTarget;
+        CVector3 camUnknown;
 
-        a1 = (v10 - v9).Normalize();
+        camTarget = (playerPos - npcPos).Normalize();
 
-        u16 angle = Math__Func_207B1A4(a1.z);
+        u16 angle = Math__Func_207B1A4(camTarget.z);
 
-        BOOL flag = a1.x < 0;
+        BOOL flag = camTarget.x < 0;
         if (flag)
             angle = 0x10000 - angle;
 
         work->talkNpc->SetAngleForTalking(angle);
         work->player.SetTurnAngle(angle - 0x7FFF, FALSE);
 
-        vec = (v9 - v10);
+        camUnknown = (npcPos - playerPos);
 
-        a1.x = vec.x >> 1;
-        a1.y = vec.y >> 1;
-        a1.z = vec.z >> 1;
-        a1 += v10;
-        vec.Normalize();
+        camTarget.x = camUnknown.x >> 1;
+        camTarget.y = camUnknown.y >> 1;
+        camTarget.z = camUnknown.z >> 1;
+        camTarget += playerPos;
+        camUnknown.Normalize();
 
-        work->field_1478 = a1.ToVecFx32Ref();
-        work->field_1484 = vec.ToVecFx32Ref();
+        work->camTarget  = camTarget.ToVecFx32Ref();
+        work->camUnknown = camUnknown.ToVecFx32Ref();
     }
 
     SetTaskMainEvent(taskSingleton, CViDock::Main_TalkActive);
 }
 
-void CViDock::Func_215E340(s32 a1, s32 a2)
+void CViDock::Func_215E340(BOOL a1, BOOL a2)
 {
     if (taskSingleton == NULL)
         return;
@@ -457,12 +457,12 @@ void CViDock::Func_215E340(s32 a1, s32 a2)
 
     if (work->field_1470 != 0 && work->talkNpc != 0)
     {
-        if (work->type != CViDock::TYPE_0 || work->area >= CViDock::AREA_COUNT || !HubConfig__GetDockStageConfig(work->area)->field_3C)
-            a1 = 0;
+        if (work->type != CViDock::TYPE_0 || work->area >= CViDock::AREA_COUNT || !HubConfig__GetDockStageConfig(work->area)->camFlag)
+            a1 = FALSE;
 
         if (a1)
         {
-            ViDockDrawState__Func_2163AA0(&work->dockDrawState, &work->field_1478, 32, &work->field_1484, HubConfig__GetDockStageConfig(work->area)->scale, a2);
+            ViDockDrawState__Func_2163AA0(&work->dockDrawState, &work->camTarget, 32, &work->camUnknown, HubConfig__GetDockStageConfig(work->area)->scale, a2);
         }
         else
         {
@@ -537,7 +537,7 @@ void CViDock::LoadCharacterStates(BOOL loadAngle)
 
     if (HubState__CheckHasPlayerState(0))
     {
-        work->player.position = *HubState__GetPlayerPosition(0);
+        work->player.position         = *HubState__GetPlayerPosition(0);
         work->player.targetTurnAngle  = HubState__GetPlayerAngle(0);
         work->player.currentTurnAngle = work->player.targetTurnAngle;
     }
@@ -580,9 +580,9 @@ void CViDock::Func_215E678(CViDock *work)
     FontWindowAnimator__Init(&work->fontWindowAnimator);
     FontAnimator__Init(&work->fontAnimator);
 
-    work->field_146C      = 0;
-    work->field_C         = TRUE;
-    work->disableExitArea = FALSE;
+    work->inSailPromptRange = FALSE;
+    work->field_C           = TRUE;
+    work->disableExitArea   = FALSE;
 }
 
 void CViDock::Release(CViDock *work)
@@ -600,8 +600,8 @@ void CViDock::Release(CViDock *work)
     CViDock::ReleaseDockBack(work);
     CViDock::ReleasePlayer(work);
 
-    work->field_146C = 0;
-    work->field_C    = FALSE;
+    work->inSailPromptRange = FALSE;
+    work->field_C           = FALSE;
 }
 
 void CViDock::InitPlayer(CViDock *work, s32 area)
@@ -626,7 +626,7 @@ void CViDock::InitPlayer(CViDock *work, s32 area)
         work->player.SetTurnAngle(angle, TRUE);
 
         position.x = position.y = position.z = HubConfig__GetDockStageConfig(work->area)->scale;
-        work->player.scale = position;
+        work->player.scale                   = position;
 
         work->player.SetTopSpeed(HubConfig__GetDockStageConfig(work->area)->playerTopSpeed);
     }
@@ -650,7 +650,7 @@ NONMATCH_FUNC void CViDock::HandlePlayerMovement(CViDock *work)
         BOOL touchEnabled = IsTouchInputEnabled() && TOUCH_HAS_ON(touchInput.flags);
         if (touchEnabled && HubControl::TouchEnabled())
         {
-            VecFx32 vec;
+            CVector3 vec;
 
             u16 onX = touchInput.on.x;
             u16 onY = touchInput.on.y;
@@ -670,7 +670,7 @@ NONMATCH_FUNC void CViDock::HandlePlayerMovement(CViDock *work)
             CVector3::Magnitude(&magnitude, &vec);
             if (FX32_TO_WHOLE(magnitude) >= 4)
             {
-                vec.Normalize(vec);
+                vec.Normalize();
                 angle    = FX_Atan2Idx(vec.x, vec.y);
                 isMoving = TRUE;
             }
@@ -957,7 +957,7 @@ void CViDock::InitNpcs(CViDock *work)
                 entry->npc.Init(type, a1a.ToVecFx32Ref(), config->spawnAngle, snapToAngle);
 
                 a2.x = a2.y = a2.z = HubConfig__GetDockStageConfig(work->area)->scale;
-                entry->npc.scale = a2;
+                entry->npc.scale   = a2;
 
                 u32 type  = actionConfig->talkActionType;
                 u32 param = actionConfig->talkActionParam;
@@ -1425,7 +1425,7 @@ NONMATCH_FUNC void CViDock::Draw(CViDock *work, BOOL drawPlayer, BOOL drawNpcs, 
     {
         if (work->area < CViDock::AREA_COUNT)
         {
-            rotationY = HubConfig__GetDockBackInfo(HubConfig__GetDockStageConfig(work->area)->dockArea)->field_18;
+            rotationY = HubConfig__GetDockBackInfo(HubConfig__GetDockStageConfig(work->area)->dockArea)->dockRotationY;
         }
         else
         {
@@ -1465,7 +1465,7 @@ NONMATCH_FUNC void CViDock::Draw(CViDock *work, BOOL drawPlayer, BOOL drawNpcs, 
 
     if (drawNpcs && drawPlayer)
     {
-        work->npcGroup.Draw(&work->player.position.ToConstVecFx32Ref());
+        work->npcGroup.Draw(work->player.position.ToConstVecFx32Ref());
     }
 
     NNS_G3dGePopMtx(1);
@@ -1604,7 +1604,7 @@ _0215F8A4:
 	add r2, r10, #0x130
 	mov r1, r0
 	add r0, r2, #0x1000
-	bl _ZN15CViDockNpcGroup4DrawEP7VecFx32
+	bl _ZN15CViDockNpcGroup4DrawER7VecFx32
 _0215F8CC:
 	mov r2, #1
 	add r1, sp, #8
@@ -1639,7 +1639,7 @@ void CViDock::Main_Init(void)
 {
     CViDock *work = TaskGetWorkCurrent(CViDock);
 
-    ViDockDrawState__Func_2163A84(&work->dockDrawState, &work->player.position.ToConstVecFx32Ref());
+    ViDockDrawState__SetCamTarget(&work->dockDrawState, &work->player.position.ToConstVecFx32Ref());
     ViDockDrawState__Func_2163C80(&work->dockDrawState);
     work->player.Process(FLOAT_TO_FX32(1.0));
     work->dockBack.Process();
@@ -1660,7 +1660,7 @@ void CViDock::Main_PlayerActive(void)
 {
     CViDock *work = TaskGetWorkCurrent(CViDock);
 
-    const DockStageConfig *config = HubConfig__GetDockStageConfig(work->area);
+    const CViDockAreaConfig *config = HubConfig__GetDockStageConfig(work->area);
     CViDock::HandlePlayerMovement(work);
 
     work->player.Process(HubConfig__GetDockStageConfig(work->area)->scale);
@@ -1673,19 +1673,19 @@ void CViDock::Main_PlayerActive(void)
     BOOL flag1;
     u32 area;
     work->dockBack.ProcessCollision(prevPlayerPos, curPlayerPos, &newPlayerPos, &isSailPrompt, &flag1, &area);
-    newPlayerPos.y = work->dockBack.GetFloorPosition(newPlayerPos);
+    newPlayerPos.y        = work->dockBack.GetFloorPosition(newPlayerPos);
     work->player.position = newPlayerPos;
 
     if (isSailPrompt)
     {
-        if ((padInput.btnPress & PAD_BUTTON_A) == 0 && work->field_146C)
+        if ((padInput.btnPress & PAD_BUTTON_A) == 0 && work->inSailPromptRange)
             isSailPrompt = FALSE;
 
-        work->field_146C = 1;
+        work->inSailPromptRange = TRUE;
     }
     else
     {
-        work->field_146C = 0;
+        work->inSailPromptRange = FALSE;
     }
 
     if (flag1)
@@ -1706,8 +1706,8 @@ void CViDock::Main_PlayerActive(void)
     newPlayerPos.z      = temp->z;
 
     if (work->area < CViDock::AREA_COUNT)
-        VEC_Add(&newPlayerPos, &config->field_8, &newPlayerPos);
-    ViDockDrawState__Func_2163A84(&work->dockDrawState, &newPlayerPos);
+        VEC_Add(&newPlayerPos, &config->camOffset, &newPlayerPos);
+    ViDockDrawState__SetCamTarget(&work->dockDrawState, &newPlayerPos);
     ViDockDrawState__Func_2163C80(&work->dockDrawState);
     CViDock::HandleEnvironmentSfx(work);
     CViDock::Draw(work, TRUE, TRUE, TRUE);
@@ -1801,7 +1801,7 @@ void CViDock::Main_TalkActive(void)
 {
     CViDock *work = TaskGetWorkCurrent(CViDock);
 
-    const DockStageConfig *config = HubConfig__GetDockStageConfig(work->area);
+    const CViDockAreaConfig *config = HubConfig__GetDockStageConfig(work->area);
     if (work->charactersEnabled)
     {
         work->player.Process(FLOAT_TO_FX32(1.0));
@@ -1811,14 +1811,14 @@ void CViDock::Main_TalkActive(void)
     work->dockBack.Process();
 
     const VecFx32 &temp = work->player.position.ToConstVecFx32Ref();
-    VecFx32 dest;
-    dest.x = temp.x;
-    dest.y = temp.y;
-    dest.z = temp.z;
+    VecFx32 camTarget;
+    camTarget.x = temp.x;
+    camTarget.y = temp.y;
+    camTarget.z = temp.z;
     if (work->area < CViDock::AREA_COUNT)
-        VEC_Add(&dest, &config->field_8, &dest);
+        VEC_Add(&camTarget, &config->camOffset, &camTarget);
 
-    ViDockDrawState__Func_2163A84(&work->dockDrawState, &dest);
+    ViDockDrawState__SetCamTarget(&work->dockDrawState, &camTarget);
     ViDockDrawState__Func_2163C80(&work->dockDrawState);
 
     CViDock::Draw(work, work->charactersEnabled, work->charactersEnabled, TRUE);
@@ -1848,7 +1848,7 @@ void CViDock::Main_215FE68(void)
 {
     CViDock *work = TaskGetWorkCurrent(CViDock);
 
-    const DockMapConfig *config = HubConfig__GetDockMapConfig(work->area);
+    const CViMapAreaConfig *config = HubConfig__GetDockMapConfig(work->area);
 
     ViDockDrawState__Func_2163C80(&work->dockDrawState);
     work->dockBack.Process();

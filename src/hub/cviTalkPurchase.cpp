@@ -379,7 +379,7 @@ BOOL CViTalkPurchase::GetRingCount()
     return saveGame.stage.ringCount;
 }
 
-BOOL CViTalkPurchase::CanMakePurchase(const HubPurchaseCostConfig *config)
+BOOL CViTalkPurchase::CanMakePurchase(const CViPurchaseCostConfig *config)
 {
     if (config->ringCost > CViTalkPurchase::GetRingCount())
         return FALSE;
@@ -393,7 +393,7 @@ BOOL CViTalkPurchase::CanMakePurchase(const HubPurchaseCostConfig *config)
     return TRUE;
 }
 
-void CViTalkPurchase::MakePurchase(const HubPurchaseCostConfig *config)
+void CViTalkPurchase::MakePurchase(const CViPurchaseCostConfig *config)
 {
     if (config->ringCost != 0)
         saveGame.stage.ringCount -= config->ringCost;

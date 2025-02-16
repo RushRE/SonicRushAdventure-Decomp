@@ -673,7 +673,7 @@ void CViShadow::Release()
     this->alpha = GX_COLOR_FROM_888(0x7F);
 }
 
-void CViShadow::Draw(VecFx32 *position)
+void CViShadow::Draw(VecFx32 &position)
 {
     MtxFx43 mtx;
     MtxFx33 mtxRot;
@@ -690,9 +690,9 @@ void CViShadow::Draw(VecFx32 *position)
     MTX_Identity33(&mtxRot);
     NNS_G3dGlbSetBaseRot(&mtxRot);
 
-    scale.x = position->x - (this->scale >> 1);
-    scale.y = position->y + 1024;
-    scale.z = position->z - (this->scale >> 1);
+    scale.x = position.x - (this->scale >> 1);
+    scale.y = position.y + 1024;
+    scale.z = position.z - (this->scale >> 1);
     NNS_G3dGlbSetBaseTrans(&scale);
     NNS_G3dGlbFlushVP();
 

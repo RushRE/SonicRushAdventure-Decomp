@@ -21,7 +21,6 @@ NOT_DECOMPILED void _Znwm(void);
 NOT_DECOMPILED void _ZdlPv(void);
 
 NOT_DECOMPILED void _ZN15CViDockNpcGroup12ClearNpcListEv(void);
-
 }
 
 // --------------------
@@ -31,15 +30,13 @@ NOT_DECOMPILED void _ZN15CViDockNpcGroup12ClearNpcListEv(void);
 // CViDockNpcGroup::CViDockNpcGroup()
 NONMATCH_FUNC void _ZN15CViDockNpcGroupC1Ev()
 {
+    // will match when CVi3dArrow constructor is decompiled
 #ifdef NON_MATCHING
-    // TODO: remove this, it will be called implicitly by the compiler when CVi3dArrow::CVi3dArrow is decompiled
-    _ZN10CVi3dArrowC1Ev(&this->viArrow);
-
     this->npcListSize  = 0;
     this->npcListStart = NULL;
     this->npcListEnd   = NULL;
 #else
-// clang-format off
+    // clang-format off
     stmdb sp!, {r4, lr}
     mov r4, r0
     ldr r1, =_ZTV15CViDockNpcGroup+0x08
@@ -59,13 +56,11 @@ NONMATCH_FUNC void _ZN15CViDockNpcGroupC1Ev()
 // CViDockNpcGroup::~CViDockNpcGroup()
 NONMATCH_FUNC void _ZN15CViDockNpcGroupD0Ev()
 {
+    // will match when CVi3dArrow constructor is decompiled
 #ifdef NON_MATCHING
-    ClearNpcList();
-
-    // TODO: remove this, it will be called implicitly by the compiler when CVi3dArrow::~CVi3dArrow is decompiled
-    _ZN10CVi3dArrowD0Ev(&this->viArrow);
+    this->ClearNpcList();
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV15CViDockNpcGroup+0x08
 	mov r4, r0
@@ -83,12 +78,9 @@ NONMATCH_FUNC void _ZN15CViDockNpcGroupD0Ev()
 NONMATCH_FUNC void _ZN15CViDockNpcGroupD1Ev()
 {
 #ifdef NON_MATCHING
-    ClearNpcList();
-
-    // TODO: remove this, it will be called implicitly by the compiler when CVi3dArrow::~CVi3dArrow is decompiled
-    _ZN10CVi3dArrowD0Ev(&this->viArrow);
+    this->ClearNpcList();
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV15CViDockNpcGroup+0x08
 	mov r4, r0
@@ -106,7 +98,7 @@ NONMATCH_FUNC void _ZN15CViDockNpcGroupD1Ev()
 
 void CViDockNpcGroup::ClearNpcList()
 {
-    viArrow.Release();
+    npcArrow.Release();
 
     CViDockNpcGroupEntry *entry = GetFirstNpc();
 
@@ -120,14 +112,9 @@ void CViDockNpcGroup::ClearNpcList()
 
 NONMATCH_FUNC CViDockNpcGroupEntry *CViDockNpcGroup::AddNpc()
 {
+    // will match when CViDockNpc constructor is decompiled
 #ifdef NON_MATCHING
     CViDockNpcGroupEntry *newEntry = new CViDockNpcGroupEntry;
-
-    // TODO: remove this when it's properly decompiled
-    if (newEntry != NULL)
-    {
-        _ZN10CViDockNpcC1Ev(&newEntry->npc);
-    }
 
     if (npcListStart != NULL)
     {
@@ -149,7 +136,7 @@ NONMATCH_FUNC CViDockNpcGroupEntry *CViDockNpcGroup::AddNpc()
 
     return newEntry;
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #0x340
@@ -183,6 +170,7 @@ _021684B8:
 
 NONMATCH_FUNC void CViDockNpcGroup::RemoveNpc(CViDockNpcGroupEntry *entry)
 {
+    // will match when CViDockNpc destructor is decompiled
 #ifdef NON_MATCHING
     if (entry->prev != NULL)
         entry->prev->next = entry->next;
@@ -194,17 +182,11 @@ NONMATCH_FUNC void CViDockNpcGroup::RemoveNpc(CViDockNpcGroupEntry *entry)
     else
         npcListEnd = entry->prev;
 
-    if (entry != NULL)
-    {
-        // TODO: remove this when it's properly decompiled
-        _ZN10CViDockNpcD0Ev(&entry->npc);
-
-        delete entry;
-    }
+    delete entry;
 
     npcListSize--;
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r1
 	ldr r1, [r4, #0x33c]
@@ -245,7 +227,7 @@ CViDockNpcGroupEntry *CViDockNpcGroup::GetNextNpc(CViDockNpcGroupEntry *npc)
 
 void CViDockNpcGroup::Init()
 {
-    viArrow.Init();
+    npcArrow.Init();
 }
 
 void CViDockNpcGroup::Process()
@@ -259,10 +241,10 @@ void CViDockNpcGroup::Process()
         entry = GetNextNpc(entry);
     }
 
-    viArrow.Process();
+    npcArrow.Process();
 }
 
-void CViDockNpcGroup::Draw(VecFx32 *position)
+void CViDockNpcGroup::Draw(VecFx32 &position)
 {
     CViDockNpcGroupEntry *entry = GetFirstNpc();
 
@@ -272,8 +254,8 @@ void CViDockNpcGroup::Draw(VecFx32 *position)
         {
             if (entry->npc.Allow3dArrow(position))
             {
-                viArrow.position = entry->npc.position.ToConstVecFx32Ref();
-                viArrow.Draw();
+                npcArrow.position = entry->npc.position.ToConstVecFx32Ref();
+                npcArrow.Draw();
             }
         }
 

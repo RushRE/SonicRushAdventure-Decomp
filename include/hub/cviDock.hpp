@@ -70,11 +70,11 @@ public:
     s32 talkActionType;
     s32 talkActionParam;
     CViDockNpc *talkNpc;
-    s32 field_146C;
+    BOOL inSailPromptRange;
     s32 field_1470;
     s32 field_1474;
-    VecFx32 field_1478;
-    VecFx32 field_1484;
+    VecFx32 camTarget;
+    VecFx32 camUnknown;
     FontWindowAnimator fontWindowAnimator;
     FontAnimator fontAnimator;
     u16 rotationY;
@@ -118,7 +118,7 @@ public:
     static s32 GetTalkingNpc(void);
     static void SetTalkingNpc(s32 id);
     static void StartTalkingToNpc(void);
-    static void Func_215E340(s32 a1, s32 a2);
+    static void Func_215E340(BOOL a1, BOOL a2);
     static void FinishTalkingToNpc(void);
     static BOOL Func_215E4A0(void);
     static void SetCharactersEnabled(BOOL enabled);

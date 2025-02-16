@@ -40,7 +40,7 @@ NOT_DECOMPILED void Unknown2051334__Func_2051334(fx32 a1, fx32 a2, fx32 a3, fx32
 NOT_DECOMPILED fx32 (*getGroundPosForDockArea[CViDock::AREA_COUNT])(const VecFx32 *pos);
 NOT_DECOMPILED void (*drawShadowForArea[CViDock::AREA_COUNT])(CViShadow *work, fx32 scale, fx32 x, fx32 z);
 NOT_DECOMPILED BOOL (*checkAreaExitForArea[CViDock::AREA_COUNT])(const VecFx32 *pos);
-NOT_DECOMPILED BOOL (*handleCollisionsForArea[CViDock::AREA_COUNT])(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+NOT_DECOMPILED BOOL (*handleCollisionsForArea[CViDock::AREA_COUNT])(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area);
 NOT_DECOMPILED void (*getPlayerSpawnConfigForArea[CViDock::AREA_COUNT])(VecFx32 *position, u16 *angle, s32 area);
 
 /*
@@ -59,7 +59,7 @@ static BOOL (*checkAreaExitForArea[CViDock::AREA_COUNT])(const VecFx32 *pos) = {
     CViDockBack::CheckExitArea_Hover, CViDockBack::CheckExitArea_Submarine, CViDockBack::CheckExitArea_Beach,
 };
 
-static BOOL (*handleCollisionsForArea[CViDock::AREA_COUNT])(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area) = {
+static BOOL (*handleCollisionsForArea[CViDock::AREA_COUNT])(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area) = {
     CViDockBack::Collide_Base,  CViDockBack::Collide_BaseNext,  CViDockBack::Collide_Jet,   CViDockBack::Collide_Boat,
     CViDockBack::Collide_Hover, CViDockBack::Collide_Submarine, CViDockBack::Collide_Beach,
 };
@@ -259,7 +259,7 @@ void CViDockBack::Init(s32 dockArea, BOOL noAssetRelease, BOOL disableAnimations
     this->dockArea = dockArea;
     if (dockArea < DOCKAREA_NONE)
     {
-        const ViDockBackConfig *config = HubConfig__GetDockBackInfo(dockArea);
+        const CViDockBackAreaConfig *config = HubConfig__GetDockBackInfo(dockArea);
         if (disableAnimations == FALSE)
         {
             void *resJointAnimDock;
@@ -292,27 +292,27 @@ void CViDockBack::Init(s32 dockArea, BOOL noAssetRelease, BOOL disableAnimations
 
             if (this->dockArea != DOCKAREA_BEACH)
             {
-                this->dockObj[0].SetResources(this->resModelDock, 0, FALSE, FALSE, resJointAnimDock, NULL, NULL, resPatternAnim, resTextureAnim, CVI3DOBJECT_RESOURCE_NONE);
+                this->dockObj0.SetResources(this->resModelDock, 0, FALSE, FALSE, resJointAnimDock, NULL, NULL, resPatternAnim, resTextureAnim, CVI3DOBJECT_RESOURCE_NONE);
 
                 if (config->resJointAnimDock != CVI3DOBJECT_RESOURCE_NONE)
-                    this->dockObj[0].SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+                    this->dockObj0.SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
                 if (config->resTextureAnimDock != CVI3DOBJECT_RESOURCE_NONE)
-                    this->dockObj[0].SetVisibilityAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+                    this->dockObj0.SetVisibilityAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
                 if (config->resPatternAnimDock != CVI3DOBJECT_RESOURCE_NONE)
-                    this->dockObj[0].SetTextureAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+                    this->dockObj0.SetTextureAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
             }
             else
             {
-                this->dockObj[0].SetResources(this->resModelDock, 0, FALSE, FALSE, resJointAnimDock, NULL, NULL, resPatternAnim, resTextureAnim, CVI3DOBJECT_RESOURCE_NONE);
+                this->dockObj0.SetResources(this->resModelDock, 0, FALSE, FALSE, resJointAnimDock, NULL, NULL, resPatternAnim, resTextureAnim, CVI3DOBJECT_RESOURCE_NONE);
 
-                this->dockObj[1].SetResources(&this->dockObj[0], 1, FALSE, FALSE, CVI3DOBJECT_RESOURCE_NONE);
-                this->dockObj[1].SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
-                this->dockObj[1].SetTextureAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+                this->dockObj1.SetResources(&this->dockObj0, 1, FALSE, FALSE, CVI3DOBJECT_RESOURCE_NONE);
+                this->dockObj1.SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+                this->dockObj1.SetTextureAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
-                this->dockObj[2].SetResources(&this->dockObj[0], 2, FALSE, FALSE, CVI3DOBJECT_RESOURCE_NONE);
-                this->dockObj[2].SetJointAnimForBody(1, TRUE, FALSE, FALSE, FALSE);
+                this->dockObj2.SetResources(&this->dockObj0, 2, FALSE, FALSE, CVI3DOBJECT_RESOURCE_NONE);
+                this->dockObj2.SetJointAnimForBody(1, TRUE, FALSE, FALSE, FALSE);
             }
 
             this->dockVisible = TRUE;
@@ -339,7 +339,7 @@ void CViDockBack::Init(s32 dockArea, BOOL noAssetRelease, BOOL disableAnimations
                 if (config->resJointAnimShip != CVI3DOBJECT_RESOURCE_NONE)
                     this->shipObj.SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
-                CVector3 a1(0, config->field_14, 0);
+                CVector3 a1(0, config->shipPosY, 0);
                 this->shipObj.position = a1.ToVecFx32Ref();
             }
 
@@ -376,9 +376,9 @@ void CViDockBack::Release()
 
     if (this->dockVisible)
     {
-        this->dockObj[0].Release();
-        this->dockObj[1].Release();
-        this->dockObj[2].Release();
+        this->dockObj0.Release();
+        this->dockObj1.Release();
+        this->dockObj2.Release();
         this->dockVisible = FALSE;
     }
 
@@ -396,11 +396,11 @@ void CViDockBack::Process()
 {
     if (this->dockVisible)
     {
-        this->dockObj[0].Process();
+        this->dockObj0.Process();
         if (this->dockArea == DOCKAREA_BEACH)
         {
-            this->dockObj[1].Process();
-            this->dockObj[2].Process();
+            this->dockObj1.Process();
+            this->dockObj2.Process();
         }
     }
 
@@ -430,22 +430,22 @@ void CViDockBack::DrawDock(u16 rotationY, u16 rotationX, u16 rotationZ)
 {
     if (this->dockVisible)
     {
-        this->dockObj[0].targetTurnAngle = rotationY;
-        this->dockObj[0].rotationX       = rotationX;
-        this->dockObj[0].rotationZ       = rotationZ;
-        this->dockObj[0].Draw();
+        this->dockObj0.targetTurnAngle = rotationY;
+        this->dockObj0.rotationX       = rotationX;
+        this->dockObj0.rotationZ       = rotationZ;
+        this->dockObj0.Draw();
 
         if (this->dockArea == DOCKAREA_BEACH)
         {
-            this->dockObj[1].targetTurnAngle = rotationY;
-            this->dockObj[1].rotationX       = rotationX;
-            this->dockObj[1].rotationZ       = rotationZ;
-            this->dockObj[1].Draw();
+            this->dockObj1.targetTurnAngle = rotationY;
+            this->dockObj1.rotationX       = rotationX;
+            this->dockObj1.rotationZ       = rotationZ;
+            this->dockObj1.Draw();
 
-            this->dockObj[2].targetTurnAngle = rotationY;
-            this->dockObj[2].rotationX       = rotationX;
-            this->dockObj[2].rotationZ       = rotationZ;
-            this->dockObj[2].Draw();
+            this->dockObj2.targetTurnAngle = rotationY;
+            this->dockObj2.rotationX       = rotationX;
+            this->dockObj2.rotationZ       = rotationZ;
+            this->dockObj2.Draw();
         }
     }
 
@@ -483,7 +483,7 @@ void CViDockBack::GetPlayerSpawnConfig(s32 id, VecFx32 *position, u16 *angle, s3
     getPlayerSpawnConfigForArea[id](position, angle, area);
 }
 
-NONMATCH_FUNC BOOL CViDockBack::Collide_Base(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+NONMATCH_FUNC BOOL CViDockBack::Collide_Base(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     // https://decomp.me/scratch/ytRAy -> 93.62%
 #ifdef NON_MATCHING
@@ -498,20 +498,20 @@ NONMATCH_FUNC BOOL CViDockBack::Collide_Base(VecFx32 *pos0, const VecFx32 *pos1,
     if (area != NULL)
         *area = DOCKAREA_BASE;
 
-    fx32 x1 = pos1->x;
-    fx32 x0 = pos0->x;
-    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    fx32 x1 = curPlayerPos->x;
+    fx32 x0 = prevPlayerPos->x;
+    if (prevPlayerPos->x == curPlayerPos->x && prevPlayerPos->y == curPlayerPos->y && prevPlayerPos->z == curPlayerPos->z)
     {
-        pos2->x = pos1->x;
-        pos2->y = pos1->y;
-        pos2->z = pos1->z;
+        newPlayerPos->x = curPlayerPos->x;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = curPlayerPos->z;
     }
     else
     {
-        fx32 z0   = pos0->z;
-        fx32 outX = pos1->x;
-        fx32 z1   = pos1->z;
-        fx32 outZ = pos1->z;
+        fx32 z0   = prevPlayerPos->z;
+        fx32 outX = curPlayerPos->x;
+        fx32 z1   = curPlayerPos->z;
+        fx32 outZ = curPlayerPos->z;
 
         if (z0 > FLOAT_TO_FX32(19.0))
         {
@@ -652,14 +652,14 @@ NONMATCH_FUNC BOOL CViDockBack::Collide_Base(VecFx32 *pos0, const VecFx32 *pos1,
             }
         }
 
-        pos2->x = outX;
-        pos2->y = pos1->y;
-        pos2->z = outZ;
+        newPlayerPos->x = outX;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = outZ;
 
-        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+        if (newPlayerPos->x != curPlayerPos->x || newPlayerPos->y != curPlayerPos->y || newPlayerPos->z != curPlayerPos->z)
             collided = TRUE;
 
-        if (pos2->x >= FLOAT_TO_FX32(23.0) && area != NULL)
+        if (newPlayerPos->x >= FLOAT_TO_FX32(23.0) && area != NULL)
             *area = DOCKAREA_BASE_NEXT;
     }
 
@@ -964,7 +964,7 @@ _02165090:
 #endif
 }
 
-NONMATCH_FUNC BOOL CViDockBack::Collide_BaseNext(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+NONMATCH_FUNC BOOL CViDockBack::Collide_BaseNext(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     // https://decomp.me/scratch/iQo2Y -> 97.87%
 #ifdef NON_MATCHING
@@ -979,11 +979,11 @@ NONMATCH_FUNC BOOL CViDockBack::Collide_BaseNext(VecFx32 *pos0, const VecFx32 *p
     if (area != NULL)
         *area = DOCKAREA_BASE_NEXT;
 
-    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    if (prevPlayerPos->x == curPlayerPos->x && prevPlayerPos->y == curPlayerPos->y && prevPlayerPos->z == curPlayerPos->z)
     {
-        pos2->x = pos1->x;
-        pos2->y = pos1->y;
-        pos2->z = pos1->z;
+        newPlayerPos->x = curPlayerPos->x;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = curPlayerPos->z;
     }
     else
     {
@@ -991,9 +991,9 @@ NONMATCH_FUNC BOOL CViDockBack::Collide_BaseNext(VecFx32 *pos0, const VecFx32 *p
         fx32 outZ;
         fx32 x0;
 
-        x0   = pos0->x;
-        outX = pos1->x;
-        outZ = pos1->z;
+        x0   = prevPlayerPos->x;
+        outX = curPlayerPos->x;
+        outZ = curPlayerPos->z;
 
         if (outZ < -FLOAT_TO_FX32(3.0))
             outZ = -FLOAT_TO_FX32(3.0);
@@ -1033,14 +1033,14 @@ NONMATCH_FUNC BOOL CViDockBack::Collide_BaseNext(VecFx32 *pos0, const VecFx32 *p
             }
         }
 
-        pos2->x = outX;
-        pos2->y = pos1->y;
-        pos2->z = outZ;
+        newPlayerPos->x = outX;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = outZ;
 
-        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+        if (newPlayerPos->x != curPlayerPos->x || newPlayerPos->y != curPlayerPos->y || newPlayerPos->z != curPlayerPos->z)
             collided = TRUE;
 
-        if (pos2->x <= -FLOAT_TO_FX32(22.0) && area != NULL)
+        if (newPlayerPos->x <= -FLOAT_TO_FX32(22.0) && area != NULL)
             *area = DOCKAREA_BASE;
     }
 
@@ -1171,7 +1171,7 @@ _0216525C:
 #endif
 }
 
-NONMATCH_FUNC BOOL CViDockBack::Collide_Jet(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+NONMATCH_FUNC BOOL CViDockBack::Collide_Jet(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     // https://decomp.me/scratch/sFudn -> 98.95%
 #ifdef NON_MATCHING
@@ -1186,20 +1186,20 @@ NONMATCH_FUNC BOOL CViDockBack::Collide_Jet(VecFx32 *pos0, const VecFx32 *pos1, 
     if (area != NULL)
         *area = DOCKAREA_JET;
 
-    fx32 x1 = pos1->x;
-    fx32 x0 = pos0->x;
+    fx32 x1 = curPlayerPos->x;
+    fx32 x0 = prevPlayerPos->x;
 
-    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    if (prevPlayerPos->x == curPlayerPos->x && prevPlayerPos->y == curPlayerPos->y && prevPlayerPos->z == curPlayerPos->z)
     {
-        pos2->x = pos1->x;
-        pos2->y = pos1->y;
-        pos2->z = pos1->z;
+        newPlayerPos->x = curPlayerPos->x;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = curPlayerPos->z;
     }
     else
     {
-        fx32 z0   = pos0->z;
-        fx32 outX = pos1->x;
-        fx32 outZ = pos1->z;
+        fx32 z0   = prevPlayerPos->z;
+        fx32 outX = curPlayerPos->x;
+        fx32 outZ = curPlayerPos->z;
 
         if (z0 > FLOAT_TO_FX32(47.0))
         {
@@ -1264,15 +1264,15 @@ NONMATCH_FUNC BOOL CViDockBack::Collide_Jet(VecFx32 *pos0, const VecFx32 *pos1, 
             }
         }
 
-        pos2->x = outX;
-        pos2->y = pos1->y;
-        pos2->z = outZ;
+        newPlayerPos->x = outX;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = outZ;
 
-        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+        if (newPlayerPos->x != curPlayerPos->x || newPlayerPos->y != curPlayerPos->y || newPlayerPos->z != curPlayerPos->z)
             collided = TRUE;
     }
 
-    if (pos2->z <= FLOAT_TO_FX32(18.0) && pos2->x >= -FLOAT_TO_FX32(10.0) && pos2->x <= FLOAT_TO_FX32(5.0))
+    if (newPlayerPos->z <= FLOAT_TO_FX32(18.0) && newPlayerPos->x >= -FLOAT_TO_FX32(10.0) && newPlayerPos->x <= FLOAT_TO_FX32(5.0))
     {
         if (isSailPrompt != NULL)
             *isSailPrompt = TRUE;
@@ -1452,7 +1452,7 @@ _021654BC:
 #endif
 }
 
-BOOL CViDockBack::Collide_Boat(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+BOOL CViDockBack::Collide_Boat(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     BOOL collided = FALSE;
 
@@ -1465,20 +1465,20 @@ BOOL CViDockBack::Collide_Boat(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2
     if (area != NULL)
         *area = DOCKAREA_BOAT;
 
-    fx32 x1 = pos1->x;
-    fx32 x0 = pos0->x;
+    fx32 x1 = curPlayerPos->x;
+    fx32 x0 = prevPlayerPos->x;
 
-    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    if (prevPlayerPos->x == curPlayerPos->x && prevPlayerPos->y == curPlayerPos->y && prevPlayerPos->z == curPlayerPos->z)
     {
-        pos2->x = pos1->x;
-        pos2->y = pos1->y;
-        pos2->z = pos1->z;
+        newPlayerPos->x = curPlayerPos->x;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = curPlayerPos->z;
     }
     else
     {
-        fx32 z0   = pos0->z;
-        fx32 outX = pos1->x;
-        fx32 outZ = pos1->z;
+        fx32 z0   = prevPlayerPos->z;
+        fx32 outX = curPlayerPos->x;
+        fx32 outZ = curPlayerPos->z;
 
         if (x0 < -FLOAT_TO_FX32(25.0))
         {
@@ -1619,15 +1619,15 @@ BOOL CViDockBack::Collide_Boat(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2
             }
         }
 
-        pos2->x = outX;
-        pos2->y = pos1->y;
-        pos2->z = outZ;
+        newPlayerPos->x = outX;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = outZ;
 
-        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+        if (newPlayerPos->x != curPlayerPos->x || newPlayerPos->y != curPlayerPos->y || newPlayerPos->z != curPlayerPos->z)
             collided = TRUE;
     }
 
-    if (pos2->z <= FLOAT_TO_FX32(49.0))
+    if (newPlayerPos->z <= FLOAT_TO_FX32(49.0))
     {
         if (isSailPrompt != NULL)
             *isSailPrompt = TRUE;
@@ -1641,7 +1641,7 @@ BOOL CViDockBack::Collide_Boat(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2
     return collided;
 }
 
-BOOL CViDockBack::Collide_Hover(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+BOOL CViDockBack::Collide_Hover(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     BOOL collided = FALSE;
 
@@ -1654,20 +1654,20 @@ BOOL CViDockBack::Collide_Hover(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos
     if (area != NULL)
         *area = DOCKAREA_HOVER;
 
-    fx32 x1 = pos1->x;
-    fx32 x0 = pos0->x;
+    fx32 x1 = curPlayerPos->x;
+    fx32 x0 = prevPlayerPos->x;
 
-    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    if (prevPlayerPos->x == curPlayerPos->x && prevPlayerPos->y == curPlayerPos->y && prevPlayerPos->z == curPlayerPos->z)
     {
-        pos2->x = x1;
-        pos2->y = pos1->y;
-        pos2->z = pos1->z;
+        newPlayerPos->x = x1;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = curPlayerPos->z;
     }
     else
     {
-        fx32 z0   = pos0->z;
-        fx32 outX = pos1->x;
-        fx32 outZ = pos1->z;
+        fx32 z0   = prevPlayerPos->z;
+        fx32 outX = curPlayerPos->x;
+        fx32 outZ = curPlayerPos->z;
 
         if (x0 < -FLOAT_TO_FX32(25.0))
         {
@@ -1808,15 +1808,15 @@ BOOL CViDockBack::Collide_Hover(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos
             }
         }
 
-        pos2->x = outX;
-        pos2->y = pos1->y;
-        pos2->z = outZ;
+        newPlayerPos->x = outX;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = outZ;
 
-        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+        if (newPlayerPos->x != curPlayerPos->x || newPlayerPos->y != curPlayerPos->y || newPlayerPos->z != curPlayerPos->z)
             collided = TRUE;
     }
 
-    if (pos2->z <= FLOAT_TO_FX32(49.0))
+    if (newPlayerPos->z <= FLOAT_TO_FX32(49.0))
     {
         if (isSailPrompt != NULL)
             *isSailPrompt = TRUE;
@@ -1830,7 +1830,7 @@ BOOL CViDockBack::Collide_Hover(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos
     return collided;
 }
 
-NONMATCH_FUNC BOOL CViDockBack::Collide_Submarine(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+NONMATCH_FUNC BOOL CViDockBack::Collide_Submarine(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     // https://decomp.me/scratch/Fgcs0 -> 91.21%
 #ifdef NON_MATCHING
@@ -1845,20 +1845,20 @@ NONMATCH_FUNC BOOL CViDockBack::Collide_Submarine(VecFx32 *pos0, const VecFx32 *
     if (area != NULL)
         *area = DOCKAREA_SUBMARINE;
 
-    fx32 x1 = pos1->x;
-    fx32 x0 = pos0->x;
+    fx32 x1 = curPlayerPos->x;
+    fx32 x0 = prevPlayerPos->x;
 
-    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    if (prevPlayerPos->x == curPlayerPos->x && prevPlayerPos->y == curPlayerPos->y && prevPlayerPos->z == curPlayerPos->z)
     {
-        pos2->x = pos1->x;
-        pos2->y = pos1->y;
-        pos2->z = pos1->z;
+        newPlayerPos->x = curPlayerPos->x;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = curPlayerPos->z;
     }
     else
     {
-        fx32 z0   = pos0->z;
-        fx32 outX = pos1->x;
-        fx32 outZ = pos1->z;
+        fx32 z0   = prevPlayerPos->z;
+        fx32 outX = curPlayerPos->x;
+        fx32 outZ = curPlayerPos->z;
 
         if (z0 >= FLOAT_TO_FX32(30.0) && z0 <= FLOAT_TO_FX32(60.0))
             outZ = z0 + ((outZ - z0) >> 1);
@@ -2001,15 +2001,15 @@ NONMATCH_FUNC BOOL CViDockBack::Collide_Submarine(VecFx32 *pos0, const VecFx32 *
             }
         }
 
-        pos2->x = outX;
-        pos2->y = pos1->y;
-        pos2->z = outZ;
+        newPlayerPos->x = outX;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = outZ;
 
-        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+        if (newPlayerPos->x != curPlayerPos->x || newPlayerPos->y != curPlayerPos->y || newPlayerPos->z != curPlayerPos->z)
             collided = TRUE;
     }
 
-    if (pos2->z <= FLOAT_TO_FX32(10.0))
+    if (newPlayerPos->z <= FLOAT_TO_FX32(10.0))
     {
         if (isSailPrompt != NULL)
             *isSailPrompt = TRUE;
@@ -2299,7 +2299,7 @@ _0216614C:
 #endif
 }
 
-BOOL CViDockBack::Collide_Beach(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos2, BOOL *isSailPrompt, BOOL *a5, u32 *area)
+BOOL CViDockBack::Collide_Beach(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area)
 {
     BOOL collided = FALSE;
 
@@ -2312,16 +2312,16 @@ BOOL CViDockBack::Collide_Beach(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos
     if (area != NULL)
         *area = DOCKAREA_BEACH;
 
-    if (pos0->x == pos1->x && pos0->y == pos1->y && pos0->z == pos1->z)
+    if (prevPlayerPos->x == curPlayerPos->x && prevPlayerPos->y == curPlayerPos->y && prevPlayerPos->z == curPlayerPos->z)
     {
-        pos2->x = pos1->x;
-        pos2->y = pos1->y;
-        pos2->z = pos1->z;
+        newPlayerPos->x = curPlayerPos->x;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = curPlayerPos->z;
     }
     else
     {
-        fx32 outX = pos1->x;
-        fx32 outZ = pos1->z;
+        fx32 outX = curPlayerPos->x;
+        fx32 outZ = curPlayerPos->z;
 
         if (outX < FLOAT_TO_FX32(17.0) && outZ > FLOAT_TO_FX32(10.0) && outZ < FLOAT_TO_FX32(18.0))
         {
@@ -2340,11 +2340,11 @@ BOOL CViDockBack::Collide_Beach(VecFx32 *pos0, const VecFx32 *pos1, VecFx32 *pos
         if (outX < -FLOAT_TO_FX32(20.0))
             outX = -FLOAT_TO_FX32(20.0);
 
-        pos2->x = outX;
-        pos2->y = pos1->y;
-        pos2->z = outZ;
+        newPlayerPos->x = outX;
+        newPlayerPos->y = curPlayerPos->y;
+        newPlayerPos->z = outZ;
 
-        if (pos2->x != pos1->x || pos2->y != pos1->y || pos2->z != pos1->z)
+        if (newPlayerPos->x != curPlayerPos->x || newPlayerPos->y != curPlayerPos->y || newPlayerPos->z != curPlayerPos->z)
             collided = TRUE;
     }
 
@@ -2487,7 +2487,7 @@ void CViDockBack::DrawShadow_Common(CViShadow *work, fx32 scale, fx32 x, fx32 z)
 
     position.y = CViDockBack::GetGroundPos_Common(&position);
 
-    work->Draw(&position);
+    work->Draw(position);
 }
 
 void CViDockBack::DrawShadow_Submarine(CViShadow *work, fx32 scale, fx32 x, fx32 z)
@@ -2501,7 +2501,7 @@ void CViDockBack::DrawShadow_Submarine(CViShadow *work, fx32 scale, fx32 x, fx32
 
     position.y = CViDockBack::GetGroundPos_Submarine(&position);
 
-    work->Draw(&position);
+    work->Draw(position);
 }
 
 void CViDockBack::ThreadFunc(void *arg)

@@ -56,7 +56,7 @@ public:
     void SetAngleForIdle();
     BOOL HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale);
     BOOL CheckPlayerInTalkRange(VecFx32 *playerPos, u16 playerAngle, fx32 scale, BOOL *canTalk);
-    BOOL Allow3dArrow(VecFx32 *position);
+    BOOL Allow3dArrow(VecFx32 &position);
 };
 
 // --------------------
