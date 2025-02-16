@@ -40,7 +40,8 @@ NOT_DECOMPILED void Unknown2051334__Func_2051334(fx32 a1, fx32 a2, fx32 a3, fx32
 NOT_DECOMPILED fx32 (*getGroundPosForDockArea[CViDock::AREA_COUNT])(const VecFx32 *pos);
 NOT_DECOMPILED void (*drawShadowForArea[CViDock::AREA_COUNT])(CViShadow *work, fx32 scale, fx32 x, fx32 z);
 NOT_DECOMPILED BOOL (*checkAreaExitForArea[CViDock::AREA_COUNT])(const VecFx32 *pos);
-NOT_DECOMPILED BOOL (*handleCollisionsForArea[CViDock::AREA_COUNT])(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5, u32 *area);
+NOT_DECOMPILED BOOL (*handleCollisionsForArea[CViDock::AREA_COUNT])(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, BOOL *isSailPrompt, BOOL *a5,
+                                                                    u32 *area);
 NOT_DECOMPILED void (*getPlayerSpawnConfigForArea[CViDock::AREA_COUNT])(VecFx32 *position, u16 *angle, s32 area);
 
 /*
@@ -81,12 +82,12 @@ NONMATCH_FUNC void _ZN11CViDockBackC1Ev(CViDockBack *work)
 {
     // will match when 'CVi3dObject' constructor is decompiled
 #ifdef NON_MATCHING
-    this->resModelDock     = HeapAllocHead(HEAP_USER, 0x20000);
-    this->resJointAnimDock = HeapAllocHead(HEAP_USER, 0x2000);
-    this->resModelShip     = HeapAllocHead(HEAP_USER, 0x40000);
-    this->resJointAnimShip = HeapAllocHead(HEAP_USER, 0x2000);
-    this->resTextureAnim   = HeapAllocHead(HEAP_USER, 0x2000);
-    this->resPatternAnim   = HeapAllocHead(HEAP_USER, 0x800);
+    this->resModelDock     = HeapAllocHead(HEAP_USER, KiB(128));
+    this->resJointAnimDock = HeapAllocHead(HEAP_USER, KiB(8));
+    this->resModelShip     = HeapAllocHead(HEAP_USER, KiB(256));
+    this->resJointAnimShip = HeapAllocHead(HEAP_USER, KiB(8));
+    this->resTextureAnim   = HeapAllocHead(HEAP_USER, KiB(8));
+    this->resPatternAnim   = HeapAllocHead(HEAP_USER, KiB(2));
 
     this->dockVisible = FALSE;
     this->shipVisible = FALSE;
@@ -292,27 +293,27 @@ void CViDockBack::Init(s32 dockArea, BOOL noAssetRelease, BOOL disableAnimations
 
             if (this->dockArea != DOCKAREA_BEACH)
             {
-                this->dockObj0.SetResources(this->resModelDock, 0, FALSE, FALSE, resJointAnimDock, NULL, NULL, resPatternAnim, resTextureAnim, CVI3DOBJECT_RESOURCE_NONE);
+                this->objDockEnvironment.SetResources(this->resModelDock, 0, FALSE, FALSE, resJointAnimDock, NULL, NULL, resPatternAnim, resTextureAnim, CVI3DOBJECT_RESOURCE_NONE);
 
                 if (config->resJointAnimDock != CVI3DOBJECT_RESOURCE_NONE)
-                    this->dockObj0.SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+                    this->objDockEnvironment.SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
                 if (config->resTextureAnimDock != CVI3DOBJECT_RESOURCE_NONE)
-                    this->dockObj0.SetVisibilityAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+                    this->objDockEnvironment.SetVisibilityAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
                 if (config->resPatternAnimDock != CVI3DOBJECT_RESOURCE_NONE)
-                    this->dockObj0.SetTextureAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+                    this->objDockEnvironment.SetTextureAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
             }
             else
             {
-                this->dockObj0.SetResources(this->resModelDock, 0, FALSE, FALSE, resJointAnimDock, NULL, NULL, resPatternAnim, resTextureAnim, CVI3DOBJECT_RESOURCE_NONE);
+                this->objDockEnvironment.SetResources(this->resModelDock, 0, FALSE, FALSE, resJointAnimDock, NULL, NULL, resPatternAnim, resTextureAnim, CVI3DOBJECT_RESOURCE_NONE);
 
-                this->dockObj1.SetResources(&this->dockObj0, 1, FALSE, FALSE, CVI3DOBJECT_RESOURCE_NONE);
-                this->dockObj1.SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
-                this->dockObj1.SetTextureAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+                this->objDockWater.SetResources(&this->objDockEnvironment, 1, FALSE, FALSE, CVI3DOBJECT_RESOURCE_NONE);
+                this->objDockWater.SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+                this->objDockWater.SetTextureAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
-                this->dockObj2.SetResources(&this->dockObj0, 2, FALSE, FALSE, CVI3DOBJECT_RESOURCE_NONE);
-                this->dockObj2.SetJointAnimForBody(1, TRUE, FALSE, FALSE, FALSE);
+                this->objDockWetSand.SetResources(&this->objDockEnvironment, 2, FALSE, FALSE, CVI3DOBJECT_RESOURCE_NONE);
+                this->objDockWetSand.SetJointAnimForBody(1, TRUE, FALSE, FALSE, FALSE);
             }
 
             this->dockVisible = TRUE;
@@ -332,15 +333,15 @@ void CViDockBack::Init(s32 dockArea, BOOL noAssetRelease, BOOL disableAnimations
                 }
             }
 
-            this->shipObj.SetResources(this->resModelShip, 0, FALSE, FALSE, resJointAnim, NULL, NULL, NULL, NULL, CVI3DOBJECT_RESOURCE_NONE);
+            this->objDockShip.SetResources(this->resModelShip, 0, FALSE, FALSE, resJointAnim, NULL, NULL, NULL, NULL, CVI3DOBJECT_RESOURCE_NONE);
 
             if (disableAnimations == FALSE)
             {
                 if (config->resJointAnimShip != CVI3DOBJECT_RESOURCE_NONE)
-                    this->shipObj.SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
+                    this->objDockShip.SetJointAnimForBody(0, TRUE, FALSE, FALSE, FALSE);
 
                 CVector3 a1(0, config->shipPosY, 0);
-                this->shipObj.position = a1.ToVecFx32Ref();
+                this->objDockShip.position = a1.ToVecFx32Ref();
             }
 
             this->shipLoaded = TRUE;
@@ -376,15 +377,15 @@ void CViDockBack::Release()
 
     if (this->dockVisible)
     {
-        this->dockObj0.Release();
-        this->dockObj1.Release();
-        this->dockObj2.Release();
+        this->objDockEnvironment.Release();
+        this->objDockWater.Release();
+        this->objDockWetSand.Release();
         this->dockVisible = FALSE;
     }
 
     if (this->shipVisible)
     {
-        this->shipObj.Release();
+        this->objDockShip.Release();
         this->shipVisible = FALSE;
     }
 
@@ -396,26 +397,26 @@ void CViDockBack::Process()
 {
     if (this->dockVisible)
     {
-        this->dockObj0.Process();
+        this->objDockEnvironment.Process();
         if (this->dockArea == DOCKAREA_BEACH)
         {
-            this->dockObj1.Process();
-            this->dockObj2.Process();
+            this->objDockWater.Process();
+            this->objDockWetSand.Process();
         }
     }
 
     if (this->shipLoaded && this->shipVisible)
-        this->shipObj.Process();
+        this->objDockShip.Process();
 }
 
 void CViDockBack::SetShipPosition(fx32 y)
 {
     VecFx32 translation;
-    translation.x = this->shipObj.position.ToConstVecFx32Ref().x;
+    translation.x = this->objDockShip.position.ToConstVecFx32Ref().x;
     translation.y = y;
-    translation.z = this->shipObj.position.ToConstVecFx32Ref().z;
+    translation.z = this->objDockShip.position.ToConstVecFx32Ref().z;
 
-    this->shipObj.position = translation;
+    this->objDockShip.position = translation;
 }
 
 void CViDockBack::SetShipScale(fx32 scale)
@@ -423,38 +424,38 @@ void CViDockBack::SetShipScale(fx32 scale)
     VecFx32 scaleVec;
     scaleVec.x = scaleVec.y = scaleVec.z = scale;
 
-    this->shipObj.scale = scaleVec;
+    this->objDockShip.scale = scaleVec;
 }
 
 void CViDockBack::DrawDock(u16 rotationY, u16 rotationX, u16 rotationZ)
 {
     if (this->dockVisible)
     {
-        this->dockObj0.targetTurnAngle = rotationY;
-        this->dockObj0.rotationX       = rotationX;
-        this->dockObj0.rotationZ       = rotationZ;
-        this->dockObj0.Draw();
+        this->objDockEnvironment.targetTurnAngle = rotationY;
+        this->objDockEnvironment.rotationX       = rotationX;
+        this->objDockEnvironment.rotationZ       = rotationZ;
+        this->objDockEnvironment.Draw();
 
         if (this->dockArea == DOCKAREA_BEACH)
         {
-            this->dockObj1.targetTurnAngle = rotationY;
-            this->dockObj1.rotationX       = rotationX;
-            this->dockObj1.rotationZ       = rotationZ;
-            this->dockObj1.Draw();
+            this->objDockWater.targetTurnAngle = rotationY;
+            this->objDockWater.rotationX       = rotationX;
+            this->objDockWater.rotationZ       = rotationZ;
+            this->objDockWater.Draw();
 
-            this->dockObj2.targetTurnAngle = rotationY;
-            this->dockObj2.rotationX       = rotationX;
-            this->dockObj2.rotationZ       = rotationZ;
-            this->dockObj2.Draw();
+            this->objDockWetSand.targetTurnAngle = rotationY;
+            this->objDockWetSand.rotationX       = rotationX;
+            this->objDockWetSand.rotationZ       = rotationZ;
+            this->objDockWetSand.Draw();
         }
     }
 
     if (this->shipLoaded && this->shipVisible)
     {
-        this->shipObj.targetTurnAngle = rotationY;
-        this->shipObj.rotationX       = rotationX;
-        this->shipObj.rotationZ       = rotationZ;
-        this->shipObj.Draw();
+        this->objDockShip.targetTurnAngle = rotationY;
+        this->objDockShip.rotationX       = rotationX;
+        this->objDockShip.rotationZ       = rotationZ;
+        this->objDockShip.Draw();
     }
 }
 

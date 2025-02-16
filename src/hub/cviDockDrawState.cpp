@@ -16,7 +16,6 @@ extern "C"
 
 NOT_DECOMPILED void Unknown2051334__Func_20516B8(void);
 NOT_DECOMPILED void Unknown2051334__Func_2051600(void);
-
 }
 
 // --------------------
@@ -82,27 +81,15 @@ NONMATCH_FUNC void ViDockDrawState__Func_21639A4(CViDockDrawState *work, s32 are
 #endif
 }
 
-NONMATCH_FUNC void ViDockDrawState__Func_2163A50(CViDockDrawState *work)
+void ViDockDrawState__Func_2163A50(CViDockDrawState *work)
 {
-#ifdef NON_MATCHING
+    if (work->drawState != NULL)
+    {
+        HeapFree(HEAP_USER, work->drawState);
+        work->drawState = NULL;
+    }
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0xdc]
-	cmp r0, #0
-	beq _02163A70
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0xdc]
-_02163A70:
-	mov r0, #9
-	str r0, [r4, #4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    work->area = DOCKAREA_INVALID;
 }
 
 NONMATCH_FUNC void ViDockDrawState__Func_2163A7C(CViDockDrawState *work, s32 a2){

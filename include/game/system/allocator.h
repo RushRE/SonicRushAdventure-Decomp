@@ -31,6 +31,13 @@ extern "C"
 #define GetHeapTotalSize(heap)       _GetHeapTotalSize##heap()
 #define GetHeapUnallocatedSize(heap) _GetHeapUnallocatedSize##heap()
 
+// Used for large-scale allocations
+#define KiB(num) ((num) * 1024)
+#define MiB(num) (KiB(num) * 1024)
+
+#define KB(num) ((num) * 1000)
+#define MB(num) (KB(num) * 1000)
+
 // --------------------
 // ENUMS
 // --------------------

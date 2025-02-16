@@ -34,16 +34,16 @@ public:
     // --------------------
 
     DockArea dockArea;
-    CVi3dObject dockObj0;
-    CVi3dObject dockObj1;
-    CVi3dObject dockObj2;
+    CVi3dObject objDockEnvironment;
+    CVi3dObject objDockWater;
+    CVi3dObject objDockWetSand;
     BOOL dockVisible;
     void *resModelDock;
     void *resJointAnimDock;
     void *resTextureAnim;
     void *resPatternAnim;
     BOOL shipLoaded;
-    CVi3dObject shipObj;
+    CVi3dObject objDockShip;
     BOOL shipVisible;
     void *resModelShip;
     void *resJointAnimShip;
