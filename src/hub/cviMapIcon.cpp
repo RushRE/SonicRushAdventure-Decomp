@@ -53,7 +53,7 @@ void CViMapIcon::Init(BOOL useEngineB)
 
     VRAMPaletteKey vramPalette = useEngineB == GRAPHICS_ENGINE_A ? VRAM_OBJ_PLTT : VRAM_DB_OBJ_PLTT;
 
-    this->sprIcon = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_ICON_BAC);
+    this->sprIcon = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_ICON_BAC);
 
     VRAMPixelKey vramPixels = VRAMSystem__AllocSpriteVram(useEngineB, Sprite__GetSpriteSize3FromAnim(this->sprIcon, 0));
     AnimatorSprite__Init(&this->aniSonicMarker, this->sprIcon, 0, ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS | ANIMATOR_FLAG_DISABLE_LOOPING,

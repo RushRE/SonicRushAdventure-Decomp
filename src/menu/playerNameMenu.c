@@ -6,6 +6,7 @@
 #include <game/graphics/renderCore.h>
 #include <game/file/fsRequest.h>
 #include <game/system/sysEvent.h>
+#include <hub/dockCommon.h>
 
 // --------------------
 // FUNCTION DECLS
@@ -154,7 +155,7 @@ void PlayerNameMenu_Main(void)
         else
         {
             DestroyCurrentTask();
-            gameState.talk.state.hubStartAction = 1;
+            gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
             RequestSysEventChange(0); // SYSEVENT_RETURN_TO_HUB
             NextSysEvent();
         }

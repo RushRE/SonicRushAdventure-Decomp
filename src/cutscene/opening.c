@@ -425,7 +425,7 @@ void InitOpeningCameraForScene(Opening *work, s32 id)
     void *drawState = control->drawStateCutscene[id];
     LoadDrawState(drawState, DRAWSTATE_ALL & ~(DRAWSTATE_LOOKAT));
     GetDrawStateCameraView(drawState, &control->camera);
-    GetDrawStateCameraProjection(drawState, &control->camera);
+    GetDrawStateCameraProjection(drawState, &control->camera.config);
 
     switch (id)
     {

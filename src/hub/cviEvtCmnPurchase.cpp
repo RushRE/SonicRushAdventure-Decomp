@@ -58,7 +58,7 @@ void CViEvtCmnPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFi
     s32 matrialTopX;
     s32 matrialBottomX;
 
-    void *sprMaterial   = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_MAT32_256_BAC);
+    void *sprMaterial   = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_MAT32_256_BAC);
     u32 sprMaterialSize = getSpriteSize(sprMaterial);
 
     u16 *paletteColors = this->paletteColors;
@@ -101,7 +101,7 @@ void CViEvtCmnPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFi
         matrialBottomX += 36;
     }
 
-    void *sprMaterialFrame   = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_BD_MAT_FRAME_BAC);
+    void *sprMaterialFrame   = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_BD_MAT_FRAME_BAC);
     u32 sprMaterialFrameSize = getSpriteSize(sprMaterialFrame);
 
     AnimatorSprite *aniMaterialFrame = &this->aniMaterialFrame;
@@ -109,7 +109,7 @@ void CViEvtCmnPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFi
                          VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, sprMaterialFrameSize), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_2);
     aniMaterialFrame->cParam.palette = hudPaletteRow + PALETTE_ROW_0;
 
-    void *sprMenu   = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
+    void *sprMenu   = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
     u32 sprMenuSize = getSpriteSizeFromAnim(sprMenu, 0);
 
     AnimatorSprite *aniRingCountFrame = &this->aniRingCountFrame;
@@ -120,7 +120,7 @@ void CViEvtCmnPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFi
     aniRingCountFrame->cParam.palette = hudPaletteRow + PALETTE_ROW_1;
 
     AnimatorSprite *aniDigit;
-    void *sprNumbers  = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_NUMBER_BAC);
+    void *sprNumbers  = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_NUMBER_BAC);
     u32 sprNumberSize = getSpriteSize(sprNumbers);
 
     aniDigit = &this->aniNumbers[0];
@@ -146,7 +146,7 @@ void CViEvtCmnPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFi
     }
 
     FontWindowAnimator__Init(&this->fontWindowAnimator);
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_B_BBG, PIXEL_TO_TILE(0),
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetFontWindow(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_B_BBG, PIXEL_TO_TILE(0),
                               PIXEL_TO_TILE(104), PIXEL_TO_TILE(208), PIXEL_TO_TILE(88), GRAPHICS_ENGINE_B, backgroundID, windowPaletteRow, windowStartTile, windowFillTile);
 
     for (t = 0; t < SAVE_MATERIAL_COUNT; t++)

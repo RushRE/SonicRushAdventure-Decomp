@@ -7,6 +7,7 @@
 #include <game/save/saveGame.h>
 #include <game/audio/sysSound.h>
 #include <stage/core/demoPlayer.h>
+#include <hub/dockCommon.h>
 
 // --------------------
 // FUNCTION DECLS
@@ -90,8 +91,8 @@ void ChangeEventForStageFinish(BOOL willRestartStage)
             {
                 if (willRestartStage == FALSE)
                 {
-                    nextEvent                     = 3; // SYSEVENT_UPDATE_PROGRESS
-                    gameState.talk.state.hubStartAction = 7;
+                    nextEvent                           = 3; // SYSEVENT_UPDATE_PROGRESS
+                    gameState.talk.state.hubStartAction = HUB_STARTACTION_ZONE_GAME_OVER;
                     SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
                 }
             }
@@ -127,8 +128,8 @@ void ChangeEventForStageFinish(BOOL willRestartStage)
         case GAMEMODE_MISSION:
             if (!state->clearedMission)
             {
-                nextEvent                     = 5; // SYSEVENT_21
-                gameState.talk.state.hubStartAction = 5;
+                nextEvent                           = 5; // SYSEVENT_21
+                gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_MISSIONLIST_TALK;
                 SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
             }
             else
@@ -161,8 +162,8 @@ void ChangeEventForPauseMenuAction(BOOL isRestart)
                 break;
 
             case GAMEMODE_MISSION:
-                gameState.talk.state.hubStartAction = 5;
-                nextEvent                     = 3; // SYSEVENT_UPDATE_PROGRESS
+                gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_MISSIONLIST_TALK;
+                nextEvent                           = 3; // SYSEVENT_UPDATE_PROGRESS
                 SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
                 break;
 

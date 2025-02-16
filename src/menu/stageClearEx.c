@@ -194,7 +194,7 @@ void InitStageClearExGraphics3D(StageClearExGraphics3D *work, StageClearExAssets
 
     Camera3D *cameraConfig = &work->cameraConfig;
     GetDrawStateCameraView(drawState, cameraConfig);
-    GetDrawStateCameraProjection(drawState, cameraConfig);
+    GetDrawStateCameraProjection(drawState, &cameraConfig->config);
 
     work->projectionY = cameraConfig->config.projScaleW + MultiplyFX(cameraConfig->config.projScaleW, 260);
 

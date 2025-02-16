@@ -23,7 +23,7 @@
 
 static u32 selection;
 
-CViDockNpcGroupTalk talkAction = { CVIDOCKNPCTALK_ACTION_32 };
+CViDockNpcGroupTalk talkAction = { CVIDOCKNPCTALK_ACTION_INVALID };
 
 DockNpcGroupFunc talkActionTable[CVIDOCKNPCTALK_COUNT] = {
     CViDockNpcTalk::Create,                 // CVIDOCKNPCTALK_NPC
@@ -45,7 +45,7 @@ DockNpcGroupFunc talkActionTable[CVIDOCKNPCTALK_COUNT] = {
 
 void CViDockNpcTalk::CreateTalk(s32 type, s32 param)
 {
-    talkAction.action = CVIDOCKNPCTALK_ACTION_32;
+    talkAction.action = CVIDOCKNPCTALK_ACTION_INVALID;
 
     talkActionTable[type](param);
 }
@@ -138,7 +138,7 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
     {
         if (talkCount == 0)
         {
-            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), msg.msgCtrlFile), msg.msgTextID3, CVIEVTCMN_RESOURCE_NONE);
+            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), msg.msgCtrlFile), msg.msgTextID3, CVIEVTCMN_RESOURCE_NONE);
             page = 0;
             flag = TRUE;
         }
@@ -160,19 +160,19 @@ void CViDockNpcTalk::CreatePrivate(s32 messageID)
 
         if (flag)
         {
-            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), msg.msgCtrlFile), msg.msgTextID3, msg.msgTextID2);
+            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), msg.msgCtrlFile), msg.msgTextID3, msg.msgTextID2);
             page = 0;
-            CViDock::Func_215E098();
+            CViDock::DecrementTalkingNpcTalkCount();
         }
         else
         {
-            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), msg.msgCtrlFile), msg.msgTextID1, msg.msgTextID2);
+            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), msg.msgCtrlFile), msg.msgTextID1, msg.msgTextID2);
             page = FX_ModS32(talkCount, work->eventTalk.GetPageCount());
         }
     }
 
     work->eventTalk.SetPage(page);
-    CViDock::Func_215E340(TRUE, TRUE);
+    CViDock::MoveCameraForNpcTalk(TRUE, TRUE);
 }
 
 void CViDockNpcTalk::Release()
@@ -192,101 +192,104 @@ void CViDockNpcTalk::Main(void)
 
         switch (work->eventTalk.GetAction())
         {
-            case CViEvtCmnTalk::ACTION_1:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_3);
+            case CViEvtCmnTalk::ACTION_TALKPURCHASE_SHIP:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_TALKPURCHASE_SHIP);
                 break;
 
-            case CViEvtCmnTalk::ACTION_2:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_4);
+            case CViEvtCmnTalk::ACTION_CONSTRUCT_SHIP:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_CONSTRUCT_SHIP);
                 CViDockNpcTalk::SetSelection((u16)HubControl::GetNextShipToBuild());
                 break;
 
-            case CViEvtCmnTalk::ACTION_3:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_7);
+            case CViEvtCmnTalk::ACTION_ANNOUNCE_SHIP_CONSTRUCTION:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_ANNOUNCE_FROM_SELECTION);
                 break;
 
-            case CViEvtCmnTalk::ACTION_4:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_8);
+            case CViEvtCmnTalk::ACTION_TALK_MISSIONLIST:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_TALK_MISSIONLIST);
                 break;
 
-            case CViEvtCmnTalk::ACTION_5:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_12);
+            case CViEvtCmnTalk::ACTION_TALK_OPTIONS:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_TALK_OPTIONS);
                 break;
 
-            case CViEvtCmnTalk::ACTION_6:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_13);
+            case CViEvtCmnTalk::ACTION_OPEN_PLAYER_NAME_MENU:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_OPEN_PLAYER_NAME_MENU);
                 break;
 
-            case CViEvtCmnTalk::ACTION_7:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_19);
+            case CViEvtCmnTalk::ACTION_TALK_MOVIELIST:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_TALK_MOVIELIST);
                 break;
 
-            case CViEvtCmnTalk::ACTION_9:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+            case CViEvtCmnTalk::ACTION_TALK_UNKNOWN:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
                 break;
 
-            case CViEvtCmnTalk::ACTION_10:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_22);
+            case CViEvtCmnTalk::ACTION_TALKPURCHASE_INFO:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_TALKPURCHASE_INFO);
                 break;
 
-            case CViEvtCmnTalk::ACTION_11:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_5);
+            case CViEvtCmnTalk::ACTION_TALKPURCHASE_DECORATION:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_TALKPURCHASE_DECORATION);
                 break;
 
-            case CViEvtCmnTalk::ACTION_12:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_23);
+            case CViEvtCmnTalk::ACTION_OPEN_SOUND_TEST:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_SOUND_TEST);
                 break;
 
-            case CViEvtCmnTalk::ACTION_13:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_24);
+            case CViEvtCmnTalk::ACTION_OPEN_VIKING_CUP:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_VIKING_CUP);
                 break;
 
-            case CViEvtCmnTalk::ACTION_14:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_25);
+            case CViEvtCmnTalk::ACTION_OPEN_VIKING_CUP_2:
+                // unused seemingly..?
+                // also, 'CVIDOCKNPCTALK_ACTION_VIKING_CUP_2' does the same thing as 'CVIDOCKNPCTALK_ACTION_VIKING_CUP' anyways?
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_VIKING_CUP_2);
                 break;
 
-            case CViEvtCmnTalk::ACTION_15:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_7);
+            case CViEvtCmnTalk::ACTION_ANNOUNCE_RADIO_TOWER:
+
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_ANNOUNCE_FROM_SELECTION);
                 CViDockNpcTalk::SetSelection(work->eventTalk.GetSelection() + 5);
                 break;
 
-            case CViEvtCmnTalk::ACTION_8:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_10);
+            case CViEvtCmnTalk::ACTION_ANNOUNCE_NEW_MISSION:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_ANNOUNCE_NEW_MISSION);
                 break;
 
-            case CViEvtCmnTalk::ACTION_16:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_11);
+            case CViEvtCmnTalk::ACTION_CONSTRUCT_DECORATION_MISSION_REWARD:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_CONSTRUCT_DECORATION_MISSION_REWARD);
                 break;
 
-            case CViEvtCmnTalk::ACTION_17:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_26);
+            case CViEvtCmnTalk::ACTION_TALK_MISSION_COMPLETED:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_TALK_MISSION_COMPLETED);
                 break;
 
-            case CViEvtCmnTalk::ACTION_19:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_28);
+            case CViEvtCmnTalk::ACTION_TALKPURCHASE_SHIP_UPGRADE:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_TALKPURCHASE_SHIP_UPGRADE);
                 break;
 
-            case CViEvtCmnTalk::ACTION_20:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_29);
-                CViDockNpcTalk::SetSelection((u16)HubControl::Func_215B978());
+            case CViEvtCmnTalk::ACTION_UPGRADE_SHIP:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_UPGRADE_SHIP);
+                CViDockNpcTalk::SetSelection((u16)HubControl::GetNextShipUpgrade());
                 break;
 
-            case CViEvtCmnTalk::ACTION_21:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_7);
+            case CViEvtCmnTalk::ACTION_ANNOUNCE_SHIP_UPGRADED:
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_ANNOUNCE_FROM_SELECTION);
                 CViDockNpcTalk::SetSelection(work->eventTalk.GetSelection() + 29);
                 break;
 
-            case CViEvtCmnTalk::ACTION_22: {
+            case CViEvtCmnTalk::ACTION_TALK_PURCHASED_INFO: {
                 s32 selection = work->eventTalk.GetSelection();
                 if (!SaveGame__GetProgressFlags_0x100000(selection))
                     SaveGame__SetProgressFlags_0x100000(selection);
 
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
             }
             break;
 
             default:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
                 break;
         }
 

@@ -9,7 +9,6 @@
 #include <game/graphics/paletteAnimation.h>
 #include <game/graphics/unknown2056C5C.h>
 #include <hub/talkHelpersUnknown.h>
-#include <hub/talkHelpersUnknown2.h>
 #include <game/save/saveGame.h>
 
 // --------------------
@@ -151,7 +150,7 @@ void ViMap__GetMapPosition(u16 *x, u16 *y);
 MapArea ViMap__GetMapAreaFromMapIconTouchInput(void);
 MapArea ViMap__GetMapAreaFromMapIconMarker(BOOL mustBeIdle);
 void ViMap__GoToMapArea(u32 mapArea, BOOL shouldTravel);
-MapArea ViMap__GetMapAreaFromMapIcon(void);
+MapArea ViMap__GetChosenMapArea(void);
 void ViMap__StartShipConstructCutscene(s32 id);
 void ViMap__StartDecorConstructCutscene(s32 id);
 void ViMap__StartShipUpgradeCutscene(s32 id);

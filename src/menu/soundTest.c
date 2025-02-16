@@ -10,6 +10,7 @@
 #include <game/system/sysEvent.h>
 #include <game/save/saveGame.h>
 #include <game/text/fontAnimator.h>
+#include <hub/dockCommon.h>
 
 // resources
 #include <resources/narc/dmsou_lz7.h>
@@ -20,7 +21,8 @@
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void BackgroundUnknown__CopyPixels(void *pixels, s32 unitWidth, s32 pivotX, s32 pivotY, u16 xAdvance, u16 lineSize, void *pixels2, u16 pixelWidth, u16 x, u16 y, s16 a11);
+NOT_DECOMPILED void BackgroundUnknown__CopyPixels(void *pixels, s32 unitWidth, s32 pivotX, s32 pivotY, u16 xAdvance, u16 lineSize, void *pixels2, u16 pixelWidth, u16 x, u16 y,
+                                                  s16 a11);
 
 // --------------------
 // ENUMS
@@ -601,7 +603,7 @@ void SoundTest_Main_Active(void)
     if (work->stateDraw3D == NULL && work->state == NULL)
     {
         DestroyCurrentTask();
-        gameState.talk.state.hubStartAction = 1;
+        gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
         RequestSysEventChange(0); // SYSEVENT_RETURN_TO_HUB
         NextSysEvent();
     }

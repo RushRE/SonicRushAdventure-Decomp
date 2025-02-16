@@ -58,7 +58,7 @@ extern "C" void InitHubSysEvent(void)
     MI_CpuFill16(OAMSystem__GetList2(GRAPHICS_ENGINE_A), 0x200, HW_OAM_SIZE);
     MI_CpuFill16(OAMSystem__GetList2(GRAPHICS_ENGINE_B), 0x200, HW_OAM_SIZE);
 
-    if (HubState__GetHubStartAction() != 7)
+    if (HubState__GetHubStartAction() != HUB_STARTACTION_ZONE_GAME_OVER)
         gameState.saveFile.field_52 = 0;
 
     if (SaveGame__CheckCollectedAllEmeraldsEvent())
@@ -91,27 +91,27 @@ extern "C" void InitHubSysEvent(void)
     }
     else if (progress == SAVE_PROGRESS_1)
     {
-        if (gameState.talk.state.hubStartAction)
-            HubControl::Func_21570B8(1);
+        if (gameState.talk.state.hubStartAction != HUB_STARTACTION_NONE)
+            HubControl::InitForClearedTraining(TRUE);
         else
-            HubControl::Func_21570B8(0);
+            HubControl::InitForClearedTraining(FALSE);
     }
     else if (progress < SAVE_PROGRESS_3)
     {
-        if (gameState.talk.state.hubStartAction)
-            HubControl::Func_215710C(1);
+        if (gameState.talk.state.hubStartAction != HUB_STARTACTION_NONE)
+            HubControl::InitForFirstVoyage(TRUE);
         else
-            HubControl::Func_215710C(0);
+            HubControl::InitForFirstVoyage(FALSE);
     }
     else
     {
-        if (HubState__GetHubStartAction() == 4)
+        if (HubState__GetHubStartAction() == HUB_STARTACTION_RESUME_MOVIELIST_TALK)
         {
             u16 cutscene = CViTalkMovieList::GetNextCutscene(gameState.cutscene.cutsceneID);
             if (cutscene != CUTSCENE_NONE && !gameState.cutscene.canSkip)
             {
                 HubControl::ResetMainMemoryPriorityFromHub();
-                HubControl::Func_215B8FC(cutscene);
+                HubControl::InitCutsceneForMovieList(cutscene);
                 RequestNewSysEventChange(SYSEVENT_CUTSCENE);
                 NextSysEvent();
                 return;
@@ -122,7 +122,7 @@ extern "C" void InitHubSysEvent(void)
             gameState.cutscene.cutsceneID = CUTSCENE_NONE;
         }
 
-        if (HubState__GetHubStartAction() == 5 && gameState.clearedMission)
+        if (HubState__GetHubStartAction() == HUB_STARTACTION_RESUME_MISSIONLIST_TALK && gameState.clearedMission)
         {
             u32 emeraldID = MissionHelpers__GetSolEmeraldIDFromMissionID(MissionHelpers__GetMissionID());
             if (emeraldID < 7)
@@ -137,9 +137,9 @@ extern "C" void InitHubSysEvent(void)
             }
         }
 
-        if (gameState.talk.state.hubStartAction != 0 && gameState.talk.state.hubStartAction < 8)
+        if (gameState.talk.state.hubStartAction != HUB_STARTACTION_NONE && gameState.talk.state.hubStartAction < HUB_STARTACTION_COUNT)
         {
-            HubControl::Func_215701C(gameState.talk.state.hubStartAction);
+            HubControl::HandleGameOverStartEvent(gameState.talk.state.hubStartAction);
         }
         else
         {
@@ -154,21 +154,21 @@ void HubControl::InitForNoState()
     HubControl::CreateForMap(MAPAREA_BASE);
 }
 
-void HubControl::Func_215701C(s32 a1)
+void HubControl::HandleGameOverStartEvent(s32 startAction)
 {
-    if (HubState__GetHubStartAction() == 6 || HubState__GetHubStartAction() == 7)
+    if (HubState__GetHubStartAction() == HUB_STARTACTION_EX_GAME_OVER || HubState__GetHubStartAction() == HUB_STARTACTION_ZONE_GAME_OVER)
     {
-        u32 field_134;
-        if (HubState__GetHubStartAction() == 7)
-            field_134 = 1;
+        BOOL isStageGameOver;
+        if (HubState__GetHubStartAction() == HUB_STARTACTION_ZONE_GAME_OVER)
+            isStageGameOver = TRUE;
         else
-            field_134 = 0;
+            isStageGameOver = FALSE;
 
-        HubControl::CreateForDock(DOCKAREA_BASE, 0, 0);
+        HubControl::CreateForDock(DOCKAREA_BASE, FALSE, FALSE);
 
-        HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
-        work->field_130  = 1;
-        work->field_134  = field_134;
+        HubControl *work            = TaskGetWork(hubControlTaskSingleton, HubControl);
+        work->startWithGameOverTalk = TRUE;
+        work->isStageGameOver       = isStageGameOver;
     }
     else
     {
@@ -180,7 +180,7 @@ void HubControl::Func_215701C(s32 a1)
         {
             if (HubState__GetHubType() == HUB_TYPE_DOCK)
             {
-                HubControl::CreateForDock(HubState__GetHubArea(), 1, 0);
+                HubControl::CreateForDock(HubState__GetHubArea(), TRUE, FALSE);
             }
             else
             {
@@ -190,31 +190,31 @@ void HubControl::Func_215701C(s32 a1)
     }
 }
 
-void HubControl::Func_21570B8(s32 a1)
+void HubControl::InitForClearedTraining(BOOL loadCharacterStates)
 {
-    u8 area;
+    u8 dockArea;
 
-    if (a1 && HubState__GetHubType() == HUB_TYPE_DOCK)
+    if (loadCharacterStates && HubState__GetHubType() == HUB_TYPE_DOCK)
     {
-        area = HubState__GetHubArea();
+        dockArea = HubState__GetHubArea();
 
-        if (area != DOCKAREA_BASE && area != DOCKAREA_BASE_NEXT)
-            area = DOCKAREA_BASE;
+        if (dockArea != DOCKAREA_BASE && dockArea != DOCKAREA_BASE_NEXT)
+            dockArea = DOCKAREA_BASE;
 
-        if (gameState.talk.state.hubStartAction == 2)
-            area = DOCKAREA_BASE_NEXT;
+        if (gameState.talk.state.hubStartAction == HUB_STARTACTION_RESUME_OPTIONS_TALK)
+            dockArea = DOCKAREA_BASE_NEXT;
     }
     else
     {
-        area = DOCKAREA_BASE;
+        dockArea = DOCKAREA_BASE;
     }
 
-    HubControl::CreateForDock(area, a1, 1);
+    HubControl::CreateForDock(dockArea, loadCharacterStates, TRUE);
 }
 
-void HubControl::Func_215710C(BOOL a2)
+void HubControl::InitForFirstVoyage(BOOL loadCharacterStates)
 {
-    HubControl::CreateForDock(DOCKAREA_JET, a2, 1);
+    HubControl::CreateForDock(DOCKAREA_JET, loadCharacterStates, TRUE);
 }
 
 void HubControl::InitForNewSave()
@@ -241,49 +241,49 @@ BOOL HubControl::TouchEnabled()
     return (work->touchFlags & 1) == 0;
 }
 
-void *HubControl::GetFileFrom_ViAct(u16 id)
+void *HubControl::GetSpriteFile(u16 id)
 {
     HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
 
     return FileUnknown__GetAOUFile(work->viActArchive, id);
 }
 
-void *HubControl::GetFileFrom_ViActLoc(u16 id)
+void *HubControl::GetLocalizedSpriteFile(u16 id)
 {
     HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
 
     return FileUnknown__GetAOUFile(work->viActLocArchive, id);
 }
 
-void *HubControl::GetFileFrom_ViBG(u16 id)
+void *HubControl::GetBackgroundFile(u16 id)
 {
     HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
 
     return FileUnknown__GetAOUFile(work->viBGArchive, id);
 }
 
-void *HubControl::GetFileFrom_ViMsg()
+void *HubControl::GetMsgSequenceArchive()
 {
     HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
 
     return work->viMsgArchive;
 }
 
-void *HubControl::GetFileFrom_ViMsgCtrl()
+void *HubControl::GetMsgControlArchive()
 {
     HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
 
     return work->viMsgCtrlArchive;
 }
 
-FontWindow *HubControl::GetField54()
+FontWindow *HubControl::GetFontWindow()
 {
     HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
 
     return &work->fontWindow;
 }
 
-void *HubControl::GetTKDMNameSprite()
+void *HubControl::GetCharacterNameSprite()
 {
     HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
 
@@ -311,14 +311,14 @@ void HubControl::CreateForMap(MapArea mapArea)
     hubControlTaskSingleton =
         HubTaskCreate(HubControl::Main_InitMap, HubControl::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1050, TASK_GROUP(16), HubControl);
 
-    HubControl *work     = TaskGetWork(hubControlTaskSingleton, HubControl);
-    work->flags          = 0x10000;
-    work->genericTimer   = 0;
-    work->field_8        = 0;
-    work->hubAreaPreview = NULL;
-    work->nextEvent      = HUBEVENT_INVALID;
-    work->dockArea       = DOCKAREA_NONE;
-    work->field_10       = HubConfig__GetDockMapIconConfig(mapArea)->field_8;
+    HubControl *work      = TaskGetWork(hubControlTaskSingleton, HubControl);
+    work->flags           = 0x10000;
+    work->genericTimer    = 0;
+    work->referenceTime   = 0;
+    work->hubAreaPreview  = NULL;
+    work->nextEvent       = HUBEVENT_INVALID;
+    work->dockArea        = DOCKAREA_NONE;
+    work->previewDockArea = HubConfig__GetDockMapIconConfig(mapArea)->previewDockArea;
     work->nextMapArea = work->mapArea = mapArea;
     work->shipConstructID             = CViMap::CONSTRUCT_SHIP_INVALID;
     work->decorConstructID            = CViMap::CONSTRUCT_DECOR_INVALID;
@@ -340,7 +340,7 @@ void HubControl::CreateForMap(MapArea mapArea)
     }
     else
     {
-        CViDock::InitForType1(work->field_10, 0);
+        CViDock::InitForPreview(work->previewDockArea, FALSE);
         CViDock::EnablePlayerInput(FALSE);
     }
 
@@ -354,21 +354,21 @@ void HubControl::CreateForMap(MapArea mapArea)
 
     renderCurrentDisplay = GX_DISP_SELECT_MAIN_SUB;
 
-    work->mapIconArea = MAPAREA_INVALID;
-    work->field_118   = 0;
-    work->field_11C   = 0;
-    work->field_124   = 0;
-    work->field_128   = 0;
-    work->field_12C   = 0;
-    work->field_130   = 0;
-    work->field_134   = 0;
+    work->mapIconArea                     = MAPAREA_INVALID;
+    work->startWithJetConstructedCutscene = FALSE;
+    work->disableAreaExit                 = FALSE;
+    work->startWithOptionsTalk            = FALSE;
+    work->startWithMovieListTalk          = FALSE;
+    work->startWithMissionListTalk        = FALSE;
+    work->startWithGameOverTalk           = FALSE;
+    work->isStageGameOver                 = FALSE;
 
     ResetHubState();
     InitHubAudio();
     PlayHubBGM();
 }
 
-void HubControl::CreateForDock(s32 dockArea, BOOL loadCharacterStates, s32 a3)
+void HubControl::CreateForDock(s32 dockArea, BOOL loadCharacterStates, BOOL disableAreaExit)
 {
     HubControl::InitDisplay();
 
@@ -377,13 +377,13 @@ void HubControl::CreateForDock(s32 dockArea, BOOL loadCharacterStates, s32 a3)
 
     HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
 
-    work->flags          = 0x10000;
-    work->genericTimer   = 0;
-    work->field_8        = 0;
-    work->hubAreaPreview = 0;
-    work->nextEvent      = HUBEVENT_INVALID;
-    work->dockArea       = dockArea;
-    work->field_10       = 9;
+    work->flags           = 0x10000;
+    work->genericTimer    = 0;
+    work->referenceTime   = 0;
+    work->hubAreaPreview  = NULL;
+    work->nextEvent       = HUBEVENT_INVALID;
+    work->dockArea        = dockArea;
+    work->previewDockArea = DOCKAREA_INVALID;
     work->nextMapArea = work->mapArea = HubConfig__GetDockStageConfig(dockArea)->mapArea;
     work->shipConstructID             = CViMap::CONSTRUCT_SHIP_INVALID;
     work->decorConstructID            = CViMap::CONSTRUCT_DECOR_INVALID;
@@ -402,14 +402,15 @@ void HubControl::CreateForDock(s32 dockArea, BOOL loadCharacterStates, s32 a3)
     if (loadCharacterStates)
     {
         BOOL loadAngle = TRUE;
-        if (HubState__GetHubStartAction() == 1 || HubState__GetHubStartAction() == 3 || HubState__GetHubStartAction() == 5)
+        if (HubState__GetHubStartAction() == HUB_STARTACTION_RESUME_HUB || HubState__GetHubStartAction() == HUB_STARTACTION_UNKNOWN
+            || HubState__GetHubStartAction() == HUB_STARTACTION_RESUME_MISSIONLIST_TALK)
             loadAngle = FALSE;
 
         CViDock::LoadCharacterStates(loadAngle);
     }
 
     CViDock::EnablePlayerInput(FALSE);
-    CViDock::DisableExitArea(a3);
+    CViDock::DisableExitArea(disableAreaExit);
 
     work->ClearAnimators();
 
@@ -423,28 +424,28 @@ void HubControl::CreateForDock(s32 dockArea, BOOL loadCharacterStates, s32 a3)
 
     renderCurrentDisplay = GX_DISP_SELECT_SUB_MAIN;
 
-    work->mapIconArea = MAPAREA_INVALID;
-    work->field_118   = 0;
-    work->field_11C   = a3;
-    work->field_124   = 0;
-    work->field_128   = 0;
-    work->field_12C   = 0;
-    work->field_130   = 0;
-    work->field_134   = 0;
+    work->mapIconArea                     = MAPAREA_INVALID;
+    work->startWithJetConstructedCutscene = FALSE;
+    work->disableAreaExit                 = disableAreaExit;
+    work->startWithOptionsTalk            = FALSE;
+    work->startWithMovieListTalk          = FALSE;
+    work->startWithMissionListTalk        = FALSE;
+    work->startWithGameOverTalk           = FALSE;
+    work->isStageGameOver                 = FALSE;
 
     if (loadCharacterStates)
     {
-        if (HubState__GetHubStartAction() == 2)
+        if (HubState__GetHubStartAction() == HUB_STARTACTION_RESUME_OPTIONS_TALK)
         {
-            work->field_124 = 1;
+            work->startWithOptionsTalk = TRUE;
         }
-        else if (HubState__GetHubStartAction() == 4)
+        else if (HubState__GetHubStartAction() == HUB_STARTACTION_RESUME_MOVIELIST_TALK)
         {
-            work->field_128 = 1;
+            work->startWithMovieListTalk = TRUE;
         }
-        else if (HubState__GetHubStartAction() == 5)
+        else if (HubState__GetHubStartAction() == HUB_STARTACTION_RESUME_MISSIONLIST_TALK)
         {
-            work->field_12C = 1;
+            work->startWithMissionListTalk = TRUE;
         }
     }
 
@@ -465,7 +466,7 @@ void HubControl::Release()
     this->ReleaseGraphics();
     ViMapPaletteAnimation__Destroy();
     HubHUD::Destroy();
-    CViDock::Func_215DB9C();
+    CViDock::Destroy();
     ViMap__Destroy();
     this->ReleaseAssets();
     ReleaseHubAudio(HubControl::CheckEventHasBGMChange(this->nextEvent));
@@ -486,12 +487,12 @@ void HubControl::Main_InitMap()
             if (work->mapIconArea == iconArea)
             {
                 mapArea           = work->mapIconArea;
-                work->mapIconArea = DOCKAREA_INVALID;
+                work->mapIconArea = MAPAREA_INVALID;
             }
             else
             {
                 work->timer = 0;
-                SetCurrentTaskMainEvent(HubControl::Main_21588D4);
+                SetCurrentTaskMainEvent(HubControl::Main_InitForcedMapAreaChange);
             }
         }
         else
@@ -499,19 +500,19 @@ void HubControl::Main_InitMap()
             if (SaveGame__CheckProgress15())
             {
                 work->timer = 0;
-                SetCurrentTaskMainEvent(HubControl::Main_2158A04);
+                SetCurrentTaskMainEvent(HubControl::Main_FadeOutForStoryEvent);
             }
             else if (SaveGame__CheckProgress30())
             {
                 work->timer = 0;
-                SetCurrentTaskMainEvent(HubControl::Main_2158A04);
+                SetCurrentTaskMainEvent(HubControl::Main_FadeOutForStoryEvent);
             }
             else
             {
                 ViMap__SetType(CViMap::TYPE_MAP_ACTIVE);
                 HubHUD::ConfigureViewButton(TRUE, TRUE);
                 HubHUD::ConfigureMenuButton(TRUE, TRUE);
-                SetCurrentTaskMainEvent(HubControl::Main_21578CC);
+                SetCurrentTaskMainEvent(HubControl::Main_MapIdle);
             }
         }
     }
@@ -527,11 +528,11 @@ void HubControl::Main_InitMap()
         work->mapArea = mapArea;
         work->flags |= 0x10000;
 
-        if (HubConfig__GetDockMapIconConfig(mapArea)->dockArea < DOCKAREA_DRILL)
+        if (HubConfig__GetDockMapIconConfig(mapArea)->dockArea < CViDock::AREA_COUNT)
         {
-            CViDock::DisableExitArea(work->field_11C);
+            CViDock::DisableExitArea(work->disableAreaExit);
             work->dockArea = HubConfig__GetDockMapIconConfig(mapArea)->dockArea;
-            SetCurrentTaskMainEvent(HubControl::Main_2157C0C);
+            SetCurrentTaskMainEvent(HubControl::Main_FadeOutForDockInit);
         }
         else
         {
@@ -553,21 +554,22 @@ void HubControl::Main_InitMap()
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Main_21578CC()
+void HubControl::Main_MapIdle()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    BOOL flag = FALSE;
+    BOOL mapStateChanged = FALSE;
     if (ViMap__GetMapAreaFromMapIconMarker(TRUE) < DOCKAREA_COUNT)
     {
         HubHUD::ConfigureViewButton(TRUE, TRUE);
         HubHUD::ConfigureMenuButton(TRUE, TRUE);
+
         if (HubHUD::LookAroundEnabled())
         {
             ViMap__SetType(CViMap::TYPE_DOCK_ACTIVE);
-            SetCurrentTaskMainEvent(HubControl::Main_2157A94);
+            SetCurrentTaskMainEvent(HubControl::Main_LookAroundActive);
             HubHUD::ConfigureMenuButton(FALSE, TRUE);
-            flag = TRUE;
+            mapStateChanged = TRUE;
         }
         else if (HubHUD::ShouldOpenMainMenu())
         {
@@ -580,7 +582,7 @@ void HubControl::Main_21578CC()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             HubHUD::ConfigureViewButton(FALSE, TRUE);
             HubHUD::ConfigureMenuButton(FALSE, TRUE);
-            flag = TRUE;
+            mapStateChanged = TRUE;
         }
     }
     else
@@ -589,10 +591,10 @@ void HubControl::Main_21578CC()
         HubHUD::ConfigureMenuButton(TRUE, FALSE);
     }
 
-    if (!flag)
+    if (!mapStateChanged)
     {
-        s32 iconArea = ViMap__GetMapAreaFromMapIcon();
-        if (iconArea < DOCKAREA_NONE)
+        s32 iconArea = ViMap__GetChosenMapArea();
+        if (iconArea < MAPAREA_COUNT)
         {
             ViMap__SetType(CViMap::TYPE_DOCK_ACTIVE);
             HubHUD::ConfigureViewButton(FALSE, TRUE);
@@ -602,10 +604,10 @@ void HubControl::Main_21578CC()
             work->mapArea = iconArea;
             work->flags |= 0x10000;
 
-            if (HubConfig__GetDockMapIconConfig(iconArea)->dockArea < 7)
+            if (HubConfig__GetDockMapIconConfig(iconArea)->dockArea < CViDock::AREA_COUNT)
             {
                 work->dockArea = HubConfig__GetDockMapIconConfig(iconArea)->dockArea;
-                SetCurrentTaskMainEvent(HubControl::Main_2157C0C);
+                SetCurrentTaskMainEvent(HubControl::Main_FadeOutForDockInit);
             }
             else
             {
@@ -629,19 +631,19 @@ void HubControl::Main_21578CC()
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Main_2157A94()
+void HubControl::Main_LookAroundActive()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    BOOL flag = FALSE;
+    BOOL lookAroundEnded = FALSE;
     if (!HubHUD::LookAroundEnabled())
     {
         ViMap__SetType(CViMap::TYPE_MAP_ACTIVE);
-        SetCurrentTaskMainEvent(HubControl::Main_21578CC);
-        flag = TRUE;
+        SetCurrentTaskMainEvent(HubControl::Main_MapIdle);
+        lookAroundEnded = TRUE;
     }
 
-    if (!flag)
+    if (!lookAroundEnded)
     {
         s32 iconTouchArea = ViMap__GetMapAreaFromMapIconTouchInput();
         if (iconTouchArea < DOCKAREA_COUNT)
@@ -649,12 +651,12 @@ void HubControl::Main_2157A94()
             HubHUD::DisableLookAround();
             ViMap__SetType(CViMap::TYPE_MAP_ACTIVE);
             ViMap__GoToMapArea(iconTouchArea, TRUE);
-            SetCurrentTaskMainEvent(HubControl::Main_21578CC);
-            flag = TRUE;
+            SetCurrentTaskMainEvent(HubControl::Main_MapIdle);
+            lookAroundEnded = TRUE;
         }
     }
 
-    if (!flag)
+    if (!lookAroundEnded)
     {
         u16 startY;
         u16 startX;
@@ -698,7 +700,7 @@ void HubControl::Main_2157A94()
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Main_2157C0C()
+void HubControl::Main_FadeOutForDockInit()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
@@ -724,25 +726,25 @@ void HubControl::Main_InitDock()
 
     if (HubControl::HandleFade(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_DEFAULT, 1) == 0)
     {
-        if (work->field_118)
+        if (work->startWithJetConstructedCutscene)
         {
             work->timer      = 0;
             work->cutsceneID = 0xFFFF;
             work->flags &= ~0x10000;
-            SetCurrentTaskMainEvent(HubControl::Main_2158AB4);
+            SetCurrentTaskMainEvent(HubControl::Main_PrepareCutsceneStart);
         }
-        else if (work->field_124)
+        else if (work->startWithOptionsTalk)
         {
-            work->field_124 = 0;
+            work->startWithOptionsTalk = FALSE;
             CViDock::SetTalkingNpc(CVIDOCK_NPC_BASENEXT_SETTER);
             CViDock::StartTalkingToNpc();
             HubHUD::ConfigureMenuButton(FALSE, TRUE);
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_OPTIONS, 0);
             SetCurrentTaskMainEvent(HubControl::Main_DoTalkAction);
         }
-        else if (work->field_128)
+        else if (work->startWithMovieListTalk)
         {
-            work->field_128 = 0;
+            work->startWithMovieListTalk = FALSE;
             if (work->dockArea == DOCKAREA_JET)
                 CViDock::SetTalkingNpc(CVIDOCK_NPC_JET_KYLOK);
 
@@ -751,27 +753,27 @@ void HubControl::Main_InitDock()
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_MOVIELIST, 0);
             SetCurrentTaskMainEvent(HubControl::Main_DoTalkAction);
         }
-        else if (work->field_12C)
+        else if (work->startWithMissionListTalk)
         {
-            work->field_12C = 0;
+            work->startWithMissionListTalk = FALSE;
             CViDock::SetTalkingNpc(CVIDOCK_NPC_BASE_MARINE);
             CViDock::StartTalkingToNpc();
             HubHUD::ConfigureMenuButton(FALSE, TRUE);
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_MISSIONCLEARED, 0);
             SetCurrentTaskMainEvent(HubControl::Main_DoTalkAction);
         }
-        else if (work->field_130)
+        else if (work->startWithGameOverTalk)
         {
             CViDock::SetTalkingNpc(CVIDOCK_NPC_BASE_TAILS);
             CViDock::StartTalkingToNpc();
             HubHUD::ConfigureMenuButton(FALSE, TRUE);
-            if (work->field_134)
+            if (work->isStageGameOver)
                 CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_GAMEOVER, 1);
             else
                 CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_GAMEOVER, 0);
             SetCurrentTaskMainEvent(HubControl::Main_DoTalkAction);
-            work->field_130 = 0;
-            work->field_134 = 0;
+            work->startWithGameOverTalk = FALSE;
+            work->isStageGameOver       = FALSE;
         }
         else if (SaveGame__CheckProgressZone5OrZone6NotClear() && work->dockArea == DOCKAREA_BASE)
         {
@@ -782,24 +784,24 @@ void HubControl::Main_InitDock()
         {
             if (SaveGame__CheckProgressForShip(SHIP_BOAT - 1) && work->dockArea == DOCKAREA_BOAT)
             {
-                SaveGame__Func_205BC38(SHIP_BOAT - 1);
+                SaveGame__UpdateProgressForDockFirstVisited(SHIP_BOAT - 1);
                 HubControl::StartHubCutscene(CUTSCENE_OCEAN_TORNADO_COMPLETE, DOCKAREA_BASE);
             }
             else if (SaveGame__CheckProgressForShip(SHIP_HOVER - 1) && work->dockArea == DOCKAREA_HOVER)
             {
-                SaveGame__Func_205BC38(SHIP_HOVER - 1);
+                SaveGame__UpdateProgressForDockFirstVisited(SHIP_HOVER - 1);
                 HubControl::StartHubCutscene(CUTSCENE_AQUA_BLAST_COMPLETE, DOCKAREA_COUNT);
             }
             else if (SaveGame__CheckProgressForShip(SHIP_SUBMARINE - 1) && work->dockArea == DOCKAREA_SUBMARINE)
             {
-                SaveGame__Func_205BC38(SHIP_SUBMARINE - 1);
+                SaveGame__UpdateProgressForDockFirstVisited(SHIP_SUBMARINE - 1);
                 HubControl::StartHubCutscene(CUTSCENE_DEEP_TYPHOON_COMPLETE, DOCKAREA_COUNT);
             }
             else
             {
                 if (SaveGame__GetGameProgress() == SAVE_PROGRESS_37 && work->dockArea == DOCKAREA_BASE)
                 {
-                    HubControl::StartHubCutsceneUnknown();
+                    HubControl::StartHubEggmanAppearsCutscene();
                 }
                 else
                 {
@@ -846,16 +848,16 @@ void HubControl::Main_ProcessDock()
     {
         if (CViDock::HasActiveTalkAction())
         {
-            s32 id;
+            s32 type;
             s32 param;
-            CViDock::Func_215E02C(&id, &param);
+            CViDock::GetTalkActionFromTalkingNpc(&type, &param);
 
-            if (id == CVIDOCKNPCTALK_NPC || id == CVIDOCKNPCTALK_ACTION)
+            if (type == CVIDOCKNPCTALK_NPC || type == CVIDOCKNPCTALK_ACTION)
                 PlayHubSfx(HUB_SFX_V_DECIDE);
 
             CViDock::StartTalkingToNpc();
             HubHUD::ConfigureMenuButton(FALSE, TRUE);
-            CViDockNpcTalk::CreateTalk(id, param);
+            CViDockNpcTalk::CreateTalk(type, param);
             SetCurrentTaskMainEvent(HubControl::Main_DoTalkAction);
         }
         else if (HubHUD::ShouldOpenMainMenu())
@@ -911,14 +913,14 @@ void HubControl::Main_DoTalkAction()
 
     switch (CViDockNpcTalk::GetTalkAction())
     {
-        case CVIDOCKNPCTALK_ACTION_0:
+        case CVIDOCKNPCTALK_ACTION_NONE:
             CViDock::FinishTalkingToNpc();
             SetCurrentTaskMainEvent(HubControl::Main_InitDockPlayerControl);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_1:
+        case CVIDOCKNPCTALK_ACTION_START_SAILING:
             work->SaveState(FALSE);
-            HubControl::Func_215A2E0(work->dockArea, 0);
+            HubControl::StartSailing(work->dockArea, FALSE);
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
             work->nextSelectionID = SAVE_PROGRESSTYPE_1;
             CViDock::EnablePlayerInput(FALSE);
@@ -926,9 +928,9 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_2:
+        case CVIDOCKNPCTALK_ACTION_START_SAIL_TRAINING:
             work->SaveState(FALSE);
-            HubControl::Func_215A2E0(work->dockArea, 1);
+            HubControl::StartSailing(work->dockArea, TRUE);
             work->nextEvent       = HUBEVENT_SAILING;
             work->nextSelectionID = CViDockNpcTalk::GetSelection();
             CViDock::EnablePlayerInput(FALSE);
@@ -936,44 +938,44 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_3:
+        case CVIDOCKNPCTALK_ACTION_TALKPURCHASE_SHIP:
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_PURCHASE, CViTalkPurchase::PURCHASE_CONSTRUCTION);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_4:
+        case CVIDOCKNPCTALK_ACTION_CONSTRUCT_SHIP:
             work->shipConstructID = CViDockNpcTalk::GetSelection();
             if (work->shipConstructID == CViMap::CONSTRUCT_SHIP_JET)
                 CViTalkPurchase::MakeTutorialPurchase();
 
-            work->talkingNpc = CViDock::GetTalkingNpc();
-            work->field_8    = work->genericTimer;
-            SetCurrentTaskMainEvent(HubControl::Func_2158D28);
+            work->talkingNpc    = CViDock::GetTalkingNpc();
+            work->referenceTime = work->genericTimer;
+            SetCurrentTaskMainEvent(HubControl::Main_FadeOutForConstructionCutscene);
             FadeOutHubBGM(12);
             CViDock::EnablePlayerInput(FALSE);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_5:
+        case CVIDOCKNPCTALK_ACTION_TALKPURCHASE_DECORATION:
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_PURCHASE, CViTalkPurchase::PURCHASE_DECORATION);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_6:
+        case CVIDOCKNPCTALK_ACTION_CONSTRUCT_DECORATION:
             work->decorConstructID = CViDockNpcTalk::GetSelection();
             work->talkingNpc       = CViDock::GetTalkingNpc();
-            work->field_8          = work->genericTimer;
-            SetCurrentTaskMainEvent(HubControl::Func_2158D28);
+            work->referenceTime    = work->genericTimer;
+            SetCurrentTaskMainEvent(HubControl::Main_FadeOutForConstructionCutscene);
             CViDock::EnablePlayerInput(FALSE);
             work->SaveState(FALSE);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_7:
+        case CVIDOCKNPCTALK_ACTION_ANNOUNCE_FROM_SELECTION:
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_ANNOUNCE, CViDockNpcTalk::GetSelection());
             break;
 
-        case CVIDOCKNPCTALK_ACTION_8:
+        case CVIDOCKNPCTALK_ACTION_TALK_MISSIONLIST:
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_MISSIONLIST, 0);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_9:
+        case CVIDOCKNPCTALK_ACTION_START_MISSION:
             work->SaveState(FALSE);
             work->nextEvent       = HUBEVENT_START_MISSION;
             work->nextSelectionID = CViDockNpcTalk::GetSelection();
@@ -982,12 +984,12 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_10:
+        case CVIDOCKNPCTALK_ACTION_ANNOUNCE_NEW_MISSION:
             MissionHelpers__UnlockMission(CViDockNpcTalk::GetSelection());
-            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_ANNOUNCE, CVITALKANNOUNCE_TYPE_UNLOCKED_MEDAL);
+            CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_ANNOUNCE, CVITALKANNOUNCE_TYPE_UNLOCKED_NEW_MISSION);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_11: // mission selection
+        case CVIDOCKNPCTALK_ACTION_CONSTRUCT_DECORATION_MISSION_REWARD: // mission selection
             if (CViDockNpcTalk::GetSelection() < MISSION_COUNT)
             {
                 u32 selection = CViDockNpcTalk::GetSelection();
@@ -995,8 +997,8 @@ void HubControl::Main_DoTalkAction()
                 {
                     work->decorConstructID = MissionHelpers__GetMissionCompletedReward(selection);
                     work->talkingNpc       = CViDock::GetTalkingNpc();
-                    work->field_8          = work->genericTimer;
-                    SetCurrentTaskMainEvent(HubControl::Func_2158D28);
+                    work->referenceTime    = work->genericTimer;
+                    SetCurrentTaskMainEvent(HubControl::Main_FadeOutForConstructionCutscene);
                     CViDock::EnablePlayerInput(FALSE);
                     work->SaveState(FALSE);
                 }
@@ -1015,11 +1017,11 @@ void HubControl::Main_DoTalkAction()
             }
             break;
 
-        case CVIDOCKNPCTALK_ACTION_12:
+        case CVIDOCKNPCTALK_ACTION_TALK_OPTIONS:
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_OPTIONS, 0);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_13:
+        case CVIDOCKNPCTALK_ACTION_OPEN_PLAYER_NAME_MENU:
             work->SaveState(FALSE);
             work->nextEvent       = HUBEVENT_PLAYER_NAME_MENU;
             work->nextSelectionID = 0;
@@ -1028,7 +1030,7 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_14:
+        case CVIDOCKNPCTALK_ACTION_OPEN_DELETE_SAVE_MENU:
             work->SaveState(FALSE);
             work->nextEvent       = HUBEVENT_DELETE_SAVE_MENU;
             work->nextSelectionID = 0;
@@ -1037,7 +1039,7 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_15:
+        case CVIDOCKNPCTALK_ACTION_OPEN_VS_MAIN_MENU:
             work->SaveState(FALSE);
             work->nextEvent       = HUBEVENT_VS_MAIN_MENU;
             work->nextSelectionID = 0;
@@ -1046,7 +1048,7 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_16:
+        case CVIDOCKNPCTALK_ACTION_OPEN_STAGE_SELECT:
             work->SaveState(FALSE);
             work->nextEvent       = HUBEVENT_STAGE_SELECT;
             work->nextSelectionID = 0;
@@ -1055,7 +1057,7 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_17:
+        case CVIDOCKNPCTALK_ACTION_GOTO_JET_DOCK:
             work->mapIconArea = MAPAREA_JET;
             CViDock::FinishTalkingToNpc();
             work->flags |= 0x10000;
@@ -1063,7 +1065,7 @@ void HubControl::Main_DoTalkAction()
             PlayHubSfx(HUB_SFX_V_CHANGE);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_18:
+        case CVIDOCKNPCTALK_ACTION_SAVE_GAME:
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
             work->nextSelectionID = SAVE_PROGRESSTYPE_0;
             CViDock::EnablePlayerInput(FALSE);
@@ -1071,36 +1073,36 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_19:
+        case CVIDOCKNPCTALK_ACTION_TALK_MOVIELIST:
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_MOVIELIST, 0);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_20:
+        case CVIDOCKNPCTALK_ACTION_MOVIELIST_CUTSCENE:
             work->SaveState(FALSE);
-            work->nextEvent       = HUBEVENT_CUTSCENE_1;
+            work->nextEvent       = HUBEVENT_MOVIELIST_CUTSCENE;
             work->nextSelectionID = CViDockNpcTalk::GetSelection();
             CViDock::EnablePlayerInput(FALSE);
             HubControl::TryFadeOutBGM(work);
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_21:
+        case CVIDOCKNPCTALK_ACTION_STORY_CUTSCENE:
             work->SaveState(FALSE);
-            work->nextEvent       = HUBEVENT_CUTSCENE_2;
+            work->nextEvent       = HUBEVENT_STORY_CUTSCENE;
             work->nextSelectionID = CViDockNpcTalk::GetSelection();
             CViDock::EnablePlayerInput(FALSE);
             HubControl::TryFadeOutBGM(work);
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_22:
+        case CVIDOCKNPCTALK_ACTION_TALKPURCHASE_INFO:
             if (SaveGame__GetProgressFlags_0x100000(0) || SaveGame__HasDoorPuzzlePiece(0))
                 CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_NPC, 38);
             else
                 CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_PURCHASE, CViTalkPurchase::PURCHASE_INFO);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_23:
+        case CVIDOCKNPCTALK_ACTION_SOUND_TEST:
             work->SaveState(FALSE);
             work->nextEvent       = HUBEVENT_SOUND_TEST;
             work->nextSelectionID = 0;
@@ -1109,8 +1111,8 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_24:
-        case CVIDOCKNPCTALK_ACTION_25:
+        case CVIDOCKNPCTALK_ACTION_VIKING_CUP:
+        case CVIDOCKNPCTALK_ACTION_VIKING_CUP_2:
             work->SaveState(FALSE);
             work->nextEvent       = HUBEVENT_VIKING_CUP;
             work->nextSelectionID = 0;
@@ -1119,7 +1121,7 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_26:
+        case CVIDOCKNPCTALK_ACTION_TALK_MISSION_COMPLETED:
             s32 missionID = MISSIONLIST_INVALID;
 
             for (s32 i = 0; i < MissionHelpers__MarinePostGameMissionCount(); i++)
@@ -1131,10 +1133,11 @@ void HubControl::Main_DoTalkAction()
                 }
             }
 
+            // auto-complete marine's medal missions without needing to talk to her a second time
             if (missionID != MISSIONLIST_INVALID && !MissionHelpers__CheckMissionCompleted(missionID))
             {
                 MissionHelpers__CompleteMission(missionID);
-                CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_ANNOUNCE, CVITALKANNOUNCE_TYPE_UNLOCKED_NEW_MISSION);
+                CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_ANNOUNCE, CVITALKANNOUNCE_TYPE_UNLOCKED_MEDAL);
                 break;
             }
 
@@ -1142,7 +1145,7 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_InitDockPlayerControl);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_27:
+        case CVIDOCKNPCTALK_ACTION_GAMEOVER_RETRY_STAGE:
             work->SaveState(FALSE);
             work->nextEvent       = HUBEVENT_LOAD_STAGE;
             work->nextSelectionID = 0;
@@ -1151,20 +1154,20 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_28:
+        case CVIDOCKNPCTALK_ACTION_TALKPURCHASE_SHIP_UPGRADE:
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_PURCHASE, CViTalkPurchase::PURCHASE_SHIP_UPGRADE);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_29:
+        case CVIDOCKNPCTALK_ACTION_UPGRADE_SHIP:
             work->shipUpgradeID = CViDockNpcTalk::GetSelection();
             work->talkingNpc    = CViDock::GetTalkingNpc();
-            work->field_8       = work->genericTimer;
-            SetCurrentTaskMainEvent(HubControl::Func_2158D28);
+            work->referenceTime = work->genericTimer;
+            SetCurrentTaskMainEvent(HubControl::Main_FadeOutForConstructionCutscene);
             FadeOutHubBGM(12);
             CViDock::EnablePlayerInput(FALSE);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_30:
+        case CVIDOCKNPCTALK_ACTION_CORRUPT_SAVE:
             work->nextEvent       = HUBEVENT_CORRUPT_SAVE_WARNING;
             work->nextSelectionID = 0;
             CViDock::EnablePlayerInput(FALSE);
@@ -1172,7 +1175,7 @@ void HubControl::Main_DoTalkAction()
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             break;
 
-        case CVIDOCKNPCTALK_ACTION_32:
+        case CVIDOCKNPCTALK_ACTION_INVALID:
             break;
 
         default:
@@ -1191,8 +1194,8 @@ void HubControl::Main_FadeOutForExitDockArea()
 
     if (HubControl::HandleFade(RENDERCORE_BRIGHTNESS_BLACK, RENDERCORE_BRIGHTNESS_BLACK, 1) == 0)
     {
-        work->field_10 = HubConfig__GetDockMapIconConfig(work->mapArea)->field_8;
-        CViDock::InitForType1(work->field_10, 0);
+        work->previewDockArea = HubConfig__GetDockMapIconConfig(work->mapArea)->previewDockArea;
+        CViDock::InitForPreview(work->previewDockArea, FALSE);
         work->nextMapArea = work->mapArea;
         CViHubAreaPreview::Create(work);
         ViMap__EnableMapIcons(TRUE);
@@ -1229,7 +1232,7 @@ void HubControl::Main_FadeOutForEventChange()
     }
 }
 
-void HubControl::Main_21588D4()
+void HubControl::Main_InitForcedMapAreaChange()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
@@ -1237,26 +1240,26 @@ void HubControl::Main_21588D4()
     if (work->timer >= 64)
     {
         ViMap__GoToMapArea(work->mapIconArea, TRUE);
-        SetCurrentTaskMainEvent(HubControl::Main_2158918);
+        SetCurrentTaskMainEvent(HubControl::Main_WaitForForcedMapAreaChange);
     }
 
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Main_2158918()
+void HubControl::Main_WaitForForcedMapAreaChange()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
     if (work->mapIconArea == ViMap__GetMapAreaFromMapIconMarker(TRUE))
     {
         work->timer = 0;
-        SetCurrentTaskMainEvent(HubControl::Main_2158958);
+        SetCurrentTaskMainEvent(HubControl::Main_FinishForcedMapAreaChange);
     }
 
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Main_2158958()
+void HubControl::Main_FinishForcedMapAreaChange()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
@@ -1266,12 +1269,12 @@ void HubControl::Main_2158958()
         if (work->mapIconArea == MAPAREA_BASE)
         {
             HubControl::IncrementGameProgress();
-            work->field_11C = 1;
+            work->disableAreaExit = TRUE;
         }
         else if (work->mapIconArea == MAPAREA_JET)
         {
-            work->field_11C = 1;
-            work->field_118 = 1;
+            work->disableAreaExit                 = TRUE;
+            work->startWithJetConstructedCutscene = TRUE;
         }
         else if (work->mapIconArea == MAPAREA_TUTORIAL)
         {
@@ -1290,7 +1293,7 @@ void HubControl::Main_2158958()
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Main_2158A04()
+void HubControl::Main_FadeOutForStoryEvent()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
@@ -1301,7 +1304,7 @@ void HubControl::Main_2158A04()
         {
             SaveGame__UpdateProgressForAllDoorPuzzleKeysCollected();
             work->SaveState(TRUE);
-            work->nextEvent       = HUBEVENT_CUTSCENE_2;
+            work->nextEvent       = HUBEVENT_STORY_CUTSCENE;
             work->nextSelectionID = CUTSCENE_CRUEL_TO_BE_KIND;
             work->flags |= 0x10000;
             HubControl::TryFadeOutBGM(work);
@@ -1320,7 +1323,7 @@ void HubControl::Main_2158A04()
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Main_2158AB4()
+void HubControl::Main_PrepareCutsceneStart()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
@@ -1339,7 +1342,7 @@ void HubControl::Main_2158AB4()
         }
         else
         {
-            work->nextEvent       = HUBEVENT_CUTSCENE_2;
+            work->nextEvent       = HUBEVENT_STORY_CUTSCENE;
             work->nextSelectionID = work->cutsceneID;
         }
 
@@ -1378,7 +1381,7 @@ void CViHubAreaPreview::Destroy(HubControl *parent)
 {
     if (parent->hubAreaPreview != NULL)
     {
-        if (!CViDock::Func_215E4A0())
+        if (!CViDock::CheckNextDockAreaLoaded())
         {
             CViDock::InitForInactive();
             parent->nextMapArea = DOCKAREA_INVALID;
@@ -1407,12 +1410,12 @@ void CViHubAreaPreview::Main()
             }
             else
             {
-                hubControl->field_10 = HubConfig__GetDockMapIconConfig(mapArea)->field_8;
+                hubControl->previewDockArea = HubConfig__GetDockMapIconConfig(mapArea)->previewDockArea;
 
-                if (hubControl->field_10 < DOCKAREA_COUNT)
+                if (hubControl->previewDockArea < DOCKAREA_COUNT)
                 {
                     hubControl->nextMapArea = mapArea;
-                    CViDock::InitForType1(hubControl->field_10, 1);
+                    CViDock::InitForPreview(hubControl->previewDockArea, TRUE);
                 }
                 else
                 {
@@ -1424,7 +1427,7 @@ void CViHubAreaPreview::Main()
     }
     else
     {
-        if (hubControl->nextMapArea == MAPAREA_TUTORIAL || CViDock::Func_215E4A0())
+        if (hubControl->nextMapArea == MAPAREA_TUTORIAL || CViDock::CheckNextDockAreaLoaded())
             hubControl->ProcessShowNpcIcons();
     }
 
@@ -1439,7 +1442,7 @@ void CViHubAreaPreview::Destructor(Task *task)
 }
 
 // HubControl
-void HubControl::Func_2158D28()
+void HubControl::Main_FadeOutForConstructionCutscene()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
@@ -1460,7 +1463,7 @@ void HubControl::Func_2158D28()
             {
                 PlayHubDecorationJingle();
                 ViMap__StartDecorConstructCutscene(work->decorConstructID);
-                SetHubBGMVolume(work->field_13A = AUDIOMANAGER_VOLUME_MAX);
+                SetHubBGMVolume(work->bgmVolume = AUDIOMANAGER_VOLUME_MAX);
             }
             else
             {
@@ -1474,38 +1477,38 @@ void HubControl::Func_2158D28()
         CViDock::InitForInactive();
         work->nextMapArea = DOCKAREA_INVALID;
         HubControl::InitEngineAForCutscene();
-        work->field_110 = 0;
-        work->field_8   = work->genericTimer;
-        SetCurrentTaskMainEvent(HubControl::Func_2158E14);
+        work->constructionViewPercent = FLOAT_TO_FX32(0.0);
+        work->referenceTime           = work->genericTimer;
+        SetCurrentTaskMainEvent(HubControl::Main_StartConstructionCutscene);
     }
 
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Func_2158E14()
+void HubControl::Main_StartConstructionCutscene()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
     if (work->decorConstructID < CViMap::CONSTRUCT_DECOR_COUNT)
     {
-        if (work->field_13A > 63)
+        if (work->bgmVolume > (AUDIOMANAGER_VOLUME_MAX / 2))
         {
-            work->field_13A--;
-            SetHubBGMVolume(work->field_13A);
+            work->bgmVolume--;
+            SetHubBGMVolume(work->bgmVolume);
         }
     }
 
-    if (work->field_8 - work->genericTimer >= 30)
+    if (work->referenceTime - work->genericTimer >= 30)
     {
-        work->field_110 += FLOAT_TO_FX32(1.0f / 128.0f);
+        work->constructionViewPercent += FLOAT_TO_FX32(1.0f / 128.0f);
 
-        if (work->field_110 > FLOAT_TO_FX32(1.0))
-            work->field_110 = FLOAT_TO_FX32(1.0);
+        if (work->constructionViewPercent > FLOAT_TO_FX32(1.0))
+            work->constructionViewPercent = FLOAT_TO_FX32(1.0);
 
-        ViMap__Func_215C284(work->field_110);
+        ViMap__Func_215C284(work->constructionViewPercent);
     }
 
-    if (HubControl::HandleFade(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_DEFAULT, 1) == 0 && work->field_110 >= FLOAT_TO_FX32(1.0))
+    if (HubControl::HandleFade(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_DEFAULT, 1) == 0 && work->constructionViewPercent >= FLOAT_TO_FX32(1.0))
     {
         if (work->decorConstructID < CViMap::CONSTRUCT_DECOR_COUNT)
             SetHubBGMVolume(AUDIOMANAGER_VOLUME_MAX / 2);
@@ -1513,70 +1516,70 @@ void HubControl::Func_2158E14()
         if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT)
         {
             ViMap__Func_215C408();
-            SetCurrentTaskMainEvent(HubControl::Func_2158F28);
+            SetCurrentTaskMainEvent(HubControl::Main_ConstructionCutscene_MaterialSpin);
         }
         else if (work->decorConstructID < CViMap::CONSTRUCT_DECOR_COUNT)
         {
-            work->field_10C = 0;
-            work->field_8   = work->genericTimer;
-            SetCurrentTaskMainEvent(HubControl::Func_2159084);
+            work->constructionFadeOutDone = FALSE;
+            work->referenceTime           = work->genericTimer;
+            SetCurrentTaskMainEvent(HubControl::Main_ConstructionCutscene_FadeOutForShowDecoration);
         }
         else
         {
             ViMap__Func_215C408();
-            SetCurrentTaskMainEvent(HubControl::Func_2158F28);
+            SetCurrentTaskMainEvent(HubControl::Main_ConstructionCutscene_MaterialSpin);
         }
     }
 
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Func_2158F28()
+void HubControl::Main_ConstructionCutscene_MaterialSpin()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
     if (ViMap__Func_215C48C())
     {
         ViMap__Func_215C4CC();
-        work->field_10C = 0;
-        SetCurrentTaskMainEvent(HubControl::Func_2158F64);
+        work->constructionFadeOutDone = FALSE;
+        SetCurrentTaskMainEvent(HubControl::Main_ConstructionCutscene_FadeOutForShowShip);
     }
 
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Func_2158F64()
+void HubControl::Main_ConstructionCutscene_FadeOutForShowShip()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    BOOL flag = FALSE;
+    BOOL doneFading = FALSE;
 
     // ???
     if (ViMap__Func_215C4F8() == FALSE)
     {
-        flag = FALSE;
+        doneFading = FALSE;
     }
 
     if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT)
     {
         if (ViMap__Func_215C4F8() && HubControl::HandleFade(RENDERCORE_BRIGHTNESS_WHITE, RENDERCORE_BRIGHTNESS_WHITE, 1) == 0)
         {
-            flag = TRUE;
+            doneFading = TRUE;
         }
     }
     else
     {
         if (ViMap__Func_215C4F8() && HubControl::HandleFade(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_WHITE, 1) == 0)
         {
-            flag = TRUE;
+            doneFading = TRUE;
         }
     }
 
-    if (flag)
+    if (doneFading)
     {
-        if (work->field_10C == 0)
+        if (!work->constructionFadeOutDone)
         {
-            work->field_10C = 1;
+            work->constructionFadeOutDone = TRUE;
         }
         else
         {
@@ -1594,74 +1597,74 @@ void HubControl::Func_2158F64()
                 ViMap__Func_215C76C(config->field_3C);
             }
 
-            work->field_8 = work->genericTimer;
-            SetCurrentTaskMainEvent(HubControl::Func_2159104);
+            work->referenceTime = work->genericTimer;
+            SetCurrentTaskMainEvent(HubControl::Main_ConstructionCutscene_ShowShip);
         }
     }
 
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Func_2159084()
+void HubControl::Main_ConstructionCutscene_FadeOutForShowDecoration()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    if (work->genericTimer - work->field_8 >= 60 && HubControl::HandleFade(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_WHITE, 1) == 0)
+    if (work->genericTimer - work->referenceTime >= 60 && HubControl::HandleFade(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_WHITE, 1) == 0)
     {
-        if (work->field_10C)
+        if (work->constructionFadeOutDone)
         {
             ViMap__Func_215C58C(work->decorConstructID);
             ViMap__Func_215C6AC();
 
-            work->field_8 = work->genericTimer;
-            SetCurrentTaskMainEvent(HubControl::Func_2159104);
+            work->referenceTime = work->genericTimer;
+            SetCurrentTaskMainEvent(HubControl::Main_ConstructionCutscene_ShowShip);
         }
         else
         {
-            work->field_10C = 1;
+            work->constructionFadeOutDone = TRUE;
         }
     }
 
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Func_2159104()
+void HubControl::Main_ConstructionCutscene_ShowShip()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
     u32 timer;
-    u32 duration1;
-    u32 duration2;
+    u32 windowAppearDelay;
+    u32 cutsceneDuration;
     s16 fadeTargetA;
     if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT)
     {
-        fadeTargetA = RENDERCORE_BRIGHTNESS_DEFAULT;
-        duration1   = 210;
-        duration2   = 450;
+        fadeTargetA       = RENDERCORE_BRIGHTNESS_DEFAULT;
+        windowAppearDelay = 210;
+        cutsceneDuration  = 450;
     }
     else
     {
-        fadeTargetA = RENDERCORE_BRIGHTNESS_DEFAULT;
-        duration1   = 120;
-        duration2   = 256;
+        fadeTargetA       = RENDERCORE_BRIGHTNESS_DEFAULT;
+        windowAppearDelay = 120;
+        cutsceneDuration  = 256;
     }
-    timer = work->genericTimer - work->field_8;
+    timer = work->genericTimer - work->referenceTime;
 
     s16 fadeTargetB = RENDERCORE_BRIGHTNESS_DEFAULT;
     if (timer > 60 && HubControl::HandleFade(fadeTargetA, fadeTargetB, 1) == 0)
     {
-        if (timer > duration1)
+        if (timer > windowAppearDelay)
         {
             if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT)
-                CViDock::Func_215DF84();
+                CViDock::DrawShipConstructionFontWindow();
 
-            if (timer > duration2)
+            if (timer > cutsceneDuration)
             {
                 if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT)
                     FadeSysTrack(12);
 
-                work->field_8 = work->genericTimer;
-                SetCurrentTaskMainEvent(HubControl::Func_21591A8);
+                work->referenceTime = work->genericTimer;
+                SetCurrentTaskMainEvent(HubControl::Main_ConstructionCutscene_FadeOutForCutsceneEnd);
             }
         }
     }
@@ -1669,12 +1672,12 @@ void HubControl::Func_2159104()
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Func_21591A8()
+void HubControl::Main_ConstructionCutscene_FadeOutForCutsceneEnd()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
     if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT)
-        CViDock::Func_215DF84();
+        CViDock::DrawShipConstructionFontWindow();
 
     if (HubControl::HandleFade(RENDERCORE_BRIGHTNESS_BLACK, RENDERCORE_BRIGHTNESS_BLACK, 1) == 0)
     {
@@ -1728,14 +1731,14 @@ void HubControl::Func_21591A8()
             SetHubBGMVolume(AUDIOMANAGER_VOLUME_MAX);
         }
 
-        work->field_8 = work->genericTimer;
-        SetCurrentTaskMainEvent(HubControl::Func_21592E0);
+        work->referenceTime = work->genericTimer;
+        SetCurrentTaskMainEvent(HubControl::Main_ConstructionCutscene_FadeInForConstructionDone);
     }
 
     HubControl::ProcessGenericTimer(work);
 }
 
-void HubControl::Func_21592E0()
+void HubControl::Main_ConstructionCutscene_FadeInForConstructionDone()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
@@ -1898,10 +1901,10 @@ void HubControl::StartHubCutscene(s16 cutscene, s32 dockArea)
     work->cutsceneID = cutscene;
     work->flags &= ~0x10000;
 
-    SetCurrentTaskMainEvent(HubControl::Main_2158AB4);
+    SetCurrentTaskMainEvent(HubControl::Main_PrepareCutsceneStart);
 }
 
-void HubControl::StartHubCutsceneUnknown()
+void HubControl::StartHubEggmanAppearsCutscene()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
@@ -1911,7 +1914,7 @@ void HubControl::StartHubCutsceneUnknown()
     work->cutsceneID = 0xFFFE;
     work->flags &= ~0x10000;
 
-    SetCurrentTaskMainEvent(HubControl::Main_2158AB4);
+    SetCurrentTaskMainEvent(HubControl::Main_PrepareCutsceneStart);
 }
 
 BOOL HubControl::CheckEventHasBGMChange(s32 event)
@@ -1921,8 +1924,8 @@ BOOL HubControl::CheckEventHasBGMChange(s32 event)
         case HUBEVENT_UPDATE_PROGRESS:
         case HUBEVENT_SAILING:
         case HUBEVENT_DELETE_SAVE_MENU:
-        case HUBEVENT_CUTSCENE_1:
-        case HUBEVENT_CUTSCENE_2:
+        case HUBEVENT_MOVIELIST_CUTSCENE:
+        case HUBEVENT_STORY_CUTSCENE:
         case HUBEVENT_START_MISSION:
         case HUBEVENT_START_TUTORIAL:
         case HUBEVENT_SOUND_TEST:
@@ -1950,10 +1953,10 @@ void HubControl::TryFadeOutBGM(HubControl *work)
 
 void HubControl::ClearAnimators()
 {
-    this->curAreaID  = DOCKAREA_INVALID;
-    this->npcCount   = 0;
-    this->field_140  = 0;
-    this->npcIconPos = 0;
+    this->previewMapArea               = MAPAREA_INVALID;
+    this->npcCount                     = 0;
+    this->tutorialAreaPreviewScrollPos = 0;
+    this->npcIconPos                   = 0;
 
     MI_CpuClear16(this->aniNpcIcon, sizeof(this->aniNpcIcon));
     MI_CpuClear16(&this->aniNpcBackground, sizeof(this->aniNpcBackground));
@@ -1965,8 +1968,8 @@ void HubControl::SetAreaSpritesForInit()
 {
     HubControl::InitEngineAForAreaSelect();
 
-    void *sprDockHUD    = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_DOCK_UP_BAC);
-    void *sprDockHUDLoc = HubControl::GetFileFrom_ViActLoc(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_DOCK_UP_LOC_BAC);
+    void *sprDockHUD    = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_DOCK_UP_BAC);
+    void *sprDockHUDLoc = HubControl::GetLocalizedSpriteFile(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_DOCK_UP_LOC_BAC);
 
     AnimatorSprite *aniNpcBackground = &this->aniNpcBackground;
     AnimatorSprite__Init(aniNpcBackground, sprDockHUD, 0, ANIMATOR_FLAG_NONE, GRAPHICS_ENGINE_A, PIXEL_MODE_SPRITE,
@@ -2013,15 +2016,15 @@ void HubControl::SetAreaSpritesForInit()
     }
 
     Background background;
-    InitBackground(&background, HubControl::GetFileFrom_ViBG(ARCHIVE_VI_BG_LZ7_FILE_VI_UP_FLAME_BBG), BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_A, BACKGROUND_2, BG_DISPLAY_FULL_WIDTH,
+    InitBackground(&background, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_UP_FLAME_BBG), BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_A, BACKGROUND_2, BG_DISPLAY_FULL_WIDTH,
                    BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&background);
 
-    InitBackground(&background, HubControl::GetFileFrom_ViBG(ARCHIVE_VI_BG_LZ7_FILE_VI_TUTO_IMAGE_NEAR_BBG), BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_A, BACKGROUND_1,
+    InitBackground(&background, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_TUTO_IMAGE_NEAR_BBG), BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_A, BACKGROUND_1,
                    BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&background);
 
-    InitBackground(&background, HubControl::GetFileFrom_ViBG(ARCHIVE_VI_BG_LZ7_FILE_VI_TUTO_IMAGE_FAR_BBG), BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_A, BACKGROUND_3,
+    InitBackground(&background, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_TUTO_IMAGE_FAR_BBG), BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_A, BACKGROUND_3,
                    BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&background);
 
@@ -2090,26 +2093,26 @@ BOOL HubControl::ProcessShowNpcIcons()
     return TRUE;
 }
 
-void HubControl::SetAreaSpritesForAreaChange(s32 area)
+void HubControl::SetAreaSpritesForAreaChange(MapArea area)
 {
     u16 activeNpcAnimList[5];
 
     u8 npcAnimIDList[] = { 10, 8, 9, 11, 1, 2, 3, 4, 5, 6, 7, 0xFF, 0xFF };
 
-    u8 backgroundFiles[DOCKAREA_COUNT] = { ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_00_BBG, ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_02_BBG, ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_03_BBG,
-                                           ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_04_BBG, ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_05_BBG, ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_07_BBG,
-                                           ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_06_BBG, ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_01_BBG };
+    u8 backgroundFiles[MAPAREA_COUNT] = { ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_00_BBG, ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_02_BBG, ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_03_BBG,
+                                          ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_04_BBG, ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_05_BBG, ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_07_BBG,
+                                          ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_06_BBG, ARCHIVE_VI_BG_UP_ENG_FILE_VI_UP_PLACE_01_BBG };
 
     s32 i;
 
-    if (area != this->curAreaID)
+    if (area != this->previewMapArea)
     {
-        this->curAreaID = area;
+        this->previewMapArea = area;
 
         MIi_CpuClear16(0xFF, activeNpcAnimList, sizeof(activeNpcAnimList));
 
         this->npcCount = 0;
-        if (area < DOCKAREA_COUNT)
+        if (area < MAPAREA_COUNT)
         {
             s32 npcCount = npcCountForArea[area];
             s32 n;
@@ -2147,7 +2150,7 @@ void HubControl::SetAreaSpritesForAreaChange(s32 area)
                 AnimatorSprite__SetAnimation(&this->aniNpcIcon[i], activeNpcAnimList[i]);
             }
 
-            if (area == DOCKAREA_DRILL)
+            if (area == MAPAREA_TUTORIAL)
                 GX_SetVisiblePlane(GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ);
             else
                 GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG2 | GX_PLANEMASK_OBJ);
@@ -2213,7 +2216,7 @@ void HubControl::DrawNpcIcons()
         x += 40;
     }
 
-    if (this->curAreaID == DOCKAREA_BASE)
+    if (this->previewMapArea == MAPAREA_BASE)
     {
         aniNpcIcon        = &this->aniOptionsIcon[1];
         aniNpcIcon->pos.x = 216;
@@ -2256,19 +2259,19 @@ void HubControl::DrawNpcIcons()
         }
     }
 
-    if (this->curAreaID == DOCKAREA_DRILL)
-        renderCoreGFXControlA.bgPosition[BACKGROUND_3].x = this->field_140 >> 5;
+    if (this->previewMapArea == MAPAREA_TUTORIAL)
+        renderCoreGFXControlA.bgPosition[BACKGROUND_3].x = this->tutorialAreaPreviewScrollPos >> 5;
 
-    this->field_140++;
+    this->tutorialAreaPreviewScrollPos++;
 }
 
-void HubControl::Func_215A2E0(s32 a1, s32 a2)
+void HubControl::StartSailing(DockArea dockArea, BOOL isTraining)
 {
-    if (a2)
+    if (isTraining)
     {
-        switch (a1)
+        switch (dockArea)
         {
-            case 2:
+            case DOCKAREA_JET:
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_3)
                 {
                     VikingCupManager__EventStartVikingCup(0);
@@ -2276,23 +2279,23 @@ void HubControl::Func_215A2E0(s32 a1, s32 a2)
                 else
                 {
                     VikingCupManager__EventStartVikingCup(1);
-                    gameState.talk.state.hubStartAction = 1;
+                    gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
                 }
                 break;
 
-            case 3:
+            case DOCKAREA_BOAT:
                 VikingCupManager__EventStartVikingCup(2);
-                gameState.talk.state.hubStartAction = 1;
+                gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
                 break;
 
-            case 4:
+            case DOCKAREA_HOVER:
                 VikingCupManager__EventStartVikingCup(3);
-                gameState.talk.state.hubStartAction = 1;
+                gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
                 break;
 
-            case 5:
+            case DOCKAREA_SUBMARINE:
                 VikingCupManager__EventStartVikingCup(4);
-                gameState.talk.state.hubStartAction = 1;
+                gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
                 break;
         }
     }
@@ -2300,21 +2303,21 @@ void HubControl::Func_215A2E0(s32 a1, s32 a2)
     {
         gameState.missionType      = 0;
         gameState.missionTimeLimit = 0;
-        switch (a1)
+        switch (dockArea)
         {
-            case 2:
+            case DOCKAREA_JET:
                 gameState.sailShipType = SHIP_JET;
                 break;
 
-            case 3:
+            case DOCKAREA_BOAT:
                 gameState.sailShipType = SHIP_BOAT;
                 break;
 
-            case 4:
+            case DOCKAREA_HOVER:
                 gameState.sailShipType = SHIP_HOVER;
                 break;
 
-            case 5:
+            case DOCKAREA_SUBMARINE:
                 gameState.sailShipType = SHIP_SUBMARINE;
                 break;
         }
@@ -2341,12 +2344,12 @@ void HubControl::ChangeEvent(s32 eventID, s32 selection)
             gameState.saveFile.field_54 = 0;
             break;
 
-        case HUBEVENT_CUTSCENE_1:
-            HubControl::Func_215B8FC(selection);
+        case HUBEVENT_MOVIELIST_CUTSCENE:
+            HubControl::InitCutsceneForMovieList(selection);
             break;
 
-        case HUBEVENT_CUTSCENE_2:
-            HubControl::Func_215B92C(selection);
+        case HUBEVENT_STORY_CUTSCENE:
+            HubControl::InitCutsceneForStory(selection);
             break;
 
         case HUBEVENT_START_MISSION:
@@ -2354,7 +2357,7 @@ void HubControl::ChangeEvent(s32 eventID, s32 selection)
             break;
 
         case HUBEVENT_START_TUTORIAL:
-            HubControl::Func_215B958();
+            HubControl::InitTutorial();
             break;
 
         case HUBEVENT_VIKING_CUP:

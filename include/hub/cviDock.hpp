@@ -11,7 +11,7 @@
 #include <hub/cvi3dObject.hpp>
 #include <hub/cviDockNpc.hpp>
 #include <hub/cviDockPlayer.hpp>
-#include <hub/cviDockDrawState.hpp>
+#include <hub/cviDockCamera.hpp>
 #include <game/text/fontAnimator.h>
 #include <game/text/fontWindowAnimator.h>
 #include <game/system/threadWorker.h>
@@ -43,9 +43,9 @@ public:
 
     enum Type
     {
-        TYPE_0,
-        TYPE_1,
-        TYPE_2,
+        TYPE_DOCK,
+        TYPE_PREVIEW,
+        TYPE_CONSTRUCTION_CUTSCENE,
 
         TYPE_COUNT,
         TYPE_INVALID,
@@ -57,12 +57,12 @@ public:
 
     u16 area;
     u16 type;
-    s32 nextArea;
+    DockArea nextArea;
     BOOL playerInputEnabled;
-    s32 field_C;
+    BOOL nextAreaLoaded;
     BOOL charactersEnabled;
     BOOL disableExitArea;
-    CViDockDrawState dockDrawState;
+    CViDockCamera camera;
     CViDockBack dockBack;
     CViDockPlayer player;
     CViDockNpcGroup npcGroup;
@@ -72,14 +72,14 @@ public:
     CViDockNpc *talkNpc;
     BOOL inSailPromptRange;
     s32 field_1470;
-    s32 field_1474;
+    BOOL movedCamForNpcTalk;
     VecFx32 camTarget;
-    VecFx32 camUnknown;
+    VecFx32 camDirection;
     FontWindowAnimator fontWindowAnimator;
     FontAnimator fontAnimator;
     u16 rotationY;
     s16 field_15BA;
-    VecFx32 field_15BC[16];
+    VecFx32 shipConstructBGVertices[16];
     s16 field_167C;
     s16 field_167E;
     s32 field_1680;
@@ -91,68 +91,64 @@ public:
     Thread thread;
 
     // --------------------
-    // MEMBER FUNCTIONS
-    // --------------------
-
-    // --------------------
     // STATIC FUNCTIONS
     // --------------------
 
     static void Create(void);
-    static void Func_215DB9C(void);
+    static void Destroy(void);
     static void InitForPlayerControl(s32 area);
     static void InitForDockChange(s32 nextArea, s32 area);
     static BOOL CheckThreadIdle(void);
     static void ReturnPlayerControl(void);
-    static void InitForType1(s32 area, s32 a2);
+    static void InitForPreview(DockArea dockArea, BOOL waitForLoad);
     static void InitForConstructionCutscene(s32 area);
     static void InitForInactive(void);
     static void EnablePlayerInput(BOOL enabled);
-    static void Func_215DF84(void);
+    static void DrawShipConstructionFontWindow(void);
     static BOOL DidExitArea(void);
     static s32 GetNextArea(void);
     static BOOL HasActiveTalkAction(void);
-    static void Func_215E02C(s32 *type, s32 *param);
+    static void GetTalkActionFromTalkingNpc(s32 *type, s32 *param);
     static s32 GetTalkingNpcTalkCount(void);
-    static void Func_215E098(void);
+    static void DecrementTalkingNpcTalkCount(void);
     static s32 GetTalkingNpc(void);
     static void SetTalkingNpc(s32 id);
     static void StartTalkingToNpc(void);
-    static void Func_215E340(BOOL a1, BOOL a2);
+    static void MoveCameraForNpcTalk(BOOL a1, BOOL a2);
     static void FinishTalkingToNpc(void);
-    static BOOL Func_215E4A0(void);
+    static BOOL CheckNextDockAreaLoaded(void);
     static void SetCharactersEnabled(BOOL enabled);
     static void SaveCharacterStates(void);
     static void LoadCharacterStates(BOOL loadAngle);
     static void DisableExitArea(BOOL areaExitDisabled);
-    static void Func_215E678(CViDock *work);
+    static void Init(CViDock *work);
     static void Release(CViDock *work);
     static void InitPlayer(CViDock *work, s32 area);
     static void ReleasePlayer(CViDock *work);
     static void HandlePlayerMovement(CViDock *work);
     static void InitDockBack(CViDock *work, BOOL a2);
     static void ReleaseDockBack(CViDock *work);
-    static void InitDockDrawState(CViDock *work);
+    static void InitDockCamera(CViDock *work);
     static void ReleaseDockDrawState(CViDock *work);
     static void InitNpcs(CViDock *work);
     static void ReleaseNpcGroup(CViDock *work);
     static BOOL CheckTouchRect(CViDock *work, s32 touchX, s32 touchY, int px, int py);
-    static void Func_215ED0C(CViDock *work);
+    static void InitShipConstructCompletedMessage(CViDock *work);
     static void ReleaseFontWindow(CViDock *work);
     static void DrawFontWindow(CViDock *work);
-    static void Func_215EEA0(CViDock *work);
+    static void InitShipConstructedBG(CViDock *work);
     static void ReleaseUnknown(CViDock *work);
-    static void Func_215EF40(CViDock *work);
-    static void Func_215F1A8(CViDock *work);
+    static void ProcessShipConstructedBG(CViDock *work);
+    static void DrawShipConstructedBG(CViDock *work);
     static void Draw(CViDock *work, BOOL drawPlayer, BOOL drawNpcs, BOOL drawDock);
     static void HandleEnvironmentSfx(CViDock *work);
     static void Main_Init(void);
-    static void Main_215F998(void);
+    static void Main_DockPreview(void);
     static void Main_PlayerActive(void);
     static void Main_TalkActive(void);
-    static void Main_215FE00(void);
-    static void Main_215FE34(void);
-    static void Main_215FE68(void);
+    static void Main_InitForPreviewDockChange(void);
+    static void Main_WaitForPreviewDockChanged(void);
+    static void Main_UpgradeShipSpin(void);
     static void Destructor(Task *task);
     static void Main_ChangingArea(void);
     static void ThreadFunc(void *arg);

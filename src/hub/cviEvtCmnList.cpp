@@ -24,7 +24,7 @@ NOT_DECOMPILED void BackgroundUnknown__Func_204CBF4(void *a1, s32 a2, u16 a3, u1
 NOT_DECOMPILED void BackgroundUnknown__CopyPixels(void *pixels, s32 unitWidth, s32 startX, s32 startY, u16 sizeX, u16 sizeY, void *pixels2, u16 pixelWidth, u16 targetX,
                                                   u16 targetY, u16 a11);
 
-NOT_DECOMPILED void _ZN10HubControl16GetFileFrom_ViBGEt(void);
+NOT_DECOMPILED void _ZN10HubControl17GetBackgroundFileEt(void);
 
 NOT_DECOMPILED void _ZN13CViEvtCmnList23UpdateListEntryMappingsEt(void);
 NOT_DECOMPILED void _ZN13CViEvtCmnList28UpdateListBackgroundMappingsEt(void);
@@ -206,10 +206,10 @@ u16 CViEvtCmnList::GetSelectedEntry()
 void CViEvtCmnList::InitSprites(CViEvtCmnListConfig *config)
 {
     FontWindowAnimator__Init(&this->fontWindowAnimator);
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, config->windowSizeX, config->windowSizeY, PIXEL_TO_TILE(0), PIXEL_TO_TILE(0),
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetFontWindow(), 0, config->windowSizeX, config->windowSizeY, PIXEL_TO_TILE(0), PIXEL_TO_TILE(0),
                               PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(HW_LCD_HEIGHT), GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_3, 960, 1023);
     FontWindowMWControl__Init(&this->fontWindowMWControl);
-    FontWindowMWControl__Load(&this->fontWindowMWControl, HubControl::GetField54(), 0, config->windowFrame, 25, 16, GRAPHICS_ENGINE_A, SPRITE_PRIORITY_1, SPRITE_ORDER_31,
+    FontWindowMWControl__Load(&this->fontWindowMWControl, HubControl::GetFontWindow(), 0, config->windowFrame, 25, 16, GRAPHICS_ENGINE_A, SPRITE_PRIORITY_1, SPRITE_ORDER_31,
                               PALETTE_ROW_5);
 
     void *sprHUDLoc         = config->sprMapLocHUD;
@@ -626,7 +626,7 @@ NONMATCH_FUNC void CViEvtCmnList::UpdateListTextMappings(s32 id, s16 scroll, u16
 
     if (y >= 0)
     {
-        BackgroundBlock *pixelBlock = GetBackgroundPixels(HubControl::GetFileFrom_ViBG(ARCHIVE_VI_BG_LZ7_FILE_VI_MS_NUMBER_BBG));
+        BackgroundBlock *pixelBlock = GetBackgroundPixels(HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_MS_NUMBER_BBG));
 
         // Copy digits into vram
         s32 digitPos = 1;
@@ -735,7 +735,7 @@ _0216FB40:
 	cmp r0, #0
 	blt _0216FC8C
 	mov r0, #5
-	bl _ZN10HubControl16GetFileFrom_ViBGEt
+	bl _ZN10HubControl17GetBackgroundFileEt
 	bl GetBackgroundPixels
 	ldr r1, [sp, #0x1c]
 	ldrh r7, [r10, #0x12]
@@ -1063,7 +1063,7 @@ void CViEvtCmnList::ApplyListTextGraphics(BOOL uncompressed)
         Mappings__LoadUnknown(this->listTextMappings, 0, 0, BG_DISPLAY_FULL_WIDTH, 0, MAPPINGS_MODE_TEXT_256x256_A, 0, 0, 0, 0, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT_EX);
     }
 
-    void *bgMsNumber = HubControl::GetFileFrom_ViBG(ARCHIVE_VI_BG_LZ7_FILE_VI_MS_NUMBER_BBG);
+    void *bgMsNumber = HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_MS_NUMBER_BBG);
 
     const GXRgb *lockedPalette;
     const GXRgb *clearedPalette;

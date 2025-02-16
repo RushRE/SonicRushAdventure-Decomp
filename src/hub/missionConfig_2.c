@@ -4,6 +4,7 @@
 #include <game/save/saveGame.h>
 #include <game/system/sysEvent.h>
 #include <sail/vikingCupManager.h>
+#include <hub/dockCommon.h>
 
 // --------------------
 // FUNCTION DECLS
@@ -354,8 +355,8 @@ RUSH_INLINE BOOL CheckMissionMatches(u16 id1, u16 id2)
 
 void MissionHelpers__StartMission(s32 id)
 {
-    gameState.talk.missionID      = id;
-    gameState.talk.state.hubStartAction = 5;
+    gameState.talk.missionID            = id;
+    gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_MISSIONLIST_TALK;
 
     if (id < MISSION_95)
     {

@@ -3,6 +3,7 @@
 #include <game/save/saveGame.h>
 #include <game/stage/gameSystem.h>
 #include <game/system/sysEvent.h>
+#include <hub/dockCommon.h>
 
 // --------------------
 // FUNCTIONS
@@ -29,8 +30,8 @@ void EndExBossStage(ExFinishMode mode)
             break;
 
         case EXFINISHMODE_GAME_OVER:
-            saveGame.stage.status.lives = PLAYER_STARTING_LIVES;
-            gameState.talk.state.hubStartAction     = 6;
+            saveGame.stage.status.lives         = PLAYER_STARTING_LIVES;
+            gameState.talk.state.hubStartAction = HUB_STARTACTION_EX_GAME_OVER;
             RequestSysEventChange(1); // SYSEVENT_LOAD_STAGE
             break;
 

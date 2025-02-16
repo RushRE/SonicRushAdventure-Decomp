@@ -603,7 +603,7 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenGraphics(EmeraldCollectedScreenWork
     Camera3D camera;
     MI_CpuClear16(&camera, sizeof(camera));
     GetDrawStateCameraView(drawState, &camera);
-    GetDrawStateCameraProjection(drawState, &camera);
+    GetDrawStateCameraProjection(drawState, &camera.config);
     if (IsEmeraldCollectedScreenUsingChaosEmeralds())
         camera.config.matProjPosition.y = MultiplyFX(camera.config.projScaleW, -106);
     else

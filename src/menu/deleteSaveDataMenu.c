@@ -11,6 +11,7 @@
 #include <game/file/fileUnknown.h>
 #include <game/file/bundleFileUnknown.h>
 #include <game/system/sysEvent.h>
+#include <hub/dockCommon.h>
 
 // resources
 #include <resources/narc/dm_sd_act_lz7.h>
@@ -195,8 +196,8 @@ void SetupDisplayForDeleteSaveDataMenu(DeleteSaveDataMenu *work)
 void InitDeleteSaveDataMenuFontWindow(DeleteSaveDataMenu *work)
 {
     FontWindowAnimator__Init(&work->fontWindowAnimatorMain);
-    FontWindowAnimator__Load1(&work->fontWindowAnimatorMain, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
-                              PIXEL_TO_TILE(0), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(96), GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_2, 1, 0);
+    FontWindowAnimator__Load1(&work->fontWindowAnimatorMain, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG,
+                              PIXEL_TO_TILE(0), PIXEL_TO_TILE(0), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(96), GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_2, 1, 0);
     FontWindowAnimator__Init(&work->fntWindowSelection);
 }
 
@@ -322,8 +323,8 @@ void DeleteSaveDataMenu_Main(void)
         }
         else
         {
-            gameState.talk.state.hubStartAction = 2;
-            nextEvent                     = 1; // SYSEVENT_RETURN_TO_HUB
+            gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_OPTIONS_TALK;
+            nextEvent                           = 1; // SYSEVENT_RETURN_TO_HUB
         }
 
         DestroyCurrentTask();

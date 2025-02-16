@@ -222,8 +222,8 @@ BOOL HubHUD::ShouldOpenMainMenu(void)
 
 void HubHUD::InitGraphics(HubHUD *work)
 {
-    work->sprViFix    = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_FIX_BAC);
-    work->sprViFixLoc = HubControl::GetFileFrom_ViActLoc(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
+    work->sprViFix    = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_FIX_BAC);
+    work->sprViFixLoc = HubControl::GetLocalizedSpriteFile(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
 
     HubHUD::InitViewButtons(work);
     HubHUD::InitMenuButton(work);

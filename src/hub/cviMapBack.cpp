@@ -16,8 +16,8 @@ extern "C"
 
 NOT_DECOMPILED void _ZdlPv(void);
 
-NOT_DECOMPILED void _ZN10HubControl17GetFileFrom_ViActEt(void);
-NOT_DECOMPILED void _ZN10HubControl16GetFileFrom_ViBGEt(void);
+NOT_DECOMPILED void _ZN10HubControl13GetSpriteFileEt(void);
+NOT_DECOMPILED void _ZN10HubControl17GetBackgroundFileEt(void);
 
 NOT_DECOMPILED void BackgroundUnknown__Func_204CB98(void);
 NOT_DECOMPILED void BackgroundUnknown__Func_204CB40(void);
@@ -473,7 +473,7 @@ NONMATCH_FUNC void ViMapBack__LoadAssets(CViMapBack *work)
 	mov r2, r2, lsl #2
 	bl MIi_CpuClear32
 	mov r0, #0
-	bl _ZN10HubControl16GetFileFrom_ViBGEt
+	bl _ZN10HubControl17GetBackgroundFileEt
 	mov r3, #1
 	mov r1, r0
 	str r3, [sp]
@@ -487,7 +487,7 @@ NONMATCH_FUNC void ViMapBack__LoadAssets(CViMapBack *work)
 	add r0, sp, #0x20
 	bl DrawBackground
 	mov r0, #0xc
-	bl _ZN10HubControl17GetFileFrom_ViActEt
+	bl _ZN10HubControl13GetSpriteFileEt
 	ldr r8, =ViMapBack__OamOrderList
 	mov r4, r0
 	mov r10, r11

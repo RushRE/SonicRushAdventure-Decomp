@@ -93,7 +93,7 @@ void CViTalkPurchase::InitDisplay()
 
 void CViTalkPurchase::InitSprites()
 {
-    void *sprMaterial       = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_MAT32_BAC);
+    void *sprMaterial       = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_MAT32_BAC);
     VRAMPixelKey vramPixels = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize1(sprMaterial));
     AnimatorSprite__Init(&this->aniMaterial, sprMaterial, 0, ANIMATOR_FLAG_NONE, GRAPHICS_ENGINE_A, PIXEL_MODE_SPRITE, vramPixels, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
                          SPRITE_PRIORITY_0, SPRITE_ORDER_0);
@@ -101,7 +101,7 @@ void CViTalkPurchase::InitSprites()
     this->aniMaterial.pos.y          = 32;
     this->aniMaterial.cParam.palette = PALETTE_ROW_8;
 
-    void *sprRing = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_RING32_BAC);
+    void *sprRing = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_RING32_BAC);
     vramPixels    = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize1(sprRing));
     AnimatorSprite__Init(&this->aniRing, sprRing, 0, ANIMATOR_FLAG_NONE, GRAPHICS_ENGINE_A, PIXEL_MODE_SPRITE, vramPixels, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0,
                          SPRITE_ORDER_0);
@@ -109,7 +109,7 @@ void CViTalkPurchase::InitSprites()
     this->aniRing.pos.y          = 32;
     this->aniRing.cParam.palette = PALETTE_ROW_8;
 
-    void *sprMenu = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
+    void *sprMenu = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
     vramPixels    = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize1FromAnim(sprMenu, 1));
     AnimatorSprite__Init(&this->aniCostBackground, sprMenu, 1, ANIMATOR_FLAG_NONE, GRAPHICS_ENGINE_A, PIXEL_MODE_SPRITE, vramPixels, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
                          SPRITE_PRIORITY_0, SPRITE_ORDER_1);
@@ -187,7 +187,7 @@ void CViTalkPurchase::Main_Init(void)
             config = HubConfig__GetRadioTowerPurchaseMsgConfig();
         }
 
-        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), config->fileID), config->interactionID, CVIEVTCMN_RESOURCE_NONE);
+        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), config->fileID), config->interactionID, CVIEVTCMN_RESOURCE_NONE);
         work->eventTalk.SetCallback(CViTalkPurchase::TalkCallback, (void *)work);
         work->eventPurchase.ProcessGraphics();
         SetCurrentTaskMainEvent(CViTalkPurchase::Main_OpenWindow);
@@ -254,60 +254,60 @@ void CViTalkPurchase::Main_ApplyPurchase(void)
 
     switch (work->eventTalk.GetAction())
     {
-        case CViEvtCmnTalk::ACTION_2:
+        case CViEvtCmnTalk::ACTION_CONSTRUCT_SHIP:
             if (work->decorPurchaseID < CViTalkPurchase::DECOR_COUNT)
             {
                 CViTalkPurchase::MakePurchase(HubConfig__GetDecorPurchaseCost(work->decorPurchaseID));
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_6);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_CONSTRUCT_DECORATION);
                 CViDockNpcTalk::SetSelection(decorPurchaseSelection[work->decorPurchaseID]);
             }
             else if (work->constructionID < CViTalkPurchase::CONSTRUCT_RADIO_TOWER)
             {
                 CViTalkPurchase::MakePurchase(HubConfig__GetShipBuildCost(work->constructionID));
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_4);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_CONSTRUCT_SHIP);
                 CViDockNpcTalk::SetSelection(work->constructionID);
             }
             else if (work->shipUpgradeID < CViTalkPurchase::UPGRADE_COUNT)
             {
                 CViTalkPurchase::MakePurchase(HubConfig__GetShipUpgradeCost(work->shipUpgradeID));
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_29);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_UPGRADE_SHIP);
                 CViDockNpcTalk::SetSelection(work->shipUpgradeID);
             }
             else
             {
                 CViTalkPurchase::MakePurchase(HubConfig__GetRadioTowerPurchaseCost());
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_6);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_CONSTRUCT_DECORATION);
                 CViDockNpcTalk::SetSelection(7);
             }
             break;
 
-        case CViEvtCmnTalk::ACTION_20:
+        case CViEvtCmnTalk::ACTION_UPGRADE_SHIP:
             if (work->shipUpgradeID < CViTalkPurchase::UPGRADE_COUNT)
             {
                 CViTalkPurchase::MakePurchase(HubConfig__GetShipUpgradeCost(work->shipUpgradeID));
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_29);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_UPGRADE_SHIP);
                 CViDockNpcTalk::SetSelection(work->shipUpgradeID);
             }
             else
             {
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
                 CViDockNpcTalk::SetSelection(0);
             }
             break;
 
-        case CViEvtCmnTalk::ACTION_22:
+        case CViEvtCmnTalk::ACTION_TALK_PURCHASED_INFO:
             if (!SaveGame__GetProgressFlags_0x100000(0))
             {
                 SaveGame__SetProgressFlags_0x100000(0);
                 SaveGame__BuyInfoHint();
             }
 
-            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
             CViDockNpcTalk::SetSelection(0);
             break;
 
         default:
-            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
             CViDockNpcTalk::SetSelection(0);
             break;
     }

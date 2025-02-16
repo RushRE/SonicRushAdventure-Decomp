@@ -54,7 +54,7 @@ void CViTalkOptions::Main_Init(void)
     {
         const HubOptionsMsgConfig *config = HubConfig__GetOptionsMsgConfig();
 
-        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), config->msgCtrlFile), config->msgTextID[0], CVIEVTCMN_RESOURCE_NONE);
+        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), config->msgCtrlFile), config->msgTextID[0], CVIEVTCMN_RESOURCE_NONE);
         work->eventTalk.SetPage(0);
         SetCurrentTaskMainEvent(CViTalkOptions::Main_ChooseOption);
     }
@@ -74,9 +74,9 @@ void CViTalkOptions::Main_ChooseOption(void)
 
         u32 action    = work->eventTalk.GetAction();
         u32 selection = work->eventTalk.GetSelection();
-        if (action != CViEvtCmnTalk::ACTION_0 || selection == 0)
+        if (action != CViEvtCmnTalk::ACTION_NONE || selection == 0)
         {
-            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
             CViDockNpcTalk::SetSelection(0);
             DestroyCurrentTask();
         }
@@ -90,7 +90,7 @@ void CViTalkOptions::Main_ChooseOption(void)
                 else
                     msgTextID = config->msgTextID[2];
 
-                work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), config->msgCtrlFile), msgTextID, CVIEVTCMN_RESOURCE_NONE);
+                work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), config->msgCtrlFile), msgTextID, CVIEVTCMN_RESOURCE_NONE);
                 work->eventTalk.SetPage(0);
                 SetCurrentTaskMainEvent(CViTalkOptions::Main_ChangeDifficulty);
             }
@@ -101,13 +101,13 @@ void CViTalkOptions::Main_ChooseOption(void)
                 else
                     msgTextID = config->msgTextID[4];
 
-                work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), config->msgCtrlFile), msgTextID, CVIEVTCMN_RESOURCE_NONE);
+                work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), config->msgCtrlFile), msgTextID, CVIEVTCMN_RESOURCE_NONE);
                 work->eventTalk.SetPage(0);
                 SetCurrentTaskMainEvent(CViTalkOptions::Main_ChangeTimeLimit);
             }
             else
             {
-                work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), config->msgCtrlFile), config->msgTextID[5], CVIEVTCMN_RESOURCE_NONE);
+                work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), config->msgCtrlFile), config->msgTextID[5], CVIEVTCMN_RESOURCE_NONE);
                 work->eventTalk.SetPage(0);
                 SetCurrentTaskMainEvent(CViTalkOptions::Main_ClearSaveDataWarning);
             }
@@ -131,7 +131,7 @@ void CViTalkOptions::Main_ChangeDifficulty(void)
 
         u32 action    = work->eventTalk.GetAction();
         u32 selection = work->eventTalk.GetSelection();
-        if (action == CViEvtCmnTalk::ACTION_0 && selection >= 1)
+        if (action == CViEvtCmnTalk::ACTION_NONE && selection >= 1)
         {
             switch (selection)
             {
@@ -149,13 +149,13 @@ void CViTalkOptions::Main_ChangeDifficulty(void)
 
         if (saveError)
         {
-            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_30);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_CORRUPT_SAVE);
             CViDockNpcTalk::SetSelection(0);
             DestroyCurrentTask();
         }
         else
         {
-            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), config->msgCtrlFile), config->msgTextID[0], CVIEVTCMN_RESOURCE_NONE);
+            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), config->msgCtrlFile), config->msgTextID[0], CVIEVTCMN_RESOURCE_NONE);
             work->eventTalk.SetPage(0);
             SetCurrentTaskMainEvent(CViTalkOptions::Main_ChooseOption);
         }
@@ -178,7 +178,7 @@ void CViTalkOptions::Main_ChangeTimeLimit(void)
 
         u32 action    = work->eventTalk.GetAction();
         u32 selection = work->eventTalk.GetSelection();
-        if (action == CViEvtCmnTalk::ACTION_0 && selection >= 1)
+        if (action == CViEvtCmnTalk::ACTION_NONE && selection >= 1)
         {
             switch (selection)
             {
@@ -196,13 +196,13 @@ void CViTalkOptions::Main_ChangeTimeLimit(void)
 
         if (saveError)
         {
-            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_30);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_CORRUPT_SAVE);
             CViDockNpcTalk::SetSelection(0);
             DestroyCurrentTask();
         }
         else
         {
-            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), config->msgCtrlFile), config->msgTextID[0], CVIEVTCMN_RESOURCE_NONE);
+            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), config->msgCtrlFile), config->msgTextID[0], CVIEVTCMN_RESOURCE_NONE);
             work->eventTalk.SetPage(0);
             SetCurrentTaskMainEvent(CViTalkOptions::Main_ChooseOption);
         }
@@ -220,15 +220,15 @@ void CViTalkOptions::Main_ClearSaveDataWarning(void)
 
         s32 action    = work->eventTalk.GetAction();
         s32 selection = work->eventTalk.GetSelection();
-        if (action == CViEvtCmnTalk::ACTION_0 && selection == 1)
+        if (action == CViEvtCmnTalk::ACTION_NONE && selection == 1)
         {
-            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_14);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_OPEN_DELETE_SAVE_MENU);
             CViDockNpcTalk::SetSelection(0);
             DestroyCurrentTask();
         }
         else
         {
-            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), config->msgCtrlFile), config->msgTextID[0], CVIEVTCMN_RESOURCE_NONE);
+            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), config->msgCtrlFile), config->msgTextID[0], CVIEVTCMN_RESOURCE_NONE);
             work->eventTalk.SetPage(0);
             SetCurrentTaskMainEvent(CViTalkOptions::Main_ChooseOption);
         }

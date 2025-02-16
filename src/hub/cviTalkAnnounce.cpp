@@ -28,7 +28,7 @@ void CViTalkAnnounce::CreatePrivate(s32 param)
     MI_CpuClearFast((u8 *)VRAM_BG + (0x8000 - sizeof(GXCharFmt16)), sizeof(GXCharFmt16));
 
     const HubAnnounceMsgConfig *config = HubConfig__GetAnnounceMsgConfig(work->type);
-    work->eventAnnounce.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsg(), config->mpcFile));
+    work->eventAnnounce.Init(FileUnknown__GetAOUFile(HubControl::GetMsgSequenceArchive(), config->mpcFile));
     if (CViTalkAnnounce::IsItemAnnouncement(work->type))
     {
         SetHubBGMVolume(AUDIOMANAGER_VOLUME_MAX / 2);
@@ -57,17 +57,17 @@ void CViTalkAnnounce::Main(void)
     {
         if (work->type == CVITALKANNOUNCE_TYPE_UNLOCKED_JET)
         {
-            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_17);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_GOTO_JET_DOCK);
             CViDockNpcTalk::SetSelection(0);
         }
         else if (work->type == CVITALKANNOUNCE_TYPE_UNLOCKED_RADIO_TOWER)
         {
-            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_21);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_STORY_CUTSCENE);
             CViDockNpcTalk::SetSelection(28);
         }
         else
         {
-            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
             CViDockNpcTalk::SetSelection(0);
         }
 
@@ -100,7 +100,7 @@ void CViTalkAnnounce::Destructor(Task *task)
 
 BOOL CViTalkAnnounce::IsItemAnnouncement(u16 type)
 {
-    if (type == CVITALKANNOUNCE_TYPE_UNLOCKED_NEW_MISSION || type == CVITALKANNOUNCE_TYPE_UNLOCKED_MEDAL)
+    if (type == CVITALKANNOUNCE_TYPE_UNLOCKED_MEDAL || type == CVITALKANNOUNCE_TYPE_UNLOCKED_NEW_MISSION)
         return TRUE;
 
     return FALSE;

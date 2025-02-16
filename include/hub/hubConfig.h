@@ -42,8 +42,8 @@ enum CViTalkAnnounceType
     CVITALKANNOUNCE_TYPE_UNUSED24,
     CVITALKANNOUNCE_TYPE_UNUSED25,
     CVITALKANNOUNCE_TYPE_UNUSED26,
-    CVITALKANNOUNCE_TYPE_UNLOCKED_NEW_MISSION,
     CVITALKANNOUNCE_TYPE_UNLOCKED_MEDAL,
+    CVITALKANNOUNCE_TYPE_UNLOCKED_NEW_MISSION,
     CVITALKANNOUNCE_TYPE_UPGRADED_JET_LEVEL1,
     CVITALKANNOUNCE_TYPE_UPGRADED_JET_LEVEL2,
     CVITALKANNOUNCE_TYPE_UPGRADED_BOAT_LEVEL1,
@@ -116,7 +116,7 @@ typedef struct CViMapAreaIconConfig_
 {
     Vec2U16 position;
     DockArea dockArea;
-    s32 field_8;
+    DockArea previewDockArea;
     u32 nextArea_Left[3];
     u32 nextArea_Up[3];
     u32 nextArea_Right[3];
@@ -134,7 +134,7 @@ typedef struct CViDockAreaConfig_
     struct CViDockCameraBounds camBounds;
     GXRgb shadowAlpha;
     fx32 playerTopSpeed;
-    BOOL camFlag;
+    BOOL allowTalkNpcCameraMove;
     fx16 scale;
 } CViDockAreaConfig;
 

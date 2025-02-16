@@ -135,7 +135,7 @@ typedef struct DrawState_
 
 void InitDrawStateSystem(void);
 void LoadDrawState(void *fileData, DrawStateSystems systems);
-BOOL GetDrawStateCameraProjection(DrawState *state, Camera3D *camera);
+BOOL GetDrawStateCameraProjection(DrawState *state, CameraConfig *camera);
 void GetDrawStateCameraView(DrawState *state, Camera3D *camera);
 void GetDrawStateLight(DrawState *state, DirLight *light, GXLightId id);
 

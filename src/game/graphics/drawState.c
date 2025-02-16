@@ -75,16 +75,16 @@ void LoadDrawState(void *fileData, DrawStateSystems systems)
     }
 }
 
-BOOL GetDrawStateCameraProjection(DrawState *state, Camera3D *camera)
+BOOL GetDrawStateCameraProjection(DrawState *state, CameraConfig *config)
 {
     if (state->flags.useOrthoProjection)
         return TRUE;
 
-    camera->config.projFOV     = state->projection.perspective.fov >> 1;
-    camera->config.projNear    = state->matProjNear;
-    camera->config.projFar     = state->matProjFar;
-    camera->config.aspectRatio = state->projection.perspective.aspectRatio;
-    camera->config.projScaleW  = state->matProjScaleW;
+    config->projFOV     = state->projection.perspective.fov >> 1;
+    config->projNear    = state->matProjNear;
+    config->projFar     = state->matProjFar;
+    config->aspectRatio = state->projection.perspective.aspectRatio;
+    config->projScaleW  = state->matProjScaleW;
     return FALSE;
 }
 

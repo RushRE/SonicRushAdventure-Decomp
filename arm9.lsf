@@ -673,8 +673,7 @@ Overlay Hub
     Object asm/hub/cviMapBack_rtti.o
     Object src/hub/cviMapBack.o
     Object src/hub/cviMapIcon.o
-    Object src/hub/cviDockDrawState.o
-    Object asm/hub/cviDockDrawState_vars.o
+    Object src/hub/cviDockCamera.o
     Object src/hub/cviDockBack.o
     Object asm/hub/cviDockBack_rtti.o
     Object asm/hub/cviDockPlayer_rtti.o

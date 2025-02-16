@@ -17,7 +17,7 @@
 extern "C"
 {
 
-NOT_DECOMPILED void _ZN10HubControl16GetFileFrom_ViBGEt(void);
+NOT_DECOMPILED void _ZN10HubControl17GetBackgroundFileEt(void);
 NOT_DECOMPILED void _ZN10HubControl12Func_215B03CEv(void);
 
 NOT_DECOMPILED void _ZdlPv(void);
@@ -53,7 +53,7 @@ void ViMap__Create(void)
     work->mapMoveDuration = 0;
     work->mapMoveTimer    = 0;
 
-    TalkHelpers__Func_2152F98(&work->talkUnknown);
+    TalkHelpersUnknown__Init(&work->talkUnknown);
 
     ViMap__Func_215C9B4(work);
     ViMap__InitMapIcon(work);
@@ -213,12 +213,12 @@ void ViMap__GoToMapArea(u32 mapArea, BOOL shouldTravel)
     }
 }
 
-MapArea ViMap__GetMapAreaFromMapIcon(void)
+MapArea ViMap__GetChosenMapArea(void)
 {
     MapArea mapArea = ViMap__GetMapAreaFromMapIconMarker(TRUE);
 
     if (mapArea >= MAPAREA_COUNT)
-        return DOCKAREA_INVALID;
+        return MAPAREA_INVALID;
 
     if (mapArea == ViMap__GetMapAreaFromMapIconTouchInput())
         return mapArea;
@@ -275,9 +275,9 @@ void ViMap__StartShipConstructCutscene(s32 id)
 
     work->cutsceneState = 1;
     work->cutsceneTimer = 0;
-    HubControl::Func_215B03C();
+    HubControl::InitEngineBForShipConstructionCutscene();
 
-    TalkHelpersUnknown__Init(&work->talkUnknown, HubControl::GetFileFrom_ViBG(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), 0, GRAPHICS_ENGINE_B, BACKGROUND_2, PALETTE_ROW_0);
+    TalkHelpersUnknown__Load(&work->talkUnknown, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), 0, GRAPHICS_ENGINE_B, BACKGROUND_2, PALETTE_ROW_0);
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() | GX_PLANEMASK_BG2);
 }
 
@@ -302,8 +302,8 @@ void ViMap__StartDecorConstructCutscene(s32 id)
 
     work->cutsceneState = 1;
     work->cutsceneTimer = 0;
-    HubControl::Func_215B03C();
-    TalkHelpersUnknown__Init(&work->talkUnknown, HubControl::GetFileFrom_ViBG(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), 0, GRAPHICS_ENGINE_B, BACKGROUND_2, PALETTE_ROW_0);
+    HubControl::InitEngineBForShipConstructionCutscene();
+    TalkHelpersUnknown__Load(&work->talkUnknown, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), 0, GRAPHICS_ENGINE_B, BACKGROUND_2, PALETTE_ROW_0);
 
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() | GX_PLANEMASK_BG2);
 }
@@ -354,9 +354,9 @@ void ViMap__StartShipUpgradeCutscene(s32 id)
 
     work->cutsceneState = 1;
     work->cutsceneTimer = 0;
-    HubControl::Func_215B03C();
+    HubControl::InitEngineBForShipConstructionCutscene();
 
-    TalkHelpersUnknown__Init(&work->talkUnknown, HubControl::GetFileFrom_ViBG(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), 0, GRAPHICS_ENGINE_B, BACKGROUND_2, PALETTE_ROW_0);
+    TalkHelpersUnknown__Load(&work->talkUnknown, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), 0, GRAPHICS_ENGINE_B, BACKGROUND_2, PALETTE_ROW_0);
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() | GX_PLANEMASK_BG2);
 }
 
@@ -749,7 +749,7 @@ void ViMap__Func_215CA60(CViMap *work)
 
 void ViMap__Func_215CA84(CViMap *work)
 {
-    void *sprMaterialIcon = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_MAT32_256_BAC);
+    void *sprMaterialIcon = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_MAT32_256_BAC);
     for (s32 i = 0; i < SAVE_MATERIAL_COUNT; i++)
     {
         size_t sprMaterialIconSize = Sprite__GetSpriteSize3FromAnim(sprMaterialIcon, i);
@@ -765,7 +765,7 @@ void ViMap__Func_215CA84(CViMap *work)
                              SPRITE_PRIORITY_0, SPRITE_ORDER_0);
     }
 
-    void *sprRingIcon       = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_RING32_BAC);
+    void *sprRingIcon       = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_RING32_BAC);
     VRAMPixelKey vramPixels = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, Sprite__GetSpriteSize3FromAnim(sprRingIcon, 0));
     AnimatorSprite__Init(&work->aniRingIcon, sprRingIcon, 0, ANIMATOR_FLAG_NONE, GRAPHICS_ENGINE_B, PIXEL_MODE_SPRITE, vramPixels, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
                          SPRITE_PRIORITY_0, SPRITE_ORDER_0);
@@ -777,7 +777,7 @@ void ViMap__Func_215CA84(CViMap *work)
         s32 i;
         size_t sprSparkleSize;
 
-        sprSparkle     = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_EFF_JEWEL_BAC);
+        sprSparkle     = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_EFF_JEWEL_BAC);
         sprSparkleSize = Sprite__GetSpriteSize3(sprSparkle);
 
         aniSparkle = &work->aniSparkle[0];
@@ -1167,10 +1167,10 @@ void ViMap__Func_215D374(CViMap *work)
 
 void ViMap__Func_215D44C(CViMap *work, s32 a2, s32 a3)
 {
-    TalkHelpers__Func_215332C(&work->talkUnknown, work->field_7D0, work->field_7D2);
-    TalkHelpers__Func_2153338(&work->talkUnknown, a2);
-    TalkHelpers__Func_2153350(&work->talkUnknown, FX_DivS32(FX32_FROM_WHOLE(a3), 16));
-    TalkHelpers__Func_21530A8(&work->talkUnknown);
+    TalkHelpersUnknown__Func_215332C(&work->talkUnknown, work->field_7D0, work->field_7D2);
+    TalkHelpersUnknown__Func_2153338(&work->talkUnknown, a2);
+    TalkHelpersUnknown__Func_2153350(&work->talkUnknown, FX_DivS32(FX32_FROM_WHOLE(a3), 16));
+    TalkHelpersUnknown__Process(&work->talkUnknown);
 }
 
 NONMATCH_FUNC void ViMap__Func_215D4B4(CViMap *work)

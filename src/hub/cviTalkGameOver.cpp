@@ -64,7 +64,7 @@ void CViTalkGameOver::Main_Init(void)
         else
             id = 0;
 
-        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_OTHER_MCF), id, CVIEVTCMN_RESOURCE_NONE);
+        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_OTHER_MCF), id, CVIEVTCMN_RESOURCE_NONE);
         work->eventTalk.SetPage(0);
         SetCurrentTaskMainEvent(CViTalkGameOver::Main_Talking);
     }
@@ -77,21 +77,21 @@ void CViTalkGameOver::Main_Talking(void)
     work->eventTalk.ProcessDialog();
     if (work->eventTalk.IsFinished())
     {
-        if (work->eventTalk.GetAction() == CViEvtCmnTalk::ACTION_18)
+        if (work->eventTalk.GetAction() == CViEvtCmnTalk::ACTION_TALK_GAMEOVER)
         {
             if (work->eventTalk.GetSelection() == 0)
             {
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_27);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_GAMEOVER_RETRY_STAGE);
             }
             else
             {
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
                 SaveGame__GsExit(0);
             }
         }
         else
         {
-            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
         }
 
         CViDockNpcTalk::SetSelection(0);

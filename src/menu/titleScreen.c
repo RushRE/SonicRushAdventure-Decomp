@@ -8,6 +8,7 @@
 #include <game/system/sysEvent.h>
 #include <game/math/mtMath.h>
 #include <game/save/saveGame.h>
+#include <hub/dockCommon.h>
 
 // resources
 #include <resources/narc/dmti_lz7.h>
@@ -209,7 +210,7 @@ void InitTitleScreenAnimators(TitleScreen *work)
     void *drawState = control->drawStateCutscene;
     LoadDrawState(drawState, DRAWSTATE_ALL & ~(DRAWSTATE_LOOKAT));
     GetDrawStateCameraView(drawState, &control->cameraConfig);
-    GetDrawStateCameraProjection(drawState, &control->cameraConfig);
+    GetDrawStateCameraProjection(drawState, &control->cameraConfig.config);
     control->matProjPositionY = control->cameraConfig.config.projScaleW + MultiplyFX(FLOAT_TO_FX32(0.3125), control->cameraConfig.config.projScaleW);
 
     void *mdlCutsceneOpening = control->mdlCutscene[0];
@@ -313,7 +314,7 @@ void ChangeEventForTitleScreen(TitleScreenNextEvent id)
     switch (id)
     {
         case TITLESCREEN_NEXTEVENT_HUB:
-            gameState.talk.state.hubStartAction = 0;
+            gameState.talk.state.hubStartAction = HUB_STARTACTION_NONE;
             SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
             // fallthrough
 

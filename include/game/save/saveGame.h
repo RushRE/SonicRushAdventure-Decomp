@@ -105,7 +105,7 @@ enum SaveProgress_
     SAVE_PROGRESS_7,  // cleared machine labyrinth act 2
     SAVE_PROGRESS_8,  // cleared machine labyrinth boss
     SAVE_PROGRESS_9,  // built ocean tornado
-    SAVE_PROGRESS_10, // ???
+    SAVE_PROGRESS_10, // visited ocean tornado dock
     SAVE_PROGRESS_11, // ???
     SAVE_PROGRESS_12, // ???
     SAVE_PROGRESS_13, // cleared hidden island 1
@@ -118,11 +118,11 @@ enum SaveProgress_
     SAVE_PROGRESS_20, // cleared haunted ship act 2
     SAVE_PROGRESS_21, // cleared haunted ship boss
     SAVE_PROGRESS_22, // built aqua blast
-    SAVE_PROGRESS_23, // ???
+    SAVE_PROGRESS_23, // visited aqua blast dock
     SAVE_PROGRESS_24, // blizzard peaks or sky babylon has yet to be cleared
     SAVE_PROGRESS_25, // cleared blizzard peaks and sky babylon
     SAVE_PROGRESS_26, // built deep typhoon
-    SAVE_PROGRESS_27, // ???
+    SAVE_PROGRESS_27, // visited deep typhoon dock
     SAVE_PROGRESS_28, // ???
     SAVE_PROGRESS_29, // hunting for door puzzle keys
     SAVE_PROGRESS_30, // ???
@@ -422,7 +422,7 @@ BOOL SaveGame__HasDoorPuzzlePiece(u16 id);
 void SaveGame__GetPuzzlePiece(u16 id);
 void SaveGame__UpdateProgressForZone5Zone6Cleared(void);
 void SaveGame__UpdateProgressForAllDoorPuzzleKeysCollected(void);
-void SaveGame__Func_205BC38(u32 type);
+void SaveGame__UpdateProgressForDockFirstVisited(u32 type);
 BOOL SaveGame__CheckCollectedAllEmeraldsEvent(void);
 void SaveGame__SetMissionStatus(u16 id, MissionState status);
 MissionState SaveGame__GetMissionStatus(u16 id);

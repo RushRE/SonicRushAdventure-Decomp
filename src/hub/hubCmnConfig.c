@@ -11,9 +11,9 @@
 // VARIABLES
 // --------------------
 
-static const HubNpcTalkActionConfig npcTalkActionOldDS     = { .talkActionType = CVIDOCKNPCTALK_ACTION, .talkActionParam = CVIDOCKNPCTALK_ACTION_15 };
+static const HubNpcTalkActionConfig npcTalkActionOldDS     = { .talkActionType = CVIDOCKNPCTALK_ACTION, .talkActionParam = CVIDOCKNPCTALK_ACTION_OPEN_VS_MAIN_MENU };
 static const HubNpcTalkActionConfig npcTalkActionCommon    = { .talkActionType = CVIDOCKNPCTALK_NPC, .talkActionParam = 0 };
-static const HubNpcTalkActionConfig npcTalkActionHourglass = { .talkActionType = CVIDOCKNPCTALK_ACTION, .talkActionParam = CVIDOCKNPCTALK_ACTION_16 };
+static const HubNpcTalkActionConfig npcTalkActionHourglass = { .talkActionType = CVIDOCKNPCTALK_ACTION, .talkActionParam = CVIDOCKNPCTALK_ACTION_OPEN_STAGE_SELECT };
 
 static const CViPurchaseCostConfig radioTowerCost[] =
 {
@@ -701,7 +701,7 @@ static const CViDockAreaConfig dockAreaConfig[] = {
                         },
                         .shadowAlpha    = GX_COLOR_FROM_888(0x40),
                         .playerTopSpeed = FLOAT_TO_FX32(0.5),
-                        .camFlag        = FALSE,
+                        .allowTalkNpcCameraMove        = FALSE,
                         .scale          = FLOAT_TO_FX32(1.0), },
 
     [DOCKAREA_BASE_NEXT] = { .dockArea       = DOCKAREA_BASE_NEXT,
@@ -715,7 +715,7 @@ static const CViDockAreaConfig dockAreaConfig[] = {
                              },
                              .shadowAlpha    = GX_COLOR_FROM_888(0x40),
                              .playerTopSpeed = FLOAT_TO_FX32(0.5),
-                             .camFlag        = FALSE,
+                             .allowTalkNpcCameraMove        = FALSE,
                              .scale          = FLOAT_TO_FX32(1.0), },
 
     [DOCKAREA_JET] = { .dockArea       = DOCKAREA_JET,
@@ -729,7 +729,7 @@ static const CViDockAreaConfig dockAreaConfig[] = {
                         },
                        .shadowAlpha    = GX_COLOR_FROM_888(0x80),
                        .playerTopSpeed = FLOAT_TO_FX32(1.0),
-                       .camFlag        = TRUE,
+                       .allowTalkNpcCameraMove        = TRUE,
                        .scale          = FLOAT_TO_FX32(1.0), },
 
     [DOCKAREA_BOAT] = { .dockArea       = DOCKAREA_BOAT,
@@ -743,7 +743,7 @@ static const CViDockAreaConfig dockAreaConfig[] = {
                         },
                         .shadowAlpha    = GX_COLOR_FROM_888(0x60),
                         .playerTopSpeed = FLOAT_TO_FX32(2.0),
-                        .camFlag        = TRUE,
+                        .allowTalkNpcCameraMove        = TRUE,
                         .scale          = FLOAT_TO_FX32(1.5), },
 
     [DOCKAREA_HOVER] = { .dockArea       = DOCKAREA_HOVER,
@@ -757,7 +757,7 @@ static const CViDockAreaConfig dockAreaConfig[] = {
                          },
                          .shadowAlpha    = GX_COLOR_FROM_888(0x60),
                          .playerTopSpeed = FLOAT_TO_FX32(2.0),
-                         .camFlag        = TRUE,
+                         .allowTalkNpcCameraMove        = TRUE,
                          .scale          = FLOAT_TO_FX32(1.5), },
 
     [DOCKAREA_SUBMARINE] = { .dockArea       = DOCKAREA_SUBMARINE,
@@ -771,7 +771,7 @@ static const CViDockAreaConfig dockAreaConfig[] = {
                              },
                              .shadowAlpha    = GX_COLOR_FROM_888(0x60),
                              .playerTopSpeed = FLOAT_TO_FX32(2.0),
-                             .camFlag        = TRUE,
+                             .allowTalkNpcCameraMove        = TRUE,
                              .scale          = FLOAT_TO_FX32(1.5), },
 
     [DOCKAREA_BEACH] = { .dockArea       = DOCKAREA_BEACH,
@@ -785,7 +785,7 @@ static const CViDockAreaConfig dockAreaConfig[] = {
                          },
                          .shadowAlpha    = GX_COLOR_FROM_888(0x80),
                          .playerTopSpeed = FLOAT_TO_FX32(2.0),
-                         .camFlag        = TRUE,
+                         .allowTalkNpcCameraMove        = TRUE,
                          .scale          = FLOAT_TO_FX32(1.0), },
 
     // No stage for DOCKAREA_DRILL
@@ -794,98 +794,98 @@ static const CViDockAreaConfig dockAreaConfig[] = {
 static const CViMapAreaIconConfig mapAreaIconConfig[] = {
     [MAPAREA_BASE] = 
     {
-        .position       = { 144, 148 },
-        .dockArea       = DOCKAREA_BASE,
-        .field_8        = MAPAREA_BASE,
-        .nextArea_Left  = { MAPAREA_HOVER, MAPAREA_SUBMARINE, MAPAREA_BEACH },
-        .nextArea_Up    = { MAPAREA_DRILL, MAPAREA_SUBMARINE, MAPAREA_TUTORIAL },
-        .nextArea_Right = { MAPAREA_BOAT, MAPAREA_TUTORIAL, MAPAREA_INVALID },
-        .nextArea_Down  = { MAPAREA_JET, MAPAREA_INVALID, MAPAREA_INVALID },
-        .field_3C       = 1,
+        .position           = { 144, 148 },
+        .dockArea           = DOCKAREA_BASE,
+        .previewDockArea    = MAPAREA_BASE,
+        .nextArea_Left      = { MAPAREA_HOVER, MAPAREA_SUBMARINE, MAPAREA_BEACH },
+        .nextArea_Up        = { MAPAREA_DRILL, MAPAREA_SUBMARINE, MAPAREA_TUTORIAL },
+        .nextArea_Right     = { MAPAREA_BOAT, MAPAREA_TUTORIAL, MAPAREA_INVALID },
+        .nextArea_Down      = { MAPAREA_JET, MAPAREA_INVALID, MAPAREA_INVALID },
+        .field_3C           = 1,
     },
 
     [MAPAREA_JET] = 
     {
-        .position       = { 120, 212 },
-        .dockArea       = DOCKAREA_JET,
-        .field_8        = MAPAREA_JET,
-        .nextArea_Left  = { MAPAREA_BEACH, MAPAREA_HOVER, MAPAREA_SUBMARINE },
-        .nextArea_Up    = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Right = { MAPAREA_BOAT, MAPAREA_BASE, MAPAREA_INVALID },
-        .nextArea_Down  = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
-        .field_3C       = 2,
+        .position           = { 120, 212 },
+        .dockArea           = DOCKAREA_JET,
+        .previewDockArea    = MAPAREA_JET,
+        .nextArea_Left      = { MAPAREA_BEACH, MAPAREA_HOVER, MAPAREA_SUBMARINE },
+        .nextArea_Up        = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right     = { MAPAREA_BOAT, MAPAREA_BASE, MAPAREA_INVALID },
+        .nextArea_Down      = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
+        .field_3C           = 2,
     },
 
     [MAPAREA_BOAT] = 
     {
-        .position       = { 260, 190 },
-        .dockArea       = DOCKAREA_BOAT,
-        .field_8        = MAPAREA_BOAT,
-        .nextArea_Left  = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Up    = { MAPAREA_TUTORIAL, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Right = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Down  = { MAPAREA_JET, MAPAREA_INVALID, MAPAREA_INVALID },
-        .field_3C       = 3,
+        .position           = { 260, 190 },
+        .dockArea           = DOCKAREA_BOAT,
+        .previewDockArea    = MAPAREA_BOAT,
+        .nextArea_Left      = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Up        = { MAPAREA_TUTORIAL, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right     = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Down      = { MAPAREA_JET, MAPAREA_INVALID, MAPAREA_INVALID },
+        .field_3C           = 3,
     },
 
     [MAPAREA_HOVER] = 
     {
-        .position       = { 60, 158 },
-        .dockArea       = DOCKAREA_HOVER,
-        .field_8        = MAPAREA_HOVER,
-        .nextArea_Left  = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Up    = { MAPAREA_SUBMARINE, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Right = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Down  = { MAPAREA_BEACH, MAPAREA_JET, MAPAREA_INVALID },
-        .field_3C       = 4,
+        .position           = { 60, 158 },
+        .dockArea           = DOCKAREA_HOVER,
+        .previewDockArea    = MAPAREA_HOVER,
+        .nextArea_Left      = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Up        = { MAPAREA_SUBMARINE, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right     = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Down      = { MAPAREA_BEACH, MAPAREA_JET, MAPAREA_INVALID },
+        .field_3C           = 4,
     },
 
     [MAPAREA_SUBMARINE] = 
     {
-        .position       = { 80, 100 },
-        .dockArea       = DOCKAREA_SUBMARINE,
-        .field_8        = MAPAREA_SUBMARINE,
-        .nextArea_Left  = { MAPAREA_HOVER, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Up    = { MAPAREA_DRILL, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Right = { MAPAREA_DRILL, MAPAREA_BASE, MAPAREA_INVALID },
-        .nextArea_Down  = { MAPAREA_HOVER, MAPAREA_BASE, MAPAREA_JET },
-        .field_3C       = 5,
+        .position           = { 80, 100 },
+        .dockArea           = DOCKAREA_SUBMARINE,
+        .previewDockArea    = MAPAREA_SUBMARINE,
+        .nextArea_Left      = { MAPAREA_HOVER, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Up        = { MAPAREA_DRILL, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right     = { MAPAREA_DRILL, MAPAREA_BASE, MAPAREA_INVALID },
+        .nextArea_Down      = { MAPAREA_HOVER, MAPAREA_BASE, MAPAREA_JET },
+        .field_3C           = 5,
     },
 
     [MAPAREA_BEACH] = 
     {
-        .position       = { 44, 204 },
-        .dockArea       = DOCKAREA_BEACH,
-        .field_8        = MAPAREA_BEACH,
-        .nextArea_Left  = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Up    = { MAPAREA_HOVER, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Right = { MAPAREA_JET, MAPAREA_BASE, MAPAREA_INVALID },
-        .nextArea_Down  = { MAPAREA_JET, MAPAREA_INVALID, MAPAREA_INVALID },
-        .field_3C       = CVIEVTCMN_RESOURCE_NONE,
+        .position           = { 44, 204 },
+        .dockArea           = DOCKAREA_BEACH,
+        .previewDockArea    = MAPAREA_BEACH,
+        .nextArea_Left      = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Up        = { MAPAREA_HOVER, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right     = { MAPAREA_JET, MAPAREA_BASE, MAPAREA_INVALID },
+        .nextArea_Down      = { MAPAREA_JET, MAPAREA_INVALID, MAPAREA_INVALID },
+        .field_3C           = CVIEVTCMN_RESOURCE_NONE,
     },
 
     [MAPAREA_DRILL] = 
     {
-        .position       = { 154, 80 },
-        .dockArea       = DOCKAREA_COUNT,
-        .field_8        = MAPAREA_DRILL,
-        .nextArea_Left  = { MAPAREA_SUBMARINE, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Up    = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Right = { MAPAREA_TUTORIAL, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Down  = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
-        .field_3C       = 6,
+        .position           = { 154, 80 },
+        .dockArea           = DOCKAREA_COUNT,
+        .previewDockArea    = MAPAREA_DRILL,
+        .nextArea_Left      = { MAPAREA_SUBMARINE, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Up        = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right     = { MAPAREA_TUTORIAL, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Down      = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
+        .field_3C           = 6,
     },
 
     [MAPAREA_TUTORIAL] = 
     {
-        .position       = { 276, 104 },
-        .dockArea       = DOCKAREA_COUNT,
-        .field_8        = MAPAREA_TUTORIAL,
-        .nextArea_Left  = { MAPAREA_DRILL, MAPAREA_BASE, MAPAREA_INVALID },
-        .nextArea_Up    = { MAPAREA_DRILL, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Right = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
-        .nextArea_Down  = { MAPAREA_BOAT, MAPAREA_BASE, MAPAREA_INVALID },
-        .field_3C       = CVIEVTCMN_RESOURCE_NONE,
+        .position           = { 276, 104 },
+        .dockArea           = DOCKAREA_COUNT,
+        .previewDockArea    = MAPAREA_TUTORIAL,
+        .nextArea_Left      = { MAPAREA_DRILL, MAPAREA_BASE, MAPAREA_INVALID },
+        .nextArea_Up        = { MAPAREA_DRILL, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right     = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Down      = { MAPAREA_BOAT, MAPAREA_BASE, MAPAREA_INVALID },
+        .field_3C           = CVIEVTCMN_RESOURCE_NONE,
     },
 };
 

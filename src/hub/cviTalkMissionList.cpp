@@ -58,7 +58,7 @@ void CViTalkMissionList::ThreadFunc_Load(void *arg)
 {
     CViTalkMissionList *work = (CViTalkMissionList *)arg;
 
-    work->mpcFile = FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsg(), ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_MISSION_MPC);
+    work->mpcFile = FileUnknown__GetAOUFile(HubControl::GetMsgSequenceArchive(), ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_MISSION_MPC);
 
     work->missionCount = FX_DivS32(MPC__GetSequenceCount(work->mpcFile), MISSIONLIST_SEQ_COUNT);
     work->missionCount--;
@@ -88,11 +88,11 @@ void CViTalkMissionList::InitSprites()
     this->isWindowOpen        = FALSE;
 
     FontWindowAnimator__Init(&this->fontWindowAnimator);
-    FontWindowAnimator__Load2(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(24),
+    FontWindowAnimator__Load2(&this->fontWindowAnimator, HubControl::GetFontWindow(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(24),
                               PIXEL_TO_TILE(16), PIXEL_TO_TILE(208), PIXEL_TO_TILE(168), GRAPHICS_ENGINE_B, SPRITE_PRIORITY_1, SPRITE_ORDER_15, PALETTE_ROW_0);
 
     FontAnimator__Init(&this->fontAnimator);
-    s32 fontSize = (u16)(FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetField54(), 0, PIXEL_TO_TILE(40), PIXEL_TO_TILE(40), PIXEL_TO_TILE(176), PIXEL_TO_TILE(96),
+    s32 fontSize = (u16)(FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetFontWindow(), 0, PIXEL_TO_TILE(40), PIXEL_TO_TILE(40), PIXEL_TO_TILE(176), PIXEL_TO_TILE(96),
                                                  GRAPHICS_ENGINE_B, BACKGROUND_3, PALETTE_ROW_0, 128)
                          + 128);
 
@@ -104,12 +104,12 @@ void CViTalkMissionList::InitSprites()
     Unknown2056570__Func_2056688(&this->unknown, 1);
     Unknown2056570__Func_205683C(&this->unknown);
 
-    MIi_CpuCopy16(GetBackgroundPalette(HubControl::GetFileFrom_ViBG(ARCHIVE_VI_BG_LZ7_FILE_VI_MS_NUMBER_BBG))->data, (u8 *)VRAM_DB_BG_PLTT + 0x20, 16 * sizeof(GXRgb));
+    MIi_CpuCopy16(GetBackgroundPalette(HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_MS_NUMBER_BBG))->data, (u8 *)VRAM_DB_BG_PLTT + 0x20, 16 * sizeof(GXRgb));
 
-    void *sprMapHUD    = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_FIX_BAC);
-    void *sprMapLocHUD = HubControl::GetFileFrom_ViActLoc(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
-    void *sprDockHUD   = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_DOCK_UP_BAC);
-    void *sprName      = HubControl::GetTKDMNameSprite();
+    void *sprMapHUD    = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_FIX_BAC);
+    void *sprMapLocHUD = HubControl::GetLocalizedSpriteFile(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
+    void *sprDockHUD   = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_DOCK_UP_BAC);
+    void *sprName      = HubControl::GetCharacterNameSprite();
 
     VRAMPaletteKey vramPixels = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, Sprite__GetSpriteSize3FromAnim(sprMapLocHUD, 4));
     AnimatorSprite__Init(&this->aniMissionStatus, sprMapLocHUD, 4, ANIMATOR_FLAG_NONE, GRAPHICS_ENGINE_B, PIXEL_MODE_SPRITE, vramPixels, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
@@ -176,16 +176,16 @@ void CViTalkMissionList::InitList()
     }
 
     CViEvtCmnListConfig config;
-    config.fontWindow    = HubControl::GetField54();
+    config.fontWindow    = HubControl::GetFontWindow();
     config.mpcFile       = this->mpcFile;
     config.entryList     = this->missionList;
     config.entryCount    = this->missionCount;
     config.selection     = 0;
     config.numDigitCount = CVITALKMISSIONLIST_LIST_DIGIT_COUNT;
-    config.sprMapLocHUD  = HubControl::GetFileFrom_ViActLoc(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
-    config.sprMenu       = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
-    config.sprBackButton = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MS_RET_BAC);
-    config.sprCursor     = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
+    config.sprMapLocHUD  = HubControl::GetLocalizedSpriteFile(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
+    config.sprMenu       = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
+    config.sprBackButton = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_MS_RET_BAC);
+    config.sprCursor     = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
     config.headerAnim    = 5;
     config.windowSizeX   = 0;
     config.windowSizeY   = 4;
@@ -248,7 +248,7 @@ void CViTalkMissionList::Main_Init(void)
 
     if (IsThreadWorkerFinished(&work->thread))
     {
-        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF), 0, CVIEVTCMN_RESOURCE_NONE);
+        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF), 0, CVIEVTCMN_RESOURCE_NONE);
         work->eventTalk.SetPage(0);
 
         SetCurrentTaskMainEvent(CViTalkMissionList::Main_ShowMissionSelectPrompt);
@@ -330,13 +330,13 @@ void CViTalkMissionList::Main_MissionListActive(void)
                     if (MissionHelpers__CheckMissionCompleted(MISSION_99))
                     {
                         // "Well? D'ya like it, mate?"
-                        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_TK_RAC_MCF), 25,
+                        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_TK_RAC_MCF), 25,
                                                 CVIEVTCMN_RESOURCE_NONE);
                     }
                     else
                     {
                         // "You cleared every mission, mate!"
-                        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_TK_RAC_MCF), 24,
+                        work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_TK_RAC_MCF), 24,
                                                 CVIEVTCMN_RESOURCE_NONE);
                     }
 
@@ -347,7 +347,7 @@ void CViTalkMissionList::Main_MissionListActive(void)
             else
             {
                 // "Do you want to play this mission?"
-                work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF), 1, CVIEVTCMN_RESOURCE_NONE);
+                work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF), 1, CVIEVTCMN_RESOURCE_NONE);
                 work->eventTalk.SetPage(0);
                 SetCurrentTaskMainEvent(CViTalkMissionList::Main_MissionSelected);
             }
@@ -355,7 +355,7 @@ void CViTalkMissionList::Main_MissionListActive(void)
         else if (work->CheckThreadIdle())
         {
             // "See you later!"
-            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsgCtrl(), ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF), 2, CVIEVTCMN_RESOURCE_NONE);
+            work->eventTalk.Init(FileUnknown__GetAOUFile(HubControl::GetMsgControlArchive(), ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF), 2, CVIEVTCMN_RESOURCE_NONE);
             work->eventTalk.SetPage(0);
             SetCurrentTaskMainEvent(CViTalkMissionList::Main_CloseMissionListDialog);
         }
@@ -400,7 +400,7 @@ void CViTalkMissionList::Main_ClearedAllMissionsDialog(void)
     work->eventTalk.ProcessDialog();
     if (work->eventTalk.IsFinished())
     {
-        if (work->eventTalk.GetAction() == CViEvtCmnTalk::ACTION_16)
+        if (work->eventTalk.GetAction() == CViEvtCmnTalk::ACTION_CONSTRUCT_DECORATION_MISSION_REWARD)
         {
             work->lastMissionSelected = TRUE;
             DestroyCurrentTask();
@@ -462,7 +462,7 @@ void CViTalkMissionList::Destructor(Task *task)
         if (MissionHelpers__CheckMissionAttempted(MISSION_99))
             MissionHelpers__ResetMissionAttempted(MISSION_99);
 
-        CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_11);
+        CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_CONSTRUCT_DECORATION_MISSION_REWARD);
         CViDockNpcTalk::SetSelection(MISSION_99);
     }
     else if (work->missionSelected)
@@ -471,12 +471,12 @@ void CViTalkMissionList::Destructor(Task *task)
         if (MissionHelpers__CheckMissionAttempted(id))
             MissionHelpers__ResetMissionAttempted(id);
 
-        CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_9);
+        CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_START_MISSION);
         CViDockNpcTalk::SetSelection(id);
     }
     else
     {
-        CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+        CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
         CViDockNpcTalk::SetSelection(0);
     }
 
@@ -495,7 +495,7 @@ void CViTalkMissionList::DrawUpperMissionNumber(s32 selection)
         }
         else
         {
-            BackgroundBlock *pixelBlock = GetBackgroundPixels(HubControl::GetFileFrom_ViBG(ARCHIVE_VI_BG_LZ7_FILE_VI_MS_NUMBER_BBG));
+            BackgroundBlock *pixelBlock = GetBackgroundPixels(HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_MS_NUMBER_BBG));
 
             // change from 0-indexed id to 1-indexed id
             s32 missionNum = selection + 1;

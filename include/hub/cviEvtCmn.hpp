@@ -292,29 +292,29 @@ public:
 
     enum Action
     {
-        ACTION_0,
-        ACTION_1,
-        ACTION_2,
-        ACTION_3,
-        ACTION_4,
-        ACTION_5,
-        ACTION_6,
-        ACTION_7,
-        ACTION_8,
-        ACTION_9,
-        ACTION_10,
-        ACTION_11,
-        ACTION_12,
-        ACTION_13,
-        ACTION_14,
-        ACTION_15,
-        ACTION_16,
-        ACTION_17,
-        ACTION_18,
-        ACTION_19,
-        ACTION_20,
-        ACTION_21,
-        ACTION_22,
+        ACTION_NONE, // can be used to set a selection without doing anything
+        ACTION_TALKPURCHASE_SHIP,
+        ACTION_CONSTRUCT_SHIP,
+        ACTION_ANNOUNCE_SHIP_CONSTRUCTION,
+        ACTION_TALK_MISSIONLIST,
+        ACTION_TALK_OPTIONS,
+        ACTION_OPEN_PLAYER_NAME_MENU,
+        ACTION_TALK_MOVIELIST,
+        ACTION_ANNOUNCE_NEW_MISSION,
+        ACTION_TALK_UNKNOWN, // Does nothing? This _is_ set on multiple NPCs for the 'Talk' option.
+        ACTION_TALKPURCHASE_INFO,
+        ACTION_TALKPURCHASE_DECORATION,
+        ACTION_OPEN_SOUND_TEST,
+        ACTION_OPEN_VIKING_CUP,
+        ACTION_OPEN_VIKING_CUP_2,    // this seems to just be a duplicate of 'ACTION_OPEN_VIKING_CUP'?
+        ACTION_ANNOUNCE_RADIO_TOWER, // this _does_ have a param, but it's only ever used for the radio tower, so for now we'll keep this name
+        ACTION_CONSTRUCT_DECORATION_MISSION_REWARD,
+        ACTION_TALK_MISSION_COMPLETED,
+        ACTION_TALK_GAMEOVER,
+        ACTION_TALKPURCHASE_SHIP_UPGRADE,
+        ACTION_UPGRADE_SHIP,
+        ACTION_ANNOUNCE_SHIP_UPGRADED, // this _does_ have a param, but it's only ever used for ship upgraded, so for now we'll keep this name
+        ACTION_TALK_PURCHASED_INFO,
 
         ACTION_COUNT,
     };

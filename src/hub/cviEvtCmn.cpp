@@ -60,10 +60,10 @@ void CViEvtCmnMsg::Init(void *mpcFile)
 
     this->mpcFile = mpcFile;
 
-    FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetField54(), 0, PIXEL_TO_TILE(16), PIXEL_TO_TILE(24), PIXEL_TO_TILE(208), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_A,
+    FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetFontWindow(), 0, PIXEL_TO_TILE(16), PIXEL_TO_TILE(24), PIXEL_TO_TILE(208), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_A,
                             BACKGROUND_3, PALETTE_ROW_0, 128);
     FontAnimator__ClearPixels(&this->fontAnimator);
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetFontWindow(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(0),
                               PIXEL_TO_TILE(0), PIXEL_TO_TILE(HW_LCD_WIDTH), PIXEL_TO_TILE(80), GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_3, 960, 1023);
     FontAnimator__LoadMPCFile(&this->fontAnimator, this->mpcFile);
     FontAnimator__ClearPixels(&this->fontAnimator);
@@ -75,7 +75,7 @@ void CViEvtCmnMsg::Init(void *mpcFile)
     this->dialogState     = CViEvtCmnMsg::DIALOGSTATE_DONE;
     this->nextDialogState = CViEvtCmnMsg::DIALOGSTATE_DONE;
 
-    this->sprName  = HubControl::GetTKDMNameSprite();
+    this->sprName  = HubControl::GetCharacterNameSprite();
     this->vramName = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize1(this->sprName));
     AnimatorSprite__Init(&this->aniName, this->sprName, 0, ANIMATOR_FLAG_NONE, GRAPHICS_ENGINE_A, PIXEL_MODE_SPRITE, this->vramName, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
                          SPRITE_PRIORITY_0, SPRITE_ORDER_0);
@@ -83,7 +83,7 @@ void CViEvtCmnMsg::Init(void *mpcFile)
     this->aniName.pos.y          = 8;
     this->aniName.cParam.palette = PALETTE_ROW_6;
 
-    this->sprNextButton  = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_FIX_NEXT_BAC);
+    this->sprNextButton  = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_FIX_NEXT_BAC);
     this->vramNextButton = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize1(this->sprNextButton));
     AnimatorSprite__Init(&this->aniNextButton, this->sprNextButton, ADVANCEPROMPT_ANI_DISABLED, ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_A, PIXEL_MODE_SPRITE,
                          this->vramNextButton, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
@@ -606,7 +606,7 @@ void CViEvtCmnSelect::Init(void *mpcFile)
 
     this->mpcFile = mpcFile;
 
-    FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetField54(), 0, PIXEL_TO_TILE(8), PIXEL_TO_TILE(88), PIXEL_TO_TILE(240), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_A,
+    FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetFontWindow(), 0, PIXEL_TO_TILE(8), PIXEL_TO_TILE(88), PIXEL_TO_TILE(240), PIXEL_TO_TILE(64), GRAPHICS_ENGINE_A,
                             BACKGROUND_3, PALETTE_ROW_0, 296);
     FontAnimator__LoadMPCFile(&this->fontAnimator, this->mpcFile);
     FontAnimator__ClearPixels(&this->fontAnimator);
@@ -614,10 +614,10 @@ void CViEvtCmnSelect::Init(void *mpcFile)
     FontAnimator__LoadPaletteFunc(&this->fontAnimator);
     FontAnimator__LoadMappingsFunc(&this->fontAnimator);
 
-    FontWindowMWControl__Load(&this->fontWindowMWControl, HubControl::GetField54(), 0, FONTWINDOWMW_FILL, 8, 8, GRAPHICS_ENGINE_A, SPRITE_PRIORITY_1, SPRITE_ORDER_0,
+    FontWindowMWControl__Load(&this->fontWindowMWControl, HubControl::GetFontWindow(), 0, FONTWINDOWMW_FILL, 8, 8, GRAPHICS_ENGINE_A, SPRITE_PRIORITY_1, SPRITE_ORDER_0,
                               PALETTE_ROW_5);
 
-    void *sprFile = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
+    void *sprFile = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
     AnimatorSprite__Init(&this->aniSprite1, sprFile, 0, ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_A, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize1FromAnim(sprFile, 0)), PALETTE_MODE_SPRITE, (u16 *)VRAM_OBJ_PLTT, SPRITE_PRIORITY_0,
                          SPRITE_ORDER_0);
@@ -763,7 +763,7 @@ void CViEvtCmnSelect::InitDialogState_Init()
     this->selection      = 0;
     this->selectionCount = MPC__GetDialogLineCount(this->mpcFile, this->sequence, 0);
 
-    void *fontFile = FontWindow__GetFont(HubControl::GetField54());
+    void *fontFile = FontWindow__GetFont(HubControl::GetFontWindow());
 
     s32 i;
     u32 maxLineWidth = 0;
@@ -795,7 +795,7 @@ void CViEvtCmnSelect::InitDialogState_Init()
     this->lineSize     = lineSize;
     this->field_32     = 2 * this->selectionCount;
 
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, this->windowStartX,
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetFontWindow(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, this->windowStartX,
                               this->windowStartY, this->windowSizeX, this->windowSizeY, GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_3, 960, 1023);
     FontWindowAnimator__SetWindowClosed(&this->fontWindowAnimator);
 }
@@ -1079,7 +1079,7 @@ void CViEvtCmnAnnounce::Init(void *mpcFile)
 
     this->mpcFile = mpcFile;
 
-    FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetField54(), 0, PIXEL_TO_TILE(16), PIXEL_TO_TILE(80), PIXEL_TO_TILE(224), PIXEL_TO_TILE(32), GRAPHICS_ENGINE_A,
+    FontAnimator__LoadFont1(&this->fontAnimator, HubControl::GetFontWindow(), 0, PIXEL_TO_TILE(16), PIXEL_TO_TILE(80), PIXEL_TO_TILE(224), PIXEL_TO_TILE(32), GRAPHICS_ENGINE_A,
                             BACKGROUND_3, PALETTE_ROW_0, 128);
     FontAnimator__LoadMPCFile(&this->fontAnimator, this->mpcFile);
     FontAnimator__ClearPixels(&this->fontAnimator);
@@ -1087,7 +1087,7 @@ void CViEvtCmnAnnounce::Init(void *mpcFile)
     FontAnimator__LoadPaletteFunc(&this->fontAnimator);
     FontAnimator__LoadMappingsFunc(&this->fontAnimator);
 
-    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(8),
+    FontWindowAnimator__Load1(&this->fontWindowAnimator, HubControl::GetFontWindow(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG, PIXEL_TO_TILE(8),
                               PIXEL_TO_TILE(72), PIXEL_TO_TILE(240), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_3, 960, 1023);
     FontWindowAnimator__SetWindowClosed(&this->fontWindowAnimator);
 
@@ -1322,7 +1322,7 @@ void CViEvtCmnTalk::Init(void *mpcCtrlFile, u16 interactionID, u16 interactionID
         this->pageID        = CVIEVTCMN_RESOURCE_NONE;
     }
 
-    this->msgText = FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsg(), this->msgCtrl.GetTextFileIndex());
+    this->msgText = FileUnknown__GetAOUFile(HubControl::GetMsgSequenceArchive(), this->msgCtrl.GetTextFileIndex());
     this->eventMessage.Init(this->msgText);
     this->eventSelection.Init(this->msgText);
     this->dialogState = CViEvtCmnTalk::DIALOGSTATE_INACTIVE;

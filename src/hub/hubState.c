@@ -1,5 +1,6 @@
 #include <hub/hubState.h>
 #include <game/game/gameState.h>
+#include <hub/dockCommon.h>
 
 // --------------------
 // FUNCTIONS
@@ -11,7 +12,7 @@ void ResetHubState(void)
     struct GameTalkState *hub = &gameState.talk;
     MI_CpuClear32(&hub->state, sizeof(hub->state));
 
-    hub->state.hubStartAction = 0;
+    hub->state.hubStartAction = HUB_STARTACTION_NONE;
     hub->state.hubType        = -1;
     hub->state.hubArea        = -1;
 }

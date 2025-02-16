@@ -19,8 +19,8 @@ enum HubEventIDs
     HUBEVENT_PLAYER_NAME_MENU,
     HUBEVENT_VS_MAIN_MENU,
     HUBEVENT_STAGE_SELECT,
-    HUBEVENT_CUTSCENE_1,
-    HUBEVENT_CUTSCENE_2,
+    HUBEVENT_MOVIELIST_CUTSCENE,
+    HUBEVENT_STORY_CUTSCENE,
     HUBEVENT_START_MISSION,
     HUBEVENT_START_TUTORIAL,
     HUBEVENT_SOUND_TEST,
@@ -54,9 +54,9 @@ class HubControl
 public:
     s32 flags;
     u32 genericTimer;
-    u32 field_8;
-    s32 dockArea;
-    s32 field_10;
+    u32 referenceTime;
+    DockArea dockArea;
+    DockArea previewDockArea;
     s32 mapArea;
     s32 nextMapArea;
     s32 shipConstructID;
@@ -76,23 +76,22 @@ public:
     FontWindow fontWindow;
     s32 nextEvent;
     s32 nextSelectionID;
-    s32 field_10C;
-    s16 field_110;
-    s16 field_112;
+    BOOL constructionFadeOutDone;
+    s16 constructionViewPercent;
     s32 mapIconArea;
-    s32 field_118;
-    s32 field_11C;
+    BOOL startWithJetConstructedCutscene;
+    BOOL disableAreaExit;
     u32 timer;
-    s32 field_124;
-    s32 field_128;
-    s32 field_12C;
-    s32 field_130;
-    s32 field_134;
+    BOOL startWithOptionsTalk;
+    BOOL startWithMovieListTalk;
+    BOOL startWithMissionListTalk;
+    BOOL startWithGameOverTalk;
+    BOOL isStageGameOver;
     u16 cutsceneID;
-    u16 field_13A;
-    u16 curAreaID;
+    u16 bgmVolume;
+    u16 previewMapArea;
     u16 npcCount;
-    u16 field_140;
+    u16 tutorialAreaPreviewScrollPos;
     s16 npcIconPos;
     AnimatorSprite aniNpcIcon[5];
     AnimatorSprite aniNpcBackground;
@@ -126,12 +125,12 @@ public:
     // --------------------
 
     static void CreateForMap(MapArea mapArea);
-    static void CreateForDock(s32 dockArea, BOOL loadCharacterStates, s32 a3);
+    static void CreateForDock(s32 dockArea, BOOL loadCharacterStates, BOOL disableAreaExit);
     static void SetMapIconArea(MapArea mapArea);
     static void Main_InitMap();
-    static void Main_21578CC();
-    static void Main_2157A94();
-    static void Main_2157C0C();
+    static void Main_MapIdle();
+    static void Main_LookAroundActive();
+    static void Main_FadeOutForDockInit();
     static void Main_InitDock();
     static void Main_InitDockPlayerControl();
     static void Main_ProcessDock();
@@ -139,46 +138,46 @@ public:
     static void Main_WaitForDockChanged();
     static void Main_FadeOutForExitDockArea();
     static void Main_FadeOutForEventChange();
-    static void Main_21588D4();
-    static void Main_2158918();
-    static void Main_2158958();
-    static void Main_2158A04();
+    static void Main_InitForcedMapAreaChange();
+    static void Main_WaitForForcedMapAreaChange();
+    static void Main_FinishForcedMapAreaChange();
+    static void Main_FadeOutForStoryEvent();
     static void Destructor(Task *task);
-    static void Func_2158D28();
-    static void Func_2158E14();
-    static void Func_2158F28();
-    static void Func_2158F64();
-    static void Func_2159084();
-    static void Func_2159104();
-    static void Func_21591A8();
-    static void Func_21592E0();
+    static void Main_FadeOutForConstructionCutscene();
+    static void Main_StartConstructionCutscene();
+    static void Main_ConstructionCutscene_MaterialSpin();
+    static void Main_ConstructionCutscene_FadeOutForShowShip();
+    static void Main_ConstructionCutscene_FadeOutForShowDecoration();
+    static void Main_ConstructionCutscene_ShowShip();
+    static void Main_ConstructionCutscene_FadeOutForCutsceneEnd();
+    static void Main_ConstructionCutscene_FadeInForConstructionDone();
     static void StartHubCutscene(s16 cutscene, s32 dockArea);
-    static void StartHubCutsceneUnknown();
+    static void StartHubEggmanAppearsCutscene();
     static BOOL CheckEventHasBGMChange(s32 event);
-    static void Func_215A2E0(s32 a1, s32 a2);
+    static void StartSailing(DockArea dockArea, BOOL isTraining);
     static void IncrementGameProgress();
     static void ChangeEvent(s32 eventID, s32 selection);
 
     static void InitForNoState();
-    static void Func_215701C(s32 a1);
-    static void Func_21570B8(s32 a1);
-    static void Func_215710C(BOOL a2);
+    static void HandleGameOverStartEvent(s32 startAction);
+    static void InitForClearedTraining(BOOL loadCharacterStates);
+    static void InitForFirstVoyage(BOOL loadCharacterStates);
     static void InitForNewSave();
     static void InitForUnfinishedTutorial();
     static void DisableTouchInteractions();
     static BOOL TouchEnabled();
-    static void *GetFileFrom_ViAct(u16 id);
-    static void *GetFileFrom_ViActLoc(u16 id);
-    static void *GetFileFrom_ViBG(u16 id);
-    static void *GetFileFrom_ViMsg();
-    static void *GetFileFrom_ViMsgCtrl();
-    static FontWindow *GetField54();
-    static void *GetTKDMNameSprite();
+    static void *GetSpriteFile(u16 id);
+    static void *GetLocalizedSpriteFile(u16 id);
+    static void *GetBackgroundFile(u16 id);
+    static void *GetMsgSequenceArchive();
+    static void *GetMsgControlArchive();
+    static FontWindow *GetFontWindow();
+    static void *GetCharacterNameSprite();
     static void InitMainMemoryPriorityForHub();
     static void ResetMainMemoryPriorityFromHub();
 
     static void Main_DoTalkAction();
-    static void Main_2158AB4();
+    static void Main_PrepareCutsceneStart();
 
     static void InitDisplay();
     static void InitEngineAForTalk();
@@ -190,7 +189,7 @@ public:
     static void InitEngineAForExitHub();
     static void InitEngineAForCutscene();
     static void InitEngineAForUnknown();
-    static void Func_215B03C();
+    static void InitEngineBForShipConstructionCutscene();
     static void Func_215B168();
     static void Func_215B250();
     static void Func_215B3B4();
@@ -203,10 +202,10 @@ public:
     static BOOL CheckDecorConstructed(s32 id);
     static BOOL CanSpawnNpcType(s32 npcType);
     static BOOL CanSpawnNpc(s32 npcType);
-    static void Func_215B8FC(u16 id);
-    static void Func_215B92C(u16 id);
-    static void Func_215B958();
-    static s32 Func_215B978();
+    static void InitCutsceneForMovieList(u16 id);
+    static void InitCutsceneForStory(u16 id);
+    static void InitTutorial();
+    static s32 GetNextShipUpgrade();
     static s32 HandleFade(s16 targetA, s16 targetB, s16 fadeSpeed);
     static s32 HandleFadeA(s16 target, s16 fadeSpeed);
     static s32 HandleFadeB(s16 target, s16 fadeSpeed);

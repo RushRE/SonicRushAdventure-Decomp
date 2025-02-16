@@ -362,7 +362,7 @@ s32 HubControl::HandleFadeB(s16 target, s16 fadeSpeed)
     return difference;
 }
 
-void HubControl::Func_215B03C()
+void HubControl::InitEngineBForShipConstructionCutscene()
 {
     renderCoreGFXControlB.bgPosition[BACKGROUND_2].x = 0;
     renderCoreGFXControlB.bgPosition[BACKGROUND_2].y = 0;
@@ -379,7 +379,7 @@ void HubControl::Func_215B03C()
     G2S_SetBG2ControlText(GX_BG_SCRSIZE_TEXT_512x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0000, GX_BG_CHARBASE_0x04000);
 
     MI_CpuClear16(&renderCoreGFXControlA.blendManager, sizeof(renderCoreGFXControlA.blendManager));
-    MI_CpuClear16(&renderCoreGFXControlB.blendManager, sizeof(renderCoreGFXControlA.blendManager));
+    MI_CpuClear16(&renderCoreGFXControlB.blendManager, sizeof(renderCoreGFXControlB.blendManager));
 
     renderCoreGFXControlB.blendManager.blendControl.effect     = 1;
     renderCoreGFXControlB.blendManager.blendControl.plane1_BG2 = TRUE;
@@ -763,34 +763,34 @@ BOOL HubControl::CanSpawnNpc(s32 npcType)
     return canSpawn != FALSE;
 }
 
-void HubControl::Func_215B8FC(u16 id)
+void HubControl::InitCutsceneForMovieList(u16 id)
 {
     struct GameCutsceneState *cutscene = &gameState.cutscene;
     cutscene->cutsceneID               = id;
     cutscene->nextSysEvent             = SYSEVENT_RETURN_TO_HUB;
     cutscene->canSkip                  = TRUE;
 
-    gameState.talk.state.hubStartAction = 4;
+    gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_MOVIELIST_TALK;
 }
 
-void HubControl::Func_215B92C(u16 id)
+void HubControl::InitCutsceneForStory(u16 id)
 {
     struct GameCutsceneState *cutscene = &gameState.cutscene;
     cutscene->cutsceneID               = id;
     cutscene->nextSysEvent             = SYSEVENT_RETURN_TO_HUB;
     cutscene->canSkip                  = TRUE;
 
-    gameState.talk.state.hubStartAction = 1;
+    gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
 }
 
-void HubControl::Func_215B958()
+void HubControl::InitTutorial()
 {
     gameState.characterID[0] = CHARACTER_SONIC;
     gameState.gameMode       = GAMEMODE_STORY;
     gameState.stageID        = STAGE_TUTORIAL;
 }
 
-s32 HubControl::Func_215B978()
+s32 HubControl::GetNextShipUpgrade()
 {
     s32 selection;
 

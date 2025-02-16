@@ -201,7 +201,7 @@ void SaveGame__UpdateProgressForAllDoorPuzzleKeysCollected(void)
     SaveGame__SetGameProgress(SAVE_PROGRESS_31);
 }
 
-void SaveGame__Func_205BC38(u32 type)
+void SaveGame__UpdateProgressForDockFirstVisited(u32 type)
 {
     switch (type)
     {

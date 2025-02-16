@@ -145,7 +145,7 @@ void CViTalkMovieList::ThreadFunc(void *arg)
 {
     CViTalkMovieList *work = (CViTalkMovieList *)arg;
 
-    work->mpcFile       = FileUnknown__GetAOUFile(HubControl::GetFileFrom_ViMsg(), ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_DEMO_VIEWER_MPC);
+    work->mpcFile       = FileUnknown__GetAOUFile(HubControl::GetMsgSequenceArchive(), ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_DEMO_VIEWER_MPC);
     work->cutsceneCount = ARRAY_COUNT(cutsceneListEntryConfig);
 
     work->InitDisplay();
@@ -179,16 +179,16 @@ void CViTalkMovieList::InitList()
     }
 
     CViEvtCmnListConfig config;
-    config.fontWindow    = HubControl::GetField54();
+    config.fontWindow    = HubControl::GetFontWindow();
     config.mpcFile       = this->mpcFile;
     config.entryList     = this->cutsceneList;
     config.entryCount    = this->cutsceneCount;
     config.selection     = CViTalkMovieList::GetSelectionFromCutscene();
     config.numDigitCount = 2;
-    config.sprMapLocHUD  = HubControl::GetFileFrom_ViActLoc(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
-    config.sprMenu       = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
-    config.sprBackButton = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_VI_MS_RET_BAC);
-    config.sprCursor     = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
+    config.sprMapLocHUD  = HubControl::GetLocalizedSpriteFile(ARCHIVE_VI_ACT_LOC_ENG_FILE_VI_FIX_LOC_BAC);
+    config.sprMenu       = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_MENU_BAC);
+    config.sprBackButton = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_MS_RET_BAC);
+    config.sprCursor     = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
     config.headerAnim    = 6;
     config.windowSizeX   = 0;
     config.windowSizeY   = 5;
@@ -273,12 +273,12 @@ void CViTalkMovieList::Main_CloseWindow()
 
         if (selection != (u16)CVIEVTCMNLIST_SELECTION_NONE)
         {
-            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_20);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_MOVIELIST_CUTSCENE);
             CViDockNpcTalk::SetSelection(selection);
         }
         else
         {
-            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+            CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
             CViDockNpcTalk::SetSelection(0);
         }
     }

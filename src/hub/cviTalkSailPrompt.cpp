@@ -83,7 +83,7 @@ void CViTalkSailPrompt::InitGraphics()
     FontWindowMWControl__Init(&this->fontWindowMWControl);
     MI_CpuClear16(&this->aniCursor, sizeof(this->aniCursor));
 
-    this->archive = HubControl::GetFileFrom_ViMsg();
+    this->archive = HubControl::GetMsgSequenceArchive();
 }
 
 void CViTalkSailPrompt::Release()
@@ -115,7 +115,7 @@ void CViTalkSailPrompt::Main_Init(void)
     else
         windowSizeY = PIXEL_TO_TILE(64);
 
-    FontWindowAnimator__Load1(&work->fontWindowAnimator, HubControl::GetField54(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG,
+    FontWindowAnimator__Load1(&work->fontWindowAnimator, HubControl::GetFontWindow(), 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG,
                               PIXEL_TO_TILE(32), PIXEL_TO_TILE(0), PIXEL_TO_TILE(192), windowSizeY, GRAPHICS_ENGINE_A, BACKGROUND_2, PALETTE_ROW_3, 960, 1023);
     FontWindowAnimator__SetWindowClosed(&work->fontWindowAnimator);
     FontWindowAnimator__InitAnimation(&work->fontWindowAnimator, 1, 8, 0, 0);
@@ -139,7 +139,7 @@ void CViTalkSailPrompt::Main_OpeningWindow(void)
     {
         FontWindowAnimator__SetWindowOpen(&work->fontWindowAnimator);
 
-        FontAnimator__LoadFont1(&work->fontAnimator, HubControl::GetField54(), 0, PIXEL_TO_TILE(40), PIXEL_TO_TILE(8), PIXEL_TO_TILE(176), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_A,
+        FontAnimator__LoadFont1(&work->fontAnimator, HubControl::GetFontWindow(), 0, PIXEL_TO_TILE(40), PIXEL_TO_TILE(8), PIXEL_TO_TILE(176), PIXEL_TO_TILE(48), GRAPHICS_ENGINE_A,
                                 BACKGROUND_3, PALETTE_ROW_0, 128);
         FontAnimator__LoadPaletteFunc(&work->fontAnimator);
         FontAnimator__LoadMappingsFunc(&work->fontAnimator);
@@ -168,10 +168,10 @@ void CViTalkSailPrompt::Main_ShowingText(void)
 
     if (FontAnimator__IsEndOfLine(&work->fontAnimator))
     {
-        FontWindowMWControl__Load(&work->fontWindowMWControl, HubControl::GetField54(), 0, FONTWINDOWMW_FILL, 176, 16, GRAPHICS_ENGINE_A, SPRITE_PRIORITY_1, SPRITE_ORDER_0,
+        FontWindowMWControl__Load(&work->fontWindowMWControl, HubControl::GetFontWindow(), 0, FONTWINDOWMW_FILL, 176, 16, GRAPHICS_ENGINE_A, SPRITE_PRIORITY_1, SPRITE_ORDER_0,
                                   PALETTE_ROW_12);
 
-        void *sprCursor         = HubControl::GetFileFrom_ViAct(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
+        void *sprCursor         = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_NL_CURSOR_IKARI_BAC);
         VRAMPixelKey vramPixels = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize1FromAnim(sprCursor, 0));
         AnimatorSprite__Init(&work->aniCursor, sprCursor, 0, ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_A, PIXEL_MODE_SPRITE, vramPixels, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
                              SPRITE_PRIORITY_0, SPRITE_ORDER_0);
@@ -362,13 +362,13 @@ void CViTalkSailPrompt::Main_ApplyChoice(void)
         switch (work->selection)
         {
             case 0:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_1);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_START_SAILING);
                 CViDockNpcTalk::SetSelection(work->type);
                 break;
 
             // case 1:
             default:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
                 CViDockNpcTalk::SetSelection(0);
                 break;
         }
@@ -378,19 +378,19 @@ void CViTalkSailPrompt::Main_ApplyChoice(void)
         switch (work->selection)
         {
             case 0:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_1);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_START_SAILING);
                 CViDockNpcTalk::SetSelection(work->type);
                 break;
 
             case 1:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_2);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_START_SAIL_TRAINING);
                 CViDockNpcTalk::SetSelection(work->type);
                 SaveGame__SetDoneFirstShipVoyage(CViTalkSailPrompt::ShipTypeFromPromptType(work->type));
                 break;
 
             // case 2:
             default:
-                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_0);
+                CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
                 CViDockNpcTalk::SetSelection(0);
                 break;
         }

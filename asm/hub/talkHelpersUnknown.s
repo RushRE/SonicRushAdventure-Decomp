@@ -3,8 +3,8 @@
 
     .text
 
-	arm_func_start TalkHelpers__Func_2152F98
-TalkHelpers__Func_2152F98: // 0x02152F98
+	arm_func_start TalkHelpersUnknown__Init
+TalkHelpersUnknown__Init: // 0x02152F98
 	ldr ip, _02152FAC // =MIi_CpuClear32
 	mov r1, r0
 	mov r0, #0
@@ -12,10 +12,10 @@ TalkHelpers__Func_2152F98: // 0x02152F98
 	bx ip
 	.align 2, 0
 _02152FAC: .word MIi_CpuClear32
-	arm_func_end TalkHelpers__Func_2152F98
+	arm_func_end TalkHelpersUnknown__Init
 
-	arm_func_start TalkHelpersUnknown__Init
-TalkHelpersUnknown__Init: // 0x02152FB0
+	arm_func_start TalkHelpersUnknown__Load
+TalkHelpersUnknown__Load: // 0x02152FB0
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r2
 	mov r6, r0
@@ -48,7 +48,7 @@ TalkHelpersUnknown__Init: // 0x02152FB0
 	str r0, [r6, #0x1c]
 	ldrh r1, [sp, #0x1c]
 	ldr r0, [r6, #0x18]
-	bl TalkHelpers__Func_2153388
+	bl TalkHelpersUnknown__Func_2153388
 	ldr r0, [r6, #0]
 	orr r0, r0, #0x10000
 	str r0, [r6]
@@ -62,7 +62,7 @@ TalkHelpersUnknown__Init: // 0x02152FB0
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02153060: .word 0x0000FFFF
-	arm_func_end TalkHelpersUnknown__Init
+	arm_func_end TalkHelpersUnknown__Load
 
 	arm_func_start TalkHelpersUnknown__Release
 TalkHelpersUnknown__Release: // 0x02153064
@@ -83,12 +83,12 @@ _02153084:
 	str r0, [r4, #0x18]
 _0215309C:
 	mov r0, r4
-	bl TalkHelpers__Func_2152F98
+	bl TalkHelpersUnknown__Init
 	ldmia sp!, {r4, pc}
 	arm_func_end TalkHelpersUnknown__Release
 
-	arm_func_start TalkHelpers__Func_21530A8
-TalkHelpers__Func_21530A8: // 0x021530A8
+	arm_func_start TalkHelpersUnknown__Process
+TalkHelpersUnknown__Process: // 0x021530A8
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x34
 	mov r7, r0
@@ -261,27 +261,27 @@ _0215330C:
 _02153320: .word ovl05_02172420
 _02153324: .word VRAMSystem__GFXControl
 _02153328: .word VRAMSystem__VRAM_BG
-	arm_func_end TalkHelpers__Func_21530A8
+	arm_func_end TalkHelpersUnknown__Process
 
-	arm_func_start TalkHelpers__Func_215332C
-TalkHelpers__Func_215332C: // 0x0215332C
+	arm_func_start TalkHelpersUnknown__Func_215332C
+TalkHelpersUnknown__Func_215332C: // 0x0215332C
 	strh r1, [r0, #8]
 	strh r2, [r0, #0xa]
 	bx lr
-	arm_func_end TalkHelpers__Func_215332C
+	arm_func_end TalkHelpersUnknown__Func_215332C
 
-	arm_func_start TalkHelpers__Func_2153338
-TalkHelpers__Func_2153338: // 0x02153338
+	arm_func_start TalkHelpersUnknown__Func_2153338
+TalkHelpersUnknown__Func_2153338: // 0x02153338
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, r1
 	bl FX_Inv
 	strh r0, [r4, #0xc]
 	ldmia sp!, {r4, pc}
-	arm_func_end TalkHelpers__Func_2153338
+	arm_func_end TalkHelpersUnknown__Func_2153338
 
-	arm_func_start TalkHelpers__Func_2153350
-TalkHelpers__Func_2153350: // 0x02153350
+	arm_func_start TalkHelpersUnknown__Func_2153350
+TalkHelpersUnknown__Func_2153350: // 0x02153350
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrsh r0, [r4, #0xe]
@@ -296,10 +296,10 @@ TalkHelpers__Func_2153350: // 0x02153350
 	orr r0, r0, #0x20000
 	str r0, [r4]
 	ldmia sp!, {r4, pc}
-	arm_func_end TalkHelpers__Func_2153350
+	arm_func_end TalkHelpersUnknown__Func_2153350
 
-	arm_func_start TalkHelpers__Func_2153388
-TalkHelpers__Func_2153388: // 0x02153388
+	arm_func_start TalkHelpersUnknown__Func_2153388
+TalkHelpersUnknown__Func_2153388: // 0x02153388
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r4, r0
 	mov r5, r1
@@ -393,7 +393,7 @@ _021534B4:
 	cmp r3, #4
 	blt _0215345C
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end TalkHelpers__Func_2153388
+	arm_func_end TalkHelpersUnknown__Func_2153388
 
 	.rodata
 
