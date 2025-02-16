@@ -23,6 +23,13 @@ public:
     // ENUMS
     // --------------------
 
+    enum Type
+    {
+        TYPE_MAP_ACTIVE,
+        TYPE_DOCK_ACTIVE,
+        TYPE_CONSTRUCTION_CUTSCENE,
+    };
+
     enum ShipConstructionType
     {
         CONSTRUCT_SHIP_JET,
@@ -85,14 +92,11 @@ public:
 
     CViMapBack mapBack;
     CViMapIcon mapIcon;
-    u16 field_7C0;
-    u16 field_7C2;
-    u16 field_7C4;
-    u16 field_7C6;
-    u16 field_7C8;
-    u16 field_7CA;
-    u16 field_7CC;
-    u16 field_7CE;
+    Vec2U16 mapPos;
+    Vec2U16 mapPrevPos;
+    Vec2U16 mapTargetPos;
+    u16 mapMoveDuration;
+    u16 mapMoveTimer;
     u16 field_7D0;
     u16 field_7D2;
     s32 field_7D4;
@@ -141,13 +145,13 @@ void ViMap__Create(void);
 Task *ViMap__CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group);
 void ViMap__Destroy(void);
 void ViMap__SetType(s32 type);
-void ViMap__Func_215BBAC(u16 x, u16 y);
-void ViMap__Func_215BBF4(u16 x, u16 y, u16 a3);
-void ViMap__Func_215BC40(u16 *x, u16 *y);
-MapArea ViMap__GetMapIconDockAreaFromTouchPos(void);
-MapArea ViMap__GetMapIconDockArea(BOOL mustBeIdle);
-void ViMap__Func_215BCE4(u32 mapArea, BOOL a2);
-MapArea ViMap__GetDockAreaFromMapIcon(void);
+void ViMap__WarpToPosition(u16 x, u16 y);
+void ViMap__TravelToPosition(u16 x, u16 y, u16 duration);
+void ViMap__GetMapPosition(u16 *x, u16 *y);
+MapArea ViMap__GetMapAreaFromMapIconTouchInput(void);
+MapArea ViMap__GetMapAreaFromMapIconMarker(BOOL mustBeIdle);
+void ViMap__GoToMapArea(u32 mapArea, BOOL shouldTravel);
+MapArea ViMap__GetMapAreaFromMapIcon(void);
 void ViMap__StartShipConstructCutscene(s32 id);
 void ViMap__StartDecorConstructCutscene(s32 id);
 void ViMap__StartShipUpgradeCutscene(s32 id);
@@ -162,17 +166,17 @@ void ViMap__Func_215C638(u16 a1);
 void ViMap__Func_215C6AC(void);
 void ViMap__Func_215C76C(u16 a1);
 void ViMap__Func_215C7E0(void);
-void ViMap__Func_215C82C(void);
-void ViMap__Func_215C84C(BOOL enabled);
-void ViMap__Func_215C878(s16 x, s16 y);
+void ViMap__InitMapIcons(void);
+void ViMap__EnableMapIcons(BOOL enabled);
+void ViMap__DrawMapCursor(s16 x, s16 y);
 void ViMapPaletteAnimation__Create(void);
 void ViMapPaletteAnimation__Destroy(void);
 AnimatorSprite *ViMap__Func_215C98C(u16 id);
 void ViMap__Func_215C9B4(CViMap *work);
-void ViMap__Func_215CA1C(CViMap *work);
+void ViMap__InitMapIcon(CViMap *work);
 void ViMap__Func_215CA60(CViMap *work);
 void ViMap__Func_215CA84(CViMap *work);
-void ViMap__Func_215CC14(CViMap *work);
+void ViMap__Release(CViMap *work);
 void ViMap__Main_Moving(void);
 void ViMap__Main_Idle(void);
 void ViMap__Main_ConstructionCutscene(void);
@@ -181,7 +185,7 @@ void ViMap__Func_215D150(Task *task);
 void ViMapPaletteAnimation__Main(void);
 void ViMapPaletteAnimation__Destructor(Task *task);
 void ViMap__Func_215D214(CViMap *work);
-void ViMap__Func_215D27C(u16 x, u16 y, u16 *outX, u16 *outY);
+void ViMap__ClampPosToMapBounds(u16 x, u16 y, u16 *outX, u16 *outY);
 void ViMap__Func_215D2B4(CViMap *work);
 void ViMap__Func_215D374(CViMap *work);
 void ViMap__Func_215D44C(CViMap *work, s32 a2, s32 a3);

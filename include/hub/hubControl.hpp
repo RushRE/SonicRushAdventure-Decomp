@@ -2,6 +2,7 @@
 #define RUSH_HUBCONTROL_HPP
 
 #include <hub/hubTask.hpp>
+#include <hub/dockCommon.h>
 #include <game/graphics/sprite.h>
 #include <game/text/fontWindow.h>
 
@@ -124,9 +125,9 @@ public:
     // STATIC FUNCTIONS
     // --------------------
 
-    static void CreateForMap(s32 mapArea);
+    static void CreateForMap(MapArea mapArea);
     static void CreateForDock(s32 dockArea, BOOL loadCharacterStates, s32 a3);
-    static void SetMapIconArea(s32 mapArea);
+    static void SetMapIconArea(MapArea mapArea);
     static void Main_InitMap();
     static void Main_21578CC();
     static void Main_2157A94();
@@ -197,7 +198,7 @@ public:
     static void UpdateSaveProgressForShipConstructed(s32 shipType, BOOL unknown);
     static BOOL CheckShipConstructed(s32 shipType);
     static s32 GetNextShipToBuild();
-    static BOOL Func_215B51C(s32 a1);
+    static BOOL CheckMapIconEnabled(MapArea mapArea);
     static void UpdateSaveForDecorConstruction(s32 a1, s32 a2);
     static BOOL CheckDecorConstructed(s32 id);
     static BOOL CanSpawnNpcType(s32 npcType);

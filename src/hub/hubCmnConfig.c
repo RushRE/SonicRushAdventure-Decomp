@@ -791,117 +791,101 @@ static const CViDockAreaConfig dockAreaConfig[] = {
     // No stage for DOCKAREA_DRILL
 };
 
-static const Unknown2171FE8 ovl05_02171FE8[] = {
+static const CViMapAreaIconConfig mapAreaIconConfig[] = {
     [MAPAREA_BASE] = 
     {
-        .field_0  = 0x90,
-        .field_2  = 0x94,
-        .dockArea = DOCKAREA_BASE,
-        .field_8  = 0,
-        .field_C  = { 3, 4, 5 },
-        .field_18 = { 6, 4, 7 },
-        .field_24 = { 2, 7, 9 },
-        .field_30 = { 1, 9, 9 },
-        .field_3C = 1,
-        .field_3E = 0,
+        .position       = { 144, 148 },
+        .dockArea       = DOCKAREA_BASE,
+        .field_8        = MAPAREA_BASE,
+        .nextArea_Left  = { MAPAREA_HOVER, MAPAREA_SUBMARINE, MAPAREA_BEACH },
+        .nextArea_Up    = { MAPAREA_DRILL, MAPAREA_SUBMARINE, MAPAREA_TUTORIAL },
+        .nextArea_Right = { MAPAREA_BOAT, MAPAREA_TUTORIAL, MAPAREA_INVALID },
+        .nextArea_Down  = { MAPAREA_JET, MAPAREA_INVALID, MAPAREA_INVALID },
+        .field_3C       = 1,
     },
 
     [MAPAREA_JET] = 
     {
-        .field_0  = 0x78,
-        .field_2  = 0xD4,
-        .dockArea = DOCKAREA_JET,
-        .field_8  = 1,
-        .field_C  = { 5, 3, 4 },
-        .field_18 = { 0, 9, 9 },
-        .field_24 = { 2, 0, 9 },
-        .field_30 = { 9, 9, 9 },
-        .field_3C = 2,
-        .field_3E = 0,
+        .position       = { 120, 212 },
+        .dockArea       = DOCKAREA_JET,
+        .field_8        = MAPAREA_JET,
+        .nextArea_Left  = { MAPAREA_BEACH, MAPAREA_HOVER, MAPAREA_SUBMARINE },
+        .nextArea_Up    = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right = { MAPAREA_BOAT, MAPAREA_BASE, MAPAREA_INVALID },
+        .nextArea_Down  = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
+        .field_3C       = 2,
     },
 
     [MAPAREA_BOAT] = 
     {
-        .field_0  = 0x104,
-        .field_2  = 0xBE,
-        .dockArea = DOCKAREA_BOAT,
-        .field_8  = 2,
-        .field_C  = { 0, 9, 9 },
-        .field_18 = { 7, 9, 9 },
-        .field_24 = { 9, 9, 9 },
-        .field_30 = { 1, 9, 9 },
-        .field_3C = 3,
-        .field_3E = 0,
+        .position       = { 260, 190 },
+        .dockArea       = DOCKAREA_BOAT,
+        .field_8        = MAPAREA_BOAT,
+        .nextArea_Left  = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Up    = { MAPAREA_TUTORIAL, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Down  = { MAPAREA_JET, MAPAREA_INVALID, MAPAREA_INVALID },
+        .field_3C       = 3,
     },
 
     [MAPAREA_HOVER] = 
     {
-        .field_0  = 0x3C,
-        .field_2  = 0x9E,
-        .dockArea = DOCKAREA_HOVER,
-        .field_8  = 3,
-        .field_C  = { 9, 9, 9 },
-        .field_18 = { 4, 9, 9 },
-        .field_24 = { 0, 9, 9 },
-        .field_30 = { 5, 1, 9 },
-        .field_3C = 4,
-        .field_3E = 0,
+        .position       = { 60, 158 },
+        .dockArea       = DOCKAREA_HOVER,
+        .field_8        = MAPAREA_HOVER,
+        .nextArea_Left  = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Up    = { MAPAREA_SUBMARINE, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Down  = { MAPAREA_BEACH, MAPAREA_JET, MAPAREA_INVALID },
+        .field_3C       = 4,
     },
 
     [MAPAREA_SUBMARINE] = 
     {
-        .field_0  = 0x50,
-        .field_2  = 0x64,
-        .dockArea = DOCKAREA_SUBMARINE,
-        .field_8  = 4,
-        .field_C  = { 3, 9, 9 },
-        .field_18 = { 6, 9, 9 },
-        .field_24 = { 6, 0, 9 },
-        .field_30 = { 3, 0, 1 },
-        .field_3C = 5,
-        .field_3E = 0,
+        .position       = { 80, 100 },
+        .dockArea       = DOCKAREA_SUBMARINE,
+        .field_8        = MAPAREA_SUBMARINE,
+        .nextArea_Left  = { MAPAREA_HOVER, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Up    = { MAPAREA_DRILL, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right = { MAPAREA_DRILL, MAPAREA_BASE, MAPAREA_INVALID },
+        .nextArea_Down  = { MAPAREA_HOVER, MAPAREA_BASE, MAPAREA_JET },
+        .field_3C       = 5,
     },
 
     [MAPAREA_BEACH] = 
     {
-        .field_0  = 0x2C,
-        .field_2  = 0xCC,
-        .dockArea = DOCKAREA_BEACH,
-        .field_8  = 5,
-        .field_C  = { 9, 9, 9 },
-        .field_18 = { 3, 9, 9 },
-        .field_24 = { 1, 0, 9 },
-        .field_30 = { 1, 9, 9 },
-        .field_3C = CVIEVTCMN_RESOURCE_NONE,
-        .field_3E = 0,
+        .position       = { 44, 204 },
+        .dockArea       = DOCKAREA_BEACH,
+        .field_8        = MAPAREA_BEACH,
+        .nextArea_Left  = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Up    = { MAPAREA_HOVER, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right = { MAPAREA_JET, MAPAREA_BASE, MAPAREA_INVALID },
+        .nextArea_Down  = { MAPAREA_JET, MAPAREA_INVALID, MAPAREA_INVALID },
+        .field_3C       = CVIEVTCMN_RESOURCE_NONE,
     },
 
     [MAPAREA_DRILL] = 
     {
-        .field_0  = 0x9A,
-        .field_2  = 0x50,
-        .dockArea = DOCKAREA_COUNT,
-        .field_8  = 6,
-        .field_C  = { 4, 9, 9 },
-        .field_18 = { 9, 9, 9 },
-        .field_24 = { 7, 9, 9 },
-        .field_30 = { 0, 9, 9 },
-        .field_3C = 6,
-        .field_3E = 0,
+        .position       = { 154, 80 },
+        .dockArea       = DOCKAREA_COUNT,
+        .field_8        = MAPAREA_DRILL,
+        .nextArea_Left  = { MAPAREA_SUBMARINE, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Up    = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right = { MAPAREA_TUTORIAL, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Down  = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
+        .field_3C       = 6,
     },
 
     [MAPAREA_TUTORIAL] = 
     {
-        .field_0  = 0x114,
-        .field_2  = 0x68,
-        .dockArea = DOCKAREA_COUNT,
-        .field_8  = 7,
-        .field_C  = { 6, 0, 9 },
-        .field_18 = { 6, 9, 9 },
-        .field_24 = { 9, 9, 9 },
-        .field_30 = { 2, 0, 9 },
-        .field_3C = CVIEVTCMN_RESOURCE_NONE,
-        .field_3E = 0,
+        .position       = { 276, 104 },
+        .dockArea       = DOCKAREA_COUNT,
+        .field_8        = MAPAREA_TUTORIAL,
+        .nextArea_Left  = { MAPAREA_DRILL, MAPAREA_BASE, MAPAREA_INVALID },
+        .nextArea_Up    = { MAPAREA_DRILL, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Right = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
+        .nextArea_Down  = { MAPAREA_BOAT, MAPAREA_BASE, MAPAREA_INVALID },
+        .field_3C       = CVIEVTCMN_RESOURCE_NONE,
     },
 };
 
@@ -909,9 +893,9 @@ static const Unknown2171FE8 ovl05_02171FE8[] = {
 // FUNCTIONS
 // --------------------
 
-const Unknown2171FE8 *HubConfig__Func_2152960(u16 area)
+const CViMapAreaIconConfig *HubConfig__GetDockMapIconConfig(u16 area)
 {
-    return &ovl05_02171FE8[area];
+    return &mapAreaIconConfig[area];
 }
 
 const CViDockAreaConfig *HubConfig__GetDockStageConfig(u16 area)

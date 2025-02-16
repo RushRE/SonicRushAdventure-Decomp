@@ -536,19 +536,26 @@ s32 HubControl::GetNextShipToBuild()
     return CViTalkPurchase::CONSTRUCT_INVALID;
 }
 
-BOOL HubControl::Func_215B51C(s32 a1)
+BOOL HubControl::CheckMapIconEnabled(MapArea mapArea)
 {
-    static const u8 progressTable[8] = {
-        SAVE_PROGRESS_0, SAVE_PROGRESS_2, SAVE_PROGRESS_9, SAVE_PROGRESS_22, SAVE_PROGRESS_26, SAVE_PROGRESS_0, SAVE_PROGRESS_38, SAVE_PROGRESS_0
+    static const u8 progressTable[MAPAREA_COUNT] = {
+        SAVE_PROGRESS_0,  // MAPAREA_BASE
+        SAVE_PROGRESS_2,  // MAPAREA_JET
+        SAVE_PROGRESS_9,  // MAPAREA_BOAT
+        SAVE_PROGRESS_22, // MAPAREA_HOVER
+        SAVE_PROGRESS_26, // MAPAREA_SUBMARINE
+        SAVE_PROGRESS_0,  // MAPAREA_BEACH
+        SAVE_PROGRESS_38, // MAPAREA_DRILL
+        SAVE_PROGRESS_0   // MAPAREA_TUTORIAL
     };
 
-    if (a1 == 0 && SaveGame__GetGameProgress() == SAVE_PROGRESS_0 && SaveGame__GetProgressCounter() <= 6)
+    if (mapArea == MAPAREA_BASE && SaveGame__GetGameProgress() == SAVE_PROGRESS_0 && SaveGame__GetProgressCounter() <= 6)
         return FALSE;
 
-    if (a1 == 1 && SaveGame__GetGameProgress() == SAVE_PROGRESS_1 && SaveGame__GetProgressCounter() >= 1)
+    if (mapArea == MAPAREA_JET && SaveGame__GetGameProgress() == SAVE_PROGRESS_1 && SaveGame__GetProgressCounter() >= 1)
         return TRUE;
 
-    return SaveGame__GetGameProgress() >= progressTable[a1];
+    return SaveGame__GetGameProgress() >= progressTable[mapArea];
 }
 
 void HubControl::UpdateSaveForDecorConstruction(s32 id, s32 a2)

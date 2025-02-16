@@ -2,17 +2,8 @@
 #define RUSH_CVIMAPICON_HPP
 
 #include <game/graphics/sprite.h>
+#include <game/math/mtMath.h>
 #include <hub/dockCommon.h>
-
-// --------------------
-// STRUCTS
-// --------------------
-
-struct CViMapIconUnknown
-{
-    u32 flags;
-    Vec2Fx16 pos;
-};
 
 class CViMapIcon
 {
@@ -21,29 +12,92 @@ public:
     virtual ~CViMapIcon();
 
     // --------------------
+    // ENUMS
+    // --------------------
+
+    enum Flags
+    {
+        FLAG_SHOW_PLAYER_ICON,
+        FLAG_SHOW_ISLAND_ICONS,
+    };
+
+    // --------------------
+    // STRUCTS
+    // --------------------
+
+    struct Icon
+    {
+
+        // --------------------
+        // ENUMS
+        // --------------------
+
+        enum Flags
+        {
+            FLAG_NONE = 0x00,
+
+            FLAG_ENABLED = 1 << 0,
+        };
+
+        // --------------------
+        // VARIABLES
+        // --------------------
+
+        u32 flags;
+        Vec2U16 pos;
+    };
+
+    // --------------------
     // VARIABLES
     // --------------------
 
     u32 flags;
     void *sprIcon;
-    Vec2Fx16 wordC;
+    Vec2U16 worldPosition;
     AnimatorSprite aniIconOutline;
     AnimatorSprite aniIconCenter;
     AnimatorSprite aniSonicMarker;
-    u32 iconID;
-    Vec2Fx16 field_140;
-    u32 dword144;
-    u32 dword148;
-    CViMapIconUnknown iconList[8];
+    u32 mapArea;
+    Vec2U16 prevMarkerPos;
+    u32 markerMoveDuration;
+    u32 markerMoveTimer;
+    Icon iconList[MAPAREA_COUNT];
     AnimatorSprite aniCursor;
 
     // --------------------
     // MEMBER FUNCTIONS
     // --------------------
 
+    void Init(BOOL useEngineB);
+    void Release();
+    void Configure(u8 id, BOOL enabled);
+    void SetWorldPosition(u16 x, u16 y);
+    void GetIconPosition(MapArea mapArea, u16 *x, u16 *y);
+    void WarpToArea(MapArea mapArea);
+    void TravelToArea(MapArea mapArea);
+    MapArea GetCurrentArea();
+    void ProcessPlayerIcon();
+    void Draw();
+    MapArea GetAreaFromTouchInput();
+    MapArea GetAreaFromPadInput();
+    BOOL IsMoving();
+    void InitIcons();
+    void DrawCursor(s16 x, s16 y);
+    void LoadIconConfig();
+    void DrawIcon(s16 x, s16 y);
+    void GetSonicMarkerPos(u16 *x, u16 *y);
+    void DrawSonicMarker(s16 x, s16 y);
+
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
+
+private:
+    static void InitIconPosition(MapArea mapArea, u16 *x, u16 *y);
+    static MapArea PadMove_Left(MapArea mapArea, u16 next);
+    static MapArea PadMove_Up(MapArea mapArea, u16 next);
+    static MapArea PadMove_Right(MapArea mapArea, u16 next);
+    static MapArea PadMove_Down(MapArea mapArea, u16 next);
 };
 
 // --------------------
@@ -58,31 +112,6 @@ extern "C"
 NOT_DECOMPILED void _ZN10CViMapIconC1Ev(CViMapIcon *work);
 NOT_DECOMPILED void _ZN10CViMapIconD0Ev(CViMapIcon *work);
 NOT_DECOMPILED void _ZN10CViMapIconD1Ev(CViMapIcon *work);
-
-void ViMapIcon__Func_2163058(CViMapIcon *work, BOOL useEngineB);
-void ViMapIcon__Release(CViMapIcon *work);
-void ViMapIcon__Func_2163340(CViMapIcon *work, u8 id, BOOL enabled);
-void ViMapIcon__Func_2163364(CViMapIcon *work, u16 x, u16 y);
-void ViMapIcon__GetIconPosition(CViMapIcon *work, MapArea mapArea, u16 *x, u16 *y);
-void ViMapIcon__SetIconID2(CViMapIcon *work, MapArea mapArea);
-void ViMapIcon__SetIconID(CViMapIcon *work, MapArea mapArea);
-MapArea ViMapIcon__GetCurrentIcon(CViMapIcon *work);
-void ViMapIcon__Func_2163400(CViMapIcon *work);
-void ViMapIcon__Func_2163440(CViMapIcon *work);
-MapArea ViMapIcon__GetIconFromTouchPos(CViMapIcon *work);
-s32 ViMapIcon__Func_21635DC(CViMapIcon *work);
-BOOL ViMapIcon__IsMoving(CViMapIcon *work);
-void ViMapIcon__Func_21636A0(CViMapIcon *work);
-void ViMapIcon__Func_21636AC(CViMapIcon *work, s16 x, s16 y);
-void ViMapIcon__Func_21636C8(CViMapIcon *work);
-void ViMapIcon__Func_2163738(CViMapIcon *work);
-void ViMapIcon__Func_21637A0(CViMapIcon *work);
-void ViMapIcon__Func_21638A4(CViMapIcon *work);
-void ViMapIcon__Func_21638D0(CViMapIcon *work);
-void ViMapIcon__Func_2163904(CViMapIcon *work);
-void ViMapIcon__Func_216392C(CViMapIcon *work);
-void ViMapIcon__Func_2163954(CViMapIcon *work);
-void ViMapIcon__Func_216397C(CViMapIcon *work);
 
 #ifdef __cplusplus
 }

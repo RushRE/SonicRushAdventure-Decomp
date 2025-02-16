@@ -2,6 +2,7 @@
 #define RUSH_HUBCONFIG_H
 
 #include <hub/dockCommon.h>
+#include <game/math/mtMath.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -111,21 +112,19 @@ struct CViDockCameraBounds
     VecFx32 max;
 };
 
-typedef struct Unknown2171FE8_
+typedef struct CViMapAreaIconConfig_
 {
-    s16 field_0;
-    s16 field_2;
+    Vec2U16 position;
     DockArea dockArea;
     s32 field_8;
-    u32 field_C[3];
-    u32 field_18[3];
-    u32 field_24[3];
-    u32 field_30[3];
+    u32 nextArea_Left[3];
+    u32 nextArea_Up[3];
+    u32 nextArea_Right[3];
+    u32 nextArea_Down[3];
     u16 field_3C;
-    s16 field_3E;
-} Unknown2171FE8;
+} CViMapAreaIconConfig;
 
-typedef struct DockStageConfig_
+typedef struct CViDockAreaConfig_
 {
     DockArea dockArea;
     MapArea mapArea;
@@ -139,7 +138,7 @@ typedef struct DockStageConfig_
     fx16 scale;
 } CViDockAreaConfig;
 
-typedef struct DockMapConfig_
+typedef struct CViMapAreaConfig_
 {
     DockArea dockArea;
     DockArea unknownArea;
@@ -152,7 +151,7 @@ typedef struct DockMapConfig_
     u16 materials[8];
 } CViMapAreaConfig;
 
-typedef struct ViDockBackConfig_
+typedef struct CViDockBackAreaConfig_
 {
     DockArea dockArea;
     u16 resModelShip;
@@ -220,7 +219,7 @@ typedef struct Unknown2171914_
     u32 unknown;
 } Unknown2171914;
 
-typedef struct ViMapBackConfig_
+typedef struct CViMapDecorConfig_
 {
     u16 flags;
     u16 animID;
@@ -230,7 +229,7 @@ typedef struct ViMapBackConfig_
 // FUNCTIONS
 // --------------------
 
-const Unknown2171FE8 *HubConfig__Func_2152960(u16 area);
+const CViMapAreaIconConfig *HubConfig__GetDockMapIconConfig(u16 area);
 const CViDockAreaConfig *HubConfig__GetDockStageConfig(u16 area);
 const Unknown2171914 *HubConfig__GetDockUnknownConfig(u16 area);
 const CViMapAreaConfig *HubConfig__GetDockMapConfig(u16 area);

@@ -30,8 +30,8 @@ NOT_DECOMPILED fx32 Unknown2051334__Func_2051534(s32 a1, s32 a2, s32 a3, s32 a4,
 // VARIABLES
 // --------------------
 
-Task *ViMap__TaskSingleton;
-Task *ViMapPaletteAnimation__Singleton;
+Task *mapTaskSingleton;
+Task *mapPaletteAnimationTaskSingleton;
 
 // --------------------
 // FUNCTIONS
@@ -40,23 +40,23 @@ Task *ViMapPaletteAnimation__Singleton;
 void ViMap__Create(void)
 {
     // TODO: use 'HubTaskCreate' when 'ViMap__CreateInternal' matches
-    // ViMap__TaskSingleton = HubTaskCreate(ViMap__Main_Idle, ViMap__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16), CViMap);
-    ViMap__TaskSingleton = ViMap__CreateInternal(ViMap__Main_Idle, ViMap__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16));
+    // mapTaskSingleton = HubTaskCreate(ViMap__Main_Idle, ViMap__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16), CViMap);
+    mapTaskSingleton = ViMap__CreateInternal(ViMap__Main_Idle, ViMap__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16));
 
-    CViMap *work    = TaskGetWork(ViMap__TaskSingleton, CViMap);
-    work->field_7C0 = 0;
-    work->field_7C2 = 0;
-    work->field_7C4 = 0;
-    work->field_7C6 = 0;
-    work->field_7C8 = 0;
-    work->field_7CA = 0;
-    work->field_7CC = 0;
-    work->field_7CE = 0;
+    CViMap *work          = TaskGetWork(mapTaskSingleton, CViMap);
+    work->mapPos.x        = 0;
+    work->mapPos.y        = 0;
+    work->mapPrevPos.x    = 0;
+    work->mapPrevPos.y    = 0;
+    work->mapTargetPos.x  = 0;
+    work->mapTargetPos.y  = 0;
+    work->mapMoveDuration = 0;
+    work->mapMoveTimer    = 0;
 
     TalkHelpers__Func_2152F98(&work->talkUnknown);
 
     ViMap__Func_215C9B4(work);
-    ViMap__Func_215CA1C(work);
+    ViMap__InitMapIcon(work);
     ViMap__Func_215CA60(work);
     ViMap__Func_215CA84(work);
     ViMap__Func_215D7B4(work);
@@ -100,127 +100,127 @@ _0215BAE0:
 
 void ViMap__Destroy(void)
 {
-    if (ViMap__TaskSingleton != NULL)
+    if (mapTaskSingleton != NULL)
     {
-        CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+        CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
         UNUSED(work);
 
-        DestroyTask(ViMap__TaskSingleton);
+        DestroyTask(mapTaskSingleton);
 
-        ViMap__TaskSingleton = NULL;
+        mapTaskSingleton = NULL;
     }
 }
 
 void ViMap__SetType(s32 type)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     switch (type)
     {
-        case 0:
-            SetTaskMainEvent(ViMap__TaskSingleton, ViMap__Main_Moving);
+        case CViMap::TYPE_MAP_ACTIVE:
+            SetTaskMainEvent(mapTaskSingleton, ViMap__Main_Moving);
             break;
 
-        case 1:
-            SetTaskMainEvent(ViMap__TaskSingleton, ViMap__Main_Idle);
+        case CViMap::TYPE_DOCK_ACTIVE:
+            SetTaskMainEvent(mapTaskSingleton, ViMap__Main_Idle);
             break;
 
-        case 2:
+        case CViMap::TYPE_CONSTRUCTION_CUTSCENE:
             work->cutsceneState = 6;
-            SetTaskMainEvent(ViMap__TaskSingleton, ViMap__Main_ConstructionCutscene);
+            SetTaskMainEvent(mapTaskSingleton, ViMap__Main_ConstructionCutscene);
             break;
     }
 }
 
-void ViMap__Func_215BBAC(u16 x, u16 y)
+void ViMap__WarpToPosition(u16 x, u16 y)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    work->field_7C0 = x;
-    work->field_7C2 = y;
-    work->field_7C4 = x;
-    work->field_7C6 = y;
-    work->field_7C8 = x;
-    work->field_7CA = y;
-    work->field_7CC = 0;
-    work->field_7CE = 0;
+    work->mapPos.x        = x;
+    work->mapPos.y        = y;
+    work->mapPrevPos.x    = x;
+    work->mapPrevPos.y    = y;
+    work->mapTargetPos.x  = x;
+    work->mapTargetPos.y  = y;
+    work->mapMoveDuration = 0;
+    work->mapMoveTimer    = 0;
 }
 
-void ViMap__Func_215BBF4(u16 x, u16 y, u16 a3)
+void ViMap__TravelToPosition(u16 x, u16 y, u16 duration)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    work->field_7C8 = x;
-    work->field_7CA = y;
-    work->field_7C4 = work->field_7C0;
-    work->field_7C6 = work->field_7C2;
-    work->field_7CC = a3;
-    work->field_7CE = 0;
+    work->mapTargetPos.x  = x;
+    work->mapTargetPos.y  = y;
+    work->mapPrevPos.x    = work->mapPos.x;
+    work->mapPrevPos.y    = work->mapPos.y;
+    work->mapMoveDuration = duration;
+    work->mapMoveTimer    = 0;
 }
 
-void ViMap__Func_215BC40(u16 *x, u16 *y)
+void ViMap__GetMapPosition(u16 *x, u16 *y)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     if (x != NULL)
-        *x = work->field_7C0;
+        *x = work->mapPos.x;
 
     if (y != NULL)
-        *y = work->field_7C2;
+        *y = work->mapPos.y;
 }
 
-MapArea ViMap__GetMapIconDockAreaFromTouchPos(void)
+MapArea ViMap__GetMapAreaFromMapIconTouchInput(void)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    return ViMapIcon__GetIconFromTouchPos(&work->mapIcon);
+    return work->mapIcon.GetAreaFromTouchInput();
 }
 
-MapArea ViMap__GetMapIconDockArea(BOOL mustBeIdle)
+MapArea ViMap__GetMapAreaFromMapIconMarker(BOOL mustBeIdle)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    if (mustBeIdle && ViMapIcon__IsMoving(&work->mapIcon))
+    if (mustBeIdle && work->mapIcon.IsMoving())
         return MAPAREA_INVALID;
 
-    return ViMapIcon__GetCurrentIcon(&work->mapIcon);
+    return work->mapIcon.GetCurrentArea();
 }
 
-void ViMap__Func_215BCE4(u32 mapArea, BOOL a2)
+void ViMap__GoToMapArea(u32 mapArea, BOOL shouldTravel)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     u16 y, x;
-    if (a2)
+    if (shouldTravel)
     {
-        ViMapIcon__SetIconID(&work->mapIcon, mapArea);
-        ViMapIcon__GetIconPosition(&work->mapIcon, mapArea, &x, &y);
+        work->mapIcon.TravelToArea(mapArea);
+        work->mapIcon.GetIconPosition(mapArea, &x, &y);
 
         x += 8;
         y += 8;
-        ViMap__Func_215D27C(x, y, &x, &y);
-        ViMap__Func_215BBF4(x, y, 32);
+        ViMap__ClampPosToMapBounds(x, y, &x, &y);
+        ViMap__TravelToPosition(x, y, 32);
     }
     else
     {
-        ViMapIcon__SetIconID2(&work->mapIcon, mapArea);
-        ViMapIcon__GetIconPosition(&work->mapIcon, mapArea, &x, &y);
+        work->mapIcon.WarpToArea(mapArea);
+        work->mapIcon.GetIconPosition(mapArea, &x, &y);
 
         x += 8;
         y += 8;
-        ViMap__Func_215D27C(x, y, &x, &y);
-        ViMap__Func_215BBAC(x, y);
+        ViMap__ClampPosToMapBounds(x, y, &x, &y);
+        ViMap__WarpToPosition(x, y);
     }
 }
 
-MapArea ViMap__GetDockAreaFromMapIcon(void)
+MapArea ViMap__GetMapAreaFromMapIcon(void)
 {
-    MapArea mapArea = ViMap__GetMapIconDockArea(TRUE);
+    MapArea mapArea = ViMap__GetMapAreaFromMapIconMarker(TRUE);
 
     if (mapArea >= MAPAREA_COUNT)
         return DOCKAREA_INVALID;
 
-    if (mapArea == ViMap__GetMapIconDockAreaFromTouchPos())
+    if (mapArea == ViMap__GetMapAreaFromMapIconTouchInput())
         return mapArea;
 
     if ((padInput.btnPress & PAD_BUTTON_A) == 0)
@@ -231,12 +231,12 @@ MapArea ViMap__GetDockAreaFromMapIcon(void)
 
 void ViMap__StartShipConstructCutscene(s32 id)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     work->shipConstructionID  = id;
     work->decorConstructionID = CViMap::CONSTRUCT_DECOR_INVALID;
     work->shipUpgradeID       = CViMap::UPGRADE_SHIP_INVALID;
-    work->field_7E8           = HubConfig__Func_2152960(HubConfig__GetDockMapConfig(work->shipConstructionID)->unknownArea)->field_3C;
+    work->field_7E8           = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapConfig(work->shipConstructionID)->unknownArea)->field_3C;
 
     s32 i;
     AnimatorSprite *aniMaterialIcon = &work->aniMaterialIcon[0];
@@ -268,8 +268,8 @@ void ViMap__StartShipConstructCutscene(s32 id)
     }
 
     u16 x, y;
-    ViMap__Func_215D27C(32, 40, &x, &y);
-    ViMap__Func_215BBAC(x, y);
+    ViMap__ClampPosToMapBounds(32, 40, &x, &y);
+    ViMap__WarpToPosition(x, y);
     work->field_7D0 = 32 - x;
     work->field_7D2 = 40 - y;
 
@@ -283,7 +283,7 @@ void ViMap__StartShipConstructCutscene(s32 id)
 
 void ViMap__StartDecorConstructCutscene(s32 id)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     work->shipConstructionID  = CViMap::CONSTRUCT_SHIP_INVALID;
     work->decorConstructionID = id;
@@ -295,8 +295,8 @@ void ViMap__StartDecorConstructCutscene(s32 id)
         work->field_7E8 = -1;
 
     u16 x, y;
-    ViMap__Func_215D27C(32, 40, &x, &y);
-    ViMap__Func_215BBAC(x, y);
+    ViMap__ClampPosToMapBounds(32, 40, &x, &y);
+    ViMap__WarpToPosition(x, y);
     work->field_7D0 = 32 - x;
     work->field_7D2 = 40 - y;
 
@@ -310,12 +310,12 @@ void ViMap__StartDecorConstructCutscene(s32 id)
 
 void ViMap__StartShipUpgradeCutscene(s32 id)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     work->shipConstructionID  = CViMap::CONSTRUCT_SHIP_INVALID;
     work->decorConstructionID = CViMap::CONSTRUCT_DECOR_INVALID;
     work->shipUpgradeID       = id;
-    work->field_7E8           = HubConfig__Func_2152960(HubConfig__GetDockMapUnknownConfig(work->shipUpgradeID)->unknownArea)->field_3C;
+    work->field_7E8           = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapUnknownConfig(work->shipUpgradeID)->unknownArea)->field_3C;
 
     s32 i;
     AnimatorSprite *aniMaterialIcon = &work->aniMaterialIcon[0];
@@ -347,8 +347,8 @@ void ViMap__StartShipUpgradeCutscene(s32 id)
     }
 
     u16 x, y;
-    ViMap__Func_215D27C(32, 40, &x, &y);
-    ViMap__Func_215BBAC(x, y);
+    ViMap__ClampPosToMapBounds(32, 40, &x, &y);
+    ViMap__WarpToPosition(x, y);
     work->field_7D0 = 32 - x;
     work->field_7D2 = 40 - y;
 
@@ -368,7 +368,7 @@ NONMATCH_FUNC void ViMap__Func_215C284(s32 a1)
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
-	ldr r1, =ViMap__TaskSingleton
+	ldr r1, =mapTaskSingleton
 	mov r5, r0
 	ldr r0, [r1, #0]
 	bl GetTaskWork_
@@ -379,12 +379,12 @@ NONMATCH_FUNC void ViMap__Func_215C284(s32 a1)
 	add r3, sp, #4
 	strh r0, [sp, #0xa]
 	strh r1, [sp, #8]
-	bl ViMap__Func_215D27C
+	bl ViMap__ClampPosToMapBounds
 	ldrh r0, [sp, #0xa]
 	ldrh r1, [sp, #8]
 	add r2, sp, #6
 	add r3, sp, #4
-	bl ViMap__Func_215D27C
+	bl ViMap__ClampPosToMapBounds
 	add r0, r4, #0x700
 	ldrh r0, [r0, #0xe8]
 	ldr r1, =0x0000FFFF
@@ -406,7 +406,7 @@ NONMATCH_FUNC void ViMap__Func_215C284(s32 a1)
 	ldrh r0, [sp, #0xa]
 	ldrh r1, [sp, #8]
 	add r3, sp, #0
-	bl ViMap__Func_215D27C
+	bl ViMap__ClampPosToMapBounds
 	b _0215C378
 _0215C32C:
 	ldr r0, [r4, #0x7e0]
@@ -427,7 +427,7 @@ _0215C32C:
 	ldrh r0, [sp, #0xa]
 	ldrh r1, [sp, #8]
 	add r3, sp, #0
-	bl ViMap__Func_215D27C
+	bl ViMap__ClampPosToMapBounds
 _0215C378:
 	cmp r5, #0
 	ldreqh r5, [sp, #6]
@@ -454,7 +454,7 @@ _0215C378:
 _0215C3D0:
 	mov r0, r5
 	mov r1, r6
-	bl ViMap__Func_215BBAC
+	bl ViMap__WarpToPosition
 	ldrh r1, [sp, #0xa]
 	add r0, r4, #0x700
 	sub r1, r1, r5
@@ -476,7 +476,7 @@ NONMATCH_FUNC void ViMap__Func_215C408(void)
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r0, =ViMap__TaskSingleton
+	ldr r0, =mapTaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
@@ -521,7 +521,7 @@ NONMATCH_FUNC BOOL ViMap__Func_215C48C(void)
 #else
     // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, =ViMap__TaskSingleton
+	ldr r0, =mapTaskSingleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, [r0, #0x7dc]
@@ -542,7 +542,7 @@ NONMATCH_FUNC BOOL ViMap__Func_215C48C(void)
 
 void ViMap__Func_215C4CC(void)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     work->cutsceneState = 3;
     work->cutsceneTimer = 0;
@@ -550,14 +550,14 @@ void ViMap__Func_215C4CC(void)
 
 BOOL ViMap__Func_215C4F8(void)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     return work->cutsceneTimer >= 80;
 }
 
 void ViMap__Func_215C524(u16 a1)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     ViMap__Func_215D374(work);
 
@@ -569,7 +569,7 @@ void ViMap__Func_215C524(u16 a1)
 
 void ViMap__Func_215C58C(u16 a1)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     const u16 *value = HubConfig__Func_2152A20(a1);
     if (HubConfig__Func_2152A60(a1))
@@ -592,7 +592,7 @@ void ViMap__Func_215C58C(u16 a1)
 
 void ViMap__Func_215C638(u16 a1)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     TalkHelpersUnknown__Release(&work->talkUnknown);
     HubControl::Func_215B168();
@@ -610,7 +610,7 @@ void ViMap__Func_215C638(u16 a1)
 
 void ViMap__Func_215C6AC(void)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     TalkHelpersUnknown__Release(&work->talkUnknown);
     HubControl::Func_215B168();
@@ -640,7 +640,7 @@ void ViMap__Func_215C6AC(void)
 
 void ViMap__Func_215C76C(u16 a1)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     TalkHelpersUnknown__Release(&work->talkUnknown);
     HubControl::Func_215B168();
@@ -658,7 +658,7 @@ void ViMap__Func_215C76C(u16 a1)
 
 void ViMap__Func_215C7E0(void)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     ViMap__ReleaseTalkUnknown2(work);
     work->cutsceneState = 6;
@@ -669,35 +669,35 @@ void ViMap__Func_215C7E0(void)
     HubControl::Func_215B3B4();
 }
 
-void ViMap__Func_215C82C(void)
+void ViMap__InitMapIcons(void)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    ViMapIcon__Func_21636A0(&work->mapIcon);
+    work->mapIcon.InitIcons();
 }
 
-void ViMap__Func_215C84C(BOOL enabled)
+void ViMap__EnableMapIcons(BOOL enabled)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    ViMapIcon__Func_2163340(&work->mapIcon, 1, enabled);
+    work->mapIcon.Configure(CViMapIcon::FLAG_SHOW_ISLAND_ICONS, enabled);
 }
 
-void ViMap__Func_215C878(s16 x, s16 y)
+void ViMap__DrawMapCursor(s16 x, s16 y)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    ViMapIcon__Func_21636AC(&work->mapIcon, x, y);
+    work->mapIcon.DrawCursor(x, y);
 }
 
 void ViMapPaletteAnimation__Create(void)
 {
     ViMapPaletteAnimation__Destroy();
 
-    ViMapPaletteAnimation__Singleton = TaskCreate(ViMapPaletteAnimation__Main, ViMapPaletteAnimation__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1041,
+    mapPaletteAnimationTaskSingleton = TaskCreate(ViMapPaletteAnimation__Main, ViMapPaletteAnimation__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1041,
                                                   TASK_GROUP(16), CViMapPaletteAnimation);
 
-    CViMapPaletteAnimation *work = TaskGetWork(ViMapPaletteAnimation__Singleton, CViMapPaletteAnimation);
+    CViMapPaletteAnimation *work = TaskGetWork(mapPaletteAnimationTaskSingleton, CViMapPaletteAnimation);
 
     work->aniPaletteFile = FSRequestFileSync("bpa/vi_map.bpa", FSREQ_AUTO_ALLOC_HEAD);
     for (s32 i = 0; i < 3; i++)
@@ -708,16 +708,16 @@ void ViMapPaletteAnimation__Create(void)
 
 void ViMapPaletteAnimation__Destroy(void)
 {
-    if (ViMapPaletteAnimation__Singleton != NULL)
+    if (mapPaletteAnimationTaskSingleton != NULL)
     {
-        DestroyTask(ViMapPaletteAnimation__Singleton);
-        ViMapPaletteAnimation__Singleton = NULL;
+        DestroyTask(mapPaletteAnimationTaskSingleton);
+        mapPaletteAnimationTaskSingleton = NULL;
     }
 }
 
 AnimatorSprite *ViMap__Func_215C98C(u16 id)
 {
-    CViMap *work = TaskGetWork(ViMap__TaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
     return &work->aniMaterialIcon[id];
 }
 
@@ -733,18 +733,18 @@ void ViMap__Func_215C9B4(CViMap *work)
     ViMapBack__Func_2161DC8(&work->mapBack);
 }
 
-void ViMap__Func_215CA1C(CViMap *work)
+void ViMap__InitMapIcon(CViMap *work)
 {
-    ViMapIcon__Func_2163058(&work->mapIcon, GRAPHICS_ENGINE_B);
-    ViMapIcon__SetIconID2(&work->mapIcon, 0);
-    ViMapIcon__Func_2163340(&work->mapIcon, 0, TRUE);
-    ViMapIcon__Func_2163340(&work->mapIcon, 1, TRUE);
+    work->mapIcon.Init(GRAPHICS_ENGINE_B);
+    work->mapIcon.WarpToArea(MAPAREA_BASE);
+    work->mapIcon.Configure(CViMapIcon::FLAG_SHOW_PLAYER_ICON, TRUE);
+    work->mapIcon.Configure(CViMapIcon::FLAG_SHOW_ISLAND_ICONS, TRUE);
 }
 
 void ViMap__Func_215CA60(CViMap *work)
 {
     ViMap__Func_215D214(work);
-    ViMapBack__Func_2162648(&work->mapBack, work->field_7C0, work->field_7C2);
+    ViMapBack__Func_2162648(&work->mapBack, work->mapPos.x, work->mapPos.y);
 }
 
 void ViMap__Func_215CA84(CViMap *work)
@@ -797,7 +797,7 @@ void ViMap__Func_215CA84(CViMap *work)
     }
 }
 
-void ViMap__Func_215CC14(CViMap *work)
+void ViMap__Release(CViMap *work)
 {
     s32 i;
 
@@ -815,7 +815,7 @@ void ViMap__Func_215CC14(CViMap *work)
         AnimatorSprite__Release(&work->aniMaterialIcon[i]);
     }
 
-    ViMapIcon__Release(&work->mapIcon);
+    work->mapIcon.Release();
     ViMapBack__Release(&work->mapBack);
 }
 
@@ -823,33 +823,33 @@ void ViMap__Main_Moving(void)
 {
     CViMap *work = TaskGetWorkCurrent(CViMap);
 
-    s32 area = DOCKAREA_INVALID;
-    if (!work->field_7CC)
+    s32 newMapArea = MAPAREA_INVALID;
+    if (work->mapMoveDuration == 0)
     {
-        area = ViMapIcon__GetIconFromTouchPos(&work->mapIcon);
-        if (area >= DOCKAREA_COUNT)
-            area = ViMapIcon__Func_21635DC(&work->mapIcon);
+        newMapArea = work->mapIcon.GetAreaFromTouchInput();
+        if (newMapArea >= MAPAREA_COUNT)
+            newMapArea = work->mapIcon.GetAreaFromPadInput();
     }
 
-    if (area < DOCKAREA_COUNT && area != ViMapIcon__GetCurrentIcon(&work->mapIcon))
+    if (newMapArea < MAPAREA_COUNT && newMapArea != work->mapIcon.GetCurrentArea())
     {
         u16 y, x;
 
-        ViMapIcon__SetIconID(&work->mapIcon, area);
-        ViMapIcon__GetIconPosition(&work->mapIcon, area, &x, &y);
+        work->mapIcon.TravelToArea(newMapArea);
+        work->mapIcon.GetIconPosition(newMapArea, &x, &y);
         x += 8;
         y += 8;
-        ViMap__Func_215D27C(x, y, &x, &y);
-        ViMap__Func_215BBF4(x, y, 32);
+        ViMap__ClampPosToMapBounds(x, y, &x, &y);
+        ViMap__TravelToPosition(x, y, 32);
         PlayHubSfx(HUB_SFX_CURSOL);
     }
 
     ViMap__Func_215D2B4(work);
     ViMapBack__Func_2162110(&work->mapBack);
     ViMapBack__Func_2162158(&work->mapBack, 0);
-    ViMapIcon__Func_2163364(&work->mapIcon, work->field_7C0, work->field_7C2);
-    ViMapIcon__Func_2163400(&work->mapIcon);
-    ViMapIcon__Func_2163440(&work->mapIcon);
+    work->mapIcon.SetWorldPosition(work->mapPos.x, work->mapPos.y);
+    work->mapIcon.ProcessPlayerIcon();
+    work->mapIcon.Draw();
 }
 
 void ViMap__Main_Idle(void)
@@ -861,9 +861,9 @@ void ViMap__Main_Idle(void)
     ViMapBack__Func_2162110(&work->mapBack);
     ViMapBack__Func_2162158(&work->mapBack, 0);
 
-    ViMapIcon__Func_2163364(&work->mapIcon, work->field_7C0, work->field_7C2);
-    ViMapIcon__Func_2163400(&work->mapIcon);
-    ViMapIcon__Func_2163440(&work->mapIcon);
+    work->mapIcon.SetWorldPosition(work->mapPos.x, work->mapPos.y);
+    work->mapIcon.ProcessPlayerIcon();
+    work->mapIcon.Draw();
 }
 
 void ViMap__Main_ConstructionCutscene(void)
@@ -999,13 +999,13 @@ void ViMap__Destructor(Task *task)
 {
     CViMap *work = TaskGetWork(task, CViMap);
 
-    ViMap__Func_215CC14(work);
+    ViMap__Release(work);
 
     // TODO: use 'HubTaskDestroy' when ViMap__Func_215D150 matches
     // HubTaskDestroy<CViMap>(task);
     ViMap__Func_215D150(task);
 
-    ViMap__TaskSingleton = NULL;
+    mapTaskSingleton = NULL;
 }
 
 // TODO: should match when destructors are decompiled for 'CViMapIcon' & 'CViMapBack'
@@ -1063,24 +1063,24 @@ void ViMapPaletteAnimation__Destructor(Task *task)
         work->aniPaletteFile = NULL;
     }
 
-    ViMapPaletteAnimation__Singleton = NULL;
+    mapPaletteAnimationTaskSingleton = NULL;
 }
 
 void ViMap__Func_215D214(CViMap *work)
 {
     u16 y, x;
-    ViMapIcon__GetIconPosition(&work->mapIcon, ViMapIcon__GetCurrentIcon(&work->mapIcon), &x, &y);
+    work->mapIcon.GetIconPosition(work->mapIcon.GetCurrentArea(), &x, &y);
 
     x += 8;
     y += 8;
-    ViMap__Func_215D27C(x, y, &x, &y);
-    ViMap__Func_215BBAC(x, y);
+    ViMap__ClampPosToMapBounds(x, y, &x, &y);
+    ViMap__WarpToPosition(x, y);
 }
 
-void ViMap__Func_215D27C(u16 x, u16 y, u16 *outX, u16 *outY)
+void ViMap__ClampPosToMapBounds(u16 x, u16 y, u16 *outX, u16 *outY)
 {
-    s32 newX = x - 128;
-    s32 newY = y - 96;
+    s32 newX = x - HW_LCD_CENTER_X;
+    s32 newY = y - HW_LCD_CENTER_Y;
 
     if (newX < 0)
         newX = 0;
@@ -1103,34 +1103,34 @@ void ViMap__Func_215D27C(u16 x, u16 y, u16 *outX, u16 *outY)
 
 void ViMap__Func_215D2B4(CViMap *work)
 {
-    if (work->field_7CC != 0)
+    if (work->mapMoveDuration != 0)
     {
-        if (work->field_7CE >= work->field_7CC)
+        if (work->mapMoveTimer >= work->mapMoveDuration)
         {
-            work->field_7C0 = work->field_7C8;
-            work->field_7C2 = work->field_7CA;
-            work->field_7C4 = work->field_7C8;
-            work->field_7C6 = work->field_7CA;
-            work->field_7CC = 0;
-            work->field_7CE = 0;
+            work->mapPos.x        = work->mapTargetPos.x;
+            work->mapPos.y        = work->mapTargetPos.y;
+            work->mapPrevPos.x    = work->mapTargetPos.x;
+            work->mapPrevPos.y    = work->mapTargetPos.y;
+            work->mapMoveDuration = 0;
+            work->mapMoveTimer    = 0;
         }
         else
         {
-            s32 value  = work->field_7C4;
-            s32 value2 = (work->field_7C8 - value);
-            value2 *= work->field_7CE;
-            work->field_7C0 = value + FX_DivS32(value2, work->field_7CC);
+            s32 value  = work->mapPrevPos.x;
+            s32 value2 = (work->mapTargetPos.x - value);
+            value2 *= work->mapMoveTimer;
+            work->mapPos.x = value + FX_DivS32(value2, work->mapMoveDuration);
 
-            value  = work->field_7C6;
-            value2 = (work->field_7CA - value);
-            value2 *= work->field_7CE;
-            work->field_7C2 = value + FX_DivS32(value2, work->field_7CC);
+            value  = work->mapPrevPos.y;
+            value2 = (work->mapTargetPos.y - value);
+            value2 *= work->mapMoveTimer;
+            work->mapPos.y = value + FX_DivS32(value2, work->mapMoveDuration);
 
-            work->field_7CE++;
+            work->mapMoveTimer++;
         }
     }
 
-    ViMapBack__Func_2162648(&work->mapBack, work->field_7C0, work->field_7C2);
+    ViMapBack__Func_2162648(&work->mapBack, work->mapPos.x, work->mapPos.y);
 }
 
 void ViMap__Func_215D374(CViMap *work)
@@ -1144,7 +1144,7 @@ void ViMap__Func_215D374(CViMap *work)
         {
             const CViMapAreaConfig *config = HubConfig__GetDockMapConfig(i);
 
-            ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__Func_2152A30(HubConfig__Func_2152960(config->unknownArea)->field_3C));
+            ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__Func_2152A30(HubConfig__GetDockMapIconConfig(config->unknownArea)->field_3C));
         }
     }
 
