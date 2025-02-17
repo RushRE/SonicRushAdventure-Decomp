@@ -86,9 +86,19 @@ static const CViPurchaseCostConfig decorPurchaseCost[] =
 };
 
 static const CViMapDecorConfig mapDecorGraphicsConfig[] = {
-    { .flags = 0, .animID = 0 },  { .flags = 0, .animID = 1 },  { .flags = 0, .animID = 2 },  { .flags = 0, .animID = 3 },  { .flags = 0, .animID = 4 },
-    { .flags = 2, .animID = 7 },  { .flags = 0, .animID = 8 },  { .flags = 0, .animID = 9 },  { .flags = 0, .animID = 10 }, { .flags = 1, .animID = 11 },
-    { .flags = 1, .animID = 12 }, { .flags = 1, .animID = 13 }, { .flags = 1, .animID = 14 },
+    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_RADIO_TOWER },
+    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_BALLOON },
+    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_2 },
+    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_PALM_TREE },
+    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_SEAGULL_IDLE },
+    { .flags = CVIMAPDECOR_FLAG_TRANSPARENT, .animID = CVIMAPDECOR_ANI_VOLCANO_STEAM },
+    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_8 },
+    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_DINOSAUR },
+    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_FLAG },
+    { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_WINDMILL },
+    { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_WHALE },
+    { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_FLOWER_GARDEN },
+    { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_PRETTY_FLOWER_GARDEN },
 };
 
 static const Unknown2171914 dockUnknownConfig[] = {
@@ -309,7 +319,7 @@ static const CViMapAreaConfig mapAreaConfig[] = {
     [SHIP_JET] = 
     {
         .dockArea            = DOCKAREA_JET,
-        .unknownArea         = DOCKAREA_BASE_NEXT,
+        .mapArea             = MAPAREA_JET,
         .shipScale           = FLOAT_TO_FX32(3.0),
         .shipPosY            = FLOAT_TO_FX32(0.0),
         .rotationX           = FLOAT_DEG_TO_IDX(10.0),
@@ -322,7 +332,7 @@ static const CViMapAreaConfig mapAreaConfig[] = {
     [SHIP_BOAT] = 
     {
         .dockArea            = DOCKAREA_BOAT,
-        .unknownArea         = DOCKAREA_JET,
+        .mapArea             = MAPAREA_BOAT,
         .shipScale           = FLOAT_TO_FX32(0.5),
         .shipPosY            = FLOAT_TO_FX32(0.0),
         .rotationX           = FLOAT_DEG_TO_IDX(20.0),
@@ -335,7 +345,7 @@ static const CViMapAreaConfig mapAreaConfig[] = {
     [SHIP_HOVER] = 
     {
         .dockArea            = DOCKAREA_HOVER,
-        .unknownArea         = DOCKAREA_BOAT,
+        .mapArea             = MAPAREA_HOVER,
         .shipScale           = FLOAT_TO_FX32(0.5),
         .shipPosY            = FLOAT_TO_FX32(0.0),
         .rotationX           = FLOAT_DEG_TO_IDX(20.0),
@@ -348,7 +358,7 @@ static const CViMapAreaConfig mapAreaConfig[] = {
     [SHIP_SUBMARINE] = 
     {
         .dockArea            = DOCKAREA_SUBMARINE,
-        .unknownArea         = DOCKAREA_HOVER,
+        .mapArea             = MAPAREA_SUBMARINE,
         .shipScale           = FLOAT_TO_FX32(0.5),
         .shipPosY            = FLOAT_TO_FX32(0.0),
         .rotationX           = FLOAT_DEG_TO_IDX(20.0),
@@ -362,7 +372,7 @@ static const CViMapAreaConfig mapAreaConfig[] = {
     [SHIP_DRILL] = 
     {
         .dockArea            = DOCKAREA_DRILL,
-        .unknownArea         = DOCKAREA_BEACH,
+        .mapArea             = MAPAREA_DRILL,
         .shipScale           = FLOAT_TO_FX32(0.5),
         .shipPosY            = FLOAT_TO_FX32(0.0),
         .rotationX           = FLOAT_DEG_TO_IDX(20.0),
@@ -607,7 +617,7 @@ static const HubNpcSpawnConfig npcSpawnConfig[CVIDOCK_NPC_COUNT] = {
 
 static const CViMapAreaConfig mapAreaUpgradeConfig[] = {
     [(2 * SHIP_JET) + (SHIP_LEVEL_1 - 1)] = { .dockArea            = DOCKAREA_INVALID,
-                                              .unknownArea         = DOCKAREA_BASE_NEXT,
+                                              .mapArea             = MAPAREA_JET,
                                               .shipScale           = FLOAT_TO_FX32(0.0),
                                               .shipPosY            = FLOAT_TO_FX32(0.0),
                                               .rotationX           = FLOAT_DEG_TO_IDX(0.0),
@@ -617,7 +627,7 @@ static const CViMapAreaConfig mapAreaUpgradeConfig[] = {
                                               .materials           = { SAVE_MATERIAL_BLUE, SAVE_MATERIAL_IRON, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
     [(2 * SHIP_JET) + (SHIP_LEVEL_2 - 1)] = { .dockArea            = DOCKAREA_INVALID,
-                                              .unknownArea         = DOCKAREA_BASE_NEXT,
+                                              .mapArea             = MAPAREA_JET,
                                               .shipScale           = FLOAT_TO_FX32(0.0),
                                               .shipPosY            = FLOAT_TO_FX32(0.0),
                                               .rotationX           = FLOAT_DEG_TO_IDX(0.0),
@@ -627,7 +637,7 @@ static const CViMapAreaConfig mapAreaUpgradeConfig[] = {
                                               .materials           = { SAVE_MATERIAL_BLUE, SAVE_MATERIAL_IRON, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
     [(2 * SHIP_BOAT) + (SHIP_LEVEL_1 - 1)] = { .dockArea            = DOCKAREA_INVALID,
-                                               .unknownArea         = DOCKAREA_JET,
+                                               .mapArea             = MAPAREA_BOAT,
                                                .shipScale           = FLOAT_TO_FX32(0.0),
                                                .shipPosY            = FLOAT_TO_FX32(0.0),
                                                .rotationX           = FLOAT_DEG_TO_IDX(0.0),
@@ -637,7 +647,7 @@ static const CViMapAreaConfig mapAreaUpgradeConfig[] = {
                                                .materials           = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
     [(2 * SHIP_BOAT) + (SHIP_LEVEL_2 - 1)] = { .dockArea            = DOCKAREA_INVALID,
-                                               .unknownArea         = DOCKAREA_JET,
+                                               .mapArea             = MAPAREA_BOAT,
                                                .shipScale           = FLOAT_TO_FX32(0.0),
                                                .shipPosY            = FLOAT_TO_FX32(0.0),
                                                .rotationX           = FLOAT_DEG_TO_IDX(0.0),
@@ -647,7 +657,7 @@ static const CViMapAreaConfig mapAreaUpgradeConfig[] = {
                                                .materials           = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_BLACK, 0, 0, 0, 0, 0 } },
 
     [(2 * SHIP_HOVER) + (SHIP_LEVEL_1 - 1)] = { .dockArea            = DOCKAREA_INVALID,
-                                                .unknownArea         = DOCKAREA_BOAT,
+                                                .mapArea             = MAPAREA_HOVER,
                                                 .shipScale           = FLOAT_TO_FX32(0.0),
                                                 .shipPosY            = FLOAT_TO_FX32(0.0),
                                                 .rotationX           = FLOAT_DEG_TO_IDX(0.0),
@@ -657,7 +667,7 @@ static const CViMapAreaConfig mapAreaUpgradeConfig[] = {
                                                 .materials = { SAVE_MATERIAL_GREEN, SAVE_MATERIAL_BRONZE, SAVE_MATERIAL_RED, SAVE_MATERIAL_SILVER, SAVE_MATERIAL_BLACK, 0, 0, 0 } },
 
     [(2 * SHIP_HOVER) + (SHIP_LEVEL_2 - 1)] = { .dockArea            = DOCKAREA_INVALID,
-                                                .unknownArea         = DOCKAREA_BOAT,
+                                                .mapArea             = MAPAREA_HOVER,
                                                 .shipScale           = FLOAT_TO_FX32(0.0),
                                                 .shipPosY            = FLOAT_TO_FX32(0.0),
                                                 .rotationX           = FLOAT_DEG_TO_IDX(0.0),
@@ -668,7 +678,7 @@ static const CViMapAreaConfig mapAreaUpgradeConfig[] = {
 
     [(2 * SHIP_SUBMARINE)
         + (SHIP_LEVEL_1 - 1)] = { .dockArea            = DOCKAREA_INVALID,
-                                  .unknownArea         = DOCKAREA_HOVER,
+                                  .mapArea             = MAPAREA_SUBMARINE,
                                   .shipScale           = FLOAT_TO_FX32(0.0),
                                   .shipPosY            = FLOAT_TO_FX32(0.0),
                                   .rotationX           = FLOAT_DEG_TO_IDX(0.0),
@@ -679,7 +689,7 @@ static const CViMapAreaConfig mapAreaUpgradeConfig[] = {
 
     [(2 * SHIP_SUBMARINE)
         + (SHIP_LEVEL_2 - 1)] = { .dockArea            = DOCKAREA_INVALID,
-                                  .unknownArea         = DOCKAREA_HOVER,
+                                  .mapArea             = MAPAREA_SUBMARINE,
                                   .shipScale           = FLOAT_TO_FX32(0.0),
                                   .shipPosY            = FLOAT_TO_FX32(0.0),
                                   .rotationX           = FLOAT_DEG_TO_IDX(0.0),
@@ -953,7 +963,7 @@ const u16 *HubConfig__Func_2152A20(u16 id)
     return &ovl05_02171882[id];
 }
 
-const u16 *HubConfig__Func_2152A30(u16 id)
+const u16 *HubConfig__GetDecorVmiFile(u16 id)
 {
     return &ovl05_02171848[id];
 }
@@ -968,7 +978,7 @@ const CViMapDecorConfig *HubConfig__GetMapBackConfig(s32 id)
     return &mapDecorGraphicsConfig[id];
 }
 
-BOOL HubConfig__Func_2152A60(u16 id)
+BOOL HubConfig__CheckDecorConstructionUnknown(u16 id)
 {
     return id <= 6;
 }

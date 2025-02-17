@@ -8,7 +8,7 @@
 #include <game/graphics/sprite.h>
 #include <game/graphics/paletteAnimation.h>
 #include <game/graphics/unknown2056C5C.h>
-#include <hub/talkHelpersUnknown.h>
+#include <hub/hubBgCircleEffect.h>
 #include <game/save/saveGame.h>
 
 // --------------------
@@ -96,14 +96,13 @@ public:
     Vec2U16 mapTargetPos;
     u16 mapMoveDuration;
     u16 mapMoveTimer;
-    u16 field_7D0;
-    u16 field_7D2;
+    Vec2U16 constructionPos;
     s32 field_7D4;
     s32 cutsceneState;
     s32 shipConstructionID;
     s32 decorConstructionID;
     s32 shipUpgradeID;
-    u16 field_7E8;
+    u16 vmiFile;
     u16 cutsceneTimer;
     u16 materialCircleAngle;
     u16 materialCircleAngleOffset;
@@ -112,8 +111,10 @@ public:
     AnimatorSprite aniRingIcon;
     AnimatorSprite aniSparkle[8];
     Vec2Fx16 sparklePos[8];
-    TalkHelpersUnknown talkUnknown;
-    TalkHelpersUnknown2 talkUnknown2;
+    HubBGCircleEffect bgCircleEffect;
+    HubConstructionCompletePulse constructionCompletePulse;
+    u16 field_F68;
+    u16 field_F6A;
     Unknown2056FDC unknown;
 
     // --------------------
@@ -171,10 +172,10 @@ void ViMap__DrawMapCursor(s16 x, s16 y);
 void ViMapPaletteAnimation__Create(void);
 void ViMapPaletteAnimation__Destroy(void);
 AnimatorSprite *ViMap__Func_215C98C(u16 id);
-void ViMap__Func_215C9B4(CViMap *work);
+void ViMap__InitMapBack(CViMap *work);
 void ViMap__InitMapIcon(CViMap *work);
 void ViMap__Func_215CA60(CViMap *work);
-void ViMap__Func_215CA84(CViMap *work);
+void ViMap__InitSprites(CViMap *work);
 void ViMap__Release(CViMap *work);
 void ViMap__Main_Moving(void);
 void ViMap__Main_Idle(void);
@@ -187,17 +188,17 @@ void ViMap__Func_215D214(CViMap *work);
 void ViMap__ClampPosToMapBounds(u16 x, u16 y, u16 *outX, u16 *outY);
 void ViMap__Func_215D2B4(CViMap *work);
 void ViMap__Func_215D374(CViMap *work);
-void ViMap__Func_215D44C(CViMap *work, s32 a2, s32 a3);
+void ViMap__Func_215D44C(CViMap *work, fx32 scale, s32 progress);
 void ViMap__Func_215D4B4(CViMap *work);
 void ViMap__Func_215D604(CViMap *work);
 void ViMap__Func_215D734(CViMap *work);
-void ViMap__Func_215D7B4(CViMap *work);
+void ViMap__InitUnknown2056FDC(CViMap *work);
 void ViMap__Func_215D7D8(CViMap *work, u16 a2);
 void ViMap__Func_215D930(CViMap *work, GXRgb color);
-void ViMap__ReleaseTalkUnknown2(CViMap *work);
-void ViMap__Func_215D9E8(CViMap *work);
-void ViMap__Func_215D9EC(CViMap *work);
-void ViMap__Func_215DA38(CViMap *work, u16 a2);
+void ViMap__ReleaseUnknown2056FDC(CViMap *work);
+void ViMap__InitUnknown(CViMap *work);
+void ViMap__InitConstructionCompletePulse(CViMap *work);
+void ViMap__DrawConstructionCompletePulse(CViMap *work, GXRgb color);
 void ViMap__Func_215DA68(CViMap *work);
 
 #ifdef __cplusplus

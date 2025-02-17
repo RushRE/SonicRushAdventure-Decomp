@@ -53,14 +53,14 @@ void ViMap__Create(void)
     work->mapMoveDuration = 0;
     work->mapMoveTimer    = 0;
 
-    TalkHelpersUnknown__Init(&work->talkUnknown);
+    InitHubBGCircleEffect(&work->bgCircleEffect);
 
-    ViMap__Func_215C9B4(work);
+    ViMap__InitMapBack(work);
     ViMap__InitMapIcon(work);
     ViMap__Func_215CA60(work);
-    ViMap__Func_215CA84(work);
-    ViMap__Func_215D7B4(work);
-    ViMap__Func_215D9E8(work);
+    ViMap__InitSprites(work);
+    ViMap__InitUnknown2056FDC(work);
+    ViMap__InitUnknown(work);
 }
 
 // TODO: should match when constructors are decompiled for 'CViMapIcon' & 'CViMapBack'
@@ -236,7 +236,7 @@ void ViMap__StartShipConstructCutscene(s32 id)
     work->shipConstructionID  = id;
     work->decorConstructionID = CViMap::CONSTRUCT_DECOR_INVALID;
     work->shipUpgradeID       = CViMap::UPGRADE_SHIP_INVALID;
-    work->field_7E8           = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapConfig(work->shipConstructionID)->unknownArea)->field_3C;
+    work->vmiFile             = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapConfig(work->shipConstructionID)->mapArea)->field_3C;
 
     s32 i;
     AnimatorSprite *aniMaterialIcon = &work->aniMaterialIcon[0];
@@ -270,14 +270,15 @@ void ViMap__StartShipConstructCutscene(s32 id)
     u16 x, y;
     ViMap__ClampPosToMapBounds(32, 40, &x, &y);
     ViMap__WarpToPosition(x, y);
-    work->field_7D0 = 32 - x;
-    work->field_7D2 = 40 - y;
+    work->constructionPos.x = 32 - x;
+    work->constructionPos.y = 40 - y;
 
     work->cutsceneState = 1;
     work->cutsceneTimer = 0;
     HubControl::InitEngineBForShipConstructionCutscene();
 
-    TalkHelpersUnknown__Load(&work->talkUnknown, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), 0, GRAPHICS_ENGINE_B, BACKGROUND_2, PALETTE_ROW_0);
+    LoadHubBGCircleEffect(&work->bgCircleEffect, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_B, BACKGROUND_2,
+                          PALETTE_ROW_0);
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() | GX_PLANEMASK_BG2);
 }
 
@@ -289,21 +290,22 @@ void ViMap__StartDecorConstructCutscene(s32 id)
     work->decorConstructionID = id;
     work->shipUpgradeID       = CViMap::UPGRADE_SHIP_INVALID;
 
-    if (HubConfig__Func_2152A60(id))
-        work->field_7E8 = *HubConfig__Func_2152A20(id);
+    if (HubConfig__CheckDecorConstructionUnknown(id))
+        work->vmiFile = *HubConfig__Func_2152A20(id);
     else
-        work->field_7E8 = -1;
+        work->vmiFile = -1;
 
     u16 x, y;
     ViMap__ClampPosToMapBounds(32, 40, &x, &y);
     ViMap__WarpToPosition(x, y);
-    work->field_7D0 = 32 - x;
-    work->field_7D2 = 40 - y;
+    work->constructionPos.x = 32 - x;
+    work->constructionPos.y = 40 - y;
 
     work->cutsceneState = 1;
     work->cutsceneTimer = 0;
     HubControl::InitEngineBForShipConstructionCutscene();
-    TalkHelpersUnknown__Load(&work->talkUnknown, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), 0, GRAPHICS_ENGINE_B, BACKGROUND_2, PALETTE_ROW_0);
+    LoadHubBGCircleEffect(&work->bgCircleEffect, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_B, BACKGROUND_2,
+                          PALETTE_ROW_0);
 
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() | GX_PLANEMASK_BG2);
 }
@@ -315,7 +317,7 @@ void ViMap__StartShipUpgradeCutscene(s32 id)
     work->shipConstructionID  = CViMap::CONSTRUCT_SHIP_INVALID;
     work->decorConstructionID = CViMap::CONSTRUCT_DECOR_INVALID;
     work->shipUpgradeID       = id;
-    work->field_7E8           = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapUnknownConfig(work->shipUpgradeID)->unknownArea)->field_3C;
+    work->vmiFile             = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapUnknownConfig(work->shipUpgradeID)->mapArea)->field_3C;
 
     s32 i;
     AnimatorSprite *aniMaterialIcon = &work->aniMaterialIcon[0];
@@ -349,14 +351,15 @@ void ViMap__StartShipUpgradeCutscene(s32 id)
     u16 x, y;
     ViMap__ClampPosToMapBounds(32, 40, &x, &y);
     ViMap__WarpToPosition(x, y);
-    work->field_7D0 = 32 - x;
-    work->field_7D2 = 40 - y;
+    work->constructionPos.x = 32 - x;
+    work->constructionPos.y = 40 - y;
 
     work->cutsceneState = 1;
     work->cutsceneTimer = 0;
     HubControl::InitEngineBForShipConstructionCutscene();
 
-    TalkHelpersUnknown__Load(&work->talkUnknown, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), 0, GRAPHICS_ENGINE_B, BACKGROUND_2, PALETTE_ROW_0);
+    LoadHubBGCircleEffect(&work->bgCircleEffect, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_B, BACKGROUND_2,
+                          PALETTE_ROW_0);
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() | GX_PLANEMASK_BG2);
 }
 
@@ -390,7 +393,7 @@ NONMATCH_FUNC void ViMap__Func_215C284(s32 a1)
 	ldr r1, =0x0000FFFF
 	cmp r0, r1
 	beq _0215C32C
-	bl HubConfig__Func_2152A30
+	bl HubConfig__GetDecorVmiFile
 	ldrh r1, [r0, #0]
 	add r2, sp, #0xa
 	add r3, sp, #8
@@ -561,8 +564,8 @@ void ViMap__Func_215C524(u16 a1)
 
     ViMap__Func_215D374(work);
 
-    ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__Func_2152A30(a1));
-    ViMapBack__Func_2161ADC(&work->mapBack, *HubConfig__Func_2152A30(a1));
+    ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__GetDecorVmiFile(a1));
+    ViMapBack__Func_2161ADC(&work->mapBack, *HubConfig__GetDecorVmiFile(a1));
     ViMapBack__Func_2161F3C(&work->mapBack, (u8 *)VRAM_DB_BG + 0xC040, 0);
     ViMapBack__Func_2161DC8(&work->mapBack);
 }
@@ -572,12 +575,12 @@ void ViMap__Func_215C58C(u16 a1)
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     const u16 *value = HubConfig__Func_2152A20(a1);
-    if (HubConfig__Func_2152A60(a1))
+    if (HubConfig__CheckDecorConstructionUnknown(a1))
     {
         ViMap__Func_215D374(work);
 
-        ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__Func_2152A30(*value));
-        ViMapBack__Func_2161ADC(&work->mapBack, *HubConfig__Func_2152A30(*value));
+        ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__GetDecorVmiFile(*value));
+        ViMapBack__Func_2161ADC(&work->mapBack, *HubConfig__GetDecorVmiFile(*value));
         ViMapBack__Func_2161F3C(&work->mapBack, (u8 *)VRAM_DB_BG + 0xC040, 0);
         ViMapBack__Func_2161DC8(&work->mapBack);
 
@@ -594,7 +597,7 @@ void ViMap__Func_215C638(u16 a1)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    TalkHelpersUnknown__Release(&work->talkUnknown);
+    ReleaseHubBGCircleEffect(&work->bgCircleEffect);
     HubControl::Func_215B168();
 
     for (s32 i = 0; i < 8; i++)
@@ -612,7 +615,7 @@ void ViMap__Func_215C6AC(void)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    TalkHelpersUnknown__Release(&work->talkUnknown);
+    ReleaseHubBGCircleEffect(&work->bgCircleEffect);
     HubControl::Func_215B168();
 
     for (s32 i = 0; i < 8; i++)
@@ -621,7 +624,7 @@ void ViMap__Func_215C6AC(void)
         work->sparklePos[i].y = FLOAT_TO_FX32(0.25);
     }
 
-    if (HubConfig__Func_2152A60(work->decorConstructionID))
+    if (HubConfig__CheckDecorConstructionUnknown(work->decorConstructionID))
     {
         u16 value = *HubConfig__Func_2152A20(work->decorConstructionID);
         ViMap__Func_215D7D8(work, value);
@@ -631,7 +634,7 @@ void ViMap__Func_215C6AC(void)
     else
     {
         HubControl::Func_215B250();
-        ViMap__Func_215D9EC(work);
+        ViMap__InitConstructionCompletePulse(work);
     }
 
     work->cutsceneState = 4;
@@ -642,7 +645,7 @@ void ViMap__Func_215C76C(u16 a1)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    TalkHelpersUnknown__Release(&work->talkUnknown);
+    ReleaseHubBGCircleEffect(&work->bgCircleEffect);
     HubControl::Func_215B168();
 
     for (s32 i = 0; i < 8; i++)
@@ -660,10 +663,10 @@ void ViMap__Func_215C7E0(void)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    ViMap__ReleaseTalkUnknown2(work);
+    ViMap__ReleaseUnknown2056FDC(work);
     work->cutsceneState = 6;
     work->cutsceneTimer = 0;
-    TalkHelpersUnknown__Release(&work->talkUnknown);
+    ReleaseHubBGCircleEffect(&work->bgCircleEffect);
 
     ViMap__Func_215DA68(work);
     HubControl::Func_215B3B4();
@@ -721,7 +724,7 @@ AnimatorSprite *ViMap__Func_215C98C(u16 id)
     return &work->aniMaterialIcon[id];
 }
 
-void ViMap__Func_215C9B4(CViMap *work)
+void ViMap__InitMapBack(CViMap *work)
 {
     ViMapBack__LoadAssets(&work->mapBack);
     ViMapBack__Func_2161F08(&work->mapBack, 0, 0);
@@ -747,7 +750,7 @@ void ViMap__Func_215CA60(CViMap *work)
     ViMapBack__Func_2162648(&work->mapBack, work->mapPos.x, work->mapPos.y);
 }
 
-void ViMap__Func_215CA84(CViMap *work)
+void ViMap__InitSprites(CViMap *work)
 {
     void *sprMaterialIcon = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_MAT32_256_BAC);
     for (s32 i = 0; i < SAVE_MATERIAL_COUNT; i++)
@@ -801,8 +804,8 @@ void ViMap__Release(CViMap *work)
 {
     s32 i;
 
-    TalkHelpersUnknown__Release(&work->talkUnknown);
-    ViMap__ReleaseTalkUnknown2(work);
+    ReleaseHubBGCircleEffect(&work->bgCircleEffect);
+    ViMap__ReleaseUnknown2056FDC(work);
 
     for (i = 0; i < (s32)ARRAY_COUNT(work->aniSparkle); i++)
     {
@@ -969,13 +972,14 @@ void ViMap__Main_ConstructionCutscene(void)
 
             color = GX_RGB(brightness >> 1, brightness >> 1, brightness >> 1);
 
-            if (work->shipConstructionID < CViMap::CONSTRUCT_SHIP_COUNT || work->shipUpgradeID < CViMap::UPGRADE_SHIP_COUNT || HubConfig__Func_2152A60(work->decorConstructionID))
+            if (work->shipConstructionID < CViMap::CONSTRUCT_SHIP_COUNT || work->shipUpgradeID < CViMap::UPGRADE_SHIP_COUNT
+                || HubConfig__CheckDecorConstructionUnknown(work->decorConstructionID))
             {
                 ViMap__Func_215D930(work, color);
             }
             else
             {
-                ViMapBack__Func_2162508(&work->mapBack, work->decorConstructionID, &work->field_7D0, &work->field_7D2, TRUE, TRUE);
+                ViMapBack__Func_2162508(&work->mapBack, work->decorConstructionID, &work->constructionPos.x, &work->constructionPos.y, TRUE, TRUE);
                 flag = TRUE;
             }
             break;
@@ -987,7 +991,7 @@ void ViMap__Main_ConstructionCutscene(void)
     ViMapBack__Func_2162110(&work->mapBack);
 
     if (flag)
-        ViMap__Func_215DA38(work, color);
+        ViMap__DrawConstructionCompletePulse(work, color);
 
     if (work->decorConstructionID == CViMap::CONSTRUCT_DECOR_19)
         ViMapBack__Func_2162158(&work->mapBack, 1);
@@ -1144,7 +1148,7 @@ void ViMap__Func_215D374(CViMap *work)
         {
             const CViMapAreaConfig *config = HubConfig__GetDockMapConfig(i);
 
-            ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__Func_2152A30(HubConfig__GetDockMapIconConfig(config->unknownArea)->field_3C));
+            ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__GetDecorVmiFile(HubConfig__GetDockMapIconConfig(config->mapArea)->field_3C));
         }
     }
 
@@ -1153,9 +1157,9 @@ void ViMap__Func_215D374(CViMap *work)
         if (HubControl::CheckDecorConstructed(i))
         {
             const u16 *value = HubConfig__Func_2152A20(i);
-            if (HubConfig__Func_2152A60(i))
+            if (HubConfig__CheckDecorConstructionUnknown(i))
             {
-                ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__Func_2152A30(*value));
+                ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__GetDecorVmiFile(*value));
             }
             else
             {
@@ -1165,12 +1169,12 @@ void ViMap__Func_215D374(CViMap *work)
     }
 }
 
-void ViMap__Func_215D44C(CViMap *work, s32 a2, s32 a3)
+void ViMap__Func_215D44C(CViMap *work, fx32 scale, s32 progress)
 {
-    TalkHelpersUnknown__Func_215332C(&work->talkUnknown, work->field_7D0, work->field_7D2);
-    TalkHelpersUnknown__Func_2153338(&work->talkUnknown, a2);
-    TalkHelpersUnknown__Func_2153350(&work->talkUnknown, FX_DivS32(FX32_FROM_WHOLE(a3), 16));
-    TalkHelpersUnknown__Process(&work->talkUnknown);
+    SetHubBGCircleEffectPosition(&work->bgCircleEffect, work->constructionPos.x, work->constructionPos.y);
+    SetHubBGCircleEffectScale(&work->bgCircleEffect, scale);
+    SetHubBGCircleEffectBrightness(&work->bgCircleEffect, FX_DivS32(FX32_FROM_WHOLE(progress), 16));
+    ProcessHubBGCircleEffect(&work->bgCircleEffect);
 }
 
 NONMATCH_FUNC void ViMap__Func_215D4B4(CViMap *work)
@@ -1198,8 +1202,8 @@ NONMATCH_FUNC void ViMap__Func_215D4B4(CViMap *work)
         s32 y1 = radius * SinFX(angle);
         s32 x1 = radius * CosFX(angle);
 
-        s32 y = work->field_7D2;
-        s32 x = work->field_7D0;
+        s32 y = work->constructionPos.y;
+        s32 x = work->constructionPos.x;
 
         x += FX32_TO_WHOLE(x1);
 
@@ -1330,8 +1334,8 @@ void ViMap__Func_215D604(CViMap *work)
             work->sparklePos[i].x = (mtMathRand() & 0x3F) - 32;
             work->sparklePos[i].y = (mtMathRand() & 0x1F) - 47;
 
-            work->sparklePos[i].x += work->field_7D0;
-            work->sparklePos[i].y += work->field_7D2;
+            work->sparklePos[i].x += work->constructionPos.x;
+            work->sparklePos[i].y += work->constructionPos.y;
 
             aniSparkle->pos.x = work->sparklePos[i].x;
             aniSparkle->pos.y = work->sparklePos[i].y;
@@ -1367,10 +1371,10 @@ void ViMap__Func_215D734(CViMap *work)
     }
 }
 
-void ViMap__Func_215D7B4(CViMap *work)
+void ViMap__InitUnknown2056FDC(CViMap *work)
 {
-    work->talkUnknown2.field_C = 0;
-    work->talkUnknown2.field_E = 0;
+    work->field_F68 = 0;
+    work->field_F6A = 0;
     Unknown2056FDC__Init(&work->unknown);
 }
 
@@ -1384,21 +1388,21 @@ NONMATCH_FUNC void ViMap__Func_215D7D8(CViMap *work, u16 a2)
 	sub sp, sp, #0x18
 	mov r5, r0
 	mov r4, r1
-	bl ViMap__ReleaseTalkUnknown2
+	bl ViMap__ReleaseUnknown2056FDC
 	mov r0, r5
 	bl ViMap__Func_215D374
 	mov r0, r4
-	bl HubConfig__Func_2152A30
+	bl HubConfig__GetDecorVmiFile
 	ldrh r1, [r0, #0]
 	mov r0, r5
 	bl ViMapBack__Func_21619B0
 	mov r0, r4
-	bl HubConfig__Func_2152A30
+	bl HubConfig__GetDecorVmiFile
 	ldrh r1, [r0, #0]
 	mov r0, r5
 	bl ViMapBack__Func_2161BE4
 	mov r0, r4
-	bl HubConfig__Func_2152A30
+	bl HubConfig__GetDecorVmiFile
 	add r2, sp, #0x12
 	str r2, [sp]
 	add r1, sp, #0x10
@@ -1481,35 +1485,35 @@ void ViMap__Func_215D930(CViMap *work, GXRgb color)
     MI_CpuFill16(work->unknown.work.palettePtr, color, 2 * work->unknown.work.colorCount);
 
     Unknown2056FDC__Func_2057460(&work->unknown, FALSE, TRUE);
-    work->unknown.work.x1 = work->talkUnknown2.field_C - x + 24;
-    work->unknown.work.y1 = work->talkUnknown2.field_E - y + 16;
+    work->unknown.work.x1 = work->field_F68 - x + 24;
+    work->unknown.work.y1 = work->field_F6A - y + 16;
 
     Unknown2056FDC__Func_2057484(&work->unknown);
     Unknown2056FDC__Func_2057614(&work->unknown);
 }
 
-void ViMap__ReleaseTalkUnknown2(CViMap *work)
+void ViMap__ReleaseUnknown2056FDC(CViMap *work)
 {
-    work->talkUnknown2.field_C = 0;
-    work->talkUnknown2.field_E = 0;
+    work->field_F68 = 0;
+    work->field_F6A = 0;
     Unknown2056FDC__Release(&work->unknown);
 }
 
-void ViMap__Func_215D9E8(CViMap *work)
+void ViMap__InitUnknown(CViMap *work)
 {
     // Nothing to do.
 }
 
-void ViMap__Func_215D9EC(CViMap *work)
+void ViMap__InitConstructionCompletePulse(CViMap *work)
 {
-    TalkHelpersUnknown2__Func_215354C(&work->talkUnknown2, 0, GRAPHICS_ENGINE_B, BACKGROUND_2, PALETTE_ROW_0);
+    InitHubConstructionCompletePulse(&work->constructionCompletePulse, 0, GRAPHICS_ENGINE_B, BACKGROUND_2, PALETTE_ROW_0);
 
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() | GX_PLANEMASK_BG2);
 }
 
-void ViMap__Func_215DA38(CViMap *work, u16 a2)
+void ViMap__DrawConstructionCompletePulse(CViMap *work, GXRgb color)
 {
-    TalkHelpersUnknown2__Func_2153614(&work->talkUnknown2, a2);
+    DrawHubConstructionCompletePulse(&work->constructionCompletePulse, color);
     ViMapBack__Func_216233C(&work->mapBack, work->decorConstructionID, 1);
 }
 

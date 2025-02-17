@@ -102,6 +102,33 @@ enum CViDockNpcSpawnType
     CVIDOCK_NPC_INVALID,
 };
 
+enum CViMapDecorFlags
+{
+    CVIMAPDECOR_FLAG_NONE = 0x00,
+
+    CVIMAPDECOR_FLAG_USE_SUB_OBJ = 1 << 0,
+    CVIMAPDECOR_FLAG_TRANSPARENT = 1 << 1,
+};
+
+enum CViMapDecorAnimID
+{
+    CVIMAPDECOR_ANI_RADIO_TOWER,
+    CVIMAPDECOR_ANI_BALLOON,
+    CVIMAPDECOR_ANI_2,
+    CVIMAPDECOR_ANI_PALM_TREE,
+    CVIMAPDECOR_ANI_SEAGULL_IDLE,
+    CVIMAPDECOR_ANI_5,
+    CVIMAPDECOR_ANI_6,
+    CVIMAPDECOR_ANI_VOLCANO_STEAM,
+    CVIMAPDECOR_ANI_8,
+    CVIMAPDECOR_ANI_DINOSAUR,
+    CVIMAPDECOR_ANI_FLAG,
+    CVIMAPDECOR_ANI_WINDMILL,
+    CVIMAPDECOR_ANI_WHALE,
+    CVIMAPDECOR_ANI_FLOWER_GARDEN,
+    CVIMAPDECOR_ANI_PRETTY_FLOWER_GARDEN,
+};
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -141,7 +168,7 @@ typedef struct CViDockAreaConfig_
 typedef struct CViMapAreaConfig_
 {
     DockArea dockArea;
-    DockArea unknownArea;
+    MapArea mapArea;
     fx32 shipScale;
     fx32 shipPosY;
     u16 rotationX;
@@ -241,10 +268,10 @@ const CViPurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id);
 const CViDockBackAreaConfig *HubConfig__GetDockBackInfo(u16 id);
 const HubNpcSpawnConfig *HubConfig__GetNpcConfig(u16 id);
 const u16 *HubConfig__Func_2152A20(u16 id);
-const u16 *HubConfig__Func_2152A30(u16 id);
+const u16 *HubConfig__GetDecorVmiFile(u16 id);
 const u16 *HubConfig__Func_2152A40(u16 id);
 const CViMapDecorConfig *HubConfig__GetMapBackConfig(s32 id);
-BOOL HubConfig__Func_2152A60(u16 id);
+BOOL HubConfig__CheckDecorConstructionUnknown(u16 id);
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Tails(void);
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Marine(void);
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Blaze(void);

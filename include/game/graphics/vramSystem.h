@@ -49,6 +49,13 @@ extern "C"
 #define VRAMKEY_TO_KEY(key)  (size_t)(void *)(key)
 
 // --------------------
+// TYPES
+// --------------------
+
+typedef void *VRAMPixelKey;
+typedef void *VRAMPaletteKey;
+
+// --------------------
 // ENUMS
 // --------------------
 
@@ -81,13 +88,6 @@ enum PaletteRow_
     PALETTE_ROW_15,
 };
 typedef u16 PaletteRow;
-
-// --------------------
-// TYPES
-// --------------------
-
-typedef void *VRAMPixelKey;
-typedef void *VRAMPaletteKey;
 
 // --------------------
 // ENUMS

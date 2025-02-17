@@ -1709,7 +1709,7 @@ NONMATCH_FUNC void ViMapBack__Func_216233C(CViMapBack *work, u16 a2, BOOL a3)
 	mov r7, r0
 	mov r0, r4
 	mov r6, r2
-	bl HubConfig__Func_2152A60
+	bl HubConfig__CheckDecorConstructionUnknown
 	cmp r0, #0
 	addne sp, sp, #0x2c
 	ldmneia sp!, {r4, r5, r6, r7, pc}
@@ -1834,7 +1834,7 @@ NONMATCH_FUNC void ViMapBack__Func_2162508(CViMapBack *work, u16 a2, u16 *a3, u1
 	mov r0, r7
 	mov r5, r2
 	mov r4, r3
-	bl HubConfig__Func_2152A60
+	bl HubConfig__CheckDecorConstructionUnknown
 	cmp r0, #0
 	addne sp, sp, #0x28
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}

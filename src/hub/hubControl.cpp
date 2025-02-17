@@ -1585,7 +1585,7 @@ void HubControl::Main_ConstructionCutscene_FadeOutForShowShip()
         {
             if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT)
             {
-                u16 value = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapConfig(work->shipConstructID)->unknownArea)->field_3C;
+                u16 value = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapConfig(work->shipConstructID)->mapArea)->field_3C;
                 ViMap__Func_215C524(value);
                 ViMap__Func_215C638(value);
                 HubControl::InitEngineAForUnknown();
@@ -1593,7 +1593,7 @@ void HubControl::Main_ConstructionCutscene_FadeOutForShowShip()
             }
             else
             {
-                const CViMapAreaIconConfig *config = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapUnknownConfig(work->shipUpgradeID)->unknownArea);
+                const CViMapAreaIconConfig *config = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapUnknownConfig(work->shipUpgradeID)->mapArea);
                 ViMap__Func_215C76C(config->field_3C);
             }
 
