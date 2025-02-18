@@ -7,8 +7,8 @@
 
 	.bss
 	
-.public SeaMapCourseChangeView__02134174
-SeaMapCourseChangeView__02134174: // 0x02134174
+.public SeaMapCourseChangeView_02134174
+SeaMapCourseChangeView_02134174: // 0x02134174
     .space 0x04
 
 .public SeaMapView__sVars

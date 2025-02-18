@@ -116,10 +116,12 @@ typedef struct SeaMapViewStaticVars_
 // VARIABLES
 // --------------------
 
+NOT_DECOMPILED fx32 SeaMapCourseChangeView_02134174;
+
 extern SeaMapViewStaticVars SeaMapView__sVars;
 extern u32 seaMapViewMode;
 extern u32 seaMapViewUnknown1;
-extern u32 seaMapViewUnknown2;
+extern fx32 seaMapViewUnknown2;
 
 // --------------------
 // FUNCTIONS

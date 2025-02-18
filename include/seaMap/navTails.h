@@ -103,7 +103,7 @@ typedef struct NavTails_
     } dma;
     void (*stateTalk)(struct NavTails_ *work);
     void (*stateDMA)(struct NavTails_ *work);
-    u32 field_33C;
+    u32 shipType;
     u8 lives;
     s32 windowMode;
     s32 messageWindowID;
@@ -126,7 +126,7 @@ typedef struct NavTails_
 // FUNCTIONS
 // --------------------
 
-void CreateNavTails(BOOL useEngineB, s32 a2, FontWindow *window);
+void CreateNavTails(BOOL useEngineB, u32 shipType, FontWindow *window);
 void DestroyNavTails(void);
 BOOL IsNavTailsActive(void);
 void NavTailsSpeak(u16 msgSequence, u16 duration);

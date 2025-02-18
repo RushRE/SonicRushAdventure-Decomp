@@ -192,7 +192,7 @@ NOT_DECOMPILED void SeaMapManager__Func_2045798(u8 *a1, u16 *ptr1, u16 *ptr2, s3
 NOT_DECOMPILED void SeaMapManager__Func_20458C8(s32 a1, s32 a2, u32 a3, u32 a4, u32 a5);
 NOT_DECOMPILED void SeaMapManager__Func_2045A58(s32 a1, s16 a2, u32 a3, s32 a4, s32 a5);
 NOT_DECOMPILED void SeaMapManager__Func_2045BF8(fx32 targetDistance, fx32 *x, fx32 *y);
-NOT_DECOMPILED void SeaMapManager__AddNode(s16 x, s16 y);
+NOT_DECOMPILED void SeaMapManager__AddNode(u16 x, u16 y);
 NOT_DECOMPILED u32 SeaMapManager__RemoveNode(void);
 NOT_DECOMPILED void SeaMapManager__RemoveAllNodes(void);
 NOT_DECOMPILED SeaMapManagerNode *SeaMapManager__GetStartNode(void);

@@ -524,7 +524,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_CHANGE_CHARTED_COURSE
     {
-        .initFunc    = SeaMapCourseChangeView__Create,
+        .initFunc    = CreateSeaMapCourseChangeView,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

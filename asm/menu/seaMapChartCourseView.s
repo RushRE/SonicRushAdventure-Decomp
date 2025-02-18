@@ -4,7 +4,7 @@
 .public VRAMSystem__GFXControl
 .public VRAMSystem__VRAM_PALETTE_OBJ
 .public SeaMapView__sVars
-.public SeaMapCourseChangeView__02134174
+.public SeaMapCourseChangeView_02134174
 
 	.text
 
@@ -49,7 +49,7 @@ SeaMapChartCourseView__Create: // 0x02040788
 	beq _02040838
 	ldr r2, _02040920 // =SeaMapView__sVars+0x0000000C
 	mov r3, #0
-	ldr r1, _02040924 // =SeaMapCourseChangeView__02134174
+	ldr r1, _02040924 // =SeaMapCourseChangeView_02134174
 	ldr r0, _02040928 // =gameState
 	str r3, [r2]
 	str r3, [r1]
@@ -120,7 +120,7 @@ _02040914: .word SeaMapChartCourseView__Main
 _02040918: .word SeaMapChartCourseView__Destructor
 _0204091C: .word SeaMapView__sVars
 _02040920: .word SeaMapView__sVars+0x0000000C
-_02040924: .word SeaMapCourseChangeView__02134174
+_02040924: .word SeaMapCourseChangeView_02134174
 _02040928: .word gameState
 _0204092C: .word SeaMapChartCourseView__State_2041978
 _02040930: .word SeaMapChartCourseView__Draw_2041440

@@ -56,7 +56,7 @@ void CreateSailSeaMapView(ShipType type)
     SeaMapView__EnableMultipleButtons(&work->view, SailSeaMapView_ButtonStates);
     SeaMapEventManager__Create();
 
-    work->boatIcon = (SeaMapBoatIcon *)SeaMapEventManager__CreateObject(SEAMAPOBJECT_9, FX32_TO_WHOLE(work->position.x), FX32_TO_WHOLE(work->position.y), 0, 0, 0);
+    work->boatIcon = (SeaMapBoatIcon *)SeaMapEventManager__CreateObject(SEAMAPOBJECT_BOAT_ICON, FX32_TO_WHOLE(work->position.x), FX32_TO_WHOLE(work->position.y), 0, 0, 0);
     SeaMapView__Func_203DCE0(work->position.x, work->position.y);
     SeaMapUnknown204AB60__Func_204AB60();
 }

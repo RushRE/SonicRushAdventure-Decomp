@@ -259,7 +259,7 @@ BOOL SeaMapMenu_HandleIslandSelected(SeaMapMenu *work)
     BOOL didAction = TRUE;
     switch (manager->lastTouchedIconType)
     {
-        case SEAMAPOBJECT_0:
+        case SEAMAPOBJECT_ISLAND_DRAW_ICON:
             PlayChartSfx(SND_SYS_SEQARC_ARC_CHART_SEQ_SE_CURSOL);
             work->selectedIsland = manager->lastTouchedIcon->objWork.mapObject;
             SeaMapEventManager__Func_2046A78();

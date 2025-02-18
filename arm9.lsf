@@ -99,7 +99,7 @@ Static arm9
     Object asm/seaMap/seaMapCollision.o
     Object asm/seaMap/seaMapUnknown204A9E4.o
     Object asm/seaMap/seaMapUnknown204AB60.o
-    Object asm/menu/seaMapCourseChangeView.o
+    Object src/seaMap/seaMapCourseChangeView.o
     
     ## GAME CORE ##
     Object src/game/file/archiveFile.o

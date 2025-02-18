@@ -80,7 +80,7 @@ static void NavTails_StateDMA_EndChange(NavTails *work);
 // FUNCTIONS
 // --------------------
 
-void CreateNavTails(BOOL useEngineB, s32 a2, FontWindow *window)
+void CreateNavTails(BOOL useEngineB, u32 shipType, FontWindow *window)
 {
     Task *task   = TaskCreate(NavTails_Main, NavTails_Destructor, TASK_FLAG_NONE, 0, 0x100, TASK_GROUP(0), NavTails);
     navTailsTask = task;
@@ -89,7 +89,7 @@ void CreateNavTails(BOOL useEngineB, s32 a2, FontWindow *window)
     TaskInitWork16(work);
 
     work->useEngineB = useEngineB;
-    work->field_33C  = a2;
+    work->shipType  = shipType;
     work->stateTalk  = NavTails_StateTalk_Speaking;
     work->stateDMA   = NavTails_StateDMA_Idle;
 
