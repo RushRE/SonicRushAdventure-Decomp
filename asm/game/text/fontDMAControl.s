@@ -349,8 +349,8 @@ _02051F48:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	arm_func_end FontDMAControl__Func_2051EB4
 
-	arm_func_start FontDMAControl__Func_2051F68
-FontDMAControl__Func_2051F68: // 0x02051F68
+	arm_func_start FontDMAControl__SetHubWaterRipple
+FontDMAControl__SetHubWaterRipple: // 0x02051F68
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	str r0, [sp]
 	ldr r0, [r0, #8]
@@ -388,7 +388,7 @@ FontDMAControl__Func_2051F68: // 0x02051F68
 _02051FF0:
 	mov r1, r7
 	mov r0, r5, asr #0xc
-	bl FontDMAControl__Func_2052174
+	bl FontDMAControl__GetRippleValue
 	add r0, r0, r8, asr #12
 	strh r0, [r4]
 	ldr r0, [sp, #0x30]
@@ -411,7 +411,7 @@ _02052038:
 _02052044:
 	mov r1, r7
 	mov r0, r5, asr #0xc
-	bl FontDMAControl__Func_2052174
+	bl FontDMAControl__GetRippleValue
 	add r0, r0, r8, asr #12
 	strh r0, [r4]
 	ldr r0, [sp, #0x30]
@@ -438,7 +438,7 @@ _02052088:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020520AC: .word 0x000FFFFF
-	arm_func_end FontDMAControl__Func_2051F68
+	arm_func_end FontDMAControl__SetHubWaterRipple
 
 	arm_func_start FontDMAControl__Func_20520B0
 FontDMAControl__Func_20520B0: // 0x020520B0
@@ -462,7 +462,7 @@ FontDMAControl__Func_20520B0: // 0x020520B0
 _020520F4:
 	mov r1, r7
 	mov r0, r5, asr #0xc
-	bl FontDMAControl__Func_2052174
+	bl FontDMAControl__GetRippleValue
 	add r0, r0, r8, asr #12
 	ldrh r1, [r4, #0]
 	mov r0, r0, lsl #0x10
@@ -497,8 +497,8 @@ _02052154:
 _02052170: .word 0x000FFFFF
 	arm_func_end FontDMAControl__Func_20520B0
 
-	arm_func_start FontDMAControl__Func_2052174
-FontDMAControl__Func_2052174: // 0x02052174
+	arm_func_start FontDMAControl__GetRippleValue
+FontDMAControl__GetRippleValue: // 0x02052174
 	and r2, r0, #0xff
 	cmp r2, #0x80
 	rsbge r2, r2, #0xff
@@ -519,7 +519,7 @@ _020521A0:
 	bx lr
 	.align 2, 0
 _020521B8: .word _0211034C
-	arm_func_end FontDMAControl__Func_2052174
+	arm_func_end FontDMAControl__GetRippleValue
 
 	.rodata
 

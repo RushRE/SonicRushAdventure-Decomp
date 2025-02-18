@@ -1140,12 +1140,12 @@ void NavTails_StateDMA_PrepareChange(NavTails *work)
                                   TRUE);
     RenderCore_SetWndOutsidePlane(&gfxControl->windowManager, GX_WND_PLANEMASK_OBJ | GX_WND_PLANEMASK_BG3 | GX_WND_PLANEMASK_BG1 | GX_WND_PLANEMASK_BG0, TRUE);
     RenderCore_SetWindow0Position(&gfxControl->windowManager, 128, 0, HW_LCD_WIDTH, HW_LCD_HEIGHT);
-    gfxControl->windowManager.visible = TRUE;
+    gfxControl->windowManager.visible = GX_WNDMASK_W0;
 
     u32 windowRegisters[2] = { REG_WIN0H_ADDR, REG_DB_WIN0H_ADDR };
 
     RenderCore_StopDMA(1);
-    MI_CpuFill16(work->dma.buffer, 0x8000, sizeof(work->dma.buffer));
+    MI_CpuFill16(work->dma.buffer, DMA_ENABLE, sizeof(work->dma.buffer));
     RenderCore_PrepareDMA(1, &work->dma.buffer[0], work->dma.buffer[1], (void *)windowRegisters[work->useEngineB], ARRAY_COUNT(windowRegisters));
 
     struct NavTailsDMA *dma = &work->dma;
@@ -1171,14 +1171,14 @@ void NavTails_StateDMA_HideOldBackground(NavTails *work)
             for (s32 i = 0; i < HW_LCD_HEIGHT; i++)
             {
                 if (dma->updateID < (i & 7))
-                    dmaSrc[i] = 0x8000;
+                    dmaSrc[i] = DMA_ENABLE;
                 else
-                    dmaSrc[i] = 0x8081;
+                    dmaSrc[i] = DMA_ENABLE | DMA_SRC_DEC | 0x01;
             }
         }
         else
         {
-            MI_CpuFill16(dmaSrc, 0x8081, sizeof(dma->buffer[0]));
+            MI_CpuFill16(dmaSrc, DMA_ENABLE | DMA_SRC_DEC | 0x01, sizeof(dma->buffer[0]));
             changeState = TRUE;
         }
 
@@ -1218,14 +1218,14 @@ void NavTails_StateDMA_ShowNewBackground(NavTails *work)
             for (s32 i = 0; i < HW_LCD_HEIGHT; i++)
             {
                 if (dma->updateID <= 7 - (i & 7))
-                    dmaSrc[i] = 0x8081;
+                    dmaSrc[i] = DMA_ENABLE | DMA_SRC_DEC | 0x01;
                 else
-                    dmaSrc[i] = 0x8000;
+                    dmaSrc[i] = DMA_ENABLE;
             }
         }
         else
         {
-            MI_CpuFill16(dmaSrc, 0x8000, sizeof(dma->buffer[0]));
+            MI_CpuFill16(dmaSrc, DMA_ENABLE, sizeof(dma->buffer[0]));
             changeState = TRUE;
         }
 
@@ -1241,7 +1241,7 @@ void NavTails_StateDMA_EndChange(NavTails *work)
 {
     RenderCore_StopDMA(1);
 
-    VRAMSystem__GFXControl[work->useEngineB]->windowManager.visible = 0x00;
+    VRAMSystem__GFXControl[work->useEngineB]->windowManager.visible = GX_WNDMASK_NONE;
     work->stateDMA                                                  = NavTails_StateDMA_Idle;
 }
 

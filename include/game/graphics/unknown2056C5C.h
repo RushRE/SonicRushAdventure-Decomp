@@ -61,7 +61,7 @@ NOT_DECOMPILED void Unknown2056C5C__Func_2056E08(Unknown2056C5C *work);
 NOT_DECOMPILED void Unknown2056C5C__Func_2056F78(Unknown2056C5C *work);
 
 NOT_DECOMPILED void Unknown2056FDC__Init(Unknown2056FDC *work);
-NOT_DECOMPILED void Unknown2056FDC__Func_2057004(Unknown2056FDC *work);
+NOT_DECOMPILED void Unknown2056FDC__Func_2057004(Unknown2056FDC *work, BOOL useEngineB, BOOL a3, void *pixels, u16 width, u16 height, void *paletteColors, u16 colorCount);
 NOT_DECOMPILED void Unknown2056FDC__Release(Unknown2056FDC *work);
 NOT_DECOMPILED void Unknown2056FDC__Func_2057460(Unknown2056FDC *work, BOOL a2, BOOL a3);
 NOT_DECOMPILED void Unknown2056FDC__Func_2057484(Unknown2056FDC *work);

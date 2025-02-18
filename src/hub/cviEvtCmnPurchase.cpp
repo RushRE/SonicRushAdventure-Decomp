@@ -67,7 +67,7 @@ void CViEvtCmnPurchase::Load(u16 backgroundID, u16 windowStartTile, u16 windowFi
     matrialBottomX     = 0;
     for (; t < SAVE_MATERIAL_COUNT; t++)
     {
-        aniMaterial = ViMap__Func_215C98C(t);
+        aniMaterial = CViMap::GetMaterialIconAnimator(t);
 
         AnimatorSprite__SetAnimation(aniMaterial, t);
         aniMaterial->paletteMode = PALETTE_MODE_SPRITE;
@@ -230,10 +230,10 @@ void CViEvtCmnPurchase::Process()
         // Draw material counts
         for (i = 0; i < SAVE_MATERIAL_COUNT; i++)
         {
-            AnimatorSprite__DrawFrame(ViMap__Func_215C98C(i));
+            AnimatorSprite__DrawFrame(CViMap::GetMaterialIconAnimator(i));
 
-            this->aniMaterialFrame.pos.x = ViMap__Func_215C98C(i)->pos.x;
-            this->aniMaterialFrame.pos.y = ViMap__Func_215C98C(i)->pos.y;
+            this->aniMaterialFrame.pos.x = CViMap::GetMaterialIconAnimator(i)->pos.x;
+            this->aniMaterialFrame.pos.y = CViMap::GetMaterialIconAnimator(i)->pos.y;
             AnimatorSprite__DrawFrame(&this->aniMaterialFrame);
 
             s32 digitX = materialCountPos.x;
@@ -244,8 +244,8 @@ void CViEvtCmnPurchase::Process()
                 {
                     aniDigit = &this->aniNumbers[slot];
 
-                    aniDigit->pos.x = ViMap__Func_215C98C(i)->pos.x;
-                    aniDigit->pos.y = ViMap__Func_215C98C(i)->pos.y;
+                    aniDigit->pos.x = CViMap::GetMaterialIconAnimator(i)->pos.x;
+                    aniDigit->pos.y = CViMap::GetMaterialIconAnimator(i)->pos.y;
                     aniDigit->pos.x += digitX;
                     aniDigit->pos.y += materialCountPos.y;
                     AnimatorSprite__DrawFrame(aniDigit);
@@ -336,12 +336,12 @@ void CViEvtCmnPurchase::ProcessGraphics()
 
     for (s32 i = 0; i < SAVE_MATERIAL_COUNT; i++)
     {
-        AnimatorSprite__ProcessAnimationFast(ViMap__Func_215C98C(i));
+        AnimatorSprite__ProcessAnimationFast(CViMap::GetMaterialIconAnimator(i));
     }
 
-    AnimatorSprite *aniMaterial = ViMap__Func_215C98C(0);
+    AnimatorSprite *aniMaterial = CViMap::GetMaterialIconAnimator(0);
     aniMaterial->flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
-    ViMap__Func_215C98C(0)->cParam.palette = this->materialPaletteRow;
+    CViMap::GetMaterialIconAnimator(0)->cParam.palette = this->materialPaletteRow;
 
     this->state = CViEvtCmnPurchase::STATE_OPENING_WINDOW;
 }

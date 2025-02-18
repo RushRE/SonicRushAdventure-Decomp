@@ -701,7 +701,7 @@ void CViTalkMissionList::InitWindow(BOOL enabled, s32 scrollPos)
     if (!enabled)
     {
         scrollPos                                   = 0;
-        renderCoreGFXControlB.windowManager.visible = FALSE;
+        renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_NONE;
     }
     else
     {
@@ -722,6 +722,6 @@ void CViTalkMissionList::InitWindow(BOOL enabled, s32 scrollPos)
         renderCoreGFXControlB.windowManager.registers.winOutPlane.plane_BG3 = TRUE;
         renderCoreGFXControlB.windowManager.registers.winOutPlane.plane_OBJ = TRUE;
 
-        renderCoreGFXControlB.windowManager.visible = TRUE;
+        renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_W0;
     }
 }

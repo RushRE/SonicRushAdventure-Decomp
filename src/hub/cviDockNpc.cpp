@@ -489,7 +489,7 @@ NONMATCH_FUNC BOOL CViDockNpc::CheckPlayerInTalkRange(VecFx32 *playerPos, u16 pl
 	mov r9, #0xc
 	smull lr, r0, ip, ip
 	mul r8, r2, r9
-	ldr r2, =0x021730AF
+	ldr r2, =resConfigFileTable+0x07
 	mov r3, r3, lsr #0xc
 	ldrb r8, [r2, r8]
 	adc r2, r1, #0

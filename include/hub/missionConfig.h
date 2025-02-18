@@ -55,7 +55,7 @@ void MissionHelpers__StartMission(s32 id);
 s32 MissionHelpers__GetMissionID(void);
 u16 MissionHelpers__GetMissionFromSelection(u16 id);
 void MissionHelpers__HandleCompletedMuzyMissions(void);
-u32 MissionHelpers__GetMissionCompletedReward(s32 id);
+u32 MissionHelpers__GetMissionDecorationReward(s32 id);
 BOOL MissionHelpers__CheckPostGameMissionUnlock(void);
 BOOL MissionHelpers__CheckSonicMission(s32 id);
 BOOL MissionHelpers__CheckBlazeMission(s32 id);

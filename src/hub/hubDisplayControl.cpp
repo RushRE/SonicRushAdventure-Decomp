@@ -132,9 +132,9 @@ void HubControl::InitDisplay()
     renderCoreGFXControlB.blendManager.blendAlpha.ev1 = 0x10;
     renderCoreGFXControlB.blendManager.blendAlpha.ev2 = 0x10;
 
-    renderCoreGFXControlB.windowManager.visible = 0;
+    renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_NONE;
 
-    renderCoreGFXControlA.windowManager.visible = 0;
+    renderCoreGFXControlA.windowManager.visible = GX_WNDMASK_NONE;
 }
 
 void HubControl::InitEngineAForTalk()
@@ -282,7 +282,7 @@ void HubControl::InitEngineAForCutscene()
     HeapFree(HEAP_USER, backgroundFile);
 }
 
-void HubControl::InitEngineAForUnknown()
+void HubControl::InitEngineAForConstructionCutscene()
 {
     G2_SetBG0Priority(3);
     G2_SetBG1Priority(1);
@@ -362,7 +362,7 @@ s32 HubControl::HandleFadeB(s16 target, s16 fadeSpeed)
     return difference;
 }
 
-void HubControl::InitEngineBForShipConstructionCutscene()
+void HubControl::InitEngineBForConstructionCutscene()
 {
     renderCoreGFXControlB.bgPosition[BACKGROUND_2].x = 0;
     renderCoreGFXControlB.bgPosition[BACKGROUND_2].y = 0;
@@ -391,7 +391,7 @@ void HubControl::InitEngineBForShipConstructionCutscene()
     renderCoreGFXControlB.blendManager.blendAlpha.ev2 = 0x10;
 }
 
-void HubControl::Func_215B168()
+void HubControl::InitEngineBForConstructionFinishedCutscene()
 {
     G2S_SetBG2Priority(0);
     G2S_SetBG3Priority(1);
@@ -412,7 +412,7 @@ void HubControl::Func_215B168()
     renderCoreGFXControlB.blendManager.blendAlpha.ev2 = 0x10;
 }
 
-void HubControl::Func_215B250()
+void HubControl::InitEngineBForConstructionFinishedPulse()
 {
     renderCoreGFXControlB.bgPosition[BACKGROUND_2].x = 0;
     renderCoreGFXControlB.bgPosition[BACKGROUND_2].y = 0;
@@ -438,7 +438,7 @@ void HubControl::Func_215B250()
     renderCoreGFXControlB.blendManager.blendAlpha.ev1 = 0x10;
     renderCoreGFXControlB.blendManager.blendAlpha.ev2 = 0x10;
 
-    renderCoreGFXControlB.windowManager.visible = 4;
+    renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_OW;
 
     renderCoreGFXControlB.windowManager.registers.winOutPlane.plane_BG0 = TRUE;
     renderCoreGFXControlB.windowManager.registers.winOutPlane.plane_BG1 = TRUE;
@@ -455,10 +455,10 @@ void HubControl::Func_215B250()
     renderCoreGFXControlB.windowManager.registers.winOBJOutPlane.effect    = TRUE;
 }
 
-void HubControl::Func_215B3B4()
+void HubControl::InitEngineBForAllConstructionFinishedCutscene()
 {
-    HubControl::Func_215B168();
-    renderCoreGFXControlB.windowManager.visible = 0;
+    HubControl::InitEngineBForConstructionFinishedCutscene();
+    renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_NONE;
 }
 
 void HubControl::InitVRAMSystem()
@@ -560,7 +560,7 @@ BOOL HubControl::CheckMapIconEnabled(MapArea mapArea)
 
 void HubControl::UpdateSaveForDecorConstruction(s32 id, s32 a2)
 {
-    if (id == CViMap::CONSTRUCT_DECOR_7)
+    if (id == CVIMAP_DECOR_RADIO_TOWER)
     {
         SaveGame__SetGameProgress(SAVE_PROGRESS_17);
     }
@@ -568,67 +568,67 @@ void HubControl::UpdateSaveForDecorConstruction(s32 id, s32 a2)
     {
         switch (id)
         {
-            case CViMap::CONSTRUCT_DECOR_5:
+            case CVIMAP_DECOR_STATUE:
                 SaveGame__SetBoughtDecoration(0);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_8:
+            case CVIMAP_DECOR_BALLOON:
                 SaveGame__SetBoughtDecoration(1);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_17:
+            case CVIMAP_DECOR_FLAG:
                 SaveGame__SetBoughtDecoration(2);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_1:
+            case CVIMAP_DECOR_WATERFALL:
                 MissionHelpers__CompleteMission(MISSION_83);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_2:
+            case CVIMAP_DECOR_LIGHTHOUSE:
                 MissionHelpers__CompleteMission(MISSION_39);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_4:
+            case CVIMAP_DECOR_WATCHTOWER:
                 MissionHelpers__CompleteMission(MISSION_91);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_6:
+            case CVIMAP_DECOR_MONUMENT:
                 MissionHelpers__CompleteMission(MISSION_99);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_10:
+            case CVIMAP_DECOR_PALM_TREE_1:
                 MissionHelpers__CompleteMission(MISSION_79);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_11:
+            case CVIMAP_DECOR_PALM_TREE_2:
                 MissionHelpers__CompleteMission(MISSION_89);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_12:
+            case CVIMAP_DECOR_PALM_TREE_3:
                 MissionHelpers__CompleteMission(MISSION_93);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_13:
+            case CVIMAP_DECOR_SEAGULL:
                 MissionHelpers__CompleteMission(MISSION_59);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_16:
+            case CVIMAP_DECOR_DINOSAUR:
                 MissionHelpers__CompleteMission(MISSION_9);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_18:
+            case CVIMAP_DECOR_LARGE_WINDMILL:
                 MissionHelpers__CompleteMission(MISSION_88);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_19:
+            case CVIMAP_DECOR_WHALE:
                 MissionHelpers__CompleteMission(MISSION_49);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_20:
+            case CVIMAP_DECOR_FLOWER_GARDEN:
                 MissionHelpers__CompleteMission(MISSION_84);
                 break;
 
-            case CViMap::CONSTRUCT_DECOR_21:
+            case CVIMAP_DECOR_PRETTY_FLOWER_GARDEN:
                 MissionHelpers__CompleteMission(MISSION_85);
                 break;
         }
@@ -639,71 +639,71 @@ BOOL HubControl::CheckDecorConstructed(s32 id)
 {
     switch (id)
     {
-        case CViMap::CONSTRUCT_DECOR_0:
-            return TRUE;
+        case CVIMAP_DECOR_DOCK_BEACH:
+            return TRUE; // beach dock decor is always enabled, since it's never needed to be built
 
-        case CViMap::CONSTRUCT_DECOR_7:
+        case CVIMAP_DECOR_RADIO_TOWER:
             return SaveGame__GetGameProgress() >= SAVE_PROGRESS_17;
 
-        case CViMap::CONSTRUCT_DECOR_3:
-        case CViMap::CONSTRUCT_DECOR_14:
+        case CVIMAP_DECOR_LAVA:
+        case CVIMAP_DECOR_VOLCANO_STEAM:
             return SaveGame__GetGameProgress() >= SAVE_PROGRESS_25;
 
-        case CViMap::CONSTRUCT_DECOR_5:
+        case CVIMAP_DECOR_STATUE:
             return SaveGame__GetBoughtDecoration(0);
 
-        case CViMap::CONSTRUCT_DECOR_8:
+        case CVIMAP_DECOR_BALLOON:
             return SaveGame__GetBoughtDecoration(1);
 
-        case CViMap::CONSTRUCT_DECOR_17:
+        case CVIMAP_DECOR_FLAG:
             return SaveGame__GetBoughtDecoration(2);
 
-        case CViMap::CONSTRUCT_DECOR_1:
-        case CViMap::CONSTRUCT_DECOR_9:
+        case CVIMAP_DECOR_WATERFALL:
+        case CVIMAP_DECOR_WATERFALL_SPLASH:
             return MissionHelpers__CheckMissionCompleted(MISSION_83);
 
-        case CViMap::CONSTRUCT_DECOR_2:
+        case CVIMAP_DECOR_LIGHTHOUSE:
             return MissionHelpers__CheckMissionCompleted(MISSION_39);
 
-        case CViMap::CONSTRUCT_DECOR_4:
+        case CVIMAP_DECOR_WATCHTOWER:
             return MissionHelpers__CheckMissionCompleted(MISSION_91);
 
-        case CViMap::CONSTRUCT_DECOR_10:
+        case CVIMAP_DECOR_PALM_TREE_1:
             return MissionHelpers__CheckMissionCompleted(MISSION_79);
 
-        case CViMap::CONSTRUCT_DECOR_11:
+        case CVIMAP_DECOR_PALM_TREE_2:
             return MissionHelpers__CheckMissionCompleted(MISSION_89);
 
-        case CViMap::CONSTRUCT_DECOR_12:
+        case CVIMAP_DECOR_PALM_TREE_3:
             return MissionHelpers__CheckMissionCompleted(MISSION_93);
 
-        case CViMap::CONSTRUCT_DECOR_13:
+        case CVIMAP_DECOR_SEAGULL:
             return MissionHelpers__CheckMissionCompleted(MISSION_59);
 
-        case CViMap::CONSTRUCT_DECOR_15:
+        case CVIMAP_DECOR_SMALL_WINDMILL:
             if (MissionHelpers__CheckMissionCompleted(MISSION_88))
-                return FALSE;
+                return FALSE; // windmill can be upgraded, so disable it if it has been.
             return TRUE;
 
-        case CViMap::CONSTRUCT_DECOR_18:
+        case CVIMAP_DECOR_LARGE_WINDMILL:
             return MissionHelpers__CheckMissionCompleted(MISSION_88);
 
-        case CViMap::CONSTRUCT_DECOR_16:
+        case CVIMAP_DECOR_DINOSAUR:
             return MissionHelpers__CheckMissionCompleted(MISSION_9);
 
-        case CViMap::CONSTRUCT_DECOR_19:
+        case CVIMAP_DECOR_WHALE:
             return MissionHelpers__CheckMissionCompleted(MISSION_49);
 
-        case CViMap::CONSTRUCT_DECOR_20:
+        case CVIMAP_DECOR_FLOWER_GARDEN:
             if (MissionHelpers__CheckMissionCompleted(MISSION_85))
-                return FALSE;
+                return FALSE; // flower garden can be upgraded, so disable it if it has been.
 
             return MissionHelpers__CheckMissionCompleted(MISSION_84);
 
-        case CViMap::CONSTRUCT_DECOR_21:
+        case CVIMAP_DECOR_PRETTY_FLOWER_GARDEN:
             return MissionHelpers__CheckMissionCompleted(MISSION_85);
 
-        case CViMap::CONSTRUCT_DECOR_6:
+        case CVIMAP_DECOR_MONUMENT:
             return MissionHelpers__CheckMissionCompleted(MISSION_99);
     }
 

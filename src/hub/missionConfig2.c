@@ -419,51 +419,51 @@ void MissionHelpers__HandleCompletedMuzyMissions(void)
     }
 }
 
-u32 MissionHelpers__GetMissionCompletedReward(s32 id)
+u32 MissionHelpers__GetMissionDecorationReward(s32 id)
 {
     switch (id)
     {
         case MISSION_9:
-            return 16;
+            return CVIMAP_DECOR_DINOSAUR;
 
         case MISSION_39:
-            return 2;
+            return CVIMAP_DECOR_LIGHTHOUSE;
 
         case MISSION_49:
-            return 19;
+            return CVIMAP_DECOR_WHALE;
 
         case MISSION_59:
-            return 13;
+            return CVIMAP_DECOR_SEAGULL;
 
         case MISSION_83:
-            return 1;
+            return CVIMAP_DECOR_WATERFALL;
 
         case MISSION_84:
-            return 20;
+            return CVIMAP_DECOR_FLOWER_GARDEN;
 
         case MISSION_85:
-            return 21;
+            return CVIMAP_DECOR_PRETTY_FLOWER_GARDEN;
 
         case MISSION_79:
-            return 10;
+            return CVIMAP_DECOR_PALM_TREE_1;
 
         case MISSION_88:
-            return 18;
+            return CVIMAP_DECOR_LARGE_WINDMILL;
 
         case MISSION_89:
-            return 11;
+            return CVIMAP_DECOR_PALM_TREE_2;
 
         case MISSION_91:
-            return 4;
+            return CVIMAP_DECOR_WATCHTOWER;
 
         case MISSION_93:
-            return 12;
+            return CVIMAP_DECOR_PALM_TREE_3;
 
         case MISSION_99:
-            return 6;
+            return CVIMAP_DECOR_MONUMENT;
 
         default:
-            return 23;
+            return CVIMAP_DECOR_INVALID;
     }
 }
 

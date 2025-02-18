@@ -11,7 +11,7 @@
 // --------------------
 
 NOT_DECOMPILED void _s32_div_f(void);
-NOT_DECOMPILED void Unknown2051334__Func_2051534(void);
+NOT_DECOMPILED fx32 Unknown2051334__Func_2051534(fx32 start, fx32 end, fx32 progress, s32 duration, fx32 speed);
 
 // --------------------
 // TYPES

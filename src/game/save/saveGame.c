@@ -341,13 +341,13 @@ BOOL SaveGame__Func_205BEDC(void)
     return TRUE;
 }
 
-void SaveGame__Block1__SetFlags1_0x80000(void)
+void SaveGame_SetPlayerHasSavedFlag(void)
 {
     saveGame.stage.progress.flags |= 0x80000;
     SaveGame__ApplySystemProgress();
 }
 
-BOOL SaveGame__Func_205BF24(void)
+BOOL SaveGame_CheckPlayerHasSavedFlag(void)
 {
     if (saveGame.stage.progress.gameProgress >= SAVE_PROGRESS_2)
         return TRUE;

@@ -247,7 +247,7 @@ void SetupDisplayForCredits(CreditsDisplayType type, BOOL isNotification)
     ((GXRgb *)VRAM_BG_PLTT)[0]    = GX_RGB_888(0x00, 0x00, 0x00);
     ((GXRgb *)VRAM_DB_BG_PLTT)[0] = GX_RGB_888(0x00, 0x00, 0x00);
 
-    renderCoreGFXControlA.windowManager.visible = 0;
+    renderCoreGFXControlA.windowManager.visible = GX_WNDMASK_NONE;
 
     renderCoreGFXControlA.blendManager.blendControl.effect = BLENDTYPE_NONE;
 
@@ -292,7 +292,7 @@ void SetupDisplayForCredits(CreditsDisplayType type, BOOL isNotification)
     else
         MI_CpuClear16(VRAMSystem__VRAM_BG[0], 0x20000);
 
-    renderCoreGFXControlB.windowManager.visible = 0;
+    renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_NONE;
 
     renderCoreGFXControlB.blendManager.blendControl.effect = BLENDTYPE_NONE;
 
@@ -804,7 +804,7 @@ void InitCreditsWindowPlanes(void)
     control->windowManager.registers.win0Y2            = 0;
     control->windowManager.registers.win0InPlane.value = 0;
     control->windowManager.registers.winOutPlane.value = 0xFF;
-    control->windowManager.visible                     = 1;
+    control->windowManager.visible                     = GX_WNDMASK_W0;
 
     control                                            = VRAMSystem__GFXControl[1];
     control->windowManager.registers.win0X1            = 0;
@@ -813,7 +813,7 @@ void InitCreditsWindowPlanes(void)
     control->windowManager.registers.win0Y2            = 0;
     control->windowManager.registers.win0InPlane.value = 0;
     control->windowManager.registers.winOutPlane.value = 0xFF;
-    control->windowManager.visible                     = 1;
+    control->windowManager.visible                     = GX_WNDMASK_W0;
 }
 
 void DisableCreditsWinOutPlane(BOOL useEngineB, u8 plane)
@@ -826,7 +826,7 @@ void DisableCreditsWinOutPlane(BOOL useEngineB, u8 plane)
     control->windowManager.registers.win0Y2            = 0;
     control->windowManager.registers.win0InPlane.value = 0;
     control->windowManager.registers.winOutPlane.value &= ~(1 << plane) & 0xFF;
-    control->windowManager.visible = 1;
+    control->windowManager.visible = GX_WNDMASK_W0;
 }
 
 void EnableCreditsWinOutPlane(BOOL useEngineB, u8 plane)
@@ -839,7 +839,7 @@ void EnableCreditsWinOutPlane(BOOL useEngineB, u8 plane)
     control->windowManager.registers.win0Y2            = 0;
     control->windowManager.registers.win0InPlane.value = 0;
     control->windowManager.registers.winOutPlane.value |= (1 << plane) & 0xFF;
-    control->windowManager.visible = 1;
+    control->windowManager.visible = GX_WNDMASK_W0;
 }
 
 void Credits__Scroll_Screen1(Credits *work)

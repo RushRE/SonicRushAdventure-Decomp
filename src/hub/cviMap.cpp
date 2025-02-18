@@ -37,11 +37,11 @@ Task *mapPaletteAnimationTaskSingleton;
 // FUNCTIONS
 // --------------------
 
-void ViMap__Create(void)
+void CViMap::Create(void)
 {
-    // TODO: use 'HubTaskCreate' when 'ViMap__CreateInternal' matches
-    // mapTaskSingleton = HubTaskCreate(ViMap__Main_Idle, ViMap__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16), CViMap);
-    mapTaskSingleton = ViMap__CreateInternal(ViMap__Main_Idle, ViMap__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16));
+    // TODO: use 'HubTaskCreate' when 'CViMap::CreateInternal' matches
+    // mapTaskSingleton = HubTaskCreate(CViMap::Main_Idle, CViMap::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16), CViMap);
+    mapTaskSingleton = CViMap::CreateInternal(CViMap::Main_Idle, CViMap::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16));
 
     CViMap *work          = TaskGetWork(mapTaskSingleton, CViMap);
     work->mapPos.x        = 0;
@@ -55,16 +55,16 @@ void ViMap__Create(void)
 
     InitHubBGCircleEffect(&work->bgCircleEffect);
 
-    ViMap__InitMapBack(work);
-    ViMap__InitMapIcon(work);
-    ViMap__Func_215CA60(work);
-    ViMap__InitSprites(work);
-    ViMap__InitUnknown2056FDC(work);
-    ViMap__InitUnknown(work);
+    CViMap::InitMapBack(work);
+    CViMap::InitMapIcon(work);
+    CViMap::InitIslandBackgrounds(work);
+    CViMap::InitSprites(work);
+    CViMap::InitUnknown2056FDC(work);
+    CViMap::InitUnknown(work);
 }
 
 // TODO: should match when constructors are decompiled for 'CViMapIcon' & 'CViMapBack'
-NONMATCH_FUNC Task *ViMap__CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group)
+NONMATCH_FUNC Task *CViMap::CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group)
 {
 #ifdef NON_MATCHING
 
@@ -98,7 +98,7 @@ _0215BAE0:
 #endif
 }
 
-void ViMap__Destroy(void)
+void CViMap::Destroy(void)
 {
     if (mapTaskSingleton != NULL)
     {
@@ -111,28 +111,28 @@ void ViMap__Destroy(void)
     }
 }
 
-void ViMap__SetType(s32 type)
+void CViMap::SetType(s32 type)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     switch (type)
     {
         case CViMap::TYPE_MAP_ACTIVE:
-            SetTaskMainEvent(mapTaskSingleton, ViMap__Main_Moving);
+            SetTaskMainEvent(mapTaskSingleton, CViMap::Main_Moving);
             break;
 
         case CViMap::TYPE_DOCK_ACTIVE:
-            SetTaskMainEvent(mapTaskSingleton, ViMap__Main_Idle);
+            SetTaskMainEvent(mapTaskSingleton, CViMap::Main_Idle);
             break;
 
         case CViMap::TYPE_CONSTRUCTION_CUTSCENE:
             work->cutsceneState = 6;
-            SetTaskMainEvent(mapTaskSingleton, ViMap__Main_ConstructionCutscene);
+            SetTaskMainEvent(mapTaskSingleton, CViMap::Main_ConstructionCutscene);
             break;
     }
 }
 
-void ViMap__WarpToPosition(u16 x, u16 y)
+void CViMap::WarpToPosition(u16 x, u16 y)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
@@ -146,7 +146,7 @@ void ViMap__WarpToPosition(u16 x, u16 y)
     work->mapMoveTimer    = 0;
 }
 
-void ViMap__TravelToPosition(u16 x, u16 y, u16 duration)
+void CViMap::TravelToPosition(u16 x, u16 y, u16 duration)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
@@ -158,7 +158,7 @@ void ViMap__TravelToPosition(u16 x, u16 y, u16 duration)
     work->mapMoveTimer    = 0;
 }
 
-void ViMap__GetMapPosition(u16 *x, u16 *y)
+void CViMap::GetMapPosition(u16 *x, u16 *y)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
@@ -169,14 +169,14 @@ void ViMap__GetMapPosition(u16 *x, u16 *y)
         *y = work->mapPos.y;
 }
 
-MapArea ViMap__GetMapAreaFromMapIconTouchInput(void)
+MapArea CViMap::GetMapAreaFromMapIconTouchInput(void)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     return work->mapIcon.GetAreaFromTouchInput();
 }
 
-MapArea ViMap__GetMapAreaFromMapIconMarker(BOOL mustBeIdle)
+MapArea CViMap::GetMapAreaFromMapIconMarker(BOOL mustBeIdle)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
@@ -186,7 +186,7 @@ MapArea ViMap__GetMapAreaFromMapIconMarker(BOOL mustBeIdle)
     return work->mapIcon.GetCurrentArea();
 }
 
-void ViMap__GoToMapArea(u32 mapArea, BOOL shouldTravel)
+void CViMap::GoToMapArea(u32 mapArea, BOOL shouldTravel)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
@@ -198,8 +198,8 @@ void ViMap__GoToMapArea(u32 mapArea, BOOL shouldTravel)
 
         x += 8;
         y += 8;
-        ViMap__ClampPosToMapBounds(x, y, &x, &y);
-        ViMap__TravelToPosition(x, y, 32);
+        CViMap::ClampPosToMapBounds(x, y, &x, &y);
+        CViMap::TravelToPosition(x, y, 32);
     }
     else
     {
@@ -208,19 +208,19 @@ void ViMap__GoToMapArea(u32 mapArea, BOOL shouldTravel)
 
         x += 8;
         y += 8;
-        ViMap__ClampPosToMapBounds(x, y, &x, &y);
-        ViMap__WarpToPosition(x, y);
+        CViMap::ClampPosToMapBounds(x, y, &x, &y);
+        CViMap::WarpToPosition(x, y);
     }
 }
 
-MapArea ViMap__GetChosenMapArea(void)
+MapArea CViMap::GetChosenMapArea(void)
 {
-    MapArea mapArea = ViMap__GetMapAreaFromMapIconMarker(TRUE);
+    MapArea mapArea = CViMap::GetMapAreaFromMapIconMarker(TRUE);
 
     if (mapArea >= MAPAREA_COUNT)
         return MAPAREA_INVALID;
 
-    if (mapArea == ViMap__GetMapAreaFromMapIconTouchInput())
+    if (mapArea == CViMap::GetMapAreaFromMapIconTouchInput())
         return mapArea;
 
     if ((padInput.btnPress & PAD_BUTTON_A) == 0)
@@ -229,14 +229,14 @@ MapArea ViMap__GetChosenMapArea(void)
     return mapArea;
 }
 
-void ViMap__StartShipConstructCutscene(s32 id)
+void CViMap::StartShipConstructCutscene(s32 id)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    work->shipConstructionID  = id;
-    work->decorConstructionID = CViMap::CONSTRUCT_DECOR_INVALID;
-    work->shipUpgradeID       = CViMap::UPGRADE_SHIP_INVALID;
-    work->vmiFile             = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapConfig(work->shipConstructionID)->mapArea)->field_3C;
+    work->shipConstructionID      = id;
+    work->decorConstructionID     = CVIMAP_DECOR_INVALID;
+    work->shipUpgradeID           = CViMap::UPGRADE_SHIP_INVALID;
+    work->shipConstructionImageID = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapConfig(work->shipConstructionID)->mapArea)->dockImageID;
 
     s32 i;
     AnimatorSprite *aniMaterialIcon = &work->aniMaterialIcon[0];
@@ -268,21 +268,21 @@ void ViMap__StartShipConstructCutscene(s32 id)
     }
 
     u16 x, y;
-    ViMap__ClampPosToMapBounds(32, 40, &x, &y);
-    ViMap__WarpToPosition(x, y);
+    CViMap::ClampPosToMapBounds(32, 40, &x, &y);
+    CViMap::WarpToPosition(x, y);
     work->constructionPos.x = 32 - x;
     work->constructionPos.y = 40 - y;
 
     work->cutsceneState = 1;
     work->cutsceneTimer = 0;
-    HubControl::InitEngineBForShipConstructionCutscene();
+    HubControl::InitEngineBForConstructionCutscene();
 
     LoadHubBGCircleEffect(&work->bgCircleEffect, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_B, BACKGROUND_2,
                           PALETTE_ROW_0);
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() | GX_PLANEMASK_BG2);
 }
 
-void ViMap__StartDecorConstructCutscene(s32 id)
+void CViMap::StartDecorConstructCutscene(s32 id)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
@@ -290,34 +290,34 @@ void ViMap__StartDecorConstructCutscene(s32 id)
     work->decorConstructionID = id;
     work->shipUpgradeID       = CViMap::UPGRADE_SHIP_INVALID;
 
-    if (HubConfig__CheckDecorConstructionUnknown(id))
-        work->vmiFile = *HubConfig__Func_2152A20(id);
+    if (HubConfig__CheckDecorConstructionIsBackground(id))
+        work->shipConstructionImageID = *HubConfig__GetMapBackDecorID(id);
     else
-        work->vmiFile = -1;
+        work->shipConstructionImageID = -1;
 
     u16 x, y;
-    ViMap__ClampPosToMapBounds(32, 40, &x, &y);
-    ViMap__WarpToPosition(x, y);
+    CViMap::ClampPosToMapBounds(32, 40, &x, &y);
+    CViMap::WarpToPosition(x, y);
     work->constructionPos.x = 32 - x;
     work->constructionPos.y = 40 - y;
 
     work->cutsceneState = 1;
     work->cutsceneTimer = 0;
-    HubControl::InitEngineBForShipConstructionCutscene();
+    HubControl::InitEngineBForConstructionCutscene();
     LoadHubBGCircleEffect(&work->bgCircleEffect, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_B, BACKGROUND_2,
                           PALETTE_ROW_0);
 
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() | GX_PLANEMASK_BG2);
 }
 
-void ViMap__StartShipUpgradeCutscene(s32 id)
+void CViMap::StartShipUpgradeCutscene(s32 id)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    work->shipConstructionID  = CViMap::CONSTRUCT_SHIP_INVALID;
-    work->decorConstructionID = CViMap::CONSTRUCT_DECOR_INVALID;
-    work->shipUpgradeID       = id;
-    work->vmiFile             = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapUnknownConfig(work->shipUpgradeID)->mapArea)->field_3C;
+    work->shipConstructionID      = CViMap::CONSTRUCT_SHIP_INVALID;
+    work->decorConstructionID     = CVIMAP_DECOR_INVALID;
+    work->shipUpgradeID           = id;
+    work->shipConstructionImageID = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapUnknownConfig(work->shipUpgradeID)->mapArea)->dockImageID;
 
     s32 i;
     AnimatorSprite *aniMaterialIcon = &work->aniMaterialIcon[0];
@@ -349,201 +349,106 @@ void ViMap__StartShipUpgradeCutscene(s32 id)
     }
 
     u16 x, y;
-    ViMap__ClampPosToMapBounds(32, 40, &x, &y);
-    ViMap__WarpToPosition(x, y);
+    CViMap::ClampPosToMapBounds(32, 40, &x, &y);
+    CViMap::WarpToPosition(x, y);
     work->constructionPos.x = 32 - x;
     work->constructionPos.y = 40 - y;
 
     work->cutsceneState = 1;
     work->cutsceneTimer = 0;
-    HubControl::InitEngineBForShipConstructionCutscene();
+    HubControl::InitEngineBForConstructionCutscene();
 
     LoadHubBGCircleEffect(&work->bgCircleEffect, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_EF_CIRCLE_BBG), BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_B, BACKGROUND_2,
                           PALETTE_ROW_0);
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() | GX_PLANEMASK_BG2);
 }
 
-NONMATCH_FUNC void ViMap__Func_215C284(s32 a1)
+void CViMap::TravelToConstructionPos(fx32 progress)
 {
-#ifdef NON_MATCHING
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0xc
-	ldr r1, =mapTaskSingleton
-	mov r5, r0
-	ldr r0, [r1, #0]
-	bl GetTaskWork_
-	mov r4, r0
-	mov r0, #0x20
-	mov r1, #0x28
-	add r2, sp, #6
-	add r3, sp, #4
-	strh r0, [sp, #0xa]
-	strh r1, [sp, #8]
-	bl ViMap__ClampPosToMapBounds
-	ldrh r0, [sp, #0xa]
-	ldrh r1, [sp, #8]
-	add r2, sp, #6
-	add r3, sp, #4
-	bl ViMap__ClampPosToMapBounds
-	add r0, r4, #0x700
-	ldrh r0, [r0, #0xe8]
-	ldr r1, =0x0000FFFF
-	cmp r0, r1
-	beq _0215C32C
-	bl HubConfig__GetDecorVmiFile
-	ldrh r1, [r0, #0]
-	add r2, sp, #0xa
-	add r3, sp, #8
-	mov r0, r4
-	bl ViMapBack__Func_2161864
-	ldrh r1, [sp, #0xa]
-	ldrh r0, [sp, #8]
-	add r2, sp, #2
-	add r1, r1, #0x18
-	add r0, r0, #0x10
-	strh r1, [sp, #0xa]
-	strh r0, [sp, #8]
-	ldrh r0, [sp, #0xa]
-	ldrh r1, [sp, #8]
-	add r3, sp, #0
-	bl ViMap__ClampPosToMapBounds
-	b _0215C378
-_0215C32C:
-	ldr r0, [r4, #0x7e0]
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl HubConfig__Func_2152A20
-	ldrh r0, [r0, #0]
-	add r1, sp, #0xa
-	add r2, sp, #8
-	bl ViMapBack__Func_2162798
-	ldrh r1, [sp, #0xa]
-	ldrh r0, [sp, #8]
-	add r2, sp, #2
-	add r1, r1, #0x18
-	add r0, r0, #0x10
-	strh r1, [sp, #0xa]
-	strh r0, [sp, #8]
-	ldrh r0, [sp, #0xa]
-	ldrh r1, [sp, #8]
-	add r3, sp, #0
-	bl ViMap__ClampPosToMapBounds
-_0215C378:
-	cmp r5, #0
-	ldreqh r5, [sp, #6]
-	ldreqh r6, [sp, #4]
-	beq _0215C3D0
-	cmp r5, #0x1000
-	ldreqh r5, [sp, #2]
-	ldreqh r6, [sp]
-	beq _0215C3D0
-	ldrh r3, [sp, #6]
-	ldrh r2, [sp, #2]
-	ldrh r1, [sp, #4]
-	ldrh r0, [sp]
-	sub r2, r2, r3
-	mul r2, r5, r2
-	sub r0, r0, r1
-	mul r0, r5, r0
-	add r2, r3, r2, asr #12
-	add r1, r1, r0, asr #12
-	mov r0, r2, lsl #0x10
-	mov r1, r1, lsl #0x10
-	mov r5, r0, lsr #0x10
-	mov r6, r1, lsr #0x10
-_0215C3D0:
-	mov r0, r5
-	mov r1, r6
-	bl ViMap__WarpToPosition
-	ldrh r1, [sp, #0xa]
-	add r0, r4, #0x700
-	sub r1, r1, r5
-	strh r1, [r0, #0xd0]
-	ldrh r1, [sp, #8]
-	sub r1, r1, r6
-	strh r1, [r0, #0xd2]
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    u16 x = 32;
+    u16 y = 40;
 
-// clang-format on
-#endif
+    u16 startX;
+    u16 startY;
+    CViMap::ClampPosToMapBounds(32, 40, &startX, &startY);
+    CViMap::ClampPosToMapBounds(x, y, &startX, &startY);
+
+    u16 endX;
+    u16 endY;
+    if (work->shipConstructionImageID != 0xFFFF)
+    {
+        work->mapBack.GetImageCenter(*HubConfig__GetMapBackDecorBackgroundConfig(work->shipConstructionImageID), &x, &y);
+
+        x += 24;
+        y += 16;
+        CViMap::ClampPosToMapBounds(x, y, &endX, &endY);
+    }
+    else
+    {
+        CViMapBack::GetDecorationImagePosition(*HubConfig__GetMapBackDecorID(work->decorConstructionID), &x, &y);
+
+        x += 24;
+        y += 16;
+        CViMap::ClampPosToMapBounds(x, y, &endX, &endY);
+    }
+
+    u16 currentX;
+    u16 currentY;
+    if (progress == FLOAT_TO_FX32(0.0))
+    {
+        currentX = startX;
+        currentY = startY;
+    }
+    else if (progress == FLOAT_TO_FX32(1.0))
+    {
+        currentX = endX;
+        currentY = endY;
+    }
+    else
+    {
+        currentX = startX + FX32_TO_WHOLE(progress * (endX - startX));
+        currentY = startY + FX32_TO_WHOLE(progress * (endY - startY));
+    }
+
+    CViMap::WarpToPosition(currentX, currentY);
+
+    work->constructionPos.x = x - currentX;
+    work->constructionPos.y = y - currentY;
 }
 
-NONMATCH_FUNC void ViMap__Func_215C408(void)
+void CViMap::InitMaterialRingAppearConstructCutsceneState(void)
 {
-#ifdef NON_MATCHING
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r0, =mapTaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	mov r4, r0
-	ldr r0, [r4, #0x7dc]
-	cmp r0, #5
-	bge _0215C438
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl HubConfig__GetDockMapConfig
-	b _0215C448
-_0215C438:
-	ldr r0, [r4, #0x7e4]
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl HubConfig__GetDockMapUnknownConfig
-_0215C448:
-	add r1, r4, #0x700
-	mov r2, #0
-	strh r2, [r1, #0xea]
-	strh r2, [r1, #0xec]
-	ldrh r1, [r0, #0x14]
-	mov r0, #0x10000
-	bl FX_DivS32
-	add r1, r4, #0x700
-	strh r0, [r1, #0xee]
-	add r1, r4, #0x7f0
-	mov r0, #0x100
-	mov r2, #0x20
-	bl MIi_CpuClear32
-	mov r0, #2
-	str r0, [r4, #0x7d8]
-	ldmia sp!, {r4, pc}
+    const CViMapAreaConfig *config;
+    if (work->shipConstructionID < CViMap::CONSTRUCT_SHIP_COUNT)
+        config = HubConfig__GetDockMapConfig(work->shipConstructionID);
+    else
+        config = HubConfig__GetDockMapUnknownConfig(work->shipUpgradeID);
 
-// clang-format on
-#endif
+    work->cutsceneTimer             = 0;
+    work->materialCircleAngle       = 0;
+    work->materialCircleAngleOffset = FX_DivS32(FLOAT_TO_FX32(16.0), config->materialCount);
+    MI_CpuFill32(work->materialRadius, 0x100, sizeof(work->materialRadius));
+    work->cutsceneState = 2;
 }
 
-NONMATCH_FUNC BOOL ViMap__Func_215C48C(void)
+BOOL CViMap::CheckMaterialRingAppearStateDone(void)
 {
-#ifdef NON_MATCHING
+    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =mapTaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	ldr r1, [r0, #0x7dc]
-	add r0, r0, #0x700
-	cmp r1, #5
-	movlt r2, #0x100
-	ldrh r1, [r0, #0xea]
-	movge r2, #0xa0
-	add r0, r2, #0x62
-	cmp r1, r0
-	movhs r0, #1
-	movlo r0, #0
-	ldmia sp!, {r3, pc}
+    u32 duration;
+    if (work->shipConstructionID < CViMap::CONSTRUCT_SHIP_COUNT)
+        duration = 256;
+    else
+        duration = 160;
 
-// clang-format on
-#endif
+    return work->cutsceneTimer >= duration + 98;
 }
 
-void ViMap__Func_215C4CC(void)
+void CViMap::InitMaterialRingShrinkConstructCutsceneState(void)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
@@ -551,54 +456,54 @@ void ViMap__Func_215C4CC(void)
     work->cutsceneTimer = 0;
 }
 
-BOOL ViMap__Func_215C4F8(void)
+BOOL CViMap::CheckMaterialRingShrinkStateDone(void)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     return work->cutsceneTimer >= 80;
 }
 
-void ViMap__Func_215C524(u16 a1)
+void CViMap::AddDockToMap(u16 id)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    ViMap__Func_215D374(work);
+    CViMap::InitDecorations(work);
 
-    ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__GetDecorVmiFile(a1));
-    ViMapBack__Func_2161ADC(&work->mapBack, *HubConfig__GetDecorVmiFile(a1));
-    ViMapBack__Func_2161F3C(&work->mapBack, (u8 *)VRAM_DB_BG + 0xC040, 0);
-    ViMapBack__Func_2161DC8(&work->mapBack);
+    work->mapBack.AddActiveImage(*HubConfig__GetMapBackDecorBackgroundConfig(id));
+    work->mapBack.InitImageBlitter(*HubConfig__GetMapBackDecorBackgroundConfig(id));
+    work->mapBack.BlitCanvasPixels((u8 *)VRAM_DB_BG + 0xC040, 0);
+    work->mapBack.ReleaseImageBlitter();
 }
 
-void ViMap__Func_215C58C(u16 a1)
+void CViMap::AddDecorationToMap(u16 id)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    const u16 *value = HubConfig__Func_2152A20(a1);
-    if (HubConfig__CheckDecorConstructionUnknown(a1))
+    const u16 *value = HubConfig__GetMapBackDecorID(id);
+    if (HubConfig__CheckDecorConstructionIsBackground(id))
     {
-        ViMap__Func_215D374(work);
+        CViMap::InitDecorations(work);
 
-        ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__GetDecorVmiFile(*value));
-        ViMapBack__Func_2161ADC(&work->mapBack, *HubConfig__GetDecorVmiFile(*value));
-        ViMapBack__Func_2161F3C(&work->mapBack, (u8 *)VRAM_DB_BG + 0xC040, 0);
-        ViMapBack__Func_2161DC8(&work->mapBack);
+        work->mapBack.AddActiveImage(*HubConfig__GetMapBackDecorBackgroundConfig(*value));
+        work->mapBack.InitImageBlitter(*HubConfig__GetMapBackDecorBackgroundConfig(*value));
+        work->mapBack.BlitCanvasPixels((u8 *)VRAM_DB_BG + 0xC040, 0);
+        work->mapBack.ReleaseImageBlitter();
 
-        if (a1 == 1)
-            ViMapBack__Func_21620FC(&work->mapBack, 2);
+        if (id == 1)
+            work->mapBack.SetDecorationActive(2);
     }
     else
     {
-        ViMapBack__Func_21620FC(&work->mapBack, *value);
+        work->mapBack.SetDecorationActive(*value);
     }
 }
 
-void ViMap__Func_215C638(u16 a1)
+void CViMap::InitShipBuiltConstructCutsceneState(u16 id)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     ReleaseHubBGCircleEffect(&work->bgCircleEffect);
-    HubControl::Func_215B168();
+    HubControl::InitEngineBForConstructionFinishedCutscene();
 
     for (s32 i = 0; i < 8; i++)
     {
@@ -606,17 +511,17 @@ void ViMap__Func_215C638(u16 a1)
         work->sparklePos[i].y = FLOAT_TO_FX32(0.25);
     }
 
-    ViMap__Func_215D7D8(work, a1);
+    CViMap::LoadUnknown2056FDC(work, id);
     work->cutsceneState = 4;
     work->cutsceneTimer = 0;
 }
 
-void ViMap__Func_215C6AC(void)
+void CViMap::InitDecorBuiltConstructCutsceneState(void)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     ReleaseHubBGCircleEffect(&work->bgCircleEffect);
-    HubControl::Func_215B168();
+    HubControl::InitEngineBForConstructionFinishedCutscene();
 
     for (s32 i = 0; i < 8; i++)
     {
@@ -624,80 +529,80 @@ void ViMap__Func_215C6AC(void)
         work->sparklePos[i].y = FLOAT_TO_FX32(0.25);
     }
 
-    if (HubConfig__CheckDecorConstructionUnknown(work->decorConstructionID))
+    if (HubConfig__CheckDecorConstructionIsBackground(work->decorConstructionID))
     {
-        u16 value = *HubConfig__Func_2152A20(work->decorConstructionID);
-        ViMap__Func_215D7D8(work, value);
+        u16 value = *HubConfig__GetMapBackDecorID(work->decorConstructionID);
+        CViMap::LoadUnknown2056FDC(work, value);
         if (value == 1)
-            ViMapBack__Func_21620FC(&work->mapBack, 2);
+            work->mapBack.SetDecorationActive(2);
     }
     else
     {
-        HubControl::Func_215B250();
-        ViMap__InitConstructionCompletePulse(work);
+        HubControl::InitEngineBForConstructionFinishedPulse();
+        CViMap::InitConstructionCompletePulse(work);
     }
 
     work->cutsceneState = 4;
     work->cutsceneTimer = 0;
 }
 
-void ViMap__Func_215C76C(u16 a1)
+void CViMap::InitShipUpgradedConstructCutsceneState(u16 id)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     ReleaseHubBGCircleEffect(&work->bgCircleEffect);
-    HubControl::Func_215B168();
+    HubControl::InitEngineBForConstructionFinishedCutscene();
 
-    for (s32 i = 0; i < 8; i++)
+    for (s32 i = 0; i < (s32)ARRAY_COUNT(work->sparklePos); i++)
     {
         work->sparklePos[i].x = FLOAT_TO_FX32(0.25);
         work->sparklePos[i].y = FLOAT_TO_FX32(0.25);
     }
 
-    ViMap__Func_215D7D8(work, a1);
+    CViMap::LoadUnknown2056FDC(work, id);
     work->cutsceneState = 4;
     work->cutsceneTimer = 0;
 }
 
-void ViMap__Func_215C7E0(void)
+void CViMap::InitAllFinishedConstructCutsceneState(void)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
-    ViMap__ReleaseUnknown2056FDC(work);
+    CViMap::ReleaseUnknown2056FDC(work);
     work->cutsceneState = 6;
     work->cutsceneTimer = 0;
     ReleaseHubBGCircleEffect(&work->bgCircleEffect);
 
-    ViMap__Func_215DA68(work);
-    HubControl::Func_215B3B4();
+    CViMap::ReleaseConstructionCompletePulse(work);
+    HubControl::InitEngineBForAllConstructionFinishedCutscene();
 }
 
-void ViMap__InitMapIcons(void)
+void CViMap::InitMapIcons(void)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     work->mapIcon.InitIcons();
 }
 
-void ViMap__EnableMapIcons(BOOL enabled)
+void CViMap::EnableMapIcons(BOOL enabled)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     work->mapIcon.Configure(CViMapIcon::FLAG_SHOW_ISLAND_ICONS, enabled);
 }
 
-void ViMap__DrawMapCursor(s16 x, s16 y)
+void CViMap::DrawMapCursor(s16 x, s16 y)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
 
     work->mapIcon.DrawCursor(x, y);
 }
 
-void ViMapPaletteAnimation__Create(void)
+void CViMapPaletteAnimation::Create()
 {
-    ViMapPaletteAnimation__Destroy();
+    CViMapPaletteAnimation::Destroy();
 
-    mapPaletteAnimationTaskSingleton = TaskCreate(ViMapPaletteAnimation__Main, ViMapPaletteAnimation__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1041,
+    mapPaletteAnimationTaskSingleton = TaskCreate(CViMapPaletteAnimation::Main, CViMapPaletteAnimation::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1041,
                                                   TASK_GROUP(16), CViMapPaletteAnimation);
 
     CViMapPaletteAnimation *work = TaskGetWork(mapPaletteAnimationTaskSingleton, CViMapPaletteAnimation);
@@ -709,7 +614,7 @@ void ViMapPaletteAnimation__Create(void)
     }
 }
 
-void ViMapPaletteAnimation__Destroy(void)
+void CViMapPaletteAnimation::Destroy()
 {
     if (mapPaletteAnimationTaskSingleton != NULL)
     {
@@ -718,25 +623,25 @@ void ViMapPaletteAnimation__Destroy(void)
     }
 }
 
-AnimatorSprite *ViMap__Func_215C98C(u16 id)
+AnimatorSprite *CViMap::GetMaterialIconAnimator(u16 id)
 {
     CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
     return &work->aniMaterialIcon[id];
 }
 
-void ViMap__InitMapBack(CViMap *work)
+void CViMap::InitMapBack(CViMap *work)
 {
-    ViMapBack__LoadAssets(&work->mapBack);
-    ViMapBack__Func_2161F08(&work->mapBack, 0, 0);
-    ViMapBack__Func_2162010(&work->mapBack, (u8 *)VRAM_DB_BG + 0xA000, 1);
-    ViMapBack__Func_2161924(&work->mapBack);
-    ViMap__Func_215D374(work);
-    ViMapBack__Func_2161A40(&work->mapBack);
-    ViMapBack__Func_2161F3C(&work->mapBack, (u8 *)VRAM_DB_BG + 0xC040, 0);
-    ViMapBack__Func_2161DC8(&work->mapBack);
+    work->mapBack.LoadAssets();
+    work->mapBack.UpdateCanvasVRAMPalette(PALETTE_ROW_0, 0);
+    work->mapBack.UpdateCanvasVRAMMappings((u8 *)VRAM_DB_BG + 0xA000, 1);
+    work->mapBack.LoadAllImages();
+    CViMap::InitDecorations(work);
+    work->mapBack.LoadSortedImagesOntoCanvas();
+    work->mapBack.BlitCanvasPixels((u8 *)VRAM_DB_BG + 0xC040, 0);
+    work->mapBack.ReleaseImageBlitter();
 }
 
-void ViMap__InitMapIcon(CViMap *work)
+void CViMap::InitMapIcon(CViMap *work)
 {
     work->mapIcon.Init(GRAPHICS_ENGINE_B);
     work->mapIcon.WarpToArea(MAPAREA_BASE);
@@ -744,13 +649,13 @@ void ViMap__InitMapIcon(CViMap *work)
     work->mapIcon.Configure(CViMapIcon::FLAG_SHOW_ISLAND_ICONS, TRUE);
 }
 
-void ViMap__Func_215CA60(CViMap *work)
+void CViMap::InitIslandBackgrounds(CViMap *work)
 {
-    ViMap__Func_215D214(work);
-    ViMapBack__Func_2162648(&work->mapBack, work->mapPos.x, work->mapPos.y);
+    CViMap::WarpToIconPosition(work);
+    work->mapBack.DrawIslandBackgrounds(work->mapPos.x, work->mapPos.y);
 }
 
-void ViMap__InitSprites(CViMap *work)
+void CViMap::InitSprites(CViMap *work)
 {
     void *sprMaterialIcon = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_DMCMN_MAT32_256_BAC);
     for (s32 i = 0; i < SAVE_MATERIAL_COUNT; i++)
@@ -800,12 +705,12 @@ void ViMap__InitSprites(CViMap *work)
     }
 }
 
-void ViMap__Release(CViMap *work)
+void CViMap::Release(CViMap *work)
 {
     s32 i;
 
     ReleaseHubBGCircleEffect(&work->bgCircleEffect);
-    ViMap__ReleaseUnknown2056FDC(work);
+    CViMap::ReleaseUnknown2056FDC(work);
 
     for (i = 0; i < (s32)ARRAY_COUNT(work->aniSparkle); i++)
     {
@@ -819,10 +724,10 @@ void ViMap__Release(CViMap *work)
     }
 
     work->mapIcon.Release();
-    ViMapBack__Release(&work->mapBack);
+    work->mapBack.Release();
 }
 
-void ViMap__Main_Moving(void)
+void CViMap::Main_Moving(void)
 {
     CViMap *work = TaskGetWorkCurrent(CViMap);
 
@@ -842,41 +747,41 @@ void ViMap__Main_Moving(void)
         work->mapIcon.GetIconPosition(newMapArea, &x, &y);
         x += 8;
         y += 8;
-        ViMap__ClampPosToMapBounds(x, y, &x, &y);
-        ViMap__TravelToPosition(x, y, 32);
+        CViMap::ClampPosToMapBounds(x, y, &x, &y);
+        CViMap::TravelToPosition(x, y, 32);
         PlayHubSfx(HUB_SFX_CURSOL);
     }
 
-    ViMap__Func_215D2B4(work);
-    ViMapBack__Func_2162110(&work->mapBack);
-    ViMapBack__Func_2162158(&work->mapBack, 0);
+    CViMap::ProcessMapPosMove(work);
+    work->mapBack.ProcessDecorationAnims();
+    work->mapBack.DrawAllSpriteDecorations(FALSE);
     work->mapIcon.SetWorldPosition(work->mapPos.x, work->mapPos.y);
     work->mapIcon.ProcessPlayerIcon();
     work->mapIcon.Draw();
 }
 
-void ViMap__Main_Idle(void)
+void CViMap::Main_Idle(void)
 {
     CViMap *work = TaskGetWorkCurrent(CViMap);
 
-    ViMap__Func_215D2B4(work);
+    CViMap::ProcessMapPosMove(work);
 
-    ViMapBack__Func_2162110(&work->mapBack);
-    ViMapBack__Func_2162158(&work->mapBack, 0);
+    work->mapBack.ProcessDecorationAnims();
+    work->mapBack.DrawAllSpriteDecorations(FALSE);
 
     work->mapIcon.SetWorldPosition(work->mapPos.x, work->mapPos.y);
     work->mapIcon.ProcessPlayerIcon();
     work->mapIcon.Draw();
 }
 
-void ViMap__Main_ConstructionCutscene(void)
+void CViMap::Main_ConstructionCutscene(void)
 {
     CViMap *work;
     GXRgb color;
     const CViMapAreaConfig *config;
     BOOL flag = FALSE;
-    u16 v4;
-    s16 v3;
+    u16 progress;
+    s16 scale;
     s32 timer;
     s32 offset;
     s32 i;
@@ -903,15 +808,15 @@ void ViMap__Main_ConstructionCutscene(void)
         case 1:
             if (work->cutsceneTimer < 128)
             {
-                v3 = FLOAT_TO_FX32(2.0) - (FX32_FROM_WHOLE(work->cutsceneTimer) >> 7);
-                v4 = work->cutsceneTimer >> 4;
+                scale    = FLOAT_TO_FX32(2.0) - (FX32_FROM_WHOLE(work->cutsceneTimer) >> 7);
+                progress = work->cutsceneTimer >> 4;
             }
             else
             {
-                v3 = FLOAT_TO_FX32(1.0);
-                v4 = 8;
+                scale    = FLOAT_TO_FX32(1.0);
+                progress = 8;
             }
-            ViMap__Func_215D44C(work, v3, v4);
+            CViMap::ProcessBGCircleEffect(work, scale, progress);
             break;
 
         case 2:
@@ -939,8 +844,8 @@ void ViMap__Main_ConstructionCutscene(void)
             }
 
             work->materialCircleAngle -= 512;
-            ViMap__Func_215D44C(work, FLOAT_TO_FX32(1.0), 8);
-            ViMap__Func_215D4B4(work);
+            CViMap::ProcessBGCircleEffect(work, FLOAT_TO_FX32(1.0), 8);
+            CViMap::DrawConstructionMaterials(work);
             break;
 
         case 3:
@@ -956,15 +861,15 @@ void ViMap__Main_ConstructionCutscene(void)
                 work->materialRadius[i] = radius;
             }
 
-            ViMap__Func_215D44C(work, FLOAT_TO_FX32(1.0), 8);
-            ViMap__Func_215D4B4(work);
+            CViMap::ProcessBGCircleEffect(work, FLOAT_TO_FX32(1.0), 8);
+            CViMap::DrawConstructionMaterials(work);
             break;
 
         case 4:
             if ((work->cutsceneTimer & 7) == 0)
-                ViMap__Func_215D604(work);
+                CViMap::SpawnConstructionSparkle(work);
 
-            ViMap__Func_215D734(work);
+            CViMap::DrawConstructionSparkles(work);
 
             brightness = work->cutsceneTimer & 0x3F;
             if (brightness >= 0x20)
@@ -973,13 +878,13 @@ void ViMap__Main_ConstructionCutscene(void)
             color = GX_RGB(brightness >> 1, brightness >> 1, brightness >> 1);
 
             if (work->shipConstructionID < CViMap::CONSTRUCT_SHIP_COUNT || work->shipUpgradeID < CViMap::UPGRADE_SHIP_COUNT
-                || HubConfig__CheckDecorConstructionUnknown(work->decorConstructionID))
+                || HubConfig__CheckDecorConstructionIsBackground(work->decorConstructionID))
             {
-                ViMap__Func_215D930(work, color);
+                CViMap::ProcessUnknown2056FDC(work, color);
             }
             else
             {
-                ViMapBack__Func_2162508(&work->mapBack, work->decorConstructionID, &work->constructionPos.x, &work->constructionPos.y, TRUE, TRUE);
+                work->mapBack.DrawNewlyConstructedSpriteDecoration(work->decorConstructionID, &work->constructionPos.x, &work->constructionPos.y, TRUE, TRUE);
                 flag = TRUE;
             }
             break;
@@ -987,33 +892,33 @@ void ViMap__Main_ConstructionCutscene(void)
 
     work->cutsceneTimer++;
 
-    ViMap__Func_215D2B4(work);
-    ViMapBack__Func_2162110(&work->mapBack);
+    CViMap::ProcessMapPosMove(work);
+    work->mapBack.ProcessDecorationAnims();
 
     if (flag)
-        ViMap__DrawConstructionCompletePulse(work, color);
+        CViMap::DrawConstructionCompletePulse(work, color);
 
-    if (work->decorConstructionID == CViMap::CONSTRUCT_DECOR_19)
-        ViMapBack__Func_2162158(&work->mapBack, 1);
+    if (work->decorConstructionID == CVIMAP_DECOR_WHALE)
+        work->mapBack.DrawAllSpriteDecorations(TRUE);
     else
-        ViMapBack__Func_2162158(&work->mapBack, 0);
+        work->mapBack.DrawAllSpriteDecorations(FALSE);
 }
 
-void ViMap__Destructor(Task *task)
+void CViMap::Destructor(Task *task)
 {
     CViMap *work = TaskGetWork(task, CViMap);
 
-    ViMap__Release(work);
+    CViMap::Release(work);
 
-    // TODO: use 'HubTaskDestroy' when ViMap__Func_215D150 matches
+    // TODO: use 'HubTaskDestroy' when CViMap::DestructorInternal matches
     // HubTaskDestroy<CViMap>(task);
-    ViMap__Func_215D150(task);
+    CViMap::DestructorInternal(task);
 
     mapTaskSingleton = NULL;
 }
 
 // TODO: should match when destructors are decompiled for 'CViMapIcon' & 'CViMapBack'
-NONMATCH_FUNC void ViMap__Func_215D150(Task *task)
+NONMATCH_FUNC void CViMap::DestructorInternal(Task *task)
 {
 #ifdef NON_MATCHING
 
@@ -1039,7 +944,7 @@ _0215D17C:
 #endif
 }
 
-void ViMapPaletteAnimation__Main(void)
+void CViMapPaletteAnimation::Main(void)
 {
     CViMapPaletteAnimation *work = TaskGetWorkCurrent(CViMapPaletteAnimation);
 
@@ -1050,13 +955,13 @@ void ViMapPaletteAnimation__Main(void)
     }
 }
 
-void ViMapPaletteAnimation__Destructor(Task *task)
+void CViMapPaletteAnimation::Destructor(Task *task)
 {
     s32 i;
 
     CViMapPaletteAnimation *work = TaskGetWork(task, CViMapPaletteAnimation);
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < (s32)ARRAY_COUNT(work->aniPalette); i++)
     {
         ReleasePaletteAnimator(&work->aniPalette[i]);
     }
@@ -1070,18 +975,18 @@ void ViMapPaletteAnimation__Destructor(Task *task)
     mapPaletteAnimationTaskSingleton = NULL;
 }
 
-void ViMap__Func_215D214(CViMap *work)
+void CViMap::WarpToIconPosition(CViMap *work)
 {
     u16 y, x;
     work->mapIcon.GetIconPosition(work->mapIcon.GetCurrentArea(), &x, &y);
 
     x += 8;
     y += 8;
-    ViMap__ClampPosToMapBounds(x, y, &x, &y);
-    ViMap__WarpToPosition(x, y);
+    CViMap::ClampPosToMapBounds(x, y, &x, &y);
+    CViMap::WarpToPosition(x, y);
 }
 
-void ViMap__ClampPosToMapBounds(u16 x, u16 y, u16 *outX, u16 *outY)
+void CViMap::ClampPosToMapBounds(u16 x, u16 y, u16 *outX, u16 *outY)
 {
     s32 newX = x - HW_LCD_CENTER_X;
     s32 newY = y - HW_LCD_CENTER_Y;
@@ -1105,7 +1010,7 @@ void ViMap__ClampPosToMapBounds(u16 x, u16 y, u16 *outX, u16 *outY)
         *outY = newY;
 }
 
-void ViMap__Func_215D2B4(CViMap *work)
+void CViMap::ProcessMapPosMove(CViMap *work)
 {
     if (work->mapMoveDuration != 0)
     {
@@ -1134,13 +1039,13 @@ void ViMap__Func_215D2B4(CViMap *work)
         }
     }
 
-    ViMapBack__Func_2162648(&work->mapBack, work->mapPos.x, work->mapPos.y);
+    work->mapBack.DrawIslandBackgrounds(work->mapPos.x, work->mapPos.y);
 }
 
-void ViMap__Func_215D374(CViMap *work)
+void CViMap::InitDecorations(CViMap *work)
 {
-    ViMapBack__Func_21619B0(&work->mapBack, 0);
-    ViMapBack__Func_21619B0(&work->mapBack, 1);
+    work->mapBack.AddActiveImage(0);
+    work->mapBack.AddActiveImage(1);
 
     for (s32 i = 0; i < CViMap::CONSTRUCT_SHIP_COUNT; i++)
     {
@@ -1148,28 +1053,28 @@ void ViMap__Func_215D374(CViMap *work)
         {
             const CViMapAreaConfig *config = HubConfig__GetDockMapConfig(i);
 
-            ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__GetDecorVmiFile(HubConfig__GetDockMapIconConfig(config->mapArea)->field_3C));
+            work->mapBack.AddActiveImage(*HubConfig__GetMapBackDecorBackgroundConfig(HubConfig__GetDockMapIconConfig(config->mapArea)->dockImageID));
         }
     }
 
-    for (s32 i = 0; i < CViMap::CONSTRUCT_DECOR_COUNT; i++)
+    for (s32 i = 0; i < CVIMAP_DECOR_COUNT; i++)
     {
         if (HubControl::CheckDecorConstructed(i))
         {
-            const u16 *value = HubConfig__Func_2152A20(i);
-            if (HubConfig__CheckDecorConstructionUnknown(i))
+            const u16 *value = HubConfig__GetMapBackDecorID(i);
+            if (HubConfig__CheckDecorConstructionIsBackground(i))
             {
-                ViMapBack__Func_21619B0(&work->mapBack, *HubConfig__GetDecorVmiFile(*value));
+                work->mapBack.AddActiveImage(*HubConfig__GetMapBackDecorBackgroundConfig(*value));
             }
             else
             {
-                ViMapBack__Func_21620FC(&work->mapBack, *value);
+                work->mapBack.SetDecorationActive(*value);
             }
         }
     }
 }
 
-void ViMap__Func_215D44C(CViMap *work, fx32 scale, s32 progress)
+void CViMap::ProcessBGCircleEffect(CViMap *work, fx32 scale, s32 progress)
 {
     SetHubBGCircleEffectPosition(&work->bgCircleEffect, work->constructionPos.x, work->constructionPos.y);
     SetHubBGCircleEffectScale(&work->bgCircleEffect, scale);
@@ -1177,7 +1082,7 @@ void ViMap__Func_215D44C(CViMap *work, fx32 scale, s32 progress)
     ProcessHubBGCircleEffect(&work->bgCircleEffect);
 }
 
-NONMATCH_FUNC void ViMap__Func_215D4B4(CViMap *work)
+NONMATCH_FUNC void CViMap::DrawConstructionMaterials(CViMap *work)
 {
     // https://decomp.me/scratch/ZoGxf -> 95.65%
 #ifdef NON_MATCHING
@@ -1318,7 +1223,7 @@ _0215D5DC:
 #endif
 }
 
-void ViMap__Func_215D604(CViMap *work)
+void CViMap::SpawnConstructionSparkle(CViMap *work)
 {
     AnimatorSprite *aniSparkle;
     s32 i;
@@ -1344,7 +1249,7 @@ void ViMap__Func_215D604(CViMap *work)
     }
 }
 
-void ViMap__Func_215D734(CViMap *work)
+void CViMap::DrawConstructionSparkles(CViMap *work)
 {
     s32 i;
     AnimatorSprite *aniSparkle;
@@ -1371,153 +1276,89 @@ void ViMap__Func_215D734(CViMap *work)
     }
 }
 
-void ViMap__InitUnknown2056FDC(CViMap *work)
+void CViMap::InitUnknown2056FDC(CViMap *work)
 {
-    work->field_F68 = 0;
-    work->field_F6A = 0;
+    work->unknownStartX = 0;
+    work->unknownStartY = 0;
     Unknown2056FDC__Init(&work->unknown);
 }
 
-NONMATCH_FUNC void ViMap__Func_215D7D8(CViMap *work, u16 a2)
+void CViMap::LoadUnknown2056FDC(CViMap *work, u16 id)
 {
-#ifdef NON_MATCHING
+    CViMap::ReleaseUnknown2056FDC(work);
+    CViMap::InitDecorations(work);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #0x18
-	mov r5, r0
-	mov r4, r1
-	bl ViMap__ReleaseUnknown2056FDC
-	mov r0, r5
-	bl ViMap__Func_215D374
-	mov r0, r4
-	bl HubConfig__GetDecorVmiFile
-	ldrh r1, [r0, #0]
-	mov r0, r5
-	bl ViMapBack__Func_21619B0
-	mov r0, r4
-	bl HubConfig__GetDecorVmiFile
-	ldrh r1, [r0, #0]
-	mov r0, r5
-	bl ViMapBack__Func_2161BE4
-	mov r0, r4
-	bl HubConfig__GetDecorVmiFile
-	add r2, sp, #0x12
-	str r2, [sp]
-	add r1, sp, #0x10
-	str r1, [sp, #4]
-	ldrh r1, [r0, #0]
-	mov r0, r5
-	add r2, sp, #0x16
-	add r3, sp, #0x14
-	bl ViMapBack__Func_21617E4
-	ldrh r1, [sp, #0x16]
-	add r0, r5, #0xf00
-	mov r1, r1, lsl #3
-	strh r1, [r0, #0x68]
-	ldrh r1, [sp, #0x14]
-	mov r1, r1, lsl #3
-	strh r1, [r0, #0x6a]
-	ldrh r0, [sp, #0x12]
-	ldrh r1, [sp, #0x10]
-	mov r0, r0, lsl #6
-	mul r0, r1, r0
-	bl _AllocTailHEAP_USER
-	mov r4, r0
-	ldrh r2, [sp, #0x12]
-	mov r0, r5
-	mov r1, r4
-	str r2, [sp]
-	ldrh ip, [sp, #0x10]
-	mov r2, #0
-	mov r3, r2
-	str ip, [sp, #4]
-	bl ViMapBack__Func_2161E30
-	mov r0, r5
-	bl ViMapBack__Func_2161DC8
-	mov r0, r5
-	bl ViMapBack__Func_2161E20
-	ldrh r1, [sp, #0x12]
-	add r3, r5, #0x36c
-	mov ip, #0x100
-	str r1, [sp]
-	ldrh lr, [sp, #0x10]
-	mov r1, #1
-	mov r2, r1
-	str lr, [sp, #4]
-	str r0, [sp, #8]
-	add r0, r3, #0xc00
-	mov r3, r4
-	str ip, [sp, #0xc]
-	bl Unknown2056FDC__Func_2057004
-	add r1, r5, #0xf00
-	ldrh r3, [r1, #0x6c]
-	add r0, r5, #0x36c
-	mov r2, #0xf
-	orr r3, r3, #0xc
-	strh r3, [r1, #0x6c]
-	strh r2, [r1, #0xa0]
-	mov r1, #2
-	strb r1, [r5, #0xfa6]
-	mov r1, #0x1f
-	strb r1, [r5, #0xfa7]
-	mov r1, #0
-	add r0, r0, #0xc00
-	str r1, [r5, #0xfa8]
-	bl Unknown2056FDC__Func_2057484
-	mov r0, r4
-	bl _FreeHEAP_USER
-	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, pc}
+    work->mapBack.AddActiveImage(*HubConfig__GetMapBackDecorBackgroundConfig(id));
+    work->mapBack.InitImageBlitterForHighPriorityImage(*HubConfig__GetMapBackDecorBackgroundConfig(id));
 
-// clang-format on
-#endif
+    u16 canvasStartX;
+    u16 canvasStartY;
+    u16 canvasWidth;
+    u16 canvasHeight;
+    work->mapBack.GetImageSize(*HubConfig__GetMapBackDecorBackgroundConfig(id), &canvasStartX, &canvasStartY, &canvasWidth, &canvasHeight);
+
+    work->unknownStartX = TILE_SIZE * canvasStartX;
+    work->unknownStartY = TILE_SIZE * canvasStartY;
+
+    void *canvasPixels = HeapAllocTail(HEAP_USER, canvasHeight * (canvasWidth * sizeof(GXCharFmt256)));
+    work->mapBack.CopyToCanvas(canvasPixels, 0, 0, canvasWidth, canvasHeight);
+    work->mapBack.ReleaseImageBlitter();
+
+    Unknown2056FDC__Func_2057004(&work->unknown, GRAPHICS_ENGINE_B, TRUE, canvasPixels, canvasWidth, canvasHeight, work->mapBack.GetCanvasPalette(), 256);
+    work->unknown.work.flags1 |= 0x8;
+    work->unknown.work.flags1 |= 0x4;
+    work->unknown.work.paletteBank = PALETTE_ROW_15;
+    work->unknown.work.priority    = SPRITE_PRIORITY_2;
+    work->unknown.work.order       = SPRITE_ORDER_31;
+    work->unknown.work.mode        = 0;
+    Unknown2056FDC__Func_2057484(&work->unknown);
+
+    HeapFree(HEAP_USER, canvasPixels);
 }
 
-void ViMap__Func_215D930(CViMap *work, GXRgb color)
+void CViMap::ProcessUnknown2056FDC(CViMap *work, GXRgb color)
 {
     s16 x;
     s16 y;
-    ViMapBack__Func_2162774(&work->mapBack, &x, &y);
+    work->mapBack.GetIslandPos(&x, &y);
 
     work->unknown.work.mode = 1;
     MI_CpuFill16(work->unknown.work.palettePtr, color, 2 * work->unknown.work.colorCount);
 
     Unknown2056FDC__Func_2057460(&work->unknown, FALSE, TRUE);
-    work->unknown.work.x1 = work->field_F68 - x + 24;
-    work->unknown.work.y1 = work->field_F6A - y + 16;
+    work->unknown.work.x1 = work->unknownStartX - x + 24;
+    work->unknown.work.y1 = work->unknownStartY - y + 16;
 
     Unknown2056FDC__Func_2057484(&work->unknown);
     Unknown2056FDC__Func_2057614(&work->unknown);
 }
 
-void ViMap__ReleaseUnknown2056FDC(CViMap *work)
+void CViMap::ReleaseUnknown2056FDC(CViMap *work)
 {
-    work->field_F68 = 0;
-    work->field_F6A = 0;
+    work->unknownStartX = 0;
+    work->unknownStartY = 0;
     Unknown2056FDC__Release(&work->unknown);
 }
 
-void ViMap__InitUnknown(CViMap *work)
+void CViMap::InitUnknown(CViMap *work)
 {
     // Nothing to do.
 }
 
-void ViMap__InitConstructionCompletePulse(CViMap *work)
+void CViMap::InitConstructionCompletePulse(CViMap *work)
 {
     InitHubConstructionCompletePulse(&work->constructionCompletePulse, 0, GRAPHICS_ENGINE_B, BACKGROUND_2, PALETTE_ROW_0);
 
     GXS_SetVisiblePlane(GXS_GetVisiblePlane() | GX_PLANEMASK_BG2);
 }
 
-void ViMap__DrawConstructionCompletePulse(CViMap *work, GXRgb color)
+void CViMap::DrawConstructionCompletePulse(CViMap *work, GXRgb color)
 {
     DrawHubConstructionCompletePulse(&work->constructionCompletePulse, color);
-    ViMapBack__Func_216233C(&work->mapBack, work->decorConstructionID, 1);
+    work->mapBack.DrawSingleSpriteDecoration(work->decorConstructionID, 1);
 }
 
-void ViMap__Func_215DA68(CViMap *work)
+void CViMap::ReleaseConstructionCompletePulse(CViMap *work)
 {
     // Nothing to do.
 }

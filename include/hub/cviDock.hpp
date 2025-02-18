@@ -126,7 +126,7 @@ public:
     static void InitPlayer(CViDock *work, s32 area);
     static void ReleasePlayer(CViDock *work);
     static void HandlePlayerMovement(CViDock *work);
-    static void InitDockBack(CViDock *work, BOOL a2);
+    static void InitDockBack(CViDock *work, BOOL noDisableAnimation);
     static void ReleaseDockBack(CViDock *work);
     static void InitDockCamera(CViDock *work);
     static void ReleaseDockDrawState(CViDock *work);

@@ -1420,11 +1420,11 @@ void CViEvtCmnList::InitWindow(BOOL enabled)
         renderCoreGFXControlA.windowManager.registers.winOutPlane.plane_BG3 = FALSE;
         renderCoreGFXControlA.windowManager.registers.winOutPlane.plane_OBJ = TRUE;
 
-        renderCoreGFXControlA.windowManager.visible = TRUE;
+        renderCoreGFXControlA.windowManager.visible = GX_WNDMASK_W0;
     }
     else
     {
-        renderCoreGFXControlA.windowManager.visible = FALSE;
+        renderCoreGFXControlA.windowManager.visible = GX_WNDMASK_NONE;
     }
 }
 

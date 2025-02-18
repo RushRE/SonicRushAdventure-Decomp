@@ -4008,7 +4008,7 @@ _021548F8:
 	bl MainMenu__SetState
 	pop {r4, pc}
 _0215490A:
-	bl SaveGame__Func_205BF24
+	bl SaveGame_CheckPlayerHasSavedFlag
 	cmp r0, #0
 	beq _02154928
 	ldr r3, _021549B8 // =0x0217D166
@@ -4021,7 +4021,7 @@ _0215490A:
 	bl MainMenu__SetState
 	pop {r4, pc}
 _02154928:
-	bl SaveGame__Block1__SetFlags1_0x80000
+	bl SaveGame_SetPlayerHasSavedFlag
 	ldr r1, _021549C0 // =MainMenu__State_Save
 	mov r0, r4
 	bl MainMenu__SetState
@@ -4048,7 +4048,7 @@ _02154952:
 	beq _0215498E
 	b _02154998
 _02154962:
-	bl SaveGame__Func_205BF24
+	bl SaveGame_CheckPlayerHasSavedFlag
 	cmp r0, #0
 	beq _02154980
 	ldr r3, _021549B8 // =0x0217D166
@@ -4061,7 +4061,7 @@ _02154962:
 	bl MainMenu__SetState
 	pop {r4, pc}
 _02154980:
-	bl SaveGame__Block1__SetFlags1_0x80000
+	bl SaveGame_SetPlayerHasSavedFlag
 	ldr r1, _021549C0 // =MainMenu__State_Save
 	mov r0, r4
 	bl MainMenu__SetState

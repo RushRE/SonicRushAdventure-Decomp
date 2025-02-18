@@ -567,11 +567,11 @@ NONMATCH_FUNC void SetupExSystemDisplay(exSysTask *work)
 
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_OBJ);
     RenderCore_DisableBlending(&renderCoreGFXControlA.blendManager);
-    renderCoreGFXControlA.windowManager.visible = 0;
+    renderCoreGFXControlA.windowManager.visible = GX_WNDMASK_NONE;
 
     GXS_SetVisiblePlane(GX_PLANEMASK_NONE);
     RenderCore_DisableBlending(&renderCoreGFXControlB.blendManager);
-    renderCoreGFXControlB.windowManager.visible = 0;
+    renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_NONE;
 
     GX_SetPower(GX_POWER_ALL);
     G3_ViewPort(0, 0, HW_LCD_WIDTH - 1, HW_LCD_HEIGHT - 1);

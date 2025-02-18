@@ -321,15 +321,15 @@ void HubControl::CreateForMap(MapArea mapArea)
     work->previewDockArea = HubConfig__GetDockMapIconConfig(mapArea)->previewDockArea;
     work->nextMapArea = work->mapArea = mapArea;
     work->shipConstructID             = CViMap::CONSTRUCT_SHIP_INVALID;
-    work->decorConstructID            = CViMap::CONSTRUCT_DECOR_INVALID;
+    work->decorConstructID            = CVIMAP_DECOR_INVALID;
     work->shipUpgradeID               = CViMap::UPGRADE_SHIP_INVALID;
 
     work->LoadArchives();
 
-    ViMap__Create();
-    ViMap__GoToMapArea(work->mapArea, FALSE);
-    ViMap__SetType(CViMap::TYPE_DOCK_ACTIVE);
-    ViMap__EnableMapIcons(TRUE);
+    CViMap::Create();
+    CViMap::GoToMapArea(work->mapArea, FALSE);
+    CViMap::SetType(CViMap::TYPE_DOCK_ACTIVE);
+    CViMap::EnableMapIcons(TRUE);
 
     CViDock::Create();
 
@@ -348,7 +348,7 @@ void HubControl::CreateForMap(MapArea mapArea)
     HubHUD::Create();
     HubHUD::ConfigureViewButton(FALSE, TRUE);
     HubHUD::ConfigureMenuButton(FALSE, TRUE);
-    ViMapPaletteAnimation__Create();
+    CViMapPaletteAnimation::Create();
     CViHubAreaPreview::Create(work);
     ResetTouchInput();
 
@@ -386,15 +386,15 @@ void HubControl::CreateForDock(s32 dockArea, BOOL loadCharacterStates, BOOL disa
     work->previewDockArea = DOCKAREA_INVALID;
     work->nextMapArea = work->mapArea = HubConfig__GetDockStageConfig(dockArea)->mapArea;
     work->shipConstructID             = CViMap::CONSTRUCT_SHIP_INVALID;
-    work->decorConstructID            = CViMap::CONSTRUCT_DECOR_INVALID;
+    work->decorConstructID            = CVIMAP_DECOR_INVALID;
     work->shipUpgradeID               = CViMap::UPGRADE_SHIP_INVALID;
 
     work->LoadArchives();
 
-    ViMap__Create();
-    ViMap__GoToMapArea(work->mapArea, 0);
-    ViMap__SetType(CViMap::TYPE_DOCK_ACTIVE);
-    ViMap__EnableMapIcons(FALSE);
+    CViMap::Create();
+    CViMap::GoToMapArea(work->mapArea, 0);
+    CViMap::SetType(CViMap::TYPE_DOCK_ACTIVE);
+    CViMap::EnableMapIcons(FALSE);
 
     CViDock::Create();
     CViDock::InitForPlayerControl(work->dockArea);
@@ -418,7 +418,7 @@ void HubControl::CreateForDock(s32 dockArea, BOOL loadCharacterStates, BOOL disa
     HubHUD::ConfigureViewButton(FALSE, TRUE);
     HubHUD::ConfigureMenuButton(FALSE, TRUE);
 
-    ViMapPaletteAnimation__Create();
+    CViMapPaletteAnimation::Create();
 
     ResetTouchInput();
 
@@ -464,10 +464,10 @@ void HubControl::Release()
 {
     CViHubAreaPreview::Destroy(this);
     this->ReleaseGraphics();
-    ViMapPaletteAnimation__Destroy();
+    CViMapPaletteAnimation::Destroy();
     HubHUD::Destroy();
     CViDock::Destroy();
-    ViMap__Destroy();
+    CViMap::Destroy();
     this->ReleaseAssets();
     ReleaseHubAudio(HubControl::CheckEventHasBGMChange(this->nextEvent));
 }
@@ -483,7 +483,7 @@ void HubControl::Main_InitMap()
 
         if (work->mapIconArea < MAPAREA_COUNT)
         {
-            s32 iconArea = ViMap__GetMapAreaFromMapIconMarker(TRUE);
+            s32 iconArea = CViMap::GetMapAreaFromMapIconMarker(TRUE);
             if (work->mapIconArea == iconArea)
             {
                 mapArea           = work->mapIconArea;
@@ -509,7 +509,7 @@ void HubControl::Main_InitMap()
             }
             else
             {
-                ViMap__SetType(CViMap::TYPE_MAP_ACTIVE);
+                CViMap::SetType(CViMap::TYPE_MAP_ACTIVE);
                 HubHUD::ConfigureViewButton(TRUE, TRUE);
                 HubHUD::ConfigureMenuButton(TRUE, TRUE);
                 SetCurrentTaskMainEvent(HubControl::Main_MapIdle);
@@ -519,7 +519,7 @@ void HubControl::Main_InitMap()
 
     if (mapArea < MAPAREA_COUNT)
     {
-        ViMap__SetType(CViMap::TYPE_DOCK_ACTIVE);
+        CViMap::SetType(CViMap::TYPE_DOCK_ACTIVE);
         HubHUD::ConfigureViewButton(FALSE, TRUE);
         HubHUD::ConfigureMenuButton(FALSE, TRUE);
 
@@ -559,14 +559,14 @@ void HubControl::Main_MapIdle()
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
     BOOL mapStateChanged = FALSE;
-    if (ViMap__GetMapAreaFromMapIconMarker(TRUE) < DOCKAREA_COUNT)
+    if (CViMap::GetMapAreaFromMapIconMarker(TRUE) < DOCKAREA_COUNT)
     {
         HubHUD::ConfigureViewButton(TRUE, TRUE);
         HubHUD::ConfigureMenuButton(TRUE, TRUE);
 
         if (HubHUD::LookAroundEnabled())
         {
-            ViMap__SetType(CViMap::TYPE_DOCK_ACTIVE);
+            CViMap::SetType(CViMap::TYPE_DOCK_ACTIVE);
             SetCurrentTaskMainEvent(HubControl::Main_LookAroundActive);
             HubHUD::ConfigureMenuButton(FALSE, TRUE);
             mapStateChanged = TRUE;
@@ -577,7 +577,7 @@ void HubControl::Main_MapIdle()
             PlayHubSfx(HUB_SFX_PAUSE);
             work->nextEvent       = HUBEVENT_MAIN_MENU;
             work->nextSelectionID = 0;
-            ViMap__SetType(CViMap::TYPE_DOCK_ACTIVE);
+            CViMap::SetType(CViMap::TYPE_DOCK_ACTIVE);
             HubControl::TryFadeOutBGM(work);
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
             HubHUD::ConfigureViewButton(FALSE, TRUE);
@@ -593,10 +593,10 @@ void HubControl::Main_MapIdle()
 
     if (!mapStateChanged)
     {
-        s32 iconArea = ViMap__GetChosenMapArea();
+        s32 iconArea = CViMap::GetChosenMapArea();
         if (iconArea < MAPAREA_COUNT)
         {
-            ViMap__SetType(CViMap::TYPE_DOCK_ACTIVE);
+            CViMap::SetType(CViMap::TYPE_DOCK_ACTIVE);
             HubHUD::ConfigureViewButton(FALSE, TRUE);
             HubHUD::ConfigureMenuButton(FALSE, TRUE);
 
@@ -638,19 +638,19 @@ void HubControl::Main_LookAroundActive()
     BOOL lookAroundEnded = FALSE;
     if (!HubHUD::LookAroundEnabled())
     {
-        ViMap__SetType(CViMap::TYPE_MAP_ACTIVE);
+        CViMap::SetType(CViMap::TYPE_MAP_ACTIVE);
         SetCurrentTaskMainEvent(HubControl::Main_MapIdle);
         lookAroundEnded = TRUE;
     }
 
     if (!lookAroundEnded)
     {
-        s32 iconTouchArea = ViMap__GetMapAreaFromMapIconTouchInput();
+        s32 iconTouchArea = CViMap::GetMapAreaFromMapIconTouchInput();
         if (iconTouchArea < DOCKAREA_COUNT)
         {
             HubHUD::DisableLookAround();
-            ViMap__SetType(CViMap::TYPE_MAP_ACTIVE);
-            ViMap__GoToMapArea(iconTouchArea, TRUE);
+            CViMap::SetType(CViMap::TYPE_MAP_ACTIVE);
+            CViMap::GoToMapArea(iconTouchArea, TRUE);
             SetCurrentTaskMainEvent(HubControl::Main_MapIdle);
             lookAroundEnded = TRUE;
         }
@@ -666,7 +666,7 @@ void HubControl::Main_LookAroundActive()
         touchMoveX = 0;
         touchMoveY = 0;
 
-        ViMap__GetMapPosition(&startX, &startY);
+        CViMap::GetMapPosition(&startX, &startY);
 
         if (HubHUD::GetTouchHeld())
         {
@@ -675,7 +675,7 @@ void HubControl::Main_LookAroundActive()
 
             HubHUD::GetTouchMove(&touchMoveX, &touchMoveY);
             HubHUD::GetTouchPos(&touchX, &touchY);
-            ViMap__DrawMapCursor(touchX, touchY);
+            CViMap::DrawMapCursor(touchX, touchY);
         }
         else
         {
@@ -694,7 +694,7 @@ void HubControl::Main_LookAroundActive()
 
         startX = ClampS32(startX - touchMoveX, 0, 64);
         startY = ClampS32(startY - touchMoveY, 16, 64);
-        ViMap__WarpToPosition(startX, startY);
+        CViMap::WarpToPosition(startX, startY);
     }
 
     HubControl::ProcessGenericTimer(work);
@@ -709,7 +709,7 @@ void HubControl::Main_FadeOutForDockInit()
         CViHubAreaPreview::Destroy(work);
         CViDock::InitForPlayerControl(work->dockArea);
         CViDock::EnablePlayerInput(FALSE);
-        ViMap__EnableMapIcons(0);
+        CViMap::EnableMapIcons(0);
 
         renderCurrentDisplay = GX_DISP_SELECT_SUB_MAIN;
         work->flags |= 0x10000;
@@ -899,7 +899,7 @@ void HubControl::Main_WaitForDockChanged()
         if (mapArea != work->mapArea)
         {
             work->mapArea = mapArea;
-            ViMap__GoToMapArea(mapArea, TRUE);
+            CViMap::GoToMapArea(mapArea, TRUE);
         }
 
         CViDock::ReturnPlayerControl();
@@ -993,9 +993,9 @@ void HubControl::Main_DoTalkAction()
             if (CViDockNpcTalk::GetSelection() < MISSION_COUNT)
             {
                 u32 selection = CViDockNpcTalk::GetSelection();
-                if (MissionHelpers__GetMissionCompletedReward(selection) < 22)
+                if (MissionHelpers__GetMissionDecorationReward(selection) < CVIMAP_DECOR_COUNT)
                 {
-                    work->decorConstructID = MissionHelpers__GetMissionCompletedReward(selection);
+                    work->decorConstructID = MissionHelpers__GetMissionDecorationReward(selection);
                     work->talkingNpc       = CViDock::GetTalkingNpc();
                     work->referenceTime    = work->genericTimer;
                     SetCurrentTaskMainEvent(HubControl::Main_FadeOutForConstructionCutscene);
@@ -1198,7 +1198,7 @@ void HubControl::Main_FadeOutForExitDockArea()
         CViDock::InitForPreview(work->previewDockArea, FALSE);
         work->nextMapArea = work->mapArea;
         CViHubAreaPreview::Create(work);
-        ViMap__EnableMapIcons(TRUE);
+        CViMap::EnableMapIcons(TRUE);
         work->flags |= 0x10000;
         SetCurrentTaskMainEvent(HubControl::Main_InitMap);
         renderCurrentDisplay = GX_DISP_SELECT_MAIN_SUB;
@@ -1239,7 +1239,7 @@ void HubControl::Main_InitForcedMapAreaChange()
     work->timer++;
     if (work->timer >= 64)
     {
-        ViMap__GoToMapArea(work->mapIconArea, TRUE);
+        CViMap::GoToMapArea(work->mapIconArea, TRUE);
         SetCurrentTaskMainEvent(HubControl::Main_WaitForForcedMapAreaChange);
     }
 
@@ -1250,7 +1250,7 @@ void HubControl::Main_WaitForForcedMapAreaChange()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    if (work->mapIconArea == ViMap__GetMapAreaFromMapIconMarker(TRUE))
+    if (work->mapIconArea == CViMap::GetMapAreaFromMapIconMarker(TRUE))
     {
         work->timer = 0;
         SetCurrentTaskMainEvent(HubControl::Main_FinishForcedMapAreaChange);
@@ -1396,7 +1396,7 @@ void CViHubAreaPreview::Main()
 {
     HubControl *hubControl = TaskGetWork(hubControlTaskSingleton, HubControl);
 
-    s32 mapArea = ViMap__GetMapAreaFromMapIconMarker(FALSE);
+    s32 mapArea = CViMap::GetMapAreaFromMapIconMarker(FALSE);
     if (mapArea != hubControl->nextMapArea)
     {
         if (hubControl->ProcessHideNpcIcons())
@@ -1448,21 +1448,21 @@ void HubControl::Main_FadeOutForConstructionCutscene()
 
     if (HubControl::HandleFade(RENDERCORE_BRIGHTNESS_BLACK, RENDERCORE_BRIGHTNESS_BLACK, 1) == 0)
     {
-        ViMap__SetType(CViMap::TYPE_CONSTRUCTION_CUTSCENE);
+        CViMap::SetType(CViMap::TYPE_CONSTRUCTION_CUTSCENE);
 
         if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT)
         {
             ReleaseHubAudio(TRUE);
             LoadSysSound(SYSSOUND_GROUP_DOCK);
             PlaySysTrack(SND_SYS_SEQ_SEQ_DOCK, TRUE);
-            ViMap__StartShipConstructCutscene(work->shipConstructID);
+            CViMap::StartShipConstructCutscene(work->shipConstructID);
         }
         else
         {
-            if (work->decorConstructID < CViMap::CONSTRUCT_DECOR_COUNT)
+            if (work->decorConstructID < CVIMAP_DECOR_COUNT)
             {
                 PlayHubDecorationJingle();
-                ViMap__StartDecorConstructCutscene(work->decorConstructID);
+                CViMap::StartDecorConstructCutscene(work->decorConstructID);
                 SetHubBGMVolume(work->bgmVolume = AUDIOMANAGER_VOLUME_MAX);
             }
             else
@@ -1470,7 +1470,7 @@ void HubControl::Main_FadeOutForConstructionCutscene()
                 ReleaseHubAudio(TRUE);
                 LoadSysSound(SYSSOUND_GROUP_POWERUP);
                 PlaySysTrack(SND_SYS_SEQ_SEQ_POWERUP, TRUE);
-                ViMap__StartShipUpgradeCutscene(work->shipUpgradeID);
+                CViMap::StartShipUpgradeCutscene(work->shipUpgradeID);
             }
         }
 
@@ -1489,7 +1489,7 @@ void HubControl::Main_StartConstructionCutscene()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    if (work->decorConstructID < CViMap::CONSTRUCT_DECOR_COUNT)
+    if (work->decorConstructID < CVIMAP_DECOR_COUNT)
     {
         if (work->bgmVolume > (AUDIOMANAGER_VOLUME_MAX / 2))
         {
@@ -1505,20 +1505,20 @@ void HubControl::Main_StartConstructionCutscene()
         if (work->constructionViewPercent > FLOAT_TO_FX32(1.0))
             work->constructionViewPercent = FLOAT_TO_FX32(1.0);
 
-        ViMap__Func_215C284(work->constructionViewPercent);
+        CViMap::TravelToConstructionPos(work->constructionViewPercent);
     }
 
     if (HubControl::HandleFade(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_DEFAULT, 1) == 0 && work->constructionViewPercent >= FLOAT_TO_FX32(1.0))
     {
-        if (work->decorConstructID < CViMap::CONSTRUCT_DECOR_COUNT)
+        if (work->decorConstructID < CVIMAP_DECOR_COUNT)
             SetHubBGMVolume(AUDIOMANAGER_VOLUME_MAX / 2);
 
         if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT)
         {
-            ViMap__Func_215C408();
+            CViMap::InitMaterialRingAppearConstructCutsceneState();
             SetCurrentTaskMainEvent(HubControl::Main_ConstructionCutscene_MaterialSpin);
         }
-        else if (work->decorConstructID < CViMap::CONSTRUCT_DECOR_COUNT)
+        else if (work->decorConstructID < CVIMAP_DECOR_COUNT)
         {
             work->constructionFadeOutDone = FALSE;
             work->referenceTime           = work->genericTimer;
@@ -1526,7 +1526,7 @@ void HubControl::Main_StartConstructionCutscene()
         }
         else
         {
-            ViMap__Func_215C408();
+            CViMap::InitMaterialRingAppearConstructCutsceneState();
             SetCurrentTaskMainEvent(HubControl::Main_ConstructionCutscene_MaterialSpin);
         }
     }
@@ -1538,9 +1538,9 @@ void HubControl::Main_ConstructionCutscene_MaterialSpin()
 {
     HubControl *work = TaskGetWorkCurrent(HubControl);
 
-    if (ViMap__Func_215C48C())
+    if (CViMap::CheckMaterialRingAppearStateDone())
     {
-        ViMap__Func_215C4CC();
+        CViMap::InitMaterialRingShrinkConstructCutsceneState();
         work->constructionFadeOutDone = FALSE;
         SetCurrentTaskMainEvent(HubControl::Main_ConstructionCutscene_FadeOutForShowShip);
     }
@@ -1555,21 +1555,21 @@ void HubControl::Main_ConstructionCutscene_FadeOutForShowShip()
     BOOL doneFading = FALSE;
 
     // ???
-    if (ViMap__Func_215C4F8() == FALSE)
+    if (CViMap::CheckMaterialRingShrinkStateDone() == FALSE)
     {
         doneFading = FALSE;
     }
 
     if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT)
     {
-        if (ViMap__Func_215C4F8() && HubControl::HandleFade(RENDERCORE_BRIGHTNESS_WHITE, RENDERCORE_BRIGHTNESS_WHITE, 1) == 0)
+        if (CViMap::CheckMaterialRingShrinkStateDone() && HubControl::HandleFade(RENDERCORE_BRIGHTNESS_WHITE, RENDERCORE_BRIGHTNESS_WHITE, 1) == 0)
         {
             doneFading = TRUE;
         }
     }
     else
     {
-        if (ViMap__Func_215C4F8() && HubControl::HandleFade(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_WHITE, 1) == 0)
+        if (CViMap::CheckMaterialRingShrinkStateDone() && HubControl::HandleFade(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_WHITE, 1) == 0)
         {
             doneFading = TRUE;
         }
@@ -1585,16 +1585,15 @@ void HubControl::Main_ConstructionCutscene_FadeOutForShowShip()
         {
             if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT)
             {
-                u16 value = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapConfig(work->shipConstructID)->mapArea)->field_3C;
-                ViMap__Func_215C524(value);
-                ViMap__Func_215C638(value);
-                HubControl::InitEngineAForUnknown();
+                u16 type = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapConfig(work->shipConstructID)->mapArea)->dockImageID;
+                CViMap::AddDockToMap(type);
+                CViMap::InitShipBuiltConstructCutsceneState(type);
+                HubControl::InitEngineAForConstructionCutscene();
                 CViDock::InitForConstructionCutscene(work->shipConstructID);
             }
             else
             {
-                const CViMapAreaIconConfig *config = HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapUnknownConfig(work->shipUpgradeID)->mapArea);
-                ViMap__Func_215C76C(config->field_3C);
+                CViMap::InitShipUpgradedConstructCutsceneState(HubConfig__GetDockMapIconConfig(HubConfig__GetDockMapUnknownConfig(work->shipUpgradeID)->mapArea)->dockImageID);
             }
 
             work->referenceTime = work->genericTimer;
@@ -1613,8 +1612,8 @@ void HubControl::Main_ConstructionCutscene_FadeOutForShowDecoration()
     {
         if (work->constructionFadeOutDone)
         {
-            ViMap__Func_215C58C(work->decorConstructID);
-            ViMap__Func_215C6AC();
+            CViMap::AddDecorationToMap(work->decorConstructID);
+            CViMap::InitDecorBuiltConstructCutsceneState();
 
             work->referenceTime = work->genericTimer;
             SetCurrentTaskMainEvent(HubControl::Main_ConstructionCutscene_ShowShip);
@@ -1681,8 +1680,8 @@ void HubControl::Main_ConstructionCutscene_FadeOutForCutsceneEnd()
 
     if (HubControl::HandleFade(RENDERCORE_BRIGHTNESS_BLACK, RENDERCORE_BRIGHTNESS_BLACK, 1) == 0)
     {
-        ViMap__Func_215C7E0();
-        ViMap__SetType(CViMap::TYPE_DOCK_ACTIVE);
+        CViMap::InitAllFinishedConstructCutsceneState();
+        CViMap::SetType(CViMap::TYPE_DOCK_ACTIVE);
 
         if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT)
         {
@@ -1690,35 +1689,35 @@ void HubControl::Main_ConstructionCutscene_FadeOutForCutsceneEnd()
         }
         else
         {
-            if (work->decorConstructID < CViMap::CONSTRUCT_DECOR_COUNT)
+            if (work->decorConstructID < CVIMAP_DECOR_COUNT)
             {
                 HubControl::UpdateSaveForDecorConstruction(work->decorConstructID, TRUE);
-                HubControl::InitEngineAForUnknown();
+                HubControl::InitEngineAForConstructionCutscene();
             }
             else
             {
-                HubControl::InitEngineAForUnknown();
+                HubControl::InitEngineAForConstructionCutscene();
             }
         }
 
-        if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT || work->decorConstructID == CViMap::CONSTRUCT_DECOR_7 || work->shipUpgradeID < CViMap::UPGRADE_SHIP_COUNT)
+        if (work->shipConstructID < CViMap::CONSTRUCT_SHIP_COUNT || work->decorConstructID == CVIMAP_DECOR_RADIO_TOWER || work->shipUpgradeID < CViMap::UPGRADE_SHIP_COUNT)
         {
             work->mapArea     = MAPAREA_BASE;
             work->nextMapArea = MAPAREA_BASE;
             work->dockArea    = DOCKAREA_BASE;
-            ViMap__InitMapIcons();
-            ViMap__GoToMapArea(work->mapArea, 0);
+            CViMap::InitMapIcons();
+            CViMap::GoToMapArea(work->mapArea, 0);
             CViDock::InitForPlayerControl(work->dockArea);
         }
         else
         {
-            ViMap__InitMapIcons();
-            ViMap__GoToMapArea(work->mapArea, 0);
+            CViMap::InitMapIcons();
+            CViMap::GoToMapArea(work->mapArea, 0);
             CViDock::InitForPlayerControl(work->dockArea);
             CViDock::LoadCharacterStates(TRUE);
         }
 
-        if (work->decorConstructID < CViMap::CONSTRUCT_DECOR_COUNT)
+        if (work->decorConstructID < CVIMAP_DECOR_COUNT)
         {
             ReleaseHubBGM();
             SetHubBGMVolume(AUDIOMANAGER_VOLUME_MAX);
@@ -1758,7 +1757,7 @@ void HubControl::Main_ConstructionCutscene_FadeInForConstructionDone()
             CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_NPC, i);
             SetCurrentTaskMainEvent(HubControl::Main_DoTalkAction);
         }
-        else if (work->decorConstructID < CViMap::CONSTRUCT_DECOR_COUNT)
+        else if (work->decorConstructID < CVIMAP_DECOR_COUNT)
         {
             CViDock::SetTalkingNpc(work->talkingNpc);
             CViDock::StartTalkingToNpc();
@@ -1778,7 +1777,7 @@ void HubControl::Main_ConstructionCutscene_FadeInForConstructionDone()
         }
 
         work->shipConstructID  = CViMap::CONSTRUCT_SHIP_INVALID;
-        work->decorConstructID = CViMap::CONSTRUCT_DECOR_INVALID;
+        work->decorConstructID = CVIMAP_DECOR_INVALID;
         work->shipUpgradeID    = CViMap::UPGRADE_SHIP_INVALID;
     }
 

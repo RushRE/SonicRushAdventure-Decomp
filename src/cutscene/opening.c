@@ -736,28 +736,28 @@ void InitOpeningWindowConfig(void)
 
     // Engine A
     {
-        camera3DWork->gfxControl[0].windowManager.visible = GX_WND_PLANEMASK_BG0 | GX_WND_PLANEMASK_BG1;
+        camera3DWork->gfxControl[GRAPHICS_ENGINE_A].windowManager.visible = GX_WNDMASK_W0 | GX_WNDMASK_W1;
 
-        RenderCore_SetWndOutsidePlane(&camera3DWork->gfxControl[0].windowManager, GX_WND_PLANEMASK_BG1 | GX_WND_PLANEMASK_OBJ, FALSE);
-        RenderCore_SetWindow0Position(&camera3DWork->gfxControl[0].windowManager, 144, 0, 224, 0);
+        RenderCore_SetWndOutsidePlane(&camera3DWork->gfxControl[GRAPHICS_ENGINE_A].windowManager, GX_WND_PLANEMASK_BG1 | GX_WND_PLANEMASK_OBJ, FALSE);
+        RenderCore_SetWindow0Position(&camera3DWork->gfxControl[GRAPHICS_ENGINE_A].windowManager, 144, 0, 224, 0);
 
-        RenderCore_SetWnd0InsidePlane(&camera3DWork->gfxControl[0].windowManager, GX_WND_PLANEMASK_BG2 | GX_WND_PLANEMASK_OBJ, FALSE);
-        RenderCore_SetWindow1Position(&camera3DWork->gfxControl[0].windowManager, 32, 0, 112, 0);
+        RenderCore_SetWnd0InsidePlane(&camera3DWork->gfxControl[GRAPHICS_ENGINE_A].windowManager, GX_WND_PLANEMASK_BG2 | GX_WND_PLANEMASK_OBJ, FALSE);
+        RenderCore_SetWindow1Position(&camera3DWork->gfxControl[GRAPHICS_ENGINE_A].windowManager, 32, 0, 112, 0);
 
-        RenderCore_SetWnd1InsidePlane(&camera3DWork->gfxControl[0].windowManager, GX_WND_PLANEMASK_BG3 | GX_WND_PLANEMASK_OBJ, FALSE);
+        RenderCore_SetWnd1InsidePlane(&camera3DWork->gfxControl[GRAPHICS_ENGINE_A].windowManager, GX_WND_PLANEMASK_BG3 | GX_WND_PLANEMASK_OBJ, FALSE);
     }
 
     // Engine B
     {
-        camera3DWork->gfxControl[1].windowManager.visible = GX_WND_PLANEMASK_BG0 | GX_WND_PLANEMASK_BG1;
+        camera3DWork->gfxControl[GRAPHICS_ENGINE_B].windowManager.visible = GX_WNDMASK_W0 | GX_WNDMASK_W1;
 
-        RenderCore_SetWndOutsidePlane(&camera3DWork->gfxControl[1].windowManager, GX_WND_PLANEMASK_BG1 | GX_WND_PLANEMASK_OBJ, FALSE);
-        RenderCore_SetWindow0Position(&camera3DWork->gfxControl[1].windowManager, 144, 0, 224, FALSE);
+        RenderCore_SetWndOutsidePlane(&camera3DWork->gfxControl[GRAPHICS_ENGINE_B].windowManager, GX_WND_PLANEMASK_BG1 | GX_WND_PLANEMASK_OBJ, FALSE);
+        RenderCore_SetWindow0Position(&camera3DWork->gfxControl[GRAPHICS_ENGINE_B].windowManager, 144, 0, 224, FALSE);
 
-        RenderCore_SetWnd0InsidePlane(&camera3DWork->gfxControl[1].windowManager, GX_WND_PLANEMASK_BG2 | GX_WND_PLANEMASK_OBJ, FALSE);
-        RenderCore_SetWindow1Position(&camera3DWork->gfxControl[1].windowManager, 32, 0, 112, 0);
+        RenderCore_SetWnd0InsidePlane(&camera3DWork->gfxControl[GRAPHICS_ENGINE_B].windowManager, GX_WND_PLANEMASK_BG2 | GX_WND_PLANEMASK_OBJ, FALSE);
+        RenderCore_SetWindow1Position(&camera3DWork->gfxControl[GRAPHICS_ENGINE_B].windowManager, 32, 0, 112, 0);
 
-        RenderCore_SetWnd1InsidePlane(&camera3DWork->gfxControl[1].windowManager, GX_WND_PLANEMASK_BG3 | GX_WND_PLANEMASK_OBJ, FALSE);
+        RenderCore_SetWnd1InsidePlane(&camera3DWork->gfxControl[GRAPHICS_ENGINE_B].windowManager, GX_WND_PLANEMASK_BG3 | GX_WND_PLANEMASK_OBJ, FALSE);
     }
 }
 

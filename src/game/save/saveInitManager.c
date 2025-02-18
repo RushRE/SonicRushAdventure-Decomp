@@ -55,7 +55,7 @@ void SetupDisplayForSaveInitManager(void)
     ((GXRgb *)VRAM_BG_PLTT)[0]    = GX_RGB_888(0x00, 0x00, 0x00);
     ((GXRgb *)VRAM_DB_BG_PLTT)[0] = GX_RGB_888(0x00, 0x00, 0x00);
 
-    renderCoreGFXControlA.windowManager.visible = GX_PLANEMASK_NONE;
+    renderCoreGFXControlA.windowManager.visible = GX_WNDMASK_NONE;
     renderCoreGFXControlA.blendManager.blendControl.effect = BLENDTYPE_NONE;
     renderCoreGFXControlA.brightness = RENDERCORE_BRIGHTNESS_DEFAULT;
     renderCoreGFXControlA.mosaicSize = 0;
@@ -81,7 +81,7 @@ void SetupDisplayForSaveInitManager(void)
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_OBJ);
     MI_CpuClear16(VRAMSystem__VRAM_BG[0], HW_VRAM_A_SIZE);
 
-    renderCoreGFXControlB.windowManager.visible = FALSE;
+    renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_NONE;
     renderCoreGFXControlB.blendManager.blendControl.effect = BLENDTYPE_NONE;
     renderCoreGFXControlB.brightness = RENDERCORE_BRIGHTNESS_BLACK;
     renderCoreGFXControlB.mosaicSize = 0;

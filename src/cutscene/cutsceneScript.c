@@ -8300,7 +8300,7 @@ void CutsceneAssetSystem__Func_2159E28(Task *task)
 
     VRAMSystem__Reset();
 
-    renderCoreGFXControlB.windowManager.visible = renderCoreGFXControlA.windowManager.visible = GX_WND_PLANEMASK_NONE;
+    renderCoreGFXControlB.windowManager.visible = renderCoreGFXControlA.windowManager.visible = GX_WNDMASK_NONE;
     renderCoreGFXControlB.blendManager.coefficient.value = renderCoreGFXControlA.blendManager.coefficient.value = RENDERCORE_BRIGHTNESS_DEFAULT;
     renderCoreGFXControlB.blendManager.blendControl.value = renderCoreGFXControlA.blendManager.blendControl.value = 0x00;
     renderCoreGFXControlB.blendManager.blendAlpha.value = renderCoreGFXControlA.blendManager.blendAlpha.value = 0x00;
@@ -8352,8 +8352,8 @@ void CutsceneAssetSystem__OnCutsceneFinish(CutsceneScript *work)
 {
     SetTaskMainEvent(cutsceneAssetSystemTask, CutsceneAssetSystem__NextSysEvent);
 
-    renderCoreGFXControlA.windowManager.visible = GX_WND_PLANEMASK_NONE;
-    renderCoreGFXControlB.windowManager.visible = GX_WND_PLANEMASK_NONE;
+    renderCoreGFXControlA.windowManager.visible = GX_WNDMASK_NONE;
+    renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_NONE;
 
     renderCoreGFXControlA.blendManager.blendAlpha.value = 0x00;
     renderCoreGFXControlB.blendManager.blendAlpha.value = 0x00;

@@ -654,7 +654,7 @@ Overlay Hub
     Object src/hub/hubState.o
     Object src/hub/hubBgCircleEffect.o
     Object src/hub/missionConfig.o
-    Object src/hub/missionConfig_2.o
+    Object src/hub/missionConfig2.o
     Object src/hub/hubAudio.o
 
     ## CREDITS ##
@@ -662,7 +662,7 @@ Overlay Hub
     
     ## HUB/SOUTHERN ISLAND ##
     Object src/hub/hubControl.o 
-    Object src/hub/hubControl_2.o
+    Object src/hub/hubDisplayControl.o
     Object src/hub/hubNpcSpawnConfig.o
     Object src/hub/cviMap.o
     Object asm/hub/cviDock_vars.o

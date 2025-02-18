@@ -75,7 +75,7 @@ RUSH_INLINE BOOL CheckTouchPushEnabled()
 // --------------------
 
 static Task *CViDock__CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group);
-static void CViDock__Func_215FF6C(Task *task);
+static void CViDock__DestroyInternal(Task *task);
 
 // --------------------
 // FUNCTIONS
@@ -865,7 +865,7 @@ _0215E9C0:
 #endif
 }
 
-void CViDock::InitDockBack(CViDock *work, BOOL a2)
+void CViDock::InitDockBack(CViDock *work, BOOL noDisableAnimation)
 {
     s32 dockArea = DOCKAREA_INVALID;
 
@@ -877,8 +877,8 @@ void CViDock::InitDockBack(CViDock *work, BOOL a2)
             break;
 
         case CViDock::TYPE_PREVIEW:
-            if (work->area < 8)
-                dockArea = HubConfig__GetDockUnknownConfig(work->area)->dockArea;
+            if (work->area < DOCKAREA_COUNT)
+                dockArea = HubConfig__GetDockPreviewConfig(work->area)->dockArea;
             break;
 
         case CViDock::TYPE_CONSTRUCTION_CUTSCENE:
@@ -887,7 +887,7 @@ void CViDock::InitDockBack(CViDock *work, BOOL a2)
             break;
     }
 
-    work->dockBack.Init(dockArea, FALSE, a2);
+    work->dockBack.Init(dockArea, FALSE, noDisableAnimation);
 }
 
 void CViDock::ReleaseDockBack(CViDock *work)
@@ -902,8 +902,8 @@ void CViDock::InitDockCamera(CViDock *work)
     s32 mode;
     if (work->type == CViDock::TYPE_PREVIEW)
     {
-        if (work->area < 8)
-            area = HubConfig__GetDockUnknownConfig(work->area)->dockArea;
+        if (work->area < DOCKAREA_COUNT)
+            area = HubConfig__GetDockPreviewConfig(work->area)->dockArea;
 
         mode = CViDockCamera::TYPE_PREVIEW;
     }
@@ -1832,7 +1832,7 @@ void CViDock::Main_InitForPreviewDockChange(void)
     CViDock *work = TaskGetWorkCurrent(CViDock);
 
     CViDock::InitDockCamera(work);
-    work->dockBack.SetArea(HubConfig__GetDockUnknownConfig(work->area)->dockArea);
+    work->dockBack.SetArea(HubConfig__GetDockPreviewConfig(work->area)->dockArea);
     SetCurrentTaskMainEvent(CViDock::Main_WaitForPreviewDockChanged);
 }
 
@@ -1875,15 +1875,15 @@ void CViDock::Destructor(Task *task)
 
     CViDock::Release(work);
 
-    // TODO: use 'HubTaskDestroy' when CViDock__Func_215FF6C matches
+    // TODO: use 'HubTaskDestroy' when CViDock__DestroyInternal matches
     // HubTaskDestroy<CViDock>(task);
-    CViDock__Func_215FF6C(task);
+    CViDock__DestroyInternal(task);
 
     taskSingleton = NULL;
 }
 
 // TODO: should match when destructors are decompiled for 'CViDockPlayer' 'CViDockNpcGroup', 'CViShadow' && 'CViDockBack'
-NONMATCH_FUNC void CViDock__Func_215FF6C(Task *task)
+NONMATCH_FUNC void CViDock__DestroyInternal(Task *task)
 {
 #ifdef NON_MATCHING
 

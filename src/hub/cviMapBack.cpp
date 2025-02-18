@@ -6,6 +6,12 @@
 #include <game/graphics/renderCore.h>
 #include <game/graphics/background.h>
 #include <hub/hubConfig.h>
+#include <hub/hubControl.hpp>
+
+// resources
+#include <resources/bb/vi_map_back.h>
+#include <resources/narc/vi_act_lz7.h>
+#include <resources/narc/vi_bg_lz7.h>
 
 // --------------------
 // TEMP
@@ -16,25 +22,139 @@ extern "C"
 
 NOT_DECOMPILED void _ZdlPv(void);
 
-NOT_DECOMPILED void _ZN10HubControl13GetSpriteFileEt(void);
-NOT_DECOMPILED void _ZN10HubControl17GetBackgroundFileEt(void);
+NOT_DECOMPILED void BackgroundUnknown__Func_204CB98(void *ptr1, u16 width1, u16 startX1, u16 startY1, u16 sizeX1, u16 sizeY1, void *ptr2, u16 width2, u16 sizeX2, u16 sizeY2,
+                                                    u16 a1);
+NOT_DECOMPILED void BackgroundUnknown__Func_204CB40(void *ptr1, u16 width1, u16 startX1, u16 startY1, u16 sizeX1, u16 sizeY1, void *ptr2, u16 width2, u16 sizeX2, u16 sizeY2,
+                                                    u16 a1);
 
-NOT_DECOMPILED void BackgroundUnknown__Func_204CB98(void);
-NOT_DECOMPILED void BackgroundUnknown__Func_204CB40(void);
+NOT_DECOMPILED fx32 Unknown2051334__Func_2051534(fx32 start, fx32 end, fx32 progress, s32 duration, fx32 speed);
 
-NOT_DECOMPILED void Unknown2051334__Func_2051534(void);
+NOT_DECOMPILED void _ZN13CViMapVmiFile7ReleaseEv(CViMapVmiFile *work);
+NOT_DECOMPILED void _ZN13CViMapVmpFile7ReleaseEv(CViMapVmpFile *work);
+NOT_DECOMPILED void _ZN13CViMapVmcFile7ReleaseEv(CViMapVmcFile *work);
+
+NOT_DECOMPILED void *_ZN13CViMapVmcFile9GetPixelsEv(CViMapVmcFile *work);
+
+NOT_DECOMPILED u16 _ZN13CViMapVmiFile13GetImageCountEv(CViMapVmiFile *work);
+NOT_DECOMPILED u16 _ZN13CViMapVmiFile18GetImageTileHeightEt(CViMapVmiFile *work, u16 id);
+NOT_DECOMPILED u16 _ZN13CViMapVmiFile17GetImageTileWidthEt(CViMapVmiFile *work, u16 id);
+NOT_DECOMPILED u16 _ZN13CViMapVmiFile18GetImageTileStartYEt(CViMapVmiFile *work, u16 id);
+NOT_DECOMPILED u16 _ZN13CViMapVmiFile18GetImageTileStartXEt(CViMapVmiFile *work, u16 id);
+
+NOT_DECOMPILED void _ZN10CViMapBack7ReleaseEv(CViMapBack *work);
+NOT_DECOMPILED void _ZN10CViMapBack16ReleaseImageFileEv(CViMapBack *work);
+NOT_DECOMPILED void _ZN10CViMapBack12ReleaseImageEt(CViMapBack *work, u16 id);
+NOT_DECOMPILED BOOL _ZN10CViMapBack16CheckImageLoadedEt(CViMapBack *work, u16 id);
+NOT_DECOMPILED void _ZN10CViMapBack19LoadImagePixelsFileEt(CViMapBack *work, u16 id);
+NOT_DECOMPILED void _ZN10CViMapBack9LoadImageEt(CViMapBack *work, u16 id);
+NOT_DECOMPILED void _ZN10CViMapBack20GetSpriteDecorOffsetEPsS0_(CViMapBack *work, s16 *x, s16 *y);
+NOT_DECOMPILED void _ZN10CViMapBack23GetSpriteDecorOffsetAltEPsS0_(CViMapBack *work, s16 *x, s16 *y);
 }
+
+// --------------------
+// TYPES
+// --------------------
+
+typedef void (*SpriteDecorConfigFunc)(u16 timer, s16 *x, s16 *y, s16 *oamPriority, u16 *animID, u16 *scale, BOOL *flipX, BOOL *isInvisible, BOOL *useAltOffset);
+
+// --------------------
+// STRUCTS
+// --------------------
+
+struct CViMapBackAssetBundle
+{
+    const char path[20];
+};
 
 // --------------------
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED void *ovl05_02172F1C;
-NOT_DECOMPILED void *ovl05_02172F58;
-NOT_DECOMPILED void *ovl05_02172F94;
-NOT_DECOMPILED void *ovl05_02172FD0;
-NOT_DECOMPILED void *ViMapBack__OamOrderList;
-NOT_DECOMPILED void *aBbViMapBackBb;
+// 	FORCE_INCLUDE_ARRAY(const u16, unusedArr, 6, { 50, 16, 8, 0, 100, 0 });
+//
+// 	static const Vec2Fx16 viMapBackSpriteDecorPositionList[] = {
+// 	    /*[CVIMAPBACK_DECORSPRITE_RADIO_TOWER]          =*/ { 128, 114 },
+// 		/*[CVIMAPBACK_DECORSPRITE_BALLOON]              =*/ { 208, 40 },
+// 		/*[CVIMAPBACK_DECORSPRITE_WATERFALL_SPLASH]     =*/ { 160, 201 },
+// 		/*[CVIMAPBACK_DECORSPRITE_PALM_TREE_1]          =*/ { 204, 146 },
+// 		/*[CVIMAPBACK_DECORSPRITE_PALM_TREE_2]          =*/ { 76, 170 },
+// 		/*[CVIMAPBACK_DECORSPRITE_PALM_TREE_3]          =*/ { 236, 122 },
+// 		/*[CVIMAPBACK_DECORSPRITE_SEAGULL]              =*/ { 0, 0 },
+// 		/*[CVIMAPBACK_DECORSPRITE_VOLCANO_STEAM]        =*/ { 112, 0 },
+// 	    /*[CVIMAPBACK_DECORSPRITE_SMALL_WINDMILL]       =*/ { 93, 95 },
+// 		/*[CVIMAPBACK_DECORSPRITE_DINOSAUR]             =*/ { 0, 80 },
+// 		/*[CVIMAPBACK_DECORSPRITE_FLAG]                 =*/ { 50, 36 },
+// 		/*[CVIMAPBACK_DECORSPRITE_LARGE_WINDMILL]       =*/ { 80, 80 },
+// 		/*[CVIMAPBACK_DECORSPRITE_WHALE]                =*/ { 0, 0 },
+// 		/*[CVIMAPBACK_DECORSPRITE_FLOWER_GARDEN]        =*/ { 128, 160 },
+// 		/*[CVIMAPBACK_DECORSPRITE_PRETTY_FLOWER_GARDEN] =*/ { 128, 160 },
+// 	};
+//
+// 	static const Vec2Fx16 viMapBackSpriteDecorAltPositionList[] = {
+// 	    /*[CVIMAPBACK_DECORSPRITE_RADIO_TOWER]          =*/ { 140, 122 },
+// 		/*[CVIMAPBACK_DECORSPRITE_BALLOON]              =*/ { 228, 52 },
+// 		/*[CVIMAPBACK_DECORSPRITE_WATERFALL_SPLASH]     =*/ { 168, 209 },
+// 		/*[CVIMAPBACK_DECORSPRITE_PALM_TREE_1]          =*/ { 204, 122 },
+// 		/*[CVIMAPBACK_DECORSPRITE_PALM_TREE_2]          =*/ { 76, 146 },
+// 		/*[CVIMAPBACK_DECORSPRITE_PALM_TREE_3]          =*/ { 236, 98 },
+// 		/*[CVIMAPBACK_DECORSPRITE_SEAGULL]              =*/ { 72, 24 },
+// 		/*[CVIMAPBACK_DECORSPRITE_VOLCANO_STEAM]        =*/ { 136, 16 },
+// 	    /*[CVIMAPBACK_DECORSPRITE_SMALL_WINDMILL]       =*/ { 101, 103 },
+// 		/*[CVIMAPBACK_DECORSPRITE_DINOSAUR]             =*/ { 56, 112 },
+// 		/*[CVIMAPBACK_DECORSPRITE_FLAG]                 =*/ { 54, 44 },
+// 		/*[CVIMAPBACK_DECORSPRITE_LARGE_WINDMILL]       =*/ { 94, 95 },
+// 		/*[CVIMAPBACK_DECORSPRITE_WHALE]                =*/ { 16, 80 },
+// 		/*[CVIMAPBACK_DECORSPRITE_FLOWER_GARDEN]        =*/ { 140, 176 },
+// 		/*[CVIMAPBACK_DECORSPRITE_PRETTY_FLOWER_GARDEN] =*/ { 140, 176 },
+// 	};
+//
+// 	static const SpriteDecorConfigFunc ViMapBack__spriteDecorConfig1[] = {
+// 	    /*[CVIMAPBACK_DECORSPRITE_RADIO_TOWER]          =*/ NULL,
+// 		/*[CVIMAPBACK_DECORSPRITE_BALLOON]              =*/ NULL,
+// 		/*[CVIMAPBACK_DECORSPRITE_WATERFALL_SPLASH]     =*/ NULL,
+// 		/*[CVIMAPBACK_DECORSPRITE_PALM_TREE_1]          =*/ NULL,
+// 		/*[CVIMAPBACK_DECORSPRITE_PALM_TREE_2]          =*/ NULL,
+// 		/*[CVIMAPBACK_DECORSPRITE_PALM_TREE_3]          =*/ NULL,
+// 		/*[CVIMAPBACK_DECORSPRITE_SEAGULL]              =*/ CViMapBack::SpriteDecorConfig1_Seagull,
+// 		/*[CVIMAPBACK_DECORSPRITE_VOLCANO_STEAM]        =*/ NULL,
+// 		/*[CVIMAPBACK_DECORSPRITE_SMALL_WINDMILL]       =*/ NULL,
+// 		/*[CVIMAPBACK_DECORSPRITE_DINOSAUR]             =*/ NULL,
+// 		/*[CVIMAPBACK_DECORSPRITE_FLAG]                 =*/ NULL,
+// 		/*[CVIMAPBACK_DECORSPRITE_LARGE_WINDMILL]       =*/ NULL,
+// 		/*[CVIMAPBACK_DECORSPRITE_WHALE]                =*/ CViMapBack::SpriteDecorConfig1_Whale,
+// 		/*[CVIMAPBACK_DECORSPRITE_FLOWER_GARDEN]        =*/ NULL,
+// 		/*[CVIMAPBACK_DECORSPRITE_PRETTY_FLOWER_GARDEN] =*/ NULL,
+// 	};
+//
+// 	static const SpriteDecorConfigFunc ViMapBack__spriteDecorConfig2[] = {
+// 	    /*[CVIMAPBACK_DECORSPRITE_RADIO_TOWER]          =*/ NULL,
+// 	    /*[CVIMAPBACK_DECORSPRITE_BALLOON]              =*/ NULL,
+// 	    /*[CVIMAPBACK_DECORSPRITE_WATERFALL_SPLASH]     =*/ NULL,
+// 	    /*[CVIMAPBACK_DECORSPRITE_PALM_TREE_1]          =*/ NULL,
+// 	    /*[CVIMAPBACK_DECORSPRITE_PALM_TREE_2]          =*/ NULL,
+// 	    /*[CVIMAPBACK_DECORSPRITE_PALM_TREE_3]          =*/ NULL,
+// 	    /*[CVIMAPBACK_DECORSPRITE_SEAGULL]              =*/ CViMapBack::SpriteDecorConfig2_Seagull,
+// 	    /*[CVIMAPBACK_DECORSPRITE_VOLCANO_STEAM]        =*/ NULL,
+// 	    /*[CVIMAPBACK_DECORSPRITE_SMALL_WINDMILL]       =*/ NULL,
+// 	    /*[CVIMAPBACK_DECORSPRITE_DINOSAUR]             =*/ NULL,
+// 	    /*[CVIMAPBACK_DECORSPRITE_FLAG]                 =*/ NULL,
+// 	    /*[CVIMAPBACK_DECORSPRITE_LARGE_WINDMILL]       =*/ NULL,
+// 	    /*[CVIMAPBACK_DECORSPRITE_WHALE]                =*/ CViMapBack::SpriteDecorConfig2_Whale,
+// 	    /*[CVIMAPBACK_DECORSPRITE_FLOWER_GARDEN]        =*/ NULL,
+// 	    /*[CVIMAPBACK_DECORSPRITE_PRETTY_FLOWER_GARDEN] =*/ NULL,
+// 	};
+
+NOT_DECOMPILED const Vec2Fx16 viMapBackSpriteDecorPositionList[CVIMAPBACK_DECORSPRITE_COUNT];
+NOT_DECOMPILED const Vec2Fx16 viMapBackSpriteDecorAltPositionList[CVIMAPBACK_DECORSPRITE_COUNT];
+
+NOT_DECOMPILED const SpriteDecorConfigFunc ViMapBack__spriteDecorConfig1[CVIMAPBACK_DECORSPRITE_COUNT];
+NOT_DECOMPILED const SpriteDecorConfigFunc ViMapBack__spriteDecorConfig2[CVIMAPBACK_DECORSPRITE_COUNT];
+
+static const u8 ViMapBack__OamOrderList[] = { SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_29, SPRITE_ORDER_30, SPRITE_ORDER_30,
+                                              SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_30,
+                                              SPRITE_ORDER_29, SPRITE_ORDER_0,  SPRITE_ORDER_0,  SPRITE_ORDER_0 };
+
+static const CViMapBackAssetBundle mapBackAssets[1] = { { "bb/vi_map_back.bb" } };
 
 NOT_DECOMPILED void *_ZTI13CViMapVmiFile;
 NOT_DECOMPILED void *_ZTI13CViMapVmcFile;
@@ -58,14 +178,14 @@ NOT_DECOMPILED void *_ZTS13CViMapVmiFile;
 NONMATCH_FUNC void _ZN13CViMapVmiFileC1Ev(CViMapVmiFile *work)
 {
 #ifdef NON_MATCHING
-    ViMapVmiFile__Func_2161074(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViMapVmiFile+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapVmiFile__Func_2161074
+	bl _ZN13CViMapVmiFile7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 // clang-format on
@@ -76,14 +196,14 @@ NONMATCH_FUNC void _ZN13CViMapVmiFileC1Ev(CViMapVmiFile *work)
 NONMATCH_FUNC void _ZN13CViMapVmiFileD0Ev(CViMapVmiFile *work)
 {
 #ifdef NON_MATCHING
-    ViMapVmiFile__Func_2161074(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViMapVmiFile+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapVmiFile__Func_2161074
+	bl _ZN13CViMapVmiFile7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 // clang-format on
@@ -94,14 +214,14 @@ NONMATCH_FUNC void _ZN13CViMapVmiFileD0Ev(CViMapVmiFile *work)
 NONMATCH_FUNC void _ZN13CViMapVmiFileD1Ev(CViMapVmiFile *work)
 {
 #ifdef NON_MATCHING
-    ViMapVmiFile__Func_2161074(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViMapVmiFile+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapVmiFile__Func_2161074
+	bl _ZN13CViMapVmiFile7ReleaseEv
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -110,68 +230,68 @@ NONMATCH_FUNC void _ZN13CViMapVmiFileD1Ev(CViMapVmiFile *work)
 #endif
 }
 
-void ViMapVmiFile__Func_2161074(CViMapVmiFile *work)
+void CViMapVmiFile::Release()
 {
-    work->entryCount = NULL;
-    work->entries    = NULL;
+    this->file   = NULL;
+    this->images = NULL;
 }
 
-void ViMapVmiFile__Func_2161084(CViMapVmiFile *work, void *file)
+void CViMapVmiFile::Load(void *file)
 {
-    ViMapVmiFile__Func_2161074(work);
+    this->Release();
 
-    work->entryCount = (u16 *)file;
-    work->entries    = (CVmiFileEntry *)((u8 *)file + 4);
+    this->file   = (CVmiFileHeader *)file;
+    this->images = ((CVmiFileHeader *)file)->images;
 }
 
-u16 ViMapVmiFile__Func_21610A4(CViMapVmiFile *work)
+u16 CViMapVmiFile::GetImageCount()
 {
-    return *work->entryCount;
+    return this->file->imageCount;
 }
 
-u16 ViMapVmiFile__Func_21610B0(CViMapVmiFile *work, s32 id)
+u16 CViMapVmiFile::GetImagePixelStartX(u16 id)
 {
-    return 8 * work->entries[id].width1;
+    return TILE_SIZE * this->images[id].startX;
 }
 
-u16 ViMapVmiFile__Func_21610CC(CViMapVmiFile *work, s32 id)
+u16 CViMapVmiFile::GetImagePixelStartY(u16 id)
 {
-    return 8 * work->entries[id].height1;
+    return TILE_SIZE * this->images[id].startY;
 }
 
-u16 ViMapVmiFile__Func_21610E8(CViMapVmiFile *work, s32 id)
+u16 CViMapVmiFile::GetImageTileStartX(u16 id)
 {
-    return work->entries[id].width1;
+    return this->images[id].startX;
 }
 
-u16 ViMapVmiFile__Func_21610FC(CViMapVmiFile *work, s32 id)
+u16 CViMapVmiFile::GetImageTileStartY(u16 id)
 {
-    return work->entries[id].height1;
+    return this->images[id].startY;
 }
 
-u16 ViMapVmiFile__Func_2161110(CViMapVmiFile *work, s32 id)
+u16 CViMapVmiFile::GetImagePixelWidth(u16 id)
 {
-    return 8 * work->entries[id].width2;
+    return TILE_SIZE * this->images[id].width;
 }
 
-u16 ViMapVmiFile__Func_216112C(CViMapVmiFile *work, s32 id)
+u16 CViMapVmiFile::GetImagePixelHeight(u16 id)
 {
-    return 8 * work->entries[id].height2;
+    return TILE_SIZE * this->images[id].height;
 }
 
-u16 ViMapVmiFile__Func_2161148(CViMapVmiFile *work, s32 id)
+u16 CViMapVmiFile::GetImageTileWidth(u16 id)
 {
-    return work->entries[id].width2;
+    return this->images[id].width;
 }
 
-u16 ViMapVmiFile__Func_216115C(CViMapVmiFile *work, s32 id)
+u16 CViMapVmiFile::GetImageTileHeight(u16 id)
 {
-    return work->entries[id].height2;
+    return this->images[id].height;
 }
 
-u16 ViMapVmiFile__Func_2161170(CViMapVmiFile *work, s32 id)
+u16 CViMapVmiFile::GetSortOrder(u16 id)
 {
-    return work->entries[id].sortOrder;
+    return this->images[id].sortOrder;
 }
 
 // CViMapVmpFile
@@ -179,14 +299,14 @@ u16 ViMapVmiFile__Func_2161170(CViMapVmiFile *work, s32 id)
 NONMATCH_FUNC void _ZN13CViMapVmpFileC1Ev(CViMapVmpFile *work)
 {
 #ifdef NON_MATCHING
-    ViMapVmpFile__Func_21611EC(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViMapVmpFile+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapVmpFile__Func_21611EC
+	bl _ZN13CViMapVmpFile7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 // clang-format on
@@ -197,14 +317,14 @@ NONMATCH_FUNC void _ZN13CViMapVmpFileC1Ev(CViMapVmpFile *work)
 NONMATCH_FUNC void _ZN13CViMapVmpFileD0Ev(CViMapVmpFile *work)
 {
 #ifdef NON_MATCHING
-    ViMapVmpFile__Func_21611EC(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViMapVmpFile+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapVmpFile__Func_21611EC
+	bl _ZN13CViMapVmpFile7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 // clang-format on
@@ -215,14 +335,14 @@ NONMATCH_FUNC void _ZN13CViMapVmpFileD0Ev(CViMapVmpFile *work)
 NONMATCH_FUNC void _ZN13CViMapVmpFileD1Ev(CViMapVmpFile *work)
 {
 #ifdef NON_MATCHING
-    ViMapVmpFile__Func_21611EC(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViMapVmpFile+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapVmpFile__Func_21611EC
+	bl _ZN13CViMapVmpFile7ReleaseEv
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -231,20 +351,20 @@ NONMATCH_FUNC void _ZN13CViMapVmpFileD1Ev(CViMapVmpFile *work)
 #endif
 }
 
-void ViMapVmpFile__Func_21611EC(CViMapVmpFile *work)
+void CViMapVmpFile::Release()
 {
-    work->colors = NULL;
+    this->colors = NULL;
 }
 
-void ViMapVmpFile__Func_21611F8(CViMapVmpFile *work, void *file)
+void CViMapVmpFile::Load(void *file)
 {
-    ViMapVmpFile__Func_21611EC(work);
-    work->colors = (u16 *)file;
+    this->Release();
+    this->colors = (u16 *)file;
 }
 
-void *ViMapVmpFile__Func_2161210(CViMapVmpFile *work)
+void *CViMapVmpFile::GetColors()
 {
-    return work->colors;
+    return this->colors;
 }
 
 // CViMapVmcFile
@@ -252,14 +372,14 @@ void *ViMapVmpFile__Func_2161210(CViMapVmpFile *work)
 NONMATCH_FUNC void _ZN13CViMapVmcFileC1Ev(CViMapVmcFile *work)
 {
 #ifdef NON_MATCHING
-    ViMapVmcFile__Func_2161280(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViMapVmcFile+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapVmcFile__Func_2161280
+	bl _ZN13CViMapVmcFile7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 // clang-format on
@@ -270,14 +390,14 @@ NONMATCH_FUNC void _ZN13CViMapVmcFileC1Ev(CViMapVmcFile *work)
 NONMATCH_FUNC void _ZN13CViMapVmcFileD0Ev(CViMapVmcFile *work)
 {
 #ifdef NON_MATCHING
-    ViMapVmcFile__Func_2161280(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViMapVmcFile+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapVmcFile__Func_2161280
+	bl _ZN13CViMapVmcFile7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 // clang-format on
@@ -288,14 +408,14 @@ NONMATCH_FUNC void _ZN13CViMapVmcFileD0Ev(CViMapVmcFile *work)
 NONMATCH_FUNC void _ZN13CViMapVmcFileD1Ev(CViMapVmcFile *work)
 {
 #ifdef NON_MATCHING
-    ViMapVmcFile__Func_2161280(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV13CViMapVmcFile+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapVmcFile__Func_2161280
+	bl _ZN13CViMapVmcFile7ReleaseEv
 	mov r0, r4
 	bl _ZdlPv
 	mov r0, r4
@@ -304,20 +424,20 @@ NONMATCH_FUNC void _ZN13CViMapVmcFileD1Ev(CViMapVmcFile *work)
 #endif
 }
 
-void ViMapVmcFile__Func_2161280(CViMapVmcFile *work)
+void CViMapVmcFile::Release()
 {
-    work->file = NULL;
+    this->file = NULL;
 }
 
-void ViMapVmcFile__Func_216128C(CViMapVmcFile *work, void *file)
+void CViMapVmcFile::Load(void *file)
 {
-    ViMapVmcFile__Func_2161280(work);
-    work->file = file;
+    this->Release();
+    this->file = file;
 }
 
-void *ViMapVmcFile__Func_21612A4(CViMapVmcFile *work)
+void *CViMapVmcFile::GetPixels()
 {
-    return work->file;
+    return this->file;
 }
 
 // CViMapBack
@@ -325,20 +445,20 @@ void *ViMapVmcFile__Func_21612A4(CViMapVmcFile *work)
 NONMATCH_FUNC void _ZN10CViMapBackC1Ev(CViMapBack *work)
 {
 #ifdef NON_MATCHING
-    this->unknownStorage = NULL;
-    this->mapVmiFile     = NULL;
-    this->mapVmpFile     = NULL;
-    this->activeVmcFile  = NULL;
-    this->unknownEntries = NULL;
-    this->vmcFileCount   = 0;
-    this->vmcFiles       = NULL;
-    this->field_5B8      = 0;
-    this->field_5BC      = 0;
+    this->canvasPixels        = NULL;
+    this->imageConfigFile     = NULL;
+    this->imagePaletteFile    = NULL;
+    this->currentImagePixelFile       = NULL;
+    this->imageSortList       = NULL;
+    this->imagePixelFileCount = 0;
+    this->imagePixelFiles     = NULL;
+    this->rippleDeform        = 0;
+    this->rippleAngle         = 0;
 
     FontDMAControl__Init(&this->fontDmaControl);
     MI_CpuClear16(this->aniDecoration, sizeof(this->aniDecoration));
 
-    ViMapBack__Release(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -368,7 +488,7 @@ NONMATCH_FUNC void _ZN10CViMapBackC1Ev(CViMapBack *work)
 	ldr r2, =0x00000514
 	bl MIi_CpuClear16
 	mov r0, r4
-	bl ViMapBack__Release
+	bl _ZN10CViMapBack7ReleaseEv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 // clang-format on
@@ -379,14 +499,14 @@ NONMATCH_FUNC void _ZN10CViMapBackC1Ev(CViMapBack *work)
 NONMATCH_FUNC void _ZN10CViMapBackD0Ev(CViMapBack *work)
 {
 #ifdef NON_MATCHING
-    ViMapBack__Release(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV10CViMapBack+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapBack__Release
+	bl _ZN10CViMapBack7ReleaseEv
 	add r0, r4, #0x18
 	bl _ZN13CViMapVmcFileD0Ev
 	add r0, r4, #0x10
@@ -403,14 +523,14 @@ NONMATCH_FUNC void _ZN10CViMapBackD0Ev(CViMapBack *work)
 NONMATCH_FUNC void _ZN10CViMapBackD1Ev(CViMapBack *work)
 {
 #ifdef NON_MATCHING
-    ViMapBack__Release(this);
+    this->Release();
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r1, =_ZTV10CViMapBack+0x08
 	mov r4, r0
 	str r1, [r4]
-	bl ViMapBack__Release
+	bl _ZN10CViMapBack7ReleaseEv
 	add r0, r4, #0x18
 	bl _ZN13CViMapVmcFileD0Ev
 	add r0, r4, #0x10
@@ -425,958 +545,430 @@ NONMATCH_FUNC void _ZN10CViMapBackD1Ev(CViMapBack *work)
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__LoadAssets(CViMapBack *work)
+void CViMapBack::LoadAssets()
 {
-#ifdef NON_MATCHING
+    u16 paletteRow = PALETTE_ROW_0;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x68
-	mov r1, #0
-	mov r11, r0
-	str r1, [sp, #0x1c]
-	bl ViMapBack__Release
-	ldr r0, =aBbViMapBackBb
-	mov r1, #0
-	bl GetBundleFileSize
-	bl _AllocHeadHEAP_USER
-	str r0, [r11, #0x20]
-	mov r2, r0
-	ldr r0, =aBbViMapBackBb
-	mov r1, #0
-	bl ReadFileFromBundle
-	ldr r1, [r11, #0x20]
-	add r0, r11, #4
-	bl ViMapVmiFile__Func_2161084
-	ldr r0, =aBbViMapBackBb
-	mov r1, #1
-	bl GetBundleFileSize
-	bl _AllocHeadHEAP_USER
-	str r0, [r11, #0x24]
-	ldr r0, =aBbViMapBackBb
-	ldr r2, [r11, #0x24]
-	mov r1, #1
-	bl ReadFileFromBundle
-	ldr r1, [r11, #0x24]
-	add r0, r11, #0x10
-	bl ViMapVmpFile__Func_21611F8
-	add r0, r11, #4
-	bl ViMapVmiFile__Func_21610A4
-	str r0, [r11, #0x2c]
-	mov r0, r0, lsl #2
-	bl _AllocHeadHEAP_SYSTEM
-	str r0, [r11, #0x30]
-	ldr r2, [r11, #0x2c]
-	ldr r1, [r11, #0x30]
-	mov r0, #0
-	mov r2, r2, lsl #2
-	bl MIi_CpuClear32
-	mov r0, #0
-	bl _ZN10HubControl17GetBackgroundFileEt
-	mov r3, #1
-	mov r1, r0
-	str r3, [sp]
-	mov r0, #0x40
-	str r0, [sp, #4]
-	mov r0, #0x20
-	str r0, [sp, #8]
-	add r0, sp, #0x20
-	mov r2, #0x38
-	bl InitBackground
-	add r0, sp, #0x20
-	bl DrawBackground
-	mov r0, #0xc
-	bl _ZN10HubControl13GetSpriteFileEt
-	ldr r8, =ViMapBack__OamOrderList
-	mov r4, r0
-	mov r10, r11
-	add r9, r11, #0x8c
-	mov r5, #0
-_0216149C:
-	mov r0, r5, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl HubConfig__GetMapBackConfig
-	mov r7, r0
-	cmp r5, #4
-	mov r0, r4
-	ldrh r1, [r7, #2]
-	bne _02161508
-	bl Sprite__GetSpriteSize3FromAnim
-	ldrh r1, [r7, #2]
-	mov r6, r0
-	mov r0, r4
-	add r1, r1, #1
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	bl Sprite__GetSpriteSize3FromAnim
-	ldrh r1, [r7, #2]
-	cmp r6, r0
-	movlo r6, r0
-	add r1, r1, #2
-	mov r1, r1, lsl #0x10
-	mov r0, r4
-	mov r1, r1, lsr #0x10
-	bl Sprite__GetSpriteSize3FromAnim
-	cmp r6, r0
-	movlo r6, r0
-	b _02161510
-_02161508:
-	bl Sprite__GetSpriteSize3FromAnim
-	mov r6, r0
-_02161510:
-	ldrh r0, [r7, #0]
-	mov r1, r6
-	tst r0, #1
-	mov r0, #1
-	beq _02161590
-	bl VRAMSystem__AllocSpriteVram
-	mov r1, #1
-	str r1, [sp]
-	mov r1, #0
-	str r1, [sp, #4]
-	str r0, [sp, #8]
-	mov r0, #4
-	str r0, [sp, #0xc]
-	mov r0, r1
-	str r0, [sp, #0x10]
-	mov r0, #2
-	str r0, [sp, #0x14]
-	ldrb r2, [r8, #0]
-	mov r0, r9
-	mov r1, r4
-	str r2, [sp, #0x18]
-	ldrh r2, [r7, #2]
-	mov r3, #4
-	bl AnimatorSprite__Init
-	ldr r0, [sp, #0x1c]
-	strh r0, [r10, #0xdc]
-	ldr r0, [sp, #0x1c]
-	add r0, r0, #1
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	str r0, [sp, #0x1c]
-	b _021615E4
-_02161590:
-	bl VRAMSystem__AllocSpriteVram
-	mov r1, #1
-	str r1, [sp]
-	mov r1, #0
-	str r1, [sp, #4]
-	str r0, [sp, #8]
-	mov r0, r1
-	str r0, [sp, #0xc]
-	ldr r0, =0x05000600
-	mov r1, r4
-	str r0, [sp, #0x10]
-	mov r0, #2
-	str r0, [sp, #0x14]
-	ldrb r2, [r8, #0]
-	mov r0, r9
-	mov r3, #4
-	str r2, [sp, #0x18]
-	ldrh r2, [r7, #2]
-	bl AnimatorSprite__Init
-	mov r0, #8
-	strh r0, [r10, #0xdc]
-_021615E4:
-	ldrh r0, [r7, #0]
-	add r5, r5, #1
-	add r8, r8, #1
-	tst r0, #2
-	movne r0, #1
-	strne r0, [r10, #0xe4]
-	add r9, r9, #0x64
-	add r10, r10, #0x64
-	cmp r5, #0xd
-	blt _0216149C
-	ldr r0, [r11, #0x258]
-	add r1, r11, #0x50
-	bic r0, r0, #4
-	str r0, [r11, #0x258]
-	ldr r2, [r11, #0x4b0]
-	mov r0, #0
-	bic r3, r2, #4
-	mov r2, #0x3c
-	str r3, [r11, #0x4b0]
-	bl MIi_CpuClear32
-	mov r1, #1
-	mov r2, r1
-	add r4, r11, #0x500
-	mov r3, #0
-	add r0, r11, #0x5c0
-	strh r3, [r4, #0xa0]
-	bl FontDMAControl__InitWithParams
-	add r0, r11, #0x5c0
-	mov r1, #0
-	bl FontDMAControl__Func_2051BF4
-	mov r1, #0
-	mov r0, r11
-	mov r2, r1
-	bl ViMapBack__Func_2162648
-	add sp, sp, #0x68
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    this->Release();
 
-// clang-format on
-#endif
+    this->imageConfigFile = HeapAllocHead(HEAP_USER, GetBundleFileSize(mapBackAssets[0].path, BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_CONFIG_VMI));
+    ReadFileFromBundle(mapBackAssets[0].path, BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_CONFIG_VMI, this->imageConfigFile);
+    this->vmiFile.Load(this->imageConfigFile);
+
+    this->imagePaletteFile = HeapAllocHead(HEAP_USER, GetBundleFileSize(mapBackAssets[0].path, BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_PALETTE_VMP));
+    ReadFileFromBundle(mapBackAssets[0].path, BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_PALETTE_VMP, this->imagePaletteFile);
+    this->vmpFile.Load(this->imagePaletteFile);
+
+    this->imagePixelFileCount = this->vmiFile.GetImageCount();
+    this->imagePixelFiles     = (void **)HeapAllocHead(HEAP_SYSTEM, sizeof(void *) * this->imagePixelFileCount);
+    MIi_CpuClear32(0, this->imagePixelFiles, sizeof(void *) * this->imagePixelFileCount);
+
+    Background background;
+    InitBackground(&background, HubControl::GetBackgroundFile(ARCHIVE_VI_BG_LZ7_FILE_VI_MAP_SEA_BBG), BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_B, BACKGROUND_1, 0x40u, 0x20u);
+    DrawBackground(&background);
+
+    void *sprMapDecor = HubControl::GetSpriteFile(ARCHIVE_VI_ACT_LZ7_FILE_VI_MAP_DECO_BAC);
+
+    for (s32 i = 0; i < CVIMAPBACK_DECORSPRITE_ANIM_COUNT; i++)
+    {
+        size_t spriteSize;
+        const CViMapBackDecorConfig *config = HubConfig__GetMapBackDecorSpriteConfig(i);
+
+        if (i == CVIMAPBACK_DECORSPRITE_ANIM_SEAGULL)
+        {
+            spriteSize = Sprite__GetSpriteSize3FromAnim(sprMapDecor, config->animID);
+
+            size_t spriteSize1 = Sprite__GetSpriteSize3FromAnim(sprMapDecor, config->animID + 1);
+            if (spriteSize < spriteSize1)
+                spriteSize = spriteSize1;
+
+            size_t spriteSize2 = Sprite__GetSpriteSize3FromAnim(sprMapDecor, config->animID + 2);
+            if (spriteSize < spriteSize2)
+                spriteSize = spriteSize2;
+        }
+        else
+        {
+            spriteSize = Sprite__GetSpriteSize3FromAnim(sprMapDecor, config->animID);
+        }
+
+        if ((config->flags & CVIMAPDECOR_FLAG_USE_SUB_OBJ) != 0)
+        {
+            AnimatorSprite__Init(&this->aniDecoration[i], sprMapDecor, config->animID, ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_B, PIXEL_MODE_SPRITE,
+                                 VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, spriteSize), PALETTE_MODE_SUB_OBJ, NULL, SPRITE_PRIORITY_2, ViMapBack__OamOrderList[i]);
+            this->aniDecoration[i].cParam.palette = paletteRow;
+            paletteRow++;
+        }
+        else
+        {
+            AnimatorSprite__Init(&this->aniDecoration[i], sprMapDecor, config->animID, ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_B, PIXEL_MODE_SPRITE,
+                                 VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, spriteSize), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_2, ViMapBack__OamOrderList[i]);
+            this->aniDecoration[i].cParam.palette = PALETTE_ROW_8;
+        }
+
+        if ((config->flags & CVIMAPDECOR_FLAG_TRANSPARENT) != 0)
+            this->aniDecoration[i].spriteType = GX_OAM_MODE_XLU;
+    }
+
+    this->aniDecoration[CVIMAPBACK_DECORSPRITE_ANIM_SEAGULL].flags &= ~ANIMATOR_FLAG_DISABLE_LOOPING;
+    this->aniDecoration[CVIMAPBACK_DECORSPRITE_ANIM_WHALE].flags &= ~ANIMATOR_FLAG_DISABLE_LOOPING;
+
+    MI_CpuClear32(this->decorationFlags, sizeof(this->decorationFlags));
+    this->decorAnimTimer = 0;
+
+    FontDMAControl__InitWithParams(&this->fontDmaControl, GRAPHICS_ENGINE_B, BACKGROUND_1, 0);
+    FontDMAControl__Func_2051BF4(&this->fontDmaControl, 0);
+
+    this->DrawIslandBackgrounds(0, 0);
 }
 
-NONMATCH_FUNC void ViMapBack__Release(CViMapBack *work)
+void CViMapBack::Release()
 {
-#ifdef NON_MATCHING
+    FontDMAControl__Release(&this->fontDmaControl);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r0
-	add r0, r4, #0x5c0
-	bl FontDMAControl__Release
-	add r6, r4, #0x8c
-	mov r5, #0
-_02161698:
-	mov r0, r6
-	bl AnimatorSprite__Release
-	add r5, r5, #1
-	cmp r5, #0xd
-	add r6, r6, #0x64
-	blt _02161698
-	ldr r2, =0x00000514
-	add r1, r4, #0x8c
-	mov r0, #0
-	bl MIi_CpuClear16
-	add r0, r4, #4
-	bl ViMapVmiFile__Func_2161074
-	add r0, r4, #0x10
-	bl ViMapVmpFile__Func_21611EC
-	add r0, r4, #0x18
-	bl ViMapVmcFile__Func_2161280
-	ldr r0, [r4, #0x40]
-	cmp r0, #0
-	beq _021616F0
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x40]
-_021616F0:
-	ldr r0, [r4, #0x20]
-	cmp r0, #0
-	beq _02161708
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x20]
-_02161708:
-	ldr r0, [r4, #0x24]
-	cmp r0, #0
-	beq _02161720
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x24]
-_02161720:
-	ldr r0, [r4, #0x28]
-	cmp r0, #0
-	beq _02161738
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x28]
-_02161738:
-	ldr r0, [r4, #0x44]
-	cmp r0, #0
-	beq _02161750
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r4, #0x44]
-_02161750:
-	ldr r0, [r4, #0x30]
-	cmp r0, #0
-	beq _021617AC
-	ldr r0, [r4, #0x2c]
-	mov r6, #0
-	cmp r0, #0
-	bls _0216179C
-	mov r5, r6
-_02161770:
-	ldr r0, [r4, #0x30]
-	ldr r0, [r0, r6, lsl #2]
-	cmp r0, #0
-	beq _0216178C
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0x30]
-	str r5, [r0, r6, lsl #2]
-_0216178C:
-	ldr r0, [r4, #0x2c]
-	add r6, r6, #1
-	cmp r6, r0
-	blo _02161770
-_0216179C:
-	ldr r0, [r4, #0x30]
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r4, #0x30]
-_021617AC:
-	mov r1, #0
-	str r1, [r4, #0x2c]
-	str r1, [r4, #0x48]
-	ldr r0, =0x0000FFFF
-	str r1, [r4, #0x4c]
-	str r0, [r4, #0x34]
-	add r0, r4, #0x500
-	strh r1, [r0, #0xa4]
-	str r1, [r4, #0x5a8]
-	str r1, [r4, #0x5ac]
-	str r1, [r4, #0x5b0]
-	ldmia sp!, {r4, r5, r6, pc}
+    for (s32 i = 0; i < CVIMAPBACK_DECORSPRITE_ANIM_COUNT; i++)
+    {
+        AnimatorSprite__Release(&this->aniDecoration[i]);
+    }
+    MI_CpuClear16(this->aniDecoration, sizeof(this->aniDecoration));
 
-// clang-format on
-#endif
+    this->vmiFile.Release();
+    this->vmpFile.Release();
+    this->vmcFile.Release();
+
+    if (this->canvasPixels != NULL)
+    {
+        HeapFree(HEAP_USER, this->canvasPixels);
+        this->canvasPixels = NULL;
+    }
+
+    if (this->imageConfigFile != NULL)
+    {
+        HeapFree(HEAP_USER, this->imageConfigFile);
+        this->imageConfigFile = NULL;
+    }
+
+    if (this->imagePaletteFile != NULL)
+    {
+        HeapFree(HEAP_USER, this->imagePaletteFile);
+        this->imagePaletteFile = NULL;
+    }
+
+    if (this->currentImagePixelFile != NULL)
+    {
+        HeapFree(HEAP_USER, this->currentImagePixelFile);
+        this->currentImagePixelFile = NULL;
+    }
+
+    if (this->imageSortList != NULL)
+    {
+        HeapFree(HEAP_SYSTEM, this->imageSortList);
+        this->imageSortList = NULL;
+    }
+
+    if (this->imagePixelFiles != NULL)
+    {
+        for (u32 i = 0; i < this->imagePixelFileCount; i++)
+        {
+            if (this->imagePixelFiles[i] != NULL)
+            {
+                HeapFree(HEAP_USER, this->imagePixelFiles[i]);
+                this->imagePixelFiles[i] = NULL;
+            }
+        }
+
+        HeapFree(HEAP_SYSTEM, this->imagePixelFiles);
+        this->imagePixelFiles = NULL;
+    }
+
+    this->imagePixelFileCount     = 0;
+    this->imageSortListChunkCount = 0;
+    this->imageSortListCount      = 0;
+    this->blitImageID             = 0xFFFF;
+    this->canvasPaletteRow        = 0;
+    this->vramPixels              = NULL;
+    this->vramMappings            = NULL;
+    this->mappingStartTile        = 0;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_21617E4(CViMapBack *work)
+void CViMapBack::GetImageSize(u16 id, u16 *startX, u16 *startY, u16 *width, u16 *height)
 {
-#ifdef NON_MATCHING
+    if (startX != NULL)
+        *startX = this->vmiFile.GetImageTileStartX(id);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	movs r5, r2
-	mov r7, r0
-	mov r6, r1
-	mov r4, r3
-	beq _02161808
-	add r0, r7, #4
-	bl ViMapVmiFile__Func_21610E8
-	strh r0, [r5]
-_02161808:
-	cmp r4, #0
-	beq _02161820
-	mov r1, r6
-	add r0, r7, #4
-	bl ViMapVmiFile__Func_21610FC
-	strh r0, [r4]
-_02161820:
-	ldr r0, [sp, #0x18]
-	cmp r0, #0
-	beq _02161840
-	mov r1, r6
-	add r0, r7, #4
-	bl ViMapVmiFile__Func_2161148
-	ldr r1, [sp, #0x18]
-	strh r0, [r1]
-_02161840:
-	ldr r0, [sp, #0x1c]
-	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	mov r1, r6
-	add r0, r7, #4
-	bl ViMapVmiFile__Func_216115C
-	ldr r1, [sp, #0x1c]
-	strh r0, [r1]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    if (startY != NULL)
+        *startY = this->vmiFile.GetImageTileStartY(id);
 
-// clang-format on
-#endif
+    if (width != NULL)
+        *width = this->vmiFile.GetImageTileWidth(id);
+
+    if (height != NULL)
+        *height = this->vmiFile.GetImageTileHeight(id);
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161864(CViMapBack *work)
+void CViMapBack::GetImageCenter(u16 id, u16 *x, u16 *y)
 {
-#ifdef NON_MATCHING
+    if (x != NULL)
+        *x = this->vmiFile.GetImagePixelStartX(id) + (this->vmiFile.GetImagePixelWidth(id) >> 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	movs r6, r2
-	mov r8, r0
-	mov r7, r1
-	mov r5, r3
-	beq _0216189C
-	add r0, r8, #4
-	bl ViMapVmiFile__Func_21610B0
-	mov r4, r0
-	mov r1, r7
-	add r0, r8, #4
-	bl ViMapVmiFile__Func_2161110
-	add r0, r4, r0, asr #1
-	strh r0, [r6]
-_0216189C:
-	cmp r5, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	mov r1, r7
-	add r0, r8, #4
-	bl ViMapVmiFile__Func_21610CC
-	mov r4, r0
-	mov r1, r7
-	add r0, r8, #4
-	bl ViMapVmiFile__Func_216112C
-	add r0, r4, r0, asr #1
-	strh r0, [r5]
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-
-// clang-format on
-#endif
+    if (y != NULL)
+        *y = this->vmiFile.GetImagePixelStartY(id) + (this->vmiFile.GetImagePixelHeight(id) >> 1);
 }
 
-NONMATCH_FUNC void ViMapBack__Func_21618CC(CViMapBack *work)
+void CViMapBack::LoadImage(u16 id)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	mov r5, r1
-	bl ViMapBack__Func_2161960
-	cmp r0, #0
-	ldmneia sp!, {r4, r5, r6, pc}
-	add r4, r5, #2
-	mov r1, r4, lsl #0x10
-	ldr r0, =aBbViMapBackBb
-	mov r1, r1, lsr #0x10
-	bl GetBundleFileSize
-	bl _AllocHeadHEAP_USER
-	ldr r2, [r6, #0x30]
-	mov r1, r4, lsl #0x10
-	str r0, [r2, r5, lsl #2]
-	ldr r2, [r6, #0x30]
-	ldr r0, =aBbViMapBackBb
-	ldr r2, [r2, r5, lsl #2]
-	mov r1, r1, lsr #0x10
-	bl ReadFileFromBundle
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    if (this->CheckImageLoaded(id) == FALSE)
+    {
+        this->imagePixelFiles[id] = HeapAllocHead(HEAP_USER, GetBundleFileSize(mapBackAssets[0].path, id + BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_VMC));
+        ReadFileFromBundle(mapBackAssets[0].path, id + BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_VMC, this->imagePixelFiles[id]);
+    }
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161924(CViMapBack *work)
+void CViMapBack::LoadAllImages()
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r0, [r5, #0x2c]
-	mov r4, #0
-	cmp r0, #0
-	ldmlsia sp!, {r3, r4, r5, pc}
-_0216193C:
-	mov r1, r4, lsl #0x10
-	mov r0, r5
-	mov r1, r1, lsr #0x10
-	bl ViMapBack__Func_21618CC
-	ldr r0, [r5, #0x2c]
-	add r4, r4, #1
-	cmp r4, r0
-	blo _0216193C
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    for (u32 i = 0; i < this->imagePixelFileCount; i++)
+    {
+        this->LoadImage(i);
+    }
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161960(CViMapBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #0x30]
-	ldr r0, [r0, r1, lsl #2]
-	cmp r0, #0
-	movne r0, #1
-	moveq r0, #0
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViMapBack__Func_2161978(CViMapBack *work)
+BOOL CViMapBack::CheckImageLoaded(u16 id)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r4, r1
-	bl ViMapBack__Func_2161960
-	cmp r0, #0
-	ldrne r0, [r5, #0x30]
-	ldrne r0, [r0, r4, lsl #2]
-	cmpne r0, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	bl _FreeHEAP_USER
-	ldr r0, [r5, #0x30]
-	mov r1, #0
-	str r1, [r0, r4, lsl #2]
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    return this->imagePixelFiles[id] != NULL;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_21619B0(CViMapBack *work, u16 a2)
+void CViMapBack::ReleaseImage(u16 id)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r5, r0
-	ldr r0, [r5, #0x44]
-	mov r4, r1
-	cmp r0, #0
-	bne _021619E4
-	mov r0, #0x40
-	bl _AllocTailHEAP_SYSTEM
-	str r0, [r5, #0x44]
-	mov r0, #0
-	str r0, [r5, #0x4c]
-	mov r0, #1
-	str r0, [r5, #0x48]
-_021619E4:
-	ldr r1, [r5, #0x4c]
-	ldr r0, [r5, #0x48]
-	cmp r1, r0, lsl #5
-	blt _02161A24
-	add r0, r0, #1
-	str r0, [r5, #0x48]
-	ldr r6, [r5, #0x44]
-	mov r0, r0, lsl #6
-	bl _AllocTailHEAP_SYSTEM
-	str r0, [r5, #0x44]
-	mov r1, r0
-	ldr r2, [r5, #0x4c]
-	mov r0, r6
-	bl MIi_CpuCopy16
-	mov r0, r6
-	bl _FreeHEAP_SYSTEM
-_02161A24:
-	ldr r2, [r5, #0x4c]
-	add r0, r2, #1
-	str r0, [r5, #0x4c]
-	ldr r1, [r5, #0x44]
-	mov r0, r2, lsl #1
-	strh r4, [r1, r0]
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    if (this->CheckImageLoaded(id) && this->imagePixelFiles[id] != NULL)
+    {
+        HeapFree(HEAP_USER, this->imagePixelFiles[id]);
+        this->imagePixelFiles[id] = NULL;
+    }
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161A40(CViMapBack *work)
+void CViMapBack::AddActiveImage(u16 id)
 {
-#ifdef NON_MATCHING
+    // create a list if it doesn't exist
+    if (this->imageSortList == NULL)
+    {
+        this->imageSortList           = (u16 *)HeapAllocTail(HEAP_SYSTEM, 32 * sizeof(u16));
+        this->imageSortListCount      = 0;
+        this->imageSortListChunkCount = 1;
+    }
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, =0x0000FFFF
-	mov r4, r0
-	str r1, [r4, #0x34]
-	bl ViMapBack__Func_21627D4
-	mov r0, #0xfc00
-	bl _AllocTailHEAP_USER
-	str r0, [r4, #0x40]
-	mov r1, r0
-	mov r0, #0
-	mov r2, #0xfc00
-	bl MIi_CpuClearFast
-	ldr r0, [r4, #0x4c]
-	mov r5, #0
-	cmp r0, #0
-	ble _02161AA4
-_02161A80:
-	ldr r1, [r4, #0x44]
-	mov r0, r5, lsl #1
-	ldrh r1, [r1, r0]
-	mov r0, r4
-	bl ViMapBack__Func_2162874
-	ldr r0, [r4, #0x4c]
-	add r5, r5, #1
-	cmp r5, r0
-	blt _02161A80
-_02161AA4:
-	ldr r0, [r4, #0x40]
-	mov r1, #0xfc00
-	bl DC_StoreRange
-	ldr r0, [r4, #0x44]
-	cmp r0, #0
-	beq _02161AC8
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r4, #0x44]
-_02161AC8:
-	mov r0, #0
-	str r0, [r4, #0x4c]
-	str r0, [r4, #0x48]
-	ldmia sp!, {r3, r4, r5, pc}
+    // re-allocate the list if it's bigger than the chunk count
+    if (this->imageSortListCount >= 32 * this->imageSortListChunkCount)
+    {
+        this->imageSortListChunkCount++;
 
-// clang-format on
-#endif
+        void *prevSortList  = this->imageSortList;
+        this->imageSortList = (u16 *)HeapAllocTail(HEAP_SYSTEM, this->imageSortListChunkCount * 32 * sizeof(u16));
+        MIi_CpuCopy16(prevSortList, this->imageSortList, this->imageSortListCount);
+        HeapFree(HEAP_SYSTEM, prevSortList);
+    }
+
+    this->imageSortList[this->imageSortListCount++] = id;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161ADC(CViMapBack *work, u16 a2)
+void CViMapBack::LoadSortedImagesOntoCanvas()
 {
-#ifdef NON_MATCHING
+    this->blitImageID = 0xFFFF;
+    this->SortImages();
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #8
-	mov r6, r0
-	mov r4, r1
-	str r4, [r6, #0x34]
-	bl ViMapBack__Func_21627D4
-	mov r1, r4
-	add r0, r6, #4
-	bl ViMapVmiFile__Func_21610E8
-	strh r0, [r6, #0x38]
-	mov r1, r4
-	add r0, r6, #4
-	bl ViMapVmiFile__Func_21610FC
-	strh r0, [r6, #0x3a]
-	mov r1, r4
-	add r0, r6, #4
-	bl ViMapVmiFile__Func_2161148
-	mov r1, r4
-	strh r0, [r6, #0x3c]
-	add r0, r6, #4
-	bl ViMapVmiFile__Func_216115C
-	strh r0, [r6, #0x3e]
-	ldrh r1, [r6, #0x3e]
-	ldrh r0, [r6, #0x3c]
-	mov r0, r0, lsl #6
-	mul r5, r1, r0
-	mov r0, r5
-	bl _AllocTailHEAP_USER
-	str r0, [r6, #0x40]
-	mov r0, #0
-	ldr r1, [r6, #0x40]
-	mov r2, r5
-	bl MIi_CpuClearFast
-	mov r4, #0
-	ldr r0, [r6, #0x4c]
-	cmp r0, #0
-	ble _02161BAC
-_02161B70:
-	ldrh r2, [r6, #0x3c]
-	mov r1, r4, lsl #1
-	mov r0, r6
-	str r2, [sp]
-	ldrh r2, [r6, #0x3e]
-	str r2, [sp, #4]
-	ldr r3, [r6, #0x44]
-	ldrh r2, [r6, #0x38]
-	ldrh r1, [r3, r1]
-	ldrh r3, [r6, #0x3a]
-	bl ViMapBack__Func_2162974
-	ldr r0, [r6, #0x4c]
-	add r4, r4, #1
-	cmp r4, r0
-	blt _02161B70
-_02161BAC:
-	ldr r0, [r6, #0x40]
-	mov r1, r5
-	bl DC_StoreRange
-	ldr r0, [r6, #0x44]
-	cmp r0, #0
-	beq _02161BD0
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r6, #0x44]
-_02161BD0:
-	mov r0, #0
-	str r0, [r6, #0x4c]
-	str r0, [r6, #0x48]
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, pc}
+    this->canvasPixels = (CViMapBackCanvas *)HeapAllocTail(HEAP_USER, sizeof(*this->canvasPixels));
+    MI_CpuClearFast(this->canvasPixels, sizeof(*this->canvasPixels));
+    for (s32 i = 0; i < this->imageSortListCount; i++)
+    {
+        this->LoadImagePixelsOntoCanvas(this->imageSortList[i]);
+    }
+    DC_StoreRange(this->canvasPixels, sizeof(*this->canvasPixels));
 
-// clang-format on
-#endif
+    if (this->imageSortList != NULL)
+    {
+        HeapFree(HEAP_SYSTEM, this->imageSortList);
+        this->imageSortList = NULL;
+    }
+
+    this->imageSortListCount      = 0;
+    this->imageSortListChunkCount = 0;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161BE4(CViMapBack *work)
+void CViMapBack::InitImageBlitter(u16 id)
 {
-#ifdef NON_MATCHING
+    this->blitImageID = id;
+    this->SortImages();
+    this->blitImageStartX = this->vmiFile.GetImageTileStartX(id);
+    this->blitImageStartY = this->vmiFile.GetImageTileStartY(id);
+    this->blitImageWidth  = this->vmiFile.GetImageTileWidth(id);
+    this->blitImageHeight = this->vmiFile.GetImageTileHeight(id);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #8
-	mov r8, r0
-	mov r7, r1
-	str r7, [r8, #0x34]
-	bl ViMapBack__Func_21627D4
-	mov r1, r7
-	add r0, r8, #4
-	bl ViMapVmiFile__Func_21610E8
-	strh r0, [r8, #0x38]
-	mov r1, r7
-	add r0, r8, #4
-	bl ViMapVmiFile__Func_21610FC
-	strh r0, [r8, #0x3a]
-	mov r1, r7
-	add r0, r8, #4
-	bl ViMapVmiFile__Func_2161148
-	strh r0, [r8, #0x3c]
-	add r0, r8, #4
-	mov r1, r7
-	bl ViMapVmiFile__Func_216115C
-	strh r0, [r8, #0x3e]
-	ldrh r1, [r8, #0x3e]
-	ldrh r0, [r8, #0x3c]
-	mov r0, r0, lsl #6
-	mul r5, r1, r0
-	mov r0, r5
-	bl _AllocTailHEAP_USER
-	str r0, [r8, #0x40]
-	mov r0, #0
-	ldr r1, [r8, #0x40]
-	mov r2, r5
-	bl MIi_CpuClearFast
-	mov r0, r5
-	bl _AllocTailHEAP_USER
-	mov r6, r0
-	mov r0, #0
-	mov r1, r6
-	mov r2, r5
-	bl MIi_CpuClearFast
-	mov r1, #0
-	ldr r3, [r8, #0x4c]
-	cmp r3, #0
-	ble _02161CB4
-	ldr r2, [r8, #0x44]
-_02161C98:
-	mov r0, r1, lsl #1
-	ldrh r0, [r2, r0]
-	cmp r7, r0
-	beq _02161CB4
-	add r1, r1, #1
-	cmp r1, r3
-	blt _02161C98
-_02161CB4:
-	add r4, r1, #1
-	cmp r4, r3
-	bge _02161D04
-_02161CC0:
-	ldr r1, [r8, #0x44]
-	mov r0, r4, lsl #1
-	ldrh r1, [r1, r0]
-	cmp r7, r1
-	beq _02161CF4
-	ldrh r2, [r8, #0x3c]
-	mov r0, r8
-	str r2, [sp]
-	ldrh r2, [r8, #0x3e]
-	str r2, [sp, #4]
-	ldrh r2, [r8, #0x38]
-	ldrh r3, [r8, #0x3a]
-	bl ViMapBack__Func_2162974
-_02161CF4:
-	ldr r0, [r8, #0x4c]
-	add r4, r4, #1
-	cmp r4, r0
-	blt _02161CC0
-_02161D04:
-	ldr r4, [r8, #0x40]
-	mov r0, r8
-	str r6, [r8, #0x40]
-	ldrh r2, [r8, #0x3c]
-	mov r1, r7
-	str r2, [sp]
-	ldrh r2, [r8, #0x3e]
-	str r2, [sp, #4]
-	ldrh r2, [r8, #0x38]
-	ldrh r3, [r8, #0x3a]
-	bl ViMapBack__Func_2162974
-	cmp r5, #0
-	mov r7, #0
-	bls _02161D88
-	mov r1, r7
-	mov r2, r7
-_02161D44:
-	ldr r0, [r4, r7]
-	add r6, r4, r7
-	cmp r0, #0
-	beq _02161D7C
-	mov r3, r2
-_02161D58:
-	ldrb r0, [r6, #0]
-	add r6, r6, #1
-	cmp r0, #0
-	ldrne r0, [r8, #0x40]
-	addne r0, r7, r0
-	strneb r1, [r3, r0]
-	add r3, r3, #1
-	cmp r3, #4
-	blt _02161D58
-_02161D7C:
-	add r7, r7, #4
-	cmp r7, r5
-	blo _02161D44
-_02161D88:
-	mov r0, r4
-	bl _FreeHEAP_USER
-	ldr r0, [r8, #0x40]
-	mov r1, r5
-	bl DC_StoreRange
-	ldr r0, [r8, #0x44]
-	cmp r0, #0
-	beq _02161DB4
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r8, #0x44]
-_02161DB4:
-	mov r0, #0
-	str r0, [r8, #0x4c]
-	str r0, [r8, #0x48]
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+    s32 i;
+    size_t size        = this->blitImageHeight * (this->blitImageWidth * sizeof(GXCharFmt256));
+    this->canvasPixels = (CViMapBackCanvas *)HeapAllocTail(HEAP_USER, size);
+    MI_CpuClearFast(this->canvasPixels, size);
+    for (i = 0; i < this->imageSortListCount; i++)
+    {
+        this->BlitImageToCanvas(this->imageSortList[i], this->blitImageStartX, this->blitImageStartY, this->blitImageWidth, this->blitImageHeight);
+    }
+    DC_StoreRange(this->canvasPixels, size);
 
-// clang-format on
-#endif
+    if (this->imageSortList != NULL)
+    {
+        HeapFree(HEAP_SYSTEM, this->imageSortList);
+        this->imageSortList = NULL;
+    }
+
+    this->imageSortListCount      = 0;
+    this->imageSortListChunkCount = 0;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161DC8(CViMapBack *work)
+// selected image will be blit to the canvas last
+void CViMapBack::InitImageBlitterForHighPriorityImage(u16 id)
 {
-#ifdef NON_MATCHING
+    s32 i;
+    s32 j;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl ViMapBack__Func_2162BD8
-	ldr r0, [r4, #0x40]
-	cmp r0, #0
-	beq _02161DEC
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x40]
-_02161DEC:
-	ldr r0, [r4, #0x44]
-	cmp r0, #0
-	beq _02161E04
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r4, #0x44]
-_02161E04:
-	mov r1, #0
-	str r1, [r4, #0x48]
-	ldr r0, =0x0000FFFF
-	str r1, [r4, #0x4c]
-	str r0, [r4, #0x34]
-	ldmia sp!, {r4, pc}
+    this->blitImageID = id;
+    this->SortImages();
+    this->blitImageStartX = this->vmiFile.GetImageTileStartX(id);
+    this->blitImageStartY = this->vmiFile.GetImageTileStartY(id);
+    this->blitImageWidth  = this->vmiFile.GetImageTileWidth(id);
+    this->blitImageHeight = this->vmiFile.GetImageTileHeight(id);
 
-// clang-format on
-#endif
+    size_t canvasSize = this->blitImageHeight * (this->blitImageWidth * sizeof(GXCharFmt256));
+
+    this->canvasPixels = (CViMapBackCanvas *)HeapAllocTail(HEAP_USER, canvasSize);
+    MI_CpuClearFast(this->canvasPixels, canvasSize);
+
+    CViMapBackCanvas *newCanvas = (CViMapBackCanvas *)HeapAllocTail(HEAP_USER, canvasSize);
+    MI_CpuClearFast(newCanvas, canvasSize);
+
+    s32 unknown = 0;
+    for (; unknown < this->imageSortListCount; unknown++)
+    {
+        if (id == this->imageSortList[unknown])
+            break;
+    }
+
+    for (i = unknown + 1; i < this->imageSortListCount; i++)
+    {
+        if (id != this->imageSortList[i])
+            this->BlitImageToCanvas(this->imageSortList[i], this->blitImageStartX, this->blitImageStartY, this->blitImageWidth, this->blitImageHeight);
+    }
+
+    CViMapBackCanvas *oldCanvas = this->canvasPixels;
+    this->canvasPixels          = (CViMapBackCanvas *)newCanvas;
+
+    this->BlitImageToCanvas(id, this->blitImageStartX, this->blitImageStartY, this->blitImageWidth, this->blitImageHeight);
+
+    u8 *oldCanvasPtr = (u8 *)oldCanvas;
+    for (i = 0; i < canvasSize; i += 4)
+    {
+        u8 *ptr = &oldCanvasPtr[i];
+        if (*((u32 *)ptr) != 0) // check if the next 4 bytes are all 0, skip the check if so!
+        {
+            for (j = 0; j < 4; j++)
+            {
+                if (*ptr != 0)
+                    ((u8 *)this->canvasPixels)[i + j] = 0;
+
+                ptr++;
+            }
+        }
+    }
+    HeapFree(HEAP_USER, oldCanvas);
+    DC_StoreRange(this->canvasPixels, canvasSize);
+
+    if (this->imageSortList != NULL)
+    {
+        HeapFree(HEAP_SYSTEM, this->imageSortList);
+        this->imageSortList = NULL;
+    }
+    this->imageSortListCount      = 0;
+    this->imageSortListChunkCount = 0;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161E20(CViMapBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =ViMapVmpFile__Func_2161210
-	add r0, r0, #0x10
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViMapBack__Func_2161E30(CViMapBack *work)
+void CViMapBack::ReleaseImageBlitter()
 {
-#ifdef NON_MATCHING
+    this->ReleaseImageFile();
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0x1c
-	mov r8, r0
-	add r0, r8, #4
-	mov r7, r1
-	mov r6, r2
-	mov r5, r3
-	ldr r4, [sp, #0x38]
-	bl ViMapVmiFile__Func_21610A4
-	ldr r1, [r8, #0x34]
-	cmp r1, r0
-	blt _02161EB4
-	ldrh r1, [sp, #0x3c]
-	mov r0, r4, lsl #0x13
-	mov r2, r0, lsr #0x10
-	mov r0, r1, lsl #0x13
-	str r2, [sp]
-	mov r0, r0, lsr #0x10
-	stmib sp, {r0, r7}
-	str r4, [sp, #0xc]
-	mov r0, #0
-	str r0, [sp, #0x10]
-	str r0, [sp, #0x14]
-	str r0, [sp, #0x18]
-	mov r1, r6, lsl #0x13
-	mov r3, r5, lsl #0x13
-	mov r2, r1, lsr #0x10
-	ldr r0, [r8, #0x40]
-	mov r3, r3, lsr #0x10
-	mov r1, #0x24
-	bl BackgroundUnknown__Func_204CB40
-	add sp, sp, #0x1c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-_02161EB4:
-	ldrh r1, [sp, #0x3c]
-	mov r0, r4, lsl #0x13
-	mov r2, r0, lsr #0x10
-	mov r0, r1, lsl #0x13
-	str r2, [sp]
-	mov r0, r0, lsr #0x10
-	stmib sp, {r0, r7}
-	str r4, [sp, #0xc]
-	mov r0, #0
-	str r0, [sp, #0x10]
-	str r0, [sp, #0x14]
-	str r0, [sp, #0x18]
-	mov r2, r6, lsl #0x13
-	mov r3, r5, lsl #0x13
-	ldrh r1, [r8, #0x3c]
-	ldr r0, [r8, #0x40]
-	mov r2, r2, lsr #0x10
-	mov r3, r3, lsr #0x10
-	bl BackgroundUnknown__Func_204CB40
-	add sp, sp, #0x1c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
+    if (this->canvasPixels != NULL)
+    {
+        HeapFree(HEAP_USER, this->canvasPixels);
+        this->canvasPixels = NULL;
+    }
 
-// clang-format on
-#endif
+    if (this->imageSortList != NULL)
+    {
+        HeapFree(HEAP_SYSTEM, this->imageSortList);
+        this->imageSortList = NULL;
+    }
+
+    this->imageSortListChunkCount = 0;
+    this->imageSortListCount      = 0;
+    this->blitImageID             = 0xFFFF;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161F08(CViMapBack *work, u16 a2, u16 a3)
+void *CViMapBack::GetCanvasPalette()
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r2, r4, #0x500
-	add r0, r4, #0x10
-	strh r1, [r2, #0xa4]
-	bl ViMapVmpFile__Func_2161210
-	add r1, r4, #0x500
-	ldrh r3, [r1, #0xa4]
-	mov r1, #0x100
-	mov r2, #3
-	mov r3, r3, lsl #9
-	bl LoadUncompressedPalette
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    return this->vmpFile.GetColors();
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2161F3C(CViMapBack *work, void *vramPixels, s32 a3)
+void CViMapBack::CopyToCanvas(void *pixels, u16 startX, u16 startY, u16 width, u16 height)
 {
-#ifdef NON_MATCHING
+    if (this->blitImageID >= this->vmiFile.GetImageCount())
+    {
+        BackgroundUnknown__Func_204CB40(this->canvasPixels, 36, TILE_SIZE * startX, TILE_SIZE * startY, TILE_SIZE * width, TILE_SIZE * height, pixels, width, 0, 0, 0);
+    }
+    else
+    {
+        BackgroundUnknown__Func_204CB40(this->canvasPixels, this->blitImageWidth, TILE_SIZE * startX, TILE_SIZE * startY, TILE_SIZE * width, TILE_SIZE * height, pixels, width, 0,
+                                        0, 0);
+    }
+}
 
+void CViMapBack::UpdateCanvasVRAMPalette(u16 paletteRow, u16 unknown)
+{
+    this->canvasPaletteRow = paletteRow;
+    LoadUncompressedPalette(this->vmpFile.GetColors(), 0x100, PALETTE_MODE_SUB_BG, VRAMKEY_TO_KEY(this->canvasPaletteRow * 0x100 * sizeof(GXRgb)));
+}
+
+NONMATCH_FUNC void CViMapBack::BlitCanvasPixels(void *vramPixels, BOOL queuePixels)
+{
+    // https://decomp.me/scratch/inz6i -> 95.94%
+#ifdef NON_MATCHING
+    this->vramPixels = (CViMapBackCanvas *)vramPixels;
+
+    if (this->blitImageID >= this->vmiFile.GetImageCount())
+    {
+        if (queuePixels)
+            QueueUncompressedPixels(this->canvasPixels, sizeof(CViMapBackCanvas), PIXEL_MODE_SPRITE, (void *)this->vramPixels);
+        else
+            LoadUncompressedPixels(this->canvasPixels, sizeof(CViMapBackCanvas), PIXEL_MODE_SPRITE, (void *)this->vramPixels);
+    }
+    else
+    {
+        s32 y;
+        u32 width;
+        u8 *srcPixels;
+        u8 *dstPixels;
+
+        GXCharFmt256 *dst = &this->vramPixels->pixels[this->blitImageStartY][this->blitImageStartX];
+        dstPixels         = (u8 *)dst;
+
+        width     = this->blitImageWidth;
+        srcPixels = (u8 *)this->canvasPixels;
+
+        for (y = 0; y < this->blitImageHeight; y++)
+        {
+            if (queuePixels)
+                QueueUncompressedPixels(srcPixels, this->blitImageWidth * sizeof(GXCharFmt256), PIXEL_MODE_SPRITE, dstPixels);
+            else
+                LoadUncompressedPixels(srcPixels, this->blitImageWidth * sizeof(GXCharFmt256), PIXEL_MODE_SPRITE, dstPixels);
+
+            srcPixels += width * sizeof(GXCharFmt256);
+            dstPixels += 36 * sizeof(GXCharFmt256);
+        }
+    }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -1384,7 +976,7 @@ NONMATCH_FUNC void ViMapBack__Func_2161F3C(CViMapBack *work, void *vramPixels, s
 	str r1, [r10, #0x5a8]
 	add r0, r10, #4
 	mov r9, r2
-	bl ViMapVmiFile__Func_21610A4
+	bl _ZN13CViMapVmiFile13GetImageCountEv
 	ldr r1, [r10, #0x34]
 	cmp r1, r0
 	blt _02161F88
@@ -1442,10 +1034,51 @@ _02161FF4:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162010(CViMapBack *work, void *vramPixels, s32 a3)
+NONMATCH_FUNC void CViMapBack::UpdateCanvasVRAMMappings(void *vramMappings, s32 startTile)
 {
+    // https://decomp.me/scratch/SqvkS -> 98.98%
+    // minor register issues
 #ifdef NON_MATCHING
+    s32 x;
+    s32 y;
+    GXScrFmtText *mappingsPtr;
+    s32 srcRow;
+    s32 row;
 
+    this->vramMappings     = (GXScrText64x32 *)vramMappings;
+    this->mappingStartTile = startTile;
+    MI_CpuFill16(this->vramMappings, VRAM_SCRFMT_TEXT(0, FALSE, FALSE, this->canvasPaletteRow), sizeof(GXScrText64x32));
+
+    mappingsPtr = &this->vramMappings->scr[0][0];
+    y           = 0;
+    srcRow      = 0;
+    row         = 0;
+    for (; y < 28; y++)
+    {
+        for (x = 0; x < 32; x++)
+        {
+            u16 tile = (x + srcRow) + this->mappingStartTile;
+            mappingsPtr[row + x] |= tile;
+        }
+        srcRow += 36;
+        row += 32;
+    }
+
+    mappingsPtr = &this->vramMappings->scr[32][0];
+    y           = 0;
+    srcRow      = 0;
+    row         = 0;
+    for (; y < 28; y++)
+    {
+        for (x = 32; x < 36; x++)
+        {
+            u16 tile = (x + srcRow) + this->mappingStartTile;
+            mappingsPtr[row + (x - 32)] |= tile;
+        }
+
+        srcRow += 36;
+        row += 32;
+    }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -1516,315 +1149,224 @@ _021620B8:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_21620FC(CViMapBack *work, s32 id){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	add r2, r0, #0x50
-	ldr r0, [r2, r1, lsl #2]
-	orr r0, r0, #1
-	str r0, [r2, r1, lsl #2]
-	bx lr
-
-// clang-format on
-#endif
+void CViMapBack::SetDecorationActive(u16 id)
+{
+    this->decorationFlags[id] |= CViMapBack::DECOR_FLAG_ACTIVE;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162110(CViMapBack *work)
+void CViMapBack::ProcessDecorationAnims()
 {
-#ifdef NON_MATCHING
+    for (s32 i = 0; i < CVIMAPBACK_DECORSPRITE_ANIM_COUNT; i++)
+    {
+        AnimatorSprite__ProcessAnimationFast(&this->aniDecoration[i]);
+    }
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r7, r0
-	mov r5, #0
-	add r6, r7, #0x8c
-	mov r4, r5
-_02162124:
-	mov r0, r6
-	mov r1, r4
-	mov r2, r4
-	bl AnimatorSprite__ProcessAnimation
-	add r5, r5, #1
-	cmp r5, #0xd
-	add r6, r6, #0x64
-	blt _02162124
-	add r0, r7, #0x500
-	ldrh r1, [r0, #0xa0]
-	add r1, r1, #1
-	strh r1, [r0, #0xa0]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
+    this->decorAnimTimer++;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162158(CViMapBack *work, s32 a2)
+void CViMapBack::DrawAllSpriteDecorations(BOOL a2)
 {
-#ifdef NON_MATCHING
+    AnimatorSprite *aniDecoration;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x2c
-	mov r10, r0
-	mov r11, r1
-	mov r9, #0
-	add r7, r10, #0x8c
-	add r4, r10, #0x500
-	add r6, sp, #0x1c
-	add r5, sp, #0x1a
-_0216217C:
-	add r0, r10, r9, lsl #2
-	ldr r0, [r0, #0x50]
-	tst r0, #1
-	beq _02162318
-	cmp r9, #8
-	bne _021621A4
-	ldr r0, [r10, #0x7c]
-	tst r0, #1
-	bne _02162318
-	b _021621B8
-_021621A4:
-	cmp r9, #0xd
-	bne _021621B8
-	ldr r0, [r10, #0x88]
-	tst r0, #1
-	bne _02162318
-_021621B8:
-	mov r0, r9, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl HubConfig__Func_2152A40
-	ldrh r1, [r0, #0]
-	mov r0, #0x64
-	cmp r11, #0
-	mla r8, r1, r0, r7
-	ldrne r0, =ovl05_02172FD0
-	ldreq r0, =ovl05_02172F94
-	ldr ip, [r0, r9, lsl #2]
-	cmp ip, #0
-	bne _02162234
-	ldr r0, =ovl05_02172F1C
-	mov r1, r9, lsl #2
-	ldrsh r2, [r0, r1]
-	add r0, r0, r9, lsl #2
-	ldrsh r1, [r0, #2]
-	strh r2, [sp, #0x1c]
-	mov r0, r10
-	strh r1, [sp, #0x1a]
-	mov r1, r6
-	mov r2, r5
-	bl ViMapBack__Func_2162C50
-	mov r0, #0x1000
-	str r0, [sp]
-	ldrsh r2, [sp, #0x1c]
-	ldrsh r3, [sp, #0x1a]
-	mov r1, r8
-	mov r0, r10
-	bl ViMapBack__Func_2162C04
-	b _02162318
-_02162234:
-	add r0, sp, #0x16
-	str r0, [sp]
-	add r0, sp, #0x14
-	str r0, [sp, #4]
-	add r0, sp, #0x28
-	str r0, [sp, #8]
-	add r0, sp, #0x24
-	str r0, [sp, #0xc]
-	add r0, sp, #0x20
-	str r0, [sp, #0x10]
-	ldrh r0, [r4, #0xa0]
-	mov r1, r6
-	mov r2, r5
-	add r3, sp, #0x18
-	blx ip
-	ldrh r1, [sp, #0x16]
-	ldr r0, =0x0000FFFF
-	cmp r1, r0
-	beq _02162318
-	ldrh r0, [r8, #0xc]
-	cmp r0, r1
-	ldreq r0, [sp, #0x24]
-	cmpeq r0, #0
-	beq _0216229C
-	mov r0, r8
-	bl AnimatorSprite__SetAnimation
-_0216229C:
-	ldrsh r0, [sp, #0x18]
-	mov r1, r6
-	strb r0, [r8, #0x56]
-	ldr r0, [r8, #0x3c]
-	bic r0, r0, #4
-	str r0, [r8, #0x3c]
-	ldr r0, [sp, #0x28]
-	cmp r0, #0
-	ldr r0, [r8, #0x3c]
-	orrne r0, r0, #0x80
-	biceq r0, r0, #0x80
-	str r0, [r8, #0x3c]
-	ldr r0, [sp, #0x20]
-	cmp r0, #0
-	mov r0, r10
-	beq _021622E8
-	mov r2, r5
-	bl ViMapBack__Func_2162C80
-	b _021622F0
-_021622E8:
-	mov r2, r5
-	bl ViMapBack__Func_2162C50
-_021622F0:
-	ldr r0, [sp, #0x24]
-	cmp r0, #0
-	bne _02162318
-	mov r1, r8
-	ldrsh r2, [sp, #0x14]
-	mov r0, r10
-	str r2, [sp]
-	ldrsh r2, [sp, #0x1c]
-	ldrsh r3, [sp, #0x1a]
-	bl ViMapBack__Func_2162C04
-_02162318:
-	add r9, r9, #1
-	cmp r9, #0xf
-	blt _0216217C
-	add sp, sp, #0x2c
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    for (s32 type = 0; type < CVIMAPBACK_DECORSPRITE_COUNT; type++)
+    {
+        if ((this->decorationFlags[type] & CViMapBack::DECOR_FLAG_ACTIVE) == 0)
+            continue;
 
-// clang-format on
-#endif
+        // doesn't do anything, but it does't compile without this
+        BOOL flag = FALSE;
+        if (type == CVIMAPBACK_DECORSPRITE_SMALL_WINDMILL)
+        {
+            if ((this->decorationFlags[CVIMAPBACK_DECORSPRITE_LARGE_WINDMILL] & CViMapBack::DECOR_FLAG_ACTIVE) != 0)
+            {
+                continue;
+            }
+            else
+            {
+                flag = TRUE;
+            }
+        }
+        else if (type == CVIMAPBACK_DECORSPRITE_FLOWER_GARDEN)
+        {
+            if ((this->decorationFlags[CVIMAPBACK_DECORSPRITE_PRETTY_FLOWER_GARDEN] & CViMapBack::DECOR_FLAG_ACTIVE) != 0)
+            {
+                continue;
+            }
+            else
+            {
+                flag = TRUE;
+            }
+        }
+
+        aniDecoration = &this->aniDecoration[*HubConfig__GetMapBackDecorSpriteAnimator(type)];
+
+        SpriteDecorConfigFunc configureFunc;
+        if (a2)
+            configureFunc = ViMapBack__spriteDecorConfig2[type];
+        else
+            configureFunc = ViMapBack__spriteDecorConfig1[type];
+
+        s16 x;
+        s16 y;
+        s16 oamPriority;
+        u16 animID;
+        u16 scale;
+        BOOL flipX;
+        BOOL isInvisible;
+        BOOL useAltOffset;
+        if (configureFunc == NULL)
+        {
+            x = viMapBackSpriteDecorPositionList[type].x;
+            y = viMapBackSpriteDecorPositionList[type].y;
+            this->GetSpriteDecorOffset(&x, &y);
+            this->DrawSpriteDecoration(aniDecoration, x, y, FLOAT_TO_FX32(1.0));
+        }
+        else
+        {
+
+            configureFunc(this->decorAnimTimer, &x, &y, &oamPriority, &animID, &scale, &flipX, &isInvisible, &useAltOffset);
+            if (animID != 0xFFFF)
+            {
+                if (aniDecoration->animID != animID || isInvisible)
+                    AnimatorSprite__SetAnimation(aniDecoration, animID);
+
+                aniDecoration->oamPriority = oamPriority;
+                aniDecoration->flags &= ~ANIMATOR_FLAG_DISABLE_LOOPING;
+
+                if (flipX)
+                    aniDecoration->flags |= ANIMATOR_FLAG_FLIP_X;
+                else
+                    aniDecoration->flags &= ~ANIMATOR_FLAG_FLIP_X;
+
+                if (useAltOffset)
+                    this->GetSpriteDecorOffsetAlt(&x, &y);
+                else
+                    this->GetSpriteDecorOffset(&x, &y);
+
+                if (!isInvisible)
+                    this->DrawSpriteDecoration(aniDecoration, x, y, scale);
+            }
+        }
+    }
 }
 
-NONMATCH_FUNC void ViMapBack__Func_216233C(CViMapBack *work, u16 a2, BOOL a3)
+void CViMapBack::DrawSingleSpriteDecoration(u16 id, BOOL a3)
 {
-#ifdef NON_MATCHING
+    AnimatorSprite *aniDecoration;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0x2c
-	mov r4, r1
-	mov r7, r0
-	mov r0, r4
-	mov r6, r2
-	bl HubConfig__CheckDecorConstructionUnknown
-	cmp r0, #0
-	addne sp, sp, #0x2c
-	ldmneia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl HubConfig__Func_2152A20
-	ldrh r5, [r0, #0]
-	add r0, r7, r5, lsl #2
-	ldr r0, [r0, #0x50]
-	tst r0, #1
-	addeq sp, sp, #0x2c
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r5
-	bl HubConfig__Func_2152A40
-	ldrh r1, [r0, #0]
-	add r2, r7, #0x8c
-	mov r0, #0x64
-	mla r4, r1, r0, r2
-	cmp r6, #0
-	ldrne r0, =ovl05_02172FD0
-	ldreq r0, =ovl05_02172F94
-	ldr ip, [r0, r5, lsl #2]
-	cmp ip, #0
-	bne _021623EC
-	ldr r1, =ovl05_02172F1C
-	mov r2, r5, lsl #2
-	ldrsh r5, [r1, r2]
-	ldr r0, =0x02172F1E
-	add r1, sp, #0x1c
-	ldrsh r3, [r0, r2]
-	add r2, sp, #0x1a
-	mov r0, r7
-	strh r5, [sp, #0x1c]
-	strh r3, [sp, #0x1a]
-	bl ViMapBack__Func_2162C50
-	mov r0, #0x1000
-	strh r0, [sp, #0x14]
-	b _021624A8
-_021623EC:
-	add r0, sp, #0x16
-	str r0, [sp]
-	add r1, sp, #0x14
-	str r1, [sp, #4]
-	add r0, sp, #0x28
-	str r0, [sp, #8]
-	add r1, sp, #0x24
-	str r1, [sp, #0xc]
-	add r0, sp, #0x20
-	str r0, [sp, #0x10]
-	add r0, r7, #0x500
-	ldrh r0, [r0, #0xa0]
-	add r1, sp, #0x1c
-	add r2, sp, #0x1a
-	add r3, sp, #0x18
-	blx ip
-	ldrh r1, [sp, #0x16]
-	ldr r0, =0x0000FFFF
-	cmp r1, r0
-	addeq sp, sp, #0x2c
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	ldrh r0, [r4, #0xc]
-	cmp r0, r1
-	ldreq r0, [sp, #0x24]
-	cmpeq r0, #0
-	addne sp, sp, #0x2c
-	ldmneia sp!, {r4, r5, r6, r7, pc}
-	ldrsh r0, [sp, #0x18]
-	add r1, sp, #0x1c
-	add r2, sp, #0x1a
-	strb r0, [r4, #0x56]
-	ldr r0, [r4, #0x3c]
-	bic r0, r0, #4
-	str r0, [r4, #0x3c]
-	ldr r0, [sp, #0x28]
-	cmp r0, #0
-	ldr r0, [r4, #0x3c]
-	orrne r0, r0, #0x80
-	biceq r0, r0, #0x80
-	str r0, [r4, #0x3c]
-	ldr r0, [sp, #0x20]
-	cmp r0, #0
-	mov r0, r7
-	beq _021624A4
-	bl ViMapBack__Func_2162C80
-	b _021624A8
-_021624A4:
-	bl ViMapBack__Func_2162C50
-_021624A8:
-	mov r0, #2
-	str r0, [r4, #0x58]
-	ldrb r2, [r4, #0x56]
-	mov r1, #0
-	mov r0, r7
-	strh r2, [sp, #0x18]
-	strb r1, [r4, #0x56]
-	ldrsh r2, [sp, #0x14]
-	mov r1, r4
-	str r2, [sp]
-	ldrsh r2, [sp, #0x1c]
-	ldrsh r3, [sp, #0x1a]
-	bl ViMapBack__Func_2162C04
-	ldrsh r1, [sp, #0x18]
-	mov r0, #0
-	strb r1, [r4, #0x56]
-	str r0, [r4, #0x58]
-	add sp, sp, #0x2c
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    if (HubConfig__CheckDecorConstructionIsBackground(id) == FALSE)
+    {
+        u16 type = *HubConfig__GetMapBackDecorID(id);
+        if ((this->decorationFlags[type] & CViMapBack::DECOR_FLAG_ACTIVE) != 0)
+        {
+            aniDecoration = &this->aniDecoration[*HubConfig__GetMapBackDecorSpriteAnimator(type)];
 
-// clang-format on
-#endif
+            SpriteDecorConfigFunc configureFunc;
+            if (a3)
+                configureFunc = ViMapBack__spriteDecorConfig2[type];
+            else
+                configureFunc = ViMapBack__spriteDecorConfig1[type];
+
+            s16 x;
+            s16 y;
+            s16 oamPriority;
+            u16 animID;
+            u16 scale;
+            BOOL flipX;
+            BOOL isInvisible;
+            BOOL useAltOffset;
+            if (configureFunc == NULL)
+            {
+                x = viMapBackSpriteDecorPositionList[type].x;
+                y = viMapBackSpriteDecorPositionList[type].y;
+                this->GetSpriteDecorOffset(&x, &y);
+                scale = FLOAT_TO_FX32(1.0);
+            }
+            else
+            {
+                configureFunc(this->decorAnimTimer, &x, &y, &oamPriority, &animID, &scale, &flipX, &isInvisible, &useAltOffset);
+
+                if (animID == 0xFFFF)
+                    return;
+
+                if (aniDecoration->animID != animID || isInvisible)
+                    return;
+
+                aniDecoration->oamPriority = oamPriority;
+                aniDecoration->flags &= ~ANIMATOR_FLAG_DISABLE_LOOPING;
+
+                if (flipX)
+                    aniDecoration->flags |= ANIMATOR_FLAG_FLIP_X;
+                else
+                    aniDecoration->flags &= ~ANIMATOR_FLAG_FLIP_X;
+
+                if (useAltOffset)
+                    this->GetSpriteDecorOffsetAlt(&x, &y);
+                else
+                    this->GetSpriteDecorOffset(&x, &y);
+            }
+
+            aniDecoration->spriteType  = GX_OAM_MODE_OBJWND;
+            oamPriority                = aniDecoration->oamPriority;
+            aniDecoration->oamPriority = 0;
+            this->DrawSpriteDecoration(aniDecoration, x, y, scale);
+            aniDecoration->oamPriority = oamPriority;
+            aniDecoration->spriteType  = GX_OAM_MODE_NORMAL;
+        }
+    }
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162508(CViMapBack *work, u16 a2, u16 *a3, u16 *a4, BOOL a5, BOOL a6)
+NONMATCH_FUNC void CViMapBack::DrawNewlyConstructedSpriteDecoration(u16 id, u16 *x, u16 *y, BOOL useAltConfigFunc, BOOL useAltPositions)
 {
+    // https://decomp.me/scratch/tjEr2 -> 94.25%
+    // minor register issues near 'CViMapBack::GetSpriteDecorOffset'
 #ifdef NON_MATCHING
+    if (HubConfig__CheckDecorConstructionIsBackground(id) == FALSE)
+    {
+        u16 type = *HubConfig__GetMapBackDecorID(id);
+        if ((this->decorationFlags[type] & CViMapBack::DECOR_FLAG_ACTIVE) != 0)
+        {
+            SpriteDecorConfigFunc configureFunc;
+            if (useAltConfigFunc)
+                configureFunc = ViMapBack__spriteDecorConfig2[type];
+            else
+                configureFunc = ViMapBack__spriteDecorConfig1[type];
 
+            s16 oamPriority;
+            u16 animID;
+            u16 scale;
+            BOOL flipX;
+            BOOL isInvisible;
+            BOOL useAltOffset;
+            if (configureFunc == NULL)
+            {
+                s16 y2;
+                s16 x2;
+                if (a6)
+                {
+                    x2 = viMapBackSpriteDecorAltPositionList[type].x;
+                    y2 = viMapBackSpriteDecorAltPositionList[type].y;
+                }
+                else
+                {
+                    x2 = viMapBackSpriteDecorPositionList[type].x;
+                    y2 = viMapBackSpriteDecorPositionList[type].y;
+                }
+
+                *x = x2;
+                *y = y2;
+                this->GetSpriteDecorOffset((s16 *)x, (s16 *)y);
+            }
+            else
+            {
+                configureFunc(this->decorAnimTimer, (s16 *)x, (s16 *)y, &oamPriority, &animID, &scale, &flipX, &isInvisible, &useAltOffset);
+                if (useAltOffset)
+                    this->GetSpriteDecorOffsetAlt((s16 *)x, (s16 *)y);
+                else
+                    this->GetSpriteDecorOffset((s16 *)x, (s16 *)y);
+            }
+        }
+    }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
@@ -1834,12 +1376,12 @@ NONMATCH_FUNC void ViMapBack__Func_2162508(CViMapBack *work, u16 a2, u16 *a3, u1
 	mov r0, r7
 	mov r5, r2
 	mov r4, r3
-	bl HubConfig__CheckDecorConstructionUnknown
+	bl HubConfig__CheckDecorConstructionIsBackground
 	cmp r0, #0
 	addne sp, sp, #0x28
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	mov r0, r7
-	bl HubConfig__Func_2152A20
+	bl HubConfig__GetMapBackDecorID
 	ldrh r2, [r0, #0]
 	add r0, r6, r2, lsl #2
 	ldr r0, [r0, #0x50]
@@ -1848,19 +1390,19 @@ NONMATCH_FUNC void ViMapBack__Func_2162508(CViMapBack *work, u16 a2, u16 *a3, u1
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r0, [sp, #0x40]
 	cmp r0, #0
-	ldrne r0, =ovl05_02172FD0
-	ldreq r0, =ovl05_02172F94
+	ldrne r0, =ViMapBack__spriteDecorConfig2
+	ldreq r0, =ViMapBack__spriteDecorConfig1
 	ldr ip, [r0, r2, lsl #2]
 	cmp ip, #0
 	bne _021625BC
 	ldr r0, [sp, #0x44]
 	cmp r0, #0
-	ldreq r1, =ovl05_02172F1C
+	ldreq r1, =viMapBackSpriteDecorPositionList
 	moveq r2, r2, lsl #2
-	ldreq r0, =0x02172F1E
+	ldreq r0, =viMapBackSpriteDecorPositionList+2
 	beq _02162594
-	ldr r1, =ovl05_02172F58
-	ldr r0, =0x02172F5A
+	ldr r1, =viMapBackSpriteDecorAltPositionList
+	ldr r0, =viMapBackSpriteDecorAltPositionList+2
 	mov r2, r2, lsl #2
 _02162594:
 	ldrsh r1, [r1, r2]
@@ -1870,7 +1412,7 @@ _02162594:
 	strh r0, [r4]
 	mov r0, r6
 	mov r1, r5
-	bl ViMapBack__Func_2162C50
+	bl _ZN10CViMapBack20GetSpriteDecorOffsetEPsS0_
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _021625BC:
@@ -1896,12 +1438,12 @@ _021625BC:
 	mov r0, r6
 	beq _02162620
 	mov r2, r4
-	bl ViMapBack__Func_2162C80
+	bl _ZN10CViMapBack23GetSpriteDecorOffsetAltEPsS0_
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _02162620:
 	mov r2, r4
-	bl ViMapBack__Func_2162C50
+	bl _ZN10CViMapBack20GetSpriteDecorOffsetEPsS0_
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
@@ -1909,271 +1451,176 @@ _02162620:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162648(CViMapBack *work, s16 a2, s16 a3)
+void CViMapBack::DrawIslandBackgrounds(s16 x, s16 y)
 {
-#ifdef NON_MATCHING
+    this->bgIslandPosX = x;
+    this->bgIslandPosY = y;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0x18
-	mov r5, r0
-	add r0, r5, #0x500
-	strh r1, [r0, #0xb4]
-	strh r2, [r0, #0xb6]
-	ldrsh r3, [r0, #0xb4]
-	ldr r1, =VRAMSystem__GFXControl
-	add r4, r2, r2, lsl #1
-	ldr r2, [r1, #4]
-	sub r1, r3, #0x18
-	strh r1, [r2]
-	ldrsh r1, [r0, #0xb6]
-	mov r3, r4, asr #2
-	cmp r3, #0x60
-	sub r1, r1, #0x10
-	strh r1, [r2, #2]
-	strh r3, [r2, #6]
-	movge r4, #0
-	bge _021626CC
-	ldrsh r1, [r0, #0xb4]
-	ldr r0, [r5, #0x5b8]
-	rsb r4, r3, #0x60
-	add r1, r1, #0x80
-	add r1, r1, r1, lsl #1
-	mov r0, r0, asr #0xc
-	add r0, r0, r1, asr #2
-	mov r1, r0, lsl #0x10
-	mov r3, r1, lsr #0x10
-	add r0, r5, #0x5c0
-	and r2, r4, #0xff
-	mov r1, #0
-	bl FontDMAControl__Func_2051CD8
-_021626CC:
-	cmp r4, #0xbf
-	bgt _02162748
-	add r0, r5, #0x500
-	ldrsh r2, [r0, #0xb4]
-	mov r0, #0x40000
-	mov r1, #0xa0
-	mov r2, r2, lsl #0xc
-	mov r8, r2, asr #1
-	bl FX_DivS32
-	mov r7, r0
-	mov r0, #0x1c000
-	rsb r0, r0, #0
-	mov r1, #0xa0
-	bl FX_DivS32
-	mov r6, r0
-	mov r0, r8
-	mov r1, #0xa0
-	bl FX_DivS32
-	str r0, [sp]
-	mov r0, #0
-	stmib sp, {r0, r7}
-	mov r0, #0x20000
-	str r0, [sp, #0xc]
-	str r6, [sp, #0x10]
-	ldr r2, [r5, #0x5bc]
-	and r1, r4, #0xff
-	str r2, [sp, #0x14]
-	mov r3, r8
-	add r0, r5, #0x5c0
-	mov r2, #0xbf
-	bl FontDMAControl__Func_2051F68
-_02162748:
-	add r0, r5, #0x5c0
-	bl FontDMAControl__PrepareSwapBuffer
-	ldr r0, [r5, #0x5b8]
-	add r0, r0, #0x80
-	str r0, [r5, #0x5b8]
-	ldr r0, [r5, #0x5bc]
-	add r0, r0, #0x1000
-	str r0, [r5, #0x5bc]
-	add sp, sp, #0x18
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+    s32 background1PosY = (3 * y) >> 2;
 
-// clang-format on
-#endif
+    RenderCoreGFXControl *gfxControl       = VRAMSystem__GFXControl[GRAPHICS_ENGINE_B];
+    gfxControl->bgPosition[BACKGROUND_0].x = this->bgIslandPosX - 24;
+    gfxControl->bgPosition[BACKGROUND_0].y = this->bgIslandPosY - 16;
+    gfxControl->bgPosition[BACKGROUND_1].y = background1PosY;
+
+    s32 deformStart;
+    if (background1PosY < 96)
+    {
+        s32 value = ((3 * (this->bgIslandPosX + 128)) >> 2);
+
+        deformStart = 96 - background1PosY;
+        value += FX32_TO_WHOLE(this->rippleDeform);
+
+        FontDMAControl__Func_2051CD8(&this->fontDmaControl, 0, deformStart, value);
+    }
+    else
+    {
+        deformStart = 0;
+    }
+
+    if (deformStart <= (HW_LCD_HEIGHT - 1))
+    {
+        s32 offset          = FX32_FROM_WHOLE(this->bgIslandPosX) >> 1;
+        s32 amplitudeStep   = FX_DivS32(FLOAT_TO_FX32(64.0), 160);
+        s32 posAcceleration = FX_DivS32(-FLOAT_TO_FX32(28.0), 160);
+        s32 offsetStep      = FX_DivS32(offset, 160);
+        FontDMAControl__SetHubWaterRipple(&this->fontDmaControl, deformStart, HW_LCD_HEIGHT - 1, offset, offsetStep, 0, amplitudeStep, FLOAT_TO_FX32(32.0), posAcceleration,
+                                          this->rippleAngle);
+    }
+
+    FontDMAControl__PrepareSwapBuffer(&this->fontDmaControl);
+
+    this->rippleDeform += 128;
+    this->rippleAngle += 4096;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162774(CViMapBack *work, s16 *x, s16 *y){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	cmp r1, #0
-	addne r3, r0, #0x500
-	ldrnesh r3, [r3, #0xb4]
-	strneh r3, [r1]
-	cmp r2, #0
-	addne r0, r0, #0x500
-	ldrnesh r0, [r0, #0xb6]
-	strneh r0, [r2]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViMapBack__Func_2162798(CViMapBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	cmp r1, #0
-	beq _021627B0
-	ldr r3, =ovl05_02172F58
-	mov ip, r0, lsl #2
-	ldrsh r3, [r3, ip]
-	strh r3, [r1]
-_021627B0:
-	cmp r2, #0
-	bxeq lr
-	ldr r1, =0x02172F5A
-	mov r0, r0, lsl #2
-	ldrsh r0, [r1, r0]
-	strh r0, [r2]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViMapBack__Func_21627D4(CViMapBack *work)
+void CViMapBack::GetIslandPos(s16 *x, s16 *y)
 {
-#ifdef NON_MATCHING
+    if (x != NULL)
+        *x = this->bgIslandPosX;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r6, r0
-	ldr r0, [r6, #0x4c]
-	cmp r0, #1
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	mov r4, #1
-	cmp r0, #1
-	ldmleia sp!, {r3, r4, r5, r6, r7, pc}
-_021627F4:
-	sub r5, r0, #1
-	cmp r5, r4
-	blt _02162860
-_02162800:
-	ldr r1, [r6, #0x44]
-	mov r0, r5, lsl #1
-	ldrh r1, [r1, r0]
-	add r0, r6, #4
-	bl ViMapVmiFile__Func_2161170
-	ldr r1, [r6, #0x44]
-	mov r7, r0
-	add r0, r1, r5, lsl #1
-	ldrh r1, [r0, #-2]
-	add r0, r6, #4
-	bl ViMapVmiFile__Func_2161170
-	cmp r7, r0
-	bhs _02162854
-	ldr r0, [r6, #0x44]
-	mov r3, r5, lsl #1
-	add r2, r0, r5, lsl #1
-	ldrh r1, [r2, #-2]
-	ldrh r0, [r0, r3]
-	strh r0, [r2, #-2]
-	ldr r0, [r6, #0x44]
-	strh r1, [r0, r3]
-_02162854:
-	sub r5, r5, #1
-	cmp r5, r4
-	bge _02162800
-_02162860:
-	ldr r0, [r6, #0x4c]
-	add r4, r4, #1
-	cmp r4, r0
-	blt _021627F4
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
+    if (y != NULL)
+        *y = this->bgIslandPosY;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162874(CViMapBack *work)
+void CViMapBack::GetDecorationImagePosition(u16 id, u16 *x, u16 *y)
 {
-#ifdef NON_MATCHING
+    if (x != NULL)
+        *x = viMapBackSpriteDecorAltPositionList[id].x;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #0x1c
-	mov r9, r0
-	mov r8, r1
-	add r0, r9, #4
-	bl ViMapVmiFile__Func_21610E8
-	mov r4, r0
-	mov r1, r8
-	add r0, r9, #4
-	bl ViMapVmiFile__Func_21610FC
-	mov r5, r0
-	mov r1, r8
-	add r0, r9, #4
-	bl ViMapVmiFile__Func_2161148
-	mov r6, r0
-	mov r1, r8
-	add r0, r9, #4
-	bl ViMapVmiFile__Func_216115C
-	mov r10, r0
-	mov r7, #0
-	mov r0, r9
-	mov r1, r8
-	bl ViMapBack__Func_2161960
-	cmp r0, #0
-	bne _021628E8
-	mov r0, r9
-	mov r1, r8
-	bl ViMapBack__Func_21618CC
-	mov r7, #1
-_021628E8:
-	mov r0, r9
-	mov r1, r8
-	bl ViMapBack__Func_2162B90
-	add r0, r9, #0x18
-	bl ViMapVmcFile__Func_21612A4
-	mov r1, r10, lsl #0x13
-	mov ip, r1, lsr #0x10
-	mov r1, r4, lsl #0x13
-	mov r2, r1, lsr #0x10
-	mov r1, r5, lsl #0x13
-	mov r3, r1, lsr #0x10
-	mov r1, r6, lsl #0x13
-	mov r1, r1, lsr #0x10
-	stmia sp, {r1, ip}
-	ldr r5, [r9, #0x40]
-	mov r4, #0x24
-	str r5, [sp, #8]
-	str r4, [sp, #0xc]
-	str r2, [sp, #0x10]
-	mov r2, #0
-	str r3, [sp, #0x14]
-	mov r1, r6
-	mov r3, r2
-	str r2, [sp, #0x18]
-	bl BackgroundUnknown__Func_204CB98
-	mov r0, r9
-	bl ViMapBack__Func_2162BD8
-	cmp r7, #0
-	addeq sp, sp, #0x1c
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	mov r0, r9
-	mov r1, r8
-	bl ViMapBack__Func_2161978
-	add sp, sp, #0x1c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-
-// clang-format on
-#endif
+    if (y != NULL)
+        *y = viMapBackSpriteDecorAltPositionList[id].y;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162974(CViMapBack *work)
+void CViMapBack::SortImages()
 {
-#ifdef NON_MATCHING
+    if (this->imageSortListCount != 1)
+    {
+        for (s32 i = 1; i < this->imageSortListCount; i++)
+        {
+            for (s32 j = this->imageSortListCount - 1; j >= i; j--)
+            {
+                if (this->vmiFile.GetSortOrder(this->imageSortList[j]) < this->vmiFile.GetSortOrder(this->imageSortList[j - 1]))
+                {
+                    u16 temp                   = this->imageSortList[j - 1];
+                    this->imageSortList[j - 1] = this->imageSortList[j];
+                    this->imageSortList[j]     = temp;
+                }
+            }
+        }
+    }
+}
 
+void CViMapBack::LoadImagePixelsOntoCanvas(u16 id)
+{
+    u16 startX = this->vmiFile.GetImageTileStartX(id);
+    u16 startY = this->vmiFile.GetImageTileStartY(id);
+    u16 width  = this->vmiFile.GetImageTileWidth(id);
+    u16 height = this->vmiFile.GetImageTileHeight(id);
+
+    BOOL flag = FALSE;
+    if (this->CheckImageLoaded(id) == FALSE)
+    {
+        this->LoadImage(id);
+        flag = TRUE;
+    }
+
+    this->LoadImagePixelsFile(id);
+    BackgroundUnknown__Func_204CB98(this->vmcFile.GetPixels(), width, 0, 0, TILE_SIZE * width, TILE_SIZE * height, this->canvasPixels, 36, TILE_SIZE * startX, TILE_SIZE * startY,
+                                    0);
+    this->ReleaseImageFile();
+
+    if (flag)
+        this->ReleaseImage(id);
+}
+
+NONMATCH_FUNC void CViMapBack::BlitImageToCanvas(u16 id, u16 startX, u16 startY, u16 width, u16 height)
+{
+    // https://decomp.me/scratch/PO1Ip -> 52.96%
+#ifdef NON_MATCHING
+    u16 imageTileStartX = this->vmiFile.GetImageTileStartX(id);
+    u16 imageTileStartY = this->vmiFile.GetImageTileStartY(id);
+    u16 imageTileWidth  = this->vmiFile.GetImageTileWidth(id);
+    u16 imageTileHeight = this->vmiFile.GetImageTileHeight(id);
+
+    s32 smallestStartX = startX;
+    s32 smallestStartY = startY;
+    s32 largestStartX  = imageTileStartX;
+    s32 largestStartY  = imageTileStartY;
+    s32 newTileWidth   = width;
+    s32 newTileHeight  = height;
+
+    if (startX < imageTileStartX)
+    {
+        newTileWidth   = width - (imageTileStartX - startX);
+        smallestStartX = imageTileStartX;
+    }
+    else if (startX > imageTileStartX)
+    {
+        largestStartX = startX;
+    }
+
+    if ((startX + width) > (imageTileStartX + imageTileWidth))
+        newTileWidth -= (startX + width) - (imageTileStartX + imageTileWidth);
+
+    if (newTileWidth <= 0)
+        return;
+
+    if (startY < imageTileStartY)
+    {
+        newTileHeight -= (imageTileStartY - startY);
+        smallestStartY = imageTileStartY;
+    }
+    else if (startY > imageTileStartY)
+    {
+        largestStartY = startY;
+    }
+
+    if ((startY + height) > (imageTileStartY + imageTileHeight))
+        newTileHeight -= (startY + height) - (imageTileStartY + imageTileHeight);
+
+    if (newTileHeight <= 0)
+        return;
+
+    u16 newSizeX2     = smallestStartX - startX;
+    u16 newSizeY2     = smallestStartY - startY;
+    u16 newTileStartX = largestStartX - imageTileStartX;
+    u16 newTileStartY = largestStartY - imageTileStartY;
+
+    BOOL needsRelease = FALSE;
+    if (this->CheckImageLoaded(id) == FALSE)
+    {
+        this->LoadImage(id);
+        needsRelease = TRUE;
+    }
+    this->LoadImagePixelsFile(id);
+
+    BackgroundUnknown__Func_204CB98(this->vmcFile.GetPixels(), imageTileWidth, TILE_SIZE * newTileStartX, TILE_SIZE * newTileStartY, TILE_SIZE * newTileWidth,
+                                    TILE_SIZE * newTileHeight, this->canvasPixels, width, TILE_SIZE * newSizeX2, TILE_SIZE * newSizeY2, 0);
+
+    this->ReleaseImageFile();
+    if (needsRelease)
+        this->ReleaseImage(id);
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -2183,19 +1630,19 @@ NONMATCH_FUNC void ViMapBack__Func_2162974(CViMapBack *work)
 	add r0, r10, #4
 	mov r9, r2
 	mov r8, r3
-	bl ViMapVmiFile__Func_21610E8
+	bl _ZN13CViMapVmiFile18GetImageTileStartXEt
 	mov r4, r0
 	mov r1, r11
 	add r0, r10, #4
-	bl ViMapVmiFile__Func_21610FC
+	bl _ZN13CViMapVmiFile18GetImageTileStartYEt
 	mov r5, r0
 	mov r1, r11
 	add r0, r10, #4
-	bl ViMapVmiFile__Func_2161148
+	bl _ZN13CViMapVmiFile17GetImageTileWidthEt
 	str r0, [sp, #0x2c]
 	add r0, r10, #4
 	mov r1, r11
-	bl ViMapVmiFile__Func_216115C
+	bl _ZN13CViMapVmiFile18GetImageTileHeightEt
 	str r9, [sp, #0x28]
 	str r8, [sp, #0x24]
 	str r4, [sp, #0x20]
@@ -2267,19 +1714,19 @@ _02162A60:
 	mov r0, r10
 	mov r1, r11
 	mov r8, #0
-	bl ViMapBack__Func_2161960
+	bl _ZN10CViMapBack16CheckImageLoadedEt
 	cmp r0, #0
 	bne _02162AE4
 	mov r0, r10
 	mov r1, r11
-	bl ViMapBack__Func_21618CC
+	bl _ZN10CViMapBack9LoadImageEt
 	mov r8, #1
 _02162AE4:
 	mov r0, r10
 	mov r1, r11
-	bl ViMapBack__Func_2162B90
+	bl _ZN10CViMapBack19LoadImagePixelsFileEt
 	add r0, r10, #0x18
-	bl ViMapVmcFile__Func_21612A4
+	bl _ZN13CViMapVmcFile9GetPixelsEv
 	mov r1, r6, lsl #0x13
 	mov r1, r1, lsr #0x10
 	str r1, [sp]
@@ -2309,13 +1756,13 @@ _02162AE4:
 	str r6, [sp, #0x18]
 	bl BackgroundUnknown__Func_204CB98
 	mov r0, r10
-	bl ViMapBack__Func_2162BD8
+	bl _ZN10CViMapBack16ReleaseImageFileEv
 	cmp r8, #0
 	addeq sp, sp, #0x30
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r10
 	mov r1, r11
-	bl ViMapBack__Func_2161978
+	bl _ZN10CViMapBack12ReleaseImageEt
 	add sp, sp, #0x30
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 
@@ -2323,365 +1770,218 @@ _02162AE4:
 #endif
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162B90(CViMapBack *work)
+void CViMapBack::LoadImagePixelsFile(u16 id)
 {
-#ifdef NON_MATCHING
+    this->ReleaseImageFile();
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r4, r1
-	bl ViMapBack__Func_2162BD8
-	ldr r0, [r5, #0x30]
-	ldr r0, [r0, r4, lsl #2]
-	ldr r0, [r0, #0]
-	mov r0, r0, lsr #8
-	bl _AllocTailHEAP_USER
-	str r0, [r5, #0x28]
-	ldr r0, [r5, #0x30]
-	ldr r1, [r5, #0x28]
-	ldr r0, [r0, r4, lsl #2]
-	bl RenderCore_CPUCopyCompressed
-	ldr r1, [r5, #0x28]
-	add r0, r5, #0x18
-	bl ViMapVmcFile__Func_216128C
-	ldmia sp!, {r3, r4, r5, pc}
+    this->currentImagePixelFile = HeapAllocTail(HEAP_USER, MI_GetUncompressedSize(this->imagePixelFiles[id]));
+    RenderCore_CPUCopyCompressed(this->imagePixelFiles[id], this->currentImagePixelFile);
 
-// clang-format on
-#endif
+    this->vmcFile.Load(this->currentImagePixelFile);
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162BD8(CViMapBack *work)
+void CViMapBack::ReleaseImageFile()
 {
-#ifdef NON_MATCHING
+    this->vmcFile.Release();
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r0, r4, #0x18
-	bl ViMapVmcFile__Func_2161280
-	ldr r0, [r4, #0x28]
-	cmp r0, #0
-	ldmeqia sp!, {r4, pc}
-	bl _FreeHEAP_USER
-	mov r0, #0
-	str r0, [r4, #0x28]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if (this->currentImagePixelFile != NULL)
+    {
+        HeapFree(HEAP_USER, this->currentImagePixelFile);
+        this->currentImagePixelFile = NULL;
+    }
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162C04(CViMapBack *work)
+void CViMapBack::DrawSpriteDecoration(AnimatorSprite *animator, s16 x, s16 y, s16 scale)
 {
-#ifdef NON_MATCHING
+    animator->pos.x = x;
+    animator->pos.y = y;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldrsh r0, [sp, #8]
-	strh r2, [r1, #8]
-	strh r3, [r1, #0xa]
-	cmp r0, #0x1000
-	ldr r0, [r1, #0x3c]
-	ldrsh r2, [sp, #8]
-	orrgt r0, r0, #0x200
-	bicle r0, r0, #0x200
-	str r0, [r1, #0x3c]
-	cmp r2, #0x1000
-	mov r0, r1
-	beq _02162C48
-	mov r1, r2
-	mov r3, #0
-	bl AnimatorSprite__DrawFrameRotoZoom
-	ldmia sp!, {r3, pc}
-_02162C48:
-	bl AnimatorSprite__DrawFrame
-	ldmia sp!, {r3, pc}
+    if (scale > FLOAT_TO_FX32(1.0))
+        animator->flags |= ANIMATOR_FLAG_ENABLE_SCALE;
+    else
+        animator->flags &= ~ANIMATOR_FLAG_ENABLE_SCALE;
 
-// clang-format on
-#endif
+    if (scale != FLOAT_TO_FX32(1.0))
+        AnimatorSprite__DrawFrameRotoZoom(animator, scale, scale, FLOAT_DEG_TO_IDX(0.0));
+    else
+        AnimatorSprite__DrawFrame(animator);
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162C50(CViMapBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	add r0, r0, #0x500
-	ldrsh r3, [r0, #0xb4]
-	ldrsh ip, [r1]
-	sub r3, r3, #0x18
-	sub r3, ip, r3
-	strh r3, [r1]
-	ldrsh r0, [r0, #0xb6]
-	ldrsh r1, [r2, #0]
-	sub r0, r0, #0x10
-	sub r0, r1, r0
-	strh r0, [r2]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViMapBack__Func_2162C80(CViMapBack *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	add r0, r0, #0x500
-	ldrsh r3, [r0, #0xb4]
-	ldrsh ip, [r1]
-	add r3, r3, r3, lsl #1
-	mov r3, r3, asr #2
-	add r3, r3, #0x80
-	sub r3, ip, r3
-	strh r3, [r1]
-	ldrsh r0, [r0, #0xb6]
-	ldrsh r1, [r2, #0]
-	add r0, r0, r0, lsl #1
-	sub r0, r1, r0, asr #2
-	strh r0, [r2]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ViMapBack__Func_2162CB8(CViMapBack *work)
+void CViMapBack::GetSpriteDecorOffset(s16 *x, s16 *y)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #4
-	ldr r4, =0x000001FF
-	mov r7, r0
-	and r0, r7, r4
-	mov r0, r0, lsl #0x10
-	mov r7, r0, lsr #0x10
-	mov r6, r1
-	mov r5, r2
-	mov r4, r3
-	cmp r7, #0x80
-	ldr r3, [sp, #0x28]
-	ldr r2, [sp, #0x30]
-	bhs _02162D24
-	mov r8, #0
-	cmp r7, #0x19
-	strlo r8, [r2]
-	movlo r2, #6
-	movhs ip, #1
-	strhs ip, [r2]
-	movhs r2, #5
-	mov r0, #0x64
-	mov r1, #0x32
-	mov r9, #8
-	strh r2, [r3]
-	mov r10, #0x800
-	b _02162DF0
-_02162D24:
-	cmp r7, #0x100
-	bhs _02162D68
-	sub r0, r7, #0x80
-	mov r0, r0, lsl #0x10
-	mov r7, r0, lsr #0x10
-	mov r0, #1
-	str r0, [r2]
-	cmp r7, #0x67
-	movlo r2, #5
-	movhs r2, #6
-	mov r0, #0x32
-	mov r8, #8
-	mov r1, #0
-	mov r9, #0x10
-	strh r2, [r3]
-	mov r10, #0x1800
-	b _02162DF0
-_02162D68:
-	cmp r7, #0x180
-	bhs _02162DBC
-	sub r0, r7, #0x100
-	mov r0, r0, lsl #0x10
-	mov r7, r0, lsr #0x10
-	mov ip, #5
-	strh ip, [r3]
-	mov r0, #0
-	cmp r7, #0x19
-	strhs r0, [r2]
-	mov r8, #0x10
-	mov r1, #0x32
-	mov r9, #8
-	strhsh ip, [r3]
-	bhs _02162DB4
-	mov ip, #1
-	str ip, [r2]
-	mov r2, #6
-	strh r2, [r3]
-_02162DB4:
-	mov r10, #0x800
-	b _02162DF0
-_02162DBC:
-	sub r0, r7, #0x180
-	mov r0, r0, lsl #0x10
-	mov r7, r0, lsr #0x10
-	mov r9, #0
-	str r9, [r2]
-	cmp r7, #0x67
-	movlo r2, #5
-	movhs r2, #6
-	mov r0, #0x32
-	mov r8, #8
-	mov r1, #0x64
-	strh r2, [r3]
-	mov r10, #0x1800
-_02162DF0:
-	mov r3, r7
-	str r10, [sp]
-	mov r2, #0x80
-	bl Unknown2051334__Func_2051534
-	strh r0, [r6]
-	mov r0, r8
-	mov r1, r9
-	mov r3, r7
-	str r10, [sp]
-	mov r2, #0x80
-	bl Unknown2051334__Func_2051534
-	strh r0, [r5]
-	mov r1, #2
-	ldr r0, [sp, #0x34]
-	strh r1, [r4]
-	mov r2, #0
-	ldr r1, [sp, #0x38]
-	str r2, [r0]
-	ldr r0, [sp, #0x2c]
-	str r2, [r1]
-	mov r1, #0x1000
-	strh r1, [r0]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-
-// clang-format on
-#endif
+    *x -= this->bgIslandPosX - 24;
+    *y -= this->bgIslandPosY - 16;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162E54(CViMapBack *work)
+void CViMapBack::GetSpriteDecorOffsetAlt(s16 *x, s16 *y)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {lr}
-	sub sp, sp, #0x14
-	ldr ip, [sp, #0x18]
-	ldr lr, [sp, #0x1c]
-	str ip, [sp]
-	ldr ip, [sp, #0x20]
-	str lr, [sp, #4]
-	ldr lr, [sp, #0x24]
-	str ip, [sp, #8]
-	ldr ip, [sp, #0x28]
-	str lr, [sp, #0xc]
-	str ip, [sp, #0x10]
-	bl ViMapBack__Func_2162CB8
-	add sp, sp, #0x14
-	ldmia sp!, {pc}
-
-// clang-format on
-#endif
+    *x -= ((3 * this->bgIslandPosX) >> 2) + HW_LCD_CENTER_X;
+    *y -= (3 * this->bgIslandPosY) >> 2;
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162E90(CViMapBack *work)
+void CViMapBack::SpriteDecorConfig1_Seagull(u16 timer, s16 *x, s16 *y, s16 *oamPriority, u16 *animID, u16 *scale, BOOL *flipX, BOOL *isInvisible, BOOL *useAltOffset)
 {
-#ifdef NON_MATCHING
+    fx32 startX;
+    fx32 startY;
+    fx32 endX;
+    fx32 endY;
+    fx32 speed;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr lr, =0x000001FF
-	ldr r5, [sp, #0x18]
-	and r0, r0, lr
-	mov r0, r0, lsl #0x10
-	mov lr, r0, lsr #0x10
-	and r0, lr, #0xff
-	cmp lr, #0x100
-	movhs lr, #1
-	strhs lr, [r5]
-	ldr ip, [sp, #0x10]
-	ldr r4, [sp, #0x1c]
-	movhs lr, #0xa0
-	bhs _02162ED4
-	mov lr, #0
-	str lr, [r5]
-	mov lr, #0x180
-_02162ED4:
-	strh lr, [r1]
-	cmp r0, #0
-	moveq r1, #1
-	movne r1, #0
-	str r1, [r4]
-	mov r1, #0x4a
-	strh r1, [r2]
-	mov r1, #3
-	strh r1, [r3]
-	mov r1, #0xc
-	strh r1, [ip]
-	ldr r2, [sp, #0x20]
-	mov r3, #1
-	str r3, [r2]
-	cmp r0, #0x40
-	ldr r1, [sp, #0x14]
-	mov r2, #0x1000
-	strh r2, [r1]
-	rsbhs r0, r3, #0x10000
-	strhsh r0, [ip]
-	ldmia sp!, {r3, r4, r5, pc}
+    timer &= 0x1FF;
 
-// clang-format on
-#endif
+    if (timer < 128)
+    {
+        startX = 100;
+        startY = 0;
+        endX   = 50;
+        endY   = 8;
+
+        if (timer < 25)
+        {
+            *flipX  = FALSE;
+            *animID = CVIMAPDECOR_ANI_SEAGULL_TURN;
+        }
+        else
+        {
+            *flipX  = TRUE;
+            *animID = CVIMAPDECOR_ANI_SEAGULL_FLY;
+        }
+
+        speed = FLOAT_TO_FX32(0.5);
+    }
+    else if (timer < 0x100)
+    {
+        timer -= 128;
+
+        *flipX = TRUE;
+
+        startX = 50;
+        startY = 8;
+        endX   = 0;
+        endY   = 16;
+
+        if (timer < 103)
+        {
+            *animID = CVIMAPDECOR_ANI_SEAGULL_FLY;
+        }
+        else
+        {
+            *animID = CVIMAPDECOR_ANI_SEAGULL_TURN;
+        }
+
+        speed = FLOAT_TO_FX32(1.5);
+    }
+    else if (timer < 0x180)
+    {
+        timer -= 256;
+
+        *animID = CVIMAPDECOR_ANI_SEAGULL_FLY;
+
+        startX = 0;
+        startY = 16;
+        endX   = 50;
+        endY   = 8;
+
+        if (timer < 25)
+        {
+            *flipX  = TRUE;
+            *animID = CVIMAPDECOR_ANI_SEAGULL_TURN;
+        }
+        else
+        {
+            *flipX  = FALSE;
+            *animID = CVIMAPDECOR_ANI_SEAGULL_FLY;
+        }
+
+        speed = FLOAT_TO_FX32(0.5);
+    }
+    else
+    {
+        timer -= 384;
+
+        *flipX = FALSE;
+
+        startX = 50;
+        startY = 8;
+        endX   = 100;
+        endY   = 0;
+
+        if (timer < 103)
+        {
+            *animID = CVIMAPDECOR_ANI_SEAGULL_FLY;
+        }
+        else
+        {
+            *animID = CVIMAPDECOR_ANI_SEAGULL_TURN;
+        }
+
+        speed = FLOAT_TO_FX32(1.5);
+    }
+
+    *x            = Unknown2051334__Func_2051534(startX, endX, FLOAT_TO_FX32(0.03125), timer, speed);
+    *y            = Unknown2051334__Func_2051534(startY, endY, FLOAT_TO_FX32(0.03125), timer, speed);
+    *oamPriority  = SPRITE_PRIORITY_2;
+    *isInvisible  = FALSE;
+    *useAltOffset = FALSE;
+    *scale        = FLOAT_TO_FX32(1.0);
 }
 
-NONMATCH_FUNC void ViMapBack__Func_2162F2C(CViMapBack *work)
+void CViMapBack::SpriteDecorConfig2_Seagull(u16 timer, s16 *x, s16 *y, s16 *oamPriority, u16 *animID, u16 *scale, BOOL *flipX, BOOL *isInvisible, BOOL *useAltOffset)
 {
-#ifdef NON_MATCHING
+    CViMapBack::SpriteDecorConfig1_Seagull(timer, x, y, oamPriority, animID, scale, flipX, isInvisible, useAltOffset);
+}
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r5, [sp, #0x10]
-	ldr r6, =0x0000FFFF
-	ldr r4, [sp, #0x1c]
-	strh r6, [r5]
-	mov lr, #0
-	ldr r6, [sp, #0x18]
-	str lr, [r4]
-	mov ip, #1
-	str ip, [r6]
-	mov r6, #0xa0
-	strh r6, [r1]
-	mov r1, #0x4a
-	strh r1, [r2]
-	mov r1, #3
-	strh r1, [r3]
-	ldr r2, [sp, #0x20]
-	and r0, r0, #0x7f
-	str ip, [r2]
-	ldr r1, [sp, #0x14]
-	mov r2, #0x1000
-	strh r2, [r1]
-	cmp r0, #0x58
-	ldmhsia sp!, {r4, r5, r6, pc}
-	mov r1, #0xc
-	strh r1, [r5]
-	tst r0, #0x7f
-	streq ip, [r4]
-	strne lr, [r4]
-	ldmia sp!, {r4, r5, r6, pc}
+void CViMapBack::SpriteDecorConfig1_Whale(u16 timer, s16 *x, s16 *y, s16 *oamPriority, u16 *animID, u16 *scale, BOOL *flipX, BOOL *isInvisible, BOOL *useAltOffset)
+{
+    timer &= 0x1FF;
+    u16 interval = timer & 0xFF;
 
-// clang-format on
-#endif
+    if (timer < 0x100)
+    {
+        *flipX = FALSE;
+        *x     = 384;
+    }
+    else
+    {
+        *flipX = TRUE;
+        *x     = 160;
+    }
+
+    if (interval == 0)
+        *isInvisible = TRUE;
+    else
+        *isInvisible = FALSE;
+
+    *y            = 74;
+    *oamPriority  = SPRITE_PRIORITY_3;
+    *animID       = CVIMAPDECOR_ANI_WHALE;
+    *useAltOffset = TRUE;
+    *scale        = FLOAT_TO_FX32(1.0);
+
+    if (interval >= 64)
+        *animID = -1;
+}
+
+void CViMapBack::SpriteDecorConfig2_Whale(u16 timer, s16 *x, s16 *y, s16 *oamPriority, u16 *animID, u16 *scale, BOOL *flipX, BOOL *isInvisible, BOOL *useAltOffset)
+{
+    timer &= 0x7F;
+
+    *animID       = -1;
+    *isInvisible  = FALSE;
+    *flipX        = TRUE;
+    *x            = 160;
+    *y            = 74;
+    *oamPriority  = SPRITE_PRIORITY_3;
+    *useAltOffset = TRUE;
+    *scale        = FLOAT_TO_FX32(1.0);
+
+    if (timer < 88)
+    {
+        *animID = CVIMAPDECOR_ANI_WHALE;
+
+        if ((timer & 0x7F) == 0)
+            *isInvisible = TRUE;
+        else
+            *isInvisible = FALSE;
+    }
 }

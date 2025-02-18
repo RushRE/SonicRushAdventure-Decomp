@@ -328,8 +328,8 @@ void SetupDisplayForSoundTest(SoundTest *work)
     RenderCore_DisableBlending(&renderCoreGFXControlA.blendManager);
     RenderCore_DisableBlending(&renderCoreGFXControlB.blendManager);
 
-    renderCoreGFXControlA.windowManager.visible = GX_PLANEMASK_NONE;
-    renderCoreGFXControlB.windowManager.visible = GX_PLANEMASK_NONE;
+    renderCoreGFXControlA.windowManager.visible = GX_WNDMASK_NONE;
+    renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_NONE;
 }
 
 void LoadSoundTestAssets(SoundTest *work)

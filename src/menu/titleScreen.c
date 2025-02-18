@@ -527,13 +527,13 @@ void TitleScreen_Main_Init(void)
     PlaySysStream(SYSSOUND_GROUP_TITLE_2, TRUE);
 
     Camera3DTask *camera                                            = Camera3D__GetWork();
-    camera->gfxControl[1].windowManager.registers.win0X1            = 0;
-    camera->gfxControl[1].windowManager.registers.win0X2            = 0;
-    camera->gfxControl[1].windowManager.registers.win0Y1            = 0;
-    camera->gfxControl[1].windowManager.registers.win0Y2            = 0;
-    camera->gfxControl[1].windowManager.registers.win0InPlane.value = GX_PLANEMASK_NONE;
-    camera->gfxControl[1].windowManager.registers.winOutPlane.value = GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ | GX_PLANEMASK_EFFECT;
-    camera->gfxControl[1].windowManager.visible                     = TRUE;
+    camera->gfxControl[GRAPHICS_ENGINE_B].windowManager.registers.win0X1            = 0;
+    camera->gfxControl[GRAPHICS_ENGINE_B].windowManager.registers.win0X2            = 0;
+    camera->gfxControl[GRAPHICS_ENGINE_B].windowManager.registers.win0Y1            = 0;
+    camera->gfxControl[GRAPHICS_ENGINE_B].windowManager.registers.win0Y2            = 0;
+    camera->gfxControl[GRAPHICS_ENGINE_B].windowManager.registers.win0InPlane.value = GX_PLANEMASK_NONE;
+    camera->gfxControl[GRAPHICS_ENGINE_B].windowManager.registers.winOutPlane.value = GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ | GX_PLANEMASK_EFFECT;
+    camera->gfxControl[GRAPHICS_ENGINE_B].windowManager.visible                     = GX_WNDMASK_W0;
 
     SetCurrentTaskMainEvent(TitleScreen_Main_FadeIn);
 }

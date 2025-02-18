@@ -1072,7 +1072,7 @@ u16 TalkHelpers__Interaction2_Tails(void)
     switch (SaveGame__GetGameProgress())
     {
         case SAVE_PROGRESS_1:
-            if (SaveGame__Func_205BF24())
+            if (SaveGame_CheckPlayerHasSavedFlag())
                 return 2;
             else
                 return 8;

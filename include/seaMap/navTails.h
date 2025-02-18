@@ -97,7 +97,7 @@ typedef struct NavTails_
     struct NavTailsDMA
     {
         u32 tailsBackgroundID;
-        u8 buffer[2][HW_LCD_HEIGHT * 2];
+        u16 buffer[2][HW_LCD_HEIGHT];
         u16 updateID;
         u16 timer;
     } dma;

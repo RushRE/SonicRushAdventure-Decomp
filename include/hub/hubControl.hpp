@@ -188,11 +188,11 @@ public:
     static void InitEngineAForAreaSelect();
     static void InitEngineAForExitHub();
     static void InitEngineAForCutscene();
-    static void InitEngineAForUnknown();
-    static void InitEngineBForShipConstructionCutscene();
-    static void Func_215B168();
-    static void Func_215B250();
-    static void Func_215B3B4();
+    static void InitEngineAForConstructionCutscene();
+    static void InitEngineBForConstructionCutscene();
+    static void InitEngineBForConstructionFinishedCutscene();
+    static void InitEngineBForConstructionFinishedPulse();
+    static void InitEngineBForAllConstructionFinishedCutscene();
     static void InitVRAMSystem();
     static void UpdateSaveProgressForShipConstructed(s32 shipType, BOOL unknown);
     static BOOL CheckShipConstructed(s32 shipType);

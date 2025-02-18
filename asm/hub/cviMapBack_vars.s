@@ -7,8 +7,8 @@
 ovl05_02172F10: // 0x02172F10
     .hword 50, 16, 8, 0, 100, 0
 	
-.public ovl05_02172F1C
-ovl05_02172F1C: // 0x02172F1C
+.public viMapBackSpriteDecorPositionList
+viMapBackSpriteDecorPositionList: // 0x02172F1C
     .hword 128, 114
 	.hword 208, 40
 	.hword 160, 201
@@ -25,8 +25,8 @@ ovl05_02172F1C: // 0x02172F1C
 	.hword 128, 160
 	.hword 128, 160
 
-.public ovl05_02172F58
-ovl05_02172F58: // 0x02172F58
+.public viMapBackSpriteDecorAltPositionList
+viMapBackSpriteDecorAltPositionList: // 0x02172F58
     .hword 140, 122
 	.hword 228, 52
 	.hword 168, 209
@@ -43,46 +43,38 @@ ovl05_02172F58: // 0x02172F58
 	.hword 140, 176
 	.hword 140, 176
 	
-.public ovl05_02172F94
-ovl05_02172F94: // 0x02172F94
+.public ViMapBack__spriteDecorConfig1
+ViMapBack__spriteDecorConfig1: // 0x02172F94
     .word 0
 	.word 0
 	.word 0
 	.word 0
 	.word 0
 	.word 0
-	.word ViMapBack__Func_2162CB8
+	.word _ZN10CViMapBack26SpriteDecorConfig1_SeagullEtPsS0_S0_PtS1_PiS2_S2_
 	.word 0
 	.word 0
 	.word 0
 	.word 0
 	.word 0
-	.word ViMapBack__Func_2162E90
+	.word _ZN10CViMapBack24SpriteDecorConfig1_WhaleEtPsS0_S0_PtS1_PiS2_S2_
 	.word 0
 	.word 0
 	
-.public ovl05_02172FD0
-ovl05_02172FD0: // 0x02172FD0
+.public ViMapBack__spriteDecorConfig2
+ViMapBack__spriteDecorConfig2: // 0x02172FD0
     .word 0
 	.word 0
 	.word 0
 	.word 0
 	.word 0
 	.word 0
-	.word ViMapBack__Func_2162E54
+	.word _ZN10CViMapBack26SpriteDecorConfig2_SeagullEtPsS0_S0_PtS1_PiS2_S2_
 	.word 0
 	.word 0
 	.word 0
 	.word 0
 	.word 0
-	.word ViMapBack__Func_2162F2C
+	.word _ZN10CViMapBack24SpriteDecorConfig2_WhaleEtPsS0_S0_PtS1_PiS2_S2_
 	.word 0
 	.word 0
-
-.public ViMapBack__OamOrderList
-ViMapBack__OamOrderList: // 0x0217300C
-	.byte 30, 30, 30, 29, 30, 30, 30, 30, 30, 30, 30, 30, 29, 0, 0, 0
-
-aBbViMapBackBb: // 0x0217301C
-	.asciz "bb/vi_map_back.bb"
-	.align 4

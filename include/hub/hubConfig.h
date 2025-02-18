@@ -110,20 +110,109 @@ enum CViMapDecorFlags
     CVIMAPDECOR_FLAG_TRANSPARENT = 1 << 1,
 };
 
+enum CViMapDecoration
+{
+    CVIMAP_DECOR_DOCK_BEACH,
+    CVIMAP_DECOR_WATERFALL,
+    CVIMAP_DECOR_LIGHTHOUSE,
+    CVIMAP_DECOR_LAVA,
+    CVIMAP_DECOR_WATCHTOWER,
+    CVIMAP_DECOR_STATUE,
+    CVIMAP_DECOR_MONUMENT,
+    CVIMAP_DECOR_RADIO_TOWER,
+    CVIMAP_DECOR_BALLOON,
+    CVIMAP_DECOR_WATERFALL_SPLASH,
+    CVIMAP_DECOR_PALM_TREE_1,
+    CVIMAP_DECOR_PALM_TREE_2,
+    CVIMAP_DECOR_PALM_TREE_3,
+    CVIMAP_DECOR_SEAGULL,
+    CVIMAP_DECOR_VOLCANO_STEAM,
+    CVIMAP_DECOR_SMALL_WINDMILL,
+    CVIMAP_DECOR_DINOSAUR,
+    CVIMAP_DECOR_FLAG,
+    CVIMAP_DECOR_LARGE_WINDMILL,
+    CVIMAP_DECOR_WHALE,
+    CVIMAP_DECOR_FLOWER_GARDEN,
+    CVIMAP_DECOR_PRETTY_FLOWER_GARDEN,
+    
+    CVIMAP_DECOR_COUNT,
+    CVIMAP_DECOR_INVALID,
+};
+
+enum CViMapBackDecorationBackground
+{
+    CVIMAPBACK_DECORBG_ISLAND,
+    CVIMAPBACK_DECORBG_BASE,
+    CVIMAPBACK_DECORBG_DOCK_JET,
+    CVIMAPBACK_DECORBG_DOCK_BOAT,
+    CVIMAPBACK_DECORBG_DOCK_HOVER,
+    CVIMAPBACK_DECORBG_DOCK_SUBMARINE,
+    CVIMAPBACK_DECORBG_DOCK_DRILL,
+    CVIMAPBACK_DECORBG_DOCK_BEACH,
+    CVIMAPBACK_DECORBG_DEC_WATERFALL,
+    CVIMAPBACK_DECORBG_DEC_LIGHTHOUSE,
+    CVIMAPBACK_DECORBG_DEC_LAVA,
+    CVIMAPBACK_DECORBG_DEC_WATCHTOWER,
+    CVIMAPBACK_DECORBG_DEC_STATUE,
+    CVIMAPBACK_DECORBG_DEC_MONUMENT,
+    
+    CVIMAPBACK_DECORBG_COUNT,
+};
+
+enum CViMapBackDecorationSprite
+{
+    CVIMAPBACK_DECORSPRITE_RADIO_TOWER,
+    CVIMAPBACK_DECORSPRITE_BALLOON,
+    CVIMAPBACK_DECORSPRITE_WATERFALL_SPLASH,
+    CVIMAPBACK_DECORSPRITE_PALM_TREE_1,
+    CVIMAPBACK_DECORSPRITE_PALM_TREE_2,
+    CVIMAPBACK_DECORSPRITE_PALM_TREE_3,
+    CVIMAPBACK_DECORSPRITE_SEAGULL,
+    CVIMAPBACK_DECORSPRITE_VOLCANO_STEAM,
+    CVIMAPBACK_DECORSPRITE_SMALL_WINDMILL,
+    CVIMAPBACK_DECORSPRITE_DINOSAUR,
+    CVIMAPBACK_DECORSPRITE_FLAG,
+    CVIMAPBACK_DECORSPRITE_LARGE_WINDMILL,
+    CVIMAPBACK_DECORSPRITE_WHALE,
+    CVIMAPBACK_DECORSPRITE_FLOWER_GARDEN,
+    CVIMAPBACK_DECORSPRITE_PRETTY_FLOWER_GARDEN,
+    
+    CVIMAPBACK_DECORSPRITE_COUNT,
+};
+
+enum CViMapBackDecorationAnim
+{
+    CVIMAPBACK_DECORSPRITE_ANIM_RADIO_TOWER,
+    CVIMAPBACK_DECORSPRITE_ANIM_BALLOON,
+    CVIMAPBACK_DECORSPRITE_ANIM_WATERFALL_SPLASH,
+    CVIMAPBACK_DECORSPRITE_ANIM_PALM_TREE,
+    CVIMAPBACK_DECORSPRITE_ANIM_SEAGULL,
+    CVIMAPBACK_DECORSPRITE_ANIM_VOLCANO_STEAM,
+    CVIMAPBACK_DECORSPRITE_ANIM_SMALL_WINDMILL,
+    CVIMAPBACK_DECORSPRITE_ANIM_DINOSAUR,
+    CVIMAPBACK_DECORSPRITE_ANIM_FLAG,
+    CVIMAPBACK_DECORSPRITE_ANIM_LARGE_WINDMILL,
+    CVIMAPBACK_DECORSPRITE_ANIM_WHALE,
+    CVIMAPBACK_DECORSPRITE_ANIM_FLOWER_GARDEN,
+    CVIMAPBACK_DECORSPRITE_ANIM_PRETTY_FLOWER_GARDEN,
+    
+    CVIMAPBACK_DECORSPRITE_ANIM_COUNT,
+};
+
 enum CViMapDecorAnimID
 {
     CVIMAPDECOR_ANI_RADIO_TOWER,
     CVIMAPDECOR_ANI_BALLOON,
-    CVIMAPDECOR_ANI_2,
+    CVIMAPDECOR_ANI_WATERFALL_SPLASH,
     CVIMAPDECOR_ANI_PALM_TREE,
-    CVIMAPDECOR_ANI_SEAGULL_IDLE,
-    CVIMAPDECOR_ANI_5,
-    CVIMAPDECOR_ANI_6,
+    CVIMAPDECOR_ANI_SEAGULL_GLIDE,
+    CVIMAPDECOR_ANI_SEAGULL_FLY,
+    CVIMAPDECOR_ANI_SEAGULL_TURN,
     CVIMAPDECOR_ANI_VOLCANO_STEAM,
-    CVIMAPDECOR_ANI_8,
+    CVIMAPDECOR_ANI_SMALL_WINDMILL,
     CVIMAPDECOR_ANI_DINOSAUR,
     CVIMAPDECOR_ANI_FLAG,
-    CVIMAPDECOR_ANI_WINDMILL,
+    CVIMAPDECOR_ANI_LARGE_WINDMILL,
     CVIMAPDECOR_ANI_WHALE,
     CVIMAPDECOR_ANI_FLOWER_GARDEN,
     CVIMAPDECOR_ANI_PRETTY_FLOWER_GARDEN,
@@ -148,7 +237,7 @@ typedef struct CViMapAreaIconConfig_
     u32 nextArea_Up[3];
     u32 nextArea_Right[3];
     u32 nextArea_Down[3];
-    u16 field_3C;
+    u16 dockImageID;
 } CViMapAreaIconConfig;
 
 typedef struct CViDockAreaConfig_
@@ -244,13 +333,13 @@ typedef struct Unknown2171914_
 {
     u32 dockArea;
     u32 unknown;
-} Unknown2171914;
+} CViDockPreviewConfig;
 
-typedef struct CViMapDecorConfig_
+typedef struct CViMapBackDecorConfig_
 {
     u16 flags;
     u16 animID;
-} CViMapDecorConfig;
+} CViMapBackDecorConfig;
 
 // --------------------
 // FUNCTIONS
@@ -258,7 +347,7 @@ typedef struct CViMapDecorConfig_
 
 const CViMapAreaIconConfig *HubConfig__GetDockMapIconConfig(u16 area);
 const CViDockAreaConfig *HubConfig__GetDockStageConfig(u16 area);
-const Unknown2171914 *HubConfig__GetDockUnknownConfig(u16 area);
+const CViDockPreviewConfig *HubConfig__GetDockPreviewConfig(u16 area);
 const CViMapAreaConfig *HubConfig__GetDockMapConfig(u16 area);
 const CViMapAreaConfig *HubConfig__GetDockMapUnknownConfig(u16 area);
 const CViPurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id);
@@ -267,11 +356,11 @@ const CViPurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id);
 const CViPurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id);
 const CViDockBackAreaConfig *HubConfig__GetDockBackInfo(u16 id);
 const HubNpcSpawnConfig *HubConfig__GetNpcConfig(u16 id);
-const u16 *HubConfig__Func_2152A20(u16 id);
-const u16 *HubConfig__GetDecorVmiFile(u16 id);
-const u16 *HubConfig__Func_2152A40(u16 id);
-const CViMapDecorConfig *HubConfig__GetMapBackConfig(s32 id);
-BOOL HubConfig__CheckDecorConstructionUnknown(u16 id);
+const u16 *HubConfig__GetMapBackDecorID(u16 id);
+const u16 *HubConfig__GetMapBackDecorBackgroundConfig(u16 id);
+const u16 *HubConfig__GetMapBackDecorSpriteAnimator(u16 id);
+const CViMapBackDecorConfig *HubConfig__GetMapBackDecorSpriteConfig(u16 id);
+BOOL HubConfig__CheckDecorConstructionIsBackground(u16 id);
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Tails(void);
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Marine(void);
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Blaze(void);

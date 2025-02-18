@@ -41,35 +41,6 @@ public:
         CONSTRUCT_SHIP_INVALID,
     };
 
-    enum DecorationConstructionType
-    {
-        CONSTRUCT_DECOR_0,
-        CONSTRUCT_DECOR_1,
-        CONSTRUCT_DECOR_2,
-        CONSTRUCT_DECOR_3,
-        CONSTRUCT_DECOR_4,
-        CONSTRUCT_DECOR_5,
-        CONSTRUCT_DECOR_6,
-        CONSTRUCT_DECOR_7,
-        CONSTRUCT_DECOR_8,
-        CONSTRUCT_DECOR_9,
-        CONSTRUCT_DECOR_10,
-        CONSTRUCT_DECOR_11,
-        CONSTRUCT_DECOR_12,
-        CONSTRUCT_DECOR_13,
-        CONSTRUCT_DECOR_14,
-        CONSTRUCT_DECOR_15,
-        CONSTRUCT_DECOR_16,
-        CONSTRUCT_DECOR_17,
-        CONSTRUCT_DECOR_18,
-        CONSTRUCT_DECOR_19,
-        CONSTRUCT_DECOR_20,
-        CONSTRUCT_DECOR_21,
-
-        CONSTRUCT_DECOR_COUNT,
-        CONSTRUCT_DECOR_INVALID,
-    };
-
     enum ShipUpgradeType
     {
         UPGRADE_SHIP_JET_LEVEL2,
@@ -102,7 +73,7 @@ public:
     s32 shipConstructionID;
     s32 decorConstructionID;
     s32 shipUpgradeID;
-    u16 vmiFile;
+    u16 shipConstructionImageID;
     u16 cutsceneTimer;
     u16 materialCircleAngle;
     u16 materialCircleAngleOffset;
@@ -113,8 +84,8 @@ public:
     Vec2Fx16 sparklePos[8];
     HubBGCircleEffect bgCircleEffect;
     HubConstructionCompletePulse constructionCompletePulse;
-    u16 field_F68;
-    u16 field_F6A;
+    u16 unknownStartX;
+    u16 unknownStartY;
     Unknown2056FDC unknown;
 
     // --------------------
@@ -124,85 +95,86 @@ public:
     // --------------------
     // STATIC FUNCTIONS
     // --------------------
+
+    static void Create(void);
+    static void Destroy(void);
+    static void SetType(s32 type);
+    static void WarpToPosition(u16 x, u16 y);
+    static void TravelToPosition(u16 x, u16 y, u16 duration);
+    static void GetMapPosition(u16 *x, u16 *y);
+    static MapArea GetMapAreaFromMapIconTouchInput(void);
+    static MapArea GetMapAreaFromMapIconMarker(BOOL mustBeIdle);
+    static void GoToMapArea(u32 mapArea, BOOL shouldTravel);
+    static MapArea GetChosenMapArea(void);
+    static void StartShipConstructCutscene(s32 id);
+    static void StartDecorConstructCutscene(s32 id);
+    static void StartShipUpgradeCutscene(s32 id);
+    static void TravelToConstructionPos(fx32 progress);
+    static void InitMaterialRingAppearConstructCutsceneState(void);
+    static BOOL CheckMaterialRingAppearStateDone(void);
+    static void InitMaterialRingShrinkConstructCutsceneState(void);
+    static BOOL CheckMaterialRingShrinkStateDone(void);
+    static void AddDockToMap(u16 id);
+    static void AddDecorationToMap(u16 id);
+    static void InitShipBuiltConstructCutsceneState(u16 id);
+    static void InitDecorBuiltConstructCutsceneState(void);
+    static void InitShipUpgradedConstructCutsceneState(u16 id);
+    static void InitAllFinishedConstructCutsceneState(void);
+    static void InitMapIcons(void);
+    static void EnableMapIcons(BOOL enabled);
+    static void DrawMapCursor(s16 x, s16 y);
+
+    static AnimatorSprite *GetMaterialIconAnimator(u16 id);
+    static void InitMapBack(CViMap *work);
+    static void InitMapIcon(CViMap *work);
+    static void InitIslandBackgrounds(CViMap *work);
+    static void InitSprites(CViMap *work);
+    static void Release(CViMap *work);
+    static void Main_Moving(void);
+    static void Main_Idle(void);
+    static void Main_ConstructionCutscene(void);
+    static void Destructor(Task *task);
+    static void WarpToIconPosition(CViMap *work);
+    static void ClampPosToMapBounds(u16 x, u16 y, u16 *outX, u16 *outY);
+    static void ProcessMapPosMove(CViMap *work);
+    static void InitDecorations(CViMap *work);
+    static void ProcessBGCircleEffect(CViMap *work, fx32 scale, s32 progress);
+    static void DrawConstructionMaterials(CViMap *work);
+    static void SpawnConstructionSparkle(CViMap *work);
+    static void DrawConstructionSparkles(CViMap *work);
+    static void InitUnknown2056FDC(CViMap *work);
+    static void LoadUnknown2056FDC(CViMap *work, u16 id);
+    static void ProcessUnknown2056FDC(CViMap *work, GXRgb color);
+    static void ReleaseUnknown2056FDC(CViMap *work);
+    static void InitUnknown(CViMap *work);
+    static void InitConstructionCompletePulse(CViMap *work);
+    static void DrawConstructionCompletePulse(CViMap *work, GXRgb color);
+    static void ReleaseConstructionCompletePulse(CViMap *work);
+
+    // TODO: remove when properly decompiled
+private:
+    static Task *CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group);
+    static void DestructorInternal(Task *task);
 };
 
-typedef struct CViMapPaletteAnimation_
+class CViMapPaletteAnimation
 {
+public:
+    // --------------------
+    // VARIABLES
+    // --------------------
+
     PaletteAnimator aniPalette[3];
     void *aniPaletteFile;
-} CViMapPaletteAnimation;
 
-// --------------------
-// FUNCTIONS
-// --------------------
+    // --------------------
+    // STATIC FUNCTIONS
+    // --------------------
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-void ViMap__Create(void);
-Task *ViMap__CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group);
-void ViMap__Destroy(void);
-void ViMap__SetType(s32 type);
-void ViMap__WarpToPosition(u16 x, u16 y);
-void ViMap__TravelToPosition(u16 x, u16 y, u16 duration);
-void ViMap__GetMapPosition(u16 *x, u16 *y);
-MapArea ViMap__GetMapAreaFromMapIconTouchInput(void);
-MapArea ViMap__GetMapAreaFromMapIconMarker(BOOL mustBeIdle);
-void ViMap__GoToMapArea(u32 mapArea, BOOL shouldTravel);
-MapArea ViMap__GetChosenMapArea(void);
-void ViMap__StartShipConstructCutscene(s32 id);
-void ViMap__StartDecorConstructCutscene(s32 id);
-void ViMap__StartShipUpgradeCutscene(s32 id);
-void ViMap__Func_215C284(s32 a1);
-void ViMap__Func_215C408(void);
-BOOL ViMap__Func_215C48C(void);
-void ViMap__Func_215C4CC(void);
-BOOL ViMap__Func_215C4F8(void);
-void ViMap__Func_215C524(u16 a1);
-void ViMap__Func_215C58C(u16 a1);
-void ViMap__Func_215C638(u16 a1);
-void ViMap__Func_215C6AC(void);
-void ViMap__Func_215C76C(u16 a1);
-void ViMap__Func_215C7E0(void);
-void ViMap__InitMapIcons(void);
-void ViMap__EnableMapIcons(BOOL enabled);
-void ViMap__DrawMapCursor(s16 x, s16 y);
-void ViMapPaletteAnimation__Create(void);
-void ViMapPaletteAnimation__Destroy(void);
-AnimatorSprite *ViMap__Func_215C98C(u16 id);
-void ViMap__InitMapBack(CViMap *work);
-void ViMap__InitMapIcon(CViMap *work);
-void ViMap__Func_215CA60(CViMap *work);
-void ViMap__InitSprites(CViMap *work);
-void ViMap__Release(CViMap *work);
-void ViMap__Main_Moving(void);
-void ViMap__Main_Idle(void);
-void ViMap__Main_ConstructionCutscene(void);
-void ViMap__Destructor(Task *task);
-void ViMap__Func_215D150(Task *task);
-void ViMapPaletteAnimation__Main(void);
-void ViMapPaletteAnimation__Destructor(Task *task);
-void ViMap__Func_215D214(CViMap *work);
-void ViMap__ClampPosToMapBounds(u16 x, u16 y, u16 *outX, u16 *outY);
-void ViMap__Func_215D2B4(CViMap *work);
-void ViMap__Func_215D374(CViMap *work);
-void ViMap__Func_215D44C(CViMap *work, fx32 scale, s32 progress);
-void ViMap__Func_215D4B4(CViMap *work);
-void ViMap__Func_215D604(CViMap *work);
-void ViMap__Func_215D734(CViMap *work);
-void ViMap__InitUnknown2056FDC(CViMap *work);
-void ViMap__Func_215D7D8(CViMap *work, u16 a2);
-void ViMap__Func_215D930(CViMap *work, GXRgb color);
-void ViMap__ReleaseUnknown2056FDC(CViMap *work);
-void ViMap__InitUnknown(CViMap *work);
-void ViMap__InitConstructionCompletePulse(CViMap *work);
-void ViMap__DrawConstructionCompletePulse(CViMap *work, GXRgb color);
-void ViMap__Func_215DA68(CViMap *work);
-
-#ifdef __cplusplus
-}
-#endif
+    static void Create();
+    static void Destroy();
+    static void Main();
+    static void Destructor(Task *task);
+};
 
 #endif // RUSH_CVIMAP_HPP

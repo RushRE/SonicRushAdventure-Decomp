@@ -78,34 +78,34 @@ extern "C"
 NOT_DECOMPILED void _ZN13CViMapVmiFileC1Ev(void);
 NOT_DECOMPILED void _ZN13CViMapVmiFileD0Ev(void);
 NOT_DECOMPILED void _ZN13CViMapVmiFileD1Ev(void);
-NOT_DECOMPILED void ViMapVmiFile__Func_2161074(void);
-NOT_DECOMPILED void ViMapVmiFile__Func_2161084(void);
-NOT_DECOMPILED void ViMapVmiFile__Func_21610A4(void);
-NOT_DECOMPILED void ViMapVmiFile__Func_21610B0(void);
-NOT_DECOMPILED void ViMapVmiFile__Func_21610CC(void);
-NOT_DECOMPILED void ViMapVmiFile__Func_21610E8(void);
-NOT_DECOMPILED void ViMapVmiFile__Func_21610FC(void);
-NOT_DECOMPILED void ViMapVmiFile__Func_2161110(void);
-NOT_DECOMPILED void ViMapVmiFile__Func_216112C(void);
-NOT_DECOMPILED void ViMapVmiFile__Func_2161148(void);
-NOT_DECOMPILED void ViMapVmiFile__Func_216115C(void);
-NOT_DECOMPILED void ViMapVmiFile__Func_2161170(void);
+NOT_DECOMPILED void _ZN13CViMapVmiFile7ReleaseEv(void);
+NOT_DECOMPILED void ViMapVmiFile__Load(void);
+NOT_DECOMPILED void _ZN13CViMapVmiFile13GetImageCountEv(void);
+NOT_DECOMPILED void ViMapVmiFile__GetImagePixelStartX(void);
+NOT_DECOMPILED void ViMapVmiFile__GetImagePixelStartY(void);
+NOT_DECOMPILED void _ZN13CViMapVmiFile18GetImageTileStartXEt(void);
+NOT_DECOMPILED void _ZN13CViMapVmiFile18GetImageTileStartYEt(void);
+NOT_DECOMPILED void ViMapVmiFile__GetImagePixelWidth(void);
+NOT_DECOMPILED void ViMapVmiFile__GetImagePixelHeight(void);
+NOT_DECOMPILED void _ZN13CViMapVmiFile17GetImageTileWidthEt(void);
+NOT_DECOMPILED void _ZN13CViMapVmiFile18GetImageTileHeightEt(void);
+NOT_DECOMPILED void ViMapVmiFile__GetSortOrder(void);
 
 // CViMapVmpFile
 NOT_DECOMPILED void _ZN13CViMapVmpFileC1Ev(void);
 NOT_DECOMPILED void _ZN13CViMapVmpFileD0Ev(void);
 NOT_DECOMPILED void _ZN13CViMapVmpFileD1Ev(void);
-NOT_DECOMPILED void ViMapVmpFile__Func_21611EC(void);
-NOT_DECOMPILED void ViMapVmpFile__Func_21611F8(void);
-NOT_DECOMPILED void ViMapVmpFile__Func_2161210(void);
+NOT_DECOMPILED void _ZN13CViMapVmpFile7ReleaseEv(void);
+NOT_DECOMPILED void ViMapVmpFile__Load(void);
+NOT_DECOMPILED void ViMapVmpFile__GetColors(void);
 
 // CViMapVmcFile
 NOT_DECOMPILED void _ZN13CViMapVmcFileC1Ev(void);
 NOT_DECOMPILED void _ZN13CViMapVmcFileD0Ev(void);
 NOT_DECOMPILED void _ZN13CViMapVmcFileD1Ev(void);
-NOT_DECOMPILED void ViMapVmcFile__Func_2161280(void);
-NOT_DECOMPILED void ViMapVmcFile__Func_216128C(void);
-NOT_DECOMPILED void ViMapVmcFile__Func_21612A4(void);
+NOT_DECOMPILED void _ZN13CViMapVmcFile7ReleaseEv(void);
+NOT_DECOMPILED void ViMapVmcFile__Load(void);
+NOT_DECOMPILED void _ZN13CViMapVmcFile9GetPixelsEv(void);
 
 #ifdef __cplusplus
 }

@@ -6,6 +6,13 @@
 // resources
 #include <resources/narc/vi_msg_ctrl_lz7.h>
 #include <resources/bb/vi_dock.h>
+#include <resources/bb/vi_map_back.h>
+
+// --------------------
+// CONSTANTS/MACROS
+// --------------------
+
+#define GET_CVIMAPBACK_IMAGE(id) ((id) - (BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_VMC))
 
 // --------------------
 // VARIABLES
@@ -33,9 +40,61 @@ static const CViPurchaseCostConfig radioTowerCost[] =
     }
 };
 
-static const u16 ovl05_02171848[] = { 0, 1, 4, 3, 5, 2, 10, 6, 7, 8, 9, 11, 12, 13 };
-static const u16 ovl05_02171864[] = { 0, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-static const u16 ovl05_02171882[] = { 7, 8, 9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 0 };
+static const u16 mapBackDecorBackgroundConfig[] = {
+    [CVIMAPBACK_DECORBG_ISLAND]         = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_VMC),
+    [CVIMAPBACK_DECORBG_BASE]           = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DOCK_BASE_VMC),
+    [CVIMAPBACK_DECORBG_DOCK_JET]       = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DOCK_JET_VMC),
+    [CVIMAPBACK_DECORBG_DOCK_BOAT]      = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DOCK_SAIL_VMC),
+    [CVIMAPBACK_DECORBG_DOCK_HOVER]     = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DOCK_HOVER_VMC),
+    [CVIMAPBACK_DECORBG_DOCK_SUBMARINE] = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DOCK_SUBMARINE_VMC),
+    [CVIMAPBACK_DECORBG_DOCK_DRILL]     = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DOCK_DRILL_VMC),
+    [CVIMAPBACK_DECORBG_DOCK_BEACH]     = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DOCK_BEACH_VMC),
+    [CVIMAPBACK_DECORBG_DEC_WATERFALL]  = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DEC_WATERFALL_VMC),
+    [CVIMAPBACK_DECORBG_DEC_LIGHTHOUSE] = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DEC_LIGHTHOUSE_VMC),
+    [CVIMAPBACK_DECORBG_DEC_LAVA]       = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DEC_LAVA_VMC),
+    [CVIMAPBACK_DECORBG_DEC_WATCHTOWER] = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DEC_WATCHTOWER_VMC),
+    [CVIMAPBACK_DECORBG_DEC_STATUE]     = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DEC_STATUE_VMC),
+    [CVIMAPBACK_DECORBG_DEC_MONUMENT]   = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DEC_MONUMENT_VMC)
+};
+
+static const u16 mapBackDecorSpriteAnimator[] = { [CVIMAPBACK_DECORSPRITE_RADIO_TOWER]          = CVIMAPBACK_DECORSPRITE_ANIM_RADIO_TOWER,
+                                                  [CVIMAPBACK_DECORSPRITE_BALLOON]              = CVIMAPBACK_DECORSPRITE_ANIM_BALLOON,
+                                                  [CVIMAPBACK_DECORSPRITE_WATERFALL_SPLASH]     = CVIMAPBACK_DECORSPRITE_ANIM_WATERFALL_SPLASH,
+                                                  [CVIMAPBACK_DECORSPRITE_PALM_TREE_1]          = CVIMAPBACK_DECORSPRITE_ANIM_PALM_TREE,
+                                                  [CVIMAPBACK_DECORSPRITE_PALM_TREE_2]          = CVIMAPBACK_DECORSPRITE_ANIM_PALM_TREE,
+                                                  [CVIMAPBACK_DECORSPRITE_PALM_TREE_3]          = CVIMAPBACK_DECORSPRITE_ANIM_PALM_TREE,
+                                                  [CVIMAPBACK_DECORSPRITE_SEAGULL]              = CVIMAPBACK_DECORSPRITE_ANIM_SEAGULL,
+                                                  [CVIMAPBACK_DECORSPRITE_VOLCANO_STEAM]        = CVIMAPBACK_DECORSPRITE_ANIM_VOLCANO_STEAM,
+                                                  [CVIMAPBACK_DECORSPRITE_SMALL_WINDMILL]       = CVIMAPBACK_DECORSPRITE_ANIM_SMALL_WINDMILL,
+                                                  [CVIMAPBACK_DECORSPRITE_DINOSAUR]             = CVIMAPBACK_DECORSPRITE_ANIM_DINOSAUR,
+                                                  [CVIMAPBACK_DECORSPRITE_FLAG]                 = CVIMAPBACK_DECORSPRITE_ANIM_FLAG,
+                                                  [CVIMAPBACK_DECORSPRITE_LARGE_WINDMILL]       = CVIMAPBACK_DECORSPRITE_ANIM_LARGE_WINDMILL,
+                                                  [CVIMAPBACK_DECORSPRITE_WHALE]                = CVIMAPBACK_DECORSPRITE_ANIM_WHALE,
+                                                  [CVIMAPBACK_DECORSPRITE_FLOWER_GARDEN]        = CVIMAPBACK_DECORSPRITE_ANIM_FLOWER_GARDEN,
+                                                  [CVIMAPBACK_DECORSPRITE_PRETTY_FLOWER_GARDEN] = CVIMAPBACK_DECORSPRITE_ANIM_PRETTY_FLOWER_GARDEN };
+
+static const u16 mapBackDecorID[] = { /*[CVIMAP_DECOR_DOCK_BEACH]           =*/CVIMAPBACK_DECORBG_DOCK_BEACH,
+                                      /*[CVIMAP_DECOR_WATERFALL]            =*/CVIMAPBACK_DECORBG_DEC_WATERFALL,
+                                      /*[CVIMAP_DECOR_LIGHTHOUSE]           =*/CVIMAPBACK_DECORBG_DEC_LIGHTHOUSE,
+                                      /*[CVIMAP_DECOR_LAVA]                 =*/CVIMAPBACK_DECORBG_DEC_LAVA,
+                                      /*[CVIMAP_DECOR_WATCHTOWER]           =*/CVIMAPBACK_DECORBG_DEC_WATCHTOWER,
+                                      /*[CVIMAP_DECOR_STATUE]               =*/CVIMAPBACK_DECORBG_DEC_STATUE,
+                                      /*[CVIMAP_DECOR_MONUMENT]             =*/CVIMAPBACK_DECORBG_DEC_MONUMENT,
+                                      /*[CVIMAP_DECOR_RADIO_TOWER]          =*/CVIMAPBACK_DECORSPRITE_RADIO_TOWER,
+                                      /*[CVIMAP_DECOR_BALLOON]              =*/CVIMAPBACK_DECORSPRITE_BALLOON,
+                                      /*[CVIMAP_DECOR_WATERFALL_SPLASH]     =*/CVIMAPBACK_DECORSPRITE_WATERFALL_SPLASH,
+                                      /*[CVIMAP_DECOR_PALM_TREE_1]          =*/CVIMAPBACK_DECORSPRITE_PALM_TREE_1,
+                                      /*[CVIMAP_DECOR_PALM_TREE_2]          =*/CVIMAPBACK_DECORSPRITE_PALM_TREE_2,
+                                      /*[CVIMAP_DECOR_PALM_TREE_3]          =*/CVIMAPBACK_DECORSPRITE_PALM_TREE_3,
+                                      /*[CVIMAP_DECOR_SEAGULL]              =*/CVIMAPBACK_DECORSPRITE_SEAGULL,
+                                      /*[CVIMAP_DECOR_VOLCANO_STEAM]        =*/CVIMAPBACK_DECORSPRITE_VOLCANO_STEAM,
+                                      /*[CVIMAP_DECOR_SMALL_WINDMILL]       =*/CVIMAPBACK_DECORSPRITE_SMALL_WINDMILL,
+                                      /*[CVIMAP_DECOR_DINOSAUR]             =*/CVIMAPBACK_DECORSPRITE_DINOSAUR,
+                                      /*[CVIMAP_DECOR_FLAG]                 =*/CVIMAPBACK_DECORSPRITE_FLAG,
+                                      /*[CVIMAP_DECOR_LARGE_WINDMILL]       =*/CVIMAPBACK_DECORSPRITE_LARGE_WINDMILL,
+                                      /*[CVIMAP_DECOR_WHALE]                =*/CVIMAPBACK_DECORSPRITE_WHALE,
+                                      /*[CVIMAP_DECOR_FLOWER_GARDEN]        =*/CVIMAPBACK_DECORSPRITE_FLOWER_GARDEN,
+                                      /*[CVIMAP_DECOR_PRETTY_FLOWER_GARDEN] =*/CVIMAPBACK_DECORSPRITE_PRETTY_FLOWER_GARDEN };
 
 static const CViPurchaseCostConfig decorPurchaseCost[] =
 {
@@ -85,23 +144,23 @@ static const CViPurchaseCostConfig decorPurchaseCost[] =
     },
 };
 
-static const CViMapDecorConfig mapDecorGraphicsConfig[] = {
-    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_RADIO_TOWER },
-    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_BALLOON },
-    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_2 },
-    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_PALM_TREE },
-    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_SEAGULL_IDLE },
-    { .flags = CVIMAPDECOR_FLAG_TRANSPARENT, .animID = CVIMAPDECOR_ANI_VOLCANO_STEAM },
-    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_8 },
-    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_DINOSAUR },
-    { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_FLAG },
-    { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_WINDMILL },
-    { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_WHALE },
-    { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_FLOWER_GARDEN },
-    { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_PRETTY_FLOWER_GARDEN },
+static const CViMapBackDecorConfig mapBackDecorSpriteConfig[] = {
+    [CVIMAPBACK_DECORSPRITE_ANIM_RADIO_TOWER]          = { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_RADIO_TOWER },
+    [CVIMAPBACK_DECORSPRITE_ANIM_BALLOON]              = { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_BALLOON },
+    [CVIMAPBACK_DECORSPRITE_ANIM_WATERFALL_SPLASH]     = { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_WATERFALL_SPLASH },
+    [CVIMAPBACK_DECORSPRITE_ANIM_PALM_TREE]            = { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_PALM_TREE },
+    [CVIMAPBACK_DECORSPRITE_ANIM_SEAGULL]              = { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_SEAGULL_GLIDE },
+    [CVIMAPBACK_DECORSPRITE_ANIM_VOLCANO_STEAM]        = { .flags = CVIMAPDECOR_FLAG_TRANSPARENT, .animID = CVIMAPDECOR_ANI_VOLCANO_STEAM },
+    [CVIMAPBACK_DECORSPRITE_ANIM_SMALL_WINDMILL]       = { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_SMALL_WINDMILL },
+    [CVIMAPBACK_DECORSPRITE_ANIM_DINOSAUR]             = { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_DINOSAUR },
+    [CVIMAPBACK_DECORSPRITE_ANIM_FLAG]                 = { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_FLAG },
+    [CVIMAPBACK_DECORSPRITE_ANIM_LARGE_WINDMILL]       = { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_LARGE_WINDMILL },
+    [CVIMAPBACK_DECORSPRITE_ANIM_WHALE]                = { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_WHALE },
+    [CVIMAPBACK_DECORSPRITE_ANIM_FLOWER_GARDEN]        = { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_FLOWER_GARDEN },
+    [CVIMAPBACK_DECORSPRITE_ANIM_PRETTY_FLOWER_GARDEN] = { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_PRETTY_FLOWER_GARDEN },
 };
 
-static const Unknown2171914 dockUnknownConfig[] = {
+static const CViDockPreviewConfig dockPreviewConfig[] = {
     { .dockArea = DOCKAREA_BASE, .unknown = 0 },  { .dockArea = DOCKAREA_JET, .unknown = 2 },       { .dockArea = DOCKAREA_BOAT, .unknown = 3 },
     { .dockArea = DOCKAREA_HOVER, .unknown = 4 }, { .dockArea = DOCKAREA_SUBMARINE, .unknown = 5 }, { .dockArea = DOCKAREA_BEACH, .unknown = 6 },
     { .dockArea = DOCKAREA_DRILL, .unknown = 8 },
@@ -811,7 +870,7 @@ static const CViMapAreaIconConfig mapAreaIconConfig[] = {
         .nextArea_Up        = { MAPAREA_DRILL, MAPAREA_SUBMARINE, MAPAREA_TUTORIAL },
         .nextArea_Right     = { MAPAREA_BOAT, MAPAREA_TUTORIAL, MAPAREA_INVALID },
         .nextArea_Down      = { MAPAREA_JET, MAPAREA_INVALID, MAPAREA_INVALID },
-        .field_3C           = 1,
+        .dockImageID        = CVIMAPBACK_DECORBG_BASE,
     },
 
     [MAPAREA_JET] = 
@@ -823,7 +882,7 @@ static const CViMapAreaIconConfig mapAreaIconConfig[] = {
         .nextArea_Up        = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
         .nextArea_Right     = { MAPAREA_BOAT, MAPAREA_BASE, MAPAREA_INVALID },
         .nextArea_Down      = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
-        .field_3C           = 2,
+        .dockImageID        = CVIMAPBACK_DECORBG_DOCK_JET,
     },
 
     [MAPAREA_BOAT] = 
@@ -835,7 +894,7 @@ static const CViMapAreaIconConfig mapAreaIconConfig[] = {
         .nextArea_Up        = { MAPAREA_TUTORIAL, MAPAREA_INVALID, MAPAREA_INVALID },
         .nextArea_Right     = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
         .nextArea_Down      = { MAPAREA_JET, MAPAREA_INVALID, MAPAREA_INVALID },
-        .field_3C           = 3,
+        .dockImageID        = CVIMAPBACK_DECORBG_DOCK_BOAT,
     },
 
     [MAPAREA_HOVER] = 
@@ -847,7 +906,7 @@ static const CViMapAreaIconConfig mapAreaIconConfig[] = {
         .nextArea_Up        = { MAPAREA_SUBMARINE, MAPAREA_INVALID, MAPAREA_INVALID },
         .nextArea_Right     = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
         .nextArea_Down      = { MAPAREA_BEACH, MAPAREA_JET, MAPAREA_INVALID },
-        .field_3C           = 4,
+        .dockImageID        = CVIMAPBACK_DECORBG_DOCK_HOVER,
     },
 
     [MAPAREA_SUBMARINE] = 
@@ -859,7 +918,7 @@ static const CViMapAreaIconConfig mapAreaIconConfig[] = {
         .nextArea_Up        = { MAPAREA_DRILL, MAPAREA_INVALID, MAPAREA_INVALID },
         .nextArea_Right     = { MAPAREA_DRILL, MAPAREA_BASE, MAPAREA_INVALID },
         .nextArea_Down      = { MAPAREA_HOVER, MAPAREA_BASE, MAPAREA_JET },
-        .field_3C           = 5,
+        .dockImageID        = CVIMAPBACK_DECORBG_DOCK_SUBMARINE,
     },
 
     [MAPAREA_BEACH] = 
@@ -871,7 +930,7 @@ static const CViMapAreaIconConfig mapAreaIconConfig[] = {
         .nextArea_Up        = { MAPAREA_HOVER, MAPAREA_INVALID, MAPAREA_INVALID },
         .nextArea_Right     = { MAPAREA_JET, MAPAREA_BASE, MAPAREA_INVALID },
         .nextArea_Down      = { MAPAREA_JET, MAPAREA_INVALID, MAPAREA_INVALID },
-        .field_3C           = CVIEVTCMN_RESOURCE_NONE,
+        .dockImageID        = CVIEVTCMN_RESOURCE_NONE,
     },
 
     [MAPAREA_DRILL] = 
@@ -883,7 +942,7 @@ static const CViMapAreaIconConfig mapAreaIconConfig[] = {
         .nextArea_Up        = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
         .nextArea_Right     = { MAPAREA_TUTORIAL, MAPAREA_INVALID, MAPAREA_INVALID },
         .nextArea_Down      = { MAPAREA_BASE, MAPAREA_INVALID, MAPAREA_INVALID },
-        .field_3C           = 6,
+        .dockImageID        = CVIMAPBACK_DECORBG_DOCK_DRILL,
     },
 
     [MAPAREA_TUTORIAL] = 
@@ -895,7 +954,7 @@ static const CViMapAreaIconConfig mapAreaIconConfig[] = {
         .nextArea_Up        = { MAPAREA_DRILL, MAPAREA_INVALID, MAPAREA_INVALID },
         .nextArea_Right     = { MAPAREA_INVALID, MAPAREA_INVALID, MAPAREA_INVALID },
         .nextArea_Down      = { MAPAREA_BOAT, MAPAREA_BASE, MAPAREA_INVALID },
-        .field_3C           = CVIEVTCMN_RESOURCE_NONE,
+        .dockImageID        = CVIEVTCMN_RESOURCE_NONE,
     },
 };
 
@@ -913,9 +972,9 @@ const CViDockAreaConfig *HubConfig__GetDockStageConfig(u16 area)
     return &dockAreaConfig[area];
 }
 
-const Unknown2171914 *HubConfig__GetDockUnknownConfig(u16 area)
+const CViDockPreviewConfig *HubConfig__GetDockPreviewConfig(u16 area)
 {
-    return &dockUnknownConfig[area];
+    return &dockPreviewConfig[area];
 }
 
 const CViMapAreaConfig *HubConfig__GetDockMapConfig(u16 area)
@@ -958,29 +1017,30 @@ const HubNpcSpawnConfig *HubConfig__GetNpcConfig(u16 id)
     return &npcSpawnConfig[id];
 }
 
-const u16 *HubConfig__Func_2152A20(u16 id)
+const u16 *HubConfig__GetMapBackDecorID(u16 id)
 {
-    return &ovl05_02171882[id];
+    return &mapBackDecorID[id];
 }
 
-const u16 *HubConfig__GetDecorVmiFile(u16 id)
+const u16 *HubConfig__GetMapBackDecorBackgroundConfig(u16 id)
 {
-    return &ovl05_02171848[id];
+    return &mapBackDecorBackgroundConfig[id];
 }
 
-const u16 *HubConfig__Func_2152A40(u16 id)
+const u16 *HubConfig__GetMapBackDecorSpriteAnimator(u16 id)
 {
-    return &ovl05_02171864[id];
+    return &mapBackDecorSpriteAnimator[id];
 }
 
-const CViMapDecorConfig *HubConfig__GetMapBackConfig(s32 id)
+const CViMapBackDecorConfig *HubConfig__GetMapBackDecorSpriteConfig(u16 id)
 {
-    return &mapDecorGraphicsConfig[id];
+    return &mapBackDecorSpriteConfig[id];
 }
 
-BOOL HubConfig__CheckDecorConstructionUnknown(u16 id)
+// Island, Base, or any of the ship docks
+BOOL HubConfig__CheckDecorConstructionIsBackground(u16 id)
 {
-    return id <= 6;
+    return id <= CVIMAP_DECOR_MONUMENT;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Tails(void)

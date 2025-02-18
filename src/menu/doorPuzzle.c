@@ -346,7 +346,7 @@ void SetupDisplayForDoorPuzzle(void)
     GX_SetDispSelect(GX_DISP_SELECT_MAIN_SUB);
     renderCurrentDisplay = GX_DISP_SELECT_MAIN_SUB;
 
-    renderCoreGFXControlA.windowManager.visible            = GX_PLANEMASK_NONE;
+    renderCoreGFXControlA.windowManager.visible            = GX_WNDMASK_NONE;
     renderCoreGFXControlA.blendManager.blendControl.effect = BLENDTYPE_NONE;
     renderCoreGFXControlA.brightness                       = RENDERCORE_BRIGHTNESS_BLACK;
     renderCoreGFXControlA.mosaicSize                       = 0;
@@ -373,7 +373,7 @@ void SetupDisplayForDoorPuzzle(void)
 
     MI_CpuClear16(VRAMSystem__VRAM_BG[0], 0x20000);
 
-    renderCoreGFXControlB.windowManager.visible            = GX_PLANEMASK_NONE;
+    renderCoreGFXControlB.windowManager.visible            = GX_WNDMASK_NONE;
     renderCoreGFXControlB.blendManager.blendControl.effect = BLENDTYPE_NONE;
     renderCoreGFXControlB.brightness                       = RENDERCORE_BRIGHTNESS_BLACK;
     renderCoreGFXControlB.mosaicSize                       = 0;
