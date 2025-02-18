@@ -4,14 +4,10 @@
 #include <seaMap/seaMapView.h>
 
 // --------------------
-// ENUMS
-// --------------------
-
-// --------------------
 // STRUCTS
 // --------------------
 
-typedef struct SeaMapMenu_
+typedef struct SeaMapPenPalette_
 {
     BOOL useEngineB;
     u32 mode;
@@ -20,19 +16,15 @@ typedef struct SeaMapMenu_
     GXRgb paletteStore1[256];
     GXRgb paletteStore2[256];
     u16 timer;
-    u16 field_80C;
-    u8 _unused[720];
-} SeaMapMenu;
+} SeaMapPenPalette;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void SeaMapPenPalette__Create(SeaMapView *parent);
-NOT_DECOMPILED void SeaMapPenPalette__Destroy(Task *task);
-NOT_DECOMPILED u32 SeaMapPenPalette__GetMode(Task *task);
-NOT_DECOMPILED void SeaMapPenPalette__SetMode(Task *task, u32 mode);
-NOT_DECOMPILED void SeaMapPenPalette__Main(void);
-NOT_DECOMPILED void SeaMapPenPalette__Destructor(Task *task);
+Task *CreateSeaMapPenPalette(SeaMapView *parent);
+void DestroySeaMapPenPalette(Task *task);
+u32 GetSeaMapPenPaletteMode(Task *task);
+void SetSeaMapPenPaletteMode(Task *task, u32 mode);
 
 #endif // RUSH_SEAMAPPENPALETTE_H

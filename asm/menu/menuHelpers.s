@@ -3,15 +3,15 @@
 
 	.text
 
-	arm_func_start MenuHelpers__Func_217CE80
-MenuHelpers__Func_217CE80: // 0x0217CE80
+	arm_func_start MenuHelpers__GetStageID
+MenuHelpers__GetStageID: // 0x0217CE80
 	ldr r1, _0217CE90 // =0x0217E3C8
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
 	.align 2, 0
 _0217CE90: .word 0x0217E3C8
-	arm_func_end MenuHelpers__Func_217CE80
+	arm_func_end MenuHelpers__GetStageID
 
 	arm_func_start MenuHelpers__GetProgressFromStageID
 MenuHelpers__GetProgressFromStageID: // 0x0217CE94

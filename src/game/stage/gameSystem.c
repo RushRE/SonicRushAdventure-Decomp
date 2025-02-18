@@ -110,8 +110,8 @@ Player *gPlayerList[PLAYER_COUNT];
 OBS_DIFF_COLLISION stageCollision;
 PlayerGameStatus playerGameStatus;
 
-const struct MissionEntry missionList[] = {
-    // MISSION_0
+const struct MissionEntry missionList[ZONE_MISSION_COUNT] = {
+    [MISSION_0] =
     {
         .stageID = STAGE_Z11,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -122,7 +122,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_1
+    [MISSION_1] =
     {
         .stageID = STAGE_Z11,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -133,7 +133,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_2
+    [MISSION_2] =
     {
         .stageID = STAGE_Z11,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -144,7 +144,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_3
+    [MISSION_3] =
     {
         .stageID = STAGE_Z11,
         .type = MISSION_TYPE_PERFORM_TRICKS,
@@ -155,7 +155,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_4
+    [MISSION_4] =
     {
         .stageID = STAGE_Z11,
         .type = MISSION_TYPE_PERFORM_COMBOS,
@@ -166,7 +166,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_5
+    [MISSION_5] =
     {
         .stageID = STAGE_Z12,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -177,7 +177,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_6
+    [MISSION_6] =
     {
         .stageID = STAGE_Z12,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -188,7 +188,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_7
+    [MISSION_7] =
     {
         .stageID = STAGE_Z12,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -199,7 +199,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_8
+    [MISSION_8] =
     {
         .stageID = STAGE_Z12,
         .type = MISSION_TYPE_DEFEAT_ENEMIES,
@@ -210,7 +210,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_9
+    [MISSION_9] =
     {
         .stageID = STAGE_Z1B,
         .type = MISSION_TYPE_BOSS_REMATCH,
@@ -221,7 +221,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_10
+    [MISSION_10] =
     {
         .stageID = STAGE_Z1B,
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
@@ -232,7 +232,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_11
+    [MISSION_11] =
     {
         .stageID = STAGE_Z21,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -243,7 +243,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_12
+    [MISSION_12] =
     {
         .stageID = STAGE_Z21,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -254,7 +254,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_13
+    [MISSION_13] =
     {
         .stageID = STAGE_Z21,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -265,7 +265,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_14
+    [MISSION_14] =
     {
         .stageID = STAGE_Z21,
         .type = MISSION_TYPE_PERFORM_TRICKS,
@@ -276,7 +276,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_15
+    [MISSION_15] =
     {
         .stageID = STAGE_Z22,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -287,7 +287,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_16
+    [MISSION_16] =
     {
         .stageID = STAGE_Z22,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -298,7 +298,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_17
+    [MISSION_17] =
     {
         .stageID = STAGE_Z22,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -309,7 +309,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_18
+    [MISSION_18] =
     {
         .stageID = STAGE_Z22,
         .type = MISSION_TYPE_DEFEAT_ENEMIES,
@@ -320,7 +320,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_19
+    [MISSION_19] =
     {
         .stageID = STAGE_Z2B,
         .type = MISSION_TYPE_BOSS_REMATCH,
@@ -331,7 +331,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_20
+    [MISSION_20] =
     {
         .stageID = STAGE_Z2B,
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
@@ -342,7 +342,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_21
+    [MISSION_21] =
     {
         .stageID = STAGE_Z31,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -353,7 +353,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_22
+    [MISSION_22] =
     {
         .stageID = STAGE_Z31,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -364,7 +364,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_23
+    [MISSION_23] =
     {
         .stageID = STAGE_Z31,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -375,7 +375,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_24
+    [MISSION_24] =
     {
         .stageID = STAGE_Z31,
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
@@ -386,7 +386,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_25
+    [MISSION_25] =
     {
         .stageID = STAGE_Z32,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -397,7 +397,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_26
+    [MISSION_26] =
     {
         .stageID = STAGE_Z32,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -408,7 +408,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_27
+    [MISSION_27] =
     {
         .stageID = STAGE_Z32,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -419,7 +419,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_28
+    [MISSION_28] =
     {
         .stageID = STAGE_Z32,
         .type = MISSION_TYPE_REACH_GOAL,
@@ -430,7 +430,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_29
+    [MISSION_29] =
     {
         .stageID = STAGE_Z3B,
         .type = MISSION_TYPE_BOSS_REMATCH,
@@ -441,7 +441,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_30
+    [MISSION_30] =
     {
         .stageID = STAGE_Z3B,
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
@@ -452,7 +452,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_31
+    [MISSION_31] =
     {
         .stageID = STAGE_Z41,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -463,7 +463,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_32
+    [MISSION_32] =
     {
         .stageID = STAGE_Z41,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -474,7 +474,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_33
+    [MISSION_33] =
     {
         .stageID = STAGE_Z41,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -485,7 +485,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_34
+    [MISSION_34] =
     {
         .stageID = STAGE_Z41,
         .type = MISSION_TYPE_DEFEAT_ENEMIES,
@@ -496,7 +496,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_35
+    [MISSION_35] =
     {
         .stageID = STAGE_Z42,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -507,7 +507,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_36
+    [MISSION_36] =
     {
         .stageID = STAGE_Z42,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -518,7 +518,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_37
+    [MISSION_37] =
     {
         .stageID = STAGE_Z42,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -529,7 +529,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_38
+    [MISSION_38] =
     {
         .stageID = STAGE_Z42,
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
@@ -540,7 +540,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_39
+    [MISSION_39] =
     {
         .stageID = STAGE_Z4B,
         .type = MISSION_TYPE_BOSS_REMATCH,
@@ -551,7 +551,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_40
+    [MISSION_40] =
     {
         .stageID = STAGE_Z4B,
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
@@ -562,7 +562,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_41
+    [MISSION_41] =
     {
         .stageID = STAGE_Z51,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -573,7 +573,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_42
+    [MISSION_42] =
     {
         .stageID = STAGE_Z51,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -584,7 +584,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_43
+    [MISSION_43] =
     {
         .stageID = STAGE_Z51,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -595,7 +595,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_44
+    [MISSION_44] =
     {
         .stageID = STAGE_Z51,
         .type = MISSION_TYPE_PASS_FLAGS,
@@ -606,7 +606,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_45
+    [MISSION_45] =
     {
         .stageID = STAGE_Z51,
         .type = MISSION_TYPE_PERFORM_TRICKS,
@@ -617,7 +617,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_46
+    [MISSION_46] =
     {
         .stageID = STAGE_Z52,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -628,7 +628,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_47
+    [MISSION_47] =
     {
         .stageID = STAGE_Z52,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -639,7 +639,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_48
+    [MISSION_48] =
     {
         .stageID = STAGE_Z52,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -650,7 +650,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_49
+    [MISSION_49] =
     {
         .stageID = STAGE_Z5B,
         .type = MISSION_TYPE_BOSS_REMATCH,
@@ -661,7 +661,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_50
+    [MISSION_50] =
     {
         .stageID = STAGE_Z5B,
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
@@ -672,7 +672,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_51
+    [MISSION_51] =
     {
         .stageID = STAGE_Z61,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -683,7 +683,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_52
+    [MISSION_52] =
     {
         .stageID = STAGE_Z61,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -694,7 +694,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_53
+    [MISSION_53] =
     {
         .stageID = STAGE_Z61,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -705,7 +705,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_54
+    [MISSION_54] =
     {
         .stageID = STAGE_Z61,
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
@@ -716,7 +716,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_55
+    [MISSION_55] =
     {
         .stageID = STAGE_Z62,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -727,7 +727,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_56
+    [MISSION_56] =
     {
         .stageID = STAGE_Z62,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -738,7 +738,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_57
+    [MISSION_57] =
     {
         .stageID = STAGE_Z62,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -749,7 +749,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_58
+    [MISSION_58] =
     {
         .stageID = STAGE_Z62,
         .type = MISSION_TYPE_DEFEAT_ENEMIES,
@@ -760,7 +760,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_59
+    [MISSION_59] =
     {
         .stageID = STAGE_Z6B,
         .type = MISSION_TYPE_BOSS_REMATCH,
@@ -771,7 +771,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_60
+    [MISSION_60] =
     {
         .stageID = STAGE_Z6B,
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
@@ -782,7 +782,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_61
+    [MISSION_61] =
     {
         .stageID = STAGE_Z71,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -793,7 +793,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_62
+    [MISSION_62] =
     {
         .stageID = STAGE_Z71,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -804,7 +804,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_63
+    [MISSION_63] =
     {
         .stageID = STAGE_Z71,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -815,7 +815,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_64
+    [MISSION_64] =
     {
         .stageID = STAGE_Z71,
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
@@ -826,7 +826,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_65
+    [MISSION_65] =
     {
         .stageID = STAGE_Z72,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -837,7 +837,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_66
+    [MISSION_66] =
     {
         .stageID = STAGE_Z72,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -848,7 +848,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_67
+    [MISSION_67] =
     {
         .stageID = STAGE_Z72,
         .type = MISSION_TYPE_FIND_MEDAL,
@@ -859,7 +859,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_68
+    [MISSION_68] =
     {
         .stageID = STAGE_Z72,
         .type = MISSION_TYPE_PERFORM_TRICKS,
@@ -870,7 +870,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_69
+    [MISSION_69] =
     {
         .stageID = STAGE_Z7B,
         .type = MISSION_TYPE_BOSS_REMATCH,
@@ -881,7 +881,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_70
+    [MISSION_70] =
     {
         .stageID = STAGE_Z7B,
         .type = MISSION_TYPE_DEFEAT_RIVAL,
@@ -892,7 +892,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_71
+    [MISSION_71] =
     {
         .stageID = STAGE_BOSS_FINAL,
         .type = MISSION_TYPE_BOSS_REMATCH,
@@ -903,7 +903,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_72
+    [MISSION_72] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_3,
         .type = MISSION_TYPE_PERFORM_TRICKS,
@@ -914,7 +914,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_73
+    [MISSION_73] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_3,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
@@ -925,7 +925,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_74
+    [MISSION_74] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_4,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -936,7 +936,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_75
+    [MISSION_75] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_5,
         .type = MISSION_TYPE_DEFEAT_ENEMIES,
@@ -947,7 +947,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_76
+    [MISSION_76] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_5,
         .type = MISSION_TYPE_PERFORM_COMBOS,
@@ -958,7 +958,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_77
+    [MISSION_77] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_6,
         .type = MISSION_TYPE_REACH_GOAL,
@@ -969,7 +969,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_78
+    [MISSION_78] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_6,
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
@@ -980,7 +980,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_79
+    [MISSION_79] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_7,
         .type = MISSION_TYPE_REACH_GOAL,
@@ -991,7 +991,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_80
+    [MISSION_80] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_7,
         .type = MISSION_TYPE_PERFORM_COMBOS,
@@ -1002,7 +1002,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_81
+    [MISSION_81] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_8,
         .type = MISSION_TYPE_REACH_GOAL,
@@ -1013,7 +1013,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_82
+    [MISSION_82] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_8,
         .type = MISSION_TYPE_PASS_FLAGS,
@@ -1024,7 +1024,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_83
+    [MISSION_83] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_9,
         .type = MISSION_TYPE_REACH_GOAL,
@@ -1035,7 +1035,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_84
+    [MISSION_84] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_10,
         .type = MISSION_TYPE_REACH_GOAL,
@@ -1046,7 +1046,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_85
+    [MISSION_85] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_11,
         .type = MISSION_TYPE_REACH_GOAL,
@@ -1057,7 +1057,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_86
+    [MISSION_86] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_12,
         .type = MISSION_TYPE_REACH_GOAL,
@@ -1068,7 +1068,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_87
+    [MISSION_87] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_12,
         .type = MISSION_TYPE_PASS_FLAGS,
@@ -1079,7 +1079,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_88
+    [MISSION_88] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_13,
         .type = MISSION_TYPE_REACH_GOAL,
@@ -1090,7 +1090,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_89
+    [MISSION_89] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_14,
         .type = MISSION_TYPE_REACH_GOAL,
@@ -1101,7 +1101,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_90
+    [MISSION_90] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_14,
         .type = MISSION_TYPE_COLLECT_RINGS,
@@ -1112,7 +1112,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_91
+    [MISSION_91] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_15,
         .type = MISSION_TYPE_REACH_GOAL,
@@ -1123,7 +1123,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_92
+    [MISSION_92] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_15,
         .type = MISSION_TYPE_DEFEAT_ENEMIES,
@@ -1134,7 +1134,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_93
+    [MISSION_93] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_16,
         .type = MISSION_TYPE_REACH_GOAL,
@@ -1145,7 +1145,7 @@ const struct MissionEntry missionList[] = {
         },
     },
 
-    // MISSION_94
+    [MISSION_94] =
     {
         .stageID = STAGE_HIDDEN_ISLAND_16,
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,

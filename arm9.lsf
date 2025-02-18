@@ -77,10 +77,11 @@ Static arm9
     ## SEA MAP ##
     Object src/seaMap/navTails.o
     Object asm/seaMap/navTails_vars.o
-    Object asm/seaMap/seaMapView.o
-    Object asm/menu/seaMapMenu.o
+    Object asm/seaMap/seaMapView_vars.o
+    Object src/seaMap/seaMapView.o
+    Object src/seaMap/seaMapMenu.o
     Object asm/menu/seaMapChartCourseView.o
-    Object asm/seaMap/seaMapPenPalette.o
+    Object src/seaMap/seaMapPenPalette.o
     Object asm/seaMap/seaMapManager.o
     Object asm/seaMap/seaMapManagerNodeList.o
     Object asm/seaMap/seaMapEventManager.o

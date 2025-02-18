@@ -231,6 +231,7 @@ enum MissionID_
     MISSION_99,
 
     MISSION_COUNT,
+    ZONE_MISSION_COUNT = MISSION_95,
 };
 typedef s32 MissionID;
 

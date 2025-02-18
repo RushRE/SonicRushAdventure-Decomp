@@ -7121,7 +7121,7 @@ MainMenu__Func_21560A8: // 0x021560A8
 	bl LoadSpriteButtonCursorSprite
 	bl LoadSpriteButtonTouchpadSprite
 	ldr r0, [r4, #0]
-	bl SeaMapMenu__Create
+	bl CreateSeaMapMenu
 	ldr r1, _021560D4 // =MainMenu__Func_21560D8
 	mov r0, r4
 	bl MainMenu__SetState

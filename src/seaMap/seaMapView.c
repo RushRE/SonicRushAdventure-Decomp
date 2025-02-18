@@ -1,129 +1,91 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <seaMap/seaMapView.h>
+#include <game/game/gameState.h>
+#include <game/audio/audioSystem.h>
+#include <game/graphics/renderCore.h>
+#include <game/input/padInput.h>
+#include <game/input/touchInput.h>
+#include <seaMap/seaMapEventManager.h>
 
-.public VRAMSystem__GFXControl
-.public VRAMSystem__VRAM_PALETTE_OBJ
-.public VRAMSystem__VRAM_PALETTE_BG
+// --------------------
+// TEMP
+// --------------------
 
-	.bss
-	
-.public SeaMapCourseChangeView__02134174
-SeaMapCourseChangeView__02134174: // 0x02134174
-    .space 0x04
+NOT_DECOMPILED void SeaMapCollision__HandleCollisions(void);
 
-.public SeaMapView__sVars
-SeaMapView__sVars: // 0x02134178
-    .space 0x04
+// --------------------
+// VARIABLES
+// --------------------
 
-.public seaMapViewMode
-seaMapViewMode: // 0x02134178
-    .space 0x04
+NOT_DECOMPILED void *dword_210F76C;
+NOT_DECOMPILED void *byte_210F774;
+NOT_DECOMPILED void *byte_210F77C;
+NOT_DECOMPILED void *word_210F782;
+NOT_DECOMPILED void *SeaMapView__VoyageDistance;
+NOT_DECOMPILED void *stru_210F7A4;
+NOT_DECOMPILED void *stru_210F7E4;
+NOT_DECOMPILED void *stru_210F82C;
 
-.public seaMapViewUnknown1
-seaMapViewUnknown1: // 0x02134178
-    .space 0x04
+// --------------------
+// FUNCTIONS
+// --------------------
 
-.public seaMapViewUnknown2
-seaMapViewUnknown2: // 0x02134178
-    .space 0x04
+u32 SeaMapView__GetMode(void)
+{
+    return SeaMapView__sVars.mode;
+}
 
-	.text
-    
-	arm_func_start SeaMapView__GetMode
-SeaMapView__GetMode: // 0x0203DCA4
-	ldr r0, _0203DCB0 // =SeaMapView__sVars
-	ldr r0, [r0, #4]
-	bx lr
-	.align 2, 0
-_0203DCB0: .word SeaMapView__sVars
-	arm_func_end SeaMapView__GetMode
+s32 SeaMapView__Func_203DCB4(void)
+{
+    return SeaMapView__sVars.unknown1;
+}
 
-	arm_func_start SeaMapView__Func_203DCB4
-SeaMapView__Func_203DCB4: // 0x0203DCB4
-	ldr r0, _0203DCC0 // =SeaMapView__sVars
-	ldr r0, [r0, #8]
-	bx lr
-	.align 2, 0
-_0203DCC0: .word SeaMapView__sVars
-	arm_func_end SeaMapView__Func_203DCB4
+BOOL SeaMapView__IsActive(void)
+{
+    return SeaMapView__sVars.singleton != NULL;
+}
 
-	arm_func_start SeaMapView__IsActive
-SeaMapView__IsActive: // 0x0203DCC4
-	ldr r0, _0203DCDC // =SeaMapView__sVars
-	ldr r0, [r0, #0]
-	cmp r0, #0
-	movne r0, #1
-	moveq r0, #0
-	bx lr
-	.align 2, 0
-_0203DCDC: .word SeaMapView__sVars
-	arm_func_end SeaMapView__IsActive
+void SeaMapView__Func_203DCE0(s32 x, s32 y)
+{
+    SeaMapView *work = SeaMapView__GetWork();
 
-	arm_func_start SeaMapView__Func_203DCE0
-SeaMapView__Func_203DCE0: // 0x0203DCE0
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	mov r5, r1
-	bl SeaMapView__GetWork
-	mov r4, r0
-	bl SeaMapManager__GetZoomInScale
-	sub r0, r6, r0, lsl #7
-	str r0, [r4, #0x10]
-	bl SeaMapManager__GetZoomInScale
-	mov r1, #0x60
-	mul r1, r0, r1
-	sub r1, r5, r1
-	mov r0, #0
-	str r1, [r4, #0x14]
-	str r0, [r4, #0x1c]
-	str r0, [r4, #0x18]
-	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end SeaMapView__Func_203DCE0
+    work->position.x  = x - (HW_LCD_CENTER_X * SeaMapManager__GetZoomInScale());
+    work->position.y  = y - (HW_LCD_CENTER_Y * SeaMapManager__GetZoomInScale());
 
-	arm_func_start SeaMapView__GetTouchArea
-SeaMapView__GetTouchArea: // 0x0203DD24
-	stmdb sp!, {r3, lr}
-	ldr r0, _0203DD40 // =SeaMapView__sVars
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	add r0, r0, #0x358
-	add r0, r0, #0x400
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0203DD40: .word SeaMapView__sVars
-	arm_func_end SeaMapView__GetTouchArea
+    work->moveDist2.x = work->moveDist2.y = 0;
+}
 
-	arm_func_start SeaMapView__Func_203DD44
-SeaMapView__Func_203DD44: // 0x0203DD44
-	stmdb sp!, {r3, lr}
-	bl SeaMapView__GetWork
-	ldr r0, [r0, #0x79c]
-	cmp r0, #0x1000
-	movle r0, #1
-	movgt r0, #0
-	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapView__Func_203DD44
+TouchArea *SeaMapView__GetTouchArea(void)
+{
+    SeaMapView *work = TaskGetWork(SeaMapView__sVars.singleton, SeaMapView);
 
-	arm_func_start SeaMapView__InitZoomControl
-SeaMapView__InitZoomControl: // 0x0203DD60
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r4, r1
-	mov r1, r5
-	mov r0, #0
-	mov r2, #8
-	bl MIi_CpuClear16
-	str r4, [r5]
-	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapView__InitZoomControl
+    return &work->touchArea;
+}
 
-	arm_func_start SeaMapView__CanZoomIn
-SeaMapView__CanZoomIn: // 0x0203DD84
+BOOL SeaMapView__Func_203DD44(void)
+{
+    SeaMapView *work = SeaMapView__GetWork();
+
+    return work->currentVoyageDist <= FLOAT_TO_FX32(1.0);
+}
+
+void SeaMapView__InitZoomControl(SeaMapViewZoomControl *work, BOOL useEngineB)
+{
+    MI_CpuClear16(work, sizeof(*work));
+
+    work->useEngineB = useEngineB;
+}
+
+NONMATCH_FUNC BOOL SeaMapView__CanZoomIn(SeaMapViewZoomControl *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldrh r0, [r5, #4]
 	ldr r2, [r5, #0]
-	ldr r1, _0203DEA0 // =VRAMSystem__GFXControl
+	ldr r1, =VRAMSystem__GFXControl
 	cmp r0, #0
 	ldr r4, [r1, r2, lsl #2]
 	beq _0203DDB4
@@ -185,7 +147,7 @@ _0203DDFC:
 	str r0, [r1]
 	b _0203DE90
 _0203DE80:
-	ldr r1, _0203DEA4 // =0x04001000
+	ldr r1, =0x04001000
 	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	str r0, [r1]
@@ -195,18 +157,22 @@ _0203DE90:
 _0203DE98:
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0203DEA0: .word VRAMSystem__GFXControl
-_0203DEA4: .word 0x04001000
-	arm_func_end SeaMapView__CanZoomIn
 
-	arm_func_start SeaMapView__HandleZoomIn
-SeaMapView__HandleZoomIn: // 0x0203DEA8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapView__HandleZoomIn(SeaMapViewZoomControl *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldrh r0, [r5, #4]
 	ldr r2, [r5, #0]
-	ldr r1, _0203DFC4 // =VRAMSystem__GFXControl
+	ldr r1, =VRAMSystem__GFXControl
 	cmp r0, #0
 	ldr r4, [r1, r2, lsl #2]
 	beq _0203DED8
@@ -241,7 +207,7 @@ _0203DED8:
 	str r0, [r1]
 	b _0203DF50
 _0203DF3C:
-	ldr r1, _0203DFC8 // =0x04001000
+	ldr r1, =0x04001000
 	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1f00
@@ -278,18 +244,22 @@ _0203DF58:
 _0203DFBC:
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0203DFC4: .word VRAMSystem__GFXControl
-_0203DFC8: .word 0x04001000
-	arm_func_end SeaMapView__HandleZoomIn
 
-	arm_func_start SeaMapView__CanZoomOut
-SeaMapView__CanZoomOut: // 0x0203DFCC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapView__CanZoomOut(SeaMapViewZoomControl *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldrh r0, [r5, #4]
 	ldr r2, [r5, #0]
-	ldr r1, _0203E138 // =VRAMSystem__GFXControl
+	ldr r1, =VRAMSystem__GFXControl
 	cmp r0, #0
 	ldr r4, [r1, r2, lsl #2]
 	beq _0203DFFC
@@ -372,7 +342,7 @@ _0203E0B8:
 	str r0, [r1]
 	b _0203E128
 _0203E118:
-	ldr r1, _0203E13C // =0x04001000
+	ldr r1, =0x04001000
 	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	str r0, [r1]
@@ -382,18 +352,22 @@ _0203E128:
 _0203E130:
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0203E138: .word VRAMSystem__GFXControl
-_0203E13C: .word 0x04001000
-	arm_func_end SeaMapView__CanZoomOut
 
-	arm_func_start SeaMapView__HandleZoomOut
-SeaMapView__HandleZoomOut: // 0x0203E140
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapView__HandleZoomOut(SeaMapViewZoomControl *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldrh r0, [r5, #4]
 	ldr r2, [r5, #0]
-	ldr r1, _0203E260 // =VRAMSystem__GFXControl
+	ldr r1, =VRAMSystem__GFXControl
 	cmp r0, #0
 	ldr r4, [r1, r2, lsl #2]
 	beq _0203E170
@@ -429,7 +403,7 @@ _0203E170:
 	str r0, [r1]
 	b _0203E1EC
 _0203E1D8:
-	ldr r1, _0203E264 // =0x04001000
+	ldr r1, =0x04001000
 	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1f00
@@ -466,24 +440,24 @@ _0203E1F4:
 _0203E258:
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0203E260: .word VRAMSystem__GFXControl
-_0203E264: .word 0x04001000
-	arm_func_end SeaMapView__HandleZoomOut
 
-	arm_func_start SeaMapView__GetWork
-SeaMapView__GetWork: // 0x0203E268
-	ldr r0, _0203E278 // =SeaMapView__sVars
-	ldr ip, _0203E27C // =GetTaskWork_
-	ldr r0, [r0, #0]
-	bx ip
-	.align 2, 0
-_0203E278: .word SeaMapView__sVars
-_0203E27C: .word GetTaskWork_
-	arm_func_end SeaMapView__GetWork
+// clang-format on
+#endif
+}
 
-	arm_func_start SeaMapView__InitView
-SeaMapView__InitView: // 0x0203E280
+SeaMapView *SeaMapView__GetWork(void)
+{
+    SeaMapView *work = TaskGetWork(SeaMapView__sVars.singleton, SeaMapView);
+
+    return work;
+}
+
+NONMATCH_FUNC void SeaMapView__InitView(SeaMapView *work, BOOL useEngineB, ShipType shipType, BOOL allocateSprites)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x38
 	mov r9, r0
@@ -513,14 +487,14 @@ _0203E2D4:
 _0203E2DC:
 	bl SeaMapManager__GetWork
 	str r0, [sp, #0x28]
-	ldr r2, _0203E7BC // =0x000007B4
+	ldr r2, =0x000007B4
 	mov r1, r9
 	mov r0, #0
 	bl MIi_CpuClear16
 	str r8, [r9, #4]
 	bl SeaMapManager__GetWork
 	add r0, r0, #0x15c
-	ldr r1, _0203E7C0 // =VRAMSystem__GFXControl
+	ldr r1, =VRAMSystem__GFXControl
 	str r0, [r9, #0xc]
 	mvn r2, #0
 	ldr r0, [r1, r8, lsl #2]
@@ -529,7 +503,7 @@ _0203E2DC:
 	cmp r4, #4
 	strh r0, [r9, #8]
 	bge _0203E338
-	ldr r0, _0203E7C4 // =SeaMapView__VoyageDistance
+	ldr r0, =SeaMapView__VoyageDistance
 	ldr r0, [r0, r4, lsl #2]
 	mov r0, r0, lsl #0xc
 	str r0, [r9, #0x798]
@@ -552,7 +526,7 @@ _0203E338:
 	str r0, [sp, #8]
 	str r3, [sp, #0xc]
 	ldr r2, [r9, #4]
-	ldr r0, _0203E7C8 // =VRAMSystem__VRAM_PALETTE_OBJ
+	ldr r0, =VRAMSystem__VRAM_PALETTE_OBJ
 	mov r1, #6
 	ldr r2, [r0, r2, lsl #2]
 	mov r0, r4
@@ -560,7 +534,7 @@ _0203E338:
 	str r3, [sp, #0x14]
 	str r1, [sp, #0x18]
 	ldr r1, [r9, #0xc]
-	ldr r3, _0203E7CC // =0x00000814
+	ldr r3, =0x00000814
 	ldr r1, [r1, #0]
 	mov r2, #0x26
 	bl AnimatorSprite__Init
@@ -573,8 +547,8 @@ _0203E338:
 	mov r0, r9
 	bl SeaMapView__AllocateSprites
 	mov r0, #0
-	ldr r6, _0203E7D0 // =stru_210F82C
-	ldr r10, _0203E7D4 // =stru_210F7A4
+	ldr r6, =stru_210F82C
+	ldr r10, =stru_210F7A4
 	str r0, [sp, #0x24]
 	mov r11, r0
 	add r5, r9, #0x44
@@ -597,7 +571,7 @@ _0203E3FC:
 	mov r1, #0
 	str r1, [sp, #4]
 	ldr r0, [r6, #4]
-	ldr r2, _0203E7C8 // =VRAMSystem__VRAM_PALETTE_OBJ
+	ldr r2, =VRAMSystem__VRAM_PALETTE_OBJ
 	add r0, r9, r0, lsl #2
 	ldr r0, [r0, #0x30]
 	ldr r7, [r2, r8, lsl #2]
@@ -621,7 +595,7 @@ _0203E3FC:
 	strh r0, [r5, #0xa]
 	b _0203E55C
 _0203E484:
-	ldr r1, _0203E7D8 // =stru_210F7E4
+	ldr r1, =stru_210F7E4
 	sub r0, r11, #0x78
 	add r4, r1, r0
 	ldr r0, [sp, #0x20]
@@ -658,7 +632,7 @@ _0203E4F4:
 	mov r1, #0
 	str r1, [sp, #4]
 	ldr r0, [r4, #0xc]
-	ldr r3, _0203E7C8 // =VRAMSystem__VRAM_PALETTE_OBJ
+	ldr r3, =VRAMSystem__VRAM_PALETTE_OBJ
 	add r0, r9, r0, lsl #2
 	ldr r7, [r3, r8, lsl #2]
 	ldr r3, [r0, #0x30]
@@ -686,7 +660,7 @@ _0203E55C:
 	mov r1, #0
 	bl AnimatorSprite__GetBlockData
 	ldr r1, [r10, #4]
-	ldr r2, _0203E7DC // =TouchField__PointInRect
+	ldr r2, =TouchField__PointInRect
 	stmia sp, {r1, r9}
 	add r0, r5, #0x64
 	add r1, r5, #8
@@ -714,14 +688,14 @@ _0203E55C:
 	mov r3, #0xc0
 	strh r3, [sp, #0x36]
 	add r0, r9, #0x358
-	ldr r2, _0203E7E0 // =SeaMapView__TouchAreaCallback
+	ldr r2, =SeaMapView__TouchAreaCallback
 	strh r5, [r1]
 	strh r5, [r1, #2]
 	strh r5, [sp, #0x30]
 	strh r5, [sp, #0x32]
 	strh r4, [sp, #0x34]
 	str r2, [sp]
-	ldr r2, _0203E7DC // =TouchField__PointInRect
+	ldr r2, =TouchField__PointInRect
 	add r3, sp, #0x30
 	add r0, r0, #0x400
 	str r9, [sp, #4]
@@ -733,7 +707,7 @@ _0203E55C:
 	mov r2, #8
 	bl TouchField__AddArea
 	add r0, r9, #0x1c8
-	ldr r1, _0203E7C8 // =VRAMSystem__VRAM_PALETTE_OBJ
+	ldr r1, =VRAMSystem__VRAM_PALETTE_OBJ
 	add r4, r0, #0x400
 	ldr r0, [r1, r8, lsl #2]
 	str r0, [sp, #0x1c]
@@ -751,13 +725,13 @@ _0203E55C:
 	str r3, [sp, #0xc]
 	str r0, [sp, #0x10]
 	str r3, [sp, #0x14]
-	ldr r2, _0203E7E4 // =byte_210F774
+	ldr r2, =byte_210F774
 	str r3, [sp, #0x18]
 	ldrb r2, [r2, #0]
 	mov r1, r5
 	mov r0, r4
 	bl AnimatorSprite__Init
-	ldr r1, _0203E7E4 // =byte_210F774
+	ldr r1, =byte_210F774
 	mov r0, r9
 	ldrb r2, [r1, #1]
 	mvn r1, #0
@@ -765,7 +739,7 @@ _0203E55C:
 	bl SeaMapView__InitTouchCursor
 	mov r10, #0
 	add r0, r9, #0x22c
-	ldr r5, _0203E7E8 // =0x0210F776
+	ldr r5, =0x0210F776
 	add r6, r0, #0x400
 	mov r11, r10
 _0203E6B8:
@@ -834,23 +808,17 @@ _0203E6B8:
 	str r0, [r9, #0x7a8]
 	add sp, sp, #0x38
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0203E7BC: .word 0x000007B4
-_0203E7C0: .word VRAMSystem__GFXControl
-_0203E7C4: .word SeaMapView__VoyageDistance
-_0203E7C8: .word VRAMSystem__VRAM_PALETTE_OBJ
-_0203E7CC: .word 0x00000814
-_0203E7D0: .word stru_210F82C
-_0203E7D4: .word stru_210F7A4
-_0203E7D8: .word stru_210F7E4
-_0203E7DC: .word TouchField__PointInRect
-_0203E7E0: .word SeaMapView__TouchAreaCallback
-_0203E7E4: .word byte_210F774
-_0203E7E8: .word 0x0210F776
-	arm_func_end SeaMapView__InitView
 
-	arm_func_start SeaMapView__ReleaseAssets
-SeaMapView__ReleaseAssets: // 0x0203E7EC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__ReleaseAssets(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	bl SeaMapManager__GetWork
@@ -896,29 +864,42 @@ _0203E870:
 	ldr r0, [r5, #0x7a8]
 	bl FreeSndHandle
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SeaMapView__ReleaseAssets
 
-	arm_func_start SeaMapView__Func_203E898
-SeaMapView__Func_203E898: // 0x0203E898
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203E898(SeaMapView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	add r0, r0, #0x700
 	mvn r1, #0x1d
 	strh r1, [r0, #0xa4]
 	bx lr
-	arm_func_end SeaMapView__Func_203E898
 
-	arm_func_start SeaMapView__Func_203E8A8
-SeaMapView__Func_203E8A8: // 0x0203E8A8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203E8A8(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _0203E8CC
-	ldr r0, _0203E90C // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #1
 	bne _0203E8DC
 _0203E8CC:
-	ldr r0, _0203E910 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #0]
 	tst r0, #0xf0
 	beq _0203E8E8
@@ -936,13 +917,17 @@ _0203E8E8:
 	movgt r1, #0
 	strgth r1, [r0, #0xa4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0203E90C: .word touchInput
-_0203E910: .word padInput
-	arm_func_end SeaMapView__Func_203E8A8
 
-	arm_func_start SeaMapView__Func_203E914
-SeaMapView__Func_203E914: // 0x0203E914
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203E914(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x79c]
@@ -965,10 +950,10 @@ SeaMapView__Func_203E914: // 0x0203E914
 	mov r1, r6
 	sub r0, r4, r0
 	bl FX_Div
-	ldr r1, _0203EB18 // =byte_210F77C
+	ldr r1, =byte_210F77C
 	mov r2, r7, lsl #1
 	ldrh r6, [r1, r2]
-	ldr r1, _0203EB1C // =0x0210F77A
+	ldr r1, =0x0210F77A
 	mov r0, r0, lsl #0x10
 	ldrh r9, [r1, r2]
 	mov r2, r6, asr #0xa
@@ -1022,7 +1007,7 @@ _0203EA40:
 	strh r1, [r0, #0xa0]
 	add r1, r5, #0x700
 	ldrh lr, [r1, #0xa0]
-	ldr r2, _0203EB20 // =VRAMSystem__VRAM_PALETTE_BG
+	ldr r2, =VRAMSystem__VRAM_PALETTE_BG
 	add r0, r5, #0x7a0
 	mov r3, lr, asr #5
 	and r3, r3, #0x1f
@@ -1043,7 +1028,7 @@ _0203EA40:
 	add r3, r3, #0x100
 	bl QueueUncompressedPalette
 	ldr r2, [r5, #4]
-	ldr r1, _0203EB24 // =VRAMSystem__VRAM_PALETTE_OBJ
+	ldr r1, =VRAMSystem__VRAM_PALETTE_OBJ
 	add r0, r5, #0x7a0
 	ldr r2, [r1, r2, lsl #2]
 	mov r1, #1
@@ -1052,14 +1037,14 @@ _0203EA40:
 	bl LoadUncompressedPalette
 	add r0, r5, #0xa2
 	ldr r2, [r5, #4]
-	ldr r1, _0203EB24 // =VRAMSystem__VRAM_PALETTE_OBJ
+	ldr r1, =VRAMSystem__VRAM_PALETTE_OBJ
 	add r0, r0, #0x700
 	ldr r2, [r1, r2, lsl #2]
 	mov r1, #1
 	add r3, r2, #0x9e
 	mov r2, #0
 	bl LoadUncompressedPalette
-	ldr r0, _0203EB28 // =0x00000B34
+	ldr r0, =0x00000B34
 	mov r1, #0
 	umull r3, r2, r4, r0
 	mla r2, r4, r1, r2
@@ -1073,28 +1058,34 @@ _0203EA40:
 	add r0, r0, #0x400
 	str r0, [r5, #0x59c]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	.align 2, 0
-_0203EB18: .word byte_210F77C
-_0203EB1C: .word 0x0210F77A
-_0203EB20: .word VRAMSystem__VRAM_PALETTE_BG
-_0203EB24: .word VRAMSystem__VRAM_PALETTE_OBJ
-_0203EB28: .word 0x00000B34
-	arm_func_end SeaMapView__Func_203E914
 
-	arm_func_start SeaMapView__GetCursorSpriteSize
-SeaMapView__GetCursorSpriteSize: // 0x0203EB2C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__GetCursorSpriteSize(void *spriteFile)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetSpriteButtonCursorSprite
-	ldr r1, _0203EB44 // =byte_210F774
+	ldr r1, =byte_210F774
 	ldrb r1, [r1, #0]
 	bl Sprite__GetSpriteSize1FromAnim
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0203EB44: .word byte_210F774
-	arm_func_end SeaMapView__GetCursorSpriteSize
 
-	arm_func_start SeaMapView__InitTouchCursor
-SeaMapView__InitTouchCursor: // 0x0203EB48
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__InitTouchCursor(SeaMapView *work, s32 mode)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	add r0, r0, #0x1c8
 	mvn r2, #0
@@ -1106,7 +1097,7 @@ SeaMapView__InitTouchCursor: // 0x0203EB48
 	str r0, [r4, #0x3c]
 	ldmia sp!, {r3, r4, r5, pc}
 _0203EB70:
-	ldr r2, _0203EBAC // =byte_210F774
+	ldr r2, =byte_210F774
 	mov r0, r4
 	add r5, r2, r1, lsl #1
 	ldrb r1, [r2, r1, lsl #1]
@@ -1121,12 +1112,17 @@ _0203EB70:
 	strh r3, [r4, #0x50]
 	bl AnimatorSprite__ProcessAnimation
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0203EBAC: .word byte_210F774
-	arm_func_end SeaMapView__InitTouchCursor
 
-	arm_func_start SeaMapView__AllocateSprites
-SeaMapView__AllocateSprites: // 0x0203EBB0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__AllocateSprites(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r0
 	add r1, r8, #0x30
@@ -1134,8 +1130,8 @@ SeaMapView__AllocateSprites: // 0x0203EBB0
 	mov r2, #0x14
 	bl MIi_CpuClear32
 	mov r5, #0
-	ldr r6, _0203EC58 // =stru_210F82C
-	ldr r4, _0203EC5C // =dword_210F76C
+	ldr r6, =stru_210F82C
+	ldr r4, =dword_210F76C
 	mov r7, r5
 _0203EBD8:
 	cmp r5, #5
@@ -1174,13 +1170,17 @@ _0203EC48:
 	cmp r4, #5
 	blo _0203EC28
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_0203EC58: .word stru_210F82C
-_0203EC5C: .word dword_210F76C
-	arm_func_end SeaMapView__AllocateSprites
 
-	arm_func_start SeaMapView__ReleaseSprites
-SeaMapView__ReleaseSprites: // 0x0203EC60
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__ReleaseSprites(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, #0
 	mov r6, r0
@@ -1199,14 +1199,21 @@ _0203EC90:
 	cmp r5, #5
 	blo _0203EC70
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end SeaMapView__ReleaseSprites
 
-	arm_func_start SeaMapView__Func_203ECA0
-SeaMapView__Func_203ECA0: // 0x0203ECA0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC u32 SeaMapView__Func_203ECA0(SeaMapView *work, s32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0xc]
-	ldr r4, _0203ECF0 // =stru_210F82C
+	ldr r4, =stru_210F82C
 	mov r5, r1
 	ldrb r1, [r4, r5, lsl #4]
 	ldr r0, [r0, #0]
@@ -1223,14 +1230,19 @@ SeaMapView__Func_203ECA0: // 0x0203ECA0
 	movlo r4, r0
 	mov r0, r4
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0203ECF0: .word stru_210F82C
-	arm_func_end SeaMapView__Func_203ECA0
 
-	arm_func_start SeaMapView__Func_203ECF4
-SeaMapView__Func_203ECF4: // 0x0203ECF4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC u32 SeaMapView__Func_203ECF4(SeaMapView *work, s32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	ldr r3, _0203ED64 // =stru_210F7E4
+	ldr r3, =stru_210F7E4
 	sub r2, r1, #5
 	mov r1, #0x18
 	mla r4, r2, r1, r3
@@ -1258,12 +1270,16 @@ _0203ED14:
 	blo _0203ED14
 	mov r0, r5
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0203ED64: .word stru_210F7E4
-	arm_func_end SeaMapView__Func_203ECF4
 
-	arm_func_start SeaMapView__IsButtonActive
-SeaMapView__IsButtonActive: // 0x0203ED68
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapView__IsButtonActive(SeaMapView *work, s32 id){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r2, #0xa4
 	mla r0, r1, r2, r0
 	ldr r0, [r0, #0x80]
@@ -1271,10 +1287,16 @@ SeaMapView__IsButtonActive: // 0x0203ED68
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	arm_func_end SeaMapView__IsButtonActive
 
-	arm_func_start SeaMapView__IsTouchAreaActive
-SeaMapView__IsTouchAreaActive: // 0x0203ED84
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapView__IsTouchAreaActive(SeaMapView *work, s32 id){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r2, #0xa4
 	mla r0, r1, r2, r0
 	ldr r0, [r0, #0xbc]
@@ -1282,10 +1304,17 @@ SeaMapView__IsTouchAreaActive: // 0x0203ED84
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	arm_func_end SeaMapView__IsTouchAreaActive
 
-	arm_func_start SeaMapView__EnableTouchArea
-SeaMapView__EnableTouchArea: // 0x0203EDA0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__EnableTouchArea(SeaMapView *work, s32 id, BOOL enabled)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	add r3, r0, #0x44
 	mov r0, #0xa4
@@ -1306,10 +1335,17 @@ _0203EDD4:
 	orr r0, r0, #0x40
 	str r0, [r4, #0x78]
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapView__EnableTouchArea
 
-	arm_func_start SeaMapView__EnableButton
-SeaMapView__EnableButton: // 0x0203EDEC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__EnableButton(SeaMapView *work, s32 id, BOOL enabled)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	add r3, r0, #0x44
 	mov r0, #0xa4
@@ -1318,13 +1354,13 @@ SeaMapView__EnableButton: // 0x0203EDEC
 	beq _0203EE50
 	cmp r1, #5
 	bge _0203EE20
-	ldr r0, _0203EE78 // =stru_210F82C
+	ldr r0, =stru_210F82C
 	add r0, r0, r1, lsl #4
 	ldrsh r5, [r0, #8]
 	ldrsh r6, [r0, #0xa]
 	b _0203EE38
 _0203EE20:
-	ldr r2, _0203EE7C // =stru_210F7E4
+	ldr r2, =stru_210F7E4
 	sub r1, r1, #5
 	mov r0, #0x18
 	mla r0, r1, r0, r2
@@ -1339,7 +1375,7 @@ _0203EE38:
 	b _0203EE64
 _0203EE50:
 	ldr r0, [r4, #0x3c]
-	ldr r5, _0203EE80 // =0x000003E7
+	ldr r5, =0x000003E7
 	orr r0, r0, #1
 	mov r6, r5
 	str r0, [r4, #0x3c]
@@ -1349,14 +1385,17 @@ _0203EE64:
 	mov r2, r6
 	bl SetSpriteButtonPosition
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0203EE78: .word stru_210F82C
-_0203EE7C: .word stru_210F7E4
-_0203EE80: .word 0x000003E7
-	arm_func_end SeaMapView__EnableButton
 
-	arm_func_start SeaMapView__EnableMultipleButtons
-SeaMapView__EnableMultipleButtons: // 0x0203EE84
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__EnableMultipleButtons(SeaMapView *work, const u32 *states)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -1370,10 +1409,17 @@ _0203EE94:
 	cmp r4, #8
 	blo _0203EE94
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end SeaMapView__EnableMultipleButtons
 
-	arm_func_start SeaMapView__SetButtonMode
-SeaMapView__SetButtonMode: // 0x0203EEB4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__SetButtonMode(SeaMapView *work, s32 mode)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r1
 	mov r1, #1
@@ -1433,16 +1479,23 @@ _0203EF60:
 	orr r0, r0, #0x40
 	str r0, [r4, #0x204]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapView__SetButtonMode
 
-	arm_func_start SeaMapView__ProcessButtons
-SeaMapView__ProcessButtons: // 0x0203EF94
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__ProcessButtons(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _0203EFB8
-	ldr r0, _0203F024 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #1
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
@@ -1451,8 +1504,8 @@ _0203EFB8:
 	ldr r0, [r0, #0x154]
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r6, _0203F028 // =word_210F782
-	ldr r5, _0203F02C // =padInput
+	ldr r6, =word_210F782
+	ldr r5, =padInput
 	mov r7, #0
 _0203EFD4:
 	mov r0, r4
@@ -1476,14 +1529,17 @@ _0203F014:
 	cmp r7, #8
 	blo _0203EFD4
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0203F024: .word touchInput
-_0203F028: .word word_210F782
-_0203F02C: .word padInput
-	arm_func_end SeaMapView__ProcessButtons
 
-	arm_func_start SeaMapView__SetZoomLevel
-SeaMapView__SetZoomLevel: // 0x0203F030
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__SetZoomLevel(SeaMapView *work, s32 level)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r4, r0
 	mov r9, r1
@@ -1528,10 +1584,17 @@ SeaMapView__SetZoomLevel: // 0x0203F030
 	str r1, [r4, #0x1c]
 	bl SeaMapManager__EnableDrawFlags
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	arm_func_end SeaMapView__SetZoomLevel
 
-	arm_func_start SeaMapView__ProcessPadInputs
-SeaMapView__ProcessPadInputs: // 0x0203F0E0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__ProcessPadInputs(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	bl SeaMapManager__GetWork
@@ -1541,7 +1604,7 @@ SeaMapView__ProcessPadInputs: // 0x0203F0E0
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _0203F114
-	ldr r0, _0203F338 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #1
 	bne _0203F1C8
@@ -1550,7 +1613,7 @@ _0203F114:
 	ldr r0, [r0, #0x154]
 	cmp r0, #0
 	beq _0203F1C8
-	ldr r0, _0203F33C // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #0]
 	tst r0, #0xf0
 	beq _0203F1C8
@@ -1562,7 +1625,7 @@ _0203F114:
 	mov r0, r0, asr #0x1f
 	mla r3, r0, r1, r3
 	str r2, [r4, #0x24]
-	ldr r0, _0203F33C // =padInput
+	ldr r0, =padInput
 	str r2, [r4, #0x20]
 	adds r5, r5, #0x800
 	ldrh r1, [r0, #0]
@@ -1573,19 +1636,19 @@ _0203F114:
 	orr r0, r0, r2, lsl #20
 	subne r1, r1, r0
 	strne r1, [r4, #0x10]
-	ldr r1, _0203F33C // =padInput
+	ldr r1, =padInput
 	ldrh r1, [r1, #0]
 	tst r1, #0x10
 	ldrne r1, [r4, #0x10]
 	addne r1, r1, r0
 	strne r1, [r4, #0x10]
-	ldr r1, _0203F33C // =padInput
+	ldr r1, =padInput
 	ldrh r1, [r1, #0]
 	tst r1, #0x40
 	ldrne r1, [r4, #0x14]
 	subne r1, r1, r0
 	strne r1, [r4, #0x14]
-	ldr r1, _0203F33C // =padInput
+	ldr r1, =padInput
 	ldrh r1, [r1, #0]
 	tst r1, #0x80
 	ldrne r1, [r4, #0x14]
@@ -1633,7 +1696,7 @@ _0203F1C8:
 	add r0, ip, r3
 	str r0, [r4, #0x14]
 	ldr r5, [r4, #0x20]
-	ldr r0, _0203F340 // =0x00000CCC
+	ldr r0, =0x00000CCC
 	mov r3, r5, asr #0x1f
 	umull lr, ip, r5, r0
 	mla ip, r5, r1, ip
@@ -1686,24 +1749,33 @@ _0203F300:
 	movlt r0, #0
 	strlt r0, [r4, #0x24]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0203F338: .word touchInput
-_0203F33C: .word padInput
-_0203F340: .word 0x00000CCC
-	arm_func_end SeaMapView__ProcessPadInputs
 
-	arm_func_start SeaMapView__Func_203F344
-SeaMapView__Func_203F344: // 0x0203F344
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203F344(SeaMapView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r1, #0
 	str r1, [r0, #0x24]
 	str r1, [r0, #0x20]
 	str r1, [r0, #0x2c]
 	str r1, [r0, #0x28]
 	bx lr
-	arm_func_end SeaMapView__Func_203F344
 
-	arm_func_start SeaMapView__Func_203F35C
-SeaMapView__Func_203F35C: // 0x0203F35C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203F35C(SeaMapView *work, BOOL flag)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	cmp r1, #0
 	movne r4, #3
@@ -1716,21 +1788,40 @@ SeaMapView__Func_203F35C: // 0x0203F35C
 	add r1, r1, #0x400
 	bl TouchField__UpdateAreaPriority
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapView__Func_203F35C
 
-	arm_func_start SeaMapView__SetTouchAreaCallback
-SeaMapView__SetTouchAreaCallback: // 0x0203F38C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__SetTouchAreaCallback(SeaMapView *work, TouchAreaCallback callback){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	str r1, [r0, #0x764]
 	bx lr
-	arm_func_end SeaMapView__SetTouchAreaCallback
 
-	arm_func_start SeaMapView__TouchAreaCallback2
-SeaMapView__TouchAreaCallback2: // 0x0203F394
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__TouchAreaCallback2(TouchAreaResponse *response, TouchArea *touchArea, void *userData){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	bx lr
-	arm_func_end SeaMapView__TouchAreaCallback2
 
-	arm_func_start SeaMapView__TouchAreaCallback
-SeaMapView__TouchAreaCallback: // 0x0203F398
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__TouchAreaCallback(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r3, [r0, #0]
 	ldr r1, [r1, #0x14]
@@ -1793,10 +1884,17 @@ _0203F438:
 	mov r0, r0, lsl #0xc
 	str r0, [r2, #0x1c]
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapView__TouchAreaCallback
 
-	arm_func_start SeaMapView__OnButtonPressed
-SeaMapView__OnButtonPressed: // 0x0203F484
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__OnButtonPressed(TouchAreaResponse *response, TouchArea *touchArea, void *userData, u32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r0, [r0, #0]
 	ldr r1, [r1, #0x14]
@@ -1838,82 +1936,121 @@ _0203F4F4:
 	mov r1, #0
 	bl SetSpriteButtonState
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapView__OnButtonPressed
 
-	arm_func_start SeaMapView__ButtonCallback1
-SeaMapView__ButtonCallback1: // 0x0203F514
-	ldr ip, _0203F520 // =SeaMapView__OnButtonPressed
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__ButtonCallback1(TouchAreaResponse *response, TouchArea *touchArea, void *userData){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =SeaMapView__OnButtonPressed
 	mov r3, #0
 	bx ip
-	.align 2, 0
-_0203F520: .word SeaMapView__OnButtonPressed
-	arm_func_end SeaMapView__ButtonCallback1
 
-	arm_func_start SeaMapView__ButtonCallback2
-SeaMapView__ButtonCallback2: // 0x0203F524
-	ldr ip, _0203F530 // =SeaMapView__OnButtonPressed
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__ButtonCallback2(TouchAreaResponse *response, TouchArea *touchArea, void *userData){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =SeaMapView__OnButtonPressed
 	mov r3, #1
 	bx ip
-	.align 2, 0
-_0203F530: .word SeaMapView__OnButtonPressed
-	arm_func_end SeaMapView__ButtonCallback2
 
-	arm_func_start SeaMapView__ButtonCallback3
-SeaMapView__ButtonCallback3: // 0x0203F534
-	ldr ip, _0203F540 // =SeaMapView__OnButtonPressed
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__ButtonCallback3(TouchAreaResponse *response, TouchArea *touchArea, void *userData){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =SeaMapView__OnButtonPressed
 	mov r3, #2
 	bx ip
-	.align 2, 0
-_0203F540: .word SeaMapView__OnButtonPressed
-	arm_func_end SeaMapView__ButtonCallback3
 
-	arm_func_start SeaMapView__ButtonCallback4
-SeaMapView__ButtonCallback4: // 0x0203F544
-	ldr ip, _0203F550 // =SeaMapView__OnButtonPressed
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__ButtonCallback4(TouchAreaResponse *response, TouchArea *touchArea, void *userData){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =SeaMapView__OnButtonPressed
 	mov r3, #3
 	bx ip
-	.align 2, 0
-_0203F550: .word SeaMapView__OnButtonPressed
-	arm_func_end SeaMapView__ButtonCallback4
 
-	arm_func_start SeaMapView__ButtonCallback5
-SeaMapView__ButtonCallback5: // 0x0203F554
-	ldr ip, _0203F560 // =SeaMapView__OnButtonPressed
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__ButtonCallback5(TouchAreaResponse *response, TouchArea *touchArea, void *userData){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =SeaMapView__OnButtonPressed
 	mov r3, #4
 	bx ip
-	.align 2, 0
-_0203F560: .word SeaMapView__OnButtonPressed
-	arm_func_end SeaMapView__ButtonCallback5
 
-	arm_func_start SeaMapView__ButtonCallback6
-SeaMapView__ButtonCallback6: // 0x0203F564
-	ldr ip, _0203F570 // =SeaMapView__OnButtonPressed
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__ButtonCallback6(TouchAreaResponse *response, TouchArea *touchArea, void *userData){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =SeaMapView__OnButtonPressed
 	mov r3, #5
 	bx ip
-	.align 2, 0
-_0203F570: .word SeaMapView__OnButtonPressed
-	arm_func_end SeaMapView__ButtonCallback6
 
-	arm_func_start SeaMapView__ButtonCallback7
-SeaMapView__ButtonCallback7: // 0x0203F574
-	ldr ip, _0203F580 // =SeaMapView__OnButtonPressed
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__ButtonCallback7(TouchAreaResponse *response, TouchArea *touchArea, void *userData){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =SeaMapView__OnButtonPressed
 	mov r3, #6
 	bx ip
-	.align 2, 0
-_0203F580: .word SeaMapView__OnButtonPressed
-	arm_func_end SeaMapView__ButtonCallback7
 
-	arm_func_start SeaMapView__ButtonCallback8
-SeaMapView__ButtonCallback8: // 0x0203F584
-	ldr ip, _0203F590 // =SeaMapView__OnButtonPressed
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__ButtonCallback8(TouchAreaResponse *response, TouchArea *touchArea, void *userData){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =SeaMapView__OnButtonPressed
 	mov r3, #7
 	bx ip
-	.align 2, 0
-_0203F590: .word SeaMapView__OnButtonPressed
-	arm_func_end SeaMapView__ButtonCallback8
 
-	arm_func_start SeaMapView__DrawPenMarker
-SeaMapView__DrawPenMarker: // 0x0203F594
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__DrawPenMarker(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	add r0, r0, #0x164
 	add r4, r0, #0x400
@@ -1934,10 +2071,17 @@ SeaMapView__DrawPenMarker: // 0x0203F594
 	mov r0, r4
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapView__DrawPenMarker
 
-	arm_func_start SeaMapView__DrawButtons
-SeaMapView__DrawButtons: // 0x0203F5E4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__DrawButtons(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	add r5, r0, #0x44
 	mov r4, #0
@@ -1968,16 +2112,23 @@ _0203F640:
 	add r5, r5, #0xa4
 	blo _0203F5FC
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SeaMapView__DrawButtons
 
-	arm_func_start SeaMapView__DrawTouchCursor
-SeaMapView__DrawTouchCursor: // 0x0203F654
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__DrawTouchCursor(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldr r1, _0203F698 // =touchInput
+	ldr r1, =touchInput
 	ldrh r0, [r1, #0x12]
 	tst r0, #1
 	ldmeqia sp!, {r4, pc}
@@ -1989,12 +2140,17 @@ SeaMapView__DrawTouchCursor: // 0x0203F654
 	strh r1, [r0, #0xa]
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0203F698: .word touchInput
-	arm_func_end SeaMapView__DrawTouchCursor
 
-	arm_func_start SeaMapView__DrawPadCursors
-SeaMapView__DrawPadCursors: // 0x0203F69C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__DrawPadCursors(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0x700
@@ -2049,10 +2205,17 @@ _0203F718:
 	strh r1, [r4, #0xa]
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapView__DrawPadCursors
 
-	arm_func_start SeaMapView__Func_203F770
-SeaMapView__Func_203F770: // 0x0203F770
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203F770(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x10]
@@ -2063,12 +2226,18 @@ SeaMapView__Func_203F770: // 0x0203F770
 	bl SeaMapManager__GetYPos
 	str r0, [r4, #0x14]
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapView__Func_203F770
 
-	arm_func_start SeaMapView__FadeToBlack
-SeaMapView__FadeToBlack: // 0x0203F798
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapView__FadeToBlack(SeaMapView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r1, [r0, #4]
-	ldr r0, _0203F7F8 // =VRAMSystem__GFXControl
+	ldr r0, =VRAMSystem__GFXControl
 	ldr r2, [r0, r1, lsl #2]
 	ldrsh r1, [r2, #0x58]
 	cmp r1, #0
@@ -2093,14 +2262,18 @@ _0203F7E4:
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	.align 2, 0
-_0203F7F8: .word VRAMSystem__GFXControl
-	arm_func_end SeaMapView__FadeToBlack
 
-	arm_func_start SeaMapView__FadeActiveScreen
-SeaMapView__FadeActiveScreen: // 0x0203F7FC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapView__FadeActiveScreen(SeaMapView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r2, [r0, #4]
-	ldr r1, _0203F860 // =VRAMSystem__GFXControl
+	ldr r1, =VRAMSystem__GFXControl
 	ldrsh r3, [r0, #8]
 	ldr ip, [r1, r2, lsl #2]
 	ldrsh r2, [ip, #0x58]
@@ -2126,17 +2299,21 @@ _0203F848:
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	.align 2, 0
-_0203F860: .word VRAMSystem__GFXControl
-	arm_func_end SeaMapView__FadeActiveScreen
 
-	arm_func_start SeaMapView__FadeOtherScreen
-SeaMapView__FadeOtherScreen: // 0x0203F864
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapView__FadeOtherScreen(SeaMapView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r1, [r0, #4]
 	ldrsh r3, [r0, #8]
 	cmp r1, #0
-	ldreq ip, _0203F8CC // =renderCoreGFXControlB
-	ldrne ip, _0203F8D0 // =renderCoreGFXControlA
+	ldreq ip, =renderCoreGFXControlB
+	ldrne ip, =renderCoreGFXControlA
 	ldrsh r2, [ip, #0x58]
 	cmp r2, r3
 	bge _0203F89C
@@ -2160,13 +2337,17 @@ _0203F8B4:
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	.align 2, 0
-_0203F8CC: .word renderCoreGFXControlB
-_0203F8D0: .word renderCoreGFXControlA
-	arm_func_end SeaMapView__FadeOtherScreen
 
-	arm_func_start SeaMapView__Func_203F8D4
-SeaMapView__Func_203F8D4: // 0x0203F8D4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203F8D4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__ClearUnknownPtr
 	bl SeaMapManager__GetZoomLevel
@@ -2189,10 +2370,17 @@ _0203F910:
 	mov r0, #8
 	bl SeaMapManager__EnableDrawFlags
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapView__Func_203F8D4
 
-	arm_func_start SeaMapView__Func_203F91C
-SeaMapView__Func_203F91C: // 0x0203F91C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203F91C(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
 	bl SeaMapManager__GetNodeCount
@@ -2228,10 +2416,17 @@ _0203F950:
 	bne _0203F950
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	arm_func_end SeaMapView__Func_203F91C
 
-	arm_func_start SeaMapView__Func_203F9A4
-SeaMapView__Func_203F9A4: // 0x0203F9A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203F9A4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	bl SeaMapManager__GetNodeCount
 	cmp r0, #2
@@ -2265,10 +2460,17 @@ _0203F9E0:
 	mov r1, r7
 	bne _0203F9E0
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SeaMapView__Func_203F9A4
 
-	arm_func_start SeaMapView__Func_203FA24
-SeaMapView__Func_203FA24: // 0x0203FA24
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203FA24(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl SeaMapManager__GetNodeCount
 	cmp r0, #2
@@ -2314,10 +2516,17 @@ _0203FA78:
 	mov r8, r10
 	bne _0203FA78
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end SeaMapView__Func_203FA24
 
-	arm_func_start SeaMapView__Func_203FAD4
-SeaMapView__Func_203FAD4: // 0x0203FAD4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203FAD4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetZoomLevel
 	cmp r0, #0
@@ -2336,10 +2545,17 @@ _0203FB00:
 _0203FB08:
 	bl SeaMapView__Func_203FBE8
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapView__Func_203FAD4
 
-	arm_func_start SeaMapView__Func_203FB10
-SeaMapView__Func_203FB10: // 0x0203FB10
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203FB10(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	bl SeaMapManager__GetNodeCount
 	cmp r0, #2
@@ -2366,10 +2582,17 @@ SeaMapView__Func_203FB10: // 0x0203FB10
 	mov r0, #8
 	bl SeaMapManager__EnableDrawFlags
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapView__Func_203FB10
 
-	arm_func_start SeaMapView__Func_203FB78
-SeaMapView__Func_203FB78: // 0x0203FB78
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203FB78(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	bl SeaMapManager__GetNodeCount
@@ -2398,10 +2621,17 @@ SeaMapView__Func_203FB78: // 0x0203FB78
 	bl SeaMapManager__EnableDrawFlags
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end SeaMapView__Func_203FB78
 
-	arm_func_start SeaMapView__Func_203FBE8
-SeaMapView__Func_203FBE8: // 0x0203FBE8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203FBE8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	bl SeaMapManager__GetNodeCount
 	cmp r0, #2
@@ -2439,10 +2669,17 @@ SeaMapView__Func_203FBE8: // 0x0203FBE8
 	mov r0, #8
 	bl SeaMapManager__EnableDrawFlags
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SeaMapView__Func_203FBE8
 
-	arm_func_start SeaMapView__Func_203FC7C
-SeaMapView__Func_203FC7C: // 0x0203FC7C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 SeaMapView__Func_203FC7C(SeaMapView *work, u16 a2, u16 a3)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x28
 	mov r5, r0
@@ -2559,14 +2796,21 @@ _0203FE0C:
 	mov r0, r4
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapView__Func_203FC7C
 
-	arm_func_start SeaMapView__Func_203FE44
-SeaMapView__Func_203FE44: // 0x0203FE44
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203FE44(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__RemoveAllNodes
-	ldr r0, _0203FE7C // =SeaMapView__sVars
+	ldr r0, =SeaMapView__sVars
 	ldr r1, [r4, #0x798]
 	ldr r0, [r0, #0xc]
 	subs r0, r1, r0
@@ -2577,12 +2821,17 @@ SeaMapView__Func_203FE44: // 0x0203FE44
 	mov r1, #0
 	strh r1, [r0, #0x94]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0203FE7C: .word SeaMapView__sVars
-	arm_func_end SeaMapView__Func_203FE44
 
-	arm_func_start SeaMapView__Func_203FE80
-SeaMapView__Func_203FE80: // 0x0203FE80
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapView__Func_203FE80(SeaMapView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x700
@@ -2592,7 +2841,7 @@ SeaMapView__Func_203FE80: // 0x0203FE80
 	add r1, r4, #0x700
 	strh r0, [r1, #0x94]
 	bl SeaMapManager__GetTotalDistance
-	ldr r1, _0203FEC8 // =SeaMapView__sVars
+	ldr r1, =SeaMapView__sVars
 	ldr r2, [r4, #0x798]
 	ldr r1, [r1, #0xc]
 	sub r1, r2, r1
@@ -2601,148 +2850,7 @@ SeaMapView__Func_203FE80: // 0x0203FE80
 	movmi r0, #0
 	strmi r0, [r4, #0x79c]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0203FEC8: .word SeaMapView__sVars
-	arm_func_end SeaMapView__Func_203FE80
 
-	.rodata
-
-.public dword_210F76C
-dword_210F76C: // 0x0210F76C
-	.word 0x1F, 0x20
-
-.public byte_210F774
-byte_210F774: // byte_210F774
-	.byte 0, 0, 1, 0, 2, 0, 0x1F, 0
-
-.public byte_210F77C
-byte_210F77C: // byte_210F77C
-	.byte 0x1F, 2, 0xFF, 3, 0xE0, 3
-
-.public word_210F782
-word_210F782: // word_210F782
-	// .hword PAD_BUTTON_B, PAD_BUTTON_R, PAD_BUTTON_L, 0, 0, 0, 0, 0, 0
-	.hword 2, 0x100, 0x200, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000
-
-.public SeaMapView__VoyageDistance
-SeaMapView__VoyageDistance: // SeaMapView__VoyageDistance
-	.word 0x58, 0xB0, 0x90, 0xB0
-
-.public stru_210F7A4
-stru_210F7A4: // stru_210F7A4
-    .hword 0                   			// priority
-	.align 4
-	.word SeaMapView__ButtonCallback1	// callback
-
-	.hword 0                   			// priority
-	.align 4
-	.word SeaMapView__ButtonCallback2	// callback
-
-	.hword 0                   			// priority
-	.align 4
-	.word SeaMapView__ButtonCallback3	// callback
-
-	.hword 0                   			// priority
-	.align 4
-	.word SeaMapView__ButtonCallback4	// callback
-
-	.hword 0                   			// priority
-	.align 4
-	.word SeaMapView__ButtonCallback5	// callback
-
-	.hword 0                   			// priority
-	.align 4
-	.word SeaMapView__ButtonCallback6	// callback
-
-	.hword 0                   			// priority
-	.align 4
-	.word SeaMapView__ButtonCallback7	// callback
-
-	.hword 0                   			// priority
-	.align 4
-	.word SeaMapView__ButtonCallback8	// callback
-
-.public stru_210F7E4
-stru_210F7E4: // 0x0210F7E4
-	.byte 47, 56, 65, 74, 83, 92// animIDs
-	.byte 0, 0
-	.byte 4                   // oamOrder
-	.byte 0                   // field_9
-	.byte 0                   // field_A
-	.byte 0                   // field_B
-	.word 2                   // vramPixels
-	.hword 0x80               // x
-	.hword 0x52               // y
-	.byte 1, 2, 3             // paletteRows
-	.byte 0
-
-	.byte 50, 59, 68, 77, 86, 95// animIDs
-	.byte 0, 0
-	.byte 4                   // oamOrder
-	.byte 0                   // field_9
-	.byte 0                   // field_A
-	.byte 0                   // field_B
-	.word 3                   // vramPixels
-	.hword 0x80               // x
-	.hword 0x72               // y
-	.byte 1, 2, 3             // paletteRows
-	.byte 0
-
-	.byte 53, 62, 71, 80, 89, 98// animIDs
-	.byte 0, 0
-	.byte 4                   // oamOrder
-	.byte 0                   // field_9
-	.byte 0                   // field_A
-	.byte 0                   // field_B
-	.word 2                   // vramPixels
-	.hword 0x80               // x
-	.hword 0x52               // y
-	.byte 1, 2, 3             // paletteRows
-	.byte 0
-
-.public stru_210F82C
-stru_210F82C: // stru_210F82C
-    .byte 4                   // animID
-	.byte 4                   // oamOrder
-	.align 4
-	.word 1                   // vramPixels
-	.hword 0x10               // x
-	.hword 0xB0               // y
-	.byte 1, 2, 3             // paletteRows
-	.byte 0
-
-	.byte 0x10                // animID
-	.byte 4                   // oamOrder
-	.align 4
-	.word 0                   // vramPixels
-	.hword 0xF0               // x
-	.hword 0xB0               // y
-	.byte 1, 2, 3             // paletteRows
-	.byte 0
-
-	.byte 0x13                // animID
-	.byte 4                   // oamOrder
-	.align 4
-	.word 4                   // vramPixels
-	.hword 0xD0               // x
-	.hword 0xB0               // y
-	.byte 1, 2, 3             // paletteRows
-	.byte 0
-
-	.byte 0xD                 // animID
-	.byte 4                   // oamOrder
-	.align 4
-	.word 2                   // vramPixels
-	.hword 0x50               // x
-	.hword 0xB4               // y
-	.byte 1, 2, 3             // paletteRows
-	.byte 0
-
-	.byte 0xA                 // animID
-	.byte 4                   // oamOrder
-	.align 4
-	.word 3                   // vramPixels
-	.hword 0x94               // x
-	.hword 0xB4               // y
-	.byte 1, 2, 3             // paletteRows
-	.byte 0
+// clang-format on
+#endif
+}

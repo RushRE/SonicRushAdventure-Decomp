@@ -18,6 +18,8 @@ typedef struct SeaMapObject_ SeaMapObject;
 typedef SeaMapObject *(*SeaMapObjCreateFunc)(CHEVObjectType *objectType, CHEVObject *mapObject);
 typedef BOOL (*SeaMapObjViewCheck)(CHEVObject *mapObject, fx32 x, fx32 y, BOOL flag);
 
+typedef struct SeaMapIslandDrawIcon_ SeaMapIslandDrawIcon;
+
 // --------------------
 // ENUMS
 // --------------------
@@ -77,7 +79,7 @@ struct SeaMapObject_
 typedef struct SeaMapEventManager_
 {
     s32 lastTouchedIconType;
-    void *lastTouchedIcon;
+    SeaMapIslandDrawIcon *lastTouchedIcon;
     CHEVObject objectList[16];
     AnimatorSprite aniJohnny;
     AnimatorSprite aniJohnnyDefeated;

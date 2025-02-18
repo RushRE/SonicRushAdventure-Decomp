@@ -13,11 +13,11 @@
 // STRUCTS
 // --------------------
 
-typedef struct SeaMapIslandDrawIcon_
+struct SeaMapIslandDrawIcon_
 {
     SeaMapObject objWork;
     SpriteButtonAnimator aniDrawIcon;
-} SeaMapIslandDrawIcon;
+};
 
 // --------------------
 // FUNCTIONS

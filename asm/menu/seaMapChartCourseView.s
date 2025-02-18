@@ -2068,10 +2068,10 @@ SeaMapChartCourseView__State_2042278: // 0x02042278
 	streq r0, [r5, #0x7c4]
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r5
-	bl SeaMapPenPalette__Create
+	bl CreateSeaMapPenPalette
 	mov r1, #1
 	str r0, [r4, #0x8e0]
-	bl SeaMapPenPalette__SetMode
+	bl SetSeaMapPenPaletteMode
 	mov r1, #1
 	ldr r0, _020422D0 // =SeaMapChartCourseView__State_20422D4
 	str r1, [r5, #0x9d0]
@@ -2087,7 +2087,7 @@ SeaMapChartCourseView__State_20422D4: // 0x020422D4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0xab4]
-	bl SeaMapPenPalette__GetMode
+	bl GetSeaMapPenPaletteMode
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	bl IsTouchInputEnabled
@@ -2216,7 +2216,7 @@ _02042460:
 	beq _020424BC
 	ldr r0, [r4, #0xe0]
 	mov r1, #2
-	bl SeaMapPenPalette__SetMode
+	bl SetSeaMapPenPaletteMode
 	ldr r0, _020424D8 // =SeaMapChartCourseView__State_20424DC
 	add sp, sp, #8
 	str r0, [r6, #0x7c4]
@@ -2239,13 +2239,13 @@ SeaMapChartCourseView__State_20424DC: // 0x020424DC
 	mov r5, r0
 	add r4, r5, #0x1d4
 	ldr r0, [r4, #0x8e0]
-	bl SeaMapPenPalette__GetMode
+	bl GetSeaMapPenPaletteMode
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, pc}
 	mov r0, #0
 	str r0, [r5, #0x9d0]
 	ldr r0, [r4, #0x8e0]
-	bl SeaMapPenPalette__Destroy
+	bl DestroySeaMapPenPalette
 	mov r0, #0
 	str r0, [r4, #0x8e0]
 	ldr r1, [r4, #0x820]

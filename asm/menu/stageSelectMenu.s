@@ -1156,7 +1156,7 @@ _0215E1DC:
 	bne _0215E1DC
 _0215E1E4:
 	mov r0, #0x16
-	bl MenuHelpers__Func_217CE80
+	bl MenuHelpers__GetStageID
 	mov r1, #0
 	mov r2, r1
 	bl MenuHelpers__CheckProgress
