@@ -1,7 +1,6 @@
 #ifndef RUSH_SEAMAPCOURSECHANGEVIEW_H
 #define RUSH_SEAMAPCOURSECHANGEVIEW_H
 
-#include <global.h>
 #include <game/system/task.h>
 
 // --------------------

@@ -26,6 +26,9 @@
 #include <seaMap/seaMapCourseChangeView.h>
 #include <menu/networkErrorMenu.h>
 #include <hub/hubControl.hpp>
+#include <seaMap/seaMapUnknown.h>
+#include <seaMap/seaMapCutscene.h>
+#include <seaMap/seaMapTraining.h>
 
 // --------------------
 // TEMP
@@ -38,9 +41,6 @@ NOT_DECOMPILED void VSStageClear__Create(void);
 NOT_DECOMPILED void VSMenu__Create(void);
 NOT_DECOMPILED void VSLobbyMenu__Create(void);
 NOT_DECOMPILED void MainMenu__Create(void);
-NOT_DECOMPILED void SeaMapUnknown__Create(void);
-NOT_DECOMPILED void SeaMapTraining__Create(void);
-NOT_DECOMPILED void SeaMapCutscene__Create(void);
 NOT_DECOMPILED void VikingCupMenu__Create(void);
 
 // --------------------

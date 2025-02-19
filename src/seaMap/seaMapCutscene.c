@@ -1,27 +1,46 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <seaMap/seaMapCutscene.h>
+#include <seaMap/seaMapView.h>
+#include <game/graphics/renderCore.h>
+#include <game/audio/audioSystem.h>
+#include <game/system/sysEvent.h>
+#include <game/game/gameState.h>
+#include <game/input/padInput.h>
+#include <game/file/binaryBundle.h>
 
-	.text
+// --------------------
+// TEMP
+// --------------------
 
-	arm_func_start SeaMapCutscene__Create
-SeaMapCutscene__Create: // 0x0216FF90
+NOT_DECOMPILED void *aSndSb1SoundDat_ovl03;
+NOT_DECOMPILED void *aBbTkdmDownBb_ovl03;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC void SeaMapCutscene__Create(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x6c
 	bl ReleaseAudioSystem
-	ldr r0, _02170260 // =aSndSb1SoundDat_ovl03
+	ldr r0, =aSndSb1SoundDat_ovl03
 	bl LoadAudioSndArc
-	ldr r1, _02170264 // =audioManagerSndHeap
+	ldr r1, =audioManagerSndHeap
 	mov r0, #0
 	ldr r1, [r1, #0]
 	bl NNS_SndArcLoadSeqArc
-	ldr r1, _02170264 // =audioManagerSndHeap
+	ldr r1, =audioManagerSndHeap
 	mov r0, #1
 	ldr r1, [r1, #0]
 	bl NNS_SndArcLoadBank
 	bl SeaMapCutscene__InitDisplay
-	ldr r0, _02170268 // =VRAMSystem__GFXControl
+	ldr r0, =VRAMSystem__GFXControl
 	mov r2, #1
-	ldr r1, _0217026C // =renderCurrentDisplay
+	ldr r1, =renderCurrentDisplay
 	ldr r5, [r0, #0]
 	str r2, [r1]
 	sub r3, r2, #0x11
@@ -33,8 +52,8 @@ SeaMapCutscene__Create: // 0x0216FF90
 	stmia sp, {r1, r2}
 	mov r0, #0x14c
 	str r0, [sp, #8]
-	ldr r0, _02170270 // =SeaMapCutscene__Main
-	ldr r1, _02170274 // =SeaMapCutscene__Destructor
+	ldr r0, =SeaMapCutscene__Main
+	ldr r1, =SeaMapCutscene__Destructor
 	mov r3, r2
 	bl TaskCreate_
 	bl GetTaskWork_
@@ -48,19 +67,19 @@ SeaMapCutscene__Create: // 0x0216FF90
 	ldrsh r0, [r5, #0x58]
 	strh r0, [r4, #4]
 	bl SeaMapManager__GetUnknown1
-	ldr r1, _02170278 // =0x0217E0EC
+	ldr r1, =0x0217E0EC
 	ldr r1, [r1, r0, lsl #2]
 	add r0, r4, #0x28
 	str r1, [r4, #8]
 	bl TouchField__Init
 	mov r2, #0
 	str r2, [r4, #0x34]
-	ldr r0, _0217027C // =aBbTkdmDownBb_ovl03
+	ldr r0, =aBbTkdmDownBb_ovl03
 	strb r2, [r4, #0x3a]
 	mov r1, #7
 	bl ReadFileFromBundle
 	str r0, [r4, #0x140]
-	ldr r0, _0217027C // =aBbTkdmDownBb_ovl03
+	ldr r0, =aBbTkdmDownBb_ovl03
 	mov r1, #6
 	mov r2, #0
 	bl ReadFileFromBundle
@@ -84,16 +103,16 @@ _021700AC:
 _021700B8:
 	mov r1, #1
 _021700BC:
-	ldr r0, _02170280 // =0x0217E0F4
+	ldr r0, =0x0217E0F4
 	mov r1, r1, lsl #1
 	ldrh r1, [r0, r1]
-	ldr r0, _0217027C // =aBbTkdmDownBb_ovl03
+	ldr r0, =aBbTkdmDownBb_ovl03
 	mov r2, #0
 	bl ReadFileFromBundle
 	str r0, [r4, #0x148]
 	mov r0, #0
-	ldr r1, _02170284 // =SeaMapView__sVars+0x00000008
-	ldr r3, _02170288 // =SeaMapView__sVars+0x00000004
+	ldr r1, =SeaMapView__sVars+0x00000008
+	ldr r3, =SeaMapView__sVars+0x00000004
 	mov ip, #2
 	str r0, [r1]
 	mov r2, r0
@@ -108,7 +127,7 @@ _021700BC:
 	bl SeaMapEventManager__Create
 	mov r0, #0
 	bl GXS_SetGraphicsMode
-	ldr r5, _0217028C // =0x04001008
+	ldr r5, =0x04001008
 	mov r2, #0
 	ldrh r3, [r5, #0]
 	mov r1, #0x20
@@ -127,7 +146,7 @@ _021700BC:
 	bl InitBackground
 	add r0, sp, #0x24
 	bl DrawBackground
-	ldr r1, _02170290 // =VRAMSystem__VRAM_PALETTE_OBJ
+	ldr r1, =VRAMSystem__VRAM_PALETTE_OBJ
 	mov r0, #1
 	ldr r5, [r1, #4]
 	mov r1, #0x40
@@ -171,8 +190,8 @@ _021700BC:
 	mov r1, #0
 	strh r5, [r3, #0x2c]
 	bl AnimatorSprite__GetBlockData
-	ldr r0, _02170294 // =SeaMapCutscene__TouchCallback
-	ldr r2, _02170298 // =TouchField__PointInRect
+	ldr r0, =SeaMapCutscene__TouchCallback
+	ldr r2, =TouchField__PointInRect
 	str r0, [sp]
 	add r3, sp, #0x1c
 	add r0, r4, #0x40
@@ -189,26 +208,17 @@ _021700BC:
 	bl ResetTouchInput
 	add sp, sp, #0x6c
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	.align 2, 0
-_02170260: .word aSndSb1SoundDat_ovl03
-_02170264: .word audioManagerSndHeap
-_02170268: .word VRAMSystem__GFXControl
-_0217026C: .word renderCurrentDisplay
-_02170270: .word SeaMapCutscene__Main
-_02170274: .word SeaMapCutscene__Destructor
-_02170278: .word 0x0217E0EC
-_0217027C: .word aBbTkdmDownBb_ovl03
-_02170280: .word 0x0217E0F4
-_02170284: .word SeaMapView__sVars+0x00000008
-_02170288: .word SeaMapView__sVars+0x00000004
-_0217028C: .word 0x04001008
-_02170290: .word VRAMSystem__VRAM_PALETTE_OBJ
-_02170294: .word SeaMapCutscene__TouchCallback
-_02170298: .word TouchField__PointInRect
-	arm_func_end SeaMapCutscene__Create
 
-	arm_func_start SeaMapCutscene__TouchCallback
-SeaMapCutscene__TouchCallback: // 0x0217029C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__TouchCallback(TouchAreaResponse *response, TouchArea *area, void *userData)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r0, [r0, #0]
@@ -235,10 +245,17 @@ SeaMapCutscene__TouchCallback: // 0x0217029C
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapCutscene__TouchCallback
 
-	arm_func_start SeaMapCutscene__InitDisplay
-SeaMapCutscene__InitDisplay: // 0x02170304
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__InitDisplay(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	bl VRAMSystem__Reset
 	mov r0, #1
@@ -270,24 +287,29 @@ SeaMapCutscene__InitDisplay: // 0x02170304
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1100
 	str r0, [r2]
-	ldr r0, _0217038C // =renderCurrentDisplay
+	ldr r0, =renderCurrentDisplay
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0217038C: .word renderCurrentDisplay
-	arm_func_end SeaMapCutscene__InitDisplay
 
-	arm_func_start SeaMapCutscene__Main
-SeaMapCutscene__Main: // 0x02170390
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
-	ldr r1, _02170400 // =renderCoreGFXControlA
+	ldr r1, =renderCoreGFXControlA
 	mov r4, r0
 	ldrsh r0, [r1, #0x58]
 	cmp r0, #0
 	ble _021703C8
 	sub r2, r0, #1
-	ldr r0, _02170404 // =renderCoreGFXControlB
+	ldr r0, =renderCoreGFXControlB
 	strh r2, [r1, #0x58]
 	ldrsh r1, [r0, #0x58]
 	sub r1, r1, #1
@@ -296,28 +318,31 @@ SeaMapCutscene__Main: // 0x02170390
 _021703C8:
 	bge _021703E8
 	add r2, r0, #1
-	ldr r0, _02170404 // =renderCoreGFXControlB
+	ldr r0, =renderCoreGFXControlB
 	strh r2, [r1, #0x58]
 	ldrsh r1, [r0, #0x58]
 	add r1, r1, #1
 	strh r1, [r0, #0x58]
 	b _021703F0
 _021703E8:
-	ldr r0, _02170408 // =SeaMapCutscene__Main_Active
+	ldr r0, =SeaMapCutscene__Main_Active
 	bl SetCurrentTaskMainEvent
 _021703F0:
 	ldr r1, [r4, #0xc]
 	mov r0, r4
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02170400: .word renderCoreGFXControlA
-_02170404: .word renderCoreGFXControlB
-_02170408: .word SeaMapCutscene__Main_Active
-	arm_func_end SeaMapCutscene__Main
 
-	arm_func_start SeaMapCutscene__Main_Active
-SeaMapCutscene__Main_Active: // 0x0217040C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__Main_Active(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetCurrentTaskWork_
@@ -370,12 +395,12 @@ _02170474:
 	addls sp, sp, #8
 	strh r0, [r4, #0x26]
 	ldmlsia sp!, {r4, pc}
-	ldr r0, _02170534 // =SeaMapCutscene__Main_FadeOut
+	ldr r0, =SeaMapCutscene__Main_FadeOut
 	bl SetCurrentTaskMainEvent
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _021704E4:
-	ldr r0, _02170538 // =padInput
+	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #8
 	addeq sp, sp, #8
@@ -395,22 +420,26 @@ _021704E4:
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02170534: .word SeaMapCutscene__Main_FadeOut
-_02170538: .word padInput
-	arm_func_end SeaMapCutscene__Main_Active
 
-	arm_func_start SeaMapCutscene__Main_FadeOut
-SeaMapCutscene__Main_FadeOut: // 0x0217053C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__Main_FadeOut(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
-	ldr r2, _021705BC // =renderCoreGFXControlA
+	ldr r2, =renderCoreGFXControlA
 	ldrsh r1, [r0, #4]
 	ldrsh r3, [r2, #0x58]
 	cmp r1, r3
 	bge _02170574
 	sub r3, r3, #1
-	ldr r1, _021705C0 // =renderCoreGFXControlB
+	ldr r1, =renderCoreGFXControlB
 	strh r3, [r2, #0x58]
 	ldrsh r2, [r1, #0x58]
 	sub r2, r2, #1
@@ -419,7 +448,7 @@ SeaMapCutscene__Main_FadeOut: // 0x0217053C
 _02170574:
 	ble _02170594
 	add r3, r3, #1
-	ldr r1, _021705C0 // =renderCoreGFXControlB
+	ldr r1, =renderCoreGFXControlB
 	strh r3, [r2, #0x58]
 	ldrsh r2, [r1, #0x58]
 	add r2, r2, #1
@@ -437,13 +466,17 @@ _021705B0:
 	ldr r1, [r0, #0xc]
 	blx r1
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021705BC: .word renderCoreGFXControlA
-_021705C0: .word renderCoreGFXControlB
-	arm_func_end SeaMapCutscene__Main_FadeOut
 
-	arm_func_start SeaMapCutscene__Destructor
-SeaMapCutscene__Destructor: // 0x021705C4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetTaskWork_
 	mov r4, r0
@@ -459,10 +492,17 @@ SeaMapCutscene__Destructor: // 0x021705C4
 	bl _FreeHEAP_USER
 	bl ReleaseAudioSystem
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapCutscene__Destructor
 
-	arm_func_start SeaMapCutscene__Func_2170600
-SeaMapCutscene__Func_2170600: // 0x02170600
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__Func_2170600(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	bl SeaMapManager__GetWork
 	ldr r5, [r0, #0x160]
@@ -495,17 +535,24 @@ _02170654:
 _0217066C:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end SeaMapCutscene__Func_2170600
 
-	arm_func_start SeaMapCutscene__State2_2170674
-SeaMapCutscene__State2_2170674: // 0x02170674
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State2_2170674(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #0
 	mov r1, #0x118000
 	bl SeaMapManager__Func_2043974
-	ldr r0, _021706AC // =SeaMapCutscene__State2_21706B8
-	ldr r3, _021706B0 // =SeaMapCutscene__State1_21706B4
+	ldr r0, =SeaMapCutscene__State2_21706B8
+	ldr r3, =SeaMapCutscene__State1_21706B4
 	str r0, [r4, #8]
 	add r1, r4, #0x10
 	mov r0, #0
@@ -513,31 +560,47 @@ SeaMapCutscene__State2_2170674: // 0x02170674
 	str r3, [r4, #0xc]
 	bl MIi_CpuClear16
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021706AC: .word SeaMapCutscene__State2_21706B8
-_021706B0: .word SeaMapCutscene__State1_21706B4
-	arm_func_end SeaMapCutscene__State2_2170674
 
-	arm_func_start SeaMapCutscene__State1_21706B4
-SeaMapCutscene__State1_21706B4: // 0x021706B4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State1_21706B4(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	bx lr
-	arm_func_end SeaMapCutscene__State1_21706B4
 
-	arm_func_start SeaMapCutscene__State2_21706B8
-SeaMapCutscene__State2_21706B8: // 0x021706B8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State2_21706B8(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldrh r2, [r0, #0x10]
 	add r1, r2, #1
 	strh r1, [r0, #0x10]
 	cmp r2, #0x3c
-	ldrhi r1, _021706D4 // =SeaMapCutscene__State2_21706D8
+	ldrhi r1, =SeaMapCutscene__State2_21706D8
 	strhi r1, [r0, #8]
 	bx lr
-	.align 2, 0
-_021706D4: .word SeaMapCutscene__State2_21706D8
-	arm_func_end SeaMapCutscene__State2_21706B8
 
-	arm_func_start SeaMapCutscene__State2_21706D8
-SeaMapCutscene__State2_21706D8: // 0x021706D8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State2_21706D8(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -574,31 +637,41 @@ SeaMapCutscene__State2_21706D8: // 0x021706D8
 	bl PlaySfxEx
 	mov r0, #0
 	strh r0, [r4, #0x10]
-	ldr r0, _02170778 // =SeaMapCutscene__State2_217077C
+	ldr r0, =SeaMapCutscene__State2_217077C
 	str r0, [r4, #8]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02170778: .word SeaMapCutscene__State2_217077C
-	arm_func_end SeaMapCutscene__State2_21706D8
 
-	arm_func_start SeaMapCutscene__State2_217077C
-SeaMapCutscene__State2_217077C: // 0x0217077C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State2_217077C(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	ldrh r2, [r0, #0x10]
 	add r1, r2, #1
 	strh r1, [r0, #0x10]
 	cmp r2, #0xb4
 	ldmlsia sp!, {r3, pc}
-	ldr r0, _021707A0 // =SeaMapCutscene__Main_FadeOut
+	ldr r0, =SeaMapCutscene__Main_FadeOut
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021707A0: .word SeaMapCutscene__Main_FadeOut
-	arm_func_end SeaMapCutscene__State2_217077C
 
-	arm_func_start SeaMapCutscene__State_21707A4
-SeaMapCutscene__State_21707A4: // 0x021707A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State_21707A4(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -611,8 +684,8 @@ SeaMapCutscene__State_21707A4: // 0x021707A4
 	mov r0, r2, lsl #0xc
 	mov r1, r1, lsl #0xc
 	bl SeaMapManager__Func_2043974
-	ldr r0, _0217084C // =SeaMapCutscene__State2_217085C
-	ldr r3, _02170850 // =SeaMapCutscene__State1_2170858
+	ldr r0, =SeaMapCutscene__State2_217085C
+	ldr r3, =SeaMapCutscene__State1_2170858
 	str r0, [r4, #8]
 	add r1, r4, #0x10
 	mov r0, #0
@@ -621,7 +694,7 @@ SeaMapCutscene__State_21707A4: // 0x021707A4
 	bl MIi_CpuClear16
 	mov r0, #0xb
 	bl SeaMapEventManager__GetObjectFromID
-	ldr r1, _02170854 // =gameState
+	ldr r1, =gameState
 	mov r3, #0
 	ldr r1, [r1, #0xa0]
 	cmp r1, #0
@@ -641,32 +714,47 @@ SeaMapCutscene__State_21707A4: // 0x021707A4
 	str r0, [r4, #0x10]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0217084C: .word SeaMapCutscene__State2_217085C
-_02170850: .word SeaMapCutscene__State1_2170858
-_02170854: .word gameState
-	arm_func_end SeaMapCutscene__State_21707A4
 
-	arm_func_start SeaMapCutscene__State1_2170858
-SeaMapCutscene__State1_2170858: // 0x02170858
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State1_2170858(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	bx lr
-	arm_func_end SeaMapCutscene__State1_2170858
 
-	arm_func_start SeaMapCutscene__State2_217085C
-SeaMapCutscene__State2_217085C: // 0x0217085C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State2_217085C(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldrh r2, [r0, #0x22]
 	add r1, r2, #1
 	strh r1, [r0, #0x22]
 	cmp r2, #0x3c
-	ldrhi r1, _02170878 // =SeaMapCutscene__State2_217087C
+	ldrhi r1, =SeaMapCutscene__State2_217087C
 	strhi r1, [r0, #8]
 	bx lr
-	.align 2, 0
-_02170878: .word SeaMapCutscene__State2_217087C
-	arm_func_end SeaMapCutscene__State2_217085C
 
-	arm_func_start SeaMapCutscene__State2_217087C
-SeaMapCutscene__State2_217087C: // 0x0217087C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State2_217087C(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -694,29 +782,39 @@ SeaMapCutscene__State2_217087C: // 0x0217087C
 	bl PlaySfxEx
 	mov r0, #0
 	strh r0, [r4, #0x22]
-	ldr r0, _021708F8 // =SeaMapCutscene__State2_21708FC
+	ldr r0, =SeaMapCutscene__State2_21708FC
 	str r0, [r4, #8]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021708F8: .word SeaMapCutscene__State2_21708FC
-	arm_func_end SeaMapCutscene__State2_217087C
 
-	arm_func_start SeaMapCutscene__State2_21708FC
-SeaMapCutscene__State2_21708FC: // 0x021708FC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State2_21708FC(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldrh r2, [r0, #0x22]
 	add r1, r2, #1
 	strh r1, [r0, #0x22]
 	cmp r2, #0xb4
-	ldrhi r1, _02170918 // =SeaMapCutscene__State2_217091C
+	ldrhi r1, =SeaMapCutscene__State2_217091C
 	strhi r1, [r0, #8]
 	bx lr
-	.align 2, 0
-_02170918: .word SeaMapCutscene__State2_217091C
-	arm_func_end SeaMapCutscene__State2_21708FC
 
-	arm_func_start SeaMapCutscene__State2_217091C
-SeaMapCutscene__State2_217091C: // 0x0217091C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State2_217091C(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x10]
@@ -726,7 +824,7 @@ SeaMapCutscene__State2_217091C: // 0x0217091C
 	str r1, [r4, #0x14]
 	bl SeaMapEventManager__GetObjectFromID
 	ldrsh r2, [r0, #4]
-	ldr r0, _02170990 // =0x00000333
+	ldr r0, =0x00000333
 	mov r1, #0
 	mov r2, r2, lsl #0xc
 	str r2, [r4, #0x1c]
@@ -742,17 +840,21 @@ SeaMapCutscene__State2_217091C: // 0x0217091C
 	orr r2, r2, r0, lsl #20
 	add r0, lr, r2
 	str r0, [r4, #0x18]
-	ldr r0, _02170994 // =SeaMapCutscene__State2_2170998
+	ldr r0, =SeaMapCutscene__State2_2170998
 	strh r1, [r4, #0x20]
 	str r0, [r4, #8]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02170990: .word 0x00000333
-_02170994: .word SeaMapCutscene__State2_2170998
-	arm_func_end SeaMapCutscene__State2_217091C
 
-	arm_func_start SeaMapCutscene__State2_2170998
-SeaMapCutscene__State2_2170998: // 0x02170998
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State2_2170998(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldrsh r2, [r0, #0x20]
 	mov r1, #0
@@ -790,16 +892,21 @@ _021709DC:
 	cmp r1, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r2, #0
-	ldr r1, _02170A38 // =SeaMapCutscene__State2_2170A3C
+	ldr r1, =SeaMapCutscene__State2_2170A3C
 	strh r2, [r0, #0x20]
 	str r1, [r0, #8]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	.align 2, 0
-_02170A38: .word SeaMapCutscene__State2_2170A3C
-	arm_func_end SeaMapCutscene__State2_2170998
 
-	arm_func_start SeaMapCutscene__State2_2170A3C
-SeaMapCutscene__State2_2170A3C: // 0x02170A3C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State2_2170A3C(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	ldrsh r2, [r0, #0x20]
 	mov r1, #0
@@ -825,35 +932,31 @@ SeaMapCutscene__State2_2170A3C: // 0x02170A3C
 	mov r3, r3, asr #0xc
 	strh r3, [r2, #0xe]
 	mov r2, #0
-	ldrne r1, _02170AB0 // =SeaMapCutscene__State2_2170AB4
+	ldrne r1, =SeaMapCutscene__State2_2170AB4
 	strneh r2, [r0, #0x22]
 	strne r1, [r0, #8]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02170AB0: .word SeaMapCutscene__State2_2170AB4
-	arm_func_end SeaMapCutscene__State2_2170A3C
 
-	arm_func_start SeaMapCutscene__State2_2170AB4
-SeaMapCutscene__State2_2170AB4: // 0x02170AB4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapCutscene__State2_2170AB4(SeaMapCutscene *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	ldrh r2, [r0, #0x22]
 	add r1, r2, #1
 	strh r1, [r0, #0x22]
 	cmp r2, #0x3c
 	ldmlsia sp!, {r3, pc}
-	ldr r0, _02170AD8 // =SeaMapCutscene__Main_FadeOut
+	ldr r0, =SeaMapCutscene__Main_FadeOut
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02170AD8: .word SeaMapCutscene__Main_FadeOut
-	arm_func_end SeaMapCutscene__State2_2170AB4
 
-	.data
-	
-aSndSb1SoundDat_ovl03: // 0x0217EE28
-	.asciz "snd/sb1/sound_data.sdat"
-	.align 4
-	
-aBbTkdmDownBb_ovl03: // 0x0217EE40
-	.asciz "bb/tkdm_down.bb"
-	.align 4
+// clang-format on
+#endif
+}

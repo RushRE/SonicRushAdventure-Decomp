@@ -1,41 +1,73 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <menu/menuHelpers.h>
 
-	.text
+// --------------------
+// FUNCTIONS
+// --------------------
 
-	arm_func_start MenuHelpers__GetStageID
-MenuHelpers__GetStageID: // 0x0217CE80
-	ldr r1, _0217CE90 // =0x0217E3C8
+NOT_DECOMPILED void *ovl03_0217E3AC;
+NOT_DECOMPILED void *ovl03_0217E3C8;
+NOT_DECOMPILED void *ovl03_0217E41E;
+NOT_DECOMPILED void *MenuHelpers__ProgressCheck_Zone;
+NOT_DECOMPILED void *MenuHelpers__ProgressCheck_Ex;
+NOT_DECOMPILED void *MenuHelpers__ProgressCheck_Zone_Alt;
+NOT_DECOMPILED void *MenuHelpers__ProgressCheck_Ex_Alt;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC u16 MenuHelpers__GetStageID(s32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr r1, =ovl03_0217E3C8
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
-	.align 2, 0
-_0217CE90: .word 0x0217E3C8
-	arm_func_end MenuHelpers__GetStageID
 
-	arm_func_start MenuHelpers__GetProgressFromStageID
-MenuHelpers__GetProgressFromStageID: // 0x0217CE94
-	ldr r1, _0217CEA4 // =0x0217E41E
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC u16 MenuHelpers__GetProgressFromStageID(s32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr r1, =ovl03_0217E41E
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
-	.align 2, 0
-_0217CEA4: .word 0x0217E41E
-	arm_func_end MenuHelpers__GetProgressFromStageID
 
-	arm_func_start MenuHelpers__Func_217CEA8
-MenuHelpers__Func_217CEA8: // 0x0217CEA8
-	ldr r1, _0217CEB8 // =0x0217E3AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC u16 MenuHelpers__Func_217CEA8(s32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr r1, =ovl03_0217E3AC
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
-	.align 2, 0
-_0217CEB8: .word 0x0217E3AC
-	arm_func_end MenuHelpers__Func_217CEA8
 
-	arm_func_start MenuHelpers__Func_217CEBC
-MenuHelpers__Func_217CEBC: // 0x0217CEBC
-	ldr r2, _0217CEEC // =0x0217E3AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 MenuHelpers__Func_217CEBC(s32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr r2, =ovl03_0217E3AC
 	mov r3, #0
 _0217CEC4:
 	mov r1, r3, lsl #1
@@ -48,26 +80,31 @@ _0217CEC4:
 	blt _0217CEC4
 	mov r0, #0xe
 	bx lr
-	.align 2, 0
-_0217CEEC: .word 0x0217E3AC
-	arm_func_end MenuHelpers__Func_217CEBC
 
-	arm_func_start MenuHelpers__CheckProgress
-MenuHelpers__CheckProgress: // 0x0217CEF0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL MenuHelpers__CheckProgress(s32 progress, BOOL useAltProgressCheck, BOOL useSystemProgress)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r3, r0
 	cmp r2, #0
-	ldrne r0, _0217D050 // =saveGame+0x00000010
+	ldrne r0, =saveGame+0x00000010
 	mov r6, r1
-	ldreq r0, _0217D054 // =saveGame+0x00000028
+	ldreq r0, =saveGame+0x00000028
 	cmp r3, #0x18
 	ldrb r4, [r0, #4]
 	ldrb r5, [r0, #5]
 	ldrb r1, [r0, #6]
 	bgt _0217CFC4
 	cmp r6, #0
-	ldrne r2, _0217D058 // =0x0217E4E2
-	ldreq r2, _0217D05C // =0x0217E47A
+	ldrne r2, =MenuHelpers__ProgressCheck_Zone_Alt
+	ldreq r2, =MenuHelpers__ProgressCheck_Zone
 	add r2, r2, r3, lsl #2
 	ldrb lr, [r2]
 	cmp r4, lr
@@ -141,8 +178,8 @@ _0217D004:
 	movle r0, #1
 	ldmleia sp!, {r4, r5, r6, pc}
 	cmp r6, #0
-	ldrne r2, _0217D060 // =0x0217E546
-	ldreq r2, _0217D064 // =0x0217E4DE
+	ldrne r2, =MenuHelpers__ProgressCheck_Ex_Alt
+	ldreq r2, =MenuHelpers__ProgressCheck_Ex
 	ldrb r0, [r2, #0]
 	cmp r4, r0
 	ldrhsb r0, [r2, #1]
@@ -154,12 +191,7 @@ _0217D004:
 _0217D048:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0217D050: .word saveGame+0x00000010
-_0217D054: .word saveGame+0x00000028
-_0217D058: .word 0x0217E4E2
-_0217D05C: .word 0x0217E47A
-_0217D060: .word 0x0217E546
-_0217D064: .word 0x0217E4DE
-	arm_func_end MenuHelpers__CheckProgress
 
+// clang-format on
+#endif
+}

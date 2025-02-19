@@ -1,16 +1,34 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <seaMap/seaMapUnknown.h>
+#include <seaMap/navTails.h>
+#include <seaMap/seaMapChartCourseView.h>
+#include <game/graphics/renderCore.h>
+#include <game/audio/audioSystem.h>
+#include <game/system/sysEvent.h>
+#include <game/game/gameState.h>
+#include <game/save/saveGame.h>
 
-	.text
+// --------------------
+// VARIABLES
+// --------------------
 
-	arm_func_start SeaMapUnknown__Create
-SeaMapUnknown__Create: // 0x0216FC98
+NOT_DECOMPILED void *aSndSysSoundDat_2;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC void SeaMapUnknown__Create(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	bl ReleaseAudioSystem
-	ldr r0, _0216FD7C // =aSndSysSoundDat_2
+	ldr r0, =aSndSysSoundDat_2
 	bl LoadAudioSndArc
-	ldr r1, _0216FD80 // =audioManagerSndHeap
+	ldr r1, =audioManagerSndHeap
 	mov r0, #6
 	ldr r1, [r1, #0]
 	bl NNS_SndArcLoadGroup
@@ -21,8 +39,8 @@ SeaMapUnknown__Create: // 0x0216FC98
 	str r2, [sp, #4]
 	mov r0, #0xc
 	str r0, [sp, #8]
-	ldr r0, _0216FD84 // =SeaMapUnknown__Main
-	ldr r1, _0216FD88 // =SeaMapUnknown__Destructor
+	ldr r0, =SeaMapUnknown__Main
+	ldr r1, =SeaMapUnknown__Destructor
 	mov r3, r2
 	bl TaskCreate_
 	bl GetTaskWork_
@@ -31,15 +49,15 @@ SeaMapUnknown__Create: // 0x0216FC98
 	mov r1, r4
 	mov r2, #0xc
 	bl MIi_CpuClear16
-	ldr r0, _0216FD8C // =SeaMapUnknown__State_216FE9C
+	ldr r0, =SeaMapUnknown__State_216FE9C
 	str r0, [r4]
 	bl SeaMapUnknown__InitDisplay
-	ldr r1, _0216FD90 // =gameState
+	ldr r1, =gameState
 	mov r0, #0
 	ldr r1, [r1, #0xa0]
 	mov r2, r0
 	bl SeaMapChartCourseView__Create
-	ldr r0, _0216FD90 // =gameState
+	ldr r0, =gameState
 	ldr r0, [r0, #0x80]
 	bl SeaMapEventManager__GetObjectFromID
 	ldrsh r1, [r0, #4]
@@ -47,7 +65,7 @@ SeaMapUnknown__Create: // 0x0216FC98
 	mov r1, r1, lsl #0xc
 	mov r0, r2, lsl #0xc
 	bl SeaMapView__Func_203DCE0
-	ldr r1, _0216FD90 // =gameState
+	ldr r1, =gameState
 	mov r0, #1
 	ldr r1, [r1, #0xa0]
 	mov r2, #0
@@ -62,17 +80,17 @@ SeaMapUnknown__Create: // 0x0216FC98
 	bl ResetTouchInput
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_0216FD7C: .word aSndSysSoundDat_2
-_0216FD80: .word audioManagerSndHeap
-_0216FD84: .word SeaMapUnknown__Main
-_0216FD88: .word SeaMapUnknown__Destructor
-_0216FD8C: .word SeaMapUnknown__State_216FE9C
-_0216FD90: .word gameState
-	arm_func_end SeaMapUnknown__Create
 
-	arm_func_start SeaMapUnknown__Main
-SeaMapUnknown__Main: // 0x0216FD94
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapUnknown__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -87,18 +105,32 @@ SeaMapUnknown__Main: // 0x0216FD94
 _0216FDC0:
 	bl SeaMapUnknown__Destroy
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapUnknown__Main
 
-	arm_func_start SeaMapUnknown__Destructor
-SeaMapUnknown__Destructor: // 0x0216FDC8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapUnknown__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetTaskWork_
 	bl ReleaseAudioSystem
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapUnknown__Destructor
 
-	arm_func_start SeaMapUnknown__Destroy
-SeaMapUnknown__Destroy: // 0x0216FDD8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapUnknown__Destroy(SeaMapUnknown *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapChartCourseView__Destroy
 	bl ReleaseSpriteButtonCursorSprite
@@ -117,24 +149,36 @@ _0216FE04:
 	bl RequestSysEventChange
 	b _0216FE28
 _0216FE18:
-	ldr r1, _0216FE30 // =gameState
+	ldr r1, =gameState
 	mov r0, #1
 	strb r0, [r1, #0xdc]
 	bl RequestSysEventChange
 _0216FE28:
 	bl NextSysEvent
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0216FE30: .word gameState
-	arm_func_end SeaMapUnknown__Destroy
 
-	arm_func_start SeaMapUnknown__RunState
-SeaMapUnknown__RunState: // 0x0216FE34
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapUnknown__RunState(SeaMapUnknown *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	bx lr
-	arm_func_end SeaMapUnknown__RunState
 
-	arm_func_start SeaMapUnknown__InitDisplay
-SeaMapUnknown__InitDisplay: // 0x0216FE38
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapUnknown__InitDisplay(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	bl VRAMSystem__Reset
 	mov r0, #8
@@ -156,27 +200,37 @@ SeaMapUnknown__InitDisplay: // 0x0216FE38
 	mov r3, #0
 	bl VRAMSystem__SetupSubOBJBank
 	mov r1, #0
-	ldr r0, _0216FE98 // =renderCurrentDisplay
+	ldr r0, =renderCurrentDisplay
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0216FE98: .word renderCurrentDisplay
-	arm_func_end SeaMapUnknown__InitDisplay
 
-	arm_func_start SeaMapUnknown__State_216FE9C
-SeaMapUnknown__State_216FE9C: // 0x0216FE9C
-	ldr r1, _0216FEA8 // =SeaMapUnknown__State_216FEAC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapUnknown__State_216FE9C(SeaMapUnknown *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr r1, =SeaMapUnknown__State_216FEAC
 	str r1, [r0]
 	bx lr
-	.align 2, 0
-_0216FEA8: .word SeaMapUnknown__State_216FEAC
-	arm_func_end SeaMapUnknown__State_216FE9C
 
-	arm_func_start SeaMapUnknown__State_216FEAC
-SeaMapUnknown__State_216FEAC: // 0x0216FEAC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapUnknown__State_216FEAC(SeaMapUnknown *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov lr, #0
-	ldr r3, _0216FF08 // =VRAMSystem__GFXControl
+	ldr r3, =VRAMSystem__GFXControl
 	mov ip, #1
 	mov r1, lr
 _0216FEC0:
@@ -196,16 +250,20 @@ _0216FEE0:
 	cmp lr, #2
 	blt _0216FEC0
 	cmp ip, #0
-	ldrne r1, _0216FF0C // =SeaMapUnknown__State_216FF10
+	ldrne r1, =SeaMapUnknown__State_216FF10
 	strne r1, [r0]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216FF08: .word VRAMSystem__GFXControl
-_0216FF0C: .word SeaMapUnknown__State_216FF10
-	arm_func_end SeaMapUnknown__State_216FEAC
 
-	arm_func_start SeaMapUnknown__State_216FF10
-SeaMapUnknown__State_216FF10: // 0x0216FF10
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapUnknown__State_216FF10(SeaMapUnknown *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapChartCourseView__Func_2040978
@@ -214,18 +272,23 @@ SeaMapUnknown__State_216FF10: // 0x0216FF10
 	mov r0, #7
 	mov r1, #0x10
 	bl NNS_SndPlayerStopSeqBySeqNo
-	ldr r0, _0216FF3C // =SeaMapUnknown__State_216FF40
+	ldr r0, =SeaMapUnknown__State_216FF40
 	str r0, [r4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216FF3C: .word SeaMapUnknown__State_216FF40
-	arm_func_end SeaMapUnknown__State_216FF10
 
-	arm_func_start SeaMapUnknown__State_216FF40
-SeaMapUnknown__State_216FF40: // 0x0216FF40
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapUnknown__State_216FF40(SeaMapUnknown *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, #0
-	ldr lr, _0216FF8C // =VRAMSystem__GFXControl
+	ldr lr, =VRAMSystem__GFXControl
 	mov r4, #1
 	mov r2, r5
 	mvn r1, #0xf
@@ -243,12 +306,7 @@ _0216FF58:
 	movne r1, #1
 	strne r1, [r0, #4]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216FF8C: .word VRAMSystem__GFXControl
-	arm_func_end SeaMapUnknown__State_216FF40
-	
-	.data
-	
-aSndSysSoundDat_2: // 0x0217EE10
-	.asciz "snd/sys/sound_data.sdat"
-	.align 4
+
+// clang-format on
+#endif
+}
