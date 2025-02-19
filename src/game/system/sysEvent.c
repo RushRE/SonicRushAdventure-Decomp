@@ -536,7 +536,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_SEAMAP_TRAINING
     {
-        .initFunc    = SeaMapTraining__Create,
+        .initFunc    = CreateSeaMapTraining,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

@@ -14,8 +14,8 @@
 
 static void SeaMapUnknown_Main(void);
 static void SeaMapUnknown_Destructor(Task *task);
-static void SeaMapUnknown_Destroy(SeaMapUnknown *work);
-static void SeaMapUnknown_RunState(SeaMapUnknown *work);
+static void DestroySeaMapUnknown(SeaMapUnknown *work);
+static void SeaMapUnknown_DrawText(SeaMapUnknown *work);
 static void InitDisplayForSeaMapUnknown(void);
 static void SeaMapUnknown_State_Init(SeaMapUnknown *work);
 static void SeaMapUnknown_State_FadeIn(SeaMapUnknown *work);
@@ -63,9 +63,9 @@ void SeaMapUnknown_Main(void)
     work->state(work);
 
     if (!work->destroyQueued)
-        SeaMapUnknown_RunState(work);
+        SeaMapUnknown_DrawText(work);
     else
-        SeaMapUnknown_Destroy(work);
+        DestroySeaMapUnknown(work);
 }
 
 void SeaMapUnknown_Destructor(Task *task)
@@ -76,7 +76,7 @@ void SeaMapUnknown_Destructor(Task *task)
     ReleaseAudioSystem();
 }
 
-void SeaMapUnknown_Destroy(SeaMapUnknown *work)
+void DestroySeaMapUnknown(SeaMapUnknown *work)
 {
     SeaMapChartCourseView__Destroy();
     ReleaseSpriteButtonCursorSprite();
@@ -99,9 +99,9 @@ void SeaMapUnknown_Destroy(SeaMapUnknown *work)
     NextSysEvent();
 }
 
-void SeaMapUnknown_RunState(SeaMapUnknown *work)
+void SeaMapUnknown_DrawText(SeaMapUnknown *work)
 {
-    // Do nothing.
+    // Do nothing, there's no text to draw.
 }
 
 void InitDisplayForSeaMapUnknown(void)

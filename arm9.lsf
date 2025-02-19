@@ -607,9 +607,7 @@ Overlay Menus1
     Object asm/menu/timeAttackMenu.o                # thumb code
     Object asm/menu/timeAttackRankList.o            # thumb code
     Object src/seaMap/seaMapUnknown.o
-    Object asm/seaMap/seaMapCutscene_vars.o
     Object src/seaMap/seaMapCutscene.o
-    Object asm/seaMap/seaMapTraining_vars.o
     Object src/seaMap/seaMapTraining.o
     Object asm/menu/vsFriendsListMenu.o             # arm code
     Object asm/menu/vsRegisterFriendCodeMenu.o      # arm code

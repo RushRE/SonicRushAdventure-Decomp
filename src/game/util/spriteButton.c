@@ -404,9 +404,6 @@ void SpriteButtonTouchAreaResponceHandler(TouchAreaResponse *response, TouchArea
             if ((flags & TOUCHAREA_RESPONSE_CHECK_RECT2) == 0)
                 SetSpriteButtonState(&work->animators[id], SPRITE_BUTTON_STATE_IDLE);
             break;
-
-        default:
-            break;
     }
 }
 

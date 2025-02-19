@@ -23,8 +23,8 @@ Vec2Fx32 SeaMapCourseChangeView_shipPosition;
 
 static void SeaMapCourseChangeView_Main(void);
 static void SeaMapCourseChangeView_Destructor(Task *task);
-static void SeaMapCourseChangeView_Destroy(SeaMapCourseChangeView *work);
-static void SeaMapCourseChangeView_RunState(SeaMapCourseChangeView *work);
+static void DestroySeaMapCourseChangeView(SeaMapCourseChangeView *work);
+static void SeaMapCourseChangeView_DrawText(SeaMapCourseChangeView *work);
 static void InitDisplayForSeaMapCourseChangeView(void);
 static void SeaMapCourseChangeView_State_Init(SeaMapCourseChangeView *work);
 static void SeaMapCourseChangeView_State_FadeIn(SeaMapCourseChangeView *work);
@@ -98,9 +98,9 @@ void SeaMapCourseChangeView_Main(void)
     work->state(work);
 
     if (!work->destroyQueued)
-        SeaMapCourseChangeView_RunState(work);
+        SeaMapCourseChangeView_DrawText(work);
     else
-        SeaMapCourseChangeView_Destroy(work);
+        DestroySeaMapCourseChangeView(work);
 }
 
 void SeaMapCourseChangeView_Destructor(Task *task)
@@ -111,7 +111,7 @@ void SeaMapCourseChangeView_Destructor(Task *task)
     ReleaseAudioSystem();
 }
 
-void SeaMapCourseChangeView_Destroy(SeaMapCourseChangeView *work)
+void DestroySeaMapCourseChangeView(SeaMapCourseChangeView *work)
 {
     SeaMapChartCourseView__Destroy();
     ReleaseSpriteButtonCursorSprite();
@@ -135,9 +135,9 @@ void SeaMapCourseChangeView_Destroy(SeaMapCourseChangeView *work)
     NextSysEvent();
 }
 
-void SeaMapCourseChangeView_RunState(SeaMapCourseChangeView *work)
+void SeaMapCourseChangeView_DrawText(SeaMapCourseChangeView *work)
 {
-    // Do nothing.
+    // Do nothing, there's no text to draw.
 }
 
 void InitDisplayForSeaMapCourseChangeView(void)

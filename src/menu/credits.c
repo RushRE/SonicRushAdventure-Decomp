@@ -797,7 +797,7 @@ void ProcessCreditsScroll(Credits *work, s32 id)
 
 void InitCreditsWindowPlanes(void)
 {
-    RenderCoreGFXControl *control                      = VRAMSystem__GFXControl[0];
+    RenderCoreGFXControl *control                      = VRAMSystem__GFXControl[GRAPHICS_ENGINE_A];
     control->windowManager.registers.win0X1            = 0;
     control->windowManager.registers.win0X2            = 0;
     control->windowManager.registers.win0Y1            = 0;
@@ -806,7 +806,7 @@ void InitCreditsWindowPlanes(void)
     control->windowManager.registers.winOutPlane.value = 0xFF;
     control->windowManager.visible                     = GX_WNDMASK_W0;
 
-    control                                            = VRAMSystem__GFXControl[1];
+    control                                            = VRAMSystem__GFXControl[GRAPHICS_ENGINE_B];
     control->windowManager.registers.win0X1            = 0;
     control->windowManager.registers.win0X2            = 0;
     control->windowManager.registers.win0Y1            = 0;
