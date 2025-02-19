@@ -8,7 +8,7 @@
 // VARIABLES
 // --------------------
 
-static const u32 SailSeaMapView_ButtonStates[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+static const BOOL sailSeaMapViewButtonStates[] = { FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE };
 
 // --------------------
 // FUNCTION DECLS
@@ -53,7 +53,7 @@ void CreateSailSeaMapView(ShipType type)
     SeaMapManagerNode *startNode = SeaMapManager__GetStartNode();
     SeaMapManager__GetPosition2(startNode->position.x, startNode->position.y, &work->position.x, &work->position.y);
 
-    SeaMapView__EnableMultipleButtons(&work->view, SailSeaMapView_ButtonStates);
+    SeaMapView__EnableMultipleButtons(&work->view, sailSeaMapViewButtonStates);
     SeaMapEventManager__Create();
 
     work->boatIcon = (SeaMapBoatIcon *)SeaMapEventManager__CreateObject(SEAMAPOBJECT_BOAT_ICON, FX32_TO_WHOLE(work->position.x), FX32_TO_WHOLE(work->position.y), 0, 0, 0);
@@ -238,7 +238,7 @@ void SailSeaMapView_State_FadeOut(SailSeaMapView *work)
 
 void SailSeaMapView_State_ConfigureButtons(SailSeaMapView *work)
 {
-    SeaMapView__EnableMultipleButtons(&work->view, SailSeaMapView_ButtonStates);
+    SeaMapView__EnableMultipleButtons(&work->view, sailSeaMapViewButtonStates);
 
     work->state = SailSeaMapView_State_Idle;
     work->state(work);

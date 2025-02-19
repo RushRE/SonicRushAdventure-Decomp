@@ -16,6 +16,7 @@
 #include <sail/sailDemoPlayer.h>
 #include <sail/sailAssetLoader.h>
 #include <seaMap/sailSeaMapView.h>
+#include <sail/sailTraining.h>
 
 // --------------------
 // TEMP
@@ -24,7 +25,6 @@
 NOT_DECOMPILED void SailHUDInitEvent__Create(void);
 NOT_DECOMPILED void SailObject__Func_2166D88(void);
 NOT_DECOMPILED void SailRampTrick__Create(void);
-NOT_DECOMPILED void SailTraining__Create(void);
 NOT_DECOMPILED void SailJetBoatCloud__CreateUnknown(void);
 NOT_DECOMPILED void SailCloud__Create(s32 type);
 NOT_DECOMPILED void SailChallengeHUD__Create(void);
@@ -150,7 +150,7 @@ void InitSailingSysEvent(void)
         manager->flags |= SAILMANAGER_FLAG_REPLAY_ACTIVE;
 
     if (manager->missionType != MISSION_TYPE_0 && manager->missionType == MISSION_TYPE_TRAINING)
-        SailTraining__Create();
+        CreateSailTraining();
 
     SailUnknown2153770__Create();
     SailGraphics__SetupLights();
