@@ -1156,7 +1156,7 @@ _0215E1DC:
 	bne _0215E1DC
 _0215E1E4:
 	mov r0, #0x16
-	bl MenuHelpers__GetStageID
+	bl MenuHelpers__GetStageIDForStageSelect
 	mov r1, #0
 	mov r2, r1
 	bl MenuHelpers__CheckProgress
@@ -4239,6 +4239,131 @@ _0215FAF2:
 	.align 2, 0
 _0215FB00: .word 0x000011B4
 	thumb_func_end StageSelectMenu__Func_215FAC4
+
+	.rodata
+
+.public StageSelect__actButtonConfig
+StageSelect__actButtonConfig: // 0x0217DB88
+	.hword 28, 0x1E, 0x1D
+	.hword 31, 0x21, 0x20
+	.hword 34, 0x24, 0x23
+	.hword 49, 0x33, 0x32
+
+.public StageSelect__zoneConfig
+StageSelect__zoneConfig: // 0x0217DBA0
+	.byte 38, 20
+	.byte 39, 21
+	.byte 40, 22
+	.byte 41, 23
+	.byte 42, 24
+	.byte 43, 25
+	.byte 44, 26
+	.byte 46, 27
+	.byte 48, 47
+	.byte 75, 55
+	.byte 76, 56
+	.byte 77, 57
+	.byte 78, 58
+	.byte 79, 59
+	.byte 80, 60
+	.byte 81, 61
+	.byte 82, 62
+	.byte 83, 63
+	.byte 84, 64
+	.byte 85, 65
+	.byte 86, 66
+	.byte 87, 67
+	.byte 88, 68
+	.byte 89, 69
+	.byte 90, 70
+	.byte 91, 71
+	.byte 92, 72
+	.byte 93, 73
+
+.public stageList
+stageList: // 0x0217DBD8
+	.byte 1, 1, 0   // STAGE_Z11
+	.byte 1, 2, 1   // STAGE_Z12
+	.byte 9, 1, 22  // STAGE_Z72
+	.byte 1, 3, 2   // STAGE_TUTORIAL
+	.byte 2, 1, 3   // STAGE_Z1B
+	.byte 2, 2, 4   // STAGE_Z21
+	.byte 2, 3, 5   // STAGE_Z22
+	.byte 3, 1, 6   // STAGE_Z2B
+	.byte 3, 2, 7   // STAGE_Z31
+	.byte 10, 1, 23 // STAGE_Z7B
+	.byte 3, 3, 8   // STAGE_Z32
+	.byte 4, 1, 9   // STAGE_HIDDEN_ISLAND_1
+	.byte 4, 2, 10  // STAGE_Z3B
+	.byte 4, 3, 11  // STAGE_Z41
+	.byte 5, 1, 12  // STAGE_Z42
+	.byte 5, 2, 13  // STAGE_Z4B
+	.byte 5, 3, 14  // STAGE_Z51
+	.byte 6, 1, 15  // STAGE_Z52
+	.byte 6, 2, 16  // STAGE_Z5B
+	.byte 11, 1, 24 // STAGE_BOSS_FINAL
+	.byte 6, 3, 17  // STAGE_Z61
+	.byte 7, 1, 18  // STAGE_Z62
+	.byte 7, 2, 19  // STAGE_HIDDEN_ISLAND_2
+	.byte 7, 3, 20  // STAGE_Z6B
+	.byte 8, 1, 21  // STAGE_Z71
+	.byte 12, 1, 25 // STAGE_HIDDEN_ISLAND_3
+	.byte 13, 1, 26 // STAGE_HIDDEN_ISLAND_4
+	.byte 14, 1, 27 // STAGE_HIDDEN_ISLAND_5
+	.byte 15, 1, 28 // STAGE_HIDDEN_ISLAND_6
+	.byte 16, 1, 29 // STAGE_HIDDEN_ISLAND_7
+	.byte 17, 1, 30 // STAGE_HIDDEN_ISLAND_8
+	.byte 18, 1, 31 // STAGE_HIDDEN_ISLAND_9
+	.byte 19, 1, 32 // STAGE_HIDDEN_ISLAND_10
+	.byte 20, 1, 33 // STAGE_HIDDEN_ISLAND_11
+	.byte 21, 1, 34 // STAGE_HIDDEN_ISLAND_12
+	.byte 22, 1, 35 // STAGE_HIDDEN_ISLAND_13
+	.byte 23, 1, 36 // STAGE_HIDDEN_ISLAND_14
+	.byte 24, 1, 37 // STAGE_HIDDEN_ISLAND_15
+	.byte 25, 1, 38 // STAGE_HIDDEN_ISLAND_16
+	.byte 0, 0, 0   // STAGE_Z11
+	.byte 0, 0, 0   // STAGE_Z11
+	.byte 0, 0, 0   // STAGE_Z11
+	.byte 0, 0, 0   // STAGE_Z11
+	.byte 26, 1, 43 // STAGE_HIDDEN_ISLAND_R1
+	.byte 27, 1, 44 // STAGE_HIDDEN_ISLAND_R2
+	.byte 28, 1, 45 // STAGE_HIDDEN_ISLAND_R3
+
+.public ovl03_0217DC62
+ovl03_0217DC62: // 0x0217DC62
+    .hword 3, 0, 1, 3
+	
+.public ovl03_0217DC6A
+ovl03_0217DC6A: // 0x0217DC6A
+    .hword 3, 4, 5, 6
+	.hword 3, 7, 8, 0xA
+	.hword 3, 0xB, 0xC, 0xD
+	.hword 3, 0xE, 0xF, 0x10
+	.hword 3, 0x11, 0x12, 0x14
+	.hword 3, 0x15, 0x16, 0x17
+	.hword 1, 0x18, 0x2E, 0x2E
+	.hword 1, 2, 0x2E, 0x2E
+	.hword 1, 9, 0x2E, 0x2E
+	.hword 1, 0x13, 0x2E, 0x2E
+	.hword 1, 0x19, 0x2E, 0x2E
+	.hword 1, 0x1A, 0x2E, 0x2E
+	.hword 1, 0x1B, 0x2E, 0x2E
+	.hword 1, 0x1C, 0x2E, 0x2E
+	.hword 1, 0x1D, 0x2E, 0x2E
+	.hword 1, 0x1E, 0x2E, 0x2E
+	.hword 1, 0x1F, 0x2E, 0x2E
+	.hword 1, 0x20, 0x2E, 0x2E
+	.hword 1, 0x21, 0x2E, 0x2E
+	.hword 1, 0x22, 0x2E, 0x2E
+	.hword 1, 0x23, 0x2E, 0x2E
+	.hword 1, 0x24, 0x2E, 0x2E
+	.hword 1, 0x25, 0x2E, 0x2E
+	.hword 1, 0x26, 0x2E, 0x2E
+	.hword 1, 0x2B, 0x2E, 0x2E
+	.hword 1, 0x2C, 0x2E, 0x2E
+	.hword 1, 0x2D, 0x2E, 0x2E
+	.hword 0, 0x00, 0x00, 0x00
+	.align 4
 
 	.data
 	

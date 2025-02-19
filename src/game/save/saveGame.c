@@ -12,14 +12,6 @@
 // STRUCTS
 // --------------------
 
-typedef struct SaveGameUnknown205D150_
-{
-    u8 gameProgress;
-    u8 zone5Progress;
-    u8 zone6Progress;
-    u8 mode;
-} SaveGameUnknown205D150;
-
 typedef struct SaveGameUnknown205D65C_
 {
     u16 gameProgress;

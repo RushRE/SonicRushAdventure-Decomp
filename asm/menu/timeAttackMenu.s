@@ -501,7 +501,7 @@ _0216C916:
 	str r1, [r4, r0]
 	ldr r0, _0216C9B0 // =gameState
 	ldrh r0, [r0, #0x28]
-	bl MenuHelpers__Func_217CEBC
+	bl MenuHelpers__GetLeaderboardIDFromStageID
 	ldr r1, _0216C9D8 // =0x00001514
 	str r0, [r4, r1]
 	ldr r1, _0216C9DC // =TimeAttackMenu__Main_216E850
@@ -4240,7 +4240,7 @@ _0216E872:
 	str r1, [r4, r0]
 	ldr r0, _0216E898 // =gameState
 	ldrh r0, [r0, #0x28]
-	bl MenuHelpers__Func_217CEBC
+	bl MenuHelpers__GetLeaderboardIDFromStageID
 	ldr r1, _0216E89C // =0x00001514
 	str r0, [r4, r1]
 	ldr r0, _0216E8A0 // =TimeAttackMenu__Main_216E8A4

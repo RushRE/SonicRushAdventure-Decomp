@@ -4792,3 +4792,30 @@ VSMenuNetworkMessage__Main2: // 0x02169A50
 	.align 2, 0
 _02169A7C: .word VSMenu__Singleton
 	thumb_func_end VSMenuNetworkMessage__Main2
+
+	.rodata
+
+.public ovl03_0217DFEC
+ovl03_0217DFEC: // 0x0217DFEC
+    .word VSMenu__Main_2167A6C, 2
+	.word VSMenu__Main_2167E28, 3
+	.word VSMenu__Main_216770C, 4
+	.word VSMenu__Main_2167A10, 5
+	.word VSMenu__Main_2168120, 13
+	.word VSMenu__Func_2167860, 14
+	.word VSMenu__Main_21690B4, 15
+	.word VSMenu__Main_2168D30, 18
+	.word VSMenu__Main_2168DD4, 19
+	.word VSMenu__Main_2168F30, 20
+	.word VSMenu__Main_21687AC, 16
+	.word VSMenu__Main_216886C, 11
+	.word VSMenu__Main_21688A0, 12
+	.word VSMenu__Main_21688D4, 17
+	.word VSMenu__Main_21689C8, 11
+	.word VSMenu__Main_21689FC, 12
+	.word VSMenu__Main_2167B5C, 6
+	.word VSMenu__Main_2167C80, 11
+	.word VSMenu__Main_2167CD8, 12
+	.word VSMenu__Main_2167D34, 7
+	.word VSMenu__Main_2167F4C, 11
+	.word VSMenu__Main_2167FAC, 12

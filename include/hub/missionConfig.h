@@ -41,7 +41,7 @@ u16 MissionHelpers__GetBlazeMission(u16 id);
 u16 MissionHelpers__GetInteractionForMission(u32 count, const u16 *missionTable, const u16 *progressTable, const u16 *islandTable, const u16 *value);
 
 BOOL MissionHelpers__CheckSaveProgress(MissionHelpersProgressCheck *progress);
-BOOL MissionHelpers__CheckIslandBeaten(s32 id);
+BOOL MissionHelpers__CheckIslandBeaten(u16 id);
 void MissionHelpers__UnlockMission(s32 id);
 BOOL MissionHelpers__CheckMissionUnlocked(s32 id);
 u16 MissionHelpers__GetUnlockedMissionCount(void);

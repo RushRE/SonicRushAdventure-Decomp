@@ -3862,7 +3862,7 @@ _0217A82A:
 	b _0217A848
 _0217A83A:
 	mov r0, r4
-	bl MenuHelpers__GetProgressFromStageID
+	bl MenuHelpers__GetStageIDForTimeAttackRecordsMenu
 	mov r1, #0
 	mov r2, #1
 	bl MenuHelpers__CheckProgress

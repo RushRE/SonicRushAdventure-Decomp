@@ -221,6 +221,15 @@ enum SaveIslandProgress
     SAVE_ISLAND_COUNT,
 };
 
+enum SaveProgressMode_
+{
+    SAVE_PROGRESS_MODE_COMMON,
+    SAVE_PROGRESS_MODE_ZONE_DISCOVERED,
+    SAVE_PROGRESS_MODE_ZONE5_DISCOVERED,
+    SAVE_PROGRESS_MODE_ZONE6_DISCOVERED,
+};
+typedef u8 SaveProgressMode;
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -283,7 +292,7 @@ typedef struct SaveBlockStage_
     {
         u32 rank : 2;
         u32 score : 30;
-    } stageRecords[DIFFICULTY_COUNT][STAGE_COUNT - 3];
+    } stageRecords[DIFFICULTY_COUNT][STAGE_COUNT_NO_RACES];
 
     u32 ringCount;
 
@@ -397,6 +406,14 @@ typedef struct SaveGameUnknown2119CCC_
     u16 nextSysEvent;
     u16 allowProgressIncrement;
 } SaveGameNextAction;
+
+typedef struct SaveGameUnknown205D150_
+{
+    u8 gameProgress;
+    u8 zone5Progress;
+    u8 zone6Progress;
+    u8 mode;
+} SaveGameUnknown205D150;
 
 // --------------------
 // VARIABLES

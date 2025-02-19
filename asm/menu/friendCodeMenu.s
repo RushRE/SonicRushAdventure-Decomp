@@ -3184,6 +3184,30 @@ _021667A0:
 _021667B0: .word a1234567890
 	thumb_func_end FriendCodeMenu__Func_216678C
 
+	.rodata
+
+.public ovl03_0217DF68
+ovl03_0217DF68: // 0x0217DF68
+	.hword 0, 8192, 20, 0, 0, 0, 12, 0, 20, 0, 4, 0, 20, 0, 8, 0, 40, 0, 6144, 0, 8, 0
+
+.public ovl03_0217DF94
+ovl03_0217DF94: // 0x0217DF94
+    .hword 17, 18, 19, 20, 21, 22, 23, 24, 25, 16
+	
+.public ovl03_0217DFA8
+ovl03_0217DFA8: // 0x0217DFA8
+    .hword 8, 4, 0, 4, 8, 8, 4, 0, 4, 8
+	
+.public ovl03_0217DFBC
+ovl03_0217DFBC: // 0x0217DFBC
+    .hword 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2, 3, 4, 5, 6, 3
+	.align 4
+
+.public a1234567890
+a1234567890: // 0x0217DFE0
+    .asciz "1234567890"
+	.align 4
+
 	.data
 	
 _0217ED0C: // 0x0217ED0C

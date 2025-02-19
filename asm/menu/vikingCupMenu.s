@@ -2464,6 +2464,41 @@ _0217CB3C: .word 0x0000FFFF
 _0217CB40: .word gameState
 	arm_func_end VikingCupMenu__Main
 
+	.rodata
+
+.public ovl03_0217E340
+ovl03_0217E340: // 0x0217E340
+	.byte 0, 2, 0, 0
+	.byte 1, 0, 1, 0
+	.byte 0, 0x33, 0, 0
+	.byte 0, 0x37, 1, 0
+	.byte 0, 0x31, 2, 0
+	.byte 0, 0xC, 3, 0
+	.byte 0, 0x20, 4, 0
+	.byte 0, 0x23, 5, 0
+	.byte 0, 0x29, 6, 0
+	.byte 0, 0xD, 7, 0
+	.byte 0, 0, 8, 0
+	.byte 0, 0x51, 9, 0
+
+.public ovl03_0217E370
+ovl03_0217E370: // 0x0217E370
+	.hword 0, 0
+	.hword 0, 1
+	.hword 1, 0
+	.hword 1, 1
+	.hword 2, 0
+	.hword 2, 1
+	.hword 3, 0
+	.hword 3, 1
+	.hword 0, 2
+	.hword 0, 3
+	.hword 0, 4
+	.hword 0, 5
+	.hword 0, 6
+	.hword 0, 7
+	.hword 0, 8
+
 	.data
 	
 aNarcDmMenuSaLz: // 0x0217EF40

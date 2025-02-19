@@ -3183,6 +3183,75 @@ _02162296:
 	.align 2, 0
 _02162298: .word VSStageSelect__sVars
 	thumb_func_end VSStageSelectMenu__Main3
+
+	.rodata
+
+.public ovl03_0217DD4C
+ovl03_0217DD4C: // 0x0217DD4C
+    .byte 0, 0, 0, 0
+	
+.public ovl03_0217DD50
+ovl03_0217DD50: // 0x0217DD50
+    .byte 14, 15, 16, 17
+	
+.public ovl03_0217DD54
+ovl03_0217DD54: // 0x0217DD54
+    .byte 0, 1, 2, 3
+	
+.public ovl03_0217DD58
+ovl03_0217DD58: // 0x0217DD58
+    .byte 14, 15, 16, 17, 18, 19, 20, 23, 24, 25, 0, 0
+	
+.public ovl03_0217DD64
+ovl03_0217DD64: // 0x0217DD64
+    .byte 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 8, 9
+	.align 4
+
+.public ovl03_0217DD78
+ovl03_0217DD78: // 0x0217DD78
+    .byte 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0
+
+.public ovl03_0217DD8C
+ovl03_0217DD8C: // 0x0217DD8C
+    .hword 0x28, 0x3B
+	.hword 0x20, 0x36
+	.hword 0x5A, 0x62
+	.hword 0x5A, 0x62
+	.hword 0, 0
+	.hword 0, 0
+	.hword 0, 0
+	.hword 0, 0
+	.hword 0, 0
+	.hword 0x80, 0x9F
+	.hword 0x2C, 0x9E
+	.hword 0xD4, 0x9E
+
+.public ovl03_0217DDBC
+ovl03_0217DDBC: // 0x0217DDBC
+    .hword 7, 0xFFF0
+	.hword 0xFFF2, 0xFFFF
+	.hword 0xC, 7
+	.hword 1, 0xFFF2
+
+.public ovl03_0217DDCC
+ovl03_0217DDCC: // 0x0217DDCC
+    .hword 16, 12, 2, 1, 0, 82, 26, 3, 1, 0, 82, 26, 4, 0, 1, 144, 26
+
+.public ovl03_0217DDEE
+ovl03_0217DDEE: // 0x0217DDEE
+	.hword 1, 0xE, 0x28, 0x35, 0x101, 3
+	.hword 1, 0x15, 0x20, 0x30, 0x102, 4
+	.hword 1, 0, 0x5A, 0x56, 0x105, 1
+	.hword 1, 3, 0x5A, 0x6E, 0x106, 1
+	.hword 2, 0, 0x38, 0x90, 0x107, 1
+	.hword 1, 6, 0, 0, 0x108, 2
+	.hword 1, 7, 0, 0, 0x10C, 2
+	.hword 3, 2, 0, 0x3E, 0x103, 2
+	.hword 0xFFFF, 0, 0x60, 0x60, 0x104, 0
+	.hword 2, 3, 0, 0, 0x10A, 2
+	.hword 1, 0x1B, 0, 0, 0x10B, 1
+	.hword 1, 0x1B, 0, 0, 0x10B, 1
+	.align 4
 	
 	.data
 

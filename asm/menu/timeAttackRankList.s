@@ -838,6 +838,63 @@ _0216FC90: .word 0x00000566
 _0216FC94: .word 0x00000568
 	thumb_func_end TimeAttackRankList__Main2
 
+	.rodata
+	
+.public TimeAttackRankList__stru_217E0A4
+TimeAttackRankList__stru_217E0A4: // 0x0217E0A4
+	.hword 1,
+	.hword 1,
+	.hword 0xFF90,
+	.hword 0,
+	.byte 3,
+	.byte 3
+	
+	.hword 1,
+	.hword 1,
+	.hword 0xFF90,
+	.hword 0,
+	.byte 2,
+	.byte 3
+	
+	.hword 1,
+	.hword 9,
+	.hword 0xFFA0,
+	.hword 0,
+	.byte 7,
+	.byte 2
+	
+	.hword 1,
+	.hword 10,
+	.hword 0xFFA0,
+	.hword 0,
+	.byte 7,
+	.byte 2
+	
+	.hword 1,
+	.hword 11,
+	.hword 0xFFA0,
+	.hword 0,
+	.byte 7,
+	.byte 2
+	
+	.hword 1,
+	.hword 12,
+	.hword 0xFFA0,
+	.hword 0,
+	.byte 7,
+	.byte 2
+	
+	.hword 1,
+	.hword 13,
+	.hword 0xFFA0,
+	.hword 0,
+	.byte 7,
+	.byte 2
+	
+	// .align 4
+	.byte 0
+	.byte 0
+
 	.data
 	
 aBbDmwfRankLang: // 0x0217EDE0

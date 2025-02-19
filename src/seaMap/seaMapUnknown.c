@@ -22,7 +22,7 @@ NONMATCH_FUNC void SeaMapUnknown__Create(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	bl ReleaseAudioSystem
@@ -90,7 +90,7 @@ NONMATCH_FUNC void SeaMapUnknown__Main(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -115,7 +115,7 @@ NONMATCH_FUNC void SeaMapUnknown__Destructor(Task *task)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetTaskWork_
 	bl ReleaseAudioSystem
@@ -130,7 +130,7 @@ NONMATCH_FUNC void SeaMapUnknown__Destroy(SeaMapUnknown *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapChartCourseView__Destroy
 	bl ReleaseSpriteButtonCursorSprite
@@ -161,12 +161,11 @@ _0216FE28:
 #endif
 }
 
-NONMATCH_FUNC void SeaMapUnknown__RunState(SeaMapUnknown *work)
-{
+NONMATCH_FUNC void SeaMapUnknown__RunState(SeaMapUnknown *work){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	bx lr
 
 // clang-format on
@@ -178,7 +177,7 @@ NONMATCH_FUNC void SeaMapUnknown__InitDisplay(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl VRAMSystem__Reset
 	mov r0, #8
@@ -208,12 +207,11 @@ NONMATCH_FUNC void SeaMapUnknown__InitDisplay(void)
 #endif
 }
 
-NONMATCH_FUNC void SeaMapUnknown__State_216FE9C(SeaMapUnknown *work)
-{
+NONMATCH_FUNC void SeaMapUnknown__State_216FE9C(SeaMapUnknown *work){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	ldr r1, =SeaMapUnknown__State_216FEAC
 	str r1, [r0]
 	bx lr
@@ -227,7 +225,7 @@ NONMATCH_FUNC void SeaMapUnknown__State_216FEAC(SeaMapUnknown *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov lr, #0
 	ldr r3, =VRAMSystem__GFXControl
@@ -263,7 +261,7 @@ NONMATCH_FUNC void SeaMapUnknown__State_216FF10(SeaMapUnknown *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapChartCourseView__Func_2040978
@@ -285,7 +283,7 @@ NONMATCH_FUNC void SeaMapUnknown__State_216FF40(SeaMapUnknown *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, #0
 	ldr lr, =VRAMSystem__GFXControl

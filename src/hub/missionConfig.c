@@ -1129,7 +1129,7 @@ BOOL MissionHelpers__CheckSaveProgress(MissionHelpersProgressCheck *progress)
     return gameProgress >= progress->gameProgress && zone5Progress >= progress->zone5Progress && zone6Progress >= progress->zone6Progress;
 }
 
-BOOL MissionHelpers__CheckIslandBeaten(s32 id)
+BOOL MissionHelpers__CheckIslandBeaten(u16 id)
 {
     if (id == MISSION_INVALID)
         return TRUE;

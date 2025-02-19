@@ -2530,6 +2530,164 @@ _02164F32:
 _02164F34: .word VSLobbyMenu__sVars
 	thumb_func_end VSLobbyMenu__Main2
 
+	.rodata
+
+.public ovl03_0217DE80
+ovl03_0217DE80: // 0x0217DE80
+    .byte 39, 40, 41, 42
+
+.public ovl03_0217DE84
+ovl03_0217DE84: // 0x0217DE84
+    .byte 0, 1, 4, 5, 7, 8, 11, 12, 14, 15, 17, 18, 21, 22, 43, 44, 45
+	
+	.align 4
+
+.public ovl03_0217DE98
+ovl03_0217DE98: // 0x0217DE98
+    .hword 1
+	.hword 0
+	.hword 0x50
+	.hword 0x64
+	.byte  1
+	.byte  1
+	.byte  3
+	.byte  0
+
+	.hword 1
+	.hword 1
+	.hword 0xB0
+	.hword 0x64
+	.byte  2
+	.byte  1
+	.byte  3
+	.byte  0
+
+	.hword 1
+	.hword 2
+	.hword 0
+	.hword 0
+	.byte  3
+	.byte  1
+	.byte  2
+	.byte  0
+
+	.hword 1
+	.hword 3
+	.hword 0
+	.hword 0
+	.byte  4
+	.byte  1
+	.byte  4
+	.byte  0
+
+	.hword 2
+	.hword 0
+	.hword 0x28
+	.hword 0x88
+	.byte  5
+	.byte  1
+	.byte  1
+	.byte  0
+
+	.hword 2
+	.hword 3
+	.hword 0x88
+	.hword 0x88
+	.byte  6
+	.byte  1
+	.byte  1
+	.byte  0
+
+	.hword 2
+	.hword 6
+	.hword 0x80
+	.hword 0x34
+	.byte  7
+	.byte  1
+	.byte  0
+	.byte  0
+
+	.hword 0xFFFF
+	.hword 0
+	.hword 0
+	.hword 0
+	.byte  8
+	.byte  1
+	.byte  0
+	.byte  0
+
+.public ovl03_0217DEF8
+ovl03_0217DEF8: // 0x0217DEF8
+    .hword 1
+	.hword 0
+	.word  0
+	.hword 0
+	.hword 0
+	.byte  0xF
+	.byte  0
+	.byte  0
+	.byte  0
+	
+	.hword 1
+	.hword 1
+	.word  0
+	.hword 0
+	.hword 0
+	.byte  0xE
+	.byte  0
+	.byte  2
+	.byte  0
+	
+	.hword 2
+	.hword 0
+	.word  0
+	.hword 0x18
+	.hword 6
+	.byte  0xD
+	.byte  0
+	.byte  1
+	.byte  0
+	
+	.hword 5
+	.hword 12
+	.word  1
+	.hword 4
+	.hword 1
+	.byte  0xF
+	.byte  1
+	.byte  0
+	.byte  0
+	
+	.hword 5
+	.hword 11
+	.word  1
+	.hword 0xCA
+	.hword 0x14
+	.byte  0xE
+	.byte  1
+	.byte  1
+	.byte  0
+	
+	.hword 5
+	.hword 0
+	.word  1
+	.hword 0x18
+	.hword 1
+	.byte  0xD
+	.byte  1
+	.byte  0
+	.byte  0
+	
+	.hword 5
+	.hword 0
+	.word  1
+	.hword 0x12
+	.hword 1
+	.byte  0xD
+	.byte  1
+	.byte  0
+	.byte  0
+
 	.data
 
 aNarcDmvsCmnNar_0: // 0x0217ECA4

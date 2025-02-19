@@ -4167,12 +4167,12 @@ _02158CD4: .word ovl03_0217D2B8
 	thumb_func_start StageClear__Func_2158CD8
 StageClear__Func_2158CD8: // 0x02158CD8
 	ldr r0, _02158CE0 // =gameState
-	ldr r3, _02158CE4 // =MenuHelpers__Func_217CEBC
+	ldr r3, _02158CE4 // =MenuHelpers__GetLeaderboardIDFromStageID
 	ldrh r0, [r0, #0x28]
 	bx r3
 	.align 2, 0
 _02158CE0: .word gameState
-_02158CE4: .word MenuHelpers__Func_217CEBC
+_02158CE4: .word MenuHelpers__GetLeaderboardIDFromStageID
 	thumb_func_end StageClear__Func_2158CD8
 
 	thumb_func_start StageClear__Func_2158CE8
@@ -5047,13 +5047,13 @@ _02159364: // jump table
 	.hword _02159370 - _02159364 - 2 // case 4
 	.hword _02159370 - _02159364 - 2 // case 5
 _02159370:
-	ldr r0, _021593CC // =StageClear__TimeBonusTable
+	ldr r0, _021593CC // =StageClear__timeBonusTable
 	lsl r1, r4, #2
 	ldr r0, [r0, r1]
 	pop {r4, r5, r6, r7}
 	bx lr
 _0215937A:
-	ldr r0, _021593D0 // =StageClear__BossTimeBonusTable
+	ldr r0, _021593D0 // =StageClear__bossTimeBonusTable
 	lsl r1, r4, #2
 	ldr r0, [r0, r1]
 	pop {r4, r5, r6, r7}
@@ -5096,8 +5096,8 @@ _021593B8:
 _021593C0: .word StageClear__timeBonusThresholds
 _021593C4: .word gameState
 _021593C8: .word StageClear__StageType
-_021593CC: .word StageClear__TimeBonusTable
-_021593D0: .word StageClear__BossTimeBonusTable
+_021593CC: .word StageClear__timeBonusTable
+_021593D0: .word StageClear__bossTimeBonusTable
 _021593D4: .word 0x00014C08
 _021593D8: .word 0x0000AFC8
 	thumb_func_end StageClear__GetTimeBonus
@@ -5113,7 +5113,7 @@ _021593E6:
 	ldrb r0, [r2, r3]
 	cmp r1, r0
 	bhs _021593F4
-	ldr r0, _02159404 // =StageClear__tingBonusTable
+	ldr r0, _02159404 // =StageClear__ringBonusTable
 	lsl r1, r3, #2
 	ldr r0, [r0, r1]
 	bx lr
@@ -5125,7 +5125,7 @@ _021593F4:
 	bx lr
 	nop
 _02159400: .word StageClear__ringBonusThresholds
-_02159404: .word StageClear__tingBonusTable
+_02159404: .word StageClear__ringBonusTable
 _02159408: .word 0x00001388
 	thumb_func_end StageClear__GetRingBonus
 
@@ -7826,6 +7826,353 @@ _0215A984: .word StageClear__Singleton
 _0215A988: .word 0x00000000
 	thumb_func_end StageClearMover__Main
 	
+	.rodata
+
+.public StageClear__UIText__PlayerNameAnim
+StageClear__UIText__PlayerNameAnim: // 0x0217D21C
+	.hword 14, 15
+
+.public StageClear__ringBonusTable
+StageClear__ringBonusTable: // 0x0217D220
+	.word 0, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000
+
+.public StageClear__trickBonusTable
+StageClear__trickBonusTable: // 0x0217D248
+	.word 0, 1000, 4000, 7000, 10000, 12000, 14000, 16000, 18000, 20000
+
+.public StageClear__timeBonusTable
+StageClear__timeBonusTable: // 0x0217D270
+	.word 5000, 20000, 35000, 45000, 55000, 65000, 75000, 80000, 85000
+
+.public StageClear__bossTimeBonusTable
+StageClear__bossTimeBonusTable: // 0x0217D294
+	.word 10000, 15000, 20000, 25000, 30000, 34000, 38000, 42000, 45000
+
+.public ovl03_0217D2B8
+ovl03_0217D2B8: // 0x0217D2B8
+    .byte 17, 0
+	.byte 18, 1
+	.byte 20, 22
+	.byte 19, 2
+	.byte 33, 3
+	.byte 34, 4
+	.byte 35, 5
+	.byte 49, 6
+	.byte 50, 7
+	.byte 52, 23
+	.byte 51, 8
+	.byte 65, 9
+	.byte 66, 10
+	.byte 67, 11
+	.byte 81, 12
+	.byte 82, 13
+	.byte 83, 14
+	.byte 97, 15
+	.byte 98, 16
+	.byte 100, 24
+	.byte 99, 17
+	.byte 113, 18
+	.byte 114, 19
+	.byte 115, 20
+	.byte 129, 21
+	.byte 145, 25
+	.byte 145, 26
+	.byte 145, 27
+	.byte 161, 28
+	.byte 161, 29
+	.byte 161, 30
+	.byte 161, 31
+	.byte 161, 32
+	.byte 161, 33
+	.byte 161, 34
+	.byte 161, 35
+	.byte 161, 36
+	.byte 161, 37
+	.byte 161, 38
+	.byte 161, 39
+	.byte 161, 40
+	.byte 161, 41
+	.byte 161, 42
+	.byte 161, 43
+	.byte 161, 44
+	.byte 161, 45
+
+.public ovl03_0217D314
+ovl03_0217D314: // 0x0217D314
+    .byte 0                   
+	.byte 2, 2                
+
+	.byte 0                   
+	.byte 2, 2                
+
+	.byte 2                   
+	.byte 0, 1                
+
+	.byte 0                   
+	.byte 2, 2                
+
+	.byte 0                   
+	.byte 3, 3                
+
+	.byte 0                   
+	.byte 3, 3                
+
+	.byte 0                   
+	.byte 3, 3                
+
+	.byte 0                   
+	.byte 4, 4                
+
+	.byte 0                   
+	.byte 4, 4                
+
+	.byte 2                   
+	.byte 0, 1                
+
+	.byte 0                   
+	.byte 4, 4                
+
+	.byte 0                   
+	.byte 5, 5                
+
+	.byte 0                   
+	.byte 5, 5                
+
+	.byte 0                   
+	.byte 5, 5                
+
+	.byte 0                   
+	.byte 6, 6                
+
+	.byte 0                   
+	.byte 6, 6                
+
+	.byte 0                   
+	.byte 6, 6                
+
+	.byte 0                   
+	.byte 7, 7                
+
+	.byte 0                   
+	.byte 7, 7                
+
+	.byte 2                   
+	.byte 0, 1                
+
+	.byte 0                   
+	.byte 7, 7                
+
+	.byte 0                   
+	.byte 8, 8                
+
+	.byte 0                   
+	.byte 8, 8                
+
+	.byte 0                   
+	.byte 8, 8                
+
+	.byte 0                   
+	.byte 8, 8                
+
+	.byte 2                   
+	.byte 0, 1                
+
+	.byte 2                   
+	.byte 4, 4                
+
+	.byte 2                   
+	.byte 0, 1                
+
+	.byte 3                   
+	.byte 2, 0                
+
+	.byte 3                   
+	.byte 2, 1                
+
+	.byte 3                   
+	.byte 4, 0                
+
+	.byte 3                   
+	.byte 3, 1                
+
+	.byte 3                   
+	.byte 3, 0                
+
+	.byte 3                   
+	.byte 4, 1                
+
+	.byte 3                   
+	.byte 6, 0                
+
+	.byte 3                   
+	.byte 6, 1                
+
+	.byte 2                   
+	.byte 0, 1                
+
+	.byte 3                   
+	.byte 5, 0                
+
+	.byte 2                   
+	.byte 0, 1                
+
+	.byte 0                   
+	.byte 0, 0                
+
+	.byte 0                   
+	.byte 0, 0                
+
+	.byte 0                   
+	.byte 0, 0                
+
+	.byte 0                   
+	.byte 0, 0                
+
+	.byte 0                   
+	.byte 0, 0                
+
+	.byte 0                   
+	.byte 0, 0                
+
+	.byte 0
+	.byte 0, 0
+
+.public StageClear__ringBonusThresholds
+StageClear__ringBonusThresholds: // 0x0217D39E
+	.byte 1, 30, 40, 50, 60, 70, 80, 90, 100, 1, 30, 40, 50
+	.byte 60, 70, 80, 90, 100, 1, 15, 20, 25, 30, 35, 40, 45
+	.byte 50, 1, 5, 6, 7, 8, 9, 10, 11, 12, 1, 30, 40, 50, 60
+	.byte 70, 80, 90, 100, 1, 30, 40, 50, 60, 70, 80, 90, 100
+	.byte 1, 5, 6, 7, 8, 9, 10, 11, 12, 1, 30, 40, 50, 60, 70
+	.byte 80, 90, 100, 1, 30, 40, 50, 60, 70, 80, 90, 100, 1
+	.byte 5, 6, 7, 8, 9, 10, 11, 12, 1, 5, 6, 7, 8, 9, 10, 11
+	.byte 12, 1, 30, 40, 50, 60, 70, 80, 90, 100, 1, 30, 40
+	.byte 50, 60, 70, 80, 90, 100, 1, 2, 3, 4, 5, 6, 7, 8, 9
+	.byte 1, 30, 40, 50, 60, 70, 80, 90, 100, 1, 30, 40, 50
+	.byte 60, 70, 80, 90, 100, 1, 5, 6, 7, 8, 9, 10, 11, 12
+	.byte 1, 30, 40, 50, 60, 70, 80, 90, 100, 1, 30, 40, 50
+	.byte 60, 70, 80, 90, 100, 1, 5, 6, 7, 8, 9, 10, 11, 12
+	.byte 1, 5, 6, 7, 8, 9, 10, 11, 12, 1, 30, 40, 50, 60, 70
+	.byte 80, 90, 100, 1, 30, 40, 50, 60, 70, 80, 90, 100, 1
+	.byte 5, 6, 7, 8, 9, 10, 11, 12, 1, 5, 6, 7, 8, 9, 10, 11
+	.byte 12, 1, 10, 20, 30, 40, 50, 60, 70, 80, 1, 10, 20, 30
+	.byte 40, 50, 60, 70, 80, 1, 5, 6, 7, 8, 9, 10, 11, 12, 1
+	.byte 30, 40, 50, 60, 70, 80, 90, 100, 1, 5, 10, 20, 30
+	.byte 40, 50, 60, 70, 1, 5, 10, 20, 30, 40, 50, 60, 70, 1
+	.byte 2, 3, 5, 10, 20, 30, 40, 50, 1, 5, 10, 20, 30, 40
+	.byte 50, 60, 70, 1, 2, 3, 4, 5, 10, 20, 30, 40, 1, 2, 3
+	.byte 4, 5, 10, 20, 30, 40, 1, 10, 20, 30, 40, 50, 60, 70
+	.byte 80, 1, 2, 5, 10, 20, 30, 40, 50, 60, 1, 5, 6, 7, 8
+	.byte 9, 10, 11, 12, 1, 30, 40, 50, 60, 70, 80, 90, 100
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+.public StageClear__timeBonusThresholds
+StageClear__timeBonusThresholds: // 0x0217D53C
+	.hword 0x82, 0x78, 0x6E, 0x64, 0x5A, 0x50, 0x46, 0x3C
+	.hword 0x82, 0x78, 0x6E, 0x64, 0x5A, 0x50, 0x46, 0x3C
+	.hword 0xBE, 0xB4, 0xAA, 0xA0, 0x96, 0x8C, 0x82, 0x78
+	.hword 0xA0, 0x96, 0x8C, 0x82, 0x78, 0x6E, 0x64, 0x5A
+	.hword 0x96, 0x8C, 0x82, 0x78, 0x6E, 0x64, 0x5A, 0x50
+	.hword 0x96, 0x8C, 0x82, 0x78, 0x6E, 0x64, 0x5A, 0x50
+	.hword 0xA0, 0x96, 0x8C, 0x82, 0x78, 0x6E, 0x64, 0x5A
+	.hword 0xA0, 0x96, 0x8C, 0x82, 0x78, 0x6E, 0x64, 0x5A
+	.hword 0xBE, 0xB4, 0xAA, 0xA0, 0x96, 0x8C, 0x82, 0x78
+	.hword 0x3C, 0x37, 0x32, 0x2D, 0x28, 0x23, 0x1E, 0x19
+	.hword 0xAA, 0xA0, 0x96, 0x8C, 0x82, 0x78, 0x6E, 0x64
+	.hword 0xAA, 0xA0, 0x96, 0x8C, 0x82, 0x78, 0x6E, 0x64
+	.hword 0xAA, 0xA0, 0x96, 0x8C, 0x82, 0x78, 0x6E, 0x64
+	.hword 0xAA, 0xA0, 0x96, 0x8C, 0x82, 0x78, 0x6E, 0x64
+	.hword 0x96, 0x8C, 0x82, 0x78, 0x6E, 0x64, 0x5A, 0x50
+	.hword 0xAA, 0xA0, 0x96, 0x8C, 0x82, 0x78, 0x6E, 0x64
+	.hword 0xC8, 0xBE, 0xB4, 0xAA, 0xA0, 0x96, 0x8C, 0x82
+	.hword 0xBE, 0xB4, 0xAA, 0xA0, 0x96, 0x8C, 0x82, 0x78
+	.hword 0xBE, 0xB4, 0xAA, 0xA0, 0x96, 0x8C, 0x82, 0x78
+	.hword 0x3C, 0x37, 0x32, 0x2D, 0x28, 0x23, 0x1E, 0x19
+	.hword 0xC8, 0xBE, 0xB4, 0xAA, 0xA0, 0x96, 0x8C, 0x82
+	.hword 0xBE, 0xB4, 0xAA, 0xA0, 0x96, 0x8C, 0x82, 0x78
+	.hword 0xDC, 0xD2, 0xC8, 0xBE, 0xB4, 0xAA, 0xA0, 0x96
+	.hword 0xFA, 0xF0, 0xE6, 0xDC, 0xD2, 0xC8, 0xBE, 0xB4
+	.hword 0x1B8, 0x1A4, 0x190, 0x17C, 0x168, 0x154, 0x140, 0x12C
+	.hword 0x46, 0x41, 0x3C, 0x37, 0x32, 0x2D, 0x28, 0x23
+	.hword 0x55, 0x50, 0x4B, 0x46, 0x41, 0x3C, 0x37, 0x32
+	.hword 0x3C, 0x37, 0x32, 0x2D, 0x28, 0x23, 0x1E, 0x19
+	.hword 0x50, 0x4B, 0x46, 0x41, 0x3C, 0x37, 0x32, 0x2D
+	.hword 0x41, 0x3C, 0x37, 0x32, 0x2D, 0x28, 0x23, 0x1E
+	.hword 0x8C, 0x82, 0x78, 0x6E, 0x64, 0x5A, 0x50, 0x46
+	.hword 0x32, 0x2D, 0x28, 0x23, 0x1E, 0x19, 0x14, 0xF
+	.hword 0x4B, 0x46, 0x41, 0x3C, 0x37, 0x32, 0x2D, 0x28
+	.hword 0x46, 0x41, 0x3C, 0x37, 0x32, 0x2D, 0x28, 0x23
+	.hword 0x41, 0x3C, 0x37, 0x32, 0x2D, 0x28, 0x23, 0x1E
+	.hword 0x4B, 0x46, 0x41, 0x3C, 0x37, 0x32, 0x2D, 0x28
+	.hword 0x46, 0x41, 0x3C, 0x37, 0x32, 0x2D, 0x28, 0x23
+	.hword 0x41, 0x3C, 0x37, 0x32, 0x2D, 0x28, 0x23, 0x1E
+	.hword 0x82, 0x78, 0x6E, 0x64, 0x5A, 0x50, 0x46, 0x3C
+	.hword 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0
+
+.public StageClear__trickBonusThresholds
+StageClear__trickBonusThresholds: // 0x0217D81C
+	.hword 1, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000
+	.hword 1, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 1, 500, 1000, 5000, 10000, 15000, 20000, 25000, 30000
+	.hword 1, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000               
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 1, 500, 1000, 5000, 10000, 15000, 20000, 25000, 30000
+	.hword 1, 500, 1000, 5000, 10000, 15000, 20000, 25000, 30000
+	.hword 1, 300, 500, 1000, 2000, 4000, 6000, 8000, 10000
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 1, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000               
+	.hword 1, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000               
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 1, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000               
+	.hword 1, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000               
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 1, 500, 1000, 5000, 10000, 15000, 20000, 25000, 30000
+	.hword 1, 500, 1000, 5000, 10000, 15000, 20000, 25000, 30000
+	.hword 1, 300, 500, 1000, 2000, 4000, 6000, 8000, 10000
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 1, 500, 1000, 5000, 10000, 15000, 20000, 25000, 30000
+	.hword 1, 500, 1000, 5000, 10000, 15000, 20000, 25000, 30000
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 1, 500, 1000, 2000, 4000, 6000, 8000, 10000, 12000
+	.hword 1, 500, 2000, 5000, 8000, 11000, 14000, 17000, 20000
+	.hword 1, 500, 1000, 2000, 4000, 6000, 8000, 10000, 12000
+	.hword 1, 500, 1000, 5000, 10000, 15000, 20000, 25000, 30000
+	.hword 1, 500, 1000, 5000, 10000, 15000, 20000, 25000, 30000
+	.hword 1, 500, 1000, 2000, 4000, 6000, 8000, 10000, 12000
+	.hword 1, 100, 300, 500, 1000, 2000, 3000, 4000, 5000
+	.hword 1, 500, 1000, 5000, 10000, 15000, 20000, 25000, 30000
+	.hword 1, 100, 300, 500, 1000, 2000, 3000, 4000, 5000
+	.hword 1, 300, 500, 1000, 2000, 4000, 6000, 8000, 10000
+	.hword 1, 500, 1000, 5000, 10000, 15000, 20000, 25000, 30000
+	.hword 1, 300, 500, 1000, 2000, 4000, 6000, 8000, 10000
+	.hword 1, 500, 2000, 5000, 8000, 11000, 14000, 17000, 20000
+	.hword 1, 5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000               
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.hword 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+.public StageClear__StageType
+StageClear__StageType: // 0x0217DB58
+	.byte 0, 1, 4, 2, 0, 1, 2, 0, 1, 5, 2, 0, 1, 2, 0, 1, 2
+	.byte 0, 1, 5, 2, 0, 1, 2, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5
+	.byte 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0
+
 	.data
 
 aCldmCldmFixBac: // 0x0217E5F0

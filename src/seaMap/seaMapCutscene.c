@@ -8,11 +8,21 @@
 #include <game/file/binaryBundle.h>
 
 // --------------------
+// TYPES
+// --------------------
+
+typedef void (*SeaMapCutsceneStateFunc)(SeaMapCutscene *work);
+
+// --------------------
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void *ovl03_0217E0F4;
-NOT_DECOMPILED void *ovl03_0217E0EC;
+static const u16 ovl03_0217E0F4[] = { 0, 1, 2, 3, 4, 5, 0, 0 };
+
+static const SeaMapCutsceneStateFunc ovl03_0217E0EC[] = {
+    SeaMapCutscene__State2_2170674,
+    SeaMapCutscene__State_21707A4,
+};
 
 NOT_DECOMPILED void *aSndSb1SoundDat_ovl03;
 NOT_DECOMPILED void *aBbTkdmDownBb_ovl03;
@@ -26,7 +36,7 @@ NONMATCH_FUNC void SeaMapCutscene__Create(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x6c
 	bl ReleaseAudioSystem
@@ -221,7 +231,7 @@ NONMATCH_FUNC void SeaMapCutscene__TouchCallback(TouchAreaResponse *response, To
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r0, [r0, #0]
@@ -258,7 +268,7 @@ NONMATCH_FUNC void SeaMapCutscene__InitDisplay(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl VRAMSystem__Reset
 	mov r0, #1
@@ -303,7 +313,7 @@ NONMATCH_FUNC void SeaMapCutscene__Main(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, =renderCoreGFXControlA
@@ -345,7 +355,7 @@ NONMATCH_FUNC void SeaMapCutscene__Main_Active(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetCurrentTaskWork_
@@ -433,7 +443,7 @@ NONMATCH_FUNC void SeaMapCutscene__Main_FadeOut(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r2, =renderCoreGFXControlA
@@ -479,7 +489,7 @@ NONMATCH_FUNC void SeaMapCutscene__Destructor(Task *task)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetTaskWork_
 	mov r4, r0
@@ -505,7 +515,7 @@ NONMATCH_FUNC void SeaMapCutscene__Func_2170600(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	bl SeaMapManager__GetWork
 	ldr r5, [r0, #0x160]
@@ -548,7 +558,7 @@ NONMATCH_FUNC void SeaMapCutscene__State2_2170674(SeaMapCutscene *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #0
@@ -568,24 +578,22 @@ NONMATCH_FUNC void SeaMapCutscene__State2_2170674(SeaMapCutscene *work)
 #endif
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State1_21706B4(SeaMapCutscene *work)
-{
+NONMATCH_FUNC void SeaMapCutscene__State1_21706B4(SeaMapCutscene *work){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	bx lr
 
 // clang-format on
 #endif
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State2_21706B8(SeaMapCutscene *work)
-{
+NONMATCH_FUNC void SeaMapCutscene__State2_21706B8(SeaMapCutscene *work){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	ldrh r2, [r0, #0x10]
 	add r1, r2, #1
 	strh r1, [r0, #0x10]
@@ -603,7 +611,7 @@ NONMATCH_FUNC void SeaMapCutscene__State2_21706D8(SeaMapCutscene *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -654,7 +662,7 @@ NONMATCH_FUNC void SeaMapCutscene__State2_217077C(SeaMapCutscene *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldrh r2, [r0, #0x10]
 	add r1, r2, #1
@@ -674,7 +682,7 @@ NONMATCH_FUNC void SeaMapCutscene__State_21707A4(SeaMapCutscene *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -722,24 +730,22 @@ NONMATCH_FUNC void SeaMapCutscene__State_21707A4(SeaMapCutscene *work)
 #endif
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State1_2170858(SeaMapCutscene *work)
-{
+NONMATCH_FUNC void SeaMapCutscene__State1_2170858(SeaMapCutscene *work){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	bx lr
 
 // clang-format on
 #endif
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State2_217085C(SeaMapCutscene *work)
-{
+NONMATCH_FUNC void SeaMapCutscene__State2_217085C(SeaMapCutscene *work){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	ldrh r2, [r0, #0x22]
 	add r1, r2, #1
 	strh r1, [r0, #0x22]
@@ -757,7 +763,7 @@ NONMATCH_FUNC void SeaMapCutscene__State2_217087C(SeaMapCutscene *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -794,12 +800,11 @@ NONMATCH_FUNC void SeaMapCutscene__State2_217087C(SeaMapCutscene *work)
 #endif
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State2_21708FC(SeaMapCutscene *work)
-{
+NONMATCH_FUNC void SeaMapCutscene__State2_21708FC(SeaMapCutscene *work){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	ldrh r2, [r0, #0x22]
 	add r1, r2, #1
 	strh r1, [r0, #0x22]
@@ -817,7 +822,7 @@ NONMATCH_FUNC void SeaMapCutscene__State2_217091C(SeaMapCutscene *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x10]
@@ -857,7 +862,7 @@ NONMATCH_FUNC void SeaMapCutscene__State2_2170998(SeaMapCutscene *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldrsh r2, [r0, #0x20]
 	mov r1, #0
@@ -909,7 +914,7 @@ NONMATCH_FUNC void SeaMapCutscene__State2_2170A3C(SeaMapCutscene *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	ldrsh r2, [r0, #0x20]
 	mov r1, #0
@@ -949,7 +954,7 @@ NONMATCH_FUNC void SeaMapCutscene__State2_2170AB4(SeaMapCutscene *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldrh r2, [r0, #0x22]
 	add r1, r2, #1

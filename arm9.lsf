@@ -621,7 +621,6 @@ Overlay Menus1
     Object asm/menu/timeAttackRecordsMenu.o         # thumb code
     Object asm/menu/vikingCupMenu.o                 # arm code
     Object src/menu/connectionStatusIcon.o
-    Object asm/menu/menuHelpers_vars.o
     Object src/menu/menuHelpers.o
 }
 

@@ -1892,7 +1892,7 @@ _0216B8B4:
 	str r0, [sp]
 	str r0, [sp, #4]
 	str r0, [sp, #8]
-	ldr r0, _0216B9DC // =0x0217ED9C
+	ldr r0, _0216B9DC // =aD_8
 	lsl r7, r4, #4
 	add r7, #0xe
 	str r0, [sp, #0xc]
@@ -1908,7 +1908,7 @@ _0216B8B4:
 	str r0, [sp]
 	str r0, [sp, #4]
 	str r0, [sp, #8]
-	ldr r0, _0216B9E0 // =0x0217EDA4
+	ldr r0, _0216B9E0 // =aS_12
 	lsl r3, r7, #0x10
 	str r0, [sp, #0xc]
 	ldr r0, [sp, #0x20]
@@ -1997,8 +1997,8 @@ _0216B9C6:
 _0216B9D0: .word padInput
 _0216B9D4: .word 0x0000070A
 _0216B9D8: .word 0x00000488
-_0216B9DC: .word 0x0217ED9C
-_0216B9E0: .word 0x0217EDA4
+_0216B9DC: .word aD_8
+_0216B9E0: .word aS_12
 _0216B9E4: .word 0x0000074C
 _0216B9E8: .word VSConnectionMenu__Main_216B9EC
 	thumb_func_end VSConnectionMenu__Main_216B810
@@ -3340,6 +3340,12 @@ _0216C53C:
 	.align 2, 0
 	thumb_func_end VSConnectionMenu__Main_216C51C
 
+	.rodata
+
+.public ovl03_0217E09C
+ovl03_0217E09C: // 0x0217E09C
+    .hword 0, 0, 192, 16
+
 	.data
 	
 aBbDmwfJoinBb: // 0x0217ED68
@@ -3350,6 +3356,10 @@ aNarcDmcmnAnten_0: // 0x0217ED7C
 	.asciz "/narc/dmcmn_antenna_lz7.narc"
 	.align 4
 
-_0217ED9C:
-	.byte 0x25, 0x00, 0x64, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x25, 0x00, 0x73, 0x00, 0x00, 0x00, 0x00, 0x00
+.public aD_8
+aD_8: // 0x0217ED9C
+	.byte 0x25, 0x00, 0x64, 0x00, 0x00, 0x00, 0x00, 0x00 // L"%d"
+	
+.public aS_12
+aS_12: // 0x0217EDA4
+	.byte 0x25, 0x00, 0x73, 0x00, 0x00, 0x00, 0x00, 0x00 // L"%s"

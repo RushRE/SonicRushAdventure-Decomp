@@ -13,7 +13,7 @@
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void *ovl03_0217E104;
+static const u8 ovl03_0217E104[] = {0, 2, 4, 6, 8, 10, 0, 0, 0, 0, 0, 0, 12, 0, 24, 0, 24, 0, 12, 0, 3, 0, 3, 0};
 
 NOT_DECOMPILED void *aSndSysSoundDat_3;
 NOT_DECOMPILED void *aBbChBb_0;
