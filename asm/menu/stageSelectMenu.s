@@ -573,24 +573,24 @@ _0215DD9C: .word 0x000013E3
 StageSelectMenu__Func_215DDA0: // 0x0215DDA0
 	sub r0, r0, #1
 	lsl r2, r0, #3
-	ldr r0, _0215DDB0 // =0x0217DC62
+	ldr r0, _0215DDB0 // =ovl03_0217DC62
 	lsl r1, r1, #1
 	add r0, r0, r2
 	ldrh r0, [r1, r0]
 	bx lr
 	nop
-_0215DDB0: .word 0x0217DC62
+_0215DDB0: .word ovl03_0217DC62
 	thumb_func_end StageSelectMenu__Func_215DDA0
 
 	thumb_func_start StageSelectMenu__Func_215DDB4
 StageSelectMenu__Func_215DDB4: // 0x0215DDB4
 	lsl r1, r0, #1
 	add r1, r0, r1
-	ldr r0, _0215DDC0 // =0x0217DBD8
+	ldr r0, _0215DDC0 // =stageList
 	ldrb r0, [r0, r1]
 	bx lr
 	nop
-_0215DDC0: .word 0x0217DBD8
+_0215DDC0: .word stageList
 	thumb_func_end StageSelectMenu__Func_215DDB4
 
 	thumb_func_start StageSelectMenu__Func_215DDC4
@@ -610,7 +610,7 @@ StageSelectMenu__Func_215DDD4: // 0x0215DDD4
 	mov r5, r1
 	lsl r1, r0, #1
 	add r1, r0, r1
-	ldr r0, _0215DE18 // =0x0217DBD8
+	ldr r0, _0215DE18 // =stageList
 	ldrb r4, [r0, r1]
 	ldr r0, _0215DE1C // =StageSelectMenu__Singleton
 	ldr r0, [r0, #0]
@@ -640,7 +640,7 @@ _0215DE0A:
 	ldrh r0, [r1, r0]
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
-_0215DE18: .word 0x0217DBD8
+_0215DE18: .word stageList
 _0215DE1C: .word StageSelectMenu__Singleton
 _0215DE20: .word 0x000013E3
 _0215DE24: .word 0x0217DC5A
@@ -652,7 +652,7 @@ StageSelectMenu__Func_215DE28: // 0x0215DE28
 	mov r5, r1
 	lsl r1, r0, #1
 	add r1, r0, r1
-	ldr r0, _0215DEA0 // =0x0217DBD8
+	ldr r0, _0215DEA0 // =stageList
 	ldr r7, _0215DEA4 // =StageSelectMenu__Singleton
 	ldrb r4, [r0, r1]
 	ldr r0, _0215DEA8 // =0x0217DBD9
@@ -714,7 +714,7 @@ _0215DE92:
 	ldrh r0, [r1, r0]
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
-_0215DEA0: .word 0x0217DBD8
+_0215DEA0: .word stageList
 _0215DEA4: .word StageSelectMenu__Singleton
 _0215DEA8: .word 0x0217DBD9
 _0215DEAC: .word 0x000013E3
@@ -726,7 +726,7 @@ StageSelectMenu__Func_215DEB4: // 0x0215DEB4
 	push {r3, r4, r5, r6, r7, lr}
 	lsl r2, r0, #1
 	add r2, r0, r2
-	ldr r0, _0215DF10 // =0x0217DBD8
+	ldr r0, _0215DF10 // =stageList
 	ldrb r4, [r0, r2]
 	ldr r0, _0215DF14 // =0x0217DBD9
 	ldrb r0, [r0, r2]
@@ -773,7 +773,7 @@ _0215DF04:
 	ldrh r0, [r1, r0]
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_0215DF10: .word 0x0217DBD8
+_0215DF10: .word stageList
 _0215DF14: .word 0x0217DBD9
 _0215DF18: .word StageSelectMenu__Singleton
 _0215DF1C: .word 0x000013E3
@@ -1077,7 +1077,7 @@ StageSelectMenu__Func_215E14C: // 0x0215E14C
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x14
 	ldr r1, _0215E284 // =0x000013D4
-	ldr r2, _0215E288 // =0x0217DC6A
+	ldr r2, _0215E288 // =ovl03_0217DC6A
 	ldrh r1, [r0, r1]
 	ldr r4, _0215E28C // =0x000013E3
 	str r0, [sp]
@@ -1098,7 +1098,7 @@ _0215E15C:
 	bne _0215E200
 	mov r0, #1
 	str r0, [sp, #0x10]
-	ldr r0, _0215E288 // =0x0217DC6A
+	ldr r0, _0215E288 // =ovl03_0217DC6A
 	mov r7, #0
 	str r0, [sp, #8]
 _0215E180:
@@ -1170,7 +1170,7 @@ _0215E1E4:
 _0215E200:
 	mov r0, #1
 	str r0, [sp, #4]
-	ldr r0, _0215E288 // =0x0217DC6A
+	ldr r0, _0215E288 // =ovl03_0217DC6A
 	mov r7, #0
 	str r0, [sp, #0xc]
 _0215E20A:
@@ -1240,7 +1240,7 @@ _0215E27E:
 	pop {r4, r5, r6, r7, pc}
 	nop
 _0215E284: .word 0x000013D4
-_0215E288: .word 0x0217DC6A
+_0215E288: .word ovl03_0217DC6A
 _0215E28C: .word 0x000013E3
 _0215E290: .word StageSelectMenu__Singleton
 _0215E294: .word 0x000013FD
@@ -2383,13 +2383,13 @@ _0215EBBC:
 	sub r1, r5, #3
 	mov r0, #6
 	mul r0, r1
-	ldr r1, _0215ECC4 // =0x0217DB88
+	ldr r1, _0215ECC4 // =StageSelect__actButtonConfig
 	add r2, r1, r0
 	ldrh r1, [r2, #4]
 	str r1, [sp, #0x28]
 	ldrh r1, [r2, #2]
 	str r1, [sp, #0x24]
-	ldr r1, _0215ECC4 // =0x0217DB88
+	ldr r1, _0215ECC4 // =StageSelect__actButtonConfig
 	ldrh r0, [r1, r0]
 	ldr r1, _0215EC94 // =0x000013D0
 	str r0, [sp, #0x20]
@@ -2492,7 +2492,7 @@ _0215ECB4: .word 0x00003042
 _0215ECB8: .word StageSelectMenu__TouchAreaFunc_215DC1C
 _0215ECBC: .word 0x00000F8C
 _0215ECC0: .word 0x000011EC
-_0215ECC4: .word 0x0217DB88
+_0215ECC4: .word StageSelect__actButtonConfig
 _0215ECC8: .word StageSelectMenu__Func_215DC60
 _0215ECCC: .word StageSelectMenu__Func_215DC9C
 _0215ECD0: .word 0x000007BC

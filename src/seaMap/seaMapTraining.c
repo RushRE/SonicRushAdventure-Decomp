@@ -13,6 +13,8 @@
 // TEMP
 // --------------------
 
+NOT_DECOMPILED void *ovl03_0217E104;
+
 NOT_DECOMPILED void *aSndSysSoundDat_3;
 NOT_DECOMPILED void *aBbChBb_0;
 NOT_DECOMPILED void *aCh_ovl03;
@@ -399,7 +401,7 @@ NONMATCH_FUNC void SeaMapTraining__InitSprites(SeaMapTraining *work)
 	sub sp, sp, #0x24
 	mov r6, r0
 	add r5, r6, #0x34
-	ldr r4, =0x0217E104
+	ldr r4, =ovl03_0217E104
 	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0, #0]
 	cmp r0, #5
@@ -515,7 +517,7 @@ NONMATCH_FUNC u32 SeaMapTraining__GetSpriteSize(SeaMapTraining *work)
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r7, #0
 	ldr r6, [r0, #0xc]
-	ldr r5, =0x0217E104
+	ldr r5, =ovl03_0217E104
 	mov r8, r7
 	mov r4, r7
 _02171068:

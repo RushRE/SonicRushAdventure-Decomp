@@ -166,7 +166,7 @@ NONMATCH_FUNC void exBossEffectHitTask__LoadAssets(EX_ACTION_NN_WORK *work)
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r4, r0
 	str r4, [r1, #0x10]
 	ldr r0, [r1, #0x5c]
@@ -175,21 +175,21 @@ NONMATCH_FUNC void exBossEffectHitTask__LoadAssets(EX_ACTION_NN_WORK *work)
 	cmpne r0, #0
 	beq _02155CA4
 	bl _GetHeapTotalSizeHEAP_USER
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x5c]
 	cmp r0, r1
 	addlo sp, sp, #4
 	movlo r0, #0
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	bl VRAMSystem__GetTextureUnknown
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x3c]
 	cmp r0, r1
 	addlo sp, sp, #4
 	movlo r0, #0
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	bl _GetHeapUnallocatedSizeHEAP_SYSTEM
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x5c]
 	cmp r0, r1
 	addlo sp, sp, #4
@@ -198,7 +198,7 @@ NONMATCH_FUNC void exBossEffectHitTask__LoadAssets(EX_ACTION_NN_WORK *work)
 _02155CA4:
 	mov r0, r4
 	bl exDrawReqTask__InitModel
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldrsh r0, [r0, #6]
 	cmp r0, #0
 	bne _02155D38
@@ -208,12 +208,12 @@ _02155CA4:
 	bl ReadFileFromBundle
 	mov r5, r0
 	ldr r0, [r5, #0]
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x5c]
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
-	ldr r2, =0x02175FC4
+	ldr r2, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, r5
 	str r1, [r2, #0x90]
 	bl RenderCore_CPUCopyCompressed
@@ -221,13 +221,13 @@ _02155CA4:
 	bl _FreeHEAP_USER
 	mov r0, #0x57
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #0
 	str r0, [r1, #0xbc]
 	mov r0, #0x58
 	str r2, [r1, #0xdc]
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #3
 	str r0, [r1, #0xc0]
 	str r2, [r1, #0xe0]
@@ -238,15 +238,15 @@ _02155D38:
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r2, #0
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	str r2, [sp]
 	ldr r1, [r0, #0x90]
 	mov r3, r2
 	add r0, r4, #0x20
 	bl AnimatorMDL__SetResource
 	mov r8, #0
-	ldr r6, =0x021760A0
-	ldr r5, =0x02176080
+	ldr r6, =exBossEffectHitTask__AnimTable
+	ldr r5, =exBossEffectHitTask__FileTable
 	mov r7, r8
 _02155D70:
 	str r7, [sp]
@@ -260,7 +260,7 @@ _02155D70:
 	mov r8, r0, lsr #0x10
 	cmp r8, #2
 	blo _02155D70
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	add r0, r4, #0x300
 	ldr r2, [r1, #0xdc]
 	mov r3, #0
@@ -297,7 +297,7 @@ _02155DE4:
 	strb r3, [r4]
 	ldrb r2, [r4, #4]
 	add r0, r4, #0x350
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	orr r2, r2, #0x40
 	strb r2, [r4, #4]
 	str r3, [r4, #0xc]
@@ -322,7 +322,7 @@ NONMATCH_FUNC void exBossEffectHitTask__Destroy_2155E74(EX_ACTION_NN_WORK *work)
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r4, r0
 	ldrsh r0, [r1, #6]
 	cmp r0, #1
@@ -332,31 +332,31 @@ NONMATCH_FUNC void exBossEffectHitTask__Destroy_2155E74(EX_ACTION_NN_WORK *work)
 	beq _02155E9C
 	bl NNS_G3dResDefaultRelease
 _02155E9C:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0xbc]
 	cmp r0, #0
 	beq _02155EB0
 	bl NNS_G3dResDefaultRelease
 _02155EB0:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0xc0]
 	cmp r0, #0
 	beq _02155EC4
 	bl NNS_G3dResDefaultRelease
 _02155EC4:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x90]
 	cmp r0, #0
 	beq _02155ED8
 	bl _FreeHEAP_USER
 _02155ED8:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x90]
 _02155EE4:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldrsh r1, [r0, #6]
 	sub r1, r1, #1
 	strh r1, [r0, #6]
@@ -376,7 +376,7 @@ NONMATCH_FUNC void exBossEffectHitTask__Main(void)
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl GetCurrentTask
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	str r0, [r1, #0x9c]
 	add r0, r4, #4
 	bl exBossEffectHitTask__LoadAssets
@@ -386,7 +386,7 @@ NONMATCH_FUNC void exBossEffectHitTask__Main(void)
 	add r0, r4, #0x390
 	bl exDrawReqTask__Func_21641F0
 	ldr r1, [r4, #0x4e0]
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r2, [r1, #0x3c8]
 	mov r1, #1
 	str r2, [r4, #0x354]
@@ -443,7 +443,7 @@ NONMATCH_FUNC void exBossEffectHitTask__Destructor(void)
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #4
 	bl exBossEffectHitTask__Destroy_2155E74
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x9c]
 	ldmia sp!, {r3, pc}
@@ -542,7 +542,7 @@ NONMATCH_FUNC void exBossEffectFireBallShotTask__Func_21560E0(void)
 // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r4, r0
 	str r4, [r1, #0x14]
 	ldr r0, [r1, #0x4c]
@@ -551,21 +551,21 @@ NONMATCH_FUNC void exBossEffectFireBallShotTask__Func_21560E0(void)
 	cmpne r0, #0
 	beq _0215615C
 	bl _GetHeapTotalSizeHEAP_USER
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x4c]
 	cmp r0, r1
 	addlo sp, sp, #4
 	movlo r0, #0
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	bl VRAMSystem__GetTextureUnknown
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0xa8]
 	cmp r0, r1
 	addlo sp, sp, #4
 	movlo r0, #0
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	bl _GetHeapUnallocatedSizeHEAP_SYSTEM
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x4c]
 	cmp r0, r1
 	addlo sp, sp, #4
@@ -574,7 +574,7 @@ NONMATCH_FUNC void exBossEffectFireBallShotTask__Func_21560E0(void)
 _0215615C:
 	mov r0, r4
 	bl exDrawReqTask__InitModel
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldrsh r0, [r0, #0xa]
 	cmp r0, #0
 	bne _021561F0
@@ -584,12 +584,12 @@ _0215615C:
 	bl ReadFileFromBundle
 	mov r5, r0
 	ldr r0, [r5, #0]
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x4c]
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
-	ldr r2, =0x02175FC4
+	ldr r2, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, r5
 	str r1, [r2, #0xac]
 	bl RenderCore_CPUCopyCompressed
@@ -597,13 +597,13 @@ _0215615C:
 	bl _FreeHEAP_USER
 	mov r0, #0x55
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #0
 	str r0, [r1, #0xb4]
 	mov r0, #0x56
 	str r2, [r1, #0xd4]
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #4
 	str r0, [r1, #0xb8]
 	str r2, [r1, #0xd8]
@@ -614,15 +614,15 @@ _021561F0:
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r2, #0
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	str r2, [sp]
 	ldr r1, [r0, #0xac]
 	mov r3, r2
 	add r0, r4, #0x20
 	bl AnimatorMDL__SetResource
 	mov r8, #0
-	ldr r6, =0x02176098
-	ldr r5, =0x02176078
+	ldr r6, =exBossEffectFireBallShotTask__AnimTable
+	ldr r5, =exBossEffectFireBallShotTask__FileTable
 	mov r7, r8
 _02156228:
 	str r7, [sp]
@@ -636,7 +636,7 @@ _02156228:
 	mov r8, r0, lsr #0x10
 	cmp r8, #2
 	blo _02156228
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	add r0, r4, #0x300
 	ldr r2, [r1, #0xd4]
 	mov r3, #0
@@ -674,7 +674,7 @@ _0215629C:
 	strb r0, [r4]
 	ldrb r3, [r4, #1]
 	add r2, r4, #0x350
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	orr r3, r3, #0x10
 	strb r3, [r4, #1]
 	str ip, [r4, #0xc]
@@ -698,7 +698,7 @@ NONMATCH_FUNC void exBossEffectFireBallShotTask__Func_215632C(void)
 #else
 // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r4, r0
 	ldrsh r0, [r1, #0xa]
 	cmp r0, #1
@@ -708,31 +708,31 @@ NONMATCH_FUNC void exBossEffectFireBallShotTask__Func_215632C(void)
 	beq _02156354
 	bl NNS_G3dResDefaultRelease
 _02156354:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0xb4]
 	cmp r0, #0
 	beq _02156368
 	bl NNS_G3dResDefaultRelease
 _02156368:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0xb8]
 	cmp r0, #0
 	beq _0215637C
 	bl NNS_G3dResDefaultRelease
 _0215637C:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0xac]
 	cmp r0, #0
 	beq _02156390
 	bl _FreeHEAP_USER
 _02156390:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0xac]
 _0215639C:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldrsh r1, [r0, #0xa]
 	sub r1, r1, #1
 	strh r1, [r0, #0xa]
@@ -752,7 +752,7 @@ NONMATCH_FUNC void exBossEffectFireBallShotTask__Main(void)
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl GetCurrentTask
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	str r0, [r1, #0xa4]
 	add r0, r4, #4
 	bl exBossEffectFireBallShotTask__Func_21560E0
@@ -762,7 +762,7 @@ NONMATCH_FUNC void exBossEffectFireBallShotTask__Main(void)
 	add r0, r4, #0x390
 	bl exDrawReqTask__Func_21641F0
 	ldr r1, [r4, #0x4e0]
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r2, [r1, #0x3ec]
 	mov r1, #1
 	str r2, [r4, #0x354]
@@ -819,7 +819,7 @@ NONMATCH_FUNC void exBossEffectFireBallShotTask__Destructor(void)
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #4
 	bl exBossEffectFireBallShotTask__Func_215632C
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0xa4]
 	ldmia sp!, {r3, pc}
@@ -915,7 +915,7 @@ NONMATCH_FUNC void exBossEffectFireBallTask__Func_2156594(void)
 
 #else
 // clang-format off
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0xa0]
 	bx lr
@@ -932,7 +932,7 @@ NONMATCH_FUNC void exBossEffectFireBallTask__Func_21565A8(void)
 // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r5, r0
 	str r5, [r1, #0x94]
 	ldr r0, [r1, #0x30]
@@ -941,21 +941,21 @@ NONMATCH_FUNC void exBossEffectFireBallTask__Func_21565A8(void)
 	cmpne r0, #0
 	beq _02156624
 	bl _GetHeapTotalSizeHEAP_USER
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x30]
 	cmp r0, r1
 	addlo sp, sp, #4
 	movlo r0, #0
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	bl VRAMSystem__GetTextureUnknown
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x88]
 	cmp r0, r1
 	addlo sp, sp, #4
 	movlo r0, #0
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	bl _GetHeapUnallocatedSizeHEAP_SYSTEM
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x30]
 	cmp r0, r1
 	addlo sp, sp, #4
@@ -964,7 +964,7 @@ NONMATCH_FUNC void exBossEffectFireBallTask__Func_21565A8(void)
 _02156624:
 	mov r0, r5
 	bl exDrawReqTask__InitModel
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldrsh r0, [r0, #8]
 	cmp r0, #0
 	bne _021566E8
@@ -974,12 +974,12 @@ _02156624:
 	bl ReadFileFromBundle
 	mov r4, r0
 	ldr r0, [r4, #0]
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x30]
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
-	ldr r2, =0x02175FC4
+	ldr r2, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, r4
 	str r1, [r2, #0x98]
 	bl RenderCore_CPUCopyCompressed
@@ -987,25 +987,25 @@ _02156624:
 	bl _FreeHEAP_USER
 	mov r0, #0x51
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #0
 	str r0, [r1, #0x124]
 	mov r0, #0x52
 	str r2, [r1, #0x104]
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #1
 	str r0, [r1, #0x128]
 	mov r0, #0x53
 	str r2, [r1, #0x108]
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #3
 	str r0, [r1, #0x12c]
 	mov r0, #0x54
 	str r2, [r1, #0x10c]
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #2
 	str r0, [r1, #0x130]
 	str r2, [r1, #0x110]
@@ -1016,15 +1016,15 @@ _021566E8:
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r2, #0
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	str r2, [sp]
 	ldr r1, [r0, #0x98]
 	mov r3, r2
 	add r0, r5, #0x20
 	bl AnimatorMDL__SetResource
 	mov r4, #0
-	ldr r7, =0x021760C8
-	ldr r6, =0x021760E8
+	ldr r7, =exBossEffectFireBallTask__AnimTable
+	ldr r6, =exBossEffectFireBallTask__FileTable
 	mov r8, r4
 _02156720:
 	str r8, [sp]
@@ -1038,18 +1038,18 @@ _02156720:
 	mov r4, r0, lsr #0x10
 	cmp r4, #3
 	blo _02156720
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x98]
 	bl NNS_G3dGetTex
 	str r0, [sp]
-	ldr r1, =0x021760C8
-	ldr r0, =0x021760E8
+	ldr r1, =exBossEffectFireBallTask__AnimTable
+	ldr r0, =exBossEffectFireBallTask__FileTable
 	ldr r1, [r1, r4, lsl #2]
 	ldr r2, [r0, r4, lsl #2]
 	add r0, r5, #0x20
 	mov r3, #0
 	bl AnimatorMDL__SetAnimation
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	add r0, r5, #0x300
 	ldr r2, [r1, #0x104]
 	mov r3, #0
@@ -1087,7 +1087,7 @@ _021567C0:
 	strb r0, [r5]
 	ldrb r3, [r5, #1]
 	add r2, r5, #0x350
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	orr r3, r3, #0x20
 	strb r3, [r5, #1]
 	str r4, [r5, #0xc]
@@ -1112,8 +1112,8 @@ NONMATCH_FUNC void exBossEffectFireBallTask__Func_2156850(void)
 // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r7, #0
-	ldr r5, =0x021760C8
-	ldr r4, =0x021760E8
+	ldr r5, =exBossEffectFireBallTask__AnimTable
+	ldr r4, =exBossEffectFireBallTask__FileTable
 	mov r9, r0
 	mov r8, r1
 	mov r6, r7
@@ -1129,18 +1129,18 @@ _0215686C:
 	mov r7, r0, lsr #0x10
 	cmp r7, #3
 	blo _0215686C
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x98]
 	bl NNS_G3dGetTex
 	str r0, [sp]
-	ldr r1, =0x021760C8
-	ldr r0, =0x021760E8
+	ldr r1, =exBossEffectFireBallTask__AnimTable
+	ldr r0, =exBossEffectFireBallTask__FileTable
 	ldr r1, [r1, r7, lsl #2]
 	ldr r2, [r0, r7, lsl #2]
 	mov r3, r8
 	add r0, r9, #0x20
 	bl AnimatorMDL__SetAnimation
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	add r0, r9, #0x300
 	ldr r2, [r1, #0x104]
 	mov r3, #0
@@ -1176,7 +1176,7 @@ NONMATCH_FUNC void exBossEffectFireBallTask__Destroy_2156928(void)
 #else
 // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r4, r0
 	ldrsh r0, [r1, #8]
 	cmp r0, #1
@@ -1186,43 +1186,43 @@ NONMATCH_FUNC void exBossEffectFireBallTask__Destroy_2156928(void)
 	beq _02156950
 	bl NNS_G3dResDefaultRelease
 _02156950:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x124]
 	cmp r0, #0
 	beq _02156964
 	bl NNS_G3dResDefaultRelease
 _02156964:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x128]
 	cmp r0, #0
 	beq _02156978
 	bl NNS_G3dResDefaultRelease
 _02156978:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x12c]
 	cmp r0, #0
 	beq _0215698C
 	bl NNS_G3dResDefaultRelease
 _0215698C:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x130]
 	cmp r0, #0
 	beq _021569A0
 	bl NNS_G3dResDefaultRelease
 _021569A0:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x98]
 	cmp r0, #0
 	beq _021569B4
 	bl _FreeHEAP_USER
 _021569B4:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x98]
 _021569C0:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldrsh r1, [r0, #8]
 	sub r1, r1, #1
 	strh r1, [r0, #8]
@@ -1243,7 +1243,7 @@ NONMATCH_FUNC void exBossEffectFireBallTask__Main(void)
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl GetCurrentTask
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	str r0, [r1, #0x84]
 	add r0, r4, #4
 	bl exBossEffectFireBallTask__Func_21565A8
@@ -1253,7 +1253,7 @@ NONMATCH_FUNC void exBossEffectFireBallTask__Main(void)
 	add r0, r4, #0x390
 	bl exDrawReqTask__Func_21641F0
 	mov r2, #1
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, #0
 	str r2, [r1, #0x80]
 	str r0, [sp]
@@ -1310,7 +1310,7 @@ NONMATCH_FUNC void exBossEffectFireBallTask__Destructor(void)
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #4
 	bl exBossEffectFireBallTask__Destroy_2156928
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x84]
 	ldmia sp!, {r3, pc}
@@ -1410,7 +1410,7 @@ NONMATCH_FUNC void exBossEffectFireBallTask__Func_2156B88(void)
 	ldmia sp!, {r4, pc}
 _02156BB8:
 	ldr r1, [r4, #0x4e0]
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x3ec]
 	str r1, [r4, #0x354]
 	ldr r1, [r4, #0x4e0]
@@ -1665,8 +1665,8 @@ _02156EC0:
 	add r0, r4, #0x20
 	bl AnimatorMDL__SetResource
 	mov r8, #0
-	ldr r6, =0x021760F8
-	ldr r5, =0x021760A8
+	ldr r6, =exBossEffectHomingTask__AnimTable
+	ldr r5, =exBossEffectHomingTask__FileTable
 	mov r7, r8
 _02156EF8:
 	str r7, [sp]
@@ -1753,8 +1753,8 @@ NONMATCH_FUNC void exBossEffectHomingTask__Func_2157024(void)
 // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r9, #0
-	ldr r7, =0x021760F8
-	ldr r6, =0x021760A8
+	ldr r7, =exBossEffectHomingTask__AnimTable
+	ldr r6, =exBossEffectHomingTask__FileTable
 	mov r5, r0
 	mov r4, r1
 	mov r8, r9
@@ -2197,7 +2197,7 @@ NONMATCH_FUNC void exBossEffectShotTask__Func_215753C(void)
 
 #else
 // clang-format off
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x60]
 	bx lr
@@ -2214,7 +2214,7 @@ NONMATCH_FUNC void exBossEffectShotTask__Func_2157550(void)
 // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r4, r0
 	str r4, [r1, #0x54]
 	ldr r0, [r1, #0x1c]
@@ -2223,21 +2223,21 @@ NONMATCH_FUNC void exBossEffectShotTask__Func_2157550(void)
 	cmpne r0, #0
 	beq _021575CC
 	bl _GetHeapTotalSizeHEAP_USER
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x1c]
 	cmp r0, r1
 	addlo sp, sp, #4
 	movlo r0, #0
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	bl VRAMSystem__GetTextureUnknown
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x48]
 	cmp r0, r1
 	addlo sp, sp, #4
 	movlo r0, #0
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	bl _GetHeapUnallocatedSizeHEAP_SYSTEM
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x1c]
 	cmp r0, r1
 	addlo sp, sp, #4
@@ -2246,7 +2246,7 @@ NONMATCH_FUNC void exBossEffectShotTask__Func_2157550(void)
 _021575CC:
 	mov r0, r4
 	bl exDrawReqTask__InitModel
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldrsh r0, [r0, #4]
 	cmp r0, #0
 	bne _02157660
@@ -2256,12 +2256,12 @@ _021575CC:
 	bl ReadFileFromBundle
 	mov r5, r0
 	ldr r0, [r5, #0]
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x1c]
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
-	ldr r2, =0x02175FC4
+	ldr r2, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, r5
 	str r1, [r2, #0x58]
 	bl RenderCore_CPUCopyCompressed
@@ -2269,13 +2269,13 @@ _021575CC:
 	bl _FreeHEAP_USER
 	mov r0, #0x39
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #0
 	str r0, [r1, #0xcc]
 	mov r0, #0x3a
 	str r2, [r1, #0xc4]
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #4
 	str r0, [r1, #0xd0]
 	str r2, [r1, #0xc8]
@@ -2286,15 +2286,15 @@ _02157660:
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r2, #0
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	str r2, [sp]
 	ldr r1, [r0, #0x58]
 	mov r3, r2
 	add r0, r4, #0x20
 	bl AnimatorMDL__SetResource
 	mov r8, #0
-	ldr r6, =0x02176088
-	ldr r5, =0x02176090
+	ldr r6, =exBossEffectShotTask__AnimTable
+	ldr r5, =exBossEffectShotTask__FileTable
 	mov r7, r8
 _02157698:
 	str r7, [sp]
@@ -2308,7 +2308,7 @@ _02157698:
 	mov r8, r0, lsr #0x10
 	cmp r8, #2
 	blo _02157698
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	add r0, r4, #0x300
 	ldr r2, [r1, #0xc4]
 	mov r3, #0
@@ -2346,7 +2346,7 @@ _0215770C:
 	strb r0, [r4]
 	ldrb r3, [r4, #1]
 	add r2, r4, #0x350
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	orr r3, r3, #4
 	strb r3, [r4, #1]
 	str ip, [r4, #0xc]
@@ -2370,7 +2370,7 @@ NONMATCH_FUNC void exBossEffectShotTask__Func_215779C(void)
 #else
 // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r4, r0
 	ldrsh r0, [r1, #4]
 	cmp r0, #1
@@ -2380,31 +2380,31 @@ NONMATCH_FUNC void exBossEffectShotTask__Func_215779C(void)
 	beq _021577C4
 	bl NNS_G3dResDefaultRelease
 _021577C4:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0xcc]
 	cmp r0, #0
 	beq _021577D8
 	bl NNS_G3dResDefaultRelease
 _021577D8:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0xd0]
 	cmp r0, #0
 	beq _021577EC
 	bl NNS_G3dResDefaultRelease
 _021577EC:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x58]
 	cmp r0, #0
 	beq _02157800
 	bl _FreeHEAP_USER
 _02157800:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x58]
 _0215780C:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldrsh r1, [r0, #4]
 	sub r1, r1, #1
 	strh r1, [r0, #4]
@@ -2424,7 +2424,7 @@ NONMATCH_FUNC void exBossEffectShotTask__Main(void)
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl GetCurrentTask
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	str r0, [r1, #0x44]
 	add r0, r4, #4
 	bl exBossEffectShotTask__Func_2157550
@@ -2434,7 +2434,7 @@ NONMATCH_FUNC void exBossEffectShotTask__Main(void)
 	add r0, r4, #0x390
 	bl exDrawReqTask__Func_21641F0
 	ldr r1, [r4, #0x4e0]
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r2, [r1, #0x3ec]
 	mov r1, #1
 	str r2, [r4, #0x354]
@@ -2491,7 +2491,7 @@ NONMATCH_FUNC void exBossEffectShotTask__Destructor(void)
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #4
 	bl exBossEffectShotTask__Func_215779C
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x44]
 	ldmia sp!, {r3, pc}
@@ -2589,7 +2589,7 @@ NONMATCH_FUNC void exBossEffectFireTask__Func_2157A04(void)
 // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r4, r0
 	str r4, [r1, #0x38]
 	ldr r0, [r1, #0x8c]
@@ -2598,21 +2598,21 @@ NONMATCH_FUNC void exBossEffectFireTask__Func_2157A04(void)
 	cmpne r0, #0
 	beq _02157A80
 	bl _GetHeapTotalSizeHEAP_USER
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x8c]
 	cmp r0, r1
 	addlo sp, sp, #4
 	movlo r0, #0
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	bl VRAMSystem__GetTextureUnknown
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x28]
 	cmp r0, r1
 	addlo sp, sp, #4
 	movlo r0, #0
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	bl _GetHeapUnallocatedSizeHEAP_SYSTEM
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x8c]
 	cmp r0, r1
 	addlo sp, sp, #4
@@ -2621,7 +2621,7 @@ NONMATCH_FUNC void exBossEffectFireTask__Func_2157A04(void)
 _02157A80:
 	mov r0, r4
 	bl exDrawReqTask__InitModel
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldrsh r0, [r0, #2]
 	cmp r0, #0
 	bne _02157B44
@@ -2631,12 +2631,12 @@ _02157A80:
 	bl ReadFileFromBundle
 	mov r5, r0
 	ldr r0, [r5, #0]
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x8c]
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
-	ldr r2, =0x02175FC4
+	ldr r2, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, r5
 	str r1, [r2, #0x34]
 	bl RenderCore_CPUCopyCompressed
@@ -2644,25 +2644,25 @@ _02157A80:
 	bl _FreeHEAP_USER
 	mov r0, #0x25
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #0
 	str r0, [r1, #0x114]
 	mov r0, #0x26
 	str r2, [r1, #0xf4]
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #1
 	str r0, [r1, #0x118]
 	mov r0, #0x27
 	str r2, [r1, #0xf8]
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #3
 	str r0, [r1, #0x11c]
 	mov r0, #0x28
 	str r2, [r1, #0xfc]
 	bl LoadExSystemFile
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #2
 	str r0, [r1, #0x120]
 	str r2, [r1, #0x100]
@@ -2673,15 +2673,15 @@ _02157B44:
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r2, #0
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	str r2, [sp]
 	ldr r1, [r0, #0x34]
 	mov r3, r2
 	add r0, r4, #0x20
 	bl AnimatorMDL__SetResource
 	mov r8, #0
-	ldr r6, =0x021760B8
-	ldr r5, =0x021760D8
+	ldr r6, =exBossEffectFireTask__AnimTable
+	ldr r5, =exBossEffectFireTask__FileTable
 	mov r7, r8
 _02157B7C:
 	str r7, [sp]
@@ -2695,17 +2695,17 @@ _02157B7C:
 	mov r8, r0, lsr #0x10
 	cmp r8, #3
 	blo _02157B7C
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x34]
 	bl NNS_G3dGetTex
 	str r0, [sp]
-	ldr r2, =0x02175FC4
+	ldr r2, =exBossEffectHomingTask__ActiveInstanceCount
 	add r0, r4, #0x20
 	ldr r1, [r2, #0x100]
 	ldr r2, [r2, #0x120]
 	mov r3, #0
 	bl AnimatorMDL__SetAnimation
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	add r0, r4, #0x300
 	ldr r2, [r1, #0xf4]
 	mov r3, #0
@@ -2743,7 +2743,7 @@ _02157C18:
 	strb r0, [r4]
 	ldrb r3, [r4, #1]
 	add r2, r4, #0x350
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	orr r3, r3, #2
 	strb r3, [r4, #1]
 	str ip, [r4, #0xc]
@@ -2768,8 +2768,8 @@ NONMATCH_FUNC void exBossEffectFireTask__Func_2157CA8(void)
 // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r9, #0
-	ldr r7, =0x021760B8
-	ldr r6, =0x021760D8
+	ldr r7, =exBossEffectFireTask__AnimTable
+	ldr r6, =exBossEffectFireTask__FileTable
 	mov r5, r0
 	mov r4, r1
 	mov r8, r9
@@ -2785,17 +2785,17 @@ _02157CC4:
 	mov r9, r0, lsr #0x10
 	cmp r9, #3
 	blo _02157CC4
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x34]
 	bl NNS_G3dGetTex
 	str r0, [sp]
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r3, r4
 	ldr r1, [r0, #0x100]
 	ldr r2, [r0, #0x120]
 	add r0, r5, #0x20
 	bl AnimatorMDL__SetAnimation
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	add r0, r5, #0x300
 	ldr r2, [r1, #0xf4]
 	mov r3, #0
@@ -2831,7 +2831,7 @@ NONMATCH_FUNC void exBossEffectFireTask__Func_2157D7C(void)
 #else
 // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r4, r0
 	ldrsh r0, [r1, #2]
 	cmp r0, #1
@@ -2841,43 +2841,43 @@ NONMATCH_FUNC void exBossEffectFireTask__Func_2157D7C(void)
 	beq _02157DA4
 	bl NNS_G3dResDefaultRelease
 _02157DA4:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x114]
 	cmp r0, #0
 	beq _02157DB8
 	bl NNS_G3dResDefaultRelease
 _02157DB8:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x118]
 	cmp r0, #0
 	beq _02157DCC
 	bl NNS_G3dResDefaultRelease
 _02157DCC:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x11c]
 	cmp r0, #0
 	beq _02157DE0
 	bl NNS_G3dResDefaultRelease
 _02157DE0:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x120]
 	cmp r0, #0
 	beq _02157DF4
 	bl NNS_G3dResDefaultRelease
 _02157DF4:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x34]
 	cmp r0, #0
 	beq _02157E08
 	bl _FreeHEAP_USER
 _02157E08:
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x34]
 _02157E14:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldrsh r1, [r0, #2]
 	sub r1, r1, #1
 	strh r1, [r0, #2]
@@ -2898,7 +2898,7 @@ NONMATCH_FUNC void exBossEffectFireTask__Main(void)
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl GetCurrentTask
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	str r0, [r1, #0x24]
 	add r0, r4, #4
 	bl exBossEffectFireTask__Func_2157A04
@@ -2908,7 +2908,7 @@ NONMATCH_FUNC void exBossEffectFireTask__Main(void)
 	add r0, r4, #0x390
 	bl exDrawReqTask__Func_21641F0
 	mov r2, #1
-	ldr r1, =0x02175FC4
+	ldr r1, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, #0
 	str r2, [r1, #0x20]
 	str r0, [sp]
@@ -2965,7 +2965,7 @@ NONMATCH_FUNC void exBossEffectFireTask__Destructor(void)
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #4
 	bl exBossEffectFireTask__Func_2157D7C
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x24]
 	ldmia sp!, {r3, pc}
@@ -3065,7 +3065,7 @@ NONMATCH_FUNC void exBossEffectFireTask__Func_2157FDC(void)
 	ldmia sp!, {r4, pc}
 _0215800C:
 	ldr r1, [r4, #0x4e0]
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r1, [r1, #0x3ec]
 	str r1, [r4, #0x354]
 	ldr r1, [r4, #0x4e0]
@@ -3211,7 +3211,7 @@ NONMATCH_FUNC void exBossEffectFireTask__Func_21581C0(void)
 
 #else
 // clang-format off
-	ldr r0, =0x02175FC4
+	ldr r0, =exBossEffectHomingTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x20]
 	bx lr

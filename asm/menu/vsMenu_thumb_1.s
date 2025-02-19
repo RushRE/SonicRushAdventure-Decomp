@@ -613,7 +613,7 @@ VSMenu__Main: // 0x021675F0
 	ldr r0, _021676EC // =VSMenu__Func_21675A0
 	mov r2, #0x15
 	str r0, [sp, #0x18]
-	ldr r0, _021676F0 // =0x0217DFEC
+	ldr r0, _021676F0 // =ovl03_0217DFEC
 	mov r3, #0x13
 	str r0, [sp, #0x1c]
 	ldr r1, [r4, #0x14]
@@ -696,7 +696,7 @@ VSMenu__Main: // 0x021675F0
 _021676E4: .word VSMenu__Singleton
 _021676E8: .word 0x0000091C
 _021676EC: .word VSMenu__Func_21675A0
-_021676F0: .word 0x0217DFEC
+_021676F0: .word ovl03_0217DFEC
 _021676F4: .word 0x0217DFF4
 _021676F8: .word 0x0217DFFC
 _021676FC: .word 0x0217E004

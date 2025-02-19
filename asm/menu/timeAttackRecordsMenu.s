@@ -340,7 +340,7 @@ _02178C32:
 	ldr r0, [sp, #0x1c]
 	ldr r4, [sp, #0x1c]
 	ldr r0, [r0, #0]
-	ldr r5, _02178DBC // =0x0217E244
+	ldr r5, _02178DBC // =ovl03_0217E244
 	ldr r0, [r0, #0xc]
 	mov r7, #0
 	str r0, [sp, #0x3c]
@@ -519,7 +519,7 @@ _02178C66:
 	add sp, #0x40
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_02178DBC: .word 0x0217E244
+_02178DBC: .word ovl03_0217E244
 _02178DC0: .word 0x05000200
 _02178DC4: .word 0x05000600
 _02178DC8: .word 0x00000738
@@ -2060,7 +2060,7 @@ _02179A6A:
 	add r1, r5, r2
 	add r2, #0x64
 	str r0, [sp, #0xc]
-	ldr r3, _02179C2C // =0x0217E2A8
+	ldr r3, _02179C2C // =ovl03_0217E2A8
 	mov r0, r5
 	add r2, r5, r2
 	bl TimeAttackRecordsMenu__Func_2179CC0
@@ -2074,7 +2074,7 @@ _02179A6A:
 	ldr r0, [sp, #0x1c]
 	mov r2, r5
 	str r0, [sp, #0xc]
-	ldr r3, _02179C30 // =0x0217E2D8
+	ldr r3, _02179C30 // =ovl03_0217E2D8
 	mov r0, r5
 	add r1, #0x74
 	add r2, #0xd8
@@ -2091,7 +2091,7 @@ _02179A6A:
 	add r1, r5, r2
 	add r2, #0x64
 	str r0, [sp, #0xc]
-	ldr r3, _02179C34 // =0x0217E308
+	ldr r3, _02179C34 // =ovl03_0217E308
 	mov r0, r5
 	add r2, r5, r2
 	bl TimeAttackRecordsMenu__Func_2179CC0
@@ -2266,9 +2266,9 @@ _02179C1A:
 _02179C20: .word 0x000001FF
 _02179C24: .word renderCoreGFXControlB
 _02179C28: .word renderCoreGFXControlA
-_02179C2C: .word 0x0217E2A8
-_02179C30: .word 0x0217E2D8
-_02179C34: .word 0x0217E308
+_02179C2C: .word ovl03_0217E2A8
+_02179C30: .word ovl03_0217E2D8
+_02179C34: .word ovl03_0217E308
 _02179C38: .word 0x00000588
 	thumb_func_end TimeAttackRecordsMenu__Func_217999C
 
@@ -3286,7 +3286,7 @@ _0217A41A:
 	mov r1, #0
 	add r2, r3, r2
 	bl SetPaletteAnimationTarget
-	ldr r1, _0217A4A8 // =0x0217E278
+	ldr r1, _0217A4A8 // =ovl03_0217E278
 	ldr r0, _0217A4A4 // =0x00000718
 	ldrb r1, [r1, r6]
 	add r0, r5, r0
@@ -3342,7 +3342,7 @@ _0217A46E:
 	nop
 _0217A4A0: .word 0x00000B44
 _0217A4A4: .word 0x00000718
-_0217A4A8: .word 0x0217E278
+_0217A4A8: .word ovl03_0217E278
 _0217A4AC: .word 0x00000B48
 	thumb_func_end TimeAttackRecordsMenu__Func_217A3C4
 

@@ -373,7 +373,7 @@ VikingCupStageSelectMenu__Func_217AEBC: // 0x0217AEBC
 	bl FileUnknown__GetAOUFile
 	str r0, [sp, #0x20]
 	ldr r0, _0217AF70 // =0x05000600
-	ldr r10, _0217AF74 // =0x0217E340
+	ldr r10, _0217AF74 // =ovl03_0217E340
 	mov r8, #0
 	add r9, r4, #0x1c
 	sub r5, r0, #0x400
@@ -417,7 +417,7 @@ _0217AEE4:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0217AF70: .word 0x05000600
-_0217AF74: .word 0x0217E340
+_0217AF74: .word ovl03_0217E340
 	arm_func_end VikingCupStageSelectMenu__Func_217AEBC
 
 	arm_func_start VikingCupStageSelectMenu__Func_217AF78
@@ -2214,7 +2214,7 @@ _0217C7E4:
 VikingCupStageSelectMenu__GetRecord: // 0x0217C7EC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x3c
-	ldr r4, _0217C8AC // =0x0217E370
+	ldr r4, _0217C8AC // =ovl03_0217E370
 	add lr, sp, #0
 	mov r5, #0
 	mov ip, #0xf
@@ -2268,7 +2268,7 @@ _0217C898:
 	add sp, sp, #0x3c
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
-_0217C8AC: .word 0x0217E370
+_0217C8AC: .word ovl03_0217E370
 	arm_func_end VikingCupStageSelectMenu__GetRecord
 
 	arm_func_start VikingCupStageSelectMenu__Func_217C8B0

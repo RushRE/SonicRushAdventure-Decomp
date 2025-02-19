@@ -1363,7 +1363,7 @@ _02153372:
 	mov r0, #0x7e
 	lsl r0, r0, #2
 	add r0, r5, r0
-	ldr r6, _021536C4 // =0x0217D11E
+	ldr r6, _021536C4 // =ovl03_0217D11E
 	str r0, [sp, #0x3c]
 _021533D4:
 	ldrh r1, [r6, #0]
@@ -1407,7 +1407,7 @@ _021533D4:
 	mov r0, #0x45
 	lsl r0, r0, #4
 	add r0, r5, r0
-	ldr r6, _021536C8 // =0x0217D12A
+	ldr r6, _021536C8 // =ovl03_0217D12A
 	str r0, [sp, #0x40]
 _02153430:
 	ldrh r1, [r6, #0]
@@ -1713,8 +1713,8 @@ _021535FC:
 _021536B8: .word MainMenu__word_217D0E8
 _021536BC: .word 0x05000200
 _021536C0: .word 0x05000600
-_021536C4: .word 0x0217D11E
-_021536C8: .word 0x0217D12A
+_021536C4: .word ovl03_0217D11E
+_021536C8: .word ovl03_0217D12A
 _021536CC: .word 0x000006A8
 _021536D0: .word 0x000007D4
 _021536D4: .word 0x0000089C
@@ -2622,7 +2622,7 @@ MainMenu__Func_2153E8C: // 0x02153E8C
 	push {r3, r4, r5, r6, r7, lr}
 	mov r1, #0x7e
 	lsl r1, r1, #2
-	ldr r4, _02153F00 // =0x0217D11E
+	ldr r4, _02153F00 // =ovl03_0217D11E
 	str r0, [sp]
 	mov r6, #0
 	add r5, r0, r1
@@ -2638,7 +2638,7 @@ _02153E9A:
 	mov r1, #0x45
 	ldr r0, [sp]
 	lsl r1, r1, #4
-	ldr r4, _02153F04 // =0x0217D12A
+	ldr r4, _02153F04 // =ovl03_0217D12A
 	mov r7, #0
 	add r6, r0, r1
 	mov r5, r0
@@ -2674,8 +2674,8 @@ _02153EBA:
 	bl AnimatorSprite__SetAnimation
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
-_02153F00: .word 0x0217D11E
-_02153F04: .word 0x0217D12A
+_02153F00: .word ovl03_0217D11E
+_02153F04: .word ovl03_0217D12A
 _02153F08: .word 0x000006A8
 _02153F0C: .word 0x0000070C
 	thumb_func_end MainMenu__Func_2153E8C
@@ -4011,7 +4011,7 @@ _0215490A:
 	bl SaveGame_CheckPlayerHasSavedFlag
 	cmp r0, #0
 	beq _02154928
-	ldr r3, _021549B8 // =0x0217D166
+	ldr r3, _021549B8 // =ovl03_0217D166
 	mov r0, r4
 	mov r1, #0
 	mov r2, #2
@@ -4051,7 +4051,7 @@ _02154962:
 	bl SaveGame_CheckPlayerHasSavedFlag
 	cmp r0, #0
 	beq _02154980
-	ldr r3, _021549B8 // =0x0217D166
+	ldr r3, _021549B8 // =ovl03_0217D166
 	mov r0, r4
 	mov r1, #0
 	mov r2, #2
@@ -4084,7 +4084,7 @@ _021549A8:
 _021549AC: .word MainMenu__Func_21562E4
 _021549B0: .word MainMenu__Func_2156174
 _021549B4: .word MainMenu__Func_21560A8
-_021549B8: .word 0x0217D166
+_021549B8: .word ovl03_0217D166
 _021549BC: .word MainMenu__Func_21549E4
 _021549C0: .word MainMenu__State_Save
 _021549C4: .word MainMenu__Func_2154B54
@@ -4096,14 +4096,14 @@ MainMenu__Func_21549C8: // 0x021549C8
 	bl MainMenu__Func_21565B8
 	cmp r0, #0
 	beq _021549D6
-	ldr r0, _021549DC // =0x0217D136
+	ldr r0, _021549DC // =ovl03_0217D136
 	pop {r3, pc}
 _021549D6:
-	ldr r0, _021549E0 // =0x0217D14E
+	ldr r0, _021549E0 // =ovl03_0217D14E
 	pop {r3, pc}
 	nop
-_021549DC: .word 0x0217D136
-_021549E0: .word 0x0217D14E
+_021549DC: .word ovl03_0217D136
+_021549E0: .word ovl03_0217D14E
 	thumb_func_end MainMenu__Func_21549C8
 
 	thumb_func_start MainMenu__Func_21549E4
@@ -5828,7 +5828,7 @@ MainMenu__DrawTextPrompt2: // 0x021556F8
 	mov r0, #0x64
 	mul r0, r1
 	add r4, r2, r0
-	ldr r0, _021557C0 // =0x0217D12A
+	ldr r0, _021557C0 // =ovl03_0217D12A
 	lsl r1, r1, #1
 	ldrh r0, [r0, r1]
 	mov r7, r3
@@ -5921,7 +5921,7 @@ _0215578E:
 _021557BC:
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
-_021557C0: .word 0x0217D12A
+_021557C0: .word ovl03_0217D12A
 _021557C4: .word 0x00000103
 _021557C8: .word 0x000006A8
 	thumb_func_end MainMenu__DrawTextPrompt2
@@ -7265,7 +7265,7 @@ _021561DE:
 	lsr r1, r0, #0x10
 	cmp r1, #0x2e
 	bhs _021561F8
-	ldr r0, _02156224 // =0x0217D19A
+	ldr r0, _02156224 // =ovl03_0217D19A
 	lsl r2, r1, #1
 	ldrh r0, [r0, r2]
 	b _021561FA
@@ -7278,7 +7278,7 @@ _021561FA:
 	cmp r2, #0x2e
 	bhs _0215620C
 	lsl r3, r2, #1
-	ldr r2, _02156224 // =0x0217D19A
+	ldr r2, _02156224 // =ovl03_0217D19A
 	ldrh r2, [r2, r3]
 	b _0215620E
 _0215620C:
@@ -7294,7 +7294,7 @@ _0215621C:
 	pop {r4, pc}
 	nop
 _02156220: .word MainMenu__Func_2156228
-_02156224: .word 0x0217D19A
+_02156224: .word ovl03_0217D19A
 	thumb_func_end MainMenu__State_21561C4
 
 	thumb_func_start MainMenu__Func_2156228
@@ -7740,7 +7740,7 @@ _0215656C: .word saveGame+0x00000028
 MainMenu__HasMedal: // 0x02156570
 	push {r3, r4, lr}
 	sub sp, #0x1c
-	ldr r4, _021565A0 // =0x0217D17E
+	ldr r4, _021565A0 // =MainMenu__MissionForMedal
 	add r3, sp, #0
 	mov r2, #0xe
 _0215657A:
@@ -7764,7 +7764,7 @@ _0215659A:
 	add sp, #0x1c
 	pop {r3, r4, pc}
 	.align 2, 0
-_021565A0: .word 0x0217D17E
+_021565A0: .word MainMenu__MissionForMedal
 	thumb_func_end MainMenu__HasMedal
 
 	thumb_func_start MainMenu__Func_21565A4
@@ -7913,7 +7913,7 @@ ovl03_0217D166: // 0x0217D166
     .hword 7, 3, 4, 7, 0, 0, 0, 0, 0, 2, 1, 0xFFFF
 
 .public MainMenu__MissionForMedal
-MainMenu__MissionForMedal: // 0x0217D17E
+MainMenu__MissionForMedal: // MainMenu__MissionForMedal
 	.hword 2, 7, 13, 17, 23, 27, 33, 37, 43, 48, 53, 57, 63, 67
 
 .public ovl03_0217D19A

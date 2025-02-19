@@ -322,7 +322,7 @@ _021759EC:
 	ldr r1, [r1, #0xc]
 	ldr r0, _02175BEC // =0x05000600
 	mov r8, #0
-	ldr r10, _02175BF0 // =0x0217E1D4
+	ldr r10, _02175BF0 // =ovl03_0217E1D4
 	str r1, [sp, #0x34]
 	add r9, r4, #0x78
 	sub r11, r0, #0x400
@@ -442,7 +442,7 @@ _02175A2C:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02175BEC: .word 0x05000600
-_02175BF0: .word 0x0217E1D4
+_02175BF0: .word ovl03_0217E1D4
 _02175BF4: .word TouchField__PointInRect
 _02175BF8: .word 0x0000FFFF
 	arm_func_end TimeAttackLeaderboardsMenu__InitSprites
@@ -1650,7 +1650,7 @@ _02176CEC:
 	ldr r0, [sp, #0x10]
 	ldr r9, [sp, #0x14]
 	str r0, [sp, #8]
-	ldr r3, _02177080 // =0x0217E2A8
+	ldr r3, _02177080 // =ovl03_0217E2A8
 	mov r0, r10
 	add r1, r10, #0x140
 	add r2, r10, #0x1a4
@@ -1661,7 +1661,7 @@ _02176CEC:
 	mov r1, #0x1c
 	str r1, [sp, #4]
 	ldr r0, [sp, #0x10]
-	ldr r3, _02177084 // =0x0217E2D8
+	ldr r3, _02177084 // =ovl03_0217E2D8
 	str r0, [sp, #8]
 	mov r0, r10
 	add r1, r10, #0x78
@@ -1673,7 +1673,7 @@ _02176CEC:
 	mov r1, #0x30
 	str r1, [sp, #4]
 	ldr r0, [sp, #0x10]
-	ldr r3, _02177088 // =0x0217E308
+	ldr r3, _02177088 // =ovl03_0217E308
 	str r0, [sp, #8]
 	mov r0, r10
 	add r1, r10, #0x2d0
@@ -1887,9 +1887,9 @@ _02177070: .word 0x0000FFFF
 _02177074: .word 0x000001FF
 _02177078: .word renderCoreGFXControlB
 _0217707C: .word renderCoreGFXControlA
-_02177080: .word 0x0217E2A8
-_02177084: .word 0x0217E2D8
-_02177088: .word 0x0217E308
+_02177080: .word ovl03_0217E2A8
+_02177084: .word ovl03_0217E2D8
+_02177088: .word ovl03_0217E308
 	arm_func_end TimeAttackLeaderboardsMenu__Draw
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_217708C
@@ -2971,7 +2971,7 @@ _02177F88:
 	add r0, r5, #0x780
 	mov r1, #0
 	bl SetPaletteAnimationTarget
-	ldr r1, _02178048 // =0x0217E278
+	ldr r1, _02178048 // =ovl03_0217E278
 	add r0, r5, #0x780
 	ldrb r1, [r1, r7]
 	bl SetPaletteAnimation
@@ -3013,7 +3013,7 @@ _02177F88:
 	add sp, sp, #0x20
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_02178048: .word 0x0217E278
+_02178048: .word ovl03_0217E278
 	arm_func_end TimeAttackLeaderboardsMenu__Func_2177F04
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_217804C

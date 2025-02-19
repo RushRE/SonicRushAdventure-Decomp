@@ -38,7 +38,7 @@ TimeAttackRankList__Create: // 0x0216F60C
 	add r6, r5, r0
 	add r0, sp, #0x60
 	ldrh r0, [r0, #0x10]
-	ldr r4, _0216F85C // =0x0217E0A4
+	ldr r4, _0216F85C // =TimeAttackRankList__stru_217E0A4
 	mov r7, #0
 	str r0, [sp, #0x3c]
 _0216F658:
@@ -288,7 +288,7 @@ _0216F7D6:
 	pop {r4, r5, r6, r7, pc}
 	.align 2, 0
 _0216F858: .word aBbDmwfRankLang
-_0216F85C: .word 0x0217E0A4
+_0216F85C: .word TimeAttackRankList__stru_217E0A4
 _0216F860: .word 0x00000804
 _0216F864: .word gameState
 _0216F868: .word 0x00000594
@@ -762,7 +762,7 @@ _0216FBF0:
 	add r1, r0, r1
 	mov r0, #0xa
 	mul r0, r2
-	ldr r2, _0216FC8C // =0x0217E0A4
+	ldr r2, _0216FC8C // =TimeAttackRankList__stru_217E0A4
 	add r0, r2, r0
 	mov r2, #4
 	ldrsh r3, [r0, r2]
@@ -800,7 +800,7 @@ _0216FC3E:
 	blo _0216FBE0
 	mov r0, #0x9a
 	lsl r0, r0, #2
-	ldr r7, _0216FC8C // =0x0217E0A4
+	ldr r7, _0216FC8C // =TimeAttackRankList__stru_217E0A4
 	mov r4, #0
 	add r5, r6, r0
 _0216FC52:
@@ -833,7 +833,7 @@ _0216FC86:
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0216FC88: .word 0x00000564
-_0216FC8C: .word 0x0217E0A4
+_0216FC8C: .word TimeAttackRankList__stru_217E0A4
 _0216FC90: .word 0x00000566
 _0216FC94: .word 0x00000568
 	thumb_func_end TimeAttackRankList__Main2

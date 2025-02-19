@@ -390,7 +390,7 @@ NONMATCH_FUNC DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 
 	moveq r2, #0x62
 	movne r2, #0x63
 	mov r2, r2, lsl #0x10
-	ldr r0, =0x02189BF0
+	ldr r0, =hoopAnimConfig
 	mov r1, r1, lsl #2
 	ldrh r1, [r0, r1]
 	mov r0, r4
@@ -407,7 +407,7 @@ NONMATCH_FUNC DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 
 	bl StageTask__SetAnimatorPriority
 	add r0, r4, #0x400
 	ldrh r2, [r0, #8]
-	ldr r1, =0x02189BF0
+	ldr r1, =hoopAnimConfig
 	mov r0, r4
 	mov r2, r2, lsl #2
 	ldrh r1, [r1, r2]

@@ -11,6 +11,9 @@
 // TEMP
 // --------------------
 
+NOT_DECOMPILED void *ovl03_0217E0F4;
+NOT_DECOMPILED void *ovl03_0217E0EC;
+
 NOT_DECOMPILED void *aSndSb1SoundDat_ovl03;
 NOT_DECOMPILED void *aBbTkdmDownBb_ovl03;
 
@@ -67,7 +70,7 @@ NONMATCH_FUNC void SeaMapCutscene__Create(void)
 	ldrsh r0, [r5, #0x58]
 	strh r0, [r4, #4]
 	bl SeaMapManager__GetUnknown1
-	ldr r1, =0x0217E0EC
+	ldr r1, =ovl03_0217E0EC
 	ldr r1, [r1, r0, lsl #2]
 	add r0, r4, #0x28
 	str r1, [r4, #8]
@@ -103,7 +106,7 @@ _021700AC:
 _021700B8:
 	mov r1, #1
 _021700BC:
-	ldr r0, =0x0217E0F4
+	ldr r0, =ovl03_0217E0F4
 	mov r1, r1, lsl #1
 	ldrh r1, [r0, r1]
 	ldr r0, =aBbTkdmDownBb_ovl03

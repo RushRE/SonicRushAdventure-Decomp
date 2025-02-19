@@ -201,8 +201,8 @@ VSFriendListMenu__InitSprites: // 0x02171570
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #4
 	mov r8, r0
-	ldr r5, _021715F8 // =0x0217E140
-	ldr r4, _021715FC // =0x0217E11C
+	ldr r5, _021715F8 // =ovl03_0217E140
+	ldr r4, _021715FC // =ovl03_0217E11C
 	ldr r10, _02171600 // =0x0217E152
 	ldr r9, _02171604 // =0x0217E12E
 	add r7, r8, #0x14c
@@ -234,8 +234,8 @@ _02171594:
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
-_021715F8: .word 0x0217E140
-_021715FC: .word 0x0217E11C
+_021715F8: .word ovl03_0217E140
+_021715FC: .word ovl03_0217E11C
 _02171600: .word 0x0217E152
 _02171604: .word 0x0217E12E
 	arm_func_end VSFriendListMenu__InitSprites
@@ -248,7 +248,7 @@ VSFriendListMenu__InitTouchField: // 0x02171608
 	add r0, r10, #0x38
 	bl TouchField__Init
 	mov r7, #0
-	ldr r8, _02171694 // =0x0217E184
+	ldr r8, _02171694 // =ovl03_0217E184
 	ldr r5, _02171698 // =TouchField__PointInRect
 	ldr r4, _0217169C // =0x0000FFFF
 	str r7, [r10, #0x44]
@@ -279,7 +279,7 @@ _0217163C:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02171694: .word 0x0217E184
+_02171694: .word ovl03_0217E184
 _02171698: .word TouchField__PointInRect
 _0217169C: .word 0x0000FFFF
 	arm_func_end VSFriendListMenu__InitTouchField
@@ -1632,7 +1632,7 @@ VSFriendListMenu__Func_2172830: // 0x02172830
 	bl VSFriendListMenu__Func_2172824
 	cmp r0, #0
 	bne _02172864
-	ldr r0, _021728E8 // =0x0217E164
+	ldr r0, _021728E8 // =asc_217E164
 	mov r1, r4
 	mov r2, #0x20
 	bl MIi_CpuCopy16
@@ -1675,7 +1675,7 @@ _021728B8:
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_021728E8: .word 0x0217E164
+_021728E8: .word asc_217E164
 	arm_func_end VSFriendListMenu__Func_2172830
 
 	arm_func_start VSFriendListMenu__Func_21728EC

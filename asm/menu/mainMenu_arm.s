@@ -14,7 +14,7 @@ MainMenu__SetBackground: // 0x02156648
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r3, _021566B0 // =MainMenuBackgroundControl
 	mov r4, r0
-	ldr ip, _021566B4 // =0x0217D1F8
+	ldr ip, _021566B4 // =ovl03_0217D1F8
 	mov lr, r2, lsl #1
 	rsb r0, r1, #1
 	str r4, [r3]
@@ -39,7 +39,7 @@ MainMenu__SetBackground: // 0x02156648
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _021566B0: .word MainMenuBackgroundControl
-_021566B4: .word 0x0217D1F8
+_021566B4: .word ovl03_0217D1F8
 _021566B8: .word 0x0000FFFF
 _021566BC: .word MainMenu__CommonBGs
 	arm_func_end MainMenu__SetBackground

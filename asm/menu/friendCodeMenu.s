@@ -490,7 +490,7 @@ _021652F0:
 _021652F2:
 	ldr r6, [sp, #0x18]
 	mov r0, #0
-	ldr r4, _02165438 // =0x0217DFBC
+	ldr r4, _02165438 // =ovl03_0217DFBC
 	str r0, [sp, #0x20]
 	add r6, #0x3c
 	mov r5, #0x23
@@ -574,7 +574,7 @@ _021652FE:
 	bl FriendCodeMenu__InitAnimator
 	mov r4, #0
 	ldr r0, [sp, #0x18]
-	ldr r6, _02165438 // =0x0217DFBC
+	ldr r6, _02165438 // =ovl03_0217DFBC
 	str r0, [sp, #0x2c]
 	add r0, #0x3c
 	str r4, [sp, #0x1c]
@@ -639,7 +639,7 @@ _02165428: .word Sprite__GetSpriteSize1FromAnim
 _0216542C: .word Sprite__GetSpriteSize2FromAnim
 _02165430: .word Sprite__GetSpriteSize3FromAnim
 _02165434: .word Sprite__GetSpriteSize4FromAnim
-_02165438: .word 0x0217DFBC
+_02165438: .word ovl03_0217DFBC
 _0216543C: .word 0x00000424
 _02165440: .word 0x00000488
 _02165444: .word 0x000004EC
@@ -2704,7 +2704,7 @@ FriendCodeMenu__Func_2166434: // 0x02166434
 	mov r5, r0
 	mov r0, #1
 	str r1, [sp]
-	ldr r3, _021664EC // =0x0217DFA8
+	ldr r3, _021664EC // =ovl03_0217DFA8
 	str r0, [sp, #0xc]
 	add r2, sp, #0x10
 	mov r1, #0xa
@@ -2794,7 +2794,7 @@ _021664CC:
 	add sp, #0x24
 	pop {r4, r5, r6, r7, pc}
 	.align 2, 0
-_021664EC: .word 0x0217DFA8
+_021664EC: .word ovl03_0217DFA8
 	thumb_func_end FriendCodeMenu__Func_2166434
 
 	thumb_func_start FriendCodeMenu__Func_21664F0
@@ -3152,11 +3152,11 @@ FriendCodeMenu__Func_2166778: // 0x02166778
 	push {r3, lr}
 	bl FriendCodeMenu__Func_216678C
 	lsl r1, r0, #1
-	ldr r0, _02166788 // =0x0217DF94
+	ldr r0, _02166788 // =ovl03_0217DF94
 	ldrh r0, [r0, r1]
 	pop {r3, pc}
 	nop
-_02166788: .word 0x0217DF94
+_02166788: .word ovl03_0217DF94
 	thumb_func_end FriendCodeMenu__Func_2166778
 
 	thumb_func_start FriendCodeMenu__Func_216678C

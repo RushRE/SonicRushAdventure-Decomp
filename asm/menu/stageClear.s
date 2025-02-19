@@ -84,7 +84,7 @@ _02156C12:
 	bl CreateDrawFadeTask
 _02156C1A:
 	ldrh r1, [r5, #0x28]
-	ldr r0, _02156DA8 // =0x0217DB58
+	ldr r0, _02156DA8 // =StageClear__StageType
 	ldrb r0, [r0, r1]
 	cmp r0, #5
 	bhi _02156D0E
@@ -261,7 +261,7 @@ _02156D9A:
 	.align 2, 0
 _02156DA0: .word gameState
 _02156DA4: .word renderCoreGFXControlA+0x00000040
-_02156DA8: .word 0x0217DB58
+_02156DA8: .word StageClear__StageType
 _02156DAC: .word 0x00002CBC
 	thumb_func_end StageClear__InitComponents
 
@@ -407,7 +407,7 @@ _02156ED2:
 	b _02156F8A
 _02156EDC:
 	ldrh r1, [r6, #0x28]
-	ldr r0, _02156FA8 // =0x0217DB58
+	ldr r0, _02156FA8 // =StageClear__StageType
 	ldrb r0, [r0, r1]
 	cmp r0, #5
 	bhi _02156F84
@@ -494,7 +494,7 @@ _02156F8A:
 _02156F9C: .word StageClear__Singleton
 _02156FA0: .word gameState
 _02156FA4: .word gameState+0x000000C0
-_02156FA8: .word 0x0217DB58
+_02156FA8: .word StageClear__StageType
 _02156FAC: .word StageClear__Main_2159608
 	thumb_func_end StageClear__StartFadeOut
 
@@ -982,7 +982,7 @@ StageClearHeader__Create: // 0x0215731C
 	ldr r0, [r5, #8]
 	mov r7, #0x42
 	lsl r1, r0, #1
-	ldr r0, _021574E0 // =0x0217D21C
+	ldr r0, _021574E0 // =StageClear__UIText__PlayerNameAnim
 	lsl r7, r7, #2
 	ldrh r5, [r0, r1]
 	mov r0, r6
@@ -1037,7 +1037,7 @@ StageClearHeader__Create: // 0x0215731C
 	ldr r0, _021574E8 // =gameState
 	mov r5, r4
 	ldrh r1, [r0, #0x28]
-	ldr r0, _021574EC // =0x0217DB58
+	ldr r0, _021574EC // =StageClear__StageType
 	add r5, #0xa4
 	ldrb r0, [r0, r1]
 	cmp r0, #3
@@ -1056,7 +1056,7 @@ _02157424:
 	ldr r0, _021574E8 // =gameState
 	ldrh r0, [r0, #0x28]
 	lsl r1, r0, #1
-	ldr r0, _021574F0 // =0x0217D2B8
+	ldr r0, _021574F0 // =ovl03_0217D2B8
 	ldrh r1, [r0, r1]
 	mov r0, #0xf
 	and r0, r1
@@ -1140,11 +1140,11 @@ _0215743C:
 	.align 2, 0
 _021574D8: .word 0x05000200
 _021574DC: .word 0x05000600
-_021574E0: .word 0x0217D21C
+_021574E0: .word StageClear__UIText__PlayerNameAnim
 _021574E4: .word StageClearHeader__MoverCallback
 _021574E8: .word gameState
-_021574EC: .word 0x0217DB58
-_021574F0: .word 0x0217D2B8
+_021574EC: .word StageClear__StageType
+_021574F0: .word ovl03_0217D2B8
 _021574F4: .word StageClearHeader__Main1
 _021574F8: .word StageClearHeader__Main2
 	thumb_func_end StageClearHeader__Create
@@ -2212,7 +2212,7 @@ _02157DA4:
 	ldr r2, _02157EA0 // =0x00000D88
 	ldrh r0, [r0, #0x28]
 	lsl r1, r0, #1
-	ldr r0, _02157EA4 // =0x0217D2B8
+	ldr r0, _02157EA4 // =ovl03_0217D2B8
 	ldrh r0, [r0, r1]
 	ldr r1, [sp, #0x1c]
 	asr r0, r0, #8
@@ -2324,7 +2324,7 @@ _02157DA4:
 _02157E98: .word 0x00000D98
 _02157E9C: .word gameState
 _02157EA0: .word 0x00000D88
-_02157EA4: .word 0x0217D2B8
+_02157EA4: .word ovl03_0217D2B8
 _02157EA8: .word 0x05000200
 _02157EAC: .word StageClearStageRank__Main
 _02157EB0: .word StageClearStageRank__Destructor
@@ -3861,7 +3861,7 @@ StageClear__MaterialRewardFX__Func_2158A8C: // 0x02158A8C
 	ldrh r1, [r0, #0x28]
 	lsl r0, r1, #1
 	add r1, r1, r0
-	ldr r0, _02158AE8 // =0x0217D314
+	ldr r0, _02158AE8 // =ovl03_0217D314
 	ldrb r0, [r0, r1]
 	cmp r0, #0
 	beq _02158AAC
@@ -3902,7 +3902,7 @@ _02158ADA:
 	nop
 _02158AE0: .word StageClear__Singleton
 _02158AE4: .word gameState
-_02158AE8: .word 0x0217D314
+_02158AE8: .word ovl03_0217D314
 	thumb_func_end StageClear__MaterialRewardFX__Func_2158A8C
 
 	thumb_func_start StageClear__GiveMaterial
@@ -4153,7 +4153,7 @@ StageClear__GetTimeAttackStageID: // 0x02158CBC
 	ldr r0, _02158CD0 // =gameState
 	ldrh r0, [r0, #0x28]
 	lsl r1, r0, #1
-	ldr r0, _02158CD4 // =0x0217D2B8
+	ldr r0, _02158CD4 // =ovl03_0217D2B8
 	ldrh r0, [r0, r1]
 	asr r0, r0, #8
 	lsl r0, r0, #0x18
@@ -4161,7 +4161,7 @@ StageClear__GetTimeAttackStageID: // 0x02158CBC
 	bx lr
 	nop
 _02158CD0: .word gameState
-_02158CD4: .word 0x0217D2B8
+_02158CD4: .word ovl03_0217D2B8
 	thumb_func_end StageClear__GetTimeAttackStageID
 
 	thumb_func_start StageClear__Func_2158CD8
@@ -4976,7 +4976,7 @@ _021592E8:
 StageClear__GetTrickBonus: // 0x021592EC
 	push {r3, r4}
 	mov r2, #0x12
-	ldr r3, _02159318 // =0x0217D81C
+	ldr r3, _02159318 // =StageClear__trickBonusThresholds
 	mul r2, r0
 	mov r4, #0
 	add r2, r3, r2
@@ -4984,7 +4984,7 @@ _021592F8:
 	ldrh r0, [r2, #0]
 	cmp r1, r0
 	bhs _02159308
-	ldr r0, _0215931C // =0x0217D248
+	ldr r0, _0215931C // =StageClear__trickBonusTable
 	lsl r1, r4, #2
 	ldr r0, [r0, r1]
 	pop {r3, r4}
@@ -4998,8 +4998,8 @@ _02159308:
 	pop {r3, r4}
 	bx lr
 	nop
-_02159318: .word 0x0217D81C
-_0215931C: .word 0x0217D248
+_02159318: .word StageClear__trickBonusThresholds
+_0215931C: .word StageClear__trickBonusTable
 _02159320: .word 0x00004E20
 	thumb_func_end StageClear__GetTrickBonus
 
@@ -5008,7 +5008,7 @@ StageClear__GetTimeBonus: // 0x02159324
 	push {r4, r5, r6, r7}
 	mov r7, r0
 	mov r6, r1
-	ldr r1, _021593C0 // =0x0217D53C
+	ldr r1, _021593C0 // =StageClear__timeBonusThresholds
 	lsl r0, r7, #4
 	add r5, r1, r0
 	ldr r0, _021593C4 // =gameState
@@ -5021,7 +5021,7 @@ StageClear__GetTimeBonus: // 0x02159324
 	pop {r4, r5, r6, r7}
 	bx lr
 _02159342:
-	ldr r0, _021593C8 // =0x0217DB58
+	ldr r0, _021593C8 // =StageClear__StageType
 	mov r4, #0
 	ldrb r1, [r0, r7]
 	mov r0, #0x3c
@@ -5047,13 +5047,13 @@ _02159364: // jump table
 	.hword _02159370 - _02159364 - 2 // case 4
 	.hword _02159370 - _02159364 - 2 // case 5
 _02159370:
-	ldr r0, _021593CC // =0x0217D270
+	ldr r0, _021593CC // =StageClear__TimeBonusTable
 	lsl r1, r4, #2
 	ldr r0, [r0, r1]
 	pop {r4, r5, r6, r7}
 	bx lr
 _0215937A:
-	ldr r0, _021593D0 // =0x0217D294
+	ldr r0, _021593D0 // =StageClear__BossTimeBonusTable
 	lsl r1, r4, #2
 	ldr r0, [r0, r1]
 	pop {r4, r5, r6, r7}
@@ -5063,7 +5063,7 @@ _02159384:
 	add r5, r5, #2
 	cmp r4, #8
 	blo _0215934A
-	ldr r0, _021593C8 // =0x0217DB58
+	ldr r0, _021593C8 // =StageClear__StageType
 	ldrb r0, [r0, r7]
 	cmp r0, #5
 	bhi _021593B8
@@ -5093,11 +5093,11 @@ _021593B8:
 	pop {r4, r5, r6, r7}
 	bx lr
 	nop
-_021593C0: .word 0x0217D53C
+_021593C0: .word StageClear__timeBonusThresholds
 _021593C4: .word gameState
-_021593C8: .word 0x0217DB58
-_021593CC: .word 0x0217D270
-_021593D0: .word 0x0217D294
+_021593C8: .word StageClear__StageType
+_021593CC: .word StageClear__TimeBonusTable
+_021593D0: .word StageClear__BossTimeBonusTable
 _021593D4: .word 0x00014C08
 _021593D8: .word 0x0000AFC8
 	thumb_func_end StageClear__GetTimeBonus
@@ -5105,7 +5105,7 @@ _021593D8: .word 0x0000AFC8
 	thumb_func_start StageClear__GetRingBonus
 StageClear__GetRingBonus: // 0x021593DC
 	lsl r2, r0, #3
-	ldr r3, _02159400 // =0x0217D39E
+	ldr r3, _02159400 // =StageClear__ringBonusThresholds
 	add r0, r0, r2
 	add r2, r3, r0
 	mov r3, #0
@@ -5113,7 +5113,7 @@ _021593E6:
 	ldrb r0, [r2, r3]
 	cmp r1, r0
 	bhs _021593F4
-	ldr r0, _02159404 // =0x0217D220
+	ldr r0, _02159404 // =StageClear__tingBonusTable
 	lsl r1, r3, #2
 	ldr r0, [r0, r1]
 	bx lr
@@ -5124,8 +5124,8 @@ _021593F4:
 	ldr r0, _02159408 // =0x00001388
 	bx lr
 	nop
-_02159400: .word 0x0217D39E
-_02159404: .word 0x0217D220
+_02159400: .word StageClear__ringBonusThresholds
+_02159404: .word StageClear__tingBonusTable
 _02159408: .word 0x00001388
 	thumb_func_end StageClear__GetRingBonus
 

@@ -266,7 +266,7 @@ VSCharacterSelect__ReleaseAssets: // 0x02162460
 VSCharacterSelect__InitSprites: // 0x02162478
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x24
-	ldr r4, _02162594 // =0x0217DE98
+	ldr r4, _02162594 // =ovl03_0217DE98
 	str r0, [sp, #0x14]
 	str r1, [sp, #0x18]
 	mov r6, #0
@@ -336,7 +336,7 @@ _021624F2:
 	ldr r0, [sp, #0x14]
 	lsl r1, r1, #4
 	add r0, r0, r1
-	ldr r1, _02162598 // =0x0217DE98
+	ldr r1, _02162598 // =ovl03_0217DE98
 	ldrh r1, [r1, #0x32]
 	add r1, r1, #1
 	lsl r1, r1, #0x10
@@ -403,8 +403,8 @@ _021624F2:
 	add sp, #0x24
 	pop {r4, r5, r6, r7, pc}
 	.align 2, 0
-_02162594: .word 0x0217DE98
-_02162598: .word 0x0217DE98
+_02162594: .word ovl03_0217DE98
+_02162598: .word ovl03_0217DE98
 _0216259C: .word TouchField__PointInRect
 	thumb_func_end VSCharacterSelect__InitSprites
 
@@ -598,7 +598,7 @@ _021626DC:
 	beq _021626F0
 	b _021626F4
 _021626EC:
-	ldr r3, _02162760 // =0x0217DE98
+	ldr r3, _02162760 // =ovl03_0217DE98
 	b _021626FE
 _021626F0:
 	ldr r3, _02162764 // =0x0217DEA4
@@ -659,7 +659,7 @@ _02162754:
 	.align 2, 0
 _02162758: .word 0x0217DEC8
 _0216275C: .word 0x0217DED4
-_02162760: .word 0x0217DE98
+_02162760: .word ovl03_0217DE98
 _02162764: .word 0x0217DEA4
 	thumb_func_end VSCharacterSelect__DrawText
 

@@ -127,7 +127,7 @@ _02160B10:
 	strb r0, [r4, #6]
 	mov r0, #3
 	strb r0, [r4, #7]
-	ldr r2, _02160C24 // =0x0217DD64
+	ldr r2, _02160C24 // =ovl03_0217DD64
 	mov r1, #0
 	mov r0, #1
 _02160B84:
@@ -151,7 +151,7 @@ _02160BA0:
 	strb r0, [r4, #6]
 	mov r0, #2
 	strb r0, [r4, #7]
-	ldr r1, _02160C28 // =0x0217DD54
+	ldr r1, _02160C28 // =ovl03_0217DD54
 	mov r2, #0
 	mov r0, #1
 _02160BAE:
@@ -212,8 +212,8 @@ _02160C14: .word VSStageSelectMenu__Main2
 _02160C18: .word 0x00003081
 _02160C1C: .word VSStageSelectMenu__Main3
 _02160C20: .word VSStageSelectMenu__State_Init
-_02160C24: .word 0x0217DD64
-_02160C28: .word 0x0217DD54
+_02160C24: .word ovl03_0217DD64
+_02160C28: .word ovl03_0217DD54
 	thumb_func_end VSStageSelectMenu__Create
 
 	thumb_func_start VSStageSelectMenu__Func_2160C2C
@@ -441,7 +441,7 @@ VSStageSelectMenu__InitSprites1: // 0x02160DA0
 	mov r4, r0
 	lsl r0, r1, #5
 	orr r0, r1
-	ldr r5, _02160FD8 // =0x0217DDEE
+	ldr r5, _02160FD8 // =ovl03_0217DDEE
 	mov r6, #0
 	str r0, [sp, #0x28]
 _02160DB6:
@@ -641,7 +641,7 @@ _02160F14:
 	mov r1, #0x4b
 	ldr r0, [sp, #0x14]
 	lsl r1, r1, #4
-	ldr r5, _02160FE0 // =0x0217DDBC
+	ldr r5, _02160FE0 // =ovl03_0217DDBC
 	mov r6, #0
 	add r4, r0, r1
 	add r7, sp, #0x2c
@@ -668,7 +668,7 @@ _02160F5A:
 	add r3, r5, #2
 	mov r2, r1
 	mul r2, r0
-	ldr r0, _02160FD8 // =0x0217DDEE
+	ldr r0, _02160FD8 // =ovl03_0217DDEE
 	add r1, r0, r2
 	mov r0, #6
 	ldrsh r0, [r1, r0]
@@ -723,9 +723,9 @@ _02160FD2:
 	add sp, #0x30
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
-_02160FD8: .word 0x0217DDEE
+_02160FD8: .word ovl03_0217DDEE
 _02160FDC: .word 0x000024A0
-_02160FE0: .word 0x0217DDBC
+_02160FE0: .word ovl03_0217DDBC
 _02160FE4: .word TouchField__PointInRect
 	thumb_func_end VSStageSelectMenu__InitSprites1
 
@@ -770,7 +770,7 @@ _02161024: .word 0x000005C8
 VSStageSelectMenu__InitSprites2: // 0x02161028
 	push {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
-	ldr r4, _021610B4 // =0x0217DD8C
+	ldr r4, _021610B4 // =ovl03_0217DD8C
 	mov r6, #0
 	mov r5, r7
 _02161032:
@@ -835,7 +835,7 @@ _02161032:
 	str r0, [r2, #0x3c]
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_021610B4: .word 0x0217DD8C
+_021610B4: .word ovl03_0217DD8C
 	thumb_func_end VSStageSelectMenu__InitSprites2
 
 	thumb_func_start VSStageSelectMenu__InitFonts
@@ -1311,22 +1311,22 @@ _02161448:
 	bl VSStageSelectMenu__IsRace
 	cmp r0, #0
 	beq _0216146E
-	ldr r0, _021614DC // =0x0217DD64
+	ldr r0, _021614DC // =ovl03_0217DD64
 	ldrb r7, [r0, r6]
 	mov r0, r7
 	bl VSStageSelectMenu__Func_2162244
 	cmp r0, #0
 	beq _0216146A
-	ldr r0, _021614E0 // =0x0217DD78
+	ldr r0, _021614E0 // =ovl03_0217DD78
 	ldrb r6, [r0, r6]
 	b _02161476
 _0216146A:
 	mov r6, #8
 	b _02161476
 _0216146E:
-	ldr r0, _021614E4 // =0x0217DD54
+	ldr r0, _021614E4 // =ovl03_0217DD54
 	ldrb r7, [r0, r6]
-	ldr r0, _021614E8 // =0x0217DD4C
+	ldr r0, _021614E8 // =ovl03_0217DD4C
 	ldrb r6, [r0, r6]
 _02161476:
 	lsl r0, r7, #0x18
@@ -1374,10 +1374,10 @@ _021614C4:
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
 _021614D8: .word 0x00000618
-_021614DC: .word 0x0217DD64
-_021614E0: .word 0x0217DD78
-_021614E4: .word 0x0217DD54
-_021614E8: .word 0x0217DD4C
+_021614DC: .word ovl03_0217DD64
+_021614E0: .word ovl03_0217DD78
+_021614E4: .word ovl03_0217DD54
+_021614E8: .word ovl03_0217DD4C
 _021614EC: .word VSStageSelectMenu__State_21614F0
 	thumb_func_end VSStageSelectMenu__State_Init
 
@@ -1762,7 +1762,7 @@ _021617BA:
 	beq _021617D2
 	b _021617E0
 _021617C4:
-	ldr r1, _021618A4 // =0x0217DDCC
+	ldr r1, _021618A4 // =ovl03_0217DDCC
 	mov r0, r5
 	ldrh r1, [r1, #0x3c]
 	add r0, #0xc8
@@ -1877,7 +1877,7 @@ _02161894: .word padInput
 _02161898: .word 0x0217DE0C
 _0216189C: .word 0x00000534
 _021618A0: .word 0x0217DE06
-_021618A4: .word 0x0217DDCC
+_021618A4: .word ovl03_0217DDCC
 _021618A8:
 	mov r0, #0
 	strb r0, [r4, #5]
@@ -2134,7 +2134,7 @@ _02161A90:
 	beq _02161AAE
 	b _02161AC2
 _02161A9A:
-	ldr r1, _02161AF0 // =0x0217DDCC
+	ldr r1, _02161AF0 // =ovl03_0217DDCC
 	add r5, #0xc8
 	ldrh r1, [r1, #0x3c]
 	mov r0, r5
@@ -2169,7 +2169,7 @@ _02161AE0: .word 0x00000534
 _02161AE4: .word 0x000005C8
 _02161AE8: .word VSStageSelectMenu__State_2161AF4
 _02161AEC: .word 0x0217DE0C
-_02161AF0: .word 0x0217DDCC
+_02161AF0: .word ovl03_0217DDCC
 	thumb_func_end VSStageSelectMenu__State_2161588
 
 	thumb_func_start VSStageSelectMenu__State_2161AF4
@@ -2403,14 +2403,14 @@ _02161CA8:
 	bl VSStageSelectMenu__IsRace
 	cmp r0, #0
 	beq _02161CB8
-	ldr r0, _02161D9C // =0x0217DD64
+	ldr r0, _02161D9C // =ovl03_0217DD64
 	ldrb r7, [r0, r6]
-	ldr r0, _02161DA0 // =0x0217DD78
+	ldr r0, _02161DA0 // =ovl03_0217DD78
 	b _02161CBE
 _02161CB8:
-	ldr r0, _02161DA4 // =0x0217DD54
+	ldr r0, _02161DA4 // =ovl03_0217DD54
 	ldrb r7, [r0, r6]
-	ldr r0, _02161DA8 // =0x0217DD4C
+	ldr r0, _02161DA8 // =ovl03_0217DD4C
 _02161CBE:
 	ldrb r6, [r0, r6]
 	lsl r0, r7, #0x18
@@ -2515,10 +2515,10 @@ _02161D92:
 	.align 2, 0
 _02161D94: .word 0x00000654
 _02161D98: .word VSStageSelectMenu__State_2161B28
-_02161D9C: .word 0x0217DD64
-_02161DA0: .word 0x0217DD78
-_02161DA4: .word 0x0217DD54
-_02161DA8: .word 0x0217DD4C
+_02161D9C: .word ovl03_0217DD64
+_02161DA0: .word ovl03_0217DD78
+_02161DA4: .word ovl03_0217DD54
+_02161DA8: .word ovl03_0217DD4C
 _02161DAC: .word VSStageSelectMenu__State_2161DE8
 _02161DB0: .word VSStageSelectMenu__State_2161DB4
 	thumb_func_end VSStageSelectMenu__State_2161C54
@@ -3096,16 +3096,16 @@ VSStageSelectMenu__Func_2162210: // 0x02162210
 	bl VSStageSelectMenu__IsRace
 	cmp r0, #0
 	beq _02162222
-	ldr r0, _02162228 // =0x0217DD58
+	ldr r0, _02162228 // =ovl03_0217DD58
 	ldrb r0, [r0, r4]
 	pop {r4, pc}
 _02162222:
-	ldr r0, _0216222C // =0x0217DD50
+	ldr r0, _0216222C // =ovl03_0217DD50
 	ldrb r0, [r0, r4]
 	pop {r4, pc}
 	.align 2, 0
-_02162228: .word 0x0217DD58
-_0216222C: .word 0x0217DD50
+_02162228: .word ovl03_0217DD58
+_0216222C: .word ovl03_0217DD50
 	thumb_func_end VSStageSelectMenu__Func_2162210
 
 	thumb_func_start VSStageSelectMenu__IsRace

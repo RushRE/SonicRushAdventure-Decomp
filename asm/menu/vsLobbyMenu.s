@@ -1047,7 +1047,7 @@ VSLobbyMenu__Func_21642FC: // 0x021642FC
 	bl VSLobbyMenu__IsRace
 	cmp r0, #0
 	beq _0216432C
-	ldr r5, _02164358 // =0x0217DE84
+	ldr r5, _02164358 // =ovl03_0217DE84
 	mov r6, r4
 	mov r7, #1
 _0216430E:
@@ -1067,7 +1067,7 @@ _02164322:
 	blo _0216430E
 	b _0216434E
 _0216432C:
-	ldr r6, _0216435C // =0x0217DE80
+	ldr r6, _0216435C // =ovl03_0217DE80
 	mov r5, r4
 	mov r7, #1
 _02164332:
@@ -1093,8 +1093,8 @@ _02164354:
 	mov r0, r4
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_02164358: .word 0x0217DE84
-_0216435C: .word 0x0217DE80
+_02164358: .word ovl03_0217DE84
+_0216435C: .word ovl03_0217DE80
 	thumb_func_end VSLobbyMenu__Func_21642FC
 
 	thumb_func_start VSLobbyMenu__Func_2164360
@@ -1526,7 +1526,7 @@ VSLobbyMenu__InitAssets: // 0x02164664
 	add r0, sp, #0x28
 	bl DrawBackground
 	ldr r5, [sp, #0x24]
-	ldr r4, _02164888 // =0x0217DEF8
+	ldr r4, _02164888 // =ovl03_0217DEF8
 	mov r6, #0
 	add r5, #0x34
 _02164706:
@@ -1702,7 +1702,7 @@ _021647F8:
 	add sp, #0x70
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
-_02164888: .word 0x0217DEF8
+_02164888: .word ovl03_0217DEF8
 _0216488C: .word aFntFontIplFnt_2
 _02164890: .word 0x0000039E
 _02164894: .word VSLobbyMenu__Main_2164898
@@ -2093,12 +2093,12 @@ _02164B82:
 	cmp r0, #0
 	ldrb r1, [r5, #0xc]
 	beq _02164B94
-	ldr r0, _02164C10 // =0x0217DE84
+	ldr r0, _02164C10 // =ovl03_0217DE84
 	ldrb r1, [r0, r1]
 	ldr r0, _02164C14 // =gameState
 	b _02164B9A
 _02164B94:
-	ldr r0, _02164C18 // =0x0217DE80
+	ldr r0, _02164C18 // =ovl03_0217DE80
 	ldrb r1, [r0, r1]
 	ldr r0, _02164C14 // =gameState
 _02164B9A:
@@ -2158,9 +2158,9 @@ _02164C00: .word VSLobbyMenu__Main_2164E64
 _02164C04: .word _mt_math_rand
 _02164C08: .word 0x00196225
 _02164C0C: .word 0x3C6EF35F
-_02164C10: .word 0x0217DE84
+_02164C10: .word ovl03_0217DE84
 _02164C14: .word gameState
-_02164C18: .word 0x0217DE80
+_02164C18: .word ovl03_0217DE80
 _02164C1C: .word VSLobbyMenu__Main_2164C20
 	thumb_func_end VSLobbyMenu__Main_21649D0
 

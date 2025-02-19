@@ -1612,7 +1612,7 @@ VSConnectionMenu__Main_216B6A4: // 0x0216B6A4
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x38
 	bl GetCurrentTaskWork_
-	ldr r1, _0216B7E4 // =0x0217E09C
+	ldr r1, _0216B7E4 // =ovl03_0217E09C
 	str r0, [sp, #0x2c]
 	str r0, [sp, #0x28]
 	add r0, #0x40
@@ -1762,7 +1762,7 @@ _0216B728:
 	add sp, #0x38
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_0216B7E4: .word 0x0217E09C
+_0216B7E4: .word ovl03_0217E09C
 _0216B7E8: .word 0x0000070A
 _0216B7EC: .word VSConnectionMenu__TouchAreaCallback1
 _0216B7F0: .word TouchField__PointInRect
