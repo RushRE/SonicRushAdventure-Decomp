@@ -26,7 +26,7 @@ static void SeaMapCourseChangeView_Destructor(Task *task);
 static void SeaMapCourseChangeView_Destroy(SeaMapCourseChangeView *work);
 static void SeaMapCourseChangeView_RunState(SeaMapCourseChangeView *work);
 static void InitDisplayForSeaMapCourseChangeView(void);
-static void SeaMapCourseChangeView_State_Setup(SeaMapCourseChangeView *work);
+static void SeaMapCourseChangeView_State_Init(SeaMapCourseChangeView *work);
 static void SeaMapCourseChangeView_State_FadeIn(SeaMapCourseChangeView *work);
 static void SeaMapCourseChangeView_State_Active(SeaMapCourseChangeView *work);
 static void SeaMapCourseChangeView_State_FadeOut(SeaMapCourseChangeView *work);
@@ -50,7 +50,7 @@ void CreateSeaMapCourseChangeView(void)
     SeaMapCourseChangeView *work = TaskGetWork(task, SeaMapCourseChangeView);
     TaskInitWork16(work);
 
-    work->state = SeaMapCourseChangeView_State_Setup;
+    work->state = SeaMapCourseChangeView_State_Init;
 
     InitDisplayForSeaMapCourseChangeView();
     SeaMapChartCourseView__Create(FALSE, gameState.sailShipType, 1);
@@ -153,7 +153,7 @@ void InitDisplayForSeaMapCourseChangeView(void)
     renderCurrentDisplay = GX_DISP_SELECT_SUB_MAIN;
 }
 
-void SeaMapCourseChangeView_State_Setup(SeaMapCourseChangeView *work)
+void SeaMapCourseChangeView_State_Init(SeaMapCourseChangeView *work)
 {
     work->state = SeaMapCourseChangeView_State_FadeIn;
 }

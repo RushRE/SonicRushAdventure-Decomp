@@ -5,6 +5,7 @@
 #include <game/system/task.h>
 #include <game/graphics/background.h>
 #include <game/input/touchField.h>
+#include <seaMap/seaMapEventManager.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -49,7 +50,7 @@ typedef u32 ShipLevel;
 typedef struct SeaMapManagerAssets_
 {
     void *sprChCommon;
-    void *objectLayout;
+    CHEV *objectLayout;
     void *chat;
     void *chlv;
     void *mapMask[3];

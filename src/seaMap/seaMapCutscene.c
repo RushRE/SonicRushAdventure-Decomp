@@ -7,6 +7,9 @@
 #include <game/input/padInput.h>
 #include <game/file/binaryBundle.h>
 
+// resources
+#include <resources/bb/tkdm_down.h>
+
 // --------------------
 // TYPES
 // --------------------
@@ -14,957 +17,438 @@
 typedef void (*SeaMapCutsceneStateFunc)(SeaMapCutscene *work);
 
 // --------------------
-// TEMP
+// FUNCTION DECLS
 // --------------------
 
-static const u16 ovl03_0217E0F4[] = { 0, 1, 2, 3, 4, 5, 0, 0 };
+static void SeaMapCutscene_TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData);
+static void InitDisplayForSeaMapCutscene(void);
+static void SeaMapCutscene_Main_FadeIn(void);
+static void SeaMapCutscene_Main_Active(void);
+static void SeaMapCutscene_Main_FadeOut(void);
+static void SeaMapCutscene_Destructor(Task *task);
+static CHEVObject *GetIslandIconForSeaMapCutscene(void);
 
-static const SeaMapCutsceneStateFunc ovl03_0217E0EC[] = {
-    SeaMapCutscene__State2_2170674,
-    SeaMapCutscene__State_21707A4,
+// Coral Cave states
+static void SeaMapCutscene_State_InitCoralCave(SeaMapCutscene *work);
+static void SeaMapCutscene_StateAlways_CoralCave(SeaMapCutscene *work);
+static void SeaMapCutscene_State_WaitForCoralCaveAppear(SeaMapCutscene *work);
+static void SeaMapCutscene_State_CoralCaveAppear(SeaMapCutscene *work);
+static void SeaMapCutscene_State_CoralCaveAppeared(SeaMapCutscene *work);
+
+// Sky Babylon states
+static void SeaMapCutscene_State_InitSkyBabylon(SeaMapCutscene *work);
+static void SeaMapCutscene_StateAlways_SkyBabylon(SeaMapCutscene *work);
+static void SeaMapCutscene_State_WaitForSkyBabylonAppear(SeaMapCutscene *work);
+static void SeaMapCutscene_State_SkyBabylonAppear(SeaMapCutscene *work);
+static void SeaMapCutscene_State_SkyBabylonAppeared(SeaMapCutscene *work);
+static void SeaMapCutscene_State_SkyBabylonBoatLaunch(SeaMapCutscene *work);
+static void SeaMapCutscene_State_BoatBounceUpwardsTowardsSkyBabylon(SeaMapCutscene *work);
+static void SeaMapCutscene_State_BoatLaunchingToSkyBabylon(SeaMapCutscene *work);
+static void SeaMapCutscene_State_LaunchedToSkyBabylon(SeaMapCutscene *work);
+
+// --------------------
+// VARIABLES
+// --------------------
+
+static const u16 sprPressStartTextFiles[8] = {
+    [OS_LANGUAGE_JAPANESE] = BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_MSG_JPN_BAC, [OS_LANGUAGE_ENGLISH] = BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_MSG_ENG_BAC,
+    [OS_LANGUAGE_FRENCH] = BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_MSG_FRA_BAC,   [OS_LANGUAGE_GERMAN] = BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_MSG_DEU_BAC,
+    [OS_LANGUAGE_ITALIAN] = BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_MSG_ITA_BAC,  [OS_LANGUAGE_SPANISH] = BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_MSG_SPA_BAC,
 };
 
-NOT_DECOMPILED void *aSndSb1SoundDat_ovl03;
-NOT_DECOMPILED void *aBbTkdmDownBb_ovl03;
+static const SeaMapCutsceneStateFunc startStateForType[] = {
+    SeaMapCutscene_State_InitCoralCave,
+    SeaMapCutscene_State_InitSkyBabylon,
+};
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC void SeaMapCutscene__Create(void)
+void CreateSeaMapCutscene(void)
 {
-#ifdef NON_MATCHING
+    Task *task;
+    SeaMapCutscene *work;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0x6c
-	bl ReleaseAudioSystem
-	ldr r0, =aSndSb1SoundDat_ovl03
-	bl LoadAudioSndArc
-	ldr r1, =audioManagerSndHeap
-	mov r0, #0
-	ldr r1, [r1, #0]
-	bl NNS_SndArcLoadSeqArc
-	ldr r1, =audioManagerSndHeap
-	mov r0, #1
-	ldr r1, [r1, #0]
-	bl NNS_SndArcLoadBank
-	bl SeaMapCutscene__InitDisplay
-	ldr r0, =VRAMSystem__GFXControl
-	mov r2, #1
-	ldr r1, =renderCurrentDisplay
-	ldr r5, [r0, #0]
-	str r2, [r1]
-	sub r3, r2, #0x11
-	strh r3, [r5, #0x58]
-	ldr r6, [r0, #4]
-	mov r1, #0xff
-	mov r2, #0
-	strh r3, [r6, #0x58]
-	stmia sp, {r1, r2}
-	mov r0, #0x14c
-	str r0, [sp, #8]
-	ldr r0, =SeaMapCutscene__Main
-	ldr r1, =SeaMapCutscene__Destructor
-	mov r3, r2
-	bl TaskCreate_
-	bl GetTaskWork_
-	mov r4, r0
-	mov r0, #0
-	mov r1, r4
-	mov r2, #0x14c
-	bl MIi_CpuClear16
-	mov r0, #0
-	str r0, [r4]
-	ldrsh r0, [r5, #0x58]
-	strh r0, [r4, #4]
-	bl SeaMapManager__GetUnknown1
-	ldr r1, =ovl03_0217E0EC
-	ldr r1, [r1, r0, lsl #2]
-	add r0, r4, #0x28
-	str r1, [r4, #8]
-	bl TouchField__Init
-	mov r2, #0
-	str r2, [r4, #0x34]
-	ldr r0, =aBbTkdmDownBb_ovl03
-	strb r2, [r4, #0x3a]
-	mov r1, #7
-	bl ReadFileFromBundle
-	str r0, [r4, #0x140]
-	ldr r0, =aBbTkdmDownBb_ovl03
-	mov r1, #6
-	mov r2, #0
-	bl ReadFileFromBundle
-	str r0, [r4, #0x144]
-	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0, #0]
-	cmp r0, #5
-	addls pc, pc, r0, lsl #2
-	b _021700B8
-_02170094: // jump table
-	b _021700AC // case 0
-	b _021700AC // case 1
-	b _021700AC // case 2
-	b _021700AC // case 3
-	b _021700AC // case 4
-	b _021700AC // case 5
-_021700AC:
-	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0, #0]
-	b _021700BC
-_021700B8:
-	mov r1, #1
-_021700BC:
-	ldr r0, =ovl03_0217E0F4
-	mov r1, r1, lsl #1
-	ldrh r1, [r0, r1]
-	ldr r0, =aBbTkdmDownBb_ovl03
-	mov r2, #0
-	bl ReadFileFromBundle
-	str r0, [r4, #0x148]
-	mov r0, #0
-	ldr r1, =SeaMapView__sVars+0x00000008
-	ldr r3, =SeaMapView__sVars+0x00000004
-	mov ip, #2
-	str r0, [r1]
-	mov r2, r0
-	str ip, [r3]
-	mov r1, #4
-	bl SeaMapManager__Create
-	ldrsh r1, [r4, #4]
-	mov r0, #0
-	strh r1, [r5, #0x58]
-	bl SeaMapManager__EnableTouchField
-	bl SeaMapManager__Func_2043D08
-	bl SeaMapEventManager__Create
-	mov r0, #0
-	bl GXS_SetGraphicsMode
-	ldr r5, =0x04001008
-	mov r2, #0
-	ldrh r3, [r5, #0]
-	mov r1, #0x20
-	mov r0, #0x18
-	and r3, r3, #0x43
-	orr r3, r3, #4
-	strh r3, [r5]
-	strh r2, [r6]
-	strh r2, [r6, #2]
-	str r2, [sp]
-	str r1, [sp, #4]
-	str r0, [sp, #8]
-	ldr r1, [r4, #0x140]
-	add r0, sp, #0x24
-	mov r3, #1
-	bl InitBackground
-	add r0, sp, #0x24
-	bl DrawBackground
-	ldr r1, =VRAMSystem__VRAM_PALETTE_OBJ
-	mov r0, #1
-	ldr r5, [r1, #4]
-	mov r1, #0x40
-	bl VRAMSystem__AllocSpriteVram
-	mov r1, #1
-	mov r2, #0
-	str r1, [sp]
-	str r2, [sp, #4]
-	str r0, [sp, #8]
-	str r2, [sp, #0xc]
-	str r5, [sp, #0x10]
-	str r2, [sp, #0x14]
-	str r2, [sp, #0x18]
-	ldr r1, [r4, #0x148]
-	add r0, r4, #0x78
-	mov r3, r2
-	bl AnimatorSprite__Init
-	mov r0, #0
-	strh r0, [r4, #0xc8]
-	ldr r0, [r4, #0x144]
-	bl Sprite__GetUnknown6
-	mov r1, r0
-	mov r0, #1
-	bl VRAMSystem__AllocSpriteVram
-	mov r2, #0
-	mov r1, #1
-	stmia sp, {r1, r2}
-	str r0, [sp, #8]
-	str r2, [sp, #0xc]
-	str r5, [sp, #0x10]
-	str r2, [sp, #0x14]
-	str r2, [sp, #0x18]
-	ldr r1, [r4, #0x144]
-	mov r3, r2
-	add r0, r4, #0xdc
-	bl AnimatorSprite__Init
-	add r2, sp, #0x1c
-	add r3, r4, #0x100
-	mov r5, #1
-	add r0, r4, #0xdc
-	mov r1, #0
-	strh r5, [r3, #0x2c]
-	bl AnimatorSprite__GetBlockData
-	ldr r0, =SeaMapCutscene__TouchCallback
-	ldr r2, =TouchField__PointInRect
-	str r0, [sp]
-	add r3, sp, #0x1c
-	add r0, r4, #0x40
-	add r1, r4, #0xe4
-	str r4, [sp, #4]
-	bl TouchField__InitAreaShape
-	add r0, r4, #0x28
-	add r1, r4, #0x40
-	mov r2, #0
-	bl TouchField__AddArea
-	ldr r1, [r4, #8]
-	mov r0, r4
-	blx r1
-	bl ResetTouchInput
-	add sp, sp, #0x6c
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    ReleaseAudioSystem();
+    LoadAudioSndArc("snd/sb1/sound_data.sdat");
+    NNS_SndArcLoadSeqArc(SND_SAIL_SEQARC_ARC_VOYAGE_SE, audioManagerSndHeap);
+    NNS_SndArcLoadBank(SND_SAIL_BANK_BANK_VOYAGE_SE, audioManagerSndHeap);
 
-// clang-format on
-#endif
+    InitDisplayForSeaMapCutscene();
+
+    renderCurrentDisplay = GX_DISP_SELECT_MAIN_SUB;
+
+    RenderCoreGFXControl *gfxControlA = VRAMSystem__GFXControl[GRAPHICS_ENGINE_A];
+    gfxControlA->brightness           = RENDERCORE_BRIGHTNESS_BLACK;
+
+    RenderCoreGFXControl *gfxControlB = VRAMSystem__GFXControl[GRAPHICS_ENGINE_B];
+    gfxControlB->brightness           = RENDERCORE_BRIGHTNESS_BLACK;
+
+    task = TaskCreate(SeaMapCutscene_Main_FadeIn, SeaMapCutscene_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xFF, TASK_GROUP(0), SeaMapCutscene);
+
+    work = TaskGetWork(task, SeaMapCutscene);
+    TaskInitWork16(work);
+
+    work->flags       = 0;
+    work->brightness  = gfxControlA->brightness;
+    work->stateActive = startStateForType[SeaMapManager__GetUnknown1()];
+
+    TouchField__Init(&work->touchField);
+    work->touchField.mode      = FALSE;
+    work->touchField.rectSize2 = 0;
+
+    work->bgCutscene          = ReadFileFromBundle("bb/tkdm_down.bb", BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_BG_BBG, BINARYBUNDLE_AUTO_ALLOC_HEAD);
+    work->sprPressStartButton = ReadFileFromBundle("bb/tkdm_down.bb", BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_CMN_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
+    work->sprPressStartText   = ReadFileFromBundle("bb/tkdm_down.bb", sprPressStartTextFiles[GetGameLanguage()], BINARYBUNDLE_AUTO_ALLOC_HEAD);
+
+    seaMapViewMode     = 2;
+    seaMapViewUnknown1 = 0;
+
+    SeaMapManager__Create(FALSE, SHIP_MENU, FALSE);
+
+    gfxControlA->brightness = work->brightness;
+    SeaMapManager__EnableTouchField(FALSE);
+    SeaMapManager__Func_2043D08();
+    SeaMapEventManager__Create();
+
+    GXS_SetGraphicsMode(GX_BGMODE_0);
+
+    G2S_SetBG0Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0000, GX_BG_CHARBASE_0x04000, GX_BG_EXTPLTT_01);
+
+    gfxControlB->bgPosition[BACKGROUND_0].x = 0;
+    gfxControlB->bgPosition[BACKGROUND_0].y = 0;
+
+    Background background;
+    InitBackground(&background, work->bgCutscene, BACKGROUND_FLAG_NONE, GRAPHICS_ENGINE_B, BACKGROUND_0, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+    DrawBackground(&background);
+
+    AnimatorSprite__Init(&work->aniPressStart, work->sprPressStartText, 0, ANIMATOR_FLAG_NONE, GRAPHICS_ENGINE_B, PIXEL_MODE_SPRITE,
+                         VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, 0x40), PALETTE_MODE_SPRITE, VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[GRAPHICS_ENGINE_B]),
+                         SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+    work->aniPressStart.cParam.palette = PALETTE_ROW_0;
+
+    AnimatorSprite__Init(&work->aniPressStartButton, work->sprPressStartButton, 0, ANIMATOR_FLAG_NONE, GRAPHICS_ENGINE_B, PIXEL_MODE_SPRITE,
+                         VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, Sprite__GetUnknown6(work->sprPressStartButton)), PALETTE_MODE_SPRITE,
+                         VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[GRAPHICS_ENGINE_B]), SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+    work->aniPressStartButton.cParam.palette = PALETTE_ROW_1;
+
+    HitboxRect rect;
+    AnimatorSprite__GetBlockData(&work->aniPressStartButton, 0, &rect);
+    TouchField__InitAreaShape(&work->touchArea, &work->aniPressStartButton.pos, TouchField__PointInRect, (TouchRectUnknown *)&rect, SeaMapCutscene_TouchAreaCallback, work);
+    TouchField__AddArea(&work->touchField, &work->touchArea, 0);
+
+    work->stateActive(work);
+
+    ResetTouchInput();
 }
 
-NONMATCH_FUNC void SeaMapCutscene__TouchCallback(TouchAreaResponse *response, TouchArea *area, void *userData)
+void SeaMapCutscene_TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData)
 {
-#ifdef NON_MATCHING
+    SeaMapCutscene *work = (SeaMapCutscene *)userData;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	ldr r0, [r0, #0]
-	mov r4, r2
-	cmp r0, #0x40000
-	addne sp, sp, #8
-	ldmneia sp!, {r4, pc}
-	ldrh r0, [r4, #0xe8]
-	cmp r0, #1
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	add r0, r4, #0xdc
-	mov r1, #1
-	bl AnimatorSprite__SetAnimation
-	ldr r0, [r4, #0x118]
-	mov ip, #0x62
-	sub r1, ip, #0x63
-	orr r0, r0, #4
-	str r0, [r4, #0x118]
-	mov r0, #0
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r0, ip}
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    switch (response->flags)
+    {
+        case TOUCHAREA_RESPONSE_40000:
+            if (work->aniPressStartButton.animID != 1)
+            {
+                AnimatorSprite__SetAnimation(&work->aniPressStartButton, 1);
+                work->aniPressStartButton.flags |= ANIMATOR_FLAG_DISABLE_LOOPING;
+                PlaySailSfx(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_T_DECIDE);
+            }
+            break;
+    }
 }
 
-NONMATCH_FUNC void SeaMapCutscene__InitDisplay(void)
+void InitDisplayForSeaMapCutscene(void)
 {
-#ifdef NON_MATCHING
+    VRAMSystem__Reset();
+    VRAMSystem__SetupBGBank(GX_VRAM_BG_128_A);
+    VRAMSystem__SetupOBJBank(GX_VRAM_OBJ_32_FG, GX_OBJVRAMMODE_CHAR_1D_32K, GX_OBJVRAMMODE_BMP_1D_128K, 0, 0x200);
+    VRAMSystem__SetupSubBGBank(GX_VRAM_SUB_BG_128_C);
+    VRAMSystem__SetupSubOBJBank(GX_VRAM_SUB_OBJ_128_D, GX_OBJVRAMMODE_CHAR_1D_32K, GX_OBJVRAMMODE_BMP_1D_128K, 0, 0x400);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl VRAMSystem__Reset
-	mov r0, #1
-	bl VRAMSystem__SetupBGBank
-	mov ip, #0x200
-	mov r0, #0x60
-	mov r1, #0x10
-	mov r2, #0x40
-	mov r3, #0
-	str ip, [sp]
-	bl VRAMSystem__SetupOBJBank
-	mov r0, #4
-	bl VRAMSystem__SetupSubBGBank
-	mov r0, #0x400
-	str r0, [sp]
-	mov r0, #8
-	mov r1, #0x10
-	mov r2, #0x40
-	mov r3, #0
-	bl VRAMSystem__SetupSubOBJBank
-	mov r1, #0x4000000
-	ldr r0, [r1, #0]
-	add r2, r1, #0x1000
-	bic r0, r0, #0x1f00
-	orr r0, r0, #0x1f00
-	str r0, [r1]
-	ldr r0, [r2, #0]
-	mov r1, #0
-	bic r0, r0, #0x1f00
-	orr r0, r0, #0x1100
-	str r0, [r2]
-	ldr r0, =renderCurrentDisplay
-	str r1, [r0]
-	ldmia sp!, {r3, pc}
+    GX_SetVisiblePlane(GX_PLANEMASK_ALL);
+    GXS_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_OBJ);
 
-// clang-format on
-#endif
+    renderCurrentDisplay = GX_DISP_SELECT_SUB_MAIN;
 }
 
-NONMATCH_FUNC void SeaMapCutscene__Main(void)
+void SeaMapCutscene_Main_FadeIn(void)
 {
-#ifdef NON_MATCHING
+    SeaMapCutscene *work = TaskGetWorkCurrent(SeaMapCutscene);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetCurrentTaskWork_
-	ldr r1, =renderCoreGFXControlA
-	mov r4, r0
-	ldrsh r0, [r1, #0x58]
-	cmp r0, #0
-	ble _021703C8
-	sub r2, r0, #1
-	ldr r0, =renderCoreGFXControlB
-	strh r2, [r1, #0x58]
-	ldrsh r1, [r0, #0x58]
-	sub r1, r1, #1
-	strh r1, [r0, #0x58]
-	b _021703F0
-_021703C8:
-	bge _021703E8
-	add r2, r0, #1
-	ldr r0, =renderCoreGFXControlB
-	strh r2, [r1, #0x58]
-	ldrsh r1, [r0, #0x58]
-	add r1, r1, #1
-	strh r1, [r0, #0x58]
-	b _021703F0
-_021703E8:
-	ldr r0, =SeaMapCutscene__Main_Active
-	bl SetCurrentTaskMainEvent
-_021703F0:
-	ldr r1, [r4, #0xc]
-	mov r0, r4
-	blx r1
-	ldmia sp!, {r4, pc}
+    if (renderCoreGFXControlA.brightness > RENDERCORE_BRIGHTNESS_DEFAULT)
+    {
+        renderCoreGFXControlA.brightness--;
+        renderCoreGFXControlB.brightness--;
+    }
+    else if (renderCoreGFXControlA.brightness < RENDERCORE_BRIGHTNESS_DEFAULT)
+    {
+        renderCoreGFXControlA.brightness++;
+        renderCoreGFXControlB.brightness++;
+    }
+    else
+    {
+        SetCurrentTaskMainEvent(SeaMapCutscene_Main_Active);
+    }
 
-// clang-format on
-#endif
+    work->stateAlways(work);
 }
 
-NONMATCH_FUNC void SeaMapCutscene__Main_Active(void)
+void SeaMapCutscene_Main_Active(void)
 {
-#ifdef NON_MATCHING
+    SeaMapCutscene *work = TaskGetWorkCurrent(SeaMapCutscene);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	add r0, r4, #0x28
-	bl TouchField__Process
-	ldr r1, [r4, #8]
-	mov r0, r4
-	blx r1
-	ldr r1, [r4, #0xc]
-	mov r0, r4
-	blx r1
-	mov r1, #0
-	add r0, r4, #0x78
-	mov r2, r1
-	bl AnimatorSprite__ProcessAnimation
-	ldrh r0, [r4, #0x24]
-	add r0, r0, #1
-	strh r0, [r4, #0x24]
-	ldr r0, [r4, #0xb4]
-	tst r0, #1
-	ldrh r0, [r4, #0x24]
-	beq _02170470
-	cmp r0, #0x60
-	b _02170474
-_02170470:
-	cmp r0, #0x40
-_02170474:
-	movhs r0, #0
-	strhsh r0, [r4, #0x24]
-	ldrh r0, [r4, #0x24]
-	cmp r0, #0
-	ldreq r0, [r4, #0xb4]
-	eoreq r0, r0, #1
-	streq r0, [r4, #0xb4]
-	add r0, r4, #0x78
-	bl AnimatorSprite__DrawFrame
-	mov r1, #0
-	mov r2, r1
-	add r0, r4, #0xdc
-	bl AnimatorSprite__ProcessAnimation
-	add r0, r4, #0xdc
-	bl AnimatorSprite__DrawFrame
-	ldrh r0, [r4, #0xe8]
-	cmp r0, #1
-	bne _021704E4
-	ldrh r1, [r4, #0x26]
-	add r0, r1, #1
-	cmp r1, #0x1e
-	addls sp, sp, #8
-	strh r0, [r4, #0x26]
-	ldmlsia sp!, {r4, pc}
-	ldr r0, =SeaMapCutscene__Main_FadeOut
-	bl SetCurrentTaskMainEvent
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-_021704E4:
-	ldr r0, =padInput
-	ldrh r0, [r0, #4]
-	tst r0, #8
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	add r0, r4, #0xdc
-	mov r1, #1
-	bl AnimatorSprite__SetAnimation
-	ldr r0, [r4, #0x118]
-	mov ip, #0x62
-	sub r1, ip, #0x63
-	orr r0, r0, #4
-	str r0, [r4, #0x118]
-	mov r0, #0
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r0, ip}
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    TouchField__Process(&work->touchField);
 
-// clang-format on
-#endif
+    work->stateActive(work);
+    work->stateAlways(work);
+
+    AnimatorSprite__ProcessAnimationFast(&work->aniPressStart);
+
+    work->pressStartFlashTimer++;
+
+    if ((work->aniPressStart.flags & ANIMATOR_FLAG_DISABLE_DRAW) != 0)
+    {
+        // wait 96 frames when the button is hidden
+        if (work->pressStartFlashTimer >= 96)
+            work->pressStartFlashTimer = 0;
+    }
+    else
+    {
+        // wait 64 frames when the button is visible
+        if (work->pressStartFlashTimer >= 64)
+            work->pressStartFlashTimer = 0;
+    }
+
+    if (work->pressStartFlashTimer == 0)
+        work->aniPressStart.flags ^= ANIMATOR_FLAG_DISABLE_DRAW;
+
+    AnimatorSprite__DrawFrame(&work->aniPressStart);
+
+    AnimatorSprite__ProcessAnimationFast(&work->aniPressStartButton);
+    AnimatorSprite__DrawFrame(&work->aniPressStartButton);
+
+    if (work->aniPressStartButton.animID == 1)
+    {
+        if (work->pressedStartTimer++ > 30)
+            SetCurrentTaskMainEvent(SeaMapCutscene_Main_FadeOut);
+    }
+    else
+    {
+        if ((padInput.btnPress & PAD_BUTTON_START) != 0)
+        {
+            AnimatorSprite__SetAnimation(&work->aniPressStartButton, 1);
+            work->aniPressStartButton.flags |= ANIMATOR_FLAG_DISABLE_LOOPING;
+            PlaySailSfx(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_T_DECIDE);
+        }
+    }
 }
 
-NONMATCH_FUNC void SeaMapCutscene__Main_FadeOut(void)
+void SeaMapCutscene_Main_FadeOut(void)
 {
-#ifdef NON_MATCHING
+    SeaMapCutscene *work = TaskGetWorkCurrent(SeaMapCutscene);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetCurrentTaskWork_
-	ldr r2, =renderCoreGFXControlA
-	ldrsh r1, [r0, #4]
-	ldrsh r3, [r2, #0x58]
-	cmp r1, r3
-	bge _02170574
-	sub r3, r3, #1
-	ldr r1, =renderCoreGFXControlB
-	strh r3, [r2, #0x58]
-	ldrsh r2, [r1, #0x58]
-	sub r2, r2, #1
-	strh r2, [r1, #0x58]
-	b _021705B0
-_02170574:
-	ble _02170594
-	add r3, r3, #1
-	ldr r1, =renderCoreGFXControlB
-	strh r3, [r2, #0x58]
-	ldrsh r2, [r1, #0x58]
-	add r2, r2, #1
-	strh r2, [r1, #0x58]
-	b _021705B0
-_02170594:
-	bl DestroyCurrentTask
-	bl SeaMapEventManager__Destroy
-	bl SeaMapManager__Destroy
-	mov r0, #0
-	bl RequestSysEventChange
-	bl NextSysEvent
-	ldmia sp!, {r3, pc}
-_021705B0:
-	ldr r1, [r0, #0xc]
-	blx r1
-	ldmia sp!, {r3, pc}
+    if (work->brightness < renderCoreGFXControlA.brightness)
+    {
+        renderCoreGFXControlA.brightness--;
+        renderCoreGFXControlB.brightness--;
+    }
+    else if (work->brightness > renderCoreGFXControlA.brightness)
+    {
+        renderCoreGFXControlA.brightness++;
+        renderCoreGFXControlB.brightness++;
+    }
+    else
+    {
+        DestroyCurrentTask();
+        SeaMapEventManager__Destroy();
+        SeaMapManager__Destroy();
+        RequestSysEventChange(0); // SYSEVENT_UPDATE_PROGRESS
+        NextSysEvent();
+        return;
+    }
 
-// clang-format on
-#endif
+    work->stateAlways(work);
 }
 
-NONMATCH_FUNC void SeaMapCutscene__Destructor(Task *task)
+void SeaMapCutscene_Destructor(Task *task)
 {
-#ifdef NON_MATCHING
+    SeaMapCutscene *work = TaskGetWork(task, SeaMapCutscene);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetTaskWork_
-	mov r4, r0
-	add r0, r4, #0x78
-	bl AnimatorSprite__Release
-	add r0, r4, #0xdc
-	bl AnimatorSprite__Release
-	ldr r0, [r4, #0x140]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0x144]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0x148]
-	bl _FreeHEAP_USER
-	bl ReleaseAudioSystem
-	ldmia sp!, {r4, pc}
+    AnimatorSprite__Release(&work->aniPressStart);
+    AnimatorSprite__Release(&work->aniPressStartButton);
 
-// clang-format on
-#endif
+    HeapFree(HEAP_USER, work->bgCutscene);
+    HeapFree(HEAP_USER, work->sprPressStartButton);
+    HeapFree(HEAP_USER, work->sprPressStartText);
+
+    ReleaseAudioSystem();
 }
 
-NONMATCH_FUNC void SeaMapCutscene__Func_2170600(void)
+CHEVObject *GetIslandIconForSeaMapCutscene(void)
 {
-#ifdef NON_MATCHING
+    CHEV *chev = SeaMapManager__GetWork()->assets.objectLayout;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	bl SeaMapManager__GetWork
-	ldr r5, [r0, #0x160]
-	mov r6, #0
-	ldrh r0, [r5, #0]
-	cmp r0, #0
-	bls _0217066C
-	add r4, r5, #2
-	mov r7, #0x12
-_02170624:
-	mla r8, r6, r7, r4
-	mov r0, r8
-	bl SeaMapEventManager__GetObjectType
-	cmp r0, #2
-	cmpne r0, #3
-	bne _02170654
-	ldrb r0, [r8, #7]
-	tst r0, #1
-	ldreqsh r0, [r8, #0x10]
-	cmpeq r0, #0xe
-	moveq r0, r8
-	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-_02170654:
-	ldrh r1, [r5, #0]
-	add r0, r6, #1
-	mov r0, r0, lsl #0x10
-	cmp r1, r0, lsr #16
-	mov r6, r0, lsr #0x10
-	bhi _02170624
-_0217066C:
-	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+    for (u16 i = 0; i < chev->count; i++)
+    {
+        CHEVObject *object = &chev->entries[i];
+        s32 type           = SeaMapEventManager__GetObjectType(object);
 
-// clang-format on
-#endif
+        if ((s32)type == SEAMAPOBJECT_ISLAND_ICON_1 || type == SEAMAPOBJECT_ISLAND_ICON_2)
+        {
+            if ((object->flags2 & 1) == 0 && object->unlockID == 14)
+                return object;
+        }
+    }
+
+    return NULL;
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State2_2170674(SeaMapCutscene *work)
+void SeaMapCutscene_State_InitCoralCave(SeaMapCutscene *work)
 {
-#ifdef NON_MATCHING
+    SeaMapManager__Func_2043974(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(280.0));
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r0, #0
-	mov r1, #0x118000
-	bl SeaMapManager__Func_2043974
-	ldr r0, =SeaMapCutscene__State2_21706B8
-	ldr r3, =SeaMapCutscene__State1_21706B4
-	str r0, [r4, #8]
-	add r1, r4, #0x10
-	mov r0, #0
-	mov r2, #2
-	str r3, [r4, #0xc]
-	bl MIi_CpuClear16
-	ldmia sp!, {r4, pc}
+    work->stateActive = SeaMapCutscene_State_WaitForCoralCaveAppear;
+    work->stateAlways = SeaMapCutscene_StateAlways_CoralCave;
 
-// clang-format on
-#endif
+    MI_CpuClear16(&work->coralCave, sizeof(work->coralCave));
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State1_21706B4(SeaMapCutscene *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void SeaMapCutscene__State2_21706B8(SeaMapCutscene *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldrh r2, [r0, #0x10]
-	add r1, r2, #1
-	strh r1, [r0, #0x10]
-	cmp r2, #0x3c
-	ldrhi r1, =SeaMapCutscene__State2_21706D8
-	strhi r1, [r0, #8]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void SeaMapCutscene__State2_21706D8(SeaMapCutscene *work)
+void SeaMapCutscene_StateAlways_CoralCave(SeaMapCutscene *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	mov r0, #3
-	bl SeaMapEventManager__GetObjectFromID
-	mov r5, r0
-	bl SeaMapCutscene__Func_2170600
-	add r1, r0, #8
-	str r1, [sp]
-	mov r3, #0
-	str r3, [sp, #4]
-	ldrsh r1, [r0, #2]
-	ldrsh r2, [r0, #4]
-	mov r0, #2
-	bl SeaMapEventManager__CreateObject
-	mov r3, #0
-	str r3, [sp]
-	str r3, [sp, #4]
-	ldrsh r2, [r5, #4]
-	ldrsh r1, [r5, #2]
-	mov r0, #0xc
-	sub r2, r2, #0x20
-	mov r2, r2, lsl #0x10
-	mov r2, r2, asr #0x10
-	bl SeaMapEventManager__CreateObject
-	bl SeaMapEventManager__UnlockCoralCave
-	mov r0, #0
-	str r0, [sp]
-	mov r1, #0x52
-	str r1, [sp, #4]
-	sub r1, r1, #0x53
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	mov r0, #0
-	strh r0, [r4, #0x10]
-	ldr r0, =SeaMapCutscene__State2_217077C
-	str r0, [r4, #8]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    // Do nothing.
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State2_217077C(SeaMapCutscene *work)
+void SeaMapCutscene_State_WaitForCoralCaveAppear(SeaMapCutscene *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldrh r2, [r0, #0x10]
-	add r1, r2, #1
-	strh r1, [r0, #0x10]
-	cmp r2, #0xb4
-	ldmlsia sp!, {r3, pc}
-	ldr r0, =SeaMapCutscene__Main_FadeOut
-	bl SetCurrentTaskMainEvent
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if (work->coralCave.timer++ > 60)
+        work->stateActive = SeaMapCutscene_State_CoralCaveAppear;
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State_21707A4(SeaMapCutscene *work)
+void SeaMapCutscene_State_CoralCaveAppear(SeaMapCutscene *work)
 {
-#ifdef NON_MATCHING
+    CHEVObject *obj        = SeaMapEventManager__GetObjectFromID(3);
+    CHEVObject *islandIcon = GetIslandIconForSeaMapCutscene();
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	mov r0, #6
-	bl SeaMapEventManager__GetObjectFromID
-	ldrsh r1, [r0, #2]
-	ldrsh r0, [r0, #4]
-	sub r2, r1, #0x80
-	sub r1, r0, #0x60
-	mov r0, r2, lsl #0xc
-	mov r1, r1, lsl #0xc
-	bl SeaMapManager__Func_2043974
-	ldr r0, =SeaMapCutscene__State2_217085C
-	ldr r3, =SeaMapCutscene__State1_2170858
-	str r0, [r4, #8]
-	add r1, r4, #0x10
-	mov r0, #0
-	mov r2, #0x14
-	str r3, [r4, #0xc]
-	bl MIi_CpuClear16
-	mov r0, #0xb
-	bl SeaMapEventManager__GetObjectFromID
-	ldr r1, =gameState
-	mov r3, #0
-	ldr r1, [r1, #0xa0]
-	cmp r1, #0
-	cmpne r1, #2
-	movne r1, #2
-	mov r1, r1, lsl #0x10
-	str r3, [sp]
-	mov r1, r1, asr #0x10
-	str r1, [sp, #4]
-	ldrsh r2, [r0, #4]
-	ldrsh r1, [r0, #2]
-	mov r0, #9
-	add r2, r2, #8
-	mov r2, r2, lsl #0x10
-	mov r2, r2, asr #0x10
-	bl SeaMapEventManager__CreateObject
-	str r0, [r4, #0x10]
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    SeaMapEventManager__CreateObject(SEAMAPOBJECT_ISLAND_ICON_1, islandIcon->position.x, islandIcon->position.y, 0, &islandIcon->box, 0);
+    SeaMapEventManager__CreateObject(SEAMAPOBJECT_SPARKLES_1, obj->position.x, obj->position.y - 32, 0, NULL, 0);
+    SeaMapEventManager__UnlockCoralCave();
+    PlaySailSfx(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_GOAL);
 
-// clang-format on
-#endif
+    work->coralCave.timer = 0;
+    work->stateActive     = SeaMapCutscene_State_CoralCaveAppeared;
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State1_2170858(SeaMapCutscene *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void SeaMapCutscene__State2_217085C(SeaMapCutscene *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldrh r2, [r0, #0x22]
-	add r1, r2, #1
-	strh r1, [r0, #0x22]
-	cmp r2, #0x3c
-	ldrhi r1, =SeaMapCutscene__State2_217087C
-	strhi r1, [r0, #8]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void SeaMapCutscene__State2_217087C(SeaMapCutscene *work)
+void SeaMapCutscene_State_CoralCaveAppeared(SeaMapCutscene *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	mov r0, #6
-	bl SeaMapEventManager__GetObjectFromID
-	mov r5, r0
-	bl SeaMapEventManager__UnlockSkyBabylon
-	mov r3, #0
-	str r3, [sp]
-	str r3, [sp, #4]
-	ldrsh r2, [r5, #4]
-	ldrsh r1, [r5, #2]
-	mov r0, #0xc
-	sub r2, r2, #0x20
-	mov r2, r2, lsl #0x10
-	mov r2, r2, asr #0x10
-	bl SeaMapEventManager__CreateObject
-	mov r0, #0
-	str r0, [sp]
-	mov r1, #0x52
-	str r1, [sp, #4]
-	sub r1, r1, #0x53
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	mov r0, #0
-	strh r0, [r4, #0x22]
-	ldr r0, =SeaMapCutscene__State2_21708FC
-	str r0, [r4, #8]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    if (work->coralCave.timer++ > 180)
+        SetCurrentTaskMainEvent(SeaMapCutscene_Main_FadeOut);
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State2_21708FC(SeaMapCutscene *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldrh r2, [r0, #0x22]
-	add r1, r2, #1
-	strh r1, [r0, #0x22]
-	cmp r2, #0xb4
-	ldrhi r1, =SeaMapCutscene__State2_217091C
-	strhi r1, [r0, #8]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void SeaMapCutscene__State2_217091C(SeaMapCutscene *work)
+void SeaMapCutscene_State_InitSkyBabylon(SeaMapCutscene *work)
 {
-#ifdef NON_MATCHING
+    CHEVObject *obj = SeaMapEventManager__GetObjectFromID(6);
+    SeaMapManager__Func_2043974(FX32_FROM_WHOLE(obj->position.x - HW_LCD_CENTER_X), FX32_FROM_WHOLE(obj->position.y - HW_LCD_CENTER_Y));
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0x10]
-	mov r0, #6
-	ldrsh r1, [r1, #0xe]
-	mov r1, r1, lsl #0xc
-	str r1, [r4, #0x14]
-	bl SeaMapEventManager__GetObjectFromID
-	ldrsh r2, [r0, #4]
-	ldr r0, =0x00000333
-	mov r1, #0
-	mov r2, r2, lsl #0xc
-	str r2, [r4, #0x1c]
-	ldr lr, [r4, #0x14]
-	rsb r2, lr, r2
-	umull ip, r3, r2, r0
-	mla r3, r2, r1, r3
-	mov r2, r2, asr #0x1f
-	mla r3, r2, r0, r3
-	adds ip, ip, #0x800
-	adc r0, r3, #0
-	mov r2, ip, lsr #0xc
-	orr r2, r2, r0, lsl #20
-	add r0, lr, r2
-	str r0, [r4, #0x18]
-	ldr r0, =SeaMapCutscene__State2_2170998
-	strh r1, [r4, #0x20]
-	str r0, [r4, #8]
-	ldmia sp!, {r4, pc}
+    work->stateActive = SeaMapCutscene_State_WaitForSkyBabylonAppear;
+    work->stateAlways = SeaMapCutscene_StateAlways_SkyBabylon;
 
-// clang-format on
-#endif
+    MI_CpuClear16(&work->skyBabylon, sizeof(work->skyBabylon));
+
+    CHEVObject *obj2 = SeaMapEventManager__GetObjectFromID(11);
+
+    s32 unlockID = gameState.sailShipType;
+    if (gameState.sailShipType != SHIP_JET && gameState.sailShipType != SHIP_HOVER)
+        unlockID = 2;
+
+    work->skyBabylon.boat = SeaMapEventManager__CreateObject(SEAMAPOBJECT_BOAT_ICON, obj2->position.x, obj2->position.y + 8, 0, NULL, unlockID);
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State2_2170998(SeaMapCutscene *work)
+void SeaMapCutscene_StateAlways_SkyBabylon(SeaMapCutscene *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	ldrsh r2, [r0, #0x20]
-	mov r1, #0
-	mov ip, #2
-	add r2, r2, #0x44
-	strh r2, [r0, #0x20]
-	ldrsh r2, [r0, #0x20]
-	mov r6, #0
-	mov r5, #0x800
-	cmp r2, #0x1000
-	movge r1, #0x1000
-	strgeh r1, [r0, #0x20]
-	ldrsh r4, [r0, #0x20]
-	ldr r3, [r0, #0x18]
-	ldr r2, [r0, #0x14]
-	movge r1, #1
-	mov lr, r4, asr #0x1f
-_021709DC:
-	sub r7, r3, r2
-	umull r9, r8, r7, r4
-	mla r8, r7, lr, r8
-	mov r7, r7, asr #0x1f
-	mla r8, r7, r4, r8
-	adds r9, r9, r5
-	adc r7, r8, r6
-	mov r8, r9, lsr #0xc
-	orr r8, r8, r7, lsl #20
-	cmp ip, #0
-	add r2, r2, r8
-	sub ip, ip, #1
-	bne _021709DC
-	ldr r3, [r0, #0x10]
-	mov r2, r2, asr #0xc
-	strh r2, [r3, #0xe]
-	cmp r1, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	mov r2, #0
-	ldr r1, =SeaMapCutscene__State2_2170A3C
-	strh r2, [r0, #0x20]
-	str r1, [r0, #8]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-
-// clang-format on
-#endif
+    // Do nothing.
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State2_2170A3C(SeaMapCutscene *work)
+void SeaMapCutscene_State_WaitForSkyBabylonAppear(SeaMapCutscene *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldrsh r2, [r0, #0x20]
-	mov r1, #0
-	add r2, r2, #0x51
-	strh r2, [r0, #0x20]
-	ldrsh r2, [r0, #0x20]
-	cmp r2, #0x1000
-	movge r1, #0x1000
-	strgeh r1, [r0, #0x20]
-	ldr r4, [r0, #0x18]
-	ldr r2, [r0, #0x1c]
-	ldrsh r3, [r0, #0x20]
-	sub ip, r2, r4
-	movge r1, #1
-	smull lr, r3, ip, r3
-	adds ip, lr, #0x800
-	adc r3, r3, #0
-	mov ip, ip, lsr #0xc
-	orr ip, ip, r3, lsl #20
-	add r3, r4, ip
-	cmp r1, #0
-	ldr r2, [r0, #0x10]
-	mov r3, r3, asr #0xc
-	strh r3, [r2, #0xe]
-	mov r2, #0
-	ldrne r1, =SeaMapCutscene__State2_2170AB4
-	strneh r2, [r0, #0x22]
-	strne r1, [r0, #8]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if (work->skyBabylon.timer++ > 60)
+        work->stateActive = SeaMapCutscene_State_SkyBabylonAppear;
 }
 
-NONMATCH_FUNC void SeaMapCutscene__State2_2170AB4(SeaMapCutscene *work)
+void SeaMapCutscene_State_SkyBabylonAppear(SeaMapCutscene *work)
 {
-#ifdef NON_MATCHING
+    CHEVObject *obj = SeaMapEventManager__GetObjectFromID(6);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldrh r2, [r0, #0x22]
-	add r1, r2, #1
-	strh r1, [r0, #0x22]
-	cmp r2, #0x3c
-	ldmlsia sp!, {r3, pc}
-	ldr r0, =SeaMapCutscene__Main_FadeOut
-	bl SetCurrentTaskMainEvent
-	ldmia sp!, {r3, pc}
+    SeaMapEventManager__UnlockSkyBabylon();
+    SeaMapEventManager__CreateObject(SEAMAPOBJECT_SPARKLES_1, obj->position.x, obj->position.y - 32, 0, NULL, 0);
+    PlaySailSfx(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_GOAL);
 
-// clang-format on
-#endif
+    work->skyBabylon.timer = 0;
+    work->stateActive      = SeaMapCutscene_State_SkyBabylonAppeared;
+}
+
+void SeaMapCutscene_State_SkyBabylonAppeared(SeaMapCutscene *work)
+{
+    if (work->skyBabylon.timer++ > 180)
+        work->stateActive = SeaMapCutscene_State_SkyBabylonBoatLaunch;
+}
+
+void SeaMapCutscene_State_SkyBabylonBoatLaunch(SeaMapCutscene *work)
+{
+    work->skyBabylon.startPos  = FX32_FROM_WHOLE(work->skyBabylon.boat->position.y);
+    work->skyBabylon.targetY   = FX32_FROM_WHOLE(SeaMapEventManager__GetObjectFromID(6)->position.y);
+    work->skyBabylon.targetPos = work->skyBabylon.startPos + MultiplyFX(FLOAT_TO_FX32(0.2), work->skyBabylon.targetY - work->skyBabylon.startPos);
+    work->skyBabylon.percent   = FLOAT_TO_FX32(0.0);
+
+    work->stateActive = SeaMapCutscene_State_BoatBounceUpwardsTowardsSkyBabylon;
+}
+
+void SeaMapCutscene_State_BoatBounceUpwardsTowardsSkyBabylon(SeaMapCutscene *work)
+{
+    BOOL done = FALSE;
+
+    work->skyBabylon.percent += FLOAT_TO_FX32(1.0 / 60.0);
+
+    if (work->skyBabylon.percent >= FLOAT_TO_FX32(1.0))
+    {
+        done                     = TRUE;
+        work->skyBabylon.percent = FLOAT_TO_FX32(1.0);
+    }
+
+    work->skyBabylon.boat->position.y = FX32_TO_WHOLE(mtLerpEx(work->skyBabylon.percent, work->skyBabylon.startPos, work->skyBabylon.targetPos, 2));
+
+    if (done)
+    {
+        work->skyBabylon.percent = FLOAT_TO_FX32(0.0);
+        work->stateActive        = SeaMapCutscene_State_BoatLaunchingToSkyBabylon;
+    }
+}
+
+void SeaMapCutscene_State_BoatLaunchingToSkyBabylon(SeaMapCutscene *work)
+{
+    BOOL done = FALSE;
+
+    work->skyBabylon.percent += FLOAT_TO_FX32(1.0 / 50.0);
+
+    if (work->skyBabylon.percent >= FLOAT_TO_FX32(1.0))
+    {
+        done                     = TRUE;
+        work->skyBabylon.percent = FLOAT_TO_FX32(1.0);
+    }
+
+    work->skyBabylon.boat->position.y = FX32_TO_WHOLE(work->skyBabylon.targetPos + MultiplyFX(work->skyBabylon.targetY - work->skyBabylon.targetPos, work->skyBabylon.percent));
+
+    if (done)
+    {
+        work->skyBabylon.timer = 0;
+        work->stateActive      = SeaMapCutscene_State_LaunchedToSkyBabylon;
+    }
+}
+
+void SeaMapCutscene_State_LaunchedToSkyBabylon(SeaMapCutscene *work)
+{
+    if (work->skyBabylon.timer++ > 60)
+        SetCurrentTaskMainEvent(SeaMapCutscene_Main_FadeOut);
 }

@@ -15,22 +15,9 @@ typedef struct SeaMapUnknown_
 } SeaMapUnknown;
 
 // --------------------
-// VARIABLES
-// --------------------
-
-// --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void SeaMapUnknown__Create(void);
-NOT_DECOMPILED void SeaMapUnknown__Main(void);
-NOT_DECOMPILED void SeaMapUnknown__Destructor(Task *task);
-NOT_DECOMPILED void SeaMapUnknown__Destroy(SeaMapUnknown *work);
-NOT_DECOMPILED void SeaMapUnknown__RunState(SeaMapUnknown *work);
-NOT_DECOMPILED void SeaMapUnknown__InitDisplay(void);
-NOT_DECOMPILED void SeaMapUnknown__State_216FE9C(SeaMapUnknown *work);
-NOT_DECOMPILED void SeaMapUnknown__State_216FEAC(SeaMapUnknown *work);
-NOT_DECOMPILED void SeaMapUnknown__State_216FF10(SeaMapUnknown *work);
-NOT_DECOMPILED void SeaMapUnknown__State_216FF40(SeaMapUnknown *work);
+void CreateSeaMapUnknown(void);
 
 #endif // RUSH_SEAMAPUNKNOWN_H

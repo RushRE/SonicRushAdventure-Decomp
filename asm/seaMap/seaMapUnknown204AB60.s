@@ -741,7 +741,7 @@ _0204B4E8:
 	arm_func_start SeaMapUnknown204AB60__Func_204B4F0
 SeaMapUnknown204AB60__Func_204B4F0: // 0x0204B4F0
 	ldr ip, _0204B510 // =SeaMapCourseChangeView_shipPosition
-	ldr r3, _0204B514 // =SeaMapView__sVars+0x0000000C
+	ldr r3, _0204B514 // =seaMapViewUnknown2
 	stmia ip, {r0, r1}
 	ldr r1, [r3, #0]
 	ldr r0, _0204B518 // =SeaMapCourseChangeView_02134174
@@ -750,6 +750,6 @@ SeaMapUnknown204AB60__Func_204B4F0: // 0x0204B4F0
 	bx lr
 	.align 2, 0
 _0204B510: .word SeaMapCourseChangeView_shipPosition
-_0204B514: .word SeaMapView__sVars+0x0000000C
+_0204B514: .word seaMapViewUnknown2
 _0204B518: .word SeaMapCourseChangeView_02134174
 	arm_func_end SeaMapUnknown204AB60__Func_204B4F0

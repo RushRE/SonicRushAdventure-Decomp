@@ -1447,7 +1447,7 @@ BOOL AnimatorSprite__GetBlockData(AnimatorSprite *animator, s32 id, void *data)
 {
     u32 offset = animator->prevAnimSequenceOffset;
 
-    while (2)
+    while (2) // 2?
     {
         BACFrameGroupBlockHeader *block = (BACFrameGroupBlockHeader *)&animator->animSequences[offset];
 

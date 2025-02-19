@@ -512,7 +512,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_SEAMAP_UNKNOWN
     {
-        .initFunc    = SeaMapUnknown__Create,
+        .initFunc    = CreateSeaMapUnknown,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,
@@ -548,7 +548,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_SEAMAPCUTSCENE
     {
-        .initFunc    = SeaMapCutscene__Create,
+        .initFunc    = CreateSeaMapCutscene,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

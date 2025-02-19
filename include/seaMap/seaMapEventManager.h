@@ -75,6 +75,12 @@ struct SeaMapObject_
     Vec2Fx16 position;
 };
 
+typedef struct CHEV_
+{
+    u16 count;
+    CHEVObject entries[1];
+} CHEV;
+
 typedef struct SeaMapEventManager_
 {
     s32 lastTouchedIconType;
@@ -101,7 +107,7 @@ extern Task *SeaMapEventManager__Singleton;
 NOT_DECOMPILED BOOL SeaMapEventManager__CheckFeatureUnlocked(u32 id);
 NOT_DECOMPILED void SeaMapEventManager__Create(void);
 NOT_DECOMPILED void SeaMapEventManager__Destroy(void);
-NOT_DECOMPILED SeaMapObject *SeaMapEventManager__CreateObject(s32 type, s16 x, s16 y, u8 flags, HitboxRect *box, u16 unlockID);
+NOT_DECOMPILED SeaMapObject *SeaMapEventManager__CreateObject(s32 type, s16 x, s16 y, u8 flags, HitboxRect *box, s16 unlockID);
 NOT_DECOMPILED SeaMapEventManager *SeaMapEventManager__GetWork2(void);
 NOT_DECOMPILED void SeaMapEventManager__Func_2046A78(void);
 NOT_DECOMPILED void SeaMapEventManager__Func_2046A94(void *a1);
