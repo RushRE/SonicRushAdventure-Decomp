@@ -2160,7 +2160,7 @@ void Player__OnDefend_TripleGrindRail(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2
     if ((player->playerFlag & PLAYER_FLAG_SHIELD_REGULAR) == 0)
     {
         Player__GiveTension(player, -PLAYER_TENSION_HURT_PENALTY);
-        UpdateTensionGaugeHUD(player->tension >> 4, 1);
+        UpdateTensionGaugeHUD(player->tension >> 4, TRUE);
     }
 
     if ((rect1->hitFlag & 4) != 0)
@@ -5234,7 +5234,7 @@ void Player__OnDefend_Unknown(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     if ((player->playerFlag & PLAYER_FLAG_SHIELD_REGULAR) == 0)
     {
         Player__GiveTension(player, -PLAYER_TENSION_HURT_PENALTY);
-        UpdateTensionGaugeHUD(player->tension >> 4, 1);
+        UpdateTensionGaugeHUD(player->tension >> 4, TRUE);
     }
 
     if ((rect1->hitFlag & 4) != 0)

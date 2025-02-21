@@ -24,7 +24,7 @@ struct HUDDigitVRAMPixels
 // --------------------
 
 static CheckpointTimeHUD *checkpointTime;
-static HUD *hudWork;
+static HUD *hudWorkSingleton;
 static s32 lapID;
 static LapTimeHUD *lapTimes;
 
@@ -111,7 +111,7 @@ static void TimeAttackReplayHUD_Main(void);
 
 RUSH_INLINE BOOL CheckHUDVisible(void)
 {
-    HUD *hud = hudWork;
+    HUD *hud = hudWorkSingleton;
     return hud == NULL || (hud->flags & HUD_FLAG_VISIBLE) == 0;
 }
 
@@ -137,7 +137,7 @@ void CreateHUD(BOOL forStage)
     work = TaskGetWork(task, HUD);
     TaskInitWork16(work);
 
-    hudWork = work;
+    hudWorkSingleton = work;
 
     for (s32 i = 0; i < 4; i++)
     {
@@ -200,7 +200,7 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
 {
     // https://decomp.me/scratch/uWh12 -> 98.80%
 #ifdef NON_MATCHING
-    HUD *work = hudWork;
+    HUD *work = hudWorkSingleton;
 
     VRAMPixelKey vramPixelsA;
     VRAMPixelKey vramPixelsB;
@@ -934,27 +934,27 @@ _02034B8C:
 void SetHUDVisible(BOOL enabled)
 {
     if (enabled)
-        hudWork->flags |= HUD_FLAG_VISIBLE;
+        hudWorkSingleton->flags |= HUD_FLAG_VISIBLE;
     else
-        hudWork->flags &= ~HUD_FLAG_VISIBLE;
+        hudWorkSingleton->flags &= ~HUD_FLAG_VISIBLE;
 }
 
 AnimatorSpriteDS *GetHUDTimeNumAnimator(u16 num, BOOL useAltPalette)
 {
-    if (hudWork == NULL || !hudWork->loadedSprites)
+    if (hudWorkSingleton == NULL || !hudWorkSingleton->loadedSprites)
         return NULL;
 
     AnimatorSpriteDS *digitAnimator;
     if (num < 10)
     {
-        digitAnimator = &hudWork->digitsAnimator;
+        digitAnimator = &hudWorkSingleton->digitsAnimator;
 
-        digitAnimator->vramPixels[0] = hudWork->vramPixels[num][0];
-        digitAnimator->vramPixels[1] = hudWork->vramPixels[num][1];
+        digitAnimator->vramPixels[0] = hudWorkSingleton->vramPixels[num][0];
+        digitAnimator->vramPixels[1] = hudWorkSingleton->vramPixels[num][1];
     }
     else
     {
-        digitAnimator = &hudWork->animators[num - 2];
+        digitAnimator = &hudWorkSingleton->animators[num - 2];
     }
 
     if (useAltPalette == FALSE)
@@ -975,13 +975,13 @@ AnimatorSpriteDS *GetHUDTimeNumAnimator(u16 num, BOOL useAltPalette)
 
 AnimatorSpriteDS *GetHUDLifeNumAnimator(u16 num, BOOL useAltPalette)
 {
-    if (hudWork == NULL || !hudWork->loadedSprites || gmCheckGameMode(GAMEMODE_VS_BATTLE) || gmCheckGameMode(GAMEMODE_MISSION))
+    if (hudWorkSingleton == NULL || !hudWorkSingleton->loadedSprites || gmCheckGameMode(GAMEMODE_VS_BATTLE) || gmCheckGameMode(GAMEMODE_MISSION))
         return NULL;
 
-    AnimatorSpriteDS *digitAnimator = &hudWork->lifeNumAnimator;
+    AnimatorSpriteDS *digitAnimator = &hudWorkSingleton->lifeNumAnimator;
 
-    digitAnimator->vramPixels[0] = hudWork->vramPixels[num + 10][0];
-    digitAnimator->vramPixels[1] = hudWork->vramPixels[num + 10][1];
+    digitAnimator->vramPixels[0] = hudWorkSingleton->vramPixels[num + 10][0];
+    digitAnimator->vramPixels[1] = hudWorkSingleton->vramPixels[num + 10][1];
 
     if (useAltPalette == FALSE)
     {
@@ -999,9 +999,9 @@ AnimatorSpriteDS *GetHUDLifeNumAnimator(u16 num, BOOL useAltPalette)
     return digitAnimator;
 }
 
-void UpdateTensionGaugeHUD(s32 tension, BOOL flag)
+void UpdateTensionGaugeHUD(s32 tension, BOOL calledFromPlayer)
 {
-    HUD *work         = hudWork;
+    HUD *work         = hudWorkSingleton;
     s32 cappedTension = tension;
     if (work == NULL)
         return;
@@ -1036,14 +1036,14 @@ void UpdateTensionGaugeHUD(s32 tension, BOOL flag)
             }
             else
             {
-                if (flag == TRUE)
+                if (calledFromPlayer == TRUE)
                 {
-                    work->tensionUnknown4    = 40;
-                    work->tensionUnknown3    = 40;
-                    work->currentTension     = work->targetTension;
-                    work->targetTension      = cappedTension;
-                    work->tensionChangeTimer = 0;
-                    work->nextTensionScale   = 0;
+                    work->tensionGaugeShakeDuration = 40;
+                    work->tensionGaugeShakeTimer    = 40;
+                    work->currentTension            = work->targetTension;
+                    work->targetTension             = cappedTension;
+                    work->tensionChangeTimer        = 0;
+                    work->nextTensionScale          = 0;
                     for (s32 t = 0; t < 4; t++)
                     {
                         work->tensionScale[t] = FLOAT_TO_FX32(1.0);
@@ -1060,10 +1060,10 @@ void UpdateTensionGaugeHUD(s32 tension, BOOL flag)
         {
             if (cappedTension < work->targetTension)
             {
-                if (flag == TRUE)
+                if (calledFromPlayer == TRUE)
                 {
-                    work->tensionUnknown4 = 40;
-                    work->tensionUnknown3 = 40;
+                    work->tensionGaugeShakeDuration = 40;
+                    work->tensionGaugeShakeTimer    = 40;
                 }
 
                 work->nextTensionScale = FLOAT_TO_FX32(0.0);
@@ -1089,7 +1089,7 @@ void UpdateTensionGaugeHUD(s32 tension, BOOL flag)
 
 void EnableHUDTensionMaxEffect(BOOL enabled)
 {
-    HUD *work = hudWork;
+    HUD *work = hudWorkSingleton;
     if (work == NULL)
         return;
 
@@ -1102,14 +1102,14 @@ void EnableHUDTensionMaxEffect(BOOL enabled)
 void SetHUDActiveScreen(GraphicsEngine engine)
 {
     if (engine == GRAPHICS_ENGINE_A)
-        hudWork->flags |= HUD_FLAG_USE_SCREEN_B;
+        hudWorkSingleton->flags |= HUD_FLAG_USE_SCREEN_B;
     else
-        hudWork->flags &= ~HUD_FLAG_USE_SCREEN_B;
+        hudWorkSingleton->flags &= ~HUD_FLAG_USE_SCREEN_B;
 }
 
 GraphicsEngine GetHUDActiveScreen(void)
 {
-    HUD *work = hudWork;
+    HUD *work = hudWorkSingleton;
 
     GraphicsEngine result;
     if (work != NULL)
@@ -1126,28 +1126,28 @@ GraphicsEngine GetHUDActiveScreen(void)
 
 void UpdateBossHealthHUD(s32 health)
 {
-    hudWork->bossManager.targetHealth = MTM_MATH_CLIP(health, HUD_BOSS_HEALTH_MIN, HUD_BOSS_HEALTH_MAX);
+    hudWorkSingleton->bossManager.targetHealth = MTM_MATH_CLIP(health, HUD_BOSS_HEALTH_MIN, HUD_BOSS_HEALTH_MAX);
 }
 
 void SetBossHealthbarPosition(fx16 x, fx16 y)
 {
-    hudWork->bossManager.position.x = x;
-    hudWork->bossManager.position.y = y;
+    hudWorkSingleton->bossManager.position.x = x;
+    hudWorkSingleton->bossManager.position.y = y;
 }
 
 void SetActiveBossHealthbar(s32 id)
 {
-    if (hudWork->bossManager.activeHealthbar != id)
+    if (hudWorkSingleton->bossManager.activeHealthbar != id)
     {
-        hudWork->bossManager.displayHealth[hudWork->bossManager.activeHealthbar] = hudWork->bossManager.targetHealth;
-        hudWork->bossManager.targetHealth                                        = MTM_MATH_CLIP(hudWork->bossManager.displayHealth[id], HUD_BOSS_HEALTH_MIN, HUD_BOSS_HEALTH_MAX);
-        hudWork->bossManager.activeHealthbar                                     = id;
+        hudWorkSingleton->bossManager.displayHealth[hudWorkSingleton->bossManager.activeHealthbar] = hudWorkSingleton->bossManager.targetHealth;
+        hudWorkSingleton->bossManager.targetHealth    = MTM_MATH_CLIP(hudWorkSingleton->bossManager.displayHealth[id], HUD_BOSS_HEALTH_MIN, HUD_BOSS_HEALTH_MAX);
+        hudWorkSingleton->bossManager.activeHealthbar = id;
     }
 }
 
 void CreateCheckpointTimeHUD(u32 time)
 {
-    if (hudWork == NULL)
+    if (hudWorkSingleton == NULL)
         return;
 
     if (checkpointTime == NULL)
@@ -1168,7 +1168,7 @@ void CreateCheckpointTimeHUD(u32 time)
 
 void CreateLapTimeHUD(void)
 {
-    if (hudWork == NULL)
+    if (hudWorkSingleton == NULL)
         return;
 
     lapID = 0;
@@ -1231,7 +1231,7 @@ void CreateConnectionStatusHUD(BOOL useDWC)
         AnimatorSpriteDS__Init(ani, spriteFile, work->animID + animID, SCREEN_DRAW_A, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 2),
                                PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(TRUE, 2), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
                                SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-        ani->work.cParam.palette      = paletteRow;
+        ani->work.cParam.palette = paletteRow;
         ani->cParam[0].palette = ani->cParam[1].palette = ani->work.cParam.palette;
 
         AnimatorSpriteDS__ProcessAnimationFast(ani);
@@ -1262,7 +1262,7 @@ void CreateTargetIndicatorHUD(StageTask *target)
     AnimatorSprite__Init(&work->animator, spriteFile, HUD_CONTANI_11, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, 8), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
     work->animator.cParam.palette = PALETTE_ROW_0;
-    work->target           = target;
+    work->target                  = target;
 }
 
 void CreateRaceProgressHUD(s32 characterID)
@@ -1340,7 +1340,7 @@ void HUD_Destructor(Task *task)
 
     BossGaugeHUD_Destructor(&work->bossManager);
 
-    hudWork = NULL;
+    hudWorkSingleton = NULL;
 }
 
 NONMATCH_FUNC void HUD_Main(void)
@@ -1983,12 +1983,12 @@ fx32 GetNextHUDTensionScale(s16 distance)
 
 void UpdateTensionGaugeHUDState(HUD *work)
 {
-    if (work->tensionUnknown3 != 0)
+    if (work->tensionGaugeShakeTimer != 0)
     {
-        work->tensionUnknown3--;
+        work->tensionGaugeShakeTimer--;
         if ((playerGameStatus.stageTimer & 1) != 0)
         {
-            s32 shift = (work->tensionUnknown4 - work->tensionUnknown3) >> 4;
+            s32 shift = (work->tensionGaugeShakeDuration - work->tensionGaugeShakeTimer) >> 4;
 
             work->tensionGaugeX = (4 - (mtMathRand() & 7)) >> shift;
             work->tensionGaugeY = (4 - (mtMathRand() & 7)) >> shift;
@@ -2060,7 +2060,7 @@ void UpdateTensionGaugeHUDState(HUD *work)
 
 NONMATCH_FUNC void DrawTensionGaugeHUD(HUD *work)
 {
-    // https://decomp.me/scratch/CKKJu -> 98.48%
+    // https://decomp.me/scratch/9KKIt -> 98.46%
 #ifdef NON_MATCHING
     s32 tensionCountUnknown;
     s32 tensionCountHigh;
@@ -2137,7 +2137,8 @@ NONMATCH_FUNC void DrawTensionGaugeHUD(HUD *work)
 
     // Draw static tension gauge sprites (in sets of 4)
     s16 tensionDrawLowY = 163;
-    for (s32 i = 0; i < tensionX4CountLow; i++)
+    s32 i = 0;
+    for (i = 0; i < tensionX4CountLow; i++)
     {
         aniTensionLowX4->position[0].y = tensionDrawLowY + tensionGaugeY;
         AnimatorSpriteDS__DrawFrame(aniTensionLowX4);
@@ -2153,7 +2154,7 @@ NONMATCH_FUNC void DrawTensionGaugeHUD(HUD *work)
         // Draw dynamic tension gauge sprites that aren't scaled atm
         aniTensionLowX1->work.flags &= ~ANIMATOR_FLAG_ENABLE_SCALE;
 
-        for (s32 i = tensionCountLow - 4; i > 0; i--)
+        for (i = tensionCountLow - 4; i > 0; i--)
         {
             aniTensionLowX1->position[0].y = tensionDrawLowY + tensionGaugeY;
             AnimatorSpriteDS__DrawFrame(aniTensionLowX1);
@@ -2166,7 +2167,7 @@ NONMATCH_FUNC void DrawTensionGaugeHUD(HUD *work)
         if (tensionCountLow - 4 >= 0)
             tensionCountLow = 4;
 
-        for (s32 i = tensionCountLow - 1; i >= 0; i--)
+        for (i = tensionCountLow - 1; i >= 0; i--)
         {
             aniTensionLowX1->position[0].y = tensionDrawLowY + tensionGaugeY;
 
@@ -2200,7 +2201,7 @@ NONMATCH_FUNC void DrawTensionGaugeHUD(HUD *work)
         // Draw dynamic tension gauge sprites that aren't scaled atm
         aniTensionHighX1->work.flags &= ~ANIMATOR_FLAG_ENABLE_SCALE;
 
-        for (s32 i = tensionCountHigh - (4 - tensionCountUnknown); i > 0; i--)
+        for (i = tensionCountHigh - (4 - tensionCountUnknown); i > 0; i--)
         {
             aniTensionHighX1->position[0].y = tensionDrawY + tensionGaugeY;
             AnimatorSpriteDS__DrawFrame(aniTensionHighX1);
@@ -2211,7 +2212,7 @@ NONMATCH_FUNC void DrawTensionGaugeHUD(HUD *work)
         // Draw dynamic tension gauge sprites that ARE scaling
         aniTensionHighX1->work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
 
-        for (s32 i = (3 - tensionCountUnknown); i >= 0; i--)
+        for (i = (3 - tensionCountUnknown); i >= 0; i--)
         {
             aniTensionHighX1->position[0].y = tensionDrawY + tensionGaugeY;
 
@@ -3063,7 +3064,7 @@ void CreatePassFlagMissionHUD(void)
 
         AnimatorSpriteDS__Init(animator, spriteFile, i, SCREEN_DRAW_B, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, spriteSize[i]),
                                PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-        animator->work.cParam.palette      = PALETTE_ROW_0;
+        animator->work.cParam.palette = PALETTE_ROW_0;
         animator->cParam[0].palette = animator->cParam[1].palette = animator->work.cParam.palette;
         AnimatorSpriteDS__ProcessAnimationFast(animator);
     }
@@ -3149,7 +3150,7 @@ void CreateCollectRingsMissionHUD(void)
     AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gameArchiveCommon), HUD_MSNANI_RING_ICON, SCREEN_DRAW_B,
                            ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 2), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0,
                            PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-    work->animator.work.cParam.palette      = PALETTE_ROW_2;
+    work->animator.work.cParam.palette = PALETTE_ROW_2;
     work->animator.cParam[0].palette = work->animator.cParam[1].palette = PALETTE_ROW_2;
     AnimatorSpriteDS__ProcessAnimationFast(&work->animator);
 
@@ -3209,7 +3210,7 @@ void CreateGenericQuotaMissionHUD(void)
     AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gameArchiveCommon), HUD_MSNANI_SLASH, SCREEN_DRAW_B,
                            ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 1), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0,
                            PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-    work->animator.work.cParam.palette      = PALETTE_ROW_0;
+    work->animator.work.cParam.palette = PALETTE_ROW_0;
     work->animator.cParam[0].palette = work->animator.cParam[1].palette = PALETTE_ROW_0;
     AnimatorSpriteDS__ProcessAnimationFast(&work->animator);
 
@@ -3335,7 +3336,7 @@ void CreateTimeAttackReplayHUD(void)
     AnimatorSprite__Init(&work->animator, spriteFile, 0, ANIMATOR_FLAG_DISABLE_LOOPING, engine, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(engine, 8), PALETTE_MODE_SPRITE,
                          VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
     work->animator.cParam.palette = PALETTE_ROW_0;
-    work->animator.pos.x   = 240;
+    work->animator.pos.x          = 240;
 }
 
 void TimeAttackReplayHUD_Destructor(Task *task)
@@ -3348,15 +3349,15 @@ void TimeAttackReplayHUD_Main(void)
 {
     TimeAttackReplayHUD *work = TaskGetWorkCurrent(TimeAttackReplayHUD);
 
-    if (hudWork != NULL && hudWork->loadedSprites)
+    if (hudWorkSingleton != NULL && hudWorkSingleton->loadedSprites)
     {
         if (IsBossStage())
         {
-            if (Camera3D__UseEngineA() && (hudWork->flags & HUD_FLAG_USE_SCREEN_B) == 0)
+            if (Camera3D__UseEngineA() && (hudWorkSingleton->flags & HUD_FLAG_USE_SCREEN_B) == 0)
             {
                 work->animator.pos.y = 184;
             }
-            else if (!Camera3D__UseEngineA() && (hudWork->flags & HUD_FLAG_USE_SCREEN_B) != 0)
+            else if (!Camera3D__UseEngineA() && (hudWorkSingleton->flags & HUD_FLAG_USE_SCREEN_B) != 0)
             {
                 work->animator.pos.y = 8;
             }

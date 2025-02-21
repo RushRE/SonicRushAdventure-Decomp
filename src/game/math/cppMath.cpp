@@ -143,15 +143,11 @@ CVector3 *CMatrix33::MultiplyVector(CVector3 &lhs, const CMatrix33 *rhs)
     return &lhs;
 }
 
-// TODO: figure what operator/function this _really_ is
-// guess: CMatrix33::CopyTo43()
 void CMatrix33::MtxFx33_Copy33To43(const MtxFx33 *src, MtxFx43 *dst)
 {
     MTX_Copy33To43(src, dst);
 }
 
-// TODO: figure what operator/function this _really_ is
-// guess: CMatrix33::MultiplyVector(VecFx32 vec, MtxFx33)
 void CMatrix33::MtxFx33_MultiplyVec(VecFx32 &vec, const MtxFx33 *mtx)
 {
     MtxFx43 mtx43;
@@ -175,7 +171,6 @@ CVector3::CVector3()
     // do nothing.
 }
 
-// TODO: figure what operator/function this _really_ is
 CVector3::CVector3(fx32 x, fx32 y, fx32 z)
 {
     VecFx32 *vecPtr = this->ToVecFx32Ptr();

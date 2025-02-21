@@ -234,7 +234,19 @@ static const u16 Sprite__ShapeTileCount[] = { 1, 4, 0x10, 0x40, 2, 4, 8, 0x20, 2
 static const u32 _02112144[] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
 static const u32 _02112180[] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
 
-static const u32 AnimatorSprite3D__ShpDLData[] = { 0x24222422, 0x100000, 0x10000, 0x100010, 0x10040, 0x24222422, 0x10, 0x40, 0, 0 };
+static const u32 drawListSprite3D[] = {
+    GX_PACK_OP(G3OP_TEXCOORD, G3OP_VTX_10, G3OP_TEXCOORD, G3OP_VTX_10),
+    GX_PACK_TEXCOORD_PARAM(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0)),
+    GX_PACK_VTX10_PARAM(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0)),
+    GX_PACK_TEXCOORD_PARAM(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0)),
+    GX_PACK_VTX10_PARAM(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0)),
+
+    GX_PACK_OP(G3OP_TEXCOORD, G3OP_VTX_10, G3OP_TEXCOORD, G3OP_VTX_10),
+    GX_PACK_TEXCOORD_PARAM(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0)),
+    GX_PACK_VTX10_PARAM(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0)),
+    GX_PACK_TEXCOORD_PARAM(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0)),
+    GX_PACK_VTX10_PARAM(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0)),
+};
 
 // clang-format off
 
@@ -272,18 +284,18 @@ static const u16 spriteShapeSizes3D[] =
 
 static const Vec2U16 spriteShapeSizes2D[] =
 {
-	{ 0x08, 0x08},
-	{ 0x10, 0x10},
-	{ 0x20, 0x20},
-	{ 0x40, 0x40},
-	{ 0x10, 0x08},
-	{ 0x20, 0x08},
-	{ 0x20, 0x10},
-	{ 0x40, 0x20},
-	{ 0x08, 0x10},
-	{ 0x08, 0x20},
-	{ 0x10, 0x20},
-	{ 0x20, 0x40},
+	{ 0x08, 0x08 },
+	{ 0x10, 0x10 },
+	{ 0x20, 0x20 },
+	{ 0x40, 0x40 },
+	{ 0x10, 0x08 },
+	{ 0x20, 0x08 },
+	{ 0x20, 0x10 },
+	{ 0x40, 0x20 },
+	{ 0x08, 0x10 },
+	{ 0x08, 0x20 },
+	{ 0x10, 0x20 },
+	{ 0x20, 0x40 },
 };
 
 static const Animator3DMatrixFunc animator3DMatrixFuncList[] = {
@@ -3074,8 +3086,7 @@ void AnimatorSprite3D__Init(AnimatorSprite3D *animator, u32 flags3D, void *fileD
                          SPRITE_ORDER_0);
 
     // set alpha to 0x1F (opaque), set polygon mode (PM) to "MODULATE", set front (FR) & back (BK) faces to not be culled
-    animator->polygonAttr = (animator->polygonAttr & ~REG_G3_POLYGON_ATTR_PM_MASK | (GX_CULL_NONE << REG_G3_POLYGON_ATTR_BK_SHIFT))
-                                & ~(0x1F << REG_G3_POLYGON_ATTR_ALPHA_SHIFT)
+    animator->polygonAttr = (animator->polygonAttr & ~REG_G3_POLYGON_ATTR_PM_MASK | (GX_CULL_NONE << REG_G3_POLYGON_ATTR_BK_SHIFT)) & ~(0x1F << REG_G3_POLYGON_ATTR_ALPHA_SHIFT)
                             | (GX_COLOR_FROM_888(0xFF) << REG_G3_POLYGON_ATTR_ALPHA_SHIFT);
 
     animator->field_F8 = (animator->field_F8 & ~0x7FFF) | 0x7FFF;
@@ -3232,7 +3243,7 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
         NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
         NNS_G3dGePushMtx();
         NNS_G3dGeMultMtx43(&matTranslate);
-        NNS_G3dGeSendDL(AnimatorSprite3D__ShpDLData, sizeof(AnimatorSprite3D__ShpDLData));
+        NNS_G3dGeSendDL(drawListSprite3D, sizeof(drawListSprite3D));
         NNS_G3dGePopMtx(1);
     }
     NNS_G3dGeEnd();
@@ -3491,7 +3502,7 @@ _020832E8:
 	add r1, sp, #0x5c
 	mov r2, #0xc
 	bl NNS_G3dGeBufferOP_N
-	ldr r0, =AnimatorSprite3D__ShpDLData
+	ldr r0, =drawListSprite3D
 	mov r1, #0x28
 	bl NNS_G3dGeSendDL
 	mov r0, #1

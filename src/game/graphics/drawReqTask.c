@@ -936,6 +936,10 @@ static const u32 sz = (sizeof(NNS_G3dGlb.cmd1) +
                            sizeof(NNS_G3dGlb.lightColor[0]) * 4) / 4;
     // clang-format on
 
+	// TODO: is this an inlined function call?
+	// it seems too "raw" too be game logic?
+	// the closest function so far is "NNS_G3dGlbFlushWVP"
+	
     NNS_G3dGeBufferData_N((u32 *)&NNS_G3dGlb.cmd1, sz);
     NNS_G3dGeBufferOP_N(G3OP_TEXIMAGE_PARAM, &NNS_G3dGlb.prmTexImageParam, 1);
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);

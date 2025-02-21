@@ -158,7 +158,7 @@ void TitleCard__LoadSprites(TitleCard *work)
 
 NONMATCH_FUNC void TitleCard__InitAnimators(TitleCard *work)
 {
-    // https://decomp.me/scratch/1Vekh -> 98.26%
+    // https://decomp.me/scratch/1Vekh -> 99.68%
 #ifdef NON_MATCHING
     static TitleCardAnimConfig readyGoTextConfig[] = {
         {

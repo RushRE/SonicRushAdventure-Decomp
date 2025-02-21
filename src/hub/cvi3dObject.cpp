@@ -36,10 +36,24 @@ NOT_DECOMPILED void *_ZTV9CViShadow;
 // VARIABLES
 // --------------------
 
-// TODO: document commands instead of leaving it as a binary blob
-static const u8 viShadow__dlList[] = {
-    0x40, 0, 0x22, 0x24, 1,    0, 0,    0, 0,    0, 0, 0, 0,    0,    0, 0, 0,    0, 0, 0, 0x22, 0x24, 0x22, 0x24, 0, 0, 0x10, 0,
-    0,    0, 0,    4,    0x10, 0, 0x10, 0, 0x40, 0, 0, 4, 0x22, 0x24, 0, 0, 0x10, 0, 0, 0, 0x40, 0,    0,    0,    0, 0, 0,    0,
+static const u32 drawListShadow[] = {
+    GX_PACK_OP(G3OP_BEGIN, G3OP_NOP, G3OP_TEXCOORD, G3OP_VTX_10),
+    GX_PACK_BEGIN_PARAM(GX_BEGIN_QUADS),
+    0x00000000, // nop params
+    GX_PACK_TEXCOORD_PARAM(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0)),
+    GX_PACK_VTX10_PARAM(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0)),
+
+    GX_PACK_OP(G3OP_TEXCOORD, G3OP_VTX_10, G3OP_TEXCOORD, G3OP_VTX_10),
+    GX_PACK_TEXCOORD_PARAM(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0)),
+    GX_PACK_VTX10_PARAM(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0)),
+    GX_PACK_TEXCOORD_PARAM(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0)),
+    GX_PACK_VTX10_PARAM(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0)),
+
+    GX_PACK_OP(G3OP_TEXCOORD, G3OP_VTX_10, G3OP_NOP, G3OP_NOP),
+    GX_PACK_TEXCOORD_PARAM(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0)),
+    GX_PACK_VTX10_PARAM(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0)),
+    0x00000000, // nop params
+    // nop (2) params, appears to be missing params?
 };
 
 // --------------------
@@ -710,7 +724,7 @@ void CViShadow::Draw(VecFx32 &position)
     NNS_G3dGeLoadMtx43(&mtx);
 
     NNS_G3dGeColor(GX_RGB_888(0xFF, 0xFF, 0xFF));
-    NNS_G3dGeSendDL(viShadow__dlList, sizeof(viShadow__dlList));
+    NNS_G3dGeSendDL(drawListShadow, sizeof(drawListShadow));
 
     NNS_G3dGePopMtx(1);
 }

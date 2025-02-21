@@ -2426,7 +2426,7 @@ void Player__Hurt(Player *player)
     if ((player->playerFlag & PLAYER_FLAG_SHIELD_REGULAR) == 0)
     {
         Player__GiveTension(player, -PLAYER_TENSION_HURT_PENALTY);
-        UpdateTensionGaugeHUD(player->tension >> 4, 1);
+        UpdateTensionGaugeHUD(player->tension >> 4, TRUE);
     }
 
     if ((player->playerFlag & PLAYER_FLAG_SHIELD_REGULAR) == 0 && player->rings == 0)
