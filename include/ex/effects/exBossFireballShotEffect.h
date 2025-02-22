@@ -7,25 +7,19 @@
 // STRUCTS
 // --------------------
 
-typedef struct exEffectBlzFireShotTask_
+typedef struct exBossEffectFireBallShotTask_
 {
     s32 unused;
     EX_ACTION_NN_WORK aniShot;
-    EX_ACTION_NN_WORK *parent;
-    Task *parentTask;
-} exEffectBlzFireShotTask;
+    exBossSysAdminTask *parent;
+} exBossEffectFireBallShotTask;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-void exBossEffectFireBallShotTask__Func_21560E0(void);
-void exBossEffectFireBallShotTask__Func_215632C(void);
-void exBossEffectFireBallShotTask__Main(void);
-void exBossEffectFireBallShotTask__Func8(void);
-void exBossEffectFireBallShotTask__Destructor(void);
-void exBossEffectFireBallShotTask__Func_215649C(void);
-void exBossEffectFireBallShotTask__Create(void);
+BOOL CreateExBossEffectFireballShot(void);
+void DisableExBossEffectFireballShot(void);
 
 #endif // RUSH_EXBOSSFIREBALLSHOTEFFECT_H
 

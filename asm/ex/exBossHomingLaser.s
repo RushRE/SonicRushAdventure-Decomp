@@ -766,7 +766,7 @@ exBossSysAdminTask__Action_StartHomi0: // 0x0215A708
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
-	bl exBossEffectHomingTask__Create
+	bl CreateExBossEffectHoming
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0x104
@@ -957,7 +957,7 @@ exBossSysAdminTask__Action_StartHomi2: // 0x0215A994
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exBossEffectShotTask__Func_215753C
+	bl DisableExBossEffectHoming
 	add r0, r4, #0x6c
 	mov r1, #0xb
 	bl exBossHelpers__SetAnimation

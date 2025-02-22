@@ -92,6 +92,7 @@ BOOL LoadExBossFireBlueAssets(EX_ACTION_NN_WORK *work)
     }
 
     exDrawReqTask__InitModel(work);
+
     if (fireballBlueInstanceCount == 0)
     {
         GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FIRE2_NSBMD, &fireballBlueModelResource, &fireballBlueModelFileSize, TRUE, FALSE);
@@ -783,7 +784,7 @@ void exBossSysAdminTask__Action_StartFire0(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossEffectFireBallTask__Create();
+    CreateExBossEffectFireball();
 
     PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_KURAE);
 
@@ -842,7 +843,7 @@ void exBossSysAdminTask__Action_StartFire1(void)
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fire1);
     exDrawReqTask__Func_21641F0(&work->aniBoss.config);
 
-    exBossEffectHomingTask__Func_2156D6C();
+    DisableExBossEffectFireball();
     work->fireballShootTimer = 0;
 
     SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Fire1);
@@ -880,7 +881,7 @@ void exBossSysAdminTask__Action_StartFire2(void)
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fire2);
     exDrawReqTask__Func_21641F0(&work->aniBoss.config);
 
-    exBossEffectFireBallShotTask__Create();
+    CreateExBossEffectFireballShot();
 
     if ((mtMathRand() % 2) != 0)
         CreateExBossFireRed();
@@ -938,7 +939,7 @@ void exBossSysAdminTask__HandleFireShoot(void)
         }
     }
 
-    exBossEffectFireBallTask__Func_2156594();
+    DisableExBossEffectFireballShot();
     work->fireballShootTimer = 0;
     exBossSysAdminTask__Action_StartFire4();
 }

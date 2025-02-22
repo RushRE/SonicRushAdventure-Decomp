@@ -163,7 +163,7 @@ struct CutsceneTextManager_
 
 typedef struct CutsceneFadeTask_
 {
-    Task *field_0;
+    CutsceneFadeTaskInfo *taskInfo;
     fx32 timer;
     CutsceneFadeManager *manager;
     s32 speed;
@@ -233,15 +233,15 @@ void CutsceneAssetSystem__Destroy(CutsceneAssetSystem *work)
 {
     StopSamplingTouchInput();
 
-    for (Task **taskPtr = work->cutscene->taskFade; taskPtr != &work->cutscene->taskFade[1]; taskPtr++)
+    for (CutsceneFadeTaskInfo *taskPtr = work->cutscene->taskFade; taskPtr != &work->cutscene->taskFade[1]; taskPtr++)
     {
-        if ((*taskPtr) != NULL)
+        if (taskPtr->task != NULL)
         {
             // TODO: figure out this struct
-            s32 *taskWork = TaskGetWork((*taskPtr), s32);
+            s32 *taskWork = TaskGetWork(taskPtr->task, s32);
             *taskWork     = 0;
 
-            DestroyTask((*taskPtr));
+            DestroyTask(taskPtr->task);
         }
     }
 
@@ -320,28 +320,15 @@ void CutsceneScript__Destructor(Task *task)
     CutsceneAssetSystem__Release(work);
 }
 
-NONMATCH_FUNC void CutsceneFadeTask__Destructor(Task *task)
+void CutsceneFadeTask__Destructor(Task *task)
 {
-#ifdef NON_MATCHING
     CutsceneFadeTask *work = TaskGetWork(task, CutsceneFadeTask);
 
-    if (work->field_0 != NULL)
-        work->field_0 = NULL;
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetTaskWork_
-	ldr r1, [r0, #0]
-	cmp r1, #0
-	movne r0, #0
-	strne r0, [r1]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if (work->taskInfo != NULL)
+        work->taskInfo->task = NULL;
 }
 
-CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152C1C(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SystemCommand__GetPadInputMask(ScriptThread *thread, CutsceneScript *work)
 {
     s32 inputType  = CutsceneScript__GetFunctionParamRegister(thread, 1);
     s32 buttonMask = CutsceneScript__GetFunctionParamRegister(thread, 2);
@@ -352,21 +339,25 @@ CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152C1C(ScriptThread *t
         case 0:
             padButtons = padInput.btnDown;
             break;
+
         case 1:
             padButtons = padInput.prevBtnDown;
             break;
+
         case 2:
             padButtons = padInput.btnPress;
             break;
+
         case 3:
             padButtons = padInput.btnRelease;
             break;
+
         case 4:
             padButtons = padInput.btnPressRepeat;
             break;
     }
 
-    if (buttonMask == 0x0000)
+    if (buttonMask == PAD_INPUT_NONE_MASK)
     {
         buttonMask = PAD_BUTTON_Y | PAD_BUTTON_X | PAD_BUTTON_L | PAD_BUTTON_R | PAD_KEY_DOWN | PAD_KEY_UP | PAD_KEY_LEFT | PAD_KEY_RIGHT | PAD_BUTTON_START | PAD_BUTTON_SELECT
                      | PAD_BUTTON_B | PAD_BUTTON_A;
@@ -377,10 +368,13 @@ CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152C1C(ScriptThread *t
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152CC0(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SystemCommand__GetTouchPos(ScriptThread *thread, CutsceneScript *work)
 {
-    CutsceneScript__GetFunctionParamRegister(thread, 1);
-    CutsceneScript__GetFunctionParamRegister(thread, 2);
+    // ???
+    s32 inputType  = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 buttonMask = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    UNUSED(inputType);
+    UNUSED(buttonMask);
 
     if (TOUCH_HAS_ON(touchInput.flags))
     {
@@ -396,116 +390,65 @@ CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152CC0(ScriptThread *t
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152D3C(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SystemCommand__GetGameLanguage(ScriptThread *thread, CutsceneScript *work)
 {
     AYKCommand__SetRegister(thread, 0, GetGameLanguage());
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152D94(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SystemCommand__GetVCount(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
     s32 value;
-    if (GX_GetVCount() <= 0xC0) // GX_GetVCount
+
+    s32 count = GX_GetVCount();
+    if (count > HW_LCD_HEIGHT)
     {
-        value = ClampS32(GX_GetVCount() - 79, 0, 100);
+        value = ClampS32(count - 342, 0, 100);
     }
     else
     {
-        value = ClampS32(GX_GetVCount() - 342, 0, 100);
+        value = ClampS32(count - 79, 0, 100);
     }
 
     AYKCommand__SetRegister(thread, 0, value);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r1, =0x04000006
-	ldrh r2, [r1, #0]
-	cmp r2, #0xc0
-	ble _02152DC4
-	ldr r1, =0xFFFFFEAA
-	adds r2, r2, r1
-	movmi r2, #0
-	bmi _02152DD8
-	cmp r2, #0x64
-	movgt r2, #0x64
-	b _02152DD8
-_02152DC4:
-	subs r2, r2, #0x4f
-	movmi r2, #0
-	bmi _02152DD8
-	cmp r2, #0x64
-	movgt r2, #0x64
-_02152DD8:
-	mov r1, #0
-	bl AYKCommand__SetRegister
-	mov r0, #1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152DF0(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SystemCommand__GetBrightness(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
-    s32 id = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 id   = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 type = CutsceneScript__GetFunctionParamRegister(thread, 2);
 
     s16 brightness;
-    if (CutsceneScript__GetFunctionParamRegister(thread, 2))
-        brightness = VRAMSystem__GFXControl[id]->brightness;
-    else
+    if (type == 0)
+    {
         brightness = CutsceneScript__GetFadeManager(&work->systemManager)->control[id].brightness1;
+    }
+    else
+    {
+        brightness = VRAMSystem__GFXControl[id]->brightness;
+    }
+
     AYKCommand__SetRegister(thread, 0, brightness);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r5, r1
-	mov r6, r0
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r6
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	cmp r0, #0
-	ldrne r0, =VRAMSystem__GFXControl
-	ldrne r0, [r0, r4, lsl #2]
-	ldrnesh r2, [r0, #0x58]
-	bne _02152E3C
-	add r0, r5, #0x30
-	add r0, r0, #0x1000
-	bl CutsceneScript__GetFadeManager
-	add r0, r0, r4, lsl #3
-	ldrsb r2, [r0, #8]
-_02152E3C:
-	mov r0, r6
-	mov r1, #0
-	bl AYKCommand__SetRegister
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152E54(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__InitVRAMSystem(ScriptThread *thread, CutsceneScript *work)
 {
     s32 mode = CutsceneScript__GetFunctionParamRegister(thread, 0);
+
     switch (mode)
     {
         case -1:
             VRAMSystem__Reset();
             break;
 
-        case 0:
-        case 1:
-        case 2:
+        case VRAM_MODE_0:
+        case VRAM_MODE_1:
+        case VRAM_MODE_2:
             VRAMSystem__Init(mode);
             break;
     }
@@ -513,77 +456,95 @@ CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152E54(ScriptThread *t
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152E94(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetupBGBank(ScriptThread *thread, CutsceneScript *work)
 {
-    if (CutsceneScript__GetFunctionParamRegister(thread, 0) != TRUE)
+    s32 useEngineB = CutsceneScript__GetFunctionParamRegister(thread, 0);
+
+    if (useEngineB != GRAPHICS_ENGINE_B)
     {
-        VRAMSystem__SetupBGBank((GXVRamBG)CutsceneScript__GetFunctionParamRegister(thread, 1));
+        GXVRamBG bank = (GXVRamBG)CutsceneScript__GetFunctionParamRegister(thread, 1);
+        VRAMSystem__SetupBGBank(bank);
     }
     else
     {
-        VRAMSystem__SetupSubBGBank((GXVRamSubBG)CutsceneScript__GetFunctionParamRegister(thread, 1));
+        GXVRamSubBG bank = (GXVRamSubBG)CutsceneScript__GetFunctionParamRegister(thread, 1);
+        VRAMSystem__SetupSubBGBank(bank);
     }
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152ED0(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetupOBJBank(ScriptThread *thread, CutsceneScript *work)
 {
-    if (CutsceneScript__GetFunctionParamRegister(thread, 0) != TRUE)
+    s32 useEngineB = CutsceneScript__GetFunctionParamRegister(thread, 0);
+
+    if (useEngineB != GRAPHICS_ENGINE_B)
     {
-        CutsceneUnknown__Func_215902C((GXVRamOBJ)CutsceneScript__GetFunctionParamRegister(thread, 1), 0);
+        GXVRamOBJ bank = (GXVRamOBJ)CutsceneScript__GetFunctionParamRegister(thread, 1);
+        CutsceneUnknown__Func_215902C(bank, 0);
     }
     else
     {
-        CutsceneUnknown__Func_2159188((GXVRamSubOBJ)CutsceneScript__GetFunctionParamRegister(thread, 1), 0);
+        GXVRamSubOBJ bank = (GXVRamSubOBJ)CutsceneScript__GetFunctionParamRegister(thread, 1);
+        CutsceneUnknown__Func_2159188(bank, 0);
     }
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152F14(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetupBGExtPalBank(ScriptThread *thread, CutsceneScript *work)
 {
-    if (CutsceneScript__GetFunctionParamRegister(thread, 0) != TRUE)
+    s32 useEngineB = CutsceneScript__GetFunctionParamRegister(thread, 0);
+
+    if (useEngineB != GRAPHICS_ENGINE_B)
     {
-        VRAMSystem__SetupBGExtPalBank((GXVRamBGExtPltt)CutsceneScript__GetFunctionParamRegister(thread, 1));
+        GXVRamBGExtPltt bank = (GXVRamBGExtPltt)CutsceneScript__GetFunctionParamRegister(thread, 1);
+        VRAMSystem__SetupBGExtPalBank(bank);
     }
     else
     {
-        VRAMSystem__SetupSubBGExtPalBank((GXVRamSubBGExtPltt)CutsceneScript__GetFunctionParamRegister(thread, 1));
+        GXVRamSubBGExtPltt bank = (GXVRamSubBGExtPltt)CutsceneScript__GetFunctionParamRegister(thread, 1);
+        VRAMSystem__SetupSubBGExtPalBank(bank);
     }
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152F50(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetupOBJExtPalBank(ScriptThread *thread, CutsceneScript *work)
 {
-    if (CutsceneScript__GetFunctionParamRegister(thread, 0) != TRUE)
+    s32 useEngineB = CutsceneScript__GetFunctionParamRegister(thread, 0);
+
+    if (useEngineB != GRAPHICS_ENGINE_B)
     {
-        VRAMSystem__SetupOBJExtPalBank((GXVRamOBJExtPltt)CutsceneScript__GetFunctionParamRegister(thread, 1));
+        GXVRamOBJExtPltt bank = (GXVRamOBJExtPltt)CutsceneScript__GetFunctionParamRegister(thread, 1);
+        VRAMSystem__SetupOBJExtPalBank(bank);
     }
     else
     {
-        VRAMSystem__SetupSubOBJExtPalBank((GXVRamSubOBJExtPltt)CutsceneScript__GetFunctionParamRegister(thread, 1));
+        GXVRamSubOBJExtPltt bank = (GXVRamSubOBJExtPltt)CutsceneScript__GetFunctionParamRegister(thread, 1);
+        VRAMSystem__SetupSubOBJExtPalBank(bank);
     }
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152F8C(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetupTextureBank(ScriptThread *thread, CutsceneScript *work)
 {
-    VRAMSystem__SetupTextureBank((GXVRamTex)CutsceneScript__GetFunctionParamRegister(thread, 0));
+    GXVRamTex bank = (GXVRamTex)CutsceneScript__GetFunctionParamRegister(thread, 0);
+    VRAMSystem__SetupTextureBank(bank);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152FA4(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetupTexturePalBank(ScriptThread *thread, CutsceneScript *work)
 {
-    VRAMSystem__SetupTexturePalBank((GXVRamTexPltt)CutsceneScript__GetFunctionParamRegister(thread, 0));
+    GXVRamTexPltt bank = (GXVRamTexPltt)CutsceneScript__GetFunctionParamRegister(thread, 0);
+    VRAMSystem__SetupTexturePalBank(bank);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152FBC(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetGraphicsMode(ScriptThread *thread, CutsceneScript *work)
 {
     GXBGMode bgModeA = (GXBGMode)CutsceneScript__GetFunctionParamRegister(thread, 0);
     GXBG0As bg0_2d3d = (GXBG0As)CutsceneScript__GetFunctionParamRegister(thread, 1);
@@ -598,1004 +559,463 @@ CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152FBC(ScriptThread *t
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153030(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBackgroundControlText(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 value1 = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    u8 value2  = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 value3 = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    s32 value4 = CutsceneScript__GetFunctionParamRegister(thread, 3);
+    s32 value5 = CutsceneScript__GetFunctionParamRegister(thread, 4);
+    s32 value6 = CutsceneScript__GetFunctionParamRegister(thread, 5);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	sub sp, sp, #8
-	mov r9, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r7, r0
-	mov r0, r9
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	and r8, r0, #0xff
-	mov r0, r9
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r6, r0
-	mov r0, r9
-	mov r1, #3
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r9
-	mov r1, #4
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r9
-	mov r1, #5
-	bl CutsceneScript__GetFunctionParamRegister
-	str r4, [sp]
-	mov r1, r8
-	mov r2, r6
-	mov r3, r5
-	str r0, [sp, #4]
-	mov r0, r7
-	bl CutsceneUnknown__Func_2158A6C
-	mov r0, #1
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+    CutsceneUnknown__Func_2158A6C(value1, value2, value3, value4, value5, value6);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21530BC(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBackgroundControlAffine(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 value1 = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    u8 value2  = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 value3 = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    s32 value4 = CutsceneScript__GetFunctionParamRegister(thread, 3);
+    s32 value5 = CutsceneScript__GetFunctionParamRegister(thread, 4);
+    s32 value6 = CutsceneScript__GetFunctionParamRegister(thread, 5);
+    s32 value7 = CutsceneScript__GetFunctionParamRegister(thread, 6);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #0xc
-	mov r10, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r8, r0
-	mov r0, r10
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	and r9, r0, #0xff
-	mov r0, r10
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r7, r0
-	mov r0, r10
-	mov r1, #3
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r6, r0
-	mov r0, r10
-	mov r1, #4
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r10
-	mov r1, #5
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r10
-	mov r1, #6
-	bl CutsceneScript__GetFunctionParamRegister
-	str r5, [sp]
-	str r4, [sp, #4]
-	mov r1, r9
-	mov r2, r7
-	mov r3, r6
-	str r0, [sp, #8]
-	mov r0, r8
-	bl CutsceneUnknown__Func_2158D3C
-	mov r0, #1
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+    CutsceneUnknown__Func_2158D3C(value1, value2, value3, value4, value5, value6, value7);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_215315C(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetCurrentDisplay(ScriptThread *thread, CutsceneScript *work)
 {
     renderCurrentDisplay = (GXDispSelect)CutsceneScript__GetFunctionParamRegister(thread, 0);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_215317C(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__ProcessFadeTask(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 mode  = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 timer = CutsceneScript__GetFunctionParamRegister(thread, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	mov r6, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r6
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	add r1, r4, #0x30
-	mov r4, r0
-	add r0, r1, #0x1000
-	bl CutsceneScript__GetFadeManager
-	mov r1, r5
-	mov r2, r4
-	bl CutsceneFadeTask__Process
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
+    CutsceneFadeManager *fadeManager = CutsceneScript__GetFadeManager(&work->systemManager);
+    CutsceneFadeTask__Process(fadeManager, mode, timer);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__CreateFadeTask(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__CreateFadeTask(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 mode  = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 flags = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 speed = CutsceneScript__GetFunctionParamRegister(thread, 2);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0xc
-	mov r8, r1
-	mov r6, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r6
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r6
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	add r1, r8, #0x1000
-	mov r6, r0
-	ldr r0, [r1, #0x4c]
-	cmp r0, #0
-	beq _02153214
-	bl DestroyTask
-_02153214:
-	bl GetCurrentTask
-	ldrh r1, [r0, #0x18]
-	mov r2, #0
-	ldr r0, =CutsceneFadeTask__Main
-	str r1, [sp]
-	ldr r1, =CutsceneFadeTask__Destructor
-	mov r3, r2
-	str r2, [sp, #4]
-	mov r7, #0x18
-	str r7, [sp, #8]
-	bl TaskCreate_
-	add r1, r8, #0x1000
-	str r0, [r1, #0x4c]
-	bl GetTaskWork_
-	mov r7, r0
-	mov r0, #0
-	mov r1, r7
-	mov r2, #0x18
-	bl MIi_CpuClear16
-	add r0, r8, #0x4c
-	add r0, r0, #0x1000
-	str r0, [r7]
-	add r0, r8, #0x30
-	add r0, r0, #0x1000
-	bl CutsceneScript__GetFadeManager
-	str r0, [r7, #8]
-	mvn r0, #0
-	cmp r5, r0
-	bne _021532BC
-	cmp r4, #3
-	beq _021532A8
-	ldr r0, =renderCoreGFXControlA
-	ldrsh r0, [r0, #0x58]
-	cmp r0, #0
-	movgt r5, #0x11
-	movle r5, #0x10
-	b _021532BC
-_021532A8:
-	ldr r0, =renderCoreGFXControlB
-	ldrsh r0, [r0, #0x58]
-	cmp r0, #0
-	movgt r5, #0x11
-	movle r5, #0x10
-_021532BC:
-	mov r1, r6
-	mov r0, #0x10000
-	bl _s32_div_f
-	str r0, [r7, #0xc]
-	str r5, [r7, #0x10]
-	str r4, [r7, #0x14]
-	mov r0, #1
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
+    if (work->taskFade[0].task != NULL)
+        DestroyTask(work->taskFade[0].task);
 
-// clang-format on
-#endif
+    Task *parent = GetCurrentTask();
+
+    Task *task             = TaskCreate(CutsceneFadeTask__Main, CutsceneFadeTask__Destructor, TASK_FLAG_NONE, 0, parent->priority, TASK_GROUP(0), CutsceneFadeTask);
+    work->taskFade[0].task = task;
+
+    CutsceneFadeTask *fadeManager = TaskGetWork(task, CutsceneFadeTask);
+    TaskInitWork16(fadeManager);
+
+    fadeManager->taskInfo = &work->taskFade[0];
+    fadeManager->manager  = CutsceneScript__GetFadeManager(&work->systemManager);
+
+    if (flags == -1)
+    {
+        if (mode != 3)
+        {
+            if (renderCoreGFXControlA.brightness > RENDERCORE_BRIGHTNESS_DEFAULT)
+            {
+                flags = 17;
+            }
+            else
+            {
+                flags = 16;
+            }
+        }
+        else
+        {
+            if (renderCoreGFXControlB.brightness > RENDERCORE_BRIGHTNESS_DEFAULT)
+            {
+                flags = 17;
+            }
+            else
+            {
+                flags = 16;
+            }
+        }
+    }
+
+    fadeManager->speed = FLOAT_TO_FX32(16.0) / speed;
+    fadeManager->flags = flags;
+    fadeManager->mode  = mode;
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21532F0(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetVisiblePlane(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 useEngineB     = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 enablePlaneBG0 = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 enablePlaneBG1 = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    s32 enablePlaneBG2 = CutsceneScript__GetFunctionParamRegister(thread, 3);
+    s32 enablePlaneBG3 = CutsceneScript__GetFunctionParamRegister(thread, 4);
+    s32 enablePlaneOBJ = CutsceneScript__GetFunctionParamRegister(thread, 5);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	mov r9, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r9
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r9
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r6, r0
-	mov r0, r9
-	mov r1, #3
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r7, r0
-	mov r0, r9
-	mov r1, #4
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r8, r0
-	mov r0, r9
-	mov r1, #5
-	bl CutsceneScript__GetFunctionParamRegister
-	cmp r6, #1
-	moveq r1, #2
-	movne r1, #0
-	cmp r5, #1
-	moveq r2, #1
-	movne r2, #0
-	cmp r7, #1
-	moveq r3, #4
-	movne r3, #0
-	cmp r8, #1
-	moveq ip, #8
-	movne ip, #0
-	cmp r0, #1
-	moveq lr, #0x10
-	movne lr, #0
-	orr r1, r2, r1
-	cmp r6, #0
-	moveq r2, #2
-	orr r1, r3, r1
-	movne r2, #0
-	cmp r5, #0
-	moveq r3, #1
-	movne r3, #0
-	cmp r7, #0
-	moveq r5, #4
-	movne r5, #0
-	cmp r8, #0
-	moveq r6, #8
-	movne r6, #0
-	cmp r0, #0
-	orr r0, r3, r2
-	moveq r7, #0x10
-	orr r0, r5, r0
-	orr r1, ip, r1
-	movne r7, #0
-	orr r0, r6, r0
-	orr r1, lr, r1
-	cmp r4, #0
-	orr r5, r7, r0
-	bne _0215341C
-	mov r3, #0x4000000
-	ldr r0, [r3, #0]
-	ldr r2, [r3, #0]
-	and r4, r0, #0x1f00
-	mvn r0, r5
-	and r0, r0, r4, lsr #8
-	bic r2, r2, #0x1f00
-	orr r0, r1, r0
-	orr r0, r2, r0, lsl #8
-	str r0, [r3]
-	b _02153444
-_0215341C:
-	ldr r4, =0x04001000
-	mvn r0, r5
-	ldr r3, [r4, #0]
-	ldr r2, [r4, #0]
-	and r3, r3, #0x1f00
-	and r0, r0, r3, lsr #8
-	bic r2, r2, #0x1f00
-	orr r0, r1, r0
-	orr r0, r2, r0, lsl #8
-	str r0, [r4]
-_02153444:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+    u32 maskOnBG1 = enablePlaneBG1 == TRUE ? GX_PLANEMASK_BG1 : GX_PLANEMASK_NONE;
+    u32 maskOnBG0 = enablePlaneBG0 == TRUE ? GX_PLANEMASK_BG0 : GX_PLANEMASK_NONE;
+    u32 maskOnBG2 = enablePlaneBG2 == TRUE ? GX_PLANEMASK_BG2 : GX_PLANEMASK_NONE;
+    u32 maskOnBG3 = enablePlaneBG3 == TRUE ? GX_PLANEMASK_BG3 : GX_PLANEMASK_NONE;
+    u32 maskOnOBJ = enablePlaneOBJ == TRUE ? GX_PLANEMASK_OBJ : GX_PLANEMASK_NONE;
 
-// clang-format on
-#endif
+    u32 planeMaskOn = maskOnBG0 | maskOnBG1 | maskOnBG2 | maskOnBG3 | maskOnOBJ;
+
+    u32 maskOffBG1 = enablePlaneBG1 == FALSE ? GX_PLANEMASK_BG1 : GX_PLANEMASK_NONE;
+    u32 maskOffBG0 = enablePlaneBG0 == FALSE ? GX_PLANEMASK_BG0 : GX_PLANEMASK_NONE;
+    u32 maskOffBG2 = enablePlaneBG2 == FALSE ? GX_PLANEMASK_BG2 : GX_PLANEMASK_NONE;
+    u32 maskOffBG3 = enablePlaneBG3 == FALSE ? GX_PLANEMASK_BG3 : GX_PLANEMASK_NONE;
+    u32 maskOffOBJ = enablePlaneOBJ == FALSE ? GX_PLANEMASK_OBJ : GX_PLANEMASK_NONE;
+
+    u32 planeOffMask = maskOffBG0 | maskOffBG1 | maskOffBG2 | maskOffBG3 | maskOffOBJ;
+
+    if (useEngineB == GRAPHICS_ENGINE_A)
+    {
+        GX_SetVisiblePlane(planeMaskOn | ~planeOffMask & GX_GetVisiblePlane());
+    }
+    else
+    {
+        GXS_SetVisiblePlane(planeMaskOn | ~planeOffMask & GXS_GetVisiblePlane());
+    }
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153450(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBackgroundPriority(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 useEngineB  = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 bg0Priority = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 bg1Priority = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    s32 bg2Priority = CutsceneScript__GetFunctionParamRegister(thread, 3);
+    s32 bg3Priority = CutsceneScript__GetFunctionParamRegister(thread, 4);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	mov r8, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r7, r0
-	mov r0, r8
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r8
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r8
-	mov r1, #3
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r6, r0
-	mov r0, r8
-	mov r1, #4
-	bl CutsceneScript__GetFunctionParamRegister
-	cmp r7, #0
-	mvn r1, #0
-	bne _0215352C
-	cmp r4, r1
-	beq _021534C8
-	ldr r2, =0x04000008
-	ldrh r1, [r2, #0]
-	bic r1, r1, #3
-	orr r1, r1, r4
-	strh r1, [r2]
-_021534C8:
-	mvn r1, #0
-	cmp r5, r1
-	beq _021534E8
-	ldr r2, =0x0400000A
-	ldrh r1, [r2, #0]
-	bic r1, r1, #3
-	orr r1, r1, r5
-	strh r1, [r2]
-_021534E8:
-	mvn r1, #0
-	cmp r6, r1
-	beq _02153508
-	ldr r2, =0x0400000C
-	ldrh r1, [r2, #0]
-	bic r1, r1, #3
-	orr r1, r1, r6
-	strh r1, [r2]
-_02153508:
-	mvn r1, #0
-	cmp r0, r1
-	beq _021535A8
-	ldr r2, =0x0400000E
-	ldrh r1, [r2, #0]
-	bic r1, r1, #3
-	orr r0, r1, r0
-	strh r0, [r2]
-	b _021535A8
-_0215352C:
-	cmp r4, r1
-	beq _02153548
-	ldr r2, =0x04001008
-	ldrh r1, [r2, #0]
-	bic r1, r1, #3
-	orr r1, r1, r4
-	strh r1, [r2]
-_02153548:
-	mvn r1, #0
-	cmp r5, r1
-	beq _02153568
-	ldr r2, =0x0400100A
-	ldrh r1, [r2, #0]
-	bic r1, r1, #3
-	orr r1, r1, r5
-	strh r1, [r2]
-_02153568:
-	mvn r1, #0
-	cmp r6, r1
-	beq _02153588
-	ldr r2, =0x0400100C
-	ldrh r1, [r2, #0]
-	bic r1, r1, #3
-	orr r1, r1, r6
-	strh r1, [r2]
-_02153588:
-	mvn r1, #0
-	cmp r0, r1
-	beq _021535A8
-	ldr r2, =0x0400100E
-	ldrh r1, [r2, #0]
-	bic r1, r1, #3
-	orr r0, r1, r0
-	strh r0, [r2]
-_021535A8:
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+    if (useEngineB == GRAPHICS_ENGINE_A)
+    {
+        if (bg0Priority != -1)
+            G2_SetBG0Priority(bg0Priority);
 
-// clang-format on
-#endif
+        if (bg1Priority != -1)
+            G2_SetBG1Priority(bg1Priority);
+
+        if (bg2Priority != -1)
+            G2_SetBG2Priority(bg2Priority);
+
+        if (bg3Priority != -1)
+            G2_SetBG3Priority(bg3Priority);
+    }
+    else
+    {
+        if (bg0Priority != -1)
+            G2S_SetBG0Priority(bg0Priority);
+
+        if (bg1Priority != -1)
+            G2S_SetBG1Priority(bg1Priority);
+
+        if (bg2Priority != -1)
+            G2S_SetBG2Priority(bg2Priority);
+
+        if (bg3Priority != -1)
+            G2S_SetBG3Priority(bg3Priority);
+    }
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21535D0(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBlendPlane(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 useEngineB          = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 id                  = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 enablePlaneBG0      = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    s32 enablePlaneBG1      = CutsceneScript__GetFunctionParamRegister(thread, 3);
+    s32 enablePlaneBG2      = CutsceneScript__GetFunctionParamRegister(thread, 4);
+    s32 enablePlaneBG3      = CutsceneScript__GetFunctionParamRegister(thread, 5);
+    s32 enablePlaneOBJ      = CutsceneScript__GetFunctionParamRegister(thread, 6);
+    s32 enablePlaneBackdrop = CutsceneScript__GetFunctionParamRegister(thread, 7);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	mov r10, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r10
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r10
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r6, r0
-	mov r0, r10
-	mov r1, #3
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r11, r0
-	mov r0, r10
-	mov r1, #4
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r7, r0
-	mov r0, r10
-	mov r1, #5
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r8, r0
-	mov r0, r10
-	mov r1, #6
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r9, r0
-	mov r0, r10
-	mov r1, #7
-	bl CutsceneScript__GetFunctionParamRegister
-	cmp r11, #0
-	movne r1, #2
-	moveq r1, #0
-	cmp r6, #0
-	movne r2, #1
-	moveq r2, #0
-	cmp r7, #0
-	movne r3, #4
-	moveq r3, #0
-	cmp r8, #0
-	movne r6, #8
-	moveq r6, #0
-	cmp r9, #0
-	movne r7, #0x10
-	moveq r7, #0
-	cmp r0, #0
-	orr r0, r2, r1
-	orr r0, r3, r0
-	movne r8, #0x20
-	orr r0, r6, r0
-	ldr r1, =VRAMSystem__GFXControl
-	moveq r8, #0
-	orr r0, r7, r0
-	orr r0, r8, r0
-	mov r0, r0, lsl #0x10
-	ldr r1, [r1, r4, lsl #2]
-	mov r2, r0, lsr #0x10
-	ldrh r0, [r1, #0x20]
-	cmp r5, #0
-	biceq r0, r0, #0x3f
-	orreq r0, r2, r0
-	bicne r0, r0, #0x3f00
-	orrne r0, r0, r2, lsl #8
-	strh r0, [r1, #0x20]
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    u32 maskBG1      = enablePlaneBG1 ? GX_PLANEMASK_BG1 : GX_PLANEMASK_NONE;
+    u32 maskBG0      = enablePlaneBG0 ? GX_PLANEMASK_BG0 : GX_PLANEMASK_NONE;
+    u32 maskBG2      = enablePlaneBG2 ? GX_PLANEMASK_BG2 : GX_PLANEMASK_NONE;
+    u32 maskBG3      = enablePlaneBG3 ? GX_PLANEMASK_BG3 : GX_PLANEMASK_NONE;
+    u32 maskOBJ      = enablePlaneOBJ ? GX_PLANEMASK_OBJ : GX_PLANEMASK_NONE;
+    u32 maskBackdrop = enablePlaneBackdrop ? GX_PLANEMASK_EFFECT : GX_PLANEMASK_NONE;
 
-// clang-format on
-#endif
+    u16 planeMask = maskBG0 | maskBG1 | maskBG2 | maskBG3 | maskOBJ | maskBackdrop;
+
+    RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[useEngineB];
+    if (id == 0)
+    {
+        // TODO: this might be able to use 'gfxControl->blendManager.blendControl.plane1'?
+        // here's a decomp.me scratch for anyone willing to try: https://decomp.me/scratch/JSJq5
+        gfxControl->blendManager.blendControl.value = (planeMask << 0) | (gfxControl->blendManager.blendControl.value & ~0x3F);
+    }
+    else
+    {
+        // TODO: this might be able to use 'gfxControl->blendManager.blendControl.plane2'?
+        // here's a decomp.me scratch for anyone willing to try: https://decomp.me/scratch/JSJq5
+        gfxControl->blendManager.blendControl.value = (planeMask << 8) | (gfxControl->blendManager.blendControl.value & ~0x3F00);
+    }
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21536E4(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBlendEffect(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 useEngineB = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 effect     = CutsceneScript__GetFunctionParamRegister(thread, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r5
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r0, r0, lsl #0x10
-	ldr r1, =VRAMSystem__GFXControl
-	mov r0, r0, lsr #0x10
-	ldr r3, [r1, r4, lsl #2]
-	mov r1, r0, lsl #0x1e
-	ldrh r2, [r3, #0x20]
-	mov r0, #1
-	bic r2, r2, #0xc0
-	orr r1, r2, r1, lsr #24
-	strh r1, [r3, #0x20]
-	ldmia sp!, {r3, r4, r5, pc}
+    VRAMSystem__GFXControl[useEngineB]->blendManager.blendControl.effect = effect;
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153734(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBlendAlpha(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 useEngineB = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 ev1        = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 ev2        = CutsceneScript__GetFunctionParamRegister(thread, 2);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r6
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r6
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	ldr r1, =VRAMSystem__GFXControl
-	orr r2, r4, r0, lsl #8
-	ldr r1, [r1, r5, lsl #2]
-	mov r0, #1
-	strh r2, [r1, #0x22]
-	ldmia sp!, {r4, r5, r6, pc}
+    u16 ev_value = ev1 | (ev2 << 8);
 
-// clang-format on
-#endif
+    // TODO: this might be able to use 'gfxControl->blendManager.blendAlpha.ev1' & 'gfxControl->blendManager.blendAlpha.ev2'?
+    // here's a decomp.me scratch for anyone willing to try: https://decomp.me/scratch/kCVnY
+    VRAMSystem__GFXControl[useEngineB]->blendManager.blendAlpha.value = ev_value;
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153780(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBlendCoefficient(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 useEngineB = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 brightness = CutsceneScript__GetFunctionParamRegister(thread, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r5
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	ldr r1, =VRAMSystem__GFXControl
-	ldr r1, [r1, r4, lsl #2]
-	strh r0, [r1, #0x24]
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    VRAMSystem__GFXControl[useEngineB]->blendManager.coefficient.value = brightness;
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21537B8(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetWindowVisible(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 useEngineB     = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 enableWindowW0 = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 enableWindowW1 = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    s32 enableWindowOW = CutsceneScript__GetFunctionParamRegister(thread, 3);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r7, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r7
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r6, r0
-	mov r0, r7
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r7
-	mov r1, #3
-	bl CutsceneScript__GetFunctionParamRegister
-	cmp r4, #0
-	movne r1, #2
-	moveq r1, #0
-	cmp r6, #0
-	movne r2, #1
-	moveq r2, #0
-	cmp r0, #0
-	ldr r0, =VRAMSystem__GFXControl
-	movne r3, #4
-	moveq r3, #0
-	orr r1, r2, r1
-	ldr r0, [r0, r5, lsl #2]
-	orr r1, r3, r1
-	str r1, [r0, #0x1c]
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    u32 maskW1 = enableWindowW1 ? GX_WNDMASK_W1 : GX_WNDMASK_NONE;
+    u32 maskW0 = enableWindowW0 ? GX_WNDMASK_W0 : GX_WNDMASK_NONE;
+    u32 maskOW = enableWindowOW ? GX_WNDMASK_OW : GX_WNDMASK_NONE;
 
-// clang-format on
-#endif
+    VRAMSystem__GFXControl[useEngineB]->windowManager.visible = maskW0 | maskW1 | maskOW;
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_215383C(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetWindowPlane(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 useEngineB        = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 id                = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 enablePlaneBG0    = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    s32 enablePlaneBG1    = CutsceneScript__GetFunctionParamRegister(thread, 3);
+    s32 enablePlaneBG2    = CutsceneScript__GetFunctionParamRegister(thread, 4);
+    s32 enablePlaneBG3    = CutsceneScript__GetFunctionParamRegister(thread, 5);
+    s32 enablePlaneOBJ    = CutsceneScript__GetFunctionParamRegister(thread, 6);
+    s32 enablePlaneEffect = CutsceneScript__GetFunctionParamRegister(thread, 7);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	mov r9, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r9
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r9
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r10, r0
-	mov r0, r9
-	mov r1, #3
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r11, r0
-	mov r0, r9
-	mov r1, #4
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r6, r0
-	mov r0, r9
-	mov r1, #5
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r7, r0
-	mov r0, r9
-	mov r1, #6
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r8, r0
-	mov r0, r9
-	mov r1, #7
-	bl CutsceneScript__GetFunctionParamRegister
-	cmp r11, #0
-	movne r1, #2
-	moveq r1, #0
-	cmp r10, #0
-	movne r2, #1
-	moveq r2, #0
-	cmp r6, #0
-	movne r3, #4
-	moveq r3, #0
-	cmp r7, #0
-	movne r6, #8
-	moveq r6, #0
-	cmp r8, #0
-	movne r7, #0x10
-	moveq r7, #0
-	cmp r0, #0
-	orr r0, r2, r1
-	orr r0, r3, r0
-	movne r8, #0x20
-	orr r0, r6, r0
-	moveq r8, #0
-	orr r0, r7, r0
-	orr r0, r8, r0
-	cmp r5, #3
-	and r1, r0, #0xff
-	addls pc, pc, r5, lsl #2
-	b _02153974
-_02153928: // jump table
-	b _02153938 // case 0
-	b _02153948 // case 1
-	b _02153958 // case 2
-	b _02153968 // case 3
-_02153938:
-	ldr r0, =VRAMSystem__GFXControl
-	ldr r0, [r0, r4, lsl #2]
-	strb r1, [r0, #0x18]
-	b _02153974
-_02153948:
-	ldr r0, =VRAMSystem__GFXControl
-	ldr r0, [r0, r4, lsl #2]
-	strb r1, [r0, #0x19]
-	b _02153974
-_02153958:
-	ldr r0, =VRAMSystem__GFXControl
-	ldr r0, [r0, r4, lsl #2]
-	strb r1, [r0, #0x1a]
-	b _02153974
-_02153968:
-	ldr r0, =VRAMSystem__GFXControl
-	ldr r0, [r0, r4, lsl #2]
-	strb r1, [r0, #0x1b]
-_02153974:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    u32 maskBG1    = enablePlaneBG1 ? GX_PLANEMASK_BG1 : GX_PLANEMASK_NONE;
+    u32 maskBG0    = enablePlaneBG0 ? GX_PLANEMASK_BG0 : GX_PLANEMASK_NONE;
+    u32 maskBG2    = enablePlaneBG2 ? GX_PLANEMASK_BG2 : GX_PLANEMASK_NONE;
+    u32 maskBG3    = enablePlaneBG3 ? GX_PLANEMASK_BG3 : GX_PLANEMASK_NONE;
+    u32 maskOBJ    = enablePlaneOBJ ? GX_PLANEMASK_OBJ : GX_PLANEMASK_NONE;
+    u32 maskEffect = enablePlaneEffect ? GX_PLANEMASK_EFFECT : GX_PLANEMASK_NONE;
 
-// clang-format on
-#endif
+    u8 planeMask = maskBG0 | maskBG1 | maskBG2 | maskBG3 | maskOBJ | maskEffect;
+    switch (id)
+    {
+        case 0:
+            VRAMSystem__GFXControl[useEngineB]->windowManager.registers.win0InPlane.value = planeMask;
+            break;
+
+        case 1:
+            VRAMSystem__GFXControl[useEngineB]->windowManager.registers.win1InPlane.value = planeMask;
+            break;
+
+        case 2:
+            VRAMSystem__GFXControl[useEngineB]->windowManager.registers.winOutPlane.value = planeMask;
+            break;
+
+        case 3:
+            VRAMSystem__GFXControl[useEngineB]->windowManager.registers.winOBJOutPlane.value = planeMask;
+            break;
+    }
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153980(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetWindowPosition(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 useEngineB = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 id         = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    u8 winX1       = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    u8 winY1       = CutsceneScript__GetFunctionParamRegister(thread, 3);
+    u8 winX2       = CutsceneScript__GetFunctionParamRegister(thread, 4);
+    u8 winY2       = CutsceneScript__GetFunctionParamRegister(thread, 5);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	mov r9, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r8, r0
-	mov r0, r9
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r7, r0
-	mov r0, r9
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	and r4, r0, #0xff
-	mov r0, r9
-	mov r1, #3
-	bl CutsceneScript__GetFunctionParamRegister
-	and r5, r0, #0xff
-	mov r0, r9
-	mov r1, #4
-	bl CutsceneScript__GetFunctionParamRegister
-	and r6, r0, #0xff
-	mov r0, r9
-	mov r1, #5
-	bl CutsceneScript__GetFunctionParamRegister
-	and r1, r0, #0xff
-	cmp r7, #0
-	ldr r0, =VRAMSystem__GFXControl
-	ldr r0, [r0, r8, lsl #2]
-	beq _02153A00
-	cmp r7, #1
-	beq _02153A14
-	b _02153A24
-_02153A00:
-	strb r6, [r0, #0x10]
-	strb r4, [r0, #0x11]
-	strb r1, [r0, #0x14]
-	strb r5, [r0, #0x15]
-	b _02153A24
-_02153A14:
-	strb r6, [r0, #0x12]
-	strb r4, [r0, #0x13]
-	strb r1, [r0, #0x16]
-	strb r5, [r0, #0x17]
-_02153A24:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+    RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[useEngineB];
+    switch (id)
+    {
+        case 0:
+            gfxControl->windowManager.registers.win0X2 = winX2;
+            gfxControl->windowManager.registers.win0X1 = winX1;
+            gfxControl->windowManager.registers.win0Y2 = winY2;
+            gfxControl->windowManager.registers.win0Y1 = winY1;
+            break;
 
-// clang-format on
-#endif
+        case 1:
+            gfxControl->windowManager.registers.win1X2 = winX2;
+            gfxControl->windowManager.registers.win1X1 = winX1;
+            gfxControl->windowManager.registers.win1Y2 = winY2;
+            gfxControl->windowManager.registers.win1Y1 = winY1;
+            break;
+    }
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153A30(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__Unknown(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 value1 = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 value2 = CutsceneScript__GetFunctionParamRegister(thread, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r0, r4
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r0, #1
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153A54(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetCapture(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    GXCaptureSrcA a    = (GXCaptureSrcA)CutsceneScript__GetFunctionParamRegister(thread, 0);
+    GXCaptureSrcB b    = (GXCaptureSrcB)CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 ev             = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    GXCaptureDest dest = (GXCaptureDest)CutsceneScript__GetFunctionParamRegister(thread, 3);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	mov r7, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r7
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r7
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r6, r0
-	mov r0, r7
-	mov r1, #3
-	bl CutsceneScript__GetFunctionParamRegister
-	mvn r1, #7
-	mov r7, r0
-	cmp r6, r1
-	beq _02153AB0
-	cmp r6, #8
-	beq _02153AB8
-	b _02153AC0
-_02153AB0:
-	mov r8, #0
-	b _02153AC4
-_02153AB8:
-	mov r8, #1
-	b _02153AC4
-_02153AC0:
-	mov r8, #2
-_02153AC4:
-	and r0, r7, #3
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	b _02153B00
-_02153AD4: // jump table
-	b _02153AE4 // case 0
-	b _02153AEC // case 1
-	b _02153AF4 // case 2
-	b _02153AFC // case 3
-_02153AE4:
-	mov r9, #1
-	b _02153B00
-_02153AEC:
-	mov r9, #2
-	b _02153B00
-_02153AF4:
-	mov r9, #4
-	b _02153B00
-_02153AFC:
-	mov r9, #8
-_02153B00:
-	mov r0, r9
-	bl CutsceneUnknown__GetBankID
-	cmp r0, #9
-	addls pc, pc, r0, lsl #2
-	b _02153BD4
-_02153B14: // jump table
-	b _02153B3C // case 0
-	b _02153B48 // case 1
-	b _02153B64 // case 2
-	b _02153B70 // case 3
-	b _02153B7C // case 4
-	b _02153B88 // case 5
-	b _02153BA4 // case 6
-	b _02153BB0 // case 7
-	b _02153BBC // case 8
-	b _02153BC8 // case 9
-_02153B3C:
-	mov r0, #0
-	bl VRAMSystem__SetupBGBank
-	b _02153BDC
-_02153B48:
-	mov r0, #0
-	ldr r1, =0x00200010
-	mov r3, r0
-	mov r2, #0x40
-	str r0, [sp]
-	bl VRAMSystem__SetupOBJBank
-	b _02153BDC
-_02153B64:
-	mov r0, #0
-	bl VRAMSystem__SetupBGExtPalBank
-	b _02153BDC
-_02153B70:
-	mov r0, #0
-	bl VRAMSystem__SetupOBJExtPalBank
-	b _02153BDC
-_02153B7C:
-	mov r0, #0
-	bl VRAMSystem__SetupSubBGBank
-	b _02153BDC
-_02153B88:
-	mov r0, #0
-	ldr r1, =0x00200010
-	mov r3, r0
-	mov r2, #0x40
-	str r0, [sp]
-	bl VRAMSystem__SetupSubOBJBank
-	b _02153BDC
-_02153BA4:
-	mov r0, #0
-	bl VRAMSystem__SetupSubBGExtPalBank
-	b _02153BDC
-_02153BB0:
-	mov r0, #0
-	bl VRAMSystem__SetupSubOBJExtPalBank
-	b _02153BDC
-_02153BBC:
-	mov r0, #0
-	bl VRAMSystem__SetupTextureBank
-	b _02153BDC
-_02153BC8:
-	mov r0, #0
-	bl VRAMSystem__SetupTexturePalBank
-	b _02153BDC
-_02153BD4:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-_02153BDC:
-	mov r0, #1
-	bl GX_SetBankForLCDC
-	mov r0, r8, lsl #0x1d
-	orr r0, r0, #0x80000000
-	orr r0, r0, r5, lsl #25
-	orr r0, r0, r4, lsl #24
-	orr r0, r0, #0x300000
-	add r1, r6, #8
-	orr r0, r0, r7, lsl #16
-	rsb r2, r6, #8
-	orr r1, r0, r1, lsl #8
-	ldr r0, =0x04000064
-	orr r1, r2, r1
-	str r1, [r0]
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+    GXCaptureMode mode;
+    switch (ev)
+    {
+        case -8:
+            mode = GX_CAPTURE_MODE_A;
+            break;
 
-// clang-format on
-#endif
+        case 8:
+            mode = GX_CAPTURE_MODE_B;
+            break;
+
+        default:
+            mode = GX_CAPTURE_MODE_AB;
+            break;
+    }
+
+    s32 bank;
+    switch (dest & 3)
+    {
+        case 0:
+            bank = 1;
+            break;
+
+        case 1:
+            bank = 2;
+            break;
+
+        case 2:
+            bank = 4;
+            break;
+
+        case 3:
+            bank = 8;
+            break;
+    }
+
+    switch (CutsceneUnknown__GetBankID(bank))
+    {
+        case 0:
+            VRAMSystem__SetupBGBank(GX_VRAM_BG_NONE);
+            break;
+
+        case 1:
+            VRAMSystem__SetupOBJBank(GX_VRAM_OBJ_NONE, GX_OBJVRAMMODE_CHAR_1D_128K, GX_OBJVRAMMODE_BMP_1D_128K, 0, 0);
+            break;
+
+        case 2:
+            VRAMSystem__SetupBGExtPalBank(GX_VRAM_BGEXTPLTT_NONE);
+            break;
+
+        case 3:
+            VRAMSystem__SetupOBJExtPalBank(GX_VRAM_OBJEXTPLTT_NONE);
+            break;
+
+        case 4:
+            VRAMSystem__SetupSubBGBank(GX_VRAM_SUB_BG_NONE);
+            break;
+
+        case 5:
+            VRAMSystem__SetupSubOBJBank(GX_VRAM_SUB_OBJ_NONE, GX_OBJVRAMMODE_CHAR_1D_128K, GX_OBJVRAMMODE_BMP_1D_128K, 0, 0);
+            break;
+
+        case 6:
+            VRAMSystem__SetupSubBGExtPalBank(GX_VRAM_SUB_BGEXTPLTT_NONE);
+            break;
+
+        case 7:
+            VRAMSystem__SetupSubOBJExtPalBank(GX_VRAM_SUB_OBJEXTPLTT_NONE);
+            break;
+
+        case 8:
+            VRAMSystem__SetupTextureBank(GX_VRAM_TEX_NONE);
+            break;
+
+        case 9:
+            VRAMSystem__SetupTexturePalBank(GX_VRAM_TEXPLTT_NONE);
+            break;
+
+        default:
+            return CUTSCENESCRIPT_RESULT_CONTINUE;
+    }
+
+    GX_SetBankForLCDC(GX_VRAM_LCDC_A);
+    GX_SetCapture(GX_CAPTURE_SIZE_256x192, mode, a, b, dest, 8 - ev, ev + 8);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153C24(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__ShakeScreen1(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 lifetime = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	ldr r1, =0x00004CCC
-	mov r2, #0
-	bl ShakeScreenEx
-	mov r0, #1
-	ldmia sp!, {r3, pc}
+    ShakeScreenEx(lifetime, FLOAT_TO_FX32(4.8), 0);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153C48(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ScreenCommand__ShakeScreen2(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    u32 lifetime = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, #0x11
-	bl ShakeScreen
-	cmp r0, #0
-	beq _02153C84
-	ldr r0, [r0, #0]
-	mov r1, r4
-	bl _u32_div_f
-	mov r2, r0
-	ldr r1, =0x00004CCC
-	mov r0, #0
-	bl ShakeScreenEx
-_02153C84:
-	mov r0, #1
-	ldmia sp!, {r4, pc}
+    ScreenShake *screenShake = ShakeScreen(SCREENSHAKE_CUSTOM);
+    if (screenShake != NULL)
+        ShakeScreenEx(0, FLOAT_TO_FX32(4.8), screenShake->lifetime / lifetime);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
 CutsceneScriptResult CutsceneScript__FileSystemCommand__Func_2153C90(ScriptThread *thread, CutsceneScript *work)
@@ -1692,522 +1112,219 @@ CutsceneScriptResult CutsceneScript__SpriteCommand__LoadSprite(ScriptThread *thr
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2153EB4(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2153EB4(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r1
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r4, #0x30
-	mov r1, r0
-	add r0, r2, #0x1000
-	bl CutsceneSpriteButtonManager__Func_2157128
-	mov r0, #1
-	ldmia sp!, {r4, pc}
+    CutsceneSpriteButtonManager__Func_2157128(&work->systemManager, id);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2153EDC(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2153EDC(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    u32 count;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	add r0, r4, #0x30
-	add r0, r0, #0x1000
-	bl CutsceneSpriteButtonManager__Func_2156E2C
-	add r5, r0, #1
-	cmp r5, #1
-	mov r6, #1
-	bls _02153F1C
-	add r4, r4, #0x30
-_02153F04:
-	mov r1, r6
-	add r0, r4, #0x1000
-	bl CutsceneSpriteButtonManager__Func_2157128
-	add r6, r6, #1
-	cmp r6, r5
-	blo _02153F04
-_02153F1C:
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
+    count = CutsceneSpriteButtonManager__Func_2156E2C(&work->systemManager) + 1;
 
-// clang-format on
-#endif
+    for (s32 i = 1; i < count; i++)
+    {
+        CutsceneSpriteButtonManager__Func_2157128(&work->systemManager, i);
+    }
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__LoadSprite2(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__LoadSprite2(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id           = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 useEngineB   = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    u16 animID       = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    u16 paletteRow   = CutsceneScript__GetFunctionParamRegister(thread, 3);
+    const char *path = CutsceneScript__GetFunctionParamString(thread, work, 4);
+    s32 fileID       = CutsceneScript__GetFunctionParamRegister(thread, 5);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #0xc
-	mov r5, r1
-	mov r6, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r6
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r8, r0
-	mov r0, r6
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r0, r0, lsl #0x10
-	mov r9, r0, lsr #0x10
-	mov r0, r6
-	mov r1, #3
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r0, r0, lsl #0x10
-	mov r10, r0, lsr #0x10
-	mov r0, r6
-	mov r1, r5
-	mov r2, #4
-	bl CutsceneScript__GetFunctionParamString
-	mov r7, r0
-	mov r0, r6
-	mov r1, #5
-	bl CutsceneScript__GetFunctionParamRegister
-	add r5, r5, #0x30
-	mov r3, r0
-	mov r1, r4
-	mov r2, r7
-	add r0, r5, #0x1000
-	stmia sp, {r8, r9, r10}
-	bl CutsceneSpriteButtonManager__LoadSprite
-	cmp r0, #0
-	moveq r0, #5
-	movne r0, #1
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+    if (CutsceneSpriteButtonManager__LoadSprite(&work->systemManager, id, path, fileID, useEngineB, animID, paletteRow) == FALSE)
+        return CUTSCENESCRIPT_RESULT_SUSPEND_RETURN;
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetAnimation(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__SetAnimation(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id     = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 animID = CutsceneScript__GetFunctionParamRegister(thread, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	mov r6, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r6
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r4, #0x30
-	mov r4, r0
-	mov r1, r5
-	add r0, r2, #0x1000
-	bl CutsceneSpriteButtonManager__GetAnimator
-	mov r1, r4, lsl #0x10
-	mov r1, r1, lsr #0x10
-	bl AnimatorSprite__SetAnimation
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
+    AnimatorSprite__SetAnimation(CutsceneSpriteButtonManager__GetAnimator(&work->systemManager, id), animID);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpritePosition(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpritePosition(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 x  = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 y  = CutsceneScript__GetFunctionParamRegister(thread, 2);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r4, r1
-	mov r7, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r6, r0
-	mov r0, r7
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r7
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r4, #0x30
-	mov r4, r0
-	mov r1, r6
-	add r0, r2, #0x1000
-	bl CutsceneSpriteButtonManager__GetAnimator
-	strh r5, [r0, #8]
-	strh r4, [r0, #0xa]
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    AnimatorSprite *animator = CutsceneSpriteButtonManager__GetAnimator(&work->systemManager, id);
+    animator->pos.x          = x;
+    animator->pos.y          = y;
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpriteVisible(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpriteVisible(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id       = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    BOOL visible = CutsceneScript__GetFunctionParamRegister(thread, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	mov r6, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r6
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r4, #0x30
-	mov r4, r0
-	mov r1, r5
-	add r0, r2, #0x1000
-	bl CutsceneSpriteButtonManager__GetAnimator
-	ldr r1, [r0, #0x3c]
-	cmp r4, #0
-	bicne r1, r1, #1
-	orreq r1, r1, #1
-	str r1, [r0, #0x3c]
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
+    AnimatorSprite *animator = CutsceneSpriteButtonManager__GetAnimator(&work->systemManager, id);
+    if (visible)
+        animator->flags &= ~ANIMATOR_FLAG_DISABLE_DRAW;
+    else
+        animator->flags |= ANIMATOR_FLAG_DISABLE_DRAW;
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpriteLoopFlag(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpriteLoopFlag(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id        = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    BOOL loopFlag = CutsceneScript__GetFunctionParamRegister(thread, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	mov r6, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r6
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r4, #0x30
-	mov r4, r0
-	mov r1, r5
-	add r0, r2, #0x1000
-	bl CutsceneSpriteButtonManager__GetAnimator
-	ldr r1, [r0, #0x3c]
-	cmp r4, #0
-	bicne r1, r1, #2
-	orreq r1, r1, #2
-	str r1, [r0, #0x3c]
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
+    AnimatorSprite *animator = CutsceneSpriteButtonManager__GetAnimator(&work->systemManager, id);
+    if (loopFlag)
+        animator->flags &= ~ANIMATOR_FLAG_DID_LOOP;
+    else
+        animator->flags |= ANIMATOR_FLAG_DID_LOOP;
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpriteFlip(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpriteFlip(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id     = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    BOOL flipX = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    BOOL flipY = CutsceneScript__GetFunctionParamRegister(thread, 2);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r4, r1
-	mov r7, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r6, r0
-	mov r0, r7
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r7
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r4, #0x30
-	mov r4, r0
-	mov r1, r6
-	add r0, r2, #0x1000
-	bl CutsceneSpriteButtonManager__GetAnimator
-	ldr r1, [r0, #0x3c]
-	cmp r5, #0
-	orrne r1, r1, #0x80
-	biceq r1, r1, #0x80
-	str r1, [r0, #0x3c]
-	ldr r1, [r0, #0x3c]
-	cmp r4, #0
-	orrne r1, r1, #0x100
-	biceq r1, r1, #0x100
-	str r1, [r0, #0x3c]
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    AnimatorSprite *animator = CutsceneSpriteButtonManager__GetAnimator(&work->systemManager, id);
 
-// clang-format on
-#endif
+    if (flipX)
+        animator->flags |= ANIMATOR_FLAG_FLIP_X;
+    else
+        animator->flags &= ~ANIMATOR_FLAG_FLIP_X;
+
+    if (flipY)
+        animator->flags |= ANIMATOR_FLAG_FLIP_Y;
+    else
+        animator->flags &= ~ANIMATOR_FLAG_FLIP_Y;
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpritePriority(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpritePriority(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id       = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s16 priority = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s16 order    = CutsceneScript__GetFunctionParamRegister(thread, 2);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r1
-	mov r5, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r5
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r2, r0, lsl #0x10
-	mov r0, r5
-	mov r1, #2
-	mov r5, r2, asr #0x10
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r2, r0, lsl #0x10
-	add r0, r6, #0x30
-	mov r1, r4
-	add r0, r0, #0x1000
-	mov r4, r2, asr #0x10
-	bl CutsceneSpriteButtonManager__GetAnimator
-	mvn r1, #0
-	cmp r5, r1
-	strneb r5, [r0, #0x56]
-	mvn r1, #0
-	cmp r4, r1
-	strneb r4, [r0, #0x57]
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
+    AnimatorSprite *animator = CutsceneSpriteButtonManager__GetAnimator(&work->systemManager, id);
 
-// clang-format on
-#endif
+    if (priority != -1)
+        animator->oamPriority = priority;
+
+    if (order != -1)
+        animator->oamOrder = order;
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpriteType(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpriteType(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id         = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    GXOamMode type = (GXOamMode)CutsceneScript__GetFunctionParamRegister(thread, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	mov r6, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r6
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r4, #0x30
-	mov r4, r0
-	mov r1, r5
-	add r0, r2, #0x1000
-	bl CutsceneSpriteButtonManager__GetAnimator
-	str r4, [r0, #0x58]
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
+    AnimatorSprite *animator = CutsceneSpriteButtonManager__GetAnimator(&work->systemManager, id);
 
-// clang-format on
-#endif
+    animator->spriteType = type;
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2154240(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2154240(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id    = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    BOOL flag = CutsceneScript__GetFunctionParamRegister(thread, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	mov r6, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r6
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r4, #0x30
-	mov r4, r0
-	mov r1, r5
-	add r0, r2, #0x1000
-	bl CutsceneSpriteButtonManager__Func_2156E70
-	ldr r1, [r0, #0]
-	cmp r4, #0
-	bicne r1, r1, #1
-	orreq r1, r1, #1
-	str r1, [r0]
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
+    u32 *unknown = CutsceneSpriteButtonManager__Func_2156E70(&work->systemManager, id);
 
-// clang-format on
-#endif
+    if (flag)
+        *unknown &= ~1;
+    else
+        *unknown |= 1;
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__GetSpritePosition(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__GetSpritePosition(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r1
-	mov r1, #0
-	mov r5, r0
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r4, #0x30
-	mov r1, r0
-	add r0, r2, #0x1000
-	bl CutsceneSpriteButtonManager__GetAnimator
-	ldrsh r4, [r0, #0xa]
-	ldrsh r2, [r0, #8]
-	mov r0, r5
-	mov r1, #1
-	bl AYKCommand__SetRegister
-	mov r0, r5
-	mov r2, r4
-	mov r1, #2
-	bl AYKCommand__SetRegister
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    AnimatorSprite *animator = CutsceneSpriteButtonManager__GetAnimator(&work->systemManager, id);
 
-// clang-format on
-#endif
+    s16 x = animator->pos.x;
+    s16 y = animator->pos.y;
+    AYKCommand__SetRegister(thread, 1, x);
+    AYKCommand__SetRegister(thread, 2, y);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__GetSpritePalette(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__GetSpritePalette(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r1
-	mov r1, #0
-	mov r5, r0
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r4, #0x30
-	mov r1, r0
-	add r0, r2, #0x1000
-	bl CutsceneSpriteButtonManager__GetAnimator
-	ldrh r2, [r0, #0x50]
-	mov r0, r5
-	mov r1, #1
-	bl AYKCommand__SetRegister
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    AnimatorSprite *animator = CutsceneSpriteButtonManager__GetAnimator(&work->systemManager, id);
 
-// clang-format on
-#endif
+    AYKCommand__SetRegister(thread, 1, animator->cParam.palette);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2154320(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2154320(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id    = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    u16 flags = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 type  = CutsceneScript__GetFunctionParamRegister(thread, 2);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r6, r1
-	mov r5, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r5
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r2, r0, lsl #0x10
-	mov r0, r5
-	mov r1, #2
-	mov r5, r2, lsr #0x10
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r1, r4
-	mov r2, r5
-	str r6, [sp]
-	add ip, r6, #0x30
-	mov r3, r0
-	add r0, ip, #0x1000
-	bl CutsceneSpriteButtonManager__Func_215707C
-	mov r0, #1
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    CutsceneSpriteButtonManager__Func_215707C(&work->systemManager, id, flags, type, work);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2154384(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2154384(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r1
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r4, #0x30
-	mov r1, r0
-	add r0, r2, #0x1000
-	bl CutsceneSpriteButtonManager__Func_21570F4
-	mov r0, #1
-	ldmia sp!, {r4, pc}
+    CutsceneSpriteButtonManager__Func_21570F4(&work->systemManager, id);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_21543AC(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SpriteCommand__Func_21543AC(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 id   = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 mask = CutsceneScript__GetFunctionParamRegister(thread, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	mov r6, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r6
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r4, #0x30
-	mov r4, r0
-	mov r1, r5
-	add r0, r2, #0x1000
-	bl CutsceneSpriteButtonManager__Func_2156E54
-	ldr r2, [r0, #0x14]
-	cmp r4, #0
-	andne r2, r2, r4
-	mov r0, r6
-	mov r1, #2
-	bl AYKCommand__SetRegister
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
+    CutsceneTouchArea *touchArea = CutsceneSpriteButtonManager__Func_2156E54(&work->systemManager, id);
 
-// clang-format on
-#endif
+    TouchAreaResponseFlags responseFlags = touchArea->area.responseFlags;
+    if (mask)
+        responseFlags &= mask;
+
+    AYKCommand__SetRegister(thread, 2, responseFlags);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
 CutsceneScriptResult CutsceneScript__BackgroundCommand__LoadBBG(ScriptThread *thread, CutsceneScript *work)
@@ -2235,42 +1352,18 @@ CutsceneScriptResult CutsceneScript__BackgroundCommand__Func_2154494(ScriptThrea
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BackgroundCommand__Func_21544BC(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__BackgroundCommand__Func_21544BC(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
-    s32 count = CutsceneBackgroundManager__Func_21571A4(&work->systemManager) + 1;
+    u32 count;
 
-    for (u32 i = 1; i < count; i++)
+    count = CutsceneBackgroundManager__Func_21571A4(&work->systemManager) + 1;
+
+    for (s32 i = 1; i < count; i++)
     {
         CutsceneBackgroundManager__Func_2157430(&work->systemManager, i);
     }
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	add r0, r4, #0x30
-	add r0, r0, #0x1000
-	bl CutsceneBackgroundManager__Func_21571A4
-	add r5, r0, #1
-	cmp r5, #1
-	mov r6, #1
-	bls _021544FC
-	add r4, r4, #0x30
-_021544E4:
-	mov r1, r6
-	add r0, r4, #0x1000
-	bl CutsceneBackgroundManager__Func_2157430
-	add r6, r6, #1
-	cmp r6, r5
-	blo _021544E4
-_021544FC:
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
 CutsceneScriptResult CutsceneScript__BackgroundCommand__Func_2154504(ScriptThread *thread, CutsceneScript *work)
@@ -2341,10 +1434,9 @@ CutsceneScriptResult CutsceneScript__ModelCommand__Func_2154684(ScriptThread *th
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_21546AC(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ModelCommand__Func_21546AC(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
-    s32 count = CutsceneModelManager__Func_2157460(&work->systemManager);
+    u32 count = CutsceneModelManager__Func_2157460(&work->systemManager);
     CutsceneModelManager__Func_215793C(&work->systemManager);
 
     for (u32 i = 1; i < count + 1; i++)
@@ -2353,35 +1445,6 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_21546AC(Sc
     }
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r7, r1
-	add r0, r7, #0x30
-	add r0, r0, #0x1000
-	bl CutsceneModelManager__Func_2157460
-	add r1, r7, #0x30
-	mov r4, r0
-	add r0, r1, #0x1000
-	bl CutsceneModelManager__Func_215793C
-	add r5, r4, #1
-	cmp r5, #1
-	mov r6, #1
-	bls _021546FC
-	add r4, r7, #0x30
-_021546E4:
-	mov r1, r6
-	add r0, r4, #0x1000
-	bl CutsceneModelManager__Func_2157A0C
-	add r6, r6, #1
-	cmp r6, r5
-	blo _021546E4
-_021546FC:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 CutsceneScriptResult CutsceneScript__ModelCommand__LoadMDL2(ScriptThread *thread, CutsceneScript *work)
@@ -2428,113 +1491,29 @@ CutsceneScriptResult CutsceneScript__ModelCommand__Func_215483C(ScriptThread *th
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_21548A8(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ModelCommand__Func_21548A8(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
     s32 id = CutsceneScript__GetFunctionParamRegister(thread, 0);
-    fx32 x = CutsceneScript__GetFunctionParamRegister(thread, 1);
-    fx32 y = CutsceneScript__GetFunctionParamRegister(thread, 2);
-    fx32 z = CutsceneScript__GetFunctionParamRegister(thread, 3);
+    u16 x  = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    u16 y  = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    u16 z  = CutsceneScript__GetFunctionParamRegister(thread, 3);
 
     AnimatorMDL *aniModel = CutsceneModelManager__GetModel(&work->systemManager, id);
 
     MtxFx33 mtx;
     MtxFx33 mtxTemp;
 
-    MTX_RotY33(&mtx, SinFX(y), CosFX(y));
+    MTX_RotY33(&mtx, SinFX((s32)y), CosFX((s32)y));
 
-    MTX_RotX33(&mtxTemp, SinFX(x), CosFX(x));
+    MTX_RotX33(&mtxTemp, SinFX((s32)x), CosFX((s32)x));
     MTX_Concat33(&mtx, &mtxTemp, &mtx);
 
-    MTX_RotZ33(&mtxTemp, SinFX(z), CosFX(z));
+    MTX_RotZ33(&mtxTemp, SinFX((s32)z), CosFX((s32)z));
     MTX_Concat33(&mtx, &mtxTemp, &mtx);
 
     MI_CpuCopy32(&mtx, &aniModel->work.matrix33, sizeof(MtxFx33));
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0x48
-	mov r6, r1
-	mov r8, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r8
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r2, r0, lsl #0x10
-	mov r0, r8
-	mov r1, #2
-	mov r5, r2, lsr #0x10
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r0, r0, lsl #0x10
-	mov r7, r0, lsr #0x10
-	mov r0, r8
-	mov r1, #3
-	bl CutsceneScript__GetFunctionParamRegister
-	add r2, r6, #0x30
-	mov r0, r0, lsl #0x10
-	mov r6, r0, lsr #0x10
-	mov r1, r4
-	add r0, r2, #0x1000
-	bl CutsceneModelManager__GetModel
-	mov r1, r7, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r1, r1, lsl #1
-	mov ip, r1, lsl #1
-	add r1, r1, #1
-	mov r4, r0
-	ldr r3, =FX_SinCosTable_
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, ip]
-	ldrsh r2, [r3, r2]
-	add r0, sp, #0x24
-	bl MTX_RotY33_
-	mov r0, r5, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, asr #4
-	mov r1, r0, lsl #1
-	mov r5, r1, lsl #1
-	add r1, r1, #1
-	ldr r3, =FX_SinCosTable_
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, r5]
-	ldrsh r2, [r3, r2]
-	add r0, sp, #0
-	bl MTX_RotX33_
-	add r0, sp, #0x24
-	add r1, sp, #0
-	mov r2, r0
-	bl MTX_Concat33
-	mov r0, r6, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, asr #4
-	mov r1, r0, lsl #1
-	mov r5, r1, lsl #1
-	add r1, r1, #1
-	ldr r3, =FX_SinCosTable_
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, r5]
-	ldrsh r2, [r3, r2]
-	add r0, sp, #0
-	bl MTX_RotZ33_
-	add r0, sp, #0x24
-	add r1, sp, #0
-	mov r2, r0
-	bl MTX_Concat33
-	add r0, sp, #0x24
-	add r1, r4, #0x24
-	mov r2, #0x24
-	bl MIi_CpuCopy32
-	mov r0, #1
-	add sp, sp, #0x48
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-
-// clang-format on
-#endif
 }
 
 CutsceneScriptResult CutsceneScript__ModelCommand__Func_21549E4(ScriptThread *thread, CutsceneScript *work)
@@ -2620,52 +1599,18 @@ CutsceneScriptResult CutsceneScript__ModelCommand__Func_2154B64(ScriptThread *th
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_2154BF8(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__ModelCommand__Func_2154BF8(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
     s32 value1 = CutsceneScript__GetFunctionParamRegister(thread, 0);
     s32 value2 = CutsceneScript__GetFunctionParamRegister(thread, 1);
     s32 value3 = CutsceneScript__GetFunctionParamRegister(thread, 2);
 
-    if (value1 >= 0)
+    if (value2 >= 0)
         CutsceneModelManager__Func_2157738(&work->systemManager, value1, value2, value3);
     else
         CutsceneModelManager__Func_215793C(&work->systemManager);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r6, r1
-	mov r7, r0
-	mov r1, #0
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r5, r0
-	mov r0, r7
-	mov r1, #1
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r4, r0
-	mov r0, r7
-	mov r1, #2
-	bl CutsceneScript__GetFunctionParamRegister
-	mov r3, r0
-	cmp r4, #0
-	add r0, r6, #0x30
-	blt _02154C50
-	mov r1, r5
-	mov r2, r4
-	add r0, r0, #0x1000
-	bl CutsceneModelManager__Func_2157738
-	b _02154C58
-_02154C50:
-	add r0, r0, #0x1000
-	bl CutsceneModelManager__Func_215793C
-_02154C58:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 CutsceneScriptResult CutsceneScript__ModelCommand__LoadDrawState(ScriptThread *thread, CutsceneScript *work)
@@ -2923,38 +1868,27 @@ void CutsceneScript__Main(void)
     }
 }
 
-NONMATCH_FUNC void CutsceneFadeTask__Main(void)
+void CutsceneFadeTask__Main(void)
 {
-#ifdef NON_MATCHING
+    CutsceneFadeTask *work = TaskGetWorkCurrent(CutsceneFadeTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	ldr r1, [r4, #4]
-	ldr r0, [r4, #0xc]
-	add r2, r1, r0
-	str r2, [r4, #4]
-	cmp r2, #0x10000
-	ldr r0, [r4, #0x10]
-	movge r2, #0x10000
-	tst r0, #0x10
-	rsbne r2, r2, #0x10000
-	tst r0, #1
-	rsbeq r2, r2, #0
-	ldr r0, [r4, #8]
-	ldr r1, [r4, #0x14]
-	mov r2, r2, asr #0xc
-	bl CutsceneFadeTask__Process
-	ldr r0, [r4, #4]
-	cmp r0, #0x10000
-	ldmltia sp!, {r4, pc}
-	bl DestroyCurrentTask
-	ldmia sp!, {r4, pc}
+    work->timer += work->speed;
 
-// clang-format on
-#endif
+    fx32 brightness = work->timer;
+	
+    if (brightness >= FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_WHITE))
+        brightness = FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_WHITE);
+
+    if ((work->flags & 0x10) != 0)
+        brightness = FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_WHITE) - brightness;
+
+    if ((work->flags & 1) == 0)
+        brightness = -brightness;
+
+    CutsceneFadeTask__Process(work->manager, work->mode, FX32_TO_WHOLE(brightness));
+
+    if (work->timer >= FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_WHITE))
+        DestroyCurrentTask();
 }
 
 void CutsceneScript__LoadScriptFile(CutsceneScript *work, CutsceneScriptHeader *script, CutsceneScriptEngineCommand **funcTable, s32 unknown)
@@ -3410,7 +2344,7 @@ CutsceneScriptResult CutsceneScript__ArithmeticCommand_Divide(CutsceneScript *wo
     s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
     s32 *reg    = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_RESULT);
 
-    (*reg) = (*value1) % (*value2);
+    (*reg)    = (*value1) % (*value2);
     (*value1) = (*value1) / (*value2);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
@@ -4261,7 +3195,7 @@ void CutsceneSpriteButtonManager__Init(CutsceneSystemManager *work, u32 count)
     TouchField__Init(&work->spriteButtonManager->touchField);
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_2156E2C(void){
+NONMATCH_FUNC u32 CutsceneSpriteButtonManager__Func_2156E2C(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -4280,7 +3214,7 @@ AnimatorSprite *CutsceneSpriteButtonManager__GetAnimator(CutsceneSystemManager *
     return &work->spriteButtonManager->list[id].ani;
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_2156E54(void){
+NONMATCH_FUNC CutsceneTouchArea *CutsceneSpriteButtonManager__Func_2156E54(CutsceneSystemManager *work, s32 id){
 #ifdef NON_MATCHING
 
 #else
@@ -4297,7 +3231,7 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_2156E54(void){
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_2156E70(void){
+NONMATCH_FUNC u32 *CutsceneSpriteButtonManager__Func_2156E70(CutsceneSystemManager *work, s32 id){
 #ifdef NON_MATCHING
 
 #else
@@ -4461,7 +3395,7 @@ _0215705C:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_215707C(void)
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_215707C(CutsceneSystemManager *work, s32 id, u32 flags, s32 type, CutsceneScript *cutscene)
 {
 #ifdef NON_MATCHING
 
@@ -4503,7 +3437,7 @@ _021570CC:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_21570F4(void)
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_21570F4(CutsceneSystemManager *work, s32 id)
 {
 #ifdef NON_MATCHING
 
@@ -4527,7 +3461,7 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_21570F4(void)
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_2157128(void)
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_2157128(CutsceneSystemManager *work, s32 id)
 {
 #ifdef NON_MATCHING
 
@@ -6658,7 +5592,7 @@ void CutsceneTextManager__Process(CutsceneSystemManager *work)
         work->textManager->processFunc(work->textManager->worker);
 }
 
-NONMATCH_FUNC void CutsceneUnknown__Func_2158A6C(void)
+NONMATCH_FUNC void CutsceneUnknown__Func_2158A6C(BOOL useEngineB, u8 backgroundID, s32 screenSize, s32 colorMode, s32 a5, s32 a6)
 {
 #ifdef NON_MATCHING
 
@@ -6858,7 +5792,7 @@ _02158CEC:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneUnknown__Func_2158D3C(void)
+NONMATCH_FUNC void CutsceneUnknown__Func_2158D3C(BOOL useEngineB, u8 backgroundID, s32 a3, s32 screenSize, s32 bgPalette, s32 screenBase, s32 charBase)
 {
 #ifdef NON_MATCHING
 
@@ -7259,7 +6193,7 @@ void CutsceneFadeManager__Init(CutsceneFadeManager *work)
     MI_CpuClear16(work, sizeof(*work));
 }
 
-NONMATCH_FUNC void CutsceneFadeTask__Process(CutsceneFadeManager *work){
+NONMATCH_FUNC void CutsceneFadeTask__Process(CutsceneFadeManager *work, s32 mode, s32 timer){
 #ifdef NON_MATCHING
 
 #else
@@ -7360,7 +6294,7 @@ _02159398:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneFadeManager__Draw(CutsceneFadeManager *work, s32 mode, s32 timer){
+NONMATCH_FUNC void CutsceneFadeManager__Draw(CutsceneFadeManager *work){
 #ifdef NON_MATCHING
 
 #else

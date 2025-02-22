@@ -899,7 +899,7 @@ exBossSysAdminTask__Action_StartDora0: // 0x0215592C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exBossEffectFireTask__Create
+	bl CreateExBossEffectFire
 	add r0, r4, #0x6c
 	mov r1, #0xc
 	bl exBossHelpers__SetAnimation
@@ -957,7 +957,7 @@ exBossSysAdminTask__Action_StartDora1: // 0x021559B8
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
-	bl exBossEffectFireTask__Func_21581C0
+	bl DisableExBossEffectFire
 	bl GetExTaskCurrent
 	ldr r1, _02155A14 // =exBossSysAdminTask__Main_Dora1
 	str r1, [r0]
@@ -1018,7 +1018,7 @@ _02155AB0:
 	mov r5, r0, lsr #0x10
 	cmp r5, #3
 	blo _02155AB0
-	bl exBossEffectShotTask__Create
+	bl CreateExBossEffectShot
 	mov r0, #0
 	strh r0, [r4, #0x66]
 	bl GetExTaskCurrent

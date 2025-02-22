@@ -9,6 +9,7 @@
 #include <nitro/gx/gx.h>
 #include <nitro/gx/gxstate.h>
 #include <nitro/gx/gx_bgctrl.h>
+#include <nitro/gx/gx_capture.h>
 #include <nitro/gx/g2.h>
 #include <nitro/gx/g3.h>
 #include <nitro/gx/g3x.h>

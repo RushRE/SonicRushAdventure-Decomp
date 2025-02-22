@@ -7,17 +7,17 @@
 // STRUCTS
 // --------------------
 
+typedef struct exBossEffectShotTask_
+{
+    s32 unused;
+    EX_ACTION_NN_WORK aniShot;
+    exBossSysAdminTask *parent;
+} exBossEffectShotTask;
+
 // --------------------
 // FUNCTIONS
 // --------------------
 
-void exBossEffectShotTask__Func_215753C(void);
-void exBossEffectShotTask__Func_2157550(void);
-void exBossEffectShotTask__Func_215779C(void);
-void exBossEffectShotTask__Main(void);
-void exBossEffectShotTask__Func8(void);
-void exBossEffectShotTask__Destructor(void);
-void exBossEffectShotTask__Func_215790C(void);
-void exBossEffectShotTask__Create(void);
+BOOL CreateExBossEffectShot(void);
 
 #endif // RUSH_EXBOSSSHOTEFFECT_H

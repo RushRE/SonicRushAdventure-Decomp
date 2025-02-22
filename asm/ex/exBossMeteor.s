@@ -2185,7 +2185,7 @@ exBossSysAdminTask__Action_StartMete0: // 0x0215DC2C
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
-	bl exBossEffectFireTask__Create
+	bl CreateExBossEffectFire
 	mov r0, #0
 	str r0, [sp]
 	ldr r1, _0215DC94 // =0x00000103
@@ -2284,7 +2284,7 @@ exBossSysAdminTask__Func_215DD78: // 0x0215DD78
 	mov r4, r0
 	mov r0, #0
 	strh r0, [r4, #0x56]
-	bl exBossEffectFireTask__Func_21581C0
+	bl DisableExBossEffectFire
 	add r0, r4, #0x6c
 	mov r1, #3
 	bl exBossHelpers__SetAnimation

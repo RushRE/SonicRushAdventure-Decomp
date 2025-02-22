@@ -145,6 +145,11 @@ struct CutsceneTextWorker_
     s32 field_198;
 };
 
+typedef struct CutsceneFadeTaskInfo_
+{
+    Task *task;
+} CutsceneFadeTaskInfo;
+
 typedef struct Unknown2156918_
 {
     CutsceneFadeManager *fadeManager;
@@ -169,7 +174,7 @@ struct CutsceneScript_
 
     CutsceneScriptStatus status;
     CutsceneSystemManager systemManager;
-    Task *taskFade[1];
+    CutsceneFadeTaskInfo taskFade[1];
 };
 
 typedef struct CutsceneAssetSystem_
@@ -200,37 +205,37 @@ void CutsceneScript__Destructor(Task *task);
 void CutsceneFadeTask__Destructor(Task *task);
 
 // Engine Script Functions
-CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152C1C(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152CC0(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152D3C(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152D94(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152DF0(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152E54(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152E94(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152ED0(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152F14(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152F50(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152F8C(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152FA4(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152FBC(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153030(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21530BC(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_215315C(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_215317C(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__SystemCommand__GetPadInputMask(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__SystemCommand__GetTouchPos(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__SystemCommand__GetGameLanguage(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__SystemCommand__GetVCount(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__SystemCommand__GetBrightness(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__InitVRAMSystem(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetupBGBank(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetupOBJBank(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetupBGExtPalBank(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetupOBJExtPalBank(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetupTextureBank(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetupTexturePalBank(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetGraphicsMode(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBackgroundControlText(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBackgroundControlAffine(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetCurrentDisplay(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__ProcessFadeTask(ScriptThread *thread, CutsceneScript *work);
 CutsceneScriptResult CutsceneScript__ScreenCommand__CreateFadeTask(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21532F0(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153450(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21535D0(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21536E4(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153734(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153780(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21537B8(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_215383C(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153980(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153A30(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153A54(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153C24(ScriptThread *thread, CutsceneScript *work);
-CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153C48(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetVisiblePlane(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBackgroundPriority(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBlendPlane(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBlendEffect(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBlendAlpha(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetBlendCoefficient(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetWindowVisible(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetWindowPlane(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetWindowPosition(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__Unknown(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__SetCapture(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__ShakeScreen1(ScriptThread *thread, CutsceneScript *work);
+CutsceneScriptResult CutsceneScript__ScreenCommand__ShakeScreen2(ScriptThread *thread, CutsceneScript *work);
 CutsceneScriptResult CutsceneScript__FileSystemCommand__Func_2153C90(ScriptThread *thread, CutsceneScript *work);
 CutsceneScriptResult CutsceneScript__FileSystemCommand__Func_2153CE8(ScriptThread *thread, CutsceneScript *work);
 CutsceneScriptResult CutsceneScript__FileSystemCommand__Func_2153D10(ScriptThread *thread, CutsceneScript *work);
@@ -384,15 +389,15 @@ s32 CutsceneFileSystemManager__Func_2156C88(CutsceneSystemManager *work, s32 id,
 
 // SpriteButton manager
 void CutsceneSpriteButtonManager__Init(CutsceneSystemManager *work, u32 count);
-void CutsceneSpriteButtonManager__Func_2156E2C(void);
+u32 CutsceneSpriteButtonManager__Func_2156E2C(CutsceneSystemManager *work);
 AnimatorSprite *CutsceneSpriteButtonManager__GetAnimator(CutsceneSystemManager *work, s32 id);
-void CutsceneSpriteButtonManager__Func_2156E54(void);
-void CutsceneSpriteButtonManager__Func_2156E70(void);
+CutsceneTouchArea *CutsceneSpriteButtonManager__Func_2156E54(CutsceneSystemManager *work, s32 id);
+u32 *CutsceneSpriteButtonManager__Func_2156E70(CutsceneSystemManager *work, s32 id);
 s32 CutsceneSpriteButtonManager__LoadSprite2(CutsceneSystemManager *work, const char *path, s32 fileID, BOOL useEngineB, u16 animID, u16 paletteRow);
 s32 CutsceneSpriteButtonManager__LoadSprite(CutsceneSystemManager *work, s32 a2, const char *path, s32 fileID, BOOL useEngineB, u16 animID, u16 paletteRow);
-void CutsceneSpriteButtonManager__Func_215707C(void);
-void CutsceneSpriteButtonManager__Func_21570F4(void);
-void CutsceneSpriteButtonManager__Func_2157128(void);
+void CutsceneSpriteButtonManager__Func_215707C(CutsceneSystemManager *work, s32 id, u32 flags, s32 type, CutsceneScript *cutscene);
+void CutsceneSpriteButtonManager__Func_21570F4(CutsceneSystemManager *work, s32 id);
+void CutsceneSpriteButtonManager__Func_2157128(CutsceneSystemManager *work, s32 id);
 
 // Background manager
 void CutsceneBackgroundManager__Init(CutsceneSystemManager *work);
@@ -480,16 +485,16 @@ void CutsceneTextManager__Release(CutsceneSystemManager *work);
 void CutsceneTextManager__Process(CutsceneSystemManager *work);
 
 // Unknown
-void CutsceneUnknown__Func_2158A6C(void);
-void CutsceneUnknown__Func_2158D3C(void);
+void CutsceneUnknown__Func_2158A6C(BOOL useEngineB, u8 backgroundID, s32 screenSize, s32 colorMode, s32 a5, s32 a6);
+void CutsceneUnknown__Func_2158D3C(BOOL useEngineB, u8 backgroundID, s32 a3, s32 screenSize, s32 bgPalette, s32 screenBase, s32 charBase);
 void CutsceneUnknown__Func_215902C(GXVRamOBJ bank, u16 bankOffset);
 void CutsceneUnknown__Func_2159188(GXVRamSubOBJ bank, u16 bankOffset);
 u32 CutsceneUnknown__GetBankID(s32 a1);
 
 // FadeManager
 void CutsceneFadeManager__Init(CutsceneFadeManager *work);
-void CutsceneFadeTask__Process(CutsceneFadeManager *work);
-void CutsceneFadeManager__Draw(CutsceneFadeManager *work, s32 mode, s32 timer);
+void CutsceneFadeTask__Process(CutsceneFadeManager *work, s32 mode, s32 timer);
+void CutsceneFadeManager__Draw(CutsceneFadeManager *work);
 
 // SpriteButton touch area
 void CutsceneSpriteButtonManager__AddTouchArea(void);

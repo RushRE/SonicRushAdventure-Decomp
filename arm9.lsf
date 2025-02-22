@@ -764,7 +764,6 @@ Overlay ExBoss
     Object src/ex/exBlazeDashEffect.o
     Object asm/ex/exBossCommon.o
     Object asm/ex/exBossFireDragon.o
-    Object asm/ex/exEffectBoss_vars.o
     Object src/ex/exEffectBoss.o
     Object src/ex/exBossFire.o
     Object asm/ex/exBossHomingLaser.o

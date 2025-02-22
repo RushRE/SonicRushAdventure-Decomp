@@ -23,11 +23,11 @@ CutsceneScript__BackgroundCommands: // 0x0215B1C8
 .public CutsceneScript__SystemCommands
 CutsceneScript__SystemCommands: // 0x0215B1E0
     .word 0
-    .word CutsceneScript__SystemCommand__Func_2152C1C
-    .word CutsceneScript__SystemCommand__Func_2152CC0
-    .word CutsceneScript__SystemCommand__Func_2152D3C
-    .word CutsceneScript__SystemCommand__Func_2152D94
-    .word CutsceneScript__SystemCommand__Func_2152DF0
+    .word CutsceneScript__SystemCommand__GetPadInputMask
+    .word CutsceneScript__SystemCommand__GetTouchPos
+    .word CutsceneScript__SystemCommand__GetGameLanguage
+    .word CutsceneScript__SystemCommand__GetVCount
+    .word CutsceneScript__SystemCommand__GetBrightness
 	
 .public CutsceneScript__FileSystemCommands
 CutsceneScript__FileSystemCommands: // 0x0215B1F8
@@ -99,32 +99,32 @@ CutsceneScript__SoundCommands: // 0x0215B294
 	
 .public CutsceneScript__ScreenCommands
 CutsceneScript__ScreenCommands: // 0x0215B2D8
-    .word CutsceneScript__ScreenCommand__Func_2152E54
-    .word CutsceneScript__ScreenCommand__Func_2152E94
-    .word CutsceneScript__ScreenCommand__Func_2152ED0
-    .word CutsceneScript__ScreenCommand__Func_2152F14
-    .word CutsceneScript__ScreenCommand__Func_2152F50
-    .word CutsceneScript__ScreenCommand__Func_2152F8C
-    .word CutsceneScript__ScreenCommand__Func_2152FA4
-    .word CutsceneScript__ScreenCommand__Func_2152FBC
-    .word CutsceneScript__ScreenCommand__Func_2153030
-    .word CutsceneScript__ScreenCommand__Func_21530BC
-    .word CutsceneScript__ScreenCommand__Func_215315C
-    .word CutsceneScript__ScreenCommand__Func_215317C
+    .word CutsceneScript__ScreenCommand__InitVRAMSystem
+    .word CutsceneScript__ScreenCommand__SetupBGBank
+    .word CutsceneScript__ScreenCommand__SetupOBJBank
+    .word CutsceneScript__ScreenCommand__SetupBGExtPalBank
+    .word CutsceneScript__ScreenCommand__SetupOBJExtPalBank
+    .word CutsceneScript__ScreenCommand__SetupTextureBank
+    .word CutsceneScript__ScreenCommand__SetupTexturePalBank
+    .word CutsceneScript__ScreenCommand__SetGraphicsMode
+    .word CutsceneScript__ScreenCommand__SetBackgroundControlText
+    .word CutsceneScript__ScreenCommand__SetBackgroundControlAffine
+    .word CutsceneScript__ScreenCommand__SetCurrentDisplay
+    .word CutsceneScript__ScreenCommand__ProcessFadeTask
     .word CutsceneScript__ScreenCommand__CreateFadeTask
-    .word CutsceneScript__ScreenCommand__Func_21532F0
-    .word CutsceneScript__ScreenCommand__Func_2153450
-    .word CutsceneScript__ScreenCommand__Func_21535D0
-    .word CutsceneScript__ScreenCommand__Func_21536E4
-    .word CutsceneScript__ScreenCommand__Func_2153734
-    .word CutsceneScript__ScreenCommand__Func_2153780
-    .word CutsceneScript__ScreenCommand__Func_21537B8
-    .word CutsceneScript__ScreenCommand__Func_215383C
-    .word CutsceneScript__ScreenCommand__Func_2153980
-    .word CutsceneScript__ScreenCommand__Func_2153A30
-    .word CutsceneScript__ScreenCommand__Func_2153A54
-    .word CutsceneScript__ScreenCommand__Func_2153C24
-    .word CutsceneScript__ScreenCommand__Func_2153C48
+    .word CutsceneScript__ScreenCommand__SetVisiblePlane
+    .word CutsceneScript__ScreenCommand__SetBackgroundPriority
+    .word CutsceneScript__ScreenCommand__SetBlendPlane
+    .word CutsceneScript__ScreenCommand__SetBlendEffect
+    .word CutsceneScript__ScreenCommand__SetBlendAlpha
+    .word CutsceneScript__ScreenCommand__SetBlendCoefficient
+    .word CutsceneScript__ScreenCommand__SetWindowVisible
+    .word CutsceneScript__ScreenCommand__SetWindowPlane
+    .word CutsceneScript__ScreenCommand__SetWindowPosition
+    .word CutsceneScript__ScreenCommand__Unknown
+    .word CutsceneScript__ScreenCommand__SetCapture
+    .word CutsceneScript__ScreenCommand__ShakeScreen1
+    .word CutsceneScript__ScreenCommand__ShakeScreen2
 
 .public aNodeCamera2_ovl07
 aNodeCamera2_ovl07: // 0x0215B340

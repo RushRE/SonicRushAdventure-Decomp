@@ -1099,7 +1099,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
     {
         if (work->aniBoss.hitChecker.hitFlags.value_1 && work->aniBoss.hitChecker.hitFlags.value_2)
         {
-            exBossEffectHitTask__Create();
+            CreateExBossEffectHit();
 
             work->health -= work->aniBoss.hitChecker.power;
 
