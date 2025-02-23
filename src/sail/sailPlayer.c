@@ -6570,11 +6570,11 @@ NONMATCH_FUNC void SailPlayer__BoatRenderCallback(NNSG3dRS *rs)
 
         if (idxScrewR == NNS_G3dRSGetCurrentNodeDescID(rs))
         {
-            NNS_G3dGeStoreMtx(30);
+            NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_SYS);
         }
         else
         {
-            NNS_G3dGeStoreMtx(29);
+            NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_USER);
         }
 
         NNS_G3dGeScale(invPosScale, invPosScale, invPosScale);

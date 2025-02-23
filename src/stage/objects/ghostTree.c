@@ -86,7 +86,7 @@ void GhostTree_RenderCallback(NNSG3dRS *rs)
 {
     static const NNSG3dResName name = { "tree_03" };
 
-    if (AkMath__Func_2002C40(rs, 30, &name))
+    if (AkMath__Func_2002C40(rs, NNS_G3D_MTXSTACK_SYS, &name))
     {
         NNS_G3dRSResetCallBack(rs, NNS_G3D_SBC_NODEDESC);
     }
@@ -210,7 +210,7 @@ void GhostTree_Draw(void)
 
     // store hand position for later use
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
-    NNS_G3dGeRestoreMtx(30);
+    NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_SYS);
 
     MtxFx43 cameraMtx;
     MtxFx33 mtxArm;

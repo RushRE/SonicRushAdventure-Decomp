@@ -49,17 +49,23 @@ struct CutsceneFader_
     u8 timer3;
 };
 
+typedef union CutsceneArchiveName_
+{
+    char text[4];
+    u32 value;
+} CutsceneArchiveName;
+
 typedef struct CutsceneFSArchive_
 {
     NNSFndArchive arc;
-    const char *name;
+    CutsceneArchiveName name;
 } CutsceneFSArchive;
 
 struct CutsceneArchive_
 {
     s32 refCount;
-    s32 field_4;
-    s32 field_8;
+    const char *path;
+    s32 id;
     void *archive;
     CutsceneArchive *next;
     CutsceneFSArchive *fsArchive;
@@ -105,8 +111,7 @@ struct CutsceneCamera3D_
 
 struct CutsceneModel_
 {
-    u32 field_0[5];
-    u32 field_14;
+    u32 field_0[B3D_RESOURCE_MAX];
     u32 field_18;
     AnimatorMDL ani;
     u32 field_160;
@@ -131,7 +136,7 @@ struct CutsceneFileSystemManager_
     u32 field_8;
     u32 field_C;
     u32 field_10;
-    AsyncFileWork file;
+    ArchiveFile file;
 };
 
 struct CutsceneSpriteButtonManager_
@@ -1444,15 +1449,15 @@ CutsceneScriptResult CutsceneScript__ModelCommand__LoadMDL2(ScriptThread *thread
 
 CutsceneScriptResult CutsceneScript__ModelCommand__LoadAniMDL(ScriptThread *thread, CutsceneScript *work)
 {
-    s32 value         = CutsceneScript__GetFunctionParamRegister(thread, 0);
-    s32 type          = CutsceneScript__GetFunctionParamRegister(thread, 1);
-    const char *path1 = CutsceneScript__GetFunctionParamString(thread, work, 2);
-    s32 fileID1       = CutsceneScript__GetFunctionParamRegister(thread, 3);
-    s32 animID        = CutsceneScript__GetFunctionParamRegister(thread, 4);
-    const char *path2 = CutsceneScript__GetFunctionParamString(thread, work, 5);
-    s32 fileID2       = CutsceneScript__GetFunctionParamRegister(thread, 6);
+    s32 value           = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 type            = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    const char *path    = CutsceneScript__GetFunctionParamString(thread, work, 2);
+    s32 fileID          = CutsceneScript__GetFunctionParamRegister(thread, 3);
+    s32 animID          = CutsceneScript__GetFunctionParamRegister(thread, 4);
+    const char *texPath = CutsceneScript__GetFunctionParamString(thread, work, 5);
+    s32 texFileID       = CutsceneScript__GetFunctionParamRegister(thread, 6);
 
-    if (CutsceneModelManager__LoadModelAnimation(&work->systemManager, value, type, path1, fileID1, animID, path2, fileID2) == FALSE)
+    if (CutsceneModelManager__LoadModelAnimation(&work->systemManager, value, type, path, fileID, animID, texPath, texFileID) == FALSE)
         return CUTSCENESCRIPT_RESULT_SUSPEND_RETURN;
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
@@ -2698,9 +2703,9 @@ BOOL CutsceneFileSystemManager__Func_21569A4(CutsceneSystemManager *work, s32 id
     return work->fileSystemManager->archiveList[id].refCount == 1;
 }
 
-void CutsceneFileSystemManager__Func_21569CC(CutsceneSystemManager *work, s32 a2)
+void CutsceneFileSystemManager__Func_21569CC(CutsceneSystemManager *work, s32 value)
 {
-    work->fileSystemManager->field_8 = a2 != FALSE;
+    work->fileSystemManager->field_8 = value != FALSE;
 }
 
 BOOL CutsceneFileSystemManager__Func_21569E4(CutsceneSystemManager *work)
@@ -2708,9 +2713,9 @@ BOOL CutsceneFileSystemManager__Func_21569E4(CutsceneSystemManager *work)
     return work->fileSystemManager->field_8 != FALSE;
 }
 
-void CutsceneFileSystemManager__Func_21569FC(CutsceneSystemManager *work, s32 a2)
+void CutsceneFileSystemManager__Func_21569FC(CutsceneSystemManager *work, s32 value)
 {
-    work->fileSystemManager->field_C = a2 != 0;
+    work->fileSystemManager->field_C = value != FALSE;
 }
 
 void CutsceneFileSystemManager__MountArchive(CutsceneSystemManager *work, s32 id, const char *arcName)
@@ -2724,7 +2729,7 @@ void CutsceneFileSystemManager__MountArchive(CutsceneSystemManager *work, s32 id
     MI_CpuClear16(work->fileSystemManager->archiveList[id].fsArchive, sizeof(*work->fileSystemManager->archiveList[id].fsArchive));
 
     NNS_FndMountArchive(&work->fileSystemManager->archiveList[id].fsArchive->arc, arcName, work->fileSystemManager->archiveList[id].archive);
-    work->fileSystemManager->archiveList[id].fsArchive->name = *(const char **)arcName; // ???
+    work->fileSystemManager->archiveList[id].fsArchive->name.value = ((CutsceneArchiveName *)arcName)->value;
 }
 
 void CutsceneFileSystemManager__UnmountArchive(CutsceneSystemManager *work, s32 id)
@@ -2737,8 +2742,42 @@ void CutsceneFileSystemManager__UnmountArchive(CutsceneSystemManager *work, s32 
 
 NONMATCH_FUNC s32 CutsceneFileSystemManager__Func_2156B08(CutsceneSystemManager *work, const char *path, s32 fileID)
 {
+    // https://decomp.me/scratch/ehrrw -> 98.16%
 #ifdef NON_MATCHING
+    CutsceneFileSystemManager *manager;
+    u32 i;
 
+    manager = work->fileSystemManager;
+    if (manager->field_10)
+        return 0;
+
+    i = 0;
+    for (; i < manager->count; i++)
+    {
+        if (manager->archiveList[i].refCount != 0 || manager->archiveList[i].refCount == -1)
+        {
+            if (path == manager->archiveList[i].path && fileID == manager->archiveList[i].id)
+            {
+                if (manager->archiveList[i].refCount == -1)
+                    manager->archiveList[i].refCount = 1;
+                else
+                    manager->archiveList[i].refCount++;
+
+                return 1 + i;
+            }
+        }
+    }
+
+    i = 0;
+    for (; i < manager->count; i++)
+    {
+        if (manager->archiveList[i].refCount == 0)
+        {
+            break;
+        }
+    }
+
+    return CutsceneFileSystemManager__Func_2156C88(work, i + 1, path, fileID);
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -2809,63 +2848,96 @@ _02156BDC:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneFileSystemManager__Func_2156BEC(CutsceneSystemManager *work, s32 a2)
+void CutsceneFileSystemManager__Func_2156BEC(CutsceneSystemManager *work, s32 id)
 {
-#ifdef NON_MATCHING
+    id--;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r2, #0x18
-	sub r3, r1, #1
-	mov r6, r0
-	ldr r0, [r6, #4]
-	mul r4, r3, r2
-	ldr r5, [r0, #4]
-	sub r0, r2, #0x19
-	ldr r2, [r5, r4]
-	sub r2, r2, #1
-	str r2, [r5, r4]
-	cmp r2, r0
-	bne _02156C70
-	ldr r2, [r6, #4]
-	ldr r0, [r2, #0x10]
-	cmp r0, r1
-	bne _02156C68
-	add r0, r2, #0x14
-	bl ArchiveFile__JoinThread
-	cmp r0, #0
-	beq _02156C44
-	bl _FreeHEAP_SYSTEM
-_02156C44:
-	ldr r0, [r6, #4]
-	add r0, r0, #0x14
-	bl ArchiveFile__Release
-	ldr r0, [r6, #4]
-	mov r1, #0
-	str r1, [r0, #0x10]
-	ldr r0, [r6, #4]
-	add r0, r0, #0x14
-	bl ArchiveFile__Init
-_02156C68:
-	mov r0, #0
-	str r0, [r5, r4]
-_02156C70:
-	ldr r0, [r5, r4]
-	cmp r0, #0
-	ldmneia sp!, {r4, r5, r6, pc}
-	add r0, r5, r4
-	bl CutsceneFileSystemManager__UnmountArchive2
-	ldmia sp!, {r4, r5, r6, pc}
+    CutsceneArchive *archive = &work->fileSystemManager->archiveList[id];
+    archive->refCount--;
+    if (archive->refCount == -1)
+    {
+        if (work->fileSystemManager->field_10 == id + 1)
+        {
+            void *memory = ArchiveFile__JoinThread(&work->fileSystemManager->file);
+            if (memory != NULL)
+                HeapFree(HEAP_SYSTEM, memory);
 
-// clang-format on
-#endif
+            ArchiveFile__Release(&work->fileSystemManager->file);
+            work->fileSystemManager->field_10 = 0;
+            ArchiveFile__Init(&work->fileSystemManager->file);
+        }
+
+        archive->refCount = 0;
+    }
+
+    if (archive->refCount == 0)
+        CutsceneFileSystemManager__UnmountArchive2(archive);
 }
 
 NONMATCH_FUNC s32 CutsceneFileSystemManager__Func_2156C88(CutsceneSystemManager *work, s32 id, const char *path, s32 fileID)
 {
+    // https://decomp.me/scratch/qZwcx -> 99.23%
 #ifdef NON_MATCHING
+    u32 i;
+    u32 count;
+    CutsceneArchive *archive;
+    BOOL flag;
 
+    id--;
+
+    flag = FALSE;
+
+    if (work->fileSystemManager->field_10)
+        return 0;
+
+    archive = &work->fileSystemManager->archiveList[id];
+    CutsceneFileSystemManager__UnmountArchive2(archive);
+
+    if (fileID < 0)
+    {
+        fileID = -1;
+        if (path[3] == ':')
+        {
+            CutsceneArchiveName name = *(CutsceneArchiveName *)path;
+
+            name.text[3] = 0;
+
+            count = work->fileSystemManager->count;
+            for (i = 0; i < count; i++)
+            {
+                if (work->fileSystemManager->archiveList[i].refCount != 0 && work->fileSystemManager->archiveList[i].fsArchive != NULL
+                    && name.value == work->fileSystemManager->archiveList[i].fsArchive->name.value)
+                {
+                    archive->next    = &work->fileSystemManager->archiveList[i];
+                    archive->archive = NNS_FndGetArchiveFileByName(path);
+                    flag             = TRUE;
+                    work->fileSystemManager->archiveList[i].refCount++;
+                    break;
+                }
+            }
+        }
+    }
+
+    archive->refCount = 1;
+    archive->path     = path;
+    archive->id       = fileID;
+    if (flag == FALSE)
+    {
+        ArchiveFile *file      = work->fileSystemManager->field_C != 0 ? &work->fileSystemManager->file : NULL;
+        ArchiveFileFlags flags = work->fileSystemManager->field_8 != 0 ? ARCHIVEFILE_FLAG_IS_COMPRESSED : ARCHIVEFILE_FLAG_NONE;
+
+        archive->archive = ArchiveFile__Load(path, fileID, NULL, flags, file);
+
+        if (work->fileSystemManager->field_C != 0)
+        {
+            work->fileSystemManager->field_10 = id + 1;
+            archive->refCount                 = -1;
+
+            return 0;
+        }
+    }
+
+    return id + 1;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
@@ -3004,237 +3076,94 @@ u32 *CutsceneSpriteButtonManager__Func_2156E70(CutsceneSystemManager *work, s32 
     return &work->spriteButtonManager->list[id].field_6C;
 }
 
-NONMATCH_FUNC s32 CutsceneSpriteButtonManager__LoadSprite2(CutsceneSystemManager *work, const char *path, s32 fileID, BOOL useEngineB, u16 animID, u16 paletteRow)
+s32 CutsceneSpriteButtonManager__LoadSprite2(CutsceneSystemManager *work, const char *path, s32 fileID, BOOL useEngineB, u16 animID, u16 paletteRow)
 {
-#ifdef NON_MATCHING
+    if (work->fileSystemManager->field_10)
+        return 0;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0xc
-	ldr ip, [r0, #4]
-	mov r5, r2
-	ldr ip, [ip, #0x10]
-	cmp ip, #0
-	addne sp, sp, #0xc
-	movne r0, #0
-	ldmneia sp!, {r4, r5, pc}
-	ldr r2, [r0, #8]
-	mov lr, #0
-	ldr ip, [r2]
-	cmp ip, #0
-	bls _02156EE4
-	ldr r4, [r2, #4]
-_02156EC8:
-	ldr r2, [r4, #0]
-	cmp r2, #0
-	beq _02156EE4
-	add lr, lr, #1
-	cmp lr, ip
-	add r4, r4, #0x70
-	blo _02156EC8
-_02156EE4:
-	ldrh r2, [sp, #0x18]
-	ldrh ip, [sp, #0x1c]
-	str r3, [sp]
-	str r2, [sp, #4]
-	mov r2, r1
-	mov r3, r5
-	add r1, lr, #1
-	str ip, [sp, #8]
-	bl CutsceneSpriteButtonManager__LoadSprite
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, pc}
+    u32 i     = 0;
+    u32 count = work->spriteButtonManager->count;
+    for (; i < count; i++)
+    {
+        if (work->spriteButtonManager->list[i].field_0 == 0)
+        {
+            break;
+        }
+    }
 
-// clang-format on
-#endif
+    return CutsceneSpriteButtonManager__LoadSprite(work, i + 1, path, fileID, useEngineB, animID, paletteRow);
 }
 
-NONMATCH_FUNC s32 CutsceneSpriteButtonManager__LoadSprite(CutsceneSystemManager *work, s32 a2, const char *path, s32 fileID, BOOL useEngineB, u16 animID, u16 paletteRow)
+s32 CutsceneSpriteButtonManager__LoadSprite(CutsceneSystemManager *work, s32 id, const char *path, s32 fileID, BOOL useEngineB, u16 animID, u16 paletteRow)
 {
-#ifdef NON_MATCHING
+    id--;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x1c
-	mov r10, r0
-	ldr r0, [r10, #4]
-	ldr r7, [sp, #0x40]
-	ldr r0, [r0, #0x10]
-	mov r9, r1
-	cmp r0, #0
-	mov r8, r2
-	mov r11, r3
-	addne sp, sp, #0x1c
-	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	sub r1, r9, #1
-	mov r0, #0x70
-	mul r4, r1, r0
-	ldr r0, [r10, #8]
-	mov r1, r10
-	ldr r5, [r0, #4]
-	add r6, r5, r4
-	mov r0, r6
-	bl CutsceneSpriteButtonManager__Func_21580E0
-	mov r0, r10
-	mov r1, r8
-	mov r2, r11
-	bl CutsceneFileSystemManager__Func_2156B08
-	movs r1, r0
-	str r0, [r5, r4]
-	addeq sp, sp, #0x1c
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	mov r0, r10
-	bl CutsceneFileSystemManager__GetArchive
-	mov r1, #0
-	mov r4, r0
-	bl Sprite__GetFormatFromAnim
-	cmp r0, #1
-	beq _02157004
-	cmp r7, #1
-	ldrne r5, =0x05000200
-	mov r0, r4
-	mov r1, r7
-	ldreq r5, =0x05000600
-	bl SpriteUnknown__GetSpriteSize
-	mov r1, r0
-	mov r0, r7
-	bl VRAMSystem__AllocSpriteVram
-	str r7, [sp]
-	mov r1, #0
-	str r1, [sp, #4]
-	str r0, [sp, #8]
-	str r1, [sp, #0xc]
-	str r5, [sp, #0x10]
-	str r1, [sp, #0x14]
-	str r1, [sp, #0x18]
-	ldrh r2, [sp, #0x44]
-	ldr r3, =0x00000804
-	mov r1, r4
-	add r0, r6, #4
-	bl AnimatorSprite__Init
-	b _0215705C
-_02157004:
-	cmp r7, #1
-	movne r5, #2
-	mov r0, r4
-	mov r1, r7
-	moveq r5, #4
-	bl SpriteUnknown__GetSpriteSize
-	mov r1, r0
-	mov r0, r7
-	bl VRAMSystem__AllocSpriteVram
-	str r7, [sp]
-	mov r1, #0
-	str r1, [sp, #4]
-	str r0, [sp, #8]
-	str r5, [sp, #0xc]
-	str r1, [sp, #0x10]
-	str r1, [sp, #0x14]
-	str r1, [sp, #0x18]
-	ldrh r2, [sp, #0x44]
-	ldr r3, =0x00000804
-	mov r1, r4
-	add r0, r6, #4
-	bl AnimatorSprite__Init
-_0215705C:
-	ldrh r1, [sp, #0x48]
-	mov r0, r9
-	strh r1, [r6, #0x54]
-	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    if (work->fileSystemManager->field_10)
+        return 0;
 
-// clang-format on
-#endif
+    CutsceneSpriteButton *animator = &work->spriteButtonManager->list[id];
+
+    CutsceneSpriteButtonManager__Func_21580E0(animator, work);
+
+    animator->field_0 = CutsceneFileSystemManager__Func_2156B08(work, path, fileID);
+    if (animator->field_0 == 0)
+        return 0;
+
+    void *sprite = CutsceneFileSystemManager__GetArchive(work, animator->field_0);
+    if (Sprite__GetFormatFromAnim(sprite, 0) != BAC_FORMAT_INDEXED8_2D)
+    {
+        VRAMPaletteKey vramPalette = useEngineB != GRAPHICS_ENGINE_B ? VRAM_OBJ_PLTT : VRAM_DB_OBJ_PLTT;
+        VRAMPixelKey vramPixels    = VRAMSystem__AllocSpriteVram(useEngineB, SpriteUnknown__GetSpriteSize(sprite, useEngineB));
+
+        AnimatorSprite__Init(&animator->ani, sprite, animID, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, useEngineB, PIXEL_MODE_SPRITE, vramPixels,
+                             PALETTE_MODE_SPRITE, vramPalette, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+    }
+    else
+    {
+        PaletteMode paletteMode = useEngineB != GRAPHICS_ENGINE_B ? PALETTE_MODE_OBJ : PALETTE_MODE_SUB_OBJ;
+        VRAMPixelKey vramPixels = VRAMSystem__AllocSpriteVram(useEngineB, SpriteUnknown__GetSpriteSize(sprite, useEngineB));
+
+        AnimatorSprite__Init(&animator->ani, sprite, animID, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, useEngineB, PIXEL_MODE_SPRITE, vramPixels,
+                             paletteMode, NULL, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+    }
+
+    animator->ani.cParam.palette = paletteRow;
+
+    return id + 1;
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_215707C(CutsceneSystemManager *work, s32 id, u32 flags, s32 type, CutsceneScript *cutscene)
+void CutsceneSpriteButtonManager__Func_215707C(CutsceneSystemManager *work, s32 id, u32 flags, s32 type, CutsceneScript *cutscene)
 {
-#ifdef NON_MATCHING
+    id--;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r0, [r4, #8]
-	sub r1, r1, #1
-	ldr ip, [r0, #4]
-	mov r0, #0x70
-	mla r5, r1, r0, ip
-	ldr r0, [r5, #0x68]
-	mov r7, r2
-	mov r6, r3
-	cmp r0, #0
-	bne _021570CC
-	mov r0, #0x54
-	bl _AllocHeadHEAP_SYSTEM
-	str r0, [r5, #0x68]
-	mov r1, r0
-	mov r0, #0
-	mov r2, #0x54
-	bl MIi_CpuClear16
-_021570CC:
-	ldr r0, [sp, #0x20]
-	mov r3, r7
-	stmia sp, {r0, r6}
-	ldr r1, [r4, #8]
-	ldr r0, [r5, #0x68]
-	add r1, r1, #8
-	add r2, r5, #4
-	bl CutsceneSpriteButtonManager__AddTouchArea
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    CutsceneSpriteButton *animator = &work->spriteButtonManager->list[id];
 
-// clang-format on
-#endif
+    if (animator->touchArea == NULL)
+    {
+        animator->touchArea = HeapAllocHead(HEAP_SYSTEM, sizeof(*animator->touchArea));
+        MI_CpuClear16(animator->touchArea, sizeof(*animator->touchArea));
+    }
+
+    CutsceneSpriteButtonManager__AddTouchArea(animator->touchArea, &work->spriteButtonManager->touchField, &animator->ani, flags, cutscene, type);
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_21570F4(CutsceneSystemManager *work, s32 id)
+void CutsceneSpriteButtonManager__Func_21570F4(CutsceneSystemManager *work, s32 id)
 {
-#ifdef NON_MATCHING
+    id--;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r0, [r0, #8]
-	sub r1, r1, #1
-	ldr r2, [r0, #4]
-	mov r0, #0x70
-	mla r4, r1, r0, r2
-	ldr r0, [r4, #0x68]
-	bl CutsceneSpriteButtonManager__RemoveTouchArea
-	ldr r0, [r4, #0x68]
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r4, #0x68]
-	ldmia sp!, {r4, pc}
+    CutsceneSpriteButton *animator = &work->spriteButtonManager->list[id];
 
-// clang-format on
-#endif
+    CutsceneSpriteButtonManager__RemoveTouchArea(animator->touchArea);
+
+    HeapFree(HEAP_SYSTEM, animator->touchArea);
+    animator->touchArea = NULL;
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_2157128(CutsceneSystemManager *work, s32 id)
+void CutsceneSpriteButtonManager__Func_2157128(CutsceneSystemManager *work, s32 id)
 {
-#ifdef NON_MATCHING
+    id--;
 
-#else
-    // clang-format off
-	mov r3, r0
-	ldr r0, [r3, #8]
-	sub r1, r1, #1
-	ldr r2, [r0, #4]
-	mov r0, #0x70
-	mla r0, r1, r0, r2
-	ldr ip, =CutsceneSpriteButtonManager__Func_21580E0
-	mov r1, r3
-	bx ip
-
-// clang-format on
-#endif
+    CutsceneSpriteButtonManager__Func_21580E0(&work->spriteButtonManager->list[id], work);
 }
 
 void CutsceneBackgroundManager__Init(CutsceneSystemManager *work)
@@ -3265,180 +3194,138 @@ s32 CutsceneBackgroundManager__Func_21571A4(CutsceneSystemManager *work)
     return GRAPHICS_ENGINE_COUNT * BACKGROUND_COUNT;
 }
 
-NONMATCH_FUNC s32 CutsceneBackgroundManager__LoadBackground(CutsceneSystemManager *work, const char *path, s32 fileID, BOOL useEngineB, u8 bgID)
+s32 CutsceneBackgroundManager__LoadBackground(CutsceneSystemManager *work, const char *path, s32 fileID, BOOL useEngineB, u8 bgID)
 {
-#ifdef NON_MATCHING
+    PixelMode pixelMode;
+    u16 screenBaseBlock;
+    void *backgroundFile;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x20
-	mov r8, r0
-	ldr r0, [r8, #4]
-	ldr r4, [sp, #0x48]
-	ldr r0, [r0, #0x10]
-	mov r5, r3
-	cmp r0, #0
-	str r2, [sp, #0xc]
-	mov r10, r1
-	orr r11, r4, r5, lsl #2
-	addne sp, sp, #0x20
-	movne r0, #0
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	mov r0, #0x50
-	mul r9, r11, r0
-	ldr r7, [r8, #0xc]
-	mov r1, r8
-	add r6, r7, r9
-	mov r0, r6
-	bl CutsceneBackgroundManager__Func_21582F4
-	ldr r2, [sp, #0xc]
-	mov r0, r8
-	mov r1, r10
-	bl CutsceneFileSystemManager__Func_2156B08
-	movs r1, r0
-	str r0, [r7, r9]
-	addeq sp, sp, #0x20
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	mov r0, r8
-	bl CutsceneFileSystemManager__GetArchive
-	str r0, [sp, #0x14]
-	bl CheckBackgroundIsValid
-	cmp r0, #0
-	beq _021573B4
-	ldr r0, [sp, #0x14]
-	mov r7, #0x338
-	bl GetBackgroundWidth
-	mov r8, r0
-	ldr r0, [sp, #0x14]
-	bl GetBackgroundHeight
-	mov r9, r0
-	mov r1, #0
-	ldr r0, [sp, #0x14]
-	str r1, [sp, #0x10]
-	bl GetBackgroundFormat
-	cmp r0, #6
-	addls pc, pc, r0, lsl #2
-	b _02157348
-_02157274: // jump table
-	b _021572C0 // case 0
-	b _021572C0 // case 1
-	b _02157290 // case 2
-	b _021572F8 // case 3
-	b _021572F8 // case 4
-	b _021572F8 // case 5
-	b _021572F8 // case 6
-_02157290:
-	ldr r0, =VRAMSystem__GFXControl
-	cmp r4, #2
-	ldr r0, [r0, r5, lsl #2]
-	addeq r10, r0, #0x28
-	addne r10, r0, #0x40
-	mov r0, r10
-	bl MTX_Identity22_
-	mov r0, #0
-	strh r0, [r10, #0x12]
-	strh r0, [r10, #0x10]
-	strh r0, [r10, #0x16]
-	strh r0, [r10, #0x14]
-_021572C0:
-	ldr r0, =VRAMSystem__GFXControl
-	cmp r8, #0x20
-	ldr r2, [r0, r5, lsl #2]
-	mov r1, #0
-	add r0, r2, r4, lsl #2
-	strh r1, [r0, #2]
-	mov r0, r4, lsl #2
-	orrhi r7, r7, #0x40
-	movhi r8, #0x20
-	cmp r9, #0x18
-	orrhi r7, r7, #0x80
-	movhi r9, #0x18
-	strh r1, [r2, r0]
-	b _02157348
-_021572F8:
-	ldr r0, =VRAMSystem__GFXControl
-	cmp r8, #0x100
-	ldr r0, [r0, r5, lsl #2]
-	orrhi r7, r7, #0x40
-	movhi r8, #0x100
-	cmp r9, #0xc0
-	orrhi r7, r7, #0x80
-	movhi r9, #0xc0
-	cmp r4, #2
-	addeq r10, r0, #0x28
-	addne r10, r0, #0x40
-	mov r0, r10
-	bl MTX_Identity22_
-	mov r0, #0
-	strh r0, [r10, #0x12]
-	strh r0, [r10, #0x10]
-	strh r0, [r10, #0x16]
-	strh r0, [r10, #0x14]
-	mov r0, #1
-	str r0, [sp, #0x10]
-_02157348:
-	ldr r1, [sp, #0x14]
-	stmia sp, {r4, r8, r9}
-	mov r2, r7
-	mov r3, r5
-	add r0, r6, #4
-	bl InitBackground
-	add r0, r6, #4
-	bl DrawBackground
-	ldr r0, [sp, #0x10]
-	ldr r1, [r6, #4]
-	cmp r0, #0
-	orr r0, r1, #1
-	str r0, [r6, #4]
-	ldreq r0, [r6, #4]
-	mov r1, #0
-	orreq r0, r0, #2
-	streq r0, [r6, #4]
-	tst r7, #0xc0
-	ldreq r0, [r6, #4]
-	orreq r0, r0, #4
-	streq r0, [r6, #4]
-	cmp r5, #0
-	moveq r0, #0x5000000
-	streqh r1, [r0]
-	ldrne r0, =0x05000400
-	strneh r1, [r0]
-	b _02157418
-_021573B4:
-	add r2, sp, #0x1c
-	add r3, sp, #0x18
-	mov r0, r5
-	mov r1, r4
-	bl GetVRAMPixelConfig
-	ldr r0, =VRAMSystem__VRAM_BG
-	ldrh r1, [sp, #0x18]
-	ldr r2, [r0, r5, lsl #2]
-	ldr r0, [sp, #0x14]
-	add r1, r2, r1, lsl #14
-	mov r2, #0x100
-	mov r3, #0xc0
-	bl CutsceneAssetSystem__Func_215A124
-	ldr r0, =VRAMSystem__GFXControl
-	cmp r4, #2
-	ldr r0, [r0, r5, lsl #2]
-	addeq r4, r0, #0x28
-	addne r4, r0, #0x40
-	mov r0, r4
-	bl MTX_Identity22_
-	mov r0, #0
-	strh r0, [r4, #0x12]
-	strh r0, [r4, #0x10]
-	strh r0, [r4, #0x16]
-	strh r0, [r4, #0x14]
-_02157418:
-	add r0, r11, #1
-	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    s32 id = bgID | (4 * useEngineB);
 
-// clang-format on
-#endif
+    if (work->fileSystemManager->field_10)
+        return 0;
+
+    CutsceneBackground *background = &work->backgroundManager->renderers[id];
+    CutsceneBackgroundManager__Func_21582F4(background, work);
+    background->field_0 = CutsceneFileSystemManager__Func_2156B08(work, path, fileID);
+    if (background->field_0 == 0)
+        return 0;
+
+    backgroundFile = CutsceneFileSystemManager__GetArchive(work, background->field_0);
+    if (CheckBackgroundIsValid(backgroundFile))
+    {
+        u32 flags = BACKGROUND_FLAG_LOAD_ALL | BACKGROUND_FLAG_SET_BG_Y | BACKGROUND_FLAG_SET_BG_X;
+
+        u16 width  = GetBackgroundWidth(backgroundFile);
+        u16 height = GetBackgroundHeight(backgroundFile);
+
+        BOOL noPixels = FALSE;
+        switch (GetBackgroundFormat(backgroundFile))
+        {
+            case BBG_FORMAT_2: {
+                RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[useEngineB];
+
+                RenderAffineControl *affineControl;
+                if (bgID == BACKGROUND_2)
+                    affineControl = &gfxControl->affineA;
+                else
+                    affineControl = &gfxControl->affineB;
+
+                MTX_Identity22(&affineControl->matrix);
+                affineControl->centerX = affineControl->centerY = 0;
+                affineControl->x = affineControl->y = 0;
+            }
+                // fallthrough
+
+            case BBG_FORMAT_0:
+            case BBG_FORMAT_1: {
+                RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[useEngineB];
+
+                if (width > BG_DISPLAY_FULL_WIDTH)
+                {
+                    flags |= BACKGROUND_FLAG_ALIGN_EVEN_WIDTH;
+                    width = BG_DISPLAY_FULL_WIDTH;
+                }
+
+                if (height > BG_DISPLAY_SINGLE_HEIGHT)
+                {
+                    flags |= BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT;
+                    height = BG_DISPLAY_SINGLE_HEIGHT;
+                }
+
+                gfxControl->bgPosition[bgID].x = gfxControl->bgPosition[bgID].y = 0;
+            }
+            break;
+
+            case BBG_FORMAT_3:
+            case BBG_FORMAT_4:
+            case BBG_FORMAT_5:
+            case BBG_FORMAT_6: {
+                RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[useEngineB];
+
+                if (width > HW_LCD_WIDTH)
+                {
+                    flags |= BACKGROUND_FLAG_ALIGN_EVEN_WIDTH;
+                    width = HW_LCD_WIDTH;
+                }
+
+                if (height > HW_LCD_HEIGHT)
+                {
+                    flags |= BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT;
+                    height = HW_LCD_HEIGHT;
+                }
+
+                RenderAffineControl *affineControl;
+                if (bgID == BACKGROUND_2)
+                    affineControl = &gfxControl->affineA;
+                else
+                    affineControl = &gfxControl->affineB;
+
+                MTX_Identity22(&affineControl->matrix);
+                affineControl->centerX = affineControl->centerY = 0;
+                affineControl->x = affineControl->y = 0;
+
+                noPixels = TRUE;
+            }
+            break;
+        }
+
+        InitBackground(&background->ani, backgroundFile, flags, useEngineB, bgID, width, height);
+        DrawBackground(&background->ani);
+
+        background->ani.flags |= BACKGROUND_FLAG_DISABLE_PALETTE;
+
+        if (!noPixels)
+            background->ani.flags |= BACKGROUND_FLAG_DISABLE_PIXELS;
+
+        if ((flags & (BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT | BACKGROUND_FLAG_ALIGN_EVEN_WIDTH)) == 0)
+            background->ani.flags |= BACKGROUND_FLAG_DISABLE_MAPPINGS;
+
+        if (useEngineB == GRAPHICS_ENGINE_A)
+            ((GXRgb *)VRAM_BG_PLTT)[0] = GX_RGB_888(0x00, 0x00, 0x00);
+        else
+            ((GXRgb *)VRAM_DB_BG_PLTT)[0] = GX_RGB_888(0x00, 0x00, 0x00);
+    }
+    else
+    {
+        GetVRAMPixelConfig(useEngineB, bgID, &pixelMode, &screenBaseBlock);
+
+        int baseBlock = 0x4000 * screenBaseBlock;
+        CutsceneAssetSystem__Func_215A124(backgroundFile, VRAMSystem__VRAM_BG[useEngineB] + baseBlock, HW_LCD_WIDTH, HW_LCD_HEIGHT);
+
+        RenderAffineControl *affineControl;
+        RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[useEngineB];
+        if (bgID == BACKGROUND_2)
+            affineControl = &gfxControl->affineA;
+        else
+            affineControl = &gfxControl->affineB;
+
+        MTX_Identity22(&affineControl->matrix);
+        affineControl->centerX = affineControl->centerY = 0;
+        affineControl->x = affineControl->y = 0;
+    }
+
+    return id + 1;
 }
 
 void CutsceneBackgroundManager__Func_2157430(CutsceneSystemManager *work, s32 id)
@@ -3463,436 +3350,202 @@ AnimatorMDL *CutsceneModelManager__GetModel(CutsceneSystemManager *work, s32 id)
     return &work->modelManager->list[id].ani;
 }
 
-NONMATCH_FUNC s32 CutsceneModelManager__TryLoadModel(CutsceneSystemManager *work, const char *path, s32 fileID, s32 id)
+s32 CutsceneModelManager__TryLoadModel(CutsceneSystemManager *work, const char *path, s32 fileID, s32 id)
 {
-#ifdef NON_MATCHING
+    if (work->fileSystemManager->field_10)
+        return 0;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr ip, [r0, #4]
-	mov r5, r2
-	ldr ip, [ip, #0x10]
-	cmp ip, #0
-	movne r0, #0
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r2, [r0, #0x10]
-	mov ip, #0
-	ldr lr, [r2]
-	cmp lr, #0
-	bls _021574D8
-	ldr r4, [r2, #4]
-_021574BC:
-	ldr r2, [r4, #0]
-	cmp r2, #0
-	beq _021574D8
-	add ip, ip, #1
-	cmp ip, lr
-	add r4, r4, #0x164
-	blo _021574BC
-_021574D8:
-	str r3, [sp]
-	mov r2, r1
-	mov r3, r5
-	add r1, ip, #1
-	bl CutsceneModelManager__LoadModel
-	ldmia sp!, {r3, r4, r5, pc}
+    u32 i     = 0;
+    u32 count = work->modelManager->count;
+    for (; i < count; i++)
+    {
+        if (work->modelManager->list[i].field_0[0] == 0)
+        {
+            break;
+        }
+    }
 
-// clang-format on
-#endif
+    return CutsceneModelManager__LoadModel(work, i + 1, path, fileID, id);
 }
 
-NONMATCH_FUNC s32 CutsceneModelManager__LoadModel(CutsceneSystemManager *work, s32 a2, const char *path, s32 fileID, s32 id)
+s32 CutsceneModelManager__LoadModel(CutsceneSystemManager *work, s32 slot, const char *path, s32 fileID, s32 id)
 {
-#ifdef NON_MATCHING
+    slot--;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #4
-	mov r7, r0
-	ldr r0, [r7, #4]
-	mov r6, r1
-	ldr r0, [r0, #0x10]
-	mov r5, r2
-	cmp r0, #0
-	mov r4, r3
-	addne sp, sp, #4
-	movne r0, #0
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	sub r1, r6, #1
-	mov r0, #0x164
-	mul r8, r1, r0
-	ldr r0, [r7, #0x10]
-	mov r1, r7
-	ldr r9, [r0, #4]
-	add r10, r9, r8
-	mov r0, r10
-	bl CutsceneModelManager__Func_215858C
-	mov r0, r7
-	mov r1, r5
-	mov r2, r4
-	bl CutsceneFileSystemManager__Func_2156B08
-	movs r1, r0
-	str r0, [r9, r8]
-	addeq sp, sp, #4
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	mov r0, r7
-	bl CutsceneFileSystemManager__GetArchive
-	mov r4, r0
-	ldr r1, [r10, #0]
-	mov r0, r7
-	bl CutsceneFileSystemManager__Func_21569A4
-	cmp r0, #0
-	beq _02157590
-	mov r0, r4
-	bl NNS_G3dResDefaultSetup
-_02157590:
-	add r0, r10, #0x1c
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r3, #0
-	ldr r2, [sp, #0x28]
-	mov r1, r4
-	add r0, r10, #0x1c
-	str r3, [sp]
-	bl AnimatorMDL__SetResource
-	mov r0, r6
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+    if (work->fileSystemManager->field_10)
+        return 0;
 
-// clang-format on
-#endif
+    CutsceneModel *animator = &work->modelManager->list[slot];
+
+    CutsceneModelManager__Func_215858C(animator, work);
+    animator->field_0[0] = CutsceneFileSystemManager__Func_2156B08(work, path, fileID);
+    if (animator->field_0[0] == 0)
+        return 0;
+
+    void *resMDL = CutsceneFileSystemManager__GetArchive(work, animator->field_0[0]);
+
+    if (CutsceneFileSystemManager__Func_21569A4(work, animator->field_0[0]))
+        NNS_G3dResDefaultSetup(resMDL);
+
+    AnimatorMDL__Init(&animator->ani, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__SetResource(&animator->ani, resMDL, id, FALSE, FALSE);
+
+    return slot + 1;
 }
 
-NONMATCH_FUNC s32 CutsceneModelManager__LoadModelAnimation(CutsceneSystemManager *work, s32 a2, s32 type, const char *path1, s32 fileID1, s32 animID, const char *path2,
-                                                           s32 fileID2)
+s32 CutsceneModelManager__LoadModelAnimation(CutsceneSystemManager *work, s32 slot, s32 type, const char *path, s32 fileID, s32 animID, const char *texPath, s32 texFileID)
 {
-#ifdef NON_MATCHING
+    CutsceneModel *animator;
+    void *resource;
+    void *texResource;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #4
-	mov r8, r0
-	ldr r4, [r8, #4]
-	mov r7, r2
-	ldr r2, [r4, #0x10]
-	mov r6, r3
-	cmp r2, #0
-	add r5, r7, #1
-	addne sp, sp, #4
-	movne r0, #0
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	ldr r3, [r8, #0x10]
-	sub r2, r1, #1
-	ldr r3, [r3, #4]
-	mov r1, #0x164
-	mla r4, r2, r1, r3
-	ldr r1, [r4, r5, lsl #2]
-	cmp r1, #0
-	beq _02157614
-	bl CutsceneFileSystemManager__Func_2156BEC
-_02157614:
-	ldr r2, [sp, #0x20]
-	mov r0, r8
-	mov r1, r6
-	bl CutsceneFileSystemManager__Func_2156B08
-	movs r1, r0
-	str r0, [r4, r5, lsl #2]
-	addeq sp, sp, #4
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	mov r0, r8
-	bl CutsceneFileSystemManager__GetArchive
-	mov r6, r0
-	cmp r7, #2
-	beq _0215766C
-	ldr r3, [sp, #0x24]
-	mov r5, #0
-	mov r1, r7
-	mov r2, r6
-	add r0, r4, #0x1c
-	str r5, [sp]
-	bl AnimatorMDL__SetAnimation
-	b _0215772C
-_0215766C:
-	ldr r1, [r4, #0x18]
-	cmp r1, #0
-	beq _02157688
-	mov r0, r8
-	bl CutsceneFileSystemManager__Func_2156BEC
-	mov r0, #0
-	str r0, [r4, #0x18]
-_02157688:
-	ldr r1, [sp, #0x28]
-	cmp r1, #0
-	beq _02157700
-	ldr r2, [sp, #0x2c]
-	mov r0, r8
-	bl CutsceneFileSystemManager__Func_2156B08
-	cmp r0, #0
-	str r0, [r4, #0x18]
-	addeq sp, sp, #4
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	mov r0, r8
-	bl CutsceneFileSystemManager__Func_21569E4
-	cmp r0, #0
-	beq _021576D0
-	ldr r1, [r4, r5, lsl #2]
-	mov r0, r8
-	bl CutsceneFileSystemManager__Func_2156BEC
-_021576D0:
-	ldr r1, [r4, #0x18]
-	mov r0, r8
-	bl CutsceneFileSystemManager__GetArchive
-	mov r5, r0
-	ldr r1, [r4, #0x18]
-	mov r0, r8
-	bl CutsceneFileSystemManager__Func_21569A4
-	cmp r0, #0
-	beq _02157714
-	mov r0, r5
-	bl NNS_G3dResDefaultSetup
-	b _02157714
-_02157700:
-	ldr r1, [r4, #0]
-	mov r0, r8
-	bl CutsceneFileSystemManager__GetArchive
-	bl NNS_G3dGetTex
-	mov r5, r0
-_02157714:
-	ldr r3, [sp, #0x24]
-	mov r1, r7
-	mov r2, r6
-	add r0, r4, #0x1c
-	str r5, [sp]
-	bl AnimatorMDL__SetAnimation
-_0215772C:
-	mov r0, #1
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
+    slot--;
 
-// clang-format on
-#endif
+    s32 pos = B3D_ANIM_RESOURCE_OFFSET + type;
+    if (work->fileSystemManager->field_10)
+        return FALSE;
+
+    animator = &work->modelManager->list[slot];
+
+    if (animator->field_0[pos] != 0)
+        CutsceneFileSystemManager__Func_2156BEC(work, animator->field_0[pos]);
+
+    animator->field_0[pos] = CutsceneFileSystemManager__Func_2156B08(work, path, fileID);
+
+    if (animator->field_0[pos] == 0)
+        return FALSE;
+
+    resource = CutsceneFileSystemManager__GetArchive(work, animator->field_0[pos]);
+
+    if (type != B3D_ANIM_PAT_ANIM)
+    {
+        AnimatorMDL__SetAnimation(&animator->ani, type, resource, animID, NULL);
+    }
+    else
+    {
+        if (animator->field_18)
+        {
+            CutsceneFileSystemManager__Func_2156BEC(work, animator->field_18);
+            animator->field_18 = 0;
+        }
+
+        if (texPath != NULL)
+        {
+            animator->field_18 = CutsceneFileSystemManager__Func_2156B08(work, texPath, texFileID);
+            if (animator->field_18 == 0)
+                return FALSE;
+
+            if (CutsceneFileSystemManager__Func_21569E4(work))
+                CutsceneFileSystemManager__Func_2156BEC(work, animator->field_0[pos]);
+
+            texResource = CutsceneFileSystemManager__GetArchive(work, animator->field_18);
+            if (CutsceneFileSystemManager__Func_21569A4(work, animator->field_18))
+                NNS_G3dResDefaultSetup(texResource);
+        }
+        else
+        {
+            texResource = NNS_G3dGetTex(CutsceneFileSystemManager__GetArchive(work, animator->field_0[0]));
+        }
+
+        AnimatorMDL__SetAnimation(&animator->ani, type, resource, animID, texResource);
+    }
+
+    return TRUE;
 }
 
-NONMATCH_FUNC void CutsceneModelManager__Func_2157738(CutsceneSystemManager *work, s32 a2, s32 a3, s32 a4)
+void CutsceneModelManager__Func_2157738(CutsceneSystemManager *work, s32 type, s32 id, s32 value)
 {
-#ifdef NON_MATCHING
+    CutsceneModelManager__Func_215793C(work);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0x44
-	mov r7, r0
-	mov r6, r1
-	mov r5, r2
-	mov r4, r3
-	bl CutsceneModelManager__Func_215793C
-	ldr r1, [r7, #0x10]
-	sub r0, r5, #1
-	str r6, [r1, #8]
-	str r0, [r1, #0xc]
-	str r4, [r1, #0x60]
-	ldr r0, [r1, #0x20]
-	cmp r0, #0
-	beq _021577A0
-	ldr ip, =0x2AAAAAAB
-	mov r2, r4, lsr #0x1f
-	smull r3, r4, ip, r4
-	add r4, r2, r4, asr #5
-	smull r3, r2, r0, r4
-	adds r3, r3, #0x800
-	adc r2, r2, #0
-	mov r3, r3, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	add r0, r0, r3
-	b _021577B4
-_021577A0:
-	ldr r3, =0x2AAAAAAB
-	mov r0, r4, lsr #0x1f
-	smull r2, r4, r3, r4
-	add r4, r0, r4, asr #5
-	add r0, r4, #0x1000
-_021577B4:
-	str r0, [r1, #0x64]
-	mov r0, r7
-	mov r1, r5
-	bl CutsceneModelManager__GetModel
-	mov r1, #4
-	strb r1, [r0, #0xa]
-	cmp r6, #1
-	beq _021577E8
-	cmp r6, #2
-	beq _02157818
-	cmp r6, #3
-	beq _02157848
-	b _02157874
-_021577E8:
-	ldr r1, =CutsceneModelManager__RenderCallback_Single
-	mov r4, #3
-	add r0, r0, #0x90
-	mov r2, #0
-	mov r3, #6
-	str r4, [sp]
-	bl NNS_G3dRenderObjSetCallBack
-	bl Camera3D__GetTask
-	cmp r0, #0
-	beq _02157874
-	bl Camera3D__Destroy
-	b _02157874
-_02157818:
-	ldr r1, =CutsceneModelManager__RenderCallback_Single
-	mov r4, #3
-	add r0, r0, #0x90
-	mov r2, #0
-	mov r3, #6
-	str r4, [sp]
-	bl NNS_G3dRenderObjSetCallBack
-	bl Camera3D__GetTask
-	cmp r0, #0
-	bne _02157874
-	bl Camera3D__Create
-	b _02157874
-_02157848:
-	ldr r1, =CutsceneModelManager__RenderCallback_Double
-	mov r4, #3
-	add r0, r0, #0x90
-	mov r2, #0
-	mov r3, #6
-	str r4, [sp]
-	bl NNS_G3dRenderObjSetCallBack
-	bl Camera3D__GetTask
-	cmp r0, #0
-	bne _02157874
-	bl Camera3D__Create
-_02157874:
-	add r1, sp, #0x14
-	mov r0, #0
-	mov r2, #0x30
-	bl MIi_CpuClear16
-	mov r1, #0
-	mov r2, r1
-	mov r0, #0x11
-	bl NNS_G3dGeBufferOP_N
-	add r1, sp, #0x14
-	mov r0, #0x17
-	mov r2, #0xc
-	bl NNS_G3dGeBufferOP_N
-	mov r3, #0x1e
-	add r1, sp, #0x10
-	mov r0, #0x13
-	mov r2, #1
-	str r3, [sp, #0x10]
-	bl NNS_G3dGeBufferOP_N
-	mov r2, #1
-	add r1, sp, #0xc
-	mov r0, #0x12
-	str r2, [sp, #0xc]
-	bl NNS_G3dGeBufferOP_N
-	mov r1, #0
-	mov r0, #0x11
-	mov r2, r1
-	bl NNS_G3dGeBufferOP_N
-	mov r0, #0x1000
-	rsb r0, r0, #0
-	str r0, [sp, #0x40]
-	mov r0, #0x17
-	add r1, sp, #0x14
-	mov r2, #0xc
-	bl NNS_G3dGeBufferOP_N
-	mov r0, #0x1d
-	str r0, [sp, #8]
-	mov r0, #0x13
-	add r1, sp, #8
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-	mov r2, #1
-	mov r0, #0x12
-	add r1, sp, #4
-	str r2, [sp, #4]
-	bl NNS_G3dGeBufferOP_N
-	add sp, sp, #0x44
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    CutsceneModelManager *manager = work->modelManager;
 
-// clang-format on
-#endif
+    manager->camera.active   = type;
+    manager->camera.field_4  = id - 1;
+    manager->camera.field_58 = value;
+
+    if (manager->camera.config.config.projScaleW != 0)
+    {
+        manager->camera.dword5C = manager->camera.config.config.projScaleW + MultiplyFX(manager->camera.config.config.projScaleW, (value / HW_LCD_HEIGHT));
+    }
+    else
+    {
+        manager->camera.dword5C = FLOAT_TO_FX32(1.0) + (value / HW_LCD_HEIGHT);
+    }
+
+    AnimatorMDL *animatorMDL         = CutsceneModelManager__GetModel(work, id);
+    animatorMDL->work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
+
+    switch (type)
+    {
+        case 1:
+            NNS_G3dRenderObjSetCallBack(&animatorMDL->renderObj, CutsceneModelManager__RenderCallback_Single, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
+            if (Camera3D__GetTask() != NULL)
+                Camera3D__Destroy();
+            break;
+
+        case 2:
+            NNS_G3dRenderObjSetCallBack(&animatorMDL->renderObj, CutsceneModelManager__RenderCallback_Single, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
+            if (Camera3D__GetTask() == NULL)
+                Camera3D__Create();
+            break;
+
+        case 3:
+            NNS_G3dRenderObjSetCallBack(&animatorMDL->renderObj, CutsceneModelManager__RenderCallback_Double, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
+            if (Camera3D__GetTask() == NULL)
+                Camera3D__Create();
+            break;
+    }
+
+    MtxFx43 mtx;
+    MI_CpuClear16(&mtx, sizeof(mtx));
+
+    NNS_G3dGePushMtx();
+    NNS_G3dGeLoadMtx43(&mtx);
+    NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_SYS);
+    NNS_G3dGePopMtx(1);
+
+    NNS_G3dGePushMtx();
+    mtx.m[3][2] = -FLOAT_TO_FX32(1.0);
+    NNS_G3dGeLoadMtx43(&mtx);
+    NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_USER);
+    NNS_G3dGePopMtx(1);
 }
 
-NONMATCH_FUNC void CutsceneModelManager__Func_215793C(CutsceneSystemManager *work)
+void CutsceneModelManager__Func_215793C(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    CutsceneModelManager *manager = work->modelManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r4, [r0, #0x10]
-	ldr r1, [r4, #8]
-	cmp r1, #0
-	ldmeqia sp!, {r4, pc}
-	ldr r1, [r4, #0xc]
-	add r1, r1, #1
-	bl CutsceneModelManager__GetModel
-	mov r1, #0
-	strb r1, [r0, #0xa]
-	add r0, r0, #0x90
-	bl NNS_G3dRenderObjResetCallBack
-	ldr r0, [r4, #8]
-	cmp r0, #2
-	cmpne r0, #3
-	bne _02157980
-	bl Camera3D__Destroy
-_02157980:
-	mov r0, #0
-	str r0, [r4, #8]
-	ldmia sp!, {r4, pc}
+    if (manager->camera.active != 0)
+    {
+        AnimatorMDL *animatorMDL         = CutsceneModelManager__GetModel(work, manager->camera.field_4 + 1);
+        animatorMDL->work.matrixOpIDs[0] = MATRIX_OP_NONE;
+        NNS_G3dRenderObjResetCallBack(&animatorMDL->renderObj);
 
-// clang-format on
-#endif
+        if (manager->camera.active == 2 || (s32)manager->camera.active == 3)
+            Camera3D__Destroy();
+
+        manager->camera.active = FALSE;
+    }
 }
 
-NONMATCH_FUNC void CutsceneModelManager__LoadDrawState(CutsceneSystemManager *work, void *memory)
+void CutsceneModelManager__LoadDrawState(CutsceneSystemManager *work, void *memory)
 {
-#ifdef NON_MATCHING
+    LoadDrawState(memory, DRAWSTATE_ALL & ~(DRAWSTATE_LOOKAT));
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r1
-	mov r4, r0
-	ldr r1, =0x001FFFFE
-	mov r0, r5
-	bl LoadDrawState
-	ldr r4, [r4, #0x10]
-	mov r0, r5
-	add r1, r4, #0x10
-	bl GetDrawStateCameraProjection
-	mov r0, #0x1000
-	str r0, [r4, #0x4c]
-	ldr r1, [r4, #0x60]
-	cmp r1, #0
-	ldreq r0, [r4, #0x20]
-	streq r0, [r4, #0x64]
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r2, =0x2AAAAAAB
-	mov r0, r1, lsr #0x1f
-	smull r1, r3, r2, r1
-	ldr r2, [r4, #0x20]
-	add r3, r0, r3, asr #5
-	smull r1, r0, r2, r3
-	adds r1, r1, #0x800
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	add r0, r2, r1
-	str r0, [r4, #0x64]
-	ldmia sp!, {r3, r4, r5, pc}
+    CutsceneModelManager *manager = work->modelManager;
 
-// clang-format on
-#endif
+    GetDrawStateCameraProjection(memory, &manager->camera.config.config);
+
+    manager->camera.config.lookAtUp.y = FLOAT_TO_FX32(1.0);
+
+    if (manager->camera.field_58)
+    {
+        manager->camera.dword5C = manager->camera.config.config.projScaleW + MultiplyFX(manager->camera.config.config.projScaleW, (manager->camera.field_58 / HW_LCD_HEIGHT));
+    }
+    else
+    {
+        manager->camera.dword5C = manager->camera.config.config.projScaleW;
+    }
 }
 
 void CutsceneModelManager__Func_2157A0C(CutsceneSystemManager *work, s32 id)
@@ -3934,33 +3587,19 @@ NNSSndHandle *CutsceneAudioManager__GetSoundHandle(CutsceneSystemManager *work, 
     return work->audioManager->handleList[id].handle;
 }
 
-NONMATCH_FUNC s32 CutsceneAudioManager__AllocSoundHandle(CutsceneSystemManager *work)
+s32 CutsceneAudioManager__AllocSoundHandle(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    u32 i = 0;
+    for (; i < work->audioManager->handleCount; i++)
+    {
+        if (work->audioManager->handleList[i].isActive == FALSE)
+        {
+            work->audioManager->handleList[i].isActive = TRUE;
+            break;
+        }
+    }
 
-#else
-    // clang-format off
-	ldr r0, [r0, #0x14]
-	mov r1, #0
-	ldr r2, [r0, #0]
-	cmp r2, #0
-	bls _02157B00
-	ldr r3, [r0, #4]
-_02157AE0:
-	ldr r0, [r3, r1, lsl #3]
-	cmp r0, #0
-	moveq r0, #1
-	streq r0, [r3, r1, lsl #3]
-	beq _02157B00
-	add r1, r1, #1
-	cmp r1, r2
-	blo _02157AE0
-_02157B00:
-	add r0, r1, #1
-	bx lr
-
-// clang-format on
-#endif
+    return i + 1;
 }
 
 void CutsceneAudioManager__Func_2157B08(CutsceneSystemManager *work)
@@ -3995,13 +3634,13 @@ void CutsceneModelManager__RenderCallback_Single(NNSG3dRS *rs)
     s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &cameraNodeName);
     if (cameraNodeIdx >= 0 && node == cameraNodeIdx)
     {
-        NNS_G3dGeStoreMtx(30);
+        NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_SYS);
     }
 
     s32 targetNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &targetNodeName);
     if (targetNodeIdx >= 0 && node == targetNodeIdx)
     {
-        NNS_G3dGeStoreMtx(29);
+        NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_USER);
     }
 }
 
@@ -4016,13 +3655,13 @@ void CutsceneModelManager__RenderCallback_Double(NNSG3dRS *rs)
             s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &camera1NodeName);
             if (cameraNodeIdx >= 0 && node == cameraNodeIdx)
             {
-                NNS_G3dGeStoreMtx(30);
+                NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_SYS);
             }
 
             s32 targetNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &target1NodeName);
             if (targetNodeIdx >= 0 && node == targetNodeIdx)
             {
-                NNS_G3dGeStoreMtx(29);
+                NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_USER);
             }
         }
         break;
@@ -4031,89 +3670,53 @@ void CutsceneModelManager__RenderCallback_Double(NNSG3dRS *rs)
             s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &camera2NodeName);
             if (cameraNodeIdx >= 0 && node == cameraNodeIdx)
             {
-                NNS_G3dGeStoreMtx(30);
+                NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_SYS);
             }
 
             s32 targetNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &target2NodeName);
             if (targetNodeIdx >= 0 && node == targetNodeIdx)
             {
-                NNS_G3dGeStoreMtx(29);
+                NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_USER);
             }
         }
         break;
     }
 }
 
-NONMATCH_FUNC void CutsceneModelManager__Func_2157D6C(void)
+void CutsceneModelManager__Func_2157D6C(CutsceneCamera3D *work)
 {
-#ifdef NON_MATCHING
+    MtxFx43 mtxLookAt;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #0x40
-	mov r4, r0
-	mov r3, #2
-	add r1, sp, #0xc
-	mov r0, #0x10
-	mov r2, #1
-	str r3, [sp, #0xc]
-	bl NNS_G3dGeBufferOP_N
-	mov r3, #0x1e
-	add r1, sp, #8
-	mov r0, #0x14
-	mov r2, #1
-	str r3, [sp, #8]
-	bl NNS_G3dGeBufferOP_N
-	add r0, sp, #0x10
-	mov r1, #0
-	bl NNS_G3dGetCurrentMtx
-	ldr r0, [sp, #0x34]
-	mov r2, #2
-	str r0, [r4, #0x28]
-	ldr r0, [sp, #0x38]
-	add r1, sp, #4
-	str r0, [r4, #0x2c]
-	ldr r3, [sp, #0x3c]
-	mov r0, #0x10
-	str r3, [r4, #0x30]
-	str r2, [sp, #4]
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-	mov r0, #0x1d
-	str r0, [sp]
-	mov r0, #0x14
-	add r1, sp, #0
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-	add r0, sp, #0x10
-	mov r1, #0
-	bl NNS_G3dGetCurrentMtx
-	ldr r0, [sp, #0x34]
-	str r0, [r4, #0x34]
-	ldr r0, [sp, #0x38]
-	str r0, [r4, #0x38]
-	ldr r0, [sp, #0x3c]
-	str r0, [r4, #0x3c]
-	ldr r0, [r4, #0]
-	cmp r0, #2
-	bne _02157E40
-	bl Camera3D__UseEngineA
-	cmp r0, #0
-	ldr r0, [r4, #0x5c]
-	rsbne r0, r0, #0
-	b _02157E44
-_02157E40:
-	mov r0, #0
-_02157E44:
-	str r0, [r4, #0x20]
-	add r0, r4, #8
-	bl Camera3D__LoadState
-	add sp, sp, #0x40
-	ldmia sp!, {r4, pc}
+    NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
+    NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_SYS);
+    NNS_G3dGetCurrentMtx(&mtxLookAt, NULL);
+    work->config.lookAtTo.x = mtxLookAt.m[3][0];
+    work->config.lookAtTo.y = mtxLookAt.m[3][1];
+    work->config.lookAtTo.z = mtxLookAt.m[3][2];
 
-// clang-format on
-#endif
+    NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
+    NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_USER);
+    NNS_G3dGetCurrentMtx(&mtxLookAt, NULL);
+    work->config.lookAtFrom.x = mtxLookAt.m[3][0];
+    work->config.lookAtFrom.y = mtxLookAt.m[3][1];
+    work->config.lookAtFrom.z = mtxLookAt.m[3][2];
+
+    if (work->active == 2)
+    {
+        s32 matProjPositionY;
+        if (Camera3D__UseEngineA() != GRAPHICS_ENGINE_A)
+            matProjPositionY = -work->dword5C;
+        else
+            matProjPositionY = work->dword5C;
+
+        work->config.config.matProjPosition.y = matProjPositionY;
+    }
+    else
+    {
+        work->config.config.matProjPosition.y = 0;
+    }
+
+    Camera3D__LoadState(&work->config);
 }
 
 void CutsceneFadeManager__Alloc(CutsceneSystemManager *work)
@@ -4171,7 +3774,7 @@ NONMATCH_FUNC void CutsceneFileSystemManager__Alloc(CutsceneSystemManager *work,
 #endif
 }
 
-NONMATCH_FUNC void CutsceneFileSystemManager__UnmountArchive2(void)
+NONMATCH_FUNC void CutsceneFileSystemManager__UnmountArchive2(CutsceneArchive *work)
 {
 #ifdef NON_MATCHING
 
@@ -4339,7 +3942,7 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__Alloc(CutsceneSystemManager *wor
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_21580E0(void)
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_21580E0(CutsceneSpriteButton *work, CutsceneSystemManager *manager)
 {
 #ifdef NON_MATCHING
 
@@ -5990,7 +5593,8 @@ _02159598:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__AddTouchArea(void)
+NONMATCH_FUNC
+    void CutsceneSpriteButtonManager__AddTouchArea(CutsceneTouchArea *work, TouchField *touchField, AnimatorSprite *animator, u32 flags, CutsceneScript *cutscene, s32 type)
 {
 #ifdef NON_MATCHING
 
@@ -6040,7 +5644,7 @@ _0215963C:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__RemoveTouchArea(void)
+NONMATCH_FUNC void CutsceneSpriteButtonManager__RemoveTouchArea(CutsceneTouchArea *work)
 {
 #ifdef NON_MATCHING
 
@@ -6892,7 +6496,7 @@ void CutsceneAssetSystem__NextSysEvent(void)
     NextSysEvent();
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_215A124(void)
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215A124(void *background, void *vramPixels, s32 displayWidth, s32 displayHeight)
 {
 #ifdef NON_MATCHING
 

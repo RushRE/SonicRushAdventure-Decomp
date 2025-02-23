@@ -378,13 +378,13 @@ void CutsceneSystemManager__Release(CutsceneSystemManager *work);
 void CutsceneFileSystemManager__Init(CutsceneSystemManager *work, u32 count);
 void *CutsceneFileSystemManager__GetArchive(CutsceneSystemManager *work, s32 id);
 BOOL CutsceneFileSystemManager__Func_21569A4(CutsceneSystemManager *work, s32 id);
-void CutsceneFileSystemManager__Func_21569CC(CutsceneSystemManager *work, s32 a2);
+void CutsceneFileSystemManager__Func_21569CC(CutsceneSystemManager *work, s32 value);
 BOOL CutsceneFileSystemManager__Func_21569E4(CutsceneSystemManager *work);
-void CutsceneFileSystemManager__Func_21569FC(CutsceneSystemManager *work, s32 a2);
+void CutsceneFileSystemManager__Func_21569FC(CutsceneSystemManager *work, s32 value);
 void CutsceneFileSystemManager__MountArchive(CutsceneSystemManager *work, s32 id, const char *arcName);
 void CutsceneFileSystemManager__UnmountArchive(CutsceneSystemManager *work, s32 id);
 s32 CutsceneFileSystemManager__Func_2156B08(CutsceneSystemManager *work, const char *path, s32 fileID);
-void CutsceneFileSystemManager__Func_2156BEC(CutsceneSystemManager *work, s32 a2);
+void CutsceneFileSystemManager__Func_2156BEC(CutsceneSystemManager *work, s32 id);
 s32 CutsceneFileSystemManager__Func_2156C88(CutsceneSystemManager *work, s32 id, const char *path, s32 fileID);
 
 // SpriteButton manager
@@ -394,7 +394,7 @@ AnimatorSprite *CutsceneSpriteButtonManager__GetAnimator(CutsceneSystemManager *
 CutsceneTouchArea *CutsceneSpriteButtonManager__Func_2156E54(CutsceneSystemManager *work, s32 id);
 u32 *CutsceneSpriteButtonManager__Func_2156E70(CutsceneSystemManager *work, s32 id);
 s32 CutsceneSpriteButtonManager__LoadSprite2(CutsceneSystemManager *work, const char *path, s32 fileID, BOOL useEngineB, u16 animID, u16 paletteRow);
-s32 CutsceneSpriteButtonManager__LoadSprite(CutsceneSystemManager *work, s32 a2, const char *path, s32 fileID, BOOL useEngineB, u16 animID, u16 paletteRow);
+s32 CutsceneSpriteButtonManager__LoadSprite(CutsceneSystemManager *work, s32 is, const char *path, s32 fileID, BOOL useEngineB, u16 animID, u16 paletteRow);
 void CutsceneSpriteButtonManager__Func_215707C(CutsceneSystemManager *work, s32 id, u32 flags, s32 type, CutsceneScript *cutscene);
 void CutsceneSpriteButtonManager__Func_21570F4(CutsceneSystemManager *work, s32 id);
 void CutsceneSpriteButtonManager__Func_2157128(CutsceneSystemManager *work, s32 id);
@@ -413,9 +413,9 @@ void CutsceneModelManager__Init(CutsceneSystemManager *work, u32 count);
 s32 CutsceneModelManager__Func_2157460(CutsceneSystemManager *work);
 AnimatorMDL *CutsceneModelManager__GetModel(CutsceneSystemManager *work, s32 id);
 s32 CutsceneModelManager__TryLoadModel(CutsceneSystemManager *work, const char *path, s32 fileID, s32 id);
-s32 CutsceneModelManager__LoadModel(CutsceneSystemManager *work, s32 a2, const char *path, s32 fileID, s32 id);
-s32 CutsceneModelManager__LoadModelAnimation(CutsceneSystemManager *work, s32 a2, s32 type, const char *path1, s32 fileID1, s32 animID, const char *path2, s32 fileID2);
-void CutsceneModelManager__Func_2157738(CutsceneSystemManager *work, s32 a2, s32 a3, s32 a4);
+s32 CutsceneModelManager__LoadModel(CutsceneSystemManager *work, s32 slot, const char *path, s32 fileID, s32 id);
+s32 CutsceneModelManager__LoadModelAnimation(CutsceneSystemManager *work, s32 slot, s32 type, const char *path, s32 fileID, s32 animID, const char *texPath, s32 texFileID);
+void CutsceneModelManager__Func_2157738(CutsceneSystemManager *work, s32 type, s32 id, s32 value);
 void CutsceneModelManager__Func_215793C(CutsceneSystemManager *work);
 void CutsceneModelManager__LoadDrawState(CutsceneSystemManager *work, void *memory);
 void CutsceneModelManager__Func_2157A0C(CutsceneSystemManager *work, s32 id);
@@ -442,7 +442,7 @@ CutsceneTextWorker *CutsceneTextManager__GetWorker(CutsceneSystemManager *work);
 // Model manager
 void CutsceneModelManager__RenderCallback_Single(NNSG3dRS *rs);
 void CutsceneModelManager__RenderCallback_Double(NNSG3dRS *rs);
-void CutsceneModelManager__Func_2157D6C(void);
+void CutsceneModelManager__Func_2157D6C(CutsceneCamera3D *work);
 
 // Fade manager
 void CutsceneFadeManager__Alloc(CutsceneSystemManager *work);
@@ -451,13 +451,13 @@ void CutsceneFadeManager__Process(CutsceneSystemManager *work);
 
 // FileSystem manager
 void CutsceneFileSystemManager__Alloc(CutsceneSystemManager *work, u32 count);
-void CutsceneFileSystemManager__UnmountArchive2(void);
+void CutsceneFileSystemManager__UnmountArchive2(CutsceneArchive *work);
 void CutsceneFileSystemManager__Release(CutsceneSystemManager *work);
 void CutsceneFileSystemManager__Process(CutsceneSystemManager *work);
 
 // SpriteButton manager
 void CutsceneSpriteButtonManager__Alloc(CutsceneSystemManager *work, u32 count);
-void CutsceneSpriteButtonManager__Func_21580E0(void);
+void CutsceneSpriteButtonManager__Func_21580E0(CutsceneSpriteButton *work, CutsceneSystemManager *manager);
 void CutsceneSpriteButtonManager__Release(CutsceneSystemManager *work);
 void CutsceneSpriteButtonManager__Process(CutsceneSystemManager *work);
 
@@ -497,8 +497,8 @@ void CutsceneFadeTask__Process(CutsceneFadeManager *work, s32 mode, s32 timer);
 void CutsceneFadeManager__Draw(CutsceneFadeManager *work);
 
 // SpriteButton touch area
-void CutsceneSpriteButtonManager__AddTouchArea(void);
-void CutsceneSpriteButtonManager__RemoveTouchArea(void);
+void CutsceneSpriteButtonManager__AddTouchArea(CutsceneTouchArea *work, TouchField *touchField, AnimatorSprite *animator, u32 flags, CutsceneScript *cutscene, s32 type);
+void CutsceneSpriteButtonManager__RemoveTouchArea(CutsceneTouchArea *work);
 void CutsceneSpriteButtonManager__TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData);
 
 void CutsceneTextWorker__Init(CutsceneTextWorker *work);
@@ -534,7 +534,7 @@ void CutsceneAssetSystem__LoadCanSkipFlag(CutsceneScript *work);
 void CutsceneAssetSystem__StoreCanSkipFlag(CutsceneScript *work);
 void CutsceneAssetSystem__Main(void);
 void CutsceneAssetSystem__NextSysEvent(void);
-void CutsceneAssetSystem__Func_215A124(void);
+void CutsceneAssetSystem__Func_215A124(void *background, void *vramPixels, s32 displayWidth, s32 displayHeight);
 void CutsceneAssetSystem__Func_215A248(void);
 void CutsceneAssetSystem__Func_215A2F0(void);
 void CutsceneAssetSystem__Func_215A374(void);

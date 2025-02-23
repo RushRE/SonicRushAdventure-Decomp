@@ -805,8 +805,8 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniBossMain, "/boss1.nsbca", NULL, gameArchiveStage);
     ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniBossMain, "/boss1.nsbva", NULL, gameArchiveStage);
     NNS_G3dRenderObjSetCallBack(&work->aniBossMain.ani.renderObj, BossHelpers__Model__RenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
-    BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, "weak", 30, NULL, NULL);
-    BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, "body_neck", 29, Boss1__NeckRenderCallback, work);
+    BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, "weak", NNS_G3D_MTXSTACK_SYS, NULL, NULL);
+    BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, "body_neck", NNS_G3D_MTXSTACK_USER, Boss1__NeckRenderCallback, work);
 
     OBS_ACTION3D_NN_WORK *aniBossSub = &work->aniBossSub1;
     ObjAction3dNNModelLoad(&work->gameWork.objWork, aniBossSub, "", 2, &bossAssetFiles[0], NULL);
@@ -3464,8 +3464,8 @@ void Boss1__Draw(void)
     Boss1 *work = TaskGetWorkCurrent(Boss1);
 
     StageTask__Draw3D(&work->gameWork.objWork, &work->aniBossMain.ani.work);
-    BossHelpers__Model__SetMatrixMode(30, &work->mtx1);
-    BossHelpers__Model__SetMatrixMode(29, &work->mtx2);
+    BossHelpers__Model__SetMatrixMode(NNS_G3D_MTXSTACK_SYS, &work->mtx1);
+    BossHelpers__Model__SetMatrixMode(NNS_G3D_MTXSTACK_USER, &work->mtx2);
 
     AnimatorMDL *aniSub1        = &work->aniBossSub1.ani;
     aniSub1->work.translation   = work->gameWork.objWork.position;
