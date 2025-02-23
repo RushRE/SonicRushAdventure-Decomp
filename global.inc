@@ -15236,8 +15236,8 @@
 .public CutsceneFileSystemManager__Func_21569CC
 .public CutsceneFileSystemManager__Func_21569E4
 .public CutsceneFileSystemManager__Func_21569FC
-.public CutsceneFileSystemManager__LoadArchive
-.public CutsceneFileSystemManager__ReleaseArchive
+.public CutsceneFileSystemManager__MountArchive
+.public CutsceneFileSystemManager__UnmountArchive
 .public CutsceneFileSystemManager__Func_2156B08
 .public CutsceneFileSystemManager__Func_2156BEC
 .public CutsceneFileSystemManager__Func_2156C88
@@ -15283,7 +15283,7 @@
 .public CutsceneFadeManager__Release
 .public CutsceneFadeManager__Process
 .public CutsceneFileSystemManager__Alloc
-.public CutsceneFileSystemManager__ReleaseArchive2
+.public CutsceneFileSystemManager__UnmountArchive2
 .public CutsceneFileSystemManager__Release
 .public CutsceneFileSystemManager__Process
 .public CutsceneSpriteButtonManager__Alloc

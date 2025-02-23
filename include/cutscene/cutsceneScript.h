@@ -381,8 +381,8 @@ BOOL CutsceneFileSystemManager__Func_21569A4(CutsceneSystemManager *work, s32 id
 void CutsceneFileSystemManager__Func_21569CC(CutsceneSystemManager *work, s32 a2);
 BOOL CutsceneFileSystemManager__Func_21569E4(CutsceneSystemManager *work);
 void CutsceneFileSystemManager__Func_21569FC(CutsceneSystemManager *work, s32 a2);
-void CutsceneFileSystemManager__LoadArchive(CutsceneSystemManager *work, s32 id, const char *name);
-void CutsceneFileSystemManager__ReleaseArchive(CutsceneSystemManager *work, s32 id);
+void CutsceneFileSystemManager__MountArchive(CutsceneSystemManager *work, s32 id, const char *arcName);
+void CutsceneFileSystemManager__UnmountArchive(CutsceneSystemManager *work, s32 id);
 s32 CutsceneFileSystemManager__Func_2156B08(CutsceneSystemManager *work, const char *path, s32 fileID);
 void CutsceneFileSystemManager__Func_2156BEC(CutsceneSystemManager *work, s32 a2);
 s32 CutsceneFileSystemManager__Func_2156C88(CutsceneSystemManager *work, s32 id, const char *path, s32 fileID);
@@ -451,7 +451,7 @@ void CutsceneFadeManager__Process(CutsceneSystemManager *work);
 
 // FileSystem manager
 void CutsceneFileSystemManager__Alloc(CutsceneSystemManager *work, u32 count);
-void CutsceneFileSystemManager__ReleaseArchive2(void);
+void CutsceneFileSystemManager__UnmountArchive2(void);
 void CutsceneFileSystemManager__Release(CutsceneSystemManager *work);
 void CutsceneFileSystemManager__Process(CutsceneSystemManager *work);
 
@@ -463,13 +463,13 @@ void CutsceneSpriteButtonManager__Process(CutsceneSystemManager *work);
 
 // Background manager
 void CutsceneBackgroundManager__Alloc(CutsceneSystemManager *work);
-void CutsceneBackgroundManager__Func_21582F4(void);
+void CutsceneBackgroundManager__Func_21582F4(CutsceneBackground *work, CutsceneSystemManager *manager);
 void CutsceneBackgroundManager__Release(CutsceneSystemManager *work);
 void CutsceneBackgroundManager__Process(CutsceneSystemManager *work);
 
 // Model manager
 void CutsceneModelManager__Alloc(CutsceneSystemManager *work, u32 count);
-void CutsceneModelManager__Func_215858C(void);
+void CutsceneModelManager__Func_215858C(CutsceneModel *work, CutsceneSystemManager *manager);
 void CutsceneModelManager__Release(CutsceneSystemManager *work);
 void CutsceneModelManager__Process(CutsceneSystemManager *work);
 

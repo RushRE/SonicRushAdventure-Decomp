@@ -71,6 +71,8 @@ enum BackgroundID_
     BACKGROUND_1,
     BACKGROUND_2,
     BACKGROUND_3,
+    
+    BACKGROUND_COUNT,
 };
 typedef u8 BackgroundID;
 

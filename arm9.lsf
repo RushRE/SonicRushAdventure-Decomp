@@ -736,7 +736,9 @@ Overlay Sail
 Overlay Cutscene
 {
     After arm9
-    Object asm/cutscene/cutsceneScript_vars.o
+    Object src/cutscene/cutsceneScriptEngineCommandTable.o
+    Object src/cutscene/cutsceneScriptInstructionCommandTable.o
+    Object src/cutscene/cutsceneScriptInstructionCommandTable2.o
     Object src/cutscene/cutsceneScript.o
 }
 

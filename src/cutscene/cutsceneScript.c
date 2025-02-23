@@ -49,14 +49,20 @@ struct CutsceneFader_
     u8 timer3;
 };
 
+typedef struct CutsceneFSArchive_
+{
+    NNSFndArchive arc;
+    const char *name;
+} CutsceneFSArchive;
+
 struct CutsceneArchive_
 {
     s32 refCount;
     s32 field_4;
     s32 field_8;
-    NNSiFndArchiveHeader *archive;
+    void *archive;
     CutsceneArchive *next;
-    NNSFndArchive *fndArchive;
+    CutsceneFSArchive *fsArchive;
 };
 
 struct CutsceneTouchArea_
@@ -177,39 +183,15 @@ typedef struct CutsceneFadeTask_
 
 static Task *cutsceneAssetSystemTask;
 
-NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__UnknownEngineCommands[];
-NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__EngineTextCommands[];
-NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__BackgroundCommands[];
-NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__SystemCommands[];
-NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__FileSystemCommands[];
-NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__ModelCommands[];
-NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__SpriteCommands[];
-NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__SoundCommands[];
-NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__ScreenCommands[];
+extern CutsceneScriptEngineCommand *CutsceneScript__EngineCommandTable[];
+extern CutsceneScriptControlCommand *CutsceneScript__InstructionTable[];
 
-NOT_DECOMPILED void *aNodeCamera2_ovl07;
-NOT_DECOMPILED void *aNodeTarget_ovl07;
-NOT_DECOMPILED void *aNodeCamera_ovl07;
-NOT_DECOMPILED void *aNodeTarget_0_ovl07;
-NOT_DECOMPILED void *aNodeCamera_0_ovl07;
-NOT_DECOMPILED void *aNodeTarget2_ovl07;
-
-NOT_DECOMPILED void *_0215B3A0;
-NOT_DECOMPILED CutsceneScriptTextCommand CutsceneScript__TextCommands[];
-NOT_DECOMPILED void *_0215B410;
-
-NOT_DECOMPILED CutsceneScriptEngineCommand *CutsceneScript__EngineCommandTable[];
-NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__EngineInstructionTable[];
-NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__UnknownCommands[];
-NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__EndCommands[];
-NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__StackCommands[];
-NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__FunctionCommands[];
-NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__ComparisonCommands[];
-NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__ComparisonCommands[];
-NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__IfCommands[];
-NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__ArithmeticCommands[];
-NOT_DECOMPILED CutsceneScriptControlCommand *CutsceneScript__InstructionTable[];
-NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__BitwiseCommands[];
+static const NNSG3dResName camera2NodeName = { "node_camera2" };
+static const NNSG3dResName target2NodeName = { "node_target2" };
+static const NNSG3dResName target1NodeName = { "node_target" };
+static const NNSG3dResName cameraNodeName  = { "node_camera" };
+static const NNSG3dResName targetNodeName  = { "node_target" };
+static const NNSG3dResName camera1NodeName = { "node_camera" };
 
 // --------------------
 // FUNCTIONS
@@ -1053,7 +1035,7 @@ CutsceneScriptResult CutsceneScript__FileSystemCommand__MountArchive(ScriptThrea
     s32 id           = CutsceneScript__GetFunctionParamRegister(thread, 0);
     const char *path = CutsceneScript__GetFunctionParamString(thread, work, 1);
 
-    CutsceneFileSystemManager__LoadArchive(&work->systemManager, id, path);
+    CutsceneFileSystemManager__MountArchive(&work->systemManager, id, path);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
@@ -1062,7 +1044,7 @@ CutsceneScriptResult CutsceneScript__FileSystemCommand__UnmountArchive(ScriptThr
 {
     s32 id = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
-    CutsceneFileSystemManager__ReleaseArchive(&work->systemManager, id);
+    CutsceneFileSystemManager__UnmountArchive(&work->systemManager, id);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
@@ -1875,7 +1857,7 @@ void CutsceneFadeTask__Main(void)
     work->timer += work->speed;
 
     fx32 brightness = work->timer;
-	
+
     if (brightness >= FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_WHITE))
         brightness = FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_WHITE);
 
@@ -2045,22 +2027,22 @@ void AYKCommand__SetRegister(ScriptThread *work, u32 id, s32 value)
     work->registers[id] = value;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ExecuteCommand(CutsceneScript *work, ScriptThread *thread)
+CutsceneScriptResult CutsceneScript__ExecuteCommand(CutsceneScript *work, ScriptThread *thread)
 {
-    // https://decomp.me/scratch/RgFfq -> 91.64%
-#ifdef NON_MATCHING
-    CutsceneScriptResult result;
-
     s32 pc;
     s32 *nextPC;
 
+    s32 *pc_ptr;
+    pc_ptr = &pc;
+
     ScriptCommand *command;
 
+    CutsceneScriptResult result;
     do
     {
         pc = *CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
 
-        command = CutsceneScript__GetScriptPtr(work, thread, pc);
+        command = CutsceneScript__GetScriptPtr(work, thread, *pc_ptr);
         if (command->param2 != 0)
         {
             nextPC = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
@@ -2077,7 +2059,9 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ExecuteCommand(CutsceneScript
             *nextPC += 1; // 1 * sizeof(s32)
         }
 
-        result = CutsceneScript__InstructionTable[(command->type >> 4) & 0xF][command->type & 0xF](work, thread, command);
+        s32 type = (command->type >> 4) & 0xF;
+        s32 id   = command->type & 0xF;
+        result   = CutsceneScript__InstructionTable[type][id](work, thread, command);
 
         if (result == CUTSCENESCRIPT_RESULT_SUSPEND_RETURN)
         {
@@ -2088,79 +2072,6 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ExecuteCommand(CutsceneScript
     } while (result == CUTSCENESCRIPT_RESULT_CONTINUE);
 
     return result;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	mov r11, #0xf
-	ldr r4, =CutsceneScript__InstructionTable
-	mov r10, r0
-	mov r9, r1
-	mov r5, r11
-	mov r6, r11
-	mov r7, r11
-_02155688:
-	mov r0, r9
-	mov r1, r7
-	bl CutsceneScript__GetRegister
-	ldr r2, [r0, #0]
-	mov r0, r10
-	str r2, [sp]
-	mov r1, r9
-	bl CutsceneScript__GetScriptPtr
-	mov r8, r0
-	ldrb r0, [r8, #2]
-	cmp r0, #0
-	beq _021556D4
-	mov r0, r9
-	mov r1, r6
-	bl CutsceneScript__GetRegister
-	ldr r1, [r0, #0]
-	add r1, r1, #3
-	str r1, [r0]
-	b _02155710
-_021556D4:
-	ldrb r0, [r8, #1]
-	cmp r0, #0
-	mov r0, r9
-	beq _021556FC
-	mov r1, r5
-	bl CutsceneScript__GetRegister
-	ldr r1, [r0, #0]
-	add r1, r1, #2
-	str r1, [r0]
-	b _02155710
-_021556FC:
-	mov r1, r11
-	bl CutsceneScript__GetRegister
-	ldr r1, [r0, #0]
-	add r1, r1, #1
-	str r1, [r0]
-_02155710:
-	ldrb r3, [r8, #0]
-	mov r0, r10
-	mov r1, r9
-	mov ip, r3, asr #4
-	mov r2, r8
-	and r8, ip, #0xf
-	ldr r8, [r4, r8, lsl #2]
-	and r3, r3, #0xf
-	ldr r3, [r8, r3, lsl #2]
-	blx r3
-	cmp r0, #5
-	bne _02155758
-	mov r0, r9
-	mov r1, #0xf
-	bl CutsceneScript__GetRegister
-	ldr r1, [sp]
-	str r1, [r0]
-	mov r0, #4
-_02155758:
-	cmp r0, #1
-	beq _02155688
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
 }
 
 s32 *CutsceneScript__GetRegister(ScriptThread *work, u32 id)
@@ -2700,50 +2611,20 @@ CutsceneScriptResult CutsceneScript__FunctionCommand_EndFunction(CutsceneScript 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC CutsceneScriptResult CutsceneScript__FunctionCommand_CallFunctionASync(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+CutsceneScriptResult CutsceneScript__FunctionCommand_CallFunctionASync(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
 {
-    // https://decomp.me/scratch/HmRGr -> 94.36%
-#ifdef NON_MATCHING
     s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 8, work, thread);
     s32 *reg    = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
 
-    s32 id                                                               = CutsceneScript__AllocScriptThread(work, *value1 + *reg);
+    u32 pc = *value1 + *reg;
+
+    s32 *pc_ptr;
+    pc_ptr = &pc;
+
+    s32 id                                                               = CutsceneScript__AllocScriptThread(work, *pc_ptr);
     *CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_RESULT) = id;
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #8
-	mov r5, r1
-	str r5, [sp]
-	mov r6, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r3, r6
-	mov r2, #8
-	bl CutsceneScript__GetScriptParam
-	mov r4, r0
-	mov r0, r5
-	mov r1, #0xf
-	bl CutsceneScript__GetRegister
-	ldr r1, [r0, #0]
-	ldr r2, [r4, #0]
-	mov r0, r6
-	add r1, r2, r1
-	str r1, [sp, #4]
-	bl CutsceneScript__AllocScriptThread
-	mov r4, r0
-	mov r0, r5
-	mov r1, #0xd
-	bl CutsceneScript__GetRegister
-	str r4, [r0]
-	mov r0, #1
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
 CutsceneScriptResult CutsceneScript__FunctionCommand_End(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
@@ -2817,136 +2698,41 @@ BOOL CutsceneFileSystemManager__Func_21569A4(CutsceneSystemManager *work, s32 id
     return work->fileSystemManager->archiveList[id].refCount == 1;
 }
 
-NONMATCH_FUNC void CutsceneFileSystemManager__Func_21569CC(CutsceneSystemManager *work, s32 a2){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	cmp r1, #0
-	movne r1, #1
-	ldr r0, [r0, #4]
-	moveq r1, #0
-	str r1, [r0, #8]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC BOOL CutsceneFileSystemManager__Func_21569E4(CutsceneSystemManager *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #4]
-	ldr r0, [r0, #8]
-	cmp r0, #0
-	movne r0, #1
-	moveq r0, #0
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void CutsceneFileSystemManager__Func_21569FC(CutsceneSystemManager *work, s32 a2){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	cmp r1, #0
-	movne r1, #1
-	ldr r0, [r0, #4]
-	moveq r1, #0
-	str r1, [r0, #0xc]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void CutsceneFileSystemManager__LoadArchive(CutsceneSystemManager *work, s32 id, const char *name)
+void CutsceneFileSystemManager__Func_21569CC(CutsceneSystemManager *work, s32 a2)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub r1, r1, #1
-	mov r3, #0x18
-	mov r6, r0
-	ldr r5, [r6, #4]
-	mul r4, r1, r3
-	ldr r3, [r5, #4]
-	mov r5, r2
-	add r2, r3, r4
-	ldr r2, [r2, #0x14]
-	cmp r2, #0
-	beq _02156A48
-	bl CutsceneFileSystemManager__ReleaseArchive
-_02156A48:
-	mov r0, #0x6c
-	bl _AllocHeadHEAP_SYSTEM
-	ldr r1, [r6, #4]
-	mov r2, #0x6c
-	ldr r1, [r1, #4]
-	add r1, r1, r4
-	str r0, [r1, #0x14]
-	ldr r1, [r6, #4]
-	mov r0, #0
-	ldr r1, [r1, #4]
-	add r1, r1, r4
-	ldr r1, [r1, #0x14]
-	bl MIi_CpuClear16
-	ldr r0, [r6, #4]
-	mov r1, r5
-	ldr r0, [r0, #4]
-	add r2, r0, r4
-	ldr r0, [r2, #0x14]
-	ldr r2, [r2, #0xc]
-	bl NNS_FndMountArchive
-	ldr r0, [r6, #4]
-	ldr r1, [r5, #0]
-	ldr r0, [r0, #4]
-	add r0, r0, r4
-	ldr r0, [r0, #0x14]
-	str r1, [r0, #0x68]
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    work->fileSystemManager->field_8 = a2 != FALSE;
 }
 
-NONMATCH_FUNC void CutsceneFileSystemManager__ReleaseArchive(CutsceneSystemManager *work, s32 id)
+BOOL CutsceneFileSystemManager__Func_21569E4(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    return work->fileSystemManager->field_8 != FALSE;
+}
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub r2, r1, #1
-	mov r1, #0x18
-	mov r5, r0
-	ldr r0, [r5, #4]
-	mul r4, r2, r1
-	ldr r0, [r0, #4]
-	add r0, r0, r4
-	ldr r0, [r0, #0x14]
-	bl NNS_FndUnmountArchive
-	ldr r0, [r5, #4]
-	ldr r0, [r0, #4]
-	add r0, r0, r4
-	ldr r0, [r0, #0x14]
-	bl _FreeHEAP_SYSTEM
-	ldr r0, [r5, #4]
-	mov r1, #0
-	ldr r0, [r0, #4]
-	add r0, r0, r4
-	str r1, [r0, #0x14]
-	ldmia sp!, {r3, r4, r5, pc}
+void CutsceneFileSystemManager__Func_21569FC(CutsceneSystemManager *work, s32 a2)
+{
+    work->fileSystemManager->field_C = a2 != 0;
+}
 
-// clang-format on
-#endif
+void CutsceneFileSystemManager__MountArchive(CutsceneSystemManager *work, s32 id, const char *arcName)
+{
+    id--;
+
+    if (work->fileSystemManager->archiveList[id].fsArchive)
+        CutsceneFileSystemManager__UnmountArchive(work, id);
+
+    work->fileSystemManager->archiveList[id].fsArchive = HeapAllocHead(HEAP_SYSTEM, sizeof(*work->fileSystemManager->archiveList[id].fsArchive));
+    MI_CpuClear16(work->fileSystemManager->archiveList[id].fsArchive, sizeof(*work->fileSystemManager->archiveList[id].fsArchive));
+
+    NNS_FndMountArchive(&work->fileSystemManager->archiveList[id].fsArchive->arc, arcName, work->fileSystemManager->archiveList[id].archive);
+    work->fileSystemManager->archiveList[id].fsArchive->name = *(const char **)arcName; // ???
+}
+
+void CutsceneFileSystemManager__UnmountArchive(CutsceneSystemManager *work, s32 id)
+{
+    id--;
+    NNS_FndUnmountArchive(&work->fileSystemManager->archiveList[id].fsArchive->arc);
+    HeapFree(HEAP_SYSTEM, work->fileSystemManager->archiveList[id].fsArchive);
+    work->fileSystemManager->archiveList[id].fsArchive = NULL;
 }
 
 NONMATCH_FUNC s32 CutsceneFileSystemManager__Func_2156B08(CutsceneSystemManager *work, const char *path, s32 fileID)
@@ -3069,7 +2855,7 @@ _02156C70:
 	cmp r0, #0
 	ldmneia sp!, {r4, r5, r6, pc}
 	add r0, r5, r4
-	bl CutsceneFileSystemManager__ReleaseArchive2
+	bl CutsceneFileSystemManager__UnmountArchive2
 	ldmia sp!, {r4, r5, r6, pc}
 
 // clang-format on
@@ -3100,7 +2886,7 @@ NONMATCH_FUNC s32 CutsceneFileSystemManager__Func_2156C88(CutsceneSystemManager 
 	mov r0, #0x18
 	mla r4, r1, r0, r2
 	mov r0, r4
-	bl CutsceneFileSystemManager__ReleaseArchive2
+	bl CutsceneFileSystemManager__UnmountArchive2
 	cmp r7, #0
 	bge _02156D8C
 	ldrsb r0, [r8, #3]
@@ -3195,17 +2981,9 @@ void CutsceneSpriteButtonManager__Init(CutsceneSystemManager *work, u32 count)
     TouchField__Init(&work->spriteButtonManager->touchField);
 }
 
-NONMATCH_FUNC u32 CutsceneSpriteButtonManager__Func_2156E2C(CutsceneSystemManager *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #8]
-	ldr r0, [r0, #0]
-	bx lr
-
-// clang-format on
-#endif
+u32 CutsceneSpriteButtonManager__Func_2156E2C(CutsceneSystemManager *work)
+{
+    return work->spriteButtonManager->count;
 }
 
 AnimatorSprite *CutsceneSpriteButtonManager__GetAnimator(CutsceneSystemManager *work, s32 id)
@@ -3214,38 +2992,16 @@ AnimatorSprite *CutsceneSpriteButtonManager__GetAnimator(CutsceneSystemManager *
     return &work->spriteButtonManager->list[id].ani;
 }
 
-NONMATCH_FUNC CutsceneTouchArea *CutsceneSpriteButtonManager__Func_2156E54(CutsceneSystemManager *work, s32 id){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #8]
-	sub r1, r1, #1
-	ldr r2, [r0, #4]
-	mov r0, #0x70
-	mla r0, r1, r0, r2
-	ldr r0, [r0, #0x68]
-	bx lr
-
-// clang-format on
-#endif
+CutsceneTouchArea *CutsceneSpriteButtonManager__Func_2156E54(CutsceneSystemManager *work, s32 id)
+{
+    id--;
+    return work->spriteButtonManager->list[id].touchArea;
 }
 
-NONMATCH_FUNC u32 *CutsceneSpriteButtonManager__Func_2156E70(CutsceneSystemManager *work, s32 id){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #8]
-	sub r1, r1, #1
-	ldr r2, [r0, #4]
-	mov r0, #0x70
-	mla r0, r1, r0, r2
-	add r0, r0, #0x6c
-	bx lr
-
-// clang-format on
-#endif
+u32 *CutsceneSpriteButtonManager__Func_2156E70(CutsceneSystemManager *work, s32 id)
+{
+    id--;
+    return &work->spriteButtonManager->list[id].field_6C;
 }
 
 NONMATCH_FUNC s32 CutsceneSpriteButtonManager__LoadSprite2(CutsceneSystemManager *work, const char *path, s32 fileID, BOOL useEngineB, u16 animID, u16 paletteRow)
@@ -3492,42 +3248,21 @@ Background *CutsceneBackgroundManager__GetBackground(CutsceneSystemManager *work
     return &work->backgroundManager->renderers[id].ani;
 }
 
-NONMATCH_FUNC void *CutsceneBackgroundManager__Func_2157174(CutsceneSystemManager *work, s32 id){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r2, [r0, #0xc]
-	sub r1, r1, #1
-	mov r0, #0x50
-	mla r0, r1, r0, r2
-	add r0, r0, #0x4c
-	bx lr
-
-// clang-format on
-#endif
+void *CutsceneBackgroundManager__Func_2157174(CutsceneSystemManager *work, s32 id)
+{
+    id--;
+    return &work->backgroundManager->renderers[id].field_4C;
 }
 
-NONMATCH_FUNC void *CutsceneBackgroundManager__Func_215718C(CutsceneSystemManager *work, s32 id1, s32 id2){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r3, [r0, #0xc]
-	orr r1, r2, r1, lsl #2
-	mov r0, #0x50
-	mla r0, r1, r0, r3
-	add r0, r0, #0x4c
-	bx lr
-
-// clang-format on
-#endif
+void *CutsceneBackgroundManager__Func_215718C(CutsceneSystemManager *work, s32 id1, s32 id2)
+{
+    return &work->backgroundManager->renderers[id2 | (4 * id1)].field_4C;
 }
 
 s32 CutsceneBackgroundManager__Func_21571A4(CutsceneSystemManager *work)
 {
     UNUSED(work);
-    return 8;
+    return GRAPHICS_ENGINE_COUNT * BACKGROUND_COUNT;
 }
 
 NONMATCH_FUNC s32 CutsceneBackgroundManager__LoadBackground(CutsceneSystemManager *work, const char *path, s32 fileID, BOOL useEngineB, u8 bgID)
@@ -3706,23 +3441,10 @@ _02157418:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneBackgroundManager__Func_2157430(CutsceneSystemManager *work, s32 id)
+void CutsceneBackgroundManager__Func_2157430(CutsceneSystemManager *work, s32 id)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r3, r0
-	ldr r2, [r3, #0xc]
-	sub r1, r1, #1
-	mov r0, #0x50
-	mla r0, r1, r0, r2
-	ldr ip, =CutsceneBackgroundManager__Func_21582F4
-	mov r1, r3
-	bx ip
-
-// clang-format on
-#endif
+    id--;
+    CutsceneBackgroundManager__Func_21582F4(&work->backgroundManager->renderers[id], work);
 }
 
 void CutsceneModelManager__Init(CutsceneSystemManager *work, u32 count)
@@ -4173,24 +3895,10 @@ NONMATCH_FUNC void CutsceneModelManager__LoadDrawState(CutsceneSystemManager *wo
 #endif
 }
 
-NONMATCH_FUNC void CutsceneModelManager__Func_2157A0C(CutsceneSystemManager *work, s32 id)
+void CutsceneModelManager__Func_2157A0C(CutsceneSystemManager *work, s32 id)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r3, r0
-	ldr r0, [r3, #0x10]
-	sub r1, r1, #1
-	ldr r2, [r0, #4]
-	mov r0, #0x164
-	mla r0, r1, r0, r2
-	ldr ip, =CutsceneModelManager__Func_215858C
-	mov r1, r3
-	bx ip
-
-// clang-format on
-#endif
+    id--;
+    CutsceneModelManager__Func_215858C(&work->modelManager->list[id], work);
 }
 
 void CutsceneAudioManager__Init(CutsceneSystemManager *work, u32 count)
@@ -4220,23 +3928,14 @@ void CutsceneSystemManager__Process(CutsceneSystemManager *work)
     CutsceneTextManager__Process(work);
 }
 
-NONMATCH_FUNC NNSSndHandle *CutsceneAudioManager__GetSoundHandle(CutsceneSystemManager *work, s32 id){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r2, [r0, #0x14]
-	sub r0, r1, #1
-	ldr r1, [r2, #4]
-	add r0, r1, r0, lsl #3
-	ldr r0, [r0, #4]
-	bx lr
-
-// clang-format on
-#endif
+NNSSndHandle *CutsceneAudioManager__GetSoundHandle(CutsceneSystemManager *work, s32 id)
+{
+    id--;
+    return work->audioManager->handleList[id].handle;
 }
 
-NONMATCH_FUNC s32 CutsceneAudioManager__AllocSoundHandle(CutsceneSystemManager *work){
+NONMATCH_FUNC s32 CutsceneAudioManager__AllocSoundHandle(CutsceneSystemManager *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -4264,54 +3963,24 @@ _02157B00:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneAudioManager__Func_2157B08(CutsceneSystemManager *work)
+void CutsceneAudioManager__Func_2157B08(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    u32 prevCount = work->audioManager->handleCount;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r1, [r5, #0x14]
-	ldr r4, [r1, #0]
-	bl CutsceneAudioManager__Release
-	mov r0, r5
-	mov r1, r4
-	bl CutsceneAudioManager__Alloc
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    CutsceneAudioManager__Release(work);
+    CutsceneAudioManager__Alloc(work, prevCount);
 }
 
-NONMATCH_FUNC void CutsceneAudioManager__StopAllSeq(CutsceneSystemManager *work, s32 fadeFrame)
+void CutsceneAudioManager__StopAllSeq(CutsceneSystemManager *work, s32 fadeFrame)
 {
-#ifdef NON_MATCHING
+    CutsceneAudioHandle *listPtr = &work->audioManager->handleList[0];
+    CutsceneAudioHandle *listEnd = &work->audioManager->handleList[work->audioManager->handleCount];
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r0, [r0, #0x14]
-	mov r6, r1
-	ldr r4, [r0, #4]
-	ldr r0, [r0, #0]
-	add r5, r4, r0, lsl #3
-	cmp r4, r5
-	ldmeqia sp!, {r4, r5, r6, pc}
-_02157B4C:
-	ldr r0, [r4, #4]
-	cmp r0, #0
-	beq _02157B60
-	mov r1, r6
-	bl NNS_SndPlayerStopSeq
-_02157B60:
-	add r4, r4, #8
-	cmp r4, r5
-	bne _02157B4C
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    for (; listPtr != listEnd; listPtr++)
+    {
+        if (listPtr->handle != NULL)
+            NNS_SndPlayerStopSeq(listPtr->handle, fadeFrame);
+    }
 }
 
 CutsceneTextWorker *CutsceneTextManager__GetWorker(CutsceneSystemManager *work)
@@ -4319,148 +3988,60 @@ CutsceneTextWorker *CutsceneTextManager__GetWorker(CutsceneSystemManager *work)
     return work->textManager->worker;
 }
 
-NONMATCH_FUNC void CutsceneModelManager__RenderCallback_Single(NNSG3dRS *rs)
+void CutsceneModelManager__RenderCallback_Single(NNSG3dRS *rs)
 {
-#ifdef NON_MATCHING
+    s32 node = NNS_G3dRSGetCurrentNodeDescID(rs);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r5, r0
-	ldr r0, [r5, #8]
-	ldr r1, =aNodeCamera_0_ovl07
-	tst r0, #0x10
-	ldr r0, [r5, #4]
-	ldrneb r4, [r5, #0xae]
-	ldr r0, [r0, #4]
-	add r0, r0, #0x40
-	mvneq r4, #0
-	bl NNS_G3dGetResDictIdxByName
-	cmp r0, #0
-	blt _02157BD4
-	cmp r4, r0
-	bne _02157BD4
-	mov r3, #0x1e
-	add r1, sp, #4
-	mov r0, #0x13
-	mov r2, #1
-	str r3, [sp, #4]
-	bl NNS_G3dGeBufferOP_N
-_02157BD4:
-	ldr r0, [r5, #4]
-	ldr r1, =aNodeTarget_0_ovl07
-	ldr r0, [r0, #4]
-	add r0, r0, #0x40
-	bl NNS_G3dGetResDictIdxByName
-	cmp r0, #0
-	addlt sp, sp, #8
-	ldmltia sp!, {r3, r4, r5, pc}
-	cmp r4, r0
-	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, pc}
-	mov r3, #0x1d
-	add r1, sp, #0
-	mov r0, #0x13
-	mov r2, #1
-	str r3, [sp]
-	bl NNS_G3dGeBufferOP_N
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
+    s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &cameraNodeName);
+    if (cameraNodeIdx >= 0 && node == cameraNodeIdx)
+    {
+        NNS_G3dGeStoreMtx(30);
+    }
 
-// clang-format on
-#endif
+    s32 targetNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &targetNodeName);
+    if (targetNodeIdx >= 0 && node == targetNodeIdx)
+    {
+        NNS_G3dGeStoreMtx(29);
+    }
 }
 
-NONMATCH_FUNC void CutsceneModelManager__RenderCallback_Double(NNSG3dRS *rs)
+void CutsceneModelManager__RenderCallback_Double(NNSG3dRS *rs)
 {
-#ifdef NON_MATCHING
+    s32 node = NNS_G3dRSGetCurrentNodeDescID(rs);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #0x10
-	mov r5, r0
-	ldr r0, [r5, #8]
-	tst r0, #0x10
-	ldrneb r4, [r5, #0xae]
-	mvneq r4, #0
-	bl Camera3D__UseEngineA
-	cmp r0, #0
-	ldr r0, [r5, #4]
-	beq _02157CD8
-	ldr r0, [r0, #4]
-	ldr r1, =aNodeCamera_ovl07
-	add r0, r0, #0x40
-	bl NNS_G3dGetResDictIdxByName
-	cmp r0, #0
-	blt _02157C8C
-	cmp r4, r0
-	bne _02157C8C
-	mov r3, #0x1e
-	add r1, sp, #0xc
-	mov r0, #0x13
-	mov r2, #1
-	str r3, [sp, #0xc]
-	bl NNS_G3dGeBufferOP_N
-_02157C8C:
-	ldr r0, [r5, #4]
-	ldr r1, =aNodeTarget_ovl07
-	ldr r0, [r0, #4]
-	add r0, r0, #0x40
-	bl NNS_G3dGetResDictIdxByName
-	cmp r0, #0
-	addlt sp, sp, #0x10
-	ldmltia sp!, {r3, r4, r5, pc}
-	cmp r4, r0
-	addne sp, sp, #0x10
-	ldmneia sp!, {r3, r4, r5, pc}
-	mov r3, #0x1d
-	add r1, sp, #8
-	mov r0, #0x13
-	mov r2, #1
-	str r3, [sp, #8]
-	bl NNS_G3dGeBufferOP_N
-	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, pc}
-_02157CD8:
-	ldr r0, [r0, #4]
-	ldr r1, =aNodeCamera2_ovl07
-	add r0, r0, #0x40
-	bl NNS_G3dGetResDictIdxByName
-	cmp r0, #0
-	blt _02157D10
-	cmp r4, r0
-	bne _02157D10
-	mov r3, #0x1e
-	add r1, sp, #4
-	mov r0, #0x13
-	mov r2, #1
-	str r3, [sp, #4]
-	bl NNS_G3dGeBufferOP_N
-_02157D10:
-	ldr r0, [r5, #4]
-	ldr r1, =aNodeTarget2_ovl07
-	ldr r0, [r0, #4]
-	add r0, r0, #0x40
-	bl NNS_G3dGetResDictIdxByName
-	cmp r0, #0
-	addlt sp, sp, #0x10
-	ldmltia sp!, {r3, r4, r5, pc}
-	cmp r4, r0
-	addne sp, sp, #0x10
-	ldmneia sp!, {r3, r4, r5, pc}
-	mov r3, #0x1d
-	add r1, sp, #0
-	mov r0, #0x13
-	mov r2, #1
-	str r3, [sp]
-	bl NNS_G3dGeBufferOP_N
-	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, pc}
+    switch (Camera3D__UseEngineA())
+    {
+        // case GRAPHICS_ENGINE_B:
+        default: {
+            s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &camera1NodeName);
+            if (cameraNodeIdx >= 0 && node == cameraNodeIdx)
+            {
+                NNS_G3dGeStoreMtx(30);
+            }
 
-// clang-format on
-#endif
+            s32 targetNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &target1NodeName);
+            if (targetNodeIdx >= 0 && node == targetNodeIdx)
+            {
+                NNS_G3dGeStoreMtx(29);
+            }
+        }
+        break;
+
+        case GRAPHICS_ENGINE_A: {
+            s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &camera2NodeName);
+            if (cameraNodeIdx >= 0 && node == cameraNodeIdx)
+            {
+                NNS_G3dGeStoreMtx(30);
+            }
+
+            s32 targetNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &target2NodeName);
+            if (targetNodeIdx >= 0 && node == targetNodeIdx)
+            {
+                NNS_G3dGeStoreMtx(29);
+            }
+        }
+        break;
+    }
 }
 
 NONMATCH_FUNC void CutsceneModelManager__Func_2157D6C(void)
@@ -4541,40 +4122,18 @@ void CutsceneFadeManager__Alloc(CutsceneSystemManager *work)
     CutsceneFadeManager__Init(work->fadeManager);
 }
 
-NONMATCH_FUNC void CutsceneFadeManager__Release(CutsceneSystemManager *work)
+void CutsceneFadeManager__Release(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0]
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    HeapFree(HEAP_SYSTEM, work->fadeManager);
+    work->fadeManager = NULL;
 }
 
-NONMATCH_FUNC void CutsceneFadeManager__Process(CutsceneSystemManager *work)
+void CutsceneFadeManager__Process(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    CutsceneFadeManager *fadeManager = work->fadeManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r4, [r0, #0]
-	mov r0, r4
-	bl CutsceneFadeManager__Draw
-	mov r0, r4
-	bl CutsceneFadeManager__Init
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    CutsceneFadeManager__Draw(fadeManager);
+    CutsceneFadeManager__Init(fadeManager);
 }
 
 NONMATCH_FUNC void CutsceneFileSystemManager__Alloc(CutsceneSystemManager *work, u32 count)
@@ -4612,7 +4171,7 @@ NONMATCH_FUNC void CutsceneFileSystemManager__Alloc(CutsceneSystemManager *work,
 #endif
 }
 
-NONMATCH_FUNC void CutsceneFileSystemManager__ReleaseArchive2(void)
+NONMATCH_FUNC void CutsceneFileSystemManager__UnmountArchive2(void)
 {
 #ifdef NON_MATCHING
 
@@ -4644,7 +4203,7 @@ _02157F50:
 	ldr r1, [r0, #0]
 	cmp r1, #0
 	bne _02157F70
-	bl CutsceneFileSystemManager__ReleaseArchive2
+	bl CutsceneFileSystemManager__UnmountArchive2
 _02157F70:
 	mov r1, r4
 	mov r0, #0
@@ -4687,7 +4246,7 @@ _02157FD0:
 	cmp r0, #0
 	beq _02157FE4
 	mov r0, r7
-	bl CutsceneFileSystemManager__ReleaseArchive2
+	bl CutsceneFileSystemManager__UnmountArchive2
 _02157FE4:
 	ldr r0, [r4, #4]
 	ldr r1, [r4, #0]
@@ -4967,7 +4526,7 @@ NONMATCH_FUNC void CutsceneBackgroundManager__Alloc(CutsceneSystemManager *work)
 #endif
 }
 
-NONMATCH_FUNC void CutsceneBackgroundManager__Func_21582F4(void)
+NONMATCH_FUNC void CutsceneBackgroundManager__Func_21582F4(CutsceneBackground *work, CutsceneSystemManager *manager)
 {
 #ifdef NON_MATCHING
 
@@ -5189,7 +4748,7 @@ NONMATCH_FUNC void CutsceneModelManager__Alloc(CutsceneSystemManager *work, u32 
 #endif
 }
 
-NONMATCH_FUNC void CutsceneModelManager__Func_215858C(void)
+NONMATCH_FUNC void CutsceneModelManager__Func_215858C(CutsceneModel *work, CutsceneSystemManager *manager)
 {
 #ifdef NON_MATCHING
 
@@ -6156,36 +5715,10 @@ _021591E4:
 #endif
 }
 
-NONMATCH_FUNC u32 CutsceneUnknown__GetBankID(s32 a1)
+u32 CutsceneUnknown__GetBankID(s32 a1)
 {
-    // should match when _0215B3A0 is decompiled
-#ifdef NON_MATCHING
     u32 array[] = { 0, 1, 2, 3, 8, 9, 11, 4, 5, 6, 7, 11, 11 };
     return array[BankUnknown__GetBankID(a1)];
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0x34
-	ldr lr, =_0215B3A0
-	mov r4, r0
-	ldmia lr!, {r0, r1, r2, r3}
-	add ip, sp, #0
-	stmia ip!, {r0, r1, r2, r3}
-	ldmia lr!, {r0, r1, r2, r3}
-	stmia ip!, {r0, r1, r2, r3}
-	ldmia lr!, {r0, r1, r2, r3}
-	stmia ip!, {r0, r1, r2, r3}
-	ldr r1, [lr]
-	mov r0, r4
-	str r1, [ip]
-	bl BankUnknown__GetBankID
-	add r1, sp, #0
-	ldr r0, [r1, r0, lsl #2]
-	add sp, sp, #0x34
-	ldmia sp!, {r3, r4, pc}
-
-// clang-format on
-#endif
 }
 
 void CutsceneFadeManager__Init(CutsceneFadeManager *work)
@@ -6719,6 +6252,24 @@ _02159894:
 
 CutsceneScriptResult CutsceneTextWorker__Process(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *work)
 {
+    static const CutsceneScriptTextCommand CutsceneScript__TextCommands[] = {
+        CutsceneScript__TextCommand__LoadFontFile,
+        CutsceneScript__TextCommand__Func_2159B14,
+        CutsceneScript__TextCommand__LoadMPCFile,
+        CutsceneScript__TextCommand__SetMsgSeq,
+        CutsceneScript__TextCommand__Func_2159C68,
+        CutsceneScript__TextCommand__Func_2159C88,
+        CutsceneScript__TextCommand__Func_2159CA8,
+        CutsceneScript__TextCommand__Func_2159CC8,
+        CutsceneScript__TextCommand__Func_2159CD8,
+        CutsceneScript__TextCommand__LoadCharacters,
+        CutsceneScript__TextCommand__LoadCharactersConditional,
+        CutsceneScript__TextCommand__IsEndOfLine,
+        CutsceneScript__TextCommand__AdvanceDialog,
+        CutsceneScript__TextCommand__IsLastDialog,
+        CutsceneScript__TextCommand__Draw,
+    };
+
     s32 id = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
     return CutsceneScript__TextCommands[id](text, thread, work);
@@ -8566,44 +8117,20 @@ _0215B0FC:
 #endif
 }
 
-NONMATCH_FUNC s16 CutsceneAssetSystem__Func_215B108(s32 value, s32 id)
+s16 CutsceneAssetSystem__Func_215B108(s32 value, s32 id)
 {
-    // https://decomp.me/scratch/5BQxd -> 98%
-#ifdef NON_MATCHING
     static const u32 maskTable[] = { 0, 1, 3, 7, 0xF, 0x1F, 0x3F, 0x7F, 0xFF, 0x1FF, 0x3FF, 0x7FF, 0xFFF, 0x1FFF, 0x3FFF, 0x7FFF, 0xFFFF };
 
     if (id == 0)
         return 0;
 
-    u32 mask = 1 << ((id & maskTable[id]) - 1);
-    if ((value & mask) != 0)
+    u32 mask = mask = id & maskTable[id];
+    mask--;
+    if ((value & (1 << mask)) != 0)
         return value;
 
-    return -(s16)(value | mask);
-#else
-    // clang-format off
-	cmp r1, #0
-	moveq r0, #0
-	bxeq lr
-	ldr r3, =_0215B410
-	mov r2, #1
-	ldr r3, [r3, r1, lsl #2]
-	and r1, r1, r3
-	sub r1, r1, #1
-	tst r0, r2, lsl r1
-	movne r0, r0, lsl #0x10
-	movne r0, r0, asr #0x10
-	bxne lr
-	orr r0, r0, r2, lsl r1
-	mov r0, r0, lsl #0x10
-	mov r0, r0, asr #0x10
-	rsb r0, r0, #0
-	mov r0, r0, lsl #0x10
-	mov r0, r0, asr #0x10
-	bx lr
-
-// clang-format on
-#endif
+    value |= (1 << mask);
+    return -(s16)value;
 }
 
 NONMATCH_FUNC void CutsceneAssetSystem__Func_215B158(void){
