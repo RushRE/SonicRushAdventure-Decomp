@@ -150,7 +150,7 @@ typedef struct CutsceneFadeTaskInfo_
     Task *task;
 } CutsceneFadeTaskInfo;
 
-typedef struct Unknown2156918_
+typedef struct CutsceneSystemManager_
 {
     CutsceneFadeManager *fadeManager;
     CutsceneFileSystemManager *fileSystemManager;
@@ -475,7 +475,7 @@ void CutsceneModelManager__Process(CutsceneSystemManager *work);
 
 // Audio manager
 void CutsceneAudioManager__Alloc(CutsceneSystemManager *work, u32 count);
-void CutsceneAudioManager__Func_21588A8(void);
+void CutsceneAudioManager__Func_21588A8(CutsceneAudioHandle *work, CutsceneSystemManager *manager);
 void CutsceneAudioManager__Release(CutsceneSystemManager *work);
 void CutsceneAudioManager__Process(CutsceneSystemManager *work);
 
@@ -486,7 +486,7 @@ void CutsceneTextManager__Process(CutsceneSystemManager *work);
 
 // Unknown
 void CutsceneUnknown__Func_2158A6C(BOOL useEngineB, u8 backgroundID, s32 screenSize, s32 colorMode, s32 a5, s32 a6);
-void CutsceneUnknown__Func_2158D3C(BOOL useEngineB, u8 backgroundID, s32 a3, s32 screenSize, s32 bgPalette, s32 screenBase, s32 charBase);
+void CutsceneUnknown__Func_2158D3C(BOOL useEngineB, u8 type, s32 backgroundID, s32 screenSize, s32 areaOver, s32 screenBase, s32 charBase);
 void CutsceneUnknown__Func_215902C(GXVRamOBJ bank, u16 bankOffset);
 void CutsceneUnknown__Func_2159188(GXVRamSubOBJ bank, u16 bankOffset);
 u32 CutsceneUnknown__GetBankID(s32 a1);
@@ -499,7 +499,7 @@ void CutsceneFadeManager__Draw(CutsceneFadeManager *work);
 // SpriteButton touch area
 void CutsceneSpriteButtonManager__AddTouchArea(CutsceneTouchArea *work, TouchField *touchField, AnimatorSprite *animator, u32 flags, CutsceneScript *cutscene, s32 type);
 void CutsceneSpriteButtonManager__RemoveTouchArea(CutsceneTouchArea *work);
-void CutsceneSpriteButtonManager__TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData);
+void CutsceneSpriteButtonManager__TouchAreaCallback(TouchAreaResponse *response, CutsceneTouchArea *area, void *userData);
 
 void CutsceneTextWorker__Init(CutsceneTextWorker *work);
 void CutsceneTextWorker__Draw(CutsceneTextWorker *work);

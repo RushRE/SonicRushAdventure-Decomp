@@ -18,6 +18,7 @@
 #include <game/text/fontAnimator.h>
 #include <game/text/fontWindow.h>
 #include <game/game/gameState.h>
+#include <game/util/unknown204BE48.h>
 
 // --------------------
 // TEMP
@@ -27,7 +28,6 @@ NOT_DECOMPILED void _s32_div_f(void);
 NOT_DECOMPILED void _u32_div_f(void);
 
 NOT_DECOMPILED void BackgroundUnknown__Func_204CA00(void);
-NOT_DECOMPILED void Task__Unknown204BE48__Func_204C104(void);
 
 // --------------------
 // CONSTANTS
@@ -3739,982 +3739,503 @@ void CutsceneFadeManager__Process(CutsceneSystemManager *work)
     CutsceneFadeManager__Init(fadeManager);
 }
 
-NONMATCH_FUNC void CutsceneFileSystemManager__Alloc(CutsceneSystemManager *work, u32 count)
+void CutsceneFileSystemManager__Alloc(CutsceneSystemManager *work, u32 count)
 {
-#ifdef NON_MATCHING
+    work->fileSystemManager = HeapAllocHead(HEAP_SYSTEM, sizeof(*work->fileSystemManager));
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r5, r0
-	mov r0, #0x138
-	mov r6, r1
-	bl _AllocHeadHEAP_SYSTEM
-	mov r4, r0
-	str r0, [r5, #4]
-	mov r1, r4
-	mov r0, #0
-	mov r2, #0x138
-	bl MIi_CpuClear32
-	mov r0, #0x18
-	mul r5, r6, r0
-	mov r0, r5
-	str r6, [r4]
-	bl _AllocHeadHEAP_SYSTEM
-	str r0, [r4, #4]
-	mov r1, r0
-	mov r2, r5
-	mov r0, #0
-	bl MIi_CpuClear32
-	add r0, r4, #0x14
-	bl ArchiveFile__Init
-	ldmia sp!, {r4, r5, r6, pc}
+    CutsceneFileSystemManager *manager = work->fileSystemManager;
 
-// clang-format on
-#endif
+    MI_CpuClear32(manager, sizeof(*manager));
+
+    manager->count       = count;
+    manager->archiveList = HeapAllocHead(HEAP_SYSTEM, sizeof(*manager->archiveList) * count);
+    MI_CpuClear32(manager->archiveList, sizeof(*manager->archiveList) * count);
+
+    ArchiveFile__Init(&manager->file);
 }
 
-NONMATCH_FUNC void CutsceneFileSystemManager__UnmountArchive2(CutsceneArchive *work)
+void CutsceneFileSystemManager__UnmountArchive2(CutsceneArchive *work)
 {
-#ifdef NON_MATCHING
+    if (work->archive != NULL)
+    {
+        if (work->fsArchive != NULL)
+        {
+            NNS_FndUnmountArchive(&work->fsArchive->arc);
+            HeapFree(HEAP_SYSTEM, work->fsArchive);
+        }
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0xc]
-	cmp r0, #0
-	ldmeqia sp!, {r4, pc}
-	ldr r0, [r4, #0x14]
-	cmp r0, #0
-	beq _02157F38
-	bl NNS_FndUnmountArchive
-	ldr r0, [r4, #0x14]
-	bl _FreeHEAP_SYSTEM
-_02157F38:
-	ldr r1, [r4, #0x10]
-	cmp r1, #0
-	bne _02157F50
-	ldr r0, [r4, #0xc]
-	bl _FreeHEAP_USER
-	b _02157F70
-_02157F50:
-	ldr r0, [r1, #0]
-	sub r0, r0, #1
-	str r0, [r1]
-	ldr r0, [r4, #0x10]
-	ldr r1, [r0, #0]
-	cmp r1, #0
-	bne _02157F70
-	bl CutsceneFileSystemManager__UnmountArchive2
-_02157F70:
-	mov r1, r4
-	mov r0, #0
-	mov r2, #0x18
-	bl MIi_CpuClear32
-	ldmia sp!, {r4, pc}
+        if (work->next == NULL)
+        {
+            HeapFree(HEAP_USER, work->archive);
+        }
+        else
+        {
+            work->next->refCount--;
 
-// clang-format on
-#endif
+            if (work->next->refCount == 0)
+                CutsceneFileSystemManager__UnmountArchive2(work->next);
+        }
+
+        MI_CpuClear32(work, sizeof(*work));
+    }
 }
 
-NONMATCH_FUNC void CutsceneFileSystemManager__Release(CutsceneSystemManager *work)
+void CutsceneFileSystemManager__Release(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    CutsceneFileSystemManager *manager = work->fileSystemManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r5, r0
-	ldr r4, [r5, #4]
-	cmp r4, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	add r0, r4, #0x14
-	bl ArchiveFile__JoinThread
-	cmp r0, #0
-	beq _02157FAC
-	bl _FreeHEAP_USER
-_02157FAC:
-	add r0, r4, #0x14
-	bl ArchiveFile__Release
-	ldr r0, [r4, #4]
-	ldr r2, [r4, #0]
-	mov r1, #0x18
-	muls r1, r2, r1
-	mov r7, r0
-	beq _02157FFC
-	mov r6, #0x18
-_02157FD0:
-	ldr r0, [r7, #0]
-	cmp r0, #0
-	beq _02157FE4
-	mov r0, r7
-	bl CutsceneFileSystemManager__UnmountArchive2
-_02157FE4:
-	ldr r0, [r4, #4]
-	ldr r1, [r4, #0]
-	add r7, r7, #0x18
-	mla r2, r1, r6, r0
-	cmp r7, r2
-	bne _02157FD0
-_02157FFC:
-	bl _FreeHEAP_SYSTEM
-	mov r0, r4
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r5, #4]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    if (manager != NULL)
+    {
+        void *memory = ArchiveFile__JoinThread(&manager->file);
+        if (memory != NULL)
+            HeapFree(HEAP_USER, memory);
 
-// clang-format on
-#endif
+        ArchiveFile__Release(&manager->file);
+
+        for (CutsceneArchive *archive = &manager->archiveList[0]; archive != &manager->archiveList[manager->count]; archive++)
+        {
+            if (archive->refCount != 0)
+                CutsceneFileSystemManager__UnmountArchive2(archive);
+        }
+
+        HeapFree(HEAP_SYSTEM, manager->archiveList);
+        HeapFree(HEAP_SYSTEM, manager);
+        work->fileSystemManager = NULL;
+    }
 }
 
-NONMATCH_FUNC void CutsceneFileSystemManager__Process(CutsceneSystemManager *work)
+void CutsceneFileSystemManager__Process(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    if (work->fileSystemManager->field_10)
+    {
+        if (ArchiveFile__CheckThreadInactive(&work->fileSystemManager->file))
+        {
+            CutsceneArchive *archive = &work->fileSystemManager->archiveList[work->fileSystemManager->field_10 - 1];
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r1, [r4, #4]
-	ldr r0, [r1, #0x10]
-	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	add r0, r1, #0x14
-	bl ArchiveFile__CheckThreadInactive
-	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r3, [r4, #4]
-	mov r0, #0x18
-	ldr r1, [r3, #0x10]
-	ldr r2, [r3, #4]
-	sub r1, r1, #1
-	mla r5, r1, r0, r2
-	add r0, r3, #0x14
-	bl ArchiveFile__JoinThread
-	str r0, [r5, #0xc]
-	ldr r0, [r4, #4]
-	add r0, r0, #0x14
-	bl ArchiveFile__Release
-	ldr r0, [r4, #4]
-	mov r1, #0
-	str r1, [r0, #0x10]
-	ldr r0, [r4, #4]
-	add r0, r0, #0x14
-	bl ArchiveFile__Init
-	ldmia sp!, {r3, r4, r5, pc}
+            archive->archive = ArchiveFile__JoinThread(&work->fileSystemManager->file);
+            ArchiveFile__Release(&work->fileSystemManager->file);
 
-// clang-format on
-#endif
+            work->fileSystemManager->field_10 = 0;
+            ArchiveFile__Init(&work->fileSystemManager->file);
+        }
+    }
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Alloc(CutsceneSystemManager *work, u32 count)
+void CutsceneSpriteButtonManager__Alloc(CutsceneSystemManager *work, u32 count)
 {
-#ifdef NON_MATCHING
+    work->spriteButtonManager = HeapAllocHead(HEAP_SYSTEM, sizeof(*work->spriteButtonManager));
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r5, r0
-	mov r0, #0x20
-	mov r6, r1
-	bl _AllocHeadHEAP_SYSTEM
-	mov r4, r0
-	str r0, [r5, #8]
-	mov r1, r4
-	mov r0, #0
-	mov r2, #0x20
-	bl MIi_CpuClear32
-	mov r0, #0x70
-	mul r5, r6, r0
-	mov r0, r5
-	str r6, [r4]
-	bl _AllocHeadHEAP_SYSTEM
-	str r0, [r4, #4]
-	mov r1, r0
-	mov r2, r5
-	mov r0, #0
-	bl MIi_CpuClear32
-	ldmia sp!, {r4, r5, r6, pc}
+    CutsceneSpriteButtonManager *manager = work->spriteButtonManager;
 
-// clang-format on
-#endif
+    MI_CpuClear32(manager, sizeof(*manager));
+
+    manager->count = count;
+    manager->list  = HeapAllocHead(HEAP_SYSTEM, sizeof(*manager->list) * count);
+    MI_CpuClear32(manager->list, sizeof(*manager->list) * count);
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_21580E0(CutsceneSpriteButton *work, CutsceneSystemManager *manager)
+void CutsceneSpriteButtonManager__Func_21580E0(CutsceneSpriteButton *work, CutsceneSystemManager *manager)
 {
-#ifdef NON_MATCHING
+    if (work->field_0 != 0)
+    {
+        AnimatorSprite__Release(&work->ani);
+        CutsceneFileSystemManager__Func_2156BEC(manager, work->field_0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r0, [r5, #0]
-	mov r4, r1
-	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	add r0, r5, #4
-	bl AnimatorSprite__Release
-	ldr r1, [r5, #0]
-	mov r0, r4
-	bl CutsceneFileSystemManager__Func_2156BEC
-	ldr r0, [r5, #0x68]
-	cmp r0, #0
-	beq _02158124
-	bl CutsceneSpriteButtonManager__RemoveTouchArea
-	ldr r0, [r5, #0x68]
-	bl _FreeHEAP_SYSTEM
-_02158124:
-	mov r1, r5
-	mov r0, #0
-	mov r2, #0x70
-	bl MIi_CpuClear32
-	ldmia sp!, {r3, r4, r5, pc}
+        if (work->touchArea != NULL)
+        {
+            CutsceneSpriteButtonManager__RemoveTouchArea(work->touchArea);
+            HeapFree(HEAP_SYSTEM, work->touchArea);
+        }
 
-// clang-format on
-#endif
+        MI_CpuClear32(work, sizeof(*work));
+    }
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Release(CutsceneSystemManager *work)
+void CutsceneSpriteButtonManager__Release(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    CutsceneSpriteButtonManager *manager = work->spriteButtonManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r5, r0
-	ldr r4, [r5, #8]
-	cmp r4, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r1, [r4, #0]
-	mov r0, #0x70
-	muls r0, r1, r0
-	ldr r0, [r4, #4]
-	mov r7, r0
-	beq _02158198
-	mov r6, #0x70
-_02158168:
-	ldr r0, [r7, #0]
-	cmp r0, #0
-	beq _02158180
-	mov r0, r7
-	mov r1, r5
-	bl CutsceneSpriteButtonManager__Func_21580E0
-_02158180:
-	ldr r0, [r4, #4]
-	ldr r1, [r4, #0]
-	add r7, r7, #0x70
-	mla r2, r1, r6, r0
-	cmp r7, r2
-	bne _02158168
-_02158198:
-	bl _FreeHEAP_SYSTEM
-	mov r0, r4
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r5, #8]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    if (manager != NULL)
+    {
+        for (CutsceneSpriteButton *spriteButton = &manager->list[0]; spriteButton != &manager->list[manager->count]; spriteButton++)
+        {
+            if (spriteButton->field_0 != 0)
+                CutsceneSpriteButtonManager__Func_21580E0(spriteButton, work);
+        }
 
-// clang-format on
-#endif
+        HeapFree(HEAP_SYSTEM, manager->list);
+        HeapFree(HEAP_SYSTEM, manager);
+        work->spriteButtonManager = NULL;
+    }
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__Process(CutsceneSystemManager *work)
+void CutsceneSpriteButtonManager__Process(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    CutsceneSpriteButtonManager *manager = work->spriteButtonManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	mov r11, r0
-	ldr r6, [r11, #8]
-	cmp r6, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	mov r0, #0x11
-	bl ShakeScreen
-	cmp r0, #0
-	moveq r9, #0
-	moveq r10, r9
-	moveq r8, r9
-	beq _02158218
-	bl GetScreenShakeOffsetY
-	mov r9, r0, asr #0xc
-	bl Task__Unknown204BE48__Func_204C104
-	mov r4, r0, asr #0x13
-	mov r0, #0x11
-	bl ShakeScreen
-	ldr r2, [r0, #0]
-	mov r8, #1
-	smull r1, r0, r2, r4
-	adds r1, r1, #0x800
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	mov r10, r1, asr #0xc
-_02158218:
-	ldr r1, [r6, #0]
-	mov r0, #0x70
-	muls r0, r1, r0
-	ldr r7, [r6, #4]
-	beq _021582BC
-	mov r5, #0
-	mov r4, #0x70
-_02158234:
-	ldr r0, [r7, #0]
-	cmp r0, #0
-	beq _021582A8
-	mov r1, r5
-	mov r2, r5
-	add r0, r7, #4
-	bl AnimatorSprite__ProcessAnimation
-	cmp r8, #0
-	beq _02158264
-	ldr r0, [r7, #0x6c]
-	tst r0, #1
-	beq _02158270
-_02158264:
-	add r0, r7, #4
-	bl AnimatorSprite__DrawFrame
-	b _021582A8
-_02158270:
-	ldrsh r1, [r7, #0xc]
-	add r0, r7, #4
-	add r1, r1, r9
-	strh r1, [r7, #0xc]
-	ldrsh r1, [r7, #0xe]
-	add r1, r1, r10
-	strh r1, [r7, #0xe]
-	bl AnimatorSprite__DrawFrame
-	ldrsh r0, [r7, #0xc]
-	sub r0, r0, r9
-	strh r0, [r7, #0xc]
-	ldrsh r0, [r7, #0xe]
-	sub r0, r0, r10
-	strh r0, [r7, #0xe]
-_021582A8:
-	ldmia r6, {r0, r1}
-	mla r1, r0, r4, r1
-	add r7, r7, #0x70
-	cmp r7, r1
-	bne _02158234
-_021582BC:
-	ldr r0, [r11, #8]
-	add r0, r0, #8
-	bl TouchField__Process
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    if (manager != NULL)
+    {
+        CutsceneSpriteButton *spriteButton;
+        BOOL flag;
+        s32 shakeX;
+        s32 shakeY;
 
-// clang-format on
-#endif
+        if (ShakeScreen(SCREENSHAKE_CUSTOM))
+        {
+            s32 seed = GetScreenShakeOffsetY();
+
+            shakeX = FX32_TO_WHOLE(seed);
+            shakeY = FX32_TO_WHOLE(MultiplyFX(ShakeScreen(SCREENSHAKE_CUSTOM)->lifetime, FX32_TO_WHOLE(Task__Unknown204BE48__Func_204C104(seed)) >> 7));
+            flag   = TRUE;
+        }
+        else
+        {
+            shakeX = 0;
+            shakeY = 0;
+            flag   = FALSE;
+        }
+
+        for (spriteButton = &manager->list[0]; spriteButton != &manager->list[manager->count]; spriteButton++)
+        {
+            if (spriteButton->field_0)
+            {
+                AnimatorSprite__ProcessAnimationFast(&spriteButton->ani);
+                if (flag == FALSE || (spriteButton->field_6C & 1) != 0)
+                {
+                    AnimatorSprite__DrawFrame(&spriteButton->ani);
+                }
+                else
+                {
+                    spriteButton->ani.pos.x += shakeX;
+                    spriteButton->ani.pos.y += shakeY;
+                    AnimatorSprite__DrawFrame(&spriteButton->ani);
+                    spriteButton->ani.pos.x -= shakeX;
+                    spriteButton->ani.pos.y -= shakeY;
+                }
+            }
+        }
+
+        TouchField__Process(&work->spriteButtonManager->touchField);
+    }
 }
 
-NONMATCH_FUNC void CutsceneBackgroundManager__Alloc(CutsceneSystemManager *work)
+void CutsceneBackgroundManager__Alloc(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    work->backgroundManager = HeapAllocHead(HEAP_SYSTEM, sizeof(*work->backgroundManager));
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r0, #0x280
-	bl _AllocHeadHEAP_SYSTEM
-	str r0, [r4, #0xc]
-	mov r1, r0
-	mov r0, #0
-	mov r2, #0x280
-	bl MIi_CpuClear32
-	ldmia sp!, {r4, pc}
+    CutsceneBackgroundManager *manager = work->backgroundManager;
 
-// clang-format on
-#endif
+    MI_CpuClear32(manager, sizeof(*manager));
 }
 
-NONMATCH_FUNC void CutsceneBackgroundManager__Func_21582F4(CutsceneBackground *work, CutsceneSystemManager *manager)
+void CutsceneBackgroundManager__Func_21582F4(CutsceneBackground *work, CutsceneSystemManager *manager)
 {
-#ifdef NON_MATCHING
+    if (work->field_0 != 0)
+        CutsceneFileSystemManager__Func_2156BEC(manager, work->field_0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r2, [r4, #0]
-	cmp r2, #0
-	beq _02158314
-	mov r0, r1
-	mov r1, r2
-	bl CutsceneFileSystemManager__Func_2156BEC
-_02158314:
-	mov r1, r4
-	mov r0, #0
-	mov r2, #0x50
-	bl MIi_CpuClear32
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    MI_CpuClear32(work, sizeof(*work));
 }
 
-NONMATCH_FUNC void CutsceneBackgroundManager__Release(CutsceneSystemManager *work)
+void CutsceneBackgroundManager__Release(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    CutsceneBackgroundManager *manager = work->backgroundManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r7, r0
-	ldr r5, [r7, #0xc]
-	cmp r5, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	mov r6, r5
-	movs r0, #0x280
-	beq _02158364
-	add r4, r5, #0x280
-_0215834C:
-	mov r0, r6
-	mov r1, r7
-	bl CutsceneBackgroundManager__Func_21582F4
-	add r6, r6, #0x50
-	cmp r6, r4
-	bne _0215834C
-_02158364:
-	mov r0, r5
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r7, #0xc]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    if (manager != NULL)
+    {
+        for (CutsceneBackground *background = &manager->renderers[0]; background != &manager->renderers[8]; background++)
+        {
+            CutsceneBackgroundManager__Func_21582F4(background, work);
+        }
 
-// clang-format on
-#endif
+        HeapFree(HEAP_SYSTEM, manager);
+        work->backgroundManager = NULL;
+    }
 }
 
-NONMATCH_FUNC void CutsceneBackgroundManager__Process(CutsceneSystemManager *work)
+void CutsceneBackgroundManager__Process(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    if (work->backgroundManager != NULL)
+    {
+        u32 i;
+        u32 ii;
+        CutsceneBackground *background;
+        BOOL flag;
+        s32 shakeX;
+        s32 shakeY;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0xc
-	str r0, [sp]
-	ldr r0, [r0, #0xc]
-	cmp r0, #0
-	addeq sp, sp, #0xc
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	mov r0, #0x11
-	bl ShakeScreen
-	cmp r0, #0
-	moveq r8, #0
-	moveq r9, r8
-	moveq r11, r8
-	beq _021583E8
-	bl GetScreenShakeOffsetY
-	mov r8, r0, asr #0xc
-	bl Task__Unknown204BE48__Func_204C104
-	mov r4, r0, asr #0x13
-	mov r0, #0x11
-	bl ShakeScreen
-	ldr r2, [r0, #0]
-	mov r11, #1
-	smull r1, r0, r2, r4
-	adds r1, r1, #0x800
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	mov r9, r1, asr #0xc
-_021583E8:
-	rsb r0, r8, #0
-	rsb r1, r9, #0
-	mov r0, r0, lsl #0x10
-	mov r1, r1, lsl #0x10
-	mov r5, r0, lsr #0x10
-	mov r0, r0, asr #0x10
-	mov r6, #0
-	str r0, [sp, #4]
-	mov r0, r1, asr #0x10
-	mov r10, r6
-	mov r4, r1, lsr #0x10
-	str r0, [sp, #8]
-_02158418:
-	ldr r0, [sp]
-	ldr r1, [r0, #0xc]
-	ldr r0, [r1, r10]
-	add r7, r1, r10
-	cmp r0, #0
-	beq _021584BC
-	cmp r11, #0
-	beq _02158444
-	ldr r0, [r7, #0x4c]
-	tst r0, #1
-	beq _02158450
-_02158444:
-	add r0, r7, #4
-	bl DrawBackground
-	b _02158518
-_02158450:
-	ldr r0, [r7, #4]
-	tst r0, #0xc0
-	beq _02158498
-	ldr r1, [r7, #0xc]
-	add r0, r7, #4
-	sub r1, r1, r8
-	str r1, [r7, #0xc]
-	ldr r1, [r7, #0x10]
-	sub r1, r1, r9
-	str r1, [r7, #0x10]
-	bl DrawBackground
-	ldr r0, [r7, #0xc]
-	add r0, r0, r8
-	str r0, [r7, #0xc]
-	ldr r0, [r7, #0x10]
-	add r0, r0, r9
-	str r0, [r7, #0x10]
-	b _02158518
-_02158498:
-	ldr r0, =VRAMSystem__GFXControl
-	and r2, r6, #4
-	mov r1, r6, lsl #0x1e
-	ldr r2, [r0, r2]
-	mov r0, r1, lsr #0x1c
-	strh r5, [r2, r0]
-	add r0, r2, r1, lsr #28
-	strh r4, [r0, #2]
-	b _02158518
-_021584BC:
-	ldr r0, [r7, #0x4c]
-	tst r0, #1
-	bne _02158518
-	ldr r0, =VRAMSystem__GFXControl
-	and r1, r6, #4
-	and r2, r6, #3
-	ldr r1, [r0, r1]
-	mov r0, r2, lsl #2
-	strh r5, [r1, r0]
-	add r0, r1, r2, lsl #2
-	strh r4, [r0, #2]
-	cmp r2, #2
-	beq _021584FC
-	cmp r2, #3
-	beq _02158504
-	b _02158518
-_021584FC:
-	add r1, r1, #0x3c
-	b _02158508
-_02158504:
-	add r1, r1, #0x54
-_02158508:
-	ldr r0, [sp, #4]
-	strh r0, [r1]
-	ldr r0, [sp, #8]
-	strh r0, [r1, #2]
-_02158518:
-	add r6, r6, #1
-	cmp r6, #8
-	add r10, r10, #0x50
-	blo _02158418
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+        if (ShakeScreen(SCREENSHAKE_CUSTOM) != NULL)
+        {
+            s32 seed = GetScreenShakeOffsetY();
 
-// clang-format on
-#endif
+            shakeX = FX32_TO_WHOLE(seed);
+            shakeY = FX32_TO_WHOLE(MultiplyFX(ShakeScreen(SCREENSHAKE_CUSTOM)->lifetime, FX32_TO_WHOLE(Task__Unknown204BE48__Func_204C104(seed)) >> 7));
+            flag   = TRUE;
+        }
+        else
+        {
+            shakeX = 0;
+            shakeY = 0;
+            flag   = FALSE;
+        }
+
+        for (i = 0, ii = 0; i < 8; i++, ii++)
+        {
+            background = &work->backgroundManager->renderers[ii];
+
+            if (background->field_0)
+            {
+                if (flag == FALSE || (background->field_4C & 1) != 0)
+                {
+                    DrawBackground(&background->ani);
+                }
+                else
+                {
+                    if ((background->ani.flags & 0xC0) != 0)
+                    {
+                        background->ani.position.x -= shakeX;
+                        background->ani.position.y -= shakeY;
+                        DrawBackground(&background->ani);
+                        background->ani.position.x += shakeX;
+                        background->ani.position.y += shakeY;
+                    }
+                    else
+                    {
+                        RenderCoreGFXControl *gfxControl = *(RenderCoreGFXControl **)((char *)VRAMSystem__GFXControl + (i & BACKGROUND_COUNT));
+                        // RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[i & BACKGROUND_COUNT]; // does not compile to matching?
+
+                        gfxControl->bgPosition[i & 3].x = -shakeX;
+                        gfxControl->bgPosition[i & 3].y = -shakeY;
+                    }
+                }
+            }
+            else
+            {
+                if ((background->field_4C & 1) == 0)
+                {
+                    u32 backgroundID   = i & 3;
+                    u32 graphicsEngine = i & BACKGROUND_COUNT;
+
+                    Vec2Fx16 *affinePos;
+                    RenderCoreGFXControl *gfxControl = *(RenderCoreGFXControl **)((char *)VRAMSystem__GFXControl + graphicsEngine);
+                    // RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[graphicsEngine]; // does not compile to matching?
+
+                    gfxControl->bgPosition[backgroundID].x = -shakeX;
+                    gfxControl->bgPosition[backgroundID].y = -shakeY;
+
+                    switch (backgroundID)
+                    {
+                        default:
+                            continue;
+
+                        case BACKGROUND_2:
+                            affinePos = (Vec2Fx16 *)&gfxControl->affineA.x;
+                            break;
+
+                        case BACKGROUND_3:
+                            affinePos = (Vec2Fx16 *)&gfxControl->affineB.x;
+                            break;
+                    }
+
+                    affinePos->x = -shakeX;
+                    affinePos->y = -shakeY;
+                }
+            }
+        }
+    }
 }
 
-NONMATCH_FUNC void CutsceneModelManager__Alloc(CutsceneSystemManager *work, u32 count)
+void CutsceneModelManager__Alloc(CutsceneSystemManager *work, u32 count)
 {
-#ifdef NON_MATCHING
+    work->modelManager = HeapAllocHead(HEAP_SYSTEM, sizeof(*work->modelManager));
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r5, r0
-	mov r0, #0x68
-	mov r6, r1
-	bl _AllocHeadHEAP_SYSTEM
-	mov r4, r0
-	str r0, [r5, #0x10]
-	mov r1, r4
-	mov r0, #0
-	mov r2, #0x68
-	bl MIi_CpuClear32
-	mov r0, #0x164
-	mul r5, r6, r0
-	mov r0, r5
-	str r6, [r4]
-	bl _AllocHeadHEAP_SYSTEM
-	str r0, [r4, #4]
-	mov r1, r0
-	mov r2, r5
-	mov r0, #0
-	bl MIi_CpuClear32
-	ldmia sp!, {r4, r5, r6, pc}
+    CutsceneModelManager *manager = work->modelManager;
 
-// clang-format on
-#endif
+    MI_CpuClear32(manager, sizeof(*manager));
+
+    manager->count = count;
+    manager->list  = HeapAllocHead(HEAP_SYSTEM, sizeof(*manager->list) * count);
+    MI_CpuClear32(manager->list, sizeof(*manager->list) * count);
 }
 
-NONMATCH_FUNC void CutsceneModelManager__Func_215858C(CutsceneModel *work, CutsceneSystemManager *manager)
+void CutsceneModelManager__Func_215858C(CutsceneModel *work, CutsceneSystemManager *manager)
 {
-#ifdef NON_MATCHING
+    if (work->field_0[0] != 0)
+    {
+        for (u32 *animResource = &work->field_0[1]; animResource != &work->field_0[B3D_RESOURCE_MAX]; animResource++)
+        {
+            if (*animResource != 0)
+            {
+                if (CutsceneFileSystemManager__Func_21569A4(manager, *animResource))
+                {
+                    NNS_G3dResDefaultRelease(CutsceneFileSystemManager__GetArchive(manager, *animResource));
+                }
+                CutsceneFileSystemManager__Func_2156BEC(manager, *animResource);
+            }
+        }
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r7, r0
-	ldr r0, [r7, #0]
-	mov r6, r1
-	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	add r5, r7, #4
-	add r4, r7, #0x18
-	cmp r5, r4
-	beq _021585F8
-_021585B4:
-	ldr r1, [r5, #0]
-	cmp r1, #0
-	beq _021585EC
-	mov r0, r6
-	bl CutsceneFileSystemManager__Func_21569A4
-	cmp r0, #0
-	beq _021585E0
-	ldr r1, [r5, #0]
-	mov r0, r6
-	bl CutsceneFileSystemManager__GetArchive
-	bl NNS_G3dResDefaultRelease
-_021585E0:
-	ldr r1, [r5, #0]
-	mov r0, r6
-	bl CutsceneFileSystemManager__Func_2156BEC
-_021585EC:
-	add r5, r5, #4
-	cmp r5, r4
-	bne _021585B4
-_021585F8:
-	ldr r1, [r7, #0x18]
-	cmp r1, #0
-	beq _02158630
-	mov r0, r6
-	bl CutsceneFileSystemManager__Func_21569A4
-	cmp r0, #0
-	beq _02158624
-	ldr r1, [r7, #0x18]
-	mov r0, r6
-	bl CutsceneFileSystemManager__GetArchive
-	bl NNS_G3dResDefaultRelease
-_02158624:
-	ldr r1, [r7, #0x18]
-	mov r0, r6
-	bl CutsceneFileSystemManager__Func_2156BEC
-_02158630:
-	ldr r1, [r7, #0]
-	mov r0, r6
-	bl CutsceneFileSystemManager__Func_21569A4
-	cmp r0, #0
-	beq _02158654
-	ldr r1, [r7, #0]
-	mov r0, r6
-	bl CutsceneFileSystemManager__GetArchive
-	bl NNS_G3dResDefaultRelease
-_02158654:
-	ldr r1, [r7, #0]
-	mov r0, r6
-	bl CutsceneFileSystemManager__Func_2156BEC
-	add r0, r7, #0x1c
-	bl AnimatorMDL__Release
-	mov r1, r7
-	mov r0, #0
-	mov r2, #0x164
-	bl MIi_CpuClear32
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+        if (work->field_18 != 0)
+        {
+            if (CutsceneFileSystemManager__Func_21569A4(manager, work->field_18))
+            {
+                NNS_G3dResDefaultRelease(CutsceneFileSystemManager__GetArchive(manager, work->field_18));
+            }
 
-// clang-format on
-#endif
+            CutsceneFileSystemManager__Func_2156BEC(manager, work->field_18);
+        }
+
+        if (CutsceneFileSystemManager__Func_21569A4(manager, work->field_0[0]))
+        {
+            NNS_G3dResDefaultRelease(CutsceneFileSystemManager__GetArchive(manager, work->field_0[0]));
+        }
+
+        CutsceneFileSystemManager__Func_2156BEC(manager, work->field_0[0]);
+
+        AnimatorMDL__Release(&work->ani);
+        MI_CpuClear32(work, sizeof(*work));
+    }
 }
 
-NONMATCH_FUNC void CutsceneModelManager__Release(CutsceneSystemManager *work)
+void CutsceneModelManager__Release(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    CutsceneModelManager *manager = work->modelManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r6, r0
-	ldr r4, [r6, #0x10]
-	cmp r4, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r1, [r4, #0]
-	mov r0, #0x164
-	muls r0, r1, r0
-	ldr r5, [r4, #4]
-	beq _021586D4
-	mov r7, #0x164
-_021586A8:
-	ldr r0, [r5, #0]
-	cmp r0, #0
-	beq _021586C0
-	mov r0, r5
-	mov r1, r6
-	bl CutsceneModelManager__Func_215858C
-_021586C0:
-	ldmia r4, {r0, r1}
-	mla r1, r0, r7, r1
-	add r5, r5, #0x164
-	cmp r5, r1
-	bne _021586A8
-_021586D4:
-	ldr r0, [r6, #0x10]
-	ldr r0, [r0, #8]
-	cmp r0, #2
-	cmpne r0, #3
-	bne _021586F8
-	bl Camera3D__Destroy
-	ldr r0, [r6, #0x10]
-	mov r1, #0
-	str r1, [r0, #8]
-_021586F8:
-	ldr r0, [r4, #4]
-	bl _FreeHEAP_SYSTEM
-	mov r0, r4
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r6, #0x10]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    if (manager != NULL)
+    {
+        for (CutsceneModel *model = &manager->list[0]; model != &manager->list[manager->count]; model++)
+        {
+            if (model->field_0[0] != 0)
+                CutsceneModelManager__Func_215858C(model, work);
+        }
 
-// clang-format on
-#endif
+        if (work->modelManager->camera.active == 2 || (s32)work->modelManager->camera.active == 3)
+        {
+            Camera3D__Destroy();
+            work->modelManager->camera.active = FALSE;
+        }
+
+        HeapFree(HEAP_SYSTEM, manager->list);
+        HeapFree(HEAP_SYSTEM, manager);
+        work->modelManager = NULL;
+    }
 }
 
-NONMATCH_FUNC void CutsceneModelManager__Process(CutsceneSystemManager *work)
+void CutsceneModelManager__Process(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    CutsceneModelManager *manager = work->modelManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r4, [r0, #0x10]
-	cmp r4, #0
-	ldmeqia sp!, {r4, r5, r6, pc}
-	ldr r0, [r4, #8]
-	cmp r0, #0
-	mov r0, #0x164
-	bne _0215877C
-	ldr r1, [r4, #0]
-	ldr r6, [r4, #4]
-	muls r0, r1, r0
-	ldmeqia sp!, {r4, r5, r6, pc}
-	mov r5, #0x164
-_02158748:
-	ldr r0, [r6, #0]
-	cmp r0, #0
-	beq _02158764
-	add r0, r6, #0x1c
-	bl AnimatorMDL__ProcessAnimation
-	add r0, r6, #0x1c
-	bl AnimatorMDL__Draw
-_02158764:
-	ldmia r4, {r0, r1}
-	mla r1, r0, r5, r1
-	add r6, r6, #0x164
-	cmp r6, r1
-	bne _02158748
-	ldmia sp!, {r4, r5, r6, pc}
-_0215877C:
-	ldr r2, [r4, #4]
-	ldr r1, [r4, #0xc]
-	mla r5, r1, r0, r2
-	add r0, r5, #0x1c
-	bl AnimatorMDL__ProcessAnimation
-	add r0, r5, #0x1c
-	bl AnimatorMDL__Draw
-	add r0, r4, #8
-	bl CutsceneModelManager__Func_2157D6C
-	ldr r6, [r4, #4]
-	cmp r6, r5
-	beq _021587D4
-_021587AC:
-	ldr r0, [r6, #0]
-	cmp r0, #0
-	beq _021587C8
-	add r0, r6, #0x1c
-	bl AnimatorMDL__ProcessAnimation
-	add r0, r6, #0x1c
-	bl AnimatorMDL__Draw
-_021587C8:
-	add r6, r6, #0x164
-	cmp r6, r5
-	bne _021587AC
-_021587D4:
-	mov r0, #0x164
-	ldmia r4, {r1, r2}
-	mla r0, r1, r0, r2
-	cmp r5, r0
-	addne r5, r5, #0x164
-	cmpne r5, r0
-	ldmeqia sp!, {r4, r5, r6, pc}
-	mov r6, #0x164
-_021587F4:
-	ldr r0, [r5, #0]
-	cmp r0, #0
-	beq _02158810
-	add r0, r5, #0x1c
-	bl AnimatorMDL__ProcessAnimation
-	add r0, r5, #0x1c
-	bl AnimatorMDL__Draw
-_02158810:
-	ldmia r4, {r0, r1}
-	mla r1, r0, r6, r1
-	add r5, r5, #0x164
-	cmp r5, r1
-	bne _021587F4
-	ldmia sp!, {r4, r5, r6, pc}
+    if (manager != NULL)
+    {
+        if (manager->camera.active == 0)
+        {
+            for (CutsceneModel *model = &manager->list[0]; model != &manager->list[manager->count]; model++)
+            {
+                if (model->field_0[0] != 0)
+                {
+                    AnimatorMDL__ProcessAnimation(&model->ani);
+                    AnimatorMDL__Draw(&model->ani);
+                }
+            }
+        }
+        else
+        {
+            CutsceneModel *targetModel = &manager->list[manager->camera.field_4];
 
-// clang-format on
-#endif
+            AnimatorMDL__ProcessAnimation(&targetModel->ani);
+            AnimatorMDL__Draw(&targetModel->ani);
+
+            CutsceneModelManager__Func_2157D6C(&manager->camera);
+
+            for (CutsceneModel *model = &manager->list[0]; model != targetModel; model++)
+            {
+                if (model->field_0[0] != 0)
+                {
+                    AnimatorMDL__ProcessAnimation(&model->ani);
+                    AnimatorMDL__Draw(&model->ani);
+                }
+            }
+
+            if (targetModel != &manager->list[manager->count] && ++targetModel != &manager->list[manager->count])
+            {
+                for (; targetModel != &manager->list[manager->count]; targetModel++)
+                {
+                    if (targetModel->field_0[0] != 0)
+                    {
+                        AnimatorMDL__ProcessAnimation(&targetModel->ani);
+                        AnimatorMDL__Draw(&targetModel->ani);
+                    }
+                }
+            }
+        }
+    }
 }
 
-NONMATCH_FUNC void CutsceneAudioManager__Alloc(CutsceneSystemManager *work, u32 count)
+void CutsceneAudioManager__Alloc(CutsceneSystemManager *work, u32 count)
 {
-#ifdef NON_MATCHING
+    ReleaseAudioSystem();
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	mov r5, r1
-	bl ReleaseAudioSystem
-	mov r0, #8
-	bl _AllocHeadHEAP_SYSTEM
-	mov r4, r0
-	str r0, [r6, #0x14]
-	mov r1, r4
-	mov r0, #0
-	mov r2, #8
-	bl MIi_CpuClear32
-	mov r6, r5, lsl #3
-	str r5, [r4]
-	mov r0, r6
-	bl _AllocHeadHEAP_SYSTEM
-	str r0, [r4, #4]
-	ldr r1, [r4, #4]
-	mov r0, #0
-	mov r2, r6
-	bl MIi_CpuClear32
-	ldr r5, [r4, #4]
-	cmp r6, #0
-	ldmeqia sp!, {r4, r5, r6, pc}
-_02158888:
-	bl AllocSndHandle
-	str r0, [r5, #4]
-	ldr r0, [r4, #4]
-	add r5, r5, #8
-	add r0, r0, r6
-	cmp r5, r0
-	bne _02158888
-	ldmia sp!, {r4, r5, r6, pc}
+    work->audioManager = HeapAllocHead(HEAP_SYSTEM, sizeof(*work->audioManager));
 
-// clang-format on
-#endif
+    CutsceneAudioManager *manager = work->audioManager;
+
+    MI_CpuClear32(manager, sizeof(*manager));
+
+    manager->handleCount = count;
+    manager->handleList  = HeapAllocHead(HEAP_SYSTEM, sizeof(*manager->handleList) * count);
+    MI_CpuClear32(manager->handleList, sizeof(*manager->handleList) * count);
+
+    for (CutsceneAudioHandle *handle = &manager->handleList[0]; handle != &manager->handleList[count]; handle++)
+    {
+        handle->handle = AllocSndHandle();
+    }
 }
 
-NONMATCH_FUNC void CutsceneAudioManager__Func_21588A8(void)
+void CutsceneAudioManager__Func_21588A8(CutsceneAudioHandle *work, CutsceneSystemManager *manager)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0]
-	cmp r0, #0
-	ldmeqia sp!, {r4, pc}
-	ldr r0, [r4, #4]
-	mov r1, #0
-	bl NNS_SndPlayerStopSeq
-	ldr r0, [r4, #4]
-	bl NNS_SndHandleReleaseSeq
-	mov r0, #0
-	str r0, [r4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if (work->isActive)
+    {
+        NNS_SndPlayerStopSeq(work->handle, 0);
+        NNS_SndHandleReleaseSeq(work->handle);
+        work->isActive = FALSE;
+    }
 }
 
-NONMATCH_FUNC void CutsceneAudioManager__Release(CutsceneSystemManager *work)
+void CutsceneAudioManager__Release(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    CutsceneAudioManager *manager = work->audioManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	ldr r4, [r6, #0x14]
-	cmp r4, #0
-	ldmeqia sp!, {r4, r5, r6, pc}
-	ldmia r4, {r0, r5}
-	movs r0, r0, lsl #3
-	beq _02158930
-_021588FC:
-	ldr r0, [r5, #4]
-	cmp r0, #0
-	beq _02158914
-	mov r0, r5
-	mov r1, r6
-	bl CutsceneAudioManager__Func_21588A8
-_02158914:
-	ldr r0, [r5, #4]
-	bl FreeSndHandle
-	ldmia r4, {r0, r1}
-	add r5, r5, #8
-	add r0, r1, r0, lsl #3
-	cmp r5, r0
-	bne _021588FC
-_02158930:
-	bl ReleaseAudioSystem
-	ldr r0, [r4, #4]
-	bl _FreeHEAP_SYSTEM
-	mov r0, r4
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r6, #0x14]
-	ldmia sp!, {r4, r5, r6, pc}
+    if (manager != NULL)
+    {
+        for (CutsceneAudioHandle *handle = &manager->handleList[0]; handle != &manager->handleList[manager->handleCount]; handle++)
+        {
+            if (handle->handle != NULL)
+                CutsceneAudioManager__Func_21588A8(handle, work);
 
-// clang-format on
-#endif
+            FreeSndHandle(handle->handle);
+        }
+
+        ReleaseAudioSystem();
+        HeapFree(HEAP_SYSTEM, manager->handleList);
+        HeapFree(HEAP_SYSTEM, manager);
+        work->audioManager = NULL;
+    }
 }
 
-NONMATCH_FUNC void CutsceneAudioManager__Process(CutsceneSystemManager *work)
+void CutsceneAudioManager__Process(CutsceneSystemManager *work)
 {
-#ifdef NON_MATCHING
+    CutsceneAudioHandle *handle;
+    CutsceneAudioManager *manager = work->audioManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	ldr r5, [r6, #0x14]
-	cmp r5, #0
-	ldmeqia sp!, {r4, r5, r6, pc}
-	ldmia r5, {r0, r4}
-	movs r0, r0, lsl #3
-	ldmeqia sp!, {r4, r5, r6, pc}
-_02158970:
-	ldr r0, [r4, #4]
-	cmp r0, #0
-	beq _02158994
-	ldr r0, [r0, #0]
-	cmp r0, #0
-	bne _02158994
-	mov r0, r4
-	mov r1, r6
-	bl CutsceneAudioManager__Func_21588A8
-_02158994:
-	ldmia r5, {r0, r1}
-	add r4, r4, #8
-	add r0, r1, r0, lsl #3
-	cmp r4, r0
-	bne _02158970
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    if (manager != NULL)
+    {
+        for (handle = &manager->handleList[0]; handle != &manager->handleList[manager->handleCount]; handle++)
+        {
+            if (handle->handle != NULL)
+            {
+                if (!NNS_SndHandleIsValid(handle->handle))
+                    CutsceneAudioManager__Func_21588A8(handle, work);
+            }
+        }
+    }
 }
 
 void CutsceneTextManager__Alloc(CutsceneSystemManager *work, size_t size)
@@ -4754,210 +4275,156 @@ void CutsceneTextManager__Process(CutsceneSystemManager *work)
         work->textManager->processFunc(work->textManager->worker);
 }
 
-NONMATCH_FUNC void CutsceneUnknown__Func_2158A6C(BOOL useEngineB, u8 backgroundID, s32 screenSize, s32 colorMode, s32 a5, s32 a6)
+void CutsceneUnknown__Func_2158A6C(BOOL useEngineB, u8 backgroundID, s32 screenSize, s32 colorMode, s32 screenBase, s32 charBase)
 {
-#ifdef NON_MATCHING
+    s32 bgMode;
+    s32 id = backgroundID | (useEngineB << 4);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	orr lr, r1, r0, lsl #4
-	cmp lr, #0x11
-	ldr ip, [sp, #8]
-	ldr r1, [sp, #0xc]
-	bgt _02158ABC
-	cmp lr, #0x11
-	bge _02158C1C
-	cmp lr, #3
-	bgt _02158AB0
-	cmp lr, #0
-	addge pc, pc, lr, lsl #2
-	ldmia sp!, {r3, pc}
-_02158AA0: // jump table
-	b _02158AD8 // case 0
-	b _02158AFC // case 1
-	b _02158B20 // case 2
-	b _02158B90 // case 3
-_02158AB0:
-	cmp lr, #0x10
-	beq _02158BF8
-	ldmia sp!, {r3, pc}
-_02158ABC:
-	cmp lr, #0x12
-	bgt _02158ACC
-	beq _02158C40
-	ldmia sp!, {r3, pc}
-_02158ACC:
-	cmp lr, #0x13
-	beq _02158CB0
-	ldmia sp!, {r3, pc}
-_02158AD8:
-	ldr lr, =0x04000008
-	ldrh r0, [lr]
-	and r0, r0, #0x43
-	orr r0, r0, r2, lsl #14
-	orr r0, r0, r3, lsl #7
-	orr r0, r0, ip, lsl #8
-	orr r0, r0, r1, lsl #2
-	strh r0, [lr]
-	ldmia sp!, {r3, pc}
-_02158AFC:
-	ldr lr, =0x0400000A
-	ldrh r0, [lr]
-	and r0, r0, #0x43
-	orr r0, r0, r2, lsl #14
-	orr r0, r0, r3, lsl #7
-	orr r0, r0, ip, lsl #8
-	orr r0, r0, r1, lsl #2
-	strh r0, [lr]
-	ldmia sp!, {r3, pc}
-_02158B20:
-	ldr lr, =VRAMSystem__DisplayControllers
-	ldr r0, [lr, r0, lsl #2]
-	ldr r0, [r0, #0]
-	and r0, r0, #7
-	cmp r0, #1
-	ble _02158B40
-	cmp r0, #3
-	bne _02158B64
-_02158B40:
-	ldr lr, =0x0400000C
-	ldrh r0, [lr]
-	and r0, r0, #0x43
-	orr r0, r0, r2, lsl #14
-	orr r0, r0, r3, lsl #7
-	orr r0, r0, ip, lsl #8
-	orr r0, r0, r1, lsl #2
-	strh r0, [lr]
-	ldmia sp!, {r3, pc}
-_02158B64:
-	cmp r0, #5
-	ldmgtia sp!, {r3, pc}
-	ldr lr, =0x0400000C
-	ldrh r0, [lr]
-	and r0, r0, #0x43
-	orr r0, r0, r2, lsl #14
-	orr r0, r0, ip, lsl #8
-	orr r0, r0, r1, lsl #2
-	orr r0, r0, r3, lsl #13
-	strh r0, [lr]
-	ldmia sp!, {r3, pc}
-_02158B90:
-	ldr lr, =VRAMSystem__DisplayControllers
-	ldr r0, [lr, r0, lsl #2]
-	ldr r0, [r0, #0]
-	and r0, r0, #7
-	cmp r0, #0
-	bgt _02158BCC
-	ldr lr, =0x0400000E
-	ldrh r0, [lr]
-	and r0, r0, #0x43
-	orr r0, r0, r2, lsl #14
-	orr r0, r0, r3, lsl #7
-	orr r0, r0, ip, lsl #8
-	orr r0, r0, r1, lsl #2
-	strh r0, [lr]
-	ldmia sp!, {r3, pc}
-_02158BCC:
-	cmp r0, #5
-	ldmgtia sp!, {r3, pc}
-	ldr lr, =0x0400000E
-	ldrh r0, [lr]
-	and r0, r0, #0x43
-	orr r0, r0, r2, lsl #14
-	orr r0, r0, ip, lsl #8
-	orr r0, r0, r1, lsl #2
-	orr r0, r0, r3, lsl #13
-	strh r0, [lr]
-	ldmia sp!, {r3, pc}
-_02158BF8:
-	ldr lr, =0x04001008
-	ldrh r0, [lr]
-	and r0, r0, #0x43
-	orr r0, r0, r2, lsl #14
-	orr r0, r0, r3, lsl #7
-	orr r0, r0, ip, lsl #8
-	orr r0, r0, r1, lsl #2
-	strh r0, [lr]
-	ldmia sp!, {r3, pc}
-_02158C1C:
-	ldr lr, =0x0400100A
-	ldrh r0, [lr]
-	and r0, r0, #0x43
-	orr r0, r0, r2, lsl #14
-	orr r0, r0, r3, lsl #7
-	orr r0, r0, ip, lsl #8
-	orr r0, r0, r1, lsl #2
-	strh r0, [lr]
-	ldmia sp!, {r3, pc}
-_02158C40:
-	ldr lr, =VRAMSystem__DisplayControllers
-	ldr r0, [lr, r0, lsl #2]
-	ldr r0, [r0, #0]
-	and r0, r0, #7
-	cmp r0, #1
-	ble _02158C60
-	cmp r0, #3
-	bne _02158C84
-_02158C60:
-	ldr lr, =0x0400100C
-	ldrh r0, [lr]
-	and r0, r0, #0x43
-	orr r0, r0, r2, lsl #14
-	orr r0, r0, r3, lsl #7
-	orr r0, r0, ip, lsl #8
-	orr r0, r0, r1, lsl #2
-	strh r0, [lr]
-	ldmia sp!, {r3, pc}
-_02158C84:
-	cmp r0, #5
-	ldmgtia sp!, {r3, pc}
-	ldr lr, =0x0400100C
-	ldrh r0, [lr]
-	and r0, r0, #0x43
-	orr r0, r0, r2, lsl #14
-	orr r0, r0, ip, lsl #8
-	orr r0, r0, r1, lsl #2
-	orr r0, r0, r3, lsl #13
-	strh r0, [lr]
-	ldmia sp!, {r3, pc}
-_02158CB0:
-	ldr lr, =VRAMSystem__DisplayControllers
-	ldr r0, [lr, r0, lsl #2]
-	ldr r0, [r0, #0]
-	and r0, r0, #7
-	cmp r0, #0
-	bgt _02158CEC
-	ldr lr, =0x0400100E
-	ldrh r0, [lr]
-	and r0, r0, #0x43
-	orr r0, r0, r2, lsl #14
-	orr r0, r0, r3, lsl #7
-	orr r0, r0, ip, lsl #8
-	orr r0, r0, r1, lsl #2
-	strh r0, [lr]
-	ldmia sp!, {r3, pc}
-_02158CEC:
-	cmp r0, #5
-	ldmgtia sp!, {r3, pc}
-	ldr lr, =0x0400100E
-	ldrh r0, [lr]
-	and r0, r0, #0x43
-	orr r0, r0, r2, lsl #14
-	orr r0, r0, ip, lsl #8
-	orr r0, r0, r1, lsl #2
-	orr r0, r0, r3, lsl #13
-	strh r0, [lr]
-	ldmia sp!, {r3, pc}
+    switch (id)
+    {
+        case (GRAPHICS_ENGINE_A << 4) | BACKGROUND_0:
+            G2_SetBG0Control((GXBGScrSizeText)screenSize, (GXBGColorMode)colorMode, (GXBGScrBase)screenBase, (GXBGCharBase)charBase, GX_BG_EXTPLTT_01);
+            break;
 
-// clang-format on
-#endif
+        case (GRAPHICS_ENGINE_A << 4) | BACKGROUND_1:
+            G2_SetBG1Control((GXBGScrSizeText)screenSize, (GXBGColorMode)colorMode, (GXBGScrBase)screenBase, (GXBGCharBase)charBase, GX_BG_EXTPLTT_01);
+            break;
+
+        case (GRAPHICS_ENGINE_A << 4) | BACKGROUND_2:
+            bgMode = *((u32 *)VRAMSystem__DisplayControllers[useEngineB]) & REG_GX_DISPCNT_BGMODE_MASK;
+
+            if (bgMode <= GX_BGMODE_1 || bgMode == GX_BGMODE_3)
+            {
+                G2_SetBG2ControlText((GXBGScrSizeText)screenSize, (GXBGColorMode)colorMode, (GXBGScrBase)screenBase, (GXBGCharBase)charBase);
+            }
+            else if (bgMode <= GX_BGMODE_5)
+            {
+                G2_SetBG2ControlAffine((GXBGScrSizeAffine)screenSize, (GXBGAreaOver)colorMode, (GXBGScrBase)screenBase, (GXBGCharBase)charBase);
+            }
+            break;
+
+        case (GRAPHICS_ENGINE_A << 4) | BACKGROUND_3:
+            bgMode = *((u32 *)VRAMSystem__DisplayControllers[useEngineB]) & REG_GX_DISPCNT_BGMODE_MASK;
+
+            if (bgMode <= GX_BGMODE_0)
+            {
+                G2_SetBG3ControlText((GXBGScrSizeText)screenSize, (GXBGColorMode)colorMode, (GXBGScrBase)screenBase, (GXBGCharBase)charBase);
+            }
+            else if (bgMode <= GX_BGMODE_5)
+            {
+                G2_SetBG3ControlAffine((GXBGScrSizeAffine)screenSize, (GXBGAreaOver)colorMode, (GXBGScrBase)screenBase, (GXBGCharBase)charBase);
+            }
+            break;
+
+        case (GRAPHICS_ENGINE_B << 4) | BACKGROUND_0:
+            G2S_SetBG0Control((GXBGScrSizeText)screenSize, (GXBGColorMode)colorMode, (GXBGScrBase)screenBase, (GXBGCharBase)charBase, GX_BG_EXTPLTT_01);
+            break;
+
+        case (GRAPHICS_ENGINE_B << 4) | BACKGROUND_1:
+            G2S_SetBG1Control((GXBGScrSizeText)screenSize, (GXBGColorMode)colorMode, (GXBGScrBase)screenBase, (GXBGCharBase)charBase, GX_BG_EXTPLTT_01);
+            break;
+
+        case (GRAPHICS_ENGINE_B << 4) | BACKGROUND_2:
+            bgMode = *((u32 *)VRAMSystem__DisplayControllers[useEngineB]) & REG_GX_DISPCNT_BGMODE_MASK;
+
+            if (bgMode <= GX_BGMODE_1 || bgMode == GX_BGMODE_3)
+            {
+                G2S_SetBG2ControlText((GXBGScrSizeText)screenSize, (GXBGColorMode)colorMode, (GXBGScrBase)screenBase, (GXBGCharBase)charBase);
+            }
+            else if (bgMode <= GX_BGMODE_5)
+            {
+                G2S_SetBG2ControlAffine((GXBGScrSizeAffine)screenSize, (GXBGAreaOver)colorMode, (GXBGScrBase)screenBase, (GXBGCharBase)charBase);
+            }
+            break;
+
+        case (GRAPHICS_ENGINE_B << 4) | BACKGROUND_3:
+            bgMode = *((u32 *)VRAMSystem__DisplayControllers[useEngineB]) & REG_GX_DISPCNT_BGMODE_MASK;
+
+            if (bgMode <= GX_BGMODE_0)
+            {
+                G2S_SetBG3ControlText((GXBGScrSizeText)screenSize, (GXBGColorMode)colorMode, (GXBGScrBase)screenBase, (GXBGCharBase)charBase);
+            }
+            else if (bgMode <= GX_BGMODE_5)
+            {
+                G2S_SetBG3ControlAffine((GXBGScrSizeAffine)screenSize, (GXBGAreaOver)colorMode, (GXBGScrBase)screenBase, (GXBGCharBase)charBase);
+            }
+            break;
+    }
 }
 
-NONMATCH_FUNC void CutsceneUnknown__Func_2158D3C(BOOL useEngineB, u8 backgroundID, s32 a3, s32 screenSize, s32 bgPalette, s32 screenBase, s32 charBase)
+NONMATCH_FUNC void CutsceneUnknown__Func_2158D3C(BOOL useEngineB, u8 type, s32 backgroundID, s32 screenSize, s32 areaOver, s32 screenBase, s32 charBase)
 {
+    // https://decomp.me/scratch/hbB0N -> 92.26%
 #ifdef NON_MATCHING
+    s32 bgMode;
+    s32 id = (type << 4) | backgroundID | (useEngineB << 8);
 
+    bgMode = *((u32 *)VRAMSystem__DisplayControllers[useEngineB]) & REG_GX_DISPCNT_BGMODE_MASK;
+
+    switch (id)
+    {
+        case 0x20:
+            G2_SetBG2ControlAffine((GXBGScrSizeAffine)screenSize, (GXBGAreaOver)areaOver, (GXBGScrBase)screenBase, (GXBGCharBase)charBase);
+            break;
+
+        case 0x21:
+            G2_SetBG2Control256Bmp((GXBGScrSize256Bmp)screenSize, (GXBGAreaOver)areaOver, (GXBGBmpScrBase)screenBase);
+            break;
+
+        case 0x22:
+            G2_SetBG2ControlDCBmp((GXBGScrSizeDcBmp)screenSize, (GXBGAreaOver)areaOver, (GXBGBmpScrBase)screenBase);
+            break;
+
+        case 0x23:
+            G2_SetBG2ControlLargeBmp((GXBGScrSizeLargeBmp)screenSize, (GXBGAreaOver)areaOver);
+            break;
+
+        case 0x30:
+            G2_SetBG3ControlAffine((GXBGScrSizeAffine)screenSize, (GXBGAreaOver)areaOver, (GXBGScrBase)screenBase, (GXBGCharBase)charBase);
+            break;
+
+        case 0x31:
+            G2_SetBG3Control256Bmp((GXBGScrSize256Bmp)screenSize, (GXBGAreaOver)areaOver, (GXBGBmpScrBase)screenBase);
+            break;
+
+        case 0x32:
+            G2_SetBG3ControlDCBmp((GXBGScrSizeDcBmp)screenSize, (GXBGAreaOver)areaOver, (GXBGBmpScrBase)screenBase);
+            break;
+
+        case 0x120:
+            G2S_SetBG2ControlAffine((GXBGScrSizeAffine)screenSize, (GXBGAreaOver)areaOver, (GXBGScrBase)screenBase, (GXBGCharBase)charBase);
+            break;
+
+        case 0x121:
+            G2S_SetBG2Control256Bmp((GXBGScrSize256Bmp)screenSize, (GXBGAreaOver)areaOver, (GXBGBmpScrBase)screenBase);
+            break;
+
+        case 0x122:
+            G2S_SetBG2ControlDCBmp((GXBGScrSizeDcBmp)screenSize, (GXBGAreaOver)areaOver, (GXBGBmpScrBase)screenBase);
+            break;
+
+        case 0x130:
+            G2S_SetBG3ControlAffine((GXBGScrSizeAffine)screenSize, (GXBGAreaOver)areaOver, (GXBGScrBase)screenBase, (GXBGCharBase)charBase);
+            break;
+
+        case 0x131:
+            G2S_SetBG3Control256Bmp((GXBGScrSize256Bmp)screenSize, (GXBGAreaOver)areaOver, (GXBGBmpScrBase)screenBase);
+            break;
+
+        case 0x132:
+            G2S_SetBG3ControlDCBmp((GXBGScrSizeDcBmp)screenSize, (GXBGAreaOver)areaOver, (GXBGBmpScrBase)screenBase);
+            break;
+    }
+
+    RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[useEngineB];
+    RenderAffineControl *affineControl;
+    if (backgroundID == BACKGROUND_2)
+        affineControl = &gfxControl->affineA;
+    else
+        affineControl = &gfxControl->affineB;
+    MTX_Identity22(&affineControl->matrix);
+    affineControl->x = affineControl->y = 0;
+    affineControl->centerX = affineControl->centerY = 0;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
@@ -5166,156 +4633,63 @@ _02158FD8:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneUnknown__Func_215902C(GXVRamOBJ bank, u16 bankOffset)
+void CutsceneUnknown__Func_215902C(GXVRamOBJ bank, u16 bankOffset)
 {
-#ifdef NON_MATCHING
+    switch (bank)
+    {
+        case GX_VRAM_OBJ_128_A:
+        case GX_VRAM_OBJ_128_B:
+            VRAMSystem__SetupOBJBank(bank, GX_OBJVRAMMODE_CHAR_1D_128K, GX_OBJVRAMMODE_BMP_1D_128K, bankOffset, 0x400);
+            break;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r3, r1
-	cmp r0, #0x30
-	bgt _02159074
-	bge _02159110
-	cmp r0, #0x10
-	bgt _02159068
-	bge _021590DC
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	ldmia sp!, {r3, pc}
-_02159058: // jump table
-	b _02159160 // case 0
-	b _021590A8 // case 1
-	b _021590A8 // case 2
-	b _021590C0 // case 3
-_02159068:
-	cmp r0, #0x20
-	beq _021590F8
-	ldmia sp!, {r3, pc}
-_02159074:
-	cmp r0, #0x50
-	bgt _0215908C
-	bge _02159110
-	cmp r0, #0x40
-	beq _021590F8
-	ldmia sp!, {r3, pc}
-_0215908C:
-	cmp r0, #0x60
-	bgt _0215909C
-	beq _02159128
-	ldmia sp!, {r3, pc}
-_0215909C:
-	cmp r0, #0x70
-	beq _02159144
-	ldmia sp!, {r3, pc}
-_021590A8:
-	mov ip, #0x400
-	ldr r1, =0x00200010
-	mov r2, #0x40
-	str ip, [sp]
-	bl VRAMSystem__SetupOBJBank
-	ldmia sp!, {r3, pc}
-_021590C0:
-	mov ip, #0x400
-	ldr r1, =0x00300010
-	ldr r2, =0x00400040
-	mov r0, #3
-	str ip, [sp]
-	bl VRAMSystem__SetupOBJBank
-	ldmia sp!, {r3, pc}
-_021590DC:
-	mov r0, #0x10
-	mov ip, #0x400
-	add r1, r0, #0x100000
-	mov r2, #0x40
-	str ip, [sp]
-	bl VRAMSystem__SetupOBJBank
-	ldmia sp!, {r3, pc}
-_021590F8:
-	mov ip, #0x200
-	mov r1, #0x10
-	mov r2, #0x40
-	str ip, [sp]
-	bl VRAMSystem__SetupOBJBank
-	ldmia sp!, {r3, pc}
-_02159110:
-	mov ip, #0x280
-	ldr r1, =0x00200010
-	mov r2, #0x40
-	str ip, [sp]
-	bl VRAMSystem__SetupOBJBank
-	ldmia sp!, {r3, pc}
-_02159128:
-	mov ip, #0x400
-	mov r0, #0x60
-	mov r1, #0x10
-	mov r2, #0x40
-	str ip, [sp]
-	bl VRAMSystem__SetupOBJBank
-	ldmia sp!, {r3, pc}
-_02159144:
-	mov ip, #0x300
-	ldr r1, =0x00200010
-	mov r0, #0x70
-	mov r2, #0x40
-	str ip, [sp]
-	bl VRAMSystem__SetupOBJBank
-	ldmia sp!, {r3, pc}
-_02159160:
-	mov r0, #0
-	ldr r1, =0x00200010
-	mov r3, r0
-	mov r2, #0x40
-	str r0, [sp]
-	bl VRAMSystem__SetupOBJBank
-	ldmia sp!, {r3, pc}
+        case GX_VRAM_OBJ_256_AB:
+            VRAMSystem__SetupOBJBank(GX_VRAM_OBJ_256_AB, GX_OBJVRAMMODE_CHAR_1D_256K, GX_OBJVRAMMODE_BMP_1D_256K, bankOffset, 0x400);
+            break;
 
-// clang-format on
-#endif
+        case GX_VRAM_OBJ_64_E:
+            VRAMSystem__SetupOBJBank(GX_VRAM_OBJ_64_E, GX_OBJVRAMMODE_CHAR_1D_64K, GX_OBJVRAMMODE_BMP_1D_128K, bankOffset, 0x400);
+            break;
+
+        case GX_VRAM_OBJ_16_F:
+        case GX_VRAM_OBJ_16_G:
+            VRAMSystem__SetupOBJBank(bank, GX_OBJVRAMMODE_CHAR_1D_32K, GX_OBJVRAMMODE_BMP_1D_128K, bankOffset, 0x200);
+            break;
+
+        case GX_VRAM_OBJ_80_EF:
+        case GX_VRAM_OBJ_80_EG:
+            VRAMSystem__SetupOBJBank(bank, GX_OBJVRAMMODE_CHAR_1D_128K, GX_OBJVRAMMODE_BMP_1D_128K, bankOffset, 0x280);
+            break;
+
+        case GX_VRAM_OBJ_32_FG:
+            VRAMSystem__SetupOBJBank(GX_VRAM_OBJ_32_FG, GX_OBJVRAMMODE_CHAR_1D_32K, GX_OBJVRAMMODE_BMP_1D_128K, bankOffset, 0x400);
+            break;
+
+        case GX_VRAM_OBJ_96_EFG:
+            VRAMSystem__SetupOBJBank(GX_VRAM_OBJ_96_EFG, GX_OBJVRAMMODE_CHAR_1D_128K, GX_OBJVRAMMODE_BMP_1D_128K, bankOffset, 0x300);
+            break;
+
+        case GX_VRAM_SUB_OBJ_NONE:
+            VRAMSystem__SetupOBJBank(GX_VRAM_OBJ_NONE, GX_OBJVRAMMODE_CHAR_1D_128K, GX_OBJVRAMMODE_BMP_1D_128K, 0, 0x000);
+            break;
+    }
 }
 
-NONMATCH_FUNC void CutsceneUnknown__Func_2159188(GXVRamSubOBJ bank, u16 bankOffset)
+void CutsceneUnknown__Func_2159188(GXVRamSubOBJ bank, u16 bankOffset)
 {
-#ifdef NON_MATCHING
+    switch (bank)
+    {
+        case GX_VRAM_SUB_OBJ_128_D:
+            VRAMSystem__SetupSubOBJBank(GX_VRAM_SUB_OBJ_128_D, GX_OBJVRAMMODE_CHAR_1D_128K, GX_OBJVRAMMODE_BMP_1D_128K, bankOffset, 0x400);
+            break;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r3, r1
-	cmp r0, #0
-	beq _021591E4
-	cmp r0, #8
-	beq _021591AC
-	cmp r0, #0x100
-	beq _021591C8
-	ldmia sp!, {r3, pc}
-_021591AC:
-	mov ip, #0x400
-	ldr r1, =0x00200010
-	mov r0, #8
-	mov r2, #0x40
-	str ip, [sp]
-	bl VRAMSystem__SetupSubOBJBank
-	ldmia sp!, {r3, pc}
-_021591C8:
-	mov ip, #0x200
-	mov r0, #0x100
-	mov r1, #0x10
-	mov r2, #0x40
-	str ip, [sp]
-	bl VRAMSystem__SetupSubOBJBank
-	ldmia sp!, {r3, pc}
-_021591E4:
-	mov r0, #0
-	ldr r1, =0x00200010
-	mov r3, r0
-	mov r2, #0x40
-	str r0, [sp]
-	bl VRAMSystem__SetupSubOBJBank
-	ldmia sp!, {r3, pc}
+        case GX_VRAM_SUB_OBJ_16_I:
+            VRAMSystem__SetupSubOBJBank(GX_VRAM_SUB_OBJ_16_I, GX_OBJVRAMMODE_CHAR_1D_32K, GX_OBJVRAMMODE_BMP_1D_128K, bankOffset, 0x200);
+            break;
 
-// clang-format on
-#endif
+        case GX_VRAM_SUB_OBJ_NONE:
+            VRAMSystem__SetupSubOBJBank(GX_VRAM_SUB_OBJ_NONE, GX_OBJVRAMMODE_CHAR_1D_128K, GX_OBJVRAMMODE_BMP_1D_128K, 0, 0);
+            break;
+    }
 }
 
 u32 CutsceneUnknown__GetBankID(s32 a1)
@@ -5329,272 +4703,214 @@ void CutsceneFadeManager__Init(CutsceneFadeManager *work)
     MI_CpuClear16(work, sizeof(*work));
 }
 
-NONMATCH_FUNC void CutsceneFadeTask__Process(CutsceneFadeManager *work, s32 mode, s32 timer){
-#ifdef NON_MATCHING
+void CutsceneFadeTask__Process(CutsceneFadeManager *work, s32 mode, s32 timer)
+{
+    switch (mode)
+    {
+        case 1:
+        case 2:
+        case 3:
+            if (mode == 1 || mode == 2)
+            {
+                if ((work->flags & 1) != 0)
+                {
+                    if ((work->control[GRAPHICS_ENGINE_A].brightness1 >= RENDERCORE_BRIGHTNESS_DEFAULT || timer < 0)
+                        && (work->control[GRAPHICS_ENGINE_A].brightness1 <= RENDERCORE_BRIGHTNESS_DEFAULT || timer > 0))
+                    {
+                        if (MATH_ABS(timer) > MATH_ABS(work->control[GRAPHICS_ENGINE_A].brightness1))
+                        {
+                        }
+                        else
+                        {
+                            goto SKIP_BRIGNTNESS_SET_A;
+                        }
+                    }
+                    else
+                    {
+                        goto SKIP_BRIGNTNESS_SET_A;
+                    }
+                }
+                else
+                {
+                    work->flags |= 1;
+                }
 
-#else
-    // clang-format off
-	cmp r1, #0xf
-	addls pc, pc, r1, lsl #2
-	bx lr
-_02159278: // jump table
-	bx lr // case 0
-	b _021592B8 // case 1
-	b _021592B8 // case 2
-	b _021592B8 // case 3
-	b _0215938C // case 4
-	b _0215938C // case 5
-	b _0215938C // case 6
-	b _0215938C // case 7
-	b _0215938C // case 8
-	b _0215938C // case 9
-	b _02159398 // case 10
-	b _02159398 // case 11
-	b _02159398 // case 12
-	b _02159398 // case 13
-	b _02159398 // case 14
-	b _02159398 // case 15
-_021592B8:
-	sub r3, r1, #1
-	cmp r3, #1
-	bhi _02159320
-	ldr r3, [r0, #0]
-	tst r3, #1
-	beq _02159314
-	ldrsb r3, [r0, #8]
-	cmp r3, #0
-	bge _021592E4
-	cmp r2, #0
-	bge _02159320
-_021592E4:
-	cmp r3, #0
-	ble _021592F4
-	cmp r2, #0
-	ble _02159320
-_021592F4:
-	cmp r3, #0
-	rsblt r3, r3, #0
-	cmp r2, #0
-	rsblt ip, r2, #0
-	movge ip, r2
-	cmp ip, r3
-	ble _02159320
-	b _0215931C
-_02159314:
-	orr r3, r3, #1
-	str r3, [r0]
-_0215931C:
-	strb r2, [r0, #8]
-_02159320:
-	cmp r1, #1
-	cmpne r1, #3
-	bxne lr
-	ldr r1, [r0, #0]
-	tst r1, #2
-	beq _0215937C
-	ldrsb r1, [r0, #0x10]
-	cmp r1, #0
-	bge _0215934C
-	cmp r2, #0
-	bxge lr
-_0215934C:
-	cmp r1, #0
-	ble _0215935C
-	cmp r2, #0
-	bxle lr
-_0215935C:
-	cmp r1, #0
-	rsblt r1, r1, #0
-	cmp r2, #0
-	rsblt r3, r2, #0
-	movge r3, r2
-	cmp r3, r1
-	bxle lr
-	b _02159384
-_0215937C:
-	orr r1, r1, #2
-	str r1, [r0]
-_02159384:
-	strb r2, [r0, #0x10]
-	bx lr
-_0215938C:
-	str r1, [r0, #4]
-	strb r2, [r0, #9]
-	bx lr
-_02159398:
-	str r1, [r0, #0xc]
-	strb r2, [r0, #0x11]
-	bx lr
+                // TODO: see if this logic can be written to match without the goto!
+                work->control[GRAPHICS_ENGINE_A].brightness1 = timer;
 
-// clang-format on
-#endif
+            SKIP_BRIGNTNESS_SET_A:
+            }
+
+            if (mode == 1 || mode == 3)
+            {
+                if ((work->flags & 2) != 0)
+                {
+                    if ((work->control[GRAPHICS_ENGINE_B].brightness1 >= RENDERCORE_BRIGHTNESS_DEFAULT || timer < 0)
+                        && (work->control[GRAPHICS_ENGINE_B].brightness1 <= RENDERCORE_BRIGHTNESS_DEFAULT || timer > 0))
+                    {
+                        if (MATH_ABS(timer) > MATH_ABS(work->control[GRAPHICS_ENGINE_B].brightness1))
+                        {
+                        }
+                        else
+                        {
+                            goto SKIP_BRIGNTNESS_SET_B;
+                        }
+                    }
+                    else
+                    {
+                        goto SKIP_BRIGNTNESS_SET_B;
+                    }
+                }
+                else
+                {
+                    work->flags |= 2;
+                }
+
+                // TODO: see if this logic can be written to match without the goto!
+                work->control[GRAPHICS_ENGINE_B].brightness1 = timer;
+
+            SKIP_BRIGNTNESS_SET_B:
+            }
+            break;
+
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+            work->control[GRAPHICS_ENGINE_A].mode        = mode;
+            work->control[GRAPHICS_ENGINE_A].brightness2 = timer;
+            break;
+
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+            work->control[GRAPHICS_ENGINE_B].mode        = mode;
+            work->control[GRAPHICS_ENGINE_B].brightness2 = timer;
+            break;
+    }
 }
 
-NONMATCH_FUNC void CutsceneFadeManager__Draw(CutsceneFadeManager *work){
-#ifdef NON_MATCHING
+RUSH_INLINE void ApplyCutsceneFade(CutsceneFadeManager *work, BOOL useEngineB)
+{
+    if (useEngineB == FALSE)
+    {
+        switch (work->control[GRAPHICS_ENGINE_A].mode)
+        {
+            default:
+                return;
 
-#else
-    // clang-format off
-	ldr r1, [r0, #0]
-	tst r1, #1
-	ldrnesb r2, [r0, #8]
-	ldrne r1, =renderCoreGFXControlA
-	strneh r2, [r1, #0x58]
-	ldr r1, [r0, #0]
-	tst r1, #2
-	ldrnesb r2, [r0, #0x10]
-	ldrne r1, =renderCoreGFXControlB
-	strneh r2, [r1, #0x58]
-	ldr r1, [r0, #4]
-	cmp r1, #9
-	addls pc, pc, r1, lsl #2
-	b _021594C8
-_021593DC: // jump table
-	b _021594C8 // case 0
-	b _021594C8 // case 1
-	b _021594C8 // case 2
-	b _021594C8 // case 3
-	b _02159404 // case 4
-	b _0215941C // case 5
-	b _02159430 // case 6
-	b _02159444 // case 7
-	b _02159458 // case 8
-	b _0215946C // case 9
-_02159404:
-	mov r3, #0
-	bic r2, r3, #1
-	ldr r1, =renderCoreGFXControlA
-	orr r2, r2, #1
-	strh r2, [r1, #0x20]
-	b _0215947C
-_0215941C:
-	mov r2, #0
-	ldr r1, =renderCoreGFXControlA
-	orr r2, r2, #2
-	strh r2, [r1, #0x20]
-	b _0215947C
-_02159430:
-	mov r2, #0
-	ldr r1, =renderCoreGFXControlA
-	orr r2, r2, #4
-	strh r2, [r1, #0x20]
-	b _0215947C
-_02159444:
-	mov r2, #0
-	ldr r1, =renderCoreGFXControlA
-	orr r2, r2, #8
-	strh r2, [r1, #0x20]
-	b _0215947C
-_02159458:
-	mov r2, #0
-	ldr r1, =renderCoreGFXControlA
-	orr r2, r2, #0x10
-	strh r2, [r1, #0x20]
-	b _0215947C
-_0215946C:
-	mov r2, #0
-	ldr r1, =renderCoreGFXControlA
-	orr r2, r2, #0x20
-	strh r2, [r1, #0x20]
-_0215947C:
-	ldrsb r1, [r0, #9]
-	cmp r1, #0
-	blt _021594A8
-	ldr r1, =renderCoreGFXControlA
-	ldrh r2, [r1, #0x20]
-	bic r2, r2, #0xc0
-	orr r2, r2, #0x80
-	strh r2, [r1, #0x20]
-	ldrsb r2, [r0, #9]
-	strh r2, [r1, #0x24]
-	b _021594C8
-_021594A8:
-	ldr r1, =renderCoreGFXControlA
-	ldrh r2, [r1, #0x20]
-	bic r2, r2, #0xc0
-	orr r2, r2, #0xc0
-	strh r2, [r1, #0x20]
-	ldrsb r2, [r0, #9]
-	rsb r2, r2, #0
-	strh r2, [r1, #0x24]
-_021594C8:
-	ldr r1, [r0, #0xc]
-	sub r1, r1, #0xa
-	cmp r1, #5
-	addls pc, pc, r1, lsl #2
-	bx lr
-_021594DC: // jump table
-	b _021594F4 // case 0
-	b _0215950C // case 1
-	b _02159520 // case 2
-	b _02159534 // case 3
-	b _02159548 // case 4
-	b _0215955C // case 5
-_021594F4:
-	mov r3, #0
-	bic r2, r3, #1
-	ldr r1, =renderCoreGFXControlB
-	orr r2, r2, #1
-	strh r2, [r1, #0x20]
-	b _0215956C
-_0215950C:
-	mov r2, #0
-	ldr r1, =renderCoreGFXControlB
-	orr r2, r2, #2
-	strh r2, [r1, #0x20]
-	b _0215956C
-_02159520:
-	mov r2, #0
-	ldr r1, =renderCoreGFXControlB
-	orr r2, r2, #4
-	strh r2, [r1, #0x20]
-	b _0215956C
-_02159534:
-	mov r2, #0
-	ldr r1, =renderCoreGFXControlB
-	orr r2, r2, #8
-	strh r2, [r1, #0x20]
-	b _0215956C
-_02159548:
-	mov r2, #0
-	ldr r1, =renderCoreGFXControlB
-	orr r2, r2, #0x10
-	strh r2, [r1, #0x20]
-	b _0215956C
-_0215955C:
-	mov r2, #0
-	ldr r1, =renderCoreGFXControlB
-	orr r2, r2, #0x20
-	strh r2, [r1, #0x20]
-_0215956C:
-	ldrsb r1, [r0, #0x11]
-	cmp r1, #0
-	blt _02159598
-	ldr r1, =renderCoreGFXControlB
-	ldrh r2, [r1, #0x20]
-	bic r2, r2, #0xc0
-	orr r2, r2, #0x80
-	strh r2, [r1, #0x20]
-	ldrsb r0, [r0, #0x11]
-	strh r0, [r1, #0x24]
-	bx lr
-_02159598:
-	ldr r1, =renderCoreGFXControlB
-	ldrh r2, [r1, #0x20]
-	bic r2, r2, #0xc0
-	orr r2, r2, #0xc0
-	strh r2, [r1, #0x20]
-	ldrsb r0, [r0, #0x11]
-	rsb r0, r0, #0
-	strh r0, [r1, #0x24]
-	bx lr
+            case 4:
+                renderCoreGFXControlA.blendManager.blendControl.value      = 0;
+                renderCoreGFXControlA.blendManager.blendControl.plane1_BG0 = TRUE;
+                break;
 
-// clang-format on
-#endif
+            case 5:
+                renderCoreGFXControlA.blendManager.blendControl.value      = 0;
+                renderCoreGFXControlA.blendManager.blendControl.plane1_BG1 = TRUE;
+                break;
+
+            case 6:
+                renderCoreGFXControlA.blendManager.blendControl.value      = 0;
+                renderCoreGFXControlA.blendManager.blendControl.plane1_BG2 = TRUE;
+                break;
+
+            case 7:
+                renderCoreGFXControlA.blendManager.blendControl.value      = 0;
+                renderCoreGFXControlA.blendManager.blendControl.plane1_BG3 = TRUE;
+                break;
+
+            case 8:
+                renderCoreGFXControlA.blendManager.blendControl.value      = 0;
+                renderCoreGFXControlA.blendManager.blendControl.plane1_OBJ = TRUE;
+                break;
+
+            case 9:
+                renderCoreGFXControlA.blendManager.blendControl.value           = 0;
+                renderCoreGFXControlA.blendManager.blendControl.plane1_Backdrop = TRUE;
+                break;
+        }
+
+        if (work->control[GRAPHICS_ENGINE_A].brightness2 >= RENDERCORE_BRIGHTNESS_DEFAULT)
+        {
+            renderCoreGFXControlA.blendManager.blendControl.effect = BLENDTYPE_FADEIN;
+            renderCoreGFXControlA.blendManager.coefficient.value   = work->control[GRAPHICS_ENGINE_A].brightness2;
+        }
+        else
+        {
+            renderCoreGFXControlA.blendManager.blendControl.effect = BLENDTYPE_FADEOUT;
+            renderCoreGFXControlA.blendManager.coefficient.value   = -work->control[GRAPHICS_ENGINE_A].brightness2;
+        }
+    }
+    else
+    {
+        switch (work->control[GRAPHICS_ENGINE_B].mode)
+        {
+            default:
+                return;
+
+            case 10:
+                renderCoreGFXControlB.blendManager.blendControl.value      = 0;
+                renderCoreGFXControlB.blendManager.blendControl.plane1_BG0 = TRUE;
+                break;
+
+            case 11:
+                renderCoreGFXControlB.blendManager.blendControl.value      = 0;
+                renderCoreGFXControlB.blendManager.blendControl.plane1_BG1 = TRUE;
+                break;
+
+            case 12:
+                renderCoreGFXControlB.blendManager.blendControl.value      = 0;
+                renderCoreGFXControlB.blendManager.blendControl.plane1_BG2 = TRUE;
+                break;
+
+            case 13:
+                renderCoreGFXControlB.blendManager.blendControl.value      = 0;
+                renderCoreGFXControlB.blendManager.blendControl.plane1_BG3 = TRUE;
+                break;
+
+            case 14:
+                renderCoreGFXControlB.blendManager.blendControl.value      = 0;
+                renderCoreGFXControlB.blendManager.blendControl.plane1_OBJ = TRUE;
+                break;
+
+            case 15:
+                renderCoreGFXControlB.blendManager.blendControl.value           = 0;
+                renderCoreGFXControlB.blendManager.blendControl.plane1_Backdrop = TRUE;
+                break;
+        }
+
+        if (work->control[GRAPHICS_ENGINE_B].brightness2 >= RENDERCORE_BRIGHTNESS_DEFAULT)
+        {
+            renderCoreGFXControlB.blendManager.blendControl.effect = BLENDTYPE_FADEIN;
+            renderCoreGFXControlB.blendManager.coefficient.value   = work->control[GRAPHICS_ENGINE_B].brightness2;
+        }
+        else
+        {
+            renderCoreGFXControlB.blendManager.blendControl.effect = BLENDTYPE_FADEOUT;
+            renderCoreGFXControlB.blendManager.coefficient.value   = -work->control[GRAPHICS_ENGINE_B].brightness2;
+        }
+    }
 }
 
-NONMATCH_FUNC
-    void CutsceneSpriteButtonManager__AddTouchArea(CutsceneTouchArea *work, TouchField *touchField, AnimatorSprite *animator, u32 flags, CutsceneScript *cutscene, s32 type)
+void CutsceneFadeManager__Draw(CutsceneFadeManager *work)
+{
+    if ((work->flags & 1) != 0)
+        renderCoreGFXControlA.brightness = work->control[GRAPHICS_ENGINE_A].brightness1;
+
+    if ((work->flags & 2) != 0)
+        renderCoreGFXControlB.brightness = work->control[GRAPHICS_ENGINE_B].brightness1;
+
+    ApplyCutsceneFade(work, GRAPHICS_ENGINE_A);
+    ApplyCutsceneFade(work, GRAPHICS_ENGINE_B);
+}
+
+NONMATCH_FUNC void CutsceneSpriteButtonManager__AddTouchArea(CutsceneTouchArea *work, TouchField *touchField, AnimatorSprite *animator, u32 flags, CutsceneScript *cutscene,
+                                                             s32 type)
 {
 #ifdef NON_MATCHING
 
@@ -5663,7 +4979,7 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__RemoveTouchArea(CutsceneTouchAre
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSpriteButtonManager__TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData)
+NONMATCH_FUNC void CutsceneSpriteButtonManager__TouchAreaCallback(TouchAreaResponse *response, CutsceneTouchArea *area, void *userData)
 {
 #ifdef NON_MATCHING
 
