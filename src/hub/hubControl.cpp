@@ -21,7 +21,7 @@
 #include <game/cutscene/script.h>
 #include <hub/cviTalkMovieList.hpp>
 #include <hub/cviTalkPurchase.hpp>
-#include <sail/vikingCupManager.h>
+#include <sail/sailInitEvent.h>
 
 // resources
 #include <resources/narc/vi_act_lz7.h>
@@ -2273,35 +2273,36 @@ void HubControl::StartSailing(DockArea dockArea, BOOL isTraining)
             case DOCKAREA_JET:
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_3)
                 {
-                    VikingCupManager__EventStartVikingCup(0);
+                    InitSailEvent(SAILMISSION_TRAINING_JET_INTRO);
                 }
                 else
                 {
-                    VikingCupManager__EventStartVikingCup(1);
+                    InitSailEvent(SAILMISSION_TRAINING_JET);
                     gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
                 }
                 break;
 
             case DOCKAREA_BOAT:
-                VikingCupManager__EventStartVikingCup(2);
+                InitSailEvent(SAILMISSION_TRAINING_BOAT);
                 gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
                 break;
 
             case DOCKAREA_HOVER:
-                VikingCupManager__EventStartVikingCup(3);
+                InitSailEvent(SAILMISSION_TRAINING_HOVER);
                 gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
                 break;
 
             case DOCKAREA_SUBMARINE:
-                VikingCupManager__EventStartVikingCup(4);
+                InitSailEvent(SAILMISSION_TRAINING_SUBMARINE);
                 gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
                 break;
         }
     }
     else
     {
-        gameState.missionType      = 0;
-        gameState.missionTimeLimit = 0;
+        gameState.missionType                 = MISSION_TYPE_NONE;
+        gameState.missionConfig.sail.courseID = 0;
+
         switch (dockArea)
         {
             case DOCKAREA_JET:

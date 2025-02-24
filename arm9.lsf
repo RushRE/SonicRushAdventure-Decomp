@@ -133,7 +133,7 @@ Static arm9
     Object src/game/save/saveGame_2.o
     Object src/game/audio/sysSound.o
     Object asm/network/multibootManager.o
-    Object asm/sail/vikingCupManager.o
+    Object src/sail/sailInitEvent.o
     Object src/game/save/corruptSaveWarning.o
     Object asm/game/save/saveSpriteButton.o
     Object src/game/save/saveManager.o

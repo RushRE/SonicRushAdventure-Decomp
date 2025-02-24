@@ -2420,7 +2420,7 @@ _021705F4:
 	strne r0, [r4, #0x28]
 	ldr r1, [r4, #0x28]
 	add r0, sp, #4
-	bl VikingCupManager__Func_2063CF4
+	bl GetSailUnknownValue
 	mov r0, #4
 	str r0, [sp]
 	ldr r1, [r4, #0x44]
@@ -2460,7 +2460,7 @@ SailHUDClearText2__Func_21706A4: // 0x021706A4
 	bl SailManager__GetWork
 	ldr r1, [r0, #0x20]
 	add r0, r4, #0x28
-	bl VikingCupManager__Func_2063CF4
+	bl GetSailUnknownValue
 	mov r1, #2
 	ldr r0, _021706D0 // =SailHUDClearText2__State_21706D4
 	str r1, [r4, #0x2c]
@@ -3220,7 +3220,7 @@ _02171100:
 	mov r0, #0xb
 	str r1, [r2, #0x80]
 	bl SaveGame__SetProgressType
-	bl VikingCupManager__Func_2063C40
+	bl ResetSailState
 	mov r0, #0
 	str r0, [r6, #0xb0]
 	bl SeaMapManager__ClearGlobalNodeList
@@ -3247,7 +3247,7 @@ _02171168:
 	mov r1, #8
 	strh r1, [r0, #0xd0]
 _02171174:
-	bl VikingCupManager__Func_2063C40
+	bl ResetSailState
 	mov r0, #0
 	str r0, [r6, #0xb0]
 	bl SeaMapManager__ClearGlobalNodeList
@@ -3296,11 +3296,11 @@ _021711E0:
 	ldr r4, [r6, #0xac]
 	add r0, r1, r0
 	str r0, [r6, #0xb0]
-	bl VikingCupManager__Func_2063C40
+	bl ResetSailState
 	str r4, [r6, #0xac]
 	b _02171248
 _02171238:
-	bl VikingCupManager__Func_2063C40
+	bl ResetSailState
 	mov r0, #0
 	str r0, [r6, #0xb0]
 	bl SeaMapManager__ClearGlobalNodeList
@@ -8464,7 +8464,7 @@ _02175B0C:
 	bne _02175B48
 	ldr r1, [r4, #0x20]
 	add r0, r10, #0x90
-	bl VikingCupManager__Func_2063CF4
+	bl GetSailUnknownValue
 _02175B48:
 	ldr r0, [r10, #0]
 	tst r0, #0x40

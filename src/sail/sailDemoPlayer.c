@@ -6,7 +6,7 @@
 #include <game/file/binaryBundle.h>
 #include <game/object/objectManager.h>
 #include <sail/sailExitEvent.h>
-#include <sail/vikingCupManager.h>
+#include <sail/sailInitEvent.h>
 
 // resources
 #include <resources/bb/gm_demoplay.h>
@@ -28,7 +28,7 @@ typedef struct SailDemoPlayerDemo_
 // --------------------
 
 static const SailDemoPlayerDemo sailDemoList[] = {
-    { .keyDataPad = "/keydat/pd_ship00.dat", .keyDataTouch = "/keydat/tp_ship00.dat", .duration = SECONDS_TO_FRAMES(20.0), .id = 5 }
+    { .keyDataPad = "/keydat/pd_ship00.dat", .keyDataTouch = "/keydat/tp_ship00.dat", .duration = SECONDS_TO_FRAMES(20.0), .id = SAILMISSION_MISSION_JET }
 };
 
 // --------------------
@@ -71,7 +71,7 @@ void CreateSailDemoPlayer(void)
     CreateReplayRecorderPad(REPLAYRECORDER_TYPE_PLAY_FILE, &padInput, sailDemoList[state->curDemoID].keyDataPad, NULL, 0);
     CreateReplayRecorderTouch(REPLAYRECORDER_TYPE_PLAY_FILE, &touchInput, sailDemoList[state->curDemoID].keyDataTouch, NULL, 0);
 
-    VikingCupManager__EventStartVikingCup(sailDemoList[state->curDemoID].id);
+    InitSailEvent(sailDemoList[state->curDemoID].id);
 }
 
 void SailDemoPlayer_State_Playback(StageTask *work)

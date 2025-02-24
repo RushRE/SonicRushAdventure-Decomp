@@ -2443,9 +2443,9 @@
 .public MultibootManager__Func_2063BBC
 .public MultibootManager__Func_2063BC8
 .public MultibootManager__Func_2063BD4
-.public VikingCupManager__Func_2063C40
-.public VikingCupManager__EventStartVikingCup
-.public VikingCupManager__Func_2063CF4
+.public ResetSailState
+.public InitSailEvent
+.public GetSailUnknownValue
 .public CreateCorruptSaveWarning
 .public SetupDisplayForCorruptSaveWarning
 .public CorruptSaveWarning_Destructor

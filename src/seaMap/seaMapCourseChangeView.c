@@ -8,7 +8,7 @@
 #include <game/graphics/renderCore.h>
 #include <game/game/gameState.h>
 #include <game/save/saveGame.h>
-#include <sail/vikingCupManager.h>
+#include <sail/sailInitEvent.h>
 #include <hub/dockCommon.h>
 
 // --------------------
@@ -126,7 +126,7 @@ void DestroySeaMapCourseChangeView(SeaMapCourseChangeView *work)
             break;
 
         case 2:
-            VikingCupManager__Func_2063C40();
+            ResetSailState();
             gameState.talk.state.hubStartAction = HUB_STARTACTION_NONE;
             RequestSysEventChange(1); // SYSEVENT_RETURN_TO_HUB
             break;

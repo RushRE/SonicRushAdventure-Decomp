@@ -454,7 +454,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
         work->rings = 1;
 
     if (gmCheckMissionType(MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING))
-        work->rings = state->missionQuota;
+        work->rings = state->missionConfig.stage.quota;
 
     if (!CheckIsPlayer1(work))
         CreateEffectPlayerIcon(work);

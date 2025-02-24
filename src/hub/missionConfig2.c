@@ -3,7 +3,7 @@
 #include <hub/hubConfig.h>
 #include <game/save/saveGame.h>
 #include <game/system/sysEvent.h>
-#include <sail/vikingCupManager.h>
+#include <sail/sailInitEvent.h>
 #include <hub/dockCommon.h>
 
 // --------------------
@@ -331,10 +331,10 @@ static const u16 missionIDTable[MISSION_COUNT] = {
     [MISSION_94] = MISSION_94,
 
     // Sailing missions
-    [MISSION_95] = 5,
-    [MISSION_96] = 6,
-    [MISSION_97] = 7,
-    [MISSION_98] = 8,
+    [MISSION_95] = SAILMISSION_MISSION_JET,
+    [MISSION_96] = SAILMISSION_MISSION_BOAT,
+    [MISSION_97] = SAILMISSION_MISSION_HOVER,
+    [MISSION_98] = SAILMISSION_MISSION_SUBMARINE,
 
     // Mission 100
     [MISSION_99] = MISSION_INVALID,
@@ -388,7 +388,7 @@ void MissionHelpers__StartMission(s32 id)
     }
     else
     {
-        VikingCupManager__EventStartVikingCup(missionIDTable[id]);
+        InitSailEvent(missionIDTable[id]);
         RequestNewSysEventChange(SYSEVENT_SAILING);
     }
 }

@@ -676,7 +676,7 @@ void SaveGame__UpdateProgress2_Type5(void)
         u32 nextStage = SaveGame__nextStage[stageID];
         if (stageID != nextStage)
         {
-			// next stage (act) lined up, so advance to the next stage.
+            // next stage (act) lined up, so advance to the next stage.
             gameState.stageID = nextStage;
             SaveGame__SetProgressType(SAVE_PROGRESSTYPE_4);
         }
@@ -1124,10 +1124,10 @@ void SaveGame__StartEvent37(void)
 
 void SaveGame__StartSailJetTraining(void)
 {
-    gameState.missionType      = MISSION_TYPE_TRAINING;
-    gameState.missionTimeLimit = 1;
-    gameState.missionQuota     = 1;
-    gameState.sailShipType     = SHIP_JET;
+    gameState.missionType                 = MISSION_TYPE_TRAINING;
+    gameState.missionConfig.sail.courseID = 1;
+    gameState.missionConfig.sail.unknown  = 1;
+    gameState.sailShipType                = SHIP_JET;
 
     SaveGame__ChangeEvent(SYSEVENT_SAILING);
 }

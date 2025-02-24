@@ -3,7 +3,7 @@
 #include <hub/hubConfig.h>
 #include <game/save/saveGame.h>
 #include <game/system/sysEvent.h>
-#include <sail/vikingCupManager.h>
+#include <sail/sailInitEvent.h>
 
 // resources
 #include <resources/narc/vi_msg_ctrl_lz7.h>

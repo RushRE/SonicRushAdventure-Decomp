@@ -5,7 +5,7 @@
 #include <game/system/sysEvent.h>
 #include <game/system/task.h>
 #include <seaMap/seaMapView.h>
-#include <sail/vikingCupManager.h>
+#include <sail/sailInitEvent.h>
 
 // --------------------
 // FUNCTION DECLS
@@ -30,7 +30,7 @@ void SailExitEvent_Main(void)
         return;
 
     state->sailUnknownFlags &= ~1;
-    VikingCupManager__Func_2063C40();
+    ResetSailState();
 
     for (u8 id = 0; id < 6; id++)
     {

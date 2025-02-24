@@ -113,7 +113,7 @@ void InitSailingSysEvent(void)
     else
         state->sailRandSeed = _mt_math_rand;
 
-    if ((state->sailUnknownFlags & 1) == 0 && (state->sailVsJohnny || (state->missionType == MISSION_TYPE_2 || state->missionType == MISSION_TYPE_3)))
+    if ((state->sailUnknownFlags & 1) == 0 && (state->sailVsJohnny || (state->missionType == MISSION_TYPE_VIKINGCUP_TIME || state->missionType == MISSION_TYPE_VIKINGCUP_SCORE)))
     {
         if (state->sailPadReplayData == NULL)
         {
@@ -139,7 +139,7 @@ void InitSailingSysEvent(void)
         }
     }
 
-    if ((!state->sailVsJohnny && state->missionType == MISSION_TYPE_0) && state->seaMapNodeList.nodes.numObjects != 0)
+    if ((!state->sailVsJohnny && state->missionType == MISSION_TYPE_NONE) && state->seaMapNodeList.nodes.numObjects != 0)
     {
         GXS_SetVisiblePlane(GX_PLANEMASK_ALL);
         CreateSailSeaMapView(state->sailShipType);
@@ -149,7 +149,7 @@ void InitSailingSysEvent(void)
     if (replayActive)
         manager->flags |= SAILMANAGER_FLAG_REPLAY_ACTIVE;
 
-    if (manager->missionType != MISSION_TYPE_0 && manager->missionType == MISSION_TYPE_TRAINING)
+    if (manager->missionType != MISSION_TYPE_NONE && manager->missionType == MISSION_TYPE_TRAINING)
         CreateSailTraining();
 
     SailUnknown2153770__Create();
@@ -208,14 +208,14 @@ SailManager *SailManager__Create(void)
     work->shipType  = state->sailShipType;
     work->field_5DC = 0;
 
-    if (state->missionType != MISSION_TYPE_0)
+    if (state->missionType != MISSION_TYPE_NONE)
     {
         work->flags |= SAILMANAGER_FLAG_400;
         work->missionType  = state->missionType;
-        work->missionID    = state->missionTimeLimit;
-        work->missionQuota = state->missionQuota;
-        state->missionType = MISSION_TYPE_0;
-        MI_CpuClear16(&state->missionTimeLimit, 8);
+        work->missionID    = state->missionConfig.sail.courseID;
+        work->missionQuota = state->missionConfig.sail.unknown;
+        state->missionType = MISSION_TYPE_NONE;
+        MI_CpuClear16(&state->missionConfig, sizeof(state->missionConfig));
 
         if (work->missionType == MISSION_TYPE_TRAINING)
             work->flags |= SAILMANAGER_FLAG_FREEZE_ALPHA_TIMER;
@@ -352,7 +352,7 @@ void SailManager__Main(void)
 {
     SailManager *work = TaskGetWorkCurrent(SailManager);
 
-    if (work->missionType != MISSION_TYPE_3 || work->shipType != SHIP_SUBMARINE)
+    if (work->missionType != MISSION_TYPE_VIKINGCUP_SCORE || work->shipType != SHIP_SUBMARINE)
     {
         if (work->field_5A != 3 && (work->timer & 0x1FF) == 0)
         {

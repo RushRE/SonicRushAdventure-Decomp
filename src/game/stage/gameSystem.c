@@ -1343,25 +1343,25 @@ void InitZoneEvent(void)
     }
     else if (state->gameMode == GAMEMODE_MISSION)
     {
-        playerGameStatus.missionStatus.stageTimeLimit = state->missionTimeLimit;
+        playerGameStatus.missionStatus.stageTimeLimit = state->missionConfig.stage.timeLimit;
         playerGameStatus.missionStatus.quotaTarget    = mtMathRand();
 
         switch ((s32)state->missionType)
         {
             case MISSION_TYPE_COLLECT_RINGS:
-                playerGameStatus.missionStatus.quota = state->missionQuota;
+                playerGameStatus.missionStatus.quota = state->missionConfig.stage.quota;
                 break;
 
             case MISSION_TYPE_DEFEAT_ENEMIES:
-                playerGameStatus.missionStatus.quota = state->missionQuota;
+                playerGameStatus.missionStatus.quota = state->missionConfig.stage.quota;
                 break;
 
             case MISSION_TYPE_PERFORM_COMBOS:
-                playerGameStatus.missionStatus.quota = state->missionQuota;
+                playerGameStatus.missionStatus.quota = state->missionConfig.stage.quota;
                 break;
 
             case MISSION_TYPE_PERFORM_TRICKS:
-                playerGameStatus.missionStatus.quota = state->missionQuota;
+                playerGameStatus.missionStatus.quota = state->missionConfig.stage.quota;
                 break;
         }
     }
@@ -1385,21 +1385,21 @@ void InitVSBattleEvent(void)
 
 void InitStageMission(s32 id)
 {
-    gameState.gameFlag         = GAME_FLAG_NONE;
-    gameState.gameMode         = GAMEMODE_MISSION;
-    gameState.clearedMission   = FALSE;
-    gameState.stageID          = missionList[id].stageID;
-    gameState.missionType      = missionList[id].type;
-    gameState.missionTimeLimit = missionList[id].config[gameState.difficulty].timeLimit;
-    gameState.missionQuota     = missionList[id].config[gameState.difficulty].quota;
+    gameState.gameFlag                      = GAME_FLAG_NONE;
+    gameState.gameMode                      = GAMEMODE_MISSION;
+    gameState.clearedMission                = FALSE;
+    gameState.stageID                       = missionList[id].stageID;
+    gameState.missionType                   = missionList[id].type;
+    gameState.missionConfig.stage.timeLimit = missionList[id].config[gameState.difficulty].timeLimit;
+    gameState.missionConfig.stage.quota     = missionList[id].config[gameState.difficulty].quota;
 }
 
 void CreateGameDataRequest(GameDataLoadProc load_proc)
 {
     if (load_proc != GAMEDATA_LOADPROC_NONE)
-        gameDataTask = TaskCreate(GameDataRequest_Main_TryLoadCommonAssets, NULL, TASK_FLAG_NONE, 0, 0x1000, TASK_GROUP(3), GameDataRequest);
+        gameDataTask = TaskCreate(GameDataRequest_Main_TryLoadCommonAssets, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1000, TASK_GROUP(3), GameDataRequest);
     else
-        gameDataTask = TaskCreate(GameDataRequest_Main_BuildArea, NULL, TASK_FLAG_NONE, 0, 0x1000, TASK_GROUP(3), GameDataRequest);
+        gameDataTask = TaskCreate(GameDataRequest_Main_BuildArea, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1000, TASK_GROUP(3), GameDataRequest);
 
     TaskGetWork(gameDataTask, GameDataRequest)->load_proc = load_proc;
 }

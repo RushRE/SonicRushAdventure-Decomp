@@ -123,10 +123,10 @@ typedef u32 ZoneID;
 
 enum MissionType_
 {
-    MISSION_TYPE_0, // Unused?
+    MISSION_TYPE_NONE,
     MISSION_TYPE_TRAINING,
-    MISSION_TYPE_2, // Unused?
-    MISSION_TYPE_3, // Unused?
+    MISSION_TYPE_VIKINGCUP_TIME,
+    MISSION_TYPE_VIKINGCUP_SCORE,
     MISSION_TYPE_COLLECT_RINGS,
     MISSION_TYPE_PERFORM_COMBOS,
     MISSION_TYPE_REACH_GOAL,
@@ -264,8 +264,20 @@ typedef struct GameState_
     u16 nextDemoID;
     u16 unknownDemoID;
     MissionType missionType;
-    s32 missionTimeLimit;
-    u32 missionQuota;
+    union
+    {
+        struct
+        {
+            s32 timeLimit;
+            u32 quota;
+        } stage;
+
+        struct
+        {
+            s32 courseID;
+            u32 unknown;
+        } sail;
+    } missionConfig;
     BOOL clearedMission;
     s32 field_80;
     SeaMapManagerNodeList seaMapNodeList;

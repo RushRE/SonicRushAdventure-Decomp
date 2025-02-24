@@ -1264,7 +1264,7 @@ _0217BAE0:
 	beq _0217BB70
 	mov r1, r7
 	add r0, sp, #0x30
-	bl VikingCupManager__Func_2063CF4
+	bl GetSailUnknownValue
 	ldr r1, [sp, #0x30]
 	mov r2, #0x40
 	stmia sp, {r2, r6}
@@ -2442,7 +2442,7 @@ VikingCupMenu__Main: // 0x0217CAB8
 	beq _0217CB14
 	bl ReleaseSysSound
 	mov r0, r4
-	bl VikingCupManager__EventStartVikingCup
+	bl InitSailEvent
 	mov r0, #1
 	bl RequestSysEventChange
 	b _0217CB28

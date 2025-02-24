@@ -554,7 +554,7 @@ _0218887C:
 _02188890:
 	mov r1, r10
 	add r0, r5, #0x28
-	bl VikingCupManager__Func_2063CF4
+	bl GetSailUnknownValue
 	mov r0, r5
 	str r7, [r5, #0x2c]
 	bl SailJetRaceCheckpointIconHUD__SetupObject
