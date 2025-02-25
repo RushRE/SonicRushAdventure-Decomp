@@ -100,9 +100,9 @@ void ProcessHubBGCircleEffect(HubBGCircleEffect *work)
 
     RenderAffineControl *affine;
     if (work->bgID == BACKGROUND_2)
-        affine = &VRAMSystem__GFXControl[work->useEngineB]->affineA;
+        affine = &VRAMSystem__GFXControl[work->useEngineB]->affineBG2;
     else
-        affine = &VRAMSystem__GFXControl[work->useEngineB]->affineB;
+        affine = &VRAMSystem__GFXControl[work->useEngineB]->affineBG3;
     MTX_Scale22(&affine->matrix, work->scale, work->scale);
     affine->centerX = 32;
     affine->centerY = 32;

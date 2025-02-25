@@ -500,7 +500,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_CUTSCENE
     {
-        .initFunc    = CutsceneAssetSystem__Create,
+        .initFunc    = CreateCutsceneSystem,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

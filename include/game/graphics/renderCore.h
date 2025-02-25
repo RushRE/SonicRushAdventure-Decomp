@@ -299,8 +299,8 @@ typedef struct RenderCoreGFXControl_
     Vec2U16 bgPosition[4];
     WindowPlaneManager windowManager;
     BlendController blendManager;
-    RenderAffineControl affineA;
-    RenderAffineControl affineB;
+    RenderAffineControl affineBG2;
+    RenderAffineControl affineBG3;
     s16 brightness;
     u16 mosaicSize;
 } RenderCoreGFXControl;

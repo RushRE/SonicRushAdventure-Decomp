@@ -89,13 +89,13 @@ void ResetRenderAffine(void)
         RenderCoreGFXControl *control = VRAMSystem__GFXControl[i];
         MI_CpuClear16(control, sizeof(RenderCoreGFXControl));
 
-        MTX_Identity22(&control->affineA.matrix);
-        control->affineA.centerX = control->affineA.centerY = 0;
-        control->affineA.x = control->affineA.y = 0;
+        MTX_Identity22(&control->affineBG2.matrix);
+        control->affineBG2.centerX = control->affineBG2.centerY = 0;
+        control->affineBG2.x = control->affineBG2.y = 0;
 
-        MTX_Identity22(&control->affineB.matrix);
-        control->affineB.centerX = control->affineB.centerY = 0;
-        control->affineB.x = control->affineB.y = 0;
+        MTX_Identity22(&control->affineBG3.matrix);
+        control->affineBG3.centerX = control->affineBG3.centerY = 0;
+        control->affineBG3.x = control->affineBG3.y = 0;
     }
 }
 

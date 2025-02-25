@@ -70,20 +70,25 @@ void InitBackgroundEx(Background *background, void *fileData, BackgroundFlags fl
     background->height      = GetFile(fileData)->height;
     background->useEngineB  = useEngineB;
     background->paletteMode = paletteMode;
-    background->vramPalette = &((u16 *)vramPalette)[16 * GetFile(fileData)->paletteRow];
+    background->vramPalette = &((GXRgb *)vramPalette)[16 * GetFile(fileData)->paletteRow];
     background->pixelMode   = pixelMode;
 
     switch ((BackgroundFormat)(GetFile(fileData)->colorFormat & 0xF))
     {
-        case BBG_FORMAT_0:
+        case BACKGROUND_FORMAT_TEXT_16:
             background->vramPixels = &((u8 *)vramPixels)[32 * GetFile(fileData)->tileOffset];
             break;
 
-        case BBG_FORMAT_1:
-        case BBG_FORMAT_2:
+        case BACKGROUND_FORMAT_TEXT_256:
+        case BACKGROUND_FORMAT_AFFINE:
             background->vramPixels = &((u8 *)vramPixels)[64 * GetFile(fileData)->tileOffset];
             break;
 
+        // Bitmap formats
+        // case BACKGROUND_FORMAT_BITMAP_256PLTT:
+        // case BACKGROUND_FORMAT_BITMAP_DIRECTCOLOR:
+        // case BACKGROUND_FORMAT_BITMAP_LARGE:
+        // case BACKGROUND_FORMAT_BITMAP_UNKNOWN:
         default:
             background->vramPixels = vramPixels;
             break;
@@ -111,19 +116,19 @@ void InitBackground(Background *background, void *fileData, BackgroundFlags flag
 
     switch (GetBackgroundFormat(fileData))
     {
-        case BBG_FORMAT_0:
-        case BBG_FORMAT_1:
-        case BBG_FORMAT_2:
+        case BACKGROUND_FORMAT_TEXT_16:
+        case BACKGROUND_FORMAT_TEXT_256:
+        case BACKGROUND_FORMAT_AFFINE:
             InitBackgroundPalette(background);
             InitBackgroundPixelsForCharacter(background);
             InitBackgroundMappings(background, displayWidth, displayHeight);
             break;
 
-        case BBG_FORMAT_3:
+        case BACKGROUND_FORMAT_BITMAP_256PLTT:
             InitBackgroundPalette(background);
             // fallthrough
 
-        case BBG_FORMAT_4:
+        case BACKGROUND_FORMAT_BITMAP_DIRECTCOLOR:
             InitBackgroundPixelsForScreen(background, displayWidth, displayHeight);
             break;
 
@@ -264,13 +269,13 @@ void DrawBackground(Background *background)
             {
                 if ((background->flags & BACKGROUND_FLAG_SET_BG_X) != 0)
                 {
-                    s32 offset    = 8 * background->offset.x;
+                    s32 offset    = TILE_SIZE * background->offset.x;
                     bgPosition->x = offset + background->position.x;
                 }
 
                 if ((background->flags & BACKGROUND_FLAG_SET_BG_Y) != 0)
                 {
-                    s32 offset    = 8 * background->offset.y;
+                    s32 offset    = TILE_SIZE * background->offset.y;
                     bgPosition->y = offset + background->position.y;
                 }
             }
@@ -278,13 +283,13 @@ void DrawBackground(Background *background)
             {
                 if ((background->flags & BACKGROUND_FLAG_SET_BG_X) != 0)
                 {
-                    s32 offset    = 8 * background->offset.x;
+                    s32 offset    = TILE_SIZE * background->offset.x;
                     bgPosition->x = offset + (background->position.x & 7);
                 }
 
                 if ((background->flags & BACKGROUND_FLAG_SET_BG_Y) != 0)
                 {
-                    s32 offset    = 8 * background->offset.y;
+                    s32 offset    = TILE_SIZE * background->offset.y;
                     bgPosition->y = offset + (background->position.y & 7);
                 }
             }
@@ -292,56 +297,57 @@ void DrawBackground(Background *background)
 
         if (!isBackground)
         {
-            BOOL applyPosition = FALSE;
+            BOOL isAffineLayer = FALSE;
 
             switch (*(u32 *)VRAMSystem__DisplayControllers[background->useEngineB] & 7)
             {
                 case GX_BGMODE_1:
                     if (background->bgID == BACKGROUND_3)
-                        applyPosition = TRUE;
+                        isAffineLayer = TRUE;
                     break;
 
                 case GX_BGMODE_2:
                     if (background->bgID == BACKGROUND_2 || background->bgID == BACKGROUND_3)
-                        applyPosition = TRUE;
+                        isAffineLayer = TRUE;
                     break;
 
                 case GX_BGMODE_3:
                     if (background->bgID == BACKGROUND_3)
-                        applyPosition = TRUE;
+                        isAffineLayer = TRUE;
                     break;
 
                 case GX_BGMODE_4:
                     if (background->bgID == BACKGROUND_2 || background->bgID == BACKGROUND_3)
-                        applyPosition = TRUE;
+                        isAffineLayer = TRUE;
                     break;
 
                 case GX_BGMODE_5:
                     if (background->bgID == BACKGROUND_2 || background->bgID == BACKGROUND_3)
-                        applyPosition = TRUE;
+                        isAffineLayer = TRUE;
                     break;
 
+                // case GX_BGMODE_0:
                 default:
                     break;
             }
 
-            if (applyPosition)
+            if (isAffineLayer)
             {
                 if (background->bgID == BACKGROUND_2)
                 {
                     if ((background->flags & BACKGROUND_FLAG_SET_BG_X) != 0)
-                        VRAMSystem__GFXControl[background->useEngineB]->affineA.x = bgPosition->x;
+                        VRAMSystem__GFXControl[background->useEngineB]->affineBG2.x = bgPosition->x;
 
                     if ((background->flags & BACKGROUND_FLAG_SET_BG_Y) != 0)
-                        VRAMSystem__GFXControl[background->useEngineB]->affineA.y = bgPosition->y;
+                        VRAMSystem__GFXControl[background->useEngineB]->affineBG2.y = bgPosition->y;
                 }
                 else
                 {
                     if ((background->flags & BACKGROUND_FLAG_SET_BG_X) != 0)
-                        VRAMSystem__GFXControl[background->useEngineB]->affineB.x = bgPosition->x;
+                        VRAMSystem__GFXControl[background->useEngineB]->affineBG3.x = bgPosition->x;
 
                     if ((background->flags & BACKGROUND_FLAG_SET_BG_Y) != 0)
-                        VRAMSystem__GFXControl[background->useEngineB]->affineB.y = bgPosition->y;
+                        VRAMSystem__GFXControl[background->useEngineB]->affineBG3.y = bgPosition->y;
                 }
             }
         }
@@ -443,19 +449,20 @@ u16 GetBackgroundTileCount(void *fileData)
 
     switch ((BackgroundFormat)(GetFile(fileData)->colorFormat & 0xF))
     {
-        case BBG_FORMAT_0:
+        case BACKGROUND_FORMAT_TEXT_16:
             return ((MICompressionHeader *)GetFileBlock(fileData, offset))->destSize / 32; // 4bpp -> 1 byte has 2 colors
 
-        case BBG_FORMAT_1:
-        case BBG_FORMAT_2:
+        case BACKGROUND_FORMAT_TEXT_256:
+        case BACKGROUND_FORMAT_AFFINE:
             return ((MICompressionHeader *)GetFileBlock(fileData, offset))->destSize / 64; // 8bpp -> 1 byte has 1 color
 
-        case BBG_FORMAT_3:
-        case BBG_FORMAT_4:
-        case BBG_FORMAT_5:
-        case BBG_FORMAT_6:
+        // Bitmap formats
+        case BACKGROUND_FORMAT_BITMAP_256PLTT:
+        case BACKGROUND_FORMAT_BITMAP_DIRECTCOLOR:
+        case BACKGROUND_FORMAT_BITMAP_LARGE:
+        case BACKGROUND_FORMAT_BITMAP_UNKNOWN:
         default:
-            return 0; // no pixel data in these formats
+            return 0; // no tile data in these formats
     }
 }
 

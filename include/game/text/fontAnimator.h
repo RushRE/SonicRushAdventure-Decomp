@@ -114,7 +114,7 @@ NOT_DECOMPILED u32 FontAnimator__GetSequenceDialogCount(FontAnimator *work);
 NOT_DECOMPILED u32 FontAnimator__GetDialogLineCount(FontAnimator *work, u16 id);
 NOT_DECOMPILED void FontAnimator__SetDialog(FontAnimator *work, u16 dialogID);
 NOT_DECOMPILED u32 FontAnimator__GetDialogID(FontAnimator *work);
-NOT_DECOMPILED void FontAnimator__LoadCharacters(FontAnimator *work, s32 count);
+NOT_DECOMPILED void FontAnimator__LoadCharacters(FontAnimator *work, u16 count);
 NOT_DECOMPILED BOOL FontAnimator__IsEndOfLine(FontAnimator *work);
 NOT_DECOMPILED BOOL FontAnimator__AdvanceDialog(FontAnimator *work);
 NOT_DECOMPILED BOOL FontAnimator__IsLastDialog(FontAnimator *work);

@@ -289,8 +289,8 @@ void UpdateDrawLoop(void)
         MI_DmaCopy16(renderDmaNo, &control->blendManager, &reg_G2_BLDCNT, sizeof(control->blendManager));
         GX_SetMasterBrightness(control->brightness);
         reg_G2_MOSAIC = control->mosaicSize;
-        G2_SetBG2Affine(&control->affineA.matrix, control->affineA.centerX, control->affineA.centerY, control->affineA.x, control->affineA.y);
-        G2_SetBG3Affine(&control->affineB.matrix, control->affineB.centerX, control->affineB.centerY, control->affineB.x, control->affineB.y);
+        G2_SetBG2Affine(&control->affineBG2.matrix, control->affineBG2.centerX, control->affineBG2.centerY, control->affineBG2.x, control->affineBG2.y);
+        G2_SetBG3Affine(&control->affineBG3.matrix, control->affineBG3.centerX, control->affineBG3.centerY, control->affineBG3.x, control->affineBG3.y);
         if ((prevFlags & RENDERCORE_FLAG_DISABLE_OAM_RESET) == 0)
         {
             OAMSystem__CopyToVRAM(FALSE);
@@ -311,8 +311,8 @@ void UpdateDrawLoop(void)
         MI_DmaCopy16(renderDmaNo, &control->blendManager, &reg_G2S_DB_BLDCNT, sizeof(control->blendManager));
         GXS_SetMasterBrightness(control->brightness);
         reg_G2S_DB_MOSAIC = control->mosaicSize;
-        G2S_SetBG2Affine(&control->affineA.matrix, control->affineA.centerX, control->affineA.centerY, control->affineA.x, control->affineA.y);
-        G2S_SetBG3Affine(&control->affineB.matrix, control->affineB.centerX, control->affineB.centerY, control->affineB.x, control->affineB.y);
+        G2S_SetBG2Affine(&control->affineBG2.matrix, control->affineBG2.centerX, control->affineBG2.centerY, control->affineBG2.x, control->affineBG2.y);
+        G2S_SetBG3Affine(&control->affineBG3.matrix, control->affineBG3.centerX, control->affineBG3.centerY, control->affineBG3.x, control->affineBG3.y);
         if ((prevFlags & RENDERCORE_FLAG_DISABLE_OAM_RESET) == 0)
         {
             OAMSystem__CopyToVRAM(TRUE);
@@ -758,13 +758,13 @@ void InitRenderCore(void)
         RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[i];
         MI_CpuClear16(gfxControl, sizeof(*gfxControl));
 
-        MTX_Identity22(&gfxControl->affineA.matrix);
-        gfxControl->affineA.centerX = gfxControl->affineA.centerY = 0;
-        gfxControl->affineA.x = gfxControl->affineA.y = 0;
+        MTX_Identity22(&gfxControl->affineBG2.matrix);
+        gfxControl->affineBG2.centerX = gfxControl->affineBG2.centerY = 0;
+        gfxControl->affineBG2.x = gfxControl->affineBG2.y = 0;
 
-        MTX_Identity22(&gfxControl->affineB.matrix);
-        gfxControl->affineB.centerX = gfxControl->affineB.centerY = 0;
-        gfxControl->affineB.x = gfxControl->affineB.y = 0;
+        MTX_Identity22(&gfxControl->affineBG3.matrix);
+        gfxControl->affineBG3.centerX = gfxControl->affineBG3.centerY = 0;
+        gfxControl->affineBG3.x = gfxControl->affineBG3.y = 0;
     }
 
     MI_CpuClear16(&renderCoreSwapBuffer, sizeof(renderCoreSwapBuffer));

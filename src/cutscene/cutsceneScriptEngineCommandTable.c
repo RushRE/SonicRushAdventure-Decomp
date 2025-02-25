@@ -6,83 +6,97 @@
 
 static const CutsceneScriptEngineCommand scriptUnknownCommands[] = { NULL };
 
-static const CutsceneScriptEngineCommand scriptTextCommands[] = { CutsceneScript__TextFunc__Execute };
+static const CutsceneScriptEngineCommand scriptTextCommands[] = { CutsceneScript_TextCommand_Execute };
 
 static const CutsceneScriptEngineCommand scriptBackgroundCommands[] = {
-    CutsceneScript__BackgroundCommand__LoadBBG,      CutsceneScript__BackgroundCommand__Func_2154494, CutsceneScript__BackgroundCommand__Func_21544BC,
-    CutsceneScript__BackgroundCommand__Func_2154504, CutsceneScript__BackgroundCommand__Func_215455C, CutsceneScript__BackgroundCommand__Func_21545B0,
+    CutsceneScript_BackgroundCommand_LoadBackgroundHandle,        CutsceneScript_BackgroundCommand_ReleaseBackgroundHandle,
+    CutsceneScript_BackgroundCommand_ReleaseAllBackgroundHandles, CutsceneScript_BackgroundCommand_SetBackgroundPosition,
+    CutsceneScript_BackgroundCommand_SetBackgroundHandleFlag,     CutsceneScript_BackgroundCommand_SetBackgroundFlag,
 };
 
 static const CutsceneScriptEngineCommand scriptSystemCommands[] = {
     NULL,
-    CutsceneScript__SystemCommand__GetPadInputMask,
-    CutsceneScript__SystemCommand__GetTouchPos,
-    CutsceneScript__SystemCommand__GetGameLanguage,
-    CutsceneScript__SystemCommand__GetVCount,
-    CutsceneScript__SystemCommand__GetBrightness,
+    CutsceneScript_SystemCommand_GetPadInputMask,
+    CutsceneScript_SystemCommand_GetTouchPos,
+    CutsceneScript_SystemCommand_GetGameLanguage,
+    CutsceneScript_SystemCommand_GetVCount,
+    CutsceneScript_SystemCommand_GetBrightness,
 };
 
 static const CutsceneScriptEngineCommand scriptFileSystemCommands[] = {
-    CutsceneScript__FileSystemCommand__Func_2153C90, CutsceneScript__FileSystemCommand__Func_2153CE8,   CutsceneScript__FileSystemCommand__Func_2153D10,
-    CutsceneScript__FileSystemCommand__MountArchive, CutsceneScript__FileSystemCommand__UnmountArchive, CutsceneScript__FileSystemCommand__Func_2153DAC,
-    CutsceneScript__FileSystemCommand__Func_2153DDC,
+    CutsceneScript_FileSystemCommand_AllocFileHandle,          CutsceneScript_FileSystemCommand_ReleaseFileHandle,
+    CutsceneScript_FileSystemCommand_ReleaseAllFileHandles,    CutsceneScript_FileSystemCommand_MountArchive,
+    CutsceneScript_FileSystemCommand_UnmountArchive,           CutsceneScript_FileSystemCommand_SetNextFileCompressedFlag,
+    CutsceneScript_FileSystemCommand_SetNextFileASyncLoadFlag,
 };
 
 static const CutsceneScriptEngineCommand scriptModelCommands[] = {
-    CutsceneScript__ModelCommand__LoadMDL,      CutsceneScript__ModelCommand__Func_2154684,  CutsceneScript__ModelCommand__Func_21546AC, CutsceneScript__ModelCommand__LoadMDL2,
-    CutsceneScript__ModelCommand__LoadAniMDL,   CutsceneScript__ModelCommand__Func_215483C,  CutsceneScript__ModelCommand__Func_21548A8, CutsceneScript__ModelCommand__Func_21549E4,
-    CutsceneScript__ModelCommand__Func_2154A50, CutsceneScript__ModelCommand__Func_2154ABC,  CutsceneScript__ModelCommand__Func_2154B10, CutsceneScript__ModelCommand__Func_2154B64,
-    CutsceneScript__ModelCommand__Func_2154BF8, CutsceneScript__ModelCommand__LoadDrawState, CutsceneScript__ModelCommand__Func_2154CCC,
+    CutsceneScript_ModelCommand_AllocModelHandle,       CutsceneScript_ModelCommand_ReleaseModelHandle,    CutsceneScript_ModelCommand_ReleaseModelHandles,
+    CutsceneScript_ModelCommand_LoadModelResource,      CutsceneScript_ModelCommand_LoadModelAnimResource, CutsceneScript_ModelCommand_SetModelScale,
+    CutsceneScript_ModelCommand_SetModelRotation,       CutsceneScript_ModelCommand_SetModelPosition,      CutsceneScript_ModelCommand_SetModelPosition2,
+    CutsceneScript_ModelCommand_SetModelVisible,        CutsceneScript_ModelCommand_SetModelLoopFlag,      CutsceneScript_ModelCommand_SetModelCanLoopFlag,
+    CutsceneScript_ModelCommand_SetModelRenderCallback, CutsceneScript_ModelCommand_LoadDrawState,         CutsceneScript_ModelCommand_CheckModelAnimFinished,
 };
 
 static const CutsceneScriptEngineCommand scriptSoundCommands[] = {
-    CutsceneScript__SoundCommand_LoadSndArc,      CutsceneScript__SoundCommand_SetVolume,         CutsceneScript__SoundCommand_MoveVolume,
-    CutsceneScript__SoundCommand_LoadSndArcGroup, CutsceneScript__SoundCommand_LoadSndArcSeq,     CutsceneScript__SoundCommand_LoadSndArcSeqArc,
-    CutsceneScript__SoundCommand_LoadSndArcBank,  CutsceneScript__SoundCommand_PlayTrack,         CutsceneScript__SoundCommand_PlayTrackEx,
-    CutsceneScript__SoundCommand_PlaySequence,    CutsceneScript__SoundCommand_PlaySequenceEx,    CutsceneScript__SoundCommand_PlayVoiceClip,
-    CutsceneScript__SoundCommand_PlayVoiceClipEx, CutsceneScript__SoundCommand_FadeSeq,           CutsceneScript__SoundCommand_FadeAllSeq,
-    CutsceneScript__SoundCommand_SetTrackPan,     CutsceneScript__SoundCommand_SetPlayerPriority,
+    CutsceneScript_SoundCommand_LoadSndArc,      CutsceneScript_SoundCommand_SetVolume,         CutsceneScript_SoundCommand_MoveVolume,
+    CutsceneScript_SoundCommand_LoadSndArcGroup, CutsceneScript_SoundCommand_LoadSndArcSeq,     CutsceneScript_SoundCommand_LoadSndArcSeqArc,
+    CutsceneScript_SoundCommand_LoadSndArcBank,  CutsceneScript_SoundCommand_PlayTrack,         CutsceneScript_SoundCommand_PlayTrackEx,
+    CutsceneScript_SoundCommand_PlaySequence,    CutsceneScript_SoundCommand_PlaySequenceEx,    CutsceneScript_SoundCommand_PlayVoiceClip,
+    CutsceneScript_SoundCommand_PlayVoiceClipEx, CutsceneScript_SoundCommand_FadeSeq,           CutsceneScript_SoundCommand_FadeAllSeq,
+    CutsceneScript_SoundCommand_SetTrackPan,     CutsceneScript_SoundCommand_SetPlayerPriority,
 };
 
 static const CutsceneScriptEngineCommand scriptSpriteCommands[] = {
-    CutsceneScript__SpriteCommand__LoadSprite,        CutsceneScript__SpriteCommand__Func_2153EB4,      CutsceneScript__SpriteCommand__Func_2153EDC,
-    CutsceneScript__SpriteCommand__LoadSprite2,       CutsceneScript__SpriteCommand__SetAnimation,      CutsceneScript__SpriteCommand__SetSpritePosition,
-    CutsceneScript__SpriteCommand__SetSpriteVisible,  CutsceneScript__SpriteCommand__SetSpriteLoopFlag, CutsceneScript__SpriteCommand__SetSpriteFlip,
-    CutsceneScript__SpriteCommand__SetSpritePriority, CutsceneScript__SpriteCommand__SetSpriteType,     CutsceneScript__SpriteCommand__Func_2154240,
-    CutsceneScript__SpriteCommand__GetSpritePosition, CutsceneScript__SpriteCommand__GetSpritePalette,  CutsceneScript__SpriteCommand__Func_2154320,
-    CutsceneScript__SpriteCommand__Func_2154384,      CutsceneScript__SpriteCommand__Func_21543AC,
+    CutsceneScript_SpriteCommand_AllocSpriteHandle,
+    CutsceneScript_SpriteCommand_ReleaseSpriteHandle,
+    CutsceneScript_SpriteCommand_ReleaseAllSpriteHandles,
+    CutsceneScript_SpriteCommand_LoadSpriteResource,
+    CutsceneScript_SpriteCommand_SetAnimation,
+    CutsceneScript_SpriteCommand_SetSpritePosition,
+    CutsceneScript_SpriteCommand_SetSpriteVisible,
+    CutsceneScript_SpriteCommand_SetSpriteLoopFlag,
+    CutsceneScript_SpriteCommand_SetSpriteFlip,
+    CutsceneScript_SpriteCommand_SetSpritePriority,
+    CutsceneScript_SpriteCommand_SetSpriteType,
+    CutsceneScript_SpriteCommand_SetSpriteFlag,
+    CutsceneScript_SpriteCommand_GetSpritePosition,
+    CutsceneScript_SpriteCommand_GetSpritePalette,
+    CutsceneScript_SpriteCommand_AddTouchArea,
+    CutsceneScript_SpriteCommand_RemoveTouchArea,
+    CutsceneScript_SpriteCommand_GetTouchAreaResponseFlags,
 };
 
 static const CutsceneScriptEngineCommand scriptScreenCommands[] = {
-    CutsceneScript__ScreenCommand__InitVRAMSystem,
-    CutsceneScript__ScreenCommand__SetupBGBank,
-    CutsceneScript__ScreenCommand__SetupOBJBank,
-    CutsceneScript__ScreenCommand__SetupBGExtPalBank,
-    CutsceneScript__ScreenCommand__SetupOBJExtPalBank,
-    CutsceneScript__ScreenCommand__SetupTextureBank,
-    CutsceneScript__ScreenCommand__SetupTexturePalBank,
-    CutsceneScript__ScreenCommand__SetGraphicsMode,
-    CutsceneScript__ScreenCommand__SetBackgroundControlText,
-    CutsceneScript__ScreenCommand__SetBackgroundControlAffine,
-    CutsceneScript__ScreenCommand__SetCurrentDisplay,
-    CutsceneScript__ScreenCommand__ProcessFadeTask,
-    CutsceneScript__ScreenCommand__CreateFadeTask,
-    CutsceneScript__ScreenCommand__SetVisiblePlane,
-    CutsceneScript__ScreenCommand__SetBackgroundPriority,
-    CutsceneScript__ScreenCommand__SetBlendPlane,
-    CutsceneScript__ScreenCommand__SetBlendEffect,
-    CutsceneScript__ScreenCommand__SetBlendAlpha,
-    CutsceneScript__ScreenCommand__SetBlendCoefficient,
-    CutsceneScript__ScreenCommand__SetWindowVisible,
-    CutsceneScript__ScreenCommand__SetWindowPlane,
-    CutsceneScript__ScreenCommand__SetWindowPosition,
-    CutsceneScript__ScreenCommand__Unknown,
-    CutsceneScript__ScreenCommand__SetCapture,
-    CutsceneScript__ScreenCommand__ShakeScreen1,
-    CutsceneScript__ScreenCommand__ShakeScreen2,
+    CutsceneScript_ScreenCommand_InitVRAMSystem,
+    CutsceneScript_ScreenCommand_SetupBGBank,
+    CutsceneScript_ScreenCommand_SetupOBJBank,
+    CutsceneScript_ScreenCommand_SetupBGExtPalBank,
+    CutsceneScript_ScreenCommand_SetupOBJExtPalBank,
+    CutsceneScript_ScreenCommand_SetupTextureBank,
+    CutsceneScript_ScreenCommand_SetupTexturePalBank,
+    CutsceneScript_ScreenCommand_SetGraphicsMode,
+    CutsceneScript_ScreenCommand_SetBackgroundControlText,
+    CutsceneScript_ScreenCommand_SetBackgroundControlAffine,
+    CutsceneScript_ScreenCommand_SetCurrentDisplay,
+    CutsceneScript_ScreenCommand_ProcessFadeTask,
+    CutsceneScript_ScreenCommand_CreateFadeTask,
+    CutsceneScript_ScreenCommand_SetVisiblePlane,
+    CutsceneScript_ScreenCommand_SetBackgroundPriority,
+    CutsceneScript_ScreenCommand_SetBlendPlane,
+    CutsceneScript_ScreenCommand_SetBlendEffect,
+    CutsceneScript_ScreenCommand_SetBlendAlpha,
+    CutsceneScript_ScreenCommand_SetBlendCoefficient,
+    CutsceneScript_ScreenCommand_SetWindowVisible,
+    CutsceneScript_ScreenCommand_SetWindowPlane,
+    CutsceneScript_ScreenCommand_SetWindowPosition,
+    CutsceneScript_ScreenCommand_Unknown,
+    CutsceneScript_ScreenCommand_SetCapture,
+    CutsceneScript_ScreenCommand_ShakeScreen1,
+    CutsceneScript_ScreenCommand_ShakeScreen2,
 };
 
-CutsceneScriptEngineCommand *CutsceneScript__EngineCommandTable[] = {
+CutsceneScriptEngineCommand *CutsceneScript_EngineCommandTable[] = {
     (CutsceneScriptEngineCommand *)scriptSystemCommands, (CutsceneScriptEngineCommand *)scriptScreenCommands,     (CutsceneScriptEngineCommand *)scriptFileSystemCommands,
     (CutsceneScriptEngineCommand *)scriptSpriteCommands, (CutsceneScriptEngineCommand *)scriptBackgroundCommands, (CutsceneScriptEngineCommand *)scriptModelCommands,
     (CutsceneScriptEngineCommand *)scriptSoundCommands,  (CutsceneScriptEngineCommand *)scriptTextCommands,       (CutsceneScriptEngineCommand *)scriptUnknownCommands,

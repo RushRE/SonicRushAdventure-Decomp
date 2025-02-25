@@ -6,85 +6,85 @@
 
 static CutsceneScriptControlCommand scriptEndInstructions[] =
 {
-    CutsceneScript__EndCommand_StopThreads,
-    CutsceneScript__EndCommand_Continue,
-    CutsceneScript__EndCommand_Suspend,
+    CutsceneScript_EndCommand_StopThreads,
+    CutsceneScript_EndCommand_Continue,
+    CutsceneScript_EndCommand_Suspend,
 };
 
 static CutsceneScriptControlCommand scriptEngineInstructions[] =
 {
 	NULL,
-    CutsceneScript__EngineCommand_Execute,
+    CutsceneScript_EngineCommand_Execute,
 };
 
-static CutsceneScriptControlCommand scriptUnknownInstructions[] =
+static CutsceneScriptControlCommand scriptSwitchInstructions[] =
 {
 	NULL,
-    CutsceneScript__UnknownCommand_215636C,
-    CutsceneScript__UnknownCommand_21563D8,
+    CutsceneScript_SwitchCommand_Case,
+    CutsceneScript_SwitchCommand_Default,
 };
 
 static CutsceneScriptControlCommand scriptStackInstructions[] =
 {
     NULL,
-    CutsceneScript__StackCommand_Load,
-    CutsceneScript__StackCommand_Store,
+    CutsceneScript_StackCommand_Load,
+    CutsceneScript_StackCommand_Store,
 };
 
 static CutsceneScriptControlCommand scriptFunctionInstructions[] =
 {
     NULL,
-    CutsceneScript__FunctionCommand_CallFunction,
-    CutsceneScript__FunctionCommand_EndFunction,
-    CutsceneScript__FunctionCommand_CallFunctionASync,
-    CutsceneScript__FunctionCommand_End,
+    CutsceneScript_FunctionCommand_CallFunction,
+    CutsceneScript_FunctionCommand_EndFunction,
+    CutsceneScript_FunctionCommand_CallFunctionASync,
+    CutsceneScript_FunctionCommand_End,
 };
 
 static CutsceneScriptControlCommand scriptBranchInstructions[] =
 {
-    CutsceneScript__IfCommand_Branch,
-    CutsceneScript__IfCommand_IfEqual,
-    CutsceneScript__IfCommand_IfNotEqual,
-    CutsceneScript__IfCommand_IfGreaterEqual,
-    CutsceneScript__IfCommand_IfGreater,
-    CutsceneScript__IfCommand_IfLessEqual,
-    CutsceneScript__IfCommand_IfLess,
+    CutsceneScript_BranchCommand_BranchAlways,
+    CutsceneScript_BranchCommand_BranchEqual,
+    CutsceneScript_BranchCommand_BranchNotEqual,
+    CutsceneScript_BranchCommand_BranchGreaterEqual,
+    CutsceneScript_BranchCommand_BranchGreater,
+    CutsceneScript_BranchCommand_BranchLessEqual,
+    CutsceneScript_BranchCommand_BranchLess,
 };
 
 static CutsceneScriptControlCommand scriptComparisonInstructions[] =
 {
     NULL,
-    CutsceneScript__ComparisonCommand_Equal,
-    CutsceneScript__ComparisonCommand_NotEqual,
-    CutsceneScript__ComparisonCommand_Less,
-    CutsceneScript__ComparisonCommand_LessEqual,
-    CutsceneScript__ComparisonCommand_Greater,
-    CutsceneScript__ComparisonCommand_GreaterEqual,
+    CutsceneScript_ComparisonCommand_Equal,
+    CutsceneScript_ComparisonCommand_NotEqual,
+    CutsceneScript_ComparisonCommand_Less,
+    CutsceneScript_ComparisonCommand_LessEqual,
+    CutsceneScript_ComparisonCommand_Greater,
+    CutsceneScript_ComparisonCommand_GreaterEqual,
 };
 
 static CutsceneScriptControlCommand scriptArithmeticInstructions[] =
 {
-    CutsceneScript__ArithmeticCommand_Assign,
-    CutsceneScript__ArithmeticCommand_Add,
-    CutsceneScript__ArithmeticCommand_Subtract,
-    CutsceneScript__ArithmeticCommand_Multiply,
-    CutsceneScript__ArithmeticCommand_Divide,
-    CutsceneScript__ArithmeticCommand_Negate,
-    CutsceneScript__ArithmeticCommand_Increment,
-    CutsceneScript__ArithmeticCommand_Decrement,
-    CutsceneScript__ArithmeticCommand_ShiftR,
+    CutsceneScript_ArithmeticCommand_Assign,
+    CutsceneScript_ArithmeticCommand_Add,
+    CutsceneScript_ArithmeticCommand_Subtract,
+    CutsceneScript_ArithmeticCommand_Multiply,
+    CutsceneScript_ArithmeticCommand_Divide,
+    CutsceneScript_ArithmeticCommand_Negate,
+    CutsceneScript_ArithmeticCommand_Increment,
+    CutsceneScript_ArithmeticCommand_Decrement,
+    CutsceneScript_ArithmeticCommand_ShiftR,
 };
 
 // this is put in a separate file for now to get the compilation order to match
 extern CutsceneScriptControlCommand scriptBitwiseInstructions[];
 
-CutsceneScriptControlCommand *CutsceneScript__InstructionTable[] =
+CutsceneScriptControlCommand *cutsceneScriptInstructionTable[] =
 {
     scriptEndInstructions,
     scriptArithmeticInstructions,
     scriptBitwiseInstructions,
     scriptComparisonInstructions,
-    scriptUnknownInstructions,
+    scriptSwitchInstructions,
     scriptBranchInstructions,
     scriptFunctionInstructions,
     scriptEngineInstructions,

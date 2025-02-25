@@ -1428,7 +1428,7 @@ void MapFarSys__Build(void)
         ((u16 *)VRAM_BG_PLTT)[0]    = GX_RGB_888(0x00, 0x00, 0x00);
         ((u16 *)VRAM_DB_BG_PLTT)[0] = GX_RGB_888(0x00, 0x00, 0x00);
 
-        if (GetBackgroundFormat(background) == BBG_FORMAT_0)
+        if (GetBackgroundFormat(background) == BACKGROUND_FORMAT_TEXT_16)
             MapFarSys__sVars.flags |= 2;
     }
 }

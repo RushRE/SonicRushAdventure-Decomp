@@ -132,7 +132,7 @@ typedef struct AYKHeader_
 // FUNCTIONS
 // --------------------
 
-void *LoadCutsceneScript(u32 cutsceneID);
+void *LoadCutsceneScriptFile(u32 cutsceneID);
 u32 GetScriptStartParam(u32 cutsceneID);
 u32 GetScriptCanSkipFlagIn(void);
 u32 GetScriptCanSkipFlagOut(void);

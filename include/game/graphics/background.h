@@ -55,13 +55,16 @@ typedef u32 BackgroundFlags;
 
 enum BackgroundFormat_
 {
-    BBG_FORMAT_0,
-    BBG_FORMAT_1,
-    BBG_FORMAT_2,
-    BBG_FORMAT_3,
-    BBG_FORMAT_4,
-    BBG_FORMAT_5,
-    BBG_FORMAT_6,
+    // Tile-based background formats
+    BACKGROUND_FORMAT_TEXT_16,  // Text-Formatted background (4bpp tiles aka GX_BG_COLORMODE_16)
+    BACKGROUND_FORMAT_TEXT_256, // Text-Formatted background (8bpp tiles aka GX_BG_COLORMODE_256)
+    BACKGROUND_FORMAT_AFFINE,   // Affine-Formatted background (8bpp tiles)
+
+    // Bitmap-based background formats (mostly unused by the game)
+    BACKGROUND_FORMAT_BITMAP_256PLTT,     // 256Bmp -> 256-palette formatted bitmap
+    BACKGROUND_FORMAT_BITMAP_DIRECTCOLOR, // DCBmp -> direct color formatted bitmap
+    BACKGROUND_FORMAT_BITMAP_LARGE,       // LargeBmp -> direct color (large) formatted bitmap
+    BACKGROUND_FORMAT_BITMAP_UNKNOWN,     // ??? -> direct color (unknown) formatted bitmap
 };
 typedef u32 BackgroundFormat;
 
@@ -71,7 +74,7 @@ enum BackgroundID_
     BACKGROUND_1,
     BACKGROUND_2,
     BACKGROUND_3,
-    
+
     BACKGROUND_COUNT,
 };
 typedef u8 BackgroundID;

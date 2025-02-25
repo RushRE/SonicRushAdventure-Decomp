@@ -145,7 +145,7 @@ static struct ScriptFile scriptList[CUTSCENE_COUNT] = {
 // FUNCTIONS
 // --------------------
 
-void *LoadCutsceneScript(u32 cutsceneID)
+void *LoadCutsceneScriptFile(u32 cutsceneID)
 {
     char filePath[32] = { 0 };
 
