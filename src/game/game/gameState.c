@@ -30,10 +30,15 @@ void InitGameState(void)
 {
     MI_SetMainMemoryPriority(MI_PROCESSOR_ARM7);
 
+#ifdef RUSH_CONTEST
+    GX_SetMasterBrightness(RENDERCORE_BRIGHTNESS_WHITE);
+    GXS_SetMasterBrightness(RENDERCORE_BRIGHTNESS_WHITE);
+#endif
+
     VRAMSystem__Init(VRAM_MODE_0);
     GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
     GX_SetVisiblePlane(GX_PLANEMASK_NONE);
-    GX_SetPower(GX_POWER_2D_MAIN | GX_POWER_2D_SUB);
+    GX_SetPower(GX_POWER_2D);
     GX_SetDispSelect(GX_DISP_SELECT_MAIN_SUB);
     GX_DispOn();
     GXS_DispOn();

@@ -35,20 +35,35 @@ enum
 };
 
 // --------------------
+// FUNCTION DECLS
+// --------------------
+
+void CreateNetworkErrorMenu(BOOL isDownloadPlayEnd);
+void NetworkErrorMenu_Destructor(Task *task);
+void NetworkErrorMenu_Main(void);
+u16 GetNetworkErrorMenuErrorMessage(void);
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
 void InitNetworkErrorMenu(void)
 {
-    NetworkErrorMenu__Create(FALSE);
+    CreateNetworkErrorMenu(FALSE);
 }
 
-void NetworkErrorMenu__Create(BOOL flag)
+void InitDownloadPlayEndScreen(void)
+{
+    CreateNetworkErrorMenu(TRUE);
+}
+
+void CreateNetworkErrorMenu(BOOL isDownloadPlayEnd)
 {
     Task *task;
     NetworkErrorMenu *work;
     s32 i;
 
+#ifndef RUSH_CONTEST
     if (!gameState.displayDWCErrorCode || gameState.displayDWCErrorCode == TRUE && GetMatchManagerStatus() != MATCHMANAGER_STATUS_SERVER_UPDATED)
     {
         RenderCore_SetNextFoldMode(FOLD_TOGGLE_SLEEP);
@@ -61,10 +76,12 @@ void NetworkErrorMenu__Create(BOOL flag)
         NextSysEvent();
     }
     else
+#endif
+
     {
         SetupDisplayForCorruptSaveWarning();
 
-        task = TaskCreate(NetworkErrorMenu__Main, NetworkErrorMenu__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1000, TASK_GROUP(1), NetworkErrorMenu);
+        task = TaskCreate(NetworkErrorMenu_Main, NetworkErrorMenu_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1000, TASK_GROUP(1), NetworkErrorMenu);
 
         work = TaskGetWork(task, NetworkErrorMenu);
         TaskInitWork16(work);
@@ -77,24 +94,53 @@ void NetworkErrorMenu__Create(BOOL flag)
 
         VRAMPixelKey vramPixels    = VRAMKEY_TO_ADDR(VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_A]);
         VRAMPaletteKey vramPalette = VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_BG[GRAPHICS_ENGINE_A]);
-        Background animator;
-        InitBackgroundEx(&animator, bgBaseDown, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_A, BACKGROUND_0, PALETTE_MODE_SPRITE, vramPalette, PIXEL_MODE_SPRITE, vramPixels,
+
+        Background background;
+        InitBackgroundEx(&background, bgBaseDown, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_A, BACKGROUND_0, PALETTE_MODE_SPRITE, vramPalette, PIXEL_MODE_SPRITE, vramPixels,
                          MAPPINGS_MODE_TEXT_256x256_A, 0, 30, 0, 0, 32, 24);
-        DrawBackground(&animator);
-        if (!flag)
+        DrawBackground(&background);
+        if (!isDownloadPlayEnd)
         {
-            InitBackgroundEx(&animator, bgBaseUpMark, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_A, BACKGROUND_1, PALETTE_MODE_SPRITE, vramPalette, PIXEL_MODE_SPRITE, vramPixels,
+            InitBackgroundEx(&background, bgBaseUpMark, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_A, BACKGROUND_1, PALETTE_MODE_SPRITE, vramPalette, PIXEL_MODE_SPRITE, vramPixels,
                              MAPPINGS_MODE_TEXT_256x256_A, 0, 31, 0, 0, 32, 0x11u);
-            DrawBackground(&animator);
-            InitBackgroundEx(&animator, bgBaseUp, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_A, BACKGROUND_1, PALETTE_MODE_SPRITE, vramPalette, PIXEL_MODE_SPRITE, vramPixels,
+            DrawBackground(&background);
+            InitBackgroundEx(&background, bgBaseUp, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_A, BACKGROUND_1, PALETTE_MODE_SPRITE, vramPalette, PIXEL_MODE_SPRITE, vramPixels,
                              MAPPINGS_MODE_TEXT_256x256_A, 0, 31, 0, 17, 32, 7u);
-            DrawBackground(&animator);
+            DrawBackground(&background);
         }
-        InitBackgroundEx(&animator, bgBaseDown, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_B, BACKGROUND_0, PALETTE_MODE_SPRITE,
+        InitBackgroundEx(&background, bgBaseDown, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_B, BACKGROUND_0, PALETTE_MODE_SPRITE,
                          VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_BG[GRAPHICS_ENGINE_B]), PIXEL_MODE_SPRITE, VRAMKEY_TO_ADDR(VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_B]),
                          MAPPINGS_MODE_TEXT_256x256_B, 0, 29, 0, 0, 32, 24);
-        DrawBackground(&animator);
+        DrawBackground(&background);
 
+#ifdef RUSH_CONTEST
+        void *bgMessage;
+
+        if (isDownloadPlayEnd)
+        {
+            void *bgEndBaseDown = FileUnknown__GetAOUFile(work->archiveDmwfError, ARCHIVE_DMWF_ERROR_LZ7_FILE_DMWL_END_BASE_DOWN_PL_BBG);
+
+            InitBackgroundEx(&background, bgEndBaseDown, BACKGROUND_FLAG_DISABLE_PIXELS | BACKGROUND_FLAG_DISABLE_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, GRAPHICS_ENGINE_A,
+                             BACKGROUND_0, PALETTE_MODE_SPRITE, vramPixels, PIXEL_MODE_SPRITE, vramPalette, MAPPINGS_MODE_, MAPPINGS_MODE_TEXT_256x256_A, 30, 0, 0,
+                             BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+            DrawBackground(&background);
+
+            InitBackgroundEx(&background, bgEndBaseDown, BACKGROUND_FLAG_DISABLE_PIXELS | BACKGROUND_FLAG_DISABLE_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, GRAPHICS_ENGINE_B,
+                             BACKGROUND_0, PALETTE_MODE_SPRITE, vramPixels, PIXEL_MODE_SPRITE, vramPalette, MAPPINGS_MODE_TEXT_256x256_B, 0, 29, 0, 0, BG_DISPLAY_FULL_WIDTH,
+                             BG_DISPLAY_SINGLE_HEIGHT);
+            DrawBackground(&background);
+
+            bgMessage = FileUnknown__GetAOUFile(work->archiveDmwfError, GetGameLanguage() + ARCHIVE_DMWF_ERROR_LZ7_FILE_DMWL_END_DL_JPN_BBG);
+        }
+        else
+        {
+            bgMessage = FileUnknown__GetAOUFile(work->archiveDmwfError, GetGameLanguage() + ARCHIVE_DMWF_ERROR_LZ7_FILE_DMWL_ERROR_DL_JPN_BBG);
+        }
+
+        InitBackgroundEx(&background, bgMessage, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_B, BACKGROUND_1, PALETTE_MODE_SPRITE, vramPixels, PIXEL_MODE_SPRITE, vramPalette,
+                         MAPPINGS_MODE_TEXT_256x256_B, 0, 31, 0, 0, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+        DrawBackground(&background);
+#else
         work->fontFile        = FSRequestFileSync("fnt/font_all.fnt", FSREQ_AUTO_ALLOC_HEAD);
         work->archiveDmwfLang = BundleFileUnknown__LoadFileFromBundle("/bb/dmwf_lang.bb", BUNDLE_DMWF_LANG_FILE_RESOURCES_BB_DMWF_LANG_DMWF_LANG_JPN_NARC + GetGameLanguage(),
                                                                       BUNDLEFILEUNKNOWN_AUTO_ALLOC_HEAD);
@@ -128,7 +174,7 @@ void NetworkErrorMenu__Create(BOOL flag)
         FontAnimator__LoadMPCFile(&work->fontAnimator, mpc);
         FontAnimator__SetCallbackType(&work->fontAnimator, 1);
         FontAnimator__LoadPaletteFunc2(&work->fontAnimator);
-        FontAnimator__SetMsgSequence(&work->fontAnimator, NetworkErrorMenu__GetErrorMessage());
+        FontAnimator__SetMsgSequence(&work->fontAnimator, GetNetworkErrorMenuErrorMessage());
         FontAnimator__InitStartPos(&work->fontAnimator, 1, 0);
         FontAnimator__LoadCharacters(&work->fontAnimator, 0);
 
@@ -170,6 +216,7 @@ void NetworkErrorMenu__Create(BOOL flag)
         FontWindowAnimator__Load1(&work->fontWindowAnimator, &work->fontWindow, 0, FONTWINDOWANIMATOR_ARC_WIN_SIMPLE, ARCHIVE_WIN_SIMPLE_LZ7_FILE_WIN_SIMPLE_C_BBG,
                                   windowStartX - PIXEL_TO_TILE(8), windowStartY - PIXEL_TO_TILE(16), windowSizeX + PIXEL_TO_TILE(16), windowSizeY + PIXEL_TO_TILE(32),
                                   GRAPHICS_ENGINE_B, BACKGROUND_1, PALETTE_ROW_3, 700, 0);
+#endif
 
         AnimatorSprite__Init(&work->aniNextPrompt, FileUnknown__GetAOUFile(work->archiveDmwfError, ARCHIVE_DMWF_ERROR_LZ7_FILE_DMCMN_FIX_NEXT_BAC), 0,
                              ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_B, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, 4), PALETTE_MODE_SPRITE,
@@ -188,8 +235,10 @@ void NetworkErrorMenu__Create(BOOL flag)
         AnimatorSprite__ProcessAnimationFast(&work->aniNextPrompt);
         work->disableNextPromptTimer = 60;
 
+#ifndef RUSH_CONTEST
         LoadConnectionStatusIconAssets();
         CreateConnectionStatusIcon(CONNECTION_MODE_AUTO, GRAPHICS_ENGINE_B, PALETTE_ROW_2, SPRITE_PRIORITY_0, SPRITE_ORDER_1, 234, 22);
+#endif
 
         GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1);
         GXS_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_OBJ);
@@ -198,7 +247,7 @@ void NetworkErrorMenu__Create(BOOL flag)
     }
 }
 
-void NetworkErrorMenu__Destructor(Task *task)
+void NetworkErrorMenu_Destructor(Task *task)
 {
     NetworkErrorMenu *work = TaskGetWork(task, NetworkErrorMenu);
 
@@ -209,6 +258,8 @@ void NetworkErrorMenu__Destructor(Task *task)
     GXS_SetVisiblePlane(GX_PLANEMASK_NONE);
 
     StopSamplingTouchInput();
+
+#ifndef RUSH_CONTEST
     FontAnimator__Release(&work->fontAnimator);
 
     if (gameState.displayDWCErrorCode == TRUE)
@@ -231,16 +282,21 @@ void NetworkErrorMenu__Destructor(Task *task)
         HeapFree(HEAP_USER, work->archiveDmwfLang);
 
     ReleaseConnectionStatusIconAssets();
+#endif
+
     AnimatorSprite__Release(&work->aniNextPrompt);
 
     if (work->archiveDmwfError != NULL)
         HeapFree(HEAP_USER, work->archiveDmwfError);
 }
 
-void NetworkErrorMenu__Main(void)
+void NetworkErrorMenu_Main(void)
 {
     NetworkErrorMenu *work = TaskGetWorkCurrent(NetworkErrorMenu);
 
+#ifdef RUSH_CONTEST
+    UNUSED(work);
+#else
     if (work->aniNextPrompt.animID == ADVANCEPROMPT_ANI_PROMPTING && ((padInput.btnPress & PAD_BUTTON_A) != 0 || IsTouchInputEnabled() && TOUCH_HAS_PUSH(touchInput.flags)))
     {
         DestroyCurrentTask();
@@ -286,9 +342,10 @@ void NetworkErrorMenu__Main(void)
         AnimatorSprite__ProcessAnimationFast(&work->aniNextPrompt);
         AnimatorSprite__DrawFrame(&work->aniNextPrompt);
     }
+#endif
 }
 
-u16 NetworkErrorMenu__GetErrorMessage(void)
+u16 GetNetworkErrorMenuErrorMessage(void)
 {
     if (!gameState.displayDWCErrorCode)
         return DMWF_MSGSEQ_COMMUNICATION_FAILED;

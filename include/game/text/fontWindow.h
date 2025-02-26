@@ -23,7 +23,7 @@ typedef struct FontWindow_
     char field_96;
     char field_97;
     FontDMAControl dmaControl;
-    NNSiFndArchiveHeader *archives[2];
+    void *archives[2];
 } FontWindow;
 
 // --------------------

@@ -107,9 +107,6 @@ typedef struct NetworkErrorMenu_
 // --------------------
 
 void InitNetworkErrorMenu(void);
-void NetworkErrorMenu__Create(BOOL flag);
-void NetworkErrorMenu__Destructor(Task *task);
-void NetworkErrorMenu__Main(void);
-u16 NetworkErrorMenu__GetErrorMessage(void);
+void InitDownloadPlayEndScreen(void);
 
 #endif // RUSH_NETWORKERRORMENU_H

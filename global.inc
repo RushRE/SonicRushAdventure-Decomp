@@ -12615,10 +12615,10 @@
 .public VSRecordsMenu__Func_2173B70
 .public VSRecordsMenu__Func_2173B7C
 .public InitNetworkErrorMenu
-.public NetworkErrorMenu__Create
-.public NetworkErrorMenu__Destructor
-.public NetworkErrorMenu__Main
-.public NetworkErrorMenu__GetErrorMessage
+.public CreateNetworkErrorMenu
+.public NetworkErrorMenu_Destructor
+.public NetworkErrorMenu_Main
+.public GetNetworkErrorMenuErrorMessage
 .public LeaderboardWorker__Create
 .public LeaderboardWorker__GetFlags
 .public LeaderboardWorker__Destroy

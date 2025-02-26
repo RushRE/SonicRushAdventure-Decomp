@@ -97,6 +97,152 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
         .overlay     = OVERLAY_NONE,
     },
 
+#ifdef RUSH_CONTEST
+    // SYSEVENT_LOAD_STAGE
+    {
+        .initFunc    = InitLoadStageEvent,
+        .exitFunc    = NULL,
+        .resetFunc   = NULL,
+        .initSysFunc = NULL,
+        .exitSysFunc = NULL,
+        .nextEvents  = { SYSEVENT_ZONEACT, SYSEVENT_BOSS1, SYSEVENT_BOSS2, SYSEVENT_VSBATTLE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE },
+        .attribute   = 0,
+        .overlay     = OVERLAY_NONE,
+    },
+
+    // SYSEVENT_ZONEACT
+    {
+        .initFunc    = InitZoneEvent,
+        .exitFunc    = NULL,
+        .resetFunc   = NULL,
+        .initSysFunc = InitZoneSysEvent,
+        .exitSysFunc = NULL,
+        .nextEvents  = { SYSEVENT_TITLECARD, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE },
+        .attribute   = 0,
+        .overlay     = OVERLAY_NONE,
+    },
+
+    // SYSEVENT_BOSS1
+    {
+        .initFunc    = InitZoneEvent,
+        .exitFunc    = NULL,
+        .resetFunc   = NULL,
+        .initSysFunc = InitZoneSysEvent,
+        .exitSysFunc = NULL,
+        .nextEvents  = { SYSEVENT_TITLECARD, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE },
+        .attribute   = 0,
+        .overlay     = OVERLAY_NONE,
+    },
+
+    // SYSEVENT_BOSS2
+    {
+        .initFunc    = InitZoneEvent,
+        .exitFunc    = NULL,
+        .resetFunc   = NULL,
+        .initSysFunc = InitZoneSysEvent,
+        .exitSysFunc = NULL,
+        .nextEvents  = { SYSEVENT_TITLECARD, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE },
+        .attribute   = 0,
+        .overlay     = OVERLAY_NONE,
+    },
+
+    // SYSEVENT_VSBATTLE
+    {
+        .initFunc    = InitVSBattleEvent,
+        .exitFunc    = NULL,
+        .resetFunc   = NULL,
+        .initSysFunc = InitZoneSysEvent,
+        .exitSysFunc = NULL,
+        .nextEvents  = { SYSEVENT_TITLECARD, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE },
+        .attribute   = 0,
+        .overlay     = OVERLAY_NONE,
+    },
+
+    // SYSEVENT_TITLECARD
+    {
+        .initFunc    = TitleCard__Create,
+        .exitFunc    = NULL,
+        .resetFunc   = NULL,
+        .initSysFunc = NULL,
+        .exitSysFunc = ExitTitleCardSysEvent,
+        .nextEvents  = { SYSEVENT_STAGE_ACTIVE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE },
+        .attribute   = 0,
+        .overlay     = OVERLAY_NONE,
+    },
+
+    // SYSEVENT_STAGE_ACTIVE
+    {
+        .initFunc    = InitSkipTitleCardEvent,
+        .exitFunc    = NULL,
+        .resetFunc   = NULL,
+        .initSysFunc = NULL,
+        .exitSysFunc = ExitTitleCardSysEvent,
+        .nextEvents  = { SYSEVENT_TITLECARD, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR },
+        .attribute   = 0,
+        .overlay     = OVERLAY_NONE,
+    },
+
+    // SYSEVENT_VS_STAGE_CLEAR
+    {
+        .initFunc    = VSStageClear__Create,
+        .exitFunc    = NULL,
+        .resetFunc   = NULL,
+        .initSysFunc = NULL,
+        .exitSysFunc = NULL,
+        .nextEvents  = { SYSEVENT_VS_LOBBY_MENU, SYSEVENT_DOWNLOADPLAY_END_SCREEN, SYSEVENT_NETWORK_ERROR_MENU, SYSEVENT_NETWORK_ERROR_MENU, SYSEVENT_NONE, SYSEVENT_NONE,
+                         SYSEVENT_NONE, SYSEVENT_NONE },
+        .attribute   = 0,
+        .overlay     = OVERLAY_NONE,
+    },
+
+    // SYSEVENT_VS_LOBBY_MENU
+    {
+        .initFunc    = VSLobbyMenu__Create,
+        .exitFunc    = NULL,
+        .resetFunc   = NULL,
+        .initSysFunc = NULL,
+        .exitSysFunc = NULL,
+        .nextEvents  = { SYSEVENT_LOAD_STAGE, SYSEVENT_NETWORK_ERROR_MENU, SYSEVENT_NETWORK_ERROR_MENU, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE },
+        .attribute   = 0,
+        .overlay     = OVERLAY_NONE,
+    },
+
+    // SYSEVENT_NETWORK_ERROR_MENU
+    {
+        .initFunc    = InitNetworkErrorMenu,
+        .exitFunc    = NULL,
+        .resetFunc   = NULL,
+        .initSysFunc = NULL,
+        .exitSysFunc = NULL,
+        .nextEvents  = { SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE },
+        .attribute   = 0,
+        .overlay     = OVERLAY_NONE,
+    },
+
+    // SYSEVENT_VS_UNKNOWN
+    {
+        .initFunc    = InitDownloadPlayUnknownEvent,
+        .exitFunc    = NULL,
+        .resetFunc   = NULL,
+        .initSysFunc = NULL,
+        .exitSysFunc = NULL,
+        .nextEvents  = { SYSEVENT_VS_LOBBY_MENU, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE },
+        .attribute   = 0,
+        .overlay     = OVERLAY_NONE,
+    },
+
+    // SYSEVENT_DOWNLOADPLAY_END_SCREEN
+    {
+        .initFunc    = InitDownloadPlayEndScreen,
+        .exitFunc    = NULL,
+        .resetFunc   = NULL,
+        .initSysFunc = NULL,
+        .exitSysFunc = NULL,
+        .nextEvents  = { SYSEVENT_VS_UNKNOWN, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE },
+        .attribute   = 0,
+        .overlay     = OVERLAY_NONE,
+    },
+#else
     // SYSEVENT_SPLASH_SCREEN
     {
         .initFunc    = CreateSplashScreen,
@@ -261,7 +407,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
         .initSysFunc = NULL,
         .exitSysFunc = ExitTitleCardSysEvent,
         .nextEvents  = { SYSEVENT_TITLECARD, SYSEVENT_STAGE_CLEAR, SYSEVENT_24, SYSEVENT_UPDATE_PROGRESS, SYSEVENT_TITLE, SYSEVENT_21, SYSEVENT_VS_STAGE_CLEAR,
-                        SYSEVENT_SPLASH_SCREEN },
+                         SYSEVENT_SPLASH_SCREEN },
         .attribute   = 0,
         .overlay     = OVERLAY_NONE,
     },
@@ -286,7 +432,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
         .initSysFunc = NULL,
         .exitSysFunc = ExitStageClearSysEvent,
         .nextEvents  = { SYSEVENT_VS_LOBBY_MENU, SYSEVENT_VS_MENU, SYSEVENT_NETWORK_ERROR_MENU, SYSEVENT_CORRUPT_SAVE_WARNING, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE,
-                        SYSEVENT_NONE },
+                         SYSEVENT_NONE },
         .attribute   = 0,
         .overlay     = FS_OVERLAY_ID(Menus1),
     },
@@ -395,7 +541,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
         .initSysFunc = NULL,
         .exitSysFunc = NULL,
         .nextEvents  = { SYSEVENT_LOAD_STAGE, SYSEVENT_NETWORK_ERROR_MENU, SYSEVENT_CORRUPT_SAVE_WARNING, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE, SYSEVENT_NONE,
-                        SYSEVENT_NONE },
+                         SYSEVENT_NONE },
         .attribute   = 0,
         .overlay     = FS_OVERLAY_ID(Menus1),
     },
@@ -420,7 +566,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
         .initSysFunc = NULL,
         .exitSysFunc = NULL,
         .nextEvents  = { SYSEVENT_UPDATE_PROGRESS, SYSEVENT_UPDATE_PROGRESS, SYSEVENT_CHANGE_CHARTED_COURSE, SYSEVENT_UPDATE_PROGRESS, SYSEVENT_SAILING, SYSEVENT_TITLE,
-                        SYSEVENT_SPLASH_SCREEN, SYSEVENT_NONE },
+                         SYSEVENT_SPLASH_SCREEN, SYSEVENT_NONE },
         .attribute   = 0,
         .overlay     = FS_OVERLAY_ID(Sail),
     },
@@ -445,7 +591,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
         .initSysFunc = NULL,
         .exitSysFunc = NULL,
         .nextEvents  = { SYSEVENT_TITLE, SYSEVENT_LOAD_STAGE, SYSEVENT_EXBOSS, SYSEVENT_RETURN_TO_HUB, SYSEVENT_UPDATE_PROGRESS, SYSEVENT_CORRUPT_SAVE_WARNING, SYSEVENT_NONE,
-                        SYSEVENT_NONE },
+                         SYSEVENT_NONE },
         .attribute   = 0,
         .overlay     = FS_OVERLAY_ID(Menus1),
     },
@@ -641,6 +787,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
         .attribute   = 0,
         .overlay     = FS_OVERLAY_ID(Menus2),
     },
+#endif
 };
 
 struct SysEventControl sysEventWork;
