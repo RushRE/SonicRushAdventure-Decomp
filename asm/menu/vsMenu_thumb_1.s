@@ -74,7 +74,7 @@ VSMenuNetworkMessage__Func_216718C: // 0x0216718C
 	ldr r1, [r4, #0x2c]
 	mov r0, r5
 	mov r3, #5
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #0x80
 	strh r0, [r5, #8]
 	mov r0, #0x90

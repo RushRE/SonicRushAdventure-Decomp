@@ -50,7 +50,7 @@ _0216F658:
 	lsl r0, r0, #2
 	ldr r0, [r1, r0]
 	ldr r1, [sp, #0x30]
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	ldr r1, [sp, #0x30]
 	ldr r3, _0216F860 // =0x00000804
 	str r1, [sp]
@@ -73,7 +73,7 @@ _0216F658:
 	lsl r1, r1, #2
 	ldr r1, [r2, r1]
 	ldrh r2, [r4, #2]
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	mov r0, r6
 	mov r2, r1

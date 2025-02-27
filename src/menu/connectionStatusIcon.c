@@ -139,7 +139,7 @@ void CreateConnectionStatusIcon(ConnectionMode desiredConnectionMode, BOOL useEn
         AnimatorSprite__Release(&work->animator);
     }
 
-    SpriteUnknown__Func_204C90C(&work->animator, sVars->sprIcon, CONNECTIONSTATUSICON_ANI_LEVEL_0, ANIMATOR_FLAG_NONE, useEngineB, SpriteUnknown__GetSpriteSize(sVars->sprIcon, useEngineB), paletteRow,
+    SpriteUnknown__InitAnimator(&work->animator, sVars->sprIcon, CONNECTIONSTATUSICON_ANI_LEVEL_0, ANIMATOR_FLAG_NONE, useEngineB, SpriteUnknown__GetSpriteSize(sVars->sprIcon, useEngineB), paletteRow,
                                 oamPriority, oamOrder);
     work->animator.pos.x = x;
     work->animator.pos.y = y;

@@ -175,7 +175,7 @@ _0216AA70:
 	ldr r7, [r1, #4]
 	mov r1, #1
 	mov r0, r7
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -188,7 +188,7 @@ _0216AA70:
 	mov r0, r6
 	mov r1, r7
 	mov r2, #0
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	mov r0, r6
 	mov r2, r1
@@ -203,7 +203,7 @@ _0216AA70:
 	mov r2, #6
 	mov r0, r6
 	ldr r7, _0216AC08 // =0x000007B4
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -217,7 +217,7 @@ _0216AA70:
 	add r0, r4, r7
 	mov r1, r6
 	add r3, #0x50
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	add r0, r4, r7
 	mov r2, r1
@@ -1389,7 +1389,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	ldr r0, [r0, #0]
 	lsl r5, r5, #4
 	str r0, [sp, #0x24]
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1402,7 +1402,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	ldr r3, _0216B690 // =0x00000804
 	add r0, r4, r5
 	mov r2, #0
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	add r0, r4, r5
 	mov r2, r1
@@ -1411,7 +1411,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	ldr r0, [sp, #0x24]
 	mov r2, r1
 	add r5, #0x64
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r2, #1
 	str r2, [sp]
 	str r0, [sp, #4]
@@ -1424,7 +1424,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	ldr r1, [sp, #0x24]
 	ldr r3, _0216B690 // =0x00000804
 	add r0, r4, r5
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	add r0, r4, r5
 	mov r2, r1
@@ -1434,7 +1434,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	mov r1, #1
 	mov r2, #2
 	lsl r5, r5, #2
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1447,7 +1447,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	ldr r3, _0216B690 // =0x00000804
 	add r0, r4, r5
 	mov r2, #2
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	add r0, r4, r5
 	mov r2, r1
@@ -1456,7 +1456,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	mov r1, #1
 	mov r2, #4
 	add r5, #0x64
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1470,7 +1470,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	ldr r3, _0216B694 // =0x00000805
 	add r0, r4, r5
 	mov r2, #4
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	add r0, r4, r5
 	mov r2, r1
@@ -1480,7 +1480,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	mov r1, #1
 	mov r2, #5
 	lsl r5, r5, #4
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1494,7 +1494,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	ldr r3, _0216B690 // =0x00000804
 	add r0, r4, r5
 	mov r2, #5
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	add r0, r4, r5
 	mov r2, r1
@@ -1504,7 +1504,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	add r5, r4, r0
 	ldr r0, [sp, #0x24]
 	mov r2, #3
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1518,7 +1518,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	ldr r3, _0216B690 // =0x00000804
 	mov r0, r5
 	mov r2, #3
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	ldr r1, [r5, #0x3c]
 	mov r0, #1
 	orr r0, r1
@@ -1548,7 +1548,7 @@ _0216B604:
 	mov r1, #1
 	mov r2, r7
 	add r4, #0xc8
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1563,7 +1563,7 @@ _0216B604:
 	ldr r3, _0216B690 // =0x00000804
 	add r0, r0, r4
 	mov r2, r7
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	ldr r0, [sp, #0x20]
 	mov r1, #0
 	add r0, r0, r4

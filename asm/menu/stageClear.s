@@ -3361,7 +3361,7 @@ _0215865E:
 	mov r1, #1
 	mov r2, #0xd
 	mov r3, #0x15
-	bl SpriteUnknown__Func_204C7A4
+	bl SpriteUnknown__GetSpriteSizeFromAnimRange
 	str r0, [sp, #0x30]
 	mov r1, #0x5b
 	ldr r0, [sp, #0x38]
@@ -5165,7 +5165,7 @@ _0215943E:
 	mov r0, r4
 	mov r1, #0
 	mov r2, r6
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r3, #0
 	str r3, [sp]
 	str r0, [sp, #4]
@@ -5178,7 +5178,7 @@ _0215943E:
 	add r0, r5, #4
 	mov r1, r4
 	mov r2, r6
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #0xa7
 	mvn r0, r0
 	strh r0, [r5, #0xc]
@@ -5192,7 +5192,7 @@ _0215943E:
 	mov r1, #0
 	mov r2, #1
 	add r5, #0x68
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r3, #0
 	str r3, [sp]
 	str r0, [sp, #4]
@@ -5204,7 +5204,7 @@ _0215943E:
 	str r0, [sp, #0x10]
 	mov r0, r5
 	mov r1, r4
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #0xa7
 	mvn r0, r0
 	strh r0, [r5, #8]

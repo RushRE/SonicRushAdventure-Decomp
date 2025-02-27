@@ -655,7 +655,7 @@ VSMenuHeader__Create: // 0x02166D04
 	ldr r0, [r4, #0x10]
 	mov r2, r1
 	add r6, #0x14
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r2, #0
 	str r2, [sp]
 	str r0, [sp, #4]
@@ -666,7 +666,7 @@ VSMenuHeader__Create: // 0x02166D04
 	ldr r1, [r4, #0x10]
 	ldr r3, _02166DE0 // =0x00000804
 	mov r0, r6
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	strh r1, [r6, #8]
 	strh r1, [r6, #0xa]
@@ -674,7 +674,7 @@ VSMenuHeader__Create: // 0x02166D04
 	ldr r0, [r4, #0x10]
 	mov r2, #1
 	add r6, #0x78
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -687,7 +687,7 @@ VSMenuHeader__Create: // 0x02166D04
 	ldr r3, _02166DE0 // =0x00000804
 	mov r0, r6
 	mov r2, #1
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	strh r1, [r6, #8]
 	strh r1, [r6, #0xa]
@@ -706,7 +706,7 @@ VSMenuHeader__Create: // 0x02166D04
 	ldr r1, [r4, #0x14]
 	ldr r3, _02166DE0 // =0x00000804
 	mov r0, r6
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #0x18
 	strh r0, [r6, #8]
 	ldr r0, _02166DE4 // =0x0000FFFF
@@ -820,7 +820,7 @@ VSMenuBackButton__Create: // 0x02166E38
 	ldr r1, [r6, #0x28]
 	ldr r3, _02166EFC // =0x00000804
 	mov r0, r5
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #0x10
 	strh r0, [r5, #8]
 	mov r0, #0xb0

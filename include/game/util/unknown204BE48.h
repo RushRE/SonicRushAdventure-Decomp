@@ -38,7 +38,7 @@ typedef struct TaskUnknown204BE48_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void Task__Unknown204BE48__Create(void *data, u16 varSize, s32 start, s32 end, u16 a5, u16 a6, Unknown204BE48LerpCallback lerpCallback, u16 a8,
+NOT_DECOMPILED void Task__Unknown204BE48__Create(void *data, u16 varSize, s32 start, s32 end, u16 a5, u16 a6, Unknown204BE48LerpCallback lerpCallback, fx32 a8,
                                                  Unknown204BE48Callback callback, void *arg, u8 pauseLevel, u16 priority, TaskGroup group);
 NOT_DECOMPILED void Task__Unknown204BE48__Func_204BF04(Task *task, Unknown204BE48Callback callback, void *arg);
 NOT_DECOMPILED void Task__Unknown204BE48__Func_204BF20(void);

@@ -1194,7 +1194,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	ldr r1, [r4, r1]
 	mov r2, #6
 	add r5, #0x4c
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #0xfd
 	lsl r1, r1, #2
 	ldr r1, [r4, r1]
@@ -1209,7 +1209,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	mov r0, r5
 	mov r2, #6
 	lsl r3, r3, #0xb
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #0x80
 	strh r0, [r5, #8]
 	mov r0, #0xe0
@@ -1227,7 +1227,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	ldr r1, [r4, r1]
 	mov r2, #1
 	add r5, #0xb0
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #0xfd
 	lsl r1, r1, #2
 	ldr r1, [r4, r1]
@@ -1242,7 +1242,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	ldr r1, [sp, #0x3c]
 	mov r0, r5
 	mov r2, #1
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
@@ -1281,7 +1281,7 @@ _021604D0:
 	ldr r0, [sp, #0x3c]
 	ldr r1, [r4, r1]
 	ldr r2, [sp, #0x20]
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, r0
 	mov r0, #0xfd
 	lsl r0, r0, #2
@@ -1375,7 +1375,7 @@ _0216058E:
 	ldr r0, [sp, #0x3c]
 	ldr r1, [r4, r1]
 	mov r2, r7
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #0xfd
 	lsl r1, r1, #2
 	ldr r1, [r4, r1]
@@ -1393,7 +1393,7 @@ _0216058E:
 	ldr r1, [sp, #0x3c]
 	mov r0, r5
 	mov r2, r7
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #0x80
 	strh r0, [r5, #8]
 	mov r0, #0xe0
@@ -1417,7 +1417,7 @@ _0216058E:
 	ldr r1, [r4, r1]
 	mov r2, #0
 	add r5, #0x38
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #0xfd
 	lsl r1, r1, #2
 	ldr r1, [r4, r1]
@@ -1430,7 +1430,7 @@ _0216058E:
 	ldr r1, [sp, #0x3c]
 	ldr r3, _021606D8 // =0x00000801
 	mov r0, r5
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #0x10
 	strh r0, [r5, #8]
 	mov r0, #0xb0

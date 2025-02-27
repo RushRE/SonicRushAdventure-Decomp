@@ -3,8 +3,8 @@
 
 	.text
 
-	arm_func_start SpriteUnknown__Func_204C3CC
-SpriteUnknown__Func_204C3CC: // 0x0204C3CC
+	arm_func_start SpriteUnknown__GetSpriteSizeFromAnim
+SpriteUnknown__GetSpriteSizeFromAnim: // 0x0204C3CC
 	stmdb sp!, {r3, lr}
 	cmp r1, #0
 	ldrne r3, _0204C46C // =0x04001000
@@ -57,7 +57,7 @@ _0204C464:
 _0204C46C: .word 0x04001000
 _0204C470: .word 0x00300010
 _0204C474: .word 0x00100010
-	arm_func_end SpriteUnknown__Func_204C3CC
+	arm_func_end SpriteUnknown__GetSpriteSizeFromAnim
 
 	arm_func_start SpriteUnknown__GetSpriteSize
 SpriteUnknown__GetSpriteSize: // 0x0204C478
@@ -111,8 +111,8 @@ _0204C50C: .word 0x00300010
 _0204C510: .word 0x00100010
 	arm_func_end SpriteUnknown__GetSpriteSize
 
-	arm_func_start SpriteUnknown__Func_204C514
-SpriteUnknown__Func_204C514: // 0x0204C514
+	arm_func_start SpriteUnknown__GetSpriteSize1FromAnimRange
+SpriteUnknown__GetSpriteSize1FromAnimRange: // 0x0204C514
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
 	mov r5, r2
@@ -134,10 +134,10 @@ _0204C530:
 _0204C558:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SpriteUnknown__Func_204C514
+	arm_func_end SpriteUnknown__GetSpriteSize1FromAnimRange
 
-	arm_func_start SpriteUnknown__Func_204C560
-SpriteUnknown__Func_204C560: // 0x0204C560
+	arm_func_start SpriteUnknown__GetSpriteSize1FromAnimList
+SpriteUnknown__GetSpriteSize1FromAnimList: // 0x0204C560
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
 	add r6, r6, #4
@@ -162,10 +162,10 @@ _0204C588:
 _0204C5B0:
 	mov r0, r5
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SpriteUnknown__Func_204C560
+	arm_func_end SpriteUnknown__GetSpriteSize1FromAnimList
 
-	arm_func_start SpriteUnknown__Func_204C5B8
-SpriteUnknown__Func_204C5B8: // 0x0204C5B8
+	arm_func_start SpriteUnknown__GetSpriteSize2FromAnimRange
+SpriteUnknown__GetSpriteSize2FromAnimRange: // 0x0204C5B8
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
 	mov r5, r2
@@ -187,10 +187,10 @@ _0204C5D4:
 _0204C5FC:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SpriteUnknown__Func_204C5B8
+	arm_func_end SpriteUnknown__GetSpriteSize2FromAnimRange
 
-	arm_func_start SpriteUnknown__Func_204C604
-SpriteUnknown__Func_204C604: // 0x0204C604
+	arm_func_start SpriteUnknown__GetSpriteSize2FromAnimList
+SpriteUnknown__GetSpriteSize2FromAnimList: // 0x0204C604
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
 	add r6, r6, #4
@@ -215,10 +215,10 @@ _0204C62C:
 _0204C654:
 	mov r0, r5
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SpriteUnknown__Func_204C604
+	arm_func_end SpriteUnknown__GetSpriteSize2FromAnimList
 
-	arm_func_start SpriteUnknown__Func_204C65C
-SpriteUnknown__Func_204C65C: // 0x0204C65C
+	arm_func_start SpriteUnknown__GetSpriteSize3FromAnimRange
+SpriteUnknown__GetSpriteSize3FromAnimRange: // 0x0204C65C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
 	mov r5, r2
@@ -240,10 +240,10 @@ _0204C678:
 _0204C6A0:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SpriteUnknown__Func_204C65C
+	arm_func_end SpriteUnknown__GetSpriteSize3FromAnimRange
 
-	arm_func_start SpriteUnknown__Func_204C6A8
-SpriteUnknown__Func_204C6A8: // 0x0204C6A8
+	arm_func_start SpriteUnknown__GetSpriteSize3FromAnimList
+SpriteUnknown__GetSpriteSize3FromAnimList: // 0x0204C6A8
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
 	add r6, r6, #4
@@ -268,10 +268,10 @@ _0204C6D0:
 _0204C6F8:
 	mov r0, r5
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SpriteUnknown__Func_204C6A8
+	arm_func_end SpriteUnknown__GetSpriteSize3FromAnimList
 
-	arm_func_start SpriteUnknown__Func_204C700
-SpriteUnknown__Func_204C700: // 0x0204C700
+	arm_func_start SpriteUnknown__GetSpriteSize4FromAnimRange
+SpriteUnknown__GetSpriteSize4FromAnimRange: // 0x0204C700
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
 	mov r5, r2
@@ -293,10 +293,10 @@ _0204C71C:
 _0204C744:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SpriteUnknown__Func_204C700
+	arm_func_end SpriteUnknown__GetSpriteSize4FromAnimRange
 
-	arm_func_start SpriteUnknown__Func_204C74C
-SpriteUnknown__Func_204C74C: // 0x0204C74C
+	arm_func_start SpriteUnknown__GetSpriteSize4FromAnimList
+SpriteUnknown__GetSpriteSize4FromAnimList: // 0x0204C74C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
 	add r6, r6, #4
@@ -321,10 +321,10 @@ _0204C774:
 _0204C79C:
 	mov r0, r5
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SpriteUnknown__Func_204C74C
+	arm_func_end SpriteUnknown__GetSpriteSize4FromAnimList
 
-	arm_func_start SpriteUnknown__Func_204C7A4
-SpriteUnknown__Func_204C7A4: // 0x0204C7A4
+	arm_func_start SpriteUnknown__GetSpriteSizeFromAnimRange
+SpriteUnknown__GetSpriteSizeFromAnimRange: // 0x0204C7A4
 	stmdb sp!, {r3, lr}
 	cmp r1, #0
 	ldrne ip, _0204C854 // =0x04001000
@@ -357,22 +357,22 @@ _0204C7FC:
 _0204C80C:
 	mov r1, r2
 	mov r2, r3
-	bl SpriteUnknown__Func_204C514
+	bl SpriteUnknown__GetSpriteSize1FromAnimRange
 	ldmia sp!, {r3, pc}
 _0204C81C:
 	mov r1, r2
 	mov r2, r3
-	bl SpriteUnknown__Func_204C5B8
+	bl SpriteUnknown__GetSpriteSize2FromAnimRange
 	ldmia sp!, {r3, pc}
 _0204C82C:
 	mov r1, r2
 	mov r2, r3
-	bl SpriteUnknown__Func_204C65C
+	bl SpriteUnknown__GetSpriteSize3FromAnimRange
 	ldmia sp!, {r3, pc}
 _0204C83C:
 	mov r1, r2
 	mov r2, r3
-	bl SpriteUnknown__Func_204C700
+	bl SpriteUnknown__GetSpriteSize4FromAnimRange
 	ldmia sp!, {r3, pc}
 _0204C84C:
 	mov r0, #0
@@ -381,10 +381,10 @@ _0204C84C:
 _0204C854: .word 0x04001000
 _0204C858: .word 0x00300010
 _0204C85C: .word 0x00100010
-	arm_func_end SpriteUnknown__Func_204C7A4
+	arm_func_end SpriteUnknown__GetSpriteSizeFromAnimRange
 
-	arm_func_start SpriteUnknown__Func_204C860
-SpriteUnknown__Func_204C860: // 0x0204C860
+	arm_func_start SpriteUnknown__GetSpriteSizeFromAnimList
+SpriteUnknown__GetSpriteSizeFromAnimList: // 0x0204C860
 	stmdb sp!, {r3, lr}
 	cmp r1, #0
 	ldrne r3, _0204C900 // =0x04001000
@@ -416,19 +416,19 @@ _0204C8B8:
 	b _0204C8F8
 _0204C8C8:
 	mov r1, r2
-	bl SpriteUnknown__Func_204C560
+	bl SpriteUnknown__GetSpriteSize1FromAnimList
 	ldmia sp!, {r3, pc}
 _0204C8D4:
 	mov r1, r2
-	bl SpriteUnknown__Func_204C604
+	bl SpriteUnknown__GetSpriteSize2FromAnimList
 	ldmia sp!, {r3, pc}
 _0204C8E0:
 	mov r1, r2
-	bl SpriteUnknown__Func_204C6A8
+	bl SpriteUnknown__GetSpriteSize3FromAnimList
 	ldmia sp!, {r3, pc}
 _0204C8EC:
 	mov r1, r2
-	bl SpriteUnknown__Func_204C74C
+	bl SpriteUnknown__GetSpriteSize4FromAnimList
 	ldmia sp!, {r3, pc}
 _0204C8F8:
 	mov r0, #0
@@ -437,10 +437,10 @@ _0204C8F8:
 _0204C900: .word 0x04001000
 _0204C904: .word 0x00300010
 _0204C908: .word 0x00100010
-	arm_func_end SpriteUnknown__Func_204C860
+	arm_func_end SpriteUnknown__GetSpriteSizeFromAnimList
 
-	arm_func_start SpriteUnknown__Func_204C90C
-SpriteUnknown__Func_204C90C: // 0x0204C90C
+	arm_func_start SpriteUnknown__InitAnimator
+SpriteUnknown__InitAnimator: // 0x0204C90C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x1c
 	mov r6, r1
@@ -505,4 +505,4 @@ _0204C9E8:
 	.align 2, 0
 _0204C9F8: .word 0x05000200
 _0204C9FC: .word 0x05000600
-	arm_func_end SpriteUnknown__Func_204C90C
+	arm_func_end SpriteUnknown__InitAnimator

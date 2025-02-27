@@ -287,7 +287,7 @@ _0216249C:
 	ldrh r2, [r4, #2]
 	mov r0, r7
 	mov r1, #1
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -302,7 +302,7 @@ _0216249C:
 	str r0, [sp, #0x10]
 	ldrh r2, [r4, #2]
 	mov r0, r5
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	ldr r0, [r4, #4]
 	mov r1, #0
 	str r0, [r5, #8]

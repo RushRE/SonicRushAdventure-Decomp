@@ -822,7 +822,7 @@ VSStageClearModeHeader__Create: // 0x0215AEB4
 	mov r0, r7
 	mov r2, r1
 	add r5, #8
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r2, #1
 	str r2, [sp]
 	str r0, [sp, #4]
@@ -834,7 +834,7 @@ VSStageClearModeHeader__Create: // 0x0215AEB4
 	mov r1, r7
 	lsl r3, r2, #0xb
 	str r2, [sp, #0x10]
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
@@ -848,7 +848,7 @@ VSStageClearModeHeader__Create: // 0x0215AEB4
 	mov r1, #1
 	mov r2, #0
 	add r5, #0x6c
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -861,7 +861,7 @@ VSStageClearModeHeader__Create: // 0x0215AEB4
 	mov r0, r5
 	mov r1, r7
 	lsl r3, r3, #0xa
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
@@ -887,7 +887,7 @@ _0215B0A6:
 	ldr r2, [sp, #0x18]
 	mov r0, r7
 	mov r1, #1
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	mov r3, #1
 	str r3, [sp]
 	str r0, [sp, #4]
@@ -900,7 +900,7 @@ _0215B0A6:
 	mov r0, r5
 	mov r1, r7
 	lsl r3, r3, #0xb
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #0x18
 	strh r0, [r5, #8]
 	mov r0, #6

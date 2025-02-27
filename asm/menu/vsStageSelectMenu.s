@@ -473,7 +473,7 @@ _02160DE0:
 	mov r1, #1
 	mov r2, r7
 	str r0, [sp, #0x24]
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	b _02160E4E
 _02160DF2:
 	ldrh r0, [r5, #0]
@@ -484,7 +484,7 @@ _02160DF2:
 	ldr r0, [r0, r1]
 	mov r1, #1
 	str r0, [sp, #0x24]
-	bl SpriteUnknown__Func_204C7A4
+	bl SpriteUnknown__GetSpriteSizeFromAnimRange
 	b _02160E4E
 _02160E08:
 	bl VSStageSelectMenu__IsRace
@@ -497,7 +497,7 @@ _02160E08:
 	ldr r0, [r0, r1]
 	mov r1, #1
 	str r0, [sp, #0x24]
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	b _02160E4E
 _02160E24:
 	lsl r1, r0, #2
@@ -507,7 +507,7 @@ _02160E24:
 	mov r1, #1
 	mov r2, r7
 	str r0, [sp, #0x24]
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	b _02160E4E
 _02160E38:
 	ldr r0, [sp, #0x28]
@@ -520,7 +520,7 @@ _02160E3C:
 	ldr r0, [r0, r1]
 	mov r1, #1
 	str r0, [sp, #0x24]
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 _02160E4E:
 	mov r1, #1
 	str r1, [sp]
@@ -535,7 +535,7 @@ _02160E4E:
 	ldrb r0, [r5, #0xa]
 	str r0, [sp, #0x10]
 	mov r0, r4
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #4
 	ldrsh r0, [r5, r0]
 	mov r1, #0

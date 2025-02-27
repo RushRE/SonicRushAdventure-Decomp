@@ -45,8 +45,8 @@ typedef struct StageClearExGraphics3D_
 
 typedef struct StageClearExGraphics2D_
 {
-    s32 field_0;
-    NNSSndHandle *seqPlayer;
+    s32 unused;
+    NNSSndHandle *sndHandle;
     AnimatorSprite aniNumbers[10];
     AnimatorSprite aniScoreBonusText[3];
     Vec2Fx16 scoreBonusPos[2];
@@ -63,9 +63,9 @@ typedef struct StageClearExGraphics2D_
     AnimatorSprite aniRank;
     fx32 rankScale;
     Vec2Fx16 rankPos;
-    s32 field_7FC;
-    s32 field_800;
-    s32 field_804;
+    s32 unused7FC;
+    s32 unused800;
+    s32 unused804;
     u32 ringBonus;
     u32 timeBonus;
     u32 totalScore;

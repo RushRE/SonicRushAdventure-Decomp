@@ -1014,7 +1014,7 @@ TimeAttackMenu__InitTextWorker: // 0x0216CD28
 	ldr r1, [r4, #0x28]
 	mov r0, r5
 	mov r3, #5
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #0x80
 	strh r0, [r5, #8]
 	mov r0, #0x90
@@ -1297,7 +1297,7 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	mov r0, r7
 	mov r2, #0
 	mov r3, r1
-	bl SpriteUnknown__Func_204C7A4
+	bl SpriteUnknown__GetSpriteSizeFromAnimRange
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1309,7 +1309,7 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	mov r0, r6
 	mov r1, r7
 	str r2, [sp, #0x10]
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #0x22
 	strh r0, [r6, #8]
 	mov r0, #0xd0
@@ -1443,7 +1443,7 @@ TimeAttackBackButton__Create: // 0x0216D0E8
 	ldr r1, [r6, #0x24]
 	ldr r3, _0216D1A8 // =0x00000804
 	mov r0, r5
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	mov r0, #0x10
 	strh r0, [r5, #8]
 	mov r0, #0xb0

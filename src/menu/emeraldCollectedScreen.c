@@ -554,8 +554,8 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenGraphics(EmeraldCollectedScreenWork
     {
         void *spriteFile = sprHUD[animConfig->resource];
 
-        SpriteUnknown__Func_204C90C(aniJewel, spriteFile, animConfig->animID, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, animConfig->pixelMode,
-                                    SpriteUnknown__Func_204C3CC(spriteFile, animConfig->pixelMode, animConfig->animID), animConfig->paletteRow, animConfig->oamPriority,
+        SpriteUnknown__InitAnimator(aniJewel, spriteFile, animConfig->animID, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, animConfig->pixelMode,
+                                    SpriteUnknown__GetSpriteSizeFromAnim(spriteFile, animConfig->pixelMode, animConfig->animID), animConfig->paletteRow, animConfig->oamPriority,
                                     animConfig->oamOrder);
 
         aniJewel->pos32 = *(u32 *)&animConfig->pos;
@@ -578,8 +578,8 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenGraphics(EmeraldCollectedScreenWork
         EmeraldCollectedScreenAnimConfig *config = &emeraldConfig[e - 7];
         void *spriteFile                         = sprHUD[config->resource];
 
-        SpriteUnknown__Func_204C90C(aniEmerald, spriteFile, config->animID, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, config->pixelMode,
-                                    SpriteUnknown__Func_204C3CC(spriteFile, config->pixelMode, config->animID), config->paletteRow, config->oamPriority, config->oamOrder);
+        SpriteUnknown__InitAnimator(aniEmerald, spriteFile, config->animID, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, config->pixelMode,
+                                    SpriteUnknown__GetSpriteSizeFromAnim(spriteFile, config->pixelMode, config->animID), config->paletteRow, config->oamPriority, config->oamOrder);
         aniEmerald->pos32 = *(u32 *)&config->pos;
         AnimatorSprite__ProcessAnimationFast(aniEmerald);
 
@@ -750,7 +750,7 @@ _021552A0:
 	ldr r7, [r0, r1]
 	ldr r1, [r5, #4]
 	mov r0, r7
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	ldr r1, [r5, #4]
 	mov r3, #2
 	str r1, [sp]
@@ -765,7 +765,7 @@ _021552A0:
 	str r0, [sp, #0x10]
 	ldrh r2, [r5, #2]
 	mov r0, r4
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	ldr r0, [r5, #8]
 	mov r1, #0
 	str r0, [r4, #8]
@@ -804,7 +804,7 @@ _02155306:
 	ldr r7, [r0, r1]
 	ldr r1, [r4, #4]
 	mov r0, r7
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	ldr r1, [r4, #4]
 	mov r3, #2
 	str r1, [sp]
@@ -819,7 +819,7 @@ _02155306:
 	str r0, [sp, #0x10]
 	ldrh r2, [r4, #2]
 	mov r0, r5
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	ldr r0, [r4, #8]
 	mov r1, #0
 	str r0, [r5, #8]
@@ -1628,8 +1628,8 @@ void InitEmeraldCollectedScreenSparkles(EmeraldCollectedScreenSparkles *work, vo
     for (; i < 10; i++)
     {
         u16 anim = i + EMERALDCOLLECTED_HUD_ANI_SPARKLE_1;
-        SpriteUnknown__Func_204C90C(aniSparkle, spriteFile, anim, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_DISABLE_LOOPING, 0,
-                                    SpriteUnknown__Func_204C3CC(spriteFile, FALSE, anim), PALETTE_ROW_12, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+        SpriteUnknown__InitAnimator(aniSparkle, spriteFile, anim, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_DISABLE_LOOPING, 0,
+                                    SpriteUnknown__GetSpriteSizeFromAnim(spriteFile, FALSE, anim), PALETTE_ROW_12, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
 
         AnimatorSprite__AnimateManual(aniSparkle, mtMathRand(), NULL, NULL);
 

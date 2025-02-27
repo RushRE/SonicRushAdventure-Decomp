@@ -1049,7 +1049,7 @@ StageSelectMenu__Unknown__Func_216A1DC: // 0x0216A1DC
 	ldr r1, [sp, #0x14]
 	ldr r2, [sp, #0x18]
 	add r0, #0x38
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	ldr r0, _0216A2C4 // =StageSelectMenu__Unknown__Func_216A634
 	mov r2, #0
 	str r0, [sp]
@@ -1116,7 +1116,7 @@ StageSelectMenu__Unknown__Func_216A2D0: // 0x0216A2D0
 	ldr r1, [r5, r1]
 	mov r0, r7
 	add r4, #0xb4
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	ldr r3, _0216A344 // =0x000007D8
 	ldr r1, [r5, r3]
 	str r1, [sp]
@@ -1139,7 +1139,7 @@ StageSelectMenu__Unknown__Func_216A2D0: // 0x0216A2D0
 	ldr r2, [sp, #0x14]
 	add r0, r4, #4
 	mov r1, r7
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	add r1, sp, #0x20
 	mov r0, #0x14
 	ldrsh r2, [r1, r0]
@@ -1179,7 +1179,7 @@ StageSelectMenu__Unknown__Func_216A348: // 0x0216A348
 	ldr r2, [sp, #0x14]
 	ldr r1, [r5, r1]
 	mov r0, r7
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	ldr r3, _0216A3C0 // =0x000007D8
 	ldr r1, [r5, r3]
 	str r1, [sp]
@@ -1202,7 +1202,7 @@ StageSelectMenu__Unknown__Func_216A348: // 0x0216A348
 	ldr r2, [sp, #0x14]
 	add r0, r4, #4
 	mov r1, r7
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	add r1, sp, #0x20
 	mov r0, #0x14
 	ldrsh r2, [r1, r0]
@@ -1343,7 +1343,7 @@ _0216A49C:
 	ldr r2, [sp, #0x14]
 	ldr r1, [r5, r1]
 	mov r0, r7
-	bl SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__GetSpriteSizeFromAnim
 	ldr r3, _0216A4EC // =0x000007D8
 	ldr r1, [r5, r3]
 	str r1, [sp]
@@ -1359,7 +1359,7 @@ _0216A49C:
 	str r6, [sp, #0x10]
 	ldr r2, [sp, #0x14]
 	add r0, r4, #4
-	bl SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__InitAnimator
 	add r1, sp, #0x20
 	mov r0, #0x14
 	ldrsh r2, [r1, r0]
