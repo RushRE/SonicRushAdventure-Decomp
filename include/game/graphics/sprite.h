@@ -514,7 +514,7 @@ u16 Sprite__GetSpriteSize3FromAnim(void *filePtr, u16 animID);
 u16 Sprite__GetSpriteSize3(void *filePtr);
 u16 Sprite__GetSpriteSize4FromAnim(void *filePtr, u16 animID);
 u16 Sprite__GetSpriteSize4(void *filePtr);
-u16 Sprite__GetUnknown6(void *filePtr);
+u16 Sprite__GetSpriteCountForFrame(void *filePtr);
 u16 Sprite__GetPaletteSizeFromAnim(void *filePtr, u16 animID);
 u16 Sprite__GetPaletteSize(void *filePtr);
 u32 Sprite__GetTextureSizeFromAnim(void *filePtr, u16 animID);

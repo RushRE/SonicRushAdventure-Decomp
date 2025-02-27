@@ -26,13 +26,13 @@ struct BACFile
 
 struct BACInfoAnimBlock
 {
-    u16 gfxTileCount_2D_1D;
-    u16 gfxTileCount_1D_64K;
-    u16 gfxTileCount_1D_128K;
-    u16 gfxTileCount_1D_256K;
+    u16 spriteSize_1D_32K;
+    u16 spriteSize_1D_64K;
+    u16 spriteSize_1D_128K;
+    u16 spriteSize_1D_256K;
+    u16 unknown4;
     u16 unknown5;
-    u16 unknown6;
-    u16 unknown7;
+    u16 spriteCount;
     u16 palette3DSize;
     s32 texture3DSize;
 };
@@ -65,16 +65,16 @@ struct BACInfoBlock
     struct BACBlockHeader header;
 
     u16 animCount;
-    u16 gfxTileCount_2D_1D;
-    u16 gfxTileCount_1D_64K;
-    u16 gfxTileCount_1D_128K;
-    u16 gfxTileCount_1D_256K;
-    u16 unknown4;
-    u16 unknown5;
-    u16 value6;
-    u16 unknown7;
-    u16 palette3DSize;
-    s32 texture3DSize;
+    u16 spriteSize_1D_32K;  // equivalent to the variable of the same name in 'BACInfoAnimBlock', this variable is the largest possible size that fits any frame
+    u16 spriteSize_1D_64K;  // equivalent to the variable of the same name in 'BACInfoAnimBlock', this variable is the largest possible size that fits any frame
+    u16 spriteSize_1D_128K; // equivalent to the variable of the same name in 'BACInfoAnimBlock', this variable is the largest possible size that fits any frame
+    u16 spriteSize_1D_256K; // equivalent to the variable of the same name in 'BACInfoAnimBlock', this variable is the largest possible size that fits any frame
+    u16 unknown4;           // likely equivalent to the variable of the same name in 'BACInfoAnimBlock', usage is unknown.
+    u16 unknown5;           // likely equivalent to the variable of the same name in 'BACInfoAnimBlock', usage is unknown.
+    u16 spriteCount;        // equivalent to the variable of the same name in 'BACInfoAnimBlock', this variable is the largest possible size that fits any frame
+    u16 unknown7;           // unknown. no equivalent in 'BACInfoAnimBlock'
+    u16 palette3DSize;      // equivalent to the variable of the same name in 'BACInfoAnimBlock', this variable is the largest possible size that fits any frame
+    s32 texture3DSize;      // equivalent to the variable of the same name in 'BACInfoAnimBlock', this variable is the largest possible size that fits any frame
     struct BACInfoAnimBlock anims[1];
 };
 
@@ -3537,47 +3537,47 @@ BACAnimFormat Sprite__GetFormatFromAnim(void *filePtr, u16 animID)
 
 u16 Sprite__GetSpriteSize1FromAnim(void *filePtr, u16 animID)
 {
-    return GetInfoBlock(filePtr)->anims[animID].gfxTileCount_2D_1D;
+    return GetInfoBlock(filePtr)->anims[animID].spriteSize_1D_32K;
 }
 
 u16 Sprite__GetSpriteSize1(void *filePtr)
 {
-    return GetInfoBlock(filePtr)->gfxTileCount_2D_1D;
+    return GetInfoBlock(filePtr)->spriteSize_1D_32K;
 }
 
 u16 Sprite__GetSpriteSize2FromAnim(void *filePtr, u16 animID)
 {
-    return GetInfoBlock(filePtr)->anims[animID].gfxTileCount_1D_64K;
+    return GetInfoBlock(filePtr)->anims[animID].spriteSize_1D_64K;
 }
 
 u16 Sprite__GetSpriteSize2(void *filePtr)
 {
-    return GetInfoBlock(filePtr)->gfxTileCount_1D_64K;
+    return GetInfoBlock(filePtr)->spriteSize_1D_64K;
 }
 
 u16 Sprite__GetSpriteSize3FromAnim(void *filePtr, u16 animID)
 {
-    return GetInfoBlock(filePtr)->anims[animID].gfxTileCount_1D_128K;
+    return GetInfoBlock(filePtr)->anims[animID].spriteSize_1D_128K;
 }
 
 u16 Sprite__GetSpriteSize3(void *filePtr)
 {
-    return GetInfoBlock(filePtr)->gfxTileCount_1D_128K;
+    return GetInfoBlock(filePtr)->spriteSize_1D_128K;
 }
 
 u16 Sprite__GetSpriteSize4FromAnim(void *filePtr, u16 animID)
 {
-    return GetInfoBlock(filePtr)->anims[animID].gfxTileCount_1D_256K;
+    return GetInfoBlock(filePtr)->anims[animID].spriteSize_1D_256K;
 }
 
 u16 Sprite__GetSpriteSize4(void *filePtr)
 {
-    return GetInfoBlock(filePtr)->gfxTileCount_1D_256K;
+    return GetInfoBlock(filePtr)->spriteSize_1D_256K;
 }
 
-u16 Sprite__GetUnknown6(void *filePtr)
+u16 Sprite__GetSpriteCountForFrame(void *filePtr)
 {
-    return GetInfoBlock(filePtr)->value6;
+    return GetInfoBlock(filePtr)->spriteCount;
 }
 
 u16 Sprite__GetPaletteSizeFromAnim(void *filePtr, u16 animID)

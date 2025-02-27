@@ -129,7 +129,7 @@ void CreateSeaMapCutscene(void)
     work->aniPressStart.cParam.palette = PALETTE_ROW_0;
 
     AnimatorSprite__Init(&work->aniPressStartButton, work->sprPressStartButton, 0, ANIMATOR_FLAG_NONE, GRAPHICS_ENGINE_B, PIXEL_MODE_SPRITE,
-                         VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, Sprite__GetUnknown6(work->sprPressStartButton)), PALETTE_MODE_SPRITE,
+                         VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, Sprite__GetSpriteCountForFrame(work->sprPressStartButton)), PALETTE_MODE_SPRITE,
                          VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[GRAPHICS_ENGINE_B]), SPRITE_PRIORITY_0, SPRITE_ORDER_0);
     work->aniPressStartButton.cParam.palette = PALETTE_ROW_1;
 

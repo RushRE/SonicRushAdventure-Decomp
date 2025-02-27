@@ -3309,7 +3309,7 @@
 .public Sprite__GetSpriteSize3
 .public Sprite__GetSpriteSize4FromAnim
 .public Sprite__GetSpriteSize4
-.public Sprite__GetUnknown6
+.public Sprite__GetSpriteCountForFrame
 .public Sprite__GetPaletteSizeFromAnim
 .public Sprite__GetPaletteSize
 .public Sprite__GetTextureSizeFromAnim

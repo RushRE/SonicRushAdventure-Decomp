@@ -104,7 +104,7 @@ Static arm9
     ## GAME CORE ##
     Object src/game/file/archiveFile.o
     Object asm/unknown/unknown204BE48.o
-    Object asm/game/graphics/spriteUnknown.o
+    Object src/game/graphics/spriteUnknown.o
     Object asm/game/graphics/backgroundUnknown.o
     Object src/game/file/bundleFileUnknown.o
     Object asm/unknown/unknown2051334.o
