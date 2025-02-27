@@ -3,7 +3,7 @@
 
 #include <global.h>
 #include <game/math/mtMath.h>
-#include <seaMap/seaMapManager.h>
+#include <seaMap/seaMapCommon.h>
 
 #ifdef __cplusplus
 extern "C"

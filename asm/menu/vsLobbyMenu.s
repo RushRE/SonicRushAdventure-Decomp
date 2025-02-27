@@ -595,10 +595,10 @@ VSLobbyMenu__Func_2163F60: // 0x02163F60
 	mov r0, #1
 	tst r0, r1
 	beq _02163FDA
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0xc
 	beq _02163F82
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x14
 	bne _02163FDA
 _02163F82:
@@ -1138,7 +1138,7 @@ VSLobbyMenu__Main1: // 0x02164394
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0xc
 	bgt _021643AC
 	bge _021643FE
@@ -1214,7 +1214,7 @@ VSLobbyMenu__Main_2164428: // 0x02164428
 	add r5, r4, r0
 	bl MultibootManager__Func_2061BD4
 	mov r6, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _02164476
 	mov r0, #1
@@ -1276,7 +1276,7 @@ VSLobbyMenu__Main_21644C8: // 0x021644C8
 	push {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _0216450A
 	mov r0, #1
@@ -1428,7 +1428,7 @@ VSLobbyMenu__Main_2164614: // 0x02164614
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	beq _0216462A
 	cmp r0, #0x14
@@ -1713,7 +1713,7 @@ VSLobbyMenu__Main_2164898: // 0x02164898
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _021648B0
 	ldr r0, _02164900 // =VSLobbyMenu__Main_2164E64
@@ -1770,7 +1770,7 @@ VSLobbyMenu__Main_216490C: // 0x0216490C
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _02164924
 	ldr r0, _0216495C // =VSLobbyMenu__Main_2164E64
@@ -1811,7 +1811,7 @@ VSLobbyMenu__Main_2164968: // 0x02164968
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _02164980
 	ldr r0, _021649C8 // =VSLobbyMenu__Main_2164E64
@@ -1868,7 +1868,7 @@ VSLobbyMenu__Main_21649D0: // 0x021649D0
 	lsl r0, r0, #2
 	mov r6, #1
 	add r5, r7, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _021649F4
 	ldr r0, _02164C00 // =VSLobbyMenu__Main_2164E64
@@ -2169,7 +2169,7 @@ VSLobbyMenu__Main_2164C20: // 0x02164C20
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _02164C38
 	ldr r0, _02164C84 // =VSLobbyMenu__Main_2164E64
@@ -2221,7 +2221,7 @@ VSLobbyMenu__Main_2164C8C: // 0x02164C8C
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _02164CA4
 	ldr r0, _02164D08 // =VSLobbyMenu__Main_2164E64
@@ -2286,7 +2286,7 @@ VSLobbyMenu__Main_2164D18: // 0x02164D18
 	bl VSLobbyMenu__Func_2163F60
 	mov r0, r4
 	bl VSLobbyMenu__Func_21640E0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	beq _02164D38
 	cmp r0, #0x15
@@ -2383,7 +2383,7 @@ _02164DCA:
 	bl RequestSysEventChange
 	bl NextSysEvent
 	bl ReleaseSysSound
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _02164E46
 	mov r0, #1
@@ -2513,7 +2513,7 @@ VSLobbyMenu__Main2: // 0x02164F10
 	push {r4, lr}
 	ldr r0, _02164F34 // =VSLobbyMenu__sVars
 	ldr r4, [r0, #8]
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x18
 	beq _02164F32
 	bl MultibootManager__Func_2061A24

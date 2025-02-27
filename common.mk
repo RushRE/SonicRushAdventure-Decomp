@@ -165,6 +165,10 @@ $(BUILD_DIR)/lib/NitroSystem/%.o: IPA_FLAG :=
 $(BUILD_DIR)/lib/NitroDWC/%.o: IPA_FLAG := 
 $(BUILD_DIR)/lib/NitroWiFi/%.o: IPA_FLAG := 
 
+# These files are compiled with different optimizations to most files
+$(BUILD_DIR)/src/game/save/saveGameCardBackup.o: OPTFLAGS := -O4,s
+$(BUILD_DIR)/src/game/save/saveGameCallbacks.o: OPTFLAGS := -O2,s
+
 MWCFLAGS           = $(DEFINES) $(OPTFLAGS) -sym on -enum int -lang c99 $(EXCCFLAGS) -gccext,on -proc $(PROC) -msgstyle gcc -gccinc -i ./include -i ./include/library -I$(WORK_DIR) -I$(WORK_DIR)/tools/cw/include/MSL_C -I$(WORK_DIR)/tools/cw/include/MSL_Extras -I$(WORK_DIR)/lib/include -I$(WORK_DIR)/lib/include/dwc/gs $(IPA_FLAG) -interworking $(INLINE_FLAG) -char signed -W all -W pedantic -W noimpl_signedunsigned -W noimplicitconv -W nounusedarg -W nomissingreturn -W error 
 
 MWASFLAGS          = $(DEFINES) -proc $(PROC_S) -g -gccinc -i . -i ./include -i $(WORK_DIR)/asm/include -i $(WORK_DIR)/lib/asm/$(BUILD_MODE)/include -i $(WORK_DIR)/lib/NitroDWC/asm/$(BUILD_MODE)/include -i $(WORK_DIR)/lib/NitroSDK/asm/$(BUILD_MODE)/include -i $(WORK_DIR)/lib/syscall/asm/include -I$(WORK_DIR)/lib/include -DSDK_ASM

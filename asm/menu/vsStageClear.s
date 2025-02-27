@@ -3517,7 +3517,7 @@ _0215C674: .word gameState
 	thumb_func_start VSStageClear__Main
 VSStageClear__Main: // 0x0215C678
 	push {r3, lr}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0xc
 	bgt _0215C68A
 	bge _0215C6E6
@@ -3577,7 +3577,7 @@ _0215C6F8: .word VSStageClear__Main_215C6FC
 	thumb_func_start VSStageClear__Main_215C6FC
 VSStageClear__Main_215C6FC: // 0x0215C6FC
 	push {r3, lr}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	beq _0215C70A
 	cmp r0, #0x18
@@ -3638,7 +3638,7 @@ _0215C788: .word VSStageClear__Main_215C78C
 	thumb_func_start VSStageClear__Main_215C78C
 VSStageClear__Main_215C78C: // 0x0215C78C
 	push {r3, lr}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	beq _0215C7A0
 	cmp r0, #0x13
@@ -3666,7 +3666,7 @@ _0215C7C0: .word VSStageClear__Main_215C7C4
 	thumb_func_start VSStageClear__Main_215C7C4
 VSStageClear__Main_215C7C4: // 0x0215C7C4
 	push {r3, lr}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _0215C7F2
 	mov r0, #2
@@ -3699,7 +3699,7 @@ _0215C810: .word VSStageClear__Main_215C814
 	thumb_func_start VSStageClear__Main_215C814
 VSStageClear__Main_215C814: // 0x0215C814
 	push {r3, lr}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _0215C826
 	mov r0, #2
@@ -3745,7 +3745,7 @@ VSStageClear__Main_215C864: // 0x0215C864
 	ldr r0, _0215C8B8 // =VSStageClear__Singleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _0215C882
 	mov r0, #2
@@ -3785,7 +3785,7 @@ _0215C8BC: .word VSStageClear__Main_215C984
 VSStageClear__Main_215C8C0: // 0x0215C8C0
 	push {r3, lr}
 	sub sp, #0x10
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _0215C8D6
 	mov r0, #2
@@ -3833,7 +3833,7 @@ _0215C920: .word VSStageClear__Main_215C984
 VSStageClear__Main_215C924: // 0x0215C924
 	push {r3, lr}
 	sub sp, #0x10
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _0215C93A
 	mov r0, #2
@@ -3880,7 +3880,7 @@ _0215C980: .word VSStageClear__Main_215C984
 VSStageClear__Main_215C984: // 0x0215C984
 	push {r4, lr}
 	sub sp, #0x10
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _0215C99A
 	mov r0, #2
@@ -3947,7 +3947,7 @@ _0215CA10: .word VSStageClear__Main_215CA14
 VSStageClear__Main_215CA14: // 0x0215CA14
 	push {r4, r5, r6, lr}
 	sub sp, #0x10
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bne _0215CA2A
 	mov r0, #2
@@ -4060,7 +4060,7 @@ VSStageClear__Main_215CAFC: // 0x0215CAFC
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	beq _0215CB16
 	cmp r0, #0x11

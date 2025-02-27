@@ -411,11 +411,11 @@ _0216C840:
 	lsl r1, r1, #0xc
 	bl CreateDrawFadeTask
 _0216C84A:
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x18
 	bne _0216C862
 	bl MultibootManager__Create
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x16
 	beq _0216C862
 	bl MultibootManager__Func_206150C
@@ -2365,7 +2365,7 @@ TimeAttackMenu__Main_216D80C: // 0x0216D80C
 	bl MultibootManager__Func_2061638
 	cmp r0, #0
 	beq _0216D88A
-	bl MultibootManager__Func_20618F0
+	bl MultibootManager__CheckHasProfile
 	cmp r0, #0
 	bne _0216D850
 	mov r0, #0x11
@@ -2388,7 +2388,7 @@ TimeAttackMenu__Main_216D80C: // 0x0216D80C
 	add sp, #8
 	pop {r3, pc}
 _0216D850:
-	bl MultibootManager__Func_2061904
+	bl MultibootManager__CheckValidConsole
 	cmp r0, #0
 	bne _0216D8BC
 	mov r0, #0x13
@@ -2542,7 +2542,7 @@ TimeAttackMenu__Main_216D9A8: // 0x0216D9A8
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x11
 	bgt _0216D9D8
 	cmp r0, #0xf
@@ -3062,7 +3062,7 @@ TimeAttackMenu__Main_216DE5C: // 0x0216DE5C
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bgt _0216DE74
 	beq _0216DE86
@@ -3120,7 +3120,7 @@ TimeAttackMenu__Main_216DEC4: // 0x0216DEC4
 	add r0, #0x30
 	mov r1, #1
 	bl MainMenu__Func_2156790
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	beq _0216DEEA
 	cmp r0, #0x19
@@ -3150,7 +3150,7 @@ TimeAttackMenu__Main_216DF0C: // 0x0216DF0C
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bgt _0216DF28
 	beq _0216DF3E
@@ -3402,7 +3402,7 @@ _0216E140:
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216E148:
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0xc
 	bne _0216E158
 	ldr r0, _0216E178 // =TimeAttackMenu__Main_216DEB0
@@ -4362,7 +4362,7 @@ TimeAttackMenu__Main_216E968: // 0x0216E968
 	ldr r0, [r4, r2]
 	sub r2, #0xc
 	ldr r2, [r4, r2]
-	bl LeaderboardWorker__Create
+	bl CreateLeaderboardWorker
 	ldr r0, _0216E9A0 // =TimeAttackMenu__Main_216E9A4
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
@@ -4379,7 +4379,7 @@ TimeAttackMenu__Main_216E9A4: // 0x0216E9A4
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	beq _0216E9BE
 	cmp r0, #0x19
@@ -4390,7 +4390,7 @@ _0216E9BE:
 	mov r0, r4
 	mov r1, #0
 	bl MainMenu__Func_2156790
-	bl LeaderboardWorker__Destroy
+	bl DestroyLeaderboardWorker
 	ldr r0, _0216EA50 // =TimeAttackMenu__Main_216EE14
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
@@ -4399,12 +4399,12 @@ _0216E9D4:
 	mov r0, r4
 	mov r1, #0
 	bl MainMenu__Func_2156790
-	bl LeaderboardWorker__Destroy
+	bl DestroyLeaderboardWorker
 	ldr r0, _0216EA54 // =TimeAttackMenu__Main_FadeToCorruptSave
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216E9EA:
-	bl LeaderboardWorker__GetFlags
+	bl GetLeaderboardWorkerStatus
 	cmp r0, #3
 	bhi _0216EA4A
 	add r0, r0, r0
@@ -4427,7 +4427,7 @@ _0216EA08:
 	mov r0, r4
 	mov r1, #0
 	bl MainMenu__Func_2156790
-	bl LeaderboardWorker__Destroy
+	bl DestroyLeaderboardWorker
 	ldr r0, _0216EA5C // =TimeAttackMenu__Main_216EDA0
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
@@ -4436,12 +4436,12 @@ _0216EA24:
 	mov r0, r4
 	mov r1, #0
 	bl MainMenu__Func_2156790
-	bl LeaderboardWorker__Destroy
+	bl DestroyLeaderboardWorker
 	ldr r0, _0216EA50 // =TimeAttackMenu__Main_216EE14
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216EA3A:
-	bl LeaderboardWorker__Destroy
+	bl DestroyLeaderboardWorker
 	ldr r0, _0216EA58 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216EA60 // =TimeAttackMenu__Main_216EA64
@@ -4556,7 +4556,7 @@ _0216EB24: .word TimeAttackMenu__Main_216EB28
 	thumb_func_start TimeAttackMenu__Main_216EB28
 TimeAttackMenu__Main_216EB28: // 0x0216EB28
 	push {r3, lr}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bgt _0216EB36
 	beq _0216EB48
@@ -4624,7 +4624,7 @@ TimeAttackMenu__Main_216EB98: // 0x0216EB98
 	mov r1, #0
 	ldr r0, [r4, r0]
 	mov r2, r1
-	bl LeaderboardWorker__Create
+	bl CreateLeaderboardWorker
 	ldr r0, _0216EBD0 // =TimeAttackMenu__Main_216EBD4
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
@@ -4641,7 +4641,7 @@ TimeAttackMenu__Main_216EBD4: // 0x0216EBD4
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	beq _0216EBEE
 	cmp r0, #0x19
@@ -4652,7 +4652,7 @@ _0216EBEE:
 	mov r0, r4
 	mov r1, #0
 	bl MainMenu__Func_2156790
-	bl LeaderboardWorker__Destroy
+	bl DestroyLeaderboardWorker
 	ldr r0, _0216EC8C // =TimeAttackMenu__Main_216EE14
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
@@ -4661,12 +4661,12 @@ _0216EC04:
 	mov r0, r4
 	mov r1, #0
 	bl MainMenu__Func_2156790
-	bl LeaderboardWorker__Destroy
+	bl DestroyLeaderboardWorker
 	ldr r0, _0216EC90 // =TimeAttackMenu__Main_FadeToCorruptSave
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216EC1A:
-	bl LeaderboardWorker__GetFlags
+	bl GetLeaderboardWorkerStatus
 	cmp r0, #3
 	bhi _0216EC86
 	add r0, r0, r0
@@ -4695,7 +4695,7 @@ _0216EC44:
 	mov r0, r4
 	mov r1, #0
 	bl MainMenu__Func_2156790
-	bl LeaderboardWorker__Destroy
+	bl DestroyLeaderboardWorker
 	ldr r0, _0216EC98 // =TimeAttackMenu__Main_216EDA0
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
@@ -4704,12 +4704,12 @@ _0216EC60:
 	mov r0, r4
 	mov r1, #0
 	bl MainMenu__Func_2156790
-	bl LeaderboardWorker__Destroy
+	bl DestroyLeaderboardWorker
 	ldr r0, _0216EC8C // =TimeAttackMenu__Main_216EE14
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216EC76:
-	bl LeaderboardWorker__Destroy
+	bl DestroyLeaderboardWorker
 	ldr r0, _0216EC94 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216EC9C // =TimeAttackMenu__Main_216ECA0
@@ -4824,7 +4824,7 @@ _0216ED60: .word TimeAttackMenu__Main_216ED64
 	thumb_func_start TimeAttackMenu__Main_216ED64
 TimeAttackMenu__Main_216ED64: // 0x0216ED64
 	push {r3, lr}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bgt _0216ED72
 	beq _0216ED84

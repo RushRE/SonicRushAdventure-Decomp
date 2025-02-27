@@ -7,6 +7,7 @@
 #include <game/input/touchInput.h>
 #include <game/file/fileUnknown.h>
 #include <game/text/fontAnimator.h>
+#include <game/graphics/background.h>
 
 // resources
 #include <resources/narc/vi_act_lz7.h>

@@ -8,6 +8,7 @@
 #include <game/file/fileUnknown.h>
 #include <game/game/gameState.h>
 #include <game/input/padInput.h>
+#include <game/graphics/background.h>
 
 // resources
 #include <resources/bb/dmwf_lang.h>

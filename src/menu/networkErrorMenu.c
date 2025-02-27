@@ -11,6 +11,7 @@
 #include <game/save/corruptSaveWarning.h>
 #include <game/save/saveGame.h>
 #include <game/util/advancePrompt.h>
+#include <game/graphics/background.h>
 
 // resources
 #include <resources/bb/dmwf_lang.h>

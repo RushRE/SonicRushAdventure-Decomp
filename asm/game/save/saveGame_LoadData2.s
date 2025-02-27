@@ -3,12 +3,12 @@
 	
 .public savedataBlockOffsets
 .public savedataBlockSizes
-.public SaveGame__ClearDataCallbacks
+.public SaveGame__ClearCallbacks
 .public _02110DDC
 
 	.text
 
-// https://decomp.me/scratch/locPz -> 59.48%
+// https://decomp.me/scratch/3UIwx -> 57.17%
 	thumb_func_start SaveGame__LoadData2
 SaveGame__LoadData2: // 0x0205E49C
 	push {r3, r4, r5, r6, r7, lr}
@@ -627,7 +627,7 @@ _0205E916:
 	blt _0205E8FC
 _0205E91C:
 	mov r5, #0
-	ldr r7, _0205EAF0 // =SaveGame__ClearDataCallbacks
+	ldr r7, _0205EAF0 // =SaveGame__ClearCallbacks
 	b _0205E92E
 _0205E922:
 	lsl r2, r5, #2
@@ -864,6 +864,6 @@ _0205EAE0: .word 0x000001FE
 _0205EAE4: .word 0x00001A68
 _0205EAE8: .word savedataBlockOffsets
 _0205EAEC: .word savedataBlockSizes
-_0205EAF0: .word SaveGame__ClearDataCallbacks
+_0205EAF0: .word SaveGame__ClearCallbacks
 _0205EAF4: .word _02110DDC
 	thumb_func_end SaveGame__LoadData2

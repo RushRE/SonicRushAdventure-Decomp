@@ -9,7 +9,7 @@
 
 void InitCardBackupSystem(void);
 BOOL InitCardBackupSize(void);
-BOOL ReadFromCardBackup(void *src, void *dst, size_t size);
-BOOL WriteToCardBackup(void *dst, void *src, size_t size);
+BOOL ReadFromCardBackup(size_t src, void *dst, size_t size);
+BOOL WriteToCardBackup(size_t dst, void *src, size_t size);
 
 #endif // RUSH_CARDBACKUP_H

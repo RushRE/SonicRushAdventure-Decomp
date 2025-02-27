@@ -10,6 +10,7 @@
 #include <game/input/touchInput.h>
 #include <game/file/fileUnknown.h>
 #include <game/graphics/unknown2056570.h>
+#include <game/graphics/background.h>
 #include <game/text/mpc.h>
 
 // resources

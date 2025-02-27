@@ -970,7 +970,7 @@ VSMenu__Main_2167950: // 0x02167950
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x11
 	bgt _0216796C
 	bge _021679AA
@@ -1864,7 +1864,7 @@ VSMenu__Main_2168120: // 0x02168120
 	bl MultibootManager__Func_2061638
 	cmp r0, #0
 	beq _02168188
-	bl MultibootManager__Func_20618F0
+	bl MultibootManager__CheckHasProfile
 	cmp r0, #0
 	bne _0216815C
 	mov r0, #0x1e
@@ -1881,7 +1881,7 @@ VSMenu__Main_2168120: // 0x02168120
 	add sp, #8
 	pop {r3, pc}
 _0216815C:
-	bl MultibootManager__Func_2061904
+	bl MultibootManager__CheckValidConsole
 	cmp r0, #0
 	bne _021681AC
 	mov r0, #0x20
@@ -2014,7 +2014,7 @@ _0216828C: .word VSMenu__Main_216770C
 VSMenu__Main_2168290: // 0x02168290
 	push {r3, lr}
 	sub sp, #8
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x11
 	bgt _021682B6
 	cmp r0, #0xf
@@ -2466,7 +2466,7 @@ _021686AC: .word VSMenu__Main_21686B0
 	thumb_func_start VSMenu__Main_21686B0
 VSMenu__Main_21686B0: // 0x021686B0
 	push {r3, lr}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bgt _021686BE
 	beq _021686D0
@@ -2863,7 +2863,7 @@ _02168A2C: .word VSMenu__Main_2168AFC
 	thumb_func_start VSMenu__Main_2168A30
 VSMenu__Main_2168A30: // 0x02168A30
 	push {r3, lr}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	beq _02168A40
 	cmp r0, #0x19
@@ -3070,7 +3070,7 @@ VSMenu__Main_2168C0C: // 0x02168C0C
 	bl VSMenu__CheckNetworkMessageMain
 	cmp r0, #0
 	beq _02168C3A
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	beq _02168C22
 	cmp r0, #0x19
@@ -3095,7 +3095,7 @@ _02168C3C: .word VSMenu__Main_2168C40
 VSMenu__Main_2168C40: // 0x02168C40
 	push {r3, lr}
 	sub sp, #8
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bgt _02168C52
 	beq _02168C68
@@ -3482,7 +3482,7 @@ _02168F88: .word VSMenu__Func_2167860
 	thumb_func_start VSMenu__Main_2168F8C
 VSMenu__Main_2168F8C: // 0x02168F8C
 	push {r3, lr}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x11
 	bne _02168F9E
 	mov r0, #4
@@ -3528,7 +3528,7 @@ _02168FE4: .word VSMenu__Main_2168FE8
 	thumb_func_start VSMenu__Main_2168FE8
 VSMenu__Main_2168FE8: // 0x02168FE8
 	push {r3, lr}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	beq _02168FF8
 	cmp r0, #0x19
@@ -3583,7 +3583,7 @@ _02169058:
 	bne _02169096
 	ldr r0, _021690A8 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x11
 	bne _0216908E
 	ldr r0, _021690AC // =VSMenu__Main_21686EC

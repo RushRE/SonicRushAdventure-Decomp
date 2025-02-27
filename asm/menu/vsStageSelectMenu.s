@@ -2679,7 +2679,7 @@ _02161EE0: .word VSStageSelectMenu__State_2161EE4
 VSStageSelectMenu__State_2161EE4: // 0x02161EE4
 	push {r4, lr}
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bgt _02161EF4
 	beq _02161F28
@@ -2803,7 +2803,7 @@ _02161FD0: .word VSStageSelectMenu__State_2161B28
 VSStageSelectMenu__State_2161FD4: // 0x02161FD4
 	push {r4, lr}
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0xe
 	bgt _02161FE8
 	bge _02161FF6
@@ -2848,7 +2848,7 @@ _02162024: .word VSStageSelectMenu__State_2162028
 VSStageSelectMenu__State_2162028: // 0x02162028
 	push {r4, lr}
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0xe
 	bgt _02162044
 	cmp r0, #0xd
@@ -3025,7 +3025,7 @@ _02162188: .word VSStageSelectMenu__State_2161B28
 VSStageSelectMenu__State_216218C: // 0x0216218C
 	push {r4, lr}
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0xe
 	bgt _021621AE
 	cmp r0, #0xb

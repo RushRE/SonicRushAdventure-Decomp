@@ -5,7 +5,9 @@
 #include <game/system/task.h>
 #include <game/graphics/background.h>
 #include <game/input/touchField.h>
+#include <seaMap/seaMapCommon.h>
 #include <seaMap/seaMapEventManager.h>
+#include <game/save/saveGame.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -15,33 +17,6 @@ extern "C"
 // --------------------
 // ENUMS
 // --------------------
-
-enum ShipType_
-{
-    SHIP_JET,
-    SHIP_BOAT,
-    SHIP_HOVER,
-    SHIP_SUBMARINE,
-
-    SHIP_COUNT,
-
-    // rarely-used values for magma hurricane
-    SHIP_DRILL = SHIP_COUNT,
-    SHIP_COUNT_DRILL,
-
-    SHIP_MENU = SHIP_COUNT, // SeaMap menu
-};
-typedef u32 ShipType;
-
-enum ShipLevel_
-{
-    SHIP_LEVEL_0,
-    SHIP_LEVEL_1,
-    SHIP_LEVEL_2,
-
-    SHIP_LEVEL_MAX = SHIP_LEVEL_2,
-};
-typedef u32 ShipLevel;
 
 // --------------------
 // STRUCTS
@@ -58,26 +33,6 @@ typedef struct SeaMapManagerAssets_
     void *mapSea[3];
     void *mapCollision;
 } SeaMapManagerAssets;
-
-typedef struct SeaMapManagerNode_
-{
-    NNSFndLink link;
-    TouchPos position;
-    fx32 distance;
-} SeaMapManagerNode;
-
-typedef struct SeaMapManagerNodeGroup_
-{
-    NNSFndLink link;
-    SeaMapManagerNode entryList[64];
-    u16 entryCount;
-} SeaMapManagerNodeGroup;
-
-typedef struct SeaMapManagerNodeList_
-{
-    NNSFndList nodes;
-    NNSFndList groups;
-} SeaMapManagerNodeList;
 
 typedef struct SeaMapManager_
 {
@@ -117,7 +72,7 @@ typedef struct SeaMapManager_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void SeaMapManager__SaveClearCallback_Chart(void *saveGame, u8 flags);
+NOT_DECOMPILED void SeaMapManager__SaveClearCallback_Chart(SaveGame *save, SaveBlockFlags blockFlags);
 NOT_DECOMPILED void SeaMapManager__Create(BOOL useEngineB, ShipType shipType, BOOL isSailing);
 NOT_DECOMPILED void SeaMapManager__Destroy(void);
 NOT_DECOMPILED BOOL SeaMapManager__IsActive(void);

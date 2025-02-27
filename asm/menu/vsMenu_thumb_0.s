@@ -329,7 +329,7 @@ _02166A04:
 	lsr r1, r1, #0xe
 	bl CreateDrawFadeTask
 _02166A0C:
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x18
 	bne _02166A18
 	bl MultibootManager__Create
@@ -366,7 +366,7 @@ _02166A18:
 	mov r0, #0
 	bl PlaySysVillageTrack
 	bl ResetTouchInput
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	beq _02166AB0
 	cmp r0, #0x11
@@ -427,7 +427,7 @@ _02166AE4:
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 _02166AFA:
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x11
 	bne _02166B0A
 	ldr r1, _02166B54 // =VSMenu__Main_21686EC

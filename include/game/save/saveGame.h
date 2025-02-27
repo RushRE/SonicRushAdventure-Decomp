@@ -230,6 +230,14 @@ enum SaveProgressMode_
 };
 typedef u8 SaveProgressMode;
 
+enum SaveStageRank_
+{
+    SAVE_STAGE_RANK_S,
+    SAVE_STAGE_RANK_A,
+    SAVE_STAGE_RANK_B,
+    SAVE_STAGE_RANK_C,
+};
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -425,6 +433,7 @@ extern SaveGame saveGame;
 // FUNCTIONS
 // --------------------
 
+// Progress
 void SaveGame__UpdateProgressEvent(void);
 void SaveGame__SetProgressType(s32 type);
 SaveProgress SaveGame__GetGameProgress(void);
@@ -454,7 +463,7 @@ void SaveGame_SetPlayerHasSavedFlag(void);
 BOOL SaveGame_CheckPlayerHasSavedFlag(void);
 void SaveGame__SetDoneFirstShipVoyage(s32 id);
 BOOL SaveGame__HasDoneFirstShipVoyage(s32 id);
-void SaveGame__SaveClearCallback_Stage(SaveGame *save, SaveBlockFlags blockFlags);
+void SaveGame__ClearCallback_Stage(SaveGame *save, SaveBlockFlags blockFlags);
 void SaveGame__UpdateProgress(void);
 SaveGameNextAction *SaveGame__GetNextActionFromProgress(void);
 void SaveGame__UpdateProgress2_Type0(void);
@@ -549,15 +558,21 @@ s32 SaveGame__Func_205D65C(s32 a1);
 s32 SaveGame__Func_205D758(s32 a1);
 ShipLevel SaveGame__GetShipUpgradeStatus(u16 id);
 ShipLevel SaveGame__GetShipUpgradeStatus_(u16 id, u32 flags);
+
+// CardBackup
 BOOL SaveGame__InitSaveSize(void);
 void SaveGame__ClearData(SaveGame *work, SaveBlockFlags flags);
 SaveErrorTypes SaveGame__SaveData(SaveGame *work, SaveBlockFlags flags);
 SaveErrorTypes SaveGame__SaveData2(SaveGame *work);
 SaveErrorTypes SaveGame__LoadData(SaveGame *work, u32 *corruptFlags, u32 *otherFlags);
 SaveErrorTypes SaveGame__LoadData2(u32 flags);
-void SaveGame__SaveClearCallback_Common(SaveGame *save, SaveBlockFlags blockFlags);
-void SaveGame__SaveSaveCallback_OnlineProfile(SaveGame *save, SaveBlockFlags blockFlags);
-void SaveGame__SaveLoadCallback_Unknown(SaveGame *save);
+
+// Callbacks
+void SaveGame__ClearCallback_Common(SaveGame *save, SaveBlockFlags blockFlags);
+void SaveGame__SaveCallback_OnlineProfile(SaveGame *save, SaveBlockFlags blockFlags);
+void SaveGame__LoadCallback_Unknown(SaveGame *save, SaveBlockFlags blockFlags);
+
+// Status
 size_t SaveGame__GetPlayerNameLength(SaveBlockSystem *work);
 void SaveGame__SetPlayerName(SavePlayerName *name, char16 *text, size_t len);
 SaveIslandState SaveGame__GetIslandProgress(SaveGameProgress *progress, s32 id);
@@ -573,7 +588,7 @@ BOOL SaveGame__HasMaterial(SaveBlockStage *work, u32 type);
 void SaveGame__GiveMaterial(SaveBlockStage *work, u32 type, s32 amount);
 void SaveGame__UseMaterial(SaveBlockStage *work, u32 type, s32 amount);
 u32 SaveGame__GetMaterialCount(SaveBlockStage *work, u32 type);
-u32 SaveGame__GetTimeAttackRecord(SaveBlockTimeAttack *work, u32 character, u32 stage, u32 rank);
+u32 SaveGame__GetTimeAttackRecord(SaveBlockTimeAttack *work, u8 character, u32 stage, u32 rank);
 u8 SaveGame__AddTimeAttackRecord(SaveBlockTimeAttack *work, u8 character, s32 stage, u16 record);
 void SaveGame__AddTimeAttackUnknown(SaveBlockTimeAttack *work, s32 stage, u32 trickBonus, u32 ringBonus);
 void SaveGame__DeleteOnlineProfile_KeepFriends(SaveGame *save);
@@ -618,8 +633,8 @@ u32 SaveGame__GetVikingCupSailboatRecord(u32 actID, u32 rank);
 u32 SaveGame__GetVikingCupHovercraftRecord(u32 actID, u32 rank);
 u32 SaveGame__GetVikingCupSubmarineRecord(u32 actID, u32 rank);
 void SaveGame__SaveLeaderboardRankOrder(s32 stage, u32 order);
-void SaveGame__SaveLeaderboardRank_Top(s32 stage, u16 rank, char16 *name, size_t nameLength, u16 time, s32 flag);
-void SaveGame__SaveLeaderboardRank_Near(s32 stage, u16 rank, char16 *name, size_t nameLength, u16 time, s32 flag);
+void SaveGame__SaveLeaderboardRank_Top(s32 stage, u16 rank, char16 *name, u16 nameLength, u16 time, s32 flag);
+void SaveGame__SaveLeaderboardRank_Near(s32 stage, u16 rank, char16 *name, u16 nameLength, u16 time, s32 flag);
 void SaveGame__SetLeaderboardLastUpdatedTime(u32 stage);
 BOOL SaveGame__CheckLeaderboardHasRecords(u32 stage);
 u32 SaveGame__GetLeaderboardRankOrder(u32 stage);

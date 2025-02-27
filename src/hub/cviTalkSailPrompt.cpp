@@ -6,6 +6,7 @@
 #include <game/input/padInput.h>
 #include <game/input/touchInput.h>
 #include <game/file/fileUnknown.h>
+#include <game/graphics/background.h>
 
 // resources
 #include <resources/bb/vi_msg/vi_msg_eng.h>

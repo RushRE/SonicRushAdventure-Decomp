@@ -126,11 +126,13 @@ Static arm9
     Object asm/game/text/fontWindowMWControl.o
     Object src/game/cutscene/script.o
     Object asm/game/file/compressedFile.o
-    Object src/game/save/saveGame.o
-    Object asm/game/save/saveGame_1.o // SaveGame_LoadData2 has to be in an asm file since inline asm functions can't compile it matching
+    Object src/game/save/saveGameProgress.o
     Object asm/game/save/saveGame_vars_arm.o
     Object asm/game/save/saveGame_vars_thumb.o
-    Object src/game/save/saveGame_2.o
+    Object src/game/save/saveGameCardBackup.o
+    Object asm/game/save/saveGame_LoadData2.o // SaveGame_LoadData2 has to be in an asm file since inline asm functions can't compile it matching
+    Object src/game/save/saveGameCallbacks.o
+    Object src/game/save/saveGameStatus.o
     Object src/game/audio/sysSound.o
     Object asm/network/multibootManager.o
     Object src/sail/sailInitEvent.o
@@ -613,7 +615,8 @@ Overlay Menus1
     Object asm/menu/vsRegisterFriendCodeMenu.o      # arm code
     Object asm/menu/vsRecordsMenu.o                 # arm code
     Object src/menu/networkErrorMenu.o
-    Object asm/menu/leaderboardWorker.o             # arm code
+    Object asm/menu/leaderboardWorker_vars.o
+    Object src/network/leaderboardWorker.o
     Object asm/menu/timeAttackLeaderboardsMenu.o    # arm code
     Object asm/menu/timeAttackRecordsMenu.o         # thumb code
     Object asm/menu/vikingCupMenu.o                 # arm code

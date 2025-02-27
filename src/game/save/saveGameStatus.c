@@ -27,207 +27,14 @@ static const u8 missionForSolEmerald[7] = { 19, 77, 29, 86, 81, 69, 71 };
 
 #include <nitro/code16.h>
 
-NONMATCH_FUNC void SaveGame__SaveClearCallback_Common(SaveGame *save, SaveBlockFlags blockFlags)
-{
-    // https://decomp.me/scratch/JxrCv -> 56.98%
-#ifdef NON_MATCHING
-    s32 i;
-
-    if ((blockFlags & SAVE_BLOCK_FLAG_ONLINE_PROFILE) != 0)
-    {
-        DWC_CreateUserData(&save->onlineProfile.userData, 'A3YJ');
-
-        for (i = 0; i < SAVEGAME_MAX_FRIEND_COUNT; i++)
-        {
-            DWC_DeleteBuddyFriendData(&save->onlineProfile.friendList[i]);
-        }
-    }
-
-    if ((blockFlags & SAVE_BLOCK_FLAG_STAGE) != 0)
-    {
-        for (i = 0; i < SAVE_MATERIAL_COUNT; i++)
-        {
-            save->stage.materialCount[i] = SAVEGAME_MATERIAL_NONE;
-        }
-
-        for (i = 0; i < STAGE_HIDDEN_ISLAND_R1; i++)
-        {
-            save->stage.stageRecords[DIFFICULTY_EASY][i].score = 0;
-            save->stage.stageRecords[DIFFICULTY_EASY][i].rank  = 3;
-
-            save->stage.stageRecords[DIFFICULTY_NORMAL][i].score = 0;
-            save->stage.stageRecords[DIFFICULTY_NORMAL][i].rank  = 3;
-        }
-    }
-
-    if ((blockFlags & SAVE_BLOCK_FLAG_SYSTEM) != 0)
-    {
-        OSOwnerInfo ownerInfo;
-        OS_GetOwnerInfo(&ownerInfo);
-
-        if (ownerInfo.nickNameLength == 0)
-        {
-#ifdef RUSH_JAPAN
-            SaveGame__SetPlayerName(&save->system.name, L"SONIC", 4);
-#else
-            SaveGame__SetPlayerName(&save->system.name, L"SONIC", 5);
-#endif
-        }
-        else if (ownerInfo.nickNameLength >= SAVEGAME_MAX_NAME_LEN + 1)
-        {
-            SaveGame__SetPlayerName(&save->system.name, ownerInfo.nickName, SAVEGAME_MAX_NAME_LEN - 1);
-            save->system.name.text[7] = 0x2026; // '…'
-        }
-        else
-        {
-            SaveGame__SetPlayerName(&save->system.name, ownerInfo.nickName, ownerInfo.nickNameLength);
-        }
-    }
-#else
-    // clang-format off
-	push {r4, r5, r6, r7, lr}
-	sub sp, #0x5c
-	str r1, [sp]
-	mov r5, r0
-	ldr r0, [sp]
-	mov r1, #0x80
-	tst r0, r1
-	beq _0205EB30
-	mov r0, #0xe5
-	lsl r0, r0, #4
-	ldr r1, =0x4133594A
-	add r0, r5, r0
-	bl DWC_CreateUserData
-	mov r0, #0xe9
-	lsl r0, r0, #4
-	mov r4, #0
-	add r6, r5, r0
-	mov r7, #0xc
-	b _0205EB2C
-_0205EB20:
-	mov r0, r4
-	mul r0, r7
-	add r0, r6, r0
-	bl DWC_DeleteBuddyFriendData
-	add r4, r4, #1
-_0205EB2C:
-	cmp r4, #0x1e
-	blt _0205EB20
-_0205EB30:
-	ldr r0, [sp]
-	mov r1, #4
-	tst r0, r1
-	beq _0205EB88
-	mov r2, #0xff
-	mov r0, r2
-	mov r4, #0
-	add r0, #0xc5
-	b _0205EB48
-_0205EB42:
-	add r1, r5, r4
-	strb r2, [r1, r0]
-	add r4, r4, #1
-_0205EB48:
-	cmp r4, #9
-	blt _0205EB42
-	mov r0, #0x11
-	lsl r0, r0, #4
-	mov r3, r5
-	add r1, r5, r0
-	mov r0, #3
-	mov r4, #0
-	add r3, #0x64
-	str r0, [sp, #8]
-	mov r7, r0
-	b _0205EB84
-_0205EB60:
-	lsl r2, r4, #2
-	ldr r6, [r3, r2]
-	ldr r0, [sp, #8]
-	str r6, [sp, #4]
-	bic r6, r0
-	str r6, [sp, #4]
-	ldr r0, [sp, #4]
-	mov r6, #3
-	orr r0, r6
-	str r0, [r3, r2]
-	ldr r0, [r1, r2]
-	add r4, r4, #1
-	bic r0, r7
-	mov ip, r0
-	mov r0, r6
-	mov r6, ip
-	orr r0, r6
-	str r0, [r1, r2]
-_0205EB84:
-	cmp r4, #0x2b
-	blt _0205EB60
-_0205EB88:
-	ldr r0, [sp]
-	mov r1, #2
-	tst r0, r1
-	beq _0205EBC4
-	add r0, sp, #0xc
-	bl OS_GetOwnerInfo
-	add r0, sp, #0xc
-	ldrh r2, [r0, #0x18]
-	cmp r2, #0
-	bne _0205EBAA
-	ldr r1, =aSonic
-	mov r0, r5
-    
-#if defined(RUSH_JAPAN)
-	mov r2, #4
-#else
-    mov r2, #5
-#endif
-
-	bl SaveGame__SetPlayerName
-	b _0205EBC4
-_0205EBAA:
-	cmp r2, #9
-	add r1, sp, #0x10
-	blo _0205EBBE
-	mov r0, r5
-	mov r2, #7
-	bl SaveGame__SetPlayerName
-	ldr r0, =0x00002026
-	strh r0, [r5, #0xe]
-	b _0205EBC4
-_0205EBBE:
-	mov r0, r5
-	bl SaveGame__SetPlayerName
-_0205EBC4:
-	add sp, #0x5c
-	pop {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
-}
-
-void SaveGame__SaveSaveCallback_OnlineProfile(SaveGame *save, SaveBlockFlags blockFlags)
-{
-    if ((blockFlags & SAVE_BLOCK_FLAG_ONLINE_PROFILE) != 0 && DWC_CheckHasProfile(&save->onlineProfile.userData))
-    {
-        if (DWC_CheckDirtyFlag(&save->onlineProfile.userData))
-            DWC_ClearDirtyFlag(&save->onlineProfile.userData);
-    }
-}
-
-void SaveGame__SaveLoadCallback_Unknown(SaveGame *save)
-{
-    UNUSED(save);
-    // Nothin'
-}
-
 NONMATCH_FUNC size_t SaveGame__GetPlayerNameLength(SaveBlockSystem *work)
 {
-    // https://decomp.me/scratch/xIBYe -> 98.64%
+    // https://decomp.me/scratch/jSw3B -> 98.64%
 #ifdef NON_MATCHING
     size_t len = 0;
     while ((len < SAVEGAME_MAX_NAME_LEN) && (work->name.text[(s32)len] != 0))
     {
-        len++;    
+        len++;
     }
 
     return len;
@@ -270,7 +77,7 @@ SaveIslandState SaveGame__GetIslandProgress(SaveGameProgress *progress, s32 id)
 void SaveGame__SetIslandProgress(SaveGameProgress *progress, s32 id, SaveIslandState state)
 {
     u32 shift = (id & 3) << 1;
-    
+
     progress->islandProgress[id >> 2] &= ~(3 << shift);
     progress->islandProgress[id >> 2] |= (state << shift);
 }
@@ -310,7 +117,7 @@ u32 SaveGame__GetChaosEmeraldCount(SaveBlockChart *work)
 BOOL SaveGame__HasSolEmerald(SaveBlockStage *work, u8 id)
 {
     u8 missionState = (work->missionState[missionForSolEmerald[id] / 4] >> ((missionForSolEmerald[id] % 4) << 1)) & 3;
-    
+
     return missionState >= MISSION_STATE_BEATEN;
 }
 
@@ -332,13 +139,13 @@ NONMATCH_FUNC void SaveGame__SetSolEmeraldCollected(SaveBlockStage *work, u8 id)
 {
     // https://decomp.me/scratch/U8DdT -> 52.44%
 #ifdef NON_MATCHING
-    u32 shift = (missionForSolEmerald[id] % 4) << 1;
+    u32 shift       = (missionForSolEmerald[id] % 4) << 1;
     u8 missionState = (work->missionState[missionForSolEmerald[id] / 4] >> shift) & 3;
-    
+
     if (missionState < MISSION_STATE_BEATEN)
     {
         u8 newState = missionState & ~(3 << shift);
-        
+
         work->missionState[missionForSolEmerald[id] / 4] = newState;
         work->missionState[missionForSolEmerald[id] / 4] |= MISSION_STATE_BEATEN << shift;
     }
@@ -451,7 +258,7 @@ u32 SaveGame__GetMaterialCount(SaveBlockStage *work, u32 type)
     return 0;
 }
 
-u32 SaveGame__GetTimeAttackRecord(SaveBlockTimeAttack *work, u32 character, u32 stage, u32 rank)
+u32 SaveGame__GetTimeAttackRecord(SaveBlockTimeAttack *work, u8 character, u32 stage, u32 rank)
 {
     switch (character)
     {
@@ -836,58 +643,21 @@ void SaveGame__SetNameToFriendKey(SavePlayerName *name, u64 friendKey)
     name->text[5] = 0xFFFF & (friendKey >> 48);
 }
 
-NONMATCH_FUNC u64 SaveGame__GetFriendKeyFromName_Internal(SavePlayerName *name)
+u64 SaveGame__GetFriendKeyFromName_Internal(SavePlayerName *name)
 {
-    // https://decomp.me/scratch/jaq8d -> 81.39%
-#ifdef NON_MATCHING
     if (name->text[0] != 0 || name->text[1] != 0xFFFF)
         return 0; // this is a string, not a numeric key
 
-    u64 friendKey = ((u64)name->text[2] << 0) | ((u64)name->text[3] << 16) | ((u64)name->text[4] << 32) | ((u64)name->text[5] << 48);
+    u64 friendKey = 0;
+    friendKey |= ((u64)name->text[2] << 0);
+    friendKey |= ((u64)name->text[3] << 16);
+    friendKey |= ((u64)name->text[4] << 32);
+    friendKey |= ((u64)name->text[5] << 48);
 
     if (!DWC_CheckFriendKey(&saveGame.onlineProfile.userData, friendKey))
         friendKey = 0; // this key is not valid
 
     return friendKey;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldrh r1, [r0, #0]
-	cmp r1, #0
-	ldreqh r2, [r0, #2]
-	ldreq r1, =0x0000FFFF
-	cmpeq r2, r1
-	movne r0, #0
-	movne r1, r0
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldrh r4, [r0, #4]
-	ldrh r2, [r0, #6]
-	mov r1, #0
-	mov r3, r1, lsl #0x10
-	mov ip, r1
-	orr r1, r4, #0
-	orr r1, r1, r2, lsl #16
-	orr r4, r1, #0
-	ldrh r1, [r0, #8]
-	ldrh r0, [r0, #0xa]
-	orr ip, ip, #0
-	orr r3, r3, r2, lsr #16
-	orr r2, ip, r3
-	orr r1, r2, r1
-	orr r5, r1, r0, lsl #16
-	ldr r0, =saveGame+0x00000E50
-	mov r1, r4
-	mov r2, r5
-	bl DWC_CheckFriendKey
-	cmp r0, #0
-	moveq r4, #0
-	moveq r5, r4
-	mov r0, r4
-	mov r1, r5
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
 }
 
 void SaveGame__SetFriendName(u16 id, SavePlayerName *name)
@@ -973,7 +743,7 @@ u32 SaveGame__GetOnlineScore_(void)
 
 NONMATCH_FUNC void SaveGame__UpdateTimeForRecord(SaveBlockTimeAttack *work, u32 stage)
 {
-    // https://decomp.me/scratch/A5g1Z -> 97.17%
+    // https://decomp.me/scratch/DbrkJ -> 98.30%
 #ifdef NON_MATCHING
     RTCDate date;
     RTCTime time;
@@ -983,8 +753,8 @@ NONMATCH_FUNC void SaveGame__UpdateTimeForRecord(SaveBlockTimeAttack *work, u32 
     work->recordDates[stage].date.month = date.month;
     work->recordDates[stage].date.day   = date.day;
 
-    work->recordDates[stage].time.hour   = time.hour;
-    work->recordDates[stage].time.minute = time.minute;
+    work->recordDates[(s32)stage].time.hour   = time.hour;
+    work->recordDates[(s32)stage].time.minute = time.minute;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, lr}
@@ -1067,7 +837,7 @@ u16 SaveGame__Block4__GetLastUsedCharacter(s32 stage)
 
     u32 recordSonic = SaveGame__GetTimeAttackRecord(timeAttack, CHARACTER_SONIC, stage, 1);
     u32 recordBlaze = SaveGame__GetTimeAttackRecord(timeAttack, CHARACTER_BLAZE, stage, 1);
-    
+
     if (recordSonic != 0 && recordBlaze != 0)
         return (timeAttack->recordBitfield[stage / 16] >> (stage % 16)) & 1;
 
@@ -1137,314 +907,123 @@ void SaveGame__SaveLeaderboardRankOrder(s32 stage, u32 order)
     saveGame.leaderboards.entries[stage].rankOrder = order;
 }
 
-NONMATCH_FUNC void SaveGame__SaveLeaderboardRank_Top(s32 stage, u16 rank, char16 *name, size_t nameLength, u16 time, s32 flag)
+void SaveGame__SaveLeaderboardRank_Top(s32 stage, u16 rank, char16 *name, u16 nameLength, u16 time, s32 flag)
 {
-    // when below func is matched, this one should match using the same changes!
-#ifdef NON_MATCHING
     struct SaveOnlineLeaderboardsStageEntry *leaderboard = &saveGame.leaderboards.entries[stage];
 
     if (time == 0)
     {
-        MI_CpuClear8(&leaderboard->top3[rank].name, sizeof(leaderboard->top3[rank].name));
+        MI_CpuClear8(&leaderboard->top3[rank & 0xFFFFFFFF].name, sizeof(leaderboard->top3[rank].name));
         leaderboard->top3[rank].time = 0;
-        return;
-    }
-
-    if (name == NULL)
-    {
-        MI_CpuClear8(&leaderboard->top3[rank].name, sizeof(leaderboard->top3[rank].name));
     }
     else
     {
-        if (nameLength == 0)
+        if (name == NULL)
         {
-            leaderboard->top3[rank].name.text[0] = '0';
-            leaderboard->top3[rank].name.text[1] = 0;
-            MI_CpuClear8(&leaderboard->top3[rank].name.text[2], (SAVEGAME_MAX_NAME_LEN - 2) * sizeof(char16));
+            MI_CpuClear8(&leaderboard->top3[rank].name, sizeof(leaderboard->top3[rank].name));
         }
         else
         {
-            SaveGame__SetPlayerName(&leaderboard->top3[rank].name, name, nameLength);
+            if (nameLength == 0)
+            {
+                leaderboard->top3[rank].name.text[0] = '0';
+                leaderboard->top3[rank].name.text[1] = 0;
+                MI_CpuClear8(&leaderboard->top3[rank].name.text[2], (SAVEGAME_MAX_NAME_LEN - 2) * sizeof(char16));
+            }
+            else
+            {
+                SaveGame__SetPlayerName(&leaderboard->top3[rank & 0xFFFFFFFF].name, name, nameLength);
+            }
+        }
+
+        leaderboard->top3[rank].time = time;
+
+        if (flag != 0)
+        {
+            flag = 1;
+        }
+
+        switch (rank)
+        {
+            case 0:
+                leaderboard->topRankFlag1 = flag;
+                break;
+
+            case 1:
+                leaderboard->topRankFlag2 = flag;
+                break;
+
+            case 2:
+                leaderboard->topRankFlag3 = flag;
+                break;
         }
     }
-
-    leaderboard->top3[rank].time = time;
-
-    if (time != 0)
-        time = 1;
-
-    switch (rank)
-    {
-        case 0:
-            leaderboard->topRankFlag1 = time;
-            break;
-
-        case 1:
-            leaderboard->topRankFlag2 = time;
-            break;
-
-        case 2:
-            leaderboard->topRankFlag3 = time;
-            break;
-    }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r6, =saveGame+0x00001218
-	mov r4, #0x98
-	mla r4, r0, r4, r6
-	ldrh r5, [sp, #0x10]
-	mov r6, r1
-	mov r0, #0x12
-	cmp r5, #0
-	ldr r5, [sp, #0x14]
-	bne _0205FAF4
-	add r1, r4, #4
-	mla r0, r6, r0, r1
-	mov r1, #0
-	mov r2, #0x10
-	bl MI_CpuFill8
-	mov r0, #0x12
-	mla r0, r6, r0, r4
-	mov r1, #0
-	strh r1, [r0, #0x14]
-	ldmia sp!, {r4, r5, r6, pc}
-_0205FAF4:
-	cmp r2, #0
-	bne _0205FB14
-	add r1, r4, #4
-	mla r0, r6, r0, r1
-	mov r1, #0
-	mov r2, #0x10
-	bl MI_CpuFill8
-	b _0205FB5C
-_0205FB14:
-	cmp r3, #0
-	bne _0205FB48
-	mul r2, r6, r0
-	add r0, r4, #8
-	add r3, r4, r2
-	mov r1, #0x30
-	strh r1, [r3, #4]
-	mov r1, #0
-	add r0, r0, r2
-	mov r2, #0xc
-	strh r1, [r3, #6]
-	bl MI_CpuFill8
-	b _0205FB5C
-_0205FB48:
-	add r1, r4, #4
-	mla r0, r6, r0, r1
-	mov r1, r2
-	mov r2, r3
-	bl SaveGame__SetPlayerName
-_0205FB5C:
-	mov r0, #0x12
-	mla r0, r6, r0, r4
-	ldrh r1, [sp, #0x10]
-	cmp r5, #0
-	movne r5, #1
-	strh r1, [r0, #0x14]
-	cmp r6, #0
-	beq _0205FB90
-	cmp r6, #1
-	beq _0205FBA8
-	cmp r6, #2
-	beq _0205FBC0
-	ldmia sp!, {r4, r5, r6, pc}
-_0205FB90:
-	ldr r1, [r4, #0]
-	mov r0, r5, lsl #0x1f
-	bic r1, r1, #0x1000000
-	orr r0, r1, r0, lsr #7
-	str r0, [r4]
-	ldmia sp!, {r4, r5, r6, pc}
-_0205FBA8:
-	ldr r1, [r4, #0]
-	mov r0, r5, lsl #0x1f
-	bic r1, r1, #0x2000000
-	orr r0, r1, r0, lsr #6
-	str r0, [r4]
-	ldmia sp!, {r4, r5, r6, pc}
-_0205FBC0:
-	ldr r1, [r4, #0]
-	mov r0, r5, lsl #0x1f
-	bic r1, r1, #0x4000000
-	orr r0, r1, r0, lsr #5
-	str r0, [r4]
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC void SaveGame__SaveLeaderboardRank_Near(s32 stage, u16 rank, char16 *name, size_t nameLength, u16 time, s32 flag)
+void SaveGame__SaveLeaderboardRank_Near(s32 stage, u16 rank, char16 *name, u16 nameLength, u16 time, s32 flag)
 {
-    // https://decomp.me/scratch/FU8lZ -> 68.72%
-#ifdef NON_MATCHING
     struct SaveOnlineLeaderboardsStageEntry *leaderboard = &saveGame.leaderboards.entries[stage];
 
     if (time == 0)
     {
-        MI_CpuClear8(&leaderboard->yourRanking[rank].name, sizeof(leaderboard->yourRanking[rank].name));
+        MI_CpuClear8(&leaderboard->yourRanking[rank & 0xFFFFFFFF].name, sizeof(leaderboard->yourRanking[rank].name));
         leaderboard->yourRanking[rank].time = 0;
-        return;
-    }
-
-    if (name == NULL)
-    {
-        MI_CpuClear8(&leaderboard->yourRanking[rank].name, sizeof(leaderboard->yourRanking[rank].name));
     }
     else
     {
-        if (nameLength == 0)
+        if (name == NULL)
         {
-            leaderboard->yourRanking[rank].name.text[0] = '0';
-            leaderboard->yourRanking[rank].name.text[1] = 0;
-            MI_CpuClear8(&leaderboard->yourRanking[rank].name.text[2], (SAVEGAME_MAX_NAME_LEN - 2) * sizeof(char16));
+            MI_CpuClear8(&leaderboard->yourRanking[rank].name, sizeof(leaderboard->yourRanking[rank].name));
         }
         else
         {
-            SaveGame__SetPlayerName(&leaderboard->yourRanking[rank].name, name, nameLength);
+            if (nameLength == 0)
+            {
+                leaderboard->yourRanking[rank].name.text[0] = '0';
+                leaderboard->yourRanking[rank].name.text[1] = 0;
+                MI_CpuClear8(&leaderboard->yourRanking[rank].name.text[2], (SAVEGAME_MAX_NAME_LEN - 2) * sizeof(char16));
+            }
+            else
+            {
+                SaveGame__SetPlayerName(&leaderboard->yourRanking[rank & 0xFFFFFFFF].name, name, nameLength);
+            }
+        }
+
+        leaderboard->yourRanking[rank].time = time;
+
+        if (flag != 0)
+        {
+            flag = 1;
+        }
+
+        switch (rank)
+        {
+            case 0:
+                leaderboard->nearRankFlag1 = flag;
+                break;
+
+            case 1:
+                leaderboard->nearRankFlag2 = flag;
+                break;
+
+            case 2:
+                leaderboard->nearRankFlag3 = flag;
+                break;
+
+            case 3:
+                leaderboard->nearRankFlag4 = flag;
+                break;
+
+            case 4:
+                leaderboard->nearRankFlag5 = flag;
+                break;
         }
     }
-
-    leaderboard->yourRanking[rank].time = time;
-
-    if (time != 0)
-        time = 1;
-
-    switch (rank)
-    {
-        case 0:
-            leaderboard->nearRankFlag1 = time;
-            break;
-
-        case 1:
-            leaderboard->nearRankFlag2 = time;
-            break;
-
-        case 2:
-            leaderboard->nearRankFlag3 = time;
-            break;
-
-        case 3:
-            leaderboard->nearRankFlag4 = time;
-            break;
-
-        case 4:
-            leaderboard->nearRankFlag5 = time;
-            break;
-    }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r6, =saveGame+0x00001218
-	mov r4, #0x98
-	mla r4, r0, r4, r6
-	ldrh r5, [sp, #0x10]
-	mov r6, r1
-	mov r0, #0x12
-	cmp r5, #0
-	ldr r5, [sp, #0x14]
-	bne _0205FC2C
-	add r1, r4, #0x3a
-	mla r0, r6, r0, r1
-	mov r1, #0
-	mov r2, #0x10
-	bl MI_CpuFill8
-	mov r0, #0x12
-	mla r0, r6, r0, r4
-	mov r1, #0
-	strh r1, [r0, #0x4a]
-	ldmia sp!, {r4, r5, r6, pc}
-_0205FC2C:
-	cmp r2, #0
-	bne _0205FC4C
-	add r1, r4, #0x3a
-	mla r0, r6, r0, r1
-	mov r1, #0
-	mov r2, #0x10
-	bl MI_CpuFill8
-	b _0205FC94
-_0205FC4C:
-	cmp r3, #0
-	bne _0205FC80
-	mul r2, r6, r0
-	add r0, r4, #0x3e
-	add r3, r4, r2
-	mov r1, #0x30
-	strh r1, [r3, #0x3a]
-	mov r1, #0
-	add r0, r0, r2
-	mov r2, #0xc
-	strh r1, [r3, #0x3c]
-	bl MI_CpuFill8
-	b _0205FC94
-_0205FC80:
-	add r1, r4, #0x3a
-	mla r0, r6, r0, r1
-	mov r1, r2
-	mov r2, r3
-	bl SaveGame__SetPlayerName
-_0205FC94:
-	mov r0, #0x12
-	mla r0, r6, r0, r4
-	ldrh r1, [sp, #0x10]
-	cmp r5, #0
-	movne r5, #1
-	strh r1, [r0, #0x4a]
-	cmp r6, #4
-	addls pc, pc, r6, lsl #2
-	ldmia sp!, {r4, r5, r6, pc}
-_0205FCB8: // jump table
-	b _0205FCCC // case 0
-	b _0205FCE4 // case 1
-	b _0205FCFC // case 2
-	b _0205FD14 // case 3
-	b _0205FD2C // case 4
-_0205FCCC:
-	ldr r1, [r4, #0]
-	mov r0, r5, lsl #0x1f
-	bic r1, r1, #0x8000000
-	orr r0, r1, r0, lsr #4
-	str r0, [r4]
-	ldmia sp!, {r4, r5, r6, pc}
-_0205FCE4:
-	ldr r1, [r4, #0]
-	mov r0, r5, lsl #0x1f
-	bic r1, r1, #0x10000000
-	orr r0, r1, r0, lsr #3
-	str r0, [r4]
-	ldmia sp!, {r4, r5, r6, pc}
-_0205FCFC:
-	ldr r1, [r4, #0]
-	mov r0, r5, lsl #0x1f
-	bic r1, r1, #0x20000000
-	orr r0, r1, r0, lsr #2
-	str r0, [r4]
-	ldmia sp!, {r4, r5, r6, pc}
-_0205FD14:
-	ldr r1, [r4, #0]
-	mov r0, r5, lsl #0x1f
-	bic r1, r1, #0x40000000
-	orr r0, r1, r0, lsr #1
-	str r0, [r4]
-	ldmia sp!, {r4, r5, r6, pc}
-_0205FD2C:
-	ldr r0, [r4, #0]
-	bic r0, r0, #0x80000000
-	orr r0, r0, r5, lsl #31
-	str r0, [r4]
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC void SaveGame__SetLeaderboardLastUpdatedTime(u32 stage)
 {
-    // https://decomp.me/scratch/OeS12 -> 93.70%
+    // https://decomp.me/scratch/o214n -> 99.35%
 #ifdef NON_MATCHING
     RTCDate date;
     RTCTime time;
@@ -1454,8 +1033,8 @@ NONMATCH_FUNC void SaveGame__SetLeaderboardLastUpdatedTime(u32 stage)
     saveGame.leaderboards.entries[stage].lastUpdatedDate.month = date.month;
     saveGame.leaderboards.entries[stage].lastUpdatedDate.day   = date.day;
 
-    saveGame.leaderboards.entries[stage].lastUpdatedTime.hour   = time.hour;
-    saveGame.leaderboards.entries[stage].lastUpdatedTime.minute = time.minute;
+    saveGame.leaderboards.entries[(s32)stage].lastUpdatedTime.hour   = time.hour;
+    saveGame.leaderboards.entries[(s32)stage].lastUpdatedTime.minute = time.minute;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, lr}
@@ -1537,7 +1116,7 @@ u16 SaveGame__GetLeaderboardsNameLen_Top(s32 stage, u16 rank)
     s32 i;
     for (i = 0; i < SAVEGAME_MAX_NAME_LEN; i++)
     {
-        if (entry->name.text[i] == 0)
+        if (entry->name.text[i] == 0x00)
         {
             break;
         }
@@ -1580,7 +1159,7 @@ u16 SaveGame__GetLeaderboardsNameLen_Near(s32 stage, u16 rank)
     s32 i;
     for (i = 0; i < SAVEGAME_MAX_NAME_LEN; i++)
     {
-        if (entry->name.text[i] == 0)
+        if (entry->name.text[i] == 0x00)
         {
             break;
         }

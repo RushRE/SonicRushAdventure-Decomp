@@ -48,11 +48,11 @@ BOOL InitCardBackupSize(void)
     return CheckCardBackupType(CARDBACKUP_512KBITS_EEPROM);
 }
 
-BOOL ReadFromCardBackup(void *src, void *dst, size_t size)
+BOOL ReadFromCardBackup(size_t src, void *dst, size_t size)
 {
     u16 lockID = cardLockID;
 
-    if (CARD_GetBackupTotalSize() <= (size_t)src + size)
+    if (CARD_GetBackupTotalSize() <= src + size)
         return FALSE;
 
     if (dst == NULL)
@@ -62,16 +62,16 @@ BOOL ReadFromCardBackup(void *src, void *dst, size_t size)
         return TRUE;
 
     CARD_LockBackup(lockID);
-    BOOL success = CARDi_ReadBackup((size_t)src, (u8 *)dst, size, NULL, NULL, FALSE);
+    BOOL success = CARDi_ReadBackup(src, dst, size, NULL, NULL, FALSE);
     CARD_UnlockBackup(lockID);
     return success;
 }
 
-BOOL WriteToCardBackup(void *dst, void *src, size_t size)
+BOOL WriteToCardBackup(size_t dst, void *src, size_t size)
 {
     u16 lockID = cardLockID;
 
-    if (CARD_GetBackupTotalSize() <= (size_t)dst + size)
+    if (CARD_GetBackupTotalSize() <= dst + size)
         return FALSE;
 
     if (src == NULL)
@@ -81,7 +81,7 @@ BOOL WriteToCardBackup(void *dst, void *src, size_t size)
         return TRUE;
 
     CARD_LockBackup(lockID);
-    BOOL success = CARDi_ProgramAndVerifyBackup((size_t)dst, (u8 *)src, size, NULL, NULL, FALSE);
+    BOOL success = CARDi_ProgramAndVerifyBackup(dst, src, size, NULL, NULL, FALSE);
     CARD_UnlockBackup(lockID);
     return success;
 }

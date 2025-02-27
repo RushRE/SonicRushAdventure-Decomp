@@ -305,8 +305,8 @@ MultibootManager__Func_2060C9C: // 0x02060C9C
 _02060CC4: .word MultibootManager__sVars
 	arm_func_end MultibootManager__Func_2060C9C
 
-	arm_func_start MultibootManager__Func_2060CC8
-MultibootManager__Func_2060CC8: // 0x02060CC8
+	arm_func_start MultibootManager__GetField8
+MultibootManager__GetField8: // 0x02060CC8
 	stmdb sp!, {r3, lr}
 	ldr r0, _02060CEC // =MultibootManager__sVars
 	ldr r0, [r0, #4]
@@ -318,7 +318,7 @@ MultibootManager__Func_2060CC8: // 0x02060CC8
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02060CEC: .word MultibootManager__sVars
-	arm_func_end MultibootManager__Func_2060CC8
+	arm_func_end MultibootManager__GetField8
 
 	arm_func_start MultibootManager__Func_2060CF0
 MultibootManager__Func_2060CF0: // 0x02060CF0
@@ -1287,25 +1287,25 @@ _020618E8: .word MultibootManager__sVars
 _020618EC: .word MultibootManager__Main_2062CCC
 	arm_func_end MultibootManager__Func_20618A8
 
-	arm_func_start MultibootManager__Func_20618F0
-MultibootManager__Func_20618F0: // 0x020618F0
+	arm_func_start MultibootManager__CheckHasProfile
+MultibootManager__CheckHasProfile: // 0x020618F0
 	ldr ip, _020618FC // =DWC_CheckHasProfile
 	ldr r0, _02061900 // =saveGame+0x00000E50
 	bx ip
 	.align 2, 0
 _020618FC: .word DWC_CheckHasProfile
 _02061900: .word saveGame+0x00000E50
-	arm_func_end MultibootManager__Func_20618F0
+	arm_func_end MultibootManager__CheckHasProfile
 
-	arm_func_start MultibootManager__Func_2061904
-MultibootManager__Func_2061904: // 0x02061904
+	arm_func_start MultibootManager__CheckValidConsole
+MultibootManager__CheckValidConsole: // 0x02061904
 	ldr ip, _02061910 // =DWC_CheckValidConsole
 	ldr r0, _02061914 // =saveGame+0x00000E50
 	bx ip
 	.align 2, 0
 _02061910: .word DWC_CheckValidConsole
 _02061914: .word saveGame+0x00000E50
-	arm_func_end MultibootManager__Func_2061904
+	arm_func_end MultibootManager__CheckValidConsole
 
 	arm_func_start MultibootManager__Func_2061918
 MultibootManager__Func_2061918: // 0x02061918
@@ -1554,11 +1554,11 @@ MultibootManager__Func_2061C20: // 0x02061C20
 	cmp r0, #6
 	moveq r0, #1
 	ldmeqia sp!, {r3, pc}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x13
 	moveq r0, #1
 	ldmeqia sp!, {r3, pc}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0x14
 	moveq r0, #1
 	movne r0, #0

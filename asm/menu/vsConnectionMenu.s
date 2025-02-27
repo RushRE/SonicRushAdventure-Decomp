@@ -890,7 +890,7 @@ _0216B07A:
 	str r1, [r0, #0xc]
 	b _0216B0DA
 _0216B080:
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bgt _0216B08C
 	beq _0216B0C0
@@ -957,7 +957,7 @@ VSConnectionMenu__Main_216B0F0: // 0x0216B0F0
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bgt _0216B104
 	beq _0216B124
@@ -1006,7 +1006,7 @@ VSConnectionMenu__Main_216B144: // 0x0216B144
 	bl GetCurrentTaskWork_
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #2
 	bgt _0216B16C
 	cmp r0, #0
@@ -1090,7 +1090,7 @@ VSConnectionMenu__Main_216B1FC: // 0x0216B1FC
 	ldrh r4, [r0, #0x10]
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #2
 	bgt _0216B224
 	cmp r0, #0
@@ -1228,7 +1228,7 @@ VSConnectionMenu__Main_216B304: // 0x0216B304
 	strh r0, [r4, #8]
 	mov r0, r4
 	bl AnimatorSprite__DrawFrame
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0xc
 	bgt _0216B376
 	bge _0216B3BE
@@ -2403,7 +2403,7 @@ VSConnectionMenu__Main_216BCF4: // 0x0216BCF4
 	strh r0, [r4, #8]
 	mov r0, r4
 	bl AnimatorSprite__DrawFrame
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0xc
 	bgt _0216BD5E
 	bge _0216BDAE
@@ -2708,7 +2708,7 @@ VSConnectionMenu__Main_216BFD0: // 0x0216BFD0
 	bl GetCurrentTaskWork_
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #7
 	bgt _0216BFFA
 	cmp r0, #6
@@ -2794,7 +2794,7 @@ VSConnectionMenu__Main_216C08C: // 0x0216C08C
 	ldrh r4, [r0, #0x10]
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #7
 	bgt _0216C0B6
 	cmp r0, #6
@@ -2924,7 +2924,7 @@ VSConnectionMenu__Main_216C180: // 0x0216C180
 	strh r0, [r4, #8]
 	mov r0, r4
 	bl AnimatorSprite__DrawFrame
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0xa
 	bgt _0216C1FC
 	cmp r0, #0
@@ -3045,7 +3045,7 @@ VSConnectionMenu__Main_216C288: // 0x0216C288
 	strh r0, [r4, #8]
 	mov r0, r4
 	bl AnimatorSprite__DrawFrame
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0xa
 	bgt _0216C302
 	cmp r0, #0
@@ -3139,7 +3139,7 @@ _0216C394: .word VSConnectionMenu__Main_216C398
 	thumb_func_start VSConnectionMenu__Main_216C398
 VSConnectionMenu__Main_216C398: // 0x0216C398
 	push {r3, lr}
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bgt _0216C3A6
 	beq _0216C3C2
@@ -3177,7 +3177,7 @@ VSConnectionMenu__Main_216C3D4: // 0x0216C3D4
 	bl GetCurrentTaskWork_
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bgt _0216C3EE
 	beq _0216C410
@@ -3246,7 +3246,7 @@ VSConnectionMenu__Main_216C464: // 0x0216C464
 	bl GetCurrentTaskWork_
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
-	bl MultibootManager__Func_2060CC8
+	bl MultibootManager__GetField8
 	cmp r0, #0
 	bgt _0216C47E
 	beq _0216C492
