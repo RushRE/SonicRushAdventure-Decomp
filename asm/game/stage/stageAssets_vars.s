@@ -2669,10 +2669,12 @@ aModBoss3Stage0_0: // 0x02118A20
 	.asciz "/mod/boss3_stage_01_lz7.nsbmd"
 	.align 4
 	
+.public aModBoss3Stage0_1
 aModBoss3Stage0_1: // 0x02118A40
 	.asciz "/mod/boss3_stage_02_lz7.nsbmd"
 	.align 4
 	
+.public aModBoss3Stage0_2
 aModBoss3Stage0_2: // 0x02118A60
 	.asciz "/mod/boss3_stage_03_lz7.nsbmd"
 	.align 4

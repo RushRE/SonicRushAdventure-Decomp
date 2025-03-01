@@ -1059,36 +1059,15 @@ void *AllocBossAsset(void *compressedFile)
     return resource;
 }
 
-NONMATCH_FUNC void LoadBossAssets(AsyncFileWork *file, const char *path, const GMS_GAMEDAT_LOAD_DATA *loadFiles, OBS_DATA_WORK *files, u16 count)
+void LoadBossAssets(AsyncFileWork *file, const char *path, const GMS_GAMEDAT_LOAD_DATA *loadFiles, OBS_DATA_WORK *files, u16 count)
 {
-#ifdef NON_MATCHING
-    s32 id                   = GetLoadedFileID(&loadFiles[STAGE_FILE_COUNT], count, path);
-    files[id].fileData       = AllocBossAsset(file->userData);
-    files[id].referenceCount = 1;
-    file->userData           = NULL;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r4, r1
-	ldrh r1, [sp, #0x18]
-	mov r7, r0
-	add r0, r2, #0x60
-	mov r2, r4
-	mov r6, r3
-	bl GetLoadedFileID
-	mov r4, r0
-	ldr r0, [r7, #0x60]
-	add r5, r6, r4, lsl #3
-	bl AllocBossAsset
-	str r0, [r6, r4, lsl #3]
-	mov r0, #1
-	strh r0, [r5, #4]
-	mov r0, #0
-	str r0, [r7, #0x60]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    s32 id = GetLoadedFileID(&loadFiles[STAGE_FILE_COUNT], count, path);
 
-// clang-format on
-#endif
+    OBS_DATA_WORK *dataWork  = &files[id];
+    dataWork->fileData       = AllocBossAsset(file->userData);
+    dataWork->referenceCount = 1;
+
+    file->userData = NULL;
 }
 
 void ReleaseBossAssets(OBS_DATA_WORK *files, u32 count)
