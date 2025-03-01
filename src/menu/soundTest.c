@@ -699,9 +699,9 @@ NONMATCH_FUNC void InitSoundTestDrumBG(SoundTest *work)
     LoadUncompressedPalette(GetBackgroundPalette(work->assets.bgDrumValue)->data, 16, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_DB_BG_PLTT)[16]));
 
     u16 *mappings = HeapAllocHead(HEAP_USER, BG_DISPLAY_FULL_WIDTH * BG_DISPLAY_SINGLE_HEIGHT * sizeof(GXScrFmtText));
-    MI_CpuFill16(mappings, GX_SCRFMT_TEXT(1, 0, 0, 0x000), BG_DISPLAY_FULL_WIDTH * BG_DISPLAY_SINGLE_HEIGHT * sizeof(GXScrFmtText));
+    MI_CpuFill16(mappings, VRAM_SCRFMT_TEXT(0x000, 0, 0, PALETTE_ROW_1), BG_DISPLAY_FULL_WIDTH * BG_DISPLAY_SINGLE_HEIGHT * sizeof(GXScrFmtText));
 
-    u16 name = 1;
+    u16 tile = 1;
     s32 v6   = 13;
     for (s32 i = 0; i < 3; i++)
     {
@@ -712,8 +712,8 @@ NONMATCH_FUNC void InitSoundTestDrumBG(SoundTest *work)
                 u32 v10 = (x + 9) << 5;
                 u32 v9  = (y + v6);
 
-                mappings[v10 + (v9 >> 1)] = GX_SCRFMT_TEXT(1, 0, 0, name);
-                name++;
+                mappings[v10 + (v9 >> 1)] = GX_SCRFVRAM_SCRFMT_TEXTMT_TEXT(tile, 0, 0, PALETTE_ROW_1);
+                tile++;
             }
         }
 

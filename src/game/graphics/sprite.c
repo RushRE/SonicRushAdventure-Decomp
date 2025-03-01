@@ -156,6 +156,47 @@ typedef struct BACFrameGroupBlock_EndAnimation2_
     u16 _padding;
 } BACFrameGroupBlock_EndAnimation2;
 
+typedef struct
+{
+    union
+    {
+        u16 attr0;
+        struct
+        {
+            u16 y : 8;
+            u16 rsMode : 2;
+            u16 objMode : 2;
+            u16 mosaic : 1;
+            u16 colorMode : 1;
+            u16 shape : 2;
+        };
+    };
+
+    union
+    {
+        u16 attr1;
+        struct
+        {
+            u16 x : 9;
+            u16 rsParam : 5;
+            u16 size : 2;
+        };
+    };
+
+    union
+    {
+        u16 attr2;
+        struct
+        {
+            u16 charNo : 10;
+            u16 priority : 2;
+            u16 cParam : 4;
+        };
+    };
+
+    u16 _3;
+} GXOamAttr2;
+
 // --------------------
 // TYPES
 // --------------------
@@ -482,30 +523,29 @@ void AnimatorSprite__ProcessFrame(AnimatorSprite *animator)
 
 NONMATCH_FUNC void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
 {
-    // https://decomp.me/scratch/mv7tD -> 87.79%
+    // https://decomp.me/scratch/u35xb -> 87.79%
 #ifdef NON_MATCHING
     BOOL useEngineB = animator->useEngineB;
     u16 mosaicFlag  = 0;
     u16 flipFlags   = 0;
 
     struct BACFrame *frame = GetFrameAssemblyFromAnimator(animator);
-    AnimatorFlags aniFlags = animator->flags;
     animator->lastSprite   = NULL;
     animator->firstSprite  = NULL;
 
-    if ((flags & ANIMATOR_FLAG_DISABLE_DRAW) == 0 && frame->spriteCount > 0)
+    if ((animator->flags & ANIMATOR_FLAG_DISABLE_DRAW) == 0 && frame->spriteCount > 0)
     {
-        if ((flags & ANIMATOR_FLAG_FLIP_X) != 0)
+        if ((animator->flags & ANIMATOR_FLAG_FLIP_X) != 0)
             flipFlags |= 0x1000;
 
-        if ((flags & ANIMATOR_FLAG_FLIP_Y) != 0)
+        if ((animator->flags & ANIMATOR_FLAG_FLIP_Y) != 0)
             flipFlags |= 0x2000;
 
-        if ((flags & ANIMATOR_FLAG_ENABLE_MOSAIC) != 0)
+        if ((animator->flags & ANIMATOR_FLAG_ENABLE_MOSAIC) != 0)
             mosaicFlag |= (1 << GX_OAM_ATTR01_MOSAIC_SHIFT);
 
         u16 attr0Flags = (mosaicFlag | (animator->spriteType << GX_OAM_ATTR01_MODE_SHIFT));
-        if ((flags & ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK) != 0)
+        if ((animator->flags & ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK) != 0)
         {
             s32 x = animator->pos.x;
             if ((flipFlags & 0x1000) != 0)
@@ -541,7 +581,7 @@ NONMATCH_FUNC void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
         }
 
         GXOamAttr *spritePtr = frame->spriteList;
-        u16 cParam           = animator->palette << GX_OAM_ATTR2_CPARAM_SHIFT;
+        u16 cParam           = animator->cParam.palette << GX_OAM_ATTR2_CPARAM_SHIFT;
 
         u32 shapeShift;
         u32 vramLocation;
@@ -549,13 +589,13 @@ NONMATCH_FUNC void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
 
         if ((frame->spriteList[0].attr0 & GX_OAM_ATTR01_MODE_MASK) == (GX_OAM_MODE_BITMAPOBJ << GX_OAM_ATTR01_MODE_SHIFT))
         {
-            shapeShift   = vramManager.field_E[useEngineB];
-            vramLocation = GX_OAM_ATTR2_NAME_MASK & ((animator->vramPixels - (size_t)VRAMSystem__VRAM_OBJ[animator->useEngineB]) >> (7 + shapeShift));
+            shapeShift   = objBmpUse256K[useEngineB];
+            vramLocation = GX_OAM_ATTR2_NAME_MASK & ((size_t)(animator->vramPixels - VRAMSystem__VRAM_OBJ[animator->useEngineB]) >> (7 + shapeShift));
         }
         else
         {
-            shapeShift   = vramManager.field_2[useEngineB];
-            vramLocation = GX_OAM_ATTR2_NAME_MASK & ((animator->vramPixels - (size_t)VRAMSystem__VRAM_OBJ[animator->useEngineB]) >> (5 + shapeShift));
+            shapeShift   = objBankShift[useEngineB];
+            vramLocation = GX_OAM_ATTR2_NAME_MASK & ((size_t)(animator->vramPixels - VRAMSystem__VRAM_OBJ[animator->useEngineB]) >> (5 + shapeShift));
 
             if (GetAnimHeaderBlockFromAnimator(animator)->anims[animator->animID].format != 0)
             {
@@ -564,27 +604,28 @@ NONMATCH_FUNC void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
         }
 
         u32 shift2 = (u16)((1 << shapeShift) - 1);
-        for (u16 s = 0; s < frame->spriteCount; s++, spritePtr++)
+
+        u16 s = 0;
+        for (s = 0; s < frame->spriteCount; s++, spritePtr++)
         {
             GXOamAttr *oam;
-            u32 placeX;
-            u32 placeY;
+            u16 placeX;
+            u16 placeY;
 
-            u16 attr1                   = spritePtr->attr1;
-            u32 shape                   = ((s32)(attr1 & GX_OAM_ATTR01_SHAPE_MASK) >> GX_OAM_ATTR01_SHAPE_SHIFT) | ((s32)(spritePtr->attr0 & GX_OAM_ATTR01_SHAPE_MASK) >> 12);
+            u32 shape                   = ((spritePtr->attr0 & 0xC000) >> 12) | ((spritePtr->attr1 & 0xC000) >> 14);
             const Vec2U16 *shapeSizePtr = &spriteShapeSizes2D[shape];
 
             if ((flipFlags & 0x1000) != 0)
-                placeX = animator->pos.x + frame->hotspot.x - (u16)(attr1 & 0x1FF) - shapeSizePtr->x;
+                placeX = animator->pos.x + frame->hotspot.x - spritePtr->x - shapeSizePtr->x;
             else
-                placeX = animator->pos.x - frame->hotspot.x + (u16)(attr1 & 0x1FF);
+                placeX = animator->pos.x - frame->hotspot.x + spritePtr->x;
 
             if ((flipFlags & 0x2000) != 0)
-                placeY = animator->pos.y + frame->hotspot.y - (u16)(spritePtr->attr0 & 0xFF) - shapeSizePtr->y;
+                placeY = animator->pos.y + frame->hotspot.y - spritePtr->y - shapeSizePtr->y;
             else
-                placeY = animator->pos.y - frame->hotspot.y + (u16)(spritePtr->attr0 & 0xFF);
+                placeY = animator->pos.y - frame->hotspot.y + spritePtr->y;
 
-            if ((animator->flags & ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK) == 0 || SpriteDrawBoundsCheck(shapeSizePtr, placeX, placeY) == FALSE)
+            if ((animator->flags & ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK) != 0 && SpriteDrawBoundsCheck(shapeSizePtr, placeX, placeY) == FALSE)
             {
                 if ((frame->useGFXIndex & 1) == 0)
                 {
@@ -602,10 +643,10 @@ NONMATCH_FUNC void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
                 if (first == NULL)
                     animator->firstSprite = oam;
 
-                oam->attr0 = (spritePtr->attr0 & ~0x1FF) | (placeY & 0xFF);
-                oam->attr0 |= attr0Flags;
-                oam->attr1 = (spritePtr->attr1 & ~0x3FF) | (placeX & 0x1FF);
-                oam->attr1 ^= flipFlags;
+                ((GXOamAttr2 *)oam)->y = placeY;
+                ((GXOamAttr2 *)oam)->attr0 |= attr0Flags;
+                ((GXOamAttr2 *)oam)->x = placeX;
+                ((GXOamAttr2 *)oam)->attr1 ^= flipFlags;
 
                 if ((frame->useGFXIndex & 1) == 0)
                 {
@@ -3117,14 +3158,20 @@ void AnimatorSprite3D__ProcessAnimation(AnimatorSprite3D *animator, SpriteFrameC
     AnimatorSprite__ProcessAnimation(&animator->animatorSprite, callback, userData);
 }
 
+inline VRAMPaletteKey inline_fn(AnimatorSprite3D *arg0)
+{
+    return arg0->animatorSprite.vramPalette;
+}
+
 NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
 {
-    // https://decomp.me/scratch/crDAf -> 90.82%
+    // https://decomp.me/scratch/VmSWU -> 98.94%
 #ifdef NON_MATCHING
-    u16 s;
+    struct BACFrame *frame;
     GXOamAttr *sprite;
     u32 tileDataPos;
-    struct BACFrame *frame;
+    u32 pixelAddr;
+    u16 s;
 
     if ((animator->work.flags & ANIMATOR_FLAG_DISABLE_DRAW) != 0)
         return;
@@ -3134,7 +3181,7 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
 
     Animator3D__HandleMatrixOperations(&animator->work, animator->animatorSprite.flags);
 
-    u32 format   = GetAnimHeaderBlockFromAnimator(&animator->animatorSprite)->anims[animator->animatorSprite.animID].format;
+    int format   = GetAnimHeaderBlockFromAnimator(&animator->animatorSprite)->anims[animator->animatorSprite.animID].format;
     frame        = GetFrameAssemblyFromAnimator(&animator->animatorSprite);
     u16 oamFlags = 0;
 
@@ -3165,7 +3212,7 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
     NNS_G3dGeBufferOP_N(G3OP_POLYGON_ATTR, &animator->polygonAttr, G3OP_POLYGON_ATTR_NPARAMS);
     NNS_G3dGeColor(animator->color);
 
-    u32 paletteAddr = (VRAMKEY_TO_KEY(animator->animatorSprite.vramPalette) & 0x1FFFF) + (animator->animatorSprite.cParam.palette * (16 * sizeof(GXRgb)));
+    u32 paletteAddr = (VRAMKEY_TO_KEY(inline_fn(animator)) & 0x1FFFF) + (animator->animatorSprite.cParam.palette * (16 * sizeof(GXRgb)));
     NNS_G3dGeTexPlttBase(paletteAddr, Sprite__Tex3DFormatForBACFormat[format]);
 
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
@@ -3182,21 +3229,31 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
         u32 shape           = ((sprite->attr0 & 0xC000) >> 12) | ((sprite->attr1 & 0xC000) >> 14);
         const Vec2U16 *size = &spriteShapeSizes2D[shape];
 
-#define placeX ((u16)(sprite->attr1 << 6) << 16 >> 22)
-#define placeY ((u16)(sprite->attr0 << 7) << 16 >> 23)
-
         if (oamFlags & 0x1000)
-            matTranslate.m[3][0] = FX32_FROM_WHOLE(frame->hotspot.x - placeX - size->x);
+        {
+            s32 x       = frame->hotspot.x;
+            s32 spriteX = (u16)(sprite->attr1 << 6) << 16 >> 22;
+            x           = size->x;
+            x           = (frame->hotspot.x - spriteX) - x;
+
+            matTranslate.m[3][0] = FX32_FROM_WHOLE(x);
+        }
         else
-            matTranslate.m[3][0] = FX32_FROM_WHOLE(placeX - frame->hotspot.x);
+        {
+            s32 x = frame->hotspot.x;
+            x     = ((u16)(sprite->attr1 << 6) << 16 >> 22) - x;
+
+            matTranslate.m[3][0] = FX32_FROM_WHOLE(x);
+        }
 
         if (oamFlags & 0x2000)
-            matTranslate.m[3][1] = FX32_FROM_WHOLE(frame->hotspot.y - placeY - size->y);
+        {
+            matTranslate.m[3][1] = FX32_FROM_WHOLE(frame->hotspot.y - ((u16)(sprite->attr0 << 7) << 16 >> 23) - size->y);
+        }
         else
-            matTranslate.m[3][1] = FX32_FROM_WHOLE(placeY - frame->hotspot.y);
-
-#undef placeX
-#undef placeY
+        {
+            matTranslate.m[3][1] = FX32_FROM_WHOLE(-frame->hotspot.y + ((u16)(sprite->attr0 << 7) << 16 >> 23));
+        }
 
         if (oamFlags & 0x1000)
         {
@@ -3223,7 +3280,6 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
         matTranslate.m[0][0] = FX32_FROM_WHOLE(size->x);
         matTranslate.m[1][1] = FX32_FROM_WHOLE(size->y);
 
-        u32 pixelAddr;
         if ((frame->useGFXIndex & 1) == 0)
         {
             pixelAddr = tileDataPos;
@@ -3921,7 +3977,8 @@ NONMATCH_FUNC s32 BAC_FrameGroupFunc_Palette(BACFrameGroupBlock_Palette *block, 
     {
         PaletteFunc paletteFunc;
         aniPaletteOffset = animator->paletteOffset;
-        paletteData      = (u8 *)GetPaletteBlock(animator->fileData, block->paletteOffset);
+        struct BACFile *file = ((struct BACFile *)animator->fileData);
+        paletteData =  animator->fileData + file->paletteOffset + block->paletteOffset;
         if (((*aniFlags) & ANIMATOR_FLAG_UNCOMPRESSED_PALETTES) != 0)
             paletteFunc = LoadUncompressedPalette;
         else
@@ -3934,12 +3991,12 @@ NONMATCH_FUNC s32 BAC_FrameGroupFunc_Palette(BACFrameGroupBlock_Palette *block, 
         switch (animator->paletteMode)
         {
             case PALETTE_MODE_SPRITE:
-                destPalettePtr = &((u16 *)animator->vramPalette)[16 * block->colorCount + 16 * animator->palette];
+                destPalettePtr = &((u16 *)animator->vramPalette)[16 * block->colorCount + 16 * animator->cParam.palette];
                 break;
 
             case PALETTE_MODE_OBJ:
             case PALETTE_MODE_SUB_OBJ:
-                destPalettePtr = &((u16 *)animator->vramPalette)[256 * (block->colorCount + animator->palette)];
+                destPalettePtr = &((u16 *)animator->vramPalette)[256 * (block->colorCount + animator->cParam.palette)];
                 break;
 
             default:

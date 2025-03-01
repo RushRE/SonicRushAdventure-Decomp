@@ -301,16 +301,13 @@ OBS_RECT_WORK *ObjRect__RegistGetNext(u8 group, s16 groupIdx)
     return NULL;
 }
 
-NONMATCH_FUNC void ObjRect__CheckGroup(OBS_RECT_WORK **atkGroup, OBS_RECT_WORK **defGroup, s32 groupNumAtk, s32 groupNumDef, u8 Index)
+void ObjRect__CheckGroup(OBS_RECT_WORK **atkGroup, OBS_RECT_WORK **defGroup, s32 groupNumAtk, s32 groupNumDef, u8 index)
 {
-    // https://decomp.me/scratch/K848o -> 98.73%
-    // not sure how to get the registers to match...
-#ifdef NON_MATCHING
-    s32 atkLeft;
-    s32 atkTop;
+    int atkLeft;
+    int atkTop;
     s32 defLeft;
     s32 defTop;
-    s32 atkBack;
+    int atkBack;
     s32 defBack;
     u16 atkWidth;
     u16 atkHeight;
@@ -323,7 +320,7 @@ NONMATCH_FUNC void ObjRect__CheckGroup(OBS_RECT_WORK **atkGroup, OBS_RECT_WORK *
     {
         OBS_RECT_WORK *attacker = atkGroup[atkIdx];
         if (attacker != NULL && (attacker->flag & OBS_RECT_WORK_FLAG_800) == 0
-            && ((attacker->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0 && ((attacker->groupFlags >> 8) & (1 << Index)) != 0)
+            && ((attacker->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0 && ((attacker->groupFlags >> 8) & (1 << index)) != 0)
             && (attacker->parent == NULL || (attacker->parent->flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0))
         {
             ObjRect__LTBSet(attacker, &atkLeft, &atkTop, &atkBack);
@@ -378,177 +375,6 @@ NONMATCH_FUNC void ObjRect__CheckGroup(OBS_RECT_WORK **atkGroup, OBS_RECT_WORK *
             }
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x2c
-	mov r10, r0
-	mov r0, r2
-	str r2, [sp]
-	cmp r0, #0
-	mov r9, r1
-	mov r8, r3
-	mov r6, #0
-	addle sp, sp, #0x2c
-	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrb r0, [sp, #0x50]
-	str r0, [sp, #4]
-_02076078:
-	ldr r4, [r10, r6, lsl #2]
-	cmp r4, #0
-	beq _0207628C
-	ldr r0, [r4, #0x18]
-	tst r0, #0x800
-	bne _0207628C
-	tst r0, #4
-	beq _0207628C
-	ldrh r0, [r4, #0x34]
-	mov r1, #1
-	mov r2, r0, asr #8
-	ldr r0, [sp, #4]
-	tst r2, r1, lsl r0
-	beq _0207628C
-	ldr r0, [r4, #0x1c]
-	cmp r0, #0
-	beq _020760C8
-	ldr r0, [r0, #0x18]
-	tst r0, #2
-	bne _0207628C
-_020760C8:
-	add r1, sp, #0x28
-	add r2, sp, #0x24
-	add r3, sp, #0x18
-	mov r0, r4
-	bl ObjRect__LTBSet
-	add r1, sp, #0x12
-	add r2, sp, #0x10
-	mov r0, r4
-	add r3, sp, #0xa
-	bl ObjRect__WHDSet
-	cmp r8, #0
-	mov r7, #0
-	ble _0207628C
-	mov r11, r7
-_02076100:
-	ldr r5, [r9, r7, lsl #2]
-	ldr r0, [r10, r6, lsl #2]
-	cmp r0, #0
-	beq _0207628C
-	cmp r5, #0
-	cmpne r5, r4
-	beq _02076278
-	ldr r1, [r5, #0x18]
-	ldr r0, [r4, #0x18]
-	orr r0, r1, r0
-	tst r0, #0x800
-	bne _02076278
-	tst r1, #4
-	beq _02076278
-	ldr r0, [r5, #0x1c]
-	cmp r0, #0
-	beq _02076150
-	ldr r0, [r0, #0x18]
-	tst r0, #2
-	bne _02076278
-_02076150:
-	mov r0, r5
-	add r1, sp, #0x20
-	add r2, sp, #0x1c
-	add r3, sp, #0x14
-	bl ObjRect__LTBSet
-	mov r0, r5
-	add r1, sp, #0xe
-	add r2, sp, #0xc
-	add r3, sp, #8
-	bl ObjRect__WHDSet
-	ldr r1, [r5, #0x18]
-	ldr r0, [r4, #0x18]
-	orr r0, r1, r0
-	tst r0, #0x80000
-	bne _02076228
-	ldr r2, [sp, #0x20]
-	ldr r1, [sp, #0x28]
-	cmp r1, r2
-	bgt _020761AC
-	ldrh r0, [sp, #0x12]
-	add r0, r1, r0
-	cmp r0, r2
-	bge _020761C0
-_020761AC:
-	cmp r1, r2
-	ldrgeh r0, [sp, #0xe]
-	addge r0, r2, r0
-	cmpge r0, r1
-	blt _02076278
-_020761C0:
-	ldr r2, [sp, #0x1c]
-	ldr r1, [sp, #0x24]
-	cmp r1, r2
-	bgt _020761E0
-	ldrh r0, [sp, #0x10]
-	add r0, r1, r0
-	cmp r0, r2
-	bge _020761F4
-_020761E0:
-	cmp r1, r2
-	ldrgeh r0, [sp, #0xc]
-	addge r0, r2, r0
-	cmpge r0, r1
-	blt _02076278
-_020761F4:
-	ldr r2, [sp, #0x14]
-	ldr r1, [sp, #0x18]
-	cmp r1, r2
-	bgt _02076214
-	ldrh r0, [sp, #0xa]
-	add r0, r1, r0
-	cmp r0, r2
-	bge _02076228
-_02076214:
-	cmp r1, r2
-	ldrgeh r0, [sp, #8]
-	addge r0, r2, r0
-	cmpge r0, r1
-	blt _02076278
-_02076228:
-	mov r0, r4
-	mov r1, r5
-	bl ObjRect__CheckFuncCall
-	tst r0, #1
-	beq _02076254
-	ldr r1, [r4, #0x18]
-	tst r1, #0x10000
-	orrne r1, r1, #0x200
-	bicne r1, r1, #0x10000
-	strne r1, [r4, #0x18]
-	str r11, [r10, r6, lsl #2]
-_02076254:
-	tst r0, #2
-	beq _02076278
-	ldr r0, [r5, #0x18]
-	tst r0, #0x10000
-	orrne r0, r0, #0x200
-	bicne r0, r0, #0x10000
-	strne r0, [r5, #0x18]
-	mov r0, #0
-	str r0, [r9, r7, lsl #2]
-_02076278:
-	add r0, r7, #1
-	mov r0, r0, lsl #0x10
-	cmp r8, r0, lsr #16
-	mov r7, r0, lsr #0x10
-	bgt _02076100
-_0207628C:
-	add r0, r6, #1
-	mov r1, r0, lsl #0x10
-	ldr r0, [sp]
-	mov r6, r1, lsr #0x10
-	cmp r0, r1, lsr #16
-	bgt _02076078
-	add sp, sp, #0x2c
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-// clang-format on
-#endif
 }
 
 void ObjRect__LTBSet(OBS_RECT_WORK *work, fx32 *left, fx32 *top, fx32 *back)
@@ -729,7 +555,8 @@ void ObjRect__FuncNoHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     _obj_user_rect_man.ucNoHit = TRUE;
 }
 
-NONMATCH_FUNC BOOL ObjRect__RectCheck(OBS_RECT *rect1, OBS_RECT *rect2){
+NONMATCH_FUNC BOOL ObjRect__RectCheck(OBS_RECT *rect1, OBS_RECT *rect2)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1107,7 +934,7 @@ _02076BCC:
 
 NONMATCH_FUNC fx32 ObjRect__HitCenterY(OBS_RECT_WORK *work, OBS_RECT_WORK *attacker)
 {
-	// should match when the issues with 'ObjRect__HitCenterX' are resolved
+    // should match when the issues with 'ObjRect__HitCenterX' are resolved
 #ifdef NON_MATCHING
     s32 bounds[4];
     u8 id;
@@ -1130,7 +957,7 @@ NONMATCH_FUNC fx32 ObjRect__HitCenterY(OBS_RECT_WORK *work, OBS_RECT_WORK *attac
     bounds[3] = bounds[2] + height;
 
     s32 value2 = bounds[index2];
-    value1 = bounds[0];
+    value1     = bounds[0];
     index++;
 
     if (bounds[index] > value1)
@@ -1153,8 +980,8 @@ NONMATCH_FUNC fx32 ObjRect__HitCenterY(OBS_RECT_WORK *work, OBS_RECT_WORK *attac
         id1    = index;
     }
 
-    u8 index2  = 0;
-    u8 id2     = 0;
+    u8 index2 = 0;
+    u8 id2    = 0;
 
     index2++;
     if (bounds[index2] < value2)

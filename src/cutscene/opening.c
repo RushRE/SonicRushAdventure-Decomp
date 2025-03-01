@@ -17,10 +17,10 @@
 // CONSTANTS
 // --------------------
 
-#define OPENING_MAT_CAMERA1_NODE 30
-#define OPENING_MAT_TARGET1_NODE 29
-#define OPENING_MAT_CAMERA2_NODE 28
-#define OPENING_MAT_TARGET2_NODE 27
+#define OPENING_MAT_CAMERA1_NODE (NNS_G3D_MTXSTACK_SYS - (2 * 0))
+#define OPENING_MAT_TARGET1_NODE (NNS_G3D_MTXSTACK_USER - (2 * 0))
+#define OPENING_MAT_CAMERA2_NODE (NNS_G3D_MTXSTACK_SYS - (2 * 1))
+#define OPENING_MAT_TARGET2_NODE (NNS_G3D_MTXSTACK_USER - (2 * 1))
 
 // --------------------
 // MACROS
@@ -34,6 +34,14 @@
 // --------------------
 // ENUMS
 // --------------------
+
+enum OpeningSceneType
+{
+    OPENING_SCENETYPE_ANIMATED,
+    OPENING_SCENETYPE_CUTIN,
+
+    OPENING_SCENETYPE_COUNT,
+};
 
 enum OpeningSceneID
 {
@@ -63,6 +71,31 @@ enum OpeningCutInSceneID
     OPENING_CUTIN_SCENE_CHARACTER,
 
     OPENING_CUTIN_SCENE_COUNT,
+};
+
+enum OpeningNameAnimID
+{
+    OPENING_NAMEANI_SONIC_BIG_S,
+    OPENING_NAMEANI_SONIC_BIG_O,
+    OPENING_NAMEANI_SONIC_BIG_N,
+    OPENING_NAMEANI_SONIC_BIG_I,
+    OPENING_NAMEANI_SONIC_BIG_C,
+    OPENING_NAMEANI_SONIC_SMALL_T,
+    OPENING_NAMEANI_SONIC_SMALL_H,
+    OPENING_NAMEANI_SONIC_SMALL_E,
+    OPENING_NAMEANI_SONIC_SMALL_D,
+    OPENING_NAMEANI_SONIC_SMALL_G,
+    OPENING_NAMEANI_SONIC_SMALL_O,
+    OPENING_NAMEANI_BLAZE_BIG_B,
+    OPENING_NAMEANI_BLAZE_BIG_L,
+    OPENING_NAMEANI_BLAZE_BIG_A,
+    OPENING_NAMEANI_BLAZE_BIG_Z,
+    OPENING_NAMEANI_BLAZE_BIG_E,
+    OPENING_NAMEANI_BLAZE_SMALL_T,
+    OPENING_NAMEANI_BLAZE_SMALL_H,
+    OPENING_NAMEANI_BLAZE_SMALL_E,
+    OPENING_NAMEANI_BLAZE_SMALL_C,
+    OPENING_NAMEANI_BLAZE_SMALL_A,
 };
 
 // --------------------
@@ -181,16 +214,77 @@ void OpeningBlazeNameSprite_Main_ExitSprite(void);
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED OpeningRenderCallbackConfig Opening__RenderCallbackList[16];
+static OpeningRenderCallbackConfig Opening__RenderCallbackList[16];
 NOT_DECOMPILED u16 Opening__RenderCallbackCount;
 
-NOT_DECOMPILED u16 OpeningBlazeNameSprite__LetterAniList[11];
-NOT_DECOMPILED u32 Opening__animOffsetList[6];
-NOT_DECOMPILED s32 Opening__sceneTypeList[6];
-NOT_DECOMPILED u16 OpeningSonicNameSprite__LetterAniList[15];
-NOT_DECOMPILED Vec2Fx16 OpeningBlazeNameSprite__LetterPositions[11];
-NOT_DECOMPILED Vec2Fx16 OpeningSonicNameSprite__LetterPositions[15];
-NOT_DECOMPILED u32 Opening__sceneAnimatorList[5][15];
+static const u16 blazeNameLetterAniList[11] = {
+    OPENING_NAMEANI_BLAZE_BIG_B,   OPENING_NAMEANI_BLAZE_BIG_L,   OPENING_NAMEANI_BLAZE_BIG_A,   OPENING_NAMEANI_BLAZE_BIG_Z, OPENING_NAMEANI_BLAZE_BIG_E, // BLAZE
+    OPENING_NAMEANI_BLAZE_SMALL_T, OPENING_NAMEANI_BLAZE_SMALL_H, OPENING_NAMEANI_BLAZE_SMALL_E,                                                           // THE
+    OPENING_NAMEANI_BLAZE_SMALL_C, OPENING_NAMEANI_BLAZE_SMALL_A, OPENING_NAMEANI_BLAZE_SMALL_T                                                            // CAT
+};
+
+static const u32 animOffsetForScene[OPENING_SCENE_COUNT] = {
+    [OPENING_SCENE_ANI_OPENING_OVERHEAD] = 0,   [OPENING_SCENE_ANI_JETSKI_RIDE] = 8,  [OPENING_SCENE_ANI_SONIC_BLAZE_GLANCE] = 16,
+    [OPENING_SCENE_ANI_TAILS_MARINE_WAVE] = 25, [OPENING_SCENE_CUTIN_CHARACTER] = 40, [OPENING_SCENE_ANI_TJETSKI_SKID] = 49
+};
+
+static const s32 sceneTypeList[OPENING_SCENE_COUNT] = {
+    [OPENING_SCENE_ANI_OPENING_OVERHEAD] = OPENING_SCENETYPE_ANIMATED,   [OPENING_SCENE_ANI_JETSKI_RIDE] = OPENING_SCENETYPE_ANIMATED,
+    [OPENING_SCENE_ANI_SONIC_BLAZE_GLANCE] = OPENING_SCENETYPE_ANIMATED, [OPENING_SCENE_ANI_TAILS_MARINE_WAVE] = OPENING_SCENETYPE_ANIMATED,
+    [OPENING_SCENE_CUTIN_CHARACTER] = OPENING_SCENETYPE_CUTIN,           [OPENING_SCENE_ANI_TJETSKI_SKID] = OPENING_SCENETYPE_ANIMATED
+};
+
+static const u16 sonicNameLetterAniList[16] = {
+    OPENING_NAMEANI_SONIC_BIG_S,   OPENING_NAMEANI_SONIC_BIG_O,   OPENING_NAMEANI_SONIC_BIG_N,   OPENING_NAMEANI_SONIC_BIG_I,   OPENING_NAMEANI_SONIC_BIG_C, // SONIC
+    OPENING_NAMEANI_SONIC_SMALL_T, OPENING_NAMEANI_SONIC_SMALL_H, OPENING_NAMEANI_SONIC_SMALL_E,                                                             // THE
+    OPENING_NAMEANI_SONIC_SMALL_H, OPENING_NAMEANI_SONIC_SMALL_E, OPENING_NAMEANI_SONIC_SMALL_D, OPENING_NAMEANI_SONIC_SMALL_G, OPENING_NAMEANI_SONIC_SMALL_E,
+    OPENING_NAMEANI_SONIC_SMALL_H, OPENING_NAMEANI_SONIC_SMALL_O, OPENING_NAMEANI_SONIC_SMALL_G // HEDGEHOG
+};
+
+static const Vec2Fx16 blazeNameLetterPositions[11] = {
+    { 212, 200 }, // B
+    { 212, 236 }, // L
+    { 212, 272 }, // A
+    { 212, 311 }, // Z
+    { 212, 346 }, // E
+
+    { 172, 283 }, // T
+    { 172, 297 }, // H
+    { 172, 312 }, // E
+
+    { 172, 336 }, // C
+    { 172, 352 }, // A
+    { 172, 368 }, // T
+};
+
+static const Vec2Fx16 sonicNameLetterPositions[16] = {
+    { 44, 180 }, // S
+    { 44, 142 }, // O
+    { 44, 103 }, // N
+    { 44, 62 },  // I
+    { 44, 44 },  // C
+
+    { 84, 167 }, // T
+    { 84, 154 }, // H
+    { 84, 140 }, // E
+
+    { 84, 120 }, // H
+    { 84, 106 }, // E
+    { 84, 95 },  // D
+    { 84, 80 },  // H
+    { 84, 65 },  // E
+    { 84, 53 },  // H
+    { 84, 40 },  // O
+    { 84, 24 },  // G
+};
+
+static const u32 sceneAnimatorList[OPENING_ANIMATED_SCENE_COUNT][15] = {
+    [OPENING_ANIMATED_SCENE_OPENING_OVERHEAD]   = { 0, 2, 3, 4, 5, 6, 7, 9, 0, 0, 0, 0, 0, 0, 0 },
+    [OPENING_ANIMATED_SCENE_JETSKI_RIDE]        = { 0, 3, 4, 5, 6, 7, 9, 10, 0, 0, 0, 0, 0, 0, 0 },
+    [OPENING_ANIMATED_SCENE_SONIC_BLAZE_GLANCE] = { 0, 1, 3, 4, 5, 6, 7, 9, 10, 0, 0, 0, 0, 0, 0 },
+    [OPENING_ANIMATED_SCENE_TAILS_MARINE_WAVE]  = { 0, 1, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16 },
+    [OPENING_ANIMATED_SCENE_JETSKI_SKID]        = { 0, 3, 4, 5, 6, 7, 9, 10, 8, 0, 0, 0, 0, 0, 0 },
+};
 
 // --------------------
 // FUNCTIONS
@@ -449,10 +543,10 @@ void InitOpeningCameraForScene(Opening *work, s32 id)
         control->animators[i].work.flags |= ANIMATOR_FLAG_DISABLE_DRAW;
     }
 
-    s32 *animIDList    = Opening__sceneAnimatorList[id];
+    s32 *animIDList    = sceneAnimatorList[id];
     s32 id2            = id;
-    u32 animOffset     = Opening__animOffsetList[id2++];
-    u32 nextAnimOffset = Opening__animOffsetList[id2];
+    u32 animOffset     = animOffsetForScene[id2++];
+    u32 nextAnimOffset = animOffsetForScene[id2];
 
     for (i = 0; i < 15; i++)
     {
@@ -891,7 +985,7 @@ void Opening_Main_Finished(void)
 
 s32 GetOpeningSceneType(s32 sceneID)
 {
-    return Opening__sceneTypeList[sceneID];
+    return sceneTypeList[sceneID];
 }
 
 BOOL CompleteOpeningScene(Opening *work)
@@ -952,15 +1046,15 @@ void Opening_StateSequence_InitNextScene(Opening *work)
     StopSysSfx();
 
     u32 sceneID = GetOpeningSceneID(work);
-    if (sceneID < 6)
+    if (sceneID < OPENING_SCENE_COUNT)
     {
         switch (GetOpeningSceneType(sceneID))
         {
-            case 0:
+            case OPENING_SCENETYPE_ANIMATED:
                 SetOpeningState(work->stateSequence, Opening_StateSequence_InitAnimatedScene);
                 break;
 
-            case 1:
+            case OPENING_SCENETYPE_CUTIN:
                 SetOpeningState(work->stateSequence, Opening_StateSequence_InitCutInScene);
                 break;
         }
@@ -1400,10 +1494,8 @@ void OpeningBorderSprite_Main_Finished(void)
 }
 
 // OpeningSonicNameSprite
-NONMATCH_FUNC void CreateOpeningSonicNameSprite(Opening *parent)
+void CreateOpeningSonicNameSprite(Opening *parent)
 {
-    // https://decomp.me/scratch/nG5Ob -> 98.73%
-#ifdef NON_MATCHING
     Camera3DTask *camera3D = Camera3D__GetWork();
     UNUSED(camera3D);
 
@@ -1419,100 +1511,18 @@ NONMATCH_FUNC void CreateOpeningSonicNameSprite(Opening *parent)
     SetOpeningBackgroundPos(BACKGROUND_2, work->backgroundPosition.x, work->backgroundPosition.y);
 
     void *spriteFile = FileUnknown__GetAOUFile(parent->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_NAME_BAC);
+
     for (s32 i = 0; i < 16; i++)
     {
-        u16 anim = OpeningSonicNameSprite__LetterAniList[i];
+        u16 anim = sonicNameLetterAniList[i];
 
         AnimatorSprite__Init(&work->aniLetters[i], spriteFile, anim, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_DRAW, FALSE, PIXEL_MODE_SPRITE,
-                             VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(spriteFile, anim)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0,
-                             SPRITE_ORDER_0);
-        work->aniLetters[i].pos.x = OpeningSonicNameSprite__LetterPositions[i].x;
-        work->aniLetters[i].pos.y = OpeningSonicNameSprite__LetterPositions[i].y;
+                             VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(spriteFile, sonicNameLetterAniList[i])), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
+                             SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+        work->aniLetters[i].pos.x = sonicNameLetterPositions[i].x;
+        work->aniLetters[i].pos.y = sonicNameLetterPositions[i].y;
         AnimatorSprite__ProcessAnimationFast(&work->aniLetters[i]);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x1c
-	mov r5, r0
-	bl Camera3D__GetWork
-	mov r0, #0x4000
-	mov r2, #0
-	str r0, [sp]
-	mov r4, #1
-	str r4, [sp, #4]
-	mov r4, #0x660
-	ldr r0, =OpeningSonicNameSprite_Main_Init
-	ldr r1, =OpeningSonicNameSprite_Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	bl GetTaskWork_
-	mov r9, r0
-	mov r1, r9
-	mov r0, #0
-	mov r2, r4
-	bl MIi_CpuClear16
-	mov r0, #0x90000
-	rsb r0, r0, #0
-	str r5, [r9]
-	str r0, [r9, #8]
-	sub r2, r0, #0x140000
-	str r2, [r9, #0xc]
-	ldr r1, [r9, #8]
-	mov r0, #2
-	bl SetOpeningBackgroundPos
-	ldr r0, [r5, #0]
-	mov r1, #0
-	bl FileUnknown__GetAOUFile
-	mov r7, #0
-	ldr r11, =OpeningSonicNameSprite__LetterAniList
-	ldr r4, =OpeningSonicNameSprite__LetterPositions
-	mov r6, r0
-	add r8, r9, #0x20
-	mov r5, r7
-_0215B864:
-	mov r0, r7, lsl #1
-	ldrh r10, [r11, r0]
-	mov r0, r6
-	mov r1, r10
-	bl Sprite__GetSpriteSize2FromAnim
-	mov r1, r0
-	mov r0, #0
-	bl VRAMSystem__AllocSpriteVram
-	str r5, [sp]
-	str r5, [sp, #4]
-	str r0, [sp, #8]
-	ldr r0, =0x05000200
-	str r5, [sp, #0xc]
-	str r0, [sp, #0x10]
-	str r5, [sp, #0x14]
-	ldr r3, =0x00000801
-	mov r2, r10
-	mov r0, r8
-	mov r1, r6
-	str r5, [sp, #0x18]
-	bl AnimatorSprite__Init
-	mov r0, r7, lsl #2
-	ldrsh r2, [r4, r0]
-	add r1, r4, r7, lsl #2
-	mov r0, r8
-	strh r2, [r9, #0x28]
-	ldrsh r3, [r1, #2]
-	mov r1, #0
-	mov r2, r1
-	strh r3, [r9, #0x2a]
-	bl AnimatorSprite__ProcessAnimation
-	add r7, r7, #1
-	add r8, r8, #0x64
-	add r9, r9, #0x64
-	cmp r7, #0x10
-	blt _0215B864
-	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
 }
 
 void OpeningSonicNameSprite_Destructor(Task *task)
@@ -1604,10 +1614,10 @@ void OpeningSonicNameSprite_Main_ShowName(void)
         }
         else
         {
-            if (work->aniLetters[work->nameLetterID - 1].pos.y < OpeningSonicNameSprite__LetterPositions[work->nameLetterID - 1].y)
+            if (work->aniLetters[work->nameLetterID - 1].pos.y < sonicNameLetterPositions[work->nameLetterID - 1].y)
                 work->aniLetters[work->nameLetterID - 1].pos.y += 2;
             else
-                work->aniLetters[work->nameLetterID - 1].pos.y = OpeningSonicNameSprite__LetterPositions[work->nameLetterID - 1].y;
+                work->aniLetters[work->nameLetterID - 1].pos.y = sonicNameLetterPositions[work->nameLetterID - 1].y;
         }
     }
     else
@@ -1676,10 +1686,8 @@ void OpeningSonicNameSprite_Main_ExitSprite(void)
 }
 
 // OpeningBlazeNameSprite
-NONMATCH_FUNC void CreateOpeningBlazeNameSprite(Opening *parent)
+void CreateOpeningBlazeNameSprite(Opening *parent)
 {
-    // https://decomp.me/scratch/52dcF -> 98.75%
-#ifdef NON_MATCHING
     Task *task = TaskCreate(OpeningBlazeNameSprite_Main_Init, OpeningBlazeNameSprite_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4000, TASK_GROUP(1),
                             OpeningBlazeNameSprite);
 
@@ -1694,98 +1702,15 @@ NONMATCH_FUNC void CreateOpeningBlazeNameSprite(Opening *parent)
     void *spriteFile = FileUnknown__GetAOUFile(parent->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_NAME_BAC);
     for (s32 i = 0; i < 11; i++)
     {
-        u16 anim = OpeningBlazeNameSprite__LetterAniList[i];
+        u16 anim = blazeNameLetterAniList[i];
 
         AnimatorSprite__Init(&work->aniLetters[i], spriteFile, anim, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_DRAW, FALSE, PIXEL_MODE_SPRITE,
-                             VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(spriteFile, anim)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0,
-                             SPRITE_ORDER_0);
-        work->aniLetters[i].pos.x = OpeningBlazeNameSprite__LetterPositions[i].x;
-        work->aniLetters[i].pos.y = OpeningBlazeNameSprite__LetterPositions[i].y + 80;
+                             VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(spriteFile, blazeNameLetterAniList[i])), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
+                             SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+        work->aniLetters[i].pos.x = blazeNameLetterPositions[i].x;
+        work->aniLetters[i].pos.y = blazeNameLetterPositions[i].y + 80;
         AnimatorSprite__ProcessAnimationFast(&work->aniLetters[i]);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x1c
-	mov r1, #0x4000
-	mov r5, r0
-	str r1, [sp]
-	mov r0, #1
-	mov r2, #0
-	str r0, [sp, #4]
-	ldr r4, =0x0000046C
-	ldr r0, =OpeningBlazeNameSprite_Main_Init
-	ldr r1, =OpeningBlazeNameSprite_Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	bl GetTaskWork_
-	mov r9, r0
-	mov r2, r4
-	mov r1, r9
-	mov r0, #0
-	bl MIi_CpuClear16
-	mov r0, #0x20000
-	str r5, [r9]
-	rsb r0, r0, #0
-	str r0, [r9, #8]
-	mov r2, #0x100000
-	str r2, [r9, #0xc]
-	ldr r1, [r9, #8]
-	mov r0, #3
-	bl SetOpeningBackgroundPos
-	ldr r0, [r5, #0]
-	mov r1, #0
-	bl FileUnknown__GetAOUFile
-	mov r7, #0
-	ldr r11, =OpeningBlazeNameSprite__LetterAniList
-	ldr r4, =OpeningBlazeNameSprite__LetterPositions
-	mov r6, r0
-	add r8, r9, #0x20
-	mov r5, r7
-_0215BD74:
-	mov r0, r7, lsl #1
-	ldrh r10, [r11, r0]
-	mov r0, r6
-	mov r1, r10
-	bl Sprite__GetSpriteSize2FromAnim
-	mov r1, r0
-	mov r0, #0
-	bl VRAMSystem__AllocSpriteVram
-	str r5, [sp]
-	str r5, [sp, #4]
-	str r0, [sp, #8]
-	ldr r0, =0x05000200
-	str r5, [sp, #0xc]
-	str r0, [sp, #0x10]
-	str r5, [sp, #0x14]
-	ldr r3, =0x00000801
-	mov r2, r10
-	mov r0, r8
-	mov r1, r6
-	str r5, [sp, #0x18]
-	bl AnimatorSprite__Init
-	mov r0, r7, lsl #2
-	ldrsh r2, [r4, r0]
-	add r1, r4, r7, lsl #2
-	mov r0, r8
-	strh r2, [r9, #0x28]
-	ldrsh r3, [r1, #2]
-	mov r1, #0
-	mov r2, r1
-	add r3, r3, #0x50
-	strh r3, [r9, #0x2a]
-	bl AnimatorSprite__ProcessAnimation
-	add r7, r7, #1
-	add r8, r8, #0x64
-	add r9, r9, #0x64
-	cmp r7, #0xb
-	blt _0215BD74
-	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
 }
 
 void OpeningBlazeNameSprite_Destructor(Task *task)
@@ -1878,10 +1803,10 @@ void OpeningBlazeNameSprite_Main_ShowName(void)
         }
         else
         {
-            if (work->aniLetters[work->nameLetterID - 1].pos.y > OpeningBlazeNameSprite__LetterPositions[work->nameLetterID - 1].y + 80)
+            if (work->aniLetters[work->nameLetterID - 1].pos.y > blazeNameLetterPositions[work->nameLetterID - 1].y + 80)
                 work->aniLetters[work->nameLetterID - 1].pos.y -= 2;
             else
-                work->aniLetters[work->nameLetterID - 1].pos.y = OpeningBlazeNameSprite__LetterPositions[work->nameLetterID - 1].y + 80;
+                work->aniLetters[work->nameLetterID - 1].pos.y = blazeNameLetterPositions[work->nameLetterID - 1].y + 80;
         }
     }
     else

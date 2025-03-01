@@ -304,7 +304,7 @@ void PlaneSwitchSpring_State_Active(PlaneSwitchSpring *work)
 
 NONMATCH_FUNC void PlaneSwitchSpring_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-    // https://decomp.me/scratch/BvYMP -> 95.11%
+    // https://decomp.me/scratch/F4JY2 -> 95.11%
     // issues near 'velY' variable
 #ifdef NON_MATCHING
     PlaneSwitchSpring *planeSwitchSpring = (PlaneSwitchSpring *)rect2->parent;

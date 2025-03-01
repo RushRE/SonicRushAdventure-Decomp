@@ -3963,7 +3963,7 @@ void SailPlayer__HandleTimers(StageTask *work)
 
 NONMATCH_FUNC void SailPlayer__HandleJetControl(StageTask *work)
 {
-    // https://decomp.me/scratch/Ta0Gq -> 99.55%
+    // https://decomp.me/scratch/0RnYy -> 99.55%
     // 'work' & 'targetSpeed' registers need to be swapped
 #ifdef NON_MATCHING
     fx32 targetSpeed;

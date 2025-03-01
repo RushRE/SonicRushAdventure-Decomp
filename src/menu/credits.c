@@ -607,42 +607,14 @@ void GoToNextCreditsEvent(s32 id)
     NextSysEvent();
 }
 
-NONMATCH_FUNC void SetCreditsLogoAlpha(fx32 alpha)
+void SetCreditsLogoAlpha(fx32 alpha)
 {
-    // https://decomp.me/scratch/h1HAK -> 76.74%
-#ifdef NON_MATCHING
+    RenderCoreGFXControl *gfxControl = &renderCoreGFXControlB;
+    
     alpha = MTM_MATH_CLIP(alpha, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(16.0));
 
-    renderCoreGFXControlB.blendManager.blendAlpha.ev1 = FX32_TO_WHOLE(alpha);
-    renderCoreGFXControlB.blendManager.blendAlpha.ev2 = FX32_TO_WHOLE(FLOAT_TO_FX32(16.0) - alpha);
-#else
-    // clang-format off
-	cmp r0, #0
-	ldr r1, =renderCoreGFXControlB
-	movlt r0, #0
-	blt _02155200
-	cmp r0, #0x10000
-	movgt r0, #0x10000
-_02155200:
-	ldrh r3, [r1, #0x22]
-	mov r2, r0, lsl #4
-	mov r2, r2, lsr #0x10
-	bic r3, r3, #0x1f
-	and r2, r2, #0x1f
-	orr r2, r3, r2
-	strh r2, [r1, #0x22]
-	rsb r0, r0, #0x10000
-	ldrh r2, [r1, #0x22]
-	mov r0, r0, lsl #4
-	mov r0, r0, lsr #0x10
-	bic r2, r2, #0x1f00
-	mov r0, r0, lsl #0x1b
-	orr r0, r2, r0, lsr #19
-	strh r0, [r1, #0x22]
-	bx lr
-
-// clang-format on
-#endif
+    gfxControl->blendManager.blendAlpha.ev1 = FX32_TO_WHOLE(alpha);
+    gfxControl->blendManager.blendAlpha.ev2 = FX32_TO_WHOLE(FLOAT_TO_FX32(16.0) - alpha);
 }
 
 BOOL DrawCreditsScrollText(Credits *work, s32 screenID)

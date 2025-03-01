@@ -1008,18 +1008,21 @@ NONMATCH_FUNC void ReleaseEmeraldCollectedScreenGraphics(EmeraldCollectedScreenW
 {
     // https://decomp.me/scratch/XOCqq -> 90.44%
 #ifdef NON_MATCHING
+    AnimatorSprite *aniSprite;
+    AnimatorMDL *aniModel;
+
     ReleaseEmeraldCollectedScreenSparkles(&work->sparkleManager);
 
-    for (AnimatorSprite *ani = &work->animators[0]; ani != &work->animators[16]; ani++)
+    for (aniSprite = &work->animators[0]; aniSprite != &work->animators[16]; aniSprite++)
     {
-        AnimatorSprite__Release(ani);
+        AnimatorSprite__Release(aniSprite);
     }
 
     NNS_G3dRenderObjResetCallBack(&work->aniEmerald3D[0].renderObj);
 
-    for (AnimatorMDL *ani = &work->aniEmerald3D[0]; ani != &work->aniEmerald3D[1]; ani++)
+    for (aniModel = &work->aniEmerald3D[0]; aniModel != &work->aniEmerald3D[1]; aniModel++)
     {
-        AnimatorMDL__ProcessAnimation(ani);
+        AnimatorMDL__ProcessAnimation(aniModel);
     }
 
     NNS_G3dResDefaultRelease(work->mdlEmerald);

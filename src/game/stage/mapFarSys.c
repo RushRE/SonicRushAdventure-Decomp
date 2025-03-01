@@ -1470,10 +1470,8 @@ void MapFarSys__ReleaseBG(void)
     }
 }
 
-NONMATCH_FUNC void MapFarSys__ProcessBG(void)
+void MapFarSys__ProcessBG(void)
 {
-    // https://decomp.me/scratch/erTDB -> 85.83%
-#ifdef NON_MATCHING
     u16 stageID = gameState.stageID;
 
     if ((MapFarSys__sVars.flags & 1) != 0)
@@ -1481,51 +1479,14 @@ NONMATCH_FUNC void MapFarSys__ProcessBG(void)
         if (MapFarSys__ProcessTable[stageID] != NULL)
             MapFarSys__ProcessTable[stageID]();
 
-        for (u32 c = 0; c <= 1; c++)
+        for (u8 c = 0; c <= 1; c++)
         {
             MapSysCamera *camera = &mapCamera.camera[c];
 
             VRAMSystem__GFXControl[c]->bgPosition[BACKGROUND_1].x = (0x1FF & FX32_TO_WHOLE(camera->bgPos.x));
-            VRAMSystem__GFXControl[c]->bgPosition[BACKGROUND_1].y = (u8)(0x1FF & FX32_TO_WHOLE(camera->bgPos.y));
+            VRAMSystem__GFXControl[c]->bgPosition[BACKGROUND_1].y = (0x1FF & FX32_TO_WHOLE(camera->bgPos.y));
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r0, =MapFarSys__sVars
-	ldr r1, =gameState
-	ldr r0, [r0, #0xc]
-	ldrh r1, [r1, #0x28]
-	tst r0, #1
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r0, =MapFarSys__ProcessTable
-	ldr r0, [r0, r1, lsl #2]
-	cmp r0, #0
-	beq _0200B470
-	blx r0
-_0200B470:
-	ldr r4, =mapCamera
-	ldr lr, =VRAMSystem__GFXControl
-	ldr r1, =0x000001FF
-	mov r5, #0
-	mov r0, #0x70
-_0200B484:
-	mla r3, r5, r0, r4
-	ldr r2, [r3, #0x38]
-	ldr ip, [lr, r5, lsl #2]
-	and r2, r1, r2, asr #12
-	strh r2, [ip, #4]
-	ldr r3, [r3, #0x3c]
-	add r2, r5, #1
-	and r3, r1, r3, asr #12
-	and r5, r2, #0xff
-	strh r3, [ip, #6]
-	cmp r5, #1
-	bls _0200B484
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
 }
 
 void MapFarSys__SetScrollSpeed(s32 id, fx32 x1, fx32 x2)
@@ -2004,22 +1965,22 @@ void MapFarSys__Build_Z5(void)
     if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
     {
         MapSysCamera *cameraA = MapSys__GetCameraA();
-        cameraA->bgPos.x             = FLOAT_TO_FX32(0.0);
-        cameraA->bgPos.y             = FLOAT_TO_FX32(0.0);
+        cameraA->bgPos.x      = FLOAT_TO_FX32(0.0);
+        cameraA->bgPos.y      = FLOAT_TO_FX32(0.0);
 
         MapSysCamera *cameraB = MapSys__GetCameraB();
-        cameraB->bgPos.x             = FLOAT_TO_FX32(0.0);
-        cameraB->bgPos.y             = FLOAT_TO_FX32(BOTTOM_SCREEN_CAMERA_OFFSET);
+        cameraB->bgPos.x      = FLOAT_TO_FX32(0.0);
+        cameraB->bgPos.y      = FLOAT_TO_FX32(BOTTOM_SCREEN_CAMERA_OFFSET);
     }
     else
     {
         MapSysCamera *cameraA = &mapCamera.camera[0];
-        cameraA->bgPos.x             = FLOAT_TO_FX32(0.0);
-        cameraA->bgPos.y             = FLOAT_TO_FX32(0.0);
+        cameraA->bgPos.x      = FLOAT_TO_FX32(0.0);
+        cameraA->bgPos.y      = FLOAT_TO_FX32(0.0);
 
         MapSysCamera *cameraB = &mapCamera.camera[1];
-        cameraB->bgPos.x             = FLOAT_TO_FX32(0.0);
-        cameraB->bgPos.y             = FLOAT_TO_FX32(0.0);
+        cameraB->bgPos.x      = FLOAT_TO_FX32(0.0);
+        cameraB->bgPos.y      = FLOAT_TO_FX32(0.0);
     }
 
     MapFarSys__sVars.scrollControl->scrollSpeedY[0] = MapFarSys__sVars.scrollControl->scrollSpeedY[1] = FLOAT_TO_FX32(0.125);
