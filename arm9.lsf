@@ -125,7 +125,7 @@ Static arm9
     Object asm/game/text/fontWindowAnimator.o
     Object asm/game/text/fontWindowMWControl.o
     Object src/game/cutscene/script.o
-    Object asm/game/file/compressedFile.o
+    Object src/game/file/compressedFile.o
     Object src/game/save/saveGameProgress.o
     Object asm/game/save/saveGame_vars_arm.o
     Object asm/game/save/saveGame_vars_thumb.o

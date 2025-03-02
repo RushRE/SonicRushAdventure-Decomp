@@ -1,12 +1,6 @@
 #include <game/file/archiveFile.h>
 #include <game/file/binaryBundle.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void *CompressedFile__Decompress(void *compressedBytes, void *uncompressedMemory, void *buffer);
-NOT_DECOMPILED size_t CompressedFile__GetCompressedSize(void *a1);
+#include <game/file/compressedFile.h>
 
 // --------------------
 // STRUCTS
@@ -59,7 +53,7 @@ void *ArchiveFile__Load(const char *path, u32 id, void *destPtr, ArchiveFileFlag
 
             void *tempMemory = ArchiveFile__ReadFile(path, id, compressedMemory);
             memory           = ArchiveFile__AllocateMemory(destPtr, CompressedFile__GetCompressedSize(tempMemory));
-            CompressedFile__Decompress(tempMemory, memory, (void *)-1);
+            CompressedFile__Decompress(tempMemory, memory, COMPRESSEDFILE_AUTO_ALLOC_TAIL);
             if (useSystemHeap)
                 HeapFree(HEAP_SYSTEM, tempMemory);
             else

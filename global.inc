@@ -2082,8 +2082,8 @@
 .public CompressedFile__IsVisAnim
 .public CompressedFile__GetVisCompressCount
 .public CompressedFile__GetCompressedSize
-.public CompressedFile__Func_205B898
-.public CompressedFile__Func_205B8C0
+.public CompressedFile__GetUnknownSize
+.public CompressedFile__GetUnknown2Size
 .public CompressedFile__AllocateMemIfNeeded
 .public CompressedFile__HandleDecompression2
 .public CompressedFile__HandleDecompression
