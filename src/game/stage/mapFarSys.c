@@ -5,13 +5,13 @@
 #include <game/graphics/background.h>
 #include <game/graphics/mappingsQueue.h>
 #include <game/text/fontDMAControl.h>
+#include <game/math/unknown2051334.h>
 
 // --------------------
 // TEMP
 // --------------------
 
 NOT_DECOMPILED void _s32_div_f(void);
-NOT_DECOMPILED fx32 Unknown2051334__Func_2051534(fx32 start, fx32 end, fx32 progress, s32 duration, fx32 speed);
 
 // --------------------
 // TYPES

@@ -10,6 +10,7 @@
 #include <game/graphics/unknown2056570.h>
 #include <game/file/fileUnknown.h>
 #include <seaMap/seaMapManager.h>
+#include <game/math/unknown2051334.h>
 
 // resources
 #include <resources/bb/vi_msg/vi_msg_eng.h>
@@ -41,9 +42,6 @@ NOT_DECOMPILED void _ZN8CVector39NormalizeEv(void);
 NOT_DECOMPILED void _ZN8CVector3C1Ev(void);
 
 NOT_DECOMPILED void _ZN13CViDockCamera15SetDrawPipelineEv(CViDockCamera *work);
-
-NOT_DECOMPILED void Unknown2051334__Func_20514DC(VecFx32 *dest, VecFx32 *a2, VecFx32 *a3, fx32 a4);
-NOT_DECOMPILED GXRgb Unknown2051334__Func_20516EC(GXRgb color1, GXRgb color2, s32 a3, s32 a4);
 }
 
 // --------------------

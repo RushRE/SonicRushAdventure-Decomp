@@ -7,17 +7,7 @@
 #include <game/graphics/drawState.h>
 #include <game/graphics/drawReqTask.h>
 #include <hub/hubConfig.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-extern "C"
-{
-
-NOT_DECOMPILED fx32 Unknown2051334__Func_20516B8(fx32 start, fx32 end, fx32 duration, fx32 progress);
-NOT_DECOMPILED s32 Unknown2051334__Func_2051600(s32 start, s32 end, fx32 speed);
-}
+#include <game/math/unknown2051334.h>
 
 // --------------------
 // FUNCTIONS

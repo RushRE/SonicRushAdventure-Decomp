@@ -2,14 +2,7 @@
 #include <game/graphics/drawReqTask.h>
 #include <game/stage/gameSystem.h>
 #include <game/object/obj.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void Unknown2066510__Func_20670F8(fx32 *a1, fx32 *a2, VecFx32 *dest);
-NOT_DECOMPILED void Unknown2066510__Func_2066F88(VecFx32 *a1, VecFx32 *a2, fx32 *a3);
-NOT_DECOMPILED void Unknown2066510__Func_206703C(fx32 *dest, VecFx32 *lhs, VecFx32 *rhs);
+#include <game/math/unknown2066510.h>
 
 // --------------------
 // VARIABLES

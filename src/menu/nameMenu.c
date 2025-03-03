@@ -13,6 +13,8 @@
 #include <game/text/fontAnimator.h>
 #include <game/text/fontWindowAnimator.h>
 #include <game/graphics/unknown2056570.h>
+#include <game/graphics/backgroundUnknown.h>
+#include <game/math/unknown2051334.h>
 
 // resources
 #include <resources/narc/dmni_lz7.h>
@@ -20,13 +22,8 @@
 #include <nitro/code16.h>
 
 // --------------------
-// TEMP
+// TYPES
 // --------------------
-
-NOT_DECOMPILED void BackgroundUnknown__CopyPixels(void *pixels, s32 unitWidth, s32 pivotX, s32 pivotY, u16 xAdvance, u16 lineSize, void *pixels2, u16 pixelWidth, u16 x, u16 y,
-                                                  s16 a11);
-NOT_DECOMPILED fx32 Unknown2051334__Func_20516B8(fx32 start, fx32 end, fx32 duration, fx32 progress);
-NOT_DECOMPILED fx32 Unknown2051334__Func_2051534(fx32 start, fx32 end, fx32 progress, s32 duration, fx32 speed);
 
 typedef char16 (*NameMenuGetCharacterFunc)(s32 x, s32 y);
 typedef void (*DrawPageVariantFunc)(NameMenuWorker *work);

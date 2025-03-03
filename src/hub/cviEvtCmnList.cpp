@@ -9,6 +9,7 @@
 #include <game/input/touchInput.h>
 #include <game/text/mpc.h>
 #include <game/text/fontAnimator.h>
+#include <game/graphics/backgroundUnknown.h>
 
 // resources
 #include <resources/narc/vi_bg_lz7.h>
@@ -19,10 +20,6 @@
 
 extern "C"
 {
-
-NOT_DECOMPILED void BackgroundUnknown__Func_204CBF4(void *a1, s32 a2, u16 a3, u16 a4, u16 a5, u16 a6);
-NOT_DECOMPILED void BackgroundUnknown__CopyPixels(void *pixels, s32 unitWidth, s32 startX, s32 startY, u16 sizeX, u16 sizeY, void *pixels2, u16 pixelWidth, u16 targetX,
-                                                  u16 targetY, u16 a11);
 
 NOT_DECOMPILED void _ZN10HubControl17GetBackgroundFileEt(void);
 

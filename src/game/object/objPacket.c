@@ -1,6 +1,6 @@
 #include <game/object/objPacket.h>
 #include <network/networkHandler.h>
-#include <network/wirelessManager.h>
+#include <game/network/wirelessManager.h>
 #include <game/input/padInput.h>
 
 // --------------------

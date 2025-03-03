@@ -29,6 +29,9 @@
 #include <seaMap/seaMapUnknown.h>
 #include <seaMap/seaMapCutscene.h>
 #include <seaMap/seaMapTraining.h>
+#include <menu/vsMenu.h>
+#include <menu/stageClear.h>
+#include <menu/vsStageClear.h>
 
 // --------------------
 // TEMP
@@ -36,9 +39,6 @@
 
 // Note: function params not decompiled yet! these are just here for the addresses!
 NOT_DECOMPILED void TimeAttackMenu__Create(void);
-NOT_DECOMPILED void StageClear__Create(void);
-NOT_DECOMPILED void VSStageClear__Create(void);
-NOT_DECOMPILED void VSMenu__Create(void);
 NOT_DECOMPILED void VSLobbyMenu__Create(void);
 NOT_DECOMPILED void MainMenu__Create(void);
 NOT_DECOMPILED void VikingCupMenu__Create(void);

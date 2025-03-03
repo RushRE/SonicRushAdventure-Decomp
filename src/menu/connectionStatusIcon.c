@@ -3,18 +3,12 @@
 #include <game/file/archiveFile.h>
 #include <game/graphics/pixelsQueue.h>
 #include <game/graphics/spriteUnknown.h>
-#include <network/wirelessManager.h>
+#include <game/network/wirelessManager.h>
 #include <network/networkHandler.h>
+#include <menu/stageClear.h>
 
 // resources
 #include <resources/narc/dmcmn_antenna_lz7.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void StageClear__LoadFiles(void *archive, ...);
-
 
 // --------------------
 // STRUCTS

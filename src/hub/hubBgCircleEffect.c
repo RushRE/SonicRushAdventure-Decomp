@@ -1,12 +1,7 @@
 #include <hub/hubBgCircleEffect.h>
 #include <game/system/allocator.h>
 #include <game/graphics/drawReqTask.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED fx32 Unknown2051334__Func_20516B8(fx32 start, fx32 end, fx32 duration, fx32 progress);
+#include <game/math/unknown2051334.h>
 
 // --------------------
 // CONSTANTS/MACROS

@@ -23,6 +23,8 @@
 #include <stage/player/starCombo.h>
 #include <stage/player/scoreBonus.h>
 #include <stage/objects/playerSnowboard.h>
+#include <stage/objects/tripleGrindRail.h>
+#include <stage/objects/cannon.h>
 
 // Effects
 #include <stage/effects/buttonPrompt.h>
@@ -56,10 +58,6 @@
 // --------------------
 // TEMP
 // --------------------
-
-// TODO: SOME OF THESE FUNC SIGNATURES AREN'T RIGHT... decompile them
-NOT_DECOMPILED void CannonPath__GetOffsetZ(void);
-NOT_DECOMPILED void TripleGrindRailRingLoss__Create(Player *player);
 
 NOT_DECOMPILED void _s32_div_f(void);
 

@@ -13,18 +13,10 @@
 #include <game/graphics/drawFadeTask.h>
 #include <game/graphics/background.h>
 #include <game/object/objectManager.h>
+#include <game/math/unknown2066510.h>
 
 // resources
 #include <resources/narc/z1boss_act_lz7.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED u16 Unknown2066510__LerpAngle(u16 start, u16 end, fx32 percent);
-NOT_DECOMPILED void Unknown2066510__LerpMtx43(void);
-NOT_DECOMPILED void Unknown2066510__Func_2066B94(void);
-NOT_DECOMPILED void Unknown2066510__NormalizeScale(void);
 
 // --------------------
 // ENUMS

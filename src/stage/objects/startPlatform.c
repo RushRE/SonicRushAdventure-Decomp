@@ -10,12 +10,7 @@
 #include <game/stage/mapFarSys.h>
 #include <stage/objects/playerSnowboard.h>
 #include <stage/effects/startDash.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED u16 Unknown2066510__LerpAngle(u16 start, u16 end, fx32 percent);
+#include <game/math/unknown2066510.h>
 
 // --------------------
 // FUNCTION DECLS

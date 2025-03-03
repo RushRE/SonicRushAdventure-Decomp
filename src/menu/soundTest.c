@@ -11,18 +11,12 @@
 #include <game/save/saveGame.h>
 #include <game/text/fontAnimator.h>
 #include <hub/dockCommon.h>
+#include <game/graphics/backgroundUnknown.h>
 
 // resources
 #include <resources/narc/dmsou_lz7.h>
 #include <resources/bb/vi_npc.h>
 #include <resources/narc/vi_bg_lz7.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void BackgroundUnknown__CopyPixels(void *pixels, s32 unitWidth, s32 pivotX, s32 pivotY, u16 xAdvance, u16 lineSize, void *pixels2, u16 pixelWidth, u16 x, u16 y,
-                                                  s16 a11);
 
 // --------------------
 // ENUMS
@@ -973,17 +967,23 @@ _0215D9C0:
 #endif
 }
 
-NONMATCH_FUNC void SetSoundTestTrackNumber(SoundTest *work, s32 selection, BOOL instantChange)
+void SetSoundTestTrackNumber(SoundTest *work, s32 selection, BOOL instantChange)
 {
-    // https://decomp.me/scratch/o8dO6 -> 43.29%
-#ifdef NON_MATCHING
-    u16 digit1 = (selection + 1) / 100;
-    u16 digit2 = ((selection + 1) - (digit1 * 100)) / 10;
-    u16 digit3 = ((selection + 1) - (digit1 * 100) - (digit2 * 10));
+    u16 value = selection + 1;
 
-    work->trackNumTarget[0] = digit1;
-    work->trackNumTarget[1] = digit2;
-    work->trackNumTarget[2] = digit3;
+    s32 digits[3];
+    digits[0] = value;
+    digits[0] /= 100;
+
+    digits[1] = (u16)(value - (digits[0] * 100));
+    digits[1] /= 10;
+
+    digits[2] = (u16)(value - (digits[0] * 100));
+    digits[2] -= (digits[1] * 10);
+
+    work->trackNumTarget[0] = digits[0];
+    work->trackNumTarget[1] = digits[1];
+    work->trackNumTarget[2] = digits[2];
 
     if (instantChange)
     {
@@ -991,71 +991,43 @@ NONMATCH_FUNC void SetSoundTestTrackNumber(SoundTest *work, s32 selection, BOOL 
         work->trackNumPos[1] = FX32_FROM_WHOLE(work->trackNumTarget[1]);
         work->trackNumPos[2] = FX32_FROM_WHOLE(work->trackNumTarget[2]);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	add r1, r1, #1
-	mov r3, r1, lsl #0x10
-	mov r1, r3, lsr #0x10
-	ldr r4, =0x51EB851F
-	mov ip, r1, lsr #0x1f
-	smull lr, r1, r4, r1
-	add r1, ip, r1, asr #5
-	mov r4, #0x64
-	mul r4, r1, r4
-	rsb r3, r4, r3, lsr #16
-	mov r3, r3, lsl #0x10
-	mov r6, r3, lsr #0x10
-	add r5, r0, #0xb00
-	ldr lr, =0x66666667
-	mov r4, r6, lsr #0x1f
-	smull ip, r6, lr, r6
-	add r6, r4, r6, asr #2
-	mov r4, #0xa
-	strh r1, [r5, #0x6c]
-	mul r4, r6, r4
-	strh r6, [r5, #0x6e]
-	rsb r1, r4, r3, lsr #16
-	strh r1, [r5, #0x70]
-	cmp r2, #0
-	ldmeqia sp!, {r4, r5, r6, pc}
-	ldrh r1, [r5, #0x6c]
-	mov r1, r1, lsl #0xc
-	str r1, [r0, #0xb74]
-	ldrh r1, [r5, #0x6e]
-	mov r1, r1, lsl #0xc
-	str r1, [r0, #0xb78]
-	ldrh r1, [r5, #0x70]
-	mov r1, r1, lsl #0xc
-	str r1, [r0, #0xb7c]
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC void AnimateSoundTestTrackNumber(SoundTest *work)
+void AnimateSoundTestTrackNumber(SoundTest *work)
 {
-    // https://decomp.me/scratch/JJ1Jd -> 89.07%
-#ifdef NON_MATCHING
-    for (s32 i = 0; i < 3; i++)
+    fx32 current;
+    fx32 target;
+    fx32 distance;
+    BOOL flag;
+    s32 i;
+
+    for (i = 0; i < 3; i++)
     {
-        fx32 current = work->trackNumPos[i];
-        fx32 target  = FX32_FROM_WHOLE(work->trackNumTarget[i]);
+        current = work->trackNumPos[i];
+        target  = FX32_FROM_WHOLE(work->trackNumTarget[i]);
         if (current != target)
         {
-            fx32 distance = MATH_ABS(current - target);
+            distance = MATH_ABS(current - target);
             if (distance <= FLOAT_TO_FX32(0.25))
             {
                 work->trackNumPos[i] = target;
             }
             else
             {
-                BOOL flag;
                 if (current < target)
-                    flag = distance >= FLOAT_TO_FX32(5.0);
+                {
+                    if (distance >= FLOAT_TO_FX32(5.0))
+                        flag = TRUE;
+                    else
+                        flag = FALSE;
+                }
                 else
-                    flag = distance < FLOAT_TO_FX32(5.0);
+                {
+                    if (distance >= FLOAT_TO_FX32(5.0))
+                        flag = FALSE;
+                    else
+                        flag = TRUE;
+                }
 
                 if (flag)
                 {
@@ -1074,60 +1046,6 @@ NONMATCH_FUNC void AnimateSoundTestTrackNumber(SoundTest *work)
             }
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r1, #0
-	mov r3, #1
-	mov ip, r1
-	mov lr, r1
-	mov r4, r3
-_0215DABC:
-	add r2, r0, r1, lsl #1
-	add r2, r2, #0xb00
-	add r5, r0, r1, lsl #2
-	ldrh r2, [r2, #0x6c]
-	ldr r5, [r5, #0xb74]
-	cmp r5, r2, lsl #12
-	mov r6, r2, lsl #0xc
-	beq _0215DB40
-	subs r2, r5, r6
-	rsbmi r2, r2, #0
-	cmp r2, #0x400
-	addle r2, r0, r1, lsl #2
-	strle r6, [r2, #0xb74]
-	ble _0215DB40
-	cmp r5, r6
-	bge _0215DB0C
-	cmp r2, #0x5000
-	movge r2, r4
-	movlt r2, lr
-	b _0215DB18
-_0215DB0C:
-	cmp r2, #0x5000
-	movge r2, ip
-	movlt r2, r3
-_0215DB18:
-	cmp r2, #0
-	beq _0215DB2C
-	subs r5, r5, #0x400
-	addmi r5, r5, #0xa000
-	b _0215DB38
-_0215DB2C:
-	add r5, r5, #0x400
-	cmp r5, #0xa000
-	subge r5, r5, #0xa000
-_0215DB38:
-	add r2, r0, r1, lsl #2
-	str r5, [r2, #0xb74]
-_0215DB40:
-	add r1, r1, #1
-	cmp r1, #3
-	blt _0215DABC
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
 BOOL CheckSoundTestDigitsIdle(SoundTest *work)

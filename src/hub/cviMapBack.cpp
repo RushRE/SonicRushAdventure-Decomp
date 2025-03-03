@@ -7,6 +7,8 @@
 #include <game/graphics/background.h>
 #include <hub/hubConfig.h>
 #include <hub/hubControl.hpp>
+#include <game/graphics/backgroundUnknown.h>
+#include <game/math/unknown2051334.h>
 
 // resources
 #include <resources/bb/vi_map_back.h>
@@ -21,13 +23,6 @@ extern "C"
 {
 
 NOT_DECOMPILED void _ZdlPv(void);
-
-NOT_DECOMPILED void BackgroundUnknown__Func_204CB98(void *ptr1, u16 width1, u16 startX1, u16 startY1, u16 sizeX1, u16 sizeY1, void *ptr2, u16 width2, u16 sizeX2, u16 sizeY2,
-                                                    u16 a1);
-NOT_DECOMPILED void BackgroundUnknown__Func_204CB40(void *ptr1, u16 width1, u16 startX1, u16 startY1, u16 sizeX1, u16 sizeY1, void *ptr2, u16 width2, u16 sizeX2, u16 sizeY2,
-                                                    u16 a1);
-
-NOT_DECOMPILED fx32 Unknown2051334__Func_2051534(fx32 start, fx32 end, fx32 progress, s32 duration, fx32 speed);
 
 NOT_DECOMPILED void _ZN13CViMapVmiFile7ReleaseEv(CViMapVmiFile *work);
 NOT_DECOMPILED void _ZN13CViMapVmpFile7ReleaseEv(CViMapVmpFile *work);
@@ -1918,8 +1913,8 @@ void CViMapBack::SpriteDecorConfig1_Seagull(u16 timer, s16 *x, s16 *y, s16 *oamP
         speed = FLOAT_TO_FX32(1.5);
     }
 
-    *x            = Unknown2051334__Func_2051534(startX, endX, FLOAT_TO_FX32(0.03125), timer, speed);
-    *y            = Unknown2051334__Func_2051534(startY, endY, FLOAT_TO_FX32(0.03125), timer, speed);
+    *x            = Unknown2051334__Func_2051534(startX, endX, 128, timer, speed);
+    *y            = Unknown2051334__Func_2051534(startY, endY, 128, timer, speed);
     *oamPriority  = SPRITE_PRIORITY_2;
     *isInvisible  = FALSE;
     *useAltOffset = FALSE;

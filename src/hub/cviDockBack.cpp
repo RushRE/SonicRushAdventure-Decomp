@@ -6,6 +6,7 @@
 #include <game/unknown/unknown2085404.h>
 #include <game/file/bundleFileUnknown.h>
 #include <hub/hubConfig.h>
+#include <game/math/unknown2051334.h>
 
 // --------------------
 // STRUCTS
@@ -28,9 +29,6 @@ NOT_DECOMPILED void *_ZTV11CViDockBack;
 NOT_DECOMPILED void _ZdlPv(void);
 
 NOT_DECOMPILED void _ZN11CViDockBack7ReleaseEv(void);
-
-NOT_DECOMPILED BOOL Unknown2051334__Func_2051450(fx32 x, fx32 z, fx32 *outX, fx32 *outZ, fx32 a5, fx32 a6, fx32 a7, fx32 a8);
-NOT_DECOMPILED void Unknown2051334__Func_2051334(fx32 a1, fx32 a2, fx32 a3, fx32 a4, fx32 x, fx32 z, fx32 *outX, fx32 *outZ);
 }
 
 // --------------------

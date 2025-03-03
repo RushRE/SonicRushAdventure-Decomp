@@ -361,7 +361,7 @@ _02166A18:
 	bl VSViewFriendCodeMenu__LoadAssets
 	ldr r0, _02166B3C // =0x00001874
 	add r0, r4, r0
-	bl VSRecordsMenu__LoadAssets
+	bl InitVSRecordsMenuHandle
 	bl LoadSysSoundVillage
 	mov r0, #0
 	bl PlaySysVillageTrack
@@ -465,7 +465,7 @@ VSMenu__Destroy: // 0x02166B58
 	bl ReleaseTouchInput
 	ldr r0, _02166BB8 // =0x00001874
 	add r0, r4, r0
-	bl VSRecordsMenu__ReleaseAssets
+	bl ReleaseVSRecordsMenuHandle
 	ldr r0, _02166BBC // =0x0000186C
 	add r0, r4, r0
 	bl VSViewFriendCodeMenu__ReleaseAssets

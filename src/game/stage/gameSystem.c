@@ -33,15 +33,9 @@
 #include <game/math/mtMath.h>
 #include <game/stage/bossArena.h>
 #include <network/networkHandler.h>
-#include <network/wirelessManager.h>
 #include <game/game/missionList.h>
 #include <stage/core/decorationSys.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void MultibootManager__Func_206789C(s32 a1);
+#include <game/network/wirelessManager.h>
 
 // --------------------
 // ENUMS/CONSTANTS

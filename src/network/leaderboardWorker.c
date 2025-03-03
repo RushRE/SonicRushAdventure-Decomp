@@ -2,15 +2,7 @@
 #include <network/networkHandler.h>
 #include <game/save/saveManager.h>
 #include <game/util/akUtil.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED s32 MultibootManager__GetField8(void);
-NOT_DECOMPILED void MultibootManager__Func_2061BF0(BOOL a1);
-NOT_DECOMPILED BOOL MultibootManager__CheckValidConsole(void);
-NOT_DECOMPILED BOOL MultibootManager__CheckHasProfile(void);
+#include <game/network/multibootManager.h>
 
 // --------------------
 // VARIABLES

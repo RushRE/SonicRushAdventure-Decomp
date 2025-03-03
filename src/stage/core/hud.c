@@ -7,7 +7,7 @@
 #include <game/util/akUtil.h>
 #include <game/graphics/drawReqTask.h>
 #include <game/audio/audioSystem.h>
-#include <network/wirelessManager.h>
+#include <game/network/wirelessManager.h>
 
 // --------------------
 // STRUCTS

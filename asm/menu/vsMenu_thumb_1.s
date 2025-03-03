@@ -1070,7 +1070,7 @@ VSMenu__Main_2167A10: // 0x02167A10
 	ldr r0, _02167A38 // =0x00001874
 	mov r1, #0
 	add r0, r4, r0
-	bl VSRecordsMenu__Create
+	bl CreateVSRecordsMenuFromHandle
 	ldr r0, _02167A3C // =VSMenu__Main_2167A40
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
@@ -1088,7 +1088,7 @@ VSMenu__Main_2167A40: // 0x02167A40
 	bl GetTaskWork_
 	ldr r1, _02167A64 // =0x00001874
 	add r0, r0, r1
-	bl VSRecordsMenu__Func_2173204
+	bl CheckVSRecordsMenuHandleTaskActive
 	cmp r0, #0
 	beq _02167A5C
 	ldr r0, _02167A68 // =VSMenu__Main
@@ -1806,7 +1806,7 @@ VSMenu__Main_2168090: // 0x02168090
 	mov r4, r0
 	ldr r0, _021680C8 // =0x00001874
 	add r0, r4, r0
-	bl VSRecordsMenu__ReleaseAssets
+	bl ReleaseVSRecordsMenuHandle
 	ldr r0, _021680CC // =0x0000186C
 	add r0, r4, r0
 	bl VSViewFriendCodeMenu__ReleaseAssets
@@ -1845,7 +1845,7 @@ VSMenu__Main_21680D8: // 0x021680D8
 	bl VSViewFriendCodeMenu__LoadAssets
 	ldr r0, _0216811C // =0x00001874
 	add r0, r4, r0
-	bl VSRecordsMenu__LoadAssets
+	bl InitVSRecordsMenuHandle
 	pop {r4, pc}
 	nop
 _0216810C: .word VSMenu__Singleton

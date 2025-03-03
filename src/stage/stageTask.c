@@ -6,16 +6,10 @@
 #include <game/object/objBlock.h>
 #include <game/object/objDraw.h>
 #include <game/object/obj.h>
+#include <game/object/objExWork.h>
 #include <game/audio/audioSystem.h>
 #include <game/graphics/drawReqTask.h>
 #include <game/graphics/screenUnknown.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void ObjExWork__Init(ObjExWork *work);
-NOT_DECOMPILED void ObjExWork__Release(ObjExWork *work);
 
 // --------------------
 // FUNCTION DECLS

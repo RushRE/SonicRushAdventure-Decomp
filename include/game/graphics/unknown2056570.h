@@ -39,7 +39,7 @@ typedef struct Unknown2056570_
 // --------------------
 
 NOT_DECOMPILED void Unknown2056570__Init(Unknown2056570 *work, BOOL useEngineB, u16 bgID, u32 flags, u16 startX, u16 startY, u16 sizeX, u16 sizeY, void *pixelBuffer,
-                                         BOOL use64SizeTiles, s32 vramPos);
+                                         BOOL use64SizeTiles, u32 vramPos);
 NOT_DECOMPILED void Unknown2056570__Func_2056670(Unknown2056570 *work);
 NOT_DECOMPILED void Unknown2056570__Func_2056688(Unknown2056570 *work, s32 a2);
 NOT_DECOMPILED u16 Unknown2056570__Func_2056824(Unknown2056570 *work);

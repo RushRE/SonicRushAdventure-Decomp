@@ -30,7 +30,7 @@
 #include <stage/core/demoPlayer.h>
 #include <game/graphics/drawReqTask.h>
 #include <stage/gameObject.h>
-#include <network/wirelessManager.h>
+#include <game/network/wirelessManager.h>
 
 // resources
 #include <resources/narc/act_com_lz7.h>

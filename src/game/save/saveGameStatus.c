@@ -9,12 +9,6 @@
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void *aSonic;
-
-// const size_t savedataBlockSizes[9] = { 0, 0x28, 0x1A8, 0x6C8, 0x474, 0x12C, 0x18, 0x3C8, 0x850 };
-// const size_t _02110DDC[9] = { 0, 0, 0x80, 0x400, 0x1200, 0x1B00, 0x1D80, 0x1E00, 0x2600 };
-// const size_t savedataBlockOffsets[9] = { 0, 0, 0x28, 0x1D0, 0x898, 0xD0C, 0xE38, 0xE50, 0x1218 };
-
 static const u8 missionForSolEmerald[7] = { 19, 77, 29, 86, 81, 69, 71 };
 
 // --------------------

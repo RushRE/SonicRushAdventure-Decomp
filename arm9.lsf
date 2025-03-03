@@ -613,7 +613,7 @@ Overlay Menus1
     Object src/seaMap/seaMapTraining.o
     Object asm/menu/vsFriendsListMenu.o             # arm code
     Object asm/menu/vsRegisterFriendCodeMenu.o      # arm code
-    Object asm/menu/vsRecordsMenu.o                 # arm code
+    Object src/menu/vsRecordsMenu.o
     Object src/menu/networkErrorMenu.o
     Object asm/menu/leaderboardWorker_vars.o
     Object src/network/leaderboardWorker.o

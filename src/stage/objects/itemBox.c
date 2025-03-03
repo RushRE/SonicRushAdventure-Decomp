@@ -4,12 +4,7 @@
 #include <game/stage/gameSystem.h>
 #include <game/game/gameState.h>
 #include <stage/effects/explosion.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void AddItemBoxToRingBattleManager(GameObjectTask *work);
+#include <stage/core/ringBattleManager.h>
 
 // --------------------
 // MAPOBJECT PARAMS
@@ -190,7 +185,7 @@ ItemBox *CreateItemBox(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     if (gmCheckRingBattle())
     {
-        AddItemBoxToRingBattleManager(&work->gameWork);
+        AddItemBoxToRingBattleManager(work);
         work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     }
 

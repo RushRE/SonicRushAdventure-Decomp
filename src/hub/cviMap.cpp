@@ -5,6 +5,7 @@
 #include <hub/hubAudio.h>
 #include <game/graphics/paletteAnimation.h>
 #include <game/file/fsRequest.h>
+#include <game/math/unknown2051334.h>
 
 // resources
 #include <resources/narc/vi_act_lz7.h>
@@ -22,8 +23,6 @@ NOT_DECOMPILED void _ZN10HubControl12Func_215B03CEv(void);
 
 NOT_DECOMPILED void _ZdlPv(void);
 NOT_DECOMPILED void _ZnwmPv(void);
-
-NOT_DECOMPILED fx32 Unknown2051334__Func_2051534(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 }
 
 // --------------------

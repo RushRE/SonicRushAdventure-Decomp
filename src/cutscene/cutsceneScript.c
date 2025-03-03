@@ -19,6 +19,7 @@
 #include <game/text/fontWindow.h>
 #include <game/game/gameState.h>
 #include <game/util/unknown204BE48.h>
+#include <game/graphics/backgroundUnknown.h>
 
 // --------------------
 // TEMP
@@ -26,8 +27,6 @@
 
 NOT_DECOMPILED void _s32_div_f(void);
 NOT_DECOMPILED void _u32_div_f(void);
-
-NOT_DECOMPILED void BackgroundUnknown__Func_204CA00(BOOL useEngineB, u8 backgroundID);
 
 // --------------------
 // CONSTANTS
