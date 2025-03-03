@@ -63,8 +63,7 @@ GF_DEFINES += -DRUSH_DEBUG
 GF_DEFINES += -DGDB_DEBUGGING
 GLB_DEFINES += -DSDK_DEBUG
 
-# padding not needed in debug mode!
-ROM_PADDING := FALSE
+ROM_PADDING := TRUE
 else
 # FINALROM only needed if not in debug mode!
 GLB_DEFINES += -DSDK_FINALROM

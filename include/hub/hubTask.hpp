@@ -26,7 +26,11 @@ template <typename T> static Task *HubTaskCreate_(TaskMain taskMain, TaskDestruc
 template <typename T> static Task *HubTaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u16 priority, TaskGroup group)
 #endif
 {
+#ifdef RUSH_DEBUG
+    Task *task = TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, group, sizeof(T), name);
+#else
     Task *task = TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, group, sizeof(T));
+#endif
 
     T *work = (T *)GetTaskWork_(task);
     PlacementNew(work, T);
