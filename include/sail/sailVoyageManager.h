@@ -2,6 +2,7 @@
 #define RUSH_SAILVOYAGEMANAGER_H
 
 #include <game/system/task.h>
+#include <seaMap/seaMapManager.h>
 
 // --------------------
 // STRUCTS
@@ -12,16 +13,13 @@ typedef struct SailVoyageSegment_
     u8 field_0;
     u8 field_1;
     u16 angle;
-    u16 field_4;
+    s16 field_4;
     u16 blockID;
     u16 header2EntryID;
     u16 field_A;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
+    Vec2Fx32 field_C;
+    Vec2Fx32 field_14;
+    Vec2Fx32 field_1C;
     u32 field_24;
 } SailVoyageSegment;
 
@@ -79,18 +77,8 @@ typedef struct SailVoyageManager_
     SailVoyageSegment *segmentList;
     s32 field_C4;
     s32 field_C8;
-    void *field_CC[1][2];
-    s32 field_D4;
-    s32 field_D8;
-    s32 field_DC;
-    s32 field_E0;
-    s32 field_E4;
-    s32 field_E8;
-    s32 field_EC;
-    s32 field_F0;
-    u16 field_F4[2];
-    s32 field_F8;
-    u16 field_FC;
+    SeaMapEventManagerUnknown2046B14 field_CC[5];
+    u16 field_F4[5];
     u16 field_FE;
 } SailVoyageManager;
 
@@ -98,26 +86,26 @@ typedef struct SailVoyageManager_
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC SailVoyageManager *SailVoyageManager__Create(void);
-NONMATCH_FUNC void SailVoyageManager__Destructor(Task *Task);
-NONMATCH_FUNC void SailVoyageManager__Func_21574B4(SailVoyageManager *work);
-NONMATCH_FUNC void SailVoyageManager__Func_2157628(void);
-NONMATCH_FUNC void SailVoyageManager__Func_215776C(void *a1, u32 segmentCount);
-NONMATCH_FUNC void SailVoyageManager__Func_2157894(void *a1, u32 segmentCount);
-NONMATCH_FUNC void SailVoyageManager__Func_215794C(SailVoyageManager *work);
-NONMATCH_FUNC void SailVoyageManager__Func_215799C(SailVoyageManager *work);
-NONMATCH_FUNC void SailVoyageManager__SetupVoyage(void);
-NONMATCH_FUNC s32 SailVoyageManager__Func_2157AE4(void);
-NONMATCH_FUNC VecFx32 *SailVoyageManager__Func_2157AF4(void);
-NONMATCH_FUNC s32 SailVoyageManager__Func_2157B04(void);
-NONMATCH_FUNC s32 SailVoyageManager__Func_2157B14(void);
-NONMATCH_FUNC void SailVoyageManager__Main(void);
-NONMATCH_FUNC void SailVoyageManager__Func_2157C34(SailVoyageManager *work);
-NONMATCH_FUNC void SailVoyageManager__Func_2158028(SailVoyageManager *work, s32 a2);
-NONMATCH_FUNC void SailVoyageManager__Func_2158234(SailVoyageManager *work);
-NONMATCH_FUNC void SailVoyageManager__LinkSegments(SailVoyageManager *work);
-NONMATCH_FUNC void SailVoyageManager__Func_215868C(s32 *a1, s32 *a2, s32 *a3, s32 *a4, s32 *a5);
-NONMATCH_FUNC void SailVoyageManager__Func_2158854(SailVoyageSegment *segment, s32 a2);
-NONMATCH_FUNC void SailVoyageManager__Func_2158888(SailVoyageSegment *segment, int a2, fx32 *a3, fx32 *a4);
+SailVoyageManager *SailVoyageManager__Create(void);
+void SailVoyageManager__Destructor(Task *task);
+void SailVoyageManager__Func_21574B4(SailVoyageManager *work);
+void SailVoyageManager__Func_2157628(void);
+void SailVoyageManager__Func_215776C(void *a1, u32 segmentCount);
+void SailVoyageManager__Func_2157894(void *a1, u32 segmentCount);
+s32 SailVoyageManager__Func_215794C(SailVoyageManager *work);
+u8 SailVoyageManager__Func_215799C(SailVoyageManager *work);
+void SailVoyageManager__SetupVoyage(void);
+s32 SailVoyageManager__Func_2157AE4(void);
+VecFx32 *SailVoyageManager__Func_2157AF4(void);
+s32 SailVoyageManager__Func_2157B04(void);
+s32 SailVoyageManager__Func_2157B14(SailVoyageSegment *segment);
+void SailVoyageManager__Main(void);
+void SailVoyageManager__Func_2157C34(SailVoyageManager *work);
+void SailVoyageManager__Func_2158028(SailVoyageManager *work, s32 a2);
+void SailVoyageManager__Func_2158234(SailVoyageManager *work);
+void SailVoyageManager__LinkSegments(SailVoyageManager *work);
+void SailVoyageManager__Func_215868C(Vec2Fx32 *a1, Vec2Fx32 *a2, Vec2Fx32 *a3, Vec2Fx32 *a4, Vec2Fx32 *a5);
+u16 SailVoyageManager__Func_2158854(SailVoyageSegment *segment, s32 a2);
+void SailVoyageManager__Func_2158888(SailVoyageSegment *segment, s32 a2, fx32 *x, fx32 *z);
 
 #endif // !RUSH_SAILVOYAGEMANAGER_H

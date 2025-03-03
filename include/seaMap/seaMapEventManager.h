@@ -81,6 +81,12 @@ typedef struct CHEV_
     CHEVObject entries[1];
 } CHEV;
 
+typedef struct SeaMapEventManagerUnknown2046B14_
+{
+    CHEVObject *object;
+    u32 radius;
+} SeaMapEventManagerUnknown2046B14;
+
 typedef struct SeaMapEventManager_
 {
     s32 lastTouchedIconType;
@@ -112,7 +118,7 @@ NOT_DECOMPILED SeaMapEventManager *SeaMapEventManager__GetWork2(void);
 NOT_DECOMPILED void SeaMapEventManager__Func_2046A78(void);
 NOT_DECOMPILED void SeaMapEventManager__Func_2046A94(void *a1);
 NOT_DECOMPILED CHEVObject *SeaMapEventManager__GetObjectFromID(u32 id);
-NOT_DECOMPILED void SeaMapEventManager__Func_2046B14(s32 a1, s32 a2, s32 a3, u32 *a4, u16 *a5);
+NOT_DECOMPILED void SeaMapEventManager__Func_2046B14(fx32 offsetX, fx32 offsetY, fx32 radiusThreshold, SeaMapEventManagerUnknown2046B14 *objectList, u16 *objectCount);
 NOT_DECOMPILED u32 SeaMapEventManager__GetObjectType(CHEVObject *obj);
 NOT_DECOMPILED BOOL SeaMapEventManager__ObjectIsActive(CHEVObject *obj);
 NOT_DECOMPILED u32 SeaMapEventManager__Func_2046CE8(u32 id);

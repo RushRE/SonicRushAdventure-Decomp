@@ -712,7 +712,9 @@ Overlay Sail
     Object src/sail/sailAudio.o
     Object asm/sail/sailEventManager.o
     Object asm/sail/sailRingManager.o
-    Object asm/sail/sailVoyageManager.o
+    Object src/sail/sailVoyageManager_1.o
+    Object asm/sail/sailVoyageManager_vars.o
+    Object src/sail/sailVoyageManager_2.o
     Object src/sail/sailPlayer.o
     Object asm/sail/sailPlayer_vars_rodata.o
     Object asm/sail/sailCamera.o
