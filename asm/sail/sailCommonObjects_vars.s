@@ -48,11 +48,3 @@ aSbSeagullNsbmd_0: // 0x0218D31C
 aSbStoneNsbmd_0: // 0x0218D330
 	.asciz "sb_stone.nsbmd"
     .align 4
-
-aSbIceNsbmd_0: // 0x0218D340
-	.asciz "sb_ice.nsbmd"
-    .align 4
-
-aSbSubFishNsbmd_0: // 0x0218D350
-	.asciz "sb_sub_fish.nsbmd"
-    .align 4

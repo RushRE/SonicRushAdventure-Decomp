@@ -3,6 +3,7 @@
 
 #include <stage/stageTask.h>
 #include <sail/sailRingManager.h>
+#include <seaMap/seaMapCommon.h>
 
 // --------------------
 // ENUMS
@@ -172,6 +173,9 @@ typedef StageTask *(*SailObjectSpawnFunc)(SailEventManagerObject *mapObject);
 // --------------------
 // VARIABLES
 // --------------------
+
+extern const u16 _0218B9AC[SHIP_COUNT];
+extern const u16 _0218B9B4[SHIP_COUNT];
 
 extern const SailObjectSpawnFunc sailObjectSpawnList[SAILMAPOBJECT_TYPE_COUNT][SAILMAPOBJECT_COUNT];
 

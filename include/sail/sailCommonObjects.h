@@ -65,19 +65,19 @@ void SailObject__Func_2164D10(StageTask *work, GXRgb color);
 void SailObject__DefaultIn(StageTask *work);
 void SailObject__Func_2164F10(StageTask *work);
 void SailObject__Func_2165038(StageTask *work);
-void SailObject__Func_21650B4(StageTask *work);
+void SailObject__Func_21650B4(StageTask *work, s32 a2);
 void SailObject__DefaultLast(StageTask *work);
 void SailObject__Func_216524C(StageTask *work, void *unknown);
 void SailObject__DefaultOnCheck(StageTask *work);
 void SailObject__CheckCollisions(StageTask *work);
 void SailObject__Func_2165624(StageTask *work);
 void SailObject__SetupHitbox(StageTask *work, SailColliderWork *userData, s32 id);
-void SailObject__Func_21658A4(StageTask *work);
+void SailObject__Func_21658A4(StageTask *work, s32 id);
 void SailObject__Func_21658D0(StageTask *work, s32 id, s32 a3, VecFx32 *a4);
 void SailObject__Func_2165960(StageTask *work);
 void SailObject__ShakeScreen(StageTask *work, s32 timer);
-void SailObject__Func_2165A9C(StageTask *work, VecFx32 *positon);
-void SailObject__Func_2165AF4(StageTask *work);
+void SailObject__Func_2165A9C(StageTask *work, VecFx32 *position);
+void SailObject__Func_2165AF4(StageTask *work, VecFx32 *position);
 
 StageTask *SailLanding__Create(SailEventManagerObject *mapObject);
 
@@ -105,22 +105,22 @@ StageTask *SailBuoy__Create(StageTask *work);
 StageTask *SailBuoy__CreateFromSegment(SailVoyageSegment *voyageSegment);
 StageTask *SailBuoy__CreateFromSegment2(SailVoyageSegment *voyageSegment);
 
-StageTask *SailSeagull__Create(StageTask *work);
-StageTask *SailSeagull2__Create(StageTask *work);
-StageTask *SailSeagull3__Create(StageTask *work);
+StageTask *SailSeagull__Create(SailEventManagerObject *mapObject);
+StageTask *SailSeagull2__Create(SailEventManagerObject *mapObject);
+StageTask *SailSeagull3__Create(SailEventManagerObject *mapObject);
 StageTask *SailSeagull__CreateFromSegment(SailVoyageSegment *voyageSegment);
 StageTask *SailSeagull__CreateUnknown2(StageTask *work);
 
-StageTask *SailStone__Create(StageTask *work);
+StageTask *SailStone__Create(SailEventManagerObject *mapObject);
 StageTask *SailStone__CreateFromSegment(SailVoyageSegment *voyageSegment, s32 a2);
 
-StageTask *SailIce__Create(StageTask *work);
+StageTask *SailIce__Create(SailEventManagerObject *mapObject);
 StageTask *SailIce__CreateFromSegment(SailVoyageSegment *voyageSegment, s32 a2);
 
-StageTask *SailSubFish__Create(StageTask *work);
+StageTask *SailSubFish__Create(SailEventManagerObject *mapObject);
 StageTask *SailSubFish2__Create(StageTask *work);
-StageTask *SailSubFish__CreateUnknown1(SailVoyageSegment *voyageSegment);
-StageTask *SailSubFish__CreateUnknown2(StageTask *work);
+void SailSubFish__CreateUnknown1(SailVoyageSegment *voyageSegment);
+void SailSubFish__CreateUnknown2(StageTask *parent);
 
 StageTask *SailChaosEmerald__Create(fx32 z);
 StageTask *SailGoal__Create(fx32 radius);

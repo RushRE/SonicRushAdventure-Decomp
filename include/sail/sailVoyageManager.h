@@ -16,7 +16,7 @@ typedef struct SailVoyageSegment_
     s16 field_4;
     u16 blockID;
     u16 header2EntryID;
-    u16 field_A;
+    s16 field_A;
     Vec2Fx32 field_C;
     Vec2Fx32 field_14;
     Vec2Fx32 field_1C;
