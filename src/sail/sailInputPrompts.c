@@ -2,18 +2,13 @@
 #include <sail/sailManager.h>
 #include <sail/sailHUD.h>
 #include <sail/sailPlayer.h>
+#include <sail/sailCommonObjects.h>
 #include <game/file/binaryBundle.h>
 #include <game/object/objectManager.h>
 #include <game/object/obj.h>
 
 // resources
 #include <resources/bb/sb.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void SailObject__SetAnimSpeed(StageTask *work, fx32 speed);
 
 // --------------------
 // ENUMS

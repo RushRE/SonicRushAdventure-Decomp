@@ -1908,7 +1908,7 @@ SailSailerBoat__SetupObject2: // 0x0217B1A8
 	mul r5, r1, r0
 	ldr r6, [r3, #0xc0]
 	add r0, r6, r5
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r3, [r4, #0x178]
 	ldr r2, _0217B21C // =0x0007FFFF
 	mov r1, r0
@@ -3195,7 +3195,7 @@ SailSailerBoat__Func_217C360: // 0x0217C360
 	mul r5, r2, r1
 	ldr r6, [r0, #0xc0]
 	add r0, r6, r5
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r3, [r4, #0x178]
 	ldr r2, _0217C42C // =0x0007FFFF
 	mov r1, r0
@@ -3925,7 +3925,7 @@ SailSailerBoat__Func_217CDB0: // 0x0217CDB0
 	mul r5, r1, r0
 	ldr r6, [r3, #0xc0]
 	add r0, r6, r5
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r3, [r4, #0x178]
 	ldr r2, _0217CE38 // =0x0007FFFF
 	mov r1, r0
@@ -6245,7 +6245,7 @@ _0217EEC0:
 	str r0, [sp]
 	str r1, [sp, #4]
 	str r2, [sp, #8]
-	bl SailVoyageManager__Func_2157AF4
+	bl SailVoyageManager__GetVoyageUnknownPos
 	mov r1, r0
 	add r0, sp, #0
 	mov r2, r0
@@ -6522,7 +6522,7 @@ _0217F2D8:
 	ldr r0, [r9, #0x24]
 	tst r0, #1
 	bne _0217F378
-	bl SailVoyageManager__Func_2157AF4
+	bl SailVoyageManager__GetVoyageUnknownPos
 	ldr r2, [r4, #0x148]
 	ldr r1, [r0, #0]
 	sub r1, r2, r1

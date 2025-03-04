@@ -1,12 +1,60 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <sail/sailCommonObjects.h>
+#include <game/object/obj.h>
+#include <game/object/objectManager.h>
+#include <game/graphics/screenShake.h>
+#include <sail/sailAudio.h>
+#include <game/math/unknown2066510.h>
+#include <sail/sailPlayer.h>
 
-.public shipShiftUnknown
+// --------------------
+// TEMP
+// --------------------
 
-	.text
+NOT_DECOMPILED const void *StageTask__shakeOffsetTable;
+NOT_DECOMPILED const void *shipShiftUnknown;
 
-	arm_func_start SailObject__Func_21646DC
-SailObject__Func_21646DC: // 0x021646DC
+NOT_DECOMPILED void EffectSailHit__Create(void);
+NOT_DECOMPILED void EffectSailBomb__Create(void);
+NOT_DECOMPILED void EffectUnknown2161544__Create(void);
+NOT_DECOMPILED void EffectSailWater06__Create(void);
+NOT_DECOMPILED void EffectSailBomb__Create(void);
+NOT_DECOMPILED void EffectSailGuard__Create(void);
+NOT_DECOMPILED void EffectSailUnknown21625C8__Create(void);
+
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED const void *_0218BC58[3];
+NOT_DECOMPILED const void *_0218BC64;
+
+NOT_DECOMPILED const char *aSbLandBac;
+NOT_DECOMPILED const char *aSbMineBac_0;
+NOT_DECOMPILED const char *aSbBomberBac;
+NOT_DECOMPILED const char *aSbCloudBac_0;
+NOT_DECOMPILED const char *aSbBuoyNsbmd_0;
+NOT_DECOMPILED const char *aSbBuoyNsbca;
+NOT_DECOMPILED const char *aSbSeagullBac;
+NOT_DECOMPILED const char *aSbSeagullNsbmd_0;
+NOT_DECOMPILED const char *aSbStoneNsbmd_0;
+NOT_DECOMPILED const char *aSbIceNsbmd_0;
+NOT_DECOMPILED const char *aSbSubFishNsbmd_0;
+NOT_DECOMPILED const char *aSbChaosNsbmd_0;
+NOT_DECOMPILED const char *aSbGoalNsbmd_0;
+NOT_DECOMPILED const char *aSbGoalNsbca;
+NOT_DECOMPILED const char *aSbCldmGoalBac;
+NOT_DECOMPILED const char *aSbItemBac;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC void SailObject__Func_21646DC(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r1, [r5, #0x12c]
@@ -23,7 +71,7 @@ SailObject__Func_21646DC: // 0x021646DC
 	str r0, [r4, #0x1c]
 	str r0, [r4, #0x20]
 	ldr r1, [r5, #0x20]
-	ldr r0, _021649CC // =SailObject__Func_2164F10
+	ldr r0, =SailObject__Func_2164F10
 	orr r1, r1, #0x100
 	str r1, [r5, #0x20]
 	str r0, [r5, #0xfc]
@@ -172,11 +220,11 @@ _0216493C:
 	mov r0, r5
 	mov r1, #0x1000
 	bl SailObject__SetAnimSpeed
-	ldr r0, _021649D0 // =SailObject__DefaultIn
+	ldr r0, =SailObject__DefaultIn
 	str r0, [r5, #0xf8]
 	ldrh r0, [r5, #0]
 	cmp r0, #1
-	ldreq r0, _021649D4 // =SailObject__DefaultLast
+	ldreq r0, =SailObject__DefaultLast
 	streq r0, [r5, #0x10c]
 	ldrh r0, [r5, #0]
 	cmp r0, #1
@@ -186,11 +234,11 @@ _0216493C:
 	ldr r0, [r0, #0x70]
 	mov r1, #0x1000
 	str r0, [r4, #0x15c]
-	ldr r0, _021649D8 // =SailObject__ViewCheck_2169B60
+	ldr r0, =SailObject__ViewCheck_2169B60
 	str r1, [r4, #0x124]
 	str r0, [r5, #0x110]
 	ldr r0, [r5, #0x18]
-	ldr r1, _021649DC // =SailObject__Destructor_2169B20
+	ldr r1, =SailObject__Destructor_2169B20
 	bic r0, r0, #0x10
 	str r0, [r5, #0x18]
 	ldr r0, [r5, #0x24]
@@ -206,16 +254,17 @@ _021649B0:
 	orr r0, r0, #0x4000
 	str r0, [r5, #0x18]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021649CC: .word SailObject__Func_2164F10
-_021649D0: .word SailObject__DefaultIn
-_021649D4: .word SailObject__DefaultLast
-_021649D8: .word SailObject__ViewCheck_2169B60
-_021649DC: .word SailObject__Destructor_2169B20
-	arm_func_end SailObject__Func_21646DC
 
-	arm_func_start SailObject__InitFromMapObject
-SailObject__InitFromMapObject: // 0x021649E0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__InitFromMapObject(StageTask *work, SailEventManagerObject *mapObject)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	mov r6, r1
@@ -247,9 +296,9 @@ SailObject__InitFromMapObject: // 0x021649E0
 	ldrh r2, [r6, #0x2c]
 	ldr r0, [r5, #0xc0]
 	mla r0, r2, r1, r0
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r3, [r4, #0x178]
-	ldr r2, _02164A9C // =0x0007FFFF
+	ldr r2, =0x0007FFFF
 	mov r1, r0
 	and r0, r3, r2
 	bl FX_Div
@@ -263,12 +312,17 @@ SailObject__InitFromMapObject: // 0x021649E0
 	bl SailVoyageManager__Func_2158888
 	str r6, [r4, #0x164]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_02164A9C: .word 0x0007FFFF
-	arm_func_end SailObject__InitFromMapObject
 
-	arm_func_start SailObject__SetAnimSpeed
-SailObject__SetAnimSpeed: // 0x02164AA0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__SetAnimSpeed(StageTask *work, fx32 speed)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr lr, [r0, #0x12c]
 	cmp lr, #0
@@ -309,15 +363,22 @@ _02164B04:
 	orr r1, r1, r0, lsl #20
 	str r1, [ip, #0xc8]
 	ldmia sp!, {r3, pc}
-	arm_func_end SailObject__SetAnimSpeed
 
-	arm_func_start SailObject__Func_2164B38
-SailObject__Func_2164B38: // 0x02164B38
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2164B38(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x30
 	mov r5, r0
 	ldr r4, [r5, #0x11c]
-	ldr r3, _02164BDC // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	ldrh lr, [r4, #0x32]
 	add r0, sp, #0
 	mov r1, lr, asr #4
@@ -354,12 +415,17 @@ SailObject__Func_2164B38: // 0x02164B38
 	str r0, [r5, #0x20]
 	add sp, sp, #0x30
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02164BDC: .word FX_SinCosTable_
-	arm_func_end SailObject__Func_2164B38
 
-	arm_func_start SailObject__SetupAnimator3D
-SailObject__SetupAnimator3D: // 0x02164BE0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__SetupAnimator3D(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x24
 	mov r5, r0
@@ -384,7 +450,7 @@ _02164C14:
 	mov r0, r0, asr #4
 	mov r1, r0, lsl #1
 	add r0, r1, #1
-	ldr r2, _02164D0C // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	mov r1, r1, lsl #1
 	mov r0, r0, lsl #1
 	ldrsh r1, [r2, r1]
@@ -404,7 +470,7 @@ _02164C68:
 	mov r0, r0, asr #4
 	mov r1, r0, lsl #1
 	add r0, r1, #1
-	ldr r2, _02164D0C // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	mov r1, r1, lsl #1
 	mov r0, r0, lsl #1
 	ldrsh r1, [r2, r1]
@@ -425,7 +491,7 @@ _02164CB4:
 	mov r0, r0, asr #4
 	mov r1, r0, lsl #1
 	add r0, r1, #1
-	ldr r2, _02164D0C // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	mov r1, r1, lsl #1
 	mov r0, r0, lsl #1
 	ldrsh r1, [r2, r1]
@@ -438,28 +504,30 @@ _02164CB4:
 	bl MTX_Concat33
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_02164D0C: .word FX_SinCosTable_
-	arm_func_end SailObject__SetupAnimator3D
 
-	arm_func_start SailObject__Func_2164D10
-SailObject__Func_2164D10: // 0x02164D10
-	ldr r0, [r0, #0x134]
-	cmp r0, #0
-	addne r0, r0, #0x100
-	strneh r1, [r0]
-	bx lr
-	arm_func_end SailObject__Func_2164D10
+// clang-format on
+#endif
+}
 
-	arm_func_start SailObject__DefaultIn
-SailObject__DefaultIn: // 0x02164D24
+void SailObject__Func_2164D10(StageTask *work, GXRgb color)
+{
+    if (work->obj_2dIn3d != NULL)
+        work->obj_2dIn3d->ani.color = color;
+}
+
+NONMATCH_FUNC void SailObject__DefaultIn(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r0, [r4, #0x24]
 	tst r0, #1
 	bne _02164D50
-	bl SailVoyageManager__Func_2157AF4
+	bl SailVoyageManager__GetVoyageUnknownPos
 	mov r1, r0
 	add r0, r4, #0x44
 	mov r2, r0
@@ -582,10 +650,17 @@ _02164E54:
 	orr r0, r0, r2, lsl #10
 	strh r0, [r1, #0x9c]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SailObject__DefaultIn
 
-	arm_func_start SailObject__Func_2164F10
-SailObject__Func_2164F10: // 0x02164F10
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2164F10(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -664,10 +739,17 @@ _0216502C:
 	mov r0, r4
 	bl StageTask__Draw
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SailObject__Func_2164F10
 
-	arm_func_start SailObject__Func_2165038
-SailObject__Func_2165038: // 0x02165038
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2165038(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	bl SailManager__GetWork
@@ -699,10 +781,16 @@ SailObject__Func_2165038: // 0x02165038
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SailObject__Func_2165038
 
-	arm_func_start SailObject__Func_21650B4
-SailObject__Func_21650B4: // 0x021650B4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_21650B4(StageTask *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldrh r2, [r0, #0]
 	ldr r3, [r0, #0x124]
 	cmp r2, #0
@@ -744,10 +832,10 @@ _02165128: // jump table
 	b _02165198 // case 4
 	b _021651AC // case 5
 _02165140:
-	ldr ip, _021651C8 // =0x00007FFF
-	ldr r1, _021651CC // =0x00004631
+	ldr ip, =0x00007FFF
+	ldr r1, =0x00004631
 	strh ip, [r0]
-	ldr r0, _021651D0 // =0x00002108
+	ldr r0, =0x00002108
 	strh r1, [r2]
 	strh r0, [r3]
 	bx lr
@@ -764,38 +852,36 @@ _02165170:
 	strh r1, [r3]
 	bx lr
 _02165184:
-	ldr r1, _021651D4 // =0x000003FF
+	ldr r1, =0x000003FF
 	strh r1, [r0]
 	strh r1, [r2]
 	strh r1, [r3]
 	bx lr
 _02165198:
-	ldr r1, _021651D8 // =0x00001084
+	ldr r1, =0x00001084
 	strh r1, [r0]
 	strh r1, [r2]
 	strh r1, [r3]
 	bx lr
 _021651AC:
-	ldr ip, _021651DC // =0x00007D4A
-	ldr r1, _021651E0 // =0x000044C6
+	ldr ip, =0x00007D4A
+	ldr r1, =0x000044C6
 	strh ip, [r0]
-	ldr r0, _021651E4 // =0x00002042
+	ldr r0, =0x00002042
 	strh r1, [r2]
 	strh r0, [r3]
 	bx lr
-	.align 2, 0
-_021651C8: .word 0x00007FFF
-_021651CC: .word 0x00004631
-_021651D0: .word 0x00002108
-_021651D4: .word 0x000003FF
-_021651D8: .word 0x00001084
-_021651DC: .word 0x00007D4A
-_021651E0: .word 0x000044C6
-_021651E4: .word 0x00002042
-	arm_func_end SailObject__Func_21650B4
 
-	arm_func_start SailObject__DefaultLast
-SailObject__DefaultLast: // 0x021651E8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__DefaultLast(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	ldr r4, [r0, #0x124]
@@ -823,15 +909,22 @@ _02165240:
 	mov r0, #0
 	str r0, [r4, #0x158]
 	ldmia sp!, {r4, pc}
-	arm_func_end SailObject__DefaultLast
 
-	arm_func_start SailObject__Func_216524C
-SailObject__Func_216524C: // 0x0216524C
-	bx lr
-	arm_func_end SailObject__Func_216524C
+// clang-format on
+#endif
+}
 
-	arm_func_start SailObject__DefaultOnCheck
-SailObject__DefaultOnCheck: // 0x02165250
+void SailObject__Func_216524C(StageTask *work, void *unknown)
+{
+    // Nothing to do.
+}
+
+NONMATCH_FUNC void SailObject__DefaultOnCheck(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r3, [r0, #0x3c]
 	mov r0, #0
@@ -892,10 +985,17 @@ _0216530C:
 	cmp r4, #0
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SailObject__DefaultOnCheck
 
-	arm_func_start SailObject__CheckCollisions
-SailObject__CheckCollisions: // 0x02165318
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__CheckCollisions(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -910,8 +1010,8 @@ SailObject__CheckCollisions: // 0x02165318
 	cmp r2, #0
 	rsblt r2, r2, #0
 	cmp r1, r2
-	ldr r3, _02165618 // =0x00000F5E
-	ldr r6, _0216561C // =0x0000065D
+	ldr r3, =0x00000F5E
+	ldr r6, =0x0000065D
 	mov r7, #0
 	ble _0216539C
 	umull r0, lr, r1, r3
@@ -1019,7 +1119,7 @@ _021654B8:
 	cmp r3, #0
 	beq _0216553C
 	ldrh r1, [r5, #0x30]
-	ldr r2, _02165620 // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	sub r3, r8, r3
 	sub r1, r0, r1
 	mov r1, r1, lsl #0x10
@@ -1041,7 +1141,7 @@ _0216553C:
 	cmp r2, #0
 	beq _02165590
 	ldrh r3, [r4, #0x30]
-	ldr r1, _02165620 // =FX_SinCosTable_
+	ldr r1, =FX_SinCosTable_
 	sub r2, r7, r2
 	sub r0, r0, r3
 	mov r0, r0, lsl #0x10
@@ -1094,14 +1194,17 @@ _021655BC:
 	mov r0, #1
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02165618: .word 0x00000F5E
-_0216561C: .word 0x0000065D
-_02165620: .word FX_SinCosTable_
-	arm_func_end SailObject__CheckCollisions
 
-	arm_func_start SailObject__Func_2165624
-SailObject__Func_2165624: // 0x02165624
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2165624(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x24
 	mov r6, r0
@@ -1186,10 +1289,17 @@ SailObject__Func_2165624: // 0x02165624
 	mov r0, #1
 	add sp, sp, #0x24
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	arm_func_end SailObject__Func_2165624
 
-	arm_func_start SailObject__SetupHitbox
-SailObject__SetupHitbox: // 0x02165774
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__SetupHitbox(StageTask *work, SailColliderWork *userData, s32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r1
 	mov r1, #0
@@ -1201,10 +1311,10 @@ SailObject__SetupHitbox: // 0x02165774
 	mov r1, r4
 	bl StageTask__GetCollider
 	mov r2, #0
-	ldr r1, _02165894 // =0x00080004
+	ldr r1, =0x00080004
 	str r2, [r0, #0x24]
 	str r1, [r0, #0x18]
-	ldr r1, _02165898 // =SailObject__DefaultOnCheck
+	ldr r1, =SailObject__DefaultOnCheck
 	str r5, [r0, #0x3c]
 	str r1, [r0, #0x28]
 	cmp r4, #3
@@ -1250,7 +1360,7 @@ _02165830:
 	str r1, [r0, #0x18]
 	b _0216588C
 _0216584C:
-	ldr r2, _0216589C // =0x00000102
+	ldr r2, =0x00000102
 	cmp r4, #0
 	mov r1, #0x40000
 	strh r2, [r0, #0x34]
@@ -1260,7 +1370,7 @@ _0216584C:
 	mov r1, #0xa
 	strh r1, [r0, #0x2c]
 	mov r2, #5
-	ldr r1, _021658A0 // =SailObject__OnDefend_2169BAC
+	ldr r1, =SailObject__OnDefend_2169BAC
 	strh r2, [r0, #0x2e]
 	str r1, [r0, #0x24]
 	ldr r1, [r0, #0x18]
@@ -1269,15 +1379,17 @@ _0216584C:
 _0216588C:
 	str r6, [r5, #0x6c]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02165894: .word 0x00080004
-_02165898: .word SailObject__DefaultOnCheck
-_0216589C: .word 0x00000102
-_021658A0: .word SailObject__OnDefend_2169BAC
-	arm_func_end SailObject__SetupHitbox
 
-	arm_func_start SailObject__Func_21658A4
-SailObject__Func_21658A4: // 0x021658A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_21658A4(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldrh r2, [r0, #0]
 	cmp r2, #1
@@ -1289,10 +1401,17 @@ SailObject__Func_21658A4: // 0x021658A4
 	strh r2, [r0, #0x34]
 	strh r1, [r0, #0x2c]
 	ldmia sp!, {r3, pc}
-	arm_func_end SailObject__Func_21658A4
 
-	arm_func_start SailObject__Func_21658D0
-SailObject__Func_21658D0: // 0x021658D0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_21658D0(StageTask *work, s32 id, s32 a3, VecFx32 *a4)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -1329,10 +1448,17 @@ SailObject__Func_21658D0: // 0x021658D0
 	str r0, [r4, #0x18]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	arm_func_end SailObject__Func_21658D0
 
-	arm_func_start SailObject__Func_2165960
-SailObject__Func_2165960: // 0x02165960
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2165960(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r7, r0
@@ -1381,10 +1507,17 @@ SailObject__Func_2165960: // 0x02165960
 	str r0, [r4, #0x48]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	arm_func_end SailObject__Func_2165960
 
-	arm_func_start SailObject__ShakeScreen
-SailObject__ShakeScreen: // 0x02165A20
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__ShakeScreen(StageTask *work, s32 timer)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r1
 	mov r5, r0
@@ -1392,10 +1525,10 @@ SailObject__ShakeScreen: // 0x02165A20
 	cmp r4, #0
 	mov r0, r0, lsl #0x10
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r2, _02165A94 // =StageTask__shakeOffsetTable
+	ldr r2, =StageTask__shakeOffsetTable
 	and r1, r4, #0xf
 	ldrsb r3, [r2, r1]
-	ldr ip, _02165A98 // =shipShiftUnknown
+	ldr ip, =shipShiftUnknown
 	add r1, r4, #1
 	and r1, r1, #0xf
 	ldrsb r1, [r2, r1]
@@ -1414,13 +1547,16 @@ SailObject__ShakeScreen: // 0x02165A20
 	addeq r0, r1, r3, asr r0
 	streq r0, [r5, #0x58]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02165A94: .word StageTask__shakeOffsetTable
-_02165A98: .word shipShiftUnknown
-	arm_func_end SailObject__ShakeScreen
 
-	arm_func_start SailObject__Func_2165A9C
-SailObject__Func_2165A9C: // 0x02165A9C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2165A9C(StageTask *work, VecFx32 *positon){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldrh r2, [r0, #0]
 	mov r3, r1
 	cmp r2, #0
@@ -1446,10 +1582,16 @@ _02165AE0:
 	str r0, [r3, #4]
 	str r0, [r3, #8]
 	bx lr
-	arm_func_end SailObject__Func_2165A9C
 
-	arm_func_start SailObject__Func_2165AF4
-SailObject__Func_2165AF4: // 0x02165AF4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2165AF4(StageTask *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldrh r2, [r0, #0]
 	cmp r2, #0
 	beq _02165B0C
@@ -1468,10 +1610,17 @@ _02165B20:
 	add r3, r3, #4
 	stmia r3, {r0, r1, r2}
 	bx lr
-	arm_func_end SailObject__Func_2165AF4
 
-	arm_func_start SailLanding__Create
-SailLanding__Create: // 0x02165B34
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailLanding__Create(SailEventManagerObject *mapObject)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r7, r0
@@ -1490,8 +1639,8 @@ SailLanding__Create: // 0x02165B34
 	bl GetObjectFileWork
 	mov r6, r0
 	bl SailManager__GetArchive
-	ldr r3, _02165C80 // =0x0000FFFF
-	ldr r2, _02165C84 // =aSbLandBac
+	ldr r3, =0x0000FFFF
+	ldr r2, =aSbLandBac
 	stmia sp, {r3, r6}
 	str r0, [sp, #8]
 	mov r1, #0
@@ -1529,8 +1678,8 @@ SailLanding__Create: // 0x02165B34
 	ldr r0, [r5, #4]
 	cmp r1, r0
 	beq _02165C50
-	ldr r1, _02165C88 // =SailObject__Func_216A46C
-	ldr r0, _02165C8C // =SailObject__Func_216A6A4
+	ldr r1, =SailObject__Func_216A46C
+	ldr r0, =SailObject__Func_216A6A4
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x18]
@@ -1544,7 +1693,7 @@ SailLanding__Create: // 0x02165B34
 	str r0, [r4, #0x48]
 	b _02165C74
 _02165C50:
-	ldr r0, _02165C90 // =SailObject__Func_216A4E8
+	ldr r0, =SailObject__Func_216A4E8
 	str r0, [r4, #0xfc]
 	bl SailManager__GetShipType
 	cmp r0, #3
@@ -1558,16 +1707,17 @@ _02165C74:
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02165C80: .word 0x0000FFFF
-_02165C84: .word aSbLandBac
-_02165C88: .word SailObject__Func_216A46C
-_02165C8C: .word SailObject__Func_216A6A4
-_02165C90: .word SailObject__Func_216A4E8
-	arm_func_end SailLanding__Create
 
-	arm_func_start SailJetMine__Create
-SailJetMine__Create: // 0x02165C94
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailJetMine__Create(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	mov r7, r0
@@ -1588,7 +1738,7 @@ SailJetMine__Create: // 0x02165C94
 	mov r1, #0
 	stmia sp, {r1, r8}
 	str r0, [sp, #8]
-	ldr r2, _02165E20 // =aSbMineBac_0
+	ldr r2, =aSbMineBac_0
 	mov r0, r4
 	mov r3, r1
 	bl ObjObjectAction3dBACLoad
@@ -1663,18 +1813,22 @@ SailJetMine__Create: // 0x02165C94
 _02165E04:
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
-	ldr r1, _02165E24 // =SailObject__Func_216A9A4
+	ldr r1, =SailObject__Func_216A9A4
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02165E20: .word aSbMineBac_0
-_02165E24: .word SailObject__Func_216A9A4
-	arm_func_end SailJetMine__Create
 
-	arm_func_start SailJetBomber__Create
-SailJetBomber__Create: // 0x02165E28
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailJetBomber__Create(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r7, r0
@@ -1690,8 +1844,8 @@ SailJetBomber__Create: // 0x02165E28
 	bl GetObjectFileWork
 	mov r6, r0
 	bl SailManager__GetArchive
-	ldr r3, _02165F30 // =0x0000FFFF
-	ldr r2, _02165F34 // =aSbBomberBac
+	ldr r3, =0x0000FFFF
+	ldr r2, =aSbBomberBac
 	stmia sp, {r3, r6}
 	str r0, [sp, #8]
 	mov r1, #0
@@ -1741,13 +1895,17 @@ SailJetBomber__Create: // 0x02165E28
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02165F30: .word 0x0000FFFF
-_02165F34: .word aSbBomberBac
-	arm_func_end SailJetBomber__Create
 
-	arm_func_start SailJetBoatCloud__CreateUnknown
-SailJetBoatCloud__CreateUnknown: // 0x02165F38
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailJetBoatCloud__CreateUnknown(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x4c
 	mov r9, #0
@@ -1765,21 +1923,21 @@ SailJetBoatCloud__CreateUnknown: // 0x02165F38
 	mov r0, #0x25
 	strh r0, [sp, #0x30]
 	mov r4, #0x4f000
-	ldr r0, _021660A8 // =0x0001FFFF
+	ldr r0, =0x0001FFFF
 	rsb r4, r4, #0
-	ldr r11, _021660AC // =FX_SinCosTable_
-	ldr r5, _021660B0 // =0x00196225
-	ldr r6, _021660B4 // =0x3C6EF35F
+	ldr r11, =FX_SinCosTable_
+	ldr r5, =0x00196225
+	ldr r6, =0x3C6EF35F
 	mov r10, r9
 	sub r7, r0, #0x18000
 	add r8, r4, #0x48000
 _02165F9C:
-	ldr r0, _021660B8 // =_obj_disp_rand
+	ldr r0, =_obj_disp_rand
 	ldr r0, [r0, #0]
 	mla r2, r0, r5, r6
 	mov r0, r2, lsr #0x10
 	mov r1, r0, lsl #0x10
-	ldr r0, _021660A8 // =0x0001FFFF
+	ldr r0, =0x0001FFFF
 	and r0, r0, r1, lsr #16
 	mla r1, r2, r5, r6
 	mov r2, r1, lsr #0x10
@@ -1791,7 +1949,7 @@ _02165F9C:
 	mov r2, r2, lsl #0x10
 	mov r9, r2, lsr #0x10
 	mla r2, r1, r5, r6
-	ldr r1, _021660B8 // =_obj_disp_rand
+	ldr r1, =_obj_disp_rand
 	sub r0, r4, r0
 	str r2, [r1]
 	mov r1, r2, lsr #0x10
@@ -1841,20 +1999,21 @@ _02165F9C:
 	blo _02165F9C
 	add sp, sp, #0x4c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_021660A8: .word 0x0001FFFF
-_021660AC: .word FX_SinCosTable_
-_021660B0: .word 0x00196225
-_021660B4: .word 0x3C6EF35F
-_021660B8: .word _obj_disp_rand
-	arm_func_end SailJetBoatCloud__CreateUnknown
 
-	arm_func_start SailJetBoatCloud__Create
-SailJetBoatCloud__Create: // 0x021660BC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailJetBoatCloud__Create(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r6, r0
-	ldr r0, _021662F8 // =0x00001060
+	ldr r0, =0x00001060
 	mov r1, #1
 	bl CreateStageTaskEx_
 	mov r4, r0
@@ -1871,14 +2030,14 @@ SailJetBoatCloud__Create: // 0x021660BC
 	mov r1, #0
 	stmia sp, {r1, r7}
 	str r0, [sp, #8]
-	ldr r2, _021662FC // =aSbCloudBac_0
+	ldr r2, =aSbCloudBac_0
 	mov r0, r4
 	mov r3, r1
 	bl ObjObjectAction3dBACLoad
-	ldr r2, _02166300 // =_obj_disp_rand
-	ldr r0, _02166304 // =0x00196225
+	ldr r2, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02166308 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla r0, r3, r0, r1
 	str r0, [r2]
 	mov r0, r0, lsr #0x10
@@ -1933,16 +2092,16 @@ _0216619C:
 	mov ip, #7
 	str r0, [r5, #0x138]
 	ldr r0, [r6, #0x28]
-	ldr r6, _02166300 // =_obj_disp_rand
+	ldr r6, =_obj_disp_rand
 	str r0, [r5, #0x13c]
 	ldr r1, [r4, #0x134]
-	ldr r3, _02166304 // =0x00196225
+	ldr r3, =0x00196225
 	ldr r0, [r1, #0xf4]
-	ldr r5, _02166308 // =0x3C6EF35F
+	ldr r5, =0x3C6EF35F
 	bic r0, r0, #0x8000
 	str r0, [r1, #0xf4]
 	ldr r0, [r4, #0x134]
-	ldr r1, _0216630C // =0x00007FFF
+	ldr r1, =0x00007FFF
 	strb r2, [r0, #0xa]
 	ldr r0, [r4, #0x134]
 	mov r2, #0x800
@@ -1965,7 +2124,7 @@ _0216619C:
 	str r2, [r4, #0x3c]
 	str r2, [r4, #0x40]
 	ldr r0, [r6, #0]
-	ldr r2, _02166300 // =_obj_disp_rand
+	ldr r2, =_obj_disp_rand
 	mla r1, r0, r3, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -1973,10 +2132,10 @@ _0216619C:
 	mov r0, r0, lsr #0x10
 	tst r0, #1
 	ldrne r0, [r4, #0x3c]
-	ldr r1, _02166308 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x3c]
-	ldr r0, _02166304 // =0x00196225
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -1985,7 +2144,7 @@ _0216619C:
 	str r1, [r2]
 	tst r0, #1
 	ldrne r0, [r4, #0x38]
-	ldr r1, _02166310 // =SailObject__Func_216ABF0
+	ldr r1, =SailObject__Func_216ABF0
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x38]
 	ldr r0, [r4, #0x18]
@@ -1998,18 +2157,17 @@ _0216619C:
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_021662F8: .word 0x00001060
-_021662FC: .word aSbCloudBac_0
-_02166300: .word _obj_disp_rand
-_02166304: .word 0x00196225
-_02166308: .word 0x3C6EF35F
-_0216630C: .word 0x00007FFF
-_02166310: .word SailObject__Func_216ABF0
-	arm_func_end SailJetBoatCloud__Create
 
-	arm_func_start SailCloud__Create
-SailCloud__Create: // 0x02166314
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailCloud__Create(s32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r6, r0
@@ -2028,14 +2186,14 @@ SailCloud__Create: // 0x02166314
 	mov r1, #0
 	stmia sp, {r1, r7}
 	str r0, [sp, #8]
-	ldr r2, _02166708 // =aSbCloudBac_0
+	ldr r2, =aSbCloudBac_0
 	mov r0, r4
 	mov r3, r1
 	bl ObjObjectAction3dBACLoad
-	ldr r2, _0216670C // =_obj_disp_rand
-	ldr r0, _02166710 // =0x00196225
+	ldr r2, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02166714 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla r0, r3, r0, r1
 	str r0, [r2]
 	mov r0, r0, lsr #0x10
@@ -2085,11 +2243,11 @@ _021663E4:
 	strb r1, [r0, #0xa]
 	ldr r0, [r4, #0x134]
 	mov r1, #7
-	ldr r2, _0216670C // =_obj_disp_rand
+	ldr r2, =_obj_disp_rand
 	strb r1, [r0, #0xb]
 	ldr r3, [r2, #0]
-	ldr r0, _02166710 // =0x00196225
-	ldr r1, _02166714 // =0x3C6EF35F
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
 	mov ip, #0
 	mla r7, r3, r0, r1
 	mov r3, r7, lsr #0x10
@@ -2103,7 +2261,7 @@ _021663E4:
 	cmp r6, #0
 	beq _02166580
 	ldr r3, [r2, #0]
-	ldr r6, _02166718 // =0x00001FFF
+	ldr r6, =0x00001FFF
 	mla r7, r3, r0, r1
 	mov r3, r7, lsr #0x10
 	mov r3, r3, lsl #0x10
@@ -2190,7 +2348,7 @@ _02166580:
 	add r3, r5, r3, lsl #12
 	str r3, [r4, #0x44]
 	ldr r3, [r2, #0]
-	ldr r5, _0216671C // =0x00003FFF
+	ldr r5, =0x00003FFF
 	mla r7, r3, r0, r1
 	mov r3, r7, lsr #0x10
 	mov r3, r3, lsl #0x10
@@ -2203,7 +2361,7 @@ _02166580:
 	str r3, [r4, #0x48]
 	str r6, [r4, #0x4c]
 	ldr r3, [r2, #0]
-	ldr r6, _02166720 // =0x00001FFE
+	ldr r6, =0x00001FFE
 	mla r7, r3, r0, r1
 	mov r3, r7, lsr #0x10
 	mov r3, r3, lsl #0x10
@@ -2232,10 +2390,10 @@ _02166580:
 	str r0, [r4, #0x9c]
 	str r5, [r4, #0xa0]
 _02166674:
-	ldr r2, _0216670C // =_obj_disp_rand
-	ldr r0, _02166710 // =0x00196225
+	ldr r2, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02166714 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
 	str r1, [r2]
@@ -2243,12 +2401,12 @@ _02166674:
 	mov r0, r0, lsr #0x10
 	tst r0, #1
 	ldrne r0, [r4, #0x3c]
-	ldr r2, _0216670C // =_obj_disp_rand
+	ldr r2, =_obj_disp_rand
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x3c]
-	ldr r0, _02166710 // =0x00196225
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02166714 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -2256,7 +2414,7 @@ _02166674:
 	str r1, [r2]
 	tst r0, #1
 	ldrne r0, [r4, #0x38]
-	ldr r1, _02166724 // =SailObject__State_216AF60
+	ldr r1, =SailObject__State_216AF60
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x38]
 	ldr r0, [r4, #0x18]
@@ -2269,19 +2427,17 @@ _02166674:
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02166708: .word aSbCloudBac_0
-_0216670C: .word _obj_disp_rand
-_02166710: .word 0x00196225
-_02166714: .word 0x3C6EF35F
-_02166718: .word 0x00001FFF
-_0216671C: .word 0x00003FFF
-_02166720: .word 0x00001FFE
-_02166724: .word SailObject__State_216AF60
-	arm_func_end SailCloud__Create
 
-	arm_func_start SailObject__Func_2166728
-SailObject__Func_2166728: // 0x02166728
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2166728(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov lr, r0
@@ -2322,10 +2478,17 @@ _021667A4:
 	stmia r3, {r0, r1, r2}
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end SailObject__Func_2166728
 
-	arm_func_start SailObject__Func_21667BC
-SailObject__Func_21667BC: // 0x021667BC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_21667BC(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	ldr r4, [r0, #0x124]
@@ -2359,10 +2522,17 @@ _02166824:
 	str r0, [r4, #0x14]
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end SailObject__Func_21667BC
 
-	arm_func_start SailObject__Func_2166834
-SailObject__Func_2166834: // 0x02166834
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2166834(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x18
 	mov r5, r0
@@ -2385,14 +2555,21 @@ SailObject__Func_2166834: // 0x02166834
 	bl SailObject__Func_216688C
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SailObject__Func_2166834
 
-	arm_func_start SailObject__Func_216688C
-SailObject__Func_216688C: // 0x0216688C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216688C(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x54
 	ldr r4, [r0, #0x12c]
-	ldr r0, _02166908 // =_0218BC58
+	ldr r0, =_0218BC58
 	add lr, sp, #0x18
 	mov r3, r1
 	mov r5, r2
@@ -2420,12 +2597,17 @@ SailObject__Func_216688C: // 0x0216688C
 	bl MI_Copy36B
 	add sp, sp, #0x54
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_02166908: .word _0218BC58
-	arm_func_end SailObject__Func_216688C
 
-	arm_func_start SailObject__Func_216690C
-SailObject__Func_216690C: // 0x0216690C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216690C(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r6, r1
@@ -2469,9 +2651,9 @@ _02166984:
 	strh r1, [r0, #0x6e]
 _021669AC:
 	mov r0, r5
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r3, [r4, #0x178]
-	ldr r2, _02166A28 // =0x0007FFFF
+	ldr r2, =0x0007FFFF
 	mov r1, r0
 	and r0, r3, r2
 	bl FX_Div
@@ -2499,12 +2681,17 @@ _021669AC:
 	stmia r3, {r0, r1, r2}
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02166A28: .word 0x0007FFFF
-	arm_func_end SailObject__Func_216690C
 
-	arm_func_start SailObject__Func_2166A2C
-SailObject__Func_2166A2C: // 0x02166A2C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2166A2C(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r4, r0
 	ldr r5, [r4, #0x124]
@@ -2562,9 +2749,9 @@ _02166ADC:
 	strh r1, [r0, #0x6e]
 _02166AF8:
 	mov r0, r6
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r3, [r5, #0x178]
-	ldr r2, _02166BFC // =0x0007FFFF
+	ldr r2, =0x0007FFFF
 	mov r1, r0
 	and r0, r3, r2
 	bl FX_Div
@@ -2581,7 +2768,7 @@ _02166AF8:
 	bl SailVoyageManager__Func_2158888
 	add r6, r5, #0x100
 	ldrh r2, [r6, #0x6e]
-	ldr lr, _02166C00 // =FX_SinCosTable_
+	ldr lr, =FX_SinCosTable_
 	mov r1, r7
 	rsb r2, r2, #0
 	mov r2, r2, lsl #0x10
@@ -2626,13 +2813,17 @@ _02166AF8:
 	str r3, [r4, #0x48]
 	bl VEC_Subtract
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02166BFC: .word 0x0007FFFF
-_02166C00: .word FX_SinCosTable_
-	arm_func_end SailObject__Func_2166A2C
 
-	arm_func_start SailObject__Func_2166C04
-SailObject__Func_2166C04: // 0x02166C04
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2166C04(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	ldr r5, [r0, #0x124]
 	mov r4, r1
@@ -2644,10 +2835,10 @@ SailObject__Func_2166C04: // 0x02166C04
 	mul r7, r2, r1
 	ldr r8, [r6, #0xc0]
 	add r0, r8, r7
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	mov r1, r0
 	ldr r2, [r5, #0x178]
-	ldr r0, _02166D10 // =0x0007FFFF
+	ldr r0, =0x0007FFFF
 	and r0, r2, r0
 	bl FX_Div
 	mov r1, r0
@@ -2660,7 +2851,7 @@ SailObject__Func_2166C04: // 0x02166C04
 	ldr r3, [r5, #0x170]
 	add r6, r5, #0x100
 	ldrh r2, [r6, #0x6e]
-	ldr lr, _02166D14 // =FX_SinCosTable_
+	ldr lr, =FX_SinCosTable_
 	mov r0, r4
 	rsb r2, r2, #0
 	mov r2, r2, lsl #0x10
@@ -2700,15 +2891,18 @@ SailObject__Func_2166C04: // 0x02166C04
 	str r3, [r4, #8]
 	bl VEC_Subtract
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02166D10: .word 0x0007FFFF
-_02166D14: .word FX_SinCosTable_
-	arm_func_end SailObject__Func_2166C04
 
-	arm_func_start SailObject__Func_2166D18
-SailObject__Func_2166D18: // 0x02166D18
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2166D18(StageTask *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r2, [r0, #0x2c]
-	ldr r1, _02166D4C // =_0218BC64
+	ldr r1, =_0218BC64
 	mov r2, r2, asr #2
 	mov r2, r2, lsl #0x1d
 	mov r2, r2, lsr #0x1c
@@ -2720,14 +2914,18 @@ SailObject__Func_2166D18: // 0x02166D18
 	add r1, r1, #1
 	str r1, [r0, #0x2c]
 	bx lr
-	.align 2, 0
-_02166D4C: .word _0218BC64
-	arm_func_end SailObject__Func_2166D18
 
-	arm_func_start SailObject__Func_2166D50
-SailObject__Func_2166D50: // 0x02166D50
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2166D50(StageTask *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r2, [r0, #0x2c]
-	ldr r1, _02166D84 // =_0218BC64
+	ldr r1, =_0218BC64
 	mov r2, r2, asr #2
 	mov r2, r2, lsl #0x1d
 	mov r2, r2, lsr #0x1c
@@ -2739,15 +2937,20 @@ SailObject__Func_2166D50: // 0x02166D50
 	add r1, r1, #1
 	str r1, [r0, #0x2c]
 	bx lr
-	.align 2, 0
-_02166D84: .word _0218BC64
-	arm_func_end SailObject__Func_2166D50
 
-	arm_func_start SailObject__Func_2166D88
-SailObject__Func_2166D88: // 0x02166D88
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_2166D88()
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x30
-	ldr r4, _02166F0C // =FX_SinCosTable_
+	ldr r4, =FX_SinCosTable_
 	mov r9, #0
 	add r5, sp, #0
 	add r6, sp, #0x24
@@ -2847,12 +3050,19 @@ _02166EF4:
 	mov r9, r0, asr #0x10
 	b _02166DA4
 _02166F04:
-	.byte 0x30, 0xD0, 0x8D, 0xE2, 0xF8, 0x83, 0xBD, 0xE8
-_02166F0C: .word FX_SinCosTable_
-	arm_func_end SailObject__Func_2166D88
+    add sp, sp, #0x30
+    ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 
-	arm_func_start SailBuoy__Create
-SailBuoy__Create: // 0x02166F10
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailBuoy__Create(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x14
 	mov r6, r0
@@ -2872,7 +3082,7 @@ SailBuoy__Create: // 0x02166F10
 	str r0, [sp, #4]
 	mov r0, r4
 	mov r1, #0
-	ldr r2, _02167140 // =aSbBuoyNsbmd_0
+	ldr r2, =aSbBuoyNsbmd_0
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
 	bl SailManager__GetShipType
@@ -2883,7 +3093,7 @@ SailBuoy__Create: // 0x02166F10
 	mov r7, r0
 	bl SailManager__GetArchive
 	str r0, [sp]
-	ldr r2, _02167144 // =aSbBuoyNsbca
+	ldr r2, =aSbBuoyNsbca
 	mov r0, r4
 	mov r3, r7
 	mov r1, #0
@@ -2980,7 +3190,7 @@ _0216705C:
 	str r1, [r4, #0x18]
 	str r0, [r5, #0x120]
 	str r0, [r5, #0x11c]
-	ldr r0, _02167148 // =0x000005DC
+	ldr r0, =0x000005DC
 	str r0, [r5, #0x118]
 	ldr r0, [r4, #0x24]
 	orr r0, r0, #0x2040000
@@ -2996,14 +3206,17 @@ _02167118:
 	mov r0, r4
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02167140: .word aSbBuoyNsbmd_0
-_02167144: .word aSbBuoyNsbca
-_02167148: .word 0x000005DC
-	arm_func_end SailBuoy__Create
 
-	arm_func_start SailBuoy__CreateFromSegment
-SailBuoy__CreateFromSegment: // 0x0216714C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailBuoy__CreateFromSegment(SailVoyageSegment *voyageSegment)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r6, r0
@@ -3020,10 +3233,10 @@ SailBuoy__CreateFromSegment: // 0x0216714C
 	mov r0, r6
 	str r2, [sp, #4]
 	mov r5, r1, lsr #0x10
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	mov r7, r0
 	mov r0, r6
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r1, [r6, #0x24]
 	cmp r5, #0
 	add r1, r1, r7
@@ -3034,7 +3247,7 @@ SailBuoy__CreateFromSegment: // 0x0216714C
 	beq _021671DC
 	cmp r5, #2
 _021671C0:
-	ldr r0, _021672B4 // =0x0218B9AC
+	ldr r0, =0x0218B9AC
 	mov r1, r5, lsl #1
 	ldrh r1, [r0, r1]
 	mov r0, #0x5c
@@ -3052,7 +3265,7 @@ _021671DC:
 	mov r1, r7, asr #0x1f
 	mla r2, r1, r0, r2
 	adds r3, r3, #0x800
-	ldr r0, _021672B4 // =0x0218B9AC
+	ldr r0, =0x0218B9AC
 	mov r1, r5, lsl #1
 	adc r2, r2, #0
 	mov r3, r3, lsr #0xc
@@ -3070,10 +3283,10 @@ _02167228:
 	ldrsh r0, [r6, #0xa]
 	cmp r0, #0
 	bne _0216727C
-	ldr r2, _021672B8 // =_obj_disp_rand
-	ldr r0, _021672BC // =0x00196225
+	ldr r2, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _021672C0 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -3099,15 +3312,17 @@ _021672A4:
 	bl NNS_FndAppendListObject
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_021672B4: .word 0x0218B9AC
-_021672B8: .word _obj_disp_rand
-_021672BC: .word 0x00196225
-_021672C0: .word 0x3C6EF35F
-	arm_func_end SailBuoy__CreateFromSegment
 
-	arm_func_start SailBuoy__CreateFromSegment2
-SailBuoy__CreateFromSegment2: // 0x021672C4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailBuoy__CreateFromSegment2(SailVoyageSegment *voyageSegment)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -3120,12 +3335,12 @@ SailBuoy__CreateFromSegment2: // 0x021672C4
 	str r1, [r2]
 	str r1, [r2, #8]
 	str r1, [sp, #4]
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r1, [r5, #0x24]
 	add r0, r1, r0
 	str r0, [sp, #8]
 	bl SailManager__GetShipType
-	ldr r1, _021673E4 // =0x0218B9AC
+	ldr r1, =0x0218B9AC
 	mov r0, r0, lsl #1
 	ldrh r1, [r1, r0]
 	mov r0, #0x5c
@@ -3139,7 +3354,7 @@ SailBuoy__CreateFromSegment2: // 0x021672C4
 	b _02167390
 _02167338:
 	bl SailManager__GetShipType
-	ldr r1, _021673E4 // =0x0218B9AC
+	ldr r1, =0x0218B9AC
 	mov r0, r0, lsl #1
 	ldrh r1, [r1, r0]
 	mov r0, #0xa
@@ -3149,7 +3364,7 @@ _02167338:
 _02167358:
 	bl SailManager__GetShipType
 	mov r2, r0, lsl #1
-	ldr r0, _021673E4 // =0x0218B9AC
+	ldr r0, =0x0218B9AC
 	mov r1, #0x3c
 	ldrh r3, [r0, r2]
 	mov r2, #0x400
@@ -3157,7 +3372,7 @@ _02167358:
 	mul r1, r3, r1
 	str r1, [sp]
 	str r2, [sp, #4]
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r1, [sp, #8]
 	add r0, r1, r0, asr #2
 	str r0, [sp, #8]
@@ -3183,12 +3398,17 @@ _02167390:
 	bl NNS_FndAppendListObject
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_021673E4: .word 0x0218B9AC
-	arm_func_end SailBuoy__CreateFromSegment2
 
-	arm_func_start SailSeagull__Create
-SailSeagull__Create: // 0x021673E8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailSeagull__Create(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -3203,8 +3423,8 @@ SailSeagull__Create: // 0x021673E8
 	bl GetObjectFileWork
 	mov r6, r0
 	bl SailManager__GetArchive
-	ldr r3, _02167494 // =0x0000FFFF
-	ldr r2, _02167498 // =aSbSeagullBac
+	ldr r3, =0x0000FFFF
+	ldr r2, =aSbSeagullBac
 	stmia sp, {r3, r6}
 	str r0, [sp, #8]
 	mov r1, #0
@@ -3232,13 +3452,17 @@ SailSeagull__Create: // 0x021673E8
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	.align 2, 0
-_02167494: .word 0x0000FFFF
-_02167498: .word aSbSeagullBac
-	arm_func_end SailSeagull__Create
 
-	arm_func_start SailSeagull2__Create
-SailSeagull2__Create: // 0x0216749C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailSeagull2__Create(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -3257,7 +3481,7 @@ SailSeagull2__Create: // 0x0216749C
 	str r0, [sp, #4]
 	mov r0, r5
 	mov r1, #0
-	ldr r2, _02167524 // =aSbSeagullNsbmd_0
+	ldr r2, =aSbSeagullNsbmd_0
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
 	mov r0, r5
@@ -3273,12 +3497,17 @@ SailSeagull2__Create: // 0x0216749C
 	mov r0, r5
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02167524: .word aSbSeagullNsbmd_0
-	arm_func_end SailSeagull2__Create
 
-	arm_func_start SailSeagull3__Create
-SailSeagull3__Create: // 0x02167528
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailSeagull3__Create(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -3296,7 +3525,7 @@ SailSeagull3__Create: // 0x02167528
 	str r5, [sp]
 	mov r1, #0
 	str r0, [sp, #4]
-	ldr r2, _0216761C // =aSbSeagullNsbmd_0
+	ldr r2, =aSbSeagullNsbmd_0
 	mov r0, r4
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
@@ -3307,20 +3536,20 @@ SailSeagull3__Create: // 0x02167528
 	mov r2, #0
 	bl StageTask__SetParent
 	ldr r0, [r4, #0x18]
-	ldr ip, _02167620 // =_obj_disp_rand
+	ldr ip, =_obj_disp_rand
 	orr r0, r0, #0x12
 	str r0, [r4, #0x18]
 	ldr r0, [r4, #0x1c]
-	ldr r1, _02167624 // =0x00196225
+	ldr r1, =0x00196225
 	orr r0, r0, #0x2000
 	str r0, [r4, #0x1c]
 	ldr lr, [ip]
-	ldr r2, _02167628 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	ldr r0, [r4, #0x12c]
 	mla r1, lr, r1, r2
 	str r1, [ip]
 	mov r1, r1, lsr #0x10
-	ldr r3, _0216762C // =0x000001FF
+	ldr r3, =0x000001FF
 	mov r1, r1, lsl #0x10
 	and r1, r3, r1, lsr #16
 	add r2, r1, #0x1200
@@ -3340,16 +3569,17 @@ SailSeagull3__Create: // 0x02167528
 	mov r0, r4
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216761C: .word aSbSeagullNsbmd_0
-_02167620: .word _obj_disp_rand
-_02167624: .word 0x00196225
-_02167628: .word 0x3C6EF35F
-_0216762C: .word 0x000001FF
-	arm_func_end SailSeagull3__Create
 
-	arm_func_start SailSeagull__CreateFromSegment
-SailSeagull__CreateFromSegment: // 0x02167630
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailSeagull__CreateFromSegment(SailVoyageSegment *voyageSegment)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -3370,18 +3600,18 @@ SailSeagull__CreateFromSegment: // 0x02167630
 	beq _021676EC
 	cmp lr, #2
 _0216767C:
-	ldr r6, _02167820 // =_obj_disp_rand
-	ldr r0, _02167824 // =0x00196225
+	ldr r6, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr r3, [r6, #0]
-	ldr r2, _02167828 // =0x3C6EF35F
-	ldr r1, _0216782C // =0x0218B9AC
+	ldr r2, =0x3C6EF35F
+	ldr r1, =0x0218B9AC
 	mla r5, r3, r0, r2
 	mla r0, r5, r0, r2
 	mov r2, r0, lsr #0x10
 	mov r3, r5, lsr #0x10
 	mov r5, r2, lsl #0x10
 	mov r2, lr, lsl #1
-	ldr r7, _02167830 // =0x0218B9B4
+	ldr r7, =0x0218B9B4
 	mov r3, r3, lsl #0x10
 	mov r5, r5, lsr #0x10
 	mov ip, r3, lsr #0x10
@@ -3409,11 +3639,11 @@ _021676EC:
 	mov r6, r6, asr #0x1f
 	mla r1, r6, r3, r1
 	adds r2, r7, #0x800
-	ldr r0, _02167820 // =_obj_disp_rand
-	ldr r6, _02167824 // =0x00196225
+	ldr r0, =_obj_disp_rand
+	ldr r6, =0x00196225
 	ldr r7, [r0, #0]
-	ldr ip, _02167828 // =0x3C6EF35F
-	ldr r3, _0216782C // =0x0218B9AC
+	ldr ip, =0x3C6EF35F
+	ldr r3, =0x0218B9AC
 	mla r6, r7, r6, ip
 	mov r7, r6, lsr #0x10
 	mov ip, lr, lsl #1
@@ -3435,9 +3665,9 @@ _021676EC:
 	ldrsh r0, [r5, #0xa]
 	cmp r0, #0
 	bne _021677AC
-	ldr r0, _02167824 // =0x00196225
-	ldr r1, _02167828 // =0x3C6EF35F
-	ldr r2, _02167820 // =_obj_disp_rand
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
+	ldr r2, =_obj_disp_rand
 	mla r6, r0, r6, r1
 	mov r0, r6, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -3448,9 +3678,9 @@ _021676EC:
 	rsbne r0, r0, #0
 	strne r0, [sp]
 _021677AC:
-	ldr r0, _02167824 // =0x00196225
-	ldr r1, _02167828 // =0x3C6EF35F
-	ldr r2, _02167830 // =0x0218B9B4
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
+	ldr r2, =0x0218B9B4
 	mla r1, r6, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -3460,12 +3690,12 @@ _021677AC:
 	add r0, r0, #6
 	ldrh r3, [r2, r3]
 	rsb r0, r0, #0
-	ldr r2, _02167820 // =_obj_disp_rand
+	ldr r2, =_obj_disp_rand
 	mul r6, r3, r0
 	mov r0, r5
 	str r1, [r2]
 	str r6, [sp, #4]
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r1, [sp, #8]
 	add r0, r1, r0, asr #2
 	str r0, [sp, #8]
@@ -3478,21 +3708,22 @@ _02167800:
 	bl NNS_FndAppendListObject
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02167820: .word _obj_disp_rand
-_02167824: .word 0x00196225
-_02167828: .word 0x3C6EF35F
-_0216782C: .word 0x0218B9AC
-_02167830: .word 0x0218B9B4
-	arm_func_end SailSeagull__CreateFromSegment
 
-	arm_func_start SailSeagull__CreateUnknown2
-SailSeagull__CreateUnknown2: // 0x02167834
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailSeagull__CreateUnknown2(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r3, _02167898 // =_obj_disp_rand
-	ldr r1, _0216789C // =0x00196225
+	ldr r3, =_obj_disp_rand
+	ldr r1, =0x00196225
 	ldr ip, [r3]
-	ldr r2, _021678A0 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	mov r4, r0
 	mla r1, ip, r1, r2
 	mov r0, r1, lsr #0x10
@@ -3514,14 +3745,17 @@ _02167878:
 	mov r6, r0, lsr #0x10
 	bhi _02167878
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02167898: .word _obj_disp_rand
-_0216789C: .word 0x00196225
-_021678A0: .word 0x3C6EF35F
-	arm_func_end SailSeagull__CreateUnknown2
 
-	arm_func_start SailStone__Create
-SailStone__Create: // 0x021678A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailStone__Create(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x14
 	mov r9, r0
@@ -3554,10 +3788,10 @@ _021678F8:
 	mov r5, r0
 	bl SailManager__GetShipType
 	cmp r0, #3
-	ldr r0, _0216826C // =0x00196225
-	ldr r1, _02168270 // =0x3C6EF35F
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
 	beq _02167950
-	ldr r2, _02168274 // =_obj_disp_rand
+	ldr r2, =_obj_disp_rand
 	ldr r3, [r2, #0]
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -3567,7 +3801,7 @@ _021678F8:
 	str r1, [r2]
 	b _02167994
 _02167950:
-	ldr r3, _02168274 // =_obj_disp_rand
+	ldr r3, =_obj_disp_rand
 	ldr r2, [r3, #0]
 	mla r6, r2, r0, r1
 	mla r0, r6, r0, r1
@@ -3591,7 +3825,7 @@ _02167994:
 	bl SailManager__GetArchive
 	str r7, [sp]
 	str r0, [sp, #4]
-	ldr r2, _02168278 // =aSbStoneNsbmd_0
+	ldr r2, =aSbStoneNsbmd_0
 	mov r0, r4
 	mov r1, #0
 	mov r3, r6
@@ -3616,16 +3850,16 @@ _02167994:
 	cmp r0, #3
 	beq _02168054
 	ldr r0, [r5, #0x164]
-	ldr r11, _02168274 // =_obj_disp_rand
+	ldr r11, =_obj_disp_rand
 	ldr r0, [r0, #0x34]
-	ldr lr, _0216826C // =0x00196225
+	ldr lr, =0x00196225
 	ands r0, r0, #7
 	mulne r0, r8, r0
 	movne r8, r0
 	smull r9, r1, r7, r8
 	ldr r7, [r11, #0]
-	ldr r2, _02168270 // =0x3C6EF35F
-	ldr r3, _0216827C // =0x000001FE
+	ldr r2, =0x3C6EF35F
+	ldr r3, =0x000001FE
 	mla r0, r7, lr, r2
 	adds r7, r9, #0x800
 	mov r9, r0, lsr #0x10
@@ -3667,7 +3901,7 @@ _02167994:
 	add r1, r5, #0xa0
 	mov r2, #1
 	bl SailObject__SetupHitbox
-	ldr r0, _02168280 // =0x00001160
+	ldr r0, =0x00001160
 	mov r3, #0
 	umull r2, r1, r8, r0
 	mla r1, r8, r3, r1
@@ -3742,11 +3976,11 @@ _02167BE0:
 	ldr r0, [r9, #0x38]
 	cmp r0, #0
 	beq _02167C2C
-	ldr r3, _02168274 // =_obj_disp_rand
-	ldr r0, _0216826C // =0x00196225
+	ldr r3, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr r7, [r3, #0]
-	ldr r1, _02168270 // =0x3C6EF35F
-	ldr r2, _02168284 // =0x000007FF
+	ldr r1, =0x3C6EF35F
+	ldr r2, =0x000007FF
 	mla r1, r7, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -3755,15 +3989,15 @@ _02167BE0:
 	add r8, r0, #0x1000
 _02167C2C:
 	ldr r1, [r4, #0x38]
-	ldr r3, _02168274 // =_obj_disp_rand
+	ldr r3, =_obj_disp_rand
 	mov r0, r1, asr #0x1f
 	mov r10, r0, lsl #0xa
 	mov r0, #0x800
 	adds r2, r0, r1, lsl #10
 	orr r10, r10, r1, lsr #22
 	ldr r7, [r3, #0]
-	ldr r0, _0216826C // =0x00196225
-	ldr r1, _02168270 // =0x3C6EF35F
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
 	adc r10, r10, #0
 	mov r2, r2, lsr #0xc
 	mla r11, r7, r0, r1
@@ -3776,7 +4010,7 @@ _02167C2C:
 	mov r2, r11, lsr #0x10
 	str r11, [r3]
 	mov r11, r2, lsl #0x10
-	ldr r2, _02168288 // =0x000003FE
+	ldr r2, =0x000003FE
 	mov r7, r8, asr #0x1f
 	and r11, r2, r11, lsr #16
 	rsb r11, r11, r2, lsr #1
@@ -3826,7 +4060,7 @@ _02167C2C:
 	str r1, [r3]
 	mov r0, r0, lsl #0x10
 	and r0, r2, r0, lsr #16
-	ldr r1, _0216828C // =0x00001BFF
+	ldr r1, =0x00001BFF
 	ldr r2, [r4, #0x38]
 	sub r0, r1, r0
 	smull r10, r3, r2, r0
@@ -3911,7 +4145,7 @@ _02167DF8:
 	b _02168230
 _02167E88:
 	ldr r0, [r5, #0x164]
-	ldr r3, _02168274 // =_obj_disp_rand
+	ldr r3, =_obj_disp_rand
 	ldr r0, [r0, #0x34]
 	ldr r11, [r3, #0]
 	ands r0, r0, #7
@@ -3919,9 +4153,9 @@ _02167E88:
 	movne r8, r0
 	smull r10, r6, r7, r8
 	adds r7, r10, #0x800
-	ldr r1, _0216826C // =0x00196225
-	ldr r2, _02168270 // =0x3C6EF35F
-	ldr r0, _0216827C // =0x000001FE
+	ldr r1, =0x00196225
+	ldr r2, =0x3C6EF35F
+	ldr r0, =0x000001FE
 	mla r9, r11, r1, r2
 	mov r10, r9, lsr #0x10
 	mov r10, r10, lsl #0x10
@@ -4026,12 +4260,12 @@ _02167E88:
 	str r1, [r5, #0x118]
 	b _02168230
 _02168054:
-	ldr r5, _02168274 // =_obj_disp_rand
+	ldr r5, =_obj_disp_rand
 	mov r3, #0x800
 	ldr r10, [r5, #0]
-	ldr r0, _0216826C // =0x00196225
-	ldr r1, _02168270 // =0x3C6EF35F
-	ldr r2, _02168290 // =0x00000FFE
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
+	ldr r2, =0x00000FFE
 	mla r8, r10, r0, r1
 	mov r10, r8, lsr #0x10
 	mov r10, r10, lsl #0x10
@@ -4083,15 +4317,15 @@ _02168054:
 	beq _021681F4
 	mov r8, r5
 	ldr r0, [r8, #0]
-	ldr r3, _0216826C // =0x00196225
-	ldr r5, _02168270 // =0x3C6EF35F
-	ldr r1, _02168288 // =0x000003FE
+	ldr r3, =0x00196225
+	ldr r5, =0x3C6EF35F
+	ldr r1, =0x000003FE
 	mla r2, r0, r3, r5
 	mov r0, r2, lsr #0x10
 	str r2, [r8]
 	mov r0, r0, lsl #0x10
 	and r0, r1, r0, lsr #16
-	ldr r2, _0216828C // =0x00001BFF
+	ldr r2, =0x00001BFF
 	ldr r1, [r4, #0x38]
 	sub r0, r2, r0
 	smull r9, r2, r1, r0
@@ -4149,10 +4383,10 @@ _02168224:
 	mov r0, r4
 	bl SailObject__Func_2165AF4
 _02168230:
-	ldr r3, _02168274 // =_obj_disp_rand
-	ldr r1, _0216826C // =0x00196225
+	ldr r3, =_obj_disp_rand
+	ldr r1, =0x00196225
 	ldr r5, [r3, #0]
-	ldr r2, _02168270 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	mov r0, r4
 	mla r1, r5, r1, r2
 	str r1, [r3]
@@ -4164,21 +4398,17 @@ _02168230:
 	mov r0, r4
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0216826C: .word 0x00196225
-_02168270: .word 0x3C6EF35F
-_02168274: .word _obj_disp_rand
-_02168278: .word aSbStoneNsbmd_0
-_0216827C: .word 0x000001FE
-_02168280: .word 0x00001160
-_02168284: .word 0x000007FF
-_02168288: .word 0x000003FE
-_0216828C: .word 0x00001BFF
-_02168290: .word 0x00000FFE
-	arm_func_end SailStone__Create
 
-	arm_func_start SailStone__CreateFromSegment
-SailStone__CreateFromSegment: // 0x02168294
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailStone__CreateFromSegment(SailVoyageSegment *voyageSegment, s32 a2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r7, r0
@@ -4204,17 +4434,17 @@ _021682E0: // jump table
 	b _021682F0 // case 2
 	b _0216862C // case 3
 _021682F0:
-	ldr r1, _02168808 // =_obj_disp_rand
-	ldr r2, _0216880C // =0x00196225
+	ldr r1, =_obj_disp_rand
+	ldr r2, =0x00196225
 	ldr r8, [r1, #0]
-	ldr r3, _02168810 // =0x3C6EF35F
-	ldr r5, _02168814 // =0x0218B9AC
+	ldr r3, =0x3C6EF35F
+	ldr r5, =0x0218B9AC
 	mla r10, r8, r2, r3
 	mla r9, r10, r2, r3
 	mov r10, r10, lsr #0x10
 	mla r2, r9, r2, r3
 	mov r8, r0, lsl #1
-	ldr r0, _02168818 // =0x0218B9B4
+	ldr r0, =0x0218B9B4
 	mov r3, r10, lsl #0x10
 	mov r9, r9, lsr #0x10
 	mov r3, r3, lsr #0x10
@@ -4234,7 +4464,7 @@ _021682F0:
 	str r5, [sp, #4]
 	str r2, [r1]
 	mov r5, r9, lsr #0x10
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	mov r1, r5, lsl #0x12
 	ldr r2, [r7, #0x24]
 	mov r1, r1, lsr #0xe
@@ -4258,12 +4488,12 @@ _0216838C:
 	adds r3, r9, #0x800
 	mov r8, r8, asr #0x1f
 	mla r2, r8, r5, r2
-	ldr r1, _02168808 // =_obj_disp_rand
+	ldr r1, =_obj_disp_rand
 	mov r5, #0x800
 	ldr r10, [r1, #0]
-	ldr r8, _0216880C // =0x00196225
-	ldr r9, _02168810 // =0x3C6EF35F
-	ldr r11, _02168814 // =0x0218B9AC
+	ldr r8, =0x00196225
+	ldr r9, =0x3C6EF35F
+	ldr r11, =0x0218B9AC
 	mov r0, r0, lsl #1
 	ldrh r0, [r11, r0]
 	mla r11, r10, r8, r9
@@ -4289,7 +4519,7 @@ _0216838C:
 	str r3, [sp]
 	str r2, [r1]
 	mov r5, r8, lsr #0x10
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r2, [r7, #0x24]
 	mov r1, r5, lsl #0x10
 	add r0, r2, r0
@@ -4297,11 +4527,11 @@ _0216838C:
 	str r0, [sp, #8]
 	b _02168788
 _0216845C:
-	ldr r1, _02168808 // =_obj_disp_rand
-	ldr r3, _0216880C // =0x00196225
+	ldr r1, =_obj_disp_rand
+	ldr r3, =0x00196225
 	ldr r2, [r1, #0]
-	ldr r10, _02168810 // =0x3C6EF35F
-	ldr r11, _02168814 // =0x0218B9AC
+	ldr r10, =0x3C6EF35F
+	ldr r11, =0x0218B9AC
 	mla r9, r2, r3, r10
 	mla r8, r9, r3, r10
 	mla r2, r8, r3, r10
@@ -4315,7 +4545,7 @@ _0216845C:
 	mov r8, r0, lsr #0x10
 	str r3, [r1]
 	mov ip, r2, lsr #0x10
-	ldr r0, _0216881C // =0x00007FFE
+	ldr r0, =0x00007FFE
 	mov r1, lr, lsl #0x10
 	mov r2, r3, lsr #0x10
 	and r3, r0, r1, lsr #16
@@ -4329,9 +4559,9 @@ _0216845C:
 	str r3, [sp]
 	mov r8, ip, lsl #0x10
 	mov r9, r2, lsl #0x10
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r3, [r7, #0x24]
-	ldr r1, _02168820 // =0x00003FFF
+	ldr r1, =0x00003FFF
 	add r0, r3, r0
 	ldrh r10, [r5, #0x58]
 	add r2, r1, #0x4000
@@ -4361,12 +4591,12 @@ _02168538:
 	adds r3, r9, #0x800
 	mov r8, r8, asr #0x1f
 	mla r2, r8, r5, r2
-	ldr r1, _02168808 // =_obj_disp_rand
+	ldr r1, =_obj_disp_rand
 	mov r5, #0x800
 	ldr r10, [r1, #0]
-	ldr r8, _0216880C // =0x00196225
-	ldr r9, _02168810 // =0x3C6EF35F
-	ldr r11, _02168814 // =0x0218B9AC
+	ldr r8, =0x00196225
+	ldr r9, =0x3C6EF35F
+	ldr r11, =0x0218B9AC
 	mov r0, r0, lsl #1
 	ldrh r0, [r11, r0]
 	mla r11, r10, r8, r9
@@ -4392,13 +4622,13 @@ _02168538:
 	str r3, [sp]
 	str r2, [r1]
 	mov r5, r8, lsr #0x10
-	bl SailVoyageManager__Func_2157B14
-	ldr r2, _02168808 // =_obj_disp_rand
+	bl SailVoyageManager__GetVoyageUnknownValue
+	ldr r2, =_obj_disp_rand
 	ldr r1, [r7, #0x24]
 	ldr r3, [r2, #0]
 	add r8, r1, r0
-	ldr r0, _0216880C // =0x00196225
-	ldr r1, _02168810 // =0x3C6EF35F
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
 	sub r8, r8, #0x10000
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -4417,12 +4647,12 @@ _02168538:
 _0216862C:
 	cmp r6, #1
 	beq _021686AC
-	ldr r1, _02168808 // =_obj_disp_rand
+	ldr r1, =_obj_disp_rand
 	mov r2, #0
 	ldr r10, [r1, #0]
-	ldr r8, _0216880C // =0x00196225
-	ldr r9, _02168810 // =0x3C6EF35F
-	ldr r3, _02168814 // =0x0218B9AC
+	ldr r8, =0x00196225
+	ldr r9, =0x3C6EF35F
+	ldr r3, =0x0218B9AC
 	mla r5, r10, r8, r9
 	mov r10, r5, lsr #0x10
 	mov r0, r0, lsl #1
@@ -4440,7 +4670,7 @@ _0216862C:
 	str r2, [sp, #4]
 	str r8, [r1]
 	mov r5, r5, lsr #0x10
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r2, [r7, #0x24]
 	mov r1, r5, lsl #0x11
 	add r0, r2, r0
@@ -4448,10 +4678,10 @@ _0216862C:
 	str r0, [sp, #8]
 	b _02168788
 _021686AC:
-	ldr r1, _02168808 // =_obj_disp_rand
-	ldr r3, _0216880C // =0x00196225
+	ldr r1, =_obj_disp_rand
+	ldr r3, =0x00196225
 	ldr r2, [r1, #0]
-	ldr r11, _02168810 // =0x3C6EF35F
+	ldr r11, =0x3C6EF35F
 	mov ip, r0, lsl #1
 	mla r10, r2, r3, r11
 	mla r9, r10, r3, r11
@@ -4464,11 +4694,11 @@ _021686AC:
 	and r11, r8, #3
 	mov r8, r2, lsr #0x10
 	mov r10, r0, lsr #0x10
-	ldr lr, _02168814 // =0x0218B9AC
+	ldr lr, =0x0218B9AC
 	mov r9, r9, lsr #0x10
 	str r3, [r1]
 	mov r1, r9, lsl #0x10
-	ldr r0, _0216881C // =0x00007FFE
+	ldr r0, =0x00007FFE
 	mov r2, r3, lsr #0x10
 	and r3, r0, r1, lsr #16
 	ldrh r1, [lr, ip]
@@ -4481,9 +4711,9 @@ _021686AC:
 	str r3, [sp]
 	mov r8, r8, lsl #0x10
 	mov r9, r2, lsl #0x10
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r3, [r7, #0x24]
-	ldr r1, _02168820 // =0x00003FFF
+	ldr r1, =0x00003FFF
 	add r0, r3, r0
 	ldrh r10, [r5, #0x58]
 	add r2, r1, #0x4000
@@ -4512,10 +4742,10 @@ _02168788:
 	ldrsh r0, [r7, #0xa]
 	cmp r0, #0
 	bne _021687DC
-	ldr r2, _02168808 // =_obj_disp_rand
-	ldr r0, _0216880C // =0x00196225
+	ldr r2, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02168810 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -4537,18 +4767,17 @@ _021687DC:
 	bl NNS_FndAppendListObject
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02168808: .word _obj_disp_rand
-_0216880C: .word 0x00196225
-_02168810: .word 0x3C6EF35F
-_02168814: .word 0x0218B9AC
-_02168818: .word 0x0218B9B4
-_0216881C: .word 0x00007FFE
-_02168820: .word 0x00003FFF
-	arm_func_end SailStone__CreateFromSegment
 
-	arm_func_start SailIce__Create
-SailIce__Create: // 0x02168824
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailIce__Create(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x14
 	mov r7, #1
@@ -4569,16 +4798,16 @@ SailIce__Create: // 0x02168824
 	cmp r8, #0
 	rsblt r8, r8, #0
 	bl SailManager__GetShipType
-	ldr r1, _02168C58 // =0x0218B9AC
+	ldr r1, =0x0218B9AC
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	mul r0, r6, r0
 	cmp r8, r0
 	ble _021688B4
-	ldr r2, _02168C5C // =_obj_disp_rand
-	ldr r0, _02168C60 // =0x00196225
+	ldr r2, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02168C64 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -4592,7 +4821,7 @@ _021688B4:
 	bl SailManager__GetArchive
 	str r6, [sp]
 	str r0, [sp, #4]
-	ldr r2, _02168C68 // =aSbIceNsbmd_0
+	ldr r2, =aSbIceNsbmd_0
 	mov r0, r4
 	mov r1, #0
 	mov r3, r7
@@ -4616,19 +4845,19 @@ _021688B4:
 	cmp r5, #0
 	rsblt r5, r5, #0
 	bl SailManager__GetShipType
-	ldr r1, _02168C58 // =0x0218B9AC
+	ldr r1, =0x0218B9AC
 	mov r0, r0, lsl #1
 	ldrh r1, [r1, r0]
 	mov r0, #0x60
-	ldr r2, _02168C60 // =0x00196225
+	ldr r2, =0x00196225
 	mul r0, r1, r0
 	cmp r5, r0
-	ldr r3, _02168C64 // =0x3C6EF35F
+	ldr r3, =0x3C6EF35F
 	ble _021689FC
-	ldr r8, _02168C5C // =_obj_disp_rand
-	ldr r5, _02168C6C // =0x000003FE
+	ldr r8, =_obj_disp_rand
+	ldr r5, =0x000003FE
 	ldr r1, [r8, #0]
-	ldr r7, _02168C70 // =0x00000DFF
+	ldr r7, =0x00000DFF
 	mla r0, r1, r2, r3
 	mov r1, r0, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -4669,15 +4898,15 @@ _021688B4:
 	str r2, [r4, #0x40]
 	b _02168C14
 _021689FC:
-	ldr r9, _02168C5C // =_obj_disp_rand
+	ldr r9, =_obj_disp_rand
 	mov r0, r6, asr #0x1f
 	ldr r5, [r9, #0]
 	mov ip, r0, lsl #0xa
 	mla r1, r5, r2, r3
 	mov r0, r1, lsr #0x10
-	ldr r5, _02168C6C // =0x000003FE
+	ldr r5, =0x000003FE
 	mov r0, r0, lsl #0x10
-	ldr r7, _02168C74 // =0x000011FF
+	ldr r7, =0x000011FF
 	and r0, r5, r0, lsr #16
 	sub r0, r7, r0
 	smull r8, r0, r6, r0
@@ -4709,12 +4938,12 @@ _021689FC:
 	str r2, [r4, #0x40]
 	b _02168C14
 _02168A98:
-	ldr ip, _02168C5C // =_obj_disp_rand
-	ldr r3, _02168C78 // =0x00000BFF
+	ldr ip, =_obj_disp_rand
+	ldr r3, =0x00000BFF
 	ldr r8, [ip]
-	ldr r0, _02168C60 // =0x00196225
-	ldr r1, _02168C64 // =0x3C6EF35F
-	ldr r2, _02168C6C // =0x000003FE
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
+	ldr r2, =0x000003FE
 	mla lr, r8, r0, r1
 	mov r8, lr, lsr #0x10
 	mov r8, r8, lsl #0x10
@@ -4807,10 +5036,10 @@ _02168BC4:
 	mov r0, #0x1f4
 	str r0, [r5, #0x118]
 _02168C14:
-	ldr r3, _02168C5C // =_obj_disp_rand
-	ldr r1, _02168C60 // =0x00196225
+	ldr r3, =_obj_disp_rand
+	ldr r1, =0x00196225
 	ldr r5, [r3, #0]
-	ldr r2, _02168C64 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	mov r0, r4
 	mla r1, r5, r1, r2
 	str r1, [r3]
@@ -4819,26 +5048,22 @@ _02168C14:
 	bl SailObject__SetupAnimator3D
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
-	ldr r1, _02168C7C // =SailObject__Func_2166D50
+	ldr r1, =SailObject__Func_2166D50
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	.align 2, 0
-_02168C58: .word 0x0218B9AC
-_02168C5C: .word _obj_disp_rand
-_02168C60: .word 0x00196225
-_02168C64: .word 0x3C6EF35F
-_02168C68: .word aSbIceNsbmd_0
-_02168C6C: .word 0x000003FE
-_02168C70: .word 0x00000DFF
-_02168C74: .word 0x000011FF
-_02168C78: .word 0x00000BFF
-_02168C7C: .word SailObject__Func_2166D50
-	arm_func_end SailIce__Create
 
-	arm_func_start SailIce__CreateFromSegment
-SailIce__CreateFromSegment: // 0x02168C80
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailIce__CreateFromSegment(SailVoyageSegment *voyageSegment, s32 a2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r8, r0
@@ -4862,12 +5087,12 @@ SailIce__CreateFromSegment: // 0x02168C80
 	cmp r5, #2
 _02168CD4:
 	cmp r7, #0
-	ldr r9, _02169030 // =0x3C6EF35F
+	ldr r9, =0x3C6EF35F
 	beq _02168DA0
-	ldr r3, _02169034 // =_obj_disp_rand
-	ldr r2, _02169038 // =0x00196225
+	ldr r3, =_obj_disp_rand
+	ldr r2, =0x00196225
 	ldr r0, [r3, #0]
-	ldr r1, _0216903C // =0x0218B9AC
+	ldr r1, =0x0218B9AC
 	mla r11, r0, r2, r9
 	mla r10, r11, r2, r9
 	str r11, [r3]
@@ -4889,9 +5114,9 @@ _02168CD4:
 	str r2, [sp]
 	mov r9, r10, lsl #0x10
 	mov r5, r5, lsl #0x10
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r3, [r8, #0x24]
-	ldr r1, _02169040 // =0x00001FFF
+	ldr r1, =0x00001FFF
 	add r0, r3, r0
 	ldrh r10, [r6, #0x58]
 	add r2, r1, #0x2000
@@ -4913,10 +5138,10 @@ _02168CD4:
 	strh r0, [r6, #0x58]
 	b _02168E0C
 _02168DA0:
-	ldr r10, _02169034 // =_obj_disp_rand
-	ldr r6, _02169038 // =0x00196225
+	ldr r10, =_obj_disp_rand
+	ldr r6, =0x00196225
 	ldr r1, [r10, #0]
-	ldr r0, _0216903C // =0x0218B9AC
+	ldr r0, =0x0218B9AC
 	mla r2, r1, r6, r9
 	mov r3, r2, lsr #0x10
 	mov r1, r5, lsl #1
@@ -4933,7 +5158,7 @@ _02168DA0:
 	mov r0, r8
 	str r1, [sp]
 	mov r5, r2, lsr #0x10
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r2, [r8, #0x24]
 	mov r1, r5, lsl #0x12
 	add r0, r2, r0
@@ -4946,12 +5171,12 @@ _02168E0C:
 	b _02168FB8
 _02168E18:
 	cmp r7, #0
-	ldr r10, _02169030 // =0x3C6EF35F
+	ldr r10, =0x3C6EF35F
 	beq _02168EFC
-	ldr r1, _02169034 // =_obj_disp_rand
-	ldr r3, _02169038 // =0x00196225
+	ldr r1, =_obj_disp_rand
+	ldr r3, =0x00196225
 	ldr r0, [r1, #0]
-	ldr r11, _0216903C // =0x0218B9AC
+	ldr r11, =0x0218B9AC
 	mla r9, r0, r3, r10
 	mla r2, r9, r3, r10
 	mla r0, r2, r3, r10
@@ -4965,7 +5190,7 @@ _02168E18:
 	mov lr, r5, lsr #0x10
 	mov r5, r0, lsr #0x10
 	str r3, [r1]
-	ldr r0, _02169044 // =0x00007FFE
+	ldr r0, =0x00007FFE
 	mov r1, ip, lsl #0x10
 	mov r2, r3, lsr #0x10
 	and r3, r0, r1, lsr #16
@@ -4979,9 +5204,9 @@ _02168E18:
 	str r3, [sp]
 	mov r5, r5, lsl #0x10
 	mov r9, r2, lsl #0x10
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r3, [r8, #0x24]
-	ldr r1, _02169048 // =0x00003FFF
+	ldr r1, =0x00003FFF
 	add r0, r3, r0
 	ldrh r10, [r6, #0x58]
 	add r2, r1, #0x4000
@@ -5004,7 +5229,7 @@ _02168E18:
 	b _02168FB8
 _02168EFC:
 	ldrsh r6, [r8, #0xa]
-	ldr r1, _02169034 // =_obj_disp_rand
+	ldr r1, =_obj_disp_rand
 	mov r3, #0xb
 	cmp r6, #0
 	rsblt r6, r6, #0
@@ -5015,12 +5240,12 @@ _02168EFC:
 	mov r6, r6, asr #0x1f
 	mla r0, r6, r3, r0
 	ldr r11, [r1, #0]
-	ldr r9, _02169038 // =0x00196225
+	ldr r9, =0x00196225
 	adc r0, r0, #0
 	mov r2, r2, lsr #0xc
 	orr r2, r2, r0, lsl #20
 	mov r0, r5, lsl #1
-	ldr ip, _0216903C // =0x0218B9AC
+	ldr ip, =0x0218B9AC
 	mla r5, r11, r9, r10
 	add r3, r2, #0x10
 	mla r2, r5, r9, r10
@@ -5043,7 +5268,7 @@ _02168EFC:
 	str r3, [sp]
 	str r2, [r1]
 	mov r5, r9, lsr #0x10
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r2, [r8, #0x24]
 	mov r1, r5, lsl #0x12
 	add r0, r2, r0
@@ -5060,10 +5285,10 @@ _02168FB8:
 	ldreqsh r0, [r8, #0xa]
 	cmpeq r0, #0
 	bne _02169010
-	ldr r2, _02169034 // =_obj_disp_rand
-	ldr r0, _02169038 // =0x00196225
+	ldr r2, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02169030 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5082,18 +5307,17 @@ _02169010:
 	bl NNS_FndAppendListObject
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02169030: .word 0x3C6EF35F
-_02169034: .word _obj_disp_rand
-_02169038: .word 0x00196225
-_0216903C: .word 0x0218B9AC
-_02169040: .word 0x00001FFF
-_02169044: .word 0x00007FFE
-_02169048: .word 0x00003FFF
-	arm_func_end SailIce__CreateFromSegment
 
-	arm_func_start SailSubFish__Create
-SailSubFish__Create: // 0x0216904C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailSubFish__Create(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -5104,10 +5328,10 @@ SailSubFish__Create: // 0x0216904C
 	mov r0, r4
 	mov r1, #0x1a0
 	bl StageTask__AllocateWorker
-	ldr r3, _0216916C // =_obj_disp_rand
-	ldr r1, _02169170 // =0x00196225
+	ldr r3, =_obj_disp_rand
+	ldr r1, =0x00196225
 	ldr r5, [r3, #0]
-	ldr r2, _02169174 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	mov r0, #0x22
 	mla r7, r5, r1, r2
 	mla r2, r7, r1, r2
@@ -5130,7 +5354,7 @@ SailSubFish__Create: // 0x0216904C
 	str r0, [sp, #4]
 	mov r0, r4
 	mov r1, #0
-	ldr r2, _02169178 // =aSbSubFishNsbmd_0
+	ldr r2, =aSbSubFishNsbmd_0
 	bl ObjAction3dNNModelLoad
 	mov r0, r4
 	bl SailObject__Func_21646DC
@@ -5138,14 +5362,14 @@ SailSubFish__Create: // 0x0216904C
 	mov r0, r4
 	bl SailObject__InitFromMapObject
 	ldr r0, [r4, #0x18]
-	ldr r5, _0216916C // =_obj_disp_rand
+	ldr r5, =_obj_disp_rand
 	orr r0, r0, #2
 	str r0, [r4, #0x18]
 	ldr r0, [r4, #0x38]
 	ldr r6, [r5, #0]
-	ldr r1, _02169170 // =0x00196225
-	ldr r2, _02169174 // =0x3C6EF35F
-	ldr r3, _0216917C // =0x000001FE
+	ldr r1, =0x00196225
+	ldr r2, =0x3C6EF35F
+	ldr r3, =0x000001FE
 	mla r1, r6, r1, r2
 	str r1, [r5]
 	mov r1, r1, lsr #0x10
@@ -5166,16 +5390,17 @@ SailSubFish__Create: // 0x0216904C
 	mov r0, r4
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_0216916C: .word _obj_disp_rand
-_02169170: .word 0x00196225
-_02169174: .word 0x3C6EF35F
-_02169178: .word aSbSubFishNsbmd_0
-_0216917C: .word 0x000001FE
-	arm_func_end SailSubFish__Create
 
-	arm_func_start SailSubFish2__Create
-SailSubFish2__Create: // 0x02169180
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailSubFish2__Create(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -5186,11 +5411,11 @@ SailSubFish2__Create: // 0x02169180
 	mov r0, r4
 	mov r1, #0x1a0
 	bl StageTask__AllocateWorker
-	ldr r3, _021692B0 // =_obj_disp_rand
-	ldr r1, _021692B4 // =0x00196225
+	ldr r3, =_obj_disp_rand
+	ldr r1, =0x00196225
 _021691B0:
 	ldr r5, [r3, #0]
-	ldr r2, _021692B8 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	mov r0, #0x22
 	mla r7, r5, r1, r2
 	mla r2, r7, r1, r2
@@ -5212,7 +5437,7 @@ _021691F8:
 	add r1, r2, r1
 	mov r1, r1, lsl #0x10
 	mov r3, r1, lsr #0x10
-	ldr r2, _021692BC // =aSbSubFishNsbmd_0
+	ldr r2, =aSbSubFishNsbmd_0
 	mov r0, r4
 	mov r1, #0
 	bl ObjAction3dNNModelLoad
@@ -5223,22 +5448,22 @@ _021691F8:
 	mov r2, #0
 	bl StageTask__SetParent
 	ldr r0, [r4, #0x18]
-	ldr r6, _021692B0 // =_obj_disp_rand
+	ldr r6, =_obj_disp_rand
 	orr r0, r0, #0x12
 	str r0, [r4, #0x18]
 	ldr r0, [r4, #0x1c]
 _02169244:
-	ldr r2, _021692B4 // =0x00196225
+	ldr r2, =0x00196225
 	orr r0, r0, #0x2000
 	str r0, [r4, #0x1c]
 	ldr r1, [r4, #0x12c]
 	ldr ip, [r6]
-	ldr r3, _021692B8 // =0x3C6EF35F
+	ldr r3, =0x3C6EF35F
 	ldr r0, [r1, #0x18]
 	mla r2, ip, r2, r3
 	str r2, [r6]
 	mov r2, r2, lsr #0x10
-	ldr r5, _021692C0 // =0x000001FF
+	ldr r5, =0x000001FF
 	mov r2, r2, lsl #0x10
 	and r2, r5, r2, lsr #16
 	add r2, r2, #0xc00
@@ -5255,16 +5480,17 @@ _02169244:
 	mov r0, r4
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_021692B0: .word _obj_disp_rand
-_021692B4: .word 0x00196225
-_021692B8: .word 0x3C6EF35F
-_021692BC: .word aSbSubFishNsbmd_0
-_021692C0: .word 0x000001FF
-	arm_func_end SailSubFish2__Create
 
-	arm_func_start SailSubFish__CreateUnknown1
-SailSubFish__CreateUnknown1: // 0x021692C4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailSubFish__CreateUnknown1(SailVoyageSegment *voyageSegment)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -5276,10 +5502,10 @@ SailSubFish__CreateUnknown1: // 0x021692C4
 	str r0, [r1, #4]
 	str r0, [r1, #8]
 	bl SailManager__GetShipType
-	ldr r3, _02169400 // =_obj_disp_rand
-	ldr r1, _02169404 // =0x00196225
+	ldr r3, =_obj_disp_rand
+	ldr r1, =0x00196225
 	ldr r6, [r3, #0]
-	ldr r2, _02169408 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	mov r0, r0, lsl #0x10
 	mla r7, r6, r1, r2
 	mla r6, r7, r1, r2
@@ -5294,8 +5520,8 @@ SailSubFish__CreateUnknown1: // 0x021692C4
 	mov r1, ip, lsr #0x10
 	mov r2, r1, lsl #0x10
 	mov r8, r0, lsr #0xf
-	ldr r1, _0216940C // =0x0218B9AC
-	ldr r0, _02169410 // =0x0218B9B4
+	ldr r1, =0x0218B9AC
+	ldr r0, =0x0218B9B4
 	ldrh r7, [r1, r8]
 	rsb r1, r6, #0x7f
 	ldrh r6, [r0, r8]
@@ -5309,7 +5535,7 @@ SailSubFish__CreateUnknown1: // 0x021692C4
 	str lr, [sp, #4]
 	str ip, [r3]
 	mov r6, r2, lsr #0x10
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r2, [r5, #0x24]
 	mov r1, r6, lsl #0x11
 	add r0, r2, r0
@@ -5323,10 +5549,10 @@ SailSubFish__CreateUnknown1: // 0x021692C4
 	ldrsh r0, [r5, #0xa]
 	cmp r0, #0
 	bne _021693E0
-	ldr r2, _02169400 // =_obj_disp_rand
-	ldr r0, _02169404 // =0x00196225
+	ldr r2, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02169408 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5345,23 +5571,24 @@ _021693E0:
 	bl NNS_FndAppendListObject
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02169400: .word _obj_disp_rand
-_02169404: .word 0x00196225
-_02169408: .word 0x3C6EF35F
-_0216940C: .word 0x0218B9AC
-_02169410: .word 0x0218B9B4
-	arm_func_end SailSubFish__CreateUnknown1
 
-	arm_func_start SailSubFish__CreateUnknown2
-SailSubFish__CreateUnknown2: // 0x02169414
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC StageTask *SailSubFish__CreateUnknown2(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	bl SailManager__GetWork
-	ldr r2, _0216947C // =_obj_disp_rand
-	ldr r0, _02169480 // =0x00196225
+	ldr r2, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02169484 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mov r4, #0
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -5382,479 +5609,251 @@ _0216945C:
 	mov r4, r0, lsr #0x10
 	bhi _0216945C
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216947C: .word _obj_disp_rand
-_02169480: .word 0x00196225
-_02169484: .word 0x3C6EF35F
-	arm_func_end SailSubFish__CreateUnknown2
 
-	arm_func_start SailChaosEmerald__Create
-SailChaosEmerald__Create: // 0x02169488
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	bl SailManager__GetWork
-	mov r8, r0
-	bl CreateStageTask_
-	mov r7, r0
-	mov r1, #2
-	bl StageTask__SetType
-	mov r0, r7
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r6, r0
-	mov r0, #0x66
-	bl GetObjectFileWork
-	mov r5, r0
-	bl SailManager__GetArchive
-	str r5, [sp]
-	str r0, [sp, #4]
-	ldrh r3, [r8, #0x10]
-	mov r0, r7
-	mov r1, #0
-	ldr r2, _02169528 // =aSbChaosNsbmd_0
-	bl ObjAction3dNNModelLoad
-	mov r0, r7
-	bl SailObject__Func_21646DC
-	ldr r1, [r7, #0x18]
-	mov r0, #0x1f40
-	orr r1, r1, #0x10
-	str r1, [r7, #0x18]
-	str r4, [r6, #0x178]
-	rsb r0, r0, #0
-	str r0, [r6, #0x174]
-	mov r0, r7
-	bl SailObject__Func_2166A2C
-	mov r0, r7
-	bl SailChaosEmerald__SetupObject
-	mov r0, r7
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02169528: .word aSbChaosNsbmd_0
-	arm_func_end SailChaosEmerald__Create
+// clang-format on
+#endif
+}
 
-	arm_func_start SailGoal__Create
-SailGoal__Create: // 0x0216952C
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #8
-	mov r7, r0
-	bl SailManager__GetWork
-	mov r6, r0
-	bl CreateStageTask_
-	mov r4, r0
-	mov r1, #2
-	bl StageTask__SetType
-	mov r0, r4
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r5, r0
-	mov r0, #0x2e
-	bl GetObjectFileWork
-	mov r8, r0
-	bl SailManager__GetArchive
-	str r8, [sp]
-	mov r1, #0
-	str r0, [sp, #4]
-	ldr r2, _021696B8 // =aSbGoalNsbmd_0
-	mov r0, r4
-	mov r3, r1
-	bl ObjAction3dNNModelLoad
-	mov r0, #0x2f
-	bl GetObjectFileWork
-	mov r8, r0
-	bl SailManager__GetArchive
-	str r0, [sp]
-	ldr r2, _021696BC // =aSbGoalNsbca
-	mov r3, r8
-	mov r0, r4
-	mov r1, #0
-	bl ObjAction3dNNMotionLoad
-	mov r1, #0
-	ldr r0, [r4, #0x12c]
-	mov r3, r1
-	str r1, [sp]
-	ldr r2, [r0, #0x148]
-	bl AnimatorMDL__SetAnimation
-	mov r0, r4
-	mov r1, #0x2000
-	bl SailObject__SetAnimSpeed
-	ldr r0, [r4, #0x20]
-	mov r1, #0x1d
-	orr r0, r0, #4
-	str r0, [r4, #0x20]
-	ldr r0, [r4, #0x12c]
-	mov r2, #7
-	strb r1, [r0, #0xa]
-	ldr r1, [r4, #0x12c]
-	mov r0, r4
-	strb r2, [r1, #0xb]
-	bl SailObject__Func_21646DC
-	ldr r0, [r4, #0x18]
-	orr r0, r0, #0x10
-	str r0, [r4, #0x18]
-	str r7, [r5, #0x178]
-	bl SailManager__GetShipType
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	b _02169634
-_02169624: // jump table
-	b _02169634 // case 0
-	b _02169644 // case 1
-	b _02169634 // case 2
-	b _02169654 // case 3
-_02169634:
-	mov r0, #0x1f40
-	rsb r0, r0, #0
-	str r0, [r5, #0x174]
-	b _02169660
-_02169644:
-	mov r0, #0x8000
-	rsb r0, r0, #0
-	str r0, [r5, #0x174]
-	b _02169660
-_02169654:
-	mov r0, #0x16000
-	rsb r0, r0, #0
-	str r0, [r5, #0x174]
-_02169660:
-	mov r0, r4
-	bl SailObject__Func_2166A2C
-	ldr r0, [r6, #0xc]
-	cmp r0, #0
-	bne _021696A4
-	ldr r2, [r4, #0x38]
-	mov r0, #0x800
-	mov r1, r2, asr #0x1f
-	mov r1, r1, lsl #0xd
-	adds r3, r0, r2, lsl #13
-	orr r1, r1, r2, lsr #19
-	adc r0, r1, #0
-	mov r1, r3, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [r4, #0x38]
-	str r1, [r4, #0x3c]
-	str r1, [r4, #0x40]
-_021696A4:
-	mov r0, r4
-	bl SailGoal__SetupObject
-	mov r0, r4
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_021696B8: .word aSbGoalNsbmd_0
-_021696BC: .word aSbGoalNsbca
-	arm_func_end SailGoal__Create
+StageTask *SailChaosEmerald__Create(fx32 z)
+{
+    StageTask *work;
+    SailObject *worker;
 
-	arm_func_start SailGoalText__Create
-SailGoalText__Create: // 0x021696C0
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r6, r0
-	bl CreateStageTask_
-	mov r4, r0
-	mov r1, #2
-	bl StageTask__SetType
-	mov r0, r4
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r5, r0
-	mov r0, #0x31
-	bl GetObjectFileWork
-	mov r7, r0
-	bl SailManager__GetArchive
-	ldr r3, _021697C0 // =0x0000FFFF
-	ldr r2, _021697C4 // =aSbCldmGoalBac
-	stmia sp, {r3, r7}
-	str r0, [sp, #8]
-	mov r1, #0
-	mov r0, r4
-	bl ObjObjectAction3dBACLoad
-	mov r0, r4
-	bl SailObject__Func_21646DC
-	ldr r0, [r4, #0x134]
-	mov r1, #0x1d
-	strb r1, [r0, #0xa]
-	ldr r1, [r4, #0x134]
-	mov r2, #7
-	mov r0, r4
-	strb r2, [r1, #0xb]
-	bl SailObject__Func_21646DC
-	ldr r1, [r4, #0x18]
-	sub r0, r6, #0x1000
-	orr r1, r1, #0x10
-	str r1, [r4, #0x18]
-	str r0, [r5, #0x178]
-	str r6, [r4, #0x28]
-	bl SailManager__GetShipType
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	b _02169778
-_02169768: // jump table
-	b _02169778 // case 0
-	b _02169788 // case 1
-	b _02169778 // case 2
-	b _02169798 // case 3
-_02169778:
-	mov r0, #0x1f40
-	rsb r0, r0, #0
-	str r0, [r5, #0x174]
-	b _021697A4
-_02169788:
-	mov r0, #0x8000
-	rsb r0, r0, #0
-	str r0, [r5, #0x174]
-	b _021697A4
-_02169798:
-	mov r0, #0x16000
-	rsb r0, r0, #0
-	str r0, [r5, #0x174]
-_021697A4:
-	mov r0, r4
-	bl SailObject__Func_2166A2C
-	mov r0, r4
-	bl SailGoalText__SetupObject
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_021697C0: .word 0x0000FFFF
-_021697C4: .word aSbCldmGoalBac
-	arm_func_end SailGoalText__Create
+    SailManager *manager = SailManager__GetWork();
 
-	arm_func_start SailJetItem__Create
-SailJetItem__Create: // 0x021697C8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0xc
-	mov r7, r0
-	bl SailManager__GetWork
-	mov r6, r0
-	ldr r0, _02169930 // =0x00001001
-	mov r1, #1
-	bl CreateStageTaskEx_
-	mov r4, r0
-	mov r1, #1
-	bl StageTask__SetType
-	mov r0, r4
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r5, r0
-	mov r0, #0x25
-	bl GetObjectFileWork
-	mov r8, r0
-	bl SailManager__GetArchive
-	ldr r3, _02169934 // =0x0000FFFF
-	ldr r2, _02169938 // =aSbItemBac
-	stmia sp, {r3, r8}
-	str r0, [sp, #8]
-	mov r1, #0
-	mov r0, r4
-	bl ObjObjectAction3dBACLoad
-	mov r0, r4
-	bl SailObject__Func_21646DC
-	mov r0, r4
-	mov r1, r7
-	bl SailObject__InitFromMapObject
-	ldr r0, [r4, #0x48]
-	sub r0, r0, #0x1000
-	str r0, [r4, #0x48]
-	ldr r0, [r4, #0x24]
-	orr r0, r0, #0x10000
-	str r0, [r4, #0x24]
-	ldr r0, [r7, #0x28]
-	str r0, [r4, #0x28]
-	cmp r0, #0x10
-	movhi r0, #0
-	strhi r0, [r4, #0x28]
-	ldrh r0, [r6, #0x12]
-	cmp r0, #6
-	bne _0216988C
-	ldr r0, [r4, #0x28]
-	cmp r0, #3
-	movls r0, #0xb
-	strls r0, [r4, #0x28]
-_0216988C:
-	ldr r1, [r4, #0x28]
-	mov r0, r4
-	mov r1, r1, lsr #2
-	add r1, r1, #1
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	bl StageTask__SetAnimation
-	mov r0, #0x1f4
-	str r0, [r5, #0x118]
-	ldr r0, [r4, #0x134]
-	mov r1, #0x1c
-	strb r1, [r0, #0xa]
-	ldr r3, [r4, #0x134]
-	mov r6, #7
-	mov r0, r4
-	add r1, r5, #0x28
-	mov r2, #0
-	strb r6, [r3, #0xb]
-	bl SailObject__SetupHitbox
-	mov r1, #0
-	mov r0, r4
-	mov r3, r1
-	mov r2, #0x900
-	bl SailObject__Func_21658D0
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__GetCollider
-	mov r1, #0
-	strh r1, [r0, #0x2c]
-	strh r1, [r0, #0x2e]
-	bl SailManager__GetShipType
-	cmp r0, #1
-	moveq r0, #0x2800
-	streq r0, [r5, #0x50]
-	mov r0, r4
-	bl SailItem3__Create
-	mov r0, r4
-	bl StageTask__InitSeqPlayer
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02169930: .word 0x00001001
-_02169934: .word 0x0000FFFF
-_02169938: .word aSbItemBac
-	arm_func_end SailJetItem__Create
+    work = CreateStageTaskSimple();
+    StageTask__SetType(work, 2);
 
-	arm_func_start SailItem3__Create
-SailItem3__Create: // 0x0216993C
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0xc
-	mov r6, r0
-	ldr r0, _02169A0C // =0x00001001
-	mov r1, #1
-	bl CreateStageTaskEx_
-	mov r4, r0
-	mov r1, #1
-	bl StageTask__SetType
-	mov r0, r4
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r0, #0x25
-	bl GetObjectFileWork
-	mov r5, r0
-	bl SailManager__GetArchive
-	ldr r3, _02169A10 // =0x0000FFFF
-	ldr r2, _02169A14 // =aSbItemBac
-	stmia sp, {r3, r5}
-	str r0, [sp, #8]
-	mov r1, #0
-	mov r0, r4
-	bl ObjObjectAction3dBACLoad
-	mov r0, r4
-	bl SailObject__Func_21646DC
-	ldr r1, [r4, #0x24]
-	add r0, r6, #0x44
-	orr r1, r1, #1
-	str r1, [r4, #0x24]
-	add r3, r4, #0x44
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	mov r1, r6
-	mov r0, r4
-	mov r2, #0x400
-	bl StageTask__SetParent
-	ldr r0, [r4, #0x134]
-	mov r2, #0x1c
-	strb r2, [r0, #0xa]
-	ldr r0, [r4, #0x134]
-	mov r1, #7
-	strb r1, [r0, #0xb]
-	bl SailManager__GetShipType
-	cmp r0, #3
-	bne _02169A00
-	mov r0, #0x280
-	str r0, [r4, #0x38]
-	str r0, [r4, #0x3c]
-	str r0, [r4, #0x40]
-_02169A00:
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, pc}
-	.align 2, 0
-_02169A0C: .word 0x00001001
-_02169A10: .word 0x0000FFFF
-_02169A14: .word aSbItemBac
-	arm_func_end SailItem3__Create
+    worker = StageTask__AllocateWorker(work, sizeof(SailObject));
 
-	arm_func_start SailItemBonus__Create
-SailItemBonus__Create: // 0x02169A18
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	sub sp, sp, #0x20
-	mov r7, r0
-	mov r6, r1
-	bl CreateStageTask_
-	mov r1, #2
-	mov r4, r0
-	bl StageTask__SetType
-	mov r0, #0x29
-	bl GetObjectFileWork
-	mov r5, r0
-	bl SailManager__GetArchive
-	mov r1, #0x10
-	stmia sp, {r1, r5}
-	str r0, [sp, #8]
-	ldr r2, _02169B18 // =aSbLogoFixBac_0
-	mov r0, r4
-	mov r1, #0
-	mov r3, #0x400
-	bl ObjObjectAction3dBACLoad
-	add r0, r6, #4
-	mov r0, r0, lsl #0x10
-	mov r1, r0, lsr #0x10
-	mov r0, r4
-	bl StageTask__SetAnimation
-	mov r0, r4
-	bl SailObject__Func_21646DC
-	ldr r1, [r4, #0x24]
-	add r0, r7, #0x44
-	orr r1, r1, #1
-	str r1, [r4, #0x24]
-	ldr r1, [r4, #0x20]
-	add r3, sp, #0x14
-	orr r1, r1, #0x20000
-	str r1, [r4, #0x20]
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldr r2, [sp, #0x18]
-	mov r0, r3
-	rsb r2, r2, #0
-	str r2, [sp, #0x18]
-	add r1, sp, #0x10
-	add r2, sp, #0xc
-	bl NNS_G3dWorldPosToScrPos
-	ldr r1, [sp, #0x10]
-	mov r0, #0x1000
-	mov r1, r1, lsl #0xc
-	str r1, [r4, #0x44]
-	ldr r2, [sp, #0xc]
-	sub r1, r0, #0x2000
-	mov r2, r2, lsl #0xc
-	str r2, [r4, #0x48]
-	str r0, [r4, #0x38]
-	str r0, [r4, #0x3c]
-	str r0, [r4, #0x40]
-	ldr r2, [r4, #0x48]
-	ldr r0, _02169B1C // =SailItemBonus__State_216CBF8
-	sub r2, r2, #0x14000
-	str r2, [r4, #0x48]
-	str r1, [r4, #0x9c]
-	str r0, [r4, #0xf4]
-	mov r0, r4
-	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_02169B18: .word aSbLogoFixBac_0
-_02169B1C: .word SailItemBonus__State_216CBF8
-	arm_func_end SailItemBonus__Create
+    ObjAction3dNNModelLoad(work, NULL, "sb_chaos.nsbmd", manager->rivalRaceID, GetObjectFileWork(OBJDATAWORK_102), SailManager__GetArchive());
+    SailObject__Func_21646DC(work);
 
-	arm_func_start SailObject__Destructor_2169B20
-SailObject__Destructor_2169B20: // 0x02169B20
+    work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
+    worker->objectRadius.z = z;
+    worker->objectRadius.y = -FLOAT_TO_FX32(1.953125);
+
+    SailObject__Func_2166A2C(work);
+    SailChaosEmerald__SetupObject(work);
+    return work;
+}
+
+StageTask *SailGoal__Create(fx32 radius)
+{
+    StageTask *work;
+    SailObject *worker;
+
+    SailManager *manager = SailManager__GetWork();
+
+    work = CreateStageTaskSimple();
+    StageTask__SetType(work, 2);
+
+    worker = StageTask__AllocateWorker(work, sizeof(SailObject));
+
+    ObjAction3dNNModelLoad(work, NULL, "sb_goal.nsbmd", 0, GetObjectFileWork(OBJDATAWORK_46), SailManager__GetArchive());
+    ObjAction3dNNMotionLoad(work, NULL, "sb_goal.nsbca", GetObjectFileWork(OBJDATAWORK_47), SailManager__GetArchive());
+    AnimatorMDL__SetAnimation(&work->obj_3d->ani, 0, work->obj_3d->resources[B3D_RESOURCE_JOINT_ANIM], 0, 0);
+    SailObject__SetAnimSpeed(work, FLOAT_TO_FX32(2.0));
+    work->displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+    work->obj_3d->ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
+    work->obj_3d->ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
+
+    SailObject__Func_21646DC(work);
+    work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
+
+    worker->objectRadius.z = radius;
+    switch (SailManager__GetShipType())
+    {
+        case SHIP_JET:
+        case SHIP_HOVER:
+        default:
+            worker->objectRadius.y = -FLOAT_TO_FX32(1.953125);
+            break;
+
+        case SHIP_BOAT:
+            worker->objectRadius.y = -FLOAT_TO_FX32(8.0);
+            break;
+
+        case SHIP_SUBMARINE:
+            worker->objectRadius.y = -FLOAT_TO_FX32(22.0);
+            break;
+    }
+
+    SailObject__Func_2166A2C(work);
+
+    if (!manager->isRivalRace)
+    {
+        fx32 scale = MultiplyFX(work->scale.x, FLOAT_TO_FX32(2.0));
+
+        work->scale.x = scale;
+        work->scale.y = scale;
+        work->scale.z = scale;
+    }
+
+    SailGoal__SetupObject(work);
+
+    return work;
+}
+
+StageTask *SailGoalText__Create(u32 a1)
+{
+    StageTask *work;
+    SailObject *worker;
+
+    work = CreateStageTaskSimple();
+    StageTask__SetType(work, 2);
+
+    worker = StageTask__AllocateWorker(work, sizeof(SailObject));
+
+    ObjObjectAction3dBACLoad(work, NULL, "/sb_cldm_goal.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_49), SailManager__GetArchive());
+    SailObject__Func_21646DC(work);
+    work->obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
+    work->obj_2dIn3d->ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
+
+    SailObject__Func_21646DC(work);
+    work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
+    worker->objectRadius.z = a1 - FLOAT_TO_FX32(1.0);
+    work->userWork         = a1;
+
+    switch (SailManager__GetShipType())
+    {
+        case SHIP_JET:
+        case SHIP_HOVER:
+        default:
+            worker->objectRadius.y = -FLOAT_TO_FX32(1.953125);
+            break;
+
+        case SHIP_BOAT:
+            worker->objectRadius.y = -FLOAT_TO_FX32(8.0);
+            break;
+
+        case SHIP_SUBMARINE:
+            worker->objectRadius.y = -FLOAT_TO_FX32(22.0);
+            break;
+    }
+
+    SailObject__Func_2166A2C(work);
+    SailGoalText__SetupObject(work);
+
+    return work;
+}
+
+StageTask *SailJetItem__Create(SailEventManagerObject *mapObject)
+{
+    StageTask *work;
+    SailObject *worker;
+
+    SailManager *manager = SailManager__GetWork();
+
+    work = CreateStageTaskSimpleEx(TASK_PRIORITY_UPDATE_LIST_START + 0x1001, TASK_GROUP(1));
+    StageTask__SetType(work, 1);
+
+    worker = StageTask__AllocateWorker(work, sizeof(SailObject));
+
+    ObjObjectAction3dBACLoad(work, NULL, "sb_item.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_37), SailManager__GetArchive());
+    SailObject__Func_21646DC(work);
+
+    SailObject__InitFromMapObject(work, mapObject);
+
+    work->position.y -= FLOAT_TO_FX32(1.0);
+    work->userFlag |= 0x10000;
+
+    work->userWork = mapObject->objectValue10;
+    if (work->userWork > 16)
+        work->userWork = 0;
+
+    if (manager->missionType == MISSION_TYPE_REACH_GOAL && work->userWork <= 3)
+        work->userWork = 11;
+
+    StageTask__SetAnimation(work, (work->userWork >> 2) + 1);
+    worker->dword118                          = 500;
+    work->obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_43;
+    work->obj_2dIn3d->ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
+
+    SailObject__SetupHitbox(work, worker->collider, 0);
+    SailObject__Func_21658D0(work, 0, 0x900, 0);
+
+    OBS_RECT_WORK *collider = StageTask__GetCollider(work, 0);
+    collider->hitPower      = 0;
+    collider->defPower      = 0;
+
+    if (SailManager__GetShipType() == SHIP_BOAT)
+        worker->collider[0].field_28.x = FLOAT_TO_FX32(2.5);
+
+    SailItem3__Create(work);
+    StageTask__InitSeqPlayer(work);
+
+    return work;
+}
+
+StageTask *SailItem3__Create(StageTask *parent)
+{
+    StageTask *work;
+    SailObject *worker;
+
+    work = CreateStageTaskSimpleEx(TASK_PRIORITY_UPDATE_LIST_START + 0x1001, TASK_GROUP(1));
+    StageTask__SetType(work, 1);
+
+    worker = StageTask__AllocateWorker(work, sizeof(SailObject));
+    UNUSED(worker);
+
+    ObjObjectAction3dBACLoad(work, NULL, "sb_item.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_37), SailManager__GetArchive());
+    SailObject__Func_21646DC(work);
+    work->userFlag |= 1;
+
+    work->position = parent->position;
+    StageTask__SetParent(work, parent, 1024);
+
+    work->obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_43;
+    work->obj_2dIn3d->ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
+
+    if (SailManager__GetShipType() == SHIP_SUBMARINE)
+    {
+        work->scale.x = FLOAT_TO_FX32(0.15625);
+        work->scale.y = FLOAT_TO_FX32(0.15625);
+        work->scale.z = FLOAT_TO_FX32(0.15625);
+    }
+
+    return work;
+}
+
+StageTask *SailItemBonus__Create(StageTask *parent, u16 type)
+{
+    StageTask *work = CreateStageTaskSimple();
+    StageTask__SetType(work, 2);
+
+    ObjObjectAction3dBACLoad(work, NULL, "sb_logo_fix.bac", 1024, 16, GetObjectFileWork(OBJDATAWORK_41), SailManager__GetArchive());
+    StageTask__SetAnimation(work, type + 4);
+    SailObject__Func_21646DC(work);
+    work->userFlag |= 1;
+    work->displayFlag |= DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG;
+
+    VecFx32 worldPos = parent->position;
+    worldPos.y       = -worldPos.y;
+
+    int px;
+    int py;
+    NNS_G3dWorldPosToScrPos(&worldPos, &px, &py);
+    work->position.x = FX32_FROM_WHOLE(px);
+    work->position.y = FX32_FROM_WHOLE(py);
+
+    work->scale.x = FLOAT_TO_FX32(1.0);
+    work->scale.y = FLOAT_TO_FX32(1.0);
+    work->scale.z = FLOAT_TO_FX32(1.0);
+    work->position.y -= FLOAT_TO_FX32(20.0);
+    work->velocity.y = -FLOAT_TO_FX32(1.0);
+
+    SetTaskState(work, SailItemBonus__State_216CBF8);
+
+    return work;
+}
+
+NONMATCH_FUNC void SailObject__Destructor_2169B20(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -5872,10 +5871,17 @@ _02169B54:
 	mov r0, r5
 	bl StageTask_Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SailObject__Destructor_2169B20
 
-	arm_func_start SailObject__ViewCheck_2169B60
-SailObject__ViewCheck_2169B60: // 0x02169B60
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__ViewCheck_2169B60(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x18]
 	ldr r2, [r0, #0x124]
@@ -5896,10 +5902,17 @@ _02169B94:
 	movne r0, #1
 	moveq r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end SailObject__ViewCheck_2169B60
 
-	arm_func_start SailObject__OnDefend_2169BAC
-SailObject__OnDefend_2169BAC: // 0x02169BAC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__OnDefend_2169BAC(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x24
 	mov r8, r1
@@ -6301,10 +6314,16 @@ _0216A154:
 	bl SailObject__Func_216A1C4
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
-	arm_func_end SailObject__OnDefend_2169BAC
 
-	arm_func_start SailObject__Func_216A168
-SailObject__Func_216A168: // 0x0216A168
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216A168(StageTask *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r0, [r0, #0x3c]
 	mov r3, #0
 	ldr r1, [r0, #0x6c]
@@ -6322,18 +6341,23 @@ _0216A19C:
 	cmp r3, #0
 	bxeq lr
 	ldr r1, [r3, #0x1a8]
-	ldr r0, _0216A1C0 // =0x05F5E0FF
+	ldr r0, =0x05F5E0FF
 	add r1, r1, r2
 	str r1, [r3, #0x1a8]
 	cmp r1, r0
 	strhi r0, [r3, #0x1a8]
 	bx lr
-	.align 2, 0
-_0216A1C0: .word 0x05F5E0FF
-	arm_func_end SailObject__Func_216A168
 
-	arm_func_start SailObject__Func_216A1C4
-SailObject__Func_216A1C4: // 0x0216A1C4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216A1C4(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0xc
 	ldr r6, [r0, #0x3c]
@@ -6375,7 +6399,7 @@ _0216A23C:
 _0216A250:
 	add r0, r8, #0x100
 	ldrh r2, [r0, #0xc4]
-	ldr r1, _0216A464 // =0x000003E7
+	ldr r1, =0x000003E7
 	add r2, r2, #1
 	strh r2, [r0, #0xc4]
 	ldrh r2, [r0, #0xc4]
@@ -6422,7 +6446,7 @@ _0216A2A0:
 	strne r0, [r7, #0x118]
 	ldr r2, [r8, #0x1a8]
 	ldr r1, [r7, #0x118]
-	ldr r0, _0216A468 // =0x05F5E0FF
+	ldr r0, =0x05F5E0FF
 	mla r2, r1, r9, r2
 	str r2, [r8, #0x1a8]
 	cmp r2, r0
@@ -6511,13 +6535,17 @@ _0216A410:
 	streqh r0, [r10, #0x5e]
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	.align 2, 0
-_0216A464: .word 0x000003E7
-_0216A468: .word 0x05F5E0FF
-	arm_func_end SailObject__Func_216A1C4
 
-	arm_func_start SailObject__Func_216A46C
-SailObject__Func_216A46C: // 0x0216A46C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216A46C(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	bl SailManager__GetWork
@@ -6552,10 +6580,17 @@ _0216A4D8:
 	orr r0, r0, #4
 	str r0, [r4, #0x18]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SailObject__Func_216A46C
 
-	arm_func_start SailObject__Func_216A4E8
-SailObject__Func_216A4E8: // 0x0216A4E8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216A4E8(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x24
 	bl GetCurrentTaskWork_
@@ -6651,7 +6686,7 @@ _0216A5D8:
 	add r3, r4, #0x44
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
-	ldr r0, _0216A6A0 // =0x00007FFF
+	ldr r0, =0x00007FFF
 	bl SailObject__Func_2165038
 	mov r1, r0
 	mov r0, r4
@@ -6668,12 +6703,17 @@ _0216A5D8:
 	stmia ip, {r0, r1, r2}
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216A6A0: .word 0x00007FFF
-	arm_func_end SailObject__Func_216A4E8
 
-	arm_func_start SailObject__Func_216A6A4
-SailObject__Func_216A6A4: // 0x0216A6A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216A6A4(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	bl SailManager__GetWork
@@ -6721,13 +6761,13 @@ SailObject__Func_216A6A4: // 0x0216A6A4
 	addgt sp, sp, #0xc
 	ldmgtia sp!, {r4, r5, r6, r7, pc}
 	ldr r0, [sp]
-	ldr r1, _0216A994 // =0x00000F5E
+	ldr r1, =0x00000F5E
 	cmp r0, #0
 	rsblt r0, r0, #0
 	cmp r7, #0
 	rsblt r7, r7, #0
 	cmp r0, r7
-	ldr r2, _0216A998 // =0x0000065D
+	ldr r2, =0x0000065D
 	mov r3, #0
 	ble _0216A7C4
 	umull lr, ip, r0, r1
@@ -6819,7 +6859,7 @@ _0216A8B8:
 	bl SailManager__GetShipType
 	cmp r0, #1
 	ldr r0, [r5, #0x28]
-	ldr r1, _0216A99C // =FX_SinCosTable_
+	ldr r1, =FX_SinCosTable_
 	add r0, r0, #0x8000
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -6829,7 +6869,7 @@ _0216A8B8:
 	mov r0, r0, lsl #2
 	ldrsh r2, [r1, r0]
 	moveq r4, #0x58000
-	ldr r0, _0216A9A0 // =0x00007FFF
+	ldr r0, =0x00007FFF
 	smull r3, r2, r4, r2
 	adds r3, r3, #0x800
 	adc r2, r2, #0
@@ -6866,15 +6906,17 @@ _0216A8B8:
 	stmia r3, {r0, r1, r2}
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216A994: .word 0x00000F5E
-_0216A998: .word 0x0000065D
-_0216A99C: .word FX_SinCosTable_
-_0216A9A0: .word 0x00007FFF
-	arm_func_end SailObject__Func_216A6A4
 
-	arm_func_start SailObject__Func_216A9A4
-SailObject__Func_216A9A4: // 0x0216A9A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216A9A4(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r1, #0
 	mov r4, r0
@@ -6894,11 +6936,17 @@ SailObject__Func_216A9A4: // 0x0216A9A4
 	str r1, [r4, #0x18]
 	bl EffectSailBomb__Create
 	ldmia sp!, {r4, pc}
-	arm_func_end SailObject__Func_216A9A4
 
-	arm_func_start SailObject__Func_216A9F0
-SailObject__Func_216A9F0: // 0x0216A9F0
-	ldr r2, _0216AA34 // =SailObject__State_216AA38
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216A9F0(StageTask *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r2, =SailObject__State_216AA38
 	mov r1, #0x20
 	str r2, [r0, #0xf4]
 	str r1, [r0, #0x2c]
@@ -6915,12 +6963,17 @@ SailObject__Func_216A9F0: // 0x0216A9F0
 	str r2, [r0, #0xd8]
 	str r1, [r0, #0xdc]
 	bx lr
-	.align 2, 0
-_0216AA34: .word SailObject__State_216AA38
-	arm_func_end SailObject__Func_216A9F0
 
-	arm_func_start SailObject__State_216AA38
-SailObject__State_216AA38: // 0x0216AA38
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__State_216AA38(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r1, #0
@@ -6965,7 +7018,7 @@ _0216AAA8:
 	bl SailObject__Func_2164D10
 	b _0216AB10
 _0216AADC:
-	ldr r1, _0216ABEC // =0x00007FFF
+	ldr r1, =0x00007FFF
 	mov r0, r6
 	bl SailObject__Func_2164D10
 	b _0216AB10
@@ -6977,7 +7030,7 @@ _0216AAEC:
 	bl SailObject__Func_2164D10
 	b _0216AB10
 _0216AB04:
-	ldr r1, _0216ABEC // =0x00007FFF
+	ldr r1, =0x00007FFF
 	mov r0, r6
 	bl SailObject__Func_2164D10
 _0216AB10:
@@ -7038,12 +7091,17 @@ _0216ABB8:
 	orrlt r0, r0, #4
 	strlt r0, [r6, #0x18]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216ABEC: .word 0x00007FFF
-	arm_func_end SailObject__State_216AA38
 
-	arm_func_start SailObject__Func_216ABF0
-SailObject__Func_216ABF0: // 0x0216ABF0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216ABF0(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x40
 	mov r5, r0
@@ -7058,7 +7116,7 @@ SailObject__Func_216ABF0: // 0x0216ABF0
 	str r1, [r4, #0x138]
 	ldr r3, [r5, #0x48]
 	ldr r1, [r0, #0x3c]
-	ldr r2, _0216AF4C // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	sub r1, r3, r1, asr #5
 	str r1, [r5, #0x48]
 	ldr r3, [r4, #0x138]
@@ -7149,7 +7207,7 @@ _0216AD68:
 	mov r1, r0
 	stmia r8!, {r0, r1}
 	stmia r8!, {r0, r1}
-	ldr r2, _0216AF50 // =_obj_disp_rand
+	ldr r2, =_obj_disp_rand
 	stmia r8!, {r0, r1}
 	stmia r8!, {r0, r1}
 	stmia r8!, {r0, r1}
@@ -7158,9 +7216,9 @@ _0216AD68:
 	stmia r8, {r0, r1}
 	mov r8, #0x25
 	ldr r3, [r2, #0]
-	ldr r6, _0216AF54 // =0x00196225
-	ldr r7, _0216AF58 // =0x3C6EF35F
-	ldr lr, _0216AF5C // =0x0001FFFF
+	ldr r6, =0x00196225
+	ldr r7, =0x3C6EF35F
+	ldr lr, =0x0001FFFF
 	mla ip, r3, r6, r7
 	mov r1, ip, lsr #0x10
 	mov r3, r1, lsl #0x10
@@ -7184,7 +7242,7 @@ _0216AD68:
 	strh r6, [sp, #0x2e]
 	ldrh r6, [sp, #0x2e]
 	mov r4, #0x800
-	ldr r7, _0216AF4C // =FX_SinCosTable_
+	ldr r7, =FX_SinCosTable_
 	mov r2, r6, asr #4
 	mov r6, r2, lsl #1
 	add r2, r6, #1
@@ -7266,16 +7324,17 @@ _0216AF04:
 	bl SailObject__Func_2164D10
 	add sp, sp, #0x40
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_0216AF4C: .word FX_SinCosTable_
-_0216AF50: .word _obj_disp_rand
-_0216AF54: .word 0x00196225
-_0216AF58: .word 0x3C6EF35F
-_0216AF5C: .word 0x0001FFFF
-	arm_func_end SailObject__Func_216ABF0
 
-	arm_func_start SailObject__State_216AF60
-SailObject__State_216AF60: // 0x0216AF60
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__State_216AF60(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	ldr r4, [r7, #0x124]
@@ -7310,7 +7369,7 @@ SailObject__State_216AF60: // 0x0216AF60
 	mov r6, r0, lsl #1
 	ldr r1, [r7, #0x48]
 	ldr r0, [r5, #0x3c]
-	ldr r2, _0216B170 // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	sub r1, r1, r0, asr #5
 	mov r0, r6, lsl #1
 	str r1, [r7, #0x48]
@@ -7408,19 +7467,23 @@ _0216B138:
 	ldr r0, [r7, #0x20]
 	tst r0, #0x20
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r0, _0216B174 // =0x00007FFF
+	ldr r0, =0x00007FFF
 	bl SailObject__Func_2165038
 	mov r1, r0
 	mov r0, r7
 	bl SailObject__Func_2164D10
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216B170: .word FX_SinCosTable_
-_0216B174: .word 0x00007FFF
-	arm_func_end SailObject__State_216AF60
 
-	arm_func_start SailObject__Func_216B178
-SailObject__Func_216B178: // 0x0216B178
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216B178(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SailManager__GetShipType
@@ -7433,22 +7496,29 @@ SailObject__Func_216B178: // 0x0216B178
 _0216B19C:
 	bl SailObject__Func_216B408
 	ldmia sp!, {r4, pc}
-	arm_func_end SailObject__Func_216B178
 
-	arm_func_start SailObject__Func_216B1A4
-SailObject__Func_216B1A4: // 0x0216B1A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216B1A4(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	ldr r6, _0216B270 // =_obj_disp_rand
+	ldr r6, =_obj_disp_rand
 	ldr r2, [r0, #0x124]
 	ldr r1, [r6, #0]
-	ldr r4, _0216B274 // =0x00196225
-	ldr r5, _0216B278 // =0x3C6EF35F
+	ldr r4, =0x00196225
+	ldr r5, =0x3C6EF35F
 	ldr lr, [r2, #0x15c]
 	mla r7, r1, r4, r5
 	mov r1, r7, lsr #0x10
 	mov r3, r1, lsl #0x10
 	ldr r1, [lr, #0x124]
-	ldr ip, _0216B27C // =0x000003FF
+	ldr ip, =0x000003FF
 	str r7, [r6]
 	and r3, ip, r3, lsr #16
 	rsb r3, r3, #0x200
@@ -7474,7 +7544,7 @@ SailObject__Func_216B1A4: // 0x0216B1A4
 	rsb r3, r3, #0x800
 	str r3, [r2, #0x140]
 	ldr r3, [r1, #0x10]
-	ldr r1, _0216B280 // =SailObject__Func_216B284
+	ldr r1, =SailObject__Func_216B284
 	add r3, r3, #0x1000
 	rsb r3, r3, #0
 	str r3, [r2, #0x134]
@@ -7488,21 +7558,22 @@ SailObject__Func_216B1A4: // 0x0216B1A4
 	str r2, [r0, #0x24]
 	str r1, [r0, #0x2c]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216B270: .word _obj_disp_rand
-_0216B274: .word 0x00196225
-_0216B278: .word 0x3C6EF35F
-_0216B27C: .word 0x000003FF
-_0216B280: .word SailObject__Func_216B284
-	arm_func_end SailObject__Func_216B1A4
 
-	arm_func_start SailObject__Func_216B284
-SailObject__Func_216B284: // 0x0216B284
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216B284(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
 	ldr r4, [r5, #0x124]
-	ldr r3, _0216B404 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	add r1, r4, #0x100
 	ldrh r2, [r1, #0x6e]
 	ldr r1, [r4, #0x138]
@@ -7595,16 +7666,21 @@ _0216B3E0:
 	str r0, [r5, #0x18]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_0216B404: .word FX_SinCosTable_
-	arm_func_end SailObject__Func_216B284
 
-	arm_func_start SailObject__Func_216B408
-SailObject__Func_216B408: // 0x0216B408
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216B408(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x124]
-	ldr r2, _0216B4B4 // =SailObject__Func_216B7A4
+	ldr r2, =SailObject__Func_216B7A4
 	mov r1, #0
 	str r2, [r5, #0xf4]
 	ldr r2, [r5, #0x18]
@@ -7647,12 +7723,17 @@ _0216B4A8:
 	mov r0, #0x4000
 	str r0, [r5, #4]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216B4B4: .word SailObject__Func_216B7A4
-	arm_func_end SailObject__Func_216B408
 
-	arm_func_start SailObject__Func_216B4B8
-SailObject__Func_216B4B8: // 0x0216B4B8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216B4B8(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x18
 	mov r4, r0
@@ -7754,10 +7835,17 @@ _0216B5A8:
 	blo _0216B5A8
 	add sp, sp, #0x18
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	arm_func_end SailObject__Func_216B4B8
 
-	arm_func_start SailObject__Func_216B644
-SailObject__Func_216B644: // 0x0216B644
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216B644(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x18
 	mov r4, r0
@@ -7847,10 +7935,17 @@ _0216B6A0:
 	bl SailRingManager_CreateObjectRing
 	add sp, sp, #0x18
 	ldmia sp!, {r4, pc}
-	arm_func_end SailObject__Func_216B644
 
-	arm_func_start SailObject__Func_216B7A4
-SailObject__Func_216B7A4: // 0x0216B7A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailObject__Func_216B7A4(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	mov r6, r0
@@ -8018,10 +8113,16 @@ _0216B9F4:
 	str r0, [r6, #0x2c]
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	arm_func_end SailObject__Func_216B7A4
 
-	arm_func_start SailBuoy__SetupObject
-SailBuoy__SetupObject: // 0x0216BA08
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailBuoy__SetupObject(StageTask *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r2, [r0, #0x28]
 	ldr r1, [r0, #0x124]
 	cmp r2, #1
@@ -8064,18 +8165,23 @@ _0216BA80:
 	mov r2, #0xa000
 	str r2, [r1, #0x14c]
 _0216BAA4:
-	ldr r2, _0216BABC // =SailBuoy__State_216BAC0
+	ldr r2, =SailBuoy__State_216BAC0
 	mov r1, #0
 	str r2, [r0, #0xf4]
 	str r1, [r0, #0x2c]
 	str r1, [r0, #0x28]
 	bx lr
-	.align 2, 0
-_0216BABC: .word SailBuoy__State_216BAC0
-	arm_func_end SailBuoy__SetupObject
 
-	arm_func_start SailBuoy__State_216BAC0
-SailBuoy__State_216BAC0: // 0x0216BAC0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailBuoy__State_216BAC0(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x28]
@@ -8140,10 +8246,17 @@ _0216BB24:
 	strh r1, [r6, #0x32]
 	bl SailObject__SetupAnimator3D
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SailBuoy__State_216BAC0
 
-	arm_func_start SailSeagull__SetupObject
-SailSeagull__SetupObject: // 0x0216BBB8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailSeagull__SetupObject(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x124]
@@ -8153,26 +8266,26 @@ SailSeagull__SetupObject: // 0x0216BBB8
 	ldr r1, [r1, #0xc0]
 	mov r2, r0, asr #0x13
 	mov ip, #0x28
-	ldr r0, _0216BCFC // =SailSeagull__State_216BD1C
+	ldr r0, =SailSeagull__State_216BD1C
 	mla r1, r2, ip, r1
 	str r0, [r5, #0xf4]
 	ldrsh r0, [r1, #0xa]
 	cmp r0, #0
 	beq _0216BC88
-	ldr r3, _0216BD00 // =_obj_disp_rand
-	ldr r0, _0216BD04 // =0x00196225
+	ldr r3, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr lr, [r3]
-	ldr r2, _0216BD08 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	sub r6, ip, #0x68
 	mla r2, lr, r0, r2
 	str r2, [r3]
 	str r6, [r4, #0x180]
 	ldrh r0, [r1, #0xa]
 	mov ip, r2, lsr #0x10
-	ldr r3, _0216BD0C // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	mov r0, r0, asr #4
 	mov r6, r0, lsl #2
-	ldr r2, _0216BD10 // =0x000001FF
+	ldr r2, =0x000001FF
 	mov r0, ip, lsl #0x10
 	and r0, r2, r0, lsr #16
 	ldrsh r2, [r3, r6]
@@ -8197,11 +8310,11 @@ SailSeagull__SetupObject: // 0x0216BBB8
 	str r1, [r4, #0x184]
 	b _0216BCE8
 _0216BC88:
-	ldr lr, _0216BD14 // =_mt_math_rand
-	ldr r1, _0216BD18 // =0x000003FE
+	ldr lr, =_mt_math_rand
+	ldr r1, =0x000003FE
 	ldr r0, [lr]
-	ldr r2, _0216BD04 // =0x00196225
-	ldr r3, _0216BD08 // =0x3C6EF35F
+	ldr r2, =0x00196225
+	ldr r3, =0x3C6EF35F
 	sub r6, ip, #0x68
 	mla ip, r0, r2, r3
 	mov r0, ip, lsr #0x10
@@ -8210,7 +8323,7 @@ _0216BC88:
 	str ip, [lr]
 	rsb r0, r0, r1, lsr #1
 	str r0, [r4, #0x17c]
-	ldr ip, _0216BD00 // =_obj_disp_rand
+	ldr ip, =_obj_disp_rand
 	str r6, [r4, #0x180]
 	ldr r0, [ip]
 	add r1, r1, #1
@@ -8227,19 +8340,17 @@ _0216BCE8:
 	mov r0, #0
 	str r0, [r5, #0x28]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216BCFC: .word SailSeagull__State_216BD1C
-_0216BD00: .word _obj_disp_rand
-_0216BD04: .word 0x00196225
-_0216BD08: .word 0x3C6EF35F
-_0216BD0C: .word FX_SinCosTable_
-_0216BD10: .word 0x000001FF
-_0216BD14: .word _mt_math_rand
-_0216BD18: .word 0x000003FE
-	arm_func_end SailSeagull__SetupObject
 
-	arm_func_start SailSeagull__State_216BD1C
-SailSeagull__State_216BD1C: // 0x0216BD1C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailSeagull__State_216BD1C(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x2c]
@@ -8278,10 +8389,17 @@ _0216BDA0:
 	mov r0, r4
 	bl SailObject__Func_2166A2C
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SailSeagull__State_216BD1C
 
-	arm_func_start SailSeagull2__SetupObject
-SailSeagull2__SetupObject: // 0x0216BDAC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailSeagull2__SetupObject(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x124]
@@ -8291,26 +8409,26 @@ SailSeagull2__SetupObject: // 0x0216BDAC
 	ldr r1, [r1, #0xc0]
 	mov r3, r0, asr #0x13
 	mov r0, #0x28
-	ldr r2, _0216BEE4 // =SailSeagull2__State_216BF04
+	ldr r2, =SailSeagull2__State_216BF04
 	mla r1, r3, r0, r1
 	str r2, [r5, #0xf4]
 	ldrsh r0, [r1, #0xa]
 	cmp r0, #0
 	beq _0216BE7C
-	ldr r3, _0216BEE8 // =_obj_disp_rand
-	ldr r0, _0216BEEC // =0x00196225
+	ldr r3, =_obj_disp_rand
+	ldr r0, =0x00196225
 	ldr ip, [r3]
-	ldr r2, _0216BEF0 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	mov r5, #0x10
 	mla r2, ip, r0, r2
 	str r2, [r3]
 	str r5, [r4, #0x180]
 	ldrh r0, [r1, #0xa]
 	mov ip, r2, lsr #0x10
-	ldr r3, _0216BEF4 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	mov r0, r0, asr #4
 	mov r5, r0, lsl #2
-	ldr r2, _0216BEF8 // =0x000001FF
+	ldr r2, =0x000001FF
 	mov r0, ip, lsl #0x10
 	and r0, r2, r0, lsr #16
 	ldrsh r2, [r3, r5]
@@ -8335,11 +8453,11 @@ SailSeagull2__SetupObject: // 0x0216BDAC
 	str r1, [r4, #0x184]
 	ldmia sp!, {r3, r4, r5, pc}
 _0216BE7C:
-	ldr r5, _0216BEFC // =_mt_math_rand
-	ldr r2, _0216BEEC // =0x00196225
+	ldr r5, =_mt_math_rand
+	ldr r2, =0x00196225
 	ldr r0, [r5, #0]
-	ldr r3, _0216BEF0 // =0x3C6EF35F
-	ldr r1, _0216BF00 // =0x000001FE
+	ldr r3, =0x3C6EF35F
+	ldr r1, =0x000001FE
 	mla ip, r0, r2, r3
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -8348,7 +8466,7 @@ _0216BE7C:
 	rsb r0, r0, #0xff
 	str r0, [r4, #0x17c]
 	mov r0, #0x10
-	ldr r1, _0216BEE8 // =_obj_disp_rand
+	ldr r1, =_obj_disp_rand
 	str r0, [r4, #0x180]
 	ldr r0, [r1, #0]
 	mla r2, r0, r2, r3
@@ -8361,19 +8479,17 @@ _0216BE7C:
 	rsb r0, r0, #0
 	str r0, [r4, #0x184]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216BEE4: .word SailSeagull2__State_216BF04
-_0216BEE8: .word _obj_disp_rand
-_0216BEEC: .word 0x00196225
-_0216BEF0: .word 0x3C6EF35F
-_0216BEF4: .word FX_SinCosTable_
-_0216BEF8: .word 0x000001FF
-_0216BEFC: .word _mt_math_rand
-_0216BF00: .word 0x000001FE
-	arm_func_end SailSeagull2__SetupObject
 
-	arm_func_start SailSeagull2__State_216BF04
-SailSeagull2__State_216BF04: // 0x0216BF04
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailSeagull2__State_216BF04(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x124]
@@ -8384,19 +8500,26 @@ SailSeagull2__State_216BF04: // 0x0216BF04
 	mov r0, r4
 	bl SailObject__Func_2166A2C
 	ldmia sp!, {r4, pc}
-	arm_func_end SailSeagull2__State_216BF04
 
-	arm_func_start SailSeagull3__State_216BF2C
-SailSeagull3__State_216BF2C: // 0x0216BF2C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailSeagull3__State_216BF2C(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r1, [r0, #0x124]
-	ldr r2, _0216C024 // =SailSeagull3__State_216C03C
-	ldr r5, _0216C028 // =_obj_disp_rand
+	ldr r2, =SailSeagull3__State_216C03C
+	ldr r5, =_obj_disp_rand
 	str r2, [r0, #0xf4]
 	ldr r2, [r5, #0]
-	ldr lr, _0216C02C // =0x00196225
-	ldr r4, _0216C030 // =0x3C6EF35F
-	ldr ip, _0216C034 // =0x00003FFE
+	ldr lr, =0x00196225
+	ldr r4, =0x3C6EF35F
+	ldr ip, =0x00003FFE
 	mla r3, r2, lr, r4
 	mov r2, r3, lsr #0x10
 	mov r2, r2, lsl #0x10
@@ -8417,7 +8540,7 @@ SailSeagull3__State_216BF2C: // 0x0216BF2C
 	sub r2, r3, r2
 	str r2, [r0, #0x6c]
 	ldr r2, [r5, #0]
-	ldr r3, _0216C038 // =0x0000027F
+	ldr r3, =0x0000027F
 	mla r6, r2, lr, r4
 	mov r2, r6, lsr #0x10
 	mov r2, r2, lsl #0x10
@@ -8450,17 +8573,17 @@ SailSeagull3__State_216BF2C: // 0x0216BF2C
 	mov r1, r2, lsr #0x10
 	strh r1, [r0, #0x32]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216C024: .word SailSeagull3__State_216C03C
-_0216C028: .word _obj_disp_rand
-_0216C02C: .word 0x00196225
-_0216C030: .word 0x3C6EF35F
-_0216C034: .word 0x00003FFE
-_0216C038: .word 0x0000027F
-	arm_func_end SailSeagull3__State_216BF2C
 
-	arm_func_start SailSeagull3__State_216C03C
-SailSeagull3__State_216C03C: // 0x0216C03C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailSeagull3__State_216C03C(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r6, [r5, #0x11c]
@@ -8485,14 +8608,14 @@ SailSeagull3__State_216C03C: // 0x0216C03C
 	mov r1, r1, lsr #0x1b
 	bl NNS_G3dMdlSetMdlAlphaAll
 	ldr r1, [r5, #0x28]
-	ldr r0, _0216C160 // =_0218BC64
+	ldr r0, =_0218BC64
 	sub r1, r1, #1
 	str r1, [r5, #0x28]
 	mov r1, r1, lsr #2
 	mov r1, r1, lsl #0x1d
 	mov r1, r1, lsr #0x1c
 	ldrsh r1, [r0, r1]
-	ldr ip, _0216C164 // =FX_SinCosTable_
+	ldr ip, =FX_SinCosTable_
 	add r0, r5, #0x68
 	mov r1, r1, asr #2
 	str r1, [r5, #0x9c]
@@ -8534,23 +8657,27 @@ SailSeagull3__State_216C03C: // 0x0216C03C
 	mov r0, r5
 	bl SailObject__SetupAnimator3D
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216C160: .word _0218BC64
-_0216C164: .word FX_SinCosTable_
-	arm_func_end SailSeagull3__State_216C03C
 
-	arm_func_start SailSubFish__SetupObject
-SailSubFish__SetupObject: // 0x0216C168
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailSubFish__SetupObject(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r2, _0216C1D4 // =SailSubFish__State_216C1E8
+	ldr r2, =SailSubFish__State_216C1E8
 	mov r1, #0
 	str r2, [r0, #0xf4]
-	ldr lr, _0216C1D8 // =_obj_disp_rand
+	ldr lr, =_obj_disp_rand
 	str r1, [r0, #0x2c]
 	ldr r1, [lr]
-	ldr r2, _0216C1DC // =0x00196225
-	ldr r3, _0216C1E0 // =0x3C6EF35F
-	ldr ip, _0216C1E4 // =0x00007FFE
+	ldr r2, =0x00196225
+	ldr r3, =0x3C6EF35F
+	ldr ip, =0x00007FFE
 	mla r4, r1, r2, r3
 	mov r1, r4, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -8568,16 +8695,17 @@ SailSubFish__SetupObject: // 0x0216C168
 	rsb r1, r1, ip, lsr #1
 	strh r1, [r0, #0x32]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216C1D4: .word SailSubFish__State_216C1E8
-_0216C1D8: .word _obj_disp_rand
-_0216C1DC: .word 0x00196225
-_0216C1E0: .word 0x3C6EF35F
-_0216C1E4: .word 0x00007FFE
-	arm_func_end SailSubFish__SetupObject
 
-	arm_func_start SailSubFish__State_216C1E8
-SailSubFish__State_216C1E8: // 0x0216C1E8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailSubFish__State_216C1E8(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x28]
@@ -8603,13 +8731,13 @@ _0216C234:
 	strh r0, [r5, #0x32]
 _0216C240:
 	ldr r1, [r5, #0x28]
-	ldr r0, _0216C304 // =_0218BC64
+	ldr r0, =_0218BC64
 	mov r1, r1, lsr #2
 	mov r1, r1, lsl #0x1d
 	mov r1, r1, lsr #0x1c
 	ldrsh r0, [r0, r1]
 	ldr r1, [r4, #0x180]
-	ldr ip, _0216C308 // =FX_SinCosTable_
+	ldr ip, =FX_SinCosTable_
 	add r0, r1, r0, asr #1
 	str r0, [r4, #0x180]
 	ldrh r0, [r5, #0x32]
@@ -8651,21 +8779,25 @@ _0216C240:
 	bl SailObject__SetupAnimator3D
 	strh r4, [r5, #0x32]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216C304: .word _0218BC64
-_0216C308: .word FX_SinCosTable_
-	arm_func_end SailSubFish__State_216C1E8
 
-	arm_func_start SailSubFish2__SetupObject
-SailSubFish2__SetupObject: // 0x0216C30C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailSubFish2__SetupObject(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r1, _0216C43C // =SailSubFish2__State_216C458
-	ldr r5, _0216C440 // =_obj_disp_rand
+	ldr r1, =SailSubFish2__State_216C458
+	ldr r5, =_obj_disp_rand
 	str r1, [r0, #0xf4]
 	ldr r1, [r5, #0]
-	ldr lr, _0216C444 // =0x00196225
-	ldr r4, _0216C448 // =0x3C6EF35F
-	ldr r3, _0216C44C // =0x00007FFF
+	ldr lr, =0x00196225
+	ldr r4, =0x3C6EF35F
+	ldr r3, =0x00007FFF
 	mla r2, r1, lr, r4
 	mov r1, r2, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -8674,7 +8806,7 @@ SailSubFish2__SetupObject: // 0x0216C30C
 	and r1, r1, #0x7f
 	str r1, [r0, #0x2c]
 	ldr r1, [r5, #0]
-	ldr r2, _0216C450 // =0x00001FFE
+	ldr r2, =0x00001FFE
 	mla r6, r1, lr, r4
 	mov r1, r6, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -8700,7 +8832,7 @@ SailSubFish2__SetupObject: // 0x0216C30C
 	mov r1, r1, lsl #0x10
 	and r1, r3, r1, lsr #16
 	ldr r2, [r0, #0x6c]
-	ldr r3, _0216C454 // =0x000007FE
+	ldr r3, =0x000007FE
 	sub r1, r2, r1
 	str r1, [r0, #0x6c]
 	ldr r1, [r5, #0]
@@ -8722,10 +8854,10 @@ SailSubFish2__SetupObject: // 0x0216C30C
 	str r2, [r5]
 	moveq r1, #0xc000
 	strh r1, [r0, #0x32]
-	ldr r4, _0216C440 // =_obj_disp_rand
-	ldr r1, _0216C444 // =0x00196225
+	ldr r4, =_obj_disp_rand
+	ldr r1, =0x00196225
 	ldr r5, [r4, #0]
-	ldr r2, _0216C448 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	mla r2, r5, r1, r2
 	mov r1, r2, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -8734,18 +8866,17 @@ SailSubFish2__SetupObject: // 0x0216C30C
 	rsb r1, r1, r3, lsr #1
 	strh r1, [r0, #0x32]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216C43C: .word SailSubFish2__State_216C458
-_0216C440: .word _obj_disp_rand
-_0216C444: .word 0x00196225
-_0216C448: .word 0x3C6EF35F
-_0216C44C: .word 0x00007FFF
-_0216C450: .word 0x00001FFE
-_0216C454: .word 0x000007FE
-	arm_func_end SailSubFish2__SetupObject
 
-	arm_func_start SailSubFish2__State_216C458
-SailSubFish2__State_216C458: // 0x0216C458
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailSubFish2__State_216C458(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r6, [r5, #0x11c]
@@ -8761,10 +8892,10 @@ SailSubFish2__State_216C458: // 0x0216C458
 	str r0, [r5, #0x38]
 	str r0, [r5, #0x3c]
 	ldr r0, [r5, #0x38]
-	ldr r6, _0216C574 // =_0218BC64
+	ldr r6, =_0218BC64
 	str r0, [r5, #0x40]
 	ldr r0, [r5, #0x28]
-	ldr lr, _0216C578 // =FX_SinCosTable_
+	ldr lr, =FX_SinCosTable_
 	sub r0, r0, #1
 	str r0, [r5, #0x28]
 	ldr r1, [r5, #0x2c]
@@ -8817,31 +8948,40 @@ SailSubFish2__State_216C458: // 0x0216C458
 	mov r0, r5
 	bl SailObject__SetupAnimator3D
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216C574: .word _0218BC64
-_0216C578: .word FX_SinCosTable_
-	arm_func_end SailSubFish2__State_216C458
 
-	arm_func_start SailChaosEmerald__SetupObject
-SailChaosEmerald__SetupObject: // 0x0216C57C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailChaosEmerald__SetupObject(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x124]
 	bl SailManager__GetWork
 	ldr r1, [r0, #0x70]
-	ldr r0, _0216C5AC // =SailChaosEmerald__State_216C5B0
+	ldr r0, =SailChaosEmerald__State_216C5B0
 	str r1, [r4, #0x15c]
 	str r0, [r5, #0xf4]
 	mov r0, #0
 	str r0, [r5, #0x2c]
 	str r0, [r5, #0x28]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216C5AC: .word SailChaosEmerald__State_216C5B0
-	arm_func_end SailChaosEmerald__SetupObject
 
-	arm_func_start SailChaosEmerald__State_216C5B0
-SailChaosEmerald__State_216C5B0: // 0x0216C5B0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailChaosEmerald__State_216C5B0(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	ldr r5, [r7, #0x124]
@@ -8849,7 +8989,7 @@ SailChaosEmerald__State_216C5B0: // 0x0216C5B0
 	ldr r6, [r0, #0x98]
 	bl SailManager__GetWork
 	ldr r2, [r7, #0x2c]
-	ldr r1, _0216C64C // =_0218BC64
+	ldr r1, =_0218BC64
 	mov r2, r2, asr #2
 	mov r2, r2, lsl #0x1d
 	mov r2, r2, lsr #0x1c
@@ -8882,12 +9022,17 @@ _0216C63C:
 	orr r0, r0, #0x20
 	str r0, [r7, #0x20]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216C64C: .word _0218BC64
-	arm_func_end SailChaosEmerald__State_216C5B0
 
-	arm_func_start SailChaosEmerald__Func_216C650
-SailChaosEmerald__Func_216C650: // 0x0216C650
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailChaosEmerald__Func_216C650(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x124]
@@ -8895,23 +9040,27 @@ SailChaosEmerald__Func_216C650: // 0x0216C650
 	ldr r0, [r0, #0x70]
 	mov r1, #0
 	str r0, [r4, #0x15c]
-	ldr r0, _0216C694 // =SailChaosEmerald__State_216C69C
+	ldr r0, =SailChaosEmerald__State_216C69C
 	str r1, [r4, #0x180]
 	str r0, [r5, #0xf4]
 	str r1, [r5, #0x2c]
 	str r1, [r5, #0x28]
 	bl SailManager__GetWork
 	ldrh r1, [r0, #0x10]
-	ldr r0, _0216C698 // =gameState
+	ldr r0, =gameState
 	strb r1, [r0, #0x150]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216C694: .word SailChaosEmerald__State_216C69C
-_0216C698: .word gameState
-	arm_func_end SailChaosEmerald__Func_216C650
 
-	arm_func_start SailChaosEmerald__State_216C69C
-SailChaosEmerald__State_216C69C: // 0x0216C69C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailChaosEmerald__State_216C69C(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x34
 	mov r5, r0
@@ -8929,7 +9078,7 @@ SailChaosEmerald__State_216C69C: // 0x0216C69C
 	str r1, [sp, #8]
 	str r0, [sp, #0xc]
 	ldr r0, [r4, #0x15c]
-	ldr r3, _0216C7A8 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	ldrh r1, [r0, #0x32]
 	add r0, sp, #0x10
 	mov r1, r1, asr #4
@@ -8979,30 +9128,40 @@ SailChaosEmerald__State_216C69C: // 0x0216C69C
 	str r0, [r5, #0x4c]
 	add sp, sp, #0x34
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_0216C7A8: .word FX_SinCosTable_
-	arm_func_end SailChaosEmerald__State_216C69C
 
-	arm_func_start SailGoal__SetupObject
-SailGoal__SetupObject: // 0x0216C7AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailGoal__SetupObject(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x124]
 	bl SailManager__GetWork
 	ldr r1, [r0, #0x70]
-	ldr r0, _0216C7DC // =SailGoal__State_216C7E0
+	ldr r0, =SailGoal__State_216C7E0
 	str r1, [r4, #0x15c]
 	str r0, [r5, #0xf4]
 	mov r0, #0
 	str r0, [r5, #0x2c]
 	str r0, [r5, #0x28]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216C7DC: .word SailGoal__State_216C7E0
-	arm_func_end SailGoal__SetupObject
 
-	arm_func_start SailGoal__State_216C7E0
-SailGoal__State_216C7E0: // 0x0216C7E0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailGoal__State_216C7E0(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	ldr r4, [r7, #0x124]
@@ -9010,7 +9169,7 @@ SailGoal__State_216C7E0: // 0x0216C7E0
 	ldr r5, [r0, #0x98]
 	bl SailManager__GetWork
 	ldr r2, [r7, #0x2c]
-	ldr r1, _0216C8C4 // =_0218BC64
+	ldr r1, =_0218BC64
 	mov r2, r2, asr #2
 	mov r2, r2, lsl #0x1d
 	mov r2, r2, lsr #0x1c
@@ -9061,35 +9220,45 @@ _0216C8A0:
 	orrne r0, r0, #0x20
 	strne r0, [r7, #0x20]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216C8C4: .word _0218BC64
-	arm_func_end SailGoal__State_216C7E0
 
-	arm_func_start SailGoalText__SetupObject
-SailGoalText__SetupObject: // 0x0216C8C8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailGoalText__SetupObject(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x124]
 	bl SailManager__GetWork
 	ldr r1, [r0, #0x70]
-	ldr r0, _0216C8F4 // =SailGoalText__State_216C8F8
+	ldr r0, =SailGoalText__State_216C8F8
 	str r1, [r4, #0x15c]
 	str r0, [r5, #0xf4]
 	mov r0, #0
 	str r0, [r5, #0x2c]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216C8F4: .word SailGoalText__State_216C8F8
-	arm_func_end SailGoalText__SetupObject
 
-	arm_func_start SailGoalText__State_216C8F8
-SailGoalText__State_216C8F8: // 0x0216C8F8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailGoalText__State_216C8F8(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x124]
 	bl SailManager__GetWork
 	ldr r2, [r5, #0x2c]
-	ldr r1, _0216C95C // =_0218BC64
+	ldr r1, =_0218BC64
 	mov r2, r2, asr #2
 	mov r2, r2, lsl #0x1d
 	mov r2, r2, lsr #0x1c
@@ -9109,12 +9278,17 @@ SailGoalText__State_216C8F8: // 0x0216C8F8
 	orrhi r0, r0, #4
 	strhi r0, [r5, #0x18]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216C95C: .word _0218BC64
-	arm_func_end SailGoalText__State_216C8F8
 
-	arm_func_start SailItemBonus__GiveItem
-SailItemBonus__GiveItem: // 0x0216C960
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailItemBonus__GiveItem(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
 	ldrh r1, [r6, #0]
@@ -9258,13 +9432,13 @@ _0216CB50:
 	mov r5, #0x7d0
 	b _0216CB64
 _0216CB58:
-	ldr r5, _0216CBEC // =0x00001388
+	ldr r5, =0x00001388
 	b _0216CB64
 _0216CB60:
 	mov r5, #0x1f40
 _0216CB64:
 	ldr r1, [r4, #0x1a4]
-	ldr r0, _0216CBF0 // =0x0000270F
+	ldr r0, =0x0000270F
 	cmp r1, r0
 	strhi r0, [r4, #0x1a4]
 	cmp r5, #0
@@ -9278,7 +9452,7 @@ _0216CB64:
 	ldr r1, [r4, #0x1a8]
 	mov r0, r0, lsr #0x10
 	mla r1, r5, r0, r1
-	ldr r0, _0216CBF4 // =0x05F5E0FF
+	ldr r0, =0x05F5E0FF
 	str r1, [r4, #0x1a8]
 	cmp r1, r0
 	strhi r0, [r4, #0x1a8]
@@ -9300,14 +9474,17 @@ _0216CBDC:
 	orr r0, r0, #0xa
 	str r0, [r7, #0x18]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216CBEC: .word 0x00001388
-_0216CBF0: .word 0x0000270F
-_0216CBF4: .word 0x05F5E0FF
-	arm_func_end SailItemBonus__GiveItem
 
-	arm_func_start SailItemBonus__State_216CBF8
-SailItemBonus__State_216CBF8: // 0x0216CBF8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SailItemBonus__State_216CBF8(StageTask *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x2c]
@@ -9337,82 +9514,7 @@ _0216CC40:
 	add r0, r0, #1
 	str r0, [r4, #0x2c]
 	ldmia sp!, {r4, pc}
-	arm_func_end SailItemBonus__State_216CBF8
 
-	.rodata
-
-_0218BC58: // 0x0218BC58
-    .word 0, 0x1000, 0
-
-_0218BC64: // 0x0218BC64
-    .byte 0x80, 0, 0, 1, 0x80, 0, 0x20, 0, 0x80, 0xFF, 0, 0xFF, 0x80, 0xFF, 0xE0, 0xFF
-
-	.data
-
-aSbLandBac: // 0x0218D2B0
-	.asciz "/sb_land.bac"
-    .align 4
-
-aSbMineBac_0: // 0x0218D2C0
-	.asciz "sb_mine.bac"
-    .align 4
-
-aSbBomberBac: // 0x0218D2CC
-	.asciz "sb_bomber.bac"
-    .align 4
-
-aSbCloudBac_0: // 0x0218D2DC
-	.asciz "sb_cloud.bac"
-    .align 4
-
-aSbBuoyNsbmd_0: // 0x0218D2EC
-	.asciz "sb_buoy.nsbmd"
-    .align 4
-
-aSbBuoyNsbca: // 0x0218D2FC
-	.asciz "sb_buoy.nsbca"
-    .align 4
-
-aSbSeagullBac: // 0x0218D30C
-	.asciz "sb_seagull.bac"
-    .align 4
-
-aSbSeagullNsbmd_0: // 0x0218D31C
-	.asciz "sb_seagull.nsbmd"
-    .align 4
-
-aSbStoneNsbmd_0: // 0x0218D330
-	.asciz "sb_stone.nsbmd"
-    .align 4
-
-aSbIceNsbmd_0: // 0x0218D340
-	.asciz "sb_ice.nsbmd"
-    .align 4
-
-aSbSubFishNsbmd_0: // 0x0218D350
-	.asciz "sb_sub_fish.nsbmd"
-    .align 4
-
-aSbChaosNsbmd_0: // 0x0218D364
-	.asciz "sb_chaos.nsbmd"
-    .align 4
-
-aSbGoalNsbmd_0: // 0x0218D374
-	.asciz "sb_goal.nsbmd"
-    .align 4
-
-aSbGoalNsbca: // 0x0218D384
-	.asciz "sb_goal.nsbca"
-    .align 4
-
-aSbCldmGoalBac: // 0x0218D394
-	.asciz "/sb_cldm_goal.bac"
-    .align 4
-
-aSbItemBac: // 0x0218D3A8
-	.asciz "sb_item.bac"
-    .align 4
-
-aSbLogoFixBac_0: // 0x0218D3B4
-	.asciz "sb_logo_fix.bac"
-    .align 4
+// clang-format on
+#endif
+}

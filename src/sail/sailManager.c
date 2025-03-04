@@ -2,6 +2,7 @@
 #include <sail/unknown2153770.h>
 #include <sail/sailPlayer.h>
 #include <sail/sailGraphics.h>
+#include <sail/sailCommonObjects.h>
 #include <game/graphics/drawFadeTask.h>
 #include <game/graphics/mappingsQueue.h>
 #include <game/audio/audioSystem.h>
@@ -23,10 +24,7 @@
 // --------------------
 
 NOT_DECOMPILED void SailHUDInitEvent__Create(void);
-NOT_DECOMPILED void SailObject__Func_2166D88(void);
 NOT_DECOMPILED void SailRampTrick__Create(void);
-NOT_DECOMPILED void SailJetBoatCloud__CreateUnknown(void);
-NOT_DECOMPILED void SailCloud__Create(s32 type);
 NOT_DECOMPILED void SailChallengeHUD__Create(void);
 
 // --------------------

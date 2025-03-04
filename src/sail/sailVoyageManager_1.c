@@ -895,28 +895,28 @@ _02157AC0:
 #endif
 }
 
-s32 SailVoyageManager__Func_2157AE4(void)
+s32 SailVoyageManager__GetVoyagePos(void)
 {
     SailManager *manager = SailManager__GetWork();
 
     return manager->voyageManager->voyagePos;
 }
 
-VecFx32 *SailVoyageManager__Func_2157AF4(void)
+VecFx32 *SailVoyageManager__GetVoyageUnknownPos(void)
 {
     SailManager *manager = SailManager__GetWork();
 
     return &manager->voyageManager->field_28;
 }
 
-s32 SailVoyageManager__Func_2157B04(void)
+s32 SailVoyageManager__GetVoyageAngle(void)
 {
     SailManager *manager = SailManager__GetWork();
 
     return manager->voyageManager->angle;
 }
 
-s32 SailVoyageManager__Func_2157B14(SailVoyageSegment *segment)
+s32 SailVoyageManager__GetVoyageUnknownValue(SailVoyageSegment *segment)
 {
     return 0x80000;
 }

@@ -4,6 +4,7 @@
 #include <seaMap/seaMapUnknown204A9E4.h>
 #include <seaMap/seaMapUnknown204AB60.h>
 #include <sail/sailPlayer.h>
+#include <sail/sailCommonObjects.h>
 #include <game/object/obj.h>
 
 // --------------------
@@ -13,10 +14,6 @@
 NOT_DECOMPILED u32 _0218BBB4[2];
 
 NOT_DECOMPILED void _ull_mul(void);
-
-NOT_DECOMPILED void SailGoal__Create(void);
-NOT_DECOMPILED void SailChaosEmerald__Create(void);
-NOT_DECOMPILED void SailGoalText__Create(void);
 
 // --------------------
 // FUNCTIONS
@@ -551,8 +548,8 @@ void SailVoyageManager__LinkSegments(SailVoyageManager *work)
     firstSegment->field_4           = 0;
     firstSegment->field_24          = 0;
 
-    a2.x                     = MultiplyFX(-SailVoyageManager__Func_2157B14(firstSegment), SinFX(firstSegment->angle));
-    a2.y                     = MultiplyFX(-SailVoyageManager__Func_2157B14(firstSegment), CosFX(firstSegment->angle));
+    a2.x                     = MultiplyFX(-SailVoyageManager__GetVoyageUnknownValue(firstSegment), SinFX(firstSegment->angle));
+    a2.y                     = MultiplyFX(-SailVoyageManager__GetVoyageUnknownValue(firstSegment), CosFX(firstSegment->angle));
     firstSegment->field_1C.x = firstSegment->field_C.x + a2.x;
     firstSegment->field_1C.y = firstSegment->field_C.y + a2.y;
 
@@ -570,18 +567,18 @@ void SailVoyageManager__LinkSegments(SailVoyageManager *work)
         segment->field_24 = prevSegment->field_24;
         segment->angle    = prevSegment->angle;
         segment->field_C  = prevSegment->field_1C;
-        segment->field_24 += SailVoyageManager__Func_2157B14(prevSegment);
+        segment->field_24 += SailVoyageManager__GetVoyageUnknownValue(prevSegment);
         segment->angle += prevSegment->field_4;
 
-        a2.x                = MultiplyFX(-SailVoyageManager__Func_2157B14(segment), SinFX((s32)(u16)(segment->angle + (segment->field_4 >> 1))));
-        a2.y                = MultiplyFX(-SailVoyageManager__Func_2157B14(segment), CosFX((s32)(u16)(segment->angle + (segment->field_4 >> 1))));
+        a2.x                = MultiplyFX(-SailVoyageManager__GetVoyageUnknownValue(segment), SinFX((s32)(u16)(segment->angle + (segment->field_4 >> 1))));
+        a2.y                = MultiplyFX(-SailVoyageManager__GetVoyageUnknownValue(segment), CosFX((s32)(u16)(segment->angle + (segment->field_4 >> 1))));
         segment->field_1C.x = segment->field_C.x + a2.x;
         segment->field_1C.y = segment->field_C.y + a2.y;
 
         if (segment->field_4 == 0 || segment->field_4 == 0x8000)
         {
-            a2.x = MultiplyFX(-SailVoyageManager__Func_2157B14(prevSegment), SinFX(segment->angle));
-            a2.y = MultiplyFX(-SailVoyageManager__Func_2157B14(prevSegment), CosFX(segment->angle));
+            a2.x = MultiplyFX(-SailVoyageManager__GetVoyageUnknownValue(prevSegment), SinFX(segment->angle));
+            a2.y = MultiplyFX(-SailVoyageManager__GetVoyageUnknownValue(prevSegment), CosFX(segment->angle));
             a2.x >>= 1;
             a2.y >>= 1;
 
@@ -590,13 +587,13 @@ void SailVoyageManager__LinkSegments(SailVoyageManager *work)
         }
         else
         {
-            a2.x = MultiplyFX(-SailVoyageManager__Func_2157B14(prevSegment), SinFX(segment->angle));
-            a2.y = MultiplyFX(-SailVoyageManager__Func_2157B14(prevSegment), CosFX(segment->angle));
+            a2.x = MultiplyFX(-SailVoyageManager__GetVoyageUnknownValue(prevSegment), SinFX(segment->angle));
+            a2.y = MultiplyFX(-SailVoyageManager__GetVoyageUnknownValue(prevSegment), CosFX(segment->angle));
             a2.x += segment->field_C.x;
             a2.y += segment->field_C.y;
 
-            a4.x = MultiplyFX(-SailVoyageManager__Func_2157B14(segment), SinFX((s32)(u16)(segment->angle + segment->field_4)));
-            a4.y = MultiplyFX(-SailVoyageManager__Func_2157B14(segment), CosFX((s32)(u16)(segment->angle + segment->field_4)));
+            a4.x = MultiplyFX(-SailVoyageManager__GetVoyageUnknownValue(segment), SinFX((s32)(u16)(segment->angle + segment->field_4)));
+            a4.y = MultiplyFX(-SailVoyageManager__GetVoyageUnknownValue(segment), CosFX((s32)(u16)(segment->angle + segment->field_4)));
 
             a4.x += segment->field_1C.x;
             a4.y += segment->field_1C.y;

@@ -1,4 +1,5 @@
 #include <sail/sailPlayer.h>
+#include <sail/sailCommonObjects.h>
 #include <sail/sailAudio.h>
 #include <game/save/saveGame.h>
 #include <game/graphics/screenShake.h>
@@ -19,16 +20,6 @@ NOT_DECOMPILED void SailRetireEvent__CreateFadeOut(void);
 NOT_DECOMPILED void SailClearedEvent__Create(void);
 NOT_DECOMPILED void SailJetRaceOpponentWarningHUD__Create(StageTask *player);
 NOT_DECOMPILED void SailJetRaceProgressMarkerHUD__Create(BOOL isRival, BOOL isRival2);
-
-NOT_DECOMPILED void SailObject__SetupAnimator3D(StageTask *work);
-NOT_DECOMPILED void SailObject__Func_2164D10(void);
-NOT_DECOMPILED void SailObject__ShakeScreen(StageTask *work, s32 timer);
-NOT_DECOMPILED void SailObject__SetAnimSpeed(StageTask *work, fx32 speed);
-NOT_DECOMPILED void SailObject__Func_21658D0(StageTask *work, s32 id, s32 a3, VecFx32 *a4);
-NOT_DECOMPILED void SailObject__Func_2165A9C(StageTask *work, VecFx32 *positon);
-NOT_DECOMPILED void SailObject__SetupHitbox(StageTask *work, SailColliderWork *userData, s32 id);
-NOT_DECOMPILED void SailObject__Func_21646DC(StageTask *work);
-NOT_DECOMPILED void SailObject__Func_216524C(void);
 
 NOT_DECOMPILED void EffectUnknown2161638__Create(StageTask *player);
 NOT_DECOMPILED void EffectUnknown21614E4__Create(StageTask *player);
@@ -802,7 +793,7 @@ _021599F0:
 	streq r0, [r6, #0x7c]
 	mov r0, r7
 	bl SailPlayer__ReachedGoal
-	bl SailVoyageManager__Func_2157B04
+	bl SailVoyageManager__GetVoyageAngle
 	add r0, r0, #0x8000
 	strh r0, [r7, #0x32]
 	ldr r0, [r7, #0x24]
@@ -3643,7 +3634,7 @@ _0215C2BC:
 	strh r1, [r0, #0x60]
 _0215C2D8:
 	mov r0, r6
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r3, [r4, #0x25c]
 	ldr r2, =0x0007FFFF
 	mov r1, r0
@@ -4845,7 +4836,7 @@ _0215D294:
 	sub r1, r2, r1
 	bl FX_Atan2Idx
 	mov r6, r0
-	bl SailVoyageManager__Func_2157B04
+	bl SailVoyageManager__GetVoyageAngle
 	add r0, r0, #0x8000
 	mov r1, r0, lsl #0x10
 	mov r0, r6
@@ -5047,7 +5038,7 @@ _0215D5A8:
 	sub r1, r2, r1
 	bl FX_Atan2Idx
 	mov r6, r0
-	bl SailVoyageManager__Func_2157B04
+	bl SailVoyageManager__GetVoyageAngle
 	add r0, r0, #0x8000
 	mov r1, r0, lsl #0x10
 	mov r0, r6
@@ -5213,7 +5204,7 @@ _0215D7B8:
 	sub r1, r2, r1
 	bl FX_Atan2Idx
 	mov r6, r0
-	bl SailVoyageManager__Func_2157B04
+	bl SailVoyageManager__GetVoyageAngle
 	mov r1, r0
 	add r1, r1, #0x8000
 	mov r1, r1, lsl #0x10
@@ -6244,7 +6235,7 @@ _0215EB30:
 	ldr r0, [r4, #0x24]
 	tst r0, #8
 	bne _0215EB68
-	bl SailVoyageManager__Func_2157B04
+	bl SailVoyageManager__GetVoyageAngle
 	add r0, r0, #0x8000
 	strh r0, [r4, #0x32]
 	ldrh r0, [r5, #0]
@@ -6392,7 +6383,7 @@ _0215ED24:
 	mul r9, r1, r0
 	ldr r10, [r8, #0xc0]
 	add r0, r10, r9
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r1, [r8, #0x44]
 	ldr r2, =0x0007FFFF
 	add r3, r1, #0x30000

@@ -710,7 +710,8 @@ Overlay Sail
     Object src/sail/sailAssetLoader.o
     Object src/sail/sailGraphics.o
     Object src/sail/sailAudio.o
-    Object asm/sail/sailEventManager.o
+    Object src/sail/sailEventManager.o
+    Object src/sail/sailObjectList.o
     Object asm/sail/sailRingManager.o
     Object src/sail/sailVoyageManager_1.o
     Object asm/sail/sailVoyageManager_vars.o
@@ -720,7 +721,8 @@ Overlay Sail
     Object asm/sail/sailCamera.o
     Object asm/sail/sailSea.o
     Object asm/sail/sailEffects.o
-    Object asm/sail/sailCommonObjects.o
+    Object asm/sail/sailCommonObjects_vars.o
+    Object src/sail/sailCommonObjects.o
     Object asm/sail/sailJetObjects.o
     Object asm/sail/sailHUD.o
     Object asm/sail/sailRampTrick.o

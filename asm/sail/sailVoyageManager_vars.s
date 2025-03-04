@@ -169,7 +169,7 @@ _02157D74:
 	cmp r1, r0
 	bls _02157D8C
 	mov r0, r4
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r1, [r5, #0x4c]
 	cmp r1, r0
 	bge _02157D8E
@@ -177,7 +177,7 @@ _02157D8C:
 	b _02157F08
 _02157D8E:
 	mov r0, r4
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	ldr r1, [r5, #0x4c]
 	sub r0, r1, r0
 	str r0, [r5, #0x4c]
@@ -192,7 +192,7 @@ _02157D8E:
 	bne _02157E0E
 	mov r0, r4
 	add r0, #0x28
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	mov r1, r0
 	ldr r0, [r5, #0x4c]
 	bl FX_Div
@@ -215,7 +215,7 @@ _02157D8E:
 	mul r0, r2
 	add r4, r1, r0
 	mov r0, r4
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	mov r1, r5
 	add r1, #0x6e
 	ldrh r2, [r1, #0]
@@ -334,7 +334,7 @@ _02157EBC:
 	cmp r0, r1
 	bne _02157EF4
 	mov r0, r4
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	mov r1, r5
 	add r1, #0x6e
 	ldrh r2, [r1, #0]
@@ -362,7 +362,7 @@ _02157F02:
 	bl SailVoyageManager__Func_2158234
 _02157F08:
 	mov r0, r4
-	bl SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__GetVoyageUnknownValue
 	mov r1, r0
 	ldr r0, [r5, #0x4c]
 	bl FX_Div

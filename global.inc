@@ -14178,10 +14178,10 @@
 .public SailVoyageManager__Func_215794C
 .public SailVoyageManager__Func_215799C
 .public SailVoyageManager__SetupVoyage
-.public SailVoyageManager__Func_2157AE4
-.public SailVoyageManager__Func_2157AF4
-.public SailVoyageManager__Func_2157B04
-.public SailVoyageManager__Func_2157B14
+.public SailVoyageManager__GetVoyagePos
+.public SailVoyageManager__GetVoyageUnknownPos
+.public SailVoyageManager__GetVoyageAngle
+.public SailVoyageManager__GetVoyageUnknownValue
 .public SailVoyageManager__Main
 .public SailVoyageManager__Func_2157C34
 .public SailVoyageManager__Func_2158028

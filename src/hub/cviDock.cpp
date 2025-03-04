@@ -1449,7 +1449,7 @@ NONMATCH_FUNC void CViDock::Draw(CViDock *work, BOOL drawPlayer, BOOL drawNpcs, 
 
         while (entry != NULL)
         {
-            fx32 shadowScale = MultiplyFX(0x5000, scale);
+            fx32 shadowScale = MultiplyFX(FLOAT_TO_FX32(5.0), scale);
             work->dockBack.DrawShadow(&work->shadow, shadowScale, entry->npc.position.ToConstVecFx32Ref().x, entry->npc.position.ToConstVecFx32Ref().z);
             entry->npc.Draw();
 
@@ -1459,7 +1459,7 @@ NONMATCH_FUNC void CViDock::Draw(CViDock *work, BOOL drawPlayer, BOOL drawNpcs, 
 
     if (drawPlayer)
     {
-        fx32 shadowScale = MultiplyFX(0x5000, scale);
+        fx32 shadowScale = MultiplyFX(FLOAT_TO_FX32(5.0), scale);
         work->dockBack.DrawShadow(&work->shadow, shadowScale, work->player.position.ToConstVecFx32Ref().x, work->player.position.ToConstVecFx32Ref().z);
         work->player.Draw();
     }
