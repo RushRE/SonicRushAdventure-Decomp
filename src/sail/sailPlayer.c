@@ -305,8 +305,8 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
 
             SailObject__SetupHitbox(work, worker->colliders, 0);
             SailObject__Func_21658D0(work, 0, FLOAT_TO_FX32(9.0), NULL);
-            worker->colliders[0].field_4.field_24.z = FLOAT_TO_FX32(4.0);
-            worker->colliders[0].field_4.field_24.y = FLOAT_TO_FX32(2.0);
+            worker->colliders[0].hitCheck.field_24.z = FLOAT_TO_FX32(4.0);
+            worker->colliders[0].hitCheck.field_24.y = FLOAT_TO_FX32(2.0);
             ObjRect__SetOnDefend(work->colliderList[0], SailPlayer__OnDefend_Boat);
 
             NNS_G3dRenderObjSetCallBack(&work->obj_3d->ani.renderObj, SailPlayer__BoatRenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
@@ -357,7 +357,7 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
         work->colliderList[2]->defFlag  = -1;
         work->colliderList[0]->hitPower = 10;
 
-        worker->colliders[0].field_74 |= 0x200;
+        worker->colliders[0].flags |= 0x200;
         worker->colliders[1].atkPower = 0x80000;
         worker->colliders[2].atkPower = 0x60000;
     }
@@ -1346,7 +1346,7 @@ void SailPlayer__Action_Boost(StageTask *player)
                 EffectUnknown2161638__Create(player);
 
             EffectSailBoost02__Create(player);
-            worker->colliders[1].field_74 &= ~SAILPLAYER_FLAG_2000;
+            worker->colliders[1].flags &= ~0x2000;
         }
 
         worker->overSpdLimitTimer = 45;
@@ -1450,7 +1450,7 @@ void SailPlayer__Func_215A41C(StageTask *player)
         player->userFlag &= ~SAILPLAYER_FLAG_400;
         SailPlayer__ColliderFunc(player, 0);
         worker->field_1F8 = 0;
-        worker->colliders[1].field_74 &= ~0x2000;
+        worker->colliders[1].flags &= ~0x2000;
     }
 }
 
@@ -2062,16 +2062,16 @@ void SailPlayer__OnDefend_JetHover(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     StageTask *player        = colliderPlayer->stageTask;
     SailPlayer *playerWorker = GetStageTaskWorker(player, SailPlayer);
 
-    if ((colliderOther->field_74 & 0x4000) != 0)
+    if ((colliderOther->flags & 0x4000) != 0)
     {
         SailPlayer__Func_215AB10(colliderPlayer, colliderOther);
         ObjRect__FuncNoHit(rect1, rect2);
     }
-    else if ((colliderOther->field_74 & 0x100) != 0)
+    else if ((colliderOther->flags & 0x100) != 0)
     {
         SailPlayer__Gimmick_DashPanel(colliderPlayer->stageTask, 12, 0);
     }
-    else if ((player->userFlag & SAILPLAYER_FLAG_IS_HURT) != 0 && (colliderOther->field_74 & 0x200) != 0)
+    else if ((player->userFlag & SAILPLAYER_FLAG_IS_HURT) != 0 && (colliderOther->flags & 0x200) != 0)
     {
         ObjRect__FuncNoHit(rect1, rect2);
     }
@@ -2089,7 +2089,7 @@ void SailPlayer__OnDefend_JetHover(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         hitPos.z >>= 1;
         EffectSailHit__Create(&hitPos);
 
-        if ((colliderOther->field_74 & 0x200) != 0)
+        if ((colliderOther->flags & 0x200) != 0)
         {
             s32 touchPos;
             s32 otherPos;

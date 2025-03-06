@@ -63,7 +63,7 @@ typedef u32 SailManagerFlags;
 // --------------------
 
 // TODO: probably temp until we find a better spot for it
-typedef struct SailColliderWorkUnknown_
+typedef struct SailColliderWorkHitCheck_
 {
     VecFx32 field_0;
     VecFx32 field_C;
@@ -72,25 +72,21 @@ typedef struct SailColliderWorkUnknown_
     u16 angle;
     u16 field_32;
     VecFx32 *field_34;
-} SailColliderWorkUnknown;
+    s32 field_38;
+    VecFx32 field_3C;
+    s32 field_48;
+    VecFx32 *field_4C;
+    VecFx32 field_50;
+    VecFx32 field_5C;
+} SailColliderWorkHitCheck;
 
 typedef struct SailColliderWork_
 {
     u16 type;
-    u16 field_2;
-    SailColliderWorkUnknown field_4;
-    s32 field_3C;
-    VecFx32 field_40;
-    s32 field_4C;
-    VecFx32 *field_50;
-    VecFx32 field_54;
-    s32 field_60;
-    s32 field_64;
-    s32 field_68;
+    SailColliderWorkHitCheck hitCheck;
     StageTask *stageTask;
     s32 atkPower;
-    u16 field_74;
-    u16 field_76;
+    u16 flags;
 } SailColliderWork;
 
 typedef struct SailManager_
