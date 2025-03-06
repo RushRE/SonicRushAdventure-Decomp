@@ -183,7 +183,7 @@ Ring *CreateSpillRing(fx32 x, fx32 y, fx32 z, fx32 velocityX, fx32 velocityY, Ri
 
     ring->scale.x = ring->scale.y = ring->scale.z = FLOAT_TO_FX32(1.0);
 
-    ring->timer = RINGMANAGER_RING_SPILL_LIFETIME + (mtMathRand() & 0x1F);
+    ring->timer = RINGMANAGER_RING_SPILL_LIFETIME + mtMathRandRepeat(32);
     ring->flag  = flag;
 
     ring->eveRef     = NULL;

@@ -493,7 +493,7 @@ NONMATCH_FUNC void GameObject__SpawnExplosion(GameObjectTask *work)
         CreateEffectExplosion(&work->objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), EXPLOSION_ENEMY);
     }
 
-    u32 debrisType = mtMathRand() & 3;
+    u32 debrisType = mtMathRandRepeat(4);
 
     if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS) != 0 || (work->flags & GAMEOBJECT_FLAG_40000) != 0)
         moveFlag = STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;

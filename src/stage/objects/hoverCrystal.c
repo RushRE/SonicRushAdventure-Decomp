@@ -73,7 +73,7 @@ NONMATCH_FUNC void HoverCrystal_State_Active(HoverCrystal *work)
 #ifdef NON_MATCHING
     if (work->gameWork.objWork.userTimer-- <= 0)
     {
-        fx32 offsetX = work->gameWork.objWork.position.x - FLOAT_TO_FX32(16.0) + FX32_FROM_WHOLE(mtMathRand() & 0x2F);
+        fx32 offsetX = work->gameWork.objWork.position.x - FLOAT_TO_FX32(16.0) + FX32_FROM_WHOLE(mtMathRandRepeat(48));
 
         fx32 y    = work->gameWork.objWork.position.y;
         fx32 posY = y + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_top);
@@ -89,7 +89,7 @@ NONMATCH_FUNC void HoverCrystal_State_Active(HoverCrystal *work)
         EffectHoverCrystalSparkle__Create(offsetX, offsetY, (work->gameWork.objWork.position.x - offsetX) >> 10, (work->gameWork.objWork.position.y - offsetY) >> 10,
                                           (work->gameWork.objWork.position.x - offsetX) >> 10, (work->gameWork.objWork.position.y - offsetY) >> 10);
 
-        work->gameWork.objWork.userTimer = (mtMathRand() & 3) + 4;
+        work->gameWork.objWork.userTimer = mtMathRandRepeat(4) + 4;
         work->gameWork.objWork.userWork++;
     }
 #else

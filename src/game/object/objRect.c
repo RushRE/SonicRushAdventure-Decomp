@@ -663,9 +663,9 @@ BOOL ObjRect__PointCheck(OBS_RECT_WORK *work, s32 x, s32 y, s32 z)
 NONMATCH_FUNC BOOL ObjRect__RectPointCheck(OBS_RECT_WORK *work, s32 x, s32 y, s32 z)
 {
 #ifdef NON_MATCHING
-    return OBM_POINT_IN_LINE(work->rect.left + (work->rect.pos.x >> FX32_SHIFT), (u16)(work->rect.right - work->rect.left), x)
-           && OBM_POINT_IN_LINE(work->rect.top + (work->rect.pos.y >> FX32_SHIFT), (u16)(work->rect.bottom - work->rect.top), y)
-           && OBM_POINT_IN_LINE(work->rect.back + (work->rect.pos.z >> FX32_SHIFT), (u16)(work->rect.front - work->rect.back), z);
+    return OBM_POINT_IN_LINE(work->rect.left + FX32_TO_WHOLE(work->rect.pos.x), (u16)(work->rect.right - work->rect.left), x)
+           && OBM_POINT_IN_LINE(work->rect.top + FX32_TO_WHOLE(work->rect.pos.y), (u16)(work->rect.bottom - work->rect.top), y)
+           && OBM_POINT_IN_LINE(work->rect.back + FX32_TO_WHOLE(work->rect.pos.z), (u16)(work->rect.front - work->rect.back), z);
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -712,7 +712,7 @@ _02076A00:
 
 s32 ObjRect__CenterX(OBS_RECT_WORK *work)
 {
-    s32 center = (work->rect.pos.x + ((s32)(work->rect.left + work->rect.right) >> 1)) << FX32_SHIFT;
+    s32 center = FX32_FROM_WHOLE(work->rect.pos.x + ((s32)(work->rect.left + work->rect.right) >> 1));
     if (work->parent != NULL)
         center += work->parent->position.x;
 
@@ -721,7 +721,7 @@ s32 ObjRect__CenterX(OBS_RECT_WORK *work)
 
 s32 ObjRect__CenterY(OBS_RECT_WORK *work)
 {
-    s32 center = (work->rect.pos.y + ((s32)(work->rect.top + work->rect.bottom) >> 1)) << FX32_SHIFT;
+    s32 center = FX32_FROM_WHOLE(work->rect.pos.y + ((s32)(work->rect.top + work->rect.bottom) >> 1));
     if (work->parent != NULL)
         center += work->parent->position.y;
 

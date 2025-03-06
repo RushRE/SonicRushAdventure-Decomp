@@ -155,8 +155,8 @@ NONMATCH_FUNC void BreakableObject__State_Tutorial(BreakableObject *work)
         fx32 x = work->gameWork.objWork.position.x;
         fx32 y = work->gameWork.objWork.position.y;
         EffectBreakableObjDebris__Create(x, y, (mtMathRand() + FLOAT_TO_FX32(3.0)) & 0x7FF, (-FLOAT_TO_FX32(2.0) - mtMathRand()) & 0x7FF, 0);
-        EffectBreakableObjDebris__Create(x, y, (-FLOAT_TO_FX32(2.0) - mtMathRand()) & 0x7FF, -FLOAT_TO_FX32(2.5), mtMathRand() & 1);
-        EffectBreakableObjDebris__Create(x, y, -FLOAT_TO_FX32(3.1875), -FLOAT_TO_FX32(2.875), mtMathRand() & 1);
+        EffectBreakableObjDebris__Create(x, y, (-FLOAT_TO_FX32(2.0) - mtMathRand()) & 0x7FF, -FLOAT_TO_FX32(2.5), mtMathRandRepeat(2));
+        EffectBreakableObjDebris__Create(x, y, -FLOAT_TO_FX32(3.1875), -FLOAT_TO_FX32(2.875), mtMathRandRepeat(2));
         EffectBreakableObjDebris__Create(x, y, FLOAT_TO_FX32(2.25), (-FLOAT_TO_FX32(3.125) - mtMathRand()) & 0x7FF, 1);
 
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_DEST_OBJ);

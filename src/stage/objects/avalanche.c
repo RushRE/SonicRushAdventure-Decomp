@@ -275,18 +275,18 @@ void Avalanche_State_Active(Avalanche *work)
 
     if ((playerGameStatus.stageTimer & 1) == 0)
     {
-        fx32 velY    = -FLOAT_TO_FX32(0.0625) - (mtMathRand() & 0x3FF);
-        fx32 offsetY = FX32_FROM_WHOLE(((mtMathRand() & 0x1F) - 24));
-        fx32 offsetX = FX32_FROM_WHOLE(((mtMathRand() & 0x1F) - 15));
+        fx32 velY    = -FLOAT_TO_FX32(0.0625) - mtMathRandRepeat(0x400);
+        fx32 offsetY = FX32_FROM_WHOLE(mtMathRandRepeat(32) - 24);
+        fx32 offsetX = FX32_FROM_WHOLE(mtMathRandRepeat(32) - 15);
 
         EffectAvalanche__Create(work->gameWork.objWork.position.x + offsetX, work->gameWork.objWork.position.y + offsetY, -work->gameWork.objWork.move.x >> 4, velY);
     }
 
     if (((playerGameStatus.stageTimer + 4) & 0x1F) == 0)
     {
-        fx32 velY = ((mtMathRand() & 0xFFF) - FLOAT_TO_FX32(3.0));
-        fx32 velX = ((mtMathRand() & 0xFFF) + FLOAT_TO_FX32(8.0));
-        fx32 type = mtMathRand() & 7;
+        fx32 velY = (mtMathRandRepeat(FLOAT_TO_FX32(1.0)) - FLOAT_TO_FX32(3.0));
+        fx32 velX = (mtMathRandRepeat(FLOAT_TO_FX32(1.0)) + FLOAT_TO_FX32(8.0));
+        fx32 type = mtMathRandRepeat(8);
 
         EffectAvalancheDebris__Create(debrisTypeTable[type], work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, velX, velY);
     }
@@ -393,8 +393,8 @@ void AvalancheTree_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         tree->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         SetTaskState(&tree->gameWork.objWork, AvalancheTree_State_Hit);
 
-        fx32 velY = -(mtMathRand() & 0x1FF);
-        fx32 velX = (mtMathRand() & 0x1FF);
+        fx32 velY = -mtMathRandRepeat(0x200);
+        fx32 velX = mtMathRandRepeat(0x200);
         EffectAvalanche__Create(tree->gameWork.objWork.position.x - FLOAT_TO_FX32(16.0), tree->gameWork.objWork.position.y - FLOAT_TO_FX32(48.0), velX, velY);
     }
 }

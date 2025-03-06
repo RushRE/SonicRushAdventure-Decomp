@@ -3814,9 +3814,9 @@ s32 BAC_FrameGroupFunc_EndFrame(BACFrameGroupBlock_EndFrame *block, AnimatorSpri
     animator->animFrameIndex = block->frameIndex;
 
     if ((animator->flags & ANIMATOR_FLAG_USE_FRAME_REMAINDER) != 0)
-        animator->frameRemainder = animator->frameRemainder + (block->duration << FX32_SHIFT);
+        animator->frameRemainder = animator->frameRemainder + FX32_FROM_WHOLE(block->duration);
     else
-        animator->frameRemainder = block->duration << FX32_SHIFT;
+        animator->frameRemainder = FX32_FROM_WHOLE(block->duration);
 
     animator->animSequenceOffset += block->header.blockSize;
     return FRAME_BREAK;

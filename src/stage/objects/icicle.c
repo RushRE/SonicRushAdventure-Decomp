@@ -114,12 +114,12 @@ NONMATCH_FUNC void Icicle_State_Active(Icicle *work)
         fx32 offsetY = (width - 1) & mtMathRand();
 
         fx32 offsetX = MultiplyFX(22 * (FX32_FROM_WHOLE(width) - FX32_FROM_WHOLE(offsetY)), work->gameWork.objWork.userFlag);
-        if ((mtMathRand() & 1) != 0)
+        if (mtMathRandRepeat(2) != 0)
             offsetX = -offsetX;
 
         EffectIceSparkles__Create(work->gameWork.objWork.position.x + offsetX, work->gameWork.objWork.position.y + FX32_FROM_WHOLE(offsetY) - FLOAT_TO_FX32(256.0), 0, 0, 0);
 
-        work->gameWork.objWork.userWork = (mtMathRand() & 0xF) + 8;
+        work->gameWork.objWork.userWork = mtMathRandRepeat(16) + 8;
     }
     work->gameWork.objWork.userWork--;
 #else

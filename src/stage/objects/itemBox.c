@@ -200,7 +200,7 @@ void BreakItemBox(ItemBox *work, Player *player, s32 type)
     switch (type)
     {
         case ITEMBOX_TYPE_RINGS_RANDOM:
-            ringTableIndex = mtMathRand() & 7;
+            ringTableIndex = mtMathRandRepeat(8);
 
             if (gmCheckRingBattle())
                 ringAmount = ringAmountTableVS[ringTableIndex];

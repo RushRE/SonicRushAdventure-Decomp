@@ -186,10 +186,10 @@ EffectSnowSlide *EffectAvalancheDebris__Create(u8 type, fx32 x, fx32 y, fx32 vel
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
 
-    if ((mtMathRand() & 1) != 0)
+    if (mtMathRandRepeat(2) != 0)
         work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
 
-    if ((mtMathRand() & 1) != 0)
+    if (mtMathRandRepeat(2) != 0)
         work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
 
     work->objWork.position.x = x;
@@ -234,7 +234,7 @@ EffectTruckJewel *EffectTruckJewel__Create(StageTask *parent, fx32 velX, fx32 ve
 
     if (flag)
     {
-        work->objWork.userTimer = 0x2000 + (FX32_FROM_WHOLE(mtMathRand() & 3));
+        work->objWork.userTimer = 0x2000 + (FX32_FROM_WHOLE(mtMathRandRepeat(4)));
     }
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
@@ -430,11 +430,11 @@ NONMATCH_FUNC void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *wor
 
             entry->active = TRUE;
 
-            entry->position.x = ((mtMathRand() & 0x1F) * 0x20) + 0x200;
+            entry->position.x = mtMathRandRepeat(32 * 0x20) + 0x200;
             entry->position.y = FLOAT_TO_FX32(0.0);
             entry->position.z = FLOAT_TO_FX32(0.0);
 
-            entry->angle1 = (mtMathRand() & 0x3FF) + 0x1000;
+            entry->angle1 = mtMathRandRepeat(0x400) + 0x1000;
             entry->angle2 = mtMathRand();
             entry->scale  = FLOAT_TO_FX32(0.0);
             break;
@@ -442,7 +442,7 @@ NONMATCH_FUNC void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *wor
 
         if (id < EFFECTUNKNOWN202C414_LIST_SIZE)
         {
-            work->objWork.userTimer = mtMathRand() & 7;
+            work->objWork.userTimer = mtMathRandRepeat(8);
         }
     }
 
@@ -694,10 +694,10 @@ EffectSlingDust *EffectSlingDust__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u
 
     InitEffectTaskViewCheck(&work->objWork, 16, 0, 0, 0, 0);
 
-    if ((mtMathRand() & 1) != 0)
+    if (mtMathRandRepeat(2) != 0)
         work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
 
-    if ((mtMathRand() & 1) != 0)
+    if (mtMathRandRepeat(2) != 0)
         work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
@@ -999,8 +999,8 @@ void EffectIceSparklesSpawner__State_202D19C(EffectIceSparklesSpawner *work)
 
     if ((work->objWork.userTimer & 3) == 0)
     {
-        fx32 y = parent->position.y + FX32_FROM_WHOLE((3 - (mtMathRand() & 6))) + FLOAT_TO_FX32(16.0);
-        fx32 x = parent->position.x + FX32_FROM_WHOLE((3 - (mtMathRand() & 6)));
+        fx32 y = parent->position.y + FX32_FROM_WHOLE(mtMathRandRange(-4, 4)) + FLOAT_TO_FX32(16.0);
+        fx32 x = parent->position.x + FX32_FROM_WHOLE(mtMathRandRange(-4, 4));
 
         EffectIceSparkles__Create(x, y, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(2.0), 1);
     }

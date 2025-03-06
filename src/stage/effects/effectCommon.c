@@ -563,7 +563,7 @@ EffectEnemyDebris *CreateEffectEnemyDebris(StageTask *parent, fx32 offsetX, fx32
     }
     else
     {
-        spriteType = mtMathRand() & 3;
+        spriteType = mtMathRandRepeat(4);
     }
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.effectExplosionFile, gameArchiveCommon, 2);
@@ -704,7 +704,7 @@ EffectWaterExplosion *CreateEffectWaterExplosion(StageTask *parent, fx32 velX, f
         default:
             work->objWork.velocity.y = -FLOAT_TO_FX32(1.0) - (0x3FF & mtMathRand());
 
-            if ((mtMathRand() & 1) != 0)
+            if (mtMathRandRepeat(2) != 0)
                 work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
             break;
 
@@ -1048,7 +1048,7 @@ EffectWaterBubble *EffectWaterBubble__Create(fx32 x, fx32 y, s32 anim, u16 durat
 
     work->objWork.userWork = FX32_FROM_WHOLE(duration + 8);
 
-    work->objWork.velocity.y = 0x7FF - (mtMathRand() & 0xFFE);
+    work->objWork.velocity.y = mtMathRandRange(-0x800, 0x800);
     work->objWork.userTimer  = 0x2BFF - (0xFFE & mtMathRand());
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     InitEffectTaskViewCheck(&work->objWork, 16, 0, 0, 0, 0);
@@ -1106,10 +1106,10 @@ EffectCoralDebris *EffectCoralDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 vel
     work->objWork.velocity.x = velX;
     work->objWork.velocity.y = velY;
 
-    if ((mtMathRand() & 1) != 0)
+    if (mtMathRandRepeat(2) != 0)
         work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
 
-    if ((mtMathRand() & 1) != 0)
+    if (mtMathRandRepeat(2) != 0)
         work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
 
     InitEffectTaskViewCheck(&work->objWork, 16, 0, 0, 0, 0);
@@ -1145,10 +1145,10 @@ EffectBridgeDebris *EffectBridgeDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 v
     work->objWork.velocity.x = velX;
     work->objWork.velocity.y = velY;
 
-    if ((mtMathRand() & 1) != 0)
+    if (mtMathRandRepeat(2) != 0)
         work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
 
-    if ((mtMathRand() & 1) != 0)
+    if (mtMathRandRepeat(2) != 0)
         work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
 
     InitEffectTaskViewCheck(&work->objWork, 16, 0, 0, 0, 0);
@@ -1547,7 +1547,7 @@ EffectSteamFan *EffectCreateSteamFan(StageTask *parent, s32 radius, u16 angle, s
 
 void EffectSteamFan__State_202B324(EffectSteamFan *work)
 {
-    fx32 radius = work->objWork.userTimer + (FX32_FROM_WHOLE(mtMathRand() & 3));
+    fx32 radius = work->objWork.userTimer + (FX32_FROM_WHOLE(mtMathRandRepeat(4)));
 
     work->objWork.dir.z += (u16)work->objWork.userWork;
 
@@ -1727,10 +1727,10 @@ void EffectTruckSparkles__State_202B86C(EffectTruckSparkles *work)
         work->objWork.userTimer = work->objWork.userWork;
         work->flagsBitfield[id >> 5] |= 1 << (id & 0x1F);
 
-        work->positionList[id].x = work->position.x + FX32_FROM_WHOLE((mtMathRand() & 0x1F) - 15);
-        work->positionList[id].y = work->position.y + FX32_FROM_WHOLE((mtMathRand() & 0x1F) - 15);
+        work->positionList[id].x = work->position.x + FX32_FROM_WHOLE(mtMathRandRepeat(32) - 15);
+        work->positionList[id].y = work->position.y + FX32_FROM_WHOLE(mtMathRandRepeat(32) - 15);
 
-        MI_CpuCopy8(&work->aniSparkles[sparkleType[mtMathRand() & 3]], &work->animatorList[id], sizeof(work->animatorList[0]));
+        MI_CpuCopy8(&work->aniSparkles[sparkleType[mtMathRandRepeat(4)]], &work->animatorList[id], sizeof(work->animatorList[0]));
 
         work->duration--;
         if (work->duration == 0)

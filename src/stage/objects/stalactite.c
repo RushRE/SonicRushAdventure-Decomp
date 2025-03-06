@@ -343,8 +343,8 @@ void Stalactite_StateWeakPoint_Hit(Stalactite *work)
 
             for (s32 i = 0; i < 16; i++)
             {
-                fx32 velX   = FX32_FROM_WHOLE(((mtMathRand() & 0x7F) - 64));
-                fx32 velY   = FX32_FROM_WHOLE(-(mtMathRand() & 3));
+                fx32 velX   = FX32_FROM_WHOLE(mtMathRandRange2(-64, 64));
+                fx32 velY   = FX32_FROM_WHOLE(-mtMathRandRepeat(4));
                 u32 offsetY = (mtMathRand());
                 offsetY <<= 16 + 10;
                 offsetY >>= 16 - 2;
@@ -363,11 +363,11 @@ void Stalactite_StateWeakPoint_Hit(Stalactite *work)
     work->gameWork.objWork.userWork--;
     if ((work->gameWork.objWork.userWork & 0xFFFF) == 0)
     {
-        fx32 type   = mtMathRand() & 7;
+        fx32 type   = mtMathRandRepeat(8);
         u32 offsetY = mtMathRand();
         offsetY <<= 16 + 10;
         offsetY >>= 16 - 2;
-        fx32 offsetX = FX32_FROM_WHOLE(((mtMathRand() & 0x7F) - 64));
+        fx32 offsetX = FX32_FROM_WHOLE(mtMathRandRange2(-64, 64));
 
         CreateStalactiteParticle(work, work->gameWork.objWork.position.x + offsetX, work->gameWork.objWork.position.y - FLOAT_TO_FX32(208.0) + offsetY, FLOAT_TO_FX32(0.0),
                                  FLOAT_TO_FX32(0.0), particleTypeTable[type]);
@@ -389,8 +389,8 @@ void Stalactite_StateWeakPoint_Falling(Stalactite *work)
         work->stateWeakPoint = NULL;
         for (i = 0; i < 10; i++)
         {
-            fx32 velX   = FX32_FROM_WHOLE(((mtMathRand() & 0x3F) - 32));
-            fx32 velY   = FX32_FROM_WHOLE(-(mtMathRand() & 7));
+            fx32 velX   = FX32_FROM_WHOLE(mtMathRandRange2(-32, 32));
+            fx32 velY   = FX32_FROM_WHOLE(-mtMathRandRepeat(8));
             u32 offsetY = FX32_FROM_WHOLE(mtMathRand());
             offsetY <<= 16;
             offsetY >>= 16;
@@ -530,8 +530,8 @@ void FallingStalactite_State_Shake(FallingStalactite *work)
     {
         if ((work->gameWork.objWork.userFlag & FALLINGSTALACTITE_FLAG_SHAKING) != 0)
         {
-            work->gameWork.objWork.offset.x = FX32_FROM_WHOLE((mtMathRand() & 3) - 2);
-            work->gameWork.objWork.offset.y = FX32_FROM_WHOLE((mtMathRand() & 3) - 2);
+            work->gameWork.objWork.offset.x = FX32_FROM_WHOLE(mtMathRandRange2(-2, 2));
+            work->gameWork.objWork.offset.y = FX32_FROM_WHOLE(mtMathRandRange2(-2, 2));
         }
         else if ((weakpoint->gameWork.objWork.userFlag & STALACTITE_FLAG_SHAKING) != 0)
         {

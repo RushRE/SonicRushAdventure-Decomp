@@ -261,7 +261,7 @@ void BossPlayerHelpers_State_Boss5Frozen(Player *work)
     {
         if (shakePower != 0)
         {
-            work->objWork.userWork = 4 * (mtMathRand() & 3) | 2;
+            work->objWork.userWork = (4 * mtMathRandRepeat(4)) | 2;
         }
     }
 

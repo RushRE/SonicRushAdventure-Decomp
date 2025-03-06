@@ -434,8 +434,8 @@ void GoalChest_State_Opened(GoalChest *work)
             {
                 u16 type = FX_ModS32(work->gameWork.objWork.userTimer, jewelTypeCount);
 
-                EffectGoalJewel__Create(type, work->gameWork.objWork.position.x + FX32_FROM_WHOLE((mtMathRand() & 0xF) - 7),
-                                          work->gameWork.objWork.position.y - FLOAT_TO_FX32(32.0), FX32_FROM_WHOLE((mtMathRand() & 7) - 3),
+                EffectGoalJewel__Create(type, work->gameWork.objWork.position.x + FX32_FROM_WHOLE(mtMathRandRepeat(16) - 7),
+                                          work->gameWork.objWork.position.y - FLOAT_TO_FX32(32.0), FX32_FROM_WHOLE(mtMathRandRepeat(8) - 3),
                                           -FLOAT_TO_FX32(5.0) - (u16)((u16)(FX32_FROM_WHOLE((u32)mtMathRand()) << 2) >> 2));
             }
 

@@ -316,7 +316,7 @@ NONMATCH_FUNC void FallingAnchor_State_Active(FallingAnchor *work)
                 if (touchingFloor)
                 {
                     EffectSlingDust__Create(work->gameWork.objWork.position.x - FLOAT_TO_FX32(26.0), work->gameWork.objWork.position.y - FLOAT_TO_FX32(149.0),
-                                            -FLOAT_TO_FX32(2.0) - ((16 * mtMathRand()) & 0xFFF), -FLOAT_TO_FX32(4.0) - ((16 * mtMathRand()) & 0x7FF), mtMathRand() & 1);
+                                            -FLOAT_TO_FX32(2.0) - ((16 * mtMathRand()) & 0xFFF), -FLOAT_TO_FX32(4.0) - ((16 * mtMathRand()) & 0x7FF), mtMathRandRepeat(2));
 
                     EffectSlingDust__Create(work->gameWork.objWork.position.x - FLOAT_TO_FX32(12.0), work->gameWork.objWork.position.y - FLOAT_TO_FX32(149.0),
                                             -FLOAT_TO_FX32(1.5) - ((16 * mtMathRand()) & 0xFFF), -FLOAT_TO_FX32(4.5) - ((16 * mtMathRand()) & 0x7FF), 0);
@@ -325,7 +325,7 @@ NONMATCH_FUNC void FallingAnchor_State_Active(FallingAnchor *work)
                                             FLOAT_TO_FX32(1.5) + ((16 * mtMathRand()) & 0xFFF), -FLOAT_TO_FX32(4.5) - ((16 * mtMathRand()) & 0x7FF), 1);
 
                     EffectSlingDust__Create(work->gameWork.objWork.position.x + FLOAT_TO_FX32(13.0), work->gameWork.objWork.position.y - FLOAT_TO_FX32(149.0),
-                                            FLOAT_TO_FX32(2.0) + ((16 * mtMathRand()) & 0xFFF), -FLOAT_TO_FX32(4.0) - ((16 * mtMathRand()) & 0x7FF), mtMathRand() & 1);
+                                            FLOAT_TO_FX32(2.0) + ((16 * mtMathRand()) & 0xFFF), -FLOAT_TO_FX32(4.0) - ((16 * mtMathRand()) & 0x7FF), mtMathRandRepeat(2));
                 }
 
                 work->gameWork.objWork.moveFlag &=
@@ -396,8 +396,8 @@ NONMATCH_FUNC void FallingAnchor_State_Active(FallingAnchor *work)
 
     if ((work->gameWork.flags & 1) != 0)
     {
-        work->gameWork.objWork.offset.x = FX32_FROM_WHOLE((mtMathRand() & 3) - 2);
-        work->gameWork.objWork.offset.y = FX32_FROM_WHOLE((mtMathRand() & 3) - 2);
+        work->gameWork.objWork.offset.x = FX32_FROM_WHOLE(mtMathRandRange2(-2, 2));
+        work->gameWork.objWork.offset.y = FX32_FROM_WHOLE(mtMathRandRange2(-2, 2));
     }
 #else
     // clang-format off

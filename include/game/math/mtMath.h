@@ -99,6 +99,24 @@ RUSH_INLINE u16 mtMathRand(void)
     return (u16)(_mt_math_rand >> 16);
 }
 
+// returns a random value between 0 and (max - 1)
+RUSH_INLINE s32 mtMathRandRepeat(s32 max)
+{
+    return mtMathRand() & (max - 1);
+}
+
+// returns a random value between 'min' and (max - 1)
+RUSH_INLINE s32 mtMathRandRange(s32 min, s32 max)
+{
+    return (-min - 1) - (mtMathRand() & ((max - 1) * 2));
+}
+
+// returns a random value between 'min' and (max - 1)
+RUSH_INLINE s32 mtMathRandRange2(s32 min, s32 max)
+{
+    return mtMathRandRepeat(max - min) + min;
+}
+
 RUSH_INLINE s32 ClampS32(s32 x, s32 low, s32 high)
 {
     s32 result = x;

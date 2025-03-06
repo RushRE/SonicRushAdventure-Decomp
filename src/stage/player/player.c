@@ -111,7 +111,7 @@ RUSH_INLINE void ChangePlayerKeyMap(Player *work)
 {
     const u16 keyMaps[4] = { PAD_KEY_UP, PAD_KEY_DOWN, PAD_KEY_LEFT, PAD_KEY_RIGHT };
 
-    u16 rand = mtMathRand() & 3;
+    u16 rand = mtMathRandRepeat(4);
 
     work->keyMap.up    = keyMaps[++rand & 3];
     work->keyMap.down  = keyMaps[++rand & 3];
@@ -186,7 +186,7 @@ RUSH_INLINE void HandlePlayerTrickFinish(Player *player)
         [CHARACTER_BLAZE] = { SND_ZONE_SEQARC_GAME_SE_SEQ_SE_YOSHI, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TA },
     };
 
-    PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], voicePerformTrick[player->characterID][mtMathRand() & 1]);
+    PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], voicePerformTrick[player->characterID][mtMathRandRepeat(2)]);
 
     StopPlayerSfx(player, PLAYER_SEQPLAYER_GRINDTRICKSUCCES);
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_GRINDTRICKSUCCES, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GALLERY_MAX);
@@ -215,7 +215,7 @@ RUSH_INLINE void HandlePlayerTrickSuccess1(Player *player)
         [CHARACTER_BLAZE] = { SND_ZONE_SEQARC_GAME_SE_SEQ_SE_YA_BL, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_HA },
     };
 
-    PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], voicePerformTrick[player->characterID][mtMathRand() & 1]);
+    PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], voicePerformTrick[player->characterID][mtMathRandRepeat(2)]);
 
     StopPlayerSfx(player, PLAYER_SEQPLAYER_GRINDTRICKSUCCES);
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_GRINDTRICKSUCCES, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TRICK_SUC1);
@@ -2115,7 +2115,7 @@ void Player__HandleAirMovement(Player *player)
                 if (div > FLOAT_TO_FX32(1.0))
                     div = FLOAT_TO_FX32(1.0);
 
-                accel = (FLOAT_TO_FX32(0.96875) * div) >> FX32_SHIFT;
+                accel = FX32_TO_WHOLE(FLOAT_TO_FX32(0.96875) * div);
             }
 
             airAcceleration = acceleration - MultiplyFX(acceleration, accel);
@@ -4109,7 +4109,7 @@ void Player__State_GroundMove(Player *work)
                     CreateEffectBrakeDustForPlayer(work);
                     if ((work->playerFlag & PLAYER_FLAG_IN_WATER) != 0)
                     {
-                        if ((mtMathRand() & 1) == 0)
+                        if (mtMathRandRepeat(2) == 0)
                             CreateEffectWaterBubbleForPlayer(work, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), mapCamera.camera[work->cameraID].waterLevel);
                     }
                 }
@@ -4460,7 +4460,7 @@ void Player__Action_Jump(Player *player)
 
     if ((player->playerFlag & PLAYER_FLAG_IN_WATER) != 0)
     {
-        if ((mtMathRand() & 1) != 0)
+        if (mtMathRandRepeat(2) != 0)
             CreateEffectWaterBubbleForPlayer(player, 0, 0, mapCamera.camera[player->cameraID].waterLevel);
     }
 
@@ -5460,7 +5460,7 @@ void Player__Action_TrickFinisherVertical(Player *player)
             player->objWork.velocity.y = -(player->jumpForce + (player->jumpForce >> 2));
 
             PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_HOP_JUMP);
-            PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], (mtMathRand() & 3) + SND_ZONE_SEQARC_GAME_SE_SEQ_SE_YEA);
+            PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], mtMathRandRepeat(4) + SND_ZONE_SEQARC_GAME_SE_SEQ_SE_YEA);
             break;
 
         case CHARACTER_BLAZE:
@@ -5487,7 +5487,7 @@ void Player__Action_TrickFinisherVertical(Player *player)
             CreateEffectFlameJetForPlayer(player);
 
             PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ACCEL_TORNADO);
-            PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], (mtMathRand() & 3) + SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FUN);
+            PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], mtMathRandRepeat(4) + SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FUN);
             break;
     }
 
@@ -5546,7 +5546,7 @@ void Player__Action_TrickFinisherHorizontal(Player *player)
 
             PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_HUMMING_TOP);
 
-            PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], (mtMathRand() & 3) + SND_ZONE_SEQARC_GAME_SE_SEQ_SE_YEA);
+            PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], mtMathRandRepeat(4) + SND_ZONE_SEQARC_GAME_SE_SEQ_SE_YEA);
             player->overSpeedLimitTimer = 12;
             break;
 
@@ -5566,7 +5566,7 @@ void Player__Action_TrickFinisherHorizontal(Player *player)
 
             PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_STEP_JUMP);
 
-            PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], (mtMathRand() & 3) + SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FUN);
+            PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], mtMathRandRepeat(4) + SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FUN);
             break;
     }
 
@@ -5606,7 +5606,7 @@ void PLayer__PerformGrindTrick(Player *player)
         {
             // case CHARACTER_SONIC:
             default:
-                if ((mtMathRand() & 1) != 0)
+                if (mtMathRandRepeat(2) != 0)
                     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_YAHOO);
                 else
                     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_OK);
@@ -5615,7 +5615,7 @@ void PLayer__PerformGrindTrick(Player *player)
                 break;
 
             case CHARACTER_BLAZE:
-                if ((mtMathRand() & 1) != 0)
+                if (mtMathRandRepeat(2) != 0)
                     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_YA_BL);
                 else
                     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_HA);
@@ -5649,7 +5649,7 @@ void PLayer__PerformGrindTrick(Player *player)
             {
                 // case CHARACTER_SONIC:
                 default:
-                    if ((mtMathRand() & 1) != 0)
+                    if (mtMathRandRepeat(2) != 0)
                         PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ALL_RIGHT);
                     else
                         PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_COOL);
@@ -5658,7 +5658,7 @@ void PLayer__PerformGrindTrick(Player *player)
                     break;
 
                 case CHARACTER_BLAZE:
-                    if ((mtMathRand() & 1) != 0)
+                    if (mtMathRandRepeat(2) != 0)
                         PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_YOSHI);
                     else
                         PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TA);
@@ -6555,7 +6555,7 @@ void Player__HandleWaterEntry(Player *player)
 
     if ((player->playerFlag & PLAYER_FLAG_IN_WATER) != 0 && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0 && (playerGameStatus.stageTimer & 0x1F) == 0)
     {
-        if ((mtMathRand() & 3) == 0)
+        if (mtMathRandRepeat(4) == 0)
             CreateEffectWaterBubbleForPlayer(player, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), mapCamera.camera[player->cameraID].waterLevel);
     }
 

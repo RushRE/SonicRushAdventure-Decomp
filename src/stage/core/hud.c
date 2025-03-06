@@ -1990,8 +1990,8 @@ void UpdateTensionGaugeHUDState(HUD *work)
         {
             s32 shift = (work->tensionGaugeShakeDuration - work->tensionGaugeShakeTimer) >> 4;
 
-            work->tensionGaugeX = (4 - (mtMathRand() & 7)) >> shift;
-            work->tensionGaugeY = (4 - (mtMathRand() & 7)) >> shift;
+            work->tensionGaugeX = (4 - mtMathRandRepeat(8)) >> shift;
+            work->tensionGaugeY = (4 - mtMathRandRepeat(8)) >> shift;
         }
     }
 

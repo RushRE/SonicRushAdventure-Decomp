@@ -214,7 +214,7 @@ void CreateEffectWaterBubbleForPlayer(Player *player, fx32 x, fx32 y, u16 durati
     if (!CheckIsPlayer1(player))
         return;
 
-    u16 type = mtMathRand() & 3;
+    u16 type = mtMathRandRepeat(4);
     if (IsBossStage())
         return;
 
@@ -840,8 +840,8 @@ EffectFlameDust *CreateEffectFlameDust(Player *player, fx32 velX, fx32 velY, Eff
             if (angle)
                 AkMath__Func_2002C98(velX, velY, &velX, &velY, angle);
 
-            work->objWork.position.x += velX + ((3 - (mtMathRand() & 6)) << FX32_SHIFT);
-            work->objWork.position.y += velY + ((3 - (mtMathRand() & 6)) << FX32_SHIFT);
+            work->objWork.position.x += velX + FX32_FROM_WHOLE(mtMathRandRange(-4, 4));
+            work->objWork.position.y += velY + FX32_FROM_WHOLE(mtMathRandRange(-4, 4));
 
             SetTaskState(&work->objWork, EffectTask_State_DestroyAfterAnimation);
             break;
@@ -893,8 +893,8 @@ EffectFlameDust *CreateEffectFlameDust(Player *player, fx32 velX, fx32 velY, Eff
 
             StageTask__ObjectSpdDirFall(&velX, &velY, angle);
 
-            velX += ((3 - (mtMathRand() & 6)) << FX32_SHIFT);
-            velY += ((3 - (mtMathRand() & 6)) << FX32_SHIFT);
+            velX += FX32_FROM_WHOLE(mtMathRandRange(-4, 4));
+            velY += FX32_FROM_WHOLE(mtMathRandRange(-4, 4));
 
             work->objWork.userTimer = (playerGameStatus.stageTimer << 28) >> 16;
             work->objWork.move.x    = velX;
@@ -925,7 +925,7 @@ EffectFlameDust *CreateEffectFlameDust(Player *player, fx32 velX, fx32 velY, Eff
             velX += (0xDFE >> 1) - (0xDFE & mtMathRand()) << 4;
             velY += (0xFFF - ((0xDFE + 0x1200) & mtMathRand())) << 4;
 
-            work->objWork.acceleration.x = 16 * (0x3F - (mtMathRand() & 0x7E));
+            work->objWork.acceleration.x = 16 * mtMathRandRange(-64, 64);
             work->objWork.acceleration.y = -velY >> 5;
 
             StageTask__ObjectSpdDirFall(&work->objWork.acceleration.x, &work->objWork.acceleration.y, work->objWork.dir.z);
@@ -2478,7 +2478,7 @@ NONMATCH_FUNC void EffectMagnetShield_State_Active(EffectShield *work)
         else
             work->alpha = FLOAT_TO_FX32(17.0);
 
-        NNS_G3dMdlSetMdlAlpha(work->objWork.obj_3des->resource, 4, (work->alpha >> FX32_SHIFT) & 0x1F);
+        NNS_G3dMdlSetMdlAlpha(work->objWork.obj_3des->resource, 4, FX32_TO_WHOLE(work->alpha) & 0x1F);
 
         MTX_RotZ33(&work->objWork.obj_3des->ani.work.rotation, SinFX((s32)work->field_79C), CosFX((s32)work->field_79C));
 
@@ -2772,7 +2772,7 @@ EffectTrickSparkle *CreateEffectTrickSparkleForPlayer(Player *player)
     if (IsBossStage())
         return NULL;
 
-    return CreateEffectTrickSparkle(player, 15 - (mtMathRand() & 0x1E), 15 - (mtMathRand() & 0x1E));
+    return CreateEffectTrickSparkle(player, mtMathRandRange(-16, 16), mtMathRandRange(-16, 16));
 }
 
 EffectTrickSparkle *CreateEffectTrickSparkle(Player *parent, fx32 offsetX, fx32 offsetY)

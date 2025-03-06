@@ -1235,8 +1235,8 @@ void CViMap::SpawnConstructionSparkle(CViMap *work)
 
             AnimatorSprite__SetAnimation(aniSparkle, FX_ModS32(mtMathRand(), 10));
 
-            work->sparklePos[i].x = (mtMathRand() & 0x3F) - 32;
-            work->sparklePos[i].y = (mtMathRand() & 0x1F) - 47;
+            work->sparklePos[i].x = mtMathRandRange2(-32, 32);
+            work->sparklePos[i].y = mtMathRandRepeat(32) - 47; // (-48, -16) ?
 
             work->sparklePos[i].x += work->constructionPos.x;
             work->sparklePos[i].y += work->constructionPos.y;

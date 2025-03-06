@@ -325,7 +325,7 @@ void StarCombo__DisplayConfetti(Player *player)
             particle->velocity.x = velX - (0x7FFF & mtMathRand());             // 4.0 - Rand(0.0, 8.0)
             particle->velocity.y = (velY & mtMathRand()) - FLOAT_TO_FX32(7.5); // Rand(0.0, 1.5) - 7.5;
 
-            particle->animID        = StarCombo__ConfettiAnimIDs[mtMathRand() & 0xF];
+            particle->animID        = StarCombo__ConfettiAnimIDs[mtMathRandRepeat(16)];
             particle->screensToDraw = MapSys__GetDispSelect() != GX_DISP_SELECT_SUB_MAIN;
         }
     }
@@ -402,7 +402,7 @@ void StarCombo__Main(void)
             if (work->starStates[i] != NULL)
             {
                 work->starStates[i]  = StarCombo__StateStar_ComboFailDelay;
-                work->stars[i].timer = mtMathRand() & 7;
+                work->stars[i].timer = mtMathRandRepeat(8);
                 StarCombo__SetStarAnimation(&work->starAnimators[i], STARCOMBO_ANIM_IDLE);
                 work->starAnimators[i].work.flags &= ~ANIMATOR_FLAG_DISABLE_LOOPING;
             }
@@ -648,7 +648,7 @@ void StarCombo__InsertStar(StarCombo *work, s32 id)
 
     star->startPosition.x = START_X;
     star->position.x      = START_X;
-    star->position.y = star->startPosition.y = FX32_FROM_WHOLE(((mtMathRand() & 0x1F) + 1) << 4); // (Rand(0, 32) + 1) << 4
+    star->position.y = star->startPosition.y = FX32_FROM_WHOLE((mtMathRandRepeat(32) + 1) << 4); // (Rand(0, 32) + 1) << 4
 
     star->targetPosition.x = (24 * CosFX(angle)) + DEST_X;
     star->targetPosition.y = (24 * SinFX(angle)) + DEST_Y;
@@ -770,8 +770,8 @@ void StarCombo__StateStar_EnterTensionGauge(StarCombo *work, s32 id)
         work->starStates[id] = StarCombo__StateStar_ExitStar;
         StarCombo__SetStarAnimation(&work->starAnimators[id], STARCOMBO_ANIM_EXITSTAR);
         work->starAnimators[id].work.flags &= ~ANIMATOR_FLAG_DISABLE_LOOPING;
-        star->position.x = star->targetPosition.x + FX32_FROM_WHOLE((mtMathRand() & 0xF) - 7); // Rand(-8, 8)
-        star->position.y = star->targetPosition.y + FX32_FROM_WHOLE((mtMathRand() & 0xF) - 7); // Rand(-8, 8)
+        star->position.x = star->targetPosition.x + FX32_FROM_WHOLE(mtMathRandRepeat(16) - 7); // Rand(-8, 8)
+        star->position.y = star->targetPosition.y + FX32_FROM_WHOLE(mtMathRandRepeat(16) - 7); // Rand(-8, 8)
         Player__GiveTension(work->player, STARCOMBO_STAR_AWARD_TENSION);
     }
 }
@@ -1249,10 +1249,10 @@ void TrickConfetti__Main(void)
         if (particle->velocity.y > 0)
             particle->velocity.y += FLOAT_TO_FX32(0.09375);
 
-        if ((mtMathRand() & 0x1F) == 0)
+        if (mtMathRandRepeat(32) == 0)
             particle->velocity.x = (s16)-particle->velocity.x;
 
-        if ((mtMathRand() & 0x1F) == 0)
+        if (mtMathRandRepeat(32) == 0)
             particle->velocity.y = 0;
 
         particle->position.x += particle->velocity.x;

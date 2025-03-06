@@ -1436,11 +1436,11 @@ s32 Boss1Stage__GetBiteType(Boss1Stage *work)
 {
     if (gmCheckMissionType(MISSION_TYPE_BOSS_REMATCH))
     {
-        return biteTypes[BOSS1_PHASE_4][mtMathRand() & 3];
+        return biteTypes[BOSS1_PHASE_4][mtMathRandRepeat(4)];
     }
     else
     {
-        return biteTypes[Boss1Stage__GetBossPhase(work)][mtMathRand() & 3];
+        return biteTypes[Boss1Stage__GetBossPhase(work)][mtMathRandRepeat(4)];
     }
 }
 
@@ -3366,7 +3366,7 @@ s32 Boss1__GetNextAttack(Boss1Stage *stage, Boss1AttackConfig *state)
     Boss1Phase phase = Boss1Stage__GetBossPhase(stage);
     if (state->attackTable == NULL || state->id >= 4 || phase != state->phase)
     {
-        s32 id = mtMathRand() & 3;
+        s32 id = mtMathRandRepeat(4);
 
         state->id    = 0;
         state->phase = phase;
@@ -4123,8 +4123,8 @@ void Boss1__BossState_IdleChooseAttack(Boss1 *work)
             break;
 
         case 3:
-            u32 chargeDir = (mtMathRand() & 1) ? 1 : 0;
-            Boss1__Action_Charge(work, chargeDir, (mtMathRand() & 1) != 0);
+            u32 chargeDir = mtMathRandRepeat(2) != 0 ? 1 : 0;
+            Boss1__Action_Charge(work, chargeDir, mtMathRandRepeat(2) != 0);
             break;
 
         case 4:
@@ -5313,9 +5313,9 @@ void Boss1__BossState_Jump2(Boss1 *work)
 
 BossFX2D *Boss1__CreateSmokeFX(fx32 x, fx32 y, fx32 z)
 {
-    fx32 smokeX = x + MultiplyFX(FLOAT_TO_FX32(321.73095703125), (mtMathRand() & 0xFFF)) - FLOAT_TO_FX32(160.865478515625);
-    fx32 smokeY = y + MultiplyFX((mtMathRand() & 0xFFF), FLOAT_TO_FX32(128.0));
-    fx32 smokeZ = MultiplyFX((mtMathRand() & 0xFFF), FLOAT_TO_FX32(128.0));
+    fx32 smokeX = x + MultiplyFX(FLOAT_TO_FX32(321.73095703125), mtMathRandRepeat(FLOAT_TO_FX32(1.0))) - FLOAT_TO_FX32(160.865478515625);
+    fx32 smokeY = y + MultiplyFX(mtMathRandRepeat(FLOAT_TO_FX32(1.0)), FLOAT_TO_FX32(128.0));
+    fx32 smokeZ = MultiplyFX(mtMathRandRepeat(FLOAT_TO_FX32(1.0)), FLOAT_TO_FX32(128.0));
 
     if ((z > 0 && smokeZ > 0) || (z < 0 && smokeZ < 0))
         smokeZ = -smokeZ;
@@ -6030,7 +6030,7 @@ void Boss1__BossState_ChargeDeactivateRevive(Boss1 *work)
 {
     if (Boss1__CheckAnimFinished(work))
     {
-        Boss1__Action_Jump(work, mtMathRand() & 1);
+        Boss1__Action_Jump(work, mtMathRandRepeat(2));
     }
 }
 

@@ -237,8 +237,8 @@ void Balloon_State_FloatingUp(Balloon *work)
             {
                 AkMath__Func_2002C98(FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(66.0), &x, &y, work->gameWork.objWork.dir.z);
 
-                fx32 offsetX = FX32_FROM_WHOLE((mtMathRand() & 7) - 4);
-                fx32 offsetY = FX32_FROM_WHOLE((mtMathRand() & 7) - 4);
+                fx32 offsetX = FX32_FROM_WHOLE(mtMathRandRange2(-4, 4));
+                fx32 offsetY = FX32_FROM_WHOLE(mtMathRandRange2(-4, 4));
 
                 EffectHoverCrystalSparkle__Create(work->gameWork.objWork.position.x + x + offsetX, work->gameWork.objWork.position.y + y + offsetY,
                                                   -work->gameWork.objWork.move.x >> 4, -work->gameWork.objWork.move.y >> 3, offsetX >> 7, FLOAT_TO_FX32(0.0));

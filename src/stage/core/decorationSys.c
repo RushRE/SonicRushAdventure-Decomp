@@ -3806,10 +3806,10 @@ void DecorationSys__CreateWaterBubble(StageDecoration *work)
     work->objWork.userTimer--;
     if (work->objWork.userTimer <= 0)
     {
-        EffectWaterBubble__Create(work->objWork.position.x + FX32_FROM_WHOLE(((mtMathRand() & 7) - 3)), work->objWork.position.y - FLOAT_TO_FX32(4.0), (u16)(mtMathRand() & 1),
+        EffectWaterBubble__Create(work->objWork.position.x + FX32_FROM_WHOLE((mtMathRandRepeat(8) - 3)), work->objWork.position.y - FLOAT_TO_FX32(4.0), (u16)mtMathRandRepeat(2),
                                   mapCamera.camera[0].waterLevel);
 
-        work->objWork.userTimer = (mtMathRand() & 0x3F) + 8;
+        work->objWork.userTimer = mtMathRandRepeat(64) + 8;
     }
 }
 
@@ -4597,7 +4597,7 @@ void DecorationSys__State_2154520(StageDecoration *work)
     work->objWork.userTimer--;
     if (work->objWork.userTimer <= 0)
     {
-        u32 type = mtMathRand() & 0xF;
+        u32 type = mtMathRandRepeat(16);
         type     = (type << 0x1D) >> 0x1C;
 
         // BUG(?)
@@ -4608,7 +4608,7 @@ void DecorationSys__State_2154520(StageDecoration *work)
         if (sparkle != NULL)
             StageTask__SetAnimatorPriority(&sparkle->objWork, work->objWork.obj_2d->ani.work.oamPriority);
 
-        work->objWork.userTimer = (mtMathRand() & 0x1F) + 60;
+        work->objWork.userTimer = mtMathRandRepeat(32) + 60;
     }
 }
 
@@ -4646,10 +4646,10 @@ void DecorationSys__CreateTripleGrindRailLeaf(fx32 x, fx32 y, fx32 velX, fx32 ve
 
 void DecorationSys__State_215475C(StageDecoration *work)
 {
-    if ((mtMathRand() & 0x1F) == 0)
+    if (mtMathRandRepeat(32) == 0)
         work->objWork.velocity.x = -work->objWork.velocity.x;
 
-    if ((mtMathRand() & 0x1F) == 0)
+    if (mtMathRandRepeat(32) == 0)
         work->objWork.velocity.y >>= 2;
 }
 
@@ -4751,9 +4751,9 @@ NONMATCH_FUNC void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_REC
                 {
                     decor->decorWork.objWork.userTimer = 32;
 
-                    if ((mtMathRand() & 1) != 0)
+                    if (mtMathRandRepeat(2) != 0)
                     {
-                        s32 count = (mtMathRand() & 1) + 3;
+                        s32 count = mtMathRandRepeat(2) + 3;
 
                         fx32 moveX = player->objWork.move.x >> 1;
                         fx32 moveY = player->objWork.move.y >> 1;
@@ -4763,8 +4763,8 @@ NONMATCH_FUNC void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_REC
                         fx32 velY = 0;
                         for (s32 i = 0; i < count; i++)
                         {
-                            DecorationSys__CreateTripleGrindRailLeaf(leafX + FLOAT_TO_FX32(8.0) - (mtMathRand() & 0xFFFF), leafY + FLOAT_TO_FX32(4.0) - (mtMathRand() & 0x7FFF),
-                                                                     FLOAT_TO_FX32(2.0) - (mtMathRand() & 0x3FFF), FLOAT_TO_FX32(1.0) - (mtMathRand() & 0x1FFF) + velY,
+                            DecorationSys__CreateTripleGrindRailLeaf(leafX + FLOAT_TO_FX32(8.0) - mtMathRandRepeat(0x10000), leafY + FLOAT_TO_FX32(4.0) - mtMathRandRepeat(0x8000),
+                                                                     FLOAT_TO_FX32(2.0) - mtMathRandRepeat(0x4000), FLOAT_TO_FX32(1.0) - mtMathRandRepeat(0x2000) + velY,
                                                                      animTable[i]);
 
                             leafX += moveX;

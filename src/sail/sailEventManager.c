@@ -242,14 +242,14 @@ NONMATCH_FUNC void SailEventManager__ProcessSBB(void)
 
                         if (eventManager->field_44)
                         {
-                            unknownID              = _0218CD30[6][mtMathRand() & 0xF];
+                            unknownID              = _0218CD30[6][mtMathRandRepeat(16)];
                             eventManager->field_44 = 0;
                         }
                         else
                         {
-                            if (_0218CD30[v21][mtMathRand() & 0xF])
+                            if (_0218CD30[v21][mtMathRandRepeat(16)])
                             {
-                                if (v21 && _0218CD30[5][mtMathRand() & 0xF] != 0)
+                                if (v21 && _0218CD30[5][mtMathRandRepeat(16)] != 0)
                                 {
                                     unknownID = 3;
                                 }
@@ -260,7 +260,7 @@ NONMATCH_FUNC void SailEventManager__ProcessSBB(void)
                             }
                             else
                             {
-                                unknownID = _0218CD30[7][mtMathRand() & 0xF];
+                                unknownID = _0218CD30[7][mtMathRandRepeat(16)];
                             }
                         }
 
