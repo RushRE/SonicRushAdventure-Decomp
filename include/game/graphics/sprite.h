@@ -191,6 +191,7 @@ enum Animator2DTypes_
     ANIMATOR2D_NONE,
     ANIMATOR2D_SPRITE,
     ANIMATOR2D_SPRITE_DS,
+    ANIMATOR2D_SPRITE_DS_2,
 };
 typedef u32 Animator2DTypes;
 
@@ -560,6 +561,24 @@ RUSH_INLINE void AnimatorSpriteDS__AnimateManualFast(AnimatorSpriteDS *animator,
     AnimatorSpriteDS__AnimateManual(animator, advance, NULL, NULL);
 }
 
+RUSH_INLINE void Animator2D__SetAnimation(AnimatorSprite *animator, u16 anim)
+{
+    switch (animator->type)
+    {
+        case ANIMATOR2D_SPRITE:
+            AnimatorSprite__SetAnimation(animator, anim);
+            break;
+
+        case ANIMATOR2D_SPRITE_DS:
+            AnimatorSpriteDS__SetAnimation((AnimatorSpriteDS *)animator, anim);
+            break;
+
+        case ANIMATOR2D_SPRITE_DS_2:
+            AnimatorSpriteDS__SetAnimation2((AnimatorSpriteDS *)animator, anim);
+            break;
+    }
+}
+
 RUSH_INLINE void Animator3D__Process(Animator3D *animator)
 {
     switch (animator->type)
@@ -595,7 +614,6 @@ RUSH_INLINE void Animator3D__Release(Animator3D *animator)
             break;
     }
 }
-
 
 #ifdef __cplusplus
 }

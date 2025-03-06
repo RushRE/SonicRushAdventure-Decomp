@@ -1,16 +1,6 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
-	.rodata
-
-.public _0218BC58
-_0218BC58: // 0x0218BC58
-    .word 0, 0x1000, 0
-
-.public _0218BC64
-_0218BC64: // 0x0218BC64
-    .byte 0x80, 0, 0, 1, 0x80, 0, 0x20, 0, 0x80, 0xFF, 0, 0xFF, 0x80, 0xFF, 0xE0, 0xFF
-
 	.data
 
 aSbLandBac: // 0x0218D2B0

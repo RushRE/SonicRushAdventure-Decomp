@@ -23,11 +23,38 @@ RUSH_INLINE u32 ObjDispRandSeed(void)
     return _obj_disp_rand;
 }
 
+// returns a random value between 0 and 0xFFFF
 RUSH_INLINE u16 ObjDispRand(void)
 {
     _obj_disp_rand = (u32)(1663525 * (s32)_obj_disp_rand + 1013904223);
     return (u16)(_obj_disp_rand >> 16);
 }
+
+// returns a random value between 0 and (max - 1)
+RUSH_INLINE s32 ObjDispRandRepeat(s32 max)
+{
+    return ObjDispRand() & (max - 1);
+}
+
+// returns a random value between 'min' and (max - 1)
+RUSH_INLINE s32 ObjDispRandRange(s32 min, s32 max)
+{
+    return (-min - 1) - (ObjDispRand() & ((max - 1) * 2));
+}
+
+// returns a random value between 'min' and (max - 1)
+RUSH_INLINE s32 ObjDispRandRange2(s32 min, s32 max)
+{
+    return min + ObjDispRandRepeat(max - min);
+}
+
+// returns a random value between 'min' and (max - 1)
+RUSH_INLINE s32 ObjDispRandRange3(s32 min, s32 max)
+{
+    return (-min - 1) - (ObjDispRand() & (max - 1));
+}
+
+#define ObjDispRandRange4(min, max) (((min) - 1) - ((ObjDispRand() & (((max - min) - 1) * 2))))
 
 // --------------------
 // FUNCTIONS

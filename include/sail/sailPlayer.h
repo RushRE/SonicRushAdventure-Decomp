@@ -193,8 +193,7 @@ typedef struct SailPlayer_
     VecFx32 racePos;
     s32 field_260;
     PaletteTexture paletteTex;
-    s32 field_270;
-    s32 field_274;
+    u16 lightColor[3];
     void *shipSndHandles[2];
     NNSSndHandle *sndHandles[2];
 } SailPlayer;

@@ -18,7 +18,7 @@ NOT_DECOMPILED void Unknown2066510__LerpMtx43(void);
 NOT_DECOMPILED void Unknown2066510__NormalizeScale(void);
 NOT_DECOMPILED void Unknown2066510__Func_2066724(void);
 NOT_DECOMPILED void Unknown2066510__Func_20668A8(void);
-NOT_DECOMPILED void Unknown2066510__Func_2066A4C(void);
+NOT_DECOMPILED void Unknown2066510__Func_2066A4C(VecFx32 *a1, VecFx32 *a2, VecFx32 *a3, MtxFx43 *a4);
 NOT_DECOMPILED void Unknown2066510__Func_2066AC0(void);
 NOT_DECOMPILED void Unknown2066510__Func_2066B94(void);
 NOT_DECOMPILED void Unknown2066510__Func_2066C24(void);

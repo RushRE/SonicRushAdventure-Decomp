@@ -313,6 +313,12 @@ struct StageTask_
 };
 
 // --------------------
+// VARIABLES
+// --------------------
+
+extern s8 const StageTask__shakeOffsetTable[];
+
+// --------------------
 // FUNCTIONS
 // --------------------
 

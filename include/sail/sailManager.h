@@ -63,28 +63,32 @@ typedef u32 SailManagerFlags;
 // --------------------
 
 // TODO: probably temp until we find a better spot for it
+typedef struct SailColliderWorkUnknown_
+{
+    VecFx32 field_0;
+    VecFx32 field_C;
+    VecFx32 field_18;
+    VecFx32 field_24;
+    u16 angle;
+    u16 field_32;
+    VecFx32 *field_34;
+} SailColliderWorkUnknown;
+
 typedef struct SailColliderWork_
 {
-    u16 field_0;
+    u16 type;
     u16 field_2;
-    VecFx32 field_4;
-    VecFx32 field_10;
-    VecFx32 field_1C;
-    VecFx32 field_28;
-    s32 field_34;
-    s32 field_38;
+    SailColliderWorkUnknown field_4;
     s32 field_3C;
     VecFx32 field_40;
     s32 field_4C;
-    s32 field_50;
-    s32 field_54;
-    s32 field_58;
-    s32 field_5C;
+    VecFx32 *field_50;
+    VecFx32 field_54;
     s32 field_60;
     s32 field_64;
     s32 field_68;
     StageTask *stageTask;
-    u32 atkPower;
+    s32 atkPower;
     u16 field_74;
     u16 field_76;
 } SailColliderWork;
@@ -145,6 +149,12 @@ typedef struct SailManager_
     void *archive;
     u32 field_5DC;
 } SailManager;
+
+// --------------------
+// VARIABLES
+// --------------------
+
+extern u8 const shipShiftUnknown[SHIP_COUNT];
 
 // --------------------
 // FUNCTIONS

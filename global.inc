@@ -14403,7 +14403,7 @@
 .public SailObject__Destructor_2169B20
 .public SailObject__ViewCheck_2169B60
 .public SailObject__OnDefend_2169BAC
-.public SailObject__Func_216A168
+.public SailObject__GivePlayerScore
 .public SailObject__Func_216A1C4
 .public SailObject__Func_216A46C
 .public SailObject__Func_216A4E8

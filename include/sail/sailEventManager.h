@@ -62,7 +62,7 @@ enum SailMapObjectIDs
     SAILMAPOBJECT_COUNT,
 };
 
-enum SailObjectFlags
+enum SailObjectFlags_
 {
     SAILOBJECT_FLAG_NONE = 0x00,
 
@@ -76,6 +76,7 @@ enum SailObjectFlags
     SAILOBJECT_FLAG_40000000 = 0x40000000,
     SAILOBJECT_FLAG_80000000 = 0x80000000,
 };
+typedef u32 SailObjectFlags;
 
 // --------------------
 // STRUCTS
@@ -129,8 +130,8 @@ typedef struct SailEventManagerObject_
 {
     s32 field_0;
     s32 field_4;
-    StageTask *objRef;
-    SailRing *ringRef;
+    StageTask *objTask;
+    SailRing *ringTask;
     VecFx32 unknown;
     VecFx32 position;
     s32 objectValue10;
@@ -138,7 +139,7 @@ typedef struct SailEventManagerObject_
     u16 angle;
     u16 type;
     u16 word32;
-    u32 flags;
+    SailObjectFlags flags;
     u32 objectValue14;
     SBBObject *objectRef;
 } SailEventManagerObject;

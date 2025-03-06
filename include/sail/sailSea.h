@@ -49,8 +49,8 @@ typedef struct SailSea_
 {
     s32 timer;
     VecFx32 translation;
-    u16 field_10;
-    u16 field_12;
+    u16 angle1;
+    u16 angle2;
     u16 field_14;
     u16 field_16;
     s32 field_18;

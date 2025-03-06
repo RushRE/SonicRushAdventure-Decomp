@@ -1,4 +1,5 @@
 #include <sail/sailDemoPlayer.h>
+#include <sail/sailCommonObjects.h>
 #include <game/game/gameState.h>
 #include <game/graphics/drawFadeTask.h>
 #include <game/input/replayRecorder.h>
@@ -49,7 +50,7 @@ void CreateSailDemoPlayer(void)
     state->curDemoID = state->unknownDemoID;
 
     work = CreateStageTaskSimpleEx(TASK_PRIORITY_UPDATE_LIST_START + 2, TASK_GROUP(4));
-    StageTask__SetType(work, 2);
+    StageTask__SetType(work, SAILSTAGE_OBJ_TYPE_EFFECT);
 
     work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     work->displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_SCREEN_RELATIVE;

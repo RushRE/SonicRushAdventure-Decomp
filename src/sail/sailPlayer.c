@@ -177,10 +177,11 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
     SailManager *manager;
 
     manager = SailManager__GetWork();
-    work    = CreateStageTaskSimple();
 
-    StageTask__SetType(work, 0);
+    work    = CreateStageTaskSimple();
+    StageTask__SetType(work, SAILSTAGE_OBJ_TYPE_PLAYER);
     SetTaskDestructorEvent(work->taskRef, SailPlayer__Destructor);
+	
     worker = StageTask__AllocateWorker(work, sizeof(SailPlayer));
 
     if (isRival)
@@ -304,8 +305,8 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
 
             SailObject__SetupHitbox(work, worker->colliders, 0);
             SailObject__Func_21658D0(work, 0, FLOAT_TO_FX32(9.0), NULL);
-            worker->colliders[0].field_28.z = FLOAT_TO_FX32(4.0);
-            worker->colliders[0].field_28.y = FLOAT_TO_FX32(2.0);
+            worker->colliders[0].field_4.field_24.z = FLOAT_TO_FX32(4.0);
+            worker->colliders[0].field_4.field_24.y = FLOAT_TO_FX32(2.0);
             ObjRect__SetOnDefend(work->colliderList[0], SailPlayer__OnDefend_Boat);
 
             NNS_G3dRenderObjSetCallBack(&work->obj_3d->ani.renderObj, SailPlayer__BoatRenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
