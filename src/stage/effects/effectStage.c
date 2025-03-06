@@ -1378,8 +1378,8 @@ void EffectMedal__State_202D514(EffectMedal *work)
     {
         if ((work->sparkleTimer & 0xF) == 0)
         {
-            fx32 offsetY = FX32_FROM_WHOLE((15 - (ObjDispRand() & 30)));
-            fx32 offsetX = FX32_FROM_WHOLE((15 - (ObjDispRand() & 30)));
+            fx32 offsetY = FX32_FROM_WHOLE(ObjDispRandRange(-16, 16));
+            fx32 offsetX = FX32_FROM_WHOLE(ObjDispRandRange(-16, 16));
             EffectRingSparkle__Create(work->objWork.position.x + offsetX, work->objWork.position.y + offsetY, 0, 0, 0, 0);
         }
 

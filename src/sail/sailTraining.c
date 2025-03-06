@@ -199,7 +199,7 @@ void SailTraining_Main_TrainingActive(void)
 
             if ((work->flags & SAILTRAINING_FLAG_FINISHED) != 0 && (manager->flags & SAILMANAGER_FLAG_10) == 0)
             {
-                SailPlayer__RemoveHealth(player, -SAILPLAYER_HEALTH_MAX);
+                SailPlayer__AddHealth(player, SAILPLAYER_HEALTH_MAX);
 
                 voyageManager->field_6C = 0;
                 voyageManager->field_6E = 0;
@@ -250,7 +250,7 @@ void SailTraining_Main_TrainingActive(void)
 
     // auto-heal player
     if (hud->field_10 == hud->field_28 && hud->field_10 <= FLOAT_TO_FX32(128.0))
-        SailPlayer__RemoveHealth(player, -SAILPLAYER_HEALTH_MAX);
+        SailPlayer__AddHealth(player, SAILPLAYER_HEALTH_MAX);
 }
 
 BOOL SailTraining_State_Jet(void)
@@ -338,7 +338,7 @@ BOOL SailTraining_State_Jet(void)
             }
             else
             {
-                if ((player->userFlag & 4) != 0 && (work->jet.rings & 4) == 0)
+                if ((player->userFlag & SAILPLAYER_FLAG_4) != 0 && (work->jet.rings & SAILPLAYER_FLAG_4) == 0)
                     work->timer++;
 
                 work->jet.rings = player->userFlag;
@@ -352,7 +352,7 @@ BOOL SailTraining_State_Jet(void)
                 work->jet.flags |= 1;
             }
 
-            if ((player->userFlag & 1) == 0 && playerWorker->boost <= FLOAT_TO_FX32(30.0))
+            if ((player->userFlag & SAILPLAYER_FLAG_BOOST) == 0 && playerWorker->boost <= FLOAT_TO_FX32(30.0))
                 SailPlayer__GiveBoost(player, SAILPLAYER_BOOST_START);
 
             if (playerWorker->enemyDefeatCount > 0)
@@ -370,7 +370,7 @@ BOOL SailTraining_State_Jet(void)
             if (voyageManager->voyagePos >= FLOAT_TO_FX32(2000.0))
             {
                 work->flags |= SAILTRAINING_FLAG_FINISHED;
-                SailPlayer__RemoveHealth(player, -SAILPLAYER_HEALTH_MAX);
+                SailPlayer__AddHealth(player, SAILPLAYER_HEALTH_MAX);
                 return TRUE;
             }
             break;
@@ -498,7 +498,7 @@ BOOL SailTraining_State_Boat(void)
                 if ((work->boat.flags & 1) != 0 && (work->boat.flags & 2) != 0)
                 {
                     work->flags |= SAILTRAINING_FLAG_FINISHED;
-                    SailPlayer__RemoveHealth(player, -SAILPLAYER_HEALTH_MAX);
+                    SailPlayer__AddHealth(player, SAILPLAYER_HEALTH_MAX);
                     return TRUE;
                 }
             }
@@ -593,7 +593,7 @@ BOOL SailTraining_State_Hover(void)
             if (voyageManager->voyagePos >= FLOAT_TO_FX32(2112.0))
             {
                 work->flags |= SAILTRAINING_FLAG_FINISHED;
-                SailPlayer__RemoveHealth(player, -SAILPLAYER_HEALTH_MAX);
+                SailPlayer__AddHealth(player, SAILPLAYER_HEALTH_MAX);
                 return TRUE;
             }
             break;
@@ -671,7 +671,7 @@ BOOL SailTraining_State_Submarine(void)
             if (voyageManager->voyagePos >= FLOAT_TO_FX32(1408.0))
             {
                 work->flags |= SAILTRAINING_FLAG_FINISHED;
-                SailPlayer__RemoveHealth(player, -SAILPLAYER_HEALTH_MAX);
+                SailPlayer__AddHealth(player, SAILPLAYER_HEALTH_MAX);
                 return TRUE;
             }
             break;

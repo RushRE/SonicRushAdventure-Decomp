@@ -204,7 +204,7 @@ static u16 const initialAnimList[CHARACTER_COUNT][2] = {
     work->gameWork.objWork.obj_3d->ani.work.translation2.y = -FLOAT_TO_FX32(16.0);
     work->gameWork.objWork.obj_3d->ani.work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
     work->gameWork.objWork.obj_3d->ani.work.matrixOpIDs[1] = MATRIX_OP_IDENTITY;
-    work->gameWork.objWork.obj_3d->ani.work.matrixOpIDs[2] = MATRIX_OP_LOAD_MTX43_TRANSLATE_SCALE_VEC;
+    work->gameWork.objWork.obj_3d->ani.work.matrixOpIDs[2] = MATRIX_OP_IDENTITY_ROTATE_TRANSLATE2_SCALE;
     AnimatorMDL__SetAnimation(&work->gameWork.objWork.obj_3d->ani, B3D_ANIM_JOINT_ANIM, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_JOINT_ANIM],
                               initialAnimList[player->characterID][type], NULL);
 

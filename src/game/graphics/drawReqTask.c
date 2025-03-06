@@ -1047,7 +1047,7 @@ NONMATCH_FUNC void Camera3D__FlushWVP(void)
 #endif
 }
 
-void Camera3D__CopyMatrix4x3(const MtxFx43 *src, MtxFx43 *dst)
+void Camera3D__CopyMatrix4x3(const MtxFx43 *src, MtxFx33 *dst)
 {
     dst->m[0][0] = src->m[0][0];
     dst->m[0][1] = src->m[1][0];
@@ -1060,7 +1060,7 @@ void Camera3D__CopyMatrix4x3(const MtxFx43 *src, MtxFx43 *dst)
     dst->m[2][2] = src->m[2][2];
 }
 
-void Camera3D__CopyMatrix3x3(const MtxFx33 *src, MtxFx33 *dst)
+void Camera3D__CopyMatrix3x3(const MtxFx43 *src, MtxFx33 *dst)
 {
     dst->m[0][0] = src->m[0][0];
     dst->m[0][1] = src->m[1][0];

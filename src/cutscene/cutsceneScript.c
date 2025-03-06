@@ -1501,7 +1501,7 @@ CutsceneScriptResult CutsceneScript_ModelCommand_SetModelRotation(ScriptThread *
     MTX_RotZ33(&mtxTemp, SinFX((s32)z), CosFX((s32)z));
     MTX_Concat33(&mtx, &mtxTemp, &mtx);
 
-    MI_CpuCopy32(&mtx, &aniModel->work.matrix33, sizeof(MtxFx33));
+    MI_CpuCopy32(&mtx, &aniModel->work.rotation, sizeof(MtxFx33));
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }

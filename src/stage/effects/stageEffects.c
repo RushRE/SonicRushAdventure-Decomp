@@ -1079,7 +1079,7 @@ void EffectFlameJet_State_Active(EffectFlameJet *work)
         else
         {
             VecFx32 translation;
-            VEC_SetFromArray(&translation, &work->objWork.parentObj->obj_3d->ani.work.matrix33.m[2][0]);
+            VEC_SetFromArray(&translation, &work->objWork.parentObj->obj_3d->ani.work.rotation.m[2][0]);
 
             work->objWork.position.x += MultiplyFX(-FLOAT_TO_FX32(20.0), translation.x);
             work->objWork.position.y -= MultiplyFX(-FLOAT_TO_FX32(20.0), translation.y);
@@ -2275,8 +2275,8 @@ NONMATCH_FUNC void EffectRegularShield_State_Active(EffectShield *work)
             work->esWork[4].flags &= ~0x80;
 
         MtxFx33 matTemp;
-        EffectRegularShield__RotateMtx(&work->objWork.obj_3des->ani.work.matrix33, &matTemp, work->field_79C);
-        EffectRegularShield__RotateMtx(&work->esWork[3].ani.work.matrix33, &matTemp, -work->field_79E);
+        EffectRegularShield__RotateMtx(&work->objWork.obj_3des->ani.work.rotation, &matTemp, work->field_79C);
+        EffectRegularShield__RotateMtx(&work->esWork[3].ani.work.rotation, &matTemp, -work->field_79E);
 
         if ((player->playerFlag & PLAYER_FLAG_SHIELD_REGULAR) == 0 || (player->playerFlag & PLAYER_FLAG_SHIELD_MAGNET) != 0)
             DestroyStageTask(&work->objWork);
@@ -2480,14 +2480,14 @@ NONMATCH_FUNC void EffectMagnetShield_State_Active(EffectShield *work)
 
         NNS_G3dMdlSetMdlAlpha(work->objWork.obj_3des->resource, 4, (work->alpha >> FX32_SHIFT) & 0x1F);
 
-        MTX_RotZ33(&work->objWork.obj_3des->ani.work.matrix33, SinFX((s32)work->field_79C), CosFX((s32)work->field_79C));
+        MTX_RotZ33(&work->objWork.obj_3des->ani.work.rotation, SinFX((s32)work->field_79C), CosFX((s32)work->field_79C));
 
-        MtxFx33 *mtx = &work->esWork[6].ani.work.matrix33;
+        MtxFx33 *mtx = &work->esWork[6].ani.work.rotation;
         MTX_RotY33(mtx, SinFX((s32)(u16)-work->field_79E), CosFX((s32)(u16)-work->field_79E));
         MTX_RotZ33(&matTemp, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
         MTX_Concat33(mtx, &matTemp, mtx);
 
-        MTX_RotZ33(&work->esWork[5].ani.work.matrix33, SinFX((s32)work->field_7A0), CosFX((s32)work->field_7A0));
+        MTX_RotZ33(&work->esWork[5].ani.work.rotation, SinFX((s32)work->field_7A0), CosFX((s32)work->field_7A0));
 
         if ((player->playerFlag & PLAYER_FLAG_SHIELD_MAGNET) == 0)
             DestroyStageTask(&work->objWork);

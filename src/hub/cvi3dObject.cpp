@@ -546,20 +546,20 @@ void CVi3dObject::Draw()
     this->aniBody.work.scale.x       = MultiplyFX(this->scale.x, this->worldScale.x);
     this->aniBody.work.scale.y       = MultiplyFX(this->scale.y, this->worldScale.y);
     this->aniBody.work.scale.z       = MultiplyFX(this->scale.z, this->worldScale.z);
-    MTX_RotY33(&this->aniBody.work.matrix33, SinFX(this->currentTurnAngle + this->rotationY), CosFX(this->currentTurnAngle + this->rotationY));
+    MTX_RotY33(&this->aniBody.work.rotation, SinFX(this->currentTurnAngle + this->rotationY), CosFX(this->currentTurnAngle + this->rotationY));
 
     if (this->rotationX != FLOAT_DEG_TO_IDX(0.0))
     {
         MtxFx33 mtx;
         MTX_RotX33(&mtx, SinFX(this->rotationX), CosFX(this->rotationX));
-        MTX_Concat33(&this->aniBody.work.matrix33, &mtx, &this->aniBody.work.matrix33);
+        MTX_Concat33(&this->aniBody.work.rotation, &mtx, &this->aniBody.work.rotation);
     }
 
     if (this->rotationZ != FLOAT_DEG_TO_IDX(0.0))
     {
         MtxFx33 mtx;
         MTX_RotZ33(&mtx, SinFX(this->rotationZ), CosFX(this->rotationZ));
-        MTX_Concat33(&this->aniBody.work.matrix33, &mtx, &this->aniBody.work.matrix33);
+        MTX_Concat33(&this->aniBody.work.rotation, &mtx, &this->aniBody.work.rotation);
     }
 
     AnimatorMDL__Draw(&this->aniBody);
@@ -572,7 +572,7 @@ void CVi3dObject::Draw()
         this->aniTail.work.scale.x       = this->aniBody.work.scale.x;
         this->aniTail.work.scale.y       = this->aniBody.work.scale.y;
         this->aniTail.work.scale.z       = this->aniBody.work.scale.z;
-        MI_CpuCopy16(&this->aniBody.work.matrix33, &this->aniTail.work.matrix33, sizeof(this->aniBody.work.matrix33));
+        MI_CpuCopy16(&this->aniBody.work.rotation, &this->aniTail.work.rotation, sizeof(this->aniBody.work.rotation));
 
         AnimatorMDL__Draw(&this->aniTail);
     }

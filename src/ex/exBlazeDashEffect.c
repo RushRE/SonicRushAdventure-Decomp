@@ -454,7 +454,7 @@ void LoadExBurningBlazeSprite(EX_ACTION_BAC3D_WORK *work)
     VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exBurningBlazeSpriteResource, 1), FALSE);
     AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBurningBlazeSpriteResource, EX_ACTCOM_ANI_BURNINGBLAZE, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
                            vramPalette);
-    work->sprite.animator.polygonAttr |= (1 << REG_G3_POLYGON_ATTR_XL_SHIFT);
+    work->sprite.animator.polygonAttr |= GX_POLYGON_ATTR_MISC_XLU_DEPTH_UPDATE;
 
     work->hitChecker.type            = 0;
     work->hitChecker.field_5.value_4 = TRUE;

@@ -278,7 +278,7 @@ void LoadExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work)
 
     AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exSonicBarrierEffectSpriteResource, EX_ACTCOM_ANI_SONIC_BARRIER_SHIELD, ANIMATOR_FLAG_DISABLE_LOOPING,
                            vramPixels, vramPalette);
-    work->sprite.animator.polygonAttr |= (1 << REG_G3_POLYGON_ATTR_XL_SHIFT);
+    work->sprite.animator.polygonAttr |= GX_POLYGON_ATTR_MISC_XLU_DEPTH_UPDATE;
 
     work->hitChecker.type             = 2;
     work->hitChecker.field_3.value_80 = TRUE;

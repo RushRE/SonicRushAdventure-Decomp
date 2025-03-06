@@ -3124,7 +3124,7 @@ void Boss1__EnableAnimBlending(Boss1 *work)
 void Boss1__HandleRotation(Boss1 *work)
 {
     u16 angle = (work->angle + work->field_6BE);
-    MTX_RotY33(&work->aniBossMain.ani.work.matrix33, SinFX((s32)angle), CosFX((s32)angle));
+    MTX_RotY33(&work->aniBossMain.ani.work.rotation, SinFX((s32)angle), CosFX((s32)angle));
 }
 
 void Boss1__ConfigureCollider(Boss1 *work, Boss1ColliderMode mode)
@@ -3463,12 +3463,12 @@ void Boss1__Draw(void)
     aniSub1->work.translation   = work->gameWork.objWork.position;
     aniSub1->work.translation.y = work->stage->field_378 + FLOAT_TO_FX32(5.0);
 
-    aniSub1->work.matrix33         = work->aniBossMain.ani.work.matrix33;
-    aniSub1->work.matrix33.m[1][0] = FLOAT_TO_FX32(0.0);
-    aniSub1->work.matrix33.m[1][1] = FLOAT_TO_FX32(1.0);
-    aniSub1->work.matrix33.m[1][2] = FLOAT_TO_FX32(0.0);
+    aniSub1->work.rotation         = work->aniBossMain.ani.work.rotation;
+    aniSub1->work.rotation.m[1][0] = FLOAT_TO_FX32(0.0);
+    aniSub1->work.rotation.m[1][1] = FLOAT_TO_FX32(1.0);
+    aniSub1->work.rotation.m[1][2] = FLOAT_TO_FX32(0.0);
 
-    VEC_CrossProduct((VecFx32 *)aniSub1->work.matrix33.m[1], (VecFx32 *)aniSub1->work.matrix33.m[2], (VecFx32 *)aniSub1->work.matrix33.m[0]);
+    VEC_CrossProduct((VecFx32 *)aniSub1->work.rotation.m[1], (VecFx32 *)aniSub1->work.rotation.m[2], (VecFx32 *)aniSub1->work.rotation.m[0]);
 
     AnimatorMDL__Draw(aniSub1);
     AnimatorMDL__Draw(&work->aniBossSub2.ani);
@@ -4172,7 +4172,7 @@ NONMATCH_FUNC void Boss1__CreateBiteFX(Boss1 *work, struct Boss1ActionBite *conf
             MTX_Identity33(&mtx);
             break;
     }
-    MTX_Concat33(&mtx, &work->aniBossMain.ani.work.matrix33, &effect->aniModel.ani.work.matrix33);
+    MTX_Concat33(&mtx, &work->aniBossMain.ani.work.rotation, &effect->aniModel.ani.work.rotation);
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
@@ -6076,7 +6076,7 @@ void Boss1__BossState_PrepareCameraForDestroyed(Boss1 *work)
 
         if (work->field_694 != 0)
         {
-            if (work->aniBossMain.ani.work.matrix33.m[2][0] > 0)
+            if (work->aniBossMain.ani.work.rotation.m[2][0] > 0)
                 translation.x += FLOAT_TO_FX32(100.0);
             else
                 translation.x -= FLOAT_TO_FX32(100.0);

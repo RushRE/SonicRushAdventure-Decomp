@@ -166,23 +166,25 @@ enum MatrixOpTypes_
     MATRIX_OP_COPY_MTX33_TO_43,
     MATRIX_OP_IDENTITY_TRANSLATE,
     MATRIX_OP_IDENTITY_TRANSLATE2,
-    MATRIX_OP_LOAD_MTX43_SCALE_VEC,
-    MATRIX_OP_LOAD_MTX43_TRANSLATE_SCALE_VEC,
+    MATRIX_OP_IDENTITY_ROTATE_SCALE,
+    MATRIX_OP_IDENTITY_ROTATE_TRANSLATE2_SCALE,
     MATRIX_OP_LOAD_MTX43,
     MATRIX_OP_LOAD_CAMERA_MTX43,
     MATRIX_OP_LOAD_CAMERA_MTX33,
-    MATRIX_OP_SCALE_VEC,
-    MATRIX_OP_MULT_MTX_33,
-    MATRIX_OP_TRANSLATE_VEC,
-    MATRIX_OP_TRANSLATE_VEC2,
-    MATRIX_OP_MULT_MTX43_SCALE_VEC,
-    MATRIX_OP_MULT_MTX43_TRANSLATE_SCALE_VEC,
+    MATRIX_OP_SCALE,
+    MATRIX_OP_ROTATE,
+    MATRIX_OP_TRANSLATE,
+    MATRIX_OP_TRANSLATE2,
+    MATRIX_OP_ROTATE_SCALE,
+    MATRIX_OP_ROTATE_TRANSLATE2_SCALE,
     MATRIX_OP_MULT_MTX43,
     MATRIX_OP_MULT_CAMERA_MTX43,
     MATRIX_OP_MULT_CAMERA_MTX33,
     MATRIX_OP_SET_CAMERA_ROT_43,
     MATRIX_OP_SET_CAMERA_ROT_33,
     MATRIX_OP_CALLBACK,
+
+    MATRIX_OP_COUNT,
 };
 typedef u8 MatrixOpTypes;
 
@@ -393,10 +395,10 @@ typedef struct Animator3D_
     Animator3DTypes type;
     AnimatorFlags flags;
     u16 field_8;
-    MatrixOpTypes matrixOpIDs[ANIMATOR3D_MATRIXOP_COUNT];
-    void (*matrixCallback)(struct Animator3D_ *animator);
+    MatrixOpTypes matrixOpIDs[ANIMATOR3D_MATRIXOP_COUNT]; // TODO: rename this to 'commandList' or something similar.
+    void (*matrixCallback)(struct Animator3D_ *animator); // TODO: rename this to 'commandListCallback' or something similar.
     VecFx32 scale;
-    MtxFx33 matrix33;
+    MtxFx33 rotation;
     VecFx32 translation;
     VecFx32 translation2;
     MtxFx43 matrix43;
@@ -593,6 +595,24 @@ RUSH_INLINE void Animator3D__Process(Animator3D *animator)
 
         case ANIMATOR3D_SPRITE:
             AnimatorSprite3D__ProcessAnimation((AnimatorSprite3D *)animator, NULL, NULL);
+            break;
+    }
+}
+
+RUSH_INLINE void Animator3D__Draw(Animator3D *animator)
+{
+    switch (animator->type)
+    {
+        case ANIMATOR3D_MODEL:
+            AnimatorMDL__Draw((AnimatorMDL *)animator);
+            break;
+
+        case ANIMATOR3D_SHAPE:
+            AnimatorShape3D__Draw((AnimatorShape3D *)animator);
+            break;
+
+        case ANIMATOR3D_SPRITE:
+            AnimatorSprite3D__Draw((AnimatorSprite3D *)animator);
             break;
     }
 }

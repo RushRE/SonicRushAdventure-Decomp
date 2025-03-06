@@ -115,25 +115,26 @@ void InitSailingSysEvent(void)
     {
         if (state->sailPadReplayData == NULL)
         {
-            state->sailPadReplayData = HeapAllocHead(HEAP_USER, sizeof(KeyDataHeader) + (12799 * sizeof(KeyDataPadFrame)));
-            CreateReplayRecorderPadEx(REPLAYRECORDER_TYPE_RECORD, &padInput, NULL, state->sailPadReplayData, sizeof(KeyDataHeader) + (12799 * sizeof(KeyDataPadFrame)), 0,
+            state->sailPadReplayData = HeapAllocHead(HEAP_USER, sizeof(KeyDataHeader) + ((12800 - 1) * sizeof(KeyDataPadFrame)));
+            CreateReplayRecorderPadEx(REPLAYRECORDER_TYPE_RECORD, &padInput, NULL, state->sailPadReplayData, sizeof(KeyDataHeader) + ((12800 - 1) * sizeof(KeyDataPadFrame)), 0,
                                       TASK_PRIORITY_UPDATE_LIST_START + 1);
         }
         else
         {
             replayActive = TRUE;
-            CreateReplayRecorderPad(REPLAYRECORDER_TYPE_PLAY_MEMORY, &padInput, NULL, state->sailPadReplayData, sizeof(KeyDataHeader) + (12799 * sizeof(KeyDataPadFrame)));
+            CreateReplayRecorderPad(REPLAYRECORDER_TYPE_PLAY_MEMORY, &padInput, NULL, state->sailPadReplayData, sizeof(KeyDataHeader) + ((12800 - 1) * sizeof(KeyDataPadFrame)));
         }
 
         if (state->sailTouchReplayData == NULL)
         {
-            state->sailTouchReplayData = HeapAllocHead(HEAP_USER, sizeof(KeyDataHeader) + (38399 * sizeof(KeyDataTouchFrame)));
-            CreateReplayRecorderTouchEx(REPLAYRECORDER_TYPE_RECORD, &touchInput, NULL, state->sailTouchReplayData, sizeof(KeyDataHeader) + (38399 * sizeof(KeyDataTouchFrame)), 0,
-                                        TASK_PRIORITY_UPDATE_LIST_START + 1);
+            state->sailTouchReplayData = HeapAllocHead(HEAP_USER, sizeof(KeyDataHeader) + ((38400 - 1) * sizeof(KeyDataTouchFrame)));
+            CreateReplayRecorderTouchEx(REPLAYRECORDER_TYPE_RECORD, &touchInput, NULL, state->sailTouchReplayData,
+                                        sizeof(KeyDataHeader) + ((38400 - 1) * sizeof(KeyDataTouchFrame)), 0, TASK_PRIORITY_UPDATE_LIST_START + 1);
         }
         else
         {
-            CreateReplayRecorderTouch(REPLAYRECORDER_TYPE_PLAY_MEMORY, &touchInput, NULL, state->sailTouchReplayData, sizeof(KeyDataHeader) + (38399 * sizeof(KeyDataTouchFrame)));
+            CreateReplayRecorderTouch(REPLAYRECORDER_TYPE_PLAY_MEMORY, &touchInput, NULL, state->sailTouchReplayData,
+                                      sizeof(KeyDataHeader) + ((38400 - 1) * sizeof(KeyDataTouchFrame)));
         }
     }
 
@@ -267,7 +268,7 @@ SailManager *SailManager__Create(void)
 
     work->sea           = SailSea__Create();
     work->voyageManager = SailVoyageManager__Create();
-    work->ringManager   = SailRingManager_Create();
+    work->ringManager   = CreateSailRingManager();
     work->eventManager  = SailEventManager__Create();
     work->hud           = SailHUD__Create();
 
@@ -286,16 +287,19 @@ SailManager *SailManager__Create(void)
             break;
     }
 
-    work->dword64.x  = FLOAT_TO_FX32(1.0);
-    work->dword64.y  = FLOAT_TO_FX32(1.0);
-    work->dword64.z  = FLOAT_TO_FX32(1.0);
-    work->alphaTimer = SECONDS_TO_FRAMES(25.0);
-    work->dword40.x  = FLOAT_TO_FX32(1.0) - (ObjDispRand() & 0x1FFF);
-    work->dword40.z  = FLOAT_TO_FX32(1.0) - (ObjDispRand() & 0x1FFF);
-    work->velocity.x = work->dword40.x;
-    work->velocity.z = work->dword40.z;
+    work->fogBrightness.x = FLOAT_TO_FX32(1.0);
+    work->fogBrightness.y = FLOAT_TO_FX32(1.0);
+    work->fogBrightness.z = FLOAT_TO_FX32(1.0);
+    work->cloudyTimer     = SECONDS_TO_FRAMES(25.0);
+    work->dword40.x       = ObjDispRandRange5(-FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
+    work->dword40.z       = ObjDispRandRange5(-FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
+    work->velocity.x      = work->dword40.x;
+    work->velocity.z      = work->dword40.z;
+
     TouchField__Init(&work->touchField);
+
     SailVoyageManager__SetupVoyage();
+
     SailHUDInitEvent__Create();
 
     work->fontFile = FSRequestFileSync("fnt/font_all.fnt", FSREQ_AUTO_ALLOC_HEAD);
@@ -331,16 +335,22 @@ void SailManager__Destructor(Task *task)
     FontAnimator__Release(&work->fontAnimator3);
     FontWindowMWControl__Release(&work->fontWindowMW);
     FontWindow__Release(&work->fontWindow);
+
     HeapFree(HEAP_USER, work->archive);
+
     GetSystemUnknown();
     RenderCore_SetTargetVBlankCount(0);
     renderCurrentDisplay = GX_DISP_SELECT_MAIN_SUB;
+
     ClearPixelsQueue();
     Mappings__ClearQueue();
     ClearPaletteQueue();
+
     ReleaseAudioSystem();
+
     VRAMSystem__InitTextureBuffer();
     VRAMSystem__InitPaletteBuffer();
+
     StopSamplingTouchInput();
 
     sailManagerTask = NULL;
@@ -352,23 +362,23 @@ void SailManager__Main(void)
 
     if (work->missionType != MISSION_TYPE_VIKINGCUP_SCORE || work->shipType != SHIP_SUBMARINE)
     {
-        if (work->field_5A != 3 && (work->timer & 0x1FF) == 0)
+        if (work->cloudType != 3 && (work->timer & 0x1FF) == 0)
         {
-            if ((ObjDispRand() & 3) == 0)
+            if (ObjDispRandRepeat(4) == 0)
             {
-                if (work->field_5A == 2)
-                    work->field_5A = 0;
+                if (work->cloudType == 2)
+                    work->cloudType = 0;
 
-                if (work->field_5A == 0)
-                    work->field_5A = 2;
+                if (work->cloudType == 0)
+                    work->cloudType = 2;
             }
         }
 
-        if (work->field_5C != work->field_5A)
+        if (work->prevCloudType != work->cloudType)
         {
-            if (work->field_5A == 2 || (s32)work->field_5A == 3)
+            if (work->cloudType == 2 || (s32)work->cloudType == 3)
             {
-                if (work->field_5C != 2 && work->field_5C != 3)
+                if (work->prevCloudType != 2 && work->prevCloudType != 3)
                 {
                     SailCloud__Create(0);
                     SailCloud__Create(0);
@@ -384,19 +394,19 @@ void SailManager__Main(void)
             }
         }
 
-        if (work->field_5A == 3)
+        if (work->cloudType == 3)
         {
-            if (work->field_50 < 32)
-                work->field_50++;
+            if (work->cloudyness < 32)
+                work->cloudyness++;
         }
         else
         {
-            if (work->field_50 != 0)
-                work->field_50--;
+            if (work->cloudyness != 0)
+                work->cloudyness--;
         }
     }
 
-    work->field_5C = work->field_5A;
+    work->prevCloudType = work->cloudType;
 
     if (work->sailPlayer != NULL)
     {
@@ -416,7 +426,7 @@ void SailManager__Main(void)
     {
         StageTask *unknownWork = work->unknownList[i];
         if (unknownWork != NULL)
-            SailRingManager_Func_2156AB4(work->ringManager, unknownWork);
+            SailRingManager_CheckPlayerCollisions(work->ringManager, unknownWork);
 
         work->unknownList[i] = NULL;
     }
@@ -424,7 +434,7 @@ void SailManager__Main(void)
 
     ShipType ship = SailManager__GetShipType();
     if (ship == SHIP_JET || ship == SHIP_HOVER)
-        SailRingManager_Func_2156AB4(work->ringManager, work->sailPlayer);
+        SailRingManager_CheckPlayerCollisions(work->ringManager, work->sailPlayer);
 
     if (work->shipType == SHIP_SUBMARINE && work->timer == 30)
         PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, bgmForShip[work->shipType]);
@@ -444,82 +454,82 @@ void SailManager__Main(void)
 
     if ((work->flags & SAILMANAGER_FLAG_FREEZE_ALPHA_TIMER) == 0)
     {
-        work->alphaTimer++;
-        if (work->alphaTimer > 3600)
-            work->alphaTimer = 0;
+        work->cloudyTimer++;
+        if (work->cloudyTimer > SECONDS_TO_FRAMES(60.0))
+            work->cloudyTimer = 0;
     }
 
-    if (work->alphaTimer > 750 && work->alphaTimer < 1050)
+    if (work->cloudyTimer > SECONDS_TO_FRAMES(12.5) && work->cloudyTimer < SECONDS_TO_FRAMES(17.5))
     {
-        u16 percent     = 13 * (work->alphaTimer - 750);
-        work->dword64.x = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.5), percent);
-        work->dword64.y = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.5625), percent);
-        work->dword64.z = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.625), percent);
+        u16 percent           = 13 * (work->cloudyTimer - SECONDS_TO_FRAMES(12.5));
+        work->fogBrightness.x = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.5), percent);
+        work->fogBrightness.y = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.5625), percent);
+        work->fogBrightness.z = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.625), percent);
     }
 
-    if (work->alphaTimer > 2550 && work->alphaTimer < 2700)
+    if (work->cloudyTimer > SECONDS_TO_FRAMES(42.5) && work->cloudyTimer < SECONDS_TO_FRAMES(45.0))
     {
-        u16 percent     = 27 * (work->alphaTimer - 2550);
-        work->dword64.x = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), percent);
-        work->dword64.y = ObjAlphaSet(FLOAT_TO_FX32(0.8125), FLOAT_TO_FX32(1.0), percent);
-        work->dword64.z = ObjAlphaSet(FLOAT_TO_FX32(0.625), FLOAT_TO_FX32(1.0), percent);
+        u16 percent           = 27 * (work->cloudyTimer - SECONDS_TO_FRAMES(42.5));
+        work->fogBrightness.x = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), percent);
+        work->fogBrightness.y = ObjAlphaSet(FLOAT_TO_FX32(0.8125), FLOAT_TO_FX32(1.0), percent);
+        work->fogBrightness.z = ObjAlphaSet(FLOAT_TO_FX32(0.625), FLOAT_TO_FX32(1.0), percent);
     }
 
-    if (work->alphaTimer > 2700 && work->alphaTimer < 3000)
+    if (work->cloudyTimer > SECONDS_TO_FRAMES(45.0) && work->cloudyTimer < SECONDS_TO_FRAMES(50.0))
     {
-        u16 percent     = 13 * (work->alphaTimer - 2700);
-        work->dword64.x = ObjAlphaSet(FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(1.0), percent);
-        work->dword64.y = ObjAlphaSet(FLOAT_TO_FX32(0.5625), FLOAT_TO_FX32(0.8125), percent);
-        work->dword64.z = ObjAlphaSet(FLOAT_TO_FX32(0.625), FLOAT_TO_FX32(0.625), percent);
+        u16 percent           = 13 * (work->cloudyTimer - SECONDS_TO_FRAMES(45.0));
+        work->fogBrightness.x = ObjAlphaSet(FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(1.0), percent);
+        work->fogBrightness.y = ObjAlphaSet(FLOAT_TO_FX32(0.5625), FLOAT_TO_FX32(0.8125), percent);
+        work->fogBrightness.z = ObjAlphaSet(FLOAT_TO_FX32(0.625), FLOAT_TO_FX32(0.625), percent);
     }
 
-    if (work->alphaTimer >= 3000 || work->alphaTimer <= 750)
+    if (work->cloudyTimer >= SECONDS_TO_FRAMES(50.0) || work->cloudyTimer <= SECONDS_TO_FRAMES(12.5))
     {
-        work->dword64.x = FLOAT_TO_FX32(0.5);
-        work->dword64.y = FLOAT_TO_FX32(0.5625);
-        work->dword64.z = FLOAT_TO_FX32(0.625);
+        work->fogBrightness.x = FLOAT_TO_FX32(0.5);
+        work->fogBrightness.y = FLOAT_TO_FX32(0.5625);
+        work->fogBrightness.z = FLOAT_TO_FX32(0.625);
     }
 
-    if (work->alphaTimer >= 1050 && work->alphaTimer <= 2550)
+    if (work->cloudyTimer >= SECONDS_TO_FRAMES(17.5) && work->cloudyTimer <= SECONDS_TO_FRAMES(42.5))
     {
-        work->dword64.x = FLOAT_TO_FX32(1.0);
-        work->dword64.y = FLOAT_TO_FX32(1.0);
-        work->dword64.z = FLOAT_TO_FX32(1.0);
+        work->fogBrightness.x = FLOAT_TO_FX32(1.0);
+        work->fogBrightness.y = FLOAT_TO_FX32(1.0);
+        work->fogBrightness.z = FLOAT_TO_FX32(1.0);
     }
 
-    if (work->alphaTimer >= 2700 && work->alphaTimer <= 2700)
+    if (work->cloudyTimer >= SECONDS_TO_FRAMES(45.0) && work->cloudyTimer <= SECONDS_TO_FRAMES(45.0))
     {
-        work->dword64.x = FLOAT_TO_FX32(1.0);
-        work->dword64.y = FLOAT_TO_FX32(0.8125);
-        work->dword64.z = FLOAT_TO_FX32(0.625);
+        work->fogBrightness.x = FLOAT_TO_FX32(1.0);
+        work->fogBrightness.y = FLOAT_TO_FX32(0.8125);
+        work->fogBrightness.z = FLOAT_TO_FX32(0.625);
     }
 
-    if (work->field_50 != 0)
+    if (work->cloudyness != 0)
     {
-        s32 change = ObjAlphaSet(FLOAT_TO_FX32(0.25), 0, work->field_50 << 7);
-        work->dword64.x -= change;
-        work->dword64.y -= change;
-        work->dword64.z -= change;
+        s32 change = ObjAlphaSet(FLOAT_TO_FX32(0.25), 0, work->cloudyness << 7);
+        work->fogBrightness.x -= change;
+        work->fogBrightness.y -= change;
+        work->fogBrightness.z -= change;
 
-        if (work->dword64.x < FLOAT_TO_FX32(0.375))
-            work->dword64.x = FLOAT_TO_FX32(0.375);
+        if (work->fogBrightness.x < FLOAT_TO_FX32(0.375))
+            work->fogBrightness.x = FLOAT_TO_FX32(0.375);
 
-        if (work->dword64.y < FLOAT_TO_FX32(0.375))
-            work->dword64.y = FLOAT_TO_FX32(0.375);
+        if (work->fogBrightness.y < FLOAT_TO_FX32(0.375))
+            work->fogBrightness.y = FLOAT_TO_FX32(0.375);
 
-        if (work->dword64.z < FLOAT_TO_FX32(0.375))
-            work->dword64.z = FLOAT_TO_FX32(0.375);
+        if (work->fogBrightness.z < FLOAT_TO_FX32(0.375))
+            work->fogBrightness.z = FLOAT_TO_FX32(0.375);
     }
 
     if (work->isRivalRace && (work->flags & SAILMANAGER_FLAG_8) == 0)
     {
         if (work->voyageManager->voyagePos >= GetStageTaskWorker(work->rivalJohnny, SailPlayer)->racePos.z)
-            work->field_28 = FALSE;
+            work->raceRank = 0; // player is in the lead!
         else
-            work->field_28 = TRUE;
+            work->raceRank = 1; // player has fallen behind!
     }
 
-    work->flags &= ~SAILMANAGER_FLAG_1000000;
+    work->flags &= ~SAILMANAGER_FLAG_PLAYED_RING_SFX_THIS_FRAME;
 }
 
 // SailUnknown2153770

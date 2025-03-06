@@ -457,7 +457,7 @@ void SailPlayer__RemoveHealth(StageTask *player, s32 amount)
     SailPlayer *worker   = GetStageTaskWorker(player, SailPlayer);
     SailManager *manager = SailManager__GetWork();
 
-    if (worker->health == 0)
+    if (worker->health == FLOAT_TO_FX32(0.0))
         return;
 
     if (manager->missionType == MISSION_TYPE_REACH_GOAL)
@@ -594,9 +594,9 @@ void SailPlayer__Action_BeginVoyage(StageTask *player)
     player->userWork  = 0;
     player->state     = SailPlayer__State_BeginVoyage;
     worker->speed     = FLOAT_TO_FX32(0.0);
-    worker->field_1CA = FLOAT_TO_FX32(6.0);
 
-    if ((ObjDispRand() & 1) != 0)
+    worker->field_1CA = FLOAT_TO_FX32(6.0);
+    if (ObjDispRandRepeat(2) != 0)
         worker->field_1CA = -worker->field_1CA;
 
     if (!worker->isRival)
@@ -2139,7 +2139,7 @@ void SailPlayer__Action_HurtJetHover2(StageTask *player)
     SailPlayer__ChangeAction(player, SAILPLAYER_ACTION_6);
 
     player->displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    worker->scoreMultiplier = 0;
+    worker->scoreComboCurrent = 0;
     worker->blinkTimer      = 64;
     player->userFlag |= SAILPLAYER_FLAG_IS_HURT;
     player->userTimer = 32;
@@ -3788,12 +3788,12 @@ void SailPlayer__HandleTimers(StageTask *work)
     {
         case SHIP_JET:
         case SHIP_HOVER:
-            if (worker->field_1E4 > 4)
+            if (worker->missedRingCount > 4)
             {
                 if (worker->trickFinishTimer != 0)
                     worker->trickFinishTimer--;
                 else
-                    worker->scoreMultiplier = 0;
+                    worker->scoreComboCurrent = 0;
             }
 
             if (worker->rivalVoiceClipTimer != 0)
@@ -4001,7 +4001,7 @@ NONMATCH_FUNC void SailPlayer__HandleJetControl(StageTask *work)
                             spd += FLOAT_TO_FX32(0.28125);
                     }
 
-                    if (worker->isRival && !worker->field_1F2 && ((voyageManager->segmentCount - 3) < voyageManager->field_24 || manager->field_28 == 0))
+                    if (worker->isRival && !worker->field_1F2 && ((voyageManager->segmentCount - 3) < voyageManager->field_24 || manager->raceRank == 0))
                     {
                         if ((voyageManager->voyagePos - rivalWorker->racePos.z) > FLOAT_TO_FX32(112.0))
                             spd += FLOAT_TO_FX32(0.1875);
@@ -4015,7 +4015,7 @@ NONMATCH_FUNC void SailPlayer__HandleJetControl(StageTask *work)
 
                 if (!worker->isRival)
                 {
-                    spd += 28 * (u16)FX_DivS32(MATH_MIN(worker->scoreMultiplier, 100), 10);
+                    spd += 28 * (u16)FX_DivS32(MATH_MIN(worker->scoreComboCurrent, 100), 10);
                     if ((work->userFlag & SAILPLAYER_FLAG_BOOST) != 0 && spd > FLOAT_TO_FX32(0.1875))
                         spd = FLOAT_TO_FX32(0.1875);
                 }
@@ -5569,7 +5569,7 @@ void SailPlayer__ReadInputs(StageTask *work)
 
                     if ((worker->sailRival->actions & SAILRIVAL_GET_ACTION_FLAG(SAILRIVAL_ACTION_START_BOOST)) != 0)
                     {
-                        if (!manager->field_28)
+                        if (manager->raceRank == 0)
                             SailAudio__PlaySequence(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_YOU); // "Arghh!"
 
                         worker->btnPress |= PAD_BUTTON_L;
@@ -5611,7 +5611,7 @@ void SailPlayer__ReadInputs(StageTask *work)
                             work->shakeTimer = FLOAT_TO_FX32(4.0);
                             if (worker->rivalVoiceClipTimer == 0)
                             {
-                                if ((ObjDispRand() & 1) != 0)
+                                if (ObjDispRandRepeat(2) != 0)
                                     SailAudio__PlaySequence(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_KURAE); // "I don't think so!"
                                 else
                                     SailAudio__PlaySequence(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_HORAYO); // "Check this out!"
@@ -5627,7 +5627,7 @@ void SailPlayer__ReadInputs(StageTask *work)
                             work->shakeTimer = FLOAT_TO_FX32(4.0);
                             if (worker->rivalVoiceClipTimer == 0)
                             {
-                                if ((ObjDispRand() & 1) != 0)
+                                if (ObjDispRandRepeat(2) != 0)
                                     SailAudio__PlaySequence(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_KURAE); // "I don't think so!"
                                 else
                                     SailAudio__PlaySequence(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_HORAYO); // "Check this out!"

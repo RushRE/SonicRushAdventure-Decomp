@@ -314,7 +314,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     work->aniPlayerModel.ani.work.translation2.y = -FLOAT_TO_FX32(16.0);
     work->aniPlayerModel.ani.work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
     work->aniPlayerModel.ani.work.matrixOpIDs[1] = MATRIX_OP_IDENTITY;
-    work->aniPlayerModel.ani.work.matrixOpIDs[2] = MATRIX_OP_LOAD_MTX43_TRANSLATE_SCALE_VEC;
+    work->aniPlayerModel.ani.work.matrixOpIDs[2] = MATRIX_OP_IDENTITY_ROTATE_TRANSLATE2_SCALE;
 
     ObjAction3dNNMotionLoad(&work->objWork, &work->aniPlayerModel, "plycom.nsbca", &animationWork, NULL);
     work->aniPlayerModel.ani.renderObj.recJntAnm = work->aniPlayerModel.ani.jntAnimResult =
@@ -340,7 +340,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
             work->aniTailModel.ani.work.translation2.y                                                                      = -FLOAT_TO_FX32(16.0);
             work->aniTailModel.ani.work.matrixOpIDs[0]                                                                      = MATRIX_OP_FLUSH_VP;
             work->aniTailModel.ani.work.matrixOpIDs[1]                                                                      = MATRIX_OP_IDENTITY;
-            work->aniTailModel.ani.work.matrixOpIDs[2]                                                                      = MATRIX_OP_LOAD_MTX43_TRANSLATE_SCALE_VEC;
+            work->aniTailModel.ani.work.matrixOpIDs[2]                                                                      = MATRIX_OP_IDENTITY_ROTATE_TRANSLATE2_SCALE;
 
             work->aniTailModel.resources[B3D_RESOURCE_JOINT_ANIM] = ObjDataLoad(&animationWork, "plycom.nsbca", NULL);
             work->aniTailModel.file[B3D_RESOURCE_JOINT_ANIM]      = &animationWork;

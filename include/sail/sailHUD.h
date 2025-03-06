@@ -7,6 +7,16 @@
 // STRUCTS
 // --------------------
 
+typedef struct SailScoreBonus_
+{
+    s16 posX;
+    s16 posY;
+    u16 lifeTimer;
+    u16 offsetY;
+    u16 num2;
+    s32 num1;
+} SailScoreBonus;
+
 typedef struct SailHUD_
 {
     u32 flags;
@@ -41,7 +51,7 @@ typedef struct SailHUD_
     u16 field_72;
     u16 field_74;
     u16 field_76;
-    u16 scoreMultiplier;
+    u16 scoreComboCurrent;
     u16 field_7A;
     u32 dword7C;
     s32 field_80;
@@ -669,8 +679,8 @@ NOT_DECOMPILED StageTask *SailHoverChargeHUD__Create(StageTask *parent, fx32 off
 NOT_DECOMPILED StageTask *SailSubReticleHUD__Create(StageTask *parent, u16 anim, fx32 offsetX, fx32 offsetY);
 NOT_DECOMPILED SailHUD *SailHUD__Create(void);
 NOT_DECOMPILED void SailBoatWeaponHUD__Create(StageTask *parent);
-NOT_DECOMPILED void SailScoreBonus__CreateWorld(VecFx32 *position, s32 score, s32 num2);
-NOT_DECOMPILED void SailScoreBonus__CreateScreen(u16 x, u16 y, s32 score, s32 num2);
+NOT_DECOMPILED SailScoreBonus *SailScoreBonus__CreateWorld(VecFx32 *position, s32 score, s32 multiplier);
+NOT_DECOMPILED SailScoreBonus *SailScoreBonus__CreateScreen(u16 x, u16 y, s32 score, s32 multiplier);
 
 NOT_DECOMPILED void SailHUD__GetScore(u32 *value, u32 score, u32 max);
 NOT_DECOMPILED void SailHUD__Func_2174A94(u32 a1, u16 a2, s16 a3, u16 a4, u16 a5);

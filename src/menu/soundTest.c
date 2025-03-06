@@ -656,7 +656,7 @@ void SoundTest_StateDraw3D_DrawStage(SoundTest *work)
     work->aniKoala.work.scale.x       = FLOAT_TO_FX32(1.0);
     work->aniKoala.work.scale.y       = FLOAT_TO_FX32(1.0);
     work->aniKoala.work.scale.z       = FLOAT_TO_FX32(1.0);
-    MTX_Identity33(&work->aniKoala.work.matrix33);
+    MTX_Identity33(&work->aniKoala.work.rotation);
     AnimatorMDL__ProcessAnimation(&work->aniKoala);
     AnimatorMDL__Draw(&work->aniKoala);
 
@@ -666,7 +666,7 @@ void SoundTest_StateDraw3D_DrawStage(SoundTest *work)
     work->aniLog.work.scale.x       = FLOAT_TO_FX32(1.0);
     work->aniLog.work.scale.y       = FLOAT_TO_FX32(1.0);
     work->aniLog.work.scale.z       = FLOAT_TO_FX32(1.0);
-    MTX_Identity33(&work->aniLog.work.matrix33);
+    MTX_Identity33(&work->aniLog.work.rotation);
     AnimatorMDL__ProcessAnimation(&work->aniLog);
     AnimatorMDL__Draw(&work->aniLog);
 
@@ -676,7 +676,7 @@ void SoundTest_StateDraw3D_DrawStage(SoundTest *work)
     work->aniSea.work.scale.x       = FLOAT_TO_FX32(1.0);
     work->aniSea.work.scale.y       = FLOAT_TO_FX32(1.0);
     work->aniSea.work.scale.z       = FLOAT_TO_FX32(1.0);
-    MTX_Identity33(&work->aniSea.work.matrix33);
+    MTX_Identity33(&work->aniSea.work.rotation);
     AnimatorMDL__ProcessAnimation(&work->aniSea);
     AnimatorMDL__Draw(&work->aniSea);
 

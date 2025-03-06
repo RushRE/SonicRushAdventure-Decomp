@@ -245,17 +245,17 @@ void Animator3D__MatrixOp_IdentityScale(Animator3D *animator);
 void Animator3D__MatrixOp_CopyMtx33To43(Animator3D *animator);
 void Animator3D__MatrixOp_IdentityTranslate(Animator3D *animator);
 void Animator3D__MatrixOp_IdentityTranslate2(Animator3D *animator);
-void Animator3D__MatrixOp_LoadMtx43ScaleVec(Animator3D *animator);
-void Animator3D__MatrixOp_LoadMtx43TranslateScaleVec(Animator3D *animator);
+void Animator3D__MatrixOp_IdentityRotateScale(Animator3D *animator);
+void Animator3D__MatrixOp_IdentityRotateTranslate2Scale(Animator3D *animator);
 void Animator3D__MatrixOp_LoadMtx43(Animator3D *animator);
 void Animator3D__MatrixOp_LoadCameraMtx43(Animator3D *animator);
 void Animator3D__MatrixOp_LoadCameraMtx33(Animator3D *animator);
-void Animator3D__MatrixOp_ScaleVec(Animator3D *animator);
-void Animator3D__MatrixOp_MultMtx33(Animator3D *animator);
-void Animator3D__MatrixOp_TranslateVec(Animator3D *animator);
-void Animator3D__MatrixOp_TranslateVec2(Animator3D *animator);
-void Animator3D__MatrixOp_MultMtx43ScaleVec(Animator3D *animator);
-void Animator3D__MatrixOp_MultMtx43TranslateScaleVec(Animator3D *animator);
+void Animator3D__MatrixOp_Scale(Animator3D *animator);
+void Animator3D__MatrixOp_Rotate(Animator3D *animator);
+void Animator3D__MatrixOp_Translate(Animator3D *animator);
+void Animator3D__MatrixOp_Translate2(Animator3D *animator);
+void Animator3D__MatrixOp_RotateScale(Animator3D *animator);
+void Animator3D__MatrixOp_RotateTranslate2Scale(Animator3D *animator);
 void Animator3D__MatrixOp_MultMtx43(Animator3D *animator);
 void Animator3D__MatrixOp_MultCameraMtx43(Animator3D *animator);
 void Animator3D__MatrixOp_MultCameraMtx33(Animator3D *animator);
@@ -339,41 +339,41 @@ static const Vec2U16 spriteShapeSizes2D[] =
 	{ 0x20, 0x40 },
 };
 
-static const Animator3DMatrixFunc animator3DMatrixFuncList[] = {
-	Animator3D__MatrixOp_None,							// MATRIX_OP_NONE,
-	Animator3D__MatrixOp_Identity,						// MATRIX_OP_IDENTITY,
-	Animator3D__MatrixOp_RestoreMtx,					// MATRIX_OP_RESTORE_MTX,
-	Animator3D__MatrixOp_FlushP,						// MATRIX_OP_FLUSH_P,
-	Animator3D__MatrixOp_FlushVP,						// MATRIX_OP_FLUSH_VP,
-	Animator3D__MatrixOp_FlushWVP,						// MATRIX_OP_FLUSH_WVP,
-	Animator3D__MatrixOp_SetMatrixMode,					// MATRIX_OP_SET_MATRIX_MODE,
-	Animator3D__MatrixOp_FlushP_Camera3D,				// MATRIX_OP_FLUSH_P_CAMERA3D,
-	Animator3D__MatrixOp_FlushVP_Camera3D,				// MATRIX_OP_FLUSH_VP_CAMERA3D,
-	Animator3D__MatrixOp_FlushWVP_Camera3D,				// MATRIX_OP_FLUSH_WVP_CAMERA3D,
-	Animator3D__MatrixOp_IdentityScale,					// MATRIX_OP_IDENTITY_SCALE,
-	Animator3D__MatrixOp_CopyMtx33To43,					// MATRIX_OP_COPY_MTX33_TO_43,
-	Animator3D__MatrixOp_IdentityTranslate,				// MATRIX_OP_IDENTITY_TRANSLATE,
-	Animator3D__MatrixOp_IdentityTranslate2,			// MATRIX_OP_IDENTITY_TRANSLATE2,
-	Animator3D__MatrixOp_LoadMtx43ScaleVec,				// MATRIX_OP_LOAD_MTX43_SCALE_VEC,
-	Animator3D__MatrixOp_LoadMtx43TranslateScaleVec,	// MATRIX_OP_LOAD_MTX43_TRANSLATE_SCALE_VEC,
-	Animator3D__MatrixOp_LoadMtx43,						// MATRIX_OP_LOAD_MTX43,
-	Animator3D__MatrixOp_LoadCameraMtx43,				// MATRIX_OP_LOAD_CAMERA_MTX43,
-	Animator3D__MatrixOp_LoadCameraMtx33,				// MATRIX_OP_LOAD_CAMERA_MTX33,
-	Animator3D__MatrixOp_ScaleVec,						// MATRIX_OP_SCALE_VEC,
-	Animator3D__MatrixOp_MultMtx33,						// MATRIX_OP_MULT_MTX_33,
-	Animator3D__MatrixOp_TranslateVec,					// MATRIX_OP_TRANSLATE_VEC,
-	Animator3D__MatrixOp_TranslateVec2,					// MATRIX_OP_TRANSLATE_VEC2,
-	Animator3D__MatrixOp_MultMtx43ScaleVec,				// MATRIX_OP_MULT_MTX43_SCALE_VEC,
-	Animator3D__MatrixOp_MultMtx43TranslateScaleVec,	// MATRIX_OP_MULT_MTX43_TRANSLATE_SCALE_VEC,
-	Animator3D__MatrixOp_MultMtx43,						// MATRIX_OP_MULT_MTX43,
-	Animator3D__MatrixOp_MultCameraMtx43,				// MATRIX_OP_MULT_CAMERA_MTX43,
-	Animator3D__MatrixOp_MultCameraMtx33,				// MATRIX_OP_MULT_CAMERA_MTX33,
-	Animator3D__MatrixOp_SetCameraRot4x3,				// MATRIX_OP_SET_CAMERA_ROT_43,
-	Animator3D__MatrixOp_SetCameraRot3x3,				// MATRIX_OP_SET_CAMERA_ROT_33,
-	Animator3D__MatrixOp_Callback,						// MATRIX_OP_CALLBACK,
-};
-
 // clang-format on
+
+static const Animator3DMatrixFunc animator3DMatrixFuncList[MATRIX_OP_COUNT] = {
+    [MATRIX_OP_NONE]                             = Animator3D__MatrixOp_None,
+    [MATRIX_OP_IDENTITY]                         = Animator3D__MatrixOp_Identity,
+    [MATRIX_OP_RESTORE_MTX]                      = Animator3D__MatrixOp_RestoreMtx,
+    [MATRIX_OP_FLUSH_P]                          = Animator3D__MatrixOp_FlushP,
+    [MATRIX_OP_FLUSH_VP]                         = Animator3D__MatrixOp_FlushVP,
+    [MATRIX_OP_FLUSH_WVP]                        = Animator3D__MatrixOp_FlushWVP,
+    [MATRIX_OP_SET_MATRIX_MODE]                  = Animator3D__MatrixOp_SetMatrixMode,
+    [MATRIX_OP_FLUSH_P_CAMERA3D]                 = Animator3D__MatrixOp_FlushP_Camera3D,
+    [MATRIX_OP_FLUSH_VP_CAMERA3D]                = Animator3D__MatrixOp_FlushVP_Camera3D,
+    [MATRIX_OP_FLUSH_WVP_CAMERA3D]               = Animator3D__MatrixOp_FlushWVP_Camera3D,
+    [MATRIX_OP_IDENTITY_SCALE]                   = Animator3D__MatrixOp_IdentityScale,
+    [MATRIX_OP_COPY_MTX33_TO_43]                 = Animator3D__MatrixOp_CopyMtx33To43,
+    [MATRIX_OP_IDENTITY_TRANSLATE]               = Animator3D__MatrixOp_IdentityTranslate,
+    [MATRIX_OP_IDENTITY_TRANSLATE2]              = Animator3D__MatrixOp_IdentityTranslate2,
+    [MATRIX_OP_IDENTITY_ROTATE_SCALE]            = Animator3D__MatrixOp_IdentityRotateScale,
+    [MATRIX_OP_IDENTITY_ROTATE_TRANSLATE2_SCALE] = Animator3D__MatrixOp_IdentityRotateTranslate2Scale,
+    [MATRIX_OP_LOAD_MTX43]                       = Animator3D__MatrixOp_LoadMtx43,
+    [MATRIX_OP_LOAD_CAMERA_MTX43]                = Animator3D__MatrixOp_LoadCameraMtx43,
+    [MATRIX_OP_LOAD_CAMERA_MTX33]                = Animator3D__MatrixOp_LoadCameraMtx33,
+    [MATRIX_OP_SCALE]                            = Animator3D__MatrixOp_Scale,
+    [MATRIX_OP_ROTATE]                           = Animator3D__MatrixOp_Rotate,
+    [MATRIX_OP_TRANSLATE]                        = Animator3D__MatrixOp_Translate,
+    [MATRIX_OP_TRANSLATE2]                       = Animator3D__MatrixOp_Translate2,
+    [MATRIX_OP_ROTATE_SCALE]                     = Animator3D__MatrixOp_RotateScale,
+    [MATRIX_OP_ROTATE_TRANSLATE2_SCALE]          = Animator3D__MatrixOp_RotateTranslate2Scale,
+    [MATRIX_OP_MULT_MTX43]                       = Animator3D__MatrixOp_MultMtx43,
+    [MATRIX_OP_MULT_CAMERA_MTX43]                = Animator3D__MatrixOp_MultCameraMtx43,
+    [MATRIX_OP_MULT_CAMERA_MTX33]                = Animator3D__MatrixOp_MultCameraMtx33,
+    [MATRIX_OP_SET_CAMERA_ROT_43]                = Animator3D__MatrixOp_SetCameraRot4x3,
+    [MATRIX_OP_SET_CAMERA_ROT_33]                = Animator3D__MatrixOp_SetCameraRot3x3,
+    [MATRIX_OP_CALLBACK]                         = Animator3D__MatrixOp_Callback,
+};
 
 static const GXTexFmt Sprite__Tex3DFormatForBACFormat[] = { GX_TEXFMT_PLTT16,  GX_TEXFMT_PLTT256, GX_TEXFMT_DIRECT, GX_TEXFMT_PLTT4, GX_TEXFMT_PLTT16,
                                                             GX_TEXFMT_PLTT256, GX_TEXFMT_DIRECT,  GX_TEXFMT_A3I5,   GX_TEXFMT_A5I3,  GX_TEXFMT_COMP4x4 };
@@ -2862,7 +2862,7 @@ void AnimatorMDL__Init(AnimatorMDL *animator, AnimatorFlags flags)
     animator->work.scale.y        = FX_ONE;
     animator->work.scale.x        = FX_ONE;
 
-    MTX_Identity33(&animator->work.matrix33);
+    MTX_Identity33(&animator->work.rotation);
     MTX_Identity43(&animator->work.matrix43);
 
     for (u32 i = 0; i < B3D_ANIM_MAX; i++)
@@ -3076,7 +3076,7 @@ void AnimatorShape3D__Init(AnimatorShape3D *animator, AnimatorFlags flags)
     animator->work.scale.y        = FX_ONE;
     animator->work.scale.x        = FX_ONE;
 
-    MTX_Identity33(&animator->work.matrix33);
+    MTX_Identity33(&animator->work.rotation);
     MTX_Identity43(&animator->work.matrix43);
 
     animator->sendMat = TRUE;
@@ -3120,15 +3120,17 @@ void AnimatorSprite3D__Init(AnimatorSprite3D *animator, u32 flags3D, void *fileD
     animator->work.scale.y        = FX_ONE;
     animator->work.scale.x        = FX_ONE;
 
-    MTX_Identity33(&animator->work.matrix33);
+    MTX_Identity33(&animator->work.rotation);
     MTX_Identity43(&animator->work.matrix43);
 
     AnimatorSprite__Init(&animator->animatorSprite, fileData, animID, flags, 0, PIXEL_MODE_TEXTURE, vramPixels, PALETTE_MODE_TEXTURE, vramPalette, SPRITE_PRIORITY_0,
                          SPRITE_ORDER_0);
 
     // set alpha to 0x1F (opaque), set polygon mode (PM) to "MODULATE", set front (FR) & back (BK) faces to not be culled
-    animator->polygonAttr = (animator->polygonAttr & ~REG_G3_POLYGON_ATTR_PM_MASK | (GX_CULL_NONE << REG_G3_POLYGON_ATTR_BK_SHIFT)) & ~(0x1F << REG_G3_POLYGON_ATTR_ALPHA_SHIFT)
-                            | (GX_COLOR_FROM_888(0xFF) << REG_G3_POLYGON_ATTR_ALPHA_SHIFT);
+    animator->polygonAttr =
+        ((animator->polygonAttr & ~REG_G3_POLYGON_ATTR_PM_MASK) | (GX_POLYGONMODE_MODULATE << REG_G3_POLYGON_ATTR_PM_SHIFT) | (GX_CULL_NONE << REG_G3_POLYGON_ATTR_BK_SHIFT))
+            & ~(GX_COLOR_FROM_888(0xFF) << REG_G3_POLYGON_ATTR_ALPHA_SHIFT)
+        | (GX_COLOR_FROM_888(0xFF) << REG_G3_POLYGON_ATTR_ALPHA_SHIFT);
 
     animator->field_F8 = (animator->field_F8 & ~0x7FFF) | 0x7FFF;
     animator->field_F8 |= 0x8000;
@@ -3976,9 +3978,9 @@ NONMATCH_FUNC s32 BAC_FrameGroupFunc_Palette(BACFrameGroupBlock_Palette *block, 
     if ((animator->flags & ANIMATOR_FLAG_DISABLE_PALETTES) == 0)
     {
         PaletteFunc paletteFunc;
-        aniPaletteOffset = animator->paletteOffset;
+        aniPaletteOffset     = animator->paletteOffset;
         struct BACFile *file = ((struct BACFile *)animator->fileData);
-        paletteData =  animator->fileData + file->paletteOffset + block->paletteOffset;
+        paletteData          = animator->fileData + file->paletteOffset + block->paletteOffset;
         if (((*aniFlags) & ANIMATOR_FLAG_UNCOMPRESSED_PALETTES) != 0)
             paletteFunc = LoadUncompressedPalette;
         else
@@ -4156,7 +4158,7 @@ s32 BAC_FrameGroupFunc_Unused_11(BACFrameGroupBlockHeader *block, AnimatorSprite
 void Animator3D__HandleMatrixOperations(Animator3D *animator, u32 flags)
 {
     NNS_G3dGlbSetBaseScale(&animator->scale);
-    NNS_G3dGlbSetBaseRot(&animator->matrix33);
+    NNS_G3dGlbSetBaseRot(&animator->rotation);
     NNS_G3dGlbSetBaseTrans(&animator->translation);
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
 
@@ -4226,7 +4228,7 @@ void Animator3D__MatrixOp_CopyMtx33To43(Animator3D *animator)
 {
     MtxFx43 matrix;
 
-    MTX_Copy33To43(&animator->matrix33, &matrix);
+    MTX_Copy33To43(&animator->rotation, &matrix);
     NNS_G3dGeLoadMtx43(&matrix);
 }
 
@@ -4242,15 +4244,15 @@ void Animator3D__MatrixOp_IdentityTranslate2(Animator3D *animator)
     NNS_G3dGeTranslateVec(&animator->translation2);
 }
 
-void Animator3D__MatrixOp_LoadMtx43ScaleVec(Animator3D *animator)
+void Animator3D__MatrixOp_IdentityRotateScale(Animator3D *animator)
 {
-    NNS_G3dGeLoadMtx43((MtxFx43 *)&animator->matrix33);
+    NNS_G3dGeLoadMtx43((MtxFx43 *)&animator->rotation);
     NNS_G3dGeScaleVec(&animator->scale);
 }
 
-void Animator3D__MatrixOp_LoadMtx43TranslateScaleVec(Animator3D *animator)
+void Animator3D__MatrixOp_IdentityRotateTranslate2Scale(Animator3D *animator)
 {
-    NNS_G3dGeLoadMtx43((MtxFx43 *)&animator->matrix33);
+    NNS_G3dGeLoadMtx43((MtxFx43 *)&animator->rotation);
     NNS_G3dGeTranslateVec(&animator->translation2);
     NNS_G3dGeScaleVec(&animator->scale);
 }
@@ -4263,54 +4265,52 @@ void Animator3D__MatrixOp_LoadMtx43(Animator3D *animator)
 void Animator3D__MatrixOp_LoadCameraMtx43(Animator3D *animator)
 {
     MtxFx43 matrix;
-    Camera3D__CopyMatrix4x3(NNS_G3dGlbGetCameraMtx(), &matrix);
+    Camera3D__CopyMatrix4x3(NNS_G3dGlbGetCameraMtx(), (MtxFx33 *)&matrix);
 
-    matrix.m[3][2] = 0;
-    matrix.m[3][1] = 0;
-    matrix.m[3][0] = 0;
+    matrix.m[3][0] = matrix.m[3][1] = matrix.m[3][2] = FLOAT_TO_FX32(0.0);
+
     NNS_G3dGeLoadMtx43(&matrix);
 }
 
 void Animator3D__MatrixOp_LoadCameraMtx33(Animator3D *animator)
 {
     MtxFx43 matrix;
-    Camera3D__CopyMatrix3x3((MtxFx33 *)NNS_G3dGlbGetCameraMtx(), (MtxFx33 *)&matrix);
+    Camera3D__CopyMatrix3x3(NNS_G3dGlbGetCameraMtx(), (MtxFx33 *)&matrix);
 
-    matrix.m[3][2] = 0;
-    matrix.m[3][1] = 0;
-    matrix.m[3][0] = 0;
+    matrix.m[3][0] = matrix.m[3][1] = matrix.m[3][2] = FLOAT_TO_FX32(0.0);
+
     NNS_G3dGeLoadMtx43(&matrix);
 }
 
-void Animator3D__MatrixOp_ScaleVec(Animator3D *animator)
+void Animator3D__MatrixOp_Scale(Animator3D *animator)
 {
     NNS_G3dGeScaleVec(&animator->scale);
 }
 
-void Animator3D__MatrixOp_MultMtx33(Animator3D *animator)
+void Animator3D__MatrixOp_Rotate(Animator3D *animator)
 {
-    NNS_G3dGeMultMtx33(&animator->matrix33);
+    NNS_G3dGeMultMtx33(&animator->rotation);
 }
 
-void Animator3D__MatrixOp_TranslateVec(Animator3D *animator)
+void Animator3D__MatrixOp_Translate(Animator3D *animator)
 {
     NNS_G3dGeTranslateVec(&animator->translation);
 }
 
-void Animator3D__MatrixOp_TranslateVec2(Animator3D *animator)
+void Animator3D__MatrixOp_Translate2(Animator3D *animator)
 {
     NNS_G3dGeTranslateVec(&animator->translation2);
 }
 
-void Animator3D__MatrixOp_MultMtx43ScaleVec(Animator3D *animator)
+void Animator3D__MatrixOp_RotateScale(Animator3D *animator)
 {
-    NNS_G3dGeMultMtx43((MtxFx43 *)&animator->matrix33);
+    NNS_G3dGeMultMtx43((MtxFx43 *)&animator->rotation);
     NNS_G3dGeScaleVec(&animator->scale);
 }
 
-void Animator3D__MatrixOp_MultMtx43TranslateScaleVec(Animator3D *animator)
+void Animator3D__MatrixOp_RotateTranslate2Scale(Animator3D *animator)
 {
-    NNS_G3dGeMultMtx43((MtxFx43 *)&animator->matrix33);
+    NNS_G3dGeMultMtx43((MtxFx43 *)&animator->rotation);
     NNS_G3dGeTranslateVec(&animator->translation2);
     NNS_G3dGeScaleVec(&animator->scale);
 }
@@ -4323,28 +4323,28 @@ void Animator3D__MatrixOp_MultMtx43(Animator3D *animator)
 void Animator3D__MatrixOp_MultCameraMtx43(Animator3D *animator)
 {
     MtxFx33 matrix;
-    Camera3D__CopyMatrix4x3(NNS_G3dGlbGetCameraMtx(), (MtxFx43 *)&matrix);
+    Camera3D__CopyMatrix4x3(NNS_G3dGlbGetCameraMtx(), &matrix);
     NNS_G3dGeMultMtx33(&matrix);
 }
 
 void Animator3D__MatrixOp_MultCameraMtx33(Animator3D *animator)
 {
     MtxFx33 matrix;
-    Camera3D__CopyMatrix3x3((MtxFx33 *)NNS_G3dGlbGetCameraMtx(), &matrix);
+    Camera3D__CopyMatrix3x3(NNS_G3dGlbGetCameraMtx(), &matrix);
     NNS_G3dGeMultMtx33(&matrix);
 }
 
 void Animator3D__MatrixOp_SetCameraRot4x3(Animator3D *animator)
 {
     MtxFx33 matrix;
-    Camera3D__CopyMatrix4x3(NNS_G3dGlbGetCameraMtx(), (MtxFx43 *)&matrix);
+    Camera3D__CopyMatrix4x3(NNS_G3dGlbGetCameraMtx(), &matrix);
     NNS_G3dGlbSetBaseRot(&matrix);
 }
 
 void Animator3D__MatrixOp_SetCameraRot3x3(Animator3D *animator)
 {
     MtxFx33 matrix;
-    Camera3D__CopyMatrix3x3((MtxFx33 *)NNS_G3dGlbGetCameraMtx(), &matrix);
+    Camera3D__CopyMatrix3x3(NNS_G3dGlbGetCameraMtx(), &matrix);
     NNS_G3dGlbSetBaseRot(&matrix);
 }
 

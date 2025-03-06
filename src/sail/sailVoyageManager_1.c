@@ -951,15 +951,15 @@ void SailVoyageManager__Main(void)
                 break;
 
             default:
-                if (manager->field_5A == 3)
-                    manager->field_5A = 2;
+                if (manager->cloudType == 3)
+                    manager->cloudType = 2;
                 break;
 
             case 11:
             case 4:
                 if (otherSegmentID == 0 || (work->segmentList[otherSegmentID].field_0 != 4 && work->segmentList[otherSegmentID].field_0 != 11))
                 {
-                    manager->field_5A = 3;
+                    manager->cloudType = 3;
                 }
                 break;
         }

@@ -47,7 +47,7 @@ enum SailManagerFlags_
     SAILMANAGER_FLAG_200000             = 1 << 21,
     SAILMANAGER_FLAG_400000             = 1 << 22,
     SAILMANAGER_FLAG_800000             = 1 << 23,
-    SAILMANAGER_FLAG_1000000            = 1 << 24,
+    SAILMANAGER_FLAG_PLAYED_RING_SFX_THIS_FRAME            = 1 << 24,
     SAILMANAGER_FLAG_2000000            = 1 << 25,
     SAILMANAGER_FLAG_DISABLE_BTN_PRESS  = 1 << 26,
     SAILMANAGER_FLAG_REPLAY_ACTIVE      = 1 << 27,
@@ -80,6 +80,20 @@ typedef struct SailColliderWorkHitCheck_
     VecFx32 field_5C;
 } SailColliderWorkHitCheck;
 
+typedef struct SailColliderWorkHitCheckRing_
+{
+    VecFx32 field_0;
+    VecFx32 field_C;
+    VecFx32 field_18;
+    VecFx32 field_24;
+    u16 angle;
+    u16 field_32;
+    VecFx32 *field_34;
+    s32 field_38;
+    s32 field_3C;
+    s32 field_40;
+} SailColliderWorkHitCheckRing;
+
 typedef struct SailColliderWork_
 {
     u16 type;
@@ -102,23 +116,23 @@ typedef struct SailManager_
     u32 timer;
     u32 stageTimer;
     SailManagerFlags flags;
-    u16 field_28;
+    u16 raceRank;
     u16 field_2A;
     s32 field_2C;
     u16 field_30;
     u16 field_32;
     VecFx32 velocity;
     VecFx32 dword40;
-    s32 alphaTimer;
-    s32 field_50;
+    s32 cloudyTimer;
+    s32 cloudyness;
     s32 field_54;
     u16 field_58;
-    u16 field_5A;
-    u16 field_5C;
+    u16 cloudType;
+    u16 prevCloudType;
     u16 field_5E;
     u16 field_60;
     u16 field_62;
-    VecFx32 dword64;
+    VecFx32 fogBrightness;
     StageTask *sailPlayer;
     StageTask *unknownList[6];
     StageTask *rivalJohnny;

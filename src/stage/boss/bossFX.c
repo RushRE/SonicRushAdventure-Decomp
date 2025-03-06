@@ -468,7 +468,7 @@ BossFX3D *BossFX__CreateWhaleSplashB(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z
     effect->objWork.scale.y = FLOAT_TO_FX32(1.0);
     effect->objWork.scale.z = FLOAT_TO_FX32(1.0);
 
-    effect->aniModel.ani.work.matrix33 = *mtx;
+    effect->aniModel.ani.work.rotation = *mtx;
 
     return effect;
 }
@@ -586,7 +586,7 @@ BossFX3D *BossFX__CreateCondorExplode1(BossFX3DFlags flags, fx32 x, fx32 y, fx32
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef6_f_exp01",
                                         B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, NULL);
     effect->objWork.flag |= DISPLAY_FLAG_NO_DRAW;
-    MTX_RotX33(&effect->aniModel.ani.work.matrix33, SinFX(FLOAT_DEG_TO_IDX(29.970703125)), CosFX(FLOAT_DEG_TO_IDX(29.970703125)));
+    MTX_RotX33(&effect->aniModel.ani.work.rotation, SinFX(FLOAT_DEG_TO_IDX(29.970703125)), CosFX(FLOAT_DEG_TO_IDX(29.970703125)));
 
     return effect;
 }
@@ -656,7 +656,7 @@ BossFX3D *BossFX__CreateTitanFlashG(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z,
                                         &TitanFlashG_ReferenceCount);
 
     if (mtx != NULL)
-        effect->aniModel.ani.work.matrix33 = *mtx;
+        effect->aniModel.ani.work.rotation = *mtx;
 
     effect->objWork.scale.x = FLOAT_TO_FX32(1.5);
     effect->objWork.scale.y = FLOAT_TO_FX32(1.5);
@@ -671,7 +671,7 @@ BossFX3D *BossFX__CreateTitanFlashC(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z,
                                         &TitanFlashC_ReferenceCount);
 
     if (mtx != NULL)
-        effect->aniModel.ani.work.matrix33 = *mtx;
+        effect->aniModel.ani.work.rotation = *mtx;
 
     return effect;
 }
@@ -683,7 +683,7 @@ BossFX3D *BossFX__CreateTitanHover(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z)
 
 BossFX2D *BossFX__CreateTitanLightning(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z)
 {
-    return BossFX2D__Create(sizeof(BossFX2D), NULL, "bsef8_lightning.bac", ObjDispRand() & 1, flags, 60, x, y, z);
+    return BossFX2D__Create(sizeof(BossFX2D), NULL, "bsef8_lightning.bac", ObjDispRandRepeat(2), flags, 60, x, y, z);
 }
 
 BossFX3D *BossFX__CreateTitanBreak(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z)

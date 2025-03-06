@@ -4264,7 +4264,7 @@ EffectSailWater08__State_21644FC: // 0x021644FC
 	orrne r0, r0, #4
 	strne r0, [r4, #0x18]
 	ldr r0, _02164530 // =0x00007FFF
-	bl SailObject__Func_2165038
+	bl SailObject__ApplyFogBrightness
 	mov r1, r0
 	mov r0, r4
 	bl SailObject__Func_2164D10

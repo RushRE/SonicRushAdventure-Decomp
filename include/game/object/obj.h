@@ -56,6 +56,13 @@ RUSH_INLINE s32 ObjDispRandRange3(s32 min, s32 max)
 
 #define ObjDispRandRange4(min, max) (((min) - 1) - ((ObjDispRand() & (((max - min) - 1) * 2))))
 
+// returns a random value between 'min' and (max - 1)
+RUSH_INLINE s32 ObjDispRandRange5(s32 min, s32 max)
+{
+    return (-min) - ObjDispRandRepeat(max - min);
+}
+
+
 // --------------------
 // FUNCTIONS
 // --------------------

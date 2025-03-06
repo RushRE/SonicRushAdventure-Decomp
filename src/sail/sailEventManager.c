@@ -801,7 +801,7 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
                     SailStone__CreateFromSegment(voyageSegment, 0);
                 }
 
-                if ((ObjDispRand() & 3) == 0)
+                if (ObjDispRandRepeat(4) == 0)
                 {
                     for (u16 i = 0; i < 4; i++)
                     {
@@ -818,11 +818,11 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
                         {
                             for (u16 i = 0; i < 3; i++)
                             {
-                                if ((ObjDispRand() & 1) != 0)
+                                if (ObjDispRandRepeat(2) != 0)
                                     SailStone__CreateFromSegment(voyageSegment, 0);
                             }
 
-                            if ((ObjDispRand() & 1) != 0)
+                            if (ObjDispRandRepeat(2) != 0)
                                 SailSeagull__CreateFromSegment(voyageSegment);
                         }
                         break;
@@ -836,7 +836,7 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
                     case 9:
                     case 10:
                     case 11:
-                        if ((ObjDispRand() & 1) != 0)
+                        if (ObjDispRandRepeat(2) != 0)
                             SailStone__CreateFromSegment(voyageSegment, 0);
 
                         SailBuoy__CreateFromSegment(voyageSegment);
@@ -1706,7 +1706,7 @@ void SailEventManager__Main(void)
                 {
                     if (object->type == SAILMAPOBJECT_RING)
                     {
-                        if ((object->ringTask->flags & 1) == 0)
+                        if ((object->ringTask->flags & SAILRING_FLAG_ALLOCATED) == 0)
                         {
                             SailEventManager__RemoveEntry(object);
                         }
@@ -1714,7 +1714,7 @@ void SailEventManager__Main(void)
                         {
                             if (voyagePos + work->field_3C >= object->unknown.z || voyagePos + work->field_38 < object->unknown.z)
                             {
-                                SailRingManager_CollectSailRing(object->ringTask);
+                                SailRingManager_DestroyRing(object->ringTask);
                                 SailEventManager__RemoveEntry(object);
                             }
                         }

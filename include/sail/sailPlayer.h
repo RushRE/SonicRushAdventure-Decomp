@@ -31,6 +31,12 @@
 #define SAILPLAYER_CHARGE_SFX_START_THRESHOLD  FLOAT_TO_FX32(0.0)
 #define SAILPLAYER_CHARGE_SFX_CHARGE_THRESHOLD FLOAT_TO_FX32(30.0)
 
+#define SAILPLAYER_MAX_RINGS 9999
+
+#define SAILPLAYER_MAX_SCORE 99999999
+
+#define SAILPLAYER_MAX_SCORE_COMBO 999
+
 // --------------------
 // ENUMS
 // --------------------
@@ -128,7 +134,7 @@ typedef struct SailPlayer_
     s32 field_19C;
     s32 field_1A0;
     u32 rings;
-    s32 score;
+    u32 score;
     u32 enemyDefeatCount;
     u8 field_1B0;
     u8 field_1B1;
@@ -142,8 +148,8 @@ typedef struct SailPlayer_
     s32 boost;
     SailPlayerAction action;
     s16 blinkTimer;
-    u16 scoreMultiplier;
-    u16 maxComboCount;
+    u16 scoreComboCurrent;
+    u16 scoreComboBest;
     u16 field_1C8;
     s16 field_1CA;
     s16 field_1CC;
@@ -156,7 +162,7 @@ typedef struct SailPlayer_
     u16 field_1DE;
     u16 boostCooldownTimer;
     s16 trickFinishTimer;
-    s16 field_1E4;
+    s16 missedRingCount;
     s16 field_1E6;
     s16 dashPanelTimer;
     s16 field_1EA;
@@ -271,5 +277,14 @@ void SailPlayer__HandleSubmarineSfx(StageTask *work);
 void SailPlayer__Last_Default(void);
 void SailPlayer__BoatRenderCallback(NNSG3dRS *rs);
 void SailPlayer__Func_215F154(StageTask *work);
+
+// --------------------
+// INLINE FUNCTIONS
+// --------------------
+
+RUSH_INLINE void SailPlayer__AddHealth(StageTask *player, s32 amount)
+{
+    SailPlayer__RemoveHealth(player, -amount);
+}
 
 #endif // !RUSH_SAILPLAYER_H

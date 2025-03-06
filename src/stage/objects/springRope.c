@@ -96,13 +96,13 @@ void SpringRope_State_Active(SpringRope *work)
             OBS_ACTION3D_NN_WORK *aniRope = work->gameWork.objWork.obj_3d;
 
             MtxFx33 mtxTemp;
-            MTX_Identity33(&aniRope->ani.work.matrix33);
+            MTX_Identity33(&aniRope->ani.work.rotation);
             MTX_RotX33(&mtxTemp, SinFX((s32)(u16)player->objWork.userWork), CosFX((s32)(u16)player->objWork.userWork));
-            MTX_Concat33(&aniRope->ani.work.matrix33, &mtxTemp, &aniRope->ani.work.matrix33);
+            MTX_Concat33(&aniRope->ani.work.rotation, &mtxTemp, &aniRope->ani.work.rotation);
 
             s32 angle = (s32)(u16) - (s32)(u16)(player->objWork.dir.y - FLOAT_DEG_TO_IDX(90.0));
             MTX_RotY33(&mtxTemp, SinFX(angle), CosFX(angle));
-            MTX_Concat33(&aniRope->ani.work.matrix33, &mtxTemp, &aniRope->ani.work.matrix33);
+            MTX_Concat33(&aniRope->ani.work.rotation, &mtxTemp, &aniRope->ani.work.rotation);
 
             VEC_Set(&aniRope->ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FX32_TO_WHOLE(FLOAT_TO_FX32(3.3) * FX_DivS32(player->objWork.userTimer, 160)));
 
@@ -118,11 +118,11 @@ void SpringRope_State_Active(SpringRope *work)
         work->gameWork.flags &= ~SPRINGROPE_FLAG_USE_LOW_PRIORITY;
 
         MtxFx33 mtxTemp;
-        MTX_Identity33(&aniRope->ani.work.matrix33);
+        MTX_Identity33(&aniRope->ani.work.rotation);
         MTX_RotX33(&mtxTemp, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
-        MTX_Concat33(&aniRope->ani.work.matrix33, &mtxTemp, &aniRope->ani.work.matrix33);
+        MTX_Concat33(&aniRope->ani.work.rotation, &mtxTemp, &aniRope->ani.work.rotation);
         MTX_RotY33(&mtxTemp, SinFX(FLOAT_DEG_TO_IDX(90.0)), CosFX(FLOAT_DEG_TO_IDX(90.0)));
-        MTX_Concat33(&aniRope->ani.work.matrix33, &mtxTemp, &aniRope->ani.work.matrix33);
+        MTX_Concat33(&aniRope->ani.work.rotation, &mtxTemp, &aniRope->ani.work.rotation);
 
         aniRope->ani.work.scale.x = FLOAT_TO_FX32(3.3);
         aniRope->ani.work.scale.y = FLOAT_TO_FX32(3.3);

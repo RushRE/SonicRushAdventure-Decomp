@@ -139,7 +139,7 @@ Trampoline *CreateTrampoline(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
 
     G3_BeginMakeDL(&work->drawList, work->drawData, 0x400);
-    G3C_PolygonAttr(&work->drawList, GX_LIGHTID_0, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, GX_COLOR_FROM_888(0xFF), 0);
+    G3C_PolygonAttr(&work->drawList, GX_LIGHTID_0, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, GX_COLOR_FROM_888(0xFF), GX_POLYGON_ATTR_MISC_NONE);
     G3C_TexPlttBase(&work->drawList, VRAMKEY_TO_KEY(work->aniTrampoline.animatorSprite.vramPalette) & 0x1FFFF, GX_TEXFMT_PLTT16);
     G3C_TexImageParam(&work->drawList, GX_TEXFMT_PLTT16, GX_TEXGEN_TEXCOORD, GX_TEXSIZE_S8, GX_TEXSIZE_T8, GX_TEXREPEAT_S, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS,
                       VRAMKEY_TO_KEY(work->aniTrampoline.animatorSprite.vramPixels) & 0x7FFFF);
