@@ -19,6 +19,45 @@ enum SailStageObjTypes_
 };
 typedef u16 SailStageObjTypes;
 
+enum SailObjectFlags_
+{
+    SAILOBJECT_FLAG_NONE = 0x00,
+
+    SAILOBJECT_FLAG_1        = 1 << 0,
+    SAILOBJECT_FLAG_2        = 1 << 1,
+    SAILOBJECT_FLAG_4        = 1 << 2,
+    SAILOBJECT_FLAG_8        = 1 << 3,
+    SAILOBJECT_FLAG_10       = 1 << 4,
+    SAILOBJECT_FLAG_20       = 1 << 5,
+    SAILOBJECT_FLAG_40       = 1 << 6,
+    SAILOBJECT_FLAG_80       = 1 << 7,
+    SAILOBJECT_FLAG_100      = 1 << 8,
+    SAILOBJECT_FLAG_200      = 1 << 9,
+    SAILOBJECT_FLAG_400      = 1 << 10,
+    SAILOBJECT_FLAG_800      = 1 << 11,
+    SAILOBJECT_FLAG_1000     = 1 << 12,
+    SAILOBJECT_FLAG_2000     = 1 << 13,
+    SAILOBJECT_FLAG_4000     = 1 << 14,
+    SAILOBJECT_FLAG_8000     = 1 << 15,
+    SAILOBJECT_FLAG_10000    = 1 << 16,
+    SAILOBJECT_FLAG_20000    = 1 << 17,
+    SAILOBJECT_FLAG_40000    = 1 << 18,
+    SAILOBJECT_FLAG_80000    = 1 << 19,
+    SAILOBJECT_FLAG_100000   = 1 << 20,
+    SAILOBJECT_FLAG_200000   = 1 << 21,
+    SAILOBJECT_FLAG_400000   = 1 << 22,
+    SAILOBJECT_FLAG_800000   = 1 << 23,
+    SAILOBJECT_FLAG_1000000  = 1 << 24,
+    SAILOBJECT_FLAG_2000000  = 1 << 25,
+    SAILOBJECT_FLAG_4000000  = 1 << 26,
+    SAILOBJECT_FLAG_8000000  = 1 << 27,
+    SAILOBJECT_FLAG_10000000 = 1 << 28,
+    SAILOBJECT_FLAG_20000000 = 1 << 29,
+    SAILOBJECT_FLAG_40000000 = 1 << 30,
+    SAILOBJECT_FLAG_80000000 = 1 << 31,
+};
+typedef u32 SailObjectFlags;
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -32,7 +71,7 @@ typedef struct SailObject_
     VecFx32 field_1C;
     SailColliderWork collider[2];
     u32 dword118;
-    s32 field_11C;
+    s32 health;
     s32 field_120;
     s32 field_124;
     s32 field_128;
@@ -51,7 +90,7 @@ typedef struct SailObject_
     SailEventManagerObject *objectRef;
     s32 field_168;
     u16 objectID;
-    s16 objectAngle;
+    u16 objectAngle;
     VecFx32 objectRadius;
     VecFx32 field_17C;
     Vec2Fx16 lockOnPos;
@@ -135,7 +174,7 @@ StageTask *SailGoalText__Create(u32 a1);
 
 StageTask *SailJetItem__Create(SailEventManagerObject *mapObject);
 StageTask *SailItem3__Create(StageTask *parent);
-StageTask *SailItemBonus__Create(StageTask *parent, u16 type);
+StageTask *SailItemBonus__Create(StageTask *parent, u32 type);
 
 void SailObject__Destructor_2169B20(Task *task);
 BOOL SailObject__ViewCheck_2169B60(StageTask *work);
@@ -187,7 +226,7 @@ void SailGoal__State_216C7E0(StageTask *work);
 void SailGoalText__SetupObject(StageTask *work);
 void SailGoalText__State_216C8F8(StageTask *work);
 
-void SailItemBonus__GiveItem(StageTask *work);
+void SailItemBonus__GiveItem(StageTask *work, StageTask *object);
 void SailItemBonus__State_216CBF8(StageTask *work);
 
 #endif // !RUSH_SAILCOMMONOBJECTS_H

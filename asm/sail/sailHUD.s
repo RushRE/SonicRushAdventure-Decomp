@@ -6945,8 +6945,8 @@ _021744DC: .word SailHUD__Destructor
 _021744E0: .word 0x0000FFFF
 	arm_func_end SailHUD__Create
 
-	arm_func_start SailBoatWeaponHUD__Create
-SailBoatWeaponHUD__Create: // 0x021744E4
+	arm_func_start SailEnemyHealthBar__Create
+SailEnemyHealthBar__Create: // 0x021744E4
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x1c
 	mov r6, r0
@@ -6967,8 +6967,8 @@ _02174518:
 	mov r2, #3
 	str r2, [sp, #4]
 	mov r5, #0x1a0
-	ldr r0, _0217478C // =SailBoatWeaponHUD__Main
-	ldr r1, _02174790 // =SailBoatWeaponHUD__Destructor
+	ldr r0, _0217478C // =SailEnemyHealthBar__Main
+	ldr r1, _02174790 // =SailEnemyHealthBar__Destructor
 	mov r2, #0
 	mov r3, #1
 	str r5, [sp, #8]
@@ -7120,12 +7120,12 @@ _02174518:
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
-_0217478C: .word SailBoatWeaponHUD__Main
-_02174790: .word SailBoatWeaponHUD__Destructor
+_0217478C: .word SailEnemyHealthBar__Main
+_02174790: .word SailEnemyHealthBar__Destructor
 _02174794: .word aSbSilFixBac
 _02174798: .word 0x05000200
 _0217479C: .word 0x00000413
-	arm_func_end SailBoatWeaponHUD__Create
+	arm_func_end SailEnemyHealthBar__Create
 
 	arm_func_start SailScoreBonus__CreateWorld
 SailScoreBonus__CreateWorld: // 0x021747A0
@@ -10403,8 +10403,8 @@ _02177784: .word StageTask__shakeOffsetTable
 _02177788: .word 0x0000100C
 	arm_func_end SailHUD__Func_2177560
 
-	arm_func_start SailBoatWeaponHUD__Destructor
-SailBoatWeaponHUD__Destructor: // 0x0217778C
+	arm_func_start SailEnemyHealthBar__Destructor
+SailEnemyHealthBar__Destructor: // 0x0217778C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r4, r0
 	bl GetCurrentTaskWork_
@@ -10449,10 +10449,10 @@ _02177818:
 	and r0, r0, #0xff
 	bl ObjDrawReleaseSpritePalette
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	arm_func_end SailBoatWeaponHUD__Destructor
+	arm_func_end SailEnemyHealthBar__Destructor
 
-	arm_func_start SailBoatWeaponHUD__Main
-SailBoatWeaponHUD__Main: // 0x02177830
+	arm_func_start SailEnemyHealthBar__Main
+SailEnemyHealthBar__Main: // 0x02177830
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x14
 	bl GetCurrentTaskWork_
@@ -10558,7 +10558,7 @@ _02177960:
 	bl AnimatorSprite__DrawFrame
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	arm_func_end SailBoatWeaponHUD__Main
+	arm_func_end SailEnemyHealthBar__Main
 
 	arm_func_start SailScoreBonus__Main
 SailScoreBonus__Main: // 0x021779C0

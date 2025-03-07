@@ -274,7 +274,7 @@ void SailRingManager_CheckObjectCollisions(SailRingManager *work, StageTask *obj
 
                     if (SailObject__Func_2165624(colliderPtr, &objectWorker->collider[0].hitCheck, ringCollider.field_0.y))
                     {
-                        object->userFlag |= 0x10;
+                        object->userFlag |= SAILOBJECT_FLAG_10;
                         ring->flags &= ~SAILRING_FLAG_USE_OWN_VELOCITY;
                         SailRingManager_CollectRing(ring, player);
                     }
@@ -294,7 +294,7 @@ void SailRingManager_CheckObjectCollisions(SailRingManager *work, StageTask *obj
 
                     if (SailObject__CheckCollisions(colliderPtr, &objectWorker->collider[0].hitCheck, ringCollider.field_0.y))
                     {
-                        object->userFlag |= 0x10;
+                        object->userFlag |= SAILOBJECT_FLAG_10;
                         ring->flags &= ~SAILRING_FLAG_USE_OWN_VELOCITY;
                         SailRingManager_CollectRing(ring, player);
                     }
@@ -468,7 +468,7 @@ void LoadSailRingManagerAssets(SailRingManager *work)
     work->aniRing.work.scale.x = scale;
     work->aniRing.work.scale.y = scale;
     work->aniRing.work.scale.z = scale;
-    work->aniRing.polygonAttr |= GX_POLYGON_ATTR_MISC_FOG;
+    work->aniRing.polygonAttr.enableFog = TRUE;
     AnimatorSprite3D__ProcessAnimationFast(&work->aniRing);
     work->aniRing.animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_LOOPING;
 
@@ -505,7 +505,7 @@ void LoadSailRingManagerAssets(SailRingManager *work)
     aniRingSparkle->work.scale.y = scale;
     aniRingSparkle->work.scale.z = scale;
 
-    aniRingSparkle->polygonAttr |= GX_POLYGON_ATTR_MISC_FOG;
+    aniRingSparkle->polygonAttr.enableFog = TRUE;
     for (u16 i = 0; i < 6; i++)
     {
         AnimatorSprite3D__ProcessAnimationFast(aniRingSparkle);

@@ -435,11 +435,58 @@ typedef struct AnimatorSprite3D_
     Animator3D work;
 
     AnimatorSprite animatorSprite;
-    u32 polygonAttr; // G3_POLYGON_ATTR
-    u16 field_F8;
+
+    union
+    {
+        struct
+        {
+            BOOL light0Enabled : 1;
+            BOOL light1Enabled : 1;
+            BOOL light2Enabled : 1;
+            BOOL light3Enabled : 1;
+            u32 polygonMode : 2;
+            BOOL noCullBack : 1;
+            BOOL noCullFront : 1;
+            u32 __unused : 3;
+            BOOL xluDepthUpdate : 1;
+            BOOL farClipping : 1;
+            BOOL display1Dot : 1;
+            BOOL depthTestDecal : 1;
+            BOOL enableFog : 1;
+            u32 alpha : 5;
+            u32 __unused2 : 3;
+            u32 polygonID : 6;
+            u32 __unused3 : 2;
+        };
+
+        u32 value;
+    } polygonAttr;
+
+    union
+    {
+        struct
+        {
+            u16 unknown : 15;
+            u16 flag : 1;
+        };
+
+        u16 value;
+    } field_F8;
+
     u8 field_FA;
     u8 field_FB;
-    u16 field_FC;
+
+    union
+    {
+        struct
+        {
+            u16 unknown : 15;
+            u16 flag : 1;
+        };
+
+        u16 value;
+    } field_FC;
+
     u8 field_FE;
     u8 field_FF;
     u16 color;

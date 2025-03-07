@@ -69,7 +69,7 @@ void LoadExExplosionSprite(EX_ACTION_BAC3D_WORK *work)
     AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBigExplosionSpriteResource, EX_ACTCOM_ANI_EXPLOSION_BIG, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
                            vramPalette);
 
-    work->sprite.animator.polygonAttr |= GX_POLYGON_ATTR_MISC_XLU_DEPTH_UPDATE;
+    work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
     work->hitChecker.type            = 0;
     work->hitChecker.field_5.value_1 = TRUE;
@@ -177,7 +177,7 @@ void LoadExShockEffectSprite(EX_ACTION_BAC3D_WORK *work)
     VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exShockEffectSpriteResource, 1), FALSE);
 
     AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exShockEffectSpriteResource, EX_ACTCOM_ANI_SHOCK_EFFECT, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels, vramPalette);
-    work->sprite.animator.polygonAttr |= GX_POLYGON_ATTR_MISC_XLU_DEPTH_UPDATE;
+    work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
     work->hitChecker.type            = 0;
     work->hitChecker.field_5.value_1 = TRUE;

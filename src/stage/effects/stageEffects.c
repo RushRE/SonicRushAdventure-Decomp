@@ -354,8 +354,8 @@ EffectBrakeDust3D *CreateEffectBrakeDust3D(Player *parent, fx32 velX, fx32 velY)
                              gameArchiveCommon);
     work->objWork.obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
     // enable forward & backward rendering
-    work->objWork.obj_2dIn3d->ani.polygonAttr |= (1 << REG_G3_POLYGON_ATTR_FR_SHIFT);
-    work->objWork.obj_2dIn3d->ani.polygonAttr |= (1 << REG_G3_POLYGON_ATTR_BK_SHIFT);
+    work->objWork.obj_2dIn3d->ani.polygonAttr.noCullFront = TRUE;
+    work->objWork.obj_2dIn3d->ani.polygonAttr.noCullBack = TRUE;
 
     StageTask__SetAnimation(&work->objWork, 0);
     work->objWork.position.x = parent->objWork.position.x;
@@ -615,9 +615,9 @@ EffectSpindashDust3D *CreateEffectSpindashDust3D(Player *parent, fx32 velX, fx32
                              gameArchiveCommon);
     work->objWork.obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
     work->objWork.obj_2dIn3d->ani.work.matrixOpIDs[1] = MATRIX_OP_NONE;
-    // enable forward & backward rendering
-    work->objWork.obj_2dIn3d->ani.polygonAttr |= (1 << REG_G3_POLYGON_ATTR_FR_SHIFT);
-    work->objWork.obj_2dIn3d->ani.polygonAttr |= (1 << REG_G3_POLYGON_ATTR_BK_SHIFT);
+    // disable forward & backward culling
+    work->objWork.obj_2dIn3d->ani.polygonAttr.noCullFront = TRUE;
+    work->objWork.obj_2dIn3d->ani.polygonAttr.noCullBack = TRUE;
 
     work->objWork.dir.z = parent->objWork.dir.z;
     if ((parent->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)

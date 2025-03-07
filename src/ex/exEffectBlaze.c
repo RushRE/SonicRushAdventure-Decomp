@@ -102,7 +102,7 @@ void LoadExBlazeFireballEffectAssets(EX_ACTION_BAC3D_WORK *work, u16 anim)
     VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exBlazeFireballEffectSpriteResource, 1), FALSE);
 
     AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBlazeFireballEffectSpriteResource, anim, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels, vramPalette);
-    work->sprite.animator.polygonAttr |= GX_POLYGON_ATTR_MISC_XLU_DEPTH_UPDATE;
+    work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
     work->hitChecker.type            = 2;
     work->hitChecker.field_4.value_4 = TRUE;

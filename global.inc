@@ -14603,7 +14603,7 @@
 .public SailHoverChargeHUD__Create
 .public SailSubReticleHUD__Create
 .public SailHUD__Create
-.public SailBoatWeaponHUD__Create
+.public SailEnemyHealthBar__Create
 .public SailScoreBonus__CreateWorld
 .public SailScoreBonus__CreateScreen
 .public SailHUD__GetScore
@@ -14622,8 +14622,8 @@
 .public SailHUD__Func_2176A74
 .public SailHUD__Func_2176C6C
 .public SailHUD__Func_2177560
-.public SailBoatWeaponHUD__Destructor
-.public SailBoatWeaponHUD__Main
+.public SailEnemyHealthBar__Destructor
+.public SailEnemyHealthBar__Main
 .public SailScoreBonus__Main
 .public SailHUD__DrawNumbers
 .public SailHUD__Func_2177B80

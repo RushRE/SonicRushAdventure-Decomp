@@ -108,7 +108,8 @@ BossFX2D *BossFX__CreateRexSmoke(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z)
     effect->aniSprite.ani.work.scale.y = FLOAT_TO_FX32(3.0);
     effect->aniSprite.ani.work.scale.z = FLOAT_TO_FX32(3.0);
 
-    effect->aniSprite.ani.polygonAttr |= GX_CULL_NONE << REG_G3_POLYGON_ATTR_BK_SHIFT;
+    effect->aniSprite.ani.polygonAttr.noCullBack = TRUE;
+    effect->aniSprite.ani.polygonAttr.noCullFront = TRUE;
 
     return effect;
 }

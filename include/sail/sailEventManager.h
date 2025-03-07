@@ -62,21 +62,21 @@ enum SailMapObjectIDs
     SAILMAPOBJECT_COUNT,
 };
 
-enum SailObjectFlags_
+enum SailMapObjectFlags_
 {
-    SAILOBJECT_FLAG_NONE = 0x00,
+    SAILMAPOBJECT_FLAG_NONE = 0x00,
 
-    SAILOBJECT_FLAG_100  = 0x100,
-    SAILOBJECT_FLAG_200  = 0x200,
-    SAILOBJECT_FLAG_400  = 0x400,
+    SAILMAPOBJECT_FLAG_100  = 0x100,
+    SAILMAPOBJECT_FLAG_200  = 0x200,
+    SAILMAPOBJECT_FLAG_400  = 0x400,
 
-    SAILOBJECT_FLAG_8000000  = 0x8000000,
-    SAILOBJECT_FLAG_10000000 = 0x10000000,
-    SAILOBJECT_FLAG_20000000 = 0x20000000,
-    SAILOBJECT_FLAG_40000000 = 0x40000000,
-    SAILOBJECT_FLAG_80000000 = 0x80000000,
+    SAILMAPOBJECT_FLAG_8000000  = 0x8000000,
+    SAILMAPOBJECT_FLAG_10000000 = 0x10000000,
+    SAILMAPOBJECT_FLAG_20000000 = 0x20000000,
+    SAILMAPOBJECT_FLAG_40000000 = 0x40000000,
+    SAILMAPOBJECT_FLAG_80000000 = 0x80000000,
 };
-typedef u32 SailObjectFlags;
+typedef u32 SailMapObjectFlags;
 
 // --------------------
 // STRUCTS
@@ -139,7 +139,7 @@ typedef struct SailEventManagerObject_
     u16 angle;
     u16 type;
     u16 word32;
-    SailObjectFlags flags;
+    SailMapObjectFlags flags;
     u32 objectValue14;
     SBBObject *objectRef;
 } SailEventManagerObject;

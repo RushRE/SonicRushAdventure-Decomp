@@ -966,16 +966,16 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
             stageObject->unknown.z += voyageManager->field_70;
             stageObject->word32 = manager->field_62;
 
-            stageObject->flags = SAILOBJECT_FLAG_10000000;
+            stageObject->flags = SAILMAPOBJECT_FLAG_10000000;
             stageObject->flags |= object->flags;
 
             if (voyageManager->field_70)
-                stageObject->flags |= SAILOBJECT_FLAG_8000000;
+                stageObject->flags |= SAILMAPOBJECT_FLAG_8000000;
 
             if ((manager->flags & SAILMANAGER_FLAG_4) != 0)
             {
                 stageObject->unknown.x = -stageObject->unknown.x;
-                stageObject->flags |= SAILOBJECT_FLAG_80000000;
+                stageObject->flags |= SAILMAPOBJECT_FLAG_80000000;
             }
             NNS_FndAppendListObject(&eventManager->stageObjectList, stageObject);
         }
@@ -1466,8 +1466,8 @@ void SailEventManager__LoadObject(SBBObject *object)
     tempObject->type          = object->type;
     tempObject->unknown       = object->unknown;
     tempObject->objectValue10 = FX32_FROM_WHOLE(object->field_10);
-    tempObject->flags         = SAILOBJECT_FLAG_10000000;
-    tempObject->flags |= SAILOBJECT_FLAG_40000000;
+    tempObject->flags         = SAILMAPOBJECT_FLAG_10000000;
+    tempObject->flags |= SAILMAPOBJECT_FLAG_40000000;
     tempObject->objectValue14 = object->field_14;
 
     NNS_FndAppendListObject(&eventManager->tempObjectList, tempObject);
@@ -1508,7 +1508,7 @@ void SailEventManager__RemoveEntry(SailEventManagerObject *object)
 
         if (eventManager != NULL)
         {
-            object->flags &= ~SAILOBJECT_FLAG_10000000;
+            object->flags &= ~SAILMAPOBJECT_FLAG_10000000;
 
             if (object->objTask != NULL)
                 eventManager->activeObjectCount--;
@@ -1516,7 +1516,7 @@ void SailEventManager__RemoveEntry(SailEventManagerObject *object)
             object->objTask  = NULL;
             object->ringTask = NULL;
 
-            if ((object->flags & SAILOBJECT_FLAG_40000000) == 0)
+            if ((object->flags & SAILMAPOBJECT_FLAG_40000000) == 0)
                 NNS_FndRemoveListObject(&eventManager->stageObjectList, object);
             else
                 NNS_FndRemoveListObject(&eventManager->tempObjectList, object);
@@ -1547,7 +1547,7 @@ SailEventManagerObject *SailEventManager__CreateObject(u16 type, VecFx32 *positi
     object->position.z += MultiplyFX(object->unknown.x, SinFX(object->angle));
     VEC_Subtract(&object->position, &voyageManager->field_0, &object->position);
 
-    object->flags = SAILOBJECT_FLAG_10000000;
+    object->flags = SAILMAPOBJECT_FLAG_10000000;
 
     return object;
 }
@@ -1557,13 +1557,13 @@ void SailEventManager__CreateObject2(SailEventManagerObject *object)
     u16 shipType                   = SailManager__GetShipType();
     SailEventManager *eventManager = SailManager__GetWork()->eventManager;
 
-    if ((object->flags & SAILOBJECT_FLAG_20000000) == 0)
+    if ((object->flags & SAILMAPOBJECT_FLAG_20000000) == 0)
         NNS_FndAppendListObject(&eventManager->stageObjectList, object);
 
     if (object->type == SAILMAPOBJECT_RING)
     {
         SailRing *ring = SailRingManager_CreateStageRing(&object->position);
-        if ((object->flags & SAILOBJECT_FLAG_20000000) == 0)
+        if ((object->flags & SAILMAPOBJECT_FLAG_20000000) == 0)
             object->ringTask = ring;
     }
     else
@@ -1575,7 +1575,7 @@ void SailEventManager__CreateObject2(SailEventManagerObject *object)
             shipType--;
 
         StageTask *objTask = sailObjectSpawnList[shipType][object->type](object);
-        if ((object->flags & SAILOBJECT_FLAG_20000000) == 0)
+        if ((object->flags & SAILMAPOBJECT_FLAG_20000000) == 0)
             object->objTask = objTask;
     }
 }
@@ -1655,7 +1655,7 @@ void SailEventManager__Main(void)
             {
                 SailEventManagerObject *next = (SailEventManagerObject *)NNS_FndGetNextListObject(&work->stageObjectList, object);
                 
-                if ((object->flags & SAILOBJECT_FLAG_8000000) != 0)
+                if ((object->flags & SAILMAPOBJECT_FLAG_8000000) != 0)
                     object->unknown.z += voyageManager->field_74;
 
                 if (object->ringTask == NULL && object->objTask == NULL)
@@ -1681,7 +1681,7 @@ void SailEventManager__Main(void)
                         object->ringTask  = NULL;
                         object->objTask   = NULL;
 
-                        if (((object->flags & (SAILOBJECT_FLAG_100 | SAILOBJECT_FLAG_200 | SAILOBJECT_FLAG_400)) >> 8) > manager->field_5E)
+                        if (((object->flags & (SAILMAPOBJECT_FLAG_100 | SAILMAPOBJECT_FLAG_200 | SAILMAPOBJECT_FLAG_400)) >> 8) > manager->field_5E)
                         {
                             SailEventManager__RemoveEntry(object);
                         }
@@ -1788,7 +1788,7 @@ SailEventManagerObject *SailEventManager__AllocateStageObject(void)
         SailEventManagerObject *objectList = eventManager->stageObjectEntries;
         object                             = &objectList[eventManager->field_20++];
 
-        if ((object->flags & SAILOBJECT_FLAG_10000000) == 0)
+        if ((object->flags & SAILMAPOBJECT_FLAG_10000000) == 0)
             return object;
 
         if (startID == eventManager->field_20)
@@ -1805,7 +1805,7 @@ SailEventManagerObject *SailEventManager__AllocateTempObject(void)
     for (u16 i = 0; i < 16; i++)
     {
         SailEventManagerObject *object = &eventManager->tempObjectEntries[i];
-        if ((object->flags & SAILOBJECT_FLAG_10000000) == 0)
+        if ((object->flags & SAILMAPOBJECT_FLAG_10000000) == 0)
             return object;
     }
 

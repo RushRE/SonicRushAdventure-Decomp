@@ -678,7 +678,7 @@ NOT_DECOMPILED StageTask *SailJetBoostHUD__Create(StageTask *parent, u16 anim, f
 NOT_DECOMPILED StageTask *SailHoverChargeHUD__Create(StageTask *parent, fx32 offsetX, fx32 offsetY);
 NOT_DECOMPILED StageTask *SailSubReticleHUD__Create(StageTask *parent, u16 anim, fx32 offsetX, fx32 offsetY);
 NOT_DECOMPILED SailHUD *SailHUD__Create(void);
-NOT_DECOMPILED void SailBoatWeaponHUD__Create(StageTask *parent);
+NOT_DECOMPILED void SailEnemyHealthBar__Create(StageTask *parent);
 NOT_DECOMPILED SailScoreBonus *SailScoreBonus__CreateWorld(VecFx32 *position, s32 score, s32 multiplier);
 NOT_DECOMPILED SailScoreBonus *SailScoreBonus__CreateScreen(u16 x, u16 y, s32 score, s32 multiplier);
 
@@ -698,8 +698,8 @@ NOT_DECOMPILED void SailHUD__Func_2176578(SailHUD *work);
 NOT_DECOMPILED void SailHUD__Func_2176A74(SailHUD *work);
 NOT_DECOMPILED void SailHUD__Func_2176C6C(SailHUD *work);
 NOT_DECOMPILED void SailHUD__Func_2177560(SailHUD *work);
-NOT_DECOMPILED void SailBoatWeaponHUD__Destructor(Task *task);
-NOT_DECOMPILED void SailBoatWeaponHUD__Main(void);
+NOT_DECOMPILED void SailEnemyHealthBar__Destructor(Task *task);
+NOT_DECOMPILED void SailEnemyHealthBar__Main(void);
 NOT_DECOMPILED void SailScoreBonus__Main(void);
 NOT_DECOMPILED void SailHUD__DrawNumbers(SailHUD *hud, u32 num1, u32 num2, u16 x, s16 y, u16 a6, u16 offsetY);
 NOT_DECOMPILED void SailHUD__Func_2177B80(SailHUD *a1, u32 a2, u16 a3, s16 a4, u16 a5);

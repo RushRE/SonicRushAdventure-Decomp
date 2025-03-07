@@ -273,11 +273,11 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
 
             SailObject__SetupHitbox(work, &worker->colliders[1], 1);
             SailObject__Func_21658D0(work, 1, FLOAT_TO_FX32(1.0), NULL);
-            worker->colliders[1].atkPower = 0x80000;
+            worker->colliders[1].atkPower = FLOAT_TO_FX32(128.0);
 
             SailObject__SetupHitbox(work, &worker->colliders[2], 2);
             SailObject__Func_21658D0(work, 2, FLOAT_TO_FX32(1.625), NULL);
-            worker->colliders[2].atkPower = 0x80000;
+            worker->colliders[2].atkPower = FLOAT_TO_FX32(128.0);
 
             SailPlayer__ColliderFunc(work, 0);
 
@@ -358,8 +358,8 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
         work->colliderList[0]->hitPower = 10;
 
         worker->colliders[0].flags |= 0x200;
-        worker->colliders[1].atkPower = 0x80000;
-        worker->colliders[2].atkPower = 0x60000;
+        worker->colliders[1].atkPower = FLOAT_TO_FX32(128.0);
+        worker->colliders[2].atkPower = FLOAT_TO_FX32(96.0);
     }
 
     return work;

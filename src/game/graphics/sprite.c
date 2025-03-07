@@ -3126,16 +3126,15 @@ void AnimatorSprite3D__Init(AnimatorSprite3D *animator, u32 flags3D, void *fileD
     AnimatorSprite__Init(&animator->animatorSprite, fileData, animID, flags, 0, PIXEL_MODE_TEXTURE, vramPixels, PALETTE_MODE_TEXTURE, vramPalette, SPRITE_PRIORITY_0,
                          SPRITE_ORDER_0);
 
-    // set alpha to 0x1F (opaque), set polygon mode (PM) to "MODULATE", set front (FR) & back (BK) faces to not be culled
-    animator->polygonAttr =
-        ((animator->polygonAttr & ~REG_G3_POLYGON_ATTR_PM_MASK) | (GX_POLYGONMODE_MODULATE << REG_G3_POLYGON_ATTR_PM_SHIFT) | (GX_CULL_NONE << REG_G3_POLYGON_ATTR_BK_SHIFT))
-            & ~(GX_COLOR_FROM_888(0xFF) << REG_G3_POLYGON_ATTR_ALPHA_SHIFT)
-        | (GX_COLOR_FROM_888(0xFF) << REG_G3_POLYGON_ATTR_ALPHA_SHIFT);
+    animator->polygonAttr.polygonMode = GX_POLYGONMODE_MODULATE;
+    animator->polygonAttr.noCullBack  = TRUE;
+    animator->polygonAttr.noCullFront = TRUE;
+    animator->polygonAttr.alpha       = GX_COLOR_FROM_888(0xFF);
 
-    animator->field_F8 = (animator->field_F8 & ~0x7FFF) | 0x7FFF;
-    animator->field_F8 |= 0x8000;
+    animator->field_F8.unknown = 0x7FFF;
+    animator->field_F8.flag    = 1;
 
-    animator->field_FC = (animator->field_FC & ~0x7FFF) | 0x7FFF;
+    animator->field_FC.unknown = 0x7FFF;
 
     animator->color = GX_RGB_888(0xFF, 0xFF, 0xFF);
 }
@@ -3211,7 +3210,7 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
     MTX_Identity43(&matTexture);
 
     // direct buffer because we use 'animator->polygonAttr' instead of function params
-    NNS_G3dGeBufferOP_N(G3OP_POLYGON_ATTR, &animator->polygonAttr, G3OP_POLYGON_ATTR_NPARAMS);
+    NNS_G3dGeBufferOP_N(G3OP_POLYGON_ATTR, &animator->polygonAttr.value, G3OP_POLYGON_ATTR_NPARAMS);
     NNS_G3dGeColor(animator->color);
 
     u32 paletteAddr = (VRAMKEY_TO_KEY(inline_fn(animator)) & 0x1FFFF) + (animator->animatorSprite.cParam.palette * (16 * sizeof(GXRgb)));
