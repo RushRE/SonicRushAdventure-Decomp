@@ -175,7 +175,7 @@ void SailObject__InitFromMapObject(StageTask *work, SailEventManagerObject *mapO
             worker->objectID     = mapObject->id;
             worker->objectAngle  = mapObject->angle;
 
-            s32 v11 = FX_Div(worker->objectRadius.z & 0x7FFFF, SailVoyageManager__GetVoyageUnknownValue(&voyageManager->segmentList[mapObject->id]));
+            s32 v11 = FX_Div(worker->objectRadius.z & 0x7FFFF, SailVoyageManager__GetSegmentSize(&voyageManager->segmentList[mapObject->id]));
             SailVoyageManager__Func_2158888(&voyageManager->segmentList[mapObject->id], v11, &worker->field_1C.x, &worker->field_1C.z);
             worker->objectRef = mapObject;
         }
@@ -186,17 +186,17 @@ void SailObject__SetAnimSpeed(StageTask *work, fx32 speed)
 {
     if (work->obj_3d != NULL)
     {
-        work->obj_3d->ani.speedMultiplier = MultiplyFX(speed, 0x2000);
+        work->obj_3d->ani.speedMultiplier = MultiplyFX(speed, FLOAT_TO_FX32(2.0));
     }
 
     if (work->obj_2d != NULL)
     {
-        work->obj_2d->ani.work.animAdvance = MultiplyFX(speed, 0x2000);
+        work->obj_2d->ani.work.animAdvance = MultiplyFX(speed, FLOAT_TO_FX32(2.0));
     }
 
     if (work->obj_2dIn3d != NULL)
     {
-        work->obj_2dIn3d->ani.animatorSprite.animAdvance = MultiplyFX(speed, 0x2000);
+        work->obj_2dIn3d->ani.animatorSprite.animAdvance = MultiplyFX(speed, FLOAT_TO_FX32(2.0));
     }
 }
 
@@ -274,7 +274,7 @@ void SailObject__DefaultIn(void)
 
     if ((work->userFlag & SAILOBJECT_FLAG_1) == 0)
     {
-        VEC_Subtract(&work->position, SailVoyageManager__GetVoyageUnknownPos(), &work->position);
+        VEC_Subtract(&work->position, SailVoyageManager__GetVoyageVelocity(), &work->position);
     }
 
     if ((work->flag & STAGE_TASK_FLAG_DISABLE_SHAKE) != 0)
@@ -289,8 +289,8 @@ void SailObject__DefaultIn(void)
         if (worker->player != NULL && (worker->player->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
             worker->player = NULL;
 
-        if (worker->field_158 != NULL && (worker->field_158->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
-            worker->field_158 = NULL;
+        if (worker->collidedObj != NULL && (worker->collidedObj->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+            worker->collidedObj = NULL;
 
         if (worker->targetHUD != NULL && (worker->targetHUD->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
             worker->targetHUD = NULL;
@@ -472,16 +472,16 @@ void SailObject__DefaultLast(void)
     if (worker->field_130 != 0)
         worker->field_130--;
 
-    if (worker->field_12E != 0)
+    if (worker->blinkTimer != 0)
     {
-        worker->field_12E--;
-        if ((worker->field_12E & 2) != 0)
+        worker->blinkTimer--;
+        if ((worker->blinkTimer & 2) != 0)
             SailObject__Func_21650B4(work, 1);
         else
             SailObject__Func_21650B4(work, 0);
     }
 
-    worker->field_158 = NULL;
+    worker->collidedObj = NULL;
 }
 
 void SailObject__Func_216524C(StageTask *work, void *unknown)
@@ -1079,8 +1079,8 @@ NONMATCH_FUNC StageTask *SailLanding__Create(SailEventManagerObject *mapObject)
 
     if (work->userTimer != manager->field_4)
     {
-        SetTaskState(work, SailObject__Func_216A46C);
-        SetTaskOutFunc(work, SailObject__Func_216A6A4);
+        SetTaskState(work, SailLanding__State_216A46C);
+        SetTaskOutFunc(work, SailLanding__Draw_216A6A4);
 
         work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
         if (SailManager__GetShipType() == SHIP_BOAT)
@@ -1088,7 +1088,7 @@ NONMATCH_FUNC StageTask *SailLanding__Create(SailEventManagerObject *mapObject)
     }
     else
     {
-        SetTaskOutFunc(work, SailObject__Func_216A4E8);
+        SetTaskOutFunc(work, SailLanding__Draw_216A4E8);
 
         if (SailManager__GetShipType() == SHIP_SUBMARINE)
             SailSubFish__CreateUnknown2(work);
@@ -1156,8 +1156,8 @@ NONMATCH_FUNC StageTask *SailLanding__Create(SailEventManagerObject *mapObject)
 	ldr r0, [r5, #4]
 	cmp r1, r0
 	beq _02165C50
-	ldr r1, =SailObject__Func_216A46C
-	ldr r0, =SailObject__Func_216A6A4
+	ldr r1, =SailLanding__State_216A46C
+	ldr r0, =SailLanding__Draw_216A6A4
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x18]
@@ -1171,7 +1171,7 @@ NONMATCH_FUNC StageTask *SailLanding__Create(SailEventManagerObject *mapObject)
 	str r0, [r4, #0x48]
 	b _02165C74
 _02165C50:
-	ldr r0, =SailObject__Func_216A4E8
+	ldr r0, =SailLanding__Draw_216A4E8
 	str r0, [r4, #0xfc]
 	bl SailManager__GetShipType
 	cmp r0, #3
@@ -1241,7 +1241,7 @@ NONMATCH_FUNC StageTask *SailJetMine__Create(SailEventManagerObject *mapObject)
 
     StageTask__InitSeqPlayer(work);
 
-    SetTaskState(work, SailObject__Func_216A9A4);
+    SetTaskState(work, SailMine__State_216A4E8);
 
     return work;
 #else
@@ -1341,7 +1341,7 @@ NONMATCH_FUNC StageTask *SailJetMine__Create(SailEventManagerObject *mapObject)
 _02165E04:
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
-	ldr r1, =SailObject__Func_216A9A4
+	ldr r1, =SailMine__State_216A4E8
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
@@ -1382,7 +1382,7 @@ NONMATCH_FUNC StageTask *SailJetBomber__Create(SailEventManagerObject *mapObject
     SailObject__Func_21658D0(work, 0, 0x600, 0);
 
     StageTask__InitSeqPlayer(work);
-    SailObject__Func_216A9F0(work);
+    SailJetBomber__Action_Init(work);
 
     return work;
 #else
@@ -1449,7 +1449,7 @@ NONMATCH_FUNC StageTask *SailJetBomber__Create(SailEventManagerObject *mapObject
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
 	mov r0, r4
-	bl SailObject__Func_216A9F0
+	bl SailJetBomber__Action_Init
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
@@ -1587,7 +1587,7 @@ NONMATCH_FUNC StageTask *SailJetBoatCloud__Create(SailEventManagerObject *mapObj
     SailObject__Func_21646DC(work);
     SailObject__InitFromMapObject(work, mapObject);
     worker->field_138.x = mapObject->angle;
-    worker->field_138.y = mapObject->objectValue10;
+    worker->field_138.y = mapObject->viewRange;
 
     work->obj_2dIn3d->ani.polygonAttr.enableFog = FALSE;
     work->obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
@@ -1608,7 +1608,7 @@ NONMATCH_FUNC StageTask *SailJetBoatCloud__Create(SailEventManagerObject *mapObj
     work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     work->userFlag |= SAILOBJECT_FLAG_1;
 
-    SetTaskState(work, SailObject__Func_216ABF0);
+    SetTaskState(work, SailJetBoatCloud__State_216AA38);
 
     return work;
 #else
@@ -1747,7 +1747,7 @@ _0216619C:
 	str r1, [r2]
 	tst r0, #1
 	ldrne r0, [r4, #0x38]
-	ldr r1, =SailObject__Func_216ABF0
+	ldr r1, =SailJetBoatCloud__State_216AA38
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x38]
 	ldr r0, [r4, #0x18]
@@ -1840,7 +1840,7 @@ NONMATCH_FUNC StageTask *SailCloud__Create(s32 type)
     work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     work->userFlag |= SAILOBJECT_FLAG_1;
 
-    SetTaskState(work, SailObject__State_216AF60);
+    SetTaskState(work, SailCloud__State_216AF60);
 
     return work;
 #else
@@ -2091,7 +2091,7 @@ _02166674:
 	str r1, [r2]
 	tst r0, #1
 	ldrne r0, [r4, #0x38]
-	ldr r1, =SailObject__State_216AF60
+	ldr r1, =SailCloud__State_216AF60
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x38]
 	ldr r0, [r4, #0x18]
@@ -2242,7 +2242,7 @@ _02166984:
 	strh r1, [r0, #0x6e]
 _021669AC:
 	mov r0, r5
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r3, [r4, #0x178]
 	ldr r2, =0x0007FFFF
 	mov r1, r0
@@ -2251,7 +2251,7 @@ _021669AC:
 	mov r7, r0
 	mov r0, r5
 	mov r1, r7
-	bl SailVoyageManager__Func_2158854
+	bl SailVoyageManager__GetAngleForSegmentPos
 	add r1, r4, #0x100
 	cmp r6, #0
 	strh r0, [r1, #0x6e]
@@ -2340,7 +2340,7 @@ _02166ADC:
 	strh r1, [r0, #0x6e]
 _02166AF8:
 	mov r0, r6
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r3, [r5, #0x178]
 	ldr r2, =0x0007FFFF
 	mov r1, r0
@@ -2349,7 +2349,7 @@ _02166AF8:
 	mov r8, r0
 	mov r0, r6
 	mov r1, r8
-	bl SailVoyageManager__Func_2158854
+	bl SailVoyageManager__GetAngleForSegmentPos
 	add r2, r5, #0x100
 	strh r0, [r2, #0x6e]
 	mov r1, r8
@@ -2426,7 +2426,7 @@ NONMATCH_FUNC void SailObject__Func_2166C04(StageTask *work)
 	mul r7, r2, r1
 	ldr r8, [r6, #0xc0]
 	add r0, r8, r7
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	mov r1, r0
 	ldr r2, [r5, #0x178]
 	ldr r0, =0x0007FFFF
@@ -2590,7 +2590,7 @@ NONMATCH_FUNC StageTask *SailBuoy__Create(StageTask *parent)
     SailObject__Func_21646DC(work);
     SailObject__InitFromMapObject(work, mapObject);
 
-    work->userWork = mapObject->objectValue10;
+    work->userWork = mapObject->viewRange;
     work->flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->userFlag |= SAILOBJECT_FLAG_80000;
 
@@ -2805,10 +2805,10 @@ NONMATCH_FUNC StageTask *SailBuoy__CreateFromSegment(SailVoyageSegment *voyageSe
 	mov r0, r6
 	str r2, [sp, #4]
 	mov r5, r1, lsr #0x10
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	mov r7, r0
 	mov r0, r6
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r1, [r6, #0x24]
 	cmp r5, #0
 	add r1, r1, r7
@@ -2907,7 +2907,7 @@ NONMATCH_FUNC StageTask *SailBuoy__CreateFromSegment2(SailVoyageSegment *voyageS
 	str r1, [r2]
 	str r1, [r2, #8]
 	str r1, [sp, #4]
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r1, [r5, #0x24]
 	add r0, r1, r0
 	str r0, [sp, #8]
@@ -2944,7 +2944,7 @@ _02167358:
 	mul r1, r3, r1
 	str r1, [sp]
 	str r2, [sp, #4]
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r1, [sp, #8]
 	add r0, r1, r0, asr #2
 	str r0, [sp, #8]
@@ -3329,7 +3329,7 @@ _021677AC:
 	mov r0, r5
 	str r1, [r2]
 	str r6, [sp, #4]
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r1, [sp, #8]
 	add r0, r1, r0, asr #2
 	str r0, [sp, #8]
@@ -3400,7 +3400,7 @@ NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
     segmentType = &voyageManager->segmentList[mapObject->id].field_0;
     if (mapObject->type != SAILMAPOBJECT_26)
     {
-        if (*segmentType == 1 || *segmentType == 8)
+        if (*segmentType == SAILVOYAGESEGMENT_TYPE_1 || *segmentType == SAILVOYAGESEGMENT_TYPE_8)
         {
             return SailIce__Create(mapObject);
         }
@@ -4305,7 +4305,7 @@ _021682F0:
 	str r5, [sp, #4]
 	str r2, [r1]
 	mov r5, r9, lsr #0x10
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	mov r1, r5, lsl #0x12
 	ldr r2, [r7, #0x24]
 	mov r1, r1, lsr #0xe
@@ -4360,7 +4360,7 @@ _0216838C:
 	str r3, [sp]
 	str r2, [r1]
 	mov r5, r8, lsr #0x10
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r2, [r7, #0x24]
 	mov r1, r5, lsl #0x10
 	add r0, r2, r0
@@ -4400,7 +4400,7 @@ _0216845C:
 	str r3, [sp]
 	mov r8, ip, lsl #0x10
 	mov r9, r2, lsl #0x10
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r3, [r7, #0x24]
 	ldr r1, =0x00003FFF
 	add r0, r3, r0
@@ -4463,7 +4463,7 @@ _02168538:
 	str r3, [sp]
 	str r2, [r1]
 	mov r5, r8, lsr #0x10
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r2, =_obj_disp_rand
 	ldr r1, [r7, #0x24]
 	ldr r3, [r2, #0]
@@ -4511,7 +4511,7 @@ _0216862C:
 	str r2, [sp, #4]
 	str r8, [r1]
 	mov r5, r5, lsr #0x10
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r2, [r7, #0x24]
 	mov r1, r5, lsl #0x11
 	add r0, r2, r0
@@ -4552,7 +4552,7 @@ _021686AC:
 	str r3, [sp]
 	mov r8, r8, lsl #0x10
 	mov r9, r2, lsl #0x10
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r3, [r7, #0x24]
 	ldr r1, =0x00003FFF
 	add r0, r3, r0
@@ -4755,7 +4755,7 @@ _02168CD4:
 	str r2, [sp]
 	mov r9, r10, lsl #0x10
 	mov r5, r5, lsl #0x10
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r3, [r8, #0x24]
 	ldr r1, =0x00001FFF
 	add r0, r3, r0
@@ -4799,7 +4799,7 @@ _02168DA0:
 	mov r0, r8
 	str r1, [sp]
 	mov r5, r2, lsr #0x10
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r2, [r8, #0x24]
 	mov r1, r5, lsl #0x12
 	add r0, r2, r0
@@ -4845,7 +4845,7 @@ _02168E18:
 	str r3, [sp]
 	mov r5, r5, lsl #0x10
 	mov r9, r2, lsl #0x10
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r3, [r8, #0x24]
 	ldr r1, =0x00003FFF
 	add r0, r3, r0
@@ -4909,7 +4909,7 @@ _02168EFC:
 	str r3, [sp]
 	str r2, [r1]
 	mov r5, r9, lsr #0x10
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r2, [r8, #0x24]
 	mov r1, r5, lsl #0x12
 	add r0, r2, r0
@@ -5019,14 +5019,14 @@ void SailSubFish__CreateUnknown1(SailVoyageSegment *voyageSegment)
 
     position.x = _0218B9AC[shipType] * ObjDispRandRange(-128, 128);
     position.y = _0218B9B4[shipType] * ObjDispRandRange3(15, 64);
-    position.z = voyageSegment->field_24 + SailVoyageManager__GetVoyageUnknownValue(voyageSegment) - ((u16)(2 * ObjDispRand()) * 8);
+    position.z = voyageSegment->field_24 + SailVoyageManager__GetSegmentSize(voyageSegment) - ((u16)(2 * ObjDispRand()) * 8);
 
-    if (voyageSegment->field_A > 0)
+    if (voyageSegment->targetSeaAngle > 0)
     {
         position.x = -position.x;
     }
 
-    if (voyageSegment->field_A == 0)
+    if (voyageSegment->targetSeaAngle == 0)
     {
         if (ObjDispRandRepeat(2) != 0)
             position.x = -position.x;
@@ -5194,7 +5194,7 @@ StageTask *SailJetItem__Create(SailEventManagerObject *mapObject)
     work->position.y -= FLOAT_TO_FX32(1.0);
     work->userFlag |= SAILOBJECT_FLAG_10000;
 
-    work->userWork = mapObject->objectValue10;
+    work->userWork = mapObject->viewRange;
     if (work->userWork > 16)
         work->userWork = 0;
 
@@ -5308,7 +5308,7 @@ BOOL SailObject__ViewCheck_2169B60(StageTask *work)
     if (worker->objectRef != NULL)
     {
         if ((worker->objectRef->flags & SAILMAPOBJECT_FLAG_40000000) != 0)
-            range = worker->objectRef->objectValue10;
+            range = worker->objectRef->viewRange;
     }
 
     return SailEventManager__ViewCheck(&work->position, range) != FALSE;
@@ -5947,7 +5947,7 @@ _0216A410:
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216A46C(StageTask *work)
+NONMATCH_FUNC void SailLanding__State_216A46C(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -5992,7 +5992,7 @@ _0216A4D8:
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216A4E8(void)
+NONMATCH_FUNC void SailLanding__Draw_216A4E8(void)
 {
 #ifdef NON_MATCHING
 
@@ -6115,7 +6115,7 @@ _0216A5D8:
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216A6A4(void)
+NONMATCH_FUNC void SailLanding__Draw_216A6A4(void)
 {
 #ifdef NON_MATCHING
 
@@ -6318,7 +6318,7 @@ _0216A8B8:
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216A9A4(StageTask *work)
+NONMATCH_FUNC void SailMine__State_216A4E8(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -6348,12 +6348,12 @@ NONMATCH_FUNC void SailObject__Func_216A9A4(StageTask *work)
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216A9F0(StageTask *work){
+NONMATCH_FUNC void SailJetBomber__Action_Init(StageTask *work){
 #ifdef NON_MATCHING
 
 #else
     // clang-format off
-	ldr r2, =SailObject__State_216AA38
+	ldr r2, =SailJetBomber__State_216AA38
 	mov r1, #0x20
 	str r2, [r0, #0xf4]
 	str r1, [r0, #0x2c]
@@ -6375,7 +6375,7 @@ NONMATCH_FUNC void SailObject__Func_216A9F0(StageTask *work){
 #endif
 }
 
-NONMATCH_FUNC void SailObject__State_216AA38(StageTask *work)
+NONMATCH_FUNC void SailJetBomber__State_216AA38(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -6503,7 +6503,7 @@ _0216ABB8:
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216ABF0(StageTask *work)
+NONMATCH_FUNC void SailJetBoatCloud__State_216AA38(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -6736,7 +6736,7 @@ _0216AF04:
 #endif
 }
 
-NONMATCH_FUNC void SailObject__State_216AF60(StageTask *work)
+NONMATCH_FUNC void SailCloud__State_216AF60(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -7612,13 +7612,13 @@ void SailSeagull__SetupObject(StageTask *work)
 
     SetTaskState(work, SailSeagull__State_216BD1C);
 
-    if (voyageSegment->field_A)
+    if (voyageSegment->targetSeaAngle != 0)
     {
         s32 range = 0x300 + ObjDispRandRepeat(0x200);
 
         worker->field_17C.y = -64;
-        worker->field_17C.x = MultiplyFX(range, SinFX(voyageSegment->field_A));
-        worker->field_17C.z = MultiplyFX(range, CosFX(voyageSegment->field_A));
+        worker->field_17C.x = MultiplyFX(range, SinFX(voyageSegment->targetSeaAngle));
+        worker->field_17C.z = MultiplyFX(range, CosFX(voyageSegment->targetSeaAngle));
     }
     else
     {
@@ -7668,13 +7668,13 @@ void SailSeagull2__SetupObject(StageTask *work)
 
     SetTaskState(work, SailSeagull2__State_216BF04);
 
-    if (voyageSegment->field_A)
+    if (voyageSegment->targetSeaAngle != 0)
     {
         s32 range = 0x300 + ObjDispRandRepeat(0x200);
 
         worker->field_17C.y = 16;
-        worker->field_17C.x = MultiplyFX(range, SinFX(voyageSegment->field_A));
-        worker->field_17C.z = MultiplyFX(range, CosFX(voyageSegment->field_A));
+        worker->field_17C.x = MultiplyFX(range, SinFX(voyageSegment->targetSeaAngle));
+        worker->field_17C.z = MultiplyFX(range, CosFX(voyageSegment->targetSeaAngle));
     }
     else
     {

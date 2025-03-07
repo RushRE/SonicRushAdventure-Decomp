@@ -35,7 +35,7 @@ enum SailTrainingMode
 
 struct SailTrainingConfig
 {
-    u8 unknown[SAILTRAINING_MODE_COUNT];
+    u8 segmentID[SAILTRAINING_MODE_COUNT];
 };
 
 // --------------------
@@ -190,8 +190,8 @@ void SailTraining_Main_TrainingActive(void)
         {
             if (work->mode < SAILTRAINING_MODE_COUNT)
             {
-                voyageManager->field_6C = sailTrainingUnknown1[shipType].unknown[work->mode];
-                voyageManager->field_6E = sailTrainingUnknown2[shipType].unknown[work->mode];
+                voyageManager->field_6C = sailTrainingUnknown1[shipType].segmentID[work->mode];
+                voyageManager->field_6E = sailTrainingUnknown2[shipType].segmentID[work->mode];
             }
 
             if (work->state())
@@ -225,9 +225,9 @@ void SailTraining_Main_TrainingActive(void)
             if (voyageManager->field_6E)
                 SailTrainingFinishedDialog__Create(0);
 
-            if (!voyageManager->field_6E)
+            if (voyageManager->field_6E == 0)
             {
-                if (sailTrainingUnknown2[shipType].unknown[work->mode] <= (s32)voyageManager->field_24)
+                if (sailTrainingUnknown2[shipType].segmentID[work->mode] <= (s32)voyageManager->curSegment)
                 {
                     if ((work->flags & SAILTRAINING_FLAG_FINISHED) != 0)
                     {

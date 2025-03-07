@@ -45,14 +45,14 @@ SailEventManager *SailEventManager__Create(void)
     NNS_FndInitList(&work->tempObjectList, 0);
 
     if (manager->isRivalRace)
-        work->stageObjectEntries = HeapAllocHead(HEAP_USER, 0x100 * sizeof(SailEventManagerObject));
+        work->stageObjectEntries = HeapAllocHead(HEAP_USER, SAILEVENTMANAGER_STAGE_OBJ_LIST_SIZE * sizeof(SailEventManagerObject));
     else
-        work->stageObjectEntries = HeapAllocHead(HEAP_SYSTEM, 0x100 * sizeof(SailEventManagerObject));
+        work->stageObjectEntries = HeapAllocHead(HEAP_SYSTEM, SAILEVENTMANAGER_STAGE_OBJ_LIST_SIZE * sizeof(SailEventManagerObject));
 
-    MI_CpuClear16(work->stageObjectEntries, 0x100 * sizeof(SailEventManagerObject));
+    MI_CpuClear16(work->stageObjectEntries, SAILEVENTMANAGER_STAGE_OBJ_LIST_SIZE * sizeof(SailEventManagerObject));
 
-    work->tempObjectEntries = HeapAllocHead(HEAP_USER, 0x10 * sizeof(SailEventManagerObject));
-    MI_CpuClear16(work->tempObjectEntries, 0x10 * sizeof(SailEventManagerObject));
+    work->tempObjectEntries = HeapAllocHead(HEAP_USER, SAILEVENTMANAGER_TEMP_OBJ_LIST_SIZE * sizeof(SailEventManagerObject));
+    MI_CpuClear16(work->tempObjectEntries, SAILEVENTMANAGER_TEMP_OBJ_LIST_SIZE * sizeof(SailEventManagerObject));
 
     if (manager->missionID)
     {
@@ -86,34 +86,34 @@ SailEventManager *SailEventManager__Create(void)
     {
         case SHIP_JET:
         case SHIP_HOVER:
-            work->field_24.x = MultiplyFX(-FLOAT_TO_FX32(40.0), SinFX(FLOAT_DEG_TO_IDX(0.0)));
-            work->field_24.z = MultiplyFX(-FLOAT_TO_FX32(40.0), CosFX(FLOAT_DEG_TO_IDX(0.0)));
-            work->field_30   = FLOAT_TO_FX32(47.0);
-            work->field_38   = FLOAT_TO_FX32(72.0);
-            work->field_3C   = -FLOAT_TO_FX32(3.0);
+            work->field_24.x         = MultiplyFX(-FLOAT_TO_FX32(40.0), SinFX(FLOAT_DEG_TO_IDX(0.0)));
+            work->field_24.z         = MultiplyFX(-FLOAT_TO_FX32(40.0), CosFX(FLOAT_DEG_TO_IDX(0.0)));
+            work->baseViewRange      = FLOAT_TO_FX32(47.0);
+            work->objDrawDistance    = FLOAT_TO_FX32(72.0);
+            work->objDespawnDistance = -FLOAT_TO_FX32(3.0);
             break;
 
         case SHIP_BOAT:
-            work->field_24.x = MultiplyFX(-FLOAT_TO_FX32(48.0), SinFX(FLOAT_DEG_TO_IDX(0.0)));
-            work->field_24.z = MultiplyFX(-FLOAT_TO_FX32(48.0), CosFX(FLOAT_DEG_TO_IDX(0.0)));
-            work->field_30   = FLOAT_TO_FX32(144.0);
-            work->field_38   = FLOAT_TO_FX32(104.0);
-            work->field_3C   = -FLOAT_TO_FX32(32.0);
+            work->field_24.x         = MultiplyFX(-FLOAT_TO_FX32(48.0), SinFX(FLOAT_DEG_TO_IDX(0.0)));
+            work->field_24.z         = MultiplyFX(-FLOAT_TO_FX32(48.0), CosFX(FLOAT_DEG_TO_IDX(0.0)));
+            work->baseViewRange      = FLOAT_TO_FX32(144.0);
+            work->objDrawDistance    = FLOAT_TO_FX32(104.0);
+            work->objDespawnDistance = -FLOAT_TO_FX32(32.0);
             break;
 
         case SHIP_SUBMARINE:
-            work->field_24.x = MultiplyFX(-FLOAT_TO_FX32(104.0), SinFX(FLOAT_DEG_TO_IDX(0.0)));
-            work->field_24.z = MultiplyFX(-FLOAT_TO_FX32(104.0), CosFX(FLOAT_DEG_TO_IDX(0.0)));
-            work->field_30   = FLOAT_TO_FX32(112.0);
-            work->field_38   = FLOAT_TO_FX32(104.0);
-            work->field_3C   = -FLOAT_TO_FX32(44.0);
+            work->field_24.x         = MultiplyFX(-FLOAT_TO_FX32(104.0), SinFX(FLOAT_DEG_TO_IDX(0.0)));
+            work->field_24.z         = MultiplyFX(-FLOAT_TO_FX32(104.0), CosFX(FLOAT_DEG_TO_IDX(0.0)));
+            work->baseViewRange      = FLOAT_TO_FX32(112.0);
+            work->objDrawDistance    = FLOAT_TO_FX32(104.0);
+            work->objDespawnDistance = -FLOAT_TO_FX32(44.0);
             break;
     }
 
     return work;
 }
 
-NONMATCH_FUNC void SailEventManager__ProcessSBB(void)
+NONMATCH_FUNC void SailEventManager__LoadLayout(void)
 {
     // https://decomp.me/scratch/eU9jc -> 93.12%
 #ifdef NON_MATCHING
@@ -141,193 +141,197 @@ NONMATCH_FUNC void SailEventManager__ProcessSBB(void)
         }
     }
 
+    for (u16 i = 0; i < segmentID; i++)
     {
-        for (u16 i = 0; i < segmentID; i++)
+        voyage->segmentList[i].blockID = -1;
+    }
+
+    if (manager->isRivalRace == TRUE || manager->missionID != 0)
+    {
+        u16 v8 = 0;
+        u16 id = 0;
+
+        SBBUnknownHeader *unknownHeader = (SBBUnknownHeader *)((u8 *)eventManager->sbbFile + eventManager->sbbFile->headerSize);
+        SBBSegment *blockList2          = (SBBSegment *)((u8 *)unknownHeader + unknownHeader->headerSize);
+        voyage->segmentCount            = unknownHeader->entries[0].field_4 + 1;
+
+        for (; id < SAILVOYAGEMANAGER_SEGMENT_LIST_SIZE - 1; id++)
         {
-            voyage->segmentList[i].blockID = -1;
+            SBBSegment *block2 = &blockList2[id];
+
+            SailVoyageSegment *segment2 = &voyage->segmentList[id];
+
+            segment2->header2EntryID = 0;
+            segment2->blockID        = id;
+
+            if (SailManager__GetShipType() == SHIP_BOAT)
+            {
+                segment2->turn           = 0;
+                segment2->targetSeaAngle = block2->field_A << 8;
+            }
+            else
+            {
+                segment2->targetSeaAngle = 0;
+                segment2->turn           = block2->field_A << 8;
+            }
+
+            segment2->type = 0;
+
+            if ((block2->flags & 4) != 0)
+            {
+                segment2->header2EntryID = 12;
+                SailJetRaceGoalHUD__Create(v8, id, FALSE);
+                v8 = id;
+            }
+
+            if (id == unknownHeader->entries[0].field_4)
+                break;
         }
 
-        if (manager->isRivalRace == TRUE || manager->missionID != 0)
+        SailJetRaceGoalHUD__Create(v8, id, TRUE);
+
+        s32 prevSegment                       = id - 1;
+        voyage->segmentList[prevSegment].turn = 0;
+        voyage->segmentList[id].turn          = 0;
+        voyage->segmentList[prevSegment].type = SAILVOYAGESEGMENT_TYPE_26;
+        voyage->segmentList[id].type          = SAILVOYAGESEGMENT_TYPE_27;
+
+        if ((manager->flags & SAILMANAGER_FLAG_FREEZE_ALPHA_TIMER) != 0 && manager->missionQuota != 0)
         {
-            u16 v8 = 0;
-            u16 id = 0;
-
-            SBBUnknownHeader *unknownHeader = (SBBUnknownHeader *)((u8 *)eventManager->sbbFile + eventManager->sbbFile->headerSize);
-            SBBSegment *blockList2          = (SBBSegment *)((u8 *)unknownHeader + unknownHeader->headerSize);
-            voyage->segmentCount            = unknownHeader->entries[0].field_4 + 1;
-
-            for (; id < 0xFF; id++)
-            {
-                SBBSegment *block2 = &blockList2[id];
-
-                SailVoyageSegment *segment2 = &voyage->segmentList[id];
-                segment2->header2EntryID    = 0;
-                segment2->blockID           = id;
-                if (SailManager__GetShipType() == SHIP_BOAT)
-                {
-                    segment2->field_4 = 0;
-                    segment2->field_A = block2->field_A << 8;
-                }
-                else
-                {
-                    segment2->field_A = 0;
-                    segment2->field_4 = block2->field_A << 8;
-                }
-                segment2->field_0 = 0;
-                if ((block2->flags & 4) != 0)
-                {
-                    segment2->header2EntryID = 12;
-                    SailJetRaceGoalHUD__Create(v8, id, FALSE);
-                    v8 = id;
-                }
-
-                if (id == unknownHeader->entries[0].field_4)
-                    break;
-            }
-
-            SailJetRaceGoalHUD__Create(v8, id, TRUE);
-
-            s32 prevSegment                          = id - 1;
-            voyage->segmentList[prevSegment].field_4 = 0;
-            voyage->segmentList[id].field_4          = 0;
-            voyage->segmentList[prevSegment].field_0 = 26;
-            voyage->segmentList[id].field_0          = 27;
-
-            if ((manager->flags & SAILMANAGER_FLAG_1000) != 0 && manager->missionQuota != 0)
-            {
-                voyage->segmentList[prevSegment].field_0 = 14;
-                voyage->segmentList[id].field_0          = 15;
-            }
+            voyage->segmentList[prevSegment].type = SAILVOYAGESEGMENT_TYPE_14;
+            voyage->segmentList[id].type          = SAILVOYAGESEGMENT_TYPE_15;
         }
-        else
+    }
+    else
+    {
+        if (manager->missionType == MISSION_TYPE_REACH_GOAL)
         {
-            if (manager->missionType == MISSION_TYPE_REACH_GOAL)
+            SailJetRaceGoalHUD__Create(0, voyage->segmentCount, TRUE);
+            voyage->segmentList[voyage->segmentCount - 1].turn = 0;
+            voyage->segmentList[voyage->segmentCount].turn     = 0;
+            voyage->segmentList[voyage->segmentCount - 1].type = SAILVOYAGESEGMENT_TYPE_26;
+            voyage->segmentList[voyage->segmentCount].type     = SAILVOYAGESEGMENT_TYPE_27;
+        }
+
+        for (; segmentID < SAILVOYAGEMANAGER_SEGMENT_LIST_SIZE; segmentID++)
+        {
+            if (segmentID == voyage->segmentCount)
+                break;
+
+            SailVoyageSegment *voyageSegment = &voyage->segmentList[segmentID];
+
+            SBBUnknownHeader *unknownHeader = (SBBUnknownHeader *)&((u8 *)sbbFile)[sbbFile->headerSize];
+            SBBSegment *blockList           = (SBBSegment *)((u8 *)unknownHeader + unknownHeader->headerSize);
+
+            SBBUnknown *unknownEntryList = unknownHeader->entries;
+
+            s32 blockID;
+            if (eventManager->field_34)
             {
-                SailJetRaceGoalHUD__Create(0, voyage->segmentCount, TRUE);
-                voyage->segmentList[voyage->segmentCount - 1].field_4 = 0;
-                voyage->segmentList[voyage->segmentCount].field_4     = 0;
-                voyage->segmentList[voyage->segmentCount - 1].field_0 = 26;
-                voyage->segmentList[voyage->segmentCount].field_0     = 27;
+                eventManager->field_34++;
+                blockID                = eventManager->field_34;
+                eventManager->field_34 = 0;
             }
-
-            for (; segmentID < 0x100; segmentID++)
+            else
             {
-                if (segmentID == voyage->segmentCount)
-                    break;
-
-                SailVoyageSegment *voyageSegment = &voyage->segmentList[segmentID];
-
-                SBBUnknownHeader *unknownHeader = (SBBUnknownHeader *)&((u8 *)sbbFile)[sbbFile->headerSize];
-                SBBSegment *blockList           = (SBBSegment *)((u8 *)unknownHeader + unknownHeader->headerSize);
-
-                SBBUnknown *unknowEntryList = unknownHeader->entries;
-
-                s32 blockID;
-                if (eventManager->field_34)
+                if (SailManager__GetShipType() != SHIP_SUBMARINE)
                 {
-                    eventManager->field_34++;
-                    blockID                = eventManager->field_34;
-                    eventManager->field_34 = 0;
-                }
-                else
-                {
-                    if (SailManager__GetShipType() != SHIP_SUBMARINE)
+                    u16 v21 = eventManager->field_42;
+                    if (SailManager__GetShipType() != SHIP_BOAT)
+                        v21 >>= 1;
+
+                    if (v21 > SHIP_COUNT)
+                        v21 = SHIP_COUNT;
+
+                    if (eventManager->field_44)
                     {
-                        u16 v21 = eventManager->field_42;
-                        if (SailManager__GetShipType() != SHIP_BOAT)
-                            v21 >>= 1;
-
-                        if (v21 > SHIP_COUNT)
-                            v21 = SHIP_COUNT;
-
-                        if (eventManager->field_44)
+                        unknownID              = _0218CD30[6][mtMathRandRepeat(16)];
+                        eventManager->field_44 = 0;
+                    }
+                    else
+                    {
+                        if (_0218CD30[v21][mtMathRandRepeat(16)])
                         {
-                            unknownID              = _0218CD30[6][mtMathRandRepeat(16)];
-                            eventManager->field_44 = 0;
-                        }
-                        else
-                        {
-                            if (_0218CD30[v21][mtMathRandRepeat(16)])
+                            if (v21 && _0218CD30[5][mtMathRandRepeat(16)] != 0)
                             {
-                                if (v21 && _0218CD30[5][mtMathRandRepeat(16)] != 0)
-                                {
-                                    unknownID = 3;
-                                }
-                                else
-                                {
-                                    unknownID = 0;
-                                }
+                                unknownID = 3;
                             }
                             else
                             {
-                                unknownID = _0218CD30[7][mtMathRandRepeat(16)];
+                                unknownID = 0;
                             }
                         }
-
-                        switch (unknownID)
+                        else
                         {
-                            case 0:
-                                eventManager->field_42++;
-                                break;
-
-                            case 3:
-                                eventManager->field_44 = 1;
-                                // fallthrough
-
-                            case 6:
-                            case 9:
-                                eventManager->field_42 = 0;
-                                break;
-
-                            case 1:
-                            case 2:
-                            case 4:
-                            case 5:
-                            case 7:
-                            case 8:
-                            default:
-                                break;
+                            unknownID = _0218CD30[7][mtMathRandRepeat(16)];
                         }
                     }
 
-                    SBBUnknown *unknown = &unknowEntryList[unknownID + voyageSegment->field_1];
-
-                    u16 i;
-                    do
+                    switch (unknownID)
                     {
-                        u16 value = mtMathRand();
+                        case 0:
+                            eventManager->field_42++;
+                            break;
 
-                        s32 unknown2ID            = value - unknown->field_4 * FX_DivS32(value, unknown->field_4);
-                        SBBUnknown2 *unknown2List = (SBBUnknown2 *)&((u8 *)sbbFile)[sbbFile->headerSize + unknown->offset];
+                        case 3:
+                            eventManager->field_44 = 1;
+                            // fallthrough
 
-                        i = 1;
-                        while (TRUE)
-                        {
-                            if ((blockList[unknown2List[unknown2ID].field_0 + i - 1].flags & 1) == 0)
-                                break;
+                        case 6:
+                        case 9:
+                            eventManager->field_42 = 0;
+                            break;
 
-                            i++;
-                        }
-
-                    } while ((s32)(segmentID + i) > voyage->segmentCount);
+                        case 1:
+                        case 2:
+                        case 4:
+                        case 5:
+                        case 7:
+                        case 8:
+                        default:
+                            break;
+                    }
                 }
 
-                SBBSegment *segment = &blockList[blockID];
-                if ((segment->flags & 1) != 0)
-                    eventManager->field_34 = blockID;
+                SBBUnknown *unknown = &unknownEntryList[unknownID + voyageSegment->unknown];
 
-                if (voyageSegment->field_0 < 14 && (segment->flags & 1) != 0)
-                    voyageSegment->field_0 += 7;
-                voyageSegment->header2EntryID = unknownID;
-                voyageSegment->blockID        = blockID;
-                voyageSegment->field_A        = segment->field_A << 8;
-
-                if (SailManager__GetShipType() == SHIP_SUBMARINE)
+                u16 i;
+                do
                 {
-                    unknownID += 3;
-                    if (unknownID >= 84)
-                        unknownID = 0;
-                }
+                    u16 value = mtMathRand();
+
+                    s32 unknown2ID            = value - unknown->field_4 * FX_DivS32(value, unknown->field_4);
+                    SBBUnknown2 *unknown2List = (SBBUnknown2 *)&((u8 *)sbbFile)[sbbFile->headerSize + unknown->offset];
+
+                    i = 1;
+                    while (TRUE)
+                    {
+                        SBBSegment *curBlock = &blockList[unknown2List[unknown2ID].field_0 + i - 1];
+                        if ((curBlock->flags & 1) == 0)
+                            break;
+
+                        i++;
+                    }
+
+                } while ((s32)(segmentID + i) > voyage->segmentCount);
+            }
+
+            SBBSegment *segment = &blockList[blockID];
+            if ((segment->flags & 1) != 0)
+                eventManager->field_34 = blockID;
+
+            if (voyageSegment->type < SAILVOYAGESEGMENT_TYPE_14 && (segment->flags & 1) != 0)
+                voyageSegment->type += SAILVOYAGESEGMENT_TYPE_7;
+
+            voyageSegment->header2EntryID = unknownID;
+            voyageSegment->blockID        = blockID;
+            voyageSegment->targetSeaAngle = segment->field_A << 8;
+
+            if (SailManager__GetShipType() == SHIP_SUBMARINE)
+            {
+                unknownID += 3;
+                if (unknownID >= 84)
+                    unknownID = 0;
             }
         }
     }
@@ -743,7 +747,7 @@ _021554BC:
 #endif
 }
 
-NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
+NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
 {
     // https://decomp.me/scratch/UOm4n -> 90.31%
 #ifdef NON_MATCHING
@@ -848,9 +852,9 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
                 }
             }
 
-            switch (voyageSegment->field_0)
+            switch (voyageSegment->type)
             {
-                case 18:
+                case SAILVOYAGESEGMENT_TYPE_18:
                     if (SailManager__GetShipType() == SHIP_BOAT || SailManager__GetShipType() == SHIP_SUBMARINE)
                     {
                         for (u16 i = 0; i < 8; i++)
@@ -860,7 +864,7 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
                     }
                     break;
 
-                case 19:
+                case SAILVOYAGESEGMENT_TYPE_19:
                     if (SailManager__GetShipType() == SHIP_BOAT || SailManager__GetShipType() == SHIP_SUBMARINE)
                     {
                         for (u16 i = 0; i < 8; i++)
@@ -875,7 +879,7 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
                     }
                     break;
 
-                case 16:
+                case SAILVOYAGESEGMENT_TYPE_16:
                     if (SailManager__GetShipType() == SHIP_BOAT)
                     {
                         for (u16 i = 0; i < 3; i++)
@@ -884,10 +888,11 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
                         }
                     }
                     // fall through
-                case 1:
-                case 2:
-                case 8:
-                case 9:
+
+                case SAILVOYAGESEGMENT_TYPE_1:
+                case SAILVOYAGESEGMENT_TYPE_2:
+                case SAILVOYAGESEGMENT_TYPE_8:
+                case SAILVOYAGESEGMENT_TYPE_9:
                     if (SailManager__GetShipType() != SHIP_BOAT)
                     {
                         for (u16 i = 0; i < 8; i++)
@@ -896,12 +901,12 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
                         }
                     }
 
-                    if (voyageSegment->field_0 == 16)
+                    if (voyageSegment->type == SAILVOYAGESEGMENT_TYPE_16)
                         return;
 
                     break;
 
-                case 17:
+                case SAILVOYAGESEGMENT_TYPE_17:
                     for (u16 i = 0; i < 8; i++)
                     {
                         SailIce__CreateFromSegment(voyageSegment, 0);
@@ -913,18 +918,18 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
                     }
                     return;
 
-                case 0:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
+                case SAILVOYAGESEGMENT_TYPE_0:
+                case SAILVOYAGESEGMENT_TYPE_3:
+                case SAILVOYAGESEGMENT_TYPE_4:
+                case SAILVOYAGESEGMENT_TYPE_5:
+                case SAILVOYAGESEGMENT_TYPE_6:
+                case SAILVOYAGESEGMENT_TYPE_7:
+                case SAILVOYAGESEGMENT_TYPE_10:
+                case SAILVOYAGESEGMENT_TYPE_11:
+                case SAILVOYAGESEGMENT_TYPE_12:
+                case SAILVOYAGESEGMENT_TYPE_13:
+                case SAILVOYAGESEGMENT_TYPE_14:
+                case SAILVOYAGESEGMENT_TYPE_15:
                 default:
                     break;
             }
@@ -957,10 +962,10 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
             stageObject->unknown.x = (stageObject->unknown.x - 128) * _0218B9AC[shipType];
             stageObject->unknown.y *= _0218B9B4[shipType];
             stageObject->unknown.z     = 4096 - 8 * stageObject->unknown.z;
-            stageObject->objectValue10 = object->field_10;
+            stageObject->viewRange     = object->viewRange;
             stageObject->objectValue14 = object->field_14;
-            stageObject->angle         = SailVoyageManager__Func_2158854(voyageSegment, stageObject->unknown.z);
-            stageObject->unknown.z     = MultiplyFX(stageObject->unknown.z, SailVoyageManager__GetVoyageUnknownValue(voyageSegment));
+            stageObject->angle         = SailVoyageManager__GetAngleForSegmentPos(voyageSegment, stageObject->unknown.z);
+            stageObject->unknown.z     = MultiplyFX(stageObject->unknown.z, SailVoyageManager__GetSegmentSize(voyageSegment));
             stageObject->objectRef     = object;
             stageObject->unknown.z += voyageSegment->field_24;
             stageObject->unknown.z += voyageManager->field_70;
@@ -980,7 +985,7 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u32 id)
             NNS_FndAppendListObject(&eventManager->stageObjectList, stageObject);
         }
 
-        if ((voyageSegment->field_0 < 7 || voyageSegment->field_0 >= 14) && voyageSegment->field_0 < 7)
+        if ((voyageSegment->type < SAILVOYAGESEGMENT_TYPE_7 || voyageSegment->type >= SAILVOYAGESEGMENT_TYPE_14) && voyageSegment->type < SAILVOYAGESEGMENT_TYPE_7)
             manager->field_62++;
 
         eventManager->blockID = 0xFFFF;
@@ -1381,10 +1386,10 @@ _02155A00:
 	ldr r1, [r6, #0x14]
 	str r1, [r7, #0x38]
 	ldr r1, [r7, #0x18]
-	bl SailVoyageManager__Func_2158854
+	bl SailVoyageManager__GetAngleForSegmentPos
 	strh r0, [r7, #0x2e]
 	mov r0, r8
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r1, [r7, #0x18]
 	smull r3, r2, r1, r0
 	mov r0, #0x800
@@ -1463,24 +1468,24 @@ void SailEventManager__LoadObject(SBBObject *object)
     SailEventManagerObject *tempObject = SailEventManager__AllocateTempObject();
     MI_CpuClear16(tempObject, sizeof(*tempObject));
 
-    tempObject->type          = object->type;
-    tempObject->unknown       = object->unknown;
-    tempObject->objectValue10 = FX32_FROM_WHOLE(object->field_10);
-    tempObject->flags         = SAILMAPOBJECT_FLAG_10000000;
+    tempObject->type      = object->type;
+    tempObject->unknown   = object->unknown;
+    tempObject->viewRange = FX32_FROM_WHOLE(object->viewRange);
+    tempObject->flags     = SAILMAPOBJECT_FLAG_10000000;
     tempObject->flags |= SAILMAPOBJECT_FLAG_40000000;
     tempObject->objectValue14 = object->field_14;
 
     NNS_FndAppendListObject(&eventManager->tempObjectList, tempObject);
 }
 
-BOOL SailEventManager__ViewCheck(VecFx32 *position, s32 a2)
+BOOL SailEventManager__ViewCheck(VecFx32 *position, s32 viewRange)
 {
     SailEventManager *eventManager = SailManager__GetWork()->eventManager;
 
     VecFx32 unknownPos;
     VEC_Subtract(&eventManager->field_24, position, &unknownPos);
 
-    s32 range = (eventManager->field_30 >> 8) + (a2 >> 8);
+    s32 range = (eventManager->baseViewRange >> 8) + (viewRange >> 8);
 
     s32 posSq   = MultiplyFX(unknownPos.x >> 8, unknownPos.x >> 8) + MultiplyFX(unknownPos.z >> 8, unknownPos.z >> 8);
     s32 rangeSq = MultiplyFX(range, range);
@@ -1539,13 +1544,13 @@ SailEventManagerObject *SailEventManager__CreateObject(u16 type, VecFx32 *positi
     object->unknown   = *position;
     object->objectRef = NULL;
 
-    s32 v11       = FX_Div(object->unknown.z & 0x7FFFF, SailVoyageManager__GetVoyageUnknownValue(segment));
-    object->angle = SailVoyageManager__Func_2158854(segment, v11);
-    SailVoyageManager__Func_2158888(segment, v11, &object->position.x, &object->position.z);
+    s32 segmentPos       = FX_Div(object->unknown.z & 0x7FFFF, SailVoyageManager__GetSegmentSize(segment));
+    object->angle = SailVoyageManager__GetAngleForSegmentPos(segment, segmentPos);
+    SailVoyageManager__Func_2158888(segment, segmentPos, &object->position.x, &object->position.z);
 
     object->position.x += MultiplyFX(object->unknown.x, CosFX(object->angle));
     object->position.z += MultiplyFX(object->unknown.x, SinFX(object->angle));
-    VEC_Subtract(&object->position, &voyageManager->field_0, &object->position);
+    VEC_Subtract(&object->position, &voyageManager->position, &object->position);
 
     object->flags = SAILMAPOBJECT_FLAG_10000000;
 
@@ -1623,8 +1628,8 @@ void SailEventManager__Main(void)
 
     s32 voyagePos = SailVoyageManager__GetVoyagePos();
 
-    u16 shipType      = SailManager__GetShipType();
-    fx32 voyageOffset = work->field_38;
+    u16 shipType         = SailManager__GetShipType();
+    fx32 objDrawDistance = work->objDrawDistance;
     if (player != NULL)
         playerWorker = GetStageTaskWorker(SailManager__GetWork()->sailPlayer, SailPlayer);
 
@@ -1642,25 +1647,25 @@ void SailEventManager__Main(void)
 
         if (playerWorker != NULL)
         {
-            if (playerWorker->field_1CA != 0)
+            if (playerWorker->seaAngle2 != 0)
             {
-                voyageOffset -= MultiplyFX(FLOAT_TO_FX32(48.0), playerWorker->field_1CA >> 2);
+                objDrawDistance -= MultiplyFX(FLOAT_TO_FX32(48.0), playerWorker->seaAngle2 >> 2);
             }
         }
 
-        s32 targetVoyagePos = voyagePos + voyageOffset;
+        s32 objectSpawnPos = voyagePos + objDrawDistance;
         while (TRUE)
         {
             if (object != NULL)
             {
                 SailEventManagerObject *next = (SailEventManagerObject *)NNS_FndGetNextListObject(&work->stageObjectList, object);
-                
+
                 if ((object->flags & SAILMAPOBJECT_FLAG_8000000) != 0)
                     object->unknown.z += voyageManager->field_74;
 
                 if (object->ringTask == NULL && object->objTask == NULL)
                 {
-                    if (targetVoyagePos > object->unknown.z)
+                    if (objectSpawnPos > object->unknown.z)
                     {
                         VecFx32 position;
                         VecFx32 unknownVec;
@@ -1672,14 +1677,14 @@ void SailEventManager__Main(void)
 
                         position = unknownVec;
 
-                        SailVoyageManager__Func_2158888(voyageSegment, FX_Div(unknownVec.z, SailVoyageManager__GetVoyageUnknownValue(voyageSegment)), &position.x, &position.z);
+                        SailVoyageManager__Func_2158888(voyageSegment, FX_Div(unknownVec.z, SailVoyageManager__GetSegmentSize(voyageSegment)), &position.x, &position.z);
                         position.x += MultiplyFX(unknownVec.x, CosFX((s32)(u16)-object->angle));
                         position.z += MultiplyFX(unknownVec.x, SinFX((s32)(u16)-object->angle));
-                        VEC_Subtract(&position, &voyageManager->field_0, &position);
+                        VEC_Subtract(&position, &voyageManager->position, &position);
 
                         object->position = position;
-                        object->ringTask  = NULL;
-                        object->objTask   = NULL;
+                        object->ringTask = NULL;
+                        object->objTask  = NULL;
 
                         if (((object->flags & (SAILMAPOBJECT_FLAG_100 | SAILMAPOBJECT_FLAG_200 | SAILMAPOBJECT_FLAG_400)) >> 8) > manager->field_5E)
                         {
@@ -1712,7 +1717,7 @@ void SailEventManager__Main(void)
                         }
                         else
                         {
-                            if (voyagePos + work->field_3C >= object->unknown.z || voyagePos + work->field_38 < object->unknown.z)
+                            if (voyagePos + work->objDespawnDistance >= object->unknown.z || voyagePos + work->objDrawDistance < object->unknown.z)
                             {
                                 SailRingManager_DestroyRing(object->ringTask);
                                 SailEventManager__RemoveEntry(object);
@@ -1725,8 +1730,8 @@ void SailEventManager__Main(void)
             }
             else
             {
-                VecFx32 unknownPos1 = { 0 };
-                VecFx32 unknownPos2 = { 0 };
+                VecFx32 objectDistance = { 0 };
+                VecFx32 voyagePos      = { 0 };
 
                 switch (SailManager__GetShipType())
                 {
@@ -1747,7 +1752,7 @@ void SailEventManager__Main(void)
                         break;
                 }
 
-                VEC_Add(&unknownPos2, &voyageManager->field_0, &unknownPos2);
+                VEC_Add(&voyagePos, &voyageManager->position, &voyagePos);
 
                 SailEventManagerObject *curObject = (SailEventManagerObject *)work->tempObjectList.headObject;
                 while (TRUE)
@@ -1755,14 +1760,14 @@ void SailEventManager__Main(void)
                     if (curObject == NULL)
                         break;
 
-                    VEC_Subtract(&unknownPos2, &curObject->unknown, &unknownPos1);
+                    VEC_Subtract(&voyagePos, &curObject->unknown, &objectDistance);
 
-                    s32 range    = (work->field_30 >> 8) + (curObject->objectValue10 >> 8);
-                    fx32 posSq   = MultiplyFX(unknownPos1.x >> 8, unknownPos1.x >> 8) + MultiplyFX(unknownPos1.z >> 8, unknownPos1.z >> 8);
+                    s32 range    = (work->baseViewRange >> 8) + (curObject->viewRange >> 8);
+                    fx32 posSq   = MultiplyFX(objectDistance.x >> 8, objectDistance.x >> 8) + MultiplyFX(objectDistance.z >> 8, objectDistance.z >> 8);
                     fx32 rangeSq = MultiplyFX(range, range);
                     if (curObject->objTask == NULL && posSq < rangeSq)
                     {
-                        VEC_Subtract(&curObject->unknown, &voyageManager->field_0, &curObject->position);
+                        VEC_Subtract(&curObject->unknown, &voyageManager->position, &curObject->position);
                         curObject->objTask = SailLanding__Create(curObject);
                     }
 
@@ -1783,7 +1788,7 @@ SailEventManagerObject *SailEventManager__AllocateStageObject(void)
     u16 startID = eventManager->field_20;
     while (TRUE)
     {
-        eventManager->field_20 &= 0xFF;
+        eventManager->field_20 &= (SAILEVENTMANAGER_STAGE_OBJ_LIST_SIZE - 1);
 
         SailEventManagerObject *objectList = eventManager->stageObjectEntries;
         object                             = &objectList[eventManager->field_20++];
@@ -1802,7 +1807,7 @@ SailEventManagerObject *SailEventManager__AllocateTempObject(void)
 {
     SailEventManager *eventManager = SailManager__GetWork()->eventManager;
 
-    for (u16 i = 0; i < 16; i++)
+    for (u16 i = 0; i < SAILEVENTMANAGER_TEMP_OBJ_LIST_SIZE; i++)
     {
         SailEventManagerObject *object = &eventManager->tempObjectEntries[i];
         if ((object->flags & SAILMAPOBJECT_FLAG_10000000) == 0)

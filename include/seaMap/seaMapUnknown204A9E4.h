@@ -7,7 +7,7 @@
 // ENUMS
 // --------------------
 
-typedef void (*SeaMapUnknown204A9E4Callback)(s32 a1, void *work, CHEVObject *mapObject, s32 a3);
+typedef BOOL (*SeaMapUnknown204A9E4Callback)(s32 a1, void *work, CHEVObject *mapObject, s32 a3);
 
 // --------------------
 // STRUCTS

@@ -151,7 +151,7 @@ typedef struct SailPlayer_
     u16 scoreComboCurrent;
     u16 scoreComboBest;
     u16 field_1C8;
-    s16 field_1CA;
+    s16 seaAngle2;
     s16 field_1CC;
     SailPlayerUpgradeLevel upgradeLevel;
     s32 field_1D0;

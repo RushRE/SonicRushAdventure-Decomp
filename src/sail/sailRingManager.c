@@ -137,7 +137,7 @@ void SailRingManager_Main(void)
 
 void SailRingManager_UpdateRings(SailRingManager *work)
 {
-    VecFx32 *unknownPos = SailVoyageManager__GetVoyageUnknownPos();
+    VecFx32 *voyageVelocity = SailVoyageManager__GetVoyageVelocity();
 
     SailRing *ring;
     if (SailManager__GetShipType() != SHIP_SUBMARINE)
@@ -158,16 +158,16 @@ void SailRingManager_UpdateRings(SailRingManager *work)
                 }
                 else
                 {
-                    VEC_Subtract(&ring->position, unknownPos, &ring->position);
+                    VEC_Subtract(&ring->position, voyageVelocity, &ring->position);
                 }
             }
         }
     }
     else
     {
-        unknownPos->z = MultiplyFX(FLOAT_TO_FX32(1.5), unknownPos->z);
+        voyageVelocity->z = MultiplyFX(FLOAT_TO_FX32(1.5), voyageVelocity->z);
 
-        VecFx32 position = *unknownPos;
+        VecFx32 moveVelocity = *voyageVelocity;
 
         for (u16 r = 0; r < SAILRINGMANAGER_RING_LIST_SIZE; r++)
         {
@@ -176,24 +176,24 @@ void SailRingManager_UpdateRings(SailRingManager *work)
             {
                 if ((ring->flags & SAILRING_FLAG_USE_OWN_VELOCITY) != 0)
                 {
-                    position = *unknownPos;
+                    moveVelocity = *voyageVelocity;
 
                     ring->timer--;
                     if (ring->timer <= 16 && ring->timer >= 8)
-                        position.z = MultiplyFX(position.z, ((ring->timer - 8) * FLOAT_TO_FX32(0.125)));
+                        moveVelocity.z = MultiplyFX(moveVelocity.z, ((ring->timer - 8) * FLOAT_TO_FX32(0.125)));
 
                     if (ring->timer == 9)
                         ring->flags &= ~SAILRING_FLAG_DISABLE_OBJ_COLLISIONS;
 
                     if (ring->timer <= 0 && ring->timer >= -8)
-                        position.z = MultiplyFX(position.z, (MATH_ABS(ring->timer) * FLOAT_TO_FX32(0.125)));
+                        moveVelocity.z = MultiplyFX(moveVelocity.z, (MATH_ABS(ring->timer) * FLOAT_TO_FX32(0.125)));
 
                     if (ring->timer > 8 || ring->timer < 0)
-                        VEC_Subtract(&ring->position, &position, &ring->position);
+                        VEC_Subtract(&ring->position, &moveVelocity, &ring->position);
                 }
                 else
                 {
-                    VEC_Subtract(&ring->position, unknownPos, &ring->position);
+                    VEC_Subtract(&ring->position, voyageVelocity, &ring->position);
                 }
             }
         }

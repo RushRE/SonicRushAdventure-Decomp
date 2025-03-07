@@ -9,8 +9,8 @@ SeaMapUnknown204AB60__sVars: // 0x02134430
 
 	.text
 
-	arm_func_start SeaMapUnknown204AB60__Func_204AB60
-SeaMapUnknown204AB60__Func_204AB60: // 0x0204AB60
+	arm_func_start SeaMapUnknown204AB60__Init
+SeaMapUnknown204AB60__Init: // 0x0204AB60
 	stmdb sp!, {r4, lr}
 	ldr r0, _0204ABAC // =SeaMapUnknown204AB60__sVars
 	ldr r0, [r0, #0]
@@ -34,7 +34,7 @@ _0204AB90:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0204ABAC: .word SeaMapUnknown204AB60__sVars
-	arm_func_end SeaMapUnknown204AB60__Func_204AB60
+	arm_func_end SeaMapUnknown204AB60__Init
 
 	arm_func_start SeaMapUnknown204AB60__Func_204ABB0
 SeaMapUnknown204AB60__Func_204ABB0: // 0x0204ABB0

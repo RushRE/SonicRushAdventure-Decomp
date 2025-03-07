@@ -7,17 +7,52 @@
 // ENUMS
 // --------------------
 
+enum SeaMapUnknown204AB60ObjectType_
+{
+    SEAMAPUNKNOWN204AB60OBJECT_TYPE_0,
+    SEAMAPUNKNOWN204AB60OBJECT_TYPE_1,
+    SEAMAPUNKNOWN204AB60OBJECT_TYPE_2,
+    SEAMAPUNKNOWN204AB60OBJECT_TYPE_3,
+    SEAMAPUNKNOWN204AB60OBJECT_TYPE_4,
+};
+typedef s32 SeaMapUnknown204AB60ObjectType;
+
 // --------------------
 // STRUCTS
 // --------------------
 
 typedef struct SeaMapUnknown204AB60Object_
 {
-    s32 field_0;
-    s32 type;
-    s32 attribute;
-    CHEVObject *chevRef;
+    fx32 distance;
+    SeaMapUnknown204AB60ObjectType type;
+
+    union
+    {
+        struct
+        {
+            s32 unknown;
+            s32 unlockID;
+        } type1;
+
+        struct
+        {
+            s32 attribute;
+        } type2;
+
+        struct
+        {
+            s32 value;
+        } type3;
+
+        struct
+        {
+            s32 type;
+            CHEVObject *chevRef;
+        } type4;
+    };
+
     s32 field_10;
+
 } SeaMapUnknown204AB60Object;
 
 typedef struct SeaMapUnknown204AB60ObjectLink_
@@ -36,10 +71,10 @@ typedef struct SeaMapUnknown204AB60StaticVars_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED BOOL SeaMapUnknown204AB60__Func_204AB60(void);
+NOT_DECOMPILED BOOL SeaMapUnknown204AB60__Init(void);
 NOT_DECOMPILED s32 SeaMapUnknown204AB60__Func_204ABB0(void);
 NOT_DECOMPILED s32 SeaMapUnknown204AB60__Func_204ABBC(void);
-NOT_DECOMPILED void *SeaMapUnknown204AB60__Func_204ABCC(s32 a1);
+NOT_DECOMPILED SeaMapUnknown204AB60ObjectLink *SeaMapUnknown204AB60__Func_204ABCC(s32 a1);
 NOT_DECOMPILED s32 SeaMapUnknown204AB60__Func_204AC04(void);
 NOT_DECOMPILED BOOL SeaMapUnknown204AB60__Func_204AC6C(s32 a1, s32 a2);
 NOT_DECOMPILED BOOL SeaMapUnknown204AB60__Func_204AD10(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);

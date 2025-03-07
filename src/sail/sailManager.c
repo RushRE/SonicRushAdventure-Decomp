@@ -411,7 +411,7 @@ void SailManager__Main(void)
     if (work->sailPlayer != NULL)
     {
         SailPlayer *player = GetStageTaskWorker(work->sailPlayer, SailPlayer);
-        s32 angle          = (u16)((u16)-work->voyageManager->angle - player->field_1CA);
+        s32 angle          = (u16)((u16)-work->voyageManager->angle - player->seaAngle2);
 
         MtxFx33 mtx;
         MTX_RotY33(&mtx, SinFX(angle), CosFX(angle));

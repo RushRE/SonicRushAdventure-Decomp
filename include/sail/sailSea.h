@@ -76,8 +76,8 @@ typedef struct SailSea_
 
 NOT_DECOMPILED SailSea *SailSea__Create(void);
 
-NOT_DECOMPILED void SailSea__Func_215F9D8(s32 a1);
-NOT_DECOMPILED void SailSea__Func_215FA54(u16 a1);
+NOT_DECOMPILED void SailSea__Move(s32 a1);
+NOT_DECOMPILED void SailSea__SetAngle(u16 a1);
 NOT_DECOMPILED void SailSea__Destructor(Task *task);
 NOT_DECOMPILED void SailSea__Main(void);
 NOT_DECOMPILED void SailSea__LoadSprites(SailSea *work);

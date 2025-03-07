@@ -595,9 +595,9 @@ void SailPlayer__Action_BeginVoyage(StageTask *player)
     player->state     = SailPlayer__State_BeginVoyage;
     worker->speed     = FLOAT_TO_FX32(0.0);
 
-    worker->field_1CA = FLOAT_TO_FX32(6.0);
+    worker->seaAngle2 = FLOAT_DEG_TO_IDX(135.0);
     if (ObjDispRandRepeat(2) != 0)
-        worker->field_1CA = -worker->field_1CA;
+        worker->seaAngle2 = -worker->seaAngle2;
 
     if (!worker->isRival)
     {
@@ -635,21 +635,21 @@ void SailPlayer__State_BeginVoyage(StageTask *work)
         {
             case SHIP_JET:
             case SHIP_HOVER:
-                worker->field_1CA = ObjShiftSet(worker->field_1CA, FLOAT_TO_FX32(0.0), 1, FLOAT_TO_FX32(0.28125), FLOAT_TO_FX32(0.0));
+                worker->seaAngle2 = ObjShiftSet(worker->seaAngle2, FLOAT_DEG_TO_IDX(0.0), 1, FLOAT_DEG_TO_IDX(6.328125), FLOAT_DEG_TO_IDX(0.0));
 
                 camera->field_20 = ObjShiftSet(camera->field_20, FLOAT_TO_FX32(0.0), 1, FLOAT_TO_FX32(0.125), FLOAT_TO_FX32(0.0));
                 camera->field_10 = ObjShiftSet(camera->field_10, FLOAT_TO_FX32(0.0), 1, FLOAT_TO_FX32(0.15625), FLOAT_TO_FX32(0.0));
                 break;
 
             case SHIP_BOAT:
-                worker->field_1CA = ObjShiftSet(worker->field_1CA, FLOAT_TO_FX32(0.0), 1, FLOAT_TO_FX32(0.125), FLOAT_TO_FX32(0.0));
+                worker->seaAngle2 = ObjShiftSet(worker->seaAngle2, FLOAT_DEG_TO_IDX(0.0), 1, FLOAT_DEG_TO_IDX(2.8125), FLOAT_DEG_TO_IDX(0.0));
 
                 camera->field_20 = ObjShiftSet(camera->field_20, FLOAT_TO_FX32(0.0), 1, FLOAT_TO_FX32(0.625), FLOAT_TO_FX32(0.0));
                 camera->field_10 = ObjShiftSet(camera->field_10, FLOAT_TO_FX32(0.0), 1, FLOAT_TO_FX32(0.3125), FLOAT_TO_FX32(0.0));
                 break;
 
             case SHIP_SUBMARINE:
-                worker->field_1CA = ObjShiftSet(worker->field_1CA, FLOAT_TO_FX32(0.0), 1, FLOAT_TO_FX32(0.125), FLOAT_TO_FX32(0.0));
+                worker->seaAngle2 = ObjShiftSet(worker->seaAngle2, FLOAT_DEG_TO_IDX(0.0), 1, FLOAT_DEG_TO_IDX(2.8125), FLOAT_DEG_TO_IDX(0.0));
 
                 camera->field_20 = ObjShiftSet(camera->field_20, FLOAT_TO_FX32(0.0), 1, FLOAT_TO_FX32(0.625), FLOAT_TO_FX32(0.0));
                 camera->field_8  = ObjShiftSet(camera->field_8, FLOAT_TO_FX32(0.0), 1, FLOAT_TO_FX32(0.3125), FLOAT_TO_FX32(0.0));
@@ -711,7 +711,7 @@ void SailPlayer__State_BeginVoyage(StageTask *work)
         {
             case SHIP_JET:
             case SHIP_HOVER:
-                worker->field_1CA = 0;
+                worker->seaAngle2 = 0;
 
                 if ((work->userFlag & SAILPLAYER_FLAG_200) != 0)
                 {
@@ -735,7 +735,7 @@ void SailPlayer__State_BeginVoyage(StageTask *work)
                 break;
 
             case SHIP_BOAT:
-                worker->field_1CA = 0;
+                worker->seaAngle2 = 0;
                 worker->speed     = ObjSpdUpSet(worker->speed, FLOAT_TO_FX32(0.03125), FLOAT_TO_FX32(0.5));
 
                 if (worker->speed == FLOAT_TO_FX32(0.5))
@@ -746,7 +746,7 @@ void SailPlayer__State_BeginVoyage(StageTask *work)
                 break;
 
             case SHIP_SUBMARINE:
-                worker->field_1CA = 0;
+                worker->seaAngle2 = 0;
                 worker->speed     = ObjSpdUpSet(worker->speed, FLOAT_TO_FX32(0.02783203125), FLOAT_TO_FX32(1.784423828125));
 
                 if (worker->speed == FLOAT_TO_FX32(1.784423828125))
@@ -3635,7 +3635,7 @@ _0215C2BC:
 	strh r1, [r0, #0x60]
 _0215C2D8:
 	mov r0, r6
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r3, [r4, #0x25c]
 	ldr r2, =0x0007FFFF
 	mov r1, r0
@@ -3644,7 +3644,7 @@ _0215C2D8:
 	mov r8, r0
 	mov r0, r6
 	mov r1, r8
-	bl SailVoyageManager__Func_2158854
+	bl SailVoyageManager__GetAngleForSegmentPos
 	add r1, r4, #0x200
 	strh r0, [r1, #0x60]
 	mov r0, #0x1000
@@ -5603,6 +5603,7 @@ void SailPlayer__ReadInputs(StageTask *work)
                         if ((worker->sailRival->actions & SAILRIVAL_GET_ACTION_FLAG(SAILRIVAL_ACTION_DROP_BOMB)) != 0)
                         {
                             SailManager *manager = SailManager__GetWork(); // ???
+							UNUSED(manager);
 
                             VecFx32 position = worker->racePos;
 
@@ -6384,7 +6385,7 @@ _0215ED24:
 	mul r9, r1, r0
 	ldr r10, [r8, #0xc0]
 	add r0, r10, r9
-	bl SailVoyageManager__GetVoyageUnknownValue
+	bl SailVoyageManager__GetSegmentSize
 	ldr r1, [r8, #0x44]
 	ldr r2, =0x0007FFFF
 	add r3, r1, #0x30000
@@ -6393,7 +6394,7 @@ _0215ED24:
 	bl FX_Div
 	mov r1, r0
 	add r0, r10, r9
-	bl SailVoyageManager__Func_2158854
+	bl SailVoyageManager__GetAngleForSegmentPos
 	ldrh r1, [r8, #0x34]
 	sub r0, r0, r1
 	strh r0, [r8, #0x3c]

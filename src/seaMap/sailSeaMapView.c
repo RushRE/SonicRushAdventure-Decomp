@@ -58,7 +58,8 @@ void CreateSailSeaMapView(ShipType type)
 
     work->boatIcon = (SeaMapBoatIcon *)SeaMapEventManager__CreateObject(SEAMAPOBJECT_BOAT_ICON, FX32_TO_WHOLE(work->position.x), FX32_TO_WHOLE(work->position.y), 0, 0, 0);
     SeaMapView__Func_203DCE0(work->position.x, work->position.y);
-    SeaMapUnknown204AB60__Func_204AB60();
+    
+    SeaMapUnknown204AB60__Init();
 }
 
 void DestroySailSeaMapView(void)
@@ -89,7 +90,7 @@ fx32 SailSeaMapView_GetVoyageCompetionPercent(void)
     SailManager *manager             = SailManager__GetWork();
     SailVoyageManager *voyageManager = manager->voyageManager;
 
-    return voyageManager->dword54;
+    return voyageManager->unknownDistance;
 }
 
 s32 SailSeaMapView_GetNodesFromPercent(s32 progress, u16 *nodeX, u16 *nodeY, SeaMapManagerNode **prevNodePtr, SeaMapManagerNode **nextNodePtr)

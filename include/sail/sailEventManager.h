@@ -6,6 +6,13 @@
 #include <seaMap/seaMapCommon.h>
 
 // --------------------
+// CONSTANTS
+// --------------------
+
+#define SAILEVENTMANAGER_STAGE_OBJ_LIST_SIZE 0x100
+#define SAILEVENTMANAGER_TEMP_OBJ_LIST_SIZE  0x10
+
+// --------------------
 // ENUMS
 // --------------------
 
@@ -66,9 +73,9 @@ enum SailMapObjectFlags_
 {
     SAILMAPOBJECT_FLAG_NONE = 0x00,
 
-    SAILMAPOBJECT_FLAG_100  = 0x100,
-    SAILMAPOBJECT_FLAG_200  = 0x200,
-    SAILMAPOBJECT_FLAG_400  = 0x400,
+    SAILMAPOBJECT_FLAG_100 = 0x100,
+    SAILMAPOBJECT_FLAG_200 = 0x200,
+    SAILMAPOBJECT_FLAG_400 = 0x400,
 
     SAILMAPOBJECT_FLAG_8000000  = 0x8000000,
     SAILMAPOBJECT_FLAG_10000000 = 0x10000000,
@@ -112,7 +119,7 @@ typedef struct SBBObject_
     VecFx32 unknown;
     u16 type;
     u16 flags;
-    u16 field_10;
+    u16 viewRange;
     u16 field_12;
     u32 field_14;
 } SBBObject;
@@ -134,7 +141,7 @@ typedef struct SailEventManagerObject_
     SailRing *ringTask;
     VecFx32 unknown;
     VecFx32 position;
-    s32 objectValue10;
+    s32 viewRange;
     u16 id;
     u16 angle;
     u16 type;
@@ -153,11 +160,11 @@ typedef struct SailEventManager_
     u16 field_20;
     u16 field_22;
     VecFx32 field_24;
-    fx32 field_30;
+    fx32 baseViewRange;
     u16 field_34;
     u16 blockID;
-    s32 field_38;
-    s32 field_3C;
+    s32 objDrawDistance;
+    s32 objDespawnDistance;
     u16 activeObjectCount;
     u16 field_42;
     u16 field_44;
@@ -186,10 +193,10 @@ extern const SailObjectSpawnFunc sailObjectSpawnList[SAILMAPOBJECT_TYPE_COUNT][S
 
 SailEventManager *SailEventManager__Create(void);
 
-void SailEventManager__ProcessSBB(void);
-void SailEventManager__LoadMapObjects(u32 id);
+void SailEventManager__LoadLayout(void);
+void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance);
 void SailEventManager__LoadObject(SBBObject *object);
-BOOL SailEventManager__ViewCheck(VecFx32 *position, s32 a2);
+BOOL SailEventManager__ViewCheck(VecFx32 *position, s32 viewRange);
 void SailEventManager__RemoveEntry(SailEventManagerObject *object);
 SailEventManagerObject *SailEventManager__CreateObject(u16 type, VecFx32 *position);
 void SailEventManager__CreateObject2(SailEventManagerObject *object);

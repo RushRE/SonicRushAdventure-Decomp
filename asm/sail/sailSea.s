@@ -76,8 +76,8 @@ _0215F9D0: .word SailSea__Main
 _0215F9D4: .word SailSea__Destructor
 	thumb_func_end SailSea__Create
 
-	thumb_func_start SailSea__Func_215F9D8
-SailSea__Func_215F9D8: // 0x0215F9D8
+	thumb_func_start SailSea__Move
+SailSea__Move: // 0x0215F9D8
 	push {r4, r5, lr}
 	sub sp, #0x3c
 	mov r5, r0
@@ -134,10 +134,10 @@ SailSea__Func_215F9D8: // 0x0215F9D8
 	nop
 _0215FA4C: .word FX_SinCosTable_
 _0215FA50: .word 0x00FFFFFF
-	thumb_func_end SailSea__Func_215F9D8
+	thumb_func_end SailSea__Move
 
-	thumb_func_start SailSea__Func_215FA54
-SailSea__Func_215FA54: // 0x0215FA54
+	thumb_func_start SailSea__SetAngle
+SailSea__SetAngle: // 0x0215FA54
 	push {r4, lr}
 	mov r4, r0
 	bl SailManager__GetWork
@@ -147,7 +147,7 @@ SailSea__Func_215FA54: // 0x0215FA54
 	ldrh r0, [r1, #0x10]
 	strh r0, [r1, #0x10]
 	pop {r4, pc}
-	thumb_func_end SailSea__Func_215FA54
+	thumb_func_end SailSea__SetAngle
 
 	thumb_func_start SailSea__Destructor
 SailSea__Destructor: // 0x0215FA68
