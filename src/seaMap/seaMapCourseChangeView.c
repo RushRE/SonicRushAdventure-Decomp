@@ -54,7 +54,7 @@ void CreateSeaMapCourseChangeView(void)
 
     InitDisplayForSeaMapCourseChangeView();
     SeaMapChartCourseView__Create(FALSE, gameState.sailShipType, 1);
-    SeaMapManager__Func_20444E8();
+    SeaMapManager__LoadNodeList();
 
     u16 nodeY, nodeX;
     fx32 inY, inX;
@@ -77,7 +77,7 @@ void CreateSeaMapCourseChangeView(void)
 
     SeaMapManager__Func_2045BF8(seaMapViewUnknown2 - SeaMapCourseChangeView_02134174, &SeaMapCourseChangeView_shipPosition.x, &SeaMapCourseChangeView_shipPosition.y);
     SeaMapManager__RemoveAllNodes();
-    SeaMapView__Func_203DCE0(SeaMapCourseChangeView_shipPosition.x, SeaMapCourseChangeView_shipPosition.y);
+    SeaMapView__SetViewPosition(SeaMapCourseChangeView_shipPosition.x, SeaMapCourseChangeView_shipPosition.y);
 
     SeaMapManager__Func_2043B28(SeaMapCourseChangeView_shipPosition.x, SeaMapCourseChangeView_shipPosition.y, &x, &y);
     SeaMapManager__AddNode(x, y);

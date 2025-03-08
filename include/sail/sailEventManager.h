@@ -135,8 +135,7 @@ typedef struct SBBSegment_
 
 typedef struct SailEventManagerObject_
 {
-    s32 field_0;
-    s32 field_4;
+    NNSFndLink link;
     StageTask *objTask;
     SailRing *ringTask;
     VecFx32 unknown;

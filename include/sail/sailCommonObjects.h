@@ -176,26 +176,31 @@ StageTask *SailJetItem__Create(SailEventManagerObject *mapObject);
 StageTask *SailItem3__Create(StageTask *parent);
 StageTask *SailItemBonus__Create(StageTask *parent, u32 type);
 
-void SailObject__Destructor_2169B20(Task *task);
-BOOL SailObject__ViewCheck_2169B60(StageTask *work);
-void SailObject__OnDefend_2169BAC(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void SailObject__Destructor(Task *task);
+BOOL SailObject__ViewCheck(StageTask *work);
+void SailObject__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void SailObject__GivePlayerScore(StageTask *work);
-void SailObject__Func_216A1C4(StageTask *work);
+void SailObject__OnPlayerCollide(StageTask *work);
+
 void SailLanding__State_216A46C(StageTask *work);
 void SailLanding__Draw_216A4E8(void);
 void SailLanding__Draw_216A6A4(void);
+
 void SailMine__State_216A4E8(StageTask *work);
+
 void SailJetBomber__Action_Init(StageTask *work);
 void SailJetBomber__State_216AA38(StageTask *work);
+
 void SailJetBoatCloud__State_216AA38(StageTask *work);
 void SailCloud__State_216AF60(StageTask *work);
-void SailObject__Func_216B178(StageTask *work);
-void SailObject__Func_216B1A4(StageTask *work);
-void SailObject__Func_216B284(StageTask *work);
-void SailObject__Func_216B408(StageTask *work);
-void SailObject__Func_216B4B8(StageTask *work);
-void SailObject__Func_216B644(StageTask *work);
-void SailObject__Func_216B7A4(StageTask *work);
+
+void SailObject__Action_Destroy(StageTask *work);
+void SailObject__Action_ExplodeSimple(StageTask *work);
+void SailObject__State_ExplodeSimple(StageTask *work);
+void SailObject__Action_Explode(StageTask *work);
+void SailObject__CreateRingsForExplode1(StageTask *work);
+void SailObject__CreateRingsForExplode2(StageTask *work);
+void SailObject__State_Explode(StageTask *work);
 
 void SailBuoy__SetupObject(StageTask *work);
 void SailBuoy__State_216BAC0(StageTask *work);

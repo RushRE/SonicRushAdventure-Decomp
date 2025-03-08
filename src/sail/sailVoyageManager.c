@@ -1,7 +1,7 @@
 #include <sail/sailVoyageManager.h>
 #include <sail/sailManager.h>
 #include <seaMap/seaMapManager.h>
-#include <seaMap/seaMapUnknown204A9E4.h>
+#include <seaMap/seaMapEventTrigger.h>
 #include <sail/sailPlayer.h>
 #include <sail/sailCommonObjects.h>
 #include <game/object/obj.h>
@@ -375,13 +375,13 @@ NONMATCH_FUNC void SailVoyageManager__Func_2157628(void)
     }
 
     u32 i;
-    for (i = SeaMapUnknown204AB60__Func_204ABBC(); unknown4 < i; unknown4++, i = SeaMapUnknown204AB60__Func_204ABBC())
+    for (i = SeaMapVoyagePathConfig_GetNodeCount(); unknown4 < i; unknown4++, i = SeaMapVoyagePathConfig_GetNodeCount())
     {
-        SeaMapUnknown204AB60ObjectLink *link = SeaMapUnknown204AB60__Func_204ABCC(unknown4);
+        SeaMapVoyagePathConfigNodeLink *link = SeaMapVoyagePathConfig_GetNode(unknown4);
 
-        if (link->object.distance > distance)
+        if (link->node.distance > distance)
         {
-            u16 count = FX_DivS32(link->object.distance - distance, denominator);
+            u16 count = FX_DivS32(link->node.distance - distance, denominator);
             if (id < count)
             {
                 for (; id < count; id++)
@@ -397,27 +397,27 @@ NONMATCH_FUNC void SailVoyageManager__Func_2157628(void)
                 work->segmentList[id].unknown = unknown;
             }
 
-            switch (link->object.type)
+            switch (link->node.type)
             {
-                case SEAMAPUNKNOWN204AB60OBJECT_TYPE_0:
+                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_0:
                     break;
 
-                case SEAMAPUNKNOWN204AB60OBJECT_TYPE_1:
+                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_1:
                     SailVoyageManager__SeaMapObjectUnknownType1(link, id);
                     break;
 
-                case SEAMAPUNKNOWN204AB60OBJECT_TYPE_2:
+                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_2:
                     type = SailVoyageManager__SeaMapObjectUnknownType2(link);
                     break;
 
-                case SEAMAPUNKNOWN204AB60OBJECT_TYPE_3:
+                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_3:
                     unknown = SailVoyageManager__SeaMapObjectUnknownType3(link);
                     break;
 
-                case SEAMAPUNKNOWN204AB60OBJECT_TYPE_4:
+                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_4:
                     SailVoyageManager__SeaMapObjectUnknownType4(link, id);
 
-                    if ((link->object.type4.chevRef->flags2 & 1) != 0)
+                    if ((link->node.type4.chevRef->flags2 & 1) != 0)
                     {
                         state->sailUnknown4 = unknown4;
                     }
@@ -428,7 +428,7 @@ NONMATCH_FUNC void SailVoyageManager__Func_2157628(void)
                     break;
             }
 
-            if (link->object.type == SEAMAPUNKNOWN204AB60OBJECT_TYPE_1 || link->object.type == SEAMAPUNKNOWN204AB60OBJECT_TYPE_4)
+            if (link->node.type == SEAMAPVOYAGEPATHCONFIGNODE_TYPE_1 || link->node.type == SEAMAPVOYAGEPATHCONFIGNODE_TYPE_4)
                 break;
         }
     }
@@ -469,13 +469,13 @@ NONMATCH_FUNC void SailVoyageManager__Func_2157628(void)
 	str r1, [sp, #8]
 	str r0, [sp, #4]
 _02157672:
-	bl SeaMapUnknown204AB60__Func_204ABBC
+	bl SeaMapVoyagePathConfig_GetNodeCount
 	ldr r1, [sp, #8]
 	cmp r1, r0
 	bhs _02157760
 _0215767C:
 	ldr r0, [sp, #8]
-	bl SeaMapUnknown204AB60__Func_204ABCC
+	bl SeaMapVoyagePathConfig_GetNode
 	str r0, [sp, #0xc]
 	ldr r0, [r0, #8]
 	ldr r1, [sp, #4]
@@ -591,7 +591,7 @@ _0215774C:
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
 	str r0, [sp, #8]
-	bl SeaMapUnknown204AB60__Func_204ABBC
+	bl SeaMapVoyagePathConfig_GetNodeCount
 	ldr r1, [sp, #8]
 	cmp r1, r0
 	blo _0215767C
@@ -603,7 +603,7 @@ _02157760:
 #endif
 }
 
-void SailVoyageManager__SeaMapObjectUnknownType1(SeaMapUnknown204AB60ObjectLink *work, u32 segmentCount)
+void SailVoyageManager__SeaMapObjectUnknownType1(SeaMapVoyagePathConfigNodeLink *work, u32 segmentCount)
 {
     SailManager *manager             = SailManager__GetWork();
     SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
@@ -617,31 +617,31 @@ void SailVoyageManager__SeaMapObjectUnknownType1(SeaMapUnknown204AB60ObjectLink 
     }
 
     s32 prevSegment;
-    switch (work->object.type1.unknown)
+    switch (work->node.type1.type)
     {
-        case 0:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE1TYPE_END:
             prevSegment                 = segmentCount - 1;
             voyageManager->segmentCount = segmentCount;
 
             voyageManager->segmentList[prevSegment].type  = SAILVOYAGESEGMENT_TYPE_26;
             voyageManager->segmentList[segmentCount].type = SAILVOYAGESEGMENT_TYPE_27;
-            voyageManager->unknownObjectDistance          = work->object.distance;
+            voyageManager->unknownObjectDistance          = work->node.distance;
             break;
 
-        case 1:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE1TYPE_GOAL:
             prevSegment                 = segmentCount - 1;
             voyageManager->segmentCount = segmentCount;
 
             voyageManager->segmentList[prevSegment].type  = SAILVOYAGESEGMENT_TYPE_14;
             voyageManager->segmentList[segmentCount].type = SAILVOYAGESEGMENT_TYPE_15;
 
-            voyageManager->unknownObjectDistance = work->object.distance;
-            manager->field_4                     = work->object.type1.unlockID;
+            voyageManager->unknownObjectDistance = work->node.distance;
+            manager->field_4                     = work->node.type1.unlockID;
             break;
 
-        case 2:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE1TYPE_COLLISION:
             voyageManager->segmentCount          = segmentCount;
-            voyageManager->unknownObjectDistance = work->object.distance;
+            voyageManager->unknownObjectDistance = work->node.distance;
 
             s32 type;
             switch (voyageManager->segmentList[segmentCount].type)
@@ -676,7 +676,7 @@ void SailVoyageManager__SeaMapObjectUnknownType1(SeaMapUnknown204AB60ObjectLink 
     voyageManager->segmentList[segmentCount].turn           = 0;
 }
 
-void SailVoyageManager__SeaMapObjectUnknownType4(SeaMapUnknown204AB60ObjectLink *work, u32 segmentCount)
+void SailVoyageManager__SeaMapObjectUnknownType4(SeaMapVoyagePathConfigNodeLink *work, u32 segmentCount)
 {
     SailManager *manager             = SailManager__GetWork();
     SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
@@ -685,25 +685,25 @@ void SailVoyageManager__SeaMapObjectUnknownType4(SeaMapUnknown204AB60ObjectLink 
         segmentCount = 2;
 
     s32 prevSegment;
-    switch (work->object.type4.type)
+    switch (work->node.type4.type)
     {
-        case 0:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE4TYPE_RIVAL_RACE:
             prevSegment                                   = segmentCount - 1;
             voyageManager->segmentCount                   = segmentCount;
             voyageManager->segmentList[prevSegment].type  = SAILVOYAGESEGMENT_TYPE_22;
             voyageManager->segmentList[segmentCount].type = SAILVOYAGESEGMENT_TYPE_23;
 
-            manager->field_8                     = work->object.type4.chevRef->unlockID;
-            voyageManager->unknownObjectDistance = work->object.distance;
+            manager->field_8                     = work->node.type4.chevRef->unlockID;
+            voyageManager->unknownObjectDistance = work->node.distance;
             break;
 
-        case 1:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE4TYPE_UNKNOWN:
             prevSegment                                   = segmentCount - 1;
             voyageManager->segmentCount                   = segmentCount;
             voyageManager->segmentList[prevSegment].type  = SAILVOYAGESEGMENT_TYPE_24;
             voyageManager->segmentList[segmentCount].type = SAILVOYAGESEGMENT_TYPE_25;
 
-            voyageManager->unknownObjectDistance = work->object.distance;
+            voyageManager->unknownObjectDistance = work->node.distance;
             break;
     }
 
@@ -714,52 +714,52 @@ void SailVoyageManager__SeaMapObjectUnknownType4(SeaMapUnknown204AB60ObjectLink 
     voyageManager->segmentList[segmentCount].turn           = 0;
 }
 
-u8 SailVoyageManager__SeaMapObjectUnknownType2(SeaMapUnknown204AB60ObjectLink *work)
+u8 SailVoyageManager__SeaMapObjectUnknownType2(SeaMapVoyagePathConfigNodeLink *work)
 {
     SailManager *manager = SailManager__GetWork();
 
-    switch (work->object.type2.attribute)
+    switch (work->node.type2.attribute)
     {
-        case 0:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE2TYPE_0:
             return SAILVOYAGESEGMENT_TYPE_0;
 
-        case 1:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE2TYPE_1:
             return SAILVOYAGESEGMENT_TYPE_5;
 
-        case 2:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE2TYPE_2:
             return SAILVOYAGESEGMENT_TYPE_3;
 
-        case 3:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE2TYPE_3:
             if (SailManager__GetShipType() == SHIP_HOVER)
                 return SAILVOYAGESEGMENT_TYPE_2;
             else
                 return SAILVOYAGESEGMENT_TYPE_1;
 
-        case 4:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE2TYPE_4:
             return SAILVOYAGESEGMENT_TYPE_6;
 
-        case 5:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE2TYPE_5:
             return SAILVOYAGESEGMENT_TYPE_4;
     }
 
     return SAILVOYAGESEGMENT_TYPE_0;
 }
 
-u8 SailVoyageManager__SeaMapObjectUnknownType3(SeaMapUnknown204AB60ObjectLink *work)
+u8 SailVoyageManager__SeaMapObjectUnknownType3(SeaMapVoyagePathConfigNodeLink *work)
 {
     SailManager *manager = SailManager__GetWork();
 
-    switch (work->object.type3.value)
+    switch (work->node.type3.lv)
     {
-        case 0:
-        case 1:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE3TYPE_0:
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE3TYPE_1:
             return 0;
 
-        case 2:
-            return work->object.type3.value - 1;
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE3TYPE_2:
+            return work->node.type3.lv - 1;
 
-        case 3:
-            return work->object.type3.value - 1;
+        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE3TYPE_3:
+            return work->node.type3.lv - 1;
     }
 
     return 0;
@@ -1145,7 +1145,7 @@ void SailVoyageManager__LoadSegment(SailVoyageManager *work, u8 type)
                     if (!SeaMapEventManager__CheckFeatureUnlocked(unlockID))
                         manager->flags |= SAILMANAGER_FLAG_80000;
 
-                    SeaMapUnknown204A9E4__RunCallbacks(7, (CHEVObject *)manager->field_4, 0);
+                    SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_TYPE_7, INT_TO_VOID(manager->field_4), 0);
                 }
             }
             break;

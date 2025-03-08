@@ -22,16 +22,66 @@ extern "C"
 // STRUCTS
 // --------------------
 
+struct CHHeader
+{
+    u16 width;
+    u16 height;
+};
+
+struct CHBlock
+{
+    struct CHHeader header;
+    u8 data[1];
+};
+
+struct CHAttributeValue
+{
+    u8 value1 : 4;
+    u8 value2 : 4;
+};
+
+struct CHLVValue
+{
+    u8 value1 : 2;
+    u8 value2 : 2;
+    u8 value3 : 2;
+    u8 value4 : 2;
+};
+
+struct CHCollisionValue
+{
+    u8 value1 : 4;
+    u8 value2 : 4;
+};
+
+struct CHAttributes
+{
+    struct CHHeader header;
+    struct CHAttributeValue data[1]; // unknown-length array
+};
+
+struct CHLV
+{
+    struct CHHeader header;
+    struct CHLVValue data[1]; // unknown-length array
+};
+
+struct CHCollision
+{
+    struct CHHeader header;
+    struct CHCollisionValue data[1]; // unknown-length array
+};
+
 typedef struct SeaMapManagerAssets_
 {
     void *sprChCommon;
     CHEV *objectLayout;
-    void *chat;
-    void *chlv;
+    struct CHAttributes *chat;
+    struct CHLV *chlv;
     void *mapMask[3];
     void *mapIsland[3];
     void *mapSea[3];
-    void *mapCollision;
+    struct CHCollision *mapCollision;
 } SeaMapManagerAssets;
 
 typedef struct SeaMapManager_
@@ -110,14 +160,14 @@ NOT_DECOMPILED BOOL SeaMapManager__GetSaveFlag_(u8 *flags, u32 id);
 NOT_DECOMPILED BOOL SeaMapManager__GetSaveFlag(u32 id);
 NOT_DECOMPILED void SeaMapManager__SetSaveFlag_(u8 *flags, u32 id, BOOL state);
 NOT_DECOMPILED void SeaMapManager__SetSaveFlag(u32 id, BOOL state);
-NOT_DECOMPILED void SeaMapManager__Func_2043D08(void);
-NOT_DECOMPILED s32 SeaMapManager__GetMapPixel(s32 x, s32 y);
+NOT_DECOMPILED void SeaMapManager__LoadMapBackground(void);
+NOT_DECOMPILED s32 SeaMapManager__GetMapPixel(u16 x, u16 y);
 NOT_DECOMPILED void SeaMapManager__Func_2043FDC(s32 x, s32 y);
 NOT_DECOMPILED void SeaMapManager__Func_2044268(s32 x, u32 y, u32 a3, u32 a4);
 NOT_DECOMPILED void SeaMapManager__Func_20442C8(u32 x, s32 y, s32 a3, s32 a4);
 NOT_DECOMPILED void SeaMapManager__ClearGlobalNodeList(void);
 NOT_DECOMPILED void SeaMapManager__UpdateGlobalNodeList(void);
-NOT_DECOMPILED void SeaMapManager__Func_20444E8(void);
+NOT_DECOMPILED void SeaMapManager__LoadNodeList(void);
 NOT_DECOMPILED void SeaMapManager__SetUnknown1(s32 a1);
 NOT_DECOMPILED s32 SeaMapManager__GetUnknown1(void);
 NOT_DECOMPILED void SeaMapManager__ClearSeaMap(void *saveBlockChart);
@@ -134,8 +184,8 @@ NOT_DECOMPILED void SeaMapManager__LoadBackgroundPalette(SeaMapManager *work);
 NOT_DECOMPILED void SeaMapManager__Main(void);
 NOT_DECOMPILED void SeaMapManager__Destructor(Task *task);
 NOT_DECOMPILED void SeaMapManager__State_2044DC8(SeaMapManager *work);
-NOT_DECOMPILED void SeaMapManager__Func_2044DCC(u32 a1, u32 a2, u32 a3, u32 a4, u16 a5);
-NOT_DECOMPILED void SeaMapManager__Func_2044E60(s32 x, s32 y, u32 a3);
+NOT_DECOMPILED void SeaMapManager__DrawNodeLine2(u32 a1, u32 a2, u32 a3, u32 a4, u16 a5);
+NOT_DECOMPILED void SeaMapManager__DrawNodeLine(s32 x, s32 y, u32 a3);
 NOT_DECOMPILED void SeaMapManager__Func_2044F24(s16 a1, s16 a2);
 NOT_DECOMPILED void SeaMapManager__ClearUnknownPtr(void);
 NOT_DECOMPILED void SeaMapManager__Func_204506C(Vec2Fx32 *a1, Vec2Fx32 *a2, Vec2Fx32 *a3, Vec2Fx32 *a4);
@@ -145,7 +195,7 @@ NOT_DECOMPILED void SeaMapManager__Func_20451A4(Vec2Fx32 *a1, Vec2Fx32 *a2, Vec2
 NOT_DECOMPILED void SeaMapManager__Func_20452F0(s32 a1, s32 a2, s32 a3, s32 a4, u32 a5, u32 *a6, u32 *a7, u32 *a8, u32 *a9);
 NOT_DECOMPILED void SeaMapManager__Func_2045380(u32 *a1, u32 *a2, s32 *a3, s32 *a4, s32 a5, s32 a6);
 NOT_DECOMPILED void SeaMapManager__Func_2045798(u8 *a1, u16 *ptr1, u16 *ptr2, s32 a4, u16 a5, u16 a6, u16 a7, u16 a8);
-NOT_DECOMPILED void SeaMapManager__Func_20458C8(s32 a1, s32 a2, u32 a3, u32 a4, u32 a5);
+NOT_DECOMPILED void SeaMapManager__DrawLine(u8 *pixels, u16 startX, u16 startY, u16 endX, u16 endY);
 NOT_DECOMPILED void SeaMapManager__Func_2045A58(s32 a1, s16 a2, u32 a3, s32 a4, s32 a5);
 NOT_DECOMPILED void SeaMapManager__Func_2045BF8(fx32 targetDistance, fx32 *x, fx32 *y);
 NOT_DECOMPILED void SeaMapManager__AddNode(u16 x, u16 y);

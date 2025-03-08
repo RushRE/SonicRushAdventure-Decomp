@@ -174,28 +174,29 @@ Static arm9
     ## SEA MAP ##
     Object src/seaMap/navTails.o
     Object asm/seaMap/navTails_vars.o
-    Object asm/seaMap/seaMapView.o
-    Object asm/menu/seaMapMenu.o
+    Object asm/seaMap/seaMapView_vars.o
+    Object src/seaMap/seaMapView.o
+    Object src/seaMap/seaMapMenu.o
     Object asm/menu/seaMapChartCourseView.o
-    Object asm/seaMap/seaMapPenPalette.o
+    Object src/seaMap/seaMapPenPalette.o
     Object asm/seaMap/seaMapManager.o
     Object asm/seaMap/seaMapManagerNodeList.o
     Object asm/seaMap/seaMapEventManager.o
     Object asm/seaMap/seaMapIslandDrawIcon.o
     Object asm/seaMap/seaMapIslandIcon.o
-    Object asm/seaMap/seaMapJohnnyIcon.o
-    Object asm/seaMap/seaMapUnknown5.o
-    Object asm/seaMap/seaMapTargetFlagIcon.o
-    Object asm/seaMap/seaMapBoatIcon.o
-    Object asm/seaMap/seaMapStylusIcon.o
-    Object asm/seaMap/seaMapDSPopup.o
-    Object asm/seaMap/seaMapCoralCaveIcon.o
-    Object asm/seaMap/seaMapSkyBabylonIcon.o
+    Object src/seaMap/objects/seaMapJohnnyIcon.o
+    Object src/seaMap/objects/seaMapUnknown5.o
+    Object src/seaMap/objects/seaMapTargetFlagIcon.o
+    Object src/seaMap/objects/seaMapBoatIcon.o
+    Object src/seaMap/objects/seaMapStylusIcon.o
+    Object src/seaMap/objects/seaMapDSPopup.o
+    Object src/seaMap/objects/seaMapCoralCaveIcon.o
+    Object src/seaMap/objects/seaMapSkyBabylonIcon.o
     Object asm/seaMap/seaMapSparkles.o
-    Object asm/seaMap/seaMapCollision.o
-    Object asm/seaMap/seaMapUnknown204A9E4.o
-    Object asm/seaMap/seaMapUnknown204AB60.o
-    Object asm/menu/seaMapCourseChangeView.o
+    Object src/seaMap/seaMapCollision.o
+    Object src/seaMap/seaMapEventTrigger.o
+    Object src/seaMap/seaMapVoyagePathConfig.o
+    Object src/seaMap/seaMapCourseChangeView.o
     
     ## GAME CORE ##
     Object src/game/file/archiveFile.o

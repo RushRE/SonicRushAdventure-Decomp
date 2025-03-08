@@ -109,7 +109,7 @@ void CreateSeaMapCutscene(void)
 
     gfxControlA->brightness = work->brightness;
     SeaMapManager__EnableTouchField(FALSE);
-    SeaMapManager__Func_2043D08();
+    SeaMapManager__LoadMapBackground();
     SeaMapEventManager__Create();
 
     GXS_SetGraphicsMode(GX_BGMODE_0);

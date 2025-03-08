@@ -1,7 +1,7 @@
 #include <seaMap/objects/seaMapJohnnyIcon.h>
 #include <seaMap/seaMapView.h>
 #include <seaMap/seaMapManager.h>
-#include <seaMap/seaMapUnknown204A9E4.h>
+#include <seaMap/seaMapEventTrigger.h>
 #include <seaMap/sailSeaMapView.h>
 #include <game/graphics/renderCore.h>
 #include <game/save/saveGame.h>
@@ -24,7 +24,7 @@ SeaMapObject *CreateSeaMapJohnnyIcon(CHEVObjectType *objectType, CHEVObject *map
     SeaMapManager *manager = SeaMapManager__GetWork();
     UNUSED(manager);
 
-    if ((mapObject->flags2 & 0x1) != 0)
+    if ((mapObject->flags2 & 1) != 0)
     {
         if (SaveGame__GetGameProgress() >= SAVE_PROGRESS_12)
             return NULL;
@@ -66,7 +66,7 @@ void SeaMapJohnnyIcon_Main(void)
             SailSeaMapView_GetPosition(&x, &y);
 
             if (SeaMapEventManager__PointInViewRect(viewRect.left, viewRect.top, viewRect.right, viewRect.bottom, x, y))
-                SeaMapUnknown204A9E4__RunCallbacks(5, mapObject, 0);
+                SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_TYPE_5, mapObject, 0);
         }
 
         if (SeaMapEventManager__Func_204756C(mapObject))
@@ -96,7 +96,7 @@ void SeaMapJohnnyIcon_Destructor(Task *task)
 
 BOOL SeaMapJohnnyIcon_ViewCheck(CHEVObject *mapObject, fx32 x, fx32 y, BOOL flag)
 {
-    if ((mapObject->flags2 & 0x1) != 0)
+    if ((mapObject->flags2 & 1) != 0)
     {
         if (SaveGame__GetGameProgress() >= SAVE_PROGRESS_12)
             return FALSE;

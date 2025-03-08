@@ -3290,7 +3290,7 @@ _021711E0:
 	add r2, r2, r1
 	ldr r1, [sp]
 	sub r2, r2, #1
-	bl SeaMapUnknown204AB60__Func_204B4F0
+	bl SeaMapVoyagePathConfig_StoreShipState
 	ldr r0, [r4, #0x58]
 	ldr r1, [r6, #0xb0]
 	ldr r4, [r6, #0xac]

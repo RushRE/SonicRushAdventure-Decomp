@@ -5,12 +5,7 @@
 #include <game/input/padInput.h>
 #include <game/input/touchInput.h>
 #include <seaMap/seaMapEventManager.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void SeaMapCollision__HandleCollisions(void);
+#include <seaMap/seaMapCollision.h>
 
 // --------------------
 // VARIABLES
@@ -44,7 +39,7 @@ BOOL SeaMapView__IsActive(void)
     return SeaMapView__sVars.singleton != NULL;
 }
 
-void SeaMapView__Func_203DCE0(s32 x, s32 y)
+void SeaMapView__SetViewPosition(s32 x, s32 y)
 {
     SeaMapView *work = SeaMapView__GetWork();
 
@@ -2342,7 +2337,7 @@ _0203F8B4:
 #endif
 }
 
-NONMATCH_FUNC void SeaMapView__Func_203F8D4(void)
+NONMATCH_FUNC void SeaMapView__DrawVoyagePath(void)
 {
 #ifdef NON_MATCHING
 
@@ -2359,13 +2354,13 @@ NONMATCH_FUNC void SeaMapView__Func_203F8D4(void)
 	beq _0203F90C
 	b _0203F910
 _0203F8FC:
-	bl SeaMapView__Func_203F91C
+	bl SeaMapView__DrawVoyagePath_Zoom0
 	b _0203F910
 _0203F904:
-	bl SeaMapView__Func_203F9A4
+	bl SeaMapView__DrawVoyagePath_Zoom1
 	b _0203F910
 _0203F90C:
-	bl SeaMapView__Func_203FA24
+	bl SeaMapView__DrawVoyagePath_Zoom2
 _0203F910:
 	mov r0, #8
 	bl SeaMapManager__EnableDrawFlags
@@ -2375,7 +2370,7 @@ _0203F910:
 #endif
 }
 
-NONMATCH_FUNC void SeaMapView__Func_203F91C(void)
+NONMATCH_FUNC void SeaMapView__DrawVoyagePath_Zoom0(void)
 {
 #ifdef NON_MATCHING
 
@@ -2400,15 +2395,15 @@ _0203F950:
 	ldrh r1, [r7, #0xa]
 	ldrh r2, [r8, #8]
 	ldrh r3, [r8, #0xa]
-	bl SeaMapManager__Func_2044DCC
+	bl SeaMapManager__DrawNodeLine2
 	ldrh r0, [r7, #8]
 	ldrh r1, [r7, #0xa]
 	mov r2, r5
-	bl SeaMapManager__Func_2044E60
+	bl SeaMapManager__DrawNodeLine
 	ldrh r0, [r8, #8]
 	ldrh r1, [r8, #0xa]
 	mov r2, r4
-	bl SeaMapManager__Func_2044E60
+	bl SeaMapManager__DrawNodeLine
 	mov r0, r8
 	mov r7, r8
 	bl SeaMapManager__GetNextNode
@@ -2421,7 +2416,7 @@ _0203F950:
 #endif
 }
 
-NONMATCH_FUNC void SeaMapView__Func_203F9A4(void)
+NONMATCH_FUNC void SeaMapView__DrawVoyagePath_Zoom1(void)
 {
 #ifdef NON_MATCHING
 
@@ -2452,7 +2447,7 @@ _0203F9E0:
 	mov r2, r6
 	mov r3, r7
 	str r5, [sp]
-	bl SeaMapManager__Func_2044DCC
+	bl SeaMapManager__DrawNodeLine2
 	mov r0, r4
 	bl SeaMapManager__GetNextNode
 	movs r4, r0
@@ -2465,7 +2460,7 @@ _0203F9E0:
 #endif
 }
 
-NONMATCH_FUNC void SeaMapView__Func_203FA24(void)
+NONMATCH_FUNC void SeaMapView__DrawVoyagePath_Zoom2(void)
 {
 #ifdef NON_MATCHING
 
@@ -2508,7 +2503,7 @@ _0203FA78:
 	mov r2, r9
 	mov r3, r10
 	str r4, [sp]
-	bl SeaMapManager__Func_2044DCC
+	bl SeaMapManager__DrawNodeLine2
 	mov r0, r6
 	bl SeaMapManager__GetNextNode
 	movs r6, r0
@@ -2570,15 +2565,15 @@ NONMATCH_FUNC void SeaMapView__Func_203FB10(void)
 	ldrh r1, [r4, #0xa]
 	ldrh r2, [r5, #8]
 	ldrh r3, [r5, #0xa]
-	bl SeaMapManager__Func_2044DCC
+	bl SeaMapManager__DrawNodeLine2
 	ldrh r0, [r4, #8]
 	ldrh r1, [r4, #0xa]
 	mov r2, #2
-	bl SeaMapManager__Func_2044E60
+	bl SeaMapManager__DrawNodeLine
 	ldrh r0, [r5, #8]
 	ldrh r1, [r5, #0xa]
 	mov r2, #2
-	bl SeaMapManager__Func_2044E60
+	bl SeaMapManager__DrawNodeLine
 	mov r0, #8
 	bl SeaMapManager__EnableDrawFlags
 	ldmia sp!, {r3, r4, r5, pc}
@@ -2616,7 +2611,7 @@ NONMATCH_FUNC void SeaMapView__Func_203FB78(void)
 	mov r1, r1, lsr #0x10
 	mov r2, r2, lsr #0x10
 	mov r3, r3, lsr #0x10
-	bl SeaMapManager__Func_2044DCC
+	bl SeaMapManager__DrawNodeLine2
 	mov r0, #8
 	bl SeaMapManager__EnableDrawFlags
 	add sp, sp, #4
@@ -2665,7 +2660,7 @@ NONMATCH_FUNC void SeaMapView__Func_203FBE8(void)
 	mov r0, r6
 	mov ip, #1
 	str ip, [sp]
-	bl SeaMapManager__Func_2044DCC
+	bl SeaMapManager__DrawNodeLine2
 	mov r0, #8
 	bl SeaMapManager__EnableDrawFlags
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}

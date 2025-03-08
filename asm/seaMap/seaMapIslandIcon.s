@@ -28,7 +28,7 @@ SeaMapIslandIcon__Create: // 0x020483E4
 	mov r1, r4
 	mov r0, #1
 	mov r2, #0
-	bl SeaMapUnknown204A9E4__RunCallbacks
+	bl SeaMapEventTrigger_DoEvent
 _02048444:
 	ldrsh r0, [r4, #0x10]
 	bl SeaMapEventManager__IslandEnabled
@@ -113,7 +113,7 @@ _02048534:
 	bne _02048580
 	ldr r0, _020485D8 // =SeaMapIslandIcon__Destructor2
 	mov r1, r7
-	bl SeaMapUnknown204A9E4__AddObject
+	bl SeaMapEventTrigger_AddEventListener
 	str r0, [r7, #0x14]
 _02048580:
 	mov r0, r7
@@ -213,7 +213,7 @@ _0204864C:
 	mov r1, r5
 	mov r0, #2
 	mov r2, #0
-	bl SeaMapUnknown204A9E4__RunCallbacks
+	bl SeaMapEventTrigger_DoEvent
 	ldr r0, [r4, #0x10]
 	cmp r0, #0
 	addeq sp, sp, #0x34
@@ -250,7 +250,7 @@ _02048710:
 	mov r1, r5
 	mov r0, #2
 	mov r2, #0
-	bl SeaMapUnknown204A9E4__RunCallbacks
+	bl SeaMapEventTrigger_DoEvent
 	ldr r0, [r4, #0x10]
 	cmp r0, #0
 	addeq sp, sp, #0x34
@@ -292,7 +292,7 @@ _020487D8:
 	mov r1, r5
 	mov r0, #1
 	mov r2, #0
-	bl SeaMapUnknown204A9E4__RunCallbacks
+	bl SeaMapEventTrigger_DoEvent
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end SeaMapIslandIcon__Main2
 
@@ -304,7 +304,7 @@ SeaMapIslandIcon__Destructor1: // 0x020487FC
 	ldr r0, [r4, #0x14]
 	cmp r0, #0
 	beq _02048818
-	bl SeaMapUnknown204A9E4__RemoveObject
+	bl SeaMapEventTrigger_RemoveEventListener
 _02048818:
 	mov r0, r4
 	bl SeaMapEventManager__DestroyObject

@@ -41,8 +41,8 @@ SailEventManager *SailEventManager__Create(void)
     work = TaskGetWork(task, SailEventManager);
     TaskInitWork16(work);
 
-    NNS_FndInitList(&work->stageObjectList, 0);
-    NNS_FndInitList(&work->tempObjectList, 0);
+    NNS_FND_INIT_LIST(&work->stageObjectList, SailEventManagerObject, link);
+    NNS_FND_INIT_LIST(&work->tempObjectList, SailEventManagerObject, link);
 
     if (manager->isRivalRace)
         work->stageObjectEntries = HeapAllocHead(HEAP_USER, SAILEVENTMANAGER_STAGE_OBJ_LIST_SIZE * sizeof(SailEventManagerObject));
@@ -54,7 +54,7 @@ SailEventManager *SailEventManager__Create(void)
     work->tempObjectEntries = HeapAllocHead(HEAP_USER, SAILEVENTMANAGER_TEMP_OBJ_LIST_SIZE * sizeof(SailEventManagerObject));
     MI_CpuClear16(work->tempObjectEntries, SAILEVENTMANAGER_TEMP_OBJ_LIST_SIZE * sizeof(SailEventManagerObject));
 
-    if (manager->missionID)
+    if (manager->missionID != 0)
     {
         char path[] = "sbb/sb_ms000.sbb";
 

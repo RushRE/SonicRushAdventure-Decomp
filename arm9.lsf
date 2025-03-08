@@ -96,9 +96,9 @@ Static arm9
     Object src/seaMap/objects/seaMapCoralCaveIcon.o
     Object src/seaMap/objects/seaMapSkyBabylonIcon.o
     Object asm/seaMap/seaMapSparkles.o
-    Object asm/seaMap/seaMapCollision.o
-    Object asm/seaMap/seaMapUnknown204A9E4.o
-    Object asm/seaMap/seaMapUnknown204AB60.o
+    Object src/seaMap/seaMapCollision.o
+    Object src/seaMap/seaMapEventTrigger.o
+    Object src/seaMap/seaMapVoyagePathConfig.o
     Object src/seaMap/seaMapCourseChangeView.o
     
     ## GAME CORE ##

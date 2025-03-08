@@ -2,7 +2,7 @@
 #define RUSH_SEAMAPISLANDICON_H
 
 #include <seaMap/seaMapEventManager.h>
-#include <seaMap/seaMapUnknown204A9E4.h>
+#include <seaMap/seaMapEventTrigger.h>
 
 // --------------------
 // ENUMS
@@ -16,7 +16,7 @@ typedef struct SeaMapIslandIcon_
 {
     SeaMapObject objWork;
     s32 field_10;
-    SeaMapUnknown204A9E4Object *objectUnknown;
+    SeaMapEventListener *objectUnknown;
 } SeaMapIslandIcon;
 
 // --------------------

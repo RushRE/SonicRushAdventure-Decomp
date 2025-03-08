@@ -3,7 +3,7 @@
 
 #include <game/system/task.h>
 #include <seaMap/seaMapManager.h>
-#include <seaMap/seaMapUnknown204AB60.h>
+#include <seaMap/seaMapVoyagePathConfig.h>
 
 // --------------------
 // CONSTANTS
@@ -134,10 +134,10 @@ SailVoyageManager *SailVoyageManager__Create(void);
 void SailVoyageManager__Destructor(Task *task);
 void SailVoyageManager__Func_21574B4(SailVoyageManager *work);
 void SailVoyageManager__Func_2157628(void);
-void SailVoyageManager__SeaMapObjectUnknownType1(SeaMapUnknown204AB60ObjectLink *work, u32 segmentCount);
-void SailVoyageManager__SeaMapObjectUnknownType4(SeaMapUnknown204AB60ObjectLink *work, u32 segmentCount);
-u8 SailVoyageManager__SeaMapObjectUnknownType2(SeaMapUnknown204AB60ObjectLink *work);
-u8 SailVoyageManager__SeaMapObjectUnknownType3(SeaMapUnknown204AB60ObjectLink *work);
+void SailVoyageManager__SeaMapObjectUnknownType1(SeaMapVoyagePathConfigNodeLink *work, u32 segmentCount);
+void SailVoyageManager__SeaMapObjectUnknownType4(SeaMapVoyagePathConfigNodeLink *work, u32 segmentCount);
+u8 SailVoyageManager__SeaMapObjectUnknownType2(SeaMapVoyagePathConfigNodeLink *work);
+u8 SailVoyageManager__SeaMapObjectUnknownType3(SeaMapVoyagePathConfigNodeLink *work);
 void SailVoyageManager__SetupVoyage(void);
 s32 SailVoyageManager__GetVoyagePos(void);
 VecFx32 *SailVoyageManager__GetVoyageVelocity(void);

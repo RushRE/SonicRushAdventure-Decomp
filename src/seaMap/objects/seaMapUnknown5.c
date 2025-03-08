@@ -1,6 +1,6 @@
 #include <seaMap/objects/seaMapUnknown5.h>
 #include <seaMap/seaMapManager.h>
-#include <seaMap/seaMapUnknown204A9E4.h>
+#include <seaMap/seaMapEventTrigger.h>
 #include <game/graphics/renderCore.h>
 #include <game/save/saveGame.h>
 #include <seaMap/sailSeaMapView.h>
@@ -55,7 +55,7 @@ void SeaMapUnknown5_Main(void)
         SailSeaMapView_GetPosition(&x, &y);
 
         if (SeaMapEventManager__PointInViewRect(viewRect.left, viewRect.top, viewRect.right, viewRect.bottom, x, y))
-            SeaMapUnknown204A9E4__RunCallbacks(6, mapObject, 0);
+            SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_TYPE_6, mapObject, 0);
     }
 }
 

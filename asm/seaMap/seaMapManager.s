@@ -31,7 +31,7 @@ SeaMapManager__Create: // 0x0204356C
 	mov r0, r4
 	mov r1, r2
 	bl SeaMapManager__InitArchives
-	bl SeaMapUnknown204A9E4__Func_204A9E4
+	bl InitSeaMapEventTriggerSystem
 	mov r0, #0x100
 	str r0, [sp]
 	mov r2, #0
@@ -105,7 +105,7 @@ SeaMapManager__Destroy: // 0x02043684
 	bl SeaMapManager__IsActive
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl SeaMapUnknown204A9E4__Func_204AA00
+	bl ReleaseSeaMapEventTriggerSystem
 	ldr r0, _020436AC // =SeaMapManager__sVars
 	ldr r0, [r0, #0]
 	bl DestroyTask
@@ -673,8 +673,8 @@ SeaMapManager__SetSaveFlag: // 0x02043CE8
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end SeaMapManager__SetSaveFlag
 
-	arm_func_start SeaMapManager__Func_2043D08
-SeaMapManager__Func_2043D08: // 0x02043D08
+	arm_func_start SeaMapManager__LoadMapBackground
+SeaMapManager__LoadMapBackground: // 0x02043D08
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	bl SeaMapManager__GetWork
@@ -851,7 +851,7 @@ _02043E88:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02043FA8: .word SeaMapManager__sVars
-	arm_func_end SeaMapManager__Func_2043D08
+	arm_func_end SeaMapManager__LoadMapBackground
 
 	arm_func_start SeaMapManager__GetMapPixel
 SeaMapManager__GetMapPixel: // 0x02043FAC
@@ -1226,8 +1226,8 @@ SeaMapManager__UpdateGlobalNodeList: // 0x020444B8
 _020444E4: .word gameState+0x00000084
 	arm_func_end SeaMapManager__UpdateGlobalNodeList
 
-	arm_func_start SeaMapManager__Func_20444E8
-SeaMapManager__Func_20444E8: // 0x020444E8
+	arm_func_start SeaMapManager__LoadNodeList
+SeaMapManager__LoadNodeList: // 0x020444E8
 	stmdb sp!, {r4, lr}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #0x138]
@@ -1240,7 +1240,7 @@ SeaMapManager__Func_20444E8: // 0x020444E8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02044510: .word gameState+0x00000084
-	arm_func_end SeaMapManager__Func_20444E8
+	arm_func_end SeaMapManager__LoadNodeList
 
 	arm_func_start SeaMapManager__SetUnknown1
 SeaMapManager__SetUnknown1: // 0x02044514
@@ -1903,8 +1903,8 @@ SeaMapManager__State_2044DC8: // 0x02044DC8
 	bx lr
 	arm_func_end SeaMapManager__State_2044DC8
 
-	arm_func_start SeaMapManager__Func_2044DCC
-SeaMapManager__Func_2044DCC: // 0x02044DCC
+	arm_func_start SeaMapManager__DrawNodeLine2
+SeaMapManager__DrawNodeLine2: // 0x02044DCC
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x10
 	mov r7, r0
@@ -1927,7 +1927,7 @@ SeaMapManager__Func_2044DCC: // 0x02044DCC
 	mov r1, r7
 	mov r2, r6
 	mov r3, r5
-	bl SeaMapManager__Func_20458C8
+	bl SeaMapManager__DrawLine
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _02044E30:
@@ -1943,10 +1943,10 @@ _02044E30:
 	bl SeaMapManager__Func_2045798
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SeaMapManager__Func_2044DCC
+	arm_func_end SeaMapManager__DrawNodeLine2
 
-	arm_func_start SeaMapManager__Func_2044E60
-SeaMapManager__Func_2044E60: // 0x02044E60
+	arm_func_start SeaMapManager__DrawNodeLine
+SeaMapManager__DrawNodeLine: // 0x02044E60
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r2
 	mov r7, r0
@@ -1997,7 +1997,7 @@ _02044EA4:
 	str r4, [sp]
 	bl SeaMapManager__Func_2045128
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SeaMapManager__Func_2044E60
+	arm_func_end SeaMapManager__DrawNodeLine
 
 	arm_func_start SeaMapManager__Func_2044F24
 SeaMapManager__Func_2044F24: // 0x02044F24
@@ -2688,8 +2688,8 @@ SeaMapManager__Func_2045798: // 0x02045798
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	arm_func_end SeaMapManager__Func_2045798
 
-	arm_func_start SeaMapManager__Func_20458C8
-SeaMapManager__Func_20458C8: // 0x020458C8
+	arm_func_start SeaMapManager__DrawLine
+SeaMapManager__DrawLine: // 0x020458C8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr lr, [sp, #0x28]
 	sub r4, r3, r1
@@ -2795,7 +2795,7 @@ _02045A28:
 	mov r11, r3, lsr #0x10
 	bhs _020459F0
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end SeaMapManager__Func_20458C8
+	arm_func_end SeaMapManager__DrawLine
 
 	arm_func_start SeaMapManager__Func_2045A58
 SeaMapManager__Func_2045A58: // 0x02045A58

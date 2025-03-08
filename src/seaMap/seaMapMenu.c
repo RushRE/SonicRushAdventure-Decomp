@@ -196,7 +196,7 @@ void CreateSeaMapMenu(BOOL useEngineB)
     SeaMapManager__Create(useEngineB, SHIP_MENU, FALSE);
     gfxControl->brightness = prevBrightness;
 
-    SeaMapManager__Func_2043D08();
+    SeaMapManager__LoadMapBackground();
 
     ReleaseAudioSystem();
     LoadAudioSndArc("snd/sys/sound_data.sdat");
@@ -213,7 +213,7 @@ void CreateSeaMapMenu(BOOL useEngineB)
     work->state = SeaMapMenu_State_FadeIn;
 
     CHEVObject *obj = SeaMapEventManager__GetObjectFromID(gameState.field_80);
-    SeaMapView__Func_203DCE0(FX32_FROM_WHOLE(obj->position.x), FX32_FROM_WHOLE(obj->position.y));
+    SeaMapView__SetViewPosition(FX32_FROM_WHOLE(obj->position.x), FX32_FROM_WHOLE(obj->position.y));
     SeaMapView__EnableMultipleButtons(&work->view, buttonStateTable1);
     SeaMapView__SetZoomLevel(&work->view, 0);
 

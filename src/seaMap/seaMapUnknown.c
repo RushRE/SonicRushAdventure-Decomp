@@ -47,7 +47,7 @@ void CreateSeaMapUnknown(void)
     SeaMapChartCourseView__Create(FALSE, gameState.sailShipType, 0);
     
     CHEVObject *obj = SeaMapEventManager__GetObjectFromID(gameState.field_80);
-    SeaMapView__Func_203DCE0(FX32_FROM_WHOLE(obj->position.x), FX32_FROM_WHOLE(obj->position.y));
+    SeaMapView__SetViewPosition(FX32_FROM_WHOLE(obj->position.x), FX32_FROM_WHOLE(obj->position.y));
 
     CreateNavTails(TRUE, gameState.sailShipType, NULL);
 

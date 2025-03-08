@@ -106,6 +106,8 @@ typedef struct SeaMapEventManager_
 
 extern Task *SeaMapEventManager__Singleton;
 
+extern CHEVObjectType SeaMapEventManager__ObjectList[SEAMAPOBJECT_COUNT];
+
 // --------------------
 // FUNCTIONS
 // --------------------

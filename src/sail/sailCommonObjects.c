@@ -147,10 +147,10 @@ void SailObject__Func_21646DC(StageTask *work)
         worker->player     = SailManager__GetWork()->sailPlayer;
         worker->field_124  = FLOAT_TO_FX32(1.0);
 
-        SetTaskViewCheckFunc(work, SailObject__ViewCheck_2169B60);
+        SetTaskViewCheckFunc(work, SailObject__ViewCheck);
         work->flag &= ~STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
         work->userFlag |= SAILOBJECT_FLAG_40;
-        SetTaskDestructorEvent(work->taskRef, SailObject__Destructor_2169B20);
+        SetTaskDestructorEvent(work->taskRef, SailObject__Destructor);
     }
 
     SailObject__Func_21650B4(work, 0);
@@ -913,7 +913,7 @@ void SailObject__SetupHitbox(StageTask *work, SailColliderWork *sailCollider, s3
             {
                 collider->hitPower = 10;
                 collider->defPower = 5;
-                ObjRect__SetOnDefend(collider, SailObject__OnDefend_2169BAC);
+                ObjRect__SetOnDefend(collider, SailObject__OnDefend);
                 collider->flag |= OBS_RECT_WORK_FLAG_20;
             }
             break;
@@ -5284,7 +5284,7 @@ StageTask *SailItemBonus__Create(StageTask *parent, u32 type)
     return work;
 }
 
-void SailObject__Destructor_2169B20(Task *task)
+void SailObject__Destructor(Task *task)
 {
     StageTask *work    = TaskGetWork(task, StageTask);
     SailObject *worker = GetStageTaskWorker(work, SailObject);
@@ -5297,7 +5297,7 @@ void SailObject__Destructor_2169B20(Task *task)
     StageTask_Destructor(task);
 }
 
-BOOL SailObject__ViewCheck_2169B60(StageTask *work)
+BOOL SailObject__ViewCheck(StageTask *work)
 {
     s32 range          = 0;
     SailObject *worker = GetStageTaskWorker(work, SailObject);
@@ -5314,7 +5314,7 @@ BOOL SailObject__ViewCheck_2169B60(StageTask *work)
     return SailEventManager__ViewCheck(&work->position, range) != FALSE;
 }
 
-NONMATCH_FUNC void SailObject__OnDefend_2169BAC(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+NONMATCH_FUNC void SailObject__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
 #ifdef NON_MATCHING
 
@@ -5681,7 +5681,7 @@ _0216A0D0:
 	ldr r1, [r7, #0x11c]
 	cmp r1, #0
 	bgt _0216A134
-	bl SailObject__Func_216B178
+	bl SailObject__Action_Destroy
 	bl SailManager__GetShipType
 	cmp r0, #2
 	ldreq r0, [r5, #0x6c]
@@ -5718,7 +5718,7 @@ _0216A148:
 _0216A154:
 	mov r0, r9
 	mov r1, r8
-	bl SailObject__Func_216A1C4
+	bl SailObject__OnPlayerCollide
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 
@@ -5759,7 +5759,7 @@ _0216A19C:
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216A1C4(StageTask *work)
+NONMATCH_FUNC void SailObject__OnPlayerCollide(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -6885,7 +6885,7 @@ _0216B138:
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216B178(StageTask *work)
+NONMATCH_FUNC void SailObject__Action_Destroy(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -6898,17 +6898,17 @@ NONMATCH_FUNC void SailObject__Func_216B178(StageTask *work)
 	cmpne r0, #3
 	mov r0, r4
 	beq _0216B19C
-	bl SailObject__Func_216B1A4
+	bl SailObject__Action_ExplodeSimple
 	ldmia sp!, {r4, pc}
 _0216B19C:
-	bl SailObject__Func_216B408
+	bl SailObject__Action_Explode
 	ldmia sp!, {r4, pc}
 
 // clang-format on
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216B1A4(StageTask *work)
+NONMATCH_FUNC void SailObject__Action_ExplodeSimple(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -6951,7 +6951,7 @@ NONMATCH_FUNC void SailObject__Func_216B1A4(StageTask *work)
 	rsb r3, r3, #0x800
 	str r3, [r2, #0x140]
 	ldr r3, [r1, #0x10]
-	ldr r1, =SailObject__Func_216B284
+	ldr r1, =SailObject__State_ExplodeSimple
 	add r3, r3, #0x1000
 	rsb r3, r3, #0
 	str r3, [r2, #0x134]
@@ -6970,7 +6970,7 @@ NONMATCH_FUNC void SailObject__Func_216B1A4(StageTask *work)
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216B284(StageTask *work)
+NONMATCH_FUNC void SailObject__State_ExplodeSimple(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -7078,7 +7078,7 @@ _0216B3E0:
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216B408(StageTask *work)
+NONMATCH_FUNC void SailObject__Action_Explode(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -7087,7 +7087,7 @@ NONMATCH_FUNC void SailObject__Func_216B408(StageTask *work)
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x124]
-	ldr r2, =SailObject__Func_216B7A4
+	ldr r2, =SailObject__State_Explode
 	mov r1, #0
 	str r2, [r5, #0xf4]
 	ldr r2, [r5, #0x18]
@@ -7135,7 +7135,7 @@ _0216B4A8:
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216B4B8(StageTask *work)
+NONMATCH_FUNC void SailObject__CreateRingsForExplode1(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -7247,7 +7247,7 @@ _0216B5A8:
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216B644(StageTask *work)
+NONMATCH_FUNC void SailObject__CreateRingsForExplode2(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -7347,7 +7347,7 @@ _0216B6A0:
 #endif
 }
 
-NONMATCH_FUNC void SailObject__Func_216B7A4(StageTask *work)
+NONMATCH_FUNC void SailObject__State_Explode(StageTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -7371,7 +7371,7 @@ NONMATCH_FUNC void SailObject__Func_216B7A4(StageTask *work)
 	tst r0, #7
 	bne _0216B818
 	mov r0, r6
-	bl SailObject__Func_216B4B8
+	bl SailObject__CreateRingsForExplode1
 	bl SailManager__GetShipType
 	cmp r0, #3
 	ldr r0, [r6, #0x138]
@@ -7506,10 +7506,10 @@ _0216B9C0:
 	tst r0, #4
 	mov r0, r6
 	bne _0216B9E4
-	bl SailObject__Func_216B4B8
+	bl SailObject__CreateRingsForExplode1
 	b _0216B9E8
 _0216B9E4:
-	bl SailObject__Func_216B644
+	bl SailObject__CreateRingsForExplode2
 _0216B9E8:
 	ldr r0, [r6, #0x18]
 	orr r0, r0, #4
