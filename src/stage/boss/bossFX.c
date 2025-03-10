@@ -860,9 +860,9 @@ void BossFX3D__Destructor(Task *task)
 
 void BossFX3D__State_Billboard(BossFX3D *work)
 {
-    VecFx32 position;
-    fx32 camUnknown[4];    // unknown struct #1
-    fx32 camPosUnknown[6]; // unknown struct #2
+    VecFx32 position;  
+    Unknown206703C unknown1; 
+    Unknown2066510 unknown2; 
     VecFx32 camDir;
     VecFx32 camEnd;
 
@@ -870,11 +870,11 @@ void BossFX3D__State_Billboard(BossFX3D *work)
 
     VEC_Subtract(NNS_G3dGlbGetCameraTarget(), NNS_G3dGlbGetCameraPos(), &camDir);
     VEC_Normalize(&camDir, &camDir);
-    VEC_MultAdd(FLOAT_TO_FX32(11.0), &camDir, (VecFx32 *)NNS_G3dGlbGetCameraPos(), &camEnd);
+    VEC_MultAdd(FLOAT_TO_FX32(11.0), &camDir, NNS_G3dGlbGetCameraPos(), &camEnd);
 
-    Unknown2066510__Func_206703C(camUnknown, &camDir, &camEnd);
-    Unknown2066510__Func_2066F88((VecFx32 *)NNS_G3dGlbGetCameraPos(), &position, camPosUnknown);
-    Unknown2066510__Func_20670F8(camUnknown, camPosUnknown, &work->aniModel.ani.work.translation);
+    Unknown2066510__Func_206703C(&unknown1, &camDir, &camEnd);
+    Unknown2066510__Func_2066F88(NNS_G3dGlbGetCameraPos(), &position, &unknown2);
+    Unknown2066510__Func_20670F8(&unknown1, &unknown2, &work->aniModel.ani.work.translation);
 }
 
 void BossFX3D__State_CondorTackle(BossFX3D *work)

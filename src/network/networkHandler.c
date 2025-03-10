@@ -164,7 +164,8 @@ s32 InitNetwork(s32 mode)
 
 void CreateINetManager(void)
 {
-    Task *task      = TaskCreate(INetManager_Main, INetManager_Destructor, TASK_FLAG_DISABLE_DESTROY | TASK_FLAG_INACTIVE, 0, 0, 253, INetManager);
+    Task *task      = TaskCreate(INetManager_Main, INetManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
+                                 TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, INetManager);
     iNetManagerTask = task;
 
     INetManager *work = TaskGetWork(task, INetManager);
@@ -219,7 +220,8 @@ INetManagerStatus GetINetManagerStatus(void)
 
 void CreateMatchManager(DWCUserData *userData, DWCAccFriendData *friendList, u16 friendCount, const char16 *name)
 {
-    Task *task       = TaskCreate(MatchManager_Main, MatchManager_Destructor, TASK_FLAG_DISABLE_DESTROY | TASK_FLAG_INACTIVE, 0, 0, 253, MatchManager);
+    Task *task       = TaskCreate(MatchManager_Main, MatchManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
+                                  TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, MatchManager);
     matchManagerTask = task;
 
     MatchManager *work = TaskGetWork(task, MatchManager);
@@ -278,7 +280,8 @@ void CreateConnectionManagerForAnybody(u8 maxPlayerCount, u8 minPlayerCount, u32
     roomMaxPlayerCount = maxPlayerCount;
     InitMatchBuffers(GetMatchManagerWork(), bufferSize + sizeof(struct DataTransferBufferHeader), maxPlayerCount);
 
-    Task *task            = TaskCreate(ConnectionManager_Main, ConnectionManager_Destructor, TASK_FLAG_DISABLE_DESTROY | TASK_FLAG_INACTIVE, 0, 0, 253, ConnectionManager);
+    Task *task            = TaskCreate(ConnectionManager_Main, ConnectionManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
+                                       TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, ConnectionManager);
     connectionManagerTask = task;
 
     ConnectionManager *work = TaskGetWork(task, ConnectionManager);
@@ -297,7 +300,8 @@ void CreateConnectionManagerForFriends(u8 maxPlayerCount, u8 minPlayerCount, u32
     roomMaxPlayerCount = maxPlayerCount;
     InitMatchBuffers(GetMatchManagerWork(), bufferSize + sizeof(struct DataTransferBufferHeader), maxPlayerCount);
 
-    Task *task            = TaskCreate(ConnectionManager_Main, ConnectionManager_Destructor, TASK_FLAG_DISABLE_DESTROY | TASK_FLAG_INACTIVE, 0, 0, 253, ConnectionManager);
+    Task *task            = TaskCreate(ConnectionManager_Main, ConnectionManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
+                                       TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, ConnectionManager);
     connectionManagerTask = task;
 
     ConnectionManager *work = TaskGetWork(task, ConnectionManager);
@@ -334,7 +338,8 @@ void CreateDataTransferManager(void)
     MatchManager *manager = GetMatchManagerWork();
     UNUSED(manager);
 
-    Task *task              = TaskCreate(DataTransferManager_Main, DataTransferManager_Destructor, TASK_FLAG_DISABLE_DESTROY | TASK_FLAG_INACTIVE, 0, 0, 253, DataTransferManager);
+    Task *task = TaskCreate(DataTransferManager_Main, DataTransferManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
+                            TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, DataTransferManager);
     dataTransferManagerTask = task;
 
     DataTransferManager *work = TaskGetWork(task, DataTransferManager);
@@ -448,7 +453,8 @@ BOOL CreateLeaderboardsManager(DWCUserData *profile)
     if (!DWC_CheckHasProfile(profile))
         return FALSE;
 
-    Task *task              = TaskCreate(LeaderboardsManager_Main, LeaderboardsManager_Destructor, TASK_FLAG_DISABLE_DESTROY | TASK_FLAG_INACTIVE, 0, 0, 253, LeaderboardsManager);
+    Task *task = TaskCreate(LeaderboardsManager_Main, LeaderboardsManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
+                            TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, LeaderboardsManager);
     leaderboardsManagerTask = task;
 
     LeaderboardsManager *work = TaskGetWork(task, LeaderboardsManager);

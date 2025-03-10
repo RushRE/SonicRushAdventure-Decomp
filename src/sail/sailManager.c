@@ -217,7 +217,7 @@ SailManager *SailManager__Create(void)
         MI_CpuClear16(&state->missionConfig, sizeof(state->missionConfig));
 
         if (work->missionType == MISSION_TYPE_TRAINING)
-            work->flags |= SAILMANAGER_FLAG_FREEZE_ALPHA_TIMER;
+            work->flags |= SAILMANAGER_FLAG_FREEZE_DAYTIME_TIMER;
 
         if (work->missionType == MISSION_TYPE_REACH_GOAL)
         {
@@ -255,7 +255,7 @@ SailManager *SailManager__Create(void)
 
     FSRequestArchive(archiveForShip[work->shipType], &work->archive, TRUE);
 
-    work->camera = SailCamera__Create();
+    work->camera = CreateSailCamera();
     InitSailAssets();
 
     if ((work->flags & SAILMANAGER_FLAG_400) != 0 || work->isRivalRace && work->shipType == SHIP_JET)
@@ -266,7 +266,7 @@ SailManager *SailManager__Create(void)
     if (work->isRivalRace && work->shipType == SHIP_JET)
         work->rivalJohnny = SailPlayer__Create(SHIP_JET, TRUE);
 
-    work->sea           = SailSea__Create();
+    work->sea           = CreateSailSea();
     work->voyageManager = SailVoyageManager__Create();
     work->ringManager   = CreateSailRingManager();
     work->eventManager  = SailEventManager__Create();
@@ -287,14 +287,14 @@ SailManager *SailManager__Create(void)
             break;
     }
 
-    work->fogBrightness.x = FLOAT_TO_FX32(1.0);
-    work->fogBrightness.y = FLOAT_TO_FX32(1.0);
-    work->fogBrightness.z = FLOAT_TO_FX32(1.0);
-    work->cloudyTimer     = SECONDS_TO_FRAMES(25.0);
-    work->dword40.x       = ObjDispRandRange5(-FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
-    work->dword40.z       = ObjDispRandRange5(-FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
-    work->velocity.x      = work->dword40.x;
-    work->velocity.z      = work->dword40.z;
+    work->skyBrightness.x   = FLOAT_TO_FX32(1.0);
+    work->skyBrightness.y   = FLOAT_TO_FX32(1.0);
+    work->skyBrightness.z   = FLOAT_TO_FX32(1.0);
+    work->daytimeTimer      = SECONDS_TO_FRAMES(25.0);
+    work->initialVelocity.x = ObjDispRandRange5(-FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
+    work->initialVelocity.z = ObjDispRandRange5(-FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
+    work->velocity.x        = work->initialVelocity.x;
+    work->velocity.z        = work->initialVelocity.z;
 
     TouchField__Init(&work->touchField);
 
@@ -304,7 +304,7 @@ SailManager *SailManager__Create(void)
 
     work->fontFile = FSRequestFileSync("fnt/font_all.fnt", FSREQ_AUTO_ALLOC_HEAD);
     FontWindow__Init(&work->fontWindow);
-    FontWindow__LoadFromMemory(&work->fontWindow, work->fontFile, 1);
+    FontWindow__LoadFromMemory(&work->fontWindow, work->fontFile, TRUE);
     FontWindow__Load_mw_frame(&work->fontWindow);
     FontWindow__SetDMA(&work->fontWindow, 1);
     FontWindowAnimator__Init(&work->fontWindow1);
@@ -450,75 +450,77 @@ void SailManager__Main(void)
 
     MtxFx33 matRot;
     MTX_RotY33(&matRot, SinFX(work->voyageManager->angle), CosFX(work->voyageManager->angle));
-    MTX_MultVec33(&work->dword40, &matRot, &work->velocity);
+    MTX_MultVec33(&work->initialVelocity, &matRot, &work->velocity);
 
-    if ((work->flags & SAILMANAGER_FLAG_FREEZE_ALPHA_TIMER) == 0)
+    // process time of day timer
+    if ((work->flags & SAILMANAGER_FLAG_FREEZE_DAYTIME_TIMER) == 0)
     {
-        work->cloudyTimer++;
-        if (work->cloudyTimer > SECONDS_TO_FRAMES(60.0))
-            work->cloudyTimer = 0;
+        work->daytimeTimer++;
+        if (work->daytimeTimer > SECONDS_TO_FRAMES(60.0))
+            work->daytimeTimer = SECONDS_TO_FRAMES(0.0);
     }
 
-    if (work->cloudyTimer > SECONDS_TO_FRAMES(12.5) && work->cloudyTimer < SECONDS_TO_FRAMES(17.5))
+    // process brightness for current time of day
+    if (work->daytimeTimer > SECONDS_TO_FRAMES(12.5) && work->daytimeTimer < SECONDS_TO_FRAMES(17.5))
     {
-        u16 percent           = 13 * (work->cloudyTimer - SECONDS_TO_FRAMES(12.5));
-        work->fogBrightness.x = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.5), percent);
-        work->fogBrightness.y = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.5625), percent);
-        work->fogBrightness.z = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.625), percent);
+        u16 percent           = 13 * (work->daytimeTimer - SECONDS_TO_FRAMES(12.5));
+        work->skyBrightness.x = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.5), percent);
+        work->skyBrightness.y = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.5625), percent);
+        work->skyBrightness.z = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.625), percent);
     }
 
-    if (work->cloudyTimer > SECONDS_TO_FRAMES(42.5) && work->cloudyTimer < SECONDS_TO_FRAMES(45.0))
+    if (work->daytimeTimer > SECONDS_TO_FRAMES(42.5) && work->daytimeTimer < SECONDS_TO_FRAMES(45.0))
     {
-        u16 percent           = 27 * (work->cloudyTimer - SECONDS_TO_FRAMES(42.5));
-        work->fogBrightness.x = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), percent);
-        work->fogBrightness.y = ObjAlphaSet(FLOAT_TO_FX32(0.8125), FLOAT_TO_FX32(1.0), percent);
-        work->fogBrightness.z = ObjAlphaSet(FLOAT_TO_FX32(0.625), FLOAT_TO_FX32(1.0), percent);
+        u16 percent           = 27 * (work->daytimeTimer - SECONDS_TO_FRAMES(42.5));
+        work->skyBrightness.x = ObjAlphaSet(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), percent);
+        work->skyBrightness.y = ObjAlphaSet(FLOAT_TO_FX32(0.8125), FLOAT_TO_FX32(1.0), percent);
+        work->skyBrightness.z = ObjAlphaSet(FLOAT_TO_FX32(0.625), FLOAT_TO_FX32(1.0), percent);
     }
 
-    if (work->cloudyTimer > SECONDS_TO_FRAMES(45.0) && work->cloudyTimer < SECONDS_TO_FRAMES(50.0))
+    if (work->daytimeTimer > SECONDS_TO_FRAMES(45.0) && work->daytimeTimer < SECONDS_TO_FRAMES(50.0))
     {
-        u16 percent           = 13 * (work->cloudyTimer - SECONDS_TO_FRAMES(45.0));
-        work->fogBrightness.x = ObjAlphaSet(FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(1.0), percent);
-        work->fogBrightness.y = ObjAlphaSet(FLOAT_TO_FX32(0.5625), FLOAT_TO_FX32(0.8125), percent);
-        work->fogBrightness.z = ObjAlphaSet(FLOAT_TO_FX32(0.625), FLOAT_TO_FX32(0.625), percent);
+        u16 percent           = 13 * (work->daytimeTimer - SECONDS_TO_FRAMES(45.0));
+        work->skyBrightness.x = ObjAlphaSet(FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(1.0), percent);
+        work->skyBrightness.y = ObjAlphaSet(FLOAT_TO_FX32(0.5625), FLOAT_TO_FX32(0.8125), percent);
+        work->skyBrightness.z = ObjAlphaSet(FLOAT_TO_FX32(0.625), FLOAT_TO_FX32(0.625), percent);
     }
 
-    if (work->cloudyTimer >= SECONDS_TO_FRAMES(50.0) || work->cloudyTimer <= SECONDS_TO_FRAMES(12.5))
+    if (work->daytimeTimer >= SECONDS_TO_FRAMES(50.0) || work->daytimeTimer <= SECONDS_TO_FRAMES(12.5))
     {
-        work->fogBrightness.x = FLOAT_TO_FX32(0.5);
-        work->fogBrightness.y = FLOAT_TO_FX32(0.5625);
-        work->fogBrightness.z = FLOAT_TO_FX32(0.625);
+        work->skyBrightness.x = FLOAT_TO_FX32(0.5);
+        work->skyBrightness.y = FLOAT_TO_FX32(0.5625);
+        work->skyBrightness.z = FLOAT_TO_FX32(0.625);
     }
 
-    if (work->cloudyTimer >= SECONDS_TO_FRAMES(17.5) && work->cloudyTimer <= SECONDS_TO_FRAMES(42.5))
+    if (work->daytimeTimer >= SECONDS_TO_FRAMES(17.5) && work->daytimeTimer <= SECONDS_TO_FRAMES(42.5))
     {
-        work->fogBrightness.x = FLOAT_TO_FX32(1.0);
-        work->fogBrightness.y = FLOAT_TO_FX32(1.0);
-        work->fogBrightness.z = FLOAT_TO_FX32(1.0);
+        work->skyBrightness.x = FLOAT_TO_FX32(1.0);
+        work->skyBrightness.y = FLOAT_TO_FX32(1.0);
+        work->skyBrightness.z = FLOAT_TO_FX32(1.0);
     }
 
-    if (work->cloudyTimer >= SECONDS_TO_FRAMES(45.0) && work->cloudyTimer <= SECONDS_TO_FRAMES(45.0))
+    if (work->daytimeTimer >= SECONDS_TO_FRAMES(45.0) && work->daytimeTimer <= SECONDS_TO_FRAMES(45.0))
     {
-        work->fogBrightness.x = FLOAT_TO_FX32(1.0);
-        work->fogBrightness.y = FLOAT_TO_FX32(0.8125);
-        work->fogBrightness.z = FLOAT_TO_FX32(0.625);
+        work->skyBrightness.x = FLOAT_TO_FX32(1.0);
+        work->skyBrightness.y = FLOAT_TO_FX32(0.8125);
+        work->skyBrightness.z = FLOAT_TO_FX32(0.625);
     }
 
     if (work->cloudyness != 0)
     {
-        s32 change = ObjAlphaSet(FLOAT_TO_FX32(0.25), 0, work->cloudyness << 7);
-        work->fogBrightness.x -= change;
-        work->fogBrightness.y -= change;
-        work->fogBrightness.z -= change;
+        s32 change = ObjAlphaSet(FLOAT_TO_FX32(0.25), FLOAT_TO_FX32(0.0), work->cloudyness << 7);
+        work->skyBrightness.x -= change;
+        work->skyBrightness.y -= change;
+        work->skyBrightness.z -= change;
 
-        if (work->fogBrightness.x < FLOAT_TO_FX32(0.375))
-            work->fogBrightness.x = FLOAT_TO_FX32(0.375);
+        if (work->skyBrightness.x < FLOAT_TO_FX32(0.375))
+            work->skyBrightness.x = FLOAT_TO_FX32(0.375);
 
-        if (work->fogBrightness.y < FLOAT_TO_FX32(0.375))
-            work->fogBrightness.y = FLOAT_TO_FX32(0.375);
+        if (work->skyBrightness.y < FLOAT_TO_FX32(0.375))
+            work->skyBrightness.y = FLOAT_TO_FX32(0.375);
 
-        if (work->fogBrightness.z < FLOAT_TO_FX32(0.375))
-            work->fogBrightness.z = FLOAT_TO_FX32(0.375);
+        if (work->skyBrightness.z < FLOAT_TO_FX32(0.375))
+            work->skyBrightness.z = FLOAT_TO_FX32(0.375);
     }
 
     if (work->isRivalRace && (work->flags & SAILMANAGER_FLAG_8) == 0)

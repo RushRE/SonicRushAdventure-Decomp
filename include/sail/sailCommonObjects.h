@@ -89,7 +89,7 @@ typedef struct SailObject_
     StageTask *targetHUD;
     SailEventManagerObject *objectRef;
     void *healthBar;
-    u16 objectID;
+    u16 segmentID;
     u16 objectAngle;
     VecFx32 objectRadius;
     VecFx32 field_17C;
@@ -102,21 +102,21 @@ typedef struct SailObject_
 // FUNCTIONS
 // --------------------
 
-void SailObject__Func_21646DC(StageTask *work);
+void SailObject__InitCommon(StageTask *work);
 void SailObject__InitFromMapObject(StageTask *work, SailEventManagerObject *mapObject);
 void SailObject__SetAnimSpeed(StageTask *work, fx32 speed);
-void SailObject__Func_2164B38(StageTask *work);
-void SailObject__SetupAnimator3D(StageTask *work);
-void SailObject__Func_2164D10(StageTask *work, GXRgb color);
-void SailObject__DefaultIn(void);
-void SailObject__Func_2164F10(void);
+void SailObject__HandleParentFollow(StageTask *work);
+void SailObject__ApplyRotation(StageTask *work);
+void SailObject__SetSpriteColor(StageTask *work, GXRgb color);
+void SailObject__In_Default(void);
+void SailObject__Draw_Default(void);
 GXRgb SailObject__ApplyFogBrightness(GXRgb color);
-void SailObject__Func_21650B4(StageTask *work, s32 a2);
-void SailObject__DefaultLast(void);
-void SailObject__Func_216524C(StageTask *work, void *unknown);
-BOOL SailObject__DefaultOnCheck(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-BOOL SailObject__CheckCollisions(SailColliderWorkHitCheck *collider1, SailColliderWorkHitCheck *collider2, fx32 a3);
-BOOL SailObject__Func_2165624(SailColliderWorkHitCheck *collider1, SailColliderWorkHitCheck *collider2, fx32 a3);
+void SailObject__SetLightColors(StageTask *work, s32 a2);
+void SailObject__Last_Default(void);
+void SailObject__DoColliderUnknown(StageTask *work, SailColliderWorkHitCheck *collider);
+BOOL SailObject__ColliderCheckActive_Default(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+BOOL SailObject__CheckHitboxEnabled_Type1(SailColliderWorkHitCheck *collider1, SailColliderWorkHitCheck *collider2, fx32 a3);
+BOOL SailObject__CheckHitboxEnabled_Type2(SailColliderWorkHitCheck *collider1, SailColliderWorkHitCheck *collider2, fx32 a3);
 void SailObject__SetupHitbox(StageTask *work, SailColliderWork *sailCollider, s32 id);
 void SailObject__Func_21658A4(StageTask *work, s32 id);
 void SailObject__Func_21658D0(StageTask *work, s32 id, s32 a3, VecFx32 *a4);
@@ -177,10 +177,10 @@ StageTask *SailItem3__Create(StageTask *parent);
 StageTask *SailItemBonus__Create(StageTask *parent, u32 type);
 
 void SailObject__Destructor(Task *task);
-BOOL SailObject__ViewCheck(StageTask *work);
-void SailObject__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void SailObject__GivePlayerScore(StageTask *work);
-void SailObject__OnPlayerCollide(StageTask *work);
+BOOL SailObject__ViewCheck_Default(StageTask *work);
+void SailObject__OnDefend_Default(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void SailObject__GivePlayerScore(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, u32 score);
+void SailObject__OnPlayerCollide(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 void SailLanding__State_216A46C(StageTask *work);
 void SailLanding__Draw_216A4E8(void);

@@ -716,15 +716,15 @@ Overlay Sail
     Object src/sail/sailVoyageManager.o
     Object src/sail/sailPlayer.o
     Object asm/sail/sailPlayer_vars_rodata.o
-    Object asm/sail/sailCamera.o
-    Object asm/sail/sailSea.o
+    Object src/sail/sailCamera.o
+    Object src/sail/sailSea.o
     Object asm/sail/sailEffects.o
     Object asm/sail/sailCommonObjects_vars.o
     Object src/sail/sailCommonObjects.o
     Object asm/sail/sailJetObjects.o
     Object asm/sail/sailHUD.o
     Object asm/sail/sailRampTrick.o
-    Object asm/sail/unknown2179284.o
+    Object src/sail/sailPauseMenu.o
     Object asm/sail/sailSailerObjects.o
     Object asm/sail/sailSubObjects.o
     Object asm/sail/sailHoverObjects.o

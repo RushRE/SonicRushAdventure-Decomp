@@ -52,46 +52,46 @@ fx32 ObjSpdDownSet(fx32 value, fx32 step)
     return value;
 }
 
-s32 ObjShiftSet(s32 value, s32 target, u16 shift, s32 max, s32 min)
+s32 ObjShiftSet(s32 value, s32 target, u16 shift, s32 maxChange, s32 minChange)
 {
     if (value == target)
         return value;
 
-    if (min == 0)
-        min = 1;
+    if (minChange == 0)
+        minChange = 1;
 
     s32 change = (target - value) >> shift;
 
-    // clamp to max if needed
-    if (max != 0)
+    // clamp to maxChange if needed
+    if (maxChange != 0)
     {
-        if (change > max)
-            change = max;
+        if (change > maxChange)
+            change = maxChange;
 
-        if (change < -max)
-            change = -max;
+        if (change < -maxChange)
+            change = -maxChange;
     }
 
-    // clamp to min if needed
-    if (min != 0)
+    // clamp to minChange if needed
+    if (minChange != 0)
     {
         if (change > 0)
         {
-            if (change < min)
-                change = min;
+            if (change < minChange)
+                change = minChange;
         }
         else if (change < 0)
         {
-            if (change > -min)
-                change = -min;
+            if (change > -minChange)
+                change = -minChange;
         }
         else
         {
-            if (target - value > 0 && change < min)
-                change = min;
+            if (target - value > 0 && change < minChange)
+                change = minChange;
 
-            if (target - value < 0 && change > -min)
-                change = -min;
+            if (target - value < 0 && change > -minChange)
+                change = -minChange;
         }
     }
 
@@ -111,13 +111,13 @@ s32 ObjShiftSet(s32 value, s32 target, u16 shift, s32 max, s32 min)
     return value;
 }
 
-s32 ObjDiffSet(s32 value, s32 target, s32 start, u16 shift, s32 max, s32 min)
+s32 ObjDiffSet(s32 value, s32 target, s32 start, u16 shift, s32 maxChange, s32 minChange)
 {
     if (value == target)
         return value;
 
-    if (min == 0)
-        min = 1;
+    if (minChange == 0)
+        minChange = 1;
 
     s32 change = (value - start) >> shift;
 
@@ -127,36 +127,36 @@ s32 ObjDiffSet(s32 value, s32 target, s32 start, u16 shift, s32 max, s32 min)
     if (target < start && change > 0)
         change = 0;
 
-    // clamp to max if needed
-    if (max != 0)
+    // clamp to maxChange if needed
+    if (maxChange != 0)
     {
-        if (change > max)
-            change = max;
+        if (change > maxChange)
+            change = maxChange;
 
-        if (change < -max)
-            change = -max;
+        if (change < -maxChange)
+            change = -maxChange;
     }
 
-    // clamp to min if needed
-    if (min != 0)
+    // clamp to minChange if needed
+    if (minChange != 0)
     {
         if (change > 0)
         {
-            if (change < min)
-                change = min;
+            if (change < minChange)
+                change = minChange;
         }
         else if (change < 0)
         {
-            if (change > -min)
-                change = -min;
+            if (change > -minChange)
+                change = -minChange;
         }
         else
         {
-            if ((target - value) > 0 && change < min)
-                change = min;
+            if ((target - value) > 0 && change < minChange)
+                change = minChange;
 
-            if ((target - value) < 0 && change > -min)
-                change = -min;
+            if ((target - value) < 0 && change > -minChange)
+                change = -minChange;
         }
     }
 

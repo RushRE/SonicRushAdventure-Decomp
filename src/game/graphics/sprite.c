@@ -1,4 +1,5 @@
 #include <game/graphics/sprite.h>
+#include <game/graphics/tileHelpers.h>
 #include <game/graphics/renderCore.h>
 #include <game/system/allocator.h>
 #include <game/graphics/vramSystem.h>
@@ -212,6 +213,28 @@ typedef void (*Animator3DMatrixFunc)(Animator3D *animator);
 #define FRAME_CONTINUE 1
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum BACOamShape
+{
+    BAC_OAM_SHAPE_8x8,
+    BAC_OAM_SHAPE_16x16,
+    BAC_OAM_SHAPE_32x32,
+    BAC_OAM_SHAPE_64x64,
+    BAC_OAM_SHAPE_16x8,
+    BAC_OAM_SHAPE_32x8,
+    BAC_OAM_SHAPE_32x16,
+    BAC_OAM_SHAPE_64x32,
+    BAC_OAM_SHAPE_8x16,
+    BAC_OAM_SHAPE_8x32,
+    BAC_OAM_SHAPE_16x32,
+    BAC_OAM_SHAPE_32x64,
+
+    BAC_OAM_SHAPE_COUNT,
+};
+
+// --------------------
 // FUNCTION DECLS
 // --------------------
 
@@ -267,10 +290,35 @@ void Animator3D__MatrixOp_Callback(Animator3D *animator);
 // VARIABLES
 // --------------------
 
-extern u8 pixelFormatShift[];
+extern u8 pixelFormatShift[BAC_FORMAT_COUNT];
 
-static const u16 BAC__FormatColorCounts[] = { 0x10, 0x100, 0, 4, 0x10, 0x100, 0, 0x20, 8, 0 };
-static const u16 Sprite__ShapeTileCount[] = { 1, 4, 0x10, 0x40, 2, 4, 8, 0x20, 2, 4, 8, 0x20 };
+static const u16 formatPaletteColorCount[BAC_FORMAT_COUNT] = {
+    [BAC_FORMAT_PLTT16_2D]  = 0x10,  // GX_TEXFMT_PLTT16
+    [BAC_FORMAT_PLTT256_2D] = 0x100, // GX_TEXFMT_PLTT256
+    [BAC_FORMAT_DIRECT_2D]  = 0,     // GX_TEXFMT_DIRECT
+    [BAC_FORMAT_PLTT4_3D]   = 4,     // GX_TEXFMT_PLTT4
+    [BAC_FORMAT_PLTT16_3D]  = 0x10,  // GX_TEXFMT_PLTT16
+    [BAC_FORMAT_PLTT256_3D] = 0x100, // GX_TEXFMT_PLTT256
+    [BAC_FORMAT_DIRECT_3D]  = 0,     // GX_TEXFMT_DIRECT
+    [BAC_FORMAT_A3I5_3D]    = 0x20,  // GX_TEXFMT_A3I5
+    [BAC_FORMAT_A5I3_3D]    = 8,     // GX_TEXFMT_A5I3
+    [BAC_FORMAT_COMP4x4_3D] = 0      // GX_TEXFMT_COMP4x4
+};
+
+static const u16 formatShapeTileCount[BAC_OAM_SHAPE_COUNT] = {
+    [BAC_OAM_SHAPE_8x8]   = PIXEL_TO_TILE(8) * PIXEL_TO_TILE(8),   // BAC_OAM_SHAPE_8x8
+    [BAC_OAM_SHAPE_16x16] = PIXEL_TO_TILE(16) * PIXEL_TO_TILE(16), // BAC_OAM_SHAPE_16x16
+    [BAC_OAM_SHAPE_32x32] = PIXEL_TO_TILE(32) * PIXEL_TO_TILE(32), // BAC_OAM_SHAPE_32x32
+    [BAC_OAM_SHAPE_64x64] = PIXEL_TO_TILE(64) * PIXEL_TO_TILE(64), // BAC_OAM_SHAPE_64x64
+    [BAC_OAM_SHAPE_16x8]  = PIXEL_TO_TILE(16) * PIXEL_TO_TILE(8),  // BAC_OAM_SHAPE_16x8
+    [BAC_OAM_SHAPE_32x8]  = PIXEL_TO_TILE(32) * PIXEL_TO_TILE(8),  // BAC_OAM_SHAPE_32x8
+    [BAC_OAM_SHAPE_32x16] = PIXEL_TO_TILE(32) * PIXEL_TO_TILE(16), // BAC_OAM_SHAPE_32x16
+    [BAC_OAM_SHAPE_64x32] = PIXEL_TO_TILE(64) * PIXEL_TO_TILE(32), // BAC_OAM_SHAPE_64x32
+    [BAC_OAM_SHAPE_8x16]  = PIXEL_TO_TILE(8) * PIXEL_TO_TILE(16),  // BAC_OAM_SHAPE_8x16
+    [BAC_OAM_SHAPE_8x32]  = PIXEL_TO_TILE(8) * PIXEL_TO_TILE(32),  // BAC_OAM_SHAPE_8x32
+    [BAC_OAM_SHAPE_16x32] = PIXEL_TO_TILE(16) * PIXEL_TO_TILE(32), // BAC_OAM_SHAPE_16x32
+    [BAC_OAM_SHAPE_32x64] = PIXEL_TO_TILE(32) * PIXEL_TO_TILE(64)  // BAC_OAM_SHAPE_32x64
+};
 
 static const u32 _02112144[] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
 static const u32 _02112180[] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
@@ -289,59 +337,52 @@ static const u32 drawListSprite3D[] = {
     GX_PACK_VTX10_PARAM(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0)),
 };
 
-// clang-format off
-
-static const BACFrameFunc frameGroupFuncList[SPRITE_BLOCK_COUNT] = 
-{
-    (BACFrameFunc)BAC_FrameGroupFunc_EndFrame,     
-	(BACFrameFunc)BAC_FrameGroupFunc_FrameAssembly,
-    (BACFrameFunc)BAC_FrameGroupFunc_SpriteParts,  
-	(BACFrameFunc)BAC_FrameGroupFunc_Palette,
-    (BACFrameFunc)BAC_FrameGroupFunc_EndAnimation, 
-	(BACFrameFunc)BAC_FrameGroupFunc_Unused_5,
-    (BACFrameFunc)BAC_FrameGroupFunc_Callback_6,   
-	(BACFrameFunc)BAC_FrameGroupFunc_Callback_7,
-    (BACFrameFunc)BAC_FrameGroupFunc_Callback_8,   
-	(BACFrameFunc)BAC_FrameGroupFunc_EndAnimation_ChangeAnim,
-    (BACFrameFunc)BAC_FrameGroupFunc_Unused_10,    
-	(BACFrameFunc)BAC_FrameGroupFunc_Unused_11,
+static const BACFrameFunc frameGroupFuncList[SPRITE_BLOCK_COUNT] = {
+    [SPRITE_BLOCK_END_FRAME]                 = (BACFrameFunc)BAC_FrameGroupFunc_EndFrame,
+    [SPRITE_BLOCK_SPRITE_MAPPINGS]           = (BACFrameFunc)BAC_FrameGroupFunc_FrameAssembly,
+    [SPRITE_BLOCK_SPRITE_GRAPHICS]           = (BACFrameFunc)BAC_FrameGroupFunc_SpriteParts,
+    [SPRITE_BLOCK_SPRITE_PALETTE]            = (BACFrameFunc)BAC_FrameGroupFunc_Palette,
+    [SPRITE_BLOCK_END_ANIMATION]             = (BACFrameFunc)BAC_FrameGroupFunc_EndAnimation,
+    [SPRITE_BLOCK_UNUSED1]                   = (BACFrameFunc)BAC_FrameGroupFunc_Unused_5,
+    [SPRITE_BLOCK_CALLBACK1]                 = (BACFrameFunc)BAC_FrameGroupFunc_Callback_6,
+    [SPRITE_BLOCK_CALLBACK2]                 = (BACFrameFunc)BAC_FrameGroupFunc_Callback_7,
+    [SPRITE_BLOCK_CALLBACK3]                 = (BACFrameFunc)BAC_FrameGroupFunc_Callback_8,
+    [SPRITE_BLOCK_END_ANIMATION_CHANGE_ANIM] = (BACFrameFunc)BAC_FrameGroupFunc_EndAnimation_ChangeAnim,
+    [SPRITE_BLOCK_UNUSED2]                   = (BACFrameFunc)BAC_FrameGroupFunc_Unused_10,
+    [SPRITE_BLOCK_UNUSED3]                   = (BACFrameFunc)BAC_FrameGroupFunc_Unused_11,
 };
 
-static const u16 spriteShapeSizes3D[] =
-{
-    GX_TEXSIZE_S8,  GX_TEXSIZE_T8,
-	GX_TEXSIZE_S16, GX_TEXSIZE_T16,
-	GX_TEXSIZE_S32, GX_TEXSIZE_T32,
-	GX_TEXSIZE_S64, GX_TEXSIZE_T64,
-	GX_TEXSIZE_S16, GX_TEXSIZE_T8,
-	GX_TEXSIZE_S32, GX_TEXSIZE_T8,
-	GX_TEXSIZE_S32, GX_TEXSIZE_T16,
-	GX_TEXSIZE_S64, GX_TEXSIZE_T32,
-	GX_TEXSIZE_S8,  GX_TEXSIZE_T16,
-	GX_TEXSIZE_S8,  GX_TEXSIZE_T32,
-	GX_TEXSIZE_S16, GX_TEXSIZE_T32,
-	GX_TEXSIZE_S32, GX_TEXSIZE_T64,
+static const u16 spriteShapeSizes3D[2 * BAC_OAM_SHAPE_COUNT] = {
+    [(2 * BAC_OAM_SHAPE_8x8) + 0] = GX_TEXSIZE_S8,    [(2 * BAC_OAM_SHAPE_8x8) + 1] = GX_TEXSIZE_T8,    // BAC_OAM_SHAPE_8x8
+    [(2 * BAC_OAM_SHAPE_16x16) + 0] = GX_TEXSIZE_S16, [(2 * BAC_OAM_SHAPE_16x16) + 1] = GX_TEXSIZE_T16, // BAC_OAM_SHAPE_16x16
+    [(2 * BAC_OAM_SHAPE_32x32) + 0] = GX_TEXSIZE_S32, [(2 * BAC_OAM_SHAPE_32x32) + 1] = GX_TEXSIZE_T32, // BAC_OAM_SHAPE_32x32
+    [(2 * BAC_OAM_SHAPE_64x64) + 0] = GX_TEXSIZE_S64, [(2 * BAC_OAM_SHAPE_64x64) + 1] = GX_TEXSIZE_T64, // BAC_OAM_SHAPE_64x64
+    [(2 * BAC_OAM_SHAPE_16x8) + 0] = GX_TEXSIZE_S16,  [(2 * BAC_OAM_SHAPE_16x8) + 1] = GX_TEXSIZE_T8,   // BAC_OAM_SHAPE_16x8
+    [(2 * BAC_OAM_SHAPE_32x8) + 0] = GX_TEXSIZE_S32,  [(2 * BAC_OAM_SHAPE_32x8) + 1] = GX_TEXSIZE_T8,   // BAC_OAM_SHAPE_32x8
+    [(2 * BAC_OAM_SHAPE_32x16) + 0] = GX_TEXSIZE_S32, [(2 * BAC_OAM_SHAPE_32x16) + 1] = GX_TEXSIZE_T16, // BAC_OAM_SHAPE_32x16
+    [(2 * BAC_OAM_SHAPE_64x32) + 0] = GX_TEXSIZE_S64, [(2 * BAC_OAM_SHAPE_64x32) + 1] = GX_TEXSIZE_T32, // BAC_OAM_SHAPE_64x32
+    [(2 * BAC_OAM_SHAPE_8x16) + 0] = GX_TEXSIZE_S8,   [(2 * BAC_OAM_SHAPE_8x16) + 1] = GX_TEXSIZE_T16,  // BAC_OAM_SHAPE_8x16
+    [(2 * BAC_OAM_SHAPE_8x32) + 0] = GX_TEXSIZE_S8,   [(2 * BAC_OAM_SHAPE_8x32) + 1] = GX_TEXSIZE_T32,  // BAC_OAM_SHAPE_8x32
+    [(2 * BAC_OAM_SHAPE_16x32) + 0] = GX_TEXSIZE_S16, [(2 * BAC_OAM_SHAPE_16x32) + 1] = GX_TEXSIZE_T32, // BAC_OAM_SHAPE_16x32
+    [(2 * BAC_OAM_SHAPE_32x64) + 0] = GX_TEXSIZE_S32, [(2 * BAC_OAM_SHAPE_32x64) + 1] = GX_TEXSIZE_T64, // BAC_OAM_SHAPE_32x64
 };
 
-static const Vec2U16 spriteShapeSizes2D[] =
-{
-	{ 0x08, 0x08 },
-	{ 0x10, 0x10 },
-	{ 0x20, 0x20 },
-	{ 0x40, 0x40 },
-	{ 0x10, 0x08 },
-	{ 0x20, 0x08 },
-	{ 0x20, 0x10 },
-	{ 0x40, 0x20 },
-	{ 0x08, 0x10 },
-	{ 0x08, 0x20 },
-	{ 0x10, 0x20 },
-	{ 0x20, 0x40 },
+static const Vec2U16 spriteShapeSizes2D[BAC_OAM_SHAPE_COUNT] = {
+    [BAC_OAM_SHAPE_8x8]   = { 0x08, 0x08 }, // BAC_OAM_SHAPE_8x8
+    [BAC_OAM_SHAPE_16x16] = { 0x10, 0x10 }, // BAC_OAM_SHAPE_16x16
+    [BAC_OAM_SHAPE_32x32] = { 0x20, 0x20 }, // BAC_OAM_SHAPE_32x32
+    [BAC_OAM_SHAPE_64x64] = { 0x40, 0x40 }, // BAC_OAM_SHAPE_64x64
+    [BAC_OAM_SHAPE_16x8]  = { 0x10, 0x08 }, // BAC_OAM_SHAPE_16x8
+    [BAC_OAM_SHAPE_32x8]  = { 0x20, 0x08 }, // BAC_OAM_SHAPE_32x8
+    [BAC_OAM_SHAPE_32x16] = { 0x20, 0x10 }, // BAC_OAM_SHAPE_32x16
+    [BAC_OAM_SHAPE_64x32] = { 0x40, 0x20 }, // BAC_OAM_SHAPE_64x32
+    [BAC_OAM_SHAPE_8x16]  = { 0x08, 0x10 }, // BAC_OAM_SHAPE_8x16
+    [BAC_OAM_SHAPE_8x32]  = { 0x08, 0x20 }, // BAC_OAM_SHAPE_8x32
+    [BAC_OAM_SHAPE_16x32] = { 0x10, 0x20 }, // BAC_OAM_SHAPE_16x32
+    [BAC_OAM_SHAPE_32x64] = { 0x20, 0x40 }, // BAC_OAM_SHAPE_32x64
 };
 
-// clang-format on
-
-static const Animator3DMatrixFunc animator3DMatrixFuncList[MATRIX_OP_COUNT] = {
+static const Animator3DMatrixFunc animator3DDrawCommandList[MATRIX_OP_COUNT] = {
     [MATRIX_OP_NONE]                             = Animator3D__MatrixOp_None,
     [MATRIX_OP_IDENTITY]                         = Animator3D__MatrixOp_Identity,
     [MATRIX_OP_RESTORE_MTX]                      = Animator3D__MatrixOp_RestoreMtx,
@@ -375,10 +416,20 @@ static const Animator3DMatrixFunc animator3DMatrixFuncList[MATRIX_OP_COUNT] = {
     [MATRIX_OP_CALLBACK]                         = Animator3D__MatrixOp_Callback,
 };
 
-static const GXTexFmt Sprite__Tex3DFormatForBACFormat[] = { GX_TEXFMT_PLTT16,  GX_TEXFMT_PLTT256, GX_TEXFMT_DIRECT, GX_TEXFMT_PLTT4, GX_TEXFMT_PLTT16,
-                                                            GX_TEXFMT_PLTT256, GX_TEXFMT_DIRECT,  GX_TEXFMT_A3I5,   GX_TEXFMT_A5I3,  GX_TEXFMT_COMP4x4 };
+static const GXTexFmt gxFormatForSpriteFormat[BAC_FORMAT_COUNT] = {
+    [BAC_FORMAT_PLTT16_2D]  = GX_TEXFMT_PLTT16,  // GX_TEXFMT_PLTT16
+    [BAC_FORMAT_PLTT256_2D] = GX_TEXFMT_PLTT256, // GX_TEXFMT_PLTT256
+    [BAC_FORMAT_DIRECT_2D]  = GX_TEXFMT_DIRECT,  // GX_TEXFMT_DIRECT
+    [BAC_FORMAT_PLTT4_3D]   = GX_TEXFMT_PLTT4,   // GX_TEXFMT_PLTT4
+    [BAC_FORMAT_PLTT16_3D]  = GX_TEXFMT_PLTT16,  // GX_TEXFMT_PLTT16
+    [BAC_FORMAT_PLTT256_3D] = GX_TEXFMT_PLTT256, // GX_TEXFMT_PLTT256
+    [BAC_FORMAT_DIRECT_3D]  = GX_TEXFMT_DIRECT,  // GX_TEXFMT_DIRECT
+    [BAC_FORMAT_A3I5_3D]    = GX_TEXFMT_A3I5,    // GX_TEXFMT_A3I5
+    [BAC_FORMAT_A5I3_3D]    = GX_TEXFMT_A5I3,    // GX_TEXFMT_A5I3
+    [BAC_FORMAT_COMP4x4_3D] = GX_TEXFMT_COMP4x4  // GX_TEXFMT_COMP4x4
+};
 
-static u8 _02143848[0x40]; // unknown
+static u8 spriteUnknown[0x40]; // unknown
 
 // --------------------
 // HELPER MACROS
@@ -629,7 +680,7 @@ NONMATCH_FUNC void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
             {
                 if ((frame->useGFXIndex & 1) == 0)
                 {
-                    vramLocation += (Sprite__ShapeTileCount[shape] + shift2) >> shapeShift << shift;
+                    vramLocation += (formatShapeTileCount[shape] + shift2) >> shapeShift << shift;
                 }
             }
             else
@@ -653,7 +704,7 @@ NONMATCH_FUNC void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
                     oam->attr2 =
                         (vramLocation & GX_OAM_ATTR2_NAME_MASK) | (animator->oamPriority << GX_OAM_ATTR2_PRIORITY_SHIFT) | (spritePtr->attr2 + cParam) & GX_OAM_ATTR2_CPARAM_MASK;
 
-                    vramLocation += (Sprite__ShapeTileCount[shape] + shift2) >> shapeShift << shift;
+                    vramLocation += (formatShapeTileCount[shape] + shift2) >> shapeShift << shift;
                 }
                 else
                 {
@@ -903,7 +954,7 @@ _020809E0:
 	ldrh r0, [r5, #2]
 	tst r0, #1
 	bne _02080B14
-	ldr r0, =Sprite__ShapeTileCount
+	ldr r0, =formatShapeTileCount
 	mov r1, r11, lsl #1
 	ldrh r1, [r0, r1]
 	ldr r0, [sp, #0x20]
@@ -947,7 +998,7 @@ _02080A1C:
 	ldrh r1, [r5, #2]
 	tst r1, #1
 	bne _02080AEC
-	ldr r1, =Sprite__ShapeTileCount
+	ldr r1, =formatShapeTileCount
 	mov r2, r11, lsl #1
 	ldrh r2, [r1, r2]
 	ldr r1, [sp, #0x20]
@@ -1351,7 +1402,7 @@ _02081080:
 	bne _02081294
 	ldr r0, [sp, #0x18]
 	mov r1, r0, lsl #1
-	ldr r0, =Sprite__ShapeTileCount
+	ldr r0, =formatShapeTileCount
 	ldrh r1, [r0, r1]
 	ldr r0, [sp, #0x44]
 	add r1, r1, r0, lsr #16
@@ -1406,7 +1457,7 @@ _02081150:
 	bne _02081294
 	ldr r0, [sp, #0x18]
 	mov r1, r0, lsl #1
-	ldr r0, =Sprite__ShapeTileCount
+	ldr r0, =formatShapeTileCount
 	ldrh r1, [r0, r1]
 	ldr r0, [sp, #0x44]
 	add r1, r1, r0, lsr #16
@@ -1454,7 +1505,7 @@ _02081190:
 	ldr r1, [sp, #0x18]
 	and r8, r7, r4, lsr #22
 	mov r2, r1, lsl #1
-	ldr r1, =Sprite__ShapeTileCount
+	ldr r1, =formatShapeTileCount
 	ldrb r3, [r10, #0x56]
 	ldrh r2, [r1, r2]
 	ldr r1, [sp, #0x44]
@@ -2019,7 +2070,7 @@ _02081AE4:
 	str r1, [sp]
 _02081AF4:
 	mov r1, r0, lsl #1
-	ldr r0, =Sprite__ShapeTileCount
+	ldr r0, =formatShapeTileCount
 	mov r4, #0x200
 	ldrh r0, [r0, r1]
 	rsb r4, r4, #0
@@ -2640,7 +2691,7 @@ _02082428:
 	add r0, r2, r0, lsl #2
 	str r0, [sp, #0x38]
 	mov r4, #0x200
-	ldr r0, =Sprite__ShapeTileCount
+	ldr r0, =formatShapeTileCount
 	mov r1, lr, lsl #1
 	ldrh r11, [r0, r1]
 	rsb r4, r4, #0
@@ -2842,7 +2893,7 @@ _020826FC:
 
 void Sprite__InitUnknown(void)
 {
-    MI_CpuClear16(&_02143848, sizeof(_02143848));
+    MI_CpuClear16(&spriteUnknown, sizeof(spriteUnknown));
 }
 
 void AnimatorSpriteDS__SetAnimation2(AnimatorSpriteDS *animator, u16 animID)
@@ -3214,7 +3265,7 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
     NNS_G3dGeColor(animator->color);
 
     u32 paletteAddr = (VRAMKEY_TO_KEY(inline_fn(animator)) & 0x1FFFF) + (animator->animatorSprite.cParam.palette * (16 * sizeof(GXRgb)));
-    NNS_G3dGeTexPlttBase(paletteAddr, Sprite__Tex3DFormatForBACFormat[format]);
+    NNS_G3dGeTexPlttBase(paletteAddr, gxFormatForSpriteFormat[format]);
 
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
 
@@ -3284,15 +3335,15 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
         if ((frame->useGFXIndex & 1) == 0)
         {
             pixelAddr = tileDataPos;
-            tileDataPos += Sprite__ShapeTileCount[shape] << pixelFormatShift[format];
+            tileDataPos += formatShapeTileCount[shape] << pixelFormatShift[format];
         }
         else
         {
             pixelAddr = tileDataPos + ((sprite->attr2 & 0x3FF) << pixelFormatShift[format]);
         }
 
-        NNS_G3dGeTexImageParam(Sprite__Tex3DFormatForBACFormat[format], GX_TEXGEN_TEXCOORD, (GXTexSizeS)spriteShapeSizes3D[2 * shape],
-                               (GXTexSizeT)spriteShapeSizes3D[(2 * shape) + 1], GX_TEXREPEAT_NONE, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS, pixelAddr);
+        NNS_G3dGeTexImageParam(gxFormatForSpriteFormat[format], GX_TEXGEN_TEXCOORD, (GXTexSizeS)spriteShapeSizes3D[2 * shape], (GXTexSizeT)spriteShapeSizes3D[(2 * shape) + 1],
+                               GX_TEXREPEAT_NONE, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS, pixelAddr);
 
         NNS_G3dGeMtxMode(GX_MTXMODE_TEXTURE);
         NNS_G3dGeLoadMtx43(&matTexture);
@@ -3366,7 +3417,7 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
 	str r2, [sp, #0x1c]
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
-	ldr r0, =Sprite__Tex3DFormatForBACFormat
+	ldr r0, =gxFormatForSpriteFormat
 	ldrh r3, [r7, #0xe0]
 	ldr r11, [r0, r10, lsl #2]
 	ldr r2, [r7, #0xdc]
@@ -3502,7 +3553,7 @@ _0208328C:
 	ldrh r1, [r4, #2]
 	tst r1, #1
 	bne _020832D0
-	ldr r2, =Sprite__ShapeTileCount
+	ldr r2, =formatShapeTileCount
 	mov r3, r0, lsl #1
 	ldrh r3, [r2, r3]
 	ldr r2, =pixelFormatShift
@@ -3661,13 +3712,13 @@ BOOL Sprite__Is3DFormat(AnimatorSprite *animator)
 {
     switch (GetAnimHeaderBlockFromAnimator(animator)->anims[animator->animID].format)
     {
-        case BAC_FORMAT_INDEXED2_3D:
-        case BAC_FORMAT_INDEXED4_3D:
-        case BAC_FORMAT_INDEXED8_3D:
-        case BAC_FORMAT_RGBA_3D:
-        case BAC_FORMAT_A3I5_TRANSLUCENT_3D:
-        case BAC_FORMAT_A5I3_TRANSLUCENT_3D:
-        case BAC_FORMAT_BLOCK_COMPRESSED_3D:
+        case BAC_FORMAT_PLTT4_3D:
+        case BAC_FORMAT_PLTT16_3D:
+        case BAC_FORMAT_PLTT256_3D:
+        case BAC_FORMAT_DIRECT_3D:
+        case BAC_FORMAT_A3I5_3D:
+        case BAC_FORMAT_A5I3_3D:
+        case BAC_FORMAT_COMP4x4_3D:
             return TRUE;
 
         default:
@@ -4006,7 +4057,7 @@ NONMATCH_FUNC s32 BAC_FrameGroupFunc_Palette(BACFrameGroupBlock_Palette *block, 
         }
 
         if (colorCount == 0)
-            colorCount = BAC__FormatColorCounts[Sprite__GetFormatFromAnim(animator->fileData, animator->animID)];
+            colorCount = formatPaletteColorCount[Sprite__GetFormatFromAnim(animator->fileData, animator->animID)];
 
         paletteFunc(srcPalettePtr, colorCount, animator->paletteMode, (size_t)destPalettePtr);
     }
@@ -4063,7 +4114,7 @@ _02083AE8:
 	bne _02083B04
 	ldrh r1, [r6, #0xc]
 	bl Sprite__GetFormatFromAnim
-	ldr r1, =BAC__FormatColorCounts
+	ldr r1, =formatPaletteColorCount
 	mov r0, r0, lsl #1
 	ldrh r1, [r1, r0]
 _02083B04:
@@ -4163,7 +4214,7 @@ void Animator3D__HandleMatrixOperations(Animator3D *animator, u32 flags)
 
     for (s32 i = 0; i < ANIMATOR3D_MATRIXOP_COUNT && animator->matrixOpIDs[i] != MATRIX_OP_NONE; i++)
     {
-        animator3DMatrixFuncList[animator->matrixOpIDs[i]](animator);
+        animator3DDrawCommandList[animator->matrixOpIDs[i]](animator);
     }
 }
 

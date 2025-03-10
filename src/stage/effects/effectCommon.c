@@ -457,7 +457,7 @@ EffectHarmfulExplosion *CreateEffectHarmfulExplosion(StageTask *parent, fx32 vel
     SetTaskState(&work->objWork, EffectHarmfulExplosion_State_Active);
     work->targetFrame = targetFrame;
 
-    StageTask__InitCollider(&work->objWork, &work->collider, 0, 0);
+    StageTask__InitCollider(&work->objWork, &work->collider, 0, STAGE_TASK_COLLIDER_FLAGS_NONE);
     ObjRect__SetGroupFlags(&work->collider, 2, 1);
     ObjRect__SetAttackStat(&work->collider, 2, 0x40);
     ObjRect__SetDefenceStat(&work->collider, 0, 0x3F);

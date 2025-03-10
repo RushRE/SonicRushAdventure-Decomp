@@ -9,26 +9,42 @@ extern "C"
 #endif
 
 // --------------------
+// STRUCTS
+// --------------------
+
+typedef struct Unknown2066510_
+{
+    VecFx32 a;
+    VecFx32 b;
+} Unknown2066510;
+
+typedef struct Unknown206703C_
+{
+    VecFx32 pos;
+    fx32 w;
+} Unknown206703C;
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
 NOT_DECOMPILED u16 Unknown2066510__LerpAngle(u16 start, u16 end, fx32 percent);
-NOT_DECOMPILED void Unknown2066510__LerpAngle2(void);
-NOT_DECOMPILED void Unknown2066510__LerpMtx43(void);
-NOT_DECOMPILED void Unknown2066510__NormalizeScale(void);
-NOT_DECOMPILED void Unknown2066510__Func_2066724(void);
-NOT_DECOMPILED void Unknown2066510__Func_20668A8(void);
+NOT_DECOMPILED void Unknown2066510__LerpAngle2(u16 start, u16 mid, u16 end);
+NOT_DECOMPILED void Unknown2066510__LerpMtx43(MtxFx43 *start, MtxFx43 *end, fx32 percent, MtxFx43 *dest);
+NOT_DECOMPILED void Unknown2066510__NormalizeScale(MtxFx33 *a1, MtxFx33 *a2);
+NOT_DECOMPILED void Unknown2066510__Func_2066724(MtxFx43 *a1, VecFx32 *a2, MtxFx43 *a3, VecFx32 *a4);
+NOT_DECOMPILED void Unknown2066510__Func_20668A8(VecFx32 *lhs, u16 angle, VecFx32 *rhs, VecFx32 *dest);
 NOT_DECOMPILED void Unknown2066510__Func_2066A4C(VecFx32 *a1, VecFx32 *a2, VecFx32 *a3, MtxFx43 *a4);
-NOT_DECOMPILED void Unknown2066510__Func_2066AC0(void);
-NOT_DECOMPILED void Unknown2066510__Func_2066B94(void);
-NOT_DECOMPILED void Unknown2066510__Func_2066C24(void);
-NOT_DECOMPILED void Unknown2066510__Func_2066D18(void);
-NOT_DECOMPILED void Unknown2066510__Func_2066F88(VecFx32 *a1, VecFx32 *a2, fx32 *a3);
-NOT_DECOMPILED void Unknown2066510__Func_2066FD0(void);
-NOT_DECOMPILED void Unknown2066510__Func_206703C(fx32 *dest, VecFx32 *lhs, VecFx32 *rhs);
-NOT_DECOMPILED void Unknown2066510__Func_20670B4(void);
-NOT_DECOMPILED void Unknown2066510__Func_20670CC(void);
-NOT_DECOMPILED void Unknown2066510__Func_20670F8(fx32 *a1, fx32 *a2, VecFx32 *dest);
+NOT_DECOMPILED void Unknown2066510__Func_2066AC0(VecFx32 *a1, VecFx32 *a2, u16 a3, VecFx32 *a4);
+NOT_DECOMPILED void Unknown2066510__Func_2066B94(VecFx32 *a, s32 angle, VecFx32 *b, VecFx32 *a4);
+NOT_DECOMPILED void Unknown2066510__Func_2066C24(VecFx32 *a1, VecFx32 *a2, s32 color);
+NOT_DECOMPILED void Unknown2066510__Func_2066D18(VecFx32 *lhs, u32 count, VecFx16 *rhs, MtxFx43 *mtx);
+NOT_DECOMPILED void Unknown2066510__Func_2066F88(const VecFx32 *a1, VecFx32 *a2, Unknown2066510 *dest);
+NOT_DECOMPILED void Unknown2066510__Func_2066FD0(Unknown206703C *work, VecFx32 *a2, VecFx32 *a3, VecFx32 *a4);
+NOT_DECOMPILED void Unknown2066510__Func_206703C(Unknown206703C *dest, VecFx32 *lhs, VecFx32 *rhs);
+NOT_DECOMPILED void Unknown2066510__Func_20670B4(Unknown206703C *work, VecFx32 *a2);
+NOT_DECOMPILED void Unknown2066510__Func_20670CC(VecFx32 *a1, VecFx32 *a2);
+NOT_DECOMPILED void Unknown2066510__Func_20670F8(Unknown206703C *a3, Unknown2066510 *a2, VecFx32 *dest);
 
 #ifdef __cplusplus
 }

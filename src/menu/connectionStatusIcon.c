@@ -116,7 +116,7 @@ void CreateConnectionStatusIcon(ConnectionMode desiredConnectionMode, BOOL useEn
 
     if (sVars->task == NULL)
     {
-        sVars->task = TaskCreate(ConnectionStatusIcon_Main, ConnectionStatusIcon_Destructor, TASK_FLAG_DISABLE_DESTROY, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xEF00, TASK_GROUP(0),
+        sVars->task = TaskCreate(ConnectionStatusIcon_Main, ConnectionStatusIcon_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xEF00, TASK_GROUP(0),
                                  ConnectionStatusIcon);
 
         work = TaskGetWork(sVars->task, ConnectionStatusIcon);

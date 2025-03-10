@@ -51,7 +51,7 @@ _0216CCDC:
 	ldr r1, [r4, #0x134]
 	mov r2, #7
 	strb r2, [r1, #0xb]
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r0, r4
 	mov r1, r5
 	mov r2, #0x400
@@ -113,7 +113,7 @@ _0216CD80:
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
 	mov r0, r4
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r0, r4
 	mov r1, r6
 	bl SailObject__InitFromMapObject
@@ -216,7 +216,7 @@ SailJetCreateDashPanel: // 0x0216CED4
 	mov r0, r5
 	orr r1, r1, #4
 	str r1, [r5, #0x20]
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r0, r5
 	mov r1, r7
 	bl SailObject__InitFromMapObject
@@ -250,7 +250,7 @@ SailJetCreateDashPanel: // 0x0216CED4
 	mov r0, r5
 	add r1, r1, #0x8000
 	strh r1, [r5, #0x32]
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 	mov r0, r5
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
@@ -286,7 +286,7 @@ SailJetBob__Create: // 0x0216D024
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
 	mov r0, r4
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r0, r4
 	mov r1, r6
 	bl SailObject__InitFromMapObject
@@ -386,7 +386,7 @@ SailJetShark__Create: // 0x0216D14C
 	mov r0, r4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r0, r4
 	mov r1, r6
 	bl SailObject__InitFromMapObject
@@ -466,7 +466,7 @@ SailJetBird__Create: // 0x0216D2BC
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
 	mov r0, r4
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r0, r4
 	mov r1, r6
 	bl SailObject__InitFromMapObject
@@ -638,13 +638,13 @@ SailJetJumpRamp__SetupObject: // 0x0216D57C
 	add r1, r1, #0x100
 	str r2, [r0, #0xf4]
 	ldrh r1, [r1, #0x6e]
-	ldr ip, _0216D5A4 // =SailObject__SetupAnimator3D
+	ldr ip, _0216D5A4 // =SailObject__ApplyRotation
 	add r1, r1, #0x8000
 	strh r1, [r0, #0x32]
 	bx ip
 	.align 2, 0
 _0216D5A0: .word SailJetJumpRamp__State_216D604
-_0216D5A4: .word SailObject__SetupAnimator3D
+_0216D5A4: .word SailObject__ApplyRotation
 	arm_func_end SailJetJumpRamp__SetupObject
 
 	arm_func_start SailJetJumpRamp__OnDefend
@@ -852,7 +852,7 @@ _0216D860:
 	bl SailObject__Func_2166D18
 	mov r0, r5
 	strh r4, [r5, #0x32]
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
@@ -1015,7 +1015,7 @@ _0216DA78:
 	ldrh r1, [r0, #0x6e]
 	mov r0, r5
 	strh r1, [r5, #0x32]
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 	mov r0, r5
 	add r1, r5, #0x98
 	bl SailObject__Func_216690C
@@ -1426,7 +1426,7 @@ _0216E04C:
 	bl SailObject__Func_2166D18
 	mov r0, r5
 	strh r4, [r5, #0x32]
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
@@ -1496,7 +1496,7 @@ SailJetShark__State_216E0A8: // 0x0216E0A8
 	mov r0, r5
 	add r1, r1, #0x8000
 	strh r1, [r5, #0x32]
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 	add r0, sp, #0
 	add r1, r5, #0x44
 	bl VEC_DotProduct
@@ -1568,7 +1568,7 @@ SailJetShark__State_216E214: // 0x0216E214
 	str r2, [r4, #0x134]
 	bl SailObject__Func_216690C
 	add r0, r5, #0x44
-	bl SailSea__GetSurfacePosition
+	bl GetSailSeaSurfacePosition
 	add r1, r0, #0x400
 	ldr r2, [r4, #0x144]
 	add r0, r4, #0x100
@@ -1579,7 +1579,7 @@ SailJetShark__State_216E214: // 0x0216E214
 	mov r0, r5
 	add r1, r2, r1
 	strh r1, [r5, #0x32]
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 	ldr r0, [r5, #0x2c]
 	add r0, r0, #1
 	str r0, [r5, #0x2c]
@@ -1644,7 +1644,7 @@ SailJetShark__State_216E318: // 0x0216E318
 	bl ObjSpdUpSet
 	str r0, [r4, #0x144]
 	add r0, r5, #0x44
-	bl SailSea__GetSurfacePosition
+	bl GetSailSeaSurfacePosition
 	add r1, r0, #0x400
 	ldr r2, [r4, #0x144]
 	add r0, r4, #0x100
@@ -1655,7 +1655,7 @@ SailJetShark__State_216E318: // 0x0216E318
 	mov r0, r5
 	add r1, r2, r1
 	strh r1, [r5, #0x32]
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 	ldr r0, [r5, #0x2c]
 	add r0, r0, #1
 	str r0, [r5, #0x2c]

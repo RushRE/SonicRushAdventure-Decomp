@@ -17,9 +17,9 @@ SailRival *CreateSailRival(SailPlayer *parent, SailRivalControllerHeader *contro
 {
     u16 taskFlags = TASK_FLAG_NONE;
     if (path == NULL && controller == NULL)
-        taskFlags |= TASK_FLAG_DISABLE_DESTROY;
+        taskFlags |= TASK_FLAG_DISABLE_EXTERNAL_DESTROY;
 
-    Task *task = TaskCreate(SailRival_Main, SailRival_Destructor, taskFlags, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_GROUP(0), SailRival);
+    Task *task = TaskCreate(SailRival_Main, SailRival_Destructor, taskFlags, TASK_PAUSELEVEL_0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_GROUP(0), SailRival);
     if (task == HeapNull)
         return NULL;
 

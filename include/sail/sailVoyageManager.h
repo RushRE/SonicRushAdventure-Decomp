@@ -141,7 +141,7 @@ u8 SailVoyageManager__SeaMapObjectUnknownType3(SeaMapVoyagePathConfigNodeLink *w
 void SailVoyageManager__SetupVoyage(void);
 s32 SailVoyageManager__GetVoyagePos(void);
 VecFx32 *SailVoyageManager__GetVoyageVelocity(void);
-s32 SailVoyageManager__GetVoyageAngle(void);
+u16 SailVoyageManager__GetVoyageAngle(void);
 s32 SailVoyageManager__GetSegmentSize(SailVoyageSegment *segment);
 void SailVoyageManager__Main(void);
 void SailVoyageManager__Func_2157C34(SailVoyageManager *work);

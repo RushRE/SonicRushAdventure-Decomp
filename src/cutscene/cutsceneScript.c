@@ -3117,7 +3117,7 @@ s32 CutsceneSpriteButtonManager_LoadSpriteResource(CutsceneSystemManager *work, 
         return CUTSCENESCRIPT_ASSETSLOT_NONE;
 
     void *sprite = CutsceneFileSystemManager_GetFile(work, animator->resourceFileHandle);
-    if (Sprite__GetFormatFromAnim(sprite, 0) != BAC_FORMAT_INDEXED8_2D)
+    if (Sprite__GetFormatFromAnim(sprite, 0) != BAC_FORMAT_PLTT256_2D)
     {
         VRAMPaletteKey vramPalette = useEngineB != GRAPHICS_ENGINE_B ? VRAM_OBJ_PLTT : VRAM_DB_OBJ_PLTT;
         VRAMPixelKey vramPixels    = VRAMSystem__AllocSpriteVram(useEngineB, SpriteUnknown__GetSpriteSize(sprite, useEngineB));

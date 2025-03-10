@@ -29,8 +29,8 @@ DrawFadeTask *CreateDrawFadeTask(DrawFadeTaskFlags flags, fx32 fadeSpeed)
     TaskFlags taskFlag = TASK_FLAG_NONE;
     BOOL disableSetup  = FALSE;
 
-    if (CheckTaskPaused(0))
-        taskFlag = TASK_FLAG_INACTIVE;
+    if (CheckTaskPaused(NULL))
+        taskFlag = TASK_FLAG_IGNORE_PAUSELEVEL;
 
     if (drawFadeTask != NULL)
     {

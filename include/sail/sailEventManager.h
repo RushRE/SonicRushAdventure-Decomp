@@ -141,7 +141,7 @@ typedef struct SailEventManagerObject_
     VecFx32 unknown;
     VecFx32 position;
     s32 viewRange;
-    u16 id;
+    u16 segmentID;
     u16 angle;
     u16 type;
     u16 word32;

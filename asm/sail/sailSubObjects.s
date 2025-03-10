@@ -40,7 +40,7 @@ SailSubTargetHUD__Create: // 0x0217FFB4
 	str r2, [r3, #0xf4]
 	bl StageTask__SetAnimation
 	mov r0, r4
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	ldr r0, [r4, #0x20]
 	mov r1, #0x1000
 	orr r0, r0, #0x20000
@@ -61,7 +61,7 @@ SailSubTargetHUD__Create: // 0x0217FFB4
 	bl StageTask__SetParent
 	ldr r1, _02180178 // =0x00000CBF
 	mov r0, r4
-	bl SailObject__Func_2164D10
+	bl SailObject__SetSpriteColor
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
@@ -224,7 +224,7 @@ SailSubTargetLockOnHUD__Create: // 0x02180268
 	bl SailObject__SetAnimSpeed
 _021802EC:
 	mov r0, r4
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	ldr r0, [r4, #0x20]
 	mov r3, #0x1000
 	orr r0, r0, #0x20000
@@ -289,7 +289,7 @@ _021803CC:
 	mov r0, r4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	ldr r1, [r4, #0x20]
 	mov r0, #0
 	orr r1, r1, #0x20000
@@ -354,7 +354,7 @@ _021804B8:
 	bl StageTask__SetAnimation
 _021804C0:
 	mov r0, r4
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r0, #0x1000
 	str r0, [r4, #0x38]
 	str r0, [r4, #0x3c]
@@ -407,7 +407,7 @@ SailSubTargetLockOnHUD2__Create: // 0x02180524
 	mov r1, #9
 	bl StageTask__SetAnimation
 	mov r0, r4
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	ldr r0, [r4, #0x20]
 	mov r3, #0x1000
 	orr r0, r0, #0x20000
@@ -473,7 +473,7 @@ SailSubTorpedo1__Create: // 0x02180608
 	orr r1, r1, #0x20000000
 	orr r1, r1, #0x40
 	str r1, [r5, #0x24]
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r0, r7
 	add r1, r5, #0x44
 	bl SailObject__Func_2165A9C
@@ -576,7 +576,7 @@ SailSubTorpedo2__Create: // 0x0218078C
 	orr r1, r1, #0x20000000
 	orr r1, r1, #0x40
 	str r1, [r4, #0x24]
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	ldrh r1, [r8, #0x32]
 	ldr r3, _02180918 // =FX_SinCosTable_
 	add r0, sp, #8
@@ -680,7 +680,7 @@ SailSubBoat02__Create: // 0x02180924
 	mov r0, r5
 	orr r1, r1, #0x20000000
 	str r1, [r5, #0x24]
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r1, r7
 	mov r0, r5
 	bl SailObject__InitFromMapObject
@@ -748,7 +748,7 @@ SailSubDepth__Create: // 0x02180A20
 	mov r0, r4
 	orr r1, r1, #0x20000000
 	str r1, [r4, #0x24]
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r0, r4
 	mov r1, r6
 	bl SailObject__InitFromMapObject
@@ -920,7 +920,7 @@ SailSubMine__Create: // 0x02180C70
 	ldr r1, [r2, #0xcc]
 	orr r1, r1, #0x18
 	str r1, [r2, #0xcc]
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r1, r7
 	mov r0, r5
 	bl SailObject__InitFromMapObject
@@ -990,7 +990,7 @@ SailSubMine2__Create: // 0x02180D74
 	ldr r1, [r2, #0xcc]
 	orr r1, r1, #0x18
 	str r1, [r2, #0xcc]
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r1, r7
 	mov r0, r5
 	bl SailObject__InitFromMapObject
@@ -1071,7 +1071,7 @@ SailSubShark__Create: // 0x02180E84
 	mov r0, r4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r0, r4
 	mov r1, r6
 	bl SailObject__InitFromMapObject
@@ -1186,7 +1186,7 @@ SailSubItem__Create: // 0x02181078
 	mov r0, r4
 	bl ObjObjectAction3dBACLoad
 	mov r0, r4
-	bl SailObject__Func_21646DC
+	bl SailObject__InitCommon
 	mov r0, r4
 	mov r1, r7
 	bl SailObject__InitFromMapObject
@@ -1353,7 +1353,7 @@ SailSubTargetHUD__State_2181290: // 0x02181290
 	orr r2, r0, #4
 	mov r0, r7
 	str r2, [r7, #0x20]
-	bl SailObject__Func_2164D10
+	bl SailObject__SetSpriteColor
 _02181344:
 	ldr r0, [r7, #0x2c]
 	cmp r0, #4
@@ -1389,7 +1389,7 @@ _02181390:
 	bic r2, r0, #4
 	mov r0, r7
 	str r2, [r7, #0x20]
-	bl SailObject__Func_2164D10
+	bl SailObject__SetSpriteColor
 	mov r0, #0x1000
 	str r0, [r7, #0x38]
 	str r0, [r7, #0x3c]
@@ -1450,7 +1450,7 @@ _02181450:
 	bic r2, r0, #4
 	mov r0, r7
 	str r2, [r7, #0x20]
-	bl SailObject__Func_2164D10
+	bl SailObject__SetSpriteColor
 	ldr r1, [r7, #0x18]
 	mov r0, #0x1000
 	orr r1, r1, #2
@@ -1555,7 +1555,7 @@ SailSubTargetHUD__State_2181558: // 0x02181558
 	orr r2, r0, #0x20
 	mov r0, r7
 	str r2, [r7, #0x20]
-	bl SailObject__Func_2164D10
+	bl SailObject__SetSpriteColor
 _02181630:
 	ldr r0, [r7, #0x2c]
 	cmp r0, #4
@@ -1583,7 +1583,7 @@ _02181630:
 	bic r2, r0, #4
 	mov r0, r7
 	str r2, [r7, #0x20]
-	bl SailObject__Func_2164D10
+	bl SailObject__SetSpriteColor
 	ldr r1, [r7, #0x2c]
 	ldr r0, [r6, #0x10]
 	sub r0, r0, r1
@@ -1728,7 +1728,7 @@ _0218185C:
 	bl SailObject__SetAnimSpeed
 	ldr r1, _0218199C // =0x00007FFF
 	mov r0, r7
-	bl SailObject__Func_2164D10
+	bl SailObject__SetSpriteColor
 	ldr r0, [r7, #0x20]
 	mov r1, #0x1000
 	bic r0, r0, #4
@@ -1982,7 +1982,7 @@ _02181C0C:
 	bl FX_Atan2Idx
 	strh r0, [r5, #0x34]
 	mov r0, r5
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 	ldr r0, [r4, #0x11c]
 	ldr r1, [r0, #0x9c]
 	ldr r0, [r0, #0x98]
@@ -2614,7 +2614,7 @@ SailSubItem__State_2182494: // 0x02182494
 	ldr r1, [r6, #0x2c]
 	add r1, r2, r1
 	strh r1, [r6, #0x32]
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 _021824CC:
 	ldr r0, [r6, #0x2c]
 	mov r3, #1
@@ -3045,7 +3045,7 @@ _02182A88:
 	ldrh r1, [r0, #0x6e]
 	mov r0, r4
 	strh r1, [r4, #0x32]
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 	mov r0, r4
 	bl SailObject__Func_2166A2C
 	ldr r1, [r5, #0x184]
@@ -3086,7 +3086,7 @@ SailSubShark__State_2182AF8: // 0x02182AF8
 	add r1, r5, #0x100
 	ldrh r1, [r1, #0x6e]
 	strh r1, [r4, #0x32]
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 	mov r0, r4
 	bl SailObject__Func_2166A2C
 	ldr r0, [r5, #0x160]
@@ -3188,7 +3188,7 @@ SailSubShark__State_2182C2C: // 0x02182C2C
 	str r2, [r4, #0x180]
 	ldrh r1, [r1, #0x6e]
 	strh r1, [r5, #0x32]
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 	mov r0, r5
 	bl SailObject__Func_2166A2C
 	ldr r1, [r4, #0x160]
@@ -3732,7 +3732,7 @@ SailSubDepth__State_2183388: // 0x02183388
 	ldr r1, [r6, #0x2c]
 	add r1, r2, r1
 	strh r1, [r6, #0x32]
-	bl SailObject__SetupAnimator3D
+	bl SailObject__ApplyRotation
 _021833C0:
 	ldr r0, [r6, #0x2c]
 	mov r3, #1

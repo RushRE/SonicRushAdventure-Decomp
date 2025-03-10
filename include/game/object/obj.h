@@ -69,8 +69,8 @@ RUSH_INLINE s32 ObjDispRandRange5(s32 min, s32 max)
 
 fx32 ObjSpdUpSet(fx32 value, fx32 step, fx32 target);
 fx32 ObjSpdDownSet(fx32 value, fx32 step);
-s32 ObjShiftSet(s32 value, s32 target, u16 shift, s32 max, s32 min);
-s32 ObjDiffSet(s32 value, s32 target, s32 start, u16 shift, s32 max, s32 min);
+s32 ObjShiftSet(s32 value, s32 target, u16 shift, s32 maxChange, s32 minChange);
+s32 ObjDiffSet(s32 value, s32 target, s32 start, u16 shift, s32 maxChange, s32 minChange);
 
 fx32 ObjAlphaSet(fx32 target, fx32 start, u16 percent); // lerp
 s32 ObjRoopMove16(u32 dir, u32 targetDir, fx32 speed);  // move from dir to targetDir by speed

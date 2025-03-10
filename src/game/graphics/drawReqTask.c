@@ -636,9 +636,10 @@ void GetVRAMPixelConfig(BOOL useEngineB, u8 bgID, PixelMode *pixelMode, u16 *scr
 #undef bg3_256ColorChar04000
 }
 
-void DrawReqTask__Create(u8 pausePriority, BOOL canDrawA, BOOL canDrawB, BOOL createPauseDrawControl)
+void DrawReqTask__Create(u8 pauseLevel, BOOL canDrawA, BOOL canDrawB, BOOL createPauseDrawControl)
 {
-    Task *task                     = TaskCreate(DrawReqTask__Main, NULL, TASK_FLAG_DISABLE_DESTROY | TASK_FLAG_INACTIVE, 0, TASK_PRIORITY_UPDATE_LIST_END - 0, 254, DrawReqTask);
+    Task *task = TaskCreate(DrawReqTask__Main, NULL, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSELEVEL_0, TASK_PRIORITY_UPDATE_LIST_END - 0,
+                            TASK_GROUP_HIGHEST - 1, DrawReqTask);
     DrawReqTask__sVars.drawReqTask = task;
 
     DrawReqTask *work = TaskGetWork(task, DrawReqTask);
@@ -646,7 +647,7 @@ void DrawReqTask__Create(u8 pausePriority, BOOL canDrawA, BOOL canDrawB, BOOL cr
 
     work->screenCanDraw[0] = canDrawA;
     work->screenCanDraw[1] = canDrawB;
-    StartTaskPause(pausePriority);
+    StartTaskPause(pauseLevel);
 
     if (Camera3D__GetTask() == NULL)
     {
@@ -936,10 +937,10 @@ static const u32 sz = (sizeof(NNS_G3dGlb.cmd1) +
                            sizeof(NNS_G3dGlb.lightColor[0]) * 4) / 4;
     // clang-format on
 
-	// TODO: is this an inlined function call?
-	// it seems too "raw" too be game logic?
-	// the closest function so far is "NNS_G3dGlbFlushWVP"
-	
+    // TODO: is this an inlined function call?
+    // it seems too "raw" too be game logic?
+    // the closest function so far is "NNS_G3dGlbFlushWVP"
+
     NNS_G3dGeBufferData_N((u32 *)&NNS_G3dGlb.cmd1, sz);
     NNS_G3dGeBufferOP_N(G3OP_TEXIMAGE_PARAM, &NNS_G3dGlb.prmTexImageParam, 1);
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);

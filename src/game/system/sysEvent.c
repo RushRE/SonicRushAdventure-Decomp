@@ -799,7 +799,7 @@ struct SysEventControl sysEventWork;
 void CreateSysEventEx(const struct SysEvent *eventList, u32 eventCount, u32 eventID, BOOL createTask, u16 priority, TaskGroup group)
 {
     if (createTask)
-        sysEventWork.task = TaskCreateNoWork(SysEvent_Main, NULL, TASK_FLAG_DISABLE_DESTROY | TASK_FLAG_INACTIVE, 0, priority, group, "SysEvent");
+        sysEventWork.task = TaskCreateNoWork(SysEvent_Main, NULL, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSELEVEL_0, priority, group, "SysEvent");
 
     // Init sysEvent list
     SysEventList *list            = &sysEventWork.eventList;

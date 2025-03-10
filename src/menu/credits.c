@@ -526,14 +526,14 @@ void InitCreditsAnimator(AnimatorSpriteDS *animator, void *file, u16 anim, u16 p
 
     switch (Sprite__GetFormatFromAnim(file, anim))
     {
-        case BAC_FORMAT_INDEXED4_2D:
+        case BAC_FORMAT_PLTT16_2D:
             paletteBank0 = VRAM_OBJ_PLTT;
             paletteBank1 = VRAM_DB_OBJ_PLTT;
             paletteMode0 = PALETTE_MODE_SPRITE;
             paletteMode1 = PALETTE_MODE_SPRITE;
             break;
 
-        case BAC_FORMAT_INDEXED8_2D:
+        case BAC_FORMAT_PLTT256_2D:
             paletteBank0 = NULL;
             paletteBank1 = NULL;
             paletteMode0 = PALETTE_MODE_OBJ;

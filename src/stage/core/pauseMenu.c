@@ -54,7 +54,7 @@ void TryOpenPauseMenu(void)
     if (GetSysEventList()->currentEventID != SYSEVENT_TITLECARD && CreatePauseMenu())
     {
         if (!CheckTaskPaused(NULL))
-            DrawReqTask__Create(2, TRUE, TRUE, TRUE);
+            DrawReqTask__Create(TASK_PAUSELEVEL_2, TRUE, TRUE, TRUE);
 
         padInput.btnPress = PAD_INPUT_NONE_MASK;
 

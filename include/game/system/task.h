@@ -21,7 +21,8 @@ extern "C"
 // --------------------
 
 #ifdef RUSH_DEBUG
-#define TaskCreate(taskMain, taskDestructor, flags, pauseLevel, priority, group, name)       TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, group, sizeof(name), #name)
+#define TaskCreate(taskMain, taskDestructor, flags, pauseLevel, priority, group, name)                                                                                             \
+    TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, group, sizeof(name), #name)
 #define TaskCreateNoWork(taskMain, taskDestructor, flags, pauseLevel, priority, group, name) TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, group, 0, #name)
 #else
 #define TaskCreate(taskMain, taskDestructor, flags, pauseLevel, priority, group, name)       TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, group, sizeof(name))
@@ -59,6 +60,13 @@ typedef u8 TaskGroup;
 
 enum TaskPauseLevel_
 {
+    TASK_PAUSELEVEL_0,
+    TASK_PAUSELEVEL_1,
+    TASK_PAUSELEVEL_2,
+    TASK_PAUSELEVEL_3,
+    TASK_PAUSELEVEL_4,
+    TASK_PAUSELEVEL_5,
+
     TASK_PAUSE_LOWEST  = 0x00,
     TASK_PAUSE_HIGHEST = 0xFF
 };
@@ -73,12 +81,20 @@ enum TaskPriority
     TASK_PRIORITY_RENDER_LIST_END   = 0xFFFF,
 };
 
+enum TaskSysFlags_
+{
+    TASK_SYSFLAG_NONE = 0,
+
+    TASK_SYSFLAG_INACTIVE = 1 << 0, // task has been destroyed.
+};
+typedef u16 TaskSysFlags;
+
 enum TaskFlags_
 {
     TASK_FLAG_NONE = 0,
 
-    TASK_FLAG_INACTIVE        = 1 << 0,
-    TASK_FLAG_DISABLE_DESTROY = 1 << 1,
+    TASK_FLAG_IGNORE_PAUSELEVEL        = 1 << 0, // ignore pause level checks
+    TASK_FLAG_DISABLE_EXTERNAL_DESTROY = 1 << 1, // task may only be destroyed by itself, other tasks or functions cannot do so.
 };
 typedef u16 TaskFlags;
 
@@ -107,16 +123,16 @@ typedef struct Task_
     u16 priority;
     TaskGroup group;
     TaskPauseLevel pauseLevel;
-    
+
 #ifdef RUSH_DEBUG
     // exTask has this, and sonic 4 has this, so it's a likely they had this feature in debug builds as well
-    const char* name;
+    const char *name;
 #endif
 } Task;
 
 typedef struct TaskList_
 {
-    u8 priority;
+    u8 pauseLevel;
     TaskListFlags flags;
     s16 taskCount;
     Task *updateListStart;
@@ -144,7 +160,7 @@ void RunUpdateTaskList(void);
 void RunRenderTaskList(void);
 void ClearTaskLists(void);
 #ifdef RUSH_DEBUG
-Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group, size_t workSize, const char* name);
+Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group, size_t workSize, const char *name);
 #else
 Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group, size_t workSize);
 #endif
@@ -160,9 +176,9 @@ void *GetTaskWork_(Task *task);  // use TaskGetWork() instead of calling this fu
 void *GetCurrentTaskWork_(void); // use TaskGetWorkCurrent() instead of calling this function directly!
 void SetTaskFlags(Task *task, TaskFlags flags);
 void SetTaskPauseLevel(Task *task, u8 pauseLevel);
-void StartTaskPause(u8 priority);
+void StartTaskPause(u8 pauseLevel);
 void EndTaskPause(void);
-BOOL CheckTaskPaused(u8 *priority);
+BOOL CheckTaskPaused(u8 *pauseLevel);
 
 #ifdef __cplusplus
 }

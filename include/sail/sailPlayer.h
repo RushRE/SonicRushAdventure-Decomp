@@ -81,7 +81,7 @@ enum SailPlayerFlag_
     SAILPLAYER_FLAG_NONE = 0x00,
 
     SAILPLAYER_FLAG_BOOST          = 1 << 0,
-    SAILPLAYER_FLAG_IS_HURT              = 1 << 1,
+    SAILPLAYER_FLAG_IS_HURT        = 1 << 1,
     SAILPLAYER_FLAG_4              = 1 << 2,
     SAILPLAYER_FLAG_8              = 1 << 3,
     SAILPLAYER_FLAG_10             = 1 << 4,

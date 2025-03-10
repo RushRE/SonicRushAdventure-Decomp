@@ -196,7 +196,7 @@ NONMATCH_FUNC void SailEventManager__LoadLayout(void)
         voyage->segmentList[prevSegment].type = SAILVOYAGESEGMENT_TYPE_26;
         voyage->segmentList[id].type          = SAILVOYAGESEGMENT_TYPE_27;
 
-        if ((manager->flags & SAILMANAGER_FLAG_FREEZE_ALPHA_TIMER) != 0 && manager->missionQuota != 0)
+        if ((manager->flags & SAILMANAGER_FLAG_FREEZE_DAYTIME_TIMER) != 0 && manager->missionQuota != 0)
         {
             voyage->segmentList[prevSegment].type = SAILVOYAGESEGMENT_TYPE_14;
             voyage->segmentList[id].type          = SAILVOYAGESEGMENT_TYPE_15;
@@ -954,10 +954,10 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
         {
             SailEventManagerObject *stageObject = SailEventManager__AllocateStageObject();
             MI_CpuClear16(stageObject, sizeof(*stageObject));
-            stageObject->type    = object->type;
-            stageObject->id      = id;
-            stageObject->angle   = voyageSegment->angle;
-            stageObject->unknown = object->unknown;
+            stageObject->type      = object->type;
+            stageObject->segmentID = id;
+            stageObject->angle     = voyageSegment->angle;
+            stageObject->unknown   = object->unknown;
 
             stageObject->unknown.x = (stageObject->unknown.x - 128) * _0218B9AC[shipType];
             stageObject->unknown.y *= _0218B9B4[shipType];
@@ -1538,14 +1538,14 @@ SailEventManagerObject *SailEventManager__CreateObject(u16 type, VecFx32 *positi
     SailVoyageSegment *segment = &voyageManager->segmentList[FX32_TO_WHOLE(position->z) >> 7];
 
     MI_CpuClear16(object, sizeof(*object));
-    object->type = type;
-    object->id   = FX32_TO_WHOLE(position->z) >> 7;
+    object->type      = type;
+    object->segmentID = FX32_TO_WHOLE(position->z) >> 7;
 
     object->unknown   = *position;
     object->objectRef = NULL;
 
-    s32 segmentPos       = FX_Div(object->unknown.z & 0x7FFFF, SailVoyageManager__GetSegmentSize(segment));
-    object->angle = SailVoyageManager__GetAngleForSegmentPos(segment, segmentPos);
+    s32 segmentPos = FX_Div(object->unknown.z & 0x7FFFF, SailVoyageManager__GetSegmentSize(segment));
+    object->angle  = SailVoyageManager__GetAngleForSegmentPos(segment, segmentPos);
     SailVoyageManager__Func_2158888(segment, segmentPos, &object->position.x, &object->position.z);
 
     object->position.x += MultiplyFX(object->unknown.x, CosFX(object->angle));
@@ -1670,7 +1670,7 @@ void SailEventManager__Main(void)
                         VecFx32 position;
                         VecFx32 unknownVec;
 
-                        SailVoyageSegment *voyageSegment = &voyageManager->segmentList[object->id];
+                        SailVoyageSegment *voyageSegment = &voyageManager->segmentList[object->segmentID];
 
                         unknownVec = object->unknown;
                         unknownVec.z -= voyageSegment->field_24;

@@ -239,7 +239,7 @@ u32 SpriteUnknown__GetSpriteSizeFromAnimList(void *file, BOOL useEngineB, u32 *a
 void SpriteUnknown__InitAnimator(AnimatorSprite *animator, void *fileData, u16 animID, AnimatorFlags flags, BOOL useEngineB, u32 spriteSize, u8 paletteRow, u8 oamPriority,
                                  u8 oamOrder)
 {
-    if (Sprite__GetFormatFromAnim(fileData, animID) != BAC_FORMAT_INDEXED8_2D)
+    if (Sprite__GetFormatFromAnim(fileData, animID) != BAC_FORMAT_PLTT256_2D)
     {
         VRAMPaletteKey vramPalette = useEngineB != GRAPHICS_ENGINE_B ? VRAM_OBJ_PLTT : VRAM_DB_OBJ_PLTT;
         VRAMPixelKey vramPixels    = VRAMSystem__AllocSpriteVram(useEngineB, spriteSize);

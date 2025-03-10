@@ -829,7 +829,7 @@ VecFx32 *SailVoyageManager__GetVoyageVelocity(void)
     return &manager->voyageManager->velocity;
 }
 
-s32 SailVoyageManager__GetVoyageAngle(void)
+u16 SailVoyageManager__GetVoyageAngle(void)
 {
     SailManager *manager = SailManager__GetWork();
 
@@ -1036,8 +1036,8 @@ void SailVoyageManager__Func_2157C34(SailVoyageManager *work)
         else
             VEC_Subtract(&work->position, &work->prevPosition, &work->velocity);
 
-        SailSea__SetAngle(work->angle);
-        SailSea__Move(speed);
+        SetSailSeaVoyageAngle(work->angle);
+        MoveSailSea(speed);
 
         if (manager->isRivalRace == FALSE && manager->missionType == MISSION_TYPE_NONE)
         {
@@ -1140,7 +1140,7 @@ void SailVoyageManager__LoadSegment(SailVoyageManager *work, u8 type)
                 SailPlayer__Action_ReachedGoal(player);
 
                 s32 unlockID = SeaMapEventManager__Func_2046CE8((s16)manager->field_4);
-                if ((manager->flags & SAILMANAGER_FLAG_FREEZE_ALPHA_TIMER) == 0)
+                if ((manager->flags & SAILMANAGER_FLAG_FREEZE_DAYTIME_TIMER) == 0)
                 {
                     if (!SeaMapEventManager__CheckFeatureUnlocked(unlockID))
                         manager->flags |= SAILMANAGER_FLAG_80000;

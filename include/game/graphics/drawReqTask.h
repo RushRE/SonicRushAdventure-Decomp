@@ -70,7 +70,7 @@ void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, u32 *paletteMode, void **pal
 void GetVRAMCharacterConfig(BOOL useEngineB, u8 bgID, u16 *characterBaseA, u16 *characterBaseBlock);
 void GetVRAMTileConfig(BOOL useEngineB, u8 bgID, s32 *mappingsMode, u16 *screenBaseA, u16 *screenBaseBlock);
 void GetVRAMPixelConfig(BOOL useEngineB, u8 bgID, u32 *pixelMode, u16 *screenBaseBlock);
-void DrawReqTask__Create(u8 pausePriority, BOOL canDrawA, BOOL canDrawB, BOOL createPauseDrawControl);
+void DrawReqTask__Create(u8 pauseLevel, BOOL canDrawA, BOOL canDrawB, BOOL createPauseDrawControl);
 void DrawReqTask__Enable(void);
 BOOL DrawReqTask__GetEnabled(void);
 

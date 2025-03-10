@@ -9,15 +9,15 @@
 
 typedef struct SailCamera_
 {
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    u32 field_18;
-    u32 field_1C;
-    s32 field_20;
+    fx32 offsetY;
+    fx32 targetOffsetY;
+    fx32 trackY1;
+    fx32 targetTrackY1;
+    fx32 trackY2;
+    fx32 targetTrackY2;
+    fx32 radius1;
+    fx32 targetRadius1;
+    fx32 radius2;
     VecFx32 tracker0;
     VecFx32 tracker1;
     void (*state)(struct SailCamera_ *work);
@@ -27,10 +27,6 @@ typedef struct SailCamera_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED SailCamera *SailCamera__Create(void);
-
-NOT_DECOMPILED void SailCamera__Main(void);
-NOT_DECOMPILED void SailCamera__State_JetHover(SailCamera *work);
-NOT_DECOMPILED void SailCamera__State_Boat(SailCamera *work);
+SailCamera *CreateSailCamera(void);
 
 #endif // !RUSH_SAILCAMERA_H
