@@ -45,7 +45,7 @@ Slingshot *CreateSlingshot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     AnimatorSpriteDS *aniMachine = &work->aniMachine;
     ObjAction2dBACLoad(&work->aniMachine, "/act/ac_gmk_sling.bac", 36, GetObjectDataWork(OBJDATAWORK_159), gameArchiveStage);
-    aniMachine->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniMachine->work.cParam.palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     aniMachine->cParam[0].palette = aniMachine->cParam[1].palette = aniMachine->work.cParam.palette;
     aniMachine->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__SetAnimation(&work->aniMachine, 1);
@@ -54,7 +54,7 @@ Slingshot *CreateSlingshot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     AnimatorSpriteDS *aniCounterweight = &work->aniCounterweight;
     ObjAction2dBACLoad(aniCounterweight, "/act/ac_gmk_sling.bac", 20, GetObjectDataWork(OBJDATAWORK_159), gameArchiveStage);
-    aniCounterweight->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniCounterweight->work.cParam.palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     aniCounterweight->cParam[0].palette = aniCounterweight->cParam[1].palette = aniCounterweight->work.cParam.palette;
     aniCounterweight->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__SetAnimation(aniCounterweight, 2);
@@ -292,7 +292,7 @@ void SlingshotRock_State_Idle(SlingshotRock *work)
         {
             SetTaskState(&work->gameWork.objWork, SlingshotRock_State_Launched);
             work->gameWork.objWork.parentObj = NULL;
-			
+
             work->gameWork.objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
             work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
             work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
@@ -329,131 +329,23 @@ void SlingshotRock_State_Idle(SlingshotRock *work)
     }
 }
 
-NONMATCH_FUNC void SlingshotRock_State_Launched(SlingshotRock *work)
+void SlingshotRock_State_Launched(SlingshotRock *work)
 {
-    // https://decomp.me/scratch/x5mO2 -> 59.90%
-#ifdef NON_MATCHING
     work->gameWork.objWork.dir.z += work->gameWork.objWork.velocity.x >> 4;
 
     if ((work->gameWork.objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_ANY) != 0)
     {
-        DestroyStageTask(&work->gameWork.objWork);
+        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
 
-        EffectSlingDust__Create(work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, -0x2000 - ((16 * mtMathRand()) & 0x7FF),
-                                -0x3000 - ((16 * mtMathRand()) & 0x7FF), 0);
+        EffectSlingDust__Create(work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, -FLOAT_TO_FX32(2.0) - (mtMathRandRepeat(128) << 4),
+                                -FLOAT_TO_FX32(3.0) - (mtMathRandRepeat(128) << 4), 0);
 
-        EffectSlingDust__Create(work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, ((16 * mtMathRand()) & 0x7FF) + 0x2000,
-                                -0x4000 - ((16 * mtMathRand()) & 0x7FF), 1);
+        EffectSlingDust__Create(work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, FLOAT_TO_FX32(2.0) + (mtMathRandRepeat(128) << 4),
+                                -FLOAT_TO_FX32(4.0) - (mtMathRandRepeat(128) << 4), 1);
 
-        EffectSlingDust__Create(work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, 0x400 - ((16 * mtMathRand()) & 0x7FF),
-                                -0x4000 - ((16 * mtMathRand()) & 0x7FF), 1);
+        EffectSlingDust__Create(work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, FLOAT_TO_FX32(0.25) - (mtMathRandRepeat(128) << 4),
+                                -FLOAT_TO_FX32(4.0) - (mtMathRandRepeat(128) << 4), 1);
 
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_DEST_OBJ);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldrh r1, [r4, #0x34]
-	ldr r0, [r4, #0x98]
-	add r0, r1, r0, asr #4
-	strh r0, [r4, #0x34]
-	ldr r0, [r4, #0x1c]
-	tst r0, #0xf
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r0, [r4, #0x18]
-	mov lr, #0
-	orr r0, r0, #4
-	ldr r3, =_mt_math_rand
-	str r0, [r4, #0x18]
-	ldr r5, [r3, #0]
-	ldr r0, =0x00196225
-	ldr r1, =0x3C6EF35F
-	sub r2, lr, #0x2000
-	mla ip, r5, r0, r1
-	mla r0, ip, r0, r1
-	str r0, [r3]
-	str lr, [sp]
-	ldr r0, [r3, #0]
-	mov r3, ip, lsr #0x10
-	mov r1, r0, lsr #0x10
-	mov r0, r3, lsl #0x10
-	mov r1, r1, lsl #0x10
-	mov r3, r0, lsr #0x10
-	mov r0, r1, lsr #0x10
-	mov ip, r0, lsl #0x19
-	mov r5, r3, lsl #0x19
-	sub r3, lr, #0x3000
-	ldr r0, [r4, #0x44]
-	ldr r1, [r4, #0x48]
-	sub r2, r2, ip, lsr #21
-	sub r3, r3, r5, lsr #21
-	bl EffectSlingDust__Create
-	ldr r2, =_mt_math_rand
-	ldr r0, =0x00196225
-	ldr r5, [r2, #0]
-	ldr r1, =0x3C6EF35F
-	mov r3, #1
-	mla ip, r5, r0, r1
-	mla r0, ip, r0, r1
-	str r0, [r2]
-	str r3, [sp]
-	ldr r0, [r2, #0]
-	mov r2, ip, lsr #0x10
-	mov r0, r0, lsr #0x10
-	mov r1, r0, lsl #0x10
-	mov r0, r2, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r5, r0, lsr #0x10
-	mov r0, r1, lsl #0x19
-	mov r3, #0x4000
-	mov r2, r0, lsr #0x15
-	mov r5, r5, lsl #0x19
-	rsb r3, r3, #0
-	ldr r0, [r4, #0x44]
-	ldr r1, [r4, #0x48]
-	add r2, r2, #0x2000
-	sub r3, r3, r5, lsr #21
-	bl EffectSlingDust__Create
-	ldr r3, =_mt_math_rand
-	mov r2, #0x4000
-	ldr lr, [r3]
-	ldr r0, =0x00196225
-	ldr r1, =0x3C6EF35F
-	mov ip, #1
-	mla r5, lr, r0, r1
-	mla r0, r5, r0, r1
-	str r0, [r3]
-	str ip, [sp]
-	ldr r0, [r3, #0]
-	mov r3, r5, lsr #0x10
-	mov r0, r0, lsr #0x10
-	mov r1, r0, lsl #0x10
-	mov r0, r3, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r3, r0, lsr #0x10
-	mov r0, r1, lsl #0x19
-	mov ip, r0, lsr #0x15
-	mov r0, r3, lsl #0x19
-	rsb r2, r2, #0
-	sub r3, r2, r0, lsr #21
-	ldr r0, [r4, #0x44]
-	ldr r1, [r4, #0x48]
-	rsb r2, ip, #0x400
-	bl EffectSlingDust__Create
-	mov r0, #0
-	str r0, [sp]
-	mov r1, #0x43
-	str r1, [sp, #4]
-	sub r1, r1, #0x44
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
 }

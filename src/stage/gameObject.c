@@ -468,10 +468,10 @@ void GameObject__SendPacket(GameObjectTask *work, Player *player, GameObjectPack
     sendPacket->header.param  = playerGameStatus.field_88[0];
 }
 
-NONMATCH_FUNC void GameObject__SpawnExplosion(GameObjectTask *work)
+void GameObject__SpawnExplosion(GameObjectTask *work)
 {
-    // https://decomp.me/scratch/dP22X -> 95.55%
-#ifdef NON_MATCHING
+    s16 d;
+
     u32 moveFlag = STAGE_TASK_MOVE_FLAG_NONE;
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ZAKO_DOWN);
@@ -480,7 +480,7 @@ NONMATCH_FUNC void GameObject__SpawnExplosion(GameObjectTask *work)
     {
         CreateEffectWaterExplosion(&work->objWork, FLOAT_TO_FX32(16.0) + FX32_FROM_WHOLE(mtMathRandRepeat(8)), -FX32_FROM_WHOLE(mtMathRandRepeat(8)), WATEREXPLOSION_BUBBLES);
 
-        CreateEffectWaterExplosion(&work->objWork, FLOAT_TO_FX32(3.0) - FX32_FROM_WHOLE(mtMathRandRepeat(8)), -FLOAT_TO_FX32(5.0) - FX32_FROM_WHOLE(mtMathRandRepeat(8)),
+        CreateEffectWaterExplosion(&work->objWork, FLOAT_TO_FX32(3.0) - FX32_FROM_WHOLE(mtMathRandRepeat(8)), -FLOAT_TO_FX32(4.0) - FX32_FROM_WHOLE(mtMathRandRepeat(8)),
                                    WATEREXPLOSION_BUBBLES);
 
         CreateEffectWaterExplosion(&work->objWork, -FLOAT_TO_FX32(16.0) - FX32_FROM_WHOLE(mtMathRandRepeat(8)), -FX32_FROM_WHOLE(mtMathRandRepeat(8)), WATEREXPLOSION_BUBBLES);
@@ -497,164 +497,12 @@ NONMATCH_FUNC void GameObject__SpawnExplosion(GameObjectTask *work)
     if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS) != 0 || (work->flags & GAMEOBJECT_FLAG_40000) != 0)
         moveFlag = STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    s16 d;
     for (d = 0; d < 2; d++)
     {
         EffectEnemyDebris *debris =
             CreateEffectEnemyDebris(&work->objWork, FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(24.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(2.0), ((debrisType + d) & 3) + 4);
         debris->objWork.moveFlag |= moveFlag;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #8
-	mov r6, #0x28
-	sub r1, r6, #0x29
-	mov r4, #0
-	mov r5, r0
-	mov r0, r4
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r4, r6}
-	bl PlaySfxEx
-	ldr r0, =mapCamera
-	ldr r1, [r0, #0]
-	tst r1, #0x1000000
-	beq _020276FC
-	ldr r1, [r5, #0x48]
-	ldrh r2, [r0, #0x6e]
-	mov r0, r1, asr #0xc
-	sub r0, r0, #0x40
-	cmp r2, r0
-	bge _020276FC
-	ldr r7, =_mt_math_rand
-	ldr r1, =0x00196225
-	ldr r3, [r7, #0]
-	ldr r2, =0x3C6EF35F
-	mov r0, r5
-	mla r8, r3, r1, r2
-	mla r6, r8, r1, r2
-	mov r1, r8, lsr #0x10
-	mov r2, r6, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r2, r2, lsl #0x10
-	mov r3, r1, lsr #0x10
-	mov r1, r2, lsr #0x10
-	mov r2, r1, lsl #0x1d
-	mov r1, r3, lsl #0x1d
-	mov r3, r2, lsr #0x11
-	mov r2, r1, lsr #0x11
-	add r1, r3, #0x10000
-	rsb r2, r2, #0
-	mov r3, #1
-	str r6, [r7]
-	bl CreateEffectWaterExplosion
-	ldr r0, =0x00196225
-	ldr r3, [r7, #0]
-	ldr r1, =0x3C6EF35F
-	mov r2, #0x4000
-	mla r8, r3, r0, r1
-	mla r6, r8, r0, r1
-	mov r0, r6, lsr #0x10
-	mov r1, r0, lsl #0x10
-	mov r3, r8, lsr #0x10
-	mov r0, r3, lsl #0x10
-	mov r3, r0, lsr #0x10
-	mov r1, r1, lsr #0x10
-	mov r0, r1, lsl #0x1d
-	mov r1, r0, lsr #0x11
-	mov r3, r3, lsl #0x1d
-	rsb r2, r2, #0
-	sub r2, r2, r3, lsr #17
-	mov r0, r5
-	rsb r1, r1, #0x3000
-	mov r3, #1
-	str r6, [r7]
-	bl CreateEffectWaterExplosion
-	mov r6, r7
-	mov r3, #0x10000
-	ldr r7, [r6, #0]
-	ldr r1, =0x00196225
-	ldr r2, =0x3C6EF35F
-	rsb r3, r3, #0
-	mla r8, r7, r1, r2
-	mla r2, r8, r1, r2
-	mov r1, r8, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r7, r1, lsr #0x10
-	mov r1, r2, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	str r2, [r6]
-	mov r6, r1, lsl #0x1d
-	mov r1, r7, lsl #0x1d
-	mov r1, r1, lsr #0x11
-	rsb r2, r1, #0
-	sub r1, r3, r6, lsr #17
-	mov r0, r5
-	mov r3, #1
-	bl CreateEffectWaterExplosion
-	mov r1, r4
-	mov r0, r5
-	mov r2, r1
-	mov r3, r1
-	bl CreateEffectWaterExplosion
-	b _02027710
-_020276FC:
-	mov r1, #0
-	mov r0, r5
-	mov r2, r1
-	mov r3, r1
-	bl CreateEffectExplosion
-_02027710:
-	ldr r2, =_mt_math_rand
-	ldr r0, =0x00196225
-	ldr r3, [r2, #0]
-	ldr r1, =0x3C6EF35F
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	str r1, [r2]
-	mov r0, r0, lsl #0x10
-	mov r1, r0, lsr #0x10
-	ldr r0, [r5, #0x1c]
-	and r10, r1, #3
-	tst r0, #0x1000
-	bne _02027750
-	ldr r0, [r5, #0x354]
-	tst r0, #0x40000
-	beq _02027754
-_02027750:
-	mov r4, #0x100
-_02027754:
-	mov r8, #0x2000
-	mov r9, #0
-	rsb r8, r8, #0
-	sub r6, r8, #0x16000
-	mov r7, r9
-_02027768:
-	and r0, r10, #3
-	str r8, [sp]
-	add ip, r0, #4
-	mov r0, r5
-	mov r1, r7
-	mov r2, r6
-	mov r3, r7
-	str ip, [sp, #4]
-	bl CreateEffectEnemyDebris
-	add r1, r9, #1
-	ldr r2, [r0, #0x1c]
-	mov r1, r1, lsl #0x10
-	orr r2, r2, r4
-	mov r9, r1, asr #0x10
-	str r2, [r0, #0x1c]
-	cmp r9, #2
-	add r10, r10, #1
-	blt _02027768
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-
-// clang-format on
-#endif
 }
 
 void GameObject__OnDestroyEnemy(GameObjectTask *work)

@@ -819,8 +819,8 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
     for (s32 i = 0; i < 24; i++)
     {
-        InitPaletteAnimator(&work->aniPalette[i], NNS_FndGetArchiveFileByIndex(&arc, i + ARCHIVE_Z1BOSS_ACT_LZ7_FILE_BOSS1_Z1_AGO_BPA), 0, ANIMATORBPA_FLAG_NONE, PALETTE_MODE_TEXTURE,
-                            VRAMKEY_TO_ADDR(Asset3DSetup__PaletteFromName(NNS_G3dGetTex(bossAssetFiles[0].fileData), Boss1__paletteNameTable[i])));
+        InitPaletteAnimator(&work->aniPalette[i], NNS_FndGetArchiveFileByIndex(&arc, i + ARCHIVE_Z1BOSS_ACT_LZ7_FILE_BOSS1_Z1_AGO_BPA), 0, ANIMATORBPA_FLAG_NONE,
+                            PALETTE_MODE_TEXTURE, VRAMKEY_TO_ADDR(Asset3DSetup__PaletteFromName(NNS_G3dGetTex(bossAssetFiles[0].fileData), Boss1__paletteNameTable[i])));
     }
     BossHelpers__SetPaletteAnimations(work->aniPalette, 24, 0, 0);
     NNS_FndUnmountArchive(&arc);
@@ -1840,9 +1840,9 @@ void Boss1Stage__HandleCamera(Boss1Stage *work)
 {
     Camera3D *config = BossArena__GetCameraConfig2(BossArena__GetCamera(1));
 
-    MtxFx43 mtx;
-    MTX_LookAt(&config->lookAtTo, &config->lookAtUp, &config->lookAtFrom, &mtx);
-    InitSpatialAudioMatrix((MtxFx33 *)&mtx);
+    MtxFx43 mtxLookAt;
+    MTX_LookAt(&config->lookAtTo, &config->lookAtUp, &config->lookAtFrom, &mtxLookAt);
+    InitSpatialAudioMatrix((MtxFx33 *)&mtxLookAt);
 }
 
 void Boss1Stage__State_Active(Boss1Stage *work)
@@ -2718,7 +2718,8 @@ _021563AC:
 #endif
 }
 
-NONMATCH_FUNC BOOL Boss1__Func_21563B4(Boss1 *work){
+NONMATCH_FUNC BOOL Boss1__Func_21563B4(Boss1 *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2848,7 +2849,8 @@ _021564E8:
 #endif
 }
 
-NONMATCH_FUNC BOOL Boss1__Func_2156568(Boss1 *work){
+NONMATCH_FUNC BOOL Boss1__Func_2156568(Boss1 *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2997,7 +2999,8 @@ _021566FC:
 #endif
 }
 
-NONMATCH_FUNC void Boss1__NeckRenderCallback(s32 a1, void *param){
+NONMATCH_FUNC void Boss1__NeckRenderCallback(s32 a1, void *param)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -3167,7 +3170,8 @@ void Boss1__ConfigureCollider(Boss1 *work, Boss1ColliderMode mode)
     }
 }
 
-NONMATCH_FUNC void Boss1__HandleCameraOrientation(Boss1 *work){
+NONMATCH_FUNC void Boss1__HandleCameraOrientation(Boss1 *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -3296,7 +3300,8 @@ _02156C60:
 #endif
 }
 
-NONMATCH_FUNC u16 Boss1__GetPlayerBounceAngle(OBS_RECT_WORK *collider, fx32 bossX, fx32 bossY, Player *player, u16 angleRange, u16 angle){
+NONMATCH_FUNC u16 Boss1__GetPlayerBounceAngle(OBS_RECT_WORK *collider, fx32 bossX, fx32 bossY, Player *player, u16 angleRange, u16 angle)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -4133,110 +4138,49 @@ void Boss1__BossState_IdleChooseAttack(Boss1 *work)
     }
 }
 
-NONMATCH_FUNC void Boss1__CreateBiteFX(Boss1 *work, struct Boss1ActionBite *config)
+void Boss1__CreateBiteFX(Boss1 *work, struct Boss1ActionBite *config)
 {
-    // https://decomp.me/scratch/sbRQa -> 89.73%
-#ifdef NON_MATCHING
     Boss1Stage *stage = TaskGetWork(Boss1Stage__Singleton, Boss1Stage);
 
-    fx32 y           = FLOAT_TO_FX32(20.0) + GetStageUnknown(stage);
-    BossFX3D *effect = BossFX__CreateRexBite(BOSSFX3D_FLAG_NONE, work->mtx2.m[3][0], -y + FLOAT_TO_FX32(50.0), FLOAT_TO_FX32(0.0));
+    fx32 y = GetStageUnknown(stage);
+    y += FLOAT_TO_FX32(20.0);
+    y = -y;
+    y += FLOAT_TO_FX32(50.0);
+
+    BossFX3D *effect = BossFX__CreateRexBite(BOSSFX3D_FLAG_NONE, work->mtx2.m[3][0], y, FLOAT_TO_FX32(0.0));
 
     u32 type = config->type;
     if (config->type == 3)
     {
-        switch (config->direction)
+        switch (config->direction - 1)
         {
-            case 1:
+            case 1 - 1:
                 type = 1;
                 break;
 
-            case 2:
+            case 2 - 1:
                 type = 2;
                 break;
         }
     }
 
-    MtxFx33 mtx;
+    MtxFx33 mtxRotate;
     switch (type)
     {
         case 1:
-            MTX_RotZ33(&mtx, SinFX(FLOAT_DEG_TO_IDX(157.5)), CosFX(FLOAT_DEG_TO_IDX(157.5)));
+            MTX_RotZ33(&mtxRotate, SinFX(FLOAT_DEG_TO_IDX(315.0)), CosFX(FLOAT_DEG_TO_IDX(315.0)));
             break;
 
         case 2:
-            MTX_RotZ33(&mtx, SinFX(FLOAT_DEG_TO_IDX(22.5)), CosFX(FLOAT_DEG_TO_IDX(22.5)));
+            MTX_RotZ33(&mtxRotate, SinFX(FLOAT_DEG_TO_IDX(45.0)), CosFX(FLOAT_DEG_TO_IDX(45.0)));
             break;
 
         default:
-            MTX_Identity33(&mtx);
+            MTX_Identity33(&mtxRotate);
             break;
     }
-    MTX_Concat33(&mtx, &work->aniBossMain.ani.work.rotation, &effect->aniModel.ani.work.rotation);
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0x24
-	ldr r2, =Boss1Stage__Singleton
-	mov r6, r0
-	ldr r0, [r2, #0]
-	mov r5, r1
-	bl GetTaskWork_
-	ldr r1, [r0, #0x378]
-	mov r0, #0
-	rsb r1, r1, #0
-	add r1, r1, #0x14000
-	rsb r2, r1, #0
-	ldr r1, [r6, #0x688]
-	mov r3, r0
-	add r2, r2, #0x32000
-	bl BossFX__CreateRexBite
-	ldr r1, [r5, #0]
-	mov r4, r0
-	cmp r1, #3
-	bne _02158340
-	ldrh r0, [r5, #0xc]
-	subs r0, r0, #1
-	beq _0215833C
-	cmp r0, #1
-	moveq r1, #2
-	b _02158340
-_0215833C:
-	mov r1, #1
-_02158340:
-	cmp r1, #1
-	beq _02158354
-	cmp r1, #2
-	beq _0215836C
-	b _02158384
-_02158354:
-	ldr r2, =FX_SinCosTable_+0x3800
-	add r0, sp, #0
-	ldrsh r1, [r2, #0]
-	ldrsh r2, [r2, #2]
-	bl MTX_RotZ33_
-	b _0215838C
-_0215836C:
-	ldr r2, =FX_SinCosTable_+0x800
-	add r0, sp, #0
-	ldrsh r1, [r2, #0]
-	ldrsh r2, [r2, #2]
-	bl MTX_RotZ33_
-	b _0215838C
-_02158384:
-	add r0, sp, #0
-	bl MTX_Identity33_
-_0215838C:
-	add r1, r6, #0x1f4
-	add r0, sp, #0
-	add r1, r1, #0x800
-	add r2, r4, #0x18c
-	bl MTX_Concat33
-	add sp, sp, #0x24
-	ldmia sp!, {r3, r4, r5, r6, pc}
 
-// clang-format on
-#endif
+    MTX_Concat33(&mtxRotate, &work->aniBossMain.ani.work.rotation, &effect->aniModel.ani.work.rotation);
 }
 
 void Boss1__BossState_InitBite(Boss1 *work)

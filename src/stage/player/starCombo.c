@@ -322,7 +322,7 @@ void StarCombo__DisplayConfetti(Player *player)
             particle->position.x = (u16)(mtMathRand() << 8) << 4; // Rand(0, HW_LCD_WIDTH) << 4
             particle->position.y = FLOAT_TO_FX32(HW_LCD_HEIGHT);
 
-            particle->velocity.x = velX - (0x7FFF & mtMathRand());             // 4.0 - Rand(0.0, 8.0)
+            particle->velocity.x = velX - mtMathRandRepeat(0x8000);             // 4.0 - Rand(0.0, 8.0)
             particle->velocity.y = (velY & mtMathRand()) - FLOAT_TO_FX32(7.5); // Rand(0.0, 1.5) - 7.5;
 
             particle->animID        = StarCombo__ConfettiAnimIDs[mtMathRandRepeat(16)];
