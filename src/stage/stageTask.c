@@ -226,15 +226,15 @@ void StageTask_Main(void)
 {
     StageTask *work = TaskGetWorkCurrent(StageTask);
 
-    if ((work->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+    if (IsStageTaskDestroyed(work))
     {
         DestroyCurrentTask();
         return;
     }
 
-    if ((work->flag & STAGE_TASK_FLAG_DESTROY_NEXT_FRAME) != 0)
+    if (IsStageTaskDestroyQueued(work))
     {
-        work->flag |= STAGE_TASK_FLAG_DESTROYED;
+        DestroyStageTask(work);
         return;
     }
 
@@ -244,7 +244,7 @@ void StageTask_Main(void)
         {
             if (work->ppViewCheck(work))
             {
-                work->flag |= STAGE_TASK_FLAG_DESTROYED;
+                DestroyStageTask(work);
                 return;
             }
         }
@@ -321,7 +321,7 @@ void StageTask_Main(void)
             work->displayFlag |= DISPLAY_FLAG_PAUSED;
         }
 
-        if ((work->flag & STAGE_TASK_FLAG_DESTROYED) == 0)
+        if (!IsStageTaskDestroyed(work))
         {
             if (work->ppOut == NULL || (work->displayFlag & DISPLAY_FLAG_NO_DRAW_EVENT) != 0)
                 StageTask__Draw(work);
@@ -557,11 +557,11 @@ BOOL StageTask__ObjectParent(StageTask *work)
     StageTask *parent = work->parentObj;
     if (parent != NULL)
     {
-        if ((parent->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+        if (IsStageTaskDestroyed(parent))
         {
             if ((work->flag & STAGE_TASK_FLAG_NO_DESTROY_WITH_PARENT) == 0)
             {
-                work->flag |= STAGE_TASK_FLAG_DESTROYED;
+                DestroyStageTask(work);
                 work->parentObj = NULL;
                 return TRUE;
             }
@@ -1840,7 +1840,7 @@ void StageTask__HandleRide(StageTask *work)
 {
     if (work->collisionObj != NULL)
     {
-        if (work->collisionObj->work.riderObj != NULL && (work->collisionObj->work.riderObj->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+        if (work->collisionObj->work.riderObj != NULL && IsStageTaskDestroyed(work->collisionObj->work.riderObj))
             work->collisionObj->work.riderObj = NULL;
 
         if (work->collisionObj->work.toucherObj != NULL && work->collisionObj->work.toucherObj != work->collisionObj->work.riderObj)
@@ -1854,7 +1854,7 @@ void StageTask__HandleRide(StageTask *work)
                 work->flow.x += pushMove;
             }
 
-            if ((work->collisionObj->work.toucherObj->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+            if (IsStageTaskDestroyed(work->collisionObj->work.toucherObj))
                 work->collisionObj->work.toucherObj = NULL;
         }
     }
@@ -1874,13 +1874,13 @@ void StageTask__HandleRide(StageTask *work)
             }
         }
 
-        if ((work->touchObj->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+        if (IsStageTaskDestroyed(work->touchObj))
             work->touchObj = NULL;
     }
 
     if (work->rideObj != NULL)
     {
-        if ((work->rideObj->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+        if (IsStageTaskDestroyed(work->rideObj))
         {
             work->rideObj = NULL;
         }
@@ -1907,7 +1907,7 @@ void StageTask__HandleRide(StageTask *work)
 
 void StageTask__HandleCollider(StageTask *work, OBS_RECT_WORK *rect)
 {
-    if ((work->flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0 && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0
+    if (!IsStageTaskDestroyedAny(work) && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0
         && (work->flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
     {
         rect->parent = work;

@@ -808,7 +808,7 @@ void BossFX3D__State_Active(BossFX3D *work)
             }
 
             if (i == B3D_ANIM_MAX)
-                work->objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
+                DestroyStageTask(&work->objWork);
         }
         else
         {
@@ -816,7 +816,7 @@ void BossFX3D__State_Active(BossFX3D *work)
             {
                 work->objWork.userTimer--;
                 if (work->objWork.userTimer == 0)
-                    work->objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
+                    DestroyStageTask(&work->objWork);
             }
         }
     }
@@ -958,7 +958,7 @@ NONMATCH_FUNC void BossFX2D__State_Active(BossFX2D *work)
     {
         if ((work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
         {
-            work->objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
+            DestroyStageTask(&work->objWork);
         }
     }
     else
@@ -967,7 +967,7 @@ NONMATCH_FUNC void BossFX2D__State_Active(BossFX2D *work)
         {
             work->objWork.userTimer--;
             if (work->objWork.userTimer == 0)
-                work->objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
+                DestroyStageTask(&work->objWork);
         }
     }
 #else

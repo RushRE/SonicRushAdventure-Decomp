@@ -62,67 +62,10 @@ typedef u32 SailManagerFlags;
 // STRUCTS
 // --------------------
 
-// TODO: probably temp until we find a better spot for it
-typedef struct SailColliderWorkHitCheck_
-{
-    VecFx32 field_0;
-    VecFx32 field_C;
-    VecFx32 field_18;
-    VecFx32 field_24;
-    u16 angle;
-    u16 field_32;
-    VecFx32 *field_34;
-    union
-    {
-        struct
-        {
-            VecFx32 field_38;
-            s32 field_34;
-            s32 field_48;
-            VecFx32 *field_4C;
-            VecFx32 field_50;
-            VecFx32 field_5C;
-        } type1;
-        
-        struct
-        {
-            s32 field_38;
-            VecFx32 field_3C;
-            s32 field_48;
-            VecFx32 *field_4C;
-            VecFx32 field_50;
-            VecFx32 field_5C;
-        } type2;
-    };
-} SailColliderWorkHitCheck;
-
-typedef struct SailColliderWorkHitCheckRing_
-{
-    VecFx32 field_0;
-    VecFx32 field_C;
-    VecFx32 field_18;
-    VecFx32 field_24;
-    u16 angle;
-    u16 field_32;
-    VecFx32 *field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-} SailColliderWorkHitCheckRing;
-
-typedef struct SailColliderWork_
-{
-    u16 type;
-    SailColliderWorkHitCheck hitCheck;
-    StageTask *stageTask;
-    s32 atkPower;
-    u16 flags;
-} SailColliderWork;
-
 typedef struct SailManager_
 {
     ShipType shipType;
-    u32 field_4;
+    u32 targetIslandID;
     s32 field_8;
     BOOL isRivalRace;
     u16 rivalRaceID;
@@ -150,9 +93,9 @@ typedef struct SailManager_
     u16 field_62;
     VecFx32 skyBrightness;
     StageTask *sailPlayer;
-    StageTask *unknownList[6];
+    StageTask *weaponTaskList[6];
     StageTask *rivalJohnny;
-    u16 unknownListCount;
+    u16 weaponTaskCount;
     SailSea *sea;
     SailVoyageManager *voyageManager;
     SailRingManager *ringManager;
@@ -189,7 +132,7 @@ extern u8 const shipShiftUnknown[SHIP_COUNT];
 void InitSailingSysEvent(void);
 
 SailManager *SailManager__GetWork(void);
-void SailManager__Func_2152CAC(StageTask *work);
+void SailManager__AddPlayerWeaponTask(StageTask *work);
 ShipType SailManager__GetShipType(void);
 void *SailManager__GetArchive(void);
 SailManager *SailManager__Create(void);

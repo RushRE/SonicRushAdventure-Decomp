@@ -1432,7 +1432,7 @@ _021894F8:
 	bl StageTask__SetAnimation
 	mov r0, r9
 	mov r1, #0x1000
-	bl SailObject__SetAnimSpeed
+	bl SailObject_SetAnimSpeed
 	ldr r0, [r9, #0x20]
 	orr r0, r0, #4
 	str r0, [r9, #0x20]

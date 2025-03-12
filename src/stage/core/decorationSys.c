@@ -3507,15 +3507,15 @@ void DecorationSys__Main(void)
 
 void DecorationSys__Decor_Main(StageDecoration *work)
 {
-    if ((work->objWork.flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+    if (IsStageTaskDestroyed(&work->objWork))
     {
         DecorationSys__DestroyDecor(work);
         return;
     }
 
-    if ((work->objWork.flag & STAGE_TASK_FLAG_DESTROY_NEXT_FRAME) != 0)
+    if (IsStageTaskDestroyQueued(&work->objWork))
     {
-        work->objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
+        DestroyStageTask(&work->objWork);
         return;
     }
 
@@ -3525,17 +3525,17 @@ void DecorationSys__Decor_Main(StageDecoration *work)
         {
             if (work->objWork.ppViewCheck(&work->objWork))
             {
-                work->objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
+                DestroyStageTask(&work->objWork);
                 return;
             }
         }
     }
 
-    if (work->objWork.parentObj != NULL && (work->objWork.parentObj->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+    if (work->objWork.parentObj != NULL && IsStageTaskDestroyed(work->objWork.parentObj))
     {
         if ((work->objWork.flag & STAGE_TASK_FLAG_NO_DESTROY_WITH_PARENT) == 0)
         {
-            work->objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
+            DestroyStageTask(&work->objWork);
             work->objWork.parentObj = NULL;
             return;
         }
@@ -3562,7 +3562,7 @@ void DecorationSys__Decor_Main(StageDecoration *work)
         }
     }
 
-    if ((work->objWork.flag & STAGE_TASK_FLAG_DESTROYED) == 0)
+    if (!IsStageTaskDestroyed(&work->objWork))
     {
         if (work->objWork.ppOut == NULL || (work->objWork.displayFlag & DISPLAY_FLAG_NO_DRAW_EVENT) != 0)
             DecorationSys__Draw(work);
@@ -3771,7 +3771,7 @@ void DecorationSys__SpriteCallback_Default(BACFrameGroupBlock_Hitbox *block, Ani
 
 void DecorationSys__Collide_Default(StageDecoration *work)
 {
-    if ((work->objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0)
+    if (!IsStageTaskDestroyedAny(&work->objWork))
     {
         if (work->rect[0].parent != NULL)
             StageTask__HandleCollider(&work->objWork, work->rect);

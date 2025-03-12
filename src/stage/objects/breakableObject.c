@@ -146,7 +146,8 @@ NONMATCH_FUNC void BreakableObject__State_Tutorial(BreakableObject *work)
     {
         ShakeScreen(SCREENSHAKE_C_SHORT);
 
-        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROYED | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+		DestroyStageTask(&work->gameWork.objWork);
         work->gameWork.flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
         work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
         work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_800;

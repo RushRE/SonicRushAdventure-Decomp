@@ -6446,7 +6446,7 @@ void Player__HandleHomingTarget(Player *player)
     {
         for (i = 0; TRUE; i++)
         {
-            OBS_RECT_WORK *rect = ObjRect__RegistGet(2, i);
+            OBS_RECT_WORK *rect = ObjRect__RegistGet((1 << 1), i);
             if (rect == NULL)
                 break; // end of list
 

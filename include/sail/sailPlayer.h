@@ -6,6 +6,7 @@
 #include <game/input/padInput.h>
 #include <game/input/touchInput.h>
 #include <sail/sailManager.h>
+#include <sail/sailCommonObjects.h>
 #include <sail/sailRival.h>
 
 // --------------------
@@ -123,7 +124,7 @@ typedef struct SailPlayer_
 {
     u16 shipType;
     u16 isRival;
-    VecFx32 field_4;
+    VecFx32 collisionOffset;
     fx32 speed;
     u32 field_14;
     VecFx32 seaPos;
@@ -182,9 +183,10 @@ typedef struct SailPlayer_
     u16 field_20C;
     u16 selectedWeapon;
     s32 healthChange;
-    u32 weaponAmmo[3];
+    fx32 weaponAmmo[3];
     u32 weaponCooldown[3];
-    s32 field_22C;
+    u16 field_22C;
+    u16 field_22E;
     TouchPos touchOn;
     TouchPos touchPrev;
     TouchPos touchPush;

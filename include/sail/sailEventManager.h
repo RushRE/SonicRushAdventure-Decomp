@@ -27,7 +27,7 @@ enum SailMapObjectTypes
 
 enum SailMapObjectIDs
 {
-    SAILMAPOBJECT_NONE,
+    SAILMAPOBJECT_ISLAND,
     SAILMAPOBJECT_RING,
     SAILMAPOBJECT_2,
     SAILMAPOBJECT_3,
@@ -73,6 +73,7 @@ enum SailMapObjectFlags_
 {
     SAILMAPOBJECT_FLAG_NONE = 0x00,
 
+    SAILMAPOBJECT_FLAG_80  = 0x80,
     SAILMAPOBJECT_FLAG_100 = 0x100,
     SAILMAPOBJECT_FLAG_200 = 0x200,
     SAILMAPOBJECT_FLAG_400 = 0x400,
@@ -116,12 +117,12 @@ typedef struct SBBUnknownHeader_
 
 typedef struct SBBObject_
 {
-    VecFx32 unknown;
+    VecFx32 voyagePosition;
     u16 type;
     u16 flags;
     u16 viewRange;
-    u16 field_12;
-    u32 field_14;
+    u16 unknown;
+    u32 param;
 } SBBObject;
 
 typedef struct SBBSegment_
@@ -138,7 +139,7 @@ typedef struct SailEventManagerObject_
     NNSFndLink link;
     StageTask *objTask;
     SailRing *ringTask;
-    VecFx32 unknown;
+    VecFx32 voyagePosition;
     VecFx32 position;
     s32 viewRange;
     u16 segmentID;
@@ -146,7 +147,7 @@ typedef struct SailEventManagerObject_
     u16 type;
     u16 word32;
     SailMapObjectFlags flags;
-    u32 objectValue14;
+    u32 param;
     SBBObject *objectRef;
 } SailEventManagerObject;
 

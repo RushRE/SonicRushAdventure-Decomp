@@ -427,7 +427,7 @@ void Stalactite_Collide(void)
 {
     Stalactite *work = TaskGetWorkCurrent(Stalactite);
 
-    if ((work->gameWork.objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0)
+    if (!IsStageTaskDestroyedAny(&work->gameWork.objWork))
     {
         if (work->gameWork.colliders[0].parent != NULL)
             StageTask__HandleCollider(&work->gameWork.objWork, work->gameWork.colliders);
@@ -558,7 +558,7 @@ void FallingStalactite_Collide(void)
 {
     FallingStalactite *work = TaskGetWorkCurrent(FallingStalactite);
 
-    if ((work->gameWork.objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0)
+    if (!IsStageTaskDestroyedAny(&work->gameWork.objWork))
     {
         if (work->gameWork.colliders[0].parent != NULL)
             StageTask__HandleCollider(&work->gameWork.objWork, work->gameWork.colliders);

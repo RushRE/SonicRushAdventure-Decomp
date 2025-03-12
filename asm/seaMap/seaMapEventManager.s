@@ -337,8 +337,8 @@ _02046B0C:
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end SeaMapEventManager__GetObjectFromID
 
-	arm_func_start SeaMapEventManager__Func_2046B14
-SeaMapEventManager__Func_2046B14: // 0x02046B14
+	arm_func_start SeaMapEventManager__FindVisibleIslands
+SeaMapEventManager__FindVisibleIslands: // 0x02046B14
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	str r0, [sp]
@@ -455,7 +455,7 @@ _02046CA0:
 	.align 2, 0
 _02046CC0: .word 0x00000F5E
 _02046CC4: .word 0x0000065D
-	arm_func_end SeaMapEventManager__Func_2046B14
+	arm_func_end SeaMapEventManager__FindVisibleIslands
 
 	arm_func_start SeaMapEventManager__GetObjectType
 SeaMapEventManager__GetObjectType: // 0x02046CC8

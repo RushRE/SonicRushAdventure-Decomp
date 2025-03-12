@@ -202,7 +202,7 @@ void SailRingManager_UpdateRings(SailRingManager *work)
 
 void SailRingManager_CheckPlayerCollisions(SailRingManager *work, StageTask *player)
 {
-    SailColliderWorkHitCheckRing ringCollider = { 0 };
+    SailColliderHitCheckBox ringCollider = { 0 };
 
     SailRing *ring;
     if (SailManager__GetShipType() == SHIP_BOAT || SailManager__GetShipType() == SHIP_SUBMARINE)
@@ -217,10 +217,10 @@ void SailRingManager_CheckPlayerCollisions(SailRingManager *work, StageTask *pla
 
         SailPlayer *playerWork = GetStageTaskWorker(player, SailPlayer);
 
-        ringCollider.field_24.x = FLOAT_TO_FX32(0.5);
+        ringCollider.size.x = FLOAT_TO_FX32(0.5);
 
         if ((player->userFlag & SAILPLAYER_FLAG_BOOST) != 0)
-            ringCollider.field_24.x <<= 1;
+            ringCollider.size.x <<= 1;
 
         for (u16 r = 0; r < SAILRINGMANAGER_RING_LIST_SIZE; r++)
         {
@@ -228,11 +228,11 @@ void SailRingManager_CheckPlayerCollisions(SailRingManager *work, StageTask *pla
 
             if ((ring->flags & SAILRING_FLAG_ALLOCATED) != 0 && (ring->flags & SAILRING_FLAG_DISABLE_OBJ_COLLISIONS) == 0)
             {
-                ringCollider.field_0   = ring->position;
-                ringCollider.field_0.y = -ringCollider.field_0.y;
-                ringCollider.field_0.y += FLOAT_TO_FX32(0.25);
+                ringCollider.position   = ring->position;
+                ringCollider.position.y = -ringCollider.position.y;
+                ringCollider.position.y += FLOAT_TO_FX32(0.25);
 
-                if (SailObject__CheckHitboxEnabled_Type1(&playerWork->colliders[0].hitCheck, (SailColliderWorkHitCheck *)&ringCollider, ringCollider.field_0.y))
+                if (SailObject_CheckHitboxEnabled_Box(&playerWork->colliders[0].hitCheck.box, &ringCollider, ringCollider.position.y))
                     SailRingManager_CollectRing(ring, player);
             }
         }
@@ -241,8 +241,8 @@ void SailRingManager_CheckPlayerCollisions(SailRingManager *work, StageTask *pla
 
 void SailRingManager_CheckObjectCollisions(SailRingManager *work, StageTask *object)
 {
-    SailColliderWorkHitCheckRing ringCollider = { 0 };
-    SailColliderWorkHitCheck *colliderPtr;
+    SailColliderHitCheckBox ringCollider = { 0 };
+    SailColliderHitCheckBox *colliderPtr;
     SailRing *ring;
     SailManager *manager;
     StageTask *player;
@@ -257,22 +257,22 @@ void SailRingManager_CheckObjectCollisions(SailRingManager *work, StageTask *obj
     manager = SailManager__GetWork();
     player  = manager->sailPlayer;
 
-    ringCollider.field_24.x = FLOAT_TO_FX32(1.5);
+    ringCollider.size.x = FLOAT_TO_FX32(1.5);
 
-    colliderPtr = (SailColliderWorkHitCheck *)&ringCollider;
+    colliderPtr = &ringCollider;
     switch (objectWorker->collider[0].type)
     {
-        case 2:
+        case SAILCOLLIDER_TYPE_LINE:
             for (r = 0; r < SAILRINGMANAGER_RING_LIST_SIZE; r++)
             {
                 ring = &work->rings[r];
                 if ((ring->flags & SAILRING_FLAG_ALLOCATED) != 0 && (ring->flags & SAILRING_FLAG_DISABLE_OBJ_COLLISIONS) == 0)
                 {
-                    ringCollider.field_0   = ring->position;
-                    ringCollider.field_0.y = -ringCollider.field_0.y;
-                    ringCollider.field_0.y += FLOAT_TO_FX32(1.0);
+                    ringCollider.position   = ring->position;
+                    ringCollider.position.y = -ringCollider.position.y;
+                    ringCollider.position.y += FLOAT_TO_FX32(1.0);
 
-                    if (SailObject__CheckHitboxEnabled_Type2(colliderPtr, &objectWorker->collider[0].hitCheck, ringCollider.field_0.y))
+                    if (SailObject_CheckHitboxEnabled_Line(colliderPtr, &objectWorker->collider[0].hitCheck.line, ringCollider.position.y))
                     {
                         object->userFlag |= SAILOBJECT_FLAG_10;
                         ring->flags &= ~SAILRING_FLAG_USE_OWN_VELOCITY;
@@ -288,11 +288,11 @@ void SailRingManager_CheckObjectCollisions(SailRingManager *work, StageTask *obj
                 ring = &work->rings[r];
                 if ((ring->flags & SAILRING_FLAG_ALLOCATED) != 0 && (ring->flags & SAILRING_FLAG_DISABLE_OBJ_COLLISIONS) == 0)
                 {
-                    ringCollider.field_0   = ring->position;
-                    ringCollider.field_0.y = -ringCollider.field_0.y;
-                    ringCollider.field_0.y += FLOAT_TO_FX32(1.0);
+                    ringCollider.position   = ring->position;
+                    ringCollider.position.y = -ringCollider.position.y;
+                    ringCollider.position.y += FLOAT_TO_FX32(1.0);
 
-                    if (SailObject__CheckHitboxEnabled_Type1(colliderPtr, &objectWorker->collider[0].hitCheck, ringCollider.field_0.y))
+                    if (SailObject_CheckHitboxEnabled_Box(colliderPtr, &objectWorker->collider[0].hitCheck.box, ringCollider.position.y))
                     {
                         object->userFlag |= SAILOBJECT_FLAG_10;
                         ring->flags &= ~SAILRING_FLAG_USE_OWN_VELOCITY;

@@ -19,6 +19,9 @@
 #include <seaMap/sailSeaMapView.h>
 #include <sail/sailTraining.h>
 
+// Objects
+#include <sail/objects/sailCloud.h>
+
 // --------------------
 // TEMP
 // --------------------
@@ -164,16 +167,16 @@ SailManager *SailManager__GetWork(void)
     return TaskGetWork(sailManagerTask, SailManager);
 }
 
-void SailManager__Func_2152CAC(StageTask *work)
+void SailManager__AddPlayerWeaponTask(StageTask *work)
 {
     SailManager *manager = SailManager__GetWork();
 
     if (manager != NULL)
     {
-        if (manager->unknownListCount < 6)
+        if (manager->weaponTaskCount < 6)
         {
-            manager->unknownList[manager->unknownListCount] = work;
-            manager->unknownListCount++;
+            manager->weaponTaskList[manager->weaponTaskCount] = work;
+            manager->weaponTaskCount++;
         }
     }
 }
@@ -198,14 +201,14 @@ SailManager *SailManager__Create(void)
     SailManager *work;
     GameState *state = GetGameState();
 
-    sailManagerTask = TaskCreate(SailManager__Main, SailManager__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xEFFA, TASK_GROUP(5), SailManager);
+    sailManagerTask = TaskCreate(SailManager__Main, SailManager__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_END - 5, TASK_GROUP(5), SailManager);
 
     work = TaskGetWork(sailManagerTask, SailManager);
     TaskInitWork16(work);
 
-    work->field_4   = -1;
-    work->shipType  = state->sailShipType;
-    work->field_5DC = 0;
+    work->targetIslandID = -1;
+    work->shipType       = state->sailShipType;
+    work->field_5DC      = 0;
 
     if (state->missionType != MISSION_TYPE_NONE)
     {
@@ -273,7 +276,7 @@ SailManager *SailManager__Create(void)
     work->hud           = SailHUD__Create();
 
     if (SailManager__GetShipType() != SHIP_SUBMARINE)
-        SailJetBoatCloud__CreateUnknown();
+        CreateSailFogCloudsForVoyage();
 
     switch (SailManager__GetShipType())
     {
@@ -380,16 +383,16 @@ void SailManager__Main(void)
             {
                 if (work->prevCloudType != 2 && work->prevCloudType != 3)
                 {
-                    SailCloud__Create(0);
-                    SailCloud__Create(0);
+                    CreateSailSkyCloud(SAILSKYCLOUD_TYPE_0);
+                    CreateSailSkyCloud(SAILSKYCLOUD_TYPE_0);
 
                     if (work->shipType != SHIP_SUBMARINE)
-                        SailCloud__Create(0);
+                        CreateSailSkyCloud(SAILSKYCLOUD_TYPE_0);
 
-                    SailCloud__Create(1);
+                    CreateSailSkyCloud(SAILSKYCLOUD_TYPE_1);
 
                     if (work->shipType != SHIP_SUBMARINE)
-                        SailCloud__Create(1);
+                        CreateSailSkyCloud(SAILSKYCLOUD_TYPE_1);
                 }
             }
         }
@@ -420,17 +423,17 @@ void SailManager__Main(void)
         SetSpatialAudioOriginPosition(&work->sailPlayer->position);
     }
 
-    SailObject__Func_2166D88();
+    SailObject_ProcessColliders();
 
-    for (u16 i = 0; i < work->unknownListCount; i++)
+    for (u16 i = 0; i < work->weaponTaskCount; i++)
     {
-        StageTask *unknownWork = work->unknownList[i];
+        StageTask *unknownWork = work->weaponTaskList[i];
         if (unknownWork != NULL)
             SailRingManager_CheckPlayerCollisions(work->ringManager, unknownWork);
 
-        work->unknownList[i] = NULL;
+        work->weaponTaskList[i] = NULL;
     }
-    work->unknownListCount = 0;
+    work->weaponTaskCount = 0;
 
     ShipType ship = SailManager__GetShipType();
     if (ship == SHIP_JET || ship == SHIP_HOVER)

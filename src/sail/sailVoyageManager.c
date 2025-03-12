@@ -1,10 +1,14 @@
 #include <sail/sailVoyageManager.h>
 #include <sail/sailManager.h>
+#include <sail/sailEventManager.h>
 #include <seaMap/seaMapManager.h>
 #include <seaMap/seaMapEventTrigger.h>
 #include <sail/sailPlayer.h>
 #include <sail/sailCommonObjects.h>
 #include <game/object/obj.h>
+
+// Objects
+#include <sail/objects/sailGoal.h>
 
 // --------------------
 // TEMP
@@ -636,7 +640,7 @@ void SailVoyageManager__SeaMapObjectUnknownType1(SeaMapVoyagePathConfigNodeLink 
             voyageManager->segmentList[segmentCount].type = SAILVOYAGESEGMENT_TYPE_15;
 
             voyageManager->unknownObjectDistance = work->node.distance;
-            manager->field_4                     = work->node.type1.unlockID;
+            manager->targetIslandID              = work->node.type1.unlockID;
             break;
 
         case SEAMAPVOYAGEPATHCONFIGNODE_TYPE1TYPE_COLLISION:
@@ -1022,12 +1026,12 @@ void SailVoyageManager__Func_2157C34(SailVoyageManager *work)
                 {
                     SailEventManager__LoadMapObjects(work->curSegment + 1, work->voyagePos);
                 }
-                SailVoyageManager__Func_2158234(work);
+                SailVoyageManager__FindVisibleIslands(work);
             }
         }
 
-        s32 segmentPos     = FX_Div(work->segmentPos, SailVoyageManager__GetSegmentSize(segment));
-        work->angle = SailVoyageManager__GetAngleForSegmentPos(segment, segmentPos);
+        s32 segmentPos = FX_Div(work->segmentPos, SailVoyageManager__GetSegmentSize(segment));
+        work->angle    = SailVoyageManager__GetAngleForSegmentPos(segment, segmentPos);
         SailVoyageManager__Func_2158888(segment, segmentPos, &work->position.x, &work->position.z);
         work->angleMove = work->angle - work->prevAngle;
 
@@ -1097,20 +1101,20 @@ void SailVoyageManager__LoadSegment(SailVoyageManager *work, u8 type)
                 break;
 
             case SAILVOYAGESEGMENT_TYPE_14: {
-                SBBObject sbbObject;
+                SBBObject islandObject;
                 MtxFx33 mtx;
                 VecFx32 offset = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(320.0) };
 
                 MTX_RotY33(&mtx, SinFX(work->angle), CosFX(work->angle));
                 MTX_MultVec33(&offset, &mtx, &offset);
 
-                sbbObject.unknown = work->position;
-                VEC_Add(&sbbObject.unknown, &offset, &sbbObject.unknown);
+                islandObject.voyagePosition = work->position;
+                VEC_Add(&islandObject.voyagePosition, &offset, &islandObject.voyagePosition);
 
-                sbbObject.type      = SAILMAPOBJECT_NONE;
-                sbbObject.viewRange = 0x180;
-                sbbObject.field_14  = manager->field_4;
-                SailEventManager__LoadObject(&sbbObject);
+                islandObject.type      = SAILMAPOBJECT_ISLAND;
+                islandObject.viewRange = 0x180;
+                islandObject.param     = manager->targetIslandID;
+                SailEventManager__LoadObject(&islandObject);
             }
                 // fallthrough
 
@@ -1119,11 +1123,11 @@ void SailVoyageManager__LoadSegment(SailVoyageManager *work, u8 type)
             case SAILVOYAGESEGMENT_TYPE_20:
             case SAILVOYAGESEGMENT_TYPE_26: {
                 if (manager->isRivalRace == FALSE)
-                    SailGoalText__Create((work->voyagePos & ~0x7FFFF) + 0x80000);
+                    CreateSailGoalText((work->voyagePos & ~0x7FFFF) + 0x80000);
                 else
-                    SailChaosEmerald__Create((work->voyagePos & ~0x7FFFF) + 0x80000);
+                    CreateSailGoalChaosEmerald((work->voyagePos & ~0x7FFFF) + 0x80000);
 
-                SailGoal__Create((work->voyagePos & ~0x7FFFF) + 0x80000);
+                CreateSailGoal((work->voyagePos & ~0x7FFFF) + 0x80000);
 
                 manager->flags |= SAILMANAGER_FLAG_200;
             }
@@ -1139,13 +1143,13 @@ void SailVoyageManager__LoadSegment(SailVoyageManager *work, u8 type)
                 manager->flags |= SAILMANAGER_FLAG_20;
                 SailPlayer__Action_ReachedGoal(player);
 
-                s32 unlockID = SeaMapEventManager__Func_2046CE8((s16)manager->field_4);
+                s32 unlockID = SeaMapEventManager__Func_2046CE8((s16)manager->targetIslandID);
                 if ((manager->flags & SAILMANAGER_FLAG_FREEZE_DAYTIME_TIMER) == 0)
                 {
                     if (!SeaMapEventManager__CheckFeatureUnlocked(unlockID))
                         manager->flags |= SAILMANAGER_FLAG_80000;
 
-                    SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_TYPE_7, INT_TO_VOID(manager->field_4), 0);
+                    SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_TYPE_7, INT_TO_VOID(manager->targetIslandID), 0);
                 }
             }
             break;
@@ -1190,199 +1194,53 @@ void SailVoyageManager__LoadSegment(SailVoyageManager *work, u8 type)
     }
 }
 
-NONMATCH_FUNC void SailVoyageManager__Func_2158234(SailVoyageManager *work)
+void SailVoyageManager__FindVisibleIslands(SailVoyageManager *work)
 {
-    // https://decomp.me/scratch/gTH8W -> 98.45%
-#ifdef NON_MATCHING
     u16 i;
-    u16 k;
-    BOOL flag;
+    u16 v;
+    BOOL canCreateIsland;
 
     SailManager *manager = SailManager__GetWork();
 
-    if (SailManager__GetShipType() != SHIP_SUBMARINE && manager->isRivalRace == 0 && manager->missionType == MISSION_TYPE_NONE)
+    if (SailManager__GetShipType() != SHIP_SUBMARINE && manager->isRivalRace == FALSE && manager->missionType == MISSION_TYPE_NONE)
     {
-        for (i = 0; i < work->field_FE; i++)
+        for (i = 0; i < work->visibleIslandCount; i++)
         {
-            work->field_F4[i] = work->field_CC[i].object->unlockID;
+            work->visibleIslandIDList[i] = work->visibleIslandList[i].object->unlockID;
         }
-        work->field_FE = 5;
+        u16 prevIslandCount = work->visibleIslandCount;
 
-        SeaMapEventManager__Func_2046B14(work->targetUnknownX, work->targetUnknownZ, FLOAT_TO_FX32(64.0), work->field_CC, &work->field_FE);
+        work->visibleIslandCount = SAILVOYAGEMANAGER_MAX_VISIBLE_ISLANDS;
+        SeaMapEventManager__FindVisibleIslands(work->targetUnknownX, work->targetUnknownZ, FLOAT_TO_FX32(64.0), work->visibleIslandList, &work->visibleIslandCount);
 
-        for (i = 0; i < work->field_FE; i++)
+        for (i = 0; i < work->visibleIslandCount; i++)
         {
-            flag = TRUE;
+            canCreateIsland = TRUE;
 
-            for (k = 0; k < work->field_FE; k++)
+            for (v = 0; v < prevIslandCount; v++)
             {
-                if (work->field_F4[k] == work->field_CC[i].object->unlockID)
-                    flag = FALSE;
+                if (work->visibleIslandIDList[v] == work->visibleIslandList[i].object->unlockID)
+                    canCreateIsland = FALSE;
 
-                if (manager->field_4 == work->field_CC[i].object->unlockID)
-                    flag = FALSE;
+                if (manager->targetIslandID == work->visibleIslandList[i].object->unlockID)
+                    canCreateIsland = FALSE;
             }
 
-            if (flag)
+            if (canCreateIsland)
             {
-                SBBObject sbbObject;
+                SBBObject islandObject;
 
+                // this doesn't do anything, perhaps its a leftover?
                 VecFx32 position = { 0 };
 
-                sbbObject.unknown   = work->position;
-                sbbObject.type      = SAILMAPOBJECT_NONE;
-                sbbObject.viewRange = 0x180;
-                sbbObject.field_14  = work->field_CC[i].object->unlockID;
-                SailEventManager__LoadObject(&sbbObject);
+                islandObject.voyagePosition = work->position;
+                islandObject.type           = SAILMAPOBJECT_ISLAND;
+                islandObject.viewRange      = 0x180;
+                islandObject.param          = work->visibleIslandList[i].object->unlockID;
+                SailEventManager__LoadObject(&islandObject);
             }
         }
     }
-#else
-    // clang-format off
-	push {r3, r4, r5, r6, r7, lr}
-	sub sp, #0x30
-	mov r5, r0
-	bl SailManager__GetWork
-	str r0, [sp, #8]
-	bl SailManager__GetShipType
-	cmp r0, #3
-	beq _02158340
-	ldr r0, [sp, #8]
-	ldr r0, [r0, #0xc]
-	cmp r0, #0
-	bne _02158340
-	ldr r0, [sp, #8]
-	ldrh r0, [r0, #0x12]
-	cmp r0, #0
-	bne _02158340
-	mov r1, r5
-	add r1, #0xfe
-	ldrh r4, [r1, #0]
-	mov r0, #0
-	cmp r4, #0
-	bls _02158288
-	mov r2, #0x10
-_02158266:
-	lsl r1, r0, #3
-	add r1, r5, r1
-	add r1, #0xcc
-	ldr r1, [r1, #0]
-	ldrsh r3, [r1, r2]
-	lsl r1, r0, #1
-	add r1, r5, r1
-	add r1, #0xf4
-	strh r3, [r1]
-	mov r1, r5
-	add r1, #0xfe
-	add r0, r0, #1
-	lsl r0, r0, #0x10
-	ldrh r4, [r1, #0]
-	lsr r0, r0, #0x10
-	cmp r0, r4
-	blo _02158266
-_02158288:
-	mov r0, r5
-	mov r1, #5
-	add r0, #0xfe
-	strh r1, [r0]
-	mov r0, r5
-	add r0, #0xfe
-	str r0, [sp]
-	mov r2, #1
-	mov r3, r5
-	ldr r0, [r5, #0x5c]
-	ldr r1, [r5, #0x60]
-	lsl r2, r2, #0x12
-	add r3, #0xcc
-	bl SeaMapEventManager__Func_2046B14
-	mov r0, #0
-	str r0, [sp, #4]
-	mov r0, r5
-	add r0, #0xfe
-	ldrh r0, [r0, #0]
-	cmp r0, #0
-	bls _02158340
-_021582B4:
-	mov r1, #1
-	mov r0, #0
-	cmp r4, #0
-	bls _021582EE
-	ldr r2, [sp, #4]
-	mov r7, r0
-	lsl r2, r2, #3
-	add r2, r5, r2
-	add r2, #0xcc
-	ldr r3, [r2, #0]
-	mov r2, #0x10
-	ldrsh r2, [r3, r2]
-	ldr r3, [sp, #8]
-	ldr r3, [r3, #4]
-_021582D0:
-	lsl r6, r0, #1
-	add r6, r5, r6
-	add r6, #0xf4
-	ldrh r6, [r6, #0]
-	cmp r6, r2
-	bne _021582DE
-	mov r1, r7
-_021582DE:
-	cmp r3, r2
-	bne _021582E4
-	mov r1, #0
-_021582E4:
-	add r0, r0, #1
-	lsl r0, r0, #0x10
-	lsr r0, r0, #0x10
-	cmp r0, r4
-	blo _021582D0
-_021582EE:
-	cmp r1, #0
-	beq _0215832A
-	add r0, sp, #0xc
-	mov r7, #0
-	str r7, [r0]
-	str r7, [r0, #4]
-	add r3, sp, #0x18
-	mov r6, r5
-	str r7, [r0, #8]
-	ldmia r6!, {r0, r1}
-	mov r2, r3
-	stmia r3!, {r0, r1}
-	ldr r0, [r6, #0]
-	mov r1, #6
-	str r0, [r3]
-	add r0, sp, #0xc
-	strh r7, [r0, #0x18]
-	lsl r1, r1, #6
-	strh r1, [r0, #0x1c]
-	ldr r0, [sp, #4]
-	lsl r0, r0, #3
-	add r0, r5, r0
-	add r0, #0xcc
-	ldr r1, [r0, #0]
-	mov r0, #0x10
-	ldrsh r0, [r1, r0]
-	str r0, [sp, #0x2c]
-	mov r0, r2
-	bl SailEventManager__LoadObject
-_0215832A:
-	ldr r0, [sp, #4]
-	add r0, r0, #1
-	lsl r0, r0, #0x10
-	lsr r0, r0, #0x10
-	str r0, [sp, #4]
-	mov r0, r5
-	add r0, #0xfe
-	ldrh r1, [r0, #0]
-	ldr r0, [sp, #4]
-	cmp r0, r1
-	blo _021582B4
-_02158340:
-	add sp, #0x30
-	pop {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 void SailVoyageManager__InitSegmentList(SailVoyageManager *work)
@@ -1687,7 +1545,7 @@ u16 SailVoyageManager__GetAngleForSegmentPos(SailVoyageSegment *segment, s32 seg
     return segment->angle + MultiplyFX(segmentPos, segment->turn);
 }
 
-NONMATCH_FUNC void SailVoyageManager__Func_2158888(SailVoyageSegment *segment, s32 a2, fx32 *x, fx32 *z)
+NONMATCH_FUNC void SailVoyageManager__Func_2158888(SailVoyageSegment *segment, s32 range, fx32 *x, fx32 *z)
 {
     // https://decomp.me/scratch/dlMlT -> 74.04%
 #ifdef NON_MATCHING

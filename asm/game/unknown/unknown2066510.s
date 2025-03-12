@@ -365,8 +365,8 @@ Unknown2066510__Func_20668A8: // 0x020668A8
 _02066A48: .word FX_SinCosTable_
 	arm_func_end Unknown2066510__Func_20668A8
 
-	arm_func_start Unknown2066510__Func_2066A4C
-Unknown2066510__Func_2066A4C: // 0x02066A4C
+	arm_func_start Unknown2066510__LookAt
+Unknown2066510__LookAt: // 0x02066A4C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r0, r1
@@ -396,7 +396,7 @@ Unknown2066510__Func_2066A4C: // 0x02066A4C
 	ldr r0, [r6, #8]
 	str r0, [r4, #0x2c]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end Unknown2066510__Func_2066A4C
+	arm_func_end Unknown2066510__LookAt
 
 	arm_func_start Unknown2066510__Func_2066AC0
 Unknown2066510__Func_2066AC0: // 0x02066AC0

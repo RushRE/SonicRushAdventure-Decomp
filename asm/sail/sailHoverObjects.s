@@ -40,10 +40,10 @@ SailHoverEnemyHover1__Create: // 0x021834E8
 	mov r0, r4
 	orr r1, r1, #0x20000000
 	str r1, [r4, #0x24]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r0, r4
 	mov r1, r6
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldr r1, _02183628 // =0x000005DC
 	mov r0, #0xc000
 	str r1, [r5, #0x118]
@@ -64,16 +64,16 @@ SailHoverEnemyHover1__Create: // 0x021834E8
 	str r3, [sp, #8]
 	str r2, [sp, #0xc]
 	str r3, [sp, #0x10]
-	bl SailObject__Func_2165AF4
+	bl SailObject_SetCollisionOffset
 	mov r0, r4
 	add r1, r5, #0x28
 	mov r2, #0
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r1, #0
 	mov r0, r4
 	mov r3, r1
 	mov r2, #0xe00
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r1, #0x800
 	str r1, [r4, #0x38]
 	str r1, [r4, #0x3c]
@@ -126,10 +126,10 @@ SailHoverEnemyHover2__Create: // 0x0218362C
 	mov r0, r4
 	orr r1, r1, #0x20000000
 	str r1, [r4, #0x24]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r0, r4
 	mov r1, r6
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldr r1, _0218376C // =0x00000708
 	mov r0, #0x10000
 	str r1, [r5, #0x118]
@@ -150,16 +150,16 @@ SailHoverEnemyHover2__Create: // 0x0218362C
 	str r3, [sp, #8]
 	str r2, [sp, #0xc]
 	str r3, [sp, #0x10]
-	bl SailObject__Func_2165AF4
+	bl SailObject_SetCollisionOffset
 	mov r0, r4
 	add r1, r5, #0x28
 	mov r2, #0
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r1, #0
 	mov r0, r4
 	mov r3, r1
 	mov r2, #0xe00
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r1, #0x800
 	str r1, [r4, #0x38]
 	str r1, [r4, #0x3c]
@@ -232,7 +232,7 @@ SailHoverShell2__Create: // 0x02183770
 	strb r3, [r2, #0xb]
 	bl StageTask__SetAnimation
 	mov r0, r4
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add ip, r4, #0x44
 	ldmia r9, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
@@ -245,12 +245,12 @@ SailHoverShell2__Create: // 0x02183770
 	str r1, [r4, #0x24]
 	add r1, r5, #0x28
 	mov r2, #0
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r1, #0
 	mov r0, r4
 	mov r2, #0x2c0
 	mov r3, r1
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	ldr r0, [r4, #0x144]
 	mov r1, #0xb
 	strh r1, [r0, #0x2e]
@@ -307,7 +307,7 @@ _0218393C:
 	add r1, sp, #0xc
 	add r2, sp, #0x24
 	add r3, sp, #0x30
-	bl Unknown2066510__Func_2066A4C
+	bl Unknown2066510__LookAt
 	add r0, sp, #0x30
 	add r1, sp, #0x6c
 	bl MI_Copy36B
@@ -414,7 +414,7 @@ SailHoverShell1__Create: // 0x02183A2C
 	strb r3, [r2, #0xb]
 	bl StageTask__SetAnimation
 	mov r0, r5
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add ip, r5, #0x44
 	ldmia r8, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
@@ -427,12 +427,12 @@ SailHoverShell1__Create: // 0x02183A2C
 	str r1, [r5, #0x24]
 	add r1, r4, #0x28
 	mov r2, #0
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r1, #0
 	mov r0, r5
 	mov r2, #0x600
 	mov r3, r1
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	ldr r0, [r5, #0x144]
 	mov r1, #0xb
 	strh r1, [r0, #0x2e]
@@ -572,7 +572,7 @@ SailHoverBomber__Create: // 0x02183CC8
 	mov r2, #7
 	mov r0, r5
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add lr, r5, #0x44
 	ldmia r6, {r0, r1, r2}
 	stmia lr, {r0, r1, r2}
@@ -587,12 +587,12 @@ SailHoverBomber__Create: // 0x02183CC8
 	str r1, [r5, #0x24]
 	add r1, r4, #0x28
 	mov r2, #0
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r1, #0
 	mov r0, r5
 	mov r2, #0xa00
 	mov r3, r1
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	ldr r1, [r5, #0x144]
 	mov r2, #0xb
 	mov r0, #0x34000
@@ -664,10 +664,10 @@ SailHoverBoat02__Create: // 0x02183E30
 	mov r0, r4
 	orr r1, r1, #0x20000000
 	str r1, [r4, #0x24]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r0, r4
 	mov r1, r6
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	mov r0, #0x7d0
 	str r0, [r5, #0x118]
 	mov r0, #0x14000
@@ -690,16 +690,16 @@ SailHoverBoat02__Create: // 0x02183E30
 	str r3, [sp, #8]
 	str r2, [sp, #0xc]
 	str r3, [sp, #0x10]
-	bl SailObject__Func_2165AF4
+	bl SailObject_SetCollisionOffset
 	mov r0, r4
 	add r1, r5, #0x28
 	mov r2, #0
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r1, #0
 	mov r0, r4
 	mov r3, r1
 	mov r2, #0x1100
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r1, #0x600
 	str r1, [r4, #0x38]
 	str r1, [r4, #0x3c]
@@ -743,10 +743,10 @@ SailHoverBoat01__Create: // 0x02183F58
 	mov r0, r5
 	orr r1, r1, #0x20000000
 	str r1, [r5, #0x24]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r0, r5
 	mov r1, r6
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldr r1, _02184080 // =0x00001388
 	mov r0, #0x48000
 	str r1, [r4, #0x118]
@@ -764,16 +764,16 @@ SailHoverBoat01__Create: // 0x02183F58
 	str r0, [sp, #0xc]
 	mov r0, r5
 	add r1, sp, #8
-	bl SailObject__Func_2165AF4
+	bl SailObject_SetCollisionOffset
 	mov r0, r5
 	add r1, r4, #0x28
 	mov r2, #0
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r1, #0
 	mov r0, r5
 	mov r2, #0x1300
 	mov r3, r1
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r1, #0xa00
 	str r1, [r5, #0x38]
 	str r1, [r5, #0x3c]
@@ -1025,10 +1025,10 @@ SailHoverBob__Create: // 0x02184388
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
 	mov r0, r5
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r0, r5
 	mov r1, r6
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldr r1, [r4, #0x174]
 	mov r0, #0x4000
 	sub r1, r1, #0x1800
@@ -1047,12 +1047,12 @@ SailHoverBob__Create: // 0x02184388
 	mov r0, r5
 	add r1, r4, #0x28
 	mov r2, #0
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r1, #0
 	mov r0, r5
 	mov r2, #0xa80
 	mov r3, r1
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r0, r5
 	bl StageTask__InitSeqPlayer
 	ldr r0, [r6, #0x10]
@@ -1113,10 +1113,10 @@ _021844F8:
 	bl ObjAction3dNNModelLoad
 _02184524:
 	mov r0, r4
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r0, r4
 	mov r1, r9
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldr r0, [r5, #0x164]
 	ldr r0, [r0, #0x34]
 	tst r0, #0x20
@@ -1221,12 +1221,12 @@ _02184690:
 	add r1, r5, #0x28
 	mov r2, #0
 	str r3, [r5, #0x124]
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r1, #0
 	mov r0, r4
 	mov r2, r10
 	mov r3, r1
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
 	ldr r0, [r5, #0x164]
@@ -1316,9 +1316,9 @@ SailHoverBob__State_21847D4: // 0x021847D4
 	ldrh r1, [r1, #0x6e]
 	mov r0, r4
 	strh r1, [r4, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r4
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r1, [r5, #0x178]
 	ldr r0, [r6, #0x44]
 	sub r0, r1, r0
@@ -1356,9 +1356,9 @@ SailHoverEnemyHover__State_2184850: // 0x02184850
 	ldrh r1, [r1, #0x6e]
 	mov r0, r4
 	strh r1, [r4, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r4
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r1, [r5, #0x178]
 	ldr r0, [r6, #0x44]
 	sub r0, r1, r0
@@ -1482,11 +1482,11 @@ _02184A24:
 	ldrh r1, [r0, #0x6e]
 	mov r0, r6
 	strh r1, [r6, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r6
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r6
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x128]
 	cmp r0, #0
 	ldreq r0, [r6, #0x28]
@@ -1590,11 +1590,11 @@ _02184BA4:
 	ldrh r1, [r0, #0x6e]
 	mov r0, r6
 	strh r1, [r6, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r6
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r6
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	str r5, [r4, #0x17c]
 	ldr r0, [r4, #0x128]
 	cmp r0, #0
@@ -1720,11 +1720,11 @@ _02184D78:
 	ldrh r1, [r0, #0x6e]
 	mov r0, r6
 	strh r1, [r6, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r6
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r6
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x128]
 	cmp r0, #0
 	strne r5, [r4, #0x180]
@@ -1861,11 +1861,11 @@ _02184F60:
 	mov r0, r6
 	add r1, r2, r1
 	strh r1, [r6, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r6
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r6
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x140]
 	cmp r0, #0
 	bne _02184FAC
@@ -1987,11 +1987,11 @@ _02185120:
 	ldrh r1, [r0, #0x6e]
 	mov r0, r5
 	strh r1, [r5, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r5
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x140]
 	cmp r0, #0
 	bne _0218516C
@@ -2118,11 +2118,11 @@ _021852E8:
 	ldrh r1, [r0, #0x6e]
 	mov r0, r5
 	strh r1, [r5, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r5
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x140]
 	cmp r0, #0
 	bne _02185334
@@ -2256,11 +2256,11 @@ _021854D0:
 	mov r0, r5
 	add r1, r2, r1
 	strh r1, [r5, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r5
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x140]
 	cmp r0, #0
 	bne _0218551C
@@ -2410,11 +2410,11 @@ _021856F4:
 	mov r0, r5
 	add r1, r2, r1
 	strh r1, [r5, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r5
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x140]
 	cmp r0, #0
 	bne _02185740
@@ -2472,11 +2472,11 @@ SailHoverBobBird__State_218579C: // 0x0218579C
 	str r0, [r4, #0x184]
 _021857D0:
 	mov r0, r5
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r5
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x184]
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, pc}
@@ -2510,11 +2510,11 @@ SailHoverBobBird__State_218582C: // 0x0218582C
 	bl SailManager__GetWork
 	mov r6, r0
 	mov r0, r5
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r5
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r6, #0x24]
 	tst r0, #1
 	beq _02185884
@@ -2718,11 +2718,11 @@ SailHoverBobBird__State_2185AD0: // 0x02185AD0
 	rsb r1, r1, #0
 	mov r1, r1, lsl #2
 	strh r1, [r5, #0x34]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r5
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x17c]
 	cmp r0, #0
 	ldreq r0, [r4, #0x184]
@@ -2772,10 +2772,10 @@ SailHoverBobBird__Func_2185BBC: // 0x02185BBC
 	mov r6, r1
 	add r1, sp, #0xc
 	mov r5, r2
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	ldr r0, [r4, #0x15c]
 	add r1, sp, #0
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	add r1, sp, #0xc
 	add r0, r7, #0x44
 	mov r2, r1
@@ -2838,11 +2838,11 @@ SailHoverBobBird__State_2185C2C: // 0x02185C2C
 	bl SailHoverShell2__Create
 _02185CC8:
 	mov r0, r4
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r4
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r4
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x28]
 	subs r0, r0, #1
 	addne sp, sp, #0x20
@@ -2920,14 +2920,14 @@ SailHoverBobBird__State_2185D8C: // 0x02185D8C
 	add r1, sp, #0x2c
 	mov r0, r6
 	str r2, [r6, #4]
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	add r1, sp, #0x2c
 	add r0, r6, #0x44
 	mov r2, r1
 	bl VEC_Subtract
 	ldr r0, [r4, #0x15c]
 	add r1, sp, #0x14
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	ldr r0, [r5, #0x44]
 	str r0, [r4, #0x178]
 	ldr r0, [r4, #0x138]
@@ -2944,7 +2944,7 @@ _02185E3C:
 	str r0, [r4, #0x170]
 	add r1, sp, #0x20
 	mov r0, r6
-	bl SailObject__Func_2166C04
+	bl SailObject_Func_2166C04
 	add r0, sp, #0x20
 	add r1, sp, #0x14
 	mov r2, r0
@@ -2974,7 +2974,7 @@ _02185EB0:
 	str r0, [r4, #0x170]
 	add r1, sp, #0x20
 	mov r0, r6
-	bl SailObject__Func_2166C04
+	bl SailObject_Func_2166C04
 	add r0, sp, #0x20
 	add r1, sp, #0x14
 	mov r2, r0
@@ -2997,11 +2997,11 @@ _02185EF0:
 	str r0, [r4, #0x128]
 _02185F0C:
 	mov r0, r6
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r6
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r6
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r6, #0x28]
 	subs r0, r0, #1
 	addne sp, sp, #0x38
@@ -3179,11 +3179,11 @@ _02186198:
 	str r0, [r4, #0x128]
 _021861A4:
 	mov r0, r5
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r5
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r5, #0x28]
 	subs r0, r0, #1
 	addne sp, sp, #0x20
@@ -3236,11 +3236,11 @@ SailHoverBobBird__State_2186230: // 0x02186230
 	bl SpawnSailHoverTorpedo1
 _0218625C:
 	mov r0, r4
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r4
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r4
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x28]
 	subs r0, r0, #1
 	str r0, [r4, #0x28]
@@ -3336,11 +3336,11 @@ _0218638C:
 	blo _0218638C
 _021863B8:
 	mov r0, r4
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r4
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r4
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x28]
 	subs r0, r0, #1
 	str r0, [r4, #0x28]
@@ -3400,14 +3400,14 @@ SailHoverBobBird__State_2186438: // 0x02186438
 	add r1, sp, #0x2c
 	mov r0, r6
 	str r2, [r6, #4]
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	add r1, sp, #0x2c
 	add r0, r6, #0x44
 	mov r2, r1
 	bl VEC_Subtract
 	ldr r0, [r4, #0x15c]
 	add r1, sp, #0x14
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	ldr r1, [r5, #0x44]
 	mov r0, #0
 	str r1, [r4, #0x178]
@@ -3419,7 +3419,7 @@ SailHoverBobBird__State_2186438: // 0x02186438
 	addne r0, r0, #0x1000
 	strne r0, [r4, #0x174]
 	mov r0, r6
-	bl SailObject__Func_2166C04
+	bl SailObject_Func_2166C04
 	add r0, sp, #0x20
 	add r1, sp, #0x14
 	mov r2, r0
@@ -3516,11 +3516,11 @@ _0218663C:
 	str r0, [r4, #0x128]
 _02186658:
 	mov r0, r6
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r6
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r6
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r6, #0x28]
 	subs r0, r0, #1
 	addne sp, sp, #0x38
@@ -3633,11 +3633,11 @@ _021867EC:
 	bl SailAudio__PlaySpatialSequence
 _021867FC:
 	mov r0, r5
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r5
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r5, #0x28]
 	subs r0, r0, #1
 	addne sp, sp, #0x20
@@ -3806,19 +3806,19 @@ _021869A8:
 	mov r0, r6
 	str r3, [r6, #4]
 	mov r7, r2, lsr #0x10
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	add r1, sp, #0x2c
 	add r0, r6, #0x44
 	mov r2, r1
 	bl VEC_Subtract
 	ldr r0, [r4, #0x15c]
 	add r1, sp, #0x14
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	ldr r1, [r5, #0x44]
 	mov r0, r6
 	str r1, [r4, #0x178]
 	add r1, sp, #0x20
-	bl SailObject__Func_2166C04
+	bl SailObject_Func_2166C04
 	add r0, sp, #0x20
 	add r1, sp, #0x14
 	mov r2, r0
@@ -3859,11 +3859,11 @@ _02186B20:
 	strh r0, [r6, #0x30]
 _02186B38:
 	mov r0, r6
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r6
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r6
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x128]
 	cmp r0, #3
 	ldreq r0, [r4, #0x184]
@@ -4044,11 +4044,11 @@ _02186DAC:
 	mov r0, r5
 	add r1, r1, #0x8000
 	strh r1, [r5, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r5
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x128]
 	cmp r0, #0
 	bne _02186DF4
@@ -4140,11 +4140,11 @@ _02186EFC:
 	ldrh r1, [r0, #0x6e]
 	mov r0, r6
 	strh r1, [r6, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r6
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r6
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r6, #0x28]
 	add r0, r0, #1
 	str r0, [r6, #0x28]
@@ -4269,11 +4269,11 @@ _021870C8:
 	ldrh r1, [r0, #0x6e]
 	mov r0, r5
 	strh r1, [r5, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r5
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r4, #0x128]
 	cmp r0, #0
 	ldreq r0, [r5, #0x28]
@@ -4849,10 +4849,10 @@ _02187964:
 	add r1, sp, #0x68
 	mov r0, r7
 	str r2, [r7, #4]
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	ldr r0, [r4, #0x15c]
 	add r1, sp, #0x5c
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	add r1, sp, #0x68
 	add r0, r7, #0x44
 	mov r2, r1
@@ -4935,14 +4935,14 @@ _02187A90:
 	add r1, sp, #0x50
 	mov r0, r7
 	str r2, [r7, #4]
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	add r1, sp, #0x50
 	add r0, r7, #0x44
 	mov r2, r1
 	bl VEC_Subtract
 	ldr r0, [r4, #0x15c]
 	add r1, sp, #0x44
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	ldr r1, [r5, #0x44]
 	rsb r0, r6, #0xa
 	str r1, [r4, #0x178]
@@ -4955,7 +4955,7 @@ _02187A90:
 	rsbeq r0, r0, #0
 	streq r0, [r4, #0x170]
 	mov r0, r7
-	bl SailObject__Func_2166C04
+	bl SailObject_Func_2166C04
 	add r0, sp, #0x38
 	add r1, sp, #0x44
 	mov r2, r0
@@ -5022,7 +5022,7 @@ _02187BAC:
 	rsbeq r0, r0, #0
 	streq r0, [r4, #0x170]
 	mov r0, r7
-	bl SailObject__Func_2166C04
+	bl SailObject_Func_2166C04
 	add r0, sp, #8
 	add r3, r4, #0x170
 	ldmia r0, {r0, r1, r2}
@@ -5107,11 +5107,11 @@ SailHoverEnemyHover__State_2187CD8: // 0x02187CD8
 	ldrh r1, [r0, #0x6e]
 	mov r0, r5
 	strh r1, [r5, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
-	bl SailObject__Func_2166D18
+	bl SailObject_Oscillate
 	mov r0, r5
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	ldr r0, [r5, #0x28]
 	add r0, r0, #1
 	str r0, [r5, #0x28]

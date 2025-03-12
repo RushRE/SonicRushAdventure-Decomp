@@ -50,9 +50,11 @@ typedef struct GameObjectTask_ GameObjectTask;
 #define SetTaskLastFunc(work, func)       (work)->ppLast = (func)
 #define SetTaskViewCheckFunc(work, func)  (work)->ppViewCheck = (func)
 
-#define DestroyStageTask(work)      (work)->flag |= STAGE_TASK_FLAG_DESTROYED
-#define QueueDestroyStageTask(work) (work)->flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME
-#define IsStageTaskDestroyed(work)  ((work)->flag & STAGE_TASK_FLAG_DESTROYED) != 0
+#define DestroyStageTask(work)         (work)->flag |= STAGE_TASK_FLAG_DESTROYED
+#define QueueDestroyStageTask(work)    (work)->flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME
+#define IsStageTaskDestroyed(work)     (((work)->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+#define IsStageTaskDestroyQueued(work) (((work)->flag & STAGE_TASK_FLAG_DESTROY_NEXT_FRAME) != 0)
+#define IsStageTaskDestroyedAny(work)  (((work)->flag & (STAGE_TASK_FLAG_DESTROYED | STAGE_TASK_FLAG_DESTROY_NEXT_FRAME)) != 0)
 
 #define StageTaskStateMatches(work, func) ((work)->state == (StageTaskState)(func))
 

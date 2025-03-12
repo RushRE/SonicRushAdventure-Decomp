@@ -10732,7 +10732,7 @@ _021713A4:
 	add r3, sp, #0x14
 	mov r0, lr
 	str ip, [sp, #0x48]
-	bl Unknown2066510__Func_2066A4C
+	bl Unknown2066510__LookAt
 	ldr r1, [r6, #0x12c]
 	add r0, sp, #0x14
 	add r1, r1, #0x24
@@ -13631,7 +13631,7 @@ _02173CF0:
 	add r1, sp, #0x78
 	add r2, sp, #0x60
 	add r3, sp, #0x24
-	bl Unknown2066510__Func_2066A4C
+	bl Unknown2066510__LookAt
 	add r0, sp, #0x24
 	add r1, sp, #0
 	bl MI_Copy36B
@@ -14797,7 +14797,7 @@ ovl02_2174D00: // _02174D00
 	add r1, sp, #0x78
 	add r2, sp, #0x60
 	add r3, sp, #0x24
-	bl Unknown2066510__Func_2066A4C
+	bl Unknown2066510__LookAt
 	add r0, sp, #0x24
 	add r1, sp, #0
 	bl MI_Copy36B
@@ -16143,7 +16143,7 @@ _0217603C:
 	add r1, sp, #0x48
 	add r2, sp, #0x30
 	add r3, sp, #0
-	bl Unknown2066510__Func_2066A4C
+	bl Unknown2066510__LookAt
 	ldr r1, [r4, #0x12c]
 	add r0, sp, #0
 	add r1, r1, #0x24

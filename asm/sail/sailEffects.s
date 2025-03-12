@@ -64,7 +64,7 @@ EffectSailWaterSprayFront__Create: // 0x021607C8
 	mov r0, r4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r1, _02160948 // =EffectSailWaterSprayFront__State_216433C
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -166,7 +166,7 @@ EffectSailWaterSprayBack__Create: // 0x0216094C
 	mov r0, r4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r1, _02160AE0 // =EffectSailWaterSprayFront__State_216433C
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -276,7 +276,7 @@ EffectSailSubmarineWater__Create: // 0x02160AE4
 	mov r0, r4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r1, _02160C38 // =EffectSailSubmarineWater__State_2164474
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -368,7 +368,7 @@ EffectSailSubmarineWater2__Create: // 0x02160C3C
 	mov r0, r4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r1, _02160DA0 // =EffectSailSubmarineWater2__State_21644D8
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -434,7 +434,7 @@ EffectSailWaterSplash__Create: // 0x02160DA4
 	mov r2, #7
 	mov r0, r4
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r1, _02160E50 // =EffectSailWaterSplash__State_21644E4
 	mov r0, #0x40
 	str r1, [r4, #0xf4]
@@ -483,7 +483,7 @@ EffectSailHit__Create: // 0x02160E54
 	mov r2, #7
 	mov r0, r4
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add ip, r4, #0x44
 	ldmia r5, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
@@ -531,7 +531,7 @@ EffectSailGuard__Create: // 0x02160F00
 	mov r2, #7
 	mov r0, r4
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add lr, r4, #0x44
 	ldmia r5, {r0, r1, r2}
 	stmia lr, {r0, r1, r2}
@@ -562,8 +562,8 @@ _02160FD4: .word aSbGuardBac
 _02160FD8: .word EffectSailWaterSplash__State_21644E4
 	arm_func_end EffectSailGuard__Create
 
-	arm_func_start EffectSailBomb__Create
-EffectSailBomb__Create: // 0x02160FDC
+	arm_func_start EffectCreateSailBomb
+EffectCreateSailBomb: // 0x02160FDC
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	mov r7, r0
@@ -594,7 +594,7 @@ EffectSailBomb__Create: // 0x02160FDC
 	mov r2, #7
 	mov r0, r4
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add r3, r4, #0x44
 	ldmia r7, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
@@ -682,7 +682,7 @@ _02161184: .word 0x00196225
 _02161188: .word 0x3C6EF35F
 _0216118C: .word 0x000001FE
 _02161190: .word EffectSailWaterSplash__State_21644E4
-	arm_func_end EffectSailBomb__Create
+	arm_func_end EffectCreateSailBomb
 
 	arm_func_start EffectSailBomb2__Create
 EffectSailBomb2__Create: // 0x02161194
@@ -716,7 +716,7 @@ EffectSailBomb2__Create: // 0x02161194
 	mov r1, #1
 	bl StageTask__SetAnimation
 	mov r0, r4
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add r7, r4, #0x44
 	ldmia r5, {r0, r1, r2}
 	stmia r7, {r0, r1, r2}
@@ -851,7 +851,7 @@ EffectSailFire__Create: // 0x0216137C
 	strb r3, [r1, #0xa]
 	ldr r1, [r4, #0x134]
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add ip, r4, #0x44
 	ldmia r5, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
@@ -895,7 +895,7 @@ EffectSailSmoke__Create: // 0x02161444
 	mov r2, #7
 	mov r0, r4
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add ip, r4, #0x44
 	ldmia r5, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
@@ -1111,7 +1111,7 @@ EffectSailBoost__Create: // 0x02161698
 	mov r1, #4
 	bl AnimatorMDL__SetAnimation
 	mov r0, r4
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r2, _02161804 // =EffectSailBoost__State_2163A5C
 	mov r0, r4
 	str r2, [r4, #0xf4]
@@ -1198,7 +1198,7 @@ EffectSailBoost02__Create: // 0x02161808
 	mov r0, r4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r1, _02161954 // =EffectSailBoost__State_2163A5C
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -1287,12 +1287,12 @@ EffectSailCircle__Create: // 0x02161958
 	bl AnimatorMDL__SetAnimation
 	mov r0, r5
 	mov r1, #0x2000
-	bl SailObject__SetAnimSpeed
+	bl SailObject_SetAnimSpeed
 	ldr r0, [r5, #0x20]
 	orr r0, r0, #4
 	str r0, [r5, #0x20]
 	mov r0, r5
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r1, [r5, #0x18]
 	ldr r0, _02161B10 // =EffectSailCircle__State_2163AC4
 	orr r1, r1, #0x10
@@ -1310,16 +1310,16 @@ EffectSailCircle__Create: // 0x02161958
 	str r1, [r5, #0x1c]
 	ldrh r1, [r6, #0x32]
 	strh r1, [r5, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
 	add r1, r4, #0x28
 	mov r2, #1
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r0, r5
 	mov r1, #1
 	mov r2, #0x1e00
 	mov r3, #0
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	ldrh r2, [r4, #0x9c]
 	mov r0, r5
 	mov r1, #1
@@ -1490,7 +1490,7 @@ EffectSailWaterSplash2__Create: // 0x02161C5C
 	mov r1, #3
 	bl AnimatorMDL__SetAnimation
 	mov r0, r4
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r1, _02161D84 // =EffectSailWaterSplash2__State_21639F0
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -1577,7 +1577,7 @@ EffectSailTrick2__Create: // 0x02161D88
 	mov r0, r4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r1, _02161EB8 // =EffectSailTrick2__State_2163920
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -1656,12 +1656,12 @@ EffectSailTrick4__Create: // 0x02161EBC
 	bl AnimatorMDL__SetAnimation
 	mov r0, r4
 	mov r1, #0x2000
-	bl SailObject__SetAnimSpeed
+	bl SailObject_SetAnimSpeed
 	ldr r1, [r4, #0x20]
 	mov r0, r4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r2, _02162010 // =EffectSailTrick4__State_216397C
 	mov r0, r4
 	str r2, [r4, #0xf4]
@@ -1688,8 +1688,8 @@ _0216200C: .word aSbTrickNsbtp
 _02162010: .word EffectSailTrick4__State_216397C
 	arm_func_end EffectSailTrick4__Create
 
-	arm_func_start EffectSailUnknown2162014__Create
-EffectSailUnknown2162014__Create: // 0x02162014
+	arm_func_start SailPlayerWeaponBullet__Create
+SailPlayerWeaponBullet__Create: // 0x02162014
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x20
 	mov r9, r0
@@ -1708,7 +1708,7 @@ EffectSailUnknown2162014__Create: // 0x02162014
 	mov r1, #0x17
 	mov r2, #0
 	bl SailAudio__PlaySpatialSequence
-	ldr r1, _02162160 // =EffectSailUnknown2162014__State_21636B0
+	ldr r1, _02162160 // =SailPlayerWeaponBullet__State_21636B0
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	mov r1, #0x1a0
@@ -1726,7 +1726,7 @@ EffectSailUnknown2162014__Create: // 0x02162014
 	orr r2, r2, #0x10
 	str r2, [r4, #0x18]
 	mov r2, #1
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r1, #0
 	mov r0, r7
 	str r1, [sp, #0x14]
@@ -1743,7 +1743,7 @@ EffectSailUnknown2162014__Create: // 0x02162014
 	mov r1, #1
 	mov r2, #0x1000
 	add r3, sp, #0x14
-	bl SailObject__Func_2165960
+	bl SailObject_InitColliderLine
 	ldrh r2, [r5, #0x9c]
 	mov r1, #0x4000
 	add r0, r6, #0x100
@@ -1768,14 +1768,14 @@ EffectSailUnknown2162014__Create: // 0x02162014
 	mov r0, r8
 	add r1, r5, #0x7c
 	add r2, r5, #0x10
-	bl EffectSailUnknown21624A0__Func_2162400
+	bl SailPlayerWeaponFlame__Func_2162400
 	mov r0, r4
 	add sp, sp, #0x20
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0216215C: .word 0x00001010
-_02162160: .word EffectSailUnknown2162014__State_21636B0
-	arm_func_end EffectSailUnknown2162014__Create
+_02162160: .word SailPlayerWeaponBullet__State_21636B0
+	arm_func_end SailPlayerWeaponBullet__Create
 
 	arm_func_start EffectSailShell__Create
 EffectSailShell__Create: // 0x02162164
@@ -1826,7 +1826,7 @@ EffectSailShell__Create: // 0x02162164
 	strb r3, [r1, #0xa]
 	ldr r1, [r5, #0x134]
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r1, _021623F8 // =EffectSailShell__State_2163870
 	mov r0, r5
 	str r1, [r5, #0xf4]
@@ -1842,12 +1842,12 @@ EffectSailShell__Create: // 0x02162164
 	str r1, [r5, #0x18]
 	add r1, r4, #0x28
 	mov r2, #1
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r0, r5
 	mov r1, #1
 	mov r2, #0x1800
 	mov r3, #0
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r0, #0x20000
 	str r0, [r4, #0x98]
 	ldrh r1, [r4, #0x9c]
@@ -1949,8 +1949,8 @@ _021623F8: .word EffectSailShell__State_2163870
 _021623FC: .word FX_SinCosTable_
 	arm_func_end EffectSailShell__Create
 
-	arm_func_start EffectSailUnknown21624A0__Func_2162400
-EffectSailUnknown21624A0__Func_2162400: // 0x02162400
+	arm_func_start SailPlayerWeaponFlame__Func_2162400
+SailPlayerWeaponFlame__Func_2162400: // 0x02162400
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x30
 	ldr r7, _0216249C // =_0218BC40
@@ -1992,10 +1992,10 @@ EffectSailUnknown21624A0__Func_2162400: // 0x02162400
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0216249C: .word _0218BC40
-	arm_func_end EffectSailUnknown21624A0__Func_2162400
+	arm_func_end SailPlayerWeaponFlame__Func_2162400
 
-	arm_func_start EffectSailUnknown21624A0__Create
-EffectSailUnknown21624A0__Create: // 0x021624A0
+	arm_func_start SailPlayerWeaponFlame__Create
+SailPlayerWeaponFlame__Create: // 0x021624A0
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc
 	mov r9, r0
@@ -2014,8 +2014,8 @@ EffectSailUnknown21624A0__Create: // 0x021624A0
 	mov r1, #0x1e
 	mov r2, #0
 	bl SailAudio__PlaySpatialSequence
-	ldr r1, _021625C0 // =SailObject__Last_Default
-	ldr r0, _021625C4 // =EffectSailUnknown21624A0__State_216356C
+	ldr r1, _021625C0 // =SailObject_Last_Default
+	ldr r0, _021625C4 // =SailPlayerWeaponFlame__State_216356C
 	str r1, [r5, #0x10c]
 	str r0, [r5, #0xf4]
 	mov r0, r5
@@ -2032,16 +2032,16 @@ EffectSailUnknown21624A0__Create: // 0x021624A0
 	mov r0, r8
 	add r1, sp, #0
 	add r2, r5, #0x44
-	bl EffectSailUnknown21624A0__Func_2162400
+	bl SailPlayerWeaponFlame__Func_2162400
 	mov r0, r5
 	add r1, r4, #0x28
 	mov r2, #1
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r0, r5
 	mov r1, #1
 	mov r2, #0x2c00
 	mov r3, #0
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r1, #0x4800
 	str r1, [r4, #0x98]
 	ldrh r1, [r4, #0x9c]
@@ -2069,12 +2069,12 @@ EffectSailUnknown21624A0__Create: // 0x021624A0
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021625BC: .word 0x00001010
-_021625C0: .word SailObject__Last_Default
-_021625C4: .word EffectSailUnknown21624A0__State_216356C
-	arm_func_end EffectSailUnknown21624A0__Create
+_021625C0: .word SailObject_Last_Default
+_021625C4: .word SailPlayerWeaponFlame__State_216356C
+	arm_func_end SailPlayerWeaponFlame__Create
 
-	arm_func_start EffectSailUnknown21625C8__Create
-EffectSailUnknown21625C8__Create: // 0x021625C8
+	arm_func_start SailExplosionHazard__Create
+SailExplosionHazard__Create: // 0x021625C8
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, _02162674 // =0x00001010
@@ -2083,8 +2083,8 @@ EffectSailUnknown21625C8__Create: // 0x021625C8
 	mov r1, #2
 	mov r4, r0
 	bl StageTask__SetType
-	ldr r0, _02162678 // =SailObject__Last_Default
-	ldr r2, _0216267C // =EffectSailUnknown21625C8__State_2163538
+	ldr r0, _02162678 // =SailObject_Last_Default
+	ldr r2, _0216267C // =SailExplosionHazard__State_2163538
 	str r0, [r4, #0x10c]
 	mov r0, r4
 	mov r1, #0x1a0
@@ -2097,12 +2097,12 @@ EffectSailUnknown21625C8__Create: // 0x021625C8
 	mov r0, r4
 	add r1, r5, #0x28
 	mov r2, #1
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r0, r4
 	mov r1, #1
 	mov r2, #0x8000
 	mov r3, #0
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r0, #0x168000
 	str r0, [r5, #0x98]
 	ldrh r0, [r5, #0x9c]
@@ -2120,12 +2120,12 @@ EffectSailUnknown21625C8__Create: // 0x021625C8
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _02162674: .word 0x00001010
-_02162678: .word SailObject__Last_Default
-_0216267C: .word EffectSailUnknown21625C8__State_2163538
-	arm_func_end EffectSailUnknown21625C8__Create
+_02162678: .word SailObject_Last_Default
+_0216267C: .word SailExplosionHazard__State_2163538
+	arm_func_end SailExplosionHazard__Create
 
-	arm_func_start EffectSailUnknown2162680__Create
-EffectSailUnknown2162680__Create: // 0x02162680
+	arm_func_start SailPlayerWeaponTorpedo__Create
+SailPlayerWeaponTorpedo__Create: // 0x02162680
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, _02162708 // =0x00001010
@@ -2134,7 +2134,7 @@ EffectSailUnknown2162680__Create: // 0x02162680
 	mov r1, #2
 	mov r4, r0
 	bl StageTask__SetType
-	ldr r1, _0216270C // =EffectSailUnknown2162680__State_2163798
+	ldr r1, _0216270C // =SailPlayerWeaponTorpedo__State_2163798
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	mov r1, #0x1a0
@@ -2146,7 +2146,7 @@ EffectSailUnknown2162680__Create: // 0x02162680
 	str r1, [r4, #0x18]
 	add r1, r2, #0x28
 	mov r2, #1
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r0, r4
 	mov r1, #1
 	bl StageTask__GetCollider
@@ -2162,8 +2162,8 @@ EffectSailUnknown2162680__Create: // 0x02162680
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02162708: .word 0x00001010
-_0216270C: .word EffectSailUnknown2162680__State_2163798
-	arm_func_end EffectSailUnknown2162680__Create
+_0216270C: .word SailPlayerWeaponTorpedo__State_2163798
+	arm_func_end SailPlayerWeaponTorpedo__Create
 
 	arm_func_start EffectSailWater08__Create
 EffectSailWater08__Create: // 0x02162710
@@ -2194,7 +2194,7 @@ EffectSailWater08__Create: // 0x02162710
 	mov r2, #7
 	mov r0, r4
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add ip, r4, #0x44
 	ldmia r5, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
@@ -2239,7 +2239,7 @@ EffectSailWater05__Create: // 0x021627B0
 	mov r2, #7
 	mov r0, r4
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add ip, r4, #0x44
 	ldmia r5, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
@@ -2284,7 +2284,7 @@ EffectSailWater06__Create: // 0x02162850
 	mov r2, #7
 	mov r0, r4
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add lr, r4, #0x44
 	ldmia r5, {r0, r1, r2}
 	stmia lr, {r0, r1, r2}
@@ -2341,7 +2341,7 @@ EffectSailWater07__Create: // 0x02162920
 	mov r2, #7
 	mov r0, r4
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add ip, r4, #0x44
 	ldmia r5, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
@@ -2386,7 +2386,7 @@ EffectSailFlash__Create: // 0x021629C0
 	mov r2, #7
 	mov r0, r4
 	strb r2, [r1, #0xb]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add ip, r4, #0x44
 	ldmia r5, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
@@ -2502,7 +2502,7 @@ EffectSailFlash2__Create: // 0x02162A60
 	mov r0, r4
 	orr r1, r1, #0x20000000
 	str r1, [r4, #0x24]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r0, #0x4000
 	cmp r7, #0
 	str r0, [r4, #0x2c]
@@ -2647,7 +2647,7 @@ EffectSailBazooka__Create: // 0x02162CE8
 	mov r3, #0
 	bl AnimatorMDL__SetAnimation
 	mov r0, r4
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r0, #0x4000
 	str r0, [r4, #0x2c]
 	cmp r5, #0
@@ -2838,7 +2838,7 @@ _021630D4:
 	cmp r0, #2
 	mov r0, r4
 	addhs r8, r8, r8, asr #1
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	add r0, r10, #0x44
 	add r3, r4, #0x44
 	ldmia r0, {r0, r1, r2}
@@ -2855,12 +2855,12 @@ _021630D4:
 	str r6, [r4, #0x3c]
 	mov r2, #1
 	str r6, [r4, #0x40]
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r2, r7
 	mov r0, r4
 	mov r1, #1
 	mov r3, #0
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r0, #0xc00
 	str r0, [r5, #0x58]
 	ldrh r2, [r5, #0x9c]
@@ -3102,7 +3102,7 @@ EffectSailWater09__Create: // 0x0216340C
 	mov r0, r4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r1, r6
 	mov r0, r4
 	mov r2, #0
@@ -3124,8 +3124,8 @@ _02163530: .word aSbWater09Nsbta
 _02163534: .word EffectSailWater09__State_2164690
 	arm_func_end EffectSailWater09__Create
 
-	arm_func_start EffectSailUnknown21625C8__State_2163538
-EffectSailUnknown21625C8__State_2163538: // 0x02163538
+	arm_func_start SailExplosionHazard__State_2163538
+SailExplosionHazard__State_2163538: // 0x02163538
 	ldr r1, [r0, #0x2c]
 	cmp r1, #2
 	ldreq r1, [r0, #0x18]
@@ -3139,10 +3139,10 @@ EffectSailUnknown21625C8__State_2163538: // 0x02163538
 	orrgt r1, r1, #4
 	strgt r1, [r0, #0x18]
 	bx lr
-	arm_func_end EffectSailUnknown21625C8__State_2163538
+	arm_func_end SailExplosionHazard__State_2163538
 
-	arm_func_start EffectSailUnknown21624A0__State_216356C
-EffectSailUnknown21624A0__State_216356C: // 0x0216356C
+	arm_func_start SailPlayerWeaponFlame__State_216356C
+SailPlayerWeaponFlame__State_216356C: // 0x0216356C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x24
 	mov r4, r0
@@ -3211,13 +3211,13 @@ _02163648:
 	bic r1, r1, #0x200
 	str r1, [r0, #0x18]
 	mov r0, r4
-	bl SailManager__Func_2152CAC
+	bl SailManager__AddPlayerWeaponTask
 _02163674:
 	ldr r0, [r4, #0x2c]
 	cmp r0, #0
 	bne _02163688
 	mov r0, r4
-	bl SailManager__Func_2152CAC
+	bl SailManager__AddPlayerWeaponTask
 _02163688:
 	ldr r0, [r4, #0x2c]
 	add r0, r0, #1
@@ -3230,10 +3230,10 @@ _02163688:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _021636AC: .word FX_SinCosTable_
-	arm_func_end EffectSailUnknown21624A0__State_216356C
+	arm_func_end SailPlayerWeaponFlame__State_216356C
 
-	arm_func_start EffectSailUnknown2162014__State_21636B0
-EffectSailUnknown2162014__State_21636B0: // 0x021636B0
+	arm_func_start SailPlayerWeaponBullet__State_21636B0
+SailPlayerWeaponBullet__State_21636B0: // 0x021636B0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r2, [r6, #0x11c]
@@ -3253,7 +3253,7 @@ _021636E4:
 	ldr r5, [r2, #0x124]
 	cmp r1, #0
 	bne _021636F8
-	bl SailManager__Func_2152CAC
+	bl SailManager__AddPlayerWeaponTask
 _021636F8:
 	ldr r0, [r6, #0x2c]
 	add r0, r0, #1
@@ -3296,10 +3296,10 @@ _02163788:
 	orr r0, r0, #4
 	str r0, [r6, #0x18]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end EffectSailUnknown2162014__State_21636B0
+	arm_func_end SailPlayerWeaponBullet__State_21636B0
 
-	arm_func_start EffectSailUnknown2162680__State_2163798
-EffectSailUnknown2162680__State_2163798: // 0x02163798
+	arm_func_start SailPlayerWeaponTorpedo__State_2163798
+SailPlayerWeaponTorpedo__State_2163798: // 0x02163798
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x38
 	mov r4, r0
@@ -3351,12 +3351,12 @@ _021637EC:
 	mov r0, r4
 	mov r1, #1
 	mov r2, #0x1000
-	bl SailObject__Func_2165960
+	bl SailObject_InitColliderLine
 	mov r0, r4
-	bl SailManager__Func_2152CAC
+	bl SailManager__AddPlayerWeaponTask
 	add sp, sp, #0x38
 	ldmia sp!, {r4, pc}
-	arm_func_end EffectSailUnknown2162680__State_2163798
+	arm_func_end SailPlayerWeaponTorpedo__State_2163798
 
 	arm_func_start EffectSailShell__State_2163870
 EffectSailShell__State_2163870: // 0x02163870
@@ -3375,7 +3375,7 @@ _02163890:
 	ldmia sp!, {r3, r4, r5, pc}
 _021638A0:
 	ldr r5, [r2, #0x124]
-	bl SailManager__Func_2152CAC
+	bl SailManager__AddPlayerWeaponTask
 	mov r0, r4
 	mov r1, #1
 	bl StageTask__GetCollider
@@ -3421,9 +3421,9 @@ EffectSailTrick2__State_2163920: // 0x02163920
 	str r0, [r4, #0x18]
 	ldmia sp!, {r3, r4, r5, pc}
 _02163944:
-	bl SailObject__HandleParentFollow
+	bl SailObject_HandleParentFollow
 	mov r0, r4
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldr r1, [r4, #0x28]
 	ldr r0, [r5, #0x28]
 	cmp r1, r0
@@ -3451,9 +3451,9 @@ EffectSailTrick4__State_216397C: // 0x0216397C
 	ldmia sp!, {r3, r4, r5, pc}
 _021639A0:
 	ldr r5, [r1, #0x124]
-	bl SailObject__HandleParentFollow
+	bl SailObject_HandleParentFollow
 	mov r0, r4
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	add r0, r5, #0x100
 	ldrsh r1, [r0, #0xf8]
 	cmp r1, #0
@@ -3486,9 +3486,9 @@ EffectSailWaterSplash2__State_21639F0: // 0x021639F0
 	cmp r4, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r5
-	bl SailObject__HandleParentFollow
+	bl SailObject_HandleParentFollow
 	mov r0, r5
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldr r0, [r4, #0x1c]
 	tst r0, #1
 	moveq r0, #0
@@ -3520,9 +3520,9 @@ EffectSailBoost__State_2163A5C: // 0x02163A5C
 	str r0, [r4, #0x18]
 	ldmia sp!, {r3, r4, r5, pc}
 _02163A80:
-	bl SailObject__HandleParentFollow
+	bl SailObject_HandleParentFollow
 	mov r0, r4
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldr r0, [r4, #0x20]
 	tst r0, #4
 	beq _02163AB0
@@ -3960,7 +3960,7 @@ EffectUnknown21614E4__Main: // 0x02163FA8
 	ldr r2, [r0, #0x24]
 	orr r2, r2, #1
 	str r2, [r0, #0x24]
-	bl SailObject__SetSpriteColor
+	bl SailObject_SetSpriteColor
 	ldrh r0, [r4, #4]
 	add r0, r0, #1
 	strh r0, [r4, #4]
@@ -4083,7 +4083,7 @@ _021641CC:
 	ldr r2, [r5, #0x3c]
 	sub r2, r3, r2, asr #8
 	str r2, [r4, #0xac]
-	bl SailObject__SetSpriteColor
+	bl SailObject_SetSpriteColor
 	ldr r3, _02164320 // =_obj_disp_rand
 	ldr r0, _02164324 // =0x00196225
 	ldr r5, [r3, #0]
@@ -4200,9 +4200,9 @@ _02164450:
 	str r0, [r6, #0x40]
 _02164460:
 	mov r0, r6
-	bl SailObject__HandleParentFollow
+	bl SailObject_HandleParentFollow
 	mov r0, r6
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldmia sp!, {r4, r5, r6, pc}
 	arm_func_end EffectSailWaterSprayFront__State_216433C
 
@@ -4230,18 +4230,18 @@ EffectSailSubmarineWater__State_2164474: // 0x02164474
 	strne r0, [r4, #0x20]
 _021644C4:
 	mov r0, r4
-	bl SailObject__HandleParentFollow
+	bl SailObject_HandleParentFollow
 	mov r0, r4
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldmia sp!, {r4, pc}
 	arm_func_end EffectSailSubmarineWater__State_2164474
 
 	arm_func_start EffectSailSubmarineWater2__State_21644D8
 EffectSailSubmarineWater2__State_21644D8: // 0x021644D8
-	ldr ip, _021644E0 // =SailObject__HandleParentFollow
+	ldr ip, _021644E0 // =SailObject_HandleParentFollow
 	bx ip
 	.align 2, 0
-_021644E0: .word SailObject__HandleParentFollow
+_021644E0: .word SailObject_HandleParentFollow
 	arm_func_end EffectSailSubmarineWater2__State_21644D8
 
 	arm_func_start EffectSailWaterSplash__State_21644E4
@@ -4264,10 +4264,10 @@ EffectSailWater08__State_21644FC: // 0x021644FC
 	orrne r0, r0, #4
 	strne r0, [r4, #0x18]
 	ldr r0, _02164530 // =0x00007FFF
-	bl SailObject__ApplyFogBrightness
+	bl SailObject_ApplyFogBrightness
 	mov r1, r0
 	mov r0, r4
-	bl SailObject__SetSpriteColor
+	bl SailObject_SetSpriteColor
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02164530: .word 0x00007FFF
@@ -4284,7 +4284,7 @@ EffectSailFlash2__State_2164534: // 0x02164534
 	mov r0, r4
 	sub r1, r2, r1
 	strh r1, [r4, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldr r0, [r4, #0x20]
 	tst r0, #8
 	ldrne r0, [r4, #0x18]
@@ -4315,7 +4315,7 @@ EffectSailBazooka__State_2164574: // 0x02164574
 	add r1, r2, r1, asr #3
 	mov r0, r4
 	strh r1, [r4, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldr r0, [r4, #0x20]
 	tst r0, #8
 	ldrne r0, [r4, #0x18]
@@ -4329,13 +4329,13 @@ EffectEffectSailBullet2__State_21645E0: // 0x021645E0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r5, [r4, #0x124]
-	bl SailObject__Func_2166A2C
+	bl SailObject_HandleVoyageVelocity
 	add r0, r5, #0x100
 	ldrh r1, [r0, #0x6e]
 	mov r0, r4
 	add r1, r1, #0x8000
 	strh r1, [r4, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r4
 	mov r1, #1
 	bl StageTask__GetCollider
@@ -4391,9 +4391,9 @@ EffectSailWater09__State_2164690: // 0x02164690
 	ldmia sp!, {r4, pc}
 _021646C8:
 	mov r0, r4
-	bl SailObject__HandleParentFollow
+	bl SailObject_HandleParentFollow
 	mov r0, r4
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldmia sp!, {r4, pc}
 	arm_func_end EffectSailWater09__State_2164690
 

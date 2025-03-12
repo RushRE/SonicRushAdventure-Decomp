@@ -7818,7 +7818,7 @@ void Player__State_BalloonRide(Player *work)
 {
     GameObjectTask *balloon = work->gimmickObj;
 
-    if (balloon == NULL || (balloon->objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) != 0 || (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
+    if (balloon == NULL || IsStageTaskDestroyedAny(&balloon->objWork) || (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
     {
         work->gimmickObj = NULL;
         work->gimmickFlag &= ~PLAYER_GIMMICK_4000000;

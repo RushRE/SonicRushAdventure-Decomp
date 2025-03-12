@@ -5,7 +5,14 @@
 #include <game/object/objectManager.h>
 #include <game/file/fsRequest.h>
 
-#include <sail/sailCommonObjects.h>
+// Objects
+#include <sail/objects/sailIsland.h>
+#include <sail/objects/sailCloud.h>
+#include <sail/objects/sailBuoy.h>
+#include <sail/objects/sailSeagull.h>
+#include <sail/objects/sailRock.h>
+#include <sail/objects/sailIce.h>
+#include <sail/objects/sailFish.h>
 
 // --------------------
 // TEMP
@@ -787,14 +794,14 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
             {
                 if (id == voyageManager->segmentCount - 2)
                 {
-                    SailBuoy__CreateFromSegment2(voyageSegment);
+                    CreateSailBuoyForGoal(voyageSegment);
                 }
             }
             else
             {
                 if (id == voyageManager->segmentCount - 1)
                 {
-                    SailBuoy__CreateFromSegment2(voyageSegment);
+                    CreateSailBuoyForGoal(voyageSegment);
                 }
             }
 
@@ -802,14 +809,14 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
             {
                 for (u16 i = 0; i < 5; i++)
                 {
-                    SailStone__CreateFromSegment(voyageSegment, 0);
+                    CreateSailRockForSegment(voyageSegment, 0);
                 }
 
                 if (ObjDispRandRepeat(4) == 0)
                 {
                     for (u16 i = 0; i < 4; i++)
                     {
-                        SailSubFish__CreateUnknown1(voyageSegment);
+                        CreateSailFishForSegment(voyageSegment);
                     }
                 }
             }
@@ -823,11 +830,11 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
                             for (u16 i = 0; i < 3; i++)
                             {
                                 if (ObjDispRandRepeat(2) != 0)
-                                    SailStone__CreateFromSegment(voyageSegment, 0);
+                                    CreateSailRockForSegment(voyageSegment, 0);
                             }
 
                             if (ObjDispRandRepeat(2) != 0)
-                                SailSeagull__CreateFromSegment(voyageSegment);
+                                CreateSailSeagullForSegment(voyageSegment);
                         }
                         break;
 
@@ -841,13 +848,13 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
                     case 10:
                     case 11:
                         if (ObjDispRandRepeat(2) != 0)
-                            SailStone__CreateFromSegment(voyageSegment, 0);
+                            CreateSailRockForSegment(voyageSegment, 0);
 
-                        SailBuoy__CreateFromSegment(voyageSegment);
+                        CreateSailBuoyForSegment(voyageSegment);
                         break;
 
                     case 12:
-                        SailBuoy__CreateFromSegment2(voyageSegment);
+                        CreateSailBuoyForGoal(voyageSegment);
                         break;
                 }
             }
@@ -859,7 +866,7 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
                     {
                         for (u16 i = 0; i < 8; i++)
                         {
-                            SailStone__CreateFromSegment(voyageSegment, 2);
+                            CreateSailRockForSegment(voyageSegment, 2);
                         }
                     }
                     break;
@@ -869,12 +876,12 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
                     {
                         for (u16 i = 0; i < 8; i++)
                         {
-                            SailStone__CreateFromSegment(voyageSegment, 2);
+                            CreateSailRockForSegment(voyageSegment, 2);
                         }
 
                         for (u16 i = 0; i < 16; i++)
                         {
-                            SailStone__CreateFromSegment(voyageSegment, 1);
+                            CreateSailRockForSegment(voyageSegment, 1);
                         }
                     }
                     break;
@@ -884,7 +891,7 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
                     {
                         for (u16 i = 0; i < 3; i++)
                         {
-                            SailIce__CreateFromSegment(voyageSegment, 0);
+                            CreateSailIceForSegment(voyageSegment, 0);
                         }
                     }
                     // fall through
@@ -897,7 +904,7 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
                     {
                         for (u16 i = 0; i < 8; i++)
                         {
-                            SailIce__CreateFromSegment(voyageSegment, 0);
+                            CreateSailIceForSegment(voyageSegment, 0);
                         }
                     }
 
@@ -909,12 +916,12 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
                 case SAILVOYAGESEGMENT_TYPE_17:
                     for (u16 i = 0; i < 8; i++)
                     {
-                        SailIce__CreateFromSegment(voyageSegment, 0);
+                        CreateSailIceForSegment(voyageSegment, 0);
                     }
 
                     for (u16 i = 0; i < 32; i++)
                     {
-                        SailIce__CreateFromSegment(voyageSegment, 1);
+                        CreateSailIceForSegment(voyageSegment, 1);
                     }
                     return;
 
@@ -954,21 +961,21 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
         {
             SailEventManagerObject *stageObject = SailEventManager__AllocateStageObject();
             MI_CpuClear16(stageObject, sizeof(*stageObject));
-            stageObject->type      = object->type;
-            stageObject->segmentID = id;
-            stageObject->angle     = voyageSegment->angle;
-            stageObject->unknown   = object->unknown;
+            stageObject->type           = object->type;
+            stageObject->segmentID      = id;
+            stageObject->angle          = voyageSegment->angle;
+            stageObject->voyagePosition = object->voyagePosition;
 
-            stageObject->unknown.x = (stageObject->unknown.x - 128) * _0218B9AC[shipType];
-            stageObject->unknown.y *= _0218B9B4[shipType];
-            stageObject->unknown.z     = 4096 - 8 * stageObject->unknown.z;
-            stageObject->viewRange     = object->viewRange;
-            stageObject->objectValue14 = object->field_14;
-            stageObject->angle         = SailVoyageManager__GetAngleForSegmentPos(voyageSegment, stageObject->unknown.z);
-            stageObject->unknown.z     = MultiplyFX(stageObject->unknown.z, SailVoyageManager__GetSegmentSize(voyageSegment));
-            stageObject->objectRef     = object;
-            stageObject->unknown.z += voyageSegment->field_24;
-            stageObject->unknown.z += voyageManager->field_70;
+            stageObject->voyagePosition.x = (stageObject->voyagePosition.x - 128) * _0218B9AC[shipType];
+            stageObject->voyagePosition.y *= _0218B9B4[shipType];
+            stageObject->voyagePosition.z = 4096 - 8 * stageObject->voyagePosition.z;
+            stageObject->viewRange        = object->viewRange;
+            stageObject->param            = object->param;
+            stageObject->angle            = SailVoyageManager__GetAngleForSegmentPos(voyageSegment, stageObject->voyagePosition.z);
+            stageObject->voyagePosition.z = MultiplyFX(stageObject->voyagePosition.z, SailVoyageManager__GetSegmentSize(voyageSegment));
+            stageObject->objectRef        = object;
+            stageObject->voyagePosition.z += voyageSegment->field_24;
+            stageObject->voyagePosition.z += voyageManager->field_70;
             stageObject->word32 = manager->field_62;
 
             stageObject->flags = SAILMAPOBJECT_FLAG_10000000;
@@ -979,7 +986,7 @@ NONMATCH_FUNC void SailEventManager__LoadMapObjects(u16 id, fx32 voyageDistance)
 
             if ((manager->flags & SAILMANAGER_FLAG_4) != 0)
             {
-                stageObject->unknown.x = -stageObject->unknown.x;
+                stageObject->voyagePosition.x = -stageObject->voyagePosition.x;
                 stageObject->flags |= SAILMAPOBJECT_FLAG_80000000;
             }
             NNS_FndAppendListObject(&eventManager->stageObjectList, stageObject);
@@ -1058,7 +1065,7 @@ _021555CC:
 	cmp r11, r0
 	bne _02155600
 	mov r0, r8
-	bl SailBuoy__CreateFromSegment2
+	bl CreateSailBuoyForGoal
 	b _02155600
 _021555E8:
 	ldrh r0, [r5, #0xb8]
@@ -1066,7 +1073,7 @@ _021555E8:
 	cmp r11, r0
 	bne _02155600
 	mov r0, r8
-	bl SailBuoy__CreateFromSegment2
+	bl CreateSailBuoyForGoal
 _02155600:
 	ldr r0, [sp, #8]
 	cmp r0, #3
@@ -1076,7 +1083,7 @@ _02155600:
 _02155614:
 	mov r0, r8
 	mov r1, r7
-	bl SailStone__CreateFromSegment
+	bl CreateSailRockForSegment
 	add r0, r6, #1
 	mov r0, r0, lsl #0x10
 	mov r6, r0, lsr #0x10
@@ -1096,7 +1103,7 @@ _02155614:
 	mov r6, #0
 _02155664:
 	mov r0, r8
-	bl SailSubFish__CreateUnknown1
+	bl CreateSailFishForSegment
 	add r0, r6, #1
 	mov r0, r0, lsl #0x10
 	mov r6, r0, lsr #0x10
@@ -1141,7 +1148,7 @@ _021556E0:
 	beq _02155710
 	mov r0, r8
 	mov r1, #0
-	bl SailStone__CreateFromSegment
+	bl CreateSailRockForSegment
 _02155710:
 	add r0, r6, #1
 	mov r0, r0, lsl #0x10
@@ -1160,7 +1167,7 @@ _02155710:
 	tst r0, #1
 	beq _021557A8
 	mov r0, r8
-	bl SailSeagull__CreateFromSegment
+	bl CreateSailSeagullForSegment
 	b _021557A8
 _0215575C:
 	ldr r2, =_obj_disp_rand
@@ -1176,14 +1183,14 @@ _0215575C:
 	beq _02155794
 	mov r0, r8
 	mov r1, #0
-	bl SailStone__CreateFromSegment
+	bl CreateSailRockForSegment
 _02155794:
 	mov r0, r8
-	bl SailBuoy__CreateFromSegment
+	bl CreateSailBuoyForSegment
 	b _021557A8
 _021557A0:
 	mov r0, r8
-	bl SailBuoy__CreateFromSegment2
+	bl CreateSailBuoyForGoal
 _021557A8:
 	ldrb r0, [r8, #0]
 	cmp r0, #0x13
@@ -1223,7 +1230,7 @@ _02155820:
 _02155828:
 	mov r0, r8
 	mov r1, r6
-	bl SailStone__CreateFromSegment
+	bl CreateSailRockForSegment
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
@@ -1243,7 +1250,7 @@ _02155864:
 _0215586C:
 	mov r0, r8
 	mov r1, r6
-	bl SailStone__CreateFromSegment
+	bl CreateSailRockForSegment
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
@@ -1254,7 +1261,7 @@ _0215586C:
 _02155894:
 	mov r0, r8
 	mov r1, r6
-	bl SailStone__CreateFromSegment
+	bl CreateSailRockForSegment
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
@@ -1270,7 +1277,7 @@ _021558B8:
 _021558CC:
 	mov r0, r8
 	mov r1, r6
-	bl SailIce__CreateFromSegment
+	bl CreateSailIceForSegment
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
@@ -1285,7 +1292,7 @@ _021558EC:
 _02155900:
 	mov r0, r8
 	mov r1, r6
-	bl SailIce__CreateFromSegment
+	bl CreateSailIceForSegment
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
@@ -1303,7 +1310,7 @@ _02155934:
 _0215593C:
 	mov r0, r8
 	mov r1, r4
-	bl SailIce__CreateFromSegment
+	bl CreateSailIceForSegment
 	add r0, r5, #1
 	mov r0, r0, lsl #0x10
 	mov r5, r0, lsr #0x10
@@ -1314,7 +1321,7 @@ _0215593C:
 _02155964:
 	mov r0, r8
 	mov r1, r4
-	bl SailIce__CreateFromSegment
+	bl CreateSailIceForSegment
 	add r0, r5, #1
 	mov r0, r0, lsl #0x10
 	mov r5, r0, lsr #0x10
@@ -1468,12 +1475,12 @@ void SailEventManager__LoadObject(SBBObject *object)
     SailEventManagerObject *tempObject = SailEventManager__AllocateTempObject();
     MI_CpuClear16(tempObject, sizeof(*tempObject));
 
-    tempObject->type      = object->type;
-    tempObject->unknown   = object->unknown;
-    tempObject->viewRange = FX32_FROM_WHOLE(object->viewRange);
-    tempObject->flags     = SAILMAPOBJECT_FLAG_10000000;
+    tempObject->type           = object->type;
+    tempObject->voyagePosition = object->voyagePosition;
+    tempObject->viewRange      = FX32_FROM_WHOLE(object->viewRange);
+    tempObject->flags          = SAILMAPOBJECT_FLAG_10000000;
     tempObject->flags |= SAILMAPOBJECT_FLAG_40000000;
-    tempObject->objectValue14 = object->field_14;
+    tempObject->param = object->param;
 
     NNS_FndAppendListObject(&eventManager->tempObjectList, tempObject);
 }
@@ -1541,15 +1548,15 @@ SailEventManagerObject *SailEventManager__CreateObject(u16 type, VecFx32 *positi
     object->type      = type;
     object->segmentID = FX32_TO_WHOLE(position->z) >> 7;
 
-    object->unknown   = *position;
-    object->objectRef = NULL;
+    object->voyagePosition = *position;
+    object->objectRef      = NULL;
 
-    s32 segmentPos = FX_Div(object->unknown.z & 0x7FFFF, SailVoyageManager__GetSegmentSize(segment));
+    s32 segmentPos = FX_Div(object->voyagePosition.z & 0x7FFFF, SailVoyageManager__GetSegmentSize(segment));
     object->angle  = SailVoyageManager__GetAngleForSegmentPos(segment, segmentPos);
     SailVoyageManager__Func_2158888(segment, segmentPos, &object->position.x, &object->position.z);
 
-    object->position.x += MultiplyFX(object->unknown.x, CosFX(object->angle));
-    object->position.z += MultiplyFX(object->unknown.x, SinFX(object->angle));
+    object->position.x += MultiplyFX(object->voyagePosition.x, CosFX(object->angle));
+    object->position.z += MultiplyFX(object->voyagePosition.x, SinFX(object->angle));
     VEC_Subtract(&object->position, &voyageManager->position, &object->position);
 
     object->flags = SAILMAPOBJECT_FLAG_10000000;
@@ -1661,18 +1668,18 @@ void SailEventManager__Main(void)
                 SailEventManagerObject *next = (SailEventManagerObject *)NNS_FndGetNextListObject(&work->stageObjectList, object);
 
                 if ((object->flags & SAILMAPOBJECT_FLAG_8000000) != 0)
-                    object->unknown.z += voyageManager->field_74;
+                    object->voyagePosition.z += voyageManager->field_74;
 
                 if (object->ringTask == NULL && object->objTask == NULL)
                 {
-                    if (objectSpawnPos > object->unknown.z)
+                    if (objectSpawnPos > object->voyagePosition.z)
                     {
                         VecFx32 position;
                         VecFx32 unknownVec;
 
                         SailVoyageSegment *voyageSegment = &voyageManager->segmentList[object->segmentID];
 
-                        unknownVec = object->unknown;
+                        unknownVec = object->voyagePosition;
                         unknownVec.z -= voyageSegment->field_24;
 
                         position = unknownVec;
@@ -1717,7 +1724,7 @@ void SailEventManager__Main(void)
                         }
                         else
                         {
-                            if (voyagePos + work->objDespawnDistance >= object->unknown.z || voyagePos + work->objDrawDistance < object->unknown.z)
+                            if (voyagePos + work->objDespawnDistance >= object->voyagePosition.z || voyagePos + work->objDrawDistance < object->voyagePosition.z)
                             {
                                 SailRingManager_DestroyRing(object->ringTask);
                                 SailEventManager__RemoveEntry(object);
@@ -1760,15 +1767,15 @@ void SailEventManager__Main(void)
                     if (curObject == NULL)
                         break;
 
-                    VEC_Subtract(&voyagePos, &curObject->unknown, &objectDistance);
+                    VEC_Subtract(&voyagePos, &curObject->voyagePosition, &objectDistance);
 
                     s32 range    = (work->baseViewRange >> 8) + (curObject->viewRange >> 8);
                     fx32 posSq   = MultiplyFX(objectDistance.x >> 8, objectDistance.x >> 8) + MultiplyFX(objectDistance.z >> 8, objectDistance.z >> 8);
                     fx32 rangeSq = MultiplyFX(range, range);
                     if (curObject->objTask == NULL && posSq < rangeSq)
                     {
-                        VEC_Subtract(&curObject->unknown, &voyageManager->position, &curObject->position);
-                        curObject->objTask = SailLanding__Create(curObject);
+                        VEC_Subtract(&curObject->voyagePosition, &voyageManager->position, &curObject->position);
+                        curObject->objTask = CreateSailIsland(curObject);
                     }
 
                     curObject = (SailEventManagerObject *)NNS_FndGetNextListObject(&work->tempObjectList, curObject);

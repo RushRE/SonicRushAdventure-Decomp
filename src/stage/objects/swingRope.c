@@ -59,7 +59,7 @@ void *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         PIXEL_MODE_SPRITE, ObjActionAllocSprite(&aniNode->spriteRef->engineRef[0], GRAPHICS_ENGINE_A, 1), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
         ObjActionAllocSprite(&aniNode->spriteRef->engineRef[1], GRAPHICS_ENGINE_B, 1), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_2, SPRITE_ORDER_23);
     aniNode->ani.cParam[1].palette = aniNode->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
-    aniNode->ani.work.cParam.palette                                       = aniNode->ani.cParam[0].palette;
+    aniNode->ani.work.cParam.palette                                = aniNode->ani.cParam[0].palette;
 
     ObjRect__SetGroupFlags(&work->colliders[0], 2, 1);
     ObjRect__SetBox3D(&work->colliders[0].rect, -4, -4, -16, 4, 4, 16);
@@ -265,8 +265,7 @@ void SwingRope__Collide(void)
 
     Player *player = gPlayer;
 
-    if ((work->gameWork.objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0 && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0
-        && (work->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
+    if (!IsStageTaskDestroyedAny(&work->gameWork.objWork) && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0 && (work->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
     {
         s32 lastNode   = nodeCount - 1;
         fx32 lastNodeX = work->nodePositions[lastNode].x;

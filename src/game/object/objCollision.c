@@ -2615,7 +2615,7 @@ void ObjCollisionObjectRegist(StageTaskCollisionObj *work)
     if (_obj_collision_num.nextCount < OBJ_COLLISION_REGISTRATION_MAX)
     {
         StageTask *parent = work->parent;
-        if (parent == NULL || (parent->flag & ((STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED))) == 0)
+        if (parent == NULL || !IsStageTaskDestroyedAny(parent))
         {
             if ((work->riderObj != NULL && work->riderObj->rideObj != work->parent))
                 work->riderObj = NULL;

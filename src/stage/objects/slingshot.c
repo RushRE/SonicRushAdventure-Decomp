@@ -337,7 +337,7 @@ NONMATCH_FUNC void SlingshotRock_State_Launched(SlingshotRock *work)
 
     if ((work->gameWork.objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_ANY) != 0)
     {
-        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
+        DestroyStageTask(&work->gameWork.objWork);
 
         EffectSlingDust__Create(work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, -0x2000 - ((16 * mtMathRand()) & 0x7FF),
                                 -0x3000 - ((16 * mtMathRand()) & 0x7FF), 0);

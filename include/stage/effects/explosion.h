@@ -28,14 +28,14 @@ typedef struct EffectExplosion_
     OBS_ACTION2D_BAC_WORK ani;
 } EffectExplosion;
 
-typedef struct EffectHarmfulExplosion_
+typedef struct EffectExplosionHazard_
 {
     StageTask objWork;
 
     OBS_ACTION2D_BAC_WORK ani;
     OBS_RECT_WORK collider;
     u16 targetFrame;
-} EffectHarmfulExplosion;
+} EffectExplosionHazard;
 
 // --------------------
 // FUNCTIONS
@@ -44,8 +44,8 @@ typedef struct EffectHarmfulExplosion_
 // EffectExplosion
 EffectExplosion *CreateEffectExplosion(StageTask *parent, fx32 velX, fx32 velY, ExplosionType type);
 
-// EffectHarmfulExplosion
-EffectHarmfulExplosion *CreateEffectHarmfulExplosion(StageTask *parent, fx32 velX, fx32 velY, s16 left, s16 top, s16 right, s16 bottom, u16 targetFrame, ExplosionType type);
-void EffectHarmfulExplosion_State_Active(EffectHarmfulExplosion *work);
+// EffectExplosionHazard
+EffectExplosionHazard *CreateEffectExplosionHazard(StageTask *parent, fx32 velX, fx32 velY, s16 left, s16 top, s16 right, s16 bottom, u16 targetFrame, ExplosionType type);
+void EffectExplosionHazard_State_Active(EffectExplosionHazard *work);
 
 #endif // RUSH_EFFECT_EXPLOSION_H

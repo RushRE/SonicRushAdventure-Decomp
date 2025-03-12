@@ -36,18 +36,18 @@ NOT_DECOMPILED void EffectSailBoost02__Create(StageTask *player);
 NOT_DECOMPILED void EffectSailTrick2__Create(void);
 NOT_DECOMPILED void EffectSailTrick4__Create(void);
 NOT_DECOMPILED void EffectSailFlash__CreateFromJohnny(StageTask *player);
-NOT_DECOMPILED void EffectSailUnknown2162680__Create(StageTask *player);
+NOT_DECOMPILED void SailPlayerWeaponTorpedo__Create(StageTask *player);
 NOT_DECOMPILED void EffectEffectSailBullet2__Create(StageTask *player, fx32 a2);
-NOT_DECOMPILED void EffectSailUnknown21624A0__Create(void);
+NOT_DECOMPILED void SailPlayerWeaponFlame__Create(void);
 NOT_DECOMPILED void EffectSailWater09__Create(StageTask *player);
 NOT_DECOMPILED void EffectSailBoost__Create(StageTask *player);
 NOT_DECOMPILED void EffectSailBazooka__Create(void);
 NOT_DECOMPILED void EffectSailHit__Create(VecFx32 *position);
 NOT_DECOMPILED void EffectSailWaterSplash2__Create(void);
 NOT_DECOMPILED void EffectSailShell__Create(void);
-NOT_DECOMPILED void EffectSailUnknown21624A0__Func_2162400(void);
+NOT_DECOMPILED void SailPlayerWeaponFlame__Func_2162400(void);
 NOT_DECOMPILED void EffectSailFlash2__Create(void);
-NOT_DECOMPILED void EffectSailUnknown2162014__Create(void);
+NOT_DECOMPILED void SailPlayerWeaponBullet__Create(void);
 NOT_DECOMPILED void EffectSailBomb2__Create(void);
 NOT_DECOMPILED void EffectSailCircle__Create(void);
 
@@ -237,7 +237,7 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
     if (shipType != SHIP_JET)
         work->userFlag |= SAILPLAYER_FLAG_SHIP_BOAT << (shipType - 1);
 
-    SailObject__InitCommon(work);
+    SailObject_InitCommon(work);
 
     SetTaskInFunc(work, SailPlayer__In_Default);
     SetTaskLastFunc(work, SailPlayer__Last_Default);
@@ -258,24 +258,24 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
         case SHIP_HOVER:
             worker->shipSndHandles[0] = AllocSndHandle();
             worker->field_14          = FLOAT_TO_FX32(8.0);
-            worker->field_4.x         = FLOAT_TO_FX32(0.0);
-            worker->field_4.y         = FLOAT_TO_FX32(0.5625);
-            worker->field_4.z         = FLOAT_TO_FX32(0.0);
+            worker->collisionOffset.x = FLOAT_TO_FX32(0.0);
+            worker->collisionOffset.y = FLOAT_TO_FX32(0.5625);
+            worker->collisionOffset.z = FLOAT_TO_FX32(0.0);
 
             s32 unknown = FLOAT_TO_FX32(0.46875);
             if (worker->shipType == SHIP_HOVER)
                 unknown = FLOAT_TO_FX32(0.375);
 
-            SailObject__SetupHitbox(work, worker->colliders, 0);
-            SailObject__Func_21658D0(work, 0, unknown, 0);
+            SailObject_InitColliderForCommon(work, worker->colliders, 0);
+            SailObject_InitColliderBox(work, 0, unknown, 0);
             ObjRect__SetOnDefend(work->colliderList[0], SailPlayer__OnDefend_JetHover);
 
-            SailObject__SetupHitbox(work, &worker->colliders[1], 1);
-            SailObject__Func_21658D0(work, 1, FLOAT_TO_FX32(1.0), NULL);
+            SailObject_InitColliderForCommon(work, &worker->colliders[1], 1);
+            SailObject_InitColliderBox(work, 1, FLOAT_TO_FX32(1.0), NULL);
             worker->colliders[1].atkPower = FLOAT_TO_FX32(128.0);
 
-            SailObject__SetupHitbox(work, &worker->colliders[2], 2);
-            SailObject__Func_21658D0(work, 2, FLOAT_TO_FX32(1.625), NULL);
+            SailObject_InitColliderForCommon(work, &worker->colliders[2], 2);
+            SailObject_InitColliderBox(work, 2, FLOAT_TO_FX32(1.625), NULL);
             worker->colliders[2].atkPower = FLOAT_TO_FX32(128.0);
 
             SailPlayer__ColliderFunc(work, 0);
@@ -298,14 +298,14 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
         case SHIP_BOAT:
             worker->shipSndHandles[1] = AllocSndHandle();
             worker->field_14          = FLOAT_TO_FX32(48.0);
-            worker->field_4.x         = FLOAT_TO_FX32(0.0);
-            worker->field_4.y         = FLOAT_TO_FX32(3.0);
-            worker->field_4.z         = FLOAT_TO_FX32(0.0);
+            worker->collisionOffset.x = FLOAT_TO_FX32(0.0);
+            worker->collisionOffset.y = FLOAT_TO_FX32(3.0);
+            worker->collisionOffset.z = FLOAT_TO_FX32(0.0);
 
-            SailObject__SetupHitbox(work, worker->colliders, 0);
-            SailObject__Func_21658D0(work, 0, FLOAT_TO_FX32(9.0), NULL);
-            worker->colliders[0].hitCheck.field_24.z = FLOAT_TO_FX32(4.0);
-            worker->colliders[0].hitCheck.field_24.y = FLOAT_TO_FX32(2.0);
+            SailObject_InitColliderForCommon(work, worker->colliders, 0);
+            SailObject_InitColliderBox(work, 0, FLOAT_TO_FX32(9.0), NULL);
+            worker->colliders[0].hitCheck.box.size.z = FLOAT_TO_FX32(4.0);
+            worker->colliders[0].hitCheck.box.size.y = FLOAT_TO_FX32(2.0);
             ObjRect__SetOnDefend(work->colliderList[0], SailPlayer__OnDefend_Boat);
 
             NNS_G3dRenderObjSetCallBack(&work->obj_3d->ani.renderObj, SailPlayer__BoatRenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
@@ -318,12 +318,12 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
             break;
 
         case SHIP_SUBMARINE:
-            worker->field_14  = FLOAT_TO_FX32(16.0);
-            worker->field_4.x = FLOAT_TO_FX32(0.0);
-            worker->field_4.y = FLOAT_TO_FX32(6.0);
-            worker->field_4.z = FLOAT_TO_FX32(0.0);
-            SailObject__SetupHitbox(work, worker->colliders, 0);
-            SailObject__Func_21658D0(work, 0, FLOAT_TO_FX32(6.0), NULL);
+            worker->field_14          = FLOAT_TO_FX32(16.0);
+            worker->collisionOffset.x = FLOAT_TO_FX32(0.0);
+            worker->collisionOffset.y = FLOAT_TO_FX32(6.0);
+            worker->collisionOffset.z = FLOAT_TO_FX32(0.0);
+            SailObject_InitColliderForCommon(work, worker->colliders, 0);
+            SailObject_InitColliderBox(work, 0, FLOAT_TO_FX32(6.0), NULL);
             ObjRect__SetOnDefend(work->colliderList[0], SailPlayer__OnDefend_Submarine);
 
             worker->dword1D4 = -FLOAT_TO_FX32(16.0);
@@ -673,7 +673,7 @@ void SailPlayer__State_BeginVoyage(StageTask *work)
     }
 
     SailPlayer__Func_215BFEC(work);
-    SailObject__ApplyRotation(work);
+    SailObject_ApplyRotation(work);
 
     if (worker->shipType == SHIP_JET)
     {
@@ -1109,7 +1109,7 @@ _02159E3C:
 	streqh r0, [r6, #0x34]
 _02159E78:
 	mov r0, r6
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldr r0, [r5, #0x24]
 	tst r0, #0x10
 	beq _02159E9C
@@ -1276,17 +1276,17 @@ void SailPlayer__ChangeAction(StageTask *player, SailPlayerAction action)
         {
             default:
                 AnimatorMDL__SetAnimation(&player->obj_3d->ani, B3D_ANIM_JOINT_ANIM, player->obj_3d->resources[B3D_RESOURCE_JOINT_ANIM], action, NULL);
-                SailObject__SetAnimSpeed(player, FLOAT_TO_FX32(1.0));
+                SailObject_SetAnimSpeed(player, FLOAT_TO_FX32(1.0));
                 break;
 
             case SAILPLAYER_ACTION_16:
                 AnimatorMDL__SetAnimation(&player->obj_3d->ani, B3D_ANIM_JOINT_ANIM, player->obj_3d->resources[B3D_RESOURCE_JOINT_ANIM], SAILPLAYER_HOVERANI_spin1, NULL);
-                SailObject__SetAnimSpeed(player, FLOAT_TO_FX32(2.0));
+                SailObject_SetAnimSpeed(player, FLOAT_TO_FX32(2.0));
                 break;
 
             case SAILPLAYER_ACTION_17:
                 AnimatorMDL__SetAnimation(&player->obj_3d->ani, B3D_ANIM_JOINT_ANIM, player->obj_3d->resources[B3D_RESOURCE_JOINT_ANIM], SAILPLAYER_HOVERANI_spin2, NULL);
-                SailObject__SetAnimSpeed(player, FLOAT_TO_FX32(2.0));
+                SailObject_SetAnimSpeed(player, FLOAT_TO_FX32(2.0));
                 break;
         }
     }
@@ -1672,7 +1672,7 @@ _0215A720:
 	mov r0, r5
 	bl SailPlayer__CheckInWater
 	mov r0, r5
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldr r0, [r5, #0x1c]
 	tst r0, #4
 	bicne r0, r0, #4
@@ -1887,7 +1887,7 @@ _0215AA08:
 	mov r0, r5
 	bl SailPlayer__Func_215BFEC
 	mov r0, r5
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r5
 	bl SailPlayer__CheckInWater
 	cmp r0, #0
@@ -2167,7 +2167,7 @@ void SailPlayer__Action_HurtJetHover2(StageTask *player)
 void SailPlayer__State_HurtJetHover1(StageTask *work)
 {
     SailPlayer__Func_215BFEC(work);
-    SailObject__ApplyRotation(work);
+    SailObject_ApplyRotation(work);
     SailPlayer__CheckInWater(work);
 
     work->userTimer--;
@@ -2200,7 +2200,7 @@ void SailPlayer__Action_HurtJetHover1(StageTask *player)
 void SailPlayer__State_HurtJetHover2(StageTask *work)
 {
     SailPlayer__Func_215BFEC(work);
-    SailObject__ApplyRotation(work);
+    SailObject_ApplyRotation(work);
     SailPlayer__CheckInWater(work);
 
     work->userTimer--;
@@ -2326,7 +2326,7 @@ _0215B128:
 	bl SailPlayer__Func_215BAF0
 _0215B14C:
 	mov r0, r4
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldmia sp!, {r3, r4, r5, pc}
 
 // clang-format on
@@ -2398,7 +2398,7 @@ _0215B20C:
 	mov r0, r4
 	bl SailPlayer__CheckInWater
 	mov r0, r4
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldmia sp!, {r3, r4, r5, pc}
 
 // clang-format on
@@ -2415,7 +2415,7 @@ void SailPlayer__Action_RecoverBoat(StageTask *player)
 
 void SailPlayer__State_RecoverBoat(StageTask *work)
 {
-    SailObject__ApplyRotation(work);
+    SailObject_ApplyRotation(work);
 }
 
 NONMATCH_FUNC void SailPlayer__OnDefend_Boat(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
@@ -2451,7 +2451,7 @@ NONMATCH_FUNC void SailPlayer__OnDefend_Boat(OBS_RECT_WORK *rect1, OBS_RECT_WORK
 	bl VEC_Add
 	ldr r0, [r4, #0x6c]
 	add r1, sp, #0
-	bl SailObject__Func_2165A9C
+	bl SailObject_GetCollisionOffset
 	add r0, sp, #0xc
 	add r1, sp, #0
 	mov r2, r0
@@ -2633,7 +2633,7 @@ NONMATCH_FUNC void SailPlayer__State_HurtBoat(StageTask *work)
     // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldr r0, [r4, #0x2c]
 	subs r0, r0, #1
 	str r0, [r4, #0x2c]
@@ -2761,7 +2761,7 @@ _0215B680:
 	bl CreateScreenEffect
 _0215B6A0:
 	mov r0, r4
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldr r0, [r4, #0x2c]
 	add r0, r0, #1
 	str r0, [r4, #0x2c]
@@ -2876,7 +2876,7 @@ NONMATCH_FUNC void SailPlayer__State_RecoverSubmarine(StageTask *work){
 
 #else
     // clang-format off
-	ldr ip, =SailObject__ApplyRotation
+	ldr ip, =SailObject_ApplyRotation
 	bx ip
 
 // clang-format on
@@ -2995,7 +2995,7 @@ NONMATCH_FUNC void SailPlayer__State_HurtSubmarine(StageTask *work)
     // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldr r0, [r4, #0x2c]
 	subs r0, r0, #1
 	str r0, [r4, #0x2c]
@@ -3115,7 +3115,7 @@ _0215BAB8:
 	bl CreateScreenEffect
 _0215BAD8:
 	mov r0, r4
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	ldr r0, [r4, #0x2c]
 	add r0, r0, #1
 	str r0, [r4, #0x2c]
@@ -3268,7 +3268,7 @@ NONMATCH_FUNC void SailPlayer__Func_215BAF0(StageTask *work)
 	str r3, [r4, #0x38]
 	str r3, [r4, #0x3c]
 	str r3, [r4, #0x40]
-	bl SailObject__SetSpriteColor
+	bl SailObject_SetSpriteColor
 	mov r0, r4
 	add sp, sp, #0x30
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
@@ -3974,7 +3974,7 @@ void SailPlayer__HandleTimers(StageTask *work)
             SailPlayer__ColliderFunc(work, 0);
     }
 
-    SailObject__ShakeScreen(work, FX32_TO_WHOLE(work->shakeTimer));
+    SailObject_ShakeScreen(work, FX32_TO_WHOLE(work->shakeTimer));
 }
 
 NONMATCH_FUNC void SailPlayer__HandleJetControl(StageTask *work)
@@ -4719,7 +4719,7 @@ _0215D050:
 	add r1, sp, #0xe0
 	add r2, sp, #0xd4
 	mov r0, r5
-	bl EffectSailUnknown2162014__Create
+	bl SailPlayerWeaponBullet__Create
 	cmp r0, #0
 	ldrne r1, [r0, #0x124]
 	strne r1, [sp, #0x38]
@@ -4950,7 +4950,7 @@ _0215D3C4:
 	add r0, sp, #0xe0
 	add r1, sp, #0x74
 	add r2, sp, #0x98
-	bl EffectSailUnknown21624A0__Func_2162400
+	bl SailPlayerWeaponFlame__Func_2162400
 	ldrh r0, [r5, #0x32]
 	mov r3, #0
 	ldr r1, =FX_SinCosTable_
@@ -5196,7 +5196,7 @@ _0215D7B8:
 	add r1, sp, #0xe0
 	add r2, sp, #0xd4
 	mov r0, r5
-	bl EffectSailUnknown21624A0__Create
+	bl SailPlayerWeaponFlame__Create
 	add r0, r4, #0x200
 	mov r3, #0
 	strh r3, [r0, #0x2e]
@@ -5220,7 +5220,7 @@ _0215D7B8:
 	add r0, sp, #0xe0
 	add r1, sp, #0x74
 	add r2, sp, #0x98
-	bl EffectSailUnknown21624A0__Func_2162400
+	bl SailPlayerWeaponFlame__Func_2162400
 	ldr r1, [r5, #0x44]
 	ldr r0, [sp, #0x98]
 	ldr r2, [r5, #0x4c]
@@ -5446,7 +5446,7 @@ void SailPlayer__HandleSubmarineControl(StageTask *work)
         if (TOUCH_HAS_PUSH(worker->touchFlags))
         {
             SailUnknown2180190__Create(work);
-            EffectSailUnknown2162680__Create(work);
+            SailPlayerWeaponTorpedo__Create(work);
         }
 
         if ((work->userFlag & SAILPLAYER_FLAG_10) == 0)
@@ -5631,7 +5631,7 @@ void SailPlayer__ReadInputs(StageTask *work)
 
                             VecFx32 position = worker->racePos;
 
-                            SailEventManager__CreateObject2(SailEventManager__CreateObject(13, &position));
+                            SailEventManager__CreateObject2(SailEventManager__CreateObject(SAILMAPOBJECT_13, &position));
 
                             work->shakeTimer = FLOAT_TO_FX32(4.0);
                             if (worker->rivalVoiceClipTimer == 0)
@@ -6367,13 +6367,13 @@ _0215EC30:
 _0215EC9C:
 	mov r0, r4
 	add r1, r5, #0x34
-	bl SailObject__DoColliderUnknown
+	bl SailObject_DoColliderUnknown
 	mov r0, r4
 	add r1, r5, #0xac
-	bl SailObject__DoColliderUnknown
+	bl SailObject_DoColliderUnknown
 	mov r0, r4
 	add r1, r5, #0x124
-	bl SailObject__DoColliderUnknown
+	bl SailObject_DoColliderUnknown
 	ldrh r0, [r5, #0]
 	cmp r0, #2
 	bne _0215EE94
@@ -6490,7 +6490,7 @@ _0215EE64:
 	bl SailPlayer__HandleSubmarineSfx
 	mov r0, r4
 	add r1, r5, #0x34
-	bl SailObject__DoColliderUnknown
+	bl SailObject_DoColliderUnknown
 	add r0, r5, #0x100
 	ldrh r0, [r0, #0xce]
 	cmp r0, #2

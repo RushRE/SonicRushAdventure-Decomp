@@ -3484,7 +3484,7 @@ void Boss1__Collide(void)
 {
     Boss1 *work = TaskGetWorkCurrent(Boss1);
 
-    if ((work->gameWork.objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0 && (work->gameWork.objWork.flag & 2) == 0)
+    if (!IsStageTaskDestroyedAny(&work->gameWork.objWork) && (work->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
     {
         fx32 x;
         fx32 y;

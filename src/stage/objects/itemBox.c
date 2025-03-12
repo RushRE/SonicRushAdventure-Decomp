@@ -480,5 +480,5 @@ void ItemBoxReward_State_Active(ItemBoxReward *work)
     }
 
     if (work->objWork.userTimer <= 0)
-        work->objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
+        DestroyStageTask(&work->objWork);
 }

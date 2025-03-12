@@ -34,7 +34,7 @@ NOT_DECOMPILED void Unknown2066510__LerpMtx43(MtxFx43 *start, MtxFx43 *end, fx32
 NOT_DECOMPILED void Unknown2066510__NormalizeScale(MtxFx33 *a1, MtxFx33 *a2);
 NOT_DECOMPILED void Unknown2066510__Func_2066724(MtxFx43 *a1, VecFx32 *a2, MtxFx43 *a3, VecFx32 *a4);
 NOT_DECOMPILED void Unknown2066510__Func_20668A8(VecFx32 *lhs, u16 angle, VecFx32 *rhs, VecFx32 *dest);
-NOT_DECOMPILED void Unknown2066510__Func_2066A4C(VecFx32 *a1, VecFx32 *a2, VecFx32 *a3, MtxFx43 *a4);
+NOT_DECOMPILED void Unknown2066510__LookAt(VecFx32 *from, VecFx32 *to, VecFx32 *up, MtxFx43 *mtx);
 NOT_DECOMPILED void Unknown2066510__Func_2066AC0(VecFx32 *a1, VecFx32 *a2, u16 a3, VecFx32 *a4);
 NOT_DECOMPILED void Unknown2066510__Func_2066B94(VecFx32 *a, s32 angle, VecFx32 *b, VecFx32 *a4);
 NOT_DECOMPILED void Unknown2066510__Func_2066C24(VecFx32 *a1, VecFx32 *a2, s32 color);

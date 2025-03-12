@@ -588,7 +588,7 @@ void ManagedSfx_Main(void)
     BOOL finished     = FALSE;
     if (parent != NULL)
     {
-        if ((work->flags & MANAGEDSFX_FLAG_DESTROY_WITH_PARENT) != 0 && (parent->flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) != 0)
+        if ((work->flags & MANAGEDSFX_FLAG_DESTROY_WITH_PARENT) != 0 && IsStageTaskDestroyedAny(parent))
         {
             if ((work->flags & MANAGEDSFX_FLAG_HAS_DURATION) == 0)
                 StopStageSfx(work->sndHandle);
@@ -613,7 +613,7 @@ void ManagedSfx_Main(void)
 
     if ((work->flags & MANAGEDSFX_FLAG_HAS_PARENT) != 0 && work->parent != NULL)
     {
-        if ((work->parent->flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) != 0)
+        if (IsStageTaskDestroyedAny(work->parent))
         {
             work->flags &= ~MANAGEDSFX_FLAG_HAS_PARENT;
             work->parent = NULL;

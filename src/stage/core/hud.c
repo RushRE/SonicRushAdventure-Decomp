@@ -2944,7 +2944,7 @@ void TargetIndicatorHUD_Main(void)
     TargetIndicatorHUD *work = TaskGetWorkCurrent(TargetIndicatorHUD);
     StageTask *target        = work->target;
 
-    if ((target->flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) != 0)
+    if (IsStageTaskDestroyedAny(target))
     {
         DestroyCurrentTask();
         return;

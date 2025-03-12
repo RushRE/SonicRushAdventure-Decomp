@@ -1744,7 +1744,7 @@ void EffectPlayerTrail_State_Finish(EffectPlayerTrail *work)
     if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER && (player->playerFlag & PLAYER_FLAG_SUPERBOOST) != 0)
     {
         work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
-        work->objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
+        DestroyStageTask(&work->objWork);
         EffectTask__sVars.trailTaskList[work->id] = 0;
     }
     else
@@ -1758,7 +1758,7 @@ void EffectPlayerTrail_State_Finish(EffectPlayerTrail *work)
         if (work->nodeCount <= 0)
         {
             work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
-            work->objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
+            DestroyStageTask(&work->objWork);
             EffectTask__sVars.trailTaskList[work->id] = 0;
         }
     }

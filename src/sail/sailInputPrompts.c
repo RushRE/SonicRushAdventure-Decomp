@@ -77,7 +77,7 @@ void CreateSailButtonPromptIcon(u16 anim, fx32 posX)
     ObjActionAllocSpritePalette(work, SAILBUTTONPROMPT_ANI_DPAD_IDLE, 1050);
     StageTask__SetAnimation(work, anim);
     StageTask__SetAnimatorPriority(work, SPRITE_PRIORITY_1);
-    SailObject__SetAnimSpeed(work, FLOAT_TO_FX32(1.0));
+    SailObject_SetAnimSpeed(work, FLOAT_TO_FX32(1.0));
 
     work->position.x = posX;
     work->position.y = FLOAT_TO_FX32(38.0);
@@ -139,7 +139,7 @@ void CreateSailStylusPrompt(void)
     ObjActionAllocSpritePalette(work, SAILSTYLUSPROMPT_ANI_STYLUS_IDLE, 75);
     StageTask__SetAnimation(work, SAILSTYLUSPROMPT_ANI_STYLUS_IDLE);
     StageTask__SetAnimatorPriority(work, SPRITE_PRIORITY_1);
-    SailObject__SetAnimSpeed(work, FLOAT_TO_FX32(1.0));
+    SailObject_SetAnimSpeed(work, FLOAT_TO_FX32(1.0));
 
     work->position.x = FLOAT_TO_FX32(38.0);
     work->position.y = FLOAT_TO_FX32(38.0);
@@ -201,7 +201,7 @@ void SailStylusPrompt_State_Active(StageTask *work)
     }
 
     if ((manager->flags & SAILMANAGER_FLAG_2000) != 0)
-        work->flag |= STAGE_TASK_FLAG_DESTROYED;
+        DestroyStageTask(work);
 }
 
 void CreateSailStylusPrompt2(void)
@@ -222,7 +222,7 @@ void CreateSailStylusPrompt2(void)
     ObjActionAllocSpritePalette(work, SAILSTYLUSPROMPT_ANI_STYLUS_IDLE, 75);
     StageTask__SetAnimation(work, SAILSTYLUSPROMPT_ANI_STYLUS_IDLE);
     StageTask__SetAnimatorPriority(work, SPRITE_PRIORITY_1);
-    SailObject__SetAnimSpeed(work, FLOAT_TO_FX32(1.0));
+    SailObject_SetAnimSpeed(work, FLOAT_TO_FX32(1.0));
 
     work->position.x = FLOAT_TO_FX32(38.0);
     work->position.y = FLOAT_TO_FX32(38.0);

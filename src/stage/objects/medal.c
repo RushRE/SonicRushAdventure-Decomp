@@ -80,5 +80,6 @@ void Medal_State_Active(Medal *work)
     }
     
     work->gameWork.flags |= 0x10000;
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROYED | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+    DestroyStageTask(&work->gameWork.objWork);
 }

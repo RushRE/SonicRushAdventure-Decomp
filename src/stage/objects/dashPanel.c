@@ -179,7 +179,7 @@ void DashPanel_State_Active(DashPanel *work)
 
     if (work->gameWork.objWork.parentObj != NULL)
     {
-        if ((work->gameWork.objWork.parentObj->flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0)
+        if (!IsStageTaskDestroyedAny(work->gameWork.objWork.parentObj))
         {
             work->gameWork.objWork.position.x = work->gameWork.objWork.parentObj->position.x;
             work->gameWork.objWork.position.y = work->gameWork.objWork.parentObj->position.y;

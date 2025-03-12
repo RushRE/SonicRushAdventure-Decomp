@@ -1,6 +1,17 @@
 #include <sail/sailEventManager.h>
 
-#include <sail/sailCommonObjects.h>
+// Common Objects
+#include <sail/objects/sailIsland.h>
+#include <sail/objects/sailMine.h>
+#include <sail/objects/sailBomb.h>
+#include <sail/objects/sailCloud.h>
+#include <sail/objects/sailBuoy.h>
+#include <sail/objects/sailSeagull.h>
+#include <sail/objects/sailRock.h>
+#include <sail/objects/sailIce.h>
+#include <sail/objects/sailFish.h>
+#include <sail/objects/sailGoal.h>
+#include <sail/objects/sailItemBox.h>
 
 // --------------------
 // TEMP
@@ -41,10 +52,13 @@ NOT_DECOMPILED StageTask *SailSubDepth__Create(SailEventManagerObject *mapObject
 
 const SailObjectSpawnFunc sailObjectSpawnList[SAILMAPOBJECT_TYPE_COUNT][SAILMAPOBJECT_COUNT] = {
     [SAILMAPOBJECT_TYPE_JET_HOVER] = {
-        [SAILMAPOBJECT_NONE]  = NULL,                                              
-        [SAILMAPOBJECT_RING]  = NULL,                                              
-        [SAILMAPOBJECT_2]  = (SailObjectSpawnFunc)SailJetItem__Create,          
-        [SAILMAPOBJECT_3]  = (SailObjectSpawnFunc)SailJetMine__Create,          
+        // Common Objects (Core)
+        [SAILMAPOBJECT_ISLAND]  = NULL,                                              
+        [SAILMAPOBJECT_RING]    = NULL,                                              
+        [SAILMAPOBJECT_2]       = (SailObjectSpawnFunc)CreateSailItemBox,  
+
+        // Ship-Specific Objects
+        [SAILMAPOBJECT_3]  = (SailObjectSpawnFunc)CreateSailMine,          
         [SAILMAPOBJECT_4]  = (SailObjectSpawnFunc)SailJetBob__Create,           
         [SAILMAPOBJECT_5]  = (SailObjectSpawnFunc)SailJetShark__Create,         
         [SAILMAPOBJECT_6]  = (SailObjectSpawnFunc)SailJetShark__Create,         
@@ -54,7 +68,7 @@ const SailObjectSpawnFunc sailObjectSpawnList[SAILMAPOBJECT_TYPE_COUNT][SAILMAPO
         [SAILMAPOBJECT_10] = (SailObjectSpawnFunc)SailJetJumpRamp__Create,      
         [SAILMAPOBJECT_11] = (SailObjectSpawnFunc)SailJetBob__Create,           
         [SAILMAPOBJECT_12] = (SailObjectSpawnFunc)SailJetBird__Create,          
-        [SAILMAPOBJECT_13] = (SailObjectSpawnFunc)SailJetBomber__Create,        
+        [SAILMAPOBJECT_13] = (SailObjectSpawnFunc)CreateSailBomb,        
         [SAILMAPOBJECT_14] = (SailObjectSpawnFunc)SailHoverEnemyHover1__Create, 
         [SAILMAPOBJECT_15] = (SailObjectSpawnFunc)SailHoverEnemyHover1__Create, 
         [SAILMAPOBJECT_16] = (SailObjectSpawnFunc)SailHoverEnemyHover2__Create, 
@@ -67,24 +81,29 @@ const SailObjectSpawnFunc sailObjectSpawnList[SAILMAPOBJECT_TYPE_COUNT][SAILMAPO
         [SAILMAPOBJECT_23] = (SailObjectSpawnFunc)SailHoverBobBird__Create,     
         [SAILMAPOBJECT_24] = (SailObjectSpawnFunc)SailHoverBobBird__Create,     
         [SAILMAPOBJECT_25] = (SailObjectSpawnFunc)SailHoverBobBird__Create,     
-        [SAILMAPOBJECT_26] = (SailObjectSpawnFunc)SailStone__Create,            
+        [SAILMAPOBJECT_26] = (SailObjectSpawnFunc)CreateSailRock,            
         [SAILMAPOBJECT_27] = NULL,                                              
         [SAILMAPOBJECT_28] = NULL,                                              
         [SAILMAPOBJECT_29] = NULL,                                              
-        [SAILMAPOBJECT_30] = NULL,                                              
-        [SAILMAPOBJECT_31] = (SailObjectSpawnFunc)SailBuoy__Create,             
-        [SAILMAPOBJECT_32] = (SailObjectSpawnFunc)SailSeagull__Create,          
-        [SAILMAPOBJECT_33] = (SailObjectSpawnFunc)SailStone__Create,            
-        [SAILMAPOBJECT_34] = (SailObjectSpawnFunc)SailIce__Create,              
-        [SAILMAPOBJECT_35] = (SailObjectSpawnFunc)SailSeagull2__Create,         
-        [SAILMAPOBJECT_36] = (SailObjectSpawnFunc)SailSubFish__Create,          
-        [SAILMAPOBJECT_37] = (SailObjectSpawnFunc)SailJetBoatCloud__Create,     
+        [SAILMAPOBJECT_30] = NULL,                        
+
+        // Common Objects (Misc)
+        [SAILMAPOBJECT_31] = (SailObjectSpawnFunc)CreateSailBuoy,             
+        [SAILMAPOBJECT_32] = (SailObjectSpawnFunc)CreateSailUnusedSeagull,          
+        [SAILMAPOBJECT_33] = (SailObjectSpawnFunc)CreateSailRock,            
+        [SAILMAPOBJECT_34] = (SailObjectSpawnFunc)CreateSailIce,              
+        [SAILMAPOBJECT_35] = (SailObjectSpawnFunc)CreateSailSeagull,         
+        [SAILMAPOBJECT_36] = (SailObjectSpawnFunc)CreateSailFish,          
+        [SAILMAPOBJECT_37] = (SailObjectSpawnFunc)CreateSailFogCloud,     
     },
 
     [SAILMAPOBJECT_TYPE_BOAT] = {
-        [SAILMAPOBJECT_NONE]  = NULL,                                             
-        [SAILMAPOBJECT_RING]  = NULL,                                             
-        [SAILMAPOBJECT_2]  = (SailObjectSpawnFunc)SailJetItem__Create,         
+        // Common Objects (Core)
+        [SAILMAPOBJECT_ISLAND]  = NULL,                                             
+        [SAILMAPOBJECT_RING]    = NULL,                                             
+        [SAILMAPOBJECT_2]       = (SailObjectSpawnFunc)CreateSailItemBox,     
+
+        // Ship-Specific Objects
         [SAILMAPOBJECT_3]  = (SailObjectSpawnFunc)SailSailerBoat03__Create,    
         [SAILMAPOBJECT_4]  = (SailObjectSpawnFunc)SailSailerBoat03__Create,    
         [SAILMAPOBJECT_5]  = (SailObjectSpawnFunc)SailSailerBoat03__Create,    
@@ -111,21 +130,26 @@ const SailObjectSpawnFunc sailObjectSpawnList[SAILMAPOBJECT_TYPE_COUNT][SAILMAPO
         [SAILMAPOBJECT_26] = (SailObjectSpawnFunc)SailSailerBigBob01__Create,  
         [SAILMAPOBJECT_27] = (SailObjectSpawnFunc)SailSailerBoat03__Create,    
         [SAILMAPOBJECT_28] = (SailObjectSpawnFunc)SailSailerBoat02__Create,    
-        [SAILMAPOBJECT_29] = (SailObjectSpawnFunc)SailJetMine__Create,         
-        [SAILMAPOBJECT_30] = (SailObjectSpawnFunc)SailStone__Create,           
-        [SAILMAPOBJECT_31] = (SailObjectSpawnFunc)SailBuoy__Create,            
-        [SAILMAPOBJECT_32] = (SailObjectSpawnFunc)SailSeagull__Create,         
-        [SAILMAPOBJECT_33] = (SailObjectSpawnFunc)SailStone__Create,           
-        [SAILMAPOBJECT_34] = (SailObjectSpawnFunc)SailIce__Create,             
-        [SAILMAPOBJECT_35] = (SailObjectSpawnFunc)SailSeagull2__Create,        
-        [SAILMAPOBJECT_36] = (SailObjectSpawnFunc)SailSubFish__Create,         
-        [SAILMAPOBJECT_37] = (SailObjectSpawnFunc)SailJetBoatCloud__Create,    
+        [SAILMAPOBJECT_29] = (SailObjectSpawnFunc)CreateSailMine,         
+        [SAILMAPOBJECT_30] = (SailObjectSpawnFunc)CreateSailRock,  
+
+        // Common Objects (Misc)
+        [SAILMAPOBJECT_31] = (SailObjectSpawnFunc)CreateSailBuoy,            
+        [SAILMAPOBJECT_32] = (SailObjectSpawnFunc)CreateSailUnusedSeagull,         
+        [SAILMAPOBJECT_33] = (SailObjectSpawnFunc)CreateSailRock,           
+        [SAILMAPOBJECT_34] = (SailObjectSpawnFunc)CreateSailIce,             
+        [SAILMAPOBJECT_35] = (SailObjectSpawnFunc)CreateSailSeagull,        
+        [SAILMAPOBJECT_36] = (SailObjectSpawnFunc)CreateSailFish,         
+        [SAILMAPOBJECT_37] = (SailObjectSpawnFunc)CreateSailFogCloud,    
     },
 
     [SAILMAPOBJECT_TYPE_SUBMARINE] = {
-        [SAILMAPOBJECT_NONE]  = NULL,                                       
-        [SAILMAPOBJECT_RING]  = NULL,                                       
-        [SAILMAPOBJECT_2]  = (SailObjectSpawnFunc)SailSubItem__Create,   
+        // Common Objects (Core)
+        [SAILMAPOBJECT_ISLAND]  = NULL,                                       
+        [SAILMAPOBJECT_RING]    = NULL,                                       
+        [SAILMAPOBJECT_2]       = (SailObjectSpawnFunc)SailSubItem__Create,  
+
+        // Ship-Specific Objects
         [SAILMAPOBJECT_3]  = (SailObjectSpawnFunc)SailSubBoat02__Create, 
         [SAILMAPOBJECT_4]  = (SailObjectSpawnFunc)SailSubMine__Create,   
         [SAILMAPOBJECT_5]  = (SailObjectSpawnFunc)SailSubShark__Create,  
@@ -153,13 +177,15 @@ const SailObjectSpawnFunc sailObjectSpawnList[SAILMAPOBJECT_TYPE_COUNT][SAILMAPO
         [SAILMAPOBJECT_27] = NULL,                                       
         [SAILMAPOBJECT_28] = NULL,                                       
         [SAILMAPOBJECT_29] = NULL,                                       
-        [SAILMAPOBJECT_30] = NULL,                                       
-        [SAILMAPOBJECT_31] = (SailObjectSpawnFunc)SailBuoy__Create,      
-        [SAILMAPOBJECT_32] = (SailObjectSpawnFunc)SailSeagull__Create,   
-        [SAILMAPOBJECT_33] = (SailObjectSpawnFunc)SailStone__Create,     
-        [SAILMAPOBJECT_34] = (SailObjectSpawnFunc)SailIce__Create,       
-        [SAILMAPOBJECT_35] = (SailObjectSpawnFunc)SailSeagull2__Create,  
-        [SAILMAPOBJECT_36] = (SailObjectSpawnFunc)SailSubFish__Create,   
+        [SAILMAPOBJECT_30] = NULL,                            
+        
+        // Common Objects (Misc)
+        [SAILMAPOBJECT_31] = (SailObjectSpawnFunc)CreateSailBuoy,      
+        [SAILMAPOBJECT_32] = (SailObjectSpawnFunc)CreateSailUnusedSeagull,   
+        [SAILMAPOBJECT_33] = (SailObjectSpawnFunc)CreateSailRock,     
+        [SAILMAPOBJECT_34] = (SailObjectSpawnFunc)CreateSailIce,       
+        [SAILMAPOBJECT_35] = (SailObjectSpawnFunc)CreateSailSeagull,  
+        [SAILMAPOBJECT_36] = (SailObjectSpawnFunc)CreateSailFish,   
         [SAILMAPOBJECT_37] = NULL,                                       
     },
 };

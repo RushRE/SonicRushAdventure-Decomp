@@ -234,7 +234,7 @@ EffectTruckJewel *EffectTruckJewel__Create(StageTask *parent, fx32 velX, fx32 ve
 
     if (flag)
     {
-        work->objWork.userTimer = 0x2000 + (FX32_FROM_WHOLE(mtMathRandRepeat(4)));
+        work->objWork.userTimer = FLOAT_TO_FX32(2.0) + (FX32_FROM_WHOLE(mtMathRandRepeat(4)));
     }
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
@@ -412,7 +412,7 @@ NONMATCH_FUNC void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *wor
     BOOL isActive = FALSE;
     s32 i;
 
-    if (work->objWork.parentObj != NULL && (work->objWork.parentObj->flag & STAGE_TASK_FLAG_DESTROYED) == 0 && work->objWork.parentObj->userFlag)
+    if (work->objWork.parentObj != NULL && !IsStageTaskDestroyed(work->objWork.parentObj) && work->objWork.parentObj->userFlag)
         work->objWork.userFlag = TRUE;
 
     work->objWork.position.x = work->objWork.parentObj->position.x;

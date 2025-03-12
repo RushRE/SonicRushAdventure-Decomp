@@ -152,7 +152,7 @@ void SailTraining_Main_Init(void)
         }
     }
 
-    if (work->sailTrainingDialog != NULL && (work->sailTrainingDialog->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+    if (work->sailTrainingDialog != NULL && IsStageTaskDestroyed(work->sailTrainingDialog))
     {
         u16 selection            = SailMessageCommon__Func_21729F4(work->sailTrainingDialog);
         work->sailTrainingDialog = NULL;
@@ -160,8 +160,8 @@ void SailTraining_Main_Init(void)
         {
             SailTrainingDialog__Create(0xFFFE);
             work->flags |= SAILTRAINING_FLAG_CREATED_GOOD_LUCK_DIALOG;
-            manager->nextEvent = 1;
-            manager->field_4   = 1;
+            manager->nextEvent      = 1;
+            manager->targetIslandID = 1;
         }
         else
         {
@@ -212,8 +212,8 @@ void SailTraining_Main_TrainingActive(void)
                 }
                 else
                 {
-                    manager->nextEvent = 1;
-                    manager->field_4   = 1;
+                    manager->nextEvent      = 1;
+                    manager->targetIslandID = 1;
                 }
 
                 DestroyCurrentTask();

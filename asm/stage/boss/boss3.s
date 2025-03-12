@@ -8925,7 +8925,7 @@ ovl01_2168260: // 0x02168260
 	add r0, ip, #0x20
 	add r1, ip, #0x2c
 	add r2, ip, #0x38
-	bl Unknown2066510__Func_2066A4C
+	bl Unknown2066510__LookAt
 	add r0, sp, #0x24
 	add r3, r4, #0x44
 	ldmia r0, {r0, r1, r2}

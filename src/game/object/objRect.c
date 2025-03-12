@@ -253,14 +253,14 @@ void ObjRect__CheckAllGroup(void)
         ObjRect__CheckOut();
 }
 
-OBS_RECT_WORK *ObjRect__RegistGet(u8 group, s16 groupIdx)
+OBS_RECT_WORK *ObjRect__RegistGet(u8 groupMask, s16 groupIdx)
 {
     s16 index;
 
     u16 groupOffset = 0;
     for (index = 0; index < OBS_RECT_GROUP_COUNT; index++)
     {
-        if ((group & (1 << index)) != 0)
+        if ((groupMask & (1 << index)) != 0)
         {
             if (groupIdx < _obj_user_resist_num[index])
                 return _obj_user_resist[groupOffset + groupIdx];
@@ -277,14 +277,14 @@ OBS_RECT_WORK *ObjRect__RegistGet(u8 group, s16 groupIdx)
     return NULL;
 }
 
-OBS_RECT_WORK *ObjRect__RegistGetNext(u8 group, s16 groupIdx)
+OBS_RECT_WORK *ObjRect__RegistGetNext(u8 groupMask, s16 groupIdx)
 {
     s16 index;
 
     u16 groupOffset = 0;
     for (index = 0; index < OBS_RECT_GROUP_COUNT; index++)
     {
-        if ((group & (1 << index)) != 0)
+        if ((groupMask & (1 << index)) != 0)
         {
             if (groupIdx < _obj_user_resist_num_nx[index])
                 return _obj_user_resist_nx[groupOffset + groupIdx];

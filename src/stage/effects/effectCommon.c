@@ -307,7 +307,7 @@ void EffectTask3D_Destructor(Task *task)
 void EffectTask_State_DestroyAfterAnimation(StageTask *work)
 {
     if ((work->displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
-        work->flag |= STAGE_TASK_FLAG_DESTROYED;
+        DestroyStageTask(work);
 }
 
 void EffectTask_State_DestroyAfterTime(StageTask *work)
@@ -315,7 +315,7 @@ void EffectTask_State_DestroyAfterTime(StageTask *work)
     work->userTimer -= GetObjSpeed();
 
     if (work->userTimer <= 0)
-        work->flag |= STAGE_TASK_FLAG_DESTROYED;
+        DestroyStageTask(work);
 }
 
 void EffectTask_State_MoveTowardsZeroX(StageTask *work)
@@ -351,7 +351,7 @@ void EffectTask_State_TrackParent(StageTask *work)
     {
         if (work->userTimer == 0)
         {
-            work->flag |= STAGE_TASK_FLAG_DESTROYED;
+            DestroyStageTask(work);
             return;
         }
 
@@ -361,7 +361,7 @@ void EffectTask_State_TrackParent(StageTask *work)
     {
         if (work->userTimer == 0)
         {
-            work->flag |= STAGE_TASK_FLAG_DESTROYED;
+            DestroyStageTask(work);
             return;
         }
 
@@ -418,9 +418,9 @@ EffectExplosion *CreateEffectExplosion(StageTask *parent, fx32 velX, fx32 velY, 
 // EXPLOSION2
 // ==============
 
-EffectHarmfulExplosion *CreateEffectHarmfulExplosion(StageTask *parent, fx32 velX, fx32 velY, s16 left, s16 top, s16 right, s16 bottom, u16 targetFrame, ExplosionType type)
+EffectExplosionHazard *CreateEffectExplosionHazard(StageTask *parent, fx32 velX, fx32 velY, s16 left, s16 top, s16 right, s16 bottom, u16 targetFrame, ExplosionType type)
 {
-    EffectHarmfulExplosion *work = CreateEffect(EffectHarmfulExplosion, NULL);
+    EffectExplosionHazard *work = CreateEffect(EffectExplosionHazard, NULL);
     if (work == NULL)
         return NULL;
 
@@ -454,7 +454,7 @@ EffectHarmfulExplosion *CreateEffectHarmfulExplosion(StageTask *parent, fx32 vel
     work->objWork.position.y += velY;
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
-    SetTaskState(&work->objWork, EffectHarmfulExplosion_State_Active);
+    SetTaskState(&work->objWork, EffectExplosionHazard_State_Active);
     work->targetFrame = targetFrame;
 
     StageTask__InitCollider(&work->objWork, &work->collider, 0, STAGE_TASK_COLLIDER_FLAGS_NONE);
@@ -467,7 +467,7 @@ EffectHarmfulExplosion *CreateEffectHarmfulExplosion(StageTask *parent, fx32 vel
     return work;
 }
 
-void EffectHarmfulExplosion_State_Active(EffectHarmfulExplosion *work)
+void EffectExplosionHazard_State_Active(EffectExplosionHazard *work)
 {
     EffectTask_State_DestroyAfterAnimation(&work->objWork);
 

@@ -6,22 +6,36 @@
 #include <game/math/unknown2066510.h>
 #include <sail/sailPlayer.h>
 
+// Objects
+#include <sail/objects/sailIsland.h>
+#include <sail/objects/sailMine.h>
+#include <sail/objects/sailBomb.h>
+#include <sail/objects/sailCloud.h>
+#include <sail/objects/sailBuoy.h>
+#include <sail/objects/sailSeagull.h>
+#include <sail/objects/sailRock.h>
+#include <sail/objects/sailIce.h>
+#include <sail/objects/sailFish.h>
+#include <sail/objects/sailGoal.h>
+#include <sail/objects/sailItemBox.h>
+
 // --------------------
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void EffectSailHit__Create(VecFx32 *position);
-NOT_DECOMPILED void EffectSailBomb__Create(VecFx32 *position);
-NOT_DECOMPILED void EffectUnknown2161544__Create(StageTask *parent, VecFx32 *position);
-NOT_DECOMPILED void EffectSailWater06__Create(VecFx32 *position);
-NOT_DECOMPILED void EffectSailGuard__Create(VecFx32 *position);
-NOT_DECOMPILED void EffectSailUnknown21625C8__Create(VecFx32 *position);
+NOT_DECOMPILED StageTask *EffectSailHit__Create(VecFx32 *position);
+NOT_DECOMPILED StageTask *EffectCreateSailBomb(VecFx32 *position);
+NOT_DECOMPILED StageTask *EffectUnknown2161544__Create(StageTask *parent, VecFx32 *position);
+NOT_DECOMPILED StageTask *EffectSailWater06__Create(VecFx32 *position);
+NOT_DECOMPILED StageTask *EffectSailGuard__Create(VecFx32 *position);
+NOT_DECOMPILED StageTask *SailExplosionHazard__Create(VecFx32 *position);
 
 // --------------------
 // VARIABLES
 // --------------------
 
-static const s16 _0218BC64[] = { 0x80, 0x100, 0x80, 0x20, -0x80, -0x100, -0x80, -0x20 };
+static const s16 oscillateTable[] = { FLOAT_TO_FX32(0.03125),  FLOAT_TO_FX32(0.0625),  FLOAT_TO_FX32(0.03125),  FLOAT_TO_FX32(0.0078125),
+                                      -FLOAT_TO_FX32(0.03125), -FLOAT_TO_FX32(0.0625), -FLOAT_TO_FX32(0.03125), -FLOAT_TO_FX32(0.0078125) };
 
 NOT_DECOMPILED const char *aSbLandBac;
 NOT_DECOMPILED const char *aSbMineBac_0;
@@ -34,10 +48,66 @@ NOT_DECOMPILED const char *aSbSeagullNsbmd_0;
 NOT_DECOMPILED const char *aSbStoneNsbmd_0;
 
 // --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void SailIsland_State_Other(StageTask *work);
+static void SailIsland_Draw_Destination(void);
+static void SailIsland_Draw_Other(void);
+
+static void SailMine_State_Active(StageTask *work);
+
+static void SailBomb_Action_Init(StageTask *work);
+static void SailBomb_State_Active(StageTask *work);
+
+static void SailFogCloud_State_Active(StageTask *work);
+static void SailSkyCloud_State_Active(StageTask *work);
+
+static void SailObject_Action_Destroy(StageTask *work);
+static void SailObject_Action_ExplodeSimple(StageTask *work);
+static void SailObject_State_ExplodeSimple(StageTask *work);
+static void SailObject_Action_Explode(StageTask *work);
+static void SailObject_CreateRingsForExplode1(StageTask *work);
+static void SailObject_CreateRingsForExplode2(StageTask *work);
+static void SailObject_State_Explode(StageTask *work);
+
+static void SailBuoy_Action_Init(StageTask *work);
+static void SailBuoy_State_Floating(StageTask *work);
+
+static void SailUnusedSeagull_Action_Init(StageTask *work);
+static void SailUnusedSeagull_State_Flying(StageTask *work);
+
+static void SailSeagull_Action_Init(StageTask *work);
+static void SailSeagull_State_Flying(StageTask *work);
+
+static void SailIslandSeagull_Action_Init(StageTask *work);
+static void SailIslandSeagull_State_Flying(StageTask *work);
+
+static void SailFish_Action_Init(StageTask *work);
+static void SailFish_State_Swimming(StageTask *work);
+
+static void SailIslandFish_Action_Init(StageTask *work);
+static void SailIslandFish_State_Swimming(StageTask *work);
+
+static void SailGoalChaosEmerald_Action_Init(StageTask *work);
+static void SailGoalChaosEmerald_State_Idle(StageTask *work);
+static void SailGoalChaosEmerald_Action_Grab(StageTask *work);
+static void SailGoalChaosEmerald_State_Grabbed(StageTask *work);
+
+static void SailGoal_Action_Init(StageTask *work);
+static void SailGoal_State_Active(StageTask *work);
+
+static void SailGoalText_Action_Init(StageTask *work);
+static void SailGoalText_State_Active(StageTask *work);
+
+static void SailItemBox_GiveItem(StageTask *work, StageTask *object);
+static void SailItemBoxRewardText_State_Active(StageTask *work);
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
-void SailObject__InitCommon(StageTask *work)
+void SailObject_InitCommon(StageTask *work)
 {
     Animator3D *aniModel = NULL;
 
@@ -53,7 +123,7 @@ void SailObject__InitCommon(StageTask *work)
         aniModel->scale.z = FLOAT_TO_FX32(0.125);
         work->displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
 
-        SetTaskOutFunc(work, SailObject__Draw_Default);
+        SetTaskOutFunc(work, SailObject_Draw_Default);
     }
 
     if (work->obj_2dIn3d != NULL)
@@ -134,31 +204,31 @@ void SailObject__InitCommon(StageTask *work)
         }
     }
 
-    SailObject__SetAnimSpeed(work, FLOAT_TO_FX32(1.0));
+    SailObject_SetAnimSpeed(work, FLOAT_TO_FX32(1.0));
 
-    SetTaskInFunc(work, SailObject__In_Default);
+    SetTaskInFunc(work, SailObject_In_Default);
 
     if (work->objType == SAILSTAGE_OBJ_TYPE_OBJECT)
-        SetTaskLastFunc(work, SailObject__Last_Default);
+        SetTaskLastFunc(work, SailObject_Last_Default);
 
     if (work->objType == SAILSTAGE_OBJ_TYPE_OBJECT)
     {
-        SailObject *worker = GetStageTaskWorker(work, SailObject);
-        worker->player     = SailManager__GetWork()->sailPlayer;
-        worker->field_124  = FLOAT_TO_FX32(1.0);
+        SailObject *worker     = GetStageTaskWorker(work, SailObject);
+        worker->player         = SailManager__GetWork()->sailPlayer;
+        worker->explosionScale = FLOAT_TO_FX32(1.0);
 
-        SetTaskViewCheckFunc(work, SailObject__ViewCheck_Default);
+        SetTaskViewCheckFunc(work, SailObject_ViewCheck_Default);
         work->flag &= ~STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
         work->userFlag |= SAILOBJECT_FLAG_40;
-        SetTaskDestructorEvent(work->taskRef, SailObject__Destructor);
+        SetTaskDestructorEvent(work->taskRef, SailObject_Destructor);
     }
 
-    SailObject__SetLightColors(work, 0);
+    SailObject_SetLightColors(work, 0);
 
     work->flag |= STAGE_TASK_FLAG_DISABLE_SHAKE;
 }
 
-void SailObject__InitFromMapObject(StageTask *work, SailEventManagerObject *mapObject)
+void SailObject_InitFromMapObject(StageTask *work, SailEventManagerObject *mapObject)
 {
     SailObject *worker               = GetStageTaskWorker(work, SailObject);
     SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
@@ -170,19 +240,19 @@ void SailObject__InitFromMapObject(StageTask *work, SailEventManagerObject *mapO
 
         if ((mapObject->flags & SAILMAPOBJECT_FLAG_20000000) == 0)
         {
-            mapObject->objTask   = work;
-            worker->objectRadius = mapObject->unknown;
-            worker->segmentID    = mapObject->segmentID;
-            worker->objectAngle  = mapObject->angle;
+            mapObject->objTask     = work;
+            worker->voyagePosition = mapObject->voyagePosition;
+            worker->segmentID      = mapObject->segmentID;
+            worker->objectAngle    = mapObject->angle;
 
-            s32 segmentPos = FX_Div(worker->objectRadius.z & 0x7FFFF, SailVoyageManager__GetSegmentSize(&voyageManager->segmentList[mapObject->segmentID]));
+            s32 segmentPos = FX_Div(worker->voyagePosition.z & 0x7FFFF, SailVoyageManager__GetSegmentSize(&voyageManager->segmentList[mapObject->segmentID]));
             SailVoyageManager__Func_2158888(&voyageManager->segmentList[mapObject->segmentID], segmentPos, &worker->field_1C.x, &worker->field_1C.z);
             worker->objectRef = mapObject;
         }
     }
 }
 
-void SailObject__SetAnimSpeed(StageTask *work, fx32 speed)
+void SailObject_SetAnimSpeed(StageTask *work, fx32 speed)
 {
     if (work->obj_3d != NULL)
     {
@@ -200,7 +270,7 @@ void SailObject__SetAnimSpeed(StageTask *work, fx32 speed)
     }
 }
 
-void SailObject__HandleParentFollow(StageTask *work)
+void SailObject_HandleParentFollow(StageTask *work)
 {
     StageTask *parent = work->parentObj;
 
@@ -219,7 +289,7 @@ void SailObject__HandleParentFollow(StageTask *work)
     work->displayFlag |= parent->displayFlag & DISPLAY_FLAG_NO_DRAW;
 }
 
-void SailObject__ApplyRotation(StageTask *work)
+void SailObject_ApplyRotation(StageTask *work)
 {
     Animator3D *animator;
 
@@ -262,13 +332,13 @@ void SailObject__ApplyRotation(StageTask *work)
     }
 }
 
-void SailObject__SetSpriteColor(StageTask *work, GXRgb color)
+void SailObject_SetSpriteColor(StageTask *work, GXRgb color)
 {
     if (work->obj_2dIn3d != NULL)
         work->obj_2dIn3d->ani.color = color;
 }
 
-void SailObject__In_Default(void)
+void SailObject_In_Default(void)
 {
     StageTask *work = TaskGetWorkCurrent(StageTask);
 
@@ -278,7 +348,7 @@ void SailObject__In_Default(void)
     }
 
     if ((work->flag & STAGE_TASK_FLAG_DISABLE_SHAKE) != 0)
-        SailObject__ShakeScreen(work, FX32_TO_WHOLE(work->shakeTimer));
+        SailObject_ShakeScreen(work, FX32_TO_WHOLE(work->shakeTimer));
 
     if ((work->userFlag & SAILOBJECT_FLAG_40) != 0)
     {
@@ -286,13 +356,13 @@ void SailObject__In_Default(void)
         if (worker == NULL)
             return;
 
-        if (worker->player != NULL && (worker->player->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+        if (worker->player != NULL && IsStageTaskDestroyed(worker->player))
             worker->player = NULL;
 
-        if (worker->collidedObj != NULL && (worker->collidedObj->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+        if (worker->collidedObj != NULL && IsStageTaskDestroyed(worker->collidedObj))
             worker->collidedObj = NULL;
 
-        if (worker->targetHUD != NULL && (worker->targetHUD->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+        if (worker->targetHUD != NULL && IsStageTaskDestroyed(worker->targetHUD))
             worker->targetHUD = NULL;
     }
 
@@ -305,7 +375,7 @@ void SailObject__In_Default(void)
         if (worker == NULL)
             return;
 
-        worker->objectRadius.z += voyageManager->field_74;
+        worker->voyagePosition.z += voyageManager->field_74;
 
         // in the submarine, distant objects should appear darker than closer ones.
         if (SailManager__GetShipType() == SHIP_SUBMARINE)
@@ -342,7 +412,7 @@ void SailObject__In_Default(void)
     }
 }
 
-void SailObject__Draw_Default(void)
+void SailObject_Draw_Default(void)
 {
     StageTask *work    = TaskGetWorkCurrent(StageTask);
     SailObject *object = GetStageTaskWorker(work, SailObject);
@@ -352,32 +422,32 @@ void SailObject__Draw_Default(void)
         case SAILSTAGE_OBJ_TYPE_PLAYER: {
             SailPlayer *player = (SailPlayer *)object;
 
-            NNS_G3dGlbLightColor(GX_LIGHTID_0, SailObject__ApplyFogBrightness(player->lightColor[0]));
-            NNS_G3dGlbLightColor(GX_LIGHTID_1, SailObject__ApplyFogBrightness(player->lightColor[1]));
-            NNS_G3dGlbLightColor(GX_LIGHTID_2, SailObject__ApplyFogBrightness(player->lightColor[2]));
+            NNS_G3dGlbLightColor(GX_LIGHTID_0, SailObject_ApplyFogBrightness(player->lightColor[0]));
+            NNS_G3dGlbLightColor(GX_LIGHTID_1, SailObject_ApplyFogBrightness(player->lightColor[1]));
+            NNS_G3dGlbLightColor(GX_LIGHTID_2, SailObject_ApplyFogBrightness(player->lightColor[2]));
         }
         break;
 
         case SAILSTAGE_OBJ_TYPE_OBJECT:
-            NNS_G3dGlbLightColor(GX_LIGHTID_0, SailObject__ApplyFogBrightness(object->lightColor[0]));
-            NNS_G3dGlbLightColor(GX_LIGHTID_1, SailObject__ApplyFogBrightness(object->lightColor[1]));
-            NNS_G3dGlbLightColor(GX_LIGHTID_2, SailObject__ApplyFogBrightness(object->lightColor[2]));
+            NNS_G3dGlbLightColor(GX_LIGHTID_0, SailObject_ApplyFogBrightness(object->lightColor[0]));
+            NNS_G3dGlbLightColor(GX_LIGHTID_1, SailObject_ApplyFogBrightness(object->lightColor[1]));
+            NNS_G3dGlbLightColor(GX_LIGHTID_2, SailObject_ApplyFogBrightness(object->lightColor[2]));
             break;
 
         case SAILSTAGE_OBJ_TYPE_EFFECT:
             if ((work->userFlag & SAILOBJECT_FLAG_400000) == 0)
                 break;
 
-            NNS_G3dGlbLightColor(GX_LIGHTID_0, SailObject__ApplyFogBrightness(object->lightColor[0]));
-            NNS_G3dGlbLightColor(GX_LIGHTID_1, SailObject__ApplyFogBrightness(object->lightColor[1]));
-            NNS_G3dGlbLightColor(GX_LIGHTID_2, SailObject__ApplyFogBrightness(object->lightColor[2]));
+            NNS_G3dGlbLightColor(GX_LIGHTID_0, SailObject_ApplyFogBrightness(object->lightColor[0]));
+            NNS_G3dGlbLightColor(GX_LIGHTID_1, SailObject_ApplyFogBrightness(object->lightColor[1]));
+            NNS_G3dGlbLightColor(GX_LIGHTID_2, SailObject_ApplyFogBrightness(object->lightColor[2]));
             break;
     }
 
     StageTask__Draw(work);
 }
 
-GXRgb SailObject__ApplyFogBrightness(GXRgb color)
+GXRgb SailObject_ApplyFogBrightness(GXRgb color)
 {
     SailManager *manager = SailManager__GetWork();
 
@@ -388,7 +458,7 @@ GXRgb SailObject__ApplyFogBrightness(GXRgb color)
     return GX_RGB(r, g, b);
 }
 
-void SailObject__SetLightColors(StageTask *work, s32 type)
+void SailObject_SetLightColors(StageTask *work, s32 type)
 {
     GXRgb *lightColor0;
     GXRgb *lightColor1;
@@ -464,27 +534,27 @@ void SailObject__SetLightColors(StageTask *work, s32 type)
     }
 }
 
-void SailObject__Last_Default(void)
+void SailObject_Last_Default(void)
 {
     StageTask *work    = TaskGetWorkCurrent(StageTask);
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
-    if (worker->field_130 != 0)
-        worker->field_130--;
+    if (worker->invincibleTimer != 0)
+        worker->invincibleTimer--;
 
     if (worker->blinkTimer != 0)
     {
         worker->blinkTimer--;
         if ((worker->blinkTimer & 2) != 0)
-            SailObject__SetLightColors(work, 1);
+            SailObject_SetLightColors(work, 1);
         else
-            SailObject__SetLightColors(work, 0);
+            SailObject_SetLightColors(work, 0);
     }
 
     worker->collidedObj = NULL;
 }
 
-void SailObject__DoColliderUnknown(StageTask *work, SailColliderWorkHitCheck *collider)
+void SailObject_DoColliderUnknown(StageTask *work, SailColliderHitCheckBox *collider)
 {
     UNUSED(work);
     UNUSED(collider);
@@ -492,15 +562,15 @@ void SailObject__DoColliderUnknown(StageTask *work, SailColliderWorkHitCheck *co
     // Does..... nothing?
 }
 
-BOOL SailObject__ColliderCheckActive_Default(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+BOOL SailObject_ColliderCheckActive_Default(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     SailColliderWork *collider1;
     SailColliderWork *collider2;
 
-    SailColliderWorkHitCheck *hitCheck1_1 = NULL;
-    SailColliderWorkHitCheck *hitCheck2_1 = NULL;
-    SailColliderWorkHitCheck *hitCheck1_2 = NULL;
-    SailColliderWorkHitCheck *hitCheck2_2 = NULL;
+    SailColliderHitCheckBox *hitCheck1_box   = NULL;
+    SailColliderHitCheckBox *hitCheck2_box   = NULL;
+    SailColliderHitCheckLine *hitCheck1_line = NULL;
+    SailColliderHitCheckLine *hitCheck2_line = NULL;
 
     collider1 = rect1->userData;
     collider2 = rect2->userData;
@@ -509,12 +579,12 @@ BOOL SailObject__ColliderCheckActive_Default(OBS_RECT_WORK *rect1, OBS_RECT_WORK
 
     switch (collider1->type)
     {
-        case 1:
-            hitCheck1_1 = &collider1->hitCheck;
+        case SAILCOLLIDER_TYPE_BOX:
+            hitCheck1_box = &collider1->hitCheck.box;
             break;
 
-        case 2:
-            hitCheck1_2 = &collider1->hitCheck;
+        case SAILCOLLIDER_TYPE_LINE:
+            hitCheck1_line = &collider1->hitCheck.line;
             break;
 
         default:
@@ -523,30 +593,30 @@ BOOL SailObject__ColliderCheckActive_Default(OBS_RECT_WORK *rect1, OBS_RECT_WORK
 
     switch (collider2->type)
     {
-        case 1:
-            hitCheck2_1 = &collider2->hitCheck;
+        case SAILCOLLIDER_TYPE_BOX:
+            hitCheck2_box = &collider2->hitCheck.box;
             break;
 
-        case 2:
-            hitCheck2_2 = &collider2->hitCheck;
+        case SAILCOLLIDER_TYPE_LINE:
+            hitCheck2_line = &collider2->hitCheck.line;
             break;
 
         default:
             return FALSE;
     }
 
-    if (hitCheck1_1 != NULL && hitCheck2_1 != NULL)
-        return SailObject__CheckHitboxEnabled_Type1(hitCheck1_1, hitCheck2_1, type);
+    if (hitCheck1_box != NULL && hitCheck2_box != NULL)
+        return SailObject_CheckHitboxEnabled_Box(hitCheck1_box, hitCheck2_box, type);
 
-    if (hitCheck1_1 != NULL && hitCheck2_2 != NULL)
-        return SailObject__CheckHitboxEnabled_Type2(hitCheck1_1, hitCheck2_2, type);
+    if (hitCheck1_box != NULL && hitCheck2_line != NULL)
+        return SailObject_CheckHitboxEnabled_Line(hitCheck1_box, hitCheck2_line, type);
 
-    if (hitCheck2_1 != NULL && hitCheck1_2 != NULL)
-        return SailObject__CheckHitboxEnabled_Type2(hitCheck2_1, hitCheck1_2, type);
+    if (hitCheck2_box != NULL && hitCheck1_line != NULL)
+        return SailObject_CheckHitboxEnabled_Line(hitCheck2_box, hitCheck1_line, type);
 
     // ???
     BOOL value = FALSE;
-    if (hitCheck1_2 != NULL)
+    if (hitCheck1_line != NULL)
     {
         value = FALSE;
     }
@@ -554,13 +624,13 @@ BOOL SailObject__ColliderCheckActive_Default(OBS_RECT_WORK *rect1, OBS_RECT_WORK
     return value;
 }
 
-BOOL SailObject__CheckHitboxEnabled_Type1(SailColliderWorkHitCheck *collider1, SailColliderWorkHitCheck *collider2, fx32 a3)
+BOOL SailObject_CheckHitboxEnabled_Box(SailColliderHitCheckBox *collider1, SailColliderHitCheckBox *collider2, fx32 a3)
 {
     fx32 distanceX;
     fx32 distanceZ;
 
-    distanceZ = (collider1->field_0.z - collider2->field_0.z);
-    distanceX = (collider1->field_0.x - collider2->field_0.x);
+    distanceZ = (collider1->position.z - collider2->position.z);
+    distanceX = (collider1->position.x - collider2->position.x);
 
     if (distanceX < 0)
         distanceX = -distanceX;
@@ -583,98 +653,98 @@ BOOL SailObject__CheckHitboxEnabled_Type1(SailColliderWorkHitCheck *collider1, S
         return FALSE;
 
     VecFx32 dest;
-    VEC_Subtract(&collider1->field_0, &collider2->field_0, &dest);
+    VEC_Subtract(&collider1->position, &collider2->position, &dest);
     fx32 dot = VEC_DotProduct(&dest, &dest);
 
-    fx32 unknownX2 = collider2->field_24.x;
-    fx32 unknownX1 = collider1->field_24.x;
+    fx32 sizeX2 = collider2->size.x;
+    fx32 sizeX1 = collider1->size.x;
 
-    if ((dot - MultiplyFX(unknownX1 + unknownX2, unknownX1 + unknownX2)) > 0)
+    if ((dot - MultiplyFX(sizeX1 + sizeX2, sizeX1 + sizeX2)) > 0)
         return FALSE;
 
-    if (collider1->field_24.y != 0 || collider2->field_24.y != 0)
+    if (collider1->size.y != 0 || collider2->size.y != 0)
     {
-        s32 unknownY1 = collider1->field_24.y;
-        s32 unknownY2 = collider2->field_24.y;
+        s32 sizeY1 = collider1->size.y;
+        s32 sizeY2 = collider2->size.y;
 
-        s32 distanceY = collider1->field_0.y - collider2->field_0.y;
+        s32 distanceY = collider1->position.y - collider2->position.y;
 
-        if (unknownY1 == 0)
-            unknownY1 = collider1->field_24.x;
+        if (sizeY1 == 0)
+            sizeY1 = collider1->size.x;
 
-        if (unknownY2 != 0)
-            unknownY1 += unknownY2;
+        if (sizeY2 != 0)
+            sizeY1 += sizeY2;
         else
-            unknownY1 += unknownX2;
+            sizeY1 += sizeX2;
 
-        s32 value2 = MultiplyFX(distanceY, distanceY) - MultiplyFX(unknownY1, unknownY1);
+        s32 value2 = MultiplyFX(distanceY, distanceY) - MultiplyFX(sizeY1, sizeY1);
         if (value2 > 0)
             return FALSE;
     }
 
-    if (collider1->field_24.z != 0 || collider2->field_24.z != 0)
+    if (collider1->size.z != 0 || collider2->size.z != 0)
     {
-        u16 angle = FX_Atan2Idx(collider2->field_0.x - collider1->field_0.x, collider2->field_0.z - collider1->field_0.z);
+        u16 angle = FX_Atan2Idx(collider2->position.x - collider1->position.x, collider2->position.z - collider1->position.z);
 
-        if (collider1->field_24.z != 0)
+        if (collider1->size.z != 0)
         {
-            unknownX1 -= MATH_ABS(MultiplyFX(unknownX1 - collider1->field_24.z, SinFX((s32)(u16)(angle - collider1->angle))));
+            sizeX1 -= MATH_ABS(MultiplyFX(sizeX1 - collider1->size.z, SinFX((s32)(u16)(angle - collider1->angle))));
         }
 
-        if (collider2->field_24.z != 0)
+        if (collider2->size.z != 0)
         {
-            unknownX2 -= MATH_ABS(MultiplyFX(unknownX2 - collider2->field_24.z, SinFX((s32)(u16)(angle - collider2->angle))));
+            sizeX2 -= MATH_ABS(MultiplyFX(sizeX2 - collider2->size.z, SinFX((s32)(u16)(angle - collider2->angle))));
         }
 
-        if (dot - MultiplyFX(unknownX1 + unknownX2, unknownX1 + unknownX2) > 0)
+        if (dot - MultiplyFX(sizeX1 + sizeX2, sizeX1 + sizeX2) > 0)
             return FALSE;
     }
 
-    VEC_Add(&collider1->field_0, &collider2->field_0, &collider1->type1.field_38);
-    collider1->type1.field_38.x >>= 1;
-    collider1->type1.field_38.y >>= 1;
-    collider1->type1.field_38.z >>= 1;
-    collider1->type1.field_38.y = -collider1->type1.field_38.y;
+    VEC_Add(&collider1->position, &collider2->position, &collider1->hitPosition);
+    collider1->hitPosition.x >>= 1;
+    collider1->hitPosition.y >>= 1;
+    collider1->hitPosition.z >>= 1;
+    collider1->hitPosition.y = -collider1->hitPosition.y;
 
-    collider2->type1.field_38 = collider1->type1.field_38;
+    collider2->hitPosition = collider1->hitPosition;
 
     return TRUE;
 }
 
-BOOL SailObject__CheckHitboxEnabled_Type2(SailColliderWorkHitCheck *collider1, SailColliderWorkHitCheck *collider2, fx32 a3)
+BOOL SailObject_CheckHitboxEnabled_Line(SailColliderHitCheckBox *collider1, SailColliderHitCheckLine *collider2, fx32 a3)
 {
-    s32 range = collider1->field_24.x + collider2->type2.field_48;
+    s32 range = collider1->size.x + collider2->range;
 
-    VecFx32 position2;
-    VecFx32 position1;
-    VEC_Subtract(&collider2->field_C, &collider2->field_0, &position2);
-    VEC_Subtract(&collider1->field_0, &collider2->field_0, &position1);
+    VecFx32 line;
+    VecFx32 localLine;
+    VEC_Subtract(&collider2->localEnd, &collider2->localStart, &line);
+    VEC_Subtract(&collider1->position, &collider2->localStart, &localLine);
 
-    s32 dot1 = VEC_DotProduct(&position1, &position2);
+    s32 dot1 = VEC_DotProduct(&localLine, &line);
     if (dot1 < 0)
         return 0;
 
-    s32 dot2 = VEC_DotProduct(&position2, &position2);
+    s32 dot2 = VEC_DotProduct(&line, &line);
     if (dot1 > dot2)
         return 0;
 
     fx32 step = FX_Div(dot1, dot2);
-    VecFx32 localPos;
-    localPos.x = position1.x - MultiplyFX(step, position2.x);
-    localPos.y = position1.y - MultiplyFX(step, position2.y);
-    localPos.z = position1.z - MultiplyFX(step, position2.z);
+    VecFx32 hitPos;
+    hitPos.x = localLine.x - MultiplyFX(step, line.x);
+    hitPos.y = localLine.y - MultiplyFX(step, line.y);
+    hitPos.z = localLine.z - MultiplyFX(step, line.z);
 
-    if (VEC_DotProduct(&localPos, &localPos) > MultiplyFX(range, range))
+    if (VEC_DotProduct(&hitPos, &hitPos) > MultiplyFX(range, range))
         return FALSE;
 
-    VEC_Subtract(&collider1->field_0, &localPos, &collider2->type2.field_5C);
-    collider2->type2.field_5C.y = -collider2->type2.field_5C.y;
-    collider1->type1.field_38   = collider2->type2.field_5C;
+    VEC_Subtract(&collider1->position, &hitPos, &collider2->hitPos);
+    collider2->hitPos.y    = -collider2->hitPos.y;
+    collider1->hitPosition = collider2->hitPos;
 
     return TRUE;
 }
 
-void SailObject__SetupHitbox(StageTask *work, SailColliderWork *sailCollider, s32 id)
+void SailObject_InitColliderForCommon(StageTask *work, SailColliderWork *sailCollider, s32 id)
 {
     StageTask__InitCollider(work, NULL, id, STAGE_TASK_COLLIDER_FLAGS_NONE);
 
@@ -682,7 +752,7 @@ void SailObject__SetupHitbox(StageTask *work, SailColliderWork *sailCollider, s3
     collider->onDefend      = NULL;
     collider->flag          = OBS_RECT_WORK_FLAG_80000 | OBS_RECT_WORK_FLAG_IS_ACTIVE;
     collider->userData      = sailCollider;
-    ObjRect__SetCheckActive(collider, SailObject__ColliderCheckActive_Default);
+    ObjRect__SetCheckActive(collider, SailObject_ColliderCheckActive_Default);
 
     switch (id)
     {
@@ -723,7 +793,7 @@ void SailObject__SetupHitbox(StageTask *work, SailColliderWork *sailCollider, s3
             {
                 collider->hitPower = 10;
                 collider->defPower = 5;
-                ObjRect__SetOnDefend(collider, SailObject__OnDefend_Default);
+                ObjRect__SetOnDefend(collider, SailObject_OnDefend_Default);
                 collider->flag |= OBS_RECT_WORK_FLAG_20;
             }
             break;
@@ -732,7 +802,7 @@ void SailObject__SetupHitbox(StageTask *work, SailColliderWork *sailCollider, s3
     sailCollider->stageTask = work;
 }
 
-void SailObject__Func_21658A4(StageTask *work, s32 id)
+void SailObject_InitColliderForObject(StageTask *work, s32 id)
 {
     if (work->objType == SAILSTAGE_OBJ_TYPE_OBJECT)
     {
@@ -742,59 +812,59 @@ void SailObject__Func_21658A4(StageTask *work, s32 id)
     }
 }
 
-void SailObject__Func_21658D0(StageTask *work, s32 id, s32 a3, VecFx32 *a4)
+void SailObject_InitColliderBox(StageTask *work, s32 id, fx32 size, VecFx32 *offset)
 {
     OBS_RECT_WORK *obsCollider = StageTask__GetCollider(work, id);
 
     SailColliderWork *collider = obsCollider->userData;
-    collider->type             = 1;
+    collider->type             = SAILCOLLIDER_TYPE_BOX;
 
-    collider->hitCheck.field_0 = work->position;
+    collider->hitCheck.box.position = work->position;
 
-    collider->hitCheck.field_24.x = a3;
-    collider->hitCheck.field_34   = &work->position;
+    collider->hitCheck.box.size.x = size;
+    collider->hitCheck.box.origin = &work->position;
 
-    if (a4 != NULL)
+    if (offset != NULL)
     {
-        collider->hitCheck.field_C = *a4;
+        collider->hitCheck.box.offset = *offset;
     }
 
     VecFx32 position;
-    SailObject__Func_2165A9C(work, &position);
-    collider->hitCheck.field_C.x += position.x;
-    collider->hitCheck.field_C.y -= position.y;
-    collider->hitCheck.field_C.z += position.z;
+    SailObject_GetCollisionOffset(work, &position);
+    collider->hitCheck.box.offset.x += position.x;
+    collider->hitCheck.box.offset.y -= position.y;
+    collider->hitCheck.box.offset.z += position.z;
 }
 
-void SailObject__Func_2165960(StageTask *work, s32 id, s32 a3, VecFx32 *a4, VecFx32 *a5, VecFx32 *a6)
+void SailObject_InitColliderLine(StageTask *work, s32 id, s32 range, VecFx32 *start, VecFx32 *end, VecFx32 *offset)
 {
     OBS_RECT_WORK *obsCollider = StageTask__GetCollider(work, id);
 
     SailColliderWork *collider = obsCollider->userData;
-    collider->type             = 2;
+    collider->type             = SAILCOLLIDER_TYPE_LINE;
 
-    collider->hitCheck.field_18 = *a4;
-    collider->hitCheck.field_24 = *a5;
+    collider->hitCheck.line.start = *start;
+    collider->hitCheck.line.end   = *end;
 
-    collider->hitCheck.type2.field_48 = a3;
+    collider->hitCheck.line.range = range;
 
-    VEC_Subtract(a5, a4, &collider->hitCheck.type2.field_50);
-    VEC_Normalize(&collider->hitCheck.type2.field_50, &collider->hitCheck.type2.field_50);
-    collider->hitCheck.type2.field_4C = &work->position;
+    VEC_Subtract(end, start, &collider->hitCheck.line.direction);
+    VEC_Normalize(&collider->hitCheck.line.direction, &collider->hitCheck.line.direction);
+    collider->hitCheck.line.lineOriginPos = &work->position;
 
-    if (a6 != NULL)
+    if (offset != NULL)
     {
-        collider->hitCheck.type2.field_3C = *a6;
+        collider->hitCheck.line.offset = *offset;
     }
 
     VecFx32 position;
-    SailObject__Func_2165A9C(work, &position);
-    collider->hitCheck.type2.field_3C.x += position.x;
-    collider->hitCheck.type2.field_3C.y -= position.y;
-    collider->hitCheck.type2.field_3C.z += position.z;
+    SailObject_GetCollisionOffset(work, &position);
+    collider->hitCheck.line.offset.x += position.x;
+    collider->hitCheck.line.offset.y -= position.y;
+    collider->hitCheck.line.offset.z += position.z;
 }
 
-void SailObject__ShakeScreen(StageTask *work, s32 timer)
+void SailObject_ShakeScreen(StageTask *work, s32 timer)
 {
     u16 shipType = SailManager__GetShipType();
 
@@ -810,21 +880,21 @@ void SailObject__ShakeScreen(StageTask *work, s32 timer)
     }
 }
 
-void SailObject__Func_2165A9C(StageTask *work, VecFx32 *position)
+void SailObject_GetCollisionOffset(StageTask *work, VecFx32 *position)
 {
     switch (work->objType)
     {
         case SAILSTAGE_OBJ_TYPE_PLAYER: {
             SailPlayer *player = GetStageTaskWorker(work, SailPlayer);
 
-            *position = player->field_4;
+            *position = player->collisionOffset;
         }
         break;
 
         case SAILSTAGE_OBJ_TYPE_OBJECT: {
             SailObject *object = GetStageTaskWorker(work, SailObject);
 
-            *position = object->field_4;
+            *position = object->collisionOffset;
         }
         break;
 
@@ -837,27 +907,27 @@ void SailObject__Func_2165A9C(StageTask *work, VecFx32 *position)
     }
 }
 
-void SailObject__Func_2165AF4(StageTask *work, VecFx32 *position)
+void SailObject_SetCollisionOffset(StageTask *work, VecFx32 *position)
 {
     switch (work->objType)
     {
         case SAILSTAGE_OBJ_TYPE_PLAYER: {
             SailPlayer *player = GetStageTaskWorker(work, SailPlayer);
 
-            player->field_4 = *position;
+            player->collisionOffset = *position;
         }
         break;
 
         case SAILSTAGE_OBJ_TYPE_OBJECT: {
             SailObject *object = GetStageTaskWorker(work, SailObject);
 
-            object->field_4 = *position;
+            object->collisionOffset = *position;
         }
         break;
     }
 }
 
-NONMATCH_FUNC StageTask *SailLanding__Create(SailEventManagerObject *mapObject)
+NONMATCH_FUNC StageTask *CreateSailIsland(SailEventManagerObject *mapObject)
 {
     // should match when 'aSbLandBac' is decompiled
 #ifdef NON_MATCHING
@@ -873,11 +943,11 @@ NONMATCH_FUNC StageTask *SailLanding__Create(SailEventManagerObject *mapObject)
     UNUSED(worker);
 
     ObjObjectAction3dBACLoad(work, NULL, "/sb_land.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_18), SailManager__GetArchive());
-    SailObject__InitCommon(work);
-    SailObject__InitFromMapObject(work, mapObject);
+    SailObject_InitCommon(work);
+    SailObject_InitFromMapObject(work, mapObject);
 
-    work->userTimer                             = mapObject->objectValue14;
-    work->obj_2dIn3d->ani.polygonAttr.polygonID = 0x30;
+    work->userTimer                             = mapObject->param;
+    work->obj_2dIn3d->ani.polygonAttr.polygonID = 48;
     work->obj_2dIn3d->ani.polygonAttr.enableFog = FALSE;
     work->obj_2dIn3d->ani.work.matrixOpIDs[0]   = MATRIX_OP_SET_CAMERA_ROT_33;
     work->obj_2dIn3d->ani.work.matrixOpIDs[1]   = MATRIX_OP_FLUSH_P_CAMERA3D;
@@ -887,10 +957,12 @@ NONMATCH_FUNC StageTask *SailLanding__Create(SailEventManagerObject *mapObject)
     else
         work->position.y = -FLOAT_TO_FX32(0.40625);
 
-    if (work->userTimer != manager->field_4)
+    if (work->userTimer != manager->targetIslandID)
     {
-        SetTaskState(work, SailLanding__State_216A46C);
-        SetTaskOutFunc(work, SailLanding__Draw_216A6A4);
+        // this island is NOT the destination.
+
+        SetTaskState(work, SailIsland_State_Other);
+        SetTaskOutFunc(work, SailIsland_Draw_Other);
 
         work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
         if (SailManager__GetShipType() == SHIP_BOAT)
@@ -898,12 +970,14 @@ NONMATCH_FUNC StageTask *SailLanding__Create(SailEventManagerObject *mapObject)
     }
     else
     {
-        SetTaskOutFunc(work, SailLanding__Draw_216A4E8);
+        // this island _is_ NOT the destination.
+
+        SetTaskOutFunc(work, SailIsland_Draw_Destination);
 
         if (SailManager__GetShipType() == SHIP_SUBMARINE)
-            SailSubFish__CreateUnknown2(work);
+            CreateSailFishForDestination(work);
         else
-            SailSeagull__CreateUnknown2(work);
+            CreateSailSeagullForDestination(work);
     }
 
     return work;
@@ -935,10 +1009,10 @@ NONMATCH_FUNC StageTask *SailLanding__Create(SailEventManagerObject *mapObject)
 	mov r0, r4
 	bl ObjObjectAction3dBACLoad
 	mov r0, r4
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r0, r4
 	mov r1, r7
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldr r0, [r7, #0x38]
 	mov r2, #0x1d
 	str r0, [r4, #0x2c]
@@ -966,8 +1040,8 @@ NONMATCH_FUNC StageTask *SailLanding__Create(SailEventManagerObject *mapObject)
 	ldr r0, [r5, #4]
 	cmp r1, r0
 	beq _02165C50
-	ldr r1, =SailLanding__State_216A46C
-	ldr r0, =SailLanding__Draw_216A6A4
+	ldr r1, =SailIsland_State_Other
+	ldr r0, =SailIsland_Draw_Other
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x18]
@@ -981,16 +1055,16 @@ NONMATCH_FUNC StageTask *SailLanding__Create(SailEventManagerObject *mapObject)
 	str r0, [r4, #0x48]
 	b _02165C74
 _02165C50:
-	ldr r0, =SailLanding__Draw_216A4E8
+	ldr r0, =SailIsland_Draw_Destination
 	str r0, [r4, #0xfc]
 	bl SailManager__GetShipType
 	cmp r0, #3
 	mov r0, r4
 	bne _02165C70
-	bl SailSubFish__CreateUnknown2
+	bl CreateSailFishForDestination
 	b _02165C74
 _02165C70:
-	bl SailSeagull__CreateUnknown2
+	bl CreateSailSeagullForDestination
 _02165C74:
 	mov r0, r4
 	add sp, sp, #0xc
@@ -1000,7 +1074,7 @@ _02165C74:
 #endif
 }
 
-NONMATCH_FUNC StageTask *SailJetMine__Create(SailEventManagerObject *mapObject)
+NONMATCH_FUNC StageTask *CreateSailMine(SailEventManagerObject *mapObject)
 {
     // should match when 'aSbMineBac_0' is decompiled
 #ifdef NON_MATCHING
@@ -1017,15 +1091,15 @@ NONMATCH_FUNC StageTask *SailJetMine__Create(SailEventManagerObject *mapObject)
     ObjObjectAction3dBACLoad(work, 0, "sb_mine.bac", OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectDataWork(OBJDATAWORK_2), SailManager__GetArchive());
     ObjObjectActionAllocTexture(work, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectTextureRef(OBJDATAWORK_54));
     work->obj_2dIn3d->ani.animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
-    SailObject__InitCommon(work);
-    SailObject__InitFromMapObject(work, mapObject);
+    SailObject_InitCommon(work);
+    SailObject_InitFromMapObject(work, mapObject);
 
     work->position.y -= FLOAT_TO_FX32(1.0);
-    worker->dword118 = 300;
+    worker->score = 300;
 
     if (SailManager__GetShipType() == SHIP_HOVER)
     {
-        worker->field_120 = FLOAT_TO_FX32(1.5);
+        worker->maxHealth = FLOAT_TO_FX32(1.5);
         worker->health    = FLOAT_TO_FX32(1.5);
     }
     work->obj_2dIn3d->ani.polygonAttr.enableFog = FALSE;
@@ -1033,25 +1107,25 @@ NONMATCH_FUNC StageTask *SailJetMine__Create(SailEventManagerObject *mapObject)
     work->obj_2dIn3d->ani.work.matrixOpIDs[1]   = MATRIX_OP_FLUSH_P_CAMERA3D;
 
     work->userFlag |= SAILOBJECT_FLAG_40000 | SAILOBJECT_FLAG_2;
-    worker->field_124 = FLOAT_TO_FX32(0.75);
-    SailObject__SetupHitbox(work, &worker->collider[0], 0);
-    SailObject__Func_21658D0(work, 0, 0x600, 0);
+    worker->explosionScale = FLOAT_TO_FX32(0.75);
+    SailObject_InitColliderForCommon(work, &worker->collider[0], 0);
+    SailObject_InitColliderBox(work, 0, 0x600, 0);
 
-    if ((manager->flags & 0x1000) != 0)
+    if ((manager->flags & SAILMANAGER_FLAG_FREEZE_DAYTIME_TIMER) != 0)
         worker->collider[0].atkPower >>= 1;
 
     if (SailManager__GetShipType() == SHIP_HOVER)
-        worker->collider[0].hitCheck.field_24.x = 2304;
+        worker->collider[0].hitCheck.size.x = FLOAT_TO_FX32(0.5625);
 
     if (SailManager__GetShipType() == SHIP_BOAT)
     {
-        worker->collider[0].hitCheck.field_24.x = FLOAT_TO_FX32(2.0);
+        worker->collider[0].hitCheck.size.x = FLOAT_TO_FX32(2.0);
         work->userFlag |= SAILOBJECT_FLAG_20000;
     }
 
     StageTask__InitSeqPlayer(work);
 
-    SetTaskState(work, SailMine__State_216A4E8);
+    SetTaskState(work, SailMine_State_Active);
 
     return work;
 #else
@@ -1092,10 +1166,10 @@ NONMATCH_FUNC StageTask *SailJetMine__Create(SailEventManagerObject *mapObject)
 	ldr r1, [r2, #0xcc]
 	orr r1, r1, #0x18
 	str r1, [r2, #0xcc]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r1, r7
 	mov r0, r4
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldr r1, [r4, #0x48]
 	mov r0, #0x12c
 	sub r1, r1, #0x1000
@@ -1125,12 +1199,12 @@ NONMATCH_FUNC StageTask *SailJetMine__Create(SailEventManagerObject *mapObject)
 	str r2, [r4, #0x24]
 	mov r2, #0
 	str r3, [r5, #0x124]
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r1, #0
 	mov r0, r4
 	mov r3, r1
 	mov r2, #0x600
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	ldr r0, [r6, #0x24]
 	tst r0, #0x1000
 	ldrne r0, [r5, #0x98]
@@ -1151,7 +1225,7 @@ NONMATCH_FUNC StageTask *SailJetMine__Create(SailEventManagerObject *mapObject)
 _02165E04:
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
-	ldr r1, =SailMine__State_216A4E8
+	ldr r1, =SailMine_State_Active
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
@@ -1161,7 +1235,7 @@ _02165E04:
 #endif
 }
 
-NONMATCH_FUNC StageTask *SailJetBomber__Create(SailEventManagerObject *mapObject)
+NONMATCH_FUNC StageTask *CreateSailBomb(SailEventManagerObject *mapObject)
 {
     // should match when 'aSbBomberBac' is decompiled
 #ifdef NON_MATCHING
@@ -1174,25 +1248,25 @@ NONMATCH_FUNC StageTask *SailJetBomber__Create(SailEventManagerObject *mapObject
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
 
     ObjObjectAction3dBACLoad(work, NULL, "sb_bomber.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_103), SailManager__GetArchive());
-    SailObject__InitCommon(work);
-    SailObject__InitFromMapObject(work, mapObject);
+    SailObject_InitCommon(work);
+    SailObject_InitFromMapObject(work, mapObject);
     work->position.y -= FLOAT_TO_FX32(1.0);
     if (SailManager__GetShipType() == SHIP_HOVER)
     {
-        worker->field_120 = FLOAT_TO_FX32(1.5);
+        worker->maxHealth = FLOAT_TO_FX32(1.5);
         worker->health    = FLOAT_TO_FX32(1.5);
     }
-    worker->dword118                            = 300;
+    worker->score                               = 300;
     work->obj_2dIn3d->ani.polygonAttr.enableFog = FALSE;
     work->obj_2dIn3d->ani.work.matrixOpIDs[0]   = MATRIX_OP_SET_CAMERA_ROT_43;
     work->obj_2dIn3d->ani.work.matrixOpIDs[1]   = MATRIX_OP_FLUSH_P_CAMERA3D;
     work->userFlag |= SAILOBJECT_FLAG_2;
 
-    SailObject__SetupHitbox(work, &worker->collider[0], 0);
-    SailObject__Func_21658D0(work, 0, 0x600, 0);
+    SailObject_InitColliderForCommon(work, &worker->collider[0], 0);
+    SailObject_InitColliderBox(work, 0, 0x600, 0);
 
     StageTask__InitSeqPlayer(work);
-    SailJetBomber__Action_Init(work);
+    SailBomb_Action_Init(work);
 
     return work;
 #else
@@ -1220,10 +1294,10 @@ NONMATCH_FUNC StageTask *SailJetBomber__Create(SailEventManagerObject *mapObject
 	mov r0, r4
 	bl ObjObjectAction3dBACLoad
 	mov r0, r4
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r1, r7
 	mov r0, r4
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldr r0, [r4, #0x48]
 	sub r0, r0, #0x1000
 	str r0, [r4, #0x48]
@@ -1250,16 +1324,16 @@ NONMATCH_FUNC StageTask *SailJetBomber__Create(SailEventManagerObject *mapObject
 	mov r2, #0
 	orr r3, r3, #2
 	str r3, [r4, #0x24]
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r1, #0
 	mov r0, r4
 	mov r3, r1
 	mov r2, #0x600
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
 	mov r0, r4
-	bl SailJetBomber__Action_Init
+	bl SailBomb_Action_Init
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
@@ -1268,9 +1342,9 @@ NONMATCH_FUNC StageTask *SailJetBomber__Create(SailEventManagerObject *mapObject
 #endif
 }
 
-NONMATCH_FUNC void SailJetBoatCloud__CreateUnknown(void)
+NONMATCH_FUNC void CreateSailFogCloudsForVoyage(void)
 {
-    // https://decomp.me/scratch/ARkA2 -> 70.15%
+    // https://decomp.me/scratch/ARkA2 -> 84.07%
 #ifdef NON_MATCHING
     VecFx32 position;
     SailEventManagerObject object = { 0 };
@@ -1279,16 +1353,15 @@ NONMATCH_FUNC void SailJetBoatCloud__CreateUnknown(void)
 
     for (u16 i = 0; i < 16; i++)
     {
-        fx32 viewRange = -0x4F000 - ObjDispRandRepeat(FLOAT_TO_FX32(8.0));
-        u16 angle      = ObjDispRandRepeat(0x20000) + 0x800;
-
-        position.x = MultiplyFX(viewRange, SinFX((s32)angle));
-        position.y = -FLOAT_TO_FX32(7.0) - ObjDispRandRepeat(0x8000);
-        position.z = MultiplyFX(viewRange, CosFX((s32)angle));
-
-        object.viewRange = viewRange;
+        object.viewRange = -0x4F000 - ObjDispRandRepeat(0x20000);
+        s32 angle        = (ObjDispRandRepeat(0x8000) + 0x800);
         object.angle     = angle;
-        object.position  = position;
+
+        position.x = MultiplyFX(object.viewRange, SinFX(object.angle));
+        position.y = -FLOAT_TO_FX32(7.0) - ObjDispRandRepeat(0x8000);
+        position.z = MultiplyFX(object.viewRange, CosFX(object.angle));
+
+        object.position = position;
 
         object.flags |= SAILMAPOBJECT_FLAG_20000000;
         SailEventManager__CreateObject2(&object);
@@ -1393,7 +1466,7 @@ _02165F9C:
 #endif
 }
 
-NONMATCH_FUNC StageTask *SailJetBoatCloud__Create(SailEventManagerObject *mapObject)
+NONMATCH_FUNC StageTask *CreateSailFogCloud(SailEventManagerObject *mapObject)
 {
     // should match when 'aSbCloudBac_0' is decompiled
 #ifdef NON_MATCHING
@@ -1415,10 +1488,10 @@ NONMATCH_FUNC StageTask *SailJetBoatCloud__Create(SailEventManagerObject *mapObj
     ObjObjectActionAllocTexture(work, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectFileWork(2 * anim + OBJDATAWORK_56));
     work->obj_2dIn3d->ani.animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
 
-    SailObject__InitCommon(work);
-    SailObject__InitFromMapObject(work, mapObject);
-    worker->field_138.x = mapObject->angle;
-    worker->field_138.y = mapObject->viewRange;
+    SailObject_InitCommon(work);
+    SailObject_InitFromMapObject(work, mapObject);
+    worker->startEmissionColor.x = mapObject->angle;
+    worker->startEmissionColor.y = mapObject->viewRange;
 
     work->obj_2dIn3d->ani.polygonAttr.enableFog = FALSE;
     work->obj_2dIn3d->ani.work.matrixOpIDs[0]   = MATRIX_OP_SET_CAMERA_ROT_33;
@@ -1439,7 +1512,7 @@ NONMATCH_FUNC StageTask *SailJetBoatCloud__Create(SailEventManagerObject *mapObj
     work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     work->userFlag |= SAILOBJECT_FLAG_1;
 
-    SetTaskState(work, SailJetBoatCloud__State_216AA38);
+    SetTaskState(work, SailFogCloud_State_Active);
 
     return work;
 #else
@@ -1517,10 +1590,10 @@ _0216619C:
 	ldr r1, [r2, #0xcc]
 	orr r1, r1, #0x18
 	str r1, [r2, #0xcc]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r0, r4
 	mov r1, r6
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldrh r0, [r6, #0x2e]
 	mov r2, #0x1d
 	mov ip, #7
@@ -1578,7 +1651,7 @@ _0216619C:
 	str r1, [r2]
 	tst r0, #1
 	ldrne r0, [r4, #0x38]
-	ldr r1, =SailJetBoatCloud__State_216AA38
+	ldr r1, =SailFogCloud_State_Active
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x38]
 	ldr r0, [r4, #0x18]
@@ -1596,7 +1669,7 @@ _0216619C:
 #endif
 }
 
-NONMATCH_FUNC StageTask *SailCloud__Create(s32 type)
+NONMATCH_FUNC StageTask *CreateSailSkyCloud(s32 type)
 {
     // should match when 'aSbCloudBac_0' is decompiled
 #ifdef NON_MATCHING
@@ -1616,17 +1689,17 @@ NONMATCH_FUNC StageTask *SailCloud__Create(s32 type)
     ObjObjectActionAllocTexture(work, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectFileWork(2 * anim + OBJDATAWORK_56));
     work->obj_2dIn3d->ani.animatorSprite.flags |= DISPLAY_FLAG_PAUSED | DISPLAY_FLAG_DID_FINISH;
 
-    SailObject__InitCommon(work);
+    SailObject_InitCommon(work);
     work->obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
     work->obj_2dIn3d->ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
     work->userWork                            = ObjDispRandRepeat(0x40) + 32;
     work->userTimer                           = 0;
 
-    if (type != 0)
+    if (type != SAILSKYCLOUD_TYPE_0)
     {
-        worker->field_138.y = ObjDispRandRepeat(FLOAT_TO_FX32(2.0)) + FLOAT_TO_FX32(16.0);
-        worker->field_138.x = (u16)ObjDispRandRange(-FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
-        work->position.y    = ObjDispRandRepeat(FLOAT_TO_FX32(1.0)) - FLOAT_TO_FX32(2.0);
+        worker->startEmissionColor.y = ObjDispRandRepeat(FLOAT_TO_FX32(2.0)) + FLOAT_TO_FX32(16.0);
+        worker->startEmissionColor.x = (u16)ObjDispRandRange(-FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
+        work->position.y             = ObjDispRandRepeat(FLOAT_TO_FX32(1.0)) - FLOAT_TO_FX32(2.0);
 
         fx32 scale    = MultiplyFX(ObjDispRandRepeat(FLOAT_TO_FX32(1.0)) + FLOAT_TO_FX32(8.0), FLOAT_TO_FX32(0.03125));
         work->scale.x = scale;
@@ -1635,8 +1708,8 @@ NONMATCH_FUNC StageTask *SailCloud__Create(s32 type)
 
         if (SailManager__GetShipType() == SHIP_BOAT)
         {
-            worker->field_138.y *= 4;
-            worker->field_138.x *= 4;
+            worker->startEmissionColor.y *= 4;
+            worker->startEmissionColor.x *= 4;
             work->position.y *= 4;
 
             work->scale.z = work->scale.y = work->scale.x = 4 * work->scale.x;
@@ -1671,7 +1744,7 @@ NONMATCH_FUNC StageTask *SailCloud__Create(s32 type)
     work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     work->userFlag |= SAILOBJECT_FLAG_1;
 
-    SetTaskState(work, SailCloud__State_216AF60);
+    SetTaskState(work, SailSkyCloud_State_Active);
 
     return work;
 #else
@@ -1745,7 +1818,7 @@ _021663E4:
 	ldr r1, [r2, #0xcc]
 	orr r1, r1, #0x18
 	str r1, [r2, #0xcc]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	ldr r0, [r4, #0x134]
 	mov r1, #0x1d
 	strb r1, [r0, #0xa]
@@ -1922,7 +1995,7 @@ _02166674:
 	str r1, [r2]
 	tst r0, #1
 	ldrne r0, [r4, #0x38]
-	ldr r1, =SailCloud__State_216AF60
+	ldr r1, =SailSkyCloud_State_Active
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x38]
 	ldr r0, [r4, #0x18]
@@ -1940,7 +2013,7 @@ _02166674:
 #endif
 }
 
-void SailObject__Func_2166728(StageTask *work)
+void SailObject_LookAtPlayer(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
@@ -1951,7 +2024,7 @@ void SailObject__Func_2166728(StageTask *work)
     {
         case SAILSTAGE_OBJ_TYPE_PLAYER: {
             SailPlayer *playerWorker = GetStageTaskWorker(player, SailPlayer);
-            VEC_Subtract(&player->position, &playerWorker->field_4, &position);
+            VEC_Subtract(&player->position, &playerWorker->collisionOffset, &position);
         }
         break;
 
@@ -1961,15 +2034,15 @@ void SailObject__Func_2166728(StageTask *work)
                 break;
 
             SailObject *playerWorker = GetStageTaskWorker(player, SailObject);
-            VEC_Subtract(&player->position, &playerWorker->field_4, &position);
+            VEC_Subtract(&player->position, &playerWorker->collisionOffset, &position);
         }
         break;
     }
 
-    worker->field_10 = position;
+    worker->lookAtTo = position;
 }
 
-void SailObject__Func_21667BC(StageTask *work)
+void SailObject_LookAtPlayerY(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
@@ -1980,366 +2053,181 @@ void SailObject__Func_21667BC(StageTask *work)
     {
         case SAILSTAGE_OBJ_TYPE_PLAYER: {
             SailPlayer *playerWorker = GetStageTaskWorker(player, SailPlayer);
-            VEC_Subtract(&player->position, &playerWorker->field_4, &position);
+            VEC_Subtract(&player->position, &playerWorker->collisionOffset, &position);
         }
         break;
 
         case SAILSTAGE_OBJ_TYPE_OBJECT: {
             SailObject *playerWorker = GetStageTaskWorker(player, SailObject);
-            VEC_Subtract(&player->position, &playerWorker->field_4, &position);
+            VEC_Subtract(&player->position, &playerWorker->collisionOffset, &position);
         }
         break;
     }
 
-    worker->field_10.y = position.y;
+    worker->lookAtTo.y = position.y;
 }
 
-void SailObject__Func_2166834(StageTask *work)
+void SailObject_HandleLookAt(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
     VecFx32 position = work->position;
-    VEC_Subtract(&work->position, &worker->field_4, &position);
+    VEC_Subtract(&work->position, &worker->collisionOffset, &position);
 
-    VecFx32 unknown = worker->field_10;
+    VecFx32 lookAtTo = worker->lookAtTo;
 
-    SailObject__Func_216688C(work, &position, &unknown);
+    SailObject_LookAt(work, &position, &lookAtTo);
 }
 
-void SailObject__Func_216688C(StageTask *work, VecFx32 *a2, VecFx32 *a3)
+void SailObject_LookAt(StageTask *work, VecFx32 *vecFrom, VecFx32 *vecTo)
 {
     MtxFx43 mtx;
 
     OBS_ACTION3D_NN_WORK *animator = work->obj_3d;
 
-    VecFx32 unknown2 = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0) };
+    VecFx32 up = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0) };
 
-    VecFx32 translation = *a2;
-    VecFx32 unknown1    = *a3;
+    VecFx32 from = *vecFrom;
+    VecFx32 to   = *vecTo;
 
-    translation.y = -translation.y;
-    unknown1.y    = -unknown1.y;
+    from.y = -from.y;
+    to.y   = -to.y;
 
-    Unknown2066510__Func_2066A4C(&translation, &unknown1, &unknown2, &mtx);
+    Unknown2066510__LookAt(&from, &to, &up, &mtx);
     MTX_Copy43To33(&mtx, &animator->ani.work.rotation);
 }
 
-NONMATCH_FUNC void SailObject__Func_216690C(StageTask *work)
+void SailObject_HandleVoyageScroll(StageTask *work, VecFx32 *velocity)
 {
-#ifdef NON_MATCHING
+    SailObject *worker = GetStageTaskWorker(work, SailObject);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r6, r1
-	ldr r4, [r0, #0x124]
-	bl SailManager__GetWork
-	ldr r5, [r0, #0x98]
-	add r1, sp, #0
-	mov r0, #0
-	str r0, [r1]
-	str r0, [r1, #4]
-	str r0, [r1, #8]
-	add r1, r4, #0x100
-	ldrh r3, [r1, #0x6c]
-	ldr r2, [r4, #0x178]
-	ldr r0, [r4, #0x134]
-	ldr r5, [r5, #0xc0]
-	sub r2, r2, r0
-	mov r0, #0x28
-	str r2, [r4, #0x178]
-	mla r5, r3, r0, r5
-	ldrh r0, [r1, #0x6c]
-	cmp r0, r2, asr #19
-	ble _02166984
-	ldrh r0, [r5, #2]
-	strh r0, [r1, #0x6e]
-	ldrh r0, [r1, #0x6c]
-	cmp r0, #0
-	subne r0, r0, #1
-	strneh r0, [r1, #0x6c]
-	subne r5, r5, #0x28
-_02166984:
-	add r0, r4, #0x100
-	ldrh r1, [r0, #0x6c]
-	ldr r2, [r4, #0x178]
-	cmp r1, r2, asr #19
-	bge _021669AC
-	add r1, r1, #1
-	strh r1, [r0, #0x6c]
-	add r5, r5, #0x28
-	ldrh r1, [r5, #2]
-	strh r1, [r0, #0x6e]
-_021669AC:
-	mov r0, r5
-	bl SailVoyageManager__GetSegmentSize
-	ldr r3, [r4, #0x178]
-	ldr r2, =0x0007FFFF
-	mov r1, r0
-	and r0, r3, r2
-	bl FX_Div
-	mov r7, r0
-	mov r0, r5
-	mov r1, r7
-	bl SailVoyageManager__GetAngleForSegmentPos
-	add r1, r4, #0x100
-	cmp r6, #0
-	strh r0, [r1, #0x6e]
-	addeq sp, sp, #0xc
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	add r2, sp, #0
-	add r3, sp, #8
-	mov r0, r5
-	mov r1, r7
-	bl SailVoyageManager__Func_2158888
-	add r0, sp, #0
-	mov r2, r6
-	add r1, r4, #0x1c
-	bl VEC_Subtract
-	add r0, sp, #0
-	add r3, r4, #0x1c
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
 
-// clang-format on
-#endif
+    VecFx32 unknown = { 0, 0, 0 };
+
+    SailVoyageSegment *voyageSegment = &voyageManager->segmentList[worker->segmentID];
+
+    worker->voyagePosition.z -= worker->voyageScrollSpeed;
+
+    if (worker->segmentID > FX32_TO_WHOLE(worker->voyagePosition.z) >> 7)
+    {
+        worker->objectAngle = voyageSegment->angle;
+        if (worker->segmentID != 0)
+        {
+            worker->segmentID--;
+            voyageSegment--;
+        }
+    }
+
+    if (FX32_TO_WHOLE(worker->voyagePosition.z) >> 7 > worker->segmentID)
+    {
+        worker->segmentID++;
+        voyageSegment++;
+        worker->objectAngle = voyageSegment->angle;
+    }
+
+    s32 segmentPos      = FX_Div(worker->voyagePosition.z & 0x7FFFF, SailVoyageManager__GetSegmentSize(voyageSegment));
+    worker->objectAngle = SailVoyageManager__GetAngleForSegmentPos(voyageSegment, segmentPos);
+
+    if (velocity != NULL)
+    {
+        SailVoyageManager__Func_2158888(voyageSegment, segmentPos, &unknown.x, &unknown.z);
+        VEC_Subtract(&unknown, &worker->field_1C, velocity);
+
+        worker->field_1C = unknown;
+    }
 }
 
-NONMATCH_FUNC void SailObject__Func_2166A2C(StageTask *work)
+void SailObject_HandleVoyageVelocity(StageTask *work)
 {
-#ifdef NON_MATCHING
+    SailObject *worker;
+    SailVoyageSegment *voyageSegment;
+    SailVoyageManager *voyageManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	mov r4, r0
-	ldr r5, [r4, #0x124]
-	bl SailManager__GetWork
-	ldr r7, [r0, #0x98]
-	ldr r0, [r5, #0x178]
-	ldr r1, [r4, #8]
-	ldr r2, [r7, #0xc0]
-	mov r8, r0, asr #0x13
-	mov r0, #0x28
-	mla r6, r8, r0, r2
-	cmp r1, #0
-	bne _02166A70
-	add r0, r5, #0x170
-	add r1, r5, #0x17c
-	mov r2, r0
-	bl VEC_Add
-_02166A70:
-	ldr r0, [r4, #0x24]
-	tst r0, #1
-	beq _02166A98
-	ldr r1, [r7, #0x44]
-	ldr r0, [r7, #0x48]
-	ldr r2, [r5, #0x178]
-	sub r0, r1, r0
-	add r0, r2, r0
-	str r0, [r5, #0x178]
-	b _02166AB8
-_02166A98:
-	bl SailManager__GetShipType
-	cmp r0, #1
-	bne _02166AB8
-	ldr r0, [r4, #8]
-	cmp r0, #0
-	ldrne r0, [r5, #0x178]
-	addne r0, r0, #0x800
-	strne r0, [r5, #0x178]
-_02166AB8:
-	ldr r0, [r5, #0x178]
-	cmp r8, r0, asr #19
-	ble _02166ADC
-	ldrh r1, [r6, #2]
-	cmp r8, #0
-	add r0, r5, #0x100
-	strh r1, [r0, #0x6e]
-	subne r8, r8, #1
-	subne r6, r6, #0x28
-_02166ADC:
-	ldr r0, [r5, #0x178]
-	cmp r8, r0, asr #19
-	bge _02166AF8
-	add r6, r6, #0x28
-	ldrh r1, [r6, #2]
-	add r0, r5, #0x100
-	strh r1, [r0, #0x6e]
-_02166AF8:
-	mov r0, r6
-	bl SailVoyageManager__GetSegmentSize
-	ldr r3, [r5, #0x178]
-	ldr r2, =0x0007FFFF
-	mov r1, r0
-	and r0, r3, r2
-	bl FX_Div
-	mov r8, r0
-	mov r0, r6
-	mov r1, r8
-	bl SailVoyageManager__GetAngleForSegmentPos
-	add r2, r5, #0x100
-	strh r0, [r2, #0x6e]
-	mov r1, r8
-	mov r0, r6
-	add r2, r4, #0x44
-	add r3, r4, #0x4c
-	bl SailVoyageManager__Func_2158888
-	add r6, r5, #0x100
-	ldrh r2, [r6, #0x6e]
-	ldr lr, =FX_SinCosTable_
-	mov r1, r7
-	rsb r2, r2, #0
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, asr #4
-	mov r2, r2, lsl #1
-	add r2, r2, #1
-	mov r2, r2, lsl #1
-	ldrsh r7, [lr, r2]
-	ldr r3, [r5, #0x170]
-	ldr ip, [r4, #0x44]
-	smull r8, r7, r3, r7
-	adds r8, r8, #0x800
-	adc r3, r7, #0
-	mov r7, r8, lsr #0xc
-	orr r7, r7, r3, lsl #20
-	add r3, ip, r7
-	str r3, [r4, #0x44]
-	ldrh r6, [r6, #0x6e]
-	ldr r3, [r5, #0x170]
-	ldr ip, [r4, #0x4c]
-	rsb r6, r6, #0
-	mov r6, r6, lsl #0x10
-	mov r6, r6, lsr #0x10
-	mov r6, r6, lsl #0x10
-	mov r6, r6, lsr #0x10
-	mov r6, r6, asr #4
-	mov r6, r6, lsl #2
-	ldrsh r6, [lr, r6]
-	add r0, r4, #0x44
-	mov r2, r0
-	smull r7, r6, r3, r6
-	adds r7, r7, #0x800
-	adc r3, r6, #0
-	mov r6, r7, lsr #0xc
-	orr r6, r6, r3, lsl #20
-	add r3, ip, r6
-	str r3, [r4, #0x4c]
-	ldr r3, [r5, #0x174]
-	str r3, [r4, #0x48]
-	bl VEC_Subtract
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+    worker = GetStageTaskWorker(work, SailObject);
 
-// clang-format on
-#endif
+    voyageManager = SailManager__GetWork()->voyageManager;
+
+    s32 segmentID = FX32_TO_WHOLE(worker->voyagePosition.z) >> 7;
+    voyageSegment = &voyageManager->segmentList[segmentID];
+
+    if (work->hitstopTimer == 0)
+        VEC_Add(&worker->voyagePosition, &worker->voyageVelocity, &worker->voyagePosition);
+
+    if ((work->userFlag & SAILOBJECT_FLAG_1) != 0)
+    {
+        worker->voyagePosition.z += voyageManager->voyagePos - voyageManager->prevVoyagePos;
+    }
+    else if (SailManager__GetShipType() == SHIP_BOAT && work->hitstopTimer != 0)
+    {
+        worker->voyagePosition.z += FLOAT_TO_FX32(0.5);
+    }
+
+    if (segmentID > FX32_TO_WHOLE(worker->voyagePosition.z) >> 7)
+    {
+        worker->objectAngle = voyageSegment->angle;
+
+        if (segmentID != 0)
+        {
+            segmentID--;
+            voyageSegment--;
+        }
+    }
+
+    if (segmentID < FX32_TO_WHOLE(worker->voyagePosition.z) >> 7)
+    {
+        voyageSegment++;
+        worker->objectAngle = voyageSegment->angle;
+    }
+
+    s32 segmentPos      = FX_Div(worker->voyagePosition.z & 0x7FFFF, SailVoyageManager__GetSegmentSize(voyageSegment));
+    worker->objectAngle = SailVoyageManager__GetAngleForSegmentPos(voyageSegment, segmentPos);
+
+    SailVoyageManager__Func_2158888(voyageSegment, segmentPos, &work->position.x, &work->position.z);
+
+    work->position.x += MultiplyFX(worker->voyagePosition.x, CosFX((s32)(u16)-worker->objectAngle));
+    work->position.z += MultiplyFX(worker->voyagePosition.x, SinFX((s32)(u16)-worker->objectAngle));
+    work->position.y = worker->voyagePosition.y;
+
+    VEC_Subtract(&work->position, &voyageManager->position, &work->position);
 }
 
-NONMATCH_FUNC void SailObject__Func_2166C04(StageTask *work)
+void SailObject_Func_2166C04(StageTask *work, VecFx32 *position)
 {
-#ifdef NON_MATCHING
+    SailObject *worker = GetStageTaskWorker(work, SailObject);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	ldr r5, [r0, #0x124]
-	mov r4, r1
-	bl SailManager__GetWork
-	ldr r2, [r5, #0x178]
-	mov r1, #0x28
-	mov r2, r2, asr #0x13
-	ldr r6, [r0, #0x98]
-	mul r7, r2, r1
-	ldr r8, [r6, #0xc0]
-	add r0, r8, r7
-	bl SailVoyageManager__GetSegmentSize
-	mov r1, r0
-	ldr r2, [r5, #0x178]
-	ldr r0, =0x0007FFFF
-	and r0, r2, r0
-	bl FX_Div
-	mov r1, r0
-	add r0, r8, r7
-	mov r2, r4
-	add r3, r4, #8
-	bl SailVoyageManager__Func_2158888
-	mov r1, r6
-	ldr ip, [r4]
-	ldr r3, [r5, #0x170]
-	add r6, r5, #0x100
-	ldrh r2, [r6, #0x6e]
-	ldr lr, =FX_SinCosTable_
-	mov r0, r4
-	rsb r2, r2, #0
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, asr #4
-	mov r2, r2, lsl #1
-	add r2, r2, #1
-	mov r2, r2, lsl #1
-	ldrsh r7, [lr, r2]
-	mov r2, r4
-	smull r8, r7, r3, r7
-	adds r8, r8, #0x800
-	adc r3, r7, #0
-	mov r7, r8, lsr #0xc
-	orr r7, r7, r3, lsl #20
-	add r3, ip, r7
-	str r3, [r4]
-	ldr r3, [r5, #0x170]
-	ldrh r5, [r6, #0x6e]
-	ldr ip, [r4, #8]
-	rsb r5, r5, #0
-	mov r5, r5, lsl #0x10
-	mov r5, r5, lsr #0x10
-	mov r5, r5, lsl #0x10
-	mov r5, r5, lsr #0x10
-	mov r5, r5, asr #4
-	mov r5, r5, lsl #2
-	ldrsh r5, [lr, r5]
-	smull r6, r5, r3, r5
-	adds r6, r6, #0x800
-	adc r3, r5, #0
-	mov r5, r6, lsr #0xc
-	orr r5, r5, r3, lsl #20
-	add r3, ip, r5
-	str r3, [r4, #8]
-	bl VEC_Subtract
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+    SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
+    SailVoyageSegment *voyageSegment = &voyageManager->segmentList[FX32_TO_WHOLE(worker->voyagePosition.z) >> 7];
 
-// clang-format on
-#endif
+    SailVoyageManager__Func_2158888(voyageSegment, FX_Div(worker->voyagePosition.z & 0x7FFFF, SailVoyageManager__GetSegmentSize(voyageSegment)), &position->x, &position->z);
+
+    position->x += MultiplyFX(worker->voyagePosition.x, CosFX((s32)(u16)-worker->objectAngle));
+    position->z += MultiplyFX(worker->voyagePosition.x, SinFX((s32)(u16)-worker->objectAngle));
+
+    VEC_Subtract(position, &voyageManager->position, position);
 }
 
-void SailObject__Func_2166D18(StageTask *work)
+void SailObject_Oscillate(StageTask *work)
 {
-    work->velocity.y += _0218BC64[(work->userTimer >> 2) & 0x7];
+    work->velocity.y += oscillateTable[(work->userTimer >> 2) & 0x7];
     work->userTimer++;
 }
 
-void SailObject__Func_2166D50(StageTask *work)
+void SailIce_State_Oscillate(StageTask *work)
 {
-    work->velocity.y = -_0218BC64[(work->userTimer >> 2) & 0x7] >> 2;
+    work->velocity.y = -oscillateTable[(work->userTimer >> 2) & 0x7] >> 2;
     work->userTimer++;
 }
 
-void SailObject__Func_2166D88(void)
+void SailObject_ProcessColliders(void)
 {
     OBS_RECT_WORK *rect;
     SailColliderWork *collider;
-    SailColliderWorkHitCheck *hitCheck;
     s16 i;
 
     for (i = 0; TRUE; i++)
     {
-        rect = ObjRect__RegistGetNext(15, i);
+        rect = ObjRect__RegistGetNext((1 << 0) | (1 << 1) | (1 << 2) | (1 << 3), i);
         if (rect == NULL)
             break;
 
@@ -2348,45 +2236,45 @@ void SailObject__Func_2166D88(void)
             collider = rect->userData;
 
             VecFx32 position;
-            MtxFx33 mtx;
+            MtxFx33 mtxRotate;
             switch (collider->type)
             {
-                case 1: {
-                    hitCheck = &collider->hitCheck;
+                case SAILCOLLIDER_TYPE_BOX: {
+                    SailColliderHitCheckBox *hitCheck = &collider->hitCheck.box;
 
-                    if (hitCheck->field_C.x != 0 || hitCheck->field_C.z != 0 || hitCheck->field_24.z)
+                    if (hitCheck->offset.x != 0 || hitCheck->offset.z != 0 || hitCheck->size.z != 0)
                     {
                         if (rect->parent != NULL)
                             hitCheck->angle = rect->parent->dir.y;
                     }
 
-                    hitCheck->field_0   = *hitCheck->field_34;
-                    hitCheck->field_0.y = -hitCheck->field_0.y;
+                    hitCheck->position   = *hitCheck->origin;
+                    hitCheck->position.y = -hitCheck->position.y;
 
-                    position = hitCheck->field_C;
+                    position = hitCheck->offset;
 
                     if (hitCheck->angle != 0)
                     {
-                        if (hitCheck->field_C.x != 0 || hitCheck->field_C.z != 0)
+                        if (hitCheck->offset.x != 0 || hitCheck->offset.z != 0)
                         {
-                            MTX_RotY33(&mtx, SinFX((s32)hitCheck->angle), CosFX((s32)hitCheck->angle));
-                            MTX_MultVec33(&position, &mtx, &position);
+                            MTX_RotY33(&mtxRotate, SinFX((s32)hitCheck->angle), CosFX((s32)hitCheck->angle));
+                            MTX_MultVec33(&position, &mtxRotate, &position);
                         }
                     }
 
-                    VEC_Subtract(&hitCheck->field_0, &position, &hitCheck->field_0);
+                    VEC_Subtract(&hitCheck->position, &position, &hitCheck->position);
                 }
                 break;
 
-                case 2: {
-                    hitCheck = &collider->hitCheck;
+                case SAILCOLLIDER_TYPE_LINE: {
+                    SailColliderHitCheckLine *hitCheck = &collider->hitCheck.line;
 
-                    position   = *collider->hitCheck.type2.field_4C;
+                    position   = *collider->hitCheck.line.lineOriginPos;
                     position.y = -position.y;
 
-                    VEC_Subtract(&position, &hitCheck->type2.field_3C, &position);
-                    VEC_Add(&hitCheck->field_18, &position, &hitCheck->field_0);
-                    VEC_Add(&hitCheck->field_24, &position, &hitCheck->field_C);
+                    VEC_Subtract(&position, &hitCheck->offset, &position);
+                    VEC_Add(&hitCheck->start, &position, &hitCheck->localStart);
+                    VEC_Add(&hitCheck->end, &position, &hitCheck->localEnd);
                 }
                 break;
             }
@@ -2394,7 +2282,7 @@ void SailObject__Func_2166D88(void)
     }
 }
 
-NONMATCH_FUNC StageTask *SailBuoy__Create(StageTask *parent)
+NONMATCH_FUNC StageTask *CreateSailBuoy(StageTask *parent)
 {
     // should match when 'aSbBuoyNsbmd_0' & 'aSbBuoyNsbca' are decompiled
 #ifdef NON_MATCHING
@@ -2411,15 +2299,15 @@ NONMATCH_FUNC StageTask *SailBuoy__Create(StageTask *parent)
     {
         ObjAction3dNNMotionLoad(work, NULL, "sb_buoy.nsbca", GetObjectFileWork(OBJDATAWORK_29), SailManager__GetArchive());
         AnimatorMDL__SetAnimation(&work->obj_3d->ani, 0, work->obj_3d->resources[B3D_RESOURCE_JOINT_ANIM], 0, NULL);
-        SailObject__SetAnimSpeed(work, FLOAT_TO_FX32(2.0));
+        SailObject_SetAnimSpeed(work, FLOAT_TO_FX32(2.0));
         work->displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     }
 
     NNS_G3dMdlSetMdlEmi(work->obj_3d->ani.renderObj.resMdl, 1, GX_RGB_888(0x00, 0x00, 0x00));
     NNS_G3dMdlSetMdlLightEnableFlag(work->obj_3d->ani.renderObj.resMdl, 1, GX_LIGHTID_0);
 
-    SailObject__InitCommon(work);
-    SailObject__InitFromMapObject(work, mapObject);
+    SailObject_InitCommon(work);
+    SailObject_InitFromMapObject(work, mapObject);
 
     work->userWork = mapObject->viewRange;
     work->flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
@@ -2433,25 +2321,25 @@ NONMATCH_FUNC StageTask *SailBuoy__Create(StageTask *parent)
     else
     {
         scale = MultiplyFX(FLOAT_TO_FX32(0.25), work->scale.x);
-        SailObject__SetupHitbox(work, &worker->collider[0], 0);
-        SailObject__SetupHitbox(work, &worker->collider[1], 3);
-        SailObject__Func_21658A4(work, 0);
+        SailObject_InitColliderForCommon(work, &worker->collider[0], 0);
+        SailObject_InitColliderForCommon(work, &worker->collider[1], 3);
+        SailObject_InitColliderForObject(work, 0);
 
         VecFx32 a4;
         a4.x = FLOAT_TO_FX32(0.0);
         a4.y = -FLOAT_TO_FX32(1.5);
         a4.z = FLOAT_TO_FX32(0.0);
-        SailObject__Func_21658D0(work, 0, FLOAT_TO_FX32(1.75), &a4);
+        SailObject_InitColliderBox(work, 0, FLOAT_TO_FX32(1.75), &a4);
 
         a4.x = FLOAT_TO_FX32(0.0);
         a4.y = -FLOAT_TO_FX32(4.625);
         a4.z = FLOAT_TO_FX32(0.0);
-        SailObject__Func_21658D0(work, 3, FLOAT_TO_FX32(1.5), &a4);
+        SailObject_InitColliderBox(work, 3, FLOAT_TO_FX32(1.5), &a4);
 
         work->flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-        worker->field_120 = FLOAT_TO_FX32(150.0);
+        worker->maxHealth = FLOAT_TO_FX32(150.0);
         worker->health    = FLOAT_TO_FX32(150.0);
-        worker->dword118  = 1500;
+        worker->score     = 1500;
         work->userFlag |= SAILOBJECT_FLAG_2000000;
         work->userFlag |= SAILOBJECT_FLAG_40000;
     }
@@ -2461,7 +2349,7 @@ NONMATCH_FUNC StageTask *SailBuoy__Create(StageTask *parent)
     work->scale.z = scale;
 
     StageTask__InitSeqPlayer(work);
-    SailBuoy__SetupObject(work);
+    SailBuoy_Action_Init(work);
 
     return work;
 #else
@@ -2509,7 +2397,7 @@ NONMATCH_FUNC StageTask *SailBuoy__Create(StageTask *parent)
 	bl AnimatorMDL__SetAnimation
 	mov r0, r4
 	mov r1, #0x2000
-	bl SailObject__SetAnimSpeed
+	bl SailObject_SetAnimSpeed
 	ldr r0, [r4, #0x20]
 	orr r0, r0, #4
 	str r0, [r4, #0x20]
@@ -2525,10 +2413,10 @@ _02166FCC:
 	mov r2, #0
 	bl NNS_G3dMdlSetMdlLightEnableFlag
 	mov r0, r4
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r0, r4
 	mov r1, r6
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldr r0, [r6, #0x28]
 	str r0, [r4, #0x28]
 	ldr r0, [r4, #0x18]
@@ -2560,14 +2448,14 @@ _0216705C:
 	add r1, r5, #0x28
 	mov r2, #0
 	orr r6, r6, r3, lsl #20
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r0, r4
 	add r1, r5, #0xa0
 	mov r2, #3
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r0, r4
 	mov r1, #0
-	bl SailObject__Func_21658A4
+	bl SailObject_InitColliderForObject
 	mov r1, #0
 	sub r0, r1, #0x1800
 	str r0, [sp, #0xc]
@@ -2576,7 +2464,7 @@ _0216705C:
 	add r3, sp, #8
 	str r1, [sp, #8]
 	str r1, [sp, #0x10]
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r0, #0
 	str r0, [sp, #8]
 	str r0, [sp, #0x10]
@@ -2586,7 +2474,7 @@ _0216705C:
 	mov r1, #3
 	mov r2, #0x1800
 	add r3, sp, #8
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	ldr r1, [r4, #0x18]
 	mov r0, #0x96000
 	bic r1, r1, #2
@@ -2605,7 +2493,7 @@ _02167118:
 	str r6, [r4, #0x40]
 	bl StageTask__InitSeqPlayer
 	mov r0, r4
-	bl SailBuoy__SetupObject
+	bl SailBuoy_Action_Init
 	mov r0, r4
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, pc}
@@ -2614,199 +2502,81 @@ _02167118:
 #endif
 }
 
-NONMATCH_FUNC StageTask *SailBuoy__CreateFromSegment(SailVoyageSegment *voyageSegment)
+void CreateSailBuoyForSegment(SailVoyageSegment *voyageSegment)
 {
-#ifdef NON_MATCHING
+    SailEventManager *eventManager = SailManager__GetWork()->eventManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r6, r0
-	bl SailManager__GetWork
-	ldr r4, [r0, #0xa0]
-	add r1, sp, #0
-	mov r0, #0
-	str r0, [r1]
-	str r0, [r1, #4]
-	str r0, [r1, #8]
-	bl SailManager__GetShipType
-	mov r1, r0, lsl #0x10
-	mov r2, #0
-	mov r0, r6
-	str r2, [sp, #4]
-	mov r5, r1, lsr #0x10
-	bl SailVoyageManager__GetSegmentSize
-	mov r7, r0
-	mov r0, r6
-	bl SailVoyageManager__GetSegmentSize
-	ldr r1, [r6, #0x24]
-	cmp r5, #0
-	add r1, r1, r7
-	sub r0, r1, r0, asr #4
-	str r0, [sp, #8]
-	beq _021671C0
-	cmp r5, #1
-	beq _021671DC
-	cmp r5, #2
-_021671C0:
-	ldr r0, =0x0218B9AC
-	mov r1, r5, lsl #1
-	ldrh r1, [r0, r1]
-	mov r0, #0x5c
-	mul r0, r1, r0
-	str r0, [sp]
-	b _02167228
-_021671DC:
-	ldrsh r7, [r6, #0xa]
-	mov r0, #0xb
-	mov r1, #0
-	cmp r7, #0
-	rsblt r7, r7, #0
-	umull r3, r2, r7, r0
-	mla r2, r7, r1, r2
-	mov r1, r7, asr #0x1f
-	mla r2, r1, r0, r2
-	adds r3, r3, #0x800
-	ldr r0, =0x0218B9AC
-	mov r1, r5, lsl #1
-	adc r2, r2, #0
-	mov r3, r3, lsr #0xc
-	ldrh r0, [r0, r1]
-	orr r3, r3, r2, lsl #20
-	add r1, r3, #0x10
-	mul r0, r1, r0
-	str r0, [sp]
-_02167228:
-	ldrsh r0, [r6, #0xa]
-	cmp r0, #0
-	ldrgt r0, [sp]
-	rsbgt r0, r0, #0
-	strgt r0, [sp]
-	ldrsh r0, [r6, #0xa]
-	cmp r0, #0
-	bne _0216727C
-	ldr r2, =_obj_disp_rand
-	ldr r0, =0x00196225
-	ldr r3, [r2, #0]
-	ldr r1, =0x3C6EF35F
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	tst r0, #1
-	ldrne r0, [sp]
-	str r1, [r2]
-	rsbne r0, r0, #0
-	strne r0, [sp]
-_0216727C:
-	add r1, sp, #0
-	mov r0, #0x1f
-	bl SailEventManager__CreateObject
-	ldrh r2, [r6, #0x30]
-	mov r1, r0
-	cmp r2, #3
-	blo _021672A4
-	cmp r2, #5
-	movls r0, #1
-	strls r0, [r1, #0x28]
-_021672A4:
-	mov r0, r4
-	bl NNS_FndAppendListObject
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    VecFx32 position = { 0, 0, 0 };
 
-// clang-format on
-#endif
+    u16 shipType = SailManager__GetShipType();
+
+    position.y = 0;
+    position.z = voyageSegment->field_24 + SailVoyageManager__GetSegmentSize(voyageSegment) - (SailVoyageManager__GetSegmentSize(voyageSegment) >> 4);
+
+    switch (shipType)
+    {
+        case SHIP_JET:
+        case SHIP_HOVER:
+        default:
+            position.x = 92 * _0218B9AC[shipType];
+            break;
+
+        case SHIP_BOAT:
+            position.x = MultiplyFX(11, MATH_ABS(voyageSegment->targetSeaAngle)) + 16;
+            position.x *= _0218B9AC[shipType];
+            break;
+    }
+
+    if (voyageSegment->targetSeaAngle > 0)
+        position.x = -position.x;
+
+    if (voyageSegment->targetSeaAngle == 0)
+    {
+        if (ObjDispRandRepeat(2) != 0)
+            position.x = -position.x;
+    }
+
+    SailEventManagerObject *buoy = SailEventManager__CreateObject(SAILMAPOBJECT_31, &position);
+
+    if (voyageSegment[1].header2EntryID >= 3 && voyageSegment[1].header2EntryID <= 5)
+        buoy->viewRange = 1;
+
+    NNS_FndAppendListObject(&eventManager->stageObjectList, buoy);
 }
 
-NONMATCH_FUNC StageTask *SailBuoy__CreateFromSegment2(SailVoyageSegment *voyageSegment)
+void CreateSailBuoyForGoal(SailVoyageSegment *voyageSegment)
 {
-#ifdef NON_MATCHING
+    SailEventManager *eventManager = SailManager__GetWork()->eventManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0xc
-	mov r5, r0
-	bl SailManager__GetWork
-	ldr r4, [r0, #0xa0]
-	add r2, sp, #0
-	mov r1, #0
-	str r1, [r2, #4]
-	mov r0, r5
-	str r1, [r2]
-	str r1, [r2, #8]
-	str r1, [sp, #4]
-	bl SailVoyageManager__GetSegmentSize
-	ldr r1, [r5, #0x24]
-	add r0, r1, r0
-	str r0, [sp, #8]
-	bl SailManager__GetShipType
-	ldr r1, =0x0218B9AC
-	mov r0, r0, lsl #1
-	ldrh r1, [r1, r0]
-	mov r0, #0x5c
-	mul r0, r1, r0
-	str r0, [sp]
-	bl SailManager__GetShipType
-	cmp r0, #1
-	beq _02167338
-	cmp r0, #3
-	beq _02167358
-	b _02167390
-_02167338:
-	bl SailManager__GetShipType
-	ldr r1, =0x0218B9AC
-	mov r0, r0, lsl #1
-	ldrh r1, [r1, r0]
-	mov r0, #0xa
-	mul r0, r1, r0
-	str r0, [sp]
-	b _02167390
-_02167358:
-	bl SailManager__GetShipType
-	mov r2, r0, lsl #1
-	ldr r0, =0x0218B9AC
-	mov r1, #0x3c
-	ldrh r3, [r0, r2]
-	mov r2, #0x400
-	mov r0, r5
-	mul r1, r3, r1
-	str r1, [sp]
-	str r2, [sp, #4]
-	bl SailVoyageManager__GetSegmentSize
-	ldr r1, [sp, #8]
-	add r0, r1, r0, asr #2
-	str r0, [sp, #8]
-_02167390:
-	add r1, sp, #0
-	mov r0, #0x1f
-	bl SailEventManager__CreateObject
-	mov r1, r0
-	mov r2, #2
-	mov r0, r4
-	str r2, [r1, #0x28]
-	bl NNS_FndAppendListObject
-	ldr r0, [sp]
-	add r1, sp, #0
-	rsb r2, r0, #0
-	mov r0, #0x1f
-	str r2, [sp]
-	bl SailEventManager__CreateObject
-	mov r1, r0
-	mov r2, #2
-	mov r0, r4
-	str r2, [r1, #0x28]
-	bl NNS_FndAppendListObject
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, pc}
+    VecFx32 position = { 0, 0, 0 };
+    position.y       = 0;
+    position.z       = voyageSegment->field_24 + SailVoyageManager__GetSegmentSize(voyageSegment);
+    position.x       = 92 * _0218B9AC[SailManager__GetShipType()];
 
-// clang-format on
-#endif
+    switch (SailManager__GetShipType())
+    {
+        case SHIP_BOAT:
+            position.x = 10 * _0218B9AC[SailManager__GetShipType()];
+            break;
+
+        case SHIP_SUBMARINE:
+            position.x = 60 * _0218B9AC[SailManager__GetShipType()];
+            position.y = 1024;
+            position.z += SailVoyageManager__GetSegmentSize(voyageSegment) >> 2;
+            break;
+    }
+
+    SailEventManagerObject *buoyL = SailEventManager__CreateObject(SAILMAPOBJECT_31, &position);
+    buoyL->viewRange              = 2;
+    NNS_FndAppendListObject(&eventManager->stageObjectList, buoyL);
+
+    position.x                    = -position.x;
+    SailEventManagerObject *buoyR = SailEventManager__CreateObject(SAILMAPOBJECT_31, &position);
+    buoyR->viewRange              = 2;
+    NNS_FndAppendListObject(&eventManager->stageObjectList, buoyR);
 }
 
-NONMATCH_FUNC StageTask *SailSeagull__Create(SailEventManagerObject *mapObject)
+NONMATCH_FUNC StageTask *CreateSailUnusedSeagull(SailEventManagerObject *mapObject)
 {
     // should match when 'aSbSeagullBac' is decompiled
 #ifdef NON_MATCHING
@@ -2819,16 +2589,18 @@ NONMATCH_FUNC StageTask *SailSeagull__Create(SailEventManagerObject *mapObject)
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
     UNUSED(worker);
 
+    // NOTE: "sb_seagull.bac" is not found anywhere in th game's files.
+    // So even if this object were to be spawned in, it'd be invisible.
     ObjObjectAction3dBACLoad(work, NULL, "sb_seagull.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_30), SailManager__GetArchive());
     work->obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
     work->obj_2dIn3d->ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
     work->displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-    SailObject__InitCommon(work);
-    SailObject__InitFromMapObject(work, mapObject);
+    SailObject_InitCommon(work);
+    SailObject_InitFromMapObject(work, mapObject);
     work->flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
-    SailSeagull__SetupObject(work);
+    SailUnusedSeagull_Action_Init(work);
 
     return work;
 #else
@@ -2864,15 +2636,15 @@ NONMATCH_FUNC StageTask *SailSeagull__Create(SailEventManagerObject *mapObject)
 	mov r0, r4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r1, r5
 	mov r0, r4
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldr r1, [r4, #0x18]
 	mov r0, r4
 	orr r1, r1, #2
 	str r1, [r4, #0x18]
-	bl SailSeagull__SetupObject
+	bl SailUnusedSeagull_Action_Init
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
@@ -2881,7 +2653,7 @@ NONMATCH_FUNC StageTask *SailSeagull__Create(SailEventManagerObject *mapObject)
 #endif
 }
 
-NONMATCH_FUNC StageTask *SailSeagull2__Create(SailEventManagerObject *mapObject)
+NONMATCH_FUNC StageTask *CreateSailSeagull(SailEventManagerObject *mapObject)
 {
     // should match when 'aSbSeagullNsbmd_0' is decompiled
 #ifdef NON_MATCHING
@@ -2895,11 +2667,11 @@ NONMATCH_FUNC StageTask *SailSeagull2__Create(SailEventManagerObject *mapObject)
     UNUSED(worker);
 
     ObjAction3dNNModelLoad(work, NULL, "sb_seagull.nsbmd", 0, GetObjectFileWork(OBJDATAWORK_31), SailManager__GetArchive());
-    SailObject__InitCommon(work);
-    SailObject__InitFromMapObject(work, mapObject);
+    SailObject_InitCommon(work);
+    SailObject_InitFromMapObject(work, mapObject);
     work->flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
-    SailSeagull2__SetupObject(work);
+    SailSeagull_Action_Init(work);
 
     return work;
 #else
@@ -2926,15 +2698,15 @@ NONMATCH_FUNC StageTask *SailSeagull2__Create(SailEventManagerObject *mapObject)
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
 	mov r0, r5
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r1, r6
 	mov r0, r5
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldr r1, [r5, #0x18]
 	mov r0, r5
 	orr r1, r1, #2
 	str r1, [r5, #0x18]
-	bl SailSeagull2__SetupObject
+	bl SailSeagull_Action_Init
 	mov r0, r5
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
@@ -2943,7 +2715,7 @@ NONMATCH_FUNC StageTask *SailSeagull2__Create(SailEventManagerObject *mapObject)
 #endif
 }
 
-NONMATCH_FUNC StageTask *SailSeagull3__Create(StageTask *parent)
+NONMATCH_FUNC StageTask *CreateSailIslandSeagull(StageTask *parent)
 {
     // should match when 'aSbSeagullNsbmd_0' is decompiled
 #ifdef NON_MATCHING
@@ -2957,7 +2729,7 @@ NONMATCH_FUNC StageTask *SailSeagull3__Create(StageTask *parent)
     UNUSED(worker);
 
     ObjAction3dNNModelLoad(work, NULL, "sb_seagull.nsbmd", 0, GetObjectFileWork(OBJDATAWORK_31), SailManager__GetArchive());
-    SailObject__InitCommon(work);
+    SailObject_InitCommon(work);
     StageTask__SetParent(work, parent, 0);
 
     work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
@@ -2968,7 +2740,7 @@ NONMATCH_FUNC StageTask *SailSeagull3__Create(StageTask *parent)
     scale                          = MultiplyFX(0x200, 0x1200 + ObjDispRandRepeat(0x200));
     animator->ani.work.scale.z = animator->ani.work.scale.y = animator->ani.work.scale.x = scale;
 
-    SailSeagull3__State_216BF2C(work);
+    SailIslandSeagull_Action_Init(work);
 
     return work;
 #else
@@ -2995,7 +2767,7 @@ NONMATCH_FUNC StageTask *SailSeagull3__Create(StageTask *parent)
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
 	mov r0, r4
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r1, r6
 	mov r0, r4
 	mov r2, #0
@@ -3030,7 +2802,7 @@ NONMATCH_FUNC StageTask *SailSeagull3__Create(StageTask *parent)
 	str r2, [r0, #0x1c]
 	str r2, [r0, #0x20]
 	mov r0, r4
-	bl SailSeagull3__State_216BF2C
+	bl SailIslandSeagull_Action_Init
 	mov r0, r4
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
@@ -3039,10 +2811,55 @@ NONMATCH_FUNC StageTask *SailSeagull3__Create(StageTask *parent)
 #endif
 }
 
-NONMATCH_FUNC StageTask *SailSeagull__CreateFromSegment(SailVoyageSegment *voyageSegment)
+NONMATCH_FUNC void CreateSailSeagullForSegment(SailVoyageSegment *voyageSegment)
 {
+    // https://decomp.me/scratch/UBdFn -> 84.11%
 #ifdef NON_MATCHING
+    SailEventManager *eventManager = SailManager__GetWork()->eventManager;
 
+    VecFx32 position = { 0, 0, 0 };
+
+    u16 shipType = SailManager__GetShipType();
+
+    position.z = voyageSegment->field_24;
+
+    switch (shipType)
+    {
+        case SHIP_JET:
+        case SHIP_HOVER:
+        default:
+            position.x = ObjDispRandRange(-0x40, 0x40);
+            position.x *= _0218B9AC[shipType];
+
+            position.y = -(ObjDispRandRepeat(0x20) + 80);
+            position.y *= _0218B9B4[shipType];
+            break;
+
+        case SHIP_BOAT:
+            position.x = MultiplyFX(11, MATH_ABS(voyageSegment->targetSeaAngle));
+            position.x += ObjDispRandRepeat(16);
+            position.x *= _0218B9AC[shipType];
+
+            if (voyageSegment->targetSeaAngle > 0)
+                position.x = -position.x;
+
+            if (voyageSegment->targetSeaAngle == 0)
+            {
+                if (ObjDispRandRepeat(2) != 0)
+                    position.x = -position.x;
+            }
+
+            position.y = ObjDispRandRepeat(8);
+            position.y += 6;
+            position.y *= -_0218B9B4[shipType];
+
+            position.z += SailVoyageManager__GetSegmentSize(voyageSegment) >> 2;
+
+            break;
+    }
+
+    SailEventManagerObject *seagull = SailEventManager__CreateObject(SAILMAPOBJECT_35, &position);
+    NNS_FndAppendListObject(&eventManager->stageObjectList, seagull);
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
@@ -3069,7 +2886,7 @@ _0216767C:
 	ldr r0, =0x00196225
 	ldr r3, [r6, #0]
 	ldr r2, =0x3C6EF35F
-	ldr r1, =0x0218B9AC
+	ldr r1, =_0218B9AC
 	mla r5, r3, r0, r2
 	mla r0, r5, r0, r2
 	mov r2, r0, lsr #0x10
@@ -3108,7 +2925,7 @@ _021676EC:
 	ldr r6, =0x00196225
 	ldr r7, [r0, #0]
 	ldr ip, =0x3C6EF35F
-	ldr r3, =0x0218B9AC
+	ldr r3, =_0218B9AC
 	mla r6, r7, r6, ip
 	mov r7, r6, lsr #0x10
 	mov ip, lr, lsl #1
@@ -3178,46 +2995,19 @@ _02167800:
 #endif
 }
 
-NONMATCH_FUNC StageTask *SailSeagull__CreateUnknown2(StageTask *work)
+void CreateSailSeagullForDestination(StageTask *parent)
 {
-#ifdef NON_MATCHING
+    u16 count = 2 + ObjDispRandRepeat(4);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r3, =_obj_disp_rand
-	ldr r1, =0x00196225
-	ldr ip, [r3]
-	ldr r2, =0x3C6EF35F
-	mov r4, r0
-	mla r1, ip, r1, r2
-	mov r0, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	and r0, r0, #3
-	add r0, r0, #2
-	mov r0, r0, lsl #0x10
-	str r1, [r3]
-	movs r5, r0, lsr #0x10
-	mov r6, #0
-	ldmeqia sp!, {r4, r5, r6, pc}
-_02167878:
-	mov r0, r4
-	bl SailSeagull3__Create
-	add r0, r6, #1
-	mov r0, r0, lsl #0x10
-	cmp r5, r0, lsr #16
-	mov r6, r0, lsr #0x10
-	bhi _02167878
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    for (u16 i = 0; i < count; i++)
+    {
+        CreateSailIslandSeagull(parent);
+    }
 }
 
-NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
+NONMATCH_FUNC StageTask *CreateSailRock(SailEventManagerObject *mapObject)
 {
-    // https://decomp.me/scratch/aBonY -> 70.48%
+    // https://decomp.me/scratch/aBonY -> 96.38%
 #ifdef NON_MATCHING
     StageTask *work;
     SailObject *worker;
@@ -3233,7 +3023,7 @@ NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
     {
         if (*segmentType == SAILVOYAGESEGMENT_TYPE_1 || *segmentType == SAILVOYAGESEGMENT_TYPE_8)
         {
-            return SailIce__Create(mapObject);
+            return CreateSailIce(mapObject);
         }
     }
 
@@ -3255,8 +3045,8 @@ NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
     }
 
     ObjAction3dNNModelLoad(work, NULL, "sb_stone.nsbmd", anim, GetObjectFileWork(OBJDATAWORK_32), SailManager__GetArchive());
-    SailObject__InitCommon(work);
-    SailObject__InitFromMapObject(work, mapObject);
+    SailObject_InitCommon(work);
+    SailObject_InitFromMapObject(work, mapObject);
     work->flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->userFlag |= SAILOBJECT_FLAG_40000;
 
@@ -3285,9 +3075,9 @@ NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
                     work->scale.z = work->scale.x;
                 }
 
-                SailObject__SetupHitbox(work, &worker->collider[1], 1);
-                SailObject__Func_21658D0(work, 1, MultiplyFX(0x1160, v2), 0);
-                worker->collider[1].flags |= 0x4000;
+                SailObject_InitColliderForCommon(work, &worker->collider[1], 1);
+                SailObject_InitColliderBox(work, 1, MultiplyFX(0x1160, v2), 0);
+                worker->collider[1].flags |= SAILCOLLIDER_FLAG_4000;
                 work->colliderList[1]->hitPower = 20;
                 work->colliderList[1]->defPower = 0;
                 work->flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
@@ -3304,7 +3094,7 @@ NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
             if ((worker->objectRef->flags & 7) != 0)
                 v2 *= (worker->objectRef->flags & 7);
 
-            if (mapObject->objectValue14)
+            if (mapObject->param)
             {
                 v2 = ObjDispRandRange2(0x1000, 0x1800);
             }
@@ -3315,7 +3105,7 @@ NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
             work->scale.y = MultiplyFX(scale_2, 0x1000 + (u32)(0xFF - ObjDispRandRepeat((0x100 * 2) - 1)));
             work->scale.z = MultiplyFX(scale_2, 0x1000 + (u32)(0x1FF - ObjDispRandRepeat((0x200 * 2) - 1)));
 
-            if (mapObject->objectValue14)
+            if (mapObject->param)
             {
                 fx32 value    = 0x1B00 + (0xFF - ObjDispRandRepeat((0x400 * 2) - 1));
                 work->scale.x = MultiplyFX(work->scale.x, value);
@@ -3334,20 +3124,20 @@ NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
                 position.y = FLOAT_TO_FX32(1.0);
                 position.z = FLOAT_TO_FX32(0.0);
             }
-            SailObject__Func_2165AF4(work, &position);
-            SailObject__SetupHitbox(work, worker->collider, 0);
-            if (!mapObject->objectValue14)
-                SailObject__Func_21658A4(work, 0);
-            SailObject__Func_21658D0(work, 0, MultiplyFX(v2, 0x2000), 0);
+            SailObject_SetCollisionOffset(work, &position);
+            SailObject_InitColliderForCommon(work, worker->collider, 0);
+            if (!mapObject->param)
+                SailObject_InitColliderForObject(work, 0);
+            SailObject_InitColliderBox(work, 0, MultiplyFX(v2, 0x2000), 0);
 
             work->flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
             fx32 health       = MultiplyFX(FLOAT_TO_FX32(40.0), v2);
-            worker->field_120 = health;
+            worker->maxHealth = health;
             worker->health    = health;
 
-            worker->dword118 = 300;
-            worker->dword118 = MultiplyFX(v2, worker->dword118);
+            worker->score = 300;
+            worker->score = MultiplyFX(v2, worker->score);
 
             break;
         }
@@ -3364,8 +3154,8 @@ NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
 
             if (worker->objectRef->type == SAILMAPOBJECT_26)
             {
-                SailObject__SetupHitbox(work, worker->collider, 0);
-                SailObject__Func_21658D0(work, 0, MultiplyFX(v2, 0x1000), 0);
+                SailObject_InitColliderForCommon(work, worker->collider, 0);
+                SailObject_InitColliderBox(work, 0, MultiplyFX(v2, 0x1000), 0);
                 work->flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
                 worker->collider[0].atkPower = FLOAT_TO_FX32(64.0);
 
@@ -3376,10 +3166,10 @@ NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
                 const s32 value = FLOAT_TO_FX32(40.0);
 
                 fx32 health       = MultiplyFX(value, v2);
-                worker->field_120 = health;
+                worker->maxHealth = health;
                 worker->health    = health;
 
-                worker->dword118 = MultiplyFX(300, v2);
+                worker->score = MultiplyFX(300, v2);
             }
             break;
         }
@@ -3389,9 +3179,9 @@ NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
             work->scale.y = MultiplyFX(scale_1, 0x800 + (u32)(0x3FF - ObjDispRandRepeat((0x400 * 2) - 1)));
             work->scale.z = MultiplyFX(scale_1, 0x1000 + (u32)(0x7FF - ObjDispRandRepeat((0x800 * 2) - 1)));
 
-            SailObject__SetLightColors(work, 5);
+            SailObject_SetLightColors(work, 5);
 
-            if (mapObject->objectValue14)
+            if (mapObject->param)
             {
                 fx32 scale = 0x1B00 + (0xFF - ObjDispRandRepeat((0x200 * 2) - 1));
 
@@ -3415,14 +3205,14 @@ NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
                 position.z = FLOAT_TO_FX32(0.0);
             }
 
-            SailObject__Func_2165AF4(work, &position);
+            SailObject_SetCollisionOffset(work, &position);
             break;
         }
     }
 
     work->dir.y = ObjDispRand();
 
-    SailObject__ApplyRotation(work);
+    SailObject_ApplyRotation(work);
     StageTask__InitSeqPlayer(work);
 
     return work;
@@ -3446,7 +3236,7 @@ NONMATCH_FUNC StageTask *SailStone__Create(SailEventManagerObject *mapObject)
 	cmpne r0, #8
 	bne _021678F8
 	mov r0, r9
-	bl SailIce__Create
+	bl CreateSailIce
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _021678F8:
@@ -3503,10 +3293,10 @@ _02167994:
 	mov r3, r6
 	bl ObjAction3dNNModelLoad
 	mov r0, r4
-	bl SailObject__InitCommon
+	bl SailObject_InitCommon
 	mov r0, r4
 	mov r1, r9
-	bl SailObject__InitFromMapObject
+	bl SailObject_InitFromMapObject
 	ldr r0, [r4, #0x18]
 	orr r0, r0, #2
 	str r0, [r4, #0x18]
@@ -3572,7 +3362,7 @@ _02167994:
 	mov r0, r4
 	add r1, r5, #0xa0
 	mov r2, #1
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	ldr r0, =0x00001160
 	mov r3, #0
 	umull r2, r1, r8, r0
@@ -3584,7 +3374,7 @@ _02167994:
 	orr r2, r2, r1, lsl #20
 	mov r0, r4
 	mov r1, #1
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	add r0, r5, #0x100
 	ldrh r3, [r0, #0x14]
 	mov r2, #0x14
@@ -3767,17 +3557,17 @@ _02167DB0:
 _02167DC4:
 	add r1, sp, #8
 	mov r0, r4
-	bl SailObject__Func_2165AF4
+	bl SailObject_SetCollisionOffset
 	mov r0, r4
 	add r1, r5, #0x28
 	mov r2, #0
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	ldr r0, [r9, #0x38]
 	cmp r0, #0
 	bne _02167DF8
 	mov r0, r4
 	mov r1, #0
-	bl SailObject__Func_21658A4
+	bl SailObject_InitColliderForObject
 _02167DF8:
 	mov r2, r7, lsl #0xd
 	mov r0, #0x800
@@ -3789,7 +3579,7 @@ _02167DF8:
 	mov r0, r4
 	mov r3, r1
 	orr r2, r2, r6, lsl #20
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	mov r10, #0x28000
 	umull r0, r6, r10, r8
 	adds r0, r0, #0x800
@@ -3884,7 +3674,7 @@ _02167E88:
 	bne _02168230
 	mov r0, r4
 	add r1, r5, #0x28
-	bl SailObject__SetupHitbox
+	bl SailObject_InitColliderForCommon
 	mov r2, r6, lsl #0xc
 	mov r0, #0x800
 	mov r1, #0
@@ -3895,7 +3685,7 @@ _02167E88:
 	mov r0, r4
 	mov r3, r1
 	orr r2, r2, r7, lsl #20
-	bl SailObject__Func_21658D0
+	bl SailObject_InitColliderBox
 	ldr r1, [r4, #0x18]
 	mov r0, r4
 	bic r1, r1, #2
@@ -3983,7 +3773,7 @@ _02168054:
 	mov r0, r4
 	str r2, [r4, #0x40]
 	mov r1, #5
-	bl SailObject__SetLightColors
+	bl SailObject_SetLightColors
 	ldr r0, [r9, #0x38]
 	cmp r0, #0
 	beq _021681F4
@@ -4053,7 +3843,7 @@ _02168210:
 _02168224:
 	add r1, sp, #8
 	mov r0, r4
-	bl SailObject__Func_2165AF4
+	bl SailObject_SetCollisionOffset
 _02168230:
 	ldr r3, =_obj_disp_rand
 	ldr r1, =0x00196225
@@ -4064,7 +3854,7 @@ _02168230:
 	str r1, [r3]
 	mov r1, r1, lsr #0x10
 	strh r1, [r4, #0x32]
-	bl SailObject__ApplyRotation
+	bl SailObject_ApplyRotation
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
 	mov r0, r4
@@ -4075,7 +3865,7 @@ _02168230:
 #endif
 }
 
-NONMATCH_FUNC StageTask *SailStone__CreateFromSegment(SailVoyageSegment *voyageSegment, s32 a2)
+NONMATCH_FUNC void CreateSailRockForSegment(SailVoyageSegment *voyageSegment, s32 a2)
 {
 #ifdef NON_MATCHING
 
@@ -4110,7 +3900,7 @@ _021682F0:
 	ldr r2, =0x00196225
 	ldr r8, [r1, #0]
 	ldr r3, =0x3C6EF35F
-	ldr r5, =0x0218B9AC
+	ldr r5, =_0218B9AC
 	mla r10, r8, r2, r3
 	mla r9, r10, r2, r3
 	mov r10, r10, lsr #0x10
@@ -4165,7 +3955,7 @@ _0216838C:
 	ldr r10, [r1, #0]
 	ldr r8, =0x00196225
 	ldr r9, =0x3C6EF35F
-	ldr r11, =0x0218B9AC
+	ldr r11, =_0218B9AC
 	mov r0, r0, lsl #1
 	ldrh r0, [r11, r0]
 	mla r11, r10, r8, r9
@@ -4203,7 +3993,7 @@ _0216845C:
 	ldr r3, =0x00196225
 	ldr r2, [r1, #0]
 	ldr r10, =0x3C6EF35F
-	ldr r11, =0x0218B9AC
+	ldr r11, =_0218B9AC
 	mla r9, r2, r3, r10
 	mla r8, r9, r3, r10
 	mla r2, r8, r3, r10
@@ -4268,7 +4058,7 @@ _02168538:
 	ldr r10, [r1, #0]
 	ldr r8, =0x00196225
 	ldr r9, =0x3C6EF35F
-	ldr r11, =0x0218B9AC
+	ldr r11, =_0218B9AC
 	mov r0, r0, lsl #1
 	ldrh r0, [r11, r0]
 	mla r11, r10, r8, r9
@@ -4324,7 +4114,7 @@ _0216862C:
 	ldr r10, [r1, #0]
 	ldr r8, =0x00196225
 	ldr r9, =0x3C6EF35F
-	ldr r3, =0x0218B9AC
+	ldr r3, =_0218B9AC
 	mla r5, r10, r8, r9
 	mov r10, r5, lsr #0x10
 	mov r0, r0, lsl #1
@@ -4366,7 +4156,7 @@ _021686AC:
 	and r11, r8, #3
 	mov r8, r2, lsr #0x10
 	mov r10, r0, lsr #0x10
-	ldr lr, =0x0218B9AC
+	ldr lr, =_0218B9AC
 	mov r9, r9, lsr #0x10
 	str r3, [r1]
 	mov r1, r9, lsl #0x10
@@ -4444,7 +4234,7 @@ _021687DC:
 #endif
 }
 
-StageTask *SailIce__Create(SailEventManagerObject *mapObject)
+StageTask *CreateSailIce(SailEventManagerObject *mapObject)
 {
     StageTask *work;
     SailObject *worker;
@@ -4463,14 +4253,14 @@ StageTask *SailIce__Create(SailEventManagerObject *mapObject)
     if (SailManager__GetShipType() == SHIP_BOAT)
         radius = 12;
 
-    if (MATH_ABS(mapObject->unknown.x) > radius * _0218B9AC[SailManager__GetShipType()])
+    if (MATH_ABS(mapObject->voyagePosition.x) > radius * _0218B9AC[SailManager__GetShipType()])
     {
         anim = ObjDispRandRepeat(2);
     }
 
     ObjAction3dNNModelLoad(work, NULL, "sb_ice.nsbmd", anim, GetObjectFileWork(OBJDATAWORK_33), SailManager__GetArchive());
-    SailObject__InitCommon(work);
-    SailObject__InitFromMapObject(work, mapObject);
+    SailObject_InitCommon(work);
+    SailObject_InitFromMapObject(work, mapObject);
 
     work->flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->userFlag |= SAILOBJECT_FLAG_40000 | SAILOBJECT_FLAG_80000;
@@ -4478,7 +4268,7 @@ StageTask *SailIce__Create(SailEventManagerObject *mapObject)
     scale = work->scale.x;
     if (SailManager__GetShipType() != SHIP_BOAT)
     {
-        if (MATH_ABS(mapObject->unknown.x) > 96 * _0218B9AC[SailManager__GetShipType()])
+        if (MATH_ABS(mapObject->voyagePosition.x) > 96 * _0218B9AC[SailManager__GetShipType()])
         {
             work->scale.x = MultiplyFX(scale, 0xD00 + ObjDispRandRange4(0x100, 0x300));
             work->scale.y = MultiplyFX(scale, 0xD00 + ObjDispRandRange4(0x100, 0x300));
@@ -4508,29 +4298,29 @@ StageTask *SailIce__Create(SailEventManagerObject *mapObject)
             pos.y = -FLOAT_TO_FX32(1.0);
             pos.z = FLOAT_TO_FX32(0.0);
 
-            SailObject__Func_2165AF4(work, &pos);
+            SailObject_SetCollisionOffset(work, &pos);
         }
 
-        SailObject__SetupHitbox(work, worker->collider, 0);
-        SailObject__Func_21658A4(work, 0);
-        SailObject__Func_21658D0(work, 0, 0x4200, 0);
+        SailObject_InitColliderForCommon(work, worker->collider, 0);
+        SailObject_InitColliderForObject(work, 0);
+        SailObject_InitColliderBox(work, 0, 0x4200, 0);
         work->flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-        worker->field_120 = FLOAT_TO_FX32(100.0);
+        worker->maxHealth = FLOAT_TO_FX32(100.0);
         worker->health    = FLOAT_TO_FX32(100.0);
-        worker->dword118  = 500;
+        worker->score     = 500;
     }
 
     work->dir.y = ObjDispRand();
 
-    SailObject__ApplyRotation(work);
+    SailObject_ApplyRotation(work);
     StageTask__InitSeqPlayer(work);
 
-    SetTaskState(work, SailObject__Func_2166D50);
+    SetTaskState(work, SailIce_State_Oscillate);
 
     return work;
 }
 
-NONMATCH_FUNC StageTask *SailIce__CreateFromSegment(SailVoyageSegment *voyageSegment, s32 a2)
+NONMATCH_FUNC void CreateSailIceForSegment(SailVoyageSegment *voyageSegment, s32 a2)
 {
 #ifdef NON_MATCHING
 
@@ -4564,7 +4354,7 @@ _02168CD4:
 	ldr r3, =_obj_disp_rand
 	ldr r2, =0x00196225
 	ldr r0, [r3, #0]
-	ldr r1, =0x0218B9AC
+	ldr r1, =_0218B9AC
 	mla r11, r0, r2, r9
 	mla r10, r11, r2, r9
 	str r11, [r3]
@@ -4613,7 +4403,7 @@ _02168DA0:
 	ldr r10, =_obj_disp_rand
 	ldr r6, =0x00196225
 	ldr r1, [r10, #0]
-	ldr r0, =0x0218B9AC
+	ldr r0, =_0218B9AC
 	mla r2, r1, r6, r9
 	mov r3, r2, lsr #0x10
 	mov r1, r5, lsl #1
@@ -4648,7 +4438,7 @@ _02168E18:
 	ldr r1, =_obj_disp_rand
 	ldr r3, =0x00196225
 	ldr r0, [r1, #0]
-	ldr r11, =0x0218B9AC
+	ldr r11, =_0218B9AC
 	mla r9, r0, r3, r10
 	mla r2, r9, r3, r10
 	mla r0, r2, r3, r10
@@ -4717,7 +4507,7 @@ _02168EFC:
 	mov r2, r2, lsr #0xc
 	orr r2, r2, r0, lsl #20
 	mov r0, r5, lsl #1
-	ldr ip, =0x0218B9AC
+	ldr ip, =_0218B9AC
 	mla r5, r11, r9, r10
 	add r3, r2, #0x10
 	mla r2, r5, r9, r10
@@ -4784,7 +4574,7 @@ _02169010:
 #endif
 }
 
-StageTask *SailSubFish__Create(SailEventManagerObject *mapObject)
+StageTask *CreateSailFish(SailEventManagerObject *mapObject)
 {
     StageTask *work;
     SailObject *worker;
@@ -4797,8 +4587,8 @@ StageTask *SailSubFish__Create(SailEventManagerObject *mapObject)
 
     s32 anim = ObjDispRandRepeat(8) + ObjDispRandRepeat(2);
     ObjAction3dNNModelLoad(work, NULL, "sb_sub_fish.nsbmd", (u16)anim, GetObjectDataWork(OBJDATAWORK_34), SailManager__GetArchive());
-    SailObject__InitCommon(work);
-    SailObject__InitFromMapObject(work, mapObject);
+    SailObject_InitCommon(work);
+    SailObject_InitFromMapObject(work, mapObject);
     work->flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
     fx32 scale    = work->scale.x;
@@ -4807,12 +4597,12 @@ StageTask *SailSubFish__Create(SailEventManagerObject *mapObject)
     work->scale.y = scale;
     work->scale.z = scale;
 
-    SailSubFish__SetupObject(work);
+    SailFish_Action_Init(work);
 
     return work;
 }
 
-StageTask *SailSubFish2__Create(StageTask *parent)
+StageTask *CreateSailIslandFish(StageTask *parent)
 {
     StageTask *work;
     SailObject *worker;
@@ -4825,7 +4615,7 @@ StageTask *SailSubFish2__Create(StageTask *parent)
 
     s32 anim = ObjDispRandRepeat(8) + ObjDispRandRepeat(2);
     ObjAction3dNNModelLoad(work, NULL, "sb_sub_fish.nsbmd", (u16)anim, GetObjectDataWork(OBJDATAWORK_34), SailManager__GetArchive());
-    SailObject__InitCommon(work);
+    SailObject_InitCommon(work);
     StageTask__SetParent(work, parent, 0);
     work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
@@ -4835,12 +4625,12 @@ StageTask *SailSubFish2__Create(StageTask *parent)
     scale                          = MultiplyFX(scale, ObjDispRandRange2(FLOAT_TO_FX32(0.75), FLOAT_TO_FX32(0.875)));
     animator->ani.work.scale.z = animator->ani.work.scale.y = animator->ani.work.scale.x = scale;
 
-    SailSubFish2__SetupObject(work);
+    SailIslandFish_Action_Init(work);
 
     return work;
 }
 
-void SailSubFish__CreateUnknown1(SailVoyageSegment *voyageSegment)
+void CreateSailFishForSegment(SailVoyageSegment *voyageSegment)
 {
     SailEventManager *eventManager = SailManager__GetWork()->eventManager;
 
@@ -4866,7 +4656,7 @@ void SailSubFish__CreateUnknown1(SailVoyageSegment *voyageSegment)
     NNS_FndAppendListObject(&eventManager->stageObjectList, SailEventManager__CreateObject(SAILMAPOBJECT_36, &position));
 }
 
-void SailSubFish__CreateUnknown2(StageTask *parent)
+void CreateSailFishForDestination(StageTask *parent)
 {
     u16 i;
     u16 count;
@@ -4877,11 +4667,11 @@ void SailSubFish__CreateUnknown2(StageTask *parent)
     count = ObjDispRandRange2(2, 10);
     for (i = 0; i < count; i++)
     {
-        SailSubFish2__Create(parent);
+        CreateSailIslandFish(parent);
     }
 }
 
-StageTask *SailChaosEmerald__Create(fx32 z)
+StageTask *CreateSailGoalChaosEmerald(fx32 voyagePosZ)
 {
     StageTask *work;
     SailObject *worker;
@@ -4894,18 +4684,18 @@ StageTask *SailChaosEmerald__Create(fx32 z)
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
 
     ObjAction3dNNModelLoad(work, NULL, "sb_chaos.nsbmd", manager->rivalRaceID, GetObjectFileWork(OBJDATAWORK_102), SailManager__GetArchive());
-    SailObject__InitCommon(work);
+    SailObject_InitCommon(work);
 
     work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
-    worker->objectRadius.z = z;
-    worker->objectRadius.y = -FLOAT_TO_FX32(1.953125);
+    worker->voyagePosition.z = voyagePosZ;
+    worker->voyagePosition.y = -FLOAT_TO_FX32(1.953125);
 
-    SailObject__Func_2166A2C(work);
-    SailChaosEmerald__SetupObject(work);
+    SailObject_HandleVoyageVelocity(work);
+    SailGoalChaosEmerald_Action_Init(work);
     return work;
 }
 
-StageTask *SailGoal__Create(fx32 radius)
+StageTask *CreateSailGoal(fx32 radius)
 {
     StageTask *work;
     SailObject *worker;
@@ -4920,33 +4710,33 @@ StageTask *SailGoal__Create(fx32 radius)
     ObjAction3dNNModelLoad(work, NULL, "sb_goal.nsbmd", 0, GetObjectFileWork(OBJDATAWORK_46), SailManager__GetArchive());
     ObjAction3dNNMotionLoad(work, NULL, "sb_goal.nsbca", GetObjectFileWork(OBJDATAWORK_47), SailManager__GetArchive());
     AnimatorMDL__SetAnimation(&work->obj_3d->ani, 0, work->obj_3d->resources[B3D_RESOURCE_JOINT_ANIM], 0, 0);
-    SailObject__SetAnimSpeed(work, FLOAT_TO_FX32(2.0));
+    SailObject_SetAnimSpeed(work, FLOAT_TO_FX32(2.0));
     work->displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     work->obj_3d->ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
     work->obj_3d->ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
 
-    SailObject__InitCommon(work);
+    SailObject_InitCommon(work);
     work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
-    worker->objectRadius.z = radius;
+    worker->voyagePosition.z = radius;
     switch (SailManager__GetShipType())
     {
         case SHIP_JET:
         case SHIP_HOVER:
         default:
-            worker->objectRadius.y = -FLOAT_TO_FX32(1.953125);
+            worker->voyagePosition.y = -FLOAT_TO_FX32(1.953125);
             break;
 
         case SHIP_BOAT:
-            worker->objectRadius.y = -FLOAT_TO_FX32(8.0);
+            worker->voyagePosition.y = -FLOAT_TO_FX32(8.0);
             break;
 
         case SHIP_SUBMARINE:
-            worker->objectRadius.y = -FLOAT_TO_FX32(22.0);
+            worker->voyagePosition.y = -FLOAT_TO_FX32(22.0);
             break;
     }
 
-    SailObject__Func_2166A2C(work);
+    SailObject_HandleVoyageVelocity(work);
 
     if (!manager->isRivalRace)
     {
@@ -4957,12 +4747,12 @@ StageTask *SailGoal__Create(fx32 radius)
         work->scale.z = scale;
     }
 
-    SailGoal__SetupObject(work);
+    SailGoal_Action_Init(work);
 
     return work;
 }
 
-StageTask *SailGoalText__Create(u32 a1)
+StageTask *CreateSailGoalText(fx32 voyagePosZ)
 {
     StageTask *work;
     SailObject *worker;
@@ -4973,39 +4763,39 @@ StageTask *SailGoalText__Create(u32 a1)
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
 
     ObjObjectAction3dBACLoad(work, NULL, "/sb_cldm_goal.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_49), SailManager__GetArchive());
-    SailObject__InitCommon(work);
+    SailObject_InitCommon(work);
     work->obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
     work->obj_2dIn3d->ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
 
-    SailObject__InitCommon(work);
+    SailObject_InitCommon(work);
     work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
-    worker->objectRadius.z = a1 - FLOAT_TO_FX32(1.0);
-    work->userWork         = a1;
+    worker->voyagePosition.z = voyagePosZ - FLOAT_TO_FX32(1.0);
+    work->userWork           = voyagePosZ;
 
     switch (SailManager__GetShipType())
     {
         case SHIP_JET:
         case SHIP_HOVER:
         default:
-            worker->objectRadius.y = -FLOAT_TO_FX32(1.953125);
+            worker->voyagePosition.y = -FLOAT_TO_FX32(1.953125);
             break;
 
         case SHIP_BOAT:
-            worker->objectRadius.y = -FLOAT_TO_FX32(8.0);
+            worker->voyagePosition.y = -FLOAT_TO_FX32(8.0);
             break;
 
         case SHIP_SUBMARINE:
-            worker->objectRadius.y = -FLOAT_TO_FX32(22.0);
+            worker->voyagePosition.y = -FLOAT_TO_FX32(22.0);
             break;
     }
 
-    SailObject__Func_2166A2C(work);
-    SailGoalText__SetupObject(work);
+    SailObject_HandleVoyageVelocity(work);
+    SailGoalText_Action_Init(work);
 
     return work;
 }
 
-StageTask *SailJetItem__Create(SailEventManagerObject *mapObject)
+StageTask *CreateSailItemBox(SailEventManagerObject *mapObject)
 {
     StageTask *work;
     SailObject *worker;
@@ -5018,9 +4808,9 @@ StageTask *SailJetItem__Create(SailEventManagerObject *mapObject)
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
 
     ObjObjectAction3dBACLoad(work, NULL, "sb_item.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_37), SailManager__GetArchive());
-    SailObject__InitCommon(work);
+    SailObject_InitCommon(work);
 
-    SailObject__InitFromMapObject(work, mapObject);
+    SailObject_InitFromMapObject(work, mapObject);
 
     work->position.y -= FLOAT_TO_FX32(1.0);
     work->userFlag |= SAILOBJECT_FLAG_10000;
@@ -5033,27 +4823,27 @@ StageTask *SailJetItem__Create(SailEventManagerObject *mapObject)
         work->userWork = 11;
 
     StageTask__SetAnimation(work, (work->userWork >> 2) + 1);
-    worker->dword118                          = 500;
+    worker->score                             = 500;
     work->obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_43;
     work->obj_2dIn3d->ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
 
-    SailObject__SetupHitbox(work, worker->collider, 0);
-    SailObject__Func_21658D0(work, 0, 0x900, 0);
+    SailObject_InitColliderForCommon(work, worker->collider, 0);
+    SailObject_InitColliderBox(work, 0, 0x900, 0);
 
     OBS_RECT_WORK *collider = StageTask__GetCollider(work, 0);
     collider->hitPower      = 0;
     collider->defPower      = 0;
 
     if (SailManager__GetShipType() == SHIP_BOAT)
-        worker->collider[0].hitCheck.field_24.x = FLOAT_TO_FX32(2.5);
+        worker->collider[0].hitCheck.box.size.x = FLOAT_TO_FX32(2.5);
 
-    SailItem3__Create(work);
+    CreateSailItemBoxCase(work);
     StageTask__InitSeqPlayer(work);
 
     return work;
 }
 
-StageTask *SailItem3__Create(StageTask *parent)
+StageTask *CreateSailItemBoxCase(StageTask *parent)
 {
     StageTask *work;
     SailObject *worker;
@@ -5065,7 +4855,7 @@ StageTask *SailItem3__Create(StageTask *parent)
     UNUSED(worker);
 
     ObjObjectAction3dBACLoad(work, NULL, "sb_item.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_37), SailManager__GetArchive());
-    SailObject__InitCommon(work);
+    SailObject_InitCommon(work);
     work->userFlag |= SAILOBJECT_FLAG_1;
 
     work->position = parent->position;
@@ -5084,14 +4874,14 @@ StageTask *SailItem3__Create(StageTask *parent)
     return work;
 }
 
-StageTask *SailItemBonus__Create(StageTask *parent, u32 type)
+StageTask *CreateSailItemBoxRewardText(StageTask *parent, u32 type)
 {
     StageTask *work = CreateStageTaskSimple();
     StageTask__SetType(work, SAILSTAGE_OBJ_TYPE_EFFECT);
 
     ObjObjectAction3dBACLoad(work, NULL, "sb_logo_fix.bac", 1024, 16, GetObjectFileWork(OBJDATAWORK_41), SailManager__GetArchive());
     StageTask__SetAnimation(work, type + 4);
-    SailObject__InitCommon(work);
+    SailObject_InitCommon(work);
     work->userFlag |= SAILOBJECT_FLAG_1;
     work->displayFlag |= DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG;
 
@@ -5110,12 +4900,12 @@ StageTask *SailItemBonus__Create(StageTask *parent, u32 type)
     work->position.y -= FLOAT_TO_FX32(20.0);
     work->velocity.y = -FLOAT_TO_FX32(1.0);
 
-    SetTaskState(work, SailItemBonus__State_216CBF8);
+    SetTaskState(work, SailItemBoxRewardText_State_Active);
 
     return work;
 }
 
-void SailObject__Destructor(Task *task)
+void SailObject_Destructor(Task *task)
 {
     StageTask *work    = TaskGetWork(task, StageTask);
     SailObject *worker = GetStageTaskWorker(work, SailObject);
@@ -5128,7 +4918,7 @@ void SailObject__Destructor(Task *task)
     StageTask_Destructor(task);
 }
 
-BOOL SailObject__ViewCheck_Default(StageTask *work)
+BOOL SailObject_ViewCheck_Default(StageTask *work)
 {
     s32 range          = 0;
     SailObject *worker = GetStageTaskWorker(work, SailObject);
@@ -5145,419 +4935,225 @@ BOOL SailObject__ViewCheck_Default(StageTask *work)
     return SailEventManager__ViewCheck(&work->position, range) != FALSE;
 }
 
-NONMATCH_FUNC void SailObject__OnDefend_Default(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void SailObject_OnDefend_Default(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    SailColliderWork *collider2;
+    SailColliderWork *collider1;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
-	sub sp, sp, #0x24
-	mov r8, r1
-	ldr r4, [r8, #0x3c]
-	mov r9, r0
-	ldr r0, [r4, #0x6c]
-	ldr r5, [r9, #0x3c]
-	ldr r7, [r0, #0x124]
-	mov r6, #0
-	bl SailManager__GetShipType
-	cmp r0, #3
-	ldreq r1, [r5, #0x6c]
-	ldreqh r0, [r1, #0]
-	cmpeq r0, #2
-	bne _02169C1C
-	ldr r0, [r1, #0x24]
-	cmp r0, #0
-	beq _02169C1C
-	ldr r1, [r1, #0x124]
-	ldr r0, [r4, #0x6c]
-	ldr r1, [r1, #0x15c]
-	cmp r1, r0
-	beq _02169C1C
-	mov r0, r9
-	mov r1, r8
-	bl ObjRect__FuncNoHit
-	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
-_02169C1C:
-	add r0, r7, #0x100
-	ldrh r0, [r0, #0x30]
-	cmp r0, #0
-	beq _02169C4C
-	ldrh r0, [r5, #0x74]
-	tst r0, #0x40
-	beq _02169C4C
-	mov r0, r9
-	mov r1, r8
-	bl ObjRect__FuncNoHit
-	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
-_02169C4C:
-	ldrh r0, [r5, #0x74]
-	tst r0, #0x1000
-	ldreq r0, [r5, #0x6c]
-	ldreqh r0, [r0, #0]
-	cmpeq r0, #1
-	bne _02169D54
-	ldr r0, [r8, #0x18]
-	bic r0, r0, #0x100
-	str r0, [r8, #0x18]
-	ldr r0, [r4, #0x6c]
-	ldr r1, [r5, #0x6c]
-	cmp r1, r0
-	addeq sp, sp, #0x24
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
-	add r2, sp, #0xc
-	add r0, r0, #0x44
-	add r1, r1, #0x44
-	bl VEC_Subtract
-	ldr r1, [sp, #0xc]
-	ldr r0, [sp, #0x14]
-	ldr r2, [sp, #0x10]
-	orr r0, r1, r0
-	orrs r0, r2, r0
-	bne _02169CC4
-	mov r0, #0
-	mov r1, #0x1000
-	str r1, [sp, #0xc]
-	str r0, [sp, #0x10]
-	str r0, [sp, #0x14]
-	b _02169CD0
-_02169CC4:
-	add r0, sp, #0xc
-	mov r1, r0
-	bl VEC_Normalize
-_02169CD0:
-	ldr r0, [sp, #0xc]
-	ldr r1, [sp, #0x14]
-	rsb r5, r0, #0
-	mov r0, r5, asr #0x1f
-	mov r3, r0, lsl #0xa
-	mov r0, r1, asr #0x1f
-	mov r2, r0, lsl #0xa
-	mov r0, #0x800
-	adds r6, r0, r5, lsl #10
-	orr r3, r3, r5, lsr #22
-	adc r5, r3, #0
-	mov r6, r6, lsr #0xc
-	orr r6, r6, r5, lsl #20
-	mov r5, #0
-	adds r3, r0, r1, lsl #10
-	orr r2, r2, r1, lsr #22
-	adc r0, r2, #0
-	mov r1, r3, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [sp, #0x14]
-	str r5, [sp, #0x10]
-	str r6, [sp, #0xc]
-	ldr r2, [r4, #0x6c]
-	add r1, sp, #0xc
-	add r0, r2, #0x44
-	add r2, r2, #0x44
-	bl VEC_Add
-	add r0, r7, #0x170
-	add r1, sp, #0xc
-	mov r2, r0
-	bl VEC_Add
-	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
-_02169D54:
-	add r0, r4, #0x3c
-	add r3, sp, #0x18
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldrh r0, [r5, #0]
-	cmp r0, #2
-	bne _02169DA4
-	add r0, r5, #0x54
-	add ip, sp, #0
-	ldmia r0, {r0, r1, r2}
-	stmia ip, {r0, r1, r2}
-	ldr r0, [sp, #4]
-	mov r1, ip
-	rsb r0, r0, #0
-	str r0, [sp, #4]
-	ldr r0, [r4, #0x28]
-	mov r2, r3
-	mov r0, r0, lsl #2
-	rsb r0, r0, #0
-	bl VEC_MultAdd
-_02169DA4:
-	ldrh r0, [r5, #0x74]
-	tst r0, #0x8000
-	ldrne r0, [r5, #0x6c]
-	cmpne r0, #0
-	beq _02169DC8
-	add r0, r0, #0x8c
-	add r3, sp, #0x18
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-_02169DC8:
-	ldrh r1, [r5, #0x74]
-	tst r1, #4
-	bne _02169E04
-	ldrh r0, [r4, #0x74]
-	tst r0, #0x20
-	beq _02169DF8
-	tst r1, #0x10
-	beq _02169DF8
-	add r0, sp, #0x18
-	bl EffectSailGuard__Create
-	mov r6, r0
-	b _02169E04
-_02169DF8:
-	add r0, sp, #0x18
-	bl EffectSailHit__Create
-	mov r6, r0
-_02169E04:
-	cmp r6, #0
-	beq _02169E98
-	ldrh r0, [r5, #0x74]
-	tst r0, #1
-	beq _02169E4C
-	ldr r2, [r6, #0x38]
-	mov r0, #0x800
-	mov r1, r2, asr #0x1f
-	mov r1, r1, lsl #0xb
-	adds r3, r0, r2, lsl #11
-	orr r1, r1, r2, lsr #21
-	adc r0, r1, #0
-	mov r1, r3, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [r6, #0x38]
-	str r1, [r6, #0x3c]
-	str r1, [r6, #0x40]
-	b _02169E84
-_02169E4C:
-	tst r0, #2
-	beq _02169E84
-	ldr r2, [r6, #0x38]
-	mov r0, #0x800
-	mov r1, r2, asr #0x1f
-	mov r1, r1, lsl #0xa
-	adds r3, r0, r2, lsl #10
-	orr r1, r1, r2, lsr #22
-	adc r0, r1, #0
-	mov r1, r3, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [r6, #0x38]
-	str r1, [r6, #0x3c]
-	str r1, [r6, #0x40]
-_02169E84:
-	ldrh r0, [r5, #0]
-	cmp r0, #2
-	ldreq r0, [r6, #0x24]
-	biceq r0, r0, #1
-	streq r0, [r6, #0x24]
-_02169E98:
-	ldr r1, [r7, #0x158]
-	cmp r1, #0
-	beq _02169EB4
-	ldr r0, [r5, #0x6c]
-	cmp r1, r0
-	addeq sp, sp, #0x24
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
-_02169EB4:
-	ldr r0, [r5, #0x6c]
-	str r0, [r7, #0x158]
-	ldrh r0, [r4, #0x74]
-	tst r0, #0x20
-	beq _02169F08
-	ldrh r0, [r5, #0x74]
-	tst r0, #0x10
-	beq _02169F08
-	ldr r0, [r7, #0x168]
-	cmp r0, #0
-	bne _02169EEC
-	ldr r0, [r4, #0x6c]
-	bl SailEnemyHealthBar__Create
-	str r0, [r7, #0x168]
-_02169EEC:
-	ldr r0, [r4, #0x6c]
-	add r2, sp, #0x18
-	ldr r0, [r0, #0x138]
-	mov r1, #0x1a
-	bl SailAudio__PlaySpatialSequence
-	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
-_02169F08:
-	ldrh r0, [r5, #0x74]
-	ldr r6, [r5, #0x70]
-	ands r1, r0, #0x40
-	bne _02169F34
-	ldr r0, [r4, #0x6c]
-	ldr r0, [r0, #0x24]
-	tst r0, #0x20
-	beq _02169F34
-	mov r6, r6, asr #2
-	cmp r6, #0x1000
-	movgt r6, #0x1000
-_02169F34:
-	cmp r1, #0
-	beq _02169F58
-	add r0, r7, #0x100
-	mov r1, #4
-	strh r1, [r0, #0x30]
-	ldr r0, [r4, #0x6c]
-	ldr r0, [r0, #0x24]
-	tst r0, #0x80000
-	movne r6, r6, lsl #2
-_02169F58:
-	ldr r0, [r4, #0x6c]
-	ldr r0, [r0, #0x24]
-	tst r0, #0x200000
-	beq _02169F70
-	cmp r6, #0x3c000
-_02169F6C:
-	movlt r6, #0x1000
-_02169F70:
-	ldrh r0, [r5, #0x74]
-	tst r0, #0x400
-	bne _02169F94
-	ldr r0, [r5, #0x6c]
-	mov r1, #0x4000
-	str r1, [r0, #4]
-	ldr r0, [r5, #0x6c]
-	mov r1, #0x2000
-	str r1, [r0, #8]
-_02169F94:
-	ldrh r0, [r5, #0x74]
-	tst r0, #0x40
-	ldreq r0, [r4, #0x6c]
-	moveq r1, #0x2000
-	streq r1, [r0, #8]
-	ldr r0, [r4, #0x6c]
-	mov r1, #0x4000
-	str r1, [r0, #4]
-	ldrh r0, [r5, #0x74]
-	tst r0, #0x800
-	bne _02169FE0
-	bl SailManager__GetShipType
-	cmp r0, #0
-	beq _02169FD8
-	bl SailManager__GetShipType
-	cmp r0, #2
-	bne _02169FE0
-_02169FD8:
-	mov r0, #3
-	bl ShakeScreen
-_02169FE0:
-	bl SailManager__GetShipType
-	cmp r0, #1
-	bne _0216A05C
-	ldrh r0, [r5, #0x74]
-	tst r0, #0x10
-	beq _0216A010
-	ldr r0, [r4, #0x6c]
-	add r2, sp, #0x18
-	ldr r0, [r0, #0x138]
-	mov r1, #0x19
-	bl SailAudio__PlaySpatialSequence
-	b _0216A04C
-_0216A010:
-	tst r0, #0x40
-	beq _0216A030
-	ldr r0, [r4, #0x6c]
-	add r2, sp, #0x18
-	ldr r0, [r0, #0x138]
-	mov r1, #0x19
-	bl SailAudio__PlaySpatialSequence
-	b _0216A04C
-_0216A030:
-	tst r0, #0x8000
-	beq _0216A04C
-	ldr r0, [r4, #0x6c]
-	add r2, sp, #0x18
-	ldr r0, [r0, #0x138]
-	mov r1, #0x1d
-	bl SailAudio__PlaySpatialSequence
-_0216A04C:
-	mov r0, r9
-	mov r1, r8
-	mov r2, #0xa
-	bl SailObject__GivePlayerScore
-_0216A05C:
-	bl SailManager__GetShipType
-	cmp r0, #2
-	bne _0216A098
-	ldrh r0, [r5, #0x74]
-	tst r0, #0x10
-	beq _0216A088
-	ldr r0, [r4, #0x6c]
-	add r2, sp, #0x18
-	ldr r0, [r0, #0x138]
-	mov r1, #0x19
-	bl SailAudio__PlaySpatialSequence
-_0216A088:
-	mov r0, r9
-	mov r1, r8
-	mov r2, #0xa
-	bl SailObject__GivePlayerScore
-_0216A098:
-	ldr r0, [r4, #0x6c]
-	ldr r0, [r0, #0x24]
-	tst r0, #0x100000
-	bne _0216A154
-	ldr r0, [r7, #0x11c]
-	sub r0, r0, r6
-	str r0, [r7, #0x11c]
-	ldr r0, [r4, #0x6c]
-	ldr r1, [r0, #0x24]
-	tst r1, #0x10000
-	beq _0216A0D0
-	ldr r1, [r5, #0x6c]
-	bl SailItemBonus__GiveItem
-	b _0216A154
-_0216A0D0:
-	ldr r1, [r7, #0x11c]
-	cmp r1, #0
-	bgt _0216A134
-	bl SailObject__Action_Destroy
-	bl SailManager__GetShipType
-	cmp r0, #2
-	ldreq r0, [r5, #0x6c]
-	ldreqh r0, [r0, #0]
-	cmpeq r0, #2
-	bne _0216A108
-	ldr r0, [r4, #0x6c]
-	mov r1, #0xc
-	str r1, [r0, #0x2c]
-	b _0216A154
-_0216A108:
-	bl SailManager__GetShipType
-	cmp r0, #2
-	beq _0216A120
-	bl SailManager__GetShipType
-	cmp r0, #0
-	bne _0216A154
-_0216A120:
-	mov r0, #0
-	mov r2, r0
-	mov r1, #0xd
-	bl SailAudio__PlaySpatialSequence
-	b _0216A154
-_0216A134:
-	ldr r1, [r7, #0x168]
-	cmp r1, #0
-	bne _0216A148
-	bl SailEnemyHealthBar__Create
-	str r0, [r7, #0x168]
-_0216A148:
-	add r0, r7, #0x100
-	mov r1, #4
-	strh r1, [r0, #0x2e]
-_0216A154:
-	mov r0, r9
-	mov r1, r8
-	bl SailObject__OnPlayerCollide
-	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
+    StageTask *effectHit;
+    SailObject *worker2;
 
-// clang-format on
-#endif
+    collider1 = rect1->userData;
+    collider2 = rect2->userData;
+
+    worker2 = GetStageTaskWorker(collider2->stageTask, SailObject);
+
+    effectHit = NULL;
+
+    if ((SailManager__GetShipType() == SHIP_SUBMARINE && collider1->stageTask->objType == SAILSTAGE_OBJ_TYPE_EFFECT) && collider1->stageTask->userFlag != SAILOBJECT_FLAG_NONE
+        && GetStageTaskWorker(collider1->stageTask, SailObject)->player != collider2->stageTask)
+    {
+        ObjRect__FuncNoHit(rect1, rect2);
+    }
+    else if (worker2->invincibleTimer != 0 && (collider1->flags & SAILCOLLIDER_FLAG_40) != 0)
+    {
+        ObjRect__FuncNoHit(rect1, rect2);
+    }
+    else
+    {
+        VecFx32 hitPosition;
+        if ((collider1->flags & SAILCOLLIDER_FLAG_1000) == 0 && collider1->stageTask->objType == SAILSTAGE_OBJ_TYPE_OBJECT)
+        {
+            rect2->flag &= ~OBS_RECT_WORK_FLAG_100;
+
+            if (collider1->stageTask != collider2->stageTask)
+            {
+                VecFx32 hitNormal;
+
+                VEC_Subtract(&collider2->stageTask->position, &collider1->stageTask->position, &hitNormal);
+
+                if ((hitNormal.x | hitNormal.z | hitNormal.y) == 0)
+                {
+                    hitNormal.x = FLOAT_TO_FX32(1.0);
+                    hitNormal.y = FLOAT_TO_FX32(0.0);
+                    hitNormal.z = FLOAT_TO_FX32(0.0);
+                }
+                else
+                {
+                    VEC_Normalize(&hitNormal, &hitNormal);
+                }
+
+                hitNormal.x = -hitNormal.x;
+
+                hitNormal.y = FLOAT_TO_FX32(0.0);
+                hitNormal.x = MultiplyFX(FLOAT_TO_FX32(0.25), hitNormal.x);
+                hitNormal.z = MultiplyFX(FLOAT_TO_FX32(0.25), hitNormal.z);
+
+                VEC_Add(&collider2->stageTask->position, &hitNormal, &collider2->stageTask->position);
+                VEC_Add(&worker2->voyagePosition, &hitNormal, &worker2->voyagePosition);
+            }
+        }
+        else
+        {
+            hitPosition = collider2->hitCheck.box.hitPosition;
+
+            if (collider1->type == SAILCOLLIDER_TYPE_LINE)
+            {
+                VecFx32 lineDir;
+                lineDir   = collider1->hitCheck.line.direction;
+                lineDir.y = -lineDir.y;
+
+                VEC_MultAdd(collider2->hitCheck.box.size.x * -4, &lineDir, &hitPosition, &hitPosition);
+            }
+
+            if ((collider1->flags & SAILCOLLIDER_FLAG_8000) != 0 && collider1->stageTask != NULL)
+            {
+                hitPosition = collider1->stageTask->prevPosition;
+            }
+
+            if ((collider1->flags & SAILCOLLIDER_FLAG_4) == 0)
+            {
+                if ((collider2->flags & SAILCOLLIDER_FLAG_20) != 0 && (collider1->flags & SAILCOLLIDER_FLAG_10) != 0)
+                    effectHit = EffectSailGuard__Create(&hitPosition);
+                else
+                    effectHit = EffectSailHit__Create(&hitPosition);
+            }
+
+            if (effectHit != NULL)
+            {
+                if ((collider1->flags & SAILCOLLIDER_FLAG_1) != 0)
+                {
+                    fx32 scale = MultiplyFX(effectHit->scale.x, FLOAT_TO_FX32(0.5));
+
+                    effectHit->scale.x = scale;
+                    effectHit->scale.y = scale;
+                    effectHit->scale.z = scale;
+                }
+                else if ((collider1->flags & SAILCOLLIDER_FLAG_2) != 0)
+                {
+                    fx32 scale = MultiplyFX(effectHit->scale.x, FLOAT_TO_FX32(0.25));
+
+                    effectHit->scale.x = scale;
+                    effectHit->scale.y = scale;
+                    effectHit->scale.z = scale;
+                }
+
+                if (collider1->type == SAILCOLLIDER_TYPE_LINE)
+                    effectHit->userFlag &= ~SAILOBJECT_FLAG_1;
+            }
+
+            if (worker2->collidedObj == NULL || worker2->collidedObj != collider1->stageTask)
+            {
+                worker2->collidedObj = collider1->stageTask;
+
+                if ((collider2->flags & SAILCOLLIDER_FLAG_20) != 0 && (collider1->flags & SAILCOLLIDER_FLAG_10) != 0)
+                {
+                    if (worker2->healthBar == NULL)
+                        worker2->healthBar = SailEnemyHealthBar__Create(collider2->stageTask);
+
+                    SailAudio__PlaySpatialSequence(collider2->stageTask->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_RICOCHET, &hitPosition);
+                }
+                else
+                {
+                    fx32 atkPower = collider1->atkPower;
+
+                    if ((collider1->flags & SAILCOLLIDER_FLAG_40) == 0 && (collider2->stageTask->userFlag & SAILOBJECT_FLAG_20) != 0)
+                    {
+                        atkPower >>= 2;
+                        if (atkPower > FLOAT_TO_FX32(1.0))
+                            atkPower = FLOAT_TO_FX32(1.0);
+                    }
+
+                    if (collider1->flags & SAILCOLLIDER_FLAG_40)
+                    {
+                        worker2->invincibleTimer = 4;
+                        if ((collider2->stageTask->userFlag & SAILOBJECT_FLAG_80000) != 0)
+                            atkPower *= 4;
+                    }
+
+                    if ((collider2->stageTask->userFlag & SAILOBJECT_FLAG_200000) != 0 && atkPower < FLOAT_TO_FX32(60.0))
+                        atkPower = FLOAT_TO_FX32(1.0);
+
+                    if ((collider1->flags & SAILCOLLIDER_FLAG_400) == 0)
+                    {
+                        collider1->stageTask->shakeTimer   = FLOAT_TO_FX32(4.0);
+                        collider1->stageTask->hitstopTimer = FLOAT_TO_FX32(2.0);
+                    }
+
+                    if ((collider1->flags & SAILCOLLIDER_FLAG_40) == 0)
+                        collider2->stageTask->hitstopTimer = FLOAT_TO_FX32(2.0);
+
+                    collider2->stageTask->shakeTimer = FLOAT_TO_FX32(4.0);
+
+                    if ((collider1->flags & SAILCOLLIDER_FLAG_800) == 0 && (SailManager__GetShipType() == SHIP_JET || SailManager__GetShipType() == SHIP_HOVER))
+                    {
+                        ShakeScreen(SCREENSHAKE_C_SHORT);
+                    }
+
+                    if (SailManager__GetShipType() == SHIP_BOAT)
+                    {
+                        if ((collider1->flags & SAILCOLLIDER_FLAG_10) != 0)
+                        {
+                            SailAudio__PlaySpatialSequence(collider2->stageTask->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_BULLET_HIT, &hitPosition);
+                        }
+                        else if ((collider1->flags & SAILCOLLIDER_FLAG_40) != 0)
+                        {
+                            SailAudio__PlaySpatialSequence(collider2->stageTask->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_BULLET_HIT, &hitPosition);
+                        }
+                        else if ((collider1->flags & SAILCOLLIDER_FLAG_8000) != 0)
+                        {
+                            SailAudio__PlaySpatialSequence(collider2->stageTask->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_CANNON_BOMB, &hitPosition);
+                        }
+
+                        SailObject_GivePlayerScore(rect1, rect2, 10);
+                    }
+
+                    if (SailManager__GetShipType() == SHIP_HOVER)
+                    {
+                        if ((collider1->flags & SAILCOLLIDER_FLAG_10) != 0)
+                            SailAudio__PlaySpatialSequence(collider2->stageTask->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_BULLET_HIT, &hitPosition);
+
+                        SailObject_GivePlayerScore(rect1, rect2, 10);
+                    }
+
+                    if ((collider2->stageTask->userFlag & SAILOBJECT_FLAG_100000) == 0)
+                    {
+                        worker2->health -= atkPower;
+
+                        if ((collider2->stageTask->userFlag & SAILOBJECT_FLAG_10000) != 0)
+                        {
+                            SailItemBox_GiveItem(collider2->stageTask, collider1->stageTask);
+                        }
+                        else if (worker2->health <= 0)
+                        {
+                            SailObject_Action_Destroy(collider2->stageTask);
+
+                            if (SailManager__GetShipType() == SHIP_HOVER && collider1->stageTask->objType == SAILSTAGE_OBJ_TYPE_EFFECT)
+                            {
+                                collider2->stageTask->userTimer = 12;
+                            }
+                            else if (SailManager__GetShipType() == SHIP_HOVER || SailManager__GetShipType() == SHIP_JET)
+                            {
+                                SailAudio__PlaySpatialSequence(NULL, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_SPLASH, NULL);
+                            }
+                        }
+                        else
+                        {
+                            if (worker2->healthBar == NULL)
+                                worker2->healthBar = SailEnemyHealthBar__Create(collider2->stageTask);
+
+                            worker2->blinkTimer = 4;
+                        }
+                    }
+
+                    SailObject_OnPlayerCollide(rect1, rect2);
+                }
+            }
+        }
+    }
 }
 
-void SailObject__GivePlayerScore(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, u32 score)
+void SailObject_GivePlayerScore(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, u32 score)
 {
     SailPlayer *player = NULL;
 
@@ -5582,566 +5178,293 @@ void SailObject__GivePlayerScore(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, u32
     }
 }
 
-NONMATCH_FUNC void SailObject__OnPlayerCollide(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void SailObject_OnPlayerCollide(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    SailColliderWork *collider2;
+    SailColliderWork *collider1;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #0xc
-	ldr r6, [r0, #0x3c]
-	mov r4, r1
-	ldr r1, [r6, #0x6c]
-	ldr r5, [r4, #0x3c]
-	ldrh r0, [r1, #0]
-	ldr r2, [r5, #0x6c]
-	mov r8, #0
-	cmp r0, #0
-	ldr r7, [r2, #0x124]
-	ldreq r8, [r1, #0x124]
-	beq _0216A210
-	ldr r1, [r1, #0x11c]
-	cmp r1, #0
-	beq _0216A210
-	ldrh r0, [r1, #0]
-	cmp r0, #0
-	ldreq r8, [r1, #0x124]
-_0216A210:
-	cmp r8, #0
-	addeq sp, sp, #0xc
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	bl SailManager__GetShipType
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	b _0216A2A0
-_0216A22C: // jump table
-	b _0216A23C // case 0
-	b _0216A250 // case 1
-	b _0216A23C // case 2
-	b _0216A250 // case 3
-_0216A23C:
-	add r0, r8, #0x100
-	mov r1, #0x50
-	strh r1, [r0, #0xe2]
-	mov r1, #0
-	strh r1, [r0, #0xe4]
-_0216A250:
-	add r0, r8, #0x100
-	ldrh r2, [r0, #0xc4]
-	ldr r1, =0x000003E7
-	add r2, r2, #1
-	strh r2, [r0, #0xc4]
-	ldrh r2, [r0, #0xc4]
-	cmp r2, r1
-	strhih r1, [r0, #0xc4]
-	add r0, r8, #0x100
-	ldrh r2, [r0, #0xc4]
-	ldrh r1, [r0, #0xc6]
-	cmp r1, r2
-	strloh r2, [r0, #0xc6]
-	ldrh r0, [r6, #0x74]
-	tst r0, #0x10
-	bne _0216A2A0
-	tst r0, #0x40
-	ldreqb r0, [r8, #0x1b4]
-	addeq r0, r0, #1
-	streqb r0, [r8, #0x1b4]
-_0216A2A0:
-	ldr r0, [r7, #0x11c]
-	cmp r0, #0
-	addgt sp, sp, #0xc
-	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	bl SailManager__GetWork
-	add r1, r8, #0x100
-	mov r10, r0
-	ldrh r0, [r1, #0xc4]
-	mov r1, #0x32
-	bl FX_DivS32
-	ldr r1, [r5, #0x6c]
-	add r0, r0, #1
-	ldr r1, [r1, #0x24]
-	mov r0, r0, lsl #0x10
-	tst r1, #0x1000
-	mov r9, r0, lsr #0x10
-	ldrne r0, [r7, #0x118]
-	add r3, sp, #0
-	addne r0, r0, r0, lsr #1
-	strne r0, [r7, #0x118]
-	ldr r0, [r5, #0x6c]
-	ldr r0, [r0, #0x24]
-	tst r0, #0x2000
-	ldrne r0, [r7, #0x118]
-	addne r0, r0, r0
-	strne r0, [r7, #0x118]
-	ldr r2, [r8, #0x1a8]
-	ldr r1, [r7, #0x118]
-	ldr r0, =0x05F5E0FF
-	mla r2, r1, r9, r2
-	str r2, [r8, #0x1a8]
-	cmp r2, r0
-	strhi r0, [r8, #0x1a8]
-	ldr r0, [r5, #0x6c]
-	add r0, r0, #0x44
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldr r0, [sp, #4]
-	rsb r2, r0, #0
-	str r2, [sp, #4]
-	ldr r1, [r7, #8]
-	ldr r0, [r7, #0x50]
-	add r0, r1, r0
-	add r0, r2, r0
-	str r0, [sp, #4]
-	bl SailManager__GetShipType
-	cmp r0, #2
-	ldreq r0, [sp, #4]
-	addeq r0, r0, #0x1000
-	streq r0, [sp, #4]
-	cmp r9, #9
-	movhi r9, #9
-	ldr r1, [r7, #0x118]
-	add r0, sp, #0
-	mov r2, r9
-	bl SailScoreBonus__CreateWorld
-	ldr r0, [r5, #0x6c]
-	ldr r0, [r0, #0x24]
-	tst r0, #0x800000
-	ldreq r0, [r8, #0x1ac]
-	addeq r0, r0, #1
-	streq r0, [r8, #0x1ac]
-	bl SailManager__GetShipType
-	cmp r0, #1
-	beq _0216A3FC
-	cmp r0, #2
-	bne _0216A410
-	ldrh r0, [r6, #0x74]
-	tst r0, #0x10
-	beq _0216A3C8
-	ldrb r0, [r8, #0x1b0]
-	add r0, r0, #1
-	strb r0, [r8, #0x1b0]
-	b _0216A410
-_0216A3C8:
-	tst r0, #0x2000
-	beq _0216A3EC
-	ldrsh r0, [r4, #0x2e]
-	cmp r0, #0xb
-	blt _0216A3EC
-	ldrb r0, [r8, #0x1b2]
-	add r0, r0, #1
-	strb r0, [r8, #0x1b2]
-	b _0216A410
-_0216A3EC:
-	ldrb r0, [r8, #0x1b1]
-	add r0, r0, #1
-	strb r0, [r8, #0x1b1]
-	b _0216A410
-_0216A3FC:
-	ldrh r0, [r6, #0x74]
-	tst r0, #0x10
-	ldrneb r0, [r8, #0x1b3]
-	addne r0, r0, #1
-	strneb r0, [r8, #0x1b3]
-_0216A410:
-	ldr r2, [r7, #0x164]
-	cmp r2, #0
-	addeq sp, sp, #0xc
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	ldr r1, [r2, #0x34]
-	tst r1, #0x20000000
-	addne sp, sp, #0xc
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	ldrh r0, [r2, #0x30]
-	cmp r0, #0x1d
-	addhs sp, sp, #0xc
-	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	tst r1, #0x80
-	ldreqh r1, [r2, #0x32]
-	ldreqh r0, [r10, #0x60]
-	cmpeq r1, r0
-	ldreqh r0, [r10, #0x5e]
-	addeq r0, r0, #1
-	streqh r0, [r10, #0x5e]
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+    SailObject *worker;
+    SailPlayer *player;
 
-// clang-format on
-#endif
+    collider1 = rect1->userData;
+    collider2 = rect2->userData;
+
+    player = NULL;
+
+    worker = GetStageTaskWorker(collider2->stageTask, SailObject);
+
+    if (collider1->stageTask->objType == SAILSTAGE_OBJ_TYPE_PLAYER)
+    {
+        player = GetStageTaskWorker(collider1->stageTask, SailPlayer);
+    }
+    else
+    {
+        StageTask *parent = collider1->stageTask->parentObj;
+        if (parent != NULL && parent->objType == SAILSTAGE_OBJ_TYPE_PLAYER)
+            player = GetStageTaskWorker(parent, SailPlayer);
+    }
+
+    if (player != NULL)
+    {
+        switch (SailManager__GetShipType())
+        {
+            case SHIP_JET:
+            case SHIP_HOVER:
+                player->trickFinishTimer = 80;
+                player->missedRingCount  = 0;
+                // fallthrough
+
+            case SHIP_BOAT:
+            case SHIP_SUBMARINE:
+                player->scoreComboCurrent++;
+                if (player->scoreComboCurrent > SAILPLAYER_MAX_SCORE_COMBO)
+                    player->scoreComboCurrent = SAILPLAYER_MAX_SCORE_COMBO;
+
+                if (player->scoreComboBest < player->scoreComboCurrent)
+                    player->scoreComboBest = player->scoreComboCurrent;
+
+                if ((collider1->flags & SAILCOLLIDER_FLAG_10) == 0 && (collider1->flags & SAILCOLLIDER_FLAG_40) == 0)
+                    player->field_1B4++;
+                break;
+        }
+
+        if (worker->health <= 0)
+        {
+            u16 multiplier       = 1;
+            SailManager *manager = SailManager__GetWork();
+
+            multiplier += FX_DivS32(player->scoreComboCurrent, 50);
+
+            if ((collider2->stageTask->userFlag & SAILOBJECT_FLAG_1000) != 0)
+                worker->score += (worker->score >> 1);
+
+            if ((collider2->stageTask->userFlag & SAILOBJECT_FLAG_2000) != 0)
+                worker->score += worker->score;
+
+            player->score += worker->score * multiplier;
+            if (player->score > SAILPLAYER_MAX_SCORE)
+                player->score = SAILPLAYER_MAX_SCORE;
+
+            VecFx32 position = collider2->stageTask->position;
+            position.y       = -position.y;
+            position.y += worker->collisionOffset.y + worker->collider[0].hitCheck.box.size.x;
+
+            if (SailManager__GetShipType() == SHIP_HOVER)
+                position.y += FLOAT_TO_FX32(1.0);
+
+            if (multiplier > 9)
+                multiplier = 9;
+
+            SailScoreBonus__CreateWorld(&position, worker->score, multiplier);
+            if ((collider2->stageTask->userFlag & SAILOBJECT_FLAG_800000) == 0)
+                player->enemyDefeatCount++;
+
+            switch (SailManager__GetShipType())
+            {
+                case SHIP_HOVER:
+                    if ((collider1->flags & SAILCOLLIDER_FLAG_10) != 0)
+                    {
+                        player->field_1B0++;
+                    }
+                    else if ((collider1->flags & SAILCOLLIDER_FLAG_2000) != 0 && rect2->defPower >= 11)
+                    {
+                        player->field_1B2++;
+                    }
+                    else
+                    {
+                        player->field_1B1++;
+                    }
+                    break;
+
+                case SHIP_BOAT:
+                    if ((collider1->flags & SAILCOLLIDER_FLAG_10) != 0)
+                        player->field_1B3++;
+                    break;
+            }
+
+            if (worker->objectRef != NULL)
+            {
+                if ((worker->objectRef->flags & SAILMAPOBJECT_FLAG_20000000) == 0 && worker->objectRef->type < SAILMAPOBJECT_29)
+                {
+                    if ((worker->objectRef->flags & SAILMAPOBJECT_FLAG_80) == 0 && worker->objectRef->word32 == manager->field_60)
+                        manager->field_5E++;
+                }
+            }
+        }
+    }
 }
 
-NONMATCH_FUNC void SailLanding__State_216A46C(StageTask *work)
+void SailIsland_State_Other(StageTask *work)
 {
-#ifdef NON_MATCHING
+    SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	bl SailManager__GetWork
-	ldr r3, [r0, #0x98]
-	mov ip, #0
-	ldrh r5, [r3, #0xfe]
-	cmp r5, #0
-	bls _0216A4D8
-	ldr lr, [r4, #0x2c]
-_0216A490:
-	add r2, r3, ip, lsl #3
-	ldr r1, [r2, #0xcc]
-	ldrsh r0, [r1, #0x10]
-	cmp lr, r0
-	bne _0216A4C4
-	ldrsh r0, [r1, #2]
-	mov r0, r0, lsl #0xc
-	str r0, [r4, #0x44]
-	ldr r0, [r2, #0xcc]
-	ldrsh r0, [r0, #4]
-	mov r0, r0, lsl #0xc
-	str r0, [r4, #0x4c]
-	ldmia sp!, {r3, r4, r5, pc}
-_0216A4C4:
-	add r0, ip, #1
-	mov r0, r0, lsl #0x10
-	cmp r5, r0, lsr #16
-	mov ip, r0, lsr #0x10
-	bhi _0216A490
-_0216A4D8:
-	ldr r0, [r4, #0x18]
-	orr r0, r0, #4
-	str r0, [r4, #0x18]
-	ldmia sp!, {r3, r4, r5, pc}
+    for (u16 i = 0; i < voyageManager->visibleIslandCount; i++)
+    {
+        if (work->userTimer == voyageManager->visibleIslandList[i].object->unlockID)
+        {
+            work->position.x = FX32_FROM_WHOLE(voyageManager->visibleIslandList[i].object->position.x);
+            work->position.z = FX32_FROM_WHOLE(voyageManager->visibleIslandList[i].object->position.y);
+            return;
+        }
+    }
 
-// clang-format on
-#endif
+    DestroyStageTask(work);
 }
 
-NONMATCH_FUNC void SailLanding__Draw_216A4E8(void)
+void SailIsland_Draw_Destination(void)
 {
-#ifdef NON_MATCHING
+    StageTask *work    = TaskGetWorkCurrent(StageTask);
+    SailObject *worker = GetStageTaskWorker(work, SailObject);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0x24
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	ldr r0, [r4, #0x18]
-	ldr r5, [r4, #0x124]
-	tst r0, #4
-	addne sp, sp, #0x24
-	ldmneia sp!, {r4, r5, r6, r7, pc}
-	add r0, r4, #0x44
-	add r3, sp, #0x18
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	mov r0, r3
-	bl VEC_Mag
-	cmp r0, #0x50000
-	ble _0216A5B4
-	cmp r0, #0x180000
-	addgt sp, sp, #0x24
-	ldmgtia sp!, {r4, r5, r6, r7, pc}
-	rsb r0, r0, #0x180000
-	mov r1, #0x130000
-	bl FX_Div
-	mov r2, #0x1f
-	mov ip, #0
-	umull r6, lr, r0, r2
-	mov r1, r0, asr #0x1f
-	mla lr, r0, ip, lr
-	mov r7, r1, lsl #0xa
-	mov r3, #0x800
-	mla lr, r1, r2, lr
-	adds r3, r3, r0, lsl #10
-	orr r7, r7, r0, lsr #22
-	adc r0, r7, #0
-	mov r7, r3, lsr #0xc
-	orr r7, r7, r0, lsl #20
-	adds r3, r6, #0x800
-	str r7, [r4, #0x38]
-	str r7, [r4, #0x3c]
-	str r7, [r4, #0x40]
-	adc r0, lr, #0
-	mov r1, r3, lsr #0xc
-	orrs r1, r1, r0, lsl #20
-	movmi r1, ip
-	ldr r2, [r4, #0x134]
-	mov r0, r1, lsl #0x1b
-	ldr r1, [r2, #0xf4]
-	bic r1, r1, #0x1f0000
-	orr r0, r1, r0, lsr #11
-	str r0, [r2, #0xf4]
-	b _0216A5D8
-_0216A5B4:
-	mov r0, #0x400
-	str r0, [r4, #0x38]
-	str r0, [r4, #0x3c]
-	str r0, [r4, #0x40]
-	ldr r1, [r4, #0x134]
-	ldr r0, [r1, #0xf4]
-	bic r0, r0, #0x1f0000
-	orr r0, r0, #0x1f0000
-	str r0, [r1, #0xf4]
-_0216A5D8:
-	add r0, r4, #0x44
-	add lr, sp, #0xc
-	ldmia r0, {r0, r1, r2}
-	stmia lr, {r0, r1, r2}
-	mov ip, #0
-	ldr r3, [sp, #0x10]
-	add r1, sp, #0
-	mov r0, lr
-	mov r2, lr
-	str ip, [sp]
-	str ip, [sp, #8]
-	str r3, [sp, #4]
-	bl VEC_Subtract
-	ldr r0, [sp, #0xc]
-	cmp r0, #0
-	ldreq r0, [sp, #0x10]
-	cmpeq r0, #0
-	ldreq r0, [sp, #0x14]
-	cmpeq r0, #0
-	moveq r0, #1
-	streq r0, [sp, #0x14]
-	add r0, sp, #0xc
-	mov r1, r0
-	bl VEC_Normalize
-	add r1, sp, #0xc
-	add r2, sp, #0
-	mov r3, r1
-	mov r0, #0x50000
-	bl VEC_MultAdd
-	add r0, sp, #0xc
-	add r3, r4, #0x44
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldr r0, =0x00007FFF
-	bl SailObject__ApplyFogBrightness
-	mov r1, r0
-	mov r0, r4
-	bl SailObject__SetSpriteColor
-	ldr r1, [r4, #0x134]
-	mov r0, r4
-	bl StageTask__Draw3D
-	add ip, r4, #0x44
-	add r4, r5, #0x10
-	ldmia ip, {r0, r1, r2}
-	stmia r4, {r0, r1, r2}
-	add r3, sp, #0x18
-	ldmia r3, {r0, r1, r2}
-	stmia ip, {r0, r1, r2}
-	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    if (!IsStageTaskDestroyed(work))
+    {
+        VecFx32 startPos = work->position;
 
-// clang-format on
-#endif
+        fx32 mag = VEC_Mag(&startPos);
+        if (mag > FLOAT_TO_FX32(80.0))
+        {
+            if (mag > FLOAT_TO_FX32(384.0))
+                return;
+
+            fx32 distanceFactor = FX_Div(FLOAT_TO_FX32(384.0) - mag, FLOAT_TO_FX32(304.0));
+
+            fx32 scale    = MultiplyFX(distanceFactor, FLOAT_TO_FX32(0.25));
+            work->scale.x = scale;
+            work->scale.y = scale;
+            work->scale.z = scale;
+
+            fx32 alpha = MultiplyFX(GX_COLOR_FROM_888(0xFF), distanceFactor);
+            if (alpha < 0)
+                alpha = 0;
+
+            work->obj_2dIn3d->ani.polygonAttr.alpha = alpha;
+        }
+        else
+        {
+            work->scale.x                           = FLOAT_TO_FX32(0.25);
+            work->scale.y                           = FLOAT_TO_FX32(0.25);
+            work->scale.z                           = FLOAT_TO_FX32(0.25);
+            work->obj_2dIn3d->ani.polygonAttr.alpha = GX_COLOR_FROM_888(0xFF);
+        }
+
+        VecFx32 position = work->position;
+
+        VecFx32 heightVector;
+        heightVector.x = FLOAT_TO_FX32(0.0);
+        heightVector.z = FLOAT_TO_FX32(0.0);
+        heightVector.y = position.y;
+
+        VEC_Subtract(&position, &heightVector, &position);
+
+        if (position.x == FLOAT_TO_FX32(0.0) && position.y == FLOAT_TO_FX32(0.0) && position.z == FLOAT_TO_FX32(0.0))
+            position.z = 1; // prevent divide-by-zero when normalizing
+
+        VEC_Normalize(&position, &position);
+        VEC_MultAdd(FLOAT_TO_FX32(80.0), &position, &heightVector, &position);
+
+        work->position = position;
+
+        SailObject_SetSpriteColor(work, SailObject_ApplyFogBrightness(GX_RGB_888(0xFF, 0xFF, 0xFF)));
+        StageTask__Draw3D(work, &work->obj_2dIn3d->ani.work);
+
+        worker->lookAtTo = work->position;
+        work->position   = startPos;
+    }
 }
 
-NONMATCH_FUNC void SailLanding__Draw_216A6A4(void)
+void SailIsland_Draw_Other(void)
 {
-#ifdef NON_MATCHING
+    SailVoyageManager *voyageManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	bl SailManager__GetWork
-	ldr r4, [r0, #0x98]
-	bl GetCurrentTaskWork_
-	mov r5, r0
-	bl SailManager__GetWork
-	ldr r1, [r0, #0x70]
-	ldr r0, [r5, #0x18]
-	ldr r6, [r1, #0x124]
-	tst r0, #4
-	addne sp, sp, #0xc
-	ldmneia sp!, {r4, r5, r6, r7, pc}
-	ldr r1, [r4, #0x64]
-	ldr r0, [r5, #0x44]
-	mov r2, #0
-	sub r0, r1, r0
-	str r0, [sp]
-	ldr r3, [r4, #0x68]
-	ldr r1, [r5, #0x4c]
-	sub r7, r3, r1
-	mov r1, r7
-	str r7, [sp, #4]
-	str r2, [sp, #8]
-	bl FX_Atan2Idx
-	add r1, r6, #0x100
-	ldrh r3, [r4, #0x34]
-	ldrsh r2, [r1, #0xca]
-	add r2, r3, r2
-	sub r0, r0, r2
-	mov r0, r0, lsl #0x10
-	add r0, r2, r0, lsr #16
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	str r0, [r5, #0x28]
-	mov r0, r0, lsl #0x10
-	ldrh r2, [r4, #0x34]
-	ldrsh r1, [r1, #0xca]
-	mov r0, r0, lsr #0x10
-	add r1, r2, r1
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	bl ObjRoopDiff16
-	cmp r0, #0x2800
-	addgt sp, sp, #0xc
-	ldmgtia sp!, {r4, r5, r6, r7, pc}
-	ldr r0, [sp]
-	ldr r1, =0x00000F5E
-	cmp r0, #0
-	rsblt r0, r0, #0
-	cmp r7, #0
-	rsblt r7, r7, #0
-	cmp r0, r7
-	ldr r2, =0x0000065D
-	mov r3, #0
-	ble _0216A7C4
-	umull lr, ip, r0, r1
-	mla ip, r0, r3, ip
-	umull r6, r4, r7, r2
-	mov r0, r0, asr #0x1f
-	mla ip, r0, r1, ip
-	adds lr, lr, #0x800
-	adc ip, ip, #0
-	adds r1, r6, #0x800
-	mov r6, lr, lsr #0xc
-	mla r4, r7, r3, r4
-	mov r0, r7, asr #0x1f
-	mla r4, r0, r2, r4
-	adc r0, r4, #0
-	mov r1, r1, lsr #0xc
-	orr r6, r6, ip, lsl #20
-	b _0216A800
-_0216A7C4:
-	umull lr, ip, r7, r1
-	mla ip, r7, r3, ip
-	umull r6, r4, r0, r2
-	mla r4, r0, r3, r4
-	mov r7, r7, asr #0x1f
-	mov r0, r0, asr #0x1f
-	mla ip, r7, r1, ip
-	adds lr, lr, #0x800
-	adc r7, ip, #0
-	adds r1, r6, #0x800
-	mla r4, r0, r2, r4
-	mov r6, lr, lsr #0xc
-	adc r0, r4, #0
-	mov r1, r1, lsr #0xc
-	orr r6, r6, r7, lsl #20
-_0216A800:
-	orr r1, r1, r0, lsl #20
-	add r0, r6, r1
-	cmp r0, #0x40000
-	movgt r0, #0x40000
-	rsb r0, r0, #0x40000
-	cmp r0, #0x40000
-	bge _0216A894
-	mov r1, #0x40000
-	bl FX_Div
-	mov r1, #0x1f
-	mov r3, #0
-	umull r6, r4, r0, r1
-	mov ip, r0, asr #0x1f
-	mla r4, r0, r3, r4
-	mov r7, ip, lsl #9
-	mov r2, #0x800
-	mla r4, ip, r1, r4
-	adds r2, r2, r0, lsl #9
-	orr r7, r7, r0, lsr #23
-	adc r0, r7, #0
-	mov r7, r2, lsr #0xc
-	orr r7, r7, r0, lsl #20
-	adds r2, r6, #0x800
-	str r7, [r5, #0x38]
-	str r7, [r5, #0x3c]
-	adc r0, r4, #0
-	mov r1, r2, lsr #0xc
-	str r7, [r5, #0x40]
-	orrs r1, r1, r0, lsl #20
-	movmi r1, r3
-	ldr r2, [r5, #0x134]
-	mov r0, r1, lsl #0x1b
-	ldr r1, [r2, #0xf4]
-	bic r1, r1, #0x1f0000
-	orr r0, r1, r0, lsr #11
-	str r0, [r2, #0xf4]
-	b _0216A8B8
-_0216A894:
-	mov r0, #0x200
-	str r0, [r5, #0x38]
-	str r0, [r5, #0x3c]
-	str r0, [r5, #0x40]
-	ldr r1, [r5, #0x134]
-	ldr r0, [r1, #0xf4]
-	bic r0, r0, #0x1f0000
-	orr r0, r0, #0x1f0000
-	str r0, [r1, #0xf4]
-_0216A8B8:
-	add r0, r5, #0x44
-	add r3, sp, #0
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	mov r4, #0x50000
-	bl SailManager__GetShipType
-	cmp r0, #1
-	ldr r0, [r5, #0x28]
-	ldr r1, =FX_SinCosTable_
-	add r0, r0, #0x8000
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, asr #4
-	mov r0, r0, lsl #2
-	ldrsh r2, [r1, r0]
-	moveq r4, #0x58000
-	ldr r0, =0x00007FFF
-	smull r3, r2, r4, r2
-	adds r3, r3, #0x800
-	adc r2, r2, #0
-	mov r3, r3, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	str r3, [r5, #0x44]
-	ldr r2, [r5, #0x28]
-	add r2, r2, #0x8000
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, asr #4
-	mov r2, r2, lsl #1
-	add r2, r2, #1
-	mov r2, r2, lsl #1
-	ldrsh r1, [r1, r2]
-	smull r2, r1, r4, r1
-	adds r2, r2, #0x800
-	adc r1, r1, #0
-	mov r2, r2, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	str r2, [r5, #0x4c]
-	bl SailObject__ApplyFogBrightness
-	mov r1, r0
-	mov r0, r5
-	bl SailObject__SetSpriteColor
-	ldr r1, [r5, #0x134]
-	mov r0, r5
-	bl StageTask__Draw3D
-	add r0, sp, #0
-	add r3, r5, #0x44
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    StageTask *work;
+    SailObject *worker;
 
-// clang-format on
-#endif
+    StageTask *player;
+    SailPlayer *playerWorker;
+
+    voyageManager = SailManager__GetWork()->voyageManager;
+
+    work   = TaskGetWorkCurrent(StageTask);
+    worker = GetStageTaskWorker(work, SailObject);
+
+    player       = SailManager__GetWork()->sailPlayer;
+    playerWorker = GetStageTaskWorker(player, SailPlayer);
+
+    if (!IsStageTaskDestroyed(work))
+    {
+        // not sure what's up with z & y being swapped but thats what matches
+        VecFx32 distance;
+        distance.x = voyageManager->unknownX - work->position.x;
+        distance.y = voyageManager->unknownZ - work->position.z;
+        distance.z = 0;
+
+        u16 angle    = FX_Atan2Idx(distance.x, distance.y);
+        s32 seaAngle = (voyageManager->angle + playerWorker->seaAngle2);
+        angle -= seaAngle;
+        work->userWork = (u16)(angle + seaAngle);
+
+        if (ObjRoopDiff16((u16)work->userWork, (u16)(voyageManager->angle + playerWorker->seaAngle2)) <= 0x2800)
+        {
+            fx32 distanceX = MATH_ABS(distance.x);
+            fx32 distanceZ = MATH_ABS(distance.y);
+
+            fx32 value;
+            if (distanceX > distanceZ)
+            {
+                value = MultiplyFX(FLOAT_TO_FX32(0.96045), distanceX);
+                value += MultiplyFX(FLOAT_TO_FX32(0.397706), distanceZ);
+            }
+            else
+            {
+                value = MultiplyFX(FLOAT_TO_FX32(0.96045), distanceZ);
+                value += MultiplyFX(FLOAT_TO_FX32(0.397706), distanceX);
+            }
+
+            if (value > FLOAT_TO_FX32(64.0))
+                value = FLOAT_TO_FX32(64.0);
+
+            fx32 magnitude = FLOAT_TO_FX32(64.0) - value;
+            if (magnitude < FLOAT_TO_FX32(64.0))
+            {
+                fx32 distanceFactor = FX_Div(magnitude, FLOAT_TO_FX32(64.0));
+
+                fx32 scale    = MultiplyFX(distanceFactor, FLOAT_TO_FX32(0.125));
+                work->scale.x = scale;
+                work->scale.y = scale;
+                work->scale.z = scale;
+
+                fx32 alpha = MultiplyFX(GX_COLOR_FROM_888(0xFF), distanceFactor);
+                if (alpha < 0)
+                    alpha = 0;
+
+                work->obj_2dIn3d->ani.polygonAttr.alpha = alpha;
+            }
+            else
+            {
+                work->scale.x = FLOAT_TO_FX32(0.125);
+                work->scale.y = FLOAT_TO_FX32(0.125);
+                work->scale.z = FLOAT_TO_FX32(0.125);
+
+                work->obj_2dIn3d->ani.polygonAttr.alpha = GX_COLOR_FROM_888(0xFF);
+            }
+
+            distance = work->position;
+
+            fx32 range = FLOAT_TO_FX32(80.0);
+            if (SailManager__GetShipType() == SHIP_BOAT)
+                range = FLOAT_TO_FX32(88.0);
+            work->position.x = MultiplyFX(range, SinFX((s32)(u16)(work->userWork + FLOAT_DEG_TO_IDX(180.0))));
+            work->position.z = MultiplyFX(range, CosFX((s32)(u16)(work->userWork + FLOAT_DEG_TO_IDX(180.0))));
+
+            SailObject_SetSpriteColor(work, SailObject_ApplyFogBrightness(GX_RGB_888(0xFF, 0xFF, 0xFF)));
+            StageTask__Draw3D(work, &work->obj_2dIn3d->ani.work);
+
+            work->position = distance;
+        }
+    }
 }
 
-void SailMine__State_216A4E8(StageTask *work)
+void SailMine_State_Active(StageTask *work)
 {
     OBS_RECT_WORK *collider = StageTask__GetCollider(work, 0);
 
@@ -6151,14 +5474,14 @@ void SailMine__State_216A4E8(StageTask *work)
         {
             SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_EXPLOSION, &work->position);
             DestroyStageTask(work);
-            EffectSailBomb__Create(&work->position);
+            EffectCreateSailBomb(&work->position);
         }
     }
 }
 
-void SailJetBomber__Action_Init(StageTask *work)
+void SailBomb_Action_Init(StageTask *work)
 {
-    SetTaskState(work, SailJetBomber__State_216AA38);
+    SetTaskState(work, SailBomb_State_Active);
 
     work->userTimer  = 32;
     work->velocity.y = -FLOAT_TO_FX32(0.125);
@@ -6170,710 +5493,341 @@ void SailJetBomber__Action_Init(StageTask *work)
     work->terminalVelocity = FLOAT_TO_FX32(0.15625);
 }
 
-NONMATCH_FUNC void SailJetBomber__State_216AA38(StageTask *work)
+void SailBomb_State_Active(StageTask *work)
 {
-#ifdef NON_MATCHING
+    SailObject *worker = GetStageTaskWorker(work, SailObject);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	mov r1, #0
-	ldr r4, [r6, #0x124]
-	bl StageTask__GetCollider
-	ldr r1, [r6, #0x48]
-	mov r5, r0
-	cmp r1, #0
-	ble _0216AA7C
-	ldr r0, [r6, #0x1c]
-	mvn r1, #0xdf
-	bic r0, r0, #0x80
-	str r0, [r6, #0x1c]
-	ldr r0, [r6, #0x9c]
-	mov r2, #0x200
-	bl ObjSpdUpSet
-	str r0, [r6, #0x9c]
-_0216AA7C:
-	ldr r0, [r6, #0x1c]
-	tst r0, #0x80
-	bne _0216AAA8
-	ldr r0, [r6, #0x48]
-	cmp r0, #0
-	bge _0216AAA8
-	ldr r0, [r6, #0x9c]
-	mov r1, #0x70
-	mov r2, #0xc0
-	bl ObjSpdUpSet
-	str r0, [r6, #0x9c]
-_0216AAA8:
-	ldr r0, [r6, #0x2c]
-	cmp r0, #6
-	moveq r0, r0, lsl #0xc
-	streq r0, [r6, #4]
-	ldr r0, [r6, #0x2c]
-	cmp r0, #0x10
-	bge _0216AAEC
-	tst r0, #2
-	beq _0216AADC
-	mov r0, r6
-	mov r1, #0x1f
-	bl SailObject__SetSpriteColor
-	b _0216AB10
-_0216AADC:
-	ldr r1, =0x00007FFF
-	mov r0, r6
-	bl SailObject__SetSpriteColor
-	b _0216AB10
-_0216AAEC:
-	tst r0, #4
-	beq _0216AB04
-	mov r0, r6
-	mov r1, #0x1f
-	bl SailObject__SetSpriteColor
-	b _0216AB10
-_0216AB04:
-	ldr r1, =0x00007FFF
-	mov r0, r6
-	bl SailObject__SetSpriteColor
-_0216AB10:
-	cmp r5, #0
-	beq _0216AB54
-	ldr r0, [r5, #0x18]
-	tst r0, #0x200
-	beq _0216AB54
-	ldr r0, [r6, #0x18]
-	orr r0, r0, #4
-	str r0, [r6, #0x18]
-	ldr r0, [r6, #0x20]
-	tst r0, #0x20
-	bne _0216AB54
-	add r0, r6, #0x44
-	bl EffectSailBomb__Create
-	ldr r0, [r6, #0x138]
-	add r2, r6, #0x44
-	mov r1, #0x12
-	bl SailAudio__PlaySpatialSequence
-_0216AB54:
-	ldr r0, [r6, #0x2c]
-	subs r0, r0, #1
-	str r0, [r6, #0x2c]
-	bne _0216ABB8
-	ldr r1, [r6, #0x20]
-	add r0, r6, #0x44
-	orr r1, r1, #0x20
-	str r1, [r6, #0x20]
-	bl EffectSailBomb__Create
-	ldr r3, [r0, #0x38]
-	mov r1, #0x800
-	mov r2, r3, asr #0x1f
-	mov r2, r2, lsl #0xd
-	adds r5, r1, r3, lsl #13
-	orr r2, r2, r3, lsr #19
-	adc r1, r2, #0
-	mov r2, r5, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	str r2, [r0, #0x38]
-	str r2, [r0, #0x3c]
-	str r2, [r0, #0x40]
-	ldr r0, [r6, #0x138]
-	add r2, r6, #0x44
-	mov r1, #0x12
-	bl SailAudio__PlaySpatialSequence
-_0216ABB8:
-	ldr r1, [r6, #0x2c]
-	mvn r0, #3
-	cmp r1, r0
-	ldreq r0, [r4, #0x50]
-	addeq r0, r0, r0, lsl #1
-	streq r0, [r4, #0x50]
-	ldr r1, [r6, #0x2c]
-	mvn r0, #5
-	cmp r1, r0
-	ldrlt r0, [r6, #0x18]
-	orrlt r0, r0, #4
-	strlt r0, [r6, #0x18]
-	ldmia sp!, {r4, r5, r6, pc}
+    OBS_RECT_WORK *collider = StageTask__GetCollider(work, 0);
 
-// clang-format on
-#endif
+    if (work->position.y > 0)
+    {
+        work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+        work->velocity.y = ObjSpdUpSet(work->velocity.y, -FLOAT_TO_FX32(0.0546875), FLOAT_TO_FX32(0.125));
+    }
+
+    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_HAS_GRAVITY) == 0 && work->position.y < FLOAT_TO_FX32(0.0))
+        work->velocity.y = ObjSpdUpSet(work->velocity.y, FLOAT_TO_FX32(0.02734375), FLOAT_TO_FX32(0.046875));
+
+    if (work->userTimer == 6)
+        work->shakeTimer = FX32_FROM_WHOLE(work->userTimer);
+
+    if (work->userTimer < 16)
+    {
+        // bomb is going to explode soon!! danger!!
+        if ((work->userTimer & 2) != 0)
+            SailObject_SetSpriteColor(work, GX_RGB_888(0xFF, 0x00, 0x00));
+        else
+            SailObject_SetSpriteColor(work, GX_RGB_888(0xFF, 0xFF, 0xFF));
+    }
+    else
+    {
+        // bomb is going to explode... but not yet..!
+        if ((work->userTimer & 4) != 0)
+            SailObject_SetSpriteColor(work, GX_RGB_888(0xFF, 0x00, 0x00));
+        else
+            SailObject_SetSpriteColor(work, GX_RGB_888(0xFF, 0xFF, 0xFF));
+    }
+
+    if (collider != NULL)
+    {
+        if ((collider->flag & OBS_RECT_WORK_FLAG_200) != 0)
+        {
+            DestroyStageTask(work);
+
+            if ((work->displayFlag & DISPLAY_FLAG_NO_DRAW) == 0)
+            {
+                EffectCreateSailBomb(&work->position);
+                SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_EXPLOSION, &work->position);
+            }
+        }
+    }
+
+    work->userTimer--;
+    if (work->userTimer == 0)
+    {
+        work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+
+        StageTask *explosion = EffectCreateSailBomb(&work->position);
+
+        fx32 scale         = MultiplyFX(explosion->scale.x, FLOAT_TO_FX32(2.0));
+        explosion->scale.x = scale;
+        explosion->scale.y = scale;
+        explosion->scale.z = scale;
+
+        SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_EXPLOSION, &work->position);
+    }
+
+    if (work->userTimer == -4)
+        worker->collider[0].hitCheck.box.size.x *= 3;
+
+    if (work->userTimer < -6)
+        DestroyStageTask(work);
 }
 
-NONMATCH_FUNC void SailJetBoatCloud__State_216AA38(StageTask *work)
+void SailFogCloud_State_Active(StageTask *work)
 {
-#ifdef NON_MATCHING
+    SailObject *worker = GetStageTaskWorker(work, SailObject);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0x40
-	mov r5, r0
-	ldr r4, [r5, #0x124]
-	bl SailManager__GetWork
-	ldr r2, [r4, #0x138]
-	ldr r1, [r0, #0x34]
-	mov r6, #0x800
-	add r2, r2, r1, asr #9
-	mov r1, r2, lsl #0x10
-	mov r1, r1, lsr #0x10
-	str r1, [r4, #0x138]
-	ldr r3, [r5, #0x48]
-	ldr r1, [r0, #0x3c]
-	ldr r2, =FX_SinCosTable_
-	sub r1, r3, r1, asr #5
-	str r1, [r5, #0x48]
-	ldr r3, [r4, #0x138]
-	ldr r1, [r4, #0x13c]
-	mov r3, r3, lsl #0x10
-	mov r3, r3, lsr #0x10
-	mov r3, r3, lsl #0x10
-	mov r3, r3, lsr #0x10
-	mov r3, r3, asr #4
-	mov r3, r3, lsl #2
-	ldrsh r8, [r2, r3]
-	sub r7, r6, #0x7a00
-	mov r3, #0x1f
-	smull r8, r6, r1, r8
-	adds r8, r8, #0x800
-	adc r1, r6, #0
-	mov r6, r8, lsr #0xc
-	orr r6, r6, r1, lsl #20
-	str r6, [r5, #0x44]
-	ldr r6, [r4, #0x138]
-	ldr r1, [r4, #0x13c]
-	mov r6, r6, lsl #0x10
-	mov r6, r6, lsr #0x10
-	mov r6, r6, lsl #0x10
-	mov r6, r6, lsr #0x10
-	mov r6, r6, asr #4
-	mov r6, r6, lsl #1
-	add r6, r6, #1
-	mov r6, r6, lsl #1
-	ldrsh r2, [r2, r6]
-	smull r6, r2, r1, r2
-	adds r6, r6, #0x800
-	adc r1, r2, #0
-	mov r2, r6, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	str r2, [r5, #0x4c]
-	ldr r6, [r5, #0x134]
-	ldrh r1, [r0, #0x30]
-	ldr r2, [r6, #0xf4]
-	bic r2, r2, #0x3f000000
-	mov r1, r1, lsl #0x1a
-	orr r1, r2, r1, lsr #2
-	str r1, [r6, #0xf4]
-	ldrh r1, [r0, #0x30]
-	add r1, r1, #1
-	strh r1, [r0, #0x30]
-	ldr r2, [r5, #0x48]
-	cmp r2, r7
-	ble _0216AD00
-	adds r1, r2, #0x6200
-	rsbmi r1, r1, #0
-	mov r1, r1, lsl #9
-	mov r3, r1, lsr #0x10
-_0216AD00:
-	mov r1, #0x11800
-	rsb r1, r1, #0
-	cmp r2, r1
-	bge _0216AD20
-	adds r1, r2, #0x12800
-	rsbmi r1, r1, #0
-	mov r1, r1, lsl #9
-	mov r3, r1, lsr #0x10
-_0216AD20:
-	ldr r7, [r5, #0x134]
-	cmp r3, #0x20
-	movhi r3, #0x1f
-	cmp r3, #0
-	moveq r3, #1
-	ldr r6, [r7, #0xf4]
-	mov r2, r3, lsl #0x1b
-	bic r3, r6, #0x1f0000
-	orr r2, r3, r2, lsr #11
-	mov r1, #0x12800
-	str r2, [r7, #0xf4]
-	ldr r2, [r5, #0x48]
-	rsb r1, r1, #0
-	cmp r2, r1
-	blt _0216AD68
-	add r1, r1, #0xc600
-	cmp r2, r1
-	ble _0216AEB8
-_0216AD68:
-	ldr r0, [r5, #0x18]
-	tst r0, #4
-	bne _0216AEA4
-	mov r0, #0
-	add r8, sp, #0
-	mov r1, r0
-	stmia r8!, {r0, r1}
-	stmia r8!, {r0, r1}
-	ldr r2, =_obj_disp_rand
-	stmia r8!, {r0, r1}
-	stmia r8!, {r0, r1}
-	stmia r8!, {r0, r1}
-	stmia r8!, {r0, r1}
-	stmia r8!, {r0, r1}
-	stmia r8, {r0, r1}
-	mov r8, #0x25
-	ldr r3, [r2, #0]
-	ldr r6, =0x00196225
-	ldr r7, =0x3C6EF35F
-	ldr lr, =0x0001FFFF
-	mla ip, r3, r6, r7
-	mov r1, ip, lsr #0x10
-	mov r3, r1, lsl #0x10
-	mla r1, ip, r6, r7
-	and r7, lr, r3, lsr #16
-	sub r3, r0, #0x4f000
-	sub r3, r3, r7
-	strh r8, [sp, #0x30]
-	str ip, [r2]
-	str r3, [sp, #0x28]
-	ldr r7, [r4, #0x138]
-	mov r6, r1, lsr #0x10
-	strh r7, [sp, #0x2e]
-	mov r4, r6, lsl #0x10
-	sub r6, lr, #0x1c000
-	and r6, r6, r4, lsr #16
-	ldrh ip, [sp, #0x2e]
-	rsb r6, r6, #0x2000
-	str r1, [r2]
-	add r6, ip, r6
-	strh r6, [sp, #0x2e]
-	ldrh r6, [sp, #0x2e]
-	mov r4, #0x800
-	ldr r7, =FX_SinCosTable_
-	mov r2, r6, asr #4
-	mov r6, r2, lsl #1
-	add r2, r6, #1
-	mov r6, r6, lsl #1
-	mov r2, r2, lsl #1
-	ldrsh r6, [r7, r6]
-	ldrsh r2, [r7, r2]
-	sub r1, r4, #0x13000
-	smull r6, r7, r3, r6
-	adds ip, r6, #0x800
-	smull r6, r2, r3, r2
-	adc r7, r7, r0
-	adds r3, r6, #0x800
-	mov r6, ip, lsr #0xc
-	adc r0, r2, r0
-	mov r2, r3, lsr #0xc
-	orr r6, r6, r7, lsl #20
-	orr r2, r2, r0, lsl #20
-	str r6, [sp, #0x1c]
-	str r2, [sp, #0x24]
-	ldr r0, [r5, #0x48]
-	cmp r0, r1
-	sublt r0, r4, #0x6a00
-	strlt r0, [sp, #0x20]
-	mov r0, #0x6200
-	ldr r1, [r5, #0x48]
-	rsb r0, r0, #0
-	cmp r1, r0
-	ldr r1, [sp, #0x34]
-	subgt r0, r0, #0xc600
-	strgt r0, [sp, #0x20]
-	orr r1, r1, #0x20000000
-	add r0, sp, #0
-	str r1, [sp, #0x34]
-	bl SailEventManager__CreateObject2
-_0216AEA4:
-	ldr r0, [r5, #0x18]
-	add sp, sp, #0x40
-	orr r0, r0, #4
-	str r0, [r5, #0x18]
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-_0216AEB8:
-	ldr r1, [r5, #0x20]
-	orr r1, r1, #0x20
-	str r1, [r5, #0x20]
-	ldr r1, [r0, #0x94]
-	ldr r0, [r4, #0x138]
-	ldrh r2, [r1, #0x10]
-	ldrsh r1, [r1, #0x12]
-	add r1, r2, r1
-	subs r0, r1, r0
-	rsbmi r0, r0, #0
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	cmp r0, #0x1800
-	blo _0216AEF8
-	cmp r0, #0xe800
-	bls _0216AF04
-_0216AEF8:
-	ldr r0, [r5, #0x20]
-	bic r0, r0, #0x20
-	str r0, [r5, #0x20]
-_0216AF04:
-	ldr r0, [r5, #0x28]
-	mov r1, #1
-	cmp r0, #0
-	ldrne r0, [r5, #0x20]
-	orrne r0, r0, #0x1000
-	strne r0, [r5, #0x20]
-	str r1, [r5, #0x28]
-	ldr r0, [r5, #0x20]
-	tst r0, #0x20
-	addne sp, sp, #0x40
-	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
-	rsb r0, r1, #0x8000
-	bl SailObject__ApplyFogBrightness
-	mov r1, r0
-	mov r0, r5
-	bl SailObject__SetSpriteColor
-	add sp, sp, #0x40
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+    SailManager *manager = SailManager__GetWork();
 
-// clang-format on
-#endif
+    worker->startEmissionColor.x += (manager->velocity.x >> 9);
+    worker->startEmissionColor.x = (u16)worker->startEmissionColor.x;
+
+    work->position.y -= manager->velocity.z >> 5;
+
+    u16 alpha = GX_COLOR_FROM_888(0xFF);
+
+    work->position.x = MultiplyFX(worker->startEmissionColor.y, SinFX((s32)(u16)worker->startEmissionColor.x));
+    work->position.z = MultiplyFX(worker->startEmissionColor.y, CosFX((s32)(u16)worker->startEmissionColor.x));
+
+    work->obj_2dIn3d->ani.polygonAttr.polygonID = manager->field_30;
+    manager->field_30++;
+
+    if (work->position.y > -FLOAT_TO_FX32(7.125))
+    {
+        alpha = MATH_ABS(work->position.y + FLOAT_TO_FX32(6.125)) >> 7;
+    }
+
+    if (work->position.y < -FLOAT_TO_FX32(17.5))
+    {
+        alpha = MATH_ABS(work->position.y + FLOAT_TO_FX32(18.5)) >> 7;
+    }
+
+    if (alpha > (GX_COLOR_FROM_888(0xFF) + 1))
+        alpha = GX_COLOR_FROM_888(0xFF);
+
+    if (alpha == GX_COLOR_FROM_888(0x00))
+        alpha = GX_COLOR_FROM_888(0x08);
+
+    work->obj_2dIn3d->ani.polygonAttr.alpha = alpha;
+
+    if (work->position.y < -FLOAT_TO_FX32(18.5) || work->position.y > -FLOAT_TO_FX32(6.125))
+    {
+        if (!IsStageTaskDestroyed(work))
+        {
+            SailEventManagerObject fogCloud = { 0 };
+
+            fogCloud.type = SAILMAPOBJECT_37;
+
+            fogCloud.viewRange = -FLOAT_TO_FX32(79.0) - ObjDispRandRepeat(FLOAT_TO_FX32(32.0));
+            fogCloud.angle     = worker->startEmissionColor.x;
+            fogCloud.angle += ObjDispRandRange5(-FLOAT_DEG_TO_IDX(45.0), FLOAT_DEG_TO_IDX(45.0));
+
+            fogCloud.position.x = MultiplyFX(fogCloud.viewRange, SinFX(fogCloud.angle));
+            fogCloud.position.z = MultiplyFX(fogCloud.viewRange, CosFX(fogCloud.angle));
+
+            if (work->position.y < -FLOAT_TO_FX32(18.5))
+                fogCloud.position.y = -FLOAT_TO_FX32(6.125);
+
+            if (work->position.y > -FLOAT_TO_FX32(6.125))
+                fogCloud.position.y = -FLOAT_TO_FX32(18.5);
+
+            fogCloud.flags |= SAILMAPOBJECT_FLAG_20000000;
+            SailEventManager__CreateObject2(&fogCloud);
+        }
+
+        DestroyStageTask(work);
+    }
+    else
+    {
+        work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+
+        u16 seaAngle = MATH_ABS(manager->sea->voyageAngle + manager->sea->playerAngle - worker->startEmissionColor.x);
+
+        if (seaAngle < FLOAT_DEG_TO_IDX(33.75) || seaAngle > FLOAT_DEG_TO_IDX(326.25))
+            work->displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+
+        if (work->userWork != 0)
+            work->displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
+
+        work->userWork = 1;
+
+        if ((work->displayFlag & DISPLAY_FLAG_NO_DRAW) == 0)
+        {
+            SailObject_SetSpriteColor(work, SailObject_ApplyFogBrightness(GX_RGB_888(0xFF, 0xFF, 0xFF)));
+        }
+    }
 }
 
-NONMATCH_FUNC void SailCloud__State_216AF60(StageTask *work)
+void SailSkyCloud_State_Active(StageTask *work)
 {
-#ifdef NON_MATCHING
+    SailObject *worker = GetStageTaskWorker(work, SailObject);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r7, r0
-	ldr r4, [r7, #0x124]
-	bl SailManager__GetWork
-	mov r5, r0
-	bl SailManager__GetWork
-	ldr r0, [r0, #0x70]
-	ldr r6, [r0, #0x124]
-	bl SailManager__GetWork
-	ldr r2, [r4, #0x138]
-	ldr r1, [r5, #0x34]
-	ldr r3, [r0, #0x98]
-	add r1, r2, r1, asr #9
-	mov r0, r1, lsl #0x10
-	mov r0, r0, lsr #0x10
-	str r0, [r4, #0x138]
-	ldr r0, [r7, #0x20]
-	tst r0, #0x20000
-	bne _0216B040
-	add r0, r6, #0x100
-	ldrh r1, [r3, #0x34]
-	ldrsh r2, [r0, #0xca]
-	ldr r3, [r4, #0x138]
-	sub r0, r1, #0x8000
-	add r0, r2, r0
-	add r0, r3, r0
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, asr #4
-	mov r6, r0, lsl #1
-	ldr r1, [r7, #0x48]
-	ldr r0, [r5, #0x3c]
-	ldr r2, =FX_SinCosTable_
-	sub r1, r1, r0, asr #5
-	mov r0, r6, lsl #1
-	str r1, [r7, #0x48]
-	ldrsh r1, [r2, r0]
-	ldr r3, [r4, #0x13c]
-	add r0, r6, #1
-	smull r6, r1, r3, r1
-	adds r3, r6, #0x800
-	mov r0, r0, lsl #1
-	adc r1, r1, #0
-	mov r3, r3, lsr #0xc
-	orr r3, r3, r1, lsl #20
-	str r3, [r7, #0x44]
-	ldrsh r0, [r2, r0]
-	ldr r1, [r4, #0x13c]
-	smull r2, r0, r1, r0
-	adds r1, r2, #0x800
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [r7, #0x4c]
-_0216B040:
-	ldr r2, [r7, #0x134]
-	ldrh r0, [r5, #0x30]
-	ldr r1, [r2, #0xf4]
-	bic r1, r1, #0x3f000000
-	mov r0, r0, lsl #0x1a
-	orr r0, r1, r0, lsr #2
-	str r0, [r2, #0xf4]
-	ldrh r0, [r5, #0x30]
-	add r0, r0, #1
-	strh r0, [r5, #0x30]
-	ldr r0, [r7, #0x2c]
-	cmp r0, #0
-	ldrne r0, [r7, #0x20]
-	orrne r0, r0, #0x1000
-	strne r0, [r7, #0x20]
-	ldr r0, [r7, #0x2c]
-	add r1, r0, #1
-	str r1, [r7, #0x2c]
-	ldr r0, [r7, #0x28]
-	cmp r1, r0
-	movlo r0, r1, lsl #0x10
-	blo _0216B0A4
-	sub r0, r1, r0
-	rsb r0, r0, #0x10
-	mov r0, r0, lsl #0x10
-_0216B0A4:
-	mov r1, r0, lsr #0x10
-	ldrh r0, [r5, #0x5a]
-	cmp r0, #3
-	bne _0216B0C0
-	cmp r1, #0xe
-	movhi r1, #0xe
-	b _0216B0C8
-_0216B0C0:
-	cmp r1, #6
-	movhi r1, #6
-_0216B0C8:
-	ldr r2, [r7, #0x134]
-	cmp r1, #0
-	moveq r1, #1
-	mov r0, r1, lsl #0x1b
-	ldr r1, [r2, #0xf4]
-	bic r1, r1, #0x1f0000
-	orr r0, r1, r0, lsr #11
-	str r0, [r2, #0xf4]
-	ldr r0, [r7, #0x28]
-	ldr r1, [r7, #0x2c]
-	add r0, r0, #0x10
-	cmp r1, r0
-	bne _0216B138
-	ldr r0, [r7, #0x18]
-	orr r0, r0, #4
-	str r0, [r7, #0x18]
-	ldrh r0, [r5, #0x5a]
-	cmp r0, #2
-	cmpne r0, #3
-	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r0, [r7, #0x20]
-	tst r0, #0x20000
-	beq _0216B130
-	mov r0, #0
-	bl SailCloud__Create
-	b _0216B138
-_0216B130:
-	mov r0, #1
-	bl SailCloud__Create
-_0216B138:
-	ldrh r0, [r5, #0x5a]
-	cmp r0, #2
-	cmpne r0, #3
-	ldrne r0, [r7, #0x28]
-	strne r0, [r7, #0x2c]
-	ldr r0, [r7, #0x20]
-	tst r0, #0x20
-	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r0, =0x00007FFF
-	bl SailObject__ApplyFogBrightness
-	mov r1, r0
-	mov r0, r7
-	bl SailObject__SetSpriteColor
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    SailManager *manager = SailManager__GetWork();
 
-// clang-format on
-#endif
+    StageTask *player        = SailManager__GetWork()->sailPlayer;
+    SailPlayer *playerWorker = GetStageTaskWorker(player, SailPlayer);
+
+    SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
+
+    worker->startEmissionColor.x += (manager->velocity.x >> 9);
+    worker->startEmissionColor.x = (u16)worker->startEmissionColor.x;
+
+    if ((work->displayFlag & DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG) == 0)
+    {
+        s32 angle = worker->startEmissionColor.x + (playerWorker->seaAngle2 + (voyageManager->angle - FLOAT_DEG_TO_IDX(180.0)));
+
+        work->position.y -= manager->velocity.z >> 5;
+        work->position.x = MultiplyFX(worker->startEmissionColor.y, SinFX((s32)(u16)angle));
+        work->position.z = MultiplyFX(worker->startEmissionColor.y, CosFX((s32)(u16)angle));
+    }
+
+    work->obj_2dIn3d->ani.polygonAttr.polygonID = manager->field_30;
+    manager->field_30++;
+
+    if (work->userTimer != 0)
+        work->displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
+
+    work->userTimer++;
+
+    u16 alpha;
+    if (work->userTimer >= work->userWork)
+        alpha = GX_COLOR_FROM_888(0x80) - (work->userTimer - work->userWork);
+    else
+        alpha = work->userTimer;
+
+    if (manager->cloudType == 3)
+    {
+        if (alpha > GX_COLOR_FROM_888(0x70))
+            alpha = GX_COLOR_FROM_888(0x70);
+    }
+    else
+    {
+        if (alpha > GX_COLOR_FROM_888(0x30))
+            alpha = GX_COLOR_FROM_888(0x30);
+    }
+
+    if (alpha == GX_COLOR_FROM_888(0x00))
+        alpha = GX_COLOR_FROM_888(0x08);
+
+    work->obj_2dIn3d->ani.polygonAttr.alpha = alpha;
+
+    if (work->userTimer == work->userWork + 16)
+    {
+        DestroyStageTask(work);
+
+        if (manager->cloudType != 2 && manager->cloudType != 3)
+            return;
+
+        if ((work->displayFlag & DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG) != 0)
+            CreateSailSkyCloud(SAILSKYCLOUD_TYPE_0);
+        else
+            CreateSailSkyCloud(SAILSKYCLOUD_TYPE_1);
+    }
+
+    if (manager->cloudType != 2 && manager->cloudType != 3)
+        work->userTimer = work->userWork;
+
+    if ((work->displayFlag & DISPLAY_FLAG_NO_DRAW) == 0)
+    {
+        SailObject_SetSpriteColor(work, SailObject_ApplyFogBrightness(GX_RGB_888(0xFF, 0xFF, 0xFF)));
+    }
 }
 
-void SailObject__Action_Destroy(StageTask *work)
+void SailObject_Action_Destroy(StageTask *work)
 {
     ShipType shipType = SailManager__GetShipType();
 
     if (shipType != SHIP_BOAT && shipType != SHIP_SUBMARINE)
-        SailObject__Action_ExplodeSimple(work);
+        SailObject_Action_ExplodeSimple(work);
     else
-        SailObject__Action_Explode(work);
+        SailObject_Action_Explode(work);
 }
 
-void SailObject__Action_ExplodeSimple(StageTask *work)
+void SailObject_Action_ExplodeSimple(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
     SailPlayer *player = GetStageTaskWorker(worker->player, SailPlayer);
 
-    worker->field_138.x = ObjDispRandRange5(-FLOAT_TO_FX32(0.125), FLOAT_TO_FX32(0.125));
-    worker->field_138.y = ObjDispRandRepeat(FLOAT_TO_FX32(0.125));
-    worker->field_138.y = -FLOAT_TO_FX32(0.125) - worker->field_138.y;
-    worker->field_138.z = ObjDispRandRange5(-FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(0.5));
-    worker->field_134   = -(player->speed + FLOAT_TO_FX32(1.0));
+    worker->startEmissionColor.x = ObjDispRandRange5(-FLOAT_TO_FX32(0.125), FLOAT_TO_FX32(0.125));
+    worker->startEmissionColor.y = ObjDispRandRepeat(FLOAT_TO_FX32(0.125));
+    worker->startEmissionColor.y = -FLOAT_TO_FX32(0.125) - worker->startEmissionColor.y;
+    worker->startEmissionColor.z = ObjDispRandRange5(-FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(0.5));
+    worker->voyageScrollSpeed    = -(player->speed + FLOAT_TO_FX32(1.0));
 
-    SetTaskState(work, SailObject__State_ExplodeSimple);
+    SetTaskState(work, SailObject_State_ExplodeSimple);
 
     work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->userFlag |= SAILOBJECT_FLAG_1;
     work->userTimer = 0;
 }
 
-NONMATCH_FUNC void SailObject__State_ExplodeSimple(StageTask *work)
+void SailObject_State_ExplodeSimple(StageTask *work)
 {
-#ifdef NON_MATCHING
+    SailObject *worker = GetStageTaskWorker(work, SailObject);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0xc
-	mov r5, r0
-	ldr r4, [r5, #0x124]
-	ldr r3, =FX_SinCosTable_
-	add r1, r4, #0x100
-	ldrh r2, [r1, #0x6e]
-	ldr r1, [r4, #0x138]
-	ldr ip, [r4, #0x134]
-	add r1, r2, r1
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov lr, r1, lsl #1
-	mov r1, lr, lsl #1
-	ldrsh r2, [r3, r1]
-	add r1, lr, #1
-	mov r1, r1, lsl #1
-	smull lr, r2, ip, r2
-	adds ip, lr, #0x800
-	adc r2, r2, #0
-	mov ip, ip, lsr #0xc
-	orr ip, ip, r2, lsl #20
-	str ip, [r5, #0x98]
-	ldrsh r1, [r3, r1]
-	ldr r2, [r4, #0x134]
-	smull r3, r1, r2, r1
-	adds r2, r3, #0x800
-	adc r1, r1, #0
-	mov r2, r2, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	str r2, [r5, #0xa0]
-	ldr r1, [r4, #0x13c]
-	str r1, [r5, #0x9c]
-	ldrh r1, [r5, #0x32]
-	add r1, r1, #0x1800
-	strh r1, [r5, #0x32]
-	ldr r1, [r4, #0x140]
-	ldrh r2, [r5, #0x34]
-	add r1, r1, #0x1000
-	add r1, r2, r1
-	strh r1, [r5, #0x34]
-	ldr r1, [r4, #0x140]
-	ldrh r2, [r5, #0x30]
-	rsb r1, r1, #0x1000
-	add r1, r2, r1
-	strh r1, [r5, #0x30]
-	bl SailObject__ApplyRotation
-	ldr r0, [r5, #0x2c]
-	add r0, r0, #1
-	str r0, [r5, #0x2c]
-	ldr r0, [r5, #0x24]
-	tst r0, #2
-	beq _0216B3E0
-	ldr r0, [r5, #0x2c]
-	cmp r0, #0xc
-	ble _0216B3E0
-	add r1, sp, #0
-	mov r0, r5
-	bl SailObject__Func_2165A9C
-	add r1, sp, #0
-	add r0, r5, #0x44
-	mov r2, r1
-	bl VEC_Subtract
-	ldr r0, [r5, #0x138]
-	add r2, r5, #0x44
-	mov r1, #0x13
-	bl SailAudio__PlaySpatialSequence
-	ldr r1, [r5, #0x18]
-	add r0, sp, #0
-	orr r1, r1, #4
-	str r1, [r5, #0x18]
-	bl EffectSailBomb__Create
-	ldr r2, [r0, #0x38]
-	ldr r1, [r4, #0x124]
-	add sp, sp, #0xc
-	smull r3, r1, r2, r1
-	adds r2, r3, #0x800
-	adc r1, r1, #0
-	mov r2, r2, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	str r2, [r0, #0x38]
-	str r2, [r0, #0x3c]
-	str r2, [r0, #0x40]
-	ldmia sp!, {r4, r5, pc}
-_0216B3E0:
-	ldr r0, [r5, #0x2c]
-	cmp r0, #0x18
-	addle sp, sp, #0xc
-	ldmleia sp!, {r4, r5, pc}
-	ldr r0, [r5, #0x18]
-	orr r0, r0, #4
-	str r0, [r5, #0x18]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, pc}
+    u16 angle        = (s32)(u16)(worker->objectAngle + worker->startEmissionColor.x);
+    work->velocity.x = MultiplyFX(worker->voyageScrollSpeed, SinFX(angle));
+    work->velocity.z = MultiplyFX(worker->voyageScrollSpeed, CosFX(angle));
+    work->velocity.y = worker->startEmissionColor.y;
 
-// clang-format on
-#endif
+    work->dir.y += FLOAT_DEG_TO_IDX(33.75);
+    work->dir.z += worker->startEmissionColor.z + FLOAT_DEG_TO_IDX(22.5);
+    work->dir.x += FLOAT_DEG_TO_IDX(22.5) - worker->startEmissionColor.z;
+
+    SailObject_ApplyRotation(work);
+    work->userTimer++;
+
+    if ((work->userFlag & SAILOBJECT_FLAG_2) != 0 && work->userTimer > 12)
+    {
+        VecFx32 explosionPos;
+        SailObject_GetCollisionOffset(work, &explosionPos);
+        VEC_Subtract(&work->position, &explosionPos, &explosionPos);
+
+        SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_ENEMY_DEAD, &work->position);
+        DestroyStageTask(work);
+
+        StageTask *explosion = EffectCreateSailBomb(&explosionPos);
+
+        fx32 scale         = MultiplyFX(explosion->scale.x, worker->explosionScale);
+        explosion->scale.x = scale;
+        explosion->scale.y = scale;
+        explosion->scale.z = scale;
+        return;
+    }
+
+    if (work->userTimer > 24)
+    {
+        DestroyStageTask(work);
+        return;
+    }
 }
 
-NONMATCH_FUNC void SailObject__Action_Explode(StageTask *work)
+void SailObject_Action_Explode(StageTask *work)
 {
-#ifdef NON_MATCHING
+    SailObject *worker = GetStageTaskWorker(work, SailObject);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r4, [r5, #0x124]
-	ldr r2, =SailObject__State_Explode
-	mov r1, #0
-	str r2, [r5, #0xf4]
-	ldr r2, [r5, #0x18]
-	orr r2, r2, #0x12
-	str r2, [r5, #0x18]
-	str r1, [r5, #0x2c]
-	ldr r1, [r5, #0x24]
-	tst r1, #4
-	beq _0216B480
-	add r1, r5, #0x44
-	bl EffectUnknown2161544__Create
-	mov r0, #0x24
-	str r0, [r5, #0x2c]
-	add r0, r4, #0x100
-	mov r1, #0x20
-	strh r1, [r0, #0x2e]
-	mov r1, #0x120
-	str r1, [r5, #0x9c]
-	ldr r0, [r5, #0x24]
-	tst r0, #1
-	moveq r0, #0x400
-	subne r0, r1, #0x520
-	str r0, [r4, #0x184]
-	mov r0, #0
-	str r0, [r4, #0x180]
-	b _0216B4A8
-_0216B480:
-	bl SailManager__GetShipType
-	cmp r0, #3
-	ldr r0, [r5, #0x138]
-	add r2, r5, #0x44
-	bne _0216B4A0
-	mov r1, #0x4f
-	bl SailAudio__PlaySpatialSequence
-	b _0216B4A8
-_0216B4A0:
-	mov r1, #0x27
-	bl SailAudio__PlaySpatialSequence
-_0216B4A8:
-	mov r0, #0x4000
-	str r0, [r5, #4]
-	ldmia sp!, {r3, r4, r5, pc}
+    SetTaskState(work, SailObject_State_Explode);
 
-// clang-format on
-#endif
+    work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+    work->userTimer = 0;
+
+    if ((work->userFlag & SAILOBJECT_FLAG_4) != 0)
+    {
+        EffectUnknown2161544__Create(work, &work->position);
+        work->userTimer    = 36;
+        worker->blinkTimer = 32;
+
+        work->velocity.y = FLOAT_TO_FX32(0.0703125);
+        if ((work->userFlag & SAILOBJECT_FLAG_1) == 0)
+            worker->voyageVelocity.z = FLOAT_TO_FX32(0.25);
+        else
+            worker->voyageVelocity.z = -FLOAT_TO_FX32(0.25);
+
+        worker->voyageVelocity.y = FLOAT_TO_FX32(0.0);
+    }
+    else
+    {
+        if (SailManager__GetShipType() == SHIP_SUBMARINE)
+            SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_EXP_S, &work->position);
+        else
+            SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_ENE_EXP_S, &work->position);
+    }
+
+    work->shakeTimer = FLOAT_TO_FX32(4.0);
 }
 
-void SailObject__CreateRingsForExplode1(StageTask *work)
+void SailObject_CreateRingsForExplode1(StageTask *work)
 {
     if ((work->userFlag & SAILOBJECT_FLAG_40000) != 0)
     {
@@ -6883,7 +5837,7 @@ void SailObject__CreateRingsForExplode1(StageTask *work)
         ringVelocity.x = FLOAT_TO_FX32(0.0703125);
         ringVelocity.y = -FLOAT_TO_FX32(0.3125);
         ringVelocity.z = FLOAT_TO_FX32(0.0703125);
-        SailObject__Func_2165A9C(work, &ringPosition);
+        SailObject_GetCollisionOffset(work, &ringPosition);
 
         VEC_Subtract(&work->position, &ringPosition, &ringPosition);
         if ((work->userFlag & SAILOBJECT_FLAG_1000000) != 0)
@@ -6937,7 +5891,7 @@ void SailObject__CreateRingsForExplode1(StageTask *work)
     }
 }
 
-void SailObject__CreateRingsForExplode2(StageTask *work)
+void SailObject_CreateRingsForExplode2(StageTask *work)
 {
     if ((work->userFlag & SAILOBJECT_FLAG_40000) != 0)
     {
@@ -6947,7 +5901,7 @@ void SailObject__CreateRingsForExplode2(StageTask *work)
         ringVelocity.x = FLOAT_TO_FX32(0.1640625);
         ringVelocity.y = -FLOAT_TO_FX32(0.3125);
         ringVelocity.z = FLOAT_TO_FX32(0.1640625);
-        SailObject__Func_2165A9C(work, &ringPosition);
+        SailObject_GetCollisionOffset(work, &ringPosition);
 
         if ((work->userFlag & SAILOBJECT_FLAG_1000000) != 0)
         {
@@ -6992,185 +5946,110 @@ void SailObject__CreateRingsForExplode2(StageTask *work)
     }
 }
 
-NONMATCH_FUNC void SailObject__State_Explode(StageTask *work)
+void SailObject_State_Explode(StageTask *work)
 {
-#ifdef NON_MATCHING
+    SailObject *worker = GetStageTaskWorker(work, SailObject);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0xc
-	mov r6, r0
-	ldr r4, [r6, #0x124]
-	bl SailObject__ApplyRotation
-	ldr r0, [r6, #0x24]
-	tst r0, #4
-	beq _0216B818
-	mov r0, r6
-	bl SailObject__Func_2166A2C
-	ldr r0, [r6, #4]
-	cmp r0, #0
-	moveq r0, #0x4000
-	streq r0, [r6, #4]
-	ldr r0, [r6, #0x2c]
-	tst r0, #7
-	bne _0216B818
-	mov r0, r6
-	bl SailObject__CreateRingsForExplode1
-	bl SailManager__GetShipType
-	cmp r0, #3
-	ldr r0, [r6, #0x138]
-	add r2, r6, #0x44
-	bne _0216B810
-	mov r1, #0x50
-	bl SailAudio__PlaySpatialSequence
-	b _0216B818
-_0216B810:
-	mov r1, #0x28
-	bl SailAudio__PlaySpatialSequence
-_0216B818:
-	ldr r0, [r6, #0x2c]
-	cmp r0, #0
-	bne _0216B9C0
-	ldr r0, [r6, #0x24]
-	and r0, r0, #2
-	orrs r0, r0, #8
-	beq _0216B9C0
-	add r1, sp, #0
-	mov r0, r6
-	bl SailObject__Func_2165A9C
-	add r1, sp, #0
-	add r0, r6, #0x44
-	mov r2, r1
-	bl VEC_Subtract
-	ldr r0, [r6, #0x24]
-	tst r0, #2
-	beq _0216B970
-	tst r0, #4
-	beq _0216B88C
-	bl SailManager__GetShipType
-	cmp r0, #3
-	ldr r0, [r6, #0x138]
-	add r2, r6, #0x44
-	bne _0216B884
-	mov r1, #0x50
-	bl SailAudio__PlaySpatialSequence
-	b _0216B88C
-_0216B884:
-	mov r1, #0x28
-	bl SailAudio__PlaySpatialSequence
-_0216B88C:
-	add r0, sp, #0
-	bl EffectSailBomb__Create
-	ldr r1, [r4, #0x50]
-	cmp r1, #0x3000
-	ble _0216B8CC
-	ldr r2, [r0, #0x38]
-	sub r1, r1, #0x2000
-	smull r3, r1, r2, r1
-	adds r2, r3, #0x800
-	adc r1, r1, #0
-	mov r5, r2, lsr #0xc
-	orr r5, r5, r1, lsl #20
-	str r5, [r0, #0x38]
-	str r5, [r0, #0x3c]
-	str r5, [r0, #0x40]
-	b _0216B900
-_0216B8CC:
-	cmp r1, #0x1000
-	ble _0216B900
-	ldr r2, [r0, #0x38]
-	sub r1, r1, #0x800
-	smull r3, r1, r2, r1
-	adds r2, r3, #0x800
-	adc r1, r1, #0
-	mov r2, r2, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	mov r5, r2, asr #1
-	str r5, [r0, #0x38]
-	str r5, [r0, #0x3c]
-	str r5, [r0, #0x40]
-_0216B900:
-	ldr r1, [r6, #0x24]
-	tst r1, #0x20000
-	beq _0216B970
-	mov r1, #0x2e00
-	umull r4, r3, r5, r1
-	mov r2, #0
-	mla r3, r5, r2, r3
-	mov r2, r5, asr #0x1f
-	mla r3, r2, r1, r3
-	adds r4, r4, #0x800
-	adc r1, r3, #0
-	mov r2, r4, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	str r2, [r0, #0x38]
-	str r2, [r0, #0x3c]
-	str r2, [r0, #0x40]
-	bl SailManager__GetShipType
-	cmp r0, #3
-	ldr r0, [r6, #0x138]
-	add r2, r6, #0x44
-	bne _0216B960
-	mov r1, #0x51
-	bl SailAudio__PlaySpatialSequence
-	b _0216B968
-_0216B960:
-	mov r1, #0x29
-	bl SailAudio__PlaySpatialSequence
-_0216B968:
-	add r0, r6, #0x44
-	bl EffectSailUnknown21625C8__Create
-_0216B970:
-	ldr r0, [r6, #0x24]
-	tst r0, #8
-	beq _0216B9B4
-	add r0, sp, #0
-	bl EffectSailWater06__Create
-	ldr r3, [r0, #0x38]
-	mov r1, #0x800
-	mov r2, r3, asr #0x1f
-	mov r2, r2, lsl #0xd
-	adds r4, r1, r3, lsl #13
-	orr r2, r2, r3, lsr #19
-	adc r1, r2, #0
-	mov r2, r4, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	str r2, [r0, #0x38]
-	str r2, [r0, #0x3c]
-	str r2, [r0, #0x40]
-_0216B9B4:
-	ldr r0, [r6, #0x20]
-	orr r0, r0, #0x20
-	str r0, [r6, #0x20]
-_0216B9C0:
-	ldr r0, [r6, #0x2c]
-	cmp r0, #0
-	bge _0216B9F4
-	ldr r0, [r6, #0x24]
-	tst r0, #4
-	mov r0, r6
-	bne _0216B9E4
-	bl SailObject__CreateRingsForExplode1
-	b _0216B9E8
-_0216B9E4:
-	bl SailObject__CreateRingsForExplode2
-_0216B9E8:
-	ldr r0, [r6, #0x18]
-	orr r0, r0, #4
-	str r0, [r6, #0x18]
-_0216B9F4:
-	ldr r0, [r6, #0x2c]
-	sub r0, r0, #1
-	str r0, [r6, #0x2c]
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    SailObject_ApplyRotation(work);
 
-// clang-format on
-#endif
+    if ((work->userFlag & SAILOBJECT_FLAG_4) != 0)
+    {
+        SailObject_HandleVoyageVelocity(work);
+
+        if (work->shakeTimer == FLOAT_TO_FX32(0.0))
+            work->shakeTimer = FLOAT_TO_FX32(4.0);
+
+        if ((work->userTimer & 7) == 0)
+        {
+            SailObject_CreateRingsForExplode1(work);
+
+            if (SailManager__GetShipType() == SHIP_SUBMARINE)
+                SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_EXP_M, &work->position);
+            else
+                SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_ENE_EXP_M, &work->position);
+        }
+    }
+
+    if (work->userTimer == 0 && ((work->userFlag & SAILOBJECT_FLAG_2) | SAILOBJECT_FLAG_8) != 0)
+    {
+        VecFx32 splashPos;
+        SailObject_GetCollisionOffset(work, &splashPos);
+        VEC_Subtract(&work->position, &splashPos, &splashPos);
+
+        if ((work->userFlag & SAILOBJECT_FLAG_2) != 0)
+        {
+            if ((work->userFlag & SAILOBJECT_FLAG_4) != 0)
+            {
+                if (SailManager__GetShipType() == SHIP_SUBMARINE)
+                    SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_EXP_M, &work->position);
+                else
+                    SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_ENE_EXP_M, &work->position);
+            }
+
+            StageTask *explosion = EffectCreateSailBomb(&splashPos);
+
+            fx32 scale;
+            if (worker->collider[0].hitCheck.box.size.x > FLOAT_TO_FX32(3.0))
+            {
+                scale = MultiplyFX(explosion->scale.x, worker->collider[0].hitCheck.box.size.x - FLOAT_TO_FX32(2.0));
+
+                explosion->scale.x = scale;
+                explosion->scale.y = scale;
+                explosion->scale.z = scale;
+            }
+            else if (worker->collider[0].hitCheck.box.size.x > FLOAT_TO_FX32(1.0))
+            {
+                scale = MultiplyFX(explosion->scale.x, worker->collider[0].hitCheck.box.size.x - FLOAT_TO_FX32(0.5)) >> 1;
+
+                explosion->scale.x = scale;
+                explosion->scale.y = scale;
+                explosion->scale.z = scale;
+            }
+
+            if ((work->userFlag & SAILOBJECT_FLAG_20000) != 0)
+            {
+                scale = MultiplyFX(FLOAT_TO_FX32(2.875), scale);
+
+                explosion->scale.x = scale;
+                explosion->scale.y = scale;
+                explosion->scale.z = scale;
+
+                if (SailManager__GetShipType() == SHIP_SUBMARINE)
+                    SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_EXP_L, &work->position);
+                else
+                    SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_ENE_EXP_L, &work->position);
+
+                SailExplosionHazard__Create(&work->position);
+            }
+        }
+
+        if ((work->userFlag & SAILOBJECT_FLAG_8) != 0)
+        {
+            StageTask *waterSplash = EffectSailWater06__Create(&splashPos);
+
+            fx32 scale           = MultiplyFX(waterSplash->scale.x, FLOAT_TO_FX32(2.0));
+            waterSplash->scale.x = scale;
+            waterSplash->scale.y = scale;
+            waterSplash->scale.z = scale;
+        }
+
+        work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+    }
+
+    if (work->userTimer < 0)
+    {
+        if ((work->userFlag & SAILOBJECT_FLAG_4) == 0)
+            SailObject_CreateRingsForExplode1(work);
+        else
+            SailObject_CreateRingsForExplode2(work);
+
+        DestroyStageTask(work);
+    }
+
+    work->userTimer--;
 }
 
-void SailBuoy__SetupObject(StageTask *work)
+void SailBuoy_Action_Init(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
@@ -7178,43 +6057,43 @@ void SailBuoy__SetupObject(StageTask *work)
     {
         // case 0:
         default:
-            worker->field_138.x = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x60));
-            worker->field_138.y = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xF8));
-            worker->field_138.z = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x60));
+            worker->startEmissionColor.x = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x60));
+            worker->startEmissionColor.y = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xF8));
+            worker->startEmissionColor.z = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x60));
 
-            worker->field_144.x = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x40));
-            worker->field_144.y = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xA0));
-            worker->field_144.z = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x40));
+            worker->targetEmissionColor.x = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x40));
+            worker->targetEmissionColor.y = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xA0));
+            worker->targetEmissionColor.z = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x40));
             break;
 
         case 1:
-            worker->field_138.x = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xF8));
-            worker->field_138.y = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x50));
-            worker->field_138.z = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x28));
+            worker->startEmissionColor.x = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xF8));
+            worker->startEmissionColor.y = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x50));
+            worker->startEmissionColor.z = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x28));
 
-            worker->field_144.x = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x38));
-            worker->field_144.y = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x10));
-            worker->field_144.z = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x000));
+            worker->targetEmissionColor.x = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x38));
+            worker->targetEmissionColor.y = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x10));
+            worker->targetEmissionColor.z = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x000));
             break;
 
         case 2:
-            worker->field_138.x = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xF8));
-            worker->field_138.y = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xF8));
-            worker->field_138.z = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xF8));
+            worker->startEmissionColor.x = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xF8));
+            worker->startEmissionColor.y = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xF8));
+            worker->startEmissionColor.z = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xF8));
 
-            worker->field_144.x = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x28));
-            worker->field_144.y = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x40));
-            worker->field_144.z = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x50));
+            worker->targetEmissionColor.x = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x28));
+            worker->targetEmissionColor.y = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x40));
+            worker->targetEmissionColor.z = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x50));
             break;
     }
 
-    SetTaskState(work, SailBuoy__State_216BAC0);
+    SetTaskState(work, SailBuoy_State_Floating);
 
     work->userTimer = 0;
     work->userWork  = 0;
 }
 
-void SailBuoy__State_216BAC0(StageTask *work)
+void SailBuoy_State_Floating(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
@@ -7237,46 +6116,46 @@ void SailBuoy__State_216BAC0(StageTask *work)
         }
     }
 
-    s32 emissionR = ObjAlphaSet(worker->field_138.x, worker->field_144.x, work->userTimer);
-    s32 emissionG = ObjAlphaSet(worker->field_138.y, worker->field_144.y, work->userTimer);
-    s32 emissionB = ObjAlphaSet(worker->field_138.z, worker->field_144.z, work->userTimer);
+    s32 emissionR = ObjAlphaSet(worker->startEmissionColor.x, worker->targetEmissionColor.x, work->userTimer);
+    s32 emissionG = ObjAlphaSet(worker->startEmissionColor.y, worker->targetEmissionColor.y, work->userTimer);
+    s32 emissionB = ObjAlphaSet(worker->startEmissionColor.z, worker->targetEmissionColor.z, work->userTimer);
 
     GXRgb color = GX_RGB(FX32_TO_WHOLE(emissionR), FX32_TO_WHOLE(emissionG), FX32_TO_WHOLE(emissionB));
 
     NNS_G3dMdlSetMdlEmi(work->obj_3d->ani.renderObj.resMdl, 1, color);
     work->dir.y = worker->objectAngle;
-    SailObject__ApplyRotation(work);
+    SailObject_ApplyRotation(work);
 }
 
-void SailSeagull__SetupObject(StageTask *work)
+void SailUnusedSeagull_Action_Init(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
     SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
-    SailVoyageSegment *voyageSegment = &voyageManager->segmentList[FX32_TO_WHOLE(worker->objectRadius.z) >> 7];
+    SailVoyageSegment *voyageSegment = &voyageManager->segmentList[FX32_TO_WHOLE(worker->voyagePosition.z) >> 7];
 
-    SetTaskState(work, SailSeagull__State_216BD1C);
+    SetTaskState(work, SailUnusedSeagull_State_Flying);
 
     if (voyageSegment->targetSeaAngle != 0)
     {
         s32 range = 0x300 + ObjDispRandRepeat(0x200);
 
-        worker->field_17C.y = -64;
-        worker->field_17C.x = MultiplyFX(range, SinFX(voyageSegment->targetSeaAngle));
-        worker->field_17C.z = MultiplyFX(range, CosFX(voyageSegment->targetSeaAngle));
+        worker->voyageVelocity.y = -64;
+        worker->voyageVelocity.x = MultiplyFX(range, SinFX(voyageSegment->targetSeaAngle));
+        worker->voyageVelocity.z = MultiplyFX(range, CosFX(voyageSegment->targetSeaAngle));
     }
     else
     {
-        worker->field_17C.x = mtMathRandRange(-0x200, 0x200);
-        worker->field_17C.y = -64;
-        worker->field_17C.z = -ObjDispRandRepeat(0x400);
+        worker->voyageVelocity.x = mtMathRandRange(-0x200, 0x200);
+        worker->voyageVelocity.y = -64;
+        worker->voyageVelocity.z = -ObjDispRandRepeat(0x400);
     }
 
     work->userTimer = 32;
     work->userWork  = 0;
 }
 
-void SailSeagull__State_216BD1C(StageTask *work)
+void SailUnusedSeagull_State_Flying(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
@@ -7284,7 +6163,7 @@ void SailSeagull__State_216BD1C(StageTask *work)
 
     if (work->userWork != 0)
     {
-        worker->field_17C.y = ObjSpdUpSet(worker->field_17C.y, 16, 128);
+        worker->voyageVelocity.y = ObjSpdUpSet(worker->voyageVelocity.y, 16, 128);
         if (work->userTimer < 0)
         {
             work->userTimer = 32;
@@ -7293,7 +6172,7 @@ void SailSeagull__State_216BD1C(StageTask *work)
     }
     else
     {
-        worker->field_17C.y = ObjSpdUpSet(worker->field_17C.y, -16, 64);
+        worker->voyageVelocity.y = ObjSpdUpSet(worker->voyageVelocity.y, -16, 64);
         if (work->userTimer < 0)
         {
             work->userTimer = 32;
@@ -7301,70 +6180,70 @@ void SailSeagull__State_216BD1C(StageTask *work)
         }
     }
 
-    SailObject__Func_2166A2C(work);
+    SailObject_HandleVoyageVelocity(work);
 }
 
-void SailSeagull2__SetupObject(StageTask *work)
+void SailSeagull_Action_Init(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
     SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
-    SailVoyageSegment *voyageSegment = &voyageManager->segmentList[FX32_TO_WHOLE(worker->objectRadius.z) >> 7];
+    SailVoyageSegment *voyageSegment = &voyageManager->segmentList[FX32_TO_WHOLE(worker->voyagePosition.z) >> 7];
 
-    SetTaskState(work, SailSeagull2__State_216BF04);
+    SetTaskState(work, SailSeagull_State_Flying);
 
     if (voyageSegment->targetSeaAngle != 0)
     {
         s32 range = 0x300 + ObjDispRandRepeat(0x200);
 
-        worker->field_17C.y = 16;
-        worker->field_17C.x = MultiplyFX(range, SinFX(voyageSegment->targetSeaAngle));
-        worker->field_17C.z = MultiplyFX(range, CosFX(voyageSegment->targetSeaAngle));
+        worker->voyageVelocity.y = 16;
+        worker->voyageVelocity.x = MultiplyFX(range, SinFX(voyageSegment->targetSeaAngle));
+        worker->voyageVelocity.z = MultiplyFX(range, CosFX(voyageSegment->targetSeaAngle));
     }
     else
     {
-        worker->field_17C.x = mtMathRandRange(-0x100, 0x100);
-        worker->field_17C.y = 16;
+        worker->voyageVelocity.x = mtMathRandRange(-0x100, 0x100);
+        worker->voyageVelocity.y = 16;
 
-        worker->field_17C.z = -(ObjDispRandRepeat(0x40) + 128);
+        worker->voyageVelocity.z = -(ObjDispRandRepeat(0x40) + 128);
     }
 }
 
-void SailSeagull2__State_216BF04(StageTask *work)
+void SailSeagull_State_Flying(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
     work->dir.y = worker->objectAngle;
 
-    SailObject__ApplyRotation(work);
-    SailObject__Func_2166A2C(work);
+    SailObject_ApplyRotation(work);
+    SailObject_HandleVoyageVelocity(work);
 }
 
-void SailSeagull3__State_216BF2C(StageTask *work)
+void SailIslandSeagull_Action_Init(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
-    SetTaskState(work, SailSeagull3__State_216C03C);
+    SetTaskState(work, SailIslandSeagull_State_Flying);
 
     work->parentOffset.x = 4 * ObjDispRandRange(-FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(2.0));
     work->parentOffset.y -= FLOAT_TO_FX32(6.0) + ObjDispRandRepeat(FLOAT_TO_FX32(4.0));
     work->parentOffset.z = 4 * ObjDispRandRange(-FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(2.0));
 
     // TODO: clean this up
-    worker->field_134 = 639 - ObjDispRandRepeat(0x100 - 1);
-    work->userTimer   = 207 - ObjDispRandRepeat(0x20 - 1);
+    worker->voyageScrollSpeed = 639 - ObjDispRandRepeat(0x100 - 1);
+    work->userTimer           = 207 - ObjDispRandRepeat(0x20 - 1);
 
     work->dir.y = ObjDispRand();
 }
 
-void SailSeagull3__State_216C03C(StageTask *work)
+void SailIslandSeagull_State_Flying(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
     StageTask *parent        = work->parentObj;
     SailObject *parentWorker = GetStageTaskWorker(parent, SailObject);
 
-    work->position = parentWorker->field_10;
+    work->position = parentWorker->lookAtTo;
 
     fx32 scale    = FX_Div(parent->scale.x, 1024);
     work->scale.x = scale;
@@ -7373,29 +6252,29 @@ void SailSeagull3__State_216C03C(StageTask *work)
     NNS_G3dMdlSetMdlAlphaAll(work->obj_3d->ani.renderObj.resMdl, parent->obj_2dIn3d->ani.polygonAttr.alpha);
 
     work->userWork--;
-    work->velocity.y = _0218BC64[(work->userWork >> 2) & 0x7] >> 2;
+    work->velocity.y = oscillateTable[(work->userWork >> 2) & 0x7] >> 2;
 
     work->dir.y += work->userTimer;
 
-    work->velocity.x = MultiplyFX(worker->field_134, SinFX(work->dir.y));
-    work->velocity.z = MultiplyFX(worker->field_134, CosFX(work->dir.y));
+    work->velocity.x = MultiplyFX(worker->voyageScrollSpeed, SinFX(work->dir.y));
+    work->velocity.z = MultiplyFX(worker->voyageScrollSpeed, CosFX(work->dir.y));
     VEC_Add(&work->parentOffset, &work->velocity, &work->parentOffset);
 
     work->offset = work->parentOffset;
 
-    SailObject__ApplyRotation(work);
+    SailObject_ApplyRotation(work);
 }
 
-void SailSubFish__SetupObject(StageTask *work)
+void SailFish_Action_Init(StageTask *work)
 {
-    SetTaskState(work, SailSubFish__State_216C1E8);
+    SetTaskState(work, SailFish_State_Swimming);
     work->userTimer = 0;
 
     work->userWork = ObjDispRandRepeat(64) + 6;
     work->dir.y    = ObjDispRandRange(-FLOAT_DEG_TO_IDX(90.0), FLOAT_DEG_TO_IDX(90.0));
 }
 
-void SailSubFish__State_216C1E8(StageTask *work)
+void SailFish_State_Swimming(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
@@ -7411,21 +6290,21 @@ void SailSubFish__State_216C1E8(StageTask *work)
             work->dir.y = ObjRoopMove16(work->dir.y, FLOAT_DEG_TO_IDX(90.0), FLOAT_DEG_TO_IDX(2.8125));
     }
 
-    worker->field_17C.y += _0218BC64[(work->userWork >> 2) & 0x7] >> 1;
+    worker->voyageVelocity.y += oscillateTable[(work->userWork >> 2) & 0x7] >> 1;
 
-    worker->field_17C.x = MultiplyFX(FLOAT_TO_FX32(0.75), SinFX(work->dir.y));
-    worker->field_17C.z = MultiplyFX(FLOAT_TO_FX32(0.75), CosFX(work->dir.y));
-    SailObject__Func_2166A2C(work);
+    worker->voyageVelocity.x = MultiplyFX(FLOAT_TO_FX32(0.75), SinFX(work->dir.y));
+    worker->voyageVelocity.z = MultiplyFX(FLOAT_TO_FX32(0.75), CosFX(work->dir.y));
+    SailObject_HandleVoyageVelocity(work);
 
     u16 angleY  = work->dir.y;
     work->dir.y = -angleY;
-    SailObject__ApplyRotation(work);
+    SailObject_ApplyRotation(work);
     work->dir.y = angleY;
 }
 
-void SailSubFish2__SetupObject(StageTask *work)
+void SailIslandFish_Action_Init(StageTask *work)
 {
-    SetTaskState(work, SailSubFish2__State_216C458);
+    SetTaskState(work, SailIslandFish_State_Swimming);
 
     work->userTimer = ObjDispRandRepeat(128);
     work->userWork  = ObjDispRandRepeat(64) + 6;
@@ -7442,14 +6321,14 @@ void SailSubFish2__SetupObject(StageTask *work)
     work->dir.y = ObjDispRandRange(-FLOAT_TO_FX32(0.25), FLOAT_TO_FX32(0.25));
 }
 
-void SailSubFish2__State_216C458(StageTask *work)
+void SailIslandFish_State_Swimming(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
     StageTask *parent        = work->parentObj;
     SailObject *parentWorker = GetStageTaskWorker(parent, SailObject);
 
-    work->position = parentWorker->field_10;
+    work->position = parentWorker->lookAtTo;
 
     fx32 scale    = FX_Div(parent->scale.x, FLOAT_TO_FX32(0.25));
     work->scale.x = scale;
@@ -7459,47 +6338,47 @@ void SailSubFish2__State_216C458(StageTask *work)
     work->userWork--;
     work->userTimer++;
 
-    work->velocity.y  = _0218BC64[(work->userWork >> 2) & 0x7];
-    worker->field_134 = 2 * _0218BC64[(work->userTimer >> 3) & 0x7];
+    work->velocity.y          = oscillateTable[(work->userWork >> 2) & 0x7];
+    worker->voyageScrollSpeed = 2 * oscillateTable[(work->userTimer >> 3) & 0x7];
 
-    work->velocity.x = MultiplyFX(worker->field_134, CosFX(work->dir.y));
-    work->velocity.z = MultiplyFX(worker->field_134, SinFX(work->dir.y));
+    work->velocity.x = MultiplyFX(worker->voyageScrollSpeed, CosFX(work->dir.y));
+    work->velocity.z = MultiplyFX(worker->voyageScrollSpeed, SinFX(work->dir.y));
     VEC_Add(&work->parentOffset, &work->velocity, &work->parentOffset);
 
     work->offset = work->parentOffset;
 
-    SailObject__ApplyRotation(work);
+    SailObject_ApplyRotation(work);
 }
 
-void SailChaosEmerald__SetupObject(StageTask *work)
+void SailGoalChaosEmerald_Action_Init(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
     worker->player = SailManager__GetWork()->sailPlayer;
-    SetTaskState(work, SailChaosEmerald__State_216C5B0);
+    SetTaskState(work, SailGoalChaosEmerald_State_Idle);
     work->userTimer = 0;
     work->userWork  = 0;
 }
 
-void SailChaosEmerald__State_216C5B0(StageTask *work)
+void SailGoalChaosEmerald_State_Idle(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
     SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
     SailManager *manager             = SailManager__GetWork();
 
-    worker->field_17C.y = _0218BC64[(work->userTimer >> 2) & 0x7] >> 2;
+    worker->voyageVelocity.y = oscillateTable[(work->userTimer >> 2) & 0x7] >> 2;
     work->userTimer++;
 
-    SailObject__Func_2166A2C(work);
+    SailObject_HandleVoyageVelocity(work);
     work->dir.y = worker->objectAngle;
-    SailObject__ApplyRotation(work);
+    SailObject_ApplyRotation(work);
 
     if ((manager->flags & SAILMANAGER_FLAG_8) == 0)
     {
-        if (voyageManager->voyagePos > worker->objectRadius.z)
+        if (voyageManager->voyagePos > worker->voyagePosition.z)
         {
-            SailChaosEmerald__Func_216C650(work);
+            SailGoalChaosEmerald_Action_Grab(work);
         }
     }
     else
@@ -7508,20 +6387,20 @@ void SailChaosEmerald__State_216C5B0(StageTask *work)
     }
 }
 
-void SailChaosEmerald__Func_216C650(StageTask *work)
+void SailGoalChaosEmerald_Action_Grab(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
-    worker->player      = SailManager__GetWork()->sailPlayer;
-    worker->field_17C.y = 0;
-    SetTaskState(work, SailChaosEmerald__State_216C69C);
+    worker->player           = SailManager__GetWork()->sailPlayer;
+    worker->voyageVelocity.y = 0;
+    SetTaskState(work, SailGoalChaosEmerald_State_Grabbed);
     work->userTimer = 0;
     work->userWork  = 0;
 
     gameState.saveFile.chaosEmeraldID = SailManager__GetWork()->rivalRaceID;
 }
 
-void SailChaosEmerald__State_216C69C(StageTask *work)
+void SailGoalChaosEmerald_State_Grabbed(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
@@ -7545,31 +6424,31 @@ void SailChaosEmerald__State_216C69C(StageTask *work)
     }
 }
 
-void SailGoal__SetupObject(StageTask *work)
+void SailGoal_Action_Init(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
     worker->player = SailManager__GetWork()->sailPlayer;
-    SetTaskState(work, SailGoal__State_216C7E0);
+    SetTaskState(work, SailGoal_State_Active);
     work->userTimer = 0;
     work->userWork  = 0;
 }
 
-void SailGoal__State_216C7E0(StageTask *work)
+void SailGoal_State_Active(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
     SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
     SailManager *manager             = SailManager__GetWork();
 
-    worker->field_17C.y = _0218BC64[(work->userTimer >> 2) & 0x7] >> 2;
+    worker->voyageVelocity.y = oscillateTable[(work->userTimer >> 2) & 0x7] >> 2;
     work->userTimer++;
 
-    SailObject__Func_2166A2C(work);
+    SailObject_HandleVoyageVelocity(work);
     work->dir.y = worker->objectAngle;
-    SailObject__ApplyRotation(work);
+    SailObject_ApplyRotation(work);
 
-    if (voyageManager->voyagePos > worker->objectRadius.z)
+    if (voyageManager->voyagePos > worker->voyagePosition.z)
     {
         fx32 scale = ObjShiftSet(work->scale.x, FLOAT_TO_FX32(8.0), 1, FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0625));
         if (!work->userWork)
@@ -7593,31 +6472,31 @@ void SailGoal__State_216C7E0(StageTask *work)
     }
 }
 
-void SailGoalText__SetupObject(StageTask *work)
+void SailGoalText_Action_Init(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
     worker->player = SailManager__GetWork()->sailPlayer;
-    SetTaskState(work, SailGoalText__State_216C8F8);
+    SetTaskState(work, SailGoalText_State_Active);
     work->userTimer = 0;
 }
 
-void SailGoalText__State_216C8F8(StageTask *work)
+void SailGoalText_State_Active(StageTask *work)
 {
     SailObject *worker = GetStageTaskWorker(work, SailObject);
 
     SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
 
-    worker->field_17C.y = _0218BC64[(work->userTimer >> 2) & 0x7] >> 2;
+    worker->voyageVelocity.y = oscillateTable[(work->userTimer >> 2) & 0x7] >> 2;
     work->userTimer++;
 
-    SailObject__Func_2166A2C(work);
+    SailObject_HandleVoyageVelocity(work);
 
     if (voyageManager->voyagePos > work->userWork)
         DestroyStageTask(work);
 }
 
-void SailItemBonus__GiveItem(StageTask *work, StageTask *object)
+void SailItemBox_GiveItem(StageTask *work, StageTask *object)
 {
     StageTask *player;
     SailPlayer *playerWorker;
@@ -7735,16 +6614,16 @@ void SailItemBonus__GiveItem(StageTask *work, StageTask *object)
             playerWorker->score = SAILPLAYER_MAX_SCORE;
     }
 
-    SailItemBonus__Create(work, work->userWork);
+    CreateSailItemBoxRewardText(work, work->userWork);
 
     if (SailManager__GetShipType() == SHIP_BOAT || SailManager__GetShipType() == SHIP_SUBMARINE)
-        EffectSailBomb__Create(&work->position);
+        EffectCreateSailBomb(&work->position);
 
     work->flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     QueueDestroyStageTask(work);
 }
 
-void SailItemBonus__State_216CBF8(StageTask *work)
+void SailItemBoxRewardText_State_Active(StageTask *work)
 {
     if (work->userTimer > 6)
         work->velocity.y = ObjSpdDownSet(work->velocity.y, FLOAT_TO_FX32(0.046875));

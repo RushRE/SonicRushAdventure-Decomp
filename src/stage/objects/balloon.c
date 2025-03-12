@@ -77,7 +77,7 @@ Balloon *CreateBalloon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     AnimatorSpriteDS *aniBalloon = &work->aniBalloon;
     ObjAction2dBACLoad(aniBalloon, "/act/ac_gmk_balloon.bac", 26, GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage);
     aniBalloon->work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
-    aniBalloon->work.cParam.palette      = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 0, 97);
+    aniBalloon->work.cParam.palette = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 0, 97);
     aniBalloon->cParam[0].palette = aniBalloon->cParam[1].palette = aniBalloon->work.cParam.palette;
     aniBalloon->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     StageTask__SetOAMOrder(&aniBalloon->work, SPRITE_ORDER_23);
@@ -86,7 +86,7 @@ Balloon *CreateBalloon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     AnimatorSpriteDS *aniCrystal = &work->aniCrystal;
     ObjAction2dBACLoad(aniCrystal, "/act/ac_gmk_balloon.bac", 2, GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage);
-    aniCrystal->work.cParam.palette      = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 1, 97);
+    aniCrystal->work.cParam.palette = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 1, 97);
     aniCrystal->cParam[0].palette = aniCrystal->cParam[1].palette = aniCrystal->work.cParam.palette;
     aniCrystal->work.flags                                        = aniCrystal->work.flags | ANIMATOR_FLAG_DISABLE_PALETTES;
     StageTask__SetOAMOrder(&aniCrystal->work, SPRITE_ORDER_23);
@@ -136,8 +136,7 @@ Balloon *CreateBalloon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
 void BalloonSpawner_State_Active(BalloonSpawner *work)
 {
-    if (work->balloon != NULL
-        && ((work->balloon->gameWork.objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) != 0 || work->balloon->gameWork.objWork.parentObj == NULL))
+    if (work->balloon != NULL && (IsStageTaskDestroyedAny(&work->balloon->gameWork.objWork) || work->balloon->gameWork.objWork.parentObj == NULL))
     {
         work->balloon                    = NULL;
         work->gameWork.objWork.userTimer = 180 - 3 * work->gameWork.mapObject->left;

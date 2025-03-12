@@ -300,7 +300,7 @@ void BouncyMushroom_Collide(void)
     BouncyMushroom *work = TaskGetWorkCurrent(BouncyMushroom);
 
     OBS_RECT_WORK *colliderList = work->colliders;
-    if ((work->gameWork.objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0 && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0)
+    if (!IsStageTaskDestroyedAny(&work->gameWork.objWork) && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0)
     {
         if (work->gameWork.collisionObject.work.parent && !StageTask__ViewOutCheck(work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, 32, 0, 0, 0, 0))
         {

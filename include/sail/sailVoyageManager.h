@@ -11,6 +11,8 @@
 
 #define SAILVOYAGEMANAGER_SEGMENT_LIST_SIZE 0x100
 
+#define SAILVOYAGEMANAGER_MAX_VISIBLE_ISLANDS 5
+
 // --------------------
 // ENUMS
 // --------------------
@@ -121,9 +123,9 @@ typedef struct SailVoyageManager_
     SailVoyageSegment *segmentList;
     s32 field_C4;
     s32 field_C8;
-    SeaMapEventManagerUnknown2046B14 field_CC[5];
-    u16 field_F4[5];
-    u16 field_FE;
+    SeaMapVoyageVisibleIsland visibleIslandList[SAILVOYAGEMANAGER_MAX_VISIBLE_ISLANDS];
+    u16 visibleIslandIDList[SAILVOYAGEMANAGER_MAX_VISIBLE_ISLANDS];
+    u16 visibleIslandCount;
 } SailVoyageManager;
 
 // --------------------
@@ -146,10 +148,10 @@ s32 SailVoyageManager__GetSegmentSize(SailVoyageSegment *segment);
 void SailVoyageManager__Main(void);
 void SailVoyageManager__Func_2157C34(SailVoyageManager *work);
 void SailVoyageManager__LoadSegment(SailVoyageManager *work, u8 type);
-void SailVoyageManager__Func_2158234(SailVoyageManager *work);
+void SailVoyageManager__FindVisibleIslands(SailVoyageManager *work);
 void SailVoyageManager__InitSegmentList(SailVoyageManager *work);
 void SailVoyageManager__Func_215868C(Vec2Fx32 *a1, Vec2Fx32 *a2, Vec2Fx32 *a3, Vec2Fx32 *a4, Vec2Fx32 *a5);
 u16 SailVoyageManager__GetAngleForSegmentPos(SailVoyageSegment *segment, s32 segmentPos);
-void SailVoyageManager__Func_2158888(SailVoyageSegment *segment, s32 a2, fx32 *x, fx32 *z);
+void SailVoyageManager__Func_2158888(SailVoyageSegment *segment, s32 range, fx32 *x, fx32 *z);
 
 #endif // !RUSH_SAILVOYAGEMANAGER_H

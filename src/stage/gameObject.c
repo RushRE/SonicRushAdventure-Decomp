@@ -122,7 +122,7 @@ u8 StageTask__DefaultDiffData[512] = {
 void GameObject__InitFromObject(GameObjectTask *work, MapObject *mapObject, fx32 x, fx32 y)
 {
 #ifndef NON_MATCHING
-	// dunno what this is, it's unreferenced and uncompiled but it's the only way I've gotten atkFlags & defFlags to match
+    // dunno what this is, it's unreferenced and uncompiled but it's the only way I've gotten atkFlags & defFlags to match
     static u8 __UNKNOWN__[1];
 #endif
 
@@ -237,7 +237,8 @@ GameObjectTask *GameObject__SpawnObject(s32 id, fx32 x, fx32 y, u16 flags, s8 le
     return work;
 }
 
-NONMATCH_FUNC void GameObject__ProcessRecievedPackets_ItemBox(void){
+NONMATCH_FUNC void GameObject__ProcessRecievedPackets_ItemBox(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -469,7 +470,7 @@ void GameObject__SendPacket(GameObjectTask *work, Player *player, GameObjectPack
 
 NONMATCH_FUNC void GameObject__SpawnExplosion(GameObjectTask *work)
 {
-	// https://decomp.me/scratch/tNoAG -> 82.90%
+    // https://decomp.me/scratch/dP22X -> 95.55%
 #ifdef NON_MATCHING
     u32 moveFlag = STAGE_TASK_MOVE_FLAG_NONE;
 
@@ -477,14 +478,12 @@ NONMATCH_FUNC void GameObject__SpawnExplosion(GameObjectTask *work)
 
     if ((mapCamera.camera[0].flags & MAPSYS_CAMERA_FLAG_1000000) != 0 && mapCamera.camera[0].waterLevel < FX32_TO_WHOLE(work->objWork.position.y) - 64)
     {
-        CreateEffectWaterExplosion(&work->objWork, FLOAT_TO_FX32(16.0) + (FX32_FROM_WHOLE(mtMathRand() / 8)), -(FX32_FROM_WHOLE(mtMathRand() / 8)),
+        CreateEffectWaterExplosion(&work->objWork, FLOAT_TO_FX32(16.0) + FX32_FROM_WHOLE(mtMathRandRepeat(8)), -FX32_FROM_WHOLE(mtMathRandRepeat(8)), WATEREXPLOSION_BUBBLES);
+
+        CreateEffectWaterExplosion(&work->objWork, FLOAT_TO_FX32(3.0) - FX32_FROM_WHOLE(mtMathRandRepeat(8)), -FLOAT_TO_FX32(5.0) - FX32_FROM_WHOLE(mtMathRandRepeat(8)),
                                    WATEREXPLOSION_BUBBLES);
 
-        CreateEffectWaterExplosion(&work->objWork, FLOAT_TO_FX32(3.0) - (FX32_FROM_WHOLE(mtMathRand() / 8)), -FLOAT_TO_FX32(5.0) - (FX32_FROM_WHOLE(mtMathRand() / 8)),
-                                   WATEREXPLOSION_BUBBLES);
-
-        CreateEffectWaterExplosion(&work->objWork, -FLOAT_TO_FX32(16.0) - (FX32_FROM_WHOLE(mtMathRand() / 8)), -(FX32_FROM_WHOLE(mtMathRand() / 8)),
-                                   WATEREXPLOSION_BUBBLES);
+        CreateEffectWaterExplosion(&work->objWork, -FLOAT_TO_FX32(16.0) - FX32_FROM_WHOLE(mtMathRandRepeat(8)), -FX32_FROM_WHOLE(mtMathRandRepeat(8)), WATEREXPLOSION_BUBBLES);
 
         CreateEffectWaterExplosion(&work->objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), WATEREXPLOSION_BOMB);
     }
@@ -493,18 +492,17 @@ NONMATCH_FUNC void GameObject__SpawnExplosion(GameObjectTask *work)
         CreateEffectExplosion(&work->objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), EXPLOSION_ENEMY);
     }
 
-    u32 debrisType = mtMathRandRepeat(4);
+    u16 debrisType = mtMathRandRepeat(4);
 
     if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS) != 0 || (work->flags & GAMEOBJECT_FLAG_40000) != 0)
         moveFlag = STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    for (s16 d = 0; d < 2; d++)
+    s16 d;
+    for (d = 0; d < 2; d++)
     {
         EffectEnemyDebris *debris =
-            CreateEffectEnemyDebris(&work->objWork, FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(24.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(2.0), (debrisType & 3) + 4);
+            CreateEffectEnemyDebris(&work->objWork, FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(24.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(2.0), ((debrisType + d) & 3) + 4);
         debris->objWork.moveFlag |= moveFlag;
-
-        debrisType++;
     }
 #else
     // clang-format off
@@ -676,10 +674,8 @@ void GameObject__OnDestroyEnemy(GameObjectTask *work)
     }
 }
 
-NONMATCH_FUNC void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-	// https://decomp.me/scratch/aI5ZN -> 91.36%
-#ifdef NON_MATCHING
     GameObjectTask *enemy = (GameObjectTask *)rect2->parent;
     Player *player        = (Player *)rect1->parent;
 
@@ -742,14 +738,16 @@ NONMATCH_FUNC void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WOR
     {
         CreateEffectBattleBurst(ObjRect__HitCenterX(rect2, rect1), ObjRect__HitCenterY(rect2, rect1));
 
-        CreateEffectBattleBurst(ObjRect__HitCenterX(rect2, rect1) - (mtMathRand() / 2), ObjRect__HitCenterY(rect2, rect1) - (mtMathRand() / 2));
+        CreateEffectBattleBurst(ObjRect__HitCenterX(rect2, rect1) + mtMathRandRange(-FLOAT_TO_FX32(16.0), FLOAT_TO_FX32(16.0)),
+                                ObjRect__HitCenterY(rect2, rect1) + mtMathRandRange(-FLOAT_TO_FX32(16.0), FLOAT_TO_FX32(16.0)));
 
-        CreateEffectBattleBurst(ObjRect__HitCenterX(rect2, rect1) - (mtMathRand() / 2), ObjRect__HitCenterY(rect2, rect1) - (mtMathRand() / 2));
+        CreateEffectBattleBurst(ObjRect__HitCenterX(rect2, rect1) + mtMathRandRange(-FLOAT_TO_FX32(16.0), FLOAT_TO_FX32(16.0)),
+                                ObjRect__HitCenterY(rect2, rect1) + mtMathRandRange(-FLOAT_TO_FX32(16.0), FLOAT_TO_FX32(16.0)));
 
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ZAKO_DOWN);
         CreateEffectVitality(&enemy->objWork, 0, -FLOAT_TO_FX32(80.0), enemy->health);
         enemy->health--;
-        enemy->mapObject->param.u8[1]++;
+        enemy->mapObject->param.health++;
         enemy->blinkTimer            = 60;
         enemy->colliders[1].hitPower = 0;
         GameObject__SendPacket(enemy, player, GAMEOBJECT_PACKET_1);
@@ -766,249 +764,13 @@ NONMATCH_FUNC void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WOR
         if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
             Player__Action_DestroyAttackRecoil(player);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #8
-	mov r7, r1
-	ldr r5, [r7, #0x1c]
-	mov r8, r0
-	cmp r5, #0
-	ldr r6, [r8, #0x1c]
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	ldrb r0, [r5, #0x345]
-	cmp r0, #0
-	bne _020279F0
-	ldr r0, [r5, #0x1c]
-	tst r0, #0x1000
-	ldreq r0, [r5, #0x354]
-	orreq r0, r0, #0x10000
-	streq r0, [r5, #0x354]
-	ldr r0, [r5, #0x18]
-	orr r0, r0, #2
-	str r0, [r5, #0x18]
-	ldr r0, [r5, #0x230]
-	orr r0, r0, #0x800
-	str r0, [r5, #0x230]
-	ldr r0, [r5, #0x270]
-	orr r0, r0, #0x800
-	str r0, [r5, #0x270]
-	ldr r0, [r5, #0x2b0]
-	orr r0, r0, #0x800
-	str r0, [r5, #0x2b0]
-	ldr r0, [r5, #0x138]
-	cmp r0, #0
-	beq _020278BC
-	mov r1, #0
-	bl NNS_SndPlayerStopSeq
-_020278BC:
-	cmp r6, #0
-	beq _020279C0
-	ldrh r0, [r6, #0]
-	cmp r0, #1
-	bne _02027918
-	mov r0, r6
-	mov r1, #0x190
-	bl Player__GiveComboTension
-	ldr r0, =gameState
-	ldr r1, [r0, #0x14]
-	cmp r1, #3
-	ldreq r0, [r0, #0x70]
-	cmpeq r0, #0xc
-	bne _020279C0
-	ldr r0, [r5, #0x340]
-	ldrh r0, [r0, #2]
-	cmp r0, #0x114
-	bhs _020279C0
-	ldr r0, =playerGameStatus
-	ldrsh r1, [r0, #0xc8]
-	add r1, r1, #1
-	strh r1, [r0, #0xc8]
-	b _020279C0
-_02027918:
-	ldr r0, [r6, #0x11c]
-	cmp r0, #0
-	beq _020279C0
-	ldrh r1, [r0, #0]
-	mov r6, r0
-	cmp r1, #1
-	bne _020279C0
-	mov r1, #0x190
-	bl Player__GiveComboTension
-	mov r0, r5
-	mov r1, r6
-	bl GameObject__BoostImpactEnemy
-	ldr r0, [r6, #0x5d8]
-	tst r0, #0x80
-	beq _02027968
-	mov r0, #0x4000
-	str r0, [r6, #8]
-	str r0, [r6, #4]
-	str r0, [r5, #8]
-	str r0, [r5, #4]
-_02027968:
-	mov r0, r5
-	mov r1, r6
-	mov r2, #2
-	bl GameObject__SendPacket
-	ldr r0, =gameState
-	ldr r1, [r0, #0x14]
-	cmp r1, #3
-	ldreq r0, [r0, #0x70]
-	cmpeq r0, #0xc
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	ldr r0, [r5, #0x340]
-	ldrh r0, [r0, #2]
-	cmp r0, #0x114
-	addhs sp, sp, #8
-	ldmhsia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	ldr r0, =playerGameStatus
-	add sp, sp, #8
-	ldrsh r1, [r0, #0xc8]
-	add r1, r1, #1
-	strh r1, [r0, #0xc8]
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-_020279C0:
-	mov r0, r5
-	bl GameObject__SpawnExplosion
-	mov r0, r5
-	bl GameObject__OnDestroyEnemy
-	ldr r1, [r5, #0x18]
-	mov r0, r5
-	orr r3, r1, #8
-	mov r1, r6
-	mov r2, #2
-	str r3, [r5, #0x18]
-	bl GameObject__SendPacket
-	b _02027B8C
-_020279F0:
-	mov r0, r7
-	mov r1, r8
-	bl ObjRect__HitCenterX
-	mov r4, r0
-	mov r0, r7
-	mov r1, r8
-	bl ObjRect__HitCenterY
-	mov r1, r0
-	mov r0, r4
-	bl CreateEffectBattleBurst
-	ldr r3, =_mt_math_rand
-	ldr r1, =0x00196225
-	ldr r4, [r3, #0]
-	ldr r2, =0x3C6EF35F
-	mov r0, r7
-	mla r9, r4, r1, r2
-	mla r1, r9, r1, r2
-	str r1, [r3]
-	mov r2, r9, lsr #0x10
-	mov r9, r2, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r10, r1, lsl #0x10
-	mov r1, r8
-	bl ObjRect__HitCenterX
-	mov r4, r0
-	mov r0, r7
-	mov r1, r8
-	bl ObjRect__HitCenterY
-	mov r1, r0
-	ldr r2, =0x0001FFFE
-	and r0, r2, r10, lsr #16
-	rsb r0, r0, r2, lsr #1
-	add r0, r4, r0
-	and r3, r2, r9, lsr #16
-	rsb r2, r3, r2, lsr #1
-	add r1, r1, r2
-	bl CreateEffectBattleBurst
-	ldr r3, =_mt_math_rand
-	ldr r1, =0x00196225
-	ldr r4, [r3, #0]
-	ldr r2, =0x3C6EF35F
-	mov r0, r7
-	mla r9, r4, r1, r2
-	mla r1, r9, r1, r2
-	str r1, [r3]
-	mov r2, r9, lsr #0x10
-	mov r9, r2, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r10, r1, lsl #0x10
-	mov r1, r8
-	bl ObjRect__HitCenterX
-	mov r1, r8
-	mov r4, r0
-	mov r0, r7
-	bl ObjRect__HitCenterY
-	mov r3, r0
-	ldr r1, =0x0001FFFE
-	and r0, r1, r10, lsr #16
-	rsb r0, r0, r1, lsr #1
-	add r0, r4, r0
-	and r2, r1, r9, lsr #16
-	rsb r1, r2, r1, lsr #1
-	add r1, r3, r1
-	bl CreateEffectBattleBurst
-	mov r0, #0
-	str r0, [sp]
-	mov r1, #0x28
-	str r1, [sp, #4]
-	sub r1, r1, #0x29
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	mov r0, r5
-	mov r1, #0
-	sub r2, r1, #0x50000
-	ldrb r3, [r5, #0x345]
-	bl CreateEffectVitality
-	ldrb r0, [r5, #0x345]
-	add r2, r5, #0x300
-	mov r4, #0x3c
-	sub r0, r0, #1
-	strb r0, [r5, #0x345]
-	ldr r8, [r5, #0x340]
-	mov r0, r5
-	ldrb r7, [r8, #0xb]
-	mov r1, r6
-	add r3, r5, #0x200
-	add r5, r7, #1
-	strb r5, [r8, #0xb]
-	strh r4, [r2, #0x50]
-	mov r4, #0
-	mov r2, #1
-	strh r4, [r3, #0x84]
-	bl GameObject__SendPacket
-	cmp r6, #0
-	beq _02027B8C
-	ldrh r0, [r6, #0]
-	cmp r0, #1
-	bne _02027B8C
-	mov r0, r6
-	bl Player__Action_AttackRecoil
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-_02027B8C:
-	cmp r6, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	ldrh r0, [r6, #0]
-	cmp r0, #1
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	mov r0, r6
-	bl Player__Action_DestroyAttackRecoil
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-
-// clang-format on
-#endif
 }
 
 void GameObject__In_Default(void)
 {
     GameObjectTask *work = TaskGetWorkCurrent(GameObjectTask);
 
-    if (work->parent != NULL && (work->parent->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
+    if (work->parent != NULL && IsStageTaskDestroyed(work->parent))
         work->parent = NULL;
 
     GameObject__ProcessRecievedPackets(work);
@@ -1057,7 +819,7 @@ void GameObject__Collide_Default(void)
 {
     GameObjectTask *work = TaskGetWorkCurrent(GameObjectTask);
 
-    if ((work->objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0)
+    if (!IsStageTaskDestroyedAny(&work->objWork))
     {
         if (work->colliders[0].parent != NULL)
             StageTask__HandleCollider(&work->objWork, &work->colliders[0]);
@@ -1158,7 +920,8 @@ void GameObject__ReleaseTempObj(MapObject *obj)
     GameObject__TempObjBitfield[id >> 5] &= ~(1 << (id & 0x1F));
 }
 
-NONMATCH_FUNC void GameObject__ProcessRecievedPackets(GameObjectTask *work){
+NONMATCH_FUNC void GameObject__ProcessRecievedPackets(GameObjectTask *work)
+{
 #ifdef NON_MATCHING
 
 #else
