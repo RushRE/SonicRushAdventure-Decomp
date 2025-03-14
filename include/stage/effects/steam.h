@@ -4,6 +4,19 @@
 #include <stage/effectTask.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum EffectSteamType_
+{
+    EFFECTSTEAM_TYPE_LARGE,
+    EFFECTSTEAM_TYPE_SMALL,
+
+    EFFECTSTEAM_TYPE_COUNT,
+};
+typedef u8 EffectSteamType;
+
+// --------------------
 // STRUCTS
 // --------------------
 

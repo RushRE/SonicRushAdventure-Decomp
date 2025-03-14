@@ -10,13 +10,13 @@
 typedef struct PopSteam_
 {
     GameObjectTask gameWork;
-    OBS_ACTION2D_BAC_WORK animator;
+    OBS_ACTION2D_BAC_WORK aniCork;
     s16 steamSize;
-    s16 hitboxRight;
-    s32 duration1;
-    s32 timer1;
-    s32 duration2;
-    s32 timer2;
+    s16 steamPos;
+    s32 durationS;
+    s32 timerS;
+    s32 durationL;
+    s32 timerL;
 } PopSteam;
 
 // --------------------
@@ -24,10 +24,10 @@ typedef struct PopSteam_
 // --------------------
 
 PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-void PopSteam__Destructor(Task *work);
-void PopSteam__State_21668F8(PopSteam *work);
-void PopSteam__OnDefend_2166B6C(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void PopSteam__OnDefend_2166C34(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void PopSteam__Destructor(Task *task);
+void PopSteam__State_Active(PopSteam *work);
+void PopSteam__OnDefend_Steam(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void PopSteam__OnDefend_Cork(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void PopSteam__Draw(void);
 
 #endif // RUSH_POP_STEAM_H

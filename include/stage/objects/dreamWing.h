@@ -4,30 +4,38 @@
 #include <stage/gameObject.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum DreamWingPlayerFlag
+{
+    DREAMWING_PLAYERFLAG_NONE = 0x00,
+
+    DREAMWING_PLAYERFLAG_ALLOW_GRAVITY = 1 << 0,
+    DREAMWING_PLAYERFLAG_EXHAUST_ACTIVE = 1 << 1,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 
 typedef struct DreamWing_
 {
     GameObjectTask gameWork;
-    s32 field_364;
-    s32 field_368;
+    s32 playerBurstCount;
+    s32 burstSteamPuffTimer;
 } DreamWing;
 
-typedef struct DreamWingPart_
+typedef struct DreamWingHangChain_
 {
     GameObjectTask gameWork;
-} DreamWingPart;
+} DreamWingHangChain;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-DreamWing *DreamWing__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-DreamWingPart *DreamWingPart__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-
-void DreamWing__State_21671CC(DreamWing *work);
-void DreamWing__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void DreamWingPart__Draw(void);
+DreamWing *CreateDreamWing(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+DreamWingHangChain *CreateDreamWingHangChain(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
 #endif // RUSH_DREAM_WING_H

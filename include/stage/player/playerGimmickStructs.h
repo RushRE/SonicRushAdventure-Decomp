@@ -38,7 +38,7 @@ struct
 {
     fx32 topSpeedY;
     s32 burstTimer;
-    s32 timer2;
+    s32 exhaustTimer;
     fx32 startVelX;
 } dreamWing;
 

@@ -54,6 +54,7 @@
 #include <stage/objects/diveStand.h>
 #include <stage/objects/slingshot.h>
 #include <stage/objects/corkscrewPath.h>
+#include <stage/objects/dreamWing.h>
 
 // --------------------
 // TEMP
@@ -2876,11 +2877,11 @@ void Player__Action_DreamWing(Player *player, GameObjectTask *other, fx32 velX, 
         if (velY <= FLOAT_TO_FX32(0.0))
             player->gimmick.dreamWing.topSpeedY = FLOAT_TO_FX32(2.0);
 
-        player->objWork.position.x           = other->objWork.position.x;
-        player->objWork.position.y           = other->objWork.position.y + FLOAT_TO_FX32(16.0);
-        player->gimmick.dreamWing.burstTimer = burstDelay;
-        player->gimmick.dreamWing.timer2     = 0;
-        player->objWork.userFlag             = 0;
+        player->objWork.position.x             = other->objWork.position.x;
+        player->objWork.position.y             = other->objWork.position.y + FLOAT_TO_FX32(16.0);
+        player->gimmick.dreamWing.burstTimer   = burstDelay;
+        player->gimmick.dreamWing.exhaustTimer = 0;
+        player->objWork.userFlag               = DREAMWING_PLAYERFLAG_NONE;
 
         if ((other->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
             player->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
@@ -2946,14 +2947,14 @@ void Player__State_DreamWing(Player *work)
     {
         work->gimmick.dreamWing.burstTimer--;
         if (work->gimmick.dreamWing.burstTimer == 0)
-            work->objWork.userFlag |= 1;
+            work->objWork.userFlag |= DREAMWING_PLAYERFLAG_ALLOW_GRAVITY;
     }
-    else if ((work->objWork.userFlag & 1) != 0)
+    else if ((work->objWork.userFlag & DREAMWING_PLAYERFLAG_ALLOW_GRAVITY) != 0)
     {
         work->objWork.velocity.y += FLOAT_TO_FX32(0.1640625);
         if (work->objWork.velocity.y >= work->gimmick.dreamWing.topSpeedY)
         {
-            work->objWork.userFlag &= ~1;
+            work->objWork.userFlag &= ~DREAMWING_PLAYERFLAG_ALLOW_GRAVITY;
             work->objWork.velocity.y = work->gimmick.dreamWing.topSpeedY;
         }
     }
@@ -2961,18 +2962,18 @@ void Player__State_DreamWing(Player *work)
     if ((work->inputKeyPress & PAD_KEY_UP) != 0)
     {
         work->objWork.userWork++;
-        work->objWork.userFlag |= 2;
-        work->gimmick.dreamWing.timer2 = 15;
-        work->objWork.velocity.y       = -FLOAT_TO_FX32(5.0);
-        work->objWork.userFlag &= ~1;
+        work->objWork.userFlag |= DREAMWING_PLAYERFLAG_EXHAUST_ACTIVE;
+        work->gimmick.dreamWing.exhaustTimer = 15;
+        work->objWork.velocity.y             = -FLOAT_TO_FX32(5.0);
+        work->objWork.userFlag &= ~DREAMWING_PLAYERFLAG_ALLOW_GRAVITY;
         work->gimmick.dreamWing.burstTimer = 15;
     }
 
-    if (work->gimmick.dreamWing.timer2 != 0)
+    if (work->gimmick.dreamWing.exhaustTimer != 0)
     {
-        work->gimmick.dreamWing.timer2--;
-        if (work->gimmick.dreamWing.timer2 == 0)
-            work->objWork.userFlag &= ~2;
+        work->gimmick.dreamWing.exhaustTimer--;
+        if (work->gimmick.dreamWing.exhaustTimer == 0)
+            work->objWork.userFlag &= ~DREAMWING_PLAYERFLAG_EXHAUST_ACTIVE;
     }
 }
 

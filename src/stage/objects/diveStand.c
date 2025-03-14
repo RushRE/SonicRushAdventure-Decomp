@@ -7,7 +7,7 @@
 // CONSTANTS
 // --------------------
 
-#define DIVESTAND_DLLIST_SIZE 0x400
+#define DIVESTAND_DRAWLIST_SIZE 0x400
 
 // --------------------
 // FUNCTION DECLS
@@ -33,7 +33,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    work->drawData   = HeapAllocHead(HEAP_SYSTEM, DIVESTAND_DLLIST_SIZE);
+    work->drawData = HeapAllocHead(HEAP_SYSTEM, DIVESTAND_DRAWLIST_SIZE);
     work->dword70C = 4096;
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
@@ -62,7 +62,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
     work->gameWork.animator.ani.work.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
 
-    G3_BeginMakeDL(&work->drawList, work->drawData, DIVESTAND_DLLIST_SIZE);
+    G3_BeginMakeDL(&work->drawList, work->drawData, DIVESTAND_DRAWLIST_SIZE);
     G3C_PolygonAttr(&work->drawList, GX_LIGHTID_0, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, GX_COLOR_FROM_888(0xFF), GX_POLYGON_ATTR_MISC_NONE);
     G3C_TexPlttBase(&work->drawList, VRAMKEY_TO_KEY(work->aniDiveStand[0].animatorSprite.vramPalette) & 0x1FFFF, GX_TEXFMT_PLTT16);
     G3C_TexImageParam(&work->drawList, GX_TEXFMT_PLTT16, GX_TEXGEN_TEXCOORD, GX_TEXSIZE_S8, GX_TEXSIZE_T8, GX_TEXREPEAT_S, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS,
@@ -81,7 +81,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
         ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, 16, -16, -208, 192);
     ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
     ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], DiveStand__OnDefend_216AB68);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[0], DiveStand__OnDefend_DiveStandSolid);
 
     work->gameWork.colliders[1].parent = &work->gameWork.objWork;
     ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -8, -16, 8, 16);
@@ -90,7 +90,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
     work->gameWork.colliders[1].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
     ObjRect__SetAttackStat(&work->gameWork.colliders[1], 0, 0);
     ObjRect__SetDefenceStat(&work->gameWork.colliders[1], ~1, 0);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[1], DiveStand__OnDefend_216AC14);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[1], DiveStand__OnDefend_DiveTrigger);
     work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_400;
 
     work->gameWork.objWork.collisionObj           = NULL;
@@ -104,7 +104,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
     work->gameWork.collisionObject.work.ofst_y = 0;
 
     SetTaskOutFunc(&work->gameWork.objWork, DiveStand__Draw);
-    SetTaskState(&work->gameWork.objWork, DiveStand__State_216A020);
+    SetTaskState(&work->gameWork.objWork, DiveStand__State_Active);
 
     return work;
 #else
@@ -324,7 +324,7 @@ _02169E2C:
 	add r0, r6, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, =DiveStand__OnDefend_216AB68
+	ldr r1, =DiveStand__OnDefend_DiveStandSolid
 	mov r2, #0x10
 	str r1, [r6, #0x23c]
 	str r6, [r6, #0x274]
@@ -351,7 +351,7 @@ _02169E2C:
 	add r0, r6, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, =DiveStand__OnDefend_216AC14
+	ldr r0, =DiveStand__OnDefend_DiveTrigger
 	mov r2, #0
 	str r0, [r6, #0x27c]
 	ldr r1, [r6, #0x270]
@@ -376,7 +376,7 @@ _02169E2C:
 	mov r1, #0
 	strh r1, [r0, #0xf2]
 	ldr r2, =DiveStand__Draw
-	ldr r1, =DiveStand__State_216A020
+	ldr r1, =DiveStand__State_Active
 	str r2, [r6, #0xfc]
 	mov r0, r6
 	str r1, [r6, #0xf4]
@@ -389,7 +389,7 @@ _02169E2C:
 
 void DiveStand__Func_2169F6C(DiveStand *work)
 {
-    work->gameWork.flags &= ~5;
+    work->gameWork.flags &= ~(1 | 4);
 }
 
 void DiveStand__Destructor(Task *task)
@@ -423,9 +423,9 @@ void DiveStand__Destructor(Task *task)
     GameObject__Destructor(task);
 }
 
-NONMATCH_FUNC void DiveStand__State_216A020(DiveStand *work)
+NONMATCH_FUNC void DiveStand__State_Active(DiveStand *work)
 {
-	// https://decomp.me/scratch/jFmka -> 87.71%
+    // https://decomp.me/scratch/jFmka -> 87.71%
 #ifdef NON_MATCHING
     s32 i;
 
@@ -478,7 +478,7 @@ NONMATCH_FUNC void DiveStand__State_216A020(DiveStand *work)
 
             if ((work->gameWork.flags & 4) != 0)
             {
-                if (work->angles[22] == 0xFD60 && work->angles[0] == 0xFD60 && work->dword70C >= 6144)
+                if (work->angles[22] == 0xFD60 && work->angles[0] == 0xFD60 && work->dword70C >= FLOAT_TO_FX32(1.5))
                 {
                     work->gameWork.flags &= ~5;
                     work->gameWork.flags |= 8;
@@ -487,17 +487,17 @@ NONMATCH_FUNC void DiveStand__State_216A020(DiveStand *work)
                 else
                 {
                     work->dword70C += 64;
-                    if (work->dword70C > 6144)
-                        work->dword70C = 6144;
+                    if (work->dword70C > FLOAT_TO_FX32(1.5))
+                        work->dword70C = FLOAT_TO_FX32(1.5);
                 }
             }
             else
             {
-                if (work->dword70C > 4096)
+                if (work->dword70C > FLOAT_TO_FX32(1.0))
                 {
                     work->dword70C -= 64;
-                    if (work->dword70C < 4096)
-                        work->dword70C = 4096;
+                    if (work->dword70C < FLOAT_TO_FX32(1.0))
+                        work->dword70C = FLOAT_TO_FX32(1.0);
                 }
             }
         }
@@ -512,11 +512,11 @@ NONMATCH_FUNC void DiveStand__State_216A020(DiveStand *work)
         {
             BOOL moved = FALSE;
             s16 step   = -16;
-            if (work->dword70C > 4096)
+            if (work->dword70C > FLOAT_TO_FX32(1.0))
             {
                 work->dword70C -= 64;
-                if (work->dword70C < 4096)
-                    work->dword70C = 4096;
+                if (work->dword70C < FLOAT_TO_FX32(1.0))
+                    work->dword70C = FLOAT_TO_FX32(1.0);
             }
 
             if ((work->gameWork.flags & 8) != 0)
@@ -553,11 +553,11 @@ NONMATCH_FUNC void DiveStand__State_216A020(DiveStand *work)
         }
         else
         {
-            if (work->dword70C > 4096)
+            if (work->dword70C > FLOAT_TO_FX32(1.0))
             {
                 work->dword70C -= 64;
-                if (work->dword70C < 4096)
-                    work->dword70C = 4096;
+                if (work->dword70C < FLOAT_TO_FX32(1.0))
+                    work->dword70C = FLOAT_TO_FX32(1.0);
             }
         }
     }
@@ -569,38 +569,36 @@ NONMATCH_FUNC void DiveStand__State_216A020(DiveStand *work)
     if (work->gameWork.mapObject->id != MAPOBJECT_143)
         v29 = -v29;
 
-    VecFx32 vec;
-    VEC_Set(&vec, v29, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
+    VecFx32 upper;
+    VecFx32 lower;
+    VEC_Set(&upper, v29, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
 
     work->vertices[0][0] = v69;
     work->vertices[0][1] = v68;
 
-    MtxFx43 mtx;
-    MtxFx43 dest;
-    MtxFx43 src;
-    MTX_Identity43(&mtx);
-    MI_CpuCopy32(&mtx, &dest, sizeof(dest));
-    MI_CpuCopy32(&mtx, &src, sizeof(src));
-    MTX_TransApply43(&src, &src, vec.x, vec.y, vec.z);
+    MtxFx43 mtxIdentity;
+    MtxFx43 mtxSegment;
+    MtxFx43 mtxVertex;
+    MtxFx43 mtxTranslate;
+    MTX_Identity43(&mtxIdentity);
+    MI_CpuCopy32(&mtxIdentity, &mtxVertex, sizeof(mtxVertex));
+    MI_CpuCopy32(&mtxIdentity, &mtxTranslate, sizeof(mtxTranslate));
+    MTX_TransApply43(&mtxTranslate, &mtxTranslate, upper.x, upper.y, upper.z);
 
     {
-        MtxFx43 v64;
-
         VecFx32 *vertices = &work->vertices[1][0];
         u16 *angles       = &work->angles[0];
         if (work->gameWork.mapObject->id == MAPOBJECT_143)
         {
             for (i = 0; i < 24; i++)
             {
-                VecFx32 vector;
-
-                MI_CpuCopy32(&mtx, &v64, sizeof(v64));
-                VEC_Set(&vec, MultiplyFX(CosFX(*angles), v29), -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
-                MTX_MultVec43(&vec, &dest, &vertices[0]);
-                MTX_MultVec43(&vector, &dest, &vertices[1]);
-                MTX_RotZ33((MtxFx33 *)&v64, SinFX(*angles), CosFX(*angles));
-                MTX_Concat43(&v64, &src, &v64);
-                MTX_Concat43(&v64, &dest, &dest);
+                MI_CpuCopy32(&mtxIdentity, &mtxSegment, sizeof(mtxSegment));
+                VEC_Set(&lower, MultiplyFX(CosFX(*angles), v29), -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
+                MTX_MultVec43(&upper, &mtxVertex, &vertices[0]);
+                MTX_MultVec43(&lower, &mtxVertex, &vertices[1]);
+                MTX_RotZ33((MtxFx33 *)&mtxSegment, SinFX(*angles), CosFX(*angles));
+                MTX_Concat43(&mtxSegment, &mtxTranslate, &mtxSegment);
+                MTX_Concat43(&mtxSegment, &mtxVertex, &mtxVertex);
 
                 angles++;
                 vertices += 2;
@@ -610,15 +608,13 @@ NONMATCH_FUNC void DiveStand__State_216A020(DiveStand *work)
         {
             for (i = 0; i < 24; i++)
             {
-                VecFx32 vector;
-
-                MI_CpuCopy32(&mtx, &v64, sizeof(v64));
-                VEC_Set(&vec, MultiplyFX(CosFX(*angles), v29), -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
-                MTX_MultVec43(&vec, &dest, &vertices[0]);
-                MTX_MultVec43(&vector, &dest, &vertices[1]);
-                MTX_RotZ33((MtxFx33 *)&v64, SinFX((s32)(u16) - *angles), CosFX((s32)(u16) - *angles));
-                MTX_Concat43(&v64, &src, &v64);
-                MTX_Concat43(&v64, &dest, &dest);
+                MI_CpuCopy32(&mtxIdentity, &mtxSegment, sizeof(mtxSegment));
+                VEC_Set(&lower, MultiplyFX(CosFX(*angles), v29), -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
+                MTX_MultVec43(&upper, &mtxVertex, &vertices[0]);
+                MTX_MultVec43(&lower, &mtxVertex, &vertices[1]);
+                MTX_RotZ33((MtxFx33 *)&mtxSegment, SinFX((s32)(u16) - *angles), CosFX((s32)(u16) - *angles));
+                MTX_Concat43(&mtxSegment, &mtxTranslate, &mtxSegment);
+                MTX_Concat43(&mtxSegment, &mtxVertex, &mtxVertex);
 
                 angles++;
                 vertices += 2;
@@ -655,14 +651,13 @@ NONMATCH_FUNC void DiveStand__State_216A020(DiveStand *work)
             {
                 s32 v = 0;
 
-                VecFx32 *vertices    = &work->vertices[0][0];
                 VecFx32 *firstVertex = work->vertices[1];
-                fx32 lastVertexX     = work->vertices[24][0].x;
+                VecFx32 *vertices    = &work->vertices[0][0];
                 u16 angle            = 0;
 
                 if (work->gameWork.mapObject->id == MAPOBJECT_143)
                 {
-                    collisionObject->ofst_x = (lastVertexX >> 9) - 192;
+                    collisionObject->ofst_x = (work->vertices[24][0].x) - 192;
                     for (; v < 24; v++)
                     {
                         if (distance <= 8 * firstVertex->x)
@@ -684,7 +679,7 @@ NONMATCH_FUNC void DiveStand__State_216A020(DiveStand *work)
                 }
                 else
                 {
-                    collisionObject->ofst_x = lastVertexX >> 9;
+                    collisionObject->ofst_x = work->vertices[24][0].x >> 9;
                     for (; v < 24; v++)
                     {
                         if (distance >= 8 * firstVertex->x)
@@ -1344,7 +1339,7 @@ void DiveStand__Draw(void)
     NNS_G3dGeSendDL(work->drawData, G3_GetDLSize(&info));
 
     s32 i;
-    if ((work->gameWork.flags & 0xF) == 0)
+    if ((work->gameWork.flags & (1 | 2 | 4 | 8)) == 0)
     {
         VecFx32 position = work->gameWork.objWork.position;
 
@@ -1368,7 +1363,7 @@ void DiveStand__Draw(void)
     }
 }
 
-void DiveStand__OnDefend_216AB68(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void DiveStand__OnDefend_DiveStandSolid(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     DiveStand *diveStand = (DiveStand *)rect2->parent;
     Player *player       = (Player *)rect1->parent;
@@ -1405,13 +1400,13 @@ void DiveStand__OnDefend_216AB68(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     else
     {
         Player__Action_DiveStandStood(player, &diveStand->gameWork);
-        diveStand->gameWork.flags |= 3;
+        diveStand->gameWork.flags |= 1 | 2;
         diveStand->gameWork.flags &= ~8;
         diveStand->gameWork.collisionObject.work.parent = NULL;
     }
 }
 
-void DiveStand__OnDefend_216AC14(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void DiveStand__OnDefend_DiveTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     DiveStand *diveStand = (DiveStand *)rect2->parent;
     Player *player       = (Player *)rect1->parent;

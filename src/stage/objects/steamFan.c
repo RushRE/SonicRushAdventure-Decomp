@@ -178,7 +178,7 @@ void SteamFan_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         fan->gameWork.parent = &player->objWork;
         fan->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         fan->gameWork.objWork.dir.z = FX_Atan2Idx(player->objWork.position.y - fan->gameWork.objWork.position.y, player->objWork.position.x - fan->gameWork.objWork.position.x);
-        Player__Action_SteamFan(player, &fan->gameWork, (fan->gameWork.mapObjectParam_radius << 11) + FLOAT_DEG_TO_IDX(135.0));
+        Player__Action_SteamFan(player, &fan->gameWork, (fan->gameWork.mapObjectParam_radius << 11) + FLOAT_TO_FX32(6.0));
     }
 }
 

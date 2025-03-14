@@ -9,8 +9,13 @@
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED void *PopSteam__offsetTable;
-	
+static const Vec2Fx16 PopSteam__offsetTable[4] = {
+    { -16, -28 },
+    { -16, -28 },
+    { -4, -16 },
+    { -4, -16 },
+};
+
 NOT_DECOMPILED void *aActAcGmkPopSte;
 
 // --------------------
@@ -19,10 +24,160 @@ NOT_DECOMPILED void *aActAcGmkPopSte;
 
 NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
+    // https://decomp.me/scratch/Xo0hU -> 85.79%
 #ifdef NON_MATCHING
+    Task *task;
+    PopSteam *work;
 
+    s16 popSteamType = 0;
+
+    task = CreateStageTask(PopSteam__Destructor, TASK_FLAG_NONE, TASK_PAUSELEVEL_0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), PopSteam);
+    if (task == HeapNull)
+        return NULL;
+
+    work = TaskGetWork(task, PopSteam);
+    TaskInitWork8(work);
+
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    work->gameWork.objWork.sequencePlayerPtr = AllocSndHandle();
+
+    if (mapObject->id >= MAPOBJECT_86)
+        popSteamType++;
+
+    work->steamSize = 8 * mapObject->left + 120;
+    work->steamSize = ClampS32(work->steamSize, 120, 256);
+
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+
+    if (mapObject->id == MAPOBJECT_86)
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+
+    if (mapObject->id == MAPOBJECT_85)
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
+
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.aniCork, "/act/ac_gmk_pop_steam.bac", GetObjectFileWork(OBJDATAWORK_170), gameArchiveStage,
+                             OBJ_DATA_GFX_NONE);
+    ObjObjectActionAllocSprite(&work->gameWork.objWork, 2, GetObjectSpriteRef(2 * popSteamType + OBJDATAWORK_171));
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 34);
+    StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
+    StageTask__SetAnimation(&work->gameWork.objWork, 2 * popSteamType + 1);
+
+    if ((mapObject->flags & 1) != 0)
+    {
+        AnimatorSpriteDS *aniCork = &work->aniCork.ani;
+
+        ObjAction2dBACLoad(aniCork, "/act/ac_gmk_pop_steam.bac", OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_170), gameArchiveStage);
+        StageTask__SetOAMOrder(&aniCork->work, SPRITE_ORDER_23);
+        StageTask__SetOAMPriority(&aniCork->work, SPRITE_PRIORITY_2);
+        aniCork->screensToDraw |= SCREEN_DRAW_11 | SCREEN_DRAW_4;
+        AnimatorSpriteDS__SetAnimation(aniCork, 2 * popSteamType);
+
+        aniCork->cParam[1].palette = aniCork->cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+        aniCork->work.cParam.palette                            = aniCork->cParam[0].palette;
+
+        work->gameWork.objWork.collisionObj           = NULL;
+        work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
+        work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
+        work->gameWork.collisionObject.work.width     = 32;
+        work->gameWork.collisionObject.work.height    = 32;
+        work->gameWork.collisionObject.work.ofst_x    = PopSteam__offsetTable[mapObject->id - MAPOBJECT_84].x;
+        work->gameWork.collisionObject.work.ofst_y    = PopSteam__offsetTable[mapObject->id - MAPOBJECT_84].y;
+
+        ObjRect__SetAttackStat(work->gameWork.colliders, 0, 0);
+        ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0);
+        ObjRect__SetOnDefend(&work->gameWork.colliders[0], PopSteam__OnDefend_Cork);
+
+        work->gameWork.flags |= 1;
+    }
+    else
+    {
+        work->gameWork.colliders[1].parent = &work->gameWork.objWork;
+
+        if (mapObject->id == MAPOBJECT_86 || (s32)mapObject->id == MAPOBJECT_87)
+            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, 0, -16, work->steamSize, 16);
+        else
+            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -16, -work->steamSize, 16, 0);
+
+        work->steamPos = work->steamSize;
+        work->gameWork.flags |= 2;
+        PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_STEAM);
+        ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
+    }
+
+    ObjRect__SetAttackStat(&work->gameWork.colliders[1], 0, 0);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], ~1, 0);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[1], PopSteam__OnDefend_Steam);
+    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_400;
+
+    u16 steamEffectType = EFFECTSTEAM_TYPE_LARGE;
+
+    fx32 duration   = FX_DivS32(FLOAT_TO_FX32(48.0), (work->gameWork.mapObject->top << (FX32_SHIFT - 1)) + FLOAT_TO_FX32(4.0)) << 12;
+    work->durationS = duration;
+    work->durationL = duration;
+    work->timerL    = duration >> 1;
+
+    fx32 steamTimerStep = FX32_TO_WHOLE(duration >> 1);
+    fx32 force          = (mapObject->top << (FX32_SHIFT - 1)) + FLOAT_TO_FX32(6.0);
+    fx32 steamSpawnX    = work->gameWork.objWork.position.x;
+    fx32 steamSpawnY    = work->gameWork.objWork.position.y;
+    fx32 steamOffsetX   = FLOAT_TO_FX32(0.0);
+    fx32 steamOffsetY   = FLOAT_TO_FX32(0.0);
+    fx32 steamVelX      = FLOAT_TO_FX32(0.0);
+    fx32 steamVelY      = FLOAT_TO_FX32(0.0);
+    fx32 steamStepX     = FLOAT_TO_FX32(0.0);
+    fx32 steamStepY     = FLOAT_TO_FX32(0.0);
+
+    switch (mapObject->id)
+    {
+        case MAPOBJECT_87:
+            steamStepX   = force * steamTimerStep;
+            steamVelX    = force;
+            steamOffsetX = FLOAT_TO_FX32(16.0);
+            break;
+
+        case MAPOBJECT_86:
+        default:
+            steamVelX    = -force;
+            steamStepX   = -force * steamTimerStep;
+            steamOffsetX = -FLOAT_TO_FX32(16.0);
+            break;
+
+        case MAPOBJECT_84:
+            steamStepY   = -force * steamTimerStep;
+            steamVelY    = -force;
+            steamOffsetY = -FLOAT_TO_FX32(16.0);
+            break;
+
+        case MAPOBJECT_85:
+            steamStepY   = force * steamTimerStep;
+            steamVelY    = force;
+            steamOffsetY = FLOAT_TO_FX32(16.0);
+            break;
+    }
+
+    s32 v27         = FX_DivS32(FX32_FROM_WHOLE(work->steamPos), force);
+    fx32 steamTimer = FX32_FROM_WHOLE(v27);
+
+    s32 i = FX_DivS32(v27, steamTimerStep);
+    while (i > 0)
+    {
+        EffectSteamEffect__Create(steamEffectType, steamSpawnX + steamOffsetX, steamSpawnY + steamOffsetY, steamVelX, steamVelY, steamTimer);
+        steamEffectType ^= 1;
+        steamOffsetY += steamStepY;
+        steamOffsetX += steamStepX;
+        steamTimer -= FX32_FROM_WHOLE(steamTimerStep);
+        i--;
+    }
+
+    SetTaskOutFunc(&work->gameWork.objWork, PopSteam__Draw);
+    SetTaskState(&work->gameWork.objWork, PopSteam__State_Active);
+
+    return work;
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	mov r3, #0x1800
@@ -189,7 +344,7 @@ _02166454:
 	mov r1, #1
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, =PopSteam__OnDefend_2166C34
+	ldr r0, =PopSteam__OnDefend_Cork
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x354]
 	orr r0, r0, #1
@@ -250,7 +405,7 @@ _021666D8:
 	add r0, r4, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, =PopSteam__OnDefend_2166B6C
+	ldr r1, =PopSteam__OnDefend_Steam
 	mov r0, #0x30000
 	str r1, [r4, #0x27c]
 	ldr r1, [r4, #0x270]
@@ -349,7 +504,7 @@ _02166858:
 	cmp r5, #0
 	bgt _02166810
 	ldr r0, =PopSteam__Draw
-	ldr r1, =PopSteam__State_21668F8
+	ldr r1, =PopSteam__State_Active
 	str r0, [r4, #0xfc]
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -360,42 +515,133 @@ _02166858:
 #endif
 }
 
-NONMATCH_FUNC void PopSteam__Destructor(Task *work)
+void PopSteam__Destructor(Task *task)
 {
-#ifdef NON_MATCHING
+    PopSteam *work = TaskGetWork(task, PopSteam);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	bl GetTaskWork_
-	mov r4, r0
-	ldr r0, [r4, #0x340]
-	ldrh r0, [r0, #4]
-	tst r0, #1
-	beq _021668E0
-	mov r0, #0xaa
-	bl GetObjectFileWork
-	add r1, r4, #0x364
-	bl ObjAction2dBACRelease
-_021668E0:
-	ldr r0, [r4, #0x138]
-	mov r1, #0
-	bl NNS_SndPlayerStopSeq
-	mov r0, r5
-	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, pc}
+    if ((work->gameWork.mapObject->flags & 1) != 0)
+    {
+        ObjAction2dBACRelease(GetObjectFileWork(OBJDATAWORK_170), &work->aniCork.ani);
+    }
 
-// clang-format on
-#endif
+    StopStageSfx(work->gameWork.objWork.sequencePlayerPtr);
+
+    GameObject__Destructor(task);
 }
 
-NONMATCH_FUNC void PopSteam__State_21668F8(PopSteam *work)
+NONMATCH_FUNC void PopSteam__State_Active(PopSteam *work)
 {
+    // https://decomp.me/scratch/E7uW9 -> 99.24%
+    // very minor register issues
 #ifdef NON_MATCHING
+    if (work->gameWork.objWork.userTimer != 0)
+    {
+        work->gameWork.objWork.userTimer--;
 
+        if (work->gameWork.objWork.userTimer == 0)
+        {
+            work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_40000;
+        }
+        else if ((work->gameWork.colliders[1].flag & OBS_RECT_WORK_FLAG_40000) == 0)
+        {
+            work->gameWork.objWork.userTimer = 0;
+        }
+    }
+
+    if ((work->gameWork.flags & 4) != 0)
+    {
+        fx32 force = (work->gameWork.mapObject->top << (FX32_SHIFT - 1)) + FLOAT_TO_FX32(6.0);
+
+        force <<= 4;
+        force >>= 4;
+        work->steamPos += FX32_TO_WHOLE(force);
+
+        if (work->steamPos >= work->steamSize)
+        {
+            work->steamPos = work->steamSize;
+            work->gameWork.flags &= ~4;
+        }
+
+        if (work->gameWork.mapObject->id == MAPOBJECT_86 || work->gameWork.mapObject->id == MAPOBJECT_87)
+            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, 0, -16, work->steamPos, 16);
+        else
+            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -16, -work->steamPos, 16, 0);
+    }
+
+    if ((work->gameWork.flags & 2) != 0)
+    {
+        u16 type = 0xFFFF;
+
+        fx32 steamVelX;
+        fx32 steamVelY;
+
+        fx32 offsetX = FLOAT_TO_FX32(0.0);
+        fx32 offsetY = FLOAT_TO_FX32(0.0);
+
+        work->timerS += GetObjSpeed();
+        work->timerL += GetObjSpeed();
+
+        if (work->timerS >= work->durationS)
+        {
+			// spawn small puff
+            work->timerS = 0;
+            type         = EFFECTSTEAM_TYPE_SMALL;
+        }
+        else if (work->timerL >= work->durationL)
+        {
+			// spawn large puff
+            type         = EFFECTSTEAM_TYPE_LARGE;
+            work->timerL = 0;
+
+            offsetY = FX32_FROM_WHOLE((mtMathRand() & 0xF) - 7);
+        }
+
+        if (type != 0xFFFF)
+        {
+            MapObject *mapObject = work->gameWork.mapObject;
+
+            steamVelX = FLOAT_TO_FX32(0.0);
+            steamVelY = FLOAT_TO_FX32(0.0);
+
+            fx32 force = (mapObject->top << (FX32_SHIFT - 1)) + FLOAT_TO_FX32(6.0);
+            switch (mapObject->id)
+            {
+                case MAPOBJECT_86:
+                default:
+                    steamVelX = -force;
+
+                    offsetX = -FLOAT_TO_FX32(16.0);
+                    break;
+
+                case MAPOBJECT_87:
+                    steamVelX = force;
+
+                    offsetX = FLOAT_TO_FX32(16.0);
+                    break;
+
+                case MAPOBJECT_84:
+                    steamVelY = -force;
+
+                    offsetX = offsetY;
+                    offsetY = -FLOAT_TO_FX32(16.0);
+                    break;
+
+                case MAPOBJECT_85:
+                    steamVelY = force;
+
+                    offsetX = offsetY;
+                    offsetY = FLOAT_TO_FX32(16.0);
+                    break;
+            }
+
+            EffectSteamEffect__Create(type, work->gameWork.objWork.position.x + offsetX, work->gameWork.objWork.position.y + offsetY, steamVelX, steamVelY,
+                                      FX32_FROM_WHOLE(FX_DivS32(FX32_FROM_WHOLE(work->steamPos), force)));
+        }
+
+        ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
+    }
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r9, r0
@@ -567,246 +813,147 @@ _02166B48:
 #endif
 }
 
-NONMATCH_FUNC void PopSteam__OnDefend_2166B6C(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void PopSteam__OnDefend_Steam(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    PopSteam *popSteam = (PopSteam *)rect2->parent;
+    Player *player     = (Player *)rect1->parent;
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	ldr r4, [r1, #0x1c]
-	mov r2, #0
-	ldr r5, [r0, #0x1c]
-	cmp r4, #0
-	cmpne r5, #0
-	mov r3, r2
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5, #0]
-	cmp r0, #1
-	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r0, [r4, #0x340]
-	ldrsb r1, [r0, #7]
-	ldrh r0, [r0, #2]
-	mov r1, r1, lsl #0xb
-	sub r0, r0, #0x54
-	cmp r0, #3
-	add r1, r1, #0x6000
-	addls pc, pc, r0, lsl #2
-	b _02166BF4
-_02166BC8: // jump table
-	b _02166BD8 // case 0
-	b _02166BE0 // case 1
-	b _02166BE8 // case 2
-	b _02166BF0 // case 3
-_02166BD8:
-	rsb r3, r1, #0
-	b _02166BF4
-_02166BE0:
-	mov r3, r1
-	b _02166BF4
-_02166BE8:
-	rsb r2, r1, #0
-	b _02166BF4
-_02166BF0:
-	mov r2, r1
-_02166BF4:
-	add r0, r4, #0x400
-	ldrsh ip, [r0, #0x14]
-	mov r0, r5
-	mov r1, r4
-	mov ip, ip, lsl #0xc
-	str ip, [sp]
-	mov ip, #1
-	str ip, [sp, #4]
-	bl Player__Action_PopSteam
-	mov r0, r5
-	mov r1, r4
-	bl Player__Action_AllowTrickCombos
-	mov r0, #0x3c
-	str r0, [r4, #0x2c]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
+    fx32 velX = FLOAT_TO_FX32(0.0);
+    fx32 velY = FLOAT_TO_FX32(0.0);
 
-// clang-format on
-#endif
+    if (popSteam == NULL || player == NULL)
+        return;
+
+    if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
+        return;
+
+    MapObject *mapObject = popSteam->gameWork.mapObject;
+
+    fx32 force = (mapObject->top << (FX32_SHIFT - 1)) + FLOAT_TO_FX32(6.0);
+    switch (mapObject->id)
+    {
+        case MAPOBJECT_84:
+            velY = -force;
+            break;
+
+        case MAPOBJECT_85:
+            velY = force;
+            break;
+
+        case MAPOBJECT_86:
+            velX = -force;
+            break;
+
+        case MAPOBJECT_87:
+            velX = force;
+            break;
+    }
+
+    Player__Action_PopSteam(player, &popSteam->gameWork, velX, velY, FX32_FROM_WHOLE(popSteam->steamSize), 1);
+    Player__Action_AllowTrickCombos(player, &popSteam->gameWork);
+    popSteam->gameWork.objWork.userTimer = 60;
 }
 
-NONMATCH_FUNC void PopSteam__OnDefend_2166C34(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void PopSteam__OnDefend_Cork(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    PopSteam *popSteam = (PopSteam *)rect2->parent;
+    Player *player     = (Player *)rect1->parent;
 
-#else
-// clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #8
-	ldr r4, [r1, #0x1c]
-	ldr r0, [r0, #0x1c]
-	cmp r4, #0
-	cmpne r0, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	ldrh r1, [r0, #0]
-	cmp r1, #5
-	bne _02166C90
-	ldr r1, [r0, #0x11c]
-	cmp r1, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	ldrh r0, [r1, #0]
-	cmp r0, #1
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
-	ldr r0, [r1, #0x1c]
-	bic r0, r0, #4
-	str r0, [r1, #0x1c]
-	b _02166CBC
-_02166C90:
-	cmp r1, #1
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
-	ldr r1, [r0, #0x1c]
-	cmp r1, #0
-	moveq r1, #1
-	movne r1, #0
-	tst r1, #0x10
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
-	bl Player__Action_DestroyAttackRecoil
-_02166CBC:
-	mov r0, #3
-	bl ShakeScreen
-	mov r0, #0
-	str r0, [r4, #0x234]
-	ldr r1, [r4, #0x230]
-	bic r1, r1, #4
-	orr r1, r1, #0x800
-	str r1, [r4, #0x230]
-	str r0, [r4, #0x2d8]
-	ldr r1, [r4, #0x354]
-	bic r1, r1, #1
-	orr r1, r1, #6
-	str r1, [r4, #0x354]
-	str r4, [r4, #0x274]
-	ldr r1, [r4, #0x340]
-	ldr r5, [r4, #0x44]
-	ldrh r1, [r1, #2]
-	ldr r6, [r4, #0x48]
-	sub r1, r1, #0x54
-	cmp r1, #3
-	addls pc, pc, r1, lsl #2
-	b _02166D60
-_02166D14: // jump table
-	b _02166D24 // case 0
-	b _02166D34 // case 1
-	b _02166D44 // case 2
-	b _02166D54 // case 3
-_02166D24:
-	mov r7, r0
-	sub r6, r6, #0x10000
-	sub r8, r0, #0x4000
-	b _02166D60
-_02166D34:
-	mov r7, r0
-	add r6, r6, #0x10000
-	mov r8, #0x4000
-	b _02166D60
-_02166D44:
-	sub r7, r0, #0x4000
-	mov r8, r7
-	sub r5, r5, #0x10000
-	b _02166D60
-_02166D54:
-	mov r7, #0x4000
-	add r5, r5, #0x10000
-	sub r8, r7, #0x8000
-_02166D60:
-	mov r1, r5
-	mov r2, r6
-	sub r3, r7, #0x2800
-	mov r0, #0
-	str r8, [sp]
-	bl EffectSteamDust__Create
-	add ip, r8, #0x2000
-	mov r1, r5
-	mov r2, r6
-	add r3, r7, #0x1800
-	mov r0, #1
-	str ip, [sp]
-	bl EffectSteamDust__Create
-	sub r0, r8, #0x2000
-	str r0, [sp]
-	mov r1, r5
-	mov r0, #0
-	mov r2, r6
-	mov r3, r7
-	bl EffectSteamDust__Create
-	add r0, r8, #0x1000
-	str r0, [sp]
-	mov r0, #1
-	mov r1, r5
-	mov r2, r6
-	sub r3, r7, #0x1800
-	bl EffectSteamDust__Create
-	sub r0, r8, #0x1000
-	str r0, [sp]
-	mov r1, r5
-	mov r2, r6
-	add r3, r7, #0x2800
-	mov r0, #0
-	bl EffectSteamDust__Create
-	mov r0, #0
-	str r0, [sp]
-	mov r1, #0x43
-	str r1, [sp, #4]
-	sub r1, r1, #0x44
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	mov r0, #0
-	str r0, [sp]
-	mov r0, #0x58
-	str r0, [sp, #4]
-	sub r1, r0, #0x59
-	ldr r0, [r4, #0x138]
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	ldr r0, [r4, #0x138]
-	add r1, r4, #0x44
-	bl ProcessSpatialSfx
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+    if (popSteam == NULL || player == NULL)
+        return;
 
-// clang-format on
-#endif
+    switch (player->objWork.objType)
+    {
+        case STAGE_OBJ_TYPE_EFFECT:
+            player = (Player *)player->objWork.parentObj;
+
+            if (player == NULL || player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
+                return;
+
+            player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL;
+            break;
+
+        default:
+            if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
+                return;
+
+            if (((player->objWork.moveFlag == STAGE_TASK_MOVE_FLAG_NONE) & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+                return;
+
+            Player__Action_DestroyAttackRecoil(player);
+            break;
+    }
+
+    ShakeScreen(SCREENSHAKE_C_SHORT);
+
+    popSteam->gameWork.colliders[0].parent = NULL;
+    popSteam->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    popSteam->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+    popSteam->gameWork.collisionObject.work.parent = NULL;
+
+    popSteam->gameWork.flags &= ~1;
+    popSteam->gameWork.flags |= (2 | 4);
+
+    popSteam->gameWork.colliders[1].parent = &popSteam->gameWork.objWork;
+
+    fx32 spawnX = popSteam->gameWork.objWork.position.x;
+    fx32 spawnY = popSteam->gameWork.objWork.position.y;
+
+    fx32 velX;
+    fx32 velY;
+
+    switch (popSteam->gameWork.mapObject->id)
+    {
+        case MAPOBJECT_84:
+            velX = 0;
+            spawnY -= 0x10000;
+            velY = -0x4000;
+            break;
+
+        case MAPOBJECT_85:
+            velX = 0;
+            spawnY += 0x10000;
+            velY = 0x4000;
+            break;
+
+        case MAPOBJECT_86:
+            velX = -16384;
+            velY = -16384;
+            spawnX -= 0x10000;
+            break;
+
+        case MAPOBJECT_87:
+            velX = 0x4000;
+            spawnX += 0x10000;
+            velY = -0x4000;
+            break;
+    }
+
+    EffectSteamDust__Create(0, spawnX, spawnY, velX - 0x2800, velY);
+    EffectSteamDust__Create(1, spawnX, spawnY, velX + 0x1800, velY + 0x2000);
+    EffectSteamDust__Create(0, spawnX, spawnY, velX, velY - 0x2000);
+    EffectSteamDust__Create(1, spawnX, spawnY, velX - 0x1800, velY + 0x1000);
+    EffectSteamDust__Create(0, spawnX, spawnY, velX + 0x2800, velY - 0x1000);
+
+    PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_DEST_OBJ);
+    PlayHandleStageSfx(popSteam->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_STEAM);
+
+    ProcessSpatialSfx(popSteam->gameWork.objWork.sequencePlayerPtr, &popSteam->gameWork.objWork.position);
 }
 
-NONMATCH_FUNC void PopSteam__Draw(void)
+void PopSteam__Draw(void)
 {
-#ifdef NON_MATCHING
+    PopSteam *work = TaskGetWorkCurrent(PopSteam);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	ldr r1, [r4, #0x128]
-	bl StageTask__Draw2D
-	ldr r0, [r4, #0x354]
-	tst r0, #1
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r5, [r4, #0x20]
-	mov r0, r4
-	orr r2, r5, #4
-	add r1, r4, #0x364
-	str r2, [r4, #0x20]
-	bl StageTask__Draw2D
-	str r5, [r4, #0x20]
-	ldmia sp!, {r3, r4, r5, pc}
+    StageTask__Draw2D(&work->gameWork.objWork, &work->gameWork.objWork.obj_2d->ani);
 
-// clang-format on
-#endif
+    if ((work->gameWork.flags & 1) != 0)
+    {
+        u32 displayFlag = work->gameWork.objWork.displayFlag;
+
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+        StageTask__Draw2D(&work->gameWork.objWork, &work->aniCork.ani);
+
+        work->gameWork.objWork.displayFlag = displayFlag;
+    }
 }

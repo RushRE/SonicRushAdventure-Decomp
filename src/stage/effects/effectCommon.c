@@ -1458,7 +1458,7 @@ EffectSteam *EffectSteamDust__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 ve
 
 EffectSteam *EffectSteamEffect__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 velY, s32 timer)
 {
-    type = MATH_MIN(type, 1);
+    type = MATH_MIN(type, EFFECTSTEAM_TYPE_COUNT - 1);
 
     EffectSteam *work = CreateEffect(EffectSteam, NULL);
     if (work == NULL)
@@ -1466,12 +1466,12 @@ EffectSteam *EffectSteamEffect__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_steam_efct.bac", GetObjectDataWork(OBJDATAWORK_179), gameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, 0, 34);
-    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, type), GetObjectSpriteRef(2 * type + OBJDATAWORK_180));
+    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, type), GetObjectSpriteRef(EFFECTSTEAM_TYPE_COUNT * type + OBJDATAWORK_180));
     StageTask__SetAnimation(&work->objWork, type);
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
     AnimatorSpriteDS *aniDust = &work->objWork.obj_2d->ani;
-    if ((GetObjectSpriteRef(2 * type + OBJDATAWORK_180)->engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
+    if ((GetObjectSpriteRef(EFFECTSTEAM_TYPE_COUNT * type + OBJDATAWORK_180)->engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
     {
         aniDust->work.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS;
         AnimatorSpriteDS__ProcessAnimationFast(aniDust);
@@ -1481,12 +1481,13 @@ EffectSteam *EffectSteamEffect__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 
 
     switch (type)
     {
+        // case EFFECTSTEAM_TYPE_SMALL:
         default:
             StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_14);
             StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_2);
             break;
 
-        case 0:
+        case EFFECTSTEAM_TYPE_LARGE:
             StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
             StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_1);
             break;

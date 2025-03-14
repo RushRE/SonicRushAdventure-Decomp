@@ -140,11 +140,18 @@ enum ScreenDrawFlags_
 {
     SCREEN_DRAW_NONE = 0,
 
-    SCREEN_DRAW_A = 1 << 0,
-    SCREEN_DRAW_B = 1 << 1,
-    SCREEN_DRAW_2 = 1 << 2, // Functionality unknown
-    SCREEN_DRAW_3 = 1 << 3, // Functionality unknown
-    SCREEN_DRAW_4 = 1 << 4, // Functionality unknown
+    SCREEN_DRAW_A  = 1 << 0,
+    SCREEN_DRAW_B  = 1 << 1,
+    SCREEN_DRAW_2  = 1 << 2,  // Functionality unknown
+    SCREEN_DRAW_3  = 1 << 3,  // Functionality unknown
+    SCREEN_DRAW_4  = 1 << 4,  // Functionality unknown
+    SCREEN_DRAW_5  = 1 << 5,  // Functionality unknown
+    SCREEN_DRAW_6  = 1 << 6,  // Functionality unknown
+    SCREEN_DRAW_7  = 1 << 7,  // Functionality unknown
+    SCREEN_DRAW_8  = 1 << 8,  // Functionality unknown
+    SCREEN_DRAW_9  = 1 << 9,  // Functionality unknown
+    SCREEN_DRAW_10 = 1 << 10, // Functionality unknown
+    SCREEN_DRAW_11 = 1 << 11, // Functionality unknown
 
     SCREEN_DRAW_AB = SCREEN_DRAW_A | SCREEN_DRAW_B,
 };
