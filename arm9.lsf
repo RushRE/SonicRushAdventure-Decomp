@@ -476,12 +476,12 @@ Overlay ZoneAct
     Object src/stage/objects/breakableWall.o
     Object src/stage/objects/corkscrewPath.o
     Object asm/stage/objects/pipe_vars.o
-    Object src/stage/objects/pipe.o
+    Object src/stage/objects/pipe.o # not yet started
     Object src/stage/objects/rotatingHanger.o
     Object src/stage/objects/swingRope.o
     Object src/stage/objects/bouncyMushroom.o
     Object asm/stage/objects/tripleGrindRail_vars.o
-    Object src/stage/objects/tripleGrindRail.o
+    Object src/stage/objects/tripleGrindRail.o # not yet started
     Object src/stage/objects/waterLevelTrigger.o
     Object src/stage/objects/waterRunTrigger.o
     Object asm/stage/objects/goalChest_vars.o
@@ -491,7 +491,7 @@ Overlay ZoneAct
     Object src/stage/objects/popSteam.o
     Object src/stage/objects/dreamWing.o
     Object asm/stage/objects/largePiston_vars.o
-    Object src/stage/objects/largePiston.o
+    Object src/stage/objects/largePiston.o # not yet started
     Object src/stage/objects/cameraBoundsTrigger.o
     Object src/stage/objects/icicle.o
     Object src/stage/objects/playerSnowboard.o
@@ -517,15 +517,15 @@ Overlay ZoneAct
     Object src/stage/objects/platform.o
     Object src/stage/objects/avalanche.o
     Object asm/stage/objects/anchorRope_vars.o
-    Object src/stage/objects/anchorRope.o
+    Object src/stage/objects/anchorRope.o # not yet started
     Object asm/stage/objects/barrel_vars.o
-    Object src/stage/objects/barrel.o
+    Object src/stage/objects/barrel.o # not yet started
     Object src/stage/objects/startPlatform.o
     Object src/stage/objects/trampoline.o
     Object src/stage/objects/pirateShip.o
     Object asm/stage/objects/pirateShip_vars.o
     Object asm/stage/objects/cannon_vars.o
-    Object src/stage/objects/cannon.o
+    Object src/stage/objects/cannon.o # not yet started
     Object src/stage/objects/tutorial.o
     Object src/stage/objects/jumpbox.o
     Object src/stage/objects/slingshot.o
@@ -541,7 +541,7 @@ Overlay ZoneAct
     Object src/stage/objects/balloon.o
     Object src/stage/objects/crumblingFloor.o
     Object asm/stage/objects/waterGun_vars.o
-    Object src/stage/objects/waterGun.o
+    Object src/stage/objects/waterGun.o # not yet started
     Object src/stage/objects/missionFlag.o
     Object src/stage/objects/medal.o
     Object src/stage/objects/bungee.o

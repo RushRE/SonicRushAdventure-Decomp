@@ -17,18 +17,7 @@ FlowerPipe__dword_21883A0: // FlowerPipe__dword_21883A0
 	
 .public FlowerPipe__dword_21883A8
 FlowerPipe__dword_21883A8: // FlowerPipe__dword_21883A8
-    .word 0x10000, 0x20000    
-	
-.public SteamPipe__stru_21883B0
-SteamPipe__stru_21883B0: // SteamPipe__stru_21883B0
-    .hword 24, 48, -24, -24
-	.hword 48, 24, -24, 0
-	.hword 24, 48, -24, -24
-	.hword 48, 24, -24, 0
-	.hword 40, 48, -24, -24
-	.hword 48, 40, -24, -16
-	.hword 40, 48, -24, -24
-	.hword 48, 40, -24, -16
+    .word 0x10000, 0x20000
 
 	.data
 	

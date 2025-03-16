@@ -671,9 +671,9 @@
 .public Player__State_CorkscrewPath
 .public Player__HandleCorkscrewPathH
 .public Player__HandleCorkscrewPathV
-.public Player__Gimmick_201C80C
-.public Player__State_201C938
-.public Player__Func_201CBD0
+.public Player__Action_PipeEnter
+.public Player__State_PipeTravel
+.public Player__Action_PipeExit
 .public Player__Action_RotatingHanger
 .public Player__State_RotatingHanger
 .public Player__Action_SwingRope

@@ -1163,7 +1163,7 @@ _0201C794:
 #endif
 }
 
-void Player__Gimmick_201C80C(Player *player, GameObjectTask *other, s32 value1, s32 timer)
+void Player__Action_PipeEnter(Player *player, GameObjectTask *other, u16 angle, s32 timer)
 {
     static const enum SND_ZONE_SEQARC_GAME_SE sfxJump[CHARACTER_COUNT] = {
         [CHARACTER_SONIC] = SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SPIN, [CHARACTER_BLAZE] = SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BURST
@@ -1177,7 +1177,7 @@ void Player__Gimmick_201C80C(Player *player, GameObjectTask *other, s32 value1, 
         player->gimmickObj = other;
         Player__ChangeAction(player, PLAYER_ACTION_ROLL);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-        SetTaskState(&player->objWork, Player__State_201C938);
+        SetTaskState(&player->objWork, Player__State_PipeTravel);
 
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
         player->objWork.moveFlag |=
@@ -1192,9 +1192,9 @@ void Player__Gimmick_201C80C(Player *player, GameObjectTask *other, s32 value1, 
         player->objWork.dir.z         = FLOAT_DEG_TO_IDX(0.0);
         player->objWork.userWork      = 0;
         player->objWork.userTimer     = timer;
-        player->gimmick.value1        = value1;
-        player->gimmick.value2        = player->objWork.position.x;
-        player->gimmick.value3        = player->objWork.position.y;
+        player->gimmick.pipe.angle    = angle;
+        player->gimmick.pipe.startX   = player->objWork.position.x;
+        player->gimmick.pipe.startY   = player->objWork.position.y;
         player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
         player->blinkTimer            = 0;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
@@ -1203,197 +1203,91 @@ void Player__Gimmick_201C80C(Player *player, GameObjectTask *other, s32 value1, 
     }
 }
 
-NONMATCH_FUNC void Player__State_201C938(Player *work)
+void Player__State_PipeTravel(Player *work)
 {
-#ifdef NON_MATCHING
+    work->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	add r0, r4, #0x500
-	mov r1, #0xff
-	strh r1, [r0, #0x3e]
-	ldr r0, [r4, #0x28]
-	cmp r0, #0
-	beq _0201C968
-	cmp r0, #1
-	beq _0201CAE4
-	b _0201CB88
-_0201C968:
-	ldr r0, [r4, #0x6d8]
-	cmp r0, #0
-	beq _0201CAB8
-	ldr r0, [r4, #0x44]
-	mov r3, #1
-	str r0, [r4, #0x8c]
-	ldr r0, [r4, #0x48]
-	str r0, [r4, #0x90]
-	ldr r0, [r4, #0x6f0]
-	cmp r0, #0
-	cmpne r0, #0x8000
-	mov r0, #0x4000
-	bne _0201CA04
-	str r0, [sp]
-	mov r0, #0x1000
-	str r0, [sp, #4]
-	ldr r1, [r4, #0x6d8]
-	ldr r0, [r4, #0x48]
-	ldr r1, [r1, #0x48]
-	ldr r2, [r4, #0x6f8]
-	bl ObjDiffSet
-	str r0, [r4, #0x48]
-	ldr r2, [r4, #0x6d8]
-	ldr r1, [r2, #0x48]
-	subs r0, r0, r1
-	rsbmi r0, r0, #0
-	cmp r0, #0x8000
-	bge _0201CA68
-	mov r0, #0x4000
-	str r0, [sp]
-	mov r0, #0x1000
-	str r0, [sp, #4]
-	ldr r0, [r4, #0x44]
-	ldr r1, [r2, #0x44]
-	ldr r2, [r4, #0x6f4]
-	mov r3, #1
-	bl ObjDiffSet
-	str r0, [r4, #0x44]
-	b _0201CA68
-_0201CA04:
-	str r0, [sp]
-	mov r0, #0x1000
-	str r0, [sp, #4]
-	ldr r1, [r4, #0x6d8]
-	ldr r0, [r4, #0x44]
-	ldr r1, [r1, #0x44]
-	ldr r2, [r4, #0x6f4]
-	bl ObjDiffSet
-	str r0, [r4, #0x44]
-	ldr r2, [r4, #0x6d8]
-	ldr r1, [r2, #0x44]
-	subs r0, r0, r1
-	rsbmi r0, r0, #0
-	cmp r0, #0x8000
-	bge _0201CA68
-	mov r0, #0x4000
-	str r0, [sp]
-	mov r0, #0x1000
-	str r0, [sp, #4]
-	ldr r0, [r4, #0x48]
-	ldr r1, [r2, #0x48]
-	ldr r2, [r4, #0x6f8]
-	mov r3, #1
-	bl ObjDiffSet
-	str r0, [r4, #0x48]
-_0201CA68:
-	ldr r2, [r4, #0x6d8]
-	ldr r0, [r4, #0x44]
-	ldr r1, [r2, #0x44]
-	cmp r1, r0
-	ldreq r1, [r2, #0x48]
-	ldreq r0, [r4, #0x48]
-	cmpeq r1, r0
-	addne sp, sp, #8
-	ldmneia sp!, {r4, pc}
-	ldr r0, [r4, #0x1c]
-	add sp, sp, #8
-	bic r0, r0, #0x10
-	bic r0, r0, #0x100
-	str r0, [r4, #0x1c]
-	ldr r0, [r4, #0x28]
-	add r0, r0, #1
-	str r0, [r4, #0x28]
-	ldr r0, [r4, #0x6f0]
-	strh r0, [r4, #0x34]
-	ldmia sp!, {r4, pc}
-_0201CAB8:
-	ldr r0, [r4, #0x1c]
-	add sp, sp, #8
-	bic r0, r0, #0x10
-	bic r0, r0, #0x100
-	str r0, [r4, #0x1c]
-	ldr r0, [r4, #0x28]
-	add r0, r0, #1
-	str r0, [r4, #0x28]
-	ldr r0, [r4, #0x6f0]
-	strh r0, [r4, #0x34]
-	ldmia sp!, {r4, pc}
-_0201CAE4:
-	ldr r0, [r4, #0x1c]
-	tst r0, #1
-	bne _0201CB08
-	ldrh r0, [r4, #0x34]
-	add r0, r0, #0x8000
-	strh r0, [r4, #0x34]
-	ldr r0, [r4, #0x5d8]
-	eor r0, r0, #1
-	str r0, [r4, #0x5d8]
-_0201CB08:
-	ldr r0, [r4, #0x2c]
-	sub r0, r0, #1
-	cmp r0, #0
-	addgt sp, sp, #8
-	str r0, [r4, #0x2c]
-	ldmgtia sp!, {r4, pc}
-	ldr r0, [r4, #0x1c]
-	tst r0, #1
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	mov r0, #0x8000
-	str r0, [r4, #0xc8]
-	ldr r0, [r4, #0x5d8]
-	mov ip, #0x4a
-	tst r0, #1
-	ldrne r0, [r4, #0xc8]
-	sub r1, ip, #0x4b
-	rsbne r0, r0, #0
-	strne r0, [r4, #0xc8]
-	ldr r0, [r4, #0x28]
-	mov r3, r1
-	add r2, r0, #1
-	add r0, r4, #0x254
-	str r2, [r4, #0x28]
-	mov r2, #0
-	str r2, [sp]
-	mov r2, r1
-	add r0, r0, #0x400
-	str ip, [sp, #4]
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-_0201CB88:
-	ldr r0, [r4, #0x5d8]
-	mov r2, #0xd000
-	tst r0, #1
-	ldr r0, [r4, #0xc8]
-	beq _0201CBA8
-	mvn r1, #0xff
-	bl ObjSpdUpSet
-	b _0201CBB0
-_0201CBA8:
-	mov r1, #0x100
-	bl ObjSpdUpSet
-_0201CBB0:
-	str r0, [r4, #0xc8]
-	ldr r1, [r4, #0xc8]
-	mov r0, r4
-	bl Player__SetAnimSpeedFromVelocity
-	mov r0, #0
-	strb r0, [r4, #0x6a9]
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    switch (work->objWork.userWork)
+    {
+        case 0:
+            if (work->gimmickObj != NULL)
+            {
+                work->objWork.prevPosition.x = work->objWork.position.x;
+                work->objWork.prevPosition.y = work->objWork.position.y;
 
-// clang-format on
-#endif
+                if (work->gimmick.pipe.angle == FLOAT_DEG_TO_IDX(0.0) || work->gimmick.pipe.angle == FLOAT_DEG_TO_IDX(180.0))
+                {
+                    work->objWork.position.y =
+                        ObjDiffSet(work->objWork.position.y, work->gimmickObj->objWork.position.y, work->gimmick.pipe.startY, 1, FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(1.0));
+
+                    if (MATH_ABS(work->objWork.position.y - work->gimmickObj->objWork.position.y) < FLOAT_TO_FX32(8.0))
+                        work->objWork.position.x =
+                            ObjDiffSet(work->objWork.position.x, work->gimmickObj->objWork.position.x, work->gimmick.pipe.startX, 1, FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(1.0));
+                }
+                else
+                {
+                    work->objWork.position.x =
+                        ObjDiffSet(work->objWork.position.x, work->gimmickObj->objWork.position.x, work->gimmick.pipe.startX, 1, FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(1.0));
+
+                    if (MATH_ABS(work->objWork.position.x - work->gimmickObj->objWork.position.x) < FLOAT_TO_FX32(8.0))
+                        work->objWork.position.y =
+                            ObjDiffSet(work->objWork.position.y, work->gimmickObj->objWork.position.y, work->gimmick.pipe.startY, 1, FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(1.0));
+                }
+
+                if (work->gimmickObj->objWork.position.x == work->objWork.position.x && work->gimmickObj->objWork.position.y == work->objWork.position.y)
+                {
+                    work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+                    work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+                    work->objWork.userWork++;
+                    work->objWork.dir.z = work->gimmick.pipe.angle;
+                }
+            }
+            else
+            {
+                work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+                work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+                work->objWork.userWork++;
+                work->objWork.dir.z = work->gimmick.pipe.angle;
+            }
+            break;
+
+        case 1:
+            if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0)
+            {
+                work->objWork.dir.z += FLOAT_DEG_TO_IDX(180.0);
+                work->playerFlag ^= PLAYER_FLAG_USER_FLAG;
+            }
+
+            work->objWork.userTimer--;
+            if (work->objWork.userTimer <= 0 && (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+            {
+                work->objWork.groundVel = FLOAT_TO_FX32(8.0);
+
+                if ((work->playerFlag & PLAYER_FLAG_USER_FLAG) != 0)
+                    work->objWork.groundVel = -work->objWork.groundVel;
+
+                work->objWork.userWork++;
+                PlayHandleStageSfx(work->seqPlayers, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FLOWER_MOVE);
+            }
+            break;
+
+        default:
+            if ((work->playerFlag & PLAYER_FLAG_USER_FLAG) != 0)
+                work->objWork.groundVel = ObjSpdUpSet(work->objWork.groundVel, -FLOAT_TO_FX32(0.0625), FLOAT_TO_FX32(13.0));
+            else
+                work->objWork.groundVel = ObjSpdUpSet(work->objWork.groundVel, FLOAT_TO_FX32(0.0625), FLOAT_TO_FX32(13.0));
+
+            Player__SetAnimSpeedFromVelocity(work, work->objWork.groundVel);
+            work->boostEndTimer = 0;
+            break;
+    }
 }
 
-void Player__Func_201CBD0(Player *player, fx32 velocity, BOOL flag, u32 type)
+void Player__Action_PipeExit(Player *player, fx32 velocity, BOOL allowTricks, u32 type)
 {
     const s8 sfxEject[2] = { SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FLOWER_EJECT, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_STEAM_PIPE };
 
-    if (StageTaskStateMatches(&player->objWork, Player__State_201C938))
+    if (StageTaskStateMatches(&player->objWork, Player__State_PipeTravel))
     {
         if (type >= 2)
             type = 0;
@@ -1402,7 +1296,7 @@ void Player__Func_201CBD0(Player *player, fx32 velocity, BOOL flag, u32 type)
         if ((player->playerFlag & PLAYER_FLAG_USER_FLAG) != 0)
             orientation = (orientation + 4) & 7;
 
-        if (!velocity)
+        if (velocity == FLOAT_TO_FX32(0.0))
             velocity = (s16)MATH_ABS(player->objWork.groundVel);
 
         fx32 velocity2 = MultiplyFX(velocity, SinFX(FLOAT_DEG_TO_IDX(45.0)));
@@ -1411,7 +1305,7 @@ void Player__Func_201CBD0(Player *player, fx32 velocity, BOOL flag, u32 type)
         player->objWork.moveFlag |= (STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_IDLE_ACCELERATION | STAGE_TASK_MOVE_FLAG_USE_SLOPE_ACCELERATION | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY);
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS
                                       | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_4000);
-        player->objWork.dir.z = 0;
+        player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
         player->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
         player->gimmickFlag &= ~PLAYER_GIMMICK_GRABBED;
 
@@ -1466,7 +1360,7 @@ void Player__Func_201CBD0(Player *player, fx32 velocity, BOOL flag, u32 type)
         }
 
         player->playerFlag |= PLAYER_FLAG_USER_FLAG;
-        if (flag)
+        if (allowTricks)
             player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS;
 
         player->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;

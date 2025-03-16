@@ -22,6 +22,13 @@ struct
 
 struct
 {
+    s32 angle;
+    fx32 startX;
+    fx32 startY;
+} pipe;
+
+struct
+{
     fx32 radius;
     fx32 launchForce;
 } steamFan;
