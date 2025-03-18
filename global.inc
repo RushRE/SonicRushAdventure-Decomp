@@ -664,7 +664,7 @@
 .public Player__Action_FollowParent
 .public Player__State_FollowParent
 .public Player__Action_DashRing
-.public Player__Gimmick_201BAC0
+.public Player__Action_JumpDashLaunch
 .public Player__Action_SpringboardLaunch
 .public Player__CheckOnCorkscrewPath
 .public Player__Action_CorkscrewPath
@@ -730,15 +730,15 @@
 .public Player__Action_CraneGrab
 .public Player__Action_Winch
 .public Player__State_Winch
-.public Player__Gimmick_2021394
-.public Player__State_202146C
+.public Player__Action_EnterTruck
+.public Player__State_EnterTruck
 .public Player__Action_TruckLaunch
-.public Player__State_2021848
-.public Player__OnDefend_Unknown
+.public Player__State_TruckRide
+.public Player__OnDefend_TruckRide
 .public Player__Func_2021A84
 .public Player__Func_2021AE8
 .public Player__Func_2021B44
-.public Player__Func_2021B84
+.public Player__Action_AnchorRope
 .public Player__State_AnchorRope
 .public Player__Func_2021CE8
 .public Player__State_2021DD4
@@ -762,7 +762,7 @@
 .public Player__State_JumpBoxPlaneSwitchLaunch
 .public Player__Action_PlaneSwitchSpring
 .public Player__State_PlaneSwitchSpring
-.public Player__Func_202374C
+.public Player_Action_EnterFarPlane
 .public Player__Action_EnterSlingshot
 .public Player__State_Slingshot
 .public Player__Action_RideDolphin
@@ -8652,7 +8652,7 @@
 .public Winch_Draw
 .public Winch_OnDefend
 .public Truck__Create
-.public Truck__Func_216F2FC
+.public Truck__Action_PlayerEnter
 .public TruckBarrier__Create
 .public Truck__Action_Enter3D
 .public Truck3DTrigger__Create

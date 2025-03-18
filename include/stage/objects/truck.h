@@ -465,7 +465,7 @@ typedef struct Truck3DLava_
 // --------------------
 
 Truck *Truck__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-void Truck__Func_216F2FC(Player *player, Truck *truck);
+void Truck__Action_PlayerEnter(Player *player, Truck *truck);
 
 TruckBarrier *TruckBarrier__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 void Truck__Action_Enter3D(Truck *work);

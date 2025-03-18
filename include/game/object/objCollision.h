@@ -46,9 +46,19 @@ enum ObjCollisionFlags_
     OBJ_COL_FLAG_10          = 1 << 4,
     OBJ_COL_FLAG_20          = 1 << 5,
     OBJ_COL_FLAG_40          = 1 << 6,
-    OBJ_COL_FLAG_80          = 1 << 7,
+    OBJ_COL_FLAG_ALLOW_TOP_SOLID          = 1 << 7,
 };
 typedef u16 ObjCollisionFlags;
+
+enum ObjCollisionAttr_
+{
+    OBJ_COL_ATTR_NONE = 0,
+
+    OBJ_COL_ATTR_TOP_SOLID = 1 << 0,
+    OBJ_COL_ATTR_CLIFF_EDGE = 1 << 1,
+    OBJ_COL_ATTR_GRIND_RAIL = 1 << 2,
+};
+typedef u16 ObjCollisionAttr;
 
 enum StageTaskCollisionObjFlag_
 {
@@ -115,7 +125,7 @@ typedef struct StageTaskCollisionObj_
     s16 ofst_y;
     StageTaskCollisionObjFlag flag;
     u16 dir;
-    u16 attr;
+    ObjCollisionAttr attr;
     u8 *diff_data;
     u8 *dir_data;
     u8 *attr_data;

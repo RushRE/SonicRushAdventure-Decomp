@@ -476,7 +476,7 @@ Overlay ZoneAct
     Object src/stage/objects/breakableWall.o
     Object src/stage/objects/corkscrewPath.o
     Object asm/stage/objects/pipe_vars.o
-    Object src/stage/objects/pipe.o # not yet started
+    Object src/stage/objects/pipe.o
     Object src/stage/objects/rotatingHanger.o
     Object src/stage/objects/swingRope.o
     Object src/stage/objects/bouncyMushroom.o

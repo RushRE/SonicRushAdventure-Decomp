@@ -721,8 +721,8 @@ void StageTask__ObjectCollision(StageTask *work)
         work->collisionFlag |= flag;
         work->moveFlag |= newMoveFlag;
 
-        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_20) != 0 && (work->collisionFlag & STAGE_TASK_COLLISION_FLAG_2) == 0)
-            work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_20;
+        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_ALLOW_TOP_SOLID) != 0 && (work->collisionFlag & STAGE_TASK_COLLISION_FLAG_ALLOW_TOP_SOLID) == 0)
+            work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_ALLOW_TOP_SOLID;
     }
 
     work->prevPosition.x = startX;

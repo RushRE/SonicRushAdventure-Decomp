@@ -31,7 +31,7 @@ CorkscrewPath *CreateCorkscrewPath(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], CorkscrewPath_OnDefend);
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
 
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_20;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_ALLOW_TOP_SOLID;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
 
     return work;

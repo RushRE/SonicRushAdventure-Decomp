@@ -112,7 +112,7 @@ enum StageTaskMoveFlags_
     STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL                  = 0x4, // object is colliding with the wall to its left
     STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL                  = 0x8, // object is colliding with the wall to its right
     STAGE_TASK_MOVE_FLAG_IN_AIR                          = 0x10,
-    STAGE_TASK_MOVE_FLAG_20                              = 0x20,
+    STAGE_TASK_MOVE_FLAG_ALLOW_TOP_SOLID                 = 0x20,
     STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES                = 0x40,
     STAGE_TASK_MOVE_FLAG_HAS_GRAVITY                     = 0x80,
     STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT           = 0x100,
@@ -151,9 +151,9 @@ enum StageCollisionFlags_
 {
     STAGE_TASK_COLLISION_FLAG_NONE = 0x00,
 
-    STAGE_TASK_COLLISION_FLAG_1          = 1 << 0,
-    STAGE_TASK_COLLISION_FLAG_2          = 1 << 1,
-    STAGE_TASK_COLLISION_FLAG_GRIND_RAIL = 1 << 2,
+    STAGE_TASK_COLLISION_FLAG_CLIFF_EDGE      = 1 << 0,
+    STAGE_TASK_COLLISION_FLAG_ALLOW_TOP_SOLID = 1 << 1,
+    STAGE_TASK_COLLISION_FLAG_GRIND_RAIL      = 1 << 2,
 };
 typedef u32 StageCollisionFlags;
 

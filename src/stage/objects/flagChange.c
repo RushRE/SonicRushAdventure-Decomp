@@ -51,7 +51,7 @@ FlagChange *CreateFlagChange(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], FlagChange_OnDefend);
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_20;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_ALLOW_TOP_SOLID;
 
     switch (work->gameWork.mapObject->id)
     {
@@ -188,8 +188,8 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
                 Truck *truck = (Truck *)player->objWork.touchObj;
                 if (truck->gameWork.objWork.objType == STAGE_OBJ_TYPE_OBJECT && truck->gameWork.mapObject->id == MAPOBJECT_173)
                 {
-                    Truck__Func_216F2FC(player, truck);
-                    Player__Gimmick_2021394(player, (GameObjectTask *)player->objWork.touchObj);
+                    Truck__Action_PlayerEnter(player, truck);
+                    Player__Action_EnterTruck(player, (GameObjectTask *)player->objWork.touchObj);
                 }
             }
             break;
@@ -239,7 +239,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             if (CheckStageTaskType(&player->objWork, STAGE_OBJ_TYPE_PLAYER) == FALSE)
                 return;
 
-            Player__Func_202374C(player);
+            Player_Action_EnterFarPlane(player);
             break;
     }
 }

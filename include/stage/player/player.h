@@ -245,7 +245,7 @@ enum PlayerAction_
     PLAYER_ACTION_PISTON_01,
     PLAYER_ACTION_PISTON_02,
     PLAYER_ACTION_STEAM_FAN,
-    PLAYER_ACTION_2D,
+    PLAYER_ACTION_TRUCK_CROUCH,
     PLAYER_ACTION_ICICLE,
     PLAYER_ACTION_ICE_SLIDE,
     PLAYER_ACTION_30,
@@ -261,7 +261,7 @@ enum PlayerAction_
     PLAYER_ACTION_BALLOON_RIDE,
     PLAYER_ACTION_WATERGUN_01,
     PLAYER_ACTION_WATERGUN_02,
-    PLAYER_ACTION_3D,
+    PLAYER_ACTION_BUNGEE,
     PLAYER_ACTION_START_SNOWBOARD,
     PLAYER_ACTION_3F,
     PLAYER_ACTION_IDLE_SNOWBOARD,
@@ -539,9 +539,9 @@ typedef struct Player_
     u8 surfaceStickTimer;
     u8 boostEndTimer;
     u8 superBoostCooldownTimer;
-    u8 cameraScrollDelay;
+    s8 cameraScrollDelay;
     Vec2Fx32 cameraOffset;
-    Vec2Fx32 _unused_6B4;
+    Vec2Fx32 cameraVelocity;
     u32 cameraJumpPosY;
     StarCombo *starComboManager;
     ScoreBonus *scoreBonus;
@@ -668,7 +668,7 @@ void Player__HandleAirMovement(Player *player);
 void Player__HandleRollingForces(Player *player);
 void Player__OnDefend_Regular(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void Player__Hurt(Player *player);
-void Player__Action_Boost(Player *player); // Sa2-style boost
+void Player__Action_Boost(Player *player); // sa2-style boost
 void Player__Action_StopBoost(Player *player);
 void Player__Action_SuperBoost(Player *player); // Rush-style boost
 void Player__Action_StopSuperBoost(Player *player);
@@ -680,8 +680,8 @@ s32 Player__GetPlayerCount(void);
 void Player__Destructor(Task *task);
 void Player__ReadInput(void);
 u16 Player__ReadInputFromValue(Player *player, u16 buttonMask);
-void Player__Func_20133B8(Player *player);
-void Player__Func_2013630(Player *player);
+void Player__Func_20133B8(Player *work);
+void Player__Func_2013630(Player *work);
 void Player__Func_20138F4(Player *player);
 void Player__Func_2013948(Player *player);
 void Player__HandleCollisionBounds(Player *player);
@@ -755,7 +755,7 @@ void Player__Gimmick_201B418(Player *player, fx32 velX, fx32 velY, BOOL allowTri
 void Player__Action_FollowParent(Player *player, GameObjectTask *other, fx32 offsetX, fx32 offsetY, fx32 offsetZ);
 void Player__State_FollowParent(Player *work);
 void Player__Action_DashRing(Player *player, fx32 x, fx32 y, fx32 velX, fx32 velY);
-void Player__Gimmick_201BAC0(Player *player, fx32 velX, fx32 velY);
+void Player__Action_JumpDashLaunch(Player *player, fx32 velX, fx32 velY);
 void Player__Action_SpringboardLaunch(Player *player, fx32 velX, fx32 velY);
 u16 Player__CheckOnCorkscrewPath(Player *player);
 void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 a4, u16 a5);
@@ -821,15 +821,15 @@ void Player__Action_SpringCrystal(Player *player, fx32 velX, fx32 velY);
 void Player__Action_CraneGrab(Player *player, GameObjectTask *other);
 void Player__Action_Winch(Player *player, GameObjectTask *other, u32 displayFlag);
 void Player__State_Winch(Player *work);
-void Player__Gimmick_2021394(Player *player, GameObjectTask *other);
-void Player__State_202146C(Player *work);
+void Player__Action_EnterTruck(Player *player, GameObjectTask *other);
+void Player__State_EnterTruck(Player *work);
 void Player__Action_TruckLaunch(Player *player, GameObjectTask *other, s32 a3);
-void Player__State_2021848(Player *work);
-void Player__OnDefend_Unknown(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void Player__State_TruckRide(Player *work);
+void Player__OnDefend_TruckRide(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void Player__Func_2021A84(Player *player, GameObjectTask *other);
 void Player__Func_2021AE8(Player *player, GameObjectTask *other);
 void Player__Func_2021B44(Player *player, GameObjectTask *other);
-void Player__Func_2021B84(Player *player, GameObjectTask *other);
+void Player__Action_AnchorRope(Player *player, GameObjectTask *other);
 void Player__State_AnchorRope(Player *work);
 void Player__Func_2021CE8(Player *player, GameObjectTask *other);
 void Player__State_2021DD4(Player *work);
@@ -853,7 +853,7 @@ void Player__Action_JumpBoxPlaneSwitchLaunch(Player *player, fx32 velX, fx32 vel
 void Player__State_JumpBoxPlaneSwitchLaunch(Player *work);
 void Player__Action_PlaneSwitchSpring(Player *player, fx32 velX, fx32 velY);
 void Player__State_PlaneSwitchSpring(Player *work);
-void Player__Func_202374C(Player *player);
+void Player_Action_EnterFarPlane(Player *player);
 void Player__Action_EnterSlingshot(Player *player, GameObjectTask *other);
 void Player__State_Slingshot(Player *work);
 void Player__Action_RideDolphin(Player *player, GameObjectTask *dolphin);

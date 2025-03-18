@@ -409,7 +409,7 @@ void Player__Action_DashRing(Player *player, fx32 x, fx32 y, fx32 velX, fx32 vel
     if (y != FLOAT_TO_FX32(0.0))
         player->objWork.position.y = y;
 
-    Player__Gimmick_201BAC0(player, velX, velY);
+    Player__Action_JumpDashLaunch(player, velX, velY);
 
     if (velX == FLOAT_TO_FX32(0.0))
         player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
@@ -419,7 +419,7 @@ void Player__Action_DashRing(Player *player, fx32 x, fx32 y, fx32 velX, fx32 vel
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 }
 
-void Player__Gimmick_201BAC0(Player *player, fx32 velX, fx32 velY)
+void Player__Action_JumpDashLaunch(Player *player, fx32 velX, fx32 velY)
 {
     Player__InitGimmick(player, TRUE);
 
@@ -511,7 +511,7 @@ void Player__Gimmick_201BAC0(Player *player, fx32 velX, fx32 velY)
 void Player__Action_SpringboardLaunch(Player *player, fx32 velX, fx32 velY)
 {
     StageTask__ObjectSpdDirFall(&velX, &velY, player->objWork.fallDir);
-    Player__Gimmick_201BAC0(player, velX, velY);
+    Player__Action_JumpDashLaunch(player, velX, velY);
 
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_JUMP_STAND);
 }
@@ -3505,7 +3505,7 @@ NONMATCH_FUNC void Player__Action_LoseSnowboard(Player *player)
 	cmp r1, #0x4800
 	movlt r1, #0x4800
 	rsb r2, r2, #0
-	bl Player__Gimmick_201BAC0
+	bl Player__Action_JumpDashLaunch
 	ldmia sp!, {r3, pc}
 _0201FD48:
 	ldr r1, [r0, #0x9c]
@@ -4819,7 +4819,7 @@ void Player__State_Winch(Player *work)
         Player__Action_AllowTrickCombos(work, gimmick);
 }
 
-void Player__Gimmick_2021394(Player *player, GameObjectTask *other)
+void Player__Action_EnterTruck(Player *player, GameObjectTask *other)
 {
     if (player->gimmickObj != other)
     {
@@ -4843,13 +4843,13 @@ void Player__Gimmick_2021394(Player *player, GameObjectTask *other)
         player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
         player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
         player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
-        SetTaskState(&player->objWork, Player__State_202146C);
-        ObjRect__SetOnDefend(&player->colliders[0], Player__OnDefend_Unknown);
+        SetTaskState(&player->objWork, Player__State_EnterTruck);
+        ObjRect__SetOnDefend(&player->colliders[0], Player__OnDefend_TruckRide);
         player->objWork.userWork = 0;
     }
 }
 
-NONMATCH_FUNC void Player__State_202146C(Player *work)
+NONMATCH_FUNC void Player__State_EnterTruck(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -4996,8 +4996,8 @@ _02021648:
 	sub r3, r2, #0x23000
 	str ip, [sp]
 	bl Player__Action_FollowParent
-	ldr r1, =Player__State_2021848
-	ldr r0, =Player__OnDefend_Unknown
+	ldr r1, =Player__State_TruckRide
+	ldr r0, =Player__OnDefend_TruckRide
 	str r1, [r5, #0xf4]
 	str r0, [r5, #0x534]
 	ldr r1, [r5, #0x1c]
@@ -5096,13 +5096,13 @@ void Player__Action_TruckLaunch(Player *player, GameObjectTask *other, s32 a3)
     }
 }
 
-void Player__State_2021848(Player *work)
+void Player__State_TruckRide(Player *work)
 {
-    if (work->actionState != PLAYER_ACTION_2D)
+    if (work->actionState != PLAYER_ACTION_TRUCK_CROUCH)
     {
         if ((work->inputKeyDown & PAD_KEY_DOWN) != 0)
         {
-            Player__ChangeAction(work, PLAYER_ACTION_2D);
+            Player__ChangeAction(work, PLAYER_ACTION_TRUCK_CROUCH);
         }
     }
     else
@@ -5117,7 +5117,7 @@ void Player__State_2021848(Player *work)
     Player__State_FollowParent(work);
 }
 
-void Player__OnDefend_Unknown(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void Player__OnDefend_TruckRide(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     Player *player = (Player *)rect2->parent;
 
@@ -5200,7 +5200,7 @@ void Player__Func_2021AE8(Player *player, GameObjectTask *other)
         player->gimmickCamOffsetY = 64;
         Player__ChangeAction(player, PLAYER_ACTION_IDLE);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-        SetTaskState(&player->objWork, Player__State_2021848);
+        SetTaskState(&player->objWork, Player__State_TruckRide);
     }
 }
 
@@ -5215,7 +5215,7 @@ void Player__Func_2021B44(Player *player, GameObjectTask *other)
     }
 }
 
-void Player__Func_2021B84(Player *player, GameObjectTask *other)
+void Player__Action_AnchorRope(Player *player, GameObjectTask *other)
 {
     Player__Action_FollowParent(player, other, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
 
@@ -5234,9 +5234,8 @@ void Player__Func_2021B84(Player *player, GameObjectTask *other)
     player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 }
 
-NONMATCH_FUNC void Player__State_AnchorRope(Player *work)
+void Player__State_AnchorRope(Player *work)
 {
-#ifdef NON_MATCHING
     Player__State_FollowParent(work);
 
     if (StageTaskStateMatches(&work->objWork, Player__State_AnchorRope))
@@ -5244,9 +5243,10 @@ NONMATCH_FUNC void Player__State_AnchorRope(Player *work)
         GameObjectTask *gimmick = work->gimmickObj;
         if (gimmick != NULL)
         {
-            if ((gimmick->objWork.position.x - work->objWork.position.x <= FLOAT_TO_FX32(0.0) && gimmick->objWork.position.x - work->objWork.prevPosition.x > FLOAT_TO_FX32(0.0))
-                || (gimmick->objWork.position.x - work->objWork.position.x >= FLOAT_TO_FX32(0.0)
-                    && gimmick->objWork.position.x - work->objWork.prevPosition.x < FLOAT_TO_FX32(0.0)))
+            fx32 distX     = gimmick->objWork.position.x - work->objWork.position.x;
+            fx32 distPrevX = gimmick->objWork.position.x - work->objWork.prevPosition.x;
+
+            if ((distX <= FLOAT_TO_FX32(0.0) && distPrevX > FLOAT_TO_FX32(0.0)) || (distX >= FLOAT_TO_FX32(0.0) && distPrevX < FLOAT_TO_FX32(0.0)))
             {
                 if (work->objWork.position.z > FLOAT_TO_FX32(0.0))
                     PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ANCHOR_ROPE);
@@ -5257,61 +5257,6 @@ NONMATCH_FUNC void Player__State_AnchorRope(Player *work)
     {
         work->objWork.position.z = FLOAT_TO_FX32(0.0);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	bl Player__State_FollowParent
-	ldr r1, [r4, #0xf4]
-	ldr r0, =Player__State_AnchorRope
-	cmp r1, r0
-	bne _02021CD4
-	ldr r0, [r4, #0x6d8]
-	cmp r0, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	ldr r2, [r0, #0x44]
-	ldr r1, [r4, #0x44]
-	ldr r0, [r4, #0x8c]
-	sub r1, r2, r1
-	cmp r1, #0
-	sub r0, r2, r0
-	bgt _02021C7C
-	cmp r0, #0
-	bgt _02021C94
-_02021C7C:
-	cmp r1, #0
-	addlt sp, sp, #8
-	ldmltia sp!, {r4, pc}
-	cmp r0, #0
-	addge sp, sp, #8
-	ldmgeia sp!, {r4, pc}
-_02021C94:
-	ldr r0, [r4, #0x4c]
-	cmp r0, #0
-	addle sp, sp, #8
-	ldmleia sp!, {r4, pc}
-	mov ip, #0x6c
-	sub r1, ip, #0x6d
-	add r0, r4, #0x254
-	mov r2, #0
-	str r2, [sp]
-	mov r2, r1
-	mov r3, r1
-	add r0, r0, #0x400
-	str ip, [sp, #4]
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-_02021CD4:
-	mov r0, #0
-	str r0, [r4, #0x4c]
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void Player__Func_2021CE8(Player *player, GameObjectTask *other)
@@ -5714,9 +5659,8 @@ _020223C4:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_20223F8(Player *player)
+void Player__Func_20223F8(Player *player)
 {
-#ifdef NON_MATCHING
     GameObjectTask *gimmick = player->gimmickObj;
     if (gimmick != NULL)
     {
@@ -5738,62 +5682,16 @@ NONMATCH_FUNC void Player__Func_20223F8(Player *player)
         if (player->onLandGround != NULL)
         {
             Player__InitState(player);
+
+            // TODO: I can't figure out what this must be, because it can't possibly be missing the 1st argument can it?
+            // until then, I've added a "corrected" version as a non-matching solution, in the event the codebase needs to be more modular
+#ifdef NON_MATCHING
             player->onLandGround(player);
+#else
+            ((void (*)(void))player->onLandGround)();
+#endif
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r5, [r4, #0x6d8]
-	cmp r5, #0
-	beq _02022484
-	mov r0, #0x4000
-	str r0, [sp]
-	mov r0, #0x800
-	str r0, [sp, #4]
-	ldr r0, [r4, #0x44]
-	ldr r1, [r5, #0x44]
-	ldr r2, [r4, #0x6f0]
-	mov r3, #1
-	bl ObjDiffSet
-	str r0, [r4, #0x44]
-	ldr r1, [r5, #0x44]
-	cmp r0, r1
-	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r1, =Player__State_20222E4
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	mov r1, #0x13
-	bl Player__ChangeAction
-	ldr r1, [r4, #0x20]
-	ldr r0, =0xFFFFDFFE
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	ldr r1, [r4, #0x1c]
-	add sp, sp, #8
-	orr r1, r1, #0x90
-	and r0, r1, r0
-	str r0, [r4, #0x1c]
-	ldmia sp!, {r3, r4, r5, pc}
-_02022484:
-	add r1, r4, #0x500
-	mov r2, #0x3f
-	strh r2, [r1, #0x3e]
-	ldr r1, [r4, #0x5e4]
-	cmp r1, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-	bl Player__InitState
-	ldr r0, [r4, #0x5e4]
-	blx r0
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC void Player__Func_20224BC(Player *player)
@@ -5930,9 +5828,8 @@ _02022660:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_2022694(Player *player)
+void Player__Func_2022694(Player *player)
 {
-#ifdef NON_MATCHING
     if (player->gimmickObj != NULL)
     {
         player->objWork.dir.y    = FLOAT_DEG_TO_IDX(90.0);
@@ -5945,35 +5842,16 @@ NONMATCH_FUNC void Player__Func_2022694(Player *player)
         if (player->onLandGround != NULL)
         {
             Player__InitState(player);
+
+            // TODO: I can't figure out what this must be, because it can't possibly be missing the 1st argument can it?
+            // until then, I've added a "corrected" version as a non-matching solution, in the event the codebase needs to be more modular
+#ifdef NON_MATCHING
             player->onLandGround(player);
+#else
+            ((void (*)(void))player->onLandGround)();
+#endif
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0x6d8]
-	cmp r1, #0
-	beq _020226BC
-	mov r0, #0x4000
-	strh r0, [r4, #0x32]
-	sub r0, r0, #0x14000
-	str r0, [r4, #0x58]
-	ldmia sp!, {r4, pc}
-_020226BC:
-	add r1, r4, #0x500
-	mov r2, #0x3f
-	strh r2, [r1, #0x3e]
-	ldr r1, [r4, #0x5e4]
-	cmp r1, #0
-	ldmeqia sp!, {r4, pc}
-	bl Player__InitState
-	ldr r0, [r4, #0x5e4]
-	blx r0
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void Player__Action_PRCannon(Player *player, GameObjectTask *other)
@@ -7162,7 +7040,7 @@ void Player__State_PlaneSwitchSpring(Player *work)
     }
 }
 
-void Player__Func_202374C(Player *player)
+void Player_Action_EnterFarPlane(Player *player)
 {
     if (!StageTaskStateMatches(&player->objWork, Player__State_PlaneSwitchSpring) && !StageTaskStateMatches(&player->objWork, Player__State_JumpBoxPlaneSwitchLaunch))
     {
@@ -7864,7 +7742,7 @@ void Player__Action_Bungee(Player *player, GameObjectTask *bungee, fx32 startX, 
 
     Player__InitGimmick(player, FALSE);
     player->gimmickObj = bungee;
-    Player__ChangeAction(player, PLAYER_ACTION_3D);
+    Player__ChangeAction(player, PLAYER_ACTION_BUNGEE);
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     SetTaskState(&player->objWork, Player__State_Bungee);

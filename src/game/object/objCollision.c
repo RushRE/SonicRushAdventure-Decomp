@@ -117,10 +117,10 @@ void ObjObjectCollisionAttrSet(StageTask *work, const char *filePath, OBS_DATA_W
 
 void objDiffAttrSet(StageTask *work, u8 attr)
 {
-    if ((attr & 2) != 0)
-        work->collisionFlag |= STAGE_TASK_COLLISION_FLAG_1;
+    if ((attr & OBJ_COL_ATTR_CLIFF_EDGE) != 0)
+        work->collisionFlag |= STAGE_TASK_COLLISION_FLAG_CLIFF_EDGE;
 
-    if ((attr & 4) != 0)
+    if ((attr & OBJ_COL_ATTR_GRIND_RAIL) != 0)
         work->collisionFlag |= STAGE_TASK_COLLISION_FLAG_GRIND_RAIL;
 }
 
@@ -202,11 +202,11 @@ ObjCollisionFlags objDiffSufSet(StageTask *work)
 {
     ObjCollisionFlags flags = OBJ_COL_FLAG_NONE;
 
-    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_20) != 0)
-        flags |= OBJ_COL_FLAG_80;
+    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_ALLOW_TOP_SOLID) != 0)
+        flags |= OBJ_COL_FLAG_ALLOW_TOP_SOLID;
 
     if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_100000) == 0)
-        flags |= OBJ_COL_FLAG_80;
+        flags |= OBJ_COL_FLAG_ALLOW_TOP_SOLID;
 
     if ((work->flag & STAGE_TASK_FLAG_ON_PLANE_B) != 0)
         flags |= OBJ_COL_FLAG_USE_PLANE_B;
@@ -2230,7 +2230,7 @@ NONMATCH_FUNC s32 objGetMapColDataX(fx32 lPosX, fx32 lPosY, ObjCollisionFlags fl
     if (xDiff == -8)
         xDiff = 8;
 
-    if ((flags & 128) != 0 && (_obj_fCol->attrCollision[tileID] & 1) != 0)
+    if ((flags & 0x80) != 0 && (_obj_fCol->attrCollision[tileID] & OBJ_COL_ATTR_TOP_SOLID) != 0)
         xDiff = 0;
 
     if ((mapTile & 0x400) == 0 && xDiff == 0)
@@ -3570,12 +3570,12 @@ s32 objGetColDataX(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjColli
 
     if (work->attr_data != NULL)
     {
-        if ((flags & OBJ_COL_FLAG_80) != 0 && ((work->attr_data[tile >> 3] & 1) != 0 || (work->attr & 1) != 0))
+        if ((flags & OBJ_COL_FLAG_ALLOW_TOP_SOLID) != 0 && ((work->attr_data[tile >> 3] & OBJ_COL_ATTR_TOP_SOLID) != 0 || (work->attr & OBJ_COL_ATTR_TOP_SOLID) != 0))
             penetration = 0;
     }
     else
     {
-        if ((flags & OBJ_COL_FLAG_80) != 0 && (work->attr & 1) != 0)
+        if ((flags & OBJ_COL_FLAG_ALLOW_TOP_SOLID) != 0 && (work->attr & OBJ_COL_ATTR_TOP_SOLID) != 0)
             penetration = 0;
     }
 
@@ -3659,12 +3659,12 @@ s32 objGetColDataY(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjColli
 
     if (work->attr_data != NULL)
     {
-        if ((flags & OBJ_COL_FLAG_80) != 0 && ((work->attr_data[tile >> 3] & 1) != 0 || (work->attr & 1) != 0))
+        if ((flags & OBJ_COL_FLAG_ALLOW_TOP_SOLID) != 0 && ((work->attr_data[tile >> 3] & OBJ_COL_ATTR_TOP_SOLID) != 0 || (work->attr & OBJ_COL_ATTR_TOP_SOLID) != 0))
             penetration = 0;
     }
     else
     {
-        if ((flags & OBJ_COL_FLAG_80) != 0 && (work->attr & 1) != 0)
+        if ((flags & OBJ_COL_FLAG_ALLOW_TOP_SOLID) != 0 && (work->attr & OBJ_COL_ATTR_TOP_SOLID) != 0)
             penetration = 0;
     }
 

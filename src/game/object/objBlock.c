@@ -250,7 +250,7 @@ s32 objBlockCalcFill(OBS_COL_CHK_DATA *work)
 s32 objBlockColEmpty(OBS_COL_CHK_DATA *work)
 {
     if (work->dir != NULL)
-        *work->dir = 0;
+        *work->dir = FLOAT_DEG_TO_IDX(0.0) >> 8;
 
     return objBlockCalcEmpty(work);
 }
@@ -258,7 +258,7 @@ s32 objBlockColEmpty(OBS_COL_CHK_DATA *work)
 s32 objBlockColBlockFill(OBS_COL_CHK_DATA *work)
 {
     if (work->dir != NULL)
-        *work->dir = 0;
+        *work->dir = FLOAT_DEG_TO_IDX(0.0) >> 8;
 
     return objBlockCalcFill(work);
 }
@@ -266,12 +266,12 @@ s32 objBlockColBlockFill(OBS_COL_CHK_DATA *work)
 s32 objBlockColBlockFillThrough(OBS_COL_CHK_DATA *work)
 {
     if (work->dir != NULL)
-        *work->dir = 0;
+        *work->dir = FLOAT_DEG_TO_IDX(0.0) >> 8;
 
     if (work->attr != NULL)
-        *work->attr |= 2;
+        *work->attr |= OBJ_COL_ATTR_CLIFF_EDGE;
 
-    if ((work->flag & OBJ_COL_FLAG_80) != 0)
+    if ((work->flag & OBJ_COL_FLAG_ALLOW_TOP_SOLID) != 0)
         return objBlockCalcEmpty(work);
     else
         return objBlockCalcFill(work);

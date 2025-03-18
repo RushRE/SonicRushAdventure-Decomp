@@ -564,7 +564,7 @@ _0216F284:
 #endif
 }
 
-NONMATCH_FUNC void Truck__Func_216F2FC(Player *player, Truck *truck)
+NONMATCH_FUNC void Truck__Action_PlayerEnter(Player *player, Truck *truck)
 {
 #ifdef NON_MATCHING
 

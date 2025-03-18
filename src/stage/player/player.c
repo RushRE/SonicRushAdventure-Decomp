@@ -1054,7 +1054,8 @@ void Player__ChangeAction(Player *player, PlayerAction action)
             player->playerFlag |= PLAYER_FLAG_TAIL_IS_ACTIVE;
 
             if (action < PLAYER_ACTION_START_SNOWBOARD || action > PLAYER_ACTION_HURT_SNOWBOARD)
-                AnimatorMDL__SetAnimation(&player->aniTailModel.ani, B3D_RESOURCE_MODEL, player->aniTailModel.resources[B3D_RESOURCE_JOINT_ANIM], playerTailAnimForAction[characterID][action], NULL);
+                AnimatorMDL__SetAnimation(&player->aniTailModel.ani, B3D_RESOURCE_MODEL, player->aniTailModel.resources[B3D_RESOURCE_JOINT_ANIM],
+                                          playerTailAnimForAction[characterID][action], NULL);
             else
                 AnimatorMDL__SetAnimation(&player->aniTailModel.ani, B3D_RESOURCE_MODEL, player->snowboardAnims, playerTailAnimForAction[characterID][action], NULL);
 
@@ -1325,8 +1326,8 @@ void Player__Action_LandOnGround(Player *player, fx32 dirZ)
     player->blazeHoverTimer             = SECONDS_TO_FRAMES(2.0);
     player->trickFinishHorizFreezeTimer = 0;
 
-    if ((player->gimmickFlag & PLAYER_GIMMICK_1) == 0 && (player->objWork.collisionFlag & STAGE_TASK_COLLISION_FLAG_1) != 0)
-        player->objWork.dir.z = 0;
+    if ((player->gimmickFlag & PLAYER_GIMMICK_1) == 0 && (player->objWork.collisionFlag & STAGE_TASK_COLLISION_FLAG_CLIFF_EDGE) != 0)
+        player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 
     if ((player->actionState < PLAYER_ACTION_GRIND || player->actionState > PLAYER_ACTION_GRINDTRICK_3_03)
         && (player->actionState < PLAYER_ACTION_GRIND_SNOWBOARD || player->actionState > PLAYER_ACTION_GRINDTRICK_SNOWBOARD_3_03))
@@ -2830,378 +2831,204 @@ u16 Player__ReadInputFromValue(Player *player, u16 buttonMask)
     return mask;
 }
 
-NONMATCH_FUNC void Player__Func_20133B8(Player *player)
+void Player__Func_20133B8(Player *work)
 {
-#ifdef NON_MATCHING
+    s32 camShift = 4;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r5, r0
-	ldrb r0, [r5, #0x5d1]
-	mov r4, #4
-	cmp r0, #0
-	ldmneia sp!, {r4, r5, r6, pc}
-	ldr r0, [r5, #0x6d8]
-	cmp r0, #0
-	bne _020133F8
-	ldr r1, [r5, #0x5dc]
-	add r0, r5, #0x600
-	bic r1, r1, #0x4000000
-	str r1, [r5, #0x5dc]
-	mov r1, #0
-	strh r1, [r0, #0xe4]
-	strh r1, [r0, #0xe6]
-_020133F8:
-	bl MapSys__GetDispSelect
-	cmp r0, #0
-	movne r3, #0x58
-	ldr r0, [r5, #0x5dc]
-	moveq r3, #0x60
-	mov r2, #0x80
-	tst r0, #0x800
-	subne r0, r2, #0x20
-	movne r0, r0, lsl #0x10
-	movne r2, r0, asr #0x10
-	add r0, r5, #0x600
-	ldrsb r0, [r0, #0xab]
-	cmp r0, #0
-	beq _02013458
-	sub r0, r0, #1
-	strb r0, [r5, #0x6ab]
-	ldr r6, [r5, #0x6b4]
-	ldr r0, [r5, #0xbc]
-	ldr r4, [r5, #0x6b8]
-	ldr r1, [r5, #0xc0]
-	add r0, r6, r0, lsl #4
-	add r1, r4, r1, lsl #4
-	mov r4, #2
-	b _020134BC
-_02013458:
-	ldr r0, [r5, #0x114]
-	mov ip, #0
-	mov lr, ip
-	cmp r0, #0
-	ldrne ip, [r0, #0xbc]
-	ldr r1, [r5, #0x44]
-	ldrne lr, [r0, #0xc0]
-	ldr r0, [r5, #0x48]
-	ldr r6, [r5, #0x8c]
-	sub r1, r1, ip
-	sub r6, r6, r1
-	ldr r1, [r5, #0x90]
-	sub r0, r0, lr
-	sub r1, r1, r0
-	movs r0, r6, lsl #4
-	rsbmi r6, r0, #0
-	movpl r6, r0
-	cmp r6, #0x10000
-	mov r1, r1, lsl #3
-	movlt r0, #0
-	cmp r1, #0
-	rsblt r6, r1, #0
-	movge r6, r1
-	cmp r6, #0x28000
-	movlt r1, #0
-_020134BC:
-	ldr r6, [r5, #0x5dc]
-	tst r6, #0x800
-	bne _0201351C
-	ldr r6, [r5, #0x5d8]
-	tst r6, #0x80
-	addeq ip, r5, #0x600
-	ldreqsb r6, [ip, #0xab]
-	cmpeq r6, #0
-	beq _0201351C
-	cmp r0, #0x58000
-	movgt r0, #0x58000
-	bgt _020134FC
-	mov ip, #0x58000
-	rsb ip, ip, #0
-	cmp r0, ip
-	movlt r0, ip
-_020134FC:
-	cmp r1, #0x16000
-	movgt r1, #0x16000
-	bgt _02013554
-	mov ip, #0x48000
-	rsb ip, ip, #0
-	cmp r1, ip
-	movlt r1, ip
-	b _02013554
-_0201351C:
-	cmp r0, #0x2c000
-	movgt r0, #0x2c000
-	bgt _02013538
-	mov ip, #0x2c000
-	rsb ip, ip, #0
-	cmp r0, ip
-	movlt r0, ip
-_02013538:
-	cmp r1, #0xb000
-	movgt r1, #0xb000
-	bgt _02013554
-	mov ip, #0x24000
-	rsb ip, ip, #0
-	cmp r1, ip
-	movlt r1, ip
-_02013554:
-	str r0, [r5, #0x6b4]
-	str r1, [r5, #0x6b8]
-	ldr r0, [r5, #0x5d8]
-	tst r0, #0x2000
-	beq _02013584
-	ldr r0, [r5, #0x6ac]
-	sub r0, r0, r0, asr #2
-	str r0, [r5, #0x6ac]
-	ldr r0, [r5, #0x6b0]
-	sub r0, r0, r0, asr #2
-	str r0, [r5, #0x6b0]
-	b _02013618
-_02013584:
-	ldr r0, [r5, #0x5dc]
-	tst r0, #0x4000000
-	add r0, r5, #0x600
-	beq _020135E0
-	ldrsh ip, [r0, #0xe0]
-	ldrsh r1, [r0, #0xe4]
-	ldr r6, [r5, #0x6ac]
-	ldr lr, [r5, #0x6b4]
-	add r1, ip, r1
-	sub ip, lr, r6
-	add r1, ip, r1, lsl #12
-	add r1, r6, r1, asr r4
-	str r1, [r5, #0x6ac]
-	ldrsh r1, [r0, #0xe2]
-	ldrsh r0, [r0, #0xe6]
-	ldr lr, [r5, #0x6b0]
-	ldr ip, [r5, #0x6b8]
-	add r0, r1, r0
-	sub r1, ip, lr
-	add r0, r1, r0, lsl #12
-	add r0, lr, r0, asr r4
-	str r0, [r5, #0x6b0]
-	b _02013618
-_020135E0:
-	ldr lr, [r5, #0x6ac]
-	ldr r1, [r5, #0x6b4]
-	ldrsh ip, [r0, #0xe0]
-	sub r1, r1, lr
-	add r1, r1, ip, lsl #12
-	add r1, lr, r1, asr r4
-	str r1, [r5, #0x6ac]
-	ldr lr, [r5, #0x6b0]
-	ldr r1, [r5, #0x6b8]
-	ldrsh ip, [r0, #0xe2]
-	sub r0, r1, lr
-	add r0, r0, ip, lsl #12
-	add r0, lr, r0, asr r4
-	str r0, [r5, #0x6b0]
-_02013618:
-	ldr r0, [r5, #0x6ac]
-	ldr r1, [r5, #0x6b0]
-	add r0, r0, r2, lsl #12
-	add r1, r1, r3, lsl #12
-	bl MapSys__SetTargetOffsetA
-	ldmia sp!, {r4, r5, r6, pc}
+    if (CheckIsPlayer1(work))
+    {
+        fx32 velX;
+        fx32 velY;
 
-// clang-format on
-#endif
+        if (work->gimmickObj == NULL)
+        {
+            work->gimmickFlag &= ~PLAYER_GIMMICK_4000000;
+            work->gimmickCamGimmickCenterOffsetX = 0;
+            work->gimmickCamGimmickCenterOffsetY = 0;
+        }
+
+        s16 offsetX;
+        s16 offsetY;
+
+        if (MapSys__GetDispSelect() != GX_DISP_SELECT_SUB_MAIN)
+            offsetY = HW_LCD_CENTER_Y - 8;
+        else
+            offsetY = HW_LCD_CENTER_Y;
+
+        offsetX = HW_LCD_CENTER_X;
+        if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
+        {
+            offsetX -= 32;
+        }
+
+        if (work->cameraScrollDelay != 0)
+        {
+            work->cameraScrollDelay--;
+            velX     = work->cameraVelocity.x + 16 * work->objWork.move.x;
+            velY     = work->cameraVelocity.y + 16 * work->objWork.move.y;
+            camShift = 2;
+        }
+        else
+        {
+            fx32 rideMoveX = 0;
+            fx32 rideMoveY = 0;
+
+            if (work->objWork.rideObj != NULL)
+            {
+                rideMoveX = work->objWork.rideObj->move.x;
+                rideMoveY = work->objWork.rideObj->move.y;
+            }
+
+            velX = 16 * (work->objWork.prevPosition.x - (work->objWork.position.x - rideMoveX));
+            velY = 8 * (work->objWork.prevPosition.y - (work->objWork.position.y - rideMoveY));
+
+            if (MATH_ABS(velX) < FLOAT_TO_FX32(16.0))
+                velX = 0;
+
+            if (MATH_ABS(velY) < FLOAT_TO_FX32(40.0))
+                velY = 0;
+        }
+
+        if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0 && ((work->playerFlag & PLAYER_FLAG_SUPERBOOST) != 0 || work->cameraScrollDelay != 0))
+        {
+            if (velX > FLOAT_TO_FX32(88.0))
+            {
+                velX = FLOAT_TO_FX32(88.0);
+            }
+            else if (velX < -FLOAT_TO_FX32(88.0))
+            {
+                velX = -FLOAT_TO_FX32(88.0);
+            }
+
+            if (velY > FLOAT_TO_FX32(22.0))
+            {
+                velY = FLOAT_TO_FX32(22.0);
+            }
+            else if (velY < -FLOAT_TO_FX32(72.0))
+            {
+                velY = -FLOAT_TO_FX32(72.0);
+            }
+        }
+        else
+        {
+            if (velX > FLOAT_TO_FX32(44.0))
+            {
+                velX = FLOAT_TO_FX32(44.0);
+            }
+            else if (velX < -FLOAT_TO_FX32(44.0))
+            {
+                velX = -FLOAT_TO_FX32(44.0);
+            }
+
+            if (velY > FLOAT_TO_FX32(11.0))
+            {
+                velY = FLOAT_TO_FX32(11.0);
+            }
+            else if (velY < -FLOAT_TO_FX32(36.0))
+            {
+                velY = -FLOAT_TO_FX32(36.0);
+            }
+        }
+
+        work->cameraVelocity.x = velX;
+        work->cameraVelocity.y = velY;
+
+        if ((work->playerFlag & PLAYER_FLAG_2000) != 0)
+        {
+            work->cameraOffset.x -= work->cameraOffset.x >> 2;
+            work->cameraOffset.y -= work->cameraOffset.y >> 2;
+        }
+        else if ((work->gimmickFlag & PLAYER_GIMMICK_4000000) != 0)
+        {
+            work->cameraOffset.x +=
+                (work->cameraVelocity.x - work->cameraOffset.x + (FX32_FROM_WHOLE(work->gimmickCamCenterOffsetX + work->gimmickCamGimmickCenterOffsetX))) >> camShift;
+            work->cameraOffset.y +=
+                (work->cameraVelocity.y - work->cameraOffset.y + (FX32_FROM_WHOLE(work->gimmickCamCenterOffsetY + work->gimmickCamGimmickCenterOffsetY))) >> camShift;
+        }
+        else
+        {
+            work->cameraOffset.x += (work->cameraVelocity.x - work->cameraOffset.x + FX32_FROM_WHOLE(work->gimmickCamCenterOffsetX)) >> camShift;
+            work->cameraOffset.y += (work->cameraVelocity.y - work->cameraOffset.y + FX32_FROM_WHOLE(work->gimmickCamCenterOffsetY)) >> camShift;
+        }
+
+        MapSys__SetTargetOffsetA(work->cameraOffset.x + FX32_FROM_WHOLE(offsetX), work->cameraOffset.y + FX32_FROM_WHOLE(offsetY));
+    }
 }
 
-NONMATCH_FUNC void Player__Func_2013630(Player *player)
+void Player__Func_2013630(Player *work)
 {
-#ifdef NON_MATCHING
+    if (CheckIsPlayer1(work))
+    {
+        if ((work->gimmickFlag & PLAYER_GIMMICK_10) != 0)
+        {
+            if ((mapCamera.camera[work->cameraID].flags & MAPSYS_CAMERA_FLAG_40) == 0)
+                MapSys__Func_2009190(work->cameraID);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldrb r1, [r5, #0x5d1]
-	cmp r1, #0
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r1, [r5, #0x5dc]
-	tst r1, #0x10
-	beq _02013790
-	ldrb r0, [r5, #0x5d3]
-	mov r1, #0x70
-	ldr r2, =mapCamera
-	smulbb r1, r0, r1
-	ldr r1, [r2, r1]
-	tst r1, #0x40
-	bne _02013670
-	bl MapSys__Func_2009190
-_02013670:
-	ldr r2, [r5, #0x6d8]
-	cmp r2, #0
-	beq _02013778
-	add r0, r5, #0x600
-	ldrsh r1, [r0, #0xdc]
-	ldr r0, [r5, #0x5dc]
-	ldr r2, [r2, #0x44]
-	add r1, r1, #0x80
-	tst r0, #0x40
-	sub r4, r2, r1, lsl #12
-	beq _020136B4
-	ldrb r2, [r5, #0x5d3]
-	mov r0, #0x70
-	ldr r1, =mapCamera+0x00000004
-	smulbb r0, r2, r0
-	str r4, [r1, r0]
-	b _020137B8
-_020136B4:
-	ldr r0, =g_obj
-	mov r3, #0
-	ldr r0, [r0, #0x28]
-	tst r0, #0x400
-	beq _02013700
-	mov r0, #0x2000
-	str r0, [sp]
-	ldrb r2, [r5, #0x5d3]
-	mov r0, #0x70
-	ldr r1, =mapCamera+0x00000004
-	smulbb r0, r2, r0
-	ldr r0, [r1, r0]
-	mov r1, r4
-	mov r2, #4
-	bl ObjShiftSet
-	ldrb r3, [r5, #0x5d3]
-	mov r1, #0x70
-	ldr r2, =mapCamera+0x00000004
-	b _02013734
-_02013700:
-	mov r0, #0x1000
-	str r0, [sp]
-	ldrb r2, [r5, #0x5d3]
-	mov r0, #0x70
-	ldr r1, =mapCamera+0x00000004
-	smulbb r0, r2, r0
-	ldr r0, [r1, r0]
-	mov r1, r4
-	mov r2, #4
-	bl ObjShiftSet
-	ldrb r3, [r5, #0x5d3]
-	ldr r2, =mapCamera+0x00000004
-	mov r1, #0x70
-_02013734:
-	smulbb r1, r3, r1
-	str r0, [r2, r1]
-	ldrb r2, [r5, #0x5d3]
-	mov r0, #0x70
-	mov r1, #0x2000
-	smulbb r2, r2, r0
-	ldr r0, =mapCamera+0x00000004
-	rsb r1, r1, #0
-	ldr r0, [r0, r2]
-	and r2, r4, r1
-	and r0, r0, r1
-	cmp r2, r0
-	bne _020137B8
-	ldr r0, [r5, #0x5dc]
-	orr r0, r0, #0x40
-	str r0, [r5, #0x5dc]
-	b _020137B8
-_02013778:
-	ldr r1, [r5, #0x5dc]
-	mov r0, r5
-	bic r1, r1, #0x50
-	str r1, [r5, #0x5dc]
-	bl Player__Func_20138F4
-	b _020137B8
-_02013790:
-	bic r1, r1, #0x40
-	str r1, [r5, #0x5dc]
-	ldrb r3, [r5, #0x5d3]
-	mov r1, #0x70
-	ldr r2, =mapCamera
-	smulbb r1, r3, r1
-	ldr r1, [r2, r1]
-	tst r1, #0x40
-	beq _020137B8
-	bl Player__Func_20138F4
-_020137B8:
-	ldr r0, [r5, #0x5dc]
-	tst r0, #0x20
-	beq _020138B4
-	ldrb r0, [r5, #0x5d3]
-	mov r1, #0x70
-	ldr r2, =mapCamera
-	smulbb r1, r0, r1
-	ldr r1, [r2, r1]
-	tst r1, #0x80
-	bne _020137E4
-	bl MapSys__Func_20091B0
-_020137E4:
-	ldr r2, [r5, #0x6d8]
-	cmp r2, #0
-	beq _0201389C
-	add r0, r5, #0x600
-	ldrsh r1, [r0, #0xde]
-	ldr r0, [r5, #0x5dc]
-	ldr r2, [r2, #0x48]
-	add r1, r1, #0x60
-	tst r0, #0x80
-	sub r4, r2, r1, lsl #12
-	beq _02013828
-	ldrb r2, [r5, #0x5d3]
-	mov r0, #0x70
-	ldr r1, =mapCamera+0x00000008
-	smulbb r0, r2, r0
-	str r4, [r1, r0]
-	ldmia sp!, {r3, r4, r5, pc}
-_02013828:
-	mov r0, #0x1000
-	str r0, [sp]
-	ldrb r2, [r5, #0x5d3]
-	mov r0, #0x70
-	ldr r1, =mapCamera+0x00000008
-	smulbb r0, r2, r0
-	ldr r0, [r1, r0]
-	mov r1, r4
-	mov r2, #4
-	mov r3, #0
-	bl ObjShiftSet
-	ldrb r2, [r5, #0x5d3]
-	mov r1, #0x70
-	ldr r3, =mapCamera+0x00000008
-	smulbb r2, r2, r1
-	str r0, [r3, r2]
-	ldrb r2, [r5, #0x5d3]
-	mov r0, #0x2000
-	rsb r0, r0, #0
-	smulbb r1, r2, r1
-	ldr r1, [r3, r1]
-	and r2, r4, r0
-	and r0, r1, r0
-	cmp r2, r0
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r0, [r5, #0x5dc]
-	orr r0, r0, #0x80
-	str r0, [r5, #0x5dc]
-	ldmia sp!, {r3, r4, r5, pc}
-_0201389C:
-	ldr r1, [r5, #0x5dc]
-	mov r0, r5
-	bic r1, r1, #0xa0
-	str r1, [r5, #0x5dc]
-	bl Player__Func_2013948
-	ldmia sp!, {r3, r4, r5, pc}
-_020138B4:
-	bic r0, r0, #0x80
-	str r0, [r5, #0x5dc]
-	ldrb r2, [r5, #0x5d3]
-	mov r0, #0x70
-	ldr r1, =mapCamera
-	smulbb r0, r2, r0
-	ldr r0, [r1, r0]
-	tst r0, #0x80
-	ldmeqia sp!, {r3, r4, r5, pc}
-	mov r0, r5
-	bl Player__Func_2013948
-	ldmia sp!, {r3, r4, r5, pc}
+            if (work->gimmickObj != NULL)
+            {
+                fx32 x = work->gimmickObj->objWork.position.x - FX32_FROM_WHOLE(work->gimmickCamOffsetX + HW_LCD_CENTER_X);
+                if ((work->gimmickFlag & PLAYER_GIMMICK_40) != 0)
+                {
+                    mapCamera.camera[work->cameraID].disp_pos.x = x;
+                }
+                else
+                {
+                    if ((g_obj.flag & OBJECTMANAGER_FLAG_400) != 0)
+                        mapCamera.camera[work->cameraID].disp_pos.x = ObjShiftSet(mapCamera.camera[work->cameraID].disp_pos.x, x, 4, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(2.0));
+                    else
+                        mapCamera.camera[work->cameraID].disp_pos.x = ObjShiftSet(mapCamera.camera[work->cameraID].disp_pos.x, x, 4, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0));
 
-// clang-format on
-#endif
+                    if ((x & ~0x1FFF) == (mapCamera.camera[work->cameraID].disp_pos.x & ~0x1FFF))
+                        work->gimmickFlag |= PLAYER_GIMMICK_40;
+                }
+            }
+            else
+            {
+                work->gimmickFlag &= ~(PLAYER_GIMMICK_40 | PLAYER_GIMMICK_10);
+                Player__Func_20138F4(work);
+            }
+        }
+        else
+        {
+            work->gimmickFlag &= ~PLAYER_GIMMICK_40;
+            if ((mapCamera.camera[work->cameraID].flags & MAPSYS_CAMERA_FLAG_40) != 0)
+                Player__Func_20138F4(work);
+        }
+
+        if ((work->gimmickFlag & PLAYER_GIMMICK_20) != 0)
+        {
+            if ((mapCamera.camera[work->cameraID].flags & MAPSYS_CAMERA_FLAG_80) == 0)
+                MapSys__Func_20091B0(work->cameraID);
+
+            if (work->gimmickObj != NULL)
+            {
+                fx32 y = work->gimmickObj->objWork.position.y - FX32_FROM_WHOLE(work->gimmickCamOffsetY + HW_LCD_CENTER_Y);
+
+                if ((work->gimmickFlag & PLAYER_GIMMICK_80) != 0)
+                {
+                    mapCamera.camera[work->cameraID].disp_pos.y = y;
+                }
+                else
+                {
+                    mapCamera.camera[work->cameraID].disp_pos.y = ObjShiftSet(mapCamera.camera[work->cameraID].disp_pos.y, y, 4, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0));
+
+                    if ((y & ~0x1FFF) == (mapCamera.camera[work->cameraID].disp_pos.y & ~0x1FFF))
+                        work->gimmickFlag |= PLAYER_GIMMICK_80;
+                }
+            }
+            else
+            {
+                work->gimmickFlag &= ~(PLAYER_GIMMICK_80 | PLAYER_GIMMICK_20);
+                Player__Func_2013948(work);
+            }
+        }
+        else
+        {
+            work->gimmickFlag &= ~PLAYER_GIMMICK_80;
+            if ((mapCamera.camera[work->cameraID].flags & MAPSYS_CAMERA_FLAG_80) != 0)
+                Player__Func_2013948(work);
+        }
+    }
 }
 
 void Player__Func_20138F4(Player *player)
@@ -5192,7 +5019,7 @@ void Player__State_Grinding(Player *work)
 
         work->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
         work->grindID = PLAYER_GRIND_NONE;
-        Player__Gimmick_201BAC0(work, work->objWork.groundVel, -FLOAT_TO_FX32(5.0));
+        Player__Action_JumpDashLaunch(work, work->objWork.groundVel, -FLOAT_TO_FX32(5.0));
 
         if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
         {
@@ -5240,11 +5067,11 @@ void Player__State_Grinding(Player *work)
                 work->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
                 if ((work->inputKeyDown & PAD_KEY_UP) != 0)
                 {
-                    if ((work->objWork.collisionFlag & (STAGE_TASK_COLLISION_FLAG_GRIND_RAIL | STAGE_TASK_COLLISION_FLAG_1))
-                        == (STAGE_TASK_COLLISION_FLAG_GRIND_RAIL | STAGE_TASK_COLLISION_FLAG_1))
+                    if ((work->objWork.collisionFlag & (STAGE_TASK_COLLISION_FLAG_GRIND_RAIL | STAGE_TASK_COLLISION_FLAG_CLIFF_EDGE))
+                        == (STAGE_TASK_COLLISION_FLAG_GRIND_RAIL | STAGE_TASK_COLLISION_FLAG_CLIFF_EDGE))
                     {
                         work->grindID = PLAYER_GRIND_NONE;
-                        Player__Gimmick_201BAC0(work, work->objWork.groundVel, -FLOAT_TO_FX32(7.0));
+                        Player__Action_JumpDashLaunch(work, work->objWork.groundVel, -FLOAT_TO_FX32(7.0));
                         Player__Action_RainbowDashRing(work);
                         return;
                     }
@@ -5269,12 +5096,12 @@ void Player__State_Grinding(Player *work)
             FadeOutPlayerSfx(work, PLAYER_SEQPLAYER_GRINDTRICKSUCCES, 32);
             ReleasePlayerSfx(work, PLAYER_SEQPLAYER_GRINDTRICKSUCCES);
 
-            if ((work->objWork.collisionFlag & (STAGE_TASK_COLLISION_FLAG_GRIND_RAIL | STAGE_TASK_COLLISION_FLAG_1))
-                == (STAGE_TASK_COLLISION_FLAG_GRIND_RAIL | STAGE_TASK_COLLISION_FLAG_1))
+            if ((work->objWork.collisionFlag & (STAGE_TASK_COLLISION_FLAG_GRIND_RAIL | STAGE_TASK_COLLISION_FLAG_CLIFF_EDGE))
+                == (STAGE_TASK_COLLISION_FLAG_GRIND_RAIL | STAGE_TASK_COLLISION_FLAG_CLIFF_EDGE))
             {
                 work->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
                 work->grindID = PLAYER_GRIND_NONE;
-                Player__Gimmick_201BAC0(work, work->objWork.groundVel, -FLOAT_TO_FX32(7.0));
+                Player__Action_JumpDashLaunch(work, work->objWork.groundVel, -FLOAT_TO_FX32(7.0));
                 Player__Action_RainbowDashRing(work);
                 return;
             }
@@ -6123,7 +5950,7 @@ void Player__HandleGroundCollisions(Player *player)
             pData.flag = player->objWork.flag & STAGE_TASK_FLAG_ON_PLANE_B;
             pData.vec  = OBJ_COL_VEC_DOWN;
             pData.dir  = &dir;
-            pData.attr = 0;
+            pData.attr = NULL;
 
             dir = player->objWork.dir.z;
             ObjDiffCollisionFast(&pData);
@@ -6276,8 +6103,9 @@ BOOL Player__IsBalancing(Player *player, BOOL updateAction)
     colWork.y    = FX32_TO_WHOLE(player->objWork.position.y) + player->objWork.hitboxRect.bottom;
     colWork.flag = player->objWork.flag & STAGE_TASK_FLAG_ON_PLANE_B;
     colWork.vec  = OBJ_COL_VEC_UP;
-    colWork.dir  = 0;
-    colWork.attr = 0;
+    colWork.dir  = NULL;
+    colWork.attr = NULL;
+
     if (ObjDiffCollision(&colWork) > 0)
     {
         colWork.x     = FX32_TO_WHOLE(player->objWork.position.x) + player->objWork.hitboxRect.left - 2;
@@ -6352,7 +6180,7 @@ void Player__HandleSuperBoost(Player *player)
 
         if ((!player->gimmickObj || (player->gimmickFlag & PLAYER_GIMMICK_8) != 0) && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0
                 && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT) == 0 && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES) == 0
-                && (player->actionState <= PLAYER_ACTION_HANG_ROT || player->actionState >= PLAYER_ACTION_3D)
+                && (player->actionState <= PLAYER_ACTION_HANG_ROT || player->actionState >= PLAYER_ACTION_BUNGEE)
             || player->tension == 0)
         {
             if (player->minBoostVelocity > MATH_ABS(player->objWork.move.x) + MATH_ABS(player->objWork.move.y))

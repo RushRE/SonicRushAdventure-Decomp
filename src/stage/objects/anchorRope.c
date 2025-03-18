@@ -668,7 +668,7 @@ NONMATCH_FUNC void AnchorRope__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rec
 	mov r0, r5
 	mov r1, r4
 	str r2, [r4, #0xf4]
-	bl Player__Func_2021B84
+	bl Player__Action_AnchorRope
 	ldmia sp!, {r3, r4, r5, pc}
 
 // clang-format on

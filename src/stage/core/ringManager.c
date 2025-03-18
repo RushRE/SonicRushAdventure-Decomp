@@ -953,16 +953,16 @@ void RingManager_StageCollide_Flat(Ring *ring)
     s32 collideDistY = 0;
 
     if ((ring->flag & RING_FLAG_USE_PLANE_B) != 0)
-        cData.flag = 1;
+        cData.flag = OBJ_COL_FLAG_USE_PLANE_B;
     else
-        cData.flag = 0;
+        cData.flag = OBJ_COL_FLAG_NONE;
 
-    cData.dir  = 0;
-    cData.attr = 0;
+    cData.dir  = NULL;
+    cData.attr = NULL;
     cData.x    = FX32_TO_WHOLE(ring->position.x);
     cData.y    = FX32_TO_WHOLE(ring->position.y);
 
-    if (ring->velocity.y > 0)
+    if (ring->velocity.y > FLOAT_TO_FX32(0.0))
     {
         cData.vec    = OBJ_COL_VEC_UP;
         collideDistY = ObjDiffCollisionFast(&cData);
@@ -974,7 +974,7 @@ void RingManager_StageCollide_Flat(Ring *ring)
                 ring->position.y += FX32_FROM_WHOLE(collideDistY);
         }
     }
-    else if (ring->velocity.y < 0)
+    else if (ring->velocity.y < FLOAT_TO_FX32(0.0))
     {
         cData.vec    = OBJ_COL_VEC_DOWN;
         collideDistY = ObjDiffCollisionFast(&cData);
@@ -1024,16 +1024,16 @@ void RingManager_StageCollide_Boss(Ring *ring)
     s32 collideDistY = 0;
 
     if ((ring->flag & RING_FLAG_USE_PLANE_B) != 0)
-        cData.flag = 1;
+        cData.flag = OBJ_COL_FLAG_USE_PLANE_B;
     else
-        cData.flag = 0;
+        cData.flag = OBJ_COL_FLAG_NONE;
 
-    cData.dir  = 0;
-    cData.attr = 0;
+    cData.dir  = NULL;
+    cData.attr = NULL;
     cData.x    = FX32_TO_WHOLE(ring->position.x);
     cData.y    = FX32_TO_WHOLE(ring->position.y);
 
-    if (ring->velocity.y > 0)
+    if (ring->velocity.y > FLOAT_TO_FX32(0.0))
     {
         cData.vec    = OBJ_COL_VEC_UP;
         collideDistY = ObjCollisionFastUnion(&cData);
@@ -1045,7 +1045,7 @@ void RingManager_StageCollide_Boss(Ring *ring)
                 ring->position.y += FX32_FROM_WHOLE(collideDistY);
         }
     }
-    else if (ring->velocity.y < 0)
+    else if (ring->velocity.y < FLOAT_TO_FX32(0.0))
     {
         cData.vec    = OBJ_COL_VEC_DOWN;
         collideDistY = ObjCollisionFastUnion(&cData);
