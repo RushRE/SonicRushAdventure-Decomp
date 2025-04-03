@@ -5259,7 +5259,7 @@ void Player__State_AnchorRope(Player *work)
     }
 }
 
-void Player__Func_2021CE8(Player *player, GameObjectTask *other)
+void Player__Action_BarrelGrab(Player *player, GameObjectTask *other)
 {
     fx32 offsetX;
     if (player->characterID == CHARACTER_SONIC)
@@ -5268,7 +5268,7 @@ void Player__Func_2021CE8(Player *player, GameObjectTask *other)
         offsetX = FLOAT_TO_FX32(42.0);
     Player__Action_FollowParent(player, other, FLOAT_TO_FX32(0.0), offsetX, FLOAT_TO_FX32(0.0));
 
-    SetTaskState(&player->objWork, Player__State_2021DD4);
+    SetTaskState(&player->objWork, Player__State_BarrelGrab);
 
     player->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO;
     player->objWork.userFlag |= PLAYER_CHILDFLAG_FOLLOW_PREV_POS | PLAYER_CHILDFLAG_FORCE_JUMP_ACTION;
@@ -5290,7 +5290,7 @@ void Player__Func_2021CE8(Player *player, GameObjectTask *other)
     player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 }
 
-void Player__State_2021DD4(Player *work)
+void Player__State_BarrelGrab(Player *work)
 {
     if (work->gimmickObj != NULL && (work->gimmickObj->flags & 2) != 0)
         work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
@@ -5308,7 +5308,7 @@ void Player__State_2021DD4(Player *work)
 
     Player__State_FollowParent(work);
 
-    if (!StageTaskStateMatches(&work->objWork, Player__State_2021DD4))
+    if (!StageTaskStateMatches(&work->objWork, Player__State_BarrelGrab))
     {
         work->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
         work->playerFlag |= PLAYER_FLAG_USER_FLAG;

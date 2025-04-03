@@ -34,10 +34,10 @@ typedef struct AnchorRope_
 
 AnchorRope *AnchorRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 void AnchorRope__Destructor(Task *task);
-void AnchorRope__State_2176C80(AnchorRope *work);
-void AnchorRope__State_2176E1C(AnchorRope *work);
+void AnchorRope__State_PlayerSpin(AnchorRope *work);
+void AnchorRope__State_ReleasedPlayer(AnchorRope *work);
 void AnchorRope__Draw(void);
 void AnchorRope__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void AnchorRope__Func_2177274(AnchorRope *work);
+void AnchorRope__HandleRopePos(AnchorRope *work);
 
 #endif // RUSH_ANCHOR_ROPE_H

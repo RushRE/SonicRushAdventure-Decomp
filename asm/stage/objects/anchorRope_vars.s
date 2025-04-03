@@ -3,13 +3,17 @@
 
 	.data
 	
-.public AnchorRope__word_21897E4
-AnchorRope__word_21897E4: // 0x21897E4
+.public AnchorRope__spriteSizeTable
+AnchorRope__spriteSizeTable: // 0x21897E4
 	.hword 0x1C, 0x10
 
-.public AnchorRope__word_21897E8
-AnchorRope__word_21897E8: // 0x021897E8
-	.hword 0, 2, 0, 0x48
+.public AnchorRope__modelIDTable
+AnchorRope__modelIDTable: // 0x021897E8
+	.hword 0, 2
+
+.public AnchorRope__paletteFlagTable
+AnchorRope__paletteFlagTable: // 0x021897E8
+	.hword 0, 0x48
 
 aModGmkAnchorRo: // 0x021897F0
 	.asciz "/mod/gmk_anchor_rope.nsbmd"

@@ -8,8 +8,9 @@
 // VARIABLES
 // --------------------
 	
-NOT_DECOMPILED void *AnchorRope__word_21897E4;
-NOT_DECOMPILED void *AnchorRope__word_21897E8;
+NOT_DECOMPILED u16 AnchorRope__spriteSizeTable[2];
+NOT_DECOMPILED u16 AnchorRope__modelIDTable[2];
+NOT_DECOMPILED u16 AnchorRope__paletteFlagTable[2];
 
 NOT_DECOMPILED void *aModGmkAnchorRo;
 NOT_DECOMPILED void *aActAcGmkAnchor;
@@ -71,9 +72,9 @@ NONMATCH_FUNC AnchorRope *AnchorRope__Create(MapObject *mapObject, fx32 x, fx32 
 	ldr r2, [r2, #0]
 	bl ObjDataLoad
 	mov r8, #0
-	ldr r5, =AnchorRope__word_21897E8
+	ldr r5, =AnchorRope__modelIDTable
 	ldr r4, =0x000034CC
-	ldr r11, =AnchorRope__word_21897E4
+	ldr r11, =AnchorRope__spriteSizeTable
 	str r0, [r7, #0x364]
 	add r9, r7, #0x368
 	add r10, r7, #0x5f0
@@ -196,7 +197,7 @@ _02176B58:
 	moveq r0, #0x28000
 	str r0, [r7, #0x768]
 	mov r0, r7
-	bl AnchorRope__Func_2177274
+	bl AnchorRope__HandleRopePos
 	ldr r0, =AnchorRope__Draw
 	str r0, [r7, #0xfc]
 	bl AllocSndHandle
@@ -251,7 +252,7 @@ _02176C28:
 #endif
 }
 
-NONMATCH_FUNC void AnchorRope__State_2176C80(AnchorRope *work)
+NONMATCH_FUNC void AnchorRope__State_PlayerSpin(AnchorRope *work)
 {
 #ifdef NON_MATCHING
 
@@ -268,10 +269,10 @@ NONMATCH_FUNC void AnchorRope__State_2176C80(AnchorRope *work)
 _02176CA0:
 	mov r0, #0
 	str r0, [r4, #0x35c]
-	ldr r1, =AnchorRope__State_2176E1C
+	ldr r1, =AnchorRope__State_ReleasedPlayer
 	mov r0, r4
 	str r1, [r4, #0xf4]
-	bl AnchorRope__State_2176E1C
+	bl AnchorRope__State_ReleasedPlayer
 	ldmia sp!, {r4, pc}
 _02176CBC:
 	add r0, r4, #0x700
@@ -340,12 +341,12 @@ _02176CBC:
 	ldrne r0, [r4, #0x98]
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x98]
-	ldr r0, =AnchorRope__State_2176E1C
+	ldr r0, =AnchorRope__State_ReleasedPlayer
 	str r1, [r4, #0x9c]
 	str r0, [r4, #0xf4]
 _02176DD0:
 	mov r0, r4
-	bl AnchorRope__Func_2177274
+	bl AnchorRope__HandleRopePos
 	ldr r0, [r4, #0x750]
 	mov r1, #0x90000
 	bl FX_Div
@@ -366,7 +367,7 @@ _02176DD0:
 #endif
 }
 
-NONMATCH_FUNC void AnchorRope__State_2176E1C(AnchorRope *work)
+NONMATCH_FUNC void AnchorRope__State_ReleasedPlayer(AnchorRope *work)
 {
 #ifdef NON_MATCHING
 
@@ -453,7 +454,7 @@ NONMATCH_FUNC void AnchorRope__State_2176E1C(AnchorRope *work)
 	str r0, [r4, #0x4cc]
 _02176F58:
 	mov r0, r4
-	bl AnchorRope__Func_2177274
+	bl AnchorRope__HandleRopePos
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 
@@ -663,8 +664,8 @@ NONMATCH_FUNC void AnchorRope__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rec
 	mov r0, r4
 	bic r1, r1, #0x200
 	str r1, [r4, #0x20]
-	bl AnchorRope__Func_2177274
-	ldr r2, =AnchorRope__State_2176C80
+	bl AnchorRope__HandleRopePos
+	ldr r2, =AnchorRope__State_PlayerSpin
 	mov r0, r5
 	mov r1, r4
 	str r2, [r4, #0xf4]
@@ -675,7 +676,7 @@ NONMATCH_FUNC void AnchorRope__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rec
 #endif
 }
 
-NONMATCH_FUNC void AnchorRope__Func_2177274(AnchorRope *work)
+NONMATCH_FUNC void AnchorRope__HandleRopePos(AnchorRope *work)
 {
 #ifdef NON_MATCHING
 
