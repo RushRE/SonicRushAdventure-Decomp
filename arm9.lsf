@@ -516,8 +516,7 @@ Overlay ZoneAct
     Object src/stage/objects/checkpoint.o
     Object src/stage/objects/platform.o
     Object src/stage/objects/avalanche.o
-    Object asm/stage/objects/anchorRope_vars.o
-    Object src/stage/objects/anchorRope.o # not yet started
+    Object src/stage/objects/anchorRope.o
     Object src/stage/objects/barrel.o
     Object src/stage/objects/startPlatform.o
     Object src/stage/objects/trampoline.o

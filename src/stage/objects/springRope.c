@@ -49,17 +49,19 @@ SpringRope *CreateSpringRope(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
+    // Init 2D graphics, these are fallback graphics in the event this gets rendered on the screen without 3D support
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rope_c.bac", GetObjectDataWork(OBJDATAWORK_159), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 105);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
 
-    OBS_ACTION3D_NN_WORK *aniRope = &work->aniRope;
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniRope, "/mod/gmk_rope_c.nsbmd", 1, GetObjectDataWork(OBJDATAWORK_160), gameArchiveStage);
+    // Init 3D graphics, these are the main graphics the devs want you to see
+    OBS_ACTION3D_NN_WORK *aniRope3D = &work->aniRope3D;
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniRope3D, "/mod/gmk_rope_c.nsbmd", 1, GetObjectDataWork(OBJDATAWORK_160), gameArchiveStage);
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_ROTATION;
-    aniRope->ani.work.scale.x = FLOAT_TO_FX32(3.3);
-    aniRope->ani.work.scale.y = FLOAT_TO_FX32(3.3);
-    aniRope->ani.work.scale.z = FLOAT_TO_FX32(3.3);
+    aniRope3D->ani.work.scale.x = FLOAT_TO_FX32(3.3);
+    aniRope3D->ani.work.scale.y = FLOAT_TO_FX32(3.3);
+    aniRope3D->ani.work.scale.z = FLOAT_TO_FX32(3.3);
 
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
     if ((mapObject->flags & SPRINGROPE_OBJFLAG_FLIPPED) != 0)
@@ -93,18 +95,18 @@ void SpringRope_State_Active(SpringRope *work)
         }
         else
         {
-            OBS_ACTION3D_NN_WORK *aniRope = work->gameWork.objWork.obj_3d;
+            OBS_ACTION3D_NN_WORK *aniRope3D = work->gameWork.objWork.obj_3d;
 
             MtxFx33 mtxTemp;
-            MTX_Identity33(&aniRope->ani.work.rotation);
+            MTX_Identity33(&aniRope3D->ani.work.rotation);
             MTX_RotX33(&mtxTemp, SinFX((s32)(u16)player->objWork.userWork), CosFX((s32)(u16)player->objWork.userWork));
-            MTX_Concat33(&aniRope->ani.work.rotation, &mtxTemp, &aniRope->ani.work.rotation);
+            MTX_Concat33(&aniRope3D->ani.work.rotation, &mtxTemp, &aniRope3D->ani.work.rotation);
 
             s32 angle = (s32)(u16) - (s32)(u16)(player->objWork.dir.y - FLOAT_DEG_TO_IDX(90.0));
             MTX_RotY33(&mtxTemp, SinFX(angle), CosFX(angle));
-            MTX_Concat33(&aniRope->ani.work.rotation, &mtxTemp, &aniRope->ani.work.rotation);
+            MTX_Concat33(&aniRope3D->ani.work.rotation, &mtxTemp, &aniRope3D->ani.work.rotation);
 
-            VEC_Set(&aniRope->ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FX32_TO_WHOLE(FLOAT_TO_FX32(3.3) * FX_DivS32(player->objWork.userTimer, 160)));
+            VEC_Set(&aniRope3D->ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FX32_TO_WHOLE(FLOAT_TO_FX32(3.3) * FX_DivS32(player->objWork.userTimer, 160)));
 
             if (player->objWork.dir.y < FLOAT_DEG_TO_IDX(180.0))
                 work->gameWork.flags |= SPRINGROPE_FLAG_USE_LOW_PRIORITY;
@@ -114,19 +116,19 @@ void SpringRope_State_Active(SpringRope *work)
     }
     else
     {
-        OBS_ACTION3D_NN_WORK *aniRope = work->gameWork.objWork.obj_3d;
+        OBS_ACTION3D_NN_WORK *aniRope3D = work->gameWork.objWork.obj_3d;
         work->gameWork.flags &= ~SPRINGROPE_FLAG_USE_LOW_PRIORITY;
 
         MtxFx33 mtxTemp;
-        MTX_Identity33(&aniRope->ani.work.rotation);
+        MTX_Identity33(&aniRope3D->ani.work.rotation);
         MTX_RotX33(&mtxTemp, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
-        MTX_Concat33(&aniRope->ani.work.rotation, &mtxTemp, &aniRope->ani.work.rotation);
+        MTX_Concat33(&aniRope3D->ani.work.rotation, &mtxTemp, &aniRope3D->ani.work.rotation);
         MTX_RotY33(&mtxTemp, SinFX(FLOAT_DEG_TO_IDX(90.0)), CosFX(FLOAT_DEG_TO_IDX(90.0)));
-        MTX_Concat33(&aniRope->ani.work.rotation, &mtxTemp, &aniRope->ani.work.rotation);
+        MTX_Concat33(&aniRope3D->ani.work.rotation, &mtxTemp, &aniRope3D->ani.work.rotation);
 
-        aniRope->ani.work.scale.x = FLOAT_TO_FX32(3.3);
-        aniRope->ani.work.scale.y = FLOAT_TO_FX32(3.3);
-        aniRope->ani.work.scale.z = FLOAT_TO_FX32(3.3);
+        aniRope3D->ani.work.scale.x = FLOAT_TO_FX32(3.3);
+        aniRope3D->ani.work.scale.y = FLOAT_TO_FX32(3.3);
+        aniRope3D->ani.work.scale.z = FLOAT_TO_FX32(3.3);
     }
 }
 

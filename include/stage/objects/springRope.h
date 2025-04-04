@@ -10,7 +10,7 @@
 typedef struct SpringRope_
 {
     GameObjectTask gameWork;
-    OBS_ACTION3D_NN_WORK aniRope;
+    OBS_ACTION3D_NN_WORK aniRope3D;
 } SpringRope;
 
 typedef struct SpringRopeSpring_

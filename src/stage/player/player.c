@@ -302,6 +302,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     SetTaskLastFunc(&work->objWork, Player__Last_Default);
     work->objWork.displayFlag |= DISPLAY_FLAG_800;
 
+    // Load player model
     ObjAction3dNNModelLoad(&work->objWork, &work->aniPlayerModel, playerModelPath[characterID], 1, &playerWork[(s32)characterID], NULL);
 
     u16 oldNodeCount = work->aniPlayerModel.ani.renderObj.resMdl->info.numNode;
@@ -316,6 +317,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     work->aniPlayerModel.ani.work.matrixOpIDs[1] = MATRIX_OP_IDENTITY;
     work->aniPlayerModel.ani.work.matrixOpIDs[2] = MATRIX_OP_IDENTITY_ROTATE_TRANSLATE2_SCALE;
 
+    // Load player animations
     ObjAction3dNNMotionLoad(&work->objWork, &work->aniPlayerModel, "plycom.nsbca", &animationWork, NULL);
     work->aniPlayerModel.ani.renderObj.recJntAnm = work->aniPlayerModel.ani.jntAnimResult =
         NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniPlayerModel.resources[B3D_RESOURCE_MODEL]), idx));
@@ -352,6 +354,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
             break;
     }
 
+    // Load snowboard animations
     if (IsSnowboardStage())
     {
         ObjDataLoad(&snowboardWork, "/mod/plybd.nsbca", gameArchiveStage);
@@ -360,6 +363,8 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
 
     ObjDraw__PaletteTex__Init(playerWork[characterID].fileData, &work->paletteTex);
 
+    // Init 2D "graphics" data
+    // before you get your hopes up: this is just for colliders! The graphics have been entirely stripped from this file.
     ObjObjectAction2dBACLoad(&work->objWork, &work->aniPlayerSprite, "/act/ac_ply.bac", &spriteWork, NULL, OBJ_DATA_GFX_NONE);
     work->aniPlayerSprite.ani.work.oamOrder = SPRITE_ORDER_13;
     work->aniPlayerSprite.ani.screensToDraw |= (SCREEN_DRAW_A | SCREEN_DRAW_3 | SCREEN_DRAW_4);

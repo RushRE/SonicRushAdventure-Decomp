@@ -5,259 +5,194 @@
 #include <game/math/akMath.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum AnchorRopeAnimatorID
+{
+    ANCHORROPE_ANIMATOR_ANCHOR,
+    ANCHORROPE_ANIMATOR_ROPE,
+
+    ANCHORROPE_ANIMATOR_COUNT,
+};
+
+enum AnchorRopeFlags
+{
+    ANCHORROPE_FLAG_NONE,
+
+    ANCHORROPE_FLAG_FLIPPED = 1 << 0,
+};
+
+// --------------------
 // VARIABLES
 // --------------------
-	
-NOT_DECOMPILED u16 AnchorRope__spriteSizeTable[2];
-NOT_DECOMPILED u16 AnchorRope__modelIDTable[2];
-NOT_DECOMPILED u16 AnchorRope__paletteFlagTable[2];
 
-NOT_DECOMPILED void *aModGmkAnchorRo;
-NOT_DECOMPILED void *aActAcGmkAnchor;
+static u16 modelIdxTable[ANCHORROPE_ANIMATOR_COUNT]    = { [ANCHORROPE_ANIMATOR_ANCHOR] = 0, [ANCHORROPE_ANIMATOR_ROPE] = 2 };
+static u16 spriteSizeTable[ANCHORROPE_ANIMATOR_COUNT]  = { [ANCHORROPE_ANIMATOR_ANCHOR] = 28, [ANCHORROPE_ANIMATOR_ROPE] = 16 };
+static u16 paletteFlagTable[ANCHORROPE_ANIMATOR_COUNT] = { [ANCHORROPE_ANIMATOR_ANCHOR] = 0, [ANCHORROPE_ANIMATOR_ROPE] = 72 };
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void AnchorRope_Destructor(Task *task);
+static void AnchorRope_State_PlayerSpin(AnchorRope *work);
+static void AnchorRope_State_ReleasedPlayer(AnchorRope *work);
+static void AnchorRope_Draw(void);
+static void AnchorRope_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+static void AnchorRope_HandleRopePos(AnchorRope *work);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC AnchorRope *AnchorRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+AnchorRope *CreateAnchorRope(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    Task *task = CreateStageTask(AnchorRope_Destructor, TASK_FLAG_NONE, TASK_PAUSELEVEL_0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), AnchorRope);
+    if (task == HeapNull)
+        return NULL;
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x10
-	ldr r3, =0x000010F6
-	str r0, [sp, #0xc]
-	str r3, [sp]
-	mov r0, #2
-	mov r6, r1
-	mov r5, r2
-	mov r2, #0
-	str r0, [sp, #4]
-	ldr r4, =0x0000076C
-	ldr r0, =StageTask_Main
-	ldr r1, =AnchorRope__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0x10
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	ldr r2, =0x0000076C
-	mov r1, #0
-	mov r7, r0
-	bl MI_CpuFill8
-	ldr r1, [sp, #0xc]
-	mov r0, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldr r1, [r7, #0x1c]
-	mov r0, #0x9f
-	orr r1, r1, #0x2100
-	str r1, [r7, #0x1c]
-	ldr r1, [r7, #0x20]
-	orr r1, r1, #0x300
-	str r1, [r7, #0x20]
-	bl GetObjectFileWork
-	ldr r2, =gameArchiveStage
-	ldr r1, =aModGmkAnchorRo
-	ldr r2, [r2, #0]
-	bl ObjDataLoad
-	mov r8, #0
-	ldr r5, =AnchorRope__modelIDTable
-	ldr r4, =0x000034CC
-	ldr r11, =AnchorRope__spriteSizeTable
-	str r0, [r7, #0x364]
-	add r9, r7, #0x368
-	add r10, r7, #0x5f0
-	mov r6, r8
-_021769E4:
-	mov r0, r9
-	mov r1, #0
-	bl AnimatorMDL__Init
-	str r6, [sp]
-	mov r2, r8, lsl #1
-	ldrh r2, [r5, r2]
-	ldr r1, [r7, #0x364]
-	mov r0, r9
-	mov r3, r6
-	bl AnimatorMDL__SetResource
-	str r4, [r9, #0x18]
-	str r4, [r9, #0x1c]
-	mov r0, #0xa0
-	str r4, [r9, #0x20]
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	mov r2, r8, lsl #1
-	ldr r1, [r0, #0]
-	mov r0, r10
-	str r1, [sp]
-	ldrh r2, [r11, r2]
-	ldr r1, =aActAcGmkAnchor
-	bl ObjAction2dBACLoad
-	mov r0, #0xa0
-	bl GetObjectFileWork
-	mov r1, r8, lsl #0x10
-	ldr r2, =0x021897EC
-	mov r3, r8, lsl #1
-	ldrsh r2, [r2, r3]
-	ldr r0, [r0, #0]
-	mov r1, r1, lsr #0x10
-	bl ObjDrawAllocSpritePalette
-	strh r0, [r10, #0x50]
-	ldrh r2, [r10, #0x50]
-	mov r1, r8, lsl #0x10
-	mov r0, r10
-	strh r2, [r10, #0x92]
-	strh r2, [r10, #0x90]
-	ldr r2, [r10, #0x64]
-	mov r1, r1, lsr #0x10
-	orr r2, r2, #1
-	str r2, [r10, #0x64]
-	bl AnimatorSpriteDS__SetAnimation
-	mov r0, r10
-	mov r1, #0x17
-	bl StageTask__SetOAMOrder
-	mov r0, r10
-	mov r1, #2
-	bl StageTask__SetOAMPriority
-	add r8, r8, #1
-	add r9, r9, #0x144
-	add r10, r10, #0xa4
-	cmp r8, #2
-	blt _021769E4
-	mov r1, #0
-	mov r2, r1
-	add r0, r7, #0x218
-	str r7, [r7, #0x234]
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r7, #0x218
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r0, =AnchorRope__OnDefend
-	mov r4, #0x48
-	str r0, [r7, #0x23c]
-	ldr r0, [r7, #0x230]
-	mov r2, #0x20
-	orr r0, r0, #0x400
-	str r0, [r7, #0x230]
-	ldr r0, [sp, #0xc]
-	ldrh r0, [r0, #2]
-	cmp r0, #0xc5
-	add r0, r7, #0x218
-	bne _02176B38
-	sub r1, r4, #0x108
-	sub r3, r2, #0xb8
-	str r4, [sp]
-	bl ObjRect__SetBox2D
-	add r0, r7, #0x700
-	mov r1, #0xe000
-	strh r1, [r0, #0x44]
-	mov r2, #0xc000
-	b _02176B58
-_02176B38:
-	mov r1, #0x98
-	mov r3, #0xc0
-	str r4, [sp]
-	bl ObjRect__SetBox2D
-	add r0, r7, #0x700
-	mov r1, #0xe000
-	strh r1, [r0, #0x44]
-	mov r2, #0x4000
-_02176B58:
-	strh r2, [r0, #0x46]
-	mov r1, #0x800
-	strh r1, [r0, #0x4a]
-	strh r2, [r0, #0x4c]
-	mov r0, #0x90000
-	str r0, [r7, #0x750]
-	add r0, r7, #0x700
-	ldrh r1, [r0, #0x44]
-	strh r1, [r0, #0x5c]
-	ldrh r1, [r0, #0x46]
-	strh r1, [r0, #0x5e]
-	ldrh r1, [r0, #0x4a]
-	strh r1, [r0, #0x62]
-	ldrh r1, [r0, #0x4c]
-	strh r1, [r0, #0x64]
-	ldr r0, [sp, #0xc]
-	ldrh r0, [r0, #4]
-	tst r0, #1
-	movne r0, #0x20000
-	moveq r0, #0x28000
-	str r0, [r7, #0x768]
-	mov r0, r7
-	bl AnchorRope__HandleRopePos
-	ldr r0, =AnchorRope__Draw
-	str r0, [r7, #0xfc]
-	bl AllocSndHandle
-	str r0, [r7, #0x138]
-	mov r0, r7
-	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    AnchorRope *work = TaskGetWork(task, AnchorRope);
+    TaskInitWork8(work);
 
-// clang-format on
-#endif
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_ROTATION;
+
+    work->resAnchorRope = ObjDataLoad(GetObjectDataWork(OBJDATAWORK_159), "/mod/gmk_anchor_rope.nsbmd", gameArchiveStage);
+
+    for (s32 i = 0; i < ANCHORROPE_ANIMATOR_COUNT; i++)
+    {
+		// Init 3D graphics, these are the main graphics the devs want you to see
+        AnimatorMDL *aniRope3D = &work->aniRope3D[i];
+        AnimatorMDL__Init(aniRope3D, ANIMATOR_FLAG_NONE);
+        AnimatorMDL__SetResource(aniRope3D, work->resAnchorRope, modelIdxTable[i], FALSE, FALSE);
+        aniRope3D->work.scale.x = FLOAT_TO_FX32(3.3);
+        aniRope3D->work.scale.y = FLOAT_TO_FX32(3.3);
+        aniRope3D->work.scale.z = FLOAT_TO_FX32(3.3);
+
+		// Init 2D graphics, these are fallback graphics in the event this gets rendered on the screen without 3D support
+        AnimatorSpriteDS *aniRope2D = &work->aniRope2D[i];
+        ObjAction2dBACLoad(aniRope2D, "/act/ac_gmk_anchor_rope.bac", spriteSizeTable[i], GetObjectDataWork(OBJDATAWORK_160), gameArchiveStage);
+        aniRope2D->work.cParam.palette = ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_160)->fileData, i, paletteFlagTable[i]);
+        aniRope2D->cParam[0].palette = aniRope2D->cParam[1].palette = aniRope2D->work.cParam.palette;
+        aniRope2D->screensToDraw |= SCREEN_DRAW_A;
+        AnimatorSpriteDS__SetAnimation(aniRope2D, i);
+        StageTask__SetOAMOrder(&aniRope2D->work, SPRITE_ORDER_23);
+        StageTask__SetOAMPriority(&aniRope2D->work, SPRITE_PRIORITY_2);
+    }
+
+    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[0], AnchorRope_OnDefend);
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+
+    if (mapObject->id == MAPOBJECT_197)
+    {
+        ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -192, 32, -152, 72);
+
+        work->anchorAngle.x = -FLOAT_DEG_TO_IDX(45.0);
+        work->anchorAngle.y = -FLOAT_DEG_TO_IDX(90.0);
+
+        work->ropeAngle.x = FLOAT_DEG_TO_IDX(11.25);
+        work->ropeAngle.y = -FLOAT_DEG_TO_IDX(90.0);
+    }
+    else
+    {
+        ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, 152, 32, 192, 72);
+
+        work->anchorAngle.x = -FLOAT_DEG_TO_IDX(45.0);
+        work->anchorAngle.y = FLOAT_DEG_TO_IDX(90.0);
+
+        work->ropeAngle.x = FLOAT_DEG_TO_IDX(11.25);
+        work->ropeAngle.y = FLOAT_DEG_TO_IDX(90.0);
+    }
+
+    work->anchorPos           = FLOAT_TO_FX32(144.0);
+    work->targetAnchorAngle.x = work->anchorAngle.x;
+    work->targetAnchorAngle.y = work->anchorAngle.y;
+    work->targetRopeAngle.x   = work->ropeAngle.x;
+    work->targetRopeAngle.y   = work->ropeAngle.y;
+
+    if ((mapObject->flags & ANCHORROPE_FLAG_FLIPPED) != 0)
+        work->angleDistanceThreshold = FLOAT_TO_FX32(32.0);
+    else
+        work->angleDistanceThreshold = FLOAT_TO_FX32(40.0);
+
+    AnchorRope_HandleRopePos(work);
+
+    SetTaskOutFunc(&work->gameWork.objWork, AnchorRope_Draw);
+
+    work->gameWork.objWork.sequencePlayerPtr = AllocSndHandle();
+
+    return work;
 }
 
-NONMATCH_FUNC void AnchorRope__Destructor(Task *task)
+void AnchorRope_Destructor(Task *task)
 {
-#ifdef NON_MATCHING
+    AnchorRope *work = TaskGetWork(task, AnchorRope);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	mov r8, r0
-	bl GetTaskWork_
-	mov r6, r0
-	add r5, r6, #0x368
-	add r7, r6, #0x5f0
-	mov r4, #0
-	mov r9, #0xa0
-_02176C28:
-	mov r0, r5
-	bl AnimatorMDL__Release
-	add r0, r6, #0x600
-	ldrh r0, [r0, #0x40]
-	and r0, r0, #0xff
-	bl ObjDrawReleaseSpritePalette
-	mov r0, r9
-	bl GetObjectFileWork
-	mov r1, r7
-	bl ObjAction2dBACRelease
-	add r4, r4, #1
-	cmp r4, #2
-	add r5, r5, #0x144
-	add r6, r6, #0xa4
-	add r7, r7, #0xa4
-	blt _02176C28
-	mov r0, #0x9f
-	bl GetObjectFileWork
-	bl ObjDataRelease
-	mov r0, r8
-	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+    for (s32 i = 0; i < ANCHORROPE_ANIMATOR_COUNT; i++)
+    {
+        AnimatorMDL__Release(&work->aniRope3D[i]);
+        ObjDrawReleaseSpritePalette(work->aniRope2D[i].work.cParam.palette);
+        ObjAction2dBACRelease(GetObjectDataWork(OBJDATAWORK_160), &work->aniRope2D[i]);
+    }
 
-// clang-format on
-#endif
+    ObjDataRelease(GetObjectDataWork(OBJDATAWORK_159));
+
+    GameObject__Destructor(task);
 }
 
-NONMATCH_FUNC void AnchorRope__State_PlayerSpin(AnchorRope *work)
+NONMATCH_FUNC void AnchorRope_State_PlayerSpin(AnchorRope *work)
 {
+	// https://decomp.me/scratch/Or12p -> 96.12%
 #ifdef NON_MATCHING
+    Player *player = (Player *)work->gameWork.parent;
 
+    if (player == NULL || !CheckPlayerGimmickObj(player, work))
+    {
+        work->gameWork.parent = NULL;
+        SetTaskState(&work->gameWork.objWork, AnchorRope_State_ReleasedPlayer);
+        AnchorRope_State_ReleasedPlayer(work);
+    }
+    else
+    {
+        work->angleSpeed = ObjSpdUpSet(work->angleSpeed, -FLOAT_TO_FX32(0.25), FLOAT_TO_FX32(0.46875));
+        work->angleDistance += MATH_ABS(work->angleSpeed);
+        work->anchorAngle.x = ObjRoopMove16(work->anchorAngle.x, FLOAT_DEG_TO_IDX(270.0), FLOAT_DEG_TO_IDX(1.40625));
+        work->ropeAngle.x   = ObjRoopMove16(work->ropeAngle.x, FLOAT_DEG_TO_IDX(0.0), FLOAT_DEG_TO_IDX(0.3515625));
+        work->anchorAngle.y += work->angleSpeed;
+        work->ropeAngle.y += work->angleSpeed;
+
+        work->anchorPos -= FLOAT_TO_FX32(1.3125);
+        if (work->anchorPos < FLOAT_TO_FX32(42.0))
+            work->anchorPos = FLOAT_TO_FX32(42.0);
+
+        if (work->angleDistance >= work->angleDistanceThreshold)
+        {
+            work->gameWork.parent = NULL;
+            work->gameWork.objWork.userFlag |= 1;
+
+            work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(4.0);
+
+            if (work->gameWork.mapObject->id == MAPOBJECT_208)
+                work->gameWork.objWork.velocity.x = -work->gameWork.objWork.velocity.x;
+
+            if ((work->gameWork.mapObject->flags & ANCHORROPE_FLAG_FLIPPED) != 0)
+                work->gameWork.objWork.velocity.x = -work->gameWork.objWork.velocity.x;
+
+            work->gameWork.objWork.velocity.y = -FLOAT_TO_FX32(4.0);
+            SetTaskState(&work->gameWork.objWork, AnchorRope_State_ReleasedPlayer);
+        }
+
+        AnchorRope_HandleRopePos(work);
+        work->aniRopeString3D.work.scale.z = MultiplyFX(FLOAT_TO_FX32(3.3), FX_Div(work->anchorPos, FLOAT_TO_FX32(144.0)));
+    }
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x35c]
@@ -269,10 +204,10 @@ NONMATCH_FUNC void AnchorRope__State_PlayerSpin(AnchorRope *work)
 _02176CA0:
 	mov r0, #0
 	str r0, [r4, #0x35c]
-	ldr r1, =AnchorRope__State_ReleasedPlayer
+	ldr r1, =AnchorRope_State_ReleasedPlayer
 	mov r0, r4
 	str r1, [r4, #0xf4]
-	bl AnchorRope__State_ReleasedPlayer
+	bl AnchorRope_State_ReleasedPlayer
 	ldmia sp!, {r4, pc}
 _02176CBC:
 	add r0, r4, #0x700
@@ -341,12 +276,12 @@ _02176CBC:
 	ldrne r0, [r4, #0x98]
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x98]
-	ldr r0, =AnchorRope__State_ReleasedPlayer
+	ldr r0, =AnchorRope_State_ReleasedPlayer
 	str r1, [r4, #0x9c]
 	str r0, [r4, #0xf4]
 _02176DD0:
 	mov r0, r4
-	bl AnchorRope__HandleRopePos
+	bl AnchorRope_HandleRopePos
 	ldr r0, [r4, #0x750]
 	mov r1, #0x90000
 	bl FX_Div
@@ -367,454 +302,130 @@ _02176DD0:
 #endif
 }
 
-NONMATCH_FUNC void AnchorRope__State_ReleasedPlayer(AnchorRope *work)
+void AnchorRope_State_ReleasedPlayer(AnchorRope *work)
 {
-#ifdef NON_MATCHING
+    work->anchorAngle.x = ObjRoopMove16(work->anchorAngle.x, work->targetAnchorAngle.x, FLOAT_DEG_TO_IDX(1.40625));
+    work->ropeAngle.x   = ObjRoopMove16(work->ropeAngle.x, work->targetRopeAngle.x, FLOAT_DEG_TO_IDX(0.3515625));
+    work->anchorAngle.y = AkMath__Func_2002D28(work->anchorAngle.y, work->targetAnchorAngle.y, work->angleSpeed);
+    work->ropeAngle.y   = AkMath__Func_2002D28(work->ropeAngle.y, work->targetRopeAngle.y, work->angleSpeed);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #4
-	mov r4, r0
-	add r1, r4, #0x700
-	ldrh r0, [r1, #0x44]
-	ldrh r1, [r1, #0x5c]
-	mov r2, #0x100
-	bl ObjRoopMove16
-	add r1, r4, #0x700
-	strh r0, [r1, #0x44]
-	ldrh r0, [r1, #0x4a]
-	ldrh r1, [r1, #0x62]
-	mov r2, #0x40
-	bl ObjRoopMove16
-	add r2, r4, #0x700
-	strh r0, [r2, #0x4a]
-	ldrh r0, [r2, #0x46]
-	ldrh r1, [r2, #0x5e]
-	ldrsh r2, [r2, #0x54]
-	bl AkMath__Func_2002D28
-	add r2, r4, #0x700
-	strh r0, [r2, #0x46]
-	ldrh r0, [r2, #0x4c]
-	ldrh r1, [r2, #0x64]
-	ldrsh r2, [r2, #0x54]
-	bl AkMath__Func_2002D28
-	add r1, r4, #0x700
-	strh r0, [r1, #0x4c]
-	ldr r0, [r4, #0x750]
-	mov r1, #0x90000
-	add r0, r0, #0x2a00
-	str r0, [r4, #0x750]
-	cmp r0, #0x90000
-	movgt r0, #0x90000
-	strgt r0, [r4, #0x750]
-	ldr r0, [r4, #0x750]
-	bl FX_Div
-	ldr r1, =0x000034CC
-	mov r3, #0
-	umull ip, r2, r0, r1
-	mla r2, r0, r3, r2
-	mov r0, r0, asr #0x1f
-	mla r2, r0, r1, r2
-	adds ip, ip, #0x800
-	adc r0, r2, #0
-	mov r1, ip, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [r4, #0x4cc]
-	add r0, r4, #0x700
-	ldrh r2, [r0, #0x44]
-	ldrh r1, [r0, #0x5c]
-	cmp r2, r1
-	ldreqh r2, [r0, #0x4a]
-	ldreqh r1, [r0, #0x62]
-	cmpeq r2, r1
-	ldreqh r2, [r0, #0x46]
-	ldreqh r1, [r0, #0x5e]
-	cmpeq r2, r1
-	ldreqh r1, [r0, #0x4c]
-	ldreqh r0, [r0, #0x64]
-	cmpeq r1, r0
-	bne _02176F58
-	mov r0, #0x90000
-	str r0, [r4, #0x750]
-	str r3, [r4, #0xf4]
-	ldr r1, [r4, #0x18]
-	add r0, r4, #0xac
-	bic r1, r1, #2
-	str r1, [r4, #0x18]
-	str r3, [sp]
-	ldr r1, [r4, #0x364]
-	add r0, r0, #0x400
-	mov r2, #2
-	bl AnimatorMDL__SetResource
-	ldr r1, [r4, #0x20]
-	ldr r0, =0x000034CC
-	orr r1, r1, #0x200
-	str r1, [r4, #0x20]
-	str r0, [r4, #0x4cc]
-_02176F58:
-	mov r0, r4
-	bl AnchorRope__HandleRopePos
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, pc}
+    work->anchorPos += FLOAT_TO_FX32(2.625);
+    if (work->anchorPos > FLOAT_TO_FX32(144.0))
+        work->anchorPos = FLOAT_TO_FX32(144.0);
 
-// clang-format on
-#endif
+    work->aniRopeString3D.work.scale.z = MultiplyFX(FLOAT_TO_FX32(3.3), FX_Div(work->anchorPos, FLOAT_TO_FX32(144.0)));
+
+    if ((work->anchorAngle.x == work->targetAnchorAngle.x && work->ropeAngle.x == work->targetRopeAngle.x)
+        && (work->anchorAngle.y == work->targetAnchorAngle.y && work->ropeAngle.y == work->targetRopeAngle.y))
+    {
+        work->anchorPos = FLOAT_TO_FX32(144.0);
+        SetTaskState(&work->gameWork.objWork, NULL);
+        work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+        AnimatorMDL__SetResource(&work->aniRopeString3D, work->resAnchorRope, 2, FALSE, FALSE);
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        work->aniRopeString3D.work.scale.z = FLOAT_TO_FX32(3.3);
+    }
+
+    AnchorRope_HandleRopePos(work);
 }
 
-NONMATCH_FUNC void AnchorRope__Draw(void)
+void AnchorRope_Draw(void)
 {
-#ifdef NON_MATCHING
+    AnchorRope *work = TaskGetWorkCurrent(AnchorRope);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #0x48
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	ldr r1, [r4, #0x20]
-	add r3, sp, #0x18
-	str r1, [sp, #0x10]
-	str r1, [sp, #0x14]
-	ldr r0, [r4, #0x340]
-	ldrh r0, [r0, #2]
-	cmp r0, #0xd0
-	orreq r0, r1, #1
-	streq r0, [sp, #0x10]
-	add r0, r4, #0x338
-	add r0, r0, #0x400
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	add r0, r4, #0x38c
-	bl MTX_Identity33_
-	add r0, r4, #0x700
-	ldrh r1, [r0, #0x44]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0x24
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov r5, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, r5]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotX33_
-	add r0, r4, #0x38c
-	add r1, sp, #0x24
-	mov r2, r0
-	bl MTX_Concat33
-	add r0, r4, #0x700
-	ldrh r1, [r0, #0x46]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0x24
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	mov r1, r2, lsl #1
-	add r2, r2, #1
-	mov r2, r2, lsl #1
-	ldrsh r1, [r3, r1]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotY33_
-	add r0, r4, #0x38c
-	add r1, sp, #0x24
-	mov r2, r0
-	bl MTX_Concat33
-	add r2, r4, #0x344
-	add r0, sp, #0x14
-	mov r3, #0
-	stmia sp, {r0, r3}
-	str r3, [sp, #8]
-	add r0, r4, #0x368
-	add r1, sp, #0x18
-	add r2, r2, #0x400
-	str r3, [sp, #0xc]
-	bl StageTask__Draw3DEx
-	mov r2, #0
-	add r0, sp, #0x10
-	stmia sp, {r0, r2}
-	add r0, r4, #0x5f0
-	add r1, sp, #0x18
-	mov r3, r2
-	str r2, [sp, #8]
-	bl StageTask__Draw2DEx
-	add r0, r4, #0xac
-	add r5, r0, #0x400
-	add r0, r4, #0x44
-	add r3, sp, #0x18
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	add r0, r5, #0x24
-	bl MTX_Identity33_
-	add r0, r4, #0x700
-	ldrh r1, [r0, #0x4a]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0x24
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov ip, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, ip]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotX33_
-	add r0, r5, #0x24
-	add r1, sp, #0x24
-	mov r2, r0
-	bl MTX_Concat33
-	add r0, r4, #0x700
-	ldrh r1, [r0, #0x4c]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0x24
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r1, r1, lsl #1
-	add r2, r1, #1
-	mov r1, r1, lsl #1
-	mov r2, r2, lsl #1
-	ldrsh r1, [r3, r1]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotY33_
-	add r0, r5, #0x24
-	add r1, sp, #0x24
-	mov r2, r0
-	bl MTX_Concat33
-	add r2, r4, #0x4a
-	add r1, sp, #0x14
-	mov r3, #0
-	stmia sp, {r1, r3}
-	str r3, [sp, #8]
-	mov r0, r5
-	add r1, sp, #0x18
-	add r2, r2, #0x700
-	str r3, [sp, #0xc]
-	bl StageTask__Draw3DEx
-	mov r2, #0
-	add r1, sp, #0x10
-	stmia sp, {r1, r2}
-	add r0, r4, #0x294
-	add r0, r0, #0x400
-	add r1, sp, #0x18
-	mov r3, r2
-	str r2, [sp, #8]
-	bl StageTask__Draw2DEx
-	add sp, sp, #0x48
-	ldmia sp!, {r3, r4, r5, pc}
+    MtxFx33 mtxRotation;
+    VecFx32 position;
 
-// clang-format on
-#endif
+    u32 displayFlag3D;
+    u32 displayFlag2D;
+
+    displayFlag3D = displayFlag2D = work->gameWork.objWork.displayFlag;
+
+    if (work->gameWork.mapObject->id == MAPOBJECT_208)
+        displayFlag2D |= DISPLAY_FLAG_FLIP_X;
+
+    // Draw Anchor
+    AnimatorMDL *aniAnchor3D      = &work->aniAnchor3D;
+    AnimatorSpriteDS *aniAnchor2D = &work->aniAnchor2D;
+    position                      = work->ropePos;
+    MTX_Identity33(&aniAnchor3D->work.rotation);
+    MTX_RotX33(&mtxRotation, SinFX((s32)(u16)-work->anchorAngle.x), CosFX((s32)(u16)-work->anchorAngle.x));
+    MTX_Concat33(&aniAnchor3D->work.rotation, &mtxRotation, &aniAnchor3D->work.rotation);
+    MTX_RotY33(&mtxRotation, SinFX((s32)(u16)-work->anchorAngle.y), CosFX((s32)(u16)-work->anchorAngle.y));
+    MTX_Concat33(&aniAnchor3D->work.rotation, &mtxRotation, &aniAnchor3D->work.rotation);
+    StageTask__Draw3DEx(&aniAnchor3D->work, &position, &work->anchorAngle, NULL, &displayFlag3D, NULL, NULL, NULL);
+    StageTask__Draw2DEx(aniAnchor2D, &position, NULL, NULL, &displayFlag2D, NULL, NULL);
+
+    // Draw Rope
+    AnimatorMDL *aniRope3D      = &work->aniRopeString3D;
+    AnimatorSpriteDS *aniRope2D = &work->aniRopeString2D;
+    position                    = work->gameWork.objWork.position;
+    MTX_Identity33(&aniRope3D->work.rotation);
+    MTX_RotX33(&mtxRotation, SinFX((s32)(u16)-work->ropeAngle.x), CosFX((s32)(u16)-work->ropeAngle.x));
+    MTX_Concat33(&aniRope3D->work.rotation, &mtxRotation, &aniRope3D->work.rotation);
+    MTX_RotY33(&mtxRotation, SinFX((s32)(u16)-work->ropeAngle.y), CosFX((s32)(u16)-work->ropeAngle.y));
+    MTX_Concat33(&aniRope3D->work.rotation, &mtxRotation, &aniRope3D->work.rotation);
+    StageTask__Draw3DEx(&aniRope3D->work, &position, &work->ropeAngle, NULL, &displayFlag3D, NULL, NULL, NULL);
+    StageTask__Draw2DEx(aniRope2D, &position, NULL, NULL, &displayFlag2D, NULL, NULL);
 }
 
-NONMATCH_FUNC void AnchorRope__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void AnchorRope_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    AnchorRope *anchorRope = (AnchorRope *)rect2->parent;
+    Player *player         = (Player *)rect1->parent;
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r4, [r1, #0x1c]
-	ldr r5, [r0, #0x1c]
-	cmp r4, #0
-	cmpne r5, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5, #0]
-	cmp r0, #1
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r0, [r4, #0x35c]
-	cmp r0, r5
-	ldmeqia sp!, {r3, r4, r5, pc}
-	str r5, [r4, #0x35c]
-	ldr r0, [r4, #0x18]
-	mov r1, #0x400
-	orr r0, r0, #2
-	str r0, [r4, #0x18]
-	mov r0, #0x90000
-	str r0, [r4, #0x750]
-	rsb r1, r1, #0
-	add r0, r4, #0x700
-	strh r1, [r0, #0x54]
-	mov r3, #0
-	str r3, [r4, #0x758]
-	str r3, [r4, #0x24]
-	str r3, [sp]
-	add r0, r4, #0xac
-	ldr r1, [r4, #0x364]
-	add r0, r0, #0x400
-	mov r2, #1
-	bl AnimatorMDL__SetResource
-	ldr r1, [r4, #0x20]
-	mov r0, r4
-	bic r1, r1, #0x200
-	str r1, [r4, #0x20]
-	bl AnchorRope__HandleRopePos
-	ldr r2, =AnchorRope__State_PlayerSpin
-	mov r0, r5
-	mov r1, r4
-	str r2, [r4, #0xf4]
-	bl Player__Action_AnchorRope
-	ldmia sp!, {r3, r4, r5, pc}
+    if (anchorRope == NULL || player == NULL)
+        return;
 
-// clang-format on
-#endif
+    if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
+        return;
+
+    if ((Player *)anchorRope->gameWork.parent != player)
+    {
+        anchorRope->gameWork.parent = &player->objWork;
+        anchorRope->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+
+        anchorRope->anchorPos                 = FLOAT_TO_FX32(144.0);
+        anchorRope->angleSpeed                = -FLOAT_TO_FX32(0.25);
+        anchorRope->angleDistance             = FLOAT_TO_FX32(0.0);
+        anchorRope->gameWork.objWork.userFlag = 0;
+
+        AnimatorMDL__SetResource(&anchorRope->aniRopeString3D, anchorRope->resAnchorRope, 1, FALSE, FALSE);
+        anchorRope->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+
+        AnchorRope_HandleRopePos(anchorRope);
+
+        SetTaskState(&anchorRope->gameWork.objWork, AnchorRope_State_PlayerSpin);
+        Player__Action_AnchorRope(player, &anchorRope->gameWork);
+    }
 }
 
-NONMATCH_FUNC void AnchorRope__HandleRopePos(AnchorRope *work)
+void AnchorRope_HandleRopePos(AnchorRope *work)
 {
-#ifdef NON_MATCHING
+    MtxFx33 mtx;
+    MtxFx33 mtxRot;
+    VecFx32 offset;
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0x54
-	mov r4, r0
-	add r0, sp, #0x30
-	bl MTX_Identity33_
-	add r0, r4, #0x700
-	ldrh r1, [r0, #0x4a]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0xc
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov ip, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, ip]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotX33_
-	add r0, sp, #0x30
-	add r1, sp, #0xc
-	mov r2, r0
-	bl MTX_Concat33
-	add r0, r4, #0x700
-	ldrh r1, [r0, #0x4c]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0xc
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	mov r1, r2, lsl #1
-	add r2, r2, #1
-	mov r2, r2, lsl #1
-	ldrsh r1, [r3, r1]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotY33_
-	add r0, sp, #0x30
-	add r1, sp, #0xc
-	mov r2, r0
-	bl MTX_Concat33
-	ldr r1, [r4, #0x750]
-	mov r0, #0
-	rsb r1, r1, #0
-	str r1, [sp, #8]
-	str r0, [sp]
-	str r0, [sp, #4]
-	add r0, sp, #0
-	add r1, sp, #0x30
-	mov r2, r0
-	bl MTX_MultVec33
-	ldr r2, [r4, #0x4c]
-	ldr r0, [sp, #8]
-	ldr r1, [r4, #0x48]
-	add ip, r2, r0
-	ldr r0, [sp, #4]
-	ldr r2, [r4, #0x44]
-	add r3, r1, r0
-	ldr r1, [sp]
-	add r0, sp, #0x30
-	add r1, r2, r1
-	str r1, [r4, #0x738]
-	str r3, [r4, #0x73c]
-	str ip, [r4, #0x740]
-	bl MTX_Identity33_
-	add r0, r4, #0x700
-	ldrh r1, [r0, #0x44]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0xc
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	mov r1, r2, lsl #1
-	add r2, r2, #1
-	mov r2, r2, lsl #1
-	ldrsh r1, [r3, r1]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotX33_
-	add r0, sp, #0x30
-	add r1, sp, #0xc
-	mov r2, r0
-	bl MTX_Concat33
-	add r0, r4, #0x700
-	ldrh r1, [r0, #0x46]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0xc
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov ip, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, ip]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotY33_
-	add r0, sp, #0x30
-	add r1, sp, #0xc
-	mov r2, r0
-	bl MTX_Concat33
-	mov r3, #0
-	mov r2, #0x3c000
-	add r0, sp, #0
-	str r2, [sp, #4]
-	add r1, sp, #0x30
-	mov r2, r0
-	str r3, [sp]
-	str r3, [sp, #8]
-	bl MTX_MultVec33
-	ldr ip, [r4, #0x740]
-	ldr r2, [sp, #8]
-	ldr r1, [r4, #0x738]
-	ldr r0, [sp]
-	add ip, ip, r2
-	add r1, r1, r0
-	ldr r3, [r4, #0x73c]
-	ldr r2, [sp, #4]
-	mov r0, #0xc000
-	add r2, r3, r2
-	str r1, [r4, #0x8c]
-	str r2, [r4, #0x90]
-	str ip, [r4, #0x94]
-	strh r0, [r4, #0x30]
-	add r0, r4, #0x700
-	ldrh r0, [r0, #0x46]
-	sub r0, r0, #0x4000
-	strh r0, [r4, #0x32]
-	add sp, sp, #0x54
-	ldmia sp!, {r3, r4, pc}
+    // Rotate Rope
+    MTX_Identity33(&mtx);
+    MTX_RotX33(&mtxRot, SinFX(work->ropeAngle.x), CosFX(work->ropeAngle.x));
+    MTX_Concat33(&mtx, &mtxRot, &mtx);
+    MTX_RotY33(&mtxRot, SinFX((s32)(u16)-work->ropeAngle.y), CosFX((s32)(u16)-work->ropeAngle.y));
+    MTX_Concat33(&mtx, &mtxRot, &mtx);
+    VEC_Set(&offset, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -work->anchorPos);
+    MTX_MultVec33(&offset, &mtx, &offset);
+    VEC_Set(&work->ropePos, work->gameWork.objWork.position.x + offset.x, work->gameWork.objWork.position.y + offset.y, work->gameWork.objWork.position.z + offset.z);
 
-// clang-format on
-#endif
+    // Rotate Anchor
+    MTX_Identity33(&mtx);
+    MTX_RotX33(&mtxRot, SinFX(work->anchorAngle.x), CosFX(work->anchorAngle.x));
+    MTX_Concat33(&mtx, &mtxRot, &mtx);
+    MTX_RotY33(&mtxRot, SinFX((s32)(u16)-work->anchorAngle.y), CosFX((s32)(u16)-work->anchorAngle.y));
+    MTX_Concat33(&mtx, &mtxRot, &mtx);
+    VEC_Set(&offset, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(60.0), FLOAT_TO_FX32(0.0));
+    MTX_MultVec33(&offset, &mtx, &offset);
+    VEC_Set(&work->gameWork.objWork.prevPosition, work->ropePos.x + offset.x, work->ropePos.y + offset.y, work->ropePos.z + offset.z);
+
+    work->gameWork.objWork.dir.x = -FLOAT_DEG_TO_IDX(90.0);
+    work->gameWork.objWork.dir.y = work->anchorAngle.y - FLOAT_DEG_TO_IDX(90.0);
 }
