@@ -55,7 +55,7 @@ void *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     OBS_ACTION2D_BAC_WORK *aniNode = &work->aniNode;
     aniNode->spriteRef             = GetObjectSpriteRef(OBJDATAWORK_164);
     AnimatorSpriteDS__Init(
-        &aniNode->ani, work->gameWork.objWork.obj_2d->fileWork->fileData, 1, SCREEN_DRAW_NONE, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_PALETTES,
+        &aniNode->ani, work->gameWork.objWork.obj_2d->fileWork->fileData, 1, ANIMATORSPRITEDS_FLAG_NONE, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_PALETTES,
         PIXEL_MODE_SPRITE, ObjActionAllocSprite(&aniNode->spriteRef->engineRef[0], GRAPHICS_ENGINE_A, 1), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
         ObjActionAllocSprite(&aniNode->spriteRef->engineRef[1], GRAPHICS_ENGINE_B, 1), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_2, SPRITE_ORDER_23);
     aniNode->ani.cParam[1].palette = aniNode->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
@@ -265,7 +265,7 @@ void SwingRope__Collide(void)
 
     Player *player = gPlayer;
 
-    if (!IsStageTaskDestroyedAny(&work->gameWork.objWork) && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0 && (work->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
+    if (!IsStageTaskDestroyedAny(&work->gameWork.objWork) && (g_obj.flag & OBJECTMANAGER_FLAG_ALLOW_RECT_COLLISIONS) != 0 && (work->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
     {
         s32 lastNode   = nodeCount - 1;
         fx32 lastNodeX = work->nodePositions[lastNode].x;

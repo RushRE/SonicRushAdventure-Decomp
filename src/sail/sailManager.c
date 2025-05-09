@@ -79,7 +79,7 @@ void InitSailingSysEvent(void)
     ObjDrawSetManagedRows(2, 16);
 
     AllocObjectFileWork(121);
-    g_obj.flag |= OBJECTMANAGER_FLAG_40 | OBJECTMANAGER_FLAG_20000;
+    g_obj.flag |= OBJECTMANAGER_FLAG_ALLOW_RECT_COLLISIONS | OBJECTMANAGER_FLAG_EARLY_SORT_OBJRECT;
     g_obj.spriteMode = 1;
 
     SailGraphics__SetupDisplay();

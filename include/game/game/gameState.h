@@ -38,7 +38,7 @@ enum GameFlags_
     GAME_FLAG_REPLAY_GHOST_ACTIVE = 0x80,   // replay ghost is active
     GAME_FLAG_100                 = 0x100,  // ???
     GAME_FLAG_HAS_TIME_OVER       = 0x200,  // player has got a timer over
-    GAME_FLAG_ONLINE_ACTIVE       = 0x400,  // using online functionality via libDWC
+    GAME_FLAG_USE_WIFI            = 0x400,  // using WiFi instead of local wireless
     GAME_FLAG_PLAYER_RESTARTED    = 0x800,  // paused & restarted
     GAME_FLAG_REPLAY_STARTED      = 0x1000, // started replay playback
     GAME_FLAG_REPLAY_FINISHED     = 0x2000, // finished replay playback

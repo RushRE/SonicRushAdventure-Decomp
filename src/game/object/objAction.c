@@ -29,12 +29,12 @@ void ObjObjectAction2dBACLoad(StageTask *work, OBS_ACTION2D_BAC_WORK *obj_2d, co
     work->flag &= ~STAGE_TASK_FLAG_DISABLE_OBJ_2D_RELEASE;
     work->obj_2d->fileWork = file;
 
-    work->obj_2d->ani.screensToDraw = SCREEN_DRAW_NONE;
+    work->obj_2d->ani.flags = ANIMATORSPRITEDS_FLAG_NONE;
     if ((work->flag & STAGE_TASK_FLAG_400000) != 0)
-        work->obj_2d->ani.screensToDraw |= SCREEN_DRAW_A;
+        work->obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_A;
 
     if ((work->flag & STAGE_TASK_FLAG_800000) != 0)
-        work->obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     ObjAction2dBACLoad(&work->obj_2d->ani, filePath, gfxSize, file, archive);
 

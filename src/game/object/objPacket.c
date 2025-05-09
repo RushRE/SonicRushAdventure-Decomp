@@ -57,7 +57,7 @@ static ObjSendPacket objPacketList[0x40];
 // FUNCTIONS
 // --------------------
 
-void ObjPacket__Init(s32 a1, ObjPacketMode mode, size_t minDataSize)
+void ObjPacket__Init(void *a1, ObjPacketMode mode, size_t minDataSize)
 {
     sendBufferStart = NULL;
     MI_CpuFill8(objPacketList, 0, sizeof(objPacketList));

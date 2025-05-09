@@ -326,7 +326,7 @@ void StarCombo__DisplayConfetti(Player *player)
             particle->velocity.y = (velY & mtMathRand()) - FLOAT_TO_FX32(7.5); // Rand(0.0, 1.5) - 7.5;
 
             particle->animID        = StarCombo__ConfettiAnimIDs[mtMathRandRepeat(16)];
-            particle->screensToDraw = MapSys__GetDispSelect() != GX_DISP_SELECT_SUB_MAIN;
+            particle->flags = MapSys__GetDispSelect() != GX_DISP_SELECT_SUB_MAIN;
         }
     }
 }
@@ -344,11 +344,11 @@ void StarCombo__SetStarAnimation(AnimatorSpriteDS *work, u16 anim)
 
 StarCombo *StarCombo__Create(Player *player)
 {
-    u32 screensToDraw;
+    u32 flags;
     if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
-        screensToDraw = SCREEN_DRAW_NONE;
+        flags = ANIMATORSPRITEDS_FLAG_NONE;
     else
-        screensToDraw = SCREEN_DRAW_B;
+        flags = ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     Task *task = TaskCreate(StarCombo__Main, StarCombo__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3), StarCombo);
     if (task == HeapNull)
@@ -361,7 +361,7 @@ StarCombo *StarCombo__Create(Player *player)
     AnimatorSpriteDS *aniStar = work->starAnimators;
     for (i = 0; i < STARCOMBO_MAX_VISIBLE_STARS; i++)
     {
-        AnimatorSpriteDS__Init(aniStar, trickAsset, STARCOMBO_ANIM_IDLE, screensToDraw,
+        AnimatorSpriteDS__Init(aniStar, trickAsset, STARCOMBO_ANIM_IDLE, flags,
                                ANIMATOR_FLAG_DISABLE_SPRITE_PARTS | ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, PIXEL_MODE_SPRITE,
                                starComboVram[0][0], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, starComboVram[0][1], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
                                SPRITE_PRIORITY_0, SPRITE_ORDER_5);
@@ -456,7 +456,7 @@ void StarCombo__Main(void)
             if (TRUE)
             {
                 AnimatorSpriteDS *aniDigit1 = GetHUDTimeNumAnimator(FX_ModS32(work->starCount, 10), FALSE);
-                aniDigit1->screensToDraw    = SCREEN_DRAW_B;
+                aniDigit1->flags    = ANIMATORSPRITEDS_FLAG_DISABLE_B;
                 aniDigit1->position[0].x    = FX32_TO_WHOLE(work->digit1Position.x + work->digitROffsetX);
                 aniDigit1->position[0].y    = FX32_TO_WHOLE(work->digit1Position.y + work->digitOffsetY);
 
@@ -958,7 +958,7 @@ NONMATCH_FUNC void ScoreBonus__Main(void)
         {
 
             AnimatorSpriteDS *animator = GetHUDLifeNumAnimator(digits[digitCount], highScore);
-            animator->screensToDraw    = 0;
+            animator->flags    = 0;
             animator->work.flags |= flags;
             position.x = (FX32_FROM_WHOLE(offsetX + work->digitDelay[digitCount])) + playerPos.x;
             position.y = work->positionY + (FX32_FROM_WHOLE(-28 - 2 * work->digitDelay[digitCount])) + playerPos.y;
@@ -1266,24 +1266,24 @@ void TrickConfetti__Main(void)
 
     for (i = 0; i < TRICKCONFETTI_PARTICLE_TYPE_COUNT; i++)
     {
-        work->animators[i].screensToDraw &= ~(SCREEN_DRAW_A | SCREEN_DRAW_B);
+        work->animators[i].flags &= ~(ANIMATORSPRITEDS_FLAG_DISABLE_A | ANIMATORSPRITEDS_FLAG_DISABLE_B);
         AnimatorSpriteDS__ProcessAnimationFast(&work->animators[i]);
     }
 
     if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_CAM_B_ON_TOP) != 0)
     {
-        screenFlags_2 = SCREEN_DRAW_A;
+        screenFlags_2 = ANIMATORSPRITEDS_FLAG_DISABLE_A;
         screenID_2    = 1;
 
-        screenFlags_1 = SCREEN_DRAW_B;
+        screenFlags_1 = ANIMATORSPRITEDS_FLAG_DISABLE_B;
         screenID_1    = 0;
     }
     else
     {
-        screenFlags_1 = SCREEN_DRAW_A;
+        screenFlags_1 = ANIMATORSPRITEDS_FLAG_DISABLE_A;
         screenID_1    = 1;
 
-        screenFlags_2 = SCREEN_DRAW_B;
+        screenFlags_2 = ANIMATORSPRITEDS_FLAG_DISABLE_B;
         screenID_2    = 0;
     }
 
@@ -1291,17 +1291,17 @@ void TrickConfetti__Main(void)
     {
         AnimatorSpriteDS *animator = &work->animators[particle->animID];
 
-        animator->screensToDraw &= ~(SCREEN_DRAW_A | SCREEN_DRAW_B);
+        animator->flags &= ~(ANIMATORSPRITEDS_FLAG_DISABLE_A | ANIMATORSPRITEDS_FLAG_DISABLE_B);
 
         s32 screen;
-        if ((particle->screensToDraw & SCREEN_DRAW_A) != 0)
+        if ((particle->flags & ANIMATORSPRITEDS_FLAG_DISABLE_A) != 0)
         {
-            animator->screensToDraw |= screenFlags_1;
+            animator->flags |= screenFlags_1;
             screen = screenID_1;
         }
         else
         {
-            animator->screensToDraw |= screenFlags_2;
+            animator->flags |= screenFlags_2;
             screen = screenID_2;
         }
 

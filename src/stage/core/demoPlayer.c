@@ -128,22 +128,22 @@ void CreateDemoPlayer(void)
         u32 size        = Sprite__GetSpriteSize2FromAnim(work->sprDemoPlay, i);
         pixelKeys[i][0] = VRAMSystem__AllocSpriteVram(FALSE, size);
 
-        u32 screensToDraw;
-        AnimatorFlags flags;
+        u32 flags;
+        AnimatorFlags flagsDS;
         if (IsBossStage())
         {
-            screensToDraw = SCREEN_DRAW_B;
-            flags         = ANIMATOR_FLAG_NONE;
+            flagsDS = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+            flags   = ANIMATOR_FLAG_NONE;
         }
         else
         {
             pixelKeys[i][1] = VRAMSystem__AllocSpriteVram(TRUE, size);
-            screensToDraw   = SCREEN_DRAW_NONE;
+            flagsDS         = ANIMATORSPRITEDS_FLAG_NONE;
             flags           = ANIMATOR_FLAG_DISABLE_PALETTES;
         }
 
-        AnimatorSpriteDS__Init(animator, work->sprDemoPlay, i, screensToDraw, flags, PIXEL_MODE_SPRITE, pixelKeys[i][GRAPHICS_ENGINE_A], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
-                               pixelKeys[i][GRAPHICS_ENGINE_B], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+        AnimatorSpriteDS__Init(animator, work->sprDemoPlay, i, flagsDS, flags, PIXEL_MODE_SPRITE, pixelKeys[i][GRAPHICS_ENGINE_A], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
+                               PIXEL_MODE_SPRITE, pixelKeys[i][GRAPHICS_ENGINE_B], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
 
         animator->cParam[0].palette = animator->cParam[1].palette = PALETTE_ROW_2;
         AnimatorSpriteDS__ProcessAnimationFast(animator);
@@ -242,18 +242,18 @@ void DemoPlayer_Draw(DemoPlayer *work)
 
     if (!IsBossStage())
     {
-        work->aniDemoPlay.screensToDraw &= ~(SCREEN_DRAW_A | SCREEN_DRAW_B);
-        work->aniPressStart.screensToDraw &= ~(SCREEN_DRAW_A | SCREEN_DRAW_B);
+        work->aniDemoPlay.flags &= ~(ANIMATORSPRITEDS_FLAG_DISABLE_A | ANIMATORSPRITEDS_FLAG_DISABLE_B);
+        work->aniPressStart.flags &= ~(ANIMATORSPRITEDS_FLAG_DISABLE_A | ANIMATORSPRITEDS_FLAG_DISABLE_B);
 
         if (MapSys__GetDispSelect() == GX_DISP_SELECT_SUB_MAIN)
         {
-            work->aniDemoPlay.screensToDraw |= SCREEN_DRAW_B;
-            work->aniPressStart.screensToDraw |= SCREEN_DRAW_A;
+            work->aniDemoPlay.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
+            work->aniPressStart.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_A;
         }
         else
         {
-            work->aniDemoPlay.screensToDraw |= SCREEN_DRAW_A;
-            work->aniPressStart.screensToDraw |= SCREEN_DRAW_B;
+            work->aniDemoPlay.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_A;
+            work->aniPressStart.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
         }
 
         AnimatorSpriteDS__DrawFrame(&work->aniDemoPlay);

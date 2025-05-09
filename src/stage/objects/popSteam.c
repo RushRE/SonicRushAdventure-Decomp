@@ -72,7 +72,7 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
         ObjAction2dBACLoad(aniCork, "/act/ac_gmk_pop_steam.bac", OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_170), gameArchiveStage);
         StageTask__SetOAMOrder(&aniCork->work, SPRITE_ORDER_23);
         StageTask__SetOAMPriority(&aniCork->work, SPRITE_PRIORITY_2);
-        aniCork->screensToDraw |= SCREEN_DRAW_11 | SCREEN_DRAW_4;
+        aniCork->flags |= ANIMATORSPRITEDS_FLAG_11 | ANIMATORSPRITEDS_FLAG_4;
         AnimatorSpriteDS__SetAnimation(aniCork, 2 * popSteamType);
 
         aniCork->cParam[1].palette = aniCork->cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;

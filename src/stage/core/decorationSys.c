@@ -4532,7 +4532,7 @@ void DecorationSys__Draw_21542BC(StageDecoration *work)
     work->objWork.userTimer = (s32)(u16)(work->objWork.userTimer + 256);
     work->objWork.offset.y  = MultiplyFX(0x7FFF, SinFX((s32)(u16)work->objWork.userTimer));
 
-    if ((g_obj.flag & OBJECTMANAGER_FLAG_800) != 0)
+    if ((g_obj.flag & OBJECTMANAGER_FLAG_USE_DUAL_CAMERAS) != 0)
     {
         work->objWork.offset.x = (work->objWork.position.x - (g_obj.camera[0].x + FLOAT_TO_FX32(128.0))) >> 3;
 
@@ -4542,14 +4542,14 @@ void DecorationSys__Draw_21542BC(StageDecoration *work)
     {
         work->objWork.offset.x = (work->objWork.position.x - (g_obj.camera[0].x + FLOAT_TO_FX32(128.0))) >> 3;
 
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
         StageTask__Draw2D(&work->objWork, &work->objWork.obj_2d->ani);
         work->objWork.offset.x = (work->objWork.position.x - (g_obj.camera[1].x + FLOAT_TO_FX32(128.0))) >> 3;
-        work->objWork.obj_2d->ani.screensToDraw &= ~SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags &= ~ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_A;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_A;
         StageTask__Draw2D(&work->objWork, &work->objWork.obj_2d->ani);
-        work->objWork.obj_2d->ani.screensToDraw &= ~SCREEN_DRAW_A;
+        work->objWork.obj_2d->ani.flags &= ~ANIMATORSPRITEDS_FLAG_DISABLE_A;
     }
 }
 

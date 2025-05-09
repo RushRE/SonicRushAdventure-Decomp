@@ -442,7 +442,7 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         aniKey->cParam[0].palette = aniKey->cParam[1].palette = aniKey->work.cParam.palette;
 
         aniKey->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING;
-        aniKey->screensToDraw |= SCREEN_DRAW_B;
+        aniKey->flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
         StageTask__SetOAMOrder(&aniKey->work, SPRITE_ORDER_1);
         StageTask__SetOAMPriority(&aniKey->work, SPRITE_PRIORITY_0);
         AnimatorSpriteDS__SetAnimation(aniKey, buttonAnimIDs[i]);
@@ -758,9 +758,9 @@ void Tutorial_Draw(void)
         direction.x = direction.y = FLOAT_DEG_TO_IDX(0.0);
         direction.z               = FLOAT_DEG_TO_IDX(90.0);
 
-        work->aniKeys[2].screensToDraw &= ~SCREEN_DRAW_B;
+        work->aniKeys[2].flags &= ~ANIMATORSPRITEDS_FLAG_DISABLE_B;
         StageTask__Draw2DEx(&work->aniKeys[2], &position, &direction, NULL, &displayFlag, NULL, NULL);
-        work->aniKeys[2].screensToDraw |= SCREEN_DRAW_B;
+        work->aniKeys[2].flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
         work->aniKeys[2].position[0].x = x;
         work->aniKeys[2].position[0].y = y;

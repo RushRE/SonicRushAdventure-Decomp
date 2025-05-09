@@ -91,8 +91,8 @@ typedef struct GameDataRequest_
 typedef struct PlayerGameStatus_
 {
     PlayerGameStatusFlags flags;
-    Task *gameOnlineSysTask;
-    Task *gameOfflineSysTask;
+    Task *taskEarly;
+    Task *taskLate;
     u32 stageTimer;
     u32 trickBonus;
     u32 speedBonus;

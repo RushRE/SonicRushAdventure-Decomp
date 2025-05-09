@@ -543,7 +543,7 @@ void InitCreditsAnimator(AnimatorSpriteDS *animator, void *file, u16 anim, u16 p
 
     VRAMPixelKey vramPixels0 = VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2(file));
     VRAMPixelKey vramPixels1 = VRAMSystem__AllocSpriteVram(TRUE, Sprite__GetSpriteSize2(file));
-    AnimatorSpriteDS__Init(animator, file, anim, SCREEN_DRAW_NONE, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, PIXEL_MODE_SPRITE, vramPixels0, paletteMode0, paletteBank0,
+    AnimatorSpriteDS__Init(animator, file, anim, ANIMATORSPRITEDS_FLAG_NONE, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, PIXEL_MODE_SPRITE, vramPixels0, paletteMode0, paletteBank0,
                            PIXEL_MODE_SPRITE, vramPixels1, paletteMode1, paletteBank1, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
     animator->cParam[0].palette = palette;
     animator->cParam[1].palette = palette;

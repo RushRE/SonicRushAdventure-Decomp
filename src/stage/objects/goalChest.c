@@ -558,7 +558,7 @@ void SpawnGoalChestJewel(GoalChest *work, u16 type)
     fx32 camX;
     fx32 camY;
 
-    if ((g_obj.flag & OBJECTMANAGER_FLAG_800) != 0 && g_obj.camera[0].y > g_obj.camera[1].y)
+    if ((g_obj.flag & OBJECTMANAGER_FLAG_USE_DUAL_CAMERAS) != 0 && g_obj.camera[0].y > g_obj.camera[1].y)
     {
         camX = g_obj.camera[1].x;
         camY = g_obj.camera[1].y;

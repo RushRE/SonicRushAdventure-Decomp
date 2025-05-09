@@ -4,7 +4,7 @@
 #include <game/graphics/sprite.h>
 #include <game/graphics/drawReqTask.h>
 #include <stage/stageTask.h>
-#include <game/graphics/screenUnknown.h>
+#include <game/graphics/spritePaletteAnimation.h>
 #include <game/object/objectManager.h>
 
 // --------------------
@@ -108,7 +108,7 @@ void ObjDataRelease(OBS_DATA_WORK *work)
 // Graphics allocation internal actions
 VRAMPixelKey ObjActionAllocSprite(OBS_GFX_REF *ref, BOOL useEngineB, size_t size)
 {
-    if (ref->vramPixels == OBJ_DATA_GFX_NONE && size != 0)
+    if (ref->vramPixels == NULL && size != OBJ_DATA_GFX_NONE)
         ref->vramPixels = VRAMSystem__AllocSpriteVram(useEngineB, size);
 
     ref->referenceCount++;
@@ -117,7 +117,7 @@ VRAMPixelKey ObjActionAllocSprite(OBS_GFX_REF *ref, BOOL useEngineB, size_t size
 
 void ObjActionReleaseSprite(OBS_GFX_REF *ref, BOOL useEngineB)
 {
-    if (ref->vramPixels == OBJ_DATA_GFX_NONE)
+    if (ref->vramPixels == NULL)
         return;
 
     ref->referenceCount--;
@@ -126,12 +126,12 @@ void ObjActionReleaseSprite(OBS_GFX_REF *ref, BOOL useEngineB)
 
     VRAMSystem__FreeSpriteVram(useEngineB, ref->vramPixels);
 
-    ref->vramPixels = OBJ_DATA_GFX_NONE;
+    ref->vramPixels = NULL;
 }
 
 VRAMPixelKey ObjActionAllocTexture(OBS_GFX_REF *ref, size_t size)
 {
-    if (ref->vramPixels == OBJ_DATA_GFX_NONE && size != 0)
+    if (ref->vramPixels == NULL && size != OBJ_DATA_GFX_NONE)
         ref->vramPixels = VRAMSystem__AllocTexture(size, FALSE);
 
     ref->referenceCount++;
@@ -140,7 +140,7 @@ VRAMPixelKey ObjActionAllocTexture(OBS_GFX_REF *ref, size_t size)
 
 VRAMPixelKey ObjActionAllocPalette(OBS_GFX_REF *ref, size_t size)
 {
-    if (ref->vramPixels == OBJ_DATA_GFX_NONE && size != 0)
+    if (ref->vramPixels == NULL && size != OBJ_DATA_GFX_NONE)
         ref->vramPixels = VRAMSystem__AllocPalette(size, FALSE);
 
     ref->referenceCount++;
@@ -197,14 +197,14 @@ void ObjActionLoadModelTextures(OBS_DATA_WORK *work, const char *path)
 
 void ObjActionAllocSpriteDS(AnimatorSpriteDS *animator, size_t size, OBS_SPRITE_REF *ref)
 {
-    animator->vramPixels[0] = ObjActionAllocSprite(&ref->engineRef[0], FALSE, size);
-    animator->vramPixels[1] = ObjActionAllocSprite(&ref->engineRef[1], TRUE, size);
+    animator->vramPixels[GRAPHICS_ENGINE_A] = ObjActionAllocSprite(&ref->engineRef[GRAPHICS_ENGINE_A], GRAPHICS_ENGINE_A, size);
+    animator->vramPixels[GRAPHICS_ENGINE_B] = ObjActionAllocSprite(&ref->engineRef[GRAPHICS_ENGINE_B], GRAPHICS_ENGINE_B, size);
 }
 
 void ObjActionReleaseSpriteDS(OBS_SPRITE_REF *ref)
 {
-    ObjActionReleaseSprite(&ref->engineRef[0], FALSE);
-    ObjActionReleaseSprite(&ref->engineRef[1], TRUE);
+    ObjActionReleaseSprite(&ref->engineRef[GRAPHICS_ENGINE_A], GRAPHICS_ENGINE_A);
+    ObjActionReleaseSprite(&ref->engineRef[GRAPHICS_ENGINE_B], GRAPHICS_ENGINE_B);
 }
 
 void ObjAction2dBACLoad(AnimatorSpriteDS *work, const char *path, u16 gfxSize, OBS_DATA_WORK *file, NNSiFndArchiveHeader *archive)
@@ -224,36 +224,36 @@ void ObjAction2dBACLoad(AnimatorSpriteDS *work, const char *path, u16 gfxSize, O
     if (fileData == NULL)
         return;
 
-    if (gfxSize != 0)
+    if (gfxSize != OBJ_DATA_GFX_NONE)
     {
         if (gfxSize == OBJ_DATA_GFX_AUTO)
             gfxSize = getSpriteGfxSize[g_obj.spriteMode](fileData);
 
-        if ((work->screensToDraw & SCREEN_DRAW_A) == 0)
-            vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, gfxSize);
+        if ((work->flags & ANIMATORSPRITEDS_FLAG_DISABLE_A) == 0)
+            vramPixelsA = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, gfxSize);
 
-        if ((work->screensToDraw & SCREEN_DRAW_B) == 0)
-            vramPixelsB = VRAMSystem__AllocSpriteVram(TRUE, gfxSize);
+        if ((work->flags & ANIMATORSPRITEDS_FLAG_DISABLE_B) == 0)
+            vramPixelsB = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, gfxSize);
     }
 
-    AnimatorSpriteDS__Init(work, fileData, 0, work->screensToDraw, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, PIXEL_MODE_SPRITE, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
-                           PIXEL_MODE_SPRITE, vramPixelsB, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, 0, 0);
+    AnimatorSpriteDS__Init(work, fileData, 0, work->flags, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, PIXEL_MODE_SPRITE, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
+                           PIXEL_MODE_SPRITE, vramPixelsB, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
 }
 
 void ObjAction2dBACRelease(OBS_DATA_WORK *work, AnimatorSpriteDS *animator)
 {
     ObjDataRelease(work);
 
-    if (animator->vramPixels[0] != OBJ_DATA_GFX_NONE)
-        VRAMSystem__FreeSpriteVram(FALSE, animator->vramPixels[0]);
+    if (animator->vramPixels[GRAPHICS_ENGINE_A] != OBJ_DATA_GFX_NONE)
+        VRAMSystem__FreeSpriteVram(GRAPHICS_ENGINE_A, animator->vramPixels[0]);
 
-    if (animator->vramPixels[1] != OBJ_DATA_GFX_NONE)
-        VRAMSystem__FreeSpriteVram(TRUE, animator->vramPixels[1]);
+    if (animator->vramPixels[GRAPHICS_ENGINE_B] != OBJ_DATA_GFX_NONE)
+        VRAMSystem__FreeSpriteVram(GRAPHICS_ENGINE_B, animator->vramPixels[1]);
 }
 
 void ObjActionAllocSpritePalette(StageTask *work, u16 animID, s16 flags)
 {
-    u16 paletteRow = 0;
+    u16 paletteRow = PALETTE_ROW_0;
 
     if (work->obj_2d == NULL)
         return;
@@ -267,9 +267,9 @@ void ObjActionAllocSpritePalette(StageTask *work, u16 animID, s16 flags)
         paletteRow = ObjDrawAllocSpritePalette(work->obj_2d->ani.work.fileData, animID, flags);
     }
 
-    work->obj_2d->ani.cParam[0].palette = paletteRow;
-    work->obj_2d->ani.cParam[1].palette = paletteRow;
-    work->obj_2d->ani.work.cParam.palette      = paletteRow;
+    work->obj_2d->ani.cParam[GRAPHICS_ENGINE_A].palette = paletteRow;
+    work->obj_2d->ani.cParam[GRAPHICS_ENGINE_B].palette = paletteRow;
+    work->obj_2d->ani.work.cParam.palette               = paletteRow;
 
     if ((flags & OBJDRAW_SPRITE_FLAG_USE_ENGINE_B) != 0)
         work->flag |= STAGE_TASK_FLAG_ALLOCATED_SPRITE_PALETTE;
@@ -282,8 +282,8 @@ void ObjActionReleaseSpritePalette(StageTask *work)
     if (work->obj_2d == NULL)
         return;
 
-    if ((work->flag & STAGE_TASK_FLAG_ALLOCATED_SCREEN_UNKNOWN) != 0)
-        ReleaseScreenUnknown(work->obj_2d->ani.cParam[0].palette);
+    if ((work->flag & STAGE_TASK_FLAG_ALLOCATED_PALETTE_ANIM_OLD) != 0)
+        ReleaseSpritePalette_OLD(work->obj_2d->ani.cParam[GRAPHICS_ENGINE_A].palette);
 
-    ObjDrawReleaseSpritePalette(work->obj_2d->ani.cParam[0].palette);
+    ObjDrawReleaseSpritePalette(work->obj_2d->ani.cParam[GRAPHICS_ENGINE_A].palette);
 }

@@ -1587,7 +1587,7 @@ BOOL AnimatorSprite__GetBlockData(AnimatorSprite *animator, s32 id, void *data)
 }
 
 // AnimatorSpriteDS
-void AnimatorSpriteDS__Init(AnimatorSpriteDS *animator, void *fileData, u16 animID, ScreenDrawFlags screensToDraw, AnimatorFlags flags, PixelMode spriteMode0,
+void AnimatorSpriteDS__Init(AnimatorSpriteDS *animator, void *fileData, u16 animID, AnimatorSpriteDSFlags flagsDS, AnimatorFlags flags, PixelMode spriteMode0,
                             VRAMPixelKey vramPixels0, PaletteMode paletteMode0, VRAMPaletteKey vramPalette0, PixelMode spriteMode1, VRAMPixelKey vramPixels1,
                             PaletteMode paletteMode1, VRAMPaletteKey vramPalette1, SpritePriority oamPriority, SpriteOrder oamOrder)
 {
@@ -1604,7 +1604,7 @@ void AnimatorSpriteDS__Init(AnimatorSpriteDS *animator, void *fileData, u16 anim
     animator->work.animID        = animID;
     animator->work.oamPriority   = oamPriority;
     animator->work.oamOrder      = oamOrder;
-    animator->screensToDraw      = screensToDraw;
+    animator->flags              = flagsDS;
 
     // Engine A
     animator->pixelMode[0]   = spriteMode0;
@@ -3791,7 +3791,7 @@ BOOL Sprite__AnimateDS(AnimatorSpriteDS *animator, SpriteFrameCallback callback,
     AnimatorSprite *curAnimator = &animator->work;
     for (u32 i = 0; i < 2; i++)
     {
-        if ((animator->screensToDraw & (1 << i)) == 0)
+        if ((animator->flags & (1 << i)) == 0)
         {
             curAnimator->useEngineB     = i;
             curAnimator->pixelMode      = animator->pixelMode[i];

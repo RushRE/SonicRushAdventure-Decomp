@@ -53,7 +53,7 @@ typedef struct GameObjectSendPacket_
 // FUNCTIONS
 // --------------------
 
-void ObjPacket__Init(s32 a1, ObjPacketMode mode, size_t minDataSize);
+void ObjPacket__Init(void *a1, ObjPacketMode mode, size_t minDataSize);
 u16 ObjPacket__GetAIDIndex(u16 aid);
 ObjSendPacket *ObjPacket__InitPacketForSend(ObjSendPacket *packet, u16 type, u16 priority, u16 dataSize);
 ObjSendPacket *ObjPacket__SendPacket(void *packet, u16 type, u16 priority, u16 dataSize);

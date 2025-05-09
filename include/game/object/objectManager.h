@@ -10,28 +10,28 @@
 
 enum ObjectManagerFlag_
 {
-    OBJECTMANAGER_FLAG_NONE = 0,
+    OBJECTMANAGER_FLAG_NONE = 0x00,
 
-    OBJECTMANAGER_FLAG_1                    = 1 << 0,
-    OBJECTMANAGER_FLAG_2                    = 1 << 1,
-    OBJECTMANAGER_FLAG_4                    = 1 << 2,
-    OBJECTMANAGER_FLAG_8                    = 1 << 3,
-    OBJECTMANAGER_FLAG_USE_BLOCK_COLLISIONS = 1 << 4,
-    OBJECTMANAGER_FLAG_20                   = 1 << 5,
-    OBJECTMANAGER_FLAG_40                   = 1 << 6,
-    OBJECTMANAGER_FLAG_80                   = 1 << 7,
-    OBJECTMANAGER_FLAG_100                  = 1 << 8,
-    OBJECTMANAGER_FLAG_200                  = 1 << 9,
-    OBJECTMANAGER_FLAG_400                  = 1 << 10,
-    OBJECTMANAGER_FLAG_800                  = 1 << 11,
-    OBJECTMANAGER_FLAG_1000                 = 1 << 12,
-    OBJECTMANAGER_FLAG_2000                 = 1 << 13,
-    OBJECTMANAGER_FLAG_4000                 = 1 << 14,
-    OBJECTMANAGER_FLAG_8000                 = 1 << 15,
-    OBJECTMANAGER_FLAG_10000                = 1 << 16,
-    OBJECTMANAGER_FLAG_20000                = 1 << 17,
-    OBJECTMANAGER_FLAG_40000                = 1 << 18,
-    OBJECTMANAGER_FLAG_80000                = 1 << 19,
+    OBJECTMANAGER_FLAG_IS_PAUSED                    = 1 << 0,
+    OBJECTMANAGER_FLAG_REQUEST_PAUSE                = 1 << 1,
+    OBJECTMANAGER_FLAG_4                            = 1 << 2, // unused
+    OBJECTMANAGER_FLAG_ENABLE_CAMERA                = 1 << 3,
+    OBJECTMANAGER_FLAG_USE_BLOCK_COLLISIONS         = 1 << 4,
+    OBJECTMANAGER_FLAG_USE_DIFF_COLLISIONS          = 1 << 5,
+    OBJECTMANAGER_FLAG_ALLOW_RECT_COLLISIONS        = 1 << 6,
+    OBJECTMANAGER_FLAG_80                           = 1 << 7, // unused
+    OBJECTMANAGER_FLAG_100                          = 1 << 8, // unused
+    OBJECTMANAGER_FLAG_ENABLE_FULL_3D               = 1 << 9, // used for boss stages
+    OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL              = 1 << 10,
+    OBJECTMANAGER_FLAG_USE_DUAL_CAMERAS             = 1 << 11,
+    OBJECTMANAGER_FLAG_TIMER_CHANGED                = 1 << 12,
+    OBJECTMANAGER_FLAG_VRAM_ON_AB                   = 1 << 13,
+    OBJECTMANAGER_FLAG_VRAM_ON_B                    = 1 << 14,
+    OBJECTMANAGER_FLAG_NO_STATE_IN_HITSTOP          = 1 << 15,
+    OBJECTMANAGER_FLAG_DISABLE_VIEWCHECK_BY_DEFAULT = 1 << 16,
+    OBJECTMANAGER_FLAG_EARLY_SORT_OBJRECT           = 1 << 17, // ObjRect__CheckOut() is called at the start of the frame, rather than at the end.
+    OBJECTMANAGER_FLAG_40000                        = 1 << 18, // unused
+    OBJECTMANAGER_FLAG_80000                        = 1 << 19, // unknown
 };
 typedef u32 ObjectManagerFlag;
 

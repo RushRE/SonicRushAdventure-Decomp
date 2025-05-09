@@ -77,7 +77,7 @@ AnchorRope *CreateAnchorRope(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         ObjAction2dBACLoad(aniRope2D, "/act/ac_gmk_anchor_rope.bac", spriteSizeTable[i], GetObjectDataWork(OBJDATAWORK_160), gameArchiveStage);
         aniRope2D->work.cParam.palette = ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_160)->fileData, i, paletteFlagTable[i]);
         aniRope2D->cParam[0].palette = aniRope2D->cParam[1].palette = aniRope2D->work.cParam.palette;
-        aniRope2D->screensToDraw |= SCREEN_DRAW_A;
+        aniRope2D->flags |= ANIMATORSPRITEDS_FLAG_DISABLE_A;
         AnimatorSpriteDS__SetAnimation(aniRope2D, i);
         StageTask__SetOAMOrder(&aniRope2D->work, SPRITE_ORDER_23);
         StageTask__SetOAMPriority(&aniRope2D->work, SPRITE_PRIORITY_2);

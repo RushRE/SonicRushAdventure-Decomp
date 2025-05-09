@@ -22,7 +22,7 @@ typedef struct TrickConfettiParticle_
     Vec2Fx32 position;
     Vec2Fx32 velocity;
     s16 animID;
-    s16 screensToDraw;
+    s16 flags;
 } TrickConfettiParticle;
 
 typedef struct TrickConfetti_

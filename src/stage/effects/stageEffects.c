@@ -286,7 +286,7 @@ EffectBrakeDust *CreateEffectBrakeDust(Player *parent, fx32 velX, fx32 velY)
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_1);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.position.x = parent->objWork.position.x;
     work->objWork.position.y = parent->objWork.position.y;
@@ -551,7 +551,7 @@ EffectSpindashDust *CreateEffectSpindashDust(Player *parent, fx32 velX, fx32 vel
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_1);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.dir.z = parent->objWork.dir.z;
     if ((parent->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
@@ -802,7 +802,7 @@ EffectFlameDust *CreateEffectFlameDust(Player *player, fx32 velX, fx32 velY, Eff
     work->objWork.obj_2d->ani.work.spriteType = GX_OAM_MODE_XLU;
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.position.x = player->objWork.position.x;
     work->objWork.position.y = player->objWork.position.y;
@@ -1015,7 +1015,7 @@ EffectFlameJet *CreateEffectFlameJet(Player *player, fx32 velX, fx32 velY)
     StageTask__SetAnimation(&work->objWork, 0);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
@@ -1188,7 +1188,7 @@ EffectHummingTop *CreateEffectHummingTop(Player *player, fx32 velX, fx32 velY)
     work->objWork.obj_2d->ani.work.spriteType = GX_OAM_MODE_XLU;
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
@@ -1322,7 +1322,7 @@ EffectBoost *CreateEffectBoost(Player *parent, fx32 velX, fx32 velY, s32 charact
     StageTask__SetAnimation(&work->objWork, animID);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     if (parent->objWork.position.z != 0)
     {
@@ -2681,7 +2681,7 @@ EffectGrind *CreateEffectGrindSpark(Player *parent, fx32 velX, fx32 velY)
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_1);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.obj_2d->ani.work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
     work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
@@ -2735,7 +2735,7 @@ EffectGrind *CreateEffectWaterGrindSpark(Player *parent, fx32 velX, fx32 velY)
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_1);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.obj_2d->ani.work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
     work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
@@ -2788,7 +2788,7 @@ EffectTrickSparkle *CreateEffectTrickSparkle(Player *parent, fx32 offsetX, fx32 
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_1);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
     if ((parent->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
@@ -2873,7 +2873,7 @@ void CreateEffectInvincibleSparkle(fx32 x, fx32 y, u16 timer)
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_1);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.position.x = x;
     work->objWork.position.y = y;
@@ -2941,7 +2941,7 @@ EffectSnowSmoke *CreateEffectSnowSmoke(Player *parent, fx32 offsetX, fx32 offset
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_1);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.dir.z = parent->objWork.fallDir + parent->objWork.dir.z;
     if ((parent->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
@@ -2994,7 +2994,7 @@ EffectDrownAlert *CreateEffectDrownAlert(Player *parent, fx32 offsetX, fx32 offs
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     if ((parent->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
         offsetX = -offsetX;
@@ -3048,7 +3048,7 @@ EffectPlayerIcon *CreateEffectPlayerIcon(Player *parent)
     ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_fix_cont.bac", GetObjectFileWork(OBJDATAWORK_1), gameArchiveCommon, 0);
 
     work->objWork.obj_2d->ani.vramPixels[1] = VRAMSystem__AllocSpriteVram(TRUE, 8);
-    work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_A;
+    work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_A;
     work->animator.ani.work.cParam.palette      = PALETTE_ROW_0;
     work->animator.ani.cParam[0].palette = work->animator.ani.cParam[1].palette = 0;
     work->objWork.obj_2d->ani.work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;

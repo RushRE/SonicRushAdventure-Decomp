@@ -138,24 +138,24 @@ enum SpriteBlockIDs
 
 enum ScreenDrawFlags_
 {
-    SCREEN_DRAW_NONE = 0,
+    ANIMATORSPRITEDS_FLAG_NONE = 0,
 
-    SCREEN_DRAW_A  = 1 << 0,
-    SCREEN_DRAW_B  = 1 << 1,
-    SCREEN_DRAW_2  = 1 << 2,  // Functionality unknown
-    SCREEN_DRAW_3  = 1 << 3,  // Functionality unknown
-    SCREEN_DRAW_4  = 1 << 4,  // Functionality unknown
-    SCREEN_DRAW_5  = 1 << 5,  // Functionality unknown
-    SCREEN_DRAW_6  = 1 << 6,  // Functionality unknown
-    SCREEN_DRAW_7  = 1 << 7,  // Functionality unknown
-    SCREEN_DRAW_8  = 1 << 8,  // Functionality unknown
-    SCREEN_DRAW_9  = 1 << 9,  // Functionality unknown
-    SCREEN_DRAW_10 = 1 << 10, // Functionality unknown
-    SCREEN_DRAW_11 = 1 << 11, // Functionality unknown
+    ANIMATORSPRITEDS_FLAG_DISABLE_A = 1 << 0,
+    ANIMATORSPRITEDS_FLAG_DISABLE_B = 1 << 1,
+    ANIMATORSPRITEDS_FLAG_2         = 1 << 2,  // Functionality unknown
+    ANIMATORSPRITEDS_FLAG_3         = 1 << 3,  // Functionality unknown
+    ANIMATORSPRITEDS_FLAG_4         = 1 << 4,  // Functionality unknown
+    ANIMATORSPRITEDS_FLAG_5         = 1 << 5,  // Functionality unknown
+    ANIMATORSPRITEDS_FLAG_6         = 1 << 6,  // Functionality unknown
+    ANIMATORSPRITEDS_FLAG_7         = 1 << 7,  // Functionality unknown
+    ANIMATORSPRITEDS_FLAG_8         = 1 << 8,  // Functionality unknown
+    ANIMATORSPRITEDS_FLAG_9         = 1 << 9,  // Functionality unknown
+    ANIMATORSPRITEDS_FLAG_10        = 1 << 10, // Functionality unknown
+    ANIMATORSPRITEDS_FLAG_11        = 1 << 11, // Functionality unknown
 
-    SCREEN_DRAW_AB = SCREEN_DRAW_A | SCREEN_DRAW_B,
+    ANIMATORSPRITEDS_FLAG_DISABLE_AB = ANIMATORSPRITEDS_FLAG_DISABLE_A | ANIMATORSPRITEDS_FLAG_DISABLE_B,
 };
-typedef u32 ScreenDrawFlags;
+typedef u32 AnimatorSpriteDSFlags;
 
 enum MatrixOpTypes_
 {
@@ -380,7 +380,7 @@ typedef struct AnimatorSpriteDS_
 {
     AnimatorSprite work;
 
-    ScreenDrawFlags screensToDraw;
+    AnimatorSpriteDSFlags flags;
     Vec2Fx16 position[2];
     PixelMode pixelMode[2];
     VRAMPixelKey vramPixels[2];
@@ -525,7 +525,7 @@ BOOL AnimatorSprite__GetBlockData(AnimatorSprite *animator, s32 id, void *data);
 
 // AnimatorSpriteDS
 // clang-format off
-void AnimatorSpriteDS__Init(AnimatorSpriteDS *animator, void *fileData, u16 animID, ScreenDrawFlags screensToDraw, AnimatorFlags flags, 
+void AnimatorSpriteDS__Init(AnimatorSpriteDS *animator, void *fileData, u16 animID, AnimatorSpriteDSFlags flagsDS, AnimatorFlags flags, 
                             PixelMode spriteMode0, VRAMPixelKey vramPixels0, PaletteMode paletteMode0, VRAMPaletteKey vramPalette0, 
                             PixelMode spriteMode1, VRAMPixelKey vramPixels1, PaletteMode paletteMode1, VRAMPaletteKey vramPalette1, 
                             SpritePriority oamPriority, SpriteOrder oamOrder);

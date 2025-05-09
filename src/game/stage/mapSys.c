@@ -88,12 +88,12 @@ void MapSys__Create(void)
             MapSys__InitBoundsForVSRings();
             mapCamera.camera[1].targetPlayerID = 1;
 
-            g_obj.flag &= ~OBJECTMANAGER_FLAG_800;
+            g_obj.flag &= ~OBJECTMANAGER_FLAG_USE_DUAL_CAMERAS;
         }
         else
         {
             MapSys__InitBoundsForStage();
-            g_obj.flag |= OBJECTMANAGER_FLAG_800;
+            g_obj.flag |= OBJECTMANAGER_FLAG_USE_DUAL_CAMERAS;
         }
 
         g_obj.cameraFunc = MapSys__GetCameraPositionCB;

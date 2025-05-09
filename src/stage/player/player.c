@@ -367,7 +367,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     // before you get your hopes up: this is just for colliders! The graphics have been entirely stripped from this file.
     ObjObjectAction2dBACLoad(&work->objWork, &work->aniPlayerSprite, "/act/ac_ply.bac", &spriteWork, NULL, OBJ_DATA_GFX_NONE);
     work->aniPlayerSprite.ani.work.oamOrder = SPRITE_ORDER_13;
-    work->aniPlayerSprite.ani.screensToDraw |= (SCREEN_DRAW_A | SCREEN_DRAW_3 | SCREEN_DRAW_4);
+    work->aniPlayerSprite.ani.flags |= (ANIMATORSPRITEDS_FLAG_DISABLE_A | ANIMATORSPRITEDS_FLAG_3 | ANIMATORSPRITEDS_FLAG_4);
 
     work->onLandGround     = Player__OnLandGround;
     work->actionGroundMove = Player__OnGroundMove;
@@ -541,7 +541,7 @@ void Player__Gimmick_200EE68(Player *work)
             }
         }
 
-        g_obj.flag &= ~OBJECTMANAGER_FLAG_400;
+        g_obj.flag &= ~OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL;
         g_obj.scroll.x = g_obj.scroll.y = 0;
 
         work->playerFlag &= ~(PLAYER_FLAG_SUPERBOOST | PLAYER_FLAG_BOOST | PLAYER_FLAG_800 | PLAYER_FLAG_DISABLE_PRESSURE_CHECK | PLAYER_FLAG_DISABLE_INPUT_READ);
@@ -2560,7 +2560,7 @@ void Player__Action_SuperBoost(Player *player)
 {
     if ((player->playerFlag & PLAYER_FLAG_SUPERBOOST) == 0)
     {
-        if ((g_obj.flag & OBJECTMANAGER_FLAG_400) == 0)
+        if ((g_obj.flag & OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL) == 0)
             player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_4000;
 
         if (!player->characterID && (player->gimmickFlag & PLAYER_GIMMICK_100) == 0)
@@ -2978,7 +2978,7 @@ void Player__Func_2013630(Player *work)
                 }
                 else
                 {
-                    if ((g_obj.flag & OBJECTMANAGER_FLAG_400) != 0)
+                    if ((g_obj.flag & OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL) != 0)
                         mapCamera.camera[work->cameraID].disp_pos.x = ObjShiftSet(mapCamera.camera[work->cameraID].disp_pos.x, x, 4, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(2.0));
                     else
                         mapCamera.camera[work->cameraID].disp_pos.x = ObjShiftSet(mapCamera.camera[work->cameraID].disp_pos.x, x, 4, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0));
@@ -3936,7 +3936,7 @@ void Player__State_GroundMove(Player *work)
 
             if (work->actionState >= PLAYER_ACTION_BRAKE1_01 && work->actionState <= PLAYER_ACTION_BRAKE2_03)
             {
-                if ((g_obj.flag & OBJECTMANAGER_FLAG_400) == 0 && (work->objWork.userTimer & 7) == 0)
+                if ((g_obj.flag & OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL) == 0 && (work->objWork.userTimer & 7) == 0)
                 {
                     CreateEffectBrakeDustForPlayer(work);
                     if ((work->playerFlag & PLAYER_FLAG_IN_WATER) != 0)
@@ -3949,7 +3949,7 @@ void Player__State_GroundMove(Player *work)
                 work->objWork.userTimer++;
             }
 
-            if ((g_obj.flag & OBJECTMANAGER_FLAG_400) == 0 && work->characterID == CHARACTER_BLAZE)
+            if ((g_obj.flag & OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL) == 0 && work->characterID == CHARACTER_BLAZE)
             {
                 if (work->spdThresholdJog < MATH_ABS(work->objWork.groundVel) && (work->playerFlag & PLAYER_FLAG_BOOST) == 0
                     && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0 && (playerGameStatus.stageTimer & 3) == 0)
@@ -4364,7 +4364,7 @@ void Player__State_Air(Player *work)
         switch (work->actionState)
         {
             case PLAYER_ACTION_HOMING_ATTACK:
-                if (((g_obj.flag & OBJECTMANAGER_FLAG_400) == 0 && work->characterID == CHARACTER_BLAZE) && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0
+                if (((g_obj.flag & OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL) == 0 && work->characterID == CHARACTER_BLAZE) && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0
                     && (playerGameStatus.stageTimer & 7) == 0)
                     CreateEffectFlameDustForPlayer3(work);
                 break;
@@ -6721,7 +6721,7 @@ void Player__ReceivePacket(Player *player)
     ObjPacket__Func_2074DB4();
 
     struct PlayerSendPacket *playerPacket;
-    if ((gameState.gameFlag & GAME_FLAG_ONLINE_ACTIVE) == 0)
+    if ((gameState.gameFlag & GAME_FLAG_USE_WIFI) == 0)
     {
         playerPacket = (struct PlayerSendPacket *)ObjPacket__GetRecievedPacketData(GAMEPACKET_PLAYER, player->aidIndex);
     }

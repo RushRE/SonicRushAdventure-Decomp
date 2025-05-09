@@ -216,8 +216,8 @@
 .public CreateGameSystem
 .public CreateGameSystemEx
 .public ShutdownGameSystemTasks
-.public GameOnlineSystem_Main
-.public GameOfflineSystem_Main
+.public GameSystem_Main_Early
+.public GameSystem_Main_Late
 .public IsBossStage
 .public GetCurrentZoneID
 .public CheckStageUsesLaps
@@ -1223,7 +1223,7 @@
 .public CreateScreenEffect
 .public ScreenEffect_Main
 .public ScreenEffect_Destructor
-.public ReleaseScreenUnknown
+.public ReleaseSpritePalette_OLD
 .public ShakeScreen
 .public ShakeScreenEx
 .public GetScreenShakeOffsetX

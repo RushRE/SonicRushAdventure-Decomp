@@ -168,7 +168,7 @@ Static arm9
     Object src/stage/core/demoPlayer.o
     Object src/game/graphics/drawFadeTask.o
     Object src/game/graphics/screenEffect.o
-    Object src/game/graphics/screenUnknown.o
+    Object src/game/graphics/spritePaletteAnimation.o
     Object src/game/graphics/screenShake.o
     
     ## SEA MAP ##

@@ -9,7 +9,7 @@
 #include <game/object/objExWork.h>
 #include <game/audio/audioSystem.h>
 #include <game/graphics/drawReqTask.h>
-#include <game/graphics/screenUnknown.h>
+#include <game/graphics/spritePaletteAnimation.h>
 
 // --------------------
 // FUNCTION DECLS
@@ -54,23 +54,23 @@ void CreateObjectManager(void)
 
 void ObjectManager_Main(void)
 {
-    if ((g_obj.flag & OBJECTMANAGER_FLAG_40) != 0)
+    if ((g_obj.flag & OBJECTMANAGER_FLAG_ALLOW_RECT_COLLISIONS) != 0)
         ObjRect__CheckAllGroup();
 
     ObjCollisionObjectClear();
 
     g_obj.timer_fx += StageTask__AdvanceBySpeed(FLOAT_TO_FX32(1.0));
-    g_obj.flag |= OBJECTMANAGER_FLAG_1000;
+    g_obj.flag |= OBJECTMANAGER_FLAG_TIMER_CHANGED;
 
     if (g_obj.timer == FX32_TO_WHOLE(g_obj.timer_fx))
-        g_obj.flag &= ~OBJECTMANAGER_FLAG_1000;
+        g_obj.flag &= ~OBJECTMANAGER_FLAG_TIMER_CHANGED;
 
     g_obj.timer = FX32_TO_WHOLE(g_obj.timer_fx);
 
-    if ((g_obj.flag & OBJECTMANAGER_FLAG_2) != 0)
-        g_obj.flag |= OBJECTMANAGER_FLAG_1;
+    if ((g_obj.flag & OBJECTMANAGER_FLAG_REQUEST_PAUSE) != 0)
+        g_obj.flag |= OBJECTMANAGER_FLAG_IS_PAUSED;
     else
-        g_obj.flag &= ~OBJECTMANAGER_FLAG_1;
+        g_obj.flag &= ~OBJECTMANAGER_FLAG_IS_PAUSED;
 }
 
 void ObjectManager_Destructor(Task *task)
@@ -85,17 +85,17 @@ void ObjectManager_Destructor(Task *task)
 
 void EnableObjectManagerFlag2(void)
 {
-    g_obj.flag |= OBJECTMANAGER_FLAG_2;
+    g_obj.flag |= OBJECTMANAGER_FLAG_REQUEST_PAUSE;
 }
 
 void DisableObjectManagerFlag2(void)
 {
-    g_obj.flag &= ~OBJECTMANAGER_FLAG_2;
+    g_obj.flag &= ~OBJECTMANAGER_FLAG_REQUEST_PAUSE;
 }
 
 BOOL ObjectPauseCheck(u32 flag)
 {
-    return (g_obj.flag & OBJECTMANAGER_FLAG_1) != 0 && (flag & STAGE_TASK_FLAG_ACTIVE_DURING_PAUSE) == 0;
+    return (g_obj.flag & OBJECTMANAGER_FLAG_IS_PAUSED) != 0 && (flag & STAGE_TASK_FLAG_ACTIVE_DURING_PAUSE) == 0;
 }
 
 void AllocObjectFileWork(u32 count)
@@ -168,9 +168,9 @@ StageTask *CreateStageTaskEx_(u32 priority, TaskGroup group)
 
     work->moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    if ((g_obj.flag & OBJECTMANAGER_FLAG_2000) == 0)
+    if ((g_obj.flag & OBJECTMANAGER_FLAG_VRAM_ON_AB) == 0)
     {
-        if ((g_obj.flag & OBJECTMANAGER_FLAG_4000) != 0)
+        if ((g_obj.flag & OBJECTMANAGER_FLAG_VRAM_ON_B) != 0)
             work->flag |= STAGE_TASK_FLAG_400000;
         else
             work->flag |= STAGE_TASK_FLAG_800000;
@@ -178,7 +178,7 @@ StageTask *CreateStageTaskEx_(u32 priority, TaskGroup group)
 
     SetTaskViewCheckFunc(work, StageTask__ViewCheck_Default);
 
-    if ((g_obj.flag & OBJECTMANAGER_FLAG_10000) != 0)
+    if ((g_obj.flag & OBJECTMANAGER_FLAG_DISABLE_VIEWCHECK_BY_DEFAULT) != 0)
         work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
     return work;
@@ -277,7 +277,7 @@ void StageTask_Main(void)
 
             if (!ObjectPauseCheck(work->flag))
             {
-                if (((g_obj.flag & OBJECTMANAGER_FLAG_8000) == 0 || work->hitstopTimer == 0) && (work->flag & STAGE_TASK_FLAG_DISABLE_STATE) == 0)
+                if (((g_obj.flag & OBJECTMANAGER_FLAG_NO_STATE_IN_HITSTOP) == 0 || work->hitstopTimer == 0) && (work->flag & STAGE_TASK_FLAG_DISABLE_STATE) == 0)
                 {
                     if (work->state != NULL)
                         work->state(work);
@@ -293,7 +293,7 @@ void StageTask_Main(void)
             }
         }
 
-        if ((g_obj.flag & (OBJECTMANAGER_FLAG_USE_BLOCK_COLLISIONS | OBJECTMANAGER_FLAG_20)) != 0 && (work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT) == 0)
+        if ((g_obj.flag & (OBJECTMANAGER_FLAG_USE_BLOCK_COLLISIONS | OBJECTMANAGER_FLAG_USE_DIFF_COLLISIONS)) != 0 && (work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT) == 0)
         {
             work->rideObj  = NULL;
             work->touchObj = NULL;
@@ -389,8 +389,8 @@ void StageTask_Destructor(Task *task)
 
     if (work->obj_2d != NULL)
     {
-        if ((work->flag & STAGE_TASK_FLAG_ALLOCATED_SCREEN_UNKNOWN) != 0)
-            ReleaseScreenUnknown(work->obj_2d->ani.cParam[0].palette);
+        if ((work->flag & STAGE_TASK_FLAG_ALLOCATED_PALETTE_ANIM_OLD) != 0)
+            ReleaseSpritePalette_OLD(work->obj_2d->ani.cParam[0].palette);
 
         if ((work->flag & STAGE_TASK_FLAG_ALLOCATED_SPRITE_PALETTE) != 0)
             ObjDrawReleaseSpritePalette(work->obj_2d->ani.cParam[0].palette + 16);
@@ -745,7 +745,7 @@ void StageTask__Draw2D(StageTask *work, AnimatorSpriteDS *animator)
         direction.z += work->fallDir;
 
     if (work->obj_3d != NULL || work->obj_3des != NULL || work->obj_2dIn3d != NULL)
-        animator->screensToDraw |= SCREEN_DRAW_A;
+        animator->flags |= ANIMATORSPRITEDS_FLAG_DISABLE_A;
 
     StageTask__Draw2DEx(animator, &position, &direction, &work->scale, &work->displayFlag, (SpriteFrameCallback)StageTask__SpriteBlockCallback_Hitbox, work);
 }
@@ -794,7 +794,7 @@ void StageTask__Draw2DEx(AnimatorSpriteDS *animator, VecFx32 *position, VecU16 *
 
     for (u16 c = 0; c < 2; c++)
     {
-        if ((g_obj.flag & OBJECTMANAGER_FLAG_8) != 0 && ((copyDisplayFlagPtr & DISPLAY_FLAG_SCREEN_RELATIVE) == 0))
+        if ((g_obj.flag & OBJECTMANAGER_FLAG_ENABLE_CAMERA) != 0 && ((copyDisplayFlagPtr & DISPLAY_FLAG_SCREEN_RELATIVE) == 0))
         {
             cameraX = FX_Whole(g_obj.camera[c].x);
             cameraY = FX_Whole(g_obj.camera[c].y);
@@ -807,11 +807,11 @@ void StageTask__Draw2DEx(AnimatorSpriteDS *animator, VecFx32 *position, VecU16 *
                 animator->position[c].x = FX_Whole(position->x) - cameraX;
                 animator->position[c].y = FX_Whole(position->y) - cameraY;
 
-                if ((g_obj.flag & OBJECTMANAGER_FLAG_400) != 0)
+                if ((g_obj.flag & OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL) != 0)
                 {
                     const fx32 z = MultiplyFX(position->z, g_obj.depth);
 
-                    animator->position[c].y = animator->position[c].y + FX_Whole(z);
+                    animator->position[c].y += FX_Whole(z);
                 }
             }
 
@@ -903,7 +903,7 @@ void StageTask__Draw3D(StageTask *work, Animator3D *animator)
     if (work->obj_3d != NULL || work->obj_3des != NULL)
     {
         if (work->obj_2d != NULL)
-            work->obj_2d->ani.screensToDraw |= SCREEN_DRAW_A;
+            work->obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_A;
     }
 
     StageTask__Draw3DEx(animator, &position, &direction, &work->scale, &work->displayFlag, work->obj_3des, (SpriteFrameCallback)StageTask__SpriteBlockCallback_Hitbox, work);
@@ -1907,7 +1907,7 @@ void StageTask__HandleRide(StageTask *work)
 
 void StageTask__HandleCollider(StageTask *work, OBS_RECT_WORK *rect)
 {
-    if (!IsStageTaskDestroyedAny(work) && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0
+    if (!IsStageTaskDestroyedAny(work) && (g_obj.flag & OBJECTMANAGER_FLAG_ALLOW_RECT_COLLISIONS) != 0
         && (work->flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
     {
         rect->parent = work;
@@ -1942,10 +1942,10 @@ NONMATCH_FUNC BOOL StageTask__ViewOutCheck(fx32 x, fx32 y, s32 offset, s16 sLeft
     if (g_obj.scale.y != FLOAT_TO_FX32(1.0))
         lcdHeight = MultiplyFX(HW_LCD_HEIGHT, (FLOAT_TO_FX32(2.0) - g_obj.scale.y));
 
-    if ((g_obj.flag & OBJECTMANAGER_FLAG_8) == 0)
+    if ((g_obj.flag & OBJECTMANAGER_FLAG_ENABLE_CAMERA) == 0)
         return FALSE;
 
-    if ((g_obj.flag & OBJECTMANAGER_FLAG_800) != 0)
+    if ((g_obj.flag & OBJECTMANAGER_FLAG_USE_DUAL_CAMERAS) != 0)
     {
         fx32 rectX;
         fx32 rectY;

@@ -389,7 +389,7 @@ EffectExplosion *CreateEffectExplosion(StageTask *parent, fx32 velX, fx32 velY, 
     StageTask__SetAnimation(&work->objWork, type);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.position.x = parent->position.x;
     work->objWork.position.y = parent->position.y;
@@ -434,7 +434,7 @@ EffectExplosionHazard *CreateEffectExplosionHazard(StageTask *parent, fx32 velX,
     StageTask__SetAnimation(&work->objWork, type);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.position.x = parent->position.x;
     work->objWork.position.y = parent->position.y;
@@ -584,7 +584,7 @@ EffectEnemyDebris *CreateEffectEnemyDebris(StageTask *parent, fx32 offsetX, fx32
     StageTask__SetAnimation(&work->objWork, anim);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.displayFlag |= parent->displayFlag & DISPLAY_FLAG_FLIP_X;
     work->objWork.position.x = parent->position.x;
@@ -690,7 +690,7 @@ EffectWaterExplosion *CreateEffectWaterExplosion(StageTask *parent, fx32 velX, f
     StageTask__SetAnimation(&work->objWork, type);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.position.x = parent->position.x;
     work->objWork.position.y = parent->position.y;
@@ -738,7 +738,7 @@ EffectGroundExplosion *CreateEffectGroundExplosion(StageTask *parent, fx32 velX,
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.position.x = parent->position.x;
     work->objWork.position.y = parent->position.y;
@@ -781,7 +781,7 @@ EffectBattleBurst *CreateEffectBattleBurst(fx32 x, fx32 y)
     StageTask__SetAnimation(&work->objWork, 4);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.position.x = x;
     work->objWork.position.y = y;
@@ -923,7 +923,7 @@ EffectWaterSplash *CreateEffectWaterSplash(StageTask *parent, fx32 offsetX, fx32
         StageTask__SetAnimation(&work->objWork, WATERBUBBLE_ANI_SPLASH);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.position.x = parent->position.x + offsetX;
     work->objWork.position.y = positionY + FX32_FROM_WHOLE(offsetY);
@@ -963,7 +963,7 @@ EffectWaterWake *CreateEffectWaterWake(StageTask *parent, fx32 offsetX, fx32 pos
     StageTask__SetAnimation(&work->objWork, anim);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.position.x = parent->position.x + offsetX;
     work->objWork.position.y = positionY + FX32_FROM_WHOLE(offsetY);
@@ -1002,7 +1002,7 @@ EffectWaterGush *EffectWaterGush__Create(StageTask *parent, fx32 velX, fx32 velY
     StageTask__SetAnimation(&work->objWork, WATERBUBBLE_ANI_GUSH_H);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.position.x = parent->position.x + velX;
     work->objWork.position.y = parent->position.y + velY;
@@ -1041,7 +1041,7 @@ EffectWaterBubble *EffectWaterBubble__Create(fx32 x, fx32 y, s32 anim, u16 durat
     StageTask__SetAnimation(&work->objWork, anim);
 
     if (gmCheckVsBattleFlag())
-        work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
+        work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     work->objWork.position.x = x;
     work->objWork.position.y = y;

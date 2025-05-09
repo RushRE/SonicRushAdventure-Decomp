@@ -74,8 +74,8 @@ static void CreateGameSystemEx(void);
 
 static void ShutdownGameSystemTasks(void);
 
-static void GameOnlineSystem_Main(void);
-static void GameOfflineSystem_Main(void);
+static void GameSystem_Main_Early(void);
+static void GameSystem_Main_Late(void);
 
 static void HandleNetworkError(void);
 
@@ -86,10 +86,10 @@ static void ReplayViewer_Main(void);
 // STRUCTS
 // --------------------
 
-typedef struct GameOfflineSysTask_
+typedef struct GameSysLateTask_
 {
     BOOL forceActivatePauseMenu;
-} GameOfflineSysTask;
+} GameSysLateTask;
 
 // --------------------
 // VARIABLES
@@ -1266,7 +1266,7 @@ void InitSkipTitleCardEvent(void)
 void InitZoneSysEvent(void)
 {
     mainMemProcessor = MI_GetMainMemoryPriority();
-    if (gameState.gameMode == GAMEMODE_VS_BATTLE && (gameState.gameFlag & GAME_FLAG_ONLINE_ACTIVE) != 0)
+    if (gameState.gameMode == GAMEMODE_VS_BATTLE && (gameState.gameFlag & GAME_FLAG_USE_WIFI) != 0)
     {
         if (mainMemProcessor != MI_PROCESSOR_ARM9)
             MI_SetMainMemoryPriority(MI_PROCESSOR_ARM9);
@@ -1308,7 +1308,7 @@ void InitZoneEvent(void)
 {
     GameState *state = GetGameState();
 
-    state->gameFlag &= ~(GAME_FLAG_ONLINE_ACTIVE | GAME_FLAG_IS_VS_BATTLE | GAME_FLAG_10);
+    state->gameFlag &= ~(GAME_FLAG_USE_WIFI | GAME_FLAG_IS_VS_BATTLE | GAME_FLAG_10);
 
     InitPlayerStatus();
     SetSpatialAudioDropoffRate(FLOAT_TO_FX32(340.0));
@@ -1690,7 +1690,7 @@ void InitPlayerStatus(void)
         if (state->gameMode == GAMEMODE_DEMO || gmCheckReplayActive())
             playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_DISABLE_PLAYER_INPUTS;
 
-        if ((state->gameFlag & GAME_FLAG_ONLINE_ACTIVE) != 0)
+        if ((state->gameFlag & GAME_FLAG_USE_WIFI) != 0)
         {
             ObjSendPacket *packetWork = ObjPacket__SendPacket(NULL, GAMEPACKET_UNKNOWN, 3, 0);
             if (packetWork != NULL)
@@ -1797,12 +1797,10 @@ void CreateGameSystem(void)
     Player **playerList;
     GameState *state = GetGameState();
 
-    playerGameStatus.gameOnlineSysTask =
-        TaskCreateNoWork(GameOnlineSystem_Main, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1000, TASK_GROUP(3), "GameOnlineSysTask");
+    playerGameStatus.taskEarly = TaskCreateNoWork(GameSystem_Main_Early, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1000, TASK_GROUP(3), "GameSysEarlyTask");
+    playerGameStatus.taskLate = TaskCreate(GameSystem_Main_Late, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x8000, TASK_GROUP(3), GameSysLateTask);
 
-    playerGameStatus.gameOfflineSysTask = TaskCreate(GameOfflineSystem_Main, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x8000, TASK_GROUP(3), GameOfflineSysTask);
-
-    GameOfflineSysTask *work = TaskGetWork(playerGameStatus.gameOfflineSysTask, GameOfflineSysTask);
+    GameSysLateTask *work = TaskGetWork(playerGameStatus.taskLate, GameSysLateTask);
     TaskInitWork16(work);
 
     if ((state->gameFlag & GAME_FLAG_IS_VS_BATTLE) == 0 && (state->gameFlag & GAME_FLAG_PLAYER_RESPAWNED) != 0)
@@ -1842,14 +1840,14 @@ void CreateGameSystem(void)
     InitStageEdgeConfig();
     CreateObjectManager();
 
-    if ((gameState.gameFlag & GAME_FLAG_ONLINE_ACTIVE) != 0)
-        ObjPacket__Init(0, OBJPACKET_MODE_WIFI, 0x108);
+    if ((gameState.gameFlag & GAME_FLAG_USE_WIFI) != 0)
+        ObjPacket__Init(NULL, OBJPACKET_MODE_WIFI, 0x108);
     else
-        ObjPacket__Init(0, OBJPACKET_MODE_WIRELESS, whConfig_wmMinDataSize);
+        ObjPacket__Init(NULL, OBJPACKET_MODE_WIRELESS, whConfig_wmMinDataSize);
 
     AllocObjectFileWork(objDataSizeForZone[GetCurrentZoneID()]);
 
-    g_obj.flag       = OBJECTMANAGER_FLAG_20 | OBJECTMANAGER_FLAG_40 | OBJECTMANAGER_FLAG_8;
+    g_obj.flag       = OBJECTMANAGER_FLAG_USE_DIFF_COLLISIONS | OBJECTMANAGER_FLAG_ALLOW_RECT_COLLISIONS | OBJECTMANAGER_FLAG_ENABLE_CAMERA;
     g_obj.depth      = 128;
     g_obj.spriteMode = 1;
 
@@ -1864,8 +1862,8 @@ void CreateGameSystem(void)
 
     if (IsBossStage())
     {
-        g_obj.flag |= OBJECTMANAGER_FLAG_200;
-        g_obj.flag &= ~OBJECTMANAGER_FLAG_8;
+        g_obj.flag |= OBJECTMANAGER_FLAG_ENABLE_FULL_3D;
+        g_obj.flag &= ~OBJECTMANAGER_FLAG_ENABLE_CAMERA;
     }
 
     MI_CpuClear16(gPlayerList, sizeof(gPlayerList));
@@ -1873,7 +1871,7 @@ void CreateGameSystem(void)
     if ((state->gameFlag & GAME_FLAG_IS_VS_BATTLE) != 0)
     {
         u16 aid;
-        if ((state->gameFlag & GAME_FLAG_ONLINE_ACTIVE) != 0)
+        if ((state->gameFlag & GAME_FLAG_USE_WIFI) != 0)
         {
             CreateConnectionStatusHUD(TRUE);
             aid = DWC_GetMyAID();
@@ -1991,7 +1989,7 @@ void ShutdownGameSystemTasks(void)
     }
 }
 
-void GameOnlineSystem_Main(void)
+void GameSystem_Main_Early(void)
 {
     GameState *state = GetGameState();
 
@@ -2003,7 +2001,7 @@ void GameOnlineSystem_Main(void)
 
     if ((state->gameFlag & GAME_FLAG_IS_VS_BATTLE) != 0)
     {
-        if ((gameState.gameFlag & GAME_FLAG_ONLINE_ACTIVE) != 0)
+        if ((gameState.gameFlag & GAME_FLAG_USE_WIFI) != 0)
         {
             if (DWC_UpdateConnection() || DWC_GetNumConnectionHost() != 2 || DWC_GetLastError(NULL))
                 playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_NETWORK_ERROR;
@@ -2019,7 +2017,7 @@ void GameOnlineSystem_Main(void)
             return;
         }
 
-        if ((state->gameFlag & GAME_FLAG_ONLINE_ACTIVE) != 0)
+        if ((state->gameFlag & GAME_FLAG_USE_WIFI) != 0)
         {
             ObjPacket__Func_2074DB4();
 
@@ -2141,17 +2139,17 @@ void GameOnlineSystem_Main(void)
     }
 }
 
-void GameOfflineSystem_Main(void)
+void GameSystem_Main_Late(void)
 {
     GameState *state         = GetGameState();
-    GameOfflineSysTask *work = TaskGetWorkCurrent(GameOfflineSysTask);
+    GameSysLateTask *work = TaskGetWorkCurrent(GameSysLateTask);
 
     UpdateTensionGaugeHUD(gPlayer->tension >> 4, FALSE);
 
     if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0)
         playerGameStatus.stageTimer++;
 
-    if ((g_obj.flag & OBJECTMANAGER_FLAG_200) == 0)
+    if ((g_obj.flag & OBJECTMANAGER_FLAG_ENABLE_FULL_3D) == 0)
     {
         fx32 offsetX = GetScreenShakeOffsetX();
         fx32 offsetY = GetScreenShakeOffsetY();
@@ -2174,7 +2172,7 @@ void GameOfflineSystem_Main(void)
                 ringPacket->header.param = gPlayer->rings;
         }
 
-        if ((state->gameFlag & GAME_FLAG_ONLINE_ACTIVE) == 0)
+        if ((state->gameFlag & GAME_FLAG_USE_WIFI) == 0)
         {
             ObjPacket__FillSendDataBuffer();
             playerGameStatus.sendPacketCount = 0;
@@ -2538,7 +2536,7 @@ void SendPacketForStageScoreEvent(void)
 
         ObjPacket__SendPacket(&playerGameStatus.vsStageScore[0], GAMEPACKET_STAGESCORE, 3, (u16)sizeof(playerGameStatus.vsStageScore[0]));
 
-        if ((gameState.gameFlag & GAME_FLAG_ONLINE_ACTIVE) != 0)
+        if ((gameState.gameFlag & GAME_FLAG_USE_WIFI) != 0)
             playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_NEEDS_DATATRANSFER_CONFIG_INIT;
     }
 }
@@ -2552,7 +2550,7 @@ void SendPacketForStageFinishEvent(void)
     if (packetWork != NULL)
     {
         packetWork->header.param = 0;
-        if ((gameState.gameFlag & GAME_FLAG_ONLINE_ACTIVE) != 0)
+        if ((gameState.gameFlag & GAME_FLAG_USE_WIFI) != 0)
             playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_NEEDS_DATATRANSFER_CONFIG_INIT;
     }
 
@@ -2586,7 +2584,7 @@ void HandleNetworkError(void)
     ReleaseGameSystem();
     FlushGameSystem(GAMEDATA_LOADPROC_ALL);
 
-    if ((gameState.gameFlag & GAME_FLAG_ONLINE_ACTIVE) != 0)
+    if ((gameState.gameFlag & GAME_FLAG_USE_WIFI) != 0)
     {
         gameState.displayDWCErrorCode = TRUE;
         DWC_GetLastErrorEx(&gameState.lastDWCError, &errorType);

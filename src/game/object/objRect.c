@@ -205,7 +205,7 @@ void ObjRect__CheckAllGroup(void)
     u16 atkGroupOffset;
     u16 defGroupOffset;
 
-    if ((g_obj.flag & OBJECTMANAGER_FLAG_20000) != 0)
+    if ((g_obj.flag & OBJECTMANAGER_FLAG_EARLY_SORT_OBJRECT) != 0)
         ObjRect__CheckOut();
 
     _obj_user_rect_man.ulFlagBackA = 0;
@@ -249,7 +249,7 @@ void ObjRect__CheckAllGroup(void)
         }
     }
 
-    if ((g_obj.flag & OBJECTMANAGER_FLAG_20000) == 0)
+    if ((g_obj.flag & OBJECTMANAGER_FLAG_EARLY_SORT_OBJRECT) == 0)
         ObjRect__CheckOut();
 }
 
