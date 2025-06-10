@@ -174,7 +174,7 @@ void SetupDisplayForTitleScreen(void)
     G2_SetBG2Priority(1);
     G2_SetBG3Priority(0);
 
-    void *vramPtr = VRAMSystem__VRAM_BG[0];
+    void *vramPtr = VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_A];
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG2 | GX_PLANEMASK_OBJ);
     MI_CpuClear16(vramPtr, 0x10000);
 

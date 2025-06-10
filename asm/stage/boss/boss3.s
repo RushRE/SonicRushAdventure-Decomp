@@ -1610,7 +1610,7 @@ ovl01_216208C: // 0x0216208C
 	bl BossArena__SetAngleTarget
 	mov r0, r5
 	bl BossArena__ApplyAngleTarget
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r5
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r5
@@ -1672,7 +1672,7 @@ ovl01_216208C: // 0x0216208C
 	bl BossArena__SetAngleTarget
 	mov r0, r5
 	bl BossArena__ApplyAngleTarget
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r5
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r5
@@ -2846,7 +2846,7 @@ ovl01_21631E0: // 0x021631E0
 	orr r1, r1, #4
 	orr r1, r1, #0x6000
 	strh r1, [r2]
-	bl BossArena__SetUnknown2Type
+	bl BossArena__SetBackgroundType
 	bl BossArena__GetField4A8
 	ldr r2, [r5, #0x364]
 	mov r1, #1
@@ -2870,7 +2870,7 @@ ovl01_21631E0: // 0x021631E0
 	bl LoadCompressedPalette
 	mov r0, #0
 	sub r1, r0, #0x104
-	bl BossArena__Func_2039A94
+	bl BossArena__SetBoundsX
 	mov r2, #0x4000000
 	ldr r1, [r2, #0]
 	ldr r0, [r2, #0]

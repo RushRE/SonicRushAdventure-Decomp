@@ -346,7 +346,7 @@ void SetupDisplayForOpening(void)
 
     G2_SetBG0Priority(3);
     G2_SetBG1Priority(2);
-    void *vramPtr = VRAMSystem__VRAM_BG[0];
+    void *vramPtr = VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_A];
     G2_SetBG2Priority(1);
     G2_SetBG3Priority(0);
 

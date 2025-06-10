@@ -117,11 +117,11 @@ StartPlatform *CreateStartPlatform(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     BossArenaCamera *camera = BossArena__GetCamera(0);
     VecFx32 position        = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0) };
 
-    BossArena__SetType(1);
-    BossArena__SetCameraType(camera, 1);
+    BossArena__SetType(BOSSARENA_TYPE_1);
+    BossArena__SetCameraType(camera, BOSSARENACAMERA_TYPE_1);
     BossArena__SetTracker1TargetWork(camera, &gPlayer->objWork, &gPlayer->objWork, &gPlayer->objWork);
     BossArena__SetTracker1Speed(camera, FLOAT_TO_FX32(0.25), 0);
-    BossArena__SetTracker1UseObj3D(camera, 1);
+    BossArena__SetTracker1UseObj3D(camera, TRUE);
     BossArena__SetAmplitudeXZSpeed(camera, FLOAT_TO_FX32(0.0498046875));
     BossArena__SetAmplitudeYSpeed(camera, FLOAT_TO_FX32(0.0498046875));
     BossArena__SetUpVector(camera, &position);
@@ -268,7 +268,7 @@ void StartPlatform_StateCamera_SetupIntroConfig(StartPlatform *work)
         BossArena__ApplyAmplitudeYTarget(camera);
         BossArena__ApplyAngleTarget(camera);
         BossArena__UpdateTracker1TargetPos(camera);
-        BossArena__Func_20397E4();
+        BossArena__DoProcess();
         BossArena__UpdateTracker0TargetPos(camera);
     }
 }
@@ -440,7 +440,7 @@ void StartPlatform_StateCamera_PlatformWalk(StartPlatform *work)
     {
         if (camConfig->lerpPercent == FLOAT_TO_FX32(1.0))
         {
-            BossArena__SetType(0);
+            BossArena__SetType(BOSSARENA_TYPE_0);
             gPlayer->objWork.displayFlag |= DISPLAY_FLAG_800 | DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
             gPlayer->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
             work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;

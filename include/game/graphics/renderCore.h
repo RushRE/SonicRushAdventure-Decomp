@@ -24,6 +24,9 @@ extern "C"
 #define HW_LCD_CENTER_X (HW_LCD_WIDTH / 2)
 #define HW_LCD_CENTER_Y (HW_LCD_HEIGHT / 2)
 
+#define VRAM_GET_PALETTE_COLOR(palette, index) ((GXRgb *)(palette))[index]
+#define VRAM_SET_PALETTE_COLOR(palette, index, color) ((GXRgb *)(palette))[index] = color
+
 // --------------------
 // ENUMS
 // --------------------

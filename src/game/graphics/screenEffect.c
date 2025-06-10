@@ -1,5 +1,6 @@
 #include <game/graphics/screenEffect.h>
 #include <game/graphics/renderCore.h>
+#include <game/graphics/vramSystem.h>
 
 // --------------------
 // VARIABLES
@@ -47,7 +48,7 @@ void CreateScreenEffect(const ScreenEffectEvent *controller)
             return;
 
         ScreenEffectTask = task;
-        work                 = TaskGetWork(task, ScreenEffect);
+        work             = TaskGetWork(task, ScreenEffect);
         TaskInitWork16(work);
 
         work->visiblePlane[0] = GX_GetVisiblePlane();
@@ -59,9 +60,9 @@ void CreateScreenEffect(const ScreenEffectEvent *controller)
     else
         work->controller = defaultScreenEvents;
 
-    work->timer                              = work->controller->duration;
-    *((u16 *)VRAMSystem__VRAM_PALETTE_BG[0]) = work->controller->color;
-    *((u16 *)VRAMSystem__VRAM_PALETTE_BG[1]) = work->controller->color;
+    work->timer = work->controller->duration;
+    VRAM_SET_PALETTE_COLOR(VRAMSystem__VRAM_PALETTE_BG[GRAPHICS_ENGINE_A], 0, work->controller->color);
+    VRAM_SET_PALETTE_COLOR(VRAMSystem__VRAM_PALETTE_BG[GRAPHICS_ENGINE_B], 0, work->controller->color);
 
     GX_SetVisiblePlane(GX_PLANEMASK_OBJ);
     GXS_SetVisiblePlane(GX_PLANEMASK_OBJ);
@@ -75,9 +76,10 @@ void ScreenEffect_Main(void)
     if (!work->timer)
     {
         work->controller++;
-        work->timer                              = work->controller->duration;
-        *((u16 *)VRAMSystem__VRAM_PALETTE_BG[0]) = work->controller->color;
-        *((u16 *)VRAMSystem__VRAM_PALETTE_BG[1]) = work->controller->color;
+        work->timer = work->controller->duration;
+
+        VRAM_SET_PALETTE_COLOR(VRAMSystem__VRAM_PALETTE_BG[GRAPHICS_ENGINE_A], 0, work->controller->color);
+        VRAM_SET_PALETTE_COLOR(VRAMSystem__VRAM_PALETTE_BG[GRAPHICS_ENGINE_B], 0, work->controller->color);
 
         if (work->controller->type != 0 && work->timer != 0)
         {

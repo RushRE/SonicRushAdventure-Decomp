@@ -371,7 +371,7 @@ void SetupDisplayForDoorPuzzle(void)
     G2_SetBG3Priority(0);
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_OBJ);
 
-    MI_CpuClear16(VRAMSystem__VRAM_BG[0], 0x20000);
+    MI_CpuClear16(VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_A], 0x20000);
 
     renderCoreGFXControlB.windowManager.visible            = GX_WNDMASK_NONE;
     renderCoreGFXControlB.blendManager.blendControl.effect = BLENDTYPE_NONE;
@@ -394,7 +394,7 @@ void SetupDisplayForDoorPuzzle(void)
     G2S_SetBG3Priority(0);
     GXS_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_OBJ);
 
-    MI_CpuClear16(VRAMSystem__VRAM_BG[1], 0x20000);
+    MI_CpuClear16(VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_B], 0x20000);
 }
 
 void InitDoorPuzzleAssets(DoorPuzzle *work)

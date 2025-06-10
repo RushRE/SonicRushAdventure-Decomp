@@ -73,7 +73,7 @@ void SetupDisplayForSplashScreen(void)
     G2_SetBG2Priority(1);
     G2_SetBG3Priority(0);
     GX_SetVisiblePlane(GX_PLANEMASK_BG0);
-    MI_CpuClear16(VRAMSystem__VRAM_BG[0], 0x20000);
+    MI_CpuClear16(VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_A], 0x20000);
 
     renderCoreGFXControlB.windowManager.visible            = GX_WNDMASK_NONE;
     renderCoreGFXControlB.blendManager.blendControl.effect = BLENDTYPE_NONE;
@@ -92,7 +92,7 @@ void SetupDisplayForSplashScreen(void)
     G2S_SetBG2Priority(1);
     G2S_SetBG3Priority(0);
     GXS_SetVisiblePlane(GX_PLANEMASK_BG0);
-    MI_CpuClear16(VRAMSystem__VRAM_BG[1], 0x20000);
+    MI_CpuClear16(VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_B], 0x20000);
 }
 
 void LoadSplashScreenArchive(SplashScreen *work)

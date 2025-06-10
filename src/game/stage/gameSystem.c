@@ -1946,7 +1946,7 @@ void CreateGameSystem(void)
     if (!IsBossStage())
         DecorationSys__Create();
 
-    BossArena__Create(IsBossStage() ? 3 : 0, 0x10A0);
+    BossArena__Create(IsBossStage() ? BOSSARENA_TYPE_3 : BOSSARENA_TYPE_0, TASK_PRIORITY_UPDATE_LIST_START + 0x10A0);
     g_obj.cameraConfig = BossArena__GetCameraConfig2(BossArena__GetCamera(0));
 
     playerGameStatus.flags &= ~PLAYERGAMESTATUS_FLAG_PLAYER_DIED;

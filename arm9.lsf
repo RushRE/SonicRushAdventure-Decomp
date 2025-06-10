@@ -65,8 +65,10 @@ Static arm9
     Object asm/game/stage/eventManager_vars.o
     Object src/game/stage/eventBounds.o
     Object src/stage/player/playerSpawn.o
-    Object asm/stage/boss/bossHelpers.o
-    Object asm/stage/boss/bossArena.o
+    Object src/game/stage/bossHelpers.o
+    Object asm/stage/boss/bossHelpers_vars.o
+    Object src/game/stage/bossArena.o
+    Object asm/stage/boss/bossArena_vars.o
     Object src/stage/core/pauseMenu.o
     Object src/stage/core/demoPlayer.o
     Object src/game/graphics/drawFadeTask.o

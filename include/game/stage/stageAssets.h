@@ -1,7 +1,7 @@
 #ifndef RUSH_STAGEASSETS_H
 #define RUSH_STAGEASSETS_H
 
-#include <global.h>
+#include <game/file/fsRequest.h>
 
 // --------------------
 // TYPES

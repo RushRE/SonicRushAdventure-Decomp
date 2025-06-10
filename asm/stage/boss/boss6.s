@@ -3375,7 +3375,7 @@ ovl02_2156834: // 0x02156834
 	bl BossArena__ApplyAmplitudeYTarget
 	mov r0, r5
 	bl BossArena__ApplyAngleTarget
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r5
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r5
@@ -3390,14 +3390,14 @@ ovl02_2156834: // 0x02156834
 	bl BossArena__ApplyAmplitudeYTarget
 	mov r0, r5
 	bl BossArena__ApplyAngleTarget
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r5
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r5
 	bl BossArena__UpdateTracker0TargetPos
 	mov r0, #1
-	bl BossArena__SetUnknown2Type
-	bl BossArena__GetUnknown2Animator
+	bl BossArena__SetBackgroundType
+	bl BossArena__GetBackgroundAnimator
 	mov r5, r0
 	mov r1, #0
 	bl AnimatorMDL__Init
@@ -7286,7 +7286,7 @@ ovl02_2159DB4: // 0x02159DB4
 	mov r1, #1
 	ldr r0, [r5, #0x370]
 	str r1, [r0, #0xa2c]
-	bl BossArena__GetUnknown2Animator
+	bl BossArena__GetBackgroundAnimator
 	mov r1, #0
 	str r1, [r0, #0x118]
 	bl EnableObjectManagerFlag2

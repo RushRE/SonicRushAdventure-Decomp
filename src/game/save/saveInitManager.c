@@ -79,7 +79,7 @@ void SetupDisplayForSaveInitManager(void)
     G2_SetBG3Priority(0);
 
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_OBJ);
-    MI_CpuClear16(VRAMSystem__VRAM_BG[0], HW_VRAM_A_SIZE);
+    MI_CpuClear16(VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_A], HW_VRAM_A_SIZE);
 
     renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_NONE;
     renderCoreGFXControlB.blendManager.blendControl.effect = BLENDTYPE_NONE;
@@ -89,7 +89,7 @@ void SetupDisplayForSaveInitManager(void)
     GXS_SetGraphicsMode(GX_BGMODE_0);
     GXS_SetVisiblePlane(GX_PLANEMASK_BG0);
 
-    MI_CpuClear16(VRAMSystem__VRAM_BG[1], HW_VRAM_A_SIZE);
+    MI_CpuClear16(VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_B], HW_VRAM_A_SIZE);
 }
 
 void SaveInitManager_Destructor(Task *task)

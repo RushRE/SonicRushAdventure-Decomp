@@ -104,7 +104,7 @@ enum CutsceneID
 // STRUCTS
 // --------------------
 
-typedef struct AYKHeader_
+typedef struct CutsceneScriptHeader_
 {
     u32 signature;
 

@@ -5,6 +5,47 @@
 #include <game/graphics/sprite.h>
 #include <game/graphics/mappingsQueue.h>
 #include <game/graphics/drawReqTask.h>
+#include <stage/stageTask.h>
+
+// --------------------
+// CONSTANTS
+// --------------------
+
+#define BOSSARENA_BACKGROUND_TILE_WIDTH  33
+#define BOSSARENA_BACKGROUND_TILE_HEIGHT 25
+
+// --------------------
+// ENUMS
+// --------------------
+
+enum BossArenaType_
+{
+    BOSSARENA_TYPE_0,
+    BOSSARENA_TYPE_1,
+    BOSSARENA_TYPE_2,
+    BOSSARENA_TYPE_3,
+    BOSSARENA_TYPE_4,
+
+    BOSSARENA_TYPE_COUNT,
+};
+typedef u32 BossArenaType;
+
+enum BossArenaCameraType_
+{
+    BOSSARENACAMERA_TYPE_0,
+    BOSSARENACAMERA_TYPE_1,
+
+    BOSSARENACAMERA_TYPE_COUNT,
+};
+typedef u32 BossArenaCameraType;
+
+enum BossArenaBackgroundType_
+{
+    BOSSARENABACKGROUND_TYPE_NONE,
+    BOSSARENABACKGROUND_TYPE_2D,
+    BOSSARENABACKGROUND_TYPE_3D,
+};
+typedef u32 BossArenaBackgroundType;
 
 // --------------------
 // STRUCTS
@@ -35,8 +76,8 @@ typedef struct BossArenaAmplitudeTracker_
 
 typedef struct BossArenaAngleTracker_
 {
-    s16 target;
-    s16 value;
+    u16 target;
+    u16 value;
     s16 speed;
 } BossArenaAngleTracker;
 
@@ -44,47 +85,54 @@ typedef struct BossArenaCamera_
 {
     s32 type;
     Camera3D camera;
-    VecFx32 lookAtUp;
+    VecFx32 upDir;
     VecFx32 nextPosition;
-    BossArenaPositionTracker tracker1;
-    BossArenaPositionTracker tracker2;
+    BossArenaPositionTracker positionTracker[2];
     BossArenaAmplitudeTracker amplitudeXZTracker;
     BossArenaAmplitudeTracker amplitudeYTracker;
     BossArenaAngleTracker angleTracker;
 } BossArenaCamera;
 
+typedef struct BossArenaUnknown4A8_
+{
+    s32 field_0;
+    void *background;
+    s32 field_8;
+    s32 field_C;
+    s32 field_10;
+    u8 backgroundID;
+    s32 field_18;
+    s32 field_1C;
+    s32 field_20;
+    s32 field_24;
+    MappingsMode mappingsMode;
+    u16 screenBaseA;
+    u16 screenBaseBlock;
+    u16 offsetX;
+    u16 offsetY;
+    u16 displayWidth;
+    u16 displayHeight;
+} BossArenaUnknown4A8;
+
+typedef struct BossArena2DBGTiles_
+{
+    GXScrFmtText scr[BOSSARENA_BACKGROUND_TILE_HEIGHT][BOSSARENA_BACKGROUND_TILE_WIDTH];
+} BossArena2DBGTiles;
+
 typedef struct BossArenaBackground_
 {
     s32 type;
     AnimatorMDL animator;
-    s32 field_148;
-    void *background;
-    s32 field_150;
-    s32 field_154;
-    s32 field_158;
-    u8 backgroundID;
-    u8 field_15D;
-    s16 field_15E;
-    s32 field_160;
-    s32 field_164;
-    s32 field_168;
-    s32 field_16C;
-    MappingsMode mappingsMode;
-    u16 screenBaseA;
-    u16 screenBaseBlock;
-    u16 field_178;
-    u16 field_17A;
-    u16 field_17C;
-    u16 field_17E;
+    BossArenaUnknown4A8 field_148;
     s32 field_180;
     s32 field_184;
     s32 field_188;
     s32 field_18C;
-    u16 *mappingsPtr;
-    s16 field_194;
-    s16 field_196;
-    u16 field_198;
-    u16 field_19A;
+    BossArena2DBGTiles *mappingsPtr;
+    u16 left;
+    u16 right;
+    u16 top;
+    u16 bottom;
 } BossArenaBackground;
 
 typedef struct BossArena_
@@ -101,88 +149,88 @@ typedef struct BossArena_
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED u32 BossArena__explosionFXSpawnTime[3];
+extern const u32 BossArena__explosionFXSpawnTime[3];
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void BossArena__Create(s32 type, u32 priority);
-NOT_DECOMPILED void BossArena__Destroy(void);
-NOT_DECOMPILED void BossArena__Func_20397E4(void);
-NOT_DECOMPILED void BossArena__SetType(s32 type);
-NOT_DECOMPILED s32 BossArena__GetType(void);
+void BossArena__Create(BossArenaType type, u32 priority);
+void BossArena__Destroy(void);
+void BossArena__DoProcess(void);
+void BossArena__SetType(BossArenaType type);
+s32 BossArena__GetType(void);
 
-NOT_DECOMPILED BossArenaCamera *BossArena__GetCamera(s32 id);
-NOT_DECOMPILED void BossArena__SetField358(s32 value);
-NOT_DECOMPILED void BossArena__SetField35C(s32 value);
-NOT_DECOMPILED void BossArena__SetCameraType(BossArenaCamera *camera, s32 type);
-NOT_DECOMPILED Camera3D *BossArena__GetCameraConfig2(BossArenaCamera *camera);
-NOT_DECOMPILED Camera3D *BossArena__GetCameraConfig(BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__SetCameraConfig(BossArenaCamera *camera, CameraConfig *config);
-NOT_DECOMPILED void BossArena__SetUpVector(BossArenaCamera *camera, VecFx32 *up);
-NOT_DECOMPILED void BossArena__SetNextPos(BossArenaCamera *camera, fx32 x, fx32 y, fx32 z);
+BossArenaCamera *BossArena__GetCamera(s32 id);
+void BossArena__SetField358(s32 value);
+void BossArena__SetField35C(s32 value);
+void BossArena__SetCameraType(BossArenaCamera *camera, BossArenaCameraType type);
+Camera3D *BossArena__GetCameraConfig2(BossArenaCamera *camera);
+Camera3D *BossArena__GetCameraConfig(BossArenaCamera *camera);
+void BossArena__SetCameraConfig(BossArenaCamera *camera, CameraConfig *config);
+void BossArena__SetUpVector(BossArenaCamera *camera, VecFx32 *up);
+void BossArena__SetNextPos(BossArenaCamera *camera, fx32 x, fx32 y, fx32 z);
 
-NOT_DECOMPILED void BossArena__SetTracker1TargetPos(BossArenaCamera *camera, fx32 x, fx32 y, fx32 z);
-NOT_DECOMPILED void BossArena__GetTracker1TargetPos(BossArenaCamera *camera, fx32 *x, fx32 *y, fx32 *z);
-NOT_DECOMPILED void BossArena__SetTracker1TargetOffset(BossArenaCamera *camera, fx32 x, fx32 y, fx32 z);
-NOT_DECOMPILED void BossArena__UpdateTracker1TargetPos(BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__SetTracker1TargetWork(BossArenaCamera *camera, StageTask *x, StageTask *y, StageTask *z);
-NOT_DECOMPILED void BossArena__SetTracker1UseObj3D(BossArenaCamera *camera, BOOL value);
-NOT_DECOMPILED void BossArena__SetTracker1Speed(BossArenaCamera *camera, s16 speed, fx32 velocity);
+void BossArena__SetTracker1TargetPos(BossArenaCamera *camera, fx32 x, fx32 y, fx32 z);
+void BossArena__GetTracker1TargetPos(BossArenaCamera *camera, fx32 *x, fx32 *y, fx32 *z);
+void BossArena__SetTracker1TargetOffset(BossArenaCamera *camera, fx32 x, fx32 y, fx32 z);
+void BossArena__UpdateTracker1TargetPos(BossArenaCamera *camera);
+void BossArena__SetTracker1TargetWork(BossArenaCamera *camera, StageTask *x, StageTask *y, StageTask *z);
+void BossArena__SetTracker1UseObj3D(BossArenaCamera *camera, BOOL enabled);
+void BossArena__SetTracker1Speed(BossArenaCamera *camera, s16 speed, fx32 velocity);
 
-NOT_DECOMPILED void BossArena__SetTracker0TargetPos(BossArenaCamera *camera, fx32 x, fx32 y, fx32 z);
-NOT_DECOMPILED void BossArena__GetTracker0TargetPos(BossArenaCamera *camera, fx32 *x, fx32 *y, fx32 *z);
-NOT_DECOMPILED void BossArena__UpdateTracker0TargetPos(BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__SetTracker0TargetWork(BossArenaCamera *camera, StageTask *x, StageTask *y, StageTask *z);
-NOT_DECOMPILED void BossArena__SetTracker0Speed(BossArenaCamera *camera, s16 speed, fx32 velocity);
+void BossArena__SetTracker0TargetPos(BossArenaCamera *camera, fx32 x, fx32 y, fx32 z);
+void BossArena__GetTracker0TargetPos(BossArenaCamera *camera, fx32 *x, fx32 *y, fx32 *z);
+void BossArena__UpdateTracker0TargetPos(BossArenaCamera *camera);
+void BossArena__SetTracker0TargetWork(BossArenaCamera *camera, StageTask *x, StageTask *y, StageTask *z);
+void BossArena__SetTracker0Speed(BossArenaCamera *camera, s16 speed, fx32 velocity);
 
-NOT_DECOMPILED void BossArena__SetAmplitudeXZTarget(BossArenaCamera *camera, s32 target);
-NOT_DECOMPILED void BossArena__ApplyAmplitudeXZTarget(BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__SetAmplitudeXZSpeed(BossArenaCamera *camera, s16 soeed);
-NOT_DECOMPILED void BossArena__SetAmplitudeYTarget(BossArenaCamera *camera, s32 target);
-NOT_DECOMPILED void BossArena__ApplyAmplitudeYTarget(BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__SetAmplitudeYSpeed(BossArenaCamera *camera, s16 soeed);
-NOT_DECOMPILED void BossArena__SetAngleTarget(BossArenaCamera *camera, u16 target);
-NOT_DECOMPILED u16 BossArena__GetAngleTarget(BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__ApplyAngleTarget(BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__SetAngleSpeed(BossArenaCamera *camera, s16 soeed);
+void BossArena__SetAmplitudeXZTarget(BossArenaCamera *camera, s32 target);
+void BossArena__ApplyAmplitudeXZTarget(BossArenaCamera *camera);
+void BossArena__SetAmplitudeXZSpeed(BossArenaCamera *camera, s16 speed);
+void BossArena__SetAmplitudeYTarget(BossArenaCamera *camera, s32 target);
+void BossArena__ApplyAmplitudeYTarget(BossArenaCamera *camera);
+void BossArena__SetAmplitudeYSpeed(BossArenaCamera *camera, s16 speed);
+void BossArena__SetAngleTarget(BossArenaCamera *camera, u16 target);
+u16 BossArena__GetAngleTarget(BossArenaCamera *camera);
+void BossArena__ApplyAngleTarget(BossArenaCamera *camera);
+void BossArena__SetAngleSpeed(BossArenaCamera *camera, s16 speed);
 
-NOT_DECOMPILED void BossArena__SetUnknown2Type(s32 type);
-NOT_DECOMPILED AnimatorMDL *BossArena__GetUnknown2Animator(void);
-NOT_DECOMPILED void *BossArena__GetField4A8(void);
-NOT_DECOMPILED void BossArena__Func_2039A94(s16 a1, s16 a2);
-NOT_DECOMPILED void BossArena__Func_2039AB4(s16 a1, s16 a2);
-NOT_DECOMPILED void BossArena__Func_2039AD4(VecFx32 *a1, VecFx32 *a2, VecFx32 *a3, s32 a4, u16 a5, VecFx32 *a6, VecFx32 *a7, s32 *a8, VecFx32 *a9, VecFx32 *a10, s32 *a11);
-NOT_DECOMPILED void BossArena__Func_2039CA4(s16 *xz, s16 *y, VecFx32 *a3, VecFx32 *a4, u16 a5, u16 a6, s16 a7, s16 a8);
-NOT_DECOMPILED BossArena *BossArena__GetWork(void);
-NOT_DECOMPILED void BossArena__InitUnknown(BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__Func_2039E38(BossArenaPositionTracker *tracker);
-NOT_DECOMPILED void BossArena__Func_2039FA8(BossArenaPositionTracker *tracker);
-NOT_DECOMPILED void BossArena__Func_203A000(void *a1);
-NOT_DECOMPILED void BossArena__Func_203A024(VecFx32 *dest, VecFx32 *src, s32 amplitudeXZ, s32 amplitudeY, u16 angle);
-NOT_DECOMPILED s32 BossArena__Func_203A0A0(BossArenaBackground *background);
-NOT_DECOMPILED s32 BossArena__Func_203A0AC(BossArenaBackground *background);
+void BossArena__SetBackgroundType(BossArenaBackgroundType type);
+AnimatorMDL *BossArena__GetBackgroundAnimator(void);
+BossArenaUnknown4A8 *BossArena__GetField4A8(void);
+void BossArena__SetBoundsX(s16 left, s16 right);
+void BossArena__SetBoundsY(s16 top, s16 bottom);
+void BossArena__Func_2039AD4(VecFx32 *a1, VecFx32 *a2, VecFx32 *a3, s32 a4, u16 a5, VecFx32 *a6, VecFx32 *a7, VecFx32 *a8, VecFx32 *a9, VecFx32 *a10, VecFx32 *a11);
+void BossArena__Func_2039CA4(s16 *xz, s16 *y, VecFx32 *a3, VecFx32 *a4, u16 a5, u16 a6, s16 a7, s16 a8);
+BossArena *BossArena__GetWork(void);
+void BossArena__InitCamera(BossArenaCamera *camera);
+void BossArena__ProcessPositionTracker(BossArenaPositionTracker *tracker);
+void BossArena__ProcessAmplitudeTracker(BossArenaAmplitudeTracker *tracker);
+void BossArena__ProcessAngleTracker(BossArenaAngleTracker *tracker);
+void BossArena__SetTrackPos(VecFx32 *trackPos, VecFx32 *targetPos, s32 amplitudeXZ, s32 amplitudeY, u16 angle);
+u16 BossArena__GetBackgroundTop(BossArenaBackground *background);
+u16 BossArena__GetBackgroundBottom(BossArenaBackground *background);
 
-NOT_DECOMPILED void BossArena__Main(void);
-NOT_DECOMPILED void BossArena__Destructor(Task *task);
+void BossArena__Main(void);
+void BossArena__Destructor(Task *task);
 
-NOT_DECOMPILED void BossArena__CallFunction2(BossArena *work);
-NOT_DECOMPILED void BossArena__FuncTable2_203A148(BossArena *work);
-NOT_DECOMPILED void BossArena__FuncTable2_203A1C8(BossArena *work);
-NOT_DECOMPILED void BossArena__FuncTable2_203A1F0(BossArena *work);
-NOT_DECOMPILED void BossArena__FuncTable2_203A230(BossArena *work);
-NOT_DECOMPILED void BossArena__FuncTable2_203A37C(BossArena *work);
+void BossArena__Process(BossArena *work);
+void BossArena__MainFunc_Type0(BossArena *work);
+void BossArena__MainFunc_Type1(BossArena *work);
+void BossArena__MainFunc_Type2(BossArena *work);
+void BossArena__MainFunc_Type3(BossArena *work);
+void BossArena__MainFunc_Type4(BossArena *work);
 
-NOT_DECOMPILED void BossArena__DrawBackground(BossArenaBackground *background, BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__DrawBackground3D(BossArenaBackground *background, BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__DrawBackground2D(BossArenaBackground *background, BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__AllocMappings(BossArenaBackground *background);
-NOT_DECOMPILED void BossArena__FreeMappings(BossArenaBackground *background);
-NOT_DECOMPILED void BossArena__TrackTarget1(BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__TrackTarget2(BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__CallFunction1(BossArena *work, BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__FuncTable1_203A860(BossArena *work, BossArenaCamera *camera);
-NOT_DECOMPILED void BossArena__FuncTable1_203A8AC(BossArena *work, BossArenaCamera *camera);
+void BossArena__DrawBackground(BossArenaBackground *background, BossArenaCamera *camera);
+void BossArena__DrawBackground3D(BossArenaBackground *background, BossArenaCamera *camera);
+void BossArena__DrawBackground2D(BossArenaBackground *background, BossArenaCamera *camera);
+void BossArena__AllocMappings(BossArenaBackground *background);
+void BossArena__FreeMappings(BossArenaBackground *background);
+void BossArena__TrackTarget1(BossArenaCamera *camera);
+void BossArena__TrackTarget2(BossArenaCamera *camera);
+void BossArena__ProcessCamera(BossArena *work, BossArenaCamera *camera);
+void BossArena__CamFunc_Type0(BossArena *work, BossArenaCamera *camera);
+void BossArena__CamFunc_Type1(BossArena *work, BossArenaCamera *camera);
 
 #endif // ! RUSH_BOSSARENA_H

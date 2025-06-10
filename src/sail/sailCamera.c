@@ -25,10 +25,10 @@ SailCamera *CreateSailCamera(void)
     SailCamera *work = TaskGetWork(task, SailCamera);
     TaskInitWork16(work);
 
-    BossArena__Create(1, TASK_PRIORITY_UPDATE_LIST_START + 0x3F00);
+    BossArena__Create(BOSSARENA_TYPE_1, TASK_PRIORITY_UPDATE_LIST_START + 0x3F00);
 
     BossArenaCamera *camera3D = BossArena__GetCamera(0);
-    BossArena__SetCameraType(camera3D, 0);
+    BossArena__SetCameraType(camera3D, BOSSARENACAMERA_TYPE_0);
 
     CameraConfig config;
     MI_CpuClear16(&config, sizeof(config));

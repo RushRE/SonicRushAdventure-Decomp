@@ -42,8 +42,8 @@ NOT_DECOMPILED void Unknown2066510__Func_2066D18(VecFx32 *lhs, u32 count, VecFx1
 NOT_DECOMPILED void Unknown2066510__Func_2066F88(const VecFx32 *a1, VecFx32 *a2, Unknown2066510 *dest);
 NOT_DECOMPILED void Unknown2066510__Func_2066FD0(Unknown206703C *work, VecFx32 *a2, VecFx32 *a3, VecFx32 *a4);
 NOT_DECOMPILED void Unknown2066510__Func_206703C(Unknown206703C *dest, VecFx32 *lhs, VecFx32 *rhs);
-NOT_DECOMPILED void Unknown2066510__Func_20670B4(Unknown206703C *work, VecFx32 *a2);
-NOT_DECOMPILED void Unknown2066510__Func_20670CC(VecFx32 *a1, VecFx32 *a2);
+NOT_DECOMPILED s32 Unknown2066510__Func_20670B4(Unknown206703C *work, VecFx32 *a2);
+NOT_DECOMPILED s16 Unknown2066510__Func_20670CC(VecFx32 *a1, VecFx32 *a2);
 NOT_DECOMPILED void Unknown2066510__Func_20670F8(Unknown206703C *a3, Unknown2066510 *a2, VecFx32 *dest);
 
 #ifdef __cplusplus

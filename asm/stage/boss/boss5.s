@@ -6809,7 +6809,7 @@ ovl01_2177018: // 0x02177018
 	bl BossArena__ApplyAmplitudeYTarget
 	mov r0, r5
 	bl BossArena__ApplyAngleTarget
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r5
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r5
@@ -6831,7 +6831,7 @@ ovl01_2177018: // 0x02177018
 	bl BossArena__ApplyAmplitudeYTarget
 	mov r0, r5
 	bl BossArena__ApplyAngleTarget
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r5
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r5
@@ -6844,7 +6844,7 @@ ovl01_2177018: // 0x02177018
 	orr r0, r1
 	strh r0, [r2]
 	mov r0, #2
-	bl BossArena__SetUnknown2Type
+	bl BossArena__SetBackgroundType
 	bl BossArena__GetField4A8
 	mov r1, r6
 	ldr r2, [r4, r1]
@@ -6872,7 +6872,7 @@ ovl01_2177018: // 0x02177018
 	mov r1, #0xff
 	mov r0, #0
 	mvn r1, r1
-	bl BossArena__Func_2039A94
+	bl BossArena__SetBoundsX
 	mov r0, #1
 	lsl r0, r0, #0x1a
 	mov r1, #0x1f
@@ -10076,7 +10076,7 @@ ovl01_2178984: // 0x02178984
 	bl BossArena__SetAngleSpeed
 	mov r0, r4
 	bl BossArena__ApplyAngleTarget
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r4
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r4
@@ -10799,7 +10799,7 @@ _02178FD8:
 	bl BossArena__ApplyAmplitudeYTarget
 	mov r0, r6
 	bl BossArena__ApplyAngleTarget
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r6
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r6

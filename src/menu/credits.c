@@ -288,9 +288,9 @@ void SetupDisplayForCredits(CreditsDisplayType type, BOOL isNotification)
         GX_SetVisiblePlane(GX_PLANEMASK_ALL);
 
     if (type == CREDITS_DISPLAY_CREDITS_EX)
-        MI_CpuClear16(VRAMSystem__VRAM_BG[0], 0x40000);
+        MI_CpuClear16(VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_A], 0x40000);
     else
-        MI_CpuClear16(VRAMSystem__VRAM_BG[0], 0x20000);
+        MI_CpuClear16(VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_A], 0x20000);
 
     renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_NONE;
 
@@ -322,7 +322,7 @@ void SetupDisplayForCredits(CreditsDisplayType type, BOOL isNotification)
     else
         GXS_SetVisiblePlane(GX_PLANEMASK_ALL);
 
-    MI_CpuClear16(VRAMSystem__VRAM_BG[1], 0x20000);
+    MI_CpuClear16(VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_B], 0x20000);
 }
 
 void LoadCreditsArchives(CreditsAssets *work, CreditsAssetType type)

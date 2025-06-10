@@ -3677,7 +3677,7 @@ ovl02_215F920: // 0x0215F920
 	bl BossArena__SetAmplitudeYTarget
 	mov r0, r6
 	bl BossArena__ApplyAmplitudeYTarget
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r5
 	bl ovl02_215DB80
 	mov r0, r6
@@ -3688,7 +3688,7 @@ ovl02_215F920: // 0x0215F920
 	bl BossArena__ApplyAmplitudeXZTarget
 	mov r0, r6
 	bl BossArena__ApplyAmplitudeYTarget
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r6
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r6
@@ -3700,7 +3700,7 @@ ovl02_215F920: // 0x0215F920
 	orr r1, r1, #4
 	orr r1, r1, #0x6000
 	strh r1, [r2]
-	bl BossArena__SetUnknown2Type
+	bl BossArena__SetBackgroundType
 	bl BossArena__GetField4A8
 	ldr r2, [r5, #0x364]
 	mov r1, #1
@@ -3724,7 +3724,7 @@ ovl02_215F920: // 0x0215F920
 	bl LoadCompressedPalette
 	mov r0, #0
 	sub r1, r0, #0x100
-	bl BossArena__Func_2039A94
+	bl BossArena__SetBoundsX
 	mov r2, #0x4000000
 	ldr r1, [r2, #0]
 	ldr r0, [r2, #0]
@@ -4078,18 +4078,18 @@ ovl02_215FFE4: // 0x0215FFE4
 	beq _02160010
 	mov r0, #0x20
 	mov r1, r0
-	bl BossArena__Func_2039AB4
+	bl BossArena__SetBoundsY
 	mov r0, #0
 	mov r1, r0
-	bl BossArena__Func_2039A94
+	bl BossArena__SetBoundsX
 	ldmia sp!, {r3, pc}
 _02160010:
 	mov r0, #0
 	mov r1, #0x20
-	bl BossArena__Func_2039AB4
+	bl BossArena__SetBoundsY
 	mov r0, #0
 	sub r1, r0, #0x100
-	bl BossArena__Func_2039A94
+	bl BossArena__SetBoundsX
 	ldmia sp!, {r3, pc}
 	arm_func_end ovl02_215FFE4
 

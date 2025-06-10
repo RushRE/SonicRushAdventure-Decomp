@@ -428,7 +428,7 @@ static void Boss1__Func_2155FB0(s32 type, u32 *anim1, u32 *anim2, u32 *anim3, u3
 static void Boss1__Func_2156094(Boss1 *work, u32 anim1, u32 anim2, u32 anim3, u32 anim4, u32 anim5, u32 anim6, u32 anim7);
 static BOOL Boss1__Func_21563B4(Boss1 *work);
 static BOOL Boss1__Func_2156568(Boss1 *work);
-static void Boss1__NeckRenderCallback(s32 a1, void *param);
+static void Boss1__NeckRenderCallback(NNSG3dRS *context, void *userData);
 static fx32 Boss1__GetFrame(Boss1 *work);
 static void Boss1__SetAnimation(Boss1 *work, u16 animID, BOOL playOnce);
 static BOOL Boss1__CheckAnimFinished(Boss1 *work);
@@ -1833,7 +1833,7 @@ void Boss1Stage__Func_21556F8(Boss1Stage *work)
 void Boss1Stage__Func_2155758(Boss1Stage *work)
 {
     work->field_37C += FLOAT_TO_FX32(0.25);
-    BossArena__Func_2039A94(FX32_TO_WHOLE(work->field_37C), -128);
+    BossArena__SetBoundsX(FX32_TO_WHOLE(work->field_37C), -128);
 }
 
 void Boss1Stage__HandleCamera(Boss1Stage *work)
@@ -1892,7 +1892,7 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
 #ifdef NON_MATCHING
     VecFx32 upVector = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0) };
 
-    BossArena__SetType(4);
+    BossArena__SetType(BOSSARENA_TYPE_4);
     BossArena__SetField358(FLOAT_TO_FX32(350.0));
     BossArena__SetField35C(FLOAT_TO_FX32(1.3333));
 
@@ -1905,7 +1905,7 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
     config.projScaleW  = FLOAT_TO_FX32(0.5);
 
     BossArenaCamera *cameraA = BossArena__GetCamera(1);
-    BossArena__SetCameraType(cameraA, 1);
+    BossArena__SetCameraType(cameraA, BOSSARENACAMERA_TYPE_1);
     BossArena__SetCameraConfig(cameraA, &config);
     BossArena__SetTracker1TargetWork(cameraA, &gPlayer->objWork, NULL, &gPlayer->objWork);
     BossArena__SetTracker1TargetPos(cameraA, FLOAT_TO_FX32(0.0), work->field_378 + FLOAT_TO_FX32(80.0), FLOAT_TO_FX32(0.0));
@@ -1920,12 +1920,12 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
     BossArena__ApplyAmplitudeYTarget(cameraA);
     BossArena__ApplyAngleTarget(cameraA);
     BossArena__SetUpVector(cameraA, &upVector);
-    BossArena__Func_20397E4();
+    BossArena__DoProcess();
     BossArena__UpdateTracker1TargetPos(cameraA);
     BossArena__UpdateTracker0TargetPos(cameraA);
 
     BossArenaCamera *cameraB = BossArena__GetCamera(2);
-    BossArena__SetCameraType(cameraB, 1);
+    BossArena__SetCameraType(cameraB, BOSSARENACAMERA_TYPE_1);
     BossArena__SetCameraConfig(cameraB, &config);
     BossArena__SetTracker1TargetWork(cameraB, &gPlayer->objWork, NULL, &gPlayer->objWork);
     BossArena__SetTracker1TargetPos(cameraB, FLOAT_TO_FX32(0.0), work->field_378 - FLOAT_TO_FX32(520.0), FLOAT_TO_FX32(0.0));
@@ -1940,20 +1940,19 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
     BossArena__ApplyAmplitudeYTarget(cameraB);
     BossArena__ApplyAngleTarget(cameraB);
     BossArena__SetUpVector(cameraB, &upVector);
-    BossArena__Func_20397E4();
+    BossArena__DoProcess();
     BossArena__UpdateTracker1TargetPos(cameraB);
     BossArena__UpdateTracker0TargetPos(cameraB);
 
     G2_SetBG1Control(GX_BG_SCRSIZE_TEXT_512x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0000, GX_BG_CHARBASE_0x04000, GX_BG_EXTPLTT_23);
 
-    BossArena__SetUnknown2Type(2);
+    BossArena__SetBackgroundType(BOSSARENABACKGROUND_TYPE_3D);
 
-    // TODO: figure out this struct
-    void *unknown           = BossArena__GetField4A8();
-    *(void **)(unknown + 4) = work->background;
-    *(u8 *)(unknown + 20)   = 1;
-    *(u16 *)(unknown + 44)  = 0;
-    *(u16 *)(unknown + 46)  = 0;
+    BossArenaUnknown4A8 *unknown = BossArena__GetField4A8();
+    unknown->background          = work->background;
+    unknown->backgroundID        = BACKGROUND_1;
+    unknown->word2C              = 0;
+    unknown->word2E              = 0;
 
     LoadCompressedPixels(GetBackgroundPixels(work->background), PIXEL_MODE_SPRITE, VRAMSystem__VRAM_BG[0] + 0x4000);
     LoadCompressedPalette(GetBackgroundPalette(work->background), PALETTE_MODE_SPRITE, VRAMSystem__VRAM_PALETTE_BG[0]);
@@ -2056,7 +2055,7 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
 	mov r0, r4
 	add r1, sp, #0x20
 	bl BossArena__SetUpVector
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r4
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r4
@@ -2111,7 +2110,7 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
 	mov r0, r4
 	add r1, sp, #0x20
 	bl BossArena__SetUpVector
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r4
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r4
@@ -2123,7 +2122,7 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
 	orr r1, r1, #4
 	orr r1, r1, #0x6000
 	strh r1, [r2]
-	bl BossArena__SetUnknown2Type
+	bl BossArena__SetBackgroundType
 	bl BossArena__GetField4A8
 	ldr r2, [r5, #0x364]
 	mov r1, #1
@@ -2999,9 +2998,10 @@ _021566FC:
 #endif
 }
 
-NONMATCH_FUNC void Boss1__NeckRenderCallback(s32 a1, void *param)
+NONMATCH_FUNC void Boss1__NeckRenderCallback(NNSG3dRS *context, void *userData)
 {
 #ifdef NON_MATCHING
+    Boss1 *boss = (Boss1 *)userData;
 
 #else
     // clang-format off

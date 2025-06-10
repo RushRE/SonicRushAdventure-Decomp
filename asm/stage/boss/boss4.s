@@ -1737,18 +1737,18 @@ ovl01_216CEE0: // 0x0216CEE0
 	beq _0216CF0C
 	mov r0, #0x1c
 	mov r1, r0
-	bl BossArena__Func_2039AB4
+	bl BossArena__SetBoundsY
 	mov r0, #0
 	sub r1, r0, #0x46
-	bl BossArena__Func_2039A94
+	bl BossArena__SetBoundsX
 	ldmia sp!, {r3, pc}
 _0216CF0C:
 	mov r0, #0
 	mov r1, #0x1c
-	bl BossArena__Func_2039AB4
+	bl BossArena__SetBoundsY
 	mov r0, #0
 	sub r1, r0, #0x12c
-	bl BossArena__Func_2039A94
+	bl BossArena__SetBoundsX
 	ldmia sp!, {r3, pc}
 	arm_func_end ovl01_216CEE0
 
@@ -2073,7 +2073,7 @@ ovl01_216D238: // 0x0216D238
 	mov r0, r4
 	add r1, sp, #0x20
 	bl BossArena__SetUpVector
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r4
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r4
@@ -2131,7 +2131,7 @@ ovl01_216D238: // 0x0216D238
 	mov r0, r4
 	add r1, sp, #0x20
 	bl BossArena__SetUpVector
-	bl BossArena__Func_20397E4
+	bl BossArena__DoProcess
 	mov r0, r4
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r4
@@ -2143,7 +2143,7 @@ ovl01_216D238: // 0x0216D238
 	orr r1, r1, #4
 	orr r1, r1, #0x6000
 	strh r1, [r2]
-	bl BossArena__SetUnknown2Type
+	bl BossArena__SetBackgroundType
 	bl BossArena__GetField4A8
 	ldr r1, [r5, #0x364]
 	str r1, [r0, #4]
@@ -2167,7 +2167,7 @@ ovl01_216D238: // 0x0216D238
 	bl LoadCompressedPalette
 	mov r0, #0
 	sub r1, r0, #0x60
-	bl BossArena__Func_2039A94
+	bl BossArena__SetBoundsX
 	mov r2, #0x4000000
 	ldr r1, [r2, #0]
 	ldr r0, [r2, #0]
