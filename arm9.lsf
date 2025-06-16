@@ -786,7 +786,7 @@ Overlay ExBoss
     Object src/ex/exRingManager.o
     Object src/ex/exHUD.o
     Object src/ex/exGameSystem.o
-    Object asm/ex/exHitCheck.o
+    Object src/ex/exHitCheck.o
     Object src/ex/ex.o
     Object src/ex/exTitleCard.o
     Object src/ex/exPauseMenu.o

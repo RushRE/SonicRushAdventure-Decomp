@@ -482,7 +482,7 @@ _0215C554:
 	add r1, r4, #0x3c0
 	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x34
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1799,7 +1799,7 @@ _0215D754:
 	strb r2, [r4, #0x414]
 	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x88
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	ldrsh r0, [r4, #0]
 	sub r0, r0, #1
 	strh r0, [r4]
@@ -1949,7 +1949,7 @@ _0215D96C:
 	movs r0, r0, lsr #0x1f
 	ldmneia sp!, {r4, pc}
 	add r0, r4, #0x88
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215D998: .word ExTask_State_Destroy
@@ -2222,7 +2222,7 @@ exBossSysAdminTask__Func_215DC9C: // 0x0215DC9C
 	ldmia sp!, {r4, pc}
 _0215DCC8:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -2269,7 +2269,7 @@ exBossSysAdminTask__Func_215DD2C: // 0x0215DD2C
 	ldmia sp!, {r4, pc}
 _0215DD5C:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -2327,7 +2327,7 @@ exBossSysAdminTask__Func_215DDC0: // 0x0215DDC0
 	ldmia sp!, {r4, pc}
 _0215DE1C:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -2353,7 +2353,7 @@ exBossSysAdminTask__Func_215DE40: // 0x0215DE40
 	ldmia sp!, {r4, pc}
 _0215DE6C:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -2391,7 +2391,7 @@ exBossSysAdminTask__Func_215DEB0: // 0x0215DEB0
 	ldmia sp!, {r4, pc}
 _0215DEDC:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest

@@ -2988,7 +2988,7 @@ void ExRing_Main_Ring(void)
     }
 
     exDrawReqTask__AddRequest(&work->aniRing, &work->aniRing.config);
-    exHitCheckTask__AddHitCheck(&work->aniRing.hitChecker);
+    exHitCheckTask_AddHitCheck(&work->aniRing.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
 }

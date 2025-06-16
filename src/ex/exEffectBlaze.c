@@ -521,7 +521,7 @@ void ExBlazeFireballEffect_Main_Fired(void)
         else
         {
             exDrawReqTask__AddRequest(&work->aniFire, &work->aniFire.config);
-            exHitCheckTask__AddHitCheck(&work->aniFire.hitChecker);
+            exHitCheckTask_AddHitCheck(&work->aniFire.hitChecker);
 
             RunCurrentExTaskUnknownEvent();
         }

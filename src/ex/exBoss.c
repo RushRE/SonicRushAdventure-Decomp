@@ -414,7 +414,7 @@ void ExBoss_Main_Idle_DragonOnly(void)
     }
 
     exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
-    exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+    exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -477,7 +477,7 @@ void ExBoss_Main_Idle_MeteorFireball(void)
     }
 
     exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
-    exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+    exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -527,7 +527,7 @@ void ExBoss_Main_Idle_Wait_DragonOnly(void)
     {
         work->idleDuration--;
         exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
-        exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -602,7 +602,7 @@ void ExBoss_Main_Idle_HomingLaserDragon(void)
     }
 
     exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
-    exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+    exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -673,7 +673,7 @@ void ExBoss_Main_Idle_MeteorFireballMagmaWave(void)
     }
 
     exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
-    exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+    exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -723,7 +723,7 @@ void ExBoss_Main_Idle_Wait_HomingLaserDragon(void)
     {
         work->idleDuration--;
         exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
-        exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -798,7 +798,7 @@ void ExBoss_Main_Idle_HomingLaserDragon_Phase3(void)
     }
 
     exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
-    exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+    exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -877,7 +877,7 @@ void ExBoss_Main_Idle_MeteorFireballMagmaWaveLineMissile(void)
     }
 
     exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
-    exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+    exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -928,7 +928,7 @@ void ExBoss_Main_Idle_Wait_HomingLaserDragon_Phase3(void)
         work->idleDuration--;
 
         exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
-        exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
     }

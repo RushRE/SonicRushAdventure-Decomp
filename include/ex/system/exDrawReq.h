@@ -11,6 +11,16 @@
 // ENUMS
 // --------------------
 
+enum exDrawReqTaskType_
+{
+    EXDRAWREQTASK_TYPE_NONE,
+    EXDRAWREQTASK_TYPE_MODEL,
+    EXDRAWREQTASK_TYPE_SPRITE2D,
+    EXDRAWREQTASK_TYPE_SPRITE3D,
+    EXDRAWREQTASK_TYPE_TRAIL,
+};
+typedef u16 exDrawReqTaskType;
+
 // --------------------
 // STRUCTS
 // --------------------

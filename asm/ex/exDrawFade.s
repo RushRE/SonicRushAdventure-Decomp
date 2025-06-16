@@ -82,7 +82,7 @@ exBossSysAdminTask__Main_Wave0: // 0x021607EC
 	ldmia sp!, {r4, pc}
 _02160818:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -126,7 +126,7 @@ exBossSysAdminTask__Main_Wave1: // 0x02160874
 	ldmia sp!, {r4, pc}
 _021608A0:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -205,7 +205,7 @@ _02160990:
 	ldmia sp!, {r4, pc}
 _021609AC:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -257,7 +257,7 @@ _02160A44:
 	ldmia sp!, {r4, pc}
 _02160A5C:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -284,7 +284,7 @@ exBossSysAdminTask__Main_FinishWave2: // 0x02160A84
 	ldmia sp!, {r4, pc}
 _02160AB0:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -496,7 +496,7 @@ _02160D60:
 	bl exBossMagmaAttackTask__Create
 _02160DAC:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -633,7 +633,7 @@ exBossSysAdminTask__Main_Wave4: // 0x02160EB0
 	ldmia sp!, {r4, pc}
 _02160F64:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -1305,7 +1305,7 @@ exDrawReqTask__Sprite2D__HandleUnknown: // 0x021617DC
 	mov r0, r0, asr #0x10
 	str r4, [r2]
 	mov r4, r0, lsl #0x10
-	bl exHitCheckTask__Func_216ADBC
+	bl exHitCheckTask_IsPaused
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldrb r0, [r5, #0x80]
@@ -1654,7 +1654,7 @@ exDrawReqTask__InitModel: // 0x02161CB0
 	add r0, r4, #0x1c
 	bl exDrawReqTask__Model__InitWorker
 	mov r0, r4
-	bl exHitCheckTask__InitHitChecker
+	bl exHitCheckTask_InitHitChecker
 	add r0, r4, #0x38c
 	bl exDrawReqTask__Model__InitConfig
 	ldmia sp!, {r4, pc}
@@ -1881,7 +1881,7 @@ exDrawReqTask__Model__HandleUnknown: // 0x02161FAC
 	add r0, r0, r3, lsr #28
 	str r4, [r2]
 	mov r4, r0, lsl #7
-	bl exHitCheckTask__Func_216ADBC
+	bl exHitCheckTask_IsPaused
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, pc}
 	bl exDrawReqTask__Func_2164260
@@ -3467,7 +3467,7 @@ exDrawReqTask__InitSprite3D: // 0x021636BC
 	add r0, r4, #0x1c
 	bl exDrawReqTask__Sprite3D__InitWorker
 	mov r0, r4
-	bl exHitCheckTask__InitHitChecker
+	bl exHitCheckTask_InitHitChecker
 	add r0, r4, #0x150
 	bl exDrawReqTask__Sprite3D__InitConfig
 	ldmia sp!, {r4, pc}
@@ -3656,7 +3656,7 @@ exDrawReqTask__Sprite3D__HandleUnknown: // 0x02163924
 	add r0, r0, r3, lsr #28
 	str r4, [r2]
 	mov r4, r0, lsl #7
-	bl exHitCheckTask__Func_216ADBC
+	bl exHitCheckTask_IsPaused
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, pc}
 	bl exDrawReqTask__Func_2164260

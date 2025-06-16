@@ -401,7 +401,7 @@ void ExSonicBarrierEffect_Main_BarrierActive(void)
     else
     {
         exDrawReqTask__AddRequest(&work->aniBarrier, &work->aniBarrier.config);
-        exHitCheckTask__AddHitCheck(&work->aniBarrier.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->aniBarrier.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
     }

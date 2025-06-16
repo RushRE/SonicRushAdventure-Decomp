@@ -182,7 +182,7 @@ void ExSystem_Main_Init(void)
     InitExSystemStatus();
     exDrawFadeUnknown__Func_21615A4(1, 1);
     exDrawReqTask__Create();
-    exHitCheckTask__Create();
+    exHitCheckTask_Create();
     CreateExGameSystem();
     CreateExHUD();
 
@@ -265,7 +265,7 @@ void ExSystem_Main_Active(void)
         }
         else
         {
-            exHitCheckTask__Func_216ADD8();
+            exHitCheckTask_DecPauseLevel();
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -277,7 +277,7 @@ void ExSystem_Action_Pause(void)
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
     UNUSED(work);
 
-    exHitCheckTask__Func_216AD9C(1);
+    exHitCheckTask_SetPauseLevel(1);
     GetExSystemStatus()->finishMode = EXFINISHMODE_PAUSED;
     CreateExPauseMenu();
     SetCurrentExTaskMainEvent(ExSystem_Main_WaitingForPauseMenu);
@@ -314,7 +314,7 @@ void ExSystem_Main_ExitSelected(void)
     }
     else
     {
-        exHitCheckTask__Func_216ADD8();
+        exHitCheckTask_DecPauseLevel();
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -452,7 +452,7 @@ void ExSystem_Main_DoStageRestart(void)
 
         InitExSystemStatus();
         exDrawReqTask__Create();
-        exHitCheckTask__Create();
+        exHitCheckTask_Create();
         CreateExGameSystem();
         CreateExHUD();
 

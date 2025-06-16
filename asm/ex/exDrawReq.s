@@ -137,7 +137,7 @@ _02163F60:
 	cmp r1, #0
 	bne _02163EE4
 _02163F74:
-	bl exHitCheckTask__Func_216ADBC
+	bl exHitCheckTask_IsPaused
 	cmp r0, #0
 	beq _02163F8C
 	mov r0, #1
@@ -216,7 +216,7 @@ exDrawReqTask__AddRequest: // 0x02164034
 	ldrh r1, [r6, #4]
 	mov r0, r8
 	ldr r5, _0216416C // =0x02176454
-	bl exHitCheckTask__DoArenaBoundsCheck
+	bl exHitCheckTask_DoArenaBoundsCheck
 	ldrh r0, [r6, #4]
 	cmp r0, #2
 	bne _021640A8

@@ -462,7 +462,7 @@ _0215AF8C:
 	str r2, [r4, #0xc]
 	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x24
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -575,7 +575,7 @@ _0215B13C:
 	add r1, r4, #0x3b0
 	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x24
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1034,7 +1034,7 @@ _0215B768:
 	str r2, [r4, #0xc]
 	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x2c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1171,7 +1171,7 @@ _0215B970:
 	add r1, r4, #0x3b8
 	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x2c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1360,7 +1360,7 @@ _0215BC18:
 	add r1, r4, #0x3b8
 	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x2c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1453,7 +1453,7 @@ exBossSysAdminTask__Main_Line0: // 0x0215BD2C
 	ldmia sp!, {r4, pc}
 _0215BD58:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -1537,7 +1537,7 @@ exBossSysAdminTask__Main_Line1: // 0x0215BE48
 	ldmia sp!, {r4, pc}
 _0215BE74:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -1592,7 +1592,7 @@ _0215BF14:
 	ldmia sp!, {r4, pc}
 _0215BF24:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -1647,7 +1647,7 @@ _0215BFCC:
 	strh r0, [r4, #0x58]
 _0215BFD4:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest

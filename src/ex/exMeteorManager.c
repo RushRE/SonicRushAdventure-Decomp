@@ -451,7 +451,7 @@ void ExMeteor_Main_Moving(void)
     else
     {
         exDrawReqTask__AddRequest(&work->aniMeteor, &work->aniMeteor.config);
-        exHitCheckTask__AddHitCheck(&work->aniMeteor.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->aniMeteor.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
     }

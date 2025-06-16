@@ -273,7 +273,7 @@ void ExBossFireBlue_Main_MoveFast(void)
         work->animator.model.angle.x = exPlayerHelpers__Func_2152E28(work->velocity.z, work->velocity.y);
         work->animator.model.angle.z = exPlayerHelpers__Func_2152E28(work->velocity.x, work->velocity.y);
         exDrawReqTask__AddRequest(&work->animator.hitChecker, &work->animator.config);
-        exHitCheckTask__AddHitCheck(&work->animator.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -325,7 +325,7 @@ void ExBossFireBlue_Main_MoveSlow(void)
     else
     {
         exDrawReqTask__AddRequest(&work->animator.hitChecker, &work->animator.config);
-        exHitCheckTask__AddHitCheck(&work->animator.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -411,7 +411,7 @@ void ExBossFireBlue_Main_Repelled(void)
     }
 
     exDrawReqTask__AddRequest(&work->animator.hitChecker, &work->animator.config);
-    exHitCheckTask__AddHitCheck(&work->animator.hitChecker);
+    exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -624,7 +624,7 @@ void ExBossFireRed_Main_MoveFast(void)
         work->animator.model.angle.x = exPlayerHelpers__Func_2152E28(work->velocity.z, work->velocity.y);
         work->animator.model.angle.z = exPlayerHelpers__Func_2152E28(work->velocity.x, work->velocity.y);
         exDrawReqTask__AddRequest(&work->animator.hitChecker, &work->animator.config);
-        exHitCheckTask__AddHitCheck(&work->animator.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -674,7 +674,7 @@ void ExBossFireRed_Main_MoveSlow(void)
     else
     {
         exDrawReqTask__AddRequest(&work->animator.hitChecker, &work->animator.config);
-        exHitCheckTask__AddHitCheck(&work->animator.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -760,7 +760,7 @@ void ExBossFireRed_Main_Repelled(void)
     }
 
     exDrawReqTask__AddRequest(&work->animator.hitChecker, &work->animator.config);
-    exHitCheckTask__AddHitCheck(&work->animator.hitChecker);
+    exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -810,7 +810,7 @@ void exBossSysAdminTask__Main_StartFire0(void)
     }
     else
     {
-        exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
 
         RunCurrentExTaskUnknownEvent();
@@ -829,7 +829,7 @@ void exBossSysAdminTask__Main_FinishFire0(void)
     }
     else
     {
-        exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
 
         RunCurrentExTaskUnknownEvent();
@@ -867,7 +867,7 @@ void exBossSysAdminTask__Main_Fire1(void)
     }
     else
     {
-        exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
 
         RunCurrentExTaskUnknownEvent();
@@ -909,7 +909,7 @@ void exBossSysAdminTask__Main_Fire2(void)
     }
     else
     {
-        exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
 
         RunCurrentExTaskUnknownEvent();
@@ -969,7 +969,7 @@ void exBossSysAdminTask__Main_Fire4(void)
     }
     else
     {
-        exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+        exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
 
         RunCurrentExTaskUnknownEvent();

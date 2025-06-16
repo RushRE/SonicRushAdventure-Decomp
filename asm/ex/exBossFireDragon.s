@@ -525,7 +525,7 @@ _0215536C:
 	add r1, r4, #0x3c4
 	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x38
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -713,7 +713,7 @@ _021556C4:
 	add r1, r4, #0x3c4
 	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x38
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -929,7 +929,7 @@ exBossSysAdminTask__Main_Dora0: // 0x02155968
 	ldmia sp!, {r4, pc}
 _02155994:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -1035,7 +1035,7 @@ _02155AEC:
 	ldmia sp!, {r3, r4, r5, pc}
 _02155B04:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -1066,7 +1066,7 @@ exBossSysAdminTask__Main_FinishDora1: // 0x02155B3C
 	ldmia sp!, {r4, pc}
 _02155B68:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
@@ -1110,7 +1110,7 @@ exBossSysAdminTask__Main_Dora2: // 0x02155BC4
 	ldmia sp!, {r4, pc}
 _02155BF0:
 	add r0, r4, #0x6c
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest

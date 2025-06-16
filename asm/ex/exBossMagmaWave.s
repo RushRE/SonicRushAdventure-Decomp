@@ -518,7 +518,7 @@ _02160138:
 	add r1, r4, #0x3a0
 	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x14
-	bl exHitCheckTask__AddHitCheck
+	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
