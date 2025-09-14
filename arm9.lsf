@@ -134,6 +134,7 @@ Static arm9
     Object src/game/save/saveGameCardBackup.o
     Object asm/game/save/saveGame_LoadData2.o // SaveGame_LoadData2 has to be in an asm file since inline asm functions can't compile it matching
     Object src/game/save/saveGameCallbacks.o
+    Object src/game/save/saveGameStatus_0.o
     Object src/game/save/saveGameStatus.o
     Object src/game/audio/sysSound.o
     Object asm/network/multibootManager.o
@@ -777,8 +778,9 @@ Overlay ExBoss
     Object asm/ex/exBossMeteor.o
     Object src/ex/exBoss.o
     Object asm/ex/exBossMagmaWave.o
-    Object asm/ex/exDrawFade.o
-    Object asm/ex/exDrawReq.o
+    Object asm/ex/exDrawFade_vars.o
+    Object asm/ex/exDrawReq_vars.o
+    Object src/ex/exDrawReq.o
     Object src/ex/exEffectCommon.o
     Object src/ex/exEffectSonic.o
     Object src/ex/exEffectBlaze.o

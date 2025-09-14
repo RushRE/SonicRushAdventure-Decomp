@@ -369,10 +369,25 @@ static struct TutorialSection sectionList[TUTORIAL_SECTION_COUNT] =
 
 RUSH_INLINE BOOL CheckAdvancePress(Tutorial *work)
 {
-    if ((padInput.btnPress & PAD_BUTTON_A) != 0
-        || (work->aniNextPrompt.work.animID == ADVANCEPROMPT_ANI_HELD && IsTouchInputEnabled() && TOUCH_HAS_PULL(touchInput.flags)
-            && CHECK_NEXT_PROMPT_TOUCH(touchInput.pull, work->aniNextPrompt.position[0])))
-        return TRUE;
+    if (padInput.btnPress & PAD_BUTTON_A)
+        goto BUTTON_PRESSED;
+
+    if (work->aniNextPrompt.work.animID == ADVANCEPROMPT_ANI_HELD && IsTouchInputEnabled() && TOUCH_HAS_PULL(touchInput.flags))
+    {
+        s16 y;
+        s16 x;
+
+        x = work->aniNextPrompt.position[0].x;
+        if (x <= (s32)touchInput.pull.x && (s32)touchInput.pull.x <= (x + 24))
+        {
+            y = work->aniNextPrompt.position[0].y;
+            if (y <= (s32)touchInput.pull.y && (s32)touchInput.pull.y <= (y + 24))
+            {
+            BUTTON_PRESSED:
+                return TRUE;
+            }
+        }
+    }
 
     return FALSE;
 }
@@ -894,10 +909,8 @@ void Tutorial_Action_IntroDialog(Tutorial *work)
     work->stateTalk = Tutorial_StateTalk_IntroDialog;
 }
 
-NONMATCH_FUNC void Tutorial_StateTalk_IntroDialog(Tutorial *work)
+void Tutorial_StateTalk_IntroDialog(Tutorial *work)
 {
-    // should match when 'Tutorial_StateTalk_Talking' does
-#ifdef NON_MATCHING
     if (FontAnimator__IsEndOfLine(&work->fontAnimator))
     {
         work->flags |= TUTORIAL_FLAG_ALLOW_DIALOG_ADVANCE;
@@ -914,81 +927,6 @@ NONMATCH_FUNC void Tutorial_StateTalk_IntroDialog(Tutorial *work)
             work->flags |= TUTORIAL_FLAG_HAS_DIALOG_CHOICE;
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	add r0, r4, #0x440
-	bl FontAnimator__IsEndOfLine
-	cmp r0, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	ldr r1, [r4, #0x38c]
-	ldr r0, =padInput
-	orr r1, r1, #0x10
-	str r1, [r4, #0x38c]
-	ldrh r0, [r0, #4]
-	tst r0, #1
-	bne _0217D138
-	add r0, r4, #0xa00
-	ldrh r0, [r0, #0x6c]
-	cmp r0, #1
-	bne _0217D140
-	bl IsTouchInputEnabled
-	cmp r0, #0
-	beq _0217D140
-	ldr r1, =touchInput
-	ldrh r0, [r1, #0x12]
-	tst r0, #8
-	beq _0217D140
-	add r0, r4, #0xa00
-	ldrsh r2, [r0, #0xc8]
-	ldrh r3, [r1, #0x20]
-	cmp r2, r3
-	addle r2, r2, #0x18
-	cmple r3, r2
-	ldrlesh r0, [r0, #0xca]
-	ldrleh r1, [r1, #0x22]
-	cmple r0, r1
-	addle r0, r0, #0x18
-	cmple r1, r0
-	bgt _0217D140
-_0217D138:
-	mov r0, #1
-	b _0217D144
-_0217D140:
-	mov r0, #0
-_0217D144:
-	cmp r0, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	ldr r0, [r4, #0x38c]
-	ldr ip, =0x00000115
-	bic r0, r0, #0x10
-	rsb r1, ip, #0x114
-	str r0, [r4, #0x38c]
-	mov r0, #0
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r0, ip}
-	bl PlaySfxEx
-	add r0, r4, #0x440
-	mov r1, #0xe
-	bl FontAnimator__SetMsgSequence
-	add r0, r4, #0x440
-	mov r1, #0
-	bl FontAnimator__LoadCharacters
-	ldr r0, =Tutorial_StateTalk_PracticeSelection
-	str r0, [r4, #0x37c]
-	ldr r0, [r4, #0x38c]
-	orr r0, r0, #0x80
-	str r0, [r4, #0x38c]
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void Tutorial_StateTalk_PracticeSelection(Tutorial *work)
@@ -1062,17 +1000,11 @@ void Tutorial_StateTalk_PracticeSelection(Tutorial *work)
     FontWindowMWControl__CallWindowFunc2(&work->fontMWControl);
 }
 
-NONMATCH_FUNC void Tutorial_StateTalk_SkipTutorialTalk(Tutorial *work)
+void Tutorial_StateTalk_SkipTutorialTalk(Tutorial *work)
 {
-    // should match when 'Tutorial_StateTalk_Talking' does
-#ifdef NON_MATCHING
     if (FontAnimator__IsLastDialog(&work->fontAnimator))
     {
-        if (CheckAdvancePress(work) == FALSE)
-        {
-            work->flags |= TUTORIAL_FLAG_ALLOW_DIALOG_ADVANCE;
-        }
-        else
+        if (CheckAdvancePress(work))
         {
             work->flags &= ~(TUTORIAL_FLAG_ALLOW_DIALOG_ADVANCE | TUTORIAL_FLAG_SHOW_CHARACTER_ICON | TUTORIAL_FLAG_SHOW_NEXT_PROMPT);
 
@@ -1080,74 +1012,11 @@ NONMATCH_FUNC void Tutorial_StateTalk_SkipTutorialTalk(Tutorial *work)
             FontWindowAnimator__StartAnimating(work->fontWindowAnimator);
             work->stateTalk = Tutorial_StateTalk_SkipTutorial;
         }
+        else
+        {
+            work->flags |= TUTORIAL_FLAG_ALLOW_DIALOG_ADVANCE;
+        }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #4
-	mov r4, r0
-	add r0, r4, #0x440
-	bl FontAnimator__IsLastDialog
-	cmp r0, #0
-	addeq sp, sp, #4
-	ldmeqia sp!, {r3, r4, pc}
-	ldr r0, =padInput
-	ldrh r0, [r0, #4]
-	tst r0, #1
-	bne _0217D4E0
-	add r0, r4, #0xa00
-	ldrh r0, [r0, #0x6c]
-	cmp r0, #1
-	bne _0217D4E8
-	bl IsTouchInputEnabled
-	cmp r0, #0
-	beq _0217D4E8
-	ldr r1, =touchInput
-	ldrh r0, [r1, #0x12]
-	tst r0, #8
-	beq _0217D4E8
-	add r0, r4, #0xa00
-	ldrsh r2, [r0, #0xc8]
-	ldrh r3, [r1, #0x20]
-	cmp r2, r3
-	addle r2, r2, #0x18
-	cmple r3, r2
-	ldrlesh r0, [r0, #0xca]
-	ldrleh r1, [r1, #0x22]
-	cmple r0, r1
-	addle r0, r0, #0x18
-	cmple r1, r0
-	bgt _0217D4E8
-_0217D4E0:
-	mov r0, #1
-	b _0217D4EC
-_0217D4E8:
-	mov r0, #0
-_0217D4EC:
-	cmp r0, #0
-	ldreq r0, [r4, #0x38c]
-	addeq sp, sp, #4
-	orreq r0, r0, #0x10
-	streq r0, [r4, #0x38c]
-	ldmeqia sp!, {r3, r4, pc}
-	ldr r1, [r4, #0x38c]
-	add r0, r4, #0x530
-	bic r1, r1, #0x16
-	str r1, [r4, #0x38c]
-	mov r3, #0
-	mov r1, #4
-	mov r2, #8
-	str r3, [sp]
-	bl FontWindowAnimator__InitAnimation
-	add r0, r4, #0x530
-	bl FontWindowAnimator__StartAnimating
-	ldr r0, =Tutorial_StateTalk_SkipTutorial
-	str r0, [r4, #0x37c]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, pc}
-
-// clang-format on
-#endif
 }
 
 void Tutorial_StateTalk_SkipTutorial(Tutorial *work)
@@ -1237,90 +1106,19 @@ void Tutorial_StateTalk_FinishedSection_ShowCharacter(Tutorial *work)
     }
 }
 
-NONMATCH_FUNC void Tutorial_StateTalk_Talking(Tutorial *work)
+void Tutorial_StateTalk_Talking(Tutorial *work)
 {
-    // https://decomp.me/scratch/IFETd -> 98.08%
-    // 'touchInput.pull' is being loaded before 'work->aniNextPrompt.position[0]' in 'CheckAdvancePress'
-#ifdef NON_MATCHING
-    if (FontAnimator__IsEndOfLine(&work->fontAnimator))
+    if (FontAnimator__IsLastDialog(&work->fontAnimator) == FALSE)
+        return;
+
+    work->flags |= TUTORIAL_FLAG_ALLOW_DIALOG_ADVANCE;
+
+    if (CheckAdvancePress(work))
     {
-        work->flags |= TUTORIAL_FLAG_ALLOW_DIALOG_ADVANCE;
-
-        if (CheckAdvancePress(work))
-        {
-            work->flags &= ~TUTORIAL_FLAG_ALLOW_DIALOG_ADVANCE;
-
-            PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BUTTON);
-
-            Tutorial_Action_FinishSection(work);
-        }
+        work->flags &= ~TUTORIAL_FLAG_ALLOW_DIALOG_ADVANCE;
+        PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BUTTON);
+        Tutorial_Action_FinishSection(work);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	add r0, r4, #0x440
-	bl FontAnimator__IsLastDialog
-	cmp r0, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	ldr r1, [r4, #0x38c]
-	ldr r0, =padInput
-	orr r1, r1, #0x10
-	str r1, [r4, #0x38c]
-	ldrh r0, [r0, #4]
-	tst r0, #1
-	bne _0217D864
-	add r0, r4, #0xa00
-	ldrh r0, [r0, #0x6c]
-	cmp r0, #1
-	bne _0217D86C
-	bl IsTouchInputEnabled
-	cmp r0, #0
-	beq _0217D86C
-	ldr r1, =touchInput
-	ldrh r0, [r1, #0x12]
-	tst r0, #8
-	beq _0217D86C
-	add r0, r4, #0xa00
-	ldrsh r2, [r0, #0xc8]
-	ldrh r3, [r1, #0x20]
-	cmp r2, r3
-	addle r2, r2, #0x18
-	cmple r3, r2
-	ldrlesh r0, [r0, #0xca]
-	ldrleh r1, [r1, #0x22]
-	cmple r0, r1
-	addle r0, r0, #0x18
-	cmple r1, r0
-	bgt _0217D86C
-_0217D864:
-	mov r0, #1
-	b _0217D870
-_0217D86C:
-	mov r0, #0
-_0217D870:
-	cmp r0, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	ldr r0, [r4, #0x38c]
-	ldr ip, =0x00000115
-	bic r0, r0, #0x10
-	rsb r1, ip, #0x114
-	str r0, [r4, #0x38c]
-	mov r0, #0
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r0, ip}
-	bl PlaySfxEx
-	mov r0, r4
-	bl Tutorial_Action_FinishSection
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void Tutorial_Action_FinishSection(Tutorial *work)
@@ -1337,126 +1135,34 @@ void Tutorial_Action_FinishSection(Tutorial *work)
     work->stateTalk   = Tutorial_StateTalk_FinishSection;
 }
 
-NONMATCH_FUNC void Tutorial_StateTalk_FinishSection(Tutorial *work)
+void Tutorial_StateTalk_FinishSection(Tutorial *work)
 {
-    // should match when 'Tutorial_StateTalk_Talking' does
-#ifdef NON_MATCHING
-    if (FontAnimator__IsEndOfLine(&work->fontAnimator))
+    if (FontAnimator__IsLastDialog(&work->fontAnimator) == FALSE)
+        return;
+
+    work->flags |= TUTORIAL_FLAG_ALLOW_DIALOG_ADVANCE;
+
+    if (CheckAdvancePress(work))
     {
-        work->flags |= TUTORIAL_FLAG_ALLOW_DIALOG_ADVANCE;
-
-        if (CheckAdvancePress(work))
+        if (work->stateScroll == NULL && work->statePlayer == NULL)
         {
-            if (work->stateScroll == NULL && work->statePlayer == NULL)
+            work->flags &= ~TUTORIAL_FLAG_ALLOW_DIALOG_ADVANCE;
+            PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BUTTON);
+
+            if (work->sectionID == TUTORIAL_SECTION_BREAKABLE)
             {
-                work->flags &= ~TUTORIAL_FLAG_ALLOW_DIALOG_ADVANCE;
-                PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BUTTON);
+                work->stateTalk = Tutorial_StateTalk_CloseWindowForFinishSection;
+                work->flags &= ~(TUTORIAL_FLAG_SHOW_CHARACTER_ICON | TUTORIAL_FLAG_SHOW_NEXT_PROMPT);
 
-                if (work->sectionID == TUTORIAL_SECTION_BREAKABLE)
-                {
-                    work->stateTalk = Tutorial_StateTalk_CloseWindowForFinishSection;
-                    work->flags &= ~(TUTORIAL_FLAG_SHOW_CHARACTER_ICON | TUTORIAL_FLAG_SHOW_NEXT_PROMPT);
-
-                    FontWindowAnimator__InitAnimation(work->fontWindowAnimator, 4, 8, 0, 0);
-                    FontWindowAnimator__StartAnimating(work->fontWindowAnimator);
-                }
-                else
-                {
-                    work->stateTalk = Tutorial_StateTalk_NextSection;
-                }
+                FontWindowAnimator__InitAnimation(work->fontWindowAnimator, 4, 8, 0, 0);
+                FontWindowAnimator__StartAnimating(work->fontWindowAnimator);
+            }
+            else
+            {
+                work->stateTalk = Tutorial_StateTalk_NextSection;
             }
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	add r0, r4, #0x440
-	bl FontAnimator__IsLastDialog
-	cmp r0, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	ldr r1, [r4, #0x38c]
-	ldr r0, =padInput
-	orr r1, r1, #0x10
-	str r1, [r4, #0x38c]
-	ldrh r0, [r0, #4]
-	tst r0, #1
-	bne _0217D9D4
-	add r0, r4, #0xa00
-	ldrh r0, [r0, #0x6c]
-	cmp r0, #1
-	bne _0217D9DC
-	bl IsTouchInputEnabled
-	cmp r0, #0
-	beq _0217D9DC
-	ldr r1, =touchInput
-	ldrh r0, [r1, #0x12]
-	tst r0, #8
-	beq _0217D9DC
-	add r0, r4, #0xa00
-	ldrsh r2, [r0, #0xc8]
-	ldrh r3, [r1, #0x20]
-	cmp r2, r3
-	addle r2, r2, #0x18
-	cmple r3, r2
-	ldrlesh r0, [r0, #0xca]
-	ldrleh r1, [r1, #0x22]
-	cmple r0, r1
-	addle r0, r0, #0x18
-	cmple r1, r0
-	bgt _0217D9DC
-_0217D9D4:
-	mov r0, #1
-	b _0217D9E0
-_0217D9DC:
-	mov r0, #0
-_0217D9E0:
-	cmp r0, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	ldr r0, [r4, #0x378]
-	cmp r0, #0
-	ldreq r0, [r4, #0x380]
-	cmpeq r0, #0
-	addne sp, sp, #8
-	ldmneia sp!, {r4, pc}
-	ldr r0, [r4, #0x38c]
-	ldr ip, =0x00000115
-	bic r0, r0, #0x10
-	rsb r1, ip, #0x114
-	str r0, [r4, #0x38c]
-	mov r0, #0
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r0, ip}
-	bl PlaySfxEx
-	add r0, r4, #0x300
-	ldrsh r0, [r0, #0x64]
-	cmp r0, #8
-	ldrne r0, =Tutorial_StateTalk_NextSection
-	addne sp, sp, #8
-	strne r0, [r4, #0x37c]
-	ldmneia sp!, {r4, pc}
-	ldr r1, =Tutorial_StateTalk_CloseWindowForFinishSection
-	add r0, r4, #0x530
-	str r1, [r4, #0x37c]
-	ldr r1, [r4, #0x38c]
-	mov r3, #0
-	bic r1, r1, #6
-	str r1, [r4, #0x38c]
-	mov r1, #4
-	mov r2, #8
-	str r3, [sp]
-	bl FontWindowAnimator__InitAnimation
-	add r0, r4, #0x530
-	bl FontWindowAnimator__StartAnimating
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void Tutorial_StateTalk_NextSection(Tutorial *work)
@@ -1920,10 +1626,8 @@ void Tutorial_StatePrompt_Boost_Active(Tutorial *work)
 }
 
 // Misc
-NONMATCH_FUNC void HandleTutorialNextPrompt(Tutorial *work)
+void HandleTutorialNextPrompt(Tutorial *work)
 {
-    // should match when 'Tutorial_StateTalk_Talking' does
-#ifdef NON_MATCHING
     if ((work->flags & TUTORIAL_FLAG_SHOW_NEXT_PROMPT) != 0)
     {
         if (!FontAnimator__IsLastDialog(&work->fontAnimator))
@@ -1953,7 +1657,7 @@ NONMATCH_FUNC void HandleTutorialNextPrompt(Tutorial *work)
             }
             else
             {
-                s32 id = 1;
+                u16 id = 1;
                 if ((padInput.btnPress & PAD_BUTTON_A) != 0)
                     id = 0;
 
@@ -1986,166 +1690,6 @@ NONMATCH_FUNC void HandleTutorialNextPrompt(Tutorial *work)
 
         FontAnimator__Draw(&work->fontAnimator);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #8
-	mov r6, r0
-	ldr r0, [r6, #0x38c]
-	tst r0, #2
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, r5, r6, pc}
-	add r0, r6, #0x440
-	bl FontAnimator__IsLastDialog
-	cmp r0, #0
-	bne _0217E868
-	ldr r1, [r6, #0x38c]
-	add r0, r6, #0x440
-	bic r1, r1, #0x10
-	str r1, [r6, #0x38c]
-	bl FontAnimator__IsEndOfLine
-	cmp r0, #0
-	beq _0217E84C
-	ldr r0, [r6, #0x38c]
-	tst r0, #0x20
-	beq _0217E780
-	add r0, r6, #0x440
-	bl FontAnimator__AdvanceDialog
-	add r0, r6, #0x258
-	add r0, r0, #0x800
-	mov r1, #0
-	mov r2, #6
-	bl MI_CpuFill8
-	b _0217E868
-_0217E780:
-	ldr r0, =padInput
-	ldrh r0, [r0, #4]
-	tst r0, #1
-	bne _0217E7EC
-	add r0, r6, #0xa00
-	ldrh r0, [r0, #0x6c]
-	cmp r0, #1
-	bne _0217E7F4
-	bl IsTouchInputEnabled
-	cmp r0, #0
-	beq _0217E7F4
-	ldr r1, =touchInput
-	ldrh r0, [r1, #0x12]
-	tst r0, #8
-	beq _0217E7F4
-	add r0, r6, #0xa00
-	ldrsh r2, [r0, #0xc8]
-	ldrh r3, [r1, #0x20]
-	cmp r2, r3
-	addle r2, r2, #0x18
-	cmple r3, r2
-	ldrlesh r0, [r0, #0xca]
-	ldrleh r1, [r1, #0x22]
-	cmple r0, r1
-	addle r0, r0, #0x18
-	cmple r1, r0
-	bgt _0217E7F4
-_0217E7EC:
-	mov r0, #1
-	b _0217E7F8
-_0217E7F4:
-	mov r0, #0
-_0217E7F8:
-	cmp r0, #0
-	beq _0217E83C
-	ldr r4, =0x00000115
-	mov r0, #0
-	rsb r1, r4, #0x114
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r0, r4}
-	bl PlaySfxEx
-	add r0, r6, #0x440
-	bl FontAnimator__AdvanceDialog
-	add r0, r6, #0x258
-	add r0, r0, #0x800
-	mov r1, #0
-	mov r2, #6
-	bl MI_CpuFill8
-	b _0217E868
-_0217E83C:
-	ldr r0, [r6, #0x38c]
-	orr r0, r0, #0x10
-	str r0, [r6, #0x38c]
-	b _0217E868
-_0217E84C:
-	ldr r0, =padInput
-	mov r1, #1
-	ldrh r0, [r0, #4]
-	tst r0, #1
-	movne r1, #0
-	add r0, r6, #0x440
-	bl FontAnimator__LoadCharacters
-_0217E868:
-	add r0, r6, #0x600
-	ldrsh r4, [r0, #0x4c]
-	mvn r1, #0xff
-	ldrsh r5, [r0, #0x4e]
-	cmp r4, r1
-	ble _0217E89C
-	cmp r4, #0x100
-	bge _0217E89C
-	add r0, r1, #0xc0
-	cmp r5, r0
-	blt _0217E89C
-	cmp r5, #0xc0
-	blt _0217E8AC
-_0217E89C:
-	add r0, r6, #0x440
-	mov r1, #0x40
-	bl FontAnimator__EnableFlags
-	b _0217E8C8
-_0217E8AC:
-	add r0, r6, #0x440
-	mov r1, #0x40
-	bl FontAnimator__DisableFlags
-	mov r1, r4
-	mov r2, r5
-	add r0, r6, #0x440
-	bl FontAnimator__SetSpriteStartPos
-_0217E8C8:
-	add r0, r5, #0x110
-	mov r0, r0, lsl #0x10
-	mvn r1, #0xff
-	cmp r4, r1
-	mov r5, r0, asr #0x10
-	ble _0217E8FC
-	cmp r4, #0x100
-	bge _0217E8FC
-	add r0, r1, #0xc0
-	cmp r5, r0
-	blt _0217E8FC
-	cmp r5, #0xc0
-	blt _0217E910
-_0217E8FC:
-	add r0, r6, #0x104
-	add r0, r0, #0x400
-	mov r1, #0x40
-	bl FontUnknown2058D78__EnableFlags
-	b _0217E934
-_0217E910:
-	add r0, r6, #0x104
-	add r0, r0, #0x400
-	mov r1, #0x40
-	bl FontUnknown2058D78__DisableFlags
-	add r0, r6, #0x104
-	mov r1, r4
-	mov r2, r5
-	add r0, r0, #0x400
-	bl FontUnknown2058D78__Func_2058F2C
-_0217E934:
-	add r0, r6, #0x440
-	bl FontAnimator__Draw
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
 void TutorialFontCallback(u32 id, FontAnimator *animator, void *userData)

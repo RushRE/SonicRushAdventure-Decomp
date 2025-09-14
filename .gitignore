@@ -53,6 +53,10 @@ build-cmake-*
 
 # For decomp.me
 ctx.c
+ctx_m2c.c
+ctx_includes.c
+m2c.s
+m2c_ctx_header.h
 
 # For decomp-permuter
 permute.c

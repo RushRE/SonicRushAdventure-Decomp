@@ -21,38 +21,6 @@ static const u8 missionForSolEmerald[7] = { 19, 77, 29, 86, 81, 69, 71 };
 
 #include <nitro/code16.h>
 
-NONMATCH_FUNC size_t SaveGame__GetPlayerNameLength(SaveBlockSystem *work)
-{
-    // https://decomp.me/scratch/jSw3B -> 98.64%
-#ifdef NON_MATCHING
-    size_t len = 0;
-    while ((len < SAVEGAME_MAX_NAME_LEN) && (work->name.text[(s32)len] != 0))
-    {
-        len++;
-    }
-
-    return len;
-#else
-    // clang-format off
-	mov r2, #0
-	b _0205EC16
-_0205EC10:
-	add r2, r2, #1
-	cmp r2, #8
-	bhs _0205EC1E
-_0205EC16:
-	lsl r1, r2, #1
-	ldrh r1, [r0, r1]
-	cmp r1, #0
-	bne _0205EC10
-_0205EC1E:
-	mov r0, r2
-	bx lr
-
-// clang-format on
-#endif
-}
-
 void SaveGame__SetPlayerName(SavePlayerName *name, char16 *text, size_t len)
 {
     MI_CpuClear16(name, sizeof(SavePlayerName));
@@ -194,49 +162,22 @@ BOOL SaveGame__HasMaterial(SaveBlockStage *work, u32 type)
     return work->materialCount[type] != SAVEGAME_MATERIAL_NONE;
 }
 
-NONMATCH_FUNC void SaveGame__GiveMaterial(SaveBlockStage *work, u32 type, s32 amount)
+void SaveGame__GiveMaterial(SaveBlockStage *work, u32 type, s32 amount)
 {
-    // https://decomp.me/scratch/3aPPJ -> 99.35%
-    // minor register issue near 'count'
-#ifdef NON_MATCHING
     if (amount == 0)
         return;
 
-    s32 count = SaveGame__HasMaterial(work, type) ? work->materialCount[type] : 0;
+    s32 materialCount;
+    if (SaveGame__HasMaterial(work, type))
+        materialCount = work->materialCount[type];
+    else
+        materialCount = 0;
 
-    work->materialCount[type] = MATH_MIN(count + amount, SAVEGAME_MATERIAL_MAX);
-#else
-    // clang-format off
-	push {r4, r5, r6, lr}
-	mov r5, r0
-	mov r4, r1
-	mov r6, r2
-	beq _0205EDE6
-	bl SaveGame__HasMaterial
-	cmp r0, #0
-	beq _0205EDD4
-	mov r0, #0x67
-	add r1, r5, r4
-	lsl r0, r0, #2
-	ldrb r2, [r1, r0]
-	b _0205EDD6
-_0205EDD4:
-	mov r2, #0
-_0205EDD6:
-	add r2, r2, r6
-	cmp r2, #0x63
-	ble _0205EDDE
-	mov r2, #0x63
-_0205EDDE:
-	mov r0, #0x67
-	add r1, r5, r4
-	lsl r0, r0, #2
-	strb r2, [r1, r0]
-_0205EDE6:
-	pop {r4, r5, r6, pc}
+    materialCount += amount;
+    if (materialCount > SAVEGAME_MATERIAL_MAX)
+        materialCount = SAVEGAME_MATERIAL_MAX;
 
-// clang-format on
-#endif
+    work->materialCount[type] = materialCount;
 }
 
 void SaveGame__UseMaterial(SaveBlockStage *work, u32 type, s32 amount)

@@ -1,661 +1,96 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.bss
+#include <ex/system/exDrawReq.h>
+#include <ex/system/exDrawFade.h>
+#include <game/graphics/drawState.h>
+#include <game/math/unknown2066510.h>
+#include <ex/system/exSystem.h>
+#include <ex/boss/exBossHelpers.h>
+#include <ex/player/exPlayerHelpers.h>
 
-exDrawFadeTask__word_21762E8: // 0x021762E8
-	.space 0x04
+// --------------------
+// VARIABLES
+// --------------------
 
-exDrawFadeTask__word_21762EC: // 0x021762EC
-	.space 0x04
+NOT_DECOMPILED exDrawReqTaskLightConfig exDrawFadeTask__lightConfig;
 
-exDrawFadeTask__word_21762F0: // 0x021762F0
-	.space 0x02
+NOT_DECOMPILED exDrawFadeUnknown exDrawFadeTask__cameraConfigB;
+NOT_DECOMPILED exDrawFadeUnknown exDrawFadeTask__cameraConfigA;
 
-exDrawFadeTask__word_21762F2: // 0x021762F2
-	.space 0x02
+NOT_DECOMPILED u32 exDrawFadeTask__word_2176444;
+NOT_DECOMPILED u32 exDrawFadeTask__word_2176448;
+NOT_DECOMPILED u16 exDrawReqTask__word_217644C;
+NOT_DECOMPILED u32 exDrawReqTask__unk_2176450;
+NOT_DECOMPILED u32 exDrawReqTask__dword_2176454;
+NOT_DECOMPILED u32 exDrawReqTask__Value_2176458;
+NOT_DECOMPILED u32 exDrawReqTask__dword_217645C;
+NOT_DECOMPILED u32 exDrawReqTask__unk_2176460;
 
-exDrawFadeTask__word_21762F4: // 0x021762F4
-	.space 0x02
+NOT_DECOMPILED void *aExdrawfadetask;
+NOT_DECOMPILED void *aExdrawreqtask;
 
-exDrawFadeTask__word_21762F6: // 0x021762F6
-	.space 0x02
+// --------------------
+// FUNCTION DECLS
+// --------------------
 
-	.align 4
+NOT_DECOMPILED void _s32_div_f(void);
 
-exDrawFadeTask__unk_21762F8: // 0x021762F8
-    .space 0x04
-	
-exDrawFadeTask__word_21762FC: // 0x021762FC
-	.space 0xA4
+// --------------------
+// FUNCTIONS
+// --------------------
 
-	.align 4
-	
-exDrawFadeTask__word_21763A0: // 0x021763A0
-	.space 0xA4
+NONMATCH_FUNC void exDrawFadeUnknown__Init(exDrawFadeUnknown *work)
+{
+#ifdef NON_MATCHING
+    MI_CpuClear16(work, sizeof(*work));
 
-	.align 4
+    work->camera2.config.projFOV           = 0;
+    work->camera.config.projFOV            = 0;
 
-	.text
+    work->camera2.config.projNear          = 0;
+    work->camera.config.projNear           = 0;
 
-	arm_func_start exBossSysAdminTask__Action_StartWave0
-exBossSysAdminTask__Action_StartWave0: // 0x0216078C
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #0x6c
-	mov r1, #0xf
-	bl exBossHelpers__SetAnimation
-	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
-	mov r0, #0
-	sub r1, r0, #1
-	str r0, [sp]
-	mov r2, #0x104
-	str r2, [sp, #4]
-	mov r2, r1
-	mov r3, r1
-	bl PlayVoiceClipEx
-	bl GetExTaskCurrent
-	ldr r1, _021607E8 // =exBossSysAdminTask__Main_Wave0
-	str r1, [r0]
-	bl exBossSysAdminTask__Main_Wave0
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021607E8: .word exBossSysAdminTask__Main_Wave0
-	arm_func_end exBossSysAdminTask__Action_StartWave0
+    work->camera2.config.projFar           = 0;
+    work->camera.config.projFar            = 0;
 
-	arm_func_start exBossSysAdminTask__Main_Wave0
-exBossSysAdminTask__Main_Wave0: // 0x021607EC
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
-	cmp r0, #0
-	beq _02160818
-	bl exBossSysAdminTask__Action_StartWave1
-	ldmia sp!, {r4, pc}
-_02160818:
-	add r0, r4, #0x6c
-	bl exHitCheckTask_AddHitCheck
-	add r0, r4, #0x6c
-	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
-	arm_func_end exBossSysAdminTask__Main_Wave0
+    work->camera2.config.aspectRatio       = 0;
+    work->camera.config.aspectRatio        = 0;
 
-	arm_func_start exBossSysAdminTask__Action_StartWave1
-exBossSysAdminTask__Action_StartWave1: // 0x0216083C
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #0x6c
-	mov r1, #0x10
-	bl exBossHelpers__SetAnimation
-	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
-	bl GetExTaskCurrent
-	ldr r1, _02160870 // =exBossSysAdminTask__Main_Wave1
-	str r1, [r0]
-	bl exBossSysAdminTask__Main_Wave1
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02160870: .word exBossSysAdminTask__Main_Wave1
-	arm_func_end exBossSysAdminTask__Action_StartWave1
+    work->camera2.config.projScaleW        = 0;
+    work->camera.config.projScaleW         = 0;
+    
+    work->camera2.config.matProjPosition.x = 0;
+    work->camera2.config.matProjPosition.y = 0;
+    work->camera2.config.matProjPosition.z = 0;
+    work->camera.config.matProjPosition    = work->camera2.config.matProjPosition;
 
-	arm_func_start exBossSysAdminTask__Main_Wave1
-exBossSysAdminTask__Main_Wave1: // 0x02160874
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
-	cmp r0, #0
-	beq _021608A0
-	bl exBossSysAdminTask__Action_StartWave2
-	ldmia sp!, {r4, pc}
-_021608A0:
-	add r0, r4, #0x6c
-	bl exHitCheckTask_AddHitCheck
-	add r0, r4, #0x6c
-	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
-	arm_func_end exBossSysAdminTask__Main_Wave1
+    work->camera2.lookAtTo.x = 0;
+    work->camera2.lookAtTo.y = 0;
+    work->camera2.lookAtTo.z = 0;
+    work->camera.lookAtTo.x  = work->camera2.lookAtTo.x;
+    work->camera.lookAtTo.y  = work->camera2.lookAtTo.y;
+    work->camera.lookAtTo.z  = work->camera2.lookAtTo.z;
 
-	arm_func_start exBossSysAdminTask__Action_StartWave2
-exBossSysAdminTask__Action_StartWave2: // 0x021608C4
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #0x6c
-	mov r1, #0x11
-	bl exBossHelpers__SetAnimation
-	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
-	mov r0, #0
-	str r0, [r4, #0x30]
-	bl GetExTaskCurrent
-	ldr r1, _02160900 // =exBossSysAdminTask__Main_StartWave2
-	str r1, [r0]
-	bl exBossSysAdminTask__Main_StartWave2
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02160900: .word exBossSysAdminTask__Main_StartWave2
-	arm_func_end exBossSysAdminTask__Action_StartWave2
+    work->camera2.lookAtFrom.x = 0;
+    work->camera2.lookAtFrom.y = 0;
+    work->camera2.lookAtFrom.z = 0;
+    work->camera.lookAtFrom.x  = work->camera2.lookAtFrom.x;
+    work->camera.lookAtFrom.y  = work->camera2.lookAtFrom.y;
+    work->camera.lookAtFrom.z  = work->camera2.lookAtFrom.z;
 
-	arm_func_start exBossSysAdminTask__Main_StartWave2
-exBossSysAdminTask__Main_StartWave2: // 0x02160904
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
-	ldr r0, [r4, #0x3c0]
-	cmp r0, #0x78000
-	ldrle r0, [r4, #0x30]
-	cmple r0, #0x14000
-	bgt _0216094C
-	add r0, r0, #0xcd
-	add r0, r0, #0xc00
-	str r0, [r4, #0x30]
-	ldr r0, [r4, #0x3c0]
-	add r0, r0, #0xcd
-	add r0, r0, #0xc00
-	str r0, [r4, #0x3c0]
-_0216094C:
-	ldr r0, [r4, #0x3b0]
-	ldr r0, [r0, #0]
-	cmp r0, #0xf000
-	blt _02160990
-	mov r4, #0xc9
-	sub r1, r4, #0xca
-	mov r0, #0
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r0, r4}
-	bl PlaySfxEx
-	bl GetExTaskCurrent
-	ldr r1, _021609D4 // =exBossSysAdminTask__Main_ProcessWave2
-	str r1, [r0]
-	bl exBossSysAdminTask__Main_ProcessWave2
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-_02160990:
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
-	cmp r0, #0
-	beq _021609AC
-	bl exBossSysAdminTask__Action_StartWave3
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-_021609AC:
-	add r0, r4, #0x6c
-	bl exHitCheckTask_AddHitCheck
-	add r0, r4, #0x6c
-	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021609D4: .word exBossSysAdminTask__Main_ProcessWave2
-	arm_func_end exBossSysAdminTask__Main_StartWave2
+    work->camera2.lookAtUp.x = 0;
+    work->camera2.lookAtUp.y = 0;
+    work->camera2.lookAtUp.z = 0;
+    work->camera.lookAtUp.x  = work->camera2.lookAtUp.x;
+    work->camera.lookAtUp.y  = work->camera2.lookAtUp.y;
+    work->camera.lookAtUp.z  = work->camera2.lookAtUp.z;
 
-	arm_func_start exBossSysAdminTask__Main_ProcessWave2
-exBossSysAdminTask__Main_ProcessWave2: // 0x021609D8
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
-	ldr r0, [r4, #0x3c0]
-	cmp r0, #0x78000
-	ldrle r0, [r4, #0x30]
-	cmple r0, #0x14000
-	bgt _02160A1C
-	add r0, r0, #0xcd
-	add r0, r0, #0xc00
-	str r0, [r4, #0x30]
-	ldr r0, [r4, #0x3c0]
-	add r0, r0, #0xcd
-	add r0, r0, #0xc00
-	str r0, [r4, #0x3c0]
-_02160A1C:
-	ldr r0, [r4, #0x3b0]
-	ldr r0, [r0, #0]
-	cmp r0, #0x25000
-	blt _02160A44
-	bl exBossMagmeWaveTask__Create
-	bl GetExTaskCurrent
-	ldr r1, _02160A80 // =exBossSysAdminTask__Main_FinishWave2
-	str r1, [r0]
-	bl exBossSysAdminTask__Main_FinishWave2
-	ldmia sp!, {r4, pc}
-_02160A44:
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
-	cmp r0, #0
-	beq _02160A5C
-	bl exBossSysAdminTask__Action_StartWave3
-	ldmia sp!, {r4, pc}
-_02160A5C:
-	add r0, r4, #0x6c
-	bl exHitCheckTask_AddHitCheck
-	add r0, r4, #0x6c
-	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02160A80: .word exBossSysAdminTask__Main_FinishWave2
-	arm_func_end exBossSysAdminTask__Main_ProcessWave2
-
-	arm_func_start exBossSysAdminTask__Main_FinishWave2
-exBossSysAdminTask__Main_FinishWave2: // 0x02160A84
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
-	cmp r0, #0
-	beq _02160AB0
-	bl exBossSysAdminTask__Action_StartWave3
-	ldmia sp!, {r4, pc}
-_02160AB0:
-	add r0, r4, #0x6c
-	bl exHitCheckTask_AddHitCheck
-	add r0, r4, #0x6c
-	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
-	arm_func_end exBossSysAdminTask__Main_FinishWave2
-
-	arm_func_start exBossSysAdminTask__Action_StartWave3
-exBossSysAdminTask__Action_StartWave3: // 0x02160AD4
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	bl GetExTaskWorkCurrent_
-	ldr r1, _02160CA8 // =_mt_math_rand
-	ldr r2, _02160CAC // =0x00196225
-	ldr r5, [r1, #0]
-	ldr r3, _02160CB0 // =0x3C6EF35F
-	mov r4, r0
-	mla r0, r5, r2, r3
-	mla r2, r0, r2, r3
-	mov r3, r0, lsr #0x10
-	mov r0, r2, lsr #0x10
-	mov r3, r3, lsl #0x10
-	mov ip, r0, lsl #0x10
-	mov r5, r3, lsr #0x10
-	mov lr, ip, lsr #0x10
-	ldr r8, _02160CB4 // =0x51EB851F
-	mov r0, r5, lsr #0x1f
-	smull r6, r5, r8, r5
-	mov r7, lr, lsr #0x1f
-	smull lr, r6, r8, lr
-	add r5, r0, r5, asr #5
-	mov lr, #0x64
-	add r6, r7, r6, asr #5
-	smull r5, r0, lr, r5
-	smull r6, r0, lr, r6
-	add r0, r4, #0x6c
-	str r2, [r1]
-	mov r1, #0x12
-	rsb r5, r5, r3, lsr #16
-	rsb r6, r6, ip, lsr #16
-	bl exBossHelpers__SetAnimation
-	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_2164218
-	cmp r5, #0x14
-	bge _02160B70
-	cmp r5, #0
-	movge r0, #0xb4
-	strgeh r0, [r4, #0x56]
-	bge _02160B9C
-_02160B70:
-	cmp r5, #0x14
-	blt _02160B88
-	cmp r5, #0x46
-	movlt r0, #0x12c
-	strlth r0, [r4, #0x56]
-	blt _02160B9C
-_02160B88:
-	cmp r5, #0x46
-	blt _02160B9C
-	cmp r5, #0x64
-	movle r0, #0x1e0
-	strleh r0, [r4, #0x56]
-_02160B9C:
-	cmp r6, #0x32
-	bge _02160BC0
-	cmp r5, #0
-	blt _02160BC0
-	ldr r0, [r4, #0x3bc]
-	str r0, [r4, #0x14]
-	ldr r0, [r4, #0x3bc]
-	str r0, [r4, #0x20]
-	b _02160C0C
-_02160BC0:
-	cmp r6, #0x32
-	blt _02160BE8
-	cmp r6, #0x50
-	bge _02160BE8
-	mov r0, #0xc800
-	rsb r0, r0, #0
-	str r0, [r4, #0x14]
-	mov r0, #0xc800
-	str r0, [r4, #0x20]
-	b _02160C0C
-_02160BE8:
-	cmp r6, #0x50
-	blt _02160C0C
-	cmp r6, #0x64
-	bgt _02160C0C
-	mov r0, #0x19000
-	rsb r0, r0, #0
-	str r0, [r4, #0x14]
-	mov r0, #0x19000
-	str r0, [r4, #0x20]
-_02160C0C:
-	mov r6, #0
-	str r6, [r4, #0x48]
-	str r6, [r4, #0x4c]
-	ldr r2, _02160CA8 // =_mt_math_rand
-	str r6, [r4, #0x50]
-	ldr r3, [r2, #0]
-	ldr r0, _02160CAC // =0x00196225
-	ldr r1, _02160CB0 // =0x3C6EF35F
-	mla r5, r3, r0, r1
-	mov r0, r5, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r1, r0, lsr #0x1f
-	rsb r0, r1, r0, lsl #31
-	adds r0, r1, r0, ror #31
-	str r5, [r2]
-	strne r6, [r4, #0xc]
-	moveq r0, #1
-	streq r0, [r4, #0xc]
-	ldr r2, _02160CA8 // =_mt_math_rand
-	ldr r0, _02160CAC // =0x00196225
-	ldr r3, [r2, #0]
-	ldr r1, _02160CB0 // =0x3C6EF35F
-	mla r5, r3, r0, r1
-	mov r0, r5, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r1, r0, lsr #0x1f
-	rsb r0, r1, r0, lsl #31
-	adds r0, r1, r0, ror #31
-	movne r0, #0
-	str r5, [r2]
-	moveq r0, #1
-	str r0, [r4, #0x10]
-	bl GetExTaskCurrent
-	ldr r1, _02160CB8 // =exBossSysAdminTask__Main_Wave3
-	str r1, [r0]
-	bl exBossSysAdminTask__Main_Wave3
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02160CA8: .word _mt_math_rand
-_02160CAC: .word 0x00196225
-_02160CB0: .word 0x3C6EF35F
-_02160CB4: .word 0x51EB851F
-_02160CB8: .word exBossSysAdminTask__Main_Wave3
-	arm_func_end exBossSysAdminTask__Action_StartWave3
-
-	arm_func_start exBossSysAdminTask__Main_Wave3
-exBossSysAdminTask__Main_Wave3: // 0x02160CBC
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
-	ldr r0, [r4, #0x10]
-	cmp r0, #0
-	beq _02160CE8
-	bl exBossSysAdminTask__WaveMoveL
-	b _02160CEC
-_02160CE8:
-	bl exBossSysAdminTask__WaveMoveR
-_02160CEC:
-	ldr r0, [r4, #0xc]
-	cmp r0, #0
-	beq _02160D00
-	bl exBossSysAdminTask__WaveAngleMoveL
-	b _02160D04
-_02160D00:
-	bl exBossSysAdminTask__WaveAngleMoveR
-_02160D04:
-	ldr r3, [r4, #0x48]
-	ldr r0, [r4, #0x3bc]
-	ldr r2, [r4, #0x3c0]
-	ldr r1, [r4, #0x4c]
-	sub r0, r3, r0
-	sub r1, r2, r1
-	bl exPlayerHelpers__Func_2152E28
-	add r1, r4, #0x300
-	strh r0, [r1, #0xb8]
-	ldrsh r0, [r4, #0x56]
-	cmp r0, #0
-	bgt _02160D60
-	mov r1, #0
-	add r0, r4, #0x3f8
-	strh r1, [r4, #0x56]
-	bl exDrawReqTask__Func_21641F0
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
-	cmp r0, #0
-	beq _02160DAC
-	bl exBossSysAdminTask__Action_StartWave4
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-_02160D60:
-	sub r0, r0, #1
-	strh r0, [r4, #0x56]
-	ldrsh ip, [r4, #0x56]
-	ldr r3, _02160DD4 // =0x2AAAAAAB
-	mov r2, #0xc
-	mov r0, ip, lsr #0x1f
-	smull r1, lr, r3, ip
-	add lr, r0, lr, asr #1
-	smull r0, r1, r2, lr
-	subs lr, ip, r0
-	bne _02160DAC
-	mov ip, #0xca
-	sub r1, ip, #0xcb
-	mov r0, #0
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r0, ip}
-	bl PlaySfxEx
-	bl exBossMagmaAttackTask__Create
-_02160DAC:
-	add r0, r4, #0x6c
-	bl exHitCheckTask_AddHitCheck
-	add r0, r4, #0x6c
-	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02160DD4: .word 0x2AAAAAAB
-	arm_func_end exBossSysAdminTask__Main_Wave3
-
-	arm_func_start exBossSysAdminTask__WaveAngleMoveL
-exBossSysAdminTask__WaveAngleMoveL: // 0x02160DD8
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	mov r1, #0x5a000
-	ldr r2, [r0, #0x48]
-	rsb r1, r1, #0
-	cmp r2, r1
-	movle r1, #0
-	strle r1, [r0, #0xc]
-	subgt r1, r2, #0x4000
-	strgt r1, [r0, #0x48]
-	ldmia sp!, {r3, pc}
-	arm_func_end exBossSysAdminTask__WaveAngleMoveL
-
-	arm_func_start exBossSysAdminTask__WaveAngleMoveR
-exBossSysAdminTask__WaveAngleMoveR: // 0x02160E04
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	ldr r1, [r0, #0x48]
-	cmp r1, #0x5a000
-	movge r1, #1
-	strge r1, [r0, #0xc]
-	addlt r1, r1, #0x4000
-	strlt r1, [r0, #0x48]
-	ldmia sp!, {r3, pc}
-	arm_func_end exBossSysAdminTask__WaveAngleMoveR
-
-	arm_func_start exBossSysAdminTask__WaveMoveL
-exBossSysAdminTask__WaveMoveL: // 0x02160E28
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	ldr r2, [r0, #0x3bc]
-	ldr r1, [r0, #0x14]
-	cmp r2, r1
-	movle r1, #0
-	strle r1, [r0, #0x10]
-	subgt r1, r2, #0x800
-	strgt r1, [r0, #0x3bc]
-	ldmia sp!, {r3, pc}
-	arm_func_end exBossSysAdminTask__WaveMoveL
-
-	arm_func_start exBossSysAdminTask__WaveMoveR
-exBossSysAdminTask__WaveMoveR: // 0x02160E50
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	ldr r2, [r0, #0x3bc]
-	ldr r1, [r0, #0x20]
-	cmp r2, r1
-	movge r1, #1
-	strge r1, [r0, #0x10]
-	addlt r1, r2, #0x800
-	strlt r1, [r0, #0x3bc]
-	ldmia sp!, {r3, pc}
-	arm_func_end exBossSysAdminTask__WaveMoveR
-
-	arm_func_start exBossSysAdminTask__Action_StartWave4
-exBossSysAdminTask__Action_StartWave4: // 0x02160E78
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #0x6c
-	mov r1, #0x13
-	bl exBossHelpers__SetAnimation
-	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
-	bl GetExTaskCurrent
-	ldr r1, _02160EAC // =exBossSysAdminTask__Main_Wave4
-	str r1, [r0]
-	bl exBossSysAdminTask__Main_Wave4
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02160EAC: .word exBossSysAdminTask__Main_Wave4
-	arm_func_end exBossSysAdminTask__Action_StartWave4
-
-	arm_func_start exBossSysAdminTask__Main_Wave4
-exBossSysAdminTask__Main_Wave4: // 0x02160EB0
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
-	ldr lr, [r4, #0x48]
-	ldr r0, _02160F88 // =0x0000019A
-	rsb r2, lr, #0
-	umull ip, r3, r2, r0
-	mov r1, #0
-	mla r3, r2, r1, r3
-	mov r2, r2, asr #0x1f
-	mla r3, r2, r0, r3
-	adds ip, ip, #0x800
-	adc r2, r3, #0
-	mov r3, ip, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	add r2, lr, r3
-	str r2, [r4, #0x48]
-	ldr lr, [r4, #0x4c]
-	rsb r2, lr, #0
-	umull ip, r3, r2, r0
-	mla r3, r2, r1, r3
-	mov r1, r2, asr #0x1f
-	mla r3, r1, r0, r3
-	adds r1, ip, #0x800
-	adc r0, r3, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	add r2, lr, r1
-	str r2, [r4, #0x4c]
-	ldr r1, [r4, #0x48]
-	ldr r0, [r4, #0x3bc]
-	sub r0, r1, r0
-	ldr r1, [r4, #0x3c0]
-	sub r1, r1, r2
-	bl exPlayerHelpers__Func_2152E28
-	add r1, r4, #0x300
-	strh r0, [r1, #0xb8]
-	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
-	cmp r0, #0
-	beq _02160F64
-	bl exBossSysAdminTask__Main_FinishWaveAttack
-	ldmia sp!, {r4, pc}
-_02160F64:
-	add r0, r4, #0x6c
-	bl exHitCheckTask_AddHitCheck
-	add r0, r4, #0x6c
-	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02160F88: .word 0x0000019A
-	arm_func_end exBossSysAdminTask__Main_Wave4
-
-	arm_func_start exBossSysAdminTask__Main_FinishWaveAttack
-exBossSysAdminTask__Main_FinishWaveAttack: // 0x02160F8C
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	ldr r0, [r0, #0x548]
-	blx r0
-	ldmia sp!, {r3, pc}
-	arm_func_end exBossSysAdminTask__Main_FinishWaveAttack
-
-	arm_func_start exDrawFadeUnknown__Init
-exDrawFadeUnknown__Init: // 0x02160FA0
+    work->camera2.position.x = 0;
+    work->camera2.position.y = 0;
+    work->camera2.position.z = 0;
+    work->camera.position.x  = work->camera2.position.x;
+    work->camera.position.y  = work->camera2.position.y;
+    work->camera.position.z  = work->camera2.position.z;
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, r4
@@ -719,43 +154,57 @@ exDrawFadeUnknown__Init: // 0x02160FA0
 	ldr r0, [r4, #0x9c]
 	str r0, [r4, #0x4c]
 	ldmia sp!, {r4, pc}
-	arm_func_end exDrawFadeUnknown__Init
 
-	arm_func_start exDrawReqTask__EntryUnknown2__InitLight
-exDrawReqTask__EntryUnknown2__InitLight: // 0x0216109C
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r1, r4
-	mov r0, #0
-	mov r2, #0x12
-	bl MIi_CpuClear16
-	mov r0, #0
-	strh r0, [r4, #8]
-	strh r0, [r4, #0xa]
-	strh r0, [r4, #0xc]
-	ldrsh r1, [r4, #8]
-	ldr r0, _021610EC // =0x00007FFF
-	strh r1, [r4]
-	ldrsh r1, [r4, #0xa]
-	strh r1, [r4, #2]
-	ldrsh r1, [r4, #0xc]
-	strh r1, [r4, #4]
-	strh r0, [r4, #0xe]
-	strh r0, [r4, #6]
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021610EC: .word 0x00007FFF
-	arm_func_end exDrawReqTask__EntryUnknown2__InitLight
+// clang-format on
+#endif
+}
 
-	arm_func_start exDrawFadeUnknown__Func_21610F0
-exDrawFadeUnknown__Func_21610F0: // 0x021610F0
+void exDrawReqTask__EntryUnknown2__InitLight(exDrawReqTaskLightConfig *work)
+{
+    MI_CpuClear16(work, sizeof(*work));
+
+    work->light2.dir.x = 0;
+    work->light2.dir.y = 0;
+    work->light2.dir.z = 0;
+
+    work->light.dir.x = work->light2.dir.x;
+    work->light.dir.y = work->light2.dir.y;
+    work->light.dir.z = work->light2.dir.z;
+
+    work->light2.color = GX_RGB_888(0xF8, 0xF8, 0xF8);
+    work->light.color  = GX_RGB_888(0xF8, 0xF8, 0xF8);
+}
+
+NONMATCH_FUNC void exDrawFadeUnknown__Func_21610F0(exDrawFadeUnknown *work)
+{
+#ifdef NON_MATCHING
+    if (work->camera2.config.projFOV < 0xB6)
+        work->camera2.config.projFOV = 0xB6;
+
+    if (work->camera2.config.projFOV > 0x3F49)
+        work->camera2.config.projFOV = 0x3F49;
+
+    work->camera.config.projFOV         = work->camera2.config.projFOV;
+    work->camera.config.projNear        = work->camera2.config.projNear;
+    work->camera.config.projFar         = work->camera2.config.projFar;
+    work->camera.config.aspectRatio     = work->camera2.config.aspectRatio;
+    work->camera.config.projScaleW      = work->camera2.config.projScaleW;
+    work->camera.config.matProjPosition = work->camera2.config.matProjPosition;
+    work->camera.lookAtTo               = work->camera2.lookAtTo;
+    work->camera.lookAtFrom             = work->camera2.lookAtFrom;
+    work->camera.lookAtUp               = work->camera2.lookAtUp;
+    work->camera.position               = work->camera2.position;
+
+    Camera3D__LoadState(&work->camera);
+#else
+    // clang-format off
 	ldrh r1, [r0, #0x50]
-	ldr ip, _021611B8 // =Camera3D__LoadState
+	ldr ip, =Camera3D__LoadState
 	cmp r1, #0xb6
 	movlo r1, #0xb6
 	strloh r1, [r0, #0x50]
 	ldrh r2, [r0, #0x50]
-	ldr r1, _021611BC // =0x00003F49
+	ldr r1, =0x00003F49
 	cmp r2, r1
 	strhih r1, [r0, #0x50]
 	ldrh r1, [r0, #0x50]
@@ -799,122 +248,82 @@ exDrawFadeUnknown__Func_21610F0: // 0x021610F0
 	ldr r1, [r0, #0x9c]
 	str r1, [r0, #0x4c]
 	bx ip
-	.align 2, 0
-_021611B8: .word Camera3D__LoadState
-_021611BC: .word 0x00003F49
-	arm_func_end exDrawFadeUnknown__Func_21610F0
 
-	arm_func_start exDrawReqTask__EntryUnknown2__SetLight
-exDrawReqTask__EntryUnknown2__SetLight: // 0x021611C0
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldrb r0, [r4, #0x10]
-	cmp r0, #7
-	addls pc, pc, r0, lsl #2
-	b _021612B4
-_021611D8: // jump table
-	b _021612B4 // case 0
-	b _021611F8 // case 1
-	b _02161204 // case 2
-	b _02161210 // case 3
-	b _0216121C // case 4
-	b _02161228 // case 5
-	b _02161234 // case 6
-	b _02161240 // case 7
-_021611F8:
-	mov r0, #0x7c00
-	strh r0, [r4, #6]
-	b _021612BC
-_02161204:
-	mov r0, #0x3e0
-	strh r0, [r4, #6]
-	b _021612BC
-_02161210:
-	ldr r0, _02161308 // =0x00007FE0
-	strh r0, [r4, #6]
-	b _021612BC
-_0216121C:
-	mov r0, #0x1f
-	strh r0, [r4, #6]
-	b _021612BC
-_02161228:
-	ldr r0, _0216130C // =0x00007C1F
-	strh r0, [r4, #6]
-	b _021612BC
-_02161234:
-	ldr r0, _02161310 // =0x000003FF
-	strh r0, [r4, #6]
-	b _021612BC
-_02161240:
-	bl GetExSystemDrawState
-	mov r1, r4
-	mov r2, #0
-	bl GetDrawStateLight
-	mov r1, r4
-	mov r0, #0
-	bl Camera3D__SetLight
-	bl GetExSystemDrawState
-	mov r1, r4
-	mov r2, #1
-	bl GetDrawStateLight
-	mov r0, #1
-	mov r1, r4
-	bl Camera3D__SetLight
-	bl GetExSystemDrawState
-	mov r1, r4
-	mov r2, #2
-	bl GetDrawStateLight
-	mov r0, #2
-	mov r1, r4
-	bl Camera3D__SetLight
-	bl GetExSystemDrawState
-	mov r1, r4
-	mov r2, #3
-	bl GetDrawStateLight
-	mov r1, r4
-	mov r0, #3
-	bl Camera3D__SetLight
-	ldmia sp!, {r4, pc}
-_021612B4:
-	ldrh r0, [r4, #0xe]
-	strh r0, [r4, #6]
-_021612BC:
-	ldrsh r2, [r4, #8]
-	mov r1, r4
-	mov r0, #0
-	strh r2, [r4]
-	ldrsh r2, [r4, #0xa]
-	strh r2, [r4, #2]
-	ldrsh r2, [r4, #0xc]
-	strh r2, [r4, #4]
-	bl Camera3D__SetLight
-	mov r1, r4
-	mov r0, #1
-	bl Camera3D__SetLight
-	mov r1, r4
-	mov r0, #2
-	bl Camera3D__SetLight
-	mov r1, r4
-	mov r0, #3
-	bl Camera3D__SetLight
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02161308: .word 0x00007FE0
-_0216130C: .word 0x00007C1F
-_02161310: .word 0x000003FF
-	arm_func_end exDrawReqTask__EntryUnknown2__SetLight
+// clang-format on
+#endif
+}
 
-	arm_func_start exDrawFadeUnknown__Func_2161314
-exDrawFadeUnknown__Func_2161314: // 0x02161314
+void exDrawReqTask__EntryUnknown2__SetLight(exDrawReqTaskLightConfig *light)
+{
+    switch (light->type)
+    {
+        case 1:
+            light->light.color = GX_RGB_888(0x00, 0x00, 0xF8);
+            break;
+
+        case 2:
+            light->light.color = GX_RGB_888(0x00, 0xF8, 0x00);
+            break;
+
+        case 3:
+            light->light.color = GX_RGB_888(0x00, 0xF8, 0xF8);
+            break;
+
+        case 4:
+            light->light.color = GX_RGB_888(0xF8, 0x00, 0x00);
+            break;
+
+        case 5:
+            light->light.color = GX_RGB_888(0xF8, 0x00, 0xF8);
+            break;
+
+        case 6:
+            light->light.color = GX_RGB_888(0xF8, 0xF8, 0x00);
+            break;
+
+        case 7:
+            GetDrawStateLight(GetExSystemDrawState(), &light->light, GX_LIGHTID_0);
+            Camera3D__SetLight(GX_LIGHTID_0, &light->light);
+
+            GetDrawStateLight(GetExSystemDrawState(), &light->light, GX_LIGHTID_1);
+            Camera3D__SetLight(GX_LIGHTID_1, &light->light);
+
+            GetDrawStateLight(GetExSystemDrawState(), &light->light, GX_LIGHTID_2);
+            Camera3D__SetLight(GX_LIGHTID_2, &light->light);
+
+            GetDrawStateLight(GetExSystemDrawState(), &light->light, GX_LIGHTID_3);
+            Camera3D__SetLight(GX_LIGHTID_3, &light->light);
+            return;
+
+        default:
+            light->light.color = light->light2.color;
+            break;
+    }
+
+    light->light.dir.x = light->light2.dir.x;
+    light->light.dir.y = light->light2.dir.y;
+    light->light.dir.z = light->light2.dir.z;
+
+    Camera3D__SetLight(GX_LIGHTID_0, &light->light);
+    Camera3D__SetLight(GX_LIGHTID_1, &light->light);
+    Camera3D__SetLight(GX_LIGHTID_2, &light->light);
+    Camera3D__SetLight(GX_LIGHTID_3, &light->light);
+}
+
+NONMATCH_FUNC void exDrawFadeUnknown__Func_2161314(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r2, #1
-	ldr r1, _021613A0 // =0x000004FA
+	ldr r1, =0x000004FA
 	strh r2, [r0, #0xa2]
 	strh r1, [r0, #0x50]
 	mov ip, #0x1000
 	str ip, [r0, #0x54]
 	mov r3, #0x800000
 	mov r2, #0
-	ldr r1, _021613A4 // =0x00001555
+	ldr r1, =0x00001555
 	str r3, [r0, #0x58]
 	str r1, [r0, #0x5c]
 	str ip, [r0, #0x60]
@@ -943,22 +352,25 @@ _02161388:
 	str r1, [r0, #0x8c]
 	str r2, [r0, #0x90]
 	bx lr
-	.align 2, 0
-_021613A0: .word 0x000004FA
-_021613A4: .word 0x00001555
-	arm_func_end exDrawFadeUnknown__Func_2161314
 
-	arm_func_start exDrawFadeUnknown__Func_21613A8
-exDrawFadeUnknown__Func_21613A8: // 0x021613A8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawFadeUnknown__Func_21613A8(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r2, #2
-	ldr r1, _02161434 // =0x000004FA
+	ldr r1, =0x000004FA
 	strh r2, [r0, #0xa2]
 	strh r1, [r0, #0x50]
 	mov ip, #0x1000
 	str ip, [r0, #0x54]
 	mov r3, #0x800000
 	mov r2, #0
-	ldr r1, _02161438 // =0x00001555
+	ldr r1, =0x00001555
 	str r3, [r0, #0x58]
 	str r1, [r0, #0x5c]
 	str ip, [r0, #0x60]
@@ -987,22 +399,25 @@ _0216141C:
 	str r1, [r0, #0x8c]
 	str r2, [r0, #0x90]
 	bx lr
-	.align 2, 0
-_02161434: .word 0x000004FA
-_02161438: .word 0x00001555
-	arm_func_end exDrawFadeUnknown__Func_21613A8
 
-	arm_func_start exDrawFadeUnknown__Func_216143C
-exDrawFadeUnknown__Func_216143C: // 0x0216143C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawFadeUnknown__Func_216143C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r2, #3
-	ldr r1, _021614E0 // =0x000004FA
+	ldr r1, =0x000004FA
 	strh r2, [r0, #0xa2]
 	strh r1, [r0, #0x50]
 	mov ip, #0x1000
 	str ip, [r0, #0x54]
 	mov r2, #0x1f4000
 	mov r3, #0x800000
-	ldr r1, _021614E4 // =0x00001555
+	ldr r1, =0x00001555
 	str r3, [r0, #0x58]
 	str r1, [r0, #0x5c]
 	str ip, [r0, #0x60]
@@ -1014,7 +429,7 @@ exDrawFadeUnknown__Func_216143C: // 0x0216143C
 	ldrh r1, [r0, #0xa0]
 	cmp r1, #0
 	bne _021614A8
-	ldr r2, _021614E8 // =0x00006666
+	ldr r2, =0x00006666
 	mov r1, #0x80000
 	str r2, [r0, #0x7c]
 	str r1, [r0, #0x80]
@@ -1024,7 +439,7 @@ exDrawFadeUnknown__Func_216143C: // 0x0216143C
 _021614A8:
 	cmp r1, #1
 	bne _021614C8
-	ldr r2, _021614E8 // =0x00006666
+	ldr r2, =0x00006666
 	mov r1, #0
 	str r2, [r0, #0x7c]
 	str r1, [r0, #0x80]
@@ -1037,16 +452,18 @@ _021614C8:
 	str r1, [r0, #0x8c]
 	str r2, [r0, #0x90]
 	bx lr
-	.align 2, 0
-_021614E0: .word 0x000004FA
-_021614E4: .word 0x00001555
-_021614E8: .word 0x00006666
-	arm_func_end exDrawFadeUnknown__Func_216143C
 
-	arm_func_start exDrawFadeUnknown__Func_21614EC
-exDrawFadeUnknown__Func_21614EC: // 0x021614EC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawFadeUnknown__Func_21614EC(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r2, #4
-	ldr r1, _02161594 // =0x000004FA
+	ldr r1, =0x000004FA
 	strh r2, [r0, #0xa2]
 	strh r1, [r0, #0x50]
 	mov ip, #0x1000
@@ -1054,19 +471,19 @@ exDrawFadeUnknown__Func_21614EC: // 0x021614EC
 	rsb r1, r1, #0
 	str ip, [r0, #0x54]
 	mov r3, #0x800000
-	ldr r2, _02161598 // =0x00001555
+	ldr r2, =0x00001555
 	str r3, [r0, #0x58]
 	str r2, [r0, #0x5c]
 	str ip, [r0, #0x60]
 	str r1, [r0, #0x70]
 	add r2, r1, #0x1cc000
-	ldr r1, _0216159C // =0x00122000
+	ldr r1, =0x00122000
 	str r2, [r0, #0x74]
 	str r1, [r0, #0x78]
 	ldrh r1, [r0, #0xa0]
 	cmp r1, #0
 	bne _0216155C
-	ldr r2, _021615A0 // =0xFFFF999A
+	ldr r2, =0xFFFF999A
 	mov r1, #0x80000
 	str r2, [r0, #0x7c]
 	str r1, [r0, #0x80]
@@ -1076,7 +493,7 @@ exDrawFadeUnknown__Func_21614EC: // 0x021614EC
 _0216155C:
 	cmp r1, #1
 	bne _0216157C
-	ldr r2, _021615A0 // =0xFFFF999A
+	ldr r2, =0xFFFF999A
 	mov r1, #0
 	str r2, [r0, #0x7c]
 	str r1, [r0, #0x80]
@@ -1089,25 +506,27 @@ _0216157C:
 	str r1, [r0, #0x8c]
 	str r2, [r0, #0x90]
 	bx lr
-	.align 2, 0
-_02161594: .word 0x000004FA
-_02161598: .word 0x00001555
-_0216159C: .word 0x00122000
-_021615A0: .word 0xFFFF999A
-	arm_func_end exDrawFadeUnknown__Func_21614EC
 
-	arm_func_start exDrawFadeUnknown__Func_21615A4
-exDrawFadeUnknown__Func_21615A4: // 0x021615A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawFadeUnknown__Func_21615A4(s32 a1, s32 a2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, _02161680 // =exDrawFadeTask__word_21763A0
+	ldr r0, =exDrawFadeTask__cameraConfigA
 	bl exDrawFadeUnknown__Init
-	ldr r1, _02161684 // =0x021763E8
+	ldr r1, =0x021763E8
 	mov r2, #0
-	ldr r0, _02161688 // =exDrawFadeTask__word_21762FC
+	ldr r0, =exDrawFadeTask__cameraConfigB
 	strh r2, [r1, #0x58]
 	bl exDrawFadeUnknown__Init
-	ldr r0, _0216168C // =exDrawFadeTask__word_21762E8
+	ldr r0, =exDrawFadeTask__lightConfig
 	mov r1, #1
 	strh r1, [r0, #0xb4]
 	cmp r4, #4
@@ -1120,175 +539,132 @@ _021615E0: // jump table
 	b _0216161C // case 3
 	b _02161630 // case 4
 _021615F4:
-	ldr r0, _02161680 // =exDrawFadeTask__word_21763A0
+	ldr r0, =exDrawFadeTask__cameraConfigA
 	bl exDrawFadeUnknown__Func_2161314
-	ldr r0, _02161688 // =exDrawFadeTask__word_21762FC
+	ldr r0, =exDrawFadeTask__cameraConfigB
 	bl exDrawFadeUnknown__Func_2161314
 	b _02161654
 _02161608:
-	ldr r0, _02161680 // =exDrawFadeTask__word_21763A0
+	ldr r0, =exDrawFadeTask__cameraConfigA
 	bl exDrawFadeUnknown__Func_21613A8
-	ldr r0, _02161688 // =exDrawFadeTask__word_21762FC
+	ldr r0, =exDrawFadeTask__cameraConfigB
 	bl exDrawFadeUnknown__Func_21613A8
 	b _02161654
 _0216161C:
-	ldr r0, _02161680 // =exDrawFadeTask__word_21763A0
+	ldr r0, =exDrawFadeTask__cameraConfigA
 	bl exDrawFadeUnknown__Func_216143C
-	ldr r0, _02161688 // =exDrawFadeTask__word_21762FC
+	ldr r0, =exDrawFadeTask__cameraConfigB
 	bl exDrawFadeUnknown__Func_216143C
 	b _02161654
 _02161630:
-	ldr r0, _02161680 // =exDrawFadeTask__word_21763A0
+	ldr r0, =exDrawFadeTask__cameraConfigA
 	bl exDrawFadeUnknown__Func_21614EC
-	ldr r0, _02161688 // =exDrawFadeTask__word_21762FC
+	ldr r0, =exDrawFadeTask__cameraConfigB
 	bl exDrawFadeUnknown__Func_21614EC
 	b _02161654
 _02161644:
-	ldr r0, _02161680 // =exDrawFadeTask__word_21763A0
+	ldr r0, =exDrawFadeTask__cameraConfigA
 	bl exDrawFadeUnknown__Func_2161314
-	ldr r0, _02161688 // =exDrawFadeTask__word_21762FC
+	ldr r0, =exDrawFadeTask__cameraConfigB
 	bl exDrawFadeUnknown__Func_2161314
 _02161654:
-	ldr r0, _02161690 // =exDrawFadeTask__word_21762E8
+	ldr r0, =0x21762E8 // exDrawFadeTask__lightConfig
 	bl exDrawReqTask__EntryUnknown2__InitLight
 	mov r1, #0
-	ldr r0, _0216168C // =exDrawFadeTask__word_21762E8
+	ldr r0, =exDrawFadeTask__lightConfig
 	sub r2, r1, #0x1000
 	strh r1, [r0, #8]
 	strh r1, [r0, #0xa]
-	ldr r1, _02161694 // =0x00007FFF
+	ldr r1, =0x00007FFF
 	strh r2, [r0, #0xc]
 	strh r1, [r0, #0xe]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02161680: .word exDrawFadeTask__word_21763A0
-_02161684: .word 0x021763E8
-_02161688: .word exDrawFadeTask__word_21762FC
-_0216168C: .word exDrawFadeTask__word_21762E8
-_02161690: .word exDrawFadeTask__word_21762E8
-_02161694: .word 0x00007FFF
-	arm_func_end exDrawFadeUnknown__Func_21615A4
 
-	arm_func_start exDrawFadeTask__GetUnknownA
-exDrawFadeTask__GetUnknownA: // 0x02161698
-	ldr r0, _021616A0 // =exDrawFadeTask__word_21763A0
-	bx lr
-	.align 2, 0
-_021616A0: .word exDrawFadeTask__word_21763A0
-	arm_func_end exDrawFadeTask__GetUnknownA
+// clang-format on
+#endif
+}
 
-	arm_func_start exDrawFadeTask__GetUnknownB
-exDrawFadeTask__GetUnknownB: // 0x021616A4
-	ldr r0, _021616AC // =exDrawFadeTask__word_21762FC
-	bx lr
-	.align 2, 0
-_021616AC: .word exDrawFadeTask__word_21762FC
-	arm_func_end exDrawFadeTask__GetUnknownB
+exDrawFadeUnknown *exDrawFadeTask__GetUnknownA(void)
+{
+    return &exDrawFadeTask__cameraConfigA;
+}
 
-	arm_func_start exDrawReqTask__EntryUnknown2__GetLightConfig
-exDrawReqTask__EntryUnknown2__GetLightConfig: // 0x021616B0
-	ldr r0, _021616B8 // =exDrawFadeTask__word_21762E8
-	bx lr
-	.align 2, 0
-_021616B8: .word exDrawFadeTask__word_21762E8
-	arm_func_end exDrawReqTask__EntryUnknown2__GetLightConfig
+exDrawFadeUnknown *exDrawFadeTask__GetUnknownB(void)
+{
+    return &exDrawFadeTask__cameraConfigB;
+}
 
-	arm_func_start exDrawReqTask__InitSprite2DWorker
-exDrawReqTask__InitSprite2DWorker: // 0x021616BC
-	stmdb sp!, {r4, lr}
-	mov r1, #0
-	mov r2, #0x80
-	mov r4, r0
-	bl MI_CpuFill8
-	mov r1, #0
-	strh r1, [r4, #0x74]
-	strh r1, [r4, #0x68]
-	strh r1, [r4, #0x6a]
-	mov r0, #0x1000
-	str r0, [r4, #0x6c]
-	str r0, [r4, #0x70]
-	str r1, [r4, #0x7c]
-	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__InitSprite2DWorker
+exDrawReqTaskLightConfig *exDrawReqTask__EntryUnknown2__GetLightConfig(void)
+{
+    return &exDrawFadeTask__lightConfig;
+}
 
-	arm_func_start exDrawReqTask__InitSprite2DConfig
-exDrawReqTask__InitSprite2DConfig: // 0x021616F4
-	stmdb sp!, {r4, lr}
-	ldrb r2, [r0, #0]
-	mov r1, #0
-	bic r4, r2, #3
-	and r2, r4, #0xff
-	bic r3, r2, #4
-	and r2, r3, #0xff
-	strb r4, [r0]
-	bic r2, r2, #0xf0
-	strb r2, [r0]
-	ldrb r2, [r0, #1]
-	bic r4, r2, #1
-	and r2, r4, #0xff
-	bic r3, r2, #2
-	and r2, r3, #0xff
-	bic lr, r2, #4
-	and r2, lr, #0xff
-	orr ip, r2, #8
-	bic r3, ip, #0x10
-	and r2, r3, #0xff
-	bic r2, r2, #0xe0
-	strb lr, [r0, #1]
-	orr r2, r2, #0x40
-	strb r2, [r0, #1]
-	strh r1, [r0, #4]
-	ldrb r1, [r0, #2]
-	bic r1, r1, #0x20
-	strb r1, [r0, #2]
-	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__InitSprite2DConfig
+void exDrawReqTask__InitSprite2DWorker(ExGraphicsSprite2D *work)
+{
+    MI_CpuClear8(work, sizeof(*work));
 
-	arm_func_start exDrawReqTask__InitSprite2D
-exDrawReqTask__InitSprite2D: // 0x02161768
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl exDrawReqTask__InitSprite2DWorker
-	add r0, r4, #0x80
-	bl exDrawReqTask__InitSprite2DConfig
-	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__InitSprite2D
+    work->rotation = 0;
+    work->pos.x    = 0;
+    work->pos.y    = 0;
+    work->scale.x  = FLOAT_TO_FX32(1.0);
+    work->scale.y  = FLOAT_TO_FX32(1.0);
+    work->field_7C = 0;
+}
 
-	arm_func_start exDrawReqTask__Sprite2D__HandleTransform
-exDrawReqTask__Sprite2D__HandleTransform: // 0x02161780
-	ldrsh r1, [r0, #0x68]
-	strh r1, [r0, #0xc]
-	ldrsh r1, [r0, #0x6a]
-	strh r1, [r0, #0xe]
-	ldr r1, [r0, #0x6c]
-	cmp r1, #0x2000
-	movge r1, #0x2000
-	strge r1, [r0, #0x6c]
-	ldr r1, [r0, #0x70]
-	cmp r1, #0x2000
-	movge r1, #0x2000
-	strge r1, [r0, #0x70]
-	mov r1, #0x2000
-	ldr r2, [r0, #0x6c]
-	rsb r1, r1, #0
-	cmp r2, r1
-	strle r1, [r0, #0x6c]
-	mov r1, #0x2000
-	ldr r2, [r0, #0x70]
-	rsb r1, r1, #0
-	cmp r2, r1
-	strle r1, [r0, #0x70]
-	bx lr
-	arm_func_end exDrawReqTask__Sprite2D__HandleTransform
+void exDrawReqTask__InitSprite2DConfig(exDrawReqTaskConfig *work)
+{
+    work->field_0.value_1  = 0;
+    work->field_0.value_4  = FALSE;
+    work->field_0.value_10 = 0;
 
-	arm_func_start exDrawReqTask__Sprite2D__HandleUnknown
-exDrawReqTask__Sprite2D__HandleUnknown: // 0x021617DC
+    work->flags.value_1  = FALSE;
+    work->flags.value_2  = FALSE;
+    work->flags.value_4  = FALSE;
+    work->flags.value_8  = TRUE;
+    work->flags.value_10 = FALSE;
+    work->flags.value_20 = 2;
+
+    work->priority = 0;
+
+    work->field_2.value_20 = FALSE;
+}
+
+void exDrawReqTask__InitSprite2D(EX_ACTION_BAC2D_WORK *work)
+{
+    exDrawReqTask__InitSprite2DWorker(&work->sprite);
+    exDrawReqTask__InitSprite2DConfig(&work->config);
+}
+
+void exDrawReqTask__Sprite2D__HandleTransform(EX_ACTION_BAC2D_WORK *work)
+{
+    work->sprite.animator.pos.x = work->sprite.pos.x;
+    work->sprite.animator.pos.y = work->sprite.pos.y;
+
+    if (work->sprite.scale.x >= FLOAT_TO_FX32(2.0))
+        work->sprite.scale.x = FLOAT_TO_FX32(2.0);
+
+    if (work->sprite.scale.y >= FLOAT_TO_FX32(2.0))
+        work->sprite.scale.y = FLOAT_TO_FX32(2.0);
+
+    if (work->sprite.scale.x <= -FLOAT_TO_FX32(2.0))
+        work->sprite.scale.x = -FLOAT_TO_FX32(2.0);
+
+    if (work->sprite.scale.y <= -FLOAT_TO_FX32(2.0))
+        work->sprite.scale.y = -FLOAT_TO_FX32(2.0);
+}
+
+NONMATCH_FUNC void exDrawReqTask__Sprite2D__HandleUnknown(EX_ACTION_BAC2D_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r2, _021618FC // =_mt_math_rand
+	ldr r2, =_mt_math_rand
 	mov r5, r0
 	ldr r3, [r2, #0]
-	ldr r0, _02161900 // =0x00196225
-	ldr r1, _02161904 // =0x3C6EF35F
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
 	ldrb ip, [r5, #0x80]
 	mla r4, r3, r0, r1
 	mov r0, r4, lsr #0x10
@@ -1312,10 +688,10 @@ exDrawReqTask__Sprite2D__HandleUnknown: // 0x021617DC
 	mov r0, r0, lsl #0x18
 	movs r0, r0, lsr #0x1c
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r2, _021618FC // =_mt_math_rand
-	ldr r0, _02161900 // =0x00196225
+	ldr r2, =_mt_math_rand
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02161904 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -1325,12 +701,12 @@ exDrawReqTask__Sprite2D__HandleUnknown: // 0x021617DC
 	str ip, [r2]
 	adds r0, r1, r0, ror #31
 	ldrsh r0, [r5, #0xc]
-	ldr r2, _021618FC // =_mt_math_rand
-	ldr r1, _02161904 // =0x3C6EF35F
+	ldr r2, =_mt_math_rand
+	ldr r1, =0x3C6EF35F
 	addne r0, r0, r4, asr #16
 	subeq r0, r0, r4, asr #16
 	strh r0, [r5, #0xc]
-	ldr r0, _02161900 // =0x00196225
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
@@ -1355,14 +731,17 @@ exDrawReqTask__Sprite2D__HandleUnknown: // 0x021617DC
 	orr r0, r1, r0, lsr #24
 	strb r0, [r5, #0x80]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021618FC: .word _mt_math_rand
-_02161900: .word 0x00196225
-_02161904: .word 0x3C6EF35F
-	arm_func_end exDrawReqTask__Sprite2D__HandleUnknown
 
-	arm_func_start exDrawReqTask__Sprite2D__Animate
-exDrawReqTask__Sprite2D__Animate: // 0x02161908
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Sprite2D__Animate(EX_ACTION_BAC2D_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrb r1, [r4, #0x81]
@@ -1393,23 +772,26 @@ _02161924:
 	mov r0, r4
 	bl exDrawReqTask__Sprite2D__Func_2161B44
 	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__Sprite2D__Animate
 
-	arm_func_start exDrawReqTask__Sprite2D__HandleOamPriority
-exDrawReqTask__Sprite2D__HandleOamPriority: // 0x0216197C
-	ldrh r1, [r0, #0x84]
-	cmp r1, #0xa800
-	movlo r1, #1
-	strlob r1, [r0, #0x5a]
-	ldrh r1, [r0, #0x84]
-	cmp r1, #0xa800
-	movhs r1, #0
-	strhsb r1, [r0, #0x5a]
-	bx lr
-	arm_func_end exDrawReqTask__Sprite2D__HandleOamPriority
+// clang-format on
+#endif
+}
 
-	arm_func_start exDrawReqTask__Sprite2D__Draw
-exDrawReqTask__Sprite2D__Draw: // 0x021619A0
+void exDrawReqTask__Sprite2D__HandleOamPriority(EX_ACTION_BAC2D_WORK *work)
+{
+    if (work->config.priority < 0xA800)
+        work->sprite.animator.oamPriority = SPRITE_PRIORITY_1;
+
+    if (work->config.priority >= 0xA800)
+        work->sprite.animator.oamPriority = SPRITE_PRIORITY_0;
+}
+
+NONMATCH_FUNC void exDrawReqTask__Sprite2D__Draw(EX_ACTION_BAC2D_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldrb r0, [r4, #0x80]
@@ -1515,72 +897,48 @@ _02161B08:
 	ldrsh r0, [r4, #0x6a]
 	strh r0, [r4, #0xe]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end exDrawReqTask__Sprite2D__Draw
 
-	arm_func_start exDrawReqTask__Sprite2D__ProcessRequest
-exDrawReqTask__Sprite2D__ProcessRequest: // 0x02161B1C
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl exDrawReqTask__Sprite2D__HandleTransform
-	mov r0, r4
-	bl exDrawReqTask__Sprite2D__HandleUnknown
-	mov r0, r4
-	bl exDrawReqTask__Sprite2D__HandleOamPriority
-	mov r0, r4
-	bl exDrawReqTask__Sprite2D__Draw
-	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__Sprite2D__ProcessRequest
+// clang-format on
+#endif
+}
 
-	arm_func_start exDrawReqTask__Sprite2D__Func_2161B44
-exDrawReqTask__Sprite2D__Func_2161B44: // 0x02161B44
-	ldrb r1, [r0, #0x81]
-	bic r2, r1, #4
-	and r1, r2, #0xff
-	orr r1, r1, #2
-	bic r2, r1, #8
-	strb r1, [r0, #0x81]
-	and r1, r2, #0xff
-	bic r1, r1, #0x10
-	strb r1, [r0, #0x81]
-	bx lr
-	arm_func_end exDrawReqTask__Sprite2D__Func_2161B44
+void exDrawReqTask__Sprite2D__ProcessRequest(EX_ACTION_BAC2D_WORK *work)
+{
+    exDrawReqTask__Sprite2D__HandleTransform(work);
+    exDrawReqTask__Sprite2D__HandleUnknown(work);
+    exDrawReqTask__Sprite2D__HandleOamPriority(work);
+    exDrawReqTask__Sprite2D__Draw(work);
+}
 
-	arm_func_start exDrawReqTask__Sprite2D__Func_2161B6C
-exDrawReqTask__Sprite2D__Func_2161B6C: // 0x02161B6C
-	ldrb r1, [r0, #0x80]
-	bic r1, r1, #3
-	orr r1, r1, #1
-	strb r1, [r0, #0x80]
-	bx lr
-	arm_func_end exDrawReqTask__Sprite2D__Func_2161B6C
+void exDrawReqTask__Sprite2D__Func_2161B44(EX_ACTION_BAC2D_WORK *work)
+{
+    work->config.flags.value_4  = FALSE;
+    work->config.flags.value_2  = TRUE;
+    work->config.flags.value_8  = FALSE;
+    work->config.flags.value_10 = FALSE;
+}
 
-	arm_func_start exDrawReqTask__Sprite2D__Func_2161B80
-exDrawReqTask__Sprite2D__Func_2161B80: // 0x02161B80
-	ldrb r1, [r0, #0x80]
-	bic r1, r1, #3
-	orr r1, r1, #2
-	strb r1, [r0, #0x80]
-	bx lr
-	arm_func_end exDrawReqTask__Sprite2D__Func_2161B80
+void exDrawReqTask__Sprite2D__Func_2161B6C(EX_ACTION_BAC2D_WORK *work)
+{
+    work->config.field_0.value_1 = 1;
+}
 
-	arm_func_start exDrawReqTask__Sprite2D__IsAnimFinished
-exDrawReqTask__Sprite2D__IsAnimFinished: // 0x02161B94
-	ldrh r2, [r0, #0x14]
-	ldrh r1, [r0, #0x12]
-	cmp r2, r1
-	bne _02161BB8
-	ldr r1, [r0, #0x38]
-	ldr r0, [r0, #0x3c]
-	cmp r1, r0
-	movle r0, #1
-	bxle lr
-_02161BB8:
-	mov r0, #0
-	bx lr
-	arm_func_end exDrawReqTask__Sprite2D__IsAnimFinished
+void exDrawReqTask__Sprite2D__Func_2161B80(EX_ACTION_BAC2D_WORK *work)
+{
+    work->config.field_0.value_1 = 2;
+}
 
-	arm_func_start exDrawReqTask__Model__InitWorker
-exDrawReqTask__Model__InitWorker: // 0x02161BC0
+BOOL exDrawReqTask__Sprite2D__IsAnimFinished(EX_ACTION_BAC2D_WORK *work)
+{
+    return work->sprite.animator.animFrameCount == work->sprite.animator.animFrameIndex && work->sprite.animator.frameRemainder <= work->sprite.animator.animAdvance;
+}
+
+NONMATCH_FUNC void exDrawReqTask__Model__InitWorker(EX_ACTION_NN_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -1606,10 +964,17 @@ exDrawReqTask__Model__InitWorker: // 0x02161BC0
 	str r1, [r4, #0x35c]
 	str r1, [r4, #0x360]
 	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__Model__InitWorker
 
-	arm_func_start exDrawReqTask__Model__InitConfig
-exDrawReqTask__Model__InitConfig: // 0x02161C24
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Model__InitConfig(EX_ACTION_NN_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	ldrb r2, [r0, #0]
 	mov r1, #0
@@ -1645,10 +1010,17 @@ exDrawReqTask__Model__InitConfig: // 0x02161C24
 	bic r1, r1, #2
 	strb r1, [r0, #2]
 	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__Model__InitConfig
 
-	arm_func_start exDrawReqTask__InitModel
-exDrawReqTask__InitModel: // 0x02161CB0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__InitModel(EX_ACTION_NN_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x1c
@@ -1658,16 +1030,23 @@ exDrawReqTask__InitModel: // 0x02161CB0
 	add r0, r4, #0x38c
 	bl exDrawReqTask__Model__InitConfig
 	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__InitModel
 
-	arm_func_start exDrawReqTask__Model__HandleTransform
-exDrawReqTask__Model__HandleTransform: // 0x02161CD4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Model__HandleTransform(EX_ACTION_NN_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x90
 	mov r4, r0
 	add r0, r4, #0x300
 	ldrh r1, [r0, #0x2e]
-	ldr r3, _02161DE0 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	add r0, sp, #0x24
 	mov r1, r1, asr #4
 	mov r2, r1, lsl #1
@@ -1679,7 +1058,7 @@ exDrawReqTask__Model__HandleTransform: // 0x02161CD4
 	bl MTX_RotX33_
 	add r0, r4, #0x300
 	ldrh r1, [r0, #0x30]
-	ldr r3, _02161DE0 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	add r0, sp, #0x48
 	mov r1, r1, asr #4
 	mov r2, r1, lsl #1
@@ -1691,7 +1070,7 @@ exDrawReqTask__Model__HandleTransform: // 0x02161CD4
 	bl MTX_RotY33_
 	add r0, r4, #0x300
 	ldrh r1, [r0, #0x32]
-	ldr r3, _02161DE0 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	add r0, sp, #0x6c
 	mov r1, r1, asr #4
 	mov r2, r1, lsl #1
@@ -1729,12 +1108,17 @@ exDrawReqTask__Model__HandleTransform: // 0x02161CD4
 	str r0, [r4, #0x60]
 	add sp, sp, #0x90
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02161DE0: .word FX_SinCosTable_
-	arm_func_end exDrawReqTask__Model__HandleTransform
 
-	arm_func_start exDrawReqTask__Model__HandlePriority
-exDrawReqTask__Model__HandlePriority: // 0x02161DE4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Model__HandlePriority(EX_ACTION_NN_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldrb r0, [r6, #0x38c]
@@ -1800,7 +1184,7 @@ _02161E20:
 	beq _02161F18
 _02161ED8:
 	ldr r1, [r6, #0x354]
-	ldr r0, _02161FA8 // =0x00024C04
+	ldr r0, =0x00024C04
 	cmp r1, r0
 	ble _02161EF8
 	ldrb r0, [r6, #0x38c]
@@ -1809,7 +1193,7 @@ _02161ED8:
 	strb r0, [r6, #0x38c]
 _02161EF8:
 	ldr r1, [r6, #0x354]
-	ldr r0, _02161FA8 // =0x00024C04
+	ldr r0, =0x00024C04
 	cmp r1, r0
 	bgt _02161F18
 	ldrb r0, [r6, #0x38c]
@@ -1857,18 +1241,23 @@ _02161F7C:
 	mov r0, r4
 	bl exDrawFadeUnknown__Func_21610F0
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02161FA8: .word 0x00024C04
-	arm_func_end exDrawReqTask__Model__HandlePriority
 
-	arm_func_start exDrawReqTask__Model__HandleUnknown
-exDrawReqTask__Model__HandleUnknown: // 0x02161FAC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Model__HandleUnknown(EX_ACTION_NN_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r2, _02162158 // =_mt_math_rand
+	ldr r2, =_mt_math_rand
 	mov r5, r0
 	ldr r3, [r2, #0]
-	ldr r0, _0216215C // =0x00196225
-	ldr r1, _02162160 // =0x3C6EF35F
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
 	ldrb ip, [r5, #0x38c]
 	mla r4, r3, r0, r1
 	mov r0, r4, lsr #0x10
@@ -1894,7 +1283,7 @@ exDrawReqTask__Model__HandleUnknown: // 0x02161FAC
 	bl exDrawReqTask__Func_2164260
 	ldrb r0, [r0, #0]
 	ldrb r1, [r5, #0x38c]
-	ldr r2, _02162158 // =_mt_math_rand
+	ldr r2, =_mt_math_rand
 	mov r0, r0, lsl #0x18
 	mov r0, r0, lsr #0x1c
 	bic r1, r1, #0xf0
@@ -1902,8 +1291,8 @@ exDrawReqTask__Model__HandleUnknown: // 0x02161FAC
 	orr r4, r1, r0, lsr #24
 	strb r4, [r5, #0x38c]
 	ldr r3, [r2, #0]
-	ldr r0, _0216215C // =0x00196225
-	ldr r1, _02162160 // =0x3C6EF35F
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
 	and ip, r4, #0xff
 	mla r4, r3, r0, r1
 	mov r0, r4, lsr #0x10
@@ -1921,10 +1310,10 @@ _02162080:
 	mov r0, r0, lsl #0x18
 	movs r0, r0, lsr #0x1c
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r2, _02162158 // =_mt_math_rand
-	ldr r0, _0216215C // =0x00196225
+	ldr r2, =_mt_math_rand
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02162160 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -1934,13 +1323,13 @@ _02162080:
 	str ip, [r2]
 	adds r0, r1, r0, ror #31
 	ldr r0, [r5, #0x68]
-	ldr r2, _02162158 // =_mt_math_rand
+	ldr r2, =_mt_math_rand
 	addne r0, r0, r4
 	subeq r0, r0, r4
 	str r0, [r5, #0x68]
-	ldr r0, _0216215C // =0x00196225
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02162160 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -1950,13 +1339,13 @@ _02162080:
 	str ip, [r2]
 	adds r0, r1, r0, ror #31
 	ldr r0, [r5, #0x6c]
-	ldr r2, _02162158 // =_mt_math_rand
+	ldr r2, =_mt_math_rand
 	addne r0, r0, r4
 	subeq r0, r0, r4
 	str r0, [r5, #0x6c]
-	ldr r0, _0216215C // =0x00196225
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02162160 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -1971,14 +1360,17 @@ _02162080:
 	subeq r0, r0, r4
 	streq r0, [r5, #0x70]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02162158: .word _mt_math_rand
-_0216215C: .word 0x00196225
-_02162160: .word 0x3C6EF35F
-	arm_func_end exDrawReqTask__Model__HandleUnknown
 
-	arm_func_start exDrawReqTask__Model__Animate
-exDrawReqTask__Model__Animate: // 0x02162164
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Model__Animate(EX_ACTION_NN_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldrb r0, [r4, #1]
@@ -2034,10 +1426,17 @@ _021621CC:
 _02162228:
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end exDrawReqTask__Model__Animate
 
-	arm_func_start exDrawReqTask__Model__Draw
-exDrawReqTask__Model__Draw: // 0x02162230
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Model__Draw(EX_ACTION_NN_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x40
 	mov r5, r0
@@ -2048,7 +1447,7 @@ exDrawReqTask__Model__Draw: // 0x02162230
 	addne sp, sp, #0x40
 	strneb r0, [r5, #0x38c]
 	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r2, _02162398 // =0x04000060
+	ldr r2, =0x04000060
 	ldrh r1, [r2, #0]
 	bic r1, r1, #0x3000
 	orr r1, r1, #8
@@ -2132,12 +1531,17 @@ _02162378:
 	str r0, [r5, #0x70]
 	add sp, sp, #0x40
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02162398: .word 0x04000060
-	arm_func_end exDrawReqTask__Model__Draw
 
-	arm_func_start exDrawReqTask__Model__HandleLighting
-exDrawReqTask__Model__HandleLighting: // 0x0216239C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Model__HandleLighting(EX_ACTION_NN_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl exDrawReqTask__EntryUnknown2__GetLightConfig
@@ -2148,10 +1552,17 @@ exDrawReqTask__Model__HandleLighting: // 0x0216239C
 	bl exDrawReqTask__EntryUnknown2__GetLightConfig
 	bl exDrawReqTask__EntryUnknown2__SetLight
 	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__Model__HandleLighting
 
-	arm_func_start exDrawReqTask__Model__ProcessRequest
-exDrawReqTask__Model__ProcessRequest: // 0x021623C4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Model__ProcessRequest(EX_ACTION_NN_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x1c
@@ -2165,10 +1576,16 @@ exDrawReqTask__Model__ProcessRequest: // 0x021623C4
 	mov r0, r4
 	bl exDrawReqTask__Model__Draw
 	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__Model__ProcessRequest
 
-	arm_func_start exDrawReqTask__Model__IsAnimFinished
-exDrawReqTask__Model__IsAnimFinished: // 0x021623F8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL exDrawReqTask__Model__IsAnimFinished(EX_ACTION_NN_WORK *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	add r1, r0, #0x300
 	ldrh r1, [r1, #0x48]
 	add r0, r0, r1, lsl #1
@@ -2178,10 +1595,17 @@ exDrawReqTask__Model__IsAnimFinished: // 0x021623F8
 	movne r0, #1
 	moveq r0, #0
 	bx lr
-	arm_func_end exDrawReqTask__Model__IsAnimFinished
 
-	arm_func_start exDrawReqTask__InitTrail
-exDrawReqTask__InitTrail: // 0x0216241C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__InitTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *position, u16 type)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	mov r7, r1
@@ -2240,15 +1664,22 @@ _021624D4:
 	bic r0, r0, #8
 	strb r0, [r4, #0x26c]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end exDrawReqTask__InitTrail
 
-	arm_func_start exDrawReqTask__Trail__HandleTrail6
-exDrawReqTask__Trail__HandleTrail6: // 0x021624F4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Trail__HandleTrail6(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	add ip, r0, #0x1c
 	mov r2, #0x2000
 	str r2, [ip, #0x23c]
-	ldr r5, _0216271C // =0x00007B39
+	ldr r5, =0x00007B39
 	str r2, [ip, #0x240]
 	mov r3, #0
 _02162510:
@@ -2272,7 +1703,7 @@ _02162538:
 	blo _02162538
 	str r4, [ip, #0x24c]
 	ldr r2, [r1, #0]
-	ldr r3, _02162720 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	str r2, [ip, #0x224]
 	ldr r2, [r1, #4]
 	mov lr, #2
@@ -2385,13 +1816,17 @@ _021626AC:
 	bic r1, r1, #3
 	strb r1, [r0, #0x26c]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216271C: .word 0x00007B39
-_02162720: .word FX_SinCosTable_
-	arm_func_end exDrawReqTask__Trail__HandleTrail6
 
-	arm_func_start exDrawReqTask__Trail__HandleTrail5
-exDrawReqTask__Trail__HandleTrail5: // 0x02162724
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Trail__HandleTrail5(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos, s32 a3)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r6, r1
 	cmp r2, #0
@@ -2435,7 +1870,7 @@ _02162778:
 	cmp r0, #0xc
 	bhs _02162778
 	ldr r0, [r4, #0x68]
-	ldr r3, _02162AB0 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	str r0, [r4, #0x80]
 	ldr r0, [r4, #0x6c]
 	mov r7, #0x1f
@@ -2623,17 +2058,22 @@ _02162778:
 	str r0, [r4, #0x64]
 	str r1, [r4, #0x1c8]
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02162AB0: .word FX_SinCosTable_
-	arm_func_end exDrawReqTask__Trail__HandleTrail5
 
-	arm_func_start exDrawReqTask__Trail__HandleTrail4
-exDrawReqTask__Trail__HandleTrail4: // 0x02162AB4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Trail__HandleTrail4(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	add ip, r0, #0x1c
 	mov r2, #0x8000
 	str r2, [ip, #0x23c]
-	ldr r6, _02162CC0 // =0x0000023F
+	ldr r6, =0x0000023F
 	str r2, [ip, #0x240]
 	mov lr, #0
 	mov r5, #1
@@ -2651,7 +2091,7 @@ _02162AD4:
 	mov r4, #0
 	str r4, [ip, #0x24c]
 	ldr r2, [r1, #0]
-	ldr r3, _02162CC4 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	str r2, [ip, #0x224]
 	ldr r2, [r1, #4]
 	mov lr, #2
@@ -2762,13 +2202,17 @@ _02162C58:
 	bic r1, r1, #3
 	strb r1, [r0, #0x26c]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02162CC0: .word 0x0000023F
-_02162CC4: .word FX_SinCosTable_
-	arm_func_end exDrawReqTask__Trail__HandleTrail4
 
-	arm_func_start exDrawReqTask__Trail__HandleTrail3
-exDrawReqTask__Trail__HandleTrail3: // 0x02162CC8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Trail__HandleTrail3(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r2, [r1, #0]
 	add r3, r0, #0x1c
@@ -2801,7 +2245,7 @@ _02162CF0:
 	mov r0, #0x1f
 	str r2, [r3, #0x20]
 	ldr r4, [r3, #0xc]
-	ldr r2, _02162E88 // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	str r4, [r3, #0x24]
 	ldr r4, [r3, #0x10]
 	str r4, [r3, #0x28]
@@ -2882,12 +2326,17 @@ _02162CF0:
 	ldr r0, [r3, #0x1ac]
 	str r0, [r3, #0x1b0]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02162E88: .word FX_SinCosTable_
-	arm_func_end exDrawReqTask__Trail__HandleTrail3
 
-	arm_func_start exDrawReqTask__Trail__HandleTrail2
-exDrawReqTask__Trail__HandleTrail2: // 0x02162E8C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Trail__HandleTrail2(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r0, #0x2800
@@ -2895,7 +2344,7 @@ exDrawReqTask__Trail__HandleTrail2: // 0x02162E8C
 	str r0, [r4, #0x23c]
 	sub r0, r0, #0x5800
 	mov lr, #0
-	ldr ip, _02162FD8 // =0x000003FF
+	ldr ip, =0x000003FF
 	mov r5, r1
 	str r0, [r4, #0x240]
 	mov r3, lr
@@ -2973,12 +2422,17 @@ _02162F68:
 	orr r0, r0, #1
 	strb r0, [r6, #0x26c]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02162FD8: .word 0x000003FF
-	arm_func_end exDrawReqTask__Trail__HandleTrail2
 
-	arm_func_start exDrawReqTask__Trail__HandleTrail
-exDrawReqTask__Trail__HandleTrail: // 0x02162FDC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Trail__HandleTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos, u32 type, u32 color)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r1
 	ldr r1, [r5, #0]
@@ -3026,7 +2480,7 @@ _02163068:
 	beq _021630A8
 	b _021630D0
 _0216307C:
-	ldr r3, _02163230 // =0x000003FF
+	ldr r3, =0x000003FF
 	mov r1, #0
 _02163084:
 	add r0, r1, #1
@@ -3039,7 +2493,7 @@ _02163084:
 	blo _02163084
 	b _021630D0
 _021630A8:
-	ldr r3, _02163234 // =0x00007C1F
+	ldr r3, =0x00007C1F
 	mov r1, #0
 _021630B0:
 	add r0, r1, #1
@@ -3142,16 +2596,20 @@ _02163138:
 	ldr r0, [r4, #0x1ac]
 	str r0, [r4, #0x1b0]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02163230: .word 0x000003FF
-_02163234: .word 0x00007C1F
-	arm_func_end exDrawReqTask__Trail__HandleTrail
 
-	arm_func_start exDrawReqTask__Trail__ProcessRequest
-exDrawReqTask__Trail__ProcessRequest: // 0x02163238
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Trail__ProcessRequest(EX_ACTION_TRAIL_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x118
-	ldr r1, _021635D8 // =0x02176444
+	ldr r1, =0x02176444
 	mov r4, r0
 	ldrh r0, [r1, #0]
 	add r9, r4, #0x1c
@@ -3237,7 +2695,7 @@ _0216333C:
 	bl NNS_G3dGeBufferOP_N
 	mov r11, #6
 	add r6, r4, #0x200
-	ldr r5, _021635DC // =0x000003FF
+	ldr r5, =0x000003FF
 	mov r8, #0
 	add r7, sp, #0x64
 	mov r4, r11
@@ -3392,13 +2850,17 @@ _021635BC:
 	blo _02163394
 	add sp, sp, #0x118
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_021635D8: .word 0x02176444
-_021635DC: .word 0x000003FF
-	arm_func_end exDrawReqTask__Trail__ProcessRequest
 
-	arm_func_start exDrawReqTask__Sprite3D__InitWorker
-exDrawReqTask__Sprite3D__InitWorker: // 0x021635E0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Sprite3D__InitWorker(EX_ACTION_BAC3D_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, r4
@@ -3422,10 +2884,17 @@ exDrawReqTask__Sprite3D__InitWorker: // 0x021635E0
 	str r1, [r4, #0x12c]
 	str r1, [r4, #0x130]
 	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__Sprite3D__InitWorker
 
-	arm_func_start exDrawReqTask__Sprite3D__InitConfig
-exDrawReqTask__Sprite3D__InitConfig: // 0x0216363C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Sprite3D__InitConfig(EX_ACTION_BAC3D_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldrb r2, [r0, #0]
 	mov r1, #0
@@ -3458,10 +2927,17 @@ exDrawReqTask__Sprite3D__InitConfig: // 0x0216363C
 	strb r2, [r0, #1]
 	strh r1, [r0, #4]
 	ldmia sp!, {r3, pc}
-	arm_func_end exDrawReqTask__Sprite3D__InitConfig
 
-	arm_func_start exDrawReqTask__InitSprite3D
-exDrawReqTask__InitSprite3D: // 0x021636BC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__InitSprite3D(EX_ACTION_BAC3D_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x1c
@@ -3471,16 +2947,23 @@ exDrawReqTask__InitSprite3D: // 0x021636BC
 	add r0, r4, #0x150
 	bl exDrawReqTask__Sprite3D__InitConfig
 	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__InitSprite3D
 
-	arm_func_start exDrawReqTask__Sprite3D__HandleTransform
-exDrawReqTask__Sprite3D__HandleTransform: // 0x021636E0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Sprite3D__HandleTransform(EX_ACTION_BAC3D_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x90
 	mov r4, r0
 	add r0, r4, #0x100
 	ldrh r1, [r0, #8]
-	ldr r3, _021637EC // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	add r0, sp, #0x24
 	mov r1, r1, asr #4
 	mov r2, r1, lsl #1
@@ -3492,7 +2975,7 @@ exDrawReqTask__Sprite3D__HandleTransform: // 0x021636E0
 	bl MTX_RotX33_
 	add r0, r4, #0x100
 	ldrh r1, [r0, #0xa]
-	ldr r3, _021637EC // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	add r0, sp, #0x48
 	mov r1, r1, asr #4
 	mov r2, r1, lsl #1
@@ -3504,7 +2987,7 @@ exDrawReqTask__Sprite3D__HandleTransform: // 0x021636E0
 	bl MTX_RotY33_
 	add r0, r4, #0x100
 	ldrh r1, [r0, #0xc]
-	ldr r3, _021637EC // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	add r0, sp, #0x6c
 	mov r1, r1, asr #4
 	mov r2, r1, lsl #1
@@ -3542,12 +3025,17 @@ exDrawReqTask__Sprite3D__HandleTransform: // 0x021636E0
 	str r0, [r4, #0x60]
 	add sp, sp, #0x90
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021637EC: .word FX_SinCosTable_
-	arm_func_end exDrawReqTask__Sprite3D__HandleTransform
 
-	arm_func_start exDrawReqTask__Sprite3D__HandlePriority
-exDrawReqTask__Sprite3D__HandlePriority: // 0x021637F0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Sprite3D__HandlePriority(EX_ACTION_BAC3D_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldrb r0, [r6, #0x150]
@@ -3575,7 +3063,7 @@ _02163824:
 	beq _02163890
 _02163850:
 	ldr r1, [r6, #0x130]
-	ldr r0, _02163920 // =0x00024C04
+	ldr r0, =0x00024C04
 	cmp r1, r0
 	ble _02163870
 	ldrb r0, [r6, #0x150]
@@ -3584,7 +3072,7 @@ _02163850:
 	strb r0, [r6, #0x150]
 _02163870:
 	ldr r1, [r6, #0x130]
-	ldr r0, _02163920 // =0x00024C04
+	ldr r0, =0x00024C04
 	cmp r1, r0
 	bgt _02163890
 	ldrb r0, [r6, #0x150]
@@ -3632,18 +3120,23 @@ _021638F4:
 	mov r0, r4
 	bl exDrawFadeUnknown__Func_21610F0
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02163920: .word 0x00024C04
-	arm_func_end exDrawReqTask__Sprite3D__HandlePriority
 
-	arm_func_start exDrawReqTask__Sprite3D__HandleUnknown
-exDrawReqTask__Sprite3D__HandleUnknown: // 0x02163924
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Sprite3D__HandleUnknown(EX_ACTION_BAC3D_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r2, _02163AD0 // =_mt_math_rand
+	ldr r2, =_mt_math_rand
 	mov r5, r0
 	ldr r3, [r2, #0]
-	ldr r0, _02163AD4 // =0x00196225
-	ldr r1, _02163AD8 // =0x3C6EF35F
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
 	ldrb ip, [r5, #0x150]
 	mla r4, r3, r0, r1
 	mov r0, r4, lsr #0x10
@@ -3669,7 +3162,7 @@ exDrawReqTask__Sprite3D__HandleUnknown: // 0x02163924
 	bl exDrawReqTask__Func_2164260
 	ldrb r0, [r0, #0]
 	ldrb r1, [r5, #0x150]
-	ldr r2, _02163AD0 // =_mt_math_rand
+	ldr r2, =_mt_math_rand
 	mov r0, r0, lsl #0x18
 	mov r0, r0, lsr #0x1c
 	bic r1, r1, #0xf0
@@ -3677,8 +3170,8 @@ exDrawReqTask__Sprite3D__HandleUnknown: // 0x02163924
 	orr r4, r1, r0, lsr #24
 	strb r4, [r5, #0x150]
 	ldr r3, [r2, #0]
-	ldr r0, _02163AD4 // =0x00196225
-	ldr r1, _02163AD8 // =0x3C6EF35F
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
 	and ip, r4, #0xff
 	mla r4, r3, r0, r1
 	mov r0, r4, lsr #0x10
@@ -3696,10 +3189,10 @@ _021639F8:
 	mov r0, r0, lsl #0x18
 	movs r0, r0, lsr #0x1c
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r2, _02163AD0 // =_mt_math_rand
-	ldr r0, _02163AD4 // =0x00196225
+	ldr r2, =_mt_math_rand
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02163AD8 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -3709,13 +3202,13 @@ _021639F8:
 	str ip, [r2]
 	adds r0, r1, r0, ror #31
 	ldr r0, [r5, #0x68]
-	ldr r2, _02163AD0 // =_mt_math_rand
+	ldr r2, =_mt_math_rand
 	addne r0, r0, r4
 	subeq r0, r0, r4
 	str r0, [r5, #0x68]
-	ldr r0, _02163AD4 // =0x00196225
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02163AD8 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -3725,13 +3218,13 @@ _021639F8:
 	str ip, [r2]
 	adds r0, r1, r0, ror #31
 	ldr r0, [r5, #0x6c]
-	ldr r2, _02163AD0 // =_mt_math_rand
+	ldr r2, =_mt_math_rand
 	addne r0, r0, r4
 	subeq r0, r0, r4
 	str r0, [r5, #0x6c]
-	ldr r0, _02163AD4 // =0x00196225
+	ldr r0, =0x00196225
 	ldr r3, [r2, #0]
-	ldr r1, _02163AD8 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -3746,14 +3239,17 @@ _021639F8:
 	subeq r0, r0, r4
 	streq r0, [r5, #0x70]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02163AD0: .word _mt_math_rand
-_02163AD4: .word 0x00196225
-_02163AD8: .word 0x3C6EF35F
-	arm_func_end exDrawReqTask__Sprite3D__HandleUnknown
 
-	arm_func_start exDrawReqTask__Sprite3D__Animate
-exDrawReqTask__Sprite3D__Animate: // 0x02163ADC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Sprite3D__Animate(EX_ACTION_BAC3D_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrb r0, [r4, #0x151]
@@ -3789,10 +3285,17 @@ _02163B0C:
 	add r0, r4, #0x150
 	bl exDrawReqTask__Func_2164238
 	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__Sprite3D__Animate
 
-	arm_func_start exDrawReqTask__Sprite3D__Draw
-exDrawReqTask__Sprite3D__Draw: // 0x02163B64
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Sprite3D__Draw(EX_ACTION_BAC3D_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrb r0, [r4, #0x150]
@@ -3801,7 +3304,7 @@ exDrawReqTask__Sprite3D__Draw: // 0x02163B64
 	bicne r0, r0, #4
 	strneb r0, [r4, #0x150]
 	ldmneia sp!, {r4, pc}
-	ldr r2, _02163BBC // =0x04000060
+	ldr r2, =0x04000060
 	add r0, r4, #0x20
 	ldrh r1, [r2, #0]
 	bic r1, r1, #0x3000
@@ -3815,12 +3318,17 @@ exDrawReqTask__Sprite3D__Draw: // 0x02163B64
 	ldr r0, [r4, #0x134]
 	str r0, [r4, #0x70]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02163BBC: .word 0x04000060
-	arm_func_end exDrawReqTask__Sprite3D__Draw
 
-	arm_func_start exDrawReqTask__Sprite3D__ProcessRequest
-exDrawReqTask__Sprite3D__ProcessRequest: // 0x02163BC0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Sprite3D__ProcessRequest(EX_ACTION_BAC3D_WORK *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x1c
@@ -3834,50 +3342,76 @@ exDrawReqTask__Sprite3D__ProcessRequest: // 0x02163BC0
 	mov r0, r4
 	bl exDrawReqTask__Sprite3D__Draw
 	ldmia sp!, {r4, pc}
-	arm_func_end exDrawReqTask__Sprite3D__ProcessRequest
 
-	arm_func_start exDrawReqTask__Sprite3D__IsAnimFinished
-exDrawReqTask__Sprite3D__IsAnimFinished: // 0x02163BF4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL exDrawReqTask__Sprite3D__IsAnimFinished(EX_ACTION_BAC3D_WORK *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r0, [r0, #0xec]
 	tst r0, #0x40000000
 	movne r0, #1
 	moveq r0, #0
 	bx lr
-	arm_func_end exDrawReqTask__Sprite3D__IsAnimFinished
 
-	arm_func_start exDrawFadeTask__Main
-exDrawFadeTask__Main: // 0x02163C08
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawFadeTask__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0
 	str r1, [r0]
 	bl GetExTaskCurrent
-	ldr r1, _02163C2C // =exDrawFadeTask__Main_2163C48
+	ldr r1, =exDrawFadeTask__Main_2163C48
 	str r1, [r0]
 	bl exDrawFadeTask__Main_2163C48
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02163C2C: .word exDrawFadeTask__Main_2163C48
-	arm_func_end exDrawFadeTask__Main
 
-	arm_func_start exDrawFadeTask__Func8
-exDrawFadeTask__Func8: // 0x02163C30
-	ldr ip, _02163C38 // =GetExTaskWorkCurrent_
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawFadeTask__Func8(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =GetExTaskWorkCurrent_
 	bx ip
-	.align 2, 0
-_02163C38: .word GetExTaskWorkCurrent_
-	arm_func_end exDrawFadeTask__Func8
 
-	arm_func_start exDrawFadeTask__Destructor
-exDrawFadeTask__Destructor: // 0x02163C3C
-	ldr ip, _02163C44 // =GetExTaskWorkCurrent_
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawFadeTask__Destructor(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =GetExTaskWorkCurrent_
 	bx ip
-	.align 2, 0
-_02163C44: .word GetExTaskWorkCurrent_
-	arm_func_end exDrawFadeTask__Destructor
 
-	arm_func_start exDrawFadeTask__Main_2163C48
-exDrawFadeTask__Main_2163C48: // 0x02163C48
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawFadeTask__Main_2163C48(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -3941,7 +3475,7 @@ _02163D14:
 	strh r1, [r0, #0xb4]
 _02163D2C:
 	bl GetExTaskCurrent
-	ldr r1, _02163D4C // =ExTask_State_Destroy
+	ldr r1, =ExTask_State_Destroy
 	str r1, [r0]
 	ldmia sp!, {r4, r5, r6, pc}
 _02163D3C:
@@ -3949,12 +3483,17 @@ _02163D3C:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02163D4C: .word ExTask_State_Destroy
-	arm_func_end exDrawFadeTask__Main_2163C48
 
-	arm_func_start exDrawFadeTask__Create
-exDrawFadeTask__Create: // 0x02163D50
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawFadeTask__Create(s32 brightness, s32 targetBrightness, s32 duration, s32 delay, u32 flags)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x10
 	movs r6, r2
@@ -3967,10 +3506,10 @@ exDrawFadeTask__Create: // 0x02163D50
 	str r4, [sp]
 	mov r1, #0x10
 	str r1, [sp, #4]
-	ldr r0, _02163E18 // =aExdrawfadetask
-	ldr r1, _02163E1C // =exDrawFadeTask__Destructor
+	ldr r0, =aExdrawfadetask
+	ldr r1, =exDrawFadeTask__Destructor
 	str r0, [sp, #8]
-	ldr r0, _02163E20 // =exDrawFadeTask__Main
+	ldr r0, =exDrawFadeTask__Main
 	mov r2, #0xf000
 	mov r3, #3
 	str r4, [sp, #0xc]
@@ -3983,7 +3522,7 @@ exDrawFadeTask__Create: // 0x02163D50
 	bl MI_CpuFill8
 	mov r0, r9
 	bl GetExTask
-	ldr r2, _02163E24 // =exDrawFadeTask__Func8
+	ldr r2, =exDrawFadeTask__Func8
 	mvn r1, #0xf
 	cmp r8, r1
 	movlt r8, r1
@@ -4005,14 +3544,506 @@ exDrawFadeTask__Create: // 0x02163D50
 	strh r0, [r4, #0xe]
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	.align 2, 0
-_02163E18: .word aExdrawfadetask
-_02163E1C: .word exDrawFadeTask__Destructor
-_02163E20: .word exDrawFadeTask__Main
-_02163E24: .word exDrawFadeTask__Func8
-	arm_func_end exDrawFadeTask__Create
 
-	.data
+// clang-format on
+#endif
+}
 
-aExdrawfadetask: // 0x021743D0
-	.asciz "exDrawFadeTask"
+NONMATCH_FUNC void exDrawReqTask__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	ldr r0, =0x00076200
+	bl _AllocHeadHEAP_USER
+	ldr r1, =exDrawReqTask__word_217644C
+	str r0, [r1, #0xc]
+	bl exDrawReqTask__Func_21641C8
+	ldr r0, [r4, #4]
+	bl exDrawReqTask__InitUnknown2
+	bl exDrawReqTask__InitUnknown3
+	bl GetExTaskCurrent
+	ldr r1, =exDrawReqTask__Main_Process
+	str r1, [r0]
+	bl exDrawReqTask__Main_Process
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Func8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	bl GetExTaskWorkCurrent_
+	bl CheckExStageFinished
+	cmp r0, #0
+	ldmeqia sp!, {r3, pc}
+	bl GetExTaskCurrent
+	ldr r1, =ExTask_State_Destroy
+	str r1, [r0]
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Destructor(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	bl GetExTaskWorkCurrent_
+	ldr r0, =exDrawReqTask__word_217644C
+	ldr r0, [r0, #0xc]
+	bl _FreeHEAP_USER
+	ldr r0, =exDrawReqTask__word_217644C
+	mov r1, #0
+	str r1, [r0, #0xc]
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Main_Process(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	ldr r1, =exDrawReqTask__word_217644C
+	mov r4, r0
+	ldr r1, [r1, #8]
+	str r1, [r4, #4]
+	cmp r1, #0
+	beq _02163F74
+_02163EE4:
+	ldrh r0, [r1, #0]
+	cmp r0, #0
+	ldrneh r0, [r1, #2]
+	cmpne r0, #0
+	ldrne r0, [r1, #0xc]
+	cmpne r0, #0
+	ldrneh r0, [r1, #4]
+	cmpne r0, #0
+	beq _02163F74
+	cmp r0, #2
+	bne _02163F20
+	add r0, r1, #0x38c
+	add r0, r0, #0x400
+	bl exDrawReqTask__Sprite2D__ProcessRequest
+	b _02163F60
+_02163F20:
+	cmp r0, #1
+	bne _02163F34
+	add r0, r1, #0x10
+	bl exDrawReqTask__Model__ProcessRequest
+	b _02163F60
+_02163F34:
+	cmp r0, #3
+	bne _02163F4C
+	add r0, r1, #0xec
+	add r0, r0, #0x400
+	bl exDrawReqTask__Sprite3D__ProcessRequest
+	b _02163F60
+_02163F4C:
+	cmp r0, #4
+	bne _02163F60
+	add r0, r1, #0x14
+	add r0, r0, #0x800
+	bl exDrawReqTask__Trail__ProcessRequest
+_02163F60:
+	ldr r0, [r4, #4]
+	ldr r1, [r0, #8]
+	str r1, [r4, #4]
+	cmp r1, #0
+	bne _02163EE4
+_02163F74:
+	bl exHitCheckTask_IsPaused
+	cmp r0, #0
+	beq _02163F8C
+	mov r0, #1
+	bl EnableExTaskNoUpdate
+	b _02163FA4
+_02163F8C:
+	mov r0, #0
+	bl EnableExTaskNoUpdate
+	ldr r0, [r4, #4]
+	bl exDrawReqTask__InitUnknown2
+	bl exDrawReqTask__Func_21641C8
+	bl exPlayerHelpers__Func_2152CB4
+_02163FA4:
+	bl GetExTaskCurrent
+	ldr r0, [r0, #8]
+	blx r0
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Create(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #0x10
+	mov r0, #0
+	str r0, [sp]
+	mov r0, #8
+	ldr r3, =aExdrawreqtask
+	str r0, [sp, #4]
+	ldr r0, =exDrawReqTask__Main
+	ldr r1, =exDrawReqTask__Destructor
+	ldr r2, =0x0000EFFE
+	str r3, [sp, #8]
+	mov r4, #1
+	mov r3, #3
+	str r4, [sp, #0xc]
+	bl ExTaskCreate_
+	mov r4, r0
+	bl GetExTaskWork_
+	mov r1, #0
+	mov r2, #8
+	bl MI_CpuFill8
+	mov r0, r4
+	bl GetExTask
+	ldr r1, =exDrawReqTask__Func8
+	str r1, [r0, #8]
+	add sp, sp, #0x10
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__AddRequest(void *work, exDrawReqTaskConfig *config)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r8, r0
+	mov r7, r1
+	bl CheckExStageFinished
+	cmp r0, #0
+	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
+	ldr r0, =0x0217644C
+	ldrh r1, [r0, #0]
+	cmp r1, #0xa0
+	ldmhsia sp!, {r4, r5, r6, r7, r8, pc}
+	ldrb r1, [r7, #1]
+	ldr r6, [r0, #4]
+	ldr r4, [r0, #8]
+	mov r0, r1, lsl #0x18
+	mov r0, r0, lsr #0x1d
+	strh r0, [r6, #4]
+	ldrh r1, [r6, #4]
+	mov r0, r8
+	ldr r5, =0x02176454
+	bl exHitCheckTask_DoArenaBoundsCheck
+	ldrh r0, [r6, #4]
+	cmp r0, #2
+	bne _021640A8
+	add r1, r6, #0x38c
+	mov r0, r8
+	add r1, r1, #0x400
+	mov r2, #0x88
+	bl MI_CpuCopy8
+	b _02164100
+_021640A8:
+	cmp r0, #1
+	bne _021640C4
+	ldr r2, =0x000004DC
+	mov r0, r8
+	add r1, r6, #0x10
+	bl MI_CpuCopy8
+	b _02164100
+_021640C4:
+	cmp r0, #3
+	bne _021640E4
+	add r1, r6, #0xec
+	mov r0, r8
+	add r1, r1, #0x400
+	mov r2, #0x2a0
+	bl MI_CpuCopy8
+	b _02164100
+_021640E4:
+	cmp r0, #4
+	bne _02164100
+	add r1, r6, #0x14
+	mov r0, r8
+	add r1, r1, #0x800
+	mov r2, #0x3bc
+	bl MI_CpuCopy8
+_02164100:
+	ldr r0, =0x0217644C
+	cmp r4, #0
+	ldrh r1, [r0, #0]
+	add r1, r1, #1
+	strh r1, [r0]
+	ldrh r0, [r0, #0]
+	strh r0, [r6]
+	ldrh r0, [r7, #4]
+	strh r0, [r6, #2]
+	str r8, [r6, #0xc]
+	beq _0216414C
+	ldrh r1, [r6, #2]
+_02164130:
+	ldrh r0, [r4, #2]
+	cmp r1, r0
+	bhs _0216414C
+	add r5, r4, #8
+	ldr r4, [r4, #8]
+	cmp r4, #0
+	bne _02164130
+_0216414C:
+	str r6, [r5]
+	ldr r0, =0x0217644C
+	str r4, [r6, #8]
+	ldr r1, [r0, #4]
+	add r1, r1, #0xbd0
+	str r1, [r0, #4]
+	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__InitUnknown2(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	ldr r5, =0x0217644C
+	mov r6, #0
+	mov r4, #0xbd0
+_02164184:
+	ldr r0, [r5, #0xc]
+	mla r0, r6, r4, r0
+	bl exDrawReqTask__InitRequest
+	add r0, r6, #1
+	mov r0, r0, lsl #0x10
+	mov r6, r0, lsr #0x10
+	cmp r6, #0xa0
+	blo _02164184
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__InitRequest(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	mov r1, #0
+	strh r1, [r0]
+	strh r1, [r0, #2]
+	strh r1, [r0, #4]
+	str r1, [r0, #8]
+	str r1, [r0, #0xc]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Func_21641C8(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, =0x0217644C
+	mov r1, #0
+	ldr r2, [r0, #0xc]
+	str r2, [r0, #4]
+	str r1, [r0, #8]
+	strh r1, [r0]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__SetConfigPriority(exDrawReqTaskConfig *work, u16 priority){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	strh r1, [r0, #4]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Func_21641F0(exDrawReqTaskConfig *config){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldrb r1, [r0, #1]
+	orr r2, r1, #4
+	bic r3, r2, #2
+	and r1, r3, #0xff
+	bic r2, r1, #8
+	and r1, r2, #0xff
+	strb r3, [r0, #1]
+	bic r1, r1, #0x10
+	strb r1, [r0, #1]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Func_2164218(exDrawReqTaskConfig *config){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldrb r1, [r0, #1]
+	orr r3, r1, #4
+	bic r2, r3, #2
+	and r1, r2, #0xff
+	orr r1, r1, #8
+	bic r1, r1, #0x10
+	strb r1, [r0, #1]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Func_2164238(exDrawReqTaskConfig *config){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldrb r1, [r0, #1]
+	bic r2, r1, #4
+	and r1, r2, #0xff
+	orr r1, r1, #2
+	bic r2, r1, #8
+	strb r1, [r0, #1]
+	and r1, r2, #0xff
+	bic r1, r1, #0x10
+	strb r1, [r0, #1]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Func_2164260(exDrawReqTaskConfig *config){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, =0x0217645C
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__InitUnknown3(exDrawReqTaskConfig *config){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =MI_CpuFill8
+	ldr r0, =0x0217645C
+	mov r1, #0
+	mov r2, #6
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Func_2164288(exDrawReqTaskConfig *config)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	cmp r4, #0xf
+	movhi r0, #0
+	ldmhiia sp!, {r4, pc}
+	bl exDrawReqTask__Func_2164260
+	ldrb r2, [r0, #0]
+	mov r1, r4, lsl #0x1c
+	bic r2, r2, #0xf0
+	orr r1, r2, r1, lsr #24
+	strb r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Func_21642BC(exDrawReqTaskConfig *config){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldrb r2, [r0, #0]
+	mov r1, r2, lsl #0x18
+	movs r1, r1, lsr #0x1c
+	moveq r0, #1
+	bxeq lr
+	add r1, r1, #0xff
+	and r1, r1, #0xff
+	bic r2, r2, #0xf0
+	mov r1, r1, lsl #0x1c
+	orr r1, r2, r1, lsr #24
+	strb r1, [r0]
+	mov r0, #0
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exDrawReqTask__Func_21642F0(exDrawReqTaskConfig *config, s32 a2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	cmp r1, #7
+	bxhi lr
+	ldrb r2, [r0, #2]
+	mov r1, r1, lsl #0x1d
+	bic r2, r2, #0x1c
+	orr r1, r2, r1, lsr #27
+	strb r1, [r0, #2]
+	bx lr
+
+// clang-format on
+#endif
+}

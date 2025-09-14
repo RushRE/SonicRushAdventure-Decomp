@@ -1,5 +1,5 @@
 # color => packed RGB5551 color
-color = 0x7FFF
+color = 0x7FE0
 
 def getR():
     return ((color >> 0) & 0x1F)
@@ -18,8 +18,12 @@ print("r => " + hex(getR()))
 print("g => " + hex(getG()))
 print("b => " + hex(getB()))
 print("a => " + hex(getA()))
+print("GX_RGB_888(" + hex(getR()) + ", " + hex(getG()) + ", " + hex(getB()) + ")")
+print("GX_RGBA_888(" + hex(getR()) + ", " + hex(getG()) + ", " + hex(getB()) + ", " + hex(getA()) + ")")
 print("========================")
 print("r8 => " + hex(getR() << 3))
 print("g8 => " + hex(getG() << 3))
 print("b8 => " + hex(getB() << 3))
 print("a8 => " + hex(getA() * 255))
+print("GX_RGB_888(" + hex(getR() << 3) + ", " + hex(getG() << 3) + ", " + hex(getB() << 3) + ")")
+print("GX_RGBA_888(" + hex(getR() << 3) + ", " + hex(getG() << 3) + ", " + hex(getB() << 3) + ", " + hex(getA() * 255) + ")")

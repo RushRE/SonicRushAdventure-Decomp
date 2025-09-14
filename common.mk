@@ -166,6 +166,7 @@ $(BUILD_DIR)/lib/NitroDWC/%.o: IPA_FLAG :=
 $(BUILD_DIR)/lib/NitroWiFi/%.o: IPA_FLAG := 
 
 # These files are compiled with different optimizations to most files
+$(BUILD_DIR)/src/game/save/saveGameStatus_0.o: OPTFLAGS := -O4,s
 $(BUILD_DIR)/src/game/save/saveGameCardBackup.o: OPTFLAGS := -O4,s
 $(BUILD_DIR)/src/game/save/saveGameCallbacks.o: OPTFLAGS := -O2,s
 
