@@ -135,7 +135,7 @@ exBossMeteBombTask__Func_215C00C: // 0x0215C00C
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 _0215C088:
 	mov r0, r4
-	bl exDrawReqTask__InitModel
+	bl InitExDrawRequestModel
 	ldr r0, _0215C278 // =0x021761CC
 	ldrsh r0, [r0, #2]
 	cmp r0, #0
@@ -343,9 +343,9 @@ exBossMeteBombTask__Main: // 0x0215C34C
 	bl exBossMeteBombTask__Func_215C00C
 	add r0, r4, #0x3c0
 	mov r1, #0xa800
-	bl exDrawReqTask__SetConfigPriority
+	bl SetExDrawRequestPriority
 	add r0, r4, #0x3c0
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	ldr r1, [r4, #4]
 	mov r0, #0
 	str r1, [r4, #0x384]
@@ -446,9 +446,9 @@ exBossMeteBombTask__Main_215C4C8: // 0x0215C4C8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x34
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	mov r0, #0xf
-	bl exDrawReqTask__Func_2164288
+	bl SetExDrawRequestGlobalModelConfigTimer
 	ldr r2, [r4, #0x39c]
 	ldr r1, [r4, #0x10]
 	add r0, r4, #0x34
@@ -470,7 +470,7 @@ exBossMeteBombTask__Main_215C4C8: // 0x0215C4C8
 	ldr r1, [r4, #0x20]
 	add r1, r2, r1
 	str r1, [r4, #0x44]
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _0215C554
 	bl GetExTaskCurrent
@@ -480,7 +480,7 @@ exBossMeteBombTask__Main_215C4C8: // 0x0215C4C8
 _0215C554:
 	add r0, r4, #0x34
 	add r1, r4, #0x3c0
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	add r0, r4, #0x34
 	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
@@ -569,7 +569,7 @@ exBossMeteLockOnTask__Func_215C614: // 0x0215C614
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 _0215C690:
 	mov r0, r4
-	bl exDrawReqTask__InitModel
+	bl InitExDrawRequestModel
 	ldr r0, _0215C85C // =0x021761CC
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -807,12 +807,12 @@ exBossMeteLockOnTask__Main: // 0x0215C9B0
 	bl exBossMeteLockOnTask__Func_215C614
 	add r0, r4, #0x39c
 	mov r1, #0xa800
-	bl exDrawReqTask__SetConfigPriority
+	bl SetExDrawRequestPriority
 	add r0, r4, #0x10
 	mov r1, #1
 	bl exBossMeteLockOnTask__Func_215C874
 	add r0, r4, #0x39c
-	bl exDrawReqTask__Func_2164218
+	bl SetExDrawRequestAnimAsOneShot
 	ldr r0, [r4, #0x4ec]
 	mov r2, #0x41000
 	ldr r0, [r0, #0x3bc]
@@ -871,7 +871,7 @@ exBossMeteLockOnTask__Func_215CA94: // 0x0215CA94
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215CABC
@@ -941,11 +941,11 @@ _0215CABC:
 	add r1, r4, #0x39c
 	str r2, [r0]
 	add r0, r4, #0x10
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 _0215CBBC:
 	add r0, r4, #0x10
 	add r1, r4, #0x39c
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -961,7 +961,7 @@ exBossMeteLockOnTask__Func_215CBE0: // 0x0215CBE0
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215CC08
@@ -1026,7 +1026,7 @@ _0215CC08:
 _0215CCE4:
 	add r0, r4, #0x10
 	add r1, r4, #0x39c
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1060,7 +1060,7 @@ exBossMeteLockOnTask__Func_215CD3C: // 0x0215CD3C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215CD64
@@ -1157,7 +1157,7 @@ _0215CE9C:
 _0215CEB8:
 	add r0, r4, #0x10
 	add r1, r4, #0x39c
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1176,7 +1176,7 @@ exBossMeteLockOnTask__Func_215CED8: // 0x0215CED8
 	ldr r5, [r4, #0xc4]
 	bl exBossMeteLockOnTask__Func_215C874
 	add r0, r4, #0x39c
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	ldr r1, [r4, #0x360]
 	ldr r2, _0215CF38 // =0x021761CC
 	mov r0, r5
@@ -1207,11 +1207,11 @@ exBossMeteLockOnTask__Func_215CF40: // 0x0215CF40
 	cmp r0, #0xa000
 	bge _0215CF68
 	add r0, r4, #0x10
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	b _0215CF70
 _0215CF68:
 	add r0, r4, #0x39c
-	bl exDrawReqTask__Func_2164238
+	bl Stop3DExDrawRequestAnimation
 _0215CF70:
 	ldr r0, [r4, #4]
 	cmp r0, #0
@@ -1227,7 +1227,7 @@ _0215CF84:
 _0215CF98:
 	add r0, r4, #0x10
 	add r1, r4, #0x39c
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1244,7 +1244,7 @@ exBossMeteLockOnTask__Func_215CFB4: // 0x0215CFB4
 	mov r1, #3
 	bl exBossMeteLockOnTask__Func_215C874
 	add r0, r4, #0x39c
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	mov r0, r5
 	mov r1, #0x7c00
 	bl NNS_G3dMdlSetMdlDiffAll
@@ -1266,9 +1266,9 @@ exBossMeteLockOnTask__Func_215D008: // 0x0215D008
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x10
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _0215D03C
 	bl GetExTaskCurrent
@@ -1278,7 +1278,7 @@ exBossMeteLockOnTask__Func_215D008: // 0x0215D008
 _0215D03C:
 	add r0, r4, #0x10
 	add r1, r4, #0x39c
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1359,7 +1359,7 @@ exBossMeteMeteoTask__Func_215D0EC: // 0x0215D0EC
 	ldmloia sp!, {r3, r4, r5, pc}
 _0215D158:
 	mov r0, r4
-	bl exDrawReqTask__InitModel
+	bl InitExDrawRequestModel
 	ldr r0, _0215D2D8 // =0x021761CC
 	ldrsh r0, [r0, #4]
 	cmp r0, #0
@@ -1517,10 +1517,10 @@ exBossMeteMeteoTask__Main: // 0x0215D360
 	add r0, r4, #0x14
 	add r0, r0, #0x400
 	mov r1, #0xa800
-	bl exDrawReqTask__SetConfigPriority
+	bl SetExDrawRequestPriority
 	add r0, r4, #0x14
 	add r0, r0, #0x400
-	bl exDrawReqTask__Func_2164218
+	bl SetExDrawRequestAnimAsOneShot
 	ldr r1, [r4, #0x564]
 	ldr r0, _0215D4D4 // =0x000435A1
 	ldr r1, [r1, #0x3ec]
@@ -1645,7 +1645,7 @@ exBossMeteMeteoTask__Func_215D544: // 0x0215D544
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x88
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldrb r0, [r4, #0x8e]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -1710,7 +1710,7 @@ _0215D618:
 	bic r2, r3, #0xf0
 	orr r2, r2, #0xa0
 	strb r2, [r4, #0x414]
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1749,7 +1749,7 @@ exBossMeteMeteoTask__Func_215D6A8: // 0x0215D6A8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x88
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldrb r0, [r4, #0x8e]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -1797,7 +1797,7 @@ _0215D754:
 	orr r2, r2, #0xa0
 	add r1, r1, #0x400
 	strb r2, [r4, #0x414]
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	add r0, r4, #0x88
 	bl exHitCheckTask_AddHitCheck
 	ldrsh r0, [r4, #0]
@@ -1909,7 +1909,7 @@ exBossMeteMeteoTask__Func_215D8E8: // 0x0215D8E8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x88
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldr r2, [r4, #0x3dc]
 	ldr r1, [r4, #0x1c]
 	add r0, r4, #0xd2
@@ -1943,7 +1943,7 @@ _0215D96C:
 	add r1, r4, #0x14
 	add r0, r4, #0x88
 	add r1, r1, #0x400
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	ldrb r0, [r4, #0x8e]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -2184,7 +2184,7 @@ exBossSysAdminTask__Action_StartMete0: // 0x0215DC2C
 	mov r1, #1
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	bl CreateExBossEffectFire
 	mov r0, #0
 	str r0, [sp]
@@ -2213,9 +2213,9 @@ exBossSysAdminTask__Func_215DC9C: // 0x0215DC9C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _0215DCC8
 	bl exBossSysAdminTask__Func_215DCE4
@@ -2225,7 +2225,7 @@ _0215DCC8:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl exBossSysAdminTask__RunTaskUnknownEvent
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossSysAdminTask__Func_215DC9C
@@ -2241,7 +2241,7 @@ exBossSysAdminTask__Func_215DCE4: // 0x0215DCE4
 	strh r2, [r4, #0x56]
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_2164218
+	bl SetExDrawRequestAnimAsOneShot
 	bl exBossMeteLockOnTask__Create
 	bl GetExTaskCurrent
 	ldr r1, _0215DD28 // =exBossSysAdminTask__Func_215DD2C
@@ -2259,7 +2259,7 @@ exBossSysAdminTask__Func_215DD2C: // 0x0215DD2C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldrsh r1, [r4, #0x56]
 	sub r0, r1, #1
 	strh r0, [r4, #0x56]
@@ -2272,7 +2272,7 @@ _0215DD5C:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl exBossSysAdminTask__RunTaskUnknownEvent
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossSysAdminTask__Func_215DD2C
@@ -2289,7 +2289,7 @@ exBossSysAdminTask__Func_215DD78: // 0x0215DD78
 	mov r1, #3
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	bl GetExTaskCurrent
 	ldr r1, _0215DDBC // =exBossSysAdminTask__Func_215DDC0
 	str r1, [r0]
@@ -2307,7 +2307,7 @@ exBossSysAdminTask__Func_215DDC0: // 0x0215DDC0
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldr r0, [r4, #0x3b0]
 	ldr r0, [r0, #0]
 	cmp r0, #0xf000
@@ -2330,7 +2330,7 @@ _0215DE1C:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl exBossSysAdminTask__RunTaskUnknownEvent
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
@@ -2344,7 +2344,7 @@ exBossSysAdminTask__Func_215DE40: // 0x0215DE40
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldr r0, [r4, #0x3b0]
 	ldr r0, [r0, #0]
 	cmp r0, #0x23000
@@ -2356,7 +2356,7 @@ _0215DE6C:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl exBossSysAdminTask__RunTaskUnknownEvent
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossSysAdminTask__Func_215DE40
@@ -2382,9 +2382,9 @@ exBossSysAdminTask__Func_215DEB0: // 0x0215DEB0
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _0215DEDC
 	bl exBossSysAdminTask__Action_FinishMeteorAttack
@@ -2394,7 +2394,7 @@ _0215DEDC:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl exBossSysAdminTask__RunTaskUnknownEvent
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossSysAdminTask__Func_215DEB0

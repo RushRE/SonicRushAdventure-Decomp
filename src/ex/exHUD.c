@@ -94,7 +94,7 @@ void SetupExHUDSprite(EX_ACTION_BAC2D_WORK *work)
 {
     u16 prevAnim   = work->sprite.anim;
     u16 paletteRow = work->sprite.paletteRow;
-    exDrawReqTask__InitSprite2D(work);
+    InitExDrawRequestSprite2D(work);
     work->sprite.anim = prevAnim;
 
     void *spriteFile = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
@@ -102,11 +102,11 @@ void SetupExHUDSprite(EX_ACTION_BAC2D_WORK *work)
                          PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize2FromAnim(spriteFile, prevAnim)), PALETTE_MODE_SPRITE,
                          VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[GRAPHICS_ENGINE_A]), SPRITE_PRIORITY_1, SPRITE_ORDER_0);
     work->sprite.animator.cParam.palette = work->sprite.paletteRow = paletteRow;
-    work->sprite.pos.x                                      = 128;
-    work->sprite.pos.y                                      = 96;
-    work->sprite.rotation                                   = FLOAT_DEG_TO_IDX(0.0);
-    work->sprite.scale.x                                    = FLOAT_TO_FX32(1.0);
-    work->sprite.scale.y                                    = FLOAT_TO_FX32(1.0);
+    work->sprite.pos.x                                             = 128;
+    work->sprite.pos.y                                             = 96;
+    work->sprite.rotation                                          = FLOAT_DEG_TO_IDX(0.0);
+    work->sprite.scale.x                                           = FLOAT_TO_FX32(1.0);
+    work->sprite.scale.y                                           = FLOAT_TO_FX32(1.0);
     work->sprite.animator.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
 }
 
@@ -127,12 +127,12 @@ void ExTimeHUD_Main_Init(void)
     work->worker->aniTimeText.sprite.anim       = EX_ACTCOM_ANI_TIME_TEXT;
     work->worker->aniTimeText.sprite.paletteRow = PALETTE_ROW_2;
     SetupExHUDSprite(&work->worker->aniTimeText);
-    exDrawReqTask__SetConfigPriority(&work->worker->aniTimeText.config, 0xE000);
-    work->worker->aniTimeText.sprite.pos.x            = 0;
-    work->worker->aniTimeText.sprite.pos.y            = 0;
-    work->worker->aniTimeText.config.field_2.value_20 = TRUE;
-    exDrawReqTask__Sprite2D__Func_2161B6C(&work->worker->aniTimeText);
-    exDrawReqTask__Func_21641F0(&work->worker->aniTimeText.config);
+    SetExDrawRequestPriority(&work->worker->aniTimeText.config, EXDRAWREQTASK_PRIORITY_HUD);
+    work->worker->aniTimeText.sprite.pos.x                 = 0;
+    work->worker->aniTimeText.sprite.pos.y                 = 0;
+    work->worker->aniTimeText.config.display.disableAffine = TRUE;
+    SetExDrawRequestSprite2DOnlyEngineA(&work->worker->aniTimeText);
+    SetExDrawRequestAnimStopOnFinish(&work->worker->aniTimeText.config);
 
     for (u16 i = 0; i < 2; i++)
     {
@@ -147,16 +147,16 @@ void ExTimeHUD_Main_Init(void)
 
         work->worker->aniComma1[i].sprite.paletteRow = PALETTE_ROW_2;
         SetupExHUDSprite(&work->worker->aniComma1[i]);
-        exDrawReqTask__SetConfigPriority(&work->worker->aniComma1[i].config, 0xE000);
-        work->worker->aniComma1[i].sprite.pos.x            = 0;
-        work->worker->aniComma1[i].sprite.pos.y            = 0;
-        work->worker->aniComma1[i].config.field_2.value_20 = TRUE;
-        exDrawReqTask__Sprite2D__Func_2161B6C(&work->worker->aniComma1[i]);
+        SetExDrawRequestPriority(&work->worker->aniComma1[i].config, EXDRAWREQTASK_PRIORITY_HUD);
+        work->worker->aniComma1[i].sprite.pos.x                 = 0;
+        work->worker->aniComma1[i].sprite.pos.y                 = 0;
+        work->worker->aniComma1[i].config.display.disableAffine = TRUE;
+        SetExDrawRequestSprite2DOnlyEngineA(&work->worker->aniComma1[i]);
 
         if (i)
-            exDrawReqTask__Func_2164218(&work->worker->aniComma1[i].config);
+            SetExDrawRequestAnimAsOneShot(&work->worker->aniComma1[i].config);
         else
-            exDrawReqTask__Func_21641F0(&work->worker->aniComma1[i].config);
+            SetExDrawRequestAnimStopOnFinish(&work->worker->aniComma1[i].config);
 
         if (i)
             work->worker->aniComma2[i].sprite.anim = EX_ACTCOM_ANI_ALERT_COMMA_2;
@@ -165,16 +165,16 @@ void ExTimeHUD_Main_Init(void)
 
         work->worker->aniComma2[i].sprite.paletteRow = PALETTE_ROW_2;
         SetupExHUDSprite(&work->worker->aniComma2[i]);
-        exDrawReqTask__SetConfigPriority(&work->worker->aniComma2[i].config, 0xE000);
-        work->worker->aniComma2[i].sprite.pos.x            = 0;
-        work->worker->aniComma2[i].sprite.pos.y            = 0;
-        work->worker->aniComma2[i].config.field_2.value_20 = TRUE;
-        exDrawReqTask__Sprite2D__Func_2161B6C(&work->worker->aniComma2[i]);
+        SetExDrawRequestPriority(&work->worker->aniComma2[i].config, EXDRAWREQTASK_PRIORITY_HUD);
+        work->worker->aniComma2[i].sprite.pos.x                 = 0;
+        work->worker->aniComma2[i].sprite.pos.y                 = 0;
+        work->worker->aniComma2[i].config.display.disableAffine = TRUE;
+        SetExDrawRequestSprite2DOnlyEngineA(&work->worker->aniComma2[i]);
 
         if (i)
-            exDrawReqTask__Func_2164218(&work->worker->aniComma2[i].config);
+            SetExDrawRequestAnimAsOneShot(&work->worker->aniComma2[i].config);
         else
-            exDrawReqTask__Func_21641F0(&work->worker->aniComma2[i].config);
+            SetExDrawRequestAnimStopOnFinish(&work->worker->aniComma2[i].config);
 
         for (u16 j = 0; j < 10; j++)
         {
@@ -185,16 +185,16 @@ void ExTimeHUD_Main_Init(void)
 
             work->worker->aniDigit[i][j].sprite.paletteRow = PALETTE_ROW_2;
             SetupExHUDSprite(&work->worker->aniDigit[i][j]);
-            exDrawReqTask__SetConfigPriority(&work->worker->aniDigit[i][j].config, 0xE001);
-            work->worker->aniDigit[i][j].sprite.pos.x            = 0;
-            work->worker->aniDigit[i][j].sprite.pos.y            = 0;
-            work->worker->aniDigit[i][j].config.field_2.value_20 = TRUE;
-            exDrawReqTask__Sprite2D__Func_2161B6C(&work->worker->aniDigit[i][j]);
+            SetExDrawRequestPriority(&work->worker->aniDigit[i][j].config, EXDRAWREQTASK_PRIORITY_HUD + 1);
+            work->worker->aniDigit[i][j].sprite.pos.x                 = 0;
+            work->worker->aniDigit[i][j].sprite.pos.y                 = 0;
+            work->worker->aniDigit[i][j].config.display.disableAffine = TRUE;
+            SetExDrawRequestSprite2DOnlyEngineA(&work->worker->aniDigit[i][j]);
 
             if (i)
-                exDrawReqTask__Func_2164218(&work->worker->aniDigit[i][j].config);
+                SetExDrawRequestAnimAsOneShot(&work->worker->aniDigit[i][j].config);
             else
-                exDrawReqTask__Func_21641F0(&work->worker->aniDigit[i][j].config);
+                SetExDrawRequestAnimStopOnFinish(&work->worker->aniDigit[i][j].config);
         }
     }
 
@@ -260,37 +260,37 @@ void ExTimeHUD_Main_Active(void)
 
     for (i = 0; i < 10; i++)
     {
-        exDrawReqTask__Sprite2D__Animate(&work->worker->aniDigit[mode][i]);
+        AnimateExDrawRequestSprite2D(&work->worker->aniDigit[mode][i]);
     }
 
     work->worker->aniDigit[mode][status->time.minutes].sprite.pos.x = work->worker->minutePos.x;
     work->worker->aniDigit[mode][status->time.minutes].sprite.pos.y = work->worker->minutePos.y;
-    exDrawReqTask__AddRequest(&work->worker->aniDigit[mode][status->time.minutes], &work->worker->aniDigit[mode][status->time.minutes].config);
+    AddExDrawRequest(&work->worker->aniDigit[mode][status->time.minutes], &work->worker->aniDigit[mode][status->time.minutes].config);
 
     work->worker->aniDigit[mode][status->time.tenSeconds].sprite.pos.x = work->worker->tenSecondsPos.x;
     work->worker->aniDigit[mode][status->time.tenSeconds].sprite.pos.y = work->worker->tenSecondsPos.y;
-    exDrawReqTask__AddRequest(&work->worker->aniDigit[mode][status->time.tenSeconds], &work->worker->aniDigit[mode][status->time.tenSeconds].config);
+    AddExDrawRequest(&work->worker->aniDigit[mode][status->time.tenSeconds], &work->worker->aniDigit[mode][status->time.tenSeconds].config);
 
     work->worker->aniDigit[mode][status->time.seconds].sprite.pos.x = work->worker->secondsPos.x;
     work->worker->aniDigit[mode][status->time.seconds].sprite.pos.y = work->worker->secondsPos.y;
-    exDrawReqTask__AddRequest(&work->worker->aniDigit[mode][status->time.seconds], &work->worker->aniDigit[mode][status->time.seconds].config);
+    AddExDrawRequest(&work->worker->aniDigit[mode][status->time.seconds], &work->worker->aniDigit[mode][status->time.seconds].config);
 
     work->worker->aniDigit[mode][status->time.frameCounter].sprite.pos.x = work->worker->frameCounterPos.x;
     work->worker->aniDigit[mode][status->time.frameCounter].sprite.pos.y = work->worker->frameCounterPos.y;
-    exDrawReqTask__AddRequest(&work->worker->aniDigit[mode][status->time.frameCounter], &work->worker->aniDigit[mode][status->time.frameCounter].config);
+    AddExDrawRequest(&work->worker->aniDigit[mode][status->time.frameCounter], &work->worker->aniDigit[mode][status->time.frameCounter].config);
 
     work->worker->aniDigit[mode][status->time.centiseconds].sprite.pos.x = work->worker->centisecondsPos.x;
     work->worker->aniDigit[mode][status->time.centiseconds].sprite.pos.y = work->worker->centisecondsPos.y;
-    exDrawReqTask__AddRequest(&work->worker->aniDigit[mode][status->time.centiseconds], &work->worker->aniDigit[mode][status->time.centiseconds].config);
+    AddExDrawRequest(&work->worker->aniDigit[mode][status->time.centiseconds], &work->worker->aniDigit[mode][status->time.centiseconds].config);
 
-    exDrawReqTask__AddRequest(&work->worker->aniComma1[mode], &work->worker->aniComma1[mode].config);
-    exDrawReqTask__AddRequest(&work->worker->aniComma2[mode], &work->worker->aniComma2[mode].config);
+    AddExDrawRequest(&work->worker->aniComma1[mode], &work->worker->aniComma1[mode].config);
+    AddExDrawRequest(&work->worker->aniComma2[mode], &work->worker->aniComma2[mode].config);
 
-    exDrawReqTask__Sprite2D__Animate(&work->worker->aniTimeText);
-    exDrawReqTask__AddRequest(&work->worker->aniTimeText, &work->worker->aniTimeText.config);
+    AnimateExDrawRequestSprite2D(&work->worker->aniTimeText);
+    AddExDrawRequest(&work->worker->aniTimeText, &work->worker->aniTimeText.config);
 
-    exDrawReqTask__Sprite2D__Animate(&work->worker->aniComma1[mode]);
-    exDrawReqTask__Sprite2D__Animate(&work->worker->aniComma2[mode]);
+    AnimateExDrawRequestSprite2D(&work->worker->aniComma1[mode]);
+    AnimateExDrawRequestSprite2D(&work->worker->aniComma2[mode]);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -322,13 +322,13 @@ void ExRingCountHUD_Main_Init(void)
     work->aniRingBackdrop.sprite.anim       = EX_ACTCOM_ANI_RINGS_BACKDROP;
     work->aniRingBackdrop.sprite.paletteRow = PALETTE_ROW_1;
     SetupExHUDSprite(&work->aniRingBackdrop);
-    exDrawReqTask__SetConfigPriority(&work->aniRingBackdrop.config, 0xE000);
-    work->aniRingBackdrop.sprite.pos.x            = 0;
-    work->aniRingBackdrop.sprite.pos.y            = 0;
-    work->aniRingBackdrop.config.field_2.value_20 = TRUE;
-    exDrawReqTask__Sprite2D__Func_2161B80(&work->aniRingBackdrop);
+    SetExDrawRequestPriority(&work->aniRingBackdrop.config, EXDRAWREQTASK_PRIORITY_HUD);
+    work->aniRingBackdrop.sprite.pos.x                 = 0;
+    work->aniRingBackdrop.sprite.pos.y                 = 0;
+    work->aniRingBackdrop.config.display.disableAffine = TRUE;
+    SetExDrawRequestSprite2DOnlyEngineB(&work->aniRingBackdrop);
 
-    exDrawReqTask__Func_21641F0(&work->aniRingBackdrop.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniRingBackdrop.config);
 
     u16 i;
     for (i = 0; i < ARRAY_COUNT(work->aniNumbers); i++)
@@ -336,12 +336,12 @@ void ExRingCountHUD_Main_Init(void)
         work->aniNumbers[i].sprite.anim       = exHUDRingDigits1[i];
         work->aniNumbers[i].sprite.paletteRow = EX_ACTCOM_ANI_SONIC_BARRIER_HIT;
         SetupExHUDSprite(&work->aniNumbers[i]);
-        exDrawReqTask__SetConfigPriority(&work->aniNumbers[i].config, 0xE001);
-        work->aniNumbers[i].sprite.pos.x            = 0;
-        work->aniNumbers[i].sprite.pos.y            = 0;
-        work->aniNumbers[i].config.field_2.value_20 = TRUE;
-        exDrawReqTask__Sprite2D__Func_2161B80(&work->aniNumbers[i]);
-        exDrawReqTask__Func_21641F0(&work->aniNumbers[i].config);
+        SetExDrawRequestPriority(&work->aniNumbers[i].config, EXDRAWREQTASK_PRIORITY_HUD + 1);
+        work->aniNumbers[i].sprite.pos.x                 = 0;
+        work->aniNumbers[i].sprite.pos.y                 = 0;
+        work->aniNumbers[i].config.display.disableAffine = TRUE;
+        SetExDrawRequestSprite2DOnlyEngineB(&work->aniNumbers[i]);
+        SetExDrawRequestAnimStopOnFinish(&work->aniNumbers[i].config);
     }
 
     for (i = 0; i < ARRAY_COUNT(work->aniNumbersWarning); i++)
@@ -349,12 +349,12 @@ void ExRingCountHUD_Main_Init(void)
         work->aniNumbersWarning[i].sprite.anim       = exHUDRingDigits2[i];
         work->aniNumbersWarning[i].sprite.paletteRow = PALETTE_ROW_2;
         SetupExHUDSprite(&work->aniNumbersWarning[i]);
-        exDrawReqTask__SetConfigPriority(&work->aniNumbersWarning[i].config, 0xE001);
-        work->aniNumbersWarning[i].sprite.pos.x            = 0;
-        work->aniNumbersWarning[i].sprite.pos.y            = 0;
-        work->aniNumbersWarning[i].config.field_2.value_20 = TRUE;
-        exDrawReqTask__Sprite2D__Func_2161B80(&work->aniNumbersWarning[i]);
-        exDrawReqTask__Func_2164218(&work->aniNumbersWarning[i].config);
+        SetExDrawRequestPriority(&work->aniNumbersWarning[i].config, EXDRAWREQTASK_PRIORITY_HUD + 1);
+        work->aniNumbersWarning[i].sprite.pos.x                 = 0;
+        work->aniNumbersWarning[i].sprite.pos.y                 = 0;
+        work->aniNumbersWarning[i].config.display.disableAffine = TRUE;
+        SetExDrawRequestSprite2DOnlyEngineB(&work->aniNumbersWarning[i]);
+        SetExDrawRequestAnimAsOneShot(&work->aniNumbersWarning[i].config);
     }
 
     work->digit1Pos.x   = 23;
@@ -394,8 +394,8 @@ void ExRingCountHUD_Main_Active(void)
 
     exSysTaskStatus *status = GetExSystemStatus();
 
-    exDrawReqTask__Sprite2D__Animate(&work->aniRingBackdrop);
-    exDrawReqTask__AddRequest(&work->aniRingBackdrop, &work->aniRingBackdrop.config);
+    AnimateExDrawRequestSprite2D(&work->aniRingBackdrop);
+    AddExDrawRequest(&work->aniRingBackdrop, &work->aniRingBackdrop.config);
 
     if (GetExSystemStatus()->state != EXSYSTASK_STATE_STAGE_FINISHED && GetExSystemStatus()->state != EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED
         && GetExSystemStatus()->state != EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED)
@@ -427,39 +427,39 @@ void ExRingCountHUD_Main_Active(void)
     {
         for (s16 i = 0; i < (u32)ARRAY_COUNT(work->aniNumbersWarning); i++)
         {
-            exDrawReqTask__Sprite2D__Animate(&work->aniNumbersWarning[i]);
+            AnimateExDrawRequestSprite2D(&work->aniNumbersWarning[i]);
         }
 
         work->aniNumbersWarning[digit1].sprite.pos.x = work->digit1Pos.x;
         work->aniNumbersWarning[digit1].sprite.pos.y = work->digit1Pos.y;
-        exDrawReqTask__AddRequest(&work->aniNumbersWarning[digit1], &work->aniNumbersWarning[digit1].config);
+        AddExDrawRequest(&work->aniNumbersWarning[digit1], &work->aniNumbersWarning[digit1].config);
 
         work->aniNumbersWarning[digit2].sprite.pos.x = work->digit2Pos.x;
         work->aniNumbersWarning[digit2].sprite.pos.y = work->digit2Pos.y;
-        exDrawReqTask__AddRequest(&work->aniNumbersWarning[digit2], &work->aniNumbersWarning[digit2].config);
+        AddExDrawRequest(&work->aniNumbersWarning[digit2], &work->aniNumbersWarning[digit2].config);
 
         work->aniNumbersWarning[digit3].sprite.pos.x = work->digit3Pos.x;
         work->aniNumbersWarning[digit3].sprite.pos.y = work->digit3Pos.y;
-        exDrawReqTask__AddRequest(&work->aniNumbersWarning[digit3], &work->aniNumbersWarning[digit3].config);
+        AddExDrawRequest(&work->aniNumbersWarning[digit3], &work->aniNumbersWarning[digit3].config);
     }
     else
     {
         for (s16 i = 0; i < (u32)ARRAY_COUNT(work->aniNumbers); i++)
         {
-            exDrawReqTask__Sprite2D__Animate(&work->aniNumbers[i]);
+            AnimateExDrawRequestSprite2D(&work->aniNumbers[i]);
         }
 
         work->aniNumbers[digit1].sprite.pos.x = work->digit1Pos.x;
         work->aniNumbers[digit1].sprite.pos.y = work->digit1Pos.y;
-        exDrawReqTask__AddRequest(&work->aniNumbers[digit1], &work->aniNumbers[digit1].config);
+        AddExDrawRequest(&work->aniNumbers[digit1], &work->aniNumbers[digit1].config);
 
         work->aniNumbers[digit2].sprite.pos.x = work->digit2Pos.x;
         work->aniNumbers[digit2].sprite.pos.y = work->digit2Pos.y;
-        exDrawReqTask__AddRequest(&work->aniNumbers[digit2], &work->aniNumbers[digit2].config);
+        AddExDrawRequest(&work->aniNumbers[digit2], &work->aniNumbers[digit2].config);
 
         work->aniNumbers[digit3].sprite.pos.x = work->digit3Pos.x;
         work->aniNumbers[digit3].sprite.pos.y = work->digit3Pos.y;
-        exDrawReqTask__AddRequest(&work->aniNumbers[digit3], &work->aniNumbers[digit3].config);
+        AddExDrawRequest(&work->aniNumbers[digit3], &work->aniNumbers[digit3].config);
     }
 
     RunCurrentExTaskUnknownEvent();
@@ -492,31 +492,31 @@ void ExLifeCountHUD_Main_Init(void)
     work->aniPlayerIcon.sprite.anim       = EX_ACTCOM_ANI_LIVES_BACKDROP;
     work->aniPlayerIcon.sprite.paletteRow = PALETTE_ROW_0;
     SetupExHUDSprite(&work->aniPlayerIcon);
-    exDrawReqTask__SetConfigPriority(&work->aniPlayerIcon.config, 0xE000);
-    work->aniPlayerIcon.sprite.pos.x            = 0;
-    work->aniPlayerIcon.sprite.pos.y            = 0;
-    work->aniPlayerIcon.config.field_2.value_20 = TRUE;
-    exDrawReqTask__Sprite2D__Func_2161B80(&work->aniPlayerIcon);
+    SetExDrawRequestPriority(&work->aniPlayerIcon.config, EXDRAWREQTASK_PRIORITY_HUD);
+    work->aniPlayerIcon.sprite.pos.x                 = 0;
+    work->aniPlayerIcon.sprite.pos.y                 = 0;
+    work->aniPlayerIcon.config.display.disableAffine = TRUE;
+    SetExDrawRequestSprite2DOnlyEngineB(&work->aniPlayerIcon);
 
     work->aniX.sprite.anim       = EX_ACTCOM_ANI_LIVES_X;
     work->aniX.sprite.paletteRow = PALETTE_ROW_2;
     SetupExHUDSprite(&work->aniX);
-    exDrawReqTask__SetConfigPriority(&work->aniX.config, 0xE001);
-    work->aniX.sprite.pos.x            = 0;
-    work->aniX.sprite.pos.y            = 0;
-    work->aniX.config.field_2.value_20 = TRUE;
-    exDrawReqTask__Sprite2D__Func_2161B80(&work->aniX);
+    SetExDrawRequestPriority(&work->aniX.config, EXDRAWREQTASK_PRIORITY_HUD + 1);
+    work->aniX.sprite.pos.x                 = 0;
+    work->aniX.sprite.pos.y                 = 0;
+    work->aniX.config.display.disableAffine = TRUE;
+    SetExDrawRequestSprite2DOnlyEngineB(&work->aniX);
 
     for (u16 i = 0; i < ARRAY_COUNT(work->aniNumbers); i++)
     {
         work->aniNumbers[i].sprite.anim       = exHUDLifeDigits[i];
         work->aniNumbers[i].sprite.paletteRow = PALETTE_ROW_2;
         SetupExHUDSprite(&work->aniNumbers[i]);
-        exDrawReqTask__SetConfigPriority(&work->aniNumbers[i].config, 0xE001);
-        work->aniNumbers[i].sprite.pos.x            = 0;
-        work->aniNumbers[i].sprite.pos.y            = 0;
-        work->aniNumbers[i].config.field_2.value_20 = TRUE;
-        exDrawReqTask__Sprite2D__Func_2161B80(&work->aniNumbers[i]);
+        SetExDrawRequestPriority(&work->aniNumbers[i].config, EXDRAWREQTASK_PRIORITY_HUD + 1);
+        work->aniNumbers[i].sprite.pos.x                 = 0;
+        work->aniNumbers[i].sprite.pos.y                 = 0;
+        work->aniNumbers[i].config.display.disableAffine = TRUE;
+        SetExDrawRequestSprite2DOnlyEngineB(&work->aniNumbers[i]);
     }
 
     work->digit1Pos.x = 40;
@@ -556,22 +556,22 @@ void ExLifeCountHUD_Main_Active(void)
     s32 lifeDigit2 = status->lives % 10;
     s32 lifeDigit1 = (status->lives % 100 - lifeDigit2) / 10;
 
-    exDrawReqTask__Sprite2D__Animate(&work->aniNumbers[lifeDigit1]);
-    exDrawReqTask__Sprite2D__Animate(&work->aniNumbers[lifeDigit2]);
-    exDrawReqTask__Sprite2D__Animate(&work->aniX);
-    exDrawReqTask__Sprite2D__Animate(&work->aniPlayerIcon);
+    AnimateExDrawRequestSprite2D(&work->aniNumbers[lifeDigit1]);
+    AnimateExDrawRequestSprite2D(&work->aniNumbers[lifeDigit2]);
+    AnimateExDrawRequestSprite2D(&work->aniX);
+    AnimateExDrawRequestSprite2D(&work->aniPlayerIcon);
 
     EX_ACTION_BAC2D_WORK *aniDigit2           = &work->aniNumbers[lifeDigit1];
     work->aniNumbers[lifeDigit1].sprite.pos.x = work->digit1Pos.x;
     work->aniNumbers[lifeDigit1].sprite.pos.y = work->digit1Pos.y;
-    exDrawReqTask__AddRequest(&work->aniNumbers[lifeDigit1], &work->aniNumbers[lifeDigit1].config);
+    AddExDrawRequest(&work->aniNumbers[lifeDigit1], &work->aniNumbers[lifeDigit1].config);
 
     work->aniNumbers[lifeDigit2].sprite.pos.x = work->digit2Pos.x;
     work->aniNumbers[lifeDigit2].sprite.pos.y = work->digit2Pos.y;
-    exDrawReqTask__AddRequest(&work->aniNumbers[lifeDigit2], &work->aniNumbers[lifeDigit2].config);
+    AddExDrawRequest(&work->aniNumbers[lifeDigit2], &work->aniNumbers[lifeDigit2].config);
 
-    exDrawReqTask__AddRequest(&work->aniX, &work->aniX.config);
-    exDrawReqTask__AddRequest(&work->aniPlayerIcon, &work->aniPlayerIcon.config);
+    AddExDrawRequest(&work->aniX, &work->aniX.config);
+    AddExDrawRequest(&work->aniPlayerIcon, &work->aniPlayerIcon.config);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -605,29 +605,29 @@ void ExBossLifeGaugeHUD_Main_Init(void)
     work->aniBossName.sprite.anim       = EX_ACTCOM_ANI_BOSSGAUGE_NAME;
     work->aniBossName.sprite.paletteRow = PALETTE_ROW_9;
     SetupExHUDSprite(&work->aniBossName);
-    exDrawReqTask__SetConfigPriority(&work->aniBossName.config, 0xE000);
-    work->aniBossName.sprite.pos.x            = 57;
-    work->aniBossName.sprite.pos.y            = 176;
-    work->aniBossName.config.field_2.value_20 = TRUE;
-    exDrawReqTask__Sprite2D__Func_2161B80(&work->aniBossName);
+    SetExDrawRequestPriority(&work->aniBossName.config, EXDRAWREQTASK_PRIORITY_HUD);
+    work->aniBossName.sprite.pos.x                 = 57;
+    work->aniBossName.sprite.pos.y                 = 176;
+    work->aniBossName.config.display.disableAffine = TRUE;
+    SetExDrawRequestSprite2DOnlyEngineB(&work->aniBossName);
 
     work->aniCapL.sprite.anim       = EX_ACTCOM_ANI_BOSSGAUGE_EDGE;
     work->aniCapL.sprite.paletteRow = PALETTE_ROW_9;
     SetupExHUDSprite(&work->aniCapL);
-    exDrawReqTask__SetConfigPriority(&work->aniCapL.config, 0xE000);
-    work->aniCapL.sprite.pos.x            = 56;
-    work->aniCapL.sprite.pos.y            = 176;
-    work->aniCapL.config.field_2.value_20 = TRUE;
-    exDrawReqTask__Sprite2D__Func_2161B80(&work->aniCapL);
+    SetExDrawRequestPriority(&work->aniCapL.config, EXDRAWREQTASK_PRIORITY_HUD);
+    work->aniCapL.sprite.pos.x                 = 56;
+    work->aniCapL.sprite.pos.y                 = 176;
+    work->aniCapL.config.display.disableAffine = TRUE;
+    SetExDrawRequestSprite2DOnlyEngineB(&work->aniCapL);
 
     work->aniCapR.sprite.anim       = EX_ACTCOM_ANI_BOSSGAUGE_EDGE;
     work->aniCapR.sprite.paletteRow = PALETTE_ROW_9;
     SetupExHUDSprite(&work->aniCapR);
-    exDrawReqTask__SetConfigPriority(&work->aniCapR.config, 0xE000);
-    work->aniCapR.sprite.pos.x            = HW_LCD_WIDTH - 8;
-    work->aniCapR.sprite.pos.y            = 176;
-    work->aniCapR.config.field_2.value_20 = TRUE;
-    exDrawReqTask__Sprite2D__Func_2161B80(&work->aniCapR);
+    SetExDrawRequestPriority(&work->aniCapR.config, EXDRAWREQTASK_PRIORITY_HUD);
+    work->aniCapR.sprite.pos.x                 = HW_LCD_WIDTH - 8;
+    work->aniCapR.sprite.pos.y                 = 176;
+    work->aniCapR.config.display.disableAffine = TRUE;
+    SetExDrawRequestSprite2DOnlyEngineB(&work->aniCapR);
     work->aniCapR.sprite.animator.flags |= ANIMATOR_FLAG_FLIP_X;
 
     for (s16 i = 0; i < (s32)ARRAY_COUNT(work->aniLifeGauge); i++)
@@ -635,11 +635,11 @@ void ExBossLifeGaugeHUD_Main_Init(void)
         work->aniLifeGauge[i].sprite.anim       = i + EX_ACTCOM_ANI_BOSSGAUGE_BAR_0;
         work->aniLifeGauge[i].sprite.paletteRow = PALETTE_ROW_9;
         SetupExHUDSprite(&work->aniLifeGauge[i]);
-        exDrawReqTask__SetConfigPriority(&work->aniLifeGauge[i].config, 0xDFFF);
-        work->aniLifeGauge[i].sprite.pos.x            = 0;
-        work->aniLifeGauge[i].sprite.pos.y            = work->aniCapL.sprite.pos.y;
-        work->aniLifeGauge[i].config.field_2.value_20 = TRUE;
-        exDrawReqTask__Sprite2D__Func_2161B80(&work->aniLifeGauge[i]);
+        SetExDrawRequestPriority(&work->aniLifeGauge[i].config, EXDRAWREQTASK_PRIORITY_HUD - 1);
+        work->aniLifeGauge[i].sprite.pos.x                 = 0;
+        work->aniLifeGauge[i].sprite.pos.y                 = work->aniCapL.sprite.pos.y;
+        work->aniLifeGauge[i].config.display.disableAffine = TRUE;
+        SetExDrawRequestSprite2DOnlyEngineB(&work->aniLifeGauge[i]);
     }
 
     work->boss->maxHealth   = -16 - work->aniCapL.sprite.pos.x + work->aniCapR.sprite.pos.x; // 176 by default, NOTE: if the resolution ever changes, this would break!
@@ -682,9 +682,9 @@ void ExBossLifeGaugeHUD_Main_HealthIdle(void)
     exSysTaskStatus *status = GetExSystemStatus();
     UNUSED(status);
 
-    exDrawReqTask__Sprite2D__Animate(&work->aniBossName);
-    exDrawReqTask__Sprite2D__Animate(&work->aniCapL);
-    exDrawReqTask__Sprite2D__Animate(&work->aniCapR);
+    AnimateExDrawRequestSprite2D(&work->aniBossName);
+    AnimateExDrawRequestSprite2D(&work->aniCapL);
+    AnimateExDrawRequestSprite2D(&work->aniCapR);
 
     if (GetExSystemStatus()->state == EXSYSTASK_STATE_STAGE_FINISHED || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED
         || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_FLEE_STARTED)
@@ -716,7 +716,7 @@ void ExBossLifeGaugeHUD_Main_HealthIdle(void)
     s16 remainLifeAnim = 8 - work->healthSegmentPos;
     for (i = 0; i < (s32)ARRAY_COUNT(work->aniLifeGauge); i++)
     {
-        exDrawReqTask__Sprite2D__Animate(&work->aniLifeGauge[i]);
+        AnimateExDrawRequestSprite2D(&work->aniLifeGauge[i]);
     }
 
     remainLifePos = 0;
@@ -726,25 +726,25 @@ void ExBossLifeGaugeHUD_Main_HealthIdle(void)
         if (i < work->healthSegmentCount)
         {
             work->aniLifeGauge[0].sprite.pos.x = work->aniCapL.sprite.pos.x + 8 * (i + 1);
-            exDrawReqTask__AddRequest(work->aniLifeGauge, &work->aniLifeGauge[0].config);
+            AddExDrawRequest(work->aniLifeGauge, &work->aniLifeGauge[0].config);
             remainLifePos = i + 1;
         }
         else
         {
             work->aniLifeGauge[8].sprite.pos.x = work->aniCapL.sprite.pos.x + 8 * (i + 1);
-            exDrawReqTask__AddRequest(&work->aniLifeGauge[8], &work->aniLifeGauge[8].config);
+            AddExDrawRequest(&work->aniLifeGauge[8], &work->aniLifeGauge[8].config);
         }
     }
 
     if (remainLifeAnim != 8)
     {
         work->aniLifeGauge[remainLifeAnim].sprite.pos.x = work->aniCapL.sprite.pos.x + (s16)(8 * (remainLifePos + 1));
-        exDrawReqTask__AddRequest(&work->aniLifeGauge[remainLifeAnim], &work->aniLifeGauge[remainLifeAnim].config);
+        AddExDrawRequest(&work->aniLifeGauge[remainLifeAnim], &work->aniLifeGauge[remainLifeAnim].config);
     }
 
-    exDrawReqTask__AddRequest(&work->aniBossName, &work->aniBossName.config);
-    exDrawReqTask__AddRequest(&work->aniCapL, &work->aniCapL.config);
-    exDrawReqTask__AddRequest(&work->aniCapR, &work->aniCapR.config);
+    AddExDrawRequest(&work->aniBossName, &work->aniBossName.config);
+    AddExDrawRequest(&work->aniCapL, &work->aniCapL.config);
+    AddExDrawRequest(&work->aniCapR, &work->aniCapR.config);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -759,9 +759,9 @@ void ExBossLifeGaugeHUD_Main_HealthChanging(void)
     exSysTaskStatus *status = GetExSystemStatus();
     UNUSED(status);
 
-    exDrawReqTask__Sprite2D__Animate(&work->aniBossName);
-    exDrawReqTask__Sprite2D__Animate(&work->aniCapL);
-    exDrawReqTask__Sprite2D__Animate(&work->aniCapR);
+    AnimateExDrawRequestSprite2D(&work->aniBossName);
+    AnimateExDrawRequestSprite2D(&work->aniCapL);
+    AnimateExDrawRequestSprite2D(&work->aniCapR);
 
     if (work->healthChange == 0x00)
     {
@@ -787,7 +787,7 @@ void ExBossLifeGaugeHUD_Main_HealthChanging(void)
         s16 remainLifeAnim = 8 - work->healthSegmentPos;
         for (i = 0; i < (s32)ARRAY_COUNT(work->aniLifeGauge); i++)
         {
-            exDrawReqTask__Sprite2D__Animate(&work->aniLifeGauge[i]);
+            AnimateExDrawRequestSprite2D(&work->aniLifeGauge[i]);
         }
 
         remainLifePos = 0;
@@ -797,25 +797,25 @@ void ExBossLifeGaugeHUD_Main_HealthChanging(void)
             if (i < work->healthSegmentCount)
             {
                 work->aniLifeGauge[0].sprite.pos.x = work->aniCapL.sprite.pos.x + 8 * (i + 1);
-                exDrawReqTask__AddRequest(work->aniLifeGauge, &work->aniLifeGauge[0].config);
+                AddExDrawRequest(work->aniLifeGauge, &work->aniLifeGauge[0].config);
                 remainLifePos = i + 1;
             }
             else
             {
                 work->aniLifeGauge[8].sprite.pos.x = work->aniCapL.sprite.pos.x + 8 * (i + 1);
-                exDrawReqTask__AddRequest(&work->aniLifeGauge[8], &work->aniLifeGauge[8].config);
+                AddExDrawRequest(&work->aniLifeGauge[8], &work->aniLifeGauge[8].config);
             }
         }
 
         if (remainLifeAnim != 8)
         {
             work->aniLifeGauge[remainLifeAnim].sprite.pos.x = work->aniCapL.sprite.pos.x + (s16)(8 * (remainLifePos + 1));
-            exDrawReqTask__AddRequest(&work->aniLifeGauge[remainLifeAnim], &work->aniLifeGauge[remainLifeAnim].config);
+            AddExDrawRequest(&work->aniLifeGauge[remainLifeAnim], &work->aniLifeGauge[remainLifeAnim].config);
         }
 
-        exDrawReqTask__AddRequest(&work->aniBossName, &work->aniBossName.config);
-        exDrawReqTask__AddRequest(&work->aniCapL, &work->aniCapL.config);
-        exDrawReqTask__AddRequest(&work->aniCapR, &work->aniCapR.config);
+        AddExDrawRequest(&work->aniBossName, &work->aniBossName.config);
+        AddExDrawRequest(&work->aniCapL, &work->aniCapL.config);
+        AddExDrawRequest(&work->aniCapR, &work->aniCapR.config);
 
         RunCurrentExTaskUnknownEvent();
     }

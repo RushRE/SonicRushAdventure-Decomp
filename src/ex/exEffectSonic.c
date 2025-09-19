@@ -109,7 +109,7 @@ BOOL LoadExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exSonicBarrierHitEffectInstanceCount == 0)
     {
@@ -160,7 +160,7 @@ BOOL LoadExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position    = &work->model.translation;
 
-    work->config.field_0.value_1 = 1;
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
     exSonicBarrierHitEffectInstanceCount++;
 
@@ -200,8 +200,8 @@ void ExSonicBarrierHitEffect_Main_Init(void)
     exSonicBarrierHitEffectTaskSingleton = GetCurrentTask();
 
     LoadExSonicBarrierHitEffectAssets(&work->aniBarrier);
-    exDrawReqTask__SetConfigPriority(&work->aniBarrier.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->aniBarrier.config);
+    SetExDrawRequestPriority(&work->aniBarrier.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBarrier.config);
 
     SetCurrentExTaskMainEvent(ExSonicBarrierHitEffect_Main_Active);
 }
@@ -228,19 +228,19 @@ void ExSonicBarrierHitEffect_Main_Active(void)
 {
     exEffectBarrierHitTask *work = ExTaskGetWorkCurrent(exEffectBarrierHitTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBarrier);
+    AnimateExDrawRequestModel(&work->aniBarrier);
 
     work->aniBarrier.model.translation.x = work->targetPos.x;
     work->aniBarrier.model.translation.y = work->targetPos.y;
     work->aniBarrier.model.translation.z = work->targetPos.z;
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniBarrier))
+    if (IsExDrawRequestModelAnimFinished(&work->aniBarrier))
     {
         DestroyCurrentExTask();
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniBarrier, &work->aniBarrier.config);
+        AddExDrawRequest(&work->aniBarrier, &work->aniBarrier.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -268,7 +268,7 @@ BOOL CreateExSonicBarrierHitEffect(VecFx32 *targetPos)
 
 void LoadExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work)
 {
-    exDrawReqTask__InitSprite3D(work);
+    InitExDrawRequestSprite3D(work);
 
     if (exSonicBarrierEffectSpriteInstanceCount == 0)
         exSonicBarrierEffectSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
@@ -288,7 +288,7 @@ void LoadExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work)
     work->sprite.scale.y       = FLOAT_TO_FX32(0.3125);
     work->sprite.scale.z       = FLOAT_TO_FX32(1.0);
 
-    work->config.field_0.value_1 = TRUE;
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
     work->hitChecker.box.size.x   = FLOAT_TO_FX32(6.25);
     work->hitChecker.box.size.y   = FLOAT_TO_FX32(6.25);
@@ -318,8 +318,8 @@ void ExSonicBarrierEffect_Main_Init(void)
     exSonicBarrierEffectTaskSingleton = GetCurrentTask();
 
     LoadExSonicBarrierEffectAssets(&work->aniBarrier);
-    exDrawReqTask__SetConfigPriority(&work->aniBarrier.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->aniBarrier.config);
+    SetExDrawRequestPriority(&work->aniBarrier.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBarrier.config);
 
     work->aniBarrier.hitChecker.power = work->power;
 
@@ -372,7 +372,7 @@ void ExSonicBarrierEffect_Main_InitBarrierActive(void)
     exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
     SetExSonicBarrierEffectAnimation(&work->aniBarrier, EX_ACTCOM_ANI_SONIC_BARRIER_ACTIVE);
-    exDrawReqTask__Func_21641F0(&work->aniBarrier.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBarrier.config);
 
     disableExSonicBarrierEffectSpawning = FALSE;
 
@@ -387,20 +387,20 @@ void ExSonicBarrierEffect_Main_BarrierActive(void)
 {
     exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
-    exDrawReqTask__Sprite3D__Animate(&work->aniBarrier);
+    AnimateExDrawRequestSprite3D(&work->aniBarrier);
 
     if (work->aniBarrier.hitChecker.hitFlags.value_1)
     {
         CreateExSonicBarrierHitEffect(&work->aniBarrier.sprite.translation);
         ExSonicBarrierEffect_Main_InitBarrierHit();
     }
-    else if (exDrawReqTask__Sprite3D__IsAnimFinished(&work->aniBarrier))
+    else if (IsExDrawRequestSprite3DAnimFinished(&work->aniBarrier))
     {
         DestroyCurrentExTask();
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniBarrier, &work->aniBarrier.config);
+        AddExDrawRequest(&work->aniBarrier, &work->aniBarrier.config);
         exHitCheckTask_AddHitCheck(&work->aniBarrier.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
@@ -423,8 +423,8 @@ void ExSonicBarrierEffect_Main_InitBarrierHit(void)
             SetCurrentExTaskTimer(5);
             SetExTaskTimer(work->parentTask, 5);
 
-            work->parent->config.field_0.field    = work->parent->config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80) | (0x10 | 0x40);
-            work->aniBarrier.config.field_0.field = work->aniBarrier.config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80) | (0x10 | 0x40);
+            work->parent->config.control.timer = 5;
+            work->aniBarrier.config.control.timer = 5;
 
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_RETURN_L);
         }
@@ -445,8 +445,8 @@ void ExSonicBarrierEffect_Main_InitBarrierHit(void)
             SetCurrentExTaskTimer(5);
             SetExTaskTimer(work->parentTask, 5);
 
-            work->parent->config.field_0.field    = work->parent->config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80) | (0x10 | 0x40);
-            work->aniBarrier.config.field_0.field = work->aniBarrier.config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80) | (0x10 | 0x40);
+            work->parent->config.control.timer = 5;
+            work->aniBarrier.config.control.timer = 5;
 
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_RETURN_L);
         }
@@ -457,7 +457,7 @@ void ExSonicBarrierEffect_Main_InitBarrierHit(void)
     }
 
     SetExSonicBarrierEffectAnimation(&work->aniBarrier, EX_ACTCOM_ANI_SONIC_BARRIER_HIT);
-    exDrawReqTask__Func_21641F0(&work->aniBarrier.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBarrier.config);
 
     SetCurrentExTaskMainEvent(ExSonicBarrierEffect_Main_BarrierHit);
     ExSonicBarrierEffect_Main_BarrierHit();
@@ -467,35 +467,35 @@ void ExSonicBarrierEffect_Main_BarrierHit(void)
 {
     exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
-    exDrawReqTask__Sprite3D__Animate(&work->aniBarrier);
+    AnimateExDrawRequestSprite3D(&work->aniBarrier);
 
     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
         if (work->parent->hitChecker.power == EXPLAYER_BARRIER_CHARGED_POWER_NORMAL)
         {
-            exDrawReqTask__Func_21642BC(&work->parent->config);
-            exDrawReqTask__Func_21642BC(&work->aniBarrier.config);
+            ProcessExDrawTimer(&work->parent->config);
+            ProcessExDrawTimer(&work->aniBarrier.config);
         }
     }
     else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
     {
         if (work->parent->hitChecker.power == EXPLAYER_BARRIER_CHARGED_POWER_EASY)
         {
-            exDrawReqTask__Func_21642BC(&work->parent->config);
-            exDrawReqTask__Func_21642BC(&work->aniBarrier.config);
+            ProcessExDrawTimer(&work->parent->config);
+            ProcessExDrawTimer(&work->aniBarrier.config);
         }
     }
 
-    if (exDrawReqTask__Sprite3D__IsAnimFinished(&work->aniBarrier))
+    if (IsExDrawRequestSprite3DAnimFinished(&work->aniBarrier))
     {
-        work->parent->config.field_0.field    = work->parent->config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80);
-        work->aniBarrier.config.field_0.field = work->aniBarrier.config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80);
+        work->parent->config.control.timer = 0;
+        work->aniBarrier.config.control.timer = 0;
 
         DestroyCurrentExTask();
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniBarrier, &work->aniBarrier.config);
+        AddExDrawRequest(&work->aniBarrier, &work->aniBarrier.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -505,9 +505,9 @@ void ExSonicBarrierEffect_DelayCallback(void)
 {
     exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
-    exDrawReqTask__Func_21642BC(&work->parent->config);
-    exDrawReqTask__Func_21642BC(&work->aniBarrier.config);
-    exDrawReqTask__AddRequest(&work->aniBarrier, &work->aniBarrier.config);
+    ProcessExDrawTimer(&work->parent->config);
+    ProcessExDrawTimer(&work->aniBarrier.config);
+    AddExDrawRequest(&work->aniBarrier, &work->aniBarrier.config);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -549,7 +549,7 @@ BOOL LoadExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exSonicBarrierChargingEffectInstanceCount == 0)
     {
@@ -589,7 +589,7 @@ BOOL LoadExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position    = &work->model.translation;
 
-    work->config.field_0.value_1 = 1;
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
     exSonicBarrierChargingEffectInstanceCount++;
 
@@ -626,8 +626,8 @@ void ExSonicBarrierChargingEffect_Main_Init(void)
     exSonicBarrierChargingEffectTaskSingleton = GetCurrentTask();
 
     LoadExSonicBarrierChargingEffectAssets(&work->aniTaMe);
-    exDrawReqTask__SetConfigPriority(&work->aniTaMe.config, 0xA800);
-    exDrawReqTask__Func_2164218(&work->aniTaMe.config);
+    SetExDrawRequestPriority(&work->aniTaMe.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimAsOneShot(&work->aniTaMe.config);
 
     work->scale     = FLOAT_TO_FX32(1.0);
     work->sndHandle = AllocSndHandle();
@@ -662,7 +662,7 @@ void ExSonicBarrierChargingEffect_Main_Active(void)
 {
     exExEffectSonicBarrierTaMeTask *work = ExTaskGetWorkCurrent(exExEffectSonicBarrierTaMeTask);
 
-    exDrawReqTask__Model__Animate(&work->aniTaMe);
+    AnimateExDrawRequestModel(&work->aniTaMe);
 
     if (GetExPlayerWorker()->barrierChargeTimer != 0)
     {
@@ -696,7 +696,7 @@ void ExSonicBarrierChargingEffect_Main_Active(void)
     work->aniTaMe.model.scale.y = work->scale;
     work->aniTaMe.model.scale.z = work->scale;
 
-    exDrawReqTask__AddRequest(&work->aniTaMe, &work->aniTaMe.config);
+    AddExDrawRequest(&work->aniTaMe, &work->aniTaMe.config);
 
     RunCurrentExTaskUnknownEvent();
 }

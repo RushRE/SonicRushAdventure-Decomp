@@ -2820,21 +2820,21 @@ void ConfigureExRingManagerSpawning(void);
 // ExRingField
 BOOL ExRingManager_InitRingSprite(EX_ACTION_BAC3D_WORK *work)
 {
-    exDrawReqTask__InitSprite3D(work);
+    InitExDrawRequestSprite3D(work);
     MI_CpuCopy8(&exRingAnimator, &work->sprite.animator, sizeof(work->sprite.animator));
 
-    work->sprite.anim                = EX_ACTCOM_ANI_RING;
-    work->hitChecker.type            = 4;
-    work->hitChecker.field_4.value_8 = TRUE;
-    work->sprite.translation.z       = FLOAT_TO_FX32(60.0);
-    work->sprite.scale.x             = FLOAT_TO_FX32(0.375);
-    work->sprite.scale.y             = FLOAT_TO_FX32(0.375);
-    work->sprite.scale.z             = FLOAT_TO_FX32(1.0);
-    work->config.field_0.value_1     = 0;
-    work->hitChecker.box.size.x      = FLOAT_TO_FX32(4.0);
-    work->hitChecker.box.size.y      = FLOAT_TO_FX32(4.0);
-    work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position    = &work->sprite.translation;
+    work->sprite.anim                  = EX_ACTCOM_ANI_RING;
+    work->hitChecker.type              = 4;
+    work->hitChecker.field_4.value_8   = TRUE;
+    work->sprite.translation.z         = FLOAT_TO_FX32(60.0);
+    work->sprite.scale.x               = FLOAT_TO_FX32(0.375);
+    work->sprite.scale.y               = FLOAT_TO_FX32(0.375);
+    work->sprite.scale.z               = FLOAT_TO_FX32(1.0);
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_BOTH;
+    work->hitChecker.box.size.x        = FLOAT_TO_FX32(4.0);
+    work->hitChecker.box.size.y        = FLOAT_TO_FX32(4.0);
+    work->hitChecker.box.size.z        = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position      = &work->sprite.translation;
 
     exRingManagerActiveRingCount++;
 
@@ -2987,7 +2987,7 @@ void ExRing_Main_Ring(void)
         return;
     }
 
-    exDrawReqTask__AddRequest(&work->aniRing, &work->aniRing.config);
+    AddExDrawRequest(&work->aniRing, &work->aniRing.config);
     exHitCheckTask_AddHitCheck(&work->aniRing.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
@@ -3007,7 +3007,7 @@ void ExRing_Action_Collect(void)
     work->aniRing.hitChecker.hitFlags.value_1 = FALSE;
 
     ExRingManager_SetRingAnim(&work->aniRing, EX_ACTCOM_ANI_RING_SPARKLE);
-    exDrawReqTask__Func_21641F0(&work->aniRing.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniRing.config);
 
     SetCurrentExTaskMainEvent(ExRing_Main_Sparkle);
     ExRing_Main_Sparkle();
@@ -3019,7 +3019,7 @@ void ExRing_Main_Sparkle(void)
 
     work->aniRing.sprite.translation.y -= work->velocity.y;
 
-    if (work->aniRing.config.flags.value_2)
+    if (work->aniRing.config.graphics.disableAnimation)
     {
         DestroyCurrentExTask();
         return;
@@ -3032,8 +3032,8 @@ void ExRing_Main_Sparkle(void)
         return;
     }
 
-    exDrawReqTask__Sprite3D__Animate(&work->aniRing);
-    exDrawReqTask__AddRequest(&work->aniRing, &work->aniRing.config);
+    AnimateExDrawRequestSprite3D(&work->aniRing);
+    AddExDrawRequest(&work->aniRing, &work->aniRing.config);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -3054,8 +3054,8 @@ BOOL CreateExRing(VecFx32 position, VecFx32 velocity)
     }
 
     work->active = TRUE;
-    exDrawReqTask__SetConfigPriority(&work->aniRing.config, 0xA800);
-    exDrawReqTask__Func_2164218(&work->aniRing.config);
+    SetExDrawRequestPriority(&work->aniRing.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimAsOneShot(&work->aniRing.config);
     work->aniRing.sprite.translation.x = position.x;
     work->aniRing.sprite.translation.y = position.y;
     work->velocity.x                   = velocity.x;

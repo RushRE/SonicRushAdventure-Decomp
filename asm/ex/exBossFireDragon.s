@@ -85,7 +85,7 @@ exBossFireDoraTask__Func_2154D8C: // 0x02154D8C
 	ldmloia sp!, {r3, r4, r5, pc}
 _02154DF8:
 	mov r0, r4
-	bl exDrawReqTask__InitModel
+	bl InitExDrawRequestModel
 	ldr r0, _02154EEC // =exBossFireDoraTask__ActiveInstanceCount
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -200,19 +200,19 @@ exBossFireDoraTask__Main: // 0x02154F60
 	bl exBossFireDoraTask__Func_2154D8C
 	add r0, r4, #0x3c4
 	mov r1, #0xa800
-	bl exDrawReqTask__SetConfigPriority
+	bl SetExDrawRequestPriority
 	add r0, r4, #0x3c4
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	add r0, r4, #0x114
 	add r0, r0, #0x400
 	bl exBossFireDoraTask__Func_2154C48
 	add r0, r4, #0x264
 	add r0, r0, #0x400
 	mov r1, #0xa800
-	bl exDrawReqTask__SetConfigPriority
+	bl SetExDrawRequestPriority
 	add r0, r4, #0x264
 	add r0, r0, #0x400
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	ldr r1, [r4, #0x7b4]
 	mov r0, #0x3c000
 	ldr r2, [r1, #0x3ec]
@@ -241,11 +241,11 @@ exBossFireDoraTask__Main: // 0x02154F60
 	mov r2, #2
 	strh r3, [r4, #0x22]
 	strh lr, [r4, #4]
-	bl exDrawReqTask__InitTrail
+	bl InitExDrawRequestTrail
 	add r0, r4, #0x224
 	ldr r1, _02155114 // =0x0000A7FF
 	add r0, r0, #0x800
-	bl exDrawReqTask__SetConfigPriority
+	bl SetExDrawRequestPriority
 	ldr r2, _02155118 // =_mt_math_rand
 	ldr r0, _0215511C // =0x00196225
 	ldr r3, [r2, #0]
@@ -348,7 +348,7 @@ exBossFireDoraTask__Func_2155188: // 0x02155188
 	bl GetExPlayerPosition
 	mov r5, r0
 	add r0, r4, #0x38
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldrb r0, [r4, #0x3e]
 	mov r1, r0, lsl #0x1f
 	movs r1, r1, lsr #0x1f
@@ -474,7 +474,7 @@ _021552FC:
 	add r0, r0, #0x400
 	add r1, r4, #0x388
 	strh r3, [r2, #0xd8]
-	bl exDrawReqTask__Trail__HandleTrail3
+	bl ProcessExDrawRequestBossFireDragonTrail
 _0215536C:
 	ldr r1, _02155448 // =0x0000BFF4
 	add r0, r4, #0x300
@@ -520,10 +520,10 @@ _0215536C:
 	ldr r2, [r4, #0xc]
 	sub r2, r3, r2
 	str r2, [r4, #0x38c]
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	add r0, r4, #0x38
 	add r1, r4, #0x3c4
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	add r0, r4, #0x38
 	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
@@ -711,7 +711,7 @@ _021556B4:
 _021556C4:
 	add r0, r4, #0x38
 	add r1, r4, #0x3c4
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	add r0, r4, #0x38
 	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
@@ -757,10 +757,10 @@ exBossFireDoraTask__Func_2155748: // 0x02155748
 	mov r4, r0
 	add r0, r4, #0x114
 	add r0, r0, #0x400
-	bl exDrawReqTask__Sprite3D__Animate
+	bl AnimateExDrawRequestSprite3D
 	add r0, r4, #0x114
 	add r0, r0, #0x400
-	bl exDrawReqTask__Sprite3D__IsAnimFinished
+	bl IsExDrawRequestSprite3DAnimFinished
 	cmp r0, #0
 	beq _0215577C
 	bl exBossFireDoraTask__Func_21557A0
@@ -770,7 +770,7 @@ _0215577C:
 	add r1, r4, #0x264
 	add r0, r0, #0x400
 	add r1, r1, #0x400
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -796,7 +796,7 @@ exBossFireDoraTask__Func_21557A0: // 0x021557A0
 	bl exBossFireDoraTask__Func_2154D44
 	add r0, r4, #0x264
 	add r0, r0, #0x400
-	bl exDrawReqTask__Func_2164218
+	bl SetExDrawRequestAnimAsOneShot
 	bl GetExTaskCurrent
 	ldr r1, _021557FC // =exBossFireDoraTask__Func_2155800
 	str r1, [r0]
@@ -813,7 +813,7 @@ exBossFireDoraTask__Func_2155800: // 0x02155800
 	mov r4, r0
 	add r0, r4, #0x114
 	add r0, r0, #0x400
-	bl exDrawReqTask__Sprite3D__Animate
+	bl AnimateExDrawRequestSprite3D
 	ldrsh r0, [r4, #2]
 	cmp r0, #0
 	bgt _02155860
@@ -841,7 +841,7 @@ _02155868:
 	add r1, r4, #0x264
 	add r0, r0, #0x400
 	add r1, r1, #0x400
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -904,7 +904,7 @@ exBossSysAdminTask__Action_StartDora0: // 0x0215592C
 	mov r1, #0xc
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	bl GetExTaskCurrent
 	ldr r1, _02155964 // =exBossSysAdminTask__Main_Dora0
 	str r1, [r0]
@@ -920,9 +920,9 @@ exBossSysAdminTask__Main_Dora0: // 0x02155968
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _02155994
 	bl exBossSysAdminTask__Action_StartDora1
@@ -932,7 +932,7 @@ _02155994:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -949,7 +949,7 @@ exBossSysAdminTask__Action_StartDora1: // 0x021559B8
 	mov r1, #0xd
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	mov r2, #0xc9
 	sub r1, r2, #0xca
 	mov r0, #0
@@ -974,7 +974,7 @@ exBossSysAdminTask__Main_Dora1: // 0x02155A18
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldr r0, [r4, #0x3b0]
 	ldr r0, [r0, #0]
 	cmp r0, #0xf000
@@ -1028,7 +1028,7 @@ _02155AB0:
 	ldmia sp!, {r3, r4, r5, pc}
 _02155AEC:
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _02155B04
 	bl exBossSysAdminTask__Action_StartDora2
@@ -1038,7 +1038,7 @@ _02155B04:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1057,9 +1057,9 @@ exBossSysAdminTask__Main_FinishDora1: // 0x02155B3C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _02155B68
 	bl exBossSysAdminTask__Action_StartDora2
@@ -1069,7 +1069,7 @@ _02155B68:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1085,7 +1085,7 @@ exBossSysAdminTask__Action_StartDora2: // 0x02155B8C
 	mov r1, #0xe
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	bl GetExTaskCurrent
 	ldr r1, _02155BC0 // =exBossSysAdminTask__Main_Dora2
 	str r1, [r0]
@@ -1101,9 +1101,9 @@ exBossSysAdminTask__Main_Dora2: // 0x02155BC4
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _02155BF0
 	bl exBossSysAdminTask__Action_FinishDragonAttack
@@ -1113,7 +1113,7 @@ _02155BF0:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0

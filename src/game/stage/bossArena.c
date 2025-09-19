@@ -518,11 +518,11 @@ NONMATCH_FUNC void BossArena__InitCamera(BossArenaCamera *camera)
     MI_CpuClear16(camera, sizeof(*camera));
 
     camera->type                      = BOSSARENACAMERA_TYPE_1;
-    camera->camera.config.projFOV     = 0x1555;
-    camera->camera.config.projNear    = 4096;
-    camera->camera.config.projFar     = 0x800000;
-    camera->camera.config.aspectRatio = 0x1555;
-    camera->camera.config.projScaleW  = 4096;
+    camera->camera.config.projFOV     = FLOAT_DEG_TO_IDX(30.0);
+    camera->camera.config.projNear    = FLOAT_TO_FX32(1.0);
+    camera->camera.config.projFar     = FLOAT_TO_FX32(2048.0);
+    camera->camera.config.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
+    camera->camera.config.projScaleW  = FLOAT_TO_FX32(1.0);
     camera->upDir.x                   = FLOAT_TO_FX32(0.0);
     camera->upDir.y                   = FLOAT_TO_FX32(1.0);
     camera->upDir.z                   = FLOAT_TO_FX32(0.0);

@@ -91,7 +91,7 @@ BOOL LoadExBossFireBlueAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (fireballBlueInstanceCount == 0)
     {
@@ -183,12 +183,12 @@ void ExBossFireBlue_Main_Init(void)
 
     fireballBlueLastSpawnedTask = GetCurrentTask();
     LoadExBossFireBlueAssets(&work->animator);
-    exDrawReqTask__SetConfigPriority(&work->animator.config, 0xA800);
-    exDrawReqTask__Func_2164218(&work->animator.config);
+    SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimAsOneShot(&work->animator.config);
 
-    work->animator.model.translation.x = work->parent->aniBoss.model.field_364.x;
-    work->animator.model.translation.y = work->parent->aniBoss.model.field_364.y;
-    work->animator.model.translation.z = work->parent->aniBoss.model.field_364.z;
+    work->animator.model.translation.x = work->parent->aniBoss.model.translation4.x;
+    work->animator.model.translation.y = work->parent->aniBoss.model.translation4.y;
+    work->animator.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
     work->targetPos.x = work->parent->targetPos.x;
     work->targetPos.y = work->parent->targetPos.y;
@@ -219,7 +219,7 @@ void ExBossFireBlue_Main_MoveFast(void)
 {
     exBossFireBlueTask *work = ExTaskGetWorkCurrent(exBossFireBlueTask);
 
-    exDrawReqTask__Model__Animate(&work->animator);
+    AnimateExDrawRequestModel(&work->animator);
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
@@ -272,7 +272,7 @@ void ExBossFireBlue_Main_MoveFast(void)
     {
         work->animator.model.angle.x = exPlayerHelpers__Func_2152E28(work->velocity.z, work->velocity.y);
         work->animator.model.angle.z = exPlayerHelpers__Func_2152E28(work->velocity.x, work->velocity.y);
-        exDrawReqTask__AddRequest(&work->animator.hitChecker, &work->animator.config);
+        AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
@@ -292,7 +292,7 @@ void ExBossFireBlue_Main_MoveSlow(void)
 {
     exBossFireBlueTask *work = ExTaskGetWorkCurrent(exBossFireBlueTask);
 
-    exDrawReqTask__Model__Animate(&work->animator);
+    AnimateExDrawRequestModel(&work->animator);
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
@@ -324,7 +324,7 @@ void ExBossFireBlue_Main_MoveSlow(void)
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->animator.hitChecker, &work->animator.config);
+        AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
@@ -382,7 +382,7 @@ void ExBossFireBlue_Main_Repelled(void)
 {
     exBossFireBlueTask *work = ExTaskGetWorkCurrent(exBossFireBlueTask);
 
-    exDrawReqTask__Model__Animate(&work->animator);
+    AnimateExDrawRequestModel(&work->animator);
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
@@ -410,7 +410,7 @@ void ExBossFireBlue_Main_Repelled(void)
         return;
     }
 
-    exDrawReqTask__AddRequest(&work->animator.hitChecker, &work->animator.config);
+    AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
     exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
@@ -446,7 +446,7 @@ BOOL LoadExBossFireRedAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
     if (fireballRedInstanceCount == 0)
     {
         GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FIRE1_NSBMD, &fireballRedModelResource, &fireballRedModelFileSize, TRUE, FALSE);
@@ -537,13 +537,13 @@ void ExBossFireRed_Main_Init(void)
 
     fireballRedLastSpawnedTask = GetCurrentTask();
     LoadExBossFireRedAssets(&work->animator);
-    exDrawReqTask__SetConfigPriority(&work->animator.config, 0xA800);
-    exDrawReqTask__Func_2164218(&work->animator.config);
+    SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimAsOneShot(&work->animator.config);
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_FIREBALL);
 
-    work->animator.model.translation.x = work->parent->aniBoss.model.field_364.x;
-    work->animator.model.translation.y = work->parent->aniBoss.model.field_364.y;
-    work->animator.model.translation.z = work->parent->aniBoss.model.field_364.z;
+    work->animator.model.translation.x = work->parent->aniBoss.model.translation4.x;
+    work->animator.model.translation.y = work->parent->aniBoss.model.translation4.y;
+    work->animator.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
     work->targetPos.x = work->parent->targetPos.x;
     work->targetPos.y = work->parent->targetPos.y;
@@ -572,7 +572,7 @@ void ExBossFireRed_Main_MoveFast(void)
 {
     exBossFireRedTask *work = ExTaskGetWorkCurrent(exBossFireRedTask);
 
-    exDrawReqTask__Model__Animate(&work->animator);
+    AnimateExDrawRequestModel(&work->animator);
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
@@ -623,7 +623,7 @@ void ExBossFireRed_Main_MoveFast(void)
     {
         work->animator.model.angle.x = exPlayerHelpers__Func_2152E28(work->velocity.z, work->velocity.y);
         work->animator.model.angle.z = exPlayerHelpers__Func_2152E28(work->velocity.x, work->velocity.y);
-        exDrawReqTask__AddRequest(&work->animator.hitChecker, &work->animator.config);
+        AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
@@ -643,7 +643,7 @@ void ExBossFireRed_Main_MoveSlow(void)
 {
     exBossFireRedTask *work = ExTaskGetWorkCurrent(exBossFireRedTask);
 
-    exDrawReqTask__Model__Animate(&work->animator);
+    AnimateExDrawRequestModel(&work->animator);
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
@@ -673,7 +673,7 @@ void ExBossFireRed_Main_MoveSlow(void)
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->animator.hitChecker, &work->animator.config);
+        AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
@@ -731,7 +731,7 @@ void ExBossFireRed_Main_Repelled(void)
 {
     exBossFireRedTask *work = ExTaskGetWorkCurrent(exBossFireRedTask);
 
-    exDrawReqTask__Model__Animate(&work->animator);
+    AnimateExDrawRequestModel(&work->animator);
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
@@ -759,7 +759,7 @@ void ExBossFireRed_Main_Repelled(void)
         return;
     }
 
-    exDrawReqTask__AddRequest(&work->animator.hitChecker, &work->animator.config);
+    AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
     exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
@@ -789,7 +789,7 @@ void exBossSysAdminTask__Action_StartFire0(void)
     PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_KURAE);
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fire0);
-    exDrawReqTask__Func_21641F0(&work->aniBoss.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_StartFire0);
     exBossSysAdminTask__Main_StartFire0();
@@ -799,7 +799,7 @@ void exBossSysAdminTask__Main_StartFire0(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     if (work->aniBoss.model.primaryAnimResource->frame >= FLOAT_TO_FX32(15.0))
     {
@@ -811,7 +811,7 @@ void exBossSysAdminTask__Main_StartFire0(void)
     else
     {
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
-        exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -821,16 +821,16 @@ void exBossSysAdminTask__Main_FinishFire0(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniBoss))
+    if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
         exBossSysAdminTask__Action_StartFire1();
     }
     else
     {
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
-        exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -841,7 +841,7 @@ void exBossSysAdminTask__Action_StartFire1(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fire1);
-    exDrawReqTask__Func_21641F0(&work->aniBoss.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     DisableExBossEffectFireball();
     work->fireballShootTimer = 0;
@@ -854,21 +854,21 @@ void exBossSysAdminTask__Main_Fire1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     work->targetPos.x += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.x, GetExPlayerPosition()->x);
     work->targetPos.y += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.y, GetExPlayerPosition()->y);
 
     work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniBoss))
+    if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
         exBossSysAdminTask__Action_StartFire2();
     }
     else
     {
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
-        exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -879,7 +879,7 @@ void exBossSysAdminTask__Action_StartFire2(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fire2);
-    exDrawReqTask__Func_21641F0(&work->aniBoss.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     CreateExBossEffectFireballShot();
 
@@ -896,21 +896,21 @@ void exBossSysAdminTask__Main_Fire2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     work->targetPos.x += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.x, GetExPlayerPosition()->x);
     work->targetPos.y += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.y, GetExPlayerPosition()->y);
 
     work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniBoss))
+    if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
         exBossSysAdminTask__HandleFireShoot();
     }
     else
     {
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
-        exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -951,7 +951,7 @@ void exBossSysAdminTask__Action_StartFire4(void)
     work->aniBoss.model.angle.y = 0;
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fire4);
-    exDrawReqTask__Func_21641F0(&work->aniBoss.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Fire4);
     exBossSysAdminTask__Main_Fire4();
@@ -961,16 +961,16 @@ void exBossSysAdminTask__Main_Fire4(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniBoss))
+    if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
         exBossSysAdminTask__Action_FinishFireballAttack();
     }
     else
     {
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
-        exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
         RunCurrentExTaskUnknownEvent();
     }

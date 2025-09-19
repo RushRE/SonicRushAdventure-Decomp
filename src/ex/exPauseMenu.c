@@ -117,38 +117,38 @@ void ExPauseMenu_Main_Init(void)
     work->aniPauseText.sprite.anim       = exPauseMenuPausedTextAnimTable[work->language];
     work->aniPauseText.sprite.paletteRow = PALETTE_ROW_8;
     SetupExHUDSprite(&work->aniPauseText);
-    exDrawReqTask__SetConfigPriority(&work->aniPauseText.config, 0xE000);
+    SetExDrawRequestPriority(&work->aniPauseText.config, EXDRAWREQTASK_PRIORITY_HUD);
     work->aniPauseText.sprite.pos.x = -36;
     work->aniPauseText.sprite.pos.y = 60;
-    exDrawReqTask__Sprite2D__Func_2161B80(&work->aniPauseText);
-    exDrawReqTask__Func_2164218(&work->aniPauseText.config);
+    SetExDrawRequestSprite2DOnlyEngineB(&work->aniPauseText);
+    SetExDrawRequestAnimAsOneShot(&work->aniPauseText.config);
 
-    work->aniPauseText.config.field_2.value_20     = TRUE;
-    work->aniPauseText.sprite.animator.oamPriority = SPRITE_PRIORITY_0;
+    work->aniPauseText.config.display.disableAffine = TRUE;
+    work->aniPauseText.sprite.animator.oamPriority  = SPRITE_PRIORITY_0;
 
     for (u16 i = 0; i < 2; i++)
     {
         work->aniContinueButton[i].sprite.anim       = exPauseMenuContinueButtonAnimTable[i][work->language];
         work->aniContinueButton[i].sprite.paletteRow = PALETTE_ROW_8;
         SetupExHUDSprite(&work->aniContinueButton[i]);
-        exDrawReqTask__SetConfigPriority(&work->aniContinueButton[i].config, 0xE000);
+        SetExDrawRequestPriority(&work->aniContinueButton[i].config, EXDRAWREQTASK_PRIORITY_HUD);
         work->aniContinueButton[i].sprite.pos.x = -36;
         work->aniContinueButton[i].sprite.pos.y = 72;
-        exDrawReqTask__Sprite2D__Func_2161B80(&work->aniContinueButton[i]);
-        exDrawReqTask__Func_21641F0(&work->aniContinueButton[i].config);
-        work->aniContinueButton[i].config.field_2.value_20     = TRUE;
-        work->aniContinueButton[i].sprite.animator.oamPriority = SPRITE_PRIORITY_0;
+        SetExDrawRequestSprite2DOnlyEngineB(&work->aniContinueButton[i]);
+        SetExDrawRequestAnimStopOnFinish(&work->aniContinueButton[i].config);
+        work->aniContinueButton[i].config.display.disableAffine = TRUE;
+        work->aniContinueButton[i].sprite.animator.oamPriority  = SPRITE_PRIORITY_0;
 
         work->aniBackButton[i].sprite.anim       = exPauseMenuBackButtonAnimTable[i][work->language];
         work->aniBackButton[i].sprite.paletteRow = PALETTE_ROW_8;
         SetupExHUDSprite(&work->aniBackButton[i]);
-        exDrawReqTask__SetConfigPriority(&work->aniBackButton[i].config, 0xE000);
+        SetExDrawRequestPriority(&work->aniBackButton[i].config, EXDRAWREQTASK_PRIORITY_HUD);
         work->aniBackButton[i].sprite.pos.x = -36;
         work->aniBackButton[i].sprite.pos.y = 88;
-        exDrawReqTask__Sprite2D__Func_2161B80(&work->aniBackButton[i]);
-        exDrawReqTask__Func_21641F0(&work->aniBackButton[i].config);
-        work->aniBackButton[i].config.field_2.value_20     = TRUE;
-        work->aniBackButton[i].sprite.animator.oamPriority = SPRITE_PRIORITY_0;
+        SetExDrawRequestSprite2DOnlyEngineB(&work->aniBackButton[i]);
+        SetExDrawRequestAnimStopOnFinish(&work->aniBackButton[i].config);
+        work->aniBackButton[i].config.display.disableAffine = TRUE;
+        work->aniBackButton[i].sprite.animator.oamPriority  = SPRITE_PRIORITY_0;
     }
 
     work->buttonSelected[EXPAUSEMENU_BUTTON_CONTINUE] = TRUE;
@@ -398,9 +398,9 @@ void ExPauseMenu_Draw(void)
 {
     exPauseTask *work = ExTaskGetWorkCurrent(exPauseTask);
 
-    exDrawReqTask__Sprite2D__Animate(&work->aniPauseText);
-    exDrawReqTask__Sprite2D__Animate(&work->aniContinueButton[work->buttonSelected[EXPAUSEMENU_BUTTON_CONTINUE]]);
-    exDrawReqTask__Sprite2D__Animate(&work->aniBackButton[work->buttonSelected[EXPAUSEMENU_BUTTON_BACK]]);
+    AnimateExDrawRequestSprite2D(&work->aniPauseText);
+    AnimateExDrawRequestSprite2D(&work->aniContinueButton[work->buttonSelected[EXPAUSEMENU_BUTTON_CONTINUE]]);
+    AnimateExDrawRequestSprite2D(&work->aniBackButton[work->buttonSelected[EXPAUSEMENU_BUTTON_BACK]]);
 
     work->aniPauseText.sprite.animator.pos.x = work->aniPauseText.sprite.pos.x;
     work->aniPauseText.sprite.animator.pos.y = work->aniPauseText.sprite.pos.y;

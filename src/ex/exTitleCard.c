@@ -143,24 +143,24 @@ void ExTutorialMessage_Main_Init(void)
         work->aniMessage[i].sprite.anim       = exTutorialMessageTextAnims[i][work->language];
         work->aniMessage[i].sprite.paletteRow = PALETTE_ROW_3;
         SetupExHUDSprite(&work->aniMessage[i]);
-        exDrawReqTask__SetConfigPriority(&work->aniMessage[i].config, 0xE002);
-        work->aniMessage[i].sprite.pos.x            = 0;
-        work->aniMessage[i].sprite.pos.y            = 0;
-        work->aniMessage[i].config.field_2.value_20 = TRUE;
-        exDrawReqTask__Sprite2D__Func_2161B80(&work->aniMessage[i]);
-        exDrawReqTask__Func_21641F0(&work->aniMessage[i].config);
+        SetExDrawRequestPriority(&work->aniMessage[i].config, EXDRAWREQTASK_PRIORITY_HUD + 2);
+        work->aniMessage[i].sprite.pos.x                 = 0;
+        work->aniMessage[i].sprite.pos.y                 = 0;
+        work->aniMessage[i].config.display.disableAffine = TRUE;
+        SetExDrawRequestSprite2DOnlyEngineB(&work->aniMessage[i]);
+        SetExDrawRequestAnimStopOnFinish(&work->aniMessage[i].config);
     }
 
     work->aniBorder.sprite.anim       = EX_ACTCOM_ANI_TUTORIAL_TEXT_BACKDROP;
     work->aniBorder.sprite.paletteRow = PALETTE_ROW_3;
     SetupExHUDSprite(&work->aniBorder);
-    exDrawReqTask__SetConfigPriority(&work->aniBorder.config, 0xE001);
-    work->aniBorder.sprite.pos.x            = 0;
-    work->aniBorder.sprite.pos.y            = 0;
-    work->aniBorder.config.field_2.value_20 = TRUE;
-    exDrawReqTask__Sprite2D__Func_2161B80(&work->aniBorder);
-    exDrawReqTask__Func_21641F0(&work->aniBorder.config);
-    work->aniBorder.sprite.field_78 = 5;
+    SetExDrawRequestPriority(&work->aniBorder.config, EXDRAWREQTASK_PRIORITY_HUD + 1);
+    work->aniBorder.sprite.pos.x                 = 0;
+    work->aniBorder.sprite.pos.y                 = 0;
+    work->aniBorder.config.display.disableAffine = TRUE;
+    SetExDrawRequestSprite2DOnlyEngineB(&work->aniBorder);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBorder.config);
+    work->aniBorder.sprite.targetAlpha = 5;
 
     work->scrollPos = HW_LCD_CENTER_X;
 
@@ -195,8 +195,8 @@ void ExTutorialMessage_Main_Active(void)
     if (work->playerWorker->playerFlags.characterID != EXPLAYER_CHARACTER_SONIC)
         character = EXPLAYER_CHARACTER_BLAZE;
 
-    exDrawReqTask__Sprite2D__Animate(&work->aniMessage[character]);
-    exDrawReqTask__Sprite2D__Animate(&work->aniBorder);
+    AnimateExDrawRequestSprite2D(&work->aniMessage[character]);
+    AnimateExDrawRequestSprite2D(&work->aniBorder);
 
     s32 scrollLimit = exTutorialMessageTextScrollLimit[character][work->language];
 
@@ -206,17 +206,17 @@ void ExTutorialMessage_Main_Active(void)
         work->scrollPos--;
 
     work->aniMessage[character].sprite.pos.x = work->scrollPos;
-    exDrawReqTask__AddRequest(&work->aniMessage[character], &work->aniMessage[character].config);
+    AddExDrawRequest(&work->aniMessage[character], &work->aniMessage[character].config);
 
     work->aniMessage[character].sprite.pos.x -= scrollLimit;
-    exDrawReqTask__AddRequest(&work->aniMessage[character], &work->aniMessage[character].config);
+    AddExDrawRequest(&work->aniMessage[character], &work->aniMessage[character].config);
     work->aniMessage[character].sprite.pos.x += scrollLimit;
 
     work->aniMessage[character].sprite.pos.x += scrollLimit;
-    exDrawReqTask__AddRequest(&work->aniMessage[character], &work->aniMessage[character].config);
+    AddExDrawRequest(&work->aniMessage[character], &work->aniMessage[character].config);
     work->aniMessage[character].sprite.pos.x -= scrollLimit;
 
-    exDrawReqTask__AddRequest(&work->aniBorder, &work->aniBorder.config);
+    AddExDrawRequest(&work->aniBorder, &work->aniBorder.config);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -262,83 +262,83 @@ void ExTitleCard_Main_Init(void)
     work->aniBackdrop->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_BACKDROP;
     work->aniBackdrop->sprite.paletteRow = PALETTE_ROW_4;
     SetupExHUDSprite(work->aniBackdrop);
-    exDrawReqTask__SetConfigPriority(&work->aniBackdrop->config, 0xE000);
+    SetExDrawRequestPriority(&work->aniBackdrop->config, EXDRAWREQTASK_PRIORITY_HUD);
     work->aniBackdrop->sprite.pos.x = 0;
     work->aniBackdrop->sprite.pos.y = 0;
-    exDrawReqTask__Sprite2D__Func_2161B80(work->aniBackdrop);
-    exDrawReqTask__Func_21641F0(&work->aniBackdrop->config);
+    SetExDrawRequestSprite2DOnlyEngineB(work->aniBackdrop);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBackdrop->config);
 
     work->aniZoneNameTextJP->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_ZONE_NAME_TEXT_JP;
     work->aniZoneNameTextJP->sprite.paletteRow = PALETTE_ROW_6;
     SetupExHUDSprite(work->aniZoneNameTextJP);
-    exDrawReqTask__SetConfigPriority(&work->aniZoneNameTextJP->config, 0xE000);
+    SetExDrawRequestPriority(&work->aniZoneNameTextJP->config, EXDRAWREQTASK_PRIORITY_HUD);
     work->aniZoneNameTextJP->sprite.pos.x = 0;
     work->aniZoneNameTextJP->sprite.pos.y = 0;
-    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneNameTextJP);
-    exDrawReqTask__Func_21641F0(&work->aniZoneNameTextJP->config);
+    SetExDrawRequestSprite2DOnlyEngineB(work->aniZoneNameTextJP);
+    SetExDrawRequestAnimStopOnFinish(&work->aniZoneNameTextJP->config);
 
     work->aniZoneIcon->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_ICON;
     work->aniZoneIcon->sprite.paletteRow = PALETTE_ROW_5;
     SetupExHUDSprite(work->aniZoneIcon);
-    exDrawReqTask__SetConfigPriority(&work->aniZoneIcon->config, 0xE001);
+    SetExDrawRequestPriority(&work->aniZoneIcon->config, EXDRAWREQTASK_PRIORITY_HUD + 1);
     work->aniZoneIcon->sprite.pos.x = HW_LCD_CENTER_X;
     work->aniZoneIcon->sprite.pos.y = 96;
 
-    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneIcon);
-    exDrawReqTask__Func_21641F0(&work->aniZoneIcon->config);
+    SetExDrawRequestSprite2DOnlyEngineB(work->aniZoneIcon);
+    SetExDrawRequestAnimStopOnFinish(&work->aniZoneIcon->config);
     work->aniActBanner->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_ACT_BANNER;
     work->aniActBanner->sprite.paletteRow = PALETTE_ROW_6;
     SetupExHUDSprite(work->aniActBanner);
-    exDrawReqTask__SetConfigPriority(&work->aniActBanner->config, 0xE000);
+    SetExDrawRequestPriority(&work->aniActBanner->config, EXDRAWREQTASK_PRIORITY_HUD);
     work->aniActBanner->sprite.pos.x = 0;
     work->aniActBanner->sprite.pos.y = 0;
 
-    exDrawReqTask__Sprite2D__Func_2161B80(work->aniActBanner);
-    exDrawReqTask__Func_21641F0(&work->aniActBanner->config);
+    SetExDrawRequestSprite2DOnlyEngineB(work->aniActBanner);
+    SetExDrawRequestAnimStopOnFinish(&work->aniActBanner->config);
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_LETTER_E;
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.paletteRow = PALETTE_ROW_6;
     SetupExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]);
-    exDrawReqTask__SetConfigPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config, 0xE000);
+    SetExDrawRequestPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config, EXDRAWREQTASK_PRIORITY_HUD);
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.pos.x = 0;
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.pos.y = 0;
-    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]);
-    exDrawReqTask__Func_21641F0(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config);
+    SetExDrawRequestSprite2DOnlyEngineB(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]);
+    SetExDrawRequestAnimStopOnFinish(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config);
 
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_LETTER_X;
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.paletteRow = PALETTE_ROW_6;
     SetupExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]);
-    exDrawReqTask__SetConfigPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config, 0xE000);
+    SetExDrawRequestPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config, EXDRAWREQTASK_PRIORITY_HUD);
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.pos.x = 0;
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.pos.y = 0;
-    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]);
-    exDrawReqTask__Func_21641F0(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config);
+    SetExDrawRequestSprite2DOnlyEngineB(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]);
+    SetExDrawRequestAnimStopOnFinish(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config);
 
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_LETTER_T;
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.paletteRow = PALETTE_ROW_6;
     SetupExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]);
-    exDrawReqTask__SetConfigPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config, 0xE000);
+    SetExDrawRequestPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config, EXDRAWREQTASK_PRIORITY_HUD);
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.pos.x = 0;
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.pos.y = 0;
-    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]);
-    exDrawReqTask__Func_21641F0(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config);
+    SetExDrawRequestSprite2DOnlyEngineB(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]);
+    SetExDrawRequestAnimStopOnFinish(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config);
 
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_LETTER_R;
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.paletteRow = PALETTE_ROW_6;
     SetupExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]);
-    exDrawReqTask__SetConfigPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config, 0xE000);
+    SetExDrawRequestPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config, EXDRAWREQTASK_PRIORITY_HUD);
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.pos.x = 0;
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.pos.y = 0;
-    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]);
-    exDrawReqTask__Func_21641F0(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config);
+    SetExDrawRequestSprite2DOnlyEngineB(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]);
+    SetExDrawRequestAnimStopOnFinish(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config);
 
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_LETTER_A;
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.paletteRow = PALETTE_ROW_6;
     SetupExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]);
-    exDrawReqTask__SetConfigPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config, 0xE000);
+    SetExDrawRequestPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config, EXDRAWREQTASK_PRIORITY_HUD);
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.pos.x = 0;
     work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.pos.y = 0;
-    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]);
-    exDrawReqTask__Func_21641F0(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config);
+    SetExDrawRequestSprite2DOnlyEngineB(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]);
+    SetExDrawRequestAnimStopOnFinish(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config);
 
     work->timer = 30;
 
@@ -400,8 +400,8 @@ void ExTitleCard_Main_EnterZoneIcon(void)
 {
     exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-    exDrawReqTask__Sprite2D__Animate(work->aniBackdrop);
-    exDrawReqTask__Sprite2D__Animate(work->aniZoneIcon);
+    AnimateExDrawRequestSprite2D(work->aniBackdrop);
+    AnimateExDrawRequestSprite2D(work->aniZoneIcon);
 
     if ((padInput.btnPress & PAD_BUTTON_A) != 0 || (padInput.btnPress & PAD_BUTTON_B) != 0 || (padInput.btnPress & PAD_BUTTON_X) != 0 || (padInput.btnPress & PAD_BUTTON_Y) != 0
         || (padInput.btnPress & PAD_BUTTON_START) != 0)
@@ -432,8 +432,8 @@ void ExTitleCard_Main_EnterZoneIcon(void)
         }
         else
         {
-            exDrawReqTask__AddRequest(work->aniBackdrop, &work->aniBackdrop->config);
-            exDrawReqTask__AddRequest(work->aniZoneIcon, &work->aniZoneIcon->config);
+            AddExDrawRequest(work->aniBackdrop, &work->aniBackdrop->config);
+            AddExDrawRequest(work->aniZoneIcon, &work->aniZoneIcon->config);
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -446,45 +446,45 @@ void ExTitleCard_Action_InitZoneActText(void)
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SONIC);
 
-    work->aniBackdrop->sprite.pos.x            = HW_LCD_CENTER_X;
-    work->aniBackdrop->sprite.pos.y            = 80;
-    work->aniBackdrop->sprite.scale.x          = FLOAT_TO_FX32(1.0);
-    work->aniBackdrop->sprite.scale.y          = FLOAT_TO_FX32(1.0);
-    work->aniBackdrop->config.field_2.value_20 = TRUE;
+    work->aniBackdrop->sprite.pos.x                 = HW_LCD_CENTER_X;
+    work->aniBackdrop->sprite.pos.y                 = 80;
+    work->aniBackdrop->sprite.scale.x               = FLOAT_TO_FX32(1.0);
+    work->aniBackdrop->sprite.scale.y               = FLOAT_TO_FX32(1.0);
+    work->aniBackdrop->config.display.disableAffine = TRUE;
 
-    work->aniZoneIcon->sprite.pos.x            = HW_LCD_CENTER_X;
-    work->aniZoneIcon->sprite.pos.y            = 80;
-    work->aniZoneIcon->sprite.scale.x          = FLOAT_TO_FX32(1.0);
-    work->aniZoneIcon->sprite.scale.y          = FLOAT_TO_FX32(1.0);
-    work->aniZoneIcon->config.field_2.value_20 = TRUE;
+    work->aniZoneIcon->sprite.pos.x                 = HW_LCD_CENTER_X;
+    work->aniZoneIcon->sprite.pos.y                 = 80;
+    work->aniZoneIcon->sprite.scale.x               = FLOAT_TO_FX32(1.0);
+    work->aniZoneIcon->sprite.scale.y               = FLOAT_TO_FX32(1.0);
+    work->aniZoneIcon->config.display.disableAffine = TRUE;
 
-    work->aniZoneNameTextJP->sprite.pos.x            = work->aniBackdrop->sprite.pos.x;
-    work->aniZoneNameTextJP->sprite.pos.y            = work->aniBackdrop->sprite.pos.y - 48;
-    work->aniZoneNameTextJP->config.field_2.value_20 = TRUE;
+    work->aniZoneNameTextJP->sprite.pos.x                 = work->aniBackdrop->sprite.pos.x;
+    work->aniZoneNameTextJP->sprite.pos.y                 = work->aniBackdrop->sprite.pos.y - 48;
+    work->aniZoneNameTextJP->config.display.disableAffine = TRUE;
 
-    work->aniActBanner->sprite.pos.x            = work->aniBackdrop->sprite.pos.x + 32;
-    work->aniActBanner->sprite.pos.y            = work->aniBackdrop->sprite.pos.y + 28;
-    work->aniActBanner->config.field_2.value_20 = TRUE;
+    work->aniActBanner->sprite.pos.x                 = work->aniBackdrop->sprite.pos.x + 32;
+    work->aniActBanner->sprite.pos.y                 = work->aniBackdrop->sprite.pos.y + 28;
+    work->aniActBanner->config.display.disableAffine = TRUE;
 
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.pos.x            = work->aniBackdrop->sprite.pos.x - 76;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.pos.y            = work->aniBackdrop->sprite.pos.y + 51;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config.field_2.value_20 = TRUE;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.pos.x                 = work->aniBackdrop->sprite.pos.x - 76;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.pos.y                 = work->aniBackdrop->sprite.pos.y + 51;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config.display.disableAffine = TRUE;
 
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.pos.x            = work->aniBackdrop->sprite.pos.x - 52;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.pos.y            = work->aniBackdrop->sprite.pos.y + 51;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config.field_2.value_20 = TRUE;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.pos.x                 = work->aniBackdrop->sprite.pos.x - 52;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.pos.y                 = work->aniBackdrop->sprite.pos.y + 51;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config.display.disableAffine = TRUE;
 
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.pos.x            = work->aniBackdrop->sprite.pos.x - 28;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.pos.y            = work->aniBackdrop->sprite.pos.y + 51;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config.field_2.value_20 = TRUE;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.pos.x                 = work->aniBackdrop->sprite.pos.x - 28;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.pos.y                 = work->aniBackdrop->sprite.pos.y + 51;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config.display.disableAffine = TRUE;
 
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.pos.x            = work->aniBackdrop->sprite.pos.x - 4;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.pos.y            = work->aniBackdrop->sprite.pos.y + 51;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config.field_2.value_20 = TRUE;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.pos.x                 = work->aniBackdrop->sprite.pos.x - 4;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.pos.y                 = work->aniBackdrop->sprite.pos.y + 51;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config.display.disableAffine = TRUE;
 
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.pos.x            = work->aniBackdrop->sprite.pos.x + 20;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.pos.y            = work->aniBackdrop->sprite.pos.y + 51;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config.field_2.value_20 = TRUE;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.pos.x                 = work->aniBackdrop->sprite.pos.x + 20;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.pos.y                 = work->aniBackdrop->sprite.pos.y + 51;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config.display.disableAffine = TRUE;
 
     SetCurrentExTaskMainEvent(ExTitleCard_Main_ShowZoneActText);
     ExTitleCard_Main_ShowZoneActText();
@@ -494,38 +494,38 @@ void ExTitleCard_Main_ShowZoneActText(void)
 {
     exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-    exDrawReqTask__Sprite2D__Animate(work->aniBackdrop);
-    exDrawReqTask__Sprite2D__Animate(work->aniZoneIcon);
-    exDrawReqTask__Sprite2D__Animate(work->aniZoneNameTextJP);
-    exDrawReqTask__Sprite2D__Animate(work->aniActBanner);
-    exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]);
-    exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]);
-    exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]);
-    exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]);
-    exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]);
+    AnimateExDrawRequestSprite2D(work->aniBackdrop);
+    AnimateExDrawRequestSprite2D(work->aniZoneIcon);
+    AnimateExDrawRequestSprite2D(work->aniZoneNameTextJP);
+    AnimateExDrawRequestSprite2D(work->aniActBanner);
+    AnimateExDrawRequestSprite2D(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]);
+    AnimateExDrawRequestSprite2D(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]);
+    AnimateExDrawRequestSprite2D(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]);
+    AnimateExDrawRequestSprite2D(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]);
+    AnimateExDrawRequestSprite2D(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]);
 
     if ((padInput.btnPress & PAD_BUTTON_A) != 0 || (padInput.btnPress & PAD_BUTTON_B) != 0 || (padInput.btnPress & PAD_BUTTON_X) != 0 || (padInput.btnPress & PAD_BUTTON_Y) != 0
         || (padInput.btnPress & PAD_BUTTON_START) != 0)
     {
         ExTitleCard_Action_ShowReadyText();
     }
-    else if (exDrawReqTask__Sprite2D__IsAnimFinished(work->aniZoneLetter[EXTITLECARD_ZONELETTER_COUNT - 1]))
+    else if (IsExDrawRequestSprite2DAnimFinished(work->aniZoneLetter[EXTITLECARD_ZONELETTER_COUNT - 1]))
     {
         ExTitleCard_Action_ExitNameplate();
     }
     else
     {
         if (GetExTutorialMessageLanguage() == OS_LANGUAGE_JAPANESE)
-            exDrawReqTask__AddRequest(work->aniZoneNameTextJP, &work->aniZoneNameTextJP->config);
+            AddExDrawRequest(work->aniZoneNameTextJP, &work->aniZoneNameTextJP->config);
 
-        exDrawReqTask__AddRequest(work->aniActBanner, &work->aniActBanner->config);
-        exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config);
-        exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config);
-        exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config);
-        exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config);
-        exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config);
-        exDrawReqTask__AddRequest(work->aniBackdrop, &work->aniBackdrop->config);
-        exDrawReqTask__AddRequest(work->aniZoneIcon, &work->aniZoneIcon->config);
+        AddExDrawRequest(work->aniActBanner, &work->aniActBanner->config);
+        AddExDrawRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config);
+        AddExDrawRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config);
+        AddExDrawRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config);
+        AddExDrawRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config);
+        AddExDrawRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config);
+        AddExDrawRequest(work->aniBackdrop, &work->aniBackdrop->config);
+        AddExDrawRequest(work->aniZoneIcon, &work->aniZoneIcon->config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -552,15 +552,15 @@ void ExTitleCard_Main_ExitNameplate(void)
     }
     else
     {
-        exDrawReqTask__Sprite2D__Animate(work->aniBackdrop);
-        exDrawReqTask__Sprite2D__Animate(work->aniZoneIcon);
-        exDrawReqTask__Sprite2D__Animate(work->aniZoneNameTextJP);
-        exDrawReqTask__Sprite2D__Animate(work->aniActBanner);
-        exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]);
-        exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]);
-        exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]);
-        exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]);
-        exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]);
+        AnimateExDrawRequestSprite2D(work->aniBackdrop);
+        AnimateExDrawRequestSprite2D(work->aniZoneIcon);
+        AnimateExDrawRequestSprite2D(work->aniZoneNameTextJP);
+        AnimateExDrawRequestSprite2D(work->aniActBanner);
+        AnimateExDrawRequestSprite2D(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]);
+        AnimateExDrawRequestSprite2D(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]);
+        AnimateExDrawRequestSprite2D(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]);
+        AnimateExDrawRequestSprite2D(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]);
+        AnimateExDrawRequestSprite2D(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]);
 
         work->nameplaceExitPercent += FLOAT_TO_FX32(1.0 / 40.0);
 
@@ -581,16 +581,16 @@ void ExTitleCard_Main_ExitNameplate(void)
         else
         {
             if (GetExTutorialMessageLanguage() == OS_LANGUAGE_JAPANESE)
-                exDrawReqTask__AddRequest(work->aniZoneNameTextJP, &work->aniZoneNameTextJP->config);
+                AddExDrawRequest(work->aniZoneNameTextJP, &work->aniZoneNameTextJP->config);
 
-            exDrawReqTask__AddRequest(work->aniActBanner, &work->aniActBanner->config);
-            exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config);
-            exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config);
-            exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config);
-            exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config);
-            exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config);
-            exDrawReqTask__AddRequest(work->aniBackdrop, &work->aniBackdrop->config);
-            exDrawReqTask__AddRequest(work->aniZoneIcon, &work->aniZoneIcon->config);
+            AddExDrawRequest(work->aniActBanner, &work->aniActBanner->config);
+            AddExDrawRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config);
+            AddExDrawRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config);
+            AddExDrawRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config);
+            AddExDrawRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config);
+            AddExDrawRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config);
+            AddExDrawRequest(work->aniBackdrop, &work->aniBackdrop->config);
+            AddExDrawRequest(work->aniZoneIcon, &work->aniZoneIcon->config);
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -614,22 +614,22 @@ void ExTitleCard_Action_ShowReadyText(void)
     work->aniReadyText->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_READY_TEXT;
     work->aniReadyText->sprite.paletteRow = PALETTE_ROW_7;
     SetupExHUDSprite(work->aniReadyText);
-    exDrawReqTask__SetConfigPriority(&work->aniReadyText->config, 0xE000);
+    SetExDrawRequestPriority(&work->aniReadyText->config, EXDRAWREQTASK_PRIORITY_HUD);
     work->aniReadyText->sprite.pos.x = HW_LCD_CENTER_X;
     work->aniReadyText->sprite.pos.y = 96;
-    exDrawReqTask__Sprite2D__Func_2161B80(work->aniReadyText);
-    work->aniReadyText->config.field_2.value_20 = TRUE;
-    exDrawReqTask__Func_21641F0(&work->aniReadyText->config);
+    SetExDrawRequestSprite2DOnlyEngineB(work->aniReadyText);
+    work->aniReadyText->config.display.disableAffine = TRUE;
+    SetExDrawRequestAnimStopOnFinish(&work->aniReadyText->config);
 
     work->aniGoText->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_GO_TEXT;
     work->aniGoText->sprite.paletteRow = PALETTE_ROW_7;
     SetupExHUDSprite(work->aniGoText);
-    exDrawReqTask__SetConfigPriority(&work->aniGoText->config, 0xE000);
+    SetExDrawRequestPriority(&work->aniGoText->config, EXDRAWREQTASK_PRIORITY_HUD);
     work->aniGoText->sprite.pos.x = HW_LCD_CENTER_X;
     work->aniGoText->sprite.pos.y = 96;
-    exDrawReqTask__Sprite2D__Func_2161B80(work->aniGoText);
-    work->aniGoText->config.field_2.value_20 = TRUE;
-    exDrawReqTask__Func_21641F0(&work->aniGoText->config);
+    SetExDrawRequestSprite2DOnlyEngineB(work->aniGoText);
+    work->aniGoText->config.display.disableAffine = TRUE;
+    SetExDrawRequestAnimStopOnFinish(&work->aniGoText->config);
 
     work->timer = 45;
 
@@ -641,15 +641,15 @@ void ExTitleCard_Main_ShowReadyText(void)
 {
     exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-    exDrawReqTask__Sprite2D__Animate(work->aniReadyText);
+    AnimateExDrawRequestSprite2D(work->aniReadyText);
 
-    if (exDrawReqTask__Sprite2D__IsAnimFinished(work->aniReadyText))
+    if (IsExDrawRequestSprite2DAnimFinished(work->aniReadyText))
     {
         ExTitleCard_Action_StartShowingGoText();
     }
     else
     {
-        exDrawReqTask__AddRequest(work->aniReadyText, &work->aniReadyText->config);
+        AddExDrawRequest(work->aniReadyText, &work->aniReadyText->config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -675,7 +675,7 @@ void ExTitleCard_Main_StartShowingGoText(void)
     }
     else
     {
-        exDrawReqTask__AddRequest(work->aniReadyText, &work->aniReadyText->config);
+        AddExDrawRequest(work->aniReadyText, &work->aniReadyText->config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -697,14 +697,14 @@ void ExTitleCard_Main_ShowGoText(void)
 {
     exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-    exDrawReqTask__Sprite2D__Animate(work->aniGoText);
-    if (exDrawReqTask__Sprite2D__IsAnimFinished(work->aniGoText))
+    AnimateExDrawRequestSprite2D(work->aniGoText);
+    if (IsExDrawRequestSprite2DAnimFinished(work->aniGoText))
     {
         ExTitleCard_Action_StartOutro();
     }
     else
     {
-        exDrawReqTask__AddRequest(work->aniGoText, &work->aniGoText->config);
+        AddExDrawRequest(work->aniGoText, &work->aniGoText->config);
         RunCurrentExTaskUnknownEvent();
     }
 }
@@ -729,7 +729,7 @@ void ExTitleCard_Main_OutroDelay(void)
     }
     else
     {
-        exDrawReqTask__AddRequest(work->aniGoText, &work->aniGoText->config);
+        AddExDrawRequest(work->aniGoText, &work->aniGoText->config);
 
         RunCurrentExTaskUnknownEvent();
     }

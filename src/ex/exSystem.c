@@ -180,16 +180,16 @@ void ExSystem_Main_Init(void)
     Camera3DTask *camera = Camera3D__GetWork();
     RenderCore_SetBlendBrightnessExt(VOID_TO_INT(&camera->gfxControl[1].blendManager), 16, 1, 31, 31, 0);
     InitExSystemStatus();
-    exDrawFadeUnknown__Func_21615A4(1, 1);
-    exDrawReqTask__Create();
+    LoadExDrawConfig(EXDRAW_CAMERACONFIG_1, EXDRAWREQ_LIGHT_BLUE);
+    CreateExDrawReqTask();
     exHitCheckTask_Create();
     CreateExGameSystem();
     CreateExHUD();
 
     GetExSystemStatus()->state = EXSYSTASK_STATE_INTRO;
 
-    exDrawFadeTask__Create(-16, 0, 32, 0, 1);
-    exDrawFadeTask__Create(-16, 0, 32, 0, 2);
+    CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_BLACK, RENDERCORE_BRIGHTNESS_DEFAULT, 32, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_A);
+    CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_BLACK, RENDERCORE_BRIGHTNESS_DEFAULT, 32, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_B);
 
     SetCurrentExTaskMainEvent(ExSystem_Main_WaitForStageStarted);
 }
@@ -325,8 +325,8 @@ void ExSystem_Action_BeginExitFadeOut(void)
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
     GetExSystemStatus()->finishMode = EXFINISHMODE_USER_QUIT;
-    exDrawFadeTask__Create(0, -16, 64, 0, 1);
-    exDrawFadeTask__Create(0, -16, 64, 0, 2);
+    CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_BLACK, 64, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_A);
+    CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_BLACK, 64, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_B);
 
     work->timer = 64;
 
@@ -356,8 +356,8 @@ void ExSystem_Action_StageCleared(void)
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
     GetExSystemStatus()->finishMode = EXFINISHMODE_STAGE_CLEARED;
-    exDrawFadeTask__Create(0, -16, 64, 0, 1);
-    exDrawFadeTask__Create(0, -16, 64, 0, 2);
+    CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_BLACK, 64, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_A);
+    CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_BLACK, 64, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_B);
 
     work->timer = 64;
 
@@ -391,8 +391,8 @@ void ExSystem_Action_BeginDeathFadeOut(void)
     else
         LoseExSystemLife();
 
-    exDrawFadeTask__Create(0, -16, 64, 0, 1);
-    exDrawFadeTask__Create(0, -16, 64, 0, 2);
+    CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_BLACK, 64, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_A);
+    CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_BLACK, 64, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_B);
 
     work->timer = 64;
 
@@ -451,13 +451,13 @@ void ExSystem_Main_DoStageRestart(void)
         exSysTask__sVars.exStageWillExit = FALSE;
 
         InitExSystemStatus();
-        exDrawReqTask__Create();
+        CreateExDrawReqTask();
         exHitCheckTask_Create();
         CreateExGameSystem();
         CreateExHUD();
 
-        exDrawFadeTask__Create(-16, 0, 32, 0, 1);
-        exDrawFadeTask__Create(-16, 0, 32, 0, 2);
+        CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_BLACK, RENDERCORE_BRIGHTNESS_DEFAULT, 32, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_A);
+        CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_BLACK, RENDERCORE_BRIGHTNESS_DEFAULT, 32, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_B);
         GetExSystemStatus()->state = EXSYSTASK_STATE_INTRO;
 
         SetCurrentExTaskMainEvent(ExSystem_Main_WaitForStageStarted);

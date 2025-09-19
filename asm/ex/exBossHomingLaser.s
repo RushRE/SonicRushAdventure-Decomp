@@ -28,7 +28,7 @@ exBossHomingLaserTask__Func_2159CEC: // 0x02159CEC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
-	bl exDrawReqTask__InitSprite3D
+	bl InitExDrawRequestSprite3D
 	ldr r0, _02159DEC // =exBossHomingLaserTask__ActiveInstanceCount
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -130,9 +130,9 @@ exBossHomingLaserTask__Main: // 0x02159E24
 	bl exBossHomingLaserTask__Func_2159CEC
 	add r0, r4, #0x194
 	mov r1, #0xa800
-	bl exDrawReqTask__SetConfigPriority
+	bl SetExDrawRequestPriority
 	add r0, r4, #0x194
-	bl exDrawReqTask__Func_2164218
+	bl SetExDrawRequestAnimAsOneShot
 	bl GetCurrentTask
 	ldr r1, _02159F5C // =exBossHomingLaserTask__ActiveInstanceCount
 	ldr r3, _02159F60 // =0x021740A4
@@ -161,10 +161,10 @@ exBossHomingLaserTask__Main: // 0x02159E24
 	strh lr, [r4, #0x26]
 	ldrh r3, [r4, #0x3a]
 	strh r3, [r4, #0x22]
-	bl exDrawReqTask__InitTrail
+	bl InitExDrawRequestTrail
 	ldr r1, _02159F68 // =0x0000A7FF
 	add r0, r4, #0x550
-	bl exDrawReqTask__SetConfigPriority
+	bl SetExDrawRequestPriority
 	mov r0, #1
 	strh r0, [r4, #4]
 	ldr r2, _02159F6C // =_mt_math_rand
@@ -252,7 +252,7 @@ exBossHomingLaserTask__Main_2159FE4: // 0x02159FE4
 	bl GetExPlayerPosition
 	mov r5, r0
 	add r0, r4, #0x44
-	bl exDrawReqTask__Sprite3D__Animate
+	bl AnimateExDrawRequestSprite3D
 	ldr r0, [r4, #0x28]
 	mov r1, #0
 	bl _fgr
@@ -332,7 +332,7 @@ _0215A0B8:
 	add r1, r4, #0x2c
 	mov r2, #0
 	strh r5, [r3, #4]
-	bl exDrawReqTask__Trail__HandleTrail5
+	bl ProcessExDrawRequestBossHomingLaserTrail
 _0215A128:
 	ldrh r1, [r4, #0x22]
 	ldr r2, _0215A268 // =FX_SinCosTable_
@@ -397,7 +397,7 @@ _0215A204:
 	ble _0215A21C
 	add r0, r4, #0x2e4
 	add r1, r4, #0x550
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 _0215A21C:
 	ldr r1, [r4, #0x30]
 	ldr r0, _0215A26C // =0x00024C04
@@ -409,7 +409,7 @@ _0215A21C:
 	ldr r2, [r4, #0x30]
 	add r1, r4, #0x194
 	str r2, [r4, #0x174]
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 _0215A248:
 	add r0, r4, #0x2e4
 	bl exHitCheckTask_AddHitCheck
@@ -460,7 +460,7 @@ exBossHomingLaserTask__Func_215A2CC: // 0x0215A2CC
 	bl GetExPlayerPosition
 	mov r4, r0
 	add r0, r5, #0x44
-	bl exDrawReqTask__Sprite3D__Animate
+	bl AnimateExDrawRequestSprite3D
 	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215A2FC
@@ -492,10 +492,10 @@ _0215A318:
 	add r1, r5, #0x2c
 	mov r2, #1
 	strh r4, [r3, #4]
-	bl exDrawReqTask__Trail__HandleTrail5
+	bl ProcessExDrawRequestBossHomingLaserTrail
 	add r0, r5, #0x44
 	add r1, r5, #0x194
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	add r0, r5, #0x2e4
 	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
@@ -640,7 +640,7 @@ _0215A500:
 	add r1, r4, #0x2c
 	mov r2, #2
 	strh r5, [r3, #4]
-	bl exDrawReqTask__Trail__HandleTrail5
+	bl ProcessExDrawRequestBossHomingLaserTrail
 _0215A570:
 	ldrh r0, [r4, #0x22]
 	ldr r5, _0215A674 // =FX_SinCosTable_
@@ -702,7 +702,7 @@ _0215A630:
 _0215A64C:
 	add r0, r4, #0x2e4
 	add r1, r4, #0x550
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	add r0, r4, #0x2e4
 	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
@@ -765,7 +765,7 @@ exBossSysAdminTask__Action_StartHomi0: // 0x0215A708
 	mov r1, #9
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	bl CreateExBossEffectHoming
 	mov r0, #0
 	str r0, [sp]
@@ -792,7 +792,7 @@ exBossSysAdminTask__Main_StartHomi0: // 0x0215A76C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldr r0, [r4, #0x3b0]
 	ldr r0, [r0, #0]
 	cmp r0, #0x1e000
@@ -815,7 +815,7 @@ _0215A7C8:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -831,9 +831,9 @@ exBossSysAdminTask__Main_FinishHomi0: // 0x0215A7F4
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _0215A820
 	bl exBossSysAdminTask__Action_StartHomi1
@@ -843,7 +843,7 @@ _0215A820:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -859,7 +859,7 @@ exBossSysAdminTask__Action_StartHomi1: // 0x0215A844
 	mov r1, #0xa
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	bl GetExTaskCurrent
 	ldr r1, _0215A878 // =exBossSysAdminTask__Main_StartHomi1
 	str r1, [r0]
@@ -876,7 +876,7 @@ exBossSysAdminTask__Main_StartHomi1: // 0x0215A87C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldr r0, [r4, #0x3b0]
 	ldr r0, [r0, #0]
 	cmp r0, #0xa000
@@ -906,7 +906,7 @@ _0215A8A8:
 	ldmia sp!, {r3, r4, r5, pc}
 _0215A8FC:
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _0215A918
 	bl exBossSysAdminTask__Action_StartHomi2
@@ -917,7 +917,7 @@ _0215A918:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -933,9 +933,9 @@ exBossSysAdminTask__Main_FinishHomi1: // 0x0215A944
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _0215A970
 	bl exBossSysAdminTask__Action_StartHomi2
@@ -945,7 +945,7 @@ _0215A970:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -962,7 +962,7 @@ exBossSysAdminTask__Action_StartHomi2: // 0x0215A994
 	mov r1, #0xb
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	bl GetExTaskCurrent
 	ldr r1, _0215A9CC // =exBossSysAdminTask__Main_StartHomi2
 	str r1, [r0]
@@ -978,9 +978,9 @@ exBossSysAdminTask__Main_StartHomi2: // 0x0215A9D0
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _0215A9FC
 	bl exBossSysAdminTask__Action_FinishHomingAttack
@@ -990,7 +990,7 @@ _0215A9FC:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0

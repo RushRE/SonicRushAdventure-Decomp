@@ -34,7 +34,6 @@ enum ExPlayerCharacter_
 
     EXPLAYER_CHARACTER_COUNT,
 };
-typedef u8 ExPlayerCharacter;
 
 enum ExPlayerSuperSonicAnimIDs
 {
@@ -138,15 +137,14 @@ typedef struct exPlayerAdminTask_
     EX_ACTION_BAC3D_WORK spriteSonic;
     EX_ACTION_BAC3D_WORK spriteBlaze;
     EX_ACTION_BAC3D_WORK *activeSprite;
-    EX_ACTION_TRAIL_WORK trailA;
-    EX_ACTION_TRAIL_WORK trailB;
+    EX_ACTION_TRAIL_WORK trailMain;
+    EX_ACTION_TRAIL_WORK trailSub;
 } exPlayerAdminTask;
 
 typedef struct exPlayerScreenMoveTask_
 {
     s32 unused;
-    exDrawFadeUnknown *unknownA;
-    exDrawFadeUnknown *unknownB;
+    ExDrawCameraConfig *cameraConfig[GRAPHICS_ENGINE_COUNT];
 } exPlayerScreenMoveTask;
 
 // --------------------

@@ -175,8 +175,8 @@ void ExBoss_Main_Init(void)
     work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_DRAGON_ONLY];
 
     exBossHelpers__LoadAssets(&work->aniBoss);
-    exDrawReqTask__SetConfigPriority(&work->aniBoss.config, 0xA800);
-    exDrawReqTask__Func_2164218(&work->aniBoss.config);
+    SetExDrawRequestPriority(&work->aniBoss.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     for (s16 i = 0; i < (s16)ARRAY_COUNT(work->aniBoss.model.paletteAnimator); i++)
     {
@@ -226,7 +226,7 @@ void ExBoss_Main_WaitForTitleCard(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     if (GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_ACTIVE)
     {
@@ -234,7 +234,7 @@ void ExBoss_Main_WaitForTitleCard(void)
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -253,7 +253,7 @@ void ExBoss_Main_InitialFlee(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     work->aniBoss.model.translation.y += work->fleeVelocity.y;
 
@@ -264,7 +264,7 @@ void ExBoss_Main_InitialFlee(void)
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -312,7 +312,7 @@ void ExBoss_Main_RegenerateHealth(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
     HandleExBossMovement();
 
     if (exBossRegenerateTimer < (EXBOSS_HEALTH_MAX - 1))
@@ -336,7 +336,7 @@ void ExBoss_Main_RegenerateHealth(void)
         }
     }
 
-    exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+    AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -346,7 +346,7 @@ void ExBoss_Action_Idle_DragonOnly(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fw0);
-    exDrawReqTask__Func_2164218(&work->aniBoss.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     GetExBossIdleDuration();
 
@@ -358,7 +358,7 @@ void ExBoss_Main_Idle_DragonOnly(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     work->flags.isAttackReady = TRUE;
     HandleExBossMovement();
@@ -413,7 +413,7 @@ void ExBoss_Main_Idle_DragonOnly(void)
         work->idleDuration--;
     }
 
-    exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+    AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
@@ -424,7 +424,7 @@ void ExBoss_Action_Idle_MeteorFireball(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fw0);
-    exDrawReqTask__Func_2164218(&work->aniBoss.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(ExBoss_Main_Idle_MeteorFireball);
     ExBoss_Main_Idle_MeteorFireball();
@@ -434,7 +434,7 @@ void ExBoss_Main_Idle_MeteorFireball(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     work->flags.isAttackReady = TRUE;
     HandleExBossMovement();
@@ -476,7 +476,7 @@ void ExBoss_Main_Idle_MeteorFireball(void)
         work->idleDuration--;
     }
 
-    exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+    AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
@@ -487,7 +487,7 @@ void ExBoss_Action_Idle_Wait_DragonOnly(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fw0);
-    exDrawReqTask__Func_2164218(&work->aniBoss.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(ExBoss_Main_Idle_Wait_DragonOnly);
     ExBoss_Main_Idle_Wait_DragonOnly();
@@ -497,7 +497,7 @@ void ExBoss_Main_Idle_Wait_DragonOnly(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     work->flags.isAttackReady = TRUE;
     HandleExBossMovement();
@@ -526,7 +526,7 @@ void ExBoss_Main_Idle_Wait_DragonOnly(void)
     else
     {
         work->idleDuration--;
-        exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
@@ -538,7 +538,7 @@ void ExBoss_Action_Idle_HomingLaserDragon(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fw0);
-    exDrawReqTask__Func_2164218(&work->aniBoss.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     GetExBossIdleDuration();
 
@@ -550,7 +550,7 @@ void ExBoss_Main_Idle_HomingLaserDragon(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     work->flags.isAttackReady = TRUE;
     HandleExBossMovement();
@@ -601,7 +601,7 @@ void ExBoss_Main_Idle_HomingLaserDragon(void)
         work->idleDuration--;
     }
 
-    exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+    AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
@@ -612,7 +612,7 @@ void ExBoss_Action_Idle_MeteorFireballMagmaWave(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fw0);
-    exDrawReqTask__Func_2164218(&work->aniBoss.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(ExBoss_Main_Idle_MeteorFireballMagmaWave);
     ExBoss_Main_Idle_MeteorFireballMagmaWave();
@@ -622,7 +622,7 @@ void ExBoss_Main_Idle_MeteorFireballMagmaWave(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     work->flags.isAttackReady = TRUE;
     HandleExBossMovement();
@@ -672,7 +672,7 @@ void ExBoss_Main_Idle_MeteorFireballMagmaWave(void)
         work->idleDuration--;
     }
 
-    exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+    AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
@@ -683,7 +683,7 @@ void ExBoss_Action_Idle_Wait_HomingLaserDragon(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fw0);
-    exDrawReqTask__Func_2164218(&work->aniBoss.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(ExBoss_Main_Idle_Wait_HomingLaserDragon);
     ExBoss_Main_Idle_Wait_HomingLaserDragon();
@@ -693,7 +693,7 @@ void ExBoss_Main_Idle_Wait_HomingLaserDragon(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     work->flags.isAttackReady = TRUE;
     HandleExBossMovement();
@@ -722,7 +722,7 @@ void ExBoss_Main_Idle_Wait_HomingLaserDragon(void)
     else
     {
         work->idleDuration--;
-        exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
@@ -734,7 +734,7 @@ void ExBoss_Action_Idle_HomingLaserDragon_Phase3(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fw0);
-    exDrawReqTask__Func_2164218(&work->aniBoss.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     GetExBossIdleDuration();
 
@@ -746,7 +746,7 @@ void ExBoss_Main_Idle_HomingLaserDragon_Phase3(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     work->flags.isAttackReady = TRUE;
     HandleExBossMovement();
@@ -797,7 +797,7 @@ void ExBoss_Main_Idle_HomingLaserDragon_Phase3(void)
         work->idleDuration--;
     }
 
-    exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+    AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
@@ -808,7 +808,7 @@ void ExBoss_Action_Idle_MeteorFireballMagmaWaveLineMissile(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fw0);
-    exDrawReqTask__Func_2164218(&work->aniBoss.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(ExBoss_Main_Idle_MeteorFireballMagmaWaveLineMissile);
     ExBoss_Main_Idle_MeteorFireballMagmaWaveLineMissile();
@@ -818,7 +818,7 @@ void ExBoss_Main_Idle_MeteorFireballMagmaWaveLineMissile(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     work->flags.isAttackReady = TRUE;
     HandleExBossMovement();
@@ -876,7 +876,7 @@ void ExBoss_Main_Idle_MeteorFireballMagmaWaveLineMissile(void)
         work->idleDuration--;
     }
 
-    exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+    AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
     RunCurrentExTaskUnknownEvent();
@@ -887,7 +887,7 @@ void ExBoss_Action_Idle_Wait_HomingLaserDragon_Phase3(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fw0);
-    exDrawReqTask__Func_2164218(&work->aniBoss.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(ExBoss_Main_Idle_Wait_HomingLaserDragon_Phase3);
     ExBoss_Main_Idle_Wait_HomingLaserDragon_Phase3();
@@ -897,7 +897,7 @@ void ExBoss_Main_Idle_Wait_HomingLaserDragon_Phase3(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exDrawReqTask__Model__Animate(&work->aniBoss);
+    AnimateExDrawRequestModel(&work->aniBoss);
 
     work->flags.isAttackReady = TRUE;
     HandleExBossMovement();
@@ -927,7 +927,7 @@ void ExBoss_Main_Idle_Wait_HomingLaserDragon_Phase3(void)
     {
         work->idleDuration--;
 
-        exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
         RunCurrentExTaskUnknownEvent();

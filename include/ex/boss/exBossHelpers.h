@@ -2,6 +2,7 @@
 #define RUSH_EXBOSSHELPERS_H
 
 #include <ex/boss/exBoss.h>
+#include <ex/system/exDrawReq.h>
 
 // --------------------
 // ENUMS
@@ -22,7 +23,7 @@
 NOT_DECOMPILED void exBossHelpers__LoadAssets(EX_ACTION_NN_WORK *work);
 NOT_DECOMPILED void exBossHelpers__SetAnimation(EX_ACTION_NN_WORK *work, ExBossAnimIDs animID);
 NOT_DECOMPILED void exBossHelpers__Func_2154390(EX_ACTION_NN_WORK *work);
-NOT_DECOMPILED void exBossHelpers__GetBossAssets(void);
+NOT_DECOMPILED EX_ACTION_NN_WORK *exBossHelpers__GetBossAssets(void);
 NOT_DECOMPILED void exBossHelpers__BossRenderCallback(void);
 NOT_DECOMPILED void exBossSysAdminTask__Action_StartDmg0(void);
 NOT_DECOMPILED void exBossSysAdminTask__Main_Dmg0(void);

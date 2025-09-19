@@ -107,6 +107,13 @@ static void ExPlayer_Draw(void);
 static void ExPlayer_DelayCallback(void);
 static void ProcessExPlayerAnimations(void);
 
+#ifdef NON_MATCHING
+extern BOOL SetExDrawRequestGlobalModelConfigTimer(u8 duration);
+#else
+// We explicitly use "void" return value, as that allows 'exPlayerAdminTask__Action_Die' to match
+extern void SetExDrawRequestGlobalModelConfigTimer(u8 duration);
+#endif
+
 // --------------------
 // FUNCTIONS
 // --------------------
@@ -129,8 +136,8 @@ void ExPlayerScreenMover_Main_Init(void)
 
     exPlayerScreenMoverTaskSingleton = GetCurrentTask();
 
-    work->unknownA = exDrawFadeTask__GetUnknownA();
-    work->unknownB = exDrawFadeTask__GetUnknownB();
+    work->cameraConfig[GRAPHICS_ENGINE_A] = GetExDrawCameraConfigA();
+    work->cameraConfig[GRAPHICS_ENGINE_B] = GetExDrawCameraConfigB();
 
     SetCurrentExTaskMainEvent(ExPlayerScreenMover_Main_Active);
 }
@@ -155,16 +162,16 @@ void ExPlayerScreenMover_Main_Active(void)
 
     s32 targetPos = 50 * (exPlayerScreenMoverTargetPos->x / 100);
 
-    if (work->unknownA->field_A2 == 1 && exPlayerScreenMoverTargetPos != NULL)
+    if (work->cameraConfig[GRAPHICS_ENGINE_A]->type == EXDRAW_CAMERACONFIG_1 && exPlayerScreenMoverTargetPos != NULL)
     {
-        work->unknownA->camera2.lookAtTo.x   = targetPos;
-        work->unknownA->camera2.lookAtFrom.x = targetPos;
+        work->cameraConfig[GRAPHICS_ENGINE_A]->nextCamera.lookAtTo.x   = targetPos;
+        work->cameraConfig[GRAPHICS_ENGINE_A]->nextCamera.lookAtFrom.x = targetPos;
     }
 
-    if (work->unknownB->field_A2 == 1 && exPlayerScreenMoverTargetPos != NULL)
+    if (work->cameraConfig[GRAPHICS_ENGINE_B]->type == EXDRAW_CAMERACONFIG_1 && exPlayerScreenMoverTargetPos != NULL)
     {
-        work->unknownB->camera2.lookAtTo.x   = targetPos;
-        work->unknownB->camera2.lookAtFrom.x = targetPos;
+        work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.lookAtTo.x   = targetPos;
+        work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.lookAtFrom.x = targetPos;
     }
 
     RunCurrentExTaskUnknownEvent();
@@ -190,25 +197,25 @@ void ExPlayer_Main_Init(void)
 
     CreateExPlayerScreenMover();
     LoadExSuperSonicModel(&work->aniSonic->manager);
-    exDrawReqTask__SetConfigPriority(&work->aniSonic->manager.config, 0xA800);
+    SetExDrawRequestPriority(&work->aniSonic->manager.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     work->aniSonic->manager.model.translation.y = -FLOAT_TO_FX32(90.0);
     work->aniSonic->nextAnim                    = ex_son_fw;
 
     LoadExSuperSonicSprite(&work->spriteSonic);
-    exDrawReqTask__SetConfigPriority(&work->spriteSonic.config, 0xA800);
+    SetExDrawRequestPriority(&work->spriteSonic.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
 
     LoadExBurningBlazeModel(&work->aniBlaze->manager);
-    exDrawReqTask__SetConfigPriority(&work->aniBlaze->manager.config, 0xA800);
+    SetExDrawRequestPriority(&work->aniBlaze->manager.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     work->aniBlaze->manager.model.translation.y = -FLOAT_TO_FX32(90.0);
     work->aniBlaze->nextAnim                    = ex_blz_fw;
 
     LoadExBurningBlazeSprite(&work->spriteBlaze);
-    exDrawReqTask__SetConfigPriority(&work->spriteBlaze.config, 0xA800);
+    SetExDrawRequestPriority(&work->spriteBlaze.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
 
     work->worker->playerFlags.characterID = EXPLAYER_CHARACTER_SONIC;
     ExPlayer_SwapPlayerGraphics();
-    exDrawReqTask__InitTrail(&work->trailA, &work->activeModelMain->model.translation, 1);
-    exDrawReqTask__SetConfigPriority(&work->trailA.config, 0xA800);
+    InitExDrawRequestTrail(&work->trailMain, &work->activeModelMain->model.translation, EXDRAWREQTASK_TRAIL_PLAYER);
+    SetExDrawRequestPriority(&work->trailMain.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     work->worker->swapCooldown = 0;
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_EnterPlayers);
@@ -302,10 +309,10 @@ void ExPlayer_Main_InitForBossChase(void)
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
 
     work->worker->shockStunDuration = 0;
-    exDrawReqTask__Func_2164288(0);
+    SetExDrawRequestGlobalModelConfigTimer(0);
     work->worker->moveFlags.disableDash = FALSE;
-    exDrawReqTask__Func_21642F0(&work->aniSonic->manager.config, 7);
-    exDrawReqTask__Func_21642F0(&work->aniBlaze->manager.config, 7);
+    SetExDrawLightType(&work->aniSonic->manager.config, EXDRAWREQ_LIGHT_DEFAULT);
+    SetExDrawLightType(&work->aniBlaze->manager.config, EXDRAWREQ_LIGHT_DEFAULT);
     work->worker->barrierChargeTimer                       = 0;
     work->aniSonic->manager.model.animator.speedMultiplier = FLOAT_TO_FX32(1.0);
     work->worker->fireballChargeTimer                      = 0;
@@ -314,13 +321,13 @@ void ExPlayer_Main_InitForBossChase(void)
     work->worker->bossChaseTargetPos.y                     = FLOAT_TO_FX32(0.0);
 
     SetExSuperSonicAnimation(&work->aniSonic->manager, work->aniSonic->nextAnim);
-    exDrawReqTask__Func_2164218(&work->aniSonic->manager.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniSonic->manager.config);
 
     SetExBurningBlazeAnimation(&work->aniBlaze->manager, work->aniBlaze->nextAnim);
-    exDrawReqTask__Func_2164218(&work->aniBlaze->manager.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBlaze->manager.config);
 
-    exDrawReqTask__InitTrail(&work->trailB, &work->activeModelSub->model.translation, 1);
-    exDrawReqTask__SetConfigPriority(&work->trailB.config, 0xA800);
+    InitExDrawRequestTrail(&work->trailSub, &work->activeModelSub->model.translation, EXDRAWREQTASK_TRAIL_PLAYER);
+    SetExDrawRequestPriority(&work->trailSub.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_PrepareForBossChase);
     ExPlayer_Main_PrepareForBossChase();
@@ -354,7 +361,7 @@ void ExPlayer_Main_PrepareForBossChase(void)
         }
     }
 
-    exDrawReqTask__Trail__HandleTrail(&work->trailA, &work->activeModelMain->model.translation, 0, worker->playerFlags.characterID);
+    ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 0, worker->playerFlags.characterID);
     ExPlayer_DrawForBossChase();
 
     RunCurrentExTaskUnknownEvent();
@@ -384,7 +391,7 @@ void ExPlayer_Main_BossChaseDelay(void)
     }
     else
     {
-        exDrawReqTask__Trail__HandleTrail(&work->trailA, &work->activeModelMain->model.translation, 0, work->worker->playerFlags.characterID);
+        ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 0, work->worker->playerFlags.characterID);
         ExPlayer_DrawForBossChase();
 
         RunCurrentExTaskUnknownEvent();
@@ -424,8 +431,8 @@ void ExPlayer_Action_StartBossChase(void)
         work->worker->bossChaseTimer = SECONDS_TO_FRAMES(5.0);
     }
 
-    exDrawFadeTask__Create(16, 0, 16, 0, 1);
-    exDrawFadeTask__Create(16, 0, 16, 0, 2);
+    CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_WHITE, RENDERCORE_BRIGHTNESS_DEFAULT, 16, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_A);
+    CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_WHITE, RENDERCORE_BRIGHTNESS_DEFAULT, 16, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_B);
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_StartBossChase);
     ExPlayer_Main_StartBossChase();
@@ -445,17 +452,17 @@ void ExPlayer_Main_StartBossChase(void)
     {
         if (work->worker->playerFlags.characterID == EXPLAYER_CHARACTER_SONIC)
         {
-            exDrawReqTask__Trail__HandleTrail(&work->trailA, &work->activeModelMain->model.translation, 2, 0);
-            exDrawReqTask__Trail__HandleTrail(&work->trailB, &work->activeModelSub->model.translation, 2, 1);
+            ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 2, EXPLAYER_CHARACTER_SONIC);
+            ProcessExDrawRequestPlayerTrail(&work->trailSub, &work->activeModelSub->model.translation, 2, EXPLAYER_CHARACTER_BLAZE);
 
-            exDrawReqTask__AddRequest(&work->trailB, &work->trailB.config);
+            AddExDrawRequest(&work->trailSub, &work->trailSub.config);
         }
         else
         {
-            exDrawReqTask__Trail__HandleTrail(&work->trailA, &work->activeModelMain->model.translation, 2, 1);
-            exDrawReqTask__Trail__HandleTrail(&work->trailB, &work->activeModelSub->model.translation, 2, 0);
+            ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 2, EXPLAYER_CHARACTER_BLAZE);
+            ProcessExDrawRequestPlayerTrail(&work->trailSub, &work->activeModelSub->model.translation, 2, EXPLAYER_CHARACTER_SONIC);
 
-            exDrawReqTask__AddRequest(&work->trailB, &work->trailB.config);
+            AddExDrawRequest(&work->trailSub, &work->trailSub.config);
         }
 
         ExPlayer_DrawForBossChase();
@@ -498,17 +505,17 @@ void ExPlayer_Main_StartBossPhase2(void)
     {
         if (work->worker->playerFlags.characterID == EXPLAYER_CHARACTER_SONIC)
         {
-            exDrawReqTask__Trail__HandleTrail(&work->trailA, &work->activeModelMain->model.translation, 2, 0);
-            exDrawReqTask__Trail__HandleTrail(&work->trailB, &work->activeModelSub->model.translation, 2, 1);
+            ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 2, EXPLAYER_CHARACTER_SONIC);
+            ProcessExDrawRequestPlayerTrail(&work->trailSub, &work->activeModelSub->model.translation, 2, EXPLAYER_CHARACTER_BLAZE);
 
-            exDrawReqTask__AddRequest(&work->trailB, &work->trailB.config);
+            AddExDrawRequest(&work->trailSub, &work->trailSub.config);
         }
         else
         {
-            exDrawReqTask__Trail__HandleTrail(&work->trailA, &work->activeModelMain->model.translation, 2, 1);
-            exDrawReqTask__Trail__HandleTrail(&work->trailB, &work->activeModelSub->model.translation, 2, 0);
+            ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 2, EXPLAYER_CHARACTER_BLAZE);
+            ProcessExDrawRequestPlayerTrail(&work->trailSub, &work->activeModelSub->model.translation, 2, EXPLAYER_CHARACTER_SONIC);
 
-            exDrawReqTask__AddRequest(&work->trailB, &work->trailB.config);
+            AddExDrawRequest(&work->trailSub, &work->trailSub.config);
         }
 
         ExPlayer_DrawForBossChase();
@@ -533,17 +540,17 @@ void ExPlayer_Main_StartBossPhase3(void)
     {
         if (work->worker->playerFlags.characterID == EXPLAYER_CHARACTER_SONIC)
         {
-            exDrawReqTask__Trail__HandleTrail(&work->trailA, &work->activeModelMain->model.translation, 2, 0);
-            exDrawReqTask__Trail__HandleTrail(&work->trailB, &work->activeModelSub->model.translation, 2, 1);
+            ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 2, EXPLAYER_CHARACTER_SONIC);
+            ProcessExDrawRequestPlayerTrail(&work->trailSub, &work->activeModelSub->model.translation, 2, EXPLAYER_CHARACTER_BLAZE);
 
-            exDrawReqTask__AddRequest(&work->trailB, &work->trailB.config);
+            AddExDrawRequest(&work->trailSub, &work->trailSub.config);
         }
         else
         {
-            exDrawReqTask__Trail__HandleTrail(&work->trailA, &work->activeModelMain->model.translation, 2, 1);
-            exDrawReqTask__Trail__HandleTrail(&work->trailB, &work->activeModelSub->model.translation, 2, 0);
+            ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 2, EXPLAYER_CHARACTER_BLAZE);
+            ProcessExDrawRequestPlayerTrail(&work->trailSub, &work->activeModelSub->model.translation, 2, EXPLAYER_CHARACTER_SONIC);
 
-            exDrawReqTask__AddRequest(&work->trailB, &work->trailB.config);
+            AddExDrawRequest(&work->trailSub, &work->trailSub.config);
         }
 
         ExPlayer_DrawForBossChase();
@@ -568,7 +575,7 @@ void ExPlayer_DrawForBossChase(void)
             work->activeModelMain->model.angle.z = FLOAT_DEG_TO_IDX(180.0);
     }
 
-    exDrawReqTask__AddRequest(work->activeModelMain, &work->activeModelMain->config);
+    AddExDrawRequest(work->activeModelMain, &work->activeModelMain->config);
 
     work->worker->position = &work->activeModelMain->model.translation;
 
@@ -587,8 +594,8 @@ void ExPlayer_DrawForBossChase(void)
             MultiplyFX(work->activeModelMain->model.translation.y - FLOAT_TO_FX32(5.0) - work->activeModelSub->model.translation.y, FLOAT_TO_FX32(0.125));
     }
 
-    exDrawReqTask__AddRequest(work->activeModelSub, &work->activeModelSub->config);
-    exDrawReqTask__AddRequest(&work->trailA, &work->trailA.config);
+    AddExDrawRequest(work->activeModelSub, &work->activeModelSub->config);
+    AddExDrawRequest(&work->trailMain, &work->trailMain.config);
 
     SetExPlayerScreenMoverTargetPos(&work->activeModelMain->model.translation);
 }
@@ -600,8 +607,8 @@ void ExPlayer_Action_ShockStun(void)
     ProcessExPlayerAnimations();
 
     work->worker->moveFlags.disableDash = FALSE;
-    exDrawReqTask__Func_21642F0(&work->aniSonic->manager.config, 7);
-    exDrawReqTask__Func_21642F0(&work->aniBlaze->manager.config, 7);
+    SetExDrawLightType(&work->aniSonic->manager.config, EXDRAWREQ_LIGHT_DEFAULT);
+    SetExDrawLightType(&work->aniBlaze->manager.config, EXDRAWREQ_LIGHT_DEFAULT);
 
     work->worker->barrierChargeTimer                       = 0;
     work->aniSonic->manager.model.animator.speedMultiplier = FLOAT_TO_FX32(1.0);
@@ -609,9 +616,9 @@ void ExPlayer_Action_ShockStun(void)
     work->worker->dashTimer                                = 0;
 
     SetExSuperSonicAnimation(&work->aniSonic->manager, ex_son_biri);
-    exDrawReqTask__Func_21641F0(&work->aniSonic->manager.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniSonic->manager.config);
     SetExBurningBlazeAnimation(&work->aniBlaze->manager, ex_blz_biri);
-    exDrawReqTask__Func_21641F0(&work->aniBlaze->manager.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBlaze->manager.config);
 
     work->worker->shockStunDuration = SECONDS_TO_FRAMES(2.0);
     CreateExShockEffect(&work->activeModelMain->model.translation);
@@ -636,16 +643,16 @@ void ExPlayer_Main_ShockStun(void)
 
     ProcessExPlayerAnimations();
 
-    exDrawReqTask__Func_21642BC(&work->aniSonic->manager.config);
-    exDrawReqTask__Func_21642BC(&work->aniBlaze->manager.config);
+    ProcessExDrawTimer(&work->aniSonic->manager.config);
+    ProcessExDrawTimer(&work->aniBlaze->manager.config);
 
-    work->aniSonic->manager.config.field_0.field = work->aniSonic->manager.config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80) | (0x10 | 0x40);
-    work->aniBlaze->manager.config.field_0.field = work->aniBlaze->manager.config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80) | (0x10 | 0x40);
+    work->aniSonic->manager.config.control.timer = 5;
+    work->aniBlaze->manager.config.control.timer = 5;
 
     if (HandleExPlayerHitResponse())
     {
-        work->aniSonic->manager.config.field_0.field &= ~(0x10 | 0x20 | 0x40 | 0x80);
-        work->aniBlaze->manager.config.field_0.field &= ~(0x10 | 0x20 | 0x40 | 0x80);
+        work->aniSonic->manager.config.control.timer = 0;
+        work->aniBlaze->manager.config.control.timer = 0;
     }
     else
     {
@@ -653,13 +660,13 @@ void ExPlayer_Main_ShockStun(void)
         {
             work->worker->shockStunDuration = 0;
 
-            work->aniSonic->manager.config.field_0.field &= ~(0x10 | 0x20 | 0x40 | 0x80);
-            work->aniBlaze->manager.config.field_0.field &= ~(0x10 | 0x20 | 0x40 | 0x80);
+            work->aniSonic->manager.config.control.timer = 0;
+            work->aniBlaze->manager.config.control.timer = 0;
 
             SetExSuperSonicAnimation(&work->aniSonic->manager, work->aniSonic->nextAnim);
-            exDrawReqTask__Func_2164218(&work->aniSonic->manager.config);
+            SetExDrawRequestAnimAsOneShot(&work->aniSonic->manager.config);
             SetExBurningBlazeAnimation(&work->aniBlaze->manager, work->aniBlaze->nextAnim);
-            exDrawReqTask__Func_2164218(&work->aniBlaze->manager.config);
+            SetExDrawRequestAnimAsOneShot(&work->aniBlaze->manager.config);
 
             SetCurrentExTaskMainEvent(ExPlayer_Main_ControlLocked);
         }
@@ -676,15 +683,15 @@ void ExPlayer_Action_Die(void)
 
     GetExStageSingleton()->velocity.y = FLOAT_TO_FX32(0.0);
 
-    exDrawReqTask__Func_2164288(NULL);
+    SetExDrawRequestGlobalModelConfigTimer(0);
 
-    work->activeModelMain->config.field_0.value_4 = FALSE;
-    work->activeModelSub->config.field_0.value_4  = FALSE;
-    work->worker->hurtInvulnDuration              = 0;
-    work->worker->shockStunDuration               = 0;
+    work->activeModelMain->config.control.isInvisible = FALSE;
+    work->activeModelSub->config.control.isInvisible  = FALSE;
+    work->worker->hurtInvulnDuration                  = 0;
+    work->worker->shockStunDuration                   = 0;
 
-    work->aniSonic->manager.config.field_0.field &= ~(0x10 | 0x20 | 0x40 | 0x80);
-    work->aniBlaze->manager.config.field_0.field &= ~(0x10 | 0x20 | 0x40 | 0x80);
+    work->aniSonic->manager.config.control.timer = 0;
+    work->aniBlaze->manager.config.control.timer = 0;
 
     fx32 x1 = work->activeModelMain->model.translation.x;
     fx32 y1 = work->activeModelMain->model.translation.y;
@@ -695,13 +702,13 @@ void ExPlayer_Action_Die(void)
 
     ReleaseExSuperSonicModel(&work->aniSonic->manager);
     LoadExRegularSonicModel(&work->aniSonic->manager);
-    exDrawReqTask__SetConfigPriority(&work->aniSonic->manager.config, 0xA800);
+    SetExDrawRequestPriority(&work->aniSonic->manager.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     work->aniSonic->nextAnim = ex_nson_die_01;
 
     struct exPlayerGraphics3D **aniBlaze = &work->aniBlaze;
     ReleaseExBurningBlazeModel(&(*aniBlaze)->manager);
     LoadExRegularBlazeModel(&(*aniBlaze)->manager);
-    exDrawReqTask__SetConfigPriority(&(*aniBlaze)->manager.config, 0xA800);
+    SetExDrawRequestPriority(&(*aniBlaze)->manager.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     (*aniBlaze)->nextAnim = ex_nblz_die_01;
 
     work->activeModelMain->model.translation.x = x1;
@@ -728,7 +735,7 @@ void ExPlayer_Main_StartDeath(void)
     work->activeModelMain->model.translation.z += work->worker->acceleration.z;
     work->activeModelSub->model.translation.z += work->worker->acceleration.z;
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniSonic->manager))
+    if (IsExDrawRequestModelAnimFinished(&work->aniSonic->manager))
     {
         ExPlayer_Action_HandleDeath();
     }
@@ -746,10 +753,10 @@ void ExPlayer_Action_HandleDeath(void)
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
 
     SetExRegularSonicAnimation(&work->aniSonic->manager, ex_nson_die_02);
-    exDrawReqTask__Func_2164218(&work->aniSonic->manager.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniSonic->manager.config);
 
     SetExRegularBlazeAnimation(&work->aniBlaze->manager, ex_nblz_die_02);
-    exDrawReqTask__Func_2164218(&work->aniBlaze->manager.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBlaze->manager.config);
 
     work->worker->deathTimer = 90;
 
@@ -820,8 +827,8 @@ void ExPlayer_Action_Hurt(void)
         work->worker->shockStunDuration                    = 0;
         work->activeModelMain->hitChecker.hitFlags.value_4 = FALSE;
         work->worker->moveFlags.disableDash                = FALSE;
-        exDrawReqTask__Func_21642F0(&work->aniSonic->manager.config, 7);
-        exDrawReqTask__Func_21642F0(&work->aniBlaze->manager.config, 7);
+        SetExDrawLightType(&work->aniSonic->manager.config, EXDRAWREQ_LIGHT_DEFAULT);
+        SetExDrawLightType(&work->aniBlaze->manager.config, EXDRAWREQ_LIGHT_DEFAULT);
         work->worker->barrierChargeTimer                       = 0;
         work->aniSonic->manager.model.animator.speedMultiplier = FLOAT_TO_FX32(1.0);
         work->worker->fireballChargeTimer                      = 0;
@@ -832,9 +839,9 @@ void ExPlayer_Action_Hurt(void)
         work->worker->hurtUnknown        = FLOAT_TO_FX32(60.0);
 
         SetExSuperSonicAnimation(&work->aniSonic->manager, ex_son_dmg);
-        exDrawReqTask__Func_21641F0(&work->aniSonic->manager.config);
+        SetExDrawRequestAnimStopOnFinish(&work->aniSonic->manager.config);
         SetExBurningBlazeAnimation(&work->aniBlaze->manager, ex_blz_dmg);
-        exDrawReqTask__Func_21641F0(&work->aniBlaze->manager.config);
+        SetExDrawRequestAnimStopOnFinish(&work->aniBlaze->manager.config);
 
         SetCurrentExTaskMainEvent(ExPlayer_Main_Hurt);
         ExPlayer_Main_Hurt();
@@ -854,10 +861,10 @@ void ExPlayer_Main_Hurt(void)
 
     work->activeModelMain->model.translation.y -= work->worker->hurtFallSpeed;
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniSonic->manager))
+    if (IsExDrawRequestModelAnimFinished(&work->aniSonic->manager))
         animFinishedCount++;
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniBlaze->manager))
+    if (IsExDrawRequestModelAnimFinished(&work->aniBlaze->manager))
         animFinishedCount++;
 
     if (animFinishedCount == EXPLAYER_CHARACTER_COUNT)
@@ -880,18 +887,18 @@ void ExPlayer_Action_FinishedHurt(void)
     ProcessExPlayerAnimations();
 
     SetExSuperSonicAnimation(&work->aniSonic->manager, work->aniSonic->nextAnim);
-    exDrawReqTask__Func_2164218(&work->aniSonic->manager.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniSonic->manager.config);
 
     SetExBurningBlazeAnimation(&work->aniBlaze->manager, work->aniBlaze->nextAnim);
-    exDrawReqTask__Func_2164218(&work->aniBlaze->manager.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBlaze->manager.config);
 
     work->activeModelMain->model.translation.z = FLOAT_TO_FX32(60.0);
     work->activeModelSub->model.translation.z  = FLOAT_TO_FX32(50.0);
     work->worker->playerFlags.isHurt           = FALSE;
     work->worker->hurtInvulnDuration           = SECONDS_TO_FRAMES(2.0);
 
-    exDrawReqTask__InitTrail(&work->trailA, &work->activeModelMain->model.translation, 1);
-    exDrawReqTask__SetConfigPriority(&work->trailA.config, 0xA800);
+    InitExDrawRequestTrail(&work->trailMain, &work->activeModelMain->model.translation, EXDRAWREQTASK_TRAIL_PLAYER);
+    SetExDrawRequestPriority(&work->trailMain.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_FinishedHurt);
     ExPlayer_Main_FinishedHurt();
@@ -935,8 +942,8 @@ void ExPlayer_ForceInvincibility(void)
     work->activeModelMain->hitChecker.hitFlags.value_2 = FALSE;
     work->activeModelSub->hitChecker.hitFlags.value_2  = FALSE;
 
-    work->activeModelMain->config.field_0.value_4 = FALSE;
-    work->activeModelSub->config.field_0.value_4  = FALSE;
+    work->activeModelMain->config.control.isInvisible = FALSE;
+    work->activeModelSub->config.control.isInvisible  = FALSE;
 }
 
 void ExPlayer_Action_StartSonicBarrier(void)
@@ -974,9 +981,9 @@ void ExPlayer_Main_StartSonicBarrier(void)
                         work->worker->moveFlags.isChargeFlash++;
 
                         if (isChargeFlash)
-                            exDrawReqTask__Func_21642F0(&work->aniSonic->manager.config, 4);
+                            SetExDrawLightType(&work->aniSonic->manager.config, EXDRAWREQ_LIGHT_RED);
                         else
-                            exDrawReqTask__Func_21642F0(&work->aniSonic->manager.config, 7);
+                            SetExDrawLightType(&work->aniSonic->manager.config, EXDRAWREQ_LIGHT_DEFAULT);
                     }
 
                     work->worker->barrierChargeTimer = SECONDS_TO_FRAMES(2.0);
@@ -985,7 +992,7 @@ void ExPlayer_Main_StartSonicBarrier(void)
 
             if ((padInput.btnDown & PAD_BUTTON_X) == 0 && (padInput.btnDown & PAD_BUTTON_Y) == 0)
             {
-                exDrawReqTask__Func_21642F0(&work->aniSonic->manager.config, 7);
+                SetExDrawLightType(&work->aniSonic->manager.config, EXDRAWREQ_LIGHT_DEFAULT);
 
                 if (work->worker->barrierChargeTimer == SECONDS_TO_FRAMES(2.0))
                 {
@@ -1029,7 +1036,7 @@ void ExPlayer_Action_SonicBarrierEnd(void)
     CreateExSonicBarrierEffect(&work->aniSonic->manager);
 
     SetExSuperSonicAnimation(&work->aniSonic->manager, ex_son_br_03);
-    exDrawReqTask__Func_21641F0(&work->aniSonic->manager.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniSonic->manager.config);
 
     work->aniSonic->manager.model.animator.speedMultiplier = FLOAT_TO_FX32(2.0);
 
@@ -1043,7 +1050,7 @@ void ExPlayer_Main_SonicBarrierEnd(void)
 
     ProcessExPlayerAnimations();
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniSonic->manager))
+    if (IsExDrawRequestModelAnimFinished(&work->aniSonic->manager))
     {
         work->aniSonic->manager.model.animator.speedMultiplier = FLOAT_TO_FX32(1.0);
         ExPlayer_Action_SonicBarrierFinish();
@@ -1064,7 +1071,7 @@ void ExPlayer_Action_SonicBarrierFinish(void)
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
 
     SetExSuperSonicAnimation(&work->aniSonic->manager, ex_son_br_04);
-    exDrawReqTask__Func_21641F0(&work->aniSonic->manager.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniSonic->manager.config);
     work->worker->moveFlags.disableDash = FALSE;
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_SonicBarrierFinish);
@@ -1082,7 +1089,7 @@ void ExPlayer_Main_SonicBarrierFinish(void)
     {
         ExPlayer_EndSonicBarrierAnim();
     }
-    else if (exDrawReqTask__Model__IsAnimFinished(&work->aniSonic->manager))
+    else if (IsExDrawRequestModelAnimFinished(&work->aniSonic->manager))
     {
         ExPlayer_EndSonicBarrierAnim();
 
@@ -1105,7 +1112,7 @@ void ExPlayer_EndSonicBarrierAnim(void)
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
 
     SetExSuperSonicAnimation(&work->aniSonic->manager, work->aniSonic->nextAnim);
-    exDrawReqTask__Func_2164218(&work->aniSonic->manager.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniSonic->manager.config);
 }
 
 void ExPlayer_Action_StartBlazeFireball(void)
@@ -1114,7 +1121,7 @@ void ExPlayer_Action_StartBlazeFireball(void)
 
     work->worker->moveFlags.disableDash = TRUE;
     SetExBurningBlazeAnimation(&work->aniBlaze->manager, ex_blz_fb_01);
-    exDrawReqTask__Func_21641F0(&work->aniBlaze->manager.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBlaze->manager.config);
     CreateExBlazeFireballChargingEffect(&work->aniBlaze->manager);
     CreateExBlazeFireballEffect(&work->aniBlaze->manager);
 
@@ -1127,7 +1134,7 @@ void ExPlayer_Main_StartBlazeFireball(void)
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
 
     SetExBurningBlazeAnimation(&work->aniBlaze->manager, ex_blz_fb_02);
-    exDrawReqTask__Func_2164218(&work->aniBlaze->manager.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBlaze->manager.config);
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_ChargeBlazeFireball);
     ExPlayer_Main_ChargeBlazeFireball();
@@ -1156,9 +1163,9 @@ void ExPlayer_Main_ChargeBlazeFireball(void)
                         work->worker->moveFlags.isChargeFlash++;
 
                         if (isChargeFlash)
-                            exDrawReqTask__Func_21642F0(&work->aniBlaze->manager.config, 4);
+                            SetExDrawLightType(&work->aniBlaze->manager.config, EXDRAWREQ_LIGHT_RED);
                         else
-                            exDrawReqTask__Func_21642F0(&work->aniBlaze->manager.config, 7);
+                            SetExDrawLightType(&work->aniBlaze->manager.config, EXDRAWREQ_LIGHT_DEFAULT);
                     }
 
                     work->worker->fireballChargeTimer = SECONDS_TO_FRAMES(2.0);
@@ -1167,7 +1174,7 @@ void ExPlayer_Main_ChargeBlazeFireball(void)
 
             if ((padInput.btnDown & PAD_BUTTON_X) == 0 && (padInput.btnDown & PAD_BUTTON_Y) == 0)
             {
-                exDrawReqTask__Func_21642F0(&work->aniBlaze->manager.config, 7);
+                SetExDrawLightType(&work->aniBlaze->manager.config, EXDRAWREQ_LIGHT_DEFAULT);
 
                 if (work->worker->fireballChargeTimer > 80)
                 {
@@ -1221,7 +1228,7 @@ void ExPlayer_Action_EndBlazeFireball(void)
 
     work->worker->fireballChargeTimer = 0;
     SetExBurningBlazeAnimation(&work->aniBlaze->manager, ex_blz_fb_03);
-    exDrawReqTask__Func_21641F0(&work->aniBlaze->manager.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBlaze->manager.config);
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_ShootBlazeFireball);
     ExPlayer_Main_ShootBlazeFireball();
@@ -1286,7 +1293,7 @@ void ExPlayer_Main_EndBlazeFireball(void)
 
     ProcessExPlayerAnimations();
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniBlaze->manager))
+    if (IsExDrawRequestModelAnimFinished(&work->aniBlaze->manager))
     {
         ExPlayer_Action_FinishBlazeFireball();
     }
@@ -1306,7 +1313,7 @@ void ExPlayer_Action_FinishBlazeFireball(void)
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
 
     SetExBurningBlazeAnimation(&work->aniBlaze->manager, ex_blz_fb_04);
-    exDrawReqTask__Func_21641F0(&work->aniBlaze->manager.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBlaze->manager.config);
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_FinishBlazeFireball);
     ExPlayer_Main_FinishBlazeFireball();
@@ -1318,7 +1325,7 @@ void ExPlayer_Main_FinishBlazeFireball(void)
 
     ProcessExPlayerAnimations();
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniBlaze->manager))
+    if (IsExDrawRequestModelAnimFinished(&work->aniBlaze->manager))
     {
         ExPlayer_EndBlazeFireballAnim();
 
@@ -1343,7 +1350,7 @@ void ExPlayer_EndBlazeFireballAnim(void)
     work->worker->moveFlags.disableDash = FALSE;
 
     SetExBurningBlazeAnimation(&work->aniBlaze->manager, work->aniBlaze->nextAnim);
-    exDrawReqTask__Func_2164218(&work->aniBlaze->manager.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniBlaze->manager.config);
 }
 
 BOOL HandleExPlayerHitResponse(void)
@@ -1469,7 +1476,7 @@ void ExPlayer_SwapPlayerGraphics(void)
     work->activeModelMain->hitChecker.type = 2;
     work->activeModelSub->hitChecker.type  = 3;
 
-    exDrawReqTask__Sprite3D__Animate(work->activeSprite);
+    AnimateExDrawRequestSprite3D(work->activeSprite);
 }
 
 void ExPlayer_HandleMovement(void)
@@ -1586,9 +1593,9 @@ void ExPlayer_HandleMovement(void)
                     }
 
                     SetExSuperSonicAnimation(&work->aniSonic->manager, ex_son_f);
-                    exDrawReqTask__Func_21641F0(&work->aniSonic->manager.config);
+                    SetExDrawRequestAnimStopOnFinish(&work->aniSonic->manager.config);
                     SetExBurningBlazeAnimation(&work->aniBlaze->manager, ex_blz_f);
-                    exDrawReqTask__Func_21641F0(&work->aniBlaze->manager.config);
+                    SetExDrawRequestAnimStopOnFinish(&work->aniBlaze->manager.config);
                 }
             }
             else
@@ -1664,9 +1671,9 @@ void ExPlayer_HandleDash(void)
         if (work->worker->dashTimer <= 0 && !work->worker->moveFlags.disableDash)
         {
             SetExSuperSonicAnimation(&work->aniSonic->manager, work->aniSonic->nextAnim);
-            exDrawReqTask__Func_2164218(&work->aniSonic->manager.config);
+            SetExDrawRequestAnimAsOneShot(&work->aniSonic->manager.config);
             SetExBurningBlazeAnimation(&work->aniBlaze->manager, work->aniBlaze->nextAnim);
-            exDrawReqTask__Func_2164218(&work->aniBlaze->manager.config);
+            SetExDrawRequestAnimAsOneShot(&work->aniBlaze->manager.config);
         }
 
         if (GetExSystemStatus()->state != EXSYSTASK_STATE_STAGE_FINISHED)
@@ -1744,27 +1751,27 @@ void ExPlayer_Draw(void)
 
             if (isInvisible)
             {
-                work->activeModelMain->config.field_0.value_4 = TRUE;
-                work->activeModelSub->config.field_0.value_4  = TRUE;
+                work->activeModelMain->config.control.isInvisible = TRUE;
+                work->activeModelSub->config.control.isInvisible  = TRUE;
             }
             else
             {
-                work->activeModelMain->config.field_0.value_4 = FALSE;
-                work->activeModelSub->config.field_0.value_4  = FALSE;
+                work->activeModelMain->config.control.isInvisible = FALSE;
+                work->activeModelSub->config.control.isInvisible  = FALSE;
             }
         }
     }
     else
     {
-        work->activeModelMain->config.field_0.value_4 = FALSE;
-        work->activeModelSub->config.field_0.value_4  = FALSE;
-        work->worker->hurtInvulnDuration              = 0;
+        work->activeModelMain->config.control.isInvisible = FALSE;
+        work->activeModelSub->config.control.isInvisible  = FALSE;
+        work->worker->hurtInvulnDuration                  = 0;
 
         if (exBossHelpers__Func_2154C28() == 1)
             SetCurrentExTaskMainEvent(ExPlayer_Main_InitForBossChase);
     }
 
-    exDrawReqTask__AddRequest(work->activeModelMain, &work->activeModelMain->config);
+    AddExDrawRequest(work->activeModelMain, &work->activeModelMain->config);
 
     work->worker->position = &work->activeModelMain->model.translation;
 
@@ -1826,32 +1833,32 @@ void ExPlayer_Draw(void)
         work->activeSprite->sprite.translation.z = work->activeModelSub->model.translation.z;
 
         if (work->worker->moveFlags.hasDied != TRUE)
-            exDrawReqTask__AddRequest(work->activeSprite, &work->activeSprite->config);
+            AddExDrawRequest(work->activeSprite, &work->activeSprite->config);
         else
-            exDrawReqTask__AddRequest(work->activeModelSub, &work->activeModelSub->config);
+            AddExDrawRequest(work->activeModelSub, &work->activeModelSub->config);
 
         if (work->worker->playerFlags.btnLeft == TRUE || work->worker->playerFlags.btnRight == TRUE)
         {
             if (work->worker->dashTimer <= 0)
-                exDrawReqTask__Trail__HandleTrail(&work->trailA, &work->activeModelMain->model.translation, 1, work->worker->playerFlags.characterID);
+                ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 1, work->worker->playerFlags.characterID);
             else
-                exDrawReqTask__Trail__HandleTrail(&work->trailA, &work->activeModelMain->model.translation, 3, work->worker->playerFlags.characterID);
+                ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 3, work->worker->playerFlags.characterID);
 
-            exDrawReqTask__AddRequest(&work->trailA, &work->trailA.config);
+            AddExDrawRequest(&work->trailMain, &work->trailMain.config);
         }
         else
         {
             if (work->worker->dashTimer <= 0)
-                exDrawReqTask__Trail__HandleTrail(&work->trailA, &work->activeModelMain->model.translation, 0, work->worker->playerFlags.characterID);
+                ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 0, work->worker->playerFlags.characterID);
             else
-                exDrawReqTask__Trail__HandleTrail(&work->trailA, &work->activeModelMain->model.translation, 2, work->worker->playerFlags.characterID);
+                ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 2, work->worker->playerFlags.characterID);
 
-            exDrawReqTask__AddRequest(&work->trailA, &work->trailA.config);
+            AddExDrawRequest(&work->trailMain, &work->trailMain.config);
         }
     }
     else
     {
-        exDrawReqTask__AddRequest(work->activeModelSub, &work->activeModelSub->config);
+        AddExDrawRequest(work->activeModelSub, &work->activeModelSub->config);
     }
 
     SetExPlayerScreenMoverTargetPos(&work->activeModelMain->model.translation);
@@ -1861,8 +1868,8 @@ void ExPlayer_DelayCallback(void)
 {
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
 
-    exDrawReqTask__AddRequest(work->activeModelMain, &work->activeModelMain->config);
-    exDrawReqTask__AddRequest(work->activeSprite, &work->activeSprite->config);
+    AddExDrawRequest(work->activeModelMain, &work->activeModelMain->config);
+    AddExDrawRequest(work->activeSprite, &work->activeSprite->config);
 
     RunCurrentExTaskUnknownEvent();
 }
@@ -1871,9 +1878,9 @@ void ProcessExPlayerAnimations(void)
 {
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
 
-    exDrawReqTask__Model__Animate(work->activeModelMain);
-    exDrawReqTask__Model__Animate(work->activeModelSub);
-    exDrawReqTask__Sprite3D__Animate(work->activeSprite);
+    AnimateExDrawRequestModel(work->activeModelMain);
+    AnimateExDrawRequestModel(work->activeModelSub);
+    AnimateExDrawRequestSprite3D(work->activeSprite);
 }
 
 void CreateExPlayer(void)

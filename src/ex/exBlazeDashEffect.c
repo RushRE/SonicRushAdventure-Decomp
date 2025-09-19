@@ -53,7 +53,7 @@ void LoadExBurningBlazeModel(EX_ACTION_NN_WORK *work)
 {
     exBurningBlazeLastSpawnedWorker = work;
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exBurningBlazeInstanceCount == 0)
     {
@@ -97,7 +97,7 @@ void LoadExBurningBlazeModel(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z       = FLOAT_TO_FX32(2.0);
     work->hitChecker.box.position     = &work->model.translation;
 
-    work->config.field_0.value_1 = 1;
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
     exBurningBlazeInstanceCount++;
 }
@@ -135,7 +135,7 @@ void LoadExRegularBlazeModel(EX_ACTION_NN_WORK *work)
 {
     exRegularBlazeLastSpawnedWorker = work;
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exRegularBlazeInstanceCount == 0)
     {
@@ -173,7 +173,7 @@ void LoadExRegularBlazeModel(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z       = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position     = &work->model.translation;
 
-    work->config.field_0.value_1 = 1;
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
     exRegularBlazeInstanceCount++;
 }
@@ -218,7 +218,7 @@ BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exBlazeDashEffectInstanceCount == 0)
     {
@@ -329,7 +329,7 @@ BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position    = &work->model.translation;
 
-    work->config.field_0.value_1 = 1;
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
     exBlazeDashEffectInstanceCount++;
 
@@ -370,8 +370,8 @@ void ExBlazeDashEffect_Main_Init(void)
     exBlazeDashEffectTaskSingleton = GetCurrentTask();
 
     LoadExBlazeDashEffectAssets(&work->aniDash);
-    exDrawReqTask__SetConfigPriority(&work->aniDash.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->aniDash.config);
+    SetExDrawRequestPriority(&work->aniDash.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->aniDash.config);
 
     SetCurrentExTaskMainEvent(ExBlazeDashEffect_Main_Active);
 }
@@ -398,19 +398,19 @@ void ExBlazeDashEffect_Main_Active(void)
 {
     exBlzDushEffectTask *work = ExTaskGetWorkCurrent(exBlzDushEffectTask);
 
-    exDrawReqTask__Model__Animate(&work->aniDash);
+    AnimateExDrawRequestModel(&work->aniDash);
 
     work->aniDash.model.translation.x = work->parent->model.translation.x;
     work->aniDash.model.translation.y = work->parent->model.translation.y;
     work->aniDash.model.translation.z = work->parent->model.translation.z;
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniDash))
+    if (IsExDrawRequestModelAnimFinished(&work->aniDash))
     {
         DestroyCurrentExTask();
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniDash, &work->aniDash.config);
+        AddExDrawRequest(&work->aniDash, &work->aniDash.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -445,7 +445,7 @@ void DestroyExBlazeDashEffect(void)
 
 void LoadExBurningBlazeSprite(EX_ACTION_BAC3D_WORK *work)
 {
-    exDrawReqTask__InitSprite3D(work);
+    InitExDrawRequestSprite3D(work);
 
     if (exBurningBlazeSpriteInstanceCount == 0)
         exBurningBlazeSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
@@ -459,11 +459,11 @@ void LoadExBurningBlazeSprite(EX_ACTION_BAC3D_WORK *work)
     work->hitChecker.type            = 0;
     work->hitChecker.field_5.value_4 = TRUE;
 
-    work->sprite.translation.z   = FLOAT_TO_FX32(70.0);
-    work->sprite.scale.x         = FLOAT_TO_FX32(0.2);
-    work->sprite.scale.y         = FLOAT_TO_FX32(0.2);
-    work->sprite.scale.z         = FLOAT_TO_FX32(0.2);
-    work->config.field_0.value_1 = 1;
+    work->sprite.translation.z         = FLOAT_TO_FX32(70.0);
+    work->sprite.scale.x               = FLOAT_TO_FX32(0.2);
+    work->sprite.scale.y               = FLOAT_TO_FX32(0.2);
+    work->sprite.scale.z               = FLOAT_TO_FX32(0.2);
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
     work->hitChecker.box.size.x   = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y   = FLOAT_TO_FX32(0.0);

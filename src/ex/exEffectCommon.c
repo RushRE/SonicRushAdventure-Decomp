@@ -56,7 +56,7 @@ static void ExShockEffect_Main_ShockFinish(void);
 
 void LoadExExplosionSprite(EX_ACTION_BAC3D_WORK *work)
 {
-    exDrawReqTask__InitSprite3D(work);
+    InitExDrawRequestSprite3D(work);
 
     if (exBigExplosionInstanceCount == 0)
     {
@@ -74,17 +74,17 @@ void LoadExExplosionSprite(EX_ACTION_BAC3D_WORK *work)
     work->hitChecker.type            = 0;
     work->hitChecker.field_5.value_1 = TRUE;
 
-    work->sprite.translation.z       = FLOAT_TO_FX32(70.0);
-    work->sprite.scale.x             = FLOAT_TO_FX32(0.5);
-    work->sprite.scale.y             = FLOAT_TO_FX32(0.5);
-    work->sprite.scale.z             = FLOAT_TO_FX32(0.5);
+    work->sprite.translation.z = FLOAT_TO_FX32(70.0);
+    work->sprite.scale.x       = FLOAT_TO_FX32(0.5);
+    work->sprite.scale.y       = FLOAT_TO_FX32(0.5);
+    work->sprite.scale.z       = FLOAT_TO_FX32(0.5);
 
-    work->config.field_0.value_1     = FALSE;
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_BOTH;
 
-    work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position    = &work->sprite.translation;
+    work->hitChecker.box.size.x   = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.y   = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.z   = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position = &work->sprite.translation;
 
     exBigExplosionInstanceCount++;
 }
@@ -103,8 +103,8 @@ void ExExplosion_Main_Init(void)
     exBigExplosionTaskSingleton = GetCurrentTask();
 
     LoadExExplosionSprite(&work->aniExplosion);
-    exDrawReqTask__SetConfigPriority(&work->aniExplosion.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->aniExplosion.config);
+    SetExDrawRequestPriority(&work->aniExplosion.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->aniExplosion.config);
 
     work->aniExplosion.sprite.translation.x = work->targetPos.x;
     work->aniExplosion.sprite.translation.y = work->targetPos.y;
@@ -136,15 +136,15 @@ void ExExplosion_Main_Active(void)
 {
     exEffectBigBombTask *work = ExTaskGetWorkCurrent(exEffectBigBombTask);
 
-    exDrawReqTask__Sprite3D__Animate(&work->aniExplosion);
+    AnimateExDrawRequestSprite3D(&work->aniExplosion);
 
-    if (exDrawReqTask__Sprite3D__IsAnimFinished(&work->aniExplosion))
+    if (IsExDrawRequestSprite3DAnimFinished(&work->aniExplosion))
     {
         DestroyCurrentExTask();
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniExplosion, &work->aniExplosion.config);
+        AddExDrawRequest(&work->aniExplosion, &work->aniExplosion.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -168,7 +168,7 @@ BOOL CreateExExplosion(VecFx32 *targetPos)
 
 void LoadExShockEffectSprite(EX_ACTION_BAC3D_WORK *work)
 {
-    exDrawReqTask__InitSprite3D(work);
+    InitExDrawRequestSprite3D(work);
 
     if (exShockEffectInstanceCount == 0)
         exShockEffectSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
@@ -176,20 +176,21 @@ void LoadExShockEffectSprite(EX_ACTION_BAC3D_WORK *work)
     VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exShockEffectSpriteResource, 1), FALSE);
     VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exShockEffectSpriteResource, 1), FALSE);
 
-    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exShockEffectSpriteResource, EX_ACTCOM_ANI_SHOCK_EFFECT, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels, vramPalette);
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exShockEffectSpriteResource, EX_ACTCOM_ANI_SHOCK_EFFECT, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
+                           vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
-    work->hitChecker.type            = 0;
-    work->hitChecker.field_5.value_1 = TRUE;
-    work->sprite.translation.z       = FLOAT_TO_FX32(70.0);
-    work->sprite.scale.x             = FLOAT_TO_FX32(0.30005);
-    work->sprite.scale.y             = FLOAT_TO_FX32(0.30005);
-    work->sprite.scale.z             = FLOAT_TO_FX32(0.30005);
-    work->config.field_0.value_1     = FALSE;
-    work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position    = &work->sprite.translation;
+    work->hitChecker.type              = 0;
+    work->hitChecker.field_5.value_1   = TRUE;
+    work->sprite.translation.z         = FLOAT_TO_FX32(70.0);
+    work->sprite.scale.x               = FLOAT_TO_FX32(0.30005);
+    work->sprite.scale.y               = FLOAT_TO_FX32(0.30005);
+    work->sprite.scale.z               = FLOAT_TO_FX32(0.30005);
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_BOTH;
+    work->hitChecker.box.size.x        = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.y        = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.z        = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position      = &work->sprite.translation;
 
     exShockEffectInstanceCount++;
 }
@@ -214,8 +215,8 @@ void ExShockEffect_Main_Init(void)
     exShockEffectTaskSingleton = GetCurrentTask();
 
     LoadExShockEffectSprite(&work->aniShockEffect);
-    exDrawReqTask__SetConfigPriority(&work->aniShockEffect.config, 0xA800);
-    exDrawReqTask__Func_2164218(&work->aniShockEffect.config);
+    SetExDrawRequestPriority(&work->aniShockEffect.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimAsOneShot(&work->aniShockEffect.config);
 
     work->aniShockEffect.sprite.translation.x = work->targetPos.x;
     work->aniShockEffect.sprite.translation.y = work->targetPos.y;
@@ -247,7 +248,7 @@ void ExShockEffect_Main_ShockAnimate(void)
 {
     exEffectBiriBiriTask *work = ExTaskGetWorkCurrent(exEffectBiriBiriTask);
 
-    exDrawReqTask__Sprite3D__Animate(&work->aniShockEffect);
+    AnimateExDrawRequestSprite3D(&work->aniShockEffect);
 
     if (GetExPlayerWorker()->shockStunDuration <= 0)
     {
@@ -255,7 +256,7 @@ void ExShockEffect_Main_ShockAnimate(void)
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniShockEffect, &work->aniShockEffect.config);
+        AddExDrawRequest(&work->aniShockEffect, &work->aniShockEffect.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -266,7 +267,7 @@ void ExShockEffect_Action_ShockFinish(void)
     exEffectBiriBiriTask *work = ExTaskGetWorkCurrent(exEffectBiriBiriTask);
 
     SetExShockEffectAnimation(&work->aniShockEffect, EX_ACTCOM_ANI_SHOCK_EFFECT_FINISH);
-    exDrawReqTask__Func_21641F0(&work->aniShockEffect.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniShockEffect.config);
 
     SetCurrentExTaskMainEvent(ExShockEffect_Main_ShockFinish);
     ExShockEffect_Main_ShockFinish();
@@ -276,15 +277,15 @@ void ExShockEffect_Main_ShockFinish(void)
 {
     exEffectBiriBiriTask *work = ExTaskGetWorkCurrent(exEffectBiriBiriTask);
 
-    exDrawReqTask__Sprite3D__Animate(&work->aniShockEffect);
+    AnimateExDrawRequestSprite3D(&work->aniShockEffect);
 
-    if (exDrawReqTask__Sprite3D__IsAnimFinished(&work->aniShockEffect))
+    if (IsExDrawRequestSprite3DAnimFinished(&work->aniShockEffect))
     {
         DestroyCurrentExTask();
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniShockEffect, &work->aniShockEffect.config);
+        AddExDrawRequest(&work->aniShockEffect, &work->aniShockEffect.config);
 
         RunCurrentExTaskUnknownEvent();
     }

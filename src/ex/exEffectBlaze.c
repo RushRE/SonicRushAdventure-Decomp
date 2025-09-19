@@ -93,7 +93,7 @@ static void ExBlazeFireballShotEffect_Main_Active(void);
 
 void LoadExBlazeFireballEffectAssets(EX_ACTION_BAC3D_WORK *work, u16 anim)
 {
-    exDrawReqTask__InitSprite3D(work);
+    InitExDrawRequestSprite3D(work);
 
     if (exBlazeFireballEffectInstanceCount == 0)
         exBlazeFireballEffectSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
@@ -109,7 +109,7 @@ void LoadExBlazeFireballEffectAssets(EX_ACTION_BAC3D_WORK *work, u16 anim)
 
     work->sprite.translation.z = FLOAT_TO_FX32(70.0);
 
-    work->config.field_0.value_1 = 0;
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_BOTH;
 
     work->sprite.scale.x = FLOAT_TO_FX32(0.001);
     work->sprite.scale.y = FLOAT_TO_FX32(0.001);
@@ -146,7 +146,7 @@ BOOL LoadExBlazeFireballChargingEffectAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exBlazeFireballChargingEffectInstanceCount == 0)
     {
@@ -187,7 +187,7 @@ BOOL LoadExBlazeFireballChargingEffectAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position    = &work->model.translation;
 
-    work->config.field_0.value_1 = 1;
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
     exBlazeFireballChargingEffectInstanceCount++;
 
@@ -233,7 +233,7 @@ BOOL LoadExBlazeFireballShotEffectAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exBlazeFireballShotEffectInstanceCount == 0)
     {
@@ -290,7 +290,7 @@ BOOL LoadExBlazeFireballShotEffectAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position    = &work->model.translation;
 
-    work->config.field_0.value_1 = 1;
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
     exBlazeFireballShotEffectInstanceCount++;
 
@@ -334,8 +334,8 @@ void ExBlazeFireballEffect_Main_Init(void)
 
     LoadExBlazeFireballEffectAssets(&work->aniFire, EX_ACTCOM_ANI_BLAZE_FIRE);
 
-    exDrawReqTask__SetConfigPriority(&work->aniFire.config, 0xA800);
-    exDrawReqTask__Func_2164218(&work->aniFire.config);
+    SetExDrawRequestPriority(&work->aniFire.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimAsOneShot(&work->aniFire.config);
 
     work->scale = FLOAT_TO_FX32(0.0);
 
@@ -501,7 +501,7 @@ void ExBlazeFireballEffect_Main_Fired(void)
 {
     exEffectBlzFireTask *work = ExTaskGetWorkCurrent(exEffectBlzFireTask);
 
-    exDrawReqTask__Sprite3D__Animate(&work->aniFire);
+    AnimateExDrawRequestSprite3D(&work->aniFire);
 
     work->aniFire.sprite.translation.y += work->velocity.y;
 
@@ -520,7 +520,7 @@ void ExBlazeFireballEffect_Main_Fired(void)
         }
         else
         {
-            exDrawReqTask__AddRequest(&work->aniFire, &work->aniFire.config);
+            AddExDrawRequest(&work->aniFire, &work->aniFire.config);
             exHitCheckTask_AddHitCheck(&work->aniFire.hitChecker);
 
             RunCurrentExTaskUnknownEvent();
@@ -552,8 +552,8 @@ void ExBlazeFireballChargingEffect_Main_Init(void)
 
     LoadExBlazeFireballChargingEffectAssets(&work->aniTaMe);
 
-    exDrawReqTask__SetConfigPriority(&work->aniTaMe.config, 0xA800);
-    exDrawReqTask__Func_2164218(&work->aniTaMe.config);
+    SetExDrawRequestPriority(&work->aniTaMe.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimAsOneShot(&work->aniTaMe.config);
 
     work->scale = FLOAT_TO_FX32(1.0);
 
@@ -589,7 +589,7 @@ void ExBlazeFireballChargingEffect_Main_Active(void)
 {
     exExEffectBlzFireTaMeTask *work = ExTaskGetWorkCurrent(exExEffectBlzFireTaMeTask);
 
-    exDrawReqTask__Model__Animate(&work->aniTaMe);
+    AnimateExDrawRequestModel(&work->aniTaMe);
 
     if (work->parent->model.animID == ex_blz_fb_01 || work->parent->model.animID == ex_blz_fb_02)
     {
@@ -625,7 +625,7 @@ void ExBlazeFireballChargingEffect_Main_Active(void)
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniTaMe, &work->aniTaMe.config);
+        AddExDrawRequest(&work->aniTaMe, &work->aniTaMe.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -654,8 +654,8 @@ void ExBlazeFireballShotEffect_Main_Init(void)
     exBlazeFireballShotEffectTaskSingleton = GetCurrentTask();
 
     LoadExBlazeFireballShotEffectAssets(&work->aniShot);
-    exDrawReqTask__SetConfigPriority(&work->aniShot.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->aniShot.config);
+    SetExDrawRequestPriority(&work->aniShot.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->aniShot.config);
 
     SetCurrentExTaskMainEvent(ExBlazeFireballShotEffect_Main_Active);
 }
@@ -682,19 +682,19 @@ void ExBlazeFireballShotEffect_Main_Active(void)
 {
     exEffectBlzFireShotTask *work = ExTaskGetWorkCurrent(exEffectBlzFireShotTask);
 
-    exDrawReqTask__Model__Animate(&work->aniShot);
+    AnimateExDrawRequestModel(&work->aniShot);
 
     work->aniShot.model.translation.x = work->parent->model.translation.x;
     work->aniShot.model.translation.y = work->parent->model.translation.y + FLOAT_TO_FX32(5.0);
     work->aniShot.model.translation.z = work->parent->model.translation.z;
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->aniShot))
+    if (IsExDrawRequestModelAnimFinished(&work->aniShot))
     {
         DestroyCurrentExTask();
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniShot, &work->aniShot.config);
+        AddExDrawRequest(&work->aniShot, &work->aniShot.config);
 
         RunCurrentExTaskUnknownEvent();
     }

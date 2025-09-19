@@ -92,7 +92,7 @@ exBossLineNeedleTask__Func_215AA34: // 0x0215AA34
 	ldmloia sp!, {r3, r4, r5, pc}
 _0215AAA0:
 	mov r0, r4
-	bl exDrawReqTask__InitModel
+	bl InitExDrawRequestModel
 	ldr r0, _0215AC3C // =exBossLineNeedleTask__ActiveInstanceCount
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -255,9 +255,9 @@ exBossLineNeedleTask__Main: // 0x0215ACC4
 	bl exBossLineNeedleTask__Func_215AA34
 	add r0, r4, #0x3b0
 	mov r1, #0xa800
-	bl exDrawReqTask__SetConfigPriority
+	bl SetExDrawRequestPriority
 	add r0, r4, #0x3b0
-	bl exDrawReqTask__Func_2164218
+	bl SetExDrawRequestAnimAsOneShot
 	mov r5, #0x48
 	ldr r1, _0215AE48 // =0x021740C8
 	mov ip, #0
@@ -388,7 +388,7 @@ exBossLineNeedleTask__Main_215AEAC: // 0x0215AEAC
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x24
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldrb r0, [r4, #0x2a]
 	mov r1, r0, lsl #0x1f
 	movs r1, r1, lsr #0x1f
@@ -460,7 +460,7 @@ _0215AF8C:
 	str r2, [r4, #8]
 	ldr r2, [r4, #0x520]
 	str r2, [r4, #0xc]
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	add r0, r4, #0x24
 	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
@@ -490,7 +490,7 @@ exBossLineMissileTask__Func_215B004: // 0x0215B004
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x24
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldrb r0, [r4, #0x2a]
 	mov r1, r0, lsl #0x1f
 	movs r1, r1, lsr #0x1f
@@ -573,7 +573,7 @@ _0215B12C:
 _0215B13C:
 	add r0, r4, #0x24
 	add r1, r4, #0x3b0
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	add r0, r4, #0x24
 	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
@@ -656,7 +656,7 @@ exBossLineMissileTask__Func_215B1F4: // 0x0215B1F4
 	ldmloia sp!, {r3, r4, r5, pc}
 _0215B260:
 	mov r0, r4
-	bl exDrawReqTask__InitModel
+	bl InitExDrawRequestModel
 	ldr r0, _0215B3F8 // =exBossLineNeedleTask__ActiveInstanceCount
 	ldrsh r0, [r0, #2]
 	cmp r0, #0
@@ -818,9 +818,9 @@ exBossLineMissileTask__Main: // 0x0215B480
 	bl exBossLineMissileTask__Func_215B1F4
 	add r0, r4, #0x3b8
 	mov r1, #0xa800
-	bl exDrawReqTask__SetConfigPriority
+	bl SetExDrawRequestPriority
 	add r0, r4, #0x3b8
-	bl exDrawReqTask__Func_2164218
+	bl SetExDrawRequestAnimAsOneShot
 	mov r6, #0x48
 	ldr r1, _0215B604 // =0x021740C8
 	mov ip, #0
@@ -951,7 +951,7 @@ exBossLineMissileTask__Main_215B668: // 0x0215B668
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x2c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldrb r1, [r4, #0x32]
 	mov r0, r1, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -1032,7 +1032,7 @@ _0215B768:
 	str r2, [r4, #8]
 	ldr r2, [r4, #0x528]
 	str r2, [r4, #0xc]
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	add r0, r4, #0x2c
 	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
@@ -1071,7 +1071,7 @@ exBossLineMissileTask__Func_215B804: // 0x0215B804
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x2c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldrb r1, [r4, #0x32]
 	mov r0, r1, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -1169,7 +1169,7 @@ _0215B960:
 _0215B970:
 	add r0, r4, #0x2c
 	add r1, r4, #0x3b8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	add r0, r4, #0x2c
 	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
@@ -1303,7 +1303,7 @@ exBossLineMissileTask__Func_215BB48: // 0x0215BB48
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x2c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldrb r0, [r4, #0x32]
 	mov r1, r0, lsl #0x1f
 	movs r1, r1, lsr #0x1f
@@ -1358,7 +1358,7 @@ _0215BC08:
 _0215BC18:
 	add r0, r4, #0x2c
 	add r1, r4, #0x3b8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	add r0, r4, #0x2c
 	bl exHitCheckTask_AddHitCheck
 	bl GetExTaskCurrent
@@ -1419,7 +1419,7 @@ exBossSysAdminTask__Action_StartLine0: // 0x0215BCCC
 	mov r1, #0x14
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	mov r0, #0
 	sub r1, r0, #1
 	str r0, [sp]
@@ -1444,9 +1444,9 @@ exBossSysAdminTask__Main_Line0: // 0x0215BD2C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _0215BD58
 	bl exBossSysAdminTask__Action_StartLine1
@@ -1456,7 +1456,7 @@ _0215BD58:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1473,7 +1473,7 @@ exBossSysAdminTask__Action_StartLine1: // 0x0215BD7C
 	mov r1, #0x15
 	bl exBossHelpers__SetAnimation
 	add r0, r5, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	mov r1, #0xcb
 	mov r0, #0
 	stmia sp, {r0, r1}
@@ -1528,9 +1528,9 @@ exBossSysAdminTask__Main_Line1: // 0x0215BE48
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _0215BE74
 	bl exBossSysAdminTask__Action_StartLine2
@@ -1540,7 +1540,7 @@ _0215BE74:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1556,7 +1556,7 @@ exBossSysAdminTask__Action_StartLine2: // 0x0215BE98
 	mov r1, #0x16
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	bl GetExTaskCurrent
 	ldr r1, _0215BECC // =exBossSysAdminTask__Main_Line2
 	str r1, [r0]
@@ -1572,9 +1572,9 @@ exBossSysAdminTask__Main_Line2: // 0x0215BED0
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _0215BF24
 	ldrsh r0, [r4, #0x44]
@@ -1595,7 +1595,7 @@ _0215BF24:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1611,7 +1611,7 @@ exBossSysAdminTask__Action_FinishLineAttack: // 0x0215BF48
 	mov r1, #0
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_2164218
+	bl SetExDrawRequestAnimAsOneShot
 	mov r0, #0x3c
 	strh r0, [r4, #0x58]
 	bl GetExTaskCurrent
@@ -1629,7 +1629,7 @@ exBossSysAdminTask__Main_FinishLineAttack: // 0x0215BF88
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	bl HandleExBossMovement
 	ldrsh r0, [r4, #0x58]
 	cmp r0, #0
@@ -1637,7 +1637,7 @@ exBossSysAdminTask__Main_FinishLineAttack: // 0x0215BF88
 	mov r1, #0
 	add r0, r4, #0x6c
 	strh r1, [r4, #0x58]
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _0215BFD4
 	bl exBossSysAdminTask__Action_StartLine0
@@ -1650,7 +1650,7 @@ _0215BFD4:
 	bl exHitCheckTask_AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0

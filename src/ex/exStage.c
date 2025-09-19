@@ -34,7 +34,7 @@ static void ExStage_Main_Scrolling(void);
 // ExStage
 void LoadExStageAssets(EX_ACTION_NN_WORK *work)
 {
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_STAGE_00_NSBMD, &exStageModel, FALSE, FALSE);
 
@@ -102,8 +102,8 @@ void ExStage_Main_Init(void)
     exStageTaskSingleton = GetCurrentTask();
 
     LoadExStageAssets(&work->aniStage);
-    exDrawReqTask__SetConfigPriority(&work->aniStage.config, 0xA000);
-    exDrawReqTask__Func_2164218(&work->aniStage.config);
+    SetExDrawRequestPriority(&work->aniStage.config, EXDRAWREQTASK_PRIORITY_DEFAULT - 0x800);
+    SetExDrawRequestAnimAsOneShot(&work->aniStage.config);
 
     work->aniStage.model.translation.y = -FLOAT_TO_FX32(40.0);
 
@@ -139,13 +139,13 @@ void ExStage_Main_Scrolling(void)
     if (work->aniStage.model.translation.y <= -FLOAT_TO_FX32(540.0))
         work->aniStage.model.translation.y = -FLOAT_TO_FX32(40.0);
 
-    exDrawReqTask__Model__Animate(&work->aniStage);
-    exDrawReqTask__AddRequest(&work->aniStage, &work->aniStage.config);
+    AnimateExDrawRequestModel(&work->aniStage);
+    AddExDrawRequest(&work->aniStage, &work->aniStage.config);
 
     Camera3D__UseEngineA();
 
     work->aniStage.model.translation.y += FLOAT_TO_FX32(499.5);
-    exDrawReqTask__AddRequest(&work->aniStage, &work->aniStage.config);
+    AddExDrawRequest(&work->aniStage, &work->aniStage.config);
     work->aniStage.model.translation.y -= FLOAT_TO_FX32(499.5);
 
     RunCurrentExTaskUnknownEvent();

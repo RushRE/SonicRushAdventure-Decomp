@@ -241,7 +241,7 @@ BOOL LoadExMeteorAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exMeteorInstanceCount == 0)
     {
@@ -305,7 +305,7 @@ BOOL LoadExBrokenMeteorAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exBrokenMeteorInstanceCount == 0)
     {
@@ -419,7 +419,7 @@ void ExMeteor_Main_Moving(void)
 {
     exEffectMeteoTask *work = ExTaskGetWorkCurrent(exEffectMeteoTask);
 
-    exDrawReqTask__Model__Animate(&work->aniMeteor);
+    AnimateExDrawRequestModel(&work->aniMeteor);
 
     exPlayerHelpers__Func_2152D28(&work->aniMeteor.model.angle, &work->rotateDir, &work->rotateSpeed, 0);
     exPlayerHelpers__Func_2152D28(&work->aniMeteor.model.angle, &work->rotateDir, &work->rotateSpeed, 1);
@@ -450,7 +450,7 @@ void ExMeteor_Main_Moving(void)
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniMeteor, &work->aniMeteor.config);
+        AddExDrawRequest(&work->aniMeteor, &work->aniMeteor.config);
         exHitCheckTask_AddHitCheck(&work->aniMeteor.hitChecker);
 
         RunCurrentExTaskUnknownEvent();
@@ -475,15 +475,15 @@ void ExMeteor_Main_Shatter(void)
 {
     exEffectMeteoTask *work = ExTaskGetWorkCurrent(exEffectMeteoTask);
 
-    exDrawReqTask__Model__Animate(&work->mdlMeteorBroken);
+    AnimateExDrawRequestModel(&work->mdlMeteorBroken);
 
-    if (exDrawReqTask__Model__IsAnimFinished(&work->mdlMeteorBroken))
+    if (IsExDrawRequestModelAnimFinished(&work->mdlMeteorBroken))
     {
         DestroyCurrentExTask();
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->mdlMeteorBroken, &work->mdlMeteorBroken.config);
+        AddExDrawRequest(&work->mdlMeteorBroken, &work->mdlMeteorBroken.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -526,7 +526,7 @@ void ExMeteor_Main_Reflect(void)
 {
     exEffectMeteoTask *work = ExTaskGetWorkCurrent(exEffectMeteoTask);
 
-    exDrawReqTask__Model__Animate(&work->aniMeteor);
+    AnimateExDrawRequestModel(&work->aniMeteor);
 
     work->aniMeteor.model.translation.y += work->velocity.y;
 
@@ -537,7 +537,7 @@ void ExMeteor_Main_Reflect(void)
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniMeteor, &work->aniMeteor.config);
+        AddExDrawRequest(&work->aniMeteor, &work->aniMeteor.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -559,8 +559,8 @@ BOOL CreateExMeteor(VecFx32 position, VecFx32 velocity)
     }
 
     work->isActive = TRUE;
-    exDrawReqTask__SetConfigPriority(&work->aniMeteor.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->aniMeteor.config);
+    SetExDrawRequestPriority(&work->aniMeteor.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->aniMeteor.config);
 
     if (!LoadExBrokenMeteorAssets(&work->mdlMeteorBroken))
     {
@@ -569,8 +569,8 @@ BOOL CreateExMeteor(VecFx32 position, VecFx32 velocity)
     }
 
     work->isActive = TRUE;
-    exDrawReqTask__SetConfigPriority(&work->mdlMeteorBroken.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->mdlMeteorBroken.config);
+    SetExDrawRequestPriority(&work->mdlMeteorBroken.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->mdlMeteorBroken.config);
 
     work->aniMeteor.model.translation.x = position.x;
     work->aniMeteor.model.translation.y = position.y;

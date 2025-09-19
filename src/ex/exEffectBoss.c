@@ -176,7 +176,7 @@ BOOL LoadExBossEffectHitAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exBossEffectHitInstanceCount == 0)
     {
@@ -258,8 +258,8 @@ void ExBossEffectHit_Main_Init(void)
     exBossEffectHitTaskSingleton = GetCurrentTask();
 
     LoadExBossEffectHitAssets(&work->aniHit);
-    exDrawReqTask__SetConfigPriority(&work->aniHit.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->aniHit.config);
+    SetExDrawRequestPriority(&work->aniHit.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->aniHit.config);
 
     work->aniHit.model.translation.x = work->parent->aniBoss.model.translation3.x;
     work->aniHit.model.translation.y = work->parent->aniBoss.model.translation3.y;
@@ -295,7 +295,7 @@ void ExBossEffectHit_Main_Active(void)
 {
     exBossEffectHitTask *work = ExTaskGetWorkCurrent(exBossEffectHitTask);
 
-    exDrawReqTask__Model__Animate(&work->aniHit);
+    AnimateExDrawRequestModel(&work->aniHit);
 
     if (GetExBossTask() == NULL)
     {
@@ -303,13 +303,13 @@ void ExBossEffectHit_Main_Active(void)
     }
     else
     {
-        if (exDrawReqTask__Model__IsAnimFinished(&work->aniHit))
+        if (IsExDrawRequestModelAnimFinished(&work->aniHit))
         {
             DestroyCurrentExTask();
         }
         else
         {
-            exDrawReqTask__AddRequest(&work->aniHit, &work->aniHit.config);
+            AddExDrawRequest(&work->aniHit, &work->aniHit.config);
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -348,7 +348,7 @@ BOOL LoadExBossEffectFireballShotAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exBossEffectFireBallShotInstanceCount == 0)
     {
@@ -430,12 +430,12 @@ void ExBossEffectFireballShot_Main_Init(void)
     exBossEffectFireBallShotTaskSingleton = GetCurrentTask();
 
     LoadExBossEffectFireballShotAssets(&work->aniShot);
-    exDrawReqTask__SetConfigPriority(&work->aniShot.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->aniShot.config);
+    SetExDrawRequestPriority(&work->aniShot.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->aniShot.config);
 
-    work->aniShot.model.translation.x = work->parent->aniBoss.model.field_364.x;
-    work->aniShot.model.translation.y = work->parent->aniBoss.model.field_364.y;
-    work->aniShot.model.translation.z = work->parent->aniBoss.model.field_364.z;
+    work->aniShot.model.translation.x = work->parent->aniBoss.model.translation4.x;
+    work->aniShot.model.translation.y = work->parent->aniBoss.model.translation4.y;
+    work->aniShot.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
     exBossEffectFireBallShotEnabled = TRUE;
 
@@ -467,19 +467,19 @@ void ExBossEffectFireballShot_Main_Active(void)
 {
     exBossEffectFireBallShotTask *work = ExTaskGetWorkCurrent(exBossEffectFireBallShotTask);
 
-    exDrawReqTask__Model__Animate(&work->aniShot);
+    AnimateExDrawRequestModel(&work->aniShot);
 
     if (GetExBossTask() == NULL)
     {
         DestroyCurrentExTask();
     }
-    else if (exDrawReqTask__Model__IsAnimFinished(&work->aniShot))
+    else if (IsExDrawRequestModelAnimFinished(&work->aniShot))
     {
         DestroyCurrentExTask();
     }
     else
     {
-        exDrawReqTask__AddRequest(&work->aniShot, &work->aniShot.config);
+        AddExDrawRequest(&work->aniShot, &work->aniShot.config);
 
         RunCurrentExTaskUnknownEvent();
     }
@@ -522,7 +522,7 @@ BOOL LoadExBossEffectFireballAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exBossEffectFireBallInstanceCount == 0)
     {
@@ -640,8 +640,8 @@ void ExBossEffectFireball_Main_Init(void)
     exBossEffectFireBallTaskSingleton = GetCurrentTask();
 
     LoadExBossEffectFireballAssets(&work->aniFire);
-    exDrawReqTask__SetConfigPriority(&work->aniFire.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->aniFire.config);
+    SetExDrawRequestPriority(&work->aniFire.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->aniFire.config);
 
     exBossEffectFireBallEnabled = TRUE;
 
@@ -675,7 +675,7 @@ void ExBossEffectFireball_Main_Appear(void)
 {
     exBossEffectFireBallTask *work = ExTaskGetWorkCurrent(exBossEffectFireBallTask);
 
-    exDrawReqTask__Model__Animate(&work->aniFire);
+    AnimateExDrawRequestModel(&work->aniFire);
 
     if (GetExBossTask() == NULL)
     {
@@ -683,17 +683,17 @@ void ExBossEffectFireball_Main_Appear(void)
     }
     else
     {
-        work->aniFire.model.translation.x = work->parent->aniBoss.model.field_364.x;
-        work->aniFire.model.translation.y = work->parent->aniBoss.model.field_364.y;
-        work->aniFire.model.translation.z = work->parent->aniBoss.model.field_364.z;
+        work->aniFire.model.translation.x = work->parent->aniBoss.model.translation4.x;
+        work->aniFire.model.translation.y = work->parent->aniBoss.model.translation4.y;
+        work->aniFire.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
-        if (exDrawReqTask__Model__IsAnimFinished(&work->aniFire))
+        if (IsExDrawRequestModelAnimFinished(&work->aniFire))
         {
             ExBossEffectFireball_Action_SetActive();
         }
         else
         {
-            exDrawReqTask__AddRequest(&work->aniFire, &work->aniFire.config);
+            AddExDrawRequest(&work->aniFire, &work->aniFire.config);
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -705,7 +705,7 @@ void ExBossEffectFireball_Action_SetActive(void)
     exBossEffectFireBallTask *work = ExTaskGetWorkCurrent(exBossEffectFireBallTask);
 
     SetExBossEffectFireballAnimation(&work->aniFire, 1);
-    exDrawReqTask__Func_2164218(&work->aniFire.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniFire.config);
 
     SetCurrentExTaskMainEvent(ExBossEffectFireball_Main_Active);
     ExBossEffectFireball_Main_Active();
@@ -715,7 +715,7 @@ void ExBossEffectFireball_Main_Active(void)
 {
     exBossEffectFireBallTask *work = ExTaskGetWorkCurrent(exBossEffectFireBallTask);
 
-    exDrawReqTask__Model__Animate(&work->aniFire);
+    AnimateExDrawRequestModel(&work->aniFire);
 
     if (GetExBossTask() == NULL)
     {
@@ -723,9 +723,9 @@ void ExBossEffectFireball_Main_Active(void)
     }
     else
     {
-        work->aniFire.model.translation.x = work->parent->aniBoss.model.field_364.x;
-        work->aniFire.model.translation.y = work->parent->aniBoss.model.field_364.y;
-        work->aniFire.model.translation.z = work->parent->aniBoss.model.field_364.z;
+        work->aniFire.model.translation.x = work->parent->aniBoss.model.translation4.x;
+        work->aniFire.model.translation.y = work->parent->aniBoss.model.translation4.y;
+        work->aniFire.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
         if (exBossEffectFireBallEnabled == FALSE)
         {
@@ -733,7 +733,7 @@ void ExBossEffectFireball_Main_Active(void)
         }
         else
         {
-            exDrawReqTask__AddRequest(&work->aniFire, &work->aniFire.config);
+            AddExDrawRequest(&work->aniFire, &work->aniFire.config);
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -745,7 +745,7 @@ void ExBossEffectFireball_Action_Disappear(void)
     exBossEffectFireBallTask *work = ExTaskGetWorkCurrent(exBossEffectFireBallTask);
 
     SetExBossEffectFireballAnimation(&work->aniFire, 2);
-    exDrawReqTask__Func_21641F0(&work->aniFire.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniFire.config);
 
     SetCurrentExTaskMainEvent(ExBossEffectFireball_Main_Disappear);
     ExBossEffectFireball_Main_Disappear();
@@ -755,7 +755,7 @@ void ExBossEffectFireball_Main_Disappear(void)
 {
     exBossEffectFireBallTask *work = ExTaskGetWorkCurrent(exBossEffectFireBallTask);
 
-    exDrawReqTask__Model__Animate(&work->aniFire);
+    AnimateExDrawRequestModel(&work->aniFire);
 
     if (GetExBossTask() == NULL)
     {
@@ -763,17 +763,17 @@ void ExBossEffectFireball_Main_Disappear(void)
     }
     else
     {
-        work->aniFire.model.translation.x = work->parent->aniBoss.model.field_364.x;
-        work->aniFire.model.translation.y = work->parent->aniBoss.model.field_364.y;
-        work->aniFire.model.translation.z = work->parent->aniBoss.model.field_364.z;
+        work->aniFire.model.translation.x = work->parent->aniBoss.model.translation4.x;
+        work->aniFire.model.translation.y = work->parent->aniBoss.model.translation4.y;
+        work->aniFire.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
-        if (exDrawReqTask__Model__IsAnimFinished(&work->aniFire))
+        if (IsExDrawRequestModelAnimFinished(&work->aniFire))
         {
             DestroyCurrentExTask();
         }
         else
         {
-            exDrawReqTask__AddRequest(&work->aniFire, &work->aniFire.config);
+            AddExDrawRequest(&work->aniFire, &work->aniFire.config);
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -817,7 +817,7 @@ BOOL LoadExEffectHomingAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exBossEffectHomingInstanceCount == 0)
     {
@@ -932,8 +932,8 @@ void ExBossEffectHoming_Main_Init(void)
     exBossEffectHomingTaskSingleton = GetCurrentTask();
 
     LoadExEffectHomingAssets(&work->aniHoming);
-    exDrawReqTask__SetConfigPriority(&work->aniHoming.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->aniHoming.config);
+    SetExDrawRequestPriority(&work->aniHoming.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->aniHoming.config);
 
     exBossEffectHomingEnabled = TRUE;
 
@@ -967,7 +967,7 @@ void ExBossEffectHoming_Main_Appear(void)
 {
     exBossEffectHomingTask *work = ExTaskGetWorkCurrent(exBossEffectHomingTask);
 
-    exDrawReqTask__Model__Animate(&work->aniHoming);
+    AnimateExDrawRequestModel(&work->aniHoming);
 
     if (GetExBossTask() == NULL)
     {
@@ -975,17 +975,17 @@ void ExBossEffectHoming_Main_Appear(void)
     }
     else
     {
-        work->aniHoming.model.translation.x = work->parent->aniBoss.model.field_364.x;
-        work->aniHoming.model.translation.y = work->parent->aniBoss.model.field_364.y;
-        work->aniHoming.model.translation.z = work->parent->aniBoss.model.field_364.z;
+        work->aniHoming.model.translation.x = work->parent->aniBoss.model.translation4.x;
+        work->aniHoming.model.translation.y = work->parent->aniBoss.model.translation4.y;
+        work->aniHoming.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
-        if (exDrawReqTask__Model__IsAnimFinished(&work->aniHoming))
+        if (IsExDrawRequestModelAnimFinished(&work->aniHoming))
         {
             ExBossEffectHoming_Action_SetActive();
         }
         else
         {
-            exDrawReqTask__AddRequest(&work->aniHoming, &work->aniHoming.config);
+            AddExDrawRequest(&work->aniHoming, &work->aniHoming.config);
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -997,7 +997,7 @@ void ExBossEffectHoming_Action_SetActive(void)
     exBossEffectHomingTask *work = ExTaskGetWorkCurrent(exBossEffectHomingTask);
 
     SetExBossEffectHomingAnimation(&work->aniHoming, 1);
-    exDrawReqTask__Func_2164218(&work->aniHoming.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniHoming.config);
 
     SetCurrentExTaskMainEvent(ExBossEffectHoming_Main_Active);
     ExBossEffectHoming_Main_Active();
@@ -1007,7 +1007,7 @@ void ExBossEffectHoming_Main_Active(void)
 {
     exBossEffectHomingTask *work = ExTaskGetWorkCurrent(exBossEffectHomingTask);
 
-    exDrawReqTask__Model__Animate(&work->aniHoming);
+    AnimateExDrawRequestModel(&work->aniHoming);
 
     if (GetExBossTask() == NULL)
     {
@@ -1015,9 +1015,9 @@ void ExBossEffectHoming_Main_Active(void)
     }
     else
     {
-        work->aniHoming.model.translation.x = work->parent->aniBoss.model.field_364.x;
-        work->aniHoming.model.translation.y = work->parent->aniBoss.model.field_364.y;
-        work->aniHoming.model.translation.z = work->parent->aniBoss.model.field_364.z;
+        work->aniHoming.model.translation.x = work->parent->aniBoss.model.translation4.x;
+        work->aniHoming.model.translation.y = work->parent->aniBoss.model.translation4.y;
+        work->aniHoming.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
         if (exBossEffectHomingEnabled == FALSE)
         {
@@ -1025,7 +1025,7 @@ void ExBossEffectHoming_Main_Active(void)
         }
         else
         {
-            exDrawReqTask__AddRequest(&work->aniHoming, &work->aniHoming.config);
+            AddExDrawRequest(&work->aniHoming, &work->aniHoming.config);
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -1037,7 +1037,7 @@ void ExBossEffectHoming_Action_Disappear(void)
     exBossEffectHomingTask *work = ExTaskGetWorkCurrent(exBossEffectHomingTask);
 
     SetExBossEffectHomingAnimation(&work->aniHoming, 2);
-    exDrawReqTask__Func_21641F0(&work->aniHoming.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniHoming.config);
 
     SetCurrentExTaskMainEvent(ExBossEffectHoming_Main_Disappear);
     ExBossEffectHoming_Main_Disappear();
@@ -1047,7 +1047,7 @@ void ExBossEffectHoming_Main_Disappear(void)
 {
     exBossEffectHomingTask *work = ExTaskGetWorkCurrent(exBossEffectHomingTask);
 
-    exDrawReqTask__Model__Animate(&work->aniHoming);
+    AnimateExDrawRequestModel(&work->aniHoming);
 
     if (!GetExBossTask())
     {
@@ -1055,17 +1055,17 @@ void ExBossEffectHoming_Main_Disappear(void)
     }
     else
     {
-        work->aniHoming.model.translation.x = work->parent->aniBoss.model.field_364.x;
-        work->aniHoming.model.translation.y = work->parent->aniBoss.model.field_364.y;
-        work->aniHoming.model.translation.z = work->parent->aniBoss.model.field_364.z;
+        work->aniHoming.model.translation.x = work->parent->aniBoss.model.translation4.x;
+        work->aniHoming.model.translation.y = work->parent->aniBoss.model.translation4.y;
+        work->aniHoming.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
-        if (exDrawReqTask__Model__IsAnimFinished(&work->aniHoming))
+        if (IsExDrawRequestModelAnimFinished(&work->aniHoming))
         {
             DestroyCurrentExTask();
         }
         else
         {
-            exDrawReqTask__AddRequest(&work->aniHoming, &work->aniHoming.config);
+            AddExDrawRequest(&work->aniHoming, &work->aniHoming.config);
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -1109,7 +1109,7 @@ BOOL LoadExBossEffectShotAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exBossEffectShotInstanceCount == 0)
     {
@@ -1191,12 +1191,12 @@ void ExBossEffectShot_Main_Init(void)
     exBossEffectShotTaskSingleton = GetCurrentTask();
 
     LoadExBossEffectShotAssets(&work->aniShot);
-    exDrawReqTask__SetConfigPriority(&work->aniShot.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->aniShot.config);
+    SetExDrawRequestPriority(&work->aniShot.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->aniShot.config);
 
-    work->aniShot.model.translation.x = work->parent->aniBoss.model.field_364.x;
-    work->aniShot.model.translation.y = work->parent->aniBoss.model.field_364.y;
-    work->aniShot.model.translation.z = work->parent->aniBoss.model.field_364.z;
+    work->aniShot.model.translation.x = work->parent->aniBoss.model.translation4.x;
+    work->aniShot.model.translation.y = work->parent->aniBoss.model.translation4.y;
+    work->aniShot.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
     exBossEffectShotEnabled = TRUE;
 
@@ -1228,7 +1228,7 @@ void ExBossEffectShot_Main_Active(void)
 {
     exBossEffectShotTask *work = ExTaskGetWorkCurrent(exBossEffectShotTask);
 
-    exDrawReqTask__Model__Animate(&work->aniShot);
+    AnimateExDrawRequestModel(&work->aniShot);
 
     if (GetExBossTask() == NULL)
     {
@@ -1236,13 +1236,13 @@ void ExBossEffectShot_Main_Active(void)
     }
     else
     {
-        if (exDrawReqTask__Model__IsAnimFinished(&work->aniShot))
+        if (IsExDrawRequestModelAnimFinished(&work->aniShot))
         {
             DestroyCurrentExTask();
         }
         else
         {
-            exDrawReqTask__AddRequest(&work->aniShot, &work->aniShot.config);
+            AddExDrawRequest(&work->aniShot, &work->aniShot.config);
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -1281,7 +1281,7 @@ BOOL LoadExBossEffectFireAssets(EX_ACTION_NN_WORK *work)
             return FALSE;
     }
 
-    exDrawReqTask__InitModel(work);
+    InitExDrawRequestModel(work);
 
     if (exBossEffectFireInstanceCount == 0)
     {
@@ -1395,8 +1395,8 @@ void ExBossEffectFire_Main_Init(void)
     exBossEffectFireTaskSingleton = GetCurrentTask();
 
     LoadExBossEffectFireAssets(&work->aniFire);
-    exDrawReqTask__SetConfigPriority(&work->aniFire.config, 0xA800);
-    exDrawReqTask__Func_21641F0(&work->aniFire.config);
+    SetExDrawRequestPriority(&work->aniFire.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimStopOnFinish(&work->aniFire.config);
 
     exBossEffectFireEnabled = TRUE;
 
@@ -1430,7 +1430,7 @@ void ExBossEffectFire_Main_Appear(void)
 {
     exBossEffectFireTask *work = ExTaskGetWorkCurrent(exBossEffectFireTask);
 
-    exDrawReqTask__Model__Animate(&work->aniFire);
+    AnimateExDrawRequestModel(&work->aniFire);
 
     if (GetExBossTask() == NULL)
     {
@@ -1438,17 +1438,17 @@ void ExBossEffectFire_Main_Appear(void)
     }
     else
     {
-        work->aniFire.model.translation.x = work->parent->aniBoss.model.field_364.x;
-        work->aniFire.model.translation.y = work->parent->aniBoss.model.field_364.y;
-        work->aniFire.model.translation.z = work->parent->aniBoss.model.field_364.z;
+        work->aniFire.model.translation.x = work->parent->aniBoss.model.translation4.x;
+        work->aniFire.model.translation.y = work->parent->aniBoss.model.translation4.y;
+        work->aniFire.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
-        if (exDrawReqTask__Model__IsAnimFinished(&work->aniFire))
+        if (IsExDrawRequestModelAnimFinished(&work->aniFire))
         {
             ExBossEffectFire_Action_SetActive();
         }
         else
         {
-            exDrawReqTask__AddRequest(&work->aniFire, &work->aniFire.config);
+            AddExDrawRequest(&work->aniFire, &work->aniFire.config);
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -1460,7 +1460,7 @@ void ExBossEffectFire_Action_SetActive(void)
     exBossEffectFireTask *work = ExTaskGetWorkCurrent(exBossEffectFireTask);
 
     SetExBossEffectFireAnimation(&work->aniFire, 1);
-    exDrawReqTask__Func_2164218(&work->aniFire.config);
+    SetExDrawRequestAnimAsOneShot(&work->aniFire.config);
 
     SetCurrentExTaskMainEvent(ExBossEffectFire_Main_Active);
     ExBossEffectFire_Main_Active();
@@ -1470,7 +1470,7 @@ void ExBossEffectFire_Main_Active(void)
 {
     exBossEffectFireTask *work = ExTaskGetWorkCurrent(exBossEffectFireTask);
 
-    exDrawReqTask__Model__Animate(&work->aniFire);
+    AnimateExDrawRequestModel(&work->aniFire);
 
     if (GetExBossTask() == NULL)
     {
@@ -1478,9 +1478,9 @@ void ExBossEffectFire_Main_Active(void)
     }
     else
     {
-        work->aniFire.model.translation.x = work->parent->aniBoss.model.field_364.x;
-        work->aniFire.model.translation.y = work->parent->aniBoss.model.field_364.y;
-        work->aniFire.model.translation.z = work->parent->aniBoss.model.field_364.z;
+        work->aniFire.model.translation.x = work->parent->aniBoss.model.translation4.x;
+        work->aniFire.model.translation.y = work->parent->aniBoss.model.translation4.y;
+        work->aniFire.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
         if (exBossEffectFireEnabled == FALSE)
         {
@@ -1488,7 +1488,7 @@ void ExBossEffectFire_Main_Active(void)
         }
         else
         {
-            exDrawReqTask__AddRequest(&work->aniFire, &work->aniFire.config);
+            AddExDrawRequest(&work->aniFire, &work->aniFire.config);
 
             RunCurrentExTaskUnknownEvent();
         }
@@ -1500,7 +1500,7 @@ void ExBossEffectFire_Action_Disappear(void)
     exBossEffectFireTask *work = ExTaskGetWorkCurrent(exBossEffectFireTask);
 
     SetExBossEffectFireAnimation(&work->aniFire, 2);
-    exDrawReqTask__Func_21641F0(&work->aniFire.config);
+    SetExDrawRequestAnimStopOnFinish(&work->aniFire.config);
 
     SetCurrentExTaskMainEvent(ExBossEffectFire_Main_Disappear);
     ExBossEffectFire_Main_Disappear();
@@ -1510,7 +1510,7 @@ void ExBossEffectFire_Main_Disappear(void)
 {
     exBossEffectFireTask *work = ExTaskGetWorkCurrent(exBossEffectFireTask);
 
-    exDrawReqTask__Model__Animate(&work->aniFire);
+    AnimateExDrawRequestModel(&work->aniFire);
 
     if (GetExBossTask() == NULL)
     {
@@ -1518,17 +1518,17 @@ void ExBossEffectFire_Main_Disappear(void)
     }
     else
     {
-        work->aniFire.model.translation.x = work->parent->aniBoss.model.field_364.x;
-        work->aniFire.model.translation.y = work->parent->aniBoss.model.field_364.y;
-        work->aniFire.model.translation.z = work->parent->aniBoss.model.field_364.z;
+        work->aniFire.model.translation.x = work->parent->aniBoss.model.translation4.x;
+        work->aniFire.model.translation.y = work->parent->aniBoss.model.translation4.y;
+        work->aniFire.model.translation.z = work->parent->aniBoss.model.translation4.z;
 
-        if (exDrawReqTask__Model__IsAnimFinished(&work->aniFire))
+        if (IsExDrawRequestModelAnimFinished(&work->aniFire))
         {
             DestroyCurrentExTask();
         }
         else
         {
-            exDrawReqTask__AddRequest(&work->aniFire, &work->aniFire.config);
+            AddExDrawRequest(&work->aniFire, &work->aniFire.config);
 
             RunCurrentExTaskUnknownEvent();
         }

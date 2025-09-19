@@ -10,7 +10,7 @@ exBossHelpers__LoadAssets: // 0x02154030
 	ldr r1, _02154358 // =0x02175F54
 	mov r10, r0
 	str r10, [r1, #0xc]
-	bl exDrawReqTask__InitModel
+	bl InitExDrawRequestModel
 	ldr r0, _02154358 // =0x02175F54
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -344,7 +344,7 @@ exBossSysAdminTask__Action_StartDmg0: // 0x021544DC
 	mov r1, #0x17
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	bl GetExTaskCurrent
 	ldr r1, _02154510 // =exBossSysAdminTask__Main_Dmg0
 	str r1, [r0]
@@ -360,9 +360,9 @@ exBossSysAdminTask__Main_Dmg0: // 0x02154514
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _02154540
 	bl exBossSysAdminTask__Action_StartDmg1
@@ -370,7 +370,7 @@ exBossSysAdminTask__Main_Dmg0: // 0x02154514
 _02154540:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossSysAdminTask__Main_Dmg0
 
@@ -383,7 +383,7 @@ exBossSysAdminTask__Action_StartDmg1: // 0x02154550
 	mov r1, #0x18
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	bl GetExTaskCurrent
 	ldr r1, _02154584 // =exBossSysAdminTask__Main_Dmg1
 	str r1, [r0]
@@ -399,9 +399,9 @@ exBossSysAdminTask__Main_Dmg1: // 0x02154588
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _021545B4
 	bl exBossSysAdminTask__Action_FinishDmg
@@ -409,7 +409,7 @@ exBossSysAdminTask__Main_Dmg1: // 0x02154588
 _021545B4:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossSysAdminTask__Main_Dmg1
 
@@ -436,7 +436,7 @@ exBossSysAdminTask__Action_StartBDmg0: // 0x021545EC
 	mov r1, #0x19
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	mov r0, #1
 	bl exBossHelpers__Func_2154C38
 	bl GetExTaskCurrent
@@ -454,9 +454,9 @@ exBossSysAdminTask__Main_BDmg0: // 0x0215462C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _02154658
 	bl exBossHelpers__Func_2154668
@@ -464,7 +464,7 @@ exBossSysAdminTask__Main_BDmg0: // 0x0215462C
 _02154658:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossSysAdminTask__Main_BDmg0
 
@@ -513,7 +513,7 @@ exBossHelpers__Func_21546CC: // 0x021546CC
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	bl HandleExBossMovement
 	bl GetExBossWork
 	ldrsh r2, [r0, #0x64]
@@ -543,7 +543,7 @@ _02154724:
 _02154744:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _02154754: .word 0x55555556
@@ -579,7 +579,7 @@ exBossSysAdminTask__Action_StartBDmg1_Last: // 0x0215479C
 	mov r1, #0x1a
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	mov r0, #1
 	bl exBossHelpers__Func_2154C38
 	bl GetExTaskCurrent
@@ -597,9 +597,9 @@ exBossSysAdminTask__Main_BDmg1_Last: // 0x021547DC
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _02154808
 	bl exBossHelpers__Func_2154818
@@ -607,7 +607,7 @@ exBossSysAdminTask__Main_BDmg1_Last: // 0x021547DC
 _02154808:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossSysAdminTask__Main_BDmg1_Last
 
@@ -663,7 +663,7 @@ exBossHelpers__Func_2154898: // 0x02154898
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	bl HandleExBossMovement
 	bl GetExBossWork
 	ldrsh r2, [r0, #0x64]
@@ -693,7 +693,7 @@ _021548F0:
 _02154910:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _02154920: .word 0x55555556
@@ -729,7 +729,7 @@ exBossSysAdminTask__Action_StartBDmg1_First: // 0x02154968
 	mov r1, #0x1a
 	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
-	bl exDrawReqTask__Func_21641F0
+	bl SetExDrawRequestAnimStopOnFinish
 	mov r0, #1
 	bl exBossHelpers__Func_2154C38
 	bl GetExTaskCurrent
@@ -747,9 +747,9 @@ exBossSysAdminTask__Main_BDmg1_First: // 0x021549A8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__IsAnimFinished
+	bl IsExDrawRequestModelAnimFinished
 	cmp r0, #0
 	beq _021549D4
 	bl exBossHelpers__Action_21549E4
@@ -757,7 +757,7 @@ exBossSysAdminTask__Main_BDmg1_First: // 0x021549A8
 _021549D4:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossSysAdminTask__Main_BDmg1_First
 
@@ -806,7 +806,7 @@ exBossHelpers__Func_2154A48: // 0x02154A48
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	bl HandleExBossMovement
 	ldr r0, [r4, #0x3c0]
 	cmp r0, #0x64000
@@ -829,15 +829,15 @@ _02154A74:
 	add r0, r4, #0x3f8
 	beq _02154AB8
 	mov r1, #4
-	bl exDrawReqTask__Func_21642F0
+	bl SetExDrawLightType
 	b _02154AC0
 _02154AB8:
 	mov r1, #7
-	bl exDrawReqTask__Func_21642F0
+	bl SetExDrawLightType
 _02154AC0:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossHelpers__Func_2154A48
 
@@ -862,7 +862,7 @@ exBossHelpers__Func_2154AF8: // 0x02154AF8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	ldrsh r0, [r4, #0x58]
 	cmp r0, #0
 	bgt _02154B28
@@ -888,15 +888,15 @@ _02154B28:
 	add r0, r4, #0x3f8
 	beq _02154B74
 	mov r1, #4
-	bl exDrawReqTask__Func_21642F0
+	bl SetExDrawLightType
 	b _02154B7C
 _02154B74:
 	mov r1, #7
-	bl exDrawReqTask__Func_21642F0
+	bl SetExDrawLightType
 _02154B7C:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossHelpers__Func_2154AF8
 
@@ -922,7 +922,7 @@ exBossHelpers__Func_2154BB8: // 0x02154BB8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl exDrawReqTask__Model__Animate
+	bl AnimateExDrawRequestModel
 	bl Camera3D__UseEngineA
 	cmp r0, #0
 	bne _02154C18
@@ -938,15 +938,15 @@ exBossHelpers__Func_2154BB8: // 0x02154BB8
 	add r0, r4, #0x3f8
 	beq _02154C10
 	mov r1, #4
-	bl exDrawReqTask__Func_21642F0
+	bl SetExDrawLightType
 	b _02154C18
 _02154C10:
 	mov r1, #7
-	bl exDrawReqTask__Func_21642F0
+	bl SetExDrawLightType
 _02154C18:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl exDrawReqTask__AddRequest
+	bl AddExDrawRequest
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossHelpers__Func_2154BB8
 
@@ -973,7 +973,7 @@ exBossFireDoraTask__Func_2154C48: // 0x02154C48
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
-	bl exDrawReqTask__InitSprite3D
+	bl InitExDrawRequestSprite3D
 	ldr r0, _02154D40 // =0x02175F54
 	ldrsh r0, [r0, #2]
 	cmp r0, #0
