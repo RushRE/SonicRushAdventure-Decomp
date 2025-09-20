@@ -777,7 +777,7 @@ Overlay ExBoss
     Object asm/ex/exBossLineMissile.o
     Object asm/ex/exBossMeteor.o
     Object src/ex/exBoss.o
-    Object asm/ex/exBossMagmaWave.o
+    Object src/ex/exBossMagmaWave.o
     Object src/ex/exDrawConfig.o
     Object asm/ex/exDrawReq_vars.o
     Object src/ex/exDrawReq.o

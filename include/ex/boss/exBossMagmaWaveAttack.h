@@ -7,22 +7,22 @@
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void exBossSysAdminTask__Action_StartWave0(void);
-NOT_DECOMPILED void exBossSysAdminTask__Main_Wave0(void);
-NOT_DECOMPILED void exBossSysAdminTask__Action_StartWave1(void);
-NOT_DECOMPILED void exBossSysAdminTask__Main_Wave1(void);
-NOT_DECOMPILED void exBossSysAdminTask__Action_StartWave2(void);
-NOT_DECOMPILED void exBossSysAdminTask__Main_StartWave2(void);
-NOT_DECOMPILED void exBossSysAdminTask__Main_ProcessWave2(void);
-NOT_DECOMPILED void exBossSysAdminTask__Main_FinishWave2(void);
-NOT_DECOMPILED void exBossSysAdminTask__Action_StartWave3(void);
-NOT_DECOMPILED void exBossSysAdminTask__Main_Wave3(void);
-NOT_DECOMPILED void exBossSysAdminTask__WaveAngleMoveL(void);
-NOT_DECOMPILED void exBossSysAdminTask__WaveAngleMoveR(void);
-NOT_DECOMPILED void exBossSysAdminTask__WaveMoveL(void);
-NOT_DECOMPILED void exBossSysAdminTask__WaveMoveR(void);
-NOT_DECOMPILED void exBossSysAdminTask__Action_StartWave4(void);
-NOT_DECOMPILED void exBossSysAdminTask__Main_Wave4(void);
-NOT_DECOMPILED void exBossSysAdminTask__Main_FinishWaveAttack(void);
+void exBossSysAdminTask__Action_StartMagmaEruption0(void);
+void exBossSysAdminTask__Main_MagmaEruption0(void);
+void exBossSysAdminTask__Action_StartMagmaEruption1(void);
+void exBossSysAdminTask__Main_MagmaEruption1(void);
+void exBossSysAdminTask__Action_StartMagmaEruption2(void);
+void exBossSysAdminTask__Main_StartMagmaEruption2(void);
+void exBossSysAdminTask__Main_ProcessMagmaEruption2(void);
+void exBossSysAdminTask__Main_FinishMagmaEruption2(void);
+void exBossSysAdminTask__Action_StartMagmaEruption3(void);
+void exBossSysAdminTask__Main_MagmaEruption3(void);
+void exBossSysAdminTask__WaveAngleMoveL(void);
+void exBossSysAdminTask__WaveAngleMoveR(void);
+void exBossSysAdminTask__WaveMoveL(void);
+void exBossSysAdminTask__WaveMoveR(void);
+void exBossSysAdminTask__Action_StartMagmaEruption4(void);
+void exBossSysAdminTask__Main_MagmaEruption4(void);
+void exBossSysAdminTask__Main_FinishMagmaEruptionAttack(void);
 
 #endif // RUSH_EXBOSSMAGMAWAVEATTACK_H
