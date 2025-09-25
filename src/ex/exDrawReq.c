@@ -117,7 +117,7 @@ void InitExDrawRequestSprite2DWorker(ExGraphicsSprite2D *work)
     work->pos.y    = 0;
     work->scale.x  = FLOAT_TO_FX32(1.0);
     work->scale.y  = FLOAT_TO_FX32(1.0);
-    work->unknown = 0;
+    work->unknown  = 0;
 }
 
 void InitExDrawRequestSprite2DConfig(exDrawReqTaskConfig *work)
@@ -475,10 +475,10 @@ void ProcessExDrawRequestModelPriority(EX_ACTION_NN_WORK *work)
         cameraB = GetExDrawCameraConfigB();
     }
 
-    if (work->hitChecker.field_2.value_2 || work->hitChecker.field_2.value_4 || work->hitChecker.field_2.value_20 || work->hitChecker.field_2.value_8
-        || work->hitChecker.flags.value_8 || work->hitChecker.flags.value_4 || work->hitChecker.flags.value_2 || work->hitChecker.field_2.value_80
-        || work->hitChecker.field_3.value_1 || work->hitChecker.flags.value_40 || work->hitChecker.flags.value_10 || work->hitChecker.flags.value_20
-        || work->hitChecker.field_4.value_10 || work->hitChecker.field_4.value_40)
+    if (work->hitChecker.field_2.isBossFireRed || work->hitChecker.field_2.isBossFireBlue || work->hitChecker.field_2.value_2_20 || work->hitChecker.field_2.isBossMagmaWave
+        || work->hitChecker.flags.isBossHomingEffect || work->hitChecker.flags.isBossShotEffect || work->hitChecker.flags.isBossFireEffect || work->hitChecker.field_2.value_2_80
+        || work->hitChecker.field_3.value_3_1 || work->hitChecker.flags.isBossMeteorEffect || work->hitChecker.flags.isBossFireballShotEffect
+        || work->hitChecker.flags.isBossFireballEffect || work->hitChecker.field_4.isIntroMeteor || work->hitChecker.field_4.isBossHitEffect)
     {
         if (work->model.translation.y > FLOAT_TO_FX32(36.751))
             work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_B;
@@ -607,7 +607,7 @@ void DrawExDrawRequestModel(EX_ACTION_NN_WORK *work)
 
     G3X_AlphaBlend(TRUE);
 
-    if (work->hitChecker.field_3.value_8)
+    if (work->hitChecker.field_3.isSuperSonicPlayer)
     {
         if (IsExDrawRequestModelAnimFinished(work))
         {
@@ -743,13 +743,13 @@ void InitExDrawRequestBossHomingLaserTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *
         trail->position[i].z = trail->position[i - 2].z;
     }
 
-    work->hitChecker.type              = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.field_3.value_2   = TRUE;
-    work->hitChecker.box.size.x        = FLOAT_TO_FX32(2.0);
-    work->hitChecker.box.size.y        = FLOAT_TO_FX32(2.0);
-    work->hitChecker.box.size.z        = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position      = &work->trail.translation;
-    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_BOTH;
+    work->hitChecker.type                           = EXHITCHECK_TYPE_HAZARD;
+    work->hitChecker.field_3.isBossHomingLaserTrail = TRUE;
+    work->hitChecker.box.size.x                     = FLOAT_TO_FX32(2.0);
+    work->hitChecker.box.size.y                     = FLOAT_TO_FX32(2.0);
+    work->hitChecker.box.size.z                     = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position                   = &work->trail.translation;
+    work->config.control.activeScreens              = EXDRAWREQTASKCONFIG_SCREEN_BOTH;
 }
 
 void ProcessExDrawRequestBossHomingLaserTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos, s32 type)
@@ -893,7 +893,7 @@ void InitExDrawRequestBossFireDragonTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *p
     }
 
     work->hitChecker.type              = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.field_5.value_2   = TRUE;
+    work->hitChecker.field_5.value_5_2   = TRUE;
     work->hitChecker.box.size.x        = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y        = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z        = FLOAT_TO_FX32(0.0);
@@ -975,7 +975,7 @@ void InitExDrawRequestPlayerTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos)
     }
 
     work->hitChecker.type              = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.field_5.value_2   = TRUE;
+    work->hitChecker.field_5.value_5_2   = TRUE;
     work->hitChecker.box.size.x        = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y        = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.z        = FLOAT_TO_FX32(1.0);
@@ -1511,7 +1511,7 @@ void ProcessExDrawRequestSprite3DPriority(EX_ACTION_BAC3D_WORK *work)
         cameraB = GetExDrawCameraConfigB();
     }
 
-    if (work->hitChecker.field_4.value_4 || work->hitChecker.field_4.value_8 || work->hitChecker.field_2.value_1)
+    if (work->hitChecker.field_4.isBlazeFireballEffect || work->hitChecker.field_4.isRing || work->hitChecker.field_2.isBossMeteorBomb)
     {
         if (work->sprite.translation.y > FLOAT_TO_FX32(36.751))
             work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_B;
@@ -1869,7 +1869,7 @@ void AddExDrawRequest(void *work, exDrawReqTaskConfig *config)
             MI_CpuCopy8(work, &request->trail, sizeof(request->trail));
         }
 
-		requestListSize++;
+        requestListSize++;
         request->slot     = requestListSize;
         request->priority = config->priority;
         request->drawWork = work;

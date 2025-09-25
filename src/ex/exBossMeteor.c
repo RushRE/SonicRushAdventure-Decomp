@@ -184,12 +184,12 @@ BOOL LoadExBossMeteorBombAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x = FLOAT_DEG_TO_IDX(269.935);
     work->model.angle.z = FLOAT_DEG_TO_IDX(179.96);
 
-    work->hitChecker.type            = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.field_2.value_1 = TRUE;
-    work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.01001);
-    work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.01001);
-    work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position    = &work->model.translation;
+    work->hitChecker.type                     = EXHITCHECK_TYPE_HAZARD;
+    work->hitChecker.field_2.isBossMeteorBomb = TRUE;
+    work->hitChecker.box.size.x               = FLOAT_TO_FX32(0.01001);
+    work->hitChecker.box.size.y               = FLOAT_TO_FX32(0.01001);
+    work->hitChecker.box.size.z               = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position             = &work->model.translation;
 
     meteorBombInstanceCount++;
 
@@ -375,12 +375,12 @@ BOOL LoadExBossMeteorLockOnAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x = FLOAT_DEG_TO_IDX(269.935);
     work->model.angle.z = FLOAT_DEG_TO_IDX(179.96);
 
-    work->hitChecker.type           = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.flags.value_40 = TRUE;
-    work->hitChecker.box.size.x     = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.y     = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.z     = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position   = &work->model.translation;
+    work->hitChecker.type                     = EXHITCHECK_TYPE_NOT_SOLID;
+    work->hitChecker.flags.isBossMeteorEffect = TRUE;
+    work->hitChecker.box.size.x               = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.y               = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.z               = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position             = &work->model.translation;
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
@@ -677,8 +677,8 @@ void ExBossMeteorLockOn_Main_Exploded(void)
 
 BOOL CreateExBossMeteorLockOn(void)
 {
-    Task *task =
-        ExTaskCreate(ExBossMeteorLockOn_Main_Init, ExBossMeteorLockOn_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x3100, TASK_GROUP(5), 0, EXTASK_TYPE_REGULAR, exBossMeteLockOnTask);
+    Task *task = ExTaskCreate(ExBossMeteorLockOn_Main_Init, ExBossMeteorLockOn_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x3100, TASK_GROUP(5), 0, EXTASK_TYPE_REGULAR,
+                              exBossMeteLockOnTask);
 
     exBossMeteLockOnTask *work = ExTaskGetWork(task, exBossMeteLockOnTask);
     TaskInitWork8(work);
@@ -747,12 +747,12 @@ BOOL LoadExBossMeteorAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x = FLOAT_DEG_TO_IDX(89.98);
     work->model.angle.z = FLOAT_DEG_TO_IDX(179.96);
 
-    work->hitChecker.type           = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.flags.value_80 = TRUE;
-    work->hitChecker.box.size.x     = FLOAT_TO_FX32(5.0);
-    work->hitChecker.box.size.y     = FLOAT_TO_FX32(5.0);
-    work->hitChecker.box.size.z     = FLOAT_TO_FX32(5.0);
-    work->hitChecker.box.position   = &work->model.translation;
+    work->hitChecker.type               = EXHITCHECK_TYPE_HAZARD;
+    work->hitChecker.flags.isBossMeteor = TRUE;
+    work->hitChecker.box.size.x         = FLOAT_TO_FX32(5.0);
+    work->hitChecker.box.size.y         = FLOAT_TO_FX32(5.0);
+    work->hitChecker.box.size.z         = FLOAT_TO_FX32(5.0);
+    work->hitChecker.box.position       = &work->model.translation;
 
     meteorInstanceCount++;
 
@@ -805,7 +805,7 @@ void ExBossMeteor_Main_Init(void)
     work->field_28.x = 1;
     work->field_28.y = 1 + (mtMathRand() % 2);
     work->field_2E.x = 1;
-    work->angle.x = 0;
+    work->angle.x    = 0;
     work->field_2E.y = 3 + (mtMathRand() % 3);
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_METEORITE);
@@ -839,7 +839,7 @@ void ExBossMeteor_Main_FallToLockOnPos(void)
     exBossMeteMeteoTask *work = ExTaskGetWorkCurrent(exBossMeteMeteoTask);
 
     AnimateExDrawRequestModel(&work->animator);
-    if (work->animator.hitChecker.hitFlags.value_1 && work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
+    if (work->animator.hitChecker.hitFlags.hasCollision && work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
     {
         ExBossMeteor_Action_Explode();
     }
@@ -888,7 +888,7 @@ void ExBossMeteor_Main_Impact(void)
     exBossMeteMeteoTask *work = ExTaskGetWorkCurrent(exBossMeteMeteoTask);
 
     AnimateExDrawRequestModel(&work->animator);
-    if (work->animator.hitChecker.hitFlags.value_1 && work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
+    if (work->animator.hitChecker.hitFlags.hasCollision && work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
     {
         ExBossMeteor_Action_Explode();
     }
@@ -917,8 +917,8 @@ void ExBossMeteor_Action_Explode(void)
 {
     exBossMeteMeteoTask *work = ExTaskGetWorkCurrent(exBossMeteMeteoTask);
 
-    work->animator.hitChecker.hitFlags.value_1 = FALSE;
-    work->animator.hitChecker.field_4.value_2  = TRUE;
+    work->animator.hitChecker.hitFlags.hasCollision = FALSE;
+    work->animator.hitChecker.field_4.value_4_2  = TRUE;
 
     work->velocity.y = FLOAT_TO_FX32(0.5);
 
@@ -972,14 +972,15 @@ void ExBossMeteor_Main_Explode(void)
     else
     {
         AddExDrawRequest(&work->animator, &work->animator.config);
-        if (work->animator.hitChecker.hitFlags.value_1 == FALSE)
+        if (work->animator.hitChecker.hitFlags.hasCollision == FALSE)
             exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
     }
 }
 
 BOOL CreateExBossMeteor(void)
 {
-    Task *task = ExTaskCreate(ExBossMeteor_Main_Init, ExBossMeteor_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x3100, TASK_GROUP(5), 0, EXTASK_TYPE_REGULAR, exBossMeteMeteoTask);
+    Task *task =
+        ExTaskCreate(ExBossMeteor_Main_Init, ExBossMeteor_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x3100, TASK_GROUP(5), 0, EXTASK_TYPE_REGULAR, exBossMeteMeteoTask);
 
     exBossMeteMeteoTask *work = ExTaskGetWork(task, exBossMeteMeteoTask);
     TaskInitWork8(work);

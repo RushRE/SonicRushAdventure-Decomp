@@ -260,12 +260,12 @@ BOOL LoadExMeteorAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
-    work->hitChecker.type             = EXHITCHECK_TYPE_INTRO_METEOR;
-    work->hitChecker.field_4.value_10 = TRUE;
-    work->hitChecker.box.size.x       = FLOAT_TO_FX32(3.0);
-    work->hitChecker.box.size.y       = FLOAT_TO_FX32(3.0);
-    work->hitChecker.box.size.z       = FLOAT_TO_FX32(3.0);
-    work->hitChecker.box.position     = &work->model.translation;
+    work->hitChecker.type                  = EXHITCHECK_TYPE_INTRO_METEOR;
+    work->hitChecker.field_4.isIntroMeteor = TRUE;
+    work->hitChecker.box.size.x            = FLOAT_TO_FX32(3.0);
+    work->hitChecker.box.size.y            = FLOAT_TO_FX32(3.0);
+    work->hitChecker.box.size.z            = FLOAT_TO_FX32(3.0);
+    work->hitChecker.box.position          = &work->model.translation;
 
     exMeteorInstanceCount++;
 
@@ -341,12 +341,12 @@ BOOL LoadExBrokenMeteorAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
-    work->hitChecker.type             = EXHITCHECK_TYPE_INTRO_METEOR;
-    work->hitChecker.field_4.value_20 = TRUE;
-    work->hitChecker.box.size.x       = FLOAT_TO_FX32(3.0);
-    work->hitChecker.box.size.y       = FLOAT_TO_FX32(3.0);
-    work->hitChecker.box.size.z       = FLOAT_TO_FX32(3.0);
-    work->hitChecker.box.position     = &work->model.translation;
+    work->hitChecker.type                        = EXHITCHECK_TYPE_INTRO_METEOR;
+    work->hitChecker.field_4.isBrokenIntroMeteor = TRUE;
+    work->hitChecker.box.size.x                  = FLOAT_TO_FX32(3.0);
+    work->hitChecker.box.size.y                  = FLOAT_TO_FX32(3.0);
+    work->hitChecker.box.size.z                  = FLOAT_TO_FX32(3.0);
+    work->hitChecker.box.position                = &work->model.translation;
 
     exBrokenMeteorInstanceCount++;
 
@@ -432,12 +432,12 @@ void ExMeteor_Main_Moving(void)
     {
         DestroyCurrentExTask();
     }
-    else if (work->aniMeteor.hitChecker.hitFlags.value_1)
+    else if (work->aniMeteor.hitChecker.hitFlags.hasCollision)
     {
         switch (work->aniMeteor.hitChecker.type)
         {
-            case 2:
-                if (work->aniMeteor.hitChecker.hitFlags.value_2)
+            case EXHITCHECK_TYPE_ACTIVE_PLAYER:
+                if (work->aniMeteor.hitChecker.hitFlags.isHurt)
                     ExMeteor_Action_Shatter();
                 else
                     ExMeteor_Action_Reflect();
@@ -461,7 +461,7 @@ void ExMeteor_Action_Shatter(void)
 {
     exEffectMeteoTask *work = ExTaskGetWorkCurrent(exEffectMeteoTask);
 
-    work->aniMeteor.hitChecker.hitFlags.value_1 = FALSE;
+    work->aniMeteor.hitChecker.hitFlags.hasCollision = FALSE;
 
     work->mdlMeteorBroken.model.translation.x = work->aniMeteor.model.translation.x;
     work->mdlMeteorBroken.model.translation.y = work->aniMeteor.model.translation.y;
@@ -493,11 +493,11 @@ void ExMeteor_Action_Reflect(void)
 {
     exEffectMeteoTask *work = ExTaskGetWorkCurrent(exEffectMeteoTask);
 
-    work->aniMeteor.hitChecker.hitFlags.value_1 = FALSE;
+    work->aniMeteor.hitChecker.hitFlags.hasCollision = FALSE;
 
     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
-        if (work->aniMeteor.hitChecker.power == 6)
+        if (work->aniMeteor.hitChecker.power == EXPLAYER_BARRIER_REGULAR_POWER_NORMAL)
         {
             work->velocity.y = MultiplyFX(FLOAT_TO_FX32(4.0), work->velocity.y);
         }
@@ -508,7 +508,7 @@ void ExMeteor_Action_Reflect(void)
     }
     else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
     {
-        if (work->aniMeteor.hitChecker.power == 7)
+        if (work->aniMeteor.hitChecker.power == EXPLAYER_BARRIER_REGULAR_POWER_EASY)
         {
             work->velocity.y = MultiplyFX(FLOAT_TO_FX32(4.0), work->velocity.y);
         }
@@ -635,7 +635,7 @@ void ExMeteorManager_Main_Active(void)
             float meteorY;
             MULTIPLY_FLOAT_FX(meteorY, work->spawnConfig.velocity)
             meteorVel.y = meteorY;
-            
+
             meteorVel.z = FLOAT_TO_FX32(0.0);
 
             if (work->spawnConfig.spawnPos.useColumnL4)

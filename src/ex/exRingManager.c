@@ -2825,7 +2825,7 @@ BOOL ExRingManager_InitRingSprite(EX_ACTION_BAC3D_WORK *work)
 
     work->sprite.anim                  = EX_ACTCOM_ANI_RING;
     work->hitChecker.type              = EXHITCHECK_TYPE_RING;
-    work->hitChecker.field_4.value_8   = TRUE;
+    work->hitChecker.field_4.isRing    = TRUE;
     work->sprite.translation.z         = FLOAT_TO_FX32(60.0);
     work->sprite.scale.x               = FLOAT_TO_FX32(0.375);
     work->sprite.scale.y               = FLOAT_TO_FX32(0.375);
@@ -2974,7 +2974,7 @@ void ExRing_Main_Ring(void)
 
     work->aniRing.sprite.translation.y -= work->velocity.y;
 
-    if (work->aniRing.hitChecker.hitFlags.value_1)
+    if (work->aniRing.hitChecker.hitFlags.hasCollision)
     {
         ExRing_Action_Collect();
         return;
@@ -3004,7 +3004,7 @@ void ExRing_Action_Collect(void)
     if (status->rings < 999)
         status->rings++;
 
-    work->aniRing.hitChecker.hitFlags.value_1 = FALSE;
+    work->aniRing.hitChecker.hitFlags.hasCollision = FALSE;
 
     ExRingManager_SetRingAnim(&work->aniRing, EX_ACTCOM_ANI_RING_SPARKLE);
     SetExDrawRequestAnimStopOnFinish(&work->aniRing.config);

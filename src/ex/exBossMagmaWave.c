@@ -99,8 +99,7 @@ BOOL LoadExBossMagmeWaveAttackAssets(EX_ACTION_NN_WORK *work)
 
     if (magmaEruptionInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FCOL_NSBMD, &magmaEruptionModelResource, &magmaEruptionModelFileSize, TRUE,
-                                      FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FCOL_NSBMD, &magmaEruptionModelResource, &magmaEruptionModelFileSize, TRUE, FALSE);
 
         magmaEruptionAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FCOL_NSBCA);
         magmaEruptionAnimType[0]     = B3D_ANIM_JOINT_ANIM;
@@ -131,17 +130,17 @@ BOOL LoadExBossMagmeWaveAttackAssets(EX_ACTION_NN_WORK *work)
 
     work->model.translation.z = FLOAT_TO_FX32(0.0);
 
-    work->model.scale.x       = FLOAT_TO_FX32(1.0);
-    work->model.scale.y       = FLOAT_TO_FX32(1.0);
-    work->model.scale.z       = FLOAT_TO_FX32(1.0);
-    work->model.angle.x       = FLOAT_DEG_TO_IDX(89.98);
+    work->model.scale.x = FLOAT_TO_FX32(1.0);
+    work->model.scale.y = FLOAT_TO_FX32(1.0);
+    work->model.scale.z = FLOAT_TO_FX32(1.0);
+    work->model.angle.x = FLOAT_DEG_TO_IDX(89.98);
 
-    work->hitChecker.type             = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.field_2.value_10 = TRUE;
-    work->hitChecker.box.size.x       = FLOAT_TO_FX32(5.0);
-    work->hitChecker.box.size.y       = FLOAT_TO_FX32(5.0);
-    work->hitChecker.box.size.z       = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position     = &work->model.translation;
+    work->hitChecker.type                          = EXHITCHECK_TYPE_HAZARD;
+    work->hitChecker.field_2.isBossMagmaWaveAttack = TRUE;
+    work->hitChecker.box.size.x                    = FLOAT_TO_FX32(5.0);
+    work->hitChecker.box.size.y                    = FLOAT_TO_FX32(5.0);
+    work->hitChecker.box.size.z                    = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position                  = &work->model.translation;
 
     magmaEruptionInstanceCount++;
 
@@ -409,18 +408,18 @@ BOOL LoadExBossMagmaWaveAssets(EX_ACTION_NN_WORK *work)
     }
 
     work->model.translation.z = FLOAT_TO_FX32(0.0);
-    
-    work->model.scale.x       = FLOAT_TO_FX32(1.0);
-    work->model.scale.y       = FLOAT_TO_FX32(1.0);
-    work->model.scale.z       = FLOAT_TO_FX32(1.0);
-    work->model.angle.x       = FLOAT_DEG_TO_IDX(89.98);
 
-    work->hitChecker.type            = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.field_2.value_8 = TRUE;
-    work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position    = &work->model.translation;
+    work->model.scale.x = FLOAT_TO_FX32(1.0);
+    work->model.scale.y = FLOAT_TO_FX32(1.0);
+    work->model.scale.z = FLOAT_TO_FX32(1.0);
+    work->model.angle.x = FLOAT_DEG_TO_IDX(89.98);
+
+    work->hitChecker.type                    = EXHITCHECK_TYPE_HAZARD;
+    work->hitChecker.field_2.isBossMagmaWave = TRUE;
+    work->hitChecker.box.size.x              = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.y              = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.z              = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position            = &work->model.translation;
 
     magmaWaveInstanceCount++;
 

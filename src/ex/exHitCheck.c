@@ -132,7 +132,7 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
 
     if (GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED)
     {
-        if (work->type == EXHITCHECK_TYPE_RING && work->field_4.value_8 == TRUE)
+        if (work->type == EXHITCHECK_TYPE_RING && work->field_4.isRing == TRUE)
         {
             if (exHitCheckTaskIsList1Available)
             {
@@ -165,9 +165,9 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
 
     if (work->type == EXHITCHECK_TYPE_HAZARD)
     {
-        if ((work->flags.value_1 == TRUE || work->flags.value_80 == TRUE) || (work->field_2.value_1 == TRUE || work->field_2.value_2 == TRUE)
-            || (work->field_2.value_4 == TRUE || work->field_2.value_10 == TRUE) || (work->field_2.value_20 == TRUE || work->field_2.value_80 == TRUE)
-            || (work->field_3.value_1 == TRUE || work->field_3.value_2 == TRUE))
+        if ((work->flags.value_1 == TRUE || work->flags.isBossMeteor == TRUE) || (work->field_2.isBossMeteorBomb == TRUE || work->field_2.isBossFireRed == TRUE)
+            || (work->field_2.isBossFireBlue == TRUE || work->field_2.isBossMagmaWaveAttack == TRUE) || (work->field_2.value_2_20 == TRUE || work->field_2.value_2_80 == TRUE)
+            || (work->field_3.value_3_1 == TRUE || work->field_3.isBossHomingLaserTrail == TRUE))
         {
             if (exHitCheckTaskIsList1Available)
             {
@@ -181,7 +181,7 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
         }
     }
 
-    if (work->type == EXHITCHECK_TYPE_INTRO_METEOR && work->field_4.value_10 == TRUE)
+    if (work->type == EXHITCHECK_TYPE_INTRO_METEOR && work->field_4.isIntroMeteor == TRUE)
     {
         if (exHitCheckTaskIsList1Available)
         {
@@ -196,7 +196,7 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
 
     if (work->type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
     {
-        if (work->field_3.value_80 == TRUE)
+        if (work->field_3.isSonicBarrierEffect == TRUE)
         {
             if (exHitCheckTaskIsList2Available)
             {
@@ -208,7 +208,7 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
                 return FALSE;
             }
         }
-        else if (work->field_4.value_2 == TRUE)
+        else if (work->field_4.value_4_2 == TRUE)
         {
             if (exHitCheckTaskIsList3Available)
             {
@@ -220,7 +220,7 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
                 return FALSE;
             }
         }
-        else if (work->field_4.value_4 == TRUE)
+        else if (work->field_4.isBlazeFireballEffect == TRUE)
         {
             if (exHitCheckTaskIsList4Available)
             {
@@ -246,7 +246,7 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
         }
     }
 
-    if (work->type == EXHITCHECK_TYPE_RING && work->field_4.value_8 == TRUE)
+    if (work->type == EXHITCHECK_TYPE_RING && work->field_4.isRing == TRUE)
     {
         if (exHitCheckTaskIsList1Available)
         {
@@ -534,39 +534,38 @@ void exHitCheckTask_CheckArenaBounds(EX_ACTION_NN_WORK *work)
 {
     if (GetExSystemStatus()->state >= EXSYSTASK_STATE_BOSS_ACTIVE)
     {
-        work->hitChecker.hitFlags.value_40 = FALSE;
-        work->hitChecker.hitFlags.value_80 = FALSE;
-
-        work->hitChecker.field_7.value_1 = FALSE;
-        work->hitChecker.field_7.value_2 = FALSE;
-        work->hitChecker.field_7.value_4 = FALSE;
+        work->hitChecker.hitFlags.wasOutOfBounds    = FALSE;
+        work->hitChecker.hitFlags.touchingBoundaryT = FALSE;
+        work->hitChecker.hitFlags.touchingBoundaryB  = FALSE;
+        work->hitChecker.hitFlags.touchingBoundaryL  = FALSE;
+        work->hitChecker.hitFlags.touchingBoundaryR  = FALSE;
 
         if (work->model.translation.y > FLOAT_TO_FX32(17.0))
         {
-            work->model.translation.y          = FLOAT_TO_FX32(17.0);
-            work->hitChecker.hitFlags.value_80 = TRUE;
-            work->hitChecker.hitFlags.value_40 = TRUE;
+            work->model.translation.y                   = FLOAT_TO_FX32(17.0);
+            work->hitChecker.hitFlags.touchingBoundaryT = TRUE;
+            work->hitChecker.hitFlags.wasOutOfBounds    = TRUE;
         }
 
         if (work->model.translation.y < -FLOAT_TO_FX32(32.0))
         {
-            work->model.translation.y          = -FLOAT_TO_FX32(32.0);
-            work->hitChecker.field_7.value_1   = TRUE;
-            work->hitChecker.hitFlags.value_40 = TRUE;
+            work->model.translation.y                  = -FLOAT_TO_FX32(32.0);
+            work->hitChecker.hitFlags.touchingBoundaryB = TRUE;
+            work->hitChecker.hitFlags.wasOutOfBounds   = TRUE;
         }
 
         if (work->model.translation.x < -FLOAT_TO_FX32(70.0))
         {
-            work->model.translation.x          = -FLOAT_TO_FX32(70.0);
-            work->hitChecker.field_7.value_2   = TRUE;
-            work->hitChecker.hitFlags.value_40 = TRUE;
+            work->model.translation.x                  = -FLOAT_TO_FX32(70.0);
+            work->hitChecker.hitFlags.touchingBoundaryL = TRUE;
+            work->hitChecker.hitFlags.wasOutOfBounds   = TRUE;
         }
 
         if (work->model.translation.x > FLOAT_TO_FX32(70.0))
         {
-            work->model.translation.x          = FLOAT_TO_FX32(70.0);
-            work->hitChecker.field_7.value_4   = TRUE;
-            work->hitChecker.hitFlags.value_40 = TRUE;
+            work->model.translation.x                  = FLOAT_TO_FX32(70.0);
+            work->hitChecker.hitFlags.touchingBoundaryR = TRUE;
+            work->hitChecker.hitFlags.wasOutOfBounds   = TRUE;
         }
     }
 }
@@ -583,7 +582,8 @@ void exHitCheckTask_ArenaCheck_Sprite3D(exHitCheck *work)
 
 void exHitCheckTask_ArenaCheck_Model(EX_ACTION_NN_WORK *work)
 {
-    if ((work->hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER || work->hitChecker.type == EXHITCHECK_TYPE_INACTIVE_PLAYER) && (work->hitChecker.field_3.value_8 || work->hitChecker.field_3.value_20))
+    if ((work->hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER || work->hitChecker.type == EXHITCHECK_TYPE_INACTIVE_PLAYER)
+        && (work->hitChecker.field_3.isSuperSonicPlayer || work->hitChecker.field_3.isBurningBlazePlayer))
     {
         exHitCheckTask_CheckArenaBounds(work);
     }
@@ -624,7 +624,7 @@ void exHitCheckTask_DoHitChecks(void)
                 {
                     exHitCheck *other = exHitCheckTask_hitCheckList[i];
 
-                    if (other->hitFlags.value_1 != 1)
+                    if (other->hitFlags.hasCollision != TRUE)
                     {
                         if ((other->box.position->z <= FLOAT_TO_FX32(65.0) && other->box.position->z >= FLOAT_TO_FX32(50.0)) || other->box.position->z == FLOAT_TO_FX32(0.0))
                         {
@@ -632,12 +632,12 @@ void exHitCheckTask_DoHitChecks(void)
                             {
                                 other = exHitCheckTask_hitCheckList[i];
 
-                                if (other->field_4.value_8 && playerSonic->hitChecker.hitFlags.value_2 == FALSE)
+                                if (other->field_4.isRing && playerSonic->hitChecker.hitFlags.isHurt == FALSE)
                                 {
-                                    other->hitFlags.value_1 = TRUE;
+                                    other->hitFlags.hasCollision = TRUE;
 
-                                    playerSonic->hitChecker.hitFlags.value_1 = TRUE;
-                                    playerSonic->hitChecker.field_7.value_8  = TRUE;
+                                    playerSonic->hitChecker.hitFlags.hasCollision = TRUE;
+                                    playerSonic->hitChecker.hitFlags.touchedRing   = TRUE;
                                 }
                             }
                         }
@@ -651,7 +651,7 @@ void exHitCheckTask_DoHitChecks(void)
                 {
                     exHitCheck *other = exHitCheckTask_hitCheckList[i];
 
-                    if (other->hitFlags.value_1 != 1)
+                    if (other->hitFlags.hasCollision != TRUE)
                     {
                         if ((other->box.position->z <= FLOAT_TO_FX32(65.0) && other->box.position->z >= FLOAT_TO_FX32(50.0)) || other->box.position->z == FLOAT_TO_FX32(0.0))
                         {
@@ -659,12 +659,12 @@ void exHitCheckTask_DoHitChecks(void)
                             {
                                 other = exHitCheckTask_hitCheckList[i];
 
-                                if (other->field_4.value_8 && playerBlaze->hitChecker.hitFlags.value_2 == FALSE)
+                                if (other->field_4.isRing && playerBlaze->hitChecker.hitFlags.isHurt == FALSE)
                                 {
-                                    other->hitFlags.value_1 = TRUE;
+                                    other->hitFlags.hasCollision = TRUE;
 
-                                    playerBlaze->hitChecker.hitFlags.value_1 = TRUE;
-                                    playerBlaze->hitChecker.field_7.value_8  = TRUE;
+                                    playerBlaze->hitChecker.hitFlags.hasCollision = TRUE;
+                                    playerBlaze->hitChecker.hitFlags.touchedRing   = TRUE;
                                 }
                             }
                         }
@@ -692,17 +692,17 @@ void exHitCheckTask_DoHitChecks(void)
                                     {
                                         other = exHitCheckTask_hitCheckList[i];
 
-                                        if (other->flags.value_80)
+                                        if (other->flags.isBossMeteor)
                                         {
                                             if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
                                             {
                                                 if (exHitCheckTask_hitCheckList2[ii]->power == EXPLAYER_BARRIER_CHARGED_POWER_NORMAL)
                                                 {
-                                                    exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
+                                                    exHitCheckTask_hitCheckList2[ii]->hitFlags.hasCollision = TRUE;
 
-                                                    exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                                    exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-                                                    exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList2[ii]->power;
+                                                    exHitCheckTask_hitCheckList[i]->hitFlags.hasCollision = TRUE;
+                                                    exHitCheckTask_hitCheckList[i]->type                  = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+                                                    exHitCheckTask_hitCheckList[i]->power                 = exHitCheckTask_hitCheckList2[ii]->power;
                                                 }
                                             }
                                             else
@@ -711,58 +711,58 @@ void exHitCheckTask_DoHitChecks(void)
                                                 {
                                                     if (exHitCheckTask_hitCheckList2[ii]->power == EXPLAYER_BARRIER_CHARGED_POWER_EASY)
                                                     {
-                                                        exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
+                                                        exHitCheckTask_hitCheckList2[ii]->hitFlags.hasCollision = TRUE;
 
-                                                        exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                                        exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-                                                        exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList2[ii]->power;
+                                                        exHitCheckTask_hitCheckList[i]->hitFlags.hasCollision = TRUE;
+                                                        exHitCheckTask_hitCheckList[i]->type                  = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+                                                        exHitCheckTask_hitCheckList[i]->power                 = exHitCheckTask_hitCheckList2[ii]->power;
                                                     }
                                                 }
                                             }
                                         }
-                                        else if (other->field_2.value_2 || other->field_2.value_4)
+                                        else if (other->field_2.isBossFireRed || other->field_2.isBossFireBlue)
                                         {
-                                            exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
+                                            exHitCheckTask_hitCheckList2[ii]->hitFlags.hasCollision = TRUE;
 
-                                            exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                            exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-                                            exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList2[ii]->power;
+                                            exHitCheckTask_hitCheckList[i]->hitFlags.hasCollision = TRUE;
+                                            exHitCheckTask_hitCheckList[i]->type                  = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+                                            exHitCheckTask_hitCheckList[i]->power                 = exHitCheckTask_hitCheckList2[ii]->power;
                                         }
-                                        else if (other->field_2.value_20)
+                                        else if (other->field_2.value_2_20)
                                         {
-                                            exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
+                                            exHitCheckTask_hitCheckList2[ii]->hitFlags.hasCollision = TRUE;
 
-                                            exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                            exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-                                            exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList2[ii]->power;
+                                            exHitCheckTask_hitCheckList[i]->hitFlags.hasCollision = TRUE;
+                                            exHitCheckTask_hitCheckList[i]->type                  = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+                                            exHitCheckTask_hitCheckList[i]->power                 = exHitCheckTask_hitCheckList2[ii]->power;
                                         }
-                                        else if (other->field_2.value_80)
+                                        else if (other->field_2.value_2_80)
                                         {
-                                            exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
+                                            exHitCheckTask_hitCheckList2[ii]->hitFlags.hasCollision = TRUE;
 
-                                            exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                            exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-                                            exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList2[ii]->power;
+                                            exHitCheckTask_hitCheckList[i]->hitFlags.hasCollision = TRUE;
+                                            exHitCheckTask_hitCheckList[i]->type                  = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+                                            exHitCheckTask_hitCheckList[i]->power                 = exHitCheckTask_hitCheckList2[ii]->power;
                                         }
                                         else
                                         {
-                                            if (other->field_3.value_1)
+                                            if (other->field_3.value_3_1)
                                             {
-                                                exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
+                                                exHitCheckTask_hitCheckList2[ii]->hitFlags.hasCollision = TRUE;
                                             }
                                             else
                                             {
-                                                if (other->field_3.value_2)
+                                                if (other->field_3.isBossHomingLaserTrail)
                                                 {
-                                                    exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
+                                                    exHitCheckTask_hitCheckList2[ii]->hitFlags.hasCollision = TRUE;
                                                 }
                                                 else
                                                 {
-                                                    exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
+                                                    exHitCheckTask_hitCheckList2[ii]->hitFlags.hasCollision = TRUE;
 
-                                                    exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                                    exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-                                                    exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList2[ii]->power;
+                                                    exHitCheckTask_hitCheckList[i]->hitFlags.hasCollision = TRUE;
+                                                    exHitCheckTask_hitCheckList[i]->type                  = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+                                                    exHitCheckTask_hitCheckList[i]->power                 = exHitCheckTask_hitCheckList2[ii]->power;
                                                 }
                                             }
                                         }
@@ -789,14 +789,14 @@ void exHitCheckTask_DoHitChecks(void)
                                     {
                                         other = exHitCheckTask_hitCheckList[i];
 
-                                        if (other->field_2.value_2 == FALSE && other->field_2.value_4 == FALSE && other->field_2.value_20 == FALSE
-                                            && other->field_2.value_80 == FALSE && other->field_3.value_2 == FALSE)
+                                        if (other->field_2.isBossFireRed == FALSE && other->field_2.isBossFireBlue == FALSE && other->field_2.value_2_20 == FALSE
+                                            && other->field_2.value_2_80 == FALSE && other->field_3.isBossHomingLaserTrail == FALSE)
                                         {
-                                            exHitCheckTask_hitCheckList3[ii]->hitFlags.value_1 = TRUE;
+                                            exHitCheckTask_hitCheckList3[ii]->hitFlags.hasCollision = TRUE;
 
-                                            exHitCheckTask_hitCheckList[i]->hitFlags.value_2 = TRUE;
-                                            exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                            exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList3[ii]->power;
+                                            exHitCheckTask_hitCheckList[i]->hitFlags.isHurt       = TRUE;
+                                            exHitCheckTask_hitCheckList[i]->hitFlags.hasCollision = TRUE;
+                                            exHitCheckTask_hitCheckList[i]->power                 = exHitCheckTask_hitCheckList3[ii]->power;
                                         }
                                     }
                                 }
@@ -821,29 +821,29 @@ void exHitCheckTask_DoHitChecks(void)
                                     {
                                         other = exHitCheckTask_hitCheckList[i];
 
-                                        if (other->field_2.value_2 || other->field_2.value_4)
+                                        if (other->field_2.isBossFireRed || other->field_2.isBossFireBlue)
                                         {
-                                            exHitCheckTask_hitCheckList4[ii]->hitFlags.value_1 = TRUE;
+                                            exHitCheckTask_hitCheckList4[ii]->hitFlags.hasCollision = TRUE;
                                         }
-                                        else if (other->field_2.value_10)
+                                        else if (other->field_2.isBossMagmaWaveAttack)
                                         {
-                                            exHitCheckTask_hitCheckList4[ii]->hitFlags.value_1 = TRUE;
+                                            exHitCheckTask_hitCheckList4[ii]->hitFlags.hasCollision = TRUE;
                                         }
-                                        else if (other->field_2.value_20)
+                                        else if (other->field_2.value_2_20)
                                         {
-                                            other->hitFlags.value_1 = TRUE;
+                                            other->hitFlags.hasCollision = TRUE;
 
-                                            exHitCheckTask_hitCheckList4[ii]->hitFlags.value_1 = TRUE;
+                                            exHitCheckTask_hitCheckList4[ii]->hitFlags.hasCollision = TRUE;
 
                                             exHitCheckTask_hitCheckList[i]->power = exHitCheckTask_hitCheckList4[ii]->power;
                                         }
-                                        else if (other->field_3.value_2 == FALSE)
+                                        else if (other->field_3.isBossHomingLaserTrail == FALSE)
                                         {
-                                            exHitCheckTask_hitCheckList4[ii]->hitFlags.value_1 = TRUE;
+                                            exHitCheckTask_hitCheckList4[ii]->hitFlags.hasCollision = TRUE;
 
-                                            exHitCheckTask_hitCheckList[i]->hitFlags.value_2 = TRUE;
-                                            exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                            exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList4[ii]->power;
+                                            exHitCheckTask_hitCheckList[i]->hitFlags.isHurt       = TRUE;
+                                            exHitCheckTask_hitCheckList[i]->hitFlags.hasCollision = TRUE;
+                                            exHitCheckTask_hitCheckList[i]->power                 = exHitCheckTask_hitCheckList4[ii]->power;
                                         }
                                     }
                                 }
@@ -857,7 +857,7 @@ void exHitCheckTask_DoHitChecks(void)
                     {
                         exHitCheck *other = exHitCheckTask_hitCheckList[i];
 
-                        if (other->hitFlags.value_1 != 1)
+                        if (other->hitFlags.hasCollision != 1)
                         {
                             if ((other->box.position->z <= FLOAT_TO_FX32(65.0) && other->box.position->z >= FLOAT_TO_FX32(50.0)) || other->box.position->z == FLOAT_TO_FX32(0.0))
                             {
@@ -865,67 +865,67 @@ void exHitCheckTask_DoHitChecks(void)
                                 {
                                     other = exHitCheckTask_hitCheckList[i];
 
-                                    if (other->field_4.value_10)
+                                    if (other->field_4.isIntroMeteor)
                                     {
-                                        if (playerSonic->hitChecker.hitFlags.value_2 == FALSE)
+                                        if (playerSonic->hitChecker.hitFlags.isHurt == FALSE)
                                         {
                                             if (GetExPlayerWorker()->dashTimer > 0)
-                                                exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
+                                                exHitCheckTask_hitCheckList[i]->hitFlags.hasCollision = TRUE;
 
-                                            playerSonic->hitChecker.hitFlags.value_2 = TRUE;
+                                            playerSonic->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->flags.value_80)
+                                    else if (other->flags.isBossMeteor)
                                     {
-                                        if (playerSonic->hitChecker.hitFlags.value_2 == FALSE && playerSonic->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerSonic->hitChecker.hitFlags.isHurt == FALSE && playerSonic->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_1                  = TRUE;
-                                            playerSonic->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.hasCollision            = TRUE;
+                                            playerSonic->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_2.value_1)
+                                    else if (other->field_2.isBossMeteorBomb)
                                     {
-                                        if (playerSonic->hitChecker.hitFlags.value_2 == FALSE && playerSonic->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerSonic->hitChecker.hitFlags.isHurt == FALSE && playerSonic->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_1                  = TRUE;
-                                            playerSonic->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.hasCollision            = TRUE;
+                                            playerSonic->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_2.value_2)
+                                    else if (other->field_2.isBossFireRed)
                                     {
-                                        if (playerSonic->hitChecker.hitFlags.value_2 == FALSE && playerSonic->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerSonic->hitChecker.hitFlags.isHurt == FALSE && playerSonic->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_1                  = TRUE;
-                                            playerSonic->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.hasCollision            = TRUE;
+                                            playerSonic->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_2.value_4)
+                                    else if (other->field_2.isBossFireBlue)
                                     {
-                                        if (playerSonic->hitChecker.hitFlags.value_2 == FALSE && playerSonic->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerSonic->hitChecker.hitFlags.isHurt == FALSE && playerSonic->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_1                  = TRUE;
-                                            playerSonic->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.hasCollision            = TRUE;
+                                            playerSonic->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_2.value_10)
+                                    else if (other->field_2.isBossMagmaWaveAttack)
                                     {
-                                        if (playerSonic->hitChecker.hitFlags.value_2 == FALSE && playerSonic->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerSonic->hitChecker.hitFlags.isHurt == FALSE && playerSonic->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_1                  = TRUE;
-                                            playerSonic->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.hasCollision            = TRUE;
+                                            playerSonic->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_2.value_20)
+                                    else if (other->field_2.value_2_20)
                                     {
-                                        if (playerSonic->hitChecker.hitFlags.value_2 == FALSE && playerSonic->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerSonic->hitChecker.hitFlags.isHurt == FALSE && playerSonic->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_10                 = TRUE;
-                                            playerSonic->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.value_10                = TRUE;
+                                            playerSonic->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_2.value_80)
+                                    else if (other->field_2.value_2_80)
                                     {
-                                        if (playerSonic->hitChecker.hitFlags.value_2 == FALSE)
+                                        if (playerSonic->hitChecker.hitFlags.isHurt == FALSE)
                                         {
                                             if (GetExPlayerWorker()->dashTimer > 0)
                                             {
@@ -933,39 +933,39 @@ void exHitCheckTask_DoHitChecks(void)
                                             }
                                             else
                                             {
-                                                exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                                playerSonic->hitChecker.hitFlags.value_2         = TRUE;
+                                                exHitCheckTask_hitCheckList[i]->hitFlags.hasCollision = TRUE;
+                                                playerSonic->hitChecker.hitFlags.isHurt               = TRUE;
                                             }
                                         }
                                     }
-                                    else if (other->field_3.value_1)
+                                    else if (other->field_3.value_3_1)
                                     {
-                                        if (playerSonic->hitChecker.hitFlags.value_2 == FALSE && playerSonic->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerSonic->hitChecker.hitFlags.isHurt == FALSE && playerSonic->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_1                  = TRUE;
-                                            playerSonic->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.hasCollision            = TRUE;
+                                            playerSonic->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_3.value_2)
+                                    else if (other->field_3.isBossHomingLaserTrail)
                                     {
-                                        if (playerSonic->hitChecker.hitFlags.value_2 == FALSE && playerSonic->hitChecker.hitFlags.value_8 == FALSE)
-                                            playerSonic->hitChecker.hitFlags.value_4 = TRUE;
+                                        if (playerSonic->hitChecker.hitFlags.isHurt == FALSE && playerSonic->hitChecker.hitFlags.isInvincible == FALSE)
+                                            playerSonic->hitChecker.hitFlags.isStunned = TRUE;
                                     }
-                                    else if (other->field_4.value_8)
+                                    else if (other->field_4.isRing)
                                     {
-                                        if (playerSonic->hitChecker.hitFlags.value_2 == FALSE)
+                                        if (playerSonic->hitChecker.hitFlags.isHurt == FALSE)
                                         {
-                                            other->hitFlags.value_1 = TRUE;
+                                            other->hitFlags.hasCollision = TRUE;
 
-                                            playerSonic->hitChecker.hitFlags.value_1 = TRUE;
-                                            playerSonic->hitChecker.field_7.value_8  = TRUE;
+                                            playerSonic->hitChecker.hitFlags.hasCollision = TRUE;
+                                            playerSonic->hitChecker.hitFlags.touchedRing   = TRUE;
                                         }
                                     }
                                     else
                                     {
-                                        other->hitFlags.value_1 = TRUE;
+                                        other->hitFlags.hasCollision = TRUE;
 
-                                        playerSonic->hitChecker.hitFlags.value_1 = TRUE;
+                                        playerSonic->hitChecker.hitFlags.hasCollision = TRUE;
                                     }
                                 }
                             }
@@ -973,7 +973,7 @@ void exHitCheckTask_DoHitChecks(void)
                     }
                 }
 
-                playerSonic->hitChecker.hitFlags.value_8 = FALSE;
+                playerSonic->hitChecker.hitFlags.isInvincible = FALSE;
 
                 if (playerBlaze->hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
                 {
@@ -981,7 +981,7 @@ void exHitCheckTask_DoHitChecks(void)
                     {
                         exHitCheck *other = exHitCheckTask_hitCheckList[i];
 
-                        if (other->hitFlags.value_1 != 1)
+                        if (other->hitFlags.hasCollision != 1)
                         {
                             if ((other->box.position->z <= FLOAT_TO_FX32(65.0) && other->box.position->z >= FLOAT_TO_FX32(50.0)) || other->box.position->z == FLOAT_TO_FX32(0.0))
                             {
@@ -989,86 +989,86 @@ void exHitCheckTask_DoHitChecks(void)
                                 {
                                     other = exHitCheckTask_hitCheckList[i];
 
-                                    if (other->field_4.value_10)
+                                    if (other->field_4.isIntroMeteor)
                                     {
-                                        if (playerBlaze->hitChecker.hitFlags.value_2 == FALSE && playerBlaze->hitChecker.hitFlags.value_8 == FALSE)
-                                            playerBlaze->hitChecker.hitFlags.value_2 = TRUE;
+                                        if (playerBlaze->hitChecker.hitFlags.isHurt == FALSE && playerBlaze->hitChecker.hitFlags.isInvincible == FALSE)
+                                            playerBlaze->hitChecker.hitFlags.isHurt = TRUE;
                                     }
-                                    else if (other->field_2.value_10)
+                                    else if (other->field_2.isBossMagmaWaveAttack)
                                     {
-                                        if (playerBlaze->hitChecker.hitFlags.value_2 == FALSE && playerBlaze->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerBlaze->hitChecker.hitFlags.isHurt == FALSE && playerBlaze->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_1                  = TRUE;
-                                            playerBlaze->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.hasCollision            = TRUE;
+                                            playerBlaze->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->flags.value_80)
+                                    else if (other->flags.isBossMeteor)
                                     {
-                                        if (playerBlaze->hitChecker.hitFlags.value_2 == FALSE && playerBlaze->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerBlaze->hitChecker.hitFlags.isHurt == FALSE && playerBlaze->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_1                  = TRUE;
-                                            playerBlaze->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.hasCollision            = TRUE;
+                                            playerBlaze->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_2.value_2)
+                                    else if (other->field_2.isBossFireRed)
                                     {
-                                        if (playerBlaze->hitChecker.hitFlags.value_2 == FALSE && playerBlaze->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerBlaze->hitChecker.hitFlags.isHurt == FALSE && playerBlaze->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_1                  = TRUE;
-                                            playerBlaze->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.hasCollision            = TRUE;
+                                            playerBlaze->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_2.value_4)
+                                    else if (other->field_2.isBossFireBlue)
                                     {
-                                        if (playerBlaze->hitChecker.hitFlags.value_2 == FALSE && playerBlaze->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerBlaze->hitChecker.hitFlags.isHurt == FALSE && playerBlaze->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_1                  = TRUE;
-                                            playerBlaze->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.hasCollision            = TRUE;
+                                            playerBlaze->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_2.value_20)
+                                    else if (other->field_2.value_2_20)
                                     {
-                                        if (playerBlaze->hitChecker.hitFlags.value_2 == FALSE && playerBlaze->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerBlaze->hitChecker.hitFlags.isHurt == FALSE && playerBlaze->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_10                 = TRUE;
-                                            playerBlaze->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.value_10                = TRUE;
+                                            playerBlaze->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_2.value_80)
+                                    else if (other->field_2.value_2_80)
                                     {
-                                        if (playerBlaze->hitChecker.hitFlags.value_2 == FALSE && playerBlaze->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerBlaze->hitChecker.hitFlags.isHurt == FALSE && playerBlaze->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_1                  = TRUE;
-                                            playerBlaze->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.hasCollision            = TRUE;
+                                            playerBlaze->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_3.value_1)
+                                    else if (other->field_3.value_3_1)
                                     {
-                                        if (playerBlaze->hitChecker.hitFlags.value_2 == FALSE && playerBlaze->hitChecker.hitFlags.value_8 == FALSE)
+                                        if (playerBlaze->hitChecker.hitFlags.isHurt == FALSE && playerBlaze->hitChecker.hitFlags.isInvincible == FALSE)
                                         {
-                                            other->hitFlags.value_1                  = TRUE;
-                                            playerBlaze->hitChecker.hitFlags.value_2 = TRUE;
+                                            other->hitFlags.hasCollision            = TRUE;
+                                            playerBlaze->hitChecker.hitFlags.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->field_3.value_2)
+                                    else if (other->field_3.isBossHomingLaserTrail)
                                     {
-                                        if (playerBlaze->hitChecker.hitFlags.value_2 == FALSE && playerBlaze->hitChecker.hitFlags.value_8 == FALSE)
-                                            playerBlaze->hitChecker.hitFlags.value_4 = TRUE;
+                                        if (playerBlaze->hitChecker.hitFlags.isHurt == FALSE && playerBlaze->hitChecker.hitFlags.isInvincible == FALSE)
+                                            playerBlaze->hitChecker.hitFlags.isStunned = TRUE;
                                     }
-                                    else if (other->field_4.value_8)
+                                    else if (other->field_4.isRing)
                                     {
-                                        if (playerBlaze->hitChecker.hitFlags.value_2 == FALSE)
+                                        if (playerBlaze->hitChecker.hitFlags.isHurt == FALSE)
                                         {
-                                            other->hitFlags.value_1 = TRUE;
+                                            other->hitFlags.hasCollision = TRUE;
 
-                                            playerBlaze->hitChecker.hitFlags.value_1 = TRUE;
-                                            playerBlaze->hitChecker.field_7.value_8  = TRUE;
+                                            playerBlaze->hitChecker.hitFlags.hasCollision = TRUE;
+                                            playerBlaze->hitChecker.hitFlags.touchedRing   = TRUE;
                                         }
                                     }
                                     else
                                     {
-                                        other->hitFlags.value_1                  = TRUE;
-                                        playerBlaze->hitChecker.hitFlags.value_1 = TRUE;
+                                        other->hitFlags.hasCollision                  = TRUE;
+                                        playerBlaze->hitChecker.hitFlags.hasCollision = TRUE;
                                     }
                                 }
                             }
@@ -1076,7 +1076,7 @@ void exHitCheckTask_DoHitChecks(void)
                     }
                 }
 
-                playerBlaze->hitChecker.hitFlags.value_8 = FALSE;
+                playerBlaze->hitChecker.hitFlags.isInvincible = FALSE;
             }
         }
     }

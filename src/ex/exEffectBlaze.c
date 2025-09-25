@@ -105,7 +105,7 @@ void LoadExBlazeFireballEffectAssets(EX_ACTION_BAC3D_WORK *work, u16 anim)
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
     work->hitChecker.type            = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-    work->hitChecker.field_4.value_4 = TRUE;
+    work->hitChecker.field_4.isBlazeFireballEffect = TRUE;
 
     work->sprite.translation.z = FLOAT_TO_FX32(70.0);
 
@@ -181,7 +181,7 @@ BOOL LoadExBlazeFireballChargingEffectAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
     work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.field_5.value_1 = 1;
+    work->hitChecker.field_5.value_5_1 = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
@@ -284,7 +284,7 @@ BOOL LoadExBlazeFireballShotEffectAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
     work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.field_5.value_1 = TRUE;
+    work->hitChecker.field_5.value_5_1 = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
@@ -505,7 +505,7 @@ void ExBlazeFireballEffect_Main_Fired(void)
 
     work->aniFire.sprite.translation.y += work->velocity.y;
 
-    if (work->aniFire.hitChecker.hitFlags.value_1)
+    if (work->aniFire.hitChecker.hitFlags.hasCollision)
     {
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_HIT);
 

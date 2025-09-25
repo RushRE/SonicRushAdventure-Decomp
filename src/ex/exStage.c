@@ -54,7 +54,7 @@ void LoadExStageAssets(EX_ACTION_NN_WORK *work)
     AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_TEX_ANIM, exStageModelAnimations[1], 0, NULL);
     AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_MAT_ANIM, exStageModelAnimations[2], 0, NULL);
 
-    work->model.primaryAnimType = B3D_ANIM_JOINT_ANIM;
+    work->model.primaryAnimType     = B3D_ANIM_JOINT_ANIM;
     work->model.primaryAnimResource = work->model.animator.currentAnimObj[B3D_ANIM_JOINT_ANIM];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
@@ -63,8 +63,8 @@ void LoadExStageAssets(EX_ACTION_NN_WORK *work)
             work->model.animator.animFlags[r] |= ANIMATORMDL_FLAG_CAN_LOOP;
     }
 
-    work->hitChecker.type             = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.field_4.value_80 = TRUE;
+    work->hitChecker.type                    = EXHITCHECK_TYPE_NOT_SOLID;
+    work->hitChecker.field_4.isStageGeometry = TRUE;
 
     work->model.scale.x           = FLOAT_TO_FX32(1.0);
     work->model.scale.y           = FLOAT_TO_FX32(1.0);

@@ -154,7 +154,7 @@ BOOL LoadExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
     work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.field_5.value_1 = TRUE;
+    work->hitChecker.field_5.value_5_1 = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
@@ -280,8 +280,8 @@ void LoadExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work)
                            vramPixels, vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
-    work->hitChecker.type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-    work->hitChecker.field_3.value_80 = TRUE;
+    work->hitChecker.type                         = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+    work->hitChecker.field_3.isSonicBarrierEffect = TRUE;
 
     work->sprite.translation.z = FLOAT_TO_FX32(70.0);
     work->sprite.scale.x       = FLOAT_TO_FX32(0.3125);
@@ -389,7 +389,7 @@ void ExSonicBarrierEffect_Main_BarrierActive(void)
 
     AnimateExDrawRequestSprite3D(&work->aniBarrier);
 
-    if (work->aniBarrier.hitChecker.hitFlags.value_1)
+    if (work->aniBarrier.hitChecker.hitFlags.hasCollision)
     {
         CreateExSonicBarrierHitEffect(&work->aniBarrier.sprite.translation);
         ExSonicBarrierEffect_Main_InitBarrierHit();
@@ -423,7 +423,7 @@ void ExSonicBarrierEffect_Main_InitBarrierHit(void)
             SetCurrentExTaskTimer(5);
             SetExTaskTimer(work->parentTask, 5);
 
-            work->parent->config.control.timer = 5;
+            work->parent->config.control.timer    = 5;
             work->aniBarrier.config.control.timer = 5;
 
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_RETURN_L);
@@ -445,7 +445,7 @@ void ExSonicBarrierEffect_Main_InitBarrierHit(void)
             SetCurrentExTaskTimer(5);
             SetExTaskTimer(work->parentTask, 5);
 
-            work->parent->config.control.timer = 5;
+            work->parent->config.control.timer    = 5;
             work->aniBarrier.config.control.timer = 5;
 
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_RETURN_L);
@@ -488,7 +488,7 @@ void ExSonicBarrierEffect_Main_BarrierHit(void)
 
     if (IsExDrawRequestSprite3DAnimFinished(&work->aniBarrier))
     {
-        work->parent->config.control.timer = 0;
+        work->parent->config.control.timer    = 0;
         work->aniBarrier.config.control.timer = 0;
 
         DestroyCurrentExTask();
@@ -583,7 +583,7 @@ BOOL LoadExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
     work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.field_5.value_1 = TRUE;
+    work->hitChecker.field_5.value_5_1 = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
