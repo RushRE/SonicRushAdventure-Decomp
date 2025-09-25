@@ -91,7 +91,7 @@ void LoadExBurningBlazeModel(EX_ACTION_NN_WORK *work)
     work->model.angle.z = FLOAT_DEG_TO_IDX(179.96);
 
     work->hitChecker.type                         = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-    work->hitChecker.field_3.isBurningBlazePlayer = TRUE;
+    work->hitChecker.input.isBurningBlazePlayer = TRUE;
     work->hitChecker.box.size.x                   = FLOAT_TO_FX32(2.0);
     work->hitChecker.box.size.y                   = FLOAT_TO_FX32(2.0);
     work->hitChecker.box.size.z                   = FLOAT_TO_FX32(2.0);
@@ -167,7 +167,7 @@ void LoadExRegularBlazeModel(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
     work->hitChecker.type                  = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-    work->hitChecker.field_3.isBlazePlayer = TRUE;
+    work->hitChecker.input.isBlazePlayer = TRUE;
     work->hitChecker.box.size.x            = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y            = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z            = FLOAT_TO_FX32(0.0);
@@ -323,7 +323,7 @@ BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
     }
 
     work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.field_5.value_5_1 = TRUE;
+    work->hitChecker.input.value_5_1 = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
@@ -457,7 +457,7 @@ void LoadExBurningBlazeSprite(EX_ACTION_BAC3D_WORK *work)
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
     work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.field_5.value_5_4 = TRUE;
+    work->hitChecker.input.value_5_4 = TRUE;
 
     work->sprite.translation.z         = FLOAT_TO_FX32(70.0);
     work->sprite.scale.x               = FLOAT_TO_FX32(0.2);

@@ -631,7 +631,7 @@ void ExPlayer_Main_InitShockStun(void)
 {
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
 
-    work->activeModelMain->hitChecker.hitFlags.isStunned = FALSE;
+    work->activeModelMain->hitChecker.output.isStunned = FALSE;
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_ShockStun);
     ExPlayer_Main_ShockStun();
@@ -825,7 +825,7 @@ void ExPlayer_Action_Hurt(void)
     else
     {
         work->worker->shockStunDuration                    = 0;
-        work->activeModelMain->hitChecker.hitFlags.isStunned = FALSE;
+        work->activeModelMain->hitChecker.output.isStunned = FALSE;
         work->worker->moveFlags.disableDash                = FALSE;
         SetExDrawLightType(&work->aniSonic->manager.config, EXDRAWREQ_LIGHT_DEFAULT);
         SetExDrawLightType(&work->aniBlaze->manager.config, EXDRAWREQ_LIGHT_DEFAULT);
@@ -919,8 +919,8 @@ void ExPlayer_Main_FinishedHurt(void)
     }
     else
     {
-        work->activeModelMain->hitChecker.hitFlags.isHurt = FALSE;
-        work->activeModelSub->hitChecker.hitFlags.isHurt  = FALSE;
+        work->activeModelMain->hitChecker.output.isHurt = FALSE;
+        work->activeModelSub->hitChecker.output.isHurt  = FALSE;
 
         if (ExPlayer_HandleUserControl())
         {
@@ -939,8 +939,8 @@ void ExPlayer_ForceInvincibility(void)
 {
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
 
-    work->activeModelMain->hitChecker.hitFlags.isHurt = FALSE;
-    work->activeModelSub->hitChecker.hitFlags.isHurt  = FALSE;
+    work->activeModelMain->hitChecker.output.isHurt = FALSE;
+    work->activeModelSub->hitChecker.output.isHurt  = FALSE;
 
     work->activeModelMain->config.control.isInvisible = FALSE;
     work->activeModelSub->config.control.isInvisible  = FALSE;
@@ -1361,7 +1361,7 @@ BOOL HandleExPlayerHitResponse(void)
 
     if (worker->dashTimer <= 0)
     {
-        if (work->activeModelMain->hitChecker.hitFlags.isHurt)
+        if (work->activeModelMain->hitChecker.output.isHurt)
         {
             if (worker->playerFlags.characterID == EXPLAYER_CHARACTER_SONIC)
                 PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_OWA);
@@ -1373,7 +1373,7 @@ BOOL HandleExPlayerHitResponse(void)
             return TRUE;
         }
 
-        if (work->activeModelMain->hitChecker.hitFlags.isStunned)
+        if (work->activeModelMain->hitChecker.output.isStunned)
         {
             if (worker->shockStunDuration <= 0)
             {
@@ -1394,7 +1394,7 @@ BOOL HandleExPlayerHitResponse(void)
         {
             if (worker->shockStunDuration <= 0)
             {
-                if (work->activeModelMain->hitChecker.hitFlags.isHurt)
+                if (work->activeModelMain->hitChecker.output.isHurt)
                 {
                     PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_UPS);
                     ExPlayer_Action_Hurt();
@@ -1402,7 +1402,7 @@ BOOL HandleExPlayerHitResponse(void)
                     return TRUE;
                 }
 
-                if (work->activeModelMain->hitChecker.hitFlags.isStunned)
+                if (work->activeModelMain->hitChecker.output.isStunned)
                 {
                     PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_UPS);
                     ExPlayer_Action_ShockStun();
@@ -1413,8 +1413,8 @@ BOOL HandleExPlayerHitResponse(void)
         }
         else
         {
-            work->activeModelMain->hitChecker.hitFlags.isHurt = FALSE;
-            work->activeModelMain->hitChecker.hitFlags.isInvincible = TRUE;
+            work->activeModelMain->hitChecker.output.isHurt = FALSE;
+            work->activeModelMain->hitChecker.output.isInvincible = TRUE;
         }
     }
 
@@ -1741,7 +1741,7 @@ void ExPlayer_Draw(void)
 
     if (work->worker->hurtInvulnDuration-- > 0)
     {
-        work->activeModelMain->hitChecker.hitFlags.isInvincible = TRUE;
+        work->activeModelMain->hitChecker.output.isInvincible = TRUE;
 
         if (!Camera3D__UseEngineA())
         {

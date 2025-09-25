@@ -185,7 +185,7 @@ BOOL LoadExBossMeteorBombAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z = FLOAT_DEG_TO_IDX(179.96);
 
     work->hitChecker.type                     = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.field_2.isBossMeteorBomb = TRUE;
+    work->hitChecker.input.isBossMeteorBomb = TRUE;
     work->hitChecker.box.size.x               = FLOAT_TO_FX32(0.01001);
     work->hitChecker.box.size.y               = FLOAT_TO_FX32(0.01001);
     work->hitChecker.box.size.z               = FLOAT_TO_FX32(0.0);
@@ -376,7 +376,7 @@ BOOL LoadExBossMeteorLockOnAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z = FLOAT_DEG_TO_IDX(179.96);
 
     work->hitChecker.type                     = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.flags.isBossMeteorEffect = TRUE;
+    work->hitChecker.input.isBossMeteorEffect = TRUE;
     work->hitChecker.box.size.x               = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y               = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z               = FLOAT_TO_FX32(0.0);
@@ -748,7 +748,7 @@ BOOL LoadExBossMeteorAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z = FLOAT_DEG_TO_IDX(179.96);
 
     work->hitChecker.type               = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.flags.isBossMeteor = TRUE;
+    work->hitChecker.input.isBossMeteor = TRUE;
     work->hitChecker.box.size.x         = FLOAT_TO_FX32(5.0);
     work->hitChecker.box.size.y         = FLOAT_TO_FX32(5.0);
     work->hitChecker.box.size.z         = FLOAT_TO_FX32(5.0);
@@ -839,7 +839,7 @@ void ExBossMeteor_Main_FallToLockOnPos(void)
     exBossMeteMeteoTask *work = ExTaskGetWorkCurrent(exBossMeteMeteoTask);
 
     AnimateExDrawRequestModel(&work->animator);
-    if (work->animator.hitChecker.hitFlags.hasCollision && work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
+    if (work->animator.hitChecker.output.hasCollision && work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
     {
         ExBossMeteor_Action_Explode();
     }
@@ -888,7 +888,7 @@ void ExBossMeteor_Main_Impact(void)
     exBossMeteMeteoTask *work = ExTaskGetWorkCurrent(exBossMeteMeteoTask);
 
     AnimateExDrawRequestModel(&work->animator);
-    if (work->animator.hitChecker.hitFlags.hasCollision && work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
+    if (work->animator.hitChecker.output.hasCollision && work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
     {
         ExBossMeteor_Action_Explode();
     }
@@ -917,8 +917,8 @@ void ExBossMeteor_Action_Explode(void)
 {
     exBossMeteMeteoTask *work = ExTaskGetWorkCurrent(exBossMeteMeteoTask);
 
-    work->animator.hitChecker.hitFlags.hasCollision = FALSE;
-    work->animator.hitChecker.field_4.value_4_2  = TRUE;
+    work->animator.hitChecker.output.hasCollision = FALSE;
+    work->animator.hitChecker.input.isRepelledProjectile  = TRUE;
 
     work->velocity.y = FLOAT_TO_FX32(0.5);
 
@@ -972,7 +972,7 @@ void ExBossMeteor_Main_Explode(void)
     else
     {
         AddExDrawRequest(&work->animator, &work->animator.config);
-        if (work->animator.hitChecker.hitFlags.hasCollision == FALSE)
+        if (work->animator.hitChecker.output.hasCollision == FALSE)
             exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
     }
 }

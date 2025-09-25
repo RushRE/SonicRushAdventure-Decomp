@@ -136,7 +136,7 @@ BOOL LoadExBossMagmeWaveAttackAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x = FLOAT_DEG_TO_IDX(89.98);
 
     work->hitChecker.type                          = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.field_2.isBossMagmaWaveAttack = TRUE;
+    work->hitChecker.input.isBossMagmaWaveAttack = TRUE;
     work->hitChecker.box.size.x                    = FLOAT_TO_FX32(5.0);
     work->hitChecker.box.size.y                    = FLOAT_TO_FX32(5.0);
     work->hitChecker.box.size.z                    = FLOAT_TO_FX32(0.0);
@@ -415,7 +415,7 @@ BOOL LoadExBossMagmaWaveAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x = FLOAT_DEG_TO_IDX(89.98);
 
     work->hitChecker.type                    = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.field_2.isBossMagmaWave = TRUE;
+    work->hitChecker.input.isBossMagmaWave = TRUE;
     work->hitChecker.box.size.x              = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y              = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z              = FLOAT_TO_FX32(0.0);

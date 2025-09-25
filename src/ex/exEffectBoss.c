@@ -217,7 +217,7 @@ BOOL LoadExBossEffectHitAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
     work->hitChecker.type                    = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.field_4.isBossHitEffect = TRUE;
+    work->hitChecker.input.isBossHitEffect = TRUE;
     work->hitChecker.box.size.x              = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y              = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z              = FLOAT_TO_FX32(0.0);
@@ -389,7 +389,7 @@ BOOL LoadExBossEffectFireballShotAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
     work->hitChecker.type                           = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.flags.isBossFireballShotEffect = TRUE;
+    work->hitChecker.input.isBossFireballShotEffect = TRUE;
     work->hitChecker.box.size.x                     = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y                     = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.z                     = FLOAT_TO_FX32(1.0);
@@ -572,7 +572,7 @@ BOOL LoadExBossEffectFireballAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
     work->hitChecker.type                       = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.flags.isBossFireballEffect = TRUE;
+    work->hitChecker.input.isBossFireballEffect = TRUE;
     work->hitChecker.box.size.x                 = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y                 = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.z                 = FLOAT_TO_FX32(1.0);
@@ -866,7 +866,7 @@ BOOL LoadExEffectHomingAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
     work->hitChecker.type                     = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.flags.isBossHomingEffect = TRUE;
+    work->hitChecker.input.isBossHomingEffect = TRUE;
     work->hitChecker.box.size.x               = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y               = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.z               = FLOAT_TO_FX32(1.0);
@@ -1150,7 +1150,7 @@ BOOL LoadExBossEffectShotAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
     work->hitChecker.type                   = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.flags.isBossShotEffect = TRUE;
+    work->hitChecker.input.isBossShotEffect = TRUE;
     work->hitChecker.box.size.x             = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y             = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.z             = FLOAT_TO_FX32(1.0);
@@ -1330,7 +1330,7 @@ BOOL LoadExBossEffectFireAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
     work->hitChecker.type                   = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.flags.isBossFireEffect = TRUE;
+    work->hitChecker.input.isBossFireEffect = TRUE;
     work->hitChecker.box.size.x             = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y             = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.z             = FLOAT_TO_FX32(1.0);

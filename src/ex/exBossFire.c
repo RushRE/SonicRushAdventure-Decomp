@@ -138,7 +138,7 @@ BOOL LoadExBossFireBlueAssets(EX_ACTION_NN_WORK *work)
     work->model.scale.z              = FLOAT_TO_FX32(1.0);
     work->model.angle.x              = FLOAT_DEG_TO_IDX(89.98);
     work->hitChecker.type            = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.field_2.isBossFireBlue = TRUE;
+    work->hitChecker.input.isBossFireBlue = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(4.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(4.0);
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(4.0);
@@ -221,7 +221,7 @@ void ExBossFireBlue_Main_MoveFast(void)
 
     AnimateExDrawRequestModel(&work->animator);
 
-    if (work->animator.hitChecker.hitFlags.hasCollision)
+    if (work->animator.hitChecker.output.hasCollision)
     {
         if (work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
         {
@@ -229,11 +229,11 @@ void ExBossFireBlue_Main_MoveFast(void)
             return;
         }
 
-        work->animator.hitChecker.hitFlags.hasCollision = FALSE;
+        work->animator.hitChecker.output.hasCollision = FALSE;
     }
     else
     {
-        if (work->animator.hitChecker.hitFlags.value_10)
+        if (work->animator.hitChecker.output.value_10)
         {
             DestroyCurrentExTask();
             return;
@@ -294,7 +294,7 @@ void ExBossFireBlue_Main_MoveSlow(void)
 
     AnimateExDrawRequestModel(&work->animator);
 
-    if (work->animator.hitChecker.hitFlags.hasCollision)
+    if (work->animator.hitChecker.output.hasCollision)
     {
         if (work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
         {
@@ -302,11 +302,11 @@ void ExBossFireBlue_Main_MoveSlow(void)
             return;
         }
 
-        work->animator.hitChecker.hitFlags.hasCollision = FALSE;
+        work->animator.hitChecker.output.hasCollision = FALSE;
     }
     else
     {
-        if (work->animator.hitChecker.hitFlags.value_10)
+        if (work->animator.hitChecker.output.value_10)
         {
             DestroyCurrentExTask();
             return;
@@ -335,8 +335,8 @@ void ExBossFireBlue_Action_Repelled(void)
 {
     exBossFireBlueTask *work = ExTaskGetWorkCurrent(exBossFireBlueTask);
 
-    work->animator.hitChecker.hitFlags.hasCollision = FALSE;
-    work->animator.hitChecker.field_4.value_4_2  = TRUE;
+    work->animator.hitChecker.output.hasCollision = FALSE;
+    work->animator.hitChecker.input.isRepelledProjectile  = TRUE;
     work->velocity.x                           = 0;
 
     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
@@ -384,13 +384,13 @@ void ExBossFireBlue_Main_Repelled(void)
 
     AnimateExDrawRequestModel(&work->animator);
 
-    if (work->animator.hitChecker.hitFlags.hasCollision)
+    if (work->animator.hitChecker.output.hasCollision)
     {
         DestroyCurrentExTask();
         return;
     }
 
-    if (work->animator.hitChecker.hitFlags.value_10)
+    if (work->animator.hitChecker.output.value_10)
     {
         DestroyCurrentExTask();
         return;
@@ -492,7 +492,7 @@ BOOL LoadExBossFireRedAssets(EX_ACTION_NN_WORK *work)
     work->model.scale.z              = FLOAT_TO_FX32(1.0);
     work->model.angle.x              = FLOAT_DEG_TO_IDX(89.98);
     work->hitChecker.type            = EXHITCHECK_TYPE_HAZARD;
-    work->hitChecker.field_2.isBossFireRed = TRUE;
+    work->hitChecker.input.isBossFireRed = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(4.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(4.0);
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(4.0);
@@ -574,7 +574,7 @@ void ExBossFireRed_Main_MoveFast(void)
 
     AnimateExDrawRequestModel(&work->animator);
 
-    if (work->animator.hitChecker.hitFlags.hasCollision)
+    if (work->animator.hitChecker.output.hasCollision)
     {
         if (work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
         {
@@ -584,7 +584,7 @@ void ExBossFireRed_Main_MoveFast(void)
     }
     else
     {
-        if (work->animator.hitChecker.hitFlags.value_10)
+        if (work->animator.hitChecker.output.value_10)
         {
             DestroyCurrentExTask();
             return;
@@ -645,7 +645,7 @@ void ExBossFireRed_Main_MoveSlow(void)
 
     AnimateExDrawRequestModel(&work->animator);
 
-    if (work->animator.hitChecker.hitFlags.hasCollision)
+    if (work->animator.hitChecker.output.hasCollision)
     {
         if (work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
         {
@@ -655,7 +655,7 @@ void ExBossFireRed_Main_MoveSlow(void)
     }
     else
     {
-        if (work->animator.hitChecker.hitFlags.value_10)
+        if (work->animator.hitChecker.output.value_10)
         {
             DestroyCurrentExTask();
             return;
@@ -684,8 +684,8 @@ void ExBossFireRed_Action_Repelled(void)
 {
     exBossFireRedTask *work = ExTaskGetWorkCurrent(exBossFireRedTask);
 
-    work->animator.hitChecker.hitFlags.hasCollision = FALSE;
-    work->animator.hitChecker.field_4.value_4_2  = TRUE;
+    work->animator.hitChecker.output.hasCollision = FALSE;
+    work->animator.hitChecker.input.isRepelledProjectile  = TRUE;
     work->velocity.x                           = 0;
 
     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
@@ -733,13 +733,13 @@ void ExBossFireRed_Main_Repelled(void)
 
     AnimateExDrawRequestModel(&work->animator);
 
-    if (work->animator.hitChecker.hitFlags.hasCollision)
+    if (work->animator.hitChecker.output.hasCollision)
     {
         DestroyCurrentExTask();
         return;
     }
 
-    if (work->animator.hitChecker.hitFlags.value_10)
+    if (work->animator.hitChecker.output.value_10)
     {
         DestroyCurrentExTask();
         return;

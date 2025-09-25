@@ -64,7 +64,7 @@ void LoadExStageAssets(EX_ACTION_NN_WORK *work)
     }
 
     work->hitChecker.type                    = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.field_4.isStageGeometry = TRUE;
+    work->hitChecker.input.isStageGeometry = TRUE;
 
     work->model.scale.x           = FLOAT_TO_FX32(1.0);
     work->model.scale.y           = FLOAT_TO_FX32(1.0);

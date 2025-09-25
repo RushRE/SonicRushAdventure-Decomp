@@ -41,9 +41,6 @@ typedef struct exHitCheck_
         u8 isBossFireballEffect : 1;
         u8 isBossMeteorEffect : 1;
         u8 isBossMeteor : 1;
-    } flags;
-    struct
-    {
         u8 isBossMeteorBomb : 1;
         u8 isBossFireRed : 1;
         u8 isBossFireBlue : 1;
@@ -52,9 +49,6 @@ typedef struct exHitCheck_
         u8 value_2_20 : 1;
         u8 value_2_40 : 1;
         u8 value_2_80 : 1;
-    } field_2;
-    struct
-    {
         u8 value_3_1 : 1;
         u8 isBossHomingLaserTrail : 1;
         u8 value_3_4 : 1;
@@ -63,24 +57,18 @@ typedef struct exHitCheck_
         u8 isBurningBlazePlayer : 1;
         u8 isBlazePlayer : 1;
         u8 isSonicBarrierEffect : 1;
-    } field_3;
-    struct
-    {
         u8 value_4_1 : 1;
-        u8 value_4_2 : 1;
+        u8 isRepelledProjectile : 1;
         u8 isBlazeFireballEffect : 1;
         u8 isRing : 1;
         u8 isIntroMeteor : 1;
         u8 isBrokenIntroMeteor : 1;
         u8 isBossHitEffect : 1;
         u8 isStageGeometry : 1;
-    } field_4;
-    struct
-    {
         u8 value_5_1 : 1;
         u8 value_5_2 : 1;
         u8 value_5_4 : 1;
-    } field_5;
+    } input;
     struct
     {
         u8 hasCollision : 1;
@@ -96,9 +84,8 @@ typedef struct exHitCheck_
         u8 touchingBoundaryL : 1;
         u8 touchingBoundaryR : 1;
         u8 touchedRing : 1;
-    } hitFlags;
+    } output;
     s16 power;
-    s16 field_A;
     exHitCheckTaskUnknown box;
 } exHitCheck;
 

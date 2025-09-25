@@ -1020,8 +1020,8 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
     {
         if (work->attackFlags.value_2)
         {
-            work->aniBoss.hitChecker.hitFlags.hasCollision = TRUE;
-            work->aniBoss.hitChecker.hitFlags.isHurt       = TRUE;
+            work->aniBoss.hitChecker.output.hasCollision = TRUE;
+            work->aniBoss.hitChecker.output.isHurt       = TRUE;
 
             work->attackFlags.value_2 = TRUE;
             work->flags.isAttackReady = FALSE;
@@ -1097,7 +1097,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
 
     if (work->hurtInvulnDuration <= 0)
     {
-        if (work->aniBoss.hitChecker.hitFlags.hasCollision && work->aniBoss.hitChecker.hitFlags.isHurt)
+        if (work->aniBoss.hitChecker.output.hasCollision && work->aniBoss.hitChecker.output.isHurt)
         {
             CreateExBossEffectHit();
 
@@ -1224,15 +1224,15 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
                 work->hurtInvulnDuration = SECONDS_TO_FRAMES(0.5);
                 work->hitEffectCooldown  = SECONDS_TO_FRAMES(1.0);
 
-                work->aniBoss.hitChecker.hitFlags.isHurt       = FALSE;
-                work->aniBoss.hitChecker.hitFlags.hasCollision = FALSE;
+                work->aniBoss.hitChecker.output.isHurt       = FALSE;
+                work->aniBoss.hitChecker.output.hasCollision = FALSE;
             }
         }
     }
     else
     {
-        work->aniBoss.hitChecker.hitFlags.isHurt       = FALSE;
-        work->aniBoss.hitChecker.hitFlags.hasCollision = FALSE;
+        work->aniBoss.hitChecker.output.isHurt       = FALSE;
+        work->aniBoss.hitChecker.output.hasCollision = FALSE;
     }
 
     if (work->hitVoiceClipCooldown > 0)

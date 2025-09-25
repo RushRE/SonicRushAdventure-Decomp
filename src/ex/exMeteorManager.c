@@ -261,7 +261,7 @@ BOOL LoadExMeteorAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
     work->hitChecker.type                  = EXHITCHECK_TYPE_INTRO_METEOR;
-    work->hitChecker.field_4.isIntroMeteor = TRUE;
+    work->hitChecker.input.isIntroMeteor = TRUE;
     work->hitChecker.box.size.x            = FLOAT_TO_FX32(3.0);
     work->hitChecker.box.size.y            = FLOAT_TO_FX32(3.0);
     work->hitChecker.box.size.z            = FLOAT_TO_FX32(3.0);
@@ -342,7 +342,7 @@ BOOL LoadExBrokenMeteorAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
     work->hitChecker.type                        = EXHITCHECK_TYPE_INTRO_METEOR;
-    work->hitChecker.field_4.isBrokenIntroMeteor = TRUE;
+    work->hitChecker.input.isBrokenIntroMeteor = TRUE;
     work->hitChecker.box.size.x                  = FLOAT_TO_FX32(3.0);
     work->hitChecker.box.size.y                  = FLOAT_TO_FX32(3.0);
     work->hitChecker.box.size.z                  = FLOAT_TO_FX32(3.0);
@@ -432,12 +432,12 @@ void ExMeteor_Main_Moving(void)
     {
         DestroyCurrentExTask();
     }
-    else if (work->aniMeteor.hitChecker.hitFlags.hasCollision)
+    else if (work->aniMeteor.hitChecker.output.hasCollision)
     {
         switch (work->aniMeteor.hitChecker.type)
         {
             case EXHITCHECK_TYPE_ACTIVE_PLAYER:
-                if (work->aniMeteor.hitChecker.hitFlags.isHurt)
+                if (work->aniMeteor.hitChecker.output.isHurt)
                     ExMeteor_Action_Shatter();
                 else
                     ExMeteor_Action_Reflect();
@@ -461,7 +461,7 @@ void ExMeteor_Action_Shatter(void)
 {
     exEffectMeteoTask *work = ExTaskGetWorkCurrent(exEffectMeteoTask);
 
-    work->aniMeteor.hitChecker.hitFlags.hasCollision = FALSE;
+    work->aniMeteor.hitChecker.output.hasCollision = FALSE;
 
     work->mdlMeteorBroken.model.translation.x = work->aniMeteor.model.translation.x;
     work->mdlMeteorBroken.model.translation.y = work->aniMeteor.model.translation.y;
@@ -493,7 +493,7 @@ void ExMeteor_Action_Reflect(void)
 {
     exEffectMeteoTask *work = ExTaskGetWorkCurrent(exEffectMeteoTask);
 
-    work->aniMeteor.hitChecker.hitFlags.hasCollision = FALSE;
+    work->aniMeteor.hitChecker.output.hasCollision = FALSE;
 
     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
