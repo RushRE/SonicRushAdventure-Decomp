@@ -381,7 +381,7 @@ _02155200:
 	bl exBossFireDoraTask__Func_21556EC
 	ldmia sp!, {r3, r4, r5, pc}
 _02155214:
-	bl exBossHelpers__Func_2154C28
+	bl exBossHelpers__IsBossFleeing
 	cmp r0, #1
 	bne _02155228
 	bl exBossFireDoraTask__Func_21556EC

@@ -1473,8 +1473,8 @@ void ExPlayer_SwapPlayerGraphics(void)
         work->activeSprite    = &work->spriteSonic;
     }
 
-    work->activeModelMain->hitChecker.type = 2;
-    work->activeModelSub->hitChecker.type  = 3;
+    work->activeModelMain->hitChecker.type = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+    work->activeModelSub->hitChecker.type  = EXHITCHECK_TYPE_INACTIVE_PLAYER;
 
     AnimateExDrawRequestSprite3D(work->activeSprite);
 }
@@ -1767,7 +1767,7 @@ void ExPlayer_Draw(void)
         work->activeModelSub->config.control.isInvisible  = FALSE;
         work->worker->hurtInvulnDuration                  = 0;
 
-        if (exBossHelpers__Func_2154C28() == 1)
+        if (exBossHelpers__IsBossFleeing() == 1)
             SetCurrentExTaskMainEvent(ExPlayer_Main_InitForBossChase);
     }
 

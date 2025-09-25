@@ -487,7 +487,7 @@ _0215468C: .word exBossHelpers__Func_2154690
 exBossHelpers__Func_2154690: // 0x02154690
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exBossHelpers__Func_2154C28
+	bl exBossHelpers__IsBossFleeing
 	cmp r0, #0
 	ldmneia sp!, {r3, pc}
 	bl exBossHelpers__Func_21546AC
@@ -637,7 +637,7 @@ _02154858: .word exBossHelpers__Func_215485C
 exBossHelpers__Func_215485C: // 0x0215485C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exBossHelpers__Func_2154C28
+	bl exBossHelpers__IsBossFleeing
 	cmp r0, #0
 	ldmneia sp!, {r3, pc}
 	bl exBossHelpers__Func_2154878
@@ -778,7 +778,7 @@ _02154A00: .word exBossHelpers__Func_2154A04
 exBossHelpers__Func_2154A04: // 0x02154A04
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exBossHelpers__Func_2154C28
+	bl exBossHelpers__IsBossFleeing
 	cmp r0, #0
 	ldmneia sp!, {r3, pc}
 	bl exBossHelpers__Func_2154A20
@@ -950,14 +950,14 @@ _02154C18:
 	ldmia sp!, {r4, pc}
 	arm_func_end exBossHelpers__Func_2154BB8
 
-	arm_func_start exBossHelpers__Func_2154C28
-exBossHelpers__Func_2154C28: // 0x02154C28
+	arm_func_start exBossHelpers__IsBossFleeing
+exBossHelpers__IsBossFleeing: // 0x02154C28
 	ldr r0, _02154C34 // =0x02175FA0
 	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02154C34: .word 0x02175FA0
-	arm_func_end exBossHelpers__Func_2154C28
+	arm_func_end exBossHelpers__IsBossFleeing
 
 	arm_func_start exBossHelpers__Func_2154C38
 exBossHelpers__Func_2154C38: // 0x02154C38

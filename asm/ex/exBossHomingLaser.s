@@ -367,7 +367,7 @@ _0215A128:
 	ldr r0, [r4, #0xc]
 	sub r0, r1, r0
 	str r0, [r4, #0x30]
-	bl exBossHelpers__Func_2154C28
+	bl exBossHelpers__IsBossFleeing
 	cmp r0, #1
 	bne _0215A1C0
 	bl exBossHomingLaserTask__Func_215A388
@@ -461,7 +461,7 @@ exBossHomingLaserTask__Func_215A2CC: // 0x0215A2CC
 	mov r4, r0
 	add r0, r5, #0x44
 	bl AnimateExDrawRequestSprite3D
-	bl exBossHelpers__Func_2154C28
+	bl exBossHelpers__IsBossFleeing
 	cmp r0, #1
 	bne _0215A2FC
 	bl exBossHomingLaserTask__Func_215A388

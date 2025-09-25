@@ -136,7 +136,7 @@ BOOL LoadExBossMagmeWaveAttackAssets(EX_ACTION_NN_WORK *work)
     work->model.scale.z       = FLOAT_TO_FX32(1.0);
     work->model.angle.x       = FLOAT_DEG_TO_IDX(89.98);
 
-    work->hitChecker.type             = 1;
+    work->hitChecker.type             = EXHITCHECK_TYPE_HAZARD;
     work->hitChecker.field_2.value_10 = TRUE;
     work->hitChecker.box.size.x       = FLOAT_TO_FX32(5.0);
     work->hitChecker.box.size.y       = FLOAT_TO_FX32(5.0);
@@ -415,7 +415,7 @@ BOOL LoadExBossMagmaWaveAssets(EX_ACTION_NN_WORK *work)
     work->model.scale.z       = FLOAT_TO_FX32(1.0);
     work->model.angle.x       = FLOAT_DEG_TO_IDX(89.98);
 
-    work->hitChecker.type            = 1;
+    work->hitChecker.type            = EXHITCHECK_TYPE_HAZARD;
     work->hitChecker.field_2.value_8 = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
@@ -837,8 +837,8 @@ void exBossSysAdminTask__Main_MagmaEruption4(void)
 
     AnimateExDrawRequestModel(&work->aniBoss);
 
-    work->targetPos.x += MultiplyFX(FLOAT_TO_FX32(0.1001), -work->targetPos.x);
-    work->targetPos.y += MultiplyFX(FLOAT_TO_FX32(0.1001), -work->targetPos.y);
+    work->targetPos.x += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.x, FLOAT_TO_FX32(0.0));
+    work->targetPos.y += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.y, FLOAT_TO_FX32(0.0));
 
     work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
 

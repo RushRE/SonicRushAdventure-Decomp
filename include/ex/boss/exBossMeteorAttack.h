@@ -7,17 +7,17 @@
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void exBossSysAdminTask__RunTaskUnknownEvent(void);
-NOT_DECOMPILED void exBossSysAdminTask__Action_StartMete0(void);
-NOT_DECOMPILED void exBossSysAdminTask__Func_215DC9C(void);
-NOT_DECOMPILED void exBossSysAdminTask__Func_215DCE4(void);
-NOT_DECOMPILED void exBossSysAdminTask__Func_215DD2C(void);
-NOT_DECOMPILED void exBossSysAdminTask__Func_215DD78(void);
-NOT_DECOMPILED void exBossSysAdminTask__Func_215DDC0(void);
-NOT_DECOMPILED void exBossSysAdminTask__Func_215DE40(void);
-NOT_DECOMPILED void exBossSysAdminTask__Func_215DE88(void);
-NOT_DECOMPILED void exBossSysAdminTask__Func_215DEB0(void);
-NOT_DECOMPILED void exBossSysAdminTask__Action_FinishMeteorAttack(void);
+void exBossSysAdminTask__RunTaskUnknownEvent(void);
+void exBossSysAdminTask__Action_StartMete0(void);
+void exBossSysAdminTask__Main_Mete0(void);
+void exBossSysAdminTask__Action_StartMete1(void);
+void exBossSysAdminTask__Main_Mete1(void);
+void exBossSysAdminTask__Action_StartMete2(void);
+void exBossSysAdminTask__Main_StartMete2(void);
+void exBossSysAdminTask__Main_HandleMete2(void);
+void exBossSysAdminTask__Action_CreateMeteor(void);
+void exBossSysAdminTask__Main_FinishMete2(void);
+void exBossSysAdminTask__Action_FinishMeteorAttack(void);
 
 #endif // RUSH_EXBOSSMETEORATTACK_H
 

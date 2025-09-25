@@ -132,7 +132,7 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
 
     if (GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED)
     {
-        if (work->type == EXHITCHECK_TYPE_4 && work->field_4.value_8 == TRUE)
+        if (work->type == EXHITCHECK_TYPE_RING && work->field_4.value_8 == TRUE)
         {
             if (exHitCheckTaskIsList1Available)
             {
@@ -163,7 +163,7 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
     if (exHitCheckTask_hitCheckCount4 >= 10)
         exHitCheckTaskIsList4Available = FALSE;
 
-    if (work->type == EXHITCHECK_TYPE_1)
+    if (work->type == EXHITCHECK_TYPE_HAZARD)
     {
         if ((work->flags.value_1 == TRUE || work->flags.value_80 == TRUE) || (work->field_2.value_1 == TRUE || work->field_2.value_2 == TRUE)
             || (work->field_2.value_4 == TRUE || work->field_2.value_10 == TRUE) || (work->field_2.value_20 == TRUE || work->field_2.value_80 == TRUE)
@@ -181,7 +181,7 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
         }
     }
 
-    if (work->type == EXHITCHECK_TYPE_5 && work->field_4.value_10 == TRUE)
+    if (work->type == EXHITCHECK_TYPE_INTRO_METEOR && work->field_4.value_10 == TRUE)
     {
         if (exHitCheckTaskIsList1Available)
         {
@@ -194,7 +194,7 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
         }
     }
 
-    if (work->type == EXHITCHECK_TYPE_2)
+    if (work->type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
     {
         if (work->field_3.value_80 == TRUE)
         {
@@ -246,7 +246,7 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
         }
     }
 
-    if (work->type == EXHITCHECK_TYPE_4 && work->field_4.value_8 == TRUE)
+    if (work->type == EXHITCHECK_TYPE_RING && work->field_4.value_8 == TRUE)
     {
         if (exHitCheckTaskIsList1Available)
         {
@@ -583,7 +583,7 @@ void exHitCheckTask_ArenaCheck_Sprite3D(exHitCheck *work)
 
 void exHitCheckTask_ArenaCheck_Model(EX_ACTION_NN_WORK *work)
 {
-    if ((work->hitChecker.type == EXHITCHECK_TYPE_2 || work->hitChecker.type == EXHITCHECK_TYPE_3) && (work->hitChecker.field_3.value_8 || work->hitChecker.field_3.value_20))
+    if ((work->hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER || work->hitChecker.type == EXHITCHECK_TYPE_INACTIVE_PLAYER) && (work->hitChecker.field_3.value_8 || work->hitChecker.field_3.value_20))
     {
         exHitCheckTask_CheckArenaBounds(work);
     }
@@ -618,7 +618,7 @@ void exHitCheckTask_DoHitChecks(void)
     {
         if (GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED)
         {
-            if (playerSonic->hitChecker.type == EXHITCHECK_TYPE_2)
+            if (playerSonic->hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
             {
                 for (i = 0; i < exHitCheckTask_hitCheckCount; i++)
                 {
@@ -645,7 +645,7 @@ void exHitCheckTask_DoHitChecks(void)
                 }
             }
 
-            if (playerBlaze->hitChecker.type == EXHITCHECK_TYPE_2)
+            if (playerBlaze->hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
             {
                 for (i = 0; i < exHitCheckTask_hitCheckCount; i++)
                 {
@@ -684,7 +684,7 @@ void exHitCheckTask_DoHitChecks(void)
 
                         if ((other->box.position->z <= FLOAT_TO_FX32(65.0) && other->box.position->z >= FLOAT_TO_FX32(50.0)) || other->box.position->z == FLOAT_TO_FX32(0.0))
                         {
-                            if (other->type == EXHITCHECK_TYPE_1 || other->type == EXHITCHECK_TYPE_5)
+                            if (other->type == EXHITCHECK_TYPE_HAZARD || other->type == EXHITCHECK_TYPE_INTRO_METEOR)
                             {
                                 for (ii = 0; ii < exHitCheckTask_hitCheckCount2; ii++)
                                 {
@@ -701,7 +701,7 @@ void exHitCheckTask_DoHitChecks(void)
                                                     exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
 
                                                     exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                                    exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_2;
+                                                    exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
                                                     exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList2[ii]->power;
                                                 }
                                             }
@@ -714,7 +714,7 @@ void exHitCheckTask_DoHitChecks(void)
                                                         exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
 
                                                         exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                                        exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_2;
+                                                        exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
                                                         exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList2[ii]->power;
                                                     }
                                                 }
@@ -725,7 +725,7 @@ void exHitCheckTask_DoHitChecks(void)
                                             exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
 
                                             exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                            exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_2;
+                                            exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
                                             exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList2[ii]->power;
                                         }
                                         else if (other->field_2.value_20)
@@ -733,7 +733,7 @@ void exHitCheckTask_DoHitChecks(void)
                                             exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
 
                                             exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                            exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_2;
+                                            exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
                                             exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList2[ii]->power;
                                         }
                                         else if (other->field_2.value_80)
@@ -741,7 +741,7 @@ void exHitCheckTask_DoHitChecks(void)
                                             exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
 
                                             exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                            exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_2;
+                                            exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
                                             exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList2[ii]->power;
                                         }
                                         else
@@ -761,7 +761,7 @@ void exHitCheckTask_DoHitChecks(void)
                                                     exHitCheckTask_hitCheckList2[ii]->hitFlags.value_1 = TRUE;
 
                                                     exHitCheckTask_hitCheckList[i]->hitFlags.value_1 = TRUE;
-                                                    exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_2;
+                                                    exHitCheckTask_hitCheckList[i]->type             = EXHITCHECK_TYPE_ACTIVE_PLAYER;
                                                     exHitCheckTask_hitCheckList[i]->power            = exHitCheckTask_hitCheckList2[ii]->power;
                                                 }
                                             }
@@ -781,7 +781,7 @@ void exHitCheckTask_DoHitChecks(void)
 
                         if ((other->box.position->z <= FLOAT_TO_FX32(65.0) && other->box.position->z >= FLOAT_TO_FX32(50.0)) || other->box.position->z == FLOAT_TO_FX32(0.0))
                         {
-                            if (other->type == EXHITCHECK_TYPE_1)
+                            if (other->type == EXHITCHECK_TYPE_HAZARD)
                             {
                                 for (ii = 0; ii < exHitCheckTask_hitCheckCount3; ii++)
                                 {
@@ -813,7 +813,7 @@ void exHitCheckTask_DoHitChecks(void)
 
                         if ((other->box.position->z <= FLOAT_TO_FX32(65.0) && other->box.position->z >= FLOAT_TO_FX32(50.0)) || other->box.position->z == FLOAT_TO_FX32(0.0))
                         {
-                            if (other->type == EXHITCHECK_TYPE_1 || other->type == EXHITCHECK_TYPE_5)
+                            if (other->type == EXHITCHECK_TYPE_HAZARD || other->type == EXHITCHECK_TYPE_INTRO_METEOR)
                             {
                                 for (ii = 0; ii < exHitCheckTask_hitCheckCount4; ii++)
                                 {
@@ -851,7 +851,7 @@ void exHitCheckTask_DoHitChecks(void)
                         }
                     }
                 }
-                if (playerSonic->hitChecker.type == EXHITCHECK_TYPE_2)
+                if (playerSonic->hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
                 {
                     for (i = 0; i < exHitCheckTask_hitCheckCount; i++)
                     {
@@ -975,7 +975,7 @@ void exHitCheckTask_DoHitChecks(void)
 
                 playerSonic->hitChecker.hitFlags.value_8 = FALSE;
 
-                if (playerBlaze->hitChecker.type == EXHITCHECK_TYPE_2)
+                if (playerBlaze->hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
                 {
                     for (i = 0; i < exHitCheckTask_hitCheckCount; i++)
                     {

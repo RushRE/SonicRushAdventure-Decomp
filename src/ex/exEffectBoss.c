@@ -216,7 +216,7 @@ BOOL LoadExBossEffectHitAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
-    work->hitChecker.type             = 0;
+    work->hitChecker.type             = EXHITCHECK_TYPE_NOT_SOLID;
     work->hitChecker.field_4.value_40 = TRUE;
     work->hitChecker.box.size.x       = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y       = FLOAT_TO_FX32(0.0);
@@ -278,7 +278,7 @@ void ExBossEffectHit_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossHelpers__Func_2154C28() == TRUE)
+    if (exBossHelpers__IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -388,7 +388,7 @@ BOOL LoadExBossEffectFireballShotAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
-    work->hitChecker.type           = 1;
+    work->hitChecker.type           = EXHITCHECK_TYPE_HAZARD;
     work->hitChecker.flags.value_10 = TRUE;
     work->hitChecker.box.size.x     = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y     = FLOAT_TO_FX32(1.0);
@@ -450,7 +450,7 @@ void ExBossEffectFireballShot_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossHelpers__Func_2154C28() == TRUE)
+    if (exBossHelpers__IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -571,7 +571,7 @@ BOOL LoadExBossEffectFireballAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
-    work->hitChecker.type           = 1;
+    work->hitChecker.type           = EXHITCHECK_TYPE_HAZARD;
     work->hitChecker.flags.value_20 = TRUE;
     work->hitChecker.box.size.x     = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y     = FLOAT_TO_FX32(1.0);
@@ -658,7 +658,7 @@ void ExBossEffectFireball_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossHelpers__Func_2154C28() == TRUE)
+    if (exBossHelpers__IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -865,7 +865,7 @@ BOOL LoadExEffectHomingAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
-    work->hitChecker.type          = 1;
+    work->hitChecker.type          = EXHITCHECK_TYPE_HAZARD;
     work->hitChecker.flags.value_8 = TRUE;
     work->hitChecker.box.size.x    = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y    = FLOAT_TO_FX32(1.0);
@@ -950,7 +950,7 @@ void ExBossEffectHoming_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossHelpers__Func_2154C28() == TRUE)
+    if (exBossHelpers__IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -1149,7 +1149,7 @@ BOOL LoadExBossEffectShotAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
-    work->hitChecker.type          = 1;
+    work->hitChecker.type          = EXHITCHECK_TYPE_HAZARD;
     work->hitChecker.flags.value_4 = TRUE;
     work->hitChecker.box.size.x    = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y    = FLOAT_TO_FX32(1.0);
@@ -1211,7 +1211,7 @@ void ExBossEffectShot_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossHelpers__Func_2154C28() == TRUE)
+    if (exBossHelpers__IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -1329,7 +1329,7 @@ BOOL LoadExBossEffectFireAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
-    work->hitChecker.type          = 1;
+    work->hitChecker.type          = EXHITCHECK_TYPE_HAZARD;
     work->hitChecker.flags.value_2 = TRUE;
     work->hitChecker.box.size.x    = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y    = FLOAT_TO_FX32(1.0);
@@ -1413,7 +1413,7 @@ void ExBossEffectFire_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossHelpers__Func_2154C28() == TRUE)
+    if (exBossHelpers__IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 

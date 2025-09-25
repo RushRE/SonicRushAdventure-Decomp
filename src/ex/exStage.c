@@ -63,7 +63,7 @@ void LoadExStageAssets(EX_ACTION_NN_WORK *work)
             work->model.animator.animFlags[r] |= ANIMATORMDL_FLAG_CAN_LOOP;
     }
 
-    work->hitChecker.type             = 0;
+    work->hitChecker.type             = EXHITCHECK_TYPE_NOT_SOLID;
     work->hitChecker.field_4.value_80 = TRUE;
 
     work->model.scale.x           = FLOAT_TO_FX32(1.0);

@@ -104,7 +104,7 @@ void LoadExBlazeFireballEffectAssets(EX_ACTION_BAC3D_WORK *work, u16 anim)
     AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBlazeFireballEffectSpriteResource, anim, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels, vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
-    work->hitChecker.type            = 2;
+    work->hitChecker.type            = EXHITCHECK_TYPE_ACTIVE_PLAYER;
     work->hitChecker.field_4.value_4 = TRUE;
 
     work->sprite.translation.z = FLOAT_TO_FX32(70.0);
@@ -180,7 +180,7 @@ BOOL LoadExBlazeFireballChargingEffectAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
-    work->hitChecker.type            = 0;
+    work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
     work->hitChecker.field_5.value_1 = 1;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
@@ -283,7 +283,7 @@ BOOL LoadExBlazeFireballShotEffectAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
-    work->hitChecker.type            = 0;
+    work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
     work->hitChecker.field_5.value_1 = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);

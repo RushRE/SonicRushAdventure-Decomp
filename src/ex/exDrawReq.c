@@ -743,7 +743,7 @@ void InitExDrawRequestBossHomingLaserTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *
         trail->position[i].z = trail->position[i - 2].z;
     }
 
-    work->hitChecker.type              = EXHITCHECK_TYPE_1;
+    work->hitChecker.type              = EXHITCHECK_TYPE_HAZARD;
     work->hitChecker.field_3.value_2   = TRUE;
     work->hitChecker.box.size.x        = FLOAT_TO_FX32(2.0);
     work->hitChecker.box.size.y        = FLOAT_TO_FX32(2.0);
@@ -892,7 +892,7 @@ void InitExDrawRequestBossFireDragonTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *p
         trail->position[i].z = trail->position[i - 2].z;
     }
 
-    work->hitChecker.type              = EXHITCHECK_TYPE_0;
+    work->hitChecker.type              = EXHITCHECK_TYPE_NOT_SOLID;
     work->hitChecker.field_5.value_2   = TRUE;
     work->hitChecker.box.size.x        = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y        = FLOAT_TO_FX32(0.0);
@@ -974,7 +974,7 @@ void InitExDrawRequestPlayerTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos)
         trail->position[i].z = trail->position[i - 2].z;
     }
 
-    work->hitChecker.type              = EXHITCHECK_TYPE_0;
+    work->hitChecker.type              = EXHITCHECK_TYPE_NOT_SOLID;
     work->hitChecker.field_5.value_2   = TRUE;
     work->hitChecker.box.size.x        = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y        = FLOAT_TO_FX32(1.0);

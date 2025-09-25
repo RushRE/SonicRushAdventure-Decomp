@@ -2824,7 +2824,7 @@ BOOL ExRingManager_InitRingSprite(EX_ACTION_BAC3D_WORK *work)
     MI_CpuCopy8(&exRingAnimator, &work->sprite.animator, sizeof(work->sprite.animator));
 
     work->sprite.anim                  = EX_ACTCOM_ANI_RING;
-    work->hitChecker.type              = 4;
+    work->hitChecker.type              = EXHITCHECK_TYPE_RING;
     work->hitChecker.field_4.value_8   = TRUE;
     work->sprite.translation.z         = FLOAT_TO_FX32(60.0);
     work->sprite.scale.x               = FLOAT_TO_FX32(0.375);

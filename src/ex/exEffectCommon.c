@@ -71,7 +71,7 @@ void LoadExExplosionSprite(EX_ACTION_BAC3D_WORK *work)
 
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
-    work->hitChecker.type            = 0;
+    work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
     work->hitChecker.field_5.value_1 = TRUE;
 
     work->sprite.translation.z = FLOAT_TO_FX32(70.0);
@@ -180,7 +180,7 @@ void LoadExShockEffectSprite(EX_ACTION_BAC3D_WORK *work)
                            vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
-    work->hitChecker.type              = 0;
+    work->hitChecker.type              = EXHITCHECK_TYPE_NOT_SOLID;
     work->hitChecker.field_5.value_1   = TRUE;
     work->sprite.translation.z         = FLOAT_TO_FX32(70.0);
     work->sprite.scale.x               = FLOAT_TO_FX32(0.30005);

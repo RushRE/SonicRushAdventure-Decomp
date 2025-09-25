@@ -429,7 +429,7 @@ _0215AF34:
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 _0215AF50:
-	bl exBossHelpers__Func_2154C28
+	bl exBossHelpers__IsBossFleeing
 	cmp r0, #1
 	bne _0215AF74
 	add r0, r4, #0x374
@@ -531,7 +531,7 @@ _0215B08C:
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 _0215B0A8:
-	bl exBossHelpers__Func_2154C28
+	bl exBossHelpers__IsBossFleeing
 	cmp r0, #1
 	bne _0215B0CC
 	add r0, r4, #0x374
@@ -1000,7 +1000,7 @@ _0215B704:
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 _0215B728:
-	bl exBossHelpers__Func_2154C28
+	bl exBossHelpers__IsBossFleeing
 	cmp r0, #1
 	bne _0215B74C
 	add r0, r4, #0x37c
@@ -1120,7 +1120,7 @@ _0215B8A0:
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 _0215B8C4:
-	bl exBossHelpers__Func_2154C28
+	bl exBossHelpers__IsBossFleeing
 	cmp r0, #1
 	bne _0215B8E8
 	add r0, r4, #0x37c

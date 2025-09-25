@@ -260,7 +260,7 @@ BOOL LoadExMeteorAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
-    work->hitChecker.type             = 5;
+    work->hitChecker.type             = EXHITCHECK_TYPE_INTRO_METEOR;
     work->hitChecker.field_4.value_10 = TRUE;
     work->hitChecker.box.size.x       = FLOAT_TO_FX32(3.0);
     work->hitChecker.box.size.y       = FLOAT_TO_FX32(3.0);
@@ -341,7 +341,7 @@ BOOL LoadExBrokenMeteorAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
-    work->hitChecker.type             = 5;
+    work->hitChecker.type             = EXHITCHECK_TYPE_INTRO_METEOR;
     work->hitChecker.field_4.value_20 = TRUE;
     work->hitChecker.box.size.x       = FLOAT_TO_FX32(3.0);
     work->hitChecker.box.size.y       = FLOAT_TO_FX32(3.0);

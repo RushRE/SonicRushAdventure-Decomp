@@ -137,7 +137,7 @@ BOOL LoadExBossFireBlueAssets(EX_ACTION_NN_WORK *work)
     work->model.scale.y              = FLOAT_TO_FX32(1.0);
     work->model.scale.z              = FLOAT_TO_FX32(1.0);
     work->model.angle.x              = FLOAT_DEG_TO_IDX(89.98);
-    work->hitChecker.type            = 1;
+    work->hitChecker.type            = EXHITCHECK_TYPE_HAZARD;
     work->hitChecker.field_2.value_4 = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(4.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(4.0);
@@ -223,7 +223,7 @@ void ExBossFireBlue_Main_MoveFast(void)
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
-        if (work->animator.hitChecker.type == 2)
+        if (work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
         {
             ExBossFireBlue_Action_Repelled();
             return;
@@ -296,7 +296,7 @@ void ExBossFireBlue_Main_MoveSlow(void)
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
-        if (work->animator.hitChecker.type == 2)
+        if (work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
         {
             ExBossFireBlue_Action_Repelled();
             return;
@@ -491,7 +491,7 @@ BOOL LoadExBossFireRedAssets(EX_ACTION_NN_WORK *work)
     work->model.scale.y              = FLOAT_TO_FX32(1.0);
     work->model.scale.z              = FLOAT_TO_FX32(1.0);
     work->model.angle.x              = FLOAT_DEG_TO_IDX(89.98);
-    work->hitChecker.type            = 1;
+    work->hitChecker.type            = EXHITCHECK_TYPE_HAZARD;
     work->hitChecker.field_2.value_2 = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(4.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(4.0);
@@ -576,7 +576,7 @@ void ExBossFireRed_Main_MoveFast(void)
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
-        if (work->animator.hitChecker.type == 2)
+        if (work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
         {
             ExBossFireRed_Action_Repelled();
             return;
@@ -647,7 +647,7 @@ void ExBossFireRed_Main_MoveSlow(void)
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
-        if (work->animator.hitChecker.type == 2)
+        if (work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
         {
             ExBossFireRed_Action_Repelled();
             return;
