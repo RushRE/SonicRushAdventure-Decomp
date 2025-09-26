@@ -36,7 +36,7 @@ typedef struct ExPlayerUnknown2152FB0_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED BOOL exPlayerHelpers__Func_2152960(ExPlayerUnknown2152960 *work, VecFx32 *positionList, int index, int a4);
+NOT_DECOMPILED BOOL exPlayerHelpers__Func_2152960(ExPlayerUnknown2152960 *work, VecFx32 *positionList, s32 index, s16 a4);
 NOT_DECOMPILED s32 exPlayerHelpers__Func_21529C4(s32 a1);
 NOT_DECOMPILED BOOL exPlayerHelpers__Func_2152AB4(ExPlayerUnknown2152960 *work);
 NOT_DECOMPILED void exPlayerHelpers__SetAnimationInternal(EX_ACTION_NN_WORK *work, void *resModel, void *resTexture, NNSG3dResFileHeader *resJointAnim, u16 animID);

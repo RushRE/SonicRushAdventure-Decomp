@@ -4,7 +4,7 @@
 #include <ex/effects/exBossFireEffect.h>
 #include <ex/system/exDrawReq.h>
 #include <ex/system/exSystem.h>
-#include <ex/boss/exBossHelpers.h>
+#include <ex/boss/exBossIntermission.h>
 #include <ex/player/exPlayerHelpers.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
@@ -475,7 +475,7 @@ void ExBossMeteorLockOn_Main_Appear(void)
     exBossMeteLockOnTask *work = ExTaskGetWorkCurrent(exBossMeteLockOnTask);
 
     AnimateExDrawRequestModel(&work->animator);
-    if (exBossHelpers__IsBossFleeing() == TRUE)
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
     {
         ExBossMeteorLockOn_Action_Explode();
     }
@@ -514,7 +514,7 @@ void ExBossMeteorLockOn_Main_FinishAppearing(void)
     exBossMeteLockOnTask *work = ExTaskGetWorkCurrent(exBossMeteLockOnTask);
 
     AnimateExDrawRequestModel(&work->animator);
-    if (exBossHelpers__IsBossFleeing() == TRUE)
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
     {
         ExBossMeteorLockOn_Action_Explode();
     }
@@ -562,7 +562,7 @@ void ExBossMeteorLockOn_Main_TargetPlayer(void)
     exBossMeteLockOnTask *work = ExTaskGetWorkCurrent(exBossMeteLockOnTask);
 
     AnimateExDrawRequestModel(&work->animator);
-    if (exBossHelpers__IsBossFleeing() == TRUE)
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
     {
         ExBossMeteorLockOn_Action_Explode();
     }
@@ -631,7 +631,7 @@ void ExBossMeteorLockOn_Main_LockedOn(void)
     {
         ExBossMeteorLockOn_Action_Explode();
     }
-    else if (exBossHelpers__IsBossFleeing() == TRUE)
+    else if (exBossSysAdminTask__IsBossFleeing() == TRUE)
     {
         ExBossMeteorLockOn_Action_Explode();
     }
@@ -847,7 +847,7 @@ void ExBossMeteor_Main_FallToLockOnPos(void)
     {
         ExBossMeteor_Action_Impact();
     }
-    else if (exBossHelpers__IsBossFleeing() == TRUE)
+    else if (exBossSysAdminTask__IsBossFleeing() == TRUE)
     {
         CreateExExplosion(&work->animator.model.translation);
 
@@ -892,7 +892,7 @@ void ExBossMeteor_Main_Impact(void)
     {
         ExBossMeteor_Action_Explode();
     }
-    else if (exBossHelpers__IsBossFleeing() == TRUE)
+    else if (exBossSysAdminTask__IsBossFleeing() == TRUE)
     {
         CreateExExplosion(&work->animator.model.translation);
         DestroyCurrentExTask();
@@ -1116,7 +1116,7 @@ void exBossSysAdminTask__Action_StartMete0(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_mete0);
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_mete0);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     CreateExBossEffectFire();
@@ -1152,7 +1152,7 @@ void exBossSysAdminTask__Action_StartMete1(void)
 
     work->magmaEruptionTimer = SECONDS_TO_FRAMES(3.5);
 
-    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_mete1);
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_mete1);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
     CreateExBossMeteorLockOn();
 
@@ -1187,7 +1187,7 @@ void exBossSysAdminTask__Action_StartMete2(void)
     work->magmaEruptionTimer = 0;
 
     DisableExBossEffectFire();
-    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_mete2);
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_mete2);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_StartMete2);

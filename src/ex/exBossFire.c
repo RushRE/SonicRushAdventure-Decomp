@@ -1,7 +1,7 @@
 #include <ex/boss/exBossFireRed.h>
 #include <ex/boss/exBossFireBlue.h>
 #include <ex/boss/exBossFireAttack.h>
-#include <ex/boss/exBossHelpers.h>
+#include <ex/boss/exBossIntermission.h>
 #include <ex/boss/exBossFireDragon.h>
 #include <ex/boss/exBossHomingLaser.h>
 #include <ex/effects/exBossFireballEffect.h>
@@ -233,7 +233,7 @@ void ExBossFireBlue_Main_MoveFast(void)
     }
     else
     {
-        if (work->animator.hitChecker.output.value_10)
+        if (work->animator.hitChecker.output.willExplodeOnContact)
         {
             DestroyCurrentExTask();
             return;
@@ -306,7 +306,7 @@ void ExBossFireBlue_Main_MoveSlow(void)
     }
     else
     {
-        if (work->animator.hitChecker.output.value_10)
+        if (work->animator.hitChecker.output.willExplodeOnContact)
         {
             DestroyCurrentExTask();
             return;
@@ -390,7 +390,7 @@ void ExBossFireBlue_Main_Repelled(void)
         return;
     }
 
-    if (work->animator.hitChecker.output.value_10)
+    if (work->animator.hitChecker.output.willExplodeOnContact)
     {
         DestroyCurrentExTask();
         return;
@@ -584,7 +584,7 @@ void ExBossFireRed_Main_MoveFast(void)
     }
     else
     {
-        if (work->animator.hitChecker.output.value_10)
+        if (work->animator.hitChecker.output.willExplodeOnContact)
         {
             DestroyCurrentExTask();
             return;
@@ -655,7 +655,7 @@ void ExBossFireRed_Main_MoveSlow(void)
     }
     else
     {
-        if (work->animator.hitChecker.output.value_10)
+        if (work->animator.hitChecker.output.willExplodeOnContact)
         {
             DestroyCurrentExTask();
             return;
@@ -739,7 +739,7 @@ void ExBossFireRed_Main_Repelled(void)
         return;
     }
 
-    if (work->animator.hitChecker.output.value_10)
+    if (work->animator.hitChecker.output.willExplodeOnContact)
     {
         DestroyCurrentExTask();
         return;
@@ -788,7 +788,7 @@ void exBossSysAdminTask__Action_StartFire0(void)
 
     PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_KURAE);
 
-    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fire0);
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fire0);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_StartFire0);
@@ -840,7 +840,7 @@ void exBossSysAdminTask__Action_StartFire1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fire1);
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fire1);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     DisableExBossEffectFireball();
@@ -878,7 +878,7 @@ void exBossSysAdminTask__Action_StartFire2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fire2);
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fire2);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     CreateExBossEffectFireballShot();
@@ -950,7 +950,7 @@ void exBossSysAdminTask__Action_StartFire4(void)
 
     work->aniBoss.model.angle.y = 0;
 
-    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fire4);
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fire4);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Fire4);

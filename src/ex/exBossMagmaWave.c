@@ -1,7 +1,7 @@
 #include <ex/boss/exBossMagmaWave.h>
 #include <ex/boss/exBossMagmaWaveAttack.h>
 #include <ex/system/exSystem.h>
-#include <ex/boss/exBossHelpers.h>
+#include <ex/boss/exBossIntermission.h>
 #include <ex/player/exPlayerHelpers.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
@@ -525,7 +525,7 @@ void exBossSysAdminTask__Action_StartMagmaEruption0(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_wave0);
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_wave0);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
     PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_HORE);
 
@@ -555,7 +555,7 @@ void exBossSysAdminTask__Action_StartMagmaEruption1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_wave1);
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_wave1);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_MagmaEruption1);
@@ -584,7 +584,7 @@ void exBossSysAdminTask__Action_StartMagmaEruption2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_wave2);
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_wave2);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     work->magmaWaveUnknownPos.y = FLOAT_TO_FX32(0.0);
@@ -682,7 +682,7 @@ void exBossSysAdminTask__Action_StartMagmaEruption3(void)
     s32 timerChance = mtMathRand() % 100;
     s32 moveChance  = mtMathRand() % 100;
 
-    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_wave3);
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_wave3);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     if (timerChance < 20 && timerChance >= 0)
@@ -823,7 +823,7 @@ void exBossSysAdminTask__Action_StartMagmaEruption4(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_wave4);
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_wave4);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_MagmaEruption4);

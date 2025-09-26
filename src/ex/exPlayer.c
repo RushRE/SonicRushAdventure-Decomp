@@ -13,7 +13,7 @@
 #include <ex/system/exTimeGameplay.h>
 #include <ex/system/exDrawFade.h>
 #include <ex/core/exTitleCard.h>
-#include <ex/boss/exBossHelpers.h>
+#include <ex/boss/exBossIntermission.h>
 #include <game/audio/audioSystem.h>
 #include <game/input/padInput.h>
 
@@ -373,7 +373,7 @@ void ExPlayer_Action_BossChaseDelay(void)
     work->worker->bossChaseTimer = SECONDS_TO_FRAMES(2.0);
 
     if (GetExSystemStatus()->state == EXSYSTASK_STATE_STAGE_FINISHED)
-        exBossHelpers__Func_2154C38(0);
+        exBossSysAdminTask__SetBossFleeing(0);
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_BossChaseDelay);
     ExPlayer_Main_BossChaseDelay();
@@ -476,7 +476,7 @@ void ExPlayer_Action_ReadyBossPhaseChange(void)
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
     UNUSED(work);
 
-    exBossHelpers__Func_2154C38(FALSE);
+    exBossSysAdminTask__SetBossFleeing(FALSE);
 
     if (GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED)
     {
@@ -1767,7 +1767,7 @@ void ExPlayer_Draw(void)
         work->activeModelSub->config.control.isInvisible  = FALSE;
         work->worker->hurtInvulnDuration                  = 0;
 
-        if (exBossHelpers__IsBossFleeing() == 1)
+        if (exBossSysAdminTask__IsBossFleeing() == 1)
             SetCurrentExTaskMainEvent(ExPlayer_Main_InitForBossChase);
     }
 

@@ -33,7 +33,7 @@ typedef struct exHitCheck_
     exHitCheckType type;
     struct
     {
-        u8 value_1 : 1;
+        u8 isBoss : 1;
         u8 isBossFireEffect : 1;
         u8 isBossShotEffect : 1;
         u8 isBossHomingEffect : 1;
@@ -46,18 +46,18 @@ typedef struct exHitCheck_
         u8 isBossFireBlue : 1;
         u8 isBossMagmaWave : 1;
         u8 isBossMagmaWaveAttack : 1;
-        u8 value_2_20 : 1;
-        u8 value_2_40 : 1;
-        u8 value_2_80 : 1;
-        u8 value_3_1 : 1;
+        u8 isBossDragon : 1;
+        u8 isBossDragonExplosion : 1;
+        u8 isBluntLineMissile : 1;
+        u8 isSpikedLineMissile : 1;
         u8 isBossHomingLaserTrail : 1;
-        u8 value_3_4 : 1;
+        u8 isHomingLaserSprite : 1;
         u8 isSuperSonicPlayer : 1;
         u8 isSonicPlayer : 1;
         u8 isBurningBlazePlayer : 1;
         u8 isBlazePlayer : 1;
         u8 isSonicBarrierEffect : 1;
-        u8 value_4_1 : 1;
+        u8 isUnknown : 1;
         u8 isRepelledProjectile : 1;
         u8 isBlazeFireballEffect : 1;
         u8 isRing : 1;
@@ -65,9 +65,9 @@ typedef struct exHitCheck_
         u8 isBrokenIntroMeteor : 1;
         u8 isBossHitEffect : 1;
         u8 isStageGeometry : 1;
-        u8 value_5_1 : 1;
-        u8 value_5_2 : 1;
-        u8 value_5_4 : 1;
+        u8 isSpriteOrModelVFX : 1;
+        u8 isTrailVFX : 1;
+        u8 isPlayerSprite : 1;
     } input;
     struct
     {
@@ -75,7 +75,7 @@ typedef struct exHitCheck_
         u8 isHurt : 1;
         u8 isStunned : 1;
         u8 isInvincible : 1;
-        u8 value_10 : 1;
+        u8 willExplodeOnContact : 1;
         u8 value_20 : 1;
         u8 wasOutOfBounds : 1;
         u8 touchingBoundaryT : 1;
@@ -86,6 +86,7 @@ typedef struct exHitCheck_
         u8 touchedRing : 1;
     } output;
     s16 power;
+    s16 health;
     exHitCheckTaskUnknown box;
 } exHitCheck;
 

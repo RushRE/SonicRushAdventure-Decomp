@@ -2,31 +2,47 @@
 #define RUSH_EXBOSSLINEMISSILE_H
 
 #include <ex/boss/exBoss.h>
+#include <ex/player/exPlayerHelpers.h>
+
+// --------------------
+// STRUCTS
+// --------------------
+
+typedef struct exBossLineMissileTask_
+{
+    u16 id;
+    VecFx32 velocity;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+    u16 spinSpeed;
+    BOOL spinClockwise;
+    exBossSysAdminTask *parent;
+    EX_ACTION_NN_WORK animator;
+    ExPlayerUnknown2152960 unknownWorker;
+    VecFx32 positions[EXBOSS_LINE_MISSILE_COUNT];
+} exBossLineMissileTask;
+
+typedef struct exBossLineNeedleTask_
+{
+    u16 id;
+    VecFx32 velocity;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    u16 unknown;
+    exBossSysAdminTask *parent;
+    EX_ACTION_NN_WORK animator;
+    ExPlayerUnknown2152960 unknownWorker;
+    VecFx32 positions[EXBOSS_LINE_MISSILE_COUNT];
+} exBossLineNeedleTask;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void exBossLineNeedleTask__Func_215AA34  (void);
-NOT_DECOMPILED void exBossLineNeedleTask__Func_215AC48(void);
-NOT_DECOMPILED void exBossLineNeedleTask__Main(void);
-NOT_DECOMPILED void exBossLineNeedleTask__Func8(void);
-NOT_DECOMPILED void exBossLineNeedleTask__Destructor(void);
-NOT_DECOMPILED void exBossLineNeedleTask__Main_215AEAC(void);
-NOT_DECOMPILED void exBossLineMissileTask__Func_215AFE4(void);
-NOT_DECOMPILED void exBossLineMissileTask__Func_215B004(void);
-NOT_DECOMPILED void exBossLineNeedleTask__Create(void);
-
-NOT_DECOMPILED void exBossLineMissileTask__Func_215B1F4(void);
-NOT_DECOMPILED void exBossLineMissileTask__Func_215B404(void);
-NOT_DECOMPILED void exBossLineMissileTask__Main(void);
-NOT_DECOMPILED void exBossLineMissileTask__Func8(void);
-NOT_DECOMPILED void exBossLineMissileTask__Destructor(void);
-NOT_DECOMPILED void exBossLineMissileTask__Main_215B668(void);
-NOT_DECOMPILED void exBossLineMissileTask__Func_215B7C0(void);
-NOT_DECOMPILED void exBossLineMissileTask__Func_215B804(void);
-NOT_DECOMPILED void exBossLineMissileTask__Func_215B998(void);
-NOT_DECOMPILED void exBossLineMissileTask__Func_215BB48(void);
-NOT_DECOMPILED void exBossLineMissileTask__Create(void);
+BOOL CreateExBossSpikedLineMissile(void);
+BOOL CreateExBossBluntLineMissile(void);
 
 #endif // RUSH_EXBOSSLINEMISSILE_H

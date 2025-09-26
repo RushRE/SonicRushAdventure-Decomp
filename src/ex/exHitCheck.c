@@ -1,7 +1,7 @@
 #include <ex/system/exHitCheck.h>
 #include <ex/system/exSystem.h>
 #include <ex/player/exPlayer.h>
-#include <ex/boss/exBossHelpers.h>
+#include <ex/boss/exBossIntermission.h>
 #include <ex/effects/exBlazeDashEffect.h>
 #include <ex/effects/exSonicDashEffect.h>
 
@@ -165,9 +165,9 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
 
     if (work->type == EXHITCHECK_TYPE_HAZARD)
     {
-        if ((work->input.value_1 == TRUE || work->input.isBossMeteor == TRUE) || (work->input.isBossMeteorBomb == TRUE || work->input.isBossFireRed == TRUE)
-            || (work->input.isBossFireBlue == TRUE || work->input.isBossMagmaWaveAttack == TRUE) || (work->input.value_2_20 == TRUE || work->input.value_2_80 == TRUE)
-            || (work->input.value_3_1 == TRUE || work->input.isBossHomingLaserTrail == TRUE))
+        if ((work->input.isBoss == TRUE || work->input.isBossMeteor == TRUE) || (work->input.isBossMeteorBomb == TRUE || work->input.isBossFireRed == TRUE)
+            || (work->input.isBossFireBlue == TRUE || work->input.isBossMagmaWaveAttack == TRUE) || (work->input.isBossDragon == TRUE || work->input.isBluntLineMissile == TRUE)
+            || (work->input.isSpikedLineMissile == TRUE || work->input.isBossHomingLaserTrail == TRUE))
         {
             if (isStageObjectHitCheckListAvailable)
             {
@@ -609,7 +609,7 @@ void exHitCheckTask_DoHitChecks(void)
 {
     EX_ACTION_NN_WORK *playerSonic = GetExSuperSonicWorker();
     EX_ACTION_NN_WORK *playerBlaze = GetExBurningBlazeWorker();
-    exBossHelpers__GetBossAssets();
+    exBossSysAdminTask__GetBossAssets();
 
     u16 i;
     u16 ii;
@@ -730,7 +730,7 @@ void exHitCheckTask_DoHitChecks(void)
                                             stageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
                                             stageObjectHitCheckList[i]->power               = sonicBarrierHitCheckList[ii]->power;
                                         }
-                                        else if (other->input.value_2_20)
+                                        else if (other->input.isBossDragon)
                                         {
                                             sonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
 
@@ -738,7 +738,7 @@ void exHitCheckTask_DoHitChecks(void)
                                             stageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
                                             stageObjectHitCheckList[i]->power               = sonicBarrierHitCheckList[ii]->power;
                                         }
-                                        else if (other->input.value_2_80)
+                                        else if (other->input.isBluntLineMissile)
                                         {
                                             sonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
 
@@ -746,7 +746,7 @@ void exHitCheckTask_DoHitChecks(void)
                                             stageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
                                             stageObjectHitCheckList[i]->power               = sonicBarrierHitCheckList[ii]->power;
                                         }
-                                        else if (other->input.value_3_1)
+                                        else if (other->input.isSpikedLineMissile)
                                         {
                                             sonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
                                         }
@@ -785,8 +785,8 @@ void exHitCheckTask_DoHitChecks(void)
                                     {
                                         other = stageObjectHitCheckList[i];
 
-                                        if (other->input.isBossFireRed == FALSE && other->input.isBossFireBlue == FALSE && other->input.value_2_20 == FALSE
-                                            && other->input.value_2_80 == FALSE && other->input.isBossHomingLaserTrail == FALSE)
+                                        if (other->input.isBossFireRed == FALSE && other->input.isBossFireBlue == FALSE && other->input.isBossDragon == FALSE
+                                            && other->input.isBluntLineMissile == FALSE && other->input.isBossHomingLaserTrail == FALSE)
                                         {
                                             repelledProjectileHitCheckList[ii]->output.hasCollision = TRUE;
 
@@ -825,7 +825,7 @@ void exHitCheckTask_DoHitChecks(void)
                                         {
                                             blazeFireballHitCheckList[ii]->output.hasCollision = TRUE;
                                         }
-                                        else if (other->input.value_2_20)
+                                        else if (other->input.isBossDragon)
                                         {
                                             other->output.hasCollision = TRUE;
 
@@ -911,21 +911,21 @@ void exHitCheckTask_DoHitChecks(void)
                                             playerSonic->hitChecker.output.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->input.value_2_20)
+                                    else if (other->input.isBossDragon)
                                     {
                                         if (playerSonic->hitChecker.output.isHurt == FALSE && playerSonic->hitChecker.output.isInvincible == FALSE)
                                         {
-                                            other->output.value_10                = TRUE;
+                                            other->output.willExplodeOnContact    = TRUE;
                                             playerSonic->hitChecker.output.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->input.value_2_80)
+                                    else if (other->input.isBluntLineMissile)
                                     {
                                         if (playerSonic->hitChecker.output.isHurt == FALSE)
                                         {
                                             if (GetExPlayerWorker()->dashTimer > 0)
                                             {
-                                                stageObjectHitCheckList[i]->output.value_10 = TRUE;
+                                                stageObjectHitCheckList[i]->output.willExplodeOnContact = TRUE;
                                             }
                                             else
                                             {
@@ -934,7 +934,7 @@ void exHitCheckTask_DoHitChecks(void)
                                             }
                                         }
                                     }
-                                    else if (other->input.value_3_1)
+                                    else if (other->input.isSpikedLineMissile)
                                     {
                                         if (playerSonic->hitChecker.output.isHurt == FALSE && playerSonic->hitChecker.output.isInvincible == FALSE)
                                         {
@@ -1022,15 +1022,15 @@ void exHitCheckTask_DoHitChecks(void)
                                             playerBlaze->hitChecker.output.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->input.value_2_20)
+                                    else if (other->input.isBossDragon)
                                     {
                                         if (playerBlaze->hitChecker.output.isHurt == FALSE && playerBlaze->hitChecker.output.isInvincible == FALSE)
                                         {
-                                            other->output.value_10                = TRUE;
+                                            other->output.willExplodeOnContact    = TRUE;
                                             playerBlaze->hitChecker.output.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->input.value_2_80)
+                                    else if (other->input.isBluntLineMissile)
                                     {
                                         if (playerBlaze->hitChecker.output.isHurt == FALSE && playerBlaze->hitChecker.output.isInvincible == FALSE)
                                         {
@@ -1038,7 +1038,7 @@ void exHitCheckTask_DoHitChecks(void)
                                             playerBlaze->hitChecker.output.isHurt = TRUE;
                                         }
                                     }
-                                    else if (other->input.value_3_1)
+                                    else if (other->input.isSpikedLineMissile)
                                     {
                                         if (playerBlaze->hitChecker.output.isHurt == FALSE && playerBlaze->hitChecker.output.isInvincible == FALSE)
                                         {

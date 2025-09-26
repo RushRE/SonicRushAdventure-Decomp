@@ -4,7 +4,7 @@
 #include <game/graphics/drawState.h>
 #include <game/math/unknown2066510.h>
 #include <ex/system/exSystem.h>
-#include <ex/boss/exBossHelpers.h>
+#include <ex/boss/exBossIntermission.h>
 #include <ex/player/exPlayerHelpers.h>
 
 // --------------------

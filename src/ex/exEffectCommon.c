@@ -71,8 +71,8 @@ void LoadExExplosionSprite(EX_ACTION_BAC3D_WORK *work)
 
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
-    work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.input.value_5_1 = TRUE;
+    work->hitChecker.type                 = EXHITCHECK_TYPE_NOT_SOLID;
+    work->hitChecker.input.isSpriteOrModelVFX = TRUE;
 
     work->sprite.translation.z = FLOAT_TO_FX32(70.0);
     work->sprite.scale.x       = FLOAT_TO_FX32(0.5);
@@ -180,17 +180,17 @@ void LoadExShockEffectSprite(EX_ACTION_BAC3D_WORK *work)
                            vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
-    work->hitChecker.type              = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.input.value_5_1   = TRUE;
-    work->sprite.translation.z         = FLOAT_TO_FX32(70.0);
-    work->sprite.scale.x               = FLOAT_TO_FX32(0.30005);
-    work->sprite.scale.y               = FLOAT_TO_FX32(0.30005);
-    work->sprite.scale.z               = FLOAT_TO_FX32(0.30005);
-    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_BOTH;
-    work->hitChecker.box.size.x        = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.y        = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.z        = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position      = &work->sprite.translation;
+    work->hitChecker.type                 = EXHITCHECK_TYPE_NOT_SOLID;
+    work->hitChecker.input.isSpriteOrModelVFX = TRUE;
+    work->sprite.translation.z            = FLOAT_TO_FX32(70.0);
+    work->sprite.scale.x                  = FLOAT_TO_FX32(0.30005);
+    work->sprite.scale.y                  = FLOAT_TO_FX32(0.30005);
+    work->sprite.scale.z                  = FLOAT_TO_FX32(0.30005);
+    work->config.control.activeScreens    = EXDRAWREQTASKCONFIG_SCREEN_BOTH;
+    work->hitChecker.box.size.x           = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.y           = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.z           = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position         = &work->sprite.translation;
 
     exShockEffectInstanceCount++;
 }

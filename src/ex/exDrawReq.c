@@ -3,7 +3,7 @@
 #include <game/graphics/drawState.h>
 #include <game/math/unknown2066510.h>
 #include <ex/system/exSystem.h>
-#include <ex/boss/exBossHelpers.h>
+#include <ex/boss/exBossIntermission.h>
 #include <ex/player/exPlayerHelpers.h>
 
 // --------------------
@@ -475,10 +475,11 @@ void ProcessExDrawRequestModelPriority(EX_ACTION_NN_WORK *work)
         cameraB = GetExDrawCameraConfigB();
     }
 
-    if (work->hitChecker.input.isBossFireRed || work->hitChecker.input.isBossFireBlue || work->hitChecker.input.value_2_20 || work->hitChecker.input.isBossMagmaWave
-        || work->hitChecker.input.isBossHomingEffect || work->hitChecker.input.isBossShotEffect || work->hitChecker.input.isBossFireEffect || work->hitChecker.input.value_2_80
-        || work->hitChecker.input.value_3_1 || work->hitChecker.input.isBossMeteorEffect || work->hitChecker.input.isBossFireballShotEffect
-        || work->hitChecker.input.isBossFireballEffect || work->hitChecker.input.isIntroMeteor || work->hitChecker.input.isBossHitEffect)
+    if (work->hitChecker.input.isBossFireRed || work->hitChecker.input.isBossFireBlue || work->hitChecker.input.isBossDragon || work->hitChecker.input.isBossMagmaWave
+        || work->hitChecker.input.isBossHomingEffect || work->hitChecker.input.isBossShotEffect || work->hitChecker.input.isBossFireEffect
+        || work->hitChecker.input.isBluntLineMissile || work->hitChecker.input.isSpikedLineMissile || work->hitChecker.input.isBossMeteorEffect
+        || work->hitChecker.input.isBossFireballShotEffect || work->hitChecker.input.isBossFireballEffect || work->hitChecker.input.isIntroMeteor
+        || work->hitChecker.input.isBossHitEffect)
     {
         if (work->model.translation.y > FLOAT_TO_FX32(36.751))
             work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_B;
@@ -561,7 +562,7 @@ void ProcessExDrawRequestModelUnknown(EX_ACTION_NN_WORK *work)
 
 BOOL AnimateExDrawRequestModel(EX_ACTION_NN_WORK *work)
 {
-    if (work->hitChecker.input.value_1)
+    if (work->hitChecker.input.isBoss)
     {
         for (s16 i = 0; i < 15; i++)
         {
@@ -619,9 +620,9 @@ void DrawExDrawRequestModel(EX_ACTION_NN_WORK *work)
             AnimatorMDL__Draw(&work->model.animator);
         }
     }
-    else if (work->hitChecker.input.value_1)
+    else if (work->hitChecker.input.isBoss)
     {
-        EX_ACTION_NN_WORK *bossWork = exBossHelpers__GetBossAssets();
+        EX_ACTION_NN_WORK *bossWork = exBossSysAdminTask__GetBossAssets();
         AnimatorMDL__Draw(&work->model.animator);
 
         NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
@@ -743,13 +744,13 @@ void InitExDrawRequestBossHomingLaserTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *
         trail->position[i].z = trail->position[i - 2].z;
     }
 
-    work->hitChecker.type                           = EXHITCHECK_TYPE_HAZARD;
+    work->hitChecker.type                         = EXHITCHECK_TYPE_HAZARD;
     work->hitChecker.input.isBossHomingLaserTrail = TRUE;
-    work->hitChecker.box.size.x                     = FLOAT_TO_FX32(2.0);
-    work->hitChecker.box.size.y                     = FLOAT_TO_FX32(2.0);
-    work->hitChecker.box.size.z                     = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position                   = &work->trail.translation;
-    work->config.control.activeScreens              = EXDRAWREQTASKCONFIG_SCREEN_BOTH;
+    work->hitChecker.box.size.x                   = FLOAT_TO_FX32(2.0);
+    work->hitChecker.box.size.y                   = FLOAT_TO_FX32(2.0);
+    work->hitChecker.box.size.z                   = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position                 = &work->trail.translation;
+    work->config.control.activeScreens            = EXDRAWREQTASKCONFIG_SCREEN_BOTH;
 }
 
 void ProcessExDrawRequestBossHomingLaserTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos, s32 type)
@@ -893,7 +894,7 @@ void InitExDrawRequestBossFireDragonTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *p
     }
 
     work->hitChecker.type              = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.input.value_5_2   = TRUE;
+    work->hitChecker.input.isTrailVFX  = TRUE;
     work->hitChecker.box.size.x        = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y        = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z        = FLOAT_TO_FX32(0.0);
@@ -975,7 +976,7 @@ void InitExDrawRequestPlayerTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos)
     }
 
     work->hitChecker.type              = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.input.value_5_2   = TRUE;
+    work->hitChecker.input.isTrailVFX  = TRUE;
     work->hitChecker.box.size.x        = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.y        = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.size.z        = FLOAT_TO_FX32(1.0);

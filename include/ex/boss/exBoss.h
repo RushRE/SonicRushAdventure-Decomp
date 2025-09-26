@@ -12,6 +12,8 @@
 #define EXBOSS_HEALTH_CRITICAL (8)
 #define EXBOSS_HEALTH_MAX      (176)
 
+#define EXBOSS_LINE_MISSILE_COUNT 6
+
 // --------------------
 // ENUMS
 // --------------------
@@ -74,7 +76,7 @@ typedef struct exBossSysAdminTask_
     } flags;
     struct
     {
-        u8 value_1 : 1;
+        u8 doHurt : 1;
         u8 value_2 : 1;
         u8 doMeteor : 1;
         u8 doFireball : 1;
@@ -96,14 +98,14 @@ typedef struct exBossSysAdminTask_
     VecFx32 targetPos;
     s16 hitVoiceClipCooldown;
     s16 magmaEruptionTimer;
-    u16 flashEffectCooldown;
+    s16 flashEffectCooldown;
     s16 hitEffectCooldown;
     s16 hurtInvulnDuration;
     s16 idleDuration;
     s16 moveDuration;
     s16 health;
     s16 maxHealth;
-    s16 field_66;
+    u16 missileID;
     struct exBossMeteAdminTask_ *currentMeteor;
     EX_ACTION_NN_WORK aniBoss;
     void (*nextAttackState)(void);

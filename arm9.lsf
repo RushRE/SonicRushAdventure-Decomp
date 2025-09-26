@@ -769,12 +769,12 @@ Overlay ExBoss
     After arm9
     Object asm/ex/exPlayerHelpers.o
     Object src/ex/exBlazeDashEffect.o
-    Object asm/ex/exBossCommon.o
+    Object asm/ex/exBossIntermission.o
     Object asm/ex/exBossFireDragon.o
     Object src/ex/exEffectBoss.o
     Object src/ex/exBossFire.o
     Object asm/ex/exBossHomingLaser.o
-    Object asm/ex/exBossLineMissile.o
+    Object src/ex/exBossLineMissile.o
     Object src/ex/exBossMeteor.o
     Object src/ex/exBoss.o
     Object src/ex/exBossMagmaWave.o

@@ -381,7 +381,7 @@ _02155200:
 	bl exBossFireDoraTask__Func_21556EC
 	ldmia sp!, {r3, r4, r5, pc}
 _02155214:
-	bl exBossHelpers__IsBossFleeing
+	bl exBossSysAdminTask__IsBossFleeing
 	cmp r0, #1
 	bne _02155228
 	bl exBossFireDoraTask__Func_21556EC
@@ -902,7 +902,7 @@ exBossSysAdminTask__Action_StartDora0: // 0x0215592C
 	bl CreateExBossEffectFire
 	add r0, r4, #0x6c
 	mov r1, #0xc
-	bl exBossHelpers__SetAnimation
+	bl exBossSysAdminTask__SetAnimation
 	add r0, r4, #0x3f8
 	bl SetExDrawRequestAnimStopOnFinish
 	bl GetExTaskCurrent
@@ -947,7 +947,7 @@ exBossSysAdminTask__Action_StartDora1: // 0x021559B8
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0xd
-	bl exBossHelpers__SetAnimation
+	bl exBossSysAdminTask__SetAnimation
 	add r0, r4, #0x3f8
 	bl SetExDrawRequestAnimStopOnFinish
 	mov r2, #0xc9
@@ -1083,7 +1083,7 @@ exBossSysAdminTask__Action_StartDora2: // 0x02155B8C
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0xe
-	bl exBossHelpers__SetAnimation
+	bl exBossSysAdminTask__SetAnimation
 	add r0, r4, #0x3f8
 	bl SetExDrawRequestAnimStopOnFinish
 	bl GetExTaskCurrent

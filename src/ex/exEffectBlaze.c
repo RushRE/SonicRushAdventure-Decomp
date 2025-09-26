@@ -181,7 +181,7 @@ BOOL LoadExBlazeFireballChargingEffectAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
     work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.input.value_5_1 = TRUE;
+    work->hitChecker.input.isSpriteOrModelVFX = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
@@ -284,7 +284,7 @@ BOOL LoadExBlazeFireballShotEffectAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
     work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
-    work->hitChecker.input.value_5_1 = TRUE;
+    work->hitChecker.input.isSpriteOrModelVFX = TRUE;
     work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);

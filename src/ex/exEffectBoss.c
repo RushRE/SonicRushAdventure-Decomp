@@ -4,7 +4,7 @@
 #include <ex/effects/exBossHomingEffect.h>
 #include <ex/effects/exBossShotEffect.h>
 #include <ex/effects/exBossFireEffect.h>
-#include <ex/boss/exBossHelpers.h>
+#include <ex/boss/exBossIntermission.h>
 #include <ex/system/exSystem.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
@@ -278,7 +278,7 @@ void ExBossEffectHit_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossHelpers__IsBossFleeing() == TRUE)
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -450,7 +450,7 @@ void ExBossEffectFireballShot_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossHelpers__IsBossFleeing() == TRUE)
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -658,7 +658,7 @@ void ExBossEffectFireball_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossHelpers__IsBossFleeing() == TRUE)
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -950,7 +950,7 @@ void ExBossEffectHoming_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossHelpers__IsBossFleeing() == TRUE)
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -1211,7 +1211,7 @@ void ExBossEffectShot_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossHelpers__IsBossFleeing() == TRUE)
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -1413,7 +1413,7 @@ void ExBossEffectFire_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossHelpers__IsBossFleeing() == TRUE)
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 

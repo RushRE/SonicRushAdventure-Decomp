@@ -1,0 +1,952 @@
+#include <ex/boss/exBossLineMissile.h>
+#include <ex/boss/exBossLineMissileAttack.h>
+#include <ex/effects/exBigExplosion.h>
+#include <ex/effects/exBossFireEffect.h>
+#include <ex/system/exDrawReq.h>
+#include <ex/system/exSystem.h>
+#include <ex/boss/exBossIntermission.h>
+#include <ex/player/exPlayerHelpers.h>
+#include <game/file/binaryBundle.h>
+#include <game/audio/audioSystem.h>
+
+// Resources
+#include <resources/extra/ex.h>
+#include <resources/extra/ex/ex_com.h>
+
+// --------------------
+// CONSTANTS
+// --------------------
+
+#define EXBOSSSPIKEDMISSILE_HEALTH_EASY   12
+#define EXBOSSSPIKEDMISSILE_HEALTH_NORMAL 9
+
+#define EXBOSSBLUNTMISSILE_HEALTH_EASY   12
+#define EXBOSSBLUNTMISSILE_HEALTH_NORMAL 9
+
+// --------------------
+// VARIABLES
+// --------------------
+
+static s16 lineNeedleInstanceCount;
+static s16 lineMissileInstanceCount;
+
+static void *lineMissileAnimResource[1];
+static u32 lineMissileAnimType[1];
+static Task *lineMissileTaskSingleton;
+static u32 lineMissileTextureFileSize;
+static u32 lineMissileModelFileSize;
+static void *lineNeedleModelResource;
+static EX_ACTION_NN_WORK *lineMissileLastSpawnedWorker;
+static void *lineMissileModelResource;
+static void *lineMissileUnused;
+static Task *lineNeedleTaskSingleton;
+static u32 lineNeedleTextureFileSize;
+static u32 lineNeedleModelFileSize;
+static void *lineNeedleUnused;
+static u32 lineNeedleAnimType[1];
+static EX_ACTION_NN_WORK *lineNeedleLastSpawnedWorker;
+static void *lineNeedleAnimResource[1];
+
+static VecFx32 missilePositions[EXBOSS_LINE_MISSILE_COUNT][EXBOSS_LINE_MISSILE_COUNT] = { {
+                                                                                              { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(25.0), FLOAT_TO_FX32(50.0) },
+                                                                                              { -FLOAT_TO_FX32(37.1001), FLOAT_TO_FX32(30.0), FLOAT_TO_FX32(70.0) },
+                                                                                              { -FLOAT_TO_FX32(37.2), FLOAT_TO_FX32(35.0), FLOAT_TO_FX32(130.0) },
+                                                                                              { -FLOAT_TO_FX32(37.30005), -FLOAT_TO_FX32(70.0), FLOAT_TO_FX32(130.0) },
+                                                                                              { -FLOAT_TO_FX32(37.4), -FLOAT_TO_FX32(30.0), FLOAT_TO_FX32(50.0) },
+                                                                                              { -FLOAT_TO_FX32(37.5), -FLOAT_TO_FX32(50.0), FLOAT_TO_FX32(60.0) },
+                                                                                          },
+
+                                                                                          {
+                                                                                              { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(25.0), FLOAT_TO_FX32(50.0) },
+                                                                                              { -FLOAT_TO_FX32(22.1001), FLOAT_TO_FX32(35.0), FLOAT_TO_FX32(60.0) },
+                                                                                              { -FLOAT_TO_FX32(22.2), FLOAT_TO_FX32(35.0), FLOAT_TO_FX32(130.0) },
+                                                                                              { -FLOAT_TO_FX32(22.30005), -FLOAT_TO_FX32(70.0), FLOAT_TO_FX32(130.0) },
+                                                                                              { -FLOAT_TO_FX32(22.4), -FLOAT_TO_FX32(30.0), FLOAT_TO_FX32(50.0) },
+                                                                                              { -FLOAT_TO_FX32(22.5), -FLOAT_TO_FX32(50.0), FLOAT_TO_FX32(60.0) },
+                                                                                          },
+
+                                                                                          {
+                                                                                              { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(25.0), FLOAT_TO_FX32(50.0) },
+                                                                                              { -FLOAT_TO_FX32(7.1001), FLOAT_TO_FX32(35.0), FLOAT_TO_FX32(60.0) },
+                                                                                              { -FLOAT_TO_FX32(7.2), FLOAT_TO_FX32(35.0), FLOAT_TO_FX32(130.0) },
+                                                                                              { -FLOAT_TO_FX32(7.30005), -FLOAT_TO_FX32(70.0), FLOAT_TO_FX32(130.0) },
+                                                                                              { -FLOAT_TO_FX32(7.4), -FLOAT_TO_FX32(30.0), FLOAT_TO_FX32(50.0) },
+                                                                                              { -FLOAT_TO_FX32(7.5), -FLOAT_TO_FX32(50.0), FLOAT_TO_FX32(60.0) },
+                                                                                          },
+
+                                                                                          {
+                                                                                              { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(25.0), FLOAT_TO_FX32(50.0) },
+                                                                                              { FLOAT_TO_FX32(7.1001), FLOAT_TO_FX32(35.0), FLOAT_TO_FX32(60.0) },
+                                                                                              { FLOAT_TO_FX32(7.2), FLOAT_TO_FX32(35.0), FLOAT_TO_FX32(130.0) },
+                                                                                              { FLOAT_TO_FX32(7.30005), -FLOAT_TO_FX32(70.0), FLOAT_TO_FX32(130.0) },
+                                                                                              { FLOAT_TO_FX32(7.4), -FLOAT_TO_FX32(30.0), FLOAT_TO_FX32(50.0) },
+                                                                                              { FLOAT_TO_FX32(7.5), -FLOAT_TO_FX32(50.0), FLOAT_TO_FX32(60.0) },
+                                                                                          },
+
+                                                                                          {
+                                                                                              { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(25.0), FLOAT_TO_FX32(50.0) },
+                                                                                              { FLOAT_TO_FX32(22.1001), FLOAT_TO_FX32(35.0), FLOAT_TO_FX32(60.0) },
+                                                                                              { FLOAT_TO_FX32(22.2), FLOAT_TO_FX32(35.0), FLOAT_TO_FX32(130.0) },
+                                                                                              { FLOAT_TO_FX32(22.30005), -FLOAT_TO_FX32(70.0), FLOAT_TO_FX32(130.0) },
+                                                                                              { FLOAT_TO_FX32(22.4), -FLOAT_TO_FX32(30.0), FLOAT_TO_FX32(50.0) },
+                                                                                              { FLOAT_TO_FX32(22.5), -FLOAT_TO_FX32(50.0), FLOAT_TO_FX32(60.0) },
+                                                                                          },
+
+                                                                                          {
+                                                                                              { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(25.0), FLOAT_TO_FX32(50.0) },
+                                                                                              { FLOAT_TO_FX32(37.1001), FLOAT_TO_FX32(35.0), FLOAT_TO_FX32(60.0) },
+                                                                                              { FLOAT_TO_FX32(37.2), FLOAT_TO_FX32(35.0), FLOAT_TO_FX32(130.0) },
+                                                                                              { FLOAT_TO_FX32(37.30005), -FLOAT_TO_FX32(70.0), FLOAT_TO_FX32(130.0) },
+                                                                                              { FLOAT_TO_FX32(37.4), -FLOAT_TO_FX32(30.0), FLOAT_TO_FX32(50.0) },
+                                                                                              { FLOAT_TO_FX32(37.5), -FLOAT_TO_FX32(50.0), FLOAT_TO_FX32(60.0) },
+                                                                                          } };
+
+// force linkage of variables with no apparent references
+FORCE_INCLUDE_VARIABLE_BSS(lineMissileUnused)
+FORCE_INCLUDE_VARIABLE_BSS(lineNeedleUnused)
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static BOOL LoadExBossSpikedLineMissileAssets(EX_ACTION_NN_WORK *work);
+static void ReleaseExBossSpikedLineMissileAssets(EX_ACTION_NN_WORK *work);
+static void ExBossSpikedLineMissile_Main_Init(void);
+static void ExBossSpikedLineMissile_TaskUnknown(void);
+static void ExBossSpikedLineMissile_Destructor(void);
+static void ExBossSpikedLineMissile_Main_Appear(void);
+static void ExBossSpikedLineMissile_Action_Move(void);
+static void ExBossSpikedLineMissile_Main_Move(void);
+
+static BOOL LoadExBossBluntLineMissileAssets(EX_ACTION_NN_WORK *work);
+static void ReleaseExBossBluntLineMissileAssets(EX_ACTION_NN_WORK *work);
+static void ExBossBluntLineMissile_Main_Init(void);
+static void ExBossBluntLineMissile_TaskUnknown(void);
+static void ExBossBluntLineMissile_Destructor(void);
+static void ExBossBluntLineMissile_Main_Appear(void);
+static void ExBossBluntLineMissile_Action_Move(void);
+static void ExBossBluntLineMissile_Main_Move(void);
+static void ExBossBluntLineMissile_Action_Repelled(void);
+static void ExBossBluntLineMissile_Main_Repelled(void);
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+BOOL LoadExBossSpikedLineMissileAssets(EX_ACTION_NN_WORK *work)
+{
+    lineNeedleLastSpawnedWorker = work;
+
+    if (lineNeedleModelFileSize != 0 && lineNeedleTextureFileSize != 0)
+    {
+        if (GetHeapTotalSize(HEAP_USER) < lineNeedleModelFileSize)
+            return FALSE;
+
+        if (VRAMSystem__GetTextureUnknown() < lineNeedleTextureFileSize)
+            return FALSE;
+
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < lineNeedleModelFileSize)
+            return FALSE;
+    }
+
+    InitExDrawRequestModel(work);
+
+    if (lineNeedleInstanceCount == 0)
+    {
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_MSLB_NSBMD, &lineNeedleModelResource, &lineNeedleModelFileSize, TRUE, FALSE);
+
+        lineNeedleAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_MSLB_NSBTP);
+        lineNeedleAnimType[0]     = B3D_ANIM_PAT_ANIM;
+
+        Asset3DSetup__Create(lineNeedleModelResource);
+    }
+
+    AnimatorMDL *animator = &work->model.animator;
+    AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__SetResource(animator, lineNeedleModelResource, 0, FALSE, FALSE);
+
+    u16 i = 0;
+    for (; i < ARRAY_COUNT(lineNeedleAnimType); i++)
+    {
+        AnimatorMDL__SetAnimation(&work->model.animator, lineNeedleAnimType[i], lineNeedleAnimResource[i], 0, NNS_G3dGetTex(lineNeedleModelResource));
+    }
+
+    work->model.primaryAnimType     = lineNeedleAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[lineNeedleAnimType[0]];
+
+    for (u32 r = 0; r < B3D_ANIM_MAX; r++)
+    {
+        if (((1 << r) & (B3D_ANIM_FLAG_PAT_ANIM)) != 0)
+            work->model.animator.animFlags[r] |= ANIMATORMDL_FLAG_CAN_LOOP;
+    }
+
+    work->model.translation.z = FLOAT_TO_FX32(0.0);
+
+    work->model.scale.x = FLOAT_TO_FX32(1.0);
+    work->model.scale.y = FLOAT_TO_FX32(1.0);
+    work->model.scale.z = FLOAT_TO_FX32(1.0);
+
+    work->model.angle.x = FLOAT_DEG_TO_IDX(89.98);
+
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_B;
+
+    work->hitChecker.type                      = EXHITCHECK_TYPE_HAZARD;
+    work->hitChecker.input.isSpikedLineMissile = TRUE;
+    work->hitChecker.box.size.x                = FLOAT_TO_FX32(6.0);
+    work->hitChecker.box.size.y                = FLOAT_TO_FX32(16.0);
+    work->hitChecker.box.size.z                = FLOAT_TO_FX32(6.0);
+    work->hitChecker.box.position              = &work->model.translation;
+
+    lineNeedleInstanceCount++;
+
+    return TRUE;
+}
+
+void ReleaseExBossSpikedLineMissileAssets(EX_ACTION_NN_WORK *work)
+{
+    if (lineNeedleInstanceCount <= 1)
+    {
+        if (lineNeedleModelResource)
+            NNS_G3dResDefaultRelease(lineNeedleModelResource);
+
+        if (lineNeedleAnimResource[0])
+            NNS_G3dResDefaultRelease(lineNeedleAnimResource[0]);
+
+        if (lineNeedleModelResource)
+            HeapFree(HEAP_USER, lineNeedleModelResource);
+        lineNeedleModelResource = NULL;
+    }
+
+    AnimatorMDL__Release(&work->model.animator);
+
+    lineNeedleInstanceCount--;
+}
+
+void ExBossSpikedLineMissile_Main_Init(void)
+{
+    exBossLineNeedleTask *work = ExTaskGetWorkCurrent(exBossLineNeedleTask);
+
+    lineNeedleTaskSingleton = GetCurrentTask();
+
+    LoadExBossSpikedLineMissileAssets(&work->animator);
+    SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimAsOneShot(&work->animator.config);
+
+    for (u16 i = 0; i < EXBOSS_LINE_MISSILE_COUNT; i++)
+    {
+        work->positions[i].x = work->parent->aniBoss.model.translation.x + missilePositions[work->id][i].x;
+        work->positions[i].y = work->parent->aniBoss.model.translation.y + missilePositions[work->id][i].y;
+        work->positions[i].z = work->parent->aniBoss.model.translation.z + missilePositions[work->id][i].z;
+    }
+
+    work->animator.model.translation.x = work->positions[0].x;
+    work->animator.model.translation.y = work->positions[0].x;
+    work->animator.model.translation.z = work->positions[0].x;
+
+    exPlayerHelpers__Func_2152960(&work->unknownWorker, work->positions, EXBOSS_LINE_MISSILE_COUNT, 60 + (mtMathRand() % 30));
+
+    if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
+    {
+        work->animator.hitChecker.health = EXBOSSSPIKEDMISSILE_HEALTH_NORMAL;
+    }
+    else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
+    {
+        work->animator.hitChecker.health = EXBOSSSPIKEDMISSILE_HEALTH_EASY;
+    }
+
+    work->unknown = 3;
+
+    SetCurrentExTaskMainEvent(ExBossSpikedLineMissile_Main_Appear);
+}
+
+void ExBossSpikedLineMissile_TaskUnknown(void)
+{
+    exBossLineNeedleTask *work = ExTaskGetWorkCurrent(exBossLineNeedleTask);
+    UNUSED(work);
+
+    if (CheckExStageFinished())
+        DestroyCurrentExTask();
+}
+
+void ExBossSpikedLineMissile_Destructor(void)
+{
+    exBossLineNeedleTask *work = ExTaskGetWorkCurrent(exBossLineNeedleTask);
+
+    ReleaseExBossSpikedLineMissileAssets(&work->animator);
+
+    lineNeedleTaskSingleton = NULL;
+}
+
+void ExBossSpikedLineMissile_Main_Appear(void)
+{
+    exBossLineNeedleTask *work = ExTaskGetWorkCurrent(exBossLineNeedleTask);
+
+    AnimateExDrawRequestModel(&work->animator);
+    if (work->animator.hitChecker.output.hasCollision)
+    {
+        if (work->animator.hitChecker.output.isHurt)
+        {
+            work->animator.hitChecker.health -= work->animator.hitChecker.power;
+            if (work->animator.hitChecker.health <= 0)
+            {
+                CreateExExplosion(&work->animator.model.translation);
+                DestroyCurrentExTask();
+                return;
+            }
+            work->animator.hitChecker.power         = 0;
+            work->animator.hitChecker.output.isHurt = FALSE;
+        }
+
+        work->animator.hitChecker.output.hasCollision = FALSE;
+    }
+    else if (work->animator.hitChecker.output.willExplodeOnContact)
+    {
+        DestroyCurrentExTask();
+        return;
+    }
+
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    {
+        CreateExExplosion(&work->animator.model.translation);
+        DestroyCurrentExTask();
+        return;
+    }
+
+    if (exPlayerHelpers__Func_2152AB4(&work->unknownWorker))
+    {
+        ExBossSpikedLineMissile_Action_Move();
+    }
+    else
+    {
+        work->animator.model.translation.x = work->unknownWorker.field_8.x;
+        work->animator.model.translation.y = work->unknownWorker.field_8.y;
+        work->animator.model.translation.z = work->unknownWorker.field_8.z;
+        work->velocity.x                   = work->unknownWorker.field_18.x;
+        work->velocity.y                   = work->unknownWorker.field_18.y;
+        work->velocity.z                   = work->unknownWorker.field_18.z;
+
+        AddExDrawRequest(&work->animator, &work->animator.config);
+        exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
+
+        RunCurrentExTaskUnknownEvent();
+    }
+}
+
+void ExBossSpikedLineMissile_Action_Move(void)
+{
+    exBossLineNeedleTask *work = ExTaskGetWorkCurrent(exBossLineNeedleTask);
+    UNUSED(work);
+
+    SetCurrentExTaskMainEvent(ExBossSpikedLineMissile_Main_Move);
+    ExBossSpikedLineMissile_Main_Move();
+}
+
+void ExBossSpikedLineMissile_Main_Move(void)
+{
+    exBossLineNeedleTask *work = ExTaskGetWorkCurrent(exBossLineNeedleTask);
+
+    AnimateExDrawRequestModel(&work->animator);
+    if (work->animator.hitChecker.output.hasCollision)
+    {
+        if (work->animator.hitChecker.output.isHurt)
+        {
+            work->animator.hitChecker.health -= work->animator.hitChecker.power;
+            if (work->animator.hitChecker.health <= 0)
+            {
+                CreateExExplosion(&work->animator.model.translation);
+                DestroyCurrentExTask();
+                return;
+            }
+            work->animator.hitChecker.power         = 0;
+            work->animator.hitChecker.output.isHurt = FALSE;
+        }
+
+        work->animator.hitChecker.output.hasCollision = FALSE;
+    }
+    else if (work->animator.hitChecker.output.willExplodeOnContact)
+    {
+        DestroyCurrentExTask();
+        return;
+    }
+
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    {
+        CreateExExplosion(&work->animator.model.translation);
+        DestroyCurrentExTask();
+        return;
+    }
+
+    work->velocity.y -= FLOAT_TO_FX32(0.03125);
+    work->animator.model.translation.x += work->velocity.x;
+    work->animator.model.translation.y += work->velocity.y;
+
+    if ((work->animator.model.translation.x >= FLOAT_TO_FX32(90.0) || work->animator.model.translation.x <= -FLOAT_TO_FX32(90.0))
+        || (work->animator.model.translation.y >= FLOAT_TO_FX32(200.0) || work->animator.model.translation.y <= -FLOAT_TO_FX32(60.0)))
+    {
+        DestroyCurrentExTask();
+        return;
+    }
+
+    AddExDrawRequest(&work->animator, &work->animator.config);
+    exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
+
+    RunCurrentExTaskUnknownEvent();
+}
+
+BOOL CreateExBossSpikedLineMissile(void)
+{
+    Task *task = ExTaskCreate(ExBossSpikedLineMissile_Main_Init, ExBossSpikedLineMissile_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x3100, TASK_GROUP(5), 0,
+                              EXTASK_TYPE_REGULAR, exBossLineNeedleTask);
+
+    exBossLineNeedleTask *work = ExTaskGetWork(task, exBossLineNeedleTask);
+    TaskInitWork8(work);
+
+    work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
+    work->id     = work->parent->missileID;
+
+    SetExTaskUnknownEvent(task, ExBossSpikedLineMissile_TaskUnknown);
+
+    return TRUE;
+}
+
+BOOL LoadExBossBluntLineMissileAssets(EX_ACTION_NN_WORK *work)
+{
+    lineMissileLastSpawnedWorker = work;
+
+    if (lineMissileModelFileSize != 0 && lineMissileTextureFileSize != 0)
+    {
+        if (GetHeapTotalSize(HEAP_USER) < lineMissileModelFileSize)
+            return FALSE;
+
+        if (VRAMSystem__GetTextureUnknown() < lineMissileTextureFileSize)
+            return FALSE;
+
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < lineMissileModelFileSize)
+            return FALSE;
+    }
+
+    InitExDrawRequestModel(work);
+
+    if (lineMissileInstanceCount == 0)
+    {
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_MSLA_NSBMD, &lineMissileModelResource, &lineMissileModelFileSize, TRUE, FALSE);
+
+        lineMissileAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_MSLA_NSBTP);
+        lineMissileAnimType[0]     = B3D_ANIM_PAT_ANIM;
+
+        Asset3DSetup__Create(lineMissileModelResource);
+    }
+
+    AnimatorMDL *animator = &work->model.animator;
+    AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__SetResource(animator, lineMissileModelResource, 0, FALSE, FALSE);
+
+    u16 i = 0;
+    for (; i < ARRAY_COUNT(lineMissileAnimType); i++)
+    {
+        AnimatorMDL__SetAnimation(&work->model.animator, lineMissileAnimType[i], lineMissileAnimResource[i], 0, NNS_G3dGetTex(lineMissileModelResource));
+    }
+
+    work->model.primaryAnimType     = lineMissileAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[lineMissileAnimType[0]];
+
+    for (u32 r = 0; r < B3D_ANIM_MAX; r++)
+    {
+        if (((1 << r) & (B3D_ANIM_FLAG_PAT_ANIM)) != 0)
+            work->model.animator.animFlags[r] |= ANIMATORMDL_FLAG_CAN_LOOP;
+    }
+
+    work->model.translation.z = FLOAT_TO_FX32(0.0);
+
+    work->model.scale.x = FLOAT_TO_FX32(1.0);
+    work->model.scale.y = FLOAT_TO_FX32(1.0);
+    work->model.scale.z = FLOAT_TO_FX32(1.0);
+
+    work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_B;
+
+    work->model.angle.x = FLOAT_DEG_TO_IDX(89.98);
+
+    work->hitChecker.type                     = EXHITCHECK_TYPE_HAZARD;
+    work->hitChecker.input.isBluntLineMissile = TRUE;
+    work->hitChecker.box.size.x               = FLOAT_TO_FX32(6.0);
+    work->hitChecker.box.size.y               = FLOAT_TO_FX32(16.0);
+    work->hitChecker.box.size.z               = FLOAT_TO_FX32(6.0);
+    work->hitChecker.box.position             = &work->model.translation;
+
+    lineMissileInstanceCount++;
+
+    return TRUE;
+}
+
+void ReleaseExBossBluntLineMissileAssets(EX_ACTION_NN_WORK *work)
+{
+    if (lineMissileInstanceCount <= 1)
+    {
+        if (lineMissileModelResource)
+            NNS_G3dResDefaultRelease(lineMissileModelResource);
+
+        if (lineMissileAnimResource[0])
+            NNS_G3dResDefaultRelease(lineMissileAnimResource[0]);
+
+        if (lineMissileModelResource)
+            HeapFree(HEAP_USER, lineMissileModelResource);
+        lineMissileModelResource = NULL;
+    }
+    AnimatorMDL__Release(&work->model.animator);
+
+    lineMissileInstanceCount--;
+}
+
+void ExBossBluntLineMissile_Main_Init(void)
+{
+    exBossLineMissileTask *work = ExTaskGetWorkCurrent(exBossLineMissileTask);
+
+    lineMissileTaskSingleton = GetCurrentTask();
+
+    LoadExBossBluntLineMissileAssets(&work->animator);
+    SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
+    SetExDrawRequestAnimAsOneShot(&work->animator.config);
+
+    for (u16 i = 0; i < EXBOSS_LINE_MISSILE_COUNT; i++)
+    {
+        work->positions[i].x = work->parent->aniBoss.model.translation.x + missilePositions[work->id][i].x;
+        work->positions[i].y = work->parent->aniBoss.model.translation.y + missilePositions[work->id][i].y;
+        work->positions[i].z = work->parent->aniBoss.model.translation.z + missilePositions[work->id][i].z;
+    }
+
+    work->animator.model.translation.x = work->positions[0].x;
+    work->animator.model.translation.y = work->positions[0].x;
+    work->animator.model.translation.z = work->positions[0].x;
+
+    exPlayerHelpers__Func_2152960(&work->unknownWorker, work->positions, EXBOSS_LINE_MISSILE_COUNT, 60 + (mtMathRand() % 30));
+
+    if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
+    {
+        work->animator.hitChecker.health = EXBOSSBLUNTMISSILE_HEALTH_NORMAL;
+    }
+    else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
+    {
+        work->animator.hitChecker.health = EXBOSSBLUNTMISSILE_HEALTH_EASY;
+    }
+
+    SetCurrentExTaskMainEvent(ExBossBluntLineMissile_Main_Appear);
+}
+
+void ExBossBluntLineMissile_TaskUnknown(void)
+{
+    exBossLineMissileTask *work = ExTaskGetWorkCurrent(exBossLineMissileTask);
+    UNUSED(work);
+
+    if (CheckExStageFinished())
+        DestroyCurrentExTask();
+}
+
+void ExBossBluntLineMissile_Destructor(void)
+{
+    exBossLineMissileTask *work = ExTaskGetWorkCurrent(exBossLineMissileTask);
+
+    ReleaseExBossBluntLineMissileAssets(&work->animator);
+
+    lineMissileTaskSingleton = NULL;
+}
+
+void ExBossBluntLineMissile_Main_Appear(void)
+{
+    exBossLineMissileTask *work = ExTaskGetWorkCurrent(exBossLineMissileTask);
+
+    AnimateExDrawRequestModel(&work->animator);
+    if (work->animator.hitChecker.output.hasCollision)
+    {
+        if (work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
+        {
+            ExBossBluntLineMissile_Action_Repelled();
+            return;
+        }
+
+        if (work->animator.hitChecker.output.isHurt)
+        {
+            work->animator.hitChecker.health -= work->animator.hitChecker.power;
+            if (work->animator.hitChecker.health <= 0)
+            {
+                CreateExExplosion(&work->animator.model.translation);
+                DestroyCurrentExTask();
+                return;
+            }
+            work->animator.hitChecker.power         = 0;
+            work->animator.hitChecker.output.isHurt = FALSE;
+        }
+
+        work->animator.hitChecker.output.hasCollision = FALSE;
+    }
+    else if (work->animator.hitChecker.output.willExplodeOnContact)
+    {
+        CreateExExplosion(&work->animator.model.translation);
+        DestroyCurrentExTask();
+        return;
+    }
+
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    {
+        CreateExExplosion(&work->animator.model.translation);
+        DestroyCurrentExTask();
+        return;
+    }
+
+    if (exPlayerHelpers__Func_2152AB4(&work->unknownWorker))
+    {
+        ExBossBluntLineMissile_Action_Move();
+    }
+    else
+    {
+        work->animator.model.translation.x = work->unknownWorker.field_8.x;
+        work->animator.model.translation.y = work->unknownWorker.field_8.y;
+        work->animator.model.translation.z = work->unknownWorker.field_8.z;
+        work->velocity.x                   = work->unknownWorker.field_18.x;
+        work->velocity.y                   = work->unknownWorker.field_18.y;
+        work->velocity.z                   = work->unknownWorker.field_18.z;
+
+        AddExDrawRequest(&work->animator, &work->animator.config);
+        exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
+
+        RunCurrentExTaskUnknownEvent();
+    }
+}
+
+void ExBossBluntLineMissile_Action_Move(void)
+{
+    exBossLineMissileTask *work = ExTaskGetWorkCurrent(exBossLineMissileTask);
+    UNUSED(work);
+
+    PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_LINE_REFIRE);
+
+    SetCurrentExTaskMainEvent(ExBossBluntLineMissile_Main_Move);
+    ExBossBluntLineMissile_Main_Move();
+}
+
+void ExBossBluntLineMissile_Main_Move(void)
+{
+    exBossLineMissileTask *work = ExTaskGetWorkCurrent(exBossLineMissileTask);
+
+    AnimateExDrawRequestModel(&work->animator);
+    if (work->animator.hitChecker.output.hasCollision)
+    {
+        if (work->animator.hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
+        {
+            ExBossBluntLineMissile_Action_Repelled();
+            return;
+        }
+
+        if (work->animator.hitChecker.output.isHurt)
+        {
+            work->animator.hitChecker.health -= work->animator.hitChecker.power;
+            if (work->animator.hitChecker.health <= 0)
+            {
+                CreateExExplosion(&work->animator.model.translation);
+                DestroyCurrentExTask();
+                return;
+            }
+            work->animator.hitChecker.power         = 0;
+            work->animator.hitChecker.output.isHurt = FALSE;
+        }
+
+        work->animator.hitChecker.output.hasCollision = FALSE;
+    }
+    else if (work->animator.hitChecker.output.willExplodeOnContact)
+    {
+        CreateExExplosion(&work->animator.model.translation);
+        DestroyCurrentExTask();
+        return;
+    }
+
+    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    {
+        CreateExExplosion(&work->animator.model.translation);
+        DestroyCurrentExTask();
+        return;
+    }
+
+    work->velocity.y -= FLOAT_TO_FX32(0.03125);
+    work->animator.model.translation.x += work->velocity.x;
+    work->animator.model.translation.y += work->velocity.y;
+
+    if (work->animator.model.translation.y <= FLOAT_TO_FX32(20.0))
+        work->animator.config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
+
+    if ((work->animator.model.translation.x >= FLOAT_TO_FX32(90.0) || work->animator.model.translation.x <= -FLOAT_TO_FX32(90.0))
+        || (work->animator.model.translation.y >= FLOAT_TO_FX32(200.0) || work->animator.model.translation.y <= -FLOAT_TO_FX32(60.0)))
+    {
+        DestroyCurrentExTask();
+        return;
+    }
+
+    AddExDrawRequest(&work->animator, &work->animator.config);
+    exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
+
+    RunCurrentExTaskUnknownEvent();
+}
+
+void ExBossBluntLineMissile_Action_Repelled(void)
+{
+    exBossLineMissileTask *work = ExTaskGetWorkCurrent(exBossLineMissileTask);
+
+    work->animator.hitChecker.output.hasCollision        = FALSE;
+    work->animator.hitChecker.input.isRepelledProjectile = TRUE;
+
+    work->velocity.x = FLOAT_TO_FX32(0.0);
+    if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
+    {
+        if (work->animator.hitChecker.power == EXPLAYER_BARRIER_REGULAR_POWER_NORMAL)
+        {
+            work->velocity.y = MultiplyFX(work->velocity.y, FX_Div(FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(2.0)));
+        }
+        else
+        {
+            work->velocity.y = MultiplyFX(work->velocity.y, FX_Div(FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(2.0)));
+        }
+    }
+    else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
+    {
+        if (work->animator.hitChecker.power == EXPLAYER_BARRIER_REGULAR_POWER_EASY)
+        {
+            work->velocity.y = MultiplyFX(work->velocity.y, FX_Div(FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(2.0)));
+        }
+        else
+        {
+            work->velocity.y = MultiplyFX(work->velocity.y, FX_Div(FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(2.0)));
+        }
+    }
+
+    BOOL spinClockwise                   = FALSE;
+    work->velocity.y                     = -work->velocity.y;
+    work->velocity.z                     = FLOAT_TO_FX32(0.0);
+    work->animator.model.angle.x         = FLOAT_DEG_TO_IDX(269.9341);
+    work->animator.model.angle.y         = FLOAT_DEG_TO_IDX(0.0);
+    work->animator.model.angle.z         = FLOAT_DEG_TO_IDX(0.0);
+    work->animator.hitChecker.box.size.x = FLOAT_TO_FX32(6.0);
+    work->animator.hitChecker.box.size.y = FLOAT_TO_FX32(8.0);
+    work->animator.hitChecker.box.size.z = FLOAT_TO_FX32(6.0);
+    work->spinSpeed                      = FLOAT_DEG_TO_IDX(29.993);
+
+    if ((mtMathRand() % 2) != 0)
+        spinClockwise = TRUE;
+    work->spinClockwise = spinClockwise;
+
+    SetCurrentExTaskMainEvent(ExBossBluntLineMissile_Main_Repelled);
+    ExBossBluntLineMissile_Main_Repelled();
+}
+
+void ExBossBluntLineMissile_Main_Repelled(void)
+{
+    exBossLineMissileTask *work = ExTaskGetWorkCurrent(exBossLineMissileTask);
+
+    AnimateExDrawRequestModel(&work->animator);
+
+    if (work->animator.hitChecker.output.hasCollision)
+    {
+        DestroyCurrentExTask();
+        return;
+    }
+
+    if (work->animator.hitChecker.output.willExplodeOnContact)
+    {
+        DestroyCurrentExTask();
+        return;
+    }
+
+    if (work->spinClockwise)
+    {
+        work->animator.model.angle.y += work->spinSpeed;
+    }
+    else
+    {
+        work->animator.model.angle.y -= work->spinSpeed;
+    }
+
+    work->animator.model.translation.y += work->velocity.y;
+
+    if ((work->animator.model.translation.x >= FLOAT_TO_FX32(90.0) || work->animator.model.translation.x <= -FLOAT_TO_FX32(90.0))
+        || (work->animator.model.translation.y >= FLOAT_TO_FX32(200.0) || work->animator.model.translation.y <= -FLOAT_TO_FX32(60.0)))
+    {
+        DestroyCurrentExTask();
+        return;
+    }
+
+    AddExDrawRequest(&work->animator, &work->animator.config);
+    exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
+
+    RunCurrentExTaskUnknownEvent();
+}
+
+BOOL CreateExBossBluntLineMissile(void)
+{
+    Task *task = ExTaskCreate(ExBossBluntLineMissile_Main_Init, ExBossBluntLineMissile_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x3100, TASK_GROUP(5), 0, EXTASK_TYPE_REGULAR,
+                              exBossLineMissileTask);
+
+    exBossLineMissileTask *work = ExTaskGetWork(task, exBossLineMissileTask);
+    TaskInitWork8(work);
+
+    work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
+    work->id     = work->parent->missileID;
+
+    SetExTaskUnknownEvent(task, ExBossBluntLineMissile_TaskUnknown);
+
+    return TRUE;
+}
+
+// ExBoss
+void exBossSysAdminTask__Action_StartLine0(void)
+{
+    exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
+
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_line0);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
+
+    PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_HORE);
+
+    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Line0);
+    exBossSysAdminTask__Main_Line0();
+}
+
+void exBossSysAdminTask__Main_Line0(void)
+{
+    exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
+
+    AnimateExDrawRequestModel(&work->aniBoss);
+    if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
+    {
+        exBossSysAdminTask__Action_StartLine1();
+    }
+    else
+    {
+        exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
+
+        RunCurrentExTaskUnknownEvent();
+    }
+}
+
+void exBossSysAdminTask__Action_StartLine1(void)
+{
+    exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
+
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_line1);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
+
+    PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_LINE_MISSLE);
+
+    for (u16 m = 0; m < EXBOSS_LINE_MISSILE_COUNT; m++)
+    {
+        work->missileID = m;
+
+        if ((mtMathRand() % 2) != 0)
+            CreateExBossBluntLineMissile();
+        else
+            CreateExBossSpikedLineMissile();
+    }
+    work->missileID = 0;
+
+    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Line1);
+    exBossSysAdminTask__Main_Line1();
+}
+
+void exBossSysAdminTask__Main_Line1(void)
+{
+    exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
+
+    AnimateExDrawRequestModel(&work->aniBoss);
+    if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
+    {
+        exBossSysAdminTask__Action_StartLine2();
+    }
+    else
+    {
+        exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
+
+        RunCurrentExTaskUnknownEvent();
+    }
+}
+
+void exBossSysAdminTask__Action_StartLine2(void)
+{
+    exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
+
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_line2);
+    SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
+
+    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Line2);
+    exBossSysAdminTask__Main_Line2();
+}
+
+void exBossSysAdminTask__Main_Line2(void)
+{
+    exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
+
+    AnimateExDrawRequestModel(&work->aniBoss);
+    if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
+    {
+        work->fireballShootTimer++;
+        if (work->fireballShootTimer < 3)
+        {
+            exBossSysAdminTask__Action_StartNextLine();
+        }
+        else
+        {
+            work->fireballShootTimer = 0;
+            exBossSysAdminTask__Action_FinishLineAttack();
+        }
+    }
+    else
+    {
+        exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
+        AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
+
+        RunCurrentExTaskUnknownEvent();
+    }
+}
+
+void exBossSysAdminTask__Action_StartNextLine(void)
+{
+    exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
+
+    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fw0);
+    SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
+    work->flashEffectCooldown = SECONDS_TO_FRAMES(1.0);
+
+    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_StartNextLine);
+    exBossSysAdminTask__Main_StartNextLine();
+}
+
+void exBossSysAdminTask__Main_StartNextLine(void)
+{
+    exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
+
+    AnimateExDrawRequestModel(&work->aniBoss);
+    HandleExBossMovement();
+
+    if (work->flashEffectCooldown <= 0)
+    {
+        work->flashEffectCooldown = 0;
+        if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
+        {
+            exBossSysAdminTask__Action_StartLine0();
+            return;
+        }
+    }
+    else
+    {
+        work->flashEffectCooldown--;
+    }
+
+    exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
+    AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
+
+    RunCurrentExTaskUnknownEvent();
+}
+
+void exBossSysAdminTask__Action_FinishLineAttack(void)
+{
+    exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
+
+    work->nextAttackState();
+}
