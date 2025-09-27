@@ -15,7 +15,7 @@ typedef struct exGameSystemTask_
     u16 unknownCounter;
     u16 timer;
     s32 unknown;
-    exSysTaskStatus *status;
+    ExSysTaskStatus *status;
 } exGameSystemTask;
 
 // --------------------

@@ -1,6 +1,7 @@
 #include <ex/effects/exBlazeFireball.h>
 #include <ex/player/exPlayer.h>
 #include <ex/system/exSystem.h>
+#include <ex/system/exStage.h>
 #include <ex/system/exMath.h>
 #include <game/audio/audioSystem.h>
 #include <game/file/binaryBundle.h>
@@ -513,7 +514,7 @@ void ExBlazeFireballEffect_Main_Fired(void)
     }
     else
     {
-        if (work->aniFire.sprite.translation.x >= FLOAT_TO_FX32(90.0) || work->aniFire.sprite.translation.x <= -FLOAT_TO_FX32(90.0)
+        if (work->aniFire.sprite.translation.x >= EX_STAGE_BOUNDARY_R || work->aniFire.sprite.translation.x <= EX_STAGE_BOUNDARY_L
             || work->aniFire.sprite.translation.y >= FLOAT_TO_FX32(150.0))
         {
             DestroyCurrentExTask();

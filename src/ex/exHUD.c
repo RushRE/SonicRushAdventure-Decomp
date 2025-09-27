@@ -242,7 +242,7 @@ void ExTimeHUD_Destructor(void)
 
 void ExTimeHUD_Main_Active(void)
 {
-    exSysTaskStatus *status;
+    ExSysTaskStatus *status;
     exFixTimeTask *work;
     u16 i;
     u16 mode;
@@ -392,7 +392,7 @@ void ExRingCountHUD_Main_Active(void)
 {
     exFixRingTask *work = ExTaskGetWorkCurrent(exFixRingTask);
 
-    exSysTaskStatus *status = GetExSystemStatus();
+    ExSysTaskStatus *status = GetExSystemStatus();
 
     AnimateExDrawRequestSprite2D(&work->aniRingBackdrop);
     AddExDrawRequest(&work->aniRingBackdrop, &work->aniRingBackdrop.config);
@@ -551,7 +551,7 @@ void ExLifeCountHUD_Main_Active(void)
 {
     exFixRemainderTask *work = ExTaskGetWorkCurrent(exFixRemainderTask);
 
-    exSysTaskStatus *status = GetExSystemStatus();
+    ExSysTaskStatus *status = GetExSystemStatus();
 
     s32 lifeDigit2 = status->lives % 10;
     s32 lifeDigit1 = (status->lives % 100 - lifeDigit2) / 10;
@@ -679,7 +679,7 @@ void ExBossLifeGaugeHUD_Main_HealthIdle(void)
 
     exFixBossLifeGaugeTask *work = ExTaskGetWorkCurrent(exFixBossLifeGaugeTask);
 
-    exSysTaskStatus *status = GetExSystemStatus();
+    ExSysTaskStatus *status = GetExSystemStatus();
     UNUSED(status);
 
     AnimateExDrawRequestSprite2D(&work->aniBossName);
@@ -756,7 +756,7 @@ void ExBossLifeGaugeHUD_Main_HealthChanging(void)
 
     exFixBossLifeGaugeTask *work = ExTaskGetWorkCurrent(exFixBossLifeGaugeTask);
 
-    exSysTaskStatus *status = GetExSystemStatus();
+    ExSysTaskStatus *status = GetExSystemStatus();
     UNUSED(status);
 
     AnimateExDrawRequestSprite2D(&work->aniBossName);
@@ -845,7 +845,7 @@ void ExHUD_Main_Init(void)
     exFixAdminTask *work = ExTaskGetWorkCurrent(exFixAdminTask);
     UNUSED(work);
 
-    exSysTaskStatus *status = GetExSystemStatus();
+    ExSysTaskStatus *status = GetExSystemStatus();
     UNUSED(status);
 
     exHUDAdminTaskSingleton = GetCurrentTask();

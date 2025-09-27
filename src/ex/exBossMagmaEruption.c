@@ -1,7 +1,7 @@
 #include <ex/boss/exBossMagmaWave.h>
-#include <ex/boss/exBossMagmaWaveAttack.h>
+#include <ex/boss/exBoss.h>
 #include <ex/system/exSystem.h>
-#include <ex/boss/exBossIntermission.h>
+#include <ex/system/exStage.h>
 #include <ex/player/exPlayerHelpers.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
@@ -54,6 +54,7 @@ FORCE_INCLUDE_VARIABLE_BSS(magmaEruptionUnused)
 // FUNCTION DECLS
 // --------------------
 
+// Magma Eruption
 BOOL LoadExBossMagmeWaveAttackAssets(EX_ACTION_NN_WORK *work);
 void SetExBossMagmaAttackAnim(EX_ACTION_NN_WORK *work, u16 id);
 void ReleaseExBossMagmeWaveAttackAssets(EX_ACTION_NN_WORK *work);
@@ -67,6 +68,7 @@ void ExBossMagmaEruption_Action_Lower(void);
 void ExBossMagmaEruption_Main_Lower(void);
 BOOL CreateExBossMagmaEruption(void);
 
+// Magma Wave
 BOOL LoadExBossMagmaWaveAssets(EX_ACTION_NN_WORK *work);
 void ReleaseExBossMagmaWaveAssets(EX_ACTION_NN_WORK *work);
 void ExBossMagmaWave_Main_Init(void);
@@ -74,6 +76,24 @@ void ExBossMagmaWave_TaskUnknown(void);
 void ExBossMagmaWave_Destructor(void);
 void ExBossMagmaWave_Main_Active(void);
 BOOL CreateExBossMagmaWave(void);
+
+// ExBoss
+void ExBoss_Main_MagmaEruption0(void);
+void ExBoss_Action_StartMagmaEruption1(void);
+void ExBoss_Main_MagmaEruption1(void);
+void ExBoss_Action_StartMagmaEruption2(void);
+void ExBoss_Main_StartMagmaEruption2(void);
+void ExBoss_Main_ProcessMagmaEruption2(void);
+void ExBoss_Main_FinishMagmaEruption2(void);
+void ExBoss_Action_StartMagmaEruption3(void);
+void ExBoss_Main_MagmaEruption3(void);
+void ExBoss_WaveAngleMoveL(void);
+void ExBoss_WaveAngleMoveR(void);
+void ExBoss_WaveMoveL(void);
+void ExBoss_WaveMoveR(void);
+void ExBoss_Action_StartMagmaEruption4(void);
+void ExBoss_Main_MagmaEruption4(void);
+void ExBoss_Main_FinishMagmaEruptionAttack(void);
 
 // --------------------
 // FUNCTIONS
@@ -196,8 +216,8 @@ void ExBossMagmaEruption_Main_Init(void)
     SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimAsOneShot(&work->animator.config);
 
-    work->animator.model.translation.x = work->parent->aniBoss.model.translation4.x;
-    work->animator.model.translation.y = work->parent->aniBoss.model.translation4.y;
+    work->animator.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+    work->animator.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
     work->animator.model.translation.z = FLOAT_TO_FX32(0.0);
 
     work->velocity.y = FLOAT_TO_FX32(3.0);
@@ -236,8 +256,8 @@ void ExBossMagmaEruption_Main_Rise(void)
     {
         work->animator.model.translation.y -= work->velocity.y;
 
-        if (work->animator.model.translation.x >= FLOAT_TO_FX32(90.0) || work->animator.model.translation.x <= -FLOAT_TO_FX32(90.0)
-            || work->animator.model.translation.y >= FLOAT_TO_FX32(200.0) || work->animator.model.translation.y <= -FLOAT_TO_FX32(60.0))
+        if (work->animator.model.translation.x >= EX_STAGE_BOUNDARY_R || work->animator.model.translation.x <= EX_STAGE_BOUNDARY_L
+            || work->animator.model.translation.y >= EX_STAGE_BOUNDARY_B || work->animator.model.translation.y <= EX_STAGE_BOUNDARY_T)
         {
             DestroyCurrentExTask();
         }
@@ -288,8 +308,8 @@ void ExBossMagmaEruption_Main_Active(void)
         work->timer--;
     }
 
-    if (work->animator.model.translation.x >= FLOAT_TO_FX32(90.0) || work->animator.model.translation.x <= -FLOAT_TO_FX32(90.0)
-        || work->animator.model.translation.y >= FLOAT_TO_FX32(200.0) || work->animator.model.translation.y <= -FLOAT_TO_FX32(60.0))
+    if (work->animator.model.translation.x >= EX_STAGE_BOUNDARY_R || work->animator.model.translation.x <= EX_STAGE_BOUNDARY_L
+        || work->animator.model.translation.y >= EX_STAGE_BOUNDARY_B || work->animator.model.translation.y <= EX_STAGE_BOUNDARY_T)
     {
         DestroyCurrentExTask();
     }
@@ -327,8 +347,8 @@ void ExBossMagmaEruption_Main_Lower(void)
     {
         DestroyCurrentExTask();
     }
-    else if (work->animator.model.translation.x >= FLOAT_TO_FX32(90.0) || work->animator.model.translation.x <= -FLOAT_TO_FX32(90.0)
-             || work->animator.model.translation.y >= FLOAT_TO_FX32(200.0) || work->animator.model.translation.y <= -FLOAT_TO_FX32(60.0))
+    else if (work->animator.model.translation.x >= EX_STAGE_BOUNDARY_R|| work->animator.model.translation.x <= EX_STAGE_BOUNDARY_L
+             || work->animator.model.translation.y >= EX_STAGE_BOUNDARY_B || work->animator.model.translation.y <= EX_STAGE_BOUNDARY_T)
     {
         DestroyCurrentExTask();
     }
@@ -464,8 +484,8 @@ void ExBossMagmaWave_Main_Init(void)
     SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimStopOnFinish(&work->animator.config);
 
-    work->animator.model.translation.x = work->parent->aniBoss.model.translation4.x;
-    work->animator.model.translation.y = work->parent->aniBoss.model.translation4.y;
+    work->animator.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+    work->animator.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
     work->animator.model.translation.z = FLOAT_TO_FX32(0.0);
 
     SetCurrentExTaskMainEvent(ExBossMagmaWave_Main_Active);
@@ -521,26 +541,26 @@ BOOL CreateExBossMagmaWave(void)
 }
 
 // ExBoss
-void exBossSysAdminTask__Action_StartMagmaEruption0(void)
+void ExBoss_Action_StartMagmaEruptionAttack(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_wave0);
+    SetExBossAnimation(&work->aniBoss, bse_body_wave0);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
     PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_HORE);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_MagmaEruption0);
-    exBossSysAdminTask__Main_MagmaEruption0();
+    SetCurrentExTaskMainEvent(ExBoss_Main_MagmaEruption0);
+    ExBoss_Main_MagmaEruption0();
 }
 
-void exBossSysAdminTask__Main_MagmaEruption0(void)
+void ExBoss_Main_MagmaEruption0(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_StartMagmaEruption1();
+        ExBoss_Action_StartMagmaEruption1();
     }
     else
     {
@@ -551,25 +571,25 @@ void exBossSysAdminTask__Main_MagmaEruption0(void)
     }
 }
 
-void exBossSysAdminTask__Action_StartMagmaEruption1(void)
+void ExBoss_Action_StartMagmaEruption1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_wave1);
+    SetExBossAnimation(&work->aniBoss, bse_body_wave1);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_MagmaEruption1);
-    exBossSysAdminTask__Main_MagmaEruption1();
+    SetCurrentExTaskMainEvent(ExBoss_Main_MagmaEruption1);
+    ExBoss_Main_MagmaEruption1();
 }
 
-void exBossSysAdminTask__Main_MagmaEruption1(void)
+void ExBoss_Main_MagmaEruption1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_StartMagmaEruption2();
+        ExBoss_Action_StartMagmaEruption2();
     }
     else
     {
@@ -580,28 +600,28 @@ void exBossSysAdminTask__Main_MagmaEruption1(void)
     }
 }
 
-void exBossSysAdminTask__Action_StartMagmaEruption2(void)
+void ExBoss_Action_StartMagmaEruption2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_wave2);
+    SetExBossAnimation(&work->aniBoss, bse_body_wave2);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
-    work->magmaWaveUnknownPos.y = FLOAT_TO_FX32(0.0);
+    work->magmaEruptionUnknownPos.y = FLOAT_TO_FX32(0.0);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_StartMagmaEruption2);
-    exBossSysAdminTask__Main_StartMagmaEruption2();
+    SetCurrentExTaskMainEvent(ExBoss_Main_StartMagmaEruption2);
+    ExBoss_Main_StartMagmaEruption2();
 }
 
-void exBossSysAdminTask__Main_StartMagmaEruption2(void)
+void ExBoss_Main_StartMagmaEruption2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
 
-    if (work->aniBoss.model.translation.y <= FLOAT_TO_FX32(120.0) && work->magmaWaveUnknownPos.y <= FLOAT_TO_FX32(20.0))
+    if (work->aniBoss.model.translation.y <= FLOAT_TO_FX32(120.0) && work->magmaEruptionUnknownPos.y <= FLOAT_TO_FX32(20.0))
     {
-        work->magmaWaveUnknownPos.y += FLOAT_TO_FX32(0.80005);
+        work->magmaEruptionUnknownPos.y += FLOAT_TO_FX32(0.80005);
         work->aniBoss.model.translation.y += FLOAT_TO_FX32(0.80005);
     }
 
@@ -609,12 +629,12 @@ void exBossSysAdminTask__Main_StartMagmaEruption2(void)
     {
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_PREPARE);
 
-        SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_ProcessMagmaEruption2);
-        exBossSysAdminTask__Main_ProcessMagmaEruption2();
+        SetCurrentExTaskMainEvent(ExBoss_Main_ProcessMagmaEruption2);
+        ExBoss_Main_ProcessMagmaEruption2();
     }
     else if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_StartMagmaEruption3();
+        ExBoss_Action_StartMagmaEruption3();
     }
     else
     {
@@ -625,15 +645,15 @@ void exBossSysAdminTask__Main_StartMagmaEruption2(void)
     }
 }
 
-void exBossSysAdminTask__Main_ProcessMagmaEruption2(void)
+void ExBoss_Main_ProcessMagmaEruption2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
 
-    if (work->aniBoss.model.translation.y <= FLOAT_TO_FX32(120.0) && work->magmaWaveUnknownPos.y <= FLOAT_TO_FX32(20.0))
+    if (work->aniBoss.model.translation.y <= FLOAT_TO_FX32(120.0) && work->magmaEruptionUnknownPos.y <= FLOAT_TO_FX32(20.0))
     {
-        work->magmaWaveUnknownPos.y += FLOAT_TO_FX32(0.80005);
+        work->magmaEruptionUnknownPos.y += FLOAT_TO_FX32(0.80005);
         work->aniBoss.model.translation.y += FLOAT_TO_FX32(0.80005);
     }
 
@@ -641,12 +661,12 @@ void exBossSysAdminTask__Main_ProcessMagmaEruption2(void)
     {
         CreateExBossMagmaWave();
 
-        SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_FinishMagmaEruption2);
-        exBossSysAdminTask__Main_FinishMagmaEruption2();
+        SetCurrentExTaskMainEvent(ExBoss_Main_FinishMagmaEruption2);
+        ExBoss_Main_FinishMagmaEruption2();
     }
     else if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_StartMagmaEruption3();
+        ExBoss_Action_StartMagmaEruption3();
     }
     else
     {
@@ -657,14 +677,14 @@ void exBossSysAdminTask__Main_ProcessMagmaEruption2(void)
     }
 }
 
-void exBossSysAdminTask__Main_FinishMagmaEruption2(void)
+void ExBoss_Main_FinishMagmaEruption2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_StartMagmaEruption3();
+        ExBoss_Action_StartMagmaEruption3();
     }
     else
     {
@@ -675,44 +695,44 @@ void exBossSysAdminTask__Main_FinishMagmaEruption2(void)
     }
 }
 
-void exBossSysAdminTask__Action_StartMagmaEruption3(void)
+void ExBoss_Action_StartMagmaEruption3(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     s32 timerChance = mtMathRand() % 100;
     s32 moveChance  = mtMathRand() % 100;
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_wave3);
+    SetExBossAnimation(&work->aniBoss, bse_body_wave3);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     if (timerChance < 20 && timerChance >= 0)
     {
-        work->magmaEruptionTimer = SECONDS_TO_FRAMES(3);
+        work->genericAttackTimer = SECONDS_TO_FRAMES(3);
     }
     else if (timerChance >= 20 && timerChance < 70)
     {
-        work->magmaEruptionTimer = SECONDS_TO_FRAMES(5);
+        work->genericAttackTimer = SECONDS_TO_FRAMES(5);
     }
     else if (timerChance >= 70 && timerChance <= 100)
     {
-        work->magmaEruptionTimer = SECONDS_TO_FRAMES(8);
+        work->genericAttackTimer = SECONDS_TO_FRAMES(8);
     }
 
     // Why are we using "timerChance" here? This looks like it should be using "moveChance" instead...
     if (moveChance < 50 && timerChance >= 0)
     {
-        work->magmaWaveTargetPosL.x = work->aniBoss.model.translation.x;
-        work->magmaWaveTargetPosR.x = work->aniBoss.model.translation.x;
+        work->magmaEruptionTargetPosL.x = work->aniBoss.model.translation.x;
+        work->magmaEruptionTargetPosR.x = work->aniBoss.model.translation.x;
     }
     else if (moveChance >= 50 && moveChance < 80)
     {
-        work->magmaWaveTargetPosL.x = -FLOAT_TO_FX32(12.5);
-        work->magmaWaveTargetPosR.x = FLOAT_TO_FX32(12.5);
+        work->magmaEruptionTargetPosL.x = -FLOAT_TO_FX32(12.5);
+        work->magmaEruptionTargetPosR.x = FLOAT_TO_FX32(12.5);
     }
     else if (moveChance >= 80 && moveChance <= 100)
     {
-        work->magmaWaveTargetPosL.x = -FLOAT_TO_FX32(25.0);
-        work->magmaWaveTargetPosR.x = FLOAT_TO_FX32(25.0);
+        work->magmaEruptionTargetPosL.x = -FLOAT_TO_FX32(25.0);
+        work->magmaEruptionTargetPosR.x = FLOAT_TO_FX32(25.0);
     }
 
     work->targetPos.x = FLOAT_TO_FX32(0.0);
@@ -720,53 +740,53 @@ void exBossSysAdminTask__Action_StartMagmaEruption3(void)
     work->targetPos.z = FLOAT_TO_FX32(0.0);
 
     if ((mtMathRand() % 2) != 0)
-        work->isMagmaWaveOscillatingLeft = FALSE;
+        work->isMagmaEruptionOscillatingLeft = FALSE;
     else
-        work->isMagmaWaveOscillatingLeft = TRUE;
+        work->isMagmaEruptionOscillatingLeft = TRUE;
 
     if ((mtMathRand() % 2) != 0)
-        work->isMagmaWaveMovingLeft = FALSE;
+        work->isMagmaEruptionMovingLeft = FALSE;
     else
-        work->isMagmaWaveMovingLeft = TRUE;
+        work->isMagmaEruptionMovingLeft = TRUE;
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_MagmaEruption3);
-    exBossSysAdminTask__Main_MagmaEruption3();
+    SetCurrentExTaskMainEvent(ExBoss_Main_MagmaEruption3);
+    ExBoss_Main_MagmaEruption3();
 }
 
-void exBossSysAdminTask__Main_MagmaEruption3(void)
+void ExBoss_Main_MagmaEruption3(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
 
-    if (work->isMagmaWaveMovingLeft)
-        exBossSysAdminTask__WaveMoveL();
+    if (work->isMagmaEruptionMovingLeft)
+        ExBoss_WaveMoveL();
     else
-        exBossSysAdminTask__WaveMoveR();
+        ExBoss_WaveMoveR();
 
-    if (work->isMagmaWaveOscillatingLeft)
-        exBossSysAdminTask__WaveAngleMoveL();
+    if (work->isMagmaEruptionOscillatingLeft)
+        ExBoss_WaveAngleMoveL();
     else
-        exBossSysAdminTask__WaveAngleMoveR();
+        ExBoss_WaveAngleMoveR();
 
     work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
 
-    if (work->magmaEruptionTimer <= 0)
+    if (work->genericAttackTimer <= 0)
     {
-        work->magmaEruptionTimer = 0;
+        work->genericAttackTimer = 0;
 
         SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
         if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
         {
-            exBossSysAdminTask__Action_StartMagmaEruption4();
+            ExBoss_Action_StartMagmaEruption4();
             return;
         }
     }
     else
     {
-        work->magmaEruptionTimer--;
+        work->genericAttackTimer--;
 
-        if ((work->magmaEruptionTimer % 12) == 0)
+        if ((work->genericAttackTimer % 12) == 0)
         {
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_MAGMA_WAVE);
             CreateExBossMagmaEruption();
@@ -779,58 +799,58 @@ void exBossSysAdminTask__Main_MagmaEruption3(void)
     RunCurrentExTaskUnknownEvent();
 }
 
-void exBossSysAdminTask__WaveAngleMoveL(void)
+void ExBoss_WaveAngleMoveL(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    if (work->targetPos.x <= -FLOAT_TO_FX32(90.0))
-        work->isMagmaWaveOscillatingLeft = FALSE;
+    if (work->targetPos.x <= EX_STAGE_BOUNDARY_L)
+        work->isMagmaEruptionOscillatingLeft = FALSE;
     else
         work->targetPos.x -= FLOAT_TO_FX32(4.0);
 }
 
-void exBossSysAdminTask__WaveAngleMoveR(void)
+void ExBoss_WaveAngleMoveR(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    if (work->targetPos.x >= FLOAT_TO_FX32(90.0))
-        work->isMagmaWaveOscillatingLeft = TRUE;
+    if (work->targetPos.x >= EX_STAGE_BOUNDARY_R)
+        work->isMagmaEruptionOscillatingLeft = TRUE;
     else
         work->targetPos.x += FLOAT_TO_FX32(4.0);
 }
 
-void exBossSysAdminTask__WaveMoveL(void)
+void ExBoss_WaveMoveL(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    if (work->aniBoss.model.translation.x <= work->magmaWaveTargetPosL.x)
-        work->isMagmaWaveMovingLeft = FALSE;
+    if (work->aniBoss.model.translation.x <= work->magmaEruptionTargetPosL.x)
+        work->isMagmaEruptionMovingLeft = FALSE;
     else
         work->aniBoss.model.translation.x -= FLOAT_TO_FX32(0.5);
 }
 
-void exBossSysAdminTask__WaveMoveR(void)
+void ExBoss_WaveMoveR(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    if (work->aniBoss.model.translation.x >= work->magmaWaveTargetPosR.x)
-        work->isMagmaWaveMovingLeft = TRUE;
+    if (work->aniBoss.model.translation.x >= work->magmaEruptionTargetPosR.x)
+        work->isMagmaEruptionMovingLeft = TRUE;
     else
         work->aniBoss.model.translation.x += FLOAT_TO_FX32(0.5);
 }
 
-void exBossSysAdminTask__Action_StartMagmaEruption4(void)
+void ExBoss_Action_StartMagmaEruption4(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_wave4);
+    SetExBossAnimation(&work->aniBoss, bse_body_wave4);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_MagmaEruption4);
-    exBossSysAdminTask__Main_MagmaEruption4();
+    SetCurrentExTaskMainEvent(ExBoss_Main_MagmaEruption4);
+    ExBoss_Main_MagmaEruption4();
 }
 
-void exBossSysAdminTask__Main_MagmaEruption4(void)
+void ExBoss_Main_MagmaEruption4(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
@@ -843,7 +863,7 @@ void exBossSysAdminTask__Main_MagmaEruption4(void)
 
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Main_FinishMagmaEruptionAttack();
+        ExBoss_Main_FinishMagmaEruptionAttack();
     }
     else
     {
@@ -854,7 +874,7 @@ void exBossSysAdminTask__Main_MagmaEruption4(void)
     }
 }
 
-void exBossSysAdminTask__Main_FinishMagmaEruptionAttack(void)
+void ExBoss_Main_FinishMagmaEruptionAttack(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 

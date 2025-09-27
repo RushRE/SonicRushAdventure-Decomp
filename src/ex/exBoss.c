@@ -1,23 +1,15 @@
 #include <ex/boss/exBoss.h>
-#include <ex/boss/exBossIntermission.h>
 #include <ex/player/exPlayer.h>
 #include <ex/player/exPlayerHelpers.h>
 #include <ex/system/exSystem.h>
+#include <ex/system/exStage.h>
 #include <game/audio/audioSystem.h>
 
 // Attacks
-#include <ex/boss/exBossFireDragonAttack.h>
-#include <ex/boss/exBossFireAttack.h>
-#include <ex/boss/exBossMeteorAttack.h>
-#include <ex/boss/exBossHomingLaserAttack.h>
-#include <ex/boss/exBossMagmaWaveAttack.h>
-#include <ex/boss/exBossLineMissileAttack.h>
-
-// Attack tasks
 #include <ex/boss/exBossFireDragon.h>
 #include <ex/boss/exBossHomingLaser.h>
 
-// Attack tasks
+// Attack effects
 #include <ex/effects/exBossHitEffect.h>
 
 // --------------------
@@ -128,16 +120,16 @@ static ExTaskMain exBossAttackFuncTable[EXBOSS_ATTACK_COUNT] = {
     [EXBOSS_ATTACK_IDLE_HOMINGLASER_DRAGON_PHASE3]            = ExBoss_Action_Idle_HomingLaserDragon_Phase3,
     [EXBOSS_ATTACK_IDLE_METOR_FIREBALL_MAGMAWAVE_LINEMISSILE] = ExBoss_Action_Idle_MeteorFireballMagmaWaveLineMissile,
     [EXBOSS_ATTACK_IDLE_WAIT_HOMINGLASER_DRAGON_PHASE3]       = ExBoss_Action_Idle_Wait_HomingLaserDragon_Phase3,
-    [EXBOSS_ATTACK_METEOR]                                    = exBossSysAdminTask__Action_StartMete0,
-    [EXBOSS_ATTACK_FIREBALL]                                  = exBossSysAdminTask__Action_StartFire0,
-    [EXBOSS_ATTACK_HOMING_LASER]                              = exBossSysAdminTask__Action_StartHomi0,
-    [EXBOSS_ATTACK_DRAGON]                                    = exBossSysAdminTask__Action_StartDora0,
-    [EXBOSS_ATTACK_MAGMA_WAVE]                                = exBossSysAdminTask__Action_StartMagmaEruption0,
-    [EXBOSS_ATTACK_LINE_MISSILE]                              = exBossSysAdminTask__Action_StartLine0,
-    [EXBOSS_ATTACK_HURT]                                      = exBossSysAdminTask__Action_StartDmg0,
-    [EXBOSS_ATTACK_BEAT_PHASE1]                               = exBossSysAdminTask__Action_StartBDmg0,
-    [EXBOSS_ATTACK_BEAT_PHASE2]                               = exBossSysAdminTask__Action_StartBDmg1_Last,
-    [EXBOSS_ATTACK_DEFEATED]                                  = exBossSysAdminTask__Action_StartBDmg1_First,
+    [EXBOSS_ATTACK_METEOR]                                    = ExBoss_Action_StartMeteorAttack,
+    [EXBOSS_ATTACK_FIREBALL]                                  = ExBoss_Action_StartFireballAttack,
+    [EXBOSS_ATTACK_HOMING_LASER]                              = ExBoss_Action_StartHomingLaserAttack,
+    [EXBOSS_ATTACK_DRAGON]                                    = ExBoss_Action_StartFireDragonAttack,
+    [EXBOSS_ATTACK_MAGMA_WAVE]                                = ExBoss_Action_StartMagmaEruptionAttack,
+    [EXBOSS_ATTACK_LINE_MISSILE]                              = ExBoss_Action_StartLineMissileAttack,
+    [EXBOSS_ATTACK_HURT]                                      = ExBoss_Action_StartHurt,
+    [EXBOSS_ATTACK_BEAT_PHASE1]                               = ExBoss_Action_StartPhase1Defeat,
+    [EXBOSS_ATTACK_BEAT_PHASE2]                               = ExBoss_Action_StartPhase2Defeat,
+    [EXBOSS_ATTACK_DEFEATED]                                  = ExBoss_Action_StartPhase3Defeat,
 };
 
 // --------------------
@@ -154,9 +146,9 @@ BOOL GetExBossFightStarted(void)
     return exBossFightStarted;
 }
 
-void SetExBossFightStarted(BOOL value)
+void SetExBossFightStarted(BOOL hasStarted)
 {
-    exBossFightStarted = value;
+    exBossFightStarted = hasStarted;
 }
 
 void ExBoss_Main_Init(void)
@@ -174,7 +166,7 @@ void ExBoss_Main_Init(void)
     work->stateAttack     = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_DRAGON_ONLY];
     work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_DRAGON_ONLY];
 
-    exBossSysAdminTask__LoadAssets(&work->aniBoss);
+    LoadExBossAssets(&work->aniBoss);
     SetExDrawRequestPriority(&work->aniBoss.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
@@ -195,7 +187,7 @@ void ExBoss_Main_Init(void)
     work->targetPos.y                 = FLOAT_TO_FX32(0.0);
     work->targetPos.z                 = FLOAT_TO_FX32(0.0);
     work->hitVoiceClipCooldown        = 0;
-    work->nextHurtVoiceClip           = 1;
+    work->nextHurtVoiceClip           = EXBOSS_HURT_VOICECLIP_OW;
 
     SetCurrentExTaskMainEvent(ExBoss_Main_WaitForTitleCard);
 }
@@ -217,7 +209,7 @@ void ExBoss_Destructor(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
     UNUSED(work);
 
-    exBossSysAdminTask__Func_2154390(&work->aniBoss);
+    ReleaseExBossAssets(&work->aniBoss);
 
     exBossTaskSingleton = NULL;
 }
@@ -257,8 +249,8 @@ void ExBoss_Main_InitialFlee(void)
 
     work->aniBoss.model.translation.y += work->fleeVelocity.y;
 
-    if (work->aniBoss.model.translation.x >= FLOAT_TO_FX32(90.0) || work->aniBoss.model.translation.x <= -FLOAT_TO_FX32(90.0)
-        || work->aniBoss.model.translation.y >= FLOAT_TO_FX32(200.0))
+    if (work->aniBoss.model.translation.x >= EX_STAGE_BOUNDARY_R || work->aniBoss.model.translation.x <= EX_STAGE_BOUNDARY_L
+        || work->aniBoss.model.translation.y >= EX_STAGE_BOUNDARY_B)
     {
         ExBoss_Action_WaitForFlag();
     }
@@ -345,7 +337,7 @@ void ExBoss_Action_Idle_DragonOnly(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fw0);
+    SetExBossAnimation(&work->aniBoss, bse_body_fw0);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     GetExBossIdleDuration();
@@ -365,7 +357,7 @@ void ExBoss_Main_Idle_DragonOnly(void)
 
     if (work->idleDuration <= 0)
     {
-        if (!GetActiveExBossFireDragonCount())
+        if (GetActiveExBossFireDragonCount() == 0)
         {
             s32 attackPercent = mtMathRand() % 100;
 
@@ -423,7 +415,7 @@ void ExBoss_Action_Idle_MeteorFireball(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fw0);
+    SetExBossAnimation(&work->aniBoss, bse_body_fw0);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(ExBoss_Main_Idle_MeteorFireball);
@@ -486,7 +478,7 @@ void ExBoss_Action_Idle_Wait_DragonOnly(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fw0);
+    SetExBossAnimation(&work->aniBoss, bse_body_fw0);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(ExBoss_Main_Idle_Wait_DragonOnly);
@@ -537,7 +529,7 @@ void ExBoss_Action_Idle_HomingLaserDragon(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fw0);
+    SetExBossAnimation(&work->aniBoss, bse_body_fw0);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     GetExBossIdleDuration();
@@ -557,7 +549,7 @@ void ExBoss_Main_Idle_HomingLaserDragon(void)
 
     if (work->idleDuration <= 0)
     {
-        if (!GetActiveExBossFireDragonCount() && GetActiveExBossHomingLaserCount() == 0)
+        if (GetActiveExBossFireDragonCount() == 0 && GetActiveExBossHomingLaserCount() == 0)
         {
             s32 attackPercent = mtMathRand() % 100;
 
@@ -611,7 +603,7 @@ void ExBoss_Action_Idle_MeteorFireballMagmaWave(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fw0);
+    SetExBossAnimation(&work->aniBoss, bse_body_fw0);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(ExBoss_Main_Idle_MeteorFireballMagmaWave);
@@ -682,7 +674,7 @@ void ExBoss_Action_Idle_Wait_HomingLaserDragon(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fw0);
+    SetExBossAnimation(&work->aniBoss, bse_body_fw0);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(ExBoss_Main_Idle_Wait_HomingLaserDragon);
@@ -733,7 +725,7 @@ void ExBoss_Action_Idle_HomingLaserDragon_Phase3(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fw0);
+    SetExBossAnimation(&work->aniBoss, bse_body_fw0);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     GetExBossIdleDuration();
@@ -753,7 +745,7 @@ void ExBoss_Main_Idle_HomingLaserDragon_Phase3(void)
 
     if (work->idleDuration <= 0)
     {
-        if (!GetActiveExBossFireDragonCount() && GetActiveExBossHomingLaserCount() == 0)
+        if (GetActiveExBossFireDragonCount() == 0 && GetActiveExBossHomingLaserCount() == 0)
         {
             s32 attackPercent = mtMathRand() % 100;
 
@@ -807,7 +799,7 @@ void ExBoss_Action_Idle_MeteorFireballMagmaWaveLineMissile(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fw0);
+    SetExBossAnimation(&work->aniBoss, bse_body_fw0);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(ExBoss_Main_Idle_MeteorFireballMagmaWaveLineMissile);
@@ -886,7 +878,7 @@ void ExBoss_Action_Idle_Wait_HomingLaserDragon_Phase3(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fw0);
+    SetExBossAnimation(&work->aniBoss, bse_body_fw0);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
 
     SetCurrentExTaskMainEvent(ExBoss_Main_Idle_Wait_HomingLaserDragon_Phase3);
@@ -1018,12 +1010,12 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
 
     if (work->flags.isAttackReady)
     {
-        if (work->attackFlags.value_2)
+        if (work->attackFlags.isHurt)
         {
             work->aniBoss.hitChecker.output.hasCollision = TRUE;
             work->aniBoss.hitChecker.output.isHurt       = TRUE;
 
-            work->attackFlags.value_2 = TRUE;
+            work->attackFlags.isHurt  = TRUE;
             work->flags.isAttackReady = FALSE;
             return;
         }
@@ -1142,7 +1134,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
                         SetPaletteAnimation(&work->aniBoss.model.paletteAnimator[i], 0);
                     }
 
-                    if (work->nextHurtVoiceClip != 0)
+                    if (work->nextHurtVoiceClip != EXBOSS_HURT_VOICECLIP_YOU)
                         PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_AITA);
                     else
                         PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_ONORE);
@@ -1191,7 +1183,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
                 {
                     work->hitVoiceClipCooldown = SECONDS_TO_FRAMES(1.0);
 
-                    if (work->nextHurtVoiceClip != 0)
+                    if (work->nextHurtVoiceClip != EXBOSS_HURT_VOICECLIP_YOU)
                         PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_AITA);
                     else
                         PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_ONORE);

@@ -1,9 +1,9 @@
 #include <ex/boss/exBossHomingLaser.h>
-#include <ex/boss/exBossHomingLaserAttack.h>
+#include <ex/boss/exBoss.h>
 #include <ex/effects/exBossHomingEffect.h>
 #include <ex/system/exDrawReq.h>
 #include <ex/system/exSystem.h>
-#include <ex/boss/exBossIntermission.h>
+#include <ex/system/exStage.h>
 #include <ex/player/exPlayerHelpers.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
@@ -28,6 +28,7 @@ static u16 laserStartAngles[EXBOSS_HOMING_LASER_COUNT] = { FLOAT_DEG_TO_IDX(210.
 // FUNCTION DECLS
 // --------------------
 
+// Homing Laser
 static void LoadExBossHomingLaserAssets(EX_ACTION_BAC3D_WORK *work);
 static void ReleaseExBossHomingLaserAssets(EX_ACTION_BAC3D_WORK *work);
 static void ExBossHomingLaser_Main_Init(void);
@@ -38,6 +39,16 @@ static void ExBossHomingLaser_Action_WaitForAttack(void);
 static void ExBossHomingLaser_Main_WaitForAttack(void);
 static void ExBossHomingLaser_Action_TargetPlayer(void);
 static void ExBossHomingLaser_Main_TargetPlayer(void);
+
+// ExBoss
+static void ExBoss_Main_StartHomi0(void);
+static void ExBoss_Main_FinishHomi0(void);
+static void ExBoss_Action_StartHomi1(void);
+static void ExBoss_Main_StartHomi1(void);
+static void ExBoss_Main_FinishHomi1(void);
+static void ExBoss_Action_StartHomi2(void);
+static void ExBoss_Main_StartHomi2(void);
+static void ExBoss_Action_FinishHomingAttack(void);
 
 // --------------------
 // FUNCTIONS
@@ -99,9 +110,9 @@ void ExBossHomingLaser_Main_Init(void)
 
     exBossHomingLaserTaskSingleton = GetCurrentTask();
 
-    work->position.x = work->parent->aniBoss.model.translation4.x;
-    work->position.y = work->parent->aniBoss.model.translation4.y;
-    work->position.z = work->parent->aniBoss.model.translation4.z;
+    work->position.x = work->parent->aniBoss.model.bossStaffPos.x;
+    work->position.y = work->parent->aniBoss.model.bossStaffPos.y;
+    work->position.z = work->parent->aniBoss.model.bossStaffPos.z;
 
     work->startAngle   = laserStartAngles[work->id];
     work->angleUnknown = (work->startAngle / 182);
@@ -196,7 +207,7 @@ void ExBossHomingLaser_Main_MoveToStartPos(void)
     work->position.x -= work->velocity.x;
     work->position.y -= work->velocity.y;
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
     {
         ExBossHomingLaser_Action_TargetPlayer();
     }
@@ -248,7 +259,7 @@ void ExBossHomingLaser_Main_WaitForAttack(void)
 
     AnimateExDrawRequestSprite3D(&work->aniSprite3D);
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
     {
         ExBossHomingLaser_Action_TargetPlayer();
         return;
@@ -335,7 +346,7 @@ void ExBossHomingLaser_Main_TargetPlayer(void)
     work->velocity.x = MultiplyFX(CosFX(work->angle.y), work->velocity.x);
     work->velocity.y = MultiplyFX(SinFX(work->angle.y), work->velocity.y);
 
-    if (work->position.x >= FLOAT_TO_FX32(90.0) || work->position.x <= -FLOAT_TO_FX32(90.0) || work->position.y >= FLOAT_TO_FX32(200.0) || work->position.y <= -FLOAT_TO_FX32(60.0))
+    if (work->position.x >= EX_STAGE_BOUNDARY_R || work->position.x <= EX_STAGE_BOUNDARY_L || work->position.y >= EX_STAGE_BOUNDARY_B || work->position.y <= EX_STAGE_BOUNDARY_T)
     {
         if (work->timer-- <= 0)
         {
@@ -364,7 +375,7 @@ BOOL CreateExBossHomingLaser(void)
     TaskInitWork8(work);
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
-    work->id     = work->parent->missileID;
+    work->id     = work->parent->projectileID;
 
     SetExTaskUnknownEvent(task, ExBossHomingLaser_TaskUnknown);
 
@@ -372,20 +383,20 @@ BOOL CreateExBossHomingLaser(void)
 }
 
 // ExBoss
-void exBossSysAdminTask__Action_StartHomi0(void)
+void ExBoss_Action_StartHomingLaserAttack(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_homi0);
+    SetExBossAnimation(&work->aniBoss, bse_body_homi0);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
     CreateExBossEffectHoming();
     PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_HORE);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_StartHomi0);
-    exBossSysAdminTask__Main_StartHomi0();
+    SetCurrentExTaskMainEvent(ExBoss_Main_StartHomi0);
+    ExBoss_Main_StartHomi0();
 }
 
-void exBossSysAdminTask__Main_StartHomi0(void)
+void ExBoss_Main_StartHomi0(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
@@ -394,8 +405,8 @@ void exBossSysAdminTask__Main_StartHomi0(void)
     {
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_PREPARE);
 
-        SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_FinishHomi0);
-        exBossSysAdminTask__Main_FinishHomi0();
+        SetCurrentExTaskMainEvent(ExBoss_Main_FinishHomi0);
+        ExBoss_Main_FinishHomi0();
     }
     else
     {
@@ -406,14 +417,14 @@ void exBossSysAdminTask__Main_StartHomi0(void)
     }
 }
 
-void exBossSysAdminTask__Main_FinishHomi0(void)
+void ExBoss_Main_FinishHomi0(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_StartHomi1();
+        ExBoss_Action_StartHomi1();
     }
     else
     {
@@ -424,18 +435,18 @@ void exBossSysAdminTask__Main_FinishHomi0(void)
     }
 }
 
-void exBossSysAdminTask__Action_StartHomi1(void)
+void ExBoss_Action_StartHomi1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_homi1);
+    SetExBossAnimation(&work->aniBoss, bse_body_homi1);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_StartHomi1);
-    exBossSysAdminTask__Main_StartHomi1();
+    SetCurrentExTaskMainEvent(ExBoss_Main_StartHomi1);
+    ExBoss_Main_StartHomi1();
 }
 
-void exBossSysAdminTask__Main_StartHomi1(void)
+void ExBoss_Main_StartHomi1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
@@ -444,20 +455,20 @@ void exBossSysAdminTask__Main_StartHomi1(void)
     {
         for (u16 s = 0; s < EXBOSS_HOMING_LASER_COUNT; s++)
         {
-            work->missileID = s;
+            work->projectileID = s;
             CreateExBossHomingLaser();
         }
-        work->missileID = 0;
+        work->projectileID = 0;
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_LASER_DISCHARGE);
 
-        SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_FinishHomi1);
-        exBossSysAdminTask__Main_FinishHomi1();
+        SetCurrentExTaskMainEvent(ExBoss_Main_FinishHomi1);
+        ExBoss_Main_FinishHomi1();
     }
     else
     {
         if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
         {
-            exBossSysAdminTask__Action_StartHomi2();
+            ExBoss_Action_StartHomi2();
         }
         else
         {
@@ -469,14 +480,14 @@ void exBossSysAdminTask__Main_StartHomi1(void)
     }
 }
 
-void exBossSysAdminTask__Main_FinishHomi1(void)
+void ExBoss_Main_FinishHomi1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_StartHomi2();
+        ExBoss_Action_StartHomi2();
     }
     else
     {
@@ -487,26 +498,26 @@ void exBossSysAdminTask__Main_FinishHomi1(void)
     }
 }
 
-void exBossSysAdminTask__Action_StartHomi2(void)
+void ExBoss_Action_StartHomi2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     DisableExBossEffectHoming();
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_homi2);
+    SetExBossAnimation(&work->aniBoss, bse_body_homi2);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_StartHomi2);
-    exBossSysAdminTask__Main_StartHomi2();
+    SetCurrentExTaskMainEvent(ExBoss_Main_StartHomi2);
+    ExBoss_Main_StartHomi2();
 }
 
-void exBossSysAdminTask__Main_StartHomi2(void)
+void ExBoss_Main_StartHomi2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_FinishHomingAttack();
+        ExBoss_Action_FinishHomingAttack();
     }
     else
     {
@@ -517,7 +528,7 @@ void exBossSysAdminTask__Main_StartHomi2(void)
     }
 }
 
-void exBossSysAdminTask__Action_FinishHomingAttack(void)
+void ExBoss_Action_FinishHomingAttack(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 

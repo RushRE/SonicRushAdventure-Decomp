@@ -1,5 +1,6 @@
 #include <ex/core/exRingManager.h>
 #include <ex/system/exSystem.h>
+#include <ex/system/exStage.h>
 #include <ex/system/exMath.h>
 #include <game/audio/audioSystem.h>
 
@@ -2980,7 +2981,7 @@ void ExRing_Main_Ring(void)
         return;
     }
 
-    if (work->aniRing.sprite.translation.x >= FLOAT_TO_FX32(90.0) || work->aniRing.sprite.translation.x <= -FLOAT_TO_FX32(90.0)
+    if (work->aniRing.sprite.translation.x >= EX_STAGE_BOUNDARY_R || work->aniRing.sprite.translation.x <= EX_STAGE_BOUNDARY_L
         || work->aniRing.sprite.translation.y <= -FLOAT_TO_FX32(40.0))
     {
         DestroyCurrentExTask();
@@ -2997,7 +2998,7 @@ void ExRing_Action_Collect(void)
 {
     exEffectRingTask *work = ExTaskGetWorkCurrent(exEffectRingTask);
 
-    exSysTaskStatus *status = GetExSystemStatus();
+    ExSysTaskStatus *status = GetExSystemStatus();
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_RING);
 
@@ -3025,7 +3026,7 @@ void ExRing_Main_Sparkle(void)
         return;
     }
 
-    if (work->aniRing.sprite.translation.x >= FLOAT_TO_FX32(90.0) || work->aniRing.sprite.translation.x <= -FLOAT_TO_FX32(90.0)
+    if (work->aniRing.sprite.translation.x >= EX_STAGE_BOUNDARY_R || work->aniRing.sprite.translation.x <= EX_STAGE_BOUNDARY_L
         || work->aniRing.sprite.translation.y <= -FLOAT_TO_FX32(40.0))
     {
         DestroyCurrentExTask();

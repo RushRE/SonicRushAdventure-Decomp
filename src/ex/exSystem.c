@@ -32,7 +32,7 @@ struct TEMP_STATIC_VARS
 
     BOOL exStageFinished;
     BOOL exStageWillExit;
-    exSysTaskStatus exSysTaskStatus;
+    ExSysTaskStatus exSysTaskStatus;
 };
 
 NOT_DECOMPILED struct TEMP_STATIC_VARS exSysTask__sVars;
@@ -44,7 +44,7 @@ NOT_DECOMPILED struct TEMP_STATIC_VARS exSysTask__sVars;
 
 // NOT_DECOMPILED BOOL exStageFinished;
 // NOT_DECOMPILED BOOL exStageWillExit;
-// NOT_DECOMPILED exSysTaskStatus exSysTaskStatus;
+// NOT_DECOMPILED ExSysTaskStatus exSysTaskStatus;
 
 // --------------------
 // FUNCTION DECLS
@@ -136,7 +136,7 @@ NONMATCH_FUNC void InitExSystemStatus(void)
 #endif
 }
 
-exSysTaskStatus *GetExSystemStatus(void)
+ExSysTaskStatus *GetExSystemStatus(void)
 {
     return &exSysTask__sVars.exSysTaskStatus;
 }

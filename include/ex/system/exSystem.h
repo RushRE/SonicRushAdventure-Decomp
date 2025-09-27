@@ -177,7 +177,7 @@ typedef struct exSysTaskTime_
     u16 centiseconds;
 } exSysTaskTime;
 
-typedef struct exSysTaskStatus_
+typedef struct ExSysTaskStatus_
 {
     ExSysDifficulty difficulty;
     u8 finishMode;
@@ -186,7 +186,7 @@ typedef struct exSysTaskStatus_
     u8 lives;
     u16 rings;
     exSysTaskTime time;
-} exSysTaskStatus;
+} ExSysTaskStatus;
 
 typedef struct exSysTask_
 {
@@ -203,7 +203,7 @@ typedef struct exSysTask_
 s32 GetExSystemLifeCount(void);
 void LoseExSystemLife(void);
 void InitExSystemStatus(void);
-exSysTaskStatus *GetExSystemStatus(void);
+ExSysTaskStatus *GetExSystemStatus(void);
 BOOL CheckExStageFinished(void);
 
 void CreateExSystem(void);

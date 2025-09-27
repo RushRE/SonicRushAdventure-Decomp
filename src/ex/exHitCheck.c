@@ -1,7 +1,7 @@
 #include <ex/system/exHitCheck.h>
 #include <ex/system/exSystem.h>
 #include <ex/player/exPlayer.h>
-#include <ex/boss/exBossIntermission.h>
+#include <ex/boss/exBoss.h>
 #include <ex/effects/exBlazeDashEffect.h>
 #include <ex/effects/exSonicDashEffect.h>
 
@@ -609,7 +609,7 @@ void exHitCheckTask_DoHitChecks(void)
 {
     EX_ACTION_NN_WORK *playerSonic = GetExSuperSonicWorker();
     EX_ACTION_NN_WORK *playerBlaze = GetExBurningBlazeWorker();
-    exBossSysAdminTask__GetBossAssets();
+    GetExBossAssets();
 
     u16 i;
     u16 ii;

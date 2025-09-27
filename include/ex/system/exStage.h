@@ -5,6 +5,15 @@
 #include <ex/system/exDrawReq.h>
 
 // --------------------
+// MACROS
+// --------------------
+
+#define EX_STAGE_BOUNDARY_L -FLOAT_TO_FX32(90.0)
+#define EX_STAGE_BOUNDARY_R FLOAT_TO_FX32(90.0)
+#define EX_STAGE_BOUNDARY_T -FLOAT_TO_FX32(60.0)
+#define EX_STAGE_BOUNDARY_B FLOAT_TO_FX32(200.0)
+
+// --------------------
 // STRUCTS
 // --------------------
 

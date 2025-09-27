@@ -1,5 +1,5 @@
-#ifndef RUSH_EXBOSSFIREBLUE_H
-#define RUSH_EXBOSSFIREBLUE_H
+#ifndef RUSH_EXBOSSFIREBALLBLUE_H
+#define RUSH_EXBOSSFIREBALLBLUE_H
 
 #include <ex/system/exTask.h>
 #include <ex/system/exDrawReq.h>
@@ -27,4 +27,4 @@ typedef struct exBossFireBlueTask_
 
 BOOL CreateExBossFireBlue(void);
 
-#endif // RUSH_EXBOSSFIREBLUE_H
+#endif // RUSH_EXBOSSFIREBALLBLUE_H

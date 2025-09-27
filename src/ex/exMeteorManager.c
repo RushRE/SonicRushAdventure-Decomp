@@ -1,5 +1,6 @@
 #include <ex/core/exMeteorManager.h>
 #include <ex/system/exSystem.h>
+#include <ex/system/exStage.h>
 #include <ex/system/exMath.h>
 #include <ex/player/exPlayerHelpers.h>
 #include <game/file/binaryBundle.h>
@@ -427,8 +428,8 @@ void ExMeteor_Main_Moving(void)
 
     work->aniMeteor.model.translation.y -= work->velocity.y;
 
-    if (work->aniMeteor.model.translation.x >= FLOAT_TO_FX32(90.0) || work->aniMeteor.model.translation.x <= -FLOAT_TO_FX32(90.0)
-        || work->aniMeteor.model.translation.y <= -FLOAT_TO_FX32(60.0))
+    if (work->aniMeteor.model.translation.x >= EX_STAGE_BOUNDARY_R || work->aniMeteor.model.translation.x <= EX_STAGE_BOUNDARY_L
+        || work->aniMeteor.model.translation.y <= EX_STAGE_BOUNDARY_T)
     {
         DestroyCurrentExTask();
     }
@@ -530,8 +531,8 @@ void ExMeteor_Main_Reflect(void)
 
     work->aniMeteor.model.translation.y += work->velocity.y;
 
-    if (work->aniMeteor.model.translation.x >= FLOAT_TO_FX32(90.0) || work->aniMeteor.model.translation.x <= -FLOAT_TO_FX32(90.0)
-        || work->aniMeteor.model.translation.y >= FLOAT_TO_FX32(200.0))
+    if (work->aniMeteor.model.translation.x >= EX_STAGE_BOUNDARY_R || work->aniMeteor.model.translation.x <= EX_STAGE_BOUNDARY_L
+        || work->aniMeteor.model.translation.y >= EX_STAGE_BOUNDARY_B)
     {
         DestroyCurrentExTask();
     }

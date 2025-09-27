@@ -14,7 +14,7 @@
 
 #define EXBOSS_LINE_MISSILE_COUNT 6
 #define EXBOSS_HOMING_LASER_COUNT 6
-#define EXBOSS_FIRE_DRAGON_COUNT 3
+#define EXBOSS_FIRE_DRAGON_COUNT  3
 
 // --------------------
 // ENUMS
@@ -52,6 +52,13 @@ enum ExBossAnimIDs_
 };
 typedef u16 ExBossAnimIDs;
 
+enum ExBossHurtVoiceClip_
+{
+    EXBOSS_HURT_VOICECLIP_YOU, // "You...!"
+    EXBOSS_HURT_VOICECLIP_OW,  // "Ow!"
+};
+typedef s32 ExBossHurtVoiceClip;
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -64,22 +71,17 @@ typedef struct exBossSysAdminTask_
         u8 down : 1;
         u8 left : 1;
         u8 right : 1;
+        u8 flashTimer : 1;
     } moveFlags;
     struct
     {
-        u8 value_1 : 1;
-        u8 value_2 : 1;
-        u8 value_4 : 1;
-        u8 value_8 : 1;
-        u8 value_10 : 1;
-        u8 value_20 : 1;
-        u8 value_40 : 1;
+        u8 unused : 7;
         u8 isAttackReady : 1;
     } flags;
     struct
     {
         u8 doHurt : 1;
-        u8 value_2 : 1;
+        u8 isHurt : 1;
         u8 doMeteor : 1;
         u8 doFireball : 1;
         u8 doHomingLaser : 1;
@@ -87,27 +89,26 @@ typedef struct exBossSysAdminTask_
         u8 doMagmaWave : 1;
         u8 doLineMissile : 1;
     } attackFlags;
-    s32 nextHurtVoiceClip;
-    s32 field_8;
-    BOOL isMagmaWaveOscillatingLeft;
-    BOOL isMagmaWaveMovingLeft;
-    VecFx32 magmaWaveTargetPosL;
-    VecFx32 magmaWaveTargetPosR;
-    VecFx32 magmaWaveUnknownPos;
+    ExBossHurtVoiceClip nextHurtVoiceClip;
+    s32 unused;
+    BOOL isMagmaEruptionOscillatingLeft;
+    BOOL isMagmaEruptionMovingLeft;
+    VecFx32 magmaEruptionTargetPosL;
+    VecFx32 magmaEruptionTargetPosR;
+    VecFx32 magmaEruptionUnknownPos;
     VecFx32 fleeVelocity;
-    s16 fireballShootTimer;
-    s16 field_46;
+    s16 projectileRepeatCount;
     VecFx32 targetPos;
     s16 hitVoiceClipCooldown;
-    s16 magmaEruptionTimer;
-    s16 flashEffectCooldown;
+    s16 genericAttackTimer;
+    s16 genericCooldown;
     s16 hitEffectCooldown;
     s16 hurtInvulnDuration;
     s16 idleDuration;
     s16 moveDuration;
     s16 health;
     s16 maxHealth;
-    u16 missileID;
+    u16 projectileID;
     struct exBossMeteAdminTask_ *currentMeteor;
     EX_ACTION_NN_WORK aniBoss;
     void (*nextAttackState)(void);
@@ -124,12 +125,44 @@ typedef exBossSysAdminTask exBossSysAdminBiforTask;
 // ExBoss
 exBossSysAdminTask *GetExBossWork(void);
 BOOL GetExBossFightStarted(void);
-void SetExBossFightStarted(BOOL value);
+void SetExBossFightStarted(BOOL hasStarted);
 BOOL CreateExBoss(void);
 Task *GetExBossTask(void);
 void DestroyExBoss(void);
 
 // ExBoss Helpers
 void HandleExBossMovement(void);
+
+// ExBoss - Intermission
+void LoadExBossAssets(EX_ACTION_NN_WORK *work);
+void SetExBossAnimation(EX_ACTION_NN_WORK *work, ExBossAnimIDs animID);
+void ReleaseExBossAssets(EX_ACTION_NN_WORK *work);
+EX_ACTION_NN_WORK *GetExBossAssets(void);
+void ExBoss_BossRenderCallback(NNSG3dRS *rs);
+void ExBoss_Action_StartHurt(void);
+void ExBoss_Action_StartPhase1Defeat(void);
+void ExBoss_Action_StartPhase2Defeat(void);
+void ExBoss_Action_StartPhase3Defeat(void);
+BOOL ExBoss_IsBossFleeing(void);
+void ExBoss_SetBossFleeing(BOOL isFleeing);
+
+// ExBoss - Fire Dragon Attack
+void ExBoss_Action_StartFireDragonAttack(void);
+
+// ExBoss - Fireball Attack
+void ExBoss_Action_StartFireballAttack(void);
+
+// ExBoss - Homing Laser Attack
+void ExBoss_Action_StartHomingLaserAttack(void);
+
+// ExBoss - Line Missile Attack
+void ExBoss_Action_StartLineMissileAttack(void);
+
+// ExBoss - Meteor Attack
+void ExBoss_RunTaskUnknownEvent(void);
+void ExBoss_Action_StartMeteorAttack(void);
+
+// ExBoss - Magma Eruption Attack
+void ExBoss_Action_StartMagmaEruptionAttack(void);
 
 #endif // RUSH_EXBOSS_H

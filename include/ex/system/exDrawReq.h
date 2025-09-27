@@ -167,10 +167,10 @@ typedef struct ExGraphicsModel_
     u16 primaryAnimType;
     VecU16 angle;
     VecFx32 translation;
-    VecFx32 translation3;
+    VecFx32 bossChestPos;
     VecFx32 scale;
     VecFx32 translation2;
-    VecFx32 translation4;
+    VecFx32 bossStaffPos;
 } ExGraphicsModel;
 
 typedef struct ExGraphicsTrail_

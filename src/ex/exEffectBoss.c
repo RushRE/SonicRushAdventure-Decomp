@@ -4,7 +4,7 @@
 #include <ex/effects/exBossHomingEffect.h>
 #include <ex/effects/exBossShotEffect.h>
 #include <ex/effects/exBossFireEffect.h>
-#include <ex/boss/exBossIntermission.h>
+#include <ex/boss/exBoss.h>
 #include <ex/system/exSystem.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
@@ -261,9 +261,9 @@ void ExBossEffectHit_Main_Init(void)
     SetExDrawRequestPriority(&work->aniHit.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimStopOnFinish(&work->aniHit.config);
 
-    work->aniHit.model.translation.x = work->parent->aniBoss.model.translation3.x;
-    work->aniHit.model.translation.y = work->parent->aniBoss.model.translation3.y;
-    work->aniHit.model.translation.z = work->parent->aniBoss.model.translation3.z;
+    work->aniHit.model.translation.x = work->parent->aniBoss.model.bossChestPos.x;
+    work->aniHit.model.translation.y = work->parent->aniBoss.model.bossChestPos.y;
+    work->aniHit.model.translation.z = work->parent->aniBoss.model.bossChestPos.z;
 
     exBossEffectHitEnabled = TRUE;
 
@@ -278,7 +278,7 @@ void ExBossEffectHit_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -433,9 +433,9 @@ void ExBossEffectFireballShot_Main_Init(void)
     SetExDrawRequestPriority(&work->aniShot.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimStopOnFinish(&work->aniShot.config);
 
-    work->aniShot.model.translation.x = work->parent->aniBoss.model.translation4.x;
-    work->aniShot.model.translation.y = work->parent->aniBoss.model.translation4.y;
-    work->aniShot.model.translation.z = work->parent->aniBoss.model.translation4.z;
+    work->aniShot.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+    work->aniShot.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
+    work->aniShot.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
     exBossEffectFireBallShotEnabled = TRUE;
 
@@ -450,7 +450,7 @@ void ExBossEffectFireballShot_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -658,7 +658,7 @@ void ExBossEffectFireball_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -683,9 +683,9 @@ void ExBossEffectFireball_Main_Appear(void)
     }
     else
     {
-        work->aniFire.model.translation.x = work->parent->aniBoss.model.translation4.x;
-        work->aniFire.model.translation.y = work->parent->aniBoss.model.translation4.y;
-        work->aniFire.model.translation.z = work->parent->aniBoss.model.translation4.z;
+        work->aniFire.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+        work->aniFire.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
+        work->aniFire.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
         if (IsExDrawRequestModelAnimFinished(&work->aniFire))
         {
@@ -723,9 +723,9 @@ void ExBossEffectFireball_Main_Active(void)
     }
     else
     {
-        work->aniFire.model.translation.x = work->parent->aniBoss.model.translation4.x;
-        work->aniFire.model.translation.y = work->parent->aniBoss.model.translation4.y;
-        work->aniFire.model.translation.z = work->parent->aniBoss.model.translation4.z;
+        work->aniFire.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+        work->aniFire.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
+        work->aniFire.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
         if (exBossEffectFireBallEnabled == FALSE)
         {
@@ -763,9 +763,9 @@ void ExBossEffectFireball_Main_Disappear(void)
     }
     else
     {
-        work->aniFire.model.translation.x = work->parent->aniBoss.model.translation4.x;
-        work->aniFire.model.translation.y = work->parent->aniBoss.model.translation4.y;
-        work->aniFire.model.translation.z = work->parent->aniBoss.model.translation4.z;
+        work->aniFire.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+        work->aniFire.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
+        work->aniFire.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
         if (IsExDrawRequestModelAnimFinished(&work->aniFire))
         {
@@ -950,7 +950,7 @@ void ExBossEffectHoming_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -975,9 +975,9 @@ void ExBossEffectHoming_Main_Appear(void)
     }
     else
     {
-        work->aniHoming.model.translation.x = work->parent->aniBoss.model.translation4.x;
-        work->aniHoming.model.translation.y = work->parent->aniBoss.model.translation4.y;
-        work->aniHoming.model.translation.z = work->parent->aniBoss.model.translation4.z;
+        work->aniHoming.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+        work->aniHoming.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
+        work->aniHoming.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
         if (IsExDrawRequestModelAnimFinished(&work->aniHoming))
         {
@@ -1015,9 +1015,9 @@ void ExBossEffectHoming_Main_Active(void)
     }
     else
     {
-        work->aniHoming.model.translation.x = work->parent->aniBoss.model.translation4.x;
-        work->aniHoming.model.translation.y = work->parent->aniBoss.model.translation4.y;
-        work->aniHoming.model.translation.z = work->parent->aniBoss.model.translation4.z;
+        work->aniHoming.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+        work->aniHoming.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
+        work->aniHoming.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
         if (exBossEffectHomingEnabled == FALSE)
         {
@@ -1055,9 +1055,9 @@ void ExBossEffectHoming_Main_Disappear(void)
     }
     else
     {
-        work->aniHoming.model.translation.x = work->parent->aniBoss.model.translation4.x;
-        work->aniHoming.model.translation.y = work->parent->aniBoss.model.translation4.y;
-        work->aniHoming.model.translation.z = work->parent->aniBoss.model.translation4.z;
+        work->aniHoming.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+        work->aniHoming.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
+        work->aniHoming.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
         if (IsExDrawRequestModelAnimFinished(&work->aniHoming))
         {
@@ -1194,9 +1194,9 @@ void ExBossEffectShot_Main_Init(void)
     SetExDrawRequestPriority(&work->aniShot.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimStopOnFinish(&work->aniShot.config);
 
-    work->aniShot.model.translation.x = work->parent->aniBoss.model.translation4.x;
-    work->aniShot.model.translation.y = work->parent->aniBoss.model.translation4.y;
-    work->aniShot.model.translation.z = work->parent->aniBoss.model.translation4.z;
+    work->aniShot.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+    work->aniShot.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
+    work->aniShot.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
     exBossEffectShotEnabled = TRUE;
 
@@ -1211,7 +1211,7 @@ void ExBossEffectShot_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -1413,7 +1413,7 @@ void ExBossEffectFire_TaskUnknown(void)
     if (CheckExStageFinished())
         DestroyCurrentExTask();
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
         DestroyCurrentExTask();
 }
 
@@ -1438,9 +1438,9 @@ void ExBossEffectFire_Main_Appear(void)
     }
     else
     {
-        work->aniFire.model.translation.x = work->parent->aniBoss.model.translation4.x;
-        work->aniFire.model.translation.y = work->parent->aniBoss.model.translation4.y;
-        work->aniFire.model.translation.z = work->parent->aniBoss.model.translation4.z;
+        work->aniFire.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+        work->aniFire.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
+        work->aniFire.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
         if (IsExDrawRequestModelAnimFinished(&work->aniFire))
         {
@@ -1478,9 +1478,9 @@ void ExBossEffectFire_Main_Active(void)
     }
     else
     {
-        work->aniFire.model.translation.x = work->parent->aniBoss.model.translation4.x;
-        work->aniFire.model.translation.y = work->parent->aniBoss.model.translation4.y;
-        work->aniFire.model.translation.z = work->parent->aniBoss.model.translation4.z;
+        work->aniFire.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+        work->aniFire.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
+        work->aniFire.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
         if (exBossEffectFireEnabled == FALSE)
         {
@@ -1518,9 +1518,9 @@ void ExBossEffectFire_Main_Disappear(void)
     }
     else
     {
-        work->aniFire.model.translation.x = work->parent->aniBoss.model.translation4.x;
-        work->aniFire.model.translation.y = work->parent->aniBoss.model.translation4.y;
-        work->aniFire.model.translation.z = work->parent->aniBoss.model.translation4.z;
+        work->aniFire.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+        work->aniFire.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
+        work->aniFire.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
         if (IsExDrawRequestModelAnimFinished(&work->aniFire))
         {

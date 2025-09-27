@@ -13,7 +13,7 @@
 #include <ex/system/exTimeGameplay.h>
 #include <ex/system/exDrawFade.h>
 #include <ex/core/exTitleCard.h>
-#include <ex/boss/exBossIntermission.h>
+#include <ex/boss/exBoss.h>
 #include <game/audio/audioSystem.h>
 #include <game/input/padInput.h>
 
@@ -198,7 +198,7 @@ void ExPlayer_Main_Init(void)
     CreateExPlayerScreenMover();
     LoadExSuperSonicModel(&work->aniSonic->manager);
     SetExDrawRequestPriority(&work->aniSonic->manager.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
-    work->aniSonic->manager.model.translation.y = -FLOAT_TO_FX32(90.0);
+    work->aniSonic->manager.model.translation.y = EX_STAGE_BOUNDARY_L;
     work->aniSonic->nextAnim                    = ex_son_fw;
 
     LoadExSuperSonicSprite(&work->spriteSonic);
@@ -206,7 +206,7 @@ void ExPlayer_Main_Init(void)
 
     LoadExBurningBlazeModel(&work->aniBlaze->manager);
     SetExDrawRequestPriority(&work->aniBlaze->manager.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
-    work->aniBlaze->manager.model.translation.y = -FLOAT_TO_FX32(90.0);
+    work->aniBlaze->manager.model.translation.y = EX_STAGE_BOUNDARY_L;
     work->aniBlaze->nextAnim                    = ex_blz_fw;
 
     LoadExBurningBlazeSprite(&work->spriteBlaze);
@@ -373,7 +373,7 @@ void ExPlayer_Action_BossChaseDelay(void)
     work->worker->bossChaseTimer = SECONDS_TO_FRAMES(2.0);
 
     if (GetExSystemStatus()->state == EXSYSTASK_STATE_STAGE_FINISHED)
-        exBossSysAdminTask__SetBossFleeing(0);
+        ExBoss_SetBossFleeing(0);
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_BossChaseDelay);
     ExPlayer_Main_BossChaseDelay();
@@ -476,7 +476,7 @@ void ExPlayer_Action_ReadyBossPhaseChange(void)
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
     UNUSED(work);
 
-    exBossSysAdminTask__SetBossFleeing(FALSE);
+    ExBoss_SetBossFleeing(FALSE);
 
     if (GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED)
     {
@@ -1767,7 +1767,7 @@ void ExPlayer_Draw(void)
         work->activeModelSub->config.control.isInvisible  = FALSE;
         work->worker->hurtInvulnDuration                  = 0;
 
-        if (exBossSysAdminTask__IsBossFleeing() == 1)
+        if (ExBoss_IsBossFleeing() == 1)
             SetCurrentExTaskMainEvent(ExPlayer_Main_InitForBossChase);
     }
 

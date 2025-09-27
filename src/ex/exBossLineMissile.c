@@ -1,10 +1,10 @@
 #include <ex/boss/exBossLineMissile.h>
-#include <ex/boss/exBossLineMissileAttack.h>
+#include <ex/boss/exBoss.h>
 #include <ex/effects/exBigExplosion.h>
 #include <ex/effects/exBossFireEffect.h>
 #include <ex/system/exDrawReq.h>
 #include <ex/system/exSystem.h>
-#include <ex/boss/exBossIntermission.h>
+#include <ex/system/exStage.h>
 #include <ex/player/exPlayerHelpers.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
@@ -109,6 +109,7 @@ FORCE_INCLUDE_VARIABLE_BSS(lineNeedleUnused)
 // FUNCTION DECLS
 // --------------------
 
+// Spiked Line Missile
 static BOOL LoadExBossSpikedLineMissileAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossSpikedLineMissileAssets(EX_ACTION_NN_WORK *work);
 static void ExBossSpikedLineMissile_Main_Init(void);
@@ -118,6 +119,7 @@ static void ExBossSpikedLineMissile_Main_Appear(void);
 static void ExBossSpikedLineMissile_Action_Move(void);
 static void ExBossSpikedLineMissile_Main_Move(void);
 
+// Blunt Line Missile
 static BOOL LoadExBossBluntLineMissileAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossBluntLineMissileAssets(EX_ACTION_NN_WORK *work);
 static void ExBossBluntLineMissile_Main_Init(void);
@@ -128,6 +130,16 @@ static void ExBossBluntLineMissile_Action_Move(void);
 static void ExBossBluntLineMissile_Main_Move(void);
 static void ExBossBluntLineMissile_Action_Repelled(void);
 static void ExBossBluntLineMissile_Main_Repelled(void);
+
+// ExBoss
+static void ExBoss_Main_Line0(void);
+static void ExBoss_Action_StartLine1(void);
+static void ExBoss_Main_Line1(void);
+static void ExBoss_Action_StartLine2(void);
+static void ExBoss_Main_Line2(void);
+static void ExBoss_Action_StartNextLine(void);
+static void ExBoss_Main_StartNextLine(void);
+static void ExBoss_Action_FinishLineAttack(void);
 
 // --------------------
 // FUNCTIONS
@@ -305,7 +317,7 @@ void ExBossSpikedLineMissile_Main_Appear(void)
         return;
     }
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
     {
         CreateExExplosion(&work->animator.model.translation);
         DestroyCurrentExTask();
@@ -369,7 +381,7 @@ void ExBossSpikedLineMissile_Main_Move(void)
         return;
     }
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
     {
         CreateExExplosion(&work->animator.model.translation);
         DestroyCurrentExTask();
@@ -380,8 +392,8 @@ void ExBossSpikedLineMissile_Main_Move(void)
     work->animator.model.translation.x += work->velocity.x;
     work->animator.model.translation.y += work->velocity.y;
 
-    if ((work->animator.model.translation.x >= FLOAT_TO_FX32(90.0) || work->animator.model.translation.x <= -FLOAT_TO_FX32(90.0))
-        || (work->animator.model.translation.y >= FLOAT_TO_FX32(200.0) || work->animator.model.translation.y <= -FLOAT_TO_FX32(60.0)))
+    if ((work->animator.model.translation.x >= EX_STAGE_BOUNDARY_R || work->animator.model.translation.x <= EX_STAGE_BOUNDARY_L)
+        || (work->animator.model.translation.y >= EX_STAGE_BOUNDARY_B || work->animator.model.translation.y <= EX_STAGE_BOUNDARY_T))
     {
         DestroyCurrentExTask();
         return;
@@ -402,7 +414,7 @@ BOOL CreateExBossSpikedLineMissile(void)
     TaskInitWork8(work);
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
-    work->id     = work->parent->missileID;
+    work->id     = work->parent->projectileID;
 
     SetExTaskUnknownEvent(task, ExBossSpikedLineMissile_TaskUnknown);
 
@@ -585,7 +597,7 @@ void ExBossBluntLineMissile_Main_Appear(void)
         return;
     }
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
     {
         CreateExExplosion(&work->animator.model.translation);
         DestroyCurrentExTask();
@@ -658,7 +670,7 @@ void ExBossBluntLineMissile_Main_Move(void)
         return;
     }
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
     {
         CreateExExplosion(&work->animator.model.translation);
         DestroyCurrentExTask();
@@ -672,8 +684,8 @@ void ExBossBluntLineMissile_Main_Move(void)
     if (work->animator.model.translation.y <= FLOAT_TO_FX32(20.0))
         work->animator.config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
-    if ((work->animator.model.translation.x >= FLOAT_TO_FX32(90.0) || work->animator.model.translation.x <= -FLOAT_TO_FX32(90.0))
-        || (work->animator.model.translation.y >= FLOAT_TO_FX32(200.0) || work->animator.model.translation.y <= -FLOAT_TO_FX32(60.0)))
+    if ((work->animator.model.translation.x >= EX_STAGE_BOUNDARY_R || work->animator.model.translation.x <= EX_STAGE_BOUNDARY_L)
+        || (work->animator.model.translation.y >= EX_STAGE_BOUNDARY_B || work->animator.model.translation.y <= EX_STAGE_BOUNDARY_T))
     {
         DestroyCurrentExTask();
         return;
@@ -764,8 +776,8 @@ void ExBossBluntLineMissile_Main_Repelled(void)
 
     work->animator.model.translation.y += work->velocity.y;
 
-    if ((work->animator.model.translation.x >= FLOAT_TO_FX32(90.0) || work->animator.model.translation.x <= -FLOAT_TO_FX32(90.0))
-        || (work->animator.model.translation.y >= FLOAT_TO_FX32(200.0) || work->animator.model.translation.y <= -FLOAT_TO_FX32(60.0)))
+    if ((work->animator.model.translation.x >= EX_STAGE_BOUNDARY_R || work->animator.model.translation.x <= EX_STAGE_BOUNDARY_L)
+        || (work->animator.model.translation.y >= EX_STAGE_BOUNDARY_B || work->animator.model.translation.y <= EX_STAGE_BOUNDARY_T))
     {
         DestroyCurrentExTask();
         return;
@@ -786,7 +798,7 @@ BOOL CreateExBossBluntLineMissile(void)
     TaskInitWork8(work);
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
-    work->id     = work->parent->missileID;
+    work->id     = work->parent->projectileID;
 
     SetExTaskUnknownEvent(task, ExBossBluntLineMissile_TaskUnknown);
 
@@ -794,27 +806,27 @@ BOOL CreateExBossBluntLineMissile(void)
 }
 
 // ExBoss
-void exBossSysAdminTask__Action_StartLine0(void)
+void ExBoss_Action_StartLineMissileAttack(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_line0);
+    SetExBossAnimation(&work->aniBoss, bse_body_line0);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_HORE);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Line0);
-    exBossSysAdminTask__Main_Line0();
+    SetCurrentExTaskMainEvent(ExBoss_Main_Line0);
+    ExBoss_Main_Line0();
 }
 
-void exBossSysAdminTask__Main_Line0(void)
+void ExBoss_Main_Line0(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_StartLine1();
+        ExBoss_Action_StartLine1();
     }
     else
     {
@@ -825,38 +837,38 @@ void exBossSysAdminTask__Main_Line0(void)
     }
 }
 
-void exBossSysAdminTask__Action_StartLine1(void)
+void ExBoss_Action_StartLine1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_line1);
+    SetExBossAnimation(&work->aniBoss, bse_body_line1);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_LINE_MISSLE);
 
     for (u16 m = 0; m < EXBOSS_LINE_MISSILE_COUNT; m++)
     {
-        work->missileID = m;
+        work->projectileID = m;
 
         if ((mtMathRand() % 2) != 0)
             CreateExBossBluntLineMissile();
         else
             CreateExBossSpikedLineMissile();
     }
-    work->missileID = 0;
+    work->projectileID = 0;
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Line1);
-    exBossSysAdminTask__Main_Line1();
+    SetCurrentExTaskMainEvent(ExBoss_Main_Line1);
+    ExBoss_Main_Line1();
 }
 
-void exBossSysAdminTask__Main_Line1(void)
+void ExBoss_Main_Line1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_StartLine2();
+        ExBoss_Action_StartLine2();
     }
     else
     {
@@ -867,33 +879,33 @@ void exBossSysAdminTask__Main_Line1(void)
     }
 }
 
-void exBossSysAdminTask__Action_StartLine2(void)
+void ExBoss_Action_StartLine2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_line2);
+    SetExBossAnimation(&work->aniBoss, bse_body_line2);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Line2);
-    exBossSysAdminTask__Main_Line2();
+    SetCurrentExTaskMainEvent(ExBoss_Main_Line2);
+    ExBoss_Main_Line2();
 }
 
-void exBossSysAdminTask__Main_Line2(void)
+void ExBoss_Main_Line2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        work->fireballShootTimer++;
-        if (work->fireballShootTimer < 3)
+        work->projectileRepeatCount++;
+        if (work->projectileRepeatCount < 3)
         {
-            exBossSysAdminTask__Action_StartNextLine();
+            ExBoss_Action_StartNextLine();
         }
         else
         {
-            work->fireballShootTimer = 0;
-            exBossSysAdminTask__Action_FinishLineAttack();
+            work->projectileRepeatCount = 0;
+            ExBoss_Action_FinishLineAttack();
         }
     }
     else
@@ -905,37 +917,37 @@ void exBossSysAdminTask__Main_Line2(void)
     }
 }
 
-void exBossSysAdminTask__Action_StartNextLine(void)
+void ExBoss_Action_StartNextLine(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_fw0);
+    SetExBossAnimation(&work->aniBoss, bse_body_fw0);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
-    work->flashEffectCooldown = SECONDS_TO_FRAMES(1.0);
+    work->genericCooldown = SECONDS_TO_FRAMES(1.0);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_StartNextLine);
-    exBossSysAdminTask__Main_StartNextLine();
+    SetCurrentExTaskMainEvent(ExBoss_Main_StartNextLine);
+    ExBoss_Main_StartNextLine();
 }
 
-void exBossSysAdminTask__Main_StartNextLine(void)
+void ExBoss_Main_StartNextLine(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     HandleExBossMovement();
 
-    if (work->flashEffectCooldown <= 0)
+    if (work->genericCooldown <= 0)
     {
-        work->flashEffectCooldown = 0;
+        work->genericCooldown = 0;
         if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
         {
-            exBossSysAdminTask__Action_StartLine0();
+            ExBoss_Action_StartLineMissileAttack();
             return;
         }
     }
     else
     {
-        work->flashEffectCooldown--;
+        work->genericCooldown--;
     }
 
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
@@ -944,7 +956,7 @@ void exBossSysAdminTask__Main_StartNextLine(void)
     RunCurrentExTaskUnknownEvent();
 }
 
-void exBossSysAdminTask__Action_FinishLineAttack(void)
+void ExBoss_Action_FinishLineAttack(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 

@@ -1,10 +1,10 @@
 #include <ex/boss/exBossFireDragon.h>
-#include <ex/boss/exBossFireDragonAttack.h>
+#include <ex/boss/exBoss.h>
 #include <ex/effects/exBossFireEffect.h>
 #include <ex/effects/exBossShotEffect.h>
 #include <ex/system/exDrawReq.h>
 #include <ex/system/exSystem.h>
-#include <ex/boss/exBossIntermission.h>
+#include <ex/system/exStage.h>
 #include <ex/player/exPlayerHelpers.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
@@ -45,9 +45,12 @@ FORCE_INCLUDE_VARIABLE_BSS(exBossFireDragonUnused)
 // FUNCTION DECLS
 // --------------------
 
+// Fire Dragon Explosion
 static void LoadExBossFireDragonExplosionAssets(EX_ACTION_BAC3D_WORK *work);
 static void SetExBossFireDragonExplosionAnim(EX_ACTION_BAC3D_WORK *work, u16 id);
 static void ReleaseExBossFireDragonExplosionAssets(EX_ACTION_BAC3D_WORK *work);
+
+// Fire Dragon
 static BOOL LoadExBossFireDragonAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossFireDragonAssets(EX_ACTION_NN_WORK *work);
 static void ExBossFireDragon_Main_Init(void);
@@ -60,6 +63,15 @@ static void ExBossFireDragon_Action_Explode(void);
 static void ExBossFireDragon_Main_Explode(void);
 static void ExBossFireDragon_Action_FadeOut(void);
 static void ExBossFireDragon_Main_FadeOut(void);
+
+// ExBoss
+static void ExBoss_Main_Dora0(void);
+static void ExBoss_Action_StartDora1(void);
+static void ExBoss_Main_Dora1(void);
+static void ExBoss_Main_FinishDora1(void);
+static void ExBoss_Action_StartDora2(void);
+static void ExBoss_Main_Dora2(void);
+static void ExBoss_Action_FinishDragonAttack(void);
 
 // --------------------
 // FUNCTIONS
@@ -199,8 +211,8 @@ void ExBossFireDragon_Main_Init(void)
     SetExDrawRequestPriority(&work->aniExplosion.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimStopOnFinish(&work->aniExplosion.config);
 
-    work->aniDragonModel.model.translation.x = work->parent->aniBoss.model.translation4.x;
-    work->aniDragonModel.model.translation.y = work->parent->aniBoss.model.translation4.y;
+    work->aniDragonModel.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+    work->aniDragonModel.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
     work->aniDragonModel.model.translation.z = FLOAT_TO_FX32(60.0);
 
     work->aniDragonModel.model.angle.y = dragonStartAngles[work->id];
@@ -275,7 +287,7 @@ void ExBossFireDragon_Main_Move(void)
         return;
     }
 
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
     {
         ExBossFireDragon_Action_Explode();
         return;
@@ -418,8 +430,8 @@ void ExBossFireDragon_Main_Repelled(void)
 
     work->aniDragonModel.model.translation.y += work->velocity.y;
 
-    if ((work->aniDragonModel.model.translation.x >= FLOAT_TO_FX32(90.0) || work->aniDragonModel.model.translation.x <= -FLOAT_TO_FX32(90.0))
-        || (work->aniDragonModel.model.translation.y >= FLOAT_TO_FX32(200.0) || work->aniDragonModel.model.translation.y <= -FLOAT_TO_FX32(60.0)))
+    if ((work->aniDragonModel.model.translation.x >= EX_STAGE_BOUNDARY_R || work->aniDragonModel.model.translation.x <= EX_STAGE_BOUNDARY_L)
+        || (work->aniDragonModel.model.translation.y >= EX_STAGE_BOUNDARY_B || work->aniDragonModel.model.translation.y <= EX_STAGE_BOUNDARY_T))
     {
         DestroyCurrentExTask();
         return;
@@ -511,8 +523,8 @@ BOOL CreateExBossFireDragon(void)
     TaskInitWork8(work);
 
     work->parent       = ExTaskGetWorkCurrent(exBossSysAdminTask);
-    work->id           = work->parent->missileID;
-    work->explodeTimer = work->parent->flashEffectCooldown;
+    work->id           = work->parent->projectileID;
+    work->explodeTimer = work->parent->genericCooldown;
 
     SetExTaskUnknownEvent(task, ExBossFireDragon_TaskUnknown);
 
@@ -520,26 +532,26 @@ BOOL CreateExBossFireDragon(void)
 }
 
 // ExBoss
-void exBossSysAdminTask__Action_StartDora0(void)
+void ExBoss_Action_StartFireDragonAttack(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     CreateExBossEffectFire();
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_dora0);
+    SetExBossAnimation(&work->aniBoss, bse_body_dora0);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Dora0);
-    exBossSysAdminTask__Main_Dora0();
+    SetCurrentExTaskMainEvent(ExBoss_Main_Dora0);
+    ExBoss_Main_Dora0();
 }
 
-void exBossSysAdminTask__Main_Dora0(void)
+void ExBoss_Main_Dora0(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_StartDora1();
+        ExBoss_Action_StartDora1();
     }
     else
     {
@@ -550,20 +562,20 @@ void exBossSysAdminTask__Main_Dora0(void)
     }
 }
 
-void exBossSysAdminTask__Action_StartDora1(void)
+void ExBoss_Action_StartDora1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_dora1);
+    SetExBossAnimation(&work->aniBoss, bse_body_dora1);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_PREPARE);
     DisableExBossEffectFire();
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Dora1);
-    exBossSysAdminTask__Main_Dora1();
+    SetCurrentExTaskMainEvent(ExBoss_Main_Dora1);
+    ExBoss_Main_Dora1();
 }
 
-void exBossSysAdminTask__Main_Dora1(void)
+void ExBoss_Main_Dora1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
@@ -574,33 +586,33 @@ void exBossSysAdminTask__Main_Dora1(void)
 
         if (chance >= 60)
         {
-            work->flashEffectCooldown = SECONDS_TO_FRAMES(6);
+            work->genericCooldown = SECONDS_TO_FRAMES(6);
         }
         else if (chance < 60 && chance >= 40)
         {
-            work->flashEffectCooldown = SECONDS_TO_FRAMES(10);
+            work->genericCooldown = SECONDS_TO_FRAMES(10);
         }
         else if (chance < 40)
         {
-            work->flashEffectCooldown = SECONDS_TO_FRAMES(3);
+            work->genericCooldown = SECONDS_TO_FRAMES(3);
         }
 
         for (u16 d = 0; d < EXBOSS_FIRE_DRAGON_COUNT; d++)
         {
-            work->missileID = d;
+            work->projectileID = d;
             CreateExBossFireDragon();
         }
         CreateExBossEffectShot();
-        work->missileID = 0;
+        work->projectileID = 0;
 
-        SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_FinishDora1);
-        exBossSysAdminTask__Main_FinishDora1();
+        SetCurrentExTaskMainEvent(ExBoss_Main_FinishDora1);
+        ExBoss_Main_FinishDora1();
     }
     else
     {
         if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
         {
-            exBossSysAdminTask__Action_StartDora2();
+            ExBoss_Action_StartDora2();
         }
         else
         {
@@ -612,14 +624,14 @@ void exBossSysAdminTask__Main_Dora1(void)
     }
 }
 
-void exBossSysAdminTask__Main_FinishDora1(void)
+void ExBoss_Main_FinishDora1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_StartDora2();
+        ExBoss_Action_StartDora2();
     }
     else
     {
@@ -630,25 +642,25 @@ void exBossSysAdminTask__Main_FinishDora1(void)
     }
 }
 
-void exBossSysAdminTask__Action_StartDora2(void)
+void ExBoss_Action_StartDora2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_dora2);
+    SetExBossAnimation(&work->aniBoss, bse_body_dora2);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Dora2);
-    exBossSysAdminTask__Main_Dora2();
+    SetCurrentExTaskMainEvent(ExBoss_Main_Dora2);
+    ExBoss_Main_Dora2();
 }
 
-void exBossSysAdminTask__Main_Dora2(void)
+void ExBoss_Main_Dora2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_FinishDragonAttack();
+        ExBoss_Action_FinishDragonAttack();
     }
     else
     {
@@ -659,7 +671,7 @@ void exBossSysAdminTask__Main_Dora2(void)
     }
 }
 
-void exBossSysAdminTask__Action_FinishDragonAttack(void)
+void ExBoss_Action_FinishDragonAttack(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 

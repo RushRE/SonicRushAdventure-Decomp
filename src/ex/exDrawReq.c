@@ -3,7 +3,7 @@
 #include <game/graphics/drawState.h>
 #include <game/math/unknown2066510.h>
 #include <ex/system/exSystem.h>
-#include <ex/boss/exBossIntermission.h>
+#include <ex/boss/exBoss.h>
 #include <ex/player/exPlayerHelpers.h>
 
 // --------------------
@@ -622,22 +622,22 @@ void DrawExDrawRequestModel(EX_ACTION_NN_WORK *work)
     }
     else if (work->hitChecker.input.isBoss)
     {
-        EX_ACTION_NN_WORK *bossWork = exBossSysAdminTask__GetBossAssets();
+        EX_ACTION_NN_WORK *bossWork = GetExBossAssets();
         AnimatorMDL__Draw(&work->model.animator);
 
         NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
         NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_SYS);
         NNS_G3dGetCurrentMtx(&mtxCurrent, NULL);
-        bossWork->model.translation4.x = mtxCurrent.m[3][0];
-        bossWork->model.translation4.y = mtxCurrent.m[3][1];
-        bossWork->model.translation4.z = mtxCurrent.m[3][2];
+        bossWork->model.bossStaffPos.x = mtxCurrent.m[3][0];
+        bossWork->model.bossStaffPos.y = mtxCurrent.m[3][1];
+        bossWork->model.bossStaffPos.z = mtxCurrent.m[3][2];
 
         NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
         NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_USER);
         NNS_G3dGetCurrentMtx(&mtxCurrent, NULL);
-        bossWork->model.translation3.x = mtxCurrent.m[3][0];
-        bossWork->model.translation3.y = mtxCurrent.m[3][1];
-        bossWork->model.translation3.z = FLOAT_TO_FX32(60.0);
+        bossWork->model.bossChestPos.x = mtxCurrent.m[3][0];
+        bossWork->model.bossChestPos.y = mtxCurrent.m[3][1];
+        bossWork->model.bossChestPos.z = FLOAT_TO_FX32(60.0);
     }
     else
     {

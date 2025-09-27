@@ -1,5 +1,5 @@
-#ifndef RUSH_EXBOSSFIRERED_H
-#define RUSH_EXBOSSFIRERED_H
+#ifndef RUSH_EXBOSSFIREBALLRED_H
+#define RUSH_EXBOSSFIREBALLRED_H
 
 #include <ex/system/exTask.h>
 #include <ex/system/exDrawReq.h>
@@ -29,4 +29,4 @@ typedef struct exBossFireRedTask_
 // It seems likely that at some point the fireball _was_ red and was changed to green later on!
 BOOL CreateExBossFireRed(void);
 
-#endif // RUSH_EXBOSSFIRERED_H
+#endif // RUSH_EXBOSSFIREBALLRED_H

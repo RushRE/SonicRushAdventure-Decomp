@@ -1,10 +1,10 @@
 #include <ex/boss/exBossMeteor.h>
-#include <ex/boss/exBossMeteorAttack.h>
+#include <ex/boss/exBoss.h>
 #include <ex/effects/exBigExplosion.h>
 #include <ex/effects/exBossFireEffect.h>
 #include <ex/system/exDrawReq.h>
 #include <ex/system/exSystem.h>
-#include <ex/boss/exBossIntermission.h>
+#include <ex/system/exStage.h>
 #include <ex/player/exPlayerHelpers.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
@@ -117,6 +117,17 @@ static void ExBossMeteorAdmin_Action_WaitForMeteor(void);
 static void ExBossMeteorAdmin_Main_WaitForMeteor(void);
 static void ExBossMeteorAdmin_Action_WaitForExplosion(void);
 static void ExBossMeteorAdmin_Main_WaitForExplosion(void);
+
+// ExBoss
+static void ExBoss_Main_Mete0(void);
+static void ExBoss_Action_StartMete1(void);
+static void ExBoss_Main_Mete1(void);
+static void ExBoss_Action_StartMete2(void);
+static void ExBoss_Main_StartMete2(void);
+static void ExBoss_Main_HandleMete2(void);
+static void ExBoss_Action_CreateMeteor(void);
+static void ExBoss_Main_FinishMete2(void);
+static void ExBoss_Action_FinishMeteorAttack(void);
 
 // --------------------
 // FUNCTIONS
@@ -475,7 +486,7 @@ void ExBossMeteorLockOn_Main_Appear(void)
     exBossMeteLockOnTask *work = ExTaskGetWorkCurrent(exBossMeteLockOnTask);
 
     AnimateExDrawRequestModel(&work->animator);
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
     {
         ExBossMeteorLockOn_Action_Explode();
     }
@@ -514,7 +525,7 @@ void ExBossMeteorLockOn_Main_FinishAppearing(void)
     exBossMeteLockOnTask *work = ExTaskGetWorkCurrent(exBossMeteLockOnTask);
 
     AnimateExDrawRequestModel(&work->animator);
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
     {
         ExBossMeteorLockOn_Action_Explode();
     }
@@ -562,7 +573,7 @@ void ExBossMeteorLockOn_Main_TargetPlayer(void)
     exBossMeteLockOnTask *work = ExTaskGetWorkCurrent(exBossMeteLockOnTask);
 
     AnimateExDrawRequestModel(&work->animator);
-    if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    if (ExBoss_IsBossFleeing() == TRUE)
     {
         ExBossMeteorLockOn_Action_Explode();
     }
@@ -587,7 +598,7 @@ void ExBossMeteorLockOn_Main_TargetPlayer(void)
             work->timer = 10;
         }
 
-        if (work->parent->magmaEruptionTimer <= 10)
+        if (work->parent->genericAttackTimer <= 10)
         {
             ExBossMeteorLockOn_Action_LockOn();
         }
@@ -631,7 +642,7 @@ void ExBossMeteorLockOn_Main_LockedOn(void)
     {
         ExBossMeteorLockOn_Action_Explode();
     }
-    else if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    else if (ExBoss_IsBossFleeing() == TRUE)
     {
         ExBossMeteorLockOn_Action_Explode();
     }
@@ -788,8 +799,8 @@ void ExBossMeteor_Main_Init(void)
     SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimAsOneShot(&work->animator.config);
 
-    work->animator.model.translation.x = work->parent->aniBoss.model.translation4.x;
-    work->animator.model.translation.y = work->parent->aniBoss.model.translation4.y;
+    work->animator.model.translation.x = work->parent->aniBoss.model.bossStaffPos.x;
+    work->animator.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
     work->animator.model.translation.z = FLOAT_TO_FX32(67.351806640625);
 
     work->startPosition.x = work->animator.model.translation.x;
@@ -847,7 +858,7 @@ void ExBossMeteor_Main_FallToLockOnPos(void)
     {
         ExBossMeteor_Action_Impact();
     }
-    else if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    else if (ExBoss_IsBossFleeing() == TRUE)
     {
         CreateExExplosion(&work->animator.model.translation);
 
@@ -892,7 +903,7 @@ void ExBossMeteor_Main_Impact(void)
     {
         ExBossMeteor_Action_Explode();
     }
-    else if (exBossSysAdminTask__IsBossFleeing() == TRUE)
+    else if (ExBoss_IsBossFleeing() == TRUE)
     {
         CreateExExplosion(&work->animator.model.translation);
         DestroyCurrentExTask();
@@ -964,7 +975,7 @@ void ExBossMeteor_Main_Explode(void)
 
     exPlayerHelpers__Func_2152D28(&work->animator.model.angle, &work->field_28, &work->field_2E, 1);
 
-    if (work->animator.model.translation.x >= FLOAT_TO_FX32(90.0) || work->animator.model.translation.x <= -FLOAT_TO_FX32(90.0)
+    if (work->animator.model.translation.x >= EX_STAGE_BOUNDARY_R || work->animator.model.translation.x <= EX_STAGE_BOUNDARY_L
         || work->animator.model.translation.y >= FLOAT_TO_FX32(200.0))
     {
         DestroyCurrentExTask();
@@ -1104,7 +1115,7 @@ BOOL CreateExBossMeteorAdmin(void)
 }
 
 // ExBoss
-void exBossSysAdminTask__RunTaskUnknownEvent(void)
+void ExBoss_RunTaskUnknownEvent(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
     UNUSED(work);
@@ -1112,91 +1123,91 @@ void exBossSysAdminTask__RunTaskUnknownEvent(void)
     RunCurrentExTaskUnknownEvent();
 }
 
-void exBossSysAdminTask__Action_StartMete0(void)
+void ExBoss_Action_StartMeteorAttack(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_mete0);
+    SetExBossAnimation(&work->aniBoss, bse_body_mete0);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
     CreateExBossEffectFire();
     PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_KURAE);
     CreateExBossMeteorAdmin();
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Mete0);
-    exBossSysAdminTask__Main_Mete0();
+    SetCurrentExTaskMainEvent(ExBoss_Main_Mete0);
+    ExBoss_Main_Mete0();
 
-    exBossSysAdminTask__RunTaskUnknownEvent();
+    ExBoss_RunTaskUnknownEvent();
 }
 
-void exBossSysAdminTask__Main_Mete0(void)
+void ExBoss_Main_Mete0(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_StartMete1();
+        ExBoss_Action_StartMete1();
     }
     else
     {
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
-        exBossSysAdminTask__RunTaskUnknownEvent();
+        ExBoss_RunTaskUnknownEvent();
     }
 }
 
-void exBossSysAdminTask__Action_StartMete1(void)
+void ExBoss_Action_StartMete1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    work->magmaEruptionTimer = SECONDS_TO_FRAMES(3.5);
+    work->genericAttackTimer = SECONDS_TO_FRAMES(3.5);
 
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_mete1);
+    SetExBossAnimation(&work->aniBoss, bse_body_mete1);
     SetExDrawRequestAnimAsOneShot(&work->aniBoss.config);
     CreateExBossMeteorLockOn();
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Mete1);
-    exBossSysAdminTask__Main_Mete1();
+    SetCurrentExTaskMainEvent(ExBoss_Main_Mete1);
+    ExBoss_Main_Mete1();
 
-    exBossSysAdminTask__RunTaskUnknownEvent();
+    ExBoss_RunTaskUnknownEvent();
 }
 
-void exBossSysAdminTask__Main_Mete1(void)
+void ExBoss_Main_Mete1(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
 
-    if (work->magmaEruptionTimer-- < 0)
+    if (work->genericAttackTimer-- < 0)
     {
-        exBossSysAdminTask__Action_StartMete2();
+        ExBoss_Action_StartMete2();
     }
     else
     {
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
-        exBossSysAdminTask__RunTaskUnknownEvent();
+        ExBoss_RunTaskUnknownEvent();
     }
 }
 
-void exBossSysAdminTask__Action_StartMete2(void)
+void ExBoss_Action_StartMete2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    work->magmaEruptionTimer = 0;
+    work->genericAttackTimer = 0;
 
     DisableExBossEffectFire();
-    exBossSysAdminTask__SetAnimation(&work->aniBoss, bse_body_mete2);
+    SetExBossAnimation(&work->aniBoss, bse_body_mete2);
     SetExDrawRequestAnimStopOnFinish(&work->aniBoss.config);
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_StartMete2);
-    exBossSysAdminTask__Main_StartMete2();
+    SetCurrentExTaskMainEvent(ExBoss_Main_StartMete2);
+    ExBoss_Main_StartMete2();
 
-    exBossSysAdminTask__RunTaskUnknownEvent();
+    ExBoss_RunTaskUnknownEvent();
 }
 
-void exBossSysAdminTask__Main_StartMete2(void)
+void ExBoss_Main_StartMete2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
@@ -1205,64 +1216,64 @@ void exBossSysAdminTask__Main_StartMete2(void)
     {
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_PREPARE);
 
-        SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_HandleMete2);
-        exBossSysAdminTask__Main_HandleMete2();
+        SetCurrentExTaskMainEvent(ExBoss_Main_HandleMete2);
+        ExBoss_Main_HandleMete2();
     }
     else
     {
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
-        exBossSysAdminTask__RunTaskUnknownEvent();
+        ExBoss_RunTaskUnknownEvent();
     }
 }
 
-void exBossSysAdminTask__Main_HandleMete2(void)
+void ExBoss_Main_HandleMete2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (work->aniBoss.model.primaryAnimResource->frame == FLOAT_TO_FX32(35.0))
     {
-        exBossSysAdminTask__Action_CreateMeteor();
+        ExBoss_Action_CreateMeteor();
     }
     else
     {
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
-        exBossSysAdminTask__RunTaskUnknownEvent();
+        ExBoss_RunTaskUnknownEvent();
     }
 }
 
-void exBossSysAdminTask__Action_CreateMeteor(void)
+void ExBoss_Action_CreateMeteor(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     CreateExBossMeteor();
 
-    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_FinishMete2);
-    exBossSysAdminTask__Main_FinishMete2();
+    SetCurrentExTaskMainEvent(ExBoss_Main_FinishMete2);
+    ExBoss_Main_FinishMete2();
 
-    exBossSysAdminTask__RunTaskUnknownEvent();
+    ExBoss_RunTaskUnknownEvent();
 }
 
-void exBossSysAdminTask__Main_FinishMete2(void)
+void ExBoss_Main_FinishMete2(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
-        exBossSysAdminTask__Action_FinishMeteorAttack();
+        ExBoss_Action_FinishMeteorAttack();
     }
     else
     {
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
-        exBossSysAdminTask__RunTaskUnknownEvent();
+        ExBoss_RunTaskUnknownEvent();
     }
 }
 
-void exBossSysAdminTask__Action_FinishMeteorAttack(void)
+void ExBoss_Action_FinishMeteorAttack(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
