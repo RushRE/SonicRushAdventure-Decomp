@@ -920,7 +920,7 @@ void exBossSysAdminTask__HandleFireShoot(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    if (!exBossFireDoraTask__AnyActive() && GetActiveExBossHomingLaserCount() == 0)
+    if (!GetActiveExBossFireDragonCount() && GetActiveExBossHomingLaserCount() == 0)
     {
         work->fireballShootTimer++;
         if (work->fireballShootTimer < 5)

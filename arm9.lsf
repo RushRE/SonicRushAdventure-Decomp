@@ -770,7 +770,7 @@ Overlay ExBoss
     Object asm/ex/exPlayerHelpers.o
     Object src/ex/exBlazeDashEffect.o
     Object asm/ex/exBossIntermission.o
-    Object asm/ex/exBossFireDragon.o
+    Object src/ex/exBossFireDragon.o
     Object src/ex/exEffectBoss.o
     Object src/ex/exBossFire.o
     Object src/ex/exBossHomingLaser.o

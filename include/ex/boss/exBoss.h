@@ -14,6 +14,7 @@
 
 #define EXBOSS_LINE_MISSILE_COUNT 6
 #define EXBOSS_HOMING_LASER_COUNT 6
+#define EXBOSS_FIRE_DRAGON_COUNT 3
 
 // --------------------
 // ENUMS

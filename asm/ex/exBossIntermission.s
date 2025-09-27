@@ -1,5 +1,31 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
+
+	.bss
+
+.public exBossSysAdminTask__ActiveInstanceCount
+exBossSysAdminTask__ActiveInstanceCount: // 0x02175F54
+	.space 0x02
+
+.public exBossSysAdminTask__dword_2175F58
+exBossSysAdminTask__dword_2175F58: // 0x02175F58
+	.space 0x04
+
+.public exBossSysAdminTask__File_2175F5C
+exBossSysAdminTask__File_2175F5C: // 0x02175F5C
+	.space 0x04
+
+.public exBossSysAdminTask__unk_2175F60
+exBossSysAdminTask__unk_2175F60: // 0x02175F60
+	.space 0x04
+
+.public exBossSysAdminTask__FileTable
+exBossSysAdminTask__FileTable: // 0x02175F64
+	.space 0x04 * 15
+
+.public exBossSysAdminTask__unk_2175FA0
+exBossSysAdminTask__unk_2175FA0: // 0x02175FA0
+	.space 0x04
 	
 	.text
 
@@ -7,11 +33,11 @@
 exBossSysAdminTask__LoadAssets: // 0x02154030
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	mov r10, r0
 	str r10, [r1, #0xc]
 	bl InitExDrawRequestModel
-	ldr r0, _02154358 // =0x02175F54
+	ldr r0, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _021540DC
@@ -24,7 +50,7 @@ exBossSysAdminTask__LoadAssets: // 0x02154030
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
-	ldr r2, _02154358 // =0x02175F54
+	ldr r2, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	mov r0, r4
 	str r1, [r2, #4]
 	bl RenderCore_CPUCopyCompressed
@@ -32,17 +58,17 @@ exBossSysAdminTask__LoadAssets: // 0x02154030
 	bl _FreeHEAP_USER
 	mov r0, #1
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #8]
 	ldr r0, [r1, #4]
 	bl NNS_G3dResDefaultSetup
-	ldr r0, _02154358 // =0x02175F54
+	ldr r0, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	ldr r4, [r0, #4]
 	mov r0, r4
 	bl Asset3DSetup__GetTexSize
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
-	ldr r2, _02154358 // =0x02175F54
+	ldr r2, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	mov r0, r4
 	str r1, [r2, #4]
 	bl Asset3DSetup__GetTexture
@@ -53,7 +79,7 @@ _021540DC:
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r2, #0
-	ldr r0, _02154358 // =0x02175F54
+	ldr r0, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r2, [sp]
 	ldr r1, [r0, #4]
 	mov r3, r2
@@ -69,7 +95,7 @@ _021540DC:
 	str r4, [sp]
 	bl NNS_G3dRenderObjSetCallBack
 	mov r1, #0
-	ldr r2, _02154358 // =0x02175F54
+	ldr r2, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r1, [sp]
 	ldr r2, [r2, #8]
 	add r0, r10, #0x20
@@ -96,63 +122,63 @@ _0215417C:
 	blo _0215415C
 	mov r0, #9
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x10]
 	mov r0, #0xa
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x14]
 	mov r0, #0xb
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x18]
 	mov r0, #0xc
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x1c]
 	mov r0, #0xd
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x20]
 	mov r0, #0xe
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x24]
 	mov r0, #0xf
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x28]
 	mov r0, #0x10
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x2c]
 	mov r0, #0x11
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x30]
 	mov r0, #0x12
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x34]
 	mov r0, #0x13
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x38]
 	mov r0, #0x14
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x3c]
 	mov r0, #0x15
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x40]
 	mov r0, #0x16
 	bl LoadExSystemFile
-	ldr r1, _02154358 // =0x02175F54
+	ldr r1, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	str r0, [r1, #0x44]
 	mov r0, #0x17
 	bl LoadExSystemFile
-	ldr r4, _02154358 // =0x02175F54
+	ldr r4, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	mov r8, #0
 	ldr r7, _02154364 // =_02173F4C
 	ldr r5, _02154368 // =0x02175F64
@@ -202,7 +228,7 @@ _02154290:
 	add r0, r10, #0x35c
 	str r0, [r10, #0x18]
 	ldrb r1, [r10, #0x38c]
-	ldr r0, _02154358 // =0x02175F54
+	ldr r0, _02154358 // =exBossSysAdminTask__ActiveInstanceCount
 	bic r1, r1, #3
 	orr r1, r1, #2
 	strb r1, [r10, #0x38c]
@@ -212,7 +238,7 @@ _02154290:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02154358: .word 0x02175F54
+_02154358: .word exBossSysAdminTask__ActiveInstanceCount
 _0215435C: .word aExtraExBb_0
 _02154360: .word exBossSysAdminTask__BossRenderCallback
 _02154364: .word _02173F4C
@@ -223,20 +249,20 @@ _0215436C: .word 0x00003FFC
 	arm_func_start exBossSysAdminTask__SetAnimation
 exBossSysAdminTask__SetAnimation: // 0x02154370
 	stmdb sp!, {r3, lr}
-	ldr r2, _0215438C // =0x02175F54
+	ldr r2, _0215438C // =exBossSysAdminTask__ActiveInstanceCount
 	str r1, [sp]
 	ldmib r2, {r1, r3}
 	mov r2, #0
 	bl exPlayerHelpers__SetAnimationInternal
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215438C: .word 0x02175F54
+_0215438C: .word exBossSysAdminTask__ActiveInstanceCount
 	arm_func_end exBossSysAdminTask__SetAnimation
 
 	arm_func_start exBossSysAdminTask__Func_2154390
 exBossSysAdminTask__Func_2154390: // 0x02154390
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r1, _02154418 // =0x02175F54
+	ldr r1, _02154418 // =exBossSysAdminTask__ActiveInstanceCount
 	mov r4, r0
 	ldrsh r0, [r1, #0]
 	cmp r0, #1
@@ -246,7 +272,7 @@ exBossSysAdminTask__Func_2154390: // 0x02154390
 	beq _021543B8
 	bl NNS_G3dResDefaultRelease
 _021543B8:
-	ldr r1, _02154418 // =0x02175F54
+	ldr r1, _02154418 // =exBossSysAdminTask__ActiveInstanceCount
 	ldr r0, [r1, #4]
 	cmp r0, #0
 	moveq r0, #0
@@ -267,22 +293,22 @@ _021543DC:
 	blt _021543DC
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
-	ldr r0, _02154418 // =0x02175F54
+	ldr r0, _02154418 // =exBossSysAdminTask__ActiveInstanceCount
 	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02154418: .word 0x02175F54
+_02154418: .word exBossSysAdminTask__ActiveInstanceCount
 	arm_func_end exBossSysAdminTask__Func_2154390
 
 	arm_func_start exBossSysAdminTask__GetBossAssets
 exBossSysAdminTask__GetBossAssets: // 0x0215441C
-	ldr r0, _02154428 // =0x02175F54
+	ldr r0, _02154428 // =exBossSysAdminTask__ActiveInstanceCount
 	ldr r0, [r0, #0xc]
 	bx lr
 	.align 2, 0
-_02154428: .word 0x02175F54
+_02154428: .word exBossSysAdminTask__ActiveInstanceCount
 	arm_func_end exBossSysAdminTask__GetBossAssets
 
 	arm_func_start exBossSysAdminTask__BossRenderCallback
@@ -967,108 +993,6 @@ exBossSysAdminTask__SetBossFleeing: // 0x02154C38
 	.align 2, 0
 _02154C44: .word 0x02175FA0
 	arm_func_end exBossSysAdminTask__SetBossFleeing
-
-	arm_func_start exBossFireDoraTask__Func_2154C48
-exBossFireDoraTask__Func_2154C48: // 0x02154C48
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0xc
-	mov r4, r0
-	bl InitExDrawRequestSprite3D
-	ldr r0, _02154D40 // =0x02175F54
-	ldrsh r0, [r0, #2]
-	cmp r0, #0
-	bne _02154C78
-	mov r0, #0
-	bl LoadExSystemFile
-	ldr r1, _02154D40 // =0x02175F54
-	str r0, [r1, #0x1c]
-_02154C78:
-	ldr r0, _02154D40 // =0x02175F54
-	mov r1, #1
-	ldr r0, [r0, #0x1c]
-	bl Sprite__GetTextureSizeFromAnim
-	mov r1, #0
-	bl VRAMSystem__AllocTexture
-	ldr r1, _02154D40 // =0x02175F54
-	mov r5, r0
-	ldr r0, [r1, #0x1c]
-	mov r1, #1
-	bl Sprite__GetPaletteSizeFromAnim
-	mov r1, #0
-	bl VRAMSystem__AllocPalette
-	mov r1, #4
-	stmia sp, {r1, r5}
-	str r0, [sp, #8]
-	ldr r2, _02154D40 // =0x02175F54
-	add r0, r4, #0x20
-	ldr r2, [r2, #0x1c]
-	mov r1, #0
-	mov r3, #5
-	bl AnimatorSprite3D__Init
-	ldr r0, [r4, #0x114]
-	mov r3, #0
-	orr r0, r0, #0x800
-	str r0, [r4, #0x114]
-	strb r3, [r4]
-	ldrb r2, [r4, #2]
-	mov r1, #0x46000
-	mov r0, #0x800
-	orr r2, r2, #0x40
-	strb r2, [r4, #2]
-	str r1, [r4, #0x134]
-	str r0, [r4, #0x138]
-	str r0, [r4, #0x13c]
-	str r0, [r4, #0x140]
-	ldrb r2, [r4, #0x150]
-	ldr r0, _02154D40 // =0x02175F54
-	add r1, r4, #0x12c
-	bic r2, r2, #3
-	strb r2, [r4, #0x150]
-	str r3, [r4, #0xc]
-	str r3, [r4, #0x10]
-	str r3, [r4, #0x14]
-	str r1, [r4, #0x18]
-	ldrsh r1, [r0, #2]
-	add r1, r1, #1
-	strh r1, [r0, #2]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_02154D40: .word 0x02175FA4
-	arm_func_end exBossFireDoraTask__Func_2154C48
-
-	arm_func_start exBossFireDoraTask__Func_2154D44
-exBossFireDoraTask__Func_2154D44: // 0x02154D44
-	ldr ip, _02154D54 // =AnimatorSprite__SetAnimation
-	strh r1, [r0, #0x1c]
-	add r0, r0, #0xb0
-	bx ip
-	.align 2, 0
-_02154D54: .word AnimatorSprite__SetAnimation
-	arm_func_end exBossFireDoraTask__Func_2154D44
-
-	arm_func_start exBossFireDoraTask__Func_2154D58
-exBossFireDoraTask__Func_2154D58: // 0x02154D58
-	stmdb sp!, {r3, lr}
-	add r0, r0, #0x20
-	bl AnimatorSprite3D__Release
-	ldr r0, _02154D78 // =0x02175FA4
-	ldrsh r1, [r0, #2]
-	sub r1, r1, #1
-	strh r1, [r0, #2]
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02154D78: .word 0x02175FA4
-	arm_func_end exBossFireDoraTask__Func_2154D58
-
-	arm_func_start exBossFireDoraTask__AnyActive
-exBossFireDoraTask__AnyActive: // 0x02154D7C
-	ldr r0, _02154D88 // =0x02175FA4
-	ldrsh r0, [r0, #0]
-	bx lr
-	.align 2, 0
-_02154D88: .word 0x02175FA4
-	arm_func_end exBossFireDoraTask__AnyActive
 	
 	.rodata
 

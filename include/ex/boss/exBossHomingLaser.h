@@ -29,7 +29,7 @@ typedef struct exBossHomingLaserTask_
 // FUNCTIONS
 // --------------------
 
-BOOL GetActiveExBossHomingLaserCount(void);
+s32 GetActiveExBossHomingLaserCount(void);
 BOOL CreateExBossHomingLaser(void);
 
 #endif // RUSH_EXBOSSHOMINGLASER_H

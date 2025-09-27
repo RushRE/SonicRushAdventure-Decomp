@@ -19,7 +19,7 @@
 static s16 exBossHomingLaserActiveCount;
 static s16 exBossHomingLaserInstanceCount;
 static Task *exBossHomingLaserTaskSingleton;
-static void *exBossHomingLaserSpriteResource[1];
+static void *exBossHomingLaserSpriteResource;
 
 static u16 laserStartAngles[EXBOSS_HOMING_LASER_COUNT] = { FLOAT_DEG_TO_IDX(210.0), FLOAT_DEG_TO_IDX(180.0), FLOAT_DEG_TO_IDX(150.0),
                                                            FLOAT_DEG_TO_IDX(30.0),  FLOAT_DEG_TO_IDX(1.0),   FLOAT_DEG_TO_IDX(330.0) };
@@ -48,12 +48,12 @@ void LoadExBossHomingLaserAssets(EX_ACTION_BAC3D_WORK *work)
     InitExDrawRequestSprite3D(work);
 
     if (exBossHomingLaserInstanceCount == 0)
-        exBossHomingLaserSpriteResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
+        exBossHomingLaserSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
 
-    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exBossHomingLaserSpriteResource[0], 1), FALSE);
-    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exBossHomingLaserSpriteResource[0], 1), FALSE);
+    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exBossHomingLaserSpriteResource, 1), FALSE);
+    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exBossHomingLaserSpriteResource, 1), FALSE);
 
-    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBossHomingLaserSpriteResource[0], EX_ACTCOM_ANI_HOMING_LASER, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBossHomingLaserSpriteResource, EX_ACTCOM_ANI_HOMING_LASER, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
                            vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
@@ -82,7 +82,7 @@ void ReleaseExBossHomingLaserAssets(EX_ACTION_BAC3D_WORK *work)
     exBossHomingLaserInstanceCount--;
 }
 
-BOOL GetActiveExBossHomingLaserCount(void)
+s32 GetActiveExBossHomingLaserCount(void)
 {
     return exBossHomingLaserActiveCount;
 }
