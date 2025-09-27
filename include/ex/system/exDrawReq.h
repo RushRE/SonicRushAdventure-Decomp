@@ -23,7 +23,7 @@ typedef u8 ExPlayerCharacter;
 // ENUMS
 // --------------------
 
-enum exDrawReqTaskType_
+enum ExDrawReqTaskType_
 {
     EXDRAWREQTASK_TYPE_NONE,
     EXDRAWREQTASK_TYPE_MODEL,
@@ -31,9 +31,9 @@ enum exDrawReqTaskType_
     EXDRAWREQTASK_TYPE_SPRITE3D,
     EXDRAWREQTASK_TYPE_TRAIL,
 };
-typedef u16 exDrawReqTaskType;
+typedef u16 ExDrawReqTaskType;
 
-enum exDrawReqTaskTrailType_
+enum ExDrawReqTaskTrailType_
 {
     EXDRAWREQTASK_TRAIL_NONE,
     EXDRAWREQTASK_TRAIL_PLAYER,
@@ -41,6 +41,14 @@ enum exDrawReqTaskTrailType_
     EXDRAWREQTASK_TRAIL_BOSS_HOMING_LASER,
 };
 typedef u16 ExDrawReqTaskTrailType;
+
+enum ExDrawReqTaskHomingLaserTrailType_
+{
+    EXDRAWREQTASK_HOMINGLASER_TRAIL_0,
+    EXDRAWREQTASK_HOMINGLASER_TRAIL_1,
+    EXDRAWREQTASK_HOMINGLASER_TRAIL_2,
+};
+typedef s32 ExDrawReqTaskHomingLaserTrailType;
 
 enum ExDrawReqTaskConfig_ActiveScreens_
 {
@@ -238,7 +246,7 @@ BOOL IsExDrawRequestModelAnimFinished(EX_ACTION_NN_WORK *work);
 
 void InitExDrawRequestTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *position, ExDrawReqTaskTrailType type);
 void InitExDrawRequestBossHomingLaserTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos);
-void ProcessExDrawRequestBossHomingLaserTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos, s32 type);
+void ProcessExDrawRequestBossHomingLaserTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos, ExDrawReqTaskHomingLaserTrailType type);
 void InitExDrawRequestBossFireDragonTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos);
 void ProcessExDrawRequestBossFireDragonTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos);
 void InitExDrawRequestPlayerTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos);

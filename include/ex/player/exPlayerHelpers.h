@@ -43,7 +43,7 @@ NOT_DECOMPILED void exPlayerHelpers__SetAnimationInternal(EX_ACTION_NN_WORK *wor
 NOT_DECOMPILED void exPlayerHelpers__Func_2152CB4(void);
 NOT_DECOMPILED void exPlayerHelpers__Func_2152D28(VecU16 *angle, VecU16 *direction, VecU16 *velocity, s32 type);
 NOT_DECOMPILED u16 exPlayerHelpers__Func_2152E28(fx32 y, fx32 x);
-NOT_DECOMPILED u16 ovl09_2152EA8(fx32 y, fx32 x, void *a3, u16 *a4, u16 a5);
+NOT_DECOMPILED u16 ovl09_2152EA8(fx32 y, fx32 x, VecU16 *rotation, u16 *angle, u16 a4);
 NOT_DECOMPILED void exPlayerHelpers__Func_2152FB0(ExPlayerUnknown2152FB0 *work, VecFx32 *start, VecFx32 *target, float stepSize, float duration);
 NOT_DECOMPILED BOOL exPlayerHelpers__Func_21530FC(ExPlayerUnknown2152FB0 *work, VecFx32 *position, BOOL useCurrentPositionZ);
 

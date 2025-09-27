@@ -557,7 +557,7 @@ void ExBoss_Main_Idle_HomingLaserDragon(void)
 
     if (work->idleDuration <= 0)
     {
-        if (!exBossFireDoraTask__AnyActive() && !exBossHomingLaserTask__AnyActive())
+        if (!exBossFireDoraTask__AnyActive() && GetActiveExBossHomingLaserCount() == 0)
         {
             s32 attackPercent = mtMathRand() % 100;
 
@@ -753,7 +753,7 @@ void ExBoss_Main_Idle_HomingLaserDragon_Phase3(void)
 
     if (work->idleDuration <= 0)
     {
-        if (!exBossFireDoraTask__AnyActive() && !exBossHomingLaserTask__AnyActive())
+        if (!exBossFireDoraTask__AnyActive() && GetActiveExBossHomingLaserCount() == 0)
         {
             s32 attackPercent = mtMathRand() % 100;
 

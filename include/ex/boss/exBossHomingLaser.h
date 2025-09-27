@@ -2,23 +2,34 @@
 #define RUSH_EXBOSSHOMINGLASER_H
 
 #include <ex/boss/exBoss.h>
+#include <ex/player/exPlayerHelpers.h>
+
+typedef struct exBossHomingLaserTask_
+{
+    u16 id;
+    s16 timer;
+    s16 trailUpdateTimer;
+    VecFx32 velocity;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+    VecU16 angle;
+    u16 angleUnknown;
+    float moveSpeed;
+    VecFx32 position;
+    s16 field_38;
+    u16 startAngle;
+    s32 field_3C;
+    exBossSysAdminTask *parent;
+    EX_ACTION_BAC3D_WORK aniSprite3D;
+    EX_ACTION_TRAIL_WORK aniTrail;
+} exBossHomingLaserTask;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void exBossHomingLaserTask__Func_2159CEC(void);
-NOT_DECOMPILED void exBossHomingLaserTask__Func_2159DF0(void);
-NOT_DECOMPILED BOOL exBossHomingLaserTask__AnyActive(void);
-NOT_DECOMPILED void exBossHomingLaserTask__Main(void);
-NOT_DECOMPILED void exBossHomingLaserTask__Func8(void);
-NOT_DECOMPILED void exBossHomingLaserTask__Destructor(void);
-NOT_DECOMPILED void exBossHomingLaserTask__Main_2159FE4(void);
-NOT_DECOMPILED void exBossHomingLaserTask__Func_215A270(void);
-NOT_DECOMPILED void exBossHomingLaserTask__Func_215A2CC(void);
-NOT_DECOMPILED void exBossHomingLaserTask__Func_215A388(void);
-NOT_DECOMPILED void exBossHomingLaserTask__Func_215A434(void);
-NOT_DECOMPILED void exBossHomingLaserTask__Create(void);
+BOOL GetActiveExBossHomingLaserCount(void);
+BOOL CreateExBossHomingLaser(void);
 
 #endif // RUSH_EXBOSSHOMINGLASER_H
-

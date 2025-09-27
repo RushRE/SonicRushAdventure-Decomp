@@ -20,7 +20,7 @@ typedef struct exDrawRequest_
 {
     u16 slot;
     ExDrawReqTaskPriority priority;
-    exDrawReqTaskType type;
+    ExDrawReqTaskType type;
     struct exDrawRequest_ *next;
     void *drawWork;
     EX_ACTION_NN_WORK model;
@@ -753,7 +753,7 @@ void InitExDrawRequestBossHomingLaserTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *
     work->config.control.activeScreens            = EXDRAWREQTASKCONFIG_SCREEN_BOTH;
 }
 
-void ProcessExDrawRequestBossHomingLaserTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos, s32 type)
+void ProcessExDrawRequestBossHomingLaserTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos, ExDrawReqTaskHomingLaserTrailType type)
 {
     s32 *trailAlpha;
     ExGraphicsTrail *trail = &work->trail;
@@ -761,15 +761,15 @@ void ProcessExDrawRequestBossHomingLaserTrail(EX_ACTION_TRAIL_WORK *work, VecFx3
     u32 offset;
     switch (type)
     {
-        case 0:
+        case EXDRAWREQTASK_HOMINGLASER_TRAIL_0:
             offset = FLOAT_TO_FX32(1.5);
             break;
 
-        case 1:
+        case EXDRAWREQTASK_HOMINGLASER_TRAIL_1:
             offset = FLOAT_TO_FX32(3.0);
             break;
 
-        case 2:
+        case EXDRAWREQTASK_HOMINGLASER_TRAIL_2:
             offset = FLOAT_TO_FX32(1.5);
             break;
     }

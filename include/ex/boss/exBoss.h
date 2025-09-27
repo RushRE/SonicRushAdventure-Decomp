@@ -13,6 +13,7 @@
 #define EXBOSS_HEALTH_MAX      (176)
 
 #define EXBOSS_LINE_MISSILE_COUNT 6
+#define EXBOSS_HOMING_LASER_COUNT 6
 
 // --------------------
 // ENUMS

@@ -589,7 +589,7 @@ void exHitCheckTask_ArenaCheck_Model(EX_ACTION_NN_WORK *work)
     }
 }
 
-void exHitCheckTask_DoArenaBoundsCheck(void *work, exDrawReqTaskType type)
+void exHitCheckTask_DoArenaBoundsCheck(void *work, ExDrawReqTaskType type)
 {
     if (type == EXDRAWREQTASK_TYPE_SPRITE2D)
     {

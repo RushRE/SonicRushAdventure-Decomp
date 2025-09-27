@@ -219,7 +219,7 @@ exBossFireDoraTask__Main: // 0x02154F60
 	ldr r1, _0215510C // =0x02173F98
 	str r2, [r4, #0x388]
 	ldr r2, [r4, #0x7b4]
-	ldr r3, _02155110 // =0xB40B40B5
+	ldr r3, _02155110 // =0xB40B40B5 // (x / 182)
 	ldr r2, [r2, #0x3f0]
 	add ip, r4, #0x300
 	str r2, [r4, #0x38c]

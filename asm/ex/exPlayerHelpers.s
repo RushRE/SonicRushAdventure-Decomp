@@ -390,7 +390,7 @@ _02152EA4: .word 0xB60B60B7
 ovl09_2152EA8: // 0x02152EA8
 	stmdb sp!, {r4, r5, r6, lr}
 	ldrh r5, [sp, #0x10]
-	ldr r4, _02152FAC // =0xB40B40B5
+	ldr r4, _02152FAC // =0xB40B40B5 // (x / 182)
 	mov r6, r2
 	smull r2, ip, r4, r5
 	add ip, r5, ip
