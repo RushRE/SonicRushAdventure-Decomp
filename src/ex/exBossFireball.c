@@ -51,7 +51,7 @@ FORCE_INCLUDE_VARIABLE_BSS(fireballBlueUnused)
 static BOOL LoadExBossFireBlueAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossFireBlueAssets(EX_ACTION_NN_WORK *work);
 static void ExBossFireBlue_Main_Init(void);
-static void ExBossFireBlue_TaskUnknown(void);
+static void ExBossFireBlue_OnCheckStageFinished(void);
 static void ExBossFireBlue_Destructor(void);
 static void ExBossFireBlue_Main_MoveFast(void);
 static void ExBossFireBlue_Action_SlowDown(void);
@@ -63,7 +63,7 @@ static void ExBossFireBlue_Main_Repelled(void);
 static BOOL LoadExBossFireRedAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossFireRedAssets(EX_ACTION_NN_WORK *work);
 static void ExBossFireRed_Main_Init(void);
-static void ExBossFireRed_TaskUnknown(void);
+static void ExBossFireRed_OnCheckStageFinished(void);
 static void ExBossFireRed_Destructor(void);
 static void ExBossFireRed_Main_MoveFast(void);
 static void ExBossFireRed_Action_SlowDown(void);
@@ -211,7 +211,7 @@ void ExBossFireBlue_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossFireBlue_Main_MoveFast);
 }
 
-void ExBossFireBlue_TaskUnknown(void)
+void ExBossFireBlue_OnCheckStageFinished(void)
 {
     exBossFireBlueTask *work = ExTaskGetWorkCurrent(exBossFireBlueTask);
 
@@ -287,7 +287,7 @@ void ExBossFireBlue_Main_MoveFast(void)
         AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -339,7 +339,7 @@ void ExBossFireBlue_Main_MoveSlow(void)
         AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -425,7 +425,7 @@ void ExBossFireBlue_Main_Repelled(void)
     AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
     exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExBossFireBlue(void)
@@ -437,7 +437,7 @@ BOOL CreateExBossFireBlue(void)
     TaskInitWork8(work);
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
-    SetExTaskUnknownEvent(task, ExBossFireBlue_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossFireBlue_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -564,7 +564,7 @@ void ExBossFireRed_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossFireRed_Main_MoveFast);
 }
 
-void ExBossFireRed_TaskUnknown(void)
+void ExBossFireRed_OnCheckStageFinished(void)
 {
     exBossFireRedTask *work = ExTaskGetWorkCurrent(exBossFireRedTask);
 
@@ -638,7 +638,7 @@ void ExBossFireRed_Main_MoveFast(void)
         AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -688,7 +688,7 @@ void ExBossFireRed_Main_MoveSlow(void)
         AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -774,7 +774,7 @@ void ExBossFireRed_Main_Repelled(void)
     AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
     exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExBossFireRed(void)
@@ -786,7 +786,7 @@ BOOL CreateExBossFireRed(void)
     TaskInitWork8(work);
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
-    SetExTaskUnknownEvent(task, ExBossFireRed_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossFireRed_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -825,7 +825,7 @@ void ExBoss_Main_StartFire0(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -844,7 +844,7 @@ void ExBoss_Main_FinishFire0(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -882,7 +882,7 @@ void ExBoss_Main_Fire1(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -924,7 +924,7 @@ void ExBoss_Main_Fire2(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -984,7 +984,7 @@ void ExBoss_Main_Fire4(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 

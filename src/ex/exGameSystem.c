@@ -18,7 +18,7 @@ static Task *exGameSystemTaskSingleton;
 
 // ExGameSystem
 static void ExGameSystem_Main_Init(void);
-static void ExGameSystem_TaskUnknown(void);
+static void ExGameSystem_OnCheckStageFinished(void);
 static void ExGameSystem_Destructor(void);
 static void ExGameSystem_Main_WaitForTitleCardDone(void);
 static void ExGameSystem_Action_WaitForBossTrigger(void);
@@ -53,7 +53,7 @@ void ExGameSystem_Main_Init(void)
     SetCurrentExTaskMainEvent(ExGameSystem_Main_WaitForTitleCardDone);
 }
 
-void ExGameSystem_TaskUnknown(void)
+void ExGameSystem_OnCheckStageFinished(void)
 {
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
 
@@ -87,7 +87,7 @@ void ExGameSystem_Main_WaitForTitleCardDone(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -99,7 +99,7 @@ void ExGameSystem_Action_WaitForBossTrigger(void)
     SetCurrentExTaskMainEvent(ExGameSystem_Main_WaitForBossTrigger);
     ExGameSystem_Main_WaitForBossTrigger();
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExGameSystem_Main_WaitForBossTrigger(void)
@@ -113,7 +113,7 @@ void ExGameSystem_Main_WaitForBossTrigger(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -140,7 +140,7 @@ void ExGameSystem_Main_CreatedStageObjects(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -169,7 +169,7 @@ void ExGameSystem_Main_StoppedSpawningMeteors(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -187,7 +187,7 @@ void ExGameSystem_Main_Idle(void)
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
     UNUSED(work);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void CreateExGameSystem(void)
@@ -198,7 +198,7 @@ void CreateExGameSystem(void)
     exGameSystemTask *work = ExTaskGetWork(task, exGameSystemTask);
     UNUSED(work);
 
-    SetExTaskUnknownEvent(task, ExGameSystem_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExGameSystem_OnCheckStageFinished);
 }
 
 void DestroyExGameSystem(void)

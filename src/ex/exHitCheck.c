@@ -42,7 +42,7 @@ static void exHitCheckTask_ArenaCheck_Model(EX_ACTION_NN_WORK *work);
 static void exHitCheckTask_DoHitChecks(void);
 
 static void exHitCheckTask_Main_Init(void);
-static void exHitCheckTask_TaskUnknown(void);
+static void exHitCheckTask_OnCheckStageFinished(void);
 static void exHitCheckTask_Destructor(void);
 static void exHitCheckTask_Main_Active(void);
 
@@ -1092,7 +1092,7 @@ void exHitCheckTask_Main_Init(void)
     SetCurrentExTaskMainEvent(exHitCheckTask_Main_Active);
 }
 
-void exHitCheckTask_TaskUnknown(void)
+void exHitCheckTask_OnCheckStageFinished(void)
 {
     exHitCheckTask *work = ExTaskGetWorkCurrent(exHitCheckTask);
     UNUSED(work);
@@ -1138,7 +1138,7 @@ void exHitCheckTask_Main_Active(void)
 
     exHitCheckTask_DoHitChecks();
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void exHitCheckTask_Create(void)
@@ -1148,5 +1148,5 @@ void exHitCheckTask_Create(void)
     exHitCheckTask *work = ExTaskGetWork(task, exHitCheckTask);
     UNUSED(work);
 
-    SetExTaskUnknownEvent(task, exHitCheckTask_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, exHitCheckTask_OnCheckStageFinished);
 }

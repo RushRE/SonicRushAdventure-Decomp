@@ -2793,14 +2793,14 @@ void ExRingManager_SetRingAnim(EX_ACTION_BAC3D_WORK *work, u16 anim);
 // ExLoopRing
 void ReleaseExLoopRingAssets(EX_ACTION_BAC3D_WORK *work);
 void ExLoopRing_Main_Init(void);
-void ExLoopRing_TaskUnknown(void);
+void ExLoopRing_OnCheckStageFinished(void);
 void ExLoopRing_Destructor(void);
 void ExLoopRing_Main_Animate(void);
 BOOL CreateExLoopRing(void);
 
 // ExRing
 void ExRing_Main_Init(void);
-void ExRing_TaskUnknown(void);
+void ExRing_OnCheckStageFinished(void);
 void ExRing_Destructor(void);
 void ExRing_Main_Ring(void);
 void ExRing_Action_Collect(void);
@@ -2809,7 +2809,7 @@ BOOL CreateExRing(VecFx32 position, VecFx32 velocity);
 
 // ExRingManager
 void ExRingManager_Main_Init(void);
-void ExRingManager_TaskUnknown(void);
+void ExRingManager_OnCheckStageFinished(void);
 void ExRingManager_Destructor(void);
 void ExRingManager_Main_Active(void);
 void ConfigureExRingManagerSpawning(void);
@@ -2891,7 +2891,7 @@ void ExLoopRing_Main_Init(void)
     }
 }
 
-void ExLoopRing_TaskUnknown(void)
+void ExLoopRing_OnCheckStageFinished(void)
 {
     exEffectLoopRingTask *work = ExTaskGetWorkCurrent(exEffectLoopRingTask);
     UNUSED(work);
@@ -2918,7 +2918,7 @@ void ExLoopRing_Main_Animate(void)
     if (exRingManagerActiveRingCount != 0)
         AnimatorSprite3D__ProcessAnimationFast(&exRingAnimator);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExLoopRing(void)
@@ -2928,7 +2928,7 @@ BOOL CreateExLoopRing(void)
     exEffectLoopRingTask *work = ExTaskGetWork(task, exEffectLoopRingTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExLoopRing_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExLoopRing_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -2951,7 +2951,7 @@ void ExRing_Main_Init(void)
     ExRing_Main_Ring();
 }
 
-void ExRing_TaskUnknown(void)
+void ExRing_OnCheckStageFinished(void)
 {
     exEffectRingTask *work = ExTaskGetWorkCurrent(exEffectRingTask);
     UNUSED(work);
@@ -2991,7 +2991,7 @@ void ExRing_Main_Ring(void)
     AddExDrawRequest(&work->aniRing, &work->aniRing.config);
     exHitCheckTask_AddHitCheck(&work->aniRing.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExRing_Action_Collect(void)
@@ -3036,7 +3036,7 @@ void ExRing_Main_Sparkle(void)
     AnimateExDrawRequestSprite3D(&work->aniRing);
     AddExDrawRequest(&work->aniRing, &work->aniRing.config);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExRing(VecFx32 position, VecFx32 velocity)
@@ -3046,7 +3046,7 @@ BOOL CreateExRing(VecFx32 position, VecFx32 velocity)
     exEffectRingTask *work = ExTaskGetWork(task, exEffectRingTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExRing_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExRing_OnCheckStageFinished);
 
     if (!ExRingManager_InitRingSprite(&work->aniRing))
     {
@@ -3085,7 +3085,7 @@ void ExRingManager_Main_Init(void)
     SetCurrentExTaskMainEvent(ExRingManager_Main_Active);
 }
 
-void ExRingManager_TaskUnknown(void)
+void ExRingManager_OnCheckStageFinished(void)
 {
     exEffectRingAdminTask *work = ExTaskGetWorkCurrent(exEffectRingAdminTask);
     UNUSED(work);
@@ -3238,7 +3238,7 @@ void ExRingManager_Main_Active(void)
 
         ConfigureExRingManagerSpawning();
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -3252,7 +3252,7 @@ void ConfigureExRingManagerSpawning(void)
         switch (GetExSystemStatus()->state)
         {
             case EXSYSTASK_STATE_STARTED:
-            case EXSYSTASK_STATE_2:
+            case EXSYSTASK_STATE_UNUSED:
             case EXSYSTASK_STATE_BOSS_ACTIVE:
                 tableID = 0;
                 break;
@@ -3283,7 +3283,7 @@ void ConfigureExRingManagerSpawning(void)
         switch (GetExSystemStatus()->state)
         {
             case EXSYSTASK_STATE_STARTED:
-            case EXSYSTASK_STATE_2:
+            case EXSYSTASK_STATE_UNUSED:
             case EXSYSTASK_STATE_BOSS_ACTIVE:
                 tableID = 6;
                 break;
@@ -3333,7 +3333,7 @@ void CreateExRingManager(void)
     exEffectRingAdminTask *work = ExTaskGetWork(task, exEffectRingAdminTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExRingManager_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExRingManager_OnCheckStageFinished);
 }
 
 void DestroyExRingManager(void)

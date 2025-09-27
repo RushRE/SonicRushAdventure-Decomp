@@ -70,7 +70,7 @@ static void ReleaseExBlazeFireballShotEffectAssets(EX_ACTION_NN_WORK *work);
 
 // ExBlazeFireballEffect
 static void ExBlazeFireballEffect_Main_Init(void);
-static void ExBlazeFireballEffect_TaskUnknown(void);
+static void ExBlazeFireballEffect_OnCheckStageFinished(void);
 static void ExBlazeFireballEffect_Destructor(void);
 static void ExBlazeFireballEffect_Main_Charging(void);
 static void ExBlazeFireballEffect_Action_FireShot(void);
@@ -78,13 +78,13 @@ static void ExBlazeFireballEffect_Main_Fired(void);
 
 // ExBlazeFireballChargingEffect
 static void ExBlazeFireballChargingEffect_Main_Init(void);
-static void ExBlazeFireballChargingEffect_TaskUnknown(void);
+static void ExBlazeFireballChargingEffect_OnCheckStageFinished(void);
 static void ExBlazeFireballChargingEffect_Destructor(void);
 static void ExBlazeFireballChargingEffect_Main_Active(void);
 
 // ExBlazeFireballShotEffect
 static void ExBlazeFireballShotEffect_Main_Init(void);
-static void ExBlazeFireballShotEffect_TaskUnknown(void);
+static void ExBlazeFireballShotEffect_OnCheckStageFinished(void);
 static void ExBlazeFireballShotEffect_Destructor(void);
 static void ExBlazeFireballShotEffect_Main_Active(void);
 
@@ -105,7 +105,7 @@ void LoadExBlazeFireballEffectAssets(EX_ACTION_BAC3D_WORK *work, u16 anim)
     AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBlazeFireballEffectSpriteResource, anim, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels, vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
-    work->hitChecker.type            = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+    work->hitChecker.type                        = EXHITCHECK_TYPE_ACTIVE_PLAYER;
     work->hitChecker.input.isBlazeFireballEffect = TRUE;
 
     work->sprite.translation.z = FLOAT_TO_FX32(70.0);
@@ -181,12 +181,12 @@ BOOL LoadExBlazeFireballChargingEffectAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
-    work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
+    work->hitChecker.type                     = EXHITCHECK_TYPE_NOT_SOLID;
     work->hitChecker.input.isSpriteOrModelVFX = TRUE;
-    work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position    = &work->model.translation;
+    work->hitChecker.box.size.x               = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.y               = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.z               = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position             = &work->model.translation;
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
@@ -284,12 +284,12 @@ BOOL LoadExBlazeFireballShotEffectAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
 
-    work->hitChecker.type            = EXHITCHECK_TYPE_NOT_SOLID;
+    work->hitChecker.type                     = EXHITCHECK_TYPE_NOT_SOLID;
     work->hitChecker.input.isSpriteOrModelVFX = TRUE;
-    work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position    = &work->model.translation;
+    work->hitChecker.box.size.x               = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.y               = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.z               = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position             = &work->model.translation;
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
@@ -344,7 +344,7 @@ void ExBlazeFireballEffect_Main_Init(void)
     ExBlazeFireballEffect_Main_Charging();
 }
 
-void ExBlazeFireballEffect_TaskUnknown(void)
+void ExBlazeFireballEffect_OnCheckStageFinished(void)
 {
     exEffectBlzFireTask *work = ExTaskGetWorkCurrent(exEffectBlzFireTask);
     UNUSED(work);
@@ -379,7 +379,7 @@ void ExBlazeFireballEffect_Main_Charging(void)
         }
         else
         {
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -524,7 +524,7 @@ void ExBlazeFireballEffect_Main_Fired(void)
             AddExDrawRequest(&work->aniFire, &work->aniFire.config);
             exHitCheckTask_AddHitCheck(&work->aniFire.hitChecker);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -540,7 +540,7 @@ BOOL CreateExBlazeFireballEffect(EX_ACTION_NN_WORK *parent)
     work->parent     = parent;
     work->parentTask = GetCurrentTask();
 
-    SetExTaskUnknownEvent(task, ExBlazeFireballEffect_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBlazeFireballEffect_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -565,7 +565,7 @@ void ExBlazeFireballChargingEffect_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBlazeFireballChargingEffect_Main_Active);
 }
 
-void ExBlazeFireballChargingEffect_TaskUnknown(void)
+void ExBlazeFireballChargingEffect_OnCheckStageFinished(void)
 {
     exExEffectBlzFireTaMeTask *work = ExTaskGetWorkCurrent(exExEffectBlzFireTaMeTask);
     UNUSED(work);
@@ -628,7 +628,7 @@ void ExBlazeFireballChargingEffect_Main_Active(void)
     {
         AddExDrawRequest(&work->aniTaMe, &work->aniTaMe.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -643,7 +643,7 @@ BOOL CreateExBlazeFireballChargingEffect(EX_ACTION_NN_WORK *parent)
     work->parent     = parent;
     work->parentTask = GetCurrentTask();
 
-    SetExTaskUnknownEvent(task, ExBlazeFireballChargingEffect_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBlazeFireballChargingEffect_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -661,7 +661,7 @@ void ExBlazeFireballShotEffect_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBlazeFireballShotEffect_Main_Active);
 }
 
-void ExBlazeFireballShotEffect_TaskUnknown(void)
+void ExBlazeFireballShotEffect_OnCheckStageFinished(void)
 {
     exEffectBlzFireShotTask *work = ExTaskGetWorkCurrent(exEffectBlzFireShotTask);
     UNUSED(work);
@@ -697,7 +697,7 @@ void ExBlazeFireballShotEffect_Main_Active(void)
     {
         AddExDrawRequest(&work->aniShot, &work->aniShot.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -712,7 +712,7 @@ BOOL CreateExBlazeFireballShotEffect(EX_ACTION_NN_WORK *parent)
     work->parent     = parent;
     work->parentTask = GetCurrentTask();
 
-    SetExTaskUnknownEvent(task, ExBlazeFireballShotEffect_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBlazeFireballShotEffect_OnCheckStageFinished);
 
     return TRUE;
 }

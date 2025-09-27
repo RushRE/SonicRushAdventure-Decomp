@@ -17149,7 +17149,7 @@
 .public ExSonicBarrierEffect_Main_BarrierActive
 .public ExSonicBarrierEffect_Main_InitBarrierHit
 .public ExSonicBarrierEffect_Main_BarrierHit
-.public ExSonicBarrierEffect_DelayCallback
+.public ExSonicBarrierEffect_OnHitstopActive
 .public CreateExSonicBarrierEffect
 .public LoadExSonicBarrierChargingEffectAssets
 .public ReleaseExSonicBarrierChargingEffectAssets
@@ -17393,7 +17393,7 @@
 .public ExPlayer_HandlePlayerSwap
 .public ExPlayer_HandleDash
 .public ExPlayer_Draw
-.public ExPlayer_DelayCallback
+.public ExPlayer_OnHitstopActive
 .public ProcessExPlayerAnimations
 .public CreateExPlayer
 .public DestroyExPlayer

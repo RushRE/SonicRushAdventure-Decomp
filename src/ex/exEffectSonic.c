@@ -64,7 +64,7 @@ static struct ExBarrierChargingEffectConfig exSonicBarrierChargingEffectConfig[]
 static BOOL LoadExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work);
 static void ExSonicBarrierHitEffect_Main_Init(void);
-static void ExSonicBarrierHitEffect_TaskUnknown(void);
+static void ExSonicBarrierHitEffect_OnCheckStageFinished(void);
 static void ExSonicBarrierHitEffect_Destructor(void);
 static void ExSonicBarrierHitEffect_Main_Active(void);
 
@@ -73,19 +73,19 @@ static void LoadExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work);
 static void SetExSonicBarrierEffectAnimation(EX_ACTION_BAC3D_WORK *work, u16 anim);
 static void ReleaseExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work);
 static void ExSonicBarrierEffect_Main_Init(void);
-static void ExSonicBarrierEffect_TaskUnknown(void);
+static void ExSonicBarrierEffect_OnCheckStageFinished(void);
 static void ExSonicBarrierEffect_Destructor(void);
 static void ExSonicBarrierEffect_Main_InitBarrierActive(void);
 static void ExSonicBarrierEffect_Main_BarrierActive(void);
 static void ExSonicBarrierEffect_Main_InitBarrierHit(void);
 static void ExSonicBarrierEffect_Main_BarrierHit(void);
-static void ExSonicBarrierEffect_DelayCallback(void);
+static void ExSonicBarrierEffect_OnHitstopActive(void);
 
 // ExSonicBarrierChargingEffect
 static BOOL LoadExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work);
 static void ExSonicBarrierChargingEffect_Main_Init(void);
-static void ExSonicBarrierChargingEffect_TaskUnknown(void);
+static void ExSonicBarrierChargingEffect_OnCheckStageFinished(void);
 static void ExSonicBarrierChargingEffect_Destructor(void);
 static void ExSonicBarrierChargingEffect_Main_Active(void);
 
@@ -206,7 +206,7 @@ void ExSonicBarrierHitEffect_Main_Init(void)
     SetCurrentExTaskMainEvent(ExSonicBarrierHitEffect_Main_Active);
 }
 
-void ExSonicBarrierHitEffect_TaskUnknown(void)
+void ExSonicBarrierHitEffect_OnCheckStageFinished(void)
 {
     exEffectBarrierHitTask *work = ExTaskGetWorkCurrent(exEffectBarrierHitTask);
     UNUSED(work);
@@ -242,7 +242,7 @@ void ExSonicBarrierHitEffect_Main_Active(void)
     {
         AddExDrawRequest(&work->aniBarrier, &work->aniBarrier.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -261,7 +261,7 @@ BOOL CreateExSonicBarrierHitEffect(VecFx32 *targetPos)
     work->targetPos.y = targetPos->y;
     work->targetPos.z = targetPos->z;
 
-    SetExTaskUnknownEvent(task, ExSonicBarrierHitEffect_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExSonicBarrierHitEffect_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -349,7 +349,7 @@ void ExSonicBarrierEffect_Main_Init(void)
     SetCurrentExTaskMainEvent(ExSonicBarrierEffect_Main_InitBarrierActive);
 }
 
-void ExSonicBarrierEffect_TaskUnknown(void)
+void ExSonicBarrierEffect_OnCheckStageFinished(void)
 {
     exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
     UNUSED(work);
@@ -403,7 +403,7 @@ void ExSonicBarrierEffect_Main_BarrierActive(void)
         AddExDrawRequest(&work->aniBarrier, &work->aniBarrier.config);
         exHitCheckTask_AddHitCheck(&work->aniBarrier.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -420,8 +420,8 @@ void ExSonicBarrierEffect_Main_InitBarrierHit(void)
             work->aniBarrier.hitChecker.box.size.x = FLOAT_TO_FX32(8.125);
             work->aniBarrier.hitChecker.box.size.y = FLOAT_TO_FX32(8.125);
 
-            SetCurrentExTaskTimer(5);
-            SetExTaskTimer(work->parentTask, 5);
+            SetCurrentExTaskHitstopTimer(5);
+            SetExTaskHitstopTimer(work->parentTask, 5);
 
             work->parent->config.control.timer    = 5;
             work->aniBarrier.config.control.timer = 5;
@@ -442,8 +442,8 @@ void ExSonicBarrierEffect_Main_InitBarrierHit(void)
             work->aniBarrier.hitChecker.box.size.x = FLOAT_TO_FX32(8.125);
             work->aniBarrier.hitChecker.box.size.y = FLOAT_TO_FX32(8.125);
 
-            SetCurrentExTaskTimer(5);
-            SetExTaskTimer(work->parentTask, 5);
+            SetCurrentExTaskHitstopTimer(5);
+            SetExTaskHitstopTimer(work->parentTask, 5);
 
             work->parent->config.control.timer    = 5;
             work->aniBarrier.config.control.timer = 5;
@@ -497,11 +497,11 @@ void ExSonicBarrierEffect_Main_BarrierHit(void)
     {
         AddExDrawRequest(&work->aniBarrier, &work->aniBarrier.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
-void ExSonicBarrierEffect_DelayCallback(void)
+void ExSonicBarrierEffect_OnHitstopActive(void)
 {
     exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
@@ -509,7 +509,7 @@ void ExSonicBarrierEffect_DelayCallback(void)
     ProcessExDrawTimer(&work->aniBarrier.config);
     AddExDrawRequest(&work->aniBarrier, &work->aniBarrier.config);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void CreateExSonicBarrierEffect(EX_ACTION_NN_WORK *parent)
@@ -529,8 +529,8 @@ void CreateExSonicBarrierEffect(EX_ACTION_NN_WORK *parent)
     work->parentTask = GetCurrentTask();
     work->power      = work->parent->hitChecker.power;
 
-    SetExTaskUnknownEvent(task, ExSonicBarrierEffect_TaskUnknown);
-    SetExTaskDelayEvent(task, ExSonicBarrierEffect_DelayCallback);
+    SetExTaskOnCheckStageFinishedEvent(task, ExSonicBarrierEffect_OnCheckStageFinished);
+    SetExTaskOnHitstopActiveEvent(task, ExSonicBarrierEffect_OnHitstopActive);
 }
 
 BOOL LoadExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work)
@@ -637,7 +637,7 @@ void ExSonicBarrierChargingEffect_Main_Init(void)
     SetCurrentExTaskMainEvent(ExSonicBarrierChargingEffect_Main_Active);
 }
 
-void ExSonicBarrierChargingEffect_TaskUnknown(void)
+void ExSonicBarrierChargingEffect_OnCheckStageFinished(void)
 {
     exExEffectSonicBarrierTaMeTask *work = ExTaskGetWorkCurrent(exExEffectSonicBarrierTaMeTask);
     UNUSED(work);
@@ -698,7 +698,7 @@ void ExSonicBarrierChargingEffect_Main_Active(void)
 
     AddExDrawRequest(&work->aniTaMe, &work->aniTaMe.config);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExSonicBarrierChargingEffect(EX_ACTION_NN_WORK *parent)
@@ -712,7 +712,7 @@ BOOL CreateExSonicBarrierChargingEffect(EX_ACTION_NN_WORK *parent)
     work->parent     = parent;
     work->parentTask = GetCurrentTask();
 
-    SetExTaskUnknownEvent(task, ExSonicBarrierChargingEffect_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExSonicBarrierChargingEffect_OnCheckStageFinished);
 
     return TRUE;
 }

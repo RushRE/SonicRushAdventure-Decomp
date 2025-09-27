@@ -76,7 +76,7 @@ extern BOOL SetExDrawRequestGlobalModelConfigTimer(u8 duration);
 static BOOL LoadExBossMeteorBombAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossMeteorBombAssets(EX_ACTION_NN_WORK *work);
 static void ExBossMeteorBomb_Main_Init(void);
-static void ExBossMeteorBomb_TaskUnknown(void);
+static void ExBossMeteorBomb_OnCheckStageFinished(void);
 static void ExBossMeteorBomb_Destructor(void);
 static void ExBossMeteorBomb_Main_Explode(void);
 
@@ -85,7 +85,7 @@ static BOOL LoadExBossMeteorLockOnAssets(EX_ACTION_NN_WORK *work);
 static void SetExBossMeteorLockOnAnim(EX_ACTION_NN_WORK *work, u16 id);
 static void ReleaseExBossMeteorLockOnAssets(EX_ACTION_NN_WORK *work);
 static void ExBossMeteorLockOn_Main_Init(void);
-static void ExBossMeteorLockOn_TaskUnknown(void);
+static void ExBossMeteorLockOn_OnCheckStageFinished(void);
 static void ExBossMeteorLockOn_Destructor(void);
 static void ExBossMeteorLockOn_Main_Appear(void);
 static void ExBossMeteorLockOn_Main_FinishAppearing(void);
@@ -100,7 +100,7 @@ static void ExBossMeteorLockOn_Main_Exploded(void);
 static BOOL LoadExBossMeteorAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossMeteorAssets(EX_ACTION_NN_WORK *work);
 static void ExBossMeteor_Main_Init(void);
-static void ExBossMeteor_TaskUnknown(void);
+static void ExBossMeteor_OnCheckStageFinished(void);
 static void ExBossMeteor_Destructor(void);
 static void ExBossMeteor_Main_FallToLockOnPos(void);
 static void ExBossMeteor_Action_Impact(void);
@@ -110,7 +110,7 @@ static void ExBossMeteor_Main_Explode(void);
 
 // ExBossMeteorAdmin
 static void ExBossMeteorAdmin_Main_Init(void);
-static void ExBossMeteorAdmin_TaskUnknown(void);
+static void ExBossMeteorAdmin_OnCheckStageFinished(void);
 static void ExBossMeteorAdmin_Destructor(void);
 static void ExBossMeteorAdmin_Main_WaitForLockOn(void);
 static void ExBossMeteorAdmin_Action_WaitForMeteor(void);
@@ -267,7 +267,7 @@ void ExBossMeteorBomb_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossMeteorBomb_Main_Explode);
 }
 
-void ExBossMeteorBomb_TaskUnknown(void)
+void ExBossMeteorBomb_OnCheckStageFinished(void)
 {
     exBossMeteBombTask *work = ExTaskGetWorkCurrent(exBossMeteBombTask);
     UNUSED(work);
@@ -307,7 +307,7 @@ void ExBossMeteorBomb_Main_Explode(void)
         AddExDrawRequest(&work->animator, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -323,7 +323,7 @@ BOOL CreateExBossMeteorBomb(VecFx32 *targetPos)
     work->targetPos.y = targetPos->y;
     work->targetPos.z = targetPos->z;
 
-    SetExTaskUnknownEvent(task, ExBossMeteorBomb_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossMeteorBomb_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -464,7 +464,7 @@ void ExBossMeteorLockOn_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossMeteorLockOn_Main_Appear);
 }
 
-void ExBossMeteorLockOn_TaskUnknown(void)
+void ExBossMeteorLockOn_OnCheckStageFinished(void)
 {
     exBossMeteLockOnTask *work = ExTaskGetWorkCurrent(exBossMeteLockOnTask);
     UNUSED(work);
@@ -516,7 +516,7 @@ void ExBossMeteorLockOn_Main_Appear(void)
 
         AddExDrawRequest(&work->animator, &work->animator.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -549,7 +549,7 @@ void ExBossMeteorLockOn_Main_FinishAppearing(void)
         {
             AddExDrawRequest(&work->animator, &work->animator.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -606,7 +606,7 @@ void ExBossMeteorLockOn_Main_TargetPlayer(void)
         {
             AddExDrawRequest(&work->animator, &work->animator.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -650,7 +650,7 @@ void ExBossMeteorLockOn_Main_LockedOn(void)
     {
         AddExDrawRequest(&work->animator, &work->animator.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -666,7 +666,7 @@ void ExBossMeteorLockOn_Action_Explode(void)
     SetCurrentExTaskMainEvent(ExBossMeteorLockOn_Main_Exploded);
     ExBossMeteorLockOn_Main_Exploded();
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBossMeteorLockOn_Main_Exploded(void)
@@ -682,7 +682,7 @@ void ExBossMeteorLockOn_Main_Exploded(void)
     {
         AddExDrawRequest(&work->animator, &work->animator.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -695,7 +695,7 @@ BOOL CreateExBossMeteorLockOn(void)
     TaskInitWork8(work);
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
-    SetExTaskUnknownEvent(task, ExBossMeteorLockOn_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossMeteorLockOn_OnCheckStageFinished);
 
     work->parent->currentMeteor->lockOn = work;
 
@@ -826,7 +826,7 @@ void ExBossMeteor_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossMeteor_Main_FallToLockOnPos);
 }
 
-void ExBossMeteor_TaskUnknown(void)
+void ExBossMeteor_OnCheckStageFinished(void)
 {
     exBossMeteMeteoTask *work = ExTaskGetWorkCurrent(exBossMeteMeteoTask);
     UNUSED(work);
@@ -876,7 +876,7 @@ void ExBossMeteor_Main_FallToLockOnPos(void)
         work->animator.config.control.timer = 10;
         AddExDrawRequest(&work->animator, &work->animator.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -997,7 +997,7 @@ BOOL CreateExBossMeteor(void)
     TaskInitWork8(work);
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
-    SetExTaskUnknownEvent(task, ExBossMeteor_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossMeteor_OnCheckStageFinished);
 
     work->parent->currentMeteor->meteor = work;
 
@@ -1015,7 +1015,7 @@ void ExBossMeteorAdmin_Main_Init(void)
     ExBossMeteorAdmin_Main_WaitForLockOn();
 }
 
-void ExBossMeteorAdmin_TaskUnknown(void)
+void ExBossMeteorAdmin_OnCheckStageFinished(void)
 {
     exBossMeteAdminTask *work = ExTaskGetWorkCurrent(exBossMeteAdminTask);
     UNUSED(work);
@@ -1042,7 +1042,7 @@ void ExBossMeteorAdmin_Main_WaitForLockOn(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -1065,7 +1065,7 @@ void ExBossMeteorAdmin_Main_WaitForMeteor(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -1091,7 +1091,7 @@ void ExBossMeteorAdmin_Main_WaitForExplosion(void)
         DestroyCurrentExTask();
     }
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExBossMeteorAdmin(void)
@@ -1104,7 +1104,7 @@ BOOL CreateExBossMeteorAdmin(void)
     exBossMeteAdminTask *work = ExTaskGetWork(task, exBossMeteAdminTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExBossMeteorAdmin_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossMeteorAdmin_OnCheckStageFinished);
 
     parent->currentMeteor = work;
     work->meteor          = NULL;
@@ -1120,7 +1120,7 @@ void ExBoss_RunTaskUnknownEvent(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
     UNUSED(work);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBoss_Action_StartMeteorAttack(void)

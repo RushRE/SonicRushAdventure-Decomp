@@ -13,7 +13,7 @@ static BOOL isTimeOver;
 // --------------------
 
 static void ExTimeGameplay_Main_Init(void);
-static void ExTimeGameplay_TaskUnknown(void);
+static void ExTimeGameplay_OnCheckStageFinished(void);
 static void ExTimeGameplay_Destructor(void);
 static void ExTimeGameplay_Main_Active(void);
 static void ExTimeGameplay_Action_TimeOver(void);
@@ -35,7 +35,7 @@ void ExTimeGameplay_Main_Init(void)
     ExTimeGameplay_Main_Active();
 }
 
-void ExTimeGameplay_TaskUnknown(void)
+void ExTimeGameplay_OnCheckStageFinished(void)
 {
     exTimeGamePlayTask *work = ExTaskGetWorkCurrent(exTimeGamePlayTask);
     UNUSED(work);
@@ -105,7 +105,7 @@ void ExTimeGameplay_Main_Active(void)
             }
         }
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -130,7 +130,7 @@ void ExTimeGameplay_Main_TimeOver(void)
     exTimeGamePlayTask *work = ExTaskGetWorkCurrent(exTimeGamePlayTask);
     UNUSED(work);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExTimeGameplay(void)
@@ -141,7 +141,7 @@ BOOL CreateExTimeGameplay(void)
     exTimeGamePlayTask *work = ExTaskGetWork(task, exTimeGamePlayTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExTimeGameplay_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExTimeGameplay_OnCheckStageFinished);
 
     return TRUE;
 }

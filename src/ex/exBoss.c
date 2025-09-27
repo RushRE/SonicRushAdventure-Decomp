@@ -54,7 +54,7 @@ enum ExBossAttackFunc
 
 // ExBoss
 static void ExBoss_Main_Init(void);
-static void ExBoss_TaskUnknown(void);
+static void ExBoss_OnCheckStageFinished(void);
 static void ExBoss_Destructor(void);
 static void ExBoss_Main_WaitForTitleCard(void);
 static void ExBoss_Action_InitialFlee(void);
@@ -86,7 +86,7 @@ static void ExBoss_Main_Blank(void);
 
 // ExBossEarlyManager
 static void ExBossEarlyManager_Main_Init(void);
-static void ExBossEarlyManager_TaskUnknown(void);
+static void ExBossEarlyManager_OnCheckStageFinished(void);
 static void ExBossEarlyManager_Destructor(void);
 static void ExBossEarlyManager_Main_PickNextAttack(void);
 static void ExBossEarlyManager_Main_WaitForAttack(void);
@@ -192,7 +192,7 @@ void ExBoss_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBoss_Main_WaitForTitleCard);
 }
 
-void ExBoss_TaskUnknown(void)
+void ExBoss_OnCheckStageFinished(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
     UNUSED(work);
@@ -228,7 +228,7 @@ void ExBoss_Main_WaitForTitleCard(void)
     {
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -258,7 +258,7 @@ void ExBoss_Main_InitialFlee(void)
     {
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -284,7 +284,7 @@ void ExBoss_Main_WaitForFlag(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -330,7 +330,7 @@ void ExBoss_Main_RegenerateHealth(void)
 
     AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBoss_Action_Idle_DragonOnly(void)
@@ -408,7 +408,7 @@ void ExBoss_Main_Idle_DragonOnly(void)
     AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBoss_Action_Idle_MeteorFireball(void)
@@ -471,7 +471,7 @@ void ExBoss_Main_Idle_MeteorFireball(void)
     AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBoss_Action_Idle_Wait_DragonOnly(void)
@@ -521,7 +521,7 @@ void ExBoss_Main_Idle_Wait_DragonOnly(void)
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -596,7 +596,7 @@ void ExBoss_Main_Idle_HomingLaserDragon(void)
     AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBoss_Action_Idle_MeteorFireballMagmaWave(void)
@@ -667,7 +667,7 @@ void ExBoss_Main_Idle_MeteorFireballMagmaWave(void)
     AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBoss_Action_Idle_Wait_HomingLaserDragon(void)
@@ -717,7 +717,7 @@ void ExBoss_Main_Idle_Wait_HomingLaserDragon(void)
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -792,7 +792,7 @@ void ExBoss_Main_Idle_HomingLaserDragon_Phase3(void)
     AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBoss_Action_Idle_MeteorFireballMagmaWaveLineMissile(void)
@@ -871,7 +871,7 @@ void ExBoss_Main_Idle_MeteorFireballMagmaWaveLineMissile(void)
     AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBoss_Action_Idle_Wait_HomingLaserDragon_Phase3(void)
@@ -922,7 +922,7 @@ void ExBoss_Main_Idle_Wait_HomingLaserDragon_Phase3(void)
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -962,7 +962,7 @@ BOOL CreateExBoss(void)
     exBossSysAdminTask *work = ExTaskGetWork(task, exBossSysAdminTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExBoss_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBoss_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -988,7 +988,7 @@ void ExBossEarlyManager_Main_Init(void)
     ExBossEarlyManager_Main_PickNextAttack();
 }
 
-void ExBossEarlyManager_TaskUnknown(void)
+void ExBossEarlyManager_OnCheckStageFinished(void)
 {
     if (CheckExStageFinished())
         DestroyCurrentExTask();
@@ -1246,7 +1246,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
         work->hitEffectCooldown--;
     }
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBossEarlyManager_Main_WaitForAttack(void)
@@ -1256,7 +1256,7 @@ void ExBossEarlyManager_Main_WaitForAttack(void)
     if (work->flags.isAttackReady)
         SetCurrentExTaskMainEvent(ExBossEarlyManager_Main_PickNextAttack);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExBossEarlyManager(void)
@@ -1269,7 +1269,7 @@ BOOL CreateExBossEarlyManager(void)
     exBossSysAdminBiforTask *work = ExTaskGetWork(task, exBossSysAdminBiforTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExBossEarlyManager_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossEarlyManager_OnCheckStageFinished);
 
     return TRUE;
 }

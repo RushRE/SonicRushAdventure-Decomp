@@ -205,7 +205,7 @@ static void ReleaseExBrokenMeteorAssets(EX_ACTION_NN_WORK *work);
 
 // ExMeteor
 static void ExMeteor_Main_Init(void);
-static void ExMeteor_TaskUnknown(void);
+static void ExMeteor_OnCheckStageFinished(void);
 static void ExMeteor_Destructor(void);
 static void ExMeteor_Main_Moving(void);
 static void ExMeteor_Action_Shatter(void);
@@ -216,7 +216,7 @@ static BOOL CreateExMeteor(VecFx32 position, VecFx32 velocity);
 
 // ExMeteorManager
 static void ExMeteorManager_Main_Init(void);
-static void ExMeteorManager_TaskUnknown(void);
+static void ExMeteorManager_OnCheckStageFinished(void);
 static void ExMeteorManager_Destructor(void);
 static void ExMeteorManager_Main_Active(void);
 static void ConfigureExMeteorManagerSpawning(void);
@@ -400,7 +400,7 @@ void ExMeteor_Main_Init(void)
     }
 }
 
-void ExMeteor_TaskUnknown(void)
+void ExMeteor_OnCheckStageFinished(void)
 {
     exEffectMeteoTask *work = ExTaskGetWorkCurrent(exEffectMeteoTask);
 
@@ -454,7 +454,7 @@ void ExMeteor_Main_Moving(void)
         AddExDrawRequest(&work->aniMeteor, &work->aniMeteor.config);
         exHitCheckTask_AddHitCheck(&work->aniMeteor.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -486,7 +486,7 @@ void ExMeteor_Main_Shatter(void)
     {
         AddExDrawRequest(&work->mdlMeteorBroken, &work->mdlMeteorBroken.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -540,7 +540,7 @@ void ExMeteor_Main_Reflect(void)
     {
         AddExDrawRequest(&work->aniMeteor, &work->aniMeteor.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -551,7 +551,7 @@ BOOL CreateExMeteor(VecFx32 position, VecFx32 velocity)
     exEffectMeteoTask *work = ExTaskGetWork(task, exEffectMeteoTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExMeteor_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExMeteor_OnCheckStageFinished);
 
     if (!LoadExMeteorAssets(&work->aniMeteor))
     {
@@ -600,7 +600,7 @@ void ExMeteorManager_Main_Init(void)
     SetCurrentExTaskMainEvent(ExMeteorManager_Main_Active);
 }
 
-void ExMeteorManager_TaskUnknown(void)
+void ExMeteorManager_OnCheckStageFinished(void)
 {
     exEffectMeteoAdminTask *work = ExTaskGetWorkCurrent(exEffectMeteoAdminTask);
     UNUSED(work);
@@ -703,7 +703,7 @@ void ExMeteorManager_Main_Active(void)
 
         ConfigureExMeteorManagerSpawning();
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -717,7 +717,7 @@ void ConfigureExMeteorManagerSpawning(void)
         switch (GetExSystemStatus()->state)
         {
             case EXSYSTASK_STATE_STARTED:
-            case EXSYSTASK_STATE_2:
+            case EXSYSTASK_STATE_UNUSED:
             case EXSYSTASK_STATE_BOSS_ACTIVE:
                 tableID = 0;
                 break;
@@ -734,7 +734,7 @@ void ConfigureExMeteorManagerSpawning(void)
         switch (GetExSystemStatus()->state)
         {
             case EXSYSTASK_STATE_STARTED:
-            case EXSYSTASK_STATE_2:
+            case EXSYSTASK_STATE_UNUSED:
             case EXSYSTASK_STATE_BOSS_ACTIVE:
                 tableID = 1;
                 break;
@@ -758,7 +758,7 @@ BOOL CreateExMeteorManager(void)
     exEffectMeteoAdminTask *work = ExTaskGetWork(task, exEffectMeteoAdminTask);
     UNUSED(work);
 
-    SetExTaskUnknownEvent(task, ExMeteorManager_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExMeteorManager_OnCheckStageFinished);
 
     return TRUE;
 }

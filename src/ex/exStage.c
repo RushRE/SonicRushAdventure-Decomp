@@ -23,7 +23,7 @@ void *exStageModelAnimations[3];
 static void LoadExStageAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExStageAssets(EX_ACTION_NN_WORK *work);
 static void ExStage_Main_Init(void);
-static void ExStage_TaskUnknown(void);
+static void ExStage_OnCheckStageFinished(void);
 static void ExStage_Destructor(void);
 static void ExStage_Main_Scrolling(void);
 
@@ -116,7 +116,7 @@ void ExStage_Main_Init(void)
     SetCurrentExTaskMainEvent(ExStage_Main_Scrolling);
 }
 
-void ExStage_TaskUnknown(void)
+void ExStage_OnCheckStageFinished(void)
 {
     exStageTask *work = ExTaskGetWorkCurrent(exStageTask);
     UNUSED(work);
@@ -148,7 +148,7 @@ void ExStage_Main_Scrolling(void)
     AddExDrawRequest(&work->aniStage, &work->aniStage.config);
     work->aniStage.model.translation.y -= FLOAT_TO_FX32(499.5);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void CreateExStage(void)
@@ -157,7 +157,7 @@ void CreateExStage(void)
 
     exStageTask *work = ExTaskGetWork(task, exStageTask);
 
-    SetExTaskUnknownEvent(task, ExStage_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExStage_OnCheckStageFinished);
 }
 
 void DestroyExStage(void)

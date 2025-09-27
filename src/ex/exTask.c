@@ -45,8 +45,8 @@ static void ExTask_Destructor_Regular(Task *task);
 
 void ExTask_Main_AlwaysUpdate(void)
 {
-    currentExTask  = GetCurrentTask();
-    ExTask *task = ExTaskGetTaskInternal(currentExTask);
+    currentExTask = GetCurrentTask();
+    ExTask *task  = ExTaskGetTaskInternal(currentExTask);
 
     if (GetExSystemStatus()->state == EXSYSTASK_STATE_STAGE_FINISHED)
     {
@@ -79,17 +79,17 @@ void ExTask_Main_Regular(void)
         padInput.btnPressRepeat = PAD_INPUT_NONE_MASK;
     }
 
-    currentExTask  = GetCurrentTask();
-    ExTask *task = ExTaskGetTaskInternal(currentExTask);
+    currentExTask = GetCurrentTask();
+    ExTask *task  = ExTaskGetTaskInternal(currentExTask);
 
     if (disableExTaskUpdate)
         return;
 
-    if (task->timer > 0)
+    if (task->hitstopTimer > 0)
     {
-        task->timer--;
+        task->hitstopTimer--;
 
-        if (task->delayCallback == NULL)
+        if (task->onHitstopActive == NULL)
             return;
     }
     else
@@ -98,7 +98,7 @@ void ExTask_Main_Regular(void)
         return;
     }
 
-    task->delayCallback();
+    task->onHitstopActive();
 }
 
 void ExTask_Destructor_Regular(Task *task)
@@ -155,11 +155,11 @@ Task *ExTaskCreate_(ExTaskMain main, ExTaskDestructor destructor, u16 priority, 
     ExTask *exTask = GetExTask(task);
     MI_CpuClear8(exTask, memSize);
 
-    exTask->main          = main;
-    exTask->dtor          = destructor;
-    exTask->priority      = priority;
-    exTask->group         = group;
-    exTask->delayCallback = NULL;
+    exTask->main            = main;
+    exTask->dtor            = destructor;
+    exTask->priority        = priority;
+    exTask->group           = group;
+    exTask->onHitstopActive = NULL;
 
 #ifdef RUSH_DEBUG
     exTask->name = name;

@@ -60,7 +60,7 @@ static u16 exPauseMenuContinueButtonAnimTable[2][OS_LANGUAGE_CODE_MAX] = {
 
 // ExPauseMenu
 static void ExPauseMenu_Main_Init(void);
-static void ExPauseMenu_TaskUnknown(void);
+static void ExPauseMenu_OnCheckStageFinished(void);
 static void ExPauseMenu_Destructor(void);
 static void ExPauseMenu_Main_EnterButtons(void);
 static void ExPauseMenu_Action_Ready(void);
@@ -167,7 +167,7 @@ void ExPauseMenu_Main_Init(void)
     SetCurrentExTaskMainEvent(ExPauseMenu_Main_EnterButtons);
 }
 
-void ExPauseMenu_TaskUnknown(void)
+void ExPauseMenu_OnCheckStageFinished(void)
 {
     exPauseTask *work = ExTaskGetWorkCurrent(exPauseTask);
     UNUSED(work);
@@ -255,7 +255,7 @@ void ExPauseMenu_Main_EnterButtons(void)
 
     ExPauseMenu_Draw();
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExPauseMenu_Action_Ready(void)
@@ -312,7 +312,7 @@ void ExPauseMenu_Main_Selecting(void)
 
     ExPauseMenu_Draw();
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExPauseMenu_Action_Select(void)
@@ -359,7 +359,7 @@ void ExPauseMenu_Main_SelectionMade(void)
 
     ExPauseMenu_Draw();
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExPauseMenu_Main_Exit(void)
@@ -428,7 +428,7 @@ BOOL CreateExPauseMenu(void)
     exPauseTask *work = ExTaskGetWork(task, exPauseTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExPauseMenu_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExPauseMenu_OnCheckStageFinished);
 
     exPauseMenuSelectedAction = EXPAUSEMENU_ACTION_NONE;
 

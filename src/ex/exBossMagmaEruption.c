@@ -59,7 +59,7 @@ BOOL LoadExBossMagmeWaveAttackAssets(EX_ACTION_NN_WORK *work);
 void SetExBossMagmaAttackAnim(EX_ACTION_NN_WORK *work, u16 id);
 void ReleaseExBossMagmeWaveAttackAssets(EX_ACTION_NN_WORK *work);
 void ExBossMagmaEruption_Main_Init(void);
-void ExBossMagmaEruption_TaskUnknown(void);
+void ExBossMagmaEruption_OnCheckStageFinished(void);
 void ExBossMagmaEruption_Destructor(void);
 void ExBossMagmaEruption_Main_Rise(void);
 void ExBossMagmaEruption_Action_Activate(void);
@@ -72,7 +72,7 @@ BOOL CreateExBossMagmaEruption(void);
 BOOL LoadExBossMagmaWaveAssets(EX_ACTION_NN_WORK *work);
 void ReleaseExBossMagmaWaveAssets(EX_ACTION_NN_WORK *work);
 void ExBossMagmaWave_Main_Init(void);
-void ExBossMagmaWave_TaskUnknown(void);
+void ExBossMagmaWave_OnCheckStageFinished(void);
 void ExBossMagmaWave_Destructor(void);
 void ExBossMagmaWave_Main_Active(void);
 BOOL CreateExBossMagmaWave(void);
@@ -225,7 +225,7 @@ void ExBossMagmaEruption_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossMagmaEruption_Main_Rise);
 }
 
-void ExBossMagmaEruption_TaskUnknown(void)
+void ExBossMagmaEruption_OnCheckStageFinished(void)
 {
     exBossMagmaAttackTask *work = ExTaskGetWorkCurrent(exBossMagmaAttackTask);
     UNUSED(work);
@@ -265,7 +265,7 @@ void ExBossMagmaEruption_Main_Rise(void)
         {
             AddExDrawRequest(&work->animator, &work->animator.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -318,7 +318,7 @@ void ExBossMagmaEruption_Main_Active(void)
         AddExDrawRequest(&work->animator, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -356,7 +356,7 @@ void ExBossMagmaEruption_Main_Lower(void)
     {
         AddExDrawRequest(&work->animator, &work->animator.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -369,7 +369,7 @@ BOOL CreateExBossMagmaEruption(void)
     TaskInitWork8(work);
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
-    SetExTaskUnknownEvent(task, ExBossMagmaEruption_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossMagmaEruption_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -491,7 +491,7 @@ void ExBossMagmaWave_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossMagmaWave_Main_Active);
 }
 
-void ExBossMagmaWave_TaskUnknown(void)
+void ExBossMagmaWave_OnCheckStageFinished(void)
 {
     exBossMagmeWaveTask *work = ExTaskGetWorkCurrent(exBossMagmeWaveTask);
     UNUSED(work);
@@ -522,7 +522,7 @@ void ExBossMagmaWave_Main_Active(void)
     {
         AddExDrawRequest(&work->animator, &work->animator.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -535,7 +535,7 @@ BOOL CreateExBossMagmaWave(void)
     TaskInitWork8(work);
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
-    SetExTaskUnknownEvent(task, ExBossMagmaWave_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossMagmaWave_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -567,7 +567,7 @@ void ExBoss_Main_MagmaEruption0(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -596,7 +596,7 @@ void ExBoss_Main_MagmaEruption1(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -641,7 +641,7 @@ void ExBoss_Main_StartMagmaEruption2(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -673,7 +673,7 @@ void ExBoss_Main_ProcessMagmaEruption2(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -691,7 +691,7 @@ void ExBoss_Main_FinishMagmaEruption2(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -796,7 +796,7 @@ void ExBoss_Main_MagmaEruption3(void)
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
     AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBoss_WaveAngleMoveL(void)
@@ -870,7 +870,7 @@ void ExBoss_Main_MagmaEruption4(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 

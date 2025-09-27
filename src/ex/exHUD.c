@@ -45,7 +45,7 @@ static u16 exHUDRingDigits2[10] = {
 
 // ExTimeHUD
 static void ExTimeHUD_Main_Init(void);
-static void ExTimeHUD_TaskUnknown(void);
+static void ExTimeHUD_OnCheckStageFinished(void);
 static void ExTimeHUD_Destructor(void);
 static void ExTimeHUD_Main_Active(void);
 static BOOL CreateExTimeHUD(void);
@@ -53,7 +53,7 @@ static void DestroyExTimeHUD(void);
 
 // ExRingCountHUD
 static void ExRingCountHUD_Main_Init(void);
-static void ExRingCountHUD_TaskUnknown(void);
+static void ExRingCountHUD_OnCheckStageFinished(void);
 static void ExRingCountHUD_Destructor(void);
 static void ExRingCountHUD_Main_Active(void);
 static BOOL CreateExRingCountHUD(void);
@@ -61,7 +61,7 @@ static void DestroyExRingCountHUD(void);
 
 // ExLifeCountHUD
 static void ExLifeCountHUD_Main_Init(void);
-static void ExLifeCountHUD_TaskUnknown(void);
+static void ExLifeCountHUD_OnCheckStageFinished(void);
 static void ExLifeCountHUD_Destructor(void);
 static void ExLifeCountHUD_Main_Active(void);
 static BOOL CreateExLifeCountHUD(void);
@@ -69,7 +69,7 @@ static void DestroyExLifeCountHUD(void);
 
 // ExBossLifeGaugeHUD
 static void ExBossLifeGaugeHUD_Main_Init(void);
-static void ExBossLifeGaugeHUD_TaskUnknown(void);
+static void ExBossLifeGaugeHUD_OnCheckStageFinished(void);
 static void ExBossLifeGaugeHUD_Destructor(void);
 static void ExBossLifeGaugeHUD_Main_HealthIdle(void);
 static void ExBossLifeGaugeHUD_Main_HealthChanging(void);
@@ -78,7 +78,7 @@ static void DestroyExBossLifeGaugeHUD(void);
 
 // ExHUD
 static void ExHUD_Main_Init(void);
-static void ExHUD_TaskUnknown(void);
+static void ExHUD_OnCheckStageFinished(void);
 static void ExHUD_Destructor(void);
 static void ExHUD_Main_WaitForCommonHUD(void);
 static void ExHUD_Action_CreateCommonHUD(void);
@@ -213,7 +213,7 @@ void ExTimeHUD_Main_Init(void)
     SetCurrentExTaskMainEvent(ExTimeHUD_Main_Active);
 }
 
-void ExTimeHUD_TaskUnknown(void)
+void ExTimeHUD_OnCheckStageFinished(void)
 {
     exFixTimeTask *work = ExTaskGetWorkCurrent(exFixTimeTask);
     UNUSED(work);
@@ -292,7 +292,7 @@ void ExTimeHUD_Main_Active(void)
     AnimateExDrawRequestSprite2D(&work->worker->aniComma1[mode]);
     AnimateExDrawRequestSprite2D(&work->worker->aniComma2[mode]);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExTimeHUD(void)
@@ -302,7 +302,7 @@ BOOL CreateExTimeHUD(void)
     exFixTimeTask *work = ExTaskGetWork(task, exFixTimeTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExTimeHUD_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExTimeHUD_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -368,7 +368,7 @@ void ExRingCountHUD_Main_Init(void)
     SetCurrentExTaskMainEvent(ExRingCountHUD_Main_Active);
 }
 
-void ExRingCountHUD_TaskUnknown(void)
+void ExRingCountHUD_OnCheckStageFinished(void)
 {
     exFixRingTask *work = ExTaskGetWorkCurrent(exFixRingTask);
     UNUSED(work);
@@ -462,7 +462,7 @@ void ExRingCountHUD_Main_Active(void)
         AddExDrawRequest(&work->aniNumbers[digit3], &work->aniNumbers[digit3].config);
     }
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExRingCountHUD(void)
@@ -472,7 +472,7 @@ BOOL CreateExRingCountHUD(void)
     exFixRingTask *work = ExTaskGetWork(task, exFixRingTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExRingCountHUD_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExRingCountHUD_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -527,7 +527,7 @@ void ExLifeCountHUD_Main_Init(void)
     SetCurrentExTaskMainEvent(ExLifeCountHUD_Main_Active);
 }
 
-void ExLifeCountHUD_TaskUnknown(void)
+void ExLifeCountHUD_OnCheckStageFinished(void)
 {
     exFixRemainderTask *work = ExTaskGetWorkCurrent(exFixRemainderTask);
     UNUSED(work);
@@ -573,7 +573,7 @@ void ExLifeCountHUD_Main_Active(void)
     AddExDrawRequest(&work->aniX, &work->aniX.config);
     AddExDrawRequest(&work->aniPlayerIcon, &work->aniPlayerIcon.config);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExLifeCountHUD(void)
@@ -584,7 +584,7 @@ BOOL CreateExLifeCountHUD(void)
     exFixRemainderTask *work = ExTaskGetWork(task, exFixRemainderTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExLifeCountHUD_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExLifeCountHUD_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -651,7 +651,7 @@ void ExBossLifeGaugeHUD_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossLifeGaugeHUD_Main_HealthIdle);
 }
 
-void ExBossLifeGaugeHUD_TaskUnknown(void)
+void ExBossLifeGaugeHUD_OnCheckStageFinished(void)
 {
     exFixBossLifeGaugeTask *work = ExTaskGetWorkCurrent(exFixBossLifeGaugeTask);
     UNUSED(work);
@@ -746,7 +746,7 @@ void ExBossLifeGaugeHUD_Main_HealthIdle(void)
     AddExDrawRequest(&work->aniCapL, &work->aniCapL.config);
     AddExDrawRequest(&work->aniCapR, &work->aniCapR.config);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBossLifeGaugeHUD_Main_HealthChanging(void)
@@ -817,7 +817,7 @@ void ExBossLifeGaugeHUD_Main_HealthChanging(void)
         AddExDrawRequest(&work->aniCapL, &work->aniCapL.config);
         AddExDrawRequest(&work->aniCapR, &work->aniCapR.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -829,7 +829,7 @@ BOOL CreateExBossLifeGaugeHUD(void)
     exFixBossLifeGaugeTask *work = ExTaskGetWork(task, exFixBossLifeGaugeTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExBossLifeGaugeHUD_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossLifeGaugeHUD_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -853,7 +853,7 @@ void ExHUD_Main_Init(void)
     SetCurrentExTaskMainEvent(ExHUD_Main_WaitForCommonHUD);
 }
 
-void ExHUD_TaskUnknown(void)
+void ExHUD_OnCheckStageFinished(void)
 {
     exFixAdminTask *work = ExTaskGetWorkCurrent(exFixAdminTask);
     UNUSED(work);
@@ -883,7 +883,7 @@ void ExHUD_Main_WaitForCommonHUD(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -935,7 +935,7 @@ BOOL CreateExHUD(void)
     exFixAdminTask *work = ExTaskGetWork(task, exFixAdminTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExHUD_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExHUD_OnCheckStageFinished);
 
     return TRUE;
 }

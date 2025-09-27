@@ -42,7 +42,7 @@ FORCE_INCLUDE_VARIABLE_BSS(exSonicDashEffectUnused)
 static BOOL LoadExSonicDashEffectAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExSonicDashEffectAssets(EX_ACTION_NN_WORK *work);
 static void ExSonicDashEffect_Main_Init(void);
-static void ExSonicDashEffect_TaskUnknown(void);
+static void ExSonicDashEffect_OnCheckStageFinished(void);
 static void ExSonicDashEffect_Destructor(void);
 static void ExSonicDashEffect_Main_Active(void);
 
@@ -380,7 +380,7 @@ void ExSonicDashEffect_Main_Init(void)
     SetCurrentExTaskMainEvent(ExSonicDashEffect_Main_Active);
 }
 
-void ExSonicDashEffect_TaskUnknown(void)
+void ExSonicDashEffect_OnCheckStageFinished(void)
 {
     exSonDushEffectTask *work = ExTaskGetWorkCurrent(exSonDushEffectTask);
     UNUSED(work);
@@ -416,7 +416,7 @@ void ExSonicDashEffect_Main_Active(void)
     {
         AddExDrawRequest(&work->aniDash, &work->aniDash.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -433,7 +433,7 @@ BOOL CreateExSonicDashEffect(EX_ACTION_NN_WORK *parent)
 
     work->parent = parent;
 
-    SetExTaskUnknownEvent(task, ExSonicDashEffect_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExSonicDashEffect_OnCheckStageFinished);
 
     return TRUE;
 }

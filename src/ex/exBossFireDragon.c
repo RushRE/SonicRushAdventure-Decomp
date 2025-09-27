@@ -55,7 +55,7 @@ static void ReleaseExBossFireDragonExplosionAssets(EX_ACTION_BAC3D_WORK *work);
 static BOOL LoadExBossFireDragonAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossFireDragonAssets(EX_ACTION_NN_WORK *work);
 static void ExBossFireDragon_Main_Init(void);
-static void ExBossFireDragon_TaskUnknown(void);
+static void ExBossFireDragon_OnCheckStageFinished(void);
 static void ExBossFireDragon_Destructor(void);
 static void ExBossFireDragon_Main_Move(void);
 static void ExBossFireDragon_Action_Repelled(void);
@@ -88,7 +88,7 @@ void LoadExBossFireDragonExplosionAssets(EX_ACTION_BAC3D_WORK *work)
     VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exBossFireDragonExplosionSpriteResource, 1), FALSE);
     VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exBossFireDragonExplosionSpriteResource, 1), FALSE);
 
-    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBossFireDragonExplosionSpriteResource, EX_ACTCOM_ANI_5, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBossFireDragonExplosionSpriteResource, EX_ACTCOM_ANI_FIRE_DRAGON_EXPLODE_INDICATOR, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
                            vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
@@ -239,7 +239,7 @@ void ExBossFireDragon_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossFireDragon_Main_Move);
 }
 
-void ExBossFireDragon_TaskUnknown(void)
+void ExBossFireDragon_OnCheckStageFinished(void)
 {
     exBossFireDoraTask *work = ExTaskGetWorkCurrent(exBossFireDoraTask);
     UNUSED(work);
@@ -333,7 +333,7 @@ void ExBossFireDragon_Main_Move(void)
     AddExDrawRequest(&work->aniDragonModel, &work->aniDragonModel.config);
     exHitCheckTask_AddHitCheck(&work->aniDragonModel.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBossFireDragon_Action_Repelled(void)
@@ -420,7 +420,7 @@ void ExBossFireDragon_Main_Repelled(void)
     AddExDrawRequest(&work->aniDragonModel, &work->aniDragonModel.config);
     exHitCheckTask_AddHitCheck(&work->aniDragonModel.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBossFireDragon_Action_Explode(void)
@@ -450,7 +450,7 @@ void ExBossFireDragon_Main_Explode(void)
     {
         AddExDrawRequest(&work->aniExplosion, &work->aniExplosion.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -463,7 +463,7 @@ void ExBossFireDragon_Action_FadeOut(void)
     work->aniExplosion.sprite.translation.z = work->aniDragonModel.model.translation.z;
 
     work->explodeTimer = SECONDS_TO_FRAMES(0.5);
-    SetExBossFireDragonExplosionAnim(&work->aniExplosion, EX_ACTCOM_ANI_6);
+    SetExBossFireDragonExplosionAnim(&work->aniExplosion, EX_ACTCOM_ANI_FIRE_DRAGON_EXPLOSION);
     SetExDrawRequestAnimAsOneShot(&work->aniExplosion.config);
 
     SetCurrentExTaskMainEvent(ExBossFireDragon_Main_FadeOut);
@@ -491,7 +491,7 @@ void ExBossFireDragon_Main_FadeOut(void)
     }
     AddExDrawRequest(&work->aniExplosion, &work->aniExplosion.config);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExBossFireDragon(void)
@@ -506,7 +506,7 @@ BOOL CreateExBossFireDragon(void)
     work->id           = work->parent->projectileID;
     work->explodeTimer = work->parent->genericCooldown;
 
-    SetExTaskUnknownEvent(task, ExBossFireDragon_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossFireDragon_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -538,7 +538,7 @@ void ExBoss_Main_Dora0(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -599,7 +599,7 @@ void ExBoss_Main_Dora1(void)
             exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
             AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -618,7 +618,7 @@ void ExBoss_Main_FinishDora1(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -647,7 +647,7 @@ void ExBoss_Main_Dora2(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 

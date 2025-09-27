@@ -51,7 +51,7 @@ NOT_DECOMPILED struct TEMP_STATIC_VARS exSysTask__sVars;
 // --------------------
 
 static void ExSystem_Main_Init(void);
-static void ExSystem_TaskUnknown(void);
+static void ExSystem_OnCheckStageFinished(void);
 static void ExSystem_Destructor(void);
 static void ExSystem_Main_WaitForStageStarted(void);
 static void ExSystem_Action_Resume(void);
@@ -194,7 +194,7 @@ void ExSystem_Main_Init(void)
     SetCurrentExTaskMainEvent(ExSystem_Main_WaitForStageStarted);
 }
 
-void ExSystem_TaskUnknown(void)
+void ExSystem_OnCheckStageFinished(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
     UNUSED(work);
@@ -227,7 +227,7 @@ void ExSystem_Main_WaitForStageStarted(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -239,7 +239,7 @@ void ExSystem_Action_Resume(void)
     SetCurrentExTaskMainEvent(ExSystem_Main_Active);
     ExSystem_Main_Active();
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExSystem_Main_Active(void)
@@ -267,7 +267,7 @@ void ExSystem_Main_Active(void)
         {
             exHitCheckTask_DecPauseLevel();
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -300,7 +300,7 @@ void ExSystem_Main_WaitingForPauseMenu(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -316,7 +316,7 @@ void ExSystem_Main_ExitSelected(void)
     {
         exHitCheckTask_DecPauseLevel();
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -347,7 +347,7 @@ void ExSystem_Main_ExitFadeOut(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -378,7 +378,7 @@ void ExSystem_Main_StageCleared(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -421,7 +421,7 @@ void ExSystem_Main_DeathFadeOut(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -439,7 +439,7 @@ void ExSystem_Main_StageRestartDelay(void)
         SetCurrentExTaskMainEvent(ExSystem_Main_DoStageRestart);
     }
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExSystem_Main_DoStageRestart(void)
@@ -464,7 +464,7 @@ void ExSystem_Main_DoStageRestart(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -479,7 +479,7 @@ void ExSystem_Main_DoStageExit(void)
         exSysTask__sVars.exStageWillExit = TRUE;
         SetCurrentExTaskMainEvent(ExSystem_Main_EndStage);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -500,7 +500,7 @@ void CreateExSystem(void)
     exSysTask__sVars.exSysTask__Singleton = ExTaskGetWork(task, exSysTask);
     TaskInitWork8(exSysTask__sVars.exSysTask__Singleton);
 
-    SetExTaskUnknownEvent(task, ExSystem_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExSystem_OnCheckStageFinished);
 }
 
 void *LoadExSystemFile(u16 id)

@@ -113,7 +113,7 @@ FORCE_INCLUDE_VARIABLE_BSS(lineNeedleUnused)
 static BOOL LoadExBossSpikedLineMissileAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossSpikedLineMissileAssets(EX_ACTION_NN_WORK *work);
 static void ExBossSpikedLineMissile_Main_Init(void);
-static void ExBossSpikedLineMissile_TaskUnknown(void);
+static void ExBossSpikedLineMissile_OnCheckStageFinished(void);
 static void ExBossSpikedLineMissile_Destructor(void);
 static void ExBossSpikedLineMissile_Main_Appear(void);
 static void ExBossSpikedLineMissile_Action_Move(void);
@@ -123,7 +123,7 @@ static void ExBossSpikedLineMissile_Main_Move(void);
 static BOOL LoadExBossBluntLineMissileAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossBluntLineMissileAssets(EX_ACTION_NN_WORK *work);
 static void ExBossBluntLineMissile_Main_Init(void);
-static void ExBossBluntLineMissile_TaskUnknown(void);
+static void ExBossBluntLineMissile_OnCheckStageFinished(void);
 static void ExBossBluntLineMissile_Destructor(void);
 static void ExBossBluntLineMissile_Main_Appear(void);
 static void ExBossBluntLineMissile_Action_Move(void);
@@ -271,7 +271,7 @@ void ExBossSpikedLineMissile_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossSpikedLineMissile_Main_Appear);
 }
 
-void ExBossSpikedLineMissile_TaskUnknown(void)
+void ExBossSpikedLineMissile_OnCheckStageFinished(void)
 {
     exBossLineNeedleTask *work = ExTaskGetWorkCurrent(exBossLineNeedleTask);
     UNUSED(work);
@@ -340,7 +340,7 @@ void ExBossSpikedLineMissile_Main_Appear(void)
         AddExDrawRequest(&work->animator, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -402,7 +402,7 @@ void ExBossSpikedLineMissile_Main_Move(void)
     AddExDrawRequest(&work->animator, &work->animator.config);
     exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExBossSpikedLineMissile(void)
@@ -416,7 +416,7 @@ BOOL CreateExBossSpikedLineMissile(void)
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
     work->id     = work->parent->projectileID;
 
-    SetExTaskUnknownEvent(task, ExBossSpikedLineMissile_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossSpikedLineMissile_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -544,7 +544,7 @@ void ExBossBluntLineMissile_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossBluntLineMissile_Main_Appear);
 }
 
-void ExBossBluntLineMissile_TaskUnknown(void)
+void ExBossBluntLineMissile_OnCheckStageFinished(void)
 {
     exBossLineMissileTask *work = ExTaskGetWorkCurrent(exBossLineMissileTask);
     UNUSED(work);
@@ -620,7 +620,7 @@ void ExBossBluntLineMissile_Main_Appear(void)
         AddExDrawRequest(&work->animator, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -694,7 +694,7 @@ void ExBossBluntLineMissile_Main_Move(void)
     AddExDrawRequest(&work->animator, &work->animator.config);
     exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBossBluntLineMissile_Action_Repelled(void)
@@ -786,7 +786,7 @@ void ExBossBluntLineMissile_Main_Repelled(void)
     AddExDrawRequest(&work->animator, &work->animator.config);
     exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExBossBluntLineMissile(void)
@@ -800,7 +800,7 @@ BOOL CreateExBossBluntLineMissile(void)
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
     work->id     = work->parent->projectileID;
 
-    SetExTaskUnknownEvent(task, ExBossBluntLineMissile_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossBluntLineMissile_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -833,7 +833,7 @@ void ExBoss_Main_Line0(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -875,7 +875,7 @@ void ExBoss_Main_Line1(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -913,7 +913,7 @@ void ExBoss_Main_Line2(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -953,7 +953,7 @@ void ExBoss_Main_StartNextLine(void)
     exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
     AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBoss_Action_FinishLineAttack(void)

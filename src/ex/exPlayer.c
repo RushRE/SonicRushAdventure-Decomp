@@ -40,14 +40,14 @@ static u32 exPlayerUnknown1 = 1;
 // ExPlayerScreenMover
 static void SetExPlayerScreenMoverTargetPos(VecFx32 *followPos);
 static void ExPlayerScreenMover_Main_Init(void);
-static void ExPlayerScreenMover_TaskUnknown(void);
+static void ExPlayerScreenMover_OnCheckStageFinished(void);
 static void ExPlayerScreenMover_Destructor(void);
 static void ExPlayerScreenMover_Main_Active(void);
 static void CreateExPlayerScreenMover(void);
 
 // ExPlayer
 static void ExPlayer_Main_Init(void);
-static void ExPlayer_TaskUnknown(void);
+static void ExPlayer_OnCheckStageFinished(void);
 static void ExPlayer_Destructor(void);
 static void ExPlayer_Main_ControlLocked(void);
 static void ExPlayer_Main_EnterPlayers(void);
@@ -104,7 +104,7 @@ static void ExPlayer_HandleMovement(void);
 static void ExPlayer_HandlePlayerSwap(void);
 static void ExPlayer_HandleDash(void);
 static void ExPlayer_Draw(void);
-static void ExPlayer_DelayCallback(void);
+static void ExPlayer_OnHitstopActive(void);
 static void ProcessExPlayerAnimations(void);
 
 #ifdef NON_MATCHING
@@ -142,7 +142,7 @@ void ExPlayerScreenMover_Main_Init(void)
     SetCurrentExTaskMainEvent(ExPlayerScreenMover_Main_Active);
 }
 
-void ExPlayerScreenMover_TaskUnknown(void)
+void ExPlayerScreenMover_OnCheckStageFinished(void)
 {
     exPlayerScreenMoveTask *work = ExTaskGetWorkCurrent(exPlayerScreenMoveTask);
     UNUSED(work);
@@ -174,7 +174,7 @@ void ExPlayerScreenMover_Main_Active(void)
         work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.lookAtFrom.x = targetPos;
     }
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void CreateExPlayerScreenMover(void)
@@ -185,7 +185,7 @@ void CreateExPlayerScreenMover(void)
     exPlayerScreenMoveTask *work = ExTaskGetWork(task, exPlayerScreenMoveTask);
     UNUSED(work);
 
-    SetExTaskUnknownEvent(task, ExPlayerScreenMover_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExPlayerScreenMover_OnCheckStageFinished);
 }
 
 // ExPlayer
@@ -221,7 +221,7 @@ void ExPlayer_Main_Init(void)
     SetCurrentExTaskMainEvent(ExPlayer_Main_EnterPlayers);
 }
 
-void ExPlayer_TaskUnknown(void)
+void ExPlayer_OnCheckStageFinished(void)
 {
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
     UNUSED(work);
@@ -254,7 +254,7 @@ void ExPlayer_Main_ControlLocked(void)
     {
         ExPlayer_Draw();
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -274,7 +274,7 @@ void ExPlayer_Main_EnterPlayers(void)
         work->activeModelMain->model.translation.y += FLOAT_TO_FX32(1.0);
         ExPlayer_Draw();
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -301,7 +301,7 @@ void ExPlayer_Main_WaitForTitleCard(void)
 
     ExPlayer_Draw();
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExPlayer_Main_InitForBossChase(void)
@@ -364,7 +364,7 @@ void ExPlayer_Main_PrepareForBossChase(void)
     ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 0, worker->playerFlags.characterID);
     ExPlayer_DrawForBossChase();
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExPlayer_Action_BossChaseDelay(void)
@@ -394,7 +394,7 @@ void ExPlayer_Main_BossChaseDelay(void)
         ProcessExDrawRequestPlayerTrail(&work->trailMain, &work->activeModelMain->model.translation, 0, work->worker->playerFlags.characterID);
         ExPlayer_DrawForBossChase();
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -467,7 +467,7 @@ void ExPlayer_Main_StartBossChase(void)
 
         ExPlayer_DrawForBossChase();
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -520,7 +520,7 @@ void ExPlayer_Main_StartBossPhase2(void)
 
         ExPlayer_DrawForBossChase();
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -555,7 +555,7 @@ void ExPlayer_Main_StartBossPhase3(void)
 
         ExPlayer_DrawForBossChase();
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -673,7 +673,7 @@ void ExPlayer_Main_ShockStun(void)
 
         ExPlayer_Draw();
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -744,7 +744,7 @@ void ExPlayer_Main_StartDeath(void)
         work->worker->moveFlags.hasDied = TRUE;
         ExPlayer_Draw();
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -789,7 +789,7 @@ void ExPlayer_Main_HandleDealth(void)
 
     ExPlayer_Draw();
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExPlayer_Action_FinishDeath(void)
@@ -808,7 +808,7 @@ void ExPlayer_Main_Died(void)
 
     work->worker->moveFlags.hasDied = TRUE;
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExPlayer_Action_Hurt(void)
@@ -876,7 +876,7 @@ void ExPlayer_Main_Hurt(void)
         work->worker->hurtInvulnDuration = SECONDS_TO_FRAMES(2.0);
         ExPlayer_Draw();
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -930,7 +930,7 @@ void ExPlayer_Main_FinishedHurt(void)
         {
             ExPlayer_Draw();
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -1864,14 +1864,14 @@ void ExPlayer_Draw(void)
     SetExPlayerScreenMoverTargetPos(&work->activeModelMain->model.translation);
 }
 
-void ExPlayer_DelayCallback(void)
+void ExPlayer_OnHitstopActive(void)
 {
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
 
     AddExDrawRequest(work->activeModelMain, &work->activeModelMain->config);
     AddExDrawRequest(work->activeSprite, &work->activeSprite->config);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ProcessExPlayerAnimations(void)
@@ -1887,8 +1887,8 @@ void CreateExPlayer(void)
 {
     Task *task = ExTaskCreate(ExPlayer_Main_Init, ExPlayer_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(5), 0, EXTASK_TYPE_REGULAR, exPlayerAdminTask);
 
-    SetExTaskUnknownEvent(task, ExPlayer_TaskUnknown);
-    SetExTaskDelayEvent(task, ExPlayer_DelayCallback);
+    SetExTaskOnCheckStageFinishedEvent(task, ExPlayer_OnCheckStageFinished);
+    SetExTaskOnHitstopActiveEvent(task, ExPlayer_OnHitstopActive);
 
     exPlayerAdminTask *work = ExTaskGetWork(task, exPlayerAdminTask);
 

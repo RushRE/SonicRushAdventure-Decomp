@@ -2,6 +2,7 @@
 #define RUSH_EXSYSTEM_H
 
 #include <ex/system/exTask.h>
+#include <ex/system/exSave.h>
 
 // --------------------
 // ENUMS
@@ -11,7 +12,7 @@ enum ExSysTaskState_
 {
     EXSYSTASK_STATE_NONE,
     EXSYSTASK_STATE_STARTED,
-    EXSYSTASK_STATE_2,
+    EXSYSTASK_STATE_UNUSED,
     EXSYSTASK_STATE_INTRO,
     EXSYSTASK_STATE_BOSS_ACTIVE,
     EXSYSTASK_STATE_BOSS_FLEE_STARTED,
@@ -47,12 +48,12 @@ enum ExSysTaskActComAnimIDs
     EX_ACTCOM_ANI_SONIC_BARRIER_HIT,
     EX_ACTCOM_ANI_SHOCK_EFFECT,
     EX_ACTCOM_ANI_SHOCK_EFFECT_FINISH,
-    EX_ACTCOM_ANI_5,
-    EX_ACTCOM_ANI_6,
+    EX_ACTCOM_ANI_FIRE_DRAGON_EXPLODE_INDICATOR,
+    EX_ACTCOM_ANI_FIRE_DRAGON_EXPLOSION,
     EX_ACTCOM_ANI_RING,
     EX_ACTCOM_ANI_RING_SPARKLE,
     EX_ACTCOM_ANI_BLAZE_FIRE,
-    EX_ACTCOM_ANI_10,
+    EX_ACTCOM_ANI_BLAZE_FIRE_DUST,
     EX_ACTCOM_ANI_EXPLOSION_BIG,
     EX_ACTCOM_ANI_EXPLOSION_SMALL,
     EX_ACTCOM_ANI_HOMING_LASER,
@@ -180,7 +181,7 @@ typedef struct exSysTaskTime_
 typedef struct ExSysTaskStatus_
 {
     ExSysDifficulty difficulty;
-    u8 finishMode;
+    ExFinishMode finishMode;
     ExSysTimeLimit timeLimitMode;
     ExSysTaskState state;
     u8 lives;

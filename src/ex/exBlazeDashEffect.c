@@ -41,7 +41,7 @@ FORCE_INCLUDE_VARIABLE_BSS(exBlazeDashEffectUnused)
 static BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work);
 static void ExBlazeDashEffect_Main_Init(void);
-static void ExBlazeDashEffect_TaskUnknown(void);
+static void ExBlazeDashEffect_OnCheckStageFinished(void);
 static void ExBlazeDashEffect_Destructor(void);
 static void ExBlazeDashEffect_Main_Active(void);
 
@@ -376,7 +376,7 @@ void ExBlazeDashEffect_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBlazeDashEffect_Main_Active);
 }
 
-void ExBlazeDashEffect_TaskUnknown(void)
+void ExBlazeDashEffect_OnCheckStageFinished(void)
 {
     exBlzDushEffectTask *work = ExTaskGetWorkCurrent(exBlzDushEffectTask);
     UNUSED(work);
@@ -412,7 +412,7 @@ void ExBlazeDashEffect_Main_Active(void)
     {
         AddExDrawRequest(&work->aniDash, &work->aniDash.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -432,7 +432,7 @@ BOOL CreateExBlazeDashEffect(EX_ACTION_NN_WORK *parent)
 
     work->parent = parent;
 
-    SetExTaskUnknownEvent(task, ExBlazeDashEffect_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBlazeDashEffect_OnCheckStageFinished);
 
     return TRUE;
 }

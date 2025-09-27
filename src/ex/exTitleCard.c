@@ -63,13 +63,13 @@ static u16 exTutorialMessageTextScrollLimit[EXPLAYER_CHARACTER_COUNT][OS_LANGUAG
 // ExTutorialMessage
 static u16 GetExTutorialMessageLanguage(void);
 static void ExTutorialMessage_Main_Init(void);
-static void ExTutorialMessage_TaskUnknown(void);
+static void ExTutorialMessage_OnCheckStageFinished(void);
 static void ExTutorialMessage_Destructor(void);
 static void ExTutorialMessage_Main_Active(void);
 
 // ExTitleCard
 static void ExTitleCard_Main_Init(void);
-static void ExTitleCard_Main_TaskUnknown(void);
+static void ExTitleCard_Main_OnCheckStageFinished(void);
 static void ExTitleCard_Destructor(void);
 static void ExTitleCard_Main_IntroDelay(void);
 static void ExTitleCard_Action_InitZoneIcon(void);
@@ -167,7 +167,7 @@ void ExTutorialMessage_Main_Init(void)
     SetCurrentExTaskMainEvent(ExTutorialMessage_Main_Active);
 }
 
-void ExTutorialMessage_TaskUnknown(void)
+void ExTutorialMessage_OnCheckStageFinished(void)
 {
     exMsgTutorialTask *work = ExTaskGetWorkCurrent(exMsgTutorialTask);
     UNUSED(work);
@@ -218,7 +218,7 @@ void ExTutorialMessage_Main_Active(void)
 
     AddExDrawRequest(&work->aniBorder, &work->aniBorder.config);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExTutorialMessage(void)
@@ -229,7 +229,7 @@ BOOL CreateExTutorialMessage(void)
     exMsgTutorialTask *work = ExTaskGetWork(task, exMsgTutorialTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExTutorialMessage_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExTutorialMessage_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -345,7 +345,7 @@ void ExTitleCard_Main_Init(void)
     SetCurrentExTaskMainEvent(ExTitleCard_Main_IntroDelay);
 }
 
-void ExTitleCard_Main_TaskUnknown(void)
+void ExTitleCard_Main_OnCheckStageFinished(void)
 {
     exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
     UNUSED(work);
@@ -370,7 +370,7 @@ void ExTitleCard_Main_IntroDelay(void)
     }
     else
     {
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -435,7 +435,7 @@ void ExTitleCard_Main_EnterZoneIcon(void)
             AddExDrawRequest(work->aniBackdrop, &work->aniBackdrop->config);
             AddExDrawRequest(work->aniZoneIcon, &work->aniZoneIcon->config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -527,7 +527,7 @@ void ExTitleCard_Main_ShowZoneActText(void)
         AddExDrawRequest(work->aniBackdrop, &work->aniBackdrop->config);
         AddExDrawRequest(work->aniZoneIcon, &work->aniZoneIcon->config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -592,7 +592,7 @@ void ExTitleCard_Main_ExitNameplate(void)
             AddExDrawRequest(work->aniBackdrop, &work->aniBackdrop->config);
             AddExDrawRequest(work->aniZoneIcon, &work->aniZoneIcon->config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -651,7 +651,7 @@ void ExTitleCard_Main_ShowReadyText(void)
     {
         AddExDrawRequest(work->aniReadyText, &work->aniReadyText->config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -677,7 +677,7 @@ void ExTitleCard_Main_StartShowingGoText(void)
     {
         AddExDrawRequest(work->aniReadyText, &work->aniReadyText->config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -705,7 +705,7 @@ void ExTitleCard_Main_ShowGoText(void)
     else
     {
         AddExDrawRequest(work->aniGoText, &work->aniGoText->config);
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -731,7 +731,7 @@ void ExTitleCard_Main_OutroDelay(void)
     {
         AddExDrawRequest(work->aniGoText, &work->aniGoText->config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -742,7 +742,7 @@ BOOL CreateExTitleCard(void)
     exMsgTitleTask *work = ExTaskGetWork(task, exMsgTitleTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExTitleCard_Main_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExTitleCard_Main_OnCheckStageFinished);
 
     return TRUE;
 }

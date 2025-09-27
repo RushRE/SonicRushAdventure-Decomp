@@ -96,7 +96,7 @@ FORCE_INCLUDE_VARIABLE_BSS(exBossEffectFireUnused)
 static BOOL LoadExBossEffectHitAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossEffectHitAssets(EX_ACTION_NN_WORK *work);
 static void ExBossEffectHit_Main_Init(void);
-static void ExBossEffectHit_TaskUnknown(void);
+static void ExBossEffectHit_OnCheckStageFinished(void);
 static void ExBossEffectHit_Destructor(void);
 static void ExBossEffectHit_Main_Active(void);
 
@@ -104,7 +104,7 @@ static void ExBossEffectHit_Main_Active(void);
 static BOOL LoadExBossEffectFireballShotAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossEffectFireballShotAssets(EX_ACTION_NN_WORK *work);
 static void ExBossEffectFireballShot_Main_Init(void);
-static void ExBossEffectFireballShot_TaskUnknown(void);
+static void ExBossEffectFireballShot_OnCheckStageFinished(void);
 static void ExBossEffectFireballShot_Destructor(void);
 static void ExBossEffectFireballShot_Main_Active(void);
 
@@ -113,7 +113,7 @@ static BOOL LoadExBossEffectFireballAssets(EX_ACTION_NN_WORK *work);
 static void SetExBossEffectFireballAnimation(EX_ACTION_NN_WORK *work, u16 animID);
 static void ReleaseExBossEffectFireballAssets(EX_ACTION_NN_WORK *work);
 static void ExBossEffectFireball_Main_Init(void);
-static void ExBossEffectFireball_TaskUnknown(void);
+static void ExBossEffectFireball_OnCheckStageFinished(void);
 static void ExBossEffectFireball_Destructor(void);
 static void ExBossEffectFireball_Main_Appear(void);
 static void ExBossEffectFireball_Action_SetActive(void);
@@ -126,7 +126,7 @@ static BOOL LoadExEffectHomingAssets(EX_ACTION_NN_WORK *work);
 static void SetExBossEffectHomingAnimation(EX_ACTION_NN_WORK *work, u16 animID);
 static void ReleaseExBossEffectHomingAssets(EX_ACTION_NN_WORK *work);
 static void ExBossEffectHoming_Main_Init(void);
-static void ExBossEffectHoming_TaskUnknown(void);
+static void ExBossEffectHoming_OnCheckStageFinished(void);
 static void ExBossEffectHoming_Destructor(void);
 static void ExBossEffectHoming_Main_Appear(void);
 static void ExBossEffectHoming_Action_SetActive(void);
@@ -138,7 +138,7 @@ static void ExBossEffectHoming_Main_Disappear(void);
 static BOOL LoadExBossEffectShotAssets(EX_ACTION_NN_WORK *work);
 static void ReleaseExBossEffectShotAssets(EX_ACTION_NN_WORK *work);
 static void ExBossEffectShot_Main_Init(void);
-static void ExBossEffectShot_TaskUnknown(void);
+static void ExBossEffectShot_OnCheckStageFinished(void);
 static void ExBossEffectShot_Destructor(void);
 static void ExBossEffectShot_Main_Active(void);
 
@@ -147,7 +147,7 @@ static BOOL LoadExBossEffectFireAssets(EX_ACTION_NN_WORK *work);
 static void SetExBossEffectFireAnimation(EX_ACTION_NN_WORK *work, u16 animID);
 static void ReleaseExBossEffectFireAssets(EX_ACTION_NN_WORK *work);
 static void ExBossEffectFire_Main_Init(void);
-static void ExBossEffectFire_TaskUnknown(void);
+static void ExBossEffectFire_OnCheckStageFinished(void);
 static void ExBossEffectFire_Destructor(void);
 static void ExBossEffectFire_Main_Appear(void);
 static void ExBossEffectFire_Action_SetActive(void);
@@ -270,7 +270,7 @@ void ExBossEffectHit_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossEffectHit_Main_Active);
 }
 
-void ExBossEffectHit_TaskUnknown(void)
+void ExBossEffectHit_OnCheckStageFinished(void)
 {
     exBossEffectHitTask *work = ExTaskGetWorkCurrent(exBossEffectHitTask);
     UNUSED(work);
@@ -311,7 +311,7 @@ void ExBossEffectHit_Main_Active(void)
         {
             AddExDrawRequest(&work->aniHit, &work->aniHit.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -326,7 +326,7 @@ BOOL CreateExBossEffectHit(void)
 
     work->parent = ExTaskGetWork(GetExBossTask(), exBossSysAdminTask);
 
-    SetExTaskUnknownEvent(task, ExBossEffectHit_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossEffectHit_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -442,7 +442,7 @@ void ExBossEffectFireballShot_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossEffectFireballShot_Main_Active);
 }
 
-void ExBossEffectFireballShot_TaskUnknown(void)
+void ExBossEffectFireballShot_OnCheckStageFinished(void)
 {
     exBossEffectFireBallShotTask *work = ExTaskGetWorkCurrent(exBossEffectFireBallShotTask);
     UNUSED(work);
@@ -481,7 +481,7 @@ void ExBossEffectFireballShot_Main_Active(void)
     {
         AddExDrawRequest(&work->aniShot, &work->aniShot.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -495,7 +495,7 @@ BOOL CreateExBossEffectFireballShot(void)
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    SetExTaskUnknownEvent(task, ExBossEffectFireballShot_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossEffectFireballShot_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -650,7 +650,7 @@ void ExBossEffectFireball_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossEffectFireball_Main_Appear);
 }
 
-void ExBossEffectFireball_TaskUnknown(void)
+void ExBossEffectFireball_OnCheckStageFinished(void)
 {
     exBossEffectFireBallTask *work = ExTaskGetWorkCurrent(exBossEffectFireBallTask);
     UNUSED(work);
@@ -695,7 +695,7 @@ void ExBossEffectFireball_Main_Appear(void)
         {
             AddExDrawRequest(&work->aniFire, &work->aniFire.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -735,7 +735,7 @@ void ExBossEffectFireball_Main_Active(void)
         {
             AddExDrawRequest(&work->aniFire, &work->aniFire.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -775,7 +775,7 @@ void ExBossEffectFireball_Main_Disappear(void)
         {
             AddExDrawRequest(&work->aniFire, &work->aniFire.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -790,7 +790,7 @@ BOOL CreateExBossEffectFireball(void)
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    SetExTaskUnknownEvent(task, ExBossEffectFireball_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossEffectFireball_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -942,7 +942,7 @@ void ExBossEffectHoming_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossEffectHoming_Main_Appear);
 }
 
-void ExBossEffectHoming_TaskUnknown(void)
+void ExBossEffectHoming_OnCheckStageFinished(void)
 {
     exBossEffectHomingTask *work = ExTaskGetWorkCurrent(exBossEffectHomingTask);
     UNUSED(work);
@@ -987,7 +987,7 @@ void ExBossEffectHoming_Main_Appear(void)
         {
             AddExDrawRequest(&work->aniHoming, &work->aniHoming.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -1027,7 +1027,7 @@ void ExBossEffectHoming_Main_Active(void)
         {
             AddExDrawRequest(&work->aniHoming, &work->aniHoming.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -1067,7 +1067,7 @@ void ExBossEffectHoming_Main_Disappear(void)
         {
             AddExDrawRequest(&work->aniHoming, &work->aniHoming.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -1082,7 +1082,7 @@ BOOL CreateExBossEffectHoming(void)
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    SetExTaskUnknownEvent(task, ExBossEffectHoming_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossEffectHoming_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -1203,7 +1203,7 @@ void ExBossEffectShot_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossEffectShot_Main_Active);
 }
 
-void ExBossEffectShot_TaskUnknown(void)
+void ExBossEffectShot_OnCheckStageFinished(void)
 {
     exBossEffectShotTask *work = ExTaskGetWorkCurrent(exBossEffectShotTask);
     UNUSED(work);
@@ -1244,7 +1244,7 @@ void ExBossEffectShot_Main_Active(void)
         {
             AddExDrawRequest(&work->aniShot, &work->aniShot.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -1259,7 +1259,7 @@ BOOL CreateExBossEffectShot(void)
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    SetExTaskUnknownEvent(task, ExBossEffectShot_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossEffectShot_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -1405,7 +1405,7 @@ void ExBossEffectFire_Main_Init(void)
     SetCurrentExTaskMainEvent(ExBossEffectFire_Main_Appear);
 }
 
-void ExBossEffectFire_TaskUnknown(void)
+void ExBossEffectFire_OnCheckStageFinished(void)
 {
     exBossEffectFireTask *work = ExTaskGetWorkCurrent(exBossEffectFireTask);
     UNUSED(work);
@@ -1450,7 +1450,7 @@ void ExBossEffectFire_Main_Appear(void)
         {
             AddExDrawRequest(&work->aniFire, &work->aniFire.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -1490,7 +1490,7 @@ void ExBossEffectFire_Main_Active(void)
         {
             AddExDrawRequest(&work->aniFire, &work->aniFire.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -1530,7 +1530,7 @@ void ExBossEffectFire_Main_Disappear(void)
         {
             AddExDrawRequest(&work->aniFire, &work->aniFire.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -1545,7 +1545,7 @@ BOOL CreateExBossEffectFire(void)
 
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    SetExTaskUnknownEvent(task, ExBossEffectFire_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossEffectFire_OnCheckStageFinished);
 
     return TRUE;
 }

@@ -92,7 +92,7 @@ static void ProcessTrailExDrawRequest(EX_ACTION_TRAIL_WORK *work);
 
 // exDrawReqTask
 static void ExDrawReqTask_Main_Init(void);
-static void ExDrawReqTask_TaskUnknown(void);
+static void ExDrawReqTask_OnCheckStageFinished(void);
 static void ExDrawReqTask_Destructor(void);
 static void ExDrawReqTask_Main_Process(void);
 static void InitAllExDrawRequests(void *list);
@@ -1658,7 +1658,7 @@ void ExDrawFadeTask_Main_Init(void)
     ExDrawFadeTask_Main_Active();
 }
 
-void ExDrawFadeTask_TaskUnknown(void)
+void ExDrawFadeTask_OnCheckStageFinished(void)
 {
     exDrawFadeTask *work = ExTaskGetWorkCurrent(exDrawFadeTask);
     UNUSED(work);
@@ -1719,7 +1719,7 @@ void ExDrawFadeTask_Main_Active(void)
         }
         else
         {
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -1734,7 +1734,7 @@ void CreateExDrawFadeTask(s32 brightness, s32 targetBrightness, s32 duration, s3
     exDrawFadeTask *work = ExTaskGetWork(task, exDrawFadeTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExDrawFadeTask_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExDrawFadeTask_OnCheckStageFinished);
 
     if (brightness < RENDERCORE_BRIGHTNESS_BLACK)
         brightness = RENDERCORE_BRIGHTNESS_BLACK;
@@ -1768,7 +1768,7 @@ void ExDrawReqTask_Main_Init(void)
     ExDrawReqTask_Main_Process();
 }
 
-void ExDrawReqTask_TaskUnknown(void)
+void ExDrawReqTask_OnCheckStageFinished(void)
 {
     exDrawReqTask *work = ExTaskGetWorkCurrent(exDrawReqTask);
     UNUSED(work);
@@ -1828,7 +1828,7 @@ void ExDrawReqTask_Main_Process(void)
         ExUtils_ResetRenderTransform();
     }
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void CreateExDrawReqTask(void)
@@ -1838,7 +1838,7 @@ void CreateExDrawReqTask(void)
     exDrawReqTask *work = ExTaskGetWork(task, exDrawReqTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, ExDrawReqTask_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExDrawReqTask_OnCheckStageFinished);
 }
 
 void AddExDrawRequest(void *work, exDrawReqTaskConfig *config)

@@ -38,7 +38,7 @@ typedef struct exDrawFadeTask_
 // --------------------
 
 void ExDrawFadeTask_Main_Init(void);
-void ExDrawFadeTask_TaskUnknown(void);
+void ExDrawFadeTask_OnCheckStageFinished(void);
 void ExDrawFadeTask_Destructor(void);
 void ExDrawFadeTask_Main_Active(void);
 void CreateExDrawFadeTask(s32 brightness, s32 targetBrightness, s32 duration, s32 delay, ExDrawFadeTaskFlags flags);

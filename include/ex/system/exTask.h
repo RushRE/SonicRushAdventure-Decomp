@@ -48,13 +48,13 @@ typedef struct ExTask_
 {
     ExTaskMain main;
     s32 unused1;
-    ExTaskUnknownFunc unknownCallback;
+    ExTaskUnknownFunc onCheckStageFinished;
     ExTaskDestructor dtor;
-    ExTaskDelayCallback delayCallback;
+    ExTaskDelayCallback onHitstopActive;
     s32 unused2;
     u16 priority;
     TaskGroup group;
-    s16 timer;
+    s16 hitstopTimer;
 
 #ifdef RUSH_DEBUG
     const char *name;
@@ -102,34 +102,34 @@ RUSH_INLINE void DestroyCurrentExTask(void)
     SetCurrentExTaskMainEvent(ExTask_State_Destroy);
 }
 
-RUSH_INLINE void SetExTaskUnknownEvent(Task *task, ExTaskUnknownFunc event)
+RUSH_INLINE void SetExTaskOnCheckStageFinishedEvent(Task *task, ExTaskUnknownFunc event)
 {
-    GetExTask(task)->unknownCallback = event;
+    GetExTask(task)->onCheckStageFinished = event;
 }
 
-RUSH_INLINE void RunExTaskUnknownEvent(ExTask *task)
+RUSH_INLINE void RunExTaskOnCheckStageFinishedEvent(ExTask *task)
 {
-    task->unknownCallback();
+    task->onCheckStageFinished();
 }
 
-RUSH_INLINE void RunCurrentExTaskUnknownEvent(void)
+RUSH_INLINE void RunCurrentExTaskOnCheckStageFinishedEvent(void)
 {
-    GetExTaskCurrent()->unknownCallback();
+    GetExTaskCurrent()->onCheckStageFinished();
 }
 
-RUSH_INLINE void SetExTaskDelayEvent(Task *task, ExTaskDelayCallback event)
+RUSH_INLINE void SetExTaskOnHitstopActiveEvent(Task *task, ExTaskDelayCallback event)
 {
-    GetExTask(task)->delayCallback = event;
+    GetExTask(task)->onHitstopActive = event;
 }
 
-RUSH_INLINE void SetExTaskTimer(Task *task, s16 timer)
+RUSH_INLINE void SetExTaskHitstopTimer(Task *task, s16 hitstopTimer)
 {
-    GetExTask(task)->timer = timer;
+    GetExTask(task)->hitstopTimer = hitstopTimer;
 }
 
-RUSH_INLINE void SetCurrentExTaskTimer(s16 timer)
+RUSH_INLINE void SetCurrentExTaskHitstopTimer(s16 hitstopTimer)
 {
-    GetExTaskCurrent()->timer = timer;
+    GetExTaskCurrent()->hitstopTimer = hitstopTimer;
 }
 
 #endif // RUSH_EXTASK_H

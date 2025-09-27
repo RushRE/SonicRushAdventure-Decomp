@@ -33,7 +33,7 @@ static u16 laserStartAngles[EXBOSS_HOMING_LASER_COUNT] = { FLOAT_DEG_TO_IDX(210.
 static void LoadExBossHomingLaserAssets(EX_ACTION_BAC3D_WORK *work);
 static void ReleaseExBossHomingLaserAssets(EX_ACTION_BAC3D_WORK *work);
 static void ExBossHomingLaser_Main_Init(void);
-static void ExBossHomingLaser_TaskUnknown(void);
+static void ExBossHomingLaser_OnCheckStageFinished(void);
 static void ExBossHomingLaser_Destructor(void);
 static void ExBossHomingLaser_Main_MoveToStartPos(void);
 static void ExBossHomingLaser_Action_WaitForAttack(void);
@@ -128,7 +128,7 @@ void ExBossHomingLaser_Main_Init(void)
     ExBossHomingLaser_Main_MoveToStartPos();
 }
 
-void ExBossHomingLaser_TaskUnknown(void)
+void ExBossHomingLaser_OnCheckStageFinished(void)
 {
     exBossHomingLaserTask *work = ExTaskGetWorkCurrent(exBossHomingLaserTask);
     UNUSED(work);
@@ -213,7 +213,7 @@ void ExBossHomingLaser_Main_MoveToStartPos(void)
 
         exHitCheckTask_AddHitCheck(&work->aniTrail.hitChecker);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -259,7 +259,7 @@ void ExBossHomingLaser_Main_WaitForAttack(void)
     AddExDrawRequest(&work->aniSprite3D, &work->aniSprite3D.config);
     exHitCheckTask_AddHitCheck(&work->aniTrail.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 void ExBossHomingLaser_Action_TargetPlayer(void)
@@ -322,7 +322,7 @@ void ExBossHomingLaser_Main_TargetPlayer(void)
     AddExDrawRequest(&work->aniTrail, &work->aniTrail.config);
     exHitCheckTask_AddHitCheck(&work->aniTrail.hitChecker);
 
-    RunCurrentExTaskUnknownEvent();
+    RunCurrentExTaskOnCheckStageFinishedEvent();
 }
 
 BOOL CreateExBossHomingLaser(void)
@@ -336,7 +336,7 @@ BOOL CreateExBossHomingLaser(void)
     work->parent = ExTaskGetWorkCurrent(exBossSysAdminTask);
     work->id     = work->parent->projectileID;
 
-    SetExTaskUnknownEvent(task, ExBossHomingLaser_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExBossHomingLaser_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -372,7 +372,7 @@ void ExBoss_Main_StartHomi0(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -390,7 +390,7 @@ void ExBoss_Main_FinishHomi0(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -434,7 +434,7 @@ void ExBoss_Main_StartHomi1(void)
             exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
             AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-            RunCurrentExTaskUnknownEvent();
+            RunCurrentExTaskOnCheckStageFinishedEvent();
         }
     }
 }
@@ -453,7 +453,7 @@ void ExBoss_Main_FinishHomi1(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -483,7 +483,7 @@ void ExBoss_Main_StartHomi2(void)
         exHitCheckTask_AddHitCheck(&work->aniBoss.hitChecker);
         AddExDrawRequest(&work->aniBoss, &work->aniBoss.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 

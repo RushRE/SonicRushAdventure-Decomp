@@ -35,7 +35,7 @@ FORCE_INCLUDE_VARIABLE_BSS(exSmallExplosionSpriteResource)
 static void LoadExExplosionSprite(EX_ACTION_BAC3D_WORK *work);
 static void ReleaseExExplosionSprite(EX_ACTION_BAC3D_WORK *work);
 static void ExExplosion_Main_Init(void);
-static void ExExplosion_TaskUnknown(void);
+static void ExExplosion_OnCheckStageFinished(void);
 static void ExExplosion_Destructor(void);
 static void ExExplosion_Main_Active(void);
 
@@ -44,7 +44,7 @@ static void LoadExShockEffectSprite(EX_ACTION_BAC3D_WORK *work);
 static void SetExShockEffectAnimation(EX_ACTION_BAC3D_WORK *work, u16 anim);
 static void ReleaseExShockEffectSprite(EX_ACTION_BAC3D_WORK *work);
 static void ExShockEffect_Main_Init(void);
-static void ExShockEffect_TaskUnknown(void);
+static void ExShockEffect_OnCheckStageFinished(void);
 static void ExShockEffect_Destructor(void);
 static void ExShockEffect_Main_ShockAnimate(void);
 static void ExShockEffect_Action_ShockFinish(void);
@@ -114,7 +114,7 @@ void ExExplosion_Main_Init(void)
     ExExplosion_Main_Active();
 }
 
-void ExExplosion_TaskUnknown(void)
+void ExExplosion_OnCheckStageFinished(void)
 {
     exEffectBigBombTask *work = ExTaskGetWorkCurrent(exEffectBigBombTask);
     UNUSED(work);
@@ -146,7 +146,7 @@ void ExExplosion_Main_Active(void)
     {
         AddExDrawRequest(&work->aniExplosion, &work->aniExplosion.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -161,7 +161,7 @@ BOOL CreateExExplosion(VecFx32 *targetPos)
     work->targetPos.y = targetPos->y;
     work->targetPos.z = targetPos->z;
 
-    SetExTaskUnknownEvent(task, ExExplosion_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExExplosion_OnCheckStageFinished);
 
     return TRUE;
 }
@@ -226,7 +226,7 @@ void ExShockEffect_Main_Init(void)
     ExShockEffect_Main_ShockAnimate();
 }
 
-void ExShockEffect_TaskUnknown(void)
+void ExShockEffect_OnCheckStageFinished(void)
 {
     exEffectBiriBiriTask *work = ExTaskGetWorkCurrent(exEffectBiriBiriTask);
     UNUSED(work);
@@ -258,7 +258,7 @@ void ExShockEffect_Main_ShockAnimate(void)
     {
         AddExDrawRequest(&work->aniShockEffect, &work->aniShockEffect.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -287,7 +287,7 @@ void ExShockEffect_Main_ShockFinish(void)
     {
         AddExDrawRequest(&work->aniShockEffect, &work->aniShockEffect.config);
 
-        RunCurrentExTaskUnknownEvent();
+        RunCurrentExTaskOnCheckStageFinishedEvent();
     }
 }
 
@@ -306,7 +306,7 @@ BOOL CreateExShockEffect(VecFx32 *targetPos)
     work->targetPos.y = targetPos->y;
     work->targetPos.z = targetPos->z;
 
-    SetExTaskUnknownEvent(task, ExShockEffect_TaskUnknown);
+    SetExTaskOnCheckStageFinishedEvent(task, ExShockEffect_OnCheckStageFinished);
 
     return TRUE;
 }

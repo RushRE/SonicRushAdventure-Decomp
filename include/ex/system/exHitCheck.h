@@ -76,7 +76,7 @@ typedef struct exHitCheck_
         u8 isStunned : 1;
         u8 isInvincible : 1;
         u8 willExplodeOnContact : 1;
-        u8 value_20 : 1;
+        u8 unused : 1;
         u8 wasOutOfBounds : 1;
         u8 touchingBoundaryT : 1;
         
