@@ -2,7 +2,7 @@
 #define RUSH_EXBOSSMETEOR_H
 
 #include <ex/boss/exBoss.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 
 // --------------------
 // STRUCTS
@@ -42,8 +42,8 @@ typedef struct exBossMeteMeteoTask
     s32 field_14;
     VecFx32 velocity;
     s32 field_24;
-    VecU16 field_28;
-    VecU16 field_2E;
+    VecU16 rotateDir;
+    VecU16 rotateSpeed;
     VecU16 angle;
     BOOL exploded;
     VecFx32 startPosition;
@@ -62,7 +62,7 @@ typedef struct exBossMeteMeteoTask
     s32 field_84;
     EX_ACTION_NN_WORK animator;
     exBossSysAdminTask *parent;
-    ExPlayerUnknown2152FB0 int568;
+    ExUtilMeteorMover meteorMover;
     s32 field_588;
 } exBossMeteMeteoTask;
 

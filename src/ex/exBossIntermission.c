@@ -6,7 +6,7 @@
 #include <ex/system/exSystem.h>
 #include <ex/system/exStage.h>
 #include <ex/system/exSave.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
 
@@ -160,7 +160,7 @@ void LoadExBossAssets(EX_ACTION_NN_WORK *work)
 
 void SetExBossAnimation(EX_ACTION_NN_WORK *work, ExBossAnimIDs animID)
 {
-    exPlayerHelpers__SetAnimationInternal(work, exBossModelResource, NULL, exBossAnimResource[0], animID);
+    ExUtils_SetJointAnimation(work, exBossModelResource, NULL, exBossAnimResource[0], animID);
 }
 
 void ReleaseExBossAssets(EX_ACTION_NN_WORK *work)

@@ -18,7 +18,7 @@ typedef struct exBossFireDoraTask_
     s32 field_18;
     s32 field_1C;
     VecU16 angle;
-    u16 angleUnknown;
+    s16 angleUnknown;
     float moveSpeed;
     s16 field_2C;
     u16 spinSpeed;

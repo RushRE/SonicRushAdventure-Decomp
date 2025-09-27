@@ -1,5 +1,5 @@
 #include <ex/effects/exBlazeDashEffect.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 #include <ex/system/exSystem.h>
 #include <game/file/binaryBundle.h>
 
@@ -104,7 +104,7 @@ void LoadExBurningBlazeModel(EX_ACTION_NN_WORK *work)
 
 void SetExBurningBlazeAnimation(EX_ACTION_NN_WORK *work, u16 anim)
 {
-    exPlayerHelpers__SetAnimationInternal(work, exBurningBlazeModelResource, NULL, exBurningBlazeJointAniResource, anim);
+    ExUtils_SetJointAnimation(work, exBurningBlazeModelResource, NULL, exBurningBlazeJointAniResource, anim);
 }
 
 void ReleaseExBurningBlazeModel(EX_ACTION_NN_WORK *work)
@@ -180,7 +180,7 @@ void LoadExRegularBlazeModel(EX_ACTION_NN_WORK *work)
 
 void SetExRegularBlazeAnimation(EX_ACTION_NN_WORK *work, u16 anim)
 {
-    exPlayerHelpers__SetAnimationInternal(work, exRegularBlazeModelResource, NULL, exRegularBlazeJointAniResource, anim);
+    ExUtils_SetJointAnimation(work, exRegularBlazeModelResource, NULL, exRegularBlazeJointAniResource, anim);
 }
 
 void ReleaseExRegularBlazeModel(EX_ACTION_NN_WORK *work)

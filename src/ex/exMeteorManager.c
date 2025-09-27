@@ -2,7 +2,7 @@
 #include <ex/system/exSystem.h>
 #include <ex/system/exStage.h>
 #include <ex/system/exMath.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 #include <game/file/binaryBundle.h>
 
 // Resources
@@ -422,9 +422,9 @@ void ExMeteor_Main_Moving(void)
 
     AnimateExDrawRequestModel(&work->aniMeteor);
 
-    exPlayerHelpers__Func_2152D28(&work->aniMeteor.model.angle, &work->rotateDir, &work->rotateSpeed, 0);
-    exPlayerHelpers__Func_2152D28(&work->aniMeteor.model.angle, &work->rotateDir, &work->rotateSpeed, 1);
-    exPlayerHelpers__Func_2152D28(&work->aniMeteor.model.angle, &work->rotateDir, &work->rotateSpeed, 2);
+    ExUtils_RotateOnAxis(&work->aniMeteor.model.angle, &work->rotateDir, &work->rotateSpeed, EXUTIL_ROTATE_AXIS_X);
+    ExUtils_RotateOnAxis(&work->aniMeteor.model.angle, &work->rotateDir, &work->rotateSpeed, EXUTIL_ROTATE_AXIS_Y);
+    ExUtils_RotateOnAxis(&work->aniMeteor.model.angle, &work->rotateDir, &work->rotateSpeed, EXUTIL_ROTATE_AXIS_Z);
 
     work->aniMeteor.model.translation.y -= work->velocity.y;
 

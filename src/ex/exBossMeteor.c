@@ -5,7 +5,7 @@
 #include <ex/system/exDrawReq.h>
 #include <ex/system/exSystem.h>
 #include <ex/system/exStage.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
 
@@ -195,12 +195,12 @@ BOOL LoadExBossMeteorBombAssets(EX_ACTION_NN_WORK *work)
     work->model.angle.x = FLOAT_DEG_TO_IDX(269.935);
     work->model.angle.z = FLOAT_DEG_TO_IDX(179.96);
 
-    work->hitChecker.type                     = EXHITCHECK_TYPE_HAZARD;
+    work->hitChecker.type                   = EXHITCHECK_TYPE_HAZARD;
     work->hitChecker.input.isBossMeteorBomb = TRUE;
-    work->hitChecker.box.size.x               = FLOAT_TO_FX32(0.01001);
-    work->hitChecker.box.size.y               = FLOAT_TO_FX32(0.01001);
-    work->hitChecker.box.size.z               = FLOAT_TO_FX32(0.0);
-    work->hitChecker.box.position             = &work->model.translation;
+    work->hitChecker.box.size.x             = FLOAT_TO_FX32(0.01001);
+    work->hitChecker.box.size.y             = FLOAT_TO_FX32(0.01001);
+    work->hitChecker.box.size.z             = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position           = &work->model.translation;
 
     meteorBombInstanceCount++;
 
@@ -811,13 +811,13 @@ void ExBossMeteor_Main_Init(void)
     work->targetPosition.y = meteorLockOnPosition.y;
     work->targetPosition.z = FLOAT_TO_FX32(60.0);
 
-    exPlayerHelpers__Func_2152FB0(&work->int568, &work->startPosition, &work->targetPosition, 0.00078125f, 1.0f);
+    ExUtils_InitMeteorMover(&work->meteorMover, &work->startPosition, &work->targetPosition, 0.00078125f, 1.0f);
 
-    work->field_28.x = 1;
-    work->field_28.y = 1 + (mtMathRand() % 2);
-    work->field_2E.x = 1;
-    work->angle.x    = 0;
-    work->field_2E.y = 3 + (mtMathRand() % 3);
+    work->rotateDir.x   = EXUTIL_ROTATE_DIR_CW;
+    work->rotateDir.y   = EXUTIL_ROTATE_DIR_CW + (mtMathRand() % 2);
+    work->rotateSpeed.x = 1;
+    work->angle.x       = 0;
+    work->rotateSpeed.y = 3 + (mtMathRand() % 3);
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_METEORITE);
 
@@ -854,7 +854,7 @@ void ExBossMeteor_Main_FallToLockOnPos(void)
     {
         ExBossMeteor_Action_Explode();
     }
-    else if (exPlayerHelpers__Func_21530FC(&work->int568, &work->animator.model.translation, TRUE) && work->animator.model.translation.z <= FLOAT_TO_FX32(60.0))
+    else if (ExUtils_CheckMeteorMoverFinished(&work->meteorMover, &work->animator.model.translation, TRUE) && work->animator.model.translation.z <= FLOAT_TO_FX32(60.0))
     {
         ExBossMeteor_Action_Impact();
     }
@@ -866,11 +866,11 @@ void ExBossMeteor_Main_FallToLockOnPos(void)
     }
     else
     {
-        work->animator.model.angle.x = exPlayerHelpers__Func_2152E28(work->int568.step.z, work->int568.step.y);
-        work->animator.model.angle.z = exPlayerHelpers__Func_2152E28(work->int568.step.x, work->int568.step.y);
+        work->animator.model.angle.x = ExUtils_Atan2(work->meteorMover.step.z, work->meteorMover.step.y);
+        work->animator.model.angle.z = ExUtils_Atan2(work->meteorMover.step.x, work->meteorMover.step.y);
 
         if (Camera3D__UseEngineA() == FALSE)
-            exPlayerHelpers__Func_2152D28(&work->angle, &work->field_28, &work->field_2E, 0);
+            ExUtils_RotateOnAxis(&work->angle, &work->rotateDir, &work->rotateSpeed, EXUTIL_ROTATE_AXIS_X);
 
         work->animator.model.angle.x += work->angle.x;
         work->animator.config.control.timer = 10;
@@ -928,8 +928,8 @@ void ExBossMeteor_Action_Explode(void)
 {
     exBossMeteMeteoTask *work = ExTaskGetWorkCurrent(exBossMeteMeteoTask);
 
-    work->animator.hitChecker.output.hasCollision = FALSE;
-    work->animator.hitChecker.input.isRepelledProjectile  = TRUE;
+    work->animator.hitChecker.output.hasCollision        = FALSE;
+    work->animator.hitChecker.input.isRepelledProjectile = TRUE;
 
     work->velocity.y = FLOAT_TO_FX32(0.5);
 
@@ -956,7 +956,7 @@ void ExBossMeteor_Action_Explode(void)
         }
     }
 
-    work->field_2E.y *= 3;
+    work->rotateSpeed.y *= 3;
     work->animator.model.angle.x = FLOAT_DEG_TO_IDX(44.99);
     work->exploded               = TRUE;
 
@@ -973,7 +973,7 @@ void ExBossMeteor_Main_Explode(void)
     work->animator.model.translation.y += work->velocity.y;
     work->animator.config.control.timer = 10;
 
-    exPlayerHelpers__Func_2152D28(&work->animator.model.angle, &work->field_28, &work->field_2E, 1);
+    ExUtils_RotateOnAxis(&work->animator.model.angle, &work->rotateDir, &work->rotateSpeed, EXUTIL_ROTATE_AXIS_Y);
 
     if (work->animator.model.translation.x >= EX_STAGE_BOUNDARY_R || work->animator.model.translation.x <= EX_STAGE_BOUNDARY_L
         || work->animator.model.translation.y >= FLOAT_TO_FX32(200.0))

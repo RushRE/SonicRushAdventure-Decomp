@@ -2,7 +2,7 @@
 #define RUSH_EXBOSSLINEMISSILE_H
 
 #include <ex/boss/exBoss.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 
 // --------------------
 // STRUCTS
@@ -20,7 +20,7 @@ typedef struct exBossLineMissileTask_
     BOOL spinClockwise;
     exBossSysAdminTask *parent;
     EX_ACTION_NN_WORK animator;
-    ExPlayerUnknown2152960 unknownWorker;
+    ExUtilMissileMover missileMover;
     VecFx32 positions[EXBOSS_LINE_MISSILE_COUNT];
 } exBossLineMissileTask;
 
@@ -34,7 +34,7 @@ typedef struct exBossLineNeedleTask_
     u16 unknown;
     exBossSysAdminTask *parent;
     EX_ACTION_NN_WORK animator;
-    ExPlayerUnknown2152960 unknownWorker;
+    ExUtilMissileMover missileMover;
     VecFx32 positions[EXBOSS_LINE_MISSILE_COUNT];
 } exBossLineNeedleTask;
 

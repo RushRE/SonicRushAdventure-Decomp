@@ -5,7 +5,7 @@
 #include <ex/system/exDrawReq.h>
 #include <ex/system/exSystem.h>
 #include <ex/system/exStage.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
 
@@ -255,7 +255,7 @@ void ExBossSpikedLineMissile_Main_Init(void)
     work->animator.model.translation.y = work->positions[0].x;
     work->animator.model.translation.z = work->positions[0].x;
 
-    exPlayerHelpers__Func_2152960(&work->unknownWorker, work->positions, EXBOSS_LINE_MISSILE_COUNT, 60 + (mtMathRand() % 30));
+    ExUtils_InitMissileMover(&work->missileMover, work->positions, EXBOSS_LINE_MISSILE_COUNT, 60 + (mtMathRand() % 30));
 
     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
@@ -324,18 +324,18 @@ void ExBossSpikedLineMissile_Main_Appear(void)
         return;
     }
 
-    if (exPlayerHelpers__Func_2152AB4(&work->unknownWorker))
+    if (ExUtils_ProcessMissileMover(&work->missileMover))
     {
         ExBossSpikedLineMissile_Action_Move();
     }
     else
     {
-        work->animator.model.translation.x = work->unknownWorker.field_8.x;
-        work->animator.model.translation.y = work->unknownWorker.field_8.y;
-        work->animator.model.translation.z = work->unknownWorker.field_8.z;
-        work->velocity.x                   = work->unknownWorker.field_18.x;
-        work->velocity.y                   = work->unknownWorker.field_18.y;
-        work->velocity.z                   = work->unknownWorker.field_18.z;
+        work->animator.model.translation.x = work->missileMover.currentPosition.x;
+        work->animator.model.translation.y = work->missileMover.currentPosition.y;
+        work->animator.model.translation.z = work->missileMover.currentPosition.z;
+        work->velocity.x                   = work->missileMover.velocity.x;
+        work->velocity.y                   = work->missileMover.velocity.y;
+        work->velocity.z                   = work->missileMover.velocity.z;
 
         AddExDrawRequest(&work->animator, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
@@ -530,7 +530,7 @@ void ExBossBluntLineMissile_Main_Init(void)
     work->animator.model.translation.y = work->positions[0].x;
     work->animator.model.translation.z = work->positions[0].x;
 
-    exPlayerHelpers__Func_2152960(&work->unknownWorker, work->positions, EXBOSS_LINE_MISSILE_COUNT, 60 + (mtMathRand() % 30));
+    ExUtils_InitMissileMover(&work->missileMover, work->positions, EXBOSS_LINE_MISSILE_COUNT, 60 + (mtMathRand() % 30));
 
     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
@@ -604,18 +604,18 @@ void ExBossBluntLineMissile_Main_Appear(void)
         return;
     }
 
-    if (exPlayerHelpers__Func_2152AB4(&work->unknownWorker))
+    if (ExUtils_ProcessMissileMover(&work->missileMover))
     {
         ExBossBluntLineMissile_Action_Move();
     }
     else
     {
-        work->animator.model.translation.x = work->unknownWorker.field_8.x;
-        work->animator.model.translation.y = work->unknownWorker.field_8.y;
-        work->animator.model.translation.z = work->unknownWorker.field_8.z;
-        work->velocity.x                   = work->unknownWorker.field_18.x;
-        work->velocity.y                   = work->unknownWorker.field_18.y;
-        work->velocity.z                   = work->unknownWorker.field_18.z;
+        work->animator.model.translation.x = work->missileMover.currentPosition.x;
+        work->animator.model.translation.y = work->missileMover.currentPosition.y;
+        work->animator.model.translation.z = work->missileMover.currentPosition.z;
+        work->velocity.x                   = work->missileMover.velocity.x;
+        work->velocity.y                   = work->missileMover.velocity.y;
+        work->velocity.z                   = work->missileMover.velocity.z;
 
         AddExDrawRequest(&work->animator, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);

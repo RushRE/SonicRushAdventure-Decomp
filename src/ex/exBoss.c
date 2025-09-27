@@ -1,6 +1,6 @@
 #include <ex/boss/exBoss.h>
 #include <ex/player/exPlayer.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 #include <ex/system/exSystem.h>
 #include <ex/system/exStage.h>
 #include <game/audio/audioSystem.h>
@@ -1327,7 +1327,7 @@ void HandleExBossMovement(void)
     work->targetPos.x = work->aniBoss.model.translation.x;
     work->targetPos.y = work->aniBoss.model.translation.y - FLOAT_TO_FX32(0.1001);
 
-    work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
+    work->aniBoss.model.angle.y = ExUtils_Atan2(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
 }
 
 void HandleExBossMovementX(void)

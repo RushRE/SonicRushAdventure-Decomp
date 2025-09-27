@@ -2,7 +2,7 @@
 #include <ex/boss/exBoss.h>
 #include <ex/system/exSystem.h>
 #include <ex/system/exStage.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
 
@@ -769,7 +769,7 @@ void ExBoss_Main_MagmaEruption3(void)
     else
         ExBoss_WaveAngleMoveR();
 
-    work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
+    work->aniBoss.model.angle.y = ExUtils_Atan2(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
 
     if (work->genericAttackTimer <= 0)
     {
@@ -859,7 +859,7 @@ void ExBoss_Main_MagmaEruption4(void)
     work->targetPos.x += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.x, FLOAT_TO_FX32(0.0));
     work->targetPos.y += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.y, FLOAT_TO_FX32(0.0));
 
-    work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
+    work->aniBoss.model.angle.y = ExUtils_Atan2(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
 
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {

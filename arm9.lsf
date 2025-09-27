@@ -767,7 +767,7 @@ Overlay DWCUtility
 Overlay ExBoss
 {
     After arm9
-    Object asm/ex/exPlayerHelpers.o
+    Object src/ex/exUtils.o
     Object src/ex/exBlazeDashEffect.o
     Object src/ex/exBossIntermission.o
     Object src/ex/exBossIntermissionStatus.o

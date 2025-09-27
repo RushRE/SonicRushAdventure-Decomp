@@ -35,5 +35,21 @@ typedef struct VecFloat_
             (result) = ((float)FLOAT_TO_FX32(1.0) * (value)) - 0.5f;                                                                                                               \
         }                                                                                                                                                                          \
     }
+    
+// --------------------
+// INLINE FUNCTIONS
+// --------------------
+
+RUSH_INLINE float FloatToFx32(float value)
+{
+    if (value > 0.0f)
+    {
+        return (FLOAT_TO_FX32(1.0) * value) + 0.5f;
+    }
+    else
+    {
+        return (FLOAT_TO_FX32(1.0) * value) - 0.5f;
+    }
+}
 
 #endif // RUSH_EXMATH_H

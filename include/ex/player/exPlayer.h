@@ -106,7 +106,7 @@ typedef struct exPlayerAdminTaskWorker_
     VecFx32 bossChaseTargetPos;
     s16 bossChaseTimer;
     VecU16 bossChaseRotation;
-    u16 bossChaseRotationUnknown;
+    s16 bossChaseRotationUnknown;
     struct
     {
         ExPlayerCharacter characterID : 1;

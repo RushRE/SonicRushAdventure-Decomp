@@ -2,7 +2,7 @@
 #define RUSH_EXBOSSHOMINGLASER_H
 
 #include <ex/boss/exBoss.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 
 typedef struct exBossHomingLaserTask_
 {
@@ -14,7 +14,7 @@ typedef struct exBossHomingLaserTask_
     s32 field_18;
     s32 field_1C;
     VecU16 angle;
-    u16 angleUnknown;
+    s16 angleUnknown;
     float moveSpeed;
     VecFx32 position;
     s16 field_38;

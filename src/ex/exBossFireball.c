@@ -6,7 +6,7 @@
 #include <ex/effects/exBossFireballEffect.h>
 #include <ex/effects/exBossFireballShotEffect.h>
 #include <ex/effects/exBossHomingEffect.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 #include <ex/system/exSystem.h>
 #include <ex/system/exStage.h>
 #include <game/audio/audioSystem.h>
@@ -282,8 +282,8 @@ void ExBossFireBlue_Main_MoveFast(void)
     }
     else
     {
-        work->animator.model.angle.x = exPlayerHelpers__Func_2152E28(work->velocity.z, work->velocity.y);
-        work->animator.model.angle.z = exPlayerHelpers__Func_2152E28(work->velocity.x, work->velocity.y);
+        work->animator.model.angle.x = ExUtils_Atan2(work->velocity.z, work->velocity.y);
+        work->animator.model.angle.z = ExUtils_Atan2(work->velocity.x, work->velocity.y);
         AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
@@ -326,8 +326,8 @@ void ExBossFireBlue_Main_MoveSlow(void)
     }
     work->animator.model.translation.x += work->velocity.x;
     work->animator.model.translation.y += work->velocity.y;
-    work->animator.model.angle.x = exPlayerHelpers__Func_2152E28(work->velocity.z, work->velocity.y);
-    work->animator.model.angle.z = exPlayerHelpers__Func_2152E28(work->velocity.x, work->velocity.y);
+    work->animator.model.angle.x = ExUtils_Atan2(work->velocity.z, work->velocity.y);
+    work->animator.model.angle.z = ExUtils_Atan2(work->velocity.x, work->velocity.y);
 
     if ((work->animator.model.translation.x >= EX_STAGE_BOUNDARY_R || work->animator.model.translation.x <= EX_STAGE_BOUNDARY_L)
         || (work->animator.model.translation.y >= EX_STAGE_BOUNDARY_B || work->animator.model.translation.y <= EX_STAGE_BOUNDARY_T))
@@ -633,8 +633,8 @@ void ExBossFireRed_Main_MoveFast(void)
     }
     else
     {
-        work->animator.model.angle.x = exPlayerHelpers__Func_2152E28(work->velocity.z, work->velocity.y);
-        work->animator.model.angle.z = exPlayerHelpers__Func_2152E28(work->velocity.x, work->velocity.y);
+        work->animator.model.angle.x = ExUtils_Atan2(work->velocity.z, work->velocity.y);
+        work->animator.model.angle.z = ExUtils_Atan2(work->velocity.x, work->velocity.y);
         AddExDrawRequest(&work->animator.hitChecker, &work->animator.config);
         exHitCheckTask_AddHitCheck(&work->animator.hitChecker);
 
@@ -675,8 +675,8 @@ void ExBossFireRed_Main_MoveSlow(void)
     }
     work->animator.model.translation.x += work->velocity.x;
     work->animator.model.translation.y += work->velocity.y;
-    work->animator.model.angle.x = exPlayerHelpers__Func_2152E28(work->velocity.z, work->velocity.y);
-    work->animator.model.angle.z = exPlayerHelpers__Func_2152E28(work->velocity.x, work->velocity.y);
+    work->animator.model.angle.x = ExUtils_Atan2(work->velocity.z, work->velocity.y);
+    work->animator.model.angle.z = ExUtils_Atan2(work->velocity.x, work->velocity.y);
 
     if ((work->animator.model.translation.x >= EX_STAGE_BOUNDARY_R || work->animator.model.translation.x <= EX_STAGE_BOUNDARY_L)
         || (work->animator.model.translation.y >= EX_STAGE_BOUNDARY_B || work->animator.model.translation.y <= EX_STAGE_BOUNDARY_T))
@@ -871,7 +871,7 @@ void ExBoss_Main_Fire1(void)
     work->targetPos.x += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.x, GetExPlayerPosition()->x);
     work->targetPos.y += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.y, GetExPlayerPosition()->y);
 
-    work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
+    work->aniBoss.model.angle.y = ExUtils_Atan2(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
 
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {
@@ -913,7 +913,7 @@ void ExBoss_Main_Fire2(void)
     work->targetPos.x += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.x, GetExPlayerPosition()->x);
     work->targetPos.y += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.y, GetExPlayerPosition()->y);
 
-    work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
+    work->aniBoss.model.angle.y = ExUtils_Atan2(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
 
     if (IsExDrawRequestModelAnimFinished(&work->aniBoss))
     {

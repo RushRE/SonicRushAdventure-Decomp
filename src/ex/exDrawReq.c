@@ -4,7 +4,7 @@
 #include <game/math/unknown2066510.h>
 #include <ex/system/exSystem.h>
 #include <ex/boss/exBoss.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 
 // --------------------
 // CONSTANTS
@@ -1825,7 +1825,7 @@ void ExDrawReqTask_Main_Process(void)
         EnableExTaskNoUpdate(FALSE);
         InitAllExDrawRequests(work->currentRequest);
         InitExDrawRequestList();
-        exPlayerHelpers__Func_2152CB4();
+        ExUtils_ResetRenderTransform();
     }
 
     RunCurrentExTaskUnknownEvent();

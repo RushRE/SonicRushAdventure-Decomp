@@ -5,7 +5,8 @@
 #include <ex/system/exDrawReq.h>
 #include <ex/system/exSystem.h>
 #include <ex/system/exStage.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
+#include <ex/system/exMath.h>
 #include <game/file/binaryBundle.h>
 #include <game/audio/audioSystem.h>
 
@@ -300,43 +301,22 @@ void ExBossFireDragon_Main_Move(void)
     }
 
     float x;
-    if (work->moveSpeed > 0.0f)
-    {
-        x = (FLOAT_TO_FX32(1.0) * work->moveSpeed) + 0.5f;
-    }
-    else
-    {
-        x = (FLOAT_TO_FX32(1.0) * work->moveSpeed) - 0.5f;
-    }
+    MULTIPLY_FLOAT_FX(x, work->moveSpeed);
     work->velocity.x = x;
 
     float y;
-    if (work->moveSpeed > 0.0f)
-    {
-        y = (FLOAT_TO_FX32(1.0) * work->moveSpeed) + 0.5f;
-    }
-    else
-    {
-        y = (FLOAT_TO_FX32(1.0) * work->moveSpeed) - 0.5f;
-    }
+    MULTIPLY_FLOAT_FX(y, work->moveSpeed);
     work->velocity.y = y;
 
     float z;
-    if (work->moveSpeed > 0.0f)
-    {
-        z = (FLOAT_TO_FX32(1.0) * work->moveSpeed) + 0.5f;
-    }
-    else
-    {
-        z = (FLOAT_TO_FX32(1.0) * work->moveSpeed) - 0.5f;
-    }
+    MULTIPLY_FLOAT_FX(z, work->moveSpeed);
     work->velocity.z = z;
 
     work->trailUpdateTimer--;
     if (work->trailUpdateTimer < 0)
     {
         work->trailUpdateTimer = 4;
-        ovl09_2152EA8(work->aniDragonModel.model.translation.y - playerPos->y, work->aniDragonModel.model.translation.x - playerPos->x, &work->angle, &work->angleUnknown,
+        ExUtils_RotateTowards(work->aniDragonModel.model.translation.y - playerPos->y, work->aniDragonModel.model.translation.x - playerPos->x, &work->angle, &work->angleUnknown,
                       FLOAT_DEG_TO_IDX(8.0));
 
         work->aniTrail.trail.angle = work->angle.y;

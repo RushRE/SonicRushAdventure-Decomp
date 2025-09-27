@@ -1,5 +1,5 @@
 #include <ex/player/exPlayer.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 #include <ex/effects/exSonicDashEffect.h>
 #include <ex/effects/exBlazeDashEffect.h>
 #include <ex/effects/exSonicBarrier.h>
@@ -339,7 +339,7 @@ void ExPlayer_Main_PrepareForBossChase(void)
 
     ProcessExPlayerAnimations();
 
-    ovl09_2152EA8(work->activeModelMain->model.translation.y - work->worker->bossChaseTargetPos.y, work->activeModelMain->model.translation.x - work->worker->bossChaseTargetPos.x,
+    ExUtils_RotateTowards(work->activeModelMain->model.translation.y - work->worker->bossChaseTargetPos.y, work->activeModelMain->model.translation.x - work->worker->bossChaseTargetPos.x,
                   &work->worker->bossChaseRotation, &work->worker->bossChaseRotationUnknown, FLOAT_DEG_TO_IDX(179.96));
 
     work->worker->bossChaseMove.x = MultiplyFX(CosFX(work->worker->bossChaseRotation.y), work->worker->velocity.x);

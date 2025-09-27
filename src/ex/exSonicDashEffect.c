@@ -1,5 +1,5 @@
 #include <ex/effects/exSonicDashEffect.h>
-#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exUtils.h>
 #include <ex/system/exSystem.h>
 #include <game/file/binaryBundle.h>
 
@@ -107,7 +107,7 @@ void LoadExSuperSonicModel(EX_ACTION_NN_WORK *work)
 
 void SetExSuperSonicAnimation(EX_ACTION_NN_WORK *work, u16 anim)
 {
-    exPlayerHelpers__SetAnimationInternal(work, exSuperSonicModelResource, NULL, superSonicJointAniResource, anim);
+    ExUtils_SetJointAnimation(work, exSuperSonicModelResource, NULL, superSonicJointAniResource, anim);
 }
 
 void ReleaseExSuperSonicModel(EX_ACTION_NN_WORK *work)
@@ -183,7 +183,7 @@ void LoadExRegularSonicModel(EX_ACTION_NN_WORK *work)
 
 void SetExRegularSonicAnimation(EX_ACTION_NN_WORK *work, u16 anim)
 {
-    exPlayerHelpers__SetAnimationInternal(work, exRegularSonicModelResource, NULL, exRegularSonicJointAniResource, anim);
+    ExUtils_SetJointAnimation(work, exRegularSonicModelResource, NULL, exRegularSonicJointAniResource, anim);
 }
 
 void ReleaseExRegularSonicModel(EX_ACTION_NN_WORK *work)
