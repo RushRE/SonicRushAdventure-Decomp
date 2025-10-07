@@ -320,7 +320,7 @@ static const u16 formatShapeTileCount[BAC_OAM_SHAPE_COUNT] = {
     [BAC_OAM_SHAPE_32x64] = PIXEL_TO_TILE(32) * PIXEL_TO_TILE(64)  // BAC_OAM_SHAPE_32x64
 };
 
-static const u32 _02112144[] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
+static const u32 initValuesCacheAffineSpriteIndices[] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
 static const u32 _02112180[] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
 
 static const u32 drawListSprite3D[] = {
@@ -571,6 +571,19 @@ void AnimatorSprite__ProcessFrame(AnimatorSprite *animator)
         }
     }
 }
+
+#define GX_OAM_ATTR01_ATTR1_SHIFT GX_OAM_ATTR01_X_SHIFT
+#define GX_OAM_ATTR1_HF_SHIFT     (GX_OAM_ATTR01_HF_SHIFT - GX_OAM_ATTR01_ATTR1_SHIFT)
+#define GX_OAM_ATTR1_HF_MASK      (GX_OAM_ATTR01_HF_MASK >> GX_OAM_ATTR01_ATTR1_SHIFT)
+#define GX_OAM_ATTR1_VF_MASK      (GX_OAM_ATTR01_VF_MASK >> GX_OAM_ATTR01_ATTR1_SHIFT)
+
+enum AnimatorSprite__DrawFrame__Flag
+{
+    ANIMATORSPRITE_DRAWFRAME_HFLIP          = GX_OAM_ATTR1_HF_MASK,
+    ANIMATORSPRITE_DRAWFRAME_VFLIP          = GX_OAM_ATTR1_VF_MASK,
+    ANIMATORSPRITE_DRAWFRAMEROTOZOOM_SCALE  = 0x200,
+    ANIMATORSPRITE_DRAWFRAMEROTOZOOM_MOSAIC = 0x1000,
+};
 
 NONMATCH_FUNC void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
 {
@@ -1044,10 +1057,344 @@ _02080B14:
 #endif
 }
 
+#define MAX_AFFINE_OAM_COUNT 0x20
+
+#define MIN_SCALE_VALUE               0x22
+#define MAX_ANIMATOR_AFFINE_OAM_COUNT 4
+
+#define GX_OAM_ATTR1_FLIP_MASK     (GX_OAM_ATTR01_FLIP_MASK >> GX_OAM_ATTR01_ATTR1_SHIFT)
+#define GX_OAM_ATTR1_SIZE_MASK     (s32)(GX_OAM_ATTR01_SIZE_MASK >> GX_OAM_ATTR01_ATTR1_SHIFT)
+#define GX_OAM_ATTR1_SIZE_SHIFT    (GX_OAM_ATTR01_SIZE_SHIFT - GX_OAM_ATTR01_ATTR1_SHIFT)
+#define GX_OAM_ATTR0_ENABLE_AFFINE 0x100
+#define ATTR0_MASK_NOT_Y           0xFFFF0000 | (GX_OAM_ATTR01_SHAPE_MASK | GX_OAM_ATTR01_CM_MASK | GX_OAM_ATTR01_MOSAIC_MASK | GX_OAM_ATTR01_MODE_MASK | 0x200)
+#define ATTR1_MASK_NOT_X           0xFFFF0000 | ((GX_OAM_ATTR01_SIZE_MASK | GX_OAM_ATTR01_VF_MASK | GX_OAM_ATTR01_HF_MASK | 0xC000000) >> GX_OAM_ATTR01_ATTR1_SHIFT)
+#define GX_OAM_ATTR1_RS_SHIFT      (GX_OAM_ATTR01_RS_SHIFT - GX_OAM_ATTR01_ATTR1_SHIFT)
+#define GX_OAM_ATTR1_RS_MASK       (GX_OAM_ATTR01_RS_MASK >> GX_OAM_ATTR01_ATTR1_SHIFT)
+
 NONMATCH_FUNC void AnimatorSprite__DrawFrameRotoZoom(AnimatorSprite *animator, fx32 scaleX, fx32 scaleY, s32 rotation)
 {
 #ifdef NON_MATCHING
+    // https://decomp.me/scratch/93XNr: 93.11%
 
+    // Compared to GXOamAttr, both x and y are artificially one bit bigger (and two other unused fields accordingly shrunk).
+    // This is "necessary" to improve matching of x and y reads in AnimatorSprite__DrawFrameRotoZoom (who use LSL/LSR by 0x16 and 0x17 to extract x and y instead of 0x17 and 0x18).
+    // (this still does not solve everything since a spurious pair of LSR/LSL 0x10 are inserted in the middle of both field extractions, a problem shared
+    // with AnimatorSprite__DrawFrame and seemingly AnimatorSpriteDS__DrawFrame and AnimatorSpriteDS__DrawFrameRotoZoom).
+    typedef struct
+    {
+        union
+        {
+            u16 attr0;
+            struct
+            {
+                u16 y : 9;
+                u16 rsMode : 1;
+                u16 objMode : 2;
+                u16 mosaic : 1;
+                u16 colorMode : 1;
+                u16 shape : 2;
+            };
+        };
+
+        union
+        {
+            u16 attr1;
+            struct
+            {
+                u16 x : 10;
+                u16 rsParam : 4;
+                u16 size : 2;
+            };
+        };
+
+        union
+        {
+            u16 attr2;
+            struct
+            {
+                u16 charNo : 10;
+                u16 priority : 2;
+                u16 cParam : 4;
+            };
+        };
+
+        u16 _3;
+    } GXOamAttr2RZ;
+
+    enum
+    {
+        NO_FLIP = 0,
+        HFLIP   = 1,
+        VFLIP   = 2,
+        HVFLIP  = 3
+    };
+    typedef union
+    {
+        Vec2U16 v;
+        u32 i;
+    } Vec2DOrInt;
+
+    u16 localFlagAffine    = 0;
+    u16 localFlagHV        = 0;
+    BOOL useEngineB        = animator->useEngineB;
+    u32 assemblyOffset     = animator->assemblyOffset;
+    struct BACFrame *frame = GetFrameAssemblyFromAnimator(animator);
+    fx32 invScaleX;
+    fx32 invScaleY;
+    u16 paletteOffset;
+
+    MtxFx22 mtx_array_rotated_and_scaled[4];
+    MtxFx22 mtx_array_affine_params[4];
+    u32 cacheAffineSpriteIndices[4];
+
+#define mtx22_rot           mtx_array_rotated_and_scaled[NO_FLIP]
+#define mtx22_params_hflip  mtx_array_affine_params[HFLIP]
+#define mtx22_rot_hflip     mtx_array_rotated_and_scaled[HFLIP]
+#define mtx22_params_vflip  mtx_array_affine_params[VFLIP]
+#define mtx22_rot_vflip     mtx_array_rotated_and_scaled[VFLIP]
+#define mtx22_params_hvflip mtx_array_affine_params[HVFLIP]
+#define mtx22_rot_hvflip    mtx_array_rotated_and_scaled[HVFLIP]
+#define mtx22_params_noflip mtx_array_affine_params[NO_FLIP]
+
+    animator->firstSprite = animator->lastSprite = NULL;
+    if (animator->flags & ANIMATOR_FLAG_DISABLE_DRAW)
+    {
+        return;
+    }
+    if (frame->spriteCount == 0)
+    {
+        return;
+    }
+    if (Abs(scaleX) < MIN_SCALE_VALUE)
+    {
+        return;
+    }
+    if (Abs(scaleY) < MIN_SCALE_VALUE)
+    {
+        return;
+    }
+    if (!(animator->flags & ANIMATOR_FLAG_FORCE_AFFINE))
+    {
+        const s32 totalFinalSpriteCount = OAMSystem__GetOAMAffineOffset(animator->useEngineB) + OAMSystem__GetOAMAffineCount(animator->useEngineB)
+                                          + MT_MATH_MIN(frame->spriteCount, MAX_ANIMATOR_AFFINE_OAM_COUNT);
+        if (totalFinalSpriteCount >= MAX_AFFINE_OAM_COUNT)
+        {
+            AnimatorSprite__DrawFrame(animator);
+            return;
+        }
+    }
+    invScaleX = FX_Inv(scaleX);
+    invScaleY = FX_Inv(scaleY);
+    if (rotation == 0)
+    {
+        if (scaleX > 0)
+        {
+            scaleX -= 0x80;
+        }
+        else if (scaleX < 0)
+        {
+            scaleX += 0x80;
+        }
+        if (scaleY > 0)
+        {
+            scaleY -= 0x80;
+        }
+        else if (scaleY < 0)
+        {
+            scaleY += 0x80;
+        }
+    }
+    else
+    {
+        if (scaleX > 0)
+        {
+            scaleX -= 0x90;
+        }
+        else if (scaleX < 0)
+        {
+            scaleX += 0x90;
+        }
+        if (scaleY > 0)
+        {
+            scaleY -= 0x90;
+        }
+        else if (scaleY < 0)
+        {
+            scaleY += 0x90;
+        }
+    }
+    MTX_Rot22(&mtx22_rot, SinFX(rotation), CosFX(rotation));
+    MTX_ScaleApply22(&mtx22_rot, &mtx22_params_hflip, -invScaleX, invScaleY);
+    MTX_ScaleApply22(&mtx22_rot, &mtx22_rot_hflip, -scaleX, scaleY);
+    MTX_ScaleApply22(&mtx22_rot, &mtx22_params_vflip, invScaleX, -invScaleY);
+    MTX_ScaleApply22(&mtx22_rot, &mtx22_rot_vflip, scaleX, -scaleY);
+    MTX_ScaleApply22(&mtx22_rot, &mtx22_params_hvflip, -invScaleX, -invScaleY);
+    MTX_ScaleApply22(&mtx22_rot, &mtx22_rot_hvflip, -scaleX, -scaleY);
+    MTX_ScaleApply22(&mtx22_rot, &mtx22_params_noflip, invScaleX, invScaleY);
+    MTX_ScaleApply22(&mtx22_rot, &mtx22_rot, scaleX, scaleY);
+
+    if ((animator->flags & ANIMATOR_FLAG_FLIP_X) != 0)
+    {
+        localFlagHV |= ANIMATORSPRITE_DRAWFRAME_HFLIP;
+    }
+
+    if ((animator->flags & ANIMATOR_FLAG_FLIP_Y) != 0)
+    {
+        localFlagHV |= ANIMATORSPRITE_DRAWFRAME_VFLIP;
+    }
+    if ((animator->flags & ANIMATOR_FLAG_ENABLE_MOSAIC) != 0)
+    {
+        localFlagAffine |= ANIMATORSPRITE_DRAWFRAMEROTOZOOM_MOSAIC;
+    }
+    if ((animator->flags & ANIMATOR_FLAG_ENABLE_SCALE) != 0)
+    {
+        localFlagAffine |= ANIMATORSPRITE_DRAWFRAMEROTOZOOM_SCALE;
+    }
+    localFlagAffine |= (animator->spriteType << GX_OAM_ATTR01_MODE_SHIFT);
+
+    cacheAffineSpriteIndices = initValuesCacheAffineSpriteIndices;
+
+    paletteOffset = animator->cParam.palette << GX_OAM_ATTR2_CPARAM_SHIFT;
+
+    GXOamAttr *currentOamAttr = &frame->spriteList[0];
+
+    u32 sp24_shiftTileOffset = 0;
+    u16 shift;
+    u32 oamTileOffset;
+    if ((frame->spriteList[0].attr0 & GX_OAM_ATTR01_MODE_MASK) == (GX_OAM_MODE_BITMAPOBJ << GX_OAM_ATTR01_MODE_SHIFT))
+    {
+        shift                   = objBmpUse256K[useEngineB];
+        void const *objBase     = VRAMSystem__VRAM_OBJ[animator->useEngineB];
+        u32 animatorTilesOffset = animator->vramPixels - objBase;
+        oamTileOffset           = GX_OAM_ATTR2_NAME_MASK & (animatorTilesOffset >> (shift + 7));
+    }
+    else
+    {
+        shift                   = objBankShift[useEngineB];
+        void const *objBase     = VRAMSystem__VRAM_OBJ[animator->useEngineB];
+        u32 animatorTilesOffset = animator->vramPixels - objBase;
+        oamTileOffset           = GX_OAM_ATTR2_NAME_MASK & (animatorTilesOffset >> (shift + 5));
+        if (GetAnimHeaderBlockFromAnimator(animator)->anims[animator->animID].format != 0)
+        {
+            sp24_shiftTileOffset = 1;
+        }
+    }
+
+    u16 shiftMask = (1 << shift) - 1;
+
+    if (frame->spriteCount < 0) // ??????
+    {
+        return;
+    }
+
+    for (u32 i = 0; i < frame->spriteCount; i++, currentOamAttr++)
+    {
+        const u32 shape =
+            ((currentOamAttr->attr0 & GX_OAM_ATTR01_SHAPE_MASK) >> GX_OAM_ATTR01_MOSAIC_SHIFT) | ((currentOamAttr->attr1 & GX_OAM_ATTR1_SIZE_MASK) >> (GX_OAM_ATTR1_SIZE_SHIFT));
+        Vec2DOrInt sprite2DSize;
+        sprite2DSize.i = ((Vec2DOrInt const *)(&spriteShapeSizes2D[shape]))->i;
+
+        u16 finalFlipsCurrentOAM             = (localFlagHV ^ currentOamAttr->attr1);
+        u32 mtx22AffineParamsIndexCurrentOAM = (finalFlipsCurrentOAM & GX_OAM_ATTR1_FLIP_MASK) >> GX_OAM_ATTR1_HF_SHIFT;
+
+        int hvFlipBits                    = (localFlagHV & GX_OAM_ATTR1_FLIP_MASK) >> GX_OAM_ATTR1_HF_SHIFT;
+        MtxFx22 *const mtx22_rot_scale_hv = &mtx_array_rotated_and_scaled[hvFlipBits];
+
+        s32 framePieceCenterXNonRotated        = ((((GXOamAttr2RZ *)currentOamAttr)->x) - frame->hotspot.x) + (sprite2DSize.v.x >> 1);
+        s32 framePieceCenterYNonRotated        = ((((GXOamAttr2RZ *)currentOamAttr)->y) - (frame->hotspot.y)) + (sprite2DSize.v.y >> 1);
+        fx32 cosRotByXScale                    = mtx_array_rotated_and_scaled[hvFlipBits].a[0];
+        fx32 minusSinRotByYScale               = mtx22_rot_scale_hv->a[2];
+        fx32 framePieceCenterXRotatedAndScaled = (framePieceCenterXNonRotated * cosRotByXScale) + (framePieceCenterYNonRotated * minusSinRotByYScale);
+
+        s32 xOAM = animator->pos.x - (sprite2DSize.v.x >> 1) + FX32_TO_WHOLE(framePieceCenterXRotatedAndScaled);
+
+        fx32 sinRotByXScale                    = mtx22_rot_scale_hv->a[1];
+        fx32 cosYScale                         = mtx22_rot_scale_hv->a[3];
+        fx32 framePieceCenterYRotatedAndScaled = (framePieceCenterXNonRotated * sinRotByXScale) + (framePieceCenterYNonRotated * cosYScale);
+        s32 yOAM                               = animator->pos.y - (sprite2DSize.v.y >> 1) + FX32_TO_WHOLE(framePieceCenterYRotatedAndScaled);
+
+        u32 *p_sprite2DSize = &sprite2DSize.i;
+        if ((localFlagAffine & ANIMATORSPRITE_DRAWFRAMEROTOZOOM_SCALE) != 0)
+        {
+            xOAM -= (sprite2DSize.v.x >> 1);
+            yOAM -= (sprite2DSize.v.y >> 1);
+            *p_sprite2DSize <<= 1;
+        }
+
+        if ((animator->flags & ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK) && !SpriteDrawBoundsCheck(&sprite2DSize.v, xOAM, yOAM))
+        {
+            if ((frame->useGFXIndex & 1) == 0)
+            {
+                u32 r1_544 = formatShapeTileCount[shape];
+                u32 r1_54C = r1_544 + shiftMask;
+                u32 r1_554 = r1_54C >> shift;
+                oamTileOffset += r1_554 << sp24_shiftTileOffset;
+            }
+        }
+        else
+        {
+            BOOL useEngineB       = animator->useEngineB;
+            s32 affineSpriteIndex = cacheAffineSpriteIndices[mtx22AffineParamsIndexCurrentOAM];
+            BOOL addAffineOAMSuccess;
+            if (affineSpriteIndex < 0)
+            {
+                cacheAffineSpriteIndices[mtx22AffineParamsIndexCurrentOAM] = OAMSystem__AddAffineSprite(useEngineB, mtx_array_affine_params + mtx22AffineParamsIndexCurrentOAM);
+                affineSpriteIndex                                          = cacheAffineSpriteIndices[mtx22AffineParamsIndexCurrentOAM];
+                if (affineSpriteIndex < 0)
+                {
+                    addAffineOAMSuccess = FALSE;
+                    goto CHECK_ADD_AFFINE_OAM_SUCCESS;
+                }
+                else
+                {
+                    GXOamAffine *res = (GXOamAffine *)OAMSystem__GetList1(useEngineB);
+                    res += affineSpriteIndex;
+                    G2_SetOBJAffine(res, mtx_array_affine_params + mtx22AffineParamsIndexCurrentOAM);
+                }
+            }
+            addAffineOAMSuccess = TRUE;
+        CHECK_ADD_AFFINE_OAM_SUCCESS:
+            if (!addAffineOAMSuccess)
+            {
+                if ((frame->useGFXIndex & 1) == 0)
+                {
+                    u32 r1_61C = formatShapeTileCount[shape] + shiftMask;
+                    oamTileOffset += (r1_61C >> shift) << sp24_shiftTileOffset;
+                }
+            }
+            else
+            {
+                GXOamAttr *res = OAMSystem__Alloc(animator->useEngineB, animator->oamOrder);
+                if (&oamDefault == res)
+                {
+                    return;
+                }
+                GXOamAttr *firstSprite = animator->firstSprite;
+                animator->lastSprite   = res;
+                if (firstSprite == NULL)
+                {
+                    animator->firstSprite = res;
+                }
+                const u32 xOAMMasked = xOAM & (GX_OAM_ATTR01_X_MASK >> GX_OAM_ATTR01_ATTR1_SHIFT);
+                res->attr0           = (currentOamAttr->attr0 & (ATTR0_MASK_NOT_Y)) | (yOAM & GX_OAM_ATTR01_Y_MASK) | GX_OAM_ATTR0_ENABLE_AFFINE;
+                res->attr0 |= localFlagAffine;
+                res->attr1 = (currentOamAttr->attr1 & (ATTR1_MASK_NOT_X)) | xOAMMasked;
+                res->attr1 = (res->attr1 & ~GX_OAM_ATTR1_RS_MASK) | (affineSpriteIndex << GX_OAM_ATTR1_RS_SHIFT);
+                if ((frame->useGFXIndex & 1) == 0)
+                {
+                    u32 tileOffsetAndOamPriority = (oamTileOffset & GX_OAM_ATTR2_NAME_MASK) | (animator->oamPriority << GX_OAM_ATTR2_PRIORITY_SHIFT);
+                    u32 colorParam               = (currentOamAttr->attr2 + paletteOffset) & GX_OAM_ATTR2_CPARAM_MASK;
+                    res->attr2                   = tileOffsetAndOamPriority | colorParam;
+                    oamTileOffset += ((u32)(formatShapeTileCount[shape] + shiftMask) >> shift) << sp24_shiftTileOffset;
+                }
+                else
+                {
+                    u32 tileOffsetAndPriority = ((currentOamAttr->attr2 + oamTileOffset) & GX_OAM_ATTR2_NAME_MASK) | (animator->oamPriority << GX_OAM_ATTR2_PRIORITY_SHIFT);
+                    res->attr2                = tileOffsetAndPriority | ((currentOamAttr->attr2 + paletteOffset) & GX_OAM_ATTR2_CPARAM_MASK);
+                }
+            }
+        }
+    }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
