@@ -729,6 +729,14 @@ void StageTask__ObjectCollision(StageTask *work)
     work->prevPosition.y = startY;
 }
 
+enum MiddleOfScreenCoordinates
+{
+    X_MID_SCREEN    = HW_LCD_WIDTH / 2,
+    Y_MID_SCREEN    = HW_LCD_HEIGHT / 2,
+    X_MID_SCREEN_FX = FX32_FROM_WHOLE(X_MID_SCREEN),
+    Y_MID_SCREEN_FX = FX32_FROM_WHOLE(Y_MID_SCREEN)
+};
+
 void StageTask__Draw2D(StageTask *work, AnimatorSpriteDS *animator)
 {
     VecFx32 position;
@@ -909,10 +917,387 @@ void StageTask__Draw3D(StageTask *work, Animator3D *animator)
     StageTask__Draw3DEx(animator, &position, &direction, &work->scale, &work->displayFlag, work->obj_3des, (SpriteFrameCallback)StageTask__SpriteBlockCallback_Hitbox, work);
 }
 
-NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, VecFx32 *scale, StageDisplayFlags *displayFlag, OBS_ACTION3D_ES_WORK *obj3d_es,
+static void Copy_VecFx32(VecFx32 *target, VecFx32 const *source)
+{
+    // A matching decomp does require this variable declaration order.
+    const fx32 x = source->x, z = source->z, y = source->y;
+    target->x = x;
+    target->y = y;
+    target->z = z;
+}
+
+static void Copy_Mtx44(MtxFx44 *target, MtxFx44 const *source)
+{
+    target->a = source->a;
+}
+
+/* "Necessary" in order to match the bloat LSL16/LSR16 pairs (which probably stem from implicit conversions in
+    the source code across inlined functions (or macros) but I couldn't find the right combination) */
+#define FX_SINCOSCAST (s32)(u16)
+//! Allows passing two arguments at once to functions taking sin and cos parameters next to each other.
+#define FX_SIN_AND_COS(angle) SinFX(FX_SINCOSCAST(angle)), CosFX(FX_SINCOSCAST(angle))
+
+NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, VecFx32 *scale, StageDisplayFlags *displayFlag, OBS_ACTION3D_ES_WORK *obj3d_es_arg,
                                        SpriteFrameCallback callback, void *userData)
 {
 #ifdef NON_MATCHING
+    // https://decomp.me/scratch/9f4ui: 100% with MW < 2.0sp5, but only close to 100% otherwise
+
+    AnimatorMDL *mdlAnimator;
+    struct AnimatorSprite3DSpecific *sprite3DAnimatorSpecific;
+    StageDisplayFlags copyStageDisplayFlags;
+    s32 disablePosition;
+    u32 i;
+    Camera3D defaultCamera3D;
+    MtxFx44 backupNNS_G3dGlb_projMtx;
+    VecFx32 copyScale;
+    MtxFx33 mat33Rotations;
+    fx32 xCameraFunc;
+    fx32 yCameraFunc;
+    u16 baseAngleRotationAroundYAxis;
+    s32 backupAnimAdvance;
+    fx32 backupSpeedMultiplier;
+    s16 backupRatioMultiplier;
+    AnimatorSprite3D *sprite3DAnimator;
+    s32 applyCameraConfig;
+
+    copyScale                    = animator->scale;
+    baseAngleRotationAroundYAxis = 0;
+    mdlAnimator                  = NULL;
+    sprite3DAnimator             = NULL;
+    sprite3DAnimatorSpecific     = NULL;
+    copyStageDisplayFlags        = DISPLAY_FLAG_NONE;
+
+    if (animator->type == ANIMATOR3D_MODEL)
+    {
+        mdlAnimator = (AnimatorMDL *)animator;
+    }
+    if (animator->type == ANIMATOR3D_SPRITE)
+    {
+        sprite3DAnimatorSpecific = (struct AnimatorSprite3DSpecific *)(&((AnimatorSprite3D *)animator)->animatorSprite);
+        sprite3DAnimator         = (AnimatorSprite3D *)animator;
+    }
+    if (displayFlag != NULL)
+    {
+        copyStageDisplayFlags = *displayFlag;
+    }
+
+    if (sprite3DAnimatorSpecific != NULL)
+    {
+        sprite3DAnimatorSpecific->animatorSprite.flags &= ~(ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_FLIP_X | ANIMATOR_FLAG_FLIP_Y);
+        if (copyStageDisplayFlags & DISPLAY_FLAG_DISABLE_LOOPING)
+        {
+            sprite3DAnimatorSpecific->animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_LOOPING;
+        }
+        if (copyStageDisplayFlags & DISPLAY_FLAG_FLIP_X)
+        {
+            sprite3DAnimatorSpecific->animatorSprite.flags |= ANIMATOR_FLAG_FLIP_X;
+        }
+        if (copyStageDisplayFlags & DISPLAY_FLAG_FLIP_Y)
+        {
+            sprite3DAnimatorSpecific->animatorSprite.flags |= ANIMATOR_FLAG_FLIP_Y;
+        }
+    }
+    else
+    {
+        if (copyStageDisplayFlags & DISPLAY_FLAG_FLIP_X)
+        {
+            baseAngleRotationAroundYAxis = FLOAT_DEG_TO_IDX(270);
+        }
+        else
+        {
+            baseAngleRotationAroundYAxis = FLOAT_DEG_TO_IDX(90);
+        }
+    }
+
+    if (mdlAnimator != NULL)
+    {
+        for (i = 0; i < B3D_ANIM_MAX; i++)
+        {
+            mdlAnimator->animFlags[i] &= ~(ANIMATORMDL_FLAG_STOPPED | ANIMATORMDL_FLAG_CAN_LOOP);
+        }
+        if (copyStageDisplayFlags & DISPLAY_FLAG_DISABLE_LOOPING)
+        {
+            for (i = 0; i < B3D_ANIM_MAX; i++)
+            {
+                //                        ??????????????????????????????
+                mdlAnimator->animFlags[i] |= (ANIMATORMDL_FLAG_CAN_LOOP);
+            }
+        }
+    }
+
+    copyStageDisplayFlags &= ~(DISPLAY_FLAG_DID_FINISH);
+    if (copyStageDisplayFlags & DISPLAY_FLAG_800)
+    {
+        if (copyStageDisplayFlags & DISPLAY_FLAG_FLIP_X)
+        {
+            for (i = 0; i < g_obj.lightCount; i++)
+            {
+                NNS_G3dGlbLightVector((GXLightId)i, g_obj.lightDirs[i].x, g_obj.lightDirs[i].y, g_obj.lightDirs[i].z);
+            }
+        }
+        else
+        {
+            for (i = 0; i < g_obj.lightCount; i++)
+            {
+                const fx16 flippedX = (-1 * g_obj.lightDirs[i].x);
+                NNS_G3dGlbLightVector((GXLightId)i, flippedX, g_obj.lightDirs[i].y, g_obj.lightDirs[i].z);
+            }
+        }
+    }
+    else
+    {
+        for (i = 0; i < g_obj.lightCount; i++)
+        {
+            NNS_G3dGlbLightVector((GXLightId)i, g_obj.lightDirs[i].x, g_obj.lightDirs[i].y, g_obj.lightDirs[i].z);
+        }
+    }
+
+    disablePosition = (copyStageDisplayFlags & DISPLAY_FLAG_DISABLE_POSITION);
+    if (disablePosition == 0)
+    {
+        xCameraFunc = 0;
+        yCameraFunc = 0;
+        if ((g_obj.flag & OBJECTMANAGER_FLAG_ENABLE_CAMERA) && ((copyStageDisplayFlags & DISPLAY_FLAG_SCREEN_RELATIVE) == 0))
+        {
+            if (g_obj.cameraFunc != NULL)
+            {
+                g_obj.cameraFunc(&xCameraFunc, &yCameraFunc);
+            }
+            else
+            {
+                xCameraFunc = g_obj.camera[0].x;
+                yCameraFunc = g_obj.camera[0].y;
+            }
+        }
+
+        animator->translation.x = position->x - xCameraFunc;
+        animator->translation.y = -1 * (position->y - yCameraFunc);
+        animator->translation.z = position->z;
+        if ((copyStageDisplayFlags & DISPLAY_FLAG_DISABLE_POSITION_OFFSETS) == 0)
+        {
+            animator->translation.x = animator->translation.x + FX32_FROM_WHOLE(g_obj.offset[0]);
+            animator->translation.y = animator->translation.y + FX32_FROM_WHOLE(g_obj.offset[1]);
+        }
+
+        if (g_obj.flag & OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL)
+        {
+            animator->translation.z = position->z * 2;
+            animator->translation.y = animator->translation.y - MultiplyFX(position->z, g_obj.depth);
+        }
+
+        if (g_obj.scale.x != FX_ONE)
+        {
+            animator->translation.x = X_MID_SCREEN_FX + MultiplyFX(animator->translation.x - X_MID_SCREEN_FX, g_obj.scale.x);
+        }
+
+        if (g_obj.scale.y != FX_ONE)
+        {
+            animator->translation.y = -1 * (Y_MID_SCREEN_FX + MultiplyFX(-Y_MID_SCREEN_FX - animator->translation.y, g_obj.scale.y));
+        }
+    }
+
+    if (((copyStageDisplayFlags & DISPLAY_FLAG_DISABLE_ROTATION) == 0) && (disablePosition == 0))
+    {
+        MTX_Identity33(&animator->rotation);
+        MTX_RotY33(&mat33Rotations, FX_SIN_AND_COS(baseAngleRotationAroundYAxis));
+        MTX_Concat33(&animator->rotation, &mat33Rotations, &animator->rotation);
+        MTX_RotX33(&mat33Rotations, FX_SIN_AND_COS(-dir->x));
+        MTX_Concat33(&animator->rotation, &mat33Rotations, &animator->rotation);
+        MTX_RotY33(&mat33Rotations, FX_SIN_AND_COS(-dir->y));
+        MTX_Concat33(&animator->rotation, &mat33Rotations, &animator->rotation);
+        MTX_RotZ33(&mat33Rotations, FX_SIN_AND_COS(-dir->z));
+        MTX_Concat33(&animator->rotation, &mat33Rotations, &animator->rotation);
+    }
+
+    s32 xScaled = FX_ONE, yScaled = FX_ONE, zScaled = FX_ONE;
+    if (scale != NULL)
+    {
+        const fx32 localYScaled = MultiplyFX(g_obj.scale.y, scale->y);
+        const fx32 localXScaled = MultiplyFX(g_obj.scale.x, scale->x);
+        xScaled                 = localXScaled;
+        yScaled                 = localYScaled;
+        zScaled                 = scale->z;
+    }
+    const s32 newScaleX = MultiplyFX(animator->scale.x, xScaled);
+    const s32 newScaleZ = MultiplyFX(animator->scale.z, zScaled);
+    const s32 newScaleY = MultiplyFX(animator->scale.y, yScaled);
+
+    animator->scale.x = newScaleX;
+    animator->scale.y = newScaleY;
+    animator->scale.z = newScaleZ;
+
+    applyCameraConfig = copyStageDisplayFlags & DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+    if (applyCameraConfig)
+    {
+        CameraConfig const *const ptrConfig = &g_obj.cameraConfig->config;
+        const u32 halfFOV                   = ptrConfig->projFOV;
+        const u32 nearPlaneDistance         = ptrConfig->projNear;
+        const fx32 tangentHalfFOV           = FX_Div(FX_SIN_AND_COS(halfFOV));
+        const fx32 frustumHalfHeight        = MultiplyFX(tangentHalfFOV, nearPlaneDistance);
+        const fx32 frustumHalfWidth         = MultiplyFX(frustumHalfHeight, ptrConfig->aspectRatio);
+        const fx32 nearByZ                  = FX_Div(ptrConfig->projNear, g_obj.cameraConfig->lookAtTo.z);
+        const fx32 frustumCenterY           = MultiplyFX(nearByZ, (Y_MID_SCREEN_FX + animator->translation.y));
+        const fx32 frustumCenterX           = MultiplyFX(nearByZ, (X_MID_SCREEN_FX - animator->translation.x));
+        animator->translation.x             = X_MID_SCREEN_FX;
+        animator->translation.y             = -Y_MID_SCREEN_FX;
+
+        Copy_Mtx44(&backupNNS_G3dGlb_projMtx, &NNS_G3dGlb.projMtx);
+
+        const fx32 top    = -frustumCenterY + frustumHalfHeight;
+        const fx32 bottom = -(frustumHalfHeight + frustumCenterY);
+        const fx32 left   = frustumCenterX - frustumHalfWidth;
+        const fx32 right  = frustumHalfWidth + frustumCenterX;
+        const fx32 near   = ptrConfig->projNear;
+        const fx32 far    = ptrConfig->projFar;
+        NNS_G3dGlbFrustum(top, bottom, left, right, near, far);
+    }
+    else if (copyStageDisplayFlags & DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG)
+    {
+        const fx32 defaultFOV = FLOAT_TO_FX32(3.9375); // or 0x3F00
+        // MW < 2.0sp1p5 seems necessary in order to match the early computing of the sin/cos array indices.
+        defaultCamera3D                = *g_obj.cameraConfig;
+        defaultCamera3D.config.projFOV = defaultFOV;
+        defaultCamera3D.lookAtFrom.x   = X_MID_SCREEN_FX;
+        defaultCamera3D.lookAtFrom.y   = -Y_MID_SCREEN_FX;
+        defaultCamera3D.lookAtFrom.z   = 0;
+        defaultCamera3D.lookAtTo.x     = X_MID_SCREEN_FX;
+        defaultCamera3D.lookAtTo.y     = -Y_MID_SCREEN_FX;
+        const fx32 cotangentHalfFOV    = FX_Div(CosFX(FX_SINCOSCAST(defaultCamera3D.config.projFOV)), SinFX(FX_SINCOSCAST(defaultCamera3D.config.projFOV)));
+        defaultCamera3D.lookAtTo.z     = cotangentHalfFOV * Y_MID_SCREEN;
+        defaultCamera3D.lookAtUp.x     = 0;
+        defaultCamera3D.lookAtUp.y     = FX_ONE;
+        defaultCamera3D.lookAtUp.z     = 0;
+        Camera3D__LoadState(&defaultCamera3D);
+    }
+
+    if (mdlAnimator != NULL)
+    {
+        backupSpeedMultiplier        = mdlAnimator->speedMultiplier;
+        mdlAnimator->speedMultiplier = MultiplyFX(backupSpeedMultiplier, g_obj.speed);
+        backupRatioMultiplier        = mdlAnimator->ratioMultiplier;
+        mdlAnimator->ratioMultiplier = MultiplyFX(backupRatioMultiplier, g_obj.speed);
+    }
+
+    if (sprite3DAnimatorSpecific != NULL)
+    {
+        backupAnimAdvance                                    = sprite3DAnimatorSpecific->animatorSprite.animAdvance;
+        sprite3DAnimatorSpecific->animatorSprite.animAdvance = MultiplyFX(sprite3DAnimatorSpecific->animatorSprite.animAdvance, g_obj.speed);
+    }
+
+    if (copyStageDisplayFlags & DISPLAY_FLAG_PAUSED)
+    {
+        if (mdlAnimator != NULL)
+        {
+            mdlAnimator->speedMultiplier = 0;
+        }
+        if (sprite3DAnimatorSpecific != NULL)
+        {
+            sprite3DAnimatorSpecific->animatorSprite.animAdvance = 0;
+        }
+    }
+
+    if ((copyStageDisplayFlags & DISPLAY_FLAG_NO_ANIMATE_CB) == 0)
+    {
+        if (mdlAnimator != NULL && (mdlAnimator->renderObj.recJntAnm != NULL))
+        {
+            mdlAnimator->renderObj.flag |= NNS_G3D_RENDEROBJ_FLAG_RECORD;
+        }
+        if (sprite3DAnimator != NULL)
+        {
+            AnimatorSprite3D__ProcessAnimation(sprite3DAnimator, callback, userData);
+        }
+        else
+        {
+            Animator3D__Process(animator);
+        }
+    }
+    else
+    {
+        if (mdlAnimator != NULL)
+        {
+            mdlAnimator->renderObj.flag &= ~(NNS_G3D_RENDEROBJ_FLAG_RECORD);
+        }
+    }
+
+    if (sprite3DAnimatorSpecific != NULL)
+    {
+        sprite3DAnimatorSpecific->animatorSprite.animAdvance = backupAnimAdvance;
+    }
+    if (mdlAnimator != NULL)
+    {
+        mdlAnimator->speedMultiplier = backupSpeedMultiplier;
+        mdlAnimator->ratioMultiplier = backupRatioMultiplier;
+    }
+
+    if ((copyStageDisplayFlags & DISPLAY_FLAG_NO_DRAW) == 0)
+    {
+        OBS_ACTION3D_ES_WORK *obj3d_es = obj3d_es_arg;
+        if (obj3d_es != NULL)
+        {
+            while (TRUE)
+            {
+                if (obj3d_es == NULL)
+                    break;
+
+                if ((obj3d_es->flags & OBJ_ACTION_FLAG_DO_NOT_DRAW) == 0)
+                {
+                    Copy_VecFx32(&obj3d_es->ani.work.scale, &animator->scale);
+                    Copy_VecFx32(&obj3d_es->ani.work.translation, &animator->translation);
+                    if ((obj3d_es->flags & OBJ_ACTION_FLAG_DRAW_WITH_OWN_MATRIX33) == 0)
+                    {
+                        MI_Copy36B(&animator->rotation, &obj3d_es->ani.work.rotation);
+                    }
+                    Animator3D__Draw((void *)obj3d_es);
+                }
+                obj3d_es = obj3d_es->next;
+            }
+        }
+        else
+        {
+            Animator3D__Draw(animator);
+        }
+    }
+
+    if (applyCameraConfig)
+    {
+        Copy_Mtx44(&NNS_G3dGlb.projMtx, &backupNNS_G3dGlb_projMtx);
+    }
+
+    if (copyStageDisplayFlags & DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG)
+    {
+        Camera3D__LoadState(g_obj.cameraConfig);
+    }
+
+    if (mdlAnimator != NULL)
+    {
+        if (mdlAnimator->animFlags[0] & ANIMATORMDL_FLAG_BLENDING_PAUSED)
+        {
+            copyStageDisplayFlags &= ~(DISPLAY_FLAG_400);
+        }
+        if (mdlAnimator->animFlags[0] & ANIMATORMDL_FLAG_FINISHED)
+        {
+            copyStageDisplayFlags &= ~(DISPLAY_FLAG_400);
+            copyStageDisplayFlags |= DISPLAY_FLAG_DID_FINISH;
+        }
+    }
+
+    if (sprite3DAnimatorSpecific != NULL)
+    {
+        if (sprite3DAnimatorSpecific->animatorSprite.flags & ANIMATOR_FLAG_DID_FINISH)
+        {
+            copyStageDisplayFlags |= DISPLAY_FLAG_DID_FINISH;
+        }
+    }
+
+    if (scale != NULL)
+    {
+        animator->scale = copyScale;
+    }
+    if (displayFlag != NULL)
+    {
+        *displayFlag = copyStageDisplayFlags;
+    }
 
 #else
     // clang-format off

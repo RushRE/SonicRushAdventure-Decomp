@@ -18,6 +18,10 @@ enum ObjActionFlags_
     OBJ_ACTION_FLAG_NONE = 0x00,
 
     OBJ_ACTION_FLAG_USING_ARCHIVE = 1 << 0,
+
+    OBJ_ACTION_FLAG_DRAW_WITH_OWN_MATRIX33    = 0x40,
+
+    OBJ_ACTION_FLAG_DO_NOT_DRAW = 0x80
 };
 typedef u32 ObjActionFlags;
 
