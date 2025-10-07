@@ -856,14 +856,14 @@ void StageTask__Draw2DEx(AnimatorSpriteDS *animator, VecFx32 *position, VecU16 *
 
     if (g_obj.scale.x != FLOAT_TO_FX32(1.0))
     {
-        animator->position[0].x = MultiplyFX(animator->position[0].x - 128, g_obj.scale.x) + 128;
-        animator->position[1].x = MultiplyFX(animator->position[1].x - 128, g_obj.scale.x) + 128;
+        animator->position[0].x = MultiplyFX(animator->position[0].x - X_MID_SCREEN, g_obj.scale.x) + X_MID_SCREEN;
+        animator->position[1].x = MultiplyFX(animator->position[1].x - X_MID_SCREEN, g_obj.scale.x) + X_MID_SCREEN;
     }
 
     if (g_obj.scale.y != FLOAT_TO_FX32(1.0))
     {
-        animator->position[0].y = MultiplyFX(animator->position[0].y - 96, g_obj.scale.y) + 96;
-        animator->position[1].y = MultiplyFX(animator->position[1].y - 96, g_obj.scale.y) + 96;
+        animator->position[0].y = MultiplyFX(animator->position[0].y - Y_MID_SCREEN, g_obj.scale.y) + Y_MID_SCREEN;
+        animator->position[1].y = MultiplyFX(animator->position[1].y - Y_MID_SCREEN, g_obj.scale.y) + Y_MID_SCREEN;
     }
 
     if ((copyDisplayFlagPtr & DISPLAY_FLAG_NO_DRAW) == 0)
