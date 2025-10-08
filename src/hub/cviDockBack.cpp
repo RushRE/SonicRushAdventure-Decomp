@@ -75,8 +75,12 @@ static const CViDockBackAssetBundle dockBackAssets[1] = { { "bb/vi_dock.bb" } };
 // FUNCTIONS
 // --------------------
 
+#ifdef NON_MATCHING
+CViDockBack::CViDockBack()
+#else
 // NONMATCH_FUNC CViDockBack::CViDockBack()
 NONMATCH_FUNC void _ZN11CViDockBackC1Ev(CViDockBack *work)
+#endif
 {
     // will match when 'CVi3dObject' constructor is decompiled
 #ifdef NON_MATCHING
@@ -143,8 +147,12 @@ NONMATCH_FUNC void _ZN11CViDockBackC1Ev(CViDockBack *work)
 #endif
 }
 
+#ifdef NON_MATCHING
+CViDockBack::~CViDockBack()
+#else
 // CViDockBack::~CViDockBack()
 NONMATCH_FUNC void _ZN11CViDockBackD0Ev(CViDockBack *work)
+#endif
 {
     // will match when 'CVi3dObject' destructor is decompiled
 #ifdef NON_MATCHING
@@ -196,6 +204,7 @@ NONMATCH_FUNC void _ZN11CViDockBackD0Ev(CViDockBack *work)
 #endif
 }
 
+#ifndef NON_MATCHING
 NONMATCH_FUNC void _ZN11CViDockBackD1Ev(CViDockBack *work)
 {
     // will match when 'CVi3dObject' destructor is decompiled
@@ -249,6 +258,7 @@ NONMATCH_FUNC void _ZN11CViDockBackD1Ev(CViDockBack *work)
 // clang-format on
 #endif
 }
+#endif
 
 void CViDockBack::Init(s32 dockArea, BOOL noAssetRelease, BOOL disableAnimations)
 {

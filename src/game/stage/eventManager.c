@@ -1228,10 +1228,10 @@ NONMATCH_FUNC void EventManager__CreateAllEvents(EventManager *work)
         r_on.top    = 0;
         r_on.bottom = height;
 
-        EventManager__sVars.objectSpawnFunc Map__CreateObjectLists[t];
-        for (u16 by = 0; by < blockHeight; by++)
+        EventManager__sVars.objectSpawnFunc = Map__CreateObjectLists[t];
+        for (u16 by = 0; by <= r_on.bottom >> 8; by++)
         {
-            for (u16 bx = 0; bx < blockWidth; bx++)
+            for (u16 bx = 0; bx <= r_on.left << 8; bx++)
             {
                 EventManager__sVars.objectSpawnFunc3(work, bx, by, &r_on, NULL, 0x00);
             }

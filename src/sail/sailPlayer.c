@@ -4025,7 +4025,7 @@ NONMATCH_FUNC void SailPlayer__HandleJetControl(StageTask *work)
                             spd += FLOAT_TO_FX32(0.28125);
                     }
 
-                    if (worker->isRival && !worker->field_1F2 && ((voyageManager->segmentCount - 3) < voyageManager->field_24 || manager->raceRank == 0))
+                    if (worker->isRival && !worker->field_1F2 && ((voyageManager->segmentCount - 3) < voyageManager->curSegment || manager->raceRank == 0))
                     {
                         if ((voyageManager->voyagePos - rivalWorker->racePos.z) > FLOAT_TO_FX32(112.0))
                             spd += FLOAT_TO_FX32(0.1875);
@@ -4123,7 +4123,7 @@ NONMATCH_FUNC void SailPlayer__HandleJetControl(StageTask *work)
 
     if (worker->speed <= 0)
     {
-        if (voyageManager->field_48 > voyageManager->voyagePos)
+        if (voyageManager->prevVoyagePos > voyageManager->voyagePos)
         {
             worker->speed = FLOAT_TO_FX32(0.0);
             if (!worker->isRival)

@@ -3019,8 +3019,8 @@ NONMATCH_FUNC StageDecoration *DecorationSys__CreateCommonDecor(MapDecor *mapDec
 {
     // https://decomp.me/scratch/TSQVo -> 97.16%
 #ifdef NON_MATCHING
-    struct DecorAsset *asset;
-    struct DecorConfig *config;
+    const struct DecorAsset *asset;
+    const struct DecorConfig *config;
 
     config = &decorInfo[mapDecor->id];
     asset  = &decorAssets[config->assetID];

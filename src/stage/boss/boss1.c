@@ -784,7 +784,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     ObjRect__SetOnDefend(bossCollider, Boss1__OnDefend_Harmful);
     bossCollider->flag |= OBS_RECT_WORK_FLAG_40;
 
-    Boss1Stage__GetBackground(&work->field_364);
+    Boss1Stage__GetBackground(&work->background);
 
     ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniBossMain, "", 0, &bossAssetFiles[0], NULL);
     work->gameWork.objWork.obj_3d             = NULL;
@@ -1951,8 +1951,8 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
     BossArenaUnknown4A8 *unknown = BossArena__GetField4A8();
     unknown->background          = work->background;
     unknown->backgroundID        = BACKGROUND_1;
-    unknown->word2C              = 0;
-    unknown->word2E              = 0;
+    unknown->screenBaseA         = 0;
+    unknown->screenBaseBlock     = 0;
 
     LoadCompressedPixels(GetBackgroundPixels(work->background), PIXEL_MODE_SPRITE, VRAMSystem__VRAM_BG[0] + 0x4000);
     LoadCompressedPalette(GetBackgroundPalette(work->background), PALETTE_MODE_SPRITE, VRAMSystem__VRAM_PALETTE_BG[0]);
@@ -4079,11 +4079,11 @@ void Boss1__BossState_StartIdle(Boss1 *work)
     Boss1__SetAnimation(work, ANI_bs1_body_fw0, TRUE);
     Boss1__ConfigureCollider(work, BOSS1_COLLIDER_NONE);
 
-    work->field_6A0 = 0;
-    work->field_6AC = 0x199;
-    work->field_6B0 = 0x333;
-    work->field_6B4 = 0x3000;
-    work->field_6B8 = 0x46000;
+    work->field_698.field_6A0 = 0;
+    work->field_6AC           = 0x199;
+    work->field_6B0           = 0x333;
+    work->field_6B4           = 0x3000;
+    work->field_6B8           = 0x46000;
     Boss1__ConfigureNeck(work, TRUE);
 
     if (Boss1Stage__GetBossPhase(work->stage) >= 2 && work->stage->dropControl.state == 0)
@@ -4187,12 +4187,12 @@ void Boss1__BossState_InitBite(Boss1 *work)
 {
     Boss1__ConfigureCollider(work, BOSS1_COLLIDER_NONE);
 
-    work->field_698.unknown2 = 0;
-    work->field_6A0          = 0;
-    work->field_6AC          = 0x266;
-    work->field_6B0          = 0x400;
-    work->field_6B4          = 0x3800;
-    work->field_6B8          = 0x28000;
+    work->field_698.unknown2  = 0;
+    work->field_698.field_6A0 = 0;
+    work->field_6AC           = 0x266;
+    work->field_6B0           = 0x400;
+    work->field_6B4           = 0x3800;
+    work->field_6B8           = 0x28000;
 
     Boss1__ConfigureNeck(work, TRUE);
     work->bossState = Boss1__BossState_StartBite0;
@@ -4774,12 +4774,12 @@ void Boss1__BossState_InitHeadSlam(Boss1 *work)
 {
     Boss1__ConfigureCollider(work, BOSS1_COLLIDER_NONE);
 
-    work->field_698.unknown2 = 0;
-    work->field_6A0          = 0;
-    work->field_6AC          = 0x147;
-    work->field_6B0          = 0x266;
-    work->field_6B4          = 0x2800;
-    work->field_6B8          = 0x3C000;
+    work->field_698.unknown2  = 0;
+    work->field_698.field_6A0 = 0;
+    work->field_6AC           = 0x147;
+    work->field_6B0           = 0x266;
+    work->field_6B4           = 0x2800;
+    work->field_6B8           = 0x3C000;
     Boss1__ConfigureNeck(work, FALSE);
 
     work->bossState = Boss1__BossState_StartHeadSlam0;
@@ -5318,7 +5318,6 @@ NONMATCH_FUNC BOOL Boss1__HandleDropCamera(Boss1 *work)
     }
 
     fx32 z;
-    fx32 y;
     fx32 x;
 
     BossArena__GetTracker1TargetPos(cameraA, &x, NULL, &z);

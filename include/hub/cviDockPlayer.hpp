@@ -9,9 +9,14 @@
 
 class CViDockPlayer : public CVi3dObject
 {
+#ifdef NON_MATCHING
 public:
-    // CViDockPlayer();
-    // virtual ~CViDockPlayer();
+    CViDockPlayer();
+    virtual ~CViDockPlayer();
+#else
+    // TODO: remove this when constructor/destructors are decompiled properly
+public:
+#endif
 
     // --------------------
     // ENUMS
@@ -84,6 +89,8 @@ public:
 // FUNCTIONS
 // --------------------
 
+#ifndef NON_MATCHING
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -95,6 +102,8 @@ void _ZN13CViDockPlayerD1Ev();
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 #endif // RUSH_CVIDOCKPLAYER_HPP

@@ -104,6 +104,8 @@ private:
 // FUNCTIONS
 // --------------------
 
+#ifndef NON_MATCHING
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -115,6 +117,8 @@ NOT_DECOMPILED void _ZN10CViMapIconD1Ev(CViMapIcon *work);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 #endif // RUSH_CVIMAPICON_HPP

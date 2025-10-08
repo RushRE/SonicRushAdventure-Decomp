@@ -267,9 +267,9 @@ NONMATCH_FUNC void ObjDraw__TintPaletteColors(u32 row, u32 start, u32 end, s16 i
     }
 
     if (row < 0x10)
-        Palette__QueuePalette(palettePtr2, 16, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_OBJ_PLTT)[palettePos]));
+        QueueUncompressedPalette(palettePtr2, 16, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_OBJ_PLTT)[palettePos]));
     else
-        Palette__QueuePalette(palettePtr2, 16, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_DB_OBJ_PLTT)[palettePos]));
+        QueueUncompressedPalette(palettePtr2, 16, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_DB_OBJ_PLTT)[palettePos]));
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -328,15 +328,15 @@ NONMATCH_FUNC void ObjDraw__PaletteTex__Init(NNSG3dResFileHeader *fileData, Pale
 #ifdef NON_MATCHING
     GXVRamTexPltt sTexPltt = GX_ResetBankForTexPltt();
 
-    palTex->texture = NNS_G3dGetTex(fileData);
+    paletteTex->texture = NNS_G3dGetTex(fileData);
 
-    palTex->palettePtr1 = (u16 *)HeapAllocHead(HEAP_USER, NNS_G3dPlttGetRequiredSize(palTex->texture));
-    palTex->palettePtr2 = (u16 *)HeapAllocHead(HEAP_USER, NNS_G3dPlttGetRequiredSize(palTex->texture));
+    paletteTex->palettePtr1 = (u16 *)HeapAllocHead(HEAP_USER, NNS_G3dPlttGetRequiredSize(paletteTex->texture));
+    paletteTex->palettePtr2 = (u16 *)HeapAllocHead(HEAP_USER, NNS_G3dPlttGetRequiredSize(paletteTex->texture));
 
-    u32 id    = Asset3DSetup__GetTexPaletteLocation(palTex->texture, 0) >> 14;
+    u32 id    = Asset3DSetup__GetTexPaletteLocation(paletteTex->texture, 0) >> 14;
     u8 *addr  = (u8 *)VRAMSystem__GetTexturePaletteAddr(id);
-    void *dst = &addr[Asset3DSetup__GetTexPaletteLocation(palTex->texture, 0) + -0x4000 * id];
-    MI_CpuCopy8(dst, palTex->palettePtr2, NNS_G3dPlttGetRequiredSize(palTex->texture));
+    void *dst = &addr[Asset3DSetup__GetTexPaletteLocation(paletteTex->texture, 0) + -0x4000 * id];
+    MI_CpuCopy8(dst, paletteTex->palettePtr2, NNS_G3dPlttGetRequiredSize(paletteTex->texture));
 
     GX_SetBankForTexPltt(sTexPltt);
 #else

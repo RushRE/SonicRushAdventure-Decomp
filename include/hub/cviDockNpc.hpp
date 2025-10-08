@@ -9,10 +9,14 @@
 
 class CViDockNpc : public CVi3dObject
 {
-
+#ifdef NON_MATCHING
 public:
-    // CViDockNpc();
-    // virtual ~CViDockNpc();
+    CViDockNpc();
+    virtual ~CViDockNpc();
+#else
+// TODO: remove this when constructor/destructors are decompiled properly
+public:
+#endif
 
     // --------------------
     // ENUMS
@@ -63,6 +67,8 @@ public:
 // FUNCTIONS
 // --------------------
 
+#ifndef NON_MATCHING
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -74,6 +80,8 @@ NOT_DECOMPILED void _ZN10CViDockNpcD1Ev(CViDockNpc *work);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 #endif // RUSH_CVIDOCKNPC_HPP

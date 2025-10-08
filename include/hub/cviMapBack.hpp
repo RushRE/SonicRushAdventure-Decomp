@@ -34,11 +34,14 @@ struct CViMapBackCanvas
 // Image configuration file (one file for all images)
 class CViMapVmiFile
 {
-    void *vTable;
-
+#ifdef NON_MATCHING
 public:
-    // CViMapVmiFile();
-    // virtual ~CViMapVmiFile();
+    CViMapVmiFile();
+    virtual ~CViMapVmiFile();
+#else
+    void *vTable; // TODO: remove this when constructor/destructors are decompiled properly
+public:
+#endif
 
     // --------------------
     // VARIABLES
@@ -72,11 +75,14 @@ public:
 // Image pixels file (one file per image)
 class CViMapVmcFile
 {
-    void *vTable;
-
+#ifdef NON_MATCHING
 public:
-    // CViMapVmcFile();
-    // virtual ~CViMapVmcFile();
+    CViMapVmcFile();
+    virtual ~CViMapVmcFile();
+#else
+    void *vTable; // TODO: remove this when constructor/destructors are decompiled properly
+public:
+#endif
 
     // --------------------
     // VARIABLES
@@ -100,11 +106,14 @@ public:
 // Image palette file (one file for all images)
 class CViMapVmpFile
 {
-    void *vTable;
-
+#ifdef NON_MATCHING
 public:
-    // CViMapVmpFile();
-    // virtual ~CViMapVmpFile();
+    CViMapVmpFile();
+    virtual ~CViMapVmpFile();
+#else
+    void *vTable; // TODO: remove this when constructor/destructors are decompiled properly
+public:
+#endif
 
     // --------------------
     // VARIABLES
@@ -127,11 +136,14 @@ public:
 
 class CViMapBack
 {
-    void *vTable;
-
+#ifdef NON_MATCHING
 public:
-    // CViMapBack();
-    // virtual ~CViMapBack();
+    CViMapBack();
+    virtual ~CViMapBack();
+#else
+    void *vTable; // TODO: remove this when constructor/destructors are decompiled properly
+public:
+#endif
 
     // --------------------
     // ENUMS
@@ -233,6 +245,8 @@ public:
 // FUNCTIONS
 // --------------------
 
+#ifndef NON_MATCHING
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -260,6 +274,8 @@ void _ZN10CViMapBackD1Ev(CViMapBack *work);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 #endif // RUSH_CVIMAPBACK_HPP

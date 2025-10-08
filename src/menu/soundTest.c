@@ -706,7 +706,7 @@ NONMATCH_FUNC void InitSoundTestDrumBG(SoundTest *work)
                 u32 v10 = (x + 9) << 5;
                 u32 v9  = (y + v6);
 
-                mappings[v10 + (v9 >> 1)] = GX_SCRFVRAM_SCRFMT_TEXTMT_TEXT(tile, 0, 0, PALETTE_ROW_1);
+                mappings[v10 + (v9 >> 1)] = GX_SCRFMT_TEXT(tile, 0, 0, PALETTE_ROW_1);
                 tile++;
             }
         }

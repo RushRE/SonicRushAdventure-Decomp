@@ -36,9 +36,12 @@ typedef u16 char16; // typedef u16 as char16 for readability
 // simple C "static assert"
 
 #define STATIC_ASSERT(COND, MSG) typedef char static_assertion_##MSG[(COND) ? 1 : -1]
+
 // static assert only if we're matching
 #ifndef NON_MATCHING
-#define STATIC_ASSERT_MATCHING(COND, MSG) typedef char static_assertion_##MSG[(COND) ? 1 : -1]
+#define STATIC_ASSERT_MATCHING(COND, MSG) typedef char static_assertion_##MSG[(COND) ? 1 : -1];
+#else
+#define STATIC_ASSERT_MATCHING(COND, MSG) 
 #endif
 
 #include <config.h>

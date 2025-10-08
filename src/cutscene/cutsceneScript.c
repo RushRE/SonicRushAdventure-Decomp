@@ -2924,9 +2924,9 @@ NONMATCH_FUNC s32 CutsceneFileSystemManager_LoadFile(CutsceneSystemManager *work
         }
     }
 
-    archive->refCount   = 1;
-    archive->path       = path;
-    archive->handleSlot = fileID;
+    archive->refCount = 1;
+    archive->path     = path;
+    archive->id       = fileID;
 
     if (foundHandleSlot == FALSE)
     {
@@ -3229,7 +3229,7 @@ s32 CutsceneBackgroundManager_LoadBackgroundResource(CutsceneSystemManager *work
         BOOL noPixels = FALSE;
         switch (GetBackgroundFormat(backgroundFile))
         {
-			// Affine formatted backgrounds
+                // Affine formatted backgrounds
             case BACKGROUND_FORMAT_AFFINE: {
                 RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[useEngineB];
 
@@ -3245,7 +3245,7 @@ s32 CutsceneBackgroundManager_LoadBackgroundResource(CutsceneSystemManager *work
             }
                 // fallthrough
 
-			// Text formatted backgrounds
+                // Text formatted backgrounds
             case BACKGROUND_FORMAT_TEXT_16:
             case BACKGROUND_FORMAT_TEXT_256: {
                 RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[useEngineB];
@@ -3266,7 +3266,7 @@ s32 CutsceneBackgroundManager_LoadBackgroundResource(CutsceneSystemManager *work
             }
             break;
 
-			// background formats without pixels?
+                // background formats without pixels?
             case BACKGROUND_FORMAT_BITMAP_256PLTT:
             case BACKGROUND_FORMAT_BITMAP_DIRECTCOLOR:
             case BACKGROUND_FORMAT_BITMAP_LARGE:
@@ -3318,8 +3318,8 @@ s32 CutsceneBackgroundManager_LoadBackgroundResource(CutsceneSystemManager *work
     }
     else
     {
-		// no clue what this is...
-		// there don't seem to be any reference to this in the game's files?
+        // no clue what this is...
+        // there don't seem to be any reference to this in the game's files?
 
         GetVRAMPixelConfig(useEngineB, bgID, &pixelMode, &screenBaseBlock);
 

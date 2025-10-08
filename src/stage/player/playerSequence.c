@@ -726,14 +726,14 @@ NONMATCH_FUNC void Player__HandleCorkscrewPathH(Player *player, s32 a2, s32 a3, 
 
     if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) != 0)
     {
-        player->objWork.position.x = player->gimmick.x - ((v11 * a3) << 12) - a3 * v13;
+        player->objWork.position.x = player->gimmick.corkscrewPath.x - ((v11 * a3) << 12) - a3 * v13;
     }
     else
     {
-        player->objWork.position.x = player->gimmick.x + ((v11 * a3) << 12) + a3 * v13;
+        player->objWork.position.x = player->gimmick.corkscrewPath.x + ((v11 * a3) << 12) + a3 * v13;
     }
 
-    player->objWork.position.y = player->gimmick.y + (v18 << 12) - cos * v18;
+    player->objWork.position.y = player->gimmick.corkscrewPath.y + (v18 << 12) - cos * v18;
 
     player->objWork.move.x = player->objWork.position.x - player->objWork.prevPosition.x;
     player->objWork.move.y = player->objWork.position.y - player->objWork.prevPosition.y;

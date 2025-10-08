@@ -558,7 +558,7 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenGraphics(EmeraldCollectedScreenWork
                                     SpriteUnknown__GetSpriteSizeFromAnim(spriteFile, animConfig->pixelMode, animConfig->animID), animConfig->paletteRow, animConfig->oamPriority,
                                     animConfig->oamOrder);
 
-        aniJewel->pos32 = *(u32 *)&animConfig->pos;
+        *(u32 *)&aniJewel->pos = *(u32 *)&animConfig->pos;
         AnimatorSprite__ProcessAnimationFast(aniJewel);
 
         aniJewel++;
@@ -575,12 +575,12 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenGraphics(EmeraldCollectedScreenWork
     AnimatorSprite *aniEmerald = &work->animators[7];
     for (; e < 16; e++)
     {
-        EmeraldCollectedScreenAnimConfig *config = &emeraldConfig[e - 7];
-        void *spriteFile                         = sprHUD[config->resource];
+        const EmeraldCollectedScreenAnimConfig *config = &emeraldConfig[e - 7];
+        void *spriteFile                               = sprHUD[config->resource];
 
         SpriteUnknown__InitAnimator(aniEmerald, spriteFile, config->animID, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, config->pixelMode,
                                     SpriteUnknown__GetSpriteSizeFromAnim(spriteFile, config->pixelMode, config->animID), config->paletteRow, config->oamPriority, config->oamOrder);
-        aniEmerald->pos32 = *(u32 *)&config->pos;
+        *(u32 *)&aniEmerald->pos = *(u32 *)&config->pos;
         AnimatorSprite__ProcessAnimationFast(aniEmerald);
 
         aniEmerald++;

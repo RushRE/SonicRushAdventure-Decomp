@@ -61,8 +61,12 @@ static const u32 drawListShadow[] = {
 // --------------------
 
 // CVi3dObject
+#ifdef NON_MATCHING
+CVi3dObject::CVi3dObject()
+#else
 // NONMATCH_FUNC CVi3dObject::CVi3dObject[base]()
 NONMATCH_FUNC void _ZN11CVi3dObjectC1Ev(CVi3dObject *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->flags = FLAG_NONE;
@@ -175,6 +179,7 @@ NONMATCH_FUNC void _ZN11CVi3dObjectC1Ev(CVi3dObject *work)
 #endif
 }
 
+#ifndef NON_MATCHING
 // NONMATCH_FUNC CVi3dObject::CVi3dObject()
 NONMATCH_FUNC void _ZN11CVi3dObjectC2Ev(CVi3dObject *work)
 {
@@ -288,9 +293,14 @@ NONMATCH_FUNC void _ZN11CVi3dObjectC2Ev(CVi3dObject *work)
 // clang-format on
 #endif
 }
+#endif
 
+#ifdef NON_MATCHING
+CVi3dObject::~CVi3dObject()
+#else
 // NONMATCH_FUNC CVi3dObject::~CVi3dObject()
 NONMATCH_FUNC void _ZN11CVi3dObjectD0Ev(CVi3dObject *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->Release();
@@ -307,6 +317,7 @@ NONMATCH_FUNC void _ZN11CVi3dObjectD0Ev(CVi3dObject *work)
 #endif
 }
 
+#ifndef NON_MATCHING
 // NONMATCH_FUNC CVi3dObject::~CVi3dObject[virtual]()
 NONMATCH_FUNC void _ZN11CVi3dObjectD1Ev(CVi3dObject *work)
 {
@@ -344,6 +355,7 @@ NONMATCH_FUNC void _ZN11CVi3dObjectD2Ev(CVi3dObject *work)
 // clang-format on
 #endif
 }
+#endif
 
 void CVi3dObject::SetResources(void *resMdl, u16 bodyModelSlot, BOOL setJoint, BOOL setMaterial, void *resAnimJoint, void *resAnimMaterial, void *resAnimPattern,
                                void *resAnimTexture, void *resAnimVisibility, u16 tailModelSlot)
@@ -579,8 +591,12 @@ void CVi3dObject::Draw()
 }
 
 // CViShadow
+#ifdef NON_MATCHING
+CViShadow::CViShadow()
+#else
 // NONMATCH_FUNC CViShadow::CViShadow()
 NONMATCH_FUNC void _ZN9CViShadowC1Ev(CViShadow *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->archive = NULL;
@@ -605,8 +621,12 @@ NONMATCH_FUNC void _ZN9CViShadowC1Ev(CViShadow *work)
 #endif
 }
 
+#ifdef NON_MATCHING
+CViShadow::~CViShadow()
+#else
 // NONMATCH_FUNC CViShadow::~CViShadow()
 NONMATCH_FUNC void _ZN9CViShadowD0Ev(CViShadow *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->Release();
@@ -623,6 +643,7 @@ NONMATCH_FUNC void _ZN9CViShadowD0Ev(CViShadow *work)
 #endif
 }
 
+#ifndef NON_MATCHING
 // NONMATCH_FUNC CViShadow::~CViShadow()
 NONMATCH_FUNC void _ZN9CViShadowD1Ev(CViShadow *work)
 {
@@ -642,6 +663,7 @@ NONMATCH_FUNC void _ZN9CViShadowD1Ev(CViShadow *work)
 // clang-format on
 #endif
 }
+#endif
 
 void CViShadow::Init()
 {
@@ -805,8 +827,13 @@ void CVi3dObject::LoadAnimation(AnimatorMDL *animator, s32 resourceType, void *r
 }
 
 // CVi3dArrow
+
+#ifdef NON_MATCHING
+CVi3dArrow::CVi3dArrow()
+#else
 // NONMATCH_FUNC CVi3dArrow::CVi3dArrow()
 NONMATCH_FUNC void _ZN10CVi3dArrowC1Ev(CVi3dArrow *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->materialAnimFile = NULL;
@@ -827,8 +854,12 @@ NONMATCH_FUNC void _ZN10CVi3dArrowC1Ev(CVi3dArrow *work)
 #endif
 }
 
+#ifdef NON_MATCHING
+CVi3dArrow::~CVi3dArrow()
+#else
 // NONMATCH_FUNC CVi3dArrow::~CVi3dArrow()
 NONMATCH_FUNC void _ZN10CVi3dArrowD0Ev(CVi3dArrow *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->Release();
@@ -847,6 +878,7 @@ NONMATCH_FUNC void _ZN10CVi3dArrowD0Ev(CVi3dArrow *work)
 #endif
 }
 
+#ifndef NON_MATCHING
 // NONMATCH_FUNC CVi3dArrow::~CVi3dArrow()
 NONMATCH_FUNC void _ZN10CVi3dArrowD1Ev(CVi3dArrow *work)
 {
@@ -868,6 +900,7 @@ NONMATCH_FUNC void _ZN10CVi3dArrowD1Ev(CVi3dArrow *work)
 // clang-format on
 #endif
 }
+#endif
 
 void CVi3dArrow::Init()
 {

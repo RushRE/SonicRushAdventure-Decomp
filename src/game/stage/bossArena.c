@@ -851,9 +851,9 @@ NONMATCH_FUNC void BossArena__DrawBackground2D(BossArenaBackground *background, 
         }
     }
 
-    DC_StoreRange(background->mappingsPtr, sizeof(struct BossArena2DBGTiles));
+    DC_StoreRange(background->mappingsPtr, sizeof(BossArena2DBGTiles));
 
-    Graphics__Mapping__ReadMappingsCompressed(background->mappingsPtr, 0, 0, BOSSARENA_BACKGROUND_TILE_WIDTH, 0, background->field_148.mappingsMode,
+    Mappings__ReadMappingsCompressed(background->mappingsPtr, 0, 0, BOSSARENA_BACKGROUND_TILE_WIDTH, 0, background->field_148.mappingsMode,
                                               background->field_148.screenBaseA, background->field_148.screenBaseBlock, background->field_148.offsetX,
                                               background->field_148.offsetY, background->field_148.displayWidth, background->field_148.displayHeight);
 

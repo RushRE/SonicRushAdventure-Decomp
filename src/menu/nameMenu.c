@@ -43,6 +43,7 @@ NOT_DECOMPILED ChangePageVariantFunc NameMenu__ChangePageVariantTable[];
 NOT_DECOMPILED NameMenuGetCharacterFunc NameMenu__GetCharacterTable[];
 NOT_DECOMPILED u16 _02161A7C[];
 NOT_DECOMPILED u16 _02161A84[];
+NOT_DECOMPILED u16 _02161A8A[5];
 NOT_DECOMPILED u16 _02161A9E[];
 NOT_DECOMPILED u16 _02161A94[];
 NOT_DECOMPILED u16 _02161AAA[];
@@ -231,7 +232,7 @@ NONMATCH_FUNC void NameMenu__InitAnimators(NameMenuWorker *work)
 
     s32 i                    = 0;
     AnimatorSprite *animator = &work->aniSprites[0];
-    u16 *paletteRow          = TEMP._02161A7C;
+    u16 *paletteRow          = _02161A7C;
     u32 animID               = 0;
     for (; i < 4; i++)
     {
@@ -242,11 +243,11 @@ NONMATCH_FUNC void NameMenu__InitAnimators(NameMenuWorker *work)
 
     i          = 0;
     animator   = &work->aniSprites[4];
-    paletteRow = TEMP._02161A84;
+    paletteRow = _02161A84;
     animID     = 8;
     for (; i < 3; i++)
     {
-        NameMenu__InitAnimator(&work->aniSprites[i + 4], sprCommon, TRUE, FALSE, FALSE, getSpriteSize, animID, TEMP._02161A84[i], SPRITE_PRIORITY_0, SPRITE_ORDER_8);
+        NameMenu__InitAnimator(&work->aniSprites[i + 4], sprCommon, TRUE, FALSE, FALSE, getSpriteSize, animID, _02161A84[i], SPRITE_PRIORITY_0, SPRITE_ORDER_8);
 
         animID += 3;
     }
@@ -255,18 +256,18 @@ NONMATCH_FUNC void NameMenu__InitAnimators(NameMenuWorker *work)
     animID = 17;
     for (; i < 5; i++)
     {
-        NameMenu__InitAnimator(&work->aniSprites[i + 7], sprCommon, TRUE, FALSE, TRUE, getSpriteSize, animID, TEMP._02161A8A[i], SPRITE_PRIORITY_0, SPRITE_ORDER_8);
+        NameMenu__InitAnimator(&work->aniSprites[i + 7], sprCommon, TRUE, FALSE, TRUE, getSpriteSize, animID, _02161A8A[i], SPRITE_PRIORITY_0, SPRITE_ORDER_8);
         animID += 2;
     }
 
     for (i = 0; i < 5; i++)
     {
-        NameMenu__InitAnimator(&work->aniSprites[i + 12], sprCommon, TRUE, FALSE, FALSE, getSpriteSize, 27, TEMP._02161A94[i], SPRITE_PRIORITY_0, SPRITE_ORDER_4);
+        NameMenu__InitAnimator(&work->aniSprites[i + 12], sprCommon, TRUE, FALSE, FALSE, getSpriteSize, 27, _02161A94[i], SPRITE_PRIORITY_0, SPRITE_ORDER_4);
     }
 
     for (i = 0; i < 2; i++)
     {
-        NameMenu__InitAnimator(&work->aniSprites[i + 17], sprCommon, TRUE, FALSE, FALSE, getSpriteSize, i + 28, TEMP._02161A9E[i], SPRITE_PRIORITY_0, SPRITE_ORDER_12);
+        NameMenu__InitAnimator(&work->aniSprites[i + 17], sprCommon, TRUE, FALSE, FALSE, getSpriteSize, i + 28, _02161A9E[i], SPRITE_PRIORITY_0, SPRITE_ORDER_12);
     }
 
     NameMenu__InitAnimator(&work->aniSprites[19], sprCommon, TRUE, TRUE, FALSE, getSpriteSize, 30, PALETTE_ROW_2, SPRITE_PRIORITY_3, SPRITE_ORDER_0);
@@ -278,7 +279,7 @@ NONMATCH_FUNC void NameMenu__InitAnimators(NameMenuWorker *work)
     animID = 0;
     for (; i < 3; i++)
     {
-        NameMenu__InitAnimator(&work->aniSprites[i + 23], sprLang, TRUE, FALSE, FALSE, getSpriteSize, animID, TEMP._02161AAA[i], SPRITE_PRIORITY_0, SPRITE_ORDER_2);
+        NameMenu__InitAnimator(&work->aniSprites[i + 23], sprLang, TRUE, FALSE, FALSE, getSpriteSize, animID, _02161AAA[i], SPRITE_PRIORITY_0, SPRITE_ORDER_2);
         animID += 3;
     }
 

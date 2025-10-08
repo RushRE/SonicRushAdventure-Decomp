@@ -17,6 +17,27 @@
 // STRUCTS
 // --------------------
 
+typedef struct NavTailsAnimInfo_
+{
+    u16 animID;
+    u16 paletteRow;
+    u16 x;
+    u16 y;
+} NavTailsAnimInfo;
+
+typedef struct NavTailsAnimInfo2_
+{
+    u16 animID;
+    u16 paletteRow;
+} NavTailsAnimInfo2;
+
+typedef struct NavTailsAnimConfig3_
+{
+    u16 animID;
+    u16 paletteRow;
+    u16 advance;
+} NavTailsAnimConfig3;
+
 // --------------------
 // VARIABLES
 // --------------------
@@ -24,9 +45,9 @@
 static Task *navTailsTask;
 
 NOT_DECOMPILED void *_0210F648;
-NOT_DECOMPILED void *NavTails__FontAniInfo;
-NOT_DECOMPILED void *NavTails__ShipAniInfo;
-NOT_DECOMPILED void *NavTails__ChartAniInfo;
+NOT_DECOMPILED NavTailsAnimConfig3 NavTails__FontAniInfo[];
+NOT_DECOMPILED NavTailsAnimInfo NavTails__ShipAniInfo[];
+NOT_DECOMPILED NavTailsAnimInfo2 NavTails__ChartAniInfo[];
 NOT_DECOMPILED void *_0210F708;
 
 // --------------------
@@ -89,7 +110,7 @@ void CreateNavTails(BOOL useEngineB, u32 shipType, FontWindow *window)
     TaskInitWork16(work);
 
     work->useEngineB = useEngineB;
-    work->shipType  = shipType;
+    work->shipType   = shipType;
     work->stateTalk  = NavTails_StateTalk_Speaking;
     work->stateDMA   = NavTails_StateDMA_Idle;
 
@@ -234,7 +255,8 @@ NavTails *GetNavTailsWork(void)
     return TaskGetWork(navTailsTask, NavTails);
 }
 
-NONMATCH_FUNC void SetupDisplayForNavTails(BOOL useEngineB){
+NONMATCH_FUNC void SetupDisplayForNavTails(BOOL useEngineB)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -767,7 +789,8 @@ void LoadNavTailsFont(NavTails *work, FontWindow *window)
     }
 
     FontAnimator__Init(&work->fontAnimator);
-    FontAnimator__LoadFont1(&work->fontAnimator, work->fontWindow, 0, PIXEL_TO_TILE(0), PIXEL_TO_TILE(0), PIXEL_TO_TILE(160), PIXEL_TO_TILE(80), work->useEngineB, BACKGROUND_0, PALETTE_ROW_15, 296);
+    FontAnimator__LoadFont1(&work->fontAnimator, work->fontWindow, 0, PIXEL_TO_TILE(0), PIXEL_TO_TILE(0), PIXEL_TO_TILE(160), PIXEL_TO_TILE(80), work->useEngineB, BACKGROUND_0,
+                            PALETTE_ROW_15, 296);
     FontAnimator__LoadMPCFile(&work->fontAnimator, work->assets.mpcText);
     FontAnimator__SetCallbackType(&work->fontAnimator, 8);
     ClearNavTailsBackground(work);
@@ -920,8 +943,7 @@ void InitNavTailsBG_Nav(NavTails *work)
     Background background;
 
     void *bgAsset = work->assets.bgNav;
-    InitBackground(&background, bgAsset, BACKGROUND_FLAG_LOAD_ALL, work->useEngineB, BACKGROUND_3,
-                   GetBackgroundWidth(bgAsset), GetBackgroundHeight(bgAsset));
+    InitBackground(&background, bgAsset, BACKGROUND_FLAG_LOAD_ALL, work->useEngineB, BACKGROUND_3, GetBackgroundWidth(bgAsset), GetBackgroundHeight(bgAsset));
     DrawBackground(&background);
 }
 
@@ -930,8 +952,8 @@ void InitNavTailsBG_Tails(NavTails *work)
     Background background;
 
     void *bgAsset = work->assets.bgTails;
-    InitBackground(&background, bgAsset, BACKGROUND_FLAG_LOAD_MAPPINGS_PIXELS | BACKGROUND_FLAG_DISABLE_PALETTE, work->useEngineB, BACKGROUND_2,
-                   GetBackgroundWidth(bgAsset), GetBackgroundHeight(bgAsset));
+    InitBackground(&background, bgAsset, BACKGROUND_FLAG_LOAD_MAPPINGS_PIXELS | BACKGROUND_FLAG_DISABLE_PALETTE, work->useEngineB, BACKGROUND_2, GetBackgroundWidth(bgAsset),
+                   GetBackgroundHeight(bgAsset));
     DrawBackground(&background);
 }
 
@@ -947,8 +969,8 @@ void InitNavTailsBG_MsgWindow(NavTails *work, s32 id)
     Background background;
 
     void *bgAsset = work->assets.bgMsgWindow[id];
-    InitBackground(&background, bgAsset, BACKGROUND_FLAG_LOAD_MAPPINGS_PIXELS | BACKGROUND_FLAG_DISABLE_PALETTE, work->useEngineB, BACKGROUND_1,
-                   GetBackgroundWidth(bgAsset), GetBackgroundHeight(bgAsset));
+    InitBackground(&background, bgAsset, BACKGROUND_FLAG_LOAD_MAPPINGS_PIXELS | BACKGROUND_FLAG_DISABLE_PALETTE, work->useEngineB, BACKGROUND_1, GetBackgroundWidth(bgAsset),
+                   GetBackgroundHeight(bgAsset));
     background.vramPixels = background.vramPixels + 0x2000;
     DrawBackground(&background);
 
@@ -956,7 +978,7 @@ void InitNavTailsBG_MsgWindow(NavTails *work, s32 id)
 
     gfxControl->bgPosition[BACKGROUND_0].x = messageWindowPos[id].x;
     gfxControl->bgPosition[BACKGROUND_0].y = messageWindowPos[id].y;
-    work->messageWindowID       = id;
+    work->messageWindowID                  = id;
 }
 
 void ClearNavTailsBackground(NavTails *work)
@@ -988,17 +1010,17 @@ NONMATCH_FUNC void NavTails_FontCallback(u32 type, FontAnimator *animator, void 
         u32 id = type - 10;
 
         NavTailsAnimConfig3 *config = &NavTails__FontAniInfo[id];
-        AnimatorSprite *ani         = &context->aniChart[type + 17];
+        AnimatorSprite *ani         = &work->aniChart[type + 17];
 
         AnimatorSprite__Init(ani, work->assets.sprNav, NavTails__FontAniInfo[id].animID, ANIMATOR_FLAG_NONE, useEngineB, PIXEL_MODE_SPRITE,
                              VRAMSystem__AllocSpriteVram(useEngineB, Sprite__GetSpriteSize1FromAnim(work->assets.sprNav, NavTails__FontAniInfo[id].animID)), PALETTE_MODE_SPRITE,
-                             VRAMSystem__VRAM_PALETTE_OBJ[useEngineB], SPRITE_PRIORITY_0, SPRITE_ORDER_10);
-        ani->palette = config->paletteRow;
+                             VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[useEngineB]), SPRITE_PRIORITY_0, SPRITE_ORDER_10);
+        ani->cParam.palette = config->paletteRow;
         AnimatorSprite__ProcessAnimationFast(ani);
 
         FontAnimator__GetMsgPosition(animator, &ani->pos.x, &ani->pos.y);
-        ani->pos.x -= VRAMSystem__GFXControl[useEngineB].bgPosition[0].x;
-        ani->pos.y -= VRAMSystem__GFXControl[useEngineB].bgPosition[0].y;
+        ani->pos.x -= VRAMSystem__GFXControl[useEngineB]->bgPosition[0].x;
+        ani->pos.y -= VRAMSystem__GFXControl[useEngineB]->bgPosition[0].y;
         FontAnimator__AdvanceXPos(animator, config->advance);
     }
 #else

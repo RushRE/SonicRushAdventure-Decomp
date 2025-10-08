@@ -38,9 +38,13 @@ Task *mapPaletteAnimationTaskSingleton;
 
 void CViMap::Create(void)
 {
+#ifdef NON_MATCHING
+    mapTaskSingleton = HubTaskCreate(CViMap::Main_Idle, CViMap::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16), CViMap);
+#else
     // TODO: use 'HubTaskCreate' when 'CViMap::CreateInternal' matches
     // mapTaskSingleton = HubTaskCreate(CViMap::Main_Idle, CViMap::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16), CViMap);
     mapTaskSingleton = CViMap::CreateInternal(CViMap::Main_Idle, CViMap::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16));
+#endif
 
     CViMap *work          = TaskGetWork(mapTaskSingleton, CViMap);
     work->mapPos.x        = 0;
@@ -62,6 +66,7 @@ void CViMap::Create(void)
     CViMap::InitUnknown(work);
 }
 
+#ifndef NON_MATCHING
 // TODO: should match when constructors are decompiled for 'CViMapIcon' & 'CViMapBack'
 NONMATCH_FUNC Task *CViMap::CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group)
 {
@@ -96,6 +101,7 @@ _0215BAE0:
 // clang-format on
 #endif
 }
+#endif
 
 void CViMap::Destroy(void)
 {

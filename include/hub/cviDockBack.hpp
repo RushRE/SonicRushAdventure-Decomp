@@ -12,11 +12,14 @@
 
 class CViDockBack
 {
-    void *vTable;
-    
+#ifdef NON_MATCHING
 public:
-    // CViDockBack();
-    // virtual ~CViDockBack();
+    CViDockBack();
+    virtual ~CViDockBack();
+#else
+    void *vTable; // TODO: remove this when constructor/destructors are decompiled properly
+public:
+#endif
 
     // --------------------
     // STRUCTS
@@ -105,6 +108,8 @@ public:
     static void ThreadFunc(void *arg);
 };
 
+#ifndef NON_MATCHING
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -116,6 +121,8 @@ void _ZN11CViDockBackD1Ev(CViDockBack *work);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 #endif // RUSH_CVIDOCKBACK_HPP

@@ -52,7 +52,7 @@ NOT_DECOMPILED u16 _02110D48[];
 SaveGame saveGame;
 
 // assert that the size is always the same as the final game
-STATIC_ASSERT_MATCHING(sizeof(SaveGame) == 0x1A68, SAVE_GAME_DOES_NOT_MATCH);
+STATIC_ASSERT_MATCHING(sizeof(SaveGame) == 0x1A68, SAVE_GAME_DOES_NOT_MATCH)
 
 // --------------------
 // FUNCTIONS
@@ -1404,7 +1404,7 @@ NONMATCH_FUNC BOOL SaveGame__IsShipUnlocked(ShipType ship)
 #ifdef NON_MATCHING
     u32 shipUnlockProgress[] = { SAVE_PROGRESS_2, SAVE_PROGRESS_9, SAVE_PROGRESS_22, SAVE_PROGRESS_26 };
 
-    return SaveGame__GetGameProgress() >= shipUnlockProgress[id];
+    return SaveGame__GetGameProgress() >= shipUnlockProgress[ship];
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}

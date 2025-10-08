@@ -129,6 +129,7 @@ typedef struct Boss1Unknown_
 {
     fx32 unknown1;
     fx32 unknown2;
+    s32 field_6A0;
 } Boss1Unknown;
 
 struct Boss1Stage_
@@ -264,7 +265,6 @@ struct Boss1_
     MtxFx43 mtx2;
     s32 field_694;
     Boss1Unknown field_698;
-    s32 field_6A0;
     BOOL changedBossPhase;
     u32 field_6A8;
     s32 field_6AC;

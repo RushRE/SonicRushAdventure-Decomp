@@ -34,5 +34,6 @@ all:
 target: $(SBIN) $(ELF)
 
 compare: COMPARE := 1
+compare: MATCHING := 1
 compare: all
 

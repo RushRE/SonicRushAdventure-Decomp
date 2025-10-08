@@ -72,8 +72,10 @@ RUSH_INLINE BOOL CheckTouchPushEnabled()
 // FUNCTION DECLS
 // --------------------
 
+#ifndef NON_MATCHING
 static Task *CViDock__CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group);
 static void CViDock__DestroyInternal(Task *task);
+#endif
 
 // --------------------
 // FUNCTIONS
@@ -81,9 +83,13 @@ static void CViDock__DestroyInternal(Task *task);
 
 void CViDock::Create(void)
 {
+#ifdef NON_MATCHING
+    taskSingleton = HubTaskCreate(CViDock::Main_Init, CViDock::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16), CViDock);
+#else
     // TODO: use 'HubTaskCreate' when 'CViDock__CreateInternal' matches
     // taskSingleton = HubTaskCreate(CViDock::Main_Init, CViDock::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16), CViDock);
     taskSingleton = CViDock__CreateInternal(CViDock::Main_Init, CViDock::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16));
+#endif
 
     CViDock *work = TaskGetWork(taskSingleton, CViDock);
 
@@ -103,11 +109,12 @@ void CViDock::Create(void)
     CViDock::Init(work);
 }
 
+#ifndef NON_MATCHING
 // TODO: should match when constructors are decompiled for 'CViDockPlayer' 'CViDockNpcGroup', 'CViShadow' && 'CViDockBack'
 NONMATCH_FUNC Task *CViDock__CreateInternal(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group)
 {
 #ifdef NON_MATCHING
-
+    
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, lr}
@@ -145,6 +152,7 @@ _0215DB8C:
 // clang-format on
 #endif
 }
+#endif
 
 void CViDock::Destroy(void)
 {
@@ -1466,7 +1474,7 @@ NONMATCH_FUNC void CViDock::Draw(CViDock *work, BOOL drawPlayer, BOOL drawNpcs, 
 
     if (drawNpcs && drawPlayer)
     {
-        work->npcGroup.Draw(work->player.position.ToConstVecFx32Ref());
+        work->npcGroup.Draw(work->player.position.ToVecFx32Ref());
     }
 
     NNS_G3dGePopMtx(1);
@@ -1873,13 +1881,18 @@ void CViDock::Destructor(Task *task)
 
     CViDock::Release(work);
 
+#ifdef NON_MATCHING
+    HubTaskDestroy<CViDock>(task);
+#else
     // TODO: use 'HubTaskDestroy' when CViDock__DestroyInternal matches
     // HubTaskDestroy<CViDock>(task);
     CViDock__DestroyInternal(task);
+#endif
 
     taskSingleton = NULL;
 }
 
+#ifndef NON_MATCHING
 // TODO: should match when destructors are decompiled for 'CViDockPlayer' 'CViDockNpcGroup', 'CViShadow' && 'CViDockBack'
 NONMATCH_FUNC void CViDock__DestroyInternal(Task *task)
 {
@@ -1913,6 +1926,7 @@ _0215FFB4:
 // clang-format on
 #endif
 }
+#endif
 
 void CViDock::Main_ChangingArea(void)
 {

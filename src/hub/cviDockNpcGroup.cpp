@@ -27,8 +27,12 @@ NOT_DECOMPILED void _ZN15CViDockNpcGroup12ClearNpcListEv(void);
 // FUNCTIONS
 // --------------------
 
+#ifdef NON_MATCHING
+CViDockNpcGroup::CViDockNpcGroup()
+#else
 // CViDockNpcGroup::CViDockNpcGroup()
 NONMATCH_FUNC void _ZN15CViDockNpcGroupC1Ev()
+#endif
 {
     // will match when CVi3dArrow constructor is decompiled
 #ifdef NON_MATCHING
@@ -53,8 +57,12 @@ NONMATCH_FUNC void _ZN15CViDockNpcGroupC1Ev()
 #endif
 }
 
+#ifdef NON_MATCHING
+CViDockNpcGroup::~CViDockNpcGroup()
+#else
 // CViDockNpcGroup::~CViDockNpcGroup()
 NONMATCH_FUNC void _ZN15CViDockNpcGroupD0Ev()
+#endif
 {
     // will match when CVi3dArrow constructor is decompiled
 #ifdef NON_MATCHING
@@ -74,6 +82,7 @@ NONMATCH_FUNC void _ZN15CViDockNpcGroupD0Ev()
 #endif
 }
 
+#ifndef NON_MATCHING
 // CViDockNpcGroup::~CViDockNpcGroup()
 NONMATCH_FUNC void _ZN15CViDockNpcGroupD1Ev()
 {
@@ -95,6 +104,7 @@ NONMATCH_FUNC void _ZN15CViDockNpcGroupD1Ev()
 // clang-format on
 #endif
 }
+#endif
 
 void CViDockNpcGroup::ClearNpcList()
 {

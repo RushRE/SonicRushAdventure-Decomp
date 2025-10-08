@@ -19,6 +19,7 @@
 // TEMP
 // --------------------
 
+#ifndef NON_MATCHING
 extern "C"
 {
 
@@ -45,6 +46,7 @@ NOT_DECOMPILED void _ZN10CViMapBack9LoadImageEt(CViMapBack *work, u16 id);
 NOT_DECOMPILED void _ZN10CViMapBack20GetSpriteDecorOffsetEPsS0_(CViMapBack *work, s16 *x, s16 *y);
 NOT_DECOMPILED void _ZN10CViMapBack23GetSpriteDecorOffsetAltEPsS0_(CViMapBack *work, s16 *x, s16 *y);
 }
+#endif
 
 // --------------------
 // TYPES
@@ -151,6 +153,7 @@ static const u8 ViMapBack__OamOrderList[] = { SPRITE_ORDER_30, SPRITE_ORDER_30, 
 
 static const CViMapBackAssetBundle mapBackAssets[1] = { { "bb/vi_map_back.bb" } };
 
+#ifndef NON_MATCHING
 NOT_DECOMPILED void *_ZTI13CViMapVmiFile;
 NOT_DECOMPILED void *_ZTI13CViMapVmcFile;
 NOT_DECOMPILED void *_ZTI13CViMapVmpFile;
@@ -163,14 +166,19 @@ NOT_DECOMPILED void *_ZTI13CViMapVmcFile;
 NOT_DECOMPILED void *_ZTV13CViMapVmiFile;
 NOT_DECOMPILED void *_ZTV10CViMapBack;
 NOT_DECOMPILED void *_ZTS13CViMapVmiFile;
+#endif
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
 // CViMapVmiFile
+#ifdef NON_MATCHING
+CViMapVmiFile::CViMapVmiFile()
+#else
 // CViMapVmiFile::CViMapVmiFile()
 NONMATCH_FUNC void _ZN13CViMapVmiFileC1Ev(CViMapVmiFile *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->Release();
@@ -187,8 +195,12 @@ NONMATCH_FUNC void _ZN13CViMapVmiFileC1Ev(CViMapVmiFile *work)
 #endif
 }
 
+#ifdef NON_MATCHING
+CViMapVmiFile::~CViMapVmiFile()
+#else
 // CViMapVmiFile::~CViMapVmiFile()
 NONMATCH_FUNC void _ZN13CViMapVmiFileD0Ev(CViMapVmiFile *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->Release();
@@ -205,6 +217,7 @@ NONMATCH_FUNC void _ZN13CViMapVmiFileD0Ev(CViMapVmiFile *work)
 #endif
 }
 
+#ifndef NON_MATCHING
 // CViMapVmiFile::~CViMapVmiFile()
 NONMATCH_FUNC void _ZN13CViMapVmiFileD1Ev(CViMapVmiFile *work)
 {
@@ -224,6 +237,7 @@ NONMATCH_FUNC void _ZN13CViMapVmiFileD1Ev(CViMapVmiFile *work)
 // clang-format on
 #endif
 }
+#endif
 
 void CViMapVmiFile::Release()
 {
@@ -290,8 +304,12 @@ u16 CViMapVmiFile::GetSortOrder(u16 id)
 }
 
 // CViMapVmpFile
+#ifdef NON_MATCHING
+CViMapVmpFile::CViMapVmpFile()
+#else
 // CViMapVmpFile::CViMapVmpFile()
 NONMATCH_FUNC void _ZN13CViMapVmpFileC1Ev(CViMapVmpFile *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->Release();
@@ -308,8 +326,12 @@ NONMATCH_FUNC void _ZN13CViMapVmpFileC1Ev(CViMapVmpFile *work)
 #endif
 }
 
+#ifdef NON_MATCHING
+CViMapVmpFile::~CViMapVmpFile()
+#else
 // CViMapVmpFile::~CViMapVmpFile()
 NONMATCH_FUNC void _ZN13CViMapVmpFileD0Ev(CViMapVmpFile *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->Release();
@@ -326,6 +348,7 @@ NONMATCH_FUNC void _ZN13CViMapVmpFileD0Ev(CViMapVmpFile *work)
 #endif
 }
 
+#ifndef NON_MATCHING
 // CViMapVmpFile::~CViMapVmpFile()
 NONMATCH_FUNC void _ZN13CViMapVmpFileD1Ev(CViMapVmpFile *work)
 {
@@ -345,6 +368,7 @@ NONMATCH_FUNC void _ZN13CViMapVmpFileD1Ev(CViMapVmpFile *work)
 // clang-format on
 #endif
 }
+#endif
 
 void CViMapVmpFile::Release()
 {
@@ -363,8 +387,12 @@ void *CViMapVmpFile::GetColors()
 }
 
 // CViMapVmcFile
+#ifdef NON_MATCHING
+CViMapVmcFile::CViMapVmcFile()
+#else
 // CViMapVmcFile::CViMapVmcFile()
 NONMATCH_FUNC void _ZN13CViMapVmcFileC1Ev(CViMapVmcFile *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->Release();
@@ -381,8 +409,12 @@ NONMATCH_FUNC void _ZN13CViMapVmcFileC1Ev(CViMapVmcFile *work)
 #endif
 }
 
+#ifdef NON_MATCHING
+CViMapVmcFile::~CViMapVmcFile()
+#else
 // CViMapVmcFile::~CViMapVmcFile()
 NONMATCH_FUNC void _ZN13CViMapVmcFileD0Ev(CViMapVmcFile *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->Release();
@@ -399,6 +431,7 @@ NONMATCH_FUNC void _ZN13CViMapVmcFileD0Ev(CViMapVmcFile *work)
 #endif
 }
 
+#ifndef NON_MATCHING
 // CViMapVmcFile::~CViMapVmcFile()
 NONMATCH_FUNC void _ZN13CViMapVmcFileD1Ev(CViMapVmcFile *work)
 {
@@ -418,6 +451,7 @@ NONMATCH_FUNC void _ZN13CViMapVmcFileD1Ev(CViMapVmcFile *work)
 // clang-format on
 #endif
 }
+#endif
 
 void CViMapVmcFile::Release()
 {
@@ -436,19 +470,23 @@ void *CViMapVmcFile::GetPixels()
 }
 
 // CViMapBack
+#ifdef NON_MATCHING
+CViMapBack::CViMapBack()
+#else
 // CViMapBack::CViMapBack()
 NONMATCH_FUNC void _ZN10CViMapBackC1Ev(CViMapBack *work)
+#endif
 {
 #ifdef NON_MATCHING
-    this->canvasPixels        = NULL;
-    this->imageConfigFile     = NULL;
-    this->imagePaletteFile    = NULL;
-    this->currentImagePixelFile       = NULL;
-    this->imageSortList       = NULL;
-    this->imagePixelFileCount = 0;
-    this->imagePixelFiles     = NULL;
-    this->rippleDeform        = 0;
-    this->rippleAngle         = 0;
+    this->canvasPixels          = NULL;
+    this->imageConfigFile       = NULL;
+    this->imagePaletteFile      = NULL;
+    this->currentImagePixelFile = NULL;
+    this->imageSortList         = NULL;
+    this->imagePixelFileCount   = 0;
+    this->imagePixelFiles       = NULL;
+    this->rippleDeform          = 0;
+    this->rippleAngle           = 0;
 
     FontDMAControl__Init(&this->fontDmaControl);
     MI_CpuClear16(this->aniDecoration, sizeof(this->aniDecoration));
@@ -490,8 +528,12 @@ NONMATCH_FUNC void _ZN10CViMapBackC1Ev(CViMapBack *work)
 #endif
 }
 
+#ifdef NON_MATCHING
+CViMapBack::~CViMapBack()
+#else
 // CViMapBack::~CViMapBack()
 NONMATCH_FUNC void _ZN10CViMapBackD0Ev(CViMapBack *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->Release();
@@ -514,6 +556,7 @@ NONMATCH_FUNC void _ZN10CViMapBackD0Ev(CViMapBack *work)
 #endif
 }
 
+#ifndef NON_MATCHING
 // CViMapBack::~CViMapBack()
 NONMATCH_FUNC void _ZN10CViMapBackD1Ev(CViMapBack *work)
 {
@@ -539,6 +582,7 @@ NONMATCH_FUNC void _ZN10CViMapBackD1Ev(CViMapBack *work)
 // clang-format on
 #endif
 }
+#endif
 
 void CViMapBack::LoadAssets()
 {
@@ -1337,7 +1381,7 @@ NONMATCH_FUNC void CViMapBack::DrawNewlyConstructedSpriteDecoration(u16 id, u16 
             {
                 s16 y2;
                 s16 x2;
-                if (a6)
+                if (useAltPositions)
                 {
                     x2 = viMapBackSpriteDecorAltPositionList[type].x;
                     y2 = viMapBackSpriteDecorAltPositionList[type].y;

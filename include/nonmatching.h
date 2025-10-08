@@ -1,6 +1,10 @@
 #ifndef RUSH_NONMATCHING_H
 #define RUSH_NONMATCHING_H
 
+#ifdef RUSH_NOT_MATCHING
+#define NON_MATCHING
+#endif
+
 #ifdef NON_MATCHING
 #define NONMATCH_FUNC
 #else
@@ -48,7 +52,7 @@
 #else
 #define FORCE_INCLUDE_VARIABLE(type, name, value)
 #define FORCE_INCLUDE_VARIABLE_BSS(name)
-#define FORCE_INCLUDE_ARRAY(type, name, arraySize, value)
+#define FORCE_INCLUDE_ARRAY(type, name, arraySize, ...)
 #endif
 
 #endif // ! RUSH_NONMATCHING_H

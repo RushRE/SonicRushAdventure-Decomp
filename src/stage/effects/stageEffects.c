@@ -84,14 +84,6 @@
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void *_02118FBC;
-NOT_DECOMPILED void *_0210EA44;
-NOT_DECOMPILED void *_0202B670;
-NOT_DECOMPILED void *_0202C470;
-NOT_DECOMPILED void *EffectButtonPrompt__states;
-NOT_DECOMPILED void *_02118FB4;
-NOT_DECOMPILED void *EffectButtonPrompt_animIDs;
-
 NOT_DECOMPILED const char *aActAcEffWaterB_0;
 NOT_DECOMPILED const char *aAcEffFoundBac;
 NOT_DECOMPILED const char *aNsbmd;
@@ -2478,7 +2470,7 @@ NONMATCH_FUNC void EffectMagnetShield_State_Active(EffectShield *work)
         else
             work->alpha = FLOAT_TO_FX32(17.0);
 
-        NNS_G3dMdlSetMdlAlpha(work->objWork.obj_3des->resource, 4, FX32_TO_WHOLE(work->alpha) & 0x1F);
+        NNS_G3dMdlSetMdlAlpha((NNSG3dResMdl *)work->objWork.obj_3des->resource, 4, FX32_TO_WHOLE(work->alpha) & 0x1F);
 
         MTX_RotZ33(&work->objWork.obj_3des->ani.work.rotation, SinFX((s32)work->field_79C), CosFX((s32)work->field_79C));
 

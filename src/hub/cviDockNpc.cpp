@@ -198,8 +198,12 @@ extern const CViDockNpcAssetBundle dockNpcAssets[1];
 // FUNCTIONS
 // --------------------
 
+#ifdef NON_MATCHING
+CViDockNpc::CViDockNpc()
+#else
 // NONMATCH_FUNC CViDockNpc::CViDockNpc()
 NONMATCH_FUNC void _ZN10CViDockNpcC1Ev(CViDockNpc *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->model         = NULL;
@@ -231,8 +235,12 @@ NONMATCH_FUNC void _ZN10CViDockNpcC1Ev(CViDockNpc *work)
 #endif
 }
 
+#ifdef NON_MATCHING
+CViDockNpc::~CViDockNpc()
+#else
 // NONMATCH_FUNC CViDockNpc::~CViDockNpc()
 NONMATCH_FUNC void _ZN10CViDockNpcD0Ev(CViDockNpc *work)
+#endif
 {
 #ifdef NON_MATCHING
     this->Release();
@@ -252,6 +260,7 @@ NONMATCH_FUNC void _ZN10CViDockNpcD0Ev(CViDockNpc *work)
 #endif
 }
 
+#ifndef NON_MATCHING
 // NONMATCH_FUNC CViDockNpc::~CViDockNpc()
 NONMATCH_FUNC void _ZN10CViDockNpcD1Ev(CViDockNpc *work)
 {
@@ -274,6 +283,7 @@ NONMATCH_FUNC void _ZN10CViDockNpcD1Ev(CViDockNpc *work)
 // clang-format on
 #endif
 }
+#endif
 
 void CViDockNpc::Init(s32 type, VecFx32 &position, u16 angle, BOOL snapToAngle)
 {

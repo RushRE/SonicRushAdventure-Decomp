@@ -44,8 +44,12 @@ static const CViDockPlayerMoveConfig cviDockPlayerMoveConfig[2] = {
 // FUNCTIONS
 // --------------------
 
+#ifdef NON_MATCHING
+CViDockPlayer::CViDockPlayer()
+#else
 // NONMATCH_FUNC CViDockPlayer::CViDockPlayer()
 NONMATCH_FUNC void _ZN13CViDockPlayerC1Ev()
+#endif
 {
 #ifdef NON_MATCHING
     this->resModel     = NULL;
@@ -73,8 +77,12 @@ NONMATCH_FUNC void _ZN13CViDockPlayerC1Ev()
 #endif
 }
 
+#ifdef NON_MATCHING
+CViDockPlayer::~CViDockPlayer()
+#else
 // NONMATCH_FUNC CViDockPlayer::~CViDockPlayer()
 NONMATCH_FUNC void _ZN13CViDockPlayerD0Ev()
+#endif
 {
 #ifdef NON_MATCHING
     this->Release();
@@ -94,6 +102,7 @@ NONMATCH_FUNC void _ZN13CViDockPlayerD0Ev()
 #endif
 }
 
+#ifndef NON_MATCHING
 // NONMATCH_FUNC CViDockPlayer::~CViDockPlayer()
 NONMATCH_FUNC void _ZN13CViDockPlayerD1Ev()
 {
@@ -116,6 +125,7 @@ NONMATCH_FUNC void _ZN13CViDockPlayerD1Ev()
 // clang-format on
 #endif
 }
+#endif
 
 void CViDockPlayer::Init()
 {

@@ -740,7 +740,6 @@ NONMATCH_FUNC fx32 ObjRect__HitCenterX(OBS_RECT_WORK *work, OBS_RECT_WORK *attac
     s32 value1;
 
     id = 0;
-    value1;
     index = 0;
     id1   = 0;
 
@@ -943,7 +942,6 @@ NONMATCH_FUNC fx32 ObjRect__HitCenterY(OBS_RECT_WORK *work, OBS_RECT_WORK *attac
     s32 value1;
 
     id = 0;
-    value1;
     index = 0;
     id1   = 0;
 
@@ -956,7 +954,7 @@ NONMATCH_FUNC fx32 ObjRect__HitCenterY(OBS_RECT_WORK *work, OBS_RECT_WORK *attac
     ObjRect__WHDSet(attacker, NULL, &height, NULL);
     bounds[3] = bounds[2] + height;
 
-    s32 value2 = bounds[index2];
+    s32 value2 = bounds[index];
     value1     = bounds[0];
     index++;
 

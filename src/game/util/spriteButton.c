@@ -69,7 +69,7 @@ NONMATCH_FUNC void CreateSpriteButton(SpriteButtonConfig *config)
     {
         work->touchFieldPtr = &work->touchField;
         TouchField__Init(&work->touchField);
-        work->touchFieldPtr->field_C = 0;
+        work->touchFieldPtr->mode = TOUCHFIELD_MODE_0;
     }
 
     void *sprButton = GetSpriteButtonYesNoButtonSprite();
@@ -84,7 +84,7 @@ NONMATCH_FUNC void CreateSpriteButton(SpriteButtonConfig *config)
     {
         if ((config->activeButtons & (1 << i)) != 0)
         {
-            SpriteButtonInfo *buttonConfig = &spriteButtonConfig[i];
+            const SpriteButtonInfo *buttonConfig = &spriteButtonConfig[i];
             SpriteButtonAnimator *button   = &work->animators[i];
 
             button->animID = buttonConfig->animID;
@@ -100,7 +100,7 @@ NONMATCH_FUNC void CreateSpriteButton(SpriteButtonConfig *config)
             }
 
             AnimatorSprite__Init(&button->animator, sprButton, button->animID, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, config->useEngineB, PIXEL_MODE_SPRITE, vramPixels,
-                                 PALETTE_MODE_SPRITE, VRAMSystem__VRAM_PALETTE_OBJ[config->useEngineB], config->oamPriority, config->oamOrder);
+                                 PALETTE_MODE_SPRITE, VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[config->useEngineB]), config->oamPriority, config->oamOrder);
 
             button->animator.pos.x = buttonConfig->pos.x;
             button->animator.pos.y = buttonConfig->pos.y;

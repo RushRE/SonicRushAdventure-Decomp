@@ -5,7 +5,7 @@ OUT_FILE=ctx.c
 GCC=gcc
 FLAGS="-E -P -dD -undef"
 INCLUDES="-Iinclude -Iinclude/library -I./ -Itools/cw/include/MSL_C -Itools/cw/include/MSL_Extras -Ilib/include/dwc/gs -Ilib/include -include global.h"
-DEFINES="-DRUSH2 -DRUSH_REV00 -DRUSH_EUROPE -DRUSH_ENGLISH -DSDK_ARM9 -DSDK_CODE_ARM -DSDK_FINALROM -D_NITRO -DSDK_TS -D__arm -Dwchar_t=int"
+DEFINES="-DRUSH2 -DRUSH_REV00 -DRUSH_EUROPE -DRUSH_ENGLISH -DRUSH_MATCHING -DSDK_ARM9 -DSDK_CODE_ARM -DSDK_FINALROM -D_NITRO -DSDK_TS -D__arm -Dwchar_t=int"
 
 generate-ctx () {
     # Remove any line containing a predefined macro. If not removed, mwccarm

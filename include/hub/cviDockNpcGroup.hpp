@@ -28,10 +28,14 @@ struct CViDockNpcGroupEntry
 
 class CViDockNpcGroup
 {
-    void *vTable;
+#ifdef NON_MATCHING
 public:
-    // CViDockNpcGroup();
-    // virtual ~CViDockNpcGroup();
+    CViDockNpcGroup();
+    virtual ~CViDockNpcGroup();
+#else
+    void *vTable; // TODO: remove this when constructor/destructors are decompiled properly
+public:
+#endif
 
     // --------------------
     // VARIABLES
@@ -69,6 +73,9 @@ public:
     CViDockNpcGroupEntry *FindNpcInTalkRange(VecFx32 *playerPos, u16 playerAngle, fx32 scale, BOOL *canTalk, CViDockNpcGroupEntry *startNpc);
 };
 
+
+#ifndef NON_MATCHING
+
 extern "C"
 {
 
@@ -77,5 +84,7 @@ void _ZN15CViDockNpcGroupD0Ev();
 void _ZN15CViDockNpcGroupD1Ev();
 
 }
+
+#endif
 
 #endif // RUSH_CVIDOCKNPCGROUP_HPP

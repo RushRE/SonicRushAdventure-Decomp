@@ -91,9 +91,9 @@ NOT_DECOMPILED void *_02118FBC;
 NOT_DECOMPILED void *_0210EA44;
 NOT_DECOMPILED void *_0202B670;
 NOT_DECOMPILED void *_0202C470;
-NOT_DECOMPILED void *EffectButtonPrompt__states;
+extern void *EffectButtonPrompt__states[];
 NOT_DECOMPILED void *_02118FB4;
-NOT_DECOMPILED void *EffectButtonPrompt_animIDs;
+NOT_DECOMPILED u16 EffectButtonPrompt_animIDs[];
 NOT_DECOMPILED void *_02119324;
 NOT_DECOMPILED void *_0211930C;
 
@@ -1546,7 +1546,7 @@ NONMATCH_FUNC EffectButtonPrompt *EffectButtonPrompt__Create(StageTask *parent, 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     work->objWork.position.y -= FLOAT_TO_FX32(32.0);
-    SetTaskState(&work->objWork, states[type]);
+    SetTaskState(&work->objWork, EffectButtonPrompt__states[type]);
 
     return work;
 #else

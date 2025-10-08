@@ -1115,11 +1115,11 @@ NONMATCH_FUNC StageTask *CreateSailMine(SailEventManagerObject *mapObject)
         worker->collider[0].atkPower >>= 1;
 
     if (SailManager__GetShipType() == SHIP_HOVER)
-        worker->collider[0].hitCheck.size.x = FLOAT_TO_FX32(0.5625);
+        worker->collider[0].hitCheck.box.size.x = FLOAT_TO_FX32(0.5625);
 
     if (SailManager__GetShipType() == SHIP_BOAT)
     {
-        worker->collider[0].hitCheck.size.x = FLOAT_TO_FX32(2.0);
+        worker->collider[0].hitCheck.box.size.x = FLOAT_TO_FX32(2.0);
         work->userFlag |= SAILOBJECT_FLAG_20000;
     }
 
@@ -2282,7 +2282,7 @@ void SailObject_ProcessColliders(void)
     }
 }
 
-NONMATCH_FUNC StageTask *CreateSailBuoy(StageTask *parent)
+NONMATCH_FUNC StageTask *CreateSailBuoy(SailEventManagerObject *mapObject)
 {
     // should match when 'aSbBuoyNsbmd_0' & 'aSbBuoyNsbca' are decompiled
 #ifdef NON_MATCHING
@@ -3018,7 +3018,7 @@ NONMATCH_FUNC StageTask *CreateSailRock(SailEventManagerObject *mapObject)
     SailVoyageManager *voyageManager = manager->voyageManager;
 
     u8 *segmentType;
-    segmentType = &voyageManager->segmentList[mapObject->id].field_0;
+    segmentType = &voyageManager->segmentList[mapObject->segmentID].type;
     if (mapObject->type != SAILMAPOBJECT_26)
     {
         if (*segmentType == SAILVOYAGESEGMENT_TYPE_1 || *segmentType == SAILVOYAGESEGMENT_TYPE_8)

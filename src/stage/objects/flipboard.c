@@ -49,7 +49,7 @@ NONMATCH_FUNC Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, f
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.aniSnow, "/act/ac_gmk_flip_board.bac", GetObjectFileWork(OBJDATAWORK_167), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_flip_board.bac", GetObjectFileWork(OBJDATAWORK_167), gameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, FLIPBOARD_ANI_BOARD, 61);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
@@ -58,7 +58,7 @@ NONMATCH_FUNC Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, f
 
     AnimatorSpriteDS *aniSnow = &work->aniSnow;
     ObjAction2dBACLoad(aniSnow, "/act/ac_gmk_flip_board.bac", 35, GetObjectFileWork(OBJDATAWORK_167), gameArchiveStage);
-    aniSnow->cParam[0].palette = aniSnow->cParam[1].palette = aniSnow->work.cParam.palette = work->gameWork.aniSnow.ani.work.cParam.palette;
+    aniSnow->cParam[0].palette = aniSnow->cParam[1].palette = aniSnow->work.cParam.palette = work->gameWork.animator.ani.work.cParam.palette;
     AnimatorSpriteDS__SetAnimation(aniSnow, FLIPBOARD_ANI_SNOW);
     StageTask__SetOAMOrder(&aniSnow->work, SPRITE_ORDER_23);
     StageTask__SetOAMPriority(&aniSnow->work, SPRITE_PRIORITY_2);

@@ -7,7 +7,7 @@
 // FUNCTIONS
 // --------------------
 
-StageTask *CreateSailBuoy(StageTask *work);
+StageTask *CreateSailBuoy(SailEventManagerObject *mapObject);
 void CreateSailBuoyForSegment(SailVoyageSegment *voyageSegment);
 void CreateSailBuoyForGoal(SailVoyageSegment *voyageSegment);
 

@@ -95,13 +95,13 @@ typedef struct DrawState_
 
     union
     {
-        struct BSDPerspectiveMatrix
+        struct
         {
             u16 fov;
             fx32 aspectRatio;
         } perspective;
 
-        struct BSDOrthoMatrix
+        struct
         {
             fx32 width;
             fx32 height;
@@ -121,9 +121,9 @@ typedef struct DrawState_
     u16 fogOffset;
     u16 fogTable[16];
     u16 alphaTestRef;
-    u16 edgeColorTable[8];
+    GXRgb edgeColorTable[8];
     fx32 display1DotDepthConfig;
-    u16 clearColor;
+    GXRgb clearColor;
     u8 clearColorAlpha;
     u8 clearColorPolygonID;
     u16 clearColorDepth;

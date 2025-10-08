@@ -856,7 +856,7 @@ NONMATCH_FUNC void ScoreBonus__Main(void)
 
     if ((work->flags & 1) != 0)
     {
-        Task__DestroyFirst();
+        DestroyCurrentTask();
         return;
     }
 
@@ -901,7 +901,7 @@ NONMATCH_FUNC void ScoreBonus__Main(void)
                     if (work->starComboManager == player->starComboManager)
                         player->starComboCount = 0;
 
-                    Task__DestroyFirst();
+                    DestroyCurrentTask();
                     return;
                 }
             }

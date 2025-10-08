@@ -57,7 +57,7 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
     if (mapObject->id == MAPOBJECT_85)
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.aniCork, "/act/ac_gmk_pop_steam.bac", GetObjectFileWork(OBJDATAWORK_170), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_pop_steam.bac", GetObjectFileWork(OBJDATAWORK_170), gameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 2, GetObjectSpriteRef(2 * popSteamType + OBJDATAWORK_171));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 34);

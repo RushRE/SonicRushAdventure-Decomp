@@ -1115,11 +1115,11 @@ NONMATCH_FUNC void ProcessTrailExDrawRequest(EX_ACTION_TRAIL_WORK *work)
     {
         if (Camera3D__UseEngineA())
         {
-            Camera3D__LoadState(&cameraA->camera);
+            Camera3D__LoadState(&cameraA->currentCamera);
         }
         else
         {
-            Camera3D__LoadState(&cameraB->camera);
+            Camera3D__LoadState(&cameraB->currentCamera);
         }
     }
     else if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_A)
@@ -1127,14 +1127,14 @@ NONMATCH_FUNC void ProcessTrailExDrawRequest(EX_ACTION_TRAIL_WORK *work)
         if (Camera3D__UseEngineA() != FALSE)
             return;
 
-        Camera3D__LoadState(&cameraB->camera);
+        Camera3D__LoadState(&cameraB->currentCamera);
     }
     else if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_B)
     {
         if (Camera3D__UseEngineA() == FALSE)
             return;
 
-        Camera3D__LoadState(&cameraA->camera);
+        Camera3D__LoadState(&cameraA->currentCamera);
     }
 
     NNS_G3dGlbFlushVP();

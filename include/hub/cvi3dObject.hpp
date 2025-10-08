@@ -18,11 +18,14 @@
 
 class CVi3dObject
 {
+#ifdef NON_MATCHING
+public:
+    CVi3dObject();
+    virtual ~CVi3dObject();
+#else
     void *vTable; // TODO: remove this when constructor/destructors are decompiled properly
 public:
-    // TODO: uncomment these when they are properly decompiled
-    // CVi3dObject();
-    // virtual ~CVi3dObject();
+#endif
 
     // --------------------
     // ENUMS
@@ -87,10 +90,14 @@ private:
 
 class CVi3dArrow : public CVi3dObject
 {
+#ifdef NON_MATCHING
 public:
-    // TODO: uncomment these when they are properly decompiled
-    // CVi3dArrow();
-    // virtual ~CVi3dArrow();
+    CVi3dArrow();
+    virtual ~CVi3dArrow();
+#else
+// TODO: remove this when constructor/destructors are decompiled properly
+public:
+#endif
 
     // --------------------
     // VARIABLES
@@ -109,11 +116,14 @@ public:
 
 class CViShadow
 {
+#ifdef NON_MATCHING
+public:
+    CViShadow();
+    virtual ~CViShadow();
+#else
     void *vTable; // TODO: remove this when constructor/destructors are decompiled properly
 public:
-    // TODO: uncomment these when they are properly decompiled
-    // CViShadow();
-    // virtual ~CViShadow();
+#endif
 
     // --------------------
     // VARIABLES
@@ -135,6 +145,8 @@ public:
     void Draw(VecFx32 &position);
 };
 
+#ifndef NON_MATCHING
+
 extern "C"
 {
 
@@ -153,5 +165,7 @@ NOT_DECOMPILED void _ZN10CVi3dArrowD0Ev(CVi3dArrow *work);
 NOT_DECOMPILED void _ZN10CVi3dArrowD1Ev(CVi3dArrow *work);
 
 }
+
+#endif
 
 #endif // RUSH_CVI3DOBJECT_HPP

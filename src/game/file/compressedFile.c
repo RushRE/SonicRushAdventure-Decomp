@@ -48,8 +48,6 @@ NONMATCH_FUNC void *CompressedFile__Decompress(void *src, void *dst, void *buffe
         }
     }
 
-    void *r0;
-    void *r1;
     for (u32 i = count - 1; i > 0; i--)
     {
         CompressedFile__HandleDecompression2(CompressedFile__GetUnknown2Size((void *)ptr[1]), (void *)ptr[0], 2);
