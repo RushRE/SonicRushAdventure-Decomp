@@ -1,9 +1,13 @@
 ## Common defines for ARM9 and ARM7 Makefiles ##
 
+ifeq ($(MATCHING),0)
+COMPARE ?= 0 # don't compare if we're not matching
+else
 ifeq ($(DEBUG),1)
 COMPARE ?= 0 # don't compare if we're adding extra debug stuff
 else
 COMPARE ?= 1
+endif
 endif
 
 default: all

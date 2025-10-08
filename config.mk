@@ -2,6 +2,8 @@ GAME_VERSION       ?= RUSH2
 GAME_REGION        ?= EUROPE
 GAME_REVISION 	   ?= REV_00
 
+MATCHING ?= 1
+
 ifeq ($(GAME_VERSION),RUSH2)
 buildname     := rush2
 shortname     := sra
@@ -56,6 +58,10 @@ GF_DEFINES  += -DRUSH_CONTEST
 endif
 
 GLB_DEFINES := -DSDK_CODE_ARM
+
+ifneq ($(MATCHING),1)
+GF_DEFINES += -DRUSH_NOT_MATCHING
+endif
 
 ifeq ($(DEBUG),1)
 # add debug defines
