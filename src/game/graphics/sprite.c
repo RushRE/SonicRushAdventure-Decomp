@@ -1574,7 +1574,7 @@ _02080DE0:
 	mov r0, r0, lsr #0x10
 	str r0, [sp, #0x2c]
 _02080DFC:
-	ldr r0, =_02112144
+	ldr r0, =initValuesCacheAffineSpriteIndices
 	ldr r7, [r10, #0x58]
 	add r6, sp, #0x50
 	ldmia r0, {r0, r1, r2, r3}
