@@ -172,7 +172,7 @@ void HandleGbaToPngCommand(char *inputPath, char *outputPath, int argc, char **a
     char *inputFileExtension = GetFileExtension(inputPath);
     struct GbaToPngOptions options;
     options.paletteFilePath = NULL;
-    if (isdigit(inputFileExtension[0]))
+    if (isdigit((unsigned char)inputFileExtension[0]))
         options.bitDepth = inputFileExtension[0] - '0';
     else
         options.bitDepth = 4;
