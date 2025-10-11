@@ -441,6 +441,7 @@ typedef struct AnimatorSprite3D_
 {
     Animator3D work;
 
+    struct AnimatorSprite3DSpecific {
     AnimatorSprite animatorSprite;
 
     union
@@ -499,6 +500,7 @@ typedef struct AnimatorSprite3D_
     u16 color;
     u8 field_102;
     u8 field_103;
+    };
 } AnimatorSprite3D;
 
 // --------------------
