@@ -351,7 +351,7 @@ BOOL StageTask__ObjectDirFallReverseCheck(u32 fallDir);
 void StageTask__HandleRide(StageTask *work);
 void StageTask__HandleCollider(StageTask *work, OBS_RECT_WORK *rect);
 BOOL StageTask__ViewCheck_Default(StageTask *work);
-BOOL StageTask__ViewOutCheck(fx32 x, fx32 y, s32 offset, s16 sLeft, s16 sTop, s16 sRight, s16 sBottom);
+BOOL StageTask__ViewOutCheck(fx32 x, fx32 y, s16 offset, s16 sLeft, s16 sTop, s16 sRight, s16 sBottom);
 void StageTask__SetHitbox(StageTask *work, s16 left, s16 top, s16 right, s16 bottom);
 void StageTask__SetGravity(StageTask *work, s32 gravity, s32 terminalVelocity);
 void StageTask__InitCollider(StageTask *work, OBS_RECT_WORK *collider, u32 id, StageObjColliderFlags flags);

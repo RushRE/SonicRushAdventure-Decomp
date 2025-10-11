@@ -459,8 +459,8 @@ EffectExplosionHazard *CreateEffectExplosionHazard(StageTask *parent, fx32 velX,
 
     StageTask__InitCollider(&work->objWork, &work->collider, 0, STAGE_TASK_COLLIDER_FLAGS_NONE);
     ObjRect__SetGroupFlags(&work->collider, 2, 1);
-    ObjRect__SetAttackStat(&work->collider, 2, 0x40);
-    ObjRect__SetDefenceStat(&work->collider, 0, 0x3F);
+    ObjRect__SetAttackStat(&work->collider, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
+    ObjRect__SetDefenceStat(&work->collider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_DEFAULT);
     work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     ObjRect__SetBox2D(&work->collider.rect, left, top, right, bottom);
 
@@ -472,7 +472,7 @@ void EffectExplosionHazard_State_Active(EffectExplosionHazard *work)
     EffectTask_State_DestroyAfterAnimation(&work->objWork);
 
     if (work->objWork.obj_2d->ani.work.animFrameIndex == work->targetFrame)
-        work->collider.flag |= OBS_RECT_WORK_FLAG_800;
+        work->collider.flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 }
 
 // ==============

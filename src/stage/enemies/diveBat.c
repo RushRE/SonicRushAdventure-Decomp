@@ -138,10 +138,10 @@ EnemyDiveBat *CreateDiveBat(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     ObjRect__SetBox2D(&work->colliderDetect.rect, -96, 0, -16, 98);
-    ObjRect__SetAttackStat(&work->colliderDetect, 0, 0);
-    ObjRect__SetDefenceStat(&work->colliderDetect, ~1, 0);
+    ObjRect__SetAttackStat(&work->colliderDetect, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->colliderDetect, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetGroupFlags(&work->colliderDetect, 2, 1);
-    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
     ObjRect__SetOnDefend(&work->colliderDetect, EnemyDiveBat_OnDefend_Detect);
     work->colliderDetect.parent = &work->gameWork.objWork;
 
@@ -364,7 +364,7 @@ void EnemyDiveBat_State_Moving(EnemyDiveBat *work)
         {
             work->gameWork.objWork.userWork--;
             if (work->gameWork.objWork.userWork == 0)
-                work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+                work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_ENABLED;
         }
 
         StageTask__HandleCollider(&work->gameWork.objWork, &work->colliderDetect);
@@ -492,6 +492,6 @@ void EnemyDiveBat_OnDefend_Detect(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         return;
 
     enemy->gameWork.objWork.userWork = 60;
-    enemy->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    enemy->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
     EnemyDiveBat_Action_Attack(enemy);
 }

@@ -116,16 +116,16 @@ SpringCrystal *CreateSpringCrystal(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     StageTask__SetAnimation(&work->gameWork.objWork, anim);
 
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetAttackStat(work->gameWork.colliders, 0, 0);
-    ObjRect__SetDefenceStat(work->gameWork.colliders, ~1, 0);
+    ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], SpringCrystal_OnDefend_L);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[1], SpringCrystal_OnDefend_R);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
 
@@ -139,7 +139,7 @@ void SpringCrystal_State_Activated(SpringCrystal *work)
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
     {
         StageTask__SetAnimation(&work->gameWork.objWork, work->gameWork.objWork.userWork);
-        work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_100;
+        work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
 
         SetTaskState(&work->gameWork.objWork, NULL);
     }

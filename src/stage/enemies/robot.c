@@ -283,10 +283,10 @@ EnemyRobot *CreateRobot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
             work->onDetect = EnemyRobot_OnDetect_SteamBlaster;
 
-            ObjRect__SetAttackStat(&work->gameWork.colliders[2], 0, 0);
-            ObjRect__SetDefenceStat(&work->gameWork.colliders[2], ~1, 0);
+            ObjRect__SetAttackStat(&work->gameWork.colliders[2], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+            ObjRect__SetDefenceStat(&work->gameWork.colliders[2], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
             ObjRect__SetGroupFlags(&work->gameWork.colliders[2], 2, 1);
-            work->gameWork.colliders[2].flag |= OBS_RECT_WORK_FLAG_400;
+            work->gameWork.colliders[2].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
             ObjRect__SetOnDefend(&work->gameWork.colliders[2], EnemyRobot_OnDefend_Steam);
             CreateEffectSteamBlasterSmoke(&work->gameWork.objWork);
             break;
@@ -304,10 +304,10 @@ EnemyRobot *CreateRobot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         StageTask__SetHitbox(&work->gameWork.objWork, -8, -10, 8, -2);
 
     ObjRect__SetBox2D(&work->colliderDetect.rect, detectRange[robotType].left, detectRange[robotType].top, detectRange[robotType].right, detectRange[robotType].bottom);
-    ObjRect__SetAttackStat(&work->colliderDetect, 0, 0);
-    ObjRect__SetDefenceStat(&work->colliderDetect, ~1, 0);
+    ObjRect__SetAttackStat(&work->colliderDetect, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->colliderDetect, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetGroupFlags(&work->colliderDetect, 2, 1);
-    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
     ObjRect__SetOnDefend(&work->colliderDetect, EnemyRobot_OnDefend_Detector);
     work->colliderDetect.parent = &work->gameWork.objWork;
 
@@ -330,7 +330,7 @@ void EnemyRobot_HandleColliderActivateTimer(EnemyRobot *work)
     {
         work->colliderActivateTimer--;
         if (work->colliderActivateTimer == 0)
-            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_ENABLED;
     }
 }
 
@@ -829,7 +829,7 @@ void EnemyRobot_State_SteamBlasterAttack(EnemyRobot *work)
                 work->gameWork.objWork.userTimer = 120;
 
                 work->gameWork.colliders[2].parent = &work->gameWork.objWork;
-                work->gameWork.colliders[2].flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+                work->gameWork.colliders[2].flag |= OBS_RECT_WORK_FLAG_ENABLED;
                 ObjRect__SetBox2D(&work->gameWork.colliders[2].rect, 0, 0, 0, 0);
 
                 CreateEffectSteamBlasterSteam(&work->gameWork.objWork, -FLOAT_TO_FX32(33.0), -FLOAT_TO_FX32(31.0), 120);
@@ -908,7 +908,7 @@ void EnemyRobot_OnDefend_Detector(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     {
         robot->detectPlayerPos.x = player->objWork.position.x;
         robot->detectPlayerPos.y = player->objWork.position.y;
-        robot->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        robot->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
         robot->colliderActivateTimer = colliderActivateDelay[robot->type];
         robot->onDetect(robot);
     }

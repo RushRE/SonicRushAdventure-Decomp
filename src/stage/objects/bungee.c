@@ -44,9 +44,9 @@ Bungee *CreateBungee(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
     ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, mapObjectParam_left, mapObjectParam_top, mapObjectParam_left + mapObjectParam_width,
                       mapObjectParam_top + mapObjectParam_height);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], Bungee_OnDefend);
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;

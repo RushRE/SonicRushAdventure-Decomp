@@ -417,15 +417,15 @@ EnemyPirate *CreatePirate(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         StageTask__SetHitbox(&work->gameWork.objWork, -8, -10, 8, -2);
 
     ObjRect__SetBox2D(&work->colliderDetect.rect, detectRange[pirateType].left, detectRange[pirateType].top, detectRange[pirateType].right, detectRange[pirateType].bottom);
-    ObjRect__SetAttackStat(&work->colliderDetect, 0, 0);
-    ObjRect__SetDefenceStat(&work->colliderDetect, ~1, 0);
+    ObjRect__SetAttackStat(&work->colliderDetect, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->colliderDetect, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetGroupFlags(&work->colliderDetect, 2, 1);
-    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
 
     if (pirateType == PIRATE_TYPE_HOVERGUNNER)
     {
         ObjRect__SetOnDefend(&work->colliderDetect, EnemyPirate_OnDefend_DetectHoverGunner);
-        work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_400;
+        work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     }
     else
     {
@@ -453,7 +453,7 @@ EnemyBazookaPirateShot *CreateBazookaPirateShot(MapObject *mapObject, fx32 x, fx
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0x41);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
     ObjRect__SetOnAttack(&work->gameWork.colliders[1], EnemyBazookaPirateShot_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
@@ -485,7 +485,7 @@ EnemyBallChainPirateBall *CreateBallChainPirateBall(MapObject *mapObject, fx32 x
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0x41);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
 
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
@@ -518,7 +518,7 @@ EnemyBombPirateBomb *CreateBombPirateBomb(MapObject *mapObject, fx32 x, fx32 y, 
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0x41);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
     ObjRect__SetOnAttack(&work->gameWork.colliders[1], EnemyBombPirateBomb_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
@@ -550,7 +550,7 @@ EnemySkeletonPirateBone *CreateSkeletonPirateBone(MapObject *mapObject, fx32 x, 
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0x41);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
     ObjRect__SetOnAttack(&work->gameWork.colliders[1], EnemySkeletonPirateBone_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
@@ -582,7 +582,7 @@ EnemyHoverBomberPirateBomb *CreateHoverBomberPirateBomb(MapObject *mapObject, fx
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0x41);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
     ObjRect__SetOnAttack(&work->gameWork.colliders[1], EnemyHoverBomberPirateBomb_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
@@ -614,7 +614,7 @@ EnemyHoverGunnerPirateShot *CreateHoverGunnerPirateShot(MapObject *mapObject, fx
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0x41);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
     ObjRect__SetOnAttack(&work->gameWork.colliders[1], EnemyBazookaPirateShot_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
@@ -648,7 +648,7 @@ void EnemyPirate_HandleColliderActivateTimer(EnemyPirate *work)
     {
         work->colliderActivateTimer--;
         if (work->colliderActivateTimer == 0)
-            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_ENABLED;
     }
 }
 
@@ -711,13 +711,13 @@ void EnemyBallChainPirateBall_State_Active(EnemyBallChainPirateBall *work)
 
     if (parent->gameWork.blinkTimer != 0)
     {
-        work->gameWork.colliders[0].defPower = 0xFF;
-        work->gameWork.colliders[1].hitPower = 0x00;
+        work->gameWork.colliders[0].defPower = OBS_RECT_DEFPOWER_INVINCIBLE;
+        work->gameWork.colliders[1].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
     }
     else
     {
-        work->gameWork.colliders[0].defPower = 0x3F;
-        work->gameWork.colliders[1].hitPower = 0x40;
+        work->gameWork.colliders[0].defPower = OBS_RECT_DEFPOWER_DEFAULT;
+        work->gameWork.colliders[1].hitPower = OBS_RECT_HITPOWER_DEFAULT;
     }
 
     if (work->stateBall != NULL)
@@ -1610,7 +1610,7 @@ void EnemyPirate_OnDefend_DetectCommon(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect
     CreateEffectFound(&pirate->gameWork.objWork, foundPosTable[pirate->type].x, foundPosTable[pirate->type].y);
     pirate->detectPlayerPos.x = player->objWork.position.x;
     pirate->detectPlayerPos.y = player->objWork.position.y;
-    pirate->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    pirate->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
     pirate->colliderActivateTimer = colliderActivateDelay[pirate->type];
     pirate->onDetect(pirate);
 }
@@ -1639,7 +1639,7 @@ void EnemyPirate_OnDefend_DetectHoverGunner(OBS_RECT_WORK *rect1, OBS_RECT_WORK 
     CreateEffectFound(&pirate->gameWork.objWork, foundPosTable[pirate->type].x, foundPosTable[pirate->type].y);
     pirate->detectPlayerPos.x = player->objWork.position.x;
     pirate->detectPlayerPos.y = player->objWork.position.y;
-    pirate->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    pirate->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
     pirate->colliderActivateTimer = colliderActivateDelay[pirate->type];
     pirate->onDetect(pirate);
 }

@@ -96,10 +96,10 @@ EnemyAngler *CreateAngler(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             work->xMax = work->xMin + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_xRange);
 
             ObjRect__SetBox2D(&work->colliderDetect.rect, -144, -76, -16, 52);
-            ObjRect__SetAttackStat(&work->colliderDetect, 0, 0);
-            ObjRect__SetDefenceStat(&work->colliderDetect, ~1, 0);
+            ObjRect__SetAttackStat(&work->colliderDetect, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+            ObjRect__SetDefenceStat(&work->colliderDetect, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
             ObjRect__SetGroupFlags(&work->colliderDetect, 2, 1);
-            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
             ObjRect__SetOnDefend(&work->colliderDetect, EnemyAngler_OnDefend_Detect);
             work->colliderDetect.parent = &work->gameWork.objWork;
             break;
@@ -186,13 +186,13 @@ void EnemyAngler_State_Moving(EnemyAngler *work)
         work->gameWork.objWork.displayFlag ^= DISPLAY_FLAG_FLIP_X;
         GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_MOVING);
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_ENABLED;
     }
 
     work->gameWork.objWork.userWork++;
     if (work->gameWork.objWork.userWork >= 120)
     {
-        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_ENABLED;
         work->gameWork.objWork.userWork = 0;
     }
 
@@ -259,7 +259,7 @@ void EnemyAngler_State_Moving(EnemyAngler *work)
         else if (work->gameWork.objWork.obj_2d->ani.work.animID != ANGLER_ANI_END_CHARGE || (work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
         {
             GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_TURNING);
-            work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
             work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
             work->gameWork.flags |= ANGLER_FLAG_TURNING;
         }
@@ -341,7 +341,7 @@ void EnemyAngler_State_Shoot(EnemyAngler *work)
             work->gameWork.objWork.userWork = 0;
             GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_MOVING);
             work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-            work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
         }
     }
 }
@@ -368,7 +368,7 @@ void EnemyAngler_State_ShootCooldown(EnemyAngler *work)
     work->gameWork.objWork.userWork++;
     if (work->gameWork.objWork.userTimer >= 120)
     {
-        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_ENABLED;
         work->gameWork.objWork.userWork = 0;
     }
 }

@@ -63,11 +63,11 @@ void *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     ObjRect__SetGroupFlags(&work->colliders[0], 2, 1);
     ObjRect__SetBox3D(&work->colliders[0].rect, -4, -4, -16, 4, 4, 16);
-    ObjRect__SetAttackStat(&work->colliders[0], 0, 0);
-    ObjRect__SetDefenceStat(&work->colliders[0], ~1, 0);
+    ObjRect__SetAttackStat(&work->colliders[0], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     work->colliders[0].parent = &work->gameWork.objWork;
     ObjRect__SetOnDefend(&work->colliders[0], SwingRope__OnDefend);
-    work->colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+    work->colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     OBS_RECT_WORK *collider = &work->colliders[1];
     for (i = 1; i < work->nodeCount; i++)

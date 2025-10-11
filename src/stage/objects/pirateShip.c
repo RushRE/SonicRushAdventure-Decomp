@@ -74,10 +74,10 @@ NONMATCH_FUNC PirateShip *CreatePirateShip(MapObject *mapObject, fx32 x, fx32 y,
 
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
     ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, 0, -512, 64, 0);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], PirateShip_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->startPos = work->gameWork.objWork.position.x - FLOAT_TO_FX32(32.0);
     work->endPos   = work->gameWork.objWork.position.x + FX32_FROM_WHOLE((mapObjectParam_distanceSubUnits + 100 * mapObjectParam_distanceUnits)) + FLOAT_TO_FX32(32.0);
@@ -212,9 +212,9 @@ NONMATCH_FUNC PirateShipCannonBall *CreatePirateShipCannonBall(MapObject *mapObj
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     StageTask__SetAnimation(&work->gameWork.objWork, PIRATESHIP_ANI_CANNONBALL);
-    ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0x41);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
     ObjRect__SetOnAttack(&work->gameWork.colliders[1], PirateShipCannonBall_OnHit);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_20;
+    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -4, 7, 4, 13);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
@@ -483,7 +483,7 @@ void PirateShip_State_Disappear(PirateShip *work)
             work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
 
             work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-            work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_800;
+            work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
             work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
 
@@ -519,7 +519,7 @@ void PirateShip_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         pirateShip->gameWork.flags &= ~PIRATESHIP_FLAG_MOVING_LEFT;
 
         pirateShip->gameWork.colliders[0].parent = NULL;
-        pirateShip->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+        pirateShip->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
         pirateShip->gameWork.parent                 = &player->objWork;
         pirateShip->gameWork.objWork.velocity.x     = velocity + FLOAT_TO_FX32(6.0);

@@ -59,10 +59,10 @@ IceBlock *CreateIceBlock(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     StageTask__SetAnimation(&work->gameWork.objWork, ICEBLOCK_ANI_BLOCK);
 
-    ObjRect__SetAttackStat(work->gameWork.colliders, 0, 0);
-    ObjRect__SetDefenceStat(work->gameWork.colliders, ~2, 0);
+    ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NORMAL), OBS_RECT_DEFPOWER_VULNERABLE);
     work->gameWork.colliders[0].onDefend = IceBlock_OnDefend;
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.objWork.collisionObj           = NULL;
     work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
@@ -107,7 +107,7 @@ void IceBlock_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     QueueDestroyStageTask(&iceBlock->gameWork.objWork);
     iceBlock->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-    iceBlock->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+    iceBlock->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
     iceBlock->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_100;
 
     fx32 x = iceBlock->gameWork.objWork.position.x;

@@ -52,7 +52,7 @@ NONMATCH_FUNC void *CompressedFile__Decompress(void *src, void *dst, void *buffe
     {
         CompressedFile__HandleDecompression2(CompressedFile__GetUnknown2Size((void *)ptr[1]), (void *)ptr[0], 2);
 
-        XOR_SWAP(ptr[0], ptr[1]);
+        MTM_MATH_SWAP(ptr[0], ptr[1]);
     }
 
     if (allocatedBuffer)

@@ -78,7 +78,7 @@ u16 Math__Func_207B1A4(s32 angle);
 // INLINE FUNCTIONS
 // --------------------
 
-#define XOR_SWAP(a, b)                                                                                                                                                             \
+#define MTM_MATH_SWAP(a, b)                                                                                                                                                             \
     a ^= b;                                                                                                                                                                        \
     b ^= a;                                                                                                                                                                        \
     a = (a ^ b);

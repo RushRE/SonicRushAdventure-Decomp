@@ -697,92 +697,92 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 
     OBS_RECT_WORK *bossCollider = &work->bossColliders[0];
     *bossCollider               = work->gameWork.colliders[0];
-    ObjRect__SetAttackStat(bossCollider, 0, 0);
-    ObjRect__SetDefenceStat(bossCollider, 2, 63);
+    ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_DEFPOWER_DEFAULT);
     ObjRect__SetBox3D(&bossCollider->rect, -19, -26, -52, 19, -6, 52);
     bossCollider->parent = &work->gameWork.objWork;
     ObjRect__SetOnDefend(bossCollider, Boss1__OnDefend_Core);
-    bossCollider->flag |= OBS_RECT_WORK_FLAG_400;
+    bossCollider->flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     bossCollider  = &work->bossColliders[1];
     *bossCollider = work->gameWork.colliders[0];
-    ObjRect__SetAttackStat(bossCollider, 0, 0);
-    ObjRect__SetDefenceStat(bossCollider, 0, 0);
+    ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetBox3D(&bossCollider->rect, -26, -6, -52, 26, 33, 52);
     bossCollider->parent = &work->gameWork.objWork;
     ObjRect__SetOnDefend(bossCollider, Boss1__OnDefend_Invulnerable);
-    bossCollider->flag |= OBS_RECT_WORK_FLAG_40;
+    bossCollider->flag |= OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
 
     bossCollider  = &work->bossColliders[2];
     *bossCollider = work->gameWork.colliders[0];
-    ObjRect__SetAttackStat(bossCollider, 3, 64);
-    ObjRect__SetDefenceStat(bossCollider, 3, 63);
+    ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_BODY | OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
+    ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_BODY | OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_DEFPOWER_DEFAULT);
     ObjRect__SetBox3D(&bossCollider->rect, -26, -26, -52, 26, 33, 52);
     bossCollider->parent = &work->gameWork.objWork;
     ObjRect__SetOnDefend(bossCollider, Boss1__OnDefend_Bite);
 
     bossCollider  = &work->bossColliders[3];
     *bossCollider = work->gameWork.colliders[0];
-    ObjRect__SetAttackStat(bossCollider, 0, 0);
-    ObjRect__SetDefenceStat(bossCollider, 2, 63);
+    ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_DEFPOWER_DEFAULT);
     ObjRect__SetBox3D(&bossCollider->rect, -39, -19, -52, 0, 33, 52);
     bossCollider->parent = &work->gameWork.objWork;
     ObjRect__SetOnDefend(bossCollider, Boss1__OnDefend_Core_Charging);
-    bossCollider->flag |= OBS_RECT_WORK_FLAG_400;
+    bossCollider->flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     bossCollider  = &work->bossColliders[4];
     *bossCollider = work->gameWork.colliders[0];
-    ObjRect__SetAttackStat(bossCollider, 0, 0);
-    ObjRect__SetDefenceStat(bossCollider, 0, 0);
+    ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetBox3D(&bossCollider->rect, -72, -132, -52, 66, -66, 52);
     bossCollider->parent = &work->gameWork.objWork;
     ObjRect__SetOnDefend(bossCollider, Boss1__OnDefend_Harmful);
-    bossCollider->flag |= OBS_RECT_WORK_FLAG_40;
+    bossCollider->flag |= OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
 
     bossCollider  = &work->bossColliders[5];
     *bossCollider = work->gameWork.colliders[0];
-    ObjRect__SetAttackStat(bossCollider, 0, 0);
-    ObjRect__SetDefenceStat(bossCollider, 2, 63);
+    ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_DEFPOWER_DEFAULT);
     ObjRect__SetBox3D(&bossCollider->rect, -19, -26, -105, 19, -6, 105);
     bossCollider->parent = &work->gameWork.objWork;
     ObjRect__SetOnDefend(bossCollider, Boss1__OnDefend_LastHit);
-    bossCollider->flag |= OBS_RECT_WORK_FLAG_400;
+    bossCollider->flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     bossCollider  = &work->bossColliders[6];
     *bossCollider = work->gameWork.colliders[0];
-    ObjRect__SetAttackStat(bossCollider, 0, 0);
-    ObjRect__SetDefenceStat(bossCollider, 0, 0);
+    ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetBox3D(&bossCollider->rect, -26, -6, -105, 26, 33, 105);
     bossCollider->parent = &work->gameWork.objWork;
     ObjRect__SetOnDefend(bossCollider, Boss1__OnDefend_Invulnerable);
-    bossCollider->flag |= OBS_RECT_WORK_FLAG_40;
+    bossCollider->flag |= OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
 
     bossCollider  = &work->bossColliders[7];
     *bossCollider = work->gameWork.colliders[0];
-    ObjRect__SetAttackStat(bossCollider, 0, 0);
-    ObjRect__SetDefenceStat(bossCollider, 2, 63);
+    ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_DEFPOWER_DEFAULT);
     ObjRect__SetBox3D(&bossCollider->rect, -33, -33, -52, 33, -13, 52);
     bossCollider->parent = &work->gameWork.objWork;
     ObjRect__SetOnDefend(bossCollider, Boss1__OnDefend_LastHit);
-    bossCollider->flag |= OBS_RECT_WORK_FLAG_400;
+    bossCollider->flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     bossCollider  = &work->bossColliders[8];
     *bossCollider = work->gameWork.colliders[0];
-    ObjRect__SetAttackStat(bossCollider, 0, 0);
-    ObjRect__SetDefenceStat(bossCollider, 0, 0);
+    ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetBox3D(&bossCollider->rect, -66, -13, -52, 33, 46, 52);
     bossCollider->parent = &work->gameWork.objWork;
     ObjRect__SetOnDefend(bossCollider, Boss1__OnDefend_Invulnerable);
-    bossCollider->flag |= OBS_RECT_WORK_FLAG_40;
+    bossCollider->flag |= OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
 
     bossCollider  = &work->bossColliders[9];
     *bossCollider = work->gameWork.colliders[0];
-    ObjRect__SetAttackStat(bossCollider, 0, 0);
-    ObjRect__SetDefenceStat(bossCollider, 0, 0);
+    ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetBox3D(&bossCollider->rect, -66, -66, -52, 132, 0, 52);
     bossCollider->parent = &work->gameWork.objWork;
     ObjRect__SetOnDefend(bossCollider, Boss1__OnDefend_Harmful);
-    bossCollider->flag |= OBS_RECT_WORK_FLAG_40;
+    bossCollider->flag |= OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
 
     Boss1Stage__GetBackground(&work->background);
 
@@ -3136,36 +3136,36 @@ void Boss1__ConfigureCollider(Boss1 *work, Boss1ColliderMode mode)
 
     for (s32 i = 0; i < 10; i++)
     {
-        work->bossColliders[i].flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        work->bossColliders[i].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
     }
 
     switch (mode)
     {
         case BOSS1_COLLIDER_BITE_ATTACK:
         case BOSS1_COLLIDER_HEADSLAM_ATTACK:
-            work->bossColliders[2].flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->bossColliders[2].flag |= OBS_RECT_WORK_FLAG_ENABLED;
             break;
 
         case BOSS1_COLLIDER_BITE_IDLE:
         case BOSS1_COLLIDER_HEADSLAM_IDLE:
-            work->bossColliders[0].flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
-            work->bossColliders[1].flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->bossColliders[0].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+            work->bossColliders[1].flag |= OBS_RECT_WORK_FLAG_ENABLED;
             break;
 
         case BOSS1_COLLIDER_CHARGE:
-            work->bossColliders[3].flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
-            work->bossColliders[4].flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->bossColliders[3].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+            work->bossColliders[4].flag |= OBS_RECT_WORK_FLAG_ENABLED;
             break;
 
         case BOSS1_COLLIDER_DEACTIVATED:
-            work->bossColliders[5].flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
-            work->bossColliders[6].flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->bossColliders[5].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+            work->bossColliders[6].flag |= OBS_RECT_WORK_FLAG_ENABLED;
             break;
 
         case BOSS1_COLLIDER_CHARGE_DEACTIVATED:
-            work->bossColliders[7].flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
-            work->bossColliders[8].flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
-            work->bossColliders[9].flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->bossColliders[7].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+            work->bossColliders[8].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+            work->bossColliders[9].flag |= OBS_RECT_WORK_FLAG_ENABLED;
             break;
     }
 }
@@ -3500,43 +3500,43 @@ void Boss1__Collide(void)
         x = work->mtx2.m[3][0];
 
         OBS_RECT_WORK *collider = &work->bossColliders[0];
-        if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
+        if ((collider->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
             BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[1];
-        if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
+        if ((collider->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
             BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[2];
-        if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
+        if ((collider->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
             BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[3];
-        if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
+        if ((collider->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
             BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[4];
-        if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
+        if ((collider->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
             StageTask__HandleCollider(collider->parent, collider);
 
         collider = &work->bossColliders[5];
-        if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
+        if ((collider->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
             BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[6];
-        if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
+        if ((collider->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
             BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[7];
-        if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
+        if ((collider->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
             BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[8];
-        if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
+        if ((collider->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
             BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[9];
-        if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
+        if ((collider->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
             StageTask__HandleCollider(collider->parent, collider);
     }
 }
@@ -4333,7 +4333,7 @@ void Boss1__BossState_Bite2(Boss1 *work)
         {
             Boss1__ConfigureCollider(work, BOSS1_COLLIDER_BITE_IDLE);
             if (action->didCollide)
-                work->bossColliders[0].flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+                work->bossColliders[0].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
         }
     }
 

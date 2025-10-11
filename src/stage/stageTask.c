@@ -141,11 +141,11 @@ fx32 GetObjSpeed(void)
 
 void SetObjCameraPosition(fx32 x1, fx32 y1, fx32 x2, fx32 y2)
 {
-    g_obj.camera[0].x = x1;
-    g_obj.camera[0].y = y1;
+    g_obj.camera[GRAPHICS_ENGINE_A].x = x1;
+    g_obj.camera[GRAPHICS_ENGINE_A].y = y1;
 
-    g_obj.camera[1].x = x2;
-    g_obj.camera[1].y = y2;
+    g_obj.camera[GRAPHICS_ENGINE_B].x = x2;
+    g_obj.camera[GRAPHICS_ENGINE_B].y = y2;
 }
 
 StageTask *CreateStageTask_(void)
@@ -1055,8 +1055,8 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
             }
             else
             {
-                xCameraFunc = g_obj.camera[0].x;
-                yCameraFunc = g_obj.camera[0].y;
+                xCameraFunc = g_obj.camera[GRAPHICS_ENGINE_A].x;
+                yCameraFunc = g_obj.camera[GRAPHICS_ENGINE_A].y;
             }
         }
 
@@ -1333,7 +1333,7 @@ void StageTask__SetAnimation(StageTask *work, u16 animID)
             if (work->colliderList[c] != NULL)
             {
                 if (work->colliderFlags[c] != STAGE_TASK_COLLIDER_FLAGS_NONE)
-                    work->colliderList[c]->flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+                    work->colliderList[c]->flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
             }
         }
     }
@@ -1572,202 +1572,72 @@ BOOL StageTask__ViewCheck_Default(StageTask *work)
                                    work->viewOutOffsetBoundsRight, work->viewOutOffsetBoundsBottom);
 }
 
-NONMATCH_FUNC BOOL StageTask__ViewOutCheck(fx32 x, fx32 y, s32 offset, s16 sLeft, s16 sTop, s16 sRight, s16 sBottom)
+BOOL StageTask__ViewOutCheck(fx32 x, fx32 y, s16 offset, s16 sLeft, s16 sTop, s16 sRight, s16 sBottom)
 {
-    // https://decomp.me/scratch/Dm8eK -> 73.65%
-#ifdef NON_MATCHING
-    s16 lcdWidth  = HW_LCD_WIDTH;
-    s16 lcdHeight = HW_LCD_HEIGHT;
+    s32 testLeft, testTop;
+    s32 testRight, testBottom;
+
+    s16 screenWidth = HW_LCD_WIDTH, screenHeight = HW_LCD_HEIGHT;
 
     if (g_obj.scale.x != FLOAT_TO_FX32(1.0))
-        lcdWidth = MultiplyFX(HW_LCD_WIDTH, (FLOAT_TO_FX32(2.0) - g_obj.scale.x));
-
+        screenWidth = (s16)FX_Mul(screenWidth, (FLOAT_TO_FX32(2.0) - g_obj.scale.x));
     if (g_obj.scale.y != FLOAT_TO_FX32(1.0))
-        lcdHeight = MultiplyFX(HW_LCD_HEIGHT, (FLOAT_TO_FX32(2.0) - g_obj.scale.y));
+        screenHeight = (s16)FX_Mul(screenHeight, (FLOAT_TO_FX32(2.0) - g_obj.scale.y));
 
     if ((g_obj.flag & OBJECTMANAGER_FLAG_ENABLE_CAMERA) == 0)
         return FALSE;
 
-    if ((g_obj.flag & OBJECTMANAGER_FLAG_USE_DUAL_CAMERAS) != 0)
+    if (g_obj.flag & OBJECTMANAGER_FLAG_USE_DUAL_CAMERAS)
     {
-        fx32 rectX;
-        fx32 rectY;
-
-        fx32 sizeY;
-        if (g_obj.camera[0].y < g_obj.camera[1].y)
+        if (g_obj.camera[GRAPHICS_ENGINE_A].y < g_obj.camera[GRAPHICS_ENGINE_B].y)
         {
-            sizeY = lcdHeight + (FX32_TO_WHOLE(g_obj.camera[1].y) - FX32_TO_WHOLE(g_obj.camera[0].y));
-            rectX = FX32_TO_WHOLE(g_obj.camera[0].x) - offset;
-            rectY = FX32_TO_WHOLE(g_obj.camera[0].y) - offset;
+            testLeft   = FX32_TO_WHOLE(g_obj.camera[GRAPHICS_ENGINE_A].x) - offset;
+            testTop    = FX32_TO_WHOLE(g_obj.camera[GRAPHICS_ENGINE_A].y) - offset;
+            testRight  = screenWidth + (offset << 1);
+            testBottom = (FX32_TO_WHOLE(g_obj.camera[GRAPHICS_ENGINE_B].y) - FX32_TO_WHOLE(g_obj.camera[GRAPHICS_ENGINE_A].y)) + screenHeight + (offset << 1);
         }
         else
         {
-            sizeY = lcdHeight + (FX32_TO_WHOLE(g_obj.camera[0].y) - FX32_TO_WHOLE(g_obj.camera[1].y));
-            rectX = FX32_TO_WHOLE(g_obj.camera[1].x) - offset;
-            rectY = FX32_TO_WHOLE(g_obj.camera[1].y) - offset;
+            testLeft   = FX32_TO_WHOLE(g_obj.camera[GRAPHICS_ENGINE_B].x) - offset;
+            testTop    = FX32_TO_WHOLE(g_obj.camera[GRAPHICS_ENGINE_B].y) - offset;
+            testRight  = screenWidth + (offset << 1);
+            testBottom = (FX32_TO_WHOLE(g_obj.camera[GRAPHICS_ENGINE_A].y) - FX32_TO_WHOLE(g_obj.camera[GRAPHICS_ENGINE_B].y)) + screenHeight + (offset << 1);
         }
 
-        if (rectX + sLeft <= FX32_TO_WHOLE(x) && rectX + sLeft + ((lcdWidth + (offset << 1)) + sRight - sLeft) >= FX32_TO_WHOLE(x) && rectY + sTop <= FX32_TO_WHOLE(y)
-            && rectY + sBottom + (sizeY + (offset << 1)) >= FX32_TO_WHOLE(y))
+        testLeft += sLeft;
+        testTop += sTop;
+        testBottom += -sTop + sBottom;
+        testRight += -sLeft + sRight;
+
+        if ((testLeft <= FX32_TO_WHOLE(x) && (testLeft + testRight >= FX32_TO_WHOLE(x))) && (testTop <= FX32_TO_WHOLE(y) && testTop + testBottom >= FX32_TO_WHOLE(y)))
             return FALSE;
     }
     else
     {
-        fx32 rectX = FX32_TO_WHOLE(g_obj.camera[0].x) - offset + sLeft;
-        fx32 rectY = FX32_TO_WHOLE(g_obj.camera[0].y) - offset + sTop;
+        testLeft   = FX32_TO_WHOLE(g_obj.camera[GRAPHICS_ENGINE_A].x) - offset;
+        testTop    = FX32_TO_WHOLE(g_obj.camera[GRAPHICS_ENGINE_A].y) - offset;
+        testRight  = screenWidth + (offset << 1);
+        testBottom = screenHeight + (offset << 1);
 
-        fx32 height = lcdHeight + (offset << 1) + (-sTop + sBottom);
-        fx32 width  = lcdWidth + (offset << 1) + (-sLeft + sRight);
+        testLeft += sLeft;
+        testTop += sTop;
+        testBottom += -sTop + sBottom;
+        testRight += -sLeft + sRight;
 
-        if (rectX <= FX32_TO_WHOLE(x) && rectX + width >= FX32_TO_WHOLE(x) && rectY <= FX32_TO_WHOLE(y) && rectY + height >= FX32_TO_WHOLE(y))
+        if ((testLeft <= FX32_TO_WHOLE(x) && testLeft + testRight >= FX32_TO_WHOLE(x)) && (testTop <= FX32_TO_WHOLE(y) && testTop + testBottom >= FX32_TO_WHOLE(y)))
             return FALSE;
 
-        rectY = FX32_TO_WHOLE(g_obj.camera[1].y) - offset + sTop;
-        rectX = FX32_TO_WHOLE(g_obj.camera[1].x) - offset + sLeft;
-        if (rectX <= FX32_TO_WHOLE(x) && rectX + width >= FX32_TO_WHOLE(x) && rectY <= FX32_TO_WHOLE(y) && rectY + height >= FX32_TO_WHOLE(y))
+        testLeft = FX32_TO_WHOLE(g_obj.camera[GRAPHICS_ENGINE_B].x) - offset;
+        testTop  = FX32_TO_WHOLE(g_obj.camera[GRAPHICS_ENGINE_B].y) - offset;
+
+        testLeft += sLeft;
+        testTop += sTop;
+
+        if ((testLeft <= FX32_TO_WHOLE(x) && testLeft + testRight >= FX32_TO_WHOLE(x)) && (testTop <= FX32_TO_WHOLE(y) && testTop + testBottom >= FX32_TO_WHOLE(y)))
             return FALSE;
     }
 
     return TRUE;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	ldr r4, =obj_ptcb
-	ldr ip, [sp, #0x20]
-	ldr r4, [r4, #4]
-	mov r7, #0x100
-	cmp r4, #0x1000
-	mov r8, #0xc0
-	beq _0207359C
-	rsb r5, r4, #0x2000
-	mov r4, r5, asr #0x1f
-	mov r6, r4, lsl #8
-	mov r4, #0x800
-	adds r7, r4, r5, lsl #8
-	orr r6, r6, r5, lsr #24
-	adc r4, r6, #0
-	mov r5, r7, lsr #0xc
-	orr r5, r5, r4, lsl #20
-	mov r4, r5, lsl #0x10
-	mov r7, r4, asr #0x10
-_0207359C:
-	ldr r4, =obj_ptcb
-	ldr r4, [r4, #8]
-	cmp r4, #0x1000
-	beq _020735E0
-	rsb r6, r4, #0x2000
-	mov r4, #0xc0
-	umull r9, r8, r6, r4
-	mov r5, #0
-	mla r8, r6, r5, r8
-	mov r5, r6, asr #0x1f
-	adds r6, r9, #0x800
-	mla r8, r5, r4, r8
-	adc r4, r8, #0
-	mov r5, r6, lsr #0xc
-	orr r5, r5, r4, lsl #20
-	mov r4, r5, lsl #0x10
-	mov r8, r4, asr #0x10
-_020735E0:
-	ldr r6, =obj_ptcb
-	ldr r4, [r6, #0x2c]
-	tst r4, #8
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	tst r4, #0x800
-	beq _02073698
-	ldr r5, [r6, #0x3c]
-	ldr r4, [r6, #0x34]
-	cmp r4, r5
-	bge _02073628
-	mov r5, r5, asr #0xc
-	sub r5, r5, r4, asr #12
-	ldr r6, [r6, #0x30]
-	add r8, r8, r5
-	rsb r6, r2, r6, asr #12
-	rsb r4, r2, r4, asr #12
-	b _02073640
-_02073628:
-	mov r4, r4, asr #0xc
-	ldr r6, [r6, #0x38]
-	sub r4, r4, r5, asr #12
-	add r8, r8, r4
-	rsb r6, r2, r6, asr #12
-	rsb r4, r2, r5, asr #12
-_02073640:
-	add r5, r7, r2, lsl #1
-	add lr, r8, r2, lsl #1
-	ldrsh r8, [sp, #0x28]
-	add r2, r6, r3
-	ldrsh r7, [sp, #0x24]
-	sub r6, r8, ip
-	cmp r2, r0, asr #12
-	sub r3, r7, r3
-	add r7, r4, ip
-	add r4, lr, r6
-	add r3, r5, r3
-	bgt _02073744
-	add r2, r2, r3
-	cmp r2, r0, asr #12
-	blt _02073744
-	cmp r7, r1, asr #12
-	bgt _02073744
-	add r0, r7, r4
-	cmp r0, r1, asr #12
-	blt _02073744
-	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-_02073698:
-	ldr r5, [r6, #0x30]
-	ldrsh lr, [sp, #0x28]
-	ldrsh r9, [sp, #0x24]
-	ldr r4, [r6, #0x34]
-	rsb r5, r2, r5, asr #12
-	rsb r6, r2, r4, asr #12
-	add r4, r5, r3
-	add r5, r7, r2, lsl #1
-	sub r7, r9, r3
-	add r10, r8, r2, lsl #1
-	sub r8, lr, ip
-	cmp r4, r0, asr #12
-	add r9, r6, ip
-	add r6, r10, r8
-	add r5, r5, r7
-	bgt _020736FC
-	add r4, r4, r5
-	cmp r4, r0, asr #12
-	blt _020736FC
-	cmp r9, r1, asr #12
-	bgt _020736FC
-	add r4, r9, r6
-	cmp r4, r1, asr #12
-	movge r0, #0
-	ldmgeia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-_020736FC:
-	ldr r4, =obj_ptcb
-	ldr r7, [r4, #0x38]
-	ldr r4, [r4, #0x3c]
-	rsb r7, r2, r7, asr #12
-	rsb r4, r2, r4, asr #12
-	add r2, r7, r3
-	cmp r2, r0, asr #12
-	add r3, r4, ip
-	bgt _02073744
-	add r2, r2, r5
-	cmp r2, r0, asr #12
-	blt _02073744
-	cmp r3, r1, asr #12
-	bgt _02073744
-	add r0, r3, r6
-	cmp r0, r1, asr #12
-	movge r0, #0
-	ldmgeia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-_02073744:
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-
-// clang-format on
-#endif
 }
 
 void StageTask__SetHitbox(StageTask *work, s16 left, s16 top, s16 right, s16 bottom)
@@ -1807,10 +1677,10 @@ void StageTask__InitCollider(StageTask *work, OBS_RECT_WORK *collider, u32 id, S
     work->colliderFlags[id]        = flags;
     work->colliderList[id]->parent = work;
     ObjRect__SetGroupFlags(work->colliderList[id], 1, 1);
-    work->colliderList[id]->hitPower = 0x40;
-    work->colliderList[id]->defPower = 0x3F;
-    work->colliderList[id]->hitFlag  = 2;
-    work->colliderList[id]->defFlag  = 1;
+    work->colliderList[id]->hitPower = OBS_RECT_HITPOWER_DEFAULT;
+    work->colliderList[id]->defPower = OBS_RECT_DEFPOWER_DEFAULT;
+    work->colliderList[id]->hitFlag  = OBS_RECT_WORK_ATTR_NORMAL;
+    work->colliderList[id]->defFlag  = OBS_RECT_WORK_ATTR_BODY;
 }
 
 OBS_RECT_WORK *StageTask__GetCollider(StageTask *work, u32 id)
@@ -1858,12 +1728,12 @@ void StageTask__SpriteBlockCallback_Hitbox(BACFrameGroupBlock_Hitbox *block, Ani
                 if (block->hitbox.left == block->hitbox.right && block->hitbox.top == block->hitbox.bottom)
                 {
                     ObjRect__SetBox(work->colliderList[block->id], 0, 0, 0, 0);
-                    work->colliderList[block->id]->flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+                    work->colliderList[block->id]->flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
                 }
                 else
                 {
-                    if ((work->colliderList[block->id]->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) == 0)
-                        work->colliderList[block->id]->flag &= ~OBS_RECT_WORK_FLAG_200;
+                    if ((work->colliderList[block->id]->flag & OBS_RECT_WORK_FLAG_ENABLED) == 0)
+                        work->colliderList[block->id]->flag &= ~OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
 
                     ObjRect__SetBox(work->colliderList[block->id], block->hitbox.left, block->hitbox.top, block->hitbox.right, block->hitbox.bottom);
                 }

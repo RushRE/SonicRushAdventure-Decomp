@@ -79,8 +79,8 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
         ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -16, -16, 208, 192);
     else
         ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, 16, -16, -208, 192);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], DiveStand__OnDefend_DiveStandSolid);
 
     work->gameWork.colliders[1].parent = &work->gameWork.objWork;
@@ -88,10 +88,10 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
     work->gameWork.colliders[1].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
     work->gameWork.colliders[1].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
     work->gameWork.colliders[1].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[1], DiveStand__OnDefend_DiveTrigger);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.objWork.collisionObj           = NULL;
     work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;

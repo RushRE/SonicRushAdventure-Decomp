@@ -46,9 +46,9 @@ FlagChange *CreateFlagChange(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, mapObject->left, mapObject->top, mapObject->width + mapObject->left, mapObject->height + mapObject->top);
     ObjRect__SetGroupFlags(&work->gameWork.colliders[0], 2, 1);
-    ObjRect__SetAttackStat(work->gameWork.colliders, 0, 0);
-    ObjRect__SetDefenceStat(work->gameWork.colliders, ~1, 0);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], FlagChange_OnDefend);
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_ALLOW_TOP_SOLID;
@@ -66,9 +66,9 @@ FlagChange *CreateFlagChange(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             break;
 
         case MAPOBJECT_259:
-            ObjRect__SetAttackStat(&work->gameWork.colliders[0], 2, 0x40);
-            ObjRect__SetDefenceStat(&work->gameWork.colliders[0], 0, 0x3F);
-            work->gameWork.colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40);
+            ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
+            ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_DEFAULT);
+            work->gameWork.colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE);
             ObjRect__SetOnDefend(&work->gameWork.colliders[0], NULL);
             break;
     }
@@ -223,7 +223,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
             QueueDestroyStageTask(&flagChange->gameWork.objWork);
             flagChange->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-            flagChange->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+            flagChange->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             flagChange->gameWork.flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
             break;
 

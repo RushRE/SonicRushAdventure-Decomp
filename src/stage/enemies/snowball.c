@@ -138,11 +138,11 @@ void EnemySnowball_Action_Init(EnemySnowball *work, MapObject *mapObject, fx32 x
     EnemySnowball_SetupRange(work);
 
     ObjRect__SetBox2D(&work->colliderDetect.rect, -120, -60, 0, 60);
-    ObjRect__SetAttackStat(&work->colliderDetect, 0, 0);
-    ObjRect__SetDefenceStat(&work->colliderDetect, ~1, 0);
+    ObjRect__SetAttackStat(&work->colliderDetect, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->colliderDetect, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
 
     ObjRect__SetGroupFlags(&work->colliderDetect, 2, 1);
-    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
     ObjRect__SetOnDefend(&work->colliderDetect, EnemySnowball_OnDefend_Detect);
     work->colliderDetect.parent = &work->gameWork.objWork;
 
@@ -155,7 +155,7 @@ void EnemySnowball_Action_Expose(EnemySnowball *work, MapObject *mapObject, fx32
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
-    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_800;
+    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], work->exposedOnDefendFunc);
 }
@@ -185,7 +185,7 @@ void EnemySnowball_State_HidingSnowball(EnemySnowball *work)
     work->gameWork.objWork.userWork++;
     if (work->gameWork.objWork.userWork >= 120)
     {
-        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_ENABLED;
         work->gameWork.objWork.userWork = 0;
     }
 
@@ -289,7 +289,7 @@ void EnemySnowball_State_DetectedPlayer(EnemySnowball *work)
             PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SHOT);
             ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
 
-            work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
             work->gameWork.objWork.userWork = 0;
             work->gameWork.flags |= SNOWBALL_FLAG_FIRED_SHOT;
 

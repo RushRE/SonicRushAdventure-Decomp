@@ -34,10 +34,10 @@ RotatingHanger *RotatingHanger__Create(MapObject *mapObject, fx32 x, fx32 y, fx3
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 85);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
-    ObjRect__SetAttackStat(work->gameWork.colliders, 0, 0);
-    ObjRect__SetDefenceStat(work->gameWork.colliders, ~1, 0);
+    ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], RotatingHanger__OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     StageTask__SetAnimation(&work->gameWork.objWork, 0);
 

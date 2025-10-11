@@ -62,12 +62,12 @@ void ObjRect__SetBox2D(OBS_RECT *rect, s16 left, s16 top, s16 right, s16 bottom)
 
     if (rect->right < rect->left)
     {
-        XOR_SWAP(rect->left, rect->right);
+        MTM_MATH_SWAP(rect->left, rect->right);
     }
 
     if (rect->bottom < rect->top)
     {
-        XOR_SWAP(rect->top, rect->bottom);
+        MTM_MATH_SWAP(rect->top, rect->bottom);
     }
 
     VEC_Set(&rect->pos, 0, 0, 0);
@@ -84,17 +84,17 @@ void ObjRect__SetBox3D(OBS_RECT *rect, s16 left, s16 top, s16 back, s16 right, s
 
     if (rect->right < rect->left)
     {
-        XOR_SWAP(rect->left, rect->right);
+        MTM_MATH_SWAP(rect->left, rect->right);
     }
 
     if (rect->bottom < rect->top)
     {
-        XOR_SWAP(rect->top, rect->bottom);
+        MTM_MATH_SWAP(rect->top, rect->bottom);
     }
 
     if (rect->front < rect->back)
     {
-        XOR_SWAP(rect->back, rect->front);
+        MTM_MATH_SWAP(rect->back, rect->front);
     }
 
     VEC_Set(&rect->pos, 0, 0, 0);
@@ -102,33 +102,33 @@ void ObjRect__SetBox3D(OBS_RECT *rect, s16 left, s16 top, s16 back, s16 right, s
 
 void ObjRect__SetBox(OBS_RECT_WORK *work, s16 left, s16 top, s16 right, s16 bottom)
 {
-    work->flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    work->flag |= OBS_RECT_WORK_FLAG_ENABLED;
     ObjRect__SetBox2D(&work->rect, left, top, right, bottom);
 }
 
-void ObjRect__SetAttackStat(OBS_RECT_WORK *work, u16 atkFlag, u16 atkPower)
+void ObjRect__SetAttackStat(OBS_RECT_WORK *work, OBS_RECT_WORKAttribute attribute, u16 power)
 {
-    work->flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
-    work->hitFlag  = atkFlag;
-    work->hitPower = atkPower;
-    work->flag &= ~OBS_RECT_WORK_FLAG_200;
-    work->flag &= ~OBS_RECT_WORK_FLAG_10000;
+    work->flag |= OBS_RECT_WORK_FLAG_ENABLED;
+    work->hitFlag  = attribute;
+    work->hitPower = power;
+    work->flag &= ~OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
+    work->flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME;
 }
 
-void ObjRect__SetDefenceStat(OBS_RECT_WORK *work, u16 defFlag, u16 defPower)
+void ObjRect__SetDefenceStat(OBS_RECT_WORK *work, OBS_RECT_WORKAttribute attribute, u16 power)
 {
-    work->flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
-    work->defFlag  = defFlag;
-    work->defPower = defPower;
-    work->flag &= ~OBS_RECT_WORK_FLAG_100;
+    work->flag |= OBS_RECT_WORK_FLAG_ENABLED;
+    work->defFlag  = attribute;
+    work->defPower = power;
+    work->flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
 }
 
 void ObjRect__HitAgain(OBS_RECT_WORK *work)
 {
-    if ((work->flag & OBS_RECT_WORK_FLAG_400) == 0)
+    if ((work->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) == 0)
     {
-        work->flag &= ~OBS_RECT_WORK_FLAG_100;
-        work->flag &= ~OBS_RECT_WORK_FLAG_200;
+        work->flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
+        work->flag &= ~OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
     }
 }
 
@@ -180,7 +180,7 @@ void ObjRect__CheckOut(void)
 
 void ObjRect__Register(OBS_RECT_WORK *work)
 {
-    if ((work->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) == 0)
+    if ((work->flag & OBS_RECT_WORK_FLAG_ENABLED) == 0)
         return;
 
     for (u16 g = 0; g < OBS_RECT_GROUP_COUNT; g++)
@@ -215,8 +215,8 @@ void ObjRect__CheckAllGroup(void)
     u16 count = _obj_user_rect_man.resist_all_num;
     for (i = 0; i < count; i++)
     {
-        if (_obj_user_resist[i] != NULL && (_obj_user_resist[i]->flag & OBS_RECT_WORK_FLAG_400) != 0)
-            _obj_user_resist[i]->flag &= ~OBS_RECT_WORK_FLAG_20000;
+        if (_obj_user_resist[i] != NULL && (_obj_user_resist[i]->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0)
+            _obj_user_resist[i]->flag &= ~OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME;
     }
 
     atkGroupOffset = 0;
@@ -238,14 +238,14 @@ void ObjRect__CheckAllGroup(void)
     {
         if (_obj_user_resist[i] != NULL)
         {
-            if ((_obj_user_resist[i]->flag & OBS_RECT_WORK_FLAG_10000) != 0)
+            if ((_obj_user_resist[i]->flag & OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME) != 0)
             {
-                _obj_user_resist[i]->flag |= OBS_RECT_WORK_FLAG_200;
-                _obj_user_resist[i]->flag &= ~OBS_RECT_WORK_FLAG_10000;
+                _obj_user_resist[i]->flag |= OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
+                _obj_user_resist[i]->flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME;
             }
 
-            if ((_obj_user_resist[i]->flag & OBS_RECT_WORK_FLAG_400) != 0 && (_obj_user_resist[i]->flag & OBS_RECT_WORK_FLAG_20000) == 0)
-                _obj_user_resist[i]->flag &= ~OBS_RECT_WORK_FLAG_40000;
+            if ((_obj_user_resist[i]->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0 && (_obj_user_resist[i]->flag & OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME) == 0)
+                _obj_user_resist[i]->flag &= ~OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER;
         }
     }
 
@@ -319,8 +319,8 @@ void ObjRect__CheckGroup(OBS_RECT_WORK **atkGroup, OBS_RECT_WORK **defGroup, s32
     for (u16 atkIdx = 0; atkIdx < groupNumAtk; atkIdx++)
     {
         OBS_RECT_WORK *attacker = atkGroup[atkIdx];
-        if (attacker != NULL && (attacker->flag & OBS_RECT_WORK_FLAG_800) == 0
-            && ((attacker->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0 && ((attacker->groupFlags >> 8) & (1 << index)) != 0)
+        if (attacker != NULL && (attacker->flag & OBS_RECT_WORK_FLAG_NO_HIT_CHECKS) == 0
+            && ((attacker->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0 && ((attacker->groupFlags >> 8) & (1 << index)) != 0)
             && (attacker->parent == NULL || (attacker->parent->flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0))
         {
             ObjRect__LTBSet(attacker, &atkLeft, &atkTop, &atkBack);
@@ -332,13 +332,13 @@ void ObjRect__CheckGroup(OBS_RECT_WORK **atkGroup, OBS_RECT_WORK **defGroup, s32
                 if (atkGroup[atkIdx] != NULL)
                 {
                     if (defender != NULL && defender != attacker
-                        && (((defender->flag | attacker->flag) & OBS_RECT_WORK_FLAG_800) == 0 && (defender->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0
+                        && (((defender->flag | attacker->flag) & OBS_RECT_WORK_FLAG_NO_HIT_CHECKS) == 0 && (defender->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0
                             && (defender->parent == NULL || (defender->parent->flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)))
                     {
                         ObjRect__LTBSet(defender, &defLeft, &defTop, &defBack);
                         ObjRect__WHDSet(defender, &defWidth, &defHeight, &defDepth);
 
-                        if (((defender->flag | attacker->flag) & OBS_RECT_WORK_FLAG_80000) != 0
+                        if (((defender->flag | attacker->flag) & OBS_RECT_WORK_FLAG_CHECK_FUNC) != 0
                             || (OBM_LINE_AND_LINE(atkLeft, atkWidth, defLeft, defWidth) && OBM_LINE_AND_LINE(atkTop, atkHeight, defTop, defHeight)
                                 && OBM_LINE_AND_LINE(atkBack, atkDepth, defBack, defDepth)))
                         {
@@ -346,10 +346,10 @@ void ObjRect__CheckGroup(OBS_RECT_WORK **atkGroup, OBS_RECT_WORK **defGroup, s32
 
                             if ((result & 1) != 0)
                             {
-                                if ((attacker->flag & OBS_RECT_WORK_FLAG_10000) != 0)
+                                if ((attacker->flag & OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME) != 0)
                                 {
-                                    attacker->flag |= OBS_RECT_WORK_FLAG_200;
-                                    attacker->flag &= ~OBS_RECT_WORK_FLAG_10000;
+                                    attacker->flag |= OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
+                                    attacker->flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME;
                                 }
 
                                 atkGroup[atkIdx] = NULL;
@@ -357,10 +357,10 @@ void ObjRect__CheckGroup(OBS_RECT_WORK **atkGroup, OBS_RECT_WORK **defGroup, s32
 
                             if ((result & 2) != 0)
                             {
-                                if ((defender->flag & OBS_RECT_WORK_FLAG_10000) != 0)
+                                if ((defender->flag & OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME) != 0)
                                 {
-                                    defender->flag |= OBS_RECT_WORK_FLAG_200;
-                                    defender->flag &= ~OBS_RECT_WORK_FLAG_10000;
+                                    defender->flag |= OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
+                                    defender->flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME;
                                 }
 
                                 defGroup[defIdx] = NULL;
@@ -485,7 +485,7 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
     _obj_user_rect_man.ulFlagBackA = attacker->flag;
     _obj_user_rect_man.ulFlagBackD = defender->flag;
 
-    if ((attacker->flag & OBS_RECT_WORK_FLAG_200) != 0 && (defender->flag & OBS_RECT_WORK_FLAG_100) != 0)
+    if ((attacker->flag & OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME) != 0 && (defender->flag & OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME) != 0)
         return result;
 
     if (ObjRect__FlagCheck(attacker->hitFlag, defender->defFlag, attacker->hitPower, defender->defPower))
@@ -496,16 +496,16 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
         if (defender->checkActive != NULL && !defender->checkActive(defender, attacker))
             return result;
 
-        if ((defender->flag & (OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_40)) == 0 && (attacker->flag & (OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_40)) == 0)
-            attacker->flag |= OBS_RECT_WORK_FLAG_10000;
+        if ((defender->flag & (OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE)) == 0 && (attacker->flag & (OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE)) == 0)
+            attacker->flag |= OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME;
 
-        if ((defender->flag & (OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_80)) == 0 && (attacker->flag & (OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_80)) == 0)
-            defender->flag |= OBS_RECT_WORK_FLAG_100;
+        if ((defender->flag & (OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE)) == 0 && (attacker->flag & (OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE)) == 0)
+            defender->flag |= OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
 
-        if ((attacker->flag & OBS_RECT_WORK_FLAG_400) == 0 || (attacker->flag & OBS_RECT_WORK_FLAG_40000) == 0)
+        if ((attacker->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) == 0 || (attacker->flag & OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER) == 0)
         {
-            if ((attacker->flag & OBS_RECT_WORK_FLAG_400) != 0)
-                attacker->flag |= OBS_RECT_WORK_FLAG_40000;
+            if ((attacker->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0)
+                attacker->flag |= OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER;
 
             if (attacker->onAttack != NULL)
                 attacker->onAttack(attacker, defender);
@@ -517,13 +517,13 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
             return result;
         }
 
-        if ((attacker->flag & OBS_RECT_WORK_FLAG_400) != 0)
-            attacker->flag |= OBS_RECT_WORK_FLAG_20000;
+        if ((attacker->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0)
+            attacker->flag |= OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME;
 
-        if ((defender->flag & OBS_RECT_WORK_FLAG_400) == 0 || (defender->flag & OBS_RECT_WORK_FLAG_40000) == 0)
+        if ((defender->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) == 0 || (defender->flag & OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER) == 0)
         {
-            if ((defender->flag & OBS_RECT_WORK_FLAG_400) != 0)
-                defender->flag |= OBS_RECT_WORK_FLAG_40000;
+            if ((defender->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0)
+                defender->flag |= OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER;
 
             if (defender->onDefend != NULL)
                 defender->onDefend(attacker, defender);
@@ -535,13 +535,13 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
             return result;
         }
 
-        if ((defender->flag & OBS_RECT_WORK_FLAG_400) != 0)
-            defender->flag |= OBS_RECT_WORK_FLAG_20000;
+        if ((defender->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0)
+            defender->flag |= OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME;
 
-        if ((attacker->flag & OBS_RECT_WORK_FLAG_20) == 0)
+        if ((attacker->flag & OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME) == 0)
             result |= 1;
 
-        if ((defender->flag & OBS_RECT_WORK_FLAG_20) == 0)
+        if ((defender->flag & OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME) == 0)
             result |= 2;
     }
 
@@ -641,7 +641,7 @@ _020768B4:
 
 BOOL ObjRect__PointCheck(OBS_RECT_WORK *work, s32 x, s32 y, s32 z)
 {
-    if ((work->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0 && (work->flag & OBS_RECT_WORK_FLAG_800) == 0)
+    if ((work->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0 && (work->flag & OBS_RECT_WORK_FLAG_NO_HIT_CHECKS) == 0)
     {
         s32 left;
         s32 top;

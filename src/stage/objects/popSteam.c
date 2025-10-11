@@ -86,8 +86,8 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
         work->gameWork.collisionObject.work.ofst_x    = PopSteam__offsetTable[mapObject->id - MAPOBJECT_84].x;
         work->gameWork.collisionObject.work.ofst_y    = PopSteam__offsetTable[mapObject->id - MAPOBJECT_84].y;
 
-        ObjRect__SetAttackStat(work->gameWork.colliders, 0, 0);
-        ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_VULNERABLE);
         ObjRect__SetOnDefend(&work->gameWork.colliders[0], PopSteam__OnDefend_Cork);
 
         work->gameWork.flags |= 1;
@@ -107,10 +107,10 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
         ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
     }
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[1], PopSteam__OnDefend_Steam);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     u16 steamEffectType = EFFECTSTEAM_TYPE_LARGE;
 
@@ -540,9 +540,9 @@ NONMATCH_FUNC void PopSteam__State_Active(PopSteam *work)
 
         if (work->gameWork.objWork.userTimer == 0)
         {
-            work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_40000;
+            work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER;
         }
-        else if ((work->gameWork.colliders[1].flag & OBS_RECT_WORK_FLAG_40000) == 0)
+        else if ((work->gameWork.colliders[1].flag & OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER) == 0)
         {
             work->gameWork.objWork.userTimer = 0;
         }
@@ -887,8 +887,8 @@ void PopSteam__OnDefend_Cork(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     ShakeScreen(SCREENSHAKE_C_SHORT);
 
     popSteam->gameWork.colliders[0].parent = NULL;
-    popSteam->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
-    popSteam->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+    popSteam->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    popSteam->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
     popSteam->gameWork.collisionObject.work.parent = NULL;
 
     popSteam->gameWork.flags &= ~1;

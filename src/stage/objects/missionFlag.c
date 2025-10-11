@@ -135,14 +135,14 @@ MissionFlag *CreateMissionFlag(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     if (mapObjectParam_flagID > playerGameStatus.missionStatus.passedFlagID)
     {
-        ObjRect__SetAttackStat(work->gameWork.colliders, 0, 0);
-        ObjRect__SetDefenceStat(work->gameWork.colliders, ~1, 0);
+        ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
         ObjRect__SetOnDefend(&work->gameWork.colliders[0], MissionFlag_OnDefend);
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     }
     else
     {
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
         work->gameWork.flags |= 1;
     }
 
@@ -220,7 +220,7 @@ void MissionFlag_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             playerGameStatus.stageTimer + MISSIONFLAG_GET_REWARD_TIME(flag->gameWork.mapObjectParam_rewardSeconds, flag->gameWork.mapObjectParam_rewardMilliseconds);
         playerGameStatus.missionStatus.passedFlagID++;
 
-        flag->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+        flag->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
         flag->aniDigit[0].work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
         flag->aniDigit[1].work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
 

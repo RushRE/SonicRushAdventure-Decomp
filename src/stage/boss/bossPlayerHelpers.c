@@ -126,7 +126,7 @@ void BossPlayerHelpers_State_Boss1ChargeKnockback(Player *work)
 
     if ((work->objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0 && (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
     {
-        work->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_100;
+        work->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
         Player__Hurt(work);
     }
 }
@@ -228,7 +228,7 @@ void BossPlayerHelpers_State_Boss5Frozen(Player *work)
     MI_CpuClear16(&collider, sizeof(collider));
     ObjRect__SetBox3D(&collider.rect, -16, -16, -32, 16, 16, 32);
     collider.parent = &work->objWork;
-    collider.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    collider.flag |= OBS_RECT_WORK_FLAG_ENABLED;
     if (ObjTouchCheckPush(&work->objWork, &collider))
         shakePower += 5;
 

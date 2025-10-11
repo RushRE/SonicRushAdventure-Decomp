@@ -211,14 +211,14 @@ BouncyMushroom *CreateBouncyMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 
 
     for (i = 0; i < work->colliderCount; i++)
     {
-        ObjRect__SetAttackStat(&work->colliders[i], 0, 0);
-        ObjRect__SetDefenceStat(&work->colliders[i], ~1, 0);
+        ObjRect__SetAttackStat(&work->colliders[i], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->colliders[i], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
         ObjRect__SetBox2D(&work->colliders[i].rect, hitboxTable[mushroomType][i].left, hitboxTable[mushroomType][i].top, hitboxTable[mushroomType][i].right,
                           hitboxTable[mushroomType][i].bottom);
         ObjRect__SetGroupFlags(&work->colliders[i], 2, 1);
         work->colliders[i].parent = &work->gameWork.objWork;
         ObjRect__SetOnDefend(&work->colliders[i], BouncyMushroom_OnDefend);
-        work->colliders[i].flag |= OBS_RECT_WORK_FLAG_400;
+        work->colliders[i].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     }
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;

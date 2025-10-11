@@ -164,7 +164,7 @@ void Player__Action_GimmickLaunch(Player *player, fx32 velX, fx32 velY)
         else
             player->objWork.velocity.y = MultiplyFX(player->objWork.groundVel, SinFX(player->objWork.dir.z));
 
-        ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
         player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
         player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
         player->objWork.userTimer  = 0;
@@ -206,7 +206,7 @@ void Player__Gimmick_201B418(Player *player, fx32 velX, fx32 velY, BOOL allowTri
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
     player->objWork.velocity.x = velX;
     player->objWork.velocity.y = velY;
-    ObjRect__SetAttackStat(&player->colliders[1], 2, PLAYER_HITPOWER_NORMAL);
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
     player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
     player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
     player->objWork.userTimer  = 0;
@@ -488,7 +488,7 @@ void Player__Action_JumpDashLaunch(Player *player, fx32 velX, fx32 velY)
     else
         player->objWork.velocity.y = MultiplyFX(player->objWork.groundVel, SinFX(player->objWork.dir.z));
 
-    ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
     player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
     player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
     player->overSpeedLimitTimer = 48;
@@ -2056,7 +2056,7 @@ void Player__OnDefend_TripleGrindRail(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2
         UpdateTensionGaugeHUD(player->tension >> 4, TRUE);
     }
 
-    if ((rect1->hitFlag & 4) != 0)
+    if ((rect1->hitFlag & OBS_RECT_WORK_ATTR_USER_1) != 0)
     {
         if (player->rings != 0)
         {
@@ -2689,7 +2689,7 @@ void Player__Action_PopSteam(Player *player, GameObjectTask *other, fx32 velX, f
                 player->objWork.dir.z = FLOAT_DEG_TO_IDX(180.0);
         }
 
-        ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
         player->gimmick.popSteam.threshold   = speedThreshold;
         player->gimmick.popSteam.x           = other->objWork.position.x;
         player->gimmick.popSteam.y           = other->objWork.position.y;
@@ -2782,7 +2782,7 @@ void Player__Action_DreamWing(Player *player, GameObjectTask *other, fx32 velX, 
         else
             player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
-        ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
         player->objWork.userTimer = 8;
         player->objWork.userWork  = 0;
         SetTaskState(&player->objWork, Player__State_DreamWing);
@@ -2922,7 +2922,7 @@ void Player__Action_LargePiston1(Player *player, GameObjectTask *other, fx32 vel
 
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
-        ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
 
         player->objWork.position.x = other->objWork.position.x;
         player->objWork.position.y = other->objWork.position.y;
@@ -3008,7 +3008,7 @@ void Player__Action_LargePiston2(Player *player, GameObjectTask *other, fx32 vel
 {
     if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0 && StageTaskStateMatches(&player->objWork, Player__State_LargePiston1))
     {
-        ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
 
         if (player->actionState >= PLAYER_ACTION_TRICK_FINISH_V_01 && player->actionState <= PLAYER_ACTION_TRICK_FINISH)
         {
@@ -3171,7 +3171,7 @@ void Player__Action_IcicleGrab(Player *player, GameObjectTask *other, s32 width)
         player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
-        ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
 
         player->gimmick.icicleGrab.width = width;
         fx32 icicleY                     = other->objWork.position.y - FLOAT_TO_FX32(256.0);
@@ -3277,7 +3277,7 @@ void Player__Action_IceSlide(Player *player, s32 _unused)
         Player__InitGimmick(player, FALSE);
         Player__ChangeAction(player, PLAYER_ACTION_ICE_SLIDE);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-        ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
 
         if (MATH_ABS(player->objWork.velocity.x) < MATH_ABS(player->objWork.groundVel))
             player->objWork.velocity.x = player->objWork.groundVel;
@@ -3752,7 +3752,7 @@ void Player__Action_DiveStandGrab(Player *player, GameObjectTask *other)
     }
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
     player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 
     if (other->mapObject->id == MAPOBJECT_143)
@@ -4760,7 +4760,7 @@ void Player__Action_GhostTree(Player *player, GameObjectTask *other)
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
     player->gimmickFlag |= PLAYER_GIMMICK_GRABBED;
 
-    ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
 }
 
 void Player__Action_SpringCrystal(Player *player, fx32 velX, fx32 velY)
@@ -5130,7 +5130,7 @@ void Player__OnDefend_TruckRide(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         UpdateTensionGaugeHUD(player->tension >> 4, TRUE);
     }
 
-    if ((rect1->hitFlag & 4) != 0)
+    if ((rect1->hitFlag & OBS_RECT_WORK_ATTR_USER_1) != 0)
     {
         if (player->rings != 0)
         {
@@ -5282,7 +5282,7 @@ void Player__Action_BarrelGrab(Player *player, GameObjectTask *other)
     Player__ChangeAction(player, PLAYER_ACTION_HOMING_ATTACK);
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-    ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
     player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
     player->blinkTimer            = 0;
     player->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
@@ -5352,7 +5352,7 @@ void Player__Gimmick_2021E9C(Player *player, GameObjectTask *other)
 
         Player__ChangeAction(player, PLAYER_ACTION_JUMPFALL);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-        ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
         player->objWork.userWork = 0;
         SetTaskState(&player->objWork, Player__State_2021FA8);
     }
@@ -5440,7 +5440,7 @@ void Player__Action_Trampoline(Player *player, fx32 velX, fx32 velY)
     player->objWork.displayFlag |= DISPLAY_FLAG_400;
 
     Player__ChangeAction(player, PLAYER_ACTION_TRAMPOLINE);
-    ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
 
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TRAMPOLINE);
 }

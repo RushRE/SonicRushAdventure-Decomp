@@ -574,33 +574,33 @@ void Player__InitState(Player *player)
     player->objWork.hitboxRect.top    = -12;
     player->objWork.hitboxRect.bottom = 13;
     ObjRect__SetGroupFlags(&player->colliders[0], 1, 2);
-    player->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_200 | OBS_RECT_WORK_FLAG_100);
-    player->colliders[0].flag |= OBS_RECT_WORK_FLAG_20;
+    player->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
+    player->colliders[0].flag |= OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
 
     if (!player->blinkTimer)
     {
         // player hitbox: world hitbox
-        ObjRect__SetAttackStat(&player->colliders[0], 1, PLAYER_HITPOWER_NORMAL);
-        ObjRect__SetDefenceStat(&player->colliders[0], 0, PLAYER_DEFPOWER_NORMAL);
+        ObjRect__SetAttackStat(&player->colliders[0], OBS_RECT_WORK_ATTR_BODY, PLAYER_HITPOWER_NORMAL);
+        ObjRect__SetDefenceStat(&player->colliders[0], OBS_RECT_WORK_ATTR_NONE, PLAYER_DEFPOWER_NORMAL);
     }
 
     if (!gmCheckVsBattleFlag() || CheckIsPlayer1(player))
     {
         // player hitbox: vsPlayer hitbox for player 1 (active player)
         ObjRect__SetGroupFlags(&player->colliders[1], 1, 2);
-        player->colliders[1].flag &= ~(OBS_RECT_WORK_FLAG_200 | OBS_RECT_WORK_FLAG_100 | OBS_RECT_WORK_FLAG_8);
-        player->colliders[1].flag |= OBS_RECT_WORK_FLAG_20;
-        ObjRect__SetAttackStat(&player->colliders[1], 0, PLAYER_HITPOWER_VULNERABLE);
-        ObjRect__SetDefenceStat(&player->colliders[1], ~0, PLAYER_DEFPOWER_INVINCIBLE);
+        player->colliders[1].flag &= ~(OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_NO_ONATTACK);
+        player->colliders[1].flag |= OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&player->colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), PLAYER_DEFPOWER_INVINCIBLE);
     }
     else
     {
         // player hitbox: vsPlayer hitbox for player 2 (rival player)
         ObjRect__SetGroupFlags(&player->colliders[1], 2, 1);
-        player->colliders[1].flag &= ~(OBS_RECT_WORK_FLAG_200 | OBS_RECT_WORK_FLAG_100 | OBS_RECT_WORK_FLAG_8);
-        player->colliders[1].flag |= OBS_RECT_WORK_FLAG_20;
-        ObjRect__SetAttackStat(&player->colliders[1], 0, PLAYER_HITPOWER_VULNERABLE);
-        ObjRect__SetDefenceStat(&player->colliders[1], ~0, PLAYER_DEFPOWER_INVINCIBLE);
+        player->colliders[1].flag &= ~(OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_NO_ONATTACK);
+        player->colliders[1].flag |= OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&player->colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), PLAYER_DEFPOWER_INVINCIBLE);
     }
 
     Player__InitPhysics(player);
@@ -710,7 +710,7 @@ void Player__InitGimmick(Player *player, BOOL allowTricks)
     }
 
     ObjRect__SetOnDefend(&player->colliders[0], Player__OnDefend_Regular);
-    player->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_200 | OBS_RECT_WORK_FLAG_100);
+    player->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
 
     player->playerFlag &= ~(PLAYER_FLAG_USER_FLAG | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_2000
                             | PLAYER_FLAG_TRICK_SUCCESS | PLAYER_FLAG_8000 | PLAYER_FLAG_SLOWMO | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
@@ -1019,8 +1019,8 @@ void Player__ChangeAction(Player *player, PlayerAction action)
     player->actionState = action;
     player->objWork.displayFlag &= ~(DISPLAY_FLAG_DID_FINISH | DISPLAY_FLAG_DISABLE_LOOPING);
 
-    player->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
-    player->colliders[1].flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    player->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    player->colliders[1].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
 
     if (player->objWork.obj_3d != NULL)
     {
@@ -1518,7 +1518,7 @@ void Player__Action_Launch(Player *player)
 
     player->objWork.velocity.x = MultiplyFX(player->objWork.groundVel, CosFX(player->objWork.dir.z));
     player->objWork.velocity.y = MultiplyFX(player->objWork.groundVel, SinFX(player->objWork.dir.z));
-    ObjRect__SetAttackStat(&player->colliders[1], 0, PLAYER_HITPOWER_VULNERABLE);
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
 
     player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
     player->playerFlag |= PLAYER_FLAG_USER_FLAG;
@@ -1703,7 +1703,7 @@ void Player__Action_DestroyAttackRecoil(Player *player)
 
         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
         SetTaskState(&player->objWork, Player__State_Air);
-        ObjRect__SetAttackStat(&player->colliders[1], 2, PLAYER_HITPOWER_NORMAL);
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
 
         player->objWork.velocity.y = -FLOAT_TO_FX32(3.0);
         player->objWork.velocity.x = velX;
@@ -2259,7 +2259,7 @@ void Player__OnDefend_Regular(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     if (gmCheckVsBattleFlag() && rect1->parent != NULL && ((Player *)rect1->parent)->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
     {
-        if ((player->colliders[1].flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
+        if ((player->colliders[1].flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
         {
             if ((player->playerFlag & PLAYER_FLAG_40000000) == 0)
             {
@@ -2295,7 +2295,7 @@ void Player__OnDefend_Regular(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     else
         velocity = player->objWork.groundVel;
 
-    if ((rect1->hitFlag & 8) != 0)
+    if ((rect1->hitFlag & OBS_RECT_WORK_ATTR_USER_2) != 0)
     {
         // play spike sfx
         PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TOGE);
@@ -2309,7 +2309,7 @@ void Player__OnDefend_Regular(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     if (!gmCheckStage(STAGE_TUTORIAL))
     {
-        if ((rect1->hitFlag & 4) != 0)
+        if ((rect1->hitFlag & OBS_RECT_WORK_ATTR_USER_1) != 0)
         {
             if (player->rings != 0)
             {
@@ -2620,7 +2620,7 @@ void Player__Action_SuperBoost(Player *player)
         }
 
         PlayerBoost *boost = CreatePlayerBoostCollider(player, -32, -32, 32, 32, 0);
-        ObjRect__SetAttackStat(&boost->collider, 2, 66);
+        ObjRect__SetAttackStat(&boost->collider, OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL + 2);
         SetBoostColliderToTrackPlayer(boost);
 
         if (player->tensionMaxTimer == 0)
@@ -2677,8 +2677,8 @@ PlayerBoost *CreatePlayerBoostCollider(Player *player, s16 left, s16 top, s16 ri
         ObjRect__SetGroupFlags(&work->collider, 2, 1);
 
     work->collider.onDefend = NULL;
-    work->collider.flag |= OBS_RECT_WORK_FLAG_20;
-    ObjRect__SetAttackStat(&work->collider, 2, 64);
+    work->collider.flag |= OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
+    ObjRect__SetAttackStat(&work->collider, OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
     ObjRect__SetBox(&work->collider, left, top, right, bottom);
 
     if ((work->objWork.parentObj->displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
@@ -3314,7 +3314,7 @@ void Player__In_Default(void)
 
         work->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
         work->colliders[0].hitPower = PLAYER_HITPOWER_INVINCIBLE;
-        work->colliders[0].hitFlag |= 2;
+        work->colliders[0].hitFlag |= OBS_RECT_WORK_ATTR_NORMAL;
 
         if ((work->playerFlag & PLAYER_FLAG_FINISHED_STAGE) == 0)
         {
@@ -3336,7 +3336,7 @@ void Player__In_Default(void)
             if ((work->playerFlag & PLAYER_FLAG_FINISHED_STAGE) == 0)
                 work->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
             work->colliders[0].hitPower = PLAYER_HITPOWER_NORMAL;
-            work->colliders[0].hitFlag &= ~2;
+            work->colliders[0].hitFlag &= ~OBS_RECT_WORK_ATTR_NORMAL;
 
             ObjDraw__PaletteTex__Process(&work->paletteTex, GX_COLOR_FROM_888(0x00), GX_COLOR_FROM_888(0x00), GX_COLOR_FROM_888(0x00));
         }
@@ -3499,7 +3499,7 @@ void Player__Last_Default(void)
     Player__SendPacket(work);
     work->playerFlag &= ~(PLAYER_FLAG_DO_LOSE_RING_EFFECT | PLAYER_FLAG_DO_ATTACK_RECOIL);
 
-    if ((work->colliders[1].flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) == 0 && (work->playerFlag & PLAYER_FLAG_40000000) != 0)
+    if ((work->colliders[1].flag & OBS_RECT_WORK_FLAG_ENABLED) == 0 && (work->playerFlag & PLAYER_FLAG_40000000) != 0)
     {
         work->playerFlag &= ~PLAYER_FLAG_40000000;
         if (CheckIsPlayer1(work))
@@ -4027,9 +4027,9 @@ void Player__Action_Roll(Player *player)
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
     SetTaskState(&player->objWork, Player__State_Roll);
 
-    ObjRect__SetAttackStat(&player->colliders[1], 2, PLAYER_HITPOWER_NORMAL);
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
     player->colliders[1].onDefend = NULL;
-    player->colliders[1].flag &= ~OBS_RECT_WORK_FLAG_8;
+    player->colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_ONATTACK;
 
     player->objWork.slopeAcceleration = playerPhysicsTable[player->characterID].rollSlopeAcceleration;
     player->objWork.slopeDirection    = FLOAT_TO_FX32(1.0);
@@ -4091,9 +4091,9 @@ void Player__Action_StartSpindash(Player *player)
     SetTaskState(&player->objWork, Player__State_Spindash);
     player->spindashPower = player->initialSpindashPower;
 
-    ObjRect__SetAttackStat(&player->colliders[1], 2, PLAYER_HITPOWER_NORMAL);
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
     player->colliders[1].onDefend = NULL;
-    player->colliders[1].flag &= ~OBS_RECT_WORK_FLAG_8;
+    player->colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_ONATTACK;
 
     player->playerFlag |= PLAYER_FLAG_USER_FLAG;
     if ((player->gimmickFlag & PLAYER_GIMMICK_1000) == 0)
@@ -4261,7 +4261,7 @@ void Player__Action_Jump(Player *player)
             player->objWork.velocity.z = -player->objWork.velocity.z;
     }
 
-    ObjRect__SetAttackStat(&player->colliders[1], 2, PLAYER_HITPOWER_NORMAL);
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
     player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
     player->playerFlag &= ~(PLAYER_FLAG_8000 | PLAYER_FLAG_TRICK_SUCCESS);
     player->objWork.userTimer  = 0;
@@ -4480,7 +4480,7 @@ void Player__State_Air(Player *work)
                                 work->objWork.velocity.x   = work->trickFinishHorizXVelocity;
                                 work->objWork.hitstopTimer = FLOAT_TO_FX32(4.0);
                                 work->objWork.shakeTimer   = FLOAT_TO_FX32(4.0);
-                                work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_200 | OBS_RECT_WORK_FLAG_100);
+                                work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
                             }
                         }
                         break;
@@ -4508,7 +4508,7 @@ void Player__State_Air(Player *work)
                                 work->objWork.velocity.x   = work->trickFinishHorizXVelocity;
                                 work->objWork.hitstopTimer = FLOAT_TO_FX32(4.0);
                                 work->objWork.shakeTimer   = FLOAT_TO_FX32(4.0);
-                                work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_200 | OBS_RECT_WORK_FLAG_100);
+                                work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
                             }
                         }
                         break;
@@ -4648,7 +4648,7 @@ void Player__State_Air(Player *work)
                                 work->objWork.velocity.x   = work->trickFinishHorizXVelocity;
                                 work->objWork.hitstopTimer = FLOAT_TO_FX32(4.0);
                                 work->objWork.shakeTimer   = FLOAT_TO_FX32(4.0);
-                                work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_200 | OBS_RECT_WORK_FLAG_100);
+                                work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
                             }
                         }
                         break;
@@ -4675,7 +4675,7 @@ void Player__State_Air(Player *work)
                                 work->objWork.velocity.x   = work->trickFinishHorizXVelocity;
                                 work->objWork.hitstopTimer = FLOAT_TO_FX32(4.0);
                                 work->objWork.shakeTimer   = FLOAT_TO_FX32(4.0);
-                                work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_200 | OBS_RECT_WORK_FLAG_100);
+                                work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
                             }
                         }
                         break;
@@ -4701,7 +4701,7 @@ void Player__State_Air(Player *work)
 
     if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
     {
-        work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_200 | OBS_RECT_WORK_FLAG_100);
+        work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
         Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
         work->starComboCount = 0;
 
@@ -4769,7 +4769,7 @@ void Player__State_Air(Player *work)
                     {
                         work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
                         work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
-                        work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_200 | OBS_RECT_WORK_FLAG_100);
+                        work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
                         Player__PerformTrick(work);
                     }
                 }
@@ -4970,7 +4970,7 @@ void Player__State_Hurt(Player *work)
 
     if ((work->objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0 && (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
     {
-        work->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_100;
+        work->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
         Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
         work->onLandGround(work);
     }
@@ -5296,7 +5296,7 @@ void Player__Action_TrickFinisherVertical(Player *player)
             break;
 
         case CHARACTER_BLAZE:
-            ObjRect__SetAttackStat(&player->colliders[1], 2, PLAYER_HITPOWER_NORMAL);
+            ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
 
             player->axelTornadoFXSpawnTimer = 0;
             player->cameraScrollDelay       = 6;
@@ -5373,7 +5373,7 @@ void Player__Action_TrickFinisherHorizontal(Player *player)
                 player->objWork.velocity.x = 0;
             player->objWork.velocity.x += xVelocity;
 
-            ObjRect__SetAttackStat(&player->colliders[1], 2, PLAYER_HITPOWER_NORMAL);
+            ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
             CreateEffectHummingTopForPlayer(player);
 
             PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_HUMMING_TOP);
@@ -5585,7 +5585,7 @@ void Player__Action_HomingAttack_Sonic(Player *player)
     player->objWork.dir.z = 0;
     SetTaskState(&player->objWork, Player__State_HomingAttack);
     player->objWork.userTimer = PLAYER_HOMINGATTACK_DURATION;
-    ObjRect__SetAttackStat(&player->colliders[1], 2, PLAYER_HITPOWER_NORMAL);
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
     player->playerFlag &= ~(PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_HOMING);
 }
@@ -6283,7 +6283,7 @@ void Player__HandleHomingTarget(Player *player)
             if (rect == NULL)
                 break; // end of list
 
-            if ((rect->flag & OBS_RECT_WORK_FLAG_800) == 0)
+            if ((rect->flag & OBS_RECT_WORK_FLAG_NO_HIT_CHECKS) == 0)
             {
                 GameObjectTask *target = (GameObjectTask *)rect->parent;
                 if (target != NULL)
@@ -6685,10 +6685,10 @@ void SetBoostColliderToTrackPlayer(PlayerBoost *boost)
 void PlayerBoostCollider_State_ActiveBoosting(PlayerBoost *work)
 {
     // shake the screen on impact
-    if ((work->collider.flag & OBS_RECT_WORK_FLAG_200) != 0)
+    if ((work->collider.flag & OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME) != 0)
     {
         ShakeScreen(SCREENSHAKE_D_SHORT);
-        work->collider.flag &= ~OBS_RECT_WORK_FLAG_200;
+        work->collider.flag &= ~OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
     }
 
     Player *parent = (Player *)work->objWork.parentObj;
@@ -6813,9 +6813,9 @@ void Player__ReceivePacket(Player *player)
         }
 
         if ((playerPacket->playerFlag & PLAYER_FLAG_IS_ATTACKING_PLAYER) != 0)
-            ObjRect__SetAttackStat(&player->colliders[1], 2, PLAYER_HITPOWER_NORMAL);
+            ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
         else
-            ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+            ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
 
         if ((playerPacket->playerFlag & PLAYER_FLAG_DO_LOSE_RING_EFFECT) != 0)
             CreateLoseRingEffect(player, 10);
@@ -6898,7 +6898,7 @@ void Player__SendPacket(Player *player)
     packet->moveFlag      = player->objWork.moveFlag;
     packet->playerFlag    = player->playerFlag & ~(PLAYER_FLAG_40000000 | PLAYER_FLAG_IS_ATTACKING_PLAYER);
 
-    if (player->colliders[1].hitFlag && (player->colliders[1].flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
+    if (player->colliders[1].hitFlag && (player->colliders[1].flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
         packet->playerFlag |= PLAYER_FLAG_IS_ATTACKING_PLAYER;
 
     packet->gimmickFlag = player->gimmickFlag;

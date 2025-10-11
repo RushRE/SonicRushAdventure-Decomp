@@ -3673,9 +3673,9 @@ void DecorationSys__InitMapDecor(StageDecoration *work, MapDecor *mapDecor, fx32
 
     StageTask__SetHitbox(&work->objWork, -2, -6, 2, 0);
     ObjRect__SetGroupFlags(&work->rect[0], 2, 1);
-    ObjRect__SetAttackStat(&work->rect[0], 0, 0);
-    ObjRect__SetDefenceStat(&work->rect[0], ~1, 0x3F);
-    work->rect[0].flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    ObjRect__SetAttackStat(&work->rect[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->rect[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_DEFAULT);
+    work->rect[0].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
 
     if (mapDecor != NULL)
     {
@@ -3846,7 +3846,7 @@ NONMATCH_FUNC void DecorationSys__InitFunc_21538D0(StageDecoration *work)
 
     work->rect[0].parent = &work->objWork;
     ObjRect__SetOnDefend(&work->rect[0], DecorationSys__OnDefend_21539B0);
-    work->rect[0].flag |= OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    work->rect[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_ENABLED;
     work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 #else
     // clang-format off
@@ -4570,7 +4570,7 @@ void DecorationSys__InitFunc_2154478(StageDecoration *work)
     ObjRect__SetBox2D(&work->rect[0].rect, 0, -48, 32, 0);
     work->rect[0].parent = &work->objWork;
     ObjRect__SetOnDefend(&work->rect[0], DecorationSys__OnDefend_21544D0);
-    work->rect[0].flag |= OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    work->rect[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_ENABLED;
     work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 }
 
@@ -5130,6 +5130,6 @@ void DecorationSys__SetAnimation(StageDecoration *work, u16 anim)
     for (s32 c = 0; c < STAGETASK_COLLIDER_COUNT; c++)
     {
         if (work->objWork.colliderList[c] != NULL && work->objWork.colliderFlags[c] != STAGE_TASK_COLLIDER_FLAGS_NONE)
-            work->objWork.colliderList[c]->flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->objWork.colliderList[c]->flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
     }
 }

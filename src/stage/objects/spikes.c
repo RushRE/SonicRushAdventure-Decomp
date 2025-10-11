@@ -108,8 +108,8 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
 
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
-    ObjRect__SetAttackStat(work->gameWork.colliders, 2, 64);
-    ObjRect__SetDefenceStat(work->gameWork.colliders, ~1, 0xFF);
+    ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_INVINCIBLE);
 
     work->gameWork.objWork.collisionObj = NULL;
 
@@ -399,8 +399,8 @@ Spikes *CreateSpikes2(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     s8 size = MTM_MATH_CLIP_S8(mapObjectParam_size, 1, 5);
 
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetAttackStat(work->gameWork.colliders, 2, 64);
-    ObjRect__SetDefenceStat(work->gameWork.colliders, ~0, 0xFF);
+    ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_INVINCIBLE);
     work->gameWork.objWork.collisionObj           = 0;
     work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;

@@ -121,10 +121,10 @@ void FireHazard_State_Active(FireHazard *work)
                 *scale = FLOAT_TO_FX32(0.25);
         }
 
-        ObjRect__SetAttackStat(&work->gameWork.colliders[1], 0, 0);
-        ObjRect__SetDefenceStat(&work->gameWork.colliders[1], ~1, 0);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
         ObjRect__SetOnDefend(&work->gameWork.colliders[1], FireHazard_OnDefend);
-        work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_400;
+        work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     }
     else
     {
@@ -134,19 +134,19 @@ void FireHazard_State_Active(FireHazard *work)
             if (*scale > FLOAT_TO_FX32(1.0))
                 *scale = FLOAT_TO_FX32(1.0);
         }
-        work->gameWork.colliders[1].hitFlag  = 2;
-        work->gameWork.colliders[1].hitPower = 0x40;
-        work->gameWork.colliders[1].defFlag  = -1;
-        work->gameWork.colliders[1].defPower = 0xFF;
+        work->gameWork.colliders[1].hitFlag  = OBS_RECT_WORK_ATTR_NORMAL;
+        work->gameWork.colliders[1].hitPower = OBS_RECT_HITPOWER_DEFAULT;
+        work->gameWork.colliders[1].defFlag  = OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE);
+        work->gameWork.colliders[1].defPower = OBS_RECT_DEFPOWER_INVINCIBLE;
         ObjRect__SetOnDefend(&work->gameWork.colliders[1], FireHazard_OnHit);
-        work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_400;
+        work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     }
 
     if (work->gameWork.objWork.userTimer != 0)
     {
         work->gameWork.objWork.userTimer--;
         if (work->gameWork.objWork.userTimer == 0)
-            work->gameWork.colliders[1].flag &= ~(OBS_RECT_WORK_FLAG_40000 | OBS_RECT_WORK_FLAG_200 | OBS_RECT_WORK_FLAG_100);
+            work->gameWork.colliders[1].flag &= ~(OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER | OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
     }
 }
 

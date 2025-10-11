@@ -37,11 +37,11 @@ WaterRunTrigger *CreateWaterRunTrigger(MapObject *mapObject, fx32 x, fx32 y, fx3
         ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -16, -8, 4, 0);
     else
         ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -4, -8, 16, 0);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], WaterRunTrigger_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_ENABLED;
 
     return work;
 }

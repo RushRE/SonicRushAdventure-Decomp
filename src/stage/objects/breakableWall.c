@@ -37,24 +37,24 @@ BreakableWall *BreakableWall__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 
     StageTask__SetAnimation(&work->gameWork.objWork, anim);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
-    ObjRect__SetAttackStat(work->gameWork.colliders, 0, 0);
+    ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
 
     if (mapObject->id == MAPOBJECT_119)
     {
-        ObjRect__SetDefenceStat(work->gameWork.colliders, ~1, 0);
+        ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
         work->gameWork.colliders[0].onDefend = BreakableWall__OnDefend_2160518;
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     }
     else
     {
-        ObjRect__SetDefenceStat(work->gameWork.colliders, ~2, 0);
+        ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NORMAL), OBS_RECT_DEFPOWER_VULNERABLE);
         work->gameWork.colliders[0].onDefend = BreakableWall__OnDefend_21608E0;
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
-        ObjRect__SetAttackStat(&work->gameWork.colliders[1], 0, 0);
-        ObjRect__SetDefenceStat(&work->gameWork.colliders[1], ~2, 0);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NORMAL), OBS_RECT_DEFPOWER_VULNERABLE);
         work->gameWork.colliders[1].onDefend = BreakableWall__OnDefend_2160A88;
-        work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_400;
+        work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     }
 
     switch (anim)

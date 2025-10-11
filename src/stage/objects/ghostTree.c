@@ -59,20 +59,20 @@ GhostTree *CreateGhostTree(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     NNS_G3dRenderObjSetCallBack(&aniArm->ani.renderObj, GhostTree_RenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
 
     ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -16, -16, 16, 16);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], GhostTree_OnDefend_Hand);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     work->gameWork.colliders[0].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
     work->gameWork.colliders[0].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
     work->gameWork.colliders[0].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
 
     work->gameWork.colliders[1].parent = &work->gameWork.objWork;
     ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -128, -64, 256, 128);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[1], GhostTree_OnDefend_GrabTrigger);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     work->gameWork.colliders[1].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
     work->gameWork.colliders[1].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
     work->gameWork.colliders[1].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
@@ -104,7 +104,7 @@ void GhostTree_State_ReachForPlayer(GhostTree *work)
     if (work->gameWork.objWork.userTimer == 50)
     {
         work->gameWork.colliders[0].parent = NULL;
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
         ani->animFlags[B3D_ANIM_JOINT_ANIM] |= ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
         ani->ratioMultiplier = FLOAT_TO_FX32(0.02490234375);
@@ -129,7 +129,7 @@ void GhostTree_State_ReachForPlayer(GhostTree *work)
         ani->speedMultiplier = FLOAT_TO_FX32(1.0);
 
         work->gameWork.colliders[0].parent = NULL;
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
         work->gameWork.objWork.userTimer = 0;
         SetTaskState(&work->gameWork.objWork, GhostTree_State_FailedGrabWait);
@@ -142,7 +142,7 @@ void GhostTree_State_FailedGrabWait(GhostTree *work)
     if (work->gameWork.objWork.userTimer >= 60)
     {
         work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-        work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_800;
+        work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
         SetTaskState(&work->gameWork.objWork, NULL);
     }
@@ -195,7 +195,7 @@ void GhostTree_State_ThrownPlayer(GhostTree *work)
 
         NNS_G3dRenderObjSetCallBack(&ani->renderObj, GhostTree_RenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
         work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-        work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_800;
+        work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
         SetTaskState(&work->gameWork.objWork, NULL);
     }
@@ -253,12 +253,12 @@ void GhostTree_OnDefend_GrabTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         return;
 
     tree->gameWork.colliders[1].parent = NULL;
-    tree->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
+    tree->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     tree->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_PAUSED);
 
     tree->gameWork.colliders[0].parent = &tree->gameWork.objWork;
-    tree->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_800;
+    tree->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     SetTaskState(&tree->gameWork.objWork, GhostTree_State_ReachForPlayer);
     tree->gameWork.objWork.userTimer = 0;
@@ -282,7 +282,7 @@ void GhostTree_OnDefend_Hand(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     Player__Action_AllowTrickCombos(player, &tree->gameWork);
 
     tree->gameWork.colliders[0].parent = NULL;
-    tree->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+    tree->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     SetTaskState(&tree->gameWork.objWork, GhostTree_State_GrabbedPlayer);
     tree->gameWork.objWork.userTimer = 0;

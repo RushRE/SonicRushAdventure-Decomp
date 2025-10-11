@@ -418,10 +418,10 @@ NONMATCH_FUNC TimerShutterWater *CreateTimerShutterWater(MapObject *mapObject, f
 
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
     ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -20, 0, 20, 0);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], TimerShutterWater_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.objWork.userTimer = -FLOAT_TO_FX32(64.0);
 

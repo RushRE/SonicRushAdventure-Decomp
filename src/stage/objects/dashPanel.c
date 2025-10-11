@@ -52,9 +52,9 @@ DashPanel *CreateDashPanel(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     ObjActionAllocSpritePalette(&work->gameWork.objWork, DASHPANEL_ANI_HORIZONTAL, 2);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
-    ObjRect__SetAttackStat(work->gameWork.colliders, 0, 0);
-    ObjRect__SetDefenceStat(work->gameWork.colliders, ~1, 0);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], DashPanel_OnDefend);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
@@ -175,7 +175,7 @@ void SetupDashPanelObject(DashPanel *work)
 
 void DashPanel_State_Active(DashPanel *work)
 {
-    work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_100;
+    work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
 
     if (work->gameWork.objWork.parentObj != NULL)
     {
@@ -205,14 +205,14 @@ void DashPanel_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     id = dashPanel->gameWork.mapObject->id;
     if (id != MAPOBJECT_92 && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0)
     {
-        dashPanel->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_100;
+        dashPanel->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
         ObjRect__FuncNoHit(rect1, rect2);
         return;
     }
 
     if (id == MAPOBJECT_92 && (player->actionState < PLAYER_ACTION_GRIND || player->actionState > PLAYER_ACTION_GRINDTRICK_3_03))
     {
-        dashPanel->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_100;
+        dashPanel->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
         ObjRect__FuncNoHit(rect1, rect2);
         return;
     }

@@ -101,10 +101,10 @@ EnemyGhost *CreateGhost(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->xMax = work->xMin + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_xRange);
 
     ObjRect__SetBox2D(&work->colliderDetect.rect, -80, 0, 0, 128);
-    ObjRect__SetAttackStat(&work->colliderDetect, 0, 0);
-    ObjRect__SetDefenceStat(&work->colliderDetect, ~1, 0);
+    ObjRect__SetAttackStat(&work->colliderDetect, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->colliderDetect, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetGroupFlags(&work->colliderDetect, 2, 1);
-    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
     ObjRect__SetOnDefend(&work->colliderDetect, EnemyGhost_OnDefend_Detect);
     work->colliderDetect.parent = &work->gameWork.objWork;
 
@@ -141,7 +141,7 @@ EnemyGhostBomb *CreateGhostBomb(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0x41);
+    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
     ObjRect__SetOnAttack(&work->gameWork.colliders[1], EnemyGhostBomb_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
@@ -200,7 +200,7 @@ void EnemyGhost_HandleVisibility(EnemyGhost *work)
     }
 
     work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-    work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_800;
+    work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     switch (work->visibilityMode)
     {
@@ -216,7 +216,7 @@ void EnemyGhost_HandleVisibility(EnemyGhost *work)
             work->machineDisplayFlag &= ~DISPLAY_FLAG_NO_DRAW;
             ani->work.spriteType                 = GX_OAM_MODE_XLU;
             work->aniMachine.ani.work.spriteType = GX_OAM_MODE_XLU;
-            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_800;
+            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             break;
 
         case GHOST_VISIBILITY_FLASHING:
@@ -235,7 +235,7 @@ void EnemyGhost_HandleVisibility(EnemyGhost *work)
                 work->machineDisplayFlag &= ~DISPLAY_FLAG_NO_DRAW;
             }
 
-            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_800;
+            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             break;
 
         case GHOST_VISIBILITY_INVISIBLE:
@@ -244,7 +244,7 @@ void EnemyGhost_HandleVisibility(EnemyGhost *work)
             work->aniMachine.ani.work.spriteType = GX_OAM_MODE_NORMAL;
             work->machineDisplayFlag |= DISPLAY_FLAG_NO_DRAW;
             work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_800;
+            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             break;
     }
 }
@@ -291,13 +291,13 @@ void EnemyGhost_State_Moving(EnemyGhost *work)
         work->gameWork.objWork.displayFlag ^= DISPLAY_FLAG_FLIP_X;
         work->machineDisplayFlag ^= DISPLAY_FLAG_FLIP_X;
         EnemyGhost_Action_Move(work);
-        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_ENABLED;
     }
 
     work->gameWork.objWork.userWork++;
     if (work->gameWork.objWork.userWork >= 60)
     {
-        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_ENABLED;
         work->gameWork.objWork.userWork = 0;
     }
 
@@ -331,7 +331,7 @@ void EnemyGhost_State_Moving(EnemyGhost *work)
 
         GameObject__SetAnimation(&work->gameWork, GHOST_ANI_TURNING);
 
-        work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
         work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
 
         work->gameWork.flags |= GHOST_FLAG_TURNING;
@@ -401,7 +401,7 @@ void EnemyGhost_State_Attack(EnemyGhost *work)
             GameObject__SetAnimation(&work->gameWork, GHOST_ANI_MOVING);
 
             work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-            work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
         }
     }
 }
@@ -424,7 +424,7 @@ void EnemyGhost_State_AttackCooldown(EnemyGhost *work)
     work->gameWork.objWork.userWork++;
     if (work->gameWork.objWork.userTimer >= 60)
     {
-        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_ENABLED;
         work->gameWork.objWork.userWork = 0;
         work->gameWork.flags &= ~GHOST_FLAG_USED_BOMB;
     }

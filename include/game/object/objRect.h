@@ -27,6 +27,18 @@ typedef BOOL (*OBS_RECT_ON_CHECK)(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 #define OBS_RECT_GROUP_COUNT  8
 #define OBS_RECT_REGISTER_MAX 0x50
 
+#define OBS_RECT_DEFPOWER_VULNERABLE (0x00)
+#define OBS_RECT_HITPOWER_VULNERABLE (0x00)
+
+#define OBS_RECT_DEFPOWER_DEFAULT (0x3F)
+#define OBS_RECT_HITPOWER_DEFAULT (0x40)
+
+#define OBS_RECT_DEFPOWER_INVINCIBLE (0xFF)
+#define OBS_RECT_HITPOWER_INVINCIBLE (0xFF)
+
+#define OBS_RECT_ATTR_NO_ATK(attr) (0x0000 ^ (attr))
+#define OBS_RECT_ATTR_NO_HIT(attr) (0xFFFF ^ (attr))
+
 // --------------------
 // MACROS
 // --------------------
@@ -43,28 +55,48 @@ typedef BOOL (*OBS_RECT_ON_CHECK)(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 enum OBS_RECT_WORKFlags_
 {
-    OBS_RECT_WORK_FLAG_FLIP_X           = 0x1,
-    OBS_RECT_WORK_FLAG_FLIP_Y           = 0x2,
-    OBS_RECT_WORK_FLAG_IS_ACTIVE        = 0x4,
-    OBS_RECT_WORK_FLAG_8                = 0x8,
-    OBS_RECT_WORK_FLAG_10               = 0x10,
-    OBS_RECT_WORK_FLAG_20               = 0x20,
-    OBS_RECT_WORK_FLAG_40               = 0x40,
-    OBS_RECT_WORK_FLAG_80               = 0x80,
-    OBS_RECT_WORK_FLAG_100              = 0x100,
-    OBS_RECT_WORK_FLAG_200              = 0x200,
-    OBS_RECT_WORK_FLAG_400              = 0x400,
-    OBS_RECT_WORK_FLAG_800              = 0x800,
-    OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET = 0x1000,
-    OBS_RECT_WORK_FLAG_2000             = 0x2000,
-    OBS_RECT_WORK_FLAG_4000             = 0x4000,
-    OBS_RECT_WORK_FLAG_8000             = 0x8000,
-    OBS_RECT_WORK_FLAG_10000            = 0x10000,
-    OBS_RECT_WORK_FLAG_20000            = 0x20000,
-    OBS_RECT_WORK_FLAG_40000            = 0x40000,
-    OBS_RECT_WORK_FLAG_80000            = 0x80000,
+    OBS_RECT_WORK_FLAG_FLIP_X                    = 1 << 0,
+    OBS_RECT_WORK_FLAG_FLIP_Y                    = 1 << 1,
+    OBS_RECT_WORK_FLAG_ENABLED                   = 1 << 2,
+    OBS_RECT_WORK_FLAG_NO_ONATTACK               = 1 << 3,
+    OBS_RECT_WORK_FLAG_IGNORE_ATK_DEF_VALUES     = 1 << 4,
+    OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME = 1 << 5,
+    OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE      = 1 << 6,
+    OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE      = 1 << 7,
+    OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME   = 1 << 8,
+    OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME    = 1 << 9,
+    OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR      = 1 << 10,
+    OBS_RECT_WORK_FLAG_NO_HIT_CHECKS             = 1 << 11,
+    OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET          = 1 << 12,
+    OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME   = 1 << 16,
+    OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME    = 1 << 17,
+    OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER       = 1 << 18,
+    OBS_RECT_WORK_FLAG_CHECK_FUNC                = 1 << 19,
 };
 typedef u32 OBS_RECT_WORKFlags;
+
+enum OBS_RECT_WORKAttribute_
+{
+    OBS_RECT_WORK_ATTR_NONE = 0x00,
+
+    OBS_RECT_WORK_ATTR_BODY    = 1 << 0,
+    OBS_RECT_WORK_ATTR_NORMAL  = 1 << 1,
+    OBS_RECT_WORK_ATTR_USER_1  = 1 << 2,
+    OBS_RECT_WORK_ATTR_USER_2  = 1 << 3,
+    OBS_RECT_WORK_ATTR_USER_3  = 1 << 4,
+    OBS_RECT_WORK_ATTR_USER_4  = 1 << 5,
+    OBS_RECT_WORK_ATTR_USER_5  = 1 << 6,
+    OBS_RECT_WORK_ATTR_USER_6  = 1 << 7,
+    OBS_RECT_WORK_ATTR_USER_7  = 1 << 8,
+    OBS_RECT_WORK_ATTR_USER_8  = 1 << 9,
+    OBS_RECT_WORK_ATTR_USER_9  = 1 << 10,
+    OBS_RECT_WORK_ATTR_USER_10 = 1 << 11,
+    OBS_RECT_WORK_ATTR_USER_11 = 1 << 12,
+    OBS_RECT_WORK_ATTR_USER_12 = 1 << 13,
+    OBS_RECT_WORK_ATTR_USER_13 = 1 << 14,
+    OBS_RECT_WORK_ATTR_USER_14 = 1 << 15,
+};
+typedef u16 OBS_RECT_WORKAttribute;
 
 // --------------------
 // STRUCTS
@@ -91,8 +123,8 @@ struct OBS_RECT_WORK_
     OBS_RECT_ON_CHECK checkActive;
     s16 hitPower;
     s16 defPower;
-    u16 hitFlag;
-    u16 defFlag;
+    OBS_RECT_WORKAttribute hitFlag;
+    OBS_RECT_WORKAttribute defFlag;
     u16 groupFlags;
     s32 attrData;
     void *userData;
@@ -105,8 +137,8 @@ struct OBS_RECT_WORK_
 void ObjRect__SetBox2D(OBS_RECT *rect, s16 left, s16 top, s16 right, s16 bottom);
 void ObjRect__SetBox3D(OBS_RECT *rect, s16 left, s16 top, s16 back, s16 right, s16 bottom, s16 front);
 void ObjRect__SetBox(OBS_RECT_WORK *work, s16 left, s16 top, s16 right, s16 bottom);
-void ObjRect__SetAttackStat(OBS_RECT_WORK *work, u16 atkFlag, u16 atkPower);
-void ObjRect__SetDefenceStat(OBS_RECT_WORK *work, u16 defFlag, u16 defPower);
+void ObjRect__SetAttackStat(OBS_RECT_WORK *work, OBS_RECT_WORKAttribute attribute, u16 power);
+void ObjRect__SetDefenceStat(OBS_RECT_WORK *work, OBS_RECT_WORKAttribute attribute, u16 power);
 void ObjRect__HitAgain(OBS_RECT_WORK *work);
 void ObjRect__CheckInit(void);
 void ObjRect__CheckOut(void);

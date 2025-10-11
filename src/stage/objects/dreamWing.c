@@ -75,10 +75,10 @@ DreamWing *CreateDreamWing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     if ((mapObject->flags & DREAMWING_OBJFLAG_FLIPPED) != 0)
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], DreamWing_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.objWork.sequencePlayerPtr = AllocSndHandle();
 

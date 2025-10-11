@@ -213,14 +213,14 @@ void EnemySnowflakeHead_HandleAttackTimer(EnemySnowflakeHead *work)
         SetTaskState(&work->gameWork.objWork, EnemySnowflakeHead_State_Attacking);
 
         GameObject__SetAnimation(&work->gameWork, SNOWFLAKEHEAD_ANI_ATTACKING);
-        ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0x41);
+        ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
     }
 }
 
 void EnemySnowflakeHead_State_Attacking(EnemySnowflakeHead *work)
 {
     if (work->gameWork.animator.ani.work.animFrameIndex == 18)
-        ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0x3F);
+        ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT);
 
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
         EnemySnowflakeHead_Action_Init(work);

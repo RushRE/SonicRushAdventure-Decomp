@@ -52,14 +52,14 @@ NONMATCH_FUNC FallingAnchor *CreateFallingAnchor(MapObject *mapObject, fx32 x, f
 
     ObjRect__SetGroupFlags(&work->gameWork.colliders[0], 1, 2);
     ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -40, -163, 40, -133);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 2, 64);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~0, 0);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800 | OBS_RECT_WORK_FLAG_20;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS | OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
 
     ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -36, -163, 36, -133);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], 4, 64);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], ~0, 0);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_800 | OBS_RECT_WORK_FLAG_20;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_USER_1, OBS_RECT_HITPOWER_DEFAULT);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS | OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
 
     work->gameWork.objWork.collisionObj           = NULL;
     work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
@@ -293,9 +293,9 @@ void FallingAnchor_State_Active(FallingAnchor *work)
                 work->gameWork.objWork.userWork++;
                 work->gameWork.objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
                 work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-                work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_800;
+                work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
                 work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-                work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_800;
+                work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
                 PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EV_DOWN);
             }
             break;
@@ -332,9 +332,9 @@ void FallingAnchor_State_Active(FallingAnchor *work)
                 work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
 
                 work->gameWork.colliders[0].parent = NULL;
-                work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+                work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
                 work->gameWork.colliders[1].parent = NULL;
-                work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
+                work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
                 if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_CAM_B_ON_TOP) == 0
                     && work->gameWork.objWork.position.y - FLOAT_TO_FX32(61.0) >= gPlayer->objWork.position.y)

@@ -750,7 +750,7 @@ void SailObject_InitColliderForCommon(StageTask *work, SailColliderWork *sailCol
 
     OBS_RECT_WORK *collider = StageTask__GetCollider(work, id);
     collider->onDefend      = NULL;
-    collider->flag          = OBS_RECT_WORK_FLAG_80000 | OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    collider->flag          = OBS_RECT_WORK_FLAG_CHECK_FUNC | OBS_RECT_WORK_FLAG_ENABLED;
     collider->userData      = sailCollider;
     ObjRect__SetCheckActive(collider, SailObject_ColliderCheckActive_Default);
 
@@ -759,11 +759,11 @@ void SailObject_InitColliderForCommon(StageTask *work, SailColliderWork *sailCol
         case 0:
         case 3:
         default:
-            collider->hitPower = 0;
+            collider->hitPower = OBS_RECT_HITPOWER_VULNERABLE;
             collider->defPower = 10;
-            collider->hitFlag |= 1;
-            collider->hitFlag &= ~2;
-            collider->defFlag &= ~1;
+            collider->hitFlag |= OBS_RECT_WORK_ATTR_BODY;
+            collider->hitFlag &= ~OBS_RECT_WORK_ATTR_NORMAL;
+            collider->defFlag &= ~OBS_RECT_WORK_ATTR_BODY;
             break;
 
         case 1:
@@ -781,7 +781,7 @@ void SailObject_InitColliderForCommon(StageTask *work, SailColliderWork *sailCol
             // ObjRect__SetGroupFlags(collider, 1, 2);
             collider->groupFlags = 1;
             collider->groupFlags |= 2 << 8;
-            collider->flag |= OBS_RECT_WORK_FLAG_20;
+            collider->flag |= OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
             break;
 
         case SAILSTAGE_OBJ_TYPE_OBJECT:
@@ -794,7 +794,7 @@ void SailObject_InitColliderForCommon(StageTask *work, SailColliderWork *sailCol
                 collider->hitPower = 10;
                 collider->defPower = 5;
                 ObjRect__SetOnDefend(collider, SailObject_OnDefend_Default);
-                collider->flag |= OBS_RECT_WORK_FLAG_20;
+                collider->flag |= OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
             }
             break;
     }
@@ -2231,7 +2231,7 @@ void SailObject_ProcessColliders(void)
         if (rect == NULL)
             break;
 
-        if ((rect->flag & OBS_RECT_WORK_FLAG_800) == 0 && (rect->flag & OBS_RECT_WORK_FLAG_80000) != 0)
+        if ((rect->flag & OBS_RECT_WORK_FLAG_NO_HIT_CHECKS) == 0 && (rect->flag & OBS_RECT_WORK_FLAG_CHECK_FUNC) != 0)
         {
             collider = rect->userData;
 
@@ -3079,7 +3079,7 @@ NONMATCH_FUNC StageTask *CreateSailRock(SailEventManagerObject *mapObject)
                 SailObject_InitColliderBox(work, 1, MultiplyFX(0x1160, v2), 0);
                 worker->collider[1].flags |= SAILCOLLIDER_FLAG_4000;
                 work->colliderList[1]->hitPower = 20;
-                work->colliderList[1]->defPower = 0;
+                work->colliderList[1]->defPower = OBS_RECT_DEFPOWER_VULNERABLE;
                 work->flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             }
             else
@@ -3160,7 +3160,7 @@ NONMATCH_FUNC StageTask *CreateSailRock(SailEventManagerObject *mapObject)
                 worker->collider[0].atkPower = FLOAT_TO_FX32(64.0);
 
                 OBS_RECT_WORK *collider = StageTask__GetCollider(work, 0);
-                collider->defFlag |= 4;
+                collider->defFlag |= OBS_RECT_WORK_ATTR_USER_1;
                 collider->hitPower = 20;
 
                 const s32 value = FLOAT_TO_FX32(40.0);
@@ -4831,8 +4831,8 @@ StageTask *CreateSailItemBox(SailEventManagerObject *mapObject)
     SailObject_InitColliderBox(work, 0, 0x900, 0);
 
     OBS_RECT_WORK *collider = StageTask__GetCollider(work, 0);
-    collider->hitPower      = 0;
-    collider->defPower      = 0;
+    collider->hitPower      = OBS_RECT_HITPOWER_VULNERABLE;
+    collider->defPower      = OBS_RECT_DEFPOWER_VULNERABLE;
 
     if (SailManager__GetShipType() == SHIP_BOAT)
         worker->collider[0].hitCheck.box.size.x = FLOAT_TO_FX32(2.5);
@@ -4964,7 +4964,7 @@ void SailObject_OnDefend_Default(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         VecFx32 hitPosition;
         if ((collider1->flags & SAILCOLLIDER_FLAG_1000) == 0 && collider1->stageTask->objType == SAILSTAGE_OBJ_TYPE_OBJECT)
         {
-            rect2->flag &= ~OBS_RECT_WORK_FLAG_100;
+            rect2->flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
 
             if (collider1->stageTask != collider2->stageTask)
             {
@@ -5470,7 +5470,7 @@ void SailMine_State_Active(StageTask *work)
 
     if (collider != NULL)
     {
-        if ((collider->flag & OBS_RECT_WORK_FLAG_200) != 0)
+        if ((collider->flag & OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME) != 0)
         {
             SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_EXPLOSION, &work->position);
             DestroyStageTask(work);
@@ -5530,7 +5530,7 @@ void SailBomb_State_Active(StageTask *work)
 
     if (collider != NULL)
     {
-        if ((collider->flag & OBS_RECT_WORK_FLAG_200) != 0)
+        if ((collider->flag & OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME) != 0)
         {
             DestroyStageTask(work);
 

@@ -151,9 +151,9 @@ void GameObject__InitFromObject(GameObjectTask *work, MapObject *mapObject, fx32
     for (s32 i = 0; i < 3; i++)
     {
         ObjRect__SetGroupFlags(&work->colliders[i], 2, 1);
-        ObjRect__SetAttackStat(&work->colliders[i], atkFlags[i], 0x40);
-        ObjRect__SetDefenceStat(&work->colliders[i], defFlags[i], 0x3F);
-        work->colliders[i].flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        ObjRect__SetAttackStat(&work->colliders[i], atkFlags[i], OBS_RECT_HITPOWER_DEFAULT);
+        ObjRect__SetDefenceStat(&work->colliders[i], defFlags[i], OBS_RECT_DEFPOWER_DEFAULT);
+        work->colliders[i].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
     }
 
     ObjRect__SetOnDefend(&work->colliders[0], GameObject__OnDefend_Enemy);
@@ -205,9 +205,9 @@ void GameObject__Destructor(Task *task)
 
 void GameObject__SetAnimation(GameObjectTask *work, u16 animID)
 {
-    work->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
-    work->colliders[1].flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
-    work->colliders[2].flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    work->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    work->colliders[1].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    work->colliders[2].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
 
     StageTask__SetAnimation(&work->objWork, animID);
 }
@@ -536,9 +536,9 @@ void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             enemy->flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
 
         enemy->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-        enemy->colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
-        enemy->colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
-        enemy->colliders[2].flag |= OBS_RECT_WORK_FLAG_800;
+        enemy->colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        enemy->colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        enemy->colliders[2].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
         if (enemy->objWork.sequencePlayerPtr != NULL)
             StopStageSfx(enemy->objWork.sequencePlayerPtr);
@@ -597,7 +597,7 @@ void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         enemy->health--;
         enemy->mapObject->param.health++;
         enemy->blinkTimer            = 60;
-        enemy->colliders[1].hitPower = 0;
+        enemy->colliders[1].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
         GameObject__SendPacket(enemy, player, GAMEOBJECT_PACKET_1);
 
         if (player != NULL && player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
@@ -632,14 +632,14 @@ void GameObject__In_Default(void)
         else
             work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
 
-        work->colliders[0].defPower = 0xFF;
-        work->colliders[1].hitPower = 0;
+        work->colliders[0].defPower = OBS_RECT_DEFPOWER_INVINCIBLE;
+        work->colliders[1].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
 
         if (work->blinkTimer == 0)
         {
             work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
-            work->colliders[0].defPower = 0x3F;
-            work->colliders[1].hitPower = 0x40;
+            work->colliders[0].defPower = OBS_RECT_DEFPOWER_DEFAULT;
+            work->colliders[1].hitPower = OBS_RECT_HITPOWER_DEFAULT;
         }
     }
 }
@@ -652,7 +652,7 @@ void GameObject__SpriteCallback_Default(BACFrameGroupBlock_Hitbox *block, Animat
         {
             if (block->hitbox.left == block->hitbox.right && block->hitbox.top == block->hitbox.bottom)
             {
-                work->colliders[block->id].flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+                work->colliders[block->id].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
             }
             else
             {
@@ -900,9 +900,9 @@ BadnikBreakResult GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *r
                 badnik->flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
 
             badnik->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-            badnik->colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
-            badnik->colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
-            badnik->colliders[2].flag |= OBS_RECT_WORK_FLAG_800;
+            badnik->colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+            badnik->colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+            badnik->colliders[2].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
             Player__GiveComboTension(player, PLAYER_TENSION_ENEMY);
             GameObject__BoostImpactEnemy(badnik, player);

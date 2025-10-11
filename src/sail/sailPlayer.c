@@ -282,10 +282,10 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
 
             work->colliderList[1]->hitPower = 11;
             work->colliderList[2]->hitPower = 11;
-            work->colliderList[1]->hitFlag |= 4;
-            work->colliderList[2]->hitFlag |= 4;
-            work->colliderList[1]->hitFlag &= ~2;
-            work->colliderList[2]->hitFlag &= ~2;
+            work->colliderList[1]->hitFlag |= OBS_RECT_WORK_ATTR_USER_1;
+            work->colliderList[2]->hitFlag |= OBS_RECT_WORK_ATTR_USER_1;
+            work->colliderList[1]->hitFlag &= ~OBS_RECT_WORK_ATTR_NORMAL;
+            work->colliderList[2]->hitFlag &= ~OBS_RECT_WORK_ATTR_NORMAL;
 
             EffectSailWaterSprayBack__Create(work);
 
@@ -351,12 +351,12 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
         ObjRect__SetGroupFlags(work->colliderList[1], 2, 1);
         ObjRect__SetGroupFlags(work->colliderList[2], 2, 1);
 
-        work->colliderList[0]->defFlag  = -1;
-        work->colliderList[1]->defFlag  = -1;
-        work->colliderList[2]->defFlag  = -1;
+        work->colliderList[0]->defFlag  = OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE);
+        work->colliderList[1]->defFlag  = OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE);
+        work->colliderList[2]->defFlag  = OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE);
         work->colliderList[0]->hitPower = 10;
 
-        worker->colliders[0].flags |= 0x200;
+        worker->colliders[0].flags |= OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
         worker->colliders[1].atkPower = FLOAT_TO_FX32(128.0);
         worker->colliders[2].atkPower = FLOAT_TO_FX32(96.0);
     }
@@ -375,13 +375,13 @@ void SailPlayer__ColliderFunc_JetHover(StageTask *work, s32 id)
             if ((work->userFlag & (SAILPLAYER_FLAG_400 | SAILPLAYER_FLAG_BOOST)) == 0)
             {
                 collider = StageTask__GetCollider(work, 1);
-                collider->flag |= OBS_RECT_WORK_FLAG_800;
+                collider->flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             }
 
             if ((work->userFlag & SAILPLAYER_FLAG_4) == 0)
             {
                 collider = StageTask__GetCollider(work, 2);
-                collider->flag |= OBS_RECT_WORK_FLAG_800;
+                collider->flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             }
 
             if (worker->blinkTimer == 0 && (work->userFlag & (SAILPLAYER_FLAG_400 | SAILPLAYER_FLAG_4 | SAILPLAYER_FLAG_BOOST)) == 0)
@@ -398,7 +398,7 @@ void SailPlayer__ColliderFunc_JetHover(StageTask *work, s32 id)
 
         case 2:
             collider = StageTask__GetCollider(work, 1);
-            collider->flag &= ~OBS_RECT_WORK_FLAG_800;
+            collider->flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             ObjRect__HitAgain(collider);
 
             collider           = StageTask__GetCollider(work, 0);
@@ -407,7 +407,7 @@ void SailPlayer__ColliderFunc_JetHover(StageTask *work, s32 id)
 
         case 3:
             collider = StageTask__GetCollider(work, 2);
-            collider->flag &= ~OBS_RECT_WORK_FLAG_800;
+            collider->flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             ObjRect__HitAgain(collider);
 
             collider           = StageTask__GetCollider(work, 0);

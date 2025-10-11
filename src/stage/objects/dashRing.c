@@ -109,11 +109,11 @@ DashRing *CreateDashRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     animator->ani.cParam[1].palette = animator->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     animator->ani.work.cParam.palette                                        = animator->ani.cParam[0].palette;
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], DashRing_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
-    ObjRect__SetGroupFlags(&work->gameWork.colliders[1], 0x00, 0x00);
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetGroupFlags(&work->gameWork.colliders[1], 0, 0);
 
     switch (mapObject->id)
     {
@@ -227,11 +227,11 @@ DashRing *CreateDashRingRainbow(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     animator->ani.cParam[1].palette = animator->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     animator->ani.work.cParam.palette                                        = animator->ani.cParam[0].palette;
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], DashRing_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
-    ObjRect__SetGroupFlags(&work->gameWork.colliders[1], 0x00, 0x00);
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetGroupFlags(&work->gameWork.colliders[1], 0, 0);
 
     switch (mapObject->id)
     {
@@ -332,7 +332,7 @@ void SetupDashRingObject(DashRing *work)
 void DashRing_State_Active(DashRing *work)
 {
     StageTask__Draw2D(&work->gameWork.objWork, &work->aniRing.ani);
-    work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_100;
+    work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
 }
 
 void DashRing_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)

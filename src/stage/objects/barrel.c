@@ -112,16 +112,16 @@ Barrel *CreateBarrel(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -64, -152, 64, FX32_TO_WHOLE(work->dropDistance) - 184);
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], Barrel_OnDefend_DropTrigger);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -32, 20, 32, 56);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], 0, 0);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], ~1, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetOnDefend(&work->gameWork.colliders[1], Barrel_OnDefend_CaptureTrigger);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_400;
+    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     work->gameWork.colliders[1].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
     work->gameWork.colliders[1].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y) - 232;
     work->gameWork.colliders[1].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
@@ -154,10 +154,10 @@ void Barrel_Action_Sleep(Barrel *work)
     work->gameWork.objWork.userTimer = (mtMathRand() + 60) & (128 - 1);
 
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_800;
+    work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     work->gameWork.colliders[1].parent = NULL;
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
+    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     SetTaskState(&work->gameWork.objWork, Barrel_State_Sleeping);
 }
@@ -196,7 +196,7 @@ void Barrel_State_Sleeping(Barrel *work)
 void Barrel_Action_Open(Barrel *work)
 {
     work->gameWork.colliders[0].parent = NULL;
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_PAUSED;
     StageTask__SetAnimation(&work->gameWork.objWork, BARREL_ANI_BARREL_OPEN);
@@ -216,7 +216,7 @@ void Barrel_State_Open(Barrel *work)
             if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
             {
                 work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-                work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_800;
+                work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
                 work->gameWork.objWork.userWork++;
 
@@ -251,7 +251,7 @@ void Barrel_State_Open(Barrel *work)
 void Barrel_Action_Close(Barrel *work)
 {
     work->gameWork.colliders[1].parent = NULL;
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
+    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     StageTask__SetAnimation(&work->gameWork.objWork, BARREL_ANI_BARREL_CLOSE);
 
