@@ -48,7 +48,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
         AnimatorSprite3D__Init(&work->aniDiveStand[i], ANIMATOR_FLAG_NONE, work->sprDiveStand3D, i, ANIMATOR_FLAG_NONE, pixelKey, paletteKey);
         AnimatorSprite3D__ProcessAnimationFast(&work->aniDiveStand[i]);
     }
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_400000;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_VRAM_A;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dive_stand3d.bac", GetObjectDataWork(OBJDATAWORK_168), gameArchiveStage,
                              OBJ_DATA_GFX_AUTO);

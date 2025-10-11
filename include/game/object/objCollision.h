@@ -23,15 +23,17 @@ extern "C"
 enum ObjCollisionVec_
 {
     // Flags
-    OBJ_COL_VEC_HORIZONTAL = 0,
-    OBJ_COL_VEC_FLIP       = 1 << 0,
-    OBJ_COL_VEC_VERTICAL   = 1 << 1,
+    OBD_COL_X = 0,
+    OBD_COL_Y = 1 << 1,
+
+    OBD_COL_PLUS  = 0 << 0,
+    OBD_COL_MINUS = 1 << 0,
 
     // Directions
-    OBJ_COL_VEC_LEFT  = OBJ_COL_VEC_HORIZONTAL,
-    OBJ_COL_VEC_RIGHT = OBJ_COL_VEC_HORIZONTAL | OBJ_COL_VEC_FLIP,
-    OBJ_COL_VEC_UP    = OBJ_COL_VEC_VERTICAL,
-    OBJ_COL_VEC_DOWN  = OBJ_COL_VEC_VERTICAL | OBJ_COL_VEC_FLIP,
+    OBJ_COL_LEFT  = OBD_COL_X | OBD_COL_PLUS,
+    OBJ_COL_RIGHT = OBD_COL_X | OBD_COL_MINUS,
+    OBJ_COL_UP    = OBD_COL_Y | OBD_COL_PLUS,
+    OBJ_COL_DOWN  = OBD_COL_Y | OBD_COL_MINUS,
 };
 typedef u16 ObjCollisionVec;
 
@@ -39,14 +41,14 @@ enum ObjCollisionFlags_
 {
     OBJ_COL_FLAG_NONE = 0,
 
-    OBJ_COL_FLAG_USE_PLANE_B = 1 << 0,
-    OBJ_COL_FLAG_2           = 1 << 1,
-    OBJ_COL_FLAG_4           = 1 << 2,
-    OBJ_COL_FLAG_8           = 1 << 3,
-    OBJ_COL_FLAG_10          = 1 << 4,
-    OBJ_COL_FLAG_20          = 1 << 5,
-    OBJ_COL_FLAG_40          = 1 << 6,
-    OBJ_COL_FLAG_ALLOW_TOP_SOLID          = 1 << 7,
+    OBJ_COL_FLAG_USE_PLANE_B     = 1 << 0,
+    OBJ_COL_FLAG_2               = 1 << 1,
+    OBJ_COL_FLAG_4               = 1 << 2,
+    OBJ_COL_FLAG_8               = 1 << 3,
+    OBJ_COL_FLAG_10              = 1 << 4,
+    OBJ_COL_FLAG_20              = 1 << 5,
+    OBJ_COL_FLAG_40              = 1 << 6,
+    OBJ_COL_FLAG_ALLOW_TOP_SOLID = 1 << 7,
 };
 typedef u16 ObjCollisionFlags;
 
@@ -54,7 +56,7 @@ enum ObjCollisionAttr_
 {
     OBJ_COL_ATTR_NONE = 0,
 
-    OBJ_COL_ATTR_TOP_SOLID = 1 << 0,
+    OBJ_COL_ATTR_TOP_SOLID  = 1 << 0,
     OBJ_COL_ATTR_CLIFF_EDGE = 1 << 1,
     OBJ_COL_ATTR_GRIND_RAIL = 1 << 2,
 };

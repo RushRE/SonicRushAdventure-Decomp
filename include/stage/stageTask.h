@@ -68,38 +68,33 @@ enum StageTaskFlags_
 {
     STAGE_TASK_FLAG_NONE = 0x00,
 
-    STAGE_TASK_FLAG_ON_PLANE_B                 = 0x1, // use alternate collision plane (for loops and etc)
-    STAGE_TASK_FLAG_NO_OBJ_COLLISION           = 0x2,
-    STAGE_TASK_FLAG_DESTROYED                  = 0x4,
-    STAGE_TASK_FLAG_DESTROY_NEXT_FRAME         = 0x8,
-    STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT    = 0x10,
-    STAGE_TASK_FLAG_ACTIVE_DURING_PAUSE        = 0x20,
-    STAGE_TASK_FLAG_ALWAYS_RUN_PPIN            = 0x40,
-    STAGE_TASK_FLAG_DISABLE_STATE              = 0x80,
-    STAGE_TASK_FLAG_DISABLE_OBJ_2D_RELEASE     = 0x100,
-    STAGE_TASK_FLAG_NO_DESTROY_WITH_PARENT     = 0x200,
-    STAGE_TASK_FLAG_IS_CHILD_OBJ               = 0x400,
-    STAGE_TASK_FLAG_USE_PARENT_SPRITES         = 0x800,
-    STAGE_TASK_FLAG_ALLOCATED_PALETTE_ANIM_OLD = 0x1000,
-    STAGE_TASK_FLAG_DISABLE_HITSTOP            = 0x2000,
-    STAGE_TASK_FLAG_DISABLE_SHAKE              = 0x4000,
-    STAGE_TASK_FLAG_ALLOCATED_SPRITE_PALETTE   = 0x8000,
-    STAGE_TASK_FLAG_10000                      = 0x10000,
-    STAGE_TASK_FLAG_20000                      = 0x20000,
-    STAGE_TASK_FLAG_40000                      = 0x40000,
-    STAGE_TASK_FLAG_80000                      = 0x80000,
-    STAGE_TASK_FLAG_100000                     = 0x100000,
-    STAGE_TASK_FLAG_200000                     = 0x200000,
-    STAGE_TASK_FLAG_400000                     = 0x400000,
-    STAGE_TASK_FLAG_800000                     = 0x800000,
-    STAGE_TASK_FLAG_ALLOCATED_EX_WORK          = 0x1000000,
-    STAGE_TASK_FLAG_ALLOCATED_TASK_WORKER      = 0x2000000,
-    STAGE_TASK_FLAG_ALLOCATED_COLLISION_OBJ    = 0x4000000,
-    STAGE_TASK_FLAG_ALLOCATED_COLLIDERS        = 0x8000000,
-    STAGE_TASK_FLAG_ALLOCATED_OBJ_2D           = 0x10000000,
-    STAGE_TASK_FLAG_ALLOCATED_OBJ_3D           = 0x20000000,
-    STAGE_TASK_FLAG_ALLOCATED_OBJ_3DES         = 0x40000000,
-    STAGE_TASK_FLAG_ALLOCATED_OBJ_2DIN3D       = 0x80000000,
+    STAGE_TASK_FLAG_ON_PLANE_B                 = 1 << 0, // use alternate collision plane (for loops and etc)
+    STAGE_TASK_FLAG_NO_OBJ_COLLISION           = 1 << 1,
+    STAGE_TASK_FLAG_DESTROYED                  = 1 << 2,
+    STAGE_TASK_FLAG_DESTROY_NEXT_FRAME         = 1 << 3,
+    STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT    = 1 << 4,
+    STAGE_TASK_FLAG_ACTIVE_DURING_PAUSE        = 1 << 5,
+    STAGE_TASK_FLAG_ALWAYS_RUN_PPIN            = 1 << 6,
+    STAGE_TASK_FLAG_DISABLE_STATE              = 1 << 7,
+    STAGE_TASK_FLAG_DISABLE_OBJ_2D_RELEASE     = 1 << 8,
+    STAGE_TASK_FLAG_NO_DESTROY_WITH_PARENT     = 1 << 9,
+    STAGE_TASK_FLAG_IS_CHILD_OBJ               = 1 << 10,
+    STAGE_TASK_FLAG_USE_PARENT_SPRITES         = 1 << 11,
+    STAGE_TASK_FLAG_ALLOCATED_PALETTE_ANIM_OLD = 1 << 12,
+    STAGE_TASK_FLAG_DISABLE_HITSTOP            = 1 << 13,
+    STAGE_TASK_FLAG_DISABLE_SHAKE              = 1 << 14,
+    STAGE_TASK_FLAG_ALLOCATED_SPRITE_PALETTE   = 1 << 15,
+    STAGE_TASK_FLAG_UNKNOWN                    = 1 << 17,
+    STAGE_TASK_FLAG_NO_VRAM_A                  = 1 << 22,
+    STAGE_TASK_FLAG_NO_VRAM_B                  = 1 << 23,
+    STAGE_TASK_FLAG_ALLOCATED_EX_WORK          = 1 << 24,
+    STAGE_TASK_FLAG_ALLOCATED_TASK_WORKER      = 1 << 25,
+    STAGE_TASK_FLAG_ALLOCATED_COLLISION_OBJ    = 1 << 26,
+    STAGE_TASK_FLAG_ALLOCATED_COLLIDERS        = 1 << 27,
+    STAGE_TASK_FLAG_ALLOCATED_OBJ_2D           = 1 << 28,
+    STAGE_TASK_FLAG_ALLOCATED_OBJ_3D           = 1 << 29,
+    STAGE_TASK_FLAG_ALLOCATED_OBJ_3DES         = 1 << 30,
+    STAGE_TASK_FLAG_ALLOCATED_OBJ_2DIN3D       = 1 << 31,
 };
 typedef u32 StageTaskFlags;
 
@@ -305,7 +300,7 @@ struct StageTask_
     void *taskWorker;
     OBS_ACTION2D_BAC_WORK *obj_2d;
     OBS_ACTION3D_NN_WORK *obj_3d;
-    OBS_ACTION3D_ES_WORK *obj_3des;
+    OBS_ACTION3D_SIMPLE_WORK *obj_3des;
     OBS_ACTION3D_BAC_WORK *obj_2dIn3d;
     void *sequencePlayerPtr;
     StageTaskCollisionWork *collisionObj;
@@ -337,7 +332,7 @@ void StageTask__Draw2D(StageTask *work, AnimatorSpriteDS *animator);
 void StageTask__Draw2DEx(AnimatorSpriteDS *animator, VecFx32 *position, VecU16 *direction, VecFx32 *scale, StageDisplayFlags *displayFlagPtr, SpriteFrameCallback callback,
                          void *userData);
 void StageTask__Draw3D(StageTask *work, Animator3D *animator);
-void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, VecFx32 *scale, StageDisplayFlags *displayFlag, OBS_ACTION3D_ES_WORK *obj3d_es,
+void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, VecFx32 *scale, StageDisplayFlags *displayFlag, OBS_ACTION3D_SIMPLE_WORK *obj3d_es,
                          SpriteFrameCallback callback, void *userData);
 void StageTask__SetAnimatorOAMOrder(StageTask *work, u32 order);
 void StageTask__SetOAMOrder(AnimatorSprite *animator, u32 order);

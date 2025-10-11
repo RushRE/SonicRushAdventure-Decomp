@@ -2224,14 +2224,14 @@ EffectShield *CreateEffectRegularShield(Player *parent)
     OBS_DATA_WORK *fileWork = GetObjectFileWork(OBJDATAWORK_149);
     for (i = 0; i < 6; i++)
     {
-        ObjAction3dESEffectLoad(&work->objWork, &work->esWork[i], "/eff_barrier.nsbmd", 0, RegularShield__shpList[i], RegularShield__matList[i], fileWork, gameArchiveCommon);
+        ObjObjectAction3dModelSimpleLoad(&work->objWork, &work->esWork[i], "/eff_barrier.nsbmd", 0, RegularShield__shpList[i], RegularShield__matList[i], fileWork, gameArchiveCommon);
     }
 
     work->esWork[3].flags |= 0x40;
     work->esWork[4].flags |= 0x40;
     work->esWork[5].flags |= 0x40;
 
-    ObjAction3dESEffectSetScale(work->objWork.obj_3des, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
+    ObjAction3dModelSimpleSetScale(work->objWork.obj_3des, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
@@ -2424,7 +2424,7 @@ EffectShield *CreateEffectMagnetShield(Player *parent)
     OBS_DATA_WORK *fileWork = GetObjectFileWork(OBJDATAWORK_150);
     for (i = 0; i < 9; i++)
     {
-        ObjAction3dESEffectLoad(&work->objWork, &work->esWork[i], "/eff_magnet.nsbmd", 0, MagnetShield__shpList[i], MagnetShield__matList[i], fileWork, gameArchiveCommon);
+        ObjObjectAction3dModelSimpleLoad(&work->objWork, &work->esWork[i], "/eff_magnet.nsbmd", 0, MagnetShield__shpList[i], MagnetShield__matList[i], fileWork, gameArchiveCommon);
     }
 
     work->esWork[6].flags |= 0x40;
@@ -2433,7 +2433,7 @@ EffectShield *CreateEffectMagnetShield(Player *parent)
 
     work->alpha = 0;
 
-    ObjAction3dESEffectSetScale(work->objWork.obj_3des, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
+    ObjAction3dModelSimpleSetScale(work->objWork.obj_3des, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;

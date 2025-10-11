@@ -35,19 +35,19 @@ s32 ObjBlockCollision(OBS_COL_CHK_DATA *work)
 
         switch (work->vec)
         {
-            case OBJ_COL_VEC_UP:
+            case OBJ_COL_UP:
                 dist = _obj_bcol->bottom - work->y;
                 break;
 
-            case OBJ_COL_VEC_DOWN:
+            case OBJ_COL_DOWN:
                 dist = work->y - _obj_bcol->top;
                 break;
 
-            case OBJ_COL_VEC_LEFT:
+            case OBJ_COL_LEFT:
                 dist = _obj_bcol->right - work->x;
                 break;
 
-            case OBJ_COL_VEC_RIGHT:
+            case OBJ_COL_RIGHT:
                 dist = work->x - _obj_bcol->left;
                 break;
         }
@@ -56,12 +56,12 @@ s32 ObjBlockCollision(OBS_COL_CHK_DATA *work)
     }
 
     s32 block = objGetBlockColData(work);
-    if ((work->vec & OBJ_COL_VEC_VERTICAL) != 0)
+    if ((work->vec & OBD_COL_Y) != 0)
     {
         s16 offset = (work->y & 15);
         s16 distance;
 
-        if ((work->vec & OBJ_COL_VEC_FLIP) != 0)
+        if ((work->vec & OBD_COL_MINUS) != 0)
             distance = (offset - block);
         else
             distance = (offset + block);
@@ -80,7 +80,7 @@ s32 ObjBlockCollision(OBS_COL_CHK_DATA *work)
         s16 offset = (work->x & 15);
         s16 distance;
 
-        if ((work->vec & OBJ_COL_VEC_FLIP) != 0)
+        if ((work->vec & OBD_COL_MINUS) != 0)
             distance = (offset - block);
         else
             distance = (offset + block);
@@ -133,7 +133,7 @@ s32 ObjBlockCollision(OBS_COL_CHK_DATA *work)
         if (offsetY > 0)
             offsetY--;
 
-        block = (work->vec & OBJ_COL_VEC_FLIP) != 0 ? blockColData - (offsetX + offsetY) : blockColData + (offsetX + offsetY);
+        block = (work->vec & OBD_COL_MINUS) != 0 ? blockColData - (offsetX + offsetY) : blockColData + (offsetX + offsetY);
     }
 
     return block;
@@ -181,22 +181,22 @@ s32 objBlockColLimit(OBS_COL_CHK_DATA *work)
 {
     switch (work->vec)
     {
-        case OBJ_COL_VEC_UP:
+        case OBJ_COL_UP:
             if (_obj_bcol->bottom - 1 < work->y)
                 return _obj_bcol->bottom - 1 - work->y;
             // fall through
 
-        case OBJ_COL_VEC_DOWN:
+        case OBJ_COL_DOWN:
             if (_obj_bcol->top > work->y)
                 return work->y - _obj_bcol->top;
             // fall through
 
-        case OBJ_COL_VEC_LEFT:
+        case OBJ_COL_LEFT:
             if (_obj_bcol->right - 1 < work->x)
                 return _obj_bcol->right - 1 - work->x;
             // fall through
 
-        case OBJ_COL_VEC_RIGHT:
+        case OBJ_COL_RIGHT:
             if (_obj_bcol->left > work->x)
                 return work->x - _obj_bcol->left;
             break;
@@ -209,16 +209,16 @@ s32 objBlockCalcEmpty(OBS_COL_CHK_DATA *work)
 {
     switch (work->vec)
     {
-        case OBJ_COL_VEC_UP:
+        case OBJ_COL_UP:
             return 15 - (work->y & 15);
 
-        case OBJ_COL_VEC_DOWN:
+        case OBJ_COL_DOWN:
             return work->y & 15;
 
-        case OBJ_COL_VEC_LEFT:
+        case OBJ_COL_LEFT:
             return 15 - (work->x & 15);
 
-        case OBJ_COL_VEC_RIGHT:
+        case OBJ_COL_RIGHT:
             return work->x & 15;
 
         default:
@@ -230,16 +230,16 @@ s32 objBlockCalcFill(OBS_COL_CHK_DATA *work)
 {
     switch (work->vec)
     {
-        case OBJ_COL_VEC_UP:
+        case OBJ_COL_UP:
             return -(work->y & 15);
 
-        case OBJ_COL_VEC_DOWN:
+        case OBJ_COL_DOWN:
             return -(15 - (work->y & 15));
 
-        case OBJ_COL_VEC_LEFT:
+        case OBJ_COL_LEFT:
             return -(work->x & 15);
 
-        case OBJ_COL_VEC_RIGHT:
+        case OBJ_COL_RIGHT:
             return -(15 - (work->x & 15));
 
         default:

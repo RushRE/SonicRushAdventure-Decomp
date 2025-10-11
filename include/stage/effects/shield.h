@@ -11,7 +11,7 @@ typedef struct EffectShield_
 {
     StageTask objWork;
 
-    OBS_ACTION3D_ES_WORK esWork[9];
+    OBS_ACTION3D_SIMPLE_WORK esWork[9];
     s32 alpha;
     u16 field_79C;
     u16 field_79E;

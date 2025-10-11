@@ -875,7 +875,7 @@ void SailObject_ShakeScreen(StageTask *work, s32 timer)
 
         work->offset.x += shakeX >> shipShiftUnknown[shipType];
         work->offset.y += shakeY >> shipShiftUnknown[shipType];
-        if ((work->flag & STAGE_TASK_FLAG_20000) == 0)
+        if ((work->flag & STAGE_TASK_FLAG_UNKNOWN) == 0)
             work->offset.z += shakeX >> shipShiftUnknown[shipType];
     }
 }

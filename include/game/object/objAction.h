@@ -63,15 +63,15 @@ typedef struct OBS_ACTION3D_NN_WORK_
     ObjActionFlags flags;
 } OBS_ACTION3D_NN_WORK;
 
-typedef struct OBS_ACTION3D_ES_WORK_
+typedef struct OBS_ACTION3D_SIMPLE_WORK_
 {
     AnimatorShape3D ani;
 
-    struct OBS_ACTION3D_ES_WORK_ *next;
+    struct OBS_ACTION3D_SIMPLE_WORK_ *next;
     NNSG3dResFileHeader *resource;
     OBS_DATA_WORK *fileWork;
     ObjActionFlags flags;
-} OBS_ACTION3D_ES_WORK;
+} OBS_ACTION3D_SIMPLE_WORK;
 
 // --------------------
 // FUNCTIONS
@@ -81,7 +81,7 @@ typedef struct OBS_ACTION3D_ES_WORK_
 void ObjObjectAction2dBACLoad(struct StageTask_ *work, OBS_ACTION2D_BAC_WORK *obj_2d, const char *filePath, OBS_DATA_WORK *file, NNSiFndArchiveHeader *archive, u16 gfxSize);
 void ObjAction3dNNModelLoad(struct StageTask_ *work, OBS_ACTION3D_NN_WORK *obj_3d, const char *path, s32 id, OBS_DATA_WORK *file, NNSiFndArchiveHeader *archive);
 void ObjAction3dNNMotionLoad(struct StageTask_ *work, OBS_ACTION3D_NN_WORK *obj_3d, const char *path, OBS_DATA_WORK *file, NNSiFndArchiveHeader *archive);
-void ObjAction3dESEffectLoad(struct StageTask_ *work, OBS_ACTION3D_ES_WORK *es_work, const char *path, s32 mdlID, u16 shpID, u16 matID, OBS_DATA_WORK *file,
+void ObjObjectAction3dModelSimpleLoad(struct StageTask_ *work, OBS_ACTION3D_SIMPLE_WORK *obj_3d, const char *path, s32 mdlID, u16 shpID, u16 matID, OBS_DATA_WORK *file,
                              NNSiFndArchiveHeader *archive);
 void ObjObjectAction3dBACLoad(struct StageTask_ *work, OBS_ACTION3D_BAC_WORK *obj_2d, const char *path, u16 textureSize, u16 paletteSize, OBS_DATA_WORK *file,
                               NNSiFndArchiveHeader *archive);
@@ -95,7 +95,7 @@ void ObjObjectActionReleaseGfxRefs(struct StageTask_ *work);
 // INLINE FUNCTIONS
 // --------------------
 
-RUSH_INLINE void ObjAction3dESEffectSetScale(OBS_ACTION3D_ES_WORK *esWork, fx32 scaleX, fx32 scaleY, fx32 scaleZ)
+RUSH_INLINE void ObjAction3dModelSimpleSetScale(OBS_ACTION3D_SIMPLE_WORK *esWork, fx32 scaleX, fx32 scaleY, fx32 scaleZ)
 {
     esWork->ani.work.scale.x = scaleX;
     esWork->ani.work.scale.y = scaleY;

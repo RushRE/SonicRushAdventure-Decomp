@@ -1064,7 +1064,7 @@ void EffectWaterBubble__State_202A198(EffectWaterBubble *work)
     colData.x    = FX32_TO_WHOLE(work->objWork.position.x);
     colData.y    = FX32_TO_WHOLE(work->objWork.position.y);
     colData.flag = OBJ_COL_FLAG_USE_PLANE_B;
-    colData.vec  = OBJ_COL_VEC_VERTICAL;
+    colData.vec  = OBD_COL_Y;
     colData.dir  = NULL;
     colData.attr = NULL;
 

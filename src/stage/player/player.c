@@ -5953,7 +5953,7 @@ void Player__HandleGroundCollisions(Player *player)
             pData.x    = FX32_TO_WHOLE(player->objWork.position.x);
             pData.y    = FX32_TO_WHOLE(player->objWork.position.y) + player->objWork.hitboxRect.top - 4;
             pData.flag = player->objWork.flag & STAGE_TASK_FLAG_ON_PLANE_B;
-            pData.vec  = OBJ_COL_VEC_DOWN;
+            pData.vec  = OBJ_COL_DOWN;
             pData.dir  = &dir;
             pData.attr = NULL;
 
@@ -6107,7 +6107,7 @@ BOOL Player__IsBalancing(Player *player, BOOL updateAction)
     colWork.x    = FX32_TO_WHOLE(player->objWork.position.x);
     colWork.y    = FX32_TO_WHOLE(player->objWork.position.y) + player->objWork.hitboxRect.bottom;
     colWork.flag = player->objWork.flag & STAGE_TASK_FLAG_ON_PLANE_B;
-    colWork.vec  = OBJ_COL_VEC_UP;
+    colWork.vec  = OBJ_COL_UP;
     colWork.dir  = NULL;
     colWork.attr = NULL;
 

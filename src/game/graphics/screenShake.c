@@ -129,9 +129,51 @@ void DestroyScreenShake(void)
 
 void ScreenShake_Main(void)
 {
-    static const s8 shakeTable1[] = { 0x20, 0x20, -0x20, -0x20 };
-    static const s8 shakeTable2[] = { 0x20, 0x20, -0x20, 0x20, 0x20, -0x20, 0x20, 0x20, -0x20, 0x20, 0x20, -0x20 };
-    static const s8 shakeTable3[] = { 0x2E, -0x3E, -0x3E, 0x4C, -0x1C, -0x1C, 0x0E, 0x24, 0x4C, 0x42, 0x42, -0x3E, 0x4C, 0x4C, -0x1C, 0x0E, 0x0E, 0x24, -0x34, -0x34, 0x22, 0x00 };
+    static const s8 shakeMedTable[] = {
+        (0) | (2 << 4),
+        (0) | (2 << 4),
+        (0) | (-2 << 4),
+        (0) | (-2 << 4),
+    };
+    
+    static const s8 shakeWeakTable[] = {
+        (0) | (2 << 4),  // [Line formatting comment]
+        (0) | (2 << 4),  // [Line formatting comment]
+        (0) | (-2 << 4), // [Line formatting comment]
+        (0) | (2 << 4),  // [Line formatting comment]
+        (0) | (2 << 4),  // [Line formatting comment]
+        (0) | (-2 << 4), // [Line formatting comment]
+        (0) | (2 << 4),  // [Line formatting comment]
+        (0) | (2 << 4),  // [Line formatting comment]
+        (0) | (-2 << 4), // [Line formatting comment]
+        (0) | (2 << 4),  // [Line formatting comment]
+        (0) | (2 << 4),  // [Line formatting comment]
+        (0) | (-2 << 4), // [Line formatting comment]
+    };
+
+    static const s8 shakeStrongTable[] = {
+        (-2 & 0x0F) | (2 << 4),  // [Line formatting comment]
+        (2 & 0x0F) | (-4 << 4),  // [Line formatting comment]
+        (2 & 0x0F) | (-4 << 4),  // [Line formatting comment]
+        (-4 & 0x0F) | (4 << 4),  // [Line formatting comment]
+        (4 & 0x0F) | (-2 << 4),  // [Line formatting comment]
+        (4 & 0x0F) | (-2 << 4),  // [Line formatting comment]
+        (-2 & 0x0F) | (0 << 4),  // [Line formatting comment]
+        (4 & 0x0F) | (2 << 4),   // [Line formatting comment]
+        (-4 & 0x0F) | (4 << 4),  // [Line formatting comment]
+        (2 & 0x0F) | (4 << 4),   // [Line formatting comment]
+        (2 & 0x0F) | (4 << 4),   // [Line formatting comment]
+        (2 & 0x0F) | (-4 << 4),  // [Line formatting comment]
+        (-4 & 0x0F) | (4 << 4),  // [Line formatting comment]
+        (-4 & 0x0F) | (4 << 4),  // [Line formatting comment]
+        (4 & 0x0F) | (-2 << 4),  // [Line formatting comment]
+        (-2 & 0x0F) | (0 << 4),  // [Line formatting comment]
+        (-2 & 0x0F) | (0 << 4),  // [Line formatting comment]
+        (4 & 0x0F) | (2 << 4),   // [Line formatting comment]
+        (-4 & 0x0F) | (-4 << 4), // [Line formatting comment]
+        (-4 & 0x0F) | (-4 << 4), // [Line formatting comment]
+        (2 & 0x0F) | (2 << 4),   // [Line formatting comment]
+    };
 
     ScreenShake *work = TaskGetWorkCurrent(ScreenShake);
 
@@ -183,8 +225,8 @@ void ScreenShake_Main(void)
                     if (work->timer >= 12)
                         work->timer = 0;
 
-                    work->offset.x = FX32_FROM_WHOLE((s8)((shakeTable2[work->timer] & 0xF) >> 1));
-                    work->offset.y = FX32_FROM_WHOLE((s8)((shakeTable2[work->timer] >> 4) >> 1));
+                    work->offset.x = FX32_FROM_WHOLE((s8)((shakeWeakTable[work->timer] & 0xF) >> 1));
+                    work->offset.y = FX32_FROM_WHOLE((s8)((shakeWeakTable[work->timer] >> 4) >> 1));
                     break;
 
                 case SCREENSHAKE_B_SHORT:
@@ -207,8 +249,8 @@ void ScreenShake_Main(void)
                     if (work->timer >= 12)
                         work->timer = 0;
 
-                    work->offset.x = FX32_FROM_WHOLE((s8)(shakeTable2[work->timer] & 0xF));
-                    work->offset.y = FX32_FROM_WHOLE((s8)(shakeTable2[work->timer] >> 4));
+                    work->offset.x = FX32_FROM_WHOLE((s8)(shakeWeakTable[work->timer] & 0xF));
+                    work->offset.y = FX32_FROM_WHOLE((s8)(shakeWeakTable[work->timer] >> 4));
 
                     // if (work->offset.x < 0)
                     if ((work->offset.x & 0x8000) != 0)
@@ -238,8 +280,8 @@ void ScreenShake_Main(void)
                     if (work->timer >= 16)
                         work->timer = 0;
 
-                    work->offset.x = FX32_FROM_WHOLE((s8)(shakeTable1[work->timer & 3] & 0xF));
-                    work->offset.y = FX32_FROM_WHOLE((s8)(shakeTable1[work->timer & 3] >> 4));
+                    work->offset.x = FX32_FROM_WHOLE((s8)(shakeMedTable[work->timer & 3] & 0xF));
+                    work->offset.y = FX32_FROM_WHOLE((s8)(shakeMedTable[work->timer & 3] >> 4));
 
                     // if (work->offset.x < 0)
                     if ((work->offset.x & 0x8000) != 0)
@@ -269,8 +311,8 @@ void ScreenShake_Main(void)
                     if (work->timer >= 22)
                         work->timer = 0;
 
-                    work->offset.x = FX32_FROM_WHOLE((s8)(shakeTable3[work->timer] & 0xF));
-                    work->offset.y = FX32_FROM_WHOLE((s8)(shakeTable3[work->timer] >> 4));
+                    work->offset.x = FX32_FROM_WHOLE((s8)(shakeStrongTable[work->timer] & 0xF));
+                    work->offset.y = FX32_FROM_WHOLE((s8)(shakeStrongTable[work->timer] >> 4));
 
                     // if (work->offset.x < 0)
                     if ((work->offset.x & 0x8000) != 0)
@@ -300,8 +342,8 @@ void ScreenShake_Main(void)
                     if (work->timer >= 22)
                         work->timer = 0;
 
-                    work->offset.x = FX32_FROM_WHOLE((s8)(shakeTable3[work->timer] & 0xF));
-                    work->offset.y = FX32_FROM_WHOLE((s8)(shakeTable3[work->timer] >> 4));
+                    work->offset.x = FX32_FROM_WHOLE((s8)(shakeStrongTable[work->timer] & 0xF));
+                    work->offset.y = FX32_FROM_WHOLE((s8)(shakeStrongTable[work->timer] >> 4));
 
                     // if (work->offset.x < 0)
                     if ((work->offset.x & 0x8000) != 0)

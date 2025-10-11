@@ -311,7 +311,7 @@ void CreateItemBoxReward(s32 type)
         work = TaskGetWork(itemBoxRewardTask, ItemBoxReward);
         TaskInitWork8(work);
 
-        work->objWork.flag |= STAGE_TASK_FLAG_800000 | STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+        work->objWork.flag |= STAGE_TASK_FLAG_NO_VRAM_B | STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
         work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_SCALE | DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_SCREEN_RELATIVE;
 

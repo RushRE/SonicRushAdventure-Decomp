@@ -172,9 +172,9 @@ StageTask *CreateStageTaskEx_(u32 priority, TaskGroup group)
     if ((g_obj.flag & OBJECTMANAGER_FLAG_VRAM_ON_AB) == 0)
     {
         if ((g_obj.flag & OBJECTMANAGER_FLAG_VRAM_ON_B) != 0)
-            work->flag |= STAGE_TASK_FLAG_400000;
+            work->flag |= STAGE_TASK_FLAG_NO_VRAM_A;
         else
-            work->flag |= STAGE_TASK_FLAG_800000;
+            work->flag |= STAGE_TASK_FLAG_NO_VRAM_B;
     }
 
     SetTaskViewCheckFunc(work, StageTask__ViewCheck_Default);
@@ -447,7 +447,7 @@ void StageTask_Destructor(Task *task)
         }
     }
 
-    for (OBS_ACTION3D_ES_WORK *esWork = work->obj_3des; esWork != NULL; esWork = esWork->next)
+    for (OBS_ACTION3D_SIMPLE_WORK *esWork = work->obj_3des; esWork != NULL; esWork = esWork->next)
     {
         Animator3D__Release(&esWork->ani.work);
 
@@ -926,7 +926,7 @@ RUSH_INLINE void Copy_VecFx32(VecFx32 *target, VecFx32 const *source)
 //! Allows passing two arguments at once to functions taking sin and cos parameters next to each other.
 #define FX_SIN_AND_COS(angle) SinFX(FX_SINCOSCAST(angle)), CosFX(FX_SINCOSCAST(angle))
 
-void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, VecFx32 *scale, StageDisplayFlags *displayFlag, OBS_ACTION3D_ES_WORK *obj3d_es_arg,
+void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, VecFx32 *scale, StageDisplayFlags *displayFlag, OBS_ACTION3D_SIMPLE_WORK *obj3d_es_arg,
                          SpriteFrameCallback callback, void *userData)
 {
     // Leaving this scratch here in case it becomes possible to compile this file using MW2.0sp5. However, it is fine using the lower compiler version as a workaround.
@@ -1220,7 +1220,7 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
 
     if ((copyStageDisplayFlags & DISPLAY_FLAG_NO_DRAW) == 0)
     {
-        OBS_ACTION3D_ES_WORK *obj3d_es = obj3d_es_arg;
+        OBS_ACTION3D_SIMPLE_WORK *obj3d_es = obj3d_es_arg;
         if (obj3d_es != NULL)
         {
             while (TRUE)

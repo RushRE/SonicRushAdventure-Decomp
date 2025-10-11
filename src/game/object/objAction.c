@@ -30,10 +30,10 @@ void ObjObjectAction2dBACLoad(StageTask *work, OBS_ACTION2D_BAC_WORK *obj_2d, co
     work->obj_2d->fileWork = file;
 
     work->obj_2d->ani.flags = ANIMATORSPRITEDS_FLAG_NONE;
-    if ((work->flag & STAGE_TASK_FLAG_400000) != 0)
+    if ((work->flag & STAGE_TASK_FLAG_NO_VRAM_A) != 0)
         work->obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_A;
 
-    if ((work->flag & STAGE_TASK_FLAG_800000) != 0)
+    if ((work->flag & STAGE_TASK_FLAG_NO_VRAM_B) != 0)
         work->obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_B;
 
     ObjAction2dBACLoad(&work->obj_2d->ani, filePath, gfxSize, file, archive);
@@ -164,23 +164,23 @@ void ObjAction3dNNMotionLoad(StageTask *work, OBS_ACTION3D_NN_WORK *obj_3d, cons
     }
 }
 
-void ObjAction3dESEffectLoad(StageTask *work, OBS_ACTION3D_ES_WORK *es_work, const char *path, s32 mdlID, u16 shpID, u16 matID, OBS_DATA_WORK *file, NNSiFndArchiveHeader *archive)
+void ObjObjectAction3dModelSimpleLoad(StageTask *work, OBS_ACTION3D_SIMPLE_WORK *obj_3d, const char *path, s32 mdlID, u16 shpID, u16 matID, OBS_DATA_WORK *file, NNSiFndArchiveHeader *archive)
 {
-    if (es_work == NULL)
+    if (obj_3d == NULL)
     {
-        es_work = HeapAllocHead(HEAP_USER, sizeof(*es_work));
-        MI_CpuClear8(es_work, sizeof(*es_work));
+        obj_3d = HeapAllocHead(HEAP_USER, sizeof(*obj_3d));
+        MI_CpuClear8(obj_3d, sizeof(*obj_3d));
         work->flag |= STAGE_TASK_FLAG_ALLOCATED_OBJ_3DES;
     }
 
     if (work->obj_3des != NULL)
     {
-        OBS_ACTION3D_ES_WORK *objWork = work->obj_3des;
+        OBS_ACTION3D_SIMPLE_WORK *objWork = work->obj_3des;
         while (TRUE)
         {
             if (objWork->next == NULL)
             {
-                objWork->next = es_work;
+                objWork->next = obj_3d;
                 break;
             }
 
@@ -189,13 +189,13 @@ void ObjAction3dESEffectLoad(StageTask *work, OBS_ACTION3D_ES_WORK *es_work, con
     }
     else
     {
-        work->obj_3des = es_work;
+        work->obj_3des = obj_3d;
     }
 
-    AnimatorShape3D__Init(&es_work->ani, ANIMATOR_FLAG_NONE);
+    AnimatorShape3D__Init(&obj_3d->ani, ANIMATOR_FLAG_NONE);
 
     if (archive != NULL)
-        es_work->flags |= OBJ_ACTION_FLAG_USING_ARCHIVE;
+        obj_3d->flags |= OBJ_ACTION_FLAG_USING_ARCHIVE;
 
     // load file from archive
     NNSG3dResFileHeader *resource = (NNSG3dResFileHeader *)ObjDataLoad(file, path, archive);
@@ -203,23 +203,23 @@ void ObjAction3dESEffectLoad(StageTask *work, OBS_ACTION3D_ES_WORK *es_work, con
     // as a backup, try loading the file from the root directory instead!
     if (resource == NULL && archive != NULL)
     {
-        es_work->flags &= ~OBJ_ACTION_FLAG_USING_ARCHIVE;
+        obj_3d->flags &= ~OBJ_ACTION_FLAG_USING_ARCHIVE;
         resource = (NNSG3dResFileHeader *)ObjDataLoad(file, path, NULL);
     }
 
     if (resource != NULL)
     {
-        es_work->resource = resource;
+        obj_3d->resource = resource;
 
         if (file != NULL)
         {
-            es_work->fileWork = file;
+            obj_3d->fileWork = file;
             if (file->referenceCount == 1)
                 NNS_G3dResDefaultSetup(resource);
         }
 
         if (resource != NULL)
-            AnimatorShape3D__SetResource(&es_work->ani, resource, mdlID, matID, shpID);
+            AnimatorShape3D__SetResource(&obj_3d->ani, resource, mdlID, matID, shpID);
     }
 }
 

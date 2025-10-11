@@ -2905,7 +2905,7 @@
 .public ObjObjectAction2dBACLoad
 .public ObjAction3dNNModelLoad
 .public ObjAction3dNNMotionLoad
-.public ObjAction3dESEffectLoad
+.public ObjObjectAction3dModelSimpleLoad
 .public ObjObjectAction3dBACLoad
 .public ObjObjectActionAllocSprite
 .public ObjObjectActionAllocTexture
