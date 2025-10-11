@@ -17,11 +17,14 @@ enum ObjActionFlags_
 {
     OBJ_ACTION_FLAG_NONE = 0x00,
 
-    OBJ_ACTION_FLAG_USING_ARCHIVE = 1 << 0,
-
-    OBJ_ACTION_FLAG_DRAW_WITH_OWN_MATRIX33    = 0x40,
-
-    OBJ_ACTION_FLAG_DO_NOT_DRAW = 0x80
+    OBJ_ACTION_FLAG_USING_ARCHIVE          = 1 << 0,
+    OBJ_ACTION_FLAG_2                      = 1 << 1,
+    OBJ_ACTION_FLAG_4                      = 1 << 2,
+    OBJ_ACTION_FLAG_8                      = 1 << 3,
+    OBJ_ACTION_FLAG_10                     = 1 << 4,
+    OBJ_ACTION_FLAG_20                     = 1 << 5,
+    OBJ_ACTION_FLAG_DRAW_WITH_OWN_ROTATION = 1 << 6,
+    OBJ_ACTION_FLAG_DO_NOT_DRAW            = 1 << 7
 };
 typedef u32 ObjActionFlags;
 
@@ -79,9 +82,9 @@ void ObjObjectAction2dBACLoad(struct StageTask_ *work, OBS_ACTION2D_BAC_WORK *ob
 void ObjAction3dNNModelLoad(struct StageTask_ *work, OBS_ACTION3D_NN_WORK *obj_3d, const char *path, s32 id, OBS_DATA_WORK *file, NNSiFndArchiveHeader *archive);
 void ObjAction3dNNMotionLoad(struct StageTask_ *work, OBS_ACTION3D_NN_WORK *obj_3d, const char *path, OBS_DATA_WORK *file, NNSiFndArchiveHeader *archive);
 void ObjAction3dESEffectLoad(struct StageTask_ *work, OBS_ACTION3D_ES_WORK *es_work, const char *path, s32 mdlID, u16 shpID, u16 matID, OBS_DATA_WORK *file,
-                                            NNSiFndArchiveHeader *archive);
+                             NNSiFndArchiveHeader *archive);
 void ObjObjectAction3dBACLoad(struct StageTask_ *work, OBS_ACTION3D_BAC_WORK *obj_2d, const char *path, u16 textureSize, u16 paletteSize, OBS_DATA_WORK *file,
-                                             NNSiFndArchiveHeader *archive);
+                              NNSiFndArchiveHeader *archive);
 
 // Graphics allocation object actions
 void ObjObjectActionAllocSprite(struct StageTask_ *work, size_t size, OBS_SPRITE_REF *ref);

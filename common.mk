@@ -39,6 +39,9 @@ TOOLSDIR     := $(WORK_DIR)/tools
 include $(WORK_DIR)/platform.mk
 include $(WORK_DIR)/binutils.mk
 
+# These files appear to be compiled with different compiler versions to most files
+$(BUILD_DIR)/src/stage/stageTask.o: MWCCVER := 2.0/sp1p2
+
 # NitroSDK tools
 MWCC          = $(TOOLSDIR)/mwccarm/$(MWCCVER)/mwccarm.exe
 MWAS          = $(TOOLSDIR)/mwccarm/$(MWCCVER)/mwasmarm.exe

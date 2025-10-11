@@ -49,7 +49,8 @@ void CreateObjectManager(void)
     ObjDrawInit();
 
     if (obj_ptcb == NULL)
-        obj_ptcb = TaskCreateNoWork(ObjectManager_Main, ObjectManager_Destructor, TASK_FLAG_NONE, TASK_PAUSELEVEL_0, TASK_PRIORITY_UPDATE_LIST_END - 2, TASK_GROUP(5), "ObjectManager");
+        obj_ptcb =
+            TaskCreateNoWork(ObjectManager_Main, ObjectManager_Destructor, TASK_FLAG_NONE, TASK_PAUSELEVEL_0, TASK_PRIORITY_UPDATE_LIST_END - 2, TASK_GROUP(5), "ObjectManager");
 }
 
 void ObjectManager_Main(void)
@@ -293,7 +294,8 @@ void StageTask_Main(void)
             }
         }
 
-        if ((g_obj.flag & (OBJECTMANAGER_FLAG_USE_BLOCK_COLLISIONS | OBJECTMANAGER_FLAG_USE_DIFF_COLLISIONS)) != 0 && (work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT) == 0)
+        if ((g_obj.flag & (OBJECTMANAGER_FLAG_USE_BLOCK_COLLISIONS | OBJECTMANAGER_FLAG_USE_DIFF_COLLISIONS)) != 0
+            && (work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT) == 0)
         {
             work->rideObj  = NULL;
             work->touchObj = NULL;
@@ -729,14 +731,6 @@ void StageTask__ObjectCollision(StageTask *work)
     work->prevPosition.y = startY;
 }
 
-enum MiddleOfScreenCoordinates
-{
-    X_MID_SCREEN    = HW_LCD_WIDTH / 2,
-    Y_MID_SCREEN    = HW_LCD_HEIGHT / 2,
-    X_MID_SCREEN_FX = FX32_FROM_WHOLE(X_MID_SCREEN),
-    Y_MID_SCREEN_FX = FX32_FROM_WHOLE(Y_MID_SCREEN)
-};
-
 void StageTask__Draw2D(StageTask *work, AnimatorSpriteDS *animator)
 {
     VecFx32 position;
@@ -856,14 +850,14 @@ void StageTask__Draw2DEx(AnimatorSpriteDS *animator, VecFx32 *position, VecU16 *
 
     if (g_obj.scale.x != FLOAT_TO_FX32(1.0))
     {
-        animator->position[0].x = MultiplyFX(animator->position[0].x - X_MID_SCREEN, g_obj.scale.x) + X_MID_SCREEN;
-        animator->position[1].x = MultiplyFX(animator->position[1].x - X_MID_SCREEN, g_obj.scale.x) + X_MID_SCREEN;
+        animator->position[0].x = MultiplyFX(animator->position[0].x - HW_LCD_CENTER_X, g_obj.scale.x) + HW_LCD_CENTER_X;
+        animator->position[1].x = MultiplyFX(animator->position[1].x - HW_LCD_CENTER_X, g_obj.scale.x) + HW_LCD_CENTER_X;
     }
 
     if (g_obj.scale.y != FLOAT_TO_FX32(1.0))
     {
-        animator->position[0].y = MultiplyFX(animator->position[0].y - Y_MID_SCREEN, g_obj.scale.y) + Y_MID_SCREEN;
-        animator->position[1].y = MultiplyFX(animator->position[1].y - Y_MID_SCREEN, g_obj.scale.y) + Y_MID_SCREEN;
+        animator->position[0].y = MultiplyFX(animator->position[0].y - HW_LCD_CENTER_Y, g_obj.scale.y) + HW_LCD_CENTER_Y;
+        animator->position[1].y = MultiplyFX(animator->position[1].y - HW_LCD_CENTER_Y, g_obj.scale.y) + HW_LCD_CENTER_Y;
     }
 
     if ((copyDisplayFlagPtr & DISPLAY_FLAG_NO_DRAW) == 0)
@@ -917,7 +911,7 @@ void StageTask__Draw3D(StageTask *work, Animator3D *animator)
     StageTask__Draw3DEx(animator, &position, &direction, &work->scale, &work->displayFlag, work->obj_3des, (SpriteFrameCallback)StageTask__SpriteBlockCallback_Hitbox, work);
 }
 
-static void Copy_VecFx32(VecFx32 *target, VecFx32 const *source)
+RUSH_INLINE void Copy_VecFx32(VecFx32 *target, VecFx32 const *source)
 {
     // A matching decomp does require this variable declaration order.
     const fx32 x = source->x, z = source->z, y = source->y;
@@ -926,27 +920,22 @@ static void Copy_VecFx32(VecFx32 *target, VecFx32 const *source)
     target->z = z;
 }
 
-static void Copy_Mtx44(MtxFx44 *target, MtxFx44 const *source)
-{
-    target->a = source->a;
-}
-
 /* "Necessary" in order to match the bloat LSL16/LSR16 pairs (which probably stem from implicit conversions in
     the source code across inlined functions (or macros) but I couldn't find the right combination) */
 #define FX_SINCOSCAST (s32)(u16)
 //! Allows passing two arguments at once to functions taking sin and cos parameters next to each other.
 #define FX_SIN_AND_COS(angle) SinFX(FX_SINCOSCAST(angle)), CosFX(FX_SINCOSCAST(angle))
 
-NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, VecFx32 *scale, StageDisplayFlags *displayFlag, OBS_ACTION3D_ES_WORK *obj3d_es_arg,
-                                       SpriteFrameCallback callback, void *userData)
+void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, VecFx32 *scale, StageDisplayFlags *displayFlag, OBS_ACTION3D_ES_WORK *obj3d_es_arg,
+                         SpriteFrameCallback callback, void *userData)
 {
-#ifdef NON_MATCHING
+    // Leaving this scratch here in case it becomes possible to compile this file using MW2.0sp5. However, it is fine using the lower compiler version as a workaround.
     // https://decomp.me/scratch/9f4ui: 100% with MW < 2.0sp5, but only close to 100% otherwise
 
     AnimatorMDL *mdlAnimator;
     struct AnimatorSprite3DSpecific *sprite3DAnimatorSpecific;
     StageDisplayFlags copyStageDisplayFlags;
-    s32 disablePosition;
+    BOOL disablePosition;
     u32 i;
     Camera3D defaultCamera3D;
     MtxFx44 backupNNS_G3dGlb_projMtx;
@@ -1054,7 +1043,7 @@ NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, 
     }
 
     disablePosition = (copyStageDisplayFlags & DISPLAY_FLAG_DISABLE_POSITION);
-    if (disablePosition == 0)
+    if (disablePosition == FALSE)
     {
         xCameraFunc = 0;
         yCameraFunc = 0;
@@ -1086,18 +1075,18 @@ NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, 
             animator->translation.y = animator->translation.y - MultiplyFX(position->z, g_obj.depth);
         }
 
-        if (g_obj.scale.x != FX_ONE)
+        if (g_obj.scale.x != FLOAT_TO_FX32(1.0))
         {
-            animator->translation.x = X_MID_SCREEN_FX + MultiplyFX(animator->translation.x - X_MID_SCREEN_FX, g_obj.scale.x);
+            animator->translation.x = FX32_FROM_WHOLE(HW_LCD_CENTER_X) + MultiplyFX(animator->translation.x - FX32_FROM_WHOLE(HW_LCD_CENTER_X), g_obj.scale.x);
         }
 
-        if (g_obj.scale.y != FX_ONE)
+        if (g_obj.scale.y != FLOAT_TO_FX32(1.0))
         {
-            animator->translation.y = -1 * (Y_MID_SCREEN_FX + MultiplyFX(-Y_MID_SCREEN_FX - animator->translation.y, g_obj.scale.y));
+            animator->translation.y = -1 * (FX32_FROM_WHOLE(HW_LCD_CENTER_Y) + MultiplyFX(-FX32_FROM_WHOLE(HW_LCD_CENTER_Y) - animator->translation.y, g_obj.scale.y));
         }
     }
 
-    if (((copyStageDisplayFlags & DISPLAY_FLAG_DISABLE_ROTATION) == 0) && (disablePosition == 0))
+    if (((copyStageDisplayFlags & DISPLAY_FLAG_DISABLE_ROTATION) == 0) && (disablePosition == FALSE))
     {
         MTX_Identity33(&animator->rotation);
         MTX_RotY33(&mat33Rotations, FX_SIN_AND_COS(baseAngleRotationAroundYAxis));
@@ -1110,7 +1099,7 @@ NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, 
         MTX_Concat33(&animator->rotation, &mat33Rotations, &animator->rotation);
     }
 
-    s32 xScaled = FX_ONE, yScaled = FX_ONE, zScaled = FX_ONE;
+    fx32 xScaled = FLOAT_TO_FX32(1.0), yScaled = FLOAT_TO_FX32(1.0), zScaled = FLOAT_TO_FX32(1.0);
     if (scale != NULL)
     {
         const fx32 localYScaled = MultiplyFX(g_obj.scale.y, scale->y);
@@ -1137,12 +1126,12 @@ NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, 
         const fx32 frustumHalfHeight        = MultiplyFX(tangentHalfFOV, nearPlaneDistance);
         const fx32 frustumHalfWidth         = MultiplyFX(frustumHalfHeight, ptrConfig->aspectRatio);
         const fx32 nearByZ                  = FX_Div(ptrConfig->projNear, g_obj.cameraConfig->lookAtTo.z);
-        const fx32 frustumCenterY           = MultiplyFX(nearByZ, (Y_MID_SCREEN_FX + animator->translation.y));
-        const fx32 frustumCenterX           = MultiplyFX(nearByZ, (X_MID_SCREEN_FX - animator->translation.x));
-        animator->translation.x             = X_MID_SCREEN_FX;
-        animator->translation.y             = -Y_MID_SCREEN_FX;
+        const fx32 frustumCenterY           = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_Y) + animator->translation.y));
+        const fx32 frustumCenterX           = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_X) - animator->translation.x));
+        animator->translation.x             = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
+        animator->translation.y             = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
 
-        Copy_Mtx44(&backupNNS_G3dGlb_projMtx, &NNS_G3dGlb.projMtx);
+        backupNNS_G3dGlb_projMtx = NNS_G3dGlb.projMtx;
 
         const fx32 top    = -frustumCenterY + frustumHalfHeight;
         const fx32 bottom = -(frustumHalfHeight + frustumCenterY);
@@ -1154,20 +1143,19 @@ NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, 
     }
     else if (copyStageDisplayFlags & DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG)
     {
-        const fx32 defaultFOV = FLOAT_TO_FX32(3.9375); // or 0x3F00
+        const u16 defaultFOV = FLOAT_DEG_TO_IDX(88.59375); // or 0x3F00
         // MW < 2.0sp1p5 seems necessary in order to match the early computing of the sin/cos array indices.
         defaultCamera3D                = *g_obj.cameraConfig;
         defaultCamera3D.config.projFOV = defaultFOV;
-        defaultCamera3D.lookAtFrom.x   = X_MID_SCREEN_FX;
-        defaultCamera3D.lookAtFrom.y   = -Y_MID_SCREEN_FX;
-        defaultCamera3D.lookAtFrom.z   = 0;
-        defaultCamera3D.lookAtTo.x     = X_MID_SCREEN_FX;
-        defaultCamera3D.lookAtTo.y     = -Y_MID_SCREEN_FX;
-        const fx32 cotangentHalfFOV    = FX_Div(CosFX(FX_SINCOSCAST(defaultCamera3D.config.projFOV)), SinFX(FX_SINCOSCAST(defaultCamera3D.config.projFOV)));
-        defaultCamera3D.lookAtTo.z     = cotangentHalfFOV * Y_MID_SCREEN;
-        defaultCamera3D.lookAtUp.x     = 0;
-        defaultCamera3D.lookAtUp.y     = FX_ONE;
-        defaultCamera3D.lookAtUp.z     = 0;
+        defaultCamera3D.lookAtFrom.x   = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
+        defaultCamera3D.lookAtFrom.y   = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
+        defaultCamera3D.lookAtFrom.z   = FLOAT_TO_FX32(0.0);
+        defaultCamera3D.lookAtTo.x     = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
+        defaultCamera3D.lookAtTo.y     = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
+        defaultCamera3D.lookAtTo.z     = HW_LCD_CENTER_Y * FX_Div(CosFX(FX_SINCOSCAST(defaultCamera3D.config.projFOV)), SinFX(FX_SINCOSCAST(defaultCamera3D.config.projFOV)));
+        defaultCamera3D.lookAtUp.x     = FLOAT_TO_FX32(0.0);
+        defaultCamera3D.lookAtUp.y     = FLOAT_TO_FX32(1.0);
+        defaultCamera3D.lookAtUp.z     = FLOAT_TO_FX32(0.0);
         Camera3D__LoadState(&defaultCamera3D);
     }
 
@@ -1244,11 +1232,11 @@ NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, 
                 {
                     Copy_VecFx32(&obj3d_es->ani.work.scale, &animator->scale);
                     Copy_VecFx32(&obj3d_es->ani.work.translation, &animator->translation);
-                    if ((obj3d_es->flags & OBJ_ACTION_FLAG_DRAW_WITH_OWN_MATRIX33) == 0)
+                    if ((obj3d_es->flags & OBJ_ACTION_FLAG_DRAW_WITH_OWN_ROTATION) == 0)
                     {
                         MI_Copy36B(&animator->rotation, &obj3d_es->ani.work.rotation);
                     }
-                    Animator3D__Draw((void *)obj3d_es);
+                    Animator3D__Draw(&obj3d_es->ani.work);
                 }
                 obj3d_es = obj3d_es->next;
             }
@@ -1261,7 +1249,7 @@ NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, 
 
     if (applyCameraConfig)
     {
-        Copy_Mtx44(&NNS_G3dGlb.projMtx, &backupNNS_G3dGlb_projMtx);
+        NNS_G3dGlb.projMtx = backupNNS_G3dGlb_projMtx;
     }
 
     if (copyStageDisplayFlags & DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG)
@@ -1298,735 +1286,6 @@ NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, 
     {
         *displayFlag = copyStageDisplayFlags;
     }
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x104
-	mov r5, r0
-	add r6, sp, #0x68
-	add r0, r5, #0x18
-	mov r4, r1
-	str r2, [sp, #0x14]
-	ldmia r0, {r0, r1, r2}
-	stmia r6, {r0, r1, r2}
-	mov r0, #0
-	mov r6, r0
-	str r0, [sp, #0x2c]
-	mov r0, r6
-	str r0, [sp, #0x1c]
-	ldr r0, [sp, #0x128]
-	ldr r1, [r5, #0]
-	str r0, [sp, #0x128]
-	mov r7, r6
-	ldr r0, [sp, #0x128]
-	cmp r1, #1
-	mov r8, r6
-	moveq r6, r5
-	cmp r1, #3
-	addeq r7, r5, #0x90
-	streq r5, [sp, #0x1c]
-	cmp r0, #0
-	ldrne r8, [r0, #0]
-	mov r11, r3
-	cmp r7, #0
-	beq _020722A8
-	ldr r0, [r7, #0x3c]
-	tst r8, #4
-	bic r0, r0, #0x184
-	str r0, [r7, #0x3c]
-	ldrne r0, [r7, #0x3c]
-	orrne r0, r0, #4
-	strne r0, [r7, #0x3c]
-	tst r8, #1
-	ldrne r0, [r7, #0x3c]
-	orrne r0, r0, #0x80
-	strne r0, [r7, #0x3c]
-	tst r8, #2
-	beq _020722BC
-	ldr r0, [r7, #0x3c]
-	orr r0, r0, #0x100
-	str r0, [r7, #0x3c]
-	b _020722BC
-_020722A8:
-	tst r8, #1
-	movne r0, #0xc000
-	strne r0, [sp, #0x2c]
-	moveq r0, #0x4000
-	streq r0, [sp, #0x2c]
-_020722BC:
-	cmp r6, #0
-	beq _02072314
-	mov r2, #0
-_020722C8:
-	add r0, r6, r2, lsl #1
-	add r0, r0, #0x100
-	ldrh r1, [r0, #0xc]
-	add r2, r2, #1
-	cmp r2, #5
-	bic r1, r1, #3
-	strh r1, [r0, #0xc]
-	blo _020722C8
-	tst r8, #4
-	beq _02072314
-	mov r2, #0
-_020722F4:
-	add r0, r6, r2, lsl #1
-	add r0, r0, #0x100
-	ldrh r1, [r0, #0xc]
-	add r2, r2, #1
-	cmp r2, #5
-	orr r1, r1, #2
-	strh r1, [r0, #0xc]
-	blo _020722F4
-_02072314:
-	bic r8, r8, #8
-	tst r8, #0x800
-	mov r10, #0
-	beq _020723C0
-	tst r8, #1
-	beq _02072370
-	ldr r0, =obj_ptcb
-	ldrh r0, [r0, #0x60]
-	cmp r0, #0
-	bls _02072400
-	ldr r9, =g_obj
-_02072340:
-	ldrsh r1, [r9, #0x44]
-	ldrsh r2, [r9, #0x46]
-	ldrsh r3, [r9, #0x48]
-	mov r0, r10
-	bl NNS_G3dGlbLightVector
-	ldr r0, =obj_ptcb
-	add r10, r10, #1
-	ldrh r0, [r0, #0x60]
-	add r9, r9, #6
-	cmp r10, r0
-	blo _02072340
-	b _02072400
-_02072370:
-	ldr r0, =obj_ptcb
-	ldrh r0, [r0, #0x60]
-	cmp r0, #0
-	bls _02072400
-	ldr r9, =g_obj
-_02072384:
-	ldrsh r1, [r9, #0x44]
-	ldrsh r2, [r9, #0x46]
-	ldrsh r3, [r9, #0x48]
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r0, r10
-	mov r1, r1, asr #0x10
-	bl NNS_G3dGlbLightVector
-	ldr r0, =obj_ptcb
-	add r10, r10, #1
-	ldrh r0, [r0, #0x60]
-	add r9, r9, #6
-	cmp r10, r0
-	blo _02072384
-	b _02072400
-_020723C0:
-	ldr r0, =obj_ptcb
-	ldrh r0, [r0, #0x60]
-	cmp r0, #0
-	bls _02072400
-	ldr r9, =g_obj
-_020723D4:
-	ldrsh r1, [r9, #0x44]
-	ldrsh r2, [r9, #0x46]
-	ldrsh r3, [r9, #0x48]
-	mov r0, r10
-	bl NNS_G3dGlbLightVector
-	ldr r0, =obj_ptcb
-	add r10, r10, #1
-	ldrh r0, [r0, #0x60]
-	add r9, r9, #6
-	cmp r10, r0
-	blo _020723D4
-_02072400:
-	ands r9, r8, #0x2000
-	bne _02072568
-	mov r0, #0
-	str r0, [sp, #0x40]
-	str r0, [sp, #0x3c]
-	ldr r0, =obj_ptcb
-	ldr r1, [r0, #0x2c]
-	tst r1, #8
-	beq _02072458
-	tst r8, #0x80
-	bne _02072458
-	ldr r2, [r0, #0x44]
-	cmp r2, #0
-	beq _02072448
-	add r0, sp, #0x40
-	add r1, sp, #0x3c
-	blx r2
-	b _02072458
-_02072448:
-	ldr r1, [r0, #0x30]
-	ldr r0, [r0, #0x34]
-	str r1, [sp, #0x40]
-	str r0, [sp, #0x3c]
-_02072458:
-	tst r8, #0x4000
-	ldr r1, [r4, #0]
-	ldr r0, [sp, #0x40]
-	sub r0, r1, r0
-	str r0, [r5, #0x48]
-	ldr r1, [r4, #4]
-	ldr r0, [sp, #0x3c]
-	sub r0, r1, r0
-	rsb r0, r0, #0
-	str r0, [r5, #0x4c]
-	ldr r0, [r4, #8]
-	str r0, [r5, #0x50]
-	bne _020724B0
-	ldr r2, [r5, #0x48]
-	ldr r0, =obj_ptcb
-	ldrsh r1, [r0, #0x10]
-	add r1, r2, r1, lsl #12
-	str r1, [r5, #0x48]
-	ldrsh r0, [r0, #0x12]
-	ldr r1, [r5, #0x4c]
-	add r0, r1, r0, lsl #12
-	str r0, [r5, #0x4c]
-_020724B0:
-	ldr r0, =obj_ptcb
-	ldr r1, [r0, #0x2c]
-	tst r1, #0x400
-	beq _020724F4
-	ldr r1, [r4, #8]
-	mov r1, r1, lsl #1
-	str r1, [r5, #0x50]
-	ldr r2, [r4, #8]
-	ldr r1, [r0, #0x20]
-	ldr r0, [r5, #0x4c]
-	smull r3, r1, r2, r1
-	adds r2, r3, #0x800
-	adc r1, r1, #0
-	mov r2, r2, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	sub r0, r0, r2
-	str r0, [r5, #0x4c]
-_020724F4:
-	ldr r0, =obj_ptcb
-	ldr r1, [r0, #4]
-	cmp r1, #0x1000
-	beq _02072528
-	ldr r0, [r5, #0x48]
-	sub r0, r0, #0x80000
-	smull r2, r1, r0, r1
-	adds r2, r2, #0x800
-	adc r0, r1, #0
-	mov r1, r2, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	add r0, r1, #0x80000
-	str r0, [r5, #0x48]
-_02072528:
-	ldr r0, =obj_ptcb
-	ldr r2, [r0, #8]
-	cmp r2, #0x1000
-	beq _02072568
-	ldr r1, [r5, #0x4c]
-	mov r0, #0x60000
-	rsb r0, r0, #0
-	sub r0, r0, r1
-	smull r2, r1, r0, r2
-	adds r2, r2, #0x800
-	adc r0, r1, #0
-	mov r1, r2, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	add r0, r1, #0x60000
-	rsb r0, r0, #0
-	str r0, [r5, #0x4c]
-_02072568:
-	tst r8, #0x100
-	cmpeq r9, #0
-	bne _020726BC
-	add r0, r5, #0x24
-	bl MTX_Identity33_
-	ldr r0, [sp, #0x2c]
-	ldr r3, =FX_SinCosTable_
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, asr #4
-	mov r1, r0, lsl #1
-	mov r4, r1, lsl #1
-	add r1, r1, #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, r4]
-	ldrsh r2, [r3, r2]
-	add r0, sp, #0x44
-	blx MTX_RotY33_
-	add r0, r5, #0x24
-	add r1, sp, #0x44
-	mov r2, r0
-	bl MTX_Concat33
-	ldr r0, [sp, #0x14]
-	ldr r3, =FX_SinCosTable_
-	ldrh r1, [r0, #0]
-	add r0, sp, #0x44
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	mov r1, r2, lsl #1
-	add r2, r2, #1
-	mov r2, r2, lsl #1
-	ldrsh r1, [r3, r1]
-	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
-	add r0, r5, #0x24
-	add r1, sp, #0x44
-	mov r2, r0
-	bl MTX_Concat33
-	ldr r0, [sp, #0x14]
-	ldr r3, =FX_SinCosTable_
-	ldrh r1, [r0, #2]
-	add r0, sp, #0x44
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	mov r1, r2, lsl #1
-	add r2, r2, #1
-	mov r2, r2, lsl #1
-	ldrsh r1, [r3, r1]
-	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
-	add r0, r5, #0x24
-	add r1, sp, #0x44
-	mov r2, r0
-	bl MTX_Concat33
-	ldr r0, [sp, #0x14]
-	ldr r3, =FX_SinCosTable_
-	ldrh r1, [r0, #4]
-	add r0, sp, #0x44
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	mov r1, r2, lsl #1
-	add r2, r2, #1
-	mov r2, r2, lsl #1
-	ldrsh r1, [r3, r1]
-	ldrsh r2, [r3, r2]
-	blx MTX_RotZ33_
-	add r0, r5, #0x24
-	add r1, sp, #0x44
-	mov r2, r0
-	bl MTX_Concat33
-_020726BC:
-	mov r2, #0x1000
-	mov r3, r2
-	mov r4, r2
-	cmp r11, #0
-	beq _02072710
-	ldr r0, =obj_ptcb
-	ldr r2, [r11, #0]
-	ldr r3, [r0, #4]
-	ldr r1, [r0, #8]
-	ldr r0, [r11, #4]
-	smull r4, r2, r3, r2
-	smull r3, r0, r1, r0
-	adds r4, r4, #0x800
-	adc r1, r2, #0
-	mov r2, r4, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	adds r1, r3, #0x800
-	adc r0, r0, #0
-	mov r3, r1, lsr #0xc
-	orr r3, r3, r0, lsl #20
-	ldr r4, [r11, #8]
-_02072710:
-	ldr r1, [r5, #0x20]
-	ldr r0, [r5, #0x1c]
-	smull r10, r9, r1, r4
-	adds r1, r10, #0x800
-	smull r4, r3, r0, r3
-	adc r0, r9, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	adds r0, r4, #0x800
-	adc r3, r3, #0
-	mov r0, r0, lsr #0xc
-	orr r0, r0, r3, lsl #20
-	ldr r3, [r5, #0x18]
-	smull r4, r2, r3, r2
-	adds r3, r4, #0x800
-	adc r2, r2, #0
-	mov r3, r3, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	str r3, [r5, #0x18]
-	str r0, [r5, #0x1c]
-	ands r0, r8, #0x200
-	str r1, [r5, #0x20]
-	str r0, [sp, #0x18]
-	beq _020728CC
-	ldr r0, =obj_ptcb
-	ldr r2, =FX_SinCosTable_
-	ldr r4, [r0, #0x40]
-	ldrh r0, [r4, #0]
-	ldr r9, [r4, #4]
-	mov r0, r0, asr #4
-	mov r1, r0, lsl #1
-	mov r0, r1, lsl #1
-	add r1, r1, #1
-	mov r1, r1, lsl #1
-	ldrsh r0, [r2, r0]
-	ldrsh r1, [r2, r1]
-	bl FX_Div
-	smull r2, r1, r0, r9
-	adds r0, r2, #0x800
-	adc r1, r1, #0
-	mov r0, r0, lsr #0xc
-	orr r0, r0, r1, lsl #20
-	str r0, [sp, #0x30]
-	ldr r2, [r4, #0xc]
-	ldr r1, [sp, #0x30]
-	ldr r0, [r4, #4]
-	smull r3, r2, r1, r2
-	adds r1, r3, #0x800
-	adc r2, r2, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r2, lsl #20
-	str r1, [sp, #0x34]
-	ldr r1, =obj_ptcb
-	ldr r1, [r1, #0x40]
-	ldr r1, [r1, #0x28]
-	bl FX_Div
-	ldr r1, [r5, #0x4c]
-	ldr r10, =NNS_G3dGlb+0x00000008
-	add r1, r1, #0x60000
-	smull r2, r1, r0, r1
-	adds r2, r2, #0x800
-	mov ip, r2, lsr #0xc
-	adc r1, r1, #0
-	ldr r2, [r5, #0x48]
-	orr ip, ip, r1, lsl #20
-	mov r1, #0x80000
-	str r1, [r5, #0x48]
-	sub r1, r1, #0xe0000
-	rsb r2, r2, #0x80000
-	str r1, [r5, #0x4c]
-	smull r2, r1, r0, r2
-	adds r2, r2, #0x800
-	adc r0, r1, #0
-	mov lr, r2, lsr #0xc
-	orr lr, lr, r0, lsl #20
-	ldr r0, [sp, #0x30]
-	add r9, sp, #0x74
-	add r0, r0, ip
-	str r0, [sp, #0x38]
-	ldmia r10!, {r0, r1, r2, r3}
-	stmia r9!, {r0, r1, r2, r3}
-	ldmia r10!, {r0, r1, r2, r3}
-	stmia r9!, {r0, r1, r2, r3}
-	ldmia r10!, {r0, r1, r2, r3}
-	stmia r9!, {r0, r1, r2, r3}
-	ldmia r10, {r0, r1, r2, r3}
-	stmia r9, {r0, r1, r2, r3}
-	ldr r9, [r4, #4]
-	ldr r0, [sp, #0x30]
-	str r9, [sp]
-	ldr r4, [r4, #8]
-	ldr r1, [sp, #0x38]
-	str r4, [sp, #4]
-	mov r4, #0x1000
-	ldr r2, [sp, #0x34]
-	ldr r3, [sp, #0x34]
-	str r4, [sp, #8]
-	mov r4, #0
-	str r4, [sp, #0xc]
-	ldr r4, =NNS_G3dGlb+0x00000008
-	sub r0, r0, ip
-	rsb r1, r1, #0
-	sub r2, lr, r2
-	add r3, r3, lr
-	str r4, [sp, #0x10]
-	bl G3i_FrustumW_
-	ldr r0, =NNS_G3dGlb
-	ldr r1, [r0, #0xfc]
-	bic r1, r1, #0x50
-	str r1, [r0, #0xfc]
-	b _02072968
-_020728CC:
-	tst r8, #0x20000
-	beq _02072968
-	ldr r0, =obj_ptcb
-	add r9, sp, #0xb4
-	ldr r10, [r0, #0x40]
-	mov r4, #5
-_020728E4:
-	subs r4, r4, #1
-	ldmia r10!, {r0, r1, r2, r3}
-	stmia r9!, {r0, r1, r2, r3}
-	bne _020728E4
-	mov r2, #0x3f00
-	mov r0, r2, asr #4
-	mov r1, r0, lsl #1
-	add r0, r1, #1
-	strh r2, [sp, #0xb4]
-	ldr r2, =FX_SinCosTable_
-	mov r0, r0, lsl #1
-	mov r1, r1, lsl #1
-	ldrsh r0, [r2, r0]
-	ldrsh r1, [r2, r1]
-	mov r2, #0x80000
-	str r2, [sp, #0xe0]
-	str r2, [sp, #0xd4]
-	sub r2, r2, #0xe0000
-	str r2, [sp, #0xe4]
-	str r2, [sp, #0xd8]
-	mov r2, #0
-	str r2, [sp, #0xe8]
-	bl FX_Div
-	mov r2, #0
-	mov r1, #0x60
-	mul r1, r0, r1
-	mov r0, #0x1000
-	str r0, [sp, #0xf0]
-	add r0, sp, #0xb4
-	str r1, [sp, #0xdc]
-	str r2, [sp, #0xec]
-	str r2, [sp, #0xf4]
-	bl Camera3D__LoadState
-_02072968:
-	cmp r6, #0
-	beq _020729C4
-	ldr r2, =obj_ptcb
-	ldr r0, [r6, #0x118]
-	ldr r3, [r2, #0x14]
-	str r0, [sp, #0x24]
-	smull r4, r3, r0, r3
-	adds r4, r4, #0x800
-	adc r0, r3, #0
-	mov r3, r4, lsr #0xc
-	orr r3, r3, r0, lsl #20
-	add r1, r6, #0x100
-	str r3, [r6, #0x118]
-	ldrsh r0, [r1, #0x30]
-	str r0, [sp, #0x20]
-	ldr r2, [r2, #0x14]
-	mov r0, r0
-	smull r3, r2, r0, r2
-	adds r3, r3, #0x800
-	adc r0, r2, #0
-	mov r2, r3, lsr #0xc
-	orr r2, r2, r0, lsl #20
-	strh r2, [r1, #0x30]
-_020729C4:
-	cmp r7, #0
-	beq _020729F4
-	ldr r1, =obj_ptcb
-	ldr r0, [r7, #0x38]
-	ldr r1, [r1, #0x14]
-	str r0, [sp, #0x28]
-	smull r2, r1, r0, r1
-	adds r2, r2, #0x800
-	adc r0, r1, #0
-	mov r1, r2, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [r7, #0x38]
-_020729F4:
-	tst r8, #0x10
-	beq _02072A14
-	cmp r6, #0
-	movne r0, #0
-	strne r0, [r6, #0x118]
-	cmp r7, #0
-	movne r0, #0
-	strne r0, [r7, #0x38]
-_02072A14:
-	tst r8, #0x1000
-	bne _02072A9C
-	cmp r6, #0
-	ldrne r0, [r6, #0xc4]
-	cmpne r0, #0
-	ldrne r0, [r6, #0x90]
-	orrne r0, r0, #1
-	strne r0, [r6, #0x90]
-	ldr r0, [sp, #0x1c]
-	cmp r0, #0
-	beq _02072A50
-	ldr r1, [sp, #0x130]
-	ldr r2, [sp, #0x134]
-	bl AnimatorSprite3D__ProcessAnimation
-	b _02072AAC
-_02072A50:
-	ldr r0, [r5, #0]
-	cmp r0, #1
-	beq _02072A70
-	cmp r0, #2
-	beq _02072A7C
-	cmp r0, #3
-	beq _02072A88
-	b _02072AAC
-_02072A70:
-	mov r0, r5
-	bl AnimatorMDL__ProcessAnimation
-	b _02072AAC
-_02072A7C:
-	mov r0, r5
-	bl AnimatorShape3D__ProcessAnimation
-	b _02072AAC
-_02072A88:
-	mov r1, #0
-	mov r0, r5
-	mov r2, r1
-	bl AnimatorSprite3D__ProcessAnimation
-	b _02072AAC
-_02072A9C:
-	cmp r6, #0
-	ldrne r0, [r6, #0x90]
-	bicne r0, r0, #1
-	strne r0, [r6, #0x90]
-_02072AAC:
-	cmp r7, #0
-	ldrne r0, [sp, #0x28]
-	strne r0, [r7, #0x38]
-	cmp r6, #0
-	beq _02072AD4
-	ldr r0, [sp, #0x24]
-	add r1, r6, #0x100
-	str r0, [r6, #0x118]
-	ldr r0, [sp, #0x20]
-	strh r0, [r1, #0x30]
-_02072AD4:
-	tst r8, #0x20
-	bne _02072BCC
-	ldr r4, [sp, #0x12c]
-	cmp r4, #0
-	beq _02072B8C
-_02072AE8:
-	cmp r4, #0
-	beq _02072BCC
-	ldr r0, [r4, #0xac]
-	tst r0, #0x80
-	bne _02072B84
-	ldr r2, [r5, #0x20]
-	ldr r1, [r5, #0x1c]
-	ldr r0, [r5, #0x18]
-	str r0, [r4, #0x18]
-	str r1, [r4, #0x1c]
-	str r2, [r4, #0x20]
-	ldr r2, [r5, #0x50]
-	ldr r1, [r5, #0x4c]
-	ldr r0, [r5, #0x48]
-	str r0, [r4, #0x48]
-	str r1, [r4, #0x4c]
-	str r2, [r4, #0x50]
-	ldr r0, [r4, #0xac]
-	tst r0, #0x40
-	bne _02072B44
-	add r0, r5, #0x24
-	add r1, r4, #0x24
-	bl MI_Copy36B
-_02072B44:
-	ldr r0, [r4, #0]
-	cmp r0, #1
-	beq _02072B64
-	cmp r0, #2
-	beq _02072B70
-	cmp r0, #3
-	beq _02072B7C
-	b _02072B84
-_02072B64:
-	mov r0, r4
-	bl AnimatorMDL__Draw
-	b _02072B84
-_02072B70:
-	mov r0, r4
-	bl AnimatorShape3D__Draw
-	b _02072B84
-_02072B7C:
-	mov r0, r4
-	bl AnimatorSprite3D__Draw
-_02072B84:
-	ldr r4, [r4, #0xa0]
-	b _02072AE8
-_02072B8C:
-	ldr r0, [r5, #0]
-	cmp r0, #1
-	beq _02072BAC
-	cmp r0, #2
-	beq _02072BB8
-	cmp r0, #3
-	beq _02072BC4
-	b _02072BCC
-_02072BAC:
-	mov r0, r5
-	bl AnimatorMDL__Draw
-	b _02072BCC
-_02072BB8:
-	mov r0, r5
-	bl AnimatorShape3D__Draw
-	b _02072BCC
-_02072BC4:
-	mov r0, r5
-	bl AnimatorSprite3D__Draw
-_02072BCC:
-	ldr r0, [sp, #0x18]
-	cmp r0, #0
-	beq _02072C00
-	ldr r4, =NNS_G3dGlb+0x00000008
-	add r9, sp, #0x74
-	ldmia r9!, {r0, r1, r2, r3}
-	stmia r4!, {r0, r1, r2, r3}
-	ldmia r9!, {r0, r1, r2, r3}
-	stmia r4!, {r0, r1, r2, r3}
-	ldmia r9!, {r0, r1, r2, r3}
-	stmia r4!, {r0, r1, r2, r3}
-	ldmia r9, {r0, r1, r2, r3}
-	stmia r4, {r0, r1, r2, r3}
-_02072C00:
-	tst r8, #0x20000
-	beq _02072C14
-	ldr r0, =obj_ptcb
-	ldr r0, [r0, #0x40]
-	bl Camera3D__LoadState
-_02072C14:
-	cmp r6, #0
-	beq _02072C38
-	add r0, r6, #0x100
-	ldrh r0, [r0, #0xc]
-	tst r0, #0x4000
-	bicne r8, r8, #0x400
-	tst r0, #0x8000
-	bicne r0, r8, #0x400
-	orrne r8, r0, #8
-_02072C38:
-	cmp r7, #0
-	beq _02072C4C
-	ldr r0, [r7, #0x3c]
-	tst r0, #0x40000000
-	orrne r8, r8, #8
-_02072C4C:
-	cmp r11, #0
-	beq _02072C64
-	add r0, sp, #0x68
-	add r3, r5, #0x18
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-_02072C64:
-	ldr r0, [sp, #0x128]
-	cmp r0, #0
-	strne r8, [r0]
-	add sp, sp, #0x104
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
 }
 
 void StageTask__SetAnimatorOAMOrder(StageTask *work, u32 order)
@@ -2292,8 +1551,7 @@ void StageTask__HandleRide(StageTask *work)
 
 void StageTask__HandleCollider(StageTask *work, OBS_RECT_WORK *rect)
 {
-    if (!IsStageTaskDestroyedAny(work) && (g_obj.flag & OBJECTMANAGER_FLAG_ALLOW_RECT_COLLISIONS) != 0
-        && (work->flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
+    if (!IsStageTaskDestroyedAny(work) && (g_obj.flag & OBJECTMANAGER_FLAG_ALLOW_RECT_COLLISIONS) != 0 && (work->flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
     {
         rect->parent = work;
 
