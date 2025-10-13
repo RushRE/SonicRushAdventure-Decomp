@@ -269,7 +269,7 @@ void JumpBox_Draw(void)
     StageTask__Draw2D(&work->gameWork.objWork, &work->aniJumpBox);
 
     // Draw base (right)
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB | DISPLAY_FLAG_FLIP_X;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE | DISPLAY_FLAG_FLIP_X;
     StageTask__Draw2D(&work->gameWork.objWork, &work->aniJumpBox);
 
     // Draw top (left)
@@ -277,7 +277,7 @@ void JumpBox_Draw(void)
     StageTask__Draw2D(&work->gameWork.objWork, &work->gameWork.objWork.obj_2d->ani);
 
     // Draw top (right)
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB | DISPLAY_FLAG_FLIP_X;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE | DISPLAY_FLAG_FLIP_X;
     StageTask__Draw2D(&work->gameWork.objWork, &work->gameWork.objWork.obj_2d->ani);
 
     work->gameWork.objWork.displayFlag = displayFlag;

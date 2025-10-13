@@ -234,7 +234,7 @@ void LoadEffectTask3DAsset(EffectTask3D *work, const char *path, OBS_DATA_WORK *
             }
         }
 
-        work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED;
+        work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_PAUSED;
         work->delay = 2;
         SetTaskDestructorEvent(EffectTask__sVars.lastCreatedTask, EffectTask3D_Destructor);
 
@@ -258,7 +258,7 @@ void EffectTask3D_State_Init(EffectTask3D *work)
             AnimatorMDL__SetAnimation(&work->animatorMDL, B3D_ANIM_PAT_ANIM, work->files[2], 0, NNS_G3dGetTex(work->resource));
         }
 
-        work->objWork.displayFlag &= ~(DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED);
+        work->objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_PAUSED);
         SetTaskState(&work->objWork, work->nextState);
     }
 }
@@ -639,9 +639,9 @@ void EffectEnemyDebris_State_Active(EffectEnemyDebris *work)
         else if (work->objWork.userWork > 32)
         {
             if ((work->objWork.userWork & 2) != 0)
-                work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+                work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
             else
-                work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+                work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
         }
     }
     else if (work->objWork.userTimer == 0)
@@ -823,11 +823,11 @@ void EffectSteamBlasterSmoke_State_Active(EffectSteamBlasterSmoke *work)
 {
     if ((s32)work->objWork.parentObj->obj_2d->ani.work.animID != STEAMBLASTER_ANI_MOVE && work->objWork.parentObj->obj_2d->ani.work.animID != STEAMBLASTER_ANI_DETECT)
     {
-        work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     }
     else
     {
-        work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+        work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
         work->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
         work->objWork.displayFlag |= work->objWork.parentObj->displayFlag & DISPLAY_FLAG_FLIP_X;
@@ -1415,7 +1415,7 @@ void EffectFlowerPipeSeed__State_202ADFC(EffectFlowerPipeSeed *work)
         }
         else if (work->objWork.userTimer > 90)
         {
-            work->objWork.displayFlag ^= DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag ^= DISPLAY_FLAG_DISABLE_DRAW;
         }
     }
     else
@@ -1576,7 +1576,7 @@ EffectPiston *EffectPiston__Create(VecFx32 *position, VecU16 *dir)
     work->effWork.objWork.dir      = *dir;
 
     work->effWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
-    work->effWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+    work->effWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
     work->effWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
 
     return work;

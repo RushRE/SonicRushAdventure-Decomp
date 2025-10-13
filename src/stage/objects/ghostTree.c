@@ -45,7 +45,7 @@ GhostTree *CreateGhostTree(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_PAUSED | DISPLAY_FLAG_FLIP_X;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_PAUSED | DISPLAY_FLAG_FLIP_X;
 
     OBS_ACTION3D_NN_WORK *aniArm = &work->aniArm;
     ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniArm, "/mod/gmk_gst_tree.nsbmd", 0, GetObjectDataWork(OBJDATAWORK_180), gameArchiveStage);
@@ -114,7 +114,7 @@ void GhostTree_State_ReachForPlayer(GhostTree *work)
     }
     else if (work->gameWork.objWork.userTimer == 70 && (work->gameWork.flags & GHOSTTREE_FLAG_STARTED_REACH) != 0)
     {
-        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
     }
 
     if ((work->gameWork.flags & GHOSTTREE_FLAG_STARTED_REACH) != 0 && (ani->animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_BLENDING_PAUSED) != 0)
@@ -181,7 +181,7 @@ void GhostTree_State_ThrownPlayer(GhostTree *work)
 
     work->gameWork.objWork.userTimer++;
     if (work->gameWork.objWork.userTimer == 10)
-        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
     if ((ani->animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_BLENDING_PAUSED) != 0)
     {
@@ -255,7 +255,7 @@ void GhostTree_OnDefend_GrabTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     tree->gameWork.colliders[1].parent = NULL;
     tree->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
-    tree->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_PAUSED);
+    tree->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_PAUSED);
 
     tree->gameWork.colliders[0].parent = &tree->gameWork.objWork;
     tree->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;

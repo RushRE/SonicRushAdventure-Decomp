@@ -161,19 +161,19 @@ enum StageDisplayFlags_
     DISPLAY_FLAG_DISABLE_LOOPING           = 1 << 2,
     DISPLAY_FLAG_DID_FINISH                = 1 << 3,
     DISPLAY_FLAG_PAUSED                    = 1 << 4,
-    DISPLAY_FLAG_NO_DRAW                   = 1 << 5,
-    DISPLAY_FLAG_NO_DRAW_EVENT             = 1 << 6,
+    DISPLAY_FLAG_DISABLE_DRAW              = 1 << 5,
+    DISPLAY_FLAG_USE_DEFAULT_DRAW          = 1 << 6,
     DISPLAY_FLAG_SCREEN_RELATIVE           = 1 << 7,
     DISPLAY_FLAG_DISABLE_ROTATION          = 1 << 8,
-    DISPLAY_FLAG_APPLY_CAMERA_CONFIG       = 1 << 9,
-    DISPLAY_FLAG_400                       = 1 << 10,
-    DISPLAY_FLAG_800                       = 1 << 11,
-    DISPLAY_FLAG_NO_ANIMATE_CB             = 1 << 12,
+    DISPLAY_FLAG_ROTATE_CAMERA_DIR       = 1 << 9,
+    DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING = 1 << 10,
+    DISPLAY_FLAG_LOCK_LIGHT_DIR            = 1 << 11,
+    DISPLAY_FLAG_DISABLE_UPDATE            = 1 << 12,
     DISPLAY_FLAG_DISABLE_POSITION          = 1 << 13,
     DISPLAY_FLAG_DISABLE_POSITION_OFFSETS  = 1 << 14,
     DISPLAY_FLAG_DISABLE_FINISH_EVENT      = 1 << 15,
     DISPLAY_FLAG_DISABLE_SCALE             = 1 << 16,
-    DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG = 1 << 17,
+    DISPLAY_FLAG_DRAW_3D_SPRITE_AS_2D = 1 << 17,
 };
 typedef u32 StageDisplayFlags;
 
@@ -283,7 +283,7 @@ struct StageTask_
     fx32 terminalVelocity;
     fx32 pushCap;
     StageCollisionFlags collisionFlag;
-    u32 prevCollisionFlag;
+    StageCollisionFlags prevCollisionFlag;
     HitboxRect hitboxRect;
     StageTaskState state;
     StageTaskInFunc ppIn;

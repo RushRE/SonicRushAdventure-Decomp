@@ -345,14 +345,14 @@ void BossPlayerHelpers_State_Ground_Boss6(Player *work)
     }
     else if (Player__HandleFallOffSurface(work))
     {
-        work->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+        work->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
         Player__Action_Launch(work);
     }
     else
     {
         if ((work->inputKeyPress & PLAYER_INPUT_JUMP) != 0 && work->actionJump != NULL)
         {
-            work->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
             work->actionJump(work);
         }
         else

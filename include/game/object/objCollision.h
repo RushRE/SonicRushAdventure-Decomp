@@ -16,6 +16,15 @@ extern "C"
 
 #define OBJ_COLLISION_REGISTRATION_MAX (0x20)
 
+#define TILE_CHAR_NO_MASK 0x03FF
+#define TILE_FLIP_X_MASK  0x0400
+#define TILE_FLIP_Y_MASK  0x0800
+
+#define TILE_SIZE_X             8
+#define TILE_SIZE_Y             8
+#define TILE_BLOCK_TILE_COUNT_X 8
+#define TILE_BLOCK_TILE_COUNT_Y 8
+
 // --------------------
 // ENUMS
 // --------------------
@@ -30,31 +39,27 @@ enum ObjCollisionVec_
     OBD_COL_MINUS = 1 << 0,
 
     // Directions
-    OBJ_COL_LEFT  = OBD_COL_X | OBD_COL_PLUS,
-    OBJ_COL_RIGHT = OBD_COL_X | OBD_COL_MINUS,
-    OBJ_COL_UP    = OBD_COL_Y | OBD_COL_PLUS,
-    OBJ_COL_DOWN  = OBD_COL_Y | OBD_COL_MINUS,
+    OBD_COL_RIGHT = OBD_COL_X | OBD_COL_PLUS,
+    OBD_COL_LEFT  = OBD_COL_X | OBD_COL_MINUS,
+    OBD_COL_DOWN  = OBD_COL_Y | OBD_COL_PLUS,
+    OBD_COL_UP    = OBD_COL_Y | OBD_COL_MINUS,
 };
 typedef u16 ObjCollisionVec;
 
 enum ObjCollisionFlags_
 {
-    OBJ_COL_FLAG_NONE = 0,
+    OBJ_COL_FLAG_NONE = 0x00,
 
-    OBJ_COL_FLAG_USE_PLANE_B     = 1 << 0,
-    OBJ_COL_FLAG_2               = 1 << 1,
-    OBJ_COL_FLAG_4               = 1 << 2,
-    OBJ_COL_FLAG_8               = 1 << 3,
-    OBJ_COL_FLAG_10              = 1 << 4,
-    OBJ_COL_FLAG_20              = 1 << 5,
-    OBJ_COL_FLAG_40              = 1 << 6,
-    OBJ_COL_FLAG_ALLOW_TOP_SOLID = 1 << 7,
+    OBJ_COL_FLAG_USE_PLANE_B       = 1 << 0,
+    OBJ_COL_FLAG_USE_SIMPLE_CHECKS = 1 << 5,
+    OBJ_COL_FLAG_LIMIT_MAP_BOUNDS  = 1 << 6,
+    OBJ_COL_FLAG_ALLOW_TOP_SOLID   = 1 << 7,
 };
 typedef u16 ObjCollisionFlags;
 
 enum ObjCollisionAttr_
 {
-    OBJ_COL_ATTR_NONE = 0,
+    OBJ_COL_ATTR_NONE = 0x00,
 
     OBJ_COL_ATTR_TOP_SOLID  = 1 << 0,
     OBJ_COL_ATTR_CLIFF_EDGE = 1 << 1,
@@ -66,38 +71,18 @@ enum StageTaskCollisionObjFlag_
 {
     STAGE_TASK_OBJCOLLISION_FLAG_NONE = 0x00,
 
-    STAGE_TASK_OBJCOLLISION_FLAG_1        = 1 << 0,
-    STAGE_TASK_OBJCOLLISION_FLAG_2        = 1 << 1,
-    STAGE_TASK_OBJCOLLISION_FLAG_4        = 1 << 2,
-    STAGE_TASK_OBJCOLLISION_FLAG_8        = 1 << 3,
-    STAGE_TASK_OBJCOLLISION_FLAG_10       = 1 << 4,
-    STAGE_TASK_OBJCOLLISION_FLAG_20       = 1 << 5,
-    STAGE_TASK_OBJCOLLISION_FLAG_40       = 1 << 6,
-    STAGE_TASK_OBJCOLLISION_FLAG_80       = 1 << 7,
-    STAGE_TASK_OBJCOLLISION_FLAG_100      = 1 << 8,
-    STAGE_TASK_OBJCOLLISION_FLAG_200      = 1 << 9,
-    STAGE_TASK_OBJCOLLISION_FLAG_400      = 1 << 10,
-    STAGE_TASK_OBJCOLLISION_FLAG_800      = 1 << 11,
-    STAGE_TASK_OBJCOLLISION_FLAG_1000     = 1 << 12,
-    STAGE_TASK_OBJCOLLISION_FLAG_2000     = 1 << 13,
-    STAGE_TASK_OBJCOLLISION_FLAG_4000     = 1 << 14,
-    STAGE_TASK_OBJCOLLISION_FLAG_8000     = 1 << 15,
-    STAGE_TASK_OBJCOLLISION_FLAG_10000    = 1 << 16,
-    STAGE_TASK_OBJCOLLISION_FLAG_20000    = 1 << 17,
-    STAGE_TASK_OBJCOLLISION_FLAG_40000    = 1 << 18,
-    STAGE_TASK_OBJCOLLISION_FLAG_80000    = 1 << 19,
-    STAGE_TASK_OBJCOLLISION_FLAG_100000   = 1 << 20,
-    STAGE_TASK_OBJCOLLISION_FLAG_200000   = 1 << 21,
-    STAGE_TASK_OBJCOLLISION_FLAG_400000   = 1 << 22,
-    STAGE_TASK_OBJCOLLISION_FLAG_800000   = 1 << 23,
-    STAGE_TASK_OBJCOLLISION_FLAG_1000000  = 1 << 24,
-    STAGE_TASK_OBJCOLLISION_FLAG_2000000  = 1 << 25,
-    STAGE_TASK_OBJCOLLISION_FLAG_4000000  = 1 << 26,
-    STAGE_TASK_OBJCOLLISION_FLAG_8000000  = 1 << 27,
-    STAGE_TASK_OBJCOLLISION_FLAG_10000000 = 1 << 28,
-    STAGE_TASK_OBJCOLLISION_FLAG_20000000 = 1 << 29,
-    STAGE_TASK_OBJCOLLISION_FLAG_40000000 = 1 << 30,
-    STAGE_TASK_OBJCOLLISION_FLAG_80000000 = 1 << 31,
+    STAGE_TASK_OBJCOLLISION_FLAG_FLIP_X                  = 1 << 0, // User-defined flip flag
+    STAGE_TASK_OBJCOLLISION_FLAG_FLIP_Y                  = 1 << 1, // User-defined flip flag
+    STAGE_TASK_OBJCOLLISION_FLAG_ROTATE_USING_TILE_ANGLE = 1 << 2,
+    STAGE_TASK_OBJCOLLISION_FLAG_FLIP_TILE_ANGLE         = 1 << 3,
+    STAGE_TASK_OBJCOLLISION_FLAG_IGNORE_PARENT_POS       = 1 << 4,
+    STAGE_TASK_OBJCOLLISION_FLAG_IGNORE_PARENT_ANGLE     = 1 << 5,
+    STAGE_TASK_OBJCOLLISION_FLAG_DISABLE_ANGLES          = 1 << 6,
+    STAGE_TASK_OBJCOLLISION_FLAG_DISABLE_ATTRIBUTES      = 1 << 7,
+    STAGE_TASK_OBJCOLLISION_FLAG_DISABLED                = 1 << 8,
+
+    STAGE_TASK_OBJCOLLISION_FLAG_SYS_FLIP_X = 1 << 30, // System-toggled flip flag (can be enabled via parent display flip or user-defined flip)
+    STAGE_TASK_OBJCOLLISION_FLAG_SYS_FLIP_Y = 1 << 31, // System-toggled flip flag (can be enabled via parent display flip or user-defined flip)
 };
 typedef u32 StageTaskCollisionObjFlag;
 
@@ -173,33 +158,14 @@ void ObjObjectCollisionDifSet(struct StageTask_ *work, const char *filePath, OBS
 void ObjObjectCollisionDirSet(struct StageTask_ *work, const char *filePath, OBS_DATA_WORK *dirDataWork, NNSiFndArchiveHeader *archive);
 void ObjObjectCollisionAttrSet(struct StageTask_ *work, const char *filePath, OBS_DATA_WORK *attrDataWork, NNSiFndArchiveHeader *archive);
 
-void objDiffAttrSet(struct StageTask_ *work, u8 attr);
-s32 objCollision(OBS_COL_CHK_DATA *colWork);
-s32 objCollisionFast(OBS_COL_CHK_DATA *colWork);
-s32 ObjCollisionUnion(struct StageTask_ *work, OBS_COL_CHK_DATA *colWork);
 s32 ObjCollisionFastUnion(OBS_COL_CHK_DATA *colWork);
 void ObjDiffCollisionEarthCheck(struct StageTask_ *work);
-void objDiffCollisionDirCheck(struct StageTask_ *work);
-ObjCollisionFlags objDiffSufSet(struct StageTask_ *work);
-void objDiffCollisionDirWidthCheck(struct StageTask_ *work, u8 ucWall, s32 sSpd);
-BOOL objDiffCollisionSimpleOverCheck(struct StageTask_ *work);
-void objDiffCollisionDirHeightCheck(struct StageTask_ *work);
-void ObjSetDiffCollision(OBS_DIFF_COLLISION *fCol);
+void ObjSetDiffCollision(OBS_DIFF_COLLISION *collisionData);
 s32 ObjDiffCollisionFast(OBS_COL_CHK_DATA *colWork);
 s32 ObjDiffCollision(OBS_COL_CHK_DATA *colWork);
-u16 objGetMapBlockData(fx32 pos_x, fx32 pos_y, s32 suf);
-s32 objGetMapColDataX(fx32 lPosX, fx32 lPosY, ObjCollisionFlags flags, u16 *pDir, u32 *pAttr);
-s32 objGetMapColDataY(fx32 lPosX, fx32 lPosY, ObjCollisionFlags flags, u16 *pDir, u32 *pAttr);
 void ObjCollisionObjectRegist(StageTaskCollisionObj *work);
 void ObjCollisionObjectClear(void);
-void objCollsionOffsetSet(StageTaskCollisionObj *work, s16 *offsetX, s16 *offsetY);
 s32 ObjCollisionObjectFastCheckDet(fx32 x, fx32 y, ObjCollisionFlags flags, ObjCollisionVec vec, u16 *dir, u32 *attr);
-s32 ObjCollisionObjectFastCheck(OBS_COL_CHK_DATA *colWork);
-s32 ObjCollisionObjectCheck(struct StageTask_ *work, OBS_COL_CHK_DATA *colWork);
-s32 objFastCollisionDiffObject(StageTaskCollisionObj *work, OBS_COL_CHK_DATA *colWork);
-s32 objCollisionDiffObject(StageTaskCollisionObj *work, OBS_COL_CHK_DATA *colWork);
-s32 objGetColDataX(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjCollisionFlags flags, u16 *pDir, u32 *pAttr);
-s32 objGetColDataY(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjCollisionFlags flags, u16 *pDir, u32 *pAttr);
 
 #ifdef __cplusplus
 }

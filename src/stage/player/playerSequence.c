@@ -232,7 +232,7 @@ void Player__Action_FollowParent(Player *player, GameObjectTask *other, fx32 off
         player->gimmickObj = other;
         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES);
-        player->objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        player->objWork.displayFlag &= ~DISPLAY_FLAG_ROTATE_CAMERA_DIR;
         player->objWork.userFlag = PLAYER_CHILDFLAG_NONE;
         player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
@@ -354,7 +354,7 @@ void Player__State_FollowParent(Player *work)
         work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT)
                                   | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
-        work->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        work->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
         work->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
         work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_GRABBED);
 
@@ -1197,7 +1197,7 @@ void Player__Action_PipeEnter(Player *player, GameObjectTask *other, u16 angle, 
         player->gimmick.pipe.startY   = player->objWork.position.y;
         player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
         player->blinkTimer            = 0;
-        player->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+        player->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
         PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], sfxJump[player->characterID]);
     }
@@ -1901,7 +1901,7 @@ void Player__Action_TripleGrindRailEndSpring(Player *player, GameObjectTask *tri
         player->starComboCount = 0;
         player->gimmickFlag &= ~PLAYER_GIMMICK_ALLOW_TRICK_COMBO;
         player->gimmickObj = tripleGrindRail;
-        player->objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        player->objWork.displayFlag &= ~DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
         fx32 moveX                                       = FX_DivS32(tripleGrindRail->objWork.position.x - player->objWork.position.x, player->objWork.velocity.x);
         player->gimmick.tripleGrindRailSpring.angleSpeed = FX_DivS32(FLOAT_TO_FX32(4.0), moveX);
@@ -5079,8 +5079,8 @@ void Player__Action_TruckLaunch(Player *player, GameObjectTask *other, s32 a3)
 
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
-        player->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
-        player->objWork.displayFlag &= ~(DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED);
+        player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
+        player->objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_PAUSED);
         player->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
         player->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_GRABBED);
 
@@ -5186,7 +5186,7 @@ void Player__Func_2021A84(Player *player, GameObjectTask *other)
         Player__ChangeAction(player, PLAYER_ACTION_BALANCE_BACKWARD);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_PAUSED;
-        player->objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        player->objWork.displayFlag &= ~DISPLAY_FLAG_ROTATE_CAMERA_DIR;
         SetTaskState(&player->objWork, Player__State_FollowParent);
     }
 }
@@ -5209,7 +5209,7 @@ void Player__Func_2021B44(Player *player, GameObjectTask *other)
     if (player->gimmickObj == other)
     {
         player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
-        player->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
         player->gimmickFlag &= ~PLAYER_GIMMICK_20;
         player->gimmickCamOffsetY = 0;
     }
@@ -5285,7 +5285,7 @@ void Player__Action_BarrelGrab(Player *player, GameObjectTask *other)
     ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
     player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
     player->blinkTimer            = 0;
-    player->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
     player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 }
@@ -5293,7 +5293,7 @@ void Player__Action_BarrelGrab(Player *player, GameObjectTask *other)
 void Player__State_BarrelGrab(Player *work)
 {
     if (work->gimmickObj != NULL && (work->gimmickObj->flags & 2) != 0)
-        work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
     work->objWork.userWork &= ~1;
 
@@ -5312,7 +5312,7 @@ void Player__State_BarrelGrab(Player *work)
     {
         work->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
         work->playerFlag |= PLAYER_FLAG_USER_FLAG;
-        work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+        work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
         if (work->characterID == CHARACTER_SONIC)
             work->objWork.position.y += FLOAT_TO_FX32(2.0);
@@ -5437,7 +5437,7 @@ void Player__Action_Trampoline(Player *player, fx32 velX, fx32 velY)
 
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     player->objWork.userTimer = 1;
-    player->objWork.displayFlag |= DISPLAY_FLAG_400;
+    player->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
 
     Player__ChangeAction(player, PLAYER_ACTION_TRAMPOLINE);
     ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
@@ -5863,7 +5863,7 @@ void Player__Action_PRCannon(Player *player, GameObjectTask *other)
 
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         player->objWork.velocity.y = 0;
-        player->objWork.displayFlag &= ~(DISPLAY_FLAG_FLIP_X | DISPLAY_FLAG_APPLY_CAMERA_CONFIG);
+        player->objWork.displayFlag &= ~(DISPLAY_FLAG_FLIP_X | DISPLAY_FLAG_ROTATE_CAMERA_DIR);
 
         player->objWork.dir = other->objWork.dir;
 
@@ -6204,7 +6204,7 @@ void Player__Func_2022C40(Player *player)
     {
         player->objWork.moveFlag &=
             ~(STAGE_TASK_MOVE_FLAG_IN_AIR | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES);
-        player->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
         player->gimmickFlag &= ~(PLAYER_GIMMICK_80 | PLAYER_GIMMICK_40 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10);
 
         player->gimmickCamOffsetX = 0;
@@ -6465,7 +6465,7 @@ NONMATCH_FUNC void Player__State_JumpBox(Player *work)
 
                 velXStore = work->objWork.velocity.x;
                 velYStore = work->objWork.velocity.y;
-                work->objWork.displayFlag |= DISPLAY_FLAG_400;
+                work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                 Player__Action_Launch(work);
                 work->objWork.velocity.x = velXStore;
                 work->objWork.velocity.y = velYStore;
@@ -7140,7 +7140,7 @@ void Player__Action_RideDolphin(Player *player, GameObjectTask *dolphin)
     player->gimmickCamOffsetY = 0;
     Player__ChangeAction(player, PLAYER_ACTION_DOLPHIN_RIDE);
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    player->objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
     player->objWork.position = dolphin->objWork.position;
 
@@ -7379,7 +7379,7 @@ void Player__LeaveDolphinRide(Player *player)
 {
     player->gimmickObj = NULL;
 
-    player->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+    player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     player->gimmickFlag &= ~(PLAYER_GIMMICK_40 | PLAYER_GIMMICK_10);
@@ -7667,7 +7667,7 @@ void Player__Action_WaterGun(Player *player, GameObjectTask *other)
 
     player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
     player->blinkTimer            = 0;
-    player->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     SetTaskState(&player->objWork, Player__State_WaterGun);
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GIMMICK);
 }
@@ -7880,7 +7880,7 @@ void Player__Action_SpringRope(Player *player, GameObjectTask *springRope, s32 t
 
     player->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
-    player->objWork.displayFlag &= ~(DISPLAY_FLAG_FLIP_X | DISPLAY_FLAG_APPLY_CAMERA_CONFIG);
+    player->objWork.displayFlag &= ~(DISPLAY_FLAG_FLIP_X | DISPLAY_FLAG_ROTATE_CAMERA_DIR);
 
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_2000;
     player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
@@ -7907,7 +7907,7 @@ void Player__State_SpringRope(Player *work)
         work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
         work->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
         work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_GRABBED);
-        work->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        work->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
         work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 
         work->actionJump(work);
@@ -7971,7 +7971,7 @@ void Player__State_SpringRope(Player *work)
             work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
             work->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
             work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_GRABBED);
-            work->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+            work->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
             work->objWork.groundVel = FLOAT_TO_FX32(0.0);
             work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 

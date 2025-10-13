@@ -31,6 +31,9 @@ extern "C"
 // non-fx32 squared function
 #define MT_SQUARED(x) ((x) * (x))
 
+// Sometimes it wants to be a macro instead of an inline function
+#define MTM_MATH_CLIP_3(a, low, high) ((a) < (low) ? (low) : (((a) > (high)) ? (high) : (a)))
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -78,7 +81,7 @@ u16 Math__Func_207B1A4(s32 angle);
 // INLINE FUNCTIONS
 // --------------------
 
-#define MTM_MATH_SWAP(a, b)                                                                                                                                                             \
+#define MTM_MATH_SWAP(a, b)                                                                                                                                                        \
     a ^= b;                                                                                                                                                                        \
     b ^= a;                                                                                                                                                                        \
     a = (a ^ b);
@@ -136,7 +139,7 @@ RUSH_INLINE void ClampSingleS32(s32 *value, s32 clampVal)
         if (*value > clampVal)
             *value = clampVal;
     }
-    else 
+    else
     {
         if (*value < -clampVal)
             *value = -clampVal;

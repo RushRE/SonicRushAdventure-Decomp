@@ -964,7 +964,7 @@ void RingManager_StageCollide_Flat(Ring *ring)
 
     if (ring->velocity.y > FLOAT_TO_FX32(0.0))
     {
-        cData.vec    = OBJ_COL_UP;
+        cData.vec    = OBD_COL_DOWN;
         collideDistY = ObjDiffCollisionFast(&cData);
         if (collideDistY < 0)
         {
@@ -976,7 +976,7 @@ void RingManager_StageCollide_Flat(Ring *ring)
     }
     else if (ring->velocity.y < FLOAT_TO_FX32(0.0))
     {
-        cData.vec    = OBJ_COL_DOWN;
+        cData.vec    = OBD_COL_UP;
         collideDistY = ObjDiffCollisionFast(&cData);
         if (collideDistY < 0)
         {
@@ -997,14 +997,14 @@ void RingManager_StageCollide_Flat(Ring *ring)
     cData.y          = FX32_TO_WHOLE(ring->position.y);
     if (ring->velocity.x > 0)
     {
-        cData.vec    = OBJ_COL_LEFT;
+        cData.vec    = OBD_COL_RIGHT;
         collideDistX = ObjDiffCollisionFast(&cData);
         if (collideDistX < 0)
             ring->position.x += FX32_FROM_WHOLE(collideDistX);
     }
     else if (ring->velocity.x < 0)
     {
-        cData.vec    = OBJ_COL_RIGHT;
+        cData.vec    = OBD_COL_LEFT;
         collideDistX = ObjDiffCollisionFast(&cData);
         if (collideDistX < 0)
             ring->position.x -= FX32_FROM_WHOLE(collideDistX);
@@ -1035,7 +1035,7 @@ void RingManager_StageCollide_Boss(Ring *ring)
 
     if (ring->velocity.y > FLOAT_TO_FX32(0.0))
     {
-        cData.vec    = OBJ_COL_UP;
+        cData.vec    = OBD_COL_DOWN;
         collideDistY = ObjCollisionFastUnion(&cData);
         if (collideDistY < 0)
         {
@@ -1047,7 +1047,7 @@ void RingManager_StageCollide_Boss(Ring *ring)
     }
     else if (ring->velocity.y < FLOAT_TO_FX32(0.0))
     {
-        cData.vec    = OBJ_COL_DOWN;
+        cData.vec    = OBD_COL_UP;
         collideDistY = ObjCollisionFastUnion(&cData);
         if (collideDistY < 0)
         {
@@ -1079,14 +1079,14 @@ void RingManager_StageCollide_Boss(Ring *ring)
     cData.y          = FX32_TO_WHOLE(ring->position.y);
     if (ring->velocity.x > 0)
     {
-        cData.vec    = OBJ_COL_LEFT;
+        cData.vec    = OBD_COL_RIGHT;
         collideDistX = ObjCollisionFastUnion(&cData);
         if (collideDistX < 0)
             ring->position.x += FX32_FROM_WHOLE(collideDistX);
     }
     else if (ring->velocity.x < 0)
     {
-        cData.vec    = OBJ_COL_RIGHT;
+        cData.vec    = OBD_COL_LEFT;
         collideDistX = ObjCollisionFastUnion(&cData);
         if (collideDistX < 0)
             ring->position.x -= FX32_FROM_WHOLE(collideDistX);
@@ -1101,7 +1101,7 @@ void RingManager_StageCollide_Boss(Ring *ring)
 
 void RingManager_DrawRing_ZoneAct(Ring *ring)
 {
-    StageDisplayFlags displayFlags = DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_NO_ANIMATE_CB;
+    StageDisplayFlags displayFlags = DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_DISABLE_UPDATE;
     if ((ring->flag & RING_FLAG_REVERSE_GRAVITY) != 0)
         displayFlags |= DISPLAY_FLAG_FLIP_Y;
 
@@ -1137,7 +1137,7 @@ void RingManager_DrawRing_BossCircular(Ring *ring)
 
 void RingManager_DrawSparkle_ZoneAct(Ring *ring)
 {
-    StageDisplayFlags displayFlags = DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_NO_ANIMATE_CB;
+    StageDisplayFlags displayFlags = DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_DISABLE_UPDATE;
     if ((ring->flag & RING_FLAG_REVERSE_GRAVITY) != 0)
         displayFlags |= DISPLAY_FLAG_FLIP_Y;
 

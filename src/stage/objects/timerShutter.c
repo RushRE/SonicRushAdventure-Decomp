@@ -695,7 +695,7 @@ void TimerShutterWater_Draw(void)
         {
             position.y = work->gameWork.objWork.position.y + targetY + currentY;
             StageTask__Draw2DEx(&work->gameWork.objWork.obj_2d->ani, &position, NULL, &work->gameWork.objWork.scale, &displayFlag, NULL, NULL);
-            displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
+            displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE;
         }
     }
 }

@@ -35,15 +35,8 @@ typedef struct OBS_BLOCK_COLLISION_
 // FUNCTIONS
 // --------------------
 
-void ObjSetBlockCollision(OBS_BLOCK_COLLISION *bCol);
+void ObjSetBlockCollision(OBS_BLOCK_COLLISION *collisionData);
 s32 ObjBlockCollision(OBS_COL_CHK_DATA *work);
-s32 objGetBlockColData(OBS_COL_CHK_DATA *work);
-s32 objBlockColLimit(OBS_COL_CHK_DATA *work);
-s32 objBlockCalcEmpty(OBS_COL_CHK_DATA *work);
-s32 objBlockCalcFill(OBS_COL_CHK_DATA *work);
-s32 objBlockColEmpty(OBS_COL_CHK_DATA *work);
-s32 objBlockColBlockFill(OBS_COL_CHK_DATA *work);
-s32 objBlockColBlockFillThrough(OBS_COL_CHK_DATA *work);
 
 #ifdef __cplusplus
 }

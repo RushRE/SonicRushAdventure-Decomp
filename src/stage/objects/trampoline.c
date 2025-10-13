@@ -136,7 +136,7 @@ Trampoline *CreateTrampoline(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.animator.ani.work.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PIXELS | ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__ProcessAnimationFast(&work->gameWork.animator.ani);
     work->gameWork.animator.ani.work.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE;
 
     G3_BeginMakeDL(&work->drawList, work->drawData, 0x400);
     G3C_PolygonAttr(&work->drawList, GX_LIGHTID_0, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, GX_COLOR_FROM_888(0xFF), GX_POLYGON_ATTR_MISC_NONE);

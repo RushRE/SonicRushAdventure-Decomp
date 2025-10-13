@@ -948,7 +948,7 @@ NONMATCH_FUNC void ScoreBonus__Main(void)
     playerPos.x = player->objWork.position.x;
     playerPos.y = player->objWork.position.y;
 
-    StageDisplayFlags displayFlag = DISPLAY_FLAG_PAUSED | DISPLAY_FLAG_NO_ANIMATE_CB;
+    StageDisplayFlags displayFlag = DISPLAY_FLAG_PAUSED | DISPLAY_FLAG_DISABLE_UPDATE;
 
     while (digitCount >= 0)
     {

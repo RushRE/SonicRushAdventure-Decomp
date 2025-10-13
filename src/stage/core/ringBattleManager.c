@@ -194,7 +194,7 @@ void HandleRingBattleManagerItemBoxes(RingBattleManager *work)
 
     for (; i < work->itemBoxCount; i++)
     {
-        if ((work->itemBoxList[i]->gameWork.objWork.displayFlag & DISPLAY_FLAG_NO_DRAW) != 0)
+        if ((work->itemBoxList[i]->gameWork.objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) != 0)
         {
             itemBoxList[itemBoxCount] = i;
             itemBoxCount++;
@@ -207,9 +207,9 @@ void HandleRingBattleManagerItemBoxes(RingBattleManager *work)
     {
         u16 itemBoxID = itemBoxList[(u16)FX_ModS32(GetRingBattleRand(&work->itemBoxRandSeed), itemBoxCount)];
 
-        if ((work->itemBoxList[itemBoxID]->gameWork.objWork.displayFlag & DISPLAY_FLAG_NO_DRAW) != 0)
+        if ((work->itemBoxList[itemBoxID]->gameWork.objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) != 0)
         {
-            work->itemBoxList[itemBoxID]->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->itemBoxList[itemBoxID]->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
             work->itemBoxList[itemBoxID]->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
             inactiveItemBoxCount++;

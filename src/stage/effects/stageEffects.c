@@ -1397,7 +1397,7 @@ void EffectBoost_Draw_Super(void)
 
     StageDisplayFlags displayFlags = work->objWork.displayFlag;
     work->objWork.displayFlag ^= DISPLAY_FLAG_FLIP_Y;
-    work->objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
+    work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE;
     StageTask__Draw2D(&work->objWork, &work->objWork.obj_2d->ani);
 
     work->objWork.displayFlag = displayFlags;
@@ -1452,9 +1452,9 @@ void EffectBoost_State_Aura(EffectBoost *work)
         work->objWork.position.y += work->objWork.velocity.y;
 
         if ((player->gimmickFlag & PLAYER_GIMMICK_GRABBED) != 0)
-            work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         else
-            work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
         if (work->objWork.userTimer != 0)
         {
@@ -1511,7 +1511,7 @@ NONMATCH_FUNC s32 CreateEffectPlayerTrail(Player *parent, fx32 height, u32 nodeC
     SetTaskDestructorEvent(EffectTask__sVars.trailTaskList[id], EffectPlayerTrail_Destructor);
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+    work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     work->objWork.flag |= STAGE_TASK_FLAG_NO_DESTROY_WITH_PARENT;
     work->id           = id;
     work->height       = height;
@@ -1706,7 +1706,7 @@ void EffectPlayerTrail_State_Init(EffectPlayerTrail *work)
             work->nodeCount = work->minNodeCount;
             SetTaskState(&work->objWork, EffectPlayerTrail_State_Active);
         }
-        work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+        work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     }
 }
 
@@ -1735,7 +1735,7 @@ void EffectPlayerTrail_State_Finish(EffectPlayerTrail *work)
 
     if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER && (player->playerFlag & PLAYER_FLAG_SUPERBOOST) != 0)
     {
-        work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         DestroyStageTask(&work->objWork);
         EffectTask__sVars.trailTaskList[work->id] = 0;
     }
@@ -1749,7 +1749,7 @@ void EffectPlayerTrail_State_Finish(EffectPlayerTrail *work)
         work->nodeCount--;
         if (work->nodeCount <= 0)
         {
-            work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
             DestroyStageTask(&work->objWork);
             EffectTask__sVars.trailTaskList[work->id] = 0;
         }
@@ -1876,7 +1876,7 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
     work   = TaskGetWorkCurrent(EffectPlayerTrail);
     player = (Player *)work->objWork.parentObj;
 
-    if ((work->objWork.displayFlag & DISPLAY_FLAG_NO_DRAW) == 0 && work->nodeCount && (player->objWork.objType != 1 || (player->gimmickFlag & PLAYER_GIMMICK_GRABBED) == 0))
+    if ((work->objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0 && work->nodeCount && (player->objWork.objType != 1 || (player->gimmickFlag & PLAYER_GIMMICK_GRABBED) == 0))
     {
         MapSys__Func_20090D0(&mapCamera.camera[0], work->trailListStart->start.x, work->trailListStart->start.y, &offset.x, &offset.y);
         offset.z = 0;
@@ -2235,7 +2235,7 @@ EffectShield *CreateEffectRegularShield(Player *parent)
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-    work->objWork.displayFlag |= parent->objWork.displayFlag & DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+    work->objWork.displayFlag |= parent->objWork.displayFlag & DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
     SetTaskState(&work->objWork, EffectRegularShield_State_Active);
 
@@ -2258,8 +2258,8 @@ NONMATCH_FUNC void EffectRegularShield_State_Active(EffectShield *work)
     {
         work->objWork.position = player->objWork.position;
 
-        work->objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
-        work->objWork.displayFlag |= player->objWork.displayFlag & DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        work->objWork.displayFlag &= ~DISPLAY_FLAG_ROTATE_CAMERA_DIR;
+        work->objWork.displayFlag |= player->objWork.displayFlag & DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
         if ((work->objWork.userTimer & 4) != 0)
             work->esWork[4].flags |= 0x80;
@@ -2437,7 +2437,7 @@ EffectShield *CreateEffectMagnetShield(Player *parent)
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-    work->objWork.displayFlag |= parent->objWork.displayFlag & DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+    work->objWork.displayFlag |= parent->objWork.displayFlag & DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
     SetTaskState(&work->objWork, EffectMagnetShield_State_Active);
 
@@ -2455,8 +2455,8 @@ NONMATCH_FUNC void EffectMagnetShield_State_Active(EffectShield *work)
 
         work->objWork.position = player->objWork.position;
 
-        work->objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
-        work->objWork.displayFlag |= player->objWork.displayFlag & DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        work->objWork.displayFlag &= ~DISPLAY_FLAG_ROTATE_CAMERA_DIR;
+        work->objWork.displayFlag |= player->objWork.displayFlag & DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
         if ((work->objWork.userTimer & 4) != 0)
             work->esWork[8].flags |= 0x80;
@@ -3017,9 +3017,9 @@ void EffectDrownAlert_State_Rising(EffectDrownAlert *work)
 
         // flicker every 4 frames
         if ((work->objWork.userTimer & 2) != 0)
-            work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
         else
-            work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     }
 
     if (work->objWork.userTimer > 48)
@@ -3141,9 +3141,9 @@ void EffectBattleAttack_State_SlowMo(EffectBattleAttack *work)
         if (parent->slomoTimer < 128)
         {
             if ((parent->slomoTimer & 2) != 0)
-                work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+                work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
             else
-                work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+                work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
             if (parent->slomoTimer == 0)
                 DestroyStageTask(&work->objWork);
@@ -3163,9 +3163,9 @@ void EffectBattleAttack_State_Confusion(EffectBattleAttack *work)
         if (parent->confusionTimer < 128)
         {
             if ((parent->confusionTimer & 2) != 0)
-                work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+                work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
             else
-                work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+                work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
             if (parent->confusionTimer == 0)
                 DestroyStageTask(&work->objWork);

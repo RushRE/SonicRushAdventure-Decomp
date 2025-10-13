@@ -411,7 +411,7 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
     sVars.archive = FSRequestFileSync("/narc/z1t_tutorial.narc", FSREQ_AUTO_ALLOC_HEAD);
@@ -532,7 +532,7 @@ TutorialCheckpoint *CreateTutorialCheckpoint(MapObject *mapObject, fx32 x, fx32 
 
     if (sVars.activeTutorial != NULL && sectionList[sVars.activeTutorial->sectionID].statePlayer && (sVars.activeTutorial->sectionFlags & TUTORIAL_SECTIONFLAG_COMPLETE) == 0)
     {
-        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         work->gameWork.colliders[0].parent = NULL;
         work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
     }
@@ -1769,9 +1769,9 @@ void TutorialCheckpoint_State_Active(TutorialCheckpoint *work)
     {
         if (sVars.activeTutorial != NULL)
         {
-            if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_NO_DRAW) != 0 && (sVars.activeTutorial->sectionFlags & TUTORIAL_SECTIONFLAG_COMPLETE) != 0)
+            if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) != 0 && (sVars.activeTutorial->sectionFlags & TUTORIAL_SECTIONFLAG_COMPLETE) != 0)
             {
-                work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+                work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
                 work->gameWork.colliders[0].parent = &work->gameWork.objWork;
                 work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             }

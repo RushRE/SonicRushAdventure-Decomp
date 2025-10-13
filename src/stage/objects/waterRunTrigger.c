@@ -31,7 +31,7 @@ WaterRunTrigger *CreateWaterRunTrigger(MapObject *mapObject, fx32 x, fx32 y, fx3
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
     if ((mapObject->flags & WATERRUNTRIGGER_OBJFLAG_FROM_RIGHT) != 0)
         ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -16, -8, 4, 0);

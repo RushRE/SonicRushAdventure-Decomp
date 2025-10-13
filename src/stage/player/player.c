@@ -300,7 +300,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     SetTaskInFunc(&work->objWork, Player__In_Default);
     SetTaskSpriteCallback(&work->objWork, Player__SpriteCallback_Default);
     SetTaskLastFunc(&work->objWork, Player__Last_Default);
-    work->objWork.displayFlag |= DISPLAY_FLAG_800;
+    work->objWork.displayFlag |= DISPLAY_FLAG_LOCK_LIGHT_DIR;
 
     // Load player model
     ObjAction3dNNModelLoad(&work->objWork, &work->aniPlayerModel, playerModelPath[characterID], 1, &playerWork[(s32)characterID], NULL);
@@ -310,7 +310,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     if (oldNodeCount > work->aniPlayerModel.ani.renderObj.resMdl->info.numNode)
         idx = 1;
 
-    work->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+    work->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
     VEC_Set(&work->aniPlayerModel.ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
     work->aniPlayerModel.ani.work.translation2.y = -FLOAT_TO_FX32(16.0);
     work->aniPlayerModel.ani.work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
@@ -453,7 +453,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     work->onLandGround(work);
 
     if (IsBossStage())
-        work->objWork.displayFlag &= ~(DISPLAY_FLAG_800 | DISPLAY_FLAG_APPLY_CAMERA_CONFIG);
+        work->objWork.displayFlag &= ~(DISPLAY_FLAG_LOCK_LIGHT_DIR | DISPLAY_FLAG_ROTATE_CAMERA_DIR);
 
     if ((state->gameFlag & GAME_FLAG_IS_VS_BATTLE) != 0)
         work->rings = 1;
@@ -649,9 +649,9 @@ void Player__InitState(Player *player)
     player->objWork.flag &= ~(STAGE_TASK_FLAG_NO_OBJ_COLLISION);
     player->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
-    player->objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED);
+    player->objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_PAUSED);
     if (!IsBossStage())
-        player->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
     player->objWork.moveFlag &=
         ~(STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL
@@ -718,7 +718,7 @@ void Player__InitGimmick(Player *player, BOOL allowTricks)
     player->gimmickFlag &=
         ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_40 | PLAYER_GIMMICK_80 | PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_40000 | PLAYER_GIMMICK_4000000);
 
-    player->objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_NO_DRAW);
+    player->objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_DRAW);
 
     player->objWork.moveFlag &=
         ~(STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS
@@ -727,7 +727,7 @@ void Player__InitGimmick(Player *player, BOOL allowTricks)
                                 | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
 
     if (!IsBossStage())
-        player->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
     StopPlayerSfx(player, PLAYER_SEQPLAYER_GRIND);
 }
@@ -1031,14 +1031,14 @@ void Player__ChangeAction(Player *player, PlayerAction action)
 
             AnimatorMDL__SetResource(&player->objWork.obj_3d->ani, player->objWork.obj_3d->resources[B3D_RESOURCE_MODEL], playerModelIndexForAction[characterID][action], FALSE,
                                      FALSE);
-            player->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+            player->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
 
             player->aniPlayerModel.ani.renderObj.recJntAnm = recJntAnm;
             player->aniPlayerModel.ani.renderObj.recMatAnm = recMatAnm;
             player->playerFlag |= PLAYER_FLAG_80000000;
         }
 
-        if (CheckIsPlayer1(player) && (player->objWork.displayFlag & DISPLAY_FLAG_400) != 0)
+        if (CheckIsPlayer1(player) && (player->objWork.displayFlag & DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING) != 0)
             player->objWork.obj_3d->ani.animFlags[B3D_ANIM_JOINT_ANIM] |= ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
         else
             player->objWork.obj_3d->ani.animFlags[B3D_ANIM_JOINT_ANIM] &= ~ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
@@ -1049,7 +1049,7 @@ void Player__ChangeAction(Player *player, PlayerAction action)
             AnimatorMDL__SetAnimation(&player->objWork.obj_3d->ani, B3D_RESOURCE_MODEL, player->snowboardAnims, playerModelAnimForAction[characterID][action], NULL);
 
         player->objWork.obj_3d->ani.speedMultiplier = animSpeed;
-        player->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+        player->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
     }
 
     if (playerTailAnimForAction[characterID] != NULL)
@@ -1064,7 +1064,7 @@ void Player__ChangeAction(Player *player, PlayerAction action)
             else
                 AnimatorMDL__SetAnimation(&player->aniTailModel.ani, B3D_RESOURCE_MODEL, player->snowboardAnims, playerTailAnimForAction[characterID][action], NULL);
 
-            if (CheckIsPlayer1(player) && (player->objWork.displayFlag & DISPLAY_FLAG_400) != 0)
+            if (CheckIsPlayer1(player) && (player->objWork.displayFlag & DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING) != 0)
                 player->aniTailModel.ani.animFlags[B3D_ANIM_JOINT_ANIM] |= ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
             else
                 player->aniTailModel.ani.animFlags[B3D_ANIM_JOINT_ANIM] &= ~ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
@@ -1327,7 +1327,7 @@ void Player__Action_LandOnGround(Player *player, fx32 dirZ)
     player->playerFlag &= ~(PLAYER_FLAG_8000 | PLAYER_FLAG_TRICK_SUCCESS);
     player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_IN_AIR | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES);
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
-    player->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     player->blazeHoverTimer             = SECONDS_TO_FRAMES(2.0);
     player->trickFinishHorizFreezeTimer = 0;
 
@@ -1440,7 +1440,7 @@ void Player__OnLandGround(Player *player)
                 || ((player->actionState != PLAYER_ACTION_AIRFORWARD_01 && player->actionState != PLAYER_ACTION_TRICK_SUCCESS1)
                     && (player->actionState != PLAYER_ACTION_TRICK_SUCCESS2 && player->actionState != PLAYER_ACTION_TRICK_FINISH)))
             {
-                player->objWork.displayFlag |= DISPLAY_FLAG_400;
+                player->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
             }
         }
 
@@ -3246,14 +3246,14 @@ void Player__In_Default(void)
         work->blinkTimer--;
 
         if ((work->blinkTimer & 2) != 0)
-            work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         else
-            work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
         work->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
         if (work->blinkTimer == 0)
         {
-            work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
             if ((work->playerFlag & PLAYER_FLAG_FINISHED_STAGE) == 0)
                 work->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
         }
@@ -3331,7 +3331,7 @@ void Player__In_Default(void)
 
         if (work->invincibleTimer == 0)
         {
-            work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
             if ((work->playerFlag & PLAYER_FLAG_FINISHED_STAGE) == 0)
                 work->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
@@ -3547,7 +3547,7 @@ void Player__Draw(void)
         Player__DrawAfterImages();
 
     StageDisplayFlags oldFlags = work->objWork.displayFlag;
-    work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+    work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     StageTask__Draw2D(&work->objWork, &work->objWork.obj_2d->ani);
     work->objWork.displayFlag = oldFlags;
 }
@@ -3583,10 +3583,10 @@ void Player__DrawAfterImages(void)
                         break;
                 }
 
-                work->objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB | DISPLAY_FLAG_PAUSED;
+                work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE | DISPLAY_FLAG_PAUSED;
                 if ((work->playerFlag & PLAYER_FLAG_80000000) != 0)
                 {
-                    work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_ANIMATE_CB;
+                    work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_UPDATE;
                     work->playerFlag &= ~PLAYER_FLAG_80000000;
                 }
 
@@ -3650,7 +3650,7 @@ void Player__State_GroundIdle(Player *work)
     {
         if (work->actionState >= PLAYER_ACTION_LOOKUP_01 && work->actionState <= PLAYER_ACTION_LOOKUP_02)
         {
-            work->objWork.displayFlag |= DISPLAY_FLAG_400;
+            work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
             Player__ChangeAction(work, PLAYER_ACTION_IDLE);
             work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         }
@@ -3677,7 +3677,7 @@ void Player__State_GroundIdle(Player *work)
         {
             if (CheckIsPlayer1(work) && !Player__IsBalancing(work, FALSE))
             {
-                work->objWork.displayFlag |= DISPLAY_FLAG_400;
+                work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                 Player__ChangeAction(work, PLAYER_ACTION_IDLE);
                 work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
             }
@@ -3691,14 +3691,14 @@ void Player__State_GroundIdle(Player *work)
 
     if (Player__HandleFallOffSurface(work))
     {
-        work->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+        work->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
         Player__Action_Launch(work);
     }
     else
     {
         if ((work->inputKeyPress & PLAYER_INPUT_JUMP) != 0 && work->actionJump != NULL)
         {
-            work->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
             work->actionJump(work);
         }
         else
@@ -3706,7 +3706,7 @@ void Player__State_GroundIdle(Player *work)
             if ((work->gimmickFlag & (PLAYER_GIMMICK_1000 | PLAYER_GIMMICK_SNOWBOARD | PLAYER_GIMMICK_100)) == 0 && (work->inputKeyDown & PAD_KEY_DOWN) != 0
                 && work->actionCrouch != NULL)
             {
-                work->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+                work->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                 work->actionCrouch(work);
             }
             else
@@ -3730,7 +3730,7 @@ void Player__State_GroundIdle(Player *work)
                             // just move!
                             if (work->actionGroundMove != NULL)
                             {
-                                work->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+                                work->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                                 work->actionGroundMove(work);
                                 return;
                             }
@@ -3742,7 +3742,7 @@ void Player__State_GroundIdle(Player *work)
 
                 if ((work->gimmickFlag & PLAYER_GIMMICK_100) != 0 && work->objWork.velocity.z != 0 && work->actionGroundMove != NULL)
                 {
-                    work->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+                    work->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                     work->actionGroundMove(work);
                 }
                 else
@@ -3763,7 +3763,7 @@ void Player__State_GroundIdle(Player *work)
                         {
                             if ((work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
                             {
-                                work->objWork.displayFlag |= DISPLAY_FLAG_400;
+                                work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                                 Player__ChangeAction(work, PLAYER_ACTION_IDLE);
                                 work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
                             }
@@ -4386,7 +4386,7 @@ void Player__State_Air(Player *work)
             case PLAYER_ACTION_MUSHROOM_BOUNCE:
                 if ((work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
                 {
-                    work->objWork.displayFlag |= DISPLAY_FLAG_400;
+                    work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                     Player__ChangeAction(work, PLAYER_ACTION_AIRFORWARD_02);
                     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
                 }
@@ -4395,7 +4395,7 @@ void Player__State_Air(Player *work)
             case PLAYER_ACTION_JUMPDASH_01:
                 if (velocityY > FLOAT_TO_FX32(1.75))
                 {
-                    work->objWork.displayFlag |= DISPLAY_FLAG_400;
+                    work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                     Player__ChangeAction(work, PLAYER_ACTION_JUMPDASH_02);
                     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
                 }
@@ -4404,7 +4404,7 @@ void Player__State_Air(Player *work)
             case PLAYER_ACTION_TRAMPOLINE:
                 if ((work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0 && velocityY > FLOAT_TO_FX32(0.25))
                 {
-                    work->objWork.displayFlag |= DISPLAY_FLAG_400;
+                    work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                     Player__ChangeAction(work, PLAYER_ACTION_JUMPFALL);
                 }
                 break;
@@ -4426,7 +4426,7 @@ void Player__State_Air(Player *work)
             case PLAYER_ACTION_TRICK_FINISH_V_02:
                 if (velocityY > -FLOAT_TO_FX32(0.125))
                 {
-                    work->objWork.displayFlag |= DISPLAY_FLAG_400;
+                    work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                     Player__ChangeAction(work, PLAYER_ACTION_TRICK_FINISH_V_03);
                 }
 
@@ -4470,13 +4470,13 @@ void Player__State_Air(Player *work)
                     case CHARACTER_BLAZE:
                         if (work->trickFinishHorizFreezeTimer)
                         {
-                            work->objWork.displayFlag ^= DISPLAY_FLAG_NO_DRAW;
+                            work->objWork.displayFlag ^= DISPLAY_FLAG_DISABLE_DRAW;
                             work->objWork.velocity.y = 0;
 
                             work->trickFinishHorizFreezeTimer--;
                             if (!work->trickFinishHorizFreezeTimer)
                             {
-                                work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+                                work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
                                 work->objWork.velocity.x   = work->trickFinishHorizXVelocity;
                                 work->objWork.hitstopTimer = FLOAT_TO_FX32(4.0);
                                 work->objWork.shakeTimer   = FLOAT_TO_FX32(4.0);
@@ -4498,13 +4498,13 @@ void Player__State_Air(Player *work)
                     case CHARACTER_BLAZE:
                         if (work->trickFinishHorizFreezeTimer != 0)
                         {
-                            work->objWork.displayFlag ^= DISPLAY_FLAG_NO_DRAW;
+                            work->objWork.displayFlag ^= DISPLAY_FLAG_DISABLE_DRAW;
                             work->objWork.velocity.y = 0;
 
                             work->trickFinishHorizFreezeTimer--;
                             if (work->trickFinishHorizFreezeTimer == 0)
                             {
-                                work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+                                work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
                                 work->objWork.velocity.x   = work->trickFinishHorizXVelocity;
                                 work->objWork.hitstopTimer = FLOAT_TO_FX32(4.0);
                                 work->objWork.shakeTimer   = FLOAT_TO_FX32(4.0);
@@ -4571,7 +4571,7 @@ void Player__State_Air(Player *work)
             case PLAYER_ACTION_AIRFORWARD_SNOWBOARD_01:
                 if ((work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
                 {
-                    work->objWork.displayFlag |= DISPLAY_FLAG_400;
+                    work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                     Player__ChangeAction(work, PLAYER_ACTION_AIRFORWARD_SNOWBOARD_02);
 
                     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -4582,7 +4582,7 @@ void Player__State_Air(Player *work)
             case PLAYER_ACTION_JUMPDASH_SNOWBOARD_01:
                 if (velocityY > FLOAT_TO_FX32(1.75))
                 {
-                    work->objWork.displayFlag |= DISPLAY_FLAG_400;
+                    work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                     Player__ChangeAction(work, PLAYER_ACTION_JUMPDASH_SNOWBOARD_02);
                     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
                     ChangePlayerSnowboardAction(work, PLAYERSNOWBOARD_ACTION_AIRFALL_02);
@@ -4638,13 +4638,13 @@ void Player__State_Air(Player *work)
                     case CHARACTER_BLAZE:
                         if (work->trickFinishHorizFreezeTimer)
                         {
-                            work->objWork.displayFlag ^= DISPLAY_FLAG_NO_DRAW;
+                            work->objWork.displayFlag ^= DISPLAY_FLAG_DISABLE_DRAW;
                             work->objWork.velocity.y = 0;
 
                             work->trickFinishHorizFreezeTimer--;
                             if (!work->trickFinishHorizFreezeTimer)
                             {
-                                work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+                                work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
                                 work->objWork.velocity.x   = work->trickFinishHorizXVelocity;
                                 work->objWork.hitstopTimer = FLOAT_TO_FX32(4.0);
                                 work->objWork.shakeTimer   = FLOAT_TO_FX32(4.0);
@@ -4665,13 +4665,13 @@ void Player__State_Air(Player *work)
                     case CHARACTER_BLAZE:
                         if (work->trickFinishHorizFreezeTimer)
                         {
-                            work->objWork.displayFlag ^= DISPLAY_FLAG_NO_DRAW;
+                            work->objWork.displayFlag ^= DISPLAY_FLAG_DISABLE_DRAW;
                             work->objWork.velocity.y = 0;
 
                             work->trickFinishHorizFreezeTimer--;
                             if (!work->trickFinishHorizFreezeTimer)
                             {
-                                work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+                                work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
                                 work->objWork.velocity.x   = work->trickFinishHorizXVelocity;
                                 work->objWork.hitstopTimer = FLOAT_TO_FX32(4.0);
                                 work->objWork.shakeTimer   = FLOAT_TO_FX32(4.0);
@@ -4768,7 +4768,7 @@ void Player__State_Air(Player *work)
                     if (work->objWork.userWork)
                     {
                         work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
-                        work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+                        work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
                         work->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
                         Player__PerformTrick(work);
                     }
@@ -4828,7 +4828,7 @@ void Player__State_Death(Player *player)
         }
         else
         {
-            player->playerFlag &= ~DISPLAY_FLAG_400;
+            player->playerFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
 
             Player__Gimmick_200EE68(player);
 
@@ -4875,7 +4875,7 @@ void Player__State_Warp(Player *work)
         }
 
         if (work->objWork.scale.x == FLOAT_TO_FX32(0.00390625) && work->objWork.scale.y == FLOAT_TO_FX32(4.0))
-            work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     }
 
     s32 state = work->objWork.userWork;
@@ -5652,7 +5652,7 @@ void Player__Action_FlameHover(Player *player)
 {
     if (player->blazeHoverTimer != 0)
     {
-        player->objWork.displayFlag |= DISPLAY_FLAG_400;
+        player->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
         Player__ChangeAction(player, PLAYER_ACTION_FLAMEHOVER);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         player->playerFlag &= ~(PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
@@ -5701,7 +5701,7 @@ void Player__State_FlameHover(Player *work)
     {
         Player__InitPhysics(work);
         work->objWork.groundVel = work->objWork.velocity.x;
-        work->objWork.displayFlag |= DISPLAY_FLAG_400;
+        work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
         Player__Action_Launch(work);
     }
     else if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
@@ -5953,7 +5953,7 @@ void Player__HandleGroundCollisions(Player *player)
             pData.x    = FX32_TO_WHOLE(player->objWork.position.x);
             pData.y    = FX32_TO_WHOLE(player->objWork.position.y) + player->objWork.hitboxRect.top - 4;
             pData.flag = player->objWork.flag & STAGE_TASK_FLAG_ON_PLANE_B;
-            pData.vec  = OBJ_COL_DOWN;
+            pData.vec  = OBD_COL_UP;
             pData.dir  = &dir;
             pData.attr = NULL;
 
@@ -6107,7 +6107,7 @@ BOOL Player__IsBalancing(Player *player, BOOL updateAction)
     colWork.x    = FX32_TO_WHOLE(player->objWork.position.x);
     colWork.y    = FX32_TO_WHOLE(player->objWork.position.y) + player->objWork.hitboxRect.bottom;
     colWork.flag = player->objWork.flag & STAGE_TASK_FLAG_ON_PLANE_B;
-    colWork.vec  = OBJ_COL_UP;
+    colWork.vec  = OBD_COL_DOWN;
     colWork.dir  = NULL;
     colWork.attr = NULL;
 
@@ -6123,7 +6123,7 @@ BOOL Player__IsBalancing(Player *player, BOOL updateAction)
         {
             if (updateAction)
             {
-                player->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+                player->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                 if ((player->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
                     Player__ChangeAction(player, PLAYER_ACTION_BALANCE_BACKWARD);
                 else
@@ -6138,7 +6138,7 @@ BOOL Player__IsBalancing(Player *player, BOOL updateAction)
         {
             if (updateAction)
             {
-                player->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+                player->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                 if ((player->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
                     Player__ChangeAction(player, PLAYER_ACTION_BALANCE_FORWARD);
                 else
@@ -6776,7 +6776,7 @@ void Player__ReceivePacket(Player *player)
                 }
                 else
                 {
-                    player->objWork.displayFlag ^= DISPLAY_FLAG_NO_ANIMATE_CB;
+                    player->objWork.displayFlag ^= DISPLAY_FLAG_DISABLE_UPDATE;
                 }
                 player->playerFlag |= PLAYER_FLAG_DISABLE_PRESSURE_CHECK;
                 player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS;
@@ -6825,9 +6825,9 @@ void Player__ReceivePacket(Player *player)
 
         if (player->actionState != playerPacket->actionState)
         {
-            player->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+            player->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
             Player__ChangeAction(player, playerPacket->actionState);
-            player->objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
+            player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE;
         }
 
         player->objWork.obj_2d->ani.work.animAdvance = playerPacket->animAdvance2D << 9;
@@ -6836,9 +6836,9 @@ void Player__ReceivePacket(Player *player)
         if (playerTailAnimForAction[player->characterID] != 0)
             player->aniTailModel.ani.speedMultiplier = playerPacket->animAdvance2D << 9;
 
-        player->objWork.displayFlag &= DISPLAY_FLAG_NO_ANIMATE_CB;
-        player->objWork.displayFlag |= playerPacket->displayFlag & ~(DISPLAY_FLAG_NO_ANIMATE_CB | DISPLAY_FLAG_NO_DRAW_EVENT);
-        player->objWork.displayFlag ^= DISPLAY_FLAG_NO_ANIMATE_CB;
+        player->objWork.displayFlag &= DISPLAY_FLAG_DISABLE_UPDATE;
+        player->objWork.displayFlag |= playerPacket->displayFlag & ~(DISPLAY_FLAG_DISABLE_UPDATE | DISPLAY_FLAG_USE_DEFAULT_DRAW);
+        player->objWork.displayFlag ^= DISPLAY_FLAG_DISABLE_UPDATE;
 
         player->objWork.dir.z = playerPacket->dirZ << 8;
         player->objWork.dir.x = playerPacket->dirX << 8;
@@ -6889,7 +6889,7 @@ void Player__SendPacket(Player *player)
     packet->position.y    = player->objWork.position.y;
     packet->position.z    = player->objWork.position.z;
     packet->actionState   = player->actionState;
-    packet->displayFlag   = player->objWork.displayFlag & ~DISPLAY_FLAG_NO_ANIMATE_CB;
+    packet->displayFlag   = player->objWork.displayFlag & ~DISPLAY_FLAG_DISABLE_UPDATE;
     packet->animAdvance2D = player->objWork.obj_2d->ani.work.animAdvance >> 8;
     packet->dirZ          = player->objWork.dir.z >> 8;
     packet->dirX          = player->objWork.dir.x >> 8;
@@ -6922,7 +6922,7 @@ void Player__SendPacket(Player *player)
          || StageTaskStateMatches(&player->objWork, Player__State_201DE24))
         || (StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRailStartSpring) && player->objWork.scale.x != FLOAT_TO_FX32(1.0)))
     {
-        packet->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        packet->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     }
 }
 
@@ -6985,7 +6985,7 @@ void Player__ReadGhostFrame(Player *player)
         {
             player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
             player->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-            player->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
             return;
         }
 
@@ -7000,11 +7000,11 @@ void Player__ReadGhostFrame(Player *player)
 
                 player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
                 player->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-                player->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+                player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
                 return;
             }
 
-            player->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            player->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
             if ((playerGameStatus.stageTimer & 2) == 0)
             {
@@ -7044,7 +7044,7 @@ void Player__ReadGhostFrame(Player *player)
         }
         else
         {
-            player->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         }
 
         if (id < 0)
@@ -7054,7 +7054,7 @@ void Player__ReadGhostFrame(Player *player)
 
         if (player->actionState != (ghostBuffer[id].action & 0x7F))
         {
-            player->objWork.displayFlag &= ~DISPLAY_FLAG_400;
+            player->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
             Player__ChangeAction(player, (PlayerAction)(ghostBuffer[id].action & 0x7F));
 
             if (player->actionState >= PLAYER_ACTION_WALK1 && player->actionState <= PLAYER_ACTION_WALK6)

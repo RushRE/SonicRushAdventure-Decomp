@@ -73,7 +73,7 @@ Avalanche *CreateAvalanche(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
     ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, mapObject->left, mapObject->top, mapObject->left + mapObject->width, mapObject->top + mapObject->height);

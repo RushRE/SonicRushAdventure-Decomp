@@ -158,7 +158,7 @@ EnemyDiveBat *CreateDiveBat(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     if (mapObject->id == MAPOBJECT_348)
     {
-        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
         work->type = type;
@@ -257,7 +257,7 @@ void EnemyDiveBat_State_Parent(EnemyDiveBat *work)
         {
             work->gameWork.objWork.position.x  = work->originPos.x + (enemy->gameWork.objWork.position.x - enemy->originPos.x);
             work->gameWork.objWork.position.y  = work->originPos.y + (enemy->gameWork.objWork.position.y - enemy->originPos.y);
-            work->gameWork.objWork.displayFlag = (enemy->gameWork.objWork.displayFlag & ~DISPLAY_FLAG_NO_DRAW) | DISPLAY_FLAG_NO_ANIMATE_CB;
+            work->gameWork.objWork.displayFlag = (enemy->gameWork.objWork.displayFlag & ~DISPLAY_FLAG_DISABLE_DRAW) | DISPLAY_FLAG_DISABLE_UPDATE;
 
             work->gameWork.colliders[0] = enemy->gameWork.colliders[0];
             work->gameWork.colliders[1] = enemy->gameWork.colliders[1];
@@ -413,7 +413,7 @@ void EnemyDiveBat_Action_Attack(EnemyDiveBat *work)
 
             SetTaskOutFunc(&work->gameWork.objWork, NULL);
 
-            work->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_NO_ANIMATE_CB | DISPLAY_FLAG_NO_DRAW);
+            work->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_UPDATE | DISPLAY_FLAG_DISABLE_DRAW);
 
             if (instanceList[work->type].count != 0)
                 instanceList[work->type].count--;

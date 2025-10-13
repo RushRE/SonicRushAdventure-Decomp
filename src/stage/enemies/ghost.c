@@ -206,14 +206,14 @@ void EnemyGhost_HandleVisibility(EnemyGhost *work)
     {
         case GHOST_VISIBILITY_OPAQUE:
             ani->work.spriteType = GX_OAM_MODE_NORMAL;
-            work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
             work->aniMachine.ani.work.spriteType = GX_OAM_MODE_NORMAL;
-            work->machineDisplayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->machineDisplayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
             break;
 
         case GHOST_VISIBILITY_TRANSPARENT:
-            work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
-            work->machineDisplayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
+            work->machineDisplayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
             ani->work.spriteType                 = GX_OAM_MODE_XLU;
             work->aniMachine.ani.work.spriteType = GX_OAM_MODE_XLU;
             work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
@@ -223,16 +223,16 @@ void EnemyGhost_HandleVisibility(EnemyGhost *work)
             if (ani->work.spriteType == GX_OAM_MODE_XLU)
             {
                 ani->work.spriteType = GX_OAM_MODE_NORMAL;
-                work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+                work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
                 work->aniMachine.ani.work.spriteType = GX_OAM_MODE_NORMAL;
-                work->machineDisplayFlag |= DISPLAY_FLAG_NO_DRAW;
+                work->machineDisplayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
             }
             else
             {
                 ani->work.spriteType = GX_OAM_MODE_XLU;
-                work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+                work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
                 work->aniMachine.ani.work.spriteType = GX_OAM_MODE_XLU;
-                work->machineDisplayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+                work->machineDisplayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
             }
 
             work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
@@ -240,9 +240,9 @@ void EnemyGhost_HandleVisibility(EnemyGhost *work)
 
         case GHOST_VISIBILITY_INVISIBLE:
             ani->work.spriteType = GX_OAM_MODE_NORMAL;
-            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
             work->aniMachine.ani.work.spriteType = GX_OAM_MODE_NORMAL;
-            work->machineDisplayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->machineDisplayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
             work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             break;
@@ -502,9 +502,9 @@ void EnemyGhost_Draw(void)
         if ((work->gameWork.flags & GAMEOBJECT_FLAG_ALLOW_RESPAWN) != 0)
         {
             work->gameWork.objWork.obj_2d->ani.work.spriteType = GX_OAM_MODE_NORMAL;
-            work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
             work->aniMachine.ani.work.spriteType = GX_OAM_MODE_NORMAL;
-            work->machineDisplayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->machineDisplayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
         }
     }
 }

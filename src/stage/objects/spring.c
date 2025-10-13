@@ -111,7 +111,7 @@ void Spring_Action_Idle(Spring *work)
     SetTaskState(&work->gameWork.objWork, Spring_State_Idle);
 
     if ((work->gameWork.mapObject->flags & (SPRING_OBJFLAG_APPEAR_ON_USE | SPRING_OBJFLAG_HIDDEN)) != 0)
-        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
     if ((work->gameWork.mapObject->flags & SPRING_OBJFLAG_NO_COMBO) != 0)
         work->gameWork.mapObject->param.tensionPenalty = 0;
@@ -138,9 +138,9 @@ void Spring_Action_Activate(Spring *spring)
     SetTaskState(&spring->gameWork.objWork, Spring_State_Activated);
 
     if ((spring->gameWork.mapObject->flags & SPRING_OBJFLAG_HIDDEN) != 0)
-        spring->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        spring->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     else
-        spring->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+        spring->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
     StageTask__SetAnimatorPriority(&spring->gameWork.objWork, SPRITE_PRIORITY_2);
 }

@@ -64,7 +64,7 @@ NONMATCH_FUNC PirateShip *CreatePirateShip(MapObject *mapObject, fx32 x, fx32 y,
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_pirate_ship.bac", GetObjectDataWork(OBJDATAWORK_162), gameArchiveStage, 119);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, PIRATESHIP_ANI_SHIP, 87);
@@ -479,7 +479,7 @@ void PirateShip_State_Disappear(PirateShip *work)
         if (mapCamera.camera[player->cameraID].disp_pos.x + FLOAT_TO_FX32(HW_LCD_WIDTH + 96.0f) < work->gameWork.objWork.position.x)
         {
             work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
-            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
             work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
 
             work->gameWork.colliders[0].parent = &work->gameWork.objWork;
@@ -514,7 +514,7 @@ void PirateShip_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     else
     {
         pirateShip->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
-        pirateShip->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+        pirateShip->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
         pirateShip->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
         pirateShip->gameWork.flags &= ~PIRATESHIP_FLAG_MOVING_LEFT;
 

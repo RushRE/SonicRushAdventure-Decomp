@@ -120,7 +120,7 @@ void EnemyGlider_Action_Init(EnemyGlider *work)
 {
     GameObject__SetAnimation(&work->gameWork, GLIDER_ANI_GLIDE);
 
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_DISABLE_LOOPING;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_DISABLE_LOOPING;
     work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
     work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
     work->gameWork.colliders[2].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
@@ -145,7 +145,7 @@ void EnemyGlider_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     else
         enemy->gameWork.objWork.position.x = mapCamera.camera[0].disp_pos.x + FLOAT_TO_FX32(HW_LCD_WIDTH + 30.0);
 
-    enemy->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+    enemy->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     enemy->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
     enemy->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
     enemy->gameWork.colliders[2].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;

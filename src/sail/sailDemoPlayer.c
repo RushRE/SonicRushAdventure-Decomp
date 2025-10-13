@@ -86,9 +86,9 @@ void SailDemoPlayer_State_Playback(StageTask *work)
         work->userWork = 0;
 
     // Handle flashing sprite
-    work->displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+    work->displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     if (work->userWork > 60 && work->userWork < 80 || work->userWork > 140)
-        work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
     if (work->userWork == 0)
         StageTask__SetAnimation(work, 0);

@@ -58,7 +58,7 @@ SpringRope *CreateSpringRope(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     // Init 3D graphics, these are the main graphics the devs want you to see
     OBS_ACTION3D_NN_WORK *aniRope3D = &work->aniRope3D;
     ObjAction3dNNModelLoad(&work->gameWork.objWork, aniRope3D, "/mod/gmk_rope_c.nsbmd", 1, GetObjectDataWork(OBJDATAWORK_160), gameArchiveStage);
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_ROTATION;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_ROTATION;
     aniRope3D->ani.work.scale.x = FLOAT_TO_FX32(3.3);
     aniRope3D->ani.work.scale.y = FLOAT_TO_FX32(3.3);
     aniRope3D->ani.work.scale.z = FLOAT_TO_FX32(3.3);
@@ -88,7 +88,7 @@ void SpringRope_State_Active(SpringRope *work)
     {
         if (!CheckPlayerGimmickObj(player, work))
         {
-            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
             work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             work->gameWork.parent = NULL;
             AnimatorMDL__SetResource(&work->gameWork.objWork.obj_3d->ani, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_MODEL], 1, FALSE, FALSE);
@@ -148,7 +148,7 @@ void SpringRope_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         springRope->gameWork.parent = &player->objWork;
         springRope->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         AnimatorMDL__SetResource(&springRope->gameWork.objWork.obj_3d->ani, springRope->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_MODEL], 0, FALSE, FALSE);
-        springRope->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        springRope->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_ROTATE_CAMERA_DIR;
         Player__Action_SpringRope(player, &springRope->gameWork, FLOAT_TO_FX32(160.0));
     }
 }

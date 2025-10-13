@@ -744,7 +744,7 @@ EffectSailboatBazookaSmoke *EffectSailboatBazookaSmoke__Create(StageTask *parent
     work->effWork.objWork.dir = parent->dir;
 
     work->effWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
-    work->effWork.objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+    work->effWork.objWork.displayFlag &= ~DISPLAY_FLAG_ROTATE_CAMERA_DIR;
     work->effWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
 
     return work;
@@ -955,7 +955,7 @@ void EffectHoverCrystalSparkle__Draw(void)
     s32 i;
     s32 lastTime;
     struct EffectHoverCrystalParticle *particle;
-    u32 displayFlag = DISPLAY_FLAG_NO_ANIMATE_CB;
+    u32 displayFlag = DISPLAY_FLAG_DISABLE_UPDATE;
 
     EffectHoverCrystalSparkle *work = TaskGetWorkCurrent(EffectHoverCrystalSparkle);
 

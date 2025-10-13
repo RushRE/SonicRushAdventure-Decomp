@@ -325,7 +325,7 @@ void StageTask_Main(void)
 
         if (!IsStageTaskDestroyed(work))
         {
-            if (work->ppOut == NULL || (work->displayFlag & DISPLAY_FLAG_NO_DRAW_EVENT) != 0)
+            if (work->ppOut == NULL || (work->displayFlag & DISPLAY_FLAG_USE_DEFAULT_DRAW) != 0)
                 StageTask__Draw(work);
 
             if (work->ppOut != NULL)
@@ -573,8 +573,8 @@ BOOL StageTask__ObjectParent(StageTask *work)
 
         if ((work->flag & STAGE_TASK_FLAG_IS_CHILD_OBJ) != 0)
         {
-            work->displayFlag &= ~(DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
-            work->displayFlag |= parent->displayFlag & (DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
+            work->displayFlag &= ~(DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
+            work->displayFlag |= parent->displayFlag & (DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
 
             work->position.x = parent->position.x + work->parentOffset.x;
             work->position.y = parent->position.y + work->parentOffset.y;
@@ -636,8 +636,8 @@ BOOL StageTask__ObjectParent(StageTask *work)
                     StageTask__SetAnimation(work, parentAnimator->animID);
             }
 
-            work->displayFlag &= ~(DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED | DISPLAY_FLAG_DID_FINISH | DISPLAY_FLAG_DISABLE_LOOPING);
-            work->displayFlag |= parent->displayFlag & (DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED | DISPLAY_FLAG_DID_FINISH | DISPLAY_FLAG_DISABLE_LOOPING);
+            work->displayFlag &= ~(DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_PAUSED | DISPLAY_FLAG_DID_FINISH | DISPLAY_FLAG_DISABLE_LOOPING);
+            work->displayFlag |= parent->displayFlag & (DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_PAUSED | DISPLAY_FLAG_DID_FINISH | DISPLAY_FLAG_DISABLE_LOOPING);
         }
     }
 
@@ -833,7 +833,7 @@ void StageTask__Draw2DEx(AnimatorSpriteDS *animator, VecFx32 *position, VecU16 *
         animator->work.animAdvance = FLOAT_TO_FX32(0.0);
     }
 
-    if ((copyDisplayFlagPtr & DISPLAY_FLAG_NO_ANIMATE_CB) == 0)
+    if ((copyDisplayFlagPtr & DISPLAY_FLAG_DISABLE_UPDATE) == 0)
     {
         AnimatorSpriteDS__ProcessAnimation(animator, callback, userData);
     }
@@ -860,7 +860,7 @@ void StageTask__Draw2DEx(AnimatorSpriteDS *animator, VecFx32 *position, VecU16 *
         animator->position[1].y = MultiplyFX(animator->position[1].y - HW_LCD_CENTER_Y, g_obj.scale.y) + HW_LCD_CENTER_Y;
     }
 
-    if ((copyDisplayFlagPtr & DISPLAY_FLAG_NO_DRAW) == 0)
+    if ((copyDisplayFlagPtr & DISPLAY_FLAG_DISABLE_DRAW) == 0)
     {
         if ((((copyDisplayFlagPtr & DISPLAY_FLAG_DISABLE_ROTATION) == 0) && (rotation != FLOAT_DEG_TO_IDX(0.0)))
             || ((scaleX != FLOAT_TO_FX32(1.0) || scaleY != FLOAT_TO_FX32(1.0)) && ((copyDisplayFlagPtr & DISPLAY_FLAG_DISABLE_SCALE) == 0)))
@@ -1016,7 +1016,7 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
     }
 
     copyStageDisplayFlags &= ~(DISPLAY_FLAG_DID_FINISH);
-    if (copyStageDisplayFlags & DISPLAY_FLAG_800)
+    if (copyStageDisplayFlags & DISPLAY_FLAG_LOCK_LIGHT_DIR)
     {
         if (copyStageDisplayFlags & DISPLAY_FLAG_FLIP_X)
         {
@@ -1116,7 +1116,7 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
     animator->scale.y = newScaleY;
     animator->scale.z = newScaleZ;
 
-    applyCameraConfig = copyStageDisplayFlags & DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+    applyCameraConfig = copyStageDisplayFlags & DISPLAY_FLAG_ROTATE_CAMERA_DIR;
     if (applyCameraConfig)
     {
         CameraConfig const *const ptrConfig = &g_obj.cameraConfig->config;
@@ -1141,7 +1141,7 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
         const fx32 far    = ptrConfig->projFar;
         NNS_G3dGlbFrustum(top, bottom, left, right, near, far);
     }
-    else if (copyStageDisplayFlags & DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG)
+    else if (copyStageDisplayFlags & DISPLAY_FLAG_DRAW_3D_SPRITE_AS_2D)
     {
         const u16 defaultFOV = FLOAT_DEG_TO_IDX(88.59375); // or 0x3F00
         // MW < 2.0sp1p5 seems necessary in order to match the early computing of the sin/cos array indices.
@@ -1185,7 +1185,7 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
         }
     }
 
-    if ((copyStageDisplayFlags & DISPLAY_FLAG_NO_ANIMATE_CB) == 0)
+    if ((copyStageDisplayFlags & DISPLAY_FLAG_DISABLE_UPDATE) == 0)
     {
         if (mdlAnimator != NULL && (mdlAnimator->renderObj.recJntAnm != NULL))
         {
@@ -1218,7 +1218,7 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
         mdlAnimator->ratioMultiplier = backupRatioMultiplier;
     }
 
-    if ((copyStageDisplayFlags & DISPLAY_FLAG_NO_DRAW) == 0)
+    if ((copyStageDisplayFlags & DISPLAY_FLAG_DISABLE_DRAW) == 0)
     {
         OBS_ACTION3D_SIMPLE_WORK *obj3d_es = obj3d_es_arg;
         if (obj3d_es != NULL)
@@ -1252,7 +1252,7 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
         NNS_G3dGlb.projMtx = backupNNS_G3dGlb_projMtx;
     }
 
-    if (copyStageDisplayFlags & DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG)
+    if (copyStageDisplayFlags & DISPLAY_FLAG_DRAW_3D_SPRITE_AS_2D)
     {
         Camera3D__LoadState(g_obj.cameraConfig);
     }
@@ -1261,11 +1261,12 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
     {
         if (mdlAnimator->animFlags[0] & ANIMATORMDL_FLAG_BLENDING_PAUSED)
         {
-            copyStageDisplayFlags &= ~(DISPLAY_FLAG_400);
+            copyStageDisplayFlags &= ~(DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING);
         }
+
         if (mdlAnimator->animFlags[0] & ANIMATORMDL_FLAG_FINISHED)
         {
-            copyStageDisplayFlags &= ~(DISPLAY_FLAG_400);
+            copyStageDisplayFlags &= ~(DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING);
             copyStageDisplayFlags |= DISPLAY_FLAG_DID_FINISH;
         }
     }

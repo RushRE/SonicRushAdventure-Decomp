@@ -298,7 +298,7 @@ void CreateItemBoxReward(s32 type)
             }
         }
 
-        work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+        work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     }
     else
     {
@@ -393,7 +393,7 @@ void ItemBox_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     if (gmCheckRingBattle())
     {
-        if ((itemBox->gameWork.objWork.displayFlag & DISPLAY_FLAG_NO_DRAW) != 0)
+        if ((itemBox->gameWork.objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) != 0)
             return;
 
         if (CheckIsPlayer1(player) == FALSE)
@@ -401,7 +401,7 @@ void ItemBox_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ITEM_BREAK);
             CreateEffectExplosion(&itemBox->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), EXPLOSION_SMALL);
             itemBox->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-            itemBox->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            itemBox->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
             return;
         }
@@ -419,7 +419,7 @@ void ItemBox_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         if (gmCheckRingBattle())
         {
             itemBox->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-            itemBox->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            itemBox->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         }
         else
         {
@@ -474,9 +474,9 @@ void ItemBoxReward_State_Active(ItemBoxReward *work)
     if (work->objWork.userTimer < 32)
     {
         if ((work->objWork.userTimer & DISPLAY_FLAG_FLIP_Y) != 0)
-            work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
         else
-            work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     }
 
     if (work->objWork.userTimer <= 0)

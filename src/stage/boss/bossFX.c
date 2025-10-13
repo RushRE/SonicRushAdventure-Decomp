@@ -139,7 +139,7 @@ BossFX3D *BossFX__CreateRexExplode1(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z)
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef1_f_exp01",
                                         B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, NULL);
 
-    effect->objWork.flag |= DISPLAY_FLAG_NO_DRAW;
+    effect->objWork.flag |= DISPLAY_FLAG_DISABLE_DRAW;
 
     return effect;
 }
@@ -203,7 +203,7 @@ BossFX3D *BossFX__CreatePendulumExplode1(BossFX3DFlags flags, fx32 x, fx32 y, fx
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef2_f_exp01",
                                         B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, NULL);
 
-    effect->objWork.flag |= DISPLAY_FLAG_NO_DRAW;
+    effect->objWork.flag |= DISPLAY_FLAG_DISABLE_DRAW;
 
     return effect;
 }
@@ -251,7 +251,7 @@ BossFX3D *BossFX__CreateKrackenExplode1(BossFX3DFlags flags, fx32 x, fx32 y, fx3
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef3_f_exp01",
                                         B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, NULL);
 
-    effect->objWork.flag |= DISPLAY_FLAG_NO_DRAW;
+    effect->objWork.flag |= DISPLAY_FLAG_DISABLE_DRAW;
 
     effect->objWork.scale.x = FLOAT_TO_FX32(1.5);
     effect->objWork.scale.y = FLOAT_TO_FX32(1.5);
@@ -345,7 +345,7 @@ BossFX3D *BossFX__CreatePirateExplode1(BossFX3DFlags flags, fx32 x, fx32 y, fx32
 {
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef4_f_exp01",
                                         B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, NULL);
-    effect->objWork.flag |= DISPLAY_FLAG_NO_DRAW;
+    effect->objWork.flag |= DISPLAY_FLAG_DISABLE_DRAW;
     return effect;
 }
 
@@ -510,7 +510,7 @@ BossFX3D *BossFX__CreateWhaleExplode1(BossFX3DFlags flags, fx32 x, fx32 y, fx32 
 {
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef5_f_exp01",
                                         B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, NULL);
-    effect->objWork.flag |= DISPLAY_FLAG_NO_DRAW;
+    effect->objWork.flag |= DISPLAY_FLAG_DISABLE_DRAW;
     return effect;
 }
 
@@ -586,7 +586,7 @@ BossFX3D *BossFX__CreateCondorExplode1(BossFX3DFlags flags, fx32 x, fx32 y, fx32
 {
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef6_f_exp01",
                                         B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, NULL);
-    effect->objWork.flag |= DISPLAY_FLAG_NO_DRAW;
+    effect->objWork.flag |= DISPLAY_FLAG_DISABLE_DRAW;
     MTX_RotX33(&effect->aniModel.ani.work.rotation, SinFX(FLOAT_DEG_TO_IDX(29.970703125)), CosFX(FLOAT_DEG_TO_IDX(29.970703125)));
 
     return effect;
@@ -714,7 +714,7 @@ BossFX3D *BossFX3D__Create(size_t size, BossFX3DState state, const char *path, u
 
     work->state               = state;
     work->flags               = flags;
-    work->objWork.displayFlag = DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED;
+    work->objWork.displayFlag = DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_PAUSED;
     work->objWork.userTimer   = timer;
     work->objWork.userWork    = 2;
     work->objWork.position.x  = x;
@@ -788,9 +788,9 @@ void BossFX3D__State_Active(BossFX3D *work)
     {
         if ((work->flags & BOSSFX3D_FLAG_INVISIBLE_ON_ENGINE_A) != 0 && Camera3D__UseEngineA()
             || (work->flags & BOSSFX3D_FLAG_INVISIBLE_ON_ENGINE_B) != 0 && !Camera3D__UseEngineA())
-            work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         else
-            work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     }
 
     if (work->objWork.userWork == 0)
@@ -822,7 +822,7 @@ void BossFX3D__State_Active(BossFX3D *work)
     }
     else
     {
-        work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED;
+        work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_PAUSED;
 
         work->objWork.userWork--;
         if (work->objWork.userWork == 0)
@@ -830,7 +830,7 @@ void BossFX3D__State_Active(BossFX3D *work)
             if (work->resPattern != NULL)
                 AnimatorMDL__SetAnimation(&work->aniModel.ani, B3D_ANIM_PAT_ANIM, work->resPattern, 0, NNS_G3dGetTex(work->resModel));
 
-            work->objWork.displayFlag &= ~(DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED);
+            work->objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_PAUSED);
         }
     }
 }
@@ -943,11 +943,11 @@ NONMATCH_FUNC void BossFX2D__State_Active(BossFX2D *work)
         if ((work->flags & BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_A) != 0 && Camera3D__UseEngineA()
             || (work->flags & BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_B) != 0 && !Camera3D__UseEngineA())
         {
-            work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         }
         else
         {
-            work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
         }
     }
 

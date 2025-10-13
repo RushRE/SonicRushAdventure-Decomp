@@ -285,8 +285,8 @@ void SailObject_HandleParentFollow(StageTask *work)
     work->position.y = parent->position.y + offset.y;
     work->position.z = parent->position.z + offset.z;
 
-    work->displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
-    work->displayFlag |= parent->displayFlag & DISPLAY_FLAG_NO_DRAW;
+    work->displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
+    work->displayFlag |= parent->displayFlag & DISPLAY_FLAG_DISABLE_DRAW;
 }
 
 void SailObject_ApplyRotation(StageTask *work)
@@ -1717,7 +1717,7 @@ NONMATCH_FUNC StageTask *CreateSailSkyCloud(s32 type)
     }
     else
     {
-        work->displayFlag |= DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG;
+        work->displayFlag |= DISPLAY_FLAG_DRAW_3D_SPRITE_AS_2D;
         work->position.x = FLOAT_TO_FX32(128.0);
         work->position.y = FLOAT_TO_FX32(96.0);
 
@@ -4883,7 +4883,7 @@ StageTask *CreateSailItemBoxRewardText(StageTask *parent, u32 type)
     StageTask__SetAnimation(work, type + 4);
     SailObject_InitCommon(work);
     work->userFlag |= SAILOBJECT_FLAG_1;
-    work->displayFlag |= DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG;
+    work->displayFlag |= DISPLAY_FLAG_DRAW_3D_SPRITE_AS_2D;
 
     VecFx32 worldPos = parent->position;
     worldPos.y       = -worldPos.y;
@@ -5534,7 +5534,7 @@ void SailBomb_State_Active(StageTask *work)
         {
             DestroyStageTask(work);
 
-            if ((work->displayFlag & DISPLAY_FLAG_NO_DRAW) == 0)
+            if ((work->displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0)
             {
                 EffectCreateSailBomb(&work->position);
                 SailAudio__PlaySpatialSequence(work->sequencePlayerPtr, SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_EXPLOSION, &work->position);
@@ -5545,7 +5545,7 @@ void SailBomb_State_Active(StageTask *work)
     work->userTimer--;
     if (work->userTimer == 0)
     {
-        work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
         StageTask *explosion = EffectCreateSailBomb(&work->position);
 
@@ -5630,19 +5630,19 @@ void SailFogCloud_State_Active(StageTask *work)
     }
     else
     {
-        work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
         u16 seaAngle = MATH_ABS(manager->sea->voyageAngle + manager->sea->playerAngle - worker->startEmissionColor.x);
 
         if (seaAngle < FLOAT_DEG_TO_IDX(33.75) || seaAngle > FLOAT_DEG_TO_IDX(326.25))
-            work->displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
         if (work->userWork != 0)
-            work->displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
+            work->displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE;
 
         work->userWork = 1;
 
-        if ((work->displayFlag & DISPLAY_FLAG_NO_DRAW) == 0)
+        if ((work->displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0)
         {
             SailObject_SetSpriteColor(work, SailObject_ApplyFogBrightness(GX_RGB_888(0xFF, 0xFF, 0xFF)));
         }
@@ -5663,7 +5663,7 @@ void SailSkyCloud_State_Active(StageTask *work)
     worker->startEmissionColor.x += (manager->velocity.x >> 9);
     worker->startEmissionColor.x = (u16)worker->startEmissionColor.x;
 
-    if ((work->displayFlag & DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG) == 0)
+    if ((work->displayFlag & DISPLAY_FLAG_DRAW_3D_SPRITE_AS_2D) == 0)
     {
         s32 angle = worker->startEmissionColor.x + (playerWorker->seaAngle2 + (voyageManager->angle - FLOAT_DEG_TO_IDX(180.0)));
 
@@ -5676,7 +5676,7 @@ void SailSkyCloud_State_Active(StageTask *work)
     manager->field_30++;
 
     if (work->userTimer != 0)
-        work->displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
+        work->displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE;
 
     work->userTimer++;
 
@@ -5709,7 +5709,7 @@ void SailSkyCloud_State_Active(StageTask *work)
         if (manager->cloudType != 2 && manager->cloudType != 3)
             return;
 
-        if ((work->displayFlag & DISPLAY_FLAG_USE_DEFAULT_CAMERA_CONFIG) != 0)
+        if ((work->displayFlag & DISPLAY_FLAG_DRAW_3D_SPRITE_AS_2D) != 0)
             CreateSailSkyCloud(SAILSKYCLOUD_TYPE_0);
         else
             CreateSailSkyCloud(SAILSKYCLOUD_TYPE_1);
@@ -5718,7 +5718,7 @@ void SailSkyCloud_State_Active(StageTask *work)
     if (manager->cloudType != 2 && manager->cloudType != 3)
         work->userTimer = work->userWork;
 
-    if ((work->displayFlag & DISPLAY_FLAG_NO_DRAW) == 0)
+    if ((work->displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0)
     {
         SailObject_SetSpriteColor(work, SailObject_ApplyFogBrightness(GX_RGB_888(0xFF, 0xFF, 0xFF)));
     }
@@ -6033,7 +6033,7 @@ void SailObject_State_Explode(StageTask *work)
             waterSplash->scale.z = scale;
         }
 
-        work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     }
 
     if (work->userTimer < 0)
@@ -6383,7 +6383,7 @@ void SailGoalChaosEmerald_State_Idle(StageTask *work)
     }
     else
     {
-        work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     }
 }
 
@@ -6468,7 +6468,7 @@ void SailGoal_State_Active(StageTask *work)
     if (manager->isRivalRace)
     {
         if ((manager->flags & SAILMANAGER_FLAG_8) != 0)
-            work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     }
 }
 
@@ -6631,9 +6631,9 @@ void SailItemBoxRewardText_State_Active(StageTask *work)
     if (work->userTimer > 30)
     {
         if ((work->userTimer & 1) != 0)
-            work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         else
-            work->displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     }
 
     if (work->userTimer > 64)

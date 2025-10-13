@@ -133,7 +133,7 @@ NONMATCH_FUNC Dolphin *CreateDolphin(MapObject *mapObject, fx32 x, fx32 y, fx32 
     ObjAction3dNNMotionLoad(&work->gameWork.objWork, aniDolphin, "/mod/gmk_dolphin.nsbca", GetObjectDataWork(OBJDATAWORK_170), gameArchiveStage);
 
     AnimatorMDL__SetAnimation(&work->gameWork.objWork.obj_3d->ani, B3D_ANIM_JOINT_ANIM, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_JOINT_ANIM], DOLPHIN_ANI_IDLE, NULL);
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_LOOPING;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_LOOPING;
     VEC_Set(&aniDolphin->ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
 
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
@@ -528,7 +528,7 @@ void Dolphin_Action_BeginRide(Dolphin *work)
 
     AnimatorMDL__SetAnimation(&work->gameWork.objWork.obj_3d->ani, B3D_ANIM_JOINT_ANIM, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_JOINT_ANIM], DOLPHIN_ANI_BEGIN_RIDE,
                               NULL);
-    work->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_LOOPING);
+    work->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_LOOPING);
     work->gameWork.flags |= DOLPHIN_FLAG_PLAYING_BEGIN_ANIM;
 
     SetTaskState(&work->gameWork.objWork, Dolphin_State_RideActive);

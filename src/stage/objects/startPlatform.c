@@ -101,7 +101,7 @@ StartPlatform *CreateStartPlatform(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     gPlayer->objWork.prevPosition = gPlayer->objWork.position;
 
     Player__SaveStartingPosition(gPlayer->objWork.position.x, gPlayer->objWork.position.y, gPlayer->objWork.position.z);
-    gPlayer->objWork.displayFlag &= ~(DISPLAY_FLAG_800 | DISPLAY_FLAG_APPLY_CAMERA_CONFIG);
+    gPlayer->objWork.displayFlag &= ~(DISPLAY_FLAG_LOCK_LIGHT_DIR | DISPLAY_FLAG_ROTATE_CAMERA_DIR);
 
     if ((gPlayer->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
     {
@@ -215,7 +215,7 @@ void StartPlatform_State_Active(StartPlatform *work)
 
         Player__Action_SpringboardLaunch(player, player->objWork.groundVel + FLOAT_TO_FX32(1.0), -(player->jumpForce + FLOAT_TO_FX32(0.5)));
         Player__Action_AllowTrickCombos(player, &work->gameWork);
-        gPlayer->objWork.displayFlag &= ~(DISPLAY_FLAG_800 | DISPLAY_FLAG_APPLY_CAMERA_CONFIG);
+        gPlayer->objWork.displayFlag &= ~(DISPLAY_FLAG_LOCK_LIGHT_DIR | DISPLAY_FLAG_ROTATE_CAMERA_DIR);
         AnimatorMDL__SetAnimation(&work->aniPlatform.ani, B3D_ANIM_JOINT_ANIM, work->aniPlatform.resources[B3D_RESOURCE_JOINT_ANIM], 0, NULL);
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_JUMP_STAND);
     }
@@ -441,7 +441,7 @@ void StartPlatform_StateCamera_PlatformWalk(StartPlatform *work)
         if (camConfig->lerpPercent == FLOAT_TO_FX32(1.0))
         {
             BossArena__SetType(BOSSARENA_TYPE_0);
-            gPlayer->objWork.displayFlag |= DISPLAY_FLAG_800 | DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+            gPlayer->objWork.displayFlag |= DISPLAY_FLAG_LOCK_LIGHT_DIR | DISPLAY_FLAG_ROTATE_CAMERA_DIR;
             gPlayer->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
             work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
             work->stateCamera = StartPlatform_StateCamera_2179024;

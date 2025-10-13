@@ -105,7 +105,7 @@ NONMATCH_FUNC GoalChest *CreateGoalChest(MapObject *mapObject, fx32 x, fx32 y, f
 
     ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniChest, "/gmk_goal_chest.nsbmd", 0, NULL, gameArchiveCommon);
     ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniChest, "/gmk_goal_chest.nsbca", NULL, gameArchiveCommon);
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_ROTATION;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_ROTATION;
     VEC_Set(&work->aniChest.ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
 
     AnimatorMDL__Init(&work->aniChestEffect, ANIMATOR_FLAG_NONE);
@@ -113,7 +113,7 @@ NONMATCH_FUNC GoalChest *CreateGoalChest(MapObject *mapObject, fx32 x, fx32 y, f
     void *dataEffect = ObjDataLoad(NULL, "/gmk_chest_efect.nsbta", gameArchiveCommon);
     AnimatorMDL__SetAnimation(&work->aniChestEffect, B3D_ANIM_TEX_ANIM, dataEffect, GOALCHEST_ANI_EFFECT_ACTIVE, NULL);
     VEC_Set(&work->aniChestEffect.work.scale, FLOAT_TO_FX32(1.65), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(2.2));
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW_EVENT;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_USE_DEFAULT_DRAW;
 
     work->gameWork.objWork.collisionObj      = NULL;
     work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
@@ -531,11 +531,11 @@ void GoalChest_State_MedalLocator(GoalChest *work)
         && mapCamera.camera[0].disp_pos.y - FLOAT_TO_FX32(64.0) < work->gameWork.objWork.position.y
         && mapCamera.camera[0].disp_pos.y + FLOAT_TO_FX32(256.0) > work->gameWork.objWork.position.y)
     {
-        work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+        work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     }
     else
     {
-        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     }
 }
 
@@ -545,7 +545,7 @@ void GoalChest_Draw_Effect(void)
 
     u32 displayFlag = work->gameWork.objWork.displayFlag;
 
-    work->gameWork.objWork.displayFlag = DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_LOOPING;
+    work->gameWork.objWork.displayFlag = DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_LOOPING;
     work->gameWork.objWork.offset.y    = -FLOAT_TO_FX32(26.0);
     StageTask__Draw3D(&work->gameWork.objWork, &work->aniChestEffect.work);
 
@@ -607,10 +607,10 @@ void GoalChest_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
                                   GOALCHEST_ANI_SPINNING, NULL);
         goalChest->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         goalChest->gameWork.collisionObject.work.parent = NULL;
-        goalChest->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED);
+        goalChest->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_PAUSED);
         SetTaskState(&goalChest->gameWork.objWork, GoalChest_State_Opened);
         goalChest->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-        goalChest->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_100;
+        goalChest->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_DISABLED;
 
         fx32 impactVelocity = MATH_ABS(player->objWork.move.x) + MATH_ABS(player->objWork.move.y);
         if (impactVelocity > FLOAT_TO_FX32(12.0))

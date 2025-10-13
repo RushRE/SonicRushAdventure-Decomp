@@ -628,16 +628,16 @@ void GameObject__In_Default(void)
         work->blinkTimer--;
 
         if ((work->blinkTimer & 2) != 0)
-            work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         else
-            work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
         work->colliders[0].defPower = OBS_RECT_DEFPOWER_INVINCIBLE;
         work->colliders[1].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
 
         if (work->blinkTimer == 0)
         {
-            work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
             work->colliders[0].defPower = OBS_RECT_DEFPOWER_DEFAULT;
             work->colliders[1].hitPower = OBS_RECT_HITPOWER_DEFAULT;
         }

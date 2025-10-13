@@ -3476,7 +3476,7 @@ StageDecoration *DecorationSys__CreateUnknown2153118(MapDecor *mapDecor, fx32 x,
     StageDecoration *work = DecorationSys__Construct(sizeof(StageDecoration), mapDecor, x, y, 0);
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+    work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
     work->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
     SetTaskState(&work->objWork, DecorationSys__CreateWaterBubble);
@@ -3564,7 +3564,7 @@ void DecorationSys__Decor_Main(StageDecoration *work)
 
     if (!IsStageTaskDestroyed(&work->objWork))
     {
-        if (work->objWork.ppOut == NULL || (work->objWork.displayFlag & DISPLAY_FLAG_NO_DRAW_EVENT) != 0)
+        if (work->objWork.ppOut == NULL || (work->objWork.displayFlag & DISPLAY_FLAG_USE_DEFAULT_DRAW) != 0)
             DecorationSys__Draw(work);
 
         if (work->objWork.ppOut != NULL)
@@ -5109,7 +5109,7 @@ void DecorationSys__InitFunc_2154D2C(StageDecoration *work)
 
             work->objWork.userTimer = id;
             work->objWork.obj_2d    = lastDecor->objWork.obj_2d;
-            work->objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
+            work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE;
             work->destructor = DecorationSys__Destructor_2154E20;
         }
     }

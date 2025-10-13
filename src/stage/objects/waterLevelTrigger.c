@@ -73,7 +73,7 @@ WaterLevelTrigger *CreateWaterLevelTrigger(MapObject *mapObject, fx32 x, fx32 y,
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
     work->waterLevel       = waterLevel;
     work->targetPlayers[0] = targetPlayers[0];

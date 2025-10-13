@@ -115,7 +115,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
 
     work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
-    work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_8;
+    work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_FLIP_TILE_ANGLE;
 
     switch (mapObject->id)
     {
@@ -140,7 +140,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
             work->gameWork.field_358 = anim;
 
             if (Player__UseUpsideDownGravity(x, y))
-                work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_8;
+                work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_FLIP_TILE_ANGLE;
             break;
     }
 
@@ -404,7 +404,7 @@ Spikes *CreateSpikes2(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.collisionObj           = 0;
     work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
-    work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_8;
+    work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_FLIP_TILE_ANGLE;
 
     switch (mapObject->id)
     {
@@ -425,7 +425,7 @@ Spikes *CreateSpikes2(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             work->gameWork.collisionObject.work.ofst_y = -20;
 
             if (Player__UseUpsideDownGravity(x, y))
-                work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_8;
+                work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_FLIP_TILE_ANGLE;
 
             SetTaskState(&work->gameWork.objWork, Spikes2_State_Idle);
             break;

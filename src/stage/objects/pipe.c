@@ -1027,7 +1027,7 @@ void SteamPipe__State_2161D20(SteamPipe *work)
     {
         SetTaskState(&work->gameWork.objWork, NULL);
 
-        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
         switch (work->gameWork.mapObject->id)
         {

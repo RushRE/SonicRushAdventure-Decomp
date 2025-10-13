@@ -1878,7 +1878,7 @@ void Boss1Stage__Draw(void)
 {
     Boss1Stage *work = TaskGetWorkCurrent(Boss1Stage);
 
-    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_NO_DRAW) == 0)
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0)
     {
         BossHelpers__RevertModifiedLights(&work->lightConfig);
         Boss1Stage__DrawStage(work);

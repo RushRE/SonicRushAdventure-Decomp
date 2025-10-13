@@ -264,7 +264,7 @@ struct ObjectManager
     VecFx16 lightDirs[4];
     u16 lightCount;
     u16 spriteMode;
-    u8 col_through_dot;
+    s8 col_through_dot;
     OBS_DATA_WORK *pData;
     s32 data_max;
 };

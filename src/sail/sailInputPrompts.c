@@ -84,8 +84,8 @@ void CreateSailButtonPromptIcon(u16 anim, fx32 posX)
 
     work->state = SailButtonPromptIcon_State_Active;
 
-    work->displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
-    work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+    work->displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE;
+    work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 }
 
 void SailButtonPromptIcon_State_Active(StageTask *work)
@@ -102,8 +102,8 @@ void SailButtonPromptIcon_State_Active(StageTask *work)
     }
     else if (voyageManager->voyagePos >= FLOAT_TO_FX32(1096.0))
     {
-        work->displayFlag &= ~DISPLAY_FLAG_NO_ANIMATE_CB;
-        work->displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+        work->displayFlag &= ~DISPLAY_FLAG_DISABLE_UPDATE;
+        work->displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
         SailHUD__Func_2174BA4(FALSE);
 
         if ((player->userFlag & SAILPLAYER_FLAG_BOOST) != 0)
@@ -146,7 +146,7 @@ void CreateSailStylusPrompt(void)
 
     work->state = SailStylusPrompt_State_Active;
 
-    work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+    work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 }
 
 void SailStylusPrompt_State_Active(StageTask *work)
@@ -163,7 +163,7 @@ void SailStylusPrompt_State_Active(StageTask *work)
         work->userTimer++;
         if (work->userTimer == 2)
         {
-            work->displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+            work->displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
             work->position.x = FX32_FROM_WHOLE(playerWorker->field_1DC) + FLOAT_TO_FX32(128.0);
             work->position.y = FLOAT_TO_FX32(140.0);
         }
@@ -186,13 +186,13 @@ void SailStylusPrompt_State_Active(StageTask *work)
 
         if (work->userTimer == 68)
         {
-            work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
             work->userTimer = 0;
         }
     }
     else
     {
-        work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         work->userTimer  = 0;
         work->velocity.y = FLOAT_TO_FX32(0.0);
 
@@ -230,7 +230,7 @@ void CreateSailStylusPrompt2(void)
     work->state = SailStylusPrompt2_State_Active;
 
     work->userTimer = 0;
-    work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+    work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 }
 
 void SailStylusPrompt2_State_Active(StageTask *work)
@@ -244,7 +244,7 @@ void SailStylusPrompt2_State_Active(StageTask *work)
     work->userTimer++;
     if (work->userTimer == 1)
     {
-        work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         work->velocity.x = FLOAT_TO_FX32(0.0);
         work->velocity.y = FLOAT_TO_FX32(0.0);
 
@@ -254,7 +254,7 @@ void SailStylusPrompt2_State_Active(StageTask *work)
 
     if (work->userTimer == 16)
     {
-        work->displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+        work->displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
         work->position.x = FLOAT_TO_FX32(32.0);
         work->position.y = FLOAT_TO_FX32(140.0);
     }
@@ -283,7 +283,7 @@ void SailStylusPrompt2_State_Active(StageTask *work)
 
     if (work->userTimer == 80)
     {
-        work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+        work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         work->userTimer = 0;
     }
 

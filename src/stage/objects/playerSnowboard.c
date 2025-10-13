@@ -193,7 +193,7 @@ static u16 const initialAnimList[CHARACTER_COUNT][2] = {
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
     ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniSnowboard, boardModelPath[player->characterID], 0, GetObjectFileWork(OBJDATAWORK_165 + player->characterID),
                            gameArchiveStage);
@@ -284,8 +284,8 @@ void PlayerSnowboard_State_Active(PlayerSnowboard *work)
         work->gameWork.objWork.dir      = player->objWork.dir;
 
         work->gameWork.objWork.displayFlag =
-            (work->gameWork.objWork.displayFlag & ~(DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X))
-            | (player->objWork.displayFlag & (DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X));
+            (work->gameWork.objWork.displayFlag & ~(DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X))
+            | (player->objWork.displayFlag & (DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X));
         work->gameWork.objWork.obj_3d->ani.speedMultiplier = player->objWork.obj_3d->ani.speedMultiplier;
     }
 }

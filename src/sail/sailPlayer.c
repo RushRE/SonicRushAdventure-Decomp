@@ -3966,9 +3966,9 @@ void SailPlayer__HandleTimers(StageTask *work)
     {
         worker->blinkTimer--;
 
-        work->displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+        work->displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
         if ((worker->blinkTimer & 1) != 0)
-            work->displayFlag |= DISPLAY_FLAG_NO_DRAW;
+            work->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
         if (worker->blinkTimer == 0)
             SailPlayer__ColliderFunc(work, 0);

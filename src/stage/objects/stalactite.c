@@ -334,10 +334,10 @@ void Stalactite_StateWeakPoint_Hit(Stalactite *work)
             work->gameWork.flags |= STALACTITE_VISIBLE_FLAG_HIDE_WEAKPOINT;
 
             work->gameWork.collisionObject.work.parent = NULL;
-            work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_100;
+            work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_DISABLED;
 
             work->collisionWork1.parent = NULL;
-            work->collisionWork1.flag |= STAGE_TASK_OBJCOLLISION_FLAG_100;
+            work->collisionWork1.flag |= STAGE_TASK_OBJCOLLISION_FLAG_DISABLED;
 
             work->stateWeakPoint = Stalactite_StateWeakPoint_Falling;
 

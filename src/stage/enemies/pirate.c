@@ -703,11 +703,11 @@ void EnemyBallChainPirateBall_State_Active(EnemyBallChainPirateBall *work)
 {
     EnemyPirate *parent = (EnemyPirate *)work->gameWork.objWork.parentObj;
 
-    work->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
-    work->gameWork.objWork.displayFlag |= work->gameWork.objWork.parentObj->displayFlag & (DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
+    work->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
+    work->gameWork.objWork.displayFlag |= work->gameWork.objWork.parentObj->displayFlag & (DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
 
-    work->chainWork.objWork.displayFlag &= ~(DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
-    work->chainWork.objWork.displayFlag |= work->gameWork.objWork.parentObj->displayFlag & (DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
+    work->chainWork.objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
+    work->chainWork.objWork.displayFlag |= work->gameWork.objWork.parentObj->displayFlag & (DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
 
     if (parent->gameWork.blinkTimer != 0)
     {

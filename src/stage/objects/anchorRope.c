@@ -58,7 +58,7 @@ AnchorRope *CreateAnchorRope(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_ROTATION;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_ROTATION;
 
     work->resAnchorRope = ObjDataLoad(GetObjectDataWork(OBJDATAWORK_159), "/mod/gmk_anchor_rope.nsbmd", gameArchiveStage);
 
@@ -322,7 +322,7 @@ void AnchorRope_State_ReleasedPlayer(AnchorRope *work)
         SetTaskState(&work->gameWork.objWork, NULL);
         work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         AnimatorMDL__SetResource(&work->aniRopeString3D, work->resAnchorRope, 2, FALSE, FALSE);
-        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
         work->aniRopeString3D.work.scale.z = FLOAT_TO_FX32(3.3);
     }
 
@@ -391,7 +391,7 @@ void AnchorRope_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         anchorRope->gameWork.objWork.userFlag = 0;
 
         AnimatorMDL__SetResource(&anchorRope->aniRopeString3D, anchorRope->resAnchorRope, 1, FALSE, FALSE);
-        anchorRope->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        anchorRope->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
         AnchorRope_HandleRopePos(anchorRope);
 
