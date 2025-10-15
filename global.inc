@@ -89,7 +89,7 @@
 .public CreateDataTransferManager
 .public DestroyDataTransferManager
 .public GetDataTransferSendBuffer
-.public GetDataTransferRecieveBuffer
+.public GetDataTransferReceiveBuffer
 .public ClearDataTransferSendBuffer
 .public ClearDataTransferAllBuffers
 .public SetDataTransferConfig
@@ -817,8 +817,8 @@
 .public GameObject__Destructor
 .public GameObject__SetAnimation
 .public GameObject__SpawnObject
-.public GameObject__ProcessRecievedPackets_ItemBox
-.public GameObject__ProcessRecievedPackets_Unknown
+.public GameObject__ProcessReceivedPackets_ItemBox
+.public GameObject__ProcessReceivedPackets_Unknown
 .public GameObject__SendPacket
 .public GameObject__SpawnExplosion
 .public GameObject__OnDestroyEnemy
@@ -830,7 +830,7 @@
 .public GameObject__State_BoostImpactSpin
 .public GameObject__GetNextTempObjID
 .public GameObject__ReleaseTempObj
-.public GameObject__ProcessRecievedPackets
+.public GameObject__ProcessReceivedPackets
 .public GameObject__BadnikBreak
 .public GameObject__Func_20282A8
 .public CreateEffectTask
@@ -2556,7 +2556,7 @@
 .public MultibootManager__Func_2067A88
 .public MultibootManager__Func_2067AE8
 .public WirelessManager__GetSendBuffer
-.public WirelessManager__GetRecieveBuffer
+.public WirelessManager__GetReceiveBuffer
 .public WirelessManager__ClearSendBuffer
 .public MultibootManager__Func_2067B50
 .public WirelessManager__Create4
@@ -2915,12 +2915,12 @@
 .public ObjPacket__Init
 .public ObjPacket__GetAIDIndex
 .public ObjPacket__InitPacketForSend
-.public ObjPacket__SendPacket
-.public ObjPacket__Func_2074BB4
-.public ObjPacket__FillSendDataBuffer
-.public ObjPacket__Func_2074DB4
-.public ObjPacket__GetRecievedPacketData
-.public ObjPacket__GetRecievedPacket
+.public ObjPacket__QueueSendPacket
+.public ObjPacket__InitSendBuffer
+.public ObjPacket__WriteToSendBuffer
+.public ObjPacket__PrepareReceivedPackets
+.public ObjPacket__GetNextReceivedPacketData
+.public ObjPacket__GetNextReceivedPacket
 .public ObjPacket__GetPacketSize
 .public ObjDrawInit
 .public ObjDrawInitRows
@@ -6970,7 +6970,7 @@
 .public aWhStateoutstar
 .public aPictochatParen
 .public aNotMyParentGgi
-.public aNotRecieveEntr
+.public aNotReceiveEntr
 .public aParentFind
 .public aWhStateoutends
 .public aWhStateoutsetc
@@ -7941,7 +7941,7 @@
 .public g_obj
 .public archiveNameBuffer
 .public sendBufferStart
-.public recieveBufferStart
+.public receiveBufferStart
 .public objPacketList
 .public objDrawManager
 .public objDrawPaletteRow

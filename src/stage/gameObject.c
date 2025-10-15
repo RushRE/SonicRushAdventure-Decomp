@@ -237,7 +237,7 @@ GameObjectTask *GameObject__SpawnObject(s32 id, fx32 x, fx32 y, u16 flags, s8 le
     return work;
 }
 
-NONMATCH_FUNC void GameObject__ProcessRecievedPackets_ItemBox(void)
+NONMATCH_FUNC void GameObject__ProcessReceivedPackets_ItemBox(void)
 {
 #ifdef NON_MATCHING
 
@@ -250,7 +250,7 @@ NONMATCH_FUNC void GameObject__ProcessRecievedPackets_ItemBox(void)
 	tst r0, #0x20
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	bl ObjPacket__Func_2074DB4
+	bl ObjPacket__PrepareReceivedPackets
 	ldr r0, =gPlayerList
 	ldr r0, [r0, #4]
 	cmp r0, #0
@@ -268,7 +268,7 @@ _0202726C:
 	mov r0, #2
 	ldr r1, [r1, #4]
 	ldrb r1, [r1, #0x5d2]
-	bl ObjPacket__GetRecievedPacket
+	bl ObjPacket__GetNextReceivedPacket
 	movs r9, r0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -381,7 +381,7 @@ _020273F0:
 #endif
 }
 
-NONMATCH_FUNC void GameObject__ProcessRecievedPackets_Unknown(void)
+NONMATCH_FUNC void GameObject__ProcessReceivedPackets_Unknown(void)
 {
 #ifdef NON_MATCHING
 
@@ -392,7 +392,7 @@ NONMATCH_FUNC void GameObject__ProcessRecievedPackets_Unknown(void)
 	ldr r0, [r0, #0x10]
 	tst r0, #0x20
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	bl ObjPacket__Func_2074DB4
+	bl ObjPacket__PrepareReceivedPackets
 	ldr r6, =gPlayerList
 	ldr r0, [r6, #4]
 	cmp r0, #0
@@ -405,7 +405,7 @@ _0202744C:
 	ldr r1, [r6, #4]
 	mov r0, r9
 	ldrb r1, [r1, #0x5d2]
-	bl ObjPacket__GetRecievedPacket
+	bl ObjPacket__GetNextReceivedPacket
 	movs r8, r0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	bl EventManager__GetObjectLayout
@@ -464,7 +464,7 @@ void GameObject__SendPacket(GameObjectTask *work, Player *player, GameObjectPack
     packet->type = type;
     packet->id   = (size_t)work->mapObject - (size_t)EventManager__GetObjectLayout();
 
-    ObjSendPacket *sendPacket = ObjPacket__SendPacket(packet, GAMEPACKET_INTERACTABLE, 0, sizeof(GameObjectSendPacket));
+    ObjSendPacket *sendPacket = ObjPacket__QueueSendPacket(packet, GAMEPACKET_INTERACTABLE, 0, sizeof(GameObjectSendPacket));
     sendPacket->header.param  = playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1];
 }
 
@@ -623,7 +623,7 @@ void GameObject__In_Default(void)
     if (work->parent != NULL && IsStageTaskDestroyed(work->parent))
         work->parent = NULL;
 
-    GameObject__ProcessRecievedPackets(work);
+    GameObject__ProcessReceivedPackets(work);
 
     if (!ObjectPauseCheck(work->objWork.flag) && work->blinkTimer != 0)
     {
@@ -770,7 +770,7 @@ void GameObject__ReleaseTempObj(MapObject *obj)
     GameObject__TempObjBitfield[id >> 5] &= ~(1 << (id & 0x1F));
 }
 
-NONMATCH_FUNC void GameObject__ProcessRecievedPackets(GameObjectTask *work)
+NONMATCH_FUNC void GameObject__ProcessReceivedPackets(GameObjectTask *work)
 {
 #ifdef NON_MATCHING
 
@@ -788,7 +788,7 @@ NONMATCH_FUNC void GameObject__ProcessRecievedPackets(GameObjectTask *work)
 	ldr r0, [r0, #0x10]
 	tst r0, #0x20
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	bl ObjPacket__Func_2074DB4
+	bl ObjPacket__PrepareReceivedPackets
 	mov r6, #0
 _02028068:
 	ldr r0, =gPlayer
@@ -802,7 +802,7 @@ _02028068:
 _02028088:
 	mov r0, r4
 	mov r1, r6
-	bl ObjPacket__GetRecievedPacketData
+	bl ObjPacket__GetNextReceivedPacketData
 	movs r5, r0
 	beq _02028174
 	bl EventManager__GetObjectLayout

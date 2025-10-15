@@ -764,14 +764,14 @@ WirelessManager__GetSendBuffer: // 0x02067B18
 _02067B20: .word WirelessManager__sendBuffer
 	arm_func_end WirelessManager__GetSendBuffer
 
-	arm_func_start WirelessManager__GetRecieveBuffer
-WirelessManager__GetRecieveBuffer: // 0x02067B24
+	arm_func_start WirelessManager__GetReceiveBuffer
+WirelessManager__GetReceiveBuffer: // 0x02067B24
 	ldr r1, _02067B30 // =WirelessManager__sendBufferQueue
 	ldr r0, [r1, r0, lsl #2]
 	bx lr
 	.align 2, 0
 _02067B30: .word WirelessManager__sendBufferQueue
-	arm_func_end WirelessManager__GetRecieveBuffer
+	arm_func_end WirelessManager__GetReceiveBuffer
 
 	arm_func_start WirelessManager__ClearSendBuffer
 WirelessManager__ClearSendBuffer: // 0x02067B34
@@ -1680,7 +1680,7 @@ WirelessManager__Main1: // 0x02068678
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	mov r0, #0
-	bl WirelessManager__GetRecieveBuffer
+	bl WirelessManager__GetReceiveBuffer
 	ldrh r0, [r0, #0]
 	strh r0, [r4, #0x14]
 	ldrh r0, [r4, #0x1a]
@@ -2610,7 +2610,7 @@ _02069234:
 	ldmia sp!, {r4, pc}
 _02069240:
 	mov r0, #0
-	bl WirelessManager__GetRecieveBuffer
+	bl WirelessManager__GetReceiveBuffer
 	ldrh r0, [r0, #2]
 	tst r0, #1
 	beq _02069264
@@ -2753,7 +2753,7 @@ _02069400:
 	ldmia sp!, {r3, r4, r5, pc}
 _0206940C:
 	mov r0, #0
-	bl WirelessManager__GetRecieveBuffer
+	bl WirelessManager__GetReceiveBuffer
 	ldrh r0, [r0, #2]
 	tst r0, #2
 	ldmeqia sp!, {r3, r4, r5, pc}
@@ -2884,7 +2884,7 @@ _020695C4:
 	ldmia sp!, {r3, r4, r5, pc}
 _020695D0:
 	mov r0, #0
-	bl WirelessManager__GetRecieveBuffer
+	bl WirelessManager__GetReceiveBuffer
 	ldrh r1, [r0, #2]
 	tst r1, #2
 	ldmeqia sp!, {r3, r4, r5, pc}
@@ -4325,7 +4325,7 @@ _0206A80C:
 	beq _0206A834
 	cmp r1, #0
 	beq _0206A890
-	ldr r0, _0206A8C4 // =aNotRecieveEntr
+	ldr r0, _0206A8C4 // =aNotReceiveEntr
 	blx r1
 	b _0206A890
 _0206A834:
@@ -4369,7 +4369,7 @@ _0206A8B4: .word aWhStateoutstar
 _0206A8B8: .word sBssDesc
 _0206A8BC: .word aPictochatParen
 _0206A8C0: .word aNotMyParentGgi
-_0206A8C4: .word aNotRecieveEntr
+_0206A8C4: .word aNotReceiveEntr
 _0206A8C8: .word aParentFind
 	arm_func_end WH_StateOutStartScan
 
@@ -9495,7 +9495,7 @@ aNotMyParentGgi: // 0x0211A7A8
 	.asciz "not my parent ggid \n"
 _0211A7BD:
 	.byte 0x00, 0x00, 0x00
-aNotRecieveEntr: // 0x0211A7C0
+aNotReceiveEntr: // 0x0211A7C0
 	.asciz "not recieve entry\n"
 _0211A7D3:
 	.byte 0x00

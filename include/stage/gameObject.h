@@ -88,8 +88,8 @@ void GameObject__InitFromObject(GameObjectTask *work, MapObject *mapObject, fx32
 void GameObject__Destructor(Task *task);
 void GameObject__SetAnimation(GameObjectTask *work, u16 animID);
 GameObjectTask *GameObject__SpawnObject(s32 id, fx32 x, fx32 y, u16 flags, s8 left, s8 top, u8 width, u8 height, u8 param);
-void GameObject__ProcessRecievedPackets_ItemBox(void);
-void GameObject__ProcessRecievedPackets_Unknown(void);
+void GameObject__ProcessReceivedPackets_ItemBox(void);
+void GameObject__ProcessReceivedPackets_Unknown(void);
 void GameObject__SendPacket(GameObjectTask *work, Player *player, GameObjectPacketType type);
 void GameObject__SpawnExplosion(GameObjectTask *work);
 void GameObject__OnDestroyEnemy(GameObjectTask *work);
@@ -101,7 +101,7 @@ void GameObject__BoostImpactEnemy(GameObjectTask *work, Player *player);
 void GameObject__State_BoostImpactSpin(GameObjectTask *work);
 s16 GameObject__GetNextTempObjID(void);
 void GameObject__ReleaseTempObj(MapObject *obj);
-void GameObject__ProcessRecievedPackets(GameObjectTask *work);
+void GameObject__ProcessReceivedPackets(GameObjectTask *work);
 BadnikBreakResult GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, GameObjectPacketType type);
 void GameObject__Func_20282A8(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx44 *mtx, BOOL setFrustum);
 

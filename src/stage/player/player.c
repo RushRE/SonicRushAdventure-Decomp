@@ -6718,20 +6718,20 @@ void Player__ReceivePacket(Player *player)
     if (!gmCheckVsBattleFlag() || CheckIsPlayer1(player))
         return;
 
-    ObjPacket__Func_2074DB4();
+    ObjPacket__PrepareReceivedPackets();
 
     struct PlayerSendPacket *playerPacket;
     if ((gameState.gameFlag & GAME_FLAG_USE_WIFI) == 0)
     {
-        playerPacket = (struct PlayerSendPacket *)ObjPacket__GetRecievedPacketData(GAMEPACKET_PLAYER, player->aidIndex);
+        playerPacket = (struct PlayerSendPacket *)ObjPacket__GetNextReceivedPacketData(GAMEPACKET_PLAYER, player->aidIndex);
     }
     else
     {
-        ObjRecievePacket *packet;
+        ObjReceivePacket *packet;
 
         while (TRUE)
         {
-            packet = ObjPacket__GetRecievedPacket(GAMEPACKET_PLAYER, player->aidIndex);
+            packet = ObjPacket__GetNextReceivedPacket(GAMEPACKET_PLAYER, player->aidIndex);
             if (packet != NULL)
             {
                 if (packet->header.param != playerGameStatus.sendPacketTicks[player->controlID])
@@ -6915,7 +6915,7 @@ void Player__SendPacket(Player *player)
     packet->cameraDispPos.y = mapCamera.camera[0].disp_pos.y;
     packet->stageTimer      = playerGameStatus.stageTimer;
 
-    ObjSendPacket *packetWork = ObjPacket__SendPacket(packet, GAMEPACKET_PLAYER, 2, sizeof(*packet));
+    ObjSendPacket *packetWork = ObjPacket__QueueSendPacket(packet, GAMEPACKET_PLAYER, 2, sizeof(*packet));
     packetWork->header.param  = playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1];
 
     if ((StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRail) || StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRailEndSpring)

@@ -159,7 +159,7 @@ Static arm9
     Object src/game/object/objAction.o
     Object src/game/object/objCollision.o (.text)
     Object src/game/object/objPacket.o
-    Object asm/game/object/objPacket_vars.o
+    Object src/game/object/objPacket2.o
     Object src/game/object/objDraw.o
     Object src/game/object/objRect.o
     Object asm/game/object/objRect_vars.o

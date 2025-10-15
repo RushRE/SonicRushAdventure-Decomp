@@ -1692,7 +1692,7 @@ void InitPlayerStatus(void)
 
         if ((state->gameFlag & GAME_FLAG_USE_WIFI) != 0)
         {
-            ObjSendPacket *packetWork = ObjPacket__SendPacket(NULL, GAMEPACKET_UNKNOWN, 3, 0);
+            ObjSendPacket *packetWork = ObjPacket__QueueSendPacket(NULL, GAMEPACKET_UNKNOWN, 3, 0);
             if (packetWork != NULL)
                 packetWork->header.param = playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1];
         }
@@ -2019,11 +2019,11 @@ void GameSystem_Main_Early(void)
 
         if ((state->gameFlag & GAME_FLAG_USE_WIFI) != 0)
         {
-            ObjPacket__Func_2074DB4();
+            ObjPacket__PrepareReceivedPackets();
 
             if (gPlayerList[PLAYER_CONTROL_P2] != NULL)
             {
-                ObjRecievePacket *packet = ObjPacket__GetRecievedPacket(GAMEPACKET_UNKNOWN, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
+                ObjReceivePacket *packet = ObjPacket__GetNextReceivedPacket(GAMEPACKET_UNKNOWN, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
                 if (packet != NULL)
                 {
                     if (playerGameStatus.receivedPacketTicks[PLAYER_CONTROL_P2] < packet->header.param || (playerGameStatus.receivedPacketTicks[PLAYER_CONTROL_P2] > 32168 && packet->header.param < 600))
@@ -2043,9 +2043,9 @@ void GameSystem_Main_Early(void)
             }
         }
 
-        ObjPacket__Func_2074DB4();
+        ObjPacket__PrepareReceivedPackets();
 
-        ObjRecievePacket *ringPacket = ObjPacket__GetRecievedPacket(GAMEPACKET_RINGCOUNT, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
+        ObjReceivePacket *ringPacket = ObjPacket__GetNextReceivedPacket(GAMEPACKET_RINGCOUNT, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
         if (ringPacket != NULL)
             gPlayerList[PLAYER_CONTROL_P2]->rings = ringPacket->header.param;
 
@@ -2067,9 +2067,9 @@ void GameSystem_Main_Early(void)
 
         if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_ACTIVE) == 0)
         {
-            ObjPacket__Func_2074DB4();
+            ObjPacket__PrepareReceivedPackets();
 
-            s32 *opponentStageScore = ObjPacket__GetRecievedPacketData(GAMEPACKET_STAGESCORE, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
+            s32 *opponentStageScore = ObjPacket__GetNextReceivedPacketData(GAMEPACKET_STAGESCORE, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
             if (opponentStageScore != NULL)
             {
                 playerGameStatus.vsGoalPacket[PLAYER_CONTROL_P2].time = opponentStageScore[0];
@@ -2115,9 +2115,9 @@ void GameSystem_Main_Early(void)
 
         if ((gPlayer->playerFlag & PLAYER_FLAG_FINISHED_STAGE) != 0 && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_NO_MORE_STAGEFINISHEVENTS) == 0)
         {
-            ObjPacket__Func_2074DB4();
+            ObjPacket__PrepareReceivedPackets();
 
-            ObjRecievePacket *stageClearPacket = ObjPacket__GetRecievedPacket(GAMEPACKET_STAGEFINISH, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
+            ObjReceivePacket *stageClearPacket = ObjPacket__GetNextReceivedPacket(GAMEPACKET_STAGEFINISH, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
             if (stageClearPacket != NULL)
             {
                 if (stageClearPacket->header.param == 0 && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FADE_IS_ACTIVE) == 0)
@@ -2129,7 +2129,7 @@ void GameSystem_Main_Early(void)
             }
         }
 
-        GameObject__ProcessRecievedPackets_ItemBox();
+        GameObject__ProcessReceivedPackets_ItemBox();
     }
 
     if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FADE_IS_ACTIVE) != 0)
@@ -2163,25 +2163,25 @@ void GameSystem_Main_Late(void)
 
     if ((state->gameFlag & GAME_FLAG_IS_VS_BATTLE) != 0)
     {
-        GameObject__ProcessRecievedPackets_Unknown();
+        GameObject__ProcessReceivedPackets_Unknown();
 
         if ((GetSystemFrameCounter() & 0x3F) == 0)
         {
-            ObjSendPacket *ringPacket = ObjPacket__SendPacket(NULL, GAMEPACKET_RINGCOUNT, 1, 0);
+            ObjSendPacket *ringPacket = ObjPacket__QueueSendPacket(NULL, GAMEPACKET_RINGCOUNT, 1, 0);
             if (ringPacket != NULL)
                 ringPacket->header.param = gPlayer->rings;
         }
 
         if ((state->gameFlag & GAME_FLAG_USE_WIFI) == 0)
         {
-            ObjPacket__FillSendDataBuffer();
+            ObjPacket__WriteToSendBuffer();
             playerGameStatus.sendPacketCount = 0;
         }
         else
         {
             if (FX_ModS32(playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1] & ~0x80000000, 4) == 3)
             {
-                BOOL sendFlag = ObjPacket__FillSendDataBuffer();
+                BOOL sendFlag = ObjPacket__WriteToSendBuffer();
                 if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_NEEDS_DATATRANSFER_CONFIG_INIT) != 0)
                 {
                     SetDataTransferConfig(DWC_GetAIDBitmap(), 0x108, FALSE);
@@ -2193,7 +2193,7 @@ void GameSystem_Main_Late(void)
                     SetDataTransferConfig(DWC_GetAIDBitmap(), 0x108, TRUE);
                 }
 
-                ObjSendPacket *unknownPacket = ObjPacket__SendPacket(NULL, GAMEPACKET_UNKNOWN, 3, 0);
+                ObjSendPacket *unknownPacket = ObjPacket__QueueSendPacket(NULL, GAMEPACKET_UNKNOWN, 3, 0);
                 if (unknownPacket != NULL)
                     unknownPacket->header.param = (playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1] + 1) & 0x7FFF;
 
@@ -2534,7 +2534,7 @@ void SendPacketForStageScoreEvent(void)
             playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_SENT;
         }
 
-        ObjPacket__SendPacket(&playerGameStatus.vsGoalPacket[0], GAMEPACKET_STAGESCORE, 3, (u16)sizeof(playerGameStatus.vsGoalPacket[0]));
+        ObjPacket__QueueSendPacket(&playerGameStatus.vsGoalPacket[0], GAMEPACKET_STAGESCORE, 3, (u16)sizeof(playerGameStatus.vsGoalPacket[0]));
 
         if ((gameState.gameFlag & GAME_FLAG_USE_WIFI) != 0)
             playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_NEEDS_DATATRANSFER_CONFIG_INIT;
@@ -2546,7 +2546,7 @@ void SendPacketForStageFinishEvent(void)
     if (gmCheckVsBattleFlag() == FALSE)
         return;
 
-    ObjSendPacket *packetWork = ObjPacket__SendPacket(NULL, GAMEPACKET_STAGEFINISH, 3, 0);
+    ObjSendPacket *packetWork = ObjPacket__QueueSendPacket(NULL, GAMEPACKET_STAGEFINISH, 3, 0);
     if (packetWork != NULL)
     {
         packetWork->header.param = 0;

@@ -37,11 +37,11 @@ typedef struct ObjSendPacket_
     struct ObjSendPacket_ *next;
 } ObjSendPacket;
 
-typedef struct ObjRecievePacket_
+typedef struct ObjReceivePacket_
 {
     ObjPacketHeader header;
     u8 data[1];
-} ObjRecievePacket;
+} ObjReceivePacket;
 
 typedef struct GameObjectSendPacket_
 {
@@ -54,15 +54,12 @@ typedef struct GameObjectSendPacket_
 // FUNCTIONS
 // --------------------
 
-void ObjPacket__Init(void *a1, ObjPacketMode mode, size_t minDataSize);
+void ObjPacket__Init(void *unknown, ObjPacketMode mode, size_t minDataSize);
 u16 ObjPacket__GetAIDIndex(u16 aid);
-ObjSendPacket *ObjPacket__InitPacketForSend(ObjSendPacket *packet, u16 type, u16 priority, u16 dataSize);
-ObjSendPacket *ObjPacket__SendPacket(void *packet, u16 type, u16 priority, u16 dataSize);
-void ObjPacket__Func_2074BB4(void);
-BOOL ObjPacket__FillSendDataBuffer(void);
-void ObjPacket__Func_2074DB4(void);
-void *ObjPacket__GetRecievedPacketData(s32 type, s32 id);
-ObjRecievePacket *ObjPacket__GetRecievedPacket(s32 type, s32 id);
-u32 ObjPacket__GetPacketSize(ObjPacketHeader *header);
+ObjSendPacket *ObjPacket__QueueSendPacket(void *packet, u16 type, u16 priority, u16 dataSize);
+BOOL ObjPacket__WriteToSendBuffer(void);
+void ObjPacket__PrepareReceivedPackets(void);
+void *ObjPacket__GetNextReceivedPacketData(s32 type, s32 id);
+ObjReceivePacket *ObjPacket__GetNextReceivedPacket(s32 type, s32 id);
 
 #endif // RUSH_OBJPACKET_H

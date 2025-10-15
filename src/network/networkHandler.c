@@ -370,9 +370,9 @@ void *GetDataTransferSendBuffer(void)
     return GetMatchManagerWork()->sendBuffer->data;
 }
 
-void *GetDataTransferRecieveBuffer(u32 id)
+void *GetDataTransferReceiveBuffer(u32 id)
 {
-    return GetMatchManagerWork()->recieveBuffer[id]->data;
+    return GetMatchManagerWork()->receiveBuffer[id]->data;
 }
 
 void ClearDataTransferSendBuffer(void)
@@ -388,8 +388,8 @@ void ClearDataTransferAllBuffers(void)
     OSIntrMode enabled = OS_DisableInterrupts();
     for (u32 i = 0; i < roomMaxPlayerCount; i++)
     {
-        MI_CpuClear32(manager->recieveBuffer[i], manager->bufferSize);
-        MI_CpuClear32(manager->recieveBufferStorage[i], manager->bufferSize);
+        MI_CpuClear32(manager->receiveBuffer[i], manager->bufferSize);
+        MI_CpuClear32(manager->receiveBufferStorage[i], manager->bufferSize);
         MI_CpuClear32(manager->recvBuffer[i], manager->bufferSize);
 
         DC_StoreRange(manager->recvBuffer[i], manager->bufferSize);
@@ -686,8 +686,8 @@ void InitMatchBuffers(MatchManager *work, size_t bufferSize, u32 maxPlayerCount)
 
     for (u16 i = 0; i < maxPlayerCount; i++)
     {
-        work->recieveBuffer[i]        = memAlloc(bufferSize);
-        work->recieveBufferStorage[i] = memAlloc(bufferSize);
+        work->receiveBuffer[i]        = memAlloc(bufferSize);
+        work->receiveBufferStorage[i] = memAlloc(bufferSize);
         work->recvBuffer[i]           = memAlloc(bufferSize);
 
         DWC_SetRecvBuffer(i, work->recvBuffer[i], bufferSize);
@@ -707,14 +707,14 @@ void ReleaseMatchBuffers(MatchManager *work)
 
     for (u16 i = 0; i < MATCH_BUFFER_COUNT; i++)
     {
-        if (work->recieveBuffer[i] != NULL)
+        if (work->receiveBuffer[i] != NULL)
         {
-            memFree(work->recieveBuffer[i]);
-            memFree(work->recieveBufferStorage[i]);
+            memFree(work->receiveBuffer[i]);
+            memFree(work->receiveBufferStorage[i]);
             memFree(work->recvBuffer[i]);
 
-            work->recieveBuffer[i]        = NULL;
-            work->recieveBufferStorage[i] = NULL;
+            work->receiveBuffer[i]        = NULL;
+            work->receiveBufferStorage[i] = NULL;
             work->recvBuffer[i]           = NULL;
         }
     }
@@ -953,13 +953,13 @@ void DataTransferManager_Main(void)
         {
             if (work->readyBufferSize && (work->bitmap & (1 << myAID)) != 0)
             {
-                MI_CpuCopy32(manager->sendBuffer, manager->recieveBuffer[i], manager->bufferSize);
+                MI_CpuCopy32(manager->sendBuffer, manager->receiveBuffer[i], manager->bufferSize);
             }
         }
         else
         {
-            MI_CpuCopy32(manager->recieveBufferStorage[i], manager->recieveBuffer[i], manager->bufferSize);
-            manager->recieveBufferStorage[i]->header.unknown = 0;
+            MI_CpuCopy32(manager->receiveBufferStorage[i], manager->receiveBuffer[i], manager->bufferSize);
+            manager->receiveBufferStorage[i]->header.unknown = 0;
         }
     }
     OS_RestoreInterrupts(enabled);
@@ -1036,7 +1036,7 @@ void DataTransferUserRecvCallback(u8 aid, u8 *buffer, int size)
     MatchManager *manager = TaskGetWork(matchManagerTask, MatchManager);
 
     DataTransferBuffer *newBuffer = (DataTransferBuffer *)buffer;
-    DataTransferBuffer *oldBuffer = manager->recieveBufferStorage[aid];
+    DataTransferBuffer *oldBuffer = manager->receiveBufferStorage[aid];
 
     if (oldBuffer->header.unknown <= newBuffer->header.unknown)
         MI_CpuCopy8(newBuffer, oldBuffer, size);

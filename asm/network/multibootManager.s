@@ -3119,13 +3119,13 @@ _020630DC:
 	and r1, r1, #0xff
 	strb r1, [r0, #1]
 	ldrh r0, [r4, #0x14]
-	bl WirelessManager__GetRecieveBuffer
+	bl WirelessManager__GetReceiveBuffer
 	ldrb r1, [r0, #0]
 	cmp r1, #0x78
 	ldreqb r0, [r0, #2]
 	streqb r0, [r4, #0x18]
 	ldrh r0, [r4, #0x16]
-	bl WirelessManager__GetRecieveBuffer
+	bl WirelessManager__GetReceiveBuffer
 	ldrb r1, [r0, #0]
 	cmp r1, #0x78
 	bne _02063178
@@ -3301,13 +3301,13 @@ _02063348:
 	bl MultibootManager__Func_2063A38
 _02063350:
 	ldrh r0, [r4, #0x14]
-	bl GetDataTransferRecieveBuffer
+	bl GetDataTransferReceiveBuffer
 	ldrb r1, [r0, #0]
 	cmp r1, #0x78
 	ldreqb r0, [r0, #2]
 	streqb r0, [r4, #0x18]
 	ldrh r0, [r4, #0x16]
-	bl GetDataTransferRecieveBuffer
+	bl GetDataTransferReceiveBuffer
 	ldrb r1, [r0, #0]
 	cmp r1, #0x78
 	bne _020633BC

@@ -94,7 +94,7 @@ NOT_DECOMPILED void MultibootManager__Func_2067A48(void);
 NOT_DECOMPILED void MultibootManager__Func_2067A88(void);
 NOT_DECOMPILED void MultibootManager__Func_2067AE8(void);
 NOT_DECOMPILED void *WirelessManager__GetSendBuffer(void);
-NOT_DECOMPILED void *WirelessManager__GetRecieveBuffer(u32 id);
+NOT_DECOMPILED void *WirelessManager__GetReceiveBuffer(u32 id);
 NOT_DECOMPILED void WirelessManager__ClearSendBuffer(void);
 NOT_DECOMPILED void MultibootManager__Func_2067B50(void);
 NOT_DECOMPILED void WirelessManager__Create4(void);
