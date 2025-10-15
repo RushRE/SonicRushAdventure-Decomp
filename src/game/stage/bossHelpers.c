@@ -163,7 +163,7 @@ s32 BossHelpers__Arena__WrapBounds(fx32 x, fx32 start, fx32 end)
     return x;
 }
 
-u16 BossHelpers__Arena__GetDrawPosition(fx32 position, fx32 start, fx32 end, fx32 radius, s32 *x, s32 *z)
+u16 BossStage_GetCirclePos(fx32 position, fx32 start, fx32 end, fx32 radius, s32 *x, s32 *z)
 {
     BossHelpers__Arena__WrapBounds(position, start, end);
     u16 angle = 16 * FX_Div(position - start, end - start);
@@ -200,7 +200,7 @@ u16 BossHelpers__Arena__GetObjectDrawMtx(StageTask *work, AnimatorMDL *animator,
 {
     work->position.x = BossHelpers__Arena__WrapBounds(work->position.x, start, end);
 
-    u16 angle = BossHelpers__Arena__GetDrawPosition(work->position.x, start, end, radius, &animator->work.translation.x, &animator->work.translation.z);
+    u16 angle = BossStage_GetCirclePos(work->position.x, start, end, radius, &animator->work.translation.x, &animator->work.translation.z);
 
     animator->work.translation.y = -work->position.y;
 

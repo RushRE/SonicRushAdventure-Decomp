@@ -17,12 +17,12 @@
 enum GameObjectPacketType_
 {
     GAMEOBJECT_PACKET_NONE,
-    GAMEOBJECT_PACKET_1,
+    GAMEOBJECT_PACKET_HURT,
     GAMEOBJECT_PACKET_DESTROYED,
-    GAMEOBJECT_PACKET_OBJ_COLLISION,
-    GAMEOBJECT_PACKET_4,
-    GAMEOBJECT_PACKET_5,
-    GAMEOBJECT_PACKET_6,
+    GAMEOBJECT_PACKET_OBJ_COLLISION_1,
+    GAMEOBJECT_PACKET_OBJ_COLLISION_2,
+    GAMEOBJECT_PACKET_OBJ_COLLISION_3,
+    GAMEOBJECT_PACKET_OBJ_COLLISION_4,
     GAMEOBJECT_PACKET_SLOWDOWN,
     GAMEOBJECT_PACKET_CONFUSION,
     GAMEOBJECT_PACKET_TENSION_SWAP,
@@ -37,9 +37,9 @@ enum EnemyCommonObjectFlags
 
 enum GameObjectCommonFlags_
 {
-    GAMEOBJECT_FLAG_ALLOW_RESPAWN = 1 << 16,
-    GAMEOBJECT_FLAG_20000         = 1 << 17,
-    GAMEOBJECT_FLAG_40000         = 1 << 18,
+    GAMEOBJECT_FLAG_ALLOW_RESPAWN           = 1 << 16,
+    GAMEOBJECT_FLAG_NO_ANIMAL_SPAWN         = 1 << 17,
+    GAMEOBJECT_FLAG_NO_EXPLOSION_COLLISIONS = 1 << 18,
 };
 typedef u32 GameObjectCommonFlags;
 
@@ -66,16 +66,12 @@ struct GameObjectTask_
     MapObject *mapObject;
     u8 mapObjectX;
     u8 health;
-    u8 field_346;
-    u8 field_347;
     Vec2Fx32 originPos;
     s16 blinkTimer;
-    s16 field_352;
     GameObjectCommonFlags flags;
-    u16 field_358;
-    u16 field_35A;
+    u16 actionState;
     StageTask *parent;
-    u32 field_360;
+    u32 unknown;
 };
 
 // --------------------
@@ -114,7 +110,7 @@ void GameObject__Func_20282A8(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx44 *mt
 // --------------------
 
 #define SpawnStageObject(id, x, y, type)                                           (type *)GameObject__SpawnObject(id, x, y, 0, 0, 0, 0, 0, 0)
-#define SpawnStageObjectFlags(id, x, y, type, flags) (type *)GameObject__SpawnObject(id, x, y, flags, 0, 0, 0, 0, 0)
+#define SpawnStageObjectFlags(id, x, y, type, flags)                               (type *)GameObject__SpawnObject(id, x, y, flags, 0, 0, 0, 0, 0)
 #define SpawnStageObjectEx(id, x, y, type, flags, left, top, width, height, param) (type *)GameObject__SpawnObject(id, x, y, flags, left, top, width, height, param)
 
 #endif // RUSH_GAMEOBJECT_H

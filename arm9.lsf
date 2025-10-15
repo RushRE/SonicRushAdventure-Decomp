@@ -163,9 +163,9 @@ Static arm9
     Object src/game/object/objDraw.o
     Object src/game/object/objRect.o
     Object asm/game/object/objRect_vars.o
-    Object asm/game/object/objExWork.o
+    Object src/game/object/objTblWork.o
     Object src/game/object/obj.o
-    Object asm/game/object/objExWorkHelpers.o
+    Object src/game/object/objTblWorkPriv.o
     Object src/game/graphics/vramSystem.o
     Object src/game/graphics/renderCore.o
     Object src/game/graphics/renderCoreVRAMAddr.o

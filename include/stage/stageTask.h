@@ -10,6 +10,7 @@
 #include <game/object/objDraw.h>
 #include <game/object/objBlock.h>
 #include <game/object/objCollision.h>
+#include <game/object/objTblWork.h>
 #include <game/stage/mapSys.h>
 
 #ifdef __cplusplus
@@ -87,7 +88,7 @@ enum StageTaskFlags_
     STAGE_TASK_FLAG_UNKNOWN                    = 1 << 17,
     STAGE_TASK_FLAG_NO_VRAM_A                  = 1 << 22,
     STAGE_TASK_FLAG_NO_VRAM_B                  = 1 << 23,
-    STAGE_TASK_FLAG_ALLOCATED_EX_WORK          = 1 << 24,
+    STAGE_TASK_FLAG_ALLOCATED_TBL_WORK          = 1 << 24,
     STAGE_TASK_FLAG_ALLOCATED_TASK_WORKER      = 1 << 25,
     STAGE_TASK_FLAG_ALLOCATED_COLLISION_OBJ    = 1 << 26,
     STAGE_TASK_FLAG_ALLOCATED_COLLIDERS        = 1 << 27,
@@ -196,54 +197,7 @@ enum StageObjColliderFlags_
 };
 typedef u16 StageObjColliderFlags;
 
-// --------------------
-// STRUCTS
-// --------------------
 
-typedef struct ObjExWorkUnknown1_
-{
-    u16 field_0;
-    u16 field_2;
-    u16 field_4;
-    u16 field_6;
-} ObjExWorkUnknown1;
-
-typedef struct ObjExWorkUnknown2_
-{
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-} ObjExWorkUnknown2;
-
-typedef struct ObjExWork_
-{
-    s16 field_0[4];
-    ObjExWorkUnknown1 field_8;
-    u32 flags;
-    VecFx32 velocity;
-    s16 field_20;
-    s16 field_22;
-    u32 field_24;
-    u32 field_28;
-    VecFx16 angle;
-    s16 field_32;
-    u32 *field_34;
-    ObjExWorkUnknown2 *field_38;
-    u32 *field_3C;
-    u32 *field_40;
-    OBS_DATA_WORK *field_44[4];
-    s16 field_54;
-    s16 field_56;
-    s16 field_58;
-    s16 field_5A;
-} ObjExWork;
 
 struct StageTask_
 {
@@ -304,7 +258,7 @@ struct StageTask_
     OBS_ACTION3D_BAC_WORK *obj_2dIn3d;
     void *sequencePlayerPtr;
     StageTaskCollisionWork *collisionObj;
-    ObjExWork *ex_work;
+    OBS_TBL_WORK *tbl_work;
     OBS_RECT_WORK *colliderList[STAGETASK_COLLIDER_COUNT];
     StageObjColliderFlags colliderFlags[STAGETASK_COLLIDER_COUNT];
 };
@@ -354,7 +308,7 @@ OBS_RECT_WORK *StageTask__GetCollider(StageTask *work, u32 id);
 void *StageTask__AllocateWorker(StageTask *work, size_t size);
 void StageTask__InitSeqPlayer(StageTask *work);
 void StageTask__SpriteBlockCallback_Hitbox(BACFrameGroupBlock_Hitbox *block, AnimatorSprite *animator, StageTask *work);
-void StageTask__InitExWork(StageTask *work, ObjExWork *exWork);
+void StageTask__InitTblWork(StageTask *work, struct OBS_TBL_WORK_ *exWork);
 fx32 StageTask__AdvanceBySpeed(fx32 value);
 fx32 StageTask__DecrementBySpeed(fx32 value);
 

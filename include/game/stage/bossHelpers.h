@@ -46,7 +46,7 @@ BOOL BossHelpers__IsAnimFinished(OBS_ACTION3D_NN_WORK *work, B3DAnimationTypes t
 void BossHelpers__ReleaseAnimation(OBS_ACTION3D_NN_WORK *work);
 
 s32 BossHelpers__Arena__WrapBounds(fx32 x, fx32 start, fx32 end);
-u16 BossHelpers__Arena__GetDrawPosition(fx32 position, fx32 start, fx32 end, fx32 radius, s32 *x, s32 *z);
+u16 BossStage_GetCirclePos(fx32 position, fx32 start, fx32 end, fx32 radius, s32 *x, s32 *z);
 void BossHelpers__Arena__GetXZPos(u16 angle, fx32 radius, fx32 *x, fx32 *z);
 void BossHelpers__Arena__GetPosition(fx32 *position, fx32 start, fx32 end, fx32 radius, fx32 x, fx32 z);
 u16 BossHelpers__Arena__GetAngle(fx32 position, fx32 start, fx32 end);

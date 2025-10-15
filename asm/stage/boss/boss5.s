@@ -10809,7 +10809,7 @@ _02178FD8:
 	bl Player__RemoveCollideEvent
 	ldr r0, _02179084 // =gPlayer
 	ldr r0, [r0, #0]
-	bl Player__OnLandGround
+	bl Player__OnGroundIdle
 	ldr r0, _02179084 // =gPlayer
 	ldr r2, [r0, #0]
 	mov r0, #0x80

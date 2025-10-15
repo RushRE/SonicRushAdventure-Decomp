@@ -465,7 +465,7 @@ void GameObject__SendPacket(GameObjectTask *work, Player *player, GameObjectPack
     packet->id   = (size_t)work->mapObject - (size_t)EventManager__GetObjectLayout();
 
     ObjSendPacket *sendPacket = ObjPacket__SendPacket(packet, GAMEPACKET_INTERACTABLE, 0, sizeof(GameObjectSendPacket));
-    sendPacket->header.param  = playerGameStatus.field_88[0];
+    sendPacket->header.param  = playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1];
 }
 
 void GameObject__SpawnExplosion(GameObjectTask *work)
@@ -494,7 +494,7 @@ void GameObject__SpawnExplosion(GameObjectTask *work)
 
     u16 debrisType = mtMathRandRepeat(4);
 
-    if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS) != 0 || (work->flags & GAMEOBJECT_FLAG_40000) != 0)
+    if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS) != 0 || (work->flags & GAMEOBJECT_FLAG_NO_EXPLOSION_COLLISIONS) != 0)
         moveFlag = STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     for (d = 0; d < 2; d++)
@@ -507,14 +507,16 @@ void GameObject__SpawnExplosion(GameObjectTask *work)
 
 void GameObject__OnDestroyEnemy(GameObjectTask *work)
 {
-    fx32 velY = 0;
+    // This function appears to be gutted & leftover from Sonic Rush.
 
-    // ???
-    GetCurrentZoneID();
+    fx32 velY = FLOAT_TO_FX32(0.0);
 
-    if ((work->flags & GAMEOBJECT_FLAG_20000) == 0)
+    // Get zoneID to know what animal types to spawn (unused)
+    u16 zoneID = GetCurrentZoneID();
+
+    if ((work->flags & GAMEOBJECT_FLAG_NO_ANIMAL_SPAWN) == 0)
     {
-        // ???
+        // Pick animal type (unused)
         mtMathRand();
 
         velY = FLOAT_TO_FX32(0.5);
@@ -598,7 +600,7 @@ void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         enemy->mapObject->param.health++;
         enemy->blinkTimer            = 60;
         enemy->colliders[1].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
-        GameObject__SendPacket(enemy, player, GAMEOBJECT_PACKET_1);
+        GameObject__SendPacket(enemy, player, GAMEOBJECT_PACKET_HURT);
 
         if (player != NULL && player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
         {

@@ -1173,13 +1173,13 @@ void EventManager__State_Init(EventManager *work)
     {
         if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
         {
-            EventManager__CreateEventLCD(work, 0, 1);
+            EventManager__CreateEventLCD(work, GRAPHICS_ENGINE_A, 1);
             work->state = EventManager__State_SingleScr;
         }
         else
         {
-            EventManager__CreateEventsInRect(work, 0, 1);
-            EventManager__CreateEventsInRect(work, 1, 1);
+            EventManager__CreateEventsInRect(work, GRAPHICS_ENGINE_A, 1);
+            EventManager__CreateEventsInRect(work, GRAPHICS_ENGINE_B, 1);
             work->state = EventManager__State_MultiScr;
         }
     }

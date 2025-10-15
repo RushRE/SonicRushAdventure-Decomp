@@ -369,7 +369,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     work->aniPlayerSprite.ani.work.oamOrder = SPRITE_ORDER_13;
     work->aniPlayerSprite.ani.flags |= (ANIMATORSPRITEDS_FLAG_DISABLE_A | ANIMATORSPRITEDS_FLAG_3 | ANIMATORSPRITEDS_FLAG_4);
 
-    work->onLandGround     = Player__OnLandGround;
+    work->actionGroundIdle = Player__OnGroundIdle;
     work->actionGroundMove = Player__OnGroundMove;
     work->actionCrouch     = Player__Action_Crouch;
     work->actionJump       = Player__Action_Jump;
@@ -395,7 +395,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     Player__InitState(work);
     ObjRect__SetOnDefend(&work->colliders[0], Player__OnDefend_Regular);
 
-    if ((state->gameFlag & GAME_FLAG_40) != 0 && CheckIsPlayer1(work))
+    if ((state->gameFlag & GAME_FLAG_RECALL_ACTIVE) != 0 && CheckIsPlayer1(work))
     {
         work->rings                 = state->recallRingExtraLife;
         work->ringStageCount        = state->recallRings;
@@ -420,7 +420,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
         work->tension            = state->recallTension;
         work->objWork.position.x = state->recallPosition.x;
         work->objWork.position.y = state->recallPosition.y;
-        work->gimmickFlag |= PLAYER_GIMMICK_200000;
+        work->gimmickFlag |= PLAYER_GIMMICK_IS_CREATED;
         work->blinkTimer            = work->hurtInvulnDuration;
         work->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
     }
@@ -450,7 +450,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
         startingPosZ = FX32_TO_WHOLE(work->objWork.position.z);
     }
 
-    work->onLandGround(work);
+    work->actionGroundIdle(work);
 
     if (IsBossStage())
         work->objWork.displayFlag &= ~(DISPLAY_FLAG_LOCK_LIGHT_DIR | DISPLAY_FLAG_ROTATE_CAMERA_DIR);
@@ -470,27 +470,27 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     return work;
 }
 
-void Player__Gimmick_200EE68(Player *work)
+void Player__Action_ResetPlayer(Player *work)
 {
     GameState *state = GetGameState();
 
-    work->playerFlag &= ~PLAYER_GIMMICK_200000;
-    if (state->gameMode != GAMEMODE_VS_BATTLE && (work->gimmickFlag & PLAYER_GIMMICK_400000) == 0)
+    work->playerFlag &= ~PLAYER_GIMMICK_IS_CREATED;
+    if (state->gameMode != GAMEMODE_VS_BATTLE && (work->gimmickFlag & PLAYER_GIMMICK_WARP) == 0)
     {
         playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_PLAYER_DIED;
-        playerGameStatus.field_20 |= 1;
+        playerGameStatus.clearStateFlag |= 1;
     }
     else
     {
-        MapSys__Func_2008714();
-        work->gimmickFlag |= PLAYER_GIMMICK_200000;
+        MapSys__InitCameraForRestart();
+        work->gimmickFlag |= PLAYER_GIMMICK_IS_CREATED;
 
-        mapCamera.camera[work->cameraID].flags |= MAPSYS_CAMERA_FLAG_1;
-        mapCamera.camera[work->cameraID].flags |= MAPSYS_CAMERA_FLAG_2;
+        mapCamera.camera[work->cameraID].flags |= MAPSYS_CAMERA_FLAG_ENGINE_A_ENABLED;
+        mapCamera.camera[work->cameraID].flags |= MAPSYS_CAMERA_FLAG_ENGINE_B_ENABLED;
 
         work->objWork.position.x = playerGameStatus.spawnPosition.x;
         work->objWork.position.y = playerGameStatus.spawnPosition.y;
-        if ((work->gimmickFlag & PLAYER_GIMMICK_400000) == 0)
+        if ((work->gimmickFlag & PLAYER_GIMMICK_WARP) == 0)
         {
             work->slomoTimer      = 0;
             work->objWork.fallDir = 0;
@@ -502,7 +502,7 @@ void Player__Gimmick_200EE68(Player *work)
             work->playerFlag &= ~(PLAYER_FLAG_SHIELD_MAGNET | PLAYER_FLAG_SHIELD_REGULAR);
             work->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
             work->tensionMaxTimer     = 0;
-            work->unknownTimer        = 0;
+            work->multiNoHitTimer     = 0;
             work->invincibleTimer     = 0;
             work->blinkTimer          = 0;
             work->itemBoxDisableTimer = 0;
@@ -518,7 +518,7 @@ void Player__Gimmick_200EE68(Player *work)
         }
         else
         {
-            work->gimmickFlag &= ~PLAYER_GIMMICK_200000;
+            work->gimmickFlag &= ~PLAYER_GIMMICK_IS_CREATED;
 
             work->objWork.position.x = work->warpDestPos.x;
             work->objWork.position.y = work->warpDestPos.y;
@@ -641,7 +641,7 @@ void Player__InitState(Player *player)
     if ((player->grindID & PLAYER_GRIND_ACTIVE) != 0)
         player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
 
-    player->gimmickFlag &= ~(PLAYER_GIMMICK_1 | PLAYER_GIMMICK_2 | PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_40000 | PLAYER_GIMMICK_400000 | PLAYER_GIMMICK_20000000);
+    player->gimmickFlag &= ~(PLAYER_GIMMICK_1 | PLAYER_GIMMICK_2 | PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_40000 | PLAYER_GIMMICK_WARP | PLAYER_GIMMICK_20000000);
     player->playerFlag &= ~(PLAYER_FLAG_USER_FLAG | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_DISABLE_TRICK_FINISHER
                             | PLAYER_FLAG_DISABLE_HOMING_ATTACK | PLAYER_FLAG_DEATH | PLAYER_FLAG_2000 | PLAYER_FLAG_TRICK_SUCCESS | PLAYER_FLAG_8000 | PLAYER_FLAG_SLOWMO
                             | PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_DISABLE_TENSION_CHANGE);
@@ -1426,7 +1426,7 @@ void Player__ApplySlopeForces(Player *player, GameObjectTask *other)
     player->playerFlag |= PLAYER_FLAG_SLOPE_FORCE_APPLIED;
 }
 
-void Player__OnLandGround(Player *player)
+void Player__OnGroundIdle(Player *player)
 {
     if (player->objWork.groundVel != FLOAT_TO_FX32(0.0))
     {
@@ -1758,7 +1758,7 @@ void Player__Action_FinishMission(Player *player, GameObjectTask *other)
         if (other != NULL)
         {
             if (gameMode == GAMEMODE_VS_BATTLE && CheckIsPlayer1(player))
-                GameObject__SendPacket(other, player, GAMEOBJECT_PACKET_OBJ_COLLISION);
+                GameObject__SendPacket(other, player, GAMEOBJECT_PACKET_OBJ_COLLISION_1);
 
             playerGameStatus.flags &= ~PLAYERGAMESTATUS_FLAG_FREEZE_TIME;
         }
@@ -1777,7 +1777,7 @@ void Player__Action_FinishMission(Player *player, GameObjectTask *other)
                         if (StageTaskStateMatches(&player->objWork, Player__State_Roll) || StageTaskStateMatches(&player->objWork, Player__State_Spindash))
                         {
                             player->objWork.groundVel = 0;
-                            player->onLandGround(player);
+                            player->actionGroundIdle(player);
                         }
 
                         if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
@@ -2740,7 +2740,7 @@ void Player__Destructor(Task *task)
     ReleasePlayerSfx(work, PLAYER_SEQPLAYER_SUPERBOOST);
     ReleasePlayerSfx(work, PLAYER_SEQPLAYER_GRINDTRICKSUCCES);
 
-    if ((state->gameFlag & GAME_FLAG_40) != 0 && CheckIsPlayer1(work))
+    if ((state->gameFlag & GAME_FLAG_RECALL_ACTIVE) != 0 && CheckIsPlayer1(work))
     {
         state->recallRingExtraLife = work->rings;
         state->recallRings         = work->ringStageCount;
@@ -3134,9 +3134,9 @@ void Player__In_Default(void)
     Player__ReceivePacket(work);
     Player__ReadGhostFrame(work);
 
-    if ((work->gimmickFlag & PLAYER_GIMMICK_200000) != 0)
+    if ((work->gimmickFlag & PLAYER_GIMMICK_IS_CREATED) != 0)
     {
-        work->gimmickFlag &= ~PLAYER_GIMMICK_200000;
+        work->gimmickFlag &= ~PLAYER_GIMMICK_IS_CREATED;
 
         s32 left, top, right, bottom;
         if (work->objWork.position.y > MapSys__GetScreenSwapPos(work->objWork.position.x))
@@ -3189,8 +3189,8 @@ void Player__In_Default(void)
     if (work->overSpeedLimitTimer != 0)
         work->overSpeedLimitTimer--;
 
-    if (work->unknownTimer != 0)
-        work->unknownTimer--;
+    if (work->multiNoHitTimer != 0)
+        work->multiNoHitTimer--;
 
     if (work->comboTensionTimer != 0)
         work->comboTensionTimer--;
@@ -3864,7 +3864,7 @@ void Player__State_GroundMove(Player *work)
 
                 if (work->objWork.groundVel == FLOAT_TO_FX32(0.0) && work->objWork.velocity.z == FLOAT_TO_FX32(0.0))
                 {
-                    work->onLandGround(work);
+                    work->actionGroundIdle(work);
                     return;
                 }
 
@@ -3900,7 +3900,7 @@ void Player__State_GroundMove(Player *work)
                 if (work->objWork.groundVel == FLOAT_TO_FX32(0.0) && work->objWork.velocity.z == FLOAT_TO_FX32(0.0))
                 {
                     Player__FinishTurningSkidding(work);
-                    work->onLandGround(work);
+                    work->actionGroundIdle(work);
                     return;
                 }
 
@@ -4013,7 +4013,7 @@ void Player__State_Crouch(Player *work)
             }
             else if ((work->inputKeyDown & PAD_KEY_DOWN) == 0)
             {
-                work->onLandGround(work);
+                work->actionGroundIdle(work);
             }
         }
     }
@@ -4072,7 +4072,7 @@ void Player__State_Roll(Player *work)
             {
                 work->objWork.groundVel = 0;
                 Player__InitPhysics(work);
-                work->onLandGround(work);
+                work->actionGroundIdle(work);
             }
             else
             {
@@ -4186,7 +4186,7 @@ void Player__State_Spindash(Player *work)
         {
             // undo spindash
 
-            work->onLandGround(work);
+            work->actionGroundIdle(work);
         }
         else
         {
@@ -4364,8 +4364,8 @@ void Player__State_Air(Player *work)
         switch (work->actionState)
         {
             case PLAYER_ACTION_HOMING_ATTACK:
-                if (((g_obj.flag & OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL) == 0 && work->characterID == CHARACTER_BLAZE) && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0
-                    && (playerGameStatus.stageTimer & 7) == 0)
+                if (((g_obj.flag & OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL) == 0 && work->characterID == CHARACTER_BLAZE)
+                    && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0 && (playerGameStatus.stageTimer & 7) == 0)
                     CreateEffectFlameDustForPlayer3(work);
                 break;
 
@@ -4705,7 +4705,7 @@ void Player__State_Air(Player *work)
         Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
         work->starComboCount = 0;
 
-        work->onLandGround(work);
+        work->actionGroundIdle(work);
         if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
             PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOARD_LANDING);
     }
@@ -4814,7 +4814,7 @@ void Player__State_Death(Player *player)
 
         if (gameState.gameMode == GAMEMODE_VS_BATTLE)
         {
-            Player__Gimmick_200EE68(player);
+            Player__Action_ResetPlayer(player);
 
             if (gmCheckRaceStage())
             {
@@ -4822,7 +4822,7 @@ void Player__State_Death(Player *player)
                 player->playerFlag |= PLAYER_GIMMICK_400;
             }
 
-            player->gimmickFlag &= ~PLAYER_GIMMICK_200000;
+            player->gimmickFlag &= ~PLAYER_GIMMICK_IS_CREATED;
             SetTaskState(&player->objWork, Player__State_DeathReset);
             player->objWork.userTimer = 0;
         }
@@ -4830,12 +4830,12 @@ void Player__State_Death(Player *player)
         {
             player->playerFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
 
-            Player__Gimmick_200EE68(player);
+            Player__Action_ResetPlayer(player);
 
             if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_PLAYER_DIED) == 0)
                 CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_FADE_TO_BLACK, FLOAT_TO_FX32(1.0));
 
-            player->onLandGround(player);
+            player->actionGroundIdle(player);
         }
     }
 }
@@ -4845,7 +4845,7 @@ void Player__State_DeathReset(Player *player)
     player->objWork.userTimer++;
     if (player->objWork.userTimer >= 2)
     {
-        player->gimmickFlag |= PLAYER_GIMMICK_200000;
+        player->gimmickFlag |= PLAYER_GIMMICK_IS_CREATED;
 
         if (GetCurrentZoneID() == ZONE_PLANT_KINGDOM)
         {
@@ -4858,7 +4858,7 @@ void Player__State_DeathReset(Player *player)
         CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_FADE_TO_BLACK, FLOAT_TO_FX32(1.0));
 
         player->playerFlag &= ~PLAYER_FLAG_DEATH;
-        player->onLandGround(player);
+        player->actionGroundIdle(player);
     }
 }
 
@@ -4912,10 +4912,10 @@ void Player__State_Warp(Player *work)
             if (work->objWork.userTimer >= 60)
             {
                 work->playerFlag &= ~PLAYER_FLAG_DEATH;
-                work->gimmickFlag |= PLAYER_GIMMICK_400000;
+                work->gimmickFlag |= PLAYER_GIMMICK_WARP;
 
                 // swap players!
-                Player__Gimmick_200EE68(work);
+                Player__Action_ResetPlayer(work);
 
                 work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
@@ -4931,7 +4931,7 @@ void Player__State_Warp(Player *work)
             work->objWork.userTimer++;
             if (work->objWork.userTimer >= 2)
             {
-                work->gimmickFlag |= PLAYER_GIMMICK_200000;
+                work->gimmickFlag |= PLAYER_GIMMICK_IS_CREATED;
 
                 if (GetCurrentZoneID() == ZONE_PLANT_KINGDOM)
                 {
@@ -4959,7 +4959,7 @@ void Player__State_Warp(Player *work)
 
             CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_FADE_TO_BLACK, FLOAT_TO_FX32(8.0));
             work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
-            work->onLandGround(work);
+            work->actionGroundIdle(work);
             break;
     }
 }
@@ -4972,7 +4972,7 @@ void Player__State_Hurt(Player *work)
     {
         work->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
         Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
-        work->onLandGround(work);
+        work->actionGroundIdle(work);
     }
 }
 
@@ -4987,7 +4987,7 @@ void Player__State_HurtSnowboard(Player *work)
         if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
         {
             Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
-            work->onLandGround(work);
+            work->actionGroundIdle(work);
             PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOARD_LANDING);
         }
         else
@@ -5119,7 +5119,7 @@ void Player__State_Grinding(Player *work)
             }
         }
 
-        if ((work->objWork.collisionFlag & STAGE_TASK_COLLISION_FLAG_GRIND_RAIL) == 0 && work->onLandGround != NULL)
+        if ((work->objWork.collisionFlag & STAGE_TASK_COLLISION_FLAG_GRIND_RAIL) == 0 && work->actionGroundIdle != NULL)
         {
             // end grinding (not on grind rail)
             StopPlayerSfx(work, PLAYER_SEQPLAYER_GRIND);
@@ -5127,7 +5127,7 @@ void Player__State_Grinding(Player *work)
             ReleasePlayerSfx(work, PLAYER_SEQPLAYER_GRINDTRICKSUCCES);
             work->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
             work->grindID = PLAYER_GRIND_NONE;
-            work->onLandGround(work);
+            work->actionGroundIdle(work);
         }
         else
         {
@@ -5608,7 +5608,7 @@ void Player__State_HomingAttack(Player *work)
         work->playerFlag &= ~PLAYER_GIMMICK_40;
 
         Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
-        work->onLandGround(work);
+        work->actionGroundIdle(work);
         if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
             PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOARD_LANDING);
 
@@ -5642,7 +5642,7 @@ void Player__State_HomingAttack(Player *work)
                 work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
                 work->playerFlag &= ~PLAYER_FLAG_DISABLE_HOMING_ATTACK;
                 Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
-                work->onLandGround(work);
+                work->actionGroundIdle(work);
             }
         }
     }
@@ -5708,7 +5708,7 @@ void Player__State_FlameHover(Player *work)
     {
         Player__InitPhysics(work);
         Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
-        work->onLandGround(work);
+        work->actionGroundIdle(work);
 
         if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
             PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOARD_LANDING);
@@ -5997,7 +5997,7 @@ void Player__HandleGroundCollisions(Player *player)
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
     player->gimmickFlag &= ~(PLAYER_GIMMICK_2 | PLAYER_GIMMICK_1);
 
-    player->onLandGround(player);
+    player->actionGroundIdle(player);
     if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
         PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOARD_LANDING);
 }
@@ -6734,7 +6734,7 @@ void Player__ReceivePacket(Player *player)
             packet = ObjPacket__GetRecievedPacket(GAMEPACKET_PLAYER, player->aidIndex);
             if (packet != NULL)
             {
-                if (packet->header.param != playerGameStatus.field_88[player->controlID])
+                if (packet->header.param != playerGameStatus.sendPacketTicks[player->controlID])
                     continue;
 
                 break;
@@ -6906,7 +6906,7 @@ void Player__SendPacket(Player *player)
         packet->gimmickFlag |= PLAYER_GIMMICK_800000;
 
     if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
-        packet->gimmickFlag &= ~PLAYER_GIMMICK_200000;
+        packet->gimmickFlag &= ~PLAYER_GIMMICK_IS_CREATED;
 
     packet->moveX = player->objWork.move.x >> 8;
     packet->moveY = player->objWork.move.y >> 8;
@@ -6916,7 +6916,7 @@ void Player__SendPacket(Player *player)
     packet->stageTimer      = playerGameStatus.stageTimer;
 
     ObjSendPacket *packetWork = ObjPacket__SendPacket(packet, GAMEPACKET_PLAYER, 2, sizeof(*packet));
-    packetWork->header.param  = playerGameStatus.field_88[PLAYER_CONTROL_P1];
+    packetWork->header.param  = playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1];
 
     if ((StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRail) || StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRailEndSpring)
          || StageTaskStateMatches(&player->objWork, Player__State_201DE24))

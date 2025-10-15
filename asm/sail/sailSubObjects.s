@@ -792,7 +792,7 @@ SailSubDepth__Create: // 0x02180A20
 	str r0, [r4, #0x40]
 	mov r0, r4
 	mov r1, #0
-	bl StageTask__InitExWork
+	bl StageTask__InitTblWork
 	ldrh r0, [r6, #0x30]
 	sub r0, r0, #0xf
 	cmp r0, #8
@@ -811,42 +811,42 @@ _02180B50: // jump table
 _02180B74:
 	ldr r0, [r4, #0x140]
 	ldr r1, _02180C54 // =_0218C444
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 	b _02180BF0
 _02180B84:
 	ldr r0, [r4, #0x140]
 	ldr r1, _02180C58 // =_0218C4B4
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 	b _02180BF0
 _02180B94:
 	ldr r0, [r4, #0x140]
 	ldr r1, _02180C5C // =_0218C524
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 	b _02180BF0
 _02180BA4:
 	ldr r0, [r4, #0x140]
 	ldr r1, _02180C58 // =_0218C4B4
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 	b _02180BF0
 _02180BB4:
 	ldr r0, [r4, #0x140]
 	ldr r1, _02180C60 // =_0218C63C
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 	b _02180BF0
 _02180BC4:
 	ldr r0, [r4, #0x140]
 	ldr r1, _02180C64 // =_0218C594
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 	b _02180BF0
 _02180BD4:
 	ldr r0, [r4, #0x140]
 	ldr r1, _02180C68 // =_0218C6E4
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 	b _02180BF0
 _02180BE4:
 	ldr r0, [r4, #0x140]
 	ldr r1, _02180C6C // =_0218C7A8
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 _02180BF0:
 	ldr r0, [r5, #0x13c]
 	cmp r0, #0
@@ -865,7 +865,7 @@ _02180C0C:
 	mov r0, r4
 	orr r1, r1, #0x2000
 	str r1, [r4, #0x1c]
-	bl ExWork__Func_2076D90
+	bl ObjObjectTblWork
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
 	mov r0, r4
@@ -1113,10 +1113,10 @@ SailSubShark__Create: // 0x02180E84
 	str r0, [r5, #0x98]
 	mov r0, r4
 	mov r1, #0
-	bl StageTask__InitExWork
+	bl StageTask__InitTblWork
 	ldr r0, [r4, #0x140]
 	ldr r1, _02181074 // =_0218C47C
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 	ldrh r0, [r6, #0x30]
 	cmp r0, #6
 	cmpne r0, #8
@@ -1145,7 +1145,7 @@ _02181028:
 	mov r0, r4
 	orr r1, r1, #0x2000
 	str r1, [r4, #0x1c]
-	bl ExWork__Func_2076D90
+	bl ObjObjectTblWork
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
 	mov r0, r4
@@ -3178,7 +3178,7 @@ SailSubShark__State_2182C2C: // 0x02182C2C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x124]
-	bl ExWork__Func_2076D90
+	bl ObjObjectTblWork
 	ldr r0, [r5, #0x98]
 	add r1, r4, #0x100
 	rsb r0, r0, #0
@@ -3609,7 +3609,7 @@ SailSubDepth__State_21831F8: // 0x021831F8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x124]
-	bl ExWork__Func_2076D90
+	bl ObjObjectTblWork
 	ldr r1, [r5, #0x98]
 	mov r0, r5
 	rsb r1, r1, #0

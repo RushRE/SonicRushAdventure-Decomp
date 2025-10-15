@@ -3295,7 +3295,7 @@ ovl02_216AA74: // 0x0216AA74
 	ldr r2, [r4, #0x1c]
 	orr r2, r2, #0x100
 	str r2, [r4, #0x1c]
-	bl StageTask__InitExWork
+	bl StageTask__InitTblWork
 	cmp r5, #3
 	addls pc, pc, r5, lsl #2
 	b _0216AB7C
@@ -3313,7 +3313,7 @@ _0216AAE0:
 	str r0, [r4, #0x4c]
 	ldr r0, [r4, #0x140]
 	ldr r1, _0216AB8C // =_02179118
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 	b _0216AB7C
 _0216AB08:
 	mov r1, #0x1dc000
@@ -3324,7 +3324,7 @@ _0216AB08:
 	str r0, [r4, #0x4c]
 	ldr r0, [r4, #0x140]
 	ldr r1, _0216AB94 // =_02179188
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 	b _0216AB7C
 _0216AB30:
 	mov r1, #0x78000
@@ -3335,7 +3335,7 @@ _0216AB30:
 	str r0, [r4, #0x4c]
 	ldr r0, [r4, #0x140]
 	ldr r1, _0216AB9C // =_021791F8
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 	b _0216AB7C
 _0216AB58:
 	mov r0, #0x3c000
@@ -3346,7 +3346,7 @@ _0216AB58:
 	str r0, [r4, #0x4c]
 	ldr r0, [r4, #0x140]
 	ldr r1, _0216ABA0 // =_02179268
-	bl ObjExWork__Func_2076EE4
+	bl ObjTblWorkMoveSet
 _0216AB7C:
 	ldr r1, _0216ABA4 // =ovl02_216ABA8
 	mov r0, r4
@@ -3366,7 +3366,7 @@ _0216ABA4: .word ovl02_216ABA8
 ovl02_216ABA8: // 0x0216ABA8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ExWork__Func_2076D90
+	bl ObjObjectTblWork
 	bl TitleCard__GetProgress
 	cmp r0, #3
 	ldreq r0, [r4, #0x18]

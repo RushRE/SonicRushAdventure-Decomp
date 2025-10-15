@@ -98,15 +98,15 @@ typedef struct PlayerGameStatus_
     u32 speedBonus;
     u32 speedBonusCount;
     u32 ringBonus;
-    u32 field_20;
+    u32 clearStateFlag;
     u8 lives;
     u8 recallCheckpointID;
     u32 recallTime;
     Vec2Fx32 spawnPosition;
     u16 recallWaterLevel;
     PadInputState input;
-    u16 field_88[2];
-    u16 field_8C[2];
+    u16 sendPacketTicks[PLAYER_COUNT];
+    u16 receivedPacketTicks[PLAYER_COUNT];
     u16 networkErrorTimer;
     u16 stageScoreEventTimer;
     u16 stageFinishEventTimer;
@@ -114,7 +114,7 @@ typedef struct PlayerGameStatus_
     {
         s16 rings;
         u32 time;
-    } vsStageScore[2];
+    } vsGoalPacket[2];
     GameObjectSendPacket *sendPacketList;
     u32 sendPacketCount;
     s32 playerLapCounter[PLAYER_COUNT];

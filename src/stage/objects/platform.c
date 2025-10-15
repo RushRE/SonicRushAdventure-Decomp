@@ -22,14 +22,6 @@
 static s16 Platform__activeCount;
 static u32 Platform__value_218A48C;
 
-NOT_DECOMPILED u32 _0218975C[];
-
-NOT_DECOMPILED u16 Platform__spriteTable[];
-
-NOT_DECOMPILED u16 Platform__animTable[];
-
-NOT_DECOMPILED void *aActAcGmkLandBa;
-
 // --------------------
 // FUNCTIONS
 // --------------------
@@ -257,128 +249,43 @@ void Platform__Action_Init(Platform *work)
     }
 }
 
-NONMATCH_FUNC void Platform__HandleMovement(Platform *work)
+void Platform__HandleMovement(Platform *work)
 {
-    // https://decomp.me/scratch/t395t -> 52.41%
-#ifdef NON_MATCHING
-    u16 timer = work->gameWork.objWork.userTimer;
-    s16 sizeX = work->gameWork.mapObjectParam_sizeX >> 1;
-    s16 sizeY = work->gameWork.mapObjectParam_sizeY >> 1;
-
-    fx32 prevPosX = work->gameWork.objWork.prevPosition.x;
-    fx32 prevPosY = work->gameWork.objWork.prevPosition.y;
-
-    u16 angle;
-    if ((work->gameWork.mapObject->flags & 7) != 0)
-        angle = (timer + playerGameStatus.stageTimer * (work->gameWork.mapObject->flags & 7)) & 0x3FF;
-    else
-        angle = (4 * (playerGameStatus.stageTimer + (timer >> 2))) & 0x3FF;
-
     fx32 moveX;
     fx32 moveY;
-    if ((work->gameWork.mapObject->flags & 8) != 0)
+    u8 spd    = (work->gameWork.mapObject->flags & 7);
+    u16 timer = work->gameWork.objWork.userTimer;
+
+    fx32 centerX = work->gameWork.objWork.prevPosition.x;
+    fx32 centerY = work->gameWork.objWork.prevPosition.y;
+
+    s16 sizeX = work->gameWork.mapObject->width >> 1;
+    s16 sizeY = work->gameWork.mapObject->height >> 1;
+
+    if (spd)
     {
-        moveX = sizeX * SinFX((s32)(u16)((angle << 6) + 0x8000));
-        moveY = sizeY * SinFX((s32)(u16)(angle << 6));
+        timer = (u16)(((playerGameStatus.stageTimer * spd) + timer) & 0x3FF);
     }
     else
     {
-        moveX = sizeX * SinFX((s32)(u16)(angle << 6));
-        moveY = sizeY * SinFX((s32)(u16)(angle << 6));
+        timer = (u16)(((playerGameStatus.stageTimer + (timer >> 2)) & 0xFF) << 2);
     }
 
-    fx32 x = FX32_FROM_WHOLE(prevPosX + FX32_TO_WHOLE(moveX));
-    fx32 y = FX32_FROM_WHOLE(prevPosY + FX32_TO_WHOLE(moveY));
+    if ((work->gameWork.mapObject->flags & 8) != 0)
+    {
+        moveX = FX32_FROM_WHOLE(centerX + FX32_TO_WHOLE(sizeX * SinFX((s32)(u16)((timer << 6) + 0x8000))));
+        moveY = FX32_FROM_WHOLE(centerY + FX32_TO_WHOLE(sizeY * SinFX((s32)(u16)(timer << 6))));
+    }
+    else
+    {
+        moveX = FX32_FROM_WHOLE(centerX + FX32_TO_WHOLE(sizeX * SinFX((s32)(u16)(timer << 6))));
+        moveY = FX32_FROM_WHOLE(centerY + FX32_TO_WHOLE(sizeY * SinFX((s32)(u16)(timer << 6))));
+    }
 
-    work->gameWork.objWork.move.x     = x - work->gameWork.objWork.position.x;
-    work->gameWork.objWork.move.y     = y - work->gameWork.objWork.position.y;
-    work->gameWork.objWork.position.x = x;
-    work->gameWork.objWork.position.y = y;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	ldr r3, [r0, #0x340]
-	ldr r1, [r0, #0x2c]
-	ldrh lr, [r3, #4]
-	ldrb r2, [r3, #8]
-	ldrb r3, [r3, #9]
-	and r5, lr, #7
-	mov r1, r1, lsl #0x10
-	mov r2, r2, lsl #0xf
-	mov r4, r3, lsl #0xf
-	ands r7, r5, #0xff
-	mov r6, r1, lsr #0x10
-	mov r3, r2, asr #0x10
-	mov ip, r4, asr #0x10
-	ldr r1, [r0, #0x8c]
-	ldr r2, [r0, #0x90]
-	beq _021758BC
-	ldr r5, =playerGameStatus
-	ldr r4, =0x000003FF
-	ldr r5, [r5, #0xc]
-	mla r6, r5, r7, r6
-	and r4, r6, r4
-	b _021758D0
-_021758BC:
-	ldr r4, =playerGameStatus
-	ldr r4, [r4, #0xc]
-	add r4, r4, r6, asr #2
-	mov r4, r4, lsl #0x18
-	mov r4, r4, lsr #0x16
-_021758D0:
-	mov r4, r4, lsl #0x10
-	mov r4, r4, lsr #0x10
-	tst lr, #8
-	beq _02175934
-	mov r5, r4, lsl #6
-	add r4, r5, #0x8000
-	mov lr, r4, lsl #0x10
-	mov r4, r5, lsl #0x10
-	mov r5, lr, lsr #0x10
-	mov lr, r5, lsl #0x10
-	mov r5, lr, lsr #0x10
-	mov r4, r4, lsr #0x10
-	mov r4, r4, lsl #0x10
-	mov r5, r5, asr #4
-	mov r4, r4, lsr #0x10
-	mov r4, r4, asr #4
-	ldr lr, =FX_SinCosTable_
-	mov r5, r5, lsl #2
-	ldrsh r5, [lr, r5]
-	mov r4, r4, lsl #2
-	ldrsh r4, [lr, r4]
-	smulbb r5, r3, r5
-	smulbb r3, ip, r4
-	add r4, r1, r5, asr #12
-	b _02175960
-_02175934:
-	mov lr, r4, lsl #0x16
-	mov r4, lr, lsr #0x10
-	mov lr, r4, lsl #0x10
-	mov r4, lr, lsr #0x10
-	mov r5, r4, asr #4
-	ldr r4, =FX_SinCosTable_
-	mov r5, r5, lsl #2
-	ldrsh r5, [r4, r5]
-	mul r4, r3, r5
-	mul r3, ip, r5
-	add r4, r1, r4, asr #12
-_02175960:
-	add r1, r2, r3, asr #12
-	mov r3, r1, lsl #0xc
-	ldr r1, [r0, #0x44]
-	mov r2, r4, lsl #0xc
-	sub r1, r2, r1
-	str r1, [r0, #0xbc]
-	ldr r1, [r0, #0x48]
-	sub r1, r3, r1
-	str r1, [r0, #0xc0]
-	str r2, [r0, #0x44]
-	str r3, [r0, #0x48]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
+    work->gameWork.objWork.move.x     = moveX - work->gameWork.objWork.position.x;
+    work->gameWork.objWork.move.y     = moveY - work->gameWork.objWork.position.y;
+    work->gameWork.objWork.position.x = moveX;
+    work->gameWork.objWork.position.y = moveY;
 }
 
 void Platform__Action_Collapse(Platform *work)

@@ -1061,7 +1061,7 @@ void Tutorial_Action_ActivateCheckpoint(Tutorial *work, s32 id, fx32 nextSection
     gPlayer->inputLock = TRUE;
 
     if (StageTaskStateMatches(&gPlayer->objWork, Player__State_Roll) || StageTaskStateMatches(&gPlayer->objWork, Player__State_Spindash))
-        gPlayer->onLandGround(gPlayer);
+        gPlayer->actionGroundIdle(gPlayer);
 
     work->statePlayer    = NULL;
     work->stateBtnPrompt = NULL;

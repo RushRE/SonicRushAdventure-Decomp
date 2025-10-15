@@ -392,7 +392,7 @@
 .public StageStart_Main
 .public MapSys__Init
 .public MapSys__Create
-.public MapSys__Func_2008714
+.public MapSys__InitCameraForRestart 
 .public MapSys__LoadArchive_RAW
 .public MapSys__LoadArchive_MAP
 .public MapSys__Flush
@@ -530,7 +530,7 @@
 .public LoadPlayerAssets
 .public ReleasePlayerAssets
 .public Player__Create
-.public Player__Gimmick_200EE68
+.public Player__Action_ResetPlayer
 .public Player__InitState
 .public Player__SaveStartingPosition
 .public Player__InitGimmick
@@ -563,7 +563,7 @@
 .public Player__Action_LandOnGround
 .public Player__Action_RainbowDashRing
 .public Player__ApplySlopeForces
-.public Player__OnLandGround
+.public Player__OnGroundIdle
 .public Player__OnGroundMove
 .public Player__Action_Launch
 .public Player__PerformTrick
@@ -1100,7 +1100,7 @@
 .public BossHelpers__IsAnimFinished
 .public BossHelpers__ReleaseAnimation
 .public BossHelpers__Arena__WrapBounds
-.public BossHelpers__Arena__GetDrawPosition
+.public BossStage_GetCirclePos
 .public BossHelpers__Arena__GetXZPos
 .public BossHelpers__Arena__GetPosition
 .public BossHelpers__Arena__GetAngle
@@ -2882,7 +2882,7 @@
 .public StageTask__AllocateWorker
 .public StageTask__InitSeqPlayer
 .public StageTask__SpriteBlockCallback_Hitbox
-.public StageTask__InitExWork
+.public StageTask__InitTblWork
 .public StageTask__AdvanceBySpeed
 .public StageTask__DecrementBySpeed
 .public ObjDataSearchArchive
@@ -2965,11 +2965,11 @@
 .public ObjRect__CenterY
 .public ObjRect__HitCenterX
 .public ObjRect__HitCenterY
-.public ExWork__Func_2076D90
-.public ExWork__Func_2076DA0
-.public ObjExWork__Init
-.public ObjExWork__Release
-.public ObjExWork__Func_2076EE4
+.public ObjObjectTblWork
+.public ObjTblWork
+.public InitObjTblWork
+.public ObjTblWorkReset
+.public ObjTblWorkMoveSet
 .public ObjSpdUpSet
 .public ObjSpdDownSet
 .public ObjShiftSet
@@ -2979,10 +2979,10 @@
 .public ObjRoopDiff16
 .public ObjTouchCheck
 .public ObjTouchCheckPush
-.public ExWork__Func_20773A0
-.public ExWork__Func_20778C0
-.public ExWork__Func_20779AC
-.public ExWork__Func_2077A80
+.public ProcessObjTblMove
+.public ProcessObjTblSprite2D
+.public ProcessObjTblScale
+.public ProcessObjTblAngle
 .public InitVRAMSystem
 .public VRAMSystem__Init
 .public VRAMSystem__Reset

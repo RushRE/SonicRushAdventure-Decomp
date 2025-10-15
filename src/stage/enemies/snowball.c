@@ -231,7 +231,7 @@ void EnemySnowball_OnDefend_Snowball(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     EnemySnowball *enemy = (EnemySnowball *)rect2->parent;
 
-    if ((u8)GameObject__BadnikBreak(rect1, rect2, GAMEOBJECT_PACKET_OBJ_COLLISION) == BADNIKBREAKRESULT_DESTROYED_PLAYER)
+    if ((u8)GameObject__BadnikBreak(rect1, rect2, GAMEOBJECT_PACKET_OBJ_COLLISION_1) == BADNIKBREAKRESULT_DESTROYED_PLAYER)
     {
         // BUG(?): should this be using "PlayHandleStageSfx"?
         // not using the handle means the spatial sfx can't be processed!

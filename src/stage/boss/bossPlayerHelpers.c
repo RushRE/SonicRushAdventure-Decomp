@@ -289,18 +289,18 @@ void BossPlayerHelpers_Action_DoBoss5Warp(Player *player)
 
         player->playerFlag |= PLAYER_FLAG_DEATH;
         player->playerFlag &= ~PLAYER_FLAG_DEATH;
-        player->gimmickFlag |= PLAYER_GIMMICK_400000;
-        Player__Gimmick_200EE68(player);
+        player->gimmickFlag |= PLAYER_GIMMICK_WARP;
+        Player__Action_ResetPlayer(player);
 
-        player->gimmickFlag |= PLAYER_GIMMICK_200000;
-        player->onLandGround(player);
+        player->gimmickFlag |= PLAYER_GIMMICK_IS_CREATED;
+        player->actionGroundIdle(player);
     }
 }
 
 void BossPlayerHelpers_Action_SetOnLandGround_Boss6(Player *player)
 {
-    player->onLandGround = BossPlayerHelpers_OnLandGround_Boss6;
-    player->onLandGround(player);
+    player->actionGroundIdle = BossPlayerHelpers_OnLandGround_Boss6;
+    player->actionGroundIdle(player);
 }
 
 void BossPlayerHelpers_OnLandGround_Boss6(Player *player)

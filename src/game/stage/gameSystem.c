@@ -1679,12 +1679,12 @@ void InitPlayerStatus(void)
 {
     GameState *state = GetGameState();
 
-    if ((state->gameFlag & GAME_FLAG_40) == 0)
+    if ((state->gameFlag & GAME_FLAG_RECALL_ACTIVE) == 0)
     {
         MI_CpuClear16(&playerGameStatus, sizeof(playerGameStatus));
 
-        playerGameStatus.field_88[1] = 0xFFFF;
-        playerGameStatus.field_8C[1] = 0xFFFF;
+        playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P2] = 0xFFFF;
+        playerGameStatus.receivedPacketTicks[PLAYER_CONTROL_P2] = 0xFFFF;
         InitPadInput(&playerGameStatus.input, NULL, NULL);
 
         if (state->gameMode == GAMEMODE_DEMO || gmCheckReplayActive())
@@ -1694,7 +1694,7 @@ void InitPlayerStatus(void)
         {
             ObjSendPacket *packetWork = ObjPacket__SendPacket(NULL, GAMEPACKET_UNKNOWN, 3, 0);
             if (packetWork != NULL)
-                packetWork->header.param = playerGameStatus.field_88[0];
+                packetWork->header.param = playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1];
         }
 
         state->gameFlag &= ~(GAME_FLAG_PLAYER_RESPAWNED | GAME_FLAG_REPLAY_GHOST_ACTIVE | GAME_FLAG_100 | GAME_FLAG_HAS_TIME_OVER | GAME_FLAG_PLAYER_RESTARTED);
@@ -1798,7 +1798,7 @@ void CreateGameSystem(void)
     GameState *state = GetGameState();
 
     playerGameStatus.taskEarly = TaskCreateNoWork(GameSystem_Main_Early, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1000, TASK_GROUP(3), "GameSysEarlyTask");
-    playerGameStatus.taskLate = TaskCreate(GameSystem_Main_Late, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x8000, TASK_GROUP(3), GameSysLateTask);
+    playerGameStatus.taskLate  = TaskCreate(GameSystem_Main_Late, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x8000, TASK_GROUP(3), GameSysLateTask);
 
     GameSysLateTask *work = TaskGetWork(playerGameStatus.taskLate, GameSysLateTask);
     TaskInitWork16(work);
@@ -1823,7 +1823,7 @@ void CreateGameSystem(void)
         playerGameStatus.speedBonus          = 0;
         playerGameStatus.speedBonusCount     = 0;
         playerGameStatus.ringBonus           = 0;
-        playerGameStatus.field_20            = 0;
+        playerGameStatus.clearStateFlag      = 0;
         playerGameStatus.lives               = PLAYER_TIMEATTACK_LIVES;
         playerGameStatus.recallCheckpointID  = 0;
         playerGameStatus.recallTime          = 0;
@@ -1956,8 +1956,8 @@ void CreateGameSystem(void)
     InitStageBGM();
     StartStageBGM(FALSE);
 
-    if ((state->gameFlag & GAME_FLAG_40) != 0)
-        state->gameFlag &= ~GAME_FLAG_40;
+    if ((state->gameFlag & GAME_FLAG_RECALL_ACTIVE) != 0)
+        state->gameFlag &= ~GAME_FLAG_RECALL_ACTIVE;
 
     if ((state->gameFlag & GAME_FLAG_IS_VS_BATTLE) != 0 && playerGameStatus.sendPacketList == NULL)
     {
@@ -2021,33 +2021,33 @@ void GameSystem_Main_Early(void)
         {
             ObjPacket__Func_2074DB4();
 
-            if (gPlayerList[1] != NULL)
+            if (gPlayerList[PLAYER_CONTROL_P2] != NULL)
             {
-                ObjRecievePacket *packet = ObjPacket__GetRecievedPacket(GAMEPACKET_UNKNOWN, gPlayerList[1]->aidIndex);
+                ObjRecievePacket *packet = ObjPacket__GetRecievedPacket(GAMEPACKET_UNKNOWN, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
                 if (packet != NULL)
                 {
-                    if (playerGameStatus.field_8C[1] < packet->header.param || (playerGameStatus.field_8C[1] > 32168 && packet->header.param < 600))
+                    if (playerGameStatus.receivedPacketTicks[PLAYER_CONTROL_P2] < packet->header.param || (playerGameStatus.receivedPacketTicks[PLAYER_CONTROL_P2] > 32168 && packet->header.param < 600))
                     {
-                        playerGameStatus.field_8C[1] = packet->header.param;
-                        playerGameStatus.field_88[1] = packet->header.param;
+                        playerGameStatus.receivedPacketTicks[PLAYER_CONTROL_P2] = packet->header.param;
+                        playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P2] = packet->header.param;
                     }
                     else
                     {
-                        playerGameStatus.field_88[1]++;
+                        playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P2]++;
                     }
                 }
                 else
                 {
-                    playerGameStatus.field_88[1] = 0xFFFF;
+                    playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P2] = 0xFFFF;
                 }
             }
         }
 
         ObjPacket__Func_2074DB4();
 
-        ObjRecievePacket *ringPacket = ObjPacket__GetRecievedPacket(GAMEPACKET_RINGCOUNT, gPlayerList[1]->aidIndex);
+        ObjRecievePacket *ringPacket = ObjPacket__GetRecievedPacket(GAMEPACKET_RINGCOUNT, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
         if (ringPacket != NULL)
-            gPlayerList[1]->rings = ringPacket->header.param;
+            gPlayerList[PLAYER_CONTROL_P2]->rings = ringPacket->header.param;
 
         if ((gPlayer->playerFlag & PLAYER_FLAG_FINISHED_STAGE) != 0)
         {
@@ -2069,17 +2069,17 @@ void GameSystem_Main_Early(void)
         {
             ObjPacket__Func_2074DB4();
 
-            s32 *opponentStageScore = ObjPacket__GetRecievedPacketData(GAMEPACKET_STAGESCORE, gPlayerList[1]->aidIndex);
+            s32 *opponentStageScore = ObjPacket__GetRecievedPacketData(GAMEPACKET_STAGESCORE, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
             if (opponentStageScore != NULL)
             {
-                playerGameStatus.vsStageScore[1].time = opponentStageScore[0];
+                playerGameStatus.vsGoalPacket[PLAYER_CONTROL_P2].time = opponentStageScore[0];
                 playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_ACTIVE;
 
                 if ((gPlayer->playerFlag & PLAYER_FLAG_FINISHED_STAGE) == 0)
                 {
                     if (state->vsBattleType == VSBATTLE_RACE)
                     {
-                        if (playerGameStatus.vsStageScore[1].time >= AKUTIL_TIME_TO_FRAMES(10, 00, 00))
+                        if (playerGameStatus.vsGoalPacket[PLAYER_CONTROL_P2].time >= AKUTIL_TIME_TO_FRAMES(10, 00, 00))
                         {
                             if (playerGameStatus.stageTimer < AKUTIL_TIME_TO_FRAMES(9, 47, 49))
                             {
@@ -2117,7 +2117,7 @@ void GameSystem_Main_Early(void)
         {
             ObjPacket__Func_2074DB4();
 
-            ObjRecievePacket *stageClearPacket = ObjPacket__GetRecievedPacket(GAMEPACKET_STAGEFINISH, gPlayerList[1]->aidIndex);
+            ObjRecievePacket *stageClearPacket = ObjPacket__GetRecievedPacket(GAMEPACKET_STAGEFINISH, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
             if (stageClearPacket != NULL)
             {
                 if (stageClearPacket->header.param == 0 && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FADE_IS_ACTIVE) == 0)
@@ -2141,7 +2141,7 @@ void GameSystem_Main_Early(void)
 
 void GameSystem_Main_Late(void)
 {
-    GameState *state         = GetGameState();
+    GameState *state      = GetGameState();
     GameSysLateTask *work = TaskGetWorkCurrent(GameSysLateTask);
 
     UpdateTensionGaugeHUD(gPlayer->tension >> 4, FALSE);
@@ -2179,7 +2179,7 @@ void GameSystem_Main_Late(void)
         }
         else
         {
-            if (FX_ModS32(playerGameStatus.field_88[0] & ~0x80000000, 4) == 3)
+            if (FX_ModS32(playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1] & ~0x80000000, 4) == 3)
             {
                 BOOL sendFlag = ObjPacket__FillSendDataBuffer();
                 if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_NEEDS_DATATRANSFER_CONFIG_INIT) != 0)
@@ -2195,13 +2195,13 @@ void GameSystem_Main_Late(void)
 
                 ObjSendPacket *unknownPacket = ObjPacket__SendPacket(NULL, GAMEPACKET_UNKNOWN, 3, 0);
                 if (unknownPacket != NULL)
-                    unknownPacket->header.param = (playerGameStatus.field_88[0] + 1) & 0x7FFF;
+                    unknownPacket->header.param = (playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1] + 1) & 0x7FFF;
 
                 playerGameStatus.sendPacketCount = 0;
             }
         }
 
-        playerGameStatus.field_88[0] = (playerGameStatus.field_88[0] + 1) & 0x7FFF;
+        playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1] = (playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1] + 1) & 0x7FFF;
     }
 
     if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_CAN_CHANGE_EVENT) != 0)
@@ -2221,11 +2221,11 @@ void GameSystem_Main_Late(void)
         {
             if (state->vsBattleType == VSBATTLE_RINGS)
             {
-                if (playerGameStatus.vsStageScore[0].rings > playerGameStatus.vsStageScore[1].rings)
+                if (playerGameStatus.vsGoalPacket[0].rings > playerGameStatus.vsGoalPacket[1].rings)
                 {
                     state->vsBattleResult = 1;
                 }
-                else if (playerGameStatus.vsStageScore[0].rings < playerGameStatus.vsStageScore[1].rings)
+                else if (playerGameStatus.vsGoalPacket[0].rings < playerGameStatus.vsGoalPacket[1].rings)
                 {
                     state->vsBattleResult = 2;
                 }
@@ -2236,11 +2236,11 @@ void GameSystem_Main_Late(void)
             }
             else
             {
-                if (playerGameStatus.vsStageScore[0].time < playerGameStatus.vsStageScore[1].time)
+                if (playerGameStatus.vsGoalPacket[0].time < playerGameStatus.vsGoalPacket[1].time)
                 {
                     state->vsBattleResult = 1;
                 }
-                else if (playerGameStatus.vsStageScore[0].time > playerGameStatus.vsStageScore[1].time)
+                else if (playerGameStatus.vsGoalPacket[0].time > playerGameStatus.vsGoalPacket[1].time)
                 {
                     state->vsBattleResult = 2;
                 }
@@ -2515,26 +2515,26 @@ void SendPacketForStageScoreEvent(void)
         {
             if (gameState.vsBattleType == VSBATTLE_RINGS)
             {
-                playerGameStatus.vsStageScore[0].rings = gPlayer->rings;
+                playerGameStatus.vsGoalPacket[0].rings = gPlayer->rings;
             }
             else
             {
-                playerGameStatus.vsStageScore[0].time = playerGameStatus.stageTimer;
+                playerGameStatus.vsGoalPacket[0].time = playerGameStatus.stageTimer;
 
                 if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_ACTIVE) != 0 && playerGameStatus.stageTimer <= AKUTIL_TIME_TO_FRAMES(9, 59, 99))
                 {
-                    playerGameStatus.vsStageScore[0].time = AKUTIL_TIME_TO_FRAMES(9, 59, 99);
+                    playerGameStatus.vsGoalPacket[0].time = AKUTIL_TIME_TO_FRAMES(9, 59, 99);
                 }
-                else if (playerGameStatus.vsStageScore[0].time > AKUTIL_TIME_TO_FRAMES(10, 00, 00))
+                else if (playerGameStatus.vsGoalPacket[0].time > AKUTIL_TIME_TO_FRAMES(10, 00, 00))
                 {
-                    playerGameStatus.vsStageScore[0].time = AKUTIL_TIME_TO_FRAMES(10, 00, 00);
+                    playerGameStatus.vsGoalPacket[0].time = AKUTIL_TIME_TO_FRAMES(10, 00, 00);
                 }
             }
 
             playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_SENT;
         }
 
-        ObjPacket__SendPacket(&playerGameStatus.vsStageScore[0], GAMEPACKET_STAGESCORE, 3, (u16)sizeof(playerGameStatus.vsStageScore[0]));
+        ObjPacket__SendPacket(&playerGameStatus.vsGoalPacket[0], GAMEPACKET_STAGESCORE, 3, (u16)sizeof(playerGameStatus.vsGoalPacket[0]));
 
         if ((gameState.gameFlag & GAME_FLAG_USE_WIFI) != 0)
             playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_NEEDS_DATATRANSFER_CONFIG_INIT;

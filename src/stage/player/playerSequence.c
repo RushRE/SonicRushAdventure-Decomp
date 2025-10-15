@@ -389,7 +389,7 @@ void Player__State_FollowParent(Player *work)
         else
         {
             Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
-            work->onLandGround(work);
+            work->actionGroundIdle(work);
         }
     }
 }
@@ -643,7 +643,7 @@ void Player__State_CorkscrewPath(Player *work)
             if (work->gimmick.corkscrewPath.pathType == CORKSCREWPATH_TYPE_2)
                 Player__Action_Grind(work);
             else
-                work->onLandGround(work);
+                work->actionGroundIdle(work);
 
             return;
         }
@@ -1836,7 +1836,7 @@ void Player__State_SwingRope(Player *work)
         else
         {
             Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
-            work->onLandGround(work);
+            work->actionGroundIdle(work);
         }
     }
 }
@@ -2713,7 +2713,7 @@ void Player__State_PopSteam(Player *work)
     {
         Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
         work->starComboCount = 0;
-        work->onLandGround(work);
+        work->actionGroundIdle(work);
     }
     else
     {
@@ -2814,7 +2814,7 @@ void Player__State_DreamWing(Player *work)
         {
             work->objWork.groundVel = work->gimmick.dreamWing.startVelX;
             Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
-            work->onLandGround(work);
+            work->actionGroundIdle(work);
             work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS);
             work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
             work->gimmickObj = NULL;
@@ -3425,7 +3425,7 @@ void Player__State_IceSlideLaunch(Player *work)
             work->objWork.dir.z     = FLOAT_DEG_TO_IDX(0.0);
             work->objWork.groundVel = work->objWork.velocity.x;
             Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
-            work->onLandGround(work);
+            work->actionGroundIdle(work);
         }
         else
         {
@@ -3477,7 +3477,7 @@ void Player__Action_EnableSnowboard(Player *player, s32 type)
 
         case 1:
             player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
-            player->onLandGround(player);
+            player->actionGroundIdle(player);
             break;
     }
 }
@@ -3537,7 +3537,7 @@ void Player__Action_DiveStandStood(Player *player, GameObjectTask *other)
         if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
         {
             Player__Action_LandOnGround(player, FLOAT_DEG_TO_IDX(0.0));
-            player->onLandGround(player);
+            player->actionGroundIdle(player);
         }
 
         player->gimmickObj = other;
@@ -5679,16 +5679,16 @@ void Player__Func_20223F8(Player *player)
     {
         player->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
 
-        if (player->onLandGround != NULL)
+        if (player->actionGroundIdle != NULL)
         {
             Player__InitState(player);
 
             // TODO: I can't figure out what this must be, because it can't possibly be missing the 1st argument can it?
             // until then, I've added a "corrected" version as a non-matching solution, in the event the codebase needs to be more modular
 #ifdef NON_MATCHING
-            player->onLandGround(player);
+            player->actionGroundIdle(player);
 #else
-            ((void (*)(void))player->onLandGround)();
+            ((void (*)(void))player->actionGroundIdle)();
 #endif
         }
     }
@@ -5839,16 +5839,16 @@ void Player__Func_2022694(Player *player)
     {
         player->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
 
-        if (player->onLandGround != NULL)
+        if (player->actionGroundIdle != NULL)
         {
             Player__InitState(player);
 
             // TODO: I can't figure out what this must be, because it can't possibly be missing the 1st argument can it?
             // until then, I've added a "corrected" version as a non-matching solution, in the event the codebase needs to be more modular
 #ifdef NON_MATCHING
-            player->onLandGround(player);
+            player->actionGroundIdle(player);
 #else
-            ((void (*)(void))player->onLandGround)();
+            ((void (*)(void))player->actionGroundIdle)();
 #endif
         }
     }
@@ -7550,7 +7550,7 @@ void Player__State_HoverCrystal(Player *work)
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IN_AIR;
         work->gimmickFlag &= ~PLAYER_GIMMICK_GRABBED;
         Player__Action_LandOnGround(work, 0);
-        work->onLandGround(work);
+        work->actionGroundIdle(work);
     }
 }
 
@@ -7609,7 +7609,7 @@ void Player__State_BalloonRide(Player *work)
         else
         {
             Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
-            work->onLandGround(work);
+            work->actionGroundIdle(work);
         }
     }
     else
@@ -7810,7 +7810,7 @@ void Player__State_Bungee(Player *work)
                 }
             }
 
-            if (work->objWork.move.x == 0 && work->objWork.move.y == 0 && work->onLandGround)
+            if (work->objWork.move.x == 0 && work->objWork.move.y == 0 && work->actionGroundIdle)
             {
                 work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
                 work->gimmickObj    = NULL;
@@ -7818,7 +7818,7 @@ void Player__State_Bungee(Player *work)
                 work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_4000);
                 work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
-                work->onLandGround(work);
+                work->actionGroundIdle(work);
                 return;
             }
             break;

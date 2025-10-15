@@ -122,7 +122,7 @@ void MapSys__Create(void)
     MapFarSys__BuildBG();
 }
 
-NONMATCH_FUNC void MapSys__Func_2008714(void)
+NONMATCH_FUNC void MapSys__InitCameraForRestart (void)
 {
 #ifdef NON_MATCHING
 
@@ -751,7 +751,7 @@ void MapSys__Func_20090D0(MapSysCamera *camera, fx32 offsetX, fx32 offsetY, fx16
 
 void MapSys__SetTargetOffsetA(fx32 x, fx32 y)
 {
-    MapSys__SetTargetOffset(0, x, y);
+    MapSys__SetTargetOffset(GRAPHICS_ENGINE_A, x, y);
 }
 
 void MapSys__SetTargetOffset(s32 id, fx32 x, fx32 y)
@@ -1099,7 +1099,7 @@ void MapSys__InitBoundsForStage(void)
     {
         fx32 spawnX;
         fx32 spawnY;
-        if ((gameState.gameFlag & GAME_FLAG_40) != 0)
+        if ((gameState.gameFlag & GAME_FLAG_RECALL_ACTIVE) != 0)
         {
             spawnX = gameState.recallPosition.x;
             spawnY = gameState.recallPosition.y;
@@ -1133,7 +1133,7 @@ void MapSys__InitBoundsForStage(void)
     MapSysCamera *camera = &mapCamera.camera[0];
     for (c = 0; c < 2; c++)
     {
-        camera->flags |= MAPSYS_CAMERA_FLAG_8 | MAPSYS_CAMERA_FLAG_4 | MAPSYS_CAMERA_FLAG_2 | MAPSYS_CAMERA_FLAG_1;
+        camera->flags |= MAPSYS_CAMERA_FLAG_8 | MAPSYS_CAMERA_FLAG_4 | MAPSYS_CAMERA_FLAG_ENGINE_B_ENABLED | MAPSYS_CAMERA_FLAG_ENGINE_A_ENABLED;
         camera->flags |= MAPSYS_CAMERA_FLAG_20000 | MAPSYS_CAMERA_FLAG_10000;
 
         camera->scale.x = FLOAT_TO_FX32(1.0);
@@ -1165,7 +1165,7 @@ void MapSys__InitBoundsForVSRings(void)
     MapSysCamera *camera = &mapCamera.camera[0];
     for (c = 0; c < 2; c++)
     {
-        camera->flags |= MAPSYS_CAMERA_FLAG_8 | MAPSYS_CAMERA_FLAG_4 | MAPSYS_CAMERA_FLAG_2 | MAPSYS_CAMERA_FLAG_1;
+        camera->flags |= MAPSYS_CAMERA_FLAG_8 | MAPSYS_CAMERA_FLAG_4 | MAPSYS_CAMERA_FLAG_ENGINE_B_ENABLED | MAPSYS_CAMERA_FLAG_ENGINE_A_ENABLED;
         camera->flags |= MAPSYS_CAMERA_FLAG_20000 | MAPSYS_CAMERA_FLAG_10000;
 
         camera->boundsL = mapCamera.camControl.bounds.left;
@@ -1207,7 +1207,7 @@ void MapSys__SetupBoss_Zone5(void)
     MapSysCamera *camera = &mapCamera.camera[0];
     for (c = 0; c < 2; c++)
     {
-        camera->flags |= MAPSYS_CAMERA_FLAG_8 | MAPSYS_CAMERA_FLAG_4 | MAPSYS_CAMERA_FLAG_2 | MAPSYS_CAMERA_FLAG_1;
+        camera->flags |= MAPSYS_CAMERA_FLAG_8 | MAPSYS_CAMERA_FLAG_4 | MAPSYS_CAMERA_FLAG_ENGINE_B_ENABLED | MAPSYS_CAMERA_FLAG_ENGINE_A_ENABLED;
         camera->flags |= MAPSYS_CAMERA_FLAG_20000 | MAPSYS_CAMERA_FLAG_10000;
 
         camera->boundsL = mapCamera.camControl.bounds.left;

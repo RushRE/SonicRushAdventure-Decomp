@@ -5148,7 +5148,7 @@ ovl01_215F490: // 0x0215F490
 	ldr r2, _0215F544 // =0x00722543
 	ldr r3, _0215F548 // =0x001187BC
 	mov r1, #0x40000
-	bl BossHelpers__Arena__GetDrawPosition
+	bl BossStage_GetCirclePos
 	ldr r2, [r5, #0x37c]
 	add r1, sp, #0xc
 	ldr r3, [r4, #0x4c]
@@ -5358,7 +5358,7 @@ _0215F7D8:
 	ldr r2, _0215F888 // =0x00722543
 	ldr r3, _0215F88C // =0x001187BC
 	mov r1, #0x40000
-	bl BossHelpers__Arena__GetDrawPosition
+	bl BossStage_GetCirclePos
 	ldr r0, [r5, #0x48]
 	ldr r1, [sp, #0x10]
 	rsb r2, r0, #0

@@ -46,6 +46,7 @@ typedef struct ObjRecievePacket_
 typedef struct GameObjectSendPacket_
 {
     u8 type;
+    u8 playerID;
     u16 id;
 } GameObjectSendPacket;
 

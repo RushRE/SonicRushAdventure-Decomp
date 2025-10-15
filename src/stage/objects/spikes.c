@@ -125,7 +125,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
             work->gameWork.collisionObject.work.height = 32;
             work->gameWork.collisionObject.work.ofst_x = -16;
             work->gameWork.collisionObject.work.ofst_y = -16;
-            work->gameWork.field_358                   = SPIKES_ANI_HORIZONTAL;
+            work->gameWork.actionState                   = SPIKES_ANI_HORIZONTAL;
             break;
 
         default:
@@ -137,7 +137,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
             s32 anim = SPIKES_ANI_VERTICAL_VISIBLE;
             if (work->gameWork.mapObject->id >= MAPOBJECT_93)
                 anim = SPIKES_ANI_VERTICAL_HIDDEN;
-            work->gameWork.field_358 = anim;
+            work->gameWork.actionState = anim;
 
             if (Player__UseUpsideDownGravity(x, y))
                 work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_FLIP_TILE_ANGLE;
@@ -457,7 +457,7 @@ void SetSpikesAnimation(Spikes *work, u16 anim)
 
 void Spikes_Action_Idle(Spikes *work)
 {
-    SetSpikesAnimation(work, work->gameWork.field_358);
+    SetSpikesAnimation(work, work->gameWork.actionState);
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     SetTaskState(&work->gameWork.objWork, Spikes_State_Idle);
     work->gameWork.objWork.userTimer = 0;
@@ -470,14 +470,14 @@ void Spikes_State_Idle(Spikes *work)
         work->gameWork.objWork.userTimer++;
         if (work->gameWork.objWork.userTimer > 120)
         {
-            if (work->gameWork.field_358 == SPIKES_ANI_VERTICAL_HIDDEN)
+            if (work->gameWork.actionState == SPIKES_ANI_VERTICAL_HIDDEN)
             {
-                work->gameWork.field_358 = SPIKES_ANI_VERTICAL_EXTEND;
+                work->gameWork.actionState = SPIKES_ANI_VERTICAL_EXTEND;
                 Spikes_Action_Extend(work);
             }
             else
             {
-                work->gameWork.field_358 = SPIKES_ANI_VERTICAL_RETRACT;
+                work->gameWork.actionState = SPIKES_ANI_VERTICAL_RETRACT;
                 Spikes_Action_Retract(work);
             }
             return;
@@ -504,7 +504,7 @@ void Spikes_State_Idle(Spikes *work)
 
 void Spikes_Action_Extend(Spikes *work)
 {
-    SetSpikesAnimation(work, work->gameWork.field_358);
+    SetSpikesAnimation(work, work->gameWork.actionState);
     SetTaskState(&work->gameWork.objWork, Spikes_State_Extend);
 
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
@@ -521,7 +521,7 @@ void Spikes_State_Extend(Spikes *work)
 
 void Spikes_Action_Retract(Spikes *work)
 {
-    SetSpikesAnimation(work, work->gameWork.field_358);
+    SetSpikesAnimation(work, work->gameWork.actionState);
     SetTaskState(&work->gameWork.objWork, Spikes_State_Retract);
 
     work->gameWork.objWork.userTimer = 0;
@@ -529,7 +529,7 @@ void Spikes_Action_Retract(Spikes *work)
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_PAUSED;
 
-    if (work->gameWork.field_358 == SPIKES_ANI_VERTICAL_EXTEND)
+    if (work->gameWork.actionState == SPIKES_ANI_VERTICAL_EXTEND)
         work->gameWork.objWork.userWork = -3;
     else
         work->gameWork.objWork.userWork = 3;
@@ -542,14 +542,14 @@ void Spikes_State_Retract(Spikes *work)
     work->gameWork.collisionObject.work.ofst_y += work->gameWork.objWork.userWork;
     if (work->gameWork.objWork.userTimer >= 8)
     {
-        if (work->gameWork.field_358 == SPIKES_ANI_VERTICAL_RETRACT)
+        if (work->gameWork.actionState == SPIKES_ANI_VERTICAL_RETRACT)
         {
-            work->gameWork.field_358 = SPIKES_ANI_VERTICAL_HIDDEN;
+            work->gameWork.actionState = SPIKES_ANI_VERTICAL_HIDDEN;
         }
-        else if (work->gameWork.field_358 == SPIKES_ANI_VERTICAL_EXTEND)
+        else if (work->gameWork.actionState == SPIKES_ANI_VERTICAL_EXTEND)
         {
             work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-            work->gameWork.field_358 = SPIKES_ANI_VERTICAL_VISIBLE;
+            work->gameWork.actionState = SPIKES_ANI_VERTICAL_VISIBLE;
         }
 
         Spikes_Action_Idle(work);

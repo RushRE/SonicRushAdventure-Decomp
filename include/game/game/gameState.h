@@ -34,7 +34,7 @@ enum GameFlags_
     GAME_FLAG_8                   = 0x8,    // ???
     GAME_FLAG_10                  = 0x10,   // ???
     GAME_FLAG_IS_VS_BATTLE        = 0x20,   // a vs battle is active
-    GAME_FLAG_40                  = 0x40,   // ???
+    GAME_FLAG_RECALL_ACTIVE       = 0x40,   // recall state should be loaded
     GAME_FLAG_REPLAY_GHOST_ACTIVE = 0x80,   // replay ghost is active
     GAME_FLAG_100                 = 0x100,  // ???
     GAME_FLAG_HAS_TIME_OVER       = 0x200,  // player has got a timer over

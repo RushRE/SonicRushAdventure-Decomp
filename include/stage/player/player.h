@@ -184,8 +184,8 @@ enum PlayerGimmickFlags_
     PLAYER_GIMMICK_40000             = 0x40000,
     PLAYER_GIMMICK_80000             = 0x80000,
     PLAYER_GIMMICK_BUNGEE            = 0x100000,
-    PLAYER_GIMMICK_200000            = 0x200000,
-    PLAYER_GIMMICK_400000            = 0x400000,
+    PLAYER_GIMMICK_IS_CREATED            = 0x200000,
+    PLAYER_GIMMICK_WARP            = 0x400000,
     PLAYER_GIMMICK_800000            = 0x800000,
     PLAYER_GIMMICK_ALLOW_TRICK_COMBO = 0x1000000,
     PLAYER_GIMMICK_2000000           = 0x2000000,
@@ -484,7 +484,7 @@ typedef struct Player_
     PlayerFlags playerFlag;
     PlayerGimmickFlags gimmickFlag;
     fx32 spindashPower;
-    void (*onLandGround)(struct Player_ *player);
+    void (*actionGroundIdle)(struct Player_ *player);
     void (*actionGroundMove)(struct Player_ *player);
     void (*actionCrouch)(struct Player_ *player);
     void (*actionJump)(struct Player_ *player);
@@ -525,7 +525,7 @@ typedef struct Player_
     s16 comboTensionTimer;
     s16 comboTensionMultiplier;
     u16 pressureTimer;
-    s16 unknownTimer;
+    s16 multiNoHitTimer;
     s16 confusionTimer;
     s16 slomoTimer;
     s16 itemBoxDisableTimer;
@@ -619,7 +619,7 @@ void ReleasePlayerAssets(void);
 
 // Admin Tasks
 Player *Player__Create(u32 characterID, u16 aidIndex);
-void Player__Gimmick_200EE68(Player *work);
+void Player__Action_ResetPlayer(Player *work);
 void Player__InitState(Player *player);
 void Player__SaveStartingPosition(fx32 x, fx32 y, fx32 z);
 void Player__InitGimmick(Player *player, BOOL allowTricks);
@@ -652,7 +652,7 @@ BOOL Player__HandleFallOffSurface(Player *player);
 void Player__Action_LandOnGround(Player *player, fx32 dirZ);
 void Player__Action_RainbowDashRing(Player *player);
 void Player__ApplySlopeForces(Player *player, GameObjectTask *other);
-void Player__OnLandGround(Player *player);
+void Player__OnGroundIdle(Player *player);
 void Player__OnGroundMove(Player *player);
 void Player__Action_Launch(Player *player);
 void Player__PerformTrick(Player *player);

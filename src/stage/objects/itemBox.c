@@ -266,7 +266,7 @@ void BreakItemBox(ItemBox *work, Player *player, s32 type)
     if (gmCheckRingBattle())
     {
         if (work->gameWork.mapObjectParam_Type < ITEMBOX_TYPE_SLOWDOWN || work->gameWork.mapObjectParam_Type > ITEMBOX_TYPE_GRAB)
-            GameObject__SendPacket(&work->gameWork, player, GAMEOBJECT_PACKET_OBJ_COLLISION);
+            GameObject__SendPacket(&work->gameWork, player, GAMEOBJECT_PACKET_OBJ_COLLISION_1);
     }
 }
 

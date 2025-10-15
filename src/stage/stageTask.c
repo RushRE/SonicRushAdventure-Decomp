@@ -6,7 +6,6 @@
 #include <game/object/objBlock.h>
 #include <game/object/objDraw.h>
 #include <game/object/obj.h>
-#include <game/object/objExWork.h>
 #include <game/audio/audioSystem.h>
 #include <game/graphics/drawReqTask.h>
 #include <game/graphics/spritePaletteAnimation.h>
@@ -544,12 +543,12 @@ void StageTask_Destructor(Task *task)
     if (work->taskWorker != NULL && (work->flag & STAGE_TASK_FLAG_ALLOCATED_TASK_WORKER) != 0)
         HeapFree(HEAP_USER, work->taskWorker);
 
-    if (work->ex_work != NULL)
+    if (work->tbl_work != NULL)
     {
-        if ((work->flag & STAGE_TASK_FLAG_ALLOCATED_EX_WORK) != 0)
+        if ((work->flag & STAGE_TASK_FLAG_ALLOCATED_TBL_WORK) != 0)
         {
-            ObjExWork__Release(work->ex_work);
-            HeapFree(HEAP_USER, work->ex_work);
+            ObjTblWorkReset(work->tbl_work);
+            HeapFree(HEAP_USER, work->tbl_work);
         }
     }
 }
@@ -1746,24 +1745,24 @@ void StageTask__SpriteBlockCallback_Hitbox(BACFrameGroupBlock_Hitbox *block, Ani
         work->ppSpriteCallback((BACFrameGroupBlockHeader *)block, animator, work);
 }
 
-void StageTask__InitExWork(StageTask *work, ObjExWork *exWork)
+void StageTask__InitTblWork(StageTask *work, OBS_TBL_WORK *tblWork)
 {
-    if (exWork == NULL)
+    if (tblWork == NULL)
     {
-        if (work->ex_work != NULL)
+        if (work->tbl_work != NULL)
         {
-            exWork = work->ex_work;
+            tblWork = work->tbl_work;
         }
         else
         {
-            exWork = (ObjExWork *)HeapAllocHead(HEAP_USER, sizeof(ObjExWork));
-            MI_CpuClear8(exWork, sizeof(ObjExWork));
-            work->flag |= STAGE_TASK_FLAG_ALLOCATED_EX_WORK;
+            tblWork = (OBS_TBL_WORK *)HeapAllocHead(HEAP_USER, sizeof(OBS_TBL_WORK));
+            MI_CpuClear8(tblWork, sizeof(OBS_TBL_WORK));
+            work->flag |= STAGE_TASK_FLAG_ALLOCATED_TBL_WORK;
         }
     }
 
-    work->ex_work = exWork;
-    ObjExWork__Init(exWork);
+    work->tbl_work = tblWork;
+    InitObjTblWork(tblWork);
 }
 
 fx32 StageTask__AdvanceBySpeed(fx32 value)

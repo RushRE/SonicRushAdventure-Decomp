@@ -1129,7 +1129,7 @@ void RingManager_DrawRing_BossCircular(Ring *ring)
 
     work->aniRing3D.work.translation.y = -ring->position.y;
 
-    BossHelpers__Arena__GetDrawPosition(ring->position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
+    BossStage_GetCirclePos(ring->position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
                                         &work->aniRing3D.work.translation.x, &work->aniRing3D.work.translation.z);
 
     AnimatorSprite3D__Draw(&work->aniRing3D);
@@ -1165,7 +1165,7 @@ void RingManager_DrawSparkle_BossCircular(Ring *ring)
 
     work->aniRingSparkle3D.work.translation.y = -ring->position.y;
 
-    BossHelpers__Arena__GetDrawPosition(ring->position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
+    BossStage_GetCirclePos(ring->position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
                                         &work->aniRingSparkle3D.work.translation.x, &work->aniRingSparkle3D.work.translation.z);
 
     AnimatorSprite3D__Draw(&work->aniRingSparkle3D);

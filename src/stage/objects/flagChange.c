@@ -101,6 +101,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             player->gimmickFlag &= ~PLAYER_GIMMICK_ALLOW_TRICK_COMBO;
             break;
 
+            // Gimmick (A)
         case MAPOBJECT_65:
             player->objWork.flag &= ~STAGE_TASK_FLAG_ON_PLANE_B;
 
@@ -110,6 +111,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             player->grindPrevRide = 0;
             break;
 
+            // Gimmick (B)
         case MAPOBJECT_66:
             player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
 
@@ -119,6 +121,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             player->grindPrevRide = 0;
             break;
 
+            // Grind
         case MAPOBJECT_89:
             if (CheckStageTaskType(&player->objWork, STAGE_OBJ_TYPE_PLAYER) == FALSE)
                 return;
@@ -136,6 +139,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             player->gimmickFlag |= PLAYER_GIMMICK_4;
             break;
 
+            // Grind Plane Switch (A)
         case MAPOBJECT_90:
             if (CheckStageTaskType(&player->objWork, STAGE_OBJ_TYPE_PLAYER) == FALSE)
                 return;
@@ -144,6 +148,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
                 player->objWork.flag &= ~STAGE_TASK_FLAG_ON_PLANE_B;
             break;
 
+            // Grind Plane Switch (B)
         case MAPOBJECT_91:
             if (CheckStageTaskType(&player->objWork, STAGE_OBJ_TYPE_PLAYER) == FALSE)
                 return;
@@ -164,6 +169,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             }
             break;
 
+            // Change Camera Center
         case MAPOBJECT_151: {
             if (CheckStageTaskType(&player->objWork, STAGE_OBJ_TYPE_PLAYER) == FALSE)
                 return;

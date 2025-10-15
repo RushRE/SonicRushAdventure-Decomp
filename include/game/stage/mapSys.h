@@ -68,8 +68,8 @@ typedef u32 MapSysCameraControlFlags;
 
 enum MapSysCameraFlags_
 {
-    MAPSYS_CAMERA_FLAG_1        = 0x1,
-    MAPSYS_CAMERA_FLAG_2        = 0x2,
+    MAPSYS_CAMERA_FLAG_ENGINE_A_ENABLED        = 0x1,
+    MAPSYS_CAMERA_FLAG_ENGINE_B_ENABLED        = 0x2,
     MAPSYS_CAMERA_FLAG_4        = 0x4,
     MAPSYS_CAMERA_FLAG_8        = 0x8,
     MAPSYS_CAMERA_FLAG_10       = 0x10,
@@ -959,7 +959,7 @@ extern MapSysCameraSys mapCamera;
 // MapSys
 void MapSys__Init(void);
 void MapSys__Create(void);
-void MapSys__Func_2008714(void);
+void MapSys__InitCameraForRestart (void);
 void MapSys__LoadArchive_RAW(void *archive);
 void MapSys__LoadArchive_MAP(void *archive);
 void MapSys__Flush(void);

@@ -370,7 +370,7 @@ void StartPlatform_StateCamera_SetupPlatformWalk(StartPlatform *work)
     Camera3D *config          = BossArena__GetCameraConfig(camera);
     camConfig->amplitudeXZEnd = FX_Div(FLOAT_TO_FX32(96.0), FX_Div(SinFX((s32)config->config.projFOV), CosFX(config->config.projFOV)));
 
-    Player__OnLandGround(gPlayer);
+    Player__OnGroundIdle(gPlayer);
     work->startDashTimer = 0;
 
     work->stateCamera = StartPlatform_StateCamera_PlatformWalk;

@@ -244,7 +244,7 @@ void RingButton_State_Vertical(RingButton *work)
             {
                 if (!RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id])
                 {
-                    GameObject__SendPacket(&work->gameWork, (Player *)toucherObj, GAMEOBJECT_PACKET_OBJ_COLLISION);
+                    GameObject__SendPacket(&work->gameWork, (Player *)toucherObj, GAMEOBJECT_PACKET_OBJ_COLLISION_1);
                     UpdateRingButtonPalette(work, TRUE);
                 }
                 RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
@@ -340,7 +340,7 @@ void RingButton_State_Horizontal(RingButton *work)
         {
             if (!RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id])
             {
-                GameObject__SendPacket(&work->gameWork, (Player *)toucherObj, GAMEOBJECT_PACKET_OBJ_COLLISION);
+                GameObject__SendPacket(&work->gameWork, (Player *)toucherObj, GAMEOBJECT_PACKET_OBJ_COLLISION_1);
                 UpdateRingButtonPalette(work, TRUE);
             }
             RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
