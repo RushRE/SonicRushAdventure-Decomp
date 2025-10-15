@@ -4,48 +4,36 @@
 #include <game/object/objectManager.h>
 
 // --------------------
-// STRUCTS
+// CONSTANTS
 // --------------------
 
-struct OBS_RECT_MANAGER
-{
-    u8 ucNoHit;
-    u16 resist_all_num;
-    u16 resist_all_num_nx;
-    u32 ulFlagBackD;
-    u32 ulFlagBackA;
-};
+#define OBM_DEFAULT_DEPTH 16
 
 // --------------------
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED struct OBS_RECT_MANAGER _obj_user_rect_man;
+static u16 curGroupFlagList[OBS_RECT_GROUP_COUNT];
+static u16 nextGroupFlagList[OBS_RECT_GROUP_COUNT];
 
-NOT_DECOMPILED u16 _obj_user_flag_nx[OBS_RECT_GROUP_COUNT];
-NOT_DECOMPILED u16 _obj_user_flag[OBS_RECT_GROUP_COUNT];
+static OBS_RECT_WORK *nextGroupRectList[OBS_RECT_REGISTER_MAX];
+static OBS_RECT_WORK *curGroupRectList[OBS_RECT_REGISTER_MAX];
 
-NOT_DECOMPILED OBS_RECT_WORK *_obj_user_resist[OBS_RECT_REGISTER_MAX];
-NOT_DECOMPILED OBS_RECT_WORK *_obj_user_resist_nx[OBS_RECT_REGISTER_MAX];
+static u8 curGroupListCount[OBS_RECT_GROUP_COUNT];
+static u8 nextGroupListCount[OBS_RECT_GROUP_COUNT];
 
-NOT_DECOMPILED u8 _obj_user_resist_num_nx[OBS_RECT_GROUP_COUNT];
-NOT_DECOMPILED u8 _obj_user_resist_num[OBS_RECT_GROUP_COUNT];
+static u8 calledNoHit;
+static u16 nextTotalRegCount;
+static u16 curTotalRegCount;
+static u32 prevAttackerFlag;
+static u32 prevDefenderFlag;
 
 // --------------------
 // INLINE FUNCTIONS
 // --------------------
 
-/*
-RUSH_INLINE BOOL OBM_LINE_AND_LINE(s32 x0, s32 w0, s32 x1, s32 w1)
-{
-    if (x0 <= x1 && x0 + w0 >= x1)
-        return TRUE;
-
-    return x0 >= x1 && x1 + w1 >= x0;
-}*/
-
-#define OBM_LINE_AND_LINE(x0, w0, x1, w1) (((x0) <= (x1) && (x0) + (w0) >= (x1)) || ((x0) >= (x1) && (x1) + (w1) >= (x0)))
-#define OBM_POINT_IN_LINE(x0, w0, x1)     ((x0) <= (x1) && (x0) + (w0) >= (x1))
+#define OBM_LINE_AND_LINE(x0, w0, x1, w1) (((s32)(x0) <= (s32)(x1) && (s32)(x0) + (s32)(w0) >= (s32)(x1)) || ((s32)(x0) >= (s32)(x1) && (s32)(x1) + (s32)(w1) >= (s32)(x0)))
+#define OBM_POINT_IN_LINE(x0, w0, x1)     ((s32)(x0) <= (s32)(x1) && (s32)(x0) + (s32)(w0) >= (s32)(x1))
 
 // --------------------
 // FUNCTIONS
@@ -57,8 +45,8 @@ void ObjRect__SetBox2D(OBS_RECT *rect, s16 left, s16 top, s16 right, s16 bottom)
     rect->top    = top;
     rect->right  = right;
     rect->bottom = bottom;
-    rect->back   = -16;
-    rect->front  = 16;
+    rect->back   = -OBM_DEFAULT_DEPTH;
+    rect->front  = OBM_DEFAULT_DEPTH;
 
     if (rect->right < rect->left)
     {
@@ -134,45 +122,45 @@ void ObjRect__HitAgain(OBS_RECT_WORK *work)
 
 void ObjRect__CheckInit(void)
 {
-    MI_CpuClear8(_obj_user_resist, sizeof(_obj_user_resist));
-    MI_CpuClear8(_obj_user_resist_nx, sizeof(_obj_user_resist_nx));
+    MI_CpuClear8(curGroupRectList, sizeof(curGroupRectList));
+    MI_CpuClear8(nextGroupRectList, sizeof(nextGroupRectList));
 
-    MI_CpuClear8(_obj_user_resist_num, sizeof(_obj_user_resist_num));
-    MI_CpuClear8(_obj_user_resist_num_nx, sizeof(_obj_user_resist_num_nx));
+    MI_CpuClear8(curGroupListCount, sizeof(curGroupListCount));
+    MI_CpuClear8(nextGroupListCount, sizeof(nextGroupListCount));
 
-    MI_CpuClear8(_obj_user_flag, sizeof(_obj_user_flag));
-    MI_CpuClear8(_obj_user_flag_nx, sizeof(_obj_user_flag_nx));
+    MI_CpuClear8(curGroupFlagList, sizeof(curGroupFlagList));
+    MI_CpuClear8(nextGroupFlagList, sizeof(nextGroupFlagList));
 
-    _obj_user_rect_man.resist_all_num    = 0;
-    _obj_user_rect_man.resist_all_num_nx = 0;
-    _obj_user_rect_man.ulFlagBackA       = 0;
-    _obj_user_rect_man.ulFlagBackD       = 0;
-    _obj_user_rect_man.ucNoHit           = FALSE;
+    curTotalRegCount  = 0;
+    nextTotalRegCount = 0;
+    prevAttackerFlag  = 0;
+    prevDefenderFlag  = 0;
+    calledNoHit       = FALSE;
 }
 
 void ObjRect__CheckOut(void)
 {
-    MI_CpuCopy8(_obj_user_resist_nx, _obj_user_resist, sizeof(_obj_user_resist));
-    MI_CpuClear8(_obj_user_resist_nx, sizeof(_obj_user_resist_nx));
+    MI_CpuCopy8(nextGroupRectList, curGroupRectList, sizeof(curGroupRectList));
+    MI_CpuClear8(nextGroupRectList, sizeof(nextGroupRectList));
 
-    MI_CpuCopy8(_obj_user_resist_num_nx, _obj_user_resist_num, sizeof(_obj_user_resist_num));
-    MI_CpuClear8(_obj_user_resist_num_nx, sizeof(_obj_user_resist_num_nx));
+    MI_CpuCopy8(nextGroupListCount, curGroupListCount, sizeof(curGroupListCount));
+    MI_CpuClear8(nextGroupListCount, sizeof(nextGroupListCount));
 
-    MI_CpuCopy8(_obj_user_flag_nx, _obj_user_flag, sizeof(_obj_user_flag));
-    MI_CpuClear8(_obj_user_flag_nx, sizeof(_obj_user_flag_nx));
+    MI_CpuCopy8(nextGroupFlagList, curGroupFlagList, sizeof(curGroupFlagList));
+    MI_CpuClear8(nextGroupFlagList, sizeof(nextGroupFlagList));
 
-    _obj_user_rect_man.resist_all_num    = _obj_user_rect_man.resist_all_num_nx;
-    _obj_user_rect_man.resist_all_num_nx = 0;
+    curTotalRegCount  = nextTotalRegCount;
+    nextTotalRegCount = 0;
 
-    for (u16 g = 0; g < (_obj_user_rect_man.resist_all_num - 1); g++)
+    for (u16 g = 0; g < (curTotalRegCount - 1); g++)
     {
-        for (u16 i = (u16)(_obj_user_rect_man.resist_all_num - 1); i > g; i--)
+        for (u16 i = (u16)(curTotalRegCount - 1); i > g; i--)
         {
-            if ((s32)(_obj_user_resist[i]->groupFlags & 0xFF) < (s32)(_obj_user_resist[i - 1]->groupFlags & 0xFF))
+            if ((s32)(curGroupRectList[i]->groupFlags & 0xFF) < (s32)(curGroupRectList[i - 1]->groupFlags & 0xFF))
             {
-                OBS_RECT_WORK *work     = _obj_user_resist[i - 1];
-                _obj_user_resist[i - 1] = _obj_user_resist[i];
-                _obj_user_resist[i]     = work;
+                OBS_RECT_WORK *work     = curGroupRectList[i - 1];
+                curGroupRectList[i - 1] = curGroupRectList[i];
+                curGroupRectList[i]     = work;
             }
         }
     }
@@ -188,13 +176,13 @@ void ObjRect__Register(OBS_RECT_WORK *work)
         if ((work->groupFlags & (1 << g)) == 0)
             continue;
 
-        if (_obj_user_rect_man.resist_all_num_nx >= OBS_RECT_REGISTER_MAX)
+        if (nextTotalRegCount >= OBS_RECT_REGISTER_MAX)
             return;
 
-        _obj_user_resist_nx[_obj_user_rect_man.resist_all_num_nx] = work;
-        _obj_user_flag_nx[g] |= work->groupFlags;
-        _obj_user_resist_num_nx[g]++;
-        _obj_user_rect_man.resist_all_num_nx++;
+        nextGroupRectList[nextTotalRegCount] = work;
+        nextGroupFlagList[g] |= work->groupFlags;
+        nextGroupListCount[g]++;
+        nextTotalRegCount++;
         break;
     }
 }
@@ -208,15 +196,15 @@ void ObjRect__CheckAllGroup(void)
     if ((g_obj.flag & OBJECTMANAGER_FLAG_EARLY_SORT_OBJRECT) != 0)
         ObjRect__CheckOut();
 
-    _obj_user_rect_man.ulFlagBackA = 0;
-    _obj_user_rect_man.ulFlagBackD = 0;
-    _obj_user_rect_man.ucNoHit     = FALSE;
+    prevAttackerFlag = 0;
+    prevDefenderFlag = 0;
+    calledNoHit      = FALSE;
 
-    u16 count = _obj_user_rect_man.resist_all_num;
+    u16 count = curTotalRegCount;
     for (i = 0; i < count; i++)
     {
-        if (_obj_user_resist[i] != NULL && (_obj_user_resist[i]->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0)
-            _obj_user_resist[i]->flag &= ~OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME;
+        if (curGroupRectList[i] != NULL && (curGroupRectList[i]->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0)
+            curGroupRectList[i]->flag &= ~OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME;
     }
 
     atkGroupOffset = 0;
@@ -225,27 +213,27 @@ void ObjRect__CheckAllGroup(void)
         defGroupOffset = 0;
         for (u8 j = 0; j < OBS_RECT_GROUP_COUNT; j++)
         {
-            if (_obj_user_resist_num[j] != 0 && (_obj_user_flag[i] & (0x100 << j)) != 0)
-                ObjRect__CheckGroup(&_obj_user_resist[atkGroupOffset], &_obj_user_resist[defGroupOffset], _obj_user_resist_num[i], _obj_user_resist_num[j], j);
+            if (curGroupListCount[j] != 0 && (curGroupFlagList[i] & (0x100 << j)) != 0)
+                ObjRect__CheckGroup(&curGroupRectList[atkGroupOffset], &curGroupRectList[defGroupOffset], curGroupListCount[i], curGroupListCount[j], j);
 
-            defGroupOffset += _obj_user_resist_num[j];
+            defGroupOffset += curGroupListCount[j];
         }
-        atkGroupOffset += _obj_user_resist_num[i];
+        atkGroupOffset += curGroupListCount[i];
     }
 
-    count = _obj_user_rect_man.resist_all_num;
+    count = curTotalRegCount;
     for (i = 0; i < count; i++)
     {
-        if (_obj_user_resist[i] != NULL)
+        if (curGroupRectList[i] != NULL)
         {
-            if ((_obj_user_resist[i]->flag & OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME) != 0)
+            if ((curGroupRectList[i]->flag & OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME) != 0)
             {
-                _obj_user_resist[i]->flag |= OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
-                _obj_user_resist[i]->flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME;
+                curGroupRectList[i]->flag |= OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
+                curGroupRectList[i]->flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME;
             }
 
-            if ((_obj_user_resist[i]->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0 && (_obj_user_resist[i]->flag & OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME) == 0)
-                _obj_user_resist[i]->flag &= ~OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER;
+            if ((curGroupRectList[i]->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0 && (curGroupRectList[i]->flag & OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME) == 0)
+                curGroupRectList[i]->flag &= ~OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER;
         }
     }
 
@@ -262,15 +250,15 @@ OBS_RECT_WORK *ObjRect__RegistGet(u8 groupMask, s16 groupIdx)
     {
         if ((groupMask & (1 << index)) != 0)
         {
-            if (groupIdx < _obj_user_resist_num[index])
-                return _obj_user_resist[groupOffset + groupIdx];
+            if (groupIdx < curGroupListCount[index])
+                return curGroupRectList[groupOffset + groupIdx];
 
-            groupIdx -= _obj_user_resist_num[index];
-            groupOffset += _obj_user_resist_num[index];
+            groupIdx -= curGroupListCount[index];
+            groupOffset += curGroupListCount[index];
         }
         else
         {
-            groupOffset += _obj_user_resist_num[index];
+            groupOffset += curGroupListCount[index];
         }
     }
 
@@ -286,15 +274,15 @@ OBS_RECT_WORK *ObjRect__RegistGetNext(u8 groupMask, s16 groupIdx)
     {
         if ((groupMask & (1 << index)) != 0)
         {
-            if (groupIdx < _obj_user_resist_num_nx[index])
-                return _obj_user_resist_nx[groupOffset + groupIdx];
+            if (groupIdx < nextGroupListCount[index])
+                return nextGroupRectList[groupOffset + groupIdx];
 
-            groupIdx -= _obj_user_resist_num_nx[index];
-            groupOffset += _obj_user_resist_num_nx[index];
+            groupIdx -= nextGroupListCount[index];
+            groupOffset += nextGroupListCount[index];
         }
         else
         {
-            groupOffset += _obj_user_resist_num_nx[index];
+            groupOffset += nextGroupListCount[index];
         }
     }
 
@@ -482,8 +470,8 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
 {
     u16 result = 0;
 
-    _obj_user_rect_man.ulFlagBackA = attacker->flag;
-    _obj_user_rect_man.ulFlagBackD = defender->flag;
+    prevAttackerFlag = attacker->flag;
+    prevDefenderFlag = defender->flag;
 
     if ((attacker->flag & OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME) != 0 && (defender->flag & OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME) != 0)
         return result;
@@ -496,10 +484,12 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
         if (defender->checkActive != NULL && !defender->checkActive(defender, attacker))
             return result;
 
-        if ((defender->flag & (OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE)) == 0 && (attacker->flag & (OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE)) == 0)
+        if ((defender->flag & (OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE)) == 0
+            && (attacker->flag & (OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE)) == 0)
             attacker->flag |= OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME;
 
-        if ((defender->flag & (OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE)) == 0 && (attacker->flag & (OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE)) == 0)
+        if ((defender->flag & (OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE)) == 0
+            && (attacker->flag & (OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE)) == 0)
             defender->flag |= OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
 
         if ((attacker->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) == 0 || (attacker->flag & OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER) == 0)
@@ -511,9 +501,9 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
                 attacker->onAttack(attacker, defender);
         }
 
-        if (_obj_user_rect_man.ucNoHit != FALSE)
+        if (calledNoHit != FALSE)
         {
-            _obj_user_rect_man.ucNoHit = FALSE;
+            calledNoHit = FALSE;
             return result;
         }
 
@@ -529,9 +519,9 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
                 defender->onDefend(attacker, defender);
         }
 
-        if (_obj_user_rect_man.ucNoHit != FALSE)
+        if (calledNoHit != FALSE)
         {
-            _obj_user_rect_man.ucNoHit = FALSE;
+            calledNoHit = FALSE;
             return result;
         }
 
@@ -550,93 +540,45 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
 
 void ObjRect__FuncNoHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-    rect1->flag                = _obj_user_rect_man.ulFlagBackA;
-    rect2->flag                = _obj_user_rect_man.ulFlagBackD;
-    _obj_user_rect_man.ucNoHit = TRUE;
+    rect1->flag = prevAttackerFlag;
+    rect2->flag = prevDefenderFlag;
+    calledNoHit = TRUE;
 }
 
-NONMATCH_FUNC BOOL ObjRect__RectCheck(OBS_RECT *rect1, OBS_RECT *rect2)
+BOOL ObjRect__RectCheck(OBS_RECT *rect1, OBS_RECT *rect2)
 {
-#ifdef NON_MATCHING
+    s32 rect1Left, rect1Top;
+    s32 rect2Left, rect2Top;
+    s32 rect1Back, rect2Back;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	ldrsh r8, [r0, #0]
-	ldrsh r3, [r0, #6]
-	ldr r9, [r0, #0xc]
-	ldrsh r7, [r0, #2]
-	ldrsh r2, [r0, #8]
-	ldr r6, [r0, #0x10]
-	sub r3, r3, r8
-	sub r2, r2, r7
-	ldrsh r5, [r0, #4]
-	ldrsh r10, [r0, #0xa]
-	ldrsh ip, [r1, #4]
-	ldr r4, [r0, #0x14]
-	ldr r0, [r1, #0x14]
-	sub r11, r10, r5
-	sub r10, r10, ip
-	ldrsh lr, [r1]
-	add r7, r6, r7
-	ldrsh r6, [r1, #6]
-	add r5, r4, r5
-	ldr r4, [r1, #0xc]
-	add r0, r0, ip
-	sub r6, r6, lr
-	ldrsh ip, [r1, #2]
-	add r4, r4, lr
-	ldrsh lr, [r1, #8]
-	add r8, r9, r8
-	ldr r9, [r1, #0x10]
-	sub r1, lr, ip
-	cmp r8, r4
-	add r9, r9, ip
-	mov r3, r3, lsl #0x10
-	mov r2, r2, lsl #0x10
-	mov r6, r6, lsl #0x10
-	mov r1, r1, lsl #0x10
-	mov r11, r11, lsl #0x10
-	mov r10, r10, lsl #0x10
-	bgt _02076854
-	add r3, r8, r3, lsr #16
-	cmp r3, r4
-	bge _02076864
-_02076854:
-	cmp r8, r4
-	addge r3, r4, r6, lsr #16
-	cmpge r3, r8
-	blt _020768B4
-_02076864:
-	cmp r7, r9
-	bgt _02076878
-	add r2, r7, r2, lsr #16
-	cmp r2, r9
-	bge _02076888
-_02076878:
-	cmp r7, r9
-	addge r1, r9, r1, lsr #16
-	cmpge r1, r7
-	blt _020768B4
-_02076888:
-	cmp r5, r0
-	bgt _0207689C
-	add r1, r5, r11, lsr #16
-	cmp r1, r0
-	bge _020768AC
-_0207689C:
-	cmp r5, r0
-	addge r0, r0, r10, lsr #16
-	cmpge r0, r5
-	blt _020768B4
-_020768AC:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-_020768B4:
-	mov r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-// clang-format on
-#endif
+    u16 rect1Width, rect1Height;
+    u16 rect2Width, rect2Height;
+    u16 rect1Depth, rect2Depth;
+
+    rect1Left = rect1->pos.x + rect1->left;
+    rect1Top  = rect1->pos.y + rect1->top;
+    rect1Back = rect1->pos.z + rect1->back;
+
+    rect2Left = rect2->pos.x + rect2->left;
+    rect2Top  = rect2->pos.y + rect2->top;
+    rect2Back = rect2->pos.z + rect2->back;
+
+    rect1Width  = rect1->right - rect1->left;
+    rect1Height = rect1->bottom - rect1->top;
+
+    rect2Width  = rect2->right - rect2->left;
+    rect2Height = rect2->bottom - rect2->top;
+
+    rect1Depth = rect1->front - rect1->back;
+    rect2Depth = rect1->front - rect2->back;
+
+    if ((OBM_LINE_AND_LINE(rect1Left, rect1Width, rect2Left, rect2Width)) && (OBM_LINE_AND_LINE(rect1Top, rect1Height, rect2Top, rect2Height))
+        && (OBM_LINE_AND_LINE(rect1Back, rect1Depth, rect2Back, rect2Depth)))
+    {
+        return TRUE;
+    }
+
+    return FALSE;
 }
 
 BOOL ObjRect__PointCheck(OBS_RECT_WORK *work, s32 x, s32 y, s32 z)
@@ -660,54 +602,32 @@ BOOL ObjRect__PointCheck(OBS_RECT_WORK *work, s32 x, s32 y, s32 z)
     return FALSE;
 }
 
-NONMATCH_FUNC BOOL ObjRect__RectPointCheck(OBS_RECT_WORK *work, s32 x, s32 y, s32 z)
+BOOL ObjRect__RectPointCheck(OBS_RECT_WORK *work, s32 x, s32 y, s32 z)
 {
-#ifdef NON_MATCHING
-    return OBM_POINT_IN_LINE(work->rect.left + FX32_TO_WHOLE(work->rect.pos.x), (u16)(work->rect.right - work->rect.left), x)
-           && OBM_POINT_IN_LINE(work->rect.top + FX32_TO_WHOLE(work->rect.pos.y), (u16)(work->rect.bottom - work->rect.top), y)
-           && OBM_POINT_IN_LINE(work->rect.back + FX32_TO_WHOLE(work->rect.pos.z), (u16)(work->rect.front - work->rect.back), z);
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	ldrsh r8, [r0, #0]
-	ldrsh r6, [r0, #6]
-	ldr r4, [r0, #0xc]
-	ldrsh lr, [r0, #2]
-	ldrsh r5, [r0, #8]
-	ldr ip, [r0, #0x10]
-	sub r7, r6, r8
-	sub r6, r5, lr
-	add r5, r8, r4
-	ldrsh r9, [r0, #4]
-	ldrsh r4, [r0, #0xa]
-	ldr r8, [r0, #0x14]
-	cmp r5, r1
-	sub r4, r4, r9
-	add r0, lr, ip
-	add r8, r9, r8
-	mov ip, r7, lsl #0x10
-	mov lr, r6, lsl #0x10
-	mov r4, r4, lsl #0x10
-	bgt _02076A00
-	add ip, r5, ip, lsr #16
-	cmp ip, r1
-	blt _02076A00
-	cmp r0, r2
-	bgt _02076A00
-	add r0, r0, lr, lsr #16
-	cmp r0, r2
-	blt _02076A00
-	cmp r8, r3
-	bgt _02076A00
-	add r0, r8, r4, lsr #16
-	cmp r0, r3
-	movge r0, #1
-	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-_02076A00:
-	mov r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-// clang-format on
-#endif
+    s32 rectLeft, rectTop;
+    s32 pointX, pointY;
+    s32 rectBack, pointZ;
+    u16 rectWidth, rectHeight;
+    u16 rectDepth;
+
+    rectLeft = work->rect.left + work->rect.pos.x;
+    rectTop  = work->rect.top + work->rect.pos.y;
+    rectBack = work->rect.back + work->rect.pos.z;
+
+    pointX = x;
+    pointY = y;
+    pointZ = z;
+
+    rectWidth  = work->rect.right - work->rect.left;
+    rectHeight = work->rect.bottom - work->rect.top;
+    rectDepth  = work->rect.front - work->rect.back;
+
+    if (OBM_POINT_IN_LINE(rectLeft, rectWidth, pointX) && OBM_POINT_IN_LINE(rectTop, rectHeight, pointY) && OBM_POINT_IN_LINE(rectBack, rectDepth, pointZ))
+    {
+        return TRUE;
+    }
+
+    return FALSE;
 }
 
 s32 ObjRect__CenterX(OBS_RECT_WORK *work)
@@ -728,22 +648,17 @@ s32 ObjRect__CenterY(OBS_RECT_WORK *work)
     return center;
 }
 
-NONMATCH_FUNC fx32 ObjRect__HitCenterX(OBS_RECT_WORK *work, OBS_RECT_WORK *attacker)
+fx32 ObjRect__HitCenterX(OBS_RECT_WORK *work, OBS_RECT_WORK *attacker)
 {
-    // https://decomp.me/scratch/XkbpR -> 97.94%
-    // misc register mismatches
-#ifdef NON_MATCHING
+    s32 maxPos   = 0;
+    s32 minPos   = 0;
+    s32 finalPos = 0;
     s32 bounds[4];
-    u8 id;
-    u8 index;
-    u8 id1;
-    s32 value1;
-
-    id = 0;
-    index = 0;
-    id1   = 0;
-
     u16 width;
+    u8 i = 0;
+    u8 j = 0;
+    u8 idxMax, idxMin;
+
     ObjRect__LTBSet(work, &bounds[0], NULL, NULL);
     ObjRect__WHDSet(work, &width, NULL, NULL);
     bounds[1] = bounds[0] + width;
@@ -752,382 +667,177 @@ NONMATCH_FUNC fx32 ObjRect__HitCenterX(OBS_RECT_WORK *work, OBS_RECT_WORK *attac
     ObjRect__WHDSet(attacker, &width, NULL, NULL);
     bounds[3] = bounds[2] + width;
 
-    // possibly a bug? shouldn't this use 'bounds[0]' instead of '0'
-    value1 = 0; // bounds[0];
-    index++;
-
-    if (bounds[index] > value1)
+    if (TRUE)
     {
-        value1 = bounds[index];
-        id1    = index;
+        // BUG: this should be set, but it isn't?
+        // It IS set properly in ObjRect__HitCenterY, so it's likely it was intended to be set here too.
+        // maxPos = bounds[i];
+        idxMax = i;
     }
+    i++;
 
-    index++;
-    if (bounds[index] > value1)
+    if (bounds[i] > maxPos)
     {
-        value1 = bounds[index];
-        id1    = index;
+        maxPos = bounds[i];
+        idxMax = i;
     }
+    i++;
 
-    index++;
-    if (bounds[index] > value1)
+    if (bounds[i] > maxPos)
     {
-        value1 = bounds[index];
-        id1    = index;
+        maxPos = bounds[i];
+        idxMax = i;
     }
+    i++;
 
-    u8 index2  = 0;
-    s32 value2 = bounds[index2];
-    u8 id2     = 0;
-
-    index2++;
-    if (bounds[index2] < value2)
+    if (bounds[i] > maxPos)
     {
-        value2 = bounds[index2];
-        id2    = index2;
+        maxPos = bounds[i];
+        idxMax = i;
     }
+    i++;
 
-    index2++;
-    if (bounds[index2] < value2)
+    i = 0;
+    if (TRUE)
     {
-        id2    = index2;
-        value2 = bounds[index2];
+        minPos = bounds[i];
+        idxMin = i;
     }
+    i++;
 
-    index2++;
-    if (bounds[index2] < value2)
+    if (bounds[i] < minPos)
     {
-        id2 = index2;
-
-        // possibly a bug? shouldn't this be "value2" instead of "u8 value2"?
-        u8 value2 = bounds[index2];
+        minPos = bounds[i];
+        idxMin = i;
     }
+    i++;
 
-    u8 i = 0;
-    while (TRUE)
+    if (bounds[i] < minPos)
     {
-        if (id != id1 && id != id2)
+        minPos = bounds[i];
+        idxMin = i;
+    }
+    i++;
+
+    if (bounds[i] < minPos)
+    {
+        minPos = bounds[i];
+        idxMin = i;
+    }
+    i++;
+
+    for (i = 0; TRUE; i++)
+    {
+        if (i != idxMax && i != idxMin)
         {
-            bounds[i] = bounds[id];
-            if (i == 0)
-                i++;
-            else
+            bounds[j] = bounds[i];
+            if (j != 0)
                 break;
+            ++j;
         }
-
-        id++;
     }
 
-    s32 size = MATH_ABS(bounds[0] - bounds[1] >> 1);
-    return FX32_FROM_WHOLE(bounds[0] > bounds[1] ? size + bounds[1] : size + bounds[0]);
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0x14
-	mov r4, #0
-	mov r7, r1
-	add r1, sp, #4
-	mov r2, r4
-	mov r3, r4
-	mov r8, r0
-	mov r5, r4
-	mov r6, r4
-	bl ObjRect__LTBSet
-	mov r2, r4
-	add r1, sp, #0
-	mov r0, r8
-	mov r3, r2
-	bl ObjRect__WHDSet
-	ldrh r3, [sp]
-	ldr ip, [sp, #4]
-	mov r2, r4
-	add r3, ip, r3
-	str r3, [sp, #8]
-	mov r0, r7
-	add r1, sp, #0xc
-	mov r3, r2
-	bl ObjRect__LTBSet
-	mov r2, r4
-	mov r0, r7
-	add r1, sp, #0
-	mov r3, r2
-	bl ObjRect__WHDSet
-	add r1, r5, #1
-	and r5, r1, #0xff
-	ldrh r2, [sp]
-	ldr r3, [sp, #0xc]
-	add r1, sp, #4
-	add r2, r3, r2
-	str r2, [sp, #0x10]
-	ldr r1, [r1, r5, lsl #2]
-	mov r0, r4
-	cmp r1, #0
-	movgt r4, r1
-	add r2, r5, #1
-	movgt r0, r5
-	and r5, r2, #0xff
-	add r1, sp, #4
-	ldr r1, [r1, r5, lsl #2]
-	add r2, r5, #1
-	cmp r1, r4
-	movgt r4, r1
-	add r1, sp, #4
-	and r2, r2, #0xff
-	ldr r1, [r1, r2, lsl #2]
-	movgt r0, r5
-	cmp r1, r4
-	movgt r0, r2
-	mov r1, #0
-	add r3, r1, #1
-	ldr r4, [sp, #4]
-	ldr r2, [sp, #8]
-	and r3, r3, #0xff
-	cmp r2, r4
-	addlt r2, sp, #4
-	ldrlt r4, [r2, r3, lsl #2]
-	movlt r1, r3
-	add r3, r3, #1
-	add r2, sp, #4
-	and r3, r3, #0xff
-	ldr r2, [r2, r3, lsl #2]
-	cmp r2, r4
-	movlt r1, r3
-	add r3, r3, #1
-	movlt r4, r2
-	add r2, sp, #4
-	and r3, r3, #0xff
-	ldr r2, [r2, r3, lsl #2]
-	cmp r2, r4
-	movlt r1, r3
-	mov r4, #0
-	add r3, sp, #4
-_02076B9C:
-	cmp r4, r0
-	cmpne r4, r1
-	beq _02076BC0
-	ldr r2, [r3, r4, lsl #2]
-	cmp r6, #0
-	str r2, [r3, r6, lsl #2]
-	bne _02076BCC
-	add r2, r6, #1
-	and r6, r2, #0xff
-_02076BC0:
-	add r2, r4, #1
-	and r4, r2, #0xff
-	b _02076B9C
-_02076BCC:
-	ldr r1, [sp, #8]
-	ldr r2, [sp, #4]
-	sub r0, r2, r1
-	movs r0, r0, asr #1
-	rsbmi r0, r0, #0
-	cmp r2, r1
-	addgt r0, r0, r1
-	addle r0, r0, r2
-	mov r0, r0, lsl #0xc
-	add sp, sp, #0x14
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-// clang-format on
-#endif
+    finalPos = MATH_ABS(((bounds[0] - bounds[1]) >> 1));
+    if (bounds[0] > bounds[1])
+        finalPos += bounds[1];
+    else
+        finalPos += bounds[0];
+
+    return FX32_FROM_WHOLE(finalPos);
 }
 
-NONMATCH_FUNC fx32 ObjRect__HitCenterY(OBS_RECT_WORK *work, OBS_RECT_WORK *attacker)
+fx32 ObjRect__HitCenterY(OBS_RECT_WORK *work, OBS_RECT_WORK *attacker)
 {
-    // should match when the issues with 'ObjRect__HitCenterX' are resolved
-#ifdef NON_MATCHING
+    s32 maxPos   = 0;
+    s32 minPos   = 0;
+    s32 finalPos = 0;
     s32 bounds[4];
-    u8 id;
-    u8 index;
-    u8 id1;
-    s32 value1;
-
-    id = 0;
-    index = 0;
-    id1   = 0;
-
-    u16 height;
-    ObjRect__LTBSet(work, NULL, &bounds[0], NULL);
-    ObjRect__WHDSet(work, NULL, &height, NULL);
-    bounds[1] = bounds[0] + height;
-
-    ObjRect__LTBSet(attacker, NULL, &bounds[0], NULL);
-    ObjRect__WHDSet(attacker, NULL, &height, NULL);
-    bounds[3] = bounds[2] + height;
-
-    s32 value2 = bounds[index];
-    value1     = bounds[0];
-    index++;
-
-    if (bounds[index] > value1)
-    {
-        value1 = bounds[index];
-        id1    = index;
-    }
-
-    index++;
-    if (bounds[index] > value1)
-    {
-        value1 = bounds[index];
-        id1    = index;
-    }
-
-    index++;
-    if (bounds[index] > value1)
-    {
-        value1 = bounds[index];
-        id1    = index;
-    }
-
-    u8 index2 = 0;
-    u8 id2    = 0;
-
-    index2++;
-    if (bounds[index2] < value2)
-    {
-        value2 = bounds[index2];
-        id2    = index2;
-    }
-
-    index2++;
-    if (bounds[index2] < value2)
-    {
-        id2    = index2;
-        value2 = bounds[index2];
-    }
-
-    index2++;
-    if (bounds[index2] < value2)
-    {
-        id2 = index2;
-
-        // possibly a bug? shouldn't this be "value2" instead of "u8 value2"?
-        u8 value2 = bounds[index2];
-    }
-
+    u16 width;
     u8 i = 0;
-    while (TRUE)
-    {
-        if (id != id1 && id != id2)
-        {
-            bounds[i] = bounds[id];
-            if (i == 0)
-                i++;
-            else
-                break;
-        }
+    u8 j = 0;
+    u8 idxMax, idxMin;
 
-        id++;
+    ObjRect__LTBSet(work, NULL, &bounds[0], NULL);
+    ObjRect__WHDSet(work, NULL, &width, NULL);
+    bounds[1] = bounds[0] + width;
+
+    ObjRect__LTBSet(attacker, NULL, &bounds[2], NULL);
+    ObjRect__WHDSet(attacker, NULL, &width, NULL);
+    bounds[3] = bounds[2] + width;
+
+    if (TRUE)
+    {
+        maxPos = bounds[i];
+        idxMax = i;
+    }
+    i++;
+
+    if (bounds[i] > maxPos)
+    {
+        maxPos = bounds[i];
+        idxMax = i;
+    }
+    i++;
+
+    if (bounds[i] > maxPos)
+    {
+        maxPos = bounds[i];
+        idxMax = i;
+    }
+    i++;
+
+    if (bounds[i] > maxPos)
+    {
+        maxPos = bounds[i];
+        idxMax = i;
+    }
+    i++;
+
+    i = 0;
+    if (TRUE)
+    {
+        minPos = bounds[i];
+        idxMin = i;
+    }
+    i++;
+
+    if (bounds[i] < minPos)
+    {
+        minPos = bounds[i];
+        idxMin = i;
+    }
+    i++;
+
+    if (bounds[i] < minPos)
+    {
+        minPos = bounds[i];
+        idxMin = i;
+    }
+    i++;
+
+    if (bounds[i] < minPos)
+    {
+        minPos = bounds[i];
+        idxMin = i;
+    }
+    i++;
+
+    for (i = 0; TRUE; i++)
+    {
+        if (i != idxMax && i != idxMin)
+        {
+            bounds[j] = bounds[i];
+            if (j != 0)
+                break;
+            ++j;
+        }
     }
 
-    s32 size = MATH_ABS(bounds[0] - bounds[1] >> 1);
-    return FX32_FROM_WHOLE(bounds[0] > bounds[1] ? size + bounds[1] : size + bounds[0]);
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0x14
-	mov r4, #0
-	mov r6, r1
-	add r2, sp, #4
-	mov r1, r4
-	mov r3, r4
-	mov r7, r0
-	mov r5, r4
-	bl ObjRect__LTBSet
-	mov r1, r4
-	add r2, sp, #0
-	mov r0, r7
-	mov r3, r1
-	bl ObjRect__WHDSet
-	ldrh r2, [sp]
-	ldr r3, [sp, #4]
-	mov r1, r4
-	add r2, r3, r2
-	str r2, [sp, #8]
-	mov r0, r6
-	add r2, sp, #0xc
-	mov r3, r1
-	bl ObjRect__LTBSet
-	mov r1, r4
-	mov r0, r6
-	add r2, sp, #0
-	mov r3, r1
-	bl ObjRect__WHDSet
-	ldrh r0, [sp]
-	ldr r3, [sp, #0xc]
-	mov r1, r4
-	add r0, r3, r0
-	add r3, r4, #1
-	and r4, r3, #0xff
-	str r0, [sp, #0x10]
-	add r3, sp, #4
-	ldr r2, [sp, #4]
-	ldr r3, [r3, r4, lsl #2]
-	mov r0, r2
-	cmp r3, r2
-	movgt r1, r4
-	add r4, r4, #1
-	movgt r0, r3
-	add r3, sp, #4
-	and r4, r4, #0xff
-	ldr r3, [r3, r4, lsl #2]
-	cmp r3, r0
-	movgt r1, r4
-	add r4, r4, #1
-	movgt r0, r3
-	add r3, sp, #4
-	and r4, r4, #0xff
-	ldr r3, [r3, r4, lsl #2]
-	cmp r3, r0
-	ldr r3, [sp, #8]
-	movgt r1, r4
-	cmp r3, r2
-	mov r0, #0
-	add r4, r0, #1
-	and r4, r4, #0xff
-	addlt r2, sp, #4
-	movlt r0, r4
-	ldrlt r2, [r2, r4, lsl #2]
-	add r4, r4, #1
-	add r3, sp, #4
-	and r4, r4, #0xff
-	ldr r3, [r3, r4, lsl #2]
-	cmp r3, r2
-	movlt r0, r4
-	add r4, r4, #1
-	movlt r2, r3
-	add r3, sp, #4
-	and r4, r4, #0xff
-	ldr r3, [r3, r4, lsl #2]
-	cmp r3, r2
-	movlt r0, r4
-	mov r4, #0
-	add r3, sp, #4
-_02076D34:
-	cmp r4, r1
-	cmpne r4, r0
-	beq _02076D58
-	ldr r2, [r3, r4, lsl #2]
-	cmp r5, #0
-	str r2, [r3, r5, lsl #2]
-	bne _02076D64
-	add r2, r5, #1
-	and r5, r2, #0xff
-_02076D58:
-	add r2, r4, #1
-	and r4, r2, #0xff
-	b _02076D34
-_02076D64:
-	ldr r1, [sp, #8]
-	ldr r2, [sp, #4]
-	sub r0, r2, r1
-	movs r0, r0, asr #1
-	rsbmi r0, r0, #0
-	cmp r2, r1
-	addgt r0, r0, r1
-	addle r0, r0, r2
-	mov r0, r0, lsl #0xc
-	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, pc}
-// clang-format on
-#endif
+    finalPos = MATH_ABS(((bounds[0] - bounds[1]) >> 1));
+    if (bounds[0] > bounds[1])
+        finalPos += bounds[1];
+    else
+        finalPos += bounds[0];
+
+    return FX32_FROM_WHOLE(finalPos);
 }

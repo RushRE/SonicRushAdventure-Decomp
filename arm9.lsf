@@ -162,7 +162,6 @@ Static arm9
     Object src/game/object/objPacket2.o
     Object src/game/object/objDraw.o
     Object src/game/object/objRect.o
-    Object asm/game/object/objRect_vars.o
     Object src/game/object/objTblWork.o
     Object src/game/object/obj.o
     Object src/game/object/objTblWorkPriv.o
