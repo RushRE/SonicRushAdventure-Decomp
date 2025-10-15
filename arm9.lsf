@@ -23,7 +23,7 @@ Static arm9
     Object asm/game/math/akMath.o
     Object src/game/stage/gameSystem.o
     Object asm/game/stage/stageAssets_vars.o
-    Object src/game/stage/stageAssets.o
+    Object src/game/stage/stageAssetBuilder.o
     Object src/stage/core/bgmManager.o
     Object asm/stage/core/titleCard_vars.o
     Object src/stage/core/titleCard.o
