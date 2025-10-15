@@ -34,8 +34,6 @@ Building the ROM requires the following packages. If you cannot find one or more
 
 NOTE: If you are using Arch/Manjaro or Void you will only need base-devel instead of build-essentials or make or git. You will still need wine.
 
-Currently WSL2 has an issue with mwldarm not being able to locate it's executable. Please use WSL1 or another build environment to mitigate this issue until a solution is found.
-
 #### Windows
 
 ##### MSYS2 (MSYS environment)
