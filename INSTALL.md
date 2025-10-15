@@ -64,8 +64,6 @@ cmake --install .
 
 ##### Cygwin
 
-**WARNING**: as of the time of writing, Cygwin is not well supported, the archivepackex.exe part of the build will fail.
-
 Install these packages using Cygwin's package manager.
 
 * gcc-core
