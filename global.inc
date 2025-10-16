@@ -478,8 +478,8 @@
 .public MapFarSys__SetScrollSpeed
 .public MapFarSys__AdvanceScrollSpeed
 .public MapFarSys__Func_200B524
-.public MapFarSys__Func_200B578
-.public MapFarSys__Func_200B718
+.public MapFarSys__LoadBackgroundGraphics
+.public MapFarSys__InitBackgroundLayer
 .public MapFarSys__Build_Z1
 .public MapFarSys__Build_Z2
 .public MapFarSys__Build_Z3

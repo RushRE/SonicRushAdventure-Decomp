@@ -510,7 +510,7 @@ void RenderCore_StopDMA(u32 id)
     OS_RestoreInterrupts(enabled);
 }
 
-void RenderCore_PrepareDMASwapBuffer(u32 id)
+void RenderCore_PrepareDMASwapBuffer(u8 id)
 {
     DMAController *dmaControl = &renderDMAManagers[id];
 
@@ -520,7 +520,7 @@ void RenderCore_PrepareDMASwapBuffer(u32 id)
     OS_RestoreInterrupts(enabled);
 }
 
-void *RenderCore_GetDMASrc(u32 id)
+void *RenderCore_GetDMASrc(u8 id)
 {
     return renderDMAManagers[id].dmaSrc[renderDMAManagers[id].bufferID];
 }

@@ -24,6 +24,8 @@ extern "C"
 #define HW_LCD_CENTER_X (HW_LCD_WIDTH / 2)
 #define HW_LCD_CENTER_Y (HW_LCD_HEIGHT / 2)
 
+#define HW_LCD_DUAL_HEIGHT ((HW_LCD_HEIGHT * 2) + 80)
+
 #define VRAM_GET_PALETTE_COLOR(palette, index) ((GXRgb *)(palette))[index]
 #define VRAM_SET_PALETTE_COLOR(palette, index, color) ((GXRgb *)(palette))[index] = color
 
@@ -353,8 +355,8 @@ void RenderCore_CPUCopyCompressed(void *input, void *output);
 void RenderCore_ChangeOverlay(int overlayID, void (*changeCB)(void));
 void RenderCore_PrepareDMA(u32 id, void *src2, void *src1, void *dst, u32 size);
 void RenderCore_StopDMA(u32 id);
-void RenderCore_PrepareDMASwapBuffer(u32 id);
-void *RenderCore_GetDMASrc(u32 id);
+void RenderCore_PrepareDMASwapBuffer(u8 id);
+void *RenderCore_GetDMASrc(u8 id);
 FoldDeviceMode RenderCore_GetNextFoldMode(void);
 void RenderCore_SetNextFoldMode(FoldDeviceMode mode);
 void RenderCore_HandleDeviceFold(void);

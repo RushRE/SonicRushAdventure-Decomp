@@ -122,7 +122,7 @@ void MapSys__Create(void)
     MapFarSys__BuildBG();
 }
 
-NONMATCH_FUNC void MapSys__InitCameraForRestart (void)
+NONMATCH_FUNC void MapSys__InitCameraForRestart(void)
 {
 #ifdef NON_MATCHING
 
@@ -2471,7 +2471,7 @@ void MapSys__HandleCameraLookUpDown(MapSys *work)
         && (gPlayerList[camera->targetPlayerID]->actionState == PLAYER_ACTION_LOOKUP_01 || gPlayerList[camera->targetPlayerID]->actionState == PLAYER_ACTION_LOOKUP_02))
     {
         work->flags |= MAPSYS_FLAG_LOOKING_UP;
-        work->timer         = 0;
+        work->timer        = 0;
         work->stateCamLook = MapSys__CamLook_HandlePlayerLookUpDown;
     }
 
@@ -2479,7 +2479,7 @@ void MapSys__HandleCameraLookUpDown(MapSys *work)
         && (gPlayerList[camera->targetPlayerID]->actionState == PLAYER_ACTION_CROUCH || gPlayerList[camera->targetPlayerID]->actionState == PLAYER_ACTION_CROUCH_EXIT))
     {
         work->flags |= MAPSYS_FLAG_LOOKING_DOWN;
-        work->timer         = 0;
+        work->timer        = 0;
         work->stateCamLook = MapSys__CamLook_HandlePlayerLookUpDown;
     }
 }
@@ -2523,13 +2523,13 @@ void MapSys__CamLook_HandlePlayerLookUpDown(MapSys *work)
         if ((work->flags & MAPSYS_FLAG_LOOKING_UP) != 0)
         {
             mapCamera.camControl.flags |= MAPSYS_CAMERACTRL_FLAG_10000;
-            work->field_8       = 0;
+            work->field_8      = 0;
             work->stateCamLook = MapSys__CamLook_LookingUp;
         }
         else
         {
             mapCamera.camControl.flags |= MAPSYS_CAMERACTRL_FLAG_10000;
-            work->field_8       = 0;
+            work->field_8      = 0;
             work->stateCamLook = MapSys__CamLook_LookingDown;
         }
     }
@@ -2541,7 +2541,7 @@ void MapSys__CamLook_LookingUp(MapSys *work)
 
     if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_40000) != 0)
     {
-        work->field_8       = FLOAT_TO_FX32(0.0);
+        work->field_8      = FLOAT_TO_FX32(0.0);
         work->stateCamLook = MapSys__CamLook_LookUpIdle;
 
         mapCamera.camControl.flags |= MAPSYS_CAMERACTRL_FLAG_20000;
@@ -2552,7 +2552,7 @@ void MapSys__CamLook_LookingUp(MapSys *work)
 
         if ((player->inputKeyDown & PAD_KEY_UP) == 0 || (player->actionState != PLAYER_ACTION_LOOKUP_01 && player->actionState != PLAYER_ACTION_LOOKUP_02))
         {
-            work->field_8       = FLOAT_TO_FX32(0.0);
+            work->field_8      = FLOAT_TO_FX32(0.0);
             work->stateCamLook = MapSys__CamLook_LookUpIdle;
 
             mapCamera.camControl.flags |= MAPSYS_CAMERACTRL_FLAG_20000;
@@ -2577,7 +2577,7 @@ void MapSys__CamLook_LookingDown(MapSys *work)
 
     if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_40000) != 0)
     {
-        work->field_8       = FLOAT_TO_FX32(0.0);
+        work->field_8      = FLOAT_TO_FX32(0.0);
         work->stateCamLook = MapSys__CamLook_LookDownIdle;
 
         mapCamera.camControl.flags |= MAPSYS_CAMERACTRL_FLAG_20000;
@@ -2588,7 +2588,7 @@ void MapSys__CamLook_LookingDown(MapSys *work)
 
         if ((player->inputKeyDown & PAD_KEY_DOWN) == 0 || (player->actionState != PLAYER_ACTION_CROUCH && player->actionState != PLAYER_ACTION_CROUCH_EXIT))
         {
-            work->field_8       = FLOAT_TO_FX32(0.0);
+            work->field_8      = FLOAT_TO_FX32(0.0);
             work->stateCamLook = MapSys__CamLook_LookDownIdle;
 
             mapCamera.camControl.flags |= MAPSYS_CAMERACTRL_FLAG_20000;
@@ -2614,8 +2614,8 @@ void MapSys__CamLook_Reset(MapSys *work)
 
     work->flags &= ~MAPSYS_FLAG_LOOKING_UP;
     work->flags &= ~MAPSYS_FLAG_LOOKING_DOWN;
-    work->timer         = 0;
-    work->field_8       = 0;
+    work->timer        = 0;
+    work->field_8      = 0;
     work->stateCamLook = MapSys__HandleCameraLookUpDown;
 }
 
