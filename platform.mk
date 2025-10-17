@@ -1,7 +1,19 @@
+# Check if building on Windows under Cygwin or MSYS2.
+CYGWINLIKE := 0
+UNAMESTR := $(shell uname 2>/dev/null || echo Unknown)
+UNAMESTRSUBST := $(patsubst CYGWIN%,Cygwin,$(UNAMESTR))
+UNAMESTRSUBST := $(patsubst MSYS%,Cygwin,$(UNAMESTRSUBST))
+ifeq ($(UNAMESTRSUBST),Cygwin)
+  CYGWINLIKE := 1
+endif
 
 WSLENV ?= no
 ifeq ($(WSLENV),no)
-  NOWINE = 0
+  ifeq ($(CYGWINLIKE),1)
+    NOWINE = 1
+  else
+    NOWINE = 0
+  endif
 else
   # As of build 17063, WSLENV is defined in both WSL1 and WSL2
   # so we need to use the kernel release to detect between
@@ -41,6 +53,9 @@ endif
 ifeq ($(NOWINE),1)
   WINE :=
   WINPATH := wslpath
+  ifeq ($(CYGWINLIKE),1)
+    WINPATH := cygpath
+  endif
 else
   WINPATH := winepath
 endif

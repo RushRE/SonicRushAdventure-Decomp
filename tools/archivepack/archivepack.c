@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <spawn.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 extern char **environ;
 #endif
@@ -325,6 +326,8 @@ static inline void HandleCreateProcess(char *executable, char *processDir, char 
     pid_t pid;
 
     copy_file(executable, processPath);
+    // Give full permissions to all, to ensure in particular the executable's copy can be run.
+    chmod(processPath, S_IRWXU | S_IRWXG | S_IRWXO);
     chdir(processDir);
 
     int status = posix_spawn(&pid, "ntrcomp.exe", NULL, NULL, argv, environ);

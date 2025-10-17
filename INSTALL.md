@@ -34,36 +34,42 @@ Building the ROM requires the following packages. If you cannot find one or more
 
 NOTE: If you are using Arch/Manjaro or Void you will only need base-devel instead of build-essentials or make or git. You will still need wine.
 
-Currently WSL2 has an issue with mwldarm not being able to locate it's executable. Please use WSL1 or another build environment to mitigate this issue until a solution is found.
-
 #### Windows
 
-Before following the respective guides, please install devkitARM and ensure the DEVKITPRO and DEVKITARM variables are added to bashrc such that:
+##### MSYS2 (MSYS environment)
 
-Msys2:
-```console
-export DEVKITPRO=C:/devkitPro
-export DEVKITARM=${DEVKITPRO}/devkitARM
-```
+Install it from here: [MSYS2 home](https://www.msys2.org/), and run msys2.exe.
 
-Cygwin:
-```console
-export DEVKITPRO=/cygdrive/c/devkitPro
-export DEVKITARM=${DEVKITPRO}/devkitARM
-```
-
-You will still require the following packages:
-
+Make sure the following packages are installed, using ```pacman -S package-name```:
+* gcc
 * make
 * git
-* build-essentials
+* zlib-devel
+* cmake
+
+libpng on the other hand must be compiled from source (make sure zlib-devel was installed beforehand). Follow these instructions:
+```console
+cd ~
+wget http://prdownloads.sourceforge.net/libpng/libpng-1.6.50.tar.gz
+tar -xvf libpng-1.6.50.tar.gz
+cd libpng-1.6.50/
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr -DPNG_SHARED=OFF -S .. -B .
+cmake --build .
+cmake --install .
+```
+
+##### Cygwin
+
+Install these packages using Cygwin's package manager.
+
+* gcc-core
+* gcc-g++
+* libgcc1
 * libpng-devel
-* pugixml
-* pkg-config
-
-Install them using either the Cygwin package manager or using pacman on Msys2.
-
-**NOTE FOR MSYS2:** You will need to compile and install [libpng](https://www.libpng.org/pub/png/libpng.html) from source.
+* git
+* make
 
 #### macOS
 
