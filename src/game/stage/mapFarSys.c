@@ -8,12 +8,6 @@
 #include <game/math/unknown2051334.h>
 
 // --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void _s32_div_f(void);
-
-// --------------------
 // TYPES
 // --------------------
 
@@ -1987,10 +1981,8 @@ void MapFarSys__DoFarScrollY(void)
     }
 }
 
-NONMATCH_FUNC void MapFarSys__ProcessScroll(void)
+void MapFarSys__ProcessScroll(void)
 {
-    // https://decomp.me/scratch/zM0ih -> 91.13%
-#ifdef NON_MATCHING
     MapSysCamera *cameraA = &mapCamera.camera[GRAPHICS_ENGINE_A];
     MapSysCamera *cameraB = &mapCamera.camera[GRAPHICS_ENGINE_B];
 
@@ -2002,148 +1994,52 @@ NONMATCH_FUNC void MapFarSys__ProcessScroll(void)
     for (s32 e = 0; e < GRAPHICS_ENGINE_COUNT; e++)
     {
         s32 scrollOffset = 0;
+		s32 y;
+        s32 localPos, offset;
 
-        MapFarSysScroll *scroll;
+		MapFarSysScroll *scroll;
+        s32 scrollSpeedY;
         if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
         {
             scroll = MapFarSys__sVars.scrollControl->scroll1[GRAPHICS_ENGINE_A][0];
+            scrollSpeedY = MapFarSys__sVars.scrollControl->scrollSpeedY[GRAPHICS_ENGINE_A];
         }
         else
         {
             scroll = MapFarSys__sVars.scrollControl->scroll1[e][0];
+            scrollSpeedY = MapFarSys__sVars.scrollControl->scrollSpeedY[e];
         }
 
-        while (scrollOffset < MapFarSys__sVars.scrollControl->scrollSpeedY[e] && scroll->pos != 0 && scrollOffset + scroll->pos <= bgYPos[e])
+        while (scrollOffset < scrollSpeedY && scroll->pos != 0)
         {
+            if (scrollOffset + scroll->pos > bgYPos[e])
+                break;
+            
             scrollOffset += scroll->pos;
             scroll++;
         }
 
-        s32 localPos                = bgYPos[e] - scrollOffset;
-        s32 offset                  = localPos;
+        localPos = bgYPos[e] - scrollOffset;
+        offset   = localPos;
         mapCamera.camera[e].bgPos.y = FX32_FROM_WHOLE((localPos - scroll->width) & 0x1FF);
 
-        u16 *v8  = (u16 *)RenderCore_GetDMASrc(e);
-        u16 *v10 = v8;
-
-        for (s32 y = 0; y < HW_LCD_HEIGHT;)
+        u16 *dmaSrc = (u16 *)RenderCore_GetDMASrc(e);
+        for (y = 0; y < HW_LCD_HEIGHT;)
         {
             s32 count = scroll->pos - offset;
             if (y + count >= HW_LCD_HEIGHT)
                 count = HW_LCD_HEIGHT - y;
-            MIi_CpuClear16((localPos + scroll->width) & 0x1FF, v10, 2 * count);
+            MI_CpuFill16(dmaSrc, (localPos + scroll->width) & 0x1FF, sizeof(u16) * count);
             y += count;
 
             offset = 0;
             localPos -= scroll->pos;
             ++scroll;
-            v10 += count;
+            dmaSrc += count;
         }
 
         RenderCore_PrepareDMASwapBuffer(e);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x10
-	ldr r0, =mapCamera
-	mov r4, #0
-	ldr r1, [r0, #0x3c]
-	str r0, [sp]
-	ldr r0, [r0, #0xac]
-	mov r1, r1, asr #0xc
-	mov r0, r0, asr #0xc
-	str r4, [sp, #4]
-	str r1, [sp, #8]
-	str r0, [sp, #0xc]
-_0200D000:
-	ldr r0, =mapCamera
-	mov r1, #0
-	ldr r0, [r0, #0xe0]
-	tst r0, #1
-	beq _0200D024
-	ldr r0, =MapFarSys__sVars
-	ldr r0, [r0, #8]
-	ldr r8, [r0, #0x620]
-	b _0200D03C
-_0200D024:
-	ldr r0, =MapFarSys__sVars
-	ldr r3, [r0, #8]
-	ldr r0, [sp, #4]
-	add r2, r3, r0
-	ldr r8, [r2, #0x620]
-	add r0, r3, r4, lsl #2
-_0200D03C:
-	ldr r3, [r0, #8]
-	add r0, sp, #8
-	ldr r0, [r0, r4, lsl #2]
-	b _0200D060
-_0200D04C:
-	add r2, r1, r2
-	cmp r2, r0
-	bgt _0200D074
-	mov r1, r2
-	add r8, r8, #4
-_0200D060:
-	cmp r1, r3
-	bge _0200D074
-	ldrh r2, [r8, #2]
-	cmp r2, #0
-	bne _0200D04C
-_0200D074:
-	add r0, sp, #8
-	ldr r3, [r0, r4, lsl #2]
-	ldrh r2, [r8, #0]
-	sub r6, r3, r1
-	and r0, r4, #0xff
-	sub r1, r6, r2
-	mov r1, r1, lsl #0x17
-	mov r2, r1, lsr #0xb
-	ldr r1, [sp]
-	mov r7, r6
-	str r2, [r1, #0x3c]
-	bl RenderCore_GetDMASrc
-	ldr r11, =0x000001FF
-	mov r9, r0
-	mov r5, #0
-_0200D0B0:
-	ldrh r0, [r8, #2]
-	mov r1, r9
-	sub r10, r0, r7
-	add r0, r5, r10
-	cmp r0, #0xc0
-	ldrh r0, [r8, #0]
-	rsbge r10, r5, #0xc0
-	mov r2, r10, lsl #1
-	add r0, r6, r0
-	and r0, r0, r11
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl MIi_CpuClear16
-	ldrh r0, [r8, #2]
-	add r5, r5, r10
-	mov r7, #0
-	cmp r5, #0xc0
-	sub r6, r6, r0
-	add r8, r8, #4
-	add r9, r9, r10, lsl #1
-	blt _0200D0B0
-	and r0, r4, #0xff
-	bl RenderCore_PrepareDMASwapBuffer
-	ldr r0, [sp, #4]
-	add r4, r4, #1
-	add r0, r0, #0xc
-	str r0, [sp, #4]
-	ldr r0, [sp]
-	cmp r4, #2
-	add r0, r0, #0x70
-	str r0, [sp]
-	blt _0200D000
-	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC void MapFarSys__Func_200D144(u32 *dst, s32 start, s32 end, s32 waterLevel, s32 a5, s32 a6, s32 a7, struct MapFarSysUnknown200D144 *unknown)
