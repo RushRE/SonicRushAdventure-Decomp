@@ -34,6 +34,81 @@ typedef u16 (*GetSpriteSizeFromAnimFunc)(void *fileData, u16 animID);
 // ENUMS
 // --------------------
 
+// Sprite OAM Enums
+
+// Attr0
+enum Sprite_OAM_Attr0
+{
+    // Masks
+    SPRITE_OAM_ATTR0_Y          = 0xFF,
+    SPRITE_OAM_ATTR0_RSENABLE   = 0x100 | 0x200,
+    SPRITE_OAM_ATTR0_MODE       = 0x400 | 0x800,
+    SPRITE_OAM_ATTR0_MOSAIC     = 0x1000,
+    SPRITE_OAM_ATTR0_COLOR_MODE = 0x2000,
+    SPRITE_OAM_ATTR0_SHAPE      = 0x4000 | 0x8000,
+
+    // Bit Shifts
+    SPRITE_OAM_ATTR0_Y_SHIFT          = 0,
+    SPRITE_OAM_ATTR0_RSENABLE_SHIFT   = 8,
+    SPRITE_OAM_ATTR0_MODE_SHIFT       = 10,
+    SPRITE_OAM_ATTR0_MOSAIC_SHIFT     = 12,
+    SPRITE_OAM_ATTR0_COLOR_MODE_SHIFT = 13,
+    SPRITE_OAM_ATTR0_SHAPE_SHIFT      = 14,
+};
+
+// Attr1
+enum Sprite_OAM_Attr1
+{
+    // Masks
+    SPRITE_OAM_ATTR1_X      = 0x1FF,
+    SPRITE_OAM_ATTR1_AFFINE = 0xE00,
+    SPRITE_OAM_ATTR1_FLIP_X = 0x1000,
+    SPRITE_OAM_ATTR1_FLIP_Y = 0x2000,
+    SPRITE_OAM_ATTR1_SIZE   = 0x4000 | 0x8000,
+
+    // Utility Combinations
+    SPRITE_OAM_ATTR1_FLIP    = SPRITE_OAM_ATTR1_FLIP_X | SPRITE_OAM_ATTR1_FLIP_Y,
+    SPRITE_OAM_ATTR1_RSPARAM = SPRITE_OAM_ATTR1_AFFINE | SPRITE_OAM_ATTR1_FLIP,
+
+    // Bit Shifts
+    SPRITE_OAM_ATTR1_X_SHIFT      = 0,
+    SPRITE_OAM_ATTR1_AFFINE_SHIFT = 9,
+    SPRITE_OAM_ATTR1_FLIP_X_SHIFT = 12,
+    SPRITE_OAM_ATTR1_FLIP_Y_SHIFT = 13,
+    SPRITE_OAM_ATTR1_SIZE_SHIFT   = 14,
+};
+
+// Attr2
+enum Sprite_OAM_Attr2
+{
+    // Masks
+    SPRITE_OAM_ATTR2_NAME     = 0x3FF,
+    SPRITE_OAM_ATTR2_PRIORITY = 0x400 | 0x800,
+    SPRITE_OAM_ATTR2_CPARAM   = 0x1000 | 0x2000 | 0x4000 | 0x8000,
+
+    // Bit Shifts
+    SPRITE_OAM_ATTR2_NAME_SHIFT     = 0,
+    SPRITE_OAM_ATTR2_PRIORITY_SHIFT = 10,
+    SPRITE_OAM_ATTR2_CPARAM_SHIFT   = 12,
+};
+
+// Sprite Attr Enums
+enum Sprite_OAM_Mode
+{
+    SPRITE_OAM_MODE_NORMAL    = 0,
+    SPRITE_OAM_MODE_XLU       = 1,
+    SPRITE_OAM_MODE_OBJWND    = 2,
+    SPRITE_OAM_MODE_BITMAPOBJ = 3
+};
+
+enum Sprite_OAM_Effect
+{
+    SPRITE_OAM_EFFECT_AFFINE        = (1 << SPRITE_OAM_ATTR0_RSENABLE_SHIFT),
+    SPRITE_OAM_EFFECT_NODISPLAY     = (2 << SPRITE_OAM_ATTR0_RSENABLE_SHIFT),
+    SPRITE_OAM_EFFECT_AFFINE_DOUBLE = (3 << SPRITE_OAM_ATTR0_RSENABLE_SHIFT)
+};
+
+// Animator Enums
 enum AnimatorFlags_
 {
     ANIMATOR_FLAG_NONE = 0,
@@ -381,20 +456,20 @@ typedef struct AnimatorSpriteDS_
     AnimatorSprite work;
 
     AnimatorSpriteDSFlags flags;
-    Vec2Fx16 position[2];
-    PixelMode pixelMode[2];
-    VRAMPixelKey vramPixels[2];
-    PaletteMode paletteMode[2];
-    VRAMPaletteKey vramPalette[2];
+    Vec2Fx16 position[GRAPHICS_ENGINE_COUNT];
+    PixelMode pixelMode[GRAPHICS_ENGINE_COUNT];
+    VRAMPixelKey vramPixels[GRAPHICS_ENGINE_COUNT];
+    PaletteMode paletteMode[GRAPHICS_ENGINE_COUNT];
+    VRAMPaletteKey vramPalette[GRAPHICS_ENGINE_COUNT];
 
     union
     {
         u16 palette;
         u16 alpha;
-    } cParam[2];
+    } cParam[GRAPHICS_ENGINE_COUNT];
 
-    GXOamAttr *firstSprite[2];
-    GXOamAttr *lastSprite[2];
+    GXOamAttr *firstSprite[GRAPHICS_ENGINE_COUNT];
+    GXOamAttr *lastSprite[GRAPHICS_ENGINE_COUNT];
 } AnimatorSpriteDS;
 
 typedef struct Animator3D_
@@ -441,65 +516,66 @@ typedef struct AnimatorSprite3D_
 {
     Animator3D work;
 
-    struct AnimatorSprite3DSpecific {
-    AnimatorSprite animatorSprite;
-
-    union
+    struct AnimatorSprite3DSpecific
     {
-        struct
+        AnimatorSprite animatorSprite;
+
+        union
         {
-            BOOL light0Enabled : 1;
-            BOOL light1Enabled : 1;
-            BOOL light2Enabled : 1;
-            BOOL light3Enabled : 1;
-            u32 polygonMode : 2;
-            BOOL noCullBack : 1;
-            BOOL noCullFront : 1;
-            u32 __unused : 3;
-            BOOL xluDepthUpdate : 1;
-            BOOL farClipping : 1;
-            BOOL display1Dot : 1;
-            BOOL depthTestDecal : 1;
-            BOOL enableFog : 1;
-            u32 alpha : 5;
-            u32 __unused2 : 3;
-            u32 polygonID : 6;
-            u32 __unused3 : 2;
-        };
+            struct
+            {
+                BOOL light0Enabled : 1;
+                BOOL light1Enabled : 1;
+                BOOL light2Enabled : 1;
+                BOOL light3Enabled : 1;
+                u32 polygonMode : 2;
+                BOOL noCullBack : 1;
+                BOOL noCullFront : 1;
+                u32 __unused : 3;
+                BOOL xluDepthUpdate : 1;
+                BOOL farClipping : 1;
+                BOOL display1Dot : 1;
+                BOOL depthTestDecal : 1;
+                BOOL enableFog : 1;
+                u32 alpha : 5;
+                u32 __unused2 : 3;
+                u32 polygonID : 6;
+                u32 __unused3 : 2;
+            };
 
-        u32 value;
-    } polygonAttr;
+            u32 value;
+        } polygonAttr;
 
-    union
-    {
-        struct
+        union
         {
-            u16 unknown : 15;
-            u16 flag : 1;
-        };
+            struct
+            {
+                u16 unknown : 15;
+                u16 flag : 1;
+            };
 
-        u16 value;
-    } field_F8;
+            u16 value;
+        } field_F8;
 
-    u8 field_FA;
-    u8 field_FB;
+        u8 field_FA;
+        u8 field_FB;
 
-    union
-    {
-        struct
+        union
         {
-            u16 unknown : 15;
-            u16 flag : 1;
-        };
+            struct
+            {
+                u16 unknown : 15;
+                u16 flag : 1;
+            };
 
-        u16 value;
-    } field_FC;
+            u16 value;
+        } field_FC;
 
-    u8 field_FE;
-    u8 field_FF;
-    u16 color;
-    u8 field_102;
-    u8 field_103;
+        u8 field_FE;
+        u8 field_FF;
+        u16 color;
+        u8 field_102;
+        u8 field_103;
     };
 } AnimatorSprite3D;
 

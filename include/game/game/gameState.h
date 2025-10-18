@@ -116,7 +116,7 @@ enum ZoneID_
 
     ZONE_COUNT,
 
-    // not used in regular stage contexts, but _is_ used in save contextx instead of hidden islands
+    // not used in regular stage contexts, but _is_ used in save context instead of hidden islands
     ZONE_DEEP_CORE = ZONE_BIG_SWELL + 1,
 };
 typedef u32 ZoneID;
