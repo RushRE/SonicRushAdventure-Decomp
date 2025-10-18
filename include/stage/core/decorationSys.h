@@ -61,12 +61,19 @@ struct StageDecoration_
     StageDecoration *next;
 };
 
-typedef struct DecorationCommon_
+typedef struct DecorationCommon2D_
 {
     StageDecoration decorWork;
 
     OBS_ACTION2D_BAC_WORK animator;
-} DecorationCommon;
+} DecorationCommon2D;
+
+typedef struct DecorationCommon3D_
+{
+    StageDecoration decorWork;
+    OBS_ACTION2D_BAC_WORK animator2D;
+    OBS_ACTION3D_BAC_WORK animator3D;
+} DecorationCommon3D;
 
 typedef struct EffectGrind3Leaf_
 {
@@ -90,8 +97,8 @@ StageDecoration *DecorationSys__Construct(size_t structSize, MapDecor *mapDecor,
 void DecorationSys__DestroyDecor(StageDecoration *work);
 void DecorationSys__Release(void);
 StageDecoration *DecorationSys__CreateTempDecoration(s32 type, fx32 x, fx32 y);
-StageDecoration *DecorationSys__CreateCommonDecor(MapDecor *mapDecor, fx32 x, fx32 y, s32 type);
-StageDecoration *DecorationSys__CreateUnknown2152D9C(MapDecor *mapDecor, fx32 x, fx32 y, s32 type);
+StageDecoration *DecorationSys__CreateCommonDecor2D(MapDecor *mapDecor, fx32 x, fx32 y, s32 type);
+StageDecoration *DecorationSys__CreateCommonDecor3D(MapDecor *mapDecor, fx32 x, fx32 y, s32 type);
 StageDecoration *DecorationSys__CreateUnknown2153118(MapDecor *mapDecor, fx32 x, fx32 y, s32 type);
 void DecorationSys__Destructor(Task *task);
 void DecorationSys__Main(void);

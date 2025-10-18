@@ -74,24 +74,24 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
     G3C_LoadMtx43(&work->drawList, &mtx);
     G3C_MtxMode(&work->drawList, GX_MTXMODE_POSITION);
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
     if (mapObject->id == MAPOBJECT_143)
-        ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -16, -16, 208, 192);
+        ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -16, -16, 208, 192);
     else
-        ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, 16, -16, -208, 192);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], DiveStand__OnDefend_DiveStandSolid);
+        ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, 16, -16, -208, 192);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], DiveStand__OnDefend_DiveStandSolid);
 
-    work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-    ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -8, -16, 8, 16);
-    work->gameWork.colliders[1].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
-    work->gameWork.colliders[1].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
-    work->gameWork.colliders[1].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[1], DiveStand__OnDefend_DiveTrigger);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, -8, -16, 8, 16);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], DiveStand__OnDefend_DiveTrigger);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.objWork.collisionObj           = NULL;
     work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
@@ -622,8 +622,8 @@ NONMATCH_FUNC void DiveStand__State_Active(DiveStand *work)
         }
     }
 
-    work->gameWork.colliders[1].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x) + (work->vertices[24][1].x >> 9);
-    work->gameWork.colliders[1].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y) - (work->vertices[24][1].y >> 9);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x) + (work->vertices[24][1].x >> 9);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y) - (work->vertices[24][1].y >> 9);
     work->gameWork.objWork.prevPosition.x  = work->gameWork.objWork.position.x + 8 * work->vertices[24][1].x;
     work->gameWork.objWork.prevPosition.y  = work->gameWork.objWork.position.y - 8 * work->vertices[24][1].y;
 
@@ -1302,7 +1302,7 @@ void DiveStand__Draw(void)
     s32 v;
     MtxFx33 baseRot;
     MTX_Identity33(&baseRot);
-    GameObject__Func_20282A8(&work->gameWork.objWork.position, &baseTranslation, &matTrans, FALSE);
+    GameObject__TransformWorldToScreen(&work->gameWork.objWork.position, &baseTranslation, &matTrans, FALSE);
     NNS_G3dGlbSetBaseScale(&baseScale);
     NNS_G3dGlbSetBaseRot(&baseRot);
     NNS_G3dGlbSetBaseTrans(&baseTranslation);

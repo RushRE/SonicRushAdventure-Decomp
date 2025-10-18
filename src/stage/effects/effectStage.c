@@ -634,7 +634,7 @@ void EffectUnknown202C414__Draw(void)
     inputPos.x = work->objWork.position.x + FLOAT_TO_FX32(24.0);
     inputPos.y = work->objWork.position.y - FLOAT_TO_FX32(24.0);
     inputPos.z = work->objWork.position.z;
-    GameObject__Func_20282A8(&inputPos, &baseTranslation, NULL, FALSE);
+    GameObject__TransformWorldToScreen(&inputPos, &baseTranslation, NULL, FALSE);
     NNS_G3dGlbSetBaseScale(&baseScale);
     NNS_G3dGlbSetBaseRot(&matRotation);
     NNS_G3dGlbSetBaseTrans(&baseTranslation);

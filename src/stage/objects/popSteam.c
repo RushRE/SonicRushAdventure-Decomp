@@ -86,20 +86,20 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
         work->gameWork.collisionObject.work.ofst_x    = PopSteam__offsetTable[mapObject->id - MAPOBJECT_84].x;
         work->gameWork.collisionObject.work.ofst_y    = PopSteam__offsetTable[mapObject->id - MAPOBJECT_84].y;
 
-        ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-        ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_VULNERABLE);
-        ObjRect__SetOnDefend(&work->gameWork.colliders[0], PopSteam__OnDefend_Cork);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_VULNERABLE);
+        ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], PopSteam__OnDefend_Cork);
 
         work->gameWork.flags |= 1;
     }
     else
     {
-        work->gameWork.colliders[1].parent = &work->gameWork.objWork;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
 
         if (mapObject->id == MAPOBJECT_86 || (s32)mapObject->id == MAPOBJECT_87)
-            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, 0, -16, work->steamSize, 16);
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, 0, -16, work->steamSize, 16);
         else
-            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -16, -work->steamSize, 16, 0);
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, -16, -work->steamSize, 16, 0);
 
         work->steamPos = work->steamSize;
         work->gameWork.flags |= 2;
@@ -107,10 +107,10 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
         ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
     }
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[1], PopSteam__OnDefend_Steam);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], PopSteam__OnDefend_Steam);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     u16 steamEffectType = EFFECTSTEAM_TYPE_LARGE;
 
@@ -540,9 +540,9 @@ NONMATCH_FUNC void PopSteam__State_Active(PopSteam *work)
 
         if (work->gameWork.objWork.userTimer == 0)
         {
-            work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER;
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag &= ~OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER;
         }
-        else if ((work->gameWork.colliders[1].flag & OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER) == 0)
+        else if ((work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag & OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER) == 0)
         {
             work->gameWork.objWork.userTimer = 0;
         }
@@ -563,9 +563,9 @@ NONMATCH_FUNC void PopSteam__State_Active(PopSteam *work)
         }
 
         if (work->gameWork.mapObject->id == MAPOBJECT_86 || work->gameWork.mapObject->id == MAPOBJECT_87)
-            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, 0, -16, work->steamPos, 16);
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, 0, -16, work->steamPos, 16);
         else
-            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -16, -work->steamPos, 16, 0);
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, -16, -work->steamPos, 16, 0);
     }
 
     if ((work->gameWork.flags & 2) != 0)
@@ -886,15 +886,15 @@ void PopSteam__OnDefend_Cork(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     ShakeScreen(SCREENSHAKE_C_SHORT);
 
-    popSteam->gameWork.colliders[0].parent = NULL;
-    popSteam->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
-    popSteam->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+    popSteam->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
+    popSteam->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    popSteam->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
     popSteam->gameWork.collisionObject.work.parent = NULL;
 
     popSteam->gameWork.flags &= ~1;
     popSteam->gameWork.flags |= (2 | 4);
 
-    popSteam->gameWork.colliders[1].parent = &popSteam->gameWork.objWork;
+    popSteam->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &popSteam->gameWork.objWork;
 
     fx32 spawnX = popSteam->gameWork.objWork.position.x;
     fx32 spawnY = popSteam->gameWork.objWork.position.y;

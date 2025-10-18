@@ -77,10 +77,10 @@ FloatingFountain *CreateFloatingFountain(MapObject *mapObject, fx32 x, fx32 y, f
     StageTask__SetOAMOrder(&aniFountain->work, SPRITE_ORDER_22);
     StageTask__SetOAMPriority(&aniFountain->work, SPRITE_PRIORITY_2);
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], FloatingFountain_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], FloatingFountain_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     Platform *platform = SpawnStageObjectEx(MAPOBJECT_332, work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, Platform,
                                             (mapObject->flags & ~FLOATINGFOUNTAIN_OBJFLAG_FORCE_MASK) | 0x80, mapObjectParam_startX, mapObjectParam_startY, mapObjectParam_sizeX,
@@ -144,7 +144,7 @@ void FloatingFountain_State_Activated(FloatingFountain *work)
 
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
     {
-        work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
         FloatingFountain_Action_Idle(work);
     }
 }

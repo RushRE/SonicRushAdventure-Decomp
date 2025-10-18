@@ -37,7 +37,7 @@ void BossPlayerHelpers_Action_Boss1ChargeKnockback(Player *player, fx32 velX, fx
             ShakeScreen(SCREENSHAKE_C_SHORT);
 
             player->blinkTimer            = player->hurtInvulnDuration;
-            player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
+            player->colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = PLAYER_DEFPOWER_INVINCIBLE;
 
             if (MATH_ABS(groundVel) >= player->spdThresholdRun)
                 Player__ChangeAction(player, PLAYER_ACTION_HURT_TUMBLE);
@@ -77,7 +77,7 @@ void BossPlayerHelpers_Action_Boss1ChargeKnockback(Player *player, fx32 velX, fx
 
 void BossPlayerHelpers_Action_SetBoss3DefendEvent(Player *player)
 {
-    ObjRect__SetOnDefend(&player->colliders[0], BossPlayerHelpers_OnDefend_Boss3);
+    ObjRect__SetOnDefend(&player->colliders[GAMEOBJECT_COLLIDER_WEAK], BossPlayerHelpers_OnDefend_Boss3);
 }
 
 void BossPlayerHelpers_Action_Boss3ArmKnockback(Player *player, fx32 velX, fx32 velY)
@@ -126,7 +126,7 @@ void BossPlayerHelpers_State_Boss1ChargeKnockback(Player *work)
 
     if ((work->objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0 && (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
     {
-        work->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
+        work->colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
         Player__Hurt(work);
     }
 }

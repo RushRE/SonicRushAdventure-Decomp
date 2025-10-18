@@ -136,12 +136,12 @@ NONMATCH_FUNC Dolphin *CreateDolphin(MapObject *mapObject, fx32 x, fx32 y, fx32 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_LOOPING;
     VEC_Set(&aniDolphin->ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -12, -16, 16, 12);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Dolphin_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -12, -16, 16, 12);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], Dolphin_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     if ((mapObject->flags & DOLPHIN_OBJFLAG_FLIP_X) != 0)
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
@@ -298,12 +298,12 @@ NONMATCH_FUNC DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 
         StageTask__SetOAMPriority(&aniRingBack->work, hoopPriorityConfig[work->type][1]);
     }
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetBox3D(&work->gameWork.colliders[0].rect, -16, -28, -16, 16, 28, 16);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    work->gameWork.colliders[0].onDefend = DolphinHoop_OnDefend;
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox3D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -16, -28, -16, 16, 28, 16);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = DolphinHoop_OnDefend;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     switch (work->type)
     {

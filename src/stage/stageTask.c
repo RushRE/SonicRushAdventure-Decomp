@@ -124,8 +124,8 @@ void ReleaseObjectFileWork(void)
 
 void SetObjOffset(s16 x, s16 y)
 {
-    g_obj.offset[0] = x;
-    g_obj.offset[1] = y;
+    g_obj.offset.x = x;
+    g_obj.offset.y = y;
 }
 
 void SetObjSpeed(fx32 speed)
@@ -818,8 +818,8 @@ void StageTask__Draw2DEx(AnimatorSpriteDS *animator, VecFx32 *position, VecU16 *
 
             if ((copyDisplayFlagPtr & DISPLAY_FLAG_DISABLE_POSITION_OFFSETS) == 0)
             {
-                animator->position[c].x += g_obj.offset[0];
-                animator->position[c].y += g_obj.offset[1];
+                animator->position[c].x += g_obj.offset.x;
+                animator->position[c].y += g_obj.offset.y;
             }
         }
     }
@@ -1060,12 +1060,12 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
         }
 
         animator->translation.x = position->x - xCameraFunc;
-        animator->translation.y = -1 * (position->y - yCameraFunc);
+        animator->translation.y = -(position->y - yCameraFunc);
         animator->translation.z = position->z;
         if ((copyStageDisplayFlags & DISPLAY_FLAG_DISABLE_POSITION_OFFSETS) == 0)
         {
-            animator->translation.x = animator->translation.x + FX32_FROM_WHOLE(g_obj.offset[0]);
-            animator->translation.y = animator->translation.y + FX32_FROM_WHOLE(g_obj.offset[1]);
+            animator->translation.x = animator->translation.x + FX32_FROM_WHOLE(g_obj.offset.x);
+            animator->translation.y = animator->translation.y + FX32_FROM_WHOLE(g_obj.offset.y);
         }
 
         if (g_obj.flag & OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL)
@@ -1081,7 +1081,7 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
 
         if (g_obj.scale.y != FLOAT_TO_FX32(1.0))
         {
-            animator->translation.y = -1 * (FX32_FROM_WHOLE(HW_LCD_CENTER_Y) + MultiplyFX(-FX32_FROM_WHOLE(HW_LCD_CENTER_Y) - animator->translation.y, g_obj.scale.y));
+            animator->translation.y = -(FX32_FROM_WHOLE(HW_LCD_CENTER_Y) + MultiplyFX(-FX32_FROM_WHOLE(HW_LCD_CENTER_Y) - animator->translation.y, g_obj.scale.y));
         }
     }
 
@@ -1130,7 +1130,7 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
         animator->translation.x             = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
         animator->translation.y             = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
 
-        backupNNS_G3dGlb_projMtx = NNS_G3dGlb.projMtx;
+        backupNNS_G3dGlb_projMtx = *NNS_G3dGlbGetProjectionMtx();
 
         const fx32 top    = -frustumCenterY + frustumHalfHeight;
         const fx32 bottom = -(frustumHalfHeight + frustumCenterY);

@@ -77,7 +77,7 @@ EnemySnowball *CreateSnowball(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    work->exposedOnDefendFunc = work->gameWork.colliders[0].onDefend;
+    work->exposedOnDefendFunc = work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend;
     EnemySnowball_Action_Init(work, mapObject, x, y);
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_snowball.bac", GetObjectDataWork(OBJDATAWORK_13), gameArchiveStage, OBJ_DATA_GFX_AUTO);
@@ -146,7 +146,7 @@ void EnemySnowball_Action_Init(EnemySnowball *work, MapObject *mapObject, fx32 x
     ObjRect__SetOnDefend(&work->colliderDetect, EnemySnowball_OnDefend_Detect);
     work->colliderDetect.parent = &work->gameWork.objWork;
 
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], EnemySnowball_OnDefend_Snowball);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], EnemySnowball_OnDefend_Snowball);
 }
 
 void EnemySnowball_Action_Expose(EnemySnowball *work, MapObject *mapObject, fx32 x, fx32 y)
@@ -157,7 +157,7 @@ void EnemySnowball_Action_Expose(EnemySnowball *work, MapObject *mapObject, fx32
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], work->exposedOnDefendFunc);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], work->exposedOnDefendFunc);
 }
 
 void EnemySnowball_Action_InitState(EnemySnowball *work)

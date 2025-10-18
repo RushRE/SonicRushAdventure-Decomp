@@ -259,8 +259,8 @@ void EnemyDiveBat_State_Parent(EnemyDiveBat *work)
             work->gameWork.objWork.position.y  = work->originPos.y + (enemy->gameWork.objWork.position.y - enemy->originPos.y);
             work->gameWork.objWork.displayFlag = (enemy->gameWork.objWork.displayFlag & ~DISPLAY_FLAG_DISABLE_DRAW) | DISPLAY_FLAG_DISABLE_UPDATE;
 
-            work->gameWork.colliders[0] = enemy->gameWork.colliders[0];
-            work->gameWork.colliders[1] = enemy->gameWork.colliders[1];
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK] = enemy->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK];
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK] = enemy->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK];
 
             if (StageTaskStateMatches(&enemy->gameWork.objWork, EnemyDiveBat_State_Moving) && enemy->gameWork.objWork.userWork == 0)
                 StageTask__HandleCollider(&work->gameWork.objWork, &work->colliderDetect);

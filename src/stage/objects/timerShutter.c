@@ -416,12 +416,12 @@ NONMATCH_FUNC TimerShutterWater *CreateTimerShutterWater(MapObject *mapObject, f
     StageTask__SetOAMOrder(&aniWater->work, SPRITE_ORDER_23);
     StageTask__SetOAMPriority(&aniWater->work, SPRITE_PRIORITY_2);
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -20, 0, 20, 0);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], TimerShutterWater_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -20, 0, 20, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], TimerShutterWater_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.objWork.userTimer = -FLOAT_TO_FX32(64.0);
 
@@ -665,7 +665,7 @@ void TimerShutterWater_State_Active(TimerShutterWater *work)
         SetTaskState(&work->gameWork.objWork, NULL);
     }
 
-    work->gameWork.colliders[0].rect.bottom = FX32_TO_WHOLE(work->gameWork.objWork.userTimer + FLOAT_TO_FX32(64.0));
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect.bottom = FX32_TO_WHOLE(work->gameWork.objWork.userTimer + FLOAT_TO_FX32(64.0));
 }
 
 void TimerShutterWater_Draw(void)

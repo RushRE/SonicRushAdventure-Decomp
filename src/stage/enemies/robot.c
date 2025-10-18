@@ -214,7 +214,7 @@ EnemyRobot *CreateRobot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
             if ((mapObject->flags & ROBOT_OBJFLAG_TUTORIAL) != 0)
             {
-                work->gameWork.colliders[0].onDefend = EnemyRobot_OnDefend_TutorialEnemy;
+                work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = EnemyRobot_OnDefend_TutorialEnemy;
                 work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
                 work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
             }
@@ -283,11 +283,11 @@ EnemyRobot *CreateRobot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
             work->onDetect = EnemyRobot_OnDetect_SteamBlaster;
 
-            ObjRect__SetAttackStat(&work->gameWork.colliders[2], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-            ObjRect__SetDefenceStat(&work->gameWork.colliders[2], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-            ObjRect__SetGroupFlags(&work->gameWork.colliders[2], 2, 1);
-            work->gameWork.colliders[2].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
-            ObjRect__SetOnDefend(&work->gameWork.colliders[2], EnemyRobot_OnDefend_Steam);
+            ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+            ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+            ObjRect__SetGroupFlags(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID], 2, 1);
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+            ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID], EnemyRobot_OnDefend_Steam);
             CreateEffectSteamBlasterSmoke(&work->gameWork.objWork);
             break;
     }
@@ -828,9 +828,9 @@ void EnemyRobot_State_SteamBlasterAttack(EnemyRobot *work)
                 work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
                 work->gameWork.objWork.userTimer = 120;
 
-                work->gameWork.colliders[2].parent = &work->gameWork.objWork;
-                work->gameWork.colliders[2].flag |= OBS_RECT_WORK_FLAG_ENABLED;
-                ObjRect__SetBox2D(&work->gameWork.colliders[2].rect, 0, 0, 0, 0);
+                work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID].parent = &work->gameWork.objWork;
+                work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+                ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID].rect, 0, 0, 0, 0);
 
                 CreateEffectSteamBlasterSteam(&work->gameWork.objWork, -FLOAT_TO_FX32(33.0), -FLOAT_TO_FX32(31.0), 120);
                 PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_STEAM_ATTACK);
@@ -846,13 +846,13 @@ void EnemyRobot_State_SteamBlasterAttack(EnemyRobot *work)
                 if (size > 72)
                     size = 72;
 
-                ObjRect__SetBox2D(&work->gameWork.colliders[2].rect, -33 - size, -40, -33, -16);
+                ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID].rect, -33 - size, -40, -33, -16);
                 ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
             }
             else
             {
                 GameObject__SetAnimation(&work->gameWork, STEAMBLASTER_ANI_FINISH_ATTACK);
-                work->gameWork.colliders[2].parent = NULL;
+                work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID].parent = NULL;
                 FadeOutStageSfx(work->gameWork.objWork.sequencePlayerPtr, 32);
             }
             break;

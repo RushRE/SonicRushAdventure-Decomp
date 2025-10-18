@@ -71,11 +71,11 @@ Checkpoint *CreateCheckpoint(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     if (Player__UseUpsideDownGravity(work->gameWork.objWork.position.x, work->gameWork.objWork.position.y))
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
 
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Checkpoint_OnDefend_AwaitPlayer);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], Checkpoint_OnDefend_AwaitPlayer);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     SetTaskState(&work->gameWork.objWork, Checkpoint_State_Active);
 
@@ -163,7 +163,7 @@ void InitCheckpointForLaps(Checkpoint *work)
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Checkpoint_OnDefend_Activated);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], Checkpoint_OnDefend_Activated);
 
     if (work->gameWork.mapObjectParam_lapMarkerUnknown != 0)
     {
@@ -227,7 +227,7 @@ void InitCheckpointForAwardRings(Checkpoint *work)
 {
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Checkpoint_OnDefend_Activated);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], Checkpoint_OnDefend_Activated);
     SetTaskState(&work->gameWork.objWork, Checkpoint_State_AwardRings);
 }
 

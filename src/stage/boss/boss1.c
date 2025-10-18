@@ -696,7 +696,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     work->sndHandle[2]                = AllocSndHandle();
 
     OBS_RECT_WORK *bossCollider = &work->bossColliders[0];
-    *bossCollider               = work->gameWork.colliders[0];
+    *bossCollider               = work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK];
     ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_DEFPOWER_DEFAULT);
     ObjRect__SetBox3D(&bossCollider->rect, -19, -26, -52, 19, -6, 52);
@@ -705,7 +705,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     bossCollider->flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     bossCollider  = &work->bossColliders[1];
-    *bossCollider = work->gameWork.colliders[0];
+    *bossCollider = work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK];
     ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetBox3D(&bossCollider->rect, -26, -6, -52, 26, 33, 52);
@@ -714,7 +714,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     bossCollider->flag |= OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
 
     bossCollider  = &work->bossColliders[2];
-    *bossCollider = work->gameWork.colliders[0];
+    *bossCollider = work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK];
     ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_BODY | OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
     ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_BODY | OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_DEFPOWER_DEFAULT);
     ObjRect__SetBox3D(&bossCollider->rect, -26, -26, -52, 26, 33, 52);
@@ -722,7 +722,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     ObjRect__SetOnDefend(bossCollider, Boss1__OnDefend_Bite);
 
     bossCollider  = &work->bossColliders[3];
-    *bossCollider = work->gameWork.colliders[0];
+    *bossCollider = work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK];
     ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_DEFPOWER_DEFAULT);
     ObjRect__SetBox3D(&bossCollider->rect, -39, -19, -52, 0, 33, 52);
@@ -731,7 +731,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     bossCollider->flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     bossCollider  = &work->bossColliders[4];
-    *bossCollider = work->gameWork.colliders[0];
+    *bossCollider = work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK];
     ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetBox3D(&bossCollider->rect, -72, -132, -52, 66, -66, 52);
@@ -740,7 +740,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     bossCollider->flag |= OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
 
     bossCollider  = &work->bossColliders[5];
-    *bossCollider = work->gameWork.colliders[0];
+    *bossCollider = work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK];
     ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_DEFPOWER_DEFAULT);
     ObjRect__SetBox3D(&bossCollider->rect, -19, -26, -105, 19, -6, 105);
@@ -749,7 +749,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     bossCollider->flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     bossCollider  = &work->bossColliders[6];
-    *bossCollider = work->gameWork.colliders[0];
+    *bossCollider = work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK];
     ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetBox3D(&bossCollider->rect, -26, -6, -105, 26, 33, 105);
@@ -758,7 +758,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     bossCollider->flag |= OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
 
     bossCollider  = &work->bossColliders[7];
-    *bossCollider = work->gameWork.colliders[0];
+    *bossCollider = work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK];
     ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_DEFPOWER_DEFAULT);
     ObjRect__SetBox3D(&bossCollider->rect, -33, -33, -52, 33, -13, 52);
@@ -767,7 +767,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     bossCollider->flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     bossCollider  = &work->bossColliders[8];
-    *bossCollider = work->gameWork.colliders[0];
+    *bossCollider = work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK];
     ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetBox3D(&bossCollider->rect, -66, -13, -52, 33, 46, 52);
@@ -776,7 +776,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     bossCollider->flag |= OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
 
     bossCollider  = &work->bossColliders[9];
-    *bossCollider = work->gameWork.colliders[0];
+    *bossCollider = work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK];
     ObjRect__SetAttackStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(bossCollider, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetBox3D(&bossCollider->rect, -66, -66, -52, 132, 0, 52);

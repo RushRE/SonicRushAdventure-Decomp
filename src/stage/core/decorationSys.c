@@ -14,6 +14,12 @@
 #include <stage/effects/waterWake.h>
 
 // --------------------
+// TYPES
+// --------------------
+
+typedef void (*DecorationSysInitFunc)(StageDecoration *work);
+
+// --------------------
 // ENUMS
 // --------------------
 
@@ -39,7 +45,7 @@ enum DecorationDrawOrder_
 
     DECOR_DRAWORDER_NONE = 0xFF,
 };
-typedef u8 DecorationDrawOrder;
+typedef s8 DecorationDrawOrder;
 
 enum DecorationAssets
 {
@@ -126,18 +132,18 @@ struct DecorRect
 
 static DecorationSys *DecorationSys__WorkSingleton;
 
-NOT_DECOMPILED u32 DecorationSys__TempDecorBitfield[(STAGEDECOR_TEMPLIST_SIZE + (32 - 1)) / 32];
-NOT_DECOMPILED struct Unknown2189EAC decorUnknownList[4];
-NOT_DECOMPILED MapDecor DecorationSys__TempDecorList[STAGEDECOR_TEMPLIST_SIZE];
-NOT_DECOMPILED OBS_DATA_WORK decorFileList[20];
-NOT_DECOMPILED OBS_SPRITE_REF decorSpriteRefList[55];
+static u32 DecorationSys__TempDecorBitfield[(1 + STAGEDECOR_TEMPLIST_SIZE + (32 - 1)) / 32];
+static struct Unknown2189EAC decorUnknownList[4];
+static MapDecor DecorationSys__TempDecorList[STAGEDECOR_TEMPLIST_SIZE];
+static OBS_DATA_WORK decorFileList[20];
+static OBS_SPRITE_REF decorSpriteRefList[55];
 
 NOT_DECOMPILED void *DecorationSys__rangeTable;
 NOT_DECOMPILED void *DecorationSys__offsetTable;
 NOT_DECOMPILED struct DecorRect DecorationSys__rectList[11];
-NOT_DECOMPILED void (*DecorationSys__initTable[11])(StageDecoration *work);
+NOT_DECOMPILED DecorationSysInitFunc DecorationSys__initTable[11];
 NOT_DECOMPILED void *_021876CC;
-NOT_DECOMPILED void *_021876D4;
+NOT_DECOMPILED const struct DecorConfig decorInfo3D[];
 
 NOT_DECOMPILED const struct DecorAsset decorAssets[DECOR_ASSET_COUNT];
 
@@ -2929,13 +2935,16 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .type       = 9 },
 };
 
-NOT_DECOMPILED u8 _02188780[4];
-
 static s8 iceSparkleOffsetTable[16] = { 1, -52, -5, -44, 15, -32, -2, -30, 19, -23, -5, -21, 14, -6, -13, -4 };
 
 // --------------------
 // FUNCTIONS
 // --------------------
+
+RUSH_INLINE const struct DecorAsset *GetDecorAsset(u8 id)
+{
+    return &decorAssets[id];
+}
 
 void DecorationSys__Create(void)
 {
@@ -3015,22 +3024,24 @@ StageDecoration *DecorationSys__CreateTempDecoration(s32 type, fx32 x, fx32 y)
     return work;
 }
 
-NONMATCH_FUNC StageDecoration *DecorationSys__CreateCommonDecor(MapDecor *mapDecor, fx32 x, fx32 y, s32 type)
+StageDecoration *DecorationSys__CreateCommonDecor2D(MapDecor *mapDecor, fx32 x, fx32 y, s32 type)
 {
-    // https://decomp.me/scratch/TSQVo -> 97.16%
-#ifdef NON_MATCHING
-    const struct DecorAsset *asset;
+    DecorationCommon2D *work;
     const struct DecorConfig *config;
+    const struct DecorAsset *asset;
 
     config = &decorInfo[mapDecor->id];
-    asset  = &decorAssets[config->assetID];
 
-    DecorationCommon *work = (DecorationCommon *)DecorationSys__Construct(sizeof(DecorationCommon), mapDecor, x, y, ((config->flags & 0x80) != 0));
+    BOOL prepend = (config->flags & DECOR_FLAG_PREPEND) != 0;
+
+    asset = GetDecorAsset(config->assetID);
+
+    work = (DecorationCommon2D *)DecorationSys__Construct(sizeof(DecorationCommon2D), mapDecor, x, y, prepend);
 
     work->decorWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->decorWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
-    if ((config->flags & 4) != 0 && (config->flags & 0x10) == 0)
+    if ((config->flags & DECOR_FLAG_4) != 0 && (config->flags & DECOR_FLAG_10) == 0)
     {
         ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator, asset->path, &decorFileList[asset->fileID], gameArchiveStage, OBJ_DATA_GFX_AUTO);
         ObjActionAllocSpritePalette(&work->decorWork.objWork, config->animID2, config->animFlags2);
@@ -3038,7 +3049,7 @@ NONMATCH_FUNC StageDecoration *DecorationSys__CreateCommonDecor(MapDecor *mapDec
     }
     else
     {
-        if ((config->flags & 0x40) == 0)
+        if ((config->flags & DECOR_FLAG_40) == 0)
         {
             ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator, asset->path, &decorFileList[asset->fileID], gameArchiveStage, OBJ_DATA_GFX_NONE);
             ObjActionAllocSpritePalette(&work->decorWork.objWork, config->animID2, config->animFlags2);
@@ -3057,23 +3068,23 @@ NONMATCH_FUNC StageDecoration *DecorationSys__CreateCommonDecor(MapDecor *mapDec
         }
     }
 
-    if ((config->flags & (0x40 | 0x04)) != 0)
+    if ((config->flags & (DECOR_FLAG_40 | DECOR_FLAG_4)) != 0)
         work->decorWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     else
         work->decorWork.objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
 
-    if ((config->flags & 1) != 0)
+    if ((config->flags & DECOR_FLAG_FLIP_X) != 0)
         work->decorWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
 
-    if ((config->flags & 2) != 0)
+    if ((config->flags & DECOR_FLAG_FLIP_Y) != 0)
         work->decorWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
 
     u8 priority;
-    if ((config->flags & 8) != 0)
+    if ((config->flags & DECOR_FLAG_LOW_PRIORITY) != 0)
     {
         priority = SPRITE_PRIORITY_0;
     }
-    else if ((config->flags & 0x20) != 0)
+    else if ((config->flags & DECOR_FLAG_HIGH_PRIORITY) != 0)
     {
         priority = SPRITE_PRIORITY_3;
     }
@@ -3081,394 +3092,109 @@ NONMATCH_FUNC StageDecoration *DecorationSys__CreateCommonDecor(MapDecor *mapDec
     {
         priority = SPRITE_PRIORITY_2;
     }
-    StageTask__SetAnimatorOAMOrder(&work->decorWork.objWork, config->oamOrder + SPRITE_ORDER_25);
+
+    StageTask__SetAnimatorOAMOrder(&work->decorWork.objWork, SPRITE_ORDER_25 + config->oamOrder);
     StageTask__SetAnimatorPriority(&work->decorWork.objWork, priority);
 
     if (DecorationSys__initTable[config->type] != NULL)
         DecorationSys__initTable[config->type](&work->decorWork);
 
     return &work->decorWork;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #8
-	ldrh r3, [r0, #2]
-	ldr r4, =decorInfo
-	mov lr, r1
-	add r5, r4, r3, lsl #3
-	ldrb r6, [r4, r3, lsl #3]
-	ldrb r4, [r5, #1]
-	ldr ip, =decorAssets
-	mov r3, r2
-	tst r4, #0x80
-	movne r4, #1
-	moveq r4, #0
-	mov r1, r0
-	mov r2, lr
-	mov r0, #0x2dc
-	add r6, ip, r6, lsl #3
-	str r4, [sp]
-	bl DecorationSys__Construct
-	mov r4, r0
-	ldr r1, [r4, #0x1c]
-	orr r1, r1, #0x2100
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x18]
-	orr r1, r1, #2
-	str r1, [r4, #0x18]
-	ldrb r1, [r5, #1]
-	tst r1, #4
-	beq _02152C10
-	tst r1, #0x10
-	bne _02152C10
-	ldr r1, =gameArchiveStage
-	ldr r2, =0x0000FFFF
-	ldr r1, [r1, #0]
-	ldr ip, =decorFileList
-	stmia sp, {r1, r2}
-	ldrh r3, [r6, #4]
-	ldr r2, [r6, #0]
-	add r1, r4, #0x22c
-	add r3, ip, r3, lsl #3
-	bl ObjObjectAction2dBACLoad
-	ldrb r1, [r5, #3]
-	ldrb r2, [r5, #4]
-	mov r0, r4
-	bl ObjActionAllocSpritePalette
-	ldrb r1, [r5, #2]
-	mov r0, r4
-	bl StageTask__SetAnimation
-	b _02152CDC
-_02152C10:
-	tst r1, #0x40
-	bne _02152CDC
-	ldr r0, =gameArchiveStage
-	mov r1, #0
-	ldr r0, [r0, #0]
-	ldr ip, =decorFileList
-	stmia sp, {r0, r1}
-	ldrh r3, [r6, #4]
-	ldr r2, [r6, #0]
-	mov r0, r4
-	add r1, r4, #0x22c
-	add r3, ip, r3, lsl #3
-	bl ObjObjectAction2dBACLoad
-	ldrb r1, [r5, #3]
-	ldrb r2, [r5, #4]
-	mov r0, r4
-	bl ObjActionAllocSpritePalette
-	ldr r0, [r4, #0x2d0]
-	ldrb r1, [r5, #2]
-	ldr r0, [r0, #0]
-	bl Sprite__GetSpriteSize2FromAnim
-	mov r1, r0
-	ldrb r2, [r5, #6]
-	ldr r3, =decorSpriteRefList
-	mov r0, r4
-	add r2, r3, r2, lsl #4
-	bl ObjObjectActionAllocSprite
-	ldrb r1, [r5, #2]
-	mov r0, r4
-	bl StageTask__SetAnimation
-	ldrb r1, [r5, #6]
-	ldr r0, =0x02189FF0
-	ldr r6, [r4, #0x128]
-	mov r1, r1, lsl #4
-	ldrh r0, [r0, r1]
-	bic r0, r0, #0x8000
-	cmp r0, #1
-	bne _02152CD0
-	ldr r0, [r6, #0x3c]
-	mov r1, #0
-	orr r3, r0, #0x60
-	mov r0, r6
-	mov r2, r1
-	str r3, [r6, #0x3c]
-	bl AnimatorSpriteDS__ProcessAnimation
-	ldrb r1, [r5, #2]
-	mov r0, r4
-	bl StageTask__SetAnimation
-_02152CD0:
-	ldr r0, [r6, #0x3c]
-	orr r0, r0, #0x18
-	str r0, [r6, #0x3c]
-_02152CDC:
-	ldrb r0, [r5, #1]
-	tst r0, #0x44
-	ldr r0, [r4, #0x20]
-	orrne r0, r0, #4
-	orreq r0, r0, #0x10
-	str r0, [r4, #0x20]
-	ldrb r0, [r5, #1]
-	tst r0, #1
-	ldrne r0, [r4, #0x20]
-	orrne r0, r0, #1
-	strne r0, [r4, #0x20]
-	ldrb r0, [r5, #1]
-	tst r0, #2
-	ldrne r0, [r4, #0x20]
-	orrne r0, r0, #2
-	strne r0, [r4, #0x20]
-	ldrb r0, [r5, #1]
-	tst r0, #8
-	movne r6, #0
-	bne _02152D38
-	tst r0, #0x20
-	movne r6, #3
-	moveq r6, #2
-_02152D38:
-	ldrsb r1, [r5, #5]
-	mov r0, r4
-	add r1, r1, #0x19
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, r6
-	bl StageTask__SetAnimatorPriority
-	ldrb r1, [r5, #7]
-	ldr r0, =DecorationSys__initTable
-	ldr r1, [r0, r1, lsl #2]
-	cmp r1, #0
-	beq _02152D70
-	mov r0, r4
-	blx r1
-_02152D70:
-	mov r0, r4
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC StageDecoration *DecorationSys__CreateUnknown2152D9C(MapDecor *mapDecor, fx32 x, fx32 y, s32 type)
+StageDecoration *DecorationSys__CreateCommonDecor3D(MapDecor *mapDecor, fx32 x, fx32 y, s32 type)
 {
-#ifdef NON_MATCHING
+    DecorationCommon3D *work;
+    const struct DecorConfig *config;
+    const struct DecorConfig *config2D;
+    const struct DecorAsset *asset;
+    const struct DecorAsset *asset2D;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
-	sub sp, sp, #0xc
-	ldrh r3, [r0, #2]
-	ldr r4, =decorInfo
-	ldr lr, =_021876D4
-	add r5, r4, r3, lsl #3
-	ldrb r9, [r5, #4]
-	ldrb r6, [r5, #1]
-	ldrb r7, [r4, r3, lsl #3]
-	ldrb r8, [lr, r9, lsl #3]
-	ldr ip, =decorAssets
-	mov r4, r1
-	tst r6, #0x80
-	add r6, lr, r9, lsl #3
-	movne r9, #1
-	mov r3, r2
-	moveq r9, #0
-	mov r1, r0
-	mov r2, r4
-	mov r0, #0x3f0
-	add r7, ip, r7, lsl #3
-	add r8, ip, r8, lsl #3
-	str r9, [sp]
-	bl DecorationSys__Construct
-	mov r4, r0
-	ldr r1, [r4, #0x1c]
-	orr r1, r1, #0x2100
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x18]
-	orr r1, r1, #2
-	str r1, [r4, #0x18]
-	ldrb r1, [r5, #1]
-	tst r1, #4
-	beq _02152EB8
-	tst r1, #0x10
-	bne _02152EB8
-	ldr r3, =0x0000FFFF
-	ldr ip, =decorFileList
-	str r3, [sp]
-	ldrh r9, [r7, #4]
-	ldr r2, =gameArchiveStage
-	add r1, r4, #0x2dc
-	add r9, ip, r9, lsl #3
-	str r9, [sp, #4]
-	ldr r2, [r2, #0]
-	str r2, [sp, #8]
-	ldr r2, [r7, #0]
-	bl ObjObjectAction3dBACLoad
-	ldrb r1, [r5, #2]
-	mov r0, r4
-	bl StageTask__SetAnimation
-	ldr r0, =gameArchiveStage
-	ldr r1, =0x0000FFFF
-	ldr r2, [r0, #0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	ldrh r3, [r8, #4]
-	ldr r2, [r8, #0]
-	add r1, r4, #0x22c
-	ldr r7, =decorFileList
-	add r3, r7, r3, lsl #3
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	ldrb r1, [r6, #3]
-	ldrb r2, [r6, #4]
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	ldrb r1, [r6, #2]
-	bl DecorationSys__SetAnimation
-	b _02153054
-_02152EB8:
-	mov r3, #0
-	str r3, [sp]
-	ldrh r1, [r7, #4]
-	ldr r2, =decorFileList
-	ldr r0, =gameArchiveStage
-	add r1, r2, r1, lsl #3
-	str r1, [sp, #4]
-	ldr r1, [r0, #0]
-	mov r0, r4
-	str r1, [sp, #8]
-	ldr r2, [r7, #0]
-	add r1, r4, #0x2dc
-	bl ObjObjectAction3dBACLoad
-	ldr r0, [r4, #0x3e4]
-	ldrb r1, [r5, #2]
-	ldr r0, [r0, #0]
-	bl Sprite__GetTextureSizeFromAnim
-	ldr r1, [r4, #0x3e4]
-	mov r9, r0
-	ldr r0, [r1, #0]
-	ldrb r1, [r5, #2]
-	bl Sprite__GetPaletteSizeFromAnim
-	mov r1, r9
-	mov r2, r0
-	mov r0, r4
-	ldr r9, =decorSpriteRefList
-	ldrb r3, [r5, #6]
-	add r3, r9, r3, lsl #4
-	bl ObjObjectActionAllocTexture
-	mov r0, r4
-	ldrb r1, [r5, #2]
-	bl StageTask__SetAnimation
-	ldr r9, [r4, #0x134]
-	ldrb r1, [r5, #6]
-	ldr r0, =0x02189FF0
-	mov r1, r1, lsl #4
-	ldrh r0, [r0, r1]
-	bic r0, r0, #0x8000
-	cmp r0, #1
-	bne _02152F80
-	ldr r0, [r9, #0xcc]
-	mov r1, #0
-	orr r3, r0, #0x60
-	mov r0, r9
-	mov r2, r1
-	str r3, [r9, #0xcc]
-	bl AnimatorSprite3D__ProcessAnimation
-	ldrb r1, [r5, #2]
-	mov r0, r4
-	bl StageTask__SetAnimation
-_02152F80:
-	ldr r1, [r9, #0xcc]
-	ldr r0, =gameArchiveStage
-	orr r1, r1, #0x18
-	str r1, [r9, #0xcc]
-	ldr r1, [r0, #0]
-	mov r0, #0
-	str r1, [sp]
-	str r0, [sp, #4]
-	ldrh r3, [r8, #4]
-	ldr r8, =decorFileList
-	ldr r2, [r7, #0]
-	mov r0, r4
-	add r1, r4, #0x22c
-	add r3, r8, r3, lsl #3
-	bl ObjObjectAction2dBACLoad
-	ldrb r1, [r6, #3]
-	ldrb r2, [r6, #4]
-	mov r0, r4
-	bl ObjActionAllocSpritePalette
-	ldr r0, [r4, #0x2d0]
-	ldrb r1, [r6, #2]
-	ldr r0, [r0, #0]
-	bl Sprite__GetSpriteSize2FromAnim
-	mov r1, r0
-	ldrb r2, [r6, #6]
-	mov r0, r4
-	ldr r3, =decorSpriteRefList
-	add r2, r3, r2, lsl #4
-	bl ObjObjectActionAllocSprite
-	mov r0, r4
-	ldrb r1, [r6, #2]
-	bl DecorationSys__SetAnimation
-	ldr r7, [r4, #0x128]
-	ldrb r1, [r6, #6]
-	ldr r0, =0x02189FF0
-	mov r1, r1, lsl #4
-	ldrh r0, [r0, r1]
-	bic r0, r0, #0x8000
-	cmp r0, #1
-	bne _02153048
-	ldr r0, [r7, #0x3c]
-	mov r1, #0
-	orr r3, r0, #0x60
-	mov r0, r7
-	mov r2, r1
-	str r3, [r7, #0x3c]
-	bl AnimatorSpriteDS__ProcessAnimation
-	ldrb r1, [r6, #2]
-	mov r0, r4
-	bl DecorationSys__SetAnimation
-_02153048:
-	ldr r0, [r7, #0x3c]
-	orr r0, r0, #0x18
-	str r0, [r7, #0x3c]
-_02153054:
-	ldrb r0, [r5, #1]
-	tst r0, #4
-	ldr r0, [r4, #0x20]
-	orrne r0, r0, #4
-	orreq r0, r0, #0x10
-	str r0, [r4, #0x20]
-	ldrb r0, [r5, #1]
-	tst r0, #1
-	ldrne r0, [r4, #0x20]
-	orrne r0, r0, #1
-	strne r0, [r4, #0x20]
-	ldrb r0, [r5, #1]
-	tst r0, #2
-	ldrne r0, [r4, #0x20]
-	orrne r0, r0, #2
-	strne r0, [r4, #0x20]
-	ldrb r0, [r6, #1]
-	tst r0, #8
-	movne r7, #0
-	bne _021530B0
-	tst r0, #0x20
-	movne r7, #3
-	moveq r7, #2
-_021530B0:
-	ldrsb r1, [r6, #5]
-	mov r0, r4
-	add r1, r1, #0x19
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, r7
-	bl StageTask__SetAnimatorPriority
-	ldrb r1, [r5, #7]
-	ldr r0, =DecorationSys__initTable
-	ldr r1, [r0, r1, lsl #2]
-	cmp r1, #0
-	beq _021530E8
-	mov r0, r4
-	blx r1
-_021530E8:
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
+    config   = &decorInfo[mapDecor->id];
+    asset    = &decorAssets[config->assetID];
+    config2D = &decorInfo3D[config->animFlags2];
+    asset2D  = &decorAssets[config2D->assetID];
 
-// clang-format on
-#endif
+    BOOL prepend = (config->flags & DECOR_FLAG_PREPEND) != 0;
+
+    work = (DecorationCommon3D *)DecorationSys__Construct(sizeof(DecorationCommon3D), mapDecor, x, y, prepend);
+
+    work->decorWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    work->decorWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+
+    if ((config->flags & DECOR_FLAG_4) != 0 && (config->flags & DECOR_FLAG_10) == 0)
+    {
+        ObjObjectAction3dBACLoad(&work->decorWork.objWork, &work->animator3D, asset->path, OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, &decorFileList[asset->fileID], gameArchiveStage);
+        StageTask__SetAnimation(&work->decorWork.objWork, config->animID);
+
+        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator2D, asset2D->path, &decorFileList[asset2D->fileID], gameArchiveStage, OBJ_DATA_GFX_AUTO);
+        ObjActionAllocSpritePalette(&work->decorWork.objWork, config2D->animID2, config2D->animFlags2);
+        DecorationSys__SetAnimation(&work->decorWork, config2D->animID);
+    }
+    else
+    {
+        ObjObjectAction3dBACLoad(&work->decorWork.objWork, &work->animator3D, asset->path, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, &decorFileList[asset->fileID], gameArchiveStage);
+        ObjObjectActionAllocTexture(&work->decorWork.objWork, Sprite__GetTextureSizeFromAnim(work->animator3D.fileWork->fileData, config->animID),
+                                    Sprite__GetPaletteSizeFromAnim(work->animator3D.fileWork->fileData, config->animID), (OBS_TEXTURE_REF *)&decorSpriteRefList[config->spriteID]);
+        StageTask__SetAnimation(&work->decorWork.objWork, config->animID);
+
+        AnimatorSprite3D *ani3D = &work->decorWork.objWork.obj_2dIn3d->ani;
+        if ((decorSpriteRefList[config->spriteID].engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
+        {
+            ani3D->animatorSprite.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS;
+            AnimatorSprite3D__ProcessAnimationFast(ani3D);
+            StageTask__SetAnimation(&work->decorWork.objWork, config->animID);
+        }
+        ani3D->animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
+
+        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator2D, asset->path, &decorFileList[asset2D->fileID], gameArchiveStage, OBJ_DATA_GFX_NONE);
+        ObjActionAllocSpritePalette(&work->decorWork.objWork, config2D->animID2, config2D->animFlags2);
+        ObjObjectActionAllocSprite(&work->decorWork.objWork, Sprite__GetSpriteSize2FromAnim(work->animator2D.fileWork->fileData, config2D->animID),
+                                   &decorSpriteRefList[config2D->spriteID]);
+        DecorationSys__SetAnimation(&work->decorWork, config2D->animID);
+
+        AnimatorSpriteDS *ani = &work->decorWork.objWork.obj_2d->ani;
+        if ((decorSpriteRefList[config2D->spriteID].engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
+        {
+            ani->work.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS;
+            AnimatorSpriteDS__ProcessAnimationFast(ani);
+            DecorationSys__SetAnimation(&work->decorWork, config2D->animID);
+        }
+        ani->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
+    }
+
+    if ((config->flags & DECOR_FLAG_4) != 0)
+        work->decorWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+    else
+        work->decorWork.objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
+
+    if ((config->flags & DECOR_FLAG_FLIP_X) != 0)
+        work->decorWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+
+    if ((config->flags & DECOR_FLAG_FLIP_Y) != 0)
+        work->decorWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
+
+    u8 priority;
+    if ((config2D->flags & DECOR_FLAG_LOW_PRIORITY) != 0)
+    {
+        priority = SPRITE_PRIORITY_0;
+    }
+    else if ((config2D->flags & DECOR_FLAG_HIGH_PRIORITY) != 0)
+    {
+        priority = SPRITE_PRIORITY_3;
+    }
+    else
+    {
+        priority = SPRITE_PRIORITY_2;
+    }
+
+    StageTask__SetAnimatorOAMOrder(&work->decorWork.objWork, SPRITE_ORDER_25 + config2D->oamOrder);
+    StageTask__SetAnimatorPriority(&work->decorWork.objWork, priority);
+
+    if (DecorationSys__initTable[config->type] != NULL)
+        DecorationSys__initTable[config->type](&work->decorWork);
+
+    return &work->decorWork;
 }
 
 StageDecoration *DecorationSys__CreateUnknown2153118(MapDecor *mapDecor, fx32 x, fx32 y, s32 type)
@@ -3817,32 +3543,36 @@ NONMATCH_FUNC void DecorationSys__InitFunc_21538D0(StageDecoration *work)
 {
     // https://decomp.me/scratch/HeuQt -> 85.54%
 #ifdef NON_MATCHING
-    s32 type;
+    s32 id;
 
-    u16 id = work->mapDecor->id;
-    if (id >= MAPDECOR_195 && id <= MAPDECOR_202)
+    if (work->mapDecor->id >= MAPDECOR_195 && work->mapDecor->id <= MAPDECOR_202)
     {
-        type = id - MAPDECOR_195;
+        id = work->mapDecor->id - MAPDECOR_195;
     }
-    else if (id >= MAPDECOR_217 && id <= MAPDECOR_220)
+    else if (work->mapDecor->id >= MAPDECOR_217 && work->mapDecor->id <= MAPDECOR_220)
     {
-        type = id - MAPDECOR_209;
+        id = work->mapDecor->id - MAPDECOR_209;
     }
-    else if (id >= MAPDECOR_225 && id <= MAPDECOR_228)
+    else if (work->mapDecor->id >= MAPDECOR_225 && work->mapDecor->id <= MAPDECOR_228)
     {
-        type = id - MAPDECOR_213;
+        id = work->mapDecor->id - MAPDECOR_213;
     }
-    else if (id >= MAPDECOR_290)
+    else if (work->mapDecor->id >= MAPDECOR_290 && work->mapDecor->id <= MAPDECOR_290)
     {
-        type = id - MAPDECOR_274;
+        id = work->mapDecor->id - MAPDECOR_274;
     }
-    else
+    else 
     {
-        type = id - MAPDECOR_290;
+        id = work->mapDecor->id - MAPDECOR_274;
     }
 
-    ObjRect__SetBox2D(&work->rect[0].rect, DecorationSys__rectList[type >> 1].left, DecorationSys__rectList[type >> 1].top, DecorationSys__rectList[type >> 1].right,
-                      DecorationSys__rectList[type >> 1].bottom);
+    id >>= 1;
+    s8 left = DecorationSys__rectList[id].left;
+    s8 top = DecorationSys__rectList[id].top;
+    s8 right = DecorationSys__rectList[id].right;
+    s8 bottom = DecorationSys__rectList[id].bottom;
+    ObjRect__SetBox2D(&work->rect[0].rect, 
+        left,  top, right,  bottom);
 
     work->rect[0].parent = &work->objWork;
     ObjRect__SetOnDefend(&work->rect[0], DecorationSys__OnDefend_21539B0);
@@ -3880,11 +3610,11 @@ _02153920:
 	addlo r0, r1, r0
 _02153934:
 	mov r0, r0, asr #1
-	ldr r3, =0x02187677
+	ldr r3, =DecorationSys__rectList+3
 	mov lr, r0, lsl #2
 	ldr r1, =DecorationSys__rectList
-	ldr r2, =0x02187675
-	ldr r0, =0x02187676
+	ldr r2, =DecorationSys__rectList+1
+	ldr r0, =DecorationSys__rectList+2
 	ldrsb ip, [r3, lr]
 	ldrsb r1, [r1, lr]
 	ldrsb r2, [r2, lr]
@@ -4354,23 +4084,23 @@ void DecorationSys__InitFunc_2154030(StageDecoration *work)
 
 NONMATCH_FUNC void DecorationSys__State_2154074(StageDecoration *work)
 {
-    // https://decomp.me/scratch/ggt64 -> 99.45%
+    // Will match when DecorationSys__offsetTable & DecorationSys__rangeTable are decompiled
 #ifdef NON_MATCHING
-    static s16 rangeTable[]  = { 0x32, 0x40 };
-    static s16 offsetTable[] = { -0x400, -0x500 };
+    static const s16 rangeTable[]  = { 50, 64 };
+    static const s16 offsetTable[] = { -0x400, -0x500 };
 
-    work->objWork.position.x = work->objWork.prevPosition.x + g_obj.camera[0].x;
-    work->objWork.position.y = work->objWork.prevPosition.y + g_obj.camera[0].y;
+    work->objWork.position.x = work->objWork.prevPosition.x + g_obj.camera[GRAPHICS_ENGINE_A].x;
+    work->objWork.position.y = work->objWork.prevPosition.y + g_obj.camera[GRAPHICS_ENGINE_A].y;
     work->objWork.position.x = work->objWork.position.x + offsetTable[work->mapDecor->id - MAPDECOR_261];
 
-    u32 type = work->mapDecor->id - MAPDECOR_261;
-    if (work->objWork.position.x - g_obj.camera[0].x < -FX32_FROM_WHOLE(rangeTable[type]))
+    fx32 range = FX32_FROM_WHOLE(rangeTable[work->mapDecor->id - MAPDECOR_261]);
+    if (work->objWork.position.x - g_obj.camera[GRAPHICS_ENGINE_A].x < -range)
     {
-        work->objWork.position.x += FLOAT_TO_FX32(256.0) + (rangeTable[type] << 1);
+        work->objWork.position.x += FLOAT_TO_FX32(256.0) + (range << 1);
     }
-    else if (work->objWork.position.x - g_obj.camera[0].x > FX32_FROM_WHOLE(rangeTable[type]) + FLOAT_TO_FX32(256.0))
+    else if (work->objWork.position.x - g_obj.camera[GRAPHICS_ENGINE_A].x > range + FLOAT_TO_FX32(256.0))
     {
-        work->objWork.position.x -= FLOAT_TO_FX32(256.0) + (rangeTable[type] << 1);
+        work->objWork.position.x -= FLOAT_TO_FX32(256.0) + (range << 1);
     }
 
     work->objWork.prevPosition.x = work->objWork.position.x - g_obj.camera[0].x;
@@ -4727,13 +4457,11 @@ void DecorationSys__State_21548A8(StageDecoration *work)
     }
 }
 
-NONMATCH_FUNC void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-    // https://decomp.me/scratch/7Cnee -> 82.27%
-#ifdef NON_MATCHING
     static u8 animTable[] = { 0, 1, 4, 5 };
 
-    DecorationCommon *decor = (DecorationCommon *)rect2->parent;
+    DecorationCommon2D *decor = (DecorationCommon2D *)rect2->parent;
     Player *player          = (Player *)rect1->parent;
 
     if (decor == NULL || player == NULL)
@@ -4753,22 +4481,28 @@ NONMATCH_FUNC void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_REC
 
                     if (mtMathRandRepeat(2) != 0)
                     {
-                        s32 count = mtMathRandRepeat(2) + 3;
+                        fx32 moveX;
+                        fx32 moveY;
+                        fx32 leafX;
+                        fx32 leafY;
+                        s32 count;
 
-                        fx32 moveX = player->objWork.move.x >> 1;
-                        fx32 moveY = player->objWork.move.y >> 1;
-                        fx32 leafX = player->objWork.position.x - moveX * (count >> 1);
-                        fx32 leafY = player->objWork.position.y - moveY * (count >> 1);
+                        count = 3 + (mtMathRand() & 1);
+
+                        moveX = player->objWork.move.x >> 1;
+                        moveY = player->objWork.move.y >> 1;
+                        leafX = player->objWork.position.x - moveX * (count >> 1);
+                        leafY = player->objWork.position.y - moveY * (count >> 1);
 
                         fx32 velY = 0;
                         for (s32 i = 0; i < count; i++)
                         {
-                            DecorationSys__CreateTripleGrindRailLeaf(leafX + FLOAT_TO_FX32(8.0) - mtMathRandRepeat(0x10000), leafY + FLOAT_TO_FX32(4.0) - mtMathRandRepeat(0x8000),
-                                                                     FLOAT_TO_FX32(2.0) - mtMathRandRepeat(0x4000), FLOAT_TO_FX32(1.0) - mtMathRandRepeat(0x2000) + velY,
-                                                                     animTable[i]);
+                            DecorationSys__CreateTripleGrindRailLeaf(leafX + mtMathRandRange(-FLOAT_TO_FX32(8.0), FLOAT_TO_FX32(8.0)),
+                                                                     leafY + mtMathRandRange(-FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(4.0)),
+                                                                     mtMathRandRange(-FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(2.0)),
+                                                                     mtMathRandRange(-FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0)) + (velY + (i * -FLOAT_TO_FX32(0.25))), animTable[i]);
 
                             leafX += moveX;
-                            velY -= FLOAT_TO_FX32(0.25);
                             leafY += moveY;
                         }
                     }
@@ -4793,179 +4527,6 @@ NONMATCH_FUNC void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_REC
     }
 
     decor->decorWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x24
-	ldr r1, [r1, #0x1c]
-	ldr r0, [r0, #0x1c]
-	cmp r1, #0
-	str r1, [sp, #0x14]
-	cmpne r0, #0
-	addeq sp, sp, #0x24
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r1, [r0, #0]
-	cmp r1, #1
-	addne sp, sp, #0x24
-	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r1, [sp, #0x14]
-	ldr r1, [r1, #0x20c]
-	ldrh r2, [r1, #2]
-	cmp r2, #0x114
-	beq _02154934
-	ldr r1, =0x00000119
-	cmp r2, r1
-	addne r1, r1, #1
-	cmpne r2, r1
-	beq _02154AE4
-	b _02154B44
-_02154934:
-	ldr r1, [r0, #0x1c]
-	tst r1, #1
-	beq _02154B44
-	ldr r1, [r0, #0xc0]
-	ldr r2, [r0, #0xbc]
-	cmp r1, #0
-	rsblt r1, r1, #0
-	cmp r2, #0
-	rsblt r2, r2, #0
-	add r1, r2, r1
-	cmp r1, #0x1000
-	ble _02154B44
-	ldr r11, =_mt_math_rand
-	ldr r1, [sp, #0x14]
-	mov r2, #0x20
-	str r2, [r1, #0x2c]
-	ldr r1, [r11, #0]
-	ldr r5, =0x00196225
-	ldr r6, =0x3C6EF35F
-	mla r3, r1, r5, r6
-	mov r1, r3, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	str r3, [r11]
-	tst r1, #1
-	beq _02154B44
-	mla r2, r3, r5, r6
-	mov r1, r2, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	and r1, r1, #1
-	str r2, [r11]
-	add r1, r1, #3
-	str r1, [sp, #8]
-	ldr r1, [r0, #0xbc]
-	ldr r3, [r0, #0xc0]
-	mov r1, r1, asr #1
-	str r1, [sp, #0x10]
-	ldr r1, [sp, #8]
-	ldr r4, [r0, #0x44]
-	mov r2, r1, asr #1
-	mov r1, r3, asr #1
-	str r1, [sp, #0xc]
-	ldr r1, [sp, #0x10]
-	mov r9, #0
-	mul r3, r1, r2
-	ldr r1, [sp, #0xc]
-	sub r7, r4, r3
-	mul r2, r1, r2
-	ldr r1, [r0, #0x48]
-	ldr r0, [sp, #8]
-	sub r8, r1, r2
-	cmp r0, #0
-	ble _02154B44
-	ldr r0, =_02188780
-	ldr r4, =0x0000FFFE
-	str r0, [sp, #4]
-	sub r0, r4, #0x8000
-	str r0, [sp, #0x20]
-	sub r0, r4, #0xc000
-	str r0, [sp, #0x1c]
-	sub r0, r4, #0xe000
-	mov r10, r9
-	str r0, [sp, #0x18]
-_02154A34:
-	ldr r0, [sp, #4]
-	ldr r2, [r11, #0]
-	ldrb r1, [r0], #1
-	str r0, [sp, #4]
-	mla r0, r2, r5, r6
-	mov r2, r0, lsr #0x10
-	mov r3, r2, lsl #0x10
-	mla r2, r0, r5, r6
-	mla lr, r2, r5, r6
-	ldr r0, [sp, #0x18]
-	mla ip, lr, r5, r6
-	and r0, r0, r3, lsr #16
-	rsb r0, r0, r4, lsr #4
-	add r3, r10, r0
-	mov r0, r2, lsr #0x10
-	str ip, [r11]
-	str r1, [sp]
-	ldr r2, [sp, #0x1c]
-	mov r0, r0, lsl #0x10
-	and r0, r2, r0, lsr #16
-	rsb r2, r0, r4, lsr #3
-	mov r0, lr, lsr #0x10
-	ldr r1, [sp, #0x20]
-	mov r0, r0, lsl #0x10
-	and r0, r1, r0, lsr #16
-	rsb r0, r0, r4, lsr #2
-	add r1, r8, r0
-	ldr r0, [r11, #0]
-	mov r0, r0, lsr #0x10
-	mov r0, r0, lsl #0x10
-	and r0, r4, r0, lsr #16
-	rsb r0, r0, r4, lsr #1
-	add r0, r7, r0
-	bl DecorationSys__CreateTripleGrindRailLeaf
-	ldr r0, [sp, #0x10]
-	add r9, r9, #1
-	add r7, r7, r0
-	ldr r0, [sp, #0xc]
-	sub r10, r10, #0x400
-	add r8, r8, r0
-	ldr r0, [sp, #8]
-	cmp r9, r0
-	blt _02154A34
-	b _02154B44
-_02154AE4:
-	ldr r2, [r0, #0x1c]
-	ldr r1, =0x00400001
-	tst r2, r1
-	beq _02154B44
-	ldr r1, [r0, #0xbc]
-	cmp r1, #0
-	rsblt r1, r1, #0
-	cmp r1, #0x800
-	bgt _02154B14
-	ldr r1, [r0, #0xc0]
-	cmp r1, #0
-	beq _02154B44
-_02154B14:
-	ldr r1, [sp, #0x14]
-	mov r2, #4
-	str r2, [r1, #0x2c]
-	bl CreateEffectWaterWakeForPlayer2
-	ldr r1, [sp, #0x14]
-	ldr r2, [r1, #0x20c]
-	ldr r1, =0x00000119
-	ldrh r2, [r2, #2]
-	cmp r2, r1
-	bne _02154B44
-	mov r1, #1
-	bl StageTask__SetAnimatorPriority
-_02154B44:
-	ldr r0, [sp, #0x14]
-	ldr r0, [r0, #0x18]
-	orr r1, r0, #2
-	ldr r0, [sp, #0x14]
-	str r1, [r0, #0x18]
-	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC s32 DecorationSys__Func_2154B7C(s32 id)

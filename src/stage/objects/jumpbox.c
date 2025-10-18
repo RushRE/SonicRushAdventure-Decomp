@@ -108,12 +108,12 @@ JumpBox *CreateJumpBox(MapObject *mapObject, fx32 x, fx32 y, fx32 z)
         else
             right = 0;
     }
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, left, -16, right, 0);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, left, -16, right, 0);
     ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], JumpBox_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], JumpBox_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_jumpbox.df", GetObjectFileWork(OBJDATAWORK_94), gameArchiveStage);
     work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
@@ -184,8 +184,8 @@ PlaneSwitchSpring *CreatePlaneSwitchSpring(MapObject *mapObject, fx32 x, fx32 y,
     ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
 
-    work->gameWork.colliders[0].onDefend = PlaneSwitchSpring_OnDefend;
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = PlaneSwitchSpring_OnDefend;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     return work;
 }
@@ -204,7 +204,7 @@ void JumpBox_State_Cooldown(JumpBox *work)
     work->gameWork.objWork.userTimer--;
     if (work->gameWork.objWork.userTimer <= 0)
     {
-        work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
         work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
         SetTaskState(&work->gameWork.objWork, NULL);
     }
@@ -295,7 +295,7 @@ void PlaneSwitchSpring_State_Active(PlaneSwitchSpring *work)
 {
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
     {
-        work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
         StageTask__SetAnimation(&work->gameWork.objWork, work->gameWork.objWork.userWork);
 
         SetTaskState(&work->gameWork.objWork, NULL);

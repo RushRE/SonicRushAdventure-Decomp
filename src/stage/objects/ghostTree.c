@@ -58,24 +58,24 @@ GhostTree *CreateGhostTree(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     aniArm->ani.work.scale.z = FLOAT_TO_FX32(3.3);
     NNS_G3dRenderObjSetCallBack(&aniArm->ani.renderObj, GhostTree_RenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
 
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -16, -16, 16, 16);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], GhostTree_OnDefend_Hand);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
-    work->gameWork.colliders[0].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
-    work->gameWork.colliders[0].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
-    work->gameWork.colliders[0].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -16, -16, 16, 16);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], GhostTree_OnDefend_Hand);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
 
-    work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-    ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -128, -64, 256, 128);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[1], GhostTree_OnDefend_GrabTrigger);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
-    work->gameWork.colliders[1].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
-    work->gameWork.colliders[1].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
-    work->gameWork.colliders[1].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, -128, -64, 256, 128);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], GhostTree_OnDefend_GrabTrigger);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
 
     SetTaskOutFunc(&work->gameWork.objWork, GhostTree_Draw);
 
@@ -97,14 +97,14 @@ void GhostTree_State_ReachForPlayer(GhostTree *work)
     AnimatorMDL *ani = &work->gameWork.objWork.obj_3d->ani;
 
     // set hand collider position to the hand pos
-    work->gameWork.colliders[0].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.prevPosition.x);
-    work->gameWork.colliders[0].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.prevPosition.y);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.prevPosition.x);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.prevPosition.y);
 
     work->gameWork.objWork.userTimer++;
     if (work->gameWork.objWork.userTimer == 50)
     {
-        work->gameWork.colliders[0].parent = NULL;
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
         ani->animFlags[B3D_ANIM_JOINT_ANIM] |= ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
         ani->ratioMultiplier = FLOAT_TO_FX32(0.02490234375);
@@ -128,8 +128,8 @@ void GhostTree_State_ReachForPlayer(GhostTree *work)
         AnimatorMDL__SetAnimation(&work->gameWork.objWork.obj_3d->ani, B3D_ANIM_VIS_ANIM, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_VIS_ANIM], 0, NULL);
         ani->speedMultiplier = FLOAT_TO_FX32(1.0);
 
-        work->gameWork.colliders[0].parent = NULL;
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
         work->gameWork.objWork.userTimer = 0;
         SetTaskState(&work->gameWork.objWork, GhostTree_State_FailedGrabWait);
@@ -141,8 +141,8 @@ void GhostTree_State_FailedGrabWait(GhostTree *work)
     work->gameWork.objWork.userTimer++;
     if (work->gameWork.objWork.userTimer >= 60)
     {
-        work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-        work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
         SetTaskState(&work->gameWork.objWork, NULL);
     }
@@ -194,8 +194,8 @@ void GhostTree_State_ThrownPlayer(GhostTree *work)
         work->gameWork.objWork.userFlag &= ~PLAYER_PARENTFLAG_RELEASE_WITH_VELOCITY;
 
         NNS_G3dRenderObjSetCallBack(&ani->renderObj, GhostTree_RenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
-        work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-        work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
         SetTaskState(&work->gameWork.objWork, NULL);
     }
@@ -252,13 +252,13 @@ void GhostTree_OnDefend_GrabTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER || !CheckIsPlayer1(player))
         return;
 
-    tree->gameWork.colliders[1].parent = NULL;
-    tree->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+    tree->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = NULL;
+    tree->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     tree->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_PAUSED);
 
-    tree->gameWork.colliders[0].parent = &tree->gameWork.objWork;
-    tree->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+    tree->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &tree->gameWork.objWork;
+    tree->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     SetTaskState(&tree->gameWork.objWork, GhostTree_State_ReachForPlayer);
     tree->gameWork.objWork.userTimer = 0;
@@ -281,8 +281,8 @@ void GhostTree_OnDefend_Hand(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     Player__Action_GhostTree(player, &tree->gameWork);
     Player__Action_AllowTrickCombos(player, &tree->gameWork);
 
-    tree->gameWork.colliders[0].parent = NULL;
-    tree->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+    tree->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
+    tree->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     SetTaskState(&tree->gameWork.objWork, GhostTree_State_GrabbedPlayer);
     tree->gameWork.objWork.userTimer = 0;

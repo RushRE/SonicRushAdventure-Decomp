@@ -23,8 +23,8 @@ extern const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT];
 // VARIABLES
 // --------------------
 
-u32 GameObject__TempObjBitfield[(GAMEOBJECT_TEMPLIST_SIZE + (32 - 1)) / 32];
-MapObject GameObject__TempObjList[GAMEOBJECT_TEMPLIST_SIZE];
+u32 usedTempObjects[(1 + GAMEOBJECT_TEMPLIST_SIZE + (32 - 1)) / 32];
+MapObject tempObjectList[GAMEOBJECT_TEMPLIST_SIZE];
 
 u8 StageTask__DefaultDiffData[512] = {
     ((0x8 << 0) | (0x8 << 4)), ((0x8 << 0) | (0x8 << 4)), ((0x8 << 0) | (0x8 << 4)), ((0x8 << 0) | (0x8 << 4)), ((0x8 << 0) | (0x8 << 4)), ((0x8 << 0) | (0x8 << 4)),
@@ -126,8 +126,8 @@ void GameObject__InitFromObject(GameObjectTask *work, MapObject *mapObject, fx32
     static u8 __UNKNOWN__[1];
 #endif
 
-    u16 atkFlags[3] = { 0, 2, 2 };
-    u16 defFlags[3] = { 1, 0, 0 };
+    u16 atkFlags[GAMEOBJECT_COLLIDER_COUNT] = { 0, 2, 2 };
+    u16 defFlags[GAMEOBJECT_COLLIDER_COUNT] = { 1, 0, 0 };
 
     SetTaskInFunc(&work->objWork, GameObject__In_Default);
     work->objWork.flag |= STAGE_TASK_FLAG_ALWAYS_RUN_PPIN;
@@ -148,7 +148,7 @@ void GameObject__InitFromObject(GameObjectTask *work, MapObject *mapObject, fx32
 
     work->objWork.scale.x = work->objWork.scale.y = work->objWork.scale.z = FLOAT_TO_FX32(1.0);
 
-    for (s32 i = 0; i < 3; i++)
+    for (s32 i = 0; i < GAMEOBJECT_COLLIDER_COUNT; i++)
     {
         ObjRect__SetGroupFlags(&work->colliders[i], 2, 1);
         ObjRect__SetAttackStat(&work->colliders[i], atkFlags[i], OBS_RECT_HITPOWER_DEFAULT);
@@ -156,7 +156,7 @@ void GameObject__InitFromObject(GameObjectTask *work, MapObject *mapObject, fx32
         work->colliders[i].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
     }
 
-    ObjRect__SetOnDefend(&work->colliders[0], GameObject__OnDefend_Enemy);
+    ObjRect__SetOnDefend(&work->colliders[GAMEOBJECT_COLLIDER_WEAK], GameObject__OnDefend_Enemy);
 
     if (mapObject != NULL)
     {
@@ -205,9 +205,9 @@ void GameObject__Destructor(Task *task)
 
 void GameObject__SetAnimation(GameObjectTask *work, u16 animID)
 {
-    work->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
-    work->colliders[1].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
-    work->colliders[2].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    work->colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    work->colliders[GAMEOBJECT_COLLIDER_ATK].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    work->colliders[GAMEOBJECT_COLLIDER_SOLID].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
 
     StageTask__SetAnimation(&work->objWork, animID);
 }
@@ -219,233 +219,136 @@ GameObjectTask *GameObject__SpawnObject(s32 id, fx32 x, fx32 y, u16 flags, s8 le
     s16 slot = GameObject__GetNextTempObjID();
     if (slot < GAMEOBJECT_TEMPLIST_SIZE)
     {
-        GameObject__TempObjList[slot].x         = MAPOBJECT_DESTROYED;
-        GameObject__TempObjList[slot].y         = MAPOBJECT_DESTROYED;
-        GameObject__TempObjList[slot].id        = id;
-        GameObject__TempObjList[slot].flags     = flags;
-        GameObject__TempObjList[slot].left      = left;
-        GameObject__TempObjList[slot].top       = top;
-        GameObject__TempObjList[slot].width     = width;
-        GameObject__TempObjList[slot].height    = height;
-        GameObject__TempObjList[slot].param.u16 = 0;
+        tempObjectList[slot].x         = MAPOBJECT_DESTROYED;
+        tempObjectList[slot].y         = MAPOBJECT_DESTROYED;
+        tempObjectList[slot].id        = id;
+        tempObjectList[slot].flags     = flags;
+        tempObjectList[slot].left      = left;
+        tempObjectList[slot].top       = top;
+        tempObjectList[slot].width     = width;
+        tempObjectList[slot].height    = height;
+        tempObjectList[slot].param.u16 = 0;
 
-        work = stageObjectSpawnList[id](&GameObject__TempObjList[slot], x, y, param);
+        work = stageObjectSpawnList[id](&tempObjectList[slot], x, y, param);
         if (work == NULL)
-            GameObject__ReleaseTempObj(&GameObject__TempObjList[slot]);
+            GameObject__ReleaseTempObj(&tempObjectList[slot]);
     }
 
     return work;
 }
 
-NONMATCH_FUNC void GameObject__ProcessReceivedPackets_ItemBox(void)
+void GameObject__ProcessReceivedPackets_ItemBoxes(void)
 {
-#ifdef NON_MATCHING
+    if (gmCheckVsBattleFlag())
+    {
+        ObjPacket__PrepareReceivedPackets();
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #8
-	ldr r0, =gameState
-	ldr r0, [r0, #0x10]
-	tst r0, #0x20
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	bl ObjPacket__PrepareReceivedPackets
-	ldr r0, =gPlayerList
-	ldr r0, [r0, #4]
-	cmp r0, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	mov r8, #0x35
-	ldr r5, =playerGameStatus
-	ldr r4, =gPlayer
-	mvn r7, #0
-	mov r6, r8
-	mov r10, r8
-	mov r11, r8
-_0202726C:
-	ldr r1, =gPlayerList
-	mov r0, #2
-	ldr r1, [r1, #4]
-	ldrb r1, [r1, #0x5d2]
-	bl ObjPacket__GetNextReceivedPacket
-	movs r9, r0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	bl EventManager__GetObjectLayout
-	ldr r1, =gameState
-	ldrh r2, [r9, #6]
-	ldr r1, [r1, #0x10]
-	add r0, r2, r0
-	tst r1, #0x400
-	beq _020272F0
-	ldrh r1, [r0, #2]
-	cmp r1, #0x30
-	cmpne r1, #0x31
-	beq _020272CC
-	add r1, r1, #0xff00
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	cmp r1, #1
-	bhi _020272E0
-_020272CC:
-	ldrh r2, [r5, #0x8e]
-	ldrh r1, [r5, #0x8a]
-	cmp r2, r1
-	bne _0202726C
-	b _020272F0
-_020272E0:
-	ldrh r2, [r9, #2]
-	ldrh r1, [r5, #0x8a]
-	cmp r2, r1
-	bne _0202726C
-_020272F0:
-	ldrh r1, [r0, #4]
-	orr r1, r1, #0x2000
-	strh r1, [r0, #4]
-	ldrb r1, [r0, #0]
-	cmp r1, #0xff
-	bne _02027324
-	ldrh r1, [r0, #2]
-	add r1, r1, #0xfd0
-	add r1, r1, #0xf000
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	cmp r1, #1
-	bhi _0202726C
-_02027324:
-	ldrb r1, [r9, #4]
-	cmp r1, #0xa
-	addls pc, pc, r1, lsl #2
-	b _0202726C
-_02027334: // jump table
-	b _0202726C // case 0
-	b _0202726C // case 1
-	b _020273F0 // case 2
-	b _0202726C // case 3
-	b _0202726C // case 4
-	b _0202726C // case 5
-	b _0202726C // case 6
-	b _02027360 // case 7
-	b _02027384 // case 8
-	b _020273A8 // case 9
-	b _020273CC // case 10
-_02027360:
-	mov r0, #0
-	stmia sp, {r0, r8}
-	mov r1, r7
-	mov r2, r7
-	mov r3, r7
-	bl PlaySfxEx
-	ldr r0, [r4, #0]
-	bl Player__GiveSlowdownEffect
-	b _0202726C
-_02027384:
-	mov r0, #0
-	stmia sp, {r0, r6}
-	mov r1, r7
-	mov r2, r7
-	mov r3, r7
-	bl PlaySfxEx
-	ldr r0, [r4, #0]
-	bl Player__GiveConfusionEffect
-	b _0202726C
-_020273A8:
-	mov r0, #0
-	stmia sp, {r0, r10}
-	mov r1, r7
-	mov r2, r7
-	mov r3, r7
-	bl PlaySfxEx
-	ldr r0, [r4, #0]
-	bl Player__DepleteTension
-	b _0202726C
-_020273CC:
-	mov r0, #0
-	stmia sp, {r0, r11}
-	mov r1, r7
-	mov r2, r7
-	mov r3, r7
-	bl PlaySfxEx
-	ldr r0, [r4, #0]
-	bl Player__ApplyWarpEfect
-	b _0202726C
-_020273F0:
-	mov r1, #0xff
-	strb r1, [r0]
-	b _0202726C
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+        if (gPlayerList[PLAYER_CONTROL_P2] == NULL)
+            return;
 
-// clang-format on
-#endif
+        while (TRUE)
+        {
+            ObjReceivePacket *packet         = (ObjReceivePacket *)ObjPacket__GetNextReceivedPacket(2, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
+            GameObjectSendPacket *packetData = (GameObjectSendPacket *)packet->data;
+            if (packet == NULL)
+                return;
+
+            MapObject *mapObject = (MapObject *)(packetData->id + (size_t)EventManager__GetObjectLayout());
+            if (gmCheckFlag(GAME_FLAG_USE_WIFI))
+            {
+                if (mapObject->id == MAPOBJECT_48 || mapObject->id == MAPOBJECT_49 || mapObject->id == MAPOBJECT_256 || mapObject->id == MAPOBJECT_257)
+                {
+                    if (playerGameStatus.receivedPacketTicks[PLAYER_CONTROL_P2] != playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P2])
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (packet->header.param != playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P2])
+                    {
+                        continue;
+                    }
+                }
+            }
+
+            mapObject->flags |= GAMEOBJECT_FLAG_HAS_PACKET_ACTION;
+            if (mapObject->x != MAPOBJECT_DESTROYED || (mapObject->id == MAPOBJECT_48 || mapObject->id == MAPOBJECT_49))
+            {
+                switch (packetData->type)
+                {
+                    case GAMEOBJECT_PACKET_DESTROYED:
+                        break;
+
+                    case GAMEOBJECT_PACKET_SLOWDOWN:
+                        PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ITEM_ON);
+                        Player__GiveSlowdownEffect(gPlayer);
+                        continue;
+
+                    case GAMEOBJECT_PACKET_CONFUSION:
+                        PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ITEM_ON);
+                        Player__GiveConfusionEffect(gPlayer);
+                        continue;
+
+                    case GAMEOBJECT_PACKET_TENSION_SWAP:
+                        PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ITEM_ON);
+                        Player__DepleteTension(gPlayer);
+                        continue;
+
+                    case GAMEOBJECT_PACKET_GRAB:
+                        PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ITEM_ON);
+                        Player__ApplyWarpEfect(gPlayer);
+                        continue;
+
+                    default:
+                        continue;
+                }
+
+                DestroyMapObject(mapObject);
+            }
+        }
+    }
 }
 
-NONMATCH_FUNC void GameObject__ProcessReceivedPackets_Unknown(void)
+void GameObject__ProcessReceivedPackets_Enemies(void)
 {
-#ifdef NON_MATCHING
+    if (gmCheckVsBattleFlag())
+    {
+        ObjPacket__PrepareReceivedPackets();
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	ldr r0, =gameState
-	ldr r0, [r0, #0x10]
-	tst r0, #0x20
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	bl ObjPacket__PrepareReceivedPackets
-	ldr r6, =gPlayerList
-	ldr r0, [r6, #4]
-	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	ldr r5, =gameState
-	ldr r4, =playerGameStatus
-	mov r7, #0xff
-	mov r9, #2
-_0202744C:
-	ldr r1, [r6, #4]
-	mov r0, r9
-	ldrb r1, [r1, #0x5d2]
-	bl ObjPacket__GetNextReceivedPacket
-	movs r8, r0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	bl EventManager__GetObjectLayout
-	ldrh r2, [r8, #6]
-	ldr r1, [r5, #0x10]
-	tst r1, #0x400
-	add r0, r2, r0
-	beq _020274C4
-	ldrh r1, [r0, #2]
-	cmp r1, #0x30
-	cmpne r1, #0x31
-	beq _020274A0
-	add r1, r1, #0xff00
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	cmp r1, #1
-	bhi _020274B4
-_020274A0:
-	ldrh r2, [r4, #0x8e]
-	ldrh r1, [r4, #0x8a]
-	cmp r2, r1
-	bne _0202744C
-	b _020274C4
-_020274B4:
-	ldrh r2, [r8, #2]
-	ldrh r1, [r4, #0x8a]
-	cmp r2, r1
-	bne _0202744C
-_020274C4:
-	ldrb r1, [r0, #0]
-	cmp r1, #0xff
-	beq _0202744C
-	ldrb r1, [r8, #4]
-	cmp r1, #2
-	streqb r7, [r0]
-	b _0202744C
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+        if (gPlayerList[PLAYER_CONTROL_P2] == NULL)
+            return;
 
-// clang-format on
-#endif
+        while (TRUE)
+        {
+            ObjReceivePacket *packet         = (ObjReceivePacket *)ObjPacket__GetNextReceivedPacket(2, gPlayerList[PLAYER_CONTROL_P2]->aidIndex);
+            GameObjectSendPacket *packetData = (GameObjectSendPacket *)packet->data;
+            if (packet == NULL)
+                return;
+
+            MapObject *mapObject = (MapObject *)(packetData->id + (size_t)EventManager__GetObjectLayout());
+            if (gmCheckFlag(GAME_FLAG_USE_WIFI))
+            {
+                if (mapObject->id == MAPOBJECT_48 || mapObject->id == MAPOBJECT_49 || mapObject->id == MAPOBJECT_256 || mapObject->id == MAPOBJECT_257)
+                {
+                    if (playerGameStatus.receivedPacketTicks[PLAYER_CONTROL_P2] != playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P2])
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (packet->header.param != playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P2])
+                    {
+                        continue;
+                    }
+                }
+            }
+
+            if (mapObject->x != MAPOBJECT_DESTROYED && packetData->type == GAMEOBJECT_PACKET_DESTROYED)
+                DestroyMapObject(mapObject);
+        }
+    }
 }
 
 void GameObject__SendPacket(GameObjectTask *work, Player *player, GameObjectPacketType type)
@@ -538,9 +441,9 @@ void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             enemy->flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
 
         enemy->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-        enemy->colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-        enemy->colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-        enemy->colliders[2].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        enemy->colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        enemy->colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        enemy->colliders[GAMEOBJECT_COLLIDER_SOLID].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
         if (enemy->objWork.sequencePlayerPtr != NULL)
             StopStageSfx(enemy->objWork.sequencePlayerPtr);
@@ -581,7 +484,7 @@ void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
         GameObject__SpawnExplosion(enemy);
         GameObject__OnDestroyEnemy(enemy);
-        enemy->objWork.flag |= 8;
+        QueueDestroyStageTask(&enemy->objWork);
         GameObject__SendPacket(enemy, player, GAMEOBJECT_PACKET_DESTROYED);
     }
     else
@@ -595,11 +498,11 @@ void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
                                 ObjRect__HitCenterY(rect2, rect1) + mtMathRandRange(-FLOAT_TO_FX32(16.0), FLOAT_TO_FX32(16.0)));
 
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ZAKO_DOWN);
-        CreateEffectVitality(&enemy->objWork, 0, -FLOAT_TO_FX32(80.0), enemy->health);
+        CreateEffectVitality(&enemy->objWork, FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(80.0), enemy->health);
         enemy->health--;
         enemy->mapObject->param.health++;
-        enemy->blinkTimer            = 60;
-        enemy->colliders[1].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
+        enemy->blinkTimer                                  = SECONDS_TO_FRAMES(1.0);
+        enemy->colliders[GAMEOBJECT_COLLIDER_ATK].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
         GameObject__SendPacket(enemy, player, GAMEOBJECT_PACKET_HURT);
 
         if (player != NULL && player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
@@ -623,9 +526,9 @@ void GameObject__In_Default(void)
     if (work->parent != NULL && IsStageTaskDestroyed(work->parent))
         work->parent = NULL;
 
-    GameObject__ProcessReceivedPackets(work);
+    GameObject__ProcessPacketActions(work);
 
-    if (!ObjectPauseCheck(work->objWork.flag) && work->blinkTimer != 0)
+    if (ObjectPauseCheck(work->objWork.flag) == FALSE && work->blinkTimer != 0)
     {
         work->blinkTimer--;
 
@@ -634,14 +537,14 @@ void GameObject__In_Default(void)
         else
             work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
-        work->colliders[0].defPower = OBS_RECT_DEFPOWER_INVINCIBLE;
-        work->colliders[1].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
+        work->colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = OBS_RECT_DEFPOWER_INVINCIBLE;
+        work->colliders[GAMEOBJECT_COLLIDER_ATK].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
 
         if (work->blinkTimer == 0)
         {
             work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
-            work->colliders[0].defPower = OBS_RECT_DEFPOWER_DEFAULT;
-            work->colliders[1].hitPower = OBS_RECT_HITPOWER_DEFAULT;
+            work->colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = OBS_RECT_DEFPOWER_DEFAULT;
+            work->colliders[GAMEOBJECT_COLLIDER_ATK].hitPower = OBS_RECT_HITPOWER_DEFAULT;
         }
     }
 }
@@ -650,7 +553,7 @@ void GameObject__SpriteCallback_Default(BACFrameGroupBlock_Hitbox *block, Animat
 {
     if (block->header.blockID == SPRITE_BLOCK_CALLBACK2)
     {
-        if (block->id <= 2)
+        if (block->id <= GAMEOBJECT_COLLIDER_COUNT - 1)
         {
             if (block->hitbox.left == block->hitbox.right && block->hitbox.top == block->hitbox.bottom)
             {
@@ -671,14 +574,14 @@ void GameObject__Collide_Default(void)
 
     if (!IsStageTaskDestroyedAny(&work->objWork))
     {
-        if (work->colliders[0].parent != NULL)
-            StageTask__HandleCollider(&work->objWork, &work->colliders[0]);
+        if (work->colliders[GAMEOBJECT_COLLIDER_WEAK].parent != NULL)
+            StageTask__HandleCollider(&work->objWork, &work->colliders[GAMEOBJECT_COLLIDER_WEAK]);
 
-        if (work->colliders[1].parent != NULL)
-            StageTask__HandleCollider(&work->objWork, &work->colliders[1]);
+        if (work->colliders[GAMEOBJECT_COLLIDER_ATK].parent != NULL)
+            StageTask__HandleCollider(&work->objWork, &work->colliders[GAMEOBJECT_COLLIDER_ATK]);
 
-        if (work->colliders[2].parent != NULL)
-            StageTask__HandleCollider(&work->objWork, &work->colliders[2]);
+        if (work->colliders[GAMEOBJECT_COLLIDER_SOLID].parent != NULL)
+            StageTask__HandleCollider(&work->objWork, &work->colliders[GAMEOBJECT_COLLIDER_SOLID]);
 
         if (work->collisionObject.work.parent != NULL)
         {
@@ -753,9 +656,9 @@ s16 GameObject__GetNextTempObjID(void)
 
     for (slot = 0; slot < GAMEOBJECT_TEMPLIST_SIZE; slot++)
     {
-        if ((GameObject__TempObjBitfield[slot >> 5] & (1 << (slot & 0x1F))) == 0)
+        if ((usedTempObjects[slot >> 5] & (1 << (slot & 0x1F))) == 0)
         {
-            GameObject__TempObjBitfield[slot >> 5] |= (1 << (slot & 0x1F));
+            usedTempObjects[slot >> 5] |= (1 << (slot & 0x1F));
             return slot;
         }
     }
@@ -765,116 +668,65 @@ s16 GameObject__GetNextTempObjID(void)
 
 void GameObject__ReleaseTempObj(MapObject *obj)
 {
-    u32 id = ((size_t)obj - (size_t)GameObject__TempObjList) / sizeof(MapObject);
+    u32 id = ((size_t)obj - (size_t)tempObjectList) / sizeof(MapObject);
 
-    GameObject__TempObjBitfield[id >> 5] &= ~(1 << (id & 0x1F));
+    usedTempObjects[id >> 5] &= ~(1 << (id & 0x1F));
 }
 
-NONMATCH_FUNC void GameObject__ProcessReceivedPackets(GameObjectTask *work)
+void GameObject__ProcessPacketActions(GameObjectTask *work)
 {
-#ifdef NON_MATCHING
+    if ((work->mapObject->flags & GAMEOBJECT_FLAG_HAS_PACKET_ACTION) != 0)
+    {
+        work->mapObject->flags &= ~GAMEOBJECT_FLAG_HAS_PACKET_ACTION;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	mov r7, r0
-	ldr r2, [r7, #0x340]
-	ldrh r0, [r2, #4]
-	tst r0, #0x2000
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	bic r1, r0, #0x2000
-	ldr r0, =gameState
-	strh r1, [r2, #4]
-	ldr r0, [r0, #0x10]
-	tst r0, #0x20
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	bl ObjPacket__PrepareReceivedPackets
-	mov r6, #0
-_02028068:
-	ldr r0, =gPlayer
-	ldr r0, [r0, #0]
-	ldrb r0, [r0, #0x5d2]
-	cmp r6, r0
-	beq _02028174
-	ldr r9, =gPlayerList
-	ldr r8, =gameState
-	mov r4, #2
-_02028088:
-	mov r0, r4
-	mov r1, r6
-	bl ObjPacket__GetNextReceivedPacketData
-	movs r5, r0
-	beq _02028174
-	bl EventManager__GetObjectLayout
-	ldrh r2, [r5, #2]
-	ldr r1, [r7, #0x340]
-	add r0, r2, r0
-	cmp r1, r0
-	bne _02028088
-	ldrb r0, [r5, #0]
-	cmp r0, #5
-	addls pc, pc, r0, lsl #2
-	b _02028134
-_020280C4: // jump table
-	b _02028134 // case 0
-	b _020280DC // case 1
-	b _020280DC // case 2
-	b _020280F0 // case 3
-	b _02028108 // case 4
-	b _02028120 // case 5
-_020280DC:
-	ldr r0, [r9, #4]
-	add r1, r7, #0x218
-	add r0, r0, #0x510
-	bl GameObject__OnDefend_Enemy
-	b _02028134
-_020280F0:
-	ldr r0, [r9, #4]
-	ldr r2, [r7, #0x23c]
-	add r0, r0, #0x510
-	add r1, r7, #0x218
-	blx r2
-	b _02028134
-_02028108:
-	ldr r0, [r9, #4]
-	ldr r2, [r7, #0x27c]
-	add r0, r0, #0x510
-	add r1, r7, #0x258
-	blx r2
-	b _02028134
-_02028120:
-	ldr r0, [r9, #4]
-	ldr r2, [r7, #0x2bc]
-	add r0, r0, #0x510
-	add r1, r7, #0x298
-	blx r2
-_02028134:
-	ldr r0, [r8, #0x14]
-	cmp r0, #1
-	ldreq r0, [r8, #0x20]
-	cmpeq r0, #1
-	bne _02028088
-	ldrb r0, [r5, #0]
-	cmp r0, #7
-	blo _02028088
-	cmp r0, #0xa
-	bhi _02028088
-	ldr r0, [r9, #4]
-	ldr r2, [r7, #0x23c]
-	add r0, r0, #0x510
-	add r1, r7, #0x218
-	blx r2
-	b _02028088
-_02028174:
-	add r0, r6, #1
-	mov r0, r0, lsl #0x10
-	mov r6, r0, lsr #0x10
-	cmp r6, #2
-	blo _02028068
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+        if (gmCheckVsBattleFlag())
+        {
+            ObjPacket__PrepareReceivedPackets();
 
-// clang-format on
-#endif
+            for (u16 p = 0; p < PLAYER_COUNT; p++)
+            {
+                if (p != gPlayer->aidIndex)
+                {
+                    while (TRUE)
+                    {
+                        GameObjectSendPacket *packet = (GameObjectSendPacket *)ObjPacket__GetNextReceivedPacketData(2, p);
+                        if (packet == NULL)
+                            break;
+
+                        MapObject *mapObject = (MapObject *)(packet->id + (size_t)EventManager__GetObjectLayout());
+                        if (work->mapObject == mapObject)
+                        {
+                            switch (packet->type)
+                            {
+                                case GAMEOBJECT_PACKET_HURT:
+                                case GAMEOBJECT_PACKET_DESTROYED:
+                                    GameObject__OnDefend_Enemy(gPlayerList[PLAYER_CONTROL_P2]->colliders, &work->colliders[GAMEOBJECT_COLLIDER_WEAK]);
+                                    break;
+
+                                case GAMEOBJECT_PACKET_OBJ_COLLISION_1:
+                                    work->colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend(gPlayerList[PLAYER_CONTROL_P2]->colliders, &work->colliders[GAMEOBJECT_COLLIDER_WEAK]);
+                                    break;
+
+                                case GAMEOBJECT_PACKET_OBJ_COLLISION_2:
+                                    work->colliders[GAMEOBJECT_COLLIDER_ATK].onDefend(gPlayerList[PLAYER_CONTROL_P2]->colliders, &work->colliders[GAMEOBJECT_COLLIDER_ATK]);
+                                    break;
+
+                                case GAMEOBJECT_PACKET_OBJ_COLLISION_3:
+                                    work->colliders[GAMEOBJECT_COLLIDER_SOLID].onDefend(gPlayerList[PLAYER_CONTROL_P2]->colliders, &work->colliders[GAMEOBJECT_COLLIDER_SOLID]);
+                                    break;
+                            }
+
+                            if (gmCheckRingBattle())
+                            {
+                                if (packet->type >= GAMEOBJECT_PACKET_SLOWDOWN && packet->type <= GAMEOBJECT_PACKET_GRAB)
+                                    work->colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend(&gPlayerList[PLAYER_CONTROL_P2]->colliders[0], &work->colliders[GAMEOBJECT_COLLIDER_WEAK]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 BadnikBreakResult GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, GameObjectPacketType type)
@@ -902,9 +754,9 @@ BadnikBreakResult GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *r
                 badnik->flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
 
             badnik->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-            badnik->colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-            badnik->colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-            badnik->colliders[2].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+            badnik->colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+            badnik->colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+            badnik->colliders[GAMEOBJECT_COLLIDER_SOLID].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
             Player__GiveComboTension(player, PLAYER_TENSION_ENEMY);
             GameObject__BoostImpactEnemy(badnik, player);
@@ -927,164 +779,62 @@ BadnikBreakResult GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *r
     return BADNIKBREAKRESULT_NONE;
 }
 
-NONMATCH_FUNC void GameObject__Func_20282A8(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx44 *mtx, BOOL setFrustum)
+/* "Necessary" in order to match the bloat LSL16/LSR16 pairs (which probably stem from implicit conversions in
+    the source code across inlined functions (or macros) but I couldn't find the right combination) */
+#define FX_SINCOSCAST (s32)(u16)
+//! Allows passing two arguments at once to functions taking sin and cos parameters next to each other.
+#define FX_SIN_AND_COS(angle) SinFX(FX_SINCOSCAST(angle)), CosFX(FX_SINCOSCAST(angle))
+
+void GameObject__TransformWorldToScreen(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx44 *outProjMtx, BOOL setFrustum)
 {
-#ifdef NON_MATCHING
+    InitStageLightConfig();
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x1c
-	mov r5, r0
-	mov r8, r1
-	mov r7, r2
-	mov r4, r3
-	bl InitStageLightConfig
-	ldr r0, =g_obj
-	ldr r2, [r0, #0x40]
-	cmp r2, #0
-	beq _020282E4
-	add r0, sp, #0x18
-	add r1, sp, #0x14
-	blx r2
-	b _020282F4
-_020282E4:
-	ldr r1, [r0, #0x2c]
-	str r1, [sp, #0x18]
-	ldr r0, [r0, #0x30]
-	str r0, [sp, #0x14]
-_020282F4:
-	ldr r2, [r5, #0]
-	ldr r1, [sp, #0x18]
-	ldr r0, =g_obj
-	sub r1, r2, r1
-	str r1, [r8]
-	ldr r2, [r5, #4]
-	ldr r1, [sp, #0x14]
-	sub r1, r2, r1
-	rsb r1, r1, #0
-	str r1, [r8, #4]
-	ldr r1, [r5, #8]
-	str r1, [r8, #8]
-	ldrsh r1, [r0, #0xc]
-	ldr r2, [r8, #0]
-	add r1, r2, r1, lsl #12
-	str r1, [r8]
-	ldrsh r1, [r0, #0xe]
-	ldr r2, [r8, #4]
-	add r1, r2, r1, lsl #12
-	str r1, [r8, #4]
-	ldr r1, [r0, #0]
-	cmp r1, #0x1000
-	beq _02028374
-	ldr r0, [r8, #0]
-	sub r0, r0, #0x80000
-	smull r2, r1, r0, r1
-	adds r2, r2, #0x800
-	adc r0, r1, #0
-	mov r1, r2, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	add r0, r1, #0x80000
-	str r0, [r8]
-_02028374:
-	ldr r0, =g_obj
-	ldr r2, [r0, #4]
-	cmp r2, #0x1000
-	beq _020283B4
-	mov r0, #0x60000
-	ldr r1, [r8, #4]
-	rsb r0, r0, #0
-	sub r0, r0, r1
-	smull r2, r1, r0, r2
-	adds r2, r2, #0x800
-	adc r0, r1, #0
-	mov r1, r2, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	add r0, r1, #0x60000
-	rsb r0, r0, #0
-	str r0, [r8, #4]
-_020283B4:
-	cmp r4, #0
-	addeq sp, sp, #0x1c
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r0, =g_obj
-	ldr r2, =FX_SinCosTable_
-	ldr r6, [r0, #0x3c]
-	ldrh r0, [r6, #0]
-	ldr r4, [r6, #4]
-	mov r0, r0, asr #4
-	mov r1, r0, lsl #1
-	add r0, r1, #1
-	mov r3, r1, lsl #1
-	mov r1, r0, lsl #1
-	ldrsh r0, [r2, r3]
-	ldrsh r1, [r2, r1]
-	bl FX_Div
-	smull r2, r1, r0, r4
-	adds r3, r2, #0x800
-	ldr r0, =g_obj
-	adc r2, r1, #0
-	ldr r1, [r0, #0x3c]
-	mov r5, r3, lsr #0xc
-	ldr r0, [r6, #0xc]
-	orr r5, r5, r2, lsl #20
-	smull r0, r2, r5, r0
-	adds r3, r0, #0x800
-	ldr r0, [r6, #4]
-	ldr r1, [r1, #0x28]
-	adc r2, r2, #0
-	mov r4, r3, lsr #0xc
-	orr r4, r4, r2, lsl #20
-	bl FX_Div
-	ldr r1, [r8, #4]
-	mov lr, #0x1000
-	add r1, r1, #0x60000
-	smull r2, r1, r0, r1
-	adds r2, r2, #0x800
-	mov r10, r2, lsr #0xc
-	adc r1, r1, #0
-	orr r10, r10, r1, lsl #20
-	ldr r2, [r8, #0]
-	mov r1, #0x80000
-	str r1, [r8]
-	sub r1, r1, #0xe0000
-	str r1, [r8, #4]
-	rsb r2, r2, #0x80000
-	smull r2, r1, r0, r2
-	adds r2, r2, #0x800
-	ldr r8, =NNS_G3dGlb+0x00000008
-	adc r0, r1, #0
-	mov r9, r2, lsr #0xc
-	orr r9, r9, r0, lsl #20
-	ldmia r8!, {r0, r1, r2, r3}
-	stmia r7!, {r0, r1, r2, r3}
-	ldmia r8!, {r0, r1, r2, r3}
-	stmia r7!, {r0, r1, r2, r3}
-	ldmia r8!, {r0, r1, r2, r3}
-	stmia r7!, {r0, r1, r2, r3}
-	ldmia r8, {r0, r1, r2, r3}
-	stmia r7, {r0, r1, r2, r3}
-	add ip, r5, r10
-	sub r0, r5, r10
-	ldr r5, [r6, #4]
-	sub r2, r9, r4
-	str r5, [sp]
-	add r3, r4, r9
-	ldr r4, [r6, #8]
-	mov r11, #0
-	stmib sp, {r4, lr}
-	ldr r4, =NNS_G3dGlb+0x00000008
-	str r11, [sp, #0xc]
-	rsb r1, ip, #0
-	str r4, [sp, #0x10]
-	bl G3i_FrustumW_
-	ldr r0, =NNS_G3dGlb
-	ldr r1, [r0, #0xfc]
-	bic r1, r1, #0x50
-	str r1, [r0, #0xfc]
-	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    fx32 camX;
+    fx32 camY;
+    if (g_obj.cameraFunc != NULL)
+    {
+        g_obj.cameraFunc(&camX, &camY);
+    }
+    else
+    {
+        camX = g_obj.camera[GRAPHICS_ENGINE_A].x;
+        camY = g_obj.camera[GRAPHICS_ENGINE_A].y;
+    }
 
-// clang-format on
-#endif
+    outputPos->x = inputPos->x - camX;
+    outputPos->y = -(inputPos->y - camY);
+    outputPos->z = inputPos->z;
+    outputPos->x += FX32_FROM_WHOLE(g_obj.offset.x);
+    outputPos->y += FX32_FROM_WHOLE(g_obj.offset.y);
+
+    if (g_obj.scale.x != FLOAT_TO_FX32(1.0))
+        outputPos->x = FX32_FROM_WHOLE(HW_LCD_CENTER_X) + MultiplyFX(outputPos->x - FX32_FROM_WHOLE(HW_LCD_CENTER_X), g_obj.scale.x);
+
+    if (g_obj.scale.y != FLOAT_TO_FX32(1.0))
+        outputPos->y = -(FX32_FROM_WHOLE(HW_LCD_CENTER_Y) + MultiplyFX(-FX32_FROM_WHOLE(HW_LCD_CENTER_Y) - outputPos->y, g_obj.scale.y));
+
+    if (setFrustum)
+    {
+        CameraConfig const *const ptrConfig = &g_obj.cameraConfig->config;
+        const u32 halfFOV                   = ptrConfig->projFOV;
+        const u32 nearPlaneDistance         = ptrConfig->projNear;
+        const fx32 tangentHalfFOV           = FX_Div(FX_SIN_AND_COS(halfFOV));
+        const fx32 frustumHalfHeight        = MultiplyFX(tangentHalfFOV, nearPlaneDistance);
+        const fx32 frustumHalfWidth         = MultiplyFX(frustumHalfHeight, ptrConfig->aspectRatio);
+        const fx32 nearByZ                  = FX_Div(ptrConfig->projNear, g_obj.cameraConfig->lookAtTo.z);
+        const fx32 frustumCenterY           = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_Y) + outputPos->y));
+        const fx32 frustumCenterX           = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_X) - outputPos->x));
+        outputPos->x                        = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
+        outputPos->y                        = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
+
+        (*outProjMtx) = *NNS_G3dGlbGetProjectionMtx();
+
+        const fx32 top    = -frustumCenterY + frustumHalfHeight;
+        const fx32 bottom = -(frustumHalfHeight + frustumCenterY);
+        const fx32 left   = frustumCenterX - frustumHalfWidth;
+        const fx32 right  = frustumHalfWidth + frustumCenterX;
+        const fx32 near   = ptrConfig->projNear;
+        const fx32 far    = ptrConfig->projFar;
+        NNS_G3dGlbFrustum(top, bottom, left, right, near, far);
+    }
 }

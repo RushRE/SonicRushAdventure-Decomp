@@ -58,7 +58,7 @@ void MapSys__Create(void)
     MI_CpuClear16(&mapCamera, sizeof(mapCamera));
     MapSys__InitStageBounds();
 
-    mapCamera.camera[0].waterLevel = mapCamera.camera[1].waterLevel = MAPSYS_WATERLEVEL_NONE;
+    mapCamera.camera[GRAPHICS_ENGINE_A].waterLevel = mapCamera.camera[GRAPHICS_ENGINE_B].waterLevel = MAPSYS_WATERLEVEL_NONE;
 
     if (IsBossStage())
     {
@@ -86,7 +86,7 @@ void MapSys__Create(void)
         if ((state->gameFlag & GAME_FLAG_IS_VS_BATTLE) != 0 && state->vsBattleType == VSBATTLE_RINGS)
         {
             MapSys__InitBoundsForVSRings();
-            mapCamera.camera[1].targetPlayerID = 1;
+            mapCamera.camera[GRAPHICS_ENGINE_B].targetPlayerID = 1;
 
             g_obj.flag &= ~OBJECTMANAGER_FLAG_USE_DUAL_CAMERAS;
         }

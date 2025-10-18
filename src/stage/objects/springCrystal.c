@@ -85,8 +85,8 @@ SpringCrystal *CreateSpringCrystal(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
             anim                            = SPRINGCRYSTAL_ANI_IDLE_V;
             work->gameWork.objWork.userWork = SPRINGCRYSTAL_ANI_IDLE_V;
 
-            ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -50, -64, 0, -24);
-            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, 0, -64, 50, -24);
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -50, -64, 0, -24);
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, 0, -64, 50, -24);
 
             ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_sprg_crystal_v.df", GetObjectDataWork(OBJDATAWORK_200), gameArchiveStage);
             work->gameWork.collisionObject.work.width  = 96;
@@ -103,8 +103,8 @@ SpringCrystal *CreateSpringCrystal(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
             anim                            = SPRINGCRYSTAL_ANI_IDLE_H;
             work->gameWork.objWork.userWork = SPRINGCRYSTAL_ANI_IDLE_H;
 
-            ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -64, -50, -24, 0);
-            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -64, 0, -24, 50);
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -64, -50, -24, 0);
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, -64, 0, -24, 50);
 
             ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_sprg_crystal_h.df", GetObjectDataWork(OBJDATAWORK_201), gameArchiveStage);
             work->gameWork.collisionObject.work.width  = 64;
@@ -115,17 +115,17 @@ SpringCrystal *CreateSpringCrystal(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     }
     StageTask__SetAnimation(&work->gameWork.objWork, anim);
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
     ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], SpringCrystal_OnDefend_L);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], SpringCrystal_OnDefend_L);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
-    work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[1], SpringCrystal_OnDefend_R);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], SpringCrystal_OnDefend_R);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
 
@@ -139,7 +139,7 @@ void SpringCrystal_State_Activated(SpringCrystal *work)
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
     {
         StageTask__SetAnimation(&work->gameWork.objWork, work->gameWork.objWork.userWork);
-        work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME;
 
         SetTaskState(&work->gameWork.objWork, NULL);
     }

@@ -142,7 +142,7 @@ EnemyGhostBomb *CreateGhostBomb(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
-    ObjRect__SetOnAttack(&work->gameWork.colliders[1], EnemyGhostBomb_OnHit);
+    ObjRect__SetOnAttack(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemyGhostBomb_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IN_AIR;

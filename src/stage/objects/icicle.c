@@ -68,16 +68,16 @@ Icicle *CreateIcicle(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.scale.y  = (size << 11) + FLOAT_TO_FX32(1.0);
     work->gameWork.objWork.userFlag = FX_Div(4096, FX32_FROM_WHOLE((work->gameWork.mapObjectParam_size << 7) + 256));
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET;
-    ObjRect__SetBox3D(&work->gameWork.colliders[0].rect, -32, -240, -32, 32, size << 7, 32);
-    work->gameWork.colliders[0].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
-    work->gameWork.colliders[0].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
-    work->gameWork.colliders[0].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET;
+    ObjRect__SetBox3D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -32, -240, -32, 32, size << 7, 32);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
     ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Icicle_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], Icicle_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     SetTaskOutFunc(&work->gameWork.objWork, Icicle_Draw);
     SetTaskState(&work->gameWork.objWork, Icicle_State_Active);

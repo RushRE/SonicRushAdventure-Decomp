@@ -1883,8 +1883,8 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
 
         NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
 
-        offset2.x = g_obj.offset[0] + FX32_TO_WHOLE(work->objWork.offset.x) - offset.x;
-        offset2.y = g_obj.offset[1] + FX32_TO_WHOLE(work->objWork.offset.y) - offset.y;
+        offset2.x = g_obj.offset.x + FX32_TO_WHOLE(work->objWork.offset.x) - offset.x;
+        offset2.y = g_obj.offset.y + FX32_TO_WHOLE(work->objWork.offset.y) - offset.y;
 
         VEC_Set(&baseScale, FLOAT_TO_FX32(4096.0), FLOAT_TO_FX32(4096.0), FLOAT_TO_FX32(4096.0));
 

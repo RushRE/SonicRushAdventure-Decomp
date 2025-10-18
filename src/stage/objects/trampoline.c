@@ -188,12 +188,12 @@ Trampoline *CreateTrampoline(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         bottom = FX32_TO_WHOLE(work->position.y - work->gameWork.objWork.position.y);
         top    = bottom + FX32_TO_WHOLE(work->targetPos.y);
     }
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, left - 16, top - 24, right + 16, bottom + 24);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Trampoline_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, left - 16, top - 24, right + 16, bottom + 24);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], Trampoline_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE;
 
     if (work->gameWork.objWork.viewOutOffset < (s16)(FX32_TO_WHOLE(work->targetPos.x) + 86))
         work->gameWork.objWork.viewOutOffset = (s16)(FX32_TO_WHOLE(work->targetPos.x) + 86);
@@ -578,7 +578,7 @@ void Trampoline_Draw(void)
     scale.z <<= 7;
 
     MTX_Identity33(&matRot);
-    GameObject__Func_20282A8(&work->position, &outputPos, &mtx, FALSE);
+    GameObject__TransformWorldToScreen(&work->position, &outputPos, &mtx, FALSE);
     NNS_G3dGlbSetBaseScale(&scale);
     NNS_G3dGlbSetBaseRot(&matRot);
     NNS_G3dGlbSetBaseTrans(&outputPos);
@@ -685,8 +685,8 @@ NONMATCH_FUNC void Trampoline_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect
         {
             trampoline->gameWork.parent = &player->objWork;
             Player__Gimmick_2021E9C(player, &trampoline->gameWork);
-            trampoline->gameWork.colliders[0].parent = NULL;
-            trampoline->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+            trampoline->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
+            trampoline->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             trampoline->playerBouncePos = player->objWork.position.y;
             return;
         }

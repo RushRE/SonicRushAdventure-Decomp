@@ -41,13 +41,13 @@ Bungee *CreateBungee(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     SetTaskOutFunc(&work->gameWork.objWork, Bungee_Draw);
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, mapObjectParam_left, mapObjectParam_top, mapObjectParam_left + mapObjectParam_width,
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, mapObjectParam_left, mapObjectParam_top, mapObjectParam_left + mapObjectParam_width,
                       mapObjectParam_top + mapObjectParam_height);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Bungee_OnDefend);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], Bungee_OnDefend);
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
@@ -92,7 +92,7 @@ void Bungee_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             bungee->gameWork.parent = &player->objWork;
             bungee->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
-            Player__Action_Bungee(player, &bungee->gameWork, ObjRect__CenterX(&bungee->gameWork.colliders[0]), ObjRect__CenterY(&bungee->gameWork.colliders[0]));
+            Player__Action_Bungee(player, &bungee->gameWork, ObjRect__CenterX(&bungee->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK]), ObjRect__CenterY(&bungee->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK]));
         }
     }
 }

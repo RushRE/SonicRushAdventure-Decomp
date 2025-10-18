@@ -454,7 +454,7 @@ EnemyBazookaPirateShot *CreateBazookaPirateShot(MapObject *mapObject, fx32 x, fx
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
-    ObjRect__SetOnAttack(&work->gameWork.colliders[1], EnemyBazookaPirateShot_OnHit);
+    ObjRect__SetOnAttack(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemyBazookaPirateShot_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
@@ -519,7 +519,7 @@ EnemyBombPirateBomb *CreateBombPirateBomb(MapObject *mapObject, fx32 x, fx32 y, 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
-    ObjRect__SetOnAttack(&work->gameWork.colliders[1], EnemyBombPirateBomb_OnHit);
+    ObjRect__SetOnAttack(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemyBombPirateBomb_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
@@ -551,7 +551,7 @@ EnemySkeletonPirateBone *CreateSkeletonPirateBone(MapObject *mapObject, fx32 x, 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
-    ObjRect__SetOnAttack(&work->gameWork.colliders[1], EnemySkeletonPirateBone_OnHit);
+    ObjRect__SetOnAttack(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemySkeletonPirateBone_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
@@ -583,7 +583,7 @@ EnemyHoverBomberPirateBomb *CreateHoverBomberPirateBomb(MapObject *mapObject, fx
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
-    ObjRect__SetOnAttack(&work->gameWork.colliders[1], EnemyHoverBomberPirateBomb_OnHit);
+    ObjRect__SetOnAttack(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemyHoverBomberPirateBomb_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
@@ -615,7 +615,7 @@ EnemyHoverGunnerPirateShot *CreateHoverGunnerPirateShot(MapObject *mapObject, fx
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT + 2);
-    ObjRect__SetOnAttack(&work->gameWork.colliders[1], EnemyBazookaPirateShot_OnHit);
+    ObjRect__SetOnAttack(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemyBazookaPirateShot_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
@@ -711,13 +711,13 @@ void EnemyBallChainPirateBall_State_Active(EnemyBallChainPirateBall *work)
 
     if (parent->gameWork.blinkTimer != 0)
     {
-        work->gameWork.colliders[0].defPower = OBS_RECT_DEFPOWER_INVINCIBLE;
-        work->gameWork.colliders[1].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = OBS_RECT_DEFPOWER_INVINCIBLE;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
     }
     else
     {
-        work->gameWork.colliders[0].defPower = OBS_RECT_DEFPOWER_DEFAULT;
-        work->gameWork.colliders[1].hitPower = OBS_RECT_HITPOWER_DEFAULT;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = OBS_RECT_DEFPOWER_DEFAULT;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].hitPower = OBS_RECT_HITPOWER_DEFAULT;
     }
 
     if (work->stateBall != NULL)

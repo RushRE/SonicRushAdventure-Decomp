@@ -37,11 +37,28 @@ enum EnemyCommonObjectFlags
 
 enum GameObjectCommonFlags_
 {
+    GAMEOBJECT_FLAG_USER_1 = 1 << 0,
+    GAMEOBJECT_FLAG_USER_2 = 1 << 1,
+    GAMEOBJECT_FLAG_USER_3 = 1 << 2,
+    GAMEOBJECT_FLAG_USER_4 = 1 << 3,
+
+    GAMEOBJECT_FLAG_HAS_PACKET_ACTION       = 1 << 13,
+    GAMEOBJECT_FLAG_4000                    = 1 << 14,
+    GAMEOBJECT_FLAG_8000                    = 1 << 15,
     GAMEOBJECT_FLAG_ALLOW_RESPAWN           = 1 << 16,
     GAMEOBJECT_FLAG_NO_ANIMAL_SPAWN         = 1 << 17,
     GAMEOBJECT_FLAG_NO_EXPLOSION_COLLISIONS = 1 << 18,
 };
 typedef u32 GameObjectCommonFlags;
+
+enum EnemyColliderID
+{
+    GAMEOBJECT_COLLIDER_WEAK,  // Hitbox (vulnerable)
+    GAMEOBJECT_COLLIDER_ATK,   // Hurtbox (hazardous)
+    GAMEOBJECT_COLLIDER_SOLID, // Solid
+
+    GAMEOBJECT_COLLIDER_COUNT,
+};
 
 enum BadnikBreakResult_
 {
@@ -60,7 +77,7 @@ struct GameObjectTask_
     StageTask objWork;
 
     OBS_ACTION2D_BAC_WORK animator;
-    OBS_RECT_WORK colliders[3];
+    OBS_RECT_WORK colliders[GAMEOBJECT_COLLIDER_COUNT];
     StageTaskCollisionWork collisionObject;
     NNSSndHandle *sndHandle;
     MapObject *mapObject;
@@ -88,8 +105,8 @@ void GameObject__InitFromObject(GameObjectTask *work, MapObject *mapObject, fx32
 void GameObject__Destructor(Task *task);
 void GameObject__SetAnimation(GameObjectTask *work, u16 animID);
 GameObjectTask *GameObject__SpawnObject(s32 id, fx32 x, fx32 y, u16 flags, s8 left, s8 top, u8 width, u8 height, u8 param);
-void GameObject__ProcessReceivedPackets_ItemBox(void);
-void GameObject__ProcessReceivedPackets_Unknown(void);
+void GameObject__ProcessReceivedPackets_ItemBoxes(void);
+void GameObject__ProcessReceivedPackets_Enemies(void);
 void GameObject__SendPacket(GameObjectTask *work, Player *player, GameObjectPacketType type);
 void GameObject__SpawnExplosion(GameObjectTask *work);
 void GameObject__OnDestroyEnemy(GameObjectTask *work);
@@ -101,9 +118,9 @@ void GameObject__BoostImpactEnemy(GameObjectTask *work, Player *player);
 void GameObject__State_BoostImpactSpin(GameObjectTask *work);
 s16 GameObject__GetNextTempObjID(void);
 void GameObject__ReleaseTempObj(MapObject *obj);
-void GameObject__ProcessReceivedPackets(GameObjectTask *work);
+void GameObject__ProcessPacketActions(GameObjectTask *work);
 BadnikBreakResult GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, GameObjectPacketType type);
-void GameObject__Func_20282A8(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx44 *mtx, BOOL setFrustum);
+void GameObject__TransformWorldToScreen(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx44 *outProjMtx, BOOL setFrustum);
 
 // --------------------
 // INLINE FUNCTIONS

@@ -51,13 +51,13 @@ HoverCrystal *CreateHoverCrystal(MapObject *mapObject, fx32 x, fx32 y, fx32 type
     StageTask__SetAnimation(&work->gameWork.objWork, HOVERCRYSTAL_ANI_CRYSTAL);
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, mapObjectParam_left, mapObjectParam_top - 96, mapObjectParam_left + mapObjectParam_width,
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, mapObjectParam_left, mapObjectParam_top - 96, mapObjectParam_left + mapObjectParam_width,
                       mapObjectParam_top + mapObjectParam_height);
     ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], HoverCrystal_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], HoverCrystal_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
 
     if (Player__UseUpsideDownGravity(work->gameWork.objWork.position.x, work->gameWork.objWork.position.y) != FALSE)
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;

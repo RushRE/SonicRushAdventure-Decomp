@@ -58,27 +58,27 @@ NONMATCH_FUNC FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_0);
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
-    ObjRect__SetBox2D(&work->gameWork.colliders[2].rect, -2, -2, 2, 2);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[2], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[2], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    work->gameWork.colliders[2].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
-    ObjRect__SetOnDefend(&work->gameWork.colliders[2], FlowerPipe__OnDefend_216188C);
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID].rect, -2, -2, 2, 2);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID], FlowerPipe__OnDefend_216188C);
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
-    ObjRect__SetOnDefend(&work->gameWork.colliders[1], FlowerPipe__OnDefend_2161854);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], FlowerPipe__OnDefend_2161854);
 
 	u16 anim;
 	u16 paletteSlot;
     switch (mapObject->id)
     {
         case MAPOBJECT_115:
-            ObjRect__SetOnDefend(&work->gameWork.colliders[0], FlowerPipe__OnDefend_216174C);
+            ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], FlowerPipe__OnDefend_216174C);
 
             work->gameWork.objWork.collisionObj           = NULL;
             work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
@@ -94,7 +94,7 @@ NONMATCH_FUNC FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 
             break;
 
         case MAPOBJECT_116:
-            ObjRect__SetOnDefend(&work->gameWork.colliders[0], SteamPipe__OnDefend_21617B0);
+            ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], SteamPipe__OnDefend_21617B0);
 
             work->gameWork.objWork.collisionObj           = NULL;
             work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
@@ -104,18 +104,18 @@ NONMATCH_FUNC FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 
             work->gameWork.collisionObject.work.ofst_x    = -28;
             work->gameWork.collisionObject.work.ofst_y    = 0;
             work->gameWork.objWork.userWork               = 6;
-            work->gameWork.colliders[1].parent            = &work->gameWork.objWork;
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent            = &work->gameWork.objWork;
 
             anim        = 1;
             paletteSlot = 10;
 
-            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -2, 14, 2, 18);
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, -2, 14, 2, 18);
 
-            work->gameWork.colliders[2].parent = &work->gameWork.objWork;
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID].parent = &work->gameWork.objWork;
             break;
 
         case MAPOBJECT_117:
-            ObjRect__SetOnDefend(&work->gameWork.colliders[0], SteamPipe__OnDefend_21617B0);
+            ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], SteamPipe__OnDefend_21617B0);
 
             work->gameWork.objWork.collisionObj           = NULL;
             work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
@@ -127,14 +127,14 @@ NONMATCH_FUNC FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 
 
             work->gameWork.objWork.userWork    = 7;
             work->gameWork.objWork.dir.z       = 0x4000;
-            work->gameWork.colliders[1].parent = &work->gameWork.objWork;
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
 
             anim        = 2;
             paletteSlot = 10;
 
-            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -18, 14, -14, 18);
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, -18, 14, -14, 18);
 
-            work->gameWork.colliders[2].parent = &work->gameWork.objWork;
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_SOLID].parent = &work->gameWork.objWork;
             break;
     }
 
@@ -375,15 +375,15 @@ NONMATCH_FUNC SteamPipe *SteamPipe__Create(MapObject *mapObject, fx32 x, fx32 y,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_0);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     work->gameWork.objWork.userFlag = 1;
 
     u16 anim;
     if (mapObject->id >= MAPOBJECT_127 && mapObject->id <= MAPOBJECT_130)
     {
-        ObjRect__SetOnDefend(&work->gameWork.colliders[0], SteamPipe__OnDefend_2161DA0);
+        ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], SteamPipe__OnDefend_2161DA0);
 
         work->gameWork.objWork.userWork = 2 * (mapObject->id - MAPOBJECT_127);
         switch (mapObject->id)
@@ -411,14 +411,14 @@ NONMATCH_FUNC SteamPipe *SteamPipe__Create(MapObject *mapObject, fx32 x, fx32 y,
     {
         if (mapObject->id >= MAPOBJECT_131 && mapObject->id <= MAPOBJECT_134)
         {
-            ObjRect__SetOnDefend(&work->gameWork.colliders[0], SteamPipe__OnDefend_21617B0);
+            ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], SteamPipe__OnDefend_21617B0);
 
-            work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-            ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -2, -2, 2, 2);
-            ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-            ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-            work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
-            ObjRect__SetOnDefend(&work->gameWork.colliders[1], SteamPipe__OnDefend_2161DE0);
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, -2, -2, 2, 2);
+            ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+            ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+            ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], SteamPipe__OnDefend_2161DE0);
             work->gameWork.objWork.userWork = 2 * (mapObject->id - MAPOBJECT_131);
 
             switch (mapObject->id)

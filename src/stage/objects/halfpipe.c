@@ -58,29 +58,29 @@ Halfpipe *CreateHalfpipe(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     StageTask__SetAnimation(&work->gameWork.objWork, halfpipeType);
     work->gameWork.objWork.obj_2d->ani.work.spriteType = GX_OAM_MODE_XLU;
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Halfpipe_OnDefend_Entry);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], Halfpipe_OnDefend_Entry);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[1], Halfpipe_OnDefend_Exit);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], Halfpipe_OnDefend_Exit);
 
     if (mapObject->id != MAPOBJECT_147)
     {
-        work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-        ObjRect__SetBox3D(&work->gameWork.colliders[0].rect, 0, -128, -256, 64, 0, 256);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+        ObjRect__SetBox3D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, 0, -128, -256, 64, 0, 256);
         if (mapObject->id == MAPOBJECT_145)
         {
-            work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-            ObjRect__SetBox3D(&work->gameWork.colliders[1].rect, -64, -512, -256, 0, 0, 256);
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+            ObjRect__SetBox3D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, -64, -512, -256, 0, 0, 256);
         }
     }
     else
     {
-        work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-        ObjRect__SetBox3D(&work->gameWork.colliders[1].rect, 0, -512, -256, 64, 0, 256);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+        ObjRect__SetBox3D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, 0, -512, -256, 64, 0, 256);
     }
 
     return work;

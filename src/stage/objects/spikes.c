@@ -398,7 +398,7 @@ Spikes *CreateSpikes2(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     s8 size = MTM_MATH_CLIP_S8(mapObjectParam_size, 1, 5);
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
     ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_INVINCIBLE);
     work->gameWork.objWork.collisionObj           = 0;
@@ -410,7 +410,7 @@ Spikes *CreateSpikes2(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     {
         case MAPOBJECT_274:
         case MAPOBJECT_275:
-            ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -26, -12, -21, 32 * (size - 1) + 12);
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -26, -12, -21, 32 * (size - 1) + 12);
             work->gameWork.collisionObject.work.width  = 24;
             work->gameWork.collisionObject.work.height = 32 * size;
             work->gameWork.collisionObject.work.ofst_x = -16;
@@ -418,7 +418,7 @@ Spikes *CreateSpikes2(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             break;
 
         default:
-            ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -16, -24, 32 * (size - 1) + 16, -21);
+            ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -16, -24, 32 * (size - 1) + 16, -21);
             work->gameWork.collisionObject.work.width  = 32 * size;
             work->gameWork.collisionObject.work.height = 24;
             work->gameWork.collisionObject.work.ofst_x = -16;
@@ -495,9 +495,9 @@ void Spikes_State_Idle(Spikes *work)
         if (spikes != work || player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
             return;
 
-        if (ObjRect__FlagCheck(work->gameWork.colliders[0].hitFlag, player->colliders[0].defFlag, work->gameWork.colliders[0].hitPower, player->colliders[0].defPower))
+        if (ObjRect__FlagCheck(work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].hitFlag, player->colliders[GAMEOBJECT_COLLIDER_WEAK].defFlag, work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].hitPower, player->colliders[GAMEOBJECT_COLLIDER_WEAK].defPower))
         {
-            Player__OnDefend_Regular(&work->gameWork.colliders[0], &player->colliders[0]);
+            Player__OnDefend_Regular(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], &player->colliders[GAMEOBJECT_COLLIDER_WEAK]);
         }
     }
 }
@@ -568,8 +568,8 @@ void Spikes2_State_Idle(Spikes *work)
     if (spikes != work || player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
         return;
 
-    if (ObjRect__FlagCheck(work->gameWork.colliders[0].hitFlag, player->colliders[0].defFlag, work->gameWork.colliders[0].hitPower, player->colliders[0].defPower))
+    if (ObjRect__FlagCheck(work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].hitFlag, player->colliders[GAMEOBJECT_COLLIDER_WEAK].defFlag, work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].hitPower, player->colliders[GAMEOBJECT_COLLIDER_WEAK].defPower))
     {
-        Player__OnDefend_Regular(&work->gameWork.colliders[0], &player->colliders[0]);
+        Player__OnDefend_Regular(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], &player->colliders[GAMEOBJECT_COLLIDER_WEAK]);
     }
 }

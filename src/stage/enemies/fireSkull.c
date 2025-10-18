@@ -68,10 +68,10 @@ EnemyFireSkull *CreateFireSkull(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[1], EnemyFireSkull_OnDefend);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemyFireSkull_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     EnemyFireSkull_Action_Init(work);
 
@@ -312,11 +312,11 @@ void EnemyFireSkull_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     }
     else
     {
-        enemy->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-        enemy->gameWork.colliders[0].parent = NULL;
+        enemy->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        enemy->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
 
-        enemy->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-        enemy->gameWork.colliders[1].parent = NULL;
+        enemy->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        enemy->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = NULL;
 
         EnemyFireSkull_Action_Cling(enemy);
         Player__ApplyClingWeight(player);

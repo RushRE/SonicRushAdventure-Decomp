@@ -43,8 +43,8 @@ DecorationSys__initTable: // 0x021876A0
 _021876CC: // 0x021876CC
     .byte 0, 1, 2, 0, 1, 2, 0, 1
 
-.public _021876D4
-_021876D4: // 0x021876D4
+.public decorInfo3D
+decorInfo3D: // 0x021876D4
     .byte 0x17, 0, 3, 3, 0x48, 0, 9, 0, 0x17, 0, 4, 4, 0x48
 	.byte 0, 0xA, 0, 0x17, 0, 5, 5, 0x48, 0, 0xB, 0
 

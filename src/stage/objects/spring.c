@@ -68,10 +68,10 @@ Spring *CreateSpring(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
 
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    work->gameWork.colliders[0].onDefend = Spring_OnDefend;
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = Spring_OnDefend;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
@@ -149,7 +149,7 @@ void Spring_State_Activated(Spring *work)
 {
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
     {
-        work->gameWork.colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER | OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~(OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER | OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
         Spring_Action_Idle(work);
     }
 }

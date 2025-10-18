@@ -129,8 +129,8 @@ RingButton *CreateRingButton(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     if (gmCheckRingBattle())
     {
         AddButtonToRingBattleManager(work);
-        work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-        ObjRect__SetOnDefend(&work->gameWork.colliders[0], RingButton_OnDefend);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+        ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], RingButton_OnDefend);
         work->gameWork.objWork.flag |= OBS_RECT_WORK_FLAG_IGNORE_ATK_DEF_VALUES | OBS_RECT_WORK_FLAG_FLIP_Y;
         work->onActivated = RingBattleManager_OnButtonActivated;
     }

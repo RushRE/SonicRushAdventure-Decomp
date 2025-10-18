@@ -817,8 +817,8 @@
 .public GameObject__Destructor
 .public GameObject__SetAnimation
 .public GameObject__SpawnObject
-.public GameObject__ProcessReceivedPackets_ItemBox
-.public GameObject__ProcessReceivedPackets_Unknown
+.public GameObject__ProcessReceivedPackets_ItemBoxes
+.public GameObject__ProcessReceivedPackets_Enemies
 .public GameObject__SendPacket
 .public GameObject__SpawnExplosion
 .public GameObject__OnDestroyEnemy
@@ -830,9 +830,9 @@
 .public GameObject__State_BoostImpactSpin
 .public GameObject__GetNextTempObjID
 .public GameObject__ReleaseTempObj
-.public GameObject__ProcessReceivedPackets
+.public GameObject__ProcessPacketActions
 .public GameObject__BadnikBreak
-.public GameObject__Func_20282A8
+.public GameObject__TransformWorldToScreen
 .public CreateEffectTask
 .public InitEffectTaskViewCheck
 .public LoadEffectTask3DAsset
@@ -8222,8 +8222,8 @@
 .public DecorationSys__DestroyDecor
 .public DecorationSys__Release
 .public DecorationSys__CreateTempDecoration
-.public DecorationSys__CreateCommonDecor
-.public DecorationSys__CreateUnknown2152D9C
+.public DecorationSys__CreateCommonDecor2D
+.public DecorationSys__CreateCommonDecor3D
 .public DecorationSys__CreateUnknown2153118
 .public DecorationSys__Destructor
 .public DecorationSys__Main
@@ -8991,7 +8991,7 @@
 .public DecorationSys__rectList
 .public DecorationSys__initTable
 .public _021876CC
-.public _021876D4
+.public decorInfo3D
 .public decorAssets
 .public decorInfo
 .public spritePaletteIDList

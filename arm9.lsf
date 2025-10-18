@@ -449,10 +449,8 @@ Overlay ZoneAct
     
     ## STAGE DECORATIONS ##
     Object asm/stage/decoration/decorationSys_vars_rodata.o
-    Object asm/stage/decoration/decorationSys_vars_data.o
     Object src/stage/core/decorationSys.o
     Object asm/stage/decoration/decorationSys_vars_strings.o
-    Object asm/stage/decoration/decorationSys_vars_bss.o
     
     ## STAGE OBJECTS ##
     Object src/stage/enemies/robot.o

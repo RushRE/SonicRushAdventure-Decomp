@@ -42,19 +42,19 @@ BreakableWall *BreakableWall__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 
     if (mapObject->id == MAPOBJECT_119)
     {
         ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-        work->gameWork.colliders[0].onDefend = BreakableWall__OnDefend_2160518;
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = BreakableWall__OnDefend_2160518;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     }
     else
     {
         ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NORMAL), OBS_RECT_DEFPOWER_VULNERABLE);
-        work->gameWork.colliders[0].onDefend = BreakableWall__OnDefend_21608E0;
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = BreakableWall__OnDefend_21608E0;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
-        ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-        ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NORMAL), OBS_RECT_DEFPOWER_VULNERABLE);
-        work->gameWork.colliders[1].onDefend = BreakableWall__OnDefend_2160A88;
-        work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NORMAL), OBS_RECT_DEFPOWER_VULNERABLE);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].onDefend = BreakableWall__OnDefend_2160A88;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     }
 
     switch (anim)

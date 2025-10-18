@@ -141,19 +141,19 @@ Stalactite *CreateStalactite(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     if (mapObject->id == MAPOBJECT_160)
     {
-        ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -62, -206, 62, -158);
-        ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-        ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NORMAL), OBS_RECT_DEFPOWER_VULNERABLE);
+        ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -62, -206, 62, -158);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NORMAL), OBS_RECT_DEFPOWER_VULNERABLE);
     }
     else
     {
-        ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -40, -104, 40, 152);
-        ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-        ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+        ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -40, -104, 40, 152);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     }
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Stalactite_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], Stalactite_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_stalactite_bottom.df", GetObjectDataWork(OBJDATAWORK_171), gameArchiveStage);
     StageTaskCollisionObj *collisionWork0 = &work->gameWork.collisionObject.work;
@@ -240,11 +240,11 @@ FallingStalactite *CreateFallingStalactite(MapObject *mapObject, fx32 x, fx32 y,
     collisionWork3->ofst_x                = 0;
     collisionWork3->ofst_y                = 8;
 
-    ObjRect__SetGroupFlags(&work->gameWork.colliders[0], 1, 2);
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -42, 0, 42, 86);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_VULNERABLE);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
+    ObjRect__SetGroupFlags(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], 1, 2);
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -42, 0, 42, 86);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
 
     SetTaskCollideFunc(&work->gameWork.objWork, FallingStalactite_Collide);
     SetTaskState(&work->gameWork.objWork, FallingStalactite_State_Shake);
@@ -429,7 +429,7 @@ void Stalactite_Collide(void)
 
     if (!IsStageTaskDestroyedAny(&work->gameWork.objWork))
     {
-        if (work->gameWork.colliders[0].parent != NULL)
+        if (work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent != NULL)
             StageTask__HandleCollider(&work->gameWork.objWork, work->gameWork.colliders);
 
         if (!StageTask__ViewCheck_Default(&work->gameWork.objWork))
@@ -521,7 +521,7 @@ void FallingStalactite_State_Shake(FallingStalactite *work)
         work->gameWork.objWork.shakeTimer = 0;
         work->gameWork.objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
         StageTask__SetHitbox(&work->gameWork.objWork, -32, 0, 32, 64);
-        work->gameWork.colliders[0].parent = &work->gameWork.objWork;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
         work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 
         SetTaskState(&work->gameWork.objWork, FallingStalactite_State_Fall);
@@ -560,7 +560,7 @@ void FallingStalactite_Collide(void)
 
     if (!IsStageTaskDestroyedAny(&work->gameWork.objWork))
     {
-        if (work->gameWork.colliders[0].parent != NULL)
+        if (work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent != NULL)
             StageTask__HandleCollider(&work->gameWork.objWork, work->gameWork.colliders);
 
         if (!StageTask__ViewCheck_Default(&work->gameWork.objWork))

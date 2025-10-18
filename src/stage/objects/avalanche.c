@@ -75,35 +75,35 @@ Avalanche *CreateAvalanche(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, mapObject->left, mapObject->top, mapObject->left + mapObject->width, mapObject->top + mapObject->height);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, mapObject->left, mapObject->top, mapObject->left + mapObject->width, mapObject->top + mapObject->height);
 
     if (mapObject->id == MAPOBJECT_194)
     {
-        ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-        ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-        ObjRect__SetOnDefend(&work->gameWork.colliders[0], Avalanche_OnDefend_ActivateTrigger);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+        ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], Avalanche_OnDefend_ActivateTrigger);
 
-        work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-        ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, mapObject->left - 48, mapObject->top, mapObject->left - 16, mapObject->top + mapObject->height);
-        ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-        ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-        ObjRect__SetOnDefend(&work->gameWork.colliders[1], Avalanche_OnDefend_StartTrigger);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+        ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, mapObject->left - 48, mapObject->top, mapObject->left - 16, mapObject->top + mapObject->height);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+        ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], Avalanche_OnDefend_StartTrigger);
     }
     else
     {
-        ObjRect__SetGroupFlags(&work->gameWork.colliders[0], 1, 2);
-        ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_USER_3, OBS_RECT_HITPOWER_VULNERABLE);
-        ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_INVINCIBLE);
-        ObjRect__SetOnDefend(&work->gameWork.colliders[0], NULL);
+        ObjRect__SetGroupFlags(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], 1, 2);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_USER_3, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_INVINCIBLE);
+        ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], NULL);
 
-        work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-        ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, mapObject->left, mapObject->top, mapObject->left + mapObject->width, mapObject->top + mapObject->height);
-        ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-        ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-        ObjRect__SetOnDefend(&work->gameWork.colliders[1], Avalanche_OnDefend_CameraTrigger);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+        ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, mapObject->left, mapObject->top, mapObject->left + mapObject->width, mapObject->top + mapObject->height);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+        ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], Avalanche_OnDefend_CameraTrigger);
     }
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.objWork.sequencePlayerPtr = AllocSndHandle();
 
@@ -134,13 +134,13 @@ AvalancheTree *CreateAvalancheTree(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
         StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_3);
     StageTask__SetAnimation(&work->gameWork.objWork, AVALANCHETREE_ANI_AVALANCHE_TREE);
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, 16, -52, 60, 2);
-    ObjRect__SetGroupFlags(&work->gameWork.colliders[0], 1, 2);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], AvalancheTree_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, 16, -52, 60, 2);
+    ObjRect__SetGroupFlags(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], 1, 2);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_DEFAULT);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], AvalancheTree_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     return work;
 }
@@ -160,19 +160,19 @@ void Avalanche_State_Ready(Avalanche *work)
         gPlayer->gimmickCamCenterOffsetY = 40;
 
         work->gameWork.objWork.position.y += FLOAT_TO_FX32(160.0);
-        work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-        ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -32, -32, 0, 16);
-        ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_USER_1, OBS_RECT_HITPOWER_DEFAULT);
-        ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_INVINCIBLE);
-        ObjRect__SetOnDefend(&work->gameWork.colliders[0], NULL);
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_ENABLED;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+        ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -32, -32, 0, 16);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_USER_1, OBS_RECT_HITPOWER_DEFAULT);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_INVINCIBLE);
+        ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], NULL);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_ENABLED;
 
-        work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-        ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -16, -16, 16, 16);
-        ObjRect__SetAttackStat(&work->gameWork.colliders[1], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-        ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_USER_3), OBS_RECT_DEFPOWER_VULNERABLE);
-        ObjRect__SetOnDefend(&work->gameWork.colliders[1], Avalanche_OnDefend_EndTrigger);
-        work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_ENABLED;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+        ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, -16, -16, 16, 16);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_USER_3), OBS_RECT_DEFPOWER_VULNERABLE);
+        ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], Avalanche_OnDefend_EndTrigger);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_ENABLED;
 
         StageTask__SetHitbox(&work->gameWork.objWork, -6, -6, 6, 6);
 
@@ -324,7 +324,7 @@ void Avalanche_OnDefend_ActivateTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rec
     {
         avalanche->gameWork.flags &= ~AVALANCHE_FLAG_IS_READY;
         SetTaskState(&avalanche->gameWork.objWork, Avalanche_State_Ready);
-        ObjRect__SetOnDefend(&avalanche->gameWork.colliders[0], NULL);
+        ObjRect__SetOnDefend(&avalanche->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], NULL);
     }
 }
 
@@ -365,7 +365,7 @@ void Avalanche_OnDefend_CameraTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2
     player->gimmickCamCenterOffsetX = 0;
     player->gimmickCamCenterOffsetY = 0;
 
-    ObjRect__SetOnDefend(&avalanche->gameWork.colliders[1], NULL);
+    ObjRect__SetOnDefend(&avalanche->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], NULL);
 }
 
 void AvalancheTree_State_Hit(AvalancheTree *work)

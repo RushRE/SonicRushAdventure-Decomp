@@ -93,12 +93,12 @@ Balloon *CreateBalloon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     StageTask__SetOAMPriority(&aniCrystal->work, SPRITE_PRIORITY_2);
     AnimatorSpriteDS__SetAnimation(aniCrystal, 1);
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -16, -8, 16, 8);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Balloon_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -16, -8, 16, 8);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], Balloon_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.objWork.sequencePlayerPtr = AllocSndHandle();
     SetTaskOutFunc(&work->gameWork.objWork, Balloon_Draw);
@@ -107,7 +107,7 @@ Balloon *CreateBalloon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     {
         i = 0;
 
-        work->gameWork.colliders[0].parent = NULL;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
 
         work->gameWork.objWork.scale.x = work->gameWork.objWork.scale.y = FLOAT_TO_FX32(0.0);
 
@@ -183,7 +183,7 @@ void Balloon_State_Appearing(Balloon *work)
     {
         work->gameWork.objWork.scale.x = work->gameWork.objWork.scale.y = FLOAT_TO_FX32(1.0);
 
-        work->gameWork.colliders[0].parent = &work->gameWork.objWork;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
         SetTaskState(&work->gameWork.objWork, NULL);
     }
     else
@@ -290,7 +290,7 @@ void Balloon_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         return;
 
     balloon->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-    balloon->gameWork.colliders[0].parent = NULL;
+    balloon->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
 
     balloon->gameWork.objWork.userTimer = (MTM_MATH_CLIP(balloon->gameWork.mapObject->left, 0, 16) << 11) + FLOAT_TO_FX32(2.0);
     Player__Action_BalloonRide(player, &balloon->gameWork, balloon->gameWork.objWork.userTimer);

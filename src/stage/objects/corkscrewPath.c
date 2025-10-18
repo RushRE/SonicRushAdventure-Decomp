@@ -22,14 +22,14 @@ CorkscrewPath *CreateCorkscrewPath(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     if ((mapObject->flags & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) != 0)
-        ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -16, -8, -4, 0); // vertical corkscrew path
+        ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -16, -8, -4, 0); // vertical corkscrew path
     else
-        ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, 4, -8, 16, 0); // horizontal corkscrew path
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], CorkscrewPath_OnDefend);
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
+        ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, 4, -8, 16, 0); // horizontal corkscrew path
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_DISABLE_DEF_RESPONSE | OBS_RECT_WORK_FLAG_DISABLE_ATK_RESPONSE;
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], CorkscrewPath_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_ALLOW_TOP_SOLID;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;

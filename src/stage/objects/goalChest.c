@@ -125,10 +125,10 @@ NONMATCH_FUNC GoalChest *CreateGoalChest(MapObject *mapObject, fx32 x, fx32 y, f
 
     ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NORMAL), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], GoalChest_OnDefend);
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -32, -56, 32, 0);
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_ENABLED;
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], GoalChest_OnDefend);
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -32, -56, 32, 0);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_ENABLED;
 
     if (gmCheckMissionType(MISSION_TYPE_FIND_MEDAL))
     {
@@ -609,7 +609,7 @@ void GoalChest_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         goalChest->gameWork.collisionObject.work.parent = NULL;
         goalChest->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_PAUSED);
         SetTaskState(&goalChest->gameWork.objWork, GoalChest_State_Opened);
-        goalChest->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        goalChest->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
         goalChest->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_DISABLED;
 
         fx32 impactVelocity = MATH_ABS(player->objWork.move.x) + MATH_ABS(player->objWork.move.y);

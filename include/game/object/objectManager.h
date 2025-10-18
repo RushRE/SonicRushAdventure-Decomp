@@ -251,7 +251,7 @@ enum ObjectDataWorkID
 struct ObjectManager
 {
     VecFx32 scale;
-    fx16 offset[2];
+    Vec2Fx16 offset;
     fx32 speed;
     Vec2Fx32 scroll;
     s32 depth;

@@ -35,7 +35,7 @@ BreakableObject *BreakableObject__Create(MapObject *mapObject, fx32 x, fx32 y, f
     ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_VULNERABLE);
 
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], BreakableObject__OnDefend);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], BreakableObject__OnDefend);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.collisionObj           = 0;
     work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
@@ -110,8 +110,8 @@ void BreakableObject__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     QueueDestroyStageTask(&breakable->gameWork.objWork);
     breakable->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     breakable->gameWork.flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
-    breakable->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-    breakable->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+    breakable->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+    breakable->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
     breakable->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_DISABLED;
 
     fx32 x = breakable->gameWork.objWork.position.x;
@@ -149,8 +149,8 @@ NONMATCH_FUNC void BreakableObject__State_Tutorial(BreakableObject *work)
         work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 		DestroyStageTask(&work->gameWork.objWork);
         work->gameWork.flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-        work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
         work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_DISABLED;
 
         fx32 x = work->gameWork.objWork.position.x;

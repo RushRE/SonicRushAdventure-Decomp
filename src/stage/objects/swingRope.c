@@ -61,18 +61,18 @@ void *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     aniNode->ani.cParam[1].palette = aniNode->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     aniNode->ani.work.cParam.palette                                = aniNode->ani.cParam[0].palette;
 
-    ObjRect__SetGroupFlags(&work->colliders[0], 2, 1);
-    ObjRect__SetBox3D(&work->colliders[0].rect, -4, -4, -16, 4, 4, 16);
-    ObjRect__SetAttackStat(&work->colliders[0], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    work->colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetOnDefend(&work->colliders[0], SwingRope__OnDefend);
-    work->colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetGroupFlags(&work->colliders[GAMEOBJECT_COLLIDER_WEAK], 2, 1);
+    ObjRect__SetBox3D(&work->colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -4, -4, -16, 4, 4, 16);
+    ObjRect__SetAttackStat(&work->colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetOnDefend(&work->colliders[GAMEOBJECT_COLLIDER_WEAK], SwingRope__OnDefend);
+    work->colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
-    OBS_RECT_WORK *collider = &work->colliders[1];
+    OBS_RECT_WORK *collider = &work->colliders[GAMEOBJECT_COLLIDER_ATK];
     for (i = 1; i < work->nodeCount; i++)
     {
-        MI_CpuCopy8(&work->colliders[0], collider, sizeof(work->colliders[0]));
+        MI_CpuCopy8(&work->colliders[GAMEOBJECT_COLLIDER_WEAK], collider, sizeof(work->colliders[GAMEOBJECT_COLLIDER_WEAK]));
         collider->rect.front = 16 + i;
         collider++;
     }

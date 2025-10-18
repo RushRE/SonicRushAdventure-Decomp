@@ -61,12 +61,12 @@ Slingshot *CreateSlingshot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     StageTask__SetOAMOrder(&aniCounterweight->work, SPRITE_ORDER_23);
     StageTask__SetOAMPriority(&aniCounterweight->work, SPRITE_PRIORITY_2);
 
-    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -152, -32, -120, 0);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    work->gameWork.colliders[0].onDefend = Slingshot_OnDefend;
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -152, -32, -120, 0);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = Slingshot_OnDefend;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.objWork.dir.z = -FLOAT_DEG_TO_IDX(16.875);
     if (mapObject->id == MAPOBJECT_212)
@@ -115,16 +115,16 @@ SlingshotRock *CreateSlingshotRock(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     StageTask__SetAnimation(&work->gameWork.objWork, 3);
 
-    ObjRect__SetGroupFlags(&work->gameWork.colliders[0], 1, 2);
-    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -20, -20, 20, 20);
-    ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_BODY, OBS_RECT_HITPOWER_DEFAULT);
-    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_INVINCIBLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], NULL);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS | OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
+    ObjRect__SetGroupFlags(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], 1, 2);
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -20, -20, 20, 20);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_BODY, OBS_RECT_HITPOWER_DEFAULT);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_INVINCIBLE);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], NULL);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS | OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
 
-    ObjRect__SetGroupFlags(&work->gameWork.colliders[1], 1, 2);
-    ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -20, -20, 20, 20);
-    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS | OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
+    ObjRect__SetGroupFlags(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], 1, 2);
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, -20, -20, 20, 20);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS | OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
 
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
@@ -229,8 +229,8 @@ void Slingshot_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
         return;
 
-    slingshot->gameWork.colliders[0].parent = NULL;
-    slingshot->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+    slingshot->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
+    slingshot->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     slingshot->gameWork.parent = &player->objWork;
     Player__Action_EnterSlingshot(player, &slingshot->gameWork);
@@ -316,13 +316,13 @@ void SlingshotRock_State_Idle(SlingshotRock *work)
                 }
             }
 
-            work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-            work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-            work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_ENABLED;
 
-            work->gameWork.colliders[1].parent = &work->gameWork.objWork;
-            work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-            work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_ENABLED;
 
             work->gameWork.collisionObject.work.parent = NULL;
         }

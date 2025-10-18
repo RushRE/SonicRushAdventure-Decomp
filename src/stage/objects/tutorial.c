@@ -527,14 +527,14 @@ TutorialCheckpoint *CreateTutorialCheckpoint(MapObject *mapObject, fx32 x, fx32 
 
     ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], TutorialCheckpoint_OnDefend);
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], TutorialCheckpoint_OnDefend);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     if (sVars.activeTutorial != NULL && sectionList[sVars.activeTutorial->sectionID].statePlayer && (sVars.activeTutorial->sectionFlags & TUTORIAL_SECTIONFLAG_COMPLETE) == 0)
     {
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
-        work->gameWork.colliders[0].parent = NULL;
-        work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
     }
 
     SetTaskState(&work->gameWork.objWork, TutorialCheckpoint_State_Active);
@@ -1772,8 +1772,8 @@ void TutorialCheckpoint_State_Active(TutorialCheckpoint *work)
             if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) != 0 && (sVars.activeTutorial->sectionFlags & TUTORIAL_SECTIONFLAG_COMPLETE) != 0)
             {
                 work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
-                work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-                work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+                work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+                work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             }
         }
 
@@ -1802,8 +1802,8 @@ void TutorialCheckpoint_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     if (sVars.activeTutorial == NULL)
         return;
 
-    checkpoint->gameWork.colliders[0].parent = NULL;
-    checkpoint->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+    checkpoint->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
+    checkpoint->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
     Tutorial_Action_ActivateCheckpoint(sVars.activeTutorial, checkpoint->gameWork.mapObjectParam_id, FX32_FROM_WHOLE(checkpoint->gameWork.mapObjectParam_nextSectionWidth << 6),
                                        FX32_FROM_WHOLE(checkpoint->gameWork.mapObjectParam_promptPosX << 3),

@@ -2129,7 +2129,7 @@ void GameSystem_Main_Early(void)
             }
         }
 
-        GameObject__ProcessReceivedPackets_ItemBox();
+        GameObject__ProcessReceivedPackets_ItemBoxes();
     }
 
     if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FADE_IS_ACTIVE) != 0)
@@ -2163,7 +2163,7 @@ void GameSystem_Main_Late(void)
 
     if ((state->gameFlag & GAME_FLAG_IS_VS_BATTLE) != 0)
     {
-        GameObject__ProcessReceivedPackets_Unknown();
+        GameObject__ProcessReceivedPackets_Enemies();
 
         if ((GetSystemFrameCounter() & 0x3F) == 0)
         {

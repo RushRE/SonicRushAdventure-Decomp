@@ -72,40 +72,40 @@ void operator delete(void *memory)
 
     if (memory >= heapSystem_StartAddr && memory < heapSystem_EndAddr)
     {
-        heap = 0;
+        heap = HEAP_SYSTEM;
     }
     else if (memory >= heapUser_StartAddr && memory < heapUser_EndAddr)
     {
-        heap = 1;
+        heap = HEAP_USER;
     }
     else if (memory >= heapDTCM_StartAddr && memory < heapDTCM_EndAddr)
     {
-        heap = 3;
+        heap = HEAP_DTCM;
     }
     else if (memory >= heapITCM_StartAddr && memory < heapITCM_EndAddr)
     {
-        heap = 2;
+        heap = HEAP_ITCM;
     }
     else
     {
-        heap = 0;
+        heap = HEAP_SYSTEM;
     }
 
     switch (heap)
     {
-        case 0:
+        case HEAP_SYSTEM:
             HeapFree(HEAP_SYSTEM, memory);
             break;
 
-        case 1:
+        case HEAP_USER:
             HeapFree(HEAP_USER, memory);
             break;
 
-        case 3:
+        case HEAP_DTCM:
             HeapFree(HEAP_DTCM, memory);
             break;
 
-        case 2:
+        case HEAP_ITCM:
             HeapFree(HEAP_ITCM, memory);
             break;
     }

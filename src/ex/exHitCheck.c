@@ -74,10 +74,23 @@ void exHitCheckTask_InitHitChecker(exHitCheck *work)
 
 NONMATCH_FUNC BOOL exHitCheckTask_CheckBoxOverlap(exHitCheckTaskUnknown *check1, exHitCheckTaskUnknown *check2)
 {
-    // https://decomp.me/scratch/gmdJi -> 5.54%
+    // https://decomp.me/scratch/gmdJi -> 72.68%
 #ifdef NON_MATCHING
-    if (check1->position->x + check1->size.x + check2->size.x >= check2->position->x && check1->position->x - check1->size.x - check2->size.x < check2->position->x
-        && check1->position->y + check1->size.y + check2->size.y >= check2->position->y && check1->position->y - check1->size.y - check2->size.y < check2->position->y)
+    s32 check1X1;
+    s32 check1X2;
+    s32 check1Y1;
+    s32 check1Y2;
+
+    check1X1 = check1->position->x + check1->size.x + check2->size.x;
+    check1X2 = check1->position->x - check1->size.x - check2->size.x;
+    check1Y1 = check1->position->y + check1->size.y + check2->size.y;
+    check1Y2 = check1->position->y - check1->size.y - check2->size.y;
+    
+    if (
+        check1X2 < check2->position->x 
+        && check1X1 > check2->position->x 
+        && check1Y1 > check2->position->y
+        && check1Y2 < check2->position->y)
         return TRUE;
 
     return FALSE;
