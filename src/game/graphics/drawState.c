@@ -90,13 +90,13 @@ BOOL GetDrawStateCameraProjection(DrawState *state, CameraConfig *config)
 
 void GetDrawStateCameraView(DrawState *state, Camera3D *camera)
 {
-    MI_CpuCopy32(&state->lookAtTo, &camera->lookAtTo, sizeof(camera->lookAtTo));
-    MI_CpuCopy32(&state->lookAtFrom, &camera->lookAtFrom, sizeof(camera->lookAtFrom));
+    MI_CpuCopy32(&state->camPos, &camera->camPos, sizeof(camera->camPos));
+    MI_CpuCopy32(&state->camTarget, &camera->camTarget, sizeof(camera->camTarget));
 
     // Vector3.Up
-    camera->lookAtUp.x = FLOAT_TO_FX32(0.0);
-    camera->lookAtUp.y = FLOAT_TO_FX32(1.0);
-    camera->lookAtUp.z = FLOAT_TO_FX32(0.0);
+    camera->camUp.x = FLOAT_TO_FX32(0.0);
+    camera->camUp.y = FLOAT_TO_FX32(1.0);
+    camera->camUp.z = FLOAT_TO_FX32(0.0);
 
     MI_CpuClear32(&camera->position, sizeof(camera->position));
 }
@@ -117,7 +117,7 @@ void DrawState_SetupLookAtMatrix(DrawState *state)
     // Vector3.UP
     up.y = FLOAT_TO_FX32(1.0);
 
-    NNS_G3dGlbLookAt(&state->lookAtTo, &up, &state->lookAtFrom);
+    NNS_G3dGlbLookAt(&state->camPos, &up, &state->camTarget);
 }
 
 void DrawState_SetupProjectionMatrix(DrawState *state)
@@ -128,8 +128,8 @@ void DrawState_SetupProjectionMatrix(DrawState *state)
     }
     else
     {
-        u32 fov = (u32)(state->projection.perspective.fov << 15) >> 16;
-        NNS_G3dGlbPerspectiveW(FX_SinIdx(fov & 0xFFFF), FX_CosIdx(fov & 0xFFFF), state->projection.perspective.aspectRatio, state->matProjNear, state->matProjFar,
+        u16 angle = state->projection.perspective.fov >> 1;
+        NNS_G3dGlbPerspectiveW(SinFX(angle & 0xFFFF), CosFX(angle & 0xFFFF), state->projection.perspective.aspectRatio, state->matProjNear, state->matProjFar,
                                state->matProjScaleW);
     }
 }

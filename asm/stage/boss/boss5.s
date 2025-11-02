@@ -26,7 +26,7 @@ Boss5Stage__Create: // _021739C4
 	str r0, [sp, #8]
 	mov r2, #0
 	ldr r0, _02173BE0 // =StageTask_Main
-	ldr r1, _02173BE4 // =ovl01_2176E28
+	ldr r1, _02173BE4 // =Boss5__Func_2176E28
 	mov r3, r2
 	bl TaskCreate_
 	ldr r1, _02173BE8 // =_0217AFB8
@@ -43,11 +43,11 @@ Boss5Stage__Create: // _021739C4
 	mov r1, r5
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _02173BEC // =ovl01_2176DDC
+	ldr r1, _02173BEC // =Boss5__Func_2176DDC
 	add r0, #0xf4
 	str r1, [r0]
 	mov r0, r4
-	ldr r1, _02173BF0 // =ovl01_2176EAC
+	ldr r1, _02173BF0 // =Boss5__Func_2176EAC
 	add r0, #0xfc
 	str r1, [r0]
 	ldr r1, [r4, #0x18]
@@ -89,7 +89,7 @@ Boss5Stage__Create: // _021739C4
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r0, r4, r0
-	bl ovl01_2175328
+	bl Boss5__Func_2175328
 	mov r0, #0xe5
 	lsl r0, r0, #2
 	add r0, r4, r0
@@ -119,7 +119,7 @@ Boss5Stage__Create: // _021739C4
 	lsl r1, r1, #4
 	ldr r6, [r0, r1]
 	mov r0, #0
-	bl ovl01_21772CC
+	bl Boss5__Func_21772CC
 	asr r0, r0, #1
 	str r0, [r5, #0x48]
 	str r6, [r5, #0x4c]
@@ -235,7 +235,7 @@ _02173B68:
 	lsl r1, r1, #2
 	str r0, [r4, r1]
 	mov r0, #0
-	bl ovl01_21772CC
+	bl Boss5__Func_21772CC
 	mov r1, r0
 	mov r3, #0
 	str r3, [sp]
@@ -252,7 +252,7 @@ _02173B68:
 	str r0, [r4, r1]
 	bl InitSpatialAudioConfig
 	mov r0, #0xdf
-	ldr r1, _02173C2C // =ovl01_2177018
+	ldr r1, _02173C2C // =Boss5__Func_2177018
 	lsl r0, r0, #2
 	str r1, [r4, r0]
 	mov r0, r4
@@ -261,10 +261,10 @@ _02173B68:
 	nop
 _02173BDC: .word 0x00001130
 _02173BE0: .word StageTask_Main
-_02173BE4: .word ovl01_2176E28
+_02173BE4: .word Boss5__Func_2176E28
 _02173BE8: .word _0217AFB8
-_02173BEC: .word ovl01_2176DDC
-_02173BF0: .word ovl01_2176EAC
+_02173BEC: .word Boss5__Func_2176DDC
+_02173BF0: .word Boss5__Func_2176EAC
 _02173BF4: .word 0x00002184
 _02173BF8: .word 0x000034CC
 _02173BFC: .word 0x000003C6
@@ -279,7 +279,7 @@ _02173C1C: .word 0x00000A14
 _02173C20: .word VRAMSystem__VRAM_PALETTE_BG
 _02173C24: .word 0x00000122
 _02173C28: .word 0x00000123
-_02173C2C: .word ovl01_2177018
+_02173C2C: .word Boss5__Func_2177018
 	thumb_func_end Boss5Stage__Create
 
 	thumb_func_start Boss5__Create
@@ -299,7 +299,7 @@ Boss5__Create: // _02173C30
 	str r0, [sp, #8]
 	mov r2, #0
 	ldr r0, _02173E8C // =StageTask_Main
-	ldr r1, _02173E90 // =ovl01_2177584
+	ldr r1, _02173E90 // =Boss5__Func_2177584
 	mov r3, r2
 	bl TaskCreate_
 	bl GetTaskWork_
@@ -321,15 +321,15 @@ Boss5__Create: // _02173C30
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _02173E98 // =ovl01_2177568
+	ldr r1, _02173E98 // =Boss5__Func_2177568
 	add r0, #0xf4
 	str r1, [r0]
 	mov r0, r4
-	ldr r1, _02173E9C // =ovl01_21775D8
+	ldr r1, _02173E9C // =Boss5__Func_21775D8
 	add r0, #0xfc
 	str r1, [r0]
 	mov r1, #0x42
-	ldr r0, _02173EA0 // =ovl01_2177654
+	ldr r0, _02173EA0 // =Boss5__Func_2177654
 	lsl r1, r1, #2
 	str r0, [r4, r1]
 	ldr r2, [r4, #0x18]
@@ -362,7 +362,7 @@ Boss5__Create: // _02173C30
 	str r2, [r4, #0x48]
 	str r0, [r4, #0x4c]
 	add r0, r4, r1
-	bl ovl01_2175328
+	bl Boss5__Func_2175328
 	bl AllocSndHandle
 	mov r1, #0xb2
 	lsl r1, r1, #4
@@ -392,12 +392,12 @@ Boss5__Create: // _02173C30
 	sub r2, #0x50
 	sub r3, #0x40
 	bl ObjRect__SetBox3D
-	ldr r0, _02173EA8 // =ovl01_21777A8
+	ldr r0, _02173EA8 // =Boss5__Func_21777A8
 	str r4, [r5, #0x1c]
 	str r0, [r5, #0x24]
 	mov r0, #0
 	mov r1, r4
-	bl ovl01_2177540
+	bl Boss5__Func_2177540
 	mov r0, #0x96
 	lsl r0, r0, #2
 	add r5, r4, r0
@@ -424,7 +424,7 @@ Boss5__Create: // _02173C30
 	mov r0, #1
 	mov r1, r4
 	str r4, [r5, #0x1c]
-	bl ovl01_2177540
+	bl Boss5__Func_2177540
 	mov r0, #0xa6
 	lsl r0, r0, #2
 	add r5, r4, r0
@@ -447,12 +447,12 @@ Boss5__Create: // _02173C30
 	mov r2, r1
 	sub r3, #0x40
 	bl ObjRect__SetBox3D
-	ldr r0, _02173EAC // =ovl01_2177858
+	ldr r0, _02173EAC // =Boss5__Func_2177858
 	str r4, [r5, #0x1c]
 	str r0, [r5, #0x24]
 	mov r0, #2
 	mov r1, r4
-	bl ovl01_2177540
+	bl Boss5__Func_2177540
 	mov r0, #0x9a
 	lsl r0, r0, #4
 	add r5, r4, r0
@@ -549,20 +549,20 @@ _02173E34:
 	add r0, sp, #0x10
 	bl NNS_FndUnmountArchive
 	mov r0, r4
-	bl ovl01_2177918
+	bl Boss5__Func_2177918
 	mov r0, r4
 	add sp, #0x78
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02173E8C: .word StageTask_Main
-_02173E90: .word ovl01_2177584
+_02173E90: .word Boss5__Func_2177584
 _02173E94: .word _0217AFB8
-_02173E98: .word ovl01_2177568
-_02173E9C: .word ovl01_21775D8
-_02173EA0: .word ovl01_2177654
+_02173E98: .word Boss5__Func_2177568
+_02173E9C: .word Boss5__Func_21775D8
+_02173EA0: .word Boss5__Func_2177654
 _02173EA4: .word 0x00000B24
-_02173EA8: .word ovl01_21777A8
-_02173EAC: .word ovl01_2177858
+_02173EA8: .word Boss5__Func_21777A8
+_02173EAC: .word Boss5__Func_2177858
 _02173EB0: .word bossAssetFiles
 _02173EB4: .word _0217AEF4
 _02173EB8: .word 0x000034CC
@@ -597,7 +597,7 @@ Boss5Core__Create: // _02173ED8
 	mov r1, r7
 	asr r2, r2, #0x10
 	mov r3, r4
-	bl ovl01_217571C
+	bl Boss5__Func_217571C
 	cmp r0, #0
 	beq _02173F0E
 	add sp, #0xc
@@ -614,7 +614,7 @@ _02173F0E:
 	str r0, [sp, #8]
 	mov r2, r4
 	ldr r0, _02173FEC // =StageTask_Main
-	ldr r1, _02173FF0 // =ovl01_2176970
+	ldr r1, _02173FF0 // =Boss5__Func_2176970
 	mov r3, r2
 	bl TaskCreate_
 	bl GetTaskWork_
@@ -630,11 +630,11 @@ _02173F0E:
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _02173FF4 // =ovl01_217696C
+	ldr r1, _02173FF4 // =Boss5__Func_217696C
 	add r0, #0xf4
 	str r1, [r0]
 	mov r0, r4
-	ldr r1, _02173FF8 // =ovl01_2176998
+	ldr r1, _02173FF8 // =Boss5__Func_2176998
 	add r0, #0xfc
 	str r1, [r0]
 	mov r0, #1
@@ -675,7 +675,7 @@ _02173F0E:
 	sub r2, #0x70
 	sub r3, #0x40
 	bl ObjRect__SetBox3D
-	ldr r0, _02173FFC // =ovl01_21769F0
+	ldr r0, _02173FFC // =Boss5__Func_21769F0
 	str r4, [r5, #0x1c]
 	str r0, [r5, #0x24]
 	ldr r1, [r5, #0x18]
@@ -707,10 +707,10 @@ _02173F0E:
 	nop
 _02173FE8: .word GameObject__ViewOffsetTable
 _02173FEC: .word StageTask_Main
-_02173FF0: .word ovl01_2176970
-_02173FF4: .word ovl01_217696C
-_02173FF8: .word ovl01_2176998
-_02173FFC: .word ovl01_21769F0
+_02173FF0: .word Boss5__Func_2176970
+_02173FF4: .word Boss5__Func_217696C
+_02173FF8: .word Boss5__Func_2176998
+_02173FFC: .word Boss5__Func_21769F0
 _02174000: .word bossAssetFiles+0x00000008
 _02174004: .word _0217AEF4
 _02174008: .word 0x000034CC
@@ -732,7 +732,7 @@ Boss5Sea__Create: // _0217400C
 	str r0, [sp, #8]
 	mov r2, #0
 	ldr r0, _021740EC // =StageTask_Main
-	ldr r1, _021740F0 // =ovl01_2177370
+	ldr r1, _021740F0 // =Boss5__Func_2177370
 	mov r3, r2
 	bl TaskCreate_
 	bl GetTaskWork_
@@ -755,11 +755,11 @@ Boss5Sea__Create: // _0217400C
 	add r3, r5, r3
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _021740F8 // =ovl01_21772D8
+	ldr r1, _021740F8 // =Boss5__Func_21772D8
 	add r0, #0xf4
 	str r1, [r0]
 	mov r0, r4
-	ldr r1, _021740FC // =ovl01_21773A0
+	ldr r1, _021740FC // =Boss5__Func_21773A0
 	add r0, #0xfc
 	str r1, [r0]
 	ldr r1, [r4, #0x18]
@@ -783,7 +783,7 @@ Boss5Sea__Create: // _0217400C
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r0, r4, r0
-	bl ovl01_2175328
+	bl Boss5__Func_2175328
 	mov r0, #0xb6
 	lsl r0, r0, #2
 	add r3, r4, r0
@@ -824,10 +824,10 @@ Boss5Sea__Create: // _0217400C
 	.align 2, 0
 _021740E8: .word 0x000004F8
 _021740EC: .word StageTask_Main
-_021740F0: .word ovl01_2177370
+_021740F0: .word Boss5__Func_2177370
 _021740F4: .word _0217AFB8
-_021740F8: .word ovl01_21772D8
-_021740FC: .word ovl01_21773A0
+_021740F8: .word Boss5__Func_21772D8
+_021740FC: .word Boss5__Func_21773A0
 _02174100: .word StageTask__DefaultDiffData
 _02174104: .word bossAssetFiles+0x00000010
 _02174108: .word _0217AEF4
@@ -856,7 +856,7 @@ Boss5MapChunk__Create: // _02174110
 	mov r1, r7
 	asr r2, r2, #0x10
 	mov r3, r4
-	bl ovl01_217571C
+	bl Boss5__Func_217571C
 	cmp r0, #0
 	beq _02174146
 	add sp, #0xc
@@ -889,15 +889,15 @@ _02174146:
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _021741EC // =ovl01_2175BCC
+	ldr r1, _021741EC // =Boss5__Func_2175BCC
 	add r0, #0xf4
 	str r1, [r0]
 	mov r0, r4
-	ldr r1, _021741F0 // =ovl01_2175BD0
+	ldr r1, _021741F0 // =Boss5__Func_2175BD0
 	add r0, #0xfc
 	str r1, [r0]
 	mov r0, #0x11
-	ldr r1, _021741F4 // =ovl01_21758A0
+	ldr r1, _021741F4 // =Boss5__Func_21758A0
 	lsl r0, r0, #4
 	str r1, [r4, r0]
 	ldr r1, [r4, #0x20]
@@ -939,9 +939,9 @@ _02174146:
 _021741E0: .word GameObject__ViewOffsetTable
 _021741E4: .word StageTask_Main
 _021741E8: .word GameObject__Destructor
-_021741EC: .word ovl01_2175BCC
-_021741F0: .word ovl01_2175BD0
-_021741F4: .word ovl01_21758A0
+_021741EC: .word Boss5__Func_2175BCC
+_021741F0: .word Boss5__Func_2175BD0
+_021741F4: .word Boss5__Func_21758A0
 _021741F8: .word bossAssetFiles+0x00000018
 _021741FC: .word _0217AEF4
 	thumb_func_end Boss5MapChunk__Create
@@ -953,7 +953,7 @@ Boss5Unknown2174200__Create: // _02174200
 	mov r5, r0
 	mov r6, r1
 	mov r7, r2
-	bl ovl01_2175A18
+	bl Boss5__Func_2175A18
 	cmp r0, #0
 	bne _02174218
 	add sp, #0xc
@@ -975,7 +975,7 @@ _02174218:
 	mov r1, r7
 	asr r2, r2, #0x10
 	mov r3, r4
-	bl ovl01_217571C
+	bl Boss5__Func_217571C
 	cmp r0, #0
 	beq _02174244
 	add sp, #0xc
@@ -1008,11 +1008,11 @@ _02174244:
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _021742E4 // =ovl01_2175C20
+	ldr r1, _021742E4 // =Boss5__Func_2175C20
 	add r0, #0xf4
 	str r1, [r0]
 	mov r0, #0x11
-	ldr r1, _021742E8 // =ovl01_21758A0
+	ldr r1, _021742E8 // =Boss5__Func_21758A0
 	lsl r0, r0, #4
 	str r1, [r4, r0]
 	ldr r1, [r4, #0x20]
@@ -1056,8 +1056,8 @@ _021742D0:
 _021742D8: .word GameObject__ViewOffsetTable
 _021742DC: .word StageTask_Main
 _021742E0: .word GameObject__Destructor
-_021742E4: .word ovl01_2175C20
-_021742E8: .word ovl01_21758A0
+_021742E4: .word Boss5__Func_2175C20
+_021742E8: .word Boss5__Func_21758A0
 	thumb_func_end Boss5Unknown2174200__Create
 
 	thumb_func_start Boss5Battery__Create
@@ -1067,7 +1067,7 @@ Boss5Battery__Create: // _021742EC
 	mov r5, r0
 	mov r6, r1
 	mov r7, r2
-	bl ovl01_2175A18
+	bl Boss5__Func_2175A18
 	cmp r0, #0
 	bne _02174304
 	add sp, #0xc
@@ -1089,7 +1089,7 @@ _02174304:
 	mov r1, r7
 	asr r2, r2, #0x10
 	mov r3, r4
-	bl ovl01_217571C
+	bl Boss5__Func_217571C
 	cmp r0, #0
 	beq _02174330
 	add sp, #0xc
@@ -1120,15 +1120,15 @@ _02174330:
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _02174408 // =ovl01_2175CA8
+	ldr r1, _02174408 // =Boss5__Func_2175CA8
 	add r0, #0xf4
 	str r1, [r0]
 	mov r0, #0x11
-	ldr r1, _0217440C // =ovl01_21758A0
+	ldr r1, _0217440C // =Boss5__Func_21758A0
 	lsl r0, r0, #4
 	str r1, [r4, r0]
 	mov r0, r4
-	ldr r1, _02174410 // =ovl01_2175924
+	ldr r1, _02174410 // =Boss5__Func_2175924
 	add r0, #0xfc
 	str r1, [r0]
 	mov r0, #0x9f
@@ -1198,9 +1198,9 @@ _021743F8: .word GameObject__ViewOffsetTable
 _021743FC: .word 0x000004EC
 _02174400: .word StageTask_Main
 _02174404: .word GameObject__Destructor
-_02174408: .word ovl01_2175CA8
-_0217440C: .word ovl01_21758A0
-_02174410: .word ovl01_2175924
+_02174408: .word Boss5__Func_2175CA8
+_0217440C: .word Boss5__Func_21758A0
+_02174410: .word Boss5__Func_2175924
 _02174414: .word 0x000004E4
 _02174418: .word bossAssetFiles+0x00000008
 _0217441C: .word _0217AEF4
@@ -1224,7 +1224,7 @@ Boss5Missile__Create: // _02174424
 	str r0, [sp, #8]
 	mov r2, #0
 	ldr r0, _0217454C // =StageTask_Main
-	ldr r1, _02174550 // =ovl01_2175D28
+	ldr r1, _02174550 // =Boss5__Func_2175D28
 	mov r3, r2
 	bl TaskCreate_
 	bl GetTaskWork_
@@ -1240,11 +1240,11 @@ Boss5Missile__Create: // _02174424
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r0, #0x11
-	ldr r1, _02174554 // =ovl01_21758A0
+	ldr r1, _02174554 // =Boss5__Func_21758A0
 	lsl r0, r0, #4
 	str r1, [r4, r0]
 	mov r0, r4
-	ldr r1, _02174558 // =ovl01_2175924
+	ldr r1, _02174558 // =Boss5__Func_2175924
 	add r0, #0xfc
 	str r1, [r0]
 	mov r0, #0x9f
@@ -1324,7 +1324,7 @@ _021744C0:
 	sub r1, #0x2a
 	sub r3, #0x24
 	bl ObjRect__SetBox3D
-	ldr r0, _02174568 // =ovl01_2175D40
+	ldr r0, _02174568 // =Boss5__Func_2175D40
 	str r4, [r5, #0x1c]
 	str r0, [r5, #0x20]
 	ldr r1, [r5, #0x18]
@@ -1352,13 +1352,13 @@ _021744C0:
 	pop {r4, r5, r6, r7, pc}
 	nop
 _0217454C: .word StageTask_Main
-_02174550: .word ovl01_2175D28
-_02174554: .word ovl01_21758A0
-_02174558: .word ovl01_2175924
+_02174550: .word Boss5__Func_2175D28
+_02174554: .word Boss5__Func_21758A0
+_02174558: .word Boss5__Func_2175924
 _0217455C: .word _0217A1B8
 _02174560: .word StageTask__DefaultDiffData
 _02174564: .word 0x0000FFFF
-_02174568: .word ovl01_2175D40
+_02174568: .word Boss5__Func_2175D40
 _0217456C: .word bossAssetFiles+0x00000008
 _02174570: .word _0217AEF4
 _02174574: .word 0x000034CC
@@ -1371,7 +1371,7 @@ Boss5Unknown2174578__Create: // _02174578
 	mov r5, r0
 	mov r6, r1
 	mov r7, r2
-	bl ovl01_2175A18
+	bl Boss5__Func_2175A18
 	cmp r0, #0
 	bne _02174590
 	add sp, #0xc
@@ -1393,7 +1393,7 @@ _02174590:
 	mov r1, r7
 	asr r2, r2, #0x10
 	mov r3, r4
-	bl ovl01_217571C
+	bl Boss5__Func_217571C
 	cmp r0, #0
 	beq _021745BC
 	add sp, #0xc
@@ -1426,11 +1426,11 @@ _021745BC:
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _02174660 // =ovl01_2175D7C
+	ldr r1, _02174660 // =Boss5__Func_2175D7C
 	add r0, #0xf4
 	str r1, [r0]
 	mov r0, #0x11
-	ldr r1, _02174664 // =ovl01_21758A0
+	ldr r1, _02174664 // =Boss5__Func_21758A0
 	lsl r0, r0, #4
 	str r1, [r4, r0]
 	ldr r1, [r4, #0x20]
@@ -1476,8 +1476,8 @@ _0217464C:
 _02174654: .word GameObject__ViewOffsetTable
 _02174658: .word StageTask_Main
 _0217465C: .word GameObject__Destructor
-_02174660: .word ovl01_2175D7C
-_02174664: .word ovl01_21758A0
+_02174660: .word Boss5__Func_2175D7C
+_02174664: .word Boss5__Func_21758A0
 	thumb_func_end Boss5Unknown2174578__Create
 
 	thumb_func_start CreateBoss5Icicle
@@ -1513,11 +1513,11 @@ CreateBoss5Icicle: // _02174668
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r1, #0x11
-	ldr r0, _02174758 // =ovl01_21758A0
+	ldr r0, _02174758 // =Boss5__Func_21758A0
 	lsl r1, r1, #4
 	str r0, [r4, r1]
 	mov r0, r4
-	ldr r2, _0217475C // =ovl01_2175924
+	ldr r2, _0217475C // =Boss5__Func_2175924
 	add r0, #0xfc
 	str r2, [r0]
 	ldr r0, [r4, #0x20]
@@ -1592,8 +1592,8 @@ CreateBoss5Icicle: // _02174668
 	nop
 _02174750: .word StageTask_Main
 _02174754: .word GameObject__Destructor
-_02174758: .word ovl01_21758A0
-_0217475C: .word ovl01_2175924
+_02174758: .word Boss5__Func_21758A0
+_0217475C: .word Boss5__Func_2175924
 _02174760: .word 0x00009F80
 _02174764: .word _0217A1C8
 _02174768: .word 0x0000FFFF
@@ -1609,7 +1609,7 @@ Boss5Icicle2__Create: // _02174778
 	mov r5, r0
 	mov r6, r1
 	mov r7, r2
-	bl ovl01_2175A18
+	bl Boss5__Func_2175A18
 	cmp r0, #0
 	bne _02174790
 	add sp, #0xc
@@ -1631,7 +1631,7 @@ _02174790:
 	mov r1, r7
 	asr r2, r2, #0x10
 	mov r3, r4
-	bl ovl01_217571C
+	bl Boss5__Func_217571C
 	cmp r0, #0
 	beq _021747BC
 	add sp, #0xc
@@ -1662,15 +1662,15 @@ _021747BC:
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _021748A8 // =ovl01_2175DD0
+	ldr r1, _021748A8 // =Boss5__Func_2175DD0
 	add r0, #0xf4
 	str r1, [r0]
 	mov r1, #0x11
-	ldr r0, _021748AC // =ovl01_21758A0
+	ldr r0, _021748AC // =Boss5__Func_21758A0
 	lsl r1, r1, #4
 	str r0, [r4, r1]
 	mov r0, r4
-	ldr r2, _021748B0 // =ovl01_2175924
+	ldr r2, _021748B0 // =Boss5__Func_2175924
 	add r0, #0xfc
 	str r2, [r0]
 	ldr r0, [r4, #0x20]
@@ -1744,9 +1744,9 @@ _02174898: .word GameObject__ViewOffsetTable
 _0217489C: .word 0x000004E8
 _021748A0: .word StageTask_Main
 _021748A4: .word GameObject__Destructor
-_021748A8: .word ovl01_2175DD0
-_021748AC: .word ovl01_21758A0
-_021748B0: .word ovl01_2175924
+_021748A8: .word Boss5__Func_2175DD0
+_021748AC: .word Boss5__Func_21758A0
+_021748B0: .word Boss5__Func_2175924
 _021748B4: .word 0x0000FFFF
 _021748B8: .word bossAssetFiles+0x00000008
 _021748BC: .word _0217AEF4
@@ -1775,7 +1775,7 @@ Boss5Unknown21748C4__Create: // _021748C4
 	mov r1, r7
 	asr r2, r2, #0x10
 	mov r3, r4
-	bl ovl01_217571C
+	bl Boss5__Func_217571C
 	cmp r0, #0
 	beq _021748FA
 	add sp, #0xc
@@ -1808,11 +1808,11 @@ _021748FA:
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _02174968 // =ovl01_2175F48
+	ldr r1, _02174968 // =Boss5__Func_2175F48
 	add r0, #0xf4
 	str r1, [r0]
 	mov r0, #0x11
-	ldr r1, _0217496C // =ovl01_21758A0
+	ldr r1, _0217496C // =Boss5__Func_21758A0
 	lsl r0, r0, #4
 	str r1, [r4, r0]
 	ldr r1, [r4, #0x20]
@@ -1831,8 +1831,8 @@ _021748FA:
 _0217495C: .word GameObject__ViewOffsetTable
 _02174960: .word StageTask_Main
 _02174964: .word GameObject__Destructor
-_02174968: .word ovl01_2175F48
-_0217496C: .word ovl01_21758A0
+_02174968: .word Boss5__Func_2175F48
+_0217496C: .word Boss5__Func_21758A0
 	thumb_func_end Boss5Unknown21748C4__Create
 
 	thumb_func_start Boss5FreezeArea__Create
@@ -1842,7 +1842,7 @@ Boss5FreezeArea__Create: // _02174970
 	mov r5, r0
 	mov r6, r1
 	mov r7, r2
-	bl ovl01_2175A18
+	bl Boss5__Func_2175A18
 	cmp r0, #0
 	bne _02174988
 	add sp, #0xc
@@ -1864,7 +1864,7 @@ _02174988:
 	mov r1, r7
 	asr r2, r2, #0x10
 	mov r3, r4
-	bl ovl01_217571C
+	bl Boss5__Func_217571C
 	cmp r0, #0
 	beq _021749B4
 	add sp, #0xc
@@ -1897,11 +1897,11 @@ _021749B4:
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r1, #0x11
-	ldr r0, _02174B08 // =ovl01_21758A0
+	ldr r0, _02174B08 // =Boss5__Func_21758A0
 	lsl r1, r1, #4
 	str r0, [r4, r1]
 	mov r0, r4
-	ldr r2, _02174B0C // =ovl01_2175924
+	ldr r2, _02174B0C // =Boss5__Func_2175924
 	add r0, #0xfc
 	str r2, [r0]
 	ldr r0, [r4, #0x20]
@@ -1944,7 +1944,7 @@ _021749B4:
 	mov r0, #0xc4
 	orr r0, r1
 	str r0, [r5, #0x18]
-	ldr r0, _02174B10 // =ovl01_2175F2C
+	ldr r0, _02174B10 // =Boss5__Func_2175F2C
 	ldr r2, _02174B14 // =_0217AEF4
 	str r0, [r5, #0x24]
 	mov r0, #0xd9
@@ -2024,9 +2024,9 @@ _021749B4:
 _02174AFC: .word GameObject__ViewOffsetTable
 _02174B00: .word StageTask_Main
 _02174B04: .word GameObject__Destructor
-_02174B08: .word ovl01_21758A0
-_02174B0C: .word ovl01_2175924
-_02174B10: .word ovl01_2175F2C
+_02174B08: .word Boss5__Func_21758A0
+_02174B0C: .word Boss5__Func_2175924
+_02174B10: .word Boss5__Func_2175F2C
 _02174B14: .word _0217AEF4
 _02174B18: .word bossAssetFiles+0x00000008
 _02174B1C: .word 0x000034CC
@@ -2067,11 +2067,11 @@ Boss5PlayerFreezeEffect__Create: // _02174B30
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _02174C34 // =ovl01_21766EC
+	ldr r1, _02174C34 // =Boss5__Func_21766EC
 	add r0, #0xf4
 	str r1, [r0]
 	mov r0, r4
-	ldr r1, _02174C38 // =ovl01_2175924
+	ldr r1, _02174C38 // =Boss5__Func_2175924
 	add r0, #0xfc
 	str r1, [r0]
 	ldr r1, [r4, #0x18]
@@ -2147,7 +2147,7 @@ Boss5PlayerFreezeEffect__Create: // _02174B30
 	lsl r0, r0, #2
 	str r1, [r5, r0]
 	mov r0, r4
-	bl ovl01_21766EC
+	bl Boss5__Func_21766EC
 	mov r0, r4
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
@@ -2155,8 +2155,8 @@ Boss5PlayerFreezeEffect__Create: // _02174B30
 _02174C28: .word 0x000004E4
 _02174C2C: .word StageTask_Main
 _02174C30: .word GameObject__Destructor
-_02174C34: .word ovl01_21766EC
-_02174C38: .word ovl01_2175924
+_02174C34: .word Boss5__Func_21766EC
+_02174C38: .word Boss5__Func_2175924
 _02174C3C: .word bossAssetFiles+0x00000008
 _02174C40: .word _0217AEF4
 _02174C44: .word 0x000034CC
@@ -2172,7 +2172,7 @@ Boss5EnemyFish__Create: // _02174C54
 	mov r5, r0
 	mov r6, r1
 	mov r7, r2
-	bl ovl01_2175A18
+	bl Boss5__Func_2175A18
 	cmp r0, #0
 	bne _02174C6C
 	add sp, #0xc
@@ -2194,7 +2194,7 @@ _02174C6C:
 	mov r1, r7
 	asr r2, r2, #0x10
 	mov r3, r4
-	bl ovl01_217571C
+	bl Boss5__Func_217571C
 	cmp r0, #0
 	beq _02174C98
 	add sp, #0xc
@@ -2227,15 +2227,15 @@ _02174C98:
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _02174DB8 // =ovl01_21760A0
+	ldr r1, _02174DB8 // =Boss5__Func_21760A0
 	add r0, #0xf4
 	str r1, [r0]
 	mov r0, r4
-	ldr r1, _02174DBC // =ovl01_2175924
+	ldr r1, _02174DBC // =Boss5__Func_2175924
 	add r0, #0xfc
 	str r1, [r0]
 	mov r0, #0x11
-	ldr r1, _02174DC0 // =ovl01_21758A0
+	ldr r1, _02174DC0 // =Boss5__Func_21758A0
 	lsl r0, r0, #4
 	str r1, [r4, r0]
 	ldr r1, [r4, #0x20]
@@ -2283,7 +2283,7 @@ _02174C98:
 	sub r2, #0x38
 	sub r3, #0x40
 	bl ObjRect__SetBox3D
-	ldr r0, _02174DC8 // =ovl01_217623C
+	ldr r0, _02174DC8 // =Boss5__Func_217623C
 	str r4, [r5, #0x1c]
 	str r0, [r5, #0x24]
 	ldr r1, [r5, #0x18]
@@ -2331,11 +2331,11 @@ _02174C98:
 _02174DAC: .word GameObject__ViewOffsetTable
 _02174DB0: .word StageTask_Main
 _02174DB4: .word GameObject__Destructor
-_02174DB8: .word ovl01_21760A0
-_02174DBC: .word ovl01_2175924
-_02174DC0: .word ovl01_21758A0
+_02174DB8: .word Boss5__Func_21760A0
+_02174DBC: .word Boss5__Func_2175924
+_02174DC0: .word Boss5__Func_21758A0
 _02174DC4: .word 0x00008280
-_02174DC8: .word ovl01_217623C
+_02174DC8: .word Boss5__Func_217623C
 _02174DCC: .word bossAssetFiles+0x00000008
 _02174DD0: .word _0217AEF4
 _02174DD4: .word 0x000034CC
@@ -2359,7 +2359,7 @@ Boss5EnemyFish2__Create: // _02174DE0
 	str r0, [sp, #8]
 	mov r2, #0
 	ldr r0, _02174F14 // =StageTask_Main
-	ldr r1, _02174F18 // =ovl01_2176450
+	ldr r1, _02174F18 // =Boss5__Func_2176450
 	mov r3, r2
 	bl TaskCreate_
 	bl GetTaskWork_
@@ -2374,11 +2374,11 @@ Boss5EnemyFish2__Create: // _02174DE0
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _02174F1C // =ovl01_2176288
+	ldr r1, _02174F1C // =Boss5__Func_2176288
 	add r0, #0xf4
 	str r1, [r0]
 	mov r0, r4
-	ldr r1, _02174F20 // =ovl01_21758CC
+	ldr r1, _02174F20 // =Boss5__Func_21758CC
 	add r0, #0xfc
 	str r1, [r0]
 	ldr r1, [r4, #0x18]
@@ -2430,7 +2430,7 @@ Boss5EnemyFish2__Create: // _02174DE0
 	sub r2, #0x38
 	sub r3, #0x40
 	bl ObjRect__SetBox3D
-	ldr r0, _02174F28 // =ovl01_2176460
+	ldr r0, _02174F28 // =Boss5__Func_2176460
 	str r4, [r5, #0x1c]
 	str r0, [r5, #0x24]
 	ldr r1, [r5, #0x18]
@@ -2471,7 +2471,7 @@ Boss5EnemyFish2__Create: // _02174DE0
 	mov r0, r5
 	mov r3, #0x1a
 	bl BossHelpers__SetAnimation
-	bl ovl01_2175A38
+	bl Boss5__Func_2175A38
 	mov r0, #0x1f
 	ldr r1, [r4, #0x1c]
 	lsl r0, r0, #8
@@ -2487,11 +2487,11 @@ Boss5EnemyFish2__Create: // _02174DE0
 	nop
 _02174F10: .word 0x000004E4
 _02174F14: .word StageTask_Main
-_02174F18: .word ovl01_2176450
-_02174F1C: .word ovl01_2176288
-_02174F20: .word ovl01_21758CC
+_02174F18: .word Boss5__Func_2176450
+_02174F1C: .word Boss5__Func_2176288
+_02174F20: .word Boss5__Func_21758CC
 _02174F24: .word 0x00088280
-_02174F28: .word ovl01_2176460
+_02174F28: .word Boss5__Func_2176460
 _02174F2C: .word bossAssetFiles+0x00000008
 _02174F30: .word _0217AEF4
 _02174F34: .word 0x000034CC
@@ -2506,7 +2506,7 @@ Boss5LifeSupport__Create: // _02174F40
 	mov r7, r0
 	mov r5, r1
 	mov r6, r2
-	bl ovl01_2176540
+	bl Boss5__Func_2176540
 	cmp r0, #0
 	bne _02174F58
 	add sp, #0xc
@@ -2528,7 +2528,7 @@ _02174F58:
 	mov r1, r6
 	asr r2, r2, #0x10
 	mov r3, r4
-	bl ovl01_217571C
+	bl Boss5__Func_217571C
 	cmp r0, #0
 	beq _02174F84
 	add sp, #0xc
@@ -2537,7 +2537,7 @@ _02174F58:
 _02174F84:
 	mov r0, #6
 	ldrsb r0, [r7, r0]
-	bl ovl01_217599C
+	bl Boss5__Func_217599C
 	cmp r0, #0
 	beq _02174F96
 	add sp, #0xc
@@ -2554,7 +2554,7 @@ _02174F96:
 	str r0, [sp, #8]
 	mov r2, r4
 	ldr r0, _0217515C // =StageTask_Main
-	ldr r1, _02175160 // =ovl01_2176528
+	ldr r1, _02175160 // =Boss5__Func_2176528
 	mov r3, r2
 	bl TaskCreate_
 	bl GetTaskWork_
@@ -2570,11 +2570,11 @@ _02174F96:
 	mov r3, r6
 	bl GameObject__InitFromObject
 	mov r0, r4
-	ldr r1, _02175164 // =ovl01_2175924
+	ldr r1, _02175164 // =Boss5__Func_2175924
 	add r0, #0xfc
 	str r1, [r0]
 	mov r0, #0x11
-	ldr r1, _02175168 // =ovl01_21758A0
+	ldr r1, _02175168 // =Boss5__Func_21758A0
 	lsl r0, r0, #4
 	str r1, [r4, r0]
 	ldr r1, [r4, #0x20]
@@ -2635,7 +2635,7 @@ _02175038:
 	sub r3, #0x40
 	bl ObjRect__SetBox3D
 	str r4, [r5]
-	bl ovl01_2175A00
+	bl Boss5__Func_2175A00
 	str r0, [r5, #0x24]
 	mov r0, #0
 	strh r0, [r5, #0x22]
@@ -2693,7 +2693,7 @@ _021750AE:
 	sub r3, #0x20
 	bl ObjRect__SetBox3D
 _021750CA:
-	ldr r0, _0217516C // =ovl01_2176648
+	ldr r0, _0217516C // =Boss5__Func_2176648
 	str r4, [r6, #0x1c]
 	str r0, [r6, #0x24]
 	ldr r0, [r6, #0x18]
@@ -2767,10 +2767,10 @@ _02175150:
 	nop
 _02175158: .word GameObject__ViewOffsetTable
 _0217515C: .word StageTask_Main
-_02175160: .word ovl01_2176528
-_02175164: .word ovl01_2175924
-_02175168: .word ovl01_21758A0
-_0217516C: .word ovl01_2176648
+_02175160: .word Boss5__Func_2176528
+_02175164: .word Boss5__Func_2175924
+_02175168: .word Boss5__Func_21758A0
+_0217516C: .word Boss5__Func_2176648
 _02175170: .word bossAssetFiles+0x00000008
 _02175174: .word _0217AEF4
 _02175178: .word 0x000034CC
@@ -2795,7 +2795,7 @@ Boss5Shutter__Create: // _02175188
 	pop {r4, r5, r6, r7, pc}
 _021751A0:
 	bl GetTaskWork_
-	bl ovl01_2175A80
+	bl Boss5__Func_2175A80
 	mov r1, #6
 	ldrsb r1, [r6, r1]
 	cmp r1, r0
@@ -2814,7 +2814,7 @@ _021751B6:
 	str r0, [sp, #8]
 	mov r2, #0
 	ldr r0, _021752A4 // =StageTask_Main
-	ldr r1, _021752A8 // =ovl01_21766D4
+	ldr r1, _021752A8 // =Boss5__Func_21766D4
 	mov r3, r2
 	bl TaskCreate_
 	bl GetTaskWork_
@@ -2830,11 +2830,11 @@ _021751B6:
 	mov r3, r7
 	bl GameObject__InitFromObject
 	mov r1, #0x11
-	ldr r0, _021752AC // =ovl01_21758A0
+	ldr r0, _021752AC // =Boss5__Func_21758A0
 	lsl r1, r1, #4
 	str r0, [r4, r1]
 	mov r0, r4
-	ldr r2, _021752B0 // =ovl01_2175924
+	ldr r2, _021752B0 // =Boss5__Func_2175924
 	add r0, #0xfc
 	str r2, [r0]
 	ldr r0, [r4, #0x20]
@@ -2855,7 +2855,7 @@ _021751B6:
 	lsl r0, r0, #2
 	add r5, r4, r0
 	str r4, [r5]
-	bl ovl01_2175A00
+	bl Boss5__Func_2175A00
 	str r0, [r5, #0x24]
 	mov r0, #0
 	strh r0, [r5, #0x22]
@@ -2919,16 +2919,16 @@ _02175298:
 	nop
 _021752A0: .word _0217AFB8
 _021752A4: .word StageTask_Main
-_021752A8: .word ovl01_21766D4
-_021752AC: .word ovl01_21758A0
-_021752B0: .word ovl01_2175924
+_021752A8: .word Boss5__Func_21766D4
+_021752AC: .word Boss5__Func_21758A0
+_021752B0: .word Boss5__Func_2175924
 _021752B4: .word bossAssetFiles+0x00000008
 _021752B8: .word _0217AEF4
 _021752BC: .word FX_SinCosTable_+0x00001000
 	thumb_func_end Boss5Shutter__Create
 
-	thumb_func_start ovl01_21752C0
-ovl01_21752C0: // _021752C0
+	thumb_func_start Boss5__Func_21752C0
+Boss5__Func_21752C0: // _021752C0
 	push {r3, r4, r5, lr}
 	ldr r1, _02175324 // =_0217AFB8
 	mov r4, r0
@@ -2978,10 +2978,10 @@ _021752E8:
 	pop {r3, r4, r5, pc}
 	nop
 _02175324: .word _0217AFB8
-	thumb_func_end ovl01_21752C0
+	thumb_func_end Boss5__Func_21752C0
 
-	thumb_func_start ovl01_2175328
-ovl01_2175328: // _02175328
+	thumb_func_start Boss5__Func_2175328
+Boss5__Func_2175328: // _02175328
 	push {r4, lr}
 	sub sp, #0x68
 	mov r4, r0
@@ -3011,10 +3011,10 @@ ovl01_2175328: // _02175328
 	.align 2, 0
 _02175368: .word gameArchiveStage
 _0217536C: .word aExc_6
-	thumb_func_end ovl01_2175328
+	thumb_func_end Boss5__Func_2175328
 
-	thumb_func_start ovl01_2175370
-ovl01_2175370: // _02175370
+	thumb_func_start Boss5__Func_2175370
+Boss5__Func_2175370: // _02175370
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x38
 	ldr r1, _02175518 // =0x00000B14
@@ -3222,10 +3222,10 @@ _0217551C: .word _0217A138
 _02175520: .word VRAMSystem__VRAM_PALETTE_OBJ
 _02175524: .word 0x00000C44
 _02175528: .word 0x00000D0C
-	thumb_func_end ovl01_2175370
+	thumb_func_end Boss5__Func_2175370
 
-	thumb_func_start ovl01_217552C
-ovl01_217552C: // _0217552C
+	thumb_func_start Boss5__Func_217552C
+Boss5__Func_217552C: // _0217552C
 	push {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, _021755A8 // =0x00000B14
@@ -3286,10 +3286,10 @@ _021755A4:
 	nop
 _021755A8: .word 0x00000B14
 _021755AC: .word 0x00000D0C
-	thumb_func_end ovl01_217552C
+	thumb_func_end Boss5__Func_217552C
 
-	thumb_func_start ovl01_21755B0
-ovl01_21755B0: // _021755B0
+	thumb_func_start Boss5__Func_21755B0
+Boss5__Func_21755B0: // _021755B0
 	push {r3, r4, r5, lr}
 	sub sp, #8
 	mov r4, r0
@@ -3417,10 +3417,10 @@ _021756C4: .word 0x00000B18
 _021756C8: .word 0x00000CA8
 _021756CC: .word 0x00000C44
 _021756D0: .word 0x00000D0C
-	thumb_func_end ovl01_21755B0
+	thumb_func_end Boss5__Func_21755B0
 
-	thumb_func_start ovl01_21756D4
-ovl01_21756D4: // _021756D4
+	thumb_func_start Boss5__Func_21756D4
+Boss5__Func_21756D4: // _021756D4
 	push {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, _02175714 // =0x00000B14
@@ -3456,10 +3456,10 @@ _02175712:
 	.align 2, 0
 _02175714: .word 0x00000B14
 _02175718: .word 0x00000C44
-	thumb_func_end ovl01_21756D4
+	thumb_func_end Boss5__Func_21756D4
 
-	thumb_func_start ovl01_217571C
-ovl01_217571C: // _0217571C
+	thumb_func_start Boss5__Func_217571C
+Boss5__Func_217571C: // _0217571C
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x14
 	str r0, [sp]
@@ -3659,10 +3659,10 @@ _02175892:
 	.align 2, 0
 _02175898: .word g_obj
 _0217589C: .word 0x00000000
-	thumb_func_end ovl01_217571C
+	thumb_func_end Boss5__Func_217571C
 
-	thumb_func_start ovl01_21758A0
-ovl01_21758A0: // _021758A0
+	thumb_func_start Boss5__Func_21758A0
+Boss5__Func_21758A0: // _021758A0
 	push {r3, r4, lr}
 	sub sp, #0xc
 	mov r3, r0
@@ -3681,13 +3681,13 @@ ovl01_21758A0: // _021758A0
 	ldr r1, [r3, #0x48]
 	ldrsh r2, [r3, r2]
 	ldrsh r3, [r3, r4]
-	bl ovl01_217571C
+	bl Boss5__Func_217571C
 	add sp, #0xc
 	pop {r3, r4, pc}
-	thumb_func_end ovl01_21758A0
+	thumb_func_end Boss5__Func_21758A0
 
-	thumb_func_start ovl01_21758CC
-ovl01_21758CC: // _021758CC
+	thumb_func_start Boss5__Func_21758CC
+Boss5__Func_21758CC: // _021758CC
 	push {r4, r5, r6, lr}
 	ldr r0, _0217591C // =_0217AFB8
 	ldr r0, [r0, #0]
@@ -3726,10 +3726,10 @@ _021758FA:
 	.align 2, 0
 _0217591C: .word _0217AFB8
 _02175920: .word 0x000003C6
-	thumb_func_end ovl01_21758CC
+	thumb_func_end Boss5__Func_21758CC
 
-	thumb_func_start ovl01_2175924
-ovl01_2175924: // _02175924
+	thumb_func_start Boss5__Func_2175924
+Boss5__Func_2175924: // _02175924
 	push {r4, r5, r6, lr}
 	ldr r0, _02175974 // =_0217AFB8
 	ldr r0, [r0, #0]
@@ -3768,10 +3768,10 @@ _02175952:
 	.align 2, 0
 _02175974: .word _0217AFB8
 _02175978: .word 0x000003C6
-	thumb_func_end ovl01_2175924
+	thumb_func_end Boss5__Func_2175924
 
-	thumb_func_start ovl01_217597C
-ovl01_217597C: // _0217597C
+	thumb_func_start Boss5__Func_217597C
+Boss5__Func_217597C: // _0217597C
 	push {r3, lr}
 	ldr r0, _02175994 // =_0217AFB8
 	ldr r0, [r0, #0]
@@ -3786,10 +3786,10 @@ _02175990:
 	nop
 _02175994: .word _0217AFB8
 _02175998: .word 0x00000D2C
-	thumb_func_end ovl01_217597C
+	thumb_func_end Boss5__Func_217597C
 
-	thumb_func_start ovl01_217599C
-ovl01_217599C: // _0217599C
+	thumb_func_start Boss5__Func_217599C
+Boss5__Func_217599C: // _0217599C
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, _021759BC // =_0217AFB8
@@ -3809,10 +3809,10 @@ _021759AC:
 	.align 2, 0
 _021759BC: .word _0217AFB8
 _021759C0: .word 0x00000D2C
-	thumb_func_end ovl01_217599C
+	thumb_func_end Boss5__Func_217599C
 
-	thumb_func_start ovl01_21759C4
-ovl01_21759C4: // _021759C4
+	thumb_func_start Boss5__Func_21759C4
+Boss5__Func_21759C4: // _021759C4
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, _021759F8 // =_0217AFB8
@@ -3842,10 +3842,10 @@ _021759F4:
 	nop
 _021759F8: .word _0217AFB8
 _021759FC: .word 0x00000D2C
-	thumb_func_end ovl01_21759C4
+	thumb_func_end Boss5__Func_21759C4
 
-	thumb_func_start ovl01_2175A00
-ovl01_2175A00: // _02175A00
+	thumb_func_start Boss5__Func_2175A00
+Boss5__Func_2175A00: // _02175A00
 	push {r3, lr}
 	ldr r0, _02175A14 // =_0217AFB8
 	ldr r0, [r0, #0]
@@ -3856,10 +3856,10 @@ ovl01_2175A00: // _02175A00
 	pop {r3, pc}
 	nop
 _02175A14: .word _0217AFB8
-	thumb_func_end ovl01_2175A00
+	thumb_func_end Boss5__Func_2175A00
 
-	thumb_func_start ovl01_2175A18
-ovl01_2175A18: // _02175A18
+	thumb_func_start Boss5__Func_2175A18
+Boss5__Func_2175A18: // _02175A18
 	ldrh r1, [r0, #4]
 	mov r0, #0x80
 	tst r0, r1
@@ -3878,10 +3878,10 @@ _02175A30:
 	bx lr
 	.align 2, 0
 _02175A34: .word gameState
-	thumb_func_end ovl01_2175A18
+	thumb_func_end Boss5__Func_2175A18
 
-	thumb_func_start ovl01_2175A38
-ovl01_2175A38: // _02175A38
+	thumb_func_start Boss5__Func_2175A38
+Boss5__Func_2175A38: // _02175A38
 	push {r4, lr}
 	ldr r0, _02175A58 // =_0217AFB8
 	ldr r0, [r0, #0]
@@ -3892,17 +3892,17 @@ ovl01_2175A38: // _02175A38
 	ldrh r1, [r4, r0]
 	add r1, r1, #1
 	strh r1, [r4, r0]
-	bl ovl01_2175B6C
+	bl Boss5__Func_2175B6C
 	ldr r1, _02175A5C // =0x00000382
 	strh r0, [r4, r1]
 	pop {r4, pc}
 	.align 2, 0
 _02175A58: .word _0217AFB8
 _02175A5C: .word 0x00000382
-	thumb_func_end ovl01_2175A38
+	thumb_func_end Boss5__Func_2175A38
 
-	thumb_func_start ovl01_2175A60
-ovl01_2175A60: // _02175A60
+	thumb_func_start Boss5__Func_2175A60
+Boss5__Func_2175A60: // _02175A60
 	push {r3, lr}
 	ldr r0, _02175A7C // =_0217AFB8
 	ldr r0, [r0, #0]
@@ -3918,10 +3918,10 @@ _02175A78:
 	pop {r3, pc}
 	nop
 _02175A7C: .word _0217AFB8
-	thumb_func_end ovl01_2175A60
+	thumb_func_end Boss5__Func_2175A60
 
-	thumb_func_start ovl01_2175A80
-ovl01_2175A80: // _02175A80
+	thumb_func_start Boss5__Func_2175A80
+Boss5__Func_2175A80: // _02175A80
 	mov r1, #0xe3
 	lsl r1, r1, #2
 	ldrsh r3, [r0, r1]
@@ -3944,10 +3944,10 @@ _02175A96:
 	bx lr
 	.align 2, 0
 _02175AA4: .word _0217A13C
-	thumb_func_end ovl01_2175A80
+	thumb_func_end Boss5__Func_2175A80
 
-	thumb_func_start ovl01_2175AA8
-ovl01_2175AA8: // _02175AA8
+	thumb_func_start Boss5__Func_2175AA8
+Boss5__Func_2175AA8: // _02175AA8
 	push {r3, lr}
 	ldr r1, _02175AE8 // =gameState
 	ldr r2, [r1, #0x14]
@@ -3956,7 +3956,7 @@ ovl01_2175AA8: // _02175AA8
 	ldr r1, [r1, #0x70]
 	cmp r1, #0xf
 	bne _02175AD0
-	bl ovl01_2175A80
+	bl Boss5__Func_2175A80
 	ldr r1, _02175AE8 // =gameState
 	ldr r2, [r1, #0x18]
 	mov r1, #6
@@ -3968,7 +3968,7 @@ ovl01_2175AA8: // _02175AA8
 	ldrh r0, [r1, r0]
 	pop {r3, pc}
 _02175AD0:
-	bl ovl01_2175A80
+	bl Boss5__Func_2175A80
 	ldr r1, _02175AE8 // =gameState
 	ldr r2, [r1, #0x18]
 	mov r1, #6
@@ -3983,10 +3983,10 @@ _02175AD0:
 _02175AE8: .word gameState
 _02175AEC: .word _0217A1AC
 _02175AF0: .word _0217A194
-	thumb_func_end ovl01_2175AA8
+	thumb_func_end Boss5__Func_2175AA8
 
-	thumb_func_start ovl01_2175AF4
-ovl01_2175AF4: // _02175AF4
+	thumb_func_start Boss5__Func_2175AF4
+Boss5__Func_2175AF4: // _02175AF4
 	ldr r0, _02175B18 // =gameState
 	ldr r1, [r0, #0x14]
 	cmp r1, #3
@@ -4010,12 +4010,12 @@ _02175B0C:
 _02175B18: .word gameState
 _02175B1C: .word _0217A140
 _02175B20: .word _0217A138
-	thumb_func_end ovl01_2175AF4
+	thumb_func_end Boss5__Func_2175AF4
 
-	thumb_func_start ovl01_2175B24
-ovl01_2175B24: // _02175B24
+	thumb_func_start Boss5__Func_2175B24
+Boss5__Func_2175B24: // _02175B24
 	push {r3, lr}
-	bl ovl01_2175A80
+	bl Boss5__Func_2175A80
 	ldr r1, _02175B40 // =gameState
 	ldr r2, [r1, #0x18]
 	mov r1, #6
@@ -4029,10 +4029,10 @@ ovl01_2175B24: // _02175B24
 	nop
 _02175B40: .word gameState
 _02175B44: .word _0217A158
-	thumb_func_end ovl01_2175B24
+	thumb_func_end Boss5__Func_2175B24
 
-	thumb_func_start ovl01_2175B48
-ovl01_2175B48: // _02175B48
+	thumb_func_start Boss5__Func_2175B48
+Boss5__Func_2175B48: // _02175B48
 	ldr r1, _02175B64 // =gameState
 	ldr r2, [r1, #0x18]
 	mov r1, #0xc
@@ -4050,10 +4050,10 @@ ovl01_2175B48: // _02175B48
 	.align 2, 0
 _02175B64: .word gameState
 _02175B68: .word _0217A1D8
-	thumb_func_end ovl01_2175B48
+	thumb_func_end Boss5__Func_2175B48
 
-	thumb_func_start ovl01_2175B6C
-ovl01_2175B6C: // _02175B6C
+	thumb_func_start Boss5__Func_2175B6C
+Boss5__Func_2175B6C: // _02175B6C
 	push {r3, r4, r5, r6}
 	ldr r4, _02175BA4 // =_mt_math_rand
 	ldr r0, _02175BA8 // =gameState
@@ -4088,28 +4088,28 @@ _02175BA8: .word gameState
 _02175BAC: .word 0x00196225
 _02175BB0: .word 0x3C6EF35F
 _02175BB4: .word _0217A1A0
-	thumb_func_end ovl01_2175B6C
+	thumb_func_end Boss5__Func_2175B6C
 
-	thumb_func_start ovl01_2175BB8
-ovl01_2175BB8: // _02175BB8
+	thumb_func_start Boss5__Func_2175BB8
+Boss5__Func_2175BB8: // _02175BB8
 	push {r3, lr}
-	bl ovl01_2175A80
+	bl Boss5__Func_2175A80
 	lsl r1, r0, #2
 	ldr r0, _02175BC8 // =_0217A164
 	ldr r0, [r0, r1]
 	pop {r3, pc}
 	nop
 _02175BC8: .word _0217A164
-	thumb_func_end ovl01_2175BB8
+	thumb_func_end Boss5__Func_2175BB8
 
-	thumb_func_start ovl01_2175BCC
-ovl01_2175BCC: // _02175BCC
+	thumb_func_start Boss5__Func_2175BCC
+Boss5__Func_2175BCC: // _02175BCC
 	bx lr
 	.align 2, 0
-	thumb_func_end ovl01_2175BCC
+	thumb_func_end Boss5__Func_2175BCC
 
-	thumb_func_start ovl01_2175BD0
-ovl01_2175BD0: // _02175BD0
+	thumb_func_start Boss5__Func_2175BD0
+Boss5__Func_2175BD0: // _02175BD0
 	push {r3, r4, r5, lr}
 	ldr r0, _02175C18 // =_0217AFB8
 	ldr r0, [r0, #0]
@@ -4143,10 +4143,10 @@ _02175C16:
 	.align 2, 0
 _02175C18: .word _0217AFB8
 _02175C1C: .word 0x000003C6
-	thumb_func_end ovl01_2175BD0
+	thumb_func_end Boss5__Func_2175BD0
 
-	thumb_func_start ovl01_2175C20
-ovl01_2175C20: // _02175C20
+	thumb_func_start Boss5__Func_2175C20
+Boss5__Func_2175C20: // _02175C20
 	push {r3, r4, lr}
 	sub sp, #0x14
 	mov r1, #0xd9
@@ -4217,10 +4217,10 @@ _02175CA0:
 	pop {r3, r4, pc}
 	.align 2, 0
 _02175CA4: .word mapCamera
-	thumb_func_end ovl01_2175C20
+	thumb_func_end Boss5__Func_2175C20
 
-	thumb_func_start ovl01_2175CA8
-ovl01_2175CA8: // _02175CA8
+	thumb_func_start Boss5__Func_2175CA8
+Boss5__Func_2175CA8: // _02175CA8
 	push {r3, r4, lr}
 	sub sp, #0x14
 	mov r1, #0x4e
@@ -4287,10 +4287,10 @@ _02175D20:
 	pop {r3, r4, pc}
 	.align 2, 0
 _02175D24: .word 0x000004E4
-	thumb_func_end ovl01_2175CA8
+	thumb_func_end Boss5__Func_2175CA8
 
-	thumb_func_start ovl01_2175D28
-ovl01_2175D28: // _02175D28
+	thumb_func_start Boss5__Func_2175D28
+Boss5__Func_2175D28: // _02175D28
 	push {r4, lr}
 	mov r4, r0
 	bl GetTaskWork_
@@ -4301,10 +4301,10 @@ ovl01_2175D28: // _02175D28
 	mov r0, r4
 	bl GameObject__Destructor
 	pop {r4, pc}
-	thumb_func_end ovl01_2175D28
+	thumb_func_end Boss5__Func_2175D28
 
-	thumb_func_start ovl01_2175D40
-ovl01_2175D40: // _02175D40
+	thumb_func_start Boss5__Func_2175D40
+Boss5__Func_2175D40: // _02175D40
 	push {r3, lr}
 	sub sp, #8
 	ldr r3, [r0, #0x1c]
@@ -4334,10 +4334,10 @@ _02175D76:
 	add sp, #8
 	pop {r3, pc}
 	.align 2, 0
-	thumb_func_end ovl01_2175D40
+	thumb_func_end Boss5__Func_2175D40
 
-	thumb_func_start ovl01_2175D7C
-ovl01_2175D7C: // _02175D7C
+	thumb_func_start Boss5__Func_2175D7C
+Boss5__Func_2175D7C: // _02175D7C
 	push {r4, r5, lr}
 	sub sp, #0x14
 	ldr r3, _02175DC8 // =0x0000036A
@@ -4378,10 +4378,10 @@ _02175DC2:
 	nop
 _02175DC8: .word 0x0000036A
 _02175DCC: .word 0x00000125
-	thumb_func_end ovl01_2175D7C
+	thumb_func_end Boss5__Func_2175D7C
 
-	thumb_func_start ovl01_2175DD0
-ovl01_2175DD0: // _02175DD0
+	thumb_func_start Boss5__Func_2175DD0
+Boss5__Func_2175DD0: // _02175DD0
 	push {r4, r5, lr}
 	sub sp, #0x14
 	mov r2, #0x4e
@@ -4560,10 +4560,10 @@ _02175F1C: .word gPlayer
 _02175F20: .word _mt_math_rand
 _02175F24: .word 0x00196225
 _02175F28: .word 0x3C6EF35F
-	thumb_func_end ovl01_2175DD0
+	thumb_func_end Boss5__Func_2175DD0
 
-	thumb_func_start ovl01_2175F2C
-ovl01_2175F2C: // _02175F2C
+	thumb_func_start Boss5__Func_2175F2C
+Boss5__Func_2175F2C: // _02175F2C
 	push {r3, lr}
 	ldr r0, [r0, #0x1c]
 	ldrh r1, [r0, #0]
@@ -4578,10 +4578,10 @@ _02175F42:
 	pop {r3, pc}
 	.align 2, 0
 _02175F44: .word 0x00000682
-	thumb_func_end ovl01_2175F2C
+	thumb_func_end Boss5__Func_2175F2C
 
-	thumb_func_start ovl01_2175F48
-ovl01_2175F48: // _02175F48
+	thumb_func_start Boss5__Func_2175F48
+Boss5__Func_2175F48: // _02175F48
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xc
 	mov r5, r0
@@ -4746,10 +4746,10 @@ _02176090: .word 0x00000199
 _02176094: .word 0x00000608
 _02176098: .word 0x0210E990
 _0217609C: .word 0x00000618
-	thumb_func_end ovl01_2175F48
+	thumb_func_end Boss5__Func_2175F48
 
-	thumb_func_start ovl01_21760A0
-ovl01_21760A0: // _021760A0
+	thumb_func_start Boss5__Func_21760A0
+Boss5__Func_21760A0: // _021760A0
 	push {r4, r5, r6, r7}
 	mov r6, r0
 	ldr r0, _02176228 // =gPlayer
@@ -4968,10 +4968,10 @@ _0217622C: .word 0xFFFFF000
 _02176230: .word 0x00196225
 _02176234: .word _mt_math_rand
 _02176238: .word 0x3C6EF35F
-	thumb_func_end ovl01_21760A0
+	thumb_func_end Boss5__Func_21760A0
 
-	thumb_func_start ovl01_217623C
-ovl01_217623C: // _0217623C
+	thumb_func_start Boss5__Func_217623C
+Boss5__Func_217623C: // _0217623C
 	push {r4, lr}
 	sub sp, #8
 	ldr r4, [r0, #0x1c]
@@ -5008,10 +5008,10 @@ ovl01_217623C: // _0217623C
 _02176284:
 	add sp, #8
 	pop {r4, pc}
-	thumb_func_end ovl01_217623C
+	thumb_func_end Boss5__Func_217623C
 
-	thumb_func_start ovl01_2176288
-ovl01_2176288: // _02176288
+	thumb_func_start Boss5__Func_2176288
+Boss5__Func_2176288: // _02176288
 	push {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r0, _02176428 // =_0217AFB8
@@ -5250,20 +5250,20 @@ _02176440: .word 0x00196225
 _02176444: .word 0x3C6EF35F
 _02176448: .word 0xFFFFF000
 _0217644C: .word gPlayer
-	thumb_func_end ovl01_2176288
+	thumb_func_end Boss5__Func_2176288
 
-	thumb_func_start ovl01_2176450
-ovl01_2176450: // _02176450
+	thumb_func_start Boss5__Func_2176450
+Boss5__Func_2176450: // _02176450
 	push {r4, lr}
 	mov r4, r0
-	bl ovl01_2175A60
+	bl Boss5__Func_2175A60
 	mov r0, r4
 	bl GameObject__Destructor
 	pop {r4, pc}
-	thumb_func_end ovl01_2176450
+	thumb_func_end Boss5__Func_2176450
 
-	thumb_func_start ovl01_2176460
-ovl01_2176460: // _02176460
+	thumb_func_start Boss5__Func_2176460
+Boss5__Func_2176460: // _02176460
 	push {r4, lr}
 	sub sp, #8
 	ldr r4, [r0, #0x1c]
@@ -5300,10 +5300,10 @@ ovl01_2176460: // _02176460
 _021764A8:
 	add sp, #8
 	pop {r4, pc}
-	thumb_func_end ovl01_2176460
+	thumb_func_end Boss5__Func_2176460
 
-	thumb_func_start ovl01_21764AC
-ovl01_21764AC: // _021764AC
+	thumb_func_start Boss5__Func_21764AC
+Boss5__Func_21764AC: // _021764AC
 	push {r4, r5, lr}
 	sub sp, #0x14
 	mov r5, r0
@@ -5359,10 +5359,10 @@ ovl01_21764AC: // _021764AC
 _0217651C: .word _0217AFB8
 _02176520: .word 0x00000127
 _02176524: .word 0xFFFF9000
-	thumb_func_end ovl01_21764AC
+	thumb_func_end Boss5__Func_21764AC
 
-	thumb_func_start ovl01_2176528
-ovl01_2176528: // _02176528
+	thumb_func_start Boss5__Func_2176528
+Boss5__Func_2176528: // _02176528
 	push {r4, lr}
 	mov r4, r0
 	bl GetTaskWork_
@@ -5373,10 +5373,10 @@ ovl01_2176528: // _02176528
 	mov r0, r4
 	bl GameObject__Destructor
 	pop {r4, pc}
-	thumb_func_end ovl01_2176528
+	thumb_func_end Boss5__Func_2176528
 
-	thumb_func_start ovl01_2176540
-ovl01_2176540: // _02176540
+	thumb_func_start Boss5__Func_2176540
+Boss5__Func_2176540: // _02176540
 	ldrh r1, [r0, #4]
 	mov r0, #0x80
 	tst r0, r1
@@ -5395,10 +5395,10 @@ _02176558:
 	bx lr
 	.align 2, 0
 _0217655C: .word gameState
-	thumb_func_end ovl01_2176540
+	thumb_func_end Boss5__Func_2176540
 
-	thumb_func_start ovl01_2176560
-ovl01_2176560: // _02176560
+	thumb_func_start Boss5__Func_2176560
+Boss5__Func_2176560: // _02176560
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xc
 	mov r2, r0
@@ -5520,10 +5520,10 @@ _021765CE:
 	.align 2, 0
 _02176640: .word FX_SinCosTable_
 _02176644: .word 0x00000000
-	thumb_func_end ovl01_2176560
+	thumb_func_end Boss5__Func_2176560
 
-	thumb_func_start ovl01_2176648
-ovl01_2176648: // _02176648
+	thumb_func_start Boss5__Func_2176648
+Boss5__Func_2176648: // _02176648
 	push {r4, r5, r6, lr}
 	sub sp, #8
 	ldr r6, [r0, #0x1c]
@@ -5555,7 +5555,7 @@ ovl01_2176648: // _02176648
 	mov r0, #6
 	ldrsb r0, [r1, r0]
 	mov r1, #1
-	bl ovl01_21759C4
+	bl Boss5__Func_21759C4
 	mov r1, #0xdd
 	lsl r1, r1, #2
 	ldr r2, [r4, r1]
@@ -5572,7 +5572,7 @@ _021766A4:
 	mov r0, #0
 	bl CreateScreenEffect
 	mov r0, r5
-	bl ovl01_2176560
+	bl Boss5__Func_2176560
 	mov r0, r6
 	bl Player__Action_DestroyAttackRecoil
 	mov r0, #0
@@ -5589,10 +5589,10 @@ _021766C8:
 	.align 2, 0
 _021766CC: .word _0217AFB8
 _021766D0: .word 0x0000078C
-	thumb_func_end ovl01_2176648
+	thumb_func_end Boss5__Func_2176648
 
-	thumb_func_start ovl01_21766D4
-ovl01_21766D4: // _021766D4
+	thumb_func_start Boss5__Func_21766D4
+Boss5__Func_21766D4: // _021766D4
 	push {r4, lr}
 	mov r4, r0
 	bl GetTaskWork_
@@ -5603,10 +5603,10 @@ ovl01_21766D4: // _021766D4
 	mov r0, r4
 	bl GameObject__Destructor
 	pop {r4, pc}
-	thumb_func_end ovl01_21766D4
+	thumb_func_end Boss5__Func_21766D4
 
-	thumb_func_start ovl01_21766EC
-ovl01_21766EC: // _021766EC
+	thumb_func_start Boss5__Func_21766EC
+Boss5__Func_21766EC: // _021766EC
 	push {r4, lr}
 	sub sp, #8
 	mov r4, r0
@@ -5667,7 +5667,7 @@ _02176758:
 	pop {r4, pc}
 	.align 2, 0
 _0217675C: .word gPlayer
-	thumb_func_end ovl01_21766EC
+	thumb_func_end Boss5__Func_21766EC
 
 	thumb_func_start Boss5Unknown2176760__Create__Create
 Boss5Unknown2176760__Create__Create: // 0x02176760
@@ -5938,14 +5938,14 @@ _0217695C:
 	pop {r4, r5, r6, pc}
 	thumb_func_end Boss5Unknown2176760__Destructor
 
-	thumb_func_start ovl01_217696C
-ovl01_217696C: // 0x0217696C
+	thumb_func_start Boss5__Func_217696C
+Boss5__Func_217696C: // 0x0217696C
 	bx lr
 	.align 2, 0
-	thumb_func_end ovl01_217696C
+	thumb_func_end Boss5__Func_217696C
 
-	thumb_func_start ovl01_2176970
-ovl01_2176970: // 0x02176970
+	thumb_func_start Boss5__Func_2176970
+Boss5__Func_2176970: // 0x02176970
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -5962,10 +5962,10 @@ ovl01_2176970: // 0x02176970
 	bl GameObject__Destructor
 	pop {r3, r4, r5, pc}
 	.align 2, 0
-	thumb_func_end ovl01_2176970
+	thumb_func_end Boss5__Func_2176970
 
-	thumb_func_start ovl01_2176998
-ovl01_2176998: // 0x02176998
+	thumb_func_start Boss5__Func_2176998
+Boss5__Func_2176998: // 0x02176998
 	push {r3, r4, r5, lr}
 	ldr r0, _021769E8 // =0x0217AFB8
 	ldr r0, [r0, #0]
@@ -6004,10 +6004,10 @@ _021769C2:
 	.align 2, 0
 _021769E8: .word 0x0217AFB8
 _021769EC: .word 0x000003C6
-	thumb_func_end ovl01_2176998
+	thumb_func_end Boss5__Func_2176998
 
-	thumb_func_start ovl01_21769F0
-ovl01_21769F0: // 0x021769F0
+	thumb_func_start Boss5__Func_21769F0
+Boss5__Func_21769F0: // 0x021769F0
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x10
 	mov r7, r0
@@ -6051,7 +6051,7 @@ ovl01_21769F0: // 0x021769F0
 	add r0, #0x98
 	str r1, [r0]
 	mov r0, r6
-	bl ovl01_2175A80
+	bl Boss5__Func_2175A80
 	cmp r0, #2
 	bne _02176A58
 	mov r1, #0xa
@@ -6069,14 +6069,14 @@ _02176A5E:
 	ldrsh r0, [r6, r0]
 	bl UpdateBossHealthHUD
 	mov r0, r6
-	bl ovl01_2175BB8
+	bl Boss5__Func_2175BB8
 	mov r1, r0
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r2, [r5, r0]
 	add r0, r0, #4
 	ldr r0, [r2, r0]
-	bl ovl01_21773FC
+	bl Boss5__Func_21773FC
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r1, [r5, r0]
@@ -6101,13 +6101,13 @@ _02176A5E:
 	mov r3, r1
 	bl PlaySfxEx
 	mov r0, r5
-	bl ovl01_21774F8
+	bl Boss5__Func_21774F8
 	ldr r0, _02176AE0 // =0x0000078C
 	ldr r0, [r5, r0]
 	cmp r0, #0xa
 	beq _02176ACA
 	mov r0, r5
-	bl ovl01_2177A54
+	bl Boss5__Func_2177A54
 _02176ACA:
 	add sp, #0x10
 	pop {r3, r4, r5, r6, r7, pc}
@@ -6117,10 +6117,10 @@ _02176AD4: .word gPlayer
 _02176AD8: .word 0xFFFFD000
 _02176ADC: .word 0x0217A13C
 _02176AE0: .word 0x0000078C
-	thumb_func_end ovl01_21769F0
+	thumb_func_end Boss5__Func_21769F0
 
-	thumb_func_start ovl01_2176AE4
-ovl01_2176AE4: // 0x02176AE4
+	thumb_func_start Boss5__Func_2176AE4
+Boss5__Func_2176AE4: // 0x02176AE4
 	mov r1, #0xdd
 	lsl r1, r1, #2
 	ldr r1, [r0, r1]
@@ -6156,10 +6156,10 @@ _02176B1C:
 	bx lr
 	.align 2, 0
 _02176B20: .word 0x0000078C
-	thumb_func_end ovl01_2176AE4
+	thumb_func_end Boss5__Func_2176AE4
 
-	thumb_func_start ovl01_2176B24
-ovl01_2176B24: // 0x02176B24
+	thumb_func_start Boss5__Func_2176B24
+Boss5__Func_2176B24: // 0x02176B24
 	push {r3, r4, r5, lr}
 	mov r0, #1
 	bl BossArena__GetCamera
@@ -6184,10 +6184,10 @@ ovl01_2176B24: // 0x02176B24
 	mov r3, #0
 	bl BossArena__SetNextPos
 	pop {r3, r4, r5, pc}
-	thumb_func_end ovl01_2176B24
+	thumb_func_end Boss5__Func_2176B24
 
-	thumb_func_start ovl01_2176B64
-ovl01_2176B64: // 0x02176B64
+	thumb_func_start Boss5__Func_2176B64
+Boss5__Func_2176B64: // 0x02176B64
 	push {r3, r4, r5, lr}
 	mov r0, #2
 	bl BossArena__GetCamera
@@ -6229,10 +6229,10 @@ ovl01_2176B64: // 0x02176B64
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _02176BC0: .word FX_SinCosTable_
-	thumb_func_end ovl01_2176B64
+	thumb_func_end Boss5__Func_2176B64
 
-	thumb_func_start ovl01_2176BC4
-ovl01_2176BC4: // 0x02176BC4
+	thumb_func_start Boss5__Func_2176BC4
+Boss5__Func_2176BC4: // 0x02176BC4
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x10
 	str r0, [sp]
@@ -6297,10 +6297,10 @@ _02176C44: .word 0x0000014A
 _02176C48: .word 0x00000588
 _02176C4C: .word 0x0217A208
 _02176C50: .word 0x0000088C
-	thumb_func_end ovl01_2176BC4
+	thumb_func_end Boss5__Func_2176BC4
 
-	thumb_func_start ovl01_2176C54
-ovl01_2176C54: // 0x02176C54
+	thumb_func_start Boss5__Func_2176C54
+Boss5__Func_2176C54: // 0x02176C54
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x18
 	mov r7, r0
@@ -6490,55 +6490,55 @@ _02176DBC:
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02176DC0: .word 0x0000078C
-	thumb_func_end ovl01_2176C54
+	thumb_func_end Boss5__Func_2176C54
 
-	thumb_func_start ovl01_2176DC4
-ovl01_2176DC4: // 0x02176DC4
+	thumb_func_start Boss5__Func_2176DC4
+Boss5__Func_2176DC4: // 0x02176DC4
 	mov r1, #0xfe
 	mov r2, #1
 	lsl r1, r1, #2
 	str r2, [r0, r1]
 	bx lr
 	.align 2, 0
-	thumb_func_end ovl01_2176DC4
+	thumb_func_end Boss5__Func_2176DC4
 
-	thumb_func_start ovl01_2176DD0
-ovl01_2176DD0: // 0x02176DD0
+	thumb_func_start Boss5__Func_2176DD0
+Boss5__Func_2176DD0: // 0x02176DD0
 	mov r1, #0xfe
 	mov r2, #0
 	lsl r1, r1, #2
 	str r2, [r0, r1]
 	bx lr
 	.align 2, 0
-	thumb_func_end ovl01_2176DD0
+	thumb_func_end Boss5__Func_2176DD0
 
-	thumb_func_start ovl01_2176DDC
-ovl01_2176DDC: // 0x02176DDC
+	thumb_func_start Boss5__Func_2176DDC
+Boss5__Func_2176DDC: // 0x02176DDC
 	push {r4, lr}
 	mov r4, r0
-	bl ovl01_2176B24
+	bl Boss5__Func_2176B24
 	mov r0, #0xe1
 	lsl r0, r0, #2
 	ldr r0, [r4, r0]
 	cmp r0, #0
 	beq _02176DFE
 	mov r0, r4
-	bl ovl01_2176AE4
+	bl Boss5__Func_2176AE4
 	cmp r0, #1
 	bne _02176DFE
 	mov r0, r4
-	bl ovl01_2176B64
+	bl Boss5__Func_2176B64
 _02176DFE:
 	mov r0, #0xe5
 	lsl r0, r0, #2
 	add r0, r4, r0
 	bl BossHelpers__ProcessLights
 	mov r0, r4
-	bl ovl01_2176BC4
+	bl Boss5__Func_2176BC4
 	mov r0, r4
-	bl ovl01_2176C54
+	bl Boss5__Func_2176C54
 	mov r0, r4
-	bl ovl01_21755B0
+	bl Boss5__Func_21755B0
 	mov r1, #0xdf
 	lsl r1, r1, #2
 	ldr r1, [r4, r1]
@@ -6546,10 +6546,10 @@ _02176DFE:
 	blx r1
 	pop {r4, pc}
 	.align 2, 0
-	thumb_func_end ovl01_2176DDC
+	thumb_func_end Boss5__Func_2176DDC
 
-	thumb_func_start ovl01_2176E28
-ovl01_2176E28: // 0x02176E28
+	thumb_func_start Boss5__Func_2176E28
+Boss5__Func_2176E28: // 0x02176E28
 	push {r3, r4, r5, r6, r7, lr}
 	str r0, [sp]
 	bl GetTaskWork_
@@ -6591,7 +6591,7 @@ _02176E76:
 	cmp r5, #8
 	blt _02176E76
 	mov r0, r6
-	bl ovl01_217552C
+	bl Boss5__Func_217552C
 	ldr r0, _02176EA8 // =0x0217AFB8
 	mov r1, #0
 	str r1, [r0]
@@ -6604,10 +6604,10 @@ _02176E9C: .word 0x00000898
 _02176EA0: .word 0x00000588
 _02176EA4: .word 0x00000A14
 _02176EA8: .word 0x0217AFB8
-	thumb_func_end ovl01_2176E28
+	thumb_func_end Boss5__Func_2176E28
 
-	thumb_func_start ovl01_2176EAC
-ovl01_2176EAC: // 0x02176EAC
+	thumb_func_start Boss5__Func_2176EAC
+Boss5__Func_2176EAC: // 0x02176EAC
 	push {r3, r4, r5, r6, r7, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -6651,7 +6651,7 @@ _02176ED4:
 	cmp r0, #0
 	bne _02176F18
 	mov r0, r4
-	bl ovl01_2176AE4
+	bl Boss5__Func_2176AE4
 	cmp r0, #0
 	bne _02176F18
 	mov r5, #1
@@ -6692,7 +6692,7 @@ _02176F4E:
 	cmp r0, #0
 	bne _02176F7A
 	mov r0, r4
-	bl ovl01_2176AE4
+	bl Boss5__Func_2176AE4
 	cmp r0, #1
 	bne _02176F7A
 	mov r0, #1
@@ -6743,7 +6743,7 @@ _02176F96:
 	cmp r0, #0
 	beq _02176FDA
 	mov r0, r4
-	bl ovl01_21756D4
+	bl Boss5__Func_21756D4
 _02176FDA:
 	ldr r1, [r4, #0x20]
 	mov r0, #0x20
@@ -6769,10 +6769,10 @@ _02177008: .word 0x000003C6
 _0217700C: .word 0x0000088C
 _02177010: .word 0x0014A000
 _02177014: .word 0x00000A14
-	thumb_func_end ovl01_2176EAC
+	thumb_func_end Boss5__Func_2176EAC
 
-	thumb_func_start ovl01_2177018
-ovl01_2177018: // 0x02177018
+	thumb_func_start Boss5__Func_2177018
+Boss5__Func_2177018: // 0x02177018
 	push {r4, r5, r6, lr}
 	sub sp, #0x20
 	mov r4, r0
@@ -6800,7 +6800,7 @@ ovl01_2177018: // 0x02177018
 	mov r0, r6
 	add r0, #0x10
 	ldr r0, [r4, r0]
-	bl ovl01_2177BB4
+	bl Boss5__Func_2177BB4
 	mov r0, r5
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r5
@@ -6822,7 +6822,7 @@ ovl01_2177018: // 0x02177018
 	mov r0, r6
 	add r0, #0x10
 	ldr r0, [r4, r0]
-	bl ovl01_2177C98
+	bl Boss5__Func_2177C98
 	mov r0, r5
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r5
@@ -6896,7 +6896,7 @@ ovl01_2177018: // 0x02177018
 	mov r0, #0
 	bl SetHUDActiveScreen
 	mov r0, r6
-	ldr r1, _02177184 // =ovl01_2177188
+	ldr r1, _02177184 // =Boss5__Func_2177188
 	add r0, #0x18
 	str r1, [r4, r0]
 	mov r0, #0
@@ -6915,11 +6915,11 @@ _02177174: .word 0x00006004
 _02177178: .word VRAMSystem__VRAM_BG
 _0217717C: .word VRAMSystem__VRAM_PALETTE_BG
 _02177180: .word 0xFFFFE0FF
-_02177184: .word ovl01_2177188
-	thumb_func_end ovl01_2177018
+_02177184: .word Boss5__Func_2177188
+	thumb_func_end Boss5__Func_2177018
 
-	thumb_func_start ovl01_2177188
-ovl01_2177188: // 0x02177188
+	thumb_func_start Boss5__Func_2177188
+Boss5__Func_2177188: // 0x02177188
 	push {r4, lr}
 	mov r4, r0
 	bl TitleCard__GetProgress
@@ -6929,17 +6929,17 @@ ovl01_2177188: // 0x02177188
 	mov r1, #1
 	lsl r0, r0, #2
 	str r1, [r4, r0]
-	ldr r1, _021771A4 // =ovl01_21771A8
+	ldr r1, _021771A4 // =Boss5__Func_21771A8
 	sub r0, #0xc
 	str r1, [r4, r0]
 _021771A2:
 	pop {r4, pc}
 	.align 2, 0
-_021771A4: .word ovl01_21771A8
-	thumb_func_end ovl01_2177188
+_021771A4: .word Boss5__Func_21771A8
+	thumb_func_end Boss5__Func_2177188
 
-	thumb_func_start ovl01_21771A8
-ovl01_21771A8: // 0x021771A8
+	thumb_func_start Boss5__Func_21771A8
+Boss5__Func_21771A8: // 0x021771A8
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xc
 	mov r6, r0
@@ -6962,7 +6962,7 @@ ovl01_21771A8: // 0x021771A8
 	pop {r4, r5, r6, r7, pc}
 _021771D0:
 	mov r0, r6
-	bl ovl01_2175B48
+	bl Boss5__Func_2175B48
 	str r0, [sp, #8]
 	mov r0, #0xe
 	lsl r0, r0, #6
@@ -6988,7 +6988,7 @@ _021771D0:
 	bhs _02177298
 _02177204:
 	mov r0, #0
-	bl ovl01_21772CC
+	bl Boss5__Func_21772CC
 	ldr r1, [r4, #0x44]
 	asr r0, r0, #1
 	sub r1, r1, r0
@@ -6998,7 +6998,7 @@ _02177204:
 	mov r0, #0xde
 	lsl r0, r0, #2
 	ldr r0, [r4, r0]
-	bl ovl01_21772CC
+	bl Boss5__Func_21772CC
 	add r1, r5, r0
 	mov r0, #1
 	lsl r0, r0, #0x10
@@ -7046,7 +7046,7 @@ _02177274:
 	mov r5, r2
 _02177276:
 	mov r0, r5
-	bl ovl01_21764AC
+	bl Boss5__Func_21764AC
 	ldr r0, _021772C8 // =gameState
 	ldr r0, [r0, #0x14]
 	cmp r0, #3
@@ -7081,30 +7081,30 @@ _021772BC: .word 0x00196225
 _021772C0: .word 0x3C6EF35F
 _021772C4: .word gPlayer
 _021772C8: .word gameState
-	thumb_func_end ovl01_21771A8
+	thumb_func_end Boss5__Func_21771A8
 
-	thumb_func_start ovl01_21772CC
-ovl01_21772CC: // 0x021772CC
+	thumb_func_start Boss5__Func_21772CC
+Boss5__Func_21772CC: // 0x021772CC
 	lsl r1, r0, #2
 	ldr r0, _021772D4 // =0x0217A1F0
 	ldr r0, [r0, r1]
 	bx lr
 	.align 2, 0
 _021772D4: .word 0x0217A1F0
-	thumb_func_end ovl01_21772CC
+	thumb_func_end Boss5__Func_21772CC
 
-	thumb_func_start ovl01_21772D8
-ovl01_21772D8: // 0x021772D8
+	thumb_func_start Boss5__Func_21772D8
+Boss5__Func_21772D8: // 0x021772D8
 	push {r4, lr}
 	mov r4, r0
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r0, [r4, r0]
-	bl ovl01_2176AE4
+	bl Boss5__Func_2176AE4
 	cmp r0, #0
 	bne _02177360
 	mov r0, #0
-	bl ovl01_21772CC
+	bl Boss5__Func_21772CC
 	asr r3, r0, #0xc
 	ldr r0, _0217736C // =stageCollision
 	ldr r2, [r0, #0x1c]
@@ -7119,7 +7119,7 @@ _02177304:
 	mov r0, #0xde
 	lsl r0, r0, #2
 	ldr r0, [r4, r0]
-	bl ovl01_21772CC
+	bl Boss5__Func_21772CC
 	ldr r1, _0217736C // =stageCollision
 	asr r0, r0, #0xc
 	ldr r3, [r1, #0x24]
@@ -7175,10 +7175,10 @@ _02177368:
 	pop {r4, pc}
 	nop
 _0217736C: .word stageCollision
-	thumb_func_end ovl01_21772D8
+	thumb_func_end Boss5__Func_21772D8
 
-	thumb_func_start ovl01_2177370
-ovl01_2177370: // 0x02177370
+	thumb_func_start Boss5__Func_2177370
+Boss5__Func_2177370: // 0x02177370
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -7199,10 +7199,10 @@ ovl01_2177370: // 0x02177370
 	bl GameObject__Destructor
 	pop {r3, r4, r5, pc}
 	.align 2, 0
-	thumb_func_end ovl01_2177370
+	thumb_func_end Boss5__Func_2177370
 
-	thumb_func_start ovl01_21773A0
-ovl01_21773A0: // 0x021773A0
+	thumb_func_start Boss5__Func_21773A0
+Boss5__Func_21773A0: // 0x021773A0
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -7246,10 +7246,10 @@ _021773C8:
 _021773F8:
 	pop {r4, pc}
 	.align 2, 0
-	thumb_func_end ovl01_21773A0
+	thumb_func_end Boss5__Func_21773A0
 
-	thumb_func_start ovl01_21773FC
-ovl01_21773FC: // 0x021773FC
+	thumb_func_start Boss5__Func_21773FC
+Boss5__Func_21773FC: // 0x021773FC
 	push {r4, r5, r6, lr}
 	sub sp, #8
 	mov r5, r0
@@ -7303,19 +7303,19 @@ _0217745C:
 _02177460: .word bossAssetFiles+0x00000010
 _02177464: .word 0x0217AEF4
 _02177468: .word 0x000034CC
-	thumb_func_end ovl01_21773FC
+	thumb_func_end Boss5__Func_21773FC
 
-	thumb_func_start ovl01_217746C
-ovl01_217746C: // 0x0217746C
+	thumb_func_start Boss5__Func_217746C
+Boss5__Func_217746C: // 0x0217746C
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #0
-	bl ovl01_21772CC
+	bl Boss5__Func_21772CC
 	mov r4, r0
 	mov r0, #0xde
 	lsl r0, r0, #2
 	ldr r0, [r5, r0]
-	bl ovl01_21772CC
+	bl Boss5__Func_21772CC
 	ldr r2, [r5, #0x44]
 	asr r1, r4, #1
 	sub r1, r2, r1
@@ -7323,20 +7323,20 @@ ovl01_217746C: // 0x0217746C
 	add r0, r1, r0
 	pop {r3, r4, r5, pc}
 	.align 2, 0
-	thumb_func_end ovl01_217746C
+	thumb_func_end Boss5__Func_217746C
 
-	thumb_func_start ovl01_2177490
-ovl01_2177490: // 0x02177490
+	thumb_func_start Boss5__Func_2177490
+Boss5__Func_2177490: // 0x02177490
 	ldr r1, _02177498 // =0x00000A84
 	ldr r0, [r0, r1]
 	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02177498: .word 0x00000A84
-	thumb_func_end ovl01_2177490
+	thumb_func_end Boss5__Func_2177490
 
-	thumb_func_start ovl01_217749C
-ovl01_217749C: // 0x0217749C
+	thumb_func_start Boss5__Func_217749C
+Boss5__Func_217749C: // 0x0217749C
 	push {r3, r4, r5, lr}
 	sub sp, #8
 	mov r5, r0
@@ -7374,10 +7374,10 @@ _021774B8:
 	nop
 _021774E0: .word 0x00000AE8
 _021774E4: .word 0x00000AB8
-	thumb_func_end ovl01_217749C
+	thumb_func_end Boss5__Func_217749C
 
-	thumb_func_start ovl01_21774E8
-ovl01_21774E8: // 0x021774E8
+	thumb_func_start Boss5__Func_21774E8
+Boss5__Func_21774E8: // 0x021774E8
 	ldr r1, _021774F4 // =0x00000AAC
 	ldrh r1, [r0, r1]
 	mov r0, #2
@@ -7386,10 +7386,10 @@ ovl01_21774E8: // 0x021774E8
 	bx lr
 	.align 2, 0
 _021774F4: .word 0x00000AAC
-	thumb_func_end ovl01_21774E8
+	thumb_func_end Boss5__Func_21774E8
 
-	thumb_func_start ovl01_21774F8
-ovl01_21774F8: // 0x021774F8
+	thumb_func_start Boss5__Func_21774F8
+Boss5__Func_21774F8: // 0x021774F8
 	push {r4, lr}
 	mov r4, r0
 	mov r0, #2
@@ -7405,10 +7405,10 @@ ovl01_21774F8: // 0x021774F8
 	pop {r4, pc}
 	.align 2, 0
 _02177514: .word 0x000007FC
-	thumb_func_end ovl01_21774F8
+	thumb_func_end Boss5__Func_21774F8
 
-	thumb_func_start ovl01_2177518
-ovl01_2177518: // 0x02177518
+	thumb_func_start Boss5__Func_2177518
+Boss5__Func_2177518: // 0x02177518
 	push {r3, lr}
 	ldr r1, _0217753C // =0x000007FC
 	ldrh r2, [r0, r1]
@@ -7429,10 +7429,10 @@ _0217753A:
 	pop {r3, pc}
 	.align 2, 0
 _0217753C: .word 0x000007FC
-	thumb_func_end ovl01_2177518
+	thumb_func_end Boss5__Func_2177518
 
-	thumb_func_start ovl01_2177540
-ovl01_2177540: // 0x02177540
+	thumb_func_start Boss5__Func_2177540
+Boss5__Func_2177540: // 0x02177540
 	mov r2, #0x23
 	lsl r2, r2, #4
 	add r3, r1, r2
@@ -7443,10 +7443,10 @@ ovl01_2177540: // 0x02177540
 	str r1, [r3, r2]
 	bx lr
 	.align 2, 0
-	thumb_func_end ovl01_2177540
+	thumb_func_end Boss5__Func_2177540
 
-	thumb_func_start ovl01_2177554
-ovl01_2177554: // 0x02177554
+	thumb_func_start Boss5__Func_2177554
+Boss5__Func_2177554: // 0x02177554
 	mov r2, #0x23
 	lsl r2, r2, #4
 	add r3, r1, r2
@@ -7457,26 +7457,26 @@ ovl01_2177554: // 0x02177554
 	str r0, [r3, r2]
 	bx lr
 	.align 2, 0
-	thumb_func_end ovl01_2177554
+	thumb_func_end Boss5__Func_2177554
 
-	thumb_func_start ovl01_2177568
-ovl01_2177568: // 0x02177568
+	thumb_func_start Boss5__Func_2177568
+Boss5__Func_2177568: // 0x02177568
 	push {r4, lr}
 	ldr r1, _02177580 // =0x00000784
 	mov r4, r0
 	ldr r1, [r4, r1]
 	blx r1
 	mov r0, r4
-	bl ovl01_2177518
+	bl Boss5__Func_2177518
 	mov r0, r4
-	bl ovl01_2177890
+	bl Boss5__Func_2177890
 	pop {r4, pc}
 	.align 2, 0
 _02177580: .word 0x00000784
-	thumb_func_end ovl01_2177568
+	thumb_func_end Boss5__Func_2177568
 
-	thumb_func_start ovl01_2177584
-ovl01_2177584: // 0x02177584
+	thumb_func_start Boss5__Func_2177584
+Boss5__Func_2177584: // 0x02177584
 	push {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	bl GetTaskWork_
@@ -7512,10 +7512,10 @@ _021775AA:
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
 _021775D4: .word 0x00000B24
-	thumb_func_end ovl01_2177584
+	thumb_func_end Boss5__Func_2177584
 
-	thumb_func_start ovl01_21775D8
-ovl01_21775D8: // 0x021775D8
+	thumb_func_start Boss5__Func_21775D8
+Boss5__Func_21775D8: // 0x021775D8
 	push {r4, r5, r6, lr}
 	bl GetCurrentTaskWork_
 	mov r6, r0
@@ -7575,10 +7575,10 @@ _02177648:
 _02177650:
 	pop {r4, r5, r6, pc}
 	.align 2, 0
-	thumb_func_end ovl01_21775D8
+	thumb_func_end Boss5__Func_21775D8
 
-	thumb_func_start ovl01_2177654
-ovl01_2177654: // 0x02177654
+	thumb_func_start Boss5__Func_2177654
+Boss5__Func_2177654: // 0x02177654
 	push {r4, r5, r6, lr}
 	sub sp, #0x18
 	bl GetCurrentTaskWork_
@@ -7742,10 +7742,10 @@ _0217779A:
 	nop
 _021777A0: .word 0x000007B4
 _021777A4: .word 0x000007D8
-	thumb_func_end ovl01_2177654
+	thumb_func_end Boss5__Func_2177654
 
-	thumb_func_start ovl01_21777A8
-ovl01_21777A8: // 0x021777A8
+	thumb_func_start Boss5__Func_21777A8
+Boss5__Func_21777A8: // 0x021777A8
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #8
 	mov r6, r0
@@ -7771,7 +7771,7 @@ ovl01_21777A8: // 0x021777A8
 	ldrsh r0, [r0, r1]
 	bl UpdateBossHealthHUD
 	mov r0, r4
-	bl ovl01_2177B68
+	bl Boss5__Func_2177B68
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xce
@@ -7810,7 +7810,7 @@ _021777F6:
 	neg r2, r2
 	bl BossFX__CreateHitB
 	mov r0, r4
-	bl ovl01_2177A10
+	bl Boss5__Func_2177A10
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xcf
@@ -7826,10 +7826,10 @@ _02177846:
 _0217784C: .word 0x0000078C
 _02177850: .word 0x000007B4
 _02177854: .word 0xFFFFD000
-	thumb_func_end ovl01_21777A8
+	thumb_func_end Boss5__Func_21777A8
 
-	thumb_func_start ovl01_2177858
-ovl01_2177858: // 0x02177858
+	thumb_func_start Boss5__Func_2177858
+Boss5__Func_2177858: // 0x02177858
 	push {r3, lr}
 	ldr r0, [r0, #0x1c]
 	ldr r1, [r1, #0x1c]
@@ -7837,19 +7837,19 @@ ovl01_2177858: // 0x02177858
 	cmp r0, #1
 	bne _0217786A
 	mov r0, r1
-	bl ovl01_2177A88
+	bl Boss5__Func_2177A88
 _0217786A:
 	pop {r3, pc}
-	thumb_func_end ovl01_2177858
+	thumb_func_end Boss5__Func_2177858
 
-	thumb_func_start ovl01_217786C
-ovl01_217786C: // 0x0217786C
+	thumb_func_start Boss5__Func_217786C
+Boss5__Func_217786C: // 0x0217786C
 	bx lr
 	.align 2, 0
-	thumb_func_end ovl01_217786C
+	thumb_func_end Boss5__Func_217786C
 
-	thumb_func_start ovl01_2177870
-ovl01_2177870: // 0x02177870
+	thumb_func_start Boss5__Func_2177870
+Boss5__Func_2177870: // 0x02177870
 	push {r3, r4}
 	ldr r2, _0217788C // =0x00000788
 	ldr r4, [r0, r2]
@@ -7866,10 +7866,10 @@ _02177886:
 	bx lr
 	nop
 _0217788C: .word 0x00000788
-	thumb_func_end ovl01_2177870
+	thumb_func_end Boss5__Func_2177870
 
-	thumb_func_start ovl01_2177890
-ovl01_2177890: // 0x02177890
+	thumb_func_start Boss5__Func_2177890
+Boss5__Func_2177890: // 0x02177890
 	push {r4, lr}
 	sub sp, #8
 	ldr r2, _021778E4 // =0x00000B28
@@ -7912,10 +7912,10 @@ _021778DE:
 _021778E4: .word 0x00000B28
 _021778E8: .word 0x00000B24
 _021778EC: .word 0x00000B2C
-	thumb_func_end ovl01_2177890
+	thumb_func_end Boss5__Func_2177890
 
-	thumb_func_start ovl01_21778F0
-ovl01_21778F0: // 0x021778F0
+	thumb_func_start Boss5__Func_21778F0
+Boss5__Func_21778F0: // 0x021778F0
 	ldr r1, _02177904 // =0x00000B28
 	ldr r2, [r0, r1]
 	cmp r2, #0
@@ -7929,10 +7929,10 @@ _02177902:
 	bx lr
 	.align 2, 0
 _02177904: .word 0x00000B28
-	thumb_func_end ovl01_21778F0
+	thumb_func_end Boss5__Func_21778F0
 
-	thumb_func_start ovl01_2177908
-ovl01_2177908: // 0x02177908
+	thumb_func_start Boss5__Func_2177908
+Boss5__Func_2177908: // 0x02177908
 	ldr r1, _02177914 // =0x00000B28
 	mov r2, #0
 	str r2, [r0, r1]
@@ -7941,24 +7941,24 @@ ovl01_2177908: // 0x02177908
 	bx lr
 	.align 2, 0
 _02177914: .word 0x00000B28
-	thumb_func_end ovl01_2177908
+	thumb_func_end Boss5__Func_2177908
 
-	thumb_func_start ovl01_2177918
-ovl01_2177918: // 0x02177918
+	thumb_func_start Boss5__Func_2177918
+Boss5__Func_2177918: // 0x02177918
 	ldr r1, _02177928 // =0x0000078C
 	mov r2, #0
 	str r2, [r0, r1]
-	ldr r2, _0217792C // =ovl01_2177BAC
+	ldr r2, _0217792C // =Boss5__Func_2177BAC
 	sub r1, #8
 	str r2, [r0, r1]
 	bx lr
 	nop
 _02177928: .word 0x0000078C
-_0217792C: .word ovl01_2177BAC
-	thumb_func_end ovl01_2177918
+_0217792C: .word Boss5__Func_2177BAC
+	thumb_func_end Boss5__Func_2177918
 
-	thumb_func_start ovl01_2177930
-ovl01_2177930: // 0x02177930
+	thumb_func_start Boss5__Func_2177930
+Boss5__Func_2177930: // 0x02177930
 	push {r4, lr}
 	mov r1, #0xde
 	mov r4, r0
@@ -7971,7 +7971,7 @@ ovl01_2177930: // 0x02177930
 	mov r0, #1
 	str r0, [r4, r1]
 	mov r0, r1
-	ldr r2, _02177960 // =ovl01_2177D7C
+	ldr r2, _02177960 // =Boss5__Func_2177D7C
 	sub r0, #8
 	str r2, [r4, r0]
 	sub r1, #8
@@ -7981,11 +7981,11 @@ ovl01_2177930: // 0x02177930
 	pop {r4, pc}
 	nop
 _0217795C: .word 0x0000078C
-_02177960: .word ovl01_2177D7C
-	thumb_func_end ovl01_2177930
+_02177960: .word Boss5__Func_2177D7C
+	thumb_func_end Boss5__Func_2177930
 
-	thumb_func_start ovl01_2177964
-ovl01_2177964: // 0x02177964
+	thumb_func_start Boss5__Func_2177964
+Boss5__Func_2177964: // 0x02177964
 	push {r4, lr}
 	mov r1, #0xde
 	mov r4, r0
@@ -7998,7 +7998,7 @@ ovl01_2177964: // 0x02177964
 	mov r0, #2
 	str r0, [r4, r1]
 	mov r0, r1
-	ldr r2, _02177994 // =ovl01_2177E0C
+	ldr r2, _02177994 // =Boss5__Func_2177E0C
 	sub r0, #8
 	str r2, [r4, r0]
 	sub r1, #8
@@ -8008,11 +8008,11 @@ ovl01_2177964: // 0x02177964
 	pop {r4, pc}
 	nop
 _02177990: .word 0x0000078C
-_02177994: .word ovl01_2177E0C
-	thumb_func_end ovl01_2177964
+_02177994: .word Boss5__Func_2177E0C
+	thumb_func_end Boss5__Func_2177964
 
-	thumb_func_start ovl01_2177998
-ovl01_2177998: // 0x02177998
+	thumb_func_start Boss5__Func_2177998
+Boss5__Func_2177998: // 0x02177998
 	push {r4, lr}
 	mov r1, #0xde
 	mov r4, r0
@@ -8025,7 +8025,7 @@ ovl01_2177998: // 0x02177998
 	mov r0, #2
 	str r0, [r4, r1]
 	mov r0, r1
-	ldr r2, _021779C8 // =ovl01_2178478
+	ldr r2, _021779C8 // =Boss5__Func_2178478
 	sub r0, #8
 	str r2, [r4, r0]
 	sub r1, #8
@@ -8035,11 +8035,11 @@ ovl01_2177998: // 0x02177998
 	pop {r4, pc}
 	nop
 _021779C4: .word 0x0000078C
-_021779C8: .word ovl01_2178478
-	thumb_func_end ovl01_2177998
+_021779C8: .word Boss5__Func_2178478
+	thumb_func_end Boss5__Func_2177998
 
-	thumb_func_start ovl01_21779CC
-ovl01_21779CC: // 0x021779CC
+	thumb_func_start Boss5__Func_21779CC
+Boss5__Func_21779CC: // 0x021779CC
 	push {r3, r4, r5, lr}
 	mov r1, #0xde
 	mov r4, r0
@@ -8052,7 +8052,7 @@ ovl01_21779CC: // 0x021779CC
 _021779E0:
 	mov r0, r5
 	mov r1, r4
-	bl ovl01_2177540
+	bl Boss5__Func_2177540
 	add r5, r5, #1
 	cmp r5, #3
 	blt _021779E0
@@ -8060,7 +8060,7 @@ _021779E0:
 	mov r0, #3
 	str r0, [r4, r1]
 	mov r0, r1
-	ldr r2, _02177A0C // =ovl01_21785C0
+	ldr r2, _02177A0C // =Boss5__Func_21785C0
 	sub r0, #8
 	str r2, [r4, r0]
 	sub r1, #8
@@ -8070,11 +8070,11 @@ _021779E0:
 	pop {r3, r4, r5, pc}
 	nop
 _02177A08: .word 0x0000078C
-_02177A0C: .word ovl01_21785C0
-	thumb_func_end ovl01_21779CC
+_02177A0C: .word Boss5__Func_21785C0
+	thumb_func_end Boss5__Func_21779CC
 
-	thumb_func_start ovl01_2177A10
-ovl01_2177A10: // 0x02177A10
+	thumb_func_start Boss5__Func_2177A10
+Boss5__Func_2177A10: // 0x02177A10
 	push {r3, r4, r5, lr}
 	mov r1, #0xde
 	mov r4, r0
@@ -8087,7 +8087,7 @@ ovl01_2177A10: // 0x02177A10
 _02177A24:
 	mov r0, r5
 	mov r1, r4
-	bl ovl01_2177540
+	bl Boss5__Func_2177540
 	add r5, r5, #1
 	cmp r5, #3
 	blt _02177A24
@@ -8095,7 +8095,7 @@ _02177A24:
 	mov r0, #4
 	str r0, [r4, r1]
 	mov r0, r1
-	ldr r2, _02177A50 // =ovl01_2178684
+	ldr r2, _02177A50 // =Boss5__Func_2178684
 	sub r0, #8
 	str r2, [r4, r0]
 	sub r1, #8
@@ -8105,11 +8105,11 @@ _02177A24:
 	pop {r3, r4, r5, pc}
 	nop
 _02177A4C: .word 0x0000078C
-_02177A50: .word ovl01_2178684
-	thumb_func_end ovl01_2177A10
+_02177A50: .word Boss5__Func_2178684
+	thumb_func_end Boss5__Func_2177A10
 
-	thumb_func_start ovl01_2177A54
-ovl01_2177A54: // 0x02177A54
+	thumb_func_start Boss5__Func_2177A54
+Boss5__Func_2177A54: // 0x02177A54
 	push {r4, lr}
 	mov r1, #0xde
 	mov r4, r0
@@ -8122,7 +8122,7 @@ ovl01_2177A54: // 0x02177A54
 	mov r0, #5
 	str r0, [r4, r1]
 	mov r0, r1
-	ldr r2, _02177A84 // =ovl01_21787DC
+	ldr r2, _02177A84 // =Boss5__Func_21787DC
 	sub r0, #8
 	str r2, [r4, r0]
 	sub r1, #8
@@ -8132,11 +8132,11 @@ ovl01_2177A54: // 0x02177A54
 	pop {r4, pc}
 	nop
 _02177A80: .word 0x0000078C
-_02177A84: .word ovl01_21787DC
-	thumb_func_end ovl01_2177A54
+_02177A84: .word Boss5__Func_21787DC
+	thumb_func_end Boss5__Func_2177A54
 
-	thumb_func_start ovl01_2177A88
-ovl01_2177A88: // 0x02177A88
+	thumb_func_start Boss5__Func_2177A88
+Boss5__Func_2177A88: // 0x02177A88
 	push {r3, r4, r5, lr}
 	mov r1, #0xde
 	mov r4, r0
@@ -8149,7 +8149,7 @@ ovl01_2177A88: // 0x02177A88
 _02177A9C:
 	mov r0, r5
 	mov r1, r4
-	bl ovl01_2177540
+	bl Boss5__Func_2177540
 	add r5, r5, #1
 	cmp r5, #3
 	blt _02177A9C
@@ -8157,7 +8157,7 @@ _02177A9C:
 	mov r0, #7
 	str r0, [r4, r1]
 	mov r0, r1
-	ldr r2, _02177AC8 // =ovl01_2178820
+	ldr r2, _02177AC8 // =Boss5__Func_2178820
 	sub r0, #8
 	str r2, [r4, r0]
 	sub r1, #8
@@ -8167,11 +8167,11 @@ _02177A9C:
 	pop {r3, r4, r5, pc}
 	nop
 _02177AC4: .word 0x0000078C
-_02177AC8: .word ovl01_2178820
-	thumb_func_end ovl01_2177A88
+_02177AC8: .word Boss5__Func_2178820
+	thumb_func_end Boss5__Func_2177A88
 
-	thumb_func_start ovl01_2177ACC
-ovl01_2177ACC: // 0x02177ACC
+	thumb_func_start Boss5__Func_2177ACC
+Boss5__Func_2177ACC: // 0x02177ACC
 	push {r4, lr}
 	mov r1, #0xde
 	mov r4, r0
@@ -8184,7 +8184,7 @@ ovl01_2177ACC: // 0x02177ACC
 	mov r0, #9
 	str r0, [r4, r1]
 	mov r0, r1
-	ldr r2, _02177AFC // =ovl01_2178BF0
+	ldr r2, _02177AFC // =Boss5__Func_2178BF0
 	sub r0, #8
 	str r2, [r4, r0]
 	sub r1, #8
@@ -8194,11 +8194,11 @@ ovl01_2177ACC: // 0x02177ACC
 	pop {r4, pc}
 	nop
 _02177AF8: .word 0x0000078C
-_02177AFC: .word ovl01_2178BF0
-	thumb_func_end ovl01_2177ACC
+_02177AFC: .word Boss5__Func_2178BF0
+	thumb_func_end Boss5__Func_2177ACC
 
-	thumb_func_start ovl01_2177B00
-ovl01_2177B00: // 0x02177B00
+	thumb_func_start Boss5__Func_2177B00
+Boss5__Func_2177B00: // 0x02177B00
 	push {r4, lr}
 	mov r1, #0xde
 	mov r4, r0
@@ -8211,7 +8211,7 @@ ovl01_2177B00: // 0x02177B00
 	mov r0, #0xa
 	str r0, [r4, r1]
 	mov r0, r1
-	ldr r2, _02177B30 // =ovl01_2178CD4
+	ldr r2, _02177B30 // =Boss5__Func_2178CD4
 	sub r0, #8
 	str r2, [r4, r0]
 	sub r1, #8
@@ -8221,11 +8221,11 @@ ovl01_2177B00: // 0x02177B00
 	pop {r4, pc}
 	nop
 _02177B2C: .word 0x0000078C
-_02177B30: .word ovl01_2178CD4
-	thumb_func_end ovl01_2177B00
+_02177B30: .word Boss5__Func_2178CD4
+	thumb_func_end Boss5__Func_2177B00
 
-	thumb_func_start ovl01_2177B34
-ovl01_2177B34: // 0x02177B34
+	thumb_func_start Boss5__Func_2177B34
+Boss5__Func_2177B34: // 0x02177B34
 	push {r4, lr}
 	mov r1, #0xde
 	mov r4, r0
@@ -8238,7 +8238,7 @@ ovl01_2177B34: // 0x02177B34
 	mov r0, #6
 	str r0, [r4, r1]
 	mov r0, r1
-	ldr r2, _02177B64 // =ovl01_2179218
+	ldr r2, _02177B64 // =Boss5__Func_2179218
 	sub r0, #8
 	str r2, [r4, r0]
 	sub r1, #8
@@ -8248,11 +8248,11 @@ ovl01_2177B34: // 0x02177B34
 	pop {r4, pc}
 	nop
 _02177B60: .word 0x0000078C
-_02177B64: .word ovl01_2179218
-	thumb_func_end ovl01_2177B34
+_02177B64: .word Boss5__Func_2179218
+	thumb_func_end Boss5__Func_2177B34
 
-	thumb_func_start ovl01_2177B68
-ovl01_2177B68: // 0x02177B68
+	thumb_func_start Boss5__Func_2177B68
+Boss5__Func_2177B68: // 0x02177B68
 	push {r3, r4, r5, lr}
 	mov r2, #0xde
 	mov r4, r0
@@ -8265,7 +8265,7 @@ ovl01_2177B68: // 0x02177B68
 _02177B7C:
 	mov r0, r5
 	mov r1, r4
-	bl ovl01_2177540
+	bl Boss5__Func_2177540
 	add r5, r5, #1
 	cmp r5, #3
 	blt _02177B7C
@@ -8273,7 +8273,7 @@ _02177B7C:
 	mov r0, #0xc
 	str r0, [r4, r1]
 	mov r0, r1
-	ldr r2, _02177BA8 // =ovl01_2179584
+	ldr r2, _02177BA8 // =Boss5__Func_2179584
 	sub r0, #8
 	str r2, [r4, r0]
 	sub r1, #8
@@ -8283,19 +8283,19 @@ _02177B7C:
 	pop {r3, r4, r5, pc}
 	nop
 _02177BA4: .word 0x0000078C
-_02177BA8: .word ovl01_2179584
-	thumb_func_end ovl01_2177B68
+_02177BA8: .word Boss5__Func_2179584
+	thumb_func_end Boss5__Func_2177B68
 
-	thumb_func_start ovl01_2177BAC
-ovl01_2177BAC: // 0x02177BAC
-	ldr r3, _02177BB0 // =ovl01_2177930
+	thumb_func_start Boss5__Func_2177BAC
+Boss5__Func_2177BAC: // 0x02177BAC
+	ldr r3, _02177BB0 // =Boss5__Func_2177930
 	bx r3
 	.align 2, 0
-_02177BB0: .word ovl01_2177930
-	thumb_func_end ovl01_2177BAC
+_02177BB0: .word Boss5__Func_2177930
+	thumb_func_end Boss5__Func_2177BAC
 
-	thumb_func_start ovl01_2177BB4
-ovl01_2177BB4: // 0x02177BB4
+	thumb_func_start Boss5__Func_2177BB4
+Boss5__Func_2177BB4: // 0x02177BB4
 	push {r4, r5, lr}
 	sub sp, #0x2c
 	ldr r3, _02177C80 // =0x0217A170
@@ -8336,7 +8336,7 @@ ovl01_2177BB4: // 0x02177BB4
 	ldr r1, [r4, r0]
 	add r0, r0, #4
 	ldr r0, [r1, r0]
-	bl ovl01_217746C
+	bl Boss5__Func_217746C
 	mov r4, r0
 	ldr r0, _02177C8C // =0x0217AFB8
 	ldr r0, [r0, #0]
@@ -8390,10 +8390,10 @@ _02177C88: .word 0x00001555
 _02177C8C: .word 0x0217AFB8
 _02177C90: .word 0x00000199
 _02177C94: .word 0xFFF9C000
-	thumb_func_end ovl01_2177BB4
+	thumb_func_end Boss5__Func_2177BB4
 
-	thumb_func_start ovl01_2177C98
-ovl01_2177C98: // 0x02177C98
+	thumb_func_start Boss5__Func_2177C98
+Boss5__Func_2177C98: // 0x02177C98
 	push {r4, r5, lr}
 	sub sp, #0x2c
 	ldr r3, _02177D68 // =0x0217A17C
@@ -8434,7 +8434,7 @@ ovl01_2177C98: // 0x02177C98
 	ldr r1, [r4, r0]
 	add r0, r0, #4
 	ldr r0, [r1, r0]
-	bl ovl01_217746C
+	bl Boss5__Func_217746C
 	mov r4, r0
 	ldr r0, _02177D74 // =0x0217AFB8
 	ldr r0, [r0, #0]
@@ -8488,15 +8488,15 @@ _02177D6C: .word 0x00000E38
 _02177D70: .word 0x00001555
 _02177D74: .word 0x0217AFB8
 _02177D78: .word 0x00000199
-	thumb_func_end ovl01_2177C98
+	thumb_func_end Boss5__Func_2177C98
 
-	thumb_func_start ovl01_2177D7C
-ovl01_2177D7C: // 0x02177D7C
+	thumb_func_start Boss5__Func_2177D7C
+Boss5__Func_2177D7C: // 0x02177D7C
 	push {r4, lr}
 	mov r1, #0
 	mov r2, r1
 	mov r4, r0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r3, [r4, r0]
@@ -8508,29 +8508,29 @@ ovl01_2177D7C: // 0x02177D7C
 	ldr r0, [r3, #0]
 	str r0, [r2]
 	mov r0, r4
-	bl ovl01_2177BB4
+	bl Boss5__Func_2177BB4
 	mov r0, r4
-	bl ovl01_2177C98
+	bl Boss5__Func_2177C98
 	mov r0, r4
-	bl ovl01_217786C
+	bl Boss5__Func_217786C
 	mov r0, r4
-	bl ovl01_21778F0
-	ldr r1, _02177DBC // =ovl01_2177DC4
+	bl Boss5__Func_21778F0
+	ldr r1, _02177DBC // =Boss5__Func_2177DC4
 	ldr r0, _02177DC0 // =0x00000784
 	str r1, [r4, r0]
 	pop {r4, pc}
 	.align 2, 0
-_02177DBC: .word ovl01_2177DC4
+_02177DBC: .word Boss5__Func_2177DC4
 _02177DC0: .word 0x00000784
-	thumb_func_end ovl01_2177D7C
+	thumb_func_end Boss5__Func_2177D7C
 
-	thumb_func_start ovl01_2177DC4
-ovl01_2177DC4: // 0x02177DC4
+	thumb_func_start Boss5__Func_2177DC4
+Boss5__Func_2177DC4: // 0x02177DC4
 	push {r3, r4, r5, lr}
 	mov r4, #0xde
 	mov r5, r0
 	lsl r4, r4, #2
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _02177E04
 	ldr r0, _02177E08 // =0x00000B1C
@@ -8551,38 +8551,38 @@ _02177DF2:
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	pop {r3, r4, r5, pc}
 _02177DFE:
 	mov r0, r5
-	bl ovl01_2177964
+	bl Boss5__Func_2177964
 _02177E04:
 	pop {r3, r4, r5, pc}
 	nop
 _02177E08: .word 0x00000B1C
-	thumb_func_end ovl01_2177DC4
+	thumb_func_end Boss5__Func_2177DC4
 
-	thumb_func_start ovl01_2177E0C
-ovl01_2177E0C: // 0x02177E0C
+	thumb_func_start Boss5__Func_2177E0C
+Boss5__Func_2177E0C: // 0x02177E0C
 	push {r3, lr}
-	ldr r2, _02177E1C // =ovl01_2177E24
+	ldr r2, _02177E1C // =Boss5__Func_2177E24
 	ldr r1, _02177E20 // =0x00000784
 	str r2, [r0, r1]
 	ldr r1, [r0, r1]
 	blx r1
 	pop {r3, pc}
 	nop
-_02177E1C: .word ovl01_2177E24
+_02177E1C: .word Boss5__Func_2177E24
 _02177E20: .word 0x00000784
-	thumb_func_end ovl01_2177E0C
+	thumb_func_end Boss5__Func_2177E0C
 
-	thumb_func_start ovl01_2177E24
-ovl01_2177E24: // 0x02177E24
+	thumb_func_start Boss5__Func_2177E24
+Boss5__Func_2177E24: // 0x02177E24
 	push {r4, r5, r6, lr}
 	mov r1, #3
 	mov r2, #0
 	mov r5, r0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r0, #1
 	bl BossArena__GetCamera
 	mov r4, r0
@@ -8591,7 +8591,7 @@ ovl01_2177E24: // 0x02177E24
 	ldr r1, [r5, r0]
 	add r0, r0, #4
 	ldr r0, [r1, r0]
-	bl ovl01_217746C
+	bl Boss5__Func_217746C
 	mov r6, r0
 	ldr r0, _02177EA0 // =0x0217AFB8
 	ldr r0, [r0, #0]
@@ -8623,23 +8623,23 @@ ovl01_2177E24: // 0x02177E24
 	ldr r1, _02177EA4 // =0x0000D555
 	bl BossArena__SetAngleTarget
 	mov r0, r5
-	bl ovl01_21778F0
-	ldr r1, _02177EA8 // =ovl01_2177EB0
+	bl Boss5__Func_21778F0
+	ldr r1, _02177EA8 // =Boss5__Func_2177EB0
 	ldr r0, _02177EAC // =0x00000784
 	str r1, [r5, r0]
 	pop {r4, r5, r6, pc}
 	nop
 _02177EA0: .word 0x0217AFB8
 _02177EA4: .word 0x0000D555
-_02177EA8: .word ovl01_2177EB0
+_02177EA8: .word Boss5__Func_2177EB0
 _02177EAC: .word 0x00000784
-	thumb_func_end ovl01_2177E24
+	thumb_func_end Boss5__Func_2177E24
 
-	thumb_func_start ovl01_2177EB0
-ovl01_2177EB0: // 0x02177EB0
+	thumb_func_start Boss5__Func_2177EB0
+Boss5__Func_2177EB0: // 0x02177EB0
 	push {r3, r4, r5, lr}
 	mov r4, r0
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _02177EF2
 	mov r0, #0xdd
@@ -8662,7 +8662,7 @@ ovl01_2177EB0: // 0x02177EB0
 	add r0, #0xc
 	str r2, [r4, r0]
 	mov r0, r1
-	ldr r2, _02177EF8 // =ovl01_2177EFC
+	ldr r2, _02177EF8 // =Boss5__Func_2177EFC
 	sub r0, #0x68
 	str r2, [r4, r0]
 	sub r1, #0x68
@@ -8673,16 +8673,16 @@ _02177EF2:
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _02177EF4: .word 0x000007EC
-_02177EF8: .word ovl01_2177EFC
-	thumb_func_end ovl01_2177EB0
+_02177EF8: .word Boss5__Func_2177EFC
+	thumb_func_end Boss5__Func_2177EB0
 
-	thumb_func_start ovl01_2177EFC
-ovl01_2177EFC: // 0x02177EFC
+	thumb_func_start Boss5__Func_2177EFC
+Boss5__Func_2177EFC: // 0x02177EFC
 	push {r4, lr}
 	mov r1, #4
 	mov r2, #1
 	mov r4, r0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r0, #0x7f
 	lsl r0, r0, #4
 	add r3, r4, r0
@@ -8693,24 +8693,24 @@ ovl01_2177EFC: // 0x02177EFC
 	ldr r0, [r3, #0]
 	str r0, [r2]
 	mov r0, r4
-	bl ovl01_2177870
+	bl Boss5__Func_2177870
 	mov r0, r4
-	bl ovl01_2177908
+	bl Boss5__Func_2177908
 	mov r0, #0xde
 	mov r1, #0
 	lsl r0, r0, #2
 	strh r1, [r4, r0]
-	ldr r1, _02177F38 // =ovl01_2177F40
+	ldr r1, _02177F38 // =Boss5__Func_2177F40
 	ldr r0, _02177F3C // =0x00000784
 	str r1, [r4, r0]
 	pop {r4, pc}
 	nop
-_02177F38: .word ovl01_2177F40
+_02177F38: .word Boss5__Func_2177F40
 _02177F3C: .word 0x00000784
-	thumb_func_end ovl01_2177EFC
+	thumb_func_end Boss5__Func_2177EFC
 
-	thumb_func_start ovl01_2177F40
-ovl01_2177F40: // 0x02177F40
+	thumb_func_start Boss5__Func_2177F40
+Boss5__Func_2177F40: // 0x02177F40
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xc
 	str r0, [sp, #8]
@@ -8737,7 +8737,7 @@ ovl01_2177F40: // 0x02177F40
 	ldr r5, [r1, r2]
 	ldr r4, [r5, r0]
 	mov r0, #0
-	bl ovl01_21772CC
+	bl Boss5__Func_21772CC
 	ldr r1, [r4, #0x44]
 	asr r0, r0, #1
 	sub r1, r1, r0
@@ -8747,7 +8747,7 @@ ovl01_2177F40: // 0x02177F40
 	mov r0, #0xde
 	lsl r0, r0, #2
 	ldr r0, [r4, r0]
-	bl ovl01_21772CC
+	bl Boss5__Func_21772CC
 	add r1, r6, r0
 	mov r0, #1
 	lsl r0, r0, #0x10
@@ -8756,7 +8756,7 @@ ovl01_2177F40: // 0x02177F40
 	ldr r0, [sp, #8]
 	lsl r1, r1, #2
 	ldr r0, [r0, r1]
-	bl ovl01_2175B48
+	bl Boss5__Func_2175B48
 	mov r1, #0xe
 	lsl r1, r1, #6
 	ldrh r1, [r5, r1]
@@ -8776,7 +8776,7 @@ _02177FC2:
 	add r0, r5, #1
 	mul r0, r7
 	add r0, r6, r0
-	bl ovl01_21764AC
+	bl Boss5__Func_21764AC
 	add r0, r5, #1
 	lsl r0, r0, #0x10
 	asr r5, r0, #0x10
@@ -8792,7 +8792,7 @@ _02177FD6:
 	mov r3, r1
 	bl PlaySfxEx
 _02177FE8:
-	ldr r2, _02177FF4 // =ovl01_2177FFC
+	ldr r2, _02177FF4 // =Boss5__Func_2177FFC
 	ldr r1, _02177FF8 // =0x00000784
 	ldr r0, [sp, #8]
 	str r2, [r0, r1]
@@ -8800,30 +8800,30 @@ _02177FF0:
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 	.align 2, 0
-_02177FF4: .word ovl01_2177FFC
+_02177FF4: .word Boss5__Func_2177FFC
 _02177FF8: .word 0x00000784
-	thumb_func_end ovl01_2177F40
+	thumb_func_end Boss5__Func_2177F40
 
-	thumb_func_start ovl01_2177FFC
-ovl01_2177FFC: // 0x02177FFC
+	thumb_func_start Boss5__Func_2177FFC
+Boss5__Func_2177FFC: // 0x02177FFC
 	push {r4, lr}
 	mov r4, r0
 	mov r1, #5
 	mov r2, #0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r0, r4
-	bl ovl01_21778F0
-	ldr r1, _02178018 // =ovl01_2178020
+	bl Boss5__Func_21778F0
+	ldr r1, _02178018 // =Boss5__Func_2178020
 	ldr r0, _0217801C // =0x00000784
 	str r1, [r4, r0]
 	pop {r4, pc}
 	nop
-_02178018: .word ovl01_2178020
+_02178018: .word Boss5__Func_2178020
 _0217801C: .word 0x00000784
-	thumb_func_end ovl01_2177FFC
+	thumb_func_end Boss5__Func_2177FFC
 
-	thumb_func_start ovl01_2178020
-ovl01_2178020: // 0x02178020
+	thumb_func_start Boss5__Func_2178020
+Boss5__Func_2178020: // 0x02178020
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x24
 	ldr r2, _021781FC // =0x00000B1C
@@ -8832,15 +8832,15 @@ ovl01_2178020: // 0x02178020
 	str r0, [sp]
 	cmp r1, #5
 	bne _02178048
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _02178048
 	ldr r0, [sp]
 	mov r1, #6
 	mov r2, #1
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	ldr r0, [sp]
-	bl ovl01_217786C
+	bl Boss5__Func_217786C
 _02178048:
 	ldr r0, [sp]
 	ldr r1, _02178200 // =0xFFFFB000
@@ -8862,7 +8862,7 @@ _02178048:
 	sub r2, r1, r2
 	add r0, #0x98
 	str r2, [r0]
-	ldr r3, _0217820C // =ovl01_217822C
+	ldr r3, _0217820C // =Boss5__Func_217822C
 	ldr r2, _02178210 // =0x00000784
 	ldr r0, [sp]
 	str r3, [r0, r2]
@@ -8949,7 +8949,7 @@ _021780E2:
 	ldr r2, [r0, r1]
 	add r0, r1, #4
 	ldr r0, [r2, r0]
-	bl ovl01_217746C
+	bl Boss5__Func_217746C
 	str r0, [sp, #0xc]
 	ldr r0, _02178218 // =0x0217AFB8
 	ldr r0, [r0, #0]
@@ -9051,7 +9051,7 @@ _021781FC: .word 0x00000B1C
 _02178200: .word 0xFFFFB000
 _02178204: .word stageCollision
 _02178208: .word 0x000F77C4
-_0217820C: .word ovl01_217822C
+_0217820C: .word Boss5__Func_217822C
 _02178210: .word 0x00000784
 _02178214: .word 0x00000000
 _02178218: .word 0x0217AFB8
@@ -9059,19 +9059,19 @@ _0217821C: .word 0xFFFE2000
 _02178220: .word 0xFFF38000
 _02178224: .word 0x0000D555
 _02178228: .word 0x0000F8E3
-	thumb_func_end ovl01_2178020
+	thumb_func_end Boss5__Func_2178020
 
-	thumb_func_start ovl01_217822C
-ovl01_217822C: // 0x0217822C
+	thumb_func_start Boss5__Func_217822C
+Boss5__Func_217822C: // 0x0217822C
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x14
 	str r0, [sp, #0xc]
 	mov r1, #7
 	mov r2, #0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	ldr r1, [sp, #0xc]
 	mov r0, #1
-	bl ovl01_2177554
+	bl Boss5__Func_2177554
 	ldr r0, [sp, #0xc]
 	mov r1, #0
 	add r0, #0x98
@@ -9203,7 +9203,7 @@ _0217830A:
 	cmp r0, #0x10
 	blt _02178276
 	ldr r0, [sp, #0xc]
-	bl ovl01_2177870
+	bl Boss5__Func_2177870
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xd1
@@ -9226,8 +9226,8 @@ _0217830A:
 	bl ProcessSpatialVoiceClip
 	bl EnableSpatialVolume
 	ldr r0, [sp, #0xc]
-	bl ovl01_2177908
-	ldr r2, _021783B0 // =ovl01_21783B8
+	bl Boss5__Func_2177908
+	ldr r2, _021783B0 // =Boss5__Func_21783B8
 	ldr r1, _021783B4 // =0x00000784
 	ldr r0, [sp, #0xc]
 	str r2, [r0, r1]
@@ -9241,25 +9241,25 @@ _021783A0: .word 0x00196225
 _021783A4: .word 0x3C6EF35F
 _021783A8: .word 0xFFFFE000
 _021783AC: .word FX_SinCosTable_
-_021783B0: .word ovl01_21783B8
+_021783B0: .word Boss5__Func_21783B8
 _021783B4: .word 0x00000784
-	thumb_func_end ovl01_217822C
+	thumb_func_end Boss5__Func_217822C
 
-	thumb_func_start ovl01_21783B8
-ovl01_21783B8: // 0x021783B8
+	thumb_func_start Boss5__Func_21783B8
+Boss5__Func_21783B8: // 0x021783B8
 	push {r4, lr}
 	mov r4, r0
-	bl ovl01_2177490
+	bl Boss5__Func_2177490
 	mov r1, #2
 	lsl r1, r1, #0xe
 	cmp r0, r1
 	bne _021783FA
 	mov r0, #0
 	mov r1, r4
-	bl ovl01_2177554
+	bl Boss5__Func_2177554
 	mov r0, #1
 	mov r1, r4
-	bl ovl01_2177540
+	bl Boss5__Func_2177540
 	mov r1, #0xdd
 	lsl r1, r1, #2
 	ldr r2, [r4, r1]
@@ -9268,7 +9268,7 @@ ovl01_21783B8: // 0x021783B8
 	add r1, r1, #4
 	ldr r1, [r0, r1]
 	add r1, r1, #1
-	bl ovl01_21773FC
+	bl Boss5__Func_21773FC
 	mov r0, #3
 	mov r1, #2
 	ldr r2, _0217840C // =0x00000199
@@ -9277,45 +9277,45 @@ ovl01_21783B8: // 0x021783B8
 	bl ShakeScreenEx
 _021783FA:
 	mov r0, r4
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _0217840A
-	ldr r1, _02178410 // =ovl01_2178418
+	ldr r1, _02178410 // =Boss5__Func_2178418
 	ldr r0, _02178414 // =0x00000784
 	str r1, [r4, r0]
 _0217840A:
 	pop {r4, pc}
 	.align 2, 0
 _0217840C: .word 0x00000199
-_02178410: .word ovl01_2178418
+_02178410: .word Boss5__Func_2178418
 _02178414: .word 0x00000784
-	thumb_func_end ovl01_21783B8
+	thumb_func_end Boss5__Func_21783B8
 
-	thumb_func_start ovl01_2178418
-ovl01_2178418: // 0x02178418
+	thumb_func_start Boss5__Func_2178418
+Boss5__Func_2178418: // 0x02178418
 	push {r4, lr}
 	mov r1, #0xa
 	mov r2, #1
 	mov r4, r0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r0, [r4, r0]
-	bl ovl01_2175AA8
+	bl Boss5__Func_2175AA8
 	mov r1, #0xde
 	lsl r1, r1, #2
 	strh r0, [r4, r1]
-	ldr r1, _0217843C // =ovl01_2178444
+	ldr r1, _0217843C // =Boss5__Func_2178444
 	ldr r0, _02178440 // =0x00000784
 	str r1, [r4, r0]
 	pop {r4, pc}
 	.align 2, 0
-_0217843C: .word ovl01_2178444
+_0217843C: .word Boss5__Func_2178444
 _02178440: .word 0x00000784
-	thumb_func_end ovl01_2178418
+	thumb_func_end Boss5__Func_2178418
 
-	thumb_func_start ovl01_2178444
-ovl01_2178444: // 0x02178444
+	thumb_func_start Boss5__Func_2178444
+Boss5__Func_2178444: // 0x02178444
 	push {r3, lr}
 	mov r2, #0xde
 	lsl r2, r2, #2
@@ -9330,32 +9330,32 @@ ovl01_2178444: // 0x02178444
 	ldr r1, [r1, r2]
 	cmp r1, #4
 	bne _02178466
-	bl ovl01_21779CC
+	bl Boss5__Func_21779CC
 	pop {r3, pc}
 _02178466:
-	ldr r2, _02178470 // =ovl01_2178478
+	ldr r2, _02178470 // =Boss5__Func_2178478
 	ldr r1, _02178474 // =0x00000784
 	str r2, [r0, r1]
 _0217846C:
 	pop {r3, pc}
 	nop
-_02178470: .word ovl01_2178478
+_02178470: .word Boss5__Func_2178478
 _02178474: .word 0x00000784
-	thumb_func_end ovl01_2178444
+	thumb_func_end Boss5__Func_2178444
 
-	thumb_func_start ovl01_2178478
-ovl01_2178478: // 0x02178478
+	thumb_func_start Boss5__Func_2178478
+Boss5__Func_2178478: // 0x02178478
 	push {r4, lr}
 	sub sp, #0x38
 	mov r4, r0
 	mov r1, #8
 	mov r2, #0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r0, #0
 	mov r1, r4
-	bl ovl01_2177540
+	bl Boss5__Func_2177540
 	add r0, sp, #8
-	bl ovl01_21752C0
+	bl Boss5__Func_21752C0
 	add r0, sp, #8
 	str r0, [sp]
 	ldr r1, [sp, #0x2c]
@@ -9382,40 +9382,40 @@ ovl01_2178478: // 0x02178478
 	add r1, #0x44
 	bl ProcessSpatialVoiceClip
 	bl EnableSpatialVolume
-	ldr r1, _021784DC // =ovl01_21784E4
+	ldr r1, _021784DC // =Boss5__Func_21784E4
 	ldr r0, _021784E0 // =0x00000784
 	str r1, [r4, r0]
 	add sp, #0x38
 	pop {r4, pc}
 	.align 2, 0
-_021784DC: .word ovl01_21784E4
+_021784DC: .word Boss5__Func_21784E4
 _021784E0: .word 0x00000784
-	thumb_func_end ovl01_2178478
+	thumb_func_end Boss5__Func_2178478
 
-	thumb_func_start ovl01_21784E4
-ovl01_21784E4: // 0x021784E4
+	thumb_func_start Boss5__Func_21784E4
+Boss5__Func_21784E4: // 0x021784E4
 	push {r4, lr}
 	mov r4, r0
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _021784F6
-	ldr r1, _021784F8 // =ovl01_2178500
+	ldr r1, _021784F8 // =Boss5__Func_2178500
 	ldr r0, _021784FC // =0x00000784
 	str r1, [r4, r0]
 _021784F6:
 	pop {r4, pc}
 	.align 2, 0
-_021784F8: .word ovl01_2178500
+_021784F8: .word Boss5__Func_2178500
 _021784FC: .word 0x00000784
-	thumb_func_end ovl01_21784E4
+	thumb_func_end Boss5__Func_21784E4
 
-	thumb_func_start ovl01_2178500
-ovl01_2178500: // 0x02178500
+	thumb_func_start Boss5__Func_2178500
+Boss5__Func_2178500: // 0x02178500
 	push {r4, r5, r6, lr}
 	mov r1, #9
 	mov r2, #0
 	mov r5, r0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r0, #0x7f
 	lsl r0, r0, #4
 	add r3, r5, r0
@@ -9433,7 +9433,7 @@ ovl01_2178500: // 0x02178500
 	ldr r1, [r5, r0]
 	add r0, r0, #4
 	ldr r0, [r1, r0]
-	bl ovl01_217746C
+	bl Boss5__Func_217746C
 	mov r6, r0
 	ldr r0, _02178594 // =0x0217AFB8
 	ldr r0, [r0, #0]
@@ -9469,58 +9469,58 @@ ovl01_2178500: // 0x02178500
 	ldr r1, _02178598 // =0x0000D555
 	mov r0, r4
 	bl BossArena__SetAngleTarget
-	ldr r1, _0217859C // =ovl01_21785A4
+	ldr r1, _0217859C // =Boss5__Func_21785A4
 	ldr r0, _021785A0 // =0x00000784
 	str r1, [r5, r0]
 	pop {r4, r5, r6, pc}
 	nop
 _02178594: .word 0x0217AFB8
 _02178598: .word 0x0000D555
-_0217859C: .word ovl01_21785A4
+_0217859C: .word Boss5__Func_21785A4
 _021785A0: .word 0x00000784
-	thumb_func_end ovl01_2178500
+	thumb_func_end Boss5__Func_2178500
 
-	thumb_func_start ovl01_21785A4
-ovl01_21785A4: // 0x021785A4
+	thumb_func_start Boss5__Func_21785A4
+Boss5__Func_21785A4: // 0x021785A4
 	push {r4, lr}
 	mov r4, r0
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _021785B6
-	ldr r1, _021785B8 // =ovl01_2177EFC
+	ldr r1, _021785B8 // =Boss5__Func_2177EFC
 	ldr r0, _021785BC // =0x00000784
 	str r1, [r4, r0]
 _021785B6:
 	pop {r4, pc}
 	.align 2, 0
-_021785B8: .word ovl01_2177EFC
+_021785B8: .word Boss5__Func_2177EFC
 _021785BC: .word 0x00000784
-	thumb_func_end ovl01_21785A4
+	thumb_func_end Boss5__Func_21785A4
 
-	thumb_func_start ovl01_21785C0
-ovl01_21785C0: // 0x021785C0
+	thumb_func_start Boss5__Func_21785C0
+Boss5__Func_21785C0: // 0x021785C0
 	push {r4, lr}
 	mov r1, #0xe
 	mov r2, #0
 	mov r4, r0
-	bl ovl01_217749C
-	ldr r1, _021785D4 // =ovl01_21785DC
+	bl Boss5__Func_217749C
+	ldr r1, _021785D4 // =Boss5__Func_21785DC
 	ldr r0, _021785D8 // =0x00000784
 	str r1, [r4, r0]
 	pop {r4, pc}
 	.align 2, 0
-_021785D4: .word ovl01_21785DC
+_021785D4: .word Boss5__Func_21785DC
 _021785D8: .word 0x00000784
-	thumb_func_end ovl01_21785C0
+	thumb_func_end Boss5__Func_21785C0
 
-	thumb_func_start ovl01_21785DC
-ovl01_21785DC: // 0x021785DC
+	thumb_func_start Boss5__Func_21785DC
+Boss5__Func_21785DC: // 0x021785DC
 	push {r4, lr}
 	mov r4, r0
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _021785F4
-	ldr r0, _021785F8 // =ovl01_2178600
+	ldr r0, _021785F8 // =Boss5__Func_2178600
 	ldr r1, _021785FC // =0x00000784
 	str r0, [r4, r1]
 	ldr r1, [r4, r1]
@@ -9529,30 +9529,30 @@ ovl01_21785DC: // 0x021785DC
 _021785F4:
 	pop {r4, pc}
 	nop
-_021785F8: .word ovl01_2178600
+_021785F8: .word Boss5__Func_2178600
 _021785FC: .word 0x00000784
-	thumb_func_end ovl01_21785DC
+	thumb_func_end Boss5__Func_21785DC
 
-	thumb_func_start ovl01_2178600
-ovl01_2178600: // 0x02178600
+	thumb_func_start Boss5__Func_2178600
+Boss5__Func_2178600: // 0x02178600
 	push {r4, lr}
 	sub sp, #0x38
 	mov r1, #0xf
 	mov r2, #0
 	mov r4, r0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r1, [r4, r0]
 	add r0, r0, #4
 	ldr r0, [r1, r0]
 	mov r1, #5
-	bl ovl01_21773FC
+	bl Boss5__Func_21773FC
 	ldr r0, _02178670 // =gPlayer
 	ldr r0, [r0, #0]
 	bl Player__Action_Die
 	add r0, sp, #8
-	bl ovl01_21752C0
+	bl Boss5__Func_21752C0
 	ldr r0, _02178674 // =0x0217AFB8
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
@@ -9579,7 +9579,7 @@ ovl01_2178600: // 0x02178600
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
-	ldr r1, _02178678 // =ovl01_2178680
+	ldr r1, _02178678 // =Boss5__Func_2178680
 	ldr r0, _0217867C // =0x00000784
 	str r1, [r4, r0]
 	add sp, #0x38
@@ -9587,24 +9587,24 @@ ovl01_2178600: // 0x02178600
 	.align 2, 0
 _02178670: .word gPlayer
 _02178674: .word 0x0217AFB8
-_02178678: .word ovl01_2178680
+_02178678: .word Boss5__Func_2178680
 _0217867C: .word 0x00000784
-	thumb_func_end ovl01_2178600
+	thumb_func_end Boss5__Func_2178600
 
-	thumb_func_start ovl01_2178680
-ovl01_2178680: // 0x02178680
+	thumb_func_start Boss5__Func_2178680
+Boss5__Func_2178680: // 0x02178680
 	bx lr
 	.align 2, 0
-	thumb_func_end ovl01_2178680
+	thumb_func_end Boss5__Func_2178680
 
-	thumb_func_start ovl01_2178684
-ovl01_2178684: // 0x02178684
+	thumb_func_start Boss5__Func_2178684
+Boss5__Func_2178684: // 0x02178684
 	push {r4, lr}
 	sub sp, #8
 	mov r4, r0
 	mov r1, #0xb
 	mov r2, #0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r0, r4
 	mov r1, #0
 	add r0, #0x98
@@ -9633,61 +9633,61 @@ ovl01_2178684: // 0x02178684
 	add r1, #0x44
 	bl ProcessSpatialVoiceClip
 	bl EnableSpatialVolume
-	ldr r1, _021786DC // =ovl01_21786E4
+	ldr r1, _021786DC // =Boss5__Func_21786E4
 	ldr r0, _021786E0 // =0x00000784
 	str r1, [r4, r0]
 	add sp, #8
 	pop {r4, pc}
 	.align 2, 0
-_021786DC: .word ovl01_21786E4
+_021786DC: .word Boss5__Func_21786E4
 _021786E0: .word 0x00000784
-	thumb_func_end ovl01_2178684
+	thumb_func_end Boss5__Func_2178684
 
-	thumb_func_start ovl01_21786E4
-ovl01_21786E4: // 0x021786E4
+	thumb_func_start Boss5__Func_21786E4
+Boss5__Func_21786E4: // 0x021786E4
 	push {r4, lr}
 	mov r4, r0
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _021786F6
-	ldr r1, _021786F8 // =ovl01_2178700
+	ldr r1, _021786F8 // =Boss5__Func_2178700
 	ldr r0, _021786FC // =0x00000784
 	str r1, [r4, r0]
 _021786F6:
 	pop {r4, pc}
 	.align 2, 0
-_021786F8: .word ovl01_2178700
+_021786F8: .word Boss5__Func_2178700
 _021786FC: .word 0x00000784
-	thumb_func_end ovl01_21786E4
+	thumb_func_end Boss5__Func_21786E4
 
-	thumb_func_start ovl01_2178700
-ovl01_2178700: // 0x02178700
+	thumb_func_start Boss5__Func_2178700
+Boss5__Func_2178700: // 0x02178700
 	push {r4, lr}
 	mov r4, r0
 	mov r1, #0xc
 	mov r2, #1
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r0, #2
 	mov r1, r4
-	bl ovl01_2177554
+	bl Boss5__Func_2177554
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r0, [r4, r0]
-	bl ovl01_2175AF4
+	bl Boss5__Func_2175AF4
 	mov r1, #0xde
 	lsl r1, r1, #2
 	strh r0, [r4, r1]
-	ldr r1, _0217872C // =ovl01_2178734
+	ldr r1, _0217872C // =Boss5__Func_2178734
 	ldr r0, _02178730 // =0x00000784
 	str r1, [r4, r0]
 	pop {r4, pc}
 	.align 2, 0
-_0217872C: .word ovl01_2178734
+_0217872C: .word Boss5__Func_2178734
 _02178730: .word 0x00000784
-	thumb_func_end ovl01_2178700
+	thumb_func_end Boss5__Func_2178700
 
-	thumb_func_start ovl01_2178734
-ovl01_2178734: // 0x02178734
+	thumb_func_start Boss5__Func_2178734
+Boss5__Func_2178734: // 0x02178734
 	mov r1, #0xde
 	lsl r1, r1, #2
 	ldrh r3, [r0, r1]
@@ -9695,27 +9695,27 @@ ovl01_2178734: // 0x02178734
 	strh r2, [r0, r1]
 	cmp r3, #0
 	bne _02178748
-	ldr r2, _0217874C // =ovl01_2178754
+	ldr r2, _0217874C // =Boss5__Func_2178754
 	ldr r1, _02178750 // =0x00000784
 	str r2, [r0, r1]
 _02178748:
 	bx lr
 	nop
-_0217874C: .word ovl01_2178754
+_0217874C: .word Boss5__Func_2178754
 _02178750: .word 0x00000784
-	thumb_func_end ovl01_2178734
+	thumb_func_end Boss5__Func_2178734
 
-	thumb_func_start ovl01_2178754
-ovl01_2178754: // 0x02178754
+	thumb_func_start Boss5__Func_2178754
+Boss5__Func_2178754: // 0x02178754
 	push {r4, lr}
 	sub sp, #8
 	mov r4, r0
 	mov r1, #0xd
 	mov r2, #0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r0, #2
 	mov r1, r4
-	bl ovl01_2177540
+	bl Boss5__Func_2177540
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xd3
@@ -9735,21 +9735,21 @@ ovl01_2178754: // 0x02178754
 	add r1, #0x44
 	bl ProcessSpatialVoiceClip
 	bl EnableSpatialVolume
-	ldr r1, _021787A4 // =ovl01_21787AC
+	ldr r1, _021787A4 // =Boss5__Func_21787AC
 	ldr r0, _021787A8 // =0x00000784
 	str r1, [r4, r0]
 	add sp, #8
 	pop {r4, pc}
 	nop
-_021787A4: .word ovl01_21787AC
+_021787A4: .word Boss5__Func_21787AC
 _021787A8: .word 0x00000784
-	thumb_func_end ovl01_2178754
+	thumb_func_end Boss5__Func_2178754
 
-	thumb_func_start ovl01_21787AC
-ovl01_21787AC: // 0x021787AC
+	thumb_func_start Boss5__Func_21787AC
+Boss5__Func_21787AC: // 0x021787AC
 	push {r4, lr}
 	mov r4, r0
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _021787D8
 	mov r0, #0xdd
@@ -9762,40 +9762,40 @@ ovl01_21787AC: // 0x021787AC
 	cmp r0, #4
 	bne _021787D2
 	mov r0, r4
-	bl ovl01_21779CC
+	bl Boss5__Func_21779CC
 	pop {r4, pc}
 _021787D2:
 	mov r0, r4
-	bl ovl01_2177998
+	bl Boss5__Func_2177998
 _021787D8:
 	pop {r4, pc}
 	.align 2, 0
-	thumb_func_end ovl01_21787AC
+	thumb_func_end Boss5__Func_21787AC
 
-	thumb_func_start ovl01_21787DC
-ovl01_21787DC: // 0x021787DC
+	thumb_func_start Boss5__Func_21787DC
+Boss5__Func_21787DC: // 0x021787DC
 	push {r4, lr}
 	mov r1, #0x13
 	mov r2, #1
 	mov r4, r0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	ldr r1, _021787FC // =playerGameStatus
 	mov r0, #1
 	ldr r2, [r1, #0]
 	bic r2, r0
 	str r2, [r1]
-	ldr r1, _02178800 // =ovl01_2178808
+	ldr r1, _02178800 // =Boss5__Func_2178808
 	ldr r0, _02178804 // =0x00000784
 	str r1, [r4, r0]
 	pop {r4, pc}
 	nop
 _021787FC: .word playerGameStatus
-_02178800: .word ovl01_2178808
+_02178800: .word Boss5__Func_2178808
 _02178804: .word 0x00000784
-	thumb_func_end ovl01_21787DC
+	thumb_func_end Boss5__Func_21787DC
 
-	thumb_func_start ovl01_2178808
-ovl01_2178808: // 0x02178808
+	thumb_func_start Boss5__Func_2178808
+Boss5__Func_2178808: // 0x02178808
 	push {r3, lr}
 	mov r1, #0xde
 	lsl r1, r1, #2
@@ -9804,14 +9804,14 @@ ovl01_2178808: // 0x02178808
 	strh r2, [r0, r1]
 	cmp r3, #0x3c
 	bls _0217881C
-	bl ovl01_2177B00
+	bl Boss5__Func_2177B00
 _0217881C:
 	pop {r3, pc}
 	.align 2, 0
-	thumb_func_end ovl01_2178808
+	thumb_func_end Boss5__Func_2178808
 
-	thumb_func_start ovl01_2178820
-ovl01_2178820: // 0x02178820
+	thumb_func_start Boss5__Func_2178820
+Boss5__Func_2178820: // 0x02178820
 	push {r3, r4, r5, lr}
 	ldr r1, _02178860 // =playerGameStatus
 	mov r4, r0
@@ -9834,7 +9834,7 @@ ovl01_2178820: // 0x02178820
 	bl BossArena__GetCamera
 	ldr r1, _0217886C // =0x0000D555
 	bl BossArena__SetAngleTarget
-	ldr r1, _02178870 // =ovl01_2178878
+	ldr r1, _02178870 // =Boss5__Func_2178878
 	ldr r0, _02178874 // =0x00000784
 	str r1, [r4, r0]
 	pop {r3, r4, r5, pc}
@@ -9843,31 +9843,31 @@ _02178860: .word playerGameStatus
 _02178864: .word gPlayer
 _02178868: .word 0xFFFE2000
 _0217886C: .word 0x0000D555
-_02178870: .word ovl01_2178878
+_02178870: .word Boss5__Func_2178878
 _02178874: .word 0x00000784
-	thumb_func_end ovl01_2178820
+	thumb_func_end Boss5__Func_2178820
 
-	thumb_func_start ovl01_2178878
-ovl01_2178878: // 0x02178878
+	thumb_func_start Boss5__Func_2178878
+Boss5__Func_2178878: // 0x02178878
 	ldr r1, _0217888C // =gPlayer
 	ldr r1, [r1, #0]
 	ldr r2, [r1, #0x1c]
 	mov r1, #0x10
 	tst r1, r2
 	bne _0217888A
-	ldr r2, _02178890 // =ovl01_2178898
+	ldr r2, _02178890 // =Boss5__Func_2178898
 	ldr r1, _02178894 // =0x00000784
 	str r2, [r0, r1]
 _0217888A:
 	bx lr
 	.align 2, 0
 _0217888C: .word gPlayer
-_02178890: .word ovl01_2178898
+_02178890: .word Boss5__Func_2178898
 _02178894: .word 0x00000784
-	thumb_func_end ovl01_2178878
+	thumb_func_end Boss5__Func_2178878
 
-	thumb_func_start ovl01_2178898
-ovl01_2178898: // 0x02178898
+	thumb_func_start Boss5__Func_2178898
+Boss5__Func_2178898: // 0x02178898
 	mov r1, #0xde
 	lsl r1, r1, #2
 	add r3, r0, r1
@@ -9876,18 +9876,18 @@ ovl01_2178898: // 0x02178898
 	strh r1, [r3, #2]
 	cmp r2, #0x3c
 	bls _021788AE
-	ldr r2, _021788B0 // =ovl01_21788B8
+	ldr r2, _021788B0 // =Boss5__Func_21788B8
 	ldr r1, _021788B4 // =0x00000784
 	str r2, [r0, r1]
 _021788AE:
 	bx lr
 	.align 2, 0
-_021788B0: .word ovl01_21788B8
+_021788B0: .word Boss5__Func_21788B8
 _021788B4: .word 0x00000784
-	thumb_func_end ovl01_2178898
+	thumb_func_end Boss5__Func_2178898
 
-	thumb_func_start ovl01_21788B8
-ovl01_21788B8: // 0x021788B8
+	thumb_func_start Boss5__Func_21788B8
+Boss5__Func_21788B8: // 0x021788B8
 	push {r4, lr}
 	mov r4, r0
 	mov r0, #0xde
@@ -9907,7 +9907,7 @@ ovl01_21788B8: // 0x021788B8
 	mov r1, #0xf
 	mov r2, #0
 	bl RenderCore_SetBlendBrightness
-	ldr r0, _021788F4 // =ovl01_21788FC
+	ldr r0, _021788F4 // =Boss5__Func_21788FC
 	ldr r1, _021788F8 // =0x00000784
 	str r0, [r4, r1]
 	ldr r1, [r4, r1]
@@ -9915,12 +9915,12 @@ ovl01_21788B8: // 0x021788B8
 	blx r1
 	pop {r4, pc}
 	.align 2, 0
-_021788F4: .word ovl01_21788FC
+_021788F4: .word Boss5__Func_21788FC
 _021788F8: .word 0x00000784
-	thumb_func_end ovl01_21788B8
+	thumb_func_end Boss5__Func_21788B8
 
-	thumb_func_start ovl01_21788FC
-ovl01_21788FC: // 0x021788FC
+	thumb_func_start Boss5__Func_21788FC
+Boss5__Func_21788FC: // 0x021788FC
 	push {r3, r4, r5, r6, r7, lr}
 	mov r6, r0
 	mov r0, #0xde
@@ -9979,19 +9979,19 @@ _02178964:
 _0217896C:
 	cmp r5, #0
 	beq _02178976
-	ldr r1, _0217897C // =ovl01_2178984
+	ldr r1, _0217897C // =Boss5__Func_2178984
 	ldr r0, _02178980 // =0x00000784
 	str r1, [r6, r0]
 _02178976:
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02178978: .word gPlayer
-_0217897C: .word ovl01_2178984
+_0217897C: .word Boss5__Func_2178984
 _02178980: .word 0x00000784
-	thumb_func_end ovl01_21788FC
+	thumb_func_end Boss5__Func_21788FC
 
-	thumb_func_start ovl01_2178984
-ovl01_2178984: // 0x02178984
+	thumb_func_start Boss5__Func_2178984
+Boss5__Func_2178984: // 0x02178984
 	push {r4, r5, r6, lr}
 	sub sp, #0x20
 	mov r5, r0
@@ -10140,16 +10140,16 @@ ovl01_2178984: // 0x02178984
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r0, [r5, r0]
-	bl ovl01_2175B24
+	bl Boss5__Func_2175B24
 	ldr r1, _02178B38 // =0x00000402
 	strh r0, [r6, r1]
 	ldrh r2, [r6, r1]
 	add r0, r1, #2
 	strh r2, [r6, r0]
 	mov r0, r6
-	bl ovl01_2175370
+	bl Boss5__Func_2175370
 	mov r0, r6
-	bl ovl01_21755B0
+	bl Boss5__Func_21755B0
 	mov r0, #1
 	bl ChangeBossBGMVariant
 	mov r1, #0xf
@@ -10157,7 +10157,7 @@ ovl01_2178984: // 0x02178984
 	mvn r1, r1
 	lsl r0, r0, #2
 	strh r1, [r5, r0]
-	ldr r1, _02178B3C // =ovl01_2178B44
+	ldr r1, _02178B3C // =Boss5__Func_2178B44
 	ldr r0, _02178B40 // =0x00000784
 	str r1, [r5, r0]
 	add sp, #0x20
@@ -10171,12 +10171,12 @@ _02178B2C: .word 0x00000682
 _02178B30: .word 0x00000E38
 _02178B34: .word 0x00001555
 _02178B38: .word 0x00000402
-_02178B3C: .word ovl01_2178B44
+_02178B3C: .word Boss5__Func_2178B44
 _02178B40: .word 0x00000784
-	thumb_func_end ovl01_2178984
+	thumb_func_end Boss5__Func_2178984
 
-	thumb_func_start ovl01_2178B44
-ovl01_2178B44: // 0x02178B44
+	thumb_func_start Boss5__Func_2178B44
+Boss5__Func_2178B44: // 0x02178B44
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #0xde
@@ -10197,18 +10197,18 @@ _02178B58:
 	ldrsh r0, [r4, r0]
 	cmp r0, #0
 	bne _02178B74
-	ldr r1, _02178B78 // =ovl01_2178B80
+	ldr r1, _02178B78 // =Boss5__Func_2178B80
 	ldr r0, _02178B7C // =0x00000784
 	str r1, [r5, r0]
 _02178B74:
 	pop {r3, r4, r5, pc}
 	nop
-_02178B78: .word ovl01_2178B80
+_02178B78: .word Boss5__Func_2178B80
 _02178B7C: .word 0x00000784
-	thumb_func_end ovl01_2178B44
+	thumb_func_end Boss5__Func_2178B44
 
-	thumb_func_start ovl01_2178B80
-ovl01_2178B80: // 0x02178B80
+	thumb_func_start Boss5__Func_2178B80
+Boss5__Func_2178B80: // 0x02178B80
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #0xde
@@ -10222,17 +10222,17 @@ ovl01_2178B80: // 0x02178B80
 	sub r1, #0x10
 	lsl r0, r0, #2
 	strh r1, [r5, r0]
-	ldr r1, _02178BA4 // =ovl01_2178BAC
+	ldr r1, _02178BA4 // =Boss5__Func_2178BAC
 	ldr r0, _02178BA8 // =0x00000784
 	str r1, [r5, r0]
 	pop {r3, r4, r5, pc}
 	.align 2, 0
-_02178BA4: .word ovl01_2178BAC
+_02178BA4: .word Boss5__Func_2178BAC
 _02178BA8: .word 0x00000784
-	thumb_func_end ovl01_2178B80
+	thumb_func_end Boss5__Func_2178B80
 
-	thumb_func_start ovl01_2178BAC
-ovl01_2178BAC: // 0x02178BAC
+	thumb_func_start Boss5__Func_2178BAC
+Boss5__Func_2178BAC: // 0x02178BAC
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #0xde
@@ -10261,28 +10261,28 @@ _02178BCC:
 	bne _02178BEC
 	bl BossHelpers__InitBoss5Blending
 	mov r0, r5
-	bl ovl01_2177ACC
+	bl Boss5__Func_2177ACC
 _02178BEC:
 	pop {r3, r4, r5, pc}
 	.align 2, 0
-	thumb_func_end ovl01_2178BAC
+	thumb_func_end Boss5__Func_2178BAC
 
-	thumb_func_start ovl01_2178BF0
-ovl01_2178BF0: // 0x02178BF0
+	thumb_func_start Boss5__Func_2178BF0
+Boss5__Func_2178BF0: // 0x02178BF0
 	push {r3, lr}
-	ldr r2, _02178C00 // =ovl01_2178C08
+	ldr r2, _02178C00 // =Boss5__Func_2178C08
 	ldr r1, _02178C04 // =0x00000784
 	str r2, [r0, r1]
 	ldr r1, [r0, r1]
 	blx r1
 	pop {r3, pc}
 	nop
-_02178C00: .word ovl01_2178C08
+_02178C00: .word Boss5__Func_2178C08
 _02178C04: .word 0x00000784
-	thumb_func_end ovl01_2178BF0
+	thumb_func_end Boss5__Func_2178BF0
 
-	thumb_func_start ovl01_2178C08
-ovl01_2178C08: // 0x02178C08
+	thumb_func_start Boss5__Func_2178C08
+Boss5__Func_2178C08: // 0x02178C08
 	push {r3, r4, r5, lr}
 	mov r1, #0xdd
 	mov r4, r0
@@ -10307,9 +10307,9 @@ _02178C28:
 	mov r0, r4
 	mov r1, #0x11
 	mov r2, #1
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r0, r4
-	bl ovl01_2177B00
+	bl Boss5__Func_2177B00
 	pop {r3, r4, r5, pc}
 _02178C42:
 	mov r0, #0x96
@@ -10323,7 +10323,7 @@ _02178C42:
 	mov r0, r4
 	mov r1, #0x10
 	mov r2, #0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 _02178C5C:
 	ldr r0, _02178CD0 // =0x00000A84
 	ldr r1, _02178CC8 // =0x00000404
@@ -10364,7 +10364,7 @@ _02178CA0:
 	cmp r2, #5
 	blt _02178C98
 	mov r0, r5
-	bl ovl01_2176DC4
+	bl Boss5__Func_2176DC4
 	pop {r3, r4, r5, pc}
 _02178CB0:
 	ldr r0, [r4, r0]
@@ -10373,19 +10373,19 @@ _02178CB0:
 	mov r0, r4
 	mov r1, #0xc
 	mov r2, #1
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 _02178CC0:
 	mov r0, r5
-	bl ovl01_2176DD0
+	bl Boss5__Func_2176DD0
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _02178CC8: .word 0x00000404
 _02178CCC: .word 0x00000B1C
 _02178CD0: .word 0x00000A84
-	thumb_func_end ovl01_2178C08
+	thumb_func_end Boss5__Func_2178C08
 
-	thumb_func_start ovl01_2178CD4
-ovl01_2178CD4: // 0x02178CD4
+	thumb_func_start Boss5__Func_2178CD4
+Boss5__Func_2178CD4: // 0x02178CD4
 	push {r3, r4, r5, lr}
 	sub sp, #8
 	mov r5, r0
@@ -10406,7 +10406,7 @@ ovl01_2178CD4: // 0x02178CD4
 	bl PlaySfxEx
 	mov r0, #0
 	strh r0, [r4, #6]
-	ldr r0, _02178D10 // =ovl01_2178D18
+	ldr r0, _02178D10 // =Boss5__Func_2178D18
 	ldr r1, _02178D14 // =0x00000784
 	str r0, [r5, r1]
 	ldr r1, [r5, r1]
@@ -10415,12 +10415,12 @@ ovl01_2178CD4: // 0x02178CD4
 	add sp, #8
 	pop {r3, r4, r5, pc}
 	.align 2, 0
-_02178D10: .word ovl01_2178D18
+_02178D10: .word Boss5__Func_2178D18
 _02178D14: .word 0x00000784
-	thumb_func_end ovl01_2178CD4
+	thumb_func_end Boss5__Func_2178CD4
 
-	thumb_func_start ovl01_2178D18
-ovl01_2178D18: // 0x02178D18
+	thumb_func_start Boss5__Func_2178D18
+Boss5__Func_2178D18: // 0x02178D18
 	mov r1, #0xde
 	lsl r1, r1, #2
 	add r3, r0, r1
@@ -10429,18 +10429,18 @@ ovl01_2178D18: // 0x02178D18
 	strh r1, [r3, #6]
 	cmp r2, #0x5a
 	bls _02178D2E
-	ldr r2, _02178D30 // =ovl01_2178D38
+	ldr r2, _02178D30 // =Boss5__Func_2178D38
 	ldr r1, _02178D34 // =0x00000784
 	str r2, [r0, r1]
 _02178D2E:
 	bx lr
 	.align 2, 0
-_02178D30: .word ovl01_2178D38
+_02178D30: .word Boss5__Func_2178D38
 _02178D34: .word 0x00000784
-	thumb_func_end ovl01_2178D18
+	thumb_func_end Boss5__Func_2178D18
 
-	thumb_func_start ovl01_2178D38
-ovl01_2178D38: // 0x02178D38
+	thumb_func_start Boss5__Func_2178D38
+Boss5__Func_2178D38: // 0x02178D38
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #0xde
@@ -10474,7 +10474,7 @@ ovl01_2178D38: // 0x02178D38
 	mov r0, #0
 	strh r0, [r4, #6]
 	strh r0, [r4, #4]
-	ldr r1, _02178D98 // =ovl01_2178DA0
+	ldr r1, _02178D98 // =Boss5__Func_2178DA0
 	ldr r0, _02178D9C // =0x00000784
 	str r1, [r5, r0]
 _02178D8C:
@@ -10482,12 +10482,12 @@ _02178D8C:
 	nop
 _02178D90: .word gPlayer
 _02178D94: .word playerGameStatus
-_02178D98: .word ovl01_2178DA0
+_02178D98: .word Boss5__Func_2178DA0
 _02178D9C: .word 0x00000784
-	thumb_func_end ovl01_2178D38
+	thumb_func_end Boss5__Func_2178D38
 
-	thumb_func_start ovl01_2178DA0
-ovl01_2178DA0: // 0x02178DA0
+	thumb_func_start Boss5__Func_2178DA0
+Boss5__Func_2178DA0: // 0x02178DA0
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #0xde
@@ -10529,7 +10529,7 @@ _02178DD0:
 	sub r0, #0x14
 	cmp r1, r0
 	bne _02178DFA
-	ldr r1, _02178E04 // =ovl01_2178E0C
+	ldr r1, _02178E04 // =Boss5__Func_2178E0C
 	ldr r0, _02178E08 // =0x00000784
 	str r1, [r5, r0]
 _02178DFA:
@@ -10537,12 +10537,12 @@ _02178DFA:
 	.align 2, 0
 _02178DFC: .word gPlayer
 _02178E00: .word 0xFFFFE000
-_02178E04: .word ovl01_2178E0C
+_02178E04: .word Boss5__Func_2178E0C
 _02178E08: .word 0x00000784
-	thumb_func_end ovl01_2178DA0
+	thumb_func_end Boss5__Func_2178DA0
 
-	thumb_func_start ovl01_2178E0C
-ovl01_2178E0C: // 0x02178E0C
+	thumb_func_start Boss5__Func_2178E0C
+Boss5__Func_2178E0C: // 0x02178E0C
 	push {r4, lr}
 	mov r4, r0
 	mov r0, #0
@@ -10550,18 +10550,18 @@ ovl01_2178E0C: // 0x02178E0C
 	ldr r0, _02178E24 // =0x0000037E
 	mov r1, #0
 	strh r1, [r4, r0]
-	ldr r1, _02178E28 // =ovl01_2178E30
+	ldr r1, _02178E28 // =Boss5__Func_2178E30
 	ldr r0, _02178E2C // =0x00000784
 	str r1, [r4, r0]
 	pop {r4, pc}
 	.align 2, 0
 _02178E24: .word 0x0000037E
-_02178E28: .word ovl01_2178E30
+_02178E28: .word Boss5__Func_2178E30
 _02178E2C: .word 0x00000784
-	thumb_func_end ovl01_2178E0C
+	thumb_func_end Boss5__Func_2178E0C
 
-	thumb_func_start ovl01_2178E30
-ovl01_2178E30: // 0x02178E30
+	thumb_func_start Boss5__Func_2178E30
+Boss5__Func_2178E30: // 0x02178E30
 	mov r1, #0xde
 	lsl r1, r1, #2
 	add r3, r0, r1
@@ -10570,18 +10570,18 @@ ovl01_2178E30: // 0x02178E30
 	strh r1, [r3, #6]
 	cmp r2, #0x3c
 	bls _02178E46
-	ldr r2, _02178E48 // =ovl01_2178E50
+	ldr r2, _02178E48 // =Boss5__Func_2178E50
 	ldr r1, _02178E4C // =0x00000784
 	str r2, [r0, r1]
 _02178E46:
 	bx lr
 	.align 2, 0
-_02178E48: .word ovl01_2178E50
+_02178E48: .word Boss5__Func_2178E50
 _02178E4C: .word 0x00000784
-	thumb_func_end ovl01_2178E30
+	thumb_func_end Boss5__Func_2178E30
 
-	thumb_func_start ovl01_2178E50
-ovl01_2178E50: // 0x02178E50
+	thumb_func_start Boss5__Func_2178E50
+Boss5__Func_2178E50: // 0x02178E50
 	push {r4, r5, r6, lr}
 	sub sp, #8
 	mov r5, r0
@@ -10617,7 +10617,7 @@ ovl01_2178E50: // 0x02178E50
 	add r0, #0x8e
 	strh r1, [r4, r0]
 	mov r0, r4
-	bl ovl01_217552C
+	bl Boss5__Func_217552C
 	ldr r0, _02178F24 // =0x00000B1C
 	ldr r0, [r5, r0]
 	cmp r0, #0x13
@@ -10625,13 +10625,13 @@ ovl01_2178E50: // 0x02178E50
 	mov r0, r5
 	mov r1, #0x14
 	mov r2, #0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	b _02178EB8
 _02178EAE:
 	mov r0, r5
 	mov r1, #0xd
 	mov r2, #0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 _02178EB8:
 	mov r1, #0xf
 	ldr r2, [r5, #0x44]
@@ -10657,9 +10657,9 @@ _02178EB8:
 	ldr r1, [r2, #0x18]
 	orr r0, r1
 	str r0, [r2, #0x18]
-	bl ovl01_217597C
+	bl Boss5__Func_217597C
 	mov r0, r4
-	bl ovl01_2176DD0
+	bl Boss5__Func_2176DD0
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r1, [r5, r0]
@@ -10672,7 +10672,7 @@ _02178EB8:
 _02178F0A:
 	mov r0, #0
 	strh r0, [r6, #6]
-	ldr r1, _02178F28 // =ovl01_2178F30
+	ldr r1, _02178F28 // =Boss5__Func_2178F30
 	ldr r0, _02178F2C // =0x00000784
 	str r1, [r5, r0]
 	add sp, #8
@@ -10682,12 +10682,12 @@ _02178F18: .word gPlayer
 _02178F1C: .word 0x00172000
 _02178F20: .word 0xFFF7FFFF
 _02178F24: .word 0x00000B1C
-_02178F28: .word ovl01_2178F30
+_02178F28: .word Boss5__Func_2178F30
 _02178F2C: .word 0x00000784
-	thumb_func_end ovl01_2178E50
+	thumb_func_end Boss5__Func_2178E50
 
-	thumb_func_start ovl01_2178F30
-ovl01_2178F30: // 0x02178F30
+	thumb_func_start Boss5__Func_2178F30
+Boss5__Func_2178F30: // 0x02178F30
 	push {r3, r4, r5, r6, r7, lr}
 	mov r1, #0xde
 	lsl r1, r1, #2
@@ -10696,7 +10696,7 @@ ovl01_2178F30: // 0x02178F30
 	ldr r0, [r5, r0]
 	add r4, r5, r1
 	ldr r0, [r0, r1]
-	bl ovl01_217746C
+	bl Boss5__Func_217746C
 	mov r7, r0
 	ldrh r0, [r4, #6]
 	cmp r0, #0x3c
@@ -10790,7 +10790,7 @@ _02178FD8:
 	bl BossArena__GetCamera
 	mov r6, r0
 	mov r0, r5
-	bl ovl01_2177C98
+	bl Boss5__Func_2177C98
 	mov r0, r6
 	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r6
@@ -10831,10 +10831,10 @@ _02178FD8:
 	cmp r0, #0xa
 	bgt _02179074
 	mov r0, r5
-	bl ovl01_2177B34
+	bl Boss5__Func_2177B34
 	b _0217907A
 _02179074:
-	ldr r1, _02179098 // =ovl01_21790A0
+	ldr r1, _02179098 // =Boss5__Func_21790A0
 	ldr r0, _0217909C // =0x00000784
 	str r1, [r5, r0]
 _0217907A:
@@ -10848,12 +10848,12 @@ _02179088: .word 0xFFCE0000
 _0217908C: .word 0xFFFF4000
 _02179090: .word 0xFFFFC000
 _02179094: .word 0x0000078C
-_02179098: .word ovl01_21790A0
+_02179098: .word Boss5__Func_21790A0
 _0217909C: .word 0x00000784
-	thumb_func_end ovl01_2178F30
+	thumb_func_end Boss5__Func_2178F30
 
-	thumb_func_start ovl01_21790A0
-ovl01_21790A0: // 0x021790A0
+	thumb_func_start Boss5__Func_21790A0
+Boss5__Func_21790A0: // 0x021790A0
 	mov r3, #0xde
 	lsl r3, r3, #2
 	sub r2, r3, #4
@@ -10871,17 +10871,17 @@ _021790BA:
 	mov r2, #0xf
 	mvn r2, r2
 	strh r2, [r1, #4]
-	ldr r2, _021790C8 // =ovl01_21790D0
+	ldr r2, _021790C8 // =Boss5__Func_21790D0
 	ldr r1, _021790CC // =0x00000784
 	str r2, [r0, r1]
 	bx lr
 	.align 2, 0
-_021790C8: .word ovl01_21790D0
+_021790C8: .word Boss5__Func_21790D0
 _021790CC: .word 0x00000784
-	thumb_func_end ovl01_21790A0
+	thumb_func_end Boss5__Func_21790A0
 
-	thumb_func_start ovl01_21790D0
-ovl01_21790D0: // 0x021790D0
+	thumb_func_start Boss5__Func_21790D0
+Boss5__Func_21790D0: // 0x021790D0
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #0xde
@@ -10909,19 +10909,19 @@ _021790FC:
 	mov r0, #1
 	tst r0, r1
 	beq _0217910E
-	ldr r1, _02179114 // =ovl01_217911C
+	ldr r1, _02179114 // =Boss5__Func_217911C
 	ldr r0, _02179118 // =0x00000784
 	str r1, [r5, r0]
 _0217910E:
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _02179110: .word gPlayer
-_02179114: .word ovl01_217911C
+_02179114: .word Boss5__Func_217911C
 _02179118: .word 0x00000784
-	thumb_func_end ovl01_21790D0
+	thumb_func_end Boss5__Func_21790D0
 
-	thumb_func_start ovl01_217911C
-ovl01_217911C: // 0x0217911C
+	thumb_func_start Boss5__Func_217911C
+Boss5__Func_217911C: // 0x0217911C
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #0xde
@@ -10965,28 +10965,28 @@ ovl01_217911C: // 0x0217911C
 	str r1, [r5, #0x20]
 	mov r0, r5
 	mov r1, #2
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	b _02179182
 _0217917A:
 	mov r0, r5
-	bl ovl01_21779CC
+	bl Boss5__Func_21779CC
 	pop {r3, r4, r5, pc}
 _02179182:
 	mov r0, #0
 	strh r0, [r4, #6]
-	ldr r1, _02179198 // =ovl01_21791A0
+	ldr r1, _02179198 // =Boss5__Func_21791A0
 	ldr r0, _0217919C // =0x00000784
 	str r1, [r5, r0]
 	pop {r3, r4, r5, pc}
 	nop
 _02179190: .word gPlayer
 _02179194: .word playerGameStatus
-_02179198: .word ovl01_21791A0
+_02179198: .word Boss5__Func_21791A0
 _0217919C: .word 0x00000784
-	thumb_func_end ovl01_217911C
+	thumb_func_end Boss5__Func_217911C
 
-	thumb_func_start ovl01_21791A0
-ovl01_21791A0: // 0x021791A0
+	thumb_func_start Boss5__Func_21791A0
+Boss5__Func_21791A0: // 0x021791A0
 	push {r3, r4, r5, lr}
 	sub sp, #0x38
 	mov r5, r0
@@ -10997,7 +10997,7 @@ ovl01_21791A0: // 0x021791A0
 	cmp r0, #0x50
 	bne _021791E0
 	add r0, sp, #8
-	bl ovl01_21752C0
+	bl Boss5__Func_21752C0
 	ldr r0, _02179214 // =0x0217AFB8
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
@@ -11033,83 +11033,83 @@ _021791F8:
 	add r0, r0, #1
 	strh r0, [r4, #6]
 	mov r0, r5
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _0217920E
 	mov r0, r5
-	bl ovl01_2177930
+	bl Boss5__Func_2177930
 _0217920E:
 	add sp, #0x38
 	pop {r3, r4, r5, pc}
 	nop
 _02179214: .word 0x0217AFB8
-	thumb_func_end ovl01_21791A0
+	thumb_func_end Boss5__Func_21791A0
 
-	thumb_func_start ovl01_2179218
-ovl01_2179218: // 0x02179218
+	thumb_func_start Boss5__Func_2179218
+Boss5__Func_2179218: // 0x02179218
 	push {r3, r4, r5, lr}
 	mov r4, r0
 	mov r5, #0
 _0217921E:
 	mov r0, r5
 	mov r1, r4
-	bl ovl01_2177540
+	bl Boss5__Func_2177540
 	add r5, r5, #1
 	cmp r5, #3
 	blt _0217921E
 	mov r0, r4
 	mov r1, #0x15
 	mov r2, #0
-	bl ovl01_217749C
-	ldr r1, _02179240 // =ovl01_2179248
+	bl Boss5__Func_217749C
+	ldr r1, _02179240 // =Boss5__Func_2179248
 	ldr r0, _02179244 // =0x00000784
 	str r1, [r4, r0]
 	pop {r3, r4, r5, pc}
 	nop
-_02179240: .word ovl01_2179248
+_02179240: .word Boss5__Func_2179248
 _02179244: .word 0x00000784
-	thumb_func_end ovl01_2179218
+	thumb_func_end Boss5__Func_2179218
 
-	thumb_func_start ovl01_2179248
-ovl01_2179248: // 0x02179248
+	thumb_func_start Boss5__Func_2179248
+Boss5__Func_2179248: // 0x02179248
 	push {r4, lr}
 	mov r4, r0
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _0217925A
-	ldr r1, _0217925C // =ovl01_2179264
+	ldr r1, _0217925C // =Boss5__Func_2179264
 	ldr r0, _02179260 // =0x00000784
 	str r1, [r4, r0]
 _0217925A:
 	pop {r4, pc}
 	.align 2, 0
-_0217925C: .word ovl01_2179264
+_0217925C: .word Boss5__Func_2179264
 _02179260: .word 0x00000784
-	thumb_func_end ovl01_2179248
+	thumb_func_end Boss5__Func_2179248
 
-	thumb_func_start ovl01_2179264
-ovl01_2179264: // 0x02179264
+	thumb_func_start Boss5__Func_2179264
+Boss5__Func_2179264: // 0x02179264
 	push {r4, lr}
 	mov r1, #0x16
 	mov r2, #1
 	mov r4, r0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	mov r1, #0xf
 	mov r0, #0xde
 	mvn r1, r1
 	lsl r0, r0, #2
 	strh r1, [r4, r0]
-	ldr r1, _02179284 // =ovl01_217928C
+	ldr r1, _02179284 // =Boss5__Func_217928C
 	ldr r0, _02179288 // =0x00000784
 	str r1, [r4, r0]
 	pop {r4, pc}
 	nop
-_02179284: .word ovl01_217928C
+_02179284: .word Boss5__Func_217928C
 _02179288: .word 0x00000784
-	thumb_func_end ovl01_2179264
+	thumb_func_end Boss5__Func_2179264
 
-	thumb_func_start ovl01_217928C
-ovl01_217928C: // 0x0217928C
+	thumb_func_start Boss5__Func_217928C
+Boss5__Func_217928C: // 0x0217928C
 	push {r4, r5, r6, lr}
 	mov r6, r0
 	mov r0, #0xde
@@ -11142,19 +11142,19 @@ _021792BA:
 _021792C8:
 	cmp r5, #0
 	beq _021792D2
-	ldr r1, _021792D8 // =ovl01_21792E0
+	ldr r1, _021792D8 // =Boss5__Func_21792E0
 	ldr r0, _021792DC // =0x00000784
 	str r1, [r6, r0]
 _021792D2:
 	pop {r4, r5, r6, pc}
 	.align 2, 0
 _021792D4: .word gPlayer
-_021792D8: .word ovl01_21792E0
+_021792D8: .word Boss5__Func_21792E0
 _021792DC: .word 0x00000784
-	thumb_func_end ovl01_217928C
+	thumb_func_end Boss5__Func_217928C
 
-	thumb_func_start ovl01_21792E0
-ovl01_21792E0: // 0x021792E0
+	thumb_func_start Boss5__Func_21792E0
+Boss5__Func_21792E0: // 0x021792E0
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, _0217932C // =gPlayer
@@ -11174,7 +11174,7 @@ ovl01_21792E0: // 0x021792E0
 	str r0, [r1]
 	mov r0, #0
 	mov r1, r4
-	bl ovl01_2177554
+	bl Boss5__Func_2177554
 	mov r0, #1
 	bl BossArena__GetCamera
 	mov r1, #0x96
@@ -11184,7 +11184,7 @@ ovl01_21792E0: // 0x021792E0
 	ldr r0, _02179334 // =0x0000037A
 	lsl r1, r1, #2
 	strh r1, [r4, r0]
-	ldr r1, _02179338 // =ovl01_2179340
+	ldr r1, _02179338 // =Boss5__Func_2179340
 	ldr r0, _0217933C // =0x00000784
 	str r1, [r4, r0]
 	pop {r4, pc}
@@ -11192,12 +11192,12 @@ ovl01_21792E0: // 0x021792E0
 _0217932C: .word gPlayer
 _02179330: .word playerGameStatus
 _02179334: .word 0x0000037A
-_02179338: .word ovl01_2179340
+_02179338: .word Boss5__Func_2179340
 _0217933C: .word 0x00000784
-	thumb_func_end ovl01_21792E0
+	thumb_func_end Boss5__Func_21792E0
 
-	thumb_func_start ovl01_2179340
-ovl01_2179340: // 0x02179340
+	thumb_func_start Boss5__Func_2179340
+Boss5__Func_2179340: // 0x02179340
 	mov r1, #0xde
 	lsl r1, r1, #2
 	add r2, r0, r1
@@ -11207,25 +11207,25 @@ ovl01_2179340: // 0x02179340
 	ldrh r1, [r2, #2]
 	cmp r1, #0
 	bne _02179358
-	ldr r2, _0217935C // =ovl01_2179364
+	ldr r2, _0217935C // =Boss5__Func_2179364
 	ldr r1, _02179360 // =0x00000784
 	str r2, [r0, r1]
 _02179358:
 	bx lr
 	nop
-_0217935C: .word ovl01_2179364
+_0217935C: .word Boss5__Func_2179364
 _02179360: .word 0x00000784
-	thumb_func_end ovl01_2179340
+	thumb_func_end Boss5__Func_2179340
 
-	thumb_func_start ovl01_2179364
-ovl01_2179364: // 0x02179364
+	thumb_func_start Boss5__Func_2179364
+Boss5__Func_2179364: // 0x02179364
 	push {r3, r4, r5, lr}
 	mov r4, r0
 	mov r5, #0
 _0217936A:
 	mov r0, r5
 	mov r1, r4
-	bl ovl01_2177540
+	bl Boss5__Func_2177540
 	add r5, r5, #1
 	cmp r5, #3
 	blt _0217936A
@@ -11242,76 +11242,76 @@ _0217936A:
 	bl UpdateBossHealthHUD
 	mov r0, #0
 	bl ChangeBossBGMVariant
-	ldr r1, _021793A4 // =ovl01_21793AC
+	ldr r1, _021793A4 // =Boss5__Func_21793AC
 	ldr r0, _021793A8 // =0x00000784
 	str r1, [r4, r0]
 	pop {r3, r4, r5, pc}
 	nop
 _021793A0: .word 0x00000151
-_021793A4: .word ovl01_21793AC
+_021793A4: .word Boss5__Func_21793AC
 _021793A8: .word 0x00000784
-	thumb_func_end ovl01_2179364
+	thumb_func_end Boss5__Func_2179364
 
-	thumb_func_start ovl01_21793AC
-ovl01_21793AC: // 0x021793AC
+	thumb_func_start Boss5__Func_21793AC
+Boss5__Func_21793AC: // 0x021793AC
 	push {r4, lr}
 	mov r4, r0
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _021793BE
-	ldr r1, _021793C0 // =ovl01_21793C8
+	ldr r1, _021793C0 // =Boss5__Func_21793C8
 	ldr r0, _021793C4 // =0x00000784
 	str r1, [r4, r0]
 _021793BE:
 	pop {r4, pc}
 	.align 2, 0
-_021793C0: .word ovl01_21793C8
+_021793C0: .word Boss5__Func_21793C8
 _021793C4: .word 0x00000784
-	thumb_func_end ovl01_21793AC
+	thumb_func_end Boss5__Func_21793AC
 
-	thumb_func_start ovl01_21793C8
-ovl01_21793C8: // 0x021793C8
+	thumb_func_start Boss5__Func_21793C8
+Boss5__Func_21793C8: // 0x021793C8
 	push {r4, lr}
 	mov r1, #0x17
 	mov r2, #0
 	mov r4, r0
-	bl ovl01_217749C
-	ldr r1, _021793DC // =ovl01_21793E4
+	bl Boss5__Func_217749C
+	ldr r1, _021793DC // =Boss5__Func_21793E4
 	ldr r0, _021793E0 // =0x00000784
 	str r1, [r4, r0]
 	pop {r4, pc}
 	.align 2, 0
-_021793DC: .word ovl01_21793E4
+_021793DC: .word Boss5__Func_21793E4
 _021793E0: .word 0x00000784
-	thumb_func_end ovl01_21793C8
+	thumb_func_end Boss5__Func_21793C8
 
-	thumb_func_start ovl01_21793E4
-ovl01_21793E4: // 0x021793E4
+	thumb_func_start Boss5__Func_21793E4
+Boss5__Func_21793E4: // 0x021793E4
 	push {r4, lr}
 	mov r4, r0
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _021793F6
-	ldr r1, _021793F8 // =ovl01_2179400
+	ldr r1, _021793F8 // =Boss5__Func_2179400
 	ldr r0, _021793FC // =0x00000784
 	str r1, [r4, r0]
 _021793F6:
 	pop {r4, pc}
 	.align 2, 0
-_021793F8: .word ovl01_2179400
+_021793F8: .word Boss5__Func_2179400
 _021793FC: .word 0x00000784
-	thumb_func_end ovl01_21793E4
+	thumb_func_end Boss5__Func_21793E4
 
-	thumb_func_start ovl01_2179400
-ovl01_2179400: // 0x02179400
+	thumb_func_start Boss5__Func_2179400
+Boss5__Func_2179400: // 0x02179400
 	push {r4, lr}
 	sub sp, #0x38
 	mov r1, #8
 	mov r2, #0
 	mov r4, r0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	add r0, sp, #8
-	bl ovl01_21752C0
+	bl Boss5__Func_21752C0
 	add r0, sp, #8
 	str r0, [sp]
 	ldr r1, [sp, #0x2c]
@@ -11338,35 +11338,35 @@ ovl01_2179400: // 0x02179400
 	add r1, #0x44
 	bl ProcessSpatialVoiceClip
 	bl EnableSpatialVolume
-	ldr r1, _0217945C // =ovl01_2179464
+	ldr r1, _0217945C // =Boss5__Func_2179464
 	ldr r0, _02179460 // =0x00000784
 	str r1, [r4, r0]
 	add sp, #0x38
 	pop {r4, pc}
 	.align 2, 0
-_0217945C: .word ovl01_2179464
+_0217945C: .word Boss5__Func_2179464
 _02179460: .word 0x00000784
-	thumb_func_end ovl01_2179400
+	thumb_func_end Boss5__Func_2179400
 
-	thumb_func_start ovl01_2179464
-ovl01_2179464: // 0x02179464
+	thumb_func_start Boss5__Func_2179464
+Boss5__Func_2179464: // 0x02179464
 	push {r4, lr}
 	mov r4, r0
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _02179476
-	ldr r1, _02179478 // =ovl01_2179480
+	ldr r1, _02179478 // =Boss5__Func_2179480
 	ldr r0, _0217947C // =0x00000784
 	str r1, [r4, r0]
 _02179476:
 	pop {r4, pc}
 	.align 2, 0
-_02179478: .word ovl01_2179480
+_02179478: .word Boss5__Func_2179480
 _0217947C: .word 0x00000784
-	thumb_func_end ovl01_2179464
+	thumb_func_end Boss5__Func_2179464
 
-	thumb_func_start ovl01_2179480
-ovl01_2179480: // 0x02179480
+	thumb_func_start Boss5__Func_2179480
+Boss5__Func_2179480: // 0x02179480
 	push {r4, lr}
 	mov r4, r0
 	mov r0, #0xdd
@@ -11386,22 +11386,22 @@ ovl01_2179480: // 0x02179480
 	mov r0, r4
 	mov r1, #2
 	mov r2, #0
-	bl ovl01_217749C
+	bl Boss5__Func_217749C
 	ldr r0, _021794B8 // =0x0000037A
 	mov r1, #0
 	strh r1, [r4, r0]
-	ldr r1, _021794BC // =ovl01_21794C4
+	ldr r1, _021794BC // =Boss5__Func_21794C4
 	ldr r0, _021794C0 // =0x00000784
 	str r1, [r4, r0]
 	pop {r4, pc}
 	.align 2, 0
 _021794B8: .word 0x0000037A
-_021794BC: .word ovl01_21794C4
+_021794BC: .word Boss5__Func_21794C4
 _021794C0: .word 0x00000784
-	thumb_func_end ovl01_2179480
+	thumb_func_end Boss5__Func_2179480
 
-	thumb_func_start ovl01_21794C4
-ovl01_21794C4: // 0x021794C4
+	thumb_func_start Boss5__Func_21794C4
+Boss5__Func_21794C4: // 0x021794C4
 	push {r3, r4, r5, lr}
 	sub sp, #0x38
 	mov r5, r0
@@ -11412,7 +11412,7 @@ ovl01_21794C4: // 0x021794C4
 	cmp r0, #0x50
 	bne _02179504
 	add r0, sp, #8
-	bl ovl01_21752C0
+	bl Boss5__Func_21752C0
 	ldr r0, _02179538 // =0x0217AFB8
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
@@ -11448,20 +11448,20 @@ _0217951C:
 	add r0, r0, #1
 	strh r0, [r4, #2]
 	mov r0, r5
-	bl ovl01_21774E8
+	bl Boss5__Func_21774E8
 	cmp r0, #0
 	beq _02179532
 	mov r0, r5
-	bl ovl01_2177930
+	bl Boss5__Func_2177930
 _02179532:
 	add sp, #0x38
 	pop {r3, r4, r5, pc}
 	nop
 _02179538: .word 0x0217AFB8
-	thumb_func_end ovl01_21794C4
+	thumb_func_end Boss5__Func_21794C4
 
-	thumb_func_start ovl01_217953C
-ovl01_217953C: // 0x0217953C
+	thumb_func_start Boss5__Func_217953C
+Boss5__Func_217953C: // 0x0217953C
 	push {r3, r4, r5, lr}
 	mov r2, #0xde
 	lsl r2, r2, #2
@@ -11496,10 +11496,10 @@ _02179552:
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _02179580: .word VRAMSystem__VRAM_PALETTE_BG
-	thumb_func_end ovl01_217953C
+	thumb_func_end Boss5__Func_217953C
 
-	thumb_func_start ovl01_2179584
-ovl01_2179584: // 0x02179584
+	thumb_func_start Boss5__Func_2179584
+Boss5__Func_2179584: // 0x02179584
 	push {r4, r5, r6, lr}
 	sub sp, #8
 	mov r2, #0xdd
@@ -11564,7 +11564,7 @@ ovl01_2179584: // 0x02179584
 	ldr r0, _02179634 // =0x00000408
 	mov r1, #0
 	strh r1, [r6, r0]
-	ldr r1, _02179638 // =ovl01_2179640
+	ldr r1, _02179638 // =Boss5__Func_2179640
 	ldr r0, _0217963C // =0x00000784
 	str r1, [r5, r0]
 	add sp, #8
@@ -11576,12 +11576,12 @@ _02179628: .word 0x00000682
 _0217962C: .word 0x00000524
 _02179630: .word 0x00000AB8
 _02179634: .word 0x00000408
-_02179638: .word ovl01_2179640
+_02179638: .word Boss5__Func_2179640
 _0217963C: .word 0x00000784
-	thumb_func_end ovl01_2179584
+	thumb_func_end Boss5__Func_2179584
 
-	thumb_func_start ovl01_2179640
-ovl01_2179640: // 0x02179640
+	thumb_func_start Boss5__Func_2179640
+Boss5__Func_2179640: // 0x02179640
 	push {r4, r5, r6, lr}
 	mov r1, #0xde
 	lsl r1, r1, #2
@@ -11636,19 +11636,19 @@ ovl01_2179640: // 0x02179640
 	mov r0, r4
 	add r2, #0x99
 	bl BossArena__SetTracker0Speed
-	ldr r1, _021796C8 // =ovl01_21796D0
+	ldr r1, _021796C8 // =Boss5__Func_21796D0
 	ldr r0, _021796CC // =0x00000784
 	str r1, [r5, r0]
 _021796C0:
 	pop {r4, r5, r6, pc}
 	nop
 _021796C4: .word 0x000007E4
-_021796C8: .word ovl01_21796D0
+_021796C8: .word Boss5__Func_21796D0
 _021796CC: .word 0x00000784
-	thumb_func_end ovl01_2179640
+	thumb_func_end Boss5__Func_2179640
 
-	thumb_func_start ovl01_21796D0
-ovl01_21796D0: // 0x021796D0
+	thumb_func_start Boss5__Func_21796D0
+Boss5__Func_21796D0: // 0x021796D0
 	push {r4, r5, r6, lr}
 	mov r6, r0
 	mov r0, #0xde
@@ -11698,19 +11698,19 @@ ovl01_21796D0: // 0x021796D0
 	ldr r0, _02179744 // =0x00000408
 	mov r1, #0
 	strh r1, [r4, r0]
-	ldr r1, _02179748 // =ovl01_2179750
+	ldr r1, _02179748 // =Boss5__Func_2179750
 	ldr r0, _0217974C // =0x00000784
 	str r1, [r6, r0]
 	pop {r4, r5, r6, pc}
 	.align 2, 0
 _02179740: .word VRAMSystem__VRAM_PALETTE_BG
 _02179744: .word 0x00000408
-_02179748: .word ovl01_2179750
+_02179748: .word Boss5__Func_2179750
 _0217974C: .word 0x00000784
-	thumb_func_end ovl01_21796D0
+	thumb_func_end Boss5__Func_21796D0
 
-	thumb_func_start ovl01_2179750
-ovl01_2179750: // 0x02179750
+	thumb_func_start Boss5__Func_2179750
+Boss5__Func_2179750: // 0x02179750
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #8
 	mov r5, r0
@@ -11766,7 +11766,7 @@ _0217979A:
 	strh r1, [r0, #0x24]
 _021797BA:
 	mov r0, r5
-	bl ovl01_217953C
+	bl Boss5__Func_217953C
 	ldr r4, _02179828 // =BossArena__explosionFXSpawnTime
 	mov r7, #0
 _021797C4:
@@ -11812,7 +11812,7 @@ _0217980A:
 	strh r1, [r6, r0]
 	cmp r2, #0xd2
 	bls _02179824
-	ldr r1, _02179840 // =ovl01_2179848
+	ldr r1, _02179840 // =Boss5__Func_2179848
 	ldr r0, _02179844 // =0x00000784
 	str r1, [r5, r0]
 _02179824:
@@ -11825,12 +11825,12 @@ _02179830: .word 0x000007E4
 _02179834: .word 0x000007E8
 _02179838: .word 0x000007EC
 _0217983C: .word 0x00000103
-_02179840: .word ovl01_2179848
+_02179840: .word Boss5__Func_2179848
 _02179844: .word 0x00000784
-	thumb_func_end ovl01_2179750
+	thumb_func_end Boss5__Func_2179750
 
-	thumb_func_start ovl01_2179848
-ovl01_2179848: // 0x02179848
+	thumb_func_start Boss5__Func_2179848
+Boss5__Func_2179848: // 0x02179848
 	push {r3, r4, r5, lr}
 	sub sp, #8
 	ldr r3, _021798CC // =0x000007E4
@@ -11885,7 +11885,7 @@ ovl01_2179848: // 0x02179848
 	lsl r1, r1, #6
 	strh r0, [r5, r1]
 	add r0, r1, #4
-	ldr r2, _021798DC // =ovl01_21798E0
+	ldr r2, _021798DC // =Boss5__Func_21798E0
 	add r1, r1, #4
 	str r2, [r5, r0]
 	ldr r1, [r5, r1]
@@ -11898,11 +11898,11 @@ _021798CC: .word 0x000007E4
 _021798D0: .word 0x00000555
 _021798D4: .word FX_SinCosTable_+0x00000540
 _021798D8: .word 0x00000524
-_021798DC: .word ovl01_21798E0
-	thumb_func_end ovl01_2179848
+_021798DC: .word Boss5__Func_21798E0
+	thumb_func_end Boss5__Func_2179848
 
-	thumb_func_start ovl01_21798E0
-ovl01_21798E0: // 0x021798E0
+	thumb_func_start Boss5__Func_21798E0
+Boss5__Func_21798E0: // 0x021798E0
 	push {r3, r4, r5, r6, r7, lr}
 	mov r6, r0
 	mov r0, #0xdd
@@ -11959,7 +11959,7 @@ _02179946:
 	mov r5, #1
 _02179948:
 	mov r0, r6
-	bl ovl01_217953C
+	bl Boss5__Func_217953C
 	ldr r0, _02179968 // =0x00000408
 	ldrh r1, [r4, r0]
 	add r1, r1, #1
@@ -11969,19 +11969,19 @@ _02179948:
 	beq _02179966
 	cmp r5, #0
 	beq _02179966
-	ldr r1, _0217996C // =ovl01_2179974
+	ldr r1, _0217996C // =Boss5__Func_2179974
 	ldr r0, _02179970 // =0x00000784
 	str r1, [r6, r0]
 _02179966:
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02179968: .word 0x00000408
-_0217996C: .word ovl01_2179974
+_0217996C: .word Boss5__Func_2179974
 _02179970: .word 0x00000784
-	thumb_func_end ovl01_21798E0
+	thumb_func_end Boss5__Func_21798E0
 
-	thumb_func_start ovl01_2179974
-ovl01_2179974: // 0x02179974
+	thumb_func_start Boss5__Func_2179974
+Boss5__Func_2179974: // 0x02179974
 	ldr r1, _02179980 // =playerGameStatus
 	mov r0, #4
 	ldr r2, [r1, #0]
@@ -11990,7 +11990,7 @@ ovl01_2179974: // 0x02179974
 	bx lr
 	.align 2, 0
 _02179980: .word playerGameStatus
-	thumb_func_end ovl01_2179974
+	thumb_func_end Boss5__Func_2179974
 
 	.rodata
 	

@@ -3549,7 +3549,7 @@ void CutsceneModelManager_LoadDrawState(CutsceneSystemManager *work, void *memor
 
     GetDrawStateCameraProjection(memory, &manager->camera.config.config);
 
-    manager->camera.config.lookAtUp.y = FLOAT_TO_FX32(1.0);
+    manager->camera.config.camUp.y = FLOAT_TO_FX32(1.0);
 
     if (manager->camera.posY != 0)
     {
@@ -3703,16 +3703,16 @@ void CutsceneModelManager_ConfigureCameraState(CutsceneCamera3D *work)
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
     NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_SYS);
     NNS_G3dGetCurrentMtx(&mtxLookAt, NULL);
-    work->config.lookAtTo.x = mtxLookAt.m[3][0];
-    work->config.lookAtTo.y = mtxLookAt.m[3][1];
-    work->config.lookAtTo.z = mtxLookAt.m[3][2];
+    work->config.camPos.x = mtxLookAt.m[3][0];
+    work->config.camPos.y = mtxLookAt.m[3][1];
+    work->config.camPos.z = mtxLookAt.m[3][2];
 
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
     NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_USER);
     NNS_G3dGetCurrentMtx(&mtxLookAt, NULL);
-    work->config.lookAtFrom.x = mtxLookAt.m[3][0];
-    work->config.lookAtFrom.y = mtxLookAt.m[3][1];
-    work->config.lookAtFrom.z = mtxLookAt.m[3][2];
+    work->config.camTarget.x = mtxLookAt.m[3][0];
+    work->config.camTarget.y = mtxLookAt.m[3][1];
+    work->config.camTarget.z = mtxLookAt.m[3][2];
 
     if (work->active == 2)
     {

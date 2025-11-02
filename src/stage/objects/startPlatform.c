@@ -228,7 +228,7 @@ void StartPlatform_State_Active(StartPlatform *work)
 
         BossArenaCamera *camera = BossArena__GetCamera(0);
         Camera3D *config        = BossArena__GetCameraConfig2(camera);
-        BossArena__Func_2039CA4(&xz, &y, &config->lookAtTo, &config->lookAtFrom, 0x400, 0x240, 0, 0);
+        BossArena__Func_2039CA4(&xz, &y, &config->camPos, &config->camTarget, 0x400, 0x240, 0, 0);
         MapFarSys__SetScrollSpeed(0, FX32_FROM_WHOLE(xz), 0);
     }
 }

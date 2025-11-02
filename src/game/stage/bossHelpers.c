@@ -109,21 +109,21 @@ void BossHelpers__SetPaletteAnimations(PaletteAnimator *animators, u32 animatorC
     }
 }
 
-void BossHelpers__SetAnimation(OBS_ACTION3D_NN_WORK *work, B3DAnimationTypes type, NNSG3dResFileHeader *resource, u16 animID, const NNSG3dResTex *texResource, BOOL canLoop)
+void BossHelpers__SetAnimation(AnimatorMDL *work, B3DAnimationTypes type, NNSG3dResFileHeader *resource, u16 animID, const NNSG3dResTex *texResource, BOOL canLoop)
 {
-    AnimatorMDL__SetAnimation(&work->ani, type, resource, animID, texResource);
+    AnimatorMDL__SetAnimation(work, type, resource, animID, texResource);
 
     if (canLoop)
-        work->ani.animFlags[type] |= ANIMATORMDL_FLAG_CAN_LOOP;
+        work->animFlags[type] |= ANIMATORMDL_FLAG_CAN_LOOP;
     else
-        work->ani.animFlags[type] &= ~ANIMATORMDL_FLAG_CAN_LOOP;
+        work->animFlags[type] &= ~ANIMATORMDL_FLAG_CAN_LOOP;
 
-    work->ani.speed[type] = FLOAT_TO_FX32(1.0);
+    work->speed[type] = FLOAT_TO_FX32(1.0);
 }
 
-BOOL BossHelpers__IsAnimFinished(OBS_ACTION3D_NN_WORK *work, B3DAnimationTypes type)
+BOOL BossHelpers__IsAnimFinished(AnimatorMDL *work, B3DAnimationTypes type)
 {
-    return work->ani.animFlags[type] & ANIMATORMDL_FLAG_FINISHED;
+    return work->animFlags[type] & ANIMATORMDL_FLAG_FINISHED;
 }
 
 void BossHelpers__ReleaseAnimation(OBS_ACTION3D_NN_WORK *work)
@@ -378,7 +378,7 @@ void BossHelpers__Collision__HandleColliderSimple(OBS_RECT_WORK *collider, fx32 
     StageTask__HandleCollider(collider->parent, collider);
 }
 
-void BossHelpers__Collision__InitArenaCollider(OBS_RECT_WORK *srcCollider, OBS_RECT_WORK *dstCollider, fx32 x, fx32 y, fx32 start, fx32 end)
+void BossHelpers__Collision__InitArenaCollider(OBS_RECT_WORK *srcCollider, OBS_RECT_WORK *dstCollider, fx32 x, fx32 y, fx32 start, fx32 end, fx32 radius)
 {
     BossHelpers__Collision__HandleColliderSimple(srcCollider, x, y, FLOAT_TO_FX32(0.0));
 

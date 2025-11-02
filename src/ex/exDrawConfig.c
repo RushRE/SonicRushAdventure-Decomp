@@ -61,26 +61,26 @@ void InitExDrawCameraConfig(ExDrawCameraConfig *work)
     work->currentCamera.config.matProjPosition.y = work->nextCamera.config.matProjPosition.y;
     work->currentCamera.config.matProjPosition.z = work->nextCamera.config.matProjPosition.z;
 
-    work->nextCamera.lookAtTo.x    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.lookAtTo.y    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.lookAtTo.z    = FLOAT_TO_FX32(0.0);
-    work->currentCamera.lookAtTo.x = work->nextCamera.lookAtTo.x;
-    work->currentCamera.lookAtTo.y = work->nextCamera.lookAtTo.y;
-    work->currentCamera.lookAtTo.z = work->nextCamera.lookAtTo.z;
+    work->nextCamera.camPos.x    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camPos.y    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camPos.z    = FLOAT_TO_FX32(0.0);
+    work->currentCamera.camPos.x = work->nextCamera.camPos.x;
+    work->currentCamera.camPos.y = work->nextCamera.camPos.y;
+    work->currentCamera.camPos.z = work->nextCamera.camPos.z;
 
-    work->nextCamera.lookAtFrom.x    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.lookAtFrom.y    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.lookAtFrom.z    = FLOAT_TO_FX32(0.0);
-    work->currentCamera.lookAtFrom.x = work->nextCamera.lookAtFrom.x;
-    work->currentCamera.lookAtFrom.y = work->nextCamera.lookAtFrom.y;
-    work->currentCamera.lookAtFrom.z = work->nextCamera.lookAtFrom.z;
+    work->nextCamera.camTarget.x    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camTarget.y    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camTarget.z    = FLOAT_TO_FX32(0.0);
+    work->currentCamera.camTarget.x = work->nextCamera.camTarget.x;
+    work->currentCamera.camTarget.y = work->nextCamera.camTarget.y;
+    work->currentCamera.camTarget.z = work->nextCamera.camTarget.z;
 
-    work->nextCamera.lookAtUp.x    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.lookAtUp.y    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.lookAtUp.z    = FLOAT_TO_FX32(0.0);
-    work->currentCamera.lookAtUp.x = work->nextCamera.lookAtUp.x;
-    work->currentCamera.lookAtUp.y = work->nextCamera.lookAtUp.y;
-    work->currentCamera.lookAtUp.z = work->nextCamera.lookAtUp.z;
+    work->nextCamera.camUp.x    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camUp.y    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camUp.z    = FLOAT_TO_FX32(0.0);
+    work->currentCamera.camUp.x = work->nextCamera.camUp.x;
+    work->currentCamera.camUp.y = work->nextCamera.camUp.y;
+    work->currentCamera.camUp.z = work->nextCamera.camUp.z;
 
     work->nextCamera.position.x    = FLOAT_TO_FX32(0.0);
     work->nextCamera.position.y    = FLOAT_TO_FX32(0.0);
@@ -124,17 +124,17 @@ void ApplyExDrawCameraConfig(ExDrawCameraConfig *work)
     work->currentCamera.config.matProjPosition.y = work->nextCamera.config.matProjPosition.y;
     work->currentCamera.config.matProjPosition.z = work->nextCamera.config.matProjPosition.z;
 
-    work->currentCamera.lookAtTo.x = work->nextCamera.lookAtTo.x;
-    work->currentCamera.lookAtTo.y = work->nextCamera.lookAtTo.y;
-    work->currentCamera.lookAtTo.z = work->nextCamera.lookAtTo.z;
+    work->currentCamera.camPos.x = work->nextCamera.camPos.x;
+    work->currentCamera.camPos.y = work->nextCamera.camPos.y;
+    work->currentCamera.camPos.z = work->nextCamera.camPos.z;
 
-    work->currentCamera.lookAtFrom.x = work->nextCamera.lookAtFrom.x;
-    work->currentCamera.lookAtFrom.y = work->nextCamera.lookAtFrom.y;
-    work->currentCamera.lookAtFrom.z = work->nextCamera.lookAtFrom.z;
+    work->currentCamera.camTarget.x = work->nextCamera.camTarget.x;
+    work->currentCamera.camTarget.y = work->nextCamera.camTarget.y;
+    work->currentCamera.camTarget.z = work->nextCamera.camTarget.z;
 
-    work->currentCamera.lookAtUp.x = work->nextCamera.lookAtUp.x;
-    work->currentCamera.lookAtUp.y = work->nextCamera.lookAtUp.y;
-    work->currentCamera.lookAtUp.z = work->nextCamera.lookAtUp.z;
+    work->currentCamera.camUp.x = work->nextCamera.camUp.x;
+    work->currentCamera.camUp.y = work->nextCamera.camUp.y;
+    work->currentCamera.camUp.z = work->nextCamera.camUp.z;
 
     work->currentCamera.position.x = work->nextCamera.position.x;
     work->currentCamera.position.y = work->nextCamera.position.y;
@@ -210,26 +210,26 @@ void LoadExDrawCameraConfig_1(ExDrawCameraConfig *work)
     work->nextCamera.config.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
     work->nextCamera.config.projScaleW  = FLOAT_TO_FX32(1.0);
 
-    work->nextCamera.lookAtTo.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.lookAtTo.y = -FLOAT_TO_FX32(38.5);
-    work->nextCamera.lookAtTo.z = FLOAT_TO_FX32(308.0);
+    work->nextCamera.camPos.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camPos.y = -FLOAT_TO_FX32(38.5);
+    work->nextCamera.camPos.z = FLOAT_TO_FX32(308.0);
 
     if (work->useEngineB == GRAPHICS_ENGINE_A)
     {
-        work->nextCamera.lookAtFrom.x = FLOAT_TO_FX32(0.0);
-        work->nextCamera.lookAtFrom.y = FLOAT_TO_FX32(128.0);
-        work->nextCamera.lookAtFrom.z = FLOAT_TO_FX32(0.0);
+        work->nextCamera.camTarget.x = FLOAT_TO_FX32(0.0);
+        work->nextCamera.camTarget.y = FLOAT_TO_FX32(128.0);
+        work->nextCamera.camTarget.z = FLOAT_TO_FX32(0.0);
     }
     else if (work->useEngineB == GRAPHICS_ENGINE_B)
     {
-        work->nextCamera.lookAtFrom.x = FLOAT_TO_FX32(0.0);
-        work->nextCamera.lookAtFrom.y = FLOAT_TO_FX32(0.0);
-        work->nextCamera.lookAtFrom.z = FLOAT_TO_FX32(0.0);
+        work->nextCamera.camTarget.x = FLOAT_TO_FX32(0.0);
+        work->nextCamera.camTarget.y = FLOAT_TO_FX32(0.0);
+        work->nextCamera.camTarget.z = FLOAT_TO_FX32(0.0);
     }
 
-    work->nextCamera.lookAtUp.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.lookAtUp.y = FLOAT_TO_FX32(1.0);
-    work->nextCamera.lookAtUp.z = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camUp.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camUp.y = FLOAT_TO_FX32(1.0);
+    work->nextCamera.camUp.z = FLOAT_TO_FX32(0.0);
 }
 
 void LoadExDrawCameraConfig_2(ExDrawCameraConfig *work)
@@ -242,26 +242,26 @@ void LoadExDrawCameraConfig_2(ExDrawCameraConfig *work)
     work->nextCamera.config.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
     work->nextCamera.config.projScaleW  = FLOAT_TO_FX32(1.0);
 
-    work->nextCamera.lookAtTo.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.lookAtTo.y = -FLOAT_TO_FX32(38.5);
-    work->nextCamera.lookAtTo.z = FLOAT_TO_FX32(308.0);
+    work->nextCamera.camPos.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camPos.y = -FLOAT_TO_FX32(38.5);
+    work->nextCamera.camPos.z = FLOAT_TO_FX32(308.0);
 
     if (work->useEngineB == GRAPHICS_ENGINE_A)
     {
-        work->nextCamera.lookAtFrom.x = FLOAT_TO_FX32(0.0);
-        work->nextCamera.lookAtFrom.y = FLOAT_TO_FX32(128.0);
-        work->nextCamera.lookAtFrom.z = FLOAT_TO_FX32(0.0);
+        work->nextCamera.camTarget.x = FLOAT_TO_FX32(0.0);
+        work->nextCamera.camTarget.y = FLOAT_TO_FX32(128.0);
+        work->nextCamera.camTarget.z = FLOAT_TO_FX32(0.0);
     }
     else if (work->useEngineB == GRAPHICS_ENGINE_B)
     {
-        work->nextCamera.lookAtFrom.x = FLOAT_TO_FX32(0.0);
-        work->nextCamera.lookAtFrom.y = FLOAT_TO_FX32(0.0);
-        work->nextCamera.lookAtFrom.z = FLOAT_TO_FX32(0.0);
+        work->nextCamera.camTarget.x = FLOAT_TO_FX32(0.0);
+        work->nextCamera.camTarget.y = FLOAT_TO_FX32(0.0);
+        work->nextCamera.camTarget.z = FLOAT_TO_FX32(0.0);
     }
 
-    work->nextCamera.lookAtUp.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.lookAtUp.y = FLOAT_TO_FX32(1.0);
-    work->nextCamera.lookAtUp.z = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camUp.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camUp.y = FLOAT_TO_FX32(1.0);
+    work->nextCamera.camUp.z = FLOAT_TO_FX32(0.0);
 }
 
 void LoadExDrawCameraConfig_3(ExDrawCameraConfig *work)
@@ -274,26 +274,26 @@ void LoadExDrawCameraConfig_3(ExDrawCameraConfig *work)
     work->nextCamera.config.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
     work->nextCamera.config.projScaleW  = FLOAT_TO_FX32(1.0);
 
-    work->nextCamera.lookAtTo.x = FLOAT_TO_FX32(500.0);
-    work->nextCamera.lookAtTo.y = -FLOAT_TO_FX32(40.0);
-    work->nextCamera.lookAtTo.z = FLOAT_TO_FX32(290.0);
+    work->nextCamera.camPos.x = FLOAT_TO_FX32(500.0);
+    work->nextCamera.camPos.y = -FLOAT_TO_FX32(40.0);
+    work->nextCamera.camPos.z = FLOAT_TO_FX32(290.0);
 
     if (work->useEngineB == GRAPHICS_ENGINE_A)
     {
-        work->nextCamera.lookAtFrom.x = FLOAT_TO_FX32(6.4);
-        work->nextCamera.lookAtFrom.y = FLOAT_TO_FX32(128.0);
-        work->nextCamera.lookAtFrom.z = FLOAT_TO_FX32(64.0);
+        work->nextCamera.camTarget.x = FLOAT_TO_FX32(6.4);
+        work->nextCamera.camTarget.y = FLOAT_TO_FX32(128.0);
+        work->nextCamera.camTarget.z = FLOAT_TO_FX32(64.0);
     }
     else if (work->useEngineB == GRAPHICS_ENGINE_B)
     {
-        work->nextCamera.lookAtFrom.x = FLOAT_TO_FX32(6.4);
-        work->nextCamera.lookAtFrom.y = FLOAT_TO_FX32(0.0);
-        work->nextCamera.lookAtFrom.z = FLOAT_TO_FX32(64.0);
+        work->nextCamera.camTarget.x = FLOAT_TO_FX32(6.4);
+        work->nextCamera.camTarget.y = FLOAT_TO_FX32(0.0);
+        work->nextCamera.camTarget.z = FLOAT_TO_FX32(64.0);
     }
 
-    work->nextCamera.lookAtUp.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.lookAtUp.y = FLOAT_TO_FX32(1.0);
-    work->nextCamera.lookAtUp.z = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camUp.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camUp.y = FLOAT_TO_FX32(1.0);
+    work->nextCamera.camUp.z = FLOAT_TO_FX32(0.0);
 }
 
 void LoadExDrawCameraConfig_4(ExDrawCameraConfig *work)
@@ -306,26 +306,26 @@ void LoadExDrawCameraConfig_4(ExDrawCameraConfig *work)
     work->nextCamera.config.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
     work->nextCamera.config.projScaleW  = FLOAT_TO_FX32(1.0);
 
-    work->nextCamera.lookAtTo.x = -FLOAT_TO_FX32(500.0);
-    work->nextCamera.lookAtTo.y = -FLOAT_TO_FX32(40.0);
-    work->nextCamera.lookAtTo.z = FLOAT_TO_FX32(290.0);
+    work->nextCamera.camPos.x = -FLOAT_TO_FX32(500.0);
+    work->nextCamera.camPos.y = -FLOAT_TO_FX32(40.0);
+    work->nextCamera.camPos.z = FLOAT_TO_FX32(290.0);
 
     if (work->useEngineB == GRAPHICS_ENGINE_A)
     {
-        work->nextCamera.lookAtFrom.x = -FLOAT_TO_FX32(6.4);
-        work->nextCamera.lookAtFrom.y = FLOAT_TO_FX32(128.0);
-        work->nextCamera.lookAtFrom.z = FLOAT_TO_FX32(64.0);
+        work->nextCamera.camTarget.x = -FLOAT_TO_FX32(6.4);
+        work->nextCamera.camTarget.y = FLOAT_TO_FX32(128.0);
+        work->nextCamera.camTarget.z = FLOAT_TO_FX32(64.0);
     }
     else if (work->useEngineB == GRAPHICS_ENGINE_B)
     {
-        work->nextCamera.lookAtFrom.x = -FLOAT_TO_FX32(6.4);
-        work->nextCamera.lookAtFrom.y = FLOAT_TO_FX32(0.0);
-        work->nextCamera.lookAtFrom.z = FLOAT_TO_FX32(64.0);
+        work->nextCamera.camTarget.x = -FLOAT_TO_FX32(6.4);
+        work->nextCamera.camTarget.y = FLOAT_TO_FX32(0.0);
+        work->nextCamera.camTarget.z = FLOAT_TO_FX32(64.0);
     }
 
-    work->nextCamera.lookAtUp.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.lookAtUp.y = FLOAT_TO_FX32(1.0);
-    work->nextCamera.lookAtUp.z = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camUp.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.camUp.y = FLOAT_TO_FX32(1.0);
+    work->nextCamera.camUp.z = FLOAT_TO_FX32(0.0);
 }
 
 void LoadExDrawConfig(ExDrawReqTaskCameraConfigType currentCameraType, ExDrawReqLightType lightType)

@@ -1160,8 +1160,8 @@ void Opening_StateScene_ProcessAnimatedScene(Opening *work)
     {
         work->worldControl.camera.config.matProjPosition.y = -work->worldControl.matProjPosY;
 
-        VEC_SetFromArray(&work->worldControl.camera.lookAtTo, &work->worldControl.matCamera1.m[3][0]);
-        VEC_SetFromArray(&work->worldControl.camera.lookAtFrom, &work->worldControl.matTarget1.m[3][0]);
+        VEC_SetFromArray(&work->worldControl.camera.camPos, &work->worldControl.matCamera1.m[3][0]);
+        VEC_SetFromArray(&work->worldControl.camera.camTarget, &work->worldControl.matTarget1.m[3][0]);
     }
     else
     {
@@ -1169,13 +1169,13 @@ void Opening_StateScene_ProcessAnimatedScene(Opening *work)
         {
             work->worldControl.camera.config.matProjPosition.y = work->worldControl.matProjPosY;
 
-            VEC_SetFromArray(&work->worldControl.camera.lookAtTo, &work->worldControl.matCamera1.m[3][0]);
-            VEC_SetFromArray(&work->worldControl.camera.lookAtFrom, &work->worldControl.matTarget1.m[3][0]);
+            VEC_SetFromArray(&work->worldControl.camera.camPos, &work->worldControl.matCamera1.m[3][0]);
+            VEC_SetFromArray(&work->worldControl.camera.camTarget, &work->worldControl.matTarget1.m[3][0]);
         }
         else
         {
-            VEC_SetFromArray(&work->worldControl.camera.lookAtTo, &work->worldControl.matCamera2.m[3][0]);
-            VEC_SetFromArray(&work->worldControl.camera.lookAtFrom, &work->worldControl.matTarget2.m[3][0]);
+            VEC_SetFromArray(&work->worldControl.camera.camPos, &work->worldControl.matCamera2.m[3][0]);
+            VEC_SetFromArray(&work->worldControl.camera.camTarget, &work->worldControl.matTarget2.m[3][0]);
         }
     }
 

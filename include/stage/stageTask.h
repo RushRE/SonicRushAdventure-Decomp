@@ -88,7 +88,7 @@ enum StageTaskFlags_
     STAGE_TASK_FLAG_UNKNOWN                    = 1 << 17,
     STAGE_TASK_FLAG_NO_VRAM_A                  = 1 << 22,
     STAGE_TASK_FLAG_NO_VRAM_B                  = 1 << 23,
-    STAGE_TASK_FLAG_ALLOCATED_TBL_WORK          = 1 << 24,
+    STAGE_TASK_FLAG_ALLOCATED_TBL_WORK         = 1 << 24,
     STAGE_TASK_FLAG_ALLOCATED_TASK_WORKER      = 1 << 25,
     STAGE_TASK_FLAG_ALLOCATED_COLLISION_OBJ    = 1 << 26,
     STAGE_TASK_FLAG_ALLOCATED_COLLIDERS        = 1 << 27,
@@ -166,7 +166,7 @@ enum StageDisplayFlags_
     DISPLAY_FLAG_USE_DEFAULT_DRAW          = 1 << 6,
     DISPLAY_FLAG_SCREEN_RELATIVE           = 1 << 7,
     DISPLAY_FLAG_DISABLE_ROTATION          = 1 << 8,
-    DISPLAY_FLAG_ROTATE_CAMERA_DIR       = 1 << 9,
+    DISPLAY_FLAG_ROTATE_CAMERA_DIR         = 1 << 9,
     DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING = 1 << 10,
     DISPLAY_FLAG_LOCK_LIGHT_DIR            = 1 << 11,
     DISPLAY_FLAG_DISABLE_UPDATE            = 1 << 12,
@@ -174,7 +174,7 @@ enum StageDisplayFlags_
     DISPLAY_FLAG_DISABLE_POSITION_OFFSETS  = 1 << 14,
     DISPLAY_FLAG_DISABLE_FINISH_EVENT      = 1 << 15,
     DISPLAY_FLAG_DISABLE_SCALE             = 1 << 16,
-    DISPLAY_FLAG_DRAW_3D_SPRITE_AS_2D = 1 << 17,
+    DISPLAY_FLAG_DRAW_3D_SPRITE_AS_2D      = 1 << 17,
 };
 typedef u32 StageDisplayFlags;
 
@@ -196,8 +196,6 @@ enum StageObjColliderFlags_
     STAGE_TASK_COLLIDER_FLAGS_DYNAMIC_HITBOX = 1 << 0,
 };
 typedef u16 StageObjColliderFlags;
-
-
 
 struct StageTask_
 {

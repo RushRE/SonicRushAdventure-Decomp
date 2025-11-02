@@ -41,8 +41,8 @@ void *BossHelpers__Unknown2038AEC__Func_2038B7C(Unknown2038AEC *work);
 void BossHelpers__SetPaletteAnimation(PaletteAnimator *animator, u16 anim, BOOL canLoop);
 void BossHelpers__SetPaletteAnimations(PaletteAnimator *animators, u32 animatorCount, u16 anim, BOOL canLoop);
 
-void BossHelpers__SetAnimation(OBS_ACTION3D_NN_WORK *work, B3DAnimationTypes type, NNSG3dResFileHeader *resource, u16 animID, const NNSG3dResTex *texResource, BOOL canLoop);
-BOOL BossHelpers__IsAnimFinished(OBS_ACTION3D_NN_WORK *work, B3DAnimationTypes type);
+void BossHelpers__SetAnimation(AnimatorMDL *work, B3DAnimationTypes type, NNSG3dResFileHeader *resource, u16 animID, const NNSG3dResTex *texResource, BOOL canLoop);
+BOOL BossHelpers__IsAnimFinished(AnimatorMDL *work, B3DAnimationTypes type);
 void BossHelpers__ReleaseAnimation(OBS_ACTION3D_NN_WORK *work);
 
 s32 BossHelpers__Arena__WrapBounds(fx32 x, fx32 start, fx32 end);
@@ -60,7 +60,7 @@ void BossHelpers__Model__SetMatrixMode(s32 id, MtxFx43 *mtx);
 void BossHelpers__Model__RenderCallback(NNSG3dRS *rs);
 
 void BossHelpers__Collision__HandleColliderSimple(OBS_RECT_WORK *collider, fx32 x, fx32 y, fx32 z);
-void BossHelpers__Collision__InitArenaCollider(OBS_RECT_WORK *srcCollider, OBS_RECT_WORK *dstCollider, fx32 x, fx32 y, fx32 start, fx32 end);
+void BossHelpers__Collision__InitArenaCollider(OBS_RECT_WORK *srcCollider, OBS_RECT_WORK *dstCollider, fx32 x, fx32 y, fx32 start, fx32 end, fx32 radius);
 void BossHelpers__Collision__HandleArenaCollider(OBS_RECT_WORK *srcCollider, OBS_RECT_WORK *dstCollider, VecFx32 *translation, fx32 start, fx32 end, fx32 radius);
 
 BOOL BossHelpers__Player__IsAlive(Player *player);

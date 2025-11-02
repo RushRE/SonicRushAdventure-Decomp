@@ -25,7 +25,7 @@ Boss6Stage__Create: // 0x021539C4
 	str r0, [sp, #4]
 	ldr r4, _02153DD4 // =0x00000E28
 	ldr r0, _02153DD8 // =StageTask_Main
-	ldr r1, _02153DDC // =ovl02_21566C4
+	ldr r1, _02153DDC // =Boss6Stage__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -42,8 +42,8 @@ Boss6Stage__Create: // 0x021539C4
 	mov r2, r5
 	mov r0, r8
 	bl GameObject__InitFromObject
-	ldr r1, _02153DE4 // =ovl02_21565D8
-	ldr r0, _02153DE8 // =ovl02_21567AC
+	ldr r1, _02153DE4 // =Boss6Stage__State_21565D8
+	ldr r0, _02153DE8 // =Boss6Stage__Draw
 	str r1, [r8, #0xf4]
 	str r0, [r8, #0xfc]
 	ldr r0, [r8, #0x18]
@@ -63,19 +63,19 @@ Boss6Stage__Create: // 0x021539C4
 	str r2, [r8, #0x40]
 	strh r1, [r0, #0x80]
 	ldr r0, [sp, #0x14]
-	ldr r1, _02153DF0 // =ovl02_2156834
+	ldr r1, _02153DF0 // =Boss6Stage__State2_2156834
 	rsb r4, r0, #0
 	str r4, [r8, #0x38c]
 	add r0, r8, #0x390
 	str r1, [r8, #0x37c]
-	bl ovl02_2156274
+	bl Boss6Stage__InitChunkList
 	ldr r1, _02153DF4 // =0x00083FE0
 	ldr r0, _02153DF8 // =0x001EEF88
 	str r1, [r8, #0x390]
 	str r4, [r8, #0x394]
 	str r0, [r8, #0x398]
 	mov r0, r8
-	bl ovl02_2155A78
+	bl Boss6Stage__Func_2155A78
 	mov r1, #0
 	str r1, [r8, #0x39c]
 	str r1, [r8, #0x3a0]
@@ -89,7 +89,7 @@ Boss6Stage__Create: // 0x021539C4
 	add r0, r0, #0xc00
 	bl BossHelpers__InitLights
 	add r0, r8, #0x364
-	bl ovl02_2154F7C
+	bl Boss6Stage__LoadAssets
 	bl BossHelpers__Model__InitSystem
 	mov r9, #0
 	add r0, r8, #0x158
@@ -280,12 +280,12 @@ _02153D70:
 	.align 2, 0
 _02153DD4: .word 0x00000E28
 _02153DD8: .word StageTask_Main
-_02153DDC: .word ovl02_21566C4
+_02153DDC: .word Boss6Stage__Destructor
 _02153DE0: .word Boss6Stage__Singleton
-_02153DE4: .word ovl02_21565D8
-_02153DE8: .word ovl02_21567AC
+_02153DE4: .word Boss6Stage__State_21565D8
+_02153DE8: .word Boss6Stage__Draw
 _02153DEC: .word 0x000034CC
-_02153DF0: .word ovl02_2156834
+_02153DF0: .word Boss6Stage__State2_2156834
 _02153DF4: .word 0x00083FE0
 _02153DF8: .word 0x001EEF88
 _02153DFC: .word _02178CCC
@@ -316,7 +316,7 @@ Boss6__Create: // 0x02153E2C
 	str r0, [sp, #4]
 	ldr r6, _021541BC // =0x00000A8C
 	ldr r0, _021541C0 // =StageTask_Main
-	ldr r1, _021541C4 // =ovl02_2156EA4
+	ldr r1, _021541C4 // =Boss6__Destructor
 	mov r3, r2
 	str r6, [sp, #8]
 	bl TaskCreate_
@@ -331,11 +331,11 @@ Boss6__Create: // 0x02153E2C
 	mov r2, r5
 	mov r3, r4
 	bl GameObject__InitFromObject
-	ldr r1, _021541C8 // =ovl02_2156D34
-	ldr r0, _021541CC // =ovl02_2156F2C
+	ldr r1, _021541C8 // =Boss6__State_2156D34
+	ldr r0, _021541CC // =Boss6__Draw
 	str r1, [r8, #0xf4]
 	str r0, [r8, #0xfc]
-	ldr r0, _021541D0 // =ovl02_215702C
+	ldr r0, _021541D0 // =Boss6__Collide
 	mov r1, #0x1000
 	str r0, [r8, #0x108]
 	ldr r2, [r8, #0x18]
@@ -366,7 +366,7 @@ Boss6__Create: // 0x02153E2C
 	mov r1, #0x20000
 	mov r2, #0x10000
 	mov r3, #0xa000
-	bl ovl02_2154FE4
+	bl Boss6Stage__Func_2154FE4
 	add r0, r8, #0x218
 	mov r1, #3
 	mov r2, #0x40
@@ -408,14 +408,14 @@ Boss6__Create: // 0x02153E2C
 	add r0, r8, #0x258
 	sub r3, r2, #0x4f
 	bl ObjRect__SetBox3D
-	ldr r1, _021541D4 // =ovl02_215708C
+	ldr r1, _021541D4 // =Boss6__OnDefend_215708C
 	str r8, [r8, #0x274]
 	str r1, [r8, #0x27c]
 	ldr r1, [r8, #0x270]
 	add r0, r8, #0x364
 	orr r1, r1, #4
 	str r1, [r8, #0x270]
-	bl ovl02_2154F7C
+	bl Boss6Stage__LoadAssets
 	add r4, r8, #0x214
 	ldr r0, _021541D8 // =bossAssetFiles
 	mov r3, #0
@@ -529,18 +529,18 @@ _0215413C:
 	add r0, sp, #0xc
 	bl NNS_FndUnmountArchive
 	mov r0, r8
-	bl ovl02_215746C
+	bl Boss6__Action_215746C
 	mov r0, r8
 	add sp, sp, #0x74
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021541BC: .word 0x00000A8C
 _021541C0: .word StageTask_Main
-_021541C4: .word ovl02_2156EA4
-_021541C8: .word ovl02_2156D34
-_021541CC: .word ovl02_2156F2C
-_021541D0: .word ovl02_215702C
-_021541D4: .word ovl02_215708C
+_021541C4: .word Boss6__Destructor
+_021541C8: .word Boss6__State_2156D34
+_021541CC: .word Boss6__Draw
+_021541D0: .word Boss6__Collide
+_021541D4: .word Boss6__OnDefend_215708C
 _021541D8: .word bossAssetFiles
 _021541DC: .word _02179680
 _021541E0: .word gameArchiveStage
@@ -563,7 +563,7 @@ Boss6Platform__Create: // 0x021541FC
 	str r4, [sp]
 	mov r4, #2
 	ldr r0, _0215459C // =StageTask_Main
-	ldr r1, _021545A0 // =ovl02_215A338
+	ldr r1, _021545A0 // =Boss6Platform__Destructor
 	mov r2, #0
 	mov r5, r3
 	mov r3, r2
@@ -582,8 +582,8 @@ Boss6Platform__Create: // 0x021541FC
 	mov r2, r7
 	mov r3, r6
 	bl GameObject__InitFromObject
-	ldr r1, _021545A4 // =ovl02_215A2C4
-	ldr r0, _021545A8 // =ovl02_215A3BC
+	ldr r1, _021545A4 // =Boss6Platform__State_215A2C4
+	ldr r0, _021545A8 // =Boss6Platform__Draw
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x18]
@@ -619,7 +619,7 @@ Boss6Platform__Create: // 0x021541FC
 	mov r1, #0x4000
 	mov r2, r1
 	mov r3, #0x2000
-	bl ovl02_2154FE4
+	bl Boss6Stage__Func_2154FE4
 	str r4, [r4, #0x2d8]
 	add r5, r4, #0x2d8
 	ldr r1, _021545B0 // =StageTask__DefaultDiffData
@@ -726,7 +726,7 @@ _02154490:
 _0215449C:
 	strh r1, [r0, #0x3c]
 	add r0, r4, #0x364
-	bl ovl02_2154F7C
+	bl Boss6Stage__LoadAssets
 	ldr r1, _021545B4 // =bossAssetFiles
 	add r5, r4, #0x4c
 	str r1, [sp]
@@ -784,15 +784,15 @@ _0215449C:
 	mov r0, #0
 	str r0, [r4, #0x12c]
 	mov r0, r4
-	bl ovl02_215A550
+	bl Boss6Platform__Action_215A550
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _0215459C: .word StageTask_Main
-_021545A0: .word ovl02_215A338
-_021545A4: .word ovl02_215A2C4
-_021545A8: .word ovl02_215A3BC
+_021545A0: .word Boss6Platform__Destructor
+_021545A4: .word Boss6Platform__State_215A2C4
+_021545A8: .word Boss6Platform__Draw
 _021545AC: .word 0x00000112
 _021545B0: .word StageTask__DefaultDiffData
 _021545B4: .word bossAssetFiles
@@ -830,7 +830,7 @@ Boss6EnemyA__Create: // 0x021545C0
 	mov r2, r7
 	mov r3, r6
 	bl GameObject__InitFromObject
-	ldr r0, _021547B8 // =ovl02_215B928
+	ldr r0, _021547B8 // =Boss6EnemyA__State_215B928
 	mov r1, #0x1000
 	str r0, [r4, #0xf4]
 	ldr r2, [r4, #0x18]
@@ -885,14 +885,14 @@ _021546D0:
 	sub r2, r2, #0x1a
 	bl ObjRect__SetBox3D
 _02154704:
-	ldr r0, _021547BC // =ovl02_2155270
+	ldr r0, _021547BC // =Boss6Enemy__OnDefend_2155270
 	str r4, [r4, #0x234]
 	str r0, [r4, #0x23c]
 	ldr r1, [r4, #0x230]
 	add r0, r4, #0x364
 	orr r1, r1, #4
 	str r1, [r4, #0x230]
-	bl ovl02_2154F7C
+	bl Boss6Stage__LoadAssets
 	ldr r0, [r4, #0x378]
 	cmp r0, #0
 	bne _02154754
@@ -925,7 +925,7 @@ _02154778:
 	strb r1, [r4, #0x38a]
 	mov r1, #0
 	strb r1, [r4, #0x38b]
-	bl ovl02_215B938
+	bl Boss6EnemyA__Action_215B938
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
@@ -933,8 +933,8 @@ _02154778:
 _021547AC: .word 0x000004FC
 _021547B0: .word StageTask_Main
 _021547B4: .word GameObject__Destructor
-_021547B8: .word ovl02_215B928
-_021547BC: .word ovl02_2155270
+_021547B8: .word Boss6EnemyA__State_215B928
+_021547BC: .word Boss6Enemy__OnDefend_2155270
 _021547C0: .word bossAssetFiles+0x00000008
 _021547C4: .word _02179680
 _021547C8: .word bossAssetFiles
@@ -954,7 +954,7 @@ Boss6EnemyB__Create: // 0x021547D0
 	ldr r4, _021549D4 // =0x0000086C
 	str r0, [sp, #4]
 	ldr r0, _021549D8 // =StageTask_Main
-	ldr r1, _021549DC // =ovl02_215BB18
+	ldr r1, _021549DC // =Boss6EnemyB__Destructor
 	mov r2, #0
 	mov r5, r3
 	mov r3, r2
@@ -971,8 +971,8 @@ Boss6EnemyB__Create: // 0x021547D0
 	mov r2, r7
 	mov r3, r6
 	bl GameObject__InitFromObject
-	ldr r1, _021549E0 // =ovl02_215BA88
-	ldr r0, _021549E4 // =ovl02_215BB70
+	ldr r1, _021549E0 // =Boss6EnemyB__State_215BA88
+	ldr r0, _021549E4 // =Boss6EnemyB__Draw
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x18]
@@ -999,7 +999,7 @@ Boss6EnemyB__Create: // 0x021547D0
 	str r1, [sp, #8]
 	mov r2, #0x4000
 	mov r3, r1
-	bl ovl02_2154FE4
+	bl Boss6Stage__Func_2154FE4
 	mov r1, #0x8000
 	add r0, r4, #0x300
 	strh r1, [r0, #0xe6]
@@ -1021,14 +1021,14 @@ Boss6EnemyB__Create: // 0x021547D0
 	sub r2, r3, #0x34
 	sub r3, r3, #0x4e
 	bl ObjRect__SetBox3D
-	ldr r0, _021549E8 // =ovl02_2155270
+	ldr r0, _021549E8 // =Boss6Enemy__OnDefend_2155270
 	str r4, [r4, #0x234]
 	str r0, [r4, #0x23c]
 	ldr r1, [r4, #0x230]
 	add r0, r4, #0x364
 	orr r1, r1, #4
 	str r1, [r4, #0x230]
-	bl ovl02_2154F7C
+	bl Boss6Stage__LoadAssets
 	ldr r1, _021549EC // =bossAssetFiles+0x00000008
 	ldr r2, _021549F0 // =_02179680
 	str r1, [sp]
@@ -1067,7 +1067,7 @@ Boss6EnemyB__Create: // 0x021547D0
 	mov r0, r5
 	str r0, [r4, #0x12c]
 	mov r0, r4
-	bl ovl02_215BBA0
+	bl Boss6EnemyB__Action_215BBA0
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
@@ -1075,10 +1075,10 @@ Boss6EnemyB__Create: // 0x021547D0
 _021549D0: .word 0x00001501
 _021549D4: .word 0x0000086C
 _021549D8: .word StageTask_Main
-_021549DC: .word ovl02_215BB18
-_021549E0: .word ovl02_215BA88
-_021549E4: .word ovl02_215BB70
-_021549E8: .word ovl02_2155270
+_021549DC: .word Boss6EnemyB__Destructor
+_021549E0: .word Boss6EnemyB__State_215BA88
+_021549E4: .word Boss6EnemyB__Draw
+_021549E8: .word Boss6Enemy__OnDefend_2155270
 _021549EC: .word bossAssetFiles+0x00000008
 _021549F0: .word _02179680
 _021549F4: .word 0x000034CC
@@ -1113,8 +1113,8 @@ Boss6Missile__Create: // 0x021549F8
 	mov r2, r5
 	mov r3, r4
 	bl GameObject__InitFromObject
-	ldr r1, _02154BA0 // =ovl02_215C32C
-	ldr r0, _02154BA4 // =ovl02_215C350
+	ldr r1, _02154BA0 // =Boss6Missile__State_215C32C
+	ldr r0, _02154BA4 // =Boss6Missile__Collide
 	str r1, [r8, #0xf4]
 	str r0, [r8, #0x108]
 	ldr r1, [r8, #0x18]
@@ -1126,7 +1126,7 @@ Boss6Missile__Create: // 0x021549F8
 	orr r1, r1, #0x180
 	str r1, [r8, #0x20]
 	ldr r1, [r8, #0x1c]
-	ldr r11, _02154BA8 // =ovl02_215C3DC
+	ldr r11, _02154BA8 // =Boss6Missile__OnHit
 	orr r1, r1, #0x8300
 	str r1, [r8, #0x1c]
 	str r0, [r8, #0x38]
@@ -1167,7 +1167,7 @@ _02154AD0:
 	add r10, r10, #0x40
 	blt _02154AD0
 	add r0, r8, #0x364
-	bl ovl02_2154F7C
+	bl Boss6Stage__LoadAssets
 	ldr r1, _02154BAC // =bossAssetFiles
 	ldr r2, _02154BB0 // =_02179680
 	str r1, [sp]
@@ -1186,7 +1186,7 @@ _02154AD0:
 	mov r1, r4
 	mov r0, r8
 	strb r1, [r8, #0x3b3]
-	bl ovl02_215C494
+	bl Boss6Missile__Action_215C494
 	mov r0, r8
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -1194,9 +1194,9 @@ _02154AD0:
 _02154B94: .word 0x00000524
 _02154B98: .word StageTask_Main
 _02154B9C: .word GameObject__Destructor
-_02154BA0: .word ovl02_215C32C
-_02154BA4: .word ovl02_215C350
-_02154BA8: .word ovl02_215C3DC
+_02154BA0: .word Boss6Missile__State_215C32C
+_02154BA4: .word Boss6Missile__Collide
+_02154BA8: .word Boss6Missile__OnHit
 _02154BAC: .word bossAssetFiles
 _02154BB0: .word _02179680
 _02154BB4: .word 0x00001A66
@@ -1231,8 +1231,8 @@ Boss6Ring__Create: // 0x02154BB8
 	mov r2, r6
 	mov r3, r5
 	bl GameObject__InitFromObject
-	ldr r1, _02154D30 // =ovl02_215C810
-	ldr r0, _02154D34 // =ovl02_215C834
+	ldr r1, _02154D30 // =Boss6Ring__State_215C810
+	ldr r0, _02154D34 // =Boss6Ring__Draw
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x18]
@@ -1269,7 +1269,7 @@ Boss6Ring__Create: // 0x02154BB8
 	sub r2, r3, #0x12
 	sub r3, r3, #4
 	bl ObjRect__SetBox3D
-	ldr r0, _02154D38 // =ovl02_215C8AC
+	ldr r0, _02154D38 // =Boss6Ring__OnDefend
 	str r4, [r4, #0x234]
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
@@ -1300,9 +1300,9 @@ _02154CF4:
 _02154D24: .word 0x00000474
 _02154D28: .word StageTask_Main
 _02154D2C: .word GameObject__Destructor
-_02154D30: .word ovl02_215C810
-_02154D34: .word ovl02_215C834
-_02154D38: .word ovl02_215C8AC
+_02154D30: .word Boss6Ring__State_215C810
+_02154D34: .word Boss6Ring__Draw
+_02154D38: .word Boss6Ring__OnDefend
 _02154D3C: .word ringManagerWork
 	arm_func_end Boss6Ring__Create
 
@@ -1318,8 +1318,8 @@ Boss6Stage__GetScrollSpeed: // 0x02154D40
 _02154D58: .word Boss6Stage__Singleton
 	arm_func_end Boss6Stage__GetScrollSpeed
 
-	arm_func_start ovl02_2154D5C
-ovl02_2154D5C: // 0x02154D5C
+	arm_func_start Boss6Stage__PlayerDraw
+Boss6Stage__PlayerDraw: // 0x02154D5C
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, _02154D9C // =Boss6Stage__Singleton
@@ -1334,14 +1334,14 @@ ovl02_2154D5C: // 0x02154D5C
 	blx r0
 	mov r0, r5
 	mov r1, r4
-	bl ovl02_2154DA0
+	bl Boss6Stage__DrawPlayer
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02154D9C: .word Boss6Stage__Singleton
-	arm_func_end ovl02_2154D5C
+	arm_func_end Boss6Stage__PlayerDraw
 
-	arm_func_start ovl02_2154DA0
-ovl02_2154DA0: // 0x02154DA0
+	arm_func_start Boss6Stage__DrawPlayer
+Boss6Stage__DrawPlayer: // 0x02154DA0
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	ldr r2, _02154EB0 // =Boss6Stage__Singleton
@@ -1357,7 +1357,7 @@ ovl02_2154DA0: // 0x02154DA0
 	mov r0, r6
 	add r1, r1, #0x258
 	movmi r4, #0
-	bl ovl02_2154EB4
+	bl Boss6Stage__Func_2154EB4
 	cmp r0, #0
 	ble _02154DF0
 	cmp r0, r4
@@ -1366,7 +1366,7 @@ _02154DF0:
 	ldr r1, [r5, #0x374]
 	mov r0, r6
 	add r1, r1, #0x3f0
-	bl ovl02_2154EB4
+	bl Boss6Stage__Func_2154EB4
 	cmp r0, #0
 	ble _02154E10
 	cmp r0, r4
@@ -1375,7 +1375,7 @@ _02154E10:
 	ldr r1, [r5, #0x378]
 	mov r0, r6
 	add r1, r1, #0x3f0
-	bl ovl02_2154EB4
+	bl Boss6Stage__Func_2154EB4
 	cmp r0, #0
 	ble _02154E30
 	cmp r0, r4
@@ -1415,10 +1415,10 @@ _02154E30:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _02154EB0: .word Boss6Stage__Singleton
-	arm_func_end ovl02_2154DA0
+	arm_func_end Boss6Stage__DrawPlayer
 
-	arm_func_start ovl02_2154EB4
-ovl02_2154EB4: // 0x02154EB4
+	arm_func_start Boss6Stage__Func_2154EB4
+Boss6Stage__Func_2154EB4: // 0x02154EB4
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r2, [r1, #0x1c]
 	ldrsh r3, [r1, #0]
@@ -1469,10 +1469,10 @@ ovl02_2154EB4: // 0x02154EB4
 	mvnge r0, #0
 	sublt r0, r2, r0
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ovl02_2154EB4
+	arm_func_end Boss6Stage__Func_2154EB4
 
-	arm_func_start ovl02_2154F7C
-ovl02_2154F7C: // 0x02154F7C
+	arm_func_start Boss6Stage__LoadAssets
+Boss6Stage__LoadAssets: // 0x02154F7C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x68
 	ldr r1, _02154FDC // =gameArchiveStage
@@ -1500,10 +1500,10 @@ ovl02_2154F7C: // 0x02154F7C
 	.align 2, 0
 _02154FDC: .word gameArchiveStage
 _02154FE0: .word _02179684
-	arm_func_end ovl02_2154F7C
+	arm_func_end Boss6Stage__LoadAssets
 
-	arm_func_start ovl02_2154FE4
-ovl02_2154FE4: // 0x02154FE4
+	arm_func_start Boss6Stage__Func_2154FE4
+Boss6Stage__Func_2154FE4: // 0x02154FE4
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	mov r7, r1
@@ -1555,18 +1555,18 @@ ovl02_2154FE4: // 0x02154FE4
 	str r1, [r3]
 	mov r1, r1, lsr #0x10
 	strh r1, [r4, #0x4c]
-	bl ovl02_21550CC
+	bl Boss6Stage__Func_21550CC
 	mov r0, r4
-	bl ovl02_21550CC
+	bl Boss6Stage__Func_21550CC
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _021550C0: .word _mt_math_rand
 _021550C4: .word 0x00196225
 _021550C8: .word 0x3C6EF35F
-	arm_func_end ovl02_2154FE4
+	arm_func_end Boss6Stage__Func_2154FE4
 
-	arm_func_start ovl02_21550CC
-ovl02_21550CC: // 0x021550CC
+	arm_func_start Boss6Stage__Func_21550CC
+Boss6Stage__Func_21550CC: // 0x021550CC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	add r3, r5, #0xc
@@ -1589,7 +1589,7 @@ _021550E4:
 	cmp r2, r0
 	bhs _0215512C
 	ldrh r0, [r3, #0x30]
-	bl ovl02_2155220
+	bl Boss6Stage__Func_2155220
 	add r1, r5, r4, lsl #1
 	strh r0, [r1, #0x3c]
 _0215512C:
@@ -1655,10 +1655,10 @@ _0215512C:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0215521C: .word FX_SinCosTable_
-	arm_func_end ovl02_21550CC
+	arm_func_end Boss6Stage__Func_21550CC
 
-	arm_func_start ovl02_2155220
-ovl02_2155220: // 0x02155220
+	arm_func_start Boss6Stage__Func_2155220
+Boss6Stage__Func_2155220: // 0x02155220
 	stmdb sp!, {r3, lr}
 	ldr ip, _02155260 // =_mt_math_rand
 	ldr r1, _02155264 // =0x00196225
@@ -1680,10 +1680,10 @@ _02155260: .word _mt_math_rand
 _02155264: .word 0x00196225
 _02155268: .word 0x3C6EF35F
 _0215526C: .word 0x000007FF
-	arm_func_end ovl02_2155220
+	arm_func_end Boss6Stage__Func_2155220
 
-	arm_func_start ovl02_2155270
-ovl02_2155270: // 0x02155270
+	arm_func_start Boss6Enemy__OnDefend_2155270
+Boss6Enemy__OnDefend_2155270: // 0x02155270
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r0, [r0, #0x1c]
@@ -1716,10 +1716,10 @@ ovl02_2155270: // 0x02155270
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl02_2155270
+	arm_func_end Boss6Enemy__OnDefend_2155270
 
-	arm_func_start ovl02_21552F0
-ovl02_21552F0: // 0x021552F0
+	arm_func_start Boss6Stage__FindStoodPlatform
+Boss6Stage__FindStoodPlatform: // 0x021552F0
 	ldr r1, _02155328 // =gPlayer
 	mov r2, #0
 	ldr r1, [r1, #0]
@@ -1737,10 +1737,10 @@ _02155300:
 	bx lr
 	.align 2, 0
 _02155328: .word gPlayer
-	arm_func_end ovl02_21552F0
+	arm_func_end Boss6Stage__FindStoodPlatform
 
-	arm_func_start ovl02_215532C
-ovl02_215532C: // 0x0215532C
+	arm_func_start Boss6Stage__Func_215532C
+Boss6Stage__Func_215532C: // 0x0215532C
 	ldr r2, [r0, #0x470]
 	rsb r2, r2, #0
 	str r2, [r1]
@@ -1751,17 +1751,17 @@ ovl02_215532C: // 0x0215532C
 	rsb r0, r0, #0
 	str r0, [r1, #8]
 	bx lr
-	arm_func_end ovl02_215532C
+	arm_func_end Boss6Stage__Func_215532C
 
-	arm_func_start ovl02_2155354
-ovl02_2155354: // 0x02155354
+	arm_func_start Boss6Stage__Func_2155354
+Boss6Stage__Func_2155354: // 0x02155354
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	mov r5, r1
 	add r1, sp, #0
 	mov r6, r0
 	mov r4, r2
-	bl ovl02_215532C
+	bl Boss6Stage__Func_215532C
 	add r2, r6, #0x88
 	add r1, sp, #0
 	mov r0, r5
@@ -1770,10 +1770,10 @@ ovl02_2155354: // 0x02155354
 	bl VEC_MultAdd
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	arm_func_end ovl02_2155354
+	arm_func_end Boss6Stage__Func_2155354
 
-	arm_func_start ovl02_2155390
-ovl02_2155390: // 0x02155390
+	arm_func_start Boss6Stage__Func_2155390
+Boss6Stage__Func_2155390: // 0x02155390
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	ldr r4, _02155530 // =Boss6Stage__Singleton
@@ -1886,10 +1886,10 @@ _02155510:
 _02155530: .word Boss6Stage__Singleton
 _02155534: .word 0x00001199
 _02155538: .word 0xFFFFF029
-	arm_func_end ovl02_2155390
+	arm_func_end Boss6Stage__Func_2155390
 
-	arm_func_start ovl02_215553C
-ovl02_215553C: // 0x0215553C
+	arm_func_start Boss6Stage__Func_215553C
+Boss6Stage__Func_215553C: // 0x0215553C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x14]
@@ -1907,10 +1907,10 @@ ovl02_215553C: // 0x0215553C
 	movge r0, #1
 	movlt r0, #0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl02_215553C
+	arm_func_end Boss6Stage__Func_215553C
 
-	arm_func_start ovl02_2155580
-ovl02_2155580: // 0x02155580
+	arm_func_start Boss6Stage__Func_2155580
+Boss6Stage__Func_2155580: // 0x02155580
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r1
 	mov r6, r0
@@ -1920,7 +1920,7 @@ ovl02_2155580: // 0x02155580
 	ldr r1, [r4, #4]
 	mov r0, r6
 	mov r2, #0x10000
-	bl ovl02_215C7BC
+	bl Boss6__SpawnRing
 	ldr r1, [r5, #0x14]
 	cmp r1, #0
 	beq _021555C4
@@ -1931,10 +1931,10 @@ ovl02_2155580: // 0x02155580
 _021555C4:
 	str r0, [r5, #0x14]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ovl02_2155580
+	arm_func_end Boss6Stage__Func_2155580
 
-	arm_func_start ovl02_21555CC
-ovl02_21555CC: // 0x021555CC
+	arm_func_start Boss6Stage__Func_21555CC
+Boss6Stage__Func_21555CC: // 0x021555CC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r1
 	ldr r1, [r4, #0x14]
@@ -1950,12 +1950,12 @@ _021555F4:
 	cmp r0, #0
 	mov r0, r4
 	beq _02155628
-	bl ovl02_215553C
+	bl Boss6Stage__Func_215553C
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r5
 	mov r1, r4
-	bl ovl02_2155580
+	bl Boss6Stage__Func_2155580
 	mov r0, #0
 	str r0, [r4, #0x18]
 	ldmia sp!, {r3, r4, r5, pc}
@@ -1969,23 +1969,23 @@ _02155628:
 	ldmia sp!, {r3, r4, r5, pc}
 _02155644:
 	mov r0, r4
-	bl ovl02_215553C
+	bl Boss6Stage__Func_215553C
 	cmp r0, #0
 	moveq r0, #1
 	streq r0, [r4, #0x18]
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r5
 	mov r1, r4
-	bl ovl02_2155580
+	bl Boss6Stage__Func_2155580
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl02_21555CC
+	arm_func_end Boss6Stage__Func_21555CC
 
-	arm_func_start ovl02_215566C
-ovl02_215566C: // 0x0215566C
+	arm_func_start Boss6Stage__Func_215566C
+Boss6Stage__Func_215566C: // 0x0215566C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r1
 	mov r5, r0
-	bl ovl02_2155A04
+	bl Boss6Stage__GetPhase
 	ldr r1, [r4, #0]
 	cmp r1, #0
 	beq _021556A0
@@ -2029,7 +2029,7 @@ _021556FC:
 	cmp r0, #1
 	bhi _0215572C
 	mov r0, r5
-	bl ovl02_2155744
+	bl Boss6Stage__Func_2155744
 	cmp r0, #0
 	movne r4, #0
 _0215572C:
@@ -2040,10 +2040,10 @@ _02155734: .word _mt_math_rand
 _02155738: .word 0x00196225
 _0215573C: .word 0x3C6EF35F
 _02155740: .word _021794EC
-	arm_func_end ovl02_215566C
+	arm_func_end Boss6Stage__Func_215566C
 
-	arm_func_start ovl02_2155744
-ovl02_2155744: // 0x02155744
+	arm_func_start Boss6Stage__Func_2155744
+Boss6Stage__Func_2155744: // 0x02155744
 	mov r2, #0
 _02155748:
 	add r1, r0, r2, lsl #2
@@ -2060,14 +2060,14 @@ _02155768:
 	blt _02155748
 	mov r0, #0
 	bx lr
-	arm_func_end ovl02_2155744
+	arm_func_end Boss6Stage__Func_2155744
 
-	arm_func_start ovl02_215577C
-ovl02_215577C: // 0x0215577C
+	arm_func_start Boss6Stage__Func_215577C
+Boss6Stage__Func_215577C: // 0x0215577C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
-	bl ovl02_2155BBC
+	bl Boss6Stage__Func_2155BBC
 	cmp r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldrh r0, [r5, #0]
@@ -2085,80 +2085,80 @@ _021557A4:
 	beq _021557D0
 	b _021557D4
 _021557C8:
-	bl ovl02_215A5B8
+	bl Boss6Platform__Action_215A5B8
 	b _021557D4
 _021557D0:
-	bl ovl02_215A598
+	bl Boss6Platform__Action_215A598
 _021557D4:
 	add r4, r4, #1
 	cmp r4, #2
 	blt _021557A4
 	mov r0, r6
-	bl ovl02_2155C00
+	bl Boss6Stage__Func_2155C00
 	strh r0, [r5]
 	ldmia sp!, {r4, r5, r6, pc}
 _021557F0:
 	sub r0, r0, #1
 	strh r0, [r5]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ovl02_215577C
+	arm_func_end Boss6Stage__Func_215577C
 
-	arm_func_start ovl02_21557FC
-ovl02_21557FC: // 0x021557FC
+	arm_func_start Boss6Stage__Func_21557FC
+Boss6Stage__Func_21557FC: // 0x021557FC
 	stmdb sp!, {r3, lr}
 	ldr r1, _0215581C // =gPlayer
 	ldr r1, [r1, #0]
 	ldr r1, [r1, #0x48]
 	cmp r1, #0x230000
 	ldmleia sp!, {r3, pc}
-	bl ovl02_2155820
+	bl Boss6Stage__Func_2155820
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215581C: .word gPlayer
-	arm_func_end ovl02_21557FC
+	arm_func_end Boss6Stage__Func_21557FC
 
-	arm_func_start ovl02_2155820
-ovl02_2155820: // 0x02155820
+	arm_func_start Boss6Stage__Func_2155820
+Boss6Stage__Func_2155820: // 0x02155820
 	add r0, r0, #0x300
 	mov r1, #0
 	strh r1, [r0, #0x82]
 	bx lr
-	arm_func_end ovl02_2155820
+	arm_func_end Boss6Stage__Func_2155820
 
-	arm_func_start ovl02_2155830
-ovl02_2155830: // 0x02155830
+	arm_func_start Boss6Stage__Func_2155830
+Boss6Stage__Func_2155830: // 0x02155830
 	add r0, r0, #0x300
 	ldrh r1, [r0, #0x82]
 	add r1, r1, #1
 	strh r1, [r0, #0x82]
 	ldrh r0, [r0, #0x82]
 	bx lr
-	arm_func_end ovl02_2155830
+	arm_func_end Boss6Stage__Func_2155830
 
-	arm_func_start ovl02_2155848
-ovl02_2155848: // 0x02155848
+	arm_func_start Boss6Stage__Func_2155848
+Boss6Stage__Func_2155848: // 0x02155848
 	add r0, r0, #0x300
 	ldrh r0, [r0, #0x82]
 	bx lr
-	arm_func_end ovl02_2155848
+	arm_func_end Boss6Stage__Func_2155848
 
-	arm_func_start ovl02_2155854
-ovl02_2155854: // 0x02155854
+	arm_func_start Boss6Stage__Func_2155854
+Boss6Stage__Func_2155854: // 0x02155854
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ovl02_2155848
+	bl Boss6Stage__Func_2155848
 	mov r0, r4
-	bl ovl02_2155848
+	bl Boss6Stage__Func_2155848
 	cmp r0, #5
 	movhi r0, #5
 	ldmhiia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl02_2155848
+	bl Boss6Stage__Func_2155848
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl02_2155854
+	arm_func_end Boss6Stage__Func_2155854
 
-	arm_func_start ovl02_2155880
-ovl02_2155880: // 0x02155880
+	arm_func_start Boss6Stage__Func_2155880
+Boss6Stage__Func_2155880: // 0x02155880
 	stmdb sp!, {r4, lr}
 	ldr r1, _021558D4 // =gPlayer
 	mov r4, r0
@@ -2174,7 +2174,7 @@ _021558AC:
 	ldr r1, [r4, #0xa34]
 	cmp r1, #0
 	bne _021558C8
-	bl ovl02_21552F0
+	bl Boss6Stage__FindStoodPlatform
 	cmp r0, #0
 	movne r0, #1
 	strne r0, [r4, #0xa34]
@@ -2184,24 +2184,24 @@ _021558C8:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021558D4: .word gPlayer
-	arm_func_end ovl02_2155880
+	arm_func_end Boss6Stage__Func_2155880
 
-	arm_func_start ovl02_21558D8
-ovl02_21558D8: // 0x021558D8
+	arm_func_start Boss6Stage__Func_21558D8
+Boss6Stage__Func_21558D8: // 0x021558D8
 	mov r1, #1
 	str r1, [r0, #0xa34]
 	str r1, [r0, #0xa30]
 	bx lr
-	arm_func_end ovl02_21558D8
+	arm_func_end Boss6Stage__Func_21558D8
 
-	arm_func_start ovl02_21558E8
-ovl02_21558E8: // 0x021558E8
+	arm_func_start Boss6Stage__Func_21558E8
+Boss6Stage__Func_21558E8: // 0x021558E8
 	ldr r0, [r0, #0xa30]
 	bx lr
-	arm_func_end ovl02_21558E8
+	arm_func_end Boss6Stage__Func_21558E8
 
-	arm_func_start ovl02_21558F0
-ovl02_21558F0: // 0x021558F0
+	arm_func_start Boss6Stage__Func_21558F0
+Boss6Stage__Func_21558F0: // 0x021558F0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _021559F0 // =gPlayer
 	ldr r1, _021559F4 // =0x0030F000
@@ -2275,10 +2275,10 @@ _021559F4: .word 0x0030F000
 _021559F8: .word 0x0020FF80
 _021559FC: .word 0xFFEF8040
 _02155A00: .word 0x00083FE0
-	arm_func_end ovl02_21558F0
+	arm_func_end Boss6Stage__Func_21558F0
 
-	arm_func_start ovl02_2155A04
-ovl02_2155A04: // 0x02155A04
+	arm_func_start Boss6Stage__GetPhase
+Boss6Stage__GetPhase: // 0x02155A04
 	add r0, r0, #0x300
 	ldrsh r3, [r0, #0x80]
 	ldr r2, _02155A3C // =_021787E0
@@ -2296,10 +2296,10 @@ _02155A14:
 	bx lr
 	.align 2, 0
 _02155A3C: .word _021787E0
-	arm_func_end ovl02_2155A04
+	arm_func_end Boss6Stage__GetPhase
 
-	arm_func_start ovl02_2155A40
-ovl02_2155A40: // 0x02155A40
+	arm_func_start Boss6Stage__GetBossDmg
+Boss6Stage__GetBossDmg: // 0x02155A40
 	ldr r0, _02155A58 // =gameState
 	ldr r1, _02155A5C // =_021787F0
 	ldr r0, [r0, #0x18]
@@ -2309,21 +2309,21 @@ ovl02_2155A40: // 0x02155A40
 	.align 2, 0
 _02155A58: .word gameState
 _02155A5C: .word _021787F0
-	arm_func_end ovl02_2155A40
+	arm_func_end Boss6Stage__GetBossDmg
 
-	arm_func_start ovl02_2155A60
-ovl02_2155A60: // 0x02155A60
+	arm_func_start Boss6Stage__GetDamageMultiplier
+Boss6Stage__GetDamageMultiplier: // 0x02155A60
 	stmdb sp!, {r3, lr}
-	bl ovl02_2155854
+	bl Boss6Stage__Func_2155854
 	ldr r1, _02155A74 // =_02178984
 	ldr r0, [r1, r0, lsl #2]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02155A74: .word _02178984
-	arm_func_end ovl02_2155A60
+	arm_func_end Boss6Stage__GetDamageMultiplier
 
-	arm_func_start ovl02_2155A78
-ovl02_2155A78: // 0x02155A78
+	arm_func_start Boss6Stage__Func_2155A78
+Boss6Stage__Func_2155A78: // 0x02155A78
 	stmdb sp!, {r3, lr}
 	ldr r1, _02155AAC // =gameState
 	ldr r2, [r1, #0x14]
@@ -2333,7 +2333,7 @@ ovl02_2155A78: // 0x02155A78
 	ldreq r0, _02155AB0 // =_021794DC
 	ldreq r0, [r0, #0x24]
 	ldmeqia sp!, {r3, pc}
-	bl ovl02_2155A04
+	bl Boss6Stage__GetPhase
 	ldr r1, _02155AB4 // =_021794F8
 	ldr r0, [r1, r0, lsl #2]
 	ldmia sp!, {r3, pc}
@@ -2341,10 +2341,10 @@ ovl02_2155A78: // 0x02155A78
 _02155AAC: .word gameState
 _02155AB0: .word _021794DC
 _02155AB4: .word _021794F8
-	arm_func_end ovl02_2155A78
+	arm_func_end Boss6Stage__Func_2155A78
 
-	arm_func_start ovl02_2155AB8
-ovl02_2155AB8: // 0x02155AB8
+	arm_func_start Boss6Stage__Func_2155AB8
+Boss6Stage__Func_2155AB8: // 0x02155AB8
 	stmdb sp!, {r4, lr}
 	ldr r1, _02155B28 // =gameState
 	ldr r2, [r1, #0x14]
@@ -2353,7 +2353,7 @@ ovl02_2155AB8: // 0x02155AB8
 	cmpeq r1, #0xf
 	ldreq r4, _02155B2C // =_02178964
 	beq _02155AE8
-	bl ovl02_2155A04
+	bl Boss6Stage__GetPhase
 	ldr r2, _02155B30 // =_02178958
 	mov r1, #6
 	mla r4, r0, r1, r2
@@ -2381,10 +2381,10 @@ _02155B30: .word _02178958
 _02155B34: .word _mt_math_rand
 _02155B38: .word 0x00196225
 _02155B3C: .word 0x3C6EF35F
-	arm_func_end ovl02_2155AB8
+	arm_func_end Boss6Stage__Func_2155AB8
 
-	arm_func_start ovl02_2155B40
-ovl02_2155B40: // 0x02155B40
+	arm_func_start Boss6Stage__Func_2155B40
+Boss6Stage__Func_2155B40: // 0x02155B40
 	stmdb sp!, {r3, lr}
 	ldr r1, _02155B74 // =gameState
 	ldr r2, [r1, #0x14]
@@ -2393,7 +2393,7 @@ ovl02_2155B40: // 0x02155B40
 	cmpeq r1, #0xf
 	ldreq r0, _02155B78 // =_021789CC
 	ldmeqia sp!, {r3, pc}
-	bl ovl02_2155A04
+	bl Boss6Stage__GetPhase
 	ldr r2, _02155B7C // =_021789B4
 	mov r1, #0xc
 	mla r0, r1, r0, r2
@@ -2402,10 +2402,10 @@ ovl02_2155B40: // 0x02155B40
 _02155B74: .word gameState
 _02155B78: .word _021789CC
 _02155B7C: .word _021789B4
-	arm_func_end ovl02_2155B40
+	arm_func_end Boss6Stage__Func_2155B40
 
-	arm_func_start ovl02_2155B80
-ovl02_2155B80: // 0x02155B80
+	arm_func_start Boss6Stage__Func_2155B80
+Boss6Stage__Func_2155B80: // 0x02155B80
 	stmdb sp!, {r3, lr}
 	ldr r1, _02155BB0 // =gameState
 	ldr r2, [r1, #0x14]
@@ -2414,7 +2414,7 @@ ovl02_2155B80: // 0x02155B80
 	cmpeq r1, #0xf
 	ldreq r0, _02155BB4 // =_021789AC
 	ldmeqia sp!, {r3, pc}
-	bl ovl02_2155A04
+	bl Boss6Stage__GetPhase
 	ldr r1, _02155BB8 // =_0217899C
 	add r0, r1, r0, lsl #3
 	ldmia sp!, {r3, pc}
@@ -2422,10 +2422,10 @@ ovl02_2155B80: // 0x02155B80
 _02155BB0: .word gameState
 _02155BB4: .word _021789AC
 _02155BB8: .word _0217899C
-	arm_func_end ovl02_2155B80
+	arm_func_end Boss6Stage__Func_2155B80
 
-	arm_func_start ovl02_2155BBC
-ovl02_2155BBC: // 0x02155BBC
+	arm_func_start Boss6Stage__Func_2155BBC
+Boss6Stage__Func_2155BBC: // 0x02155BBC
 	stmdb sp!, {r3, lr}
 	ldr r1, _02155BF4 // =gameState
 	ldr r2, [r1, #0x14]
@@ -2435,7 +2435,7 @@ ovl02_2155BBC: // 0x02155BBC
 	ldreq r0, _02155BF8 // =_021794DC
 	ldreqh r0, [r0, #0xe]
 	ldmeqia sp!, {r3, pc}
-	bl ovl02_2155A04
+	bl Boss6Stage__GetPhase
 	ldr r1, _02155BFC // =_021794E6
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
@@ -2444,10 +2444,10 @@ ovl02_2155BBC: // 0x02155BBC
 _02155BF4: .word gameState
 _02155BF8: .word _021794DC
 _02155BFC: .word _021794E6
-	arm_func_end ovl02_2155BBC
+	arm_func_end Boss6Stage__Func_2155BBC
 
-	arm_func_start ovl02_2155C00
-ovl02_2155C00: // 0x02155C00
+	arm_func_start Boss6Stage__Func_2155C00
+Boss6Stage__Func_2155C00: // 0x02155C00
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r1, _02155C74 // =gameState
 	ldr r2, [r1, #0x14]
@@ -2456,7 +2456,7 @@ ovl02_2155C00: // 0x02155C00
 	cmpeq r1, #0xf
 	moveq r0, #2
 	beq _02155C24
-	bl ovl02_2155A04
+	bl Boss6Stage__GetPhase
 _02155C24:
 	ldr r2, _02155C78 // =_mt_math_rand
 	mov r1, #6
@@ -2484,10 +2484,10 @@ _02155C78: .word _mt_math_rand
 _02155C7C: .word _02179544
 _02155C80: .word 0x00196225
 _02155C84: .word 0x3C6EF35F
-	arm_func_end ovl02_2155C00
+	arm_func_end Boss6Stage__Func_2155C00
 
-	arm_func_start ovl02_2155C88
-ovl02_2155C88: // 0x02155C88
+	arm_func_start Boss6Stage__Func_2155C88
+Boss6Stage__Func_2155C88: // 0x02155C88
 	stmdb sp!, {r3, lr}
 	ldr r1, _02155CC0 // =gameState
 	ldr r2, [r1, #0x14]
@@ -2497,7 +2497,7 @@ ovl02_2155C88: // 0x02155C88
 	ldreq r0, _02155CC4 // =_021794DC
 	ldreqh r0, [r0, #8]
 	ldmeqia sp!, {r3, pc}
-	bl ovl02_2155A04
+	bl Boss6Stage__GetPhase
 	ldr r1, _02155CC8 // =_021794E0
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
@@ -2506,10 +2506,10 @@ ovl02_2155C88: // 0x02155C88
 _02155CC0: .word gameState
 _02155CC4: .word _021794DC
 _02155CC8: .word _021794E0
-	arm_func_end ovl02_2155C88
+	arm_func_end Boss6Stage__Func_2155C88
 
-	arm_func_start ovl02_2155CCC
-ovl02_2155CCC: // 0x02155CCC
+	arm_func_start Boss6Stage__Func_2155CCC
+Boss6Stage__Func_2155CCC: // 0x02155CCC
 	stmdb sp!, {r4, lr}
 	ldr r1, _02155D58 // =gameState
 	ldr r2, [r1, #0x14]
@@ -2540,7 +2540,7 @@ _02155D1C:
 	mov r1, r1, lsl #0x10
 	str r2, [r3]
 	mov r4, r1, lsr #0x10
-	bl ovl02_2155A04
+	bl Boss6Stage__GetPhase
 	ldr r2, _02155D6C // =_02178B9C
 	mov r1, r4, lsl #0x1e
 	add r0, r2, r0, lsl #5
@@ -2553,24 +2553,24 @@ _02155D60: .word 0x00196225
 _02155D64: .word 0x3C6EF35F
 _02155D68: .word _02178BDC
 _02155D6C: .word _02178B9C
-	arm_func_end ovl02_2155CCC
+	arm_func_end Boss6Stage__Func_2155CCC
 
-	arm_func_start ovl02_2155D70
-ovl02_2155D70: // 0x02155D70
+	arm_func_start Boss6Stage__Func_2155D70
+Boss6Stage__Func_2155D70: // 0x02155D70
 	stmdb sp!, {r3, lr}
-	bl ovl02_2155854
+	bl Boss6Stage__Func_2155854
 	ldr r1, _02155D88 // =_02178860
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02155D88: .word _02178860
-	arm_func_end ovl02_2155D70
+	arm_func_end Boss6Stage__Func_2155D70
 
-	arm_func_start ovl02_2155D8C
-ovl02_2155D8C: // 0x02155D8C
+	arm_func_start Boss6Stage__Func_2155D8C
+Boss6Stage__Func_2155D8C: // 0x02155D8C
 	stmdb sp!, {r4, lr}
-	bl ovl02_2155854
+	bl Boss6Stage__Func_2155854
 	ldr r3, _02155DDC // =_mt_math_rand
 	ldr r1, _02155DE0 // =0x00196225
 	ldr ip, [r3]
@@ -2594,46 +2594,46 @@ _02155DDC: .word _mt_math_rand
 _02155DE0: .word 0x00196225
 _02155DE4: .word 0x3C6EF35F
 _02155DE8: .word _0217896A
-	arm_func_end ovl02_2155D8C
+	arm_func_end Boss6Stage__Func_2155D8C
 
-	arm_func_start ovl02_2155DEC
-ovl02_2155DEC: // 0x02155DEC
+	arm_func_start Boss6Stage__Func_2155DEC
+Boss6Stage__Func_2155DEC: // 0x02155DEC
 	stmdb sp!, {r3, lr}
-	bl ovl02_2155854
+	bl Boss6Stage__Func_2155854
 	ldr r1, _02155E00 // =_021789FC
 	ldr r0, [r1, r0, lsl #3]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02155E00: .word _021789FC
-	arm_func_end ovl02_2155DEC
+	arm_func_end Boss6Stage__Func_2155DEC
 
-	arm_func_start ovl02_2155E04
-ovl02_2155E04: // 0x02155E04
+	arm_func_start Boss6Stage__Func_2155E04
+Boss6Stage__Func_2155E04: // 0x02155E04
 	stmdb sp!, {r3, lr}
-	bl ovl02_2155854
+	bl Boss6Stage__Func_2155854
 	ldr r1, _02155E18 // =_02178A00
 	ldr r0, [r1, r0, lsl #3]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02155E18: .word _02178A00
-	arm_func_end ovl02_2155E04
+	arm_func_end Boss6Stage__Func_2155E04
 
-	arm_func_start ovl02_2155E1C
-ovl02_2155E1C: // 0x02155E1C
+	arm_func_start Boss6Stage__Func_2155E1C
+Boss6Stage__Func_2155E1C: // 0x02155E1C
 	stmdb sp!, {r3, lr}
-	bl ovl02_2155854
+	bl Boss6Stage__Func_2155854
 	ldr r1, _02155E34 // =_02178824
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02155E34: .word _02178824
-	arm_func_end ovl02_2155E1C
+	arm_func_end Boss6Stage__Func_2155E1C
 
-	arm_func_start ovl02_2155E38
-ovl02_2155E38: // 0x02155E38
+	arm_func_start Boss6Stage__Func_2155E38
+Boss6Stage__Func_2155E38: // 0x02155E38
 	stmdb sp!, {r4, r5, r6, lr}
-	bl ovl02_2155A04
+	bl Boss6Stage__GetPhase
 	ldr r1, _02155EA0 // =gameState
 	ldr r3, _02155EA4 // =_mt_math_rand
 	mov r2, #6
@@ -2664,10 +2664,10 @@ _02155EA4: .word _mt_math_rand
 _02155EA8: .word _021789D8
 _02155EAC: .word 0x00196225
 _02155EB0: .word 0x3C6EF35F
-	arm_func_end ovl02_2155E38
+	arm_func_end Boss6Stage__Func_2155E38
 
-	arm_func_start ovl02_2155EB4
-ovl02_2155EB4: // 0x02155EB4
+	arm_func_start Boss6Stage__Func_2155EB4
+Boss6Stage__Func_2155EB4: // 0x02155EB4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -2731,10 +2731,10 @@ ovl02_2155EB4: // 0x02155EB4
 	.align 2, 0
 _02155FA4: .word _02178848
 _02155FA8: .word mapCamera+0x00000100
-	arm_func_end ovl02_2155EB4
+	arm_func_end Boss6Stage__Func_2155EB4
 
-	arm_func_start ovl02_2155FAC
-ovl02_2155FAC: // 0x02155FAC
+	arm_func_start Boss6Stage__Func_2155FAC
+Boss6Stage__Func_2155FAC: // 0x02155FAC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -2797,10 +2797,10 @@ ovl02_2155FAC: // 0x02155FAC
 	.align 2, 0
 _02156098: .word _0217886C
 _0215609C: .word mapCamera+0x00000100
-	arm_func_end ovl02_2155FAC
+	arm_func_end Boss6Stage__Func_2155FAC
 
-	arm_func_start ovl02_21560A0
-ovl02_21560A0: // 0x021560A0
+	arm_func_start Boss6Stage__Func_21560A0
+Boss6Stage__Func_21560A0: // 0x021560A0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #1
@@ -2827,7 +2827,7 @@ ovl02_21560A0: // 0x021560A0
 	mov r1, #0x80
 	bl BossArena__SetAmplitudeYSpeed
 	mov r0, r5
-	bl ovl02_21552F0
+	bl Boss6Stage__FindStoodPlatform
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	ldr r0, [r0, #0x39c]
@@ -2844,10 +2844,10 @@ ovl02_21560A0: // 0x021560A0
 _0215613C: .word mapCamera+0x00000100
 _02156140: .word 0x00001555
 _02156144: .word 0x0000EAAB
-	arm_func_end ovl02_21560A0
+	arm_func_end Boss6Stage__Func_21560A0
 
-	arm_func_start ovl02_2156148
-ovl02_2156148: // 0x02156148
+	arm_func_start Boss6Stage__Func_2156148
+Boss6Stage__Func_2156148: // 0x02156148
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	mov r0, #1
@@ -2859,7 +2859,7 @@ ovl02_2156148: // 0x02156148
 	mov r1, #0x80
 	bl BossArena__SetAmplitudeXZSpeed
 	mov r0, r7
-	bl ovl02_21552F0
+	bl Boss6Stage__FindStoodPlatform
 	cmp r0, #0
 	beq _0215624C
 	add r0, r0, #0x400
@@ -2925,10 +2925,10 @@ _0215624C:
 _02156268: .word FX_SinCosTable_
 _0215626C: .word 0x00001555
 _02156270: .word mapCamera+0x00000100
-	arm_func_end ovl02_2156148
+	arm_func_end Boss6Stage__Func_2156148
 
-	arm_func_start ovl02_2156274
-ovl02_2156274: // 0x02156274
+	arm_func_start Boss6Stage__InitChunkList
+Boss6Stage__InitChunkList: // 0x02156274
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r10, r0
 	ldr r2, _021562F8 // =0x0000069C
@@ -2966,13 +2966,13 @@ _021562B0:
 	.align 2, 0
 _021562F8: .word 0x0000069C
 _021562FC: .word 0x00149FB0
-	arm_func_end ovl02_2156274
+	arm_func_end Boss6Stage__InitChunkList
 
-	arm_func_start ovl02_2156300
-ovl02_2156300: // 0x02156300
+	arm_func_start Boss6Stage__HandleStageChunks
+Boss6Stage__HandleStageChunks: // 0x02156300
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	add r6, r0, #0x390
-	bl ovl02_2155A78
+	bl Boss6Stage__Func_2155A78
 	ldr r2, [r6, #0x14]
 	cmp r2, r0
 	bge _0215634C
@@ -3025,7 +3025,7 @@ _021563A4:
 	ldr r1, [r7, #0x38]
 	add r0, r7, #0xc
 	rsb r1, r1, #0
-	bl ovl02_2156534
+	bl Boss6Stage__HandleChunkAngle
 _021563D0:
 	mov r1, r7
 	add r0, r6, #0x18
@@ -3063,7 +3063,7 @@ _021563E8:
 	ldr r1, [r4, #0x38]
 	add r0, r4, #0xc
 	rsb r1, r1, #0
-	bl ovl02_2156534
+	bl Boss6Stage__HandleChunkAngle
 	mov r1, r4
 	add r0, r6, #0x18
 	bl NNS_FndAppendListObject
@@ -3071,10 +3071,10 @@ _021563E8:
 	.align 2, 0
 _02156470: .word FX_SinCosTable_
 _02156474: .word 0xFFEB6050
-	arm_func_end ovl02_2156300
+	arm_func_end Boss6Stage__HandleStageChunks
 
-	arm_func_start ovl02_2156478
-ovl02_2156478: // 0x02156478
+	arm_func_start Boss6Stage__DrawStage
+Boss6Stage__DrawStage: // 0x02156478
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r8, r0
 	add r5, r8, #0x390
@@ -3125,10 +3125,10 @@ _02156510:
 	add r5, r5, #0x20
 	blt _02156510
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	arm_func_end ovl02_2156478
+	arm_func_end Boss6Stage__DrawStage
 
-	arm_func_start ovl02_2156534
-ovl02_2156534: // 0x02156534
+	arm_func_start Boss6Stage__HandleChunkAngle
+Boss6Stage__HandleChunkAngle: // 0x02156534
 	stmdb sp!, {r3, lr}
 	ldr r2, _02156594 // =0x003DDF10
 	mov r3, #0
@@ -3157,10 +3157,10 @@ _02156564:
 	.align 2, 0
 _02156594: .word 0x003DDF10
 _02156598: .word FX_SinCosTable_
-	arm_func_end ovl02_2156534
+	arm_func_end Boss6Stage__HandleChunkAngle
 
-	arm_func_start ovl02_215659C
-ovl02_215659C: // 0x0215659C
+	arm_func_start Boss6Stage__HandleHUDSwitch
+Boss6Stage__HandleHUDSwitch: // 0x0215659C
 	stmdb sp!, {r3, lr}
 	ldr r1, _021565D0 // =gPlayer
 	ldr r0, _021565D4 // =0x002B1000
@@ -3178,10 +3178,10 @@ _021565C4:
 	.align 2, 0
 _021565D0: .word gPlayer
 _021565D4: .word 0x002B1000
-	arm_func_end ovl02_215659C
+	arm_func_end Boss6Stage__HandleHUDSwitch
 
-	arm_func_start ovl02_21565D8
-ovl02_21565D8: // 0x021565D8
+	arm_func_start Boss6Stage__State_21565D8
+Boss6Stage__State_21565D8: // 0x021565D8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x37c]
@@ -3190,18 +3190,18 @@ ovl02_21565D8: // 0x021565D8
 	cmp r0, #0
 	bne _021565FC
 	mov r0, r4
-	bl ovl02_2156300
+	bl Boss6Stage__HandleStageChunks
 _021565FC:
 	mov r0, r4
-	bl ovl02_2155880
+	bl Boss6Stage__Func_2155880
 	mov r0, r4
-	bl ovl02_21558F0
+	bl Boss6Stage__Func_21558F0
 	mov r0, r4
-	bl ovl02_21557FC
+	bl Boss6Stage__Func_21557FC
 	add r1, r4, #0x238
 	mov r0, r4
 	add r1, r1, #0x800
-	bl ovl02_215577C
+	bl Boss6Stage__Func_215577C
 	ldr r0, [r4, #0x388]
 	cmp r0, #0
 	beq _02156658
@@ -3214,42 +3214,42 @@ _021565FC:
 	add r1, r4, #0x23c
 	mov r0, r4
 	add r1, r1, #0x800
-	bl ovl02_21555CC
+	bl Boss6Stage__Func_21555CC
 _02156658:
 	add r0, r4, #0x154
 	add r0, r0, #0xc00
 	bl BossHelpers__ProcessLights
 	mov r0, r4
-	bl ovl02_215659C
+	bl Boss6Stage__HandleHUDSwitch
 	ldr r1, _021566C0 // =gPlayer
 	mov r0, r4
 	ldr r1, [r1, #0]
 	mov r2, #0
 	add r1, r1, #0x500
 	strh r2, [r1, #0xf8]
-	bl ovl02_21558E8
+	bl Boss6Stage__Func_21558E8
 	cmp r0, #0
 	mov r0, r4
 	beq _021566B4
-	bl ovl02_2155BBC
+	bl Boss6Stage__Func_2155BBC
 	cmp r0, #0
 	mov r0, r4
 	bne _021566AC
-	bl ovl02_21560A0
+	bl Boss6Stage__Func_21560A0
 	ldmia sp!, {r4, pc}
 _021566AC:
-	bl ovl02_2156148
+	bl Boss6Stage__Func_2156148
 	ldmia sp!, {r4, pc}
 _021566B4:
-	bl ovl02_2155EB4
+	bl Boss6Stage__Func_2155EB4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021566BC: .word gameState
 _021566C0: .word gPlayer
-	arm_func_end ovl02_21565D8
+	arm_func_end Boss6Stage__State_21565D8
 
-	arm_func_start ovl02_21566C4
-ovl02_21566C4: // 0x021566C4
+	arm_func_start Boss6Stage__Destructor
+Boss6Stage__Destructor: // 0x021566C4
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -3312,10 +3312,10 @@ _02156768:
 	.align 2, 0
 _021567A4: .word renderCoreSwapBuffer
 _021567A8: .word Boss6Stage__Singleton
-	arm_func_end ovl02_21566C4
+	arm_func_end Boss6Stage__Destructor
 
-	arm_func_start ovl02_21567AC
-ovl02_21567AC: // 0x021567AC
+	arm_func_start Boss6Stage__Draw
+Boss6Stage__Draw: // 0x021567AC
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -3329,7 +3329,7 @@ ovl02_21567AC: // 0x021567AC
 	add r0, r0, #0xc00
 	bl BossHelpers__RevertModifiedLights
 	mov r0, r4
-	bl ovl02_2156478
+	bl Boss6Stage__DrawStage
 	add r0, r4, #0x154
 	add r0, r0, #0xc00
 	bl BossHelpers__ApplyModifiedLights
@@ -3352,19 +3352,19 @@ _021567FC:
 	add r0, r4, #0xc00
 	bl DrawAnimatedPalette
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ovl02_21567AC
+	arm_func_end Boss6Stage__Draw
 
-	arm_func_start ovl02_2156834
-ovl02_2156834: // 0x02156834
+	arm_func_start Boss6Stage__State2_2156834
+Boss6Stage__State2_2156834: // 0x02156834
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r4, r0
 	mov r0, #4
 	bl BossArena__SetType
 	mov r0, r4
-	bl ovl02_2155EB4
+	bl Boss6Stage__Func_2155EB4
 	mov r0, r4
-	bl ovl02_2155FAC
+	bl Boss6Stage__Func_2155FAC
 	mov r0, #1
 	bl BossArena__GetCamera
 	mov r5, r0
@@ -3432,7 +3432,7 @@ ovl02_2156834: // 0x02156834
 	ldr r0, [r0, #0]
 	bl BossPlayerHelpers_Action_SetOnLandGround_Boss6
 	ldr r1, _021569A8 // =gPlayer
-	ldr r2, _021569AC // =ovl02_2154D5C
+	ldr r2, _021569AC // =Boss6Stage__PlayerDraw
 	ldr r3, [r1, #0]
 	add r0, r4, #0x300
 	ldr r3, [r3, #0xfc]
@@ -3441,7 +3441,7 @@ ovl02_2156834: // 0x02156834
 	str r2, [r1, #0xfc]
 	ldrsh r0, [r0, #0x80]
 	bl UpdateBossHealthHUD
-	ldr r1, _021569B0 // =ovl02_21569B4
+	ldr r1, _021569B0 // =Boss6Stage__State2_21569B4
 	mov r0, #1
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x384]
@@ -3451,12 +3451,12 @@ ovl02_2156834: // 0x02156834
 _021569A0: .word bossAssetFiles
 _021569A4: .word 0x005DC000
 _021569A8: .word gPlayer
-_021569AC: .word ovl02_2154D5C
-_021569B0: .word ovl02_21569B4
-	arm_func_end ovl02_2156834
+_021569AC: .word Boss6Stage__PlayerDraw
+_021569B0: .word Boss6Stage__State2_21569B4
+	arm_func_end Boss6Stage__State2_2156834
 
-	arm_func_start ovl02_21569B4
-ovl02_21569B4: // 0x021569B4
+	arm_func_start Boss6Stage__State2_21569B4
+Boss6Stage__State2_21569B4: // 0x021569B4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl TitleCard__GetProgress
@@ -3464,10 +3464,10 @@ ovl02_21569B4: // 0x021569B4
 	moveq r0, #1
 	streq r0, [r4, #0x388]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl02_21569B4
+	arm_func_end Boss6Stage__State2_21569B4
 
-	arm_func_start ovl02_21569D0
-ovl02_21569D0: // 0x021569D0
+	arm_func_start Boss6__Func_21569D0
+Boss6__Func_21569D0: // 0x021569D0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x94
@@ -3480,10 +3480,10 @@ ovl02_21569D0: // 0x021569D0
 	mov r1, #0x3c
 	strh r1, [r0, #0x1c]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl02_21569D0
+	arm_func_end Boss6__Func_21569D0
 
-	arm_func_start ovl02_2156A00
-ovl02_2156A00: // 0x02156A00
+	arm_func_start Boss6__Func_2156A00
+Boss6__Func_2156A00: // 0x02156A00
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x3c
 	ldr r2, _02156AC4 // =_02178878
@@ -3536,10 +3536,10 @@ ovl02_2156A00: // 0x02156A00
 	.align 2, 0
 _02156AC4: .word _02178878
 _02156AC8: .word _02178818
-	arm_func_end ovl02_2156A00
+	arm_func_end Boss6__Func_2156A00
 
-	arm_func_start ovl02_2156ACC
-ovl02_2156ACC: // 0x02156ACC
+	arm_func_start Boss6__Func_2156ACC
+Boss6__Func_2156ACC: // 0x02156ACC
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x28
 	ldr r6, _02156BC4 // =Boss6Stage__Singleton
@@ -3610,14 +3610,14 @@ _02156BAC:
 _02156BC4: .word Boss6Stage__Singleton
 _02156BC8: .word 0x00083FE0
 _02156BCC: .word 0xFFDF0080
-	arm_func_end ovl02_2156ACC
+	arm_func_end Boss6__Func_2156ACC
 
-	arm_func_start ovl02_2156BD0
-ovl02_2156BD0: // 0x02156BD0
+	arm_func_start Boss6__Func_2156BD0
+Boss6__Func_2156BD0: // 0x02156BD0
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x370]
-	bl ovl02_21558E8
+	bl Boss6Stage__Func_21558E8
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r0, [r5, #0x3c0]
@@ -3635,7 +3635,7 @@ ovl02_2156BD0: // 0x02156BD0
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r0, [r5, #0x370]
-	bl ovl02_2155E38
+	bl Boss6Stage__Func_2155E38
 	add r1, r5, #0x400
 	strh r0, [r1, #0x2c]
 	ldr r2, _02156D28 // =_mt_math_rand
@@ -3651,7 +3651,7 @@ ovl02_2156BD0: // 0x02156BD0
 	movne r6, #0
 	ldr r0, [r5, #0x370]
 	moveq r6, #1
-	bl ovl02_2155744
+	bl Boss6Stage__Func_2155744
 	cmp r0, #0
 	bne _02156D0C
 	ldr r3, _02156D28 // =_mt_math_rand
@@ -3673,10 +3673,10 @@ ovl02_2156BD0: // 0x02156BD0
 	b _02156D0C
 _02156CB4:
 	ldr r0, [r5, #0x370]
-	bl ovl02_2155B40
+	bl Boss6Stage__Func_2155B40
 	mov r1, r0
 	mov r0, r4
-	bl ovl02_215A5D8
+	bl Boss6Platform__Action_215A5D8
 	b _02156D0C
 _02156CCC:
 	mla r2, ip, r0, r1
@@ -3689,12 +3689,12 @@ _02156CCC:
 	ldr r0, [r5, #0x370]
 	mov r6, r1, lsr #0x10
 	mov r7, r2, lsr #0x10
-	bl ovl02_2155B80
+	bl Boss6Stage__Func_2155B80
 	mov r3, r0
 	mov r0, r4
 	and r1, r7, #1
 	and r2, r6, #1
-	bl ovl02_215A618
+	bl Boss6Platform__Action_215A618
 _02156D0C:
 	ldr r0, [r5, #0x430]
 	cmp r0, #0
@@ -3707,16 +3707,16 @@ _02156D0C:
 _02156D28: .word _mt_math_rand
 _02156D2C: .word 0x00196225
 _02156D30: .word 0x3C6EF35F
-	arm_func_end ovl02_2156BD0
+	arm_func_end Boss6__Func_2156BD0
 
-	arm_func_start ovl02_2156D34
-ovl02_2156D34: // 0x02156D34
+	arm_func_start Boss6__State_2156D34
+Boss6__State_2156D34: // 0x02156D34
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x3bc]
 	blx r1
 	mov r0, r4
-	bl ovl02_2156BD0
+	bl Boss6__Func_2156BD0
 	ldr r1, [r4, #0x408]
 	cmp r1, #0x1000
 	ble _02156D94
@@ -3738,7 +3738,7 @@ _02156D78:
 	strle r0, [r4, #0x408]
 _02156D94:
 	add r0, r4, #0x3c4
-	bl ovl02_21550CC
+	bl Boss6Stage__Func_21550CC
 	add r0, r4, #0x3dc
 	add r3, r4, #0xb0
 	ldmia r0, {r0, r1, r2}
@@ -3806,10 +3806,10 @@ _02156DE8:
 	orr r2, r2, r4, lsl #20
 	bl BossArena__SetNextPos
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl02_2156D34
+	arm_func_end Boss6__State_2156D34
 
-	arm_func_start ovl02_2156EA4
-ovl02_2156EA4: // 0x02156EA4
+	arm_func_start Boss6__Destructor
+Boss6__Destructor: // 0x02156EA4
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	bl GetTaskWork_
@@ -3845,15 +3845,15 @@ _02156F00:
 	mov r0, r4
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ovl02_2156EA4
+	arm_func_end Boss6__Destructor
 
-	arm_func_start ovl02_2156F2C
-ovl02_2156F2C: // 0x02156F2C
+	arm_func_start Boss6__Draw
+Boss6__Draw: // 0x02156F2C
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	add r5, r4, #0x214
-	bl ovl02_2156FDC
+	bl Boss6__Func_2156FDC
 	cmp r0, #0
 	ldreq r0, [r4, #0x20]
 	add r1, r5, #0x400
@@ -3877,7 +3877,7 @@ ovl02_2156F2C: // 0x02156F2C
 	add r1, r4, #0x790
 	add r2, r2, #0x800
 	mov r3, #0xf000
-	bl ovl02_2155390
+	bl Boss6Stage__Func_2155390
 _02156FA0:
 	ldr r1, [r4, #0x20]
 	add r0, r4, #0x94
@@ -3895,10 +3895,10 @@ _02156FB8:
 	add r5, r5, #0x20
 	blt _02156FB8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl02_2156F2C
+	arm_func_end Boss6__Draw
 
-	arm_func_start ovl02_2156FDC
-ovl02_2156FDC: // 0x02156FDC
+	arm_func_start Boss6__Func_2156FDC
+Boss6__Func_2156FDC: // 0x02156FDC
 	stmdb sp!, {r4, lr}
 	ldr r1, [r0, #0x420]
 	mov r4, #0
@@ -3922,10 +3922,10 @@ _0215701C:
 _02157024:
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl02_2156FDC
+	arm_func_end Boss6__Func_2156FDC
 
-	arm_func_start ovl02_215702C
-ovl02_215702C: // 0x0215702C
+	arm_func_start Boss6__Collide
+Boss6__Collide: // 0x0215702C
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -3951,10 +3951,10 @@ _02157064:
 	rsb r2, r2, #0
 	bl BossHelpers__Collision__HandleColliderSimple
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl02_215702C
+	arm_func_end Boss6__Collide
 
-	arm_func_start ovl02_215708C
-ovl02_215708C: // 0x0215708C
+	arm_func_start Boss6__OnDefend_215708C
+Boss6__OnDefend_215708C: // 0x0215708C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #8
 	mov r3, r0
@@ -3966,23 +3966,23 @@ ovl02_215708C: // 0x0215708C
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	mov r0, r4
 	mov r2, r5
-	bl ovl02_215727C
+	bl Boss6__Func_215727C
 	ldr r0, [r4, #0x370]
-	bl ovl02_2155830
+	bl Boss6Stage__Func_2155830
 	ldr r0, [r4, #0x370]
-	bl ovl02_2155848
+	bl Boss6Stage__Func_2155848
 	cmp r0, #2
 	blo _021570DC
 	ldr r0, [r4, #0x370]
-	bl ovl02_21558D8
+	bl Boss6Stage__Func_21558D8
 _021570DC:
 	ldr r0, [r4, #0x370]
-	bl ovl02_2155A04
+	bl Boss6Stage__GetPhase
 	mov r6, r0
 	ldr r0, [r4, #0x370]
-	bl ovl02_2155A60
+	bl Boss6Stage__GetDamageMultiplier
 	mov r7, r0
-	bl ovl02_2155A40
+	bl Boss6Stage__GetBossDmg
 	smull r2, r1, r0, r7
 	adds r2, r2, #0x800
 	ldr r0, [r4, #0x370]
@@ -4004,15 +4004,15 @@ _021570DC:
 	bne _02157154
 	mov r0, r4
 	strh r2, [r1, #0x80]
-	bl ovl02_2157670
+	bl Boss6__Action_Die
 	b _02157200
 _02157154:
 	mov r2, #1
 	mov r0, r4
 	strh r2, [r1, #0x80]
-	bl ovl02_2157650
+	bl Boss6__Action_2157650
 	mov r0, r4
-	bl ovl02_21569D0
+	bl Boss6__Func_21569D0
 	ldr r0, [r5, #0x48]
 	ldr r1, [r5, #0x44]
 	ldr r3, [r5, #0x4c]
@@ -4030,7 +4030,7 @@ _02157154:
 	b _02157200
 _021571A8:
 	mov r0, r4
-	bl ovl02_21569D0
+	bl Boss6__Func_21569D0
 	ldr r0, [r5, #0x48]
 	ldr r1, [r5, #0x44]
 	rsb r2, r0, #0
@@ -4045,7 +4045,7 @@ _021571A8:
 	mov r3, r1
 	bl PlaySfxEx
 	ldr r0, [r4, #0x370]
-	bl ovl02_2155854
+	bl Boss6Stage__Func_2155854
 	sub r0, r0, #1
 	mov r2, r0, lsl #6
 	ldr r0, _02157274 // =defaultSfxPlayer
@@ -4057,7 +4057,7 @@ _02157200:
 	ldrsh r0, [r0, #0x80]
 	bl UpdateBossHealthHUD
 	ldr r0, [r4, #0x370]
-	bl ovl02_2155A04
+	bl Boss6Stage__GetPhase
 	mov r5, r0
 	cmp r6, r5
 	addeq sp, sp, #8
@@ -4067,7 +4067,7 @@ _02157200:
 	cmp r0, #0
 	bne _02157258
 	ldr r0, [r4, #0x370]
-	bl ovl02_2155E38
+	bl Boss6Stage__Func_2155E38
 	add r1, r4, #0x400
 	strh r0, [r1, #0x2c]
 	ldrh r0, [r1, #0x2c]
@@ -4085,10 +4085,10 @@ _02157258:
 	.align 2, 0
 _02157274: .word defaultSfxPlayer
 _02157278: .word 0x0000FFFF
-	arm_func_end ovl02_215708C
+	arm_func_end Boss6__OnDefend_215708C
 
-	arm_func_start ovl02_215727C
-ovl02_215727C: // 0x0215727C
+	arm_func_start Boss6__Func_215727C
+Boss6__Func_215727C: // 0x0215727C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r6, r0
 	mov r9, r2
@@ -4103,7 +4103,7 @@ ovl02_215727C: // 0x0215727C
 	bl FX_Atan2Idx
 	mov r5, r0
 	ldr r0, [r6, #0x370]
-	bl ovl02_2155D70
+	bl Boss6Stage__Func_2155D70
 	cmp r0, r5
 	movhi r5, r0
 	bhi _021572D8
@@ -4114,7 +4114,7 @@ ovl02_215727C: // 0x0215727C
 	movhi r5, r0
 _021572D8:
 	ldr r0, [r6, #0x370]
-	bl ovl02_2155D8C
+	bl Boss6Stage__Func_2155D8C
 	cmp r5, #0x2000
 	bhs _021572F8
 	add r0, r5, r0
@@ -4128,10 +4128,10 @@ _021572F8:
 	movhi r5, r0, lsr #0x10
 _02157308:
 	ldr r0, [r6, #0x370]
-	bl ovl02_2155DEC
+	bl Boss6Stage__Func_2155DEC
 	mov r4, r0
 	ldr r0, [r6, #0x370]
-	bl ovl02_2155E04
+	bl Boss6Stage__Func_2155E04
 	mov r1, r5, lsl #0x10
 	mov r1, r1, lsr #0x10
 	mov r1, r1, asr #4
@@ -4220,21 +4220,21 @@ _02157438:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02157468: .word FX_SinCosTable_
-	arm_func_end ovl02_215727C
+	arm_func_end Boss6__Func_215727C
 
-	arm_func_start ovl02_215746C
-ovl02_215746C: // 0x0215746C
+	arm_func_start Boss6__Action_215746C
+Boss6__Action_215746C: // 0x0215746C
 	mov r2, #0
-	ldr r1, _02157480 // =ovl02_2157690
+	ldr r1, _02157480 // =Boss6__State2_2157690
 	str r2, [r0, #0x3c0]
 	str r1, [r0, #0x3bc]
 	bx lr
 	.align 2, 0
-_02157480: .word ovl02_2157690
-	arm_func_end ovl02_215746C
+_02157480: .word Boss6__State2_2157690
+	arm_func_end Boss6__Action_215746C
 
-	arm_func_start ovl02_2157484
-ovl02_2157484: // 0x02157484
+	arm_func_start Boss6__Action_2157484
+Boss6__Action_2157484: // 0x02157484
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -4246,17 +4246,17 @@ ovl02_2157484: // 0x02157484
 	strh r4, [r0, #0x74]
 	mov r0, #1
 	str r0, [r5, #0x3c0]
-	ldr r1, _021574C4 // =ovl02_21576B0
+	ldr r1, _021574C4 // =Boss6__State2_21576B0
 	mov r0, r5
 	str r1, [r5, #0x3bc]
 	blx r1
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_021574C4: .word ovl02_21576B0
-	arm_func_end ovl02_2157484
+_021574C4: .word Boss6__State2_21576B0
+	arm_func_end Boss6__Action_2157484
 
-	arm_func_start ovl02_21574C8
-ovl02_21574C8: // 0x021574C8
+	arm_func_start Boss6__Action_21574C8
+Boss6__Action_21574C8: // 0x021574C8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	add r6, r0, #0x374
 	str r0, [sp]
@@ -4313,7 +4313,7 @@ _02157584:
 	ldr r0, [sp]
 	mov r1, #2
 	str r1, [r0, #0x3c0]
-	ldr r2, _021575CC // =ovl02_2157C4C
+	ldr r2, _021575CC // =Boss6__State2_2157C4C
 	mov r1, r0
 	str r2, [r1, #0x3bc]
 	blx r2
@@ -4325,8 +4325,8 @@ _021575BC: .word 0x00196225
 _021575C0: .word 0x3C6EF35F
 _021575C4: .word _02179558
 _021575C8: .word _02179574
-_021575CC: .word ovl02_2157C4C
-	arm_func_end ovl02_21574C8
+_021575CC: .word Boss6__State2_2157C4C
+	arm_func_end Boss6__Action_21574C8
 
 	arm_func_start ovl02_21575D0
 ovl02_21575D0: // 0x021575D0
@@ -4337,7 +4337,7 @@ ovl02_21575D0: // 0x021575D0
 	mov r0, #0
 	mov r2, #0xc
 	bl MIi_CpuClear16
-	ldr r1, _0215760C // =ovl02_21580AC
+	ldr r1, _0215760C // =Boss6__State2_21580AC
 	str r4, [r5, #0x374]
 	mov r0, #3
 	str r0, [r5, #0x3c0]
@@ -4346,75 +4346,75 @@ ovl02_21575D0: // 0x021575D0
 	blx r1
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215760C: .word ovl02_21580AC
+_0215760C: .word Boss6__State2_21580AC
 	arm_func_end ovl02_21575D0
 
-	arm_func_start ovl02_2157610
-ovl02_2157610: // 0x02157610
+	arm_func_start Boss6__Action_2157610
+Boss6__Action_2157610: // 0x02157610
 	stmdb sp!, {r3, lr}
 	mov r2, #4
-	ldr r1, _0215762C // =ovl02_21582D0
+	ldr r1, _0215762C // =Boss6__State2_21582D0
 	str r2, [r0, #0x3c0]
 	str r1, [r0, #0x3bc]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215762C: .word ovl02_21582D0
-	arm_func_end ovl02_2157610
+_0215762C: .word Boss6__State2_21582D0
+	arm_func_end Boss6__Action_2157610
 
-	arm_func_start ovl02_2157630
-ovl02_2157630: // 0x02157630
+	arm_func_start Boss6__Action_2157630
+Boss6__Action_2157630: // 0x02157630
 	stmdb sp!, {r3, lr}
 	mov r2, #5
-	ldr r1, _0215764C // =ovl02_2159218
+	ldr r1, _0215764C // =Boss6__State2_2159218
 	str r2, [r0, #0x3c0]
 	str r1, [r0, #0x3bc]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215764C: .word ovl02_2159218
-	arm_func_end ovl02_2157630
+_0215764C: .word Boss6__State2_2159218
+	arm_func_end Boss6__Action_2157630
 
-	arm_func_start ovl02_2157650
-ovl02_2157650: // 0x02157650
+	arm_func_start Boss6__Action_2157650
+Boss6__Action_2157650: // 0x02157650
 	stmdb sp!, {r3, lr}
 	mov r2, #6
-	ldr r1, _0215766C // =ovl02_21599E0
+	ldr r1, _0215766C // =Boss6__State2_21599E0
 	str r2, [r0, #0x3c0]
 	str r1, [r0, #0x3bc]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215766C: .word ovl02_21599E0
-	arm_func_end ovl02_2157650
+_0215766C: .word Boss6__State2_21599E0
+	arm_func_end Boss6__Action_2157650
 
-	arm_func_start ovl02_2157670
-ovl02_2157670: // 0x02157670
+	arm_func_start Boss6__Action_Die
+Boss6__Action_Die: // 0x02157670
 	stmdb sp!, {r3, lr}
 	mov r2, #7
-	ldr r1, _0215768C // =ovl02_2159DB4
+	ldr r1, _0215768C // =Boss6__State2_2159DB4
 	str r2, [r0, #0x3c0]
 	str r1, [r0, #0x3bc]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215768C: .word ovl02_2159DB4
-	arm_func_end ovl02_2157670
+_0215768C: .word Boss6__State2_2159DB4
+	arm_func_end Boss6__Action_Die
 
-	arm_func_start ovl02_2157690
-ovl02_2157690: // 0x02157690
+	arm_func_start Boss6__State2_2157690
+Boss6__State2_2157690: // 0x02157690
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x370]
 	ldr r1, [r1, #0x388]
 	cmp r1, #0
 	ldmeqia sp!, {r3, pc}
 	mov r1, #0
-	bl ovl02_2157484
+	bl Boss6__Action_2157484
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl02_2157690
+	arm_func_end Boss6__State2_2157690
 
-	arm_func_start ovl02_21576B0
-ovl02_21576B0: // 0x021576B0
+	arm_func_start Boss6__State2_21576B0
+Boss6__State2_21576B0: // 0x021576B0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x230]
@@ -4428,19 +4428,19 @@ ovl02_21576B0: // 0x021576B0
 	cmp r0, #0
 	bne _021576F0
 	ldr r0, [r4, #0x370]
-	bl ovl02_2155E38
+	bl Boss6Stage__Func_2155E38
 	add r1, r4, #0x400
 	strh r0, [r1, #0x2c]
 _021576F0:
-	ldr r0, _021576FC // =ovl02_2157700
+	ldr r0, _021576FC // =Boss6__State2_2157700
 	str r0, [r4, #0x3bc]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021576FC: .word ovl02_2157700
-	arm_func_end ovl02_21576B0
+_021576FC: .word Boss6__State2_2157700
+	arm_func_end Boss6__State2_21576B0
 
-	arm_func_start ovl02_2157700
-ovl02_2157700: // 0x02157700
+	arm_func_start Boss6__State2_2157700
+Boss6__State2_2157700: // 0x02157700
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r1, #0xa3
 	mov r5, r0
@@ -4449,7 +4449,7 @@ ovl02_2157700: // 0x02157700
 	mov r3, #0x1000
 	str ip, [sp]
 	add r4, r5, #0x374
-	bl ovl02_2156ACC
+	bl Boss6__Func_2156ACC
 	add r1, r5, #0x300
 	ldrh r1, [r1, #0x74]
 	cmp r1, #0
@@ -4457,26 +4457,26 @@ ovl02_2157700: // 0x02157700
 	strneh r0, [r4]
 	ldmneia sp!, {r3, r4, r5, pc}
 	cmp r0, #0
-	ldrne r0, _0215774C // =ovl02_2157750
+	ldrne r0, _0215774C // =Boss6__State2_2157750
 	strne r0, [r5, #0x3bc]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215774C: .word ovl02_2157750
-	arm_func_end ovl02_2157700
+_0215774C: .word Boss6__State2_2157750
+	arm_func_end Boss6__State2_2157700
 
-	arm_func_start ovl02_2157750
-ovl02_2157750: // 0x02157750
+	arm_func_start Boss6__State2_2157750
+Boss6__State2_2157750: // 0x02157750
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x370]
-	bl ovl02_21558E8
+	bl Boss6Stage__Func_21558E8
 	cmp r0, #0
 	beq _021577A0
 	ldr r0, [r4, #0x370]
-	bl ovl02_2155C88
+	bl Boss6Stage__Func_2155C88
 	mov r5, r0
 	ldr r0, [r4, #0x370]
-	bl ovl02_2155E1C
+	bl Boss6Stage__Func_2155E1C
 	add r1, r4, #0x400
 	add r0, r5, r0
 	ldrh r1, [r1, #0x24]
@@ -4484,13 +4484,13 @@ ovl02_2157750: // 0x02157750
 	cmp r1, r0, lsr #16
 	ldmhsia sp!, {r4, r5, r6, pc}
 	mov r0, r4
-	bl ovl02_2157630
+	bl Boss6__Action_2157630
 	ldmia sp!, {r4, r5, r6, pc}
 _021577A0:
 	add r1, r4, #0x14
 	ldr r0, [r4, #0x370]
 	add r1, r1, #0x400
-	bl ovl02_215566C
+	bl Boss6Stage__Func_215566C
 	cmp r0, #4
 	addls pc, pc, r0, lsl #2
 	ldmia sp!, {r4, r5, r6, pc}
@@ -4503,18 +4503,18 @@ _021577BC: // jump table
 _021577D0:
 	ldr r1, _021578E0 // =_02178AAC
 	mov r0, r4
-	bl ovl02_21574C8
+	bl Boss6__Action_21574C8
 	ldmia sp!, {r4, r5, r6, pc}
 _021577E0:
 	ldr r0, [r4, #0x370]
-	bl ovl02_2155CCC
+	bl Boss6Stage__Func_2155CCC
 	mov r1, r0
 	mov r0, r4
 	bl ovl02_21575D0
 	ldmia sp!, {r4, r5, r6, pc}
 _021577F8:
 	mov r0, r4
-	bl ovl02_2157610
+	bl Boss6__Action_2157610
 	ldmia sp!, {r4, r5, r6, pc}
 _02157804:
 	ldr r2, _021578E4 // =_mt_math_rand
@@ -4532,10 +4532,10 @@ _02157804:
 	moveq r1, #1
 	add r1, r0, r1, lsl #2
 	ldr r4, [r1, #0x374]
-	bl ovl02_2155B40
+	bl Boss6Stage__Func_2155B40
 	mov r1, r0
 	mov r0, r4
-	bl ovl02_215A5D8
+	bl Boss6Platform__Action_215A5D8
 	ldmia sp!, {r4, r5, r6, pc}
 _02157854:
 	ldr r2, _021578E4 // =_mt_math_rand
@@ -4566,22 +4566,22 @@ _02157854:
 	mov r6, r0, lsr #0x10
 	ldr r0, [r4, #0x370]
 	mov r4, r1, lsr #0x10
-	bl ovl02_2155B80
+	bl Boss6Stage__Func_2155B80
 	mov r3, r0
 	mov r0, r5
 	and r1, r4, #1
 	and r2, r6, #1
-	bl ovl02_215A618
+	bl Boss6Platform__Action_215A618
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _021578E0: .word _02178AAC
 _021578E4: .word _mt_math_rand
 _021578E8: .word 0x00196225
 _021578EC: .word 0x3C6EF35F
-	arm_func_end ovl02_2157750
+	arm_func_end Boss6__State2_2157750
 
-	arm_func_start ovl02_21578F0
-ovl02_21578F0: // 0x021578F0
+	arm_func_start Boss6__Func_21578F0
+Boss6__Func_21578F0: // 0x021578F0
 	stmdb sp!, {r4, lr}
 	ldr r4, _02157984 // =_mt_math_rand
 	ldr r2, _02157988 // =0x00196225
@@ -4626,10 +4626,10 @@ _02157984: .word _mt_math_rand
 _02157988: .word 0x00196225
 _0215798C: .word 0x3C6EF35F
 _02157990: .word 0x000007FF
-	arm_func_end ovl02_21578F0
+	arm_func_end Boss6__Func_21578F0
 
-	arm_func_start ovl02_2157994
-ovl02_2157994: // 0x02157994
+	arm_func_start Boss6__Func_2157994
+Boss6__Func_2157994: // 0x02157994
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r1, #4
@@ -4660,15 +4660,15 @@ ovl02_2157994: // 0x02157994
 	addge sp, sp, #0xc
 	ldmgeia sp!, {r3, r4, pc}
 	mov r0, r4
-	bl ovl02_21578F0
+	bl Boss6__Func_21578F0
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _02157A18: .word 0x00000222
-	arm_func_end ovl02_2157994
+	arm_func_end Boss6__Func_2157994
 
-	arm_func_start ovl02_2157A1C
-ovl02_2157A1C: // 0x02157A1C
+	arm_func_start Boss6__Func_2157A1C
+Boss6__Func_2157A1C: // 0x02157A1C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x10
@@ -4708,10 +4708,10 @@ _02157AA8:
 	mov r0, #0
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl02_2157A1C
+	arm_func_end Boss6__Func_2157A1C
 
-	arm_func_start ovl02_2157AB4
-ovl02_2157AB4: // 0x02157AB4
+	arm_func_start Boss6__Func_2157AB4
+Boss6__Func_2157AB4: // 0x02157AB4
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x48
 	mov r5, r0
@@ -4765,10 +4765,10 @@ ovl02_2157AB4: // 0x02157AB4
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02157B80: .word FX_SinCosTable_
-	arm_func_end ovl02_2157AB4
+	arm_func_end Boss6__Func_2157AB4
 
-	arm_func_start ovl02_2157B84
-ovl02_2157B84: // 0x02157B84
+	arm_func_start Boss6__Func_2157B84
+Boss6__Func_2157B84: // 0x02157B84
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x38]
@@ -4787,10 +4787,10 @@ ovl02_2157B84: // 0x02157B84
 	movge r0, #1
 	movlt r0, #0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl02_2157B84
+	arm_func_end Boss6__Func_2157B84
 
-	arm_func_start ovl02_2157BCC
-ovl02_2157BCC: // 0x02157BCC
+	arm_func_start Boss6__Func_2157BCC
+Boss6__Func_2157BCC: // 0x02157BCC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -4803,7 +4803,7 @@ ovl02_2157BCC: // 0x02157BCC
 	ldr r1, [r4, #4]
 	ldr r2, [r4, #8]
 	movne r1, #1
-	bl ovl02_215B8D0
+	bl Boss6__SpawnEnemyA
 	ldr r1, [r5, #0x3ac]
 	cmp r1, #0
 	beq _02157C1C
@@ -4816,7 +4816,7 @@ _02157C1C:
 	add r2, sp, #0
 	mov r0, r5
 	mov r1, #0xa000
-	bl ovl02_2155354
+	bl Boss6Stage__Func_2155354
 	ldr r1, [sp]
 	ldr r2, [sp, #4]
 	ldr r3, [sp, #8]
@@ -4824,21 +4824,21 @@ _02157C1C:
 	bl BossFX__CreateCondorFire
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end ovl02_2157BCC
+	arm_func_end Boss6__Func_2157BCC
 
-	arm_func_start ovl02_2157C4C
-ovl02_2157C4C: // 0x02157C4C
+	arm_func_start Boss6__State2_2157C4C
+Boss6__State2_2157C4C: // 0x02157C4C
 	mov r2, #1
-	ldr r1, _02157C60 // =ovl02_2157C64
+	ldr r1, _02157C60 // =Boss6__State2_2157C64
 	str r2, [r0, #0x428]
 	str r1, [r0, #0x3bc]
 	bx lr
 	.align 2, 0
-_02157C60: .word ovl02_2157C64
-	arm_func_end ovl02_2157C4C
+_02157C60: .word Boss6__State2_2157C64
+	arm_func_end Boss6__State2_2157C4C
 
-	arm_func_start ovl02_2157C64
-ovl02_2157C64: // 0x02157C64
+	arm_func_start Boss6__State2_2157C64
+Boss6__State2_2157C64: // 0x02157C64
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -4853,16 +4853,16 @@ ovl02_2157C64: // 0x02157C64
 	add r0, r0, #0x400
 	mov r3, #3
 	bl BossHelpers__SetAnimation
-	ldr r0, _02157CAC // =ovl02_2157CB0
+	ldr r0, _02157CAC // =Boss6__State2_2157CB0
 	str r0, [r4, #0x3bc]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02157CAC: .word ovl02_2157CB0
-	arm_func_end ovl02_2157C64
+_02157CAC: .word Boss6__State2_2157CB0
+	arm_func_end Boss6__State2_2157C64
 
-	arm_func_start ovl02_2157CB0
-ovl02_2157CB0: // 0x02157CB0
+	arm_func_start Boss6__State2_2157CB0
+Boss6__State2_2157CB0: // 0x02157CB0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x214
@@ -4870,36 +4870,36 @@ ovl02_2157CB0: // 0x02157CB0
 	mov r1, #0
 	bl BossHelpers__IsAnimFinished
 	cmp r0, #0
-	ldrne r0, _02157CD8 // =ovl02_2157CDC
+	ldrne r0, _02157CD8 // =Boss6__State2_2157CDC
 	strne r0, [r4, #0x3bc]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02157CD8: .word ovl02_2157CDC
-	arm_func_end ovl02_2157CB0
+_02157CD8: .word Boss6__State2_2157CDC
+	arm_func_end Boss6__State2_2157CB0
 
-	arm_func_start ovl02_2157CDC
-ovl02_2157CDC: // 0x02157CDC
+	arm_func_start Boss6__State2_2157CDC
+Boss6__State2_2157CDC: // 0x02157CDC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r4, r5, #0x374
 	mov r0, r4
-	bl ovl02_2157994
+	bl Boss6__Func_2157994
 	mov r0, r5
-	bl ovl02_2157AB4
+	bl Boss6__Func_2157AB4
 	mov r2, #0x10000
 	mov r1, #0xa3
 	mov r0, r5
 	str r2, [sp]
 	mov r2, r1
 	mov r3, #0x1000
-	bl ovl02_2156ACC
+	bl Boss6__Func_2156ACC
 	ldr r0, [r5, #0x370]
-	bl ovl02_21558E8
+	bl Boss6Stage__Func_21558E8
 	cmp r0, #0
 	beq _02157D38
 	add r0, r4, #0x24
 	bl BossHelpers__Unknown2038AEC__Func_2038B24
-	ldr r0, _02157E28 // =ovl02_2157E2C
+	ldr r0, _02157E28 // =Boss6__State2_2157E2C
 	str r0, [r5, #0x3bc]
 	ldmia sp!, {r3, r4, r5, pc}
 _02157D38:
@@ -4915,11 +4915,11 @@ _02157D54:
 	cmp r0, #0
 	beq _02157D84
 	mov r0, r4
-	bl ovl02_2157B84
+	bl Boss6__Func_2157B84
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r5
-	bl ovl02_2157BCC
+	bl Boss6__Func_2157BCC
 	mov r0, #0
 	str r0, [r4, #0x3c]
 	ldmia sp!, {r3, r4, r5, pc}
@@ -4933,13 +4933,13 @@ _02157D84:
 	ldmia sp!, {r3, r4, r5, pc}
 _02157DA0:
 	mov r0, r4
-	bl ovl02_2157B84
+	bl Boss6__Func_2157B84
 	cmp r0, #0
 	moveq r0, #1
 	streq r0, [r4, #0x3c]
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r5
-	bl ovl02_2157BCC
+	bl Boss6__Func_2157BCC
 	ldmia sp!, {r3, r4, r5, pc}
 _02157DC4:
 	add r0, r4, #0x24
@@ -4959,7 +4959,7 @@ _02157DC4:
 	cmp r1, #0
 	bne _02157E10
 _02157E04:
-	ldr r0, _02157E28 // =ovl02_2157E2C
+	ldr r0, _02157E28 // =Boss6__State2_2157E2C
 	str r0, [r5, #0x3bc]
 	ldmia sp!, {r3, r4, r5, pc}
 _02157E10:
@@ -4970,11 +4970,11 @@ _02157E10:
 	str r0, [r4, #0x38]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02157E28: .word ovl02_2157E2C
-	arm_func_end ovl02_2157CDC
+_02157E28: .word Boss6__State2_2157E2C
+	arm_func_end Boss6__State2_2157CDC
 
-	arm_func_start ovl02_2157E2C
-ovl02_2157E2C: // 0x02157E2C
+	arm_func_start Boss6__State2_2157E2C
+Boss6__State2_2157E2C: // 0x02157E2C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r1, #0
@@ -4986,30 +4986,30 @@ ovl02_2157E2C: // 0x02157E2C
 	add r0, r0, #0x400
 	mov r3, #4
 	bl BossHelpers__SetAnimation
-	ldr r0, _02157E68 // =ovl02_2157E6C
+	ldr r0, _02157E68 // =Boss6__State2_2157E6C
 	str r0, [r4, #0x3bc]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02157E68: .word ovl02_2157E6C
-	arm_func_end ovl02_2157E2C
+_02157E68: .word Boss6__State2_2157E6C
+	arm_func_end Boss6__State2_2157E2C
 
-	arm_func_start ovl02_2157E6C
-ovl02_2157E6C: // 0x02157E6C
+	arm_func_start Boss6__State2_2157E6C
+Boss6__State2_2157E6C: // 0x02157E6C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0x374
-	bl ovl02_2157A1C
+	bl Boss6__Func_2157A1C
 	mov r4, r0
 	mov r0, r5
-	bl ovl02_2157AB4
+	bl Boss6__Func_2157AB4
 	mov r2, #0x10000
 	mov r1, #0xa3
 	str r2, [sp]
 	mov r0, r5
 	mov r2, r1
 	mov r3, #0x1000
-	bl ovl02_2156ACC
+	bl Boss6__Func_2156ACC
 	add r0, r5, #0x214
 	add r0, r0, #0x400
 	mov r1, #0
@@ -5018,15 +5018,15 @@ ovl02_2157E6C: // 0x02157E6C
 	cmpne r4, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	ldr r0, [r5, #0x370]
-	bl ovl02_2155AB8
+	bl Boss6Stage__Func_2155AB8
 	mov r1, r0
 	mov r0, r5
-	bl ovl02_2157484
+	bl Boss6__Action_2157484
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl02_2157E6C
+	arm_func_end Boss6__State2_2157E6C
 
-	arm_func_start ovl02_2157ED8
-ovl02_2157ED8: // 0x02157ED8
+	arm_func_start Boss6__Func_2157ED8
+Boss6__Func_2157ED8: // 0x02157ED8
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x10
@@ -5065,10 +5065,10 @@ _02157F58:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _02157F64: .word 0x0000038E
-	arm_func_end ovl02_2157ED8
+	arm_func_end Boss6__Func_2157ED8
 
-	arm_func_start ovl02_2157F68
-ovl02_2157F68: // 0x02157F68
+	arm_func_start Boss6__Func_2157F68
+Boss6__Func_2157F68: // 0x02157F68
 	stmdb sp!, {r3, lr}
 	add r1, r0, #0x300
 	ldrh r1, [r1, #0x7a]
@@ -5086,10 +5086,10 @@ ovl02_2157F68: // 0x02157F68
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02157FA4: .word FX_SinCosTable_
-	arm_func_end ovl02_2157F68
+	arm_func_end Boss6__Func_2157F68
 
-	arm_func_start ovl02_2157FA8
-ovl02_2157FA8: // 0x02157FA8
+	arm_func_start Boss6__Func_2157FA8
+Boss6__Func_2157FA8: // 0x02157FA8
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x10
@@ -5129,10 +5129,10 @@ _02158034:
 	mov r0, #0
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl02_2157FA8
+	arm_func_end Boss6__Func_2157FA8
 
-	arm_func_start ovl02_2158040
-ovl02_2158040: // 0x02158040
+	arm_func_start Boss6__Func_2158040
+Boss6__Func_2158040: // 0x02158040
 	stmdb sp!, {r3, lr}
 	ldrh r2, [r0, #4]
 	ldr r1, [r0, #0]
@@ -5150,10 +5150,10 @@ ovl02_2158040: // 0x02158040
 	.align 2, 0
 _02158078: .word 0x00002AAA
 _0215807C: .word 0x00001555
-	arm_func_end ovl02_2158040
+	arm_func_end Boss6__Func_2158040
 
-	arm_func_start ovl02_2158080
-ovl02_2158080: // 0x02158080
+	arm_func_start Boss6__Func_2158080
+Boss6__Func_2158080: // 0x02158080
 	ldrh r2, [r0, #4]
 	ldr r1, [r0, #0]
 	ldr r0, _021580A4 // =0x00107FC0
@@ -5166,19 +5166,19 @@ ovl02_2158080: // 0x02158080
 	.align 2, 0
 _021580A4: .word 0x00107FC0
 _021580A8: .word FX_DivS32
-	arm_func_end ovl02_2158080
+	arm_func_end Boss6__Func_2158080
 
-	arm_func_start ovl02_21580AC
-ovl02_21580AC: // 0x021580AC
-	ldr r1, _021580B8 // =ovl02_21580BC
+	arm_func_start Boss6__State2_21580AC
+Boss6__State2_21580AC: // 0x021580AC
+	ldr r1, _021580B8 // =Boss6__State2_21580BC
 	str r1, [r0, #0x3bc]
 	bx lr
 	.align 2, 0
-_021580B8: .word ovl02_21580BC
-	arm_func_end ovl02_21580AC
+_021580B8: .word Boss6__State2_21580BC
+	arm_func_end Boss6__State2_21580AC
 
-	arm_func_start ovl02_21580BC
-ovl02_21580BC: // 0x021580BC
+	arm_func_start Boss6__State2_21580BC
+Boss6__State2_21580BC: // 0x021580BC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -5196,100 +5196,100 @@ ovl02_21580BC: // 0x021580BC
 	add r0, r0, #0x400
 	mov r3, #3
 	bl BossHelpers__SetAnimation
-	ldr r0, _02158114 // =ovl02_2158118
+	ldr r0, _02158114 // =Boss6__State2_2158118
 	str r0, [r4, #0x3bc]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02158110: .word 0x00001555
-_02158114: .word ovl02_2158118
-	arm_func_end ovl02_21580BC
+_02158114: .word Boss6__State2_2158118
+	arm_func_end Boss6__State2_21580BC
 
-	arm_func_start ovl02_2158118
-ovl02_2158118: // 0x02158118
+	arm_func_start Boss6__State2_2158118
+Boss6__State2_2158118: // 0x02158118
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0x374
-	bl ovl02_2157ED8
+	bl Boss6__Func_2157ED8
 	mov r4, r0
 	mov r0, r5
-	bl ovl02_2157F68
+	bl Boss6__Func_2157F68
 	add r0, r5, #0x214
 	add r0, r0, #0x400
 	mov r1, #0
 	bl BossHelpers__IsAnimFinished
 	cmp r0, #0
 	cmpne r4, #0
-	ldrne r0, _02158158 // =ovl02_215815C
+	ldrne r0, _02158158 // =Boss6__State2_215815C
 	strne r0, [r5, #0x3bc]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02158158: .word ovl02_215815C
-	arm_func_end ovl02_2158118
+_02158158: .word Boss6__State2_215815C
+	arm_func_end Boss6__State2_2158118
 
-	arm_func_start ovl02_215815C
-ovl02_215815C: // 0x0215815C
+	arm_func_start Boss6__State2_215815C
+Boss6__State2_215815C: // 0x0215815C
 	ldr r3, _02158174 // =0x0000EAAB
 	add r1, r0, #0x300
-	ldr r2, _02158178 // =ovl02_215817C
+	ldr r2, _02158178 // =Boss6__State2_215817C
 	strh r3, [r1, #0x7c]
 	str r2, [r0, #0x3bc]
 	bx lr
 	.align 2, 0
 _02158174: .word 0x0000EAAB
-_02158178: .word ovl02_215817C
-	arm_func_end ovl02_215815C
+_02158178: .word Boss6__State2_215817C
+	arm_func_end Boss6__State2_215815C
 
-	arm_func_start ovl02_215817C
-ovl02_215817C: // 0x0215817C
+	arm_func_start Boss6__State2_215817C
+Boss6__State2_215817C: // 0x0215817C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x370]
 	add r4, r6, #0x374
-	bl ovl02_21558E8
+	bl Boss6Stage__Func_21558E8
 	cmp r0, #0
-	ldrne r0, _02158220 // =ovl02_2158224
+	ldrne r0, _02158220 // =Boss6__State2_2158224
 	strne r0, [r6, #0x3bc]
 	ldmneia sp!, {r4, r5, r6, pc}
 	mov r0, r4
-	bl ovl02_2157ED8
+	bl Boss6__Func_2157ED8
 	mov r5, r0
 	mov r0, r6
-	bl ovl02_2157F68
+	bl Boss6__Func_2157F68
 	ldr r0, [r4, #0]
 	ldrh r1, [r4, #4]
 	ldrh r0, [r0, #4]
 	cmp r1, r0
 	bhs _02158210
 	mov r0, r4
-	bl ovl02_2158040
+	bl Boss6__Func_2158040
 	ldrsh r1, [r4, #6]
 	mov r0, r0, lsl #0x10
 	cmp r1, r0, asr #16
 	bgt _02158210
 	mov r0, r4
-	bl ovl02_2158080
+	bl Boss6__Func_2158080
 	ldr r3, [r4, #0]
 	mov r2, r0
 	ldrh r1, [r4, #4]
 	ldr r3, [r3, #0]
 	ldr r0, [r6, #0x370]
 	ldr r1, [r3, r1, lsl #2]
-	bl ovl02_215B9E0
+	bl Boss6__SpawnEnemyB
 	ldrh r0, [r4, #4]
 	add r0, r0, #1
 	strh r0, [r4, #4]
 _02158210:
 	cmp r5, #0
-	ldrne r0, _02158220 // =ovl02_2158224
+	ldrne r0, _02158220 // =Boss6__State2_2158224
 	strne r0, [r6, #0x3bc]
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02158220: .word ovl02_2158224
-	arm_func_end ovl02_215817C
+_02158220: .word Boss6__State2_2158224
+	arm_func_end Boss6__State2_215817C
 
-	arm_func_start ovl02_2158224
-ovl02_2158224: // 0x02158224
+	arm_func_start Boss6__State2_2158224
+Boss6__State2_2158224: // 0x02158224
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov ip, #0x98
@@ -5308,23 +5308,23 @@ ovl02_2158224: // 0x02158224
 	add r0, r0, #0x400
 	mov r3, #4
 	bl BossHelpers__SetAnimation
-	ldr r0, _0215827C // =ovl02_2158280
+	ldr r0, _0215827C // =Boss6__State2_2158280
 	str r0, [r4, #0x3bc]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215827C: .word ovl02_2158280
-	arm_func_end ovl02_2158224
+_0215827C: .word Boss6__State2_2158280
+	arm_func_end Boss6__State2_2158224
 
-	arm_func_start ovl02_2158280
-ovl02_2158280: // 0x02158280
+	arm_func_start Boss6__State2_2158280
+Boss6__State2_2158280: // 0x02158280
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0x374
-	bl ovl02_2157FA8
+	bl Boss6__Func_2157FA8
 	mov r4, r0
 	mov r0, r5
-	bl ovl02_2157F68
+	bl Boss6__Func_2157F68
 	add r0, r5, #0x214
 	add r0, r0, #0x400
 	mov r1, #0
@@ -5333,15 +5333,15 @@ ovl02_2158280: // 0x02158280
 	cmpne r4, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	ldr r0, [r5, #0x370]
-	bl ovl02_2155AB8
+	bl Boss6Stage__Func_2155AB8
 	mov r1, r0
 	mov r0, r5
-	bl ovl02_2157484
+	bl Boss6__Action_2157484
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl02_2158280
+	arm_func_end Boss6__State2_2158280
 
-	arm_func_start ovl02_21582D0
-ovl02_21582D0: // 0x021582D0
+	arm_func_start Boss6__State2_21582D0
+Boss6__State2_21582D0: // 0x021582D0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -5360,7 +5360,7 @@ ovl02_21582D0: // 0x021582D0
 	str r0, [r4, #0x9c]
 	str r0, [r4, #0xa0]
 	ldr r0, [r4, #0x370]
-	bl ovl02_2155EB4
+	bl Boss6Stage__Func_2155EB4
 	mov r0, #1
 	bl BossArena__GetCamera
 	mov r1, #0x64000
@@ -5378,16 +5378,16 @@ ovl02_21582D0: // 0x021582D0
 	ldr r2, [r4, #0x75c]
 	mov r3, #5
 	bl BossHelpers__SetAnimation
-	ldr r0, _02158370 // =ovl02_2158374
+	ldr r0, _02158370 // =Boss6__State2_2158374
 	str r0, [r4, #0x3bc]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02158370: .word ovl02_2158374
-	arm_func_end ovl02_21582D0
+_02158370: .word Boss6__State2_2158374
+	arm_func_end Boss6__State2_21582D0
 
-	arm_func_start ovl02_2158374
-ovl02_2158374: // 0x02158374
+	arm_func_start Boss6__State2_2158374
+Boss6__State2_2158374: // 0x02158374
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r4, r5, #0x374
@@ -5439,7 +5439,7 @@ ovl02_2158374: // 0x02158374
 	orr r1, r1, r0, lsl #20
 	add r0, lr, r1
 	str r0, [r4, #0x20]
-	ldr r2, _02158460 // =ovl02_2158464
+	ldr r2, _02158460 // =Boss6__State2_2158464
 	strh r3, [r4, #0xa]
 	mov r0, r5
 	str r2, [r5, #0x3bc]
@@ -5448,11 +5448,11 @@ ovl02_2158374: // 0x02158374
 	.align 2, 0
 _02158458: .word 0x00083FE0
 _0215845C: .word Boss6Stage__Singleton
-_02158460: .word ovl02_2158464
-	arm_func_end ovl02_2158374
+_02158460: .word Boss6__State2_2158464
+	arm_func_end Boss6__State2_2158374
 
-	arm_func_start ovl02_2158464
-ovl02_2158464: // 0x02158464
+	arm_func_start Boss6__State2_2158464
+Boss6__State2_2158464: // 0x02158464
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r4, r0
 	add r0, r4, #0x374
@@ -5554,16 +5554,16 @@ _021585B0:
 	add r0, r0, #0x400
 	bl MTX_RotX33_
 	cmp r5, #0
-	ldrne r0, _021585F8 // =ovl02_21585FC
+	ldrne r0, _021585F8 // =Boss6__State2_21585FC
 	strne r0, [r4, #0x3bc]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021585F4: .word FX_SinCosTable_
-_021585F8: .word ovl02_21585FC
-	arm_func_end ovl02_2158464
+_021585F8: .word Boss6__State2_21585FC
+	arm_func_end Boss6__State2_2158464
 
-	arm_func_start ovl02_21585FC
-ovl02_21585FC: // 0x021585FC
+	arm_func_start Boss6__State2_21585FC
+Boss6__State2_21585FC: // 0x021585FC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r4, r5, #0x374
@@ -5586,7 +5586,7 @@ ovl02_21585FC: // 0x021585FC
 	mov r0, #0
 	strh r0, [r4, #0xa]
 	ldr r0, [r5, #0x370]
-	bl ovl02_2155FAC
+	bl Boss6Stage__Func_2155FAC
 	mov r0, #2
 	bl BossArena__GetCamera
 	mov r1, #0x1e000
@@ -5604,7 +5604,7 @@ ovl02_21585FC: // 0x021585FC
 	bl BossArena__GetCamera
 	mov r1, #0x80
 	bl BossArena__SetAmplitudeYSpeed
-	ldr r1, _021586B8 // =ovl02_21586BC
+	ldr r1, _021586B8 // =Boss6__State2_21586BC
 	mov r0, r5
 	str r1, [r5, #0x3bc]
 	blx r1
@@ -5612,11 +5612,11 @@ ovl02_21585FC: // 0x021585FC
 	.align 2, 0
 _021586B0: .word Boss6Stage__Singleton
 _021586B4: .word 0x00083FE0
-_021586B8: .word ovl02_21586BC
-	arm_func_end ovl02_21585FC
+_021586B8: .word Boss6__State2_21586BC
+	arm_func_end Boss6__State2_21585FC
 
-	arm_func_start ovl02_21586BC
-ovl02_21586BC: // 0x021586BC
+	arm_func_start Boss6__State2_21586BC
+Boss6__State2_21586BC: // 0x021586BC
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r5, r0
 	add r2, r5, #0x374
@@ -5715,16 +5715,16 @@ _021587B0:
 	add r0, r3, #0x400
 	bl MTX_RotX33_
 	cmp r4, #0
-	ldrne r0, _02158848 // =ovl02_215884C
+	ldrne r0, _02158848 // =Boss6__State2_215884C
 	strne r0, [r5, #0x3bc]
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02158844: .word FX_SinCosTable_
-_02158848: .word ovl02_215884C
-	arm_func_end ovl02_21586BC
+_02158848: .word Boss6__State2_215884C
+	arm_func_end Boss6__State2_21586BC
 
-	arm_func_start ovl02_215884C
-ovl02_215884C: // 0x0215884C
+	arm_func_start Boss6__State2_215884C
+Boss6__State2_215884C: // 0x0215884C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x230]
@@ -5745,17 +5745,17 @@ ovl02_215884C: // 0x0215884C
 	str r0, [r5, #0x24]
 	mov r0, #0
 	strh r0, [r5, #8]
-	ldr r1, _021588B0 // =ovl02_21588B4
+	ldr r1, _021588B0 // =Boss6__State2_21588B4
 	mov r0, r4
 	str r1, [r4, #0x3bc]
 	blx r1
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_021588B0: .word ovl02_21588B4
-	arm_func_end ovl02_215884C
+_021588B0: .word Boss6__State2_21588B4
+	arm_func_end Boss6__State2_215884C
 
-	arm_func_start ovl02_21588B4
-ovl02_21588B4: // 0x021588B4
+	arm_func_start Boss6__State2_21588B4
+Boss6__State2_21588B4: // 0x021588B4
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x9c
 	mov r5, r0
@@ -5970,7 +5970,7 @@ _02158A90:
 	mov r1, #0
 	str r1, [r5, #0x98]
 	str r1, [r5, #0x9c]
-	ldr r0, _02158C14 // =ovl02_2158C18
+	ldr r0, _02158C14 // =Boss6__State2_2158C18
 	str r1, [r5, #0xa0]
 	str r0, [r5, #0x3bc]
 	add sp, sp, #0x9c
@@ -5983,11 +5983,11 @@ _02158C04: .word 0x00000199
 _02158C08: .word gPlayer
 _02158C0C: .word 0xFFFFF556
 _02158C10: .word FX_SinCosTable_
-_02158C14: .word ovl02_2158C18
-	arm_func_end ovl02_21588B4
+_02158C14: .word Boss6__State2_2158C18
+	arm_func_end Boss6__State2_21588B4
 
-	arm_func_start ovl02_2158C18
-ovl02_2158C18: // 0x02158C18
+	arm_func_start Boss6__State2_2158C18
+Boss6__State2_2158C18: // 0x02158C18
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -6045,10 +6045,10 @@ ovl02_2158C18: // 0x02158C18
 	orr r0, r0, #8
 	str r0, [r1, #0x18]
 	ldr r0, [r6, #0x370]
-	bl ovl02_2155EB4
+	bl Boss6Stage__Func_2155EB4
 	ldr r0, [r6, #0x370]
-	bl ovl02_2155FAC
-	ldr r1, _02158D38 // =ovl02_2158D3C
+	bl Boss6Stage__Func_2155FAC
+	ldr r1, _02158D38 // =Boss6__State2_2158D3C
 	mov r0, r6
 	str r1, [r6, #0x3bc]
 	blx r1
@@ -6061,11 +6061,11 @@ _02158D28: .word 0x00277FE0
 _02158D2C: .word 0xFFE8FFE0
 _02158D30: .word 0x00083FE0
 _02158D34: .word 0xFFDF0080
-_02158D38: .word ovl02_2158D3C
-	arm_func_end ovl02_2158C18
+_02158D38: .word Boss6__State2_2158D3C
+	arm_func_end Boss6__State2_2158C18
 
-	arm_func_start ovl02_2158D3C
-ovl02_2158D3C: // 0x02158D3C
+	arm_func_start Boss6__State2_2158D3C
+Boss6__State2_2158D3C: // 0x02158D3C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r5, r0
 	add r2, r5, #0x374
@@ -6188,16 +6188,16 @@ _02158E80:
 	ldrsh r2, [r3, r2]
 	bl MTX_RotZ33_
 	cmp r4, #0
-	ldrne r0, _02158F24 // =ovl02_2158F28
+	ldrne r0, _02158F24 // =Boss6__State2_2158F28
 	strne r0, [r5, #0x3bc]
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02158F20: .word FX_SinCosTable_
-_02158F24: .word ovl02_2158F28
-	arm_func_end ovl02_2158D3C
+_02158F24: .word Boss6__State2_2158F28
+	arm_func_end Boss6__State2_2158D3C
 
-	arm_func_start ovl02_2158F28
-ovl02_2158F28: // 0x02158F28
+	arm_func_start Boss6__State2_2158F28
+Boss6__State2_2158F28: // 0x02158F28
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r4, r5, #0x374
@@ -6259,14 +6259,14 @@ _02158FF4:
 	cmpeq r0, #0x1000
 	ldmneia sp!, {r3, r4, r5, pc}
 	mov r0, r5
-	bl ovl02_21576B0
+	bl Boss6__State2_21576B0
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02159014: .word FX_SinCosTable_
-	arm_func_end ovl02_2158F28
+	arm_func_end Boss6__State2_2158F28
 
-	arm_func_start ovl02_2159018
-ovl02_2159018: // 0x02159018
+	arm_func_start Boss6__Func_2159018
+Boss6__Func_2159018: // 0x02159018
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x54
 	mov r6, r0
@@ -6401,10 +6401,10 @@ _02159208: .word _02178890
 _0215920C: .word gPlayer
 _02159210: .word 0x00002AAA
 _02159214: .word _02178854
-	arm_func_end ovl02_2159018
+	arm_func_end Boss6__Func_2159018
 
-	arm_func_start ovl02_2159218
-ovl02_2159218: // 0x02159218
+	arm_func_start Boss6__State2_2159218
+Boss6__State2_2159218: // 0x02159218
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x374
@@ -6414,16 +6414,16 @@ ovl02_2159218: // 0x02159218
 	mov r1, #0
 	str r1, [r4, #0x98]
 	str r1, [r4, #0x9c]
-	ldr r0, _0215924C // =ovl02_2159250
+	ldr r0, _0215924C // =Boss6__State2_2159250
 	str r1, [r4, #0xa0]
 	str r0, [r4, #0x3bc]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215924C: .word ovl02_2159250
-	arm_func_end ovl02_2159218
+_0215924C: .word Boss6__State2_2159250
+	arm_func_end Boss6__State2_2159218
 
-	arm_func_start ovl02_2159250
-ovl02_2159250: // 0x02159250
+	arm_func_start Boss6__State2_2159250
+Boss6__State2_2159250: // 0x02159250
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r1, #0
@@ -6450,29 +6450,29 @@ ovl02_2159250: // 0x02159250
 	add r3, r4, #0x390
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
-	ldr r0, _021592C8 // =ovl02_21592CC
+	ldr r0, _021592C8 // =Boss6__State2_21592CC
 	str r0, [r4, #0x3bc]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021592C8: .word ovl02_21592CC
-	arm_func_end ovl02_2159250
+_021592C8: .word Boss6__State2_21592CC
+	arm_func_end Boss6__State2_2159250
 
-	arm_func_start ovl02_21592CC
-ovl02_21592CC: // 0x021592CC
+	arm_func_start Boss6__State2_21592CC
+Boss6__State2_21592CC: // 0x021592CC
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
 	mov r10, r0
 	ldr r0, [r10, #0x370]
 	add r4, r10, #0x374
-	bl ovl02_21558E8
+	bl Boss6Stage__Func_21558E8
 	cmp r0, #0
-	ldreq r0, _021593B4 // =ovl02_2159624
+	ldreq r0, _021593B4 // =Boss6__State2_2159624
 	addeq sp, sp, #0x1c
 	streq r0, [r10, #0x3bc]
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r10
-	bl ovl02_2159018
+	bl Boss6__Func_2159018
 	ldrh r1, [r4, #0]
 	str r0, [sp, #0xc]
 	add r7, r10, #0x98
@@ -6514,30 +6514,30 @@ _02159354:
 	mov r1, #0
 	str r1, [r10, #0x98]
 	str r1, [r10, #0x9c]
-	ldr r0, _021593B8 // =ovl02_21593BC
+	ldr r0, _021593B8 // =Boss6__State2_21593BC
 	str r1, [r10, #0xa0]
 	str r0, [r10, #0x3bc]
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_021593B4: .word ovl02_2159624
-_021593B8: .word ovl02_21593BC
-	arm_func_end ovl02_21592CC
+_021593B4: .word Boss6__State2_2159624
+_021593B8: .word Boss6__State2_21593BC
+	arm_func_end Boss6__State2_21592CC
 
-	arm_func_start ovl02_21593BC
-ovl02_21593BC: // 0x021593BC
+	arm_func_start Boss6__State2_21593BC
+Boss6__State2_21593BC: // 0x021593BC
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x24
 	add r2, sp, #0x18
 	mov r1, #0x14000
 	mov r4, r0
-	bl ovl02_2155354
+	bl Boss6Stage__Func_2155354
 	ldr r0, [sp, #0x1c]
 	add r1, sp, #0xc
 	rsb r2, r0, #0
 	mov r0, r4
 	str r2, [sp, #0x1c]
-	bl ovl02_215532C
+	bl Boss6Stage__Func_215532C
 	ldr r1, [sp, #0x10]
 	add r0, sp, #0xc
 	rsb r2, r1, #0
@@ -6554,7 +6554,7 @@ ovl02_21593BC: // 0x021593BC
 	ldr r1, [sp, #0x18]
 	ldr r2, [sp, #0x1c]
 	ldr r3, [sp, #0x20]
-	bl ovl02_215C074
+	bl Boss6__SpawnMissile
 	add r1, r4, #0x400
 	ldrh r2, [r1, #0x24]
 	mov r0, #0
@@ -6580,7 +6580,7 @@ ovl02_21593BC: // 0x021593BC
 	add r1, r1, #0x400
 	bl ProcessSpatialVoiceClip
 	bl EnableSpatialVolume
-	ldr r1, _021594B0 // =ovl02_21594B4
+	ldr r1, _021594B0 // =Boss6__State2_21594B4
 	mov r0, r4
 	str r1, [r4, #0x3bc]
 	blx r1
@@ -6588,15 +6588,15 @@ ovl02_21593BC: // 0x021593BC
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _021594AC: .word 0x00001333
-_021594B0: .word ovl02_21594B4
-	arm_func_end ovl02_21593BC
+_021594B0: .word Boss6__State2_21594B4
+	arm_func_end Boss6__State2_21593BC
 
-	arm_func_start ovl02_21594B4
-ovl02_21594B4: // 0x021594B4
+	arm_func_start Boss6__State2_21594B4
+Boss6__State2_21594B4: // 0x021594B4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x39c
-	bl ovl02_215532C
+	bl Boss6Stage__Func_215532C
 	ldr r1, [r4, #0x39c]
 	add r0, r4, #0x39c
 	rsb r1, r1, #0
@@ -6608,17 +6608,17 @@ ovl02_21594B4: // 0x021594B4
 	bl VEC_Normalize
 	mov r0, #0x5000
 	str r0, [r4, #0x3a8]
-	ldr r1, _02159504 // =ovl02_2159508
+	ldr r1, _02159504 // =Boss6__State2_2159508
 	mov r0, r4
 	str r1, [r4, #0x3bc]
 	blx r1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02159504: .word ovl02_2159508
-	arm_func_end ovl02_21594B4
+_02159504: .word Boss6__State2_2159508
+	arm_func_end Boss6__State2_21594B4
 
-	arm_func_start ovl02_2159508
-ovl02_2159508: // 0x02159508
+	arm_func_start Boss6__State2_2159508
+Boss6__State2_2159508: // 0x02159508
 	ldr r3, [r0, #0x3a8]
 	cmp r3, #0
 	bge _0215953C
@@ -6688,17 +6688,17 @@ _021595EC:
 _02159604:
 	ldr r1, [r0, #0x3a8]
 	cmp r1, #0
-	ldreq r1, _02159620 // =ovl02_2159624
+	ldreq r1, _02159620 // =Boss6__State2_2159624
 	streq r1, [r0, #0x3bc]
 	bx lr
 	.align 2, 0
 _02159618: .word 0x00000333
 _0215961C: .word 0x00000199
-_02159620: .word ovl02_2159624
-	arm_func_end ovl02_2159508
+_02159620: .word Boss6__State2_2159624
+	arm_func_end Boss6__State2_2159508
 
-	arm_func_start ovl02_2159624
-ovl02_2159624: // 0x02159624
+	arm_func_start Boss6__State2_2159624
+Boss6__State2_2159624: // 0x02159624
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r6, r0
 	mov r2, #0
@@ -6706,7 +6706,7 @@ ovl02_2159624: // 0x02159624
 	add r4, r6, #0x374
 	str r2, [sp]
 	mov r5, #1
-	bl ovl02_2156A00
+	bl Boss6__Func_2156A00
 	mov r1, #0
 	mov r3, #0x2000
 	ldr r2, _0215982C // =0x00000333
@@ -6835,18 +6835,18 @@ _02159800:
 	cmpne r5, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [r6, #0x370]
-	bl ovl02_2155AB8
+	bl Boss6Stage__Func_2155AB8
 	mov r1, r0
 	mov r0, r6
-	bl ovl02_2157484
+	bl Boss6__Action_2157484
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215982C: .word 0x00000333
 _02159830: .word 0x00000199
-	arm_func_end ovl02_2159624
+	arm_func_end Boss6__State2_2159624
 
-	arm_func_start ovl02_2159834
-ovl02_2159834: // 0x02159834
+	arm_func_start Boss6__Func_2159834
+Boss6__Func_2159834: // 0x02159834
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldrh r0, [r1, #6]
 	cmp r0, #0
@@ -6917,10 +6917,10 @@ _02159938: .word _mt_math_rand
 _0215993C: .word 0x00196225
 _02159940: .word 0x3C6EF35F
 _02159944: .word FX_SinCosTable_
-	arm_func_end ovl02_2159834
+	arm_func_end Boss6__Func_2159834
 
-	arm_func_start ovl02_2159948
-ovl02_2159948: // 0x02159948
+	arm_func_start Boss6__Func_2159948
+Boss6__Func_2159948: // 0x02159948
 	stmdb sp!, {r3, lr}
 	ldr r2, [r0, #0x44]
 	cmp r2, #0x14000
@@ -6960,10 +6960,10 @@ ovl02_2159948: // 0x02159948
 	.align 2, 0
 _021599D8: .word 0x000F3FC0
 _021599DC: .word FX_SinCosTable_
-	arm_func_end ovl02_2159948
+	arm_func_end Boss6__Func_2159948
 
-	arm_func_start ovl02_21599E0
-ovl02_21599E0: // 0x021599E0
+	arm_func_start Boss6__State2_21599E0
+Boss6__State2_21599E0: // 0x021599E0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -6996,7 +6996,7 @@ ovl02_21599E0: // 0x021599E0
 	add r0, r3, #0x400
 	mov r3, #5
 	bl BossHelpers__SetAnimation
-	ldr r0, _02159A7C // =ovl02_2159A80
+	ldr r0, _02159A7C // =Boss6__State2_2159A80
 	str r0, [r4, #0x3bc]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
@@ -7004,25 +7004,25 @@ ovl02_21599E0: // 0x021599E0
 _02159A70: .word _mt_math_rand
 _02159A74: .word 0x00196225
 _02159A78: .word 0x3C6EF35F
-_02159A7C: .word ovl02_2159A80
-	arm_func_end ovl02_21599E0
+_02159A7C: .word Boss6__State2_2159A80
+	arm_func_end Boss6__State2_21599E0
 
-	arm_func_start ovl02_2159A80
-ovl02_2159A80: // 0x02159A80
+	arm_func_start Boss6__State2_2159A80
+Boss6__State2_2159A80: // 0x02159A80
 	mov r1, #0x5000
 	rsb r1, r1, #0
 	str r1, [r0, #0xa0]
 	mov r2, #0x5000
-	ldr r1, _02159AA0 // =ovl02_2159AA4
+	ldr r1, _02159AA0 // =Boss6__State2_2159AA4
 	str r2, [r0, #0x9c]
 	str r1, [r0, #0x3bc]
 	bx lr
 	.align 2, 0
-_02159AA0: .word ovl02_2159AA4
-	arm_func_end ovl02_2159A80
+_02159AA0: .word Boss6__State2_2159AA4
+	arm_func_end Boss6__State2_2159A80
 
-	arm_func_start ovl02_2159AA4
-ovl02_2159AA4: // 0x02159AA4
+	arm_func_start Boss6__State2_2159AA4
+Boss6__State2_2159AA4: // 0x02159AA4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r2, [r4, #0xa0]
@@ -7068,19 +7068,19 @@ _02159B24:
 _02159B40:
 	mov r0, r4
 	mov r1, #0xb6
-	bl ovl02_2156A00
+	bl Boss6__Func_2156A00
 	ldr r0, [r4, #0xa0]
 	cmp r0, #0
-	ldreq r0, _02159B64 // =ovl02_2159B68
+	ldreq r0, _02159B64 // =Boss6__State2_2159B68
 	streq r0, [r4, #0x3bc]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02159B60: .word 0x00000199
-_02159B64: .word ovl02_2159B68
-	arm_func_end ovl02_2159AA4
+_02159B64: .word Boss6__State2_2159B68
+	arm_func_end Boss6__State2_2159AA4
 
-	arm_func_start ovl02_2159B68
-ovl02_2159B68: // 0x02159B68
+	arm_func_start Boss6__State2_2159B68
+Boss6__State2_2159B68: // 0x02159B68
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r4, r5, #0x374
@@ -7094,7 +7094,7 @@ ovl02_2159B68: // 0x02159B68
 	bl VEC_Subtract
 	mov r0, r5
 	mov r1, #0xb6
-	bl ovl02_2156A00
+	bl Boss6__Func_2156A00
 	mov r0, #0x64000
 	ldr r1, [r5, #0x4c]
 	rsb r0, r0, #0
@@ -7161,10 +7161,10 @@ _02159C64:
 	strlt r0, [r5, #0x9c]
 	mov r0, r5
 	mov r1, r4
-	bl ovl02_2159834
+	bl Boss6__Func_2159834
 	mov r0, r5
 	mov r1, r4
-	bl ovl02_2159948
+	bl Boss6__Func_2159948
 	add r0, r5, #0x44
 	add r1, r4, #8
 	mov r2, r0
@@ -7180,17 +7180,17 @@ _02159C64:
 	add r0, r1, #1
 	strh r0, [r4, #0x28]
 	cmp r1, #0x258
-	ldrhi r0, _02159CF4 // =ovl02_2159CF8
+	ldrhi r0, _02159CF4 // =Boss6__State2_2159CF8
 	strhi r0, [r5, #0x3bc]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02159CEC: .word 0x00000199
 _02159CF0: .word Boss6Stage__Singleton
-_02159CF4: .word ovl02_2159CF8
-	arm_func_end ovl02_2159B68
+_02159CF4: .word Boss6__State2_2159CF8
+	arm_func_end Boss6__State2_2159B68
 
-	arm_func_start ovl02_2159CF8
-ovl02_2159CF8: // 0x02159CF8
+	arm_func_start Boss6__State2_2159CF8
+Boss6__State2_2159CF8: // 0x02159CF8
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r1, #0
@@ -7213,7 +7213,7 @@ ovl02_2159CF8: // 0x02159CF8
 	add r0, r0, #0x300
 	ldrsh r0, [r0, #0x80]
 	bl UpdateBossHealthHUD
-	ldr r1, _02159D6C // =ovl02_2159D70
+	ldr r1, _02159D6C // =Boss6__State2_2159D70
 	mov r0, r4
 	str r1, [r4, #0x3bc]
 	blx r1
@@ -7221,11 +7221,11 @@ ovl02_2159CF8: // 0x02159CF8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02159D68: .word 0x00000199
-_02159D6C: .word ovl02_2159D70
-	arm_func_end ovl02_2159CF8
+_02159D6C: .word Boss6__State2_2159D70
+	arm_func_end Boss6__State2_2159CF8
 
-	arm_func_start ovl02_2159D70
-ovl02_2159D70: // 0x02159D70
+	arm_func_start Boss6__State2_2159D70
+Boss6__State2_2159D70: // 0x02159D70
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r1, #0xcc
@@ -7234,19 +7234,19 @@ ovl02_2159D70: // 0x02159D70
 	mov r3, #0x3000
 	mov r4, r0
 	str ip, [sp]
-	bl ovl02_2156ACC
+	bl Boss6__Func_2156ACC
 	cmp r0, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {r3, r4, pc}
 	mov r0, r4
 	mov r1, #0
-	bl ovl02_2157484
+	bl Boss6__Action_2157484
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl02_2159D70
+	arm_func_end Boss6__State2_2159D70
 
-	arm_func_start ovl02_2159DB4
-ovl02_2159DB4: // 0x02159DB4
+	arm_func_start Boss6__State2_2159DB4
+Boss6__State2_2159DB4: // 0x02159DB4
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -7313,18 +7313,18 @@ ovl02_2159DB4: // 0x02159DB4
 	bl PlaySfxEx
 	mov r0, #0
 	strh r0, [r4, #8]
-	ldr r0, _02159ED4 // =ovl02_2159ED8
+	ldr r0, _02159ED4 // =Boss6__State2_2159ED8
 	str r0, [r5, #0x3bc]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02159ECC: .word playerGameStatus
 _02159ED0: .word gPlayer
-_02159ED4: .word ovl02_2159ED8
-	arm_func_end ovl02_2159DB4
+_02159ED4: .word Boss6__State2_2159ED8
+	arm_func_end Boss6__State2_2159DB4
 
-	arm_func_start ovl02_2159ED8
-ovl02_2159ED8: // 0x02159ED8
+	arm_func_start Boss6__State2_2159ED8
+Boss6__State2_2159ED8: // 0x02159ED8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r1, r5, #0x374
@@ -7372,7 +7372,7 @@ _02159F6C:
 	mov r0, r4
 	mov r2, r1
 	bl BossArena__SetTracker0Speed
-	ldr r0, _02159FA8 // =ovl02_2159FAC
+	ldr r0, _02159FA8 // =Boss6__State2_2159FAC
 	str r0, [r5, #0x3bc]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
@@ -7380,11 +7380,11 @@ _02159F98: .word gPlayer
 _02159F9C: .word 0x000A4FD8
 _02159FA0: .word 0x00001555
 _02159FA4: .word 0x0000EAAB
-_02159FA8: .word ovl02_2159FAC
-	arm_func_end ovl02_2159ED8
+_02159FA8: .word Boss6__State2_2159FAC
+	arm_func_end Boss6__State2_2159ED8
 
-	arm_func_start ovl02_2159FAC
-ovl02_2159FAC: // 0x02159FAC
+	arm_func_start Boss6__State2_2159FAC
+Boss6__State2_2159FAC: // 0x02159FAC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl Camera3D__GetWork
@@ -7400,7 +7400,7 @@ ovl02_2159FAC: // 0x02159FAC
 	orr r1, r1, #0xc0
 	strh r1, [r4, #0x20]
 	ldrh r3, [r4, #0x20]
-	ldr r1, _0215A010 // =ovl02_215A014
+	ldr r1, _0215A010 // =Boss6__State2_215A014
 	bic r3, r3, #1
 	orr r3, r3, #1
 	strh r3, [r4, #0x20]
@@ -7411,11 +7411,11 @@ ovl02_2159FAC: // 0x02159FAC
 	str r1, [r5, #0x3bc]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215A010: .word ovl02_215A014
-	arm_func_end ovl02_2159FAC
+_0215A010: .word Boss6__State2_215A014
+	arm_func_end Boss6__State2_2159FAC
 
-	arm_func_start ovl02_215A014
-ovl02_215A014: // 0x0215A014
+	arm_func_start Boss6__State2_215A014
+Boss6__State2_215A014: // 0x0215A014
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	mov r10, r0
@@ -7493,17 +7493,17 @@ _0215A11C:
 	add r0, r1, #1
 	strh r0, [r8, #8]
 	cmp r1, #0xd2
-	ldrhi r0, _0215A14C // =ovl02_215A150
+	ldrhi r0, _0215A14C // =Boss6__State2_215A150
 	strhi r0, [r10, #0x3bc]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215A148: .word BossArena__explosionFXSpawnTime
-_0215A14C: .word ovl02_215A150
-	arm_func_end ovl02_215A014
+_0215A14C: .word Boss6__State2_215A150
+	arm_func_end Boss6__State2_215A014
 
-	arm_func_start ovl02_215A150
-ovl02_215A150: // 0x0215A150
+	arm_func_start Boss6__State2_215A150
+Boss6__State2_215A150: // 0x0215A150
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -7530,7 +7530,7 @@ ovl02_215A150: // 0x0215A150
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
-	ldr r1, _0215A1E0 // =ovl02_215A1E4
+	ldr r1, _0215A1E0 // =Boss6__State2_215A1E4
 	add r0, r4, #0x300
 	mov r2, #0
 	strh r2, [r0, #0x7c]
@@ -7541,11 +7541,11 @@ ovl02_215A150: // 0x0215A150
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215A1DC: .word 0x00000555
-_0215A1E0: .word ovl02_215A1E4
-	arm_func_end ovl02_215A150
+_0215A1E0: .word Boss6__State2_215A1E4
+	arm_func_end Boss6__State2_215A150
 
-	arm_func_start ovl02_215A1E4
-ovl02_215A1E4: // 0x0215A1E4
+	arm_func_start Boss6__State2_215A1E4
+Boss6__State2_215A1E4: // 0x0215A1E4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r6, [r5, #0x370]
@@ -7588,15 +7588,15 @@ _0215A270:
 	cmpne r2, #0
 	add r0, r0, #1
 	strh r0, [r4, #8]
-	ldrne r0, _0215A290 // =ovl02_215A294
+	ldrne r0, _0215A290 // =Boss6__State2_215A294
 	strne r0, [r5, #0x3bc]
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0215A290: .word ovl02_215A294
-	arm_func_end ovl02_215A1E4
+_0215A290: .word Boss6__State2_215A294
+	arm_func_end Boss6__State2_215A1E4
 
-	arm_func_start ovl02_215A294
-ovl02_215A294: // 0x0215A294
+	arm_func_start Boss6__State2_215A294
+Boss6__State2_215A294: // 0x0215A294
 	ldr r0, _0215A2A8 // =playerGameStatus
 	ldr r1, [r0, #0]
 	orr r1, r1, #4
@@ -7604,20 +7604,20 @@ ovl02_215A294: // 0x0215A294
 	bx lr
 	.align 2, 0
 _0215A2A8: .word playerGameStatus
-	arm_func_end ovl02_215A294
+	arm_func_end Boss6__State2_215A294
 
-	arm_func_start ovl02_215A2AC
-ovl02_215A2AC: // 0x0215A2AC
+	arm_func_start Boss6Platform__GetOtherPlatform
+Boss6Platform__GetOtherPlatform: // 0x0215A2AC
 	ldr r1, [r0, #0x39c]
 	ldr r0, [r0, #0x370]
 	cmp r1, #0
 	ldreq r0, [r0, #0x378]
 	ldrne r0, [r0, #0x374]
 	bx lr
-	arm_func_end ovl02_215A2AC
+	arm_func_end Boss6Platform__GetOtherPlatform
 
-	arm_func_start ovl02_215A2C4
-ovl02_215A2C4: // 0x0215A2C4
+	arm_func_start Boss6Platform__State_215A2C4
+Boss6Platform__State_215A2C4: // 0x0215A2C4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x394]
@@ -7643,16 +7643,16 @@ _0215A300:
 	strle r0, [r4, #0x3e4]
 _0215A31C:
 	add r0, r4, #0x3a0
-	bl ovl02_21550CC
+	bl Boss6Stage__Func_21550CC
 	add r0, r4, #0x3b8
 	add r3, r4, #0xb0
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl02_215A2C4
+	arm_func_end Boss6Platform__State_215A2C4
 
-	arm_func_start ovl02_215A338
-ovl02_215A338: // 0x0215A338
+	arm_func_start Boss6Platform__Destructor
+Boss6Platform__Destructor: // 0x0215A338
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -7686,10 +7686,10 @@ ovl02_215A338: // 0x0215A338
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl02_215A338
+	arm_func_end Boss6Platform__Destructor
 
-	arm_func_start ovl02_215A3BC
-ovl02_215A3BC: // 0x0215A3BC
+	arm_func_start Boss6Platform__Draw
+Boss6Platform__Draw: // 0x0215A3BC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x24
 	bl GetCurrentTaskWork_
@@ -7775,7 +7775,7 @@ _0215A4A4:
 	mov r0, r4
 	add r2, r4, #0x8c0
 	mov r3, #0xf000
-	bl ovl02_2155390
+	bl Boss6Stage__Func_2155390
 	ldr r0, [r4, #0x448]
 	cmp r0, #0
 	addeq sp, sp, #0x24
@@ -7795,10 +7795,10 @@ _0215A4A4:
 	bl StageTask__Draw3D
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end ovl02_215A3BC
+	arm_func_end Boss6Platform__Draw
 
-	arm_func_start ovl02_215A550
-ovl02_215A550: // 0x0215A550
+	arm_func_start Boss6Platform__Action_215A550
+Boss6Platform__Action_215A550: // 0x0215A550
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x444]
 	cmp r1, #0
@@ -7812,43 +7812,43 @@ ovl02_215A550: // 0x0215A550
 _0215A578:
 	mov r2, #0
 	str r2, [r0, #0x444]
-	ldr r1, _0215A594 // =ovl02_215A668
+	ldr r1, _0215A594 // =Boss6Platform__State2_215A668
 	str r2, [r0, #0x398]
 	str r1, [r0, #0x394]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215A594: .word ovl02_215A668
-	arm_func_end ovl02_215A550
+_0215A594: .word Boss6Platform__State2_215A668
+	arm_func_end Boss6Platform__Action_215A550
 
-	arm_func_start ovl02_215A598
-ovl02_215A598: // 0x0215A598
+	arm_func_start Boss6Platform__Action_215A598
+Boss6Platform__Action_215A598: // 0x0215A598
 	stmdb sp!, {r3, lr}
 	mov r2, #1
-	ldr r1, _0215A5B4 // =ovl02_215AA0C
+	ldr r1, _0215A5B4 // =Boss6Platform__State2_215AA0C
 	str r2, [r0, #0x398]
 	str r1, [r0, #0x394]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215A5B4: .word ovl02_215AA0C
-	arm_func_end ovl02_215A598
+_0215A5B4: .word Boss6Platform__State2_215AA0C
+	arm_func_end Boss6Platform__Action_215A598
 
-	arm_func_start ovl02_215A5B8
-ovl02_215A5B8: // 0x0215A5B8
+	arm_func_start Boss6Platform__Action_215A5B8
+Boss6Platform__Action_215A5B8: // 0x0215A5B8
 	stmdb sp!, {r3, lr}
 	mov r2, #2
-	ldr r1, _0215A5D4 // =ovl02_215AA38
+	ldr r1, _0215A5D4 // =Boss6Platform__State2_215AA38
 	str r2, [r0, #0x398]
 	str r1, [r0, #0x394]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215A5D4: .word ovl02_215AA38
-	arm_func_end ovl02_215A5B8
+_0215A5D4: .word Boss6Platform__State2_215AA38
+	arm_func_end Boss6Platform__Action_215A5B8
 
-	arm_func_start ovl02_215A5D8
-ovl02_215A5D8: // 0x0215A5D8
+	arm_func_start Boss6Platform__Action_215A5D8
+Boss6Platform__Action_215A5D8: // 0x0215A5D8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -7856,7 +7856,7 @@ ovl02_215A5D8: // 0x0215A5D8
 	mov r0, #0
 	mov r2, #0x14
 	bl MIi_CpuClear16
-	ldr r1, _0215A614 // =ovl02_215AAE8
+	ldr r1, _0215A614 // =Boss6Platform__State2_215AAE8
 	str r4, [r5, #0x374]
 	mov r0, #3
 	str r0, [r5, #0x398]
@@ -7865,11 +7865,11 @@ ovl02_215A5D8: // 0x0215A5D8
 	blx r1
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215A614: .word ovl02_215AAE8
-	arm_func_end ovl02_215A5D8
+_0215A614: .word Boss6Platform__State2_215AAE8
+	arm_func_end Boss6Platform__Action_215A5D8
 
-	arm_func_start ovl02_215A618
-ovl02_215A618: // 0x0215A618
+	arm_func_start Boss6Platform__Action_215A618
+Boss6Platform__Action_215A618: // 0x0215A618
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	mov r6, r1
@@ -7881,7 +7881,7 @@ ovl02_215A618: // 0x0215A618
 	bl MIi_CpuClear16
 	str r6, [r7, #0x378]
 	str r5, [r7, #0x37c]
-	ldr r1, _0215A664 // =ovl02_215B308
+	ldr r1, _0215A664 // =Boss6Platform__State2_215B308
 	str r4, [r7, #0x374]
 	mov r0, #4
 	str r0, [r7, #0x398]
@@ -7890,11 +7890,11 @@ ovl02_215A618: // 0x0215A618
 	blx r1
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_0215A664: .word ovl02_215B308
-	arm_func_end ovl02_215A618
+_0215A664: .word Boss6Platform__State2_215B308
+	arm_func_end Boss6Platform__Action_215A618
 
-	arm_func_start ovl02_215A668
-ovl02_215A668: // 0x0215A668
+	arm_func_start Boss6Platform__State2_215A668
+Boss6Platform__State2_215A668: // 0x0215A668
 	mov r2, #0
 	str r2, [r0, #0x448]
 	ldr r1, [r0, #0x39c]
@@ -7902,15 +7902,15 @@ ovl02_215A668: // 0x0215A668
 	add r1, r0, #0x400
 	movne r2, #0x8000
 	strh r2, [r1, #0x3c]
-	ldr r1, _0215A690 // =ovl02_215A694
+	ldr r1, _0215A690 // =Boss6Platform__State2_215A694
 	str r1, [r0, #0x394]
 	bx lr
 	.align 2, 0
-_0215A690: .word ovl02_215A694
-	arm_func_end ovl02_215A668
+_0215A690: .word Boss6Platform__State2_215A694
+	arm_func_end Boss6Platform__State2_215A668
 
-	arm_func_start ovl02_215A694
-ovl02_215A694: // 0x0215A694
+	arm_func_start Boss6Platform__State2_215A694
+Boss6Platform__State2_215A694: // 0x0215A694
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
 	mov r10, r0
@@ -7985,10 +7985,10 @@ _0215A784:
 	strle r0, [r10, #0x3e4]
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end ovl02_215A694
+	arm_func_end Boss6Platform__State2_215A694
 
-	arm_func_start ovl02_215A7AC
-ovl02_215A7AC: // 0x0215A7AC
+	arm_func_start Boss6Platform__Func_215A7AC
+Boss6Platform__Func_215A7AC: // 0x0215A7AC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -8017,10 +8017,10 @@ ovl02_215A7AC: // 0x0215A7AC
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0215A814: .word FX_SinCosTable_
-	arm_func_end ovl02_215A7AC
+	arm_func_end Boss6Platform__Func_215A7AC
 
-	arm_func_start ovl02_215A818
-ovl02_215A818: // 0x0215A818
+	arm_func_start Boss6Platform__Func_215A818
+Boss6Platform__Func_215A818: // 0x0215A818
 	ldr r1, [r0, #0x39c]
 	add r0, r0, #0x400
 	cmp r1, #0
@@ -8040,10 +8040,10 @@ _0215A83C:
 	bx lr
 	.align 2, 0
 _0215A858: .word 0x00000AAA
-	arm_func_end ovl02_215A818
+	arm_func_end Boss6Platform__Func_215A818
 
-	arm_func_start ovl02_215A85C
-ovl02_215A85C: // 0x0215A85C
+	arm_func_start Boss6Platform__Func_215A85C
+Boss6Platform__Func_215A85C: // 0x0215A85C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	mov r10, r0
@@ -8051,11 +8051,11 @@ ovl02_215A85C: // 0x0215A85C
 	mov r4, r1
 	cmp r2, #0
 	beq _0215A894
-	bl ovl02_215A818
+	bl Boss6Platform__Func_215A818
 	cmp r0, #0
 	beq _0215A894
 	mov r0, r10
-	bl ovl02_215A550
+	bl Boss6Platform__Action_215A550
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0215A894:
@@ -8074,13 +8074,13 @@ _0215A894:
 	cmp r4, #0
 	ldr r0, [r10, #0x370]
 	beq _0215A8E4
-	bl ovl02_2155BBC
+	bl Boss6Stage__Func_2155BBC
 	add r1, r10, #0x400
 	ldrh r2, [r1, #0x3c]
 	add r0, r2, r0
 	b _0215A8F4
 _0215A8E4:
-	bl ovl02_2155BBC
+	bl Boss6Stage__Func_2155BBC
 	add r1, r10, #0x400
 	ldrh r2, [r1, #0x3c]
 	sub r0, r2, r0
@@ -8090,7 +8090,7 @@ _0215A8F4:
 	ldrh r0, [r0, #0x3c]
 	add r2, sp, #0xc
 	mov r1, #0x64000
-	bl ovl02_215A7AC
+	bl Boss6Platform__Func_215A7AC
 	add r0, sp, #0xc
 	add r2, sp, #0x18
 	add r1, r10, #0x430
@@ -8160,52 +8160,52 @@ _0215A9FC: .word 0x00083FE0
 _0215AA00: .word Boss6Stage__Singleton
 _0215AA04: .word 0xFFDF0080
 _0215AA08: .word 0x00000199
-	arm_func_end ovl02_215A85C
+	arm_func_end Boss6Platform__Func_215A85C
 
-	arm_func_start ovl02_215AA0C
-ovl02_215AA0C: // 0x0215AA0C
+	arm_func_start Boss6Platform__State2_215AA0C
+Boss6Platform__State2_215AA0C: // 0x0215AA0C
 	mov r2, #0
 	str r2, [r0, #0x448]
-	ldr r1, _0215AA24 // =ovl02_215AA28
+	ldr r1, _0215AA24 // =Boss6Platform__State2_215AA28
 	str r2, [r0, #0x440]
 	str r1, [r0, #0x394]
 	bx lr
 	.align 2, 0
-_0215AA24: .word ovl02_215AA28
-	arm_func_end ovl02_215AA0C
+_0215AA24: .word Boss6Platform__State2_215AA28
+	arm_func_end Boss6Platform__State2_215AA0C
 
-	arm_func_start ovl02_215AA28
-ovl02_215AA28: // 0x0215AA28
-	ldr ip, _0215AA34 // =ovl02_215A85C
+	arm_func_start Boss6Platform__State2_215AA28
+Boss6Platform__State2_215AA28: // 0x0215AA28
+	ldr ip, _0215AA34 // =Boss6Platform__Func_215A85C
 	mov r1, #1
 	bx ip
 	.align 2, 0
-_0215AA34: .word ovl02_215A85C
-	arm_func_end ovl02_215AA28
+_0215AA34: .word Boss6Platform__Func_215A85C
+	arm_func_end Boss6Platform__State2_215AA28
 
-	arm_func_start ovl02_215AA38
-ovl02_215AA38: // 0x0215AA38
+	arm_func_start Boss6Platform__State2_215AA38
+Boss6Platform__State2_215AA38: // 0x0215AA38
 	mov r2, #0
 	str r2, [r0, #0x448]
-	ldr r1, _0215AA50 // =ovl02_215AA54
+	ldr r1, _0215AA50 // =Boss6Platform__State2_215AA54
 	str r2, [r0, #0x440]
 	str r1, [r0, #0x394]
 	bx lr
 	.align 2, 0
-_0215AA50: .word ovl02_215AA54
-	arm_func_end ovl02_215AA38
+_0215AA50: .word Boss6Platform__State2_215AA54
+	arm_func_end Boss6Platform__State2_215AA38
 
-	arm_func_start ovl02_215AA54
-ovl02_215AA54: // 0x0215AA54
-	ldr ip, _0215AA60 // =ovl02_215A85C
+	arm_func_start Boss6Platform__State2_215AA54
+Boss6Platform__State2_215AA54: // 0x0215AA54
+	ldr ip, _0215AA60 // =Boss6Platform__Func_215A85C
 	mov r1, #0
 	bx ip
 	.align 2, 0
-_0215AA60: .word ovl02_215A85C
-	arm_func_end ovl02_215AA54
+_0215AA60: .word Boss6Platform__Func_215A85C
+	arm_func_end Boss6Platform__State2_215AA54
 
-	arm_func_start ovl02_215AA64
-ovl02_215AA64: // 0x0215AA64
+	arm_func_start Boss6Platform__Func_215AA64
+Boss6Platform__Func_215AA64: // 0x0215AA64
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x48
 	mov r5, r0
@@ -8240,23 +8240,23 @@ ovl02_215AA64: // 0x0215AA64
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0215AAE4: .word FX_SinCosTable_
-	arm_func_end ovl02_215AA64
+	arm_func_end Boss6Platform__Func_215AA64
 
-	arm_func_start ovl02_215AAE8
-ovl02_215AAE8: // 0x0215AAE8
+	arm_func_start Boss6Platform__State2_215AAE8
+Boss6Platform__State2_215AAE8: // 0x0215AAE8
 	stmdb sp!, {r3, lr}
 	mov r2, #0
-	ldr r1, _0215AB04 // =ovl02_215AB08
+	ldr r1, _0215AB04 // =Boss6Platform__State2_215AB08
 	str r2, [r0, #0x2d8]
 	str r1, [r0, #0x394]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215AB04: .word ovl02_215AB08
-	arm_func_end ovl02_215AAE8
+_0215AB04: .word Boss6Platform__State2_215AB08
+	arm_func_end Boss6Platform__State2_215AAE8
 
-	arm_func_start ovl02_215AB08
-ovl02_215AB08: // 0x0215AB08
+	arm_func_start Boss6Platform__State2_215AB08
+Boss6Platform__State2_215AB08: // 0x0215AB08
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
 	ldr r1, _0215AC6C // =gPlayer
@@ -8312,7 +8312,7 @@ _0215AB88:
 	movhi r0, #0x8000
 	strhih r0, [r6, #0xe]
 	mov r0, r10
-	bl ovl02_215AA64
+	bl Boss6Platform__Func_215AA64
 	ldr r1, [r10, #0x3e4]
 	cmp r1, #0
 	bge _0215AC08
@@ -8346,7 +8346,7 @@ _0215AC20:
 	cmpeq r0, #0
 	ldreqh r0, [r6, #0xe]
 	cmpeq r0, #0x8000
-	ldreq r0, _0215AC7C // =ovl02_215AC80
+	ldreq r0, _0215AC7C // =Boss6Platform__State2_215AC80
 	streq r0, [r10, #0x394]
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -8355,28 +8355,28 @@ _0215AC6C: .word gPlayer
 _0215AC70: .word 0x000E7FC0
 _0215AC74: .word Boss6Stage__Singleton
 _0215AC78: .word 0x00000999
-_0215AC7C: .word ovl02_215AC80
-	arm_func_end ovl02_215AB08
+_0215AC7C: .word Boss6Platform__State2_215AC80
+	arm_func_end Boss6Platform__State2_215AB08
 
-	arm_func_start ovl02_215AC80
-ovl02_215AC80: // 0x0215AC80
+	arm_func_start Boss6Platform__State2_215AC80
+Boss6Platform__State2_215AC80: // 0x0215AC80
 	stmdb sp!, {r3, lr}
 	mov r2, #0
 	str r0, [r0, #0x2d8]
 	add r3, r0, #0x2d8
 	strh r2, [r3, #0x22]
 	sub r2, r2, #0x18
-	ldr r1, _0215ACAC // =ovl02_215ACB0
+	ldr r1, _0215ACAC // =Boss6Platform__State2_215ACB0
 	strh r2, [r3, #0x1a]
 	str r1, [r0, #0x394]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215ACAC: .word ovl02_215ACB0
-	arm_func_end ovl02_215AC80
+_0215ACAC: .word Boss6Platform__State2_215ACB0
+	arm_func_end Boss6Platform__State2_215AC80
 
-	arm_func_start ovl02_215ACB0
-ovl02_215ACB0: // 0x0215ACB0
+	arm_func_start Boss6Platform__State2_215ACB0
+Boss6Platform__State2_215ACB0: // 0x0215ACB0
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -8444,7 +8444,7 @@ _0215AD90:
 	movlo r3, #1
 _0215ADAC:
 	cmp r3, #0
-	ldrne r0, _0215ADF0 // =ovl02_215ADF4
+	ldrne r0, _0215ADF0 // =Boss6Platform__State2_215ADF4
 	strne r0, [r5, #0x394]
 	ldr r0, _0215ADE4 // =gPlayer
 	ldr r2, [r0, #0]
@@ -8461,11 +8461,11 @@ _0215ADAC:
 _0215ADE4: .word gPlayer
 _0215ADE8: .word 0x000E7FC0
 _0215ADEC: .word 0x00000199
-_0215ADF0: .word ovl02_215ADF4
-	arm_func_end ovl02_215ACB0
+_0215ADF0: .word Boss6Platform__State2_215ADF4
+	arm_func_end Boss6Platform__State2_215ACB0
 
-	arm_func_start ovl02_215ADF4
-ovl02_215ADF4: // 0x0215ADF4
+	arm_func_start Boss6Platform__State2_215ADF4
+Boss6Platform__State2_215ADF4: // 0x0215ADF4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -8485,16 +8485,16 @@ ovl02_215ADF4: // 0x0215ADF4
 	mov r3, r1
 	stmia sp, {r0, ip}
 	bl PlaySfxEx
-	ldr r0, _0215AE50 // =ovl02_215AE54
+	ldr r0, _0215AE50 // =Boss6Platform__State2_215AE54
 	str r0, [r4, #0x394]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215AE50: .word ovl02_215AE54
-	arm_func_end ovl02_215ADF4
+_0215AE50: .word Boss6Platform__State2_215AE54
+	arm_func_end Boss6Platform__State2_215ADF4
 
-	arm_func_start ovl02_215AE54
-ovl02_215AE54: // 0x0215AE54
+	arm_func_start Boss6Platform__State2_215AE54
+Boss6Platform__State2_215AE54: // 0x0215AE54
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r4, r5, #0x374
@@ -8505,7 +8505,7 @@ ovl02_215AE54: // 0x0215AE54
 	ldrh r0, [r4, #8]
 	ldrh r1, [r1, #6]
 	cmp r0, r1
-	ldrhs r0, _0215AEEC // =ovl02_215AEF4
+	ldrhs r0, _0215AEEC // =Boss6Platform__State2_215AEF4
 	movhs ip, #0x1000
 	strhs r0, [r5, #0x394]
 	bhs _0215AEA0
@@ -8532,31 +8532,31 @@ _0215AEA0:
 	mov r0, r5
 	add r1, r2, r1
 	strh r1, [r4, #0x10]
-	bl ovl02_215AA64
+	bl Boss6Platform__Func_215AA64
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215AEEC: .word ovl02_215AEF4
+_0215AEEC: .word Boss6Platform__State2_215AEF4
 _0215AEF0: .word 0x01E93000
-	arm_func_end ovl02_215AE54
+	arm_func_end Boss6Platform__State2_215AE54
 
-	arm_func_start ovl02_215AEF4
-ovl02_215AEF4: // 0x0215AEF4
+	arm_func_start Boss6Platform__State2_215AEF4
+Boss6Platform__State2_215AEF4: // 0x0215AEF4
 	stmdb sp!, {r3, lr}
 	mov r1, #0
 	str r1, [r0, #0x2d8]
 	ldr r2, [r0, #0x374]
-	ldr r1, _0215AF1C // =ovl02_215AF20
+	ldr r1, _0215AF1C // =Boss6Platform__State2_215AF20
 	ldr r2, [r2, #8]
 	str r2, [r0, #0x9c]
 	str r1, [r0, #0x394]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215AF1C: .word ovl02_215AF20
-	arm_func_end ovl02_215AEF4
+_0215AF1C: .word Boss6Platform__State2_215AF20
+	arm_func_end Boss6Platform__State2_215AEF4
 
-	arm_func_start ovl02_215AF20
-ovl02_215AF20: // 0x0215AF20
+	arm_func_start Boss6Platform__State2_215AF20
+Boss6Platform__State2_215AF20: // 0x0215AF20
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r1, _0215AFE8 // =Boss6Stage__Singleton
@@ -8597,7 +8597,7 @@ ovl02_215AF20: // 0x0215AF20
 	add r1, r5, #0x44
 	bl ProcessSpatialVoiceClip
 	bl EnableSpatialVolume
-	ldr r0, _0215AFEC // =ovl02_215AFF0
+	ldr r0, _0215AFEC // =Boss6Platform__State2_215AFF0
 	str r0, [r5, #0x394]
 _0215AFC8:
 	ldrh r2, [r4, #0x10]
@@ -8605,16 +8605,16 @@ _0215AFC8:
 	mov r0, r5
 	add r1, r2, r1
 	strh r1, [r4, #0x10]
-	bl ovl02_215AA64
+	bl Boss6Platform__Func_215AA64
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0215AFE8: .word Boss6Stage__Singleton
-_0215AFEC: .word ovl02_215AFF0
-	arm_func_end ovl02_215AF20
+_0215AFEC: .word Boss6Platform__State2_215AFF0
+	arm_func_end Boss6Platform__State2_215AF20
 
-	arm_func_start ovl02_215AFF0
-ovl02_215AFF0: // 0x0215AFF0
+	arm_func_start Boss6Platform__State2_215AFF0
+Boss6Platform__State2_215AFF0: // 0x0215AFF0
 	add r3, r0, #0x374
 	ldrh r1, [r3, #0xa]
 	cmp r1, #0
@@ -8629,23 +8629,23 @@ _0215B014:
 	cmp r1, #0x12c000
 	ble _0215B030
 	mov r2, #0
-	ldr r1, _0215B048 // =ovl02_215B050
+	ldr r1, _0215B048 // =Boss6Platform__State2_215B050
 	str r2, [r0, #0x448]
 	str r1, [r0, #0x394]
 _0215B030:
 	ldrh r2, [r3, #0x10]
 	ldrh r1, [r3, #0x12]
-	ldr ip, _0215B04C // =ovl02_215AA64
+	ldr ip, _0215B04C // =Boss6Platform__Func_215AA64
 	add r1, r2, r1
 	strh r1, [r3, #0x10]
 	bx ip
 	.align 2, 0
-_0215B048: .word ovl02_215B050
-_0215B04C: .word ovl02_215AA64
-	arm_func_end ovl02_215AFF0
+_0215B048: .word Boss6Platform__State2_215B050
+_0215B04C: .word Boss6Platform__Func_215AA64
+	arm_func_end Boss6Platform__State2_215AFF0
 
-	arm_func_start ovl02_215B050
-ovl02_215B050: // 0x0215B050
+	arm_func_start Boss6Platform__State2_215B050
+Boss6Platform__State2_215B050: // 0x0215B050
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
@@ -8657,7 +8657,7 @@ ovl02_215B050: // 0x0215B050
 	strh r1, [r2, #0x10]
 	strh r1, [r2, #0xe]
 	add r5, r4, #0x2d8
-	bl ovl02_215AA64
+	bl Boss6Platform__Func_215AA64
 	add r0, r4, #0x470
 	bl MTX_Identity33_
 	str r4, [r4, #0x2d8]
@@ -8666,7 +8666,7 @@ ovl02_215B050: // 0x0215B050
 	mov r1, #0
 	mov r0, r4
 	strh r1, [r5, #0x1a]
-	bl ovl02_215A2AC
+	bl Boss6Platform__GetOtherPlatform
 	mov r5, r0
 	ldr r0, [r5, #0x398]
 	cmp r0, #0
@@ -8691,7 +8691,7 @@ _0215B0E4:
 _0215B0F4:
 	add r2, sp, #0
 	mov r1, #0x190000
-	bl ovl02_215A7AC
+	bl Boss6Platform__Func_215A7AC
 	add r0, sp, #0
 	add r1, r5, #0x430
 	add r2, r4, #0x44
@@ -8699,20 +8699,20 @@ _0215B0F4:
 	mov r0, #0
 	str r0, [r4, #0x4c]
 _0215B118:
-	ldr r0, _0215B128 // =ovl02_215B12C
+	ldr r0, _0215B128 // =Boss6Platform__State2_215B12C
 	str r0, [r4, #0x394]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
-_0215B128: .word ovl02_215B12C
-	arm_func_end ovl02_215B050
+_0215B128: .word Boss6Platform__State2_215B12C
+	arm_func_end Boss6Platform__State2_215B050
 
-	arm_func_start ovl02_215B12C
-ovl02_215B12C: // 0x0215B12C
+	arm_func_start Boss6Platform__State2_215B12C
+Boss6Platform__State2_215B12C: // 0x0215B12C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x24
 	mov r5, r0
-	bl ovl02_215A2AC
+	bl Boss6Platform__GetOtherPlatform
 	mov r4, r0
 	ldr r0, [r4, #0x398]
 	cmp r0, #0
@@ -8727,7 +8727,7 @@ ovl02_215B12C: // 0x0215B12C
 	strh r1, [r0, #0x3c]
 	ldrh r0, [r0, #0x3c]
 	mov r1, #0x64000
-	bl ovl02_215A7AC
+	bl Boss6Platform__Func_215A7AC
 	add r0, sp, #0xc
 	add r2, sp, #0x18
 	add r1, r4, #0x430
@@ -8785,25 +8785,25 @@ _0215B190:
 	ldmia sp!, {r4, r5, pc}
 _0215B250:
 	mov r0, r5
-	bl ovl02_215A550
+	bl Boss6Platform__Action_215A550
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, pc}
 _0215B260:
 	mov r0, r5
-	bl ovl02_215A598
+	bl Boss6Platform__Action_215A598
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, pc}
 _0215B270:
 	mov r0, r5
-	bl ovl02_215A5B8
+	bl Boss6Platform__Action_215A5B8
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _0215B280: .word 0x00000199
-	arm_func_end ovl02_215B12C
+	arm_func_end Boss6Platform__State2_215B12C
 
-	arm_func_start ovl02_215B284
-ovl02_215B284: // 0x0215B284
+	arm_func_start Boss6Platform__Func_215B284
+Boss6Platform__Func_215B284: // 0x0215B284
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x48
 	mov r5, r0
@@ -8838,21 +8838,21 @@ ovl02_215B284: // 0x0215B284
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0215B304: .word FX_SinCosTable_
-	arm_func_end ovl02_215B284
+	arm_func_end Boss6Platform__Func_215B284
 
-	arm_func_start ovl02_215B308
-ovl02_215B308: // 0x0215B308
+	arm_func_start Boss6Platform__State2_215B308
+Boss6Platform__State2_215B308: // 0x0215B308
 	mov r2, #0
-	ldr r1, _0215B31C // =ovl02_215B320
+	ldr r1, _0215B31C // =Boss6Platform__State2_215B320
 	str r2, [r0, #0x2d8]
 	str r1, [r0, #0x394]
 	bx lr
 	.align 2, 0
-_0215B31C: .word ovl02_215B320
-	arm_func_end ovl02_215B308
+_0215B31C: .word Boss6Platform__State2_215B320
+	arm_func_end Boss6Platform__State2_215B308
 
-	arm_func_start ovl02_215B320
-ovl02_215B320: // 0x0215B320
+	arm_func_start Boss6Platform__State2_215B320
+Boss6Platform__State2_215B320: // 0x0215B320
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r4, r5, #0x374
@@ -8896,17 +8896,17 @@ _0215B3A0:
 	sub r0, r0, #0x28000
 _0215B3B8:
 	str r0, [r4, #0x10]
-	ldr r0, _0215B3D0 // =ovl02_215B3D4
+	ldr r0, _0215B3D0 // =Boss6Platform__State2_215B3D4
 	str r0, [r5, #0x394]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0215B3C8: .word 0x000DFFC0
 _0215B3CC: .word Boss6Stage__Singleton
-_0215B3D0: .word ovl02_215B3D4
-	arm_func_end ovl02_215B320
+_0215B3D0: .word Boss6Platform__State2_215B3D4
+	arm_func_end Boss6Platform__State2_215B320
 
-	arm_func_start ovl02_215B3D4
-ovl02_215B3D4: // 0x0215B3D4
+	arm_func_start Boss6Platform__State2_215B3D4
+Boss6Platform__State2_215B3D4: // 0x0215B3D4
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r10, r0
@@ -8956,7 +8956,7 @@ _0215B464:
 _0215B484:
 	mov r0, r10
 	strh r2, [r5, #0x18]
-	bl ovl02_215B284
+	bl Boss6Platform__Func_215B284
 	ldr r1, [r10, #0x3e4]
 	cmp r1, #0
 	bge _0215B4B8
@@ -9009,17 +9009,17 @@ _0215B4D0:
 	add r1, r10, #0x44
 	bl ProcessSpatialVoiceClip
 	bl EnableSpatialVolume
-	ldr r0, _0215B56C // =ovl02_215B570
+	ldr r0, _0215B56C // =Boss6Platform__State2_215B570
 	str r0, [r10, #0x394]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215B568: .word 0x00000999
-_0215B56C: .word ovl02_215B570
-	arm_func_end ovl02_215B3D4
+_0215B56C: .word Boss6Platform__State2_215B570
+	arm_func_end Boss6Platform__State2_215B3D4
 
-	arm_func_start ovl02_215B570
-ovl02_215B570: // 0x0215B570
+	arm_func_start Boss6Platform__State2_215B570
+Boss6Platform__State2_215B570: // 0x0215B570
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x374]
@@ -9028,7 +9028,7 @@ ovl02_215B570: // 0x0215B570
 	add r0, r5, #1
 	add r4, r6, #0x374
 	cmp r0, r1
-	ldrge r0, _0215B608 // =ovl02_215B610
+	ldrge r0, _0215B608 // =Boss6Platform__State2_215B610
 	movge ip, #0x1000
 	strge r0, [r6, #0x394]
 	bge _0215B5B4
@@ -9057,15 +9057,15 @@ _0215B5B4:
 	mov r0, r6
 	add r1, r2, r1
 	strh r1, [r4, #0x1c]
-	bl ovl02_215B284
+	bl Boss6Platform__Func_215B284
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0215B608: .word ovl02_215B610
+_0215B608: .word Boss6Platform__State2_215B610
 _0215B60C: .word 0x01E93000
-	arm_func_end ovl02_215B570
+	arm_func_end Boss6Platform__State2_215B570
 
-	arm_func_start ovl02_215B610
-ovl02_215B610: // 0x0215B610
+	arm_func_start Boss6Platform__State2_215B610
+Boss6Platform__State2_215B610: // 0x0215B610
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x378]
 	cmp r1, #0
@@ -9074,16 +9074,16 @@ ovl02_215B610: // 0x0215B610
 	rsbne r1, r1, #0
 	ldreq r1, [r1, #4]
 	str r1, [r0, #0x98]
-	ldr r1, _0215B640 // =ovl02_215B644
+	ldr r1, _0215B640 // =Boss6Platform__State2_215B644
 	str r1, [r0, #0x394]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215B640: .word ovl02_215B644
-	arm_func_end ovl02_215B610
+_0215B640: .word Boss6Platform__State2_215B644
+	arm_func_end Boss6Platform__State2_215B610
 
-	arm_func_start ovl02_215B644
-ovl02_215B644: // 0x0215B644
+	arm_func_start Boss6Platform__State2_215B644
+Boss6Platform__State2_215B644: // 0x0215B644
 	stmdb sp!, {r3, lr}
 	add r1, r0, #0x374
 	ldr r2, [r1, #4]
@@ -9104,7 +9104,7 @@ _0215B680:
 	cmp ip, #0
 	beq _0215B698
 	mov r3, #0
-	ldr r2, _0215B6B0 // =ovl02_215B6B4
+	ldr r2, _0215B6B0 // =Boss6Platform__State2_215B6B4
 	str r3, [r0, #0x448]
 	str r2, [r0, #0x394]
 _0215B698:
@@ -9112,14 +9112,14 @@ _0215B698:
 	ldrh r2, [r1, #0x1e]
 	add r2, r3, r2
 	strh r2, [r1, #0x1c]
-	bl ovl02_215B284
+	bl Boss6Platform__Func_215B284
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215B6B0: .word ovl02_215B6B4
-	arm_func_end ovl02_215B644
+_0215B6B0: .word Boss6Platform__State2_215B6B4
+	arm_func_end Boss6Platform__State2_215B644
 
-	arm_func_start ovl02_215B6B4
-ovl02_215B6B4: // 0x0215B6B4
+	arm_func_start Boss6Platform__State2_215B6B4
+Boss6Platform__State2_215B6B4: // 0x0215B6B4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
@@ -9134,7 +9134,7 @@ ovl02_215B6B4: // 0x0215B6B4
 	mov r0, r4
 	bic r1, r1, #4
 	str r1, [r4, #0x2b0]
-	bl ovl02_215A2AC
+	bl Boss6Platform__GetOtherPlatform
 	mov r5, r0
 	ldr r0, [r5, #0x398]
 	cmp r0, #0
@@ -9159,7 +9159,7 @@ _0215B730:
 _0215B740:
 	add r2, sp, #0
 	mov r1, #0x190000
-	bl ovl02_215A7AC
+	bl Boss6Platform__Func_215A7AC
 	add r0, sp, #0
 	add r1, r5, #0x430
 	add r2, r4, #0x44
@@ -9167,20 +9167,20 @@ _0215B740:
 	mov r0, #0
 	str r0, [r4, #0x4c]
 _0215B764:
-	ldr r0, _0215B774 // =ovl02_215B778
+	ldr r0, _0215B774 // =Boss6Platform__State2_215B778
 	str r0, [r4, #0x394]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
-_0215B774: .word ovl02_215B778
-	arm_func_end ovl02_215B6B4
+_0215B774: .word Boss6Platform__State2_215B778
+	arm_func_end Boss6Platform__State2_215B6B4
 
-	arm_func_start ovl02_215B778
-ovl02_215B778: // 0x0215B778
+	arm_func_start Boss6Platform__State2_215B778
+Boss6Platform__State2_215B778: // 0x0215B778
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x24
 	mov r5, r0
-	bl ovl02_215A2AC
+	bl Boss6Platform__GetOtherPlatform
 	mov r4, r0
 	ldr r0, [r4, #0x398]
 	cmp r0, #0
@@ -9195,7 +9195,7 @@ ovl02_215B778: // 0x0215B778
 	strh r1, [r0, #0x3c]
 	ldrh r0, [r0, #0x3c]
 	mov r1, #0x64000
-	bl ovl02_215A7AC
+	bl Boss6Platform__Func_215A7AC
 	add r0, sp, #0xc
 	add r2, sp, #0x18
 	add r1, r4, #0x430
@@ -9253,25 +9253,25 @@ _0215B7DC:
 	ldmia sp!, {r4, r5, pc}
 _0215B89C:
 	mov r0, r5
-	bl ovl02_215A550
+	bl Boss6Platform__Action_215A550
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, pc}
 _0215B8AC:
 	mov r0, r5
-	bl ovl02_215A598
+	bl Boss6Platform__Action_215A598
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, pc}
 _0215B8BC:
 	mov r0, r5
-	bl ovl02_215A5B8
+	bl Boss6Platform__Action_215A5B8
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _0215B8CC: .word 0x00000199
-	arm_func_end ovl02_215B778
+	arm_func_end Boss6Platform__State2_215B778
 
-	arm_func_start ovl02_215B8D0
-ovl02_215B8D0: // 0x0215B8D0
+	arm_func_start Boss6__SpawnEnemyA
+Boss6__SpawnEnemyA: // 0x0215B8D0
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r3, #0
@@ -9295,29 +9295,29 @@ ovl02_215B8D0: // 0x0215B8D0
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _0215B924: .word 0x0000012A
-	arm_func_end ovl02_215B8D0
+	arm_func_end Boss6__SpawnEnemyA
 
-	arm_func_start ovl02_215B928
-ovl02_215B928: // 0x0215B928
+	arm_func_start Boss6EnemyA__State_215B928
+Boss6EnemyA__State_215B928: // 0x0215B928
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x374]
 	blx r1
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl02_215B928
+	arm_func_end Boss6EnemyA__State_215B928
 
-	arm_func_start ovl02_215B938
-ovl02_215B938: // 0x0215B938
+	arm_func_start Boss6EnemyA__Action_215B938
+Boss6EnemyA__Action_215B938: // 0x0215B938
 	mov r2, #0
-	ldr r1, _0215B94C // =ovl02_215B950
+	ldr r1, _0215B94C // =Boss6EnemyA__State2_215B950
 	str r2, [r0, #0x37c]
 	str r1, [r0, #0x374]
 	bx lr
 	.align 2, 0
-_0215B94C: .word ovl02_215B950
-	arm_func_end ovl02_215B938
+_0215B94C: .word Boss6EnemyA__State2_215B950
+	arm_func_end Boss6EnemyA__Action_215B938
 
-	arm_func_start ovl02_215B950
-ovl02_215B950: // 0x0215B950
+	arm_func_start Boss6EnemyA__State2_215B950
+Boss6EnemyA__State2_215B950: // 0x0215B950
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -9338,18 +9338,18 @@ ovl02_215B950: // 0x0215B950
 	mov r3, r1
 	stmia sp, {r0, ip}
 	bl PlaySfxEx
-	ldr r1, _0215B9B8 // =ovl02_215B9BC
+	ldr r1, _0215B9B8 // =Boss6EnemyA__State2_215B9BC
 	mov r0, r4
 	str r1, [r4, #0x374]
 	blx r1
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215B9B8: .word ovl02_215B9BC
-	arm_func_end ovl02_215B950
+_0215B9B8: .word Boss6EnemyA__State2_215B9BC
+	arm_func_end Boss6EnemyA__State2_215B950
 
-	arm_func_start ovl02_215B9BC
-ovl02_215B9BC: // 0x0215B9BC
+	arm_func_start Boss6EnemyA__State2_215B9BC
+Boss6EnemyA__State2_215B9BC: // 0x0215B9BC
 	ldr r1, [r0, #0x370]
 	ldr r1, [r1, #0x3a4]
 	str r1, [r0, #0xa0]
@@ -9359,10 +9359,10 @@ ovl02_215B9BC: // 0x0215B9BC
 	orrgt r1, r1, #8
 	strgt r1, [r0, #0x18]
 	bx lr
-	arm_func_end ovl02_215B9BC
+	arm_func_end Boss6EnemyA__State2_215B9BC
 
-	arm_func_start ovl02_215B9E0
-ovl02_215B9E0: // 0x0215B9E0
+	arm_func_start Boss6__SpawnEnemyB
+Boss6__SpawnEnemyB: // 0x0215B9E0
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x14
 	mov r5, r2
@@ -9406,10 +9406,10 @@ ovl02_215B9E0: // 0x0215B9E0
 	.align 2, 0
 _0215BA80: .word 0x0000012B
 _0215BA84: .word Boss6Stage__Singleton
-	arm_func_end ovl02_215B9E0
+	arm_func_end Boss6__SpawnEnemyB
 
-	arm_func_start ovl02_215BA88
-ovl02_215BA88: // 0x0215BA88
+	arm_func_start Boss6EnemyB__State_215BA88
+Boss6EnemyB__State_215BA88: // 0x0215BA88
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x4c]
@@ -9443,16 +9443,16 @@ _0215BAE0:
 	strle r0, [r4, #0x3e0]
 _0215BAFC:
 	add r0, r4, #0x39c
-	bl ovl02_21550CC
+	bl Boss6Stage__Func_21550CC
 	add r0, r4, #0x3b4
 	add r3, r4, #0xb0
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl02_215BA88
+	arm_func_end Boss6EnemyB__State_215BA88
 
-	arm_func_start ovl02_215BB18
-ovl02_215BB18: // 0x0215BB18
+	arm_func_start Boss6EnemyB__Destructor
+Boss6EnemyB__Destructor: // 0x0215BB18
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -9475,10 +9475,10 @@ ovl02_215BB18: // 0x0215BB18
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl02_215BB18
+	arm_func_end Boss6EnemyB__Destructor
 
-	arm_func_start ovl02_215BB70
-ovl02_215BB70: // 0x0215BB70
+	arm_func_start Boss6EnemyB__Draw
+Boss6EnemyB__Draw: // 0x0215BB70
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -9489,36 +9489,36 @@ ovl02_215BB70: // 0x0215BB70
 	add r1, r1, #0x400
 	add r2, r4, #0x6f0
 	mov r3, #0xf000
-	bl ovl02_2155390
+	bl Boss6Stage__Func_2155390
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl02_215BB70
+	arm_func_end Boss6EnemyB__Draw
 
-	arm_func_start ovl02_215BBA0
-ovl02_215BBA0: // 0x0215BBA0
+	arm_func_start Boss6EnemyB__Action_215BBA0
+Boss6EnemyB__Action_215BBA0: // 0x0215BBA0
 	mov r2, #0
-	ldr r1, _0215BBB4 // =ovl02_215BBD8
+	ldr r1, _0215BBB4 // =Boss6EnemyB__State2_215BBD8
 	str r2, [r0, #0x398]
 	str r1, [r0, #0x390]
 	bx lr
 	.align 2, 0
-_0215BBB4: .word ovl02_215BBD8
-	arm_func_end ovl02_215BBA0
+_0215BBB4: .word Boss6EnemyB__State2_215BBD8
+	arm_func_end Boss6EnemyB__Action_215BBA0
 
-	arm_func_start ovl02_215BBB8
-ovl02_215BBB8: // 0x0215BBB8
+	arm_func_start Boss6EnemyB__Action_215BBB8
+Boss6EnemyB__Action_215BBB8: // 0x0215BBB8
 	stmdb sp!, {r3, lr}
 	mov r2, #1
-	ldr r1, _0215BBD4 // =ovl02_215BC6C
+	ldr r1, _0215BBD4 // =Boss6EnemyB__State2_215BC6C
 	str r2, [r0, #0x398]
 	str r1, [r0, #0x390]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215BBD4: .word ovl02_215BC6C
-	arm_func_end ovl02_215BBB8
+_0215BBD4: .word Boss6EnemyB__State2_215BC6C
+	arm_func_end Boss6EnemyB__Action_215BBB8
 
-	arm_func_start ovl02_215BBD8
-ovl02_215BBD8: // 0x0215BBD8
+	arm_func_start Boss6EnemyB__State2_215BBD8
+Boss6EnemyB__State2_215BBD8: // 0x0215BBD8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r4, #0
 	add r2, r0, #0x98
@@ -9555,12 +9555,12 @@ _0215BBFC:
 	strh r2, [r1, #0xda]
 	mov r1, #0x5000
 	str r1, [r0, #0x3e0]
-	bl ovl02_215BBB8
+	bl Boss6EnemyB__Action_215BBB8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	arm_func_end ovl02_215BBD8
+	arm_func_end Boss6EnemyB__State2_215BBD8
 
-	arm_func_start ovl02_215BC6C
-ovl02_215BC6C: // 0x0215BC6C
+	arm_func_start Boss6EnemyB__State2_215BC6C
+Boss6EnemyB__State2_215BC6C: // 0x0215BC6C
 	ldr r1, [r0, #0x394]
 	cmp r1, #4
 	addls pc, pc, r1, lsl #2
@@ -9572,48 +9572,48 @@ _0215BC7C: // jump table
 	b _0215BCB4 // case 3
 	b _0215BCC0 // case 4
 _0215BC90:
-	ldr r1, _0215BCCC // =ovl02_215BCE0
+	ldr r1, _0215BCCC // =Boss6EnemyB__State2_215BCE0
 	str r1, [r0, #0x390]
 	bx lr
 _0215BC9C:
-	ldr r1, _0215BCD0 // =ovl02_215BD4C
+	ldr r1, _0215BCD0 // =Boss6EnemyB__State2_215BD4C
 	str r1, [r0, #0x390]
 	bx lr
 _0215BCA8:
-	ldr r1, _0215BCD4 // =ovl02_215BDB8
+	ldr r1, _0215BCD4 // =Boss6EnemyB__State2_215BDB8
 	str r1, [r0, #0x390]
 	bx lr
 _0215BCB4:
-	ldr r1, _0215BCD8 // =ovl02_215BE24
+	ldr r1, _0215BCD8 // =Boss6EnemyB__State2_215BE24
 	str r1, [r0, #0x390]
 	bx lr
 _0215BCC0:
-	ldr r1, _0215BCDC // =ovl02_215BF50
+	ldr r1, _0215BCDC // =Boss6EnemyB__State2_215BF50
 	str r1, [r0, #0x390]
 	bx lr
 	.align 2, 0
-_0215BCCC: .word ovl02_215BCE0
-_0215BCD0: .word ovl02_215BD4C
-_0215BCD4: .word ovl02_215BDB8
-_0215BCD8: .word ovl02_215BE24
-_0215BCDC: .word ovl02_215BF50
-	arm_func_end ovl02_215BC6C
+_0215BCCC: .word Boss6EnemyB__State2_215BCE0
+_0215BCD0: .word Boss6EnemyB__State2_215BD4C
+_0215BCD4: .word Boss6EnemyB__State2_215BDB8
+_0215BCD8: .word Boss6EnemyB__State2_215BE24
+_0215BCDC: .word Boss6EnemyB__State2_215BF50
+	arm_func_end Boss6EnemyB__State2_215BC6C
 
-	arm_func_start ovl02_215BCE0
-ovl02_215BCE0: // 0x0215BCE0
+	arm_func_start Boss6EnemyB__State2_215BCE0
+Boss6EnemyB__State2_215BCE0: // 0x0215BCE0
 	mov r2, #0x3000
-	ldr r1, _0215BCF4 // =ovl02_215BCF8
+	ldr r1, _0215BCF4 // =Boss6EnemyB__State2_215BCF8
 	str r2, [r0, #0xa0]
 	str r1, [r0, #0x390]
 	bx lr
 	.align 2, 0
-_0215BCF4: .word ovl02_215BCF8
-	arm_func_end ovl02_215BCE0
+_0215BCF4: .word Boss6EnemyB__State2_215BCF8
+	arm_func_end Boss6EnemyB__State2_215BCE0
 
-	arm_func_start ovl02_215BCF8
-ovl02_215BCF8: // 0x0215BCF8
+	arm_func_start Boss6EnemyB__State2_215BCF8
+Boss6EnemyB__State2_215BCF8: // 0x0215BCF8
 	bx lr
-	arm_func_end ovl02_215BCF8
+	arm_func_end Boss6EnemyB__State2_215BCF8
 
 	arm_func_start ovl02_215BCFC
 ovl02_215BCFC: // 0x0215BCFC
@@ -9640,8 +9640,8 @@ ovl02_215BCFC: // 0x0215BCFC
 _0215BD48: .word FX_SinCosTable_
 	arm_func_end ovl02_215BCFC
 
-	arm_func_start ovl02_215BD4C
-ovl02_215BD4C: // 0x0215BD4C
+	arm_func_start Boss6EnemyB__State2_215BD4C
+Boss6EnemyB__State2_215BD4C: // 0x0215BD4C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r4, r5, #0x374
@@ -9658,27 +9658,27 @@ ovl02_215BD4C: // 0x0215BD4C
 	strh r1, [r4, #6]
 	str r0, [r4, #8]
 	mov r1, #0x3000
-	ldr r0, _0215BDA4 // =ovl02_215BDA8
+	ldr r0, _0215BDA4 // =Boss6EnemyB__State2_215BDA8
 	str r1, [r4, #0xc]
 	str r0, [r5, #0x390]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0215BD9C: .word 0x0000D555
 _0215BDA0: .word 0x000014CC
-_0215BDA4: .word ovl02_215BDA8
-	arm_func_end ovl02_215BD4C
+_0215BDA4: .word Boss6EnemyB__State2_215BDA8
+	arm_func_end Boss6EnemyB__State2_215BD4C
 
-	arm_func_start ovl02_215BDA8
-ovl02_215BDA8: // 0x0215BDA8
+	arm_func_start Boss6EnemyB__State2_215BDA8
+Boss6EnemyB__State2_215BDA8: // 0x0215BDA8
 	ldr ip, _0215BDB4 // =ovl02_215BCFC
 	add r1, r0, #0x374
 	bx ip
 	.align 2, 0
 _0215BDB4: .word ovl02_215BCFC
-	arm_func_end ovl02_215BDA8
+	arm_func_end Boss6EnemyB__State2_215BDA8
 
-	arm_func_start ovl02_215BDB8
-ovl02_215BDB8: // 0x0215BDB8
+	arm_func_start Boss6EnemyB__State2_215BDB8
+Boss6EnemyB__State2_215BDB8: // 0x0215BDB8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r4, r5, #0x374
@@ -9695,27 +9695,27 @@ ovl02_215BDB8: // 0x0215BDB8
 	strh r1, [r4, #6]
 	str r0, [r4, #8]
 	mov r1, #0x3000
-	ldr r0, _0215BE10 // =ovl02_215BE14
+	ldr r0, _0215BE10 // =Boss6EnemyB__State2_215BE14
 	str r1, [r4, #0xc]
 	str r0, [r5, #0x390]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0215BE08: .word 0x00005555
 _0215BE0C: .word 0x000014CC
-_0215BE10: .word ovl02_215BE14
-	arm_func_end ovl02_215BDB8
+_0215BE10: .word Boss6EnemyB__State2_215BE14
+	arm_func_end Boss6EnemyB__State2_215BDB8
 
-	arm_func_start ovl02_215BE14
-ovl02_215BE14: // 0x0215BE14
+	arm_func_start Boss6EnemyB__State2_215BE14
+Boss6EnemyB__State2_215BE14: // 0x0215BE14
 	ldr ip, _0215BE20 // =ovl02_215BCFC
 	add r1, r0, #0x374
 	bx ip
 	.align 2, 0
 _0215BE20: .word ovl02_215BCFC
-	arm_func_end ovl02_215BE14
+	arm_func_end Boss6EnemyB__State2_215BE14
 
-	arm_func_start ovl02_215BE24
-ovl02_215BE24: // 0x0215BE24
+	arm_func_start Boss6EnemyB__State2_215BE24
+Boss6EnemyB__State2_215BE24: // 0x0215BE24
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x374
@@ -9731,16 +9731,16 @@ ovl02_215BE24: // 0x0215BE24
 	mov r0, #0xa000
 	str r0, [r4, #0x380]
 	mov r1, #0x3000
-	ldr r0, _0215BE70 // =ovl02_215BE74
+	ldr r0, _0215BE70 // =Boss6EnemyB__State2_215BE74
 	str r1, [r4, #0x384]
 	str r0, [r4, #0x390]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215BE70: .word ovl02_215BE74
-	arm_func_end ovl02_215BE24
+_0215BE70: .word Boss6EnemyB__State2_215BE74
+	arm_func_end Boss6EnemyB__State2_215BE24
 
-	arm_func_start ovl02_215BE74
-ovl02_215BE74: // 0x0215BE74
+	arm_func_start Boss6EnemyB__State2_215BE74
+Boss6EnemyB__State2_215BE74: // 0x0215BE74
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
@@ -9768,10 +9768,10 @@ _0215BEC4:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _0215BED4: .word gPlayer
-	arm_func_end ovl02_215BE74
+	arm_func_end Boss6EnemyB__State2_215BE74
 
-	arm_func_start ovl02_215BED8
-ovl02_215BED8: // 0x0215BED8
+	arm_func_start Boss6EnemyB__Func_215BED8
+Boss6EnemyB__Func_215BED8: // 0x0215BED8
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	add r0, r4, #0xc
@@ -9803,10 +9803,10 @@ _0215BF40: .word _mt_math_rand
 _0215BF44: .word 0x00196225
 _0215BF48: .word 0x3C6EF35F
 _0215BF4C: .word 0x0002A54A
-	arm_func_end ovl02_215BED8
+	arm_func_end Boss6EnemyB__Func_215BED8
 
-	arm_func_start ovl02_215BF50
-ovl02_215BF50: // 0x0215BF50
+	arm_func_start Boss6EnemyB__State2_215BF50
+Boss6EnemyB__State2_215BF50: // 0x0215BF50
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r4, r5, #0x374
@@ -9822,16 +9822,16 @@ ovl02_215BF50: // 0x0215BF50
 	stmia r4, {r0, r1, r2}
 	mov r0, r5
 	mov r1, r4
-	bl ovl02_215BED8
-	ldr r0, _0215BF9C // =ovl02_215BFA0
+	bl Boss6EnemyB__Func_215BED8
+	ldr r0, _0215BF9C // =Boss6EnemyB__State2_215BFA0
 	str r0, [r5, #0x390]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215BF9C: .word ovl02_215BFA0
-	arm_func_end ovl02_215BF50
+_0215BF9C: .word Boss6EnemyB__State2_215BFA0
+	arm_func_end Boss6EnemyB__State2_215BF50
 
-	arm_func_start ovl02_215BFA0
-ovl02_215BFA0: // 0x0215BFA0
+	arm_func_start Boss6EnemyB__State2_215BFA0
+Boss6EnemyB__State2_215BFA0: // 0x0215BFA0
 	stmdb sp!, {r3, r4, r5, lr}
 	add r4, r0, #0x374
 	ldrh r1, [r4, #0x1a]
@@ -9875,7 +9875,7 @@ ovl02_215BFA0: // 0x0215BFA0
 	cmp r1, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r1, r4
-	bl ovl02_215BED8
+	bl Boss6EnemyB__Func_215BED8
 	mov r0, #0x3c
 	strh r0, [r4, #0x1a]
 	ldmia sp!, {r3, r4, r5, pc}
@@ -9886,10 +9886,10 @@ _0215C05C:
 	sub r0, r0, #1
 	strh r0, [r4, #0x1a]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl02_215BFA0
+	arm_func_end Boss6EnemyB__State2_215BFA0
 
-	arm_func_start ovl02_215C074
-ovl02_215C074: // 0x0215C074
+	arm_func_start Boss6__SpawnMissile
+Boss6__SpawnMissile: // 0x0215C074
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x14
 	mov r7, r1
@@ -9928,10 +9928,10 @@ ovl02_215C074: // 0x0215C074
 	mov r0, r4
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	arm_func_end ovl02_215C074
+	arm_func_end Boss6__SpawnMissile
 
-	arm_func_start ovl02_215C10C
-ovl02_215C10C: // 0x0215C10C
+	arm_func_start Boss6Missile__Func_215C10C
+Boss6Missile__Func_215C10C: // 0x0215C10C
 	stmdb sp!, {r3, lr}
 	ldr r3, [r0, #0x380]
 	ldr r2, [r0, #0x37c]
@@ -9981,10 +9981,10 @@ _0215C1B8:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215C1C0: .word gPlayer
-	arm_func_end ovl02_215C10C
+	arm_func_end Boss6Missile__Func_215C10C
 
-	arm_func_start ovl02_215C1C4
-ovl02_215C1C4: // 0x0215C1C4
+	arm_func_start Boss6Missile__Func_215C1C4
+Boss6Missile__Func_215C1C4: // 0x0215C1C4
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x60
 	ldr r1, _0215C318 // =_02178884
@@ -10076,23 +10076,23 @@ _0215C31C: .word _0217880C
 _0215C320: .word 0x00000F33
 _0215C324: .word 0x00000199
 _0215C328: .word FX_SinCosTable_
-	arm_func_end ovl02_215C1C4
+	arm_func_end Boss6Missile__Func_215C1C4
 
-	arm_func_start ovl02_215C32C
-ovl02_215C32C: // 0x0215C32C
+	arm_func_start Boss6Missile__State_215C32C
+Boss6Missile__State_215C32C: // 0x0215C32C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x374]
 	blx r1
 	mov r0, r4
-	bl ovl02_215C10C
+	bl Boss6Missile__Func_215C10C
 	mov r0, r4
-	bl ovl02_215C1C4
+	bl Boss6Missile__Func_215C1C4
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl02_215C32C
+	arm_func_end Boss6Missile__State_215C32C
 
-	arm_func_start ovl02_215C350
-ovl02_215C350: // 0x0215C350
+	arm_func_start Boss6Missile__Collide
+Boss6Missile__Collide: // 0x0215C350
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	bl GetCurrentTaskWork_
@@ -10131,10 +10131,10 @@ _0215C3C0:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _0215C3D8: .word _02178830
-	arm_func_end ovl02_215C350
+	arm_func_end Boss6Missile__Collide
 
-	arm_func_start ovl02_215C3DC
-ovl02_215C3DC: // 0x0215C3DC
+	arm_func_start Boss6Missile__OnHit
+Boss6Missile__OnHit: // 0x0215C3DC
 	stmdb sp!, {lr}
 	sub sp, sp, #0x14
 	ldr r1, [r1, #0x1c]
@@ -10182,32 +10182,32 @@ _0215C400:
 	bl PlaySfxEx
 	add sp, sp, #0x14
 	ldmia sp!, {pc}
-	arm_func_end ovl02_215C3DC
+	arm_func_end Boss6Missile__OnHit
 
-	arm_func_start ovl02_215C494
-ovl02_215C494: // 0x0215C494
+	arm_func_start Boss6Missile__Action_215C494
+Boss6Missile__Action_215C494: // 0x0215C494
 	mov r2, #0
-	ldr r1, _0215C4A8 // =ovl02_215C4C4
+	ldr r1, _0215C4A8 // =Boss6Missile__State2_215C4C4
 	str r2, [r0, #0x378]
 	str r1, [r0, #0x374]
 	bx lr
 	.align 2, 0
-_0215C4A8: .word ovl02_215C4C4
-	arm_func_end ovl02_215C494
+_0215C4A8: .word Boss6Missile__State2_215C4C4
+	arm_func_end Boss6Missile__Action_215C494
 
-	arm_func_start ovl02_215C4AC
-ovl02_215C4AC: // 0x0215C4AC
+	arm_func_start Boss6Missile__Action_215C4AC
+Boss6Missile__Action_215C4AC: // 0x0215C4AC
 	mov r2, #1
-	ldr r1, _0215C4C0 // =ovl02_215C6A0
+	ldr r1, _0215C4C0 // =Boss6Missile__State2_215C6A0
 	str r2, [r0, #0x378]
 	str r1, [r0, #0x374]
 	bx lr
 	.align 2, 0
-_0215C4C0: .word ovl02_215C6A0
-	arm_func_end ovl02_215C4AC
+_0215C4C0: .word Boss6Missile__State2_215C6A0
+	arm_func_end Boss6Missile__Action_215C4AC
 
-	arm_func_start ovl02_215C4C4
-ovl02_215C4C4: // 0x0215C4C4
+	arm_func_start Boss6Missile__State2_215C4C4
+Boss6Missile__State2_215C4C4: // 0x0215C4C4
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
@@ -10219,11 +10219,11 @@ ovl02_215C4C4: // 0x0215C4C4
 	addne sp, sp, #0xc
 	ldmneia sp!, {r3, r4, pc}
 	ldr r0, [r4, #0x370]
-	bl ovl02_21558E8
+	bl Boss6Stage__Func_21558E8
 	cmp r0, #0
 	bne _0215C50C
 	mov r0, r4
-	bl ovl02_215C4AC
+	bl Boss6Missile__Action_215C4AC
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
 _0215C50C:
@@ -10334,10 +10334,10 @@ _0215C690: .word _mt_math_rand
 _0215C694: .word 0x00196225
 _0215C698: .word 0x3C6EF35F
 _0215C69C: .word FX_SinCosTable_+0x00000A00
-	arm_func_end ovl02_215C4C4
+	arm_func_end Boss6Missile__State2_215C4C4
 
-	arm_func_start ovl02_215C6A0
-ovl02_215C6A0: // 0x0215C6A0
+	arm_func_start Boss6Missile__State2_215C6A0
+Boss6Missile__State2_215C6A0: // 0x0215C6A0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
 	mov r10, r0
@@ -10353,7 +10353,7 @@ _0215C6BC:
 	str r0, [r1, #0x230]
 	cmp r2, #3
 	blt _0215C6BC
-	ldr r4, _0215C7B0 // =ovl02_215C3DC
+	ldr r4, _0215C7B0 // =Boss6Missile__OnHit
 	add r8, r10, #0x218
 	mov r9, #0
 	mov r7, #2
@@ -10399,7 +10399,7 @@ _0215C6F4:
 	mov r0, #0
 	bl BossFX__CreateBomb
 	ldr r0, [r10, #0x370]
-	ldr r1, _0215C7B4 // =ovl02_215C7B8
+	ldr r1, _0215C7B4 // =Boss6Missile__State2_215C7B8
 	ldr r0, [r0, #0x370]
 	add r0, r0, #0x400
 	ldrh r2, [r0, #0x24]
@@ -10409,17 +10409,17 @@ _0215C6F4:
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0215C7B0: .word ovl02_215C3DC
-_0215C7B4: .word ovl02_215C7B8
-	arm_func_end ovl02_215C6A0
+_0215C7B0: .word Boss6Missile__OnHit
+_0215C7B4: .word Boss6Missile__State2_215C7B8
+	arm_func_end Boss6Missile__State2_215C6A0
 
-	arm_func_start ovl02_215C7B8
-ovl02_215C7B8: // 0x0215C7B8
+	arm_func_start Boss6Missile__State2_215C7B8
+Boss6Missile__State2_215C7B8: // 0x0215C7B8
 	bx lr
-	arm_func_end ovl02_215C7B8
+	arm_func_end Boss6Missile__State2_215C7B8
 
-	arm_func_start ovl02_215C7BC
-ovl02_215C7BC: // 0x0215C7BC
+	arm_func_start Boss6__SpawnRing
+Boss6__SpawnRing: // 0x0215C7BC
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r3, #0
@@ -10442,10 +10442,10 @@ ovl02_215C7BC: // 0x0215C7BC
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _0215C80C: .word 0x0000012D
-	arm_func_end ovl02_215C7BC
+	arm_func_end Boss6__SpawnRing
 
-	arm_func_start ovl02_215C810
-ovl02_215C810: // 0x0215C810
+	arm_func_start Boss6Ring__State_215C810
+Boss6Ring__State_215C810: // 0x0215C810
 	ldr r1, [r0, #0x364]
 	ldr r1, [r1, #0x3a4]
 	str r1, [r0, #0xa0]
@@ -10455,10 +10455,10 @@ ovl02_215C810: // 0x0215C810
 	orrgt r1, r1, #8
 	strgt r1, [r0, #0x18]
 	bx lr
-	arm_func_end ovl02_215C810
+	arm_func_end Boss6Ring__State_215C810
 
-	arm_func_start ovl02_215C834
-ovl02_215C834: // 0x0215C834
+	arm_func_start Boss6Ring__Draw
+Boss6Ring__Draw: // 0x0215C834
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -10490,10 +10490,10 @@ _0215C864:
 	orrne r0, r0, #8
 	strne r0, [r4, #0x18]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl02_215C834
+	arm_func_end Boss6Ring__Draw
 
-	arm_func_start ovl02_215C8AC
-ovl02_215C8AC: // 0x0215C8AC
+	arm_func_start Boss6Ring__OnDefend
+Boss6Ring__OnDefend: // 0x0215C8AC
 	stmdb sp!, {r3, lr}
 	ldr r0, [r0, #0x1c]
 	ldr r3, [r1, #0x1c]
@@ -10508,7 +10508,7 @@ ovl02_215C8AC: // 0x0215C8AC
 	str r1, [r3, #0x368]
 	bl Player__GiveRings
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl02_215C8AC
+	arm_func_end Boss6Ring__OnDefend
 
 	.rodata
 

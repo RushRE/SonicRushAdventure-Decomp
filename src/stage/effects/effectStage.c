@@ -430,11 +430,11 @@ NONMATCH_FUNC void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *wor
 
             entry->active = TRUE;
 
-            entry->position.x = mtMathRandRepeat(32 * 0x20) + 0x200;
+            entry->position.x = ((mtMathRand() & 0x1F) * 0x20) + 0x200;
             entry->position.y = FLOAT_TO_FX32(0.0);
             entry->position.z = FLOAT_TO_FX32(0.0);
 
-            entry->angle1 = mtMathRandRepeat(0x400) + 0x1000;
+            entry->angle1 = (mtMathRand() & 0x3FF) + 0x1000;
             entry->angle2 = mtMathRand();
             entry->scale  = FLOAT_TO_FX32(0.0);
             break;
@@ -442,7 +442,7 @@ NONMATCH_FUNC void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *wor
 
         if (id < EFFECTUNKNOWN202C414_LIST_SIZE)
         {
-            work->objWork.userTimer = mtMathRandRepeat(8);
+            work->objWork.userTimer = mtMathRand() & 7;
         }
     }
 

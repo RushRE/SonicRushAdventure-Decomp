@@ -3,12 +3,8 @@
 #include <game/graphics/screenShake.h>
 #include <game/object/obj.h>
 
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void Boss3__SetInkSplatFlag(void);
-NOT_DECOMPILED fx32 Boss6Stage__GetScrollSpeed(void);
+#include <stage/boss/boss3.h>
+#include <stage/boss/boss6.h>
 
 // --------------------
 // FUNCTIONS
@@ -114,7 +110,9 @@ void BossPlayerHelpers_Action_Boss5Freeze(Player *player)
     player->objWork.userWork   = 0;
 
     // Spawn a Boss5PlayerFreezeEffect
-    GameObject__SpawnObject(MAPOBJECT_294, 0, 0, 0, 0, 0, 0, 0, 0);
+    GameObjectTask* effect = SpawnStageObject(MAPOBJECT_294, 0, 0, GameObjectTask);
+    UNUSED(effect);
+    
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_P_FREEZE);
 
     SetTaskState(&player->objWork, BossPlayerHelpers_State_Boss5Frozen);

@@ -2039,7 +2039,7 @@ void SailObject_LookAtPlayer(StageTask *work)
         break;
     }
 
-    worker->lookAtTo = position;
+    worker->camPos = position;
 }
 
 void SailObject_LookAtPlayerY(StageTask *work)
@@ -2064,7 +2064,7 @@ void SailObject_LookAtPlayerY(StageTask *work)
         break;
     }
 
-    worker->lookAtTo.y = position.y;
+    worker->camPos.y = position.y;
 }
 
 void SailObject_HandleLookAt(StageTask *work)
@@ -2074,9 +2074,9 @@ void SailObject_HandleLookAt(StageTask *work)
     VecFx32 position = work->position;
     VEC_Subtract(&work->position, &worker->collisionOffset, &position);
 
-    VecFx32 lookAtTo = worker->lookAtTo;
+    VecFx32 camPos = worker->camPos;
 
-    SailObject_LookAt(work, &position, &lookAtTo);
+    SailObject_LookAt(work, &position, &camPos);
 }
 
 void SailObject_LookAt(StageTask *work, VecFx32 *vecFrom, VecFx32 *vecTo)
@@ -5367,7 +5367,7 @@ void SailIsland_Draw_Destination(void)
         SailObject_SetSpriteColor(work, SailObject_ApplyFogBrightness(GX_RGB_888(0xFF, 0xFF, 0xFF)));
         StageTask__Draw3D(work, &work->obj_2dIn3d->ani.work);
 
-        worker->lookAtTo = work->position;
+        worker->camPos = work->position;
         work->position   = startPos;
     }
 }
@@ -6243,7 +6243,7 @@ void SailIslandSeagull_State_Flying(StageTask *work)
     StageTask *parent        = work->parentObj;
     SailObject *parentWorker = GetStageTaskWorker(parent, SailObject);
 
-    work->position = parentWorker->lookAtTo;
+    work->position = parentWorker->camPos;
 
     fx32 scale    = FX_Div(parent->scale.x, 1024);
     work->scale.x = scale;
@@ -6328,7 +6328,7 @@ void SailIslandFish_State_Swimming(StageTask *work)
     StageTask *parent        = work->parentObj;
     SailObject *parentWorker = GetStageTaskWorker(parent, SailObject);
 
-    work->position = parentWorker->lookAtTo;
+    work->position = parentWorker->camPos;
 
     fx32 scale    = FX_Div(parent->scale.x, FLOAT_TO_FX32(0.25));
     work->scale.x = scale;

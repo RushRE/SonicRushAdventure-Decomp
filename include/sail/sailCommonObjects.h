@@ -140,7 +140,7 @@ typedef struct SailObject_
 {
     s32 shipType; // unused?
     VecFx32 collisionOffset;
-    VecFx32 lookAtTo;
+    VecFx32 camPos;
     VecFx32 field_1C;
     SailColliderWork collider[2];
     u32 score;

@@ -561,7 +561,9 @@ Overlay Boss1
     ## BOSSES ##
     Object asm/stage/boss/boss1_vars.o
     Object src/stage/boss/boss1.o
-    Object asm/stage/boss/boss2.o
+    Object asm/stage/boss/boss2_vars_data.o
+    Object src/stage/boss/boss2.o
+    Object asm/stage/boss/boss2_vars_rodata.o
     Object asm/stage/boss/boss3.o
     Object asm/stage/boss/boss4.o
     Object asm/stage/boss/boss5.o

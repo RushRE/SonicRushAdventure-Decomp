@@ -5623,8 +5623,8 @@ void Player__State_HomingAttack(Player *work)
         targetAngle = (u16)targetAngle;
 
         // move towards target at 8 units/frame
-        work->objWork.velocity.x = PLAYER_HOMINGATTACK_SPEED * FX_CosIdx((u16)targetAngle);
-        work->objWork.velocity.y = PLAYER_HOMINGATTACK_SPEED * FX_SinIdx((u16)targetAngle);
+        work->objWork.velocity.x = PLAYER_HOMINGATTACK_SPEED * CosFX((u16)targetAngle);
+        work->objWork.velocity.y = PLAYER_HOMINGATTACK_SPEED * SinFX((u16)targetAngle);
 
         if (work->objWork.velocity.x < 0)
         {

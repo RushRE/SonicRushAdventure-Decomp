@@ -6,6 +6,9 @@
 #include <game/object/objectManager.h>
 #include <stage/core/waterSurface.h>
 
+#include <stage/boss/boss2.h>
+#include <stage/boss/boss3.h>
+
 // --------------------
 // TYPES
 // --------------------
@@ -65,15 +68,15 @@ void MapSys__Create(void)
         switch (gameState.stageID)
         {
             case STAGE_Z2B:
-                mapCamera.camControl.bossArenaRadius = 0x1187BC;
-                mapCamera.camControl.bossArenaLeft   = 0x40000;
-                mapCamera.camControl.bossArenaRight  = 0x722543;
+                mapCamera.camControl.bossArenaRadius = BOSS2_STAGE_RADIUS;
+                mapCamera.camControl.bossArenaLeft   = BOSS2_STAGE_START;
+                mapCamera.camControl.bossArenaRight  = BOSS2_STAGE_END;
                 break;
 
             case STAGE_Z3B:
-                mapCamera.camControl.bossArenaRadius = 0x107FC0;
-                mapCamera.camControl.bossArenaLeft   = 0x40000;
-                mapCamera.camControl.bossArenaRight  = 0x6BAA99;
+                mapCamera.camControl.bossArenaRadius = BOSS3_STAGE_RADIUS;
+                mapCamera.camControl.bossArenaLeft   = BOSS3_STAGE_START;
+                mapCamera.camControl.bossArenaRight  = BOSS3_STAGE_END;
                 break;
 
             case STAGE_Z5B:
@@ -1236,8 +1239,8 @@ void MapSys__Destructor(Task *task)
 {
     for (u32 c = 0; c < 2; c++)
     {
-        HeapFree(HEAP_USER, mapCamera.camera[c].screenMappings[0]);
-        HeapFree(HEAP_USER, mapCamera.camera[c].screenMappings[1]);
+        HeapFree(HEAP_USER, mapCamera.camera[c].screenMappings[GRAPHICS_ENGINE_A]);
+        HeapFree(HEAP_USER, mapCamera.camera[c].screenMappings[GRAPHICS_ENGINE_B]);
     }
 
     ReleaseWaterSurface();

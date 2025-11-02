@@ -663,15 +663,15 @@ void TitleScreenBackgroundView_Main_Active(void)
     {
         camera->config.matProjPosition.y = -parent->worldControl.matProjPositionY;
 
-        VEC_SetFromArray(&camera->lookAtTo, &parent->worldControl.mtxCamera.m[3][0]);
-        VEC_SetFromArray(&camera->lookAtFrom, &parent->worldControl.mtxTarget.m[3][0]);
+        VEC_SetFromArray(&camera->camPos, &parent->worldControl.mtxCamera.m[3][0]);
+        VEC_SetFromArray(&camera->camTarget, &parent->worldControl.mtxTarget.m[3][0]);
     }
     else
     {
         camera->config.matProjPosition.y = parent->worldControl.matProjPositionY;
 
-        VEC_SetFromArray(&camera->lookAtTo, &parent->worldControl.mtxCamera.m[3][0]);
-        VEC_SetFromArray(&camera->lookAtFrom, &parent->worldControl.mtxTarget.m[3][0]);
+        VEC_SetFromArray(&camera->camPos, &parent->worldControl.mtxCamera.m[3][0]);
+        VEC_SetFromArray(&camera->camTarget, &parent->worldControl.mtxTarget.m[3][0]);
     }
 
     Camera3D__LoadState(camera);

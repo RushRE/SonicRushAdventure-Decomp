@@ -1124,7 +1124,7 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
         const fx32 tangentHalfFOV           = FX_Div(FX_SIN_AND_COS(halfFOV));
         const fx32 frustumHalfHeight        = MultiplyFX(tangentHalfFOV, nearPlaneDistance);
         const fx32 frustumHalfWidth         = MultiplyFX(frustumHalfHeight, ptrConfig->aspectRatio);
-        const fx32 nearByZ                  = FX_Div(ptrConfig->projNear, g_obj.cameraConfig->lookAtTo.z);
+        const fx32 nearByZ                  = FX_Div(ptrConfig->projNear, g_obj.cameraConfig->camPos.z);
         const fx32 frustumCenterY           = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_Y) + animator->translation.y));
         const fx32 frustumCenterX           = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_X) - animator->translation.x));
         animator->translation.x             = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
@@ -1146,15 +1146,15 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
         // MW < 2.0sp1p5 seems necessary in order to match the early computing of the sin/cos array indices.
         defaultCamera3D                = *g_obj.cameraConfig;
         defaultCamera3D.config.projFOV = defaultFOV;
-        defaultCamera3D.lookAtFrom.x   = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
-        defaultCamera3D.lookAtFrom.y   = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
-        defaultCamera3D.lookAtFrom.z   = FLOAT_TO_FX32(0.0);
-        defaultCamera3D.lookAtTo.x     = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
-        defaultCamera3D.lookAtTo.y     = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
-        defaultCamera3D.lookAtTo.z     = HW_LCD_CENTER_Y * FX_Div(CosFX(FX_SINCOSCAST(defaultCamera3D.config.projFOV)), SinFX(FX_SINCOSCAST(defaultCamera3D.config.projFOV)));
-        defaultCamera3D.lookAtUp.x     = FLOAT_TO_FX32(0.0);
-        defaultCamera3D.lookAtUp.y     = FLOAT_TO_FX32(1.0);
-        defaultCamera3D.lookAtUp.z     = FLOAT_TO_FX32(0.0);
+        defaultCamera3D.camTarget.x   = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
+        defaultCamera3D.camTarget.y   = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
+        defaultCamera3D.camTarget.z   = FLOAT_TO_FX32(0.0);
+        defaultCamera3D.camPos.x     = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
+        defaultCamera3D.camPos.y     = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
+        defaultCamera3D.camPos.z     = HW_LCD_CENTER_Y * FX_Div(CosFX(FX_SINCOSCAST(defaultCamera3D.config.projFOV)), SinFX(FX_SINCOSCAST(defaultCamera3D.config.projFOV)));
+        defaultCamera3D.camUp.x     = FLOAT_TO_FX32(0.0);
+        defaultCamera3D.camUp.y     = FLOAT_TO_FX32(1.0);
+        defaultCamera3D.camUp.z     = FLOAT_TO_FX32(0.0);
         Camera3D__LoadState(&defaultCamera3D);
     }
 

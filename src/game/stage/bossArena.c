@@ -419,7 +419,7 @@ void BossArena__Func_2039AD4(VecFx32 *a1, VecFx32 *a2, VecFx32 *a3, s32 a4, u16 
     *a11 = *a3;
 }
 
-NONMATCH_FUNC void BossArena__Func_2039CA4(s16 *xz, s16 *y, VecFx32 *lookAtTo, VecFx32 *lookAtFrom, u16 a5, u16 a6, s16 left, s16 right)
+NONMATCH_FUNC void BossArena__Func_2039CA4(s16 *xz, s16 *y, VecFx32 *camPos, VecFx32 *camTarget, u16 a5, u16 a6, s16 left, s16 right)
 {
     // https://decomp.me/scratch/rrUI8 -> 93.38%
 #ifdef NON_MATCHING
@@ -427,17 +427,17 @@ NONMATCH_FUNC void BossArena__Func_2039CA4(s16 *xz, s16 *y, VecFx32 *lookAtTo, V
     VecFx32 dest;
     Unknown206703C unknown;
 
-    VEC_Subtract(lookAtFrom, lookAtTo, &lookDir);
+    VEC_Subtract(camTarget, camPos, &lookDir);
     *xz = left + FX32_TO_WHOLE((FX_Atan2Idx(lookDir.z, lookDir.x) >> 4) * a5);
     VEC_Normalize(&lookDir, &dest);
 
     VecFx32 vec = { 0 };
 
     VEC_Set(&unknown.pos, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
-    unknown.w = -lookAtTo->y;
+    unknown.w = -camPos->y;
 
     s32 angle = Math__Func_207B14C(Unknown2066510__Func_20670CC(&unknown.pos, &dest));
-    if (Unknown2066510__Func_20670B4(&unknown, lookAtFrom) < 0)
+    if (Unknown2066510__Func_20670B4(&unknown, camTarget) < 0)
         angle = (u16)-angle;
 
     *y = right + FX32_TO_WHOLE((((-(s16)angle >> 2) + FLOAT_TO_FX32(1.0)) >> 1) * a6);
@@ -683,17 +683,17 @@ void BossArena__Process(BossArena *work)
 
 void BossArena__MainFunc_Type0(BossArena *work)
 {
-    work->camera[0].camera.lookAtFrom.x = FLOAT_TO_FX32(128.0);
-    work->camera[0].camera.lookAtFrom.y = -FLOAT_TO_FX32(96.0);
-    work->camera[0].camera.lookAtFrom.z = FLOAT_TO_FX32(0.0);
+    work->camera[0].camera.camTarget.x = FLOAT_TO_FX32(128.0);
+    work->camera[0].camera.camTarget.y = -FLOAT_TO_FX32(96.0);
+    work->camera[0].camera.camTarget.z = FLOAT_TO_FX32(0.0);
 
-    work->camera[0].camera.lookAtTo.x = FLOAT_TO_FX32(128.0);
-    work->camera[0].camera.lookAtTo.y = -FLOAT_TO_FX32(96.0);
-    work->camera[0].camera.lookAtTo.z = 96 * FX_Div(CosFX(work->camera[0].camera.config.projFOV), SinFX(work->camera[0].camera.config.projFOV));
+    work->camera[0].camera.camPos.x = FLOAT_TO_FX32(128.0);
+    work->camera[0].camera.camPos.y = -FLOAT_TO_FX32(96.0);
+    work->camera[0].camera.camPos.z = 96 * FX_Div(CosFX(work->camera[0].camera.config.projFOV), SinFX(work->camera[0].camera.config.projFOV));
 
-    work->camera[0].camera.lookAtUp.x = FLOAT_TO_FX32(0.0);
-    work->camera[0].camera.lookAtUp.y = FLOAT_TO_FX32(1.0);
-    work->camera[0].camera.lookAtUp.z = FLOAT_TO_FX32(0.0);
+    work->camera[0].camera.camUp.x = FLOAT_TO_FX32(0.0);
+    work->camera[0].camera.camUp.y = FLOAT_TO_FX32(1.0);
+    work->camera[0].camera.camUp.z = FLOAT_TO_FX32(0.0);
 
     Camera3D__LoadState(&work->camera[0].camera);
 }
@@ -728,7 +728,7 @@ void BossArena__MainFunc_Type3(BossArena *work)
     VecFx32 upDir_2;
 
     BossArena__ProcessCamera(work, work->camera);
-    BossArena__Func_2039AD4(&work->camera[0].camera.lookAtTo, &work->camera[0].camera.lookAtFrom, &work->camera[0].camera.lookAtUp, work->field_358, work->field_35C, &target0_1,
+    BossArena__Func_2039AD4(&work->camera[0].camera.camPos, &work->camera[0].camera.camTarget, &work->camera[0].camera.camUp, work->field_358, work->field_35C, &target0_1,
                             &target1_1, &upDir_1, &target0_2, &target1_2, &upDir_2);
     BossArena__SetCameraType(&work->camera[1], 0);
     BossArena__SetTracker0TargetPos(&work->camera[1], target0_1.x, target0_1.y, target0_1.z);
@@ -798,7 +798,7 @@ void BossArena__DrawBackground(BossArenaBackground *background, BossArenaCamera 
 
 void BossArena__DrawBackground3D(BossArenaBackground *background, BossArenaCamera *camera)
 {
-    background->animator.work.translation = camera->camera.lookAtTo;
+    background->animator.work.translation = camera->camera.camPos;
 
     AnimatorMDL__ProcessAnimation(&background->animator);
     AnimatorMDL__Draw(&background->animator);
@@ -813,7 +813,7 @@ NONMATCH_FUNC void BossArena__DrawBackground2D(BossArenaBackground *background, 
 
     s16 y;
     s16 x;
-    BossArena__Func_2039CA4(&x, &y, &config->lookAtTo, &config->lookAtFrom, HW_LCD_WIDTH * 4, (HW_LCD_HEIGHT + 96) * 2, background->left, background->right);
+    BossArena__Func_2039CA4(&x, &y, &config->camPos, &config->camTarget, HW_LCD_WIDTH * 4, (HW_LCD_HEIGHT + 96) * 2, background->left, background->right);
 
     GXScrFmtText *mappingsPtr;
     s16 bottom;
@@ -1087,19 +1087,19 @@ void BossArena__CamFunc_Type0(BossArena *work, BossArenaCamera *camera)
 {
     BossArena__ProcessPositionTracker(camera->positionTracker);
 
-    camera->camera.lookAtTo = camera->positionTracker[0].targetPos;
+    camera->camera.camPos = camera->positionTracker[0].targetPos;
 
     BossArena__ProcessPositionTracker(&camera->positionTracker[1]);
 
-    camera->camera.lookAtFrom = camera->positionTracker[1].targetPos;
-    camera->camera.lookAtUp   = camera->upDir;
+    camera->camera.camTarget = camera->positionTracker[1].targetPos;
+    camera->camera.camUp   = camera->upDir;
 }
 
 void BossArena__CamFunc_Type1(BossArena *work, BossArenaCamera *camera)
 {
     BossArena__ProcessPositionTracker(&camera->positionTracker[1]);
 
-    camera->camera.lookAtFrom = camera->positionTracker[1].targetPos;
+    camera->camera.camTarget = camera->positionTracker[1].targetPos;
 
     BossArena__ProcessAmplitudeTracker(&camera->amplitudeXZTracker);
     BossArena__ProcessAmplitudeTracker(&camera->amplitudeYTracker);
@@ -1108,6 +1108,6 @@ void BossArena__CamFunc_Type1(BossArena *work, BossArenaCamera *camera)
                            camera->angleTracker.value);
     BossArena__ProcessPositionTracker(camera->positionTracker);
 
-    camera->camera.lookAtTo = camera->positionTracker[0].targetPos;
-    camera->camera.lookAtUp = camera->upDir;
+    camera->camera.camPos = camera->positionTracker[0].targetPos;
+    camera->camera.camUp = camera->upDir;
 }

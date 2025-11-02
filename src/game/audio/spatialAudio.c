@@ -72,6 +72,7 @@ void SetSpatialAudioOriginPosition(VecFx32 *position)
 void InitSpatialAudioMatrix(MtxFx33 *matrix)
 {
     MI_CpuCopy16(matrix, &spatialAudioManager.matrix, sizeof(spatialAudioManager.matrix));
+
     spatialAudioManager.flags |= SPATIALAUDIO_FLAG_HAS_MATRIX;
 
     if ((spatialAudioManager.matrix.m[0][0] | spatialAudioManager.matrix.m[1][1] | spatialAudioManager.matrix.m[2][2]) == FLOAT_TO_FX32(1.0)

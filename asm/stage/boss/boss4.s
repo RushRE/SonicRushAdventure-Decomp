@@ -26,7 +26,7 @@ Boss4Stage__Create: // 0x0216B638
 	str r3, [sp]
 	mov r4, #2
 	ldr r0, _0216B884 // =StageTask_Main
-	ldr r1, _0216B888 // =ovl01_216D150
+	ldr r1, _0216B888 // =Boss4__Func_216D150
 	mov r3, r2
 	str r4, [sp, #4]
 	mov r4, #0x550
@@ -45,8 +45,8 @@ Boss4Stage__Create: // 0x0216B638
 	mov r2, r6
 	mov r3, r5
 	bl GameObject__InitFromObject
-	ldr r1, _0216B890 // =ovl01_216D0C8
-	ldr r0, _0216B894 // =ovl01_216D1F4
+	ldr r1, _0216B890 // =Boss4__Func_216D0C8
+	ldr r0, _0216B894 // =Boss4__Func_216D1F4
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x18]
@@ -69,7 +69,7 @@ Boss4Stage__Create: // 0x0216B638
 	rsb r7, r5, #0
 	str r7, [r4, #0x398]
 	add r0, r4, #0x364
-	bl ovl01_216C920
+	bl Boss4__Func_216C920
 	add r0, r4, #0x39c
 	bl BossHelpers__InitLights
 	bl BossHelpers__Model__InitSystem
@@ -158,17 +158,17 @@ Boss4Stage__Create: // 0x0216B638
 	bl GameObject__SpawnObject
 	str r0, [r4, #0x38c]
 	bl InitSpatialAudioConfig
-	ldr r1, _0216B8B8 // =ovl01_216D238
+	ldr r1, _0216B8B8 // =Boss4__Func_216D238
 	mov r0, r4
 	str r1, [r4, #0x390]
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
 _0216B884: .word StageTask_Main
-_0216B888: .word ovl01_216D150
+_0216B888: .word Boss4__Func_216D150
 _0216B88C: .word _0217AFB0
-_0216B890: .word ovl01_216D0C8
-_0216B894: .word ovl01_216D1F4
+_0216B890: .word Boss4__Func_216D0C8
+_0216B894: .word Boss4__Func_216D1F4
 _0216B898: .word 0x000034CC
 _0216B89C: .word bossAssetFiles+0x00000010
 _0216B8A0: .word _0217ACD8
@@ -177,7 +177,7 @@ _0216B8A8: .word aBoss4Nsbta
 _0216B8AC: .word 0x0000011E
 _0216B8B0: .word 0x0000011D
 _0216B8B4: .word 0x0000011F
-_0216B8B8: .word ovl01_216D238
+_0216B8B8: .word Boss4__Func_216D238
 	arm_func_end Boss4Stage__Create
 
 	arm_func_start Boss4__Create
@@ -194,7 +194,7 @@ Boss4__Create: // 0x0216B8BC
 	str r0, [sp, #4]
 	ldr r7, _0216BC58 // =0x000007EC
 	ldr r0, _0216BC5C // =StageTask_Main
-	ldr r1, _0216BC60 // =ovl01_216FC24
+	ldr r1, _0216BC60 // =Boss4__Func_216FC24
 	mov r3, r2
 	str r7, [sp, #8]
 	bl TaskCreate_
@@ -213,11 +213,11 @@ Boss4__Create: // 0x0216B8BC
 	mov r2, r5
 	mov r3, r4
 	bl GameObject__InitFromObject
-	ldr r1, _0216BC68 // =ovl01_216FBE8
-	ldr r0, _0216BC6C // =ovl01_216FC8C
+	ldr r1, _0216BC68 // =Boss4__Func_216FBE8
+	ldr r0, _0216BC6C // =Boss4__Func_216FC8C
 	str r1, [r8, #0xf4]
 	str r0, [r8, #0xfc]
-	ldr r0, _0216BC70 // =ovl01_216FD08
+	ldr r0, _0216BC70 // =Boss4__Func_216FD08
 	mov r3, #0
 	str r0, [r8, #0x108]
 	ldr r1, [r8, #0x18]
@@ -253,7 +253,7 @@ Boss4__Create: // 0x0216B8BC
 	bl AllocSndHandle
 	str r0, [r8, #0x78c]
 	add r0, r8, #0x364
-	bl ovl01_216C920
+	bl Boss4__Func_216C920
 	add r0, r8, #0x218
 	mov r1, #2
 	mov r2, #0x40
@@ -276,7 +276,7 @@ Boss4__Create: // 0x0216B8BC
 	mov r0, r8
 	orr r1, r1, #0x400
 	str r1, [r8, #0x230]
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	add r0, r8, #0x258
 	mov r1, #0
 	mov r2, r1
@@ -297,13 +297,13 @@ Boss4__Create: // 0x0216B8BC
 	sub r3, r3, #0x80
 	bl ObjRect__SetBox3D
 	str r8, [r8, #0x274]
-	ldr r1, _0216BC74 // =ovl01_216FD80
+	ldr r1, _0216BC74 // =Boss4__Func_216FD80
 	mov r0, r8
 	str r1, [r8, #0x27c]
 	ldr r1, [r8, #0x270]
 	orr r1, r1, #0x400
 	str r1, [r8, #0x270]
-	bl ovl01_216FF88
+	bl Boss4__Func_216FF88
 	add r0, r8, #0x298
 	mov r1, #2
 	mov r2, #0x40
@@ -321,14 +321,14 @@ Boss4__Create: // 0x0216B8BC
 	add r0, r8, #0x298
 	mov r2, r1
 	bl ObjRect__SetBox3D
-	ldr r0, _0216BC78 // =ovl01_216FEB0
+	ldr r0, _0216BC78 // =Boss4__Func_216FEB0
 	str r8, [r8, #0x2b4]
 	str r0, [r8, #0x2bc]
 	ldr r1, [r8, #0x2b0]
 	mov r0, r8
 	orr r1, r1, #0x400
 	str r1, [r8, #0x2b0]
-	bl ovl01_2170120
+	bl Boss4__Func_2170120
 	ldr r1, _0216BC7C // =bossAssetFiles
 	add r4, r8, #0x208
 	str r1, [sp]
@@ -408,22 +408,22 @@ _0216BBD0:
 	add r0, sp, #0xc
 	bl NNS_FndUnmountArchive
 	mov r0, r8
-	bl ovl01_21708D0
+	bl Boss4__Func_21708D0
 	mov r0, r8
-	bl ovl01_2171D44
+	bl Boss4__Func_2171D44
 	mov r0, r8
 	add sp, sp, #0x74
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216BC58: .word 0x000007EC
 _0216BC5C: .word StageTask_Main
-_0216BC60: .word ovl01_216FC24
+_0216BC60: .word Boss4__Func_216FC24
 _0216BC64: .word _0217AFB0
-_0216BC68: .word ovl01_216FBE8
-_0216BC6C: .word ovl01_216FC8C
-_0216BC70: .word ovl01_216FD08
-_0216BC74: .word ovl01_216FD80
-_0216BC78: .word ovl01_216FEB0
+_0216BC68: .word Boss4__Func_216FBE8
+_0216BC6C: .word Boss4__Func_216FC8C
+_0216BC70: .word Boss4__Func_216FD08
+_0216BC74: .word Boss4__Func_216FD80
+_0216BC78: .word Boss4__Func_216FEB0
 _0216BC7C: .word bossAssetFiles
 _0216BC80: .word _0217ACD8
 _0216BC84: .word 0x000034CC
@@ -449,7 +449,7 @@ Boss4Core__Create: // 0x0216BCA0
 	ldr r4, _0216BF64 // =0x00000944
 	str r0, [sp, #4]
 	ldr r0, _0216BF68 // =StageTask_Main
-	ldr r1, _0216BF6C // =ovl01_216E498
+	ldr r1, _0216BF6C // =Boss4__Func_216E498
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -468,8 +468,8 @@ Boss4Core__Create: // 0x0216BCA0
 	mov r2, r6
 	mov r3, r5
 	bl GameObject__InitFromObject
-	ldr r1, _0216BF74 // =ovl01_216E408
-	ldr r0, _0216BF78 // =ovl01_216E4E0
+	ldr r1, _0216BF74 // =Boss4__Func_216E408
+	ldr r0, _0216BF78 // =Boss4__Func_216E4E0
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x18]
@@ -493,7 +493,7 @@ Boss4Core__Create: // 0x0216BCA0
 	bl AllocSndHandle
 	str r0, [r4, #0x7a0]
 	add r0, r4, #0x364
-	bl ovl01_216C920
+	bl Boss4__Func_216C920
 	add r0, r4, #0x218
 	mov r1, #0
 	mov r2, r1
@@ -512,11 +512,11 @@ Boss4Core__Create: // 0x0216BCA0
 	sub r3, r2, #0x80
 	mov r2, r1
 	bl ObjRect__SetBox3D
-	ldr r1, _0216BF7C // =ovl01_216E594
+	ldr r1, _0216BF7C // =Boss4__Func_216E594
 	str r4, [r4, #0x234]
 	mov r0, r4
 	str r1, [r4, #0x23c]
-	bl ovl01_216E860
+	bl Boss4__Func_216E860
 	ldr r0, [r4, #0x230]
 	mov r1, #0
 	orr r3, r0, #0x400
@@ -537,11 +537,11 @@ Boss4Core__Create: // 0x0216BCA0
 	add r0, r4, #0x258
 	mov r2, r1
 	bl ObjRect__SetBox3D
-	ldr r1, _0216BF80 // =ovl01_216E7F4
+	ldr r1, _0216BF80 // =Boss4__Func_216E7F4
 	str r4, [r4, #0x274]
 	mov r0, r4
 	str r1, [r4, #0x27c]
-	bl ovl01_216E880
+	bl Boss4__Func_216E880
 	ldr r0, [r4, #0x270]
 	add r5, r4, #0x3c8
 	orr r0, r0, #0x400
@@ -610,19 +610,19 @@ Boss4Core__Create: // 0x0216BCA0
 	add r0, sp, #0xc
 	bl NNS_FndUnmountArchive
 	mov r0, r4
-	bl ovl01_216E890
+	bl Boss4__Func_216E890
 	mov r0, r4
 	add sp, sp, #0x74
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
 _0216BF64: .word 0x00000944
 _0216BF68: .word StageTask_Main
-_0216BF6C: .word ovl01_216E498
+_0216BF6C: .word Boss4__Func_216E498
 _0216BF70: .word _0217AFB0
-_0216BF74: .word ovl01_216E408
-_0216BF78: .word ovl01_216E4E0
-_0216BF7C: .word ovl01_216E594
-_0216BF80: .word ovl01_216E7F4
+_0216BF74: .word Boss4__Func_216E408
+_0216BF78: .word Boss4__Func_216E4E0
+_0216BF7C: .word Boss4__Func_216E594
+_0216BF80: .word Boss4__Func_216E7F4
 _0216BF84: .word bossAssetFiles+0x00000008
 _0216BF88: .word _0217ACD8
 _0216BF8C: .word 0x000034CC
@@ -645,7 +645,7 @@ Boss4Ship__Create: // 0x0216BFA4
 	str r3, [sp]
 	mov r4, #2
 	ldr r0, _0216C1A4 // =StageTask_Main
-	ldr r1, _0216C1A8 // =ovl01_216E13C
+	ldr r1, _0216C1A8 // =Boss4__Func_216E13C
 	mov r3, r2
 	str r4, [sp, #4]
 	mov r4, #0x600
@@ -666,8 +666,8 @@ Boss4Ship__Create: // 0x0216BFA4
 	mov r2, r6
 	mov r3, r5
 	bl GameObject__InitFromObject
-	ldr r1, _0216C1B0 // =ovl01_216E118
-	ldr r0, _0216C1B4 // =ovl01_216E170
+	ldr r1, _0216C1B0 // =Boss4__Func_216E118
+	ldr r0, _0216C1B4 // =Boss4__Func_216E170
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x18]
@@ -695,7 +695,7 @@ Boss4Ship__Create: // 0x0216BFA4
 	mov r0, #0xb6
 	strh r0, [r2, #4]
 	add r0, r4, #0x364
-	bl ovl01_216C920
+	bl Boss4__Func_216C920
 	str r4, [r4, #0x380]
 	add r2, r4, #0x380
 	ldr r1, [r4, #0x368]
@@ -758,17 +758,17 @@ Boss4Ship__Create: // 0x0216BFA4
 	mov r2, #0x1e
 	str r3, [sp]
 	bl BossHelpers__Model__Init
-	ldr r1, _0216C1D4 // =ovl01_216E378
+	ldr r1, _0216C1D4 // =Boss4__Func_216E378
 	mov r0, r4
 	str r1, [r4, #0x478]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
 _0216C1A4: .word StageTask_Main
-_0216C1A8: .word ovl01_216E13C
+_0216C1A8: .word Boss4__Func_216E13C
 _0216C1AC: .word _0217AFB0
-_0216C1B0: .word ovl01_216E118
-_0216C1B4: .word ovl01_216E170
+_0216C1B0: .word Boss4__Func_216E118
+_0216C1B4: .word Boss4__Func_216E170
 _0216C1B8: .word 0x00000222
 _0216C1BC: .word StageTask__DefaultDiffData
 _0216C1C0: .word bossAssetFiles+0x00000010
@@ -776,7 +776,7 @@ _0216C1C4: .word _0217ACD8
 _0216C1C8: .word 0x000034CC
 _0216C1CC: .word BossHelpers__Model__RenderCallback
 _0216C1D0: .word aMast
-_0216C1D4: .word ovl01_216E378
+_0216C1D4: .word Boss4__Func_216E378
 	arm_func_end Boss4Ship__Create
 
 	arm_func_start Boss4Pulley__Create
@@ -792,7 +792,7 @@ Boss4Pulley__Create: // 0x0216C1D8
 	ldr r4, _0216C3CC // =0x0000053C
 	str r0, [sp, #4]
 	ldr r0, _0216C3D0 // =StageTask_Main
-	ldr r1, _0216C3D4 // =ovl01_216DDB4
+	ldr r1, _0216C3D4 // =Boss4__Func_216DDB4
 	mov r2, #0
 	mov r5, r3
 	mov r3, r2
@@ -813,11 +813,11 @@ Boss4Pulley__Create: // 0x0216C1D8
 	mov r2, r7
 	mov r3, r6
 	bl GameObject__InitFromObject
-	ldr r1, _0216C3DC // =ovl01_216DC60
-	ldr r0, _0216C3E0 // =ovl01_216DDE0
+	ldr r1, _0216C3DC // =Boss4__Func_216DC60
+	ldr r0, _0216C3E0 // =Boss4__Func_216DDE0
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
-	ldr r0, _0216C3E4 // =ovl01_216DEA4
+	ldr r0, _0216C3E4 // =Boss4__Func_216DEA4
 	mov r2, #0x1000
 	str r0, [r4, #0x108]
 	ldr r0, [r4, #0x18]
@@ -838,7 +838,7 @@ Boss4Pulley__Create: // 0x0216C1D8
 	str r6, [r4, #0x48]
 	str r1, [r4, #0x4c]
 	str r5, [r4, #0x380]
-	bl ovl01_216C920
+	bl Boss4__Func_216C920
 	add r0, r4, #0x218
 	mov r1, #0
 	mov r2, r1
@@ -857,7 +857,7 @@ Boss4Pulley__Create: // 0x0216C1D8
 	sub r3, r2, #0x10
 	mov r2, r1
 	bl ObjRect__SetBox3D
-	ldr r0, _0216C3E8 // =ovl01_216DEE8
+	ldr r0, _0216C3E8 // =Boss4__Func_216DEE8
 	str r4, [r4, #0x234]
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
@@ -902,19 +902,19 @@ Boss4Pulley__Create: // 0x0216C1D8
 	ldrsh r2, [r2, #2]
 	bl MTX_RotY33_
 	mov r0, r4
-	bl ovl01_216DF24
+	bl Boss4__Func_216DF24
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _0216C3CC: .word 0x0000053C
 _0216C3D0: .word StageTask_Main
-_0216C3D4: .word ovl01_216DDB4
+_0216C3D4: .word Boss4__Func_216DDB4
 _0216C3D8: .word _0217AFB0
-_0216C3DC: .word ovl01_216DC60
-_0216C3E0: .word ovl01_216DDE0
-_0216C3E4: .word ovl01_216DEA4
-_0216C3E8: .word ovl01_216DEE8
+_0216C3DC: .word Boss4__Func_216DC60
+_0216C3E0: .word Boss4__Func_216DDE0
+_0216C3E4: .word Boss4__Func_216DEA4
+_0216C3E8: .word Boss4__Func_216DEE8
 _0216C3EC: .word bossAssetFiles+0x00000010
 _0216C3F0: .word _0217ACD8
 _0216C3F4: .word 0x000034CC
@@ -937,7 +937,7 @@ Boss4FireColumn__Create: // 0x0216C404
 	ldr r4, _0216C628 // =0x000004E8
 	str r0, [sp, #4]
 	ldr r0, _0216C62C // =StageTask_Main
-	ldr r1, _0216C630 // =ovl01_216DB28
+	ldr r1, _0216C630 // =Boss4__Func_216DB28
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -952,8 +952,8 @@ Boss4FireColumn__Create: // 0x0216C404
 	mov r2, r6
 	mov r3, r5
 	bl GameObject__InitFromObject
-	ldr r1, _0216C634 // =ovl01_216D9D4
-	ldr r0, _0216C638 // =ovl01_216DB68
+	ldr r1, _0216C634 // =Boss4__Func_216D9D4
+	ldr r0, _0216C638 // =Boss4__Func_216DB68
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x18]
@@ -1014,7 +1014,7 @@ Boss4FireColumn__Create: // 0x0216C404
 	mov r0, #8
 	strb r0, [r4, #0x376]
 	strb r1, [r4, #0x377]
-	bl ovl01_216D064
+	bl Boss4__Func_216D064
 	cmp r0, #1
 	bne _0216C57C
 	ldr r0, [r4, #0x4b0]
@@ -1066,9 +1066,9 @@ _0216C57C:
 	.align 2, 0
 _0216C628: .word 0x000004E8
 _0216C62C: .word StageTask_Main
-_0216C630: .word ovl01_216DB28
-_0216C634: .word ovl01_216D9D4
-_0216C638: .word ovl01_216DB68
+_0216C630: .word Boss4__Func_216DB28
+_0216C634: .word Boss4__Func_216D9D4
+_0216C638: .word Boss4__Func_216DB68
 _0216C63C: .word gameArchiveStage
 _0216C640: .word aBsef4FcolNsbmd
 _0216C644: .word 0x000034CC
@@ -1092,7 +1092,7 @@ Boss4FireBall__Create: // 0x0216C65C
 	ldr r4, _0216C8F0 // =0x000004EC
 	str r0, [sp, #4]
 	ldr r0, _0216C8F4 // =StageTask_Main
-	ldr r1, _0216C8F8 // =ovl01_216D93C
+	ldr r1, _0216C8F8 // =Boss4__Func_216D93C
 	mov r2, #0
 	mov r5, r3
 	mov r3, r2
@@ -1109,8 +1109,8 @@ Boss4FireBall__Create: // 0x0216C65C
 	mov r2, r7
 	mov r3, r6
 	bl GameObject__InitFromObject
-	ldr r1, _0216C8FC // =ovl01_216D6B4
-	ldr r0, _0216C900 // =ovl01_216D97C
+	ldr r1, _0216C8FC // =Boss4__Func_216D6B4
+	ldr r0, _0216C900 // =Boss4__Func_216D97C
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x18]
@@ -1173,7 +1173,7 @@ Boss4FireBall__Create: // 0x0216C65C
 	mov r0, #8
 	strb r0, [r4, #0x37a]
 	strb r1, [r4, #0x37b]
-	bl ovl01_216D000
+	bl Boss4__Func_216D000
 	cmp r0, #1
 	bne _0216C7E0
 	ldr r0, [r4, #0x4b4]
@@ -1250,9 +1250,9 @@ _0216C7E0:
 	.align 2, 0
 _0216C8F0: .word 0x000004EC
 _0216C8F4: .word StageTask_Main
-_0216C8F8: .word ovl01_216D93C
-_0216C8FC: .word ovl01_216D6B4
-_0216C900: .word ovl01_216D97C
+_0216C8F8: .word Boss4__Func_216D93C
+_0216C8FC: .word Boss4__Func_216D6B4
+_0216C900: .word Boss4__Func_216D97C
 _0216C904: .word gameArchiveStage
 _0216C908: .word aBsef4FballNsbm
 _0216C90C: .word 0x00001A66
@@ -1262,8 +1262,8 @@ _0216C918: .word aBsef4FballNsbt
 _0216C91C: .word aBsef4FballNsbt_0
 	arm_func_end Boss4FireBall__Create
 
-	arm_func_start ovl01_216C920
-ovl01_216C920: // 0x0216C920
+	arm_func_start Boss4__Func_216C920
+Boss4__Func_216C920: // 0x0216C920
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x68
 	mov r4, r0
@@ -1301,10 +1301,10 @@ ovl01_216C920: // 0x0216C920
 	.align 2, 0
 _0216C9A8: .word gameArchiveStage
 _0216C9AC: .word aExc_5
-	arm_func_end ovl01_216C920
+	arm_func_end Boss4__Func_216C920
 
-	arm_func_start ovl01_216C9B0
-ovl01_216C9B0: // 0x0216C9B0
+	arm_func_start Boss4__Func_216C9B0
+Boss4__Func_216C9B0: // 0x0216C9B0
 	add r0, r0, #0x300
 	ldrsh r3, [r0, #0x94]
 	ldr r2, _0216C9E8 // =_02179EBC
@@ -1322,10 +1322,10 @@ _0216C9C0:
 	bx lr
 	.align 2, 0
 _0216C9E8: .word _02179EBC
-	arm_func_end ovl01_216C9B0
+	arm_func_end Boss4__Func_216C9B0
 
-	arm_func_start ovl01_216C9EC
-ovl01_216C9EC: // 0x0216C9EC
+	arm_func_start Boss4__Func_216C9EC
+Boss4__Func_216C9EC: // 0x0216C9EC
 	ldr r0, _0216CA04 // =gameState
 	ldr r1, _0216CA08 // =_02179EB0
 	ldr r0, [r0, #0x18]
@@ -1335,10 +1335,10 @@ ovl01_216C9EC: // 0x0216C9EC
 	.align 2, 0
 _0216CA04: .word gameState
 _0216CA08: .word _02179EB0
-	arm_func_end ovl01_216C9EC
+	arm_func_end Boss4__Func_216C9EC
 
-	arm_func_start ovl01_216CA0C
-ovl01_216CA0C: // 0x0216CA0C
+	arm_func_start Boss4__Func_216CA0C
+Boss4__Func_216CA0C: // 0x0216CA0C
 	stmdb sp!, {r3, lr}
 	ldr r1, _0216CA5C // =gameState
 	ldr r2, [r1, #0x14]
@@ -1352,7 +1352,7 @@ ovl01_216CA0C: // 0x0216CA0C
 	ldrsh r0, [r0, r1]
 	ldmia sp!, {r3, pc}
 _0216CA3C:
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	ldr r1, _0216CA5C // =gameState
 	ldr r2, _0216CA64 // =_02179F10
 	ldr r3, [r1, #0x18]
@@ -1364,10 +1364,10 @@ _0216CA3C:
 _0216CA5C: .word gameState
 _0216CA60: .word _02179F26
 _0216CA64: .word _02179F10
-	arm_func_end ovl01_216CA0C
+	arm_func_end Boss4__Func_216CA0C
 
-	arm_func_start ovl01_216CA68
-ovl01_216CA68: // 0x0216CA68
+	arm_func_start Boss4__Func_216CA68
+Boss4__Func_216CA68: // 0x0216CA68
 	stmdb sp!, {r3, lr}
 	ldr r1, _0216CAB8 // =gameState
 	ldr r2, [r1, #0x14]
@@ -1381,7 +1381,7 @@ ovl01_216CA68: // 0x0216CA68
 	ldrsh r0, [r0, r1]
 	ldmia sp!, {r3, pc}
 _0216CA98:
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	ldr r1, _0216CAB8 // =gameState
 	ldr r2, _0216CAC0 // =_02179F40
 	ldr r3, [r1, #0x18]
@@ -1393,10 +1393,10 @@ _0216CA98:
 _0216CAB8: .word gameState
 _0216CABC: .word _02179F56
 _0216CAC0: .word _02179F40
-	arm_func_end ovl01_216CA68
+	arm_func_end Boss4__Func_216CA68
 
-	arm_func_start ovl01_216CAC4
-ovl01_216CAC4: // 0x0216CAC4
+	arm_func_start Boss4__Func_216CAC4
+Boss4__Func_216CAC4: // 0x0216CAC4
 	stmdb sp!, {r3, lr}
 	ldr r1, _0216CB14 // =gameState
 	ldr r2, [r1, #0x14]
@@ -1410,7 +1410,7 @@ ovl01_216CAC4: // 0x0216CAC4
 	ldrsh r0, [r0, r1]
 	ldmia sp!, {r3, pc}
 _0216CAF4:
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	ldr r1, _0216CB14 // =gameState
 	ldr r2, _0216CB1C // =_02179ED0
 	ldr r3, [r1, #0x18]
@@ -1422,10 +1422,10 @@ _0216CAF4:
 _0216CB14: .word gameState
 _0216CB18: .word _02179EE6
 _0216CB1C: .word _02179ED0
-	arm_func_end ovl01_216CAC4
+	arm_func_end Boss4__Func_216CAC4
 
-	arm_func_start ovl01_216CB20
-ovl01_216CB20: // 0x0216CB20
+	arm_func_start Boss4__Func_216CB20
+Boss4__Func_216CB20: // 0x0216CB20
 	stmdb sp!, {r3, lr}
 	ldr r1, _0216CB70 // =gameState
 	ldr r2, [r1, #0x14]
@@ -1439,7 +1439,7 @@ ovl01_216CB20: // 0x0216CB20
 	ldrh r0, [r0, r1]
 	ldmia sp!, {r3, pc}
 _0216CB50:
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	ldr r1, _0216CB70 // =gameState
 	ldr r2, _0216CB78 // =_02179EF0
 	ldr r3, [r1, #0x18]
@@ -1451,10 +1451,10 @@ _0216CB50:
 _0216CB70: .word gameState
 _0216CB74: .word _02179EF6
 _0216CB78: .word _02179EF0
-	arm_func_end ovl01_216CB20
+	arm_func_end Boss4__Func_216CB20
 
-	arm_func_start ovl01_216CB7C
-ovl01_216CB7C: // 0x0216CB7C
+	arm_func_start Boss4__Func_216CB7C
+Boss4__Func_216CB7C: // 0x0216CB7C
 	ldr r0, _0216CBC0 // =gameState
 	ldr r1, [r0, #0x14]
 	cmp r1, #3
@@ -1477,10 +1477,10 @@ _0216CBA8:
 _0216CBC0: .word gameState
 _0216CBC4: .word _02179EB8
 _0216CBC8: .word _02179EB4
-	arm_func_end ovl01_216CB7C
+	arm_func_end Boss4__Func_216CB7C
 
-	arm_func_start ovl01_216CBCC
-ovl01_216CBCC: // 0x0216CBCC
+	arm_func_start Boss4__Func_216CBCC
+Boss4__Func_216CBCC: // 0x0216CBCC
 	stmdb sp!, {r4, lr}
 	ldr r3, _0216CC10 // =_mt_math_rand
 	ldr r1, _0216CC14 // =0x00196225
@@ -1491,7 +1491,7 @@ ovl01_216CBCC: // 0x0216CBCC
 	mov r1, r1, lsl #0x10
 	str r2, [r3]
 	mov r4, r1, lsr #0x10
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	ldr r2, _0216CC1C // =_02179F80
 	mov r1, r4, lsl #0x1e
 	mov r1, r1, lsr #0x1d
@@ -1503,10 +1503,10 @@ _0216CC10: .word _mt_math_rand
 _0216CC14: .word 0x00196225
 _0216CC18: .word 0x3C6EF35F
 _0216CC1C: .word _02179F80
-	arm_func_end ovl01_216CBCC
+	arm_func_end Boss4__Func_216CBCC
 
-	arm_func_start ovl01_216CC20
-ovl01_216CC20: // 0x0216CC20
+	arm_func_start Boss4__Func_216CC20
+Boss4__Func_216CC20: // 0x0216CC20
 	stmdb sp!, {r4, lr}
 	ldr r1, _0216CCB4 // =gameState
 	ldr r2, [r1, #0x14]
@@ -1538,7 +1538,7 @@ _0216CC74:
 	mov r1, r1, lsl #0x10
 	str r2, [r3]
 	mov r4, r1, lsr #0x10
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	ldr r2, _0216CCC8 // =_02179F60
 	mov r1, r4, lsl #0x1e
 	mov r1, r1, lsr #0x1d
@@ -1552,10 +1552,10 @@ _0216CCBC: .word 0x00196225
 _0216CCC0: .word 0x3C6EF35F
 _0216CCC4: .word _02179F78
 _0216CCC8: .word _02179F60
-	arm_func_end ovl01_216CC20
+	arm_func_end Boss4__Func_216CC20
 
-	arm_func_start ovl01_216CCCC
-ovl01_216CCCC: // 0x0216CCCC
+	arm_func_start Boss4__Func_216CCCC
+Boss4__Func_216CCCC: // 0x0216CCCC
 	stmdb sp!, {r3, lr}
 	ldr r1, _0216CD1C // =gameState
 	ldr r2, [r1, #0x14]
@@ -1569,7 +1569,7 @@ ovl01_216CCCC: // 0x0216CCCC
 	ldrh r0, [r0, r1]
 	ldmia sp!, {r3, pc}
 _0216CCFC:
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	ldr r1, _0216CD1C // =gameState
 	ldr r2, _0216CD24 // =_02179F30
 	ldr r3, [r1, #0x18]
@@ -1581,10 +1581,10 @@ _0216CCFC:
 _0216CD1C: .word gameState
 _0216CD20: .word _02179F36
 _0216CD24: .word _02179F30
-	arm_func_end ovl01_216CCCC
+	arm_func_end Boss4__Func_216CCCC
 
-	arm_func_start ovl01_216CD28
-ovl01_216CD28: // 0x0216CD28
+	arm_func_start Boss4__Func_216CD28
+Boss4__Func_216CD28: // 0x0216CD28
 	stmdb sp!, {r3, lr}
 	ldr r1, _0216CD78 // =gameState
 	ldr r2, [r1, #0x14]
@@ -1598,7 +1598,7 @@ ovl01_216CD28: // 0x0216CD28
 	ldrsh r0, [r0, r1]
 	ldmia sp!, {r3, pc}
 _0216CD58:
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	ldr r1, _0216CD78 // =gameState
 	ldr r2, _0216CD80 // =_02179F00
 	ldr r3, [r1, #0x18]
@@ -1610,10 +1610,10 @@ _0216CD58:
 _0216CD78: .word gameState
 _0216CD7C: .word _02179F06
 _0216CD80: .word _02179F00
-	arm_func_end ovl01_216CD28
+	arm_func_end Boss4__Func_216CD28
 
-	arm_func_start ovl01_216CD84
-ovl01_216CD84: // 0x0216CD84
+	arm_func_start Boss4__Func_216CD84
+Boss4__Func_216CD84: // 0x0216CD84
 	ldr r0, _0216CDA4 // =gameState
 	ldr r1, [r0, #0x14]
 	cmp r1, #3
@@ -1625,10 +1625,10 @@ ovl01_216CD84: // 0x0216CD84
 	.align 2, 0
 _0216CDA4: .word gameState
 _0216CDA8: .word 0x00000133
-	arm_func_end ovl01_216CD84
+	arm_func_end Boss4__Func_216CD84
 
-	arm_func_start ovl01_216CDAC
-ovl01_216CDAC: // 0x0216CDAC
+	arm_func_start Boss4__Func_216CDAC
+Boss4__Func_216CDAC: // 0x0216CDAC
 	ldr r0, _0216CDCC // =gameState
 	ldr r1, [r0, #0x14]
 	cmp r1, #3
@@ -1641,10 +1641,10 @@ ovl01_216CDAC: // 0x0216CDAC
 _0216CDCC: .word gameState
 _0216CDD0: .word 0x000004CC
 _0216CDD4: .word 0x00000333
-	arm_func_end ovl01_216CDAC
+	arm_func_end Boss4__Func_216CDAC
 
-	arm_func_start ovl01_216CDD8
-ovl01_216CDD8: // 0x0216CDD8
+	arm_func_start Boss4__Func_216CDD8
+Boss4__Func_216CDD8: // 0x0216CDD8
 	ldr r0, _0216CDF8 // =gameState
 	ldr r1, [r0, #0x14]
 	cmp r1, #3
@@ -1657,10 +1657,10 @@ ovl01_216CDD8: // 0x0216CDD8
 _0216CDF8: .word gameState
 _0216CDFC: .word 0x00000733
 _0216CE00: .word 0x000004CC
-	arm_func_end ovl01_216CDD8
+	arm_func_end Boss4__Func_216CDD8
 
-	arm_func_start ovl01_216CE04
-ovl01_216CE04: // 0x0216CE04
+	arm_func_start Boss4__Func_216CE04
+Boss4__Func_216CE04: // 0x0216CE04
 	ldr r0, _0216CE24 // =gameState
 	ldr r1, [r0, #0x14]
 	cmp r1, #3
@@ -1671,10 +1671,10 @@ ovl01_216CE04: // 0x0216CE04
 	bx lr
 	.align 2, 0
 _0216CE24: .word gameState
-	arm_func_end ovl01_216CE04
+	arm_func_end Boss4__Func_216CE04
 
-	arm_func_start ovl01_216CE28
-ovl01_216CE28: // 0x0216CE28
+	arm_func_start Boss4__Func_216CE28
+Boss4__Func_216CE28: // 0x0216CE28
 	ldrh r1, [r0, #0]
 	cmp r1, #1
 	bne _0216CE50
@@ -1699,10 +1699,10 @@ _0216CE70:
 	movlt r0, #1
 	movge r0, #2
 	bx lr
-	arm_func_end ovl01_216CE28
+	arm_func_end Boss4__Func_216CE28
 
-	arm_func_start ovl01_216CE80
-ovl01_216CE80: // 0x0216CE80
+	arm_func_start Boss4__Func_216CE80
+Boss4__Func_216CE80: // 0x0216CE80
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r0, #1
 	bl BossArena__GetCamera
@@ -1727,10 +1727,10 @@ ovl01_216CE80: // 0x0216CE80
 	mov r3, #0
 	bl BossArena__SetNextPos
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl01_216CE80
+	arm_func_end Boss4__Func_216CE80
 
-	arm_func_start ovl01_216CEE0
-ovl01_216CEE0: // 0x0216CEE0
+	arm_func_start Boss4__Func_216CEE0
+Boss4__Func_216CEE0: // 0x0216CEE0
 	stmdb sp!, {r3, lr}
 	bl Camera3D__UseEngineA
 	cmp r0, #0
@@ -1750,10 +1750,10 @@ _0216CF0C:
 	sub r1, r0, #0x12c
 	bl BossArena__SetBoundsX
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_216CEE0
+	arm_func_end Boss4__Func_216CEE0
 
-	arm_func_start ovl01_216CF28
-ovl01_216CF28: // 0x0216CF28
+	arm_func_start Boss4__Func_216CF28
+Boss4__Func_216CF28: // 0x0216CF28
 	stmdb sp!, {r3, lr}
 	ldr r0, [r0, #0x37c]
 	ldr r0, [r0, #0x798]
@@ -1774,10 +1774,10 @@ _0216CF60:
 	mov r0, #0
 	bl SetHUDActiveScreen
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_216CF28
+	arm_func_end Boss4__Func_216CF28
 
-	arm_func_start ovl01_216CF6C
-ovl01_216CF6C: // 0x0216CF6C
+	arm_func_start Boss4__Func_216CF6C
+Boss4__Func_216CF6C: // 0x0216CF6C
 	ldr r0, [r0, #0x384]
 	mov r3, #0x8000
 	ldrsh r0, [r0, #0x34]
@@ -1817,10 +1817,10 @@ _0216CFC8:
 	sub r0, ip, r0
 	str r0, [r1, #0xb0]
 	bx lr
-	arm_func_end ovl01_216CF6C
+	arm_func_end Boss4__Func_216CF6C
 
-	arm_func_start ovl01_216D000
-ovl01_216D000: // 0x0216D000
+	arm_func_start Boss4__Func_216D000
+Boss4__Func_216D000: // 0x0216D000
 	stmdb sp!, {r3, lr}
 	ldr r0, _0216D028 // =_0217AFB0
 	ldr r0, [r0, #4]
@@ -1833,10 +1833,10 @@ ovl01_216D000: // 0x0216D000
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216D028: .word _0217AFB0
-	arm_func_end ovl01_216D000
+	arm_func_end Boss4__Func_216D000
 
-	arm_func_start ovl01_216D02C
-ovl01_216D02C: // 0x0216D02C
+	arm_func_start Boss4__Func_216D02C
+Boss4__Func_216D02C: // 0x0216D02C
 	stmdb sp!, {r3, lr}
 	ldr r0, _0216D060 // =_0217AFB0
 	ldr r0, [r0, #4]
@@ -1852,10 +1852,10 @@ ovl01_216D02C: // 0x0216D02C
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216D060: .word _0217AFB0
-	arm_func_end ovl01_216D02C
+	arm_func_end Boss4__Func_216D02C
 
-	arm_func_start ovl01_216D064
-ovl01_216D064: // 0x0216D064
+	arm_func_start Boss4__Func_216D064
+Boss4__Func_216D064: // 0x0216D064
 	stmdb sp!, {r3, lr}
 	ldr r0, _0216D08C // =_0217AFB0
 	ldr r0, [r0, #4]
@@ -1868,10 +1868,10 @@ ovl01_216D064: // 0x0216D064
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216D08C: .word _0217AFB0
-	arm_func_end ovl01_216D064
+	arm_func_end Boss4__Func_216D064
 
-	arm_func_start ovl01_216D090
-ovl01_216D090: // 0x0216D090
+	arm_func_start Boss4__Func_216D090
+Boss4__Func_216D090: // 0x0216D090
 	stmdb sp!, {r3, lr}
 	ldr r0, _0216D0C4 // =_0217AFB0
 	ldr r0, [r0, #4]
@@ -1887,24 +1887,24 @@ ovl01_216D090: // 0x0216D090
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216D0C4: .word _0217AFB0
-	arm_func_end ovl01_216D090
+	arm_func_end Boss4__Func_216D090
 
-	arm_func_start ovl01_216D0C8
-ovl01_216D0C8: // 0x0216D0C8
+	arm_func_start Boss4__Func_216D0C8
+Boss4__Func_216D0C8: // 0x0216D0C8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ovl01_216CE80
+	bl Boss4__Func_216CE80
 	add r0, r4, #0x39c
 	bl BossHelpers__ProcessLights
 	ldr r1, _0216D14C // =gPlayer
 	mov r0, r4
 	ldr r1, [r1, #0]
-	bl ovl01_216CF6C
+	bl Boss4__Func_216CF6C
 	ldr r1, [r4, #0x37c]
 	mov r0, r4
-	bl ovl01_216CF6C
+	bl Boss4__Func_216CF6C
 	mov r0, r4
-	bl ovl01_216CF28
+	bl Boss4__Func_216CF28
 	ldr r1, _0216D14C // =gPlayer
 	mov r0, r4
 	ldr r3, [r1, #0]
@@ -1922,14 +1922,14 @@ ovl01_216D0C8: // 0x0216D0C8
 	ldr r1, [r4, #0x390]
 	blx r1
 	mov r0, r4
-	bl ovl01_216CEE0
+	bl Boss4__Func_216CEE0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216D14C: .word gPlayer
-	arm_func_end ovl01_216D0C8
+	arm_func_end Boss4__Func_216D0C8
 
-	arm_func_start ovl01_216D150
-ovl01_216D150: // 0x0216D150
+	arm_func_start Boss4__Func_216D150
+Boss4__Func_216D150: // 0x0216D150
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0xa8
 	mov r5, r0
@@ -1973,10 +1973,10 @@ _0216D1E4: .word aBsef4FballNsbm
 _0216D1E8: .word gameArchiveStage
 _0216D1EC: .word aExc_5
 _0216D1F0: .word _0217AFB0
-	arm_func_end ovl01_216D150
+	arm_func_end Boss4__Func_216D150
 
-	arm_func_start ovl01_216D1F4
-ovl01_216D1F4: // 0x0216D1F4
+	arm_func_start Boss4__Func_216D1F4
+Boss4__Func_216D1F4: // 0x0216D1F4
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -1994,10 +1994,10 @@ ovl01_216D1F4: // 0x0216D1F4
 	add r0, r4, #0x39c
 	bl BossHelpers__ApplyModifiedLights
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_216D1F4
+	arm_func_end Boss4__Func_216D1F4
 
-	arm_func_start ovl01_216D238
-ovl01_216D238: // 0x0216D238
+	arm_func_start Boss4__Func_216D238
+Boss4__Func_216D238: // 0x0216D238
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x2c
 	ldr r1, _0216D624 // =_02179EC4
@@ -2245,7 +2245,7 @@ ovl01_216D238: // 0x0216D238
 	bl UpdateBossHealthHUD
 	mov r0, #1
 	bl SetHUDActiveScreen
-	ldr r0, _0216D640 // =ovl01_216D644
+	ldr r0, _0216D640 // =Boss4__Func_216D644
 	str r0, [r5, #0x390]
 	add sp, sp, #0x2c
 	ldmia sp!, {r4, r5, pc}
@@ -2257,16 +2257,16 @@ _0216D630: .word _0217AFB0
 _0216D634: .word 0x0400000A
 _0216D638: .word VRAMSystem__VRAM_BG
 _0216D63C: .word VRAMSystem__VRAM_PALETTE_BG
-_0216D640: .word ovl01_216D644
-	arm_func_end ovl01_216D238
+_0216D640: .word Boss4__Func_216D644
+	arm_func_end Boss4__Func_216D238
 
-	arm_func_start ovl01_216D644
-ovl01_216D644: // 0x0216D644
+	arm_func_start Boss4__Func_216D644
+Boss4__Func_216D644: // 0x0216D644
 	bx lr
-	arm_func_end ovl01_216D644
+	arm_func_end Boss4__Func_216D644
 
-	arm_func_start ovl01_216D648
-ovl01_216D648: // 0x0216D648
+	arm_func_start Boss4__Func_216D648
+Boss4__Func_216D648: // 0x0216D648
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r3, #0
@@ -2295,10 +2295,10 @@ ovl01_216D648: // 0x0216D648
 	.align 2, 0
 _0216D6AC: .word 0x00000121
 _0216D6B0: .word _0217AFB0
-	arm_func_end ovl01_216D648
+	arm_func_end Boss4__Func_216D648
 
-	arm_func_start ovl01_216D6B4
-ovl01_216D6B4: // 0x0216D6B4
+	arm_func_start Boss4__Func_216D6B4
+Boss4__Func_216D6B4: // 0x0216D6B4
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -2471,15 +2471,15 @@ _0216D91C:
 _0216D930: .word _0217AFB0
 _0216D934: .word 0x0028A000
 _0216D938: .word 0x001E6000
-	arm_func_end ovl01_216D6B4
+	arm_func_end Boss4__Func_216D6B4
 
-	arm_func_start ovl01_216D93C
-ovl01_216D93C: // 0x0216D93C
+	arm_func_start Boss4__Func_216D93C
+Boss4__Func_216D93C: // 0x0216D93C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
 	mov r4, r0
-	bl ovl01_216D02C
+	bl Boss4__Func_216D02C
 	cmp r0, #0
 	bne _0216D960
 	ldr r0, [r4, #0x4b4]
@@ -2492,10 +2492,10 @@ _0216D960:
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl01_216D93C
+	arm_func_end Boss4__Func_216D93C
 
-	arm_func_start ovl01_216D97C
-ovl01_216D97C: // 0x0216D97C
+	arm_func_start Boss4__Func_216D97C
+Boss4__Func_216D97C: // 0x0216D97C
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x20]
@@ -2504,10 +2504,10 @@ ovl01_216D97C: // 0x0216D97C
 	add r1, r0, #0x370
 	bl StageTask__Draw3D
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_216D97C
+	arm_func_end Boss4__Func_216D97C
 
-	arm_func_start ovl01_216D99C
-ovl01_216D99C: // 0x0216D99C
+	arm_func_start Boss4__Func_216D99C
+Boss4__Func_216D99C: // 0x0216D99C
 	stmdb sp!, {lr}
 	sub sp, sp, #0x14
 	mov r3, #0
@@ -2522,10 +2522,10 @@ ovl01_216D99C: // 0x0216D99C
 	bl GameObject__SpawnObject
 	add sp, sp, #0x14
 	ldmia sp!, {pc}
-	arm_func_end ovl01_216D99C
+	arm_func_end Boss4__Func_216D99C
 
-	arm_func_start ovl01_216D9D4
-ovl01_216D9D4: // 0x0216D9D4
+	arm_func_start Boss4__Func_216D9D4
+Boss4__Func_216D9D4: // 0x0216D9D4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x368]
@@ -2540,7 +2540,7 @@ _0216D9EC: // jump table
 _0216D9FC:
 	mov r1, #0
 	mov r2, r1
-	bl ovl01_216DB88
+	bl Boss4__Func_216DB88
 	mov r0, #1
 	str r0, [r4, #0x368]
 	ldmia sp!, {r4, pc}
@@ -2587,7 +2587,7 @@ _0216DA7C:
 	mov r0, r4
 	mov r2, r1
 	strh ip, [r3, #0x18]
-	bl ovl01_216DB88
+	bl Boss4__Func_216DB88
 	mov r0, #2
 	str r0, [r4, #0x368]
 	ldmia sp!, {r4, pc}
@@ -2602,7 +2602,7 @@ _0216DAC8:
 	bic r3, r2, #4
 	mov r2, #0
 	str r3, [r4, #0x230]
-	bl ovl01_216DB88
+	bl Boss4__Func_216DB88
 	mov r0, #3
 	str r0, [r4, #0x368]
 	ldmia sp!, {r4, pc}
@@ -2617,15 +2617,15 @@ _0216DB00:
 	orr r0, r0, #0x20
 	str r0, [r4, #0x20]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_216D9D4
+	arm_func_end Boss4__Func_216D9D4
 
-	arm_func_start ovl01_216DB28
-ovl01_216DB28: // 0x0216DB28
+	arm_func_start Boss4__Func_216DB28
+Boss4__Func_216DB28: // 0x0216DB28
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
 	mov r4, r0
-	bl ovl01_216D090
+	bl Boss4__Func_216D090
 	cmp r0, #0
 	bne _0216DB4C
 	ldr r0, [r4, #0x4b0]
@@ -2638,10 +2638,10 @@ _0216DB4C:
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl01_216DB28
+	arm_func_end Boss4__Func_216DB28
 
-	arm_func_start ovl01_216DB68
-ovl01_216DB68: // 0x0216DB68
+	arm_func_start Boss4__Func_216DB68
+Boss4__Func_216DB68: // 0x0216DB68
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x20]
@@ -2650,10 +2650,10 @@ ovl01_216DB68: // 0x0216DB68
 	add r1, r0, #0x36c
 	bl StageTask__Draw3D
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_216DB68
+	arm_func_end Boss4__Func_216DB68
 
-	arm_func_start ovl01_216DB88
-ovl01_216DB88: // 0x0216DB88
+	arm_func_start Boss4__Func_216DB88
+Boss4__Func_216DB88: // 0x0216DB88
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -2708,10 +2708,10 @@ ovl01_216DB88: // 0x0216DB88
 	str r0, [r5, #0x484]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl01_216DB88
+	arm_func_end Boss4__Func_216DB88
 
-	arm_func_start ovl01_216DC60
-ovl01_216DC60: // 0x0216DC60
+	arm_func_start Boss4__Func_216DC60
+Boss4__Func_216DC60: // 0x0216DC60
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r1, [r0, #0x37c]
 	ldr r1, [r1, #0x384]
@@ -2800,10 +2800,10 @@ _0216DDA0:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0216DDB0: .word FX_SinCosTable_
-	arm_func_end ovl01_216DC60
+	arm_func_end Boss4__Func_216DC60
 
-	arm_func_start ovl01_216DDB4
-ovl01_216DDB4: // 0x0216DDB4
+	arm_func_start Boss4__Func_216DDB4
+Boss4__Func_216DDB4: // 0x0216DDB4
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -2815,10 +2815,10 @@ ovl01_216DDB4: // 0x0216DDB4
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl01_216DDB4
+	arm_func_end Boss4__Func_216DDB4
 
-	arm_func_start ovl01_216DDE0
-ovl01_216DDE0: // 0x0216DDE0
+	arm_func_start Boss4__Func_216DDE0
+Boss4__Func_216DDE0: // 0x0216DDE0
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x24
 	bl GetCurrentTaskWork_
@@ -2869,10 +2869,10 @@ ovl01_216DDE0: // 0x0216DDE0
 	.align 2, 0
 _0216DE9C: .word FX_SinCosTable_+0x00003000
 _0216DEA0: .word FX_SinCosTable_
-	arm_func_end ovl01_216DDE0
+	arm_func_end Boss4__Func_216DDE0
 
-	arm_func_start ovl01_216DEA4
-ovl01_216DEA4: // 0x0216DEA4
+	arm_func_start Boss4__Func_216DEA4
+Boss4__Func_216DEA4: // 0x0216DEA4
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x18]
@@ -2890,10 +2890,10 @@ ovl01_216DEA4: // 0x0216DEA4
 	rsb r2, r2, #0
 	bl BossHelpers__Collision__HandleColliderSimple
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_216DEA4
+	arm_func_end Boss4__Func_216DEA4
 
-	arm_func_start ovl01_216DEE8
-ovl01_216DEE8: // 0x0216DEE8
+	arm_func_start Boss4__Func_216DEE8
+Boss4__Func_216DEE8: // 0x0216DEE8
 	stmdb sp!, {r3, lr}
 	ldr r2, [r1, #0x1c]
 	ldr r1, [r0, #0x1c]
@@ -2907,26 +2907,26 @@ ovl01_216DEE8: // 0x0216DEE8
 	cmpne r0, #0x5f
 	ldmneia sp!, {r3, pc}
 	mov r0, r2
-	bl ovl01_216DF48
+	bl Boss4__Func_216DF48
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_216DEE8
+	arm_func_end Boss4__Func_216DEE8
 
-	arm_func_start ovl01_216DF24
-ovl01_216DF24: // 0x0216DF24
+	arm_func_start Boss4__Func_216DF24
+Boss4__Func_216DF24: // 0x0216DF24
 	ldr r1, [r0, #0x18]
 	mov r2, #0
 	bic r1, r1, #2
 	str r1, [r0, #0x18]
-	ldr r1, _0216DF44 // =ovl01_216DFAC
+	ldr r1, _0216DF44 // =Boss4__Func_216DFAC
 	str r2, [r0, #0x3bc]
 	str r1, [r0, #0x3b4]
 	bx lr
 	.align 2, 0
-_0216DF44: .word ovl01_216DFAC
-	arm_func_end ovl01_216DF24
+_0216DF44: .word Boss4__Func_216DFAC
+	arm_func_end Boss4__Func_216DF24
 
-	arm_func_start ovl01_216DF48
-ovl01_216DF48: // 0x0216DF48
+	arm_func_start Boss4__Func_216DF48
+Boss4__Func_216DF48: // 0x0216DF48
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -2947,21 +2947,21 @@ ovl01_216DF48: // 0x0216DF48
 	str r3, [sp, #4]
 	mov r3, r1
 	bl PlaySfxEx
-	ldr r0, _0216DFA8 // =ovl01_216DFB0
+	ldr r0, _0216DFA8 // =Boss4__Func_216DFB0
 	str r0, [r5, #0x3b4]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0216DFA8: .word ovl01_216DFB0
-	arm_func_end ovl01_216DF48
+_0216DFA8: .word Boss4__Func_216DFB0
+	arm_func_end Boss4__Func_216DF48
 
-	arm_func_start ovl01_216DFAC
-ovl01_216DFAC: // 0x0216DFAC
+	arm_func_start Boss4__Func_216DFAC
+Boss4__Func_216DFAC: // 0x0216DFAC
 	bx lr
-	arm_func_end ovl01_216DFAC
+	arm_func_end Boss4__Func_216DFAC
 
-	arm_func_start ovl01_216DFB0
-ovl01_216DFB0: // 0x0216DFB0
+	arm_func_start Boss4__Func_216DFB0
+Boss4__Func_216DFB0: // 0x0216DFB0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x3bc]
@@ -2969,7 +2969,7 @@ ovl01_216DFB0: // 0x0216DFB0
 	str r1, [r4, #0x3bc]
 	cmp r1, #0x10000
 	blo _0216DFD4
-	bl ovl01_216DF24
+	bl Boss4__Func_216DF24
 	ldmia sp!, {r4, pc}
 _0216DFD4:
 	ldr r1, [r4, #0x3b8]
@@ -3013,10 +3013,10 @@ _0216E040:
 	str r1, [r3, #0x48]
 	str r2, [r3, #0x4c]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_216DFB0
+	arm_func_end Boss4__Func_216DFB0
 
-	arm_func_start ovl01_216E06C
-ovl01_216E06C: // 0x0216E06C
+	arm_func_start Boss4__Func_216E06C
+Boss4__Func_216E06C: // 0x0216E06C
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r2, [r0, #0x46c]
 	mov r3, #0
@@ -3061,10 +3061,10 @@ ovl01_216E06C: // 0x0216E06C
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0216E114: .word FX_SinCosTable_
-	arm_func_end ovl01_216E06C
+	arm_func_end Boss4__Func_216E06C
 
-	arm_func_start ovl01_216E118
-ovl01_216E118: // 0x0216E118
+	arm_func_start Boss4__Func_216E118
+Boss4__Func_216E118: // 0x0216E118
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x478]
@@ -3074,10 +3074,10 @@ ovl01_216E118: // 0x0216E118
 	add r0, r4, #0x3e4
 	bl ObjCollisionObjectRegist
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_216E118
+	arm_func_end Boss4__Func_216E118
 
-	arm_func_start ovl01_216E13C
-ovl01_216E13C: // 0x0216E13C
+	arm_func_start Boss4__Func_216E13C
+Boss4__Func_216E13C: // 0x0216E13C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -3091,10 +3091,10 @@ ovl01_216E13C: // 0x0216E13C
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl01_216E13C
+	arm_func_end Boss4__Func_216E13C
 
-	arm_func_start ovl01_216E170
-ovl01_216E170: // 0x0216E170
+	arm_func_start Boss4__Func_216E170
+Boss4__Func_216E170: // 0x0216E170
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x24
 	bl GetCurrentTaskWork_
@@ -3148,7 +3148,7 @@ ovl01_216E170: // 0x0216E170
 	.align 2, 0
 _0216E238: .word FX_SinCosTable_+0x00003000
 _0216E23C: .word FX_SinCosTable_
-	arm_func_end ovl01_216E170
+	arm_func_end Boss4__Func_216E170
 
 	arm_func_start ovl01_216E240
 ovl01_216E240: // 0x0216E240
@@ -3216,8 +3216,8 @@ _0216E31C: .word 0x00000222
 _0216E320: .word FX_SinCosTable_
 	arm_func_end ovl01_216E240
 
-	arm_func_start ovl01_216E324
-ovl01_216E324: // 0x0216E324
+	arm_func_start Boss4__Func_216E324
+Boss4__Func_216E324: // 0x0216E324
 	add r2, r0, #0x7c
 	add r0, r0, #0x400
 	strh r1, [r0, #0x7c]
@@ -3229,10 +3229,10 @@ ovl01_216E324: // 0x0216E324
 	bx lr
 	.align 2, 0
 _0216E348: .word 0x00000222
-	arm_func_end ovl01_216E324
+	arm_func_end Boss4__Func_216E324
 
-	arm_func_start ovl01_216E34C
-ovl01_216E34C: // 0x0216E34C
+	arm_func_start Boss4__Func_216E34C
+Boss4__Func_216E34C: // 0x0216E34C
 	add r2, r0, #0x7c
 	add r0, r0, #0x400
 	ldr r3, _0216E370 // =0x00001555
@@ -3245,27 +3245,27 @@ ovl01_216E34C: // 0x0216E34C
 	.align 2, 0
 _0216E370: .word 0x00001555
 _0216E374: .word 0x00000222
-	arm_func_end ovl01_216E34C
+	arm_func_end Boss4__Func_216E34C
 
-	arm_func_start ovl01_216E378
-ovl01_216E378: // 0x0216E378
-	ldr r1, _0216E384 // =ovl01_216E388
+	arm_func_start Boss4__Func_216E378
+Boss4__Func_216E378: // 0x0216E378
+	ldr r1, _0216E384 // =Boss4__Func_216E388
 	str r1, [r0, #0x478]
 	bx lr
 	.align 2, 0
-_0216E384: .word ovl01_216E388
-	arm_func_end ovl01_216E378
+_0216E384: .word Boss4__Func_216E388
+	arm_func_end Boss4__Func_216E378
 
-	arm_func_start ovl01_216E388
-ovl01_216E388: // 0x0216E388
+	arm_func_start Boss4__Func_216E388
+Boss4__Func_216E388: // 0x0216E388
 	ldr ip, _0216E390 // =ovl01_216E240
 	bx ip
 	.align 2, 0
 _0216E390: .word ovl01_216E240
-	arm_func_end ovl01_216E388
+	arm_func_end Boss4__Func_216E388
 
-	arm_func_start ovl01_216E394
-ovl01_216E394: // 0x0216E394
+	arm_func_start Boss4__Func_216E394
+Boss4__Func_216E394: // 0x0216E394
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #1
@@ -3278,10 +3278,10 @@ ovl01_216E394: // 0x0216E394
 	mov r1, #0x3c
 	strh r1, [r0, #0xc4]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_216E394
+	arm_func_end Boss4__Func_216E394
 
-	arm_func_start ovl01_216E3C4
-ovl01_216E3C4: // 0x0216E3C4
+	arm_func_start Boss4__Func_216E3C4
+Boss4__Func_216E3C4: // 0x0216E3C4
 	stmdb sp!, {r3, lr}
 	add r1, r0, #0x700
 	ldrh r2, [r1, #0xc4]
@@ -3299,10 +3299,10 @@ ovl01_216E3C4: // 0x0216E3C4
 	mov r1, #1
 	bl BossHelpers__SetPaletteAnimations
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_216E3C4
+	arm_func_end Boss4__Func_216E3C4
 
-	arm_func_start ovl01_216E408
-ovl01_216E408: // 0x0216E408
+	arm_func_start Boss4__Func_216E408
+Boss4__Func_216E408: // 0x0216E408
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x78c]
@@ -3336,14 +3336,14 @@ ovl01_216E408: // 0x0216E408
 	orr r2, r2, r1, lsl #20
 	rsb r1, r2, #0
 	str r1, [r4, #0x9c]
-	bl ovl01_216E3C4
+	bl Boss4__Func_216E3C4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216E494: .word FX_SinCosTable_
-	arm_func_end ovl01_216E408
+	arm_func_end Boss4__Func_216E408
 
-	arm_func_start ovl01_216E498
-ovl01_216E498: // 0x0216E498
+	arm_func_start Boss4__Func_216E498
+Boss4__Func_216E498: // 0x0216E498
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -3362,10 +3362,10 @@ ovl01_216E498: // 0x0216E498
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl01_216E498
+	arm_func_end Boss4__Func_216E498
 
-	arm_func_start ovl01_216E4E0
-ovl01_216E4E0: // 0x0216E4E0
+	arm_func_start Boss4__Func_216E4E0
+Boss4__Func_216E4E0: // 0x0216E4E0
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -3381,10 +3381,10 @@ ovl01_216E4E0: // 0x0216E4E0
 	add r0, r4, #0x400
 	bl DrawAnimatedPalette
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_216E4E0
+	arm_func_end Boss4__Func_216E4E0
 
-	arm_func_start ovl01_216E51C
-ovl01_216E51C: // 0x0216E51C
+	arm_func_start Boss4__Func_216E51C
+Boss4__Func_216E51C: // 0x0216E51C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x1c]
@@ -3415,10 +3415,10 @@ ovl01_216E51C: // 0x0216E51C
 	str r1, [r4, #0xb0]
 	str r0, [r4, #0x98]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ovl01_216E51C
+	arm_func_end Boss4__Func_216E51C
 
-	arm_func_start ovl01_216E594
-ovl01_216E594: // 0x0216E594
+	arm_func_start Boss4__Func_216E594
+Boss4__Func_216E594: // 0x0216E594
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r9, r0
@@ -3439,9 +3439,9 @@ ovl01_216E594: // 0x0216E594
 	cmp r1, #0
 	beq _0216E7E0
 	ldr r0, [r4, #0x37c]
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	mov r6, r0
-	bl ovl01_216C9EC
+	bl Boss4__Func_216C9EC
 	ldr r1, [r4, #0x37c]
 	add r1, r1, #0x300
 	ldrsh r2, [r1, #0x94]
@@ -3464,7 +3464,7 @@ ovl01_216E594: // 0x0216E594
 	movge r1, #2
 	mov r0, r4
 	movge r7, #0xe000
-	bl ovl01_216EA98
+	bl Boss4__Func_216EA98
 	add r0, r4, #0x700
 	mov ip, #0x8c
 	sub r1, ip, #0x8d
@@ -3485,7 +3485,7 @@ _0216E67C:
 	ldrsh r0, [r0, #0x94]
 	bl UpdateBossHealthHUD
 	mov r0, r4
-	bl ovl01_216EB0C
+	bl Boss4__Func_216EB0C
 	mov r4, #0xce
 	sub r1, r4, #0xcf
 	mov r0, #0
@@ -3504,13 +3504,13 @@ _0216E6C0:
 	stmia sp, {r0, r7}
 	bl PlaySfxEx
 	mov r0, r4
-	bl ovl01_216E394
+	bl Boss4__Func_216E394
 	ldr r0, [r4, #0x790]
 	cmp r0, #0
 	bne _0216E6FC
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
-	bl ovl01_216FB74
+	bl Boss4__Func_216FB74
 _0216E6FC:
 	ldr r1, [r4, #0x44]
 	ldr r0, [r5, #0x44]
@@ -3518,14 +3518,14 @@ _0216E6FC:
 	movlt r7, #0x6000
 	ldr r0, [r4, #0x37c]
 	movge r7, #0xa000
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	cmp r6, r0
 	beq _0216E738
 	cmp r6, #0
 	bne _0216E738
 	mov r0, r4
 	mov r1, r7
-	bl ovl01_216EA08
+	bl Boss4__Func_216EA08
 	b _0216E784
 _0216E738:
 	add r0, r4, #0x700
@@ -3540,17 +3540,17 @@ _0216E738:
 	bne _0216E76C
 	mov r0, r4
 	mov r1, r7
-	bl ovl01_216E970
+	bl Boss4__Func_216E970
 _0216E76C:
 	ldr r0, [r4, #0x790]
 	cmp r0, #0
 	bne _0216E784
 	mov r0, r4
 	mov r1, r7
-	bl ovl01_216EA08
+	bl Boss4__Func_216EA08
 _0216E784:
 	ldr r0, [r4, #0x37c]
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	cmp r6, r0
 	beq _0216E7A4
 	cmp r6, #1
@@ -3570,19 +3570,19 @@ _0216E7A4:
 	bl BossFX__CreateHitA
 	mov r0, r9
 	mov r1, r8
-	bl ovl01_216E51C
+	bl Boss4__Func_216E51C
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0216E7E0:
 	mov r0, r9
 	mov r1, r8
-	bl ovl01_216E7F4
+	bl Boss4__Func_216E7F4
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	arm_func_end ovl01_216E594
+	arm_func_end Boss4__Func_216E594
 
-	arm_func_start ovl01_216E7F4
-ovl01_216E7F4: // 0x0216E7F4
+	arm_func_start Boss4__Func_216E7F4
+Boss4__Func_216E7F4: // 0x0216E7F4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r4, [r0, #0x1c]
@@ -3590,7 +3590,7 @@ ovl01_216E7F4: // 0x0216E7F4
 	cmp r2, #1
 	addne sp, sp, #8
 	ldmneia sp!, {r4, pc}
-	bl ovl01_216E51C
+	bl Boss4__Func_216E51C
 	ldr r0, [r4, #0x48]
 	ldr r1, [r4, #0x44]
 	rsb r2, r0, #0
@@ -3606,46 +3606,46 @@ ovl01_216E7F4: // 0x0216E7F4
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_216E7F4
+	arm_func_end Boss4__Func_216E7F4
 
-	arm_func_start ovl01_216E850
-ovl01_216E850: // 0x0216E850
+	arm_func_start Boss4__Func_216E850
+Boss4__Func_216E850: // 0x0216E850
 	ldr r1, [r0, #0x230]
 	orr r1, r1, #4
 	str r1, [r0, #0x230]
 	bx lr
-	arm_func_end ovl01_216E850
+	arm_func_end Boss4__Func_216E850
 
-	arm_func_start ovl01_216E860
-ovl01_216E860: // 0x0216E860
+	arm_func_start Boss4__Func_216E860
+Boss4__Func_216E860: // 0x0216E860
 	ldr r1, [r0, #0x230]
 	bic r1, r1, #4
 	str r1, [r0, #0x230]
 	bx lr
-	arm_func_end ovl01_216E860
+	arm_func_end Boss4__Func_216E860
 
-	arm_func_start ovl01_216E870
-ovl01_216E870: // 0x0216E870
+	arm_func_start Boss4__Func_216E870
+Boss4__Func_216E870: // 0x0216E870
 	ldr r1, [r0, #0x270]
 	orr r1, r1, #4
 	str r1, [r0, #0x270]
 	bx lr
-	arm_func_end ovl01_216E870
+	arm_func_end Boss4__Func_216E870
 
-	arm_func_start ovl01_216E880
-ovl01_216E880: // 0x0216E880
+	arm_func_start Boss4__Func_216E880
+Boss4__Func_216E880: // 0x0216E880
 	ldr r1, [r0, #0x270]
 	bic r1, r1, #4
 	str r1, [r0, #0x270]
 	bx lr
-	arm_func_end ovl01_216E880
+	arm_func_end Boss4__Func_216E880
 
-	arm_func_start ovl01_216E890
-ovl01_216E890: // 0x0216E890
+	arm_func_start Boss4__Func_216E890
+Boss4__Func_216E890: // 0x0216E890
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
-	ldr r0, _0216E8E8 // =ovl01_216EB2C
+	ldr r0, _0216E8E8 // =Boss4__Func_216EB2C
 	str r1, [r4, #0x790]
 	str r0, [r4, #0x78c]
 	ldr r0, [r4, #0x20]
@@ -3653,33 +3653,33 @@ ovl01_216E890: // 0x0216E890
 	str r0, [r4, #0x20]
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
-	bl ovl01_216FF88
+	bl Boss4__Func_216FF88
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
 	ldr r1, [r0, #0x7d4]
 	cmp r1, #0xc
 	bne _0216E8D8
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 _0216E8D8:
 	add r0, r4, #0x700
 	mov r1, #0
 	strh r1, [r0, #0x94]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216E8E8: .word ovl01_216EB2C
-	arm_func_end ovl01_216E890
+_0216E8E8: .word Boss4__Func_216EB2C
+	arm_func_end Boss4__Func_216E890
 
-	arm_func_start ovl01_216E8EC
-ovl01_216E8EC: // 0x0216E8EC
+	arm_func_start Boss4__Func_216E8EC
+Boss4__Func_216E8EC: // 0x0216E8EC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r2, #1
-	ldr r1, _0216E968 // =ovl01_216EBC0
+	ldr r1, _0216E968 // =Boss4__Func_216EBC0
 	str r2, [r4, #0x790]
 	str r1, [r4, #0x78c]
-	bl ovl01_216E850
+	bl Boss4__Func_216E850
 	mov r0, r4
-	bl ovl01_216E880
+	bl Boss4__Func_216E880
 	ldr r2, _0216E96C // =FX_SinCosTable_+0x00002000
 	ldr r1, [r4, #0x20]
 	add r0, r4, #0x3ec
@@ -3691,33 +3691,33 @@ ovl01_216E8EC: // 0x0216E8EC
 	bl MTX_RotZ33_
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
-	bl ovl01_216FF98
+	bl Boss4__Func_216FF98
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
 	ldr r1, [r0, #0x7d4]
 	cmp r1, #0xc
 	bne _0216E958
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 _0216E958:
 	add r0, r4, #0x700
 	mov r1, #0
 	strh r1, [r0, #0x94]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216E968: .word ovl01_216EBC0
+_0216E968: .word Boss4__Func_216EBC0
 _0216E96C: .word FX_SinCosTable_+0x00002000
-	arm_func_end ovl01_216E8EC
+	arm_func_end Boss4__Func_216E8EC
 
-	arm_func_start ovl01_216E970
-ovl01_216E970: // 0x0216E970
+	arm_func_start Boss4__Func_216E970
+Boss4__Func_216E970: // 0x0216E970
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x790]
 	cmp r0, #1
-	ldrne r0, _0216E9F8 // =ovl01_216EC08
+	ldrne r0, _0216E9F8 // =Boss4__Func_216EC08
 	strne r0, [r4, #0x78c]
 	bne _0216E99C
-	ldr r2, _0216E9FC // =ovl01_216EBD8
+	ldr r2, _0216E9FC // =Boss4__Func_216EBD8
 	add r0, r4, #0x700
 	str r2, [r4, #0x78c]
 	strh r1, [r0, #0x96]
@@ -3738,30 +3738,30 @@ _0216E99C:
 	str r1, [r4, #0x7e0]
 	str r1, [r4, #0x7e4]
 	str r1, [r4, #0x7e8]
-	bl ovl01_216E860
+	bl Boss4__Func_216E860
 	mov r0, r4
-	bl ovl01_216E870
+	bl Boss4__Func_216E870
 	add r0, r4, #0x700
 	mov r1, #0
 	strh r1, [r0, #0x9c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216E9F8: .word ovl01_216EC08
-_0216E9FC: .word ovl01_216EBD8
+_0216E9F8: .word Boss4__Func_216EC08
+_0216E9FC: .word Boss4__Func_216EBD8
 _0216EA00: .word FX_SinCosTable_+0x00002000
 _0216EA04: .word 0x00006999
-	arm_func_end ovl01_216E970
+	arm_func_end Boss4__Func_216E970
 
-	arm_func_start ovl01_216EA08
-ovl01_216EA08: // 0x0216EA08
+	arm_func_start Boss4__Func_216EA08
+Boss4__Func_216EA08: // 0x0216EA08
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x790]
 	cmp r0, #0
-	ldrne r0, _0216EA8C // =ovl01_216EE98
+	ldrne r0, _0216EA8C // =Boss4__Func_216EE98
 	strne r0, [r4, #0x78c]
 	bne _0216EA34
-	ldr r2, _0216EA90 // =ovl01_216EE48
+	ldr r2, _0216EA90 // =Boss4__Func_216EE48
 	add r0, r4, #0x700
 	str r2, [r4, #0x78c]
 	strh r1, [r0, #0x96]
@@ -3778,34 +3778,34 @@ _0216EA34:
 	str r3, [r4, #0x20]
 	bl MTX_RotZ33_
 	mov r0, r4
-	bl ovl01_216E860
+	bl Boss4__Func_216E860
 	mov r0, r4
-	bl ovl01_216E870
+	bl Boss4__Func_216E870
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
-	bl ovl01_216FF98
+	bl Boss4__Func_216FF98
 	add r0, r4, #0x700
 	mov r1, #0
 	strh r1, [r0, #0x9c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216EA8C: .word ovl01_216EE98
-_0216EA90: .word ovl01_216EE48
+_0216EA8C: .word Boss4__Func_216EE98
+_0216EA90: .word Boss4__Func_216EE48
 _0216EA94: .word FX_SinCosTable_+0x00002000
-	arm_func_end ovl01_216EA08
+	arm_func_end Boss4__Func_216EA08
 
-	arm_func_start ovl01_216EA98
-ovl01_216EA98: // 0x0216EA98
+	arm_func_start Boss4__Func_216EA98
+Boss4__Func_216EA98: // 0x0216EA98
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	mov r3, #4
-	ldr r2, _0216EB04 // =ovl01_216F12C
+	ldr r2, _0216EB04 // =Boss4__Func_216F12C
 	str r3, [r4, #0x790]
 	mov r5, r1
 	str r2, [r4, #0x78c]
-	bl ovl01_216E850
+	bl Boss4__Func_216E850
 	mov r0, r4
-	bl ovl01_216E880
+	bl Boss4__Func_216E880
 	ldr r0, [r4, #0x18]
 	add r1, r4, #0x380
 	orr r0, r0, #2
@@ -3824,25 +3824,25 @@ ovl01_216EA98: // 0x0216EA98
 	str r0, [r4, #0x7e8]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0216EB04: .word ovl01_216F12C
+_0216EB04: .word Boss4__Func_216F12C
 _0216EB08: .word 0x00006999
-	arm_func_end ovl01_216EA98
+	arm_func_end Boss4__Func_216EA98
 
-	arm_func_start ovl01_216EB0C
-ovl01_216EB0C: // 0x0216EB0C
+	arm_func_start Boss4__Func_216EB0C
+Boss4__Func_216EB0C: // 0x0216EB0C
 	stmdb sp!, {r3, lr}
 	mov r2, #5
-	ldr r1, _0216EB28 // =ovl01_216F5EC
+	ldr r1, _0216EB28 // =Boss4__Func_216F5EC
 	str r2, [r0, #0x790]
 	str r1, [r0, #0x78c]
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216EB28: .word ovl01_216F5EC
-	arm_func_end ovl01_216EB0C
+_0216EB28: .word Boss4__Func_216F5EC
+	arm_func_end Boss4__Func_216EB0C
 
-	arm_func_start ovl01_216EB2C
-ovl01_216EB2C: // 0x0216EB2C
+	arm_func_start Boss4__Func_216EB2C
+Boss4__Func_216EB2C: // 0x0216EB2C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x37c]
@@ -3873,31 +3873,31 @@ ovl01_216EB2C: // 0x0216EB2C
 	cmp r0, #0xc
 	mov r0, r4
 	bne _0216EBAC
-	bl ovl01_216E860
+	bl Boss4__Func_216E860
 	b _0216EBB0
 _0216EBAC:
-	bl ovl01_216E850
+	bl Boss4__Func_216E850
 _0216EBB0:
 	mov r0, r4
-	bl ovl01_216E880
+	bl Boss4__Func_216E880
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216EBBC: .word 0x000034CC
-	arm_func_end ovl01_216EB2C
+	arm_func_end Boss4__Func_216EB2C
 
-	arm_func_start ovl01_216EBC0
-ovl01_216EBC0: // 0x0216EBC0
+	arm_func_start Boss4__Func_216EBC0
+Boss4__Func_216EBC0: // 0x0216EBC0
 	ldr r2, [r0, #0x37c]
-	ldr ip, _0216EBD4 // =ovl01_216E06C
+	ldr ip, _0216EBD4 // =Boss4__Func_216E06C
 	add r1, r0, #0x44
 	ldr r0, [r2, #0x384]
 	bx ip
 	.align 2, 0
-_0216EBD4: .word ovl01_216E06C
-	arm_func_end ovl01_216EBC0
+_0216EBD4: .word Boss4__Func_216E06C
+	arm_func_end Boss4__Func_216EBC0
 
-	arm_func_start ovl01_216EBD8
-ovl01_216EBD8: // 0x0216EBD8
+	arm_func_start Boss4__Func_216EBD8
+Boss4__Func_216EBD8: // 0x0216EBD8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x700
@@ -3905,16 +3905,16 @@ ovl01_216EBD8: // 0x0216EBD8
 	strh r1, [r0, #0x9c]
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
-	bl ovl01_2170BE0
-	ldr r0, _0216EC04 // =ovl01_216EC08
+	bl Boss4__Func_2170BE0
+	ldr r0, _0216EC04 // =Boss4__Func_216EC08
 	str r0, [r4, #0x78c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216EC04: .word ovl01_216EC08
-	arm_func_end ovl01_216EBD8
+_0216EC04: .word Boss4__Func_216EC08
+	arm_func_end Boss4__Func_216EBD8
 
-	arm_func_start ovl01_216EC08
-ovl01_216EC08: // 0x0216EC08
+	arm_func_start Boss4__Func_216EC08
+Boss4__Func_216EC08: // 0x0216EC08
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x14
 	mov r5, r0
@@ -3941,13 +3941,13 @@ _0216EC2C: // jump table
 	b _0216EC7C // case 13
 	b _0216EC70 // case 14
 _0216EC68:
-	bl ovl01_2171FE8
+	bl Boss4__Func_2171FE8
 	b _0216EC7C
 _0216EC70:
-	bl ovl01_21720E8
+	bl Boss4__Func_21720E8
 	b _0216EC7C
 _0216EC78:
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 _0216EC7C:
 	add r0, r5, #0x700
 	ldrh r1, [r0, #0x9c]
@@ -3995,7 +3995,7 @@ _0216EC7C:
 	bl ProcessSpatialVoiceClip
 	bl EnableSpatialVolume
 	mov r0, r5
-	bl ovl01_216E890
+	bl Boss4__Func_216E890
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, r5, r6, pc}
 _0216ED40:
@@ -4067,35 +4067,35 @@ _0216EE1C:
 	.align 2, 0
 _0216EE40: .word 0x00000303
 _0216EE44: .word 0x00AAA000
-	arm_func_end ovl01_216EC08
+	arm_func_end Boss4__Func_216EC08
 
-	arm_func_start ovl01_216EE48
-ovl01_216EE48: // 0x0216EE48
+	arm_func_start Boss4__Func_216EE48
+Boss4__Func_216EE48: // 0x0216EE48
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
-	bl ovl01_2170BE0
+	bl Boss4__Func_2170BE0
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	ldr r1, _0216EE90 // =0x00006999
 	add r0, r4, #0x700
 	str r1, [r4, #0x7e0]
 	str r1, [r4, #0x7e4]
 	str r1, [r4, #0x7e8]
 	mov r2, #0
-	ldr r1, _0216EE94 // =ovl01_216EE98
+	ldr r1, _0216EE94 // =Boss4__Func_216EE98
 	strh r2, [r0, #0x9c]
 	str r1, [r4, #0x78c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216EE90: .word 0x00006999
-_0216EE94: .word ovl01_216EE98
-	arm_func_end ovl01_216EE48
+_0216EE94: .word Boss4__Func_216EE98
+	arm_func_end Boss4__Func_216EE48
 
-	arm_func_start ovl01_216EE98
-ovl01_216EE98: // 0x0216EE98
+	arm_func_start Boss4__Func_216EE98
+Boss4__Func_216EE98: // 0x0216EE98
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x14
 	mov r5, r0
@@ -4107,7 +4107,7 @@ ovl01_216EE98: // 0x0216EE98
 	ldr r0, [r5, #0x37c]
 	add r1, sp, #8
 	ldr r0, [r0, #0x384]
-	bl ovl01_216E06C
+	bl Boss4__Func_216E06C
 	ldr r1, [r5, #0x4c]
 	ldr r0, [sp, #0x10]
 	subs r2, r1, r0
@@ -4143,7 +4143,7 @@ ovl01_216EE98: // 0x0216EE98
 	bl ProcessSpatialVoiceClip
 	bl EnableSpatialVolume
 	mov r0, r5
-	bl ovl01_216E8EC
+	bl Boss4__Func_216E8EC
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, r5, r6, pc}
 _0216EF60:
@@ -4216,10 +4216,10 @@ _0216F040:
 	.align 2, 0
 _0216F064: .word 0x00000303
 _0216F068: .word 0x00AAA000
-	arm_func_end ovl01_216EE98
+	arm_func_end Boss4__Func_216EE98
 
-	arm_func_start ovl01_216F06C
-ovl01_216F06C: // 0x0216F06C
+	arm_func_start Boss4__Func_216F06C
+Boss4__Func_216F06C: // 0x0216F06C
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #0x10
 	ldr r2, [r0, #0x37c]
@@ -4273,10 +4273,10 @@ _0216F0E8:
 _0216F120: .word _mt_math_rand
 _0216F124: .word 0x00196225
 _0216F128: .word 0x3C6EF35F
-	arm_func_end ovl01_216F06C
+	arm_func_end Boss4__Func_216F06C
 
-	arm_func_start ovl01_216F12C
-ovl01_216F12C: // 0x0216F12C
+	arm_func_start Boss4__Func_216F12C
+Boss4__Func_216F12C: // 0x0216F12C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r5, r0
 	add r4, r5, #0x380
@@ -4453,11 +4453,11 @@ _0216F3A4:
 	ldmgeia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	ldr r0, [r4, #4]
 	cmp r0, #0
-	ldrle r0, _0216F40C // =ovl01_216F410
+	ldrle r0, _0216F40C // =Boss4__Func_216F410
 	strle r0, [r5, #0x78c]
 	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r0, r5
-	bl ovl01_216F06C
+	bl Boss4__Func_216F06C
 	str r0, [r4]
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
@@ -4469,18 +4469,18 @@ _0216F3FC: .word _02179FA4
 _0216F400: .word 0x00000F5E
 _0216F404: .word 0x0000065D
 _0216F408: .word 0x00000199
-_0216F40C: .word ovl01_216F410
-	arm_func_end ovl01_216F12C
+_0216F40C: .word Boss4__Func_216F410
+	arm_func_end Boss4__Func_216F12C
 
-	arm_func_start ovl01_216F410
-ovl01_216F410: // 0x0216F410
+	arm_func_start Boss4__Func_216F410
+Boss4__Func_216F410: // 0x0216F410
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
 	ldr r0, [r4, #0x37c]
 	add r1, sp, #8
 	ldr r0, [r0, #0x384]
-	bl ovl01_216E06C
+	bl Boss4__Func_216E06C
 	ldr r1, [r4, #0x48]
 	ldr r0, [sp, #0xc]
 	ldr r2, [r4, #0x44]
@@ -4520,7 +4520,7 @@ ovl01_216F410: // 0x0216F410
 	bl ProcessSpatialVoiceClip
 	bl EnableSpatialVolume
 	mov r0, r4
-	bl ovl01_216E8EC
+	bl Boss4__Func_216E8EC
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
 _0216F4D4:
@@ -4560,10 +4560,10 @@ _0216F530:
 	.align 2, 0
 _0216F550: .word 0x00000303
 _0216F554: .word 0x00000199
-	arm_func_end ovl01_216F410
+	arm_func_end Boss4__Func_216F410
 
-	arm_func_start ovl01_216F558
-ovl01_216F558: // 0x0216F558
+	arm_func_start Boss4__Func_216F558
+Boss4__Func_216F558: // 0x0216F558
 	ldr r0, [r0, #0x37c]
 	ldr r0, [r0, #0x37c]
 	ldr r0, [r0, #0x798]
@@ -4572,20 +4572,20 @@ ovl01_216F558: // 0x0216F558
 	movne r0, #0
 	moveq r0, #1
 	bx lr
-	arm_func_end ovl01_216F558
+	arm_func_end Boss4__Func_216F558
 
-	arm_func_start ovl01_216F578
-ovl01_216F578: // 0x0216F578
+	arm_func_start Boss4__Func_216F578
+Boss4__Func_216F578: // 0x0216F578
 	stmdb sp!, {r3, lr}
-	bl ovl01_216F558
+	bl Boss4__Func_216F558
 	cmp r0, #0
 	moveq r0, #1
 	movne r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_216F578
+	arm_func_end Boss4__Func_216F578
 
-	arm_func_start ovl01_216F590
-ovl01_216F590: // 0x0216F590
+	arm_func_start Boss4__Func_216F590
+Boss4__Func_216F590: // 0x0216F590
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x37c]
@@ -4610,10 +4610,10 @@ ovl01_216F590: // 0x0216F590
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216F5E8: .word VRAMSystem__VRAM_PALETTE_BG
-	arm_func_end ovl01_216F590
+	arm_func_end Boss4__Func_216F590
 
-	arm_func_start ovl01_216F5EC
-ovl01_216F5EC: // 0x0216F5EC
+	arm_func_start Boss4__Func_216F5EC
+Boss4__Func_216F5EC: // 0x0216F5EC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -4622,18 +4622,18 @@ ovl01_216F5EC: // 0x0216F5EC
 	mov r0, #0
 	bl MIi_CpuClear16
 	mov r0, r4
-	bl ovl01_216E860
+	bl Boss4__Func_216E860
 	mov r0, r4
-	bl ovl01_216E880
+	bl Boss4__Func_216E880
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
-	bl ovl01_216FF88
+	bl Boss4__Func_216FF88
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
-	bl ovl01_2170120
+	bl Boss4__Func_2170120
 	ldr r0, _0216F714 // =playerGameStatus
 	ldr r1, [r0, #0]
 	bic r1, r1, #1
@@ -4644,10 +4644,10 @@ ovl01_216F5EC: // 0x0216F5EC
 	str r0, [r4, #0x798]
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
-	bl ovl01_2170BE0
+	bl Boss4__Func_2170BE0
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
-	bl ovl01_2172158
+	bl Boss4__Func_2172158
 	mov r1, #0
 	ldr r0, [r4, #0x37c]
 	str r1, [r0, #0x4ec]
@@ -4683,7 +4683,7 @@ ovl01_216F5EC: // 0x0216F5EC
 	mov r1, #0
 	add r0, r4, #0x780
 	strh r1, [r0, #8]
-	ldr r0, _0216F71C // =ovl01_216F720
+	ldr r0, _0216F71C // =Boss4__Func_216F720
 	str r0, [r4, #0x78c]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
@@ -4691,11 +4691,11 @@ ovl01_216F5EC: // 0x0216F5EC
 _0216F710: .word 0x0000040A
 _0216F714: .word playerGameStatus
 _0216F718: .word gPlayer
-_0216F71C: .word ovl01_216F720
-	arm_func_end ovl01_216F5EC
+_0216F71C: .word Boss4__Func_216F720
+	arm_func_end Boss4__Func_216F5EC
 
-	arm_func_start ovl01_216F720
-ovl01_216F720: // 0x0216F720
+	arm_func_start Boss4__Func_216F720
+Boss4__Func_216F720: // 0x0216F720
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r0, r4, #0x780
@@ -4739,21 +4739,21 @@ _0216F770:
 	mov r0, r5
 	mov r2, r1
 	bl BossArena__SetTracker0Speed
-	ldr r0, _0216F7D0 // =ovl01_216F7D4
+	ldr r0, _0216F7D0 // =Boss4__Func_216F7D4
 	str r0, [r4, #0x78c]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0216F7D0: .word ovl01_216F7D4
-	arm_func_end ovl01_216F720
+_0216F7D0: .word Boss4__Func_216F7D4
+	arm_func_end Boss4__Func_216F720
 
-	arm_func_start ovl01_216F7D4
-ovl01_216F7D4: // 0x0216F7D4
+	arm_func_start Boss4__Func_216F7D4
+Boss4__Func_216F7D4: // 0x0216F7D4
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl Camera3D__GetWork
 	mov r4, r0
 	mov r0, r5
-	bl ovl01_216F578
+	bl Boss4__Func_216F578
 	mov r1, #0x5c
 	mla r4, r0, r1, r4
 	add r1, r4, #0x20
@@ -4778,17 +4778,17 @@ ovl01_216F7D4: // 0x0216F7D4
 	bl MIi_CpuCopyFast
 	add r0, r5, #0x780
 	mov r2, #0
-	ldr r1, _0216F860 // =ovl01_216F864
+	ldr r1, _0216F860 // =Boss4__Func_216F864
 	strh r2, [r0, #8]
 	str r1, [r5, #0x78c]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0216F85C: .word VRAMSystem__VRAM_PALETTE_BG
-_0216F860: .word ovl01_216F864
-	arm_func_end ovl01_216F7D4
+_0216F860: .word Boss4__Func_216F864
+	arm_func_end Boss4__Func_216F7D4
 
-	arm_func_start ovl01_216F864
-ovl01_216F864: // 0x0216F864
+	arm_func_start Boss4__Func_216F864
+Boss4__Func_216F864: // 0x0216F864
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	mov r10, r0
@@ -4814,7 +4814,7 @@ _0216F8B8:
 	bl Camera3D__GetWork
 	mov r4, r0
 	mov r0, r10
-	bl ovl01_216F578
+	bl Boss4__Func_216F578
 	mov r1, #0x5c
 	mla r2, r0, r1, r4
 	ldrh r0, [r2, #0x24]
@@ -4834,7 +4834,7 @@ _0216F8B8:
 	strh r0, [r2, #0x24]
 _0216F90C:
 	mov r0, r10
-	bl ovl01_216F590
+	bl Boss4__Func_216F590
 	mov r9, #0
 	ldr r8, _0216F9DC // =BossArena__explosionFXSpawnTime
 	add r4, r10, #0x780
@@ -4861,7 +4861,7 @@ _0216F930:
 	str r6, [sp, #4]
 	bl PlaySfxEx
 	mov r0, r10
-	bl ovl01_216F558
+	bl Boss4__Func_216F558
 	cmp r0, #0
 	moveq r0, #0x100
 	movne r0, #0x200
@@ -4883,17 +4883,17 @@ _0216F9AC:
 	add r1, r2, #1
 	strh r1, [r0, #8]
 	cmp r2, #0xd2
-	ldrhi r0, _0216F9E0 // =ovl01_216F9E4
+	ldrhi r0, _0216F9E0 // =Boss4__Func_216F9E4
 	strhi r0, [r10, #0x78c]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216F9DC: .word BossArena__explosionFXSpawnTime
-_0216F9E0: .word ovl01_216F9E4
-	arm_func_end ovl01_216F864
+_0216F9E0: .word Boss4__Func_216F9E4
+	arm_func_end Boss4__Func_216F864
 
-	arm_func_start ovl01_216F9E4
-ovl01_216F9E4: // 0x0216F9E4
+	arm_func_start Boss4__Func_216F9E4
+Boss4__Func_216F9E4: // 0x0216F9E4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -4932,7 +4932,7 @@ ovl01_216F9E4: // 0x0216F9E4
 	mov r1, #0
 	add r0, r4, #0x700
 	strh r1, [r0, #0x88]
-	ldr r1, _0216FA9C // =ovl01_216FAA0
+	ldr r1, _0216FA9C // =Boss4__Func_216FAA0
 	mov r0, r4
 	str r1, [r4, #0x78c]
 	blx r1
@@ -4941,11 +4941,11 @@ ovl01_216F9E4: // 0x0216F9E4
 	.align 2, 0
 _0216FA94: .word FX_SinCosTable_+0x00000500
 _0216FA98: .word 0x00000555
-_0216FA9C: .word ovl01_216FAA0
-	arm_func_end ovl01_216F9E4
+_0216FA9C: .word Boss4__Func_216FAA0
+	arm_func_end Boss4__Func_216F9E4
 
-	arm_func_start ovl01_216FAA0
-ovl01_216FAA0: // 0x0216FAA0
+	arm_func_start Boss4__Func_216FAA0
+Boss4__Func_216FAA0: // 0x0216FAA0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r4, [r6, #0x37c]
@@ -4984,22 +4984,22 @@ _0216FB28:
 	mov r5, #1
 _0216FB2C:
 	mov r0, r6
-	bl ovl01_216F590
+	bl Boss4__Func_216F590
 	add r0, r6, #0x780
 	ldrh r1, [r0, #8]
 	cmp r4, #0
 	cmpne r5, #0
 	add r1, r1, #1
 	strh r1, [r0, #8]
-	ldrne r0, _0216FB58 // =ovl01_216FB5C
+	ldrne r0, _0216FB58 // =Boss4__Func_216FB5C
 	strne r0, [r6, #0x78c]
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0216FB58: .word ovl01_216FB5C
-	arm_func_end ovl01_216FAA0
+_0216FB58: .word Boss4__Func_216FB5C
+	arm_func_end Boss4__Func_216FAA0
 
-	arm_func_start ovl01_216FB5C
-ovl01_216FB5C: // 0x0216FB5C
+	arm_func_start Boss4__Func_216FB5C
+Boss4__Func_216FB5C: // 0x0216FB5C
 	ldr r0, _0216FB70 // =playerGameStatus
 	ldr r1, [r0, #0]
 	orr r1, r1, #4
@@ -5007,10 +5007,10 @@ ovl01_216FB5C: // 0x0216FB5C
 	bx lr
 	.align 2, 0
 _0216FB70: .word playerGameStatus
-	arm_func_end ovl01_216FB5C
+	arm_func_end Boss4__Func_216FB5C
 
-	arm_func_start ovl01_216FB74
-ovl01_216FB74: // 0x0216FB74
+	arm_func_start Boss4__Func_216FB74
+Boss4__Func_216FB74: // 0x0216FB74
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #4
@@ -5023,10 +5023,10 @@ ovl01_216FB74: // 0x0216FB74
 	mov r1, #0x3c
 	strh r1, [r0, #4]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_216FB74
+	arm_func_end Boss4__Func_216FB74
 
-	arm_func_start ovl01_216FBA4
-ovl01_216FBA4: // 0x0216FBA4
+	arm_func_start Boss4__Func_216FBA4
+Boss4__Func_216FBA4: // 0x0216FBA4
 	stmdb sp!, {r3, lr}
 	add r1, r0, #0x600
 	ldrh r2, [r1, #4]
@@ -5044,13 +5044,13 @@ ovl01_216FBA4: // 0x0216FBA4
 	mov r1, #0x10
 	bl BossHelpers__SetPaletteAnimations
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_216FBA4
+	arm_func_end Boss4__Func_216FBA4
 
-	arm_func_start ovl01_216FBE8
-ovl01_216FBE8: // 0x0216FBE8
+	arm_func_start Boss4__Func_216FBE8
+Boss4__Func_216FBE8: // 0x0216FBE8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ovl01_21703A4
+	bl Boss4__Func_21703A4
 	ldr r1, [r4, #0x7d0]
 	mov r0, r4
 	blx r1
@@ -5061,12 +5061,12 @@ ovl01_216FBE8: // 0x0216FBE8
 	mov r0, r4
 	blx r1
 	mov r0, r4
-	bl ovl01_216FBA4
+	bl Boss4__Func_216FBA4
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_216FBE8
+	arm_func_end Boss4__Func_216FBE8
 
-	arm_func_start ovl01_216FC24
-ovl01_216FC24: // 0x0216FC24
+	arm_func_start Boss4__Func_216FC24
+Boss4__Func_216FC24: // 0x0216FC24
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	bl GetTaskWork_
@@ -5094,10 +5094,10 @@ _0216FC58:
 	mov r0, r7
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ovl01_216FC24
+	arm_func_end Boss4__Func_216FC24
 
-	arm_func_start ovl01_216FC8C
-ovl01_216FC8C: // 0x0216FC8C
+	arm_func_start Boss4__Func_216FC8C
+Boss4__Func_216FC8C: // 0x0216FC8C
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -5130,10 +5130,10 @@ _0216FCE4:
 	add r5, r5, #0x20
 	blt _0216FCE4
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl01_216FC8C
+	arm_func_end Boss4__Func_216FC8C
 
-	arm_func_start ovl01_216FD08
-ovl01_216FD08: // 0x0216FD08
+	arm_func_start Boss4__Func_216FD08
+Boss4__Func_216FD08: // 0x0216FD08
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -5166,10 +5166,10 @@ _0216FD64:
 	add r1, r4, #0x298
 	bl StageTask__HandleCollider
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_216FD08
+	arm_func_end Boss4__Func_216FD08
 
-	arm_func_start ovl01_216FD80
-ovl01_216FD80: // 0x0216FD80
+	arm_func_start Boss4__Func_216FD80
+Boss4__Func_216FD80: // 0x0216FD80
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #8
 	mov r7, r0
@@ -5219,10 +5219,10 @@ _0216FE18:
 	cmp r0, #0
 	bne _0216FE6C
 	ldr r0, [r4, #0x37c]
-	bl ovl01_216CB20
+	bl Boss4__Func_216CB20
 	mov r1, r0
 	mov r0, r4
-	bl ovl01_2172098
+	bl Boss4__Func_2172098
 	mov r3, #0xb0
 	sub r1, r3, #0xb1
 	mov r0, #0
@@ -5241,7 +5241,7 @@ _0216FE6C:
 	bl PlaySfxEx
 _0216FE88:
 	mov r0, r4
-	bl ovl01_216FB74
+	bl Boss4__Func_216FB74
 	ldr r0, [r5, #0x48]
 	ldr r1, [r5, #0x44]
 	ldr r3, [r5, #0x4c]
@@ -5250,10 +5250,10 @@ _0216FE88:
 	bl BossFX__CreateHitB
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ovl01_216FD80
+	arm_func_end Boss4__Func_216FD80
 
-	arm_func_start ovl01_216FEB0
-ovl01_216FEB0: // 0x0216FEB0
+	arm_func_start Boss4__Func_216FEB0
+Boss4__Func_216FEB0: // 0x0216FEB0
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r0, #0x1c]
@@ -5311,34 +5311,34 @@ _0216FF4C:
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl01_216FEB0
+	arm_func_end Boss4__Func_216FEB0
 
-	arm_func_start ovl01_216FF88
-ovl01_216FF88: // 0x0216FF88
+	arm_func_start Boss4__Func_216FF88
+Boss4__Func_216FF88: // 0x0216FF88
 	ldr r1, [r0, #0x270]
 	bic r1, r1, #4
 	str r1, [r0, #0x270]
 	bx lr
-	arm_func_end ovl01_216FF88
+	arm_func_end Boss4__Func_216FF88
 
-	arm_func_start ovl01_216FF98
-ovl01_216FF98: // 0x0216FF98
+	arm_func_start Boss4__Func_216FF98
+Boss4__Func_216FF98: // 0x0216FF98
 	ldr r1, [r0, #0x270]
 	orr r1, r1, #4
 	str r1, [r0, #0x270]
 	bx lr
-	arm_func_end ovl01_216FF98
+	arm_func_end Boss4__Func_216FF98
 
-	arm_func_start ovl01_216FFA8
-ovl01_216FFA8: // 0x0216FFA8
+	arm_func_start Boss4__Func_216FFA8
+Boss4__Func_216FFA8: // 0x0216FFA8
 	ldr r1, [r0, #0x230]
 	bic r1, r1, #4
 	str r1, [r0, #0x230]
 	bx lr
-	arm_func_end ovl01_216FFA8
+	arm_func_end Boss4__Func_216FFA8
 
-	arm_func_start ovl01_216FFB8
-ovl01_216FFB8: // 0x0216FFB8
+	arm_func_start Boss4__Func_216FFB8
+Boss4__Func_216FFB8: // 0x0216FFB8
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r2, [r0, #0x230]
@@ -5357,10 +5357,10 @@ ovl01_216FFB8: // 0x0216FFB8
 	bl ObjRect__SetBox3D
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
-	arm_func_end ovl01_216FFB8
+	arm_func_end Boss4__Func_216FFB8
 
-	arm_func_start ovl01_2170000
-ovl01_2170000: // _02170000
+	arm_func_start Boss4__Func_2170000
+Boss4__Func_2170000: // _02170000
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r2, [r0, #0x230]
@@ -5379,10 +5379,10 @@ ovl01_2170000: // _02170000
 	bl ObjRect__SetBox3D
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
-	arm_func_end ovl01_2170000
+	arm_func_end Boss4__Func_2170000
 
-	arm_func_start ovl01_2170048
-ovl01_2170048: // _02170048
+	arm_func_start Boss4__Func_2170048
+Boss4__Func_2170048: // _02170048
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r2, [r0, #0x230]
@@ -5401,10 +5401,10 @@ ovl01_2170048: // _02170048
 	bl ObjRect__SetBox3D
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
-	arm_func_end ovl01_2170048
+	arm_func_end Boss4__Func_2170048
 
-	arm_func_start ovl01_2170090
-ovl01_2170090: // _02170090
+	arm_func_start Boss4__Func_2170090
+Boss4__Func_2170090: // _02170090
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r1, [r0, #0x230]
@@ -5423,10 +5423,10 @@ ovl01_2170090: // _02170090
 	bl ObjRect__SetBox3D
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
-	arm_func_end ovl01_2170090
+	arm_func_end Boss4__Func_2170090
 
-	arm_func_start ovl01_21700D8
-ovl01_21700D8: // _021700D8
+	arm_func_start Boss4__Func_21700D8
+Boss4__Func_21700D8: // _021700D8
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r1, [r0, #0x230]
@@ -5445,18 +5445,18 @@ ovl01_21700D8: // _021700D8
 	bl ObjRect__SetBox3D
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
-	arm_func_end ovl01_21700D8
+	arm_func_end Boss4__Func_21700D8
 
-	arm_func_start ovl01_2170120
-ovl01_2170120: // _02170120
+	arm_func_start Boss4__Func_2170120
+Boss4__Func_2170120: // _02170120
 	ldr r1, [r0, #0x2b0]
 	bic r1, r1, #4
 	str r1, [r0, #0x2b0]
 	bx lr
-	arm_func_end ovl01_2170120
+	arm_func_end Boss4__Func_2170120
 
-	arm_func_start ovl01_2170130
-ovl01_2170130: // _02170130
+	arm_func_start Boss4__Func_2170130
+Boss4__Func_2170130: // _02170130
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r1, [r0, #0x2b0]
@@ -5475,10 +5475,10 @@ ovl01_2170130: // _02170130
 	bl ObjRect__SetBox3D
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
-	arm_func_end ovl01_2170130
+	arm_func_end Boss4__Func_2170130
 
-	arm_func_start ovl01_2170178
-ovl01_2170178: // _02170178
+	arm_func_start Boss4__Func_2170178
+Boss4__Func_2170178: // _02170178
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r1, [r0, #0x2b0]
@@ -5497,17 +5497,17 @@ ovl01_2170178: // _02170178
 	bl ObjRect__SetBox3D
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
-	arm_func_end ovl01_2170178
+	arm_func_end Boss4__Func_2170178
 
-	arm_func_start ovl01_21701C0
-ovl01_21701C0: // _021701C0
+	arm_func_start Boss4__Func_21701C0
+Boss4__Func_21701C0: // _021701C0
 	ldr r0, [r0, #0x20]
 	and r0, r0, #1
 	bx lr
-	arm_func_end ovl01_21701C0
+	arm_func_end Boss4__Func_21701C0
 
-	arm_func_start ovl01_21701CC
-ovl01_21701CC: // _021701CC
+	arm_func_start Boss4__Func_21701CC
+Boss4__Func_21701CC: // _021701CC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r3, r1
@@ -5529,40 +5529,40 @@ ovl01_21701CC: // _021701CC
 	str r0, [r4, #0x720]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_21701CC
+	arm_func_end Boss4__Func_21701CC
 
-	arm_func_start ovl01_2170220
-ovl01_2170220: // _02170220
+	arm_func_start Boss4__Func_2170220
+Boss4__Func_2170220: // _02170220
 	str r1, [r0, #0x720]
 	bx lr
-	arm_func_end ovl01_2170220
+	arm_func_end Boss4__Func_2170220
 
-	arm_func_start ovl01_2170228
-ovl01_2170228: // _02170228
+	arm_func_start Boss4__Func_2170228
+Boss4__Func_2170228: // _02170228
 	ldr r0, [r0, #0x6ec]
 	ldr r0, [r0, #0]
 	bx lr
-	arm_func_end ovl01_2170228
+	arm_func_end Boss4__Func_2170228
 
-	arm_func_start ovl01_2170234
-ovl01_2170234: // _02170234
+	arm_func_start Boss4__Func_2170234
+Boss4__Func_2170234: // _02170234
 	ldr r0, [r0, #0x20]
 	and r0, r0, #8
 	bx lr
-	arm_func_end ovl01_2170234
+	arm_func_end Boss4__Func_2170234
 
-	arm_func_start ovl01_2170240
-ovl01_2170240: // _02170240
+	arm_func_start Boss4__Func_2170240
+Boss4__Func_2170240: // _02170240
 	add r0, r0, #0x700
 	ldrh r2, [r0, #0x14]
 	orr r2, r2, #4
 	strh r2, [r0, #0x14]
 	strh r1, [r0, #0x3a]
 	bx lr
-	arm_func_end ovl01_2170240
+	arm_func_end Boss4__Func_2170240
 
-	arm_func_start ovl01_2170258
-ovl01_2170258: // _02170258
+	arm_func_start Boss4__Func_2170258
+Boss4__Func_2170258: // _02170258
 	add r0, r0, #0x700
 	ldrh r0, [r0, #0x14]
 	tst r0, #4
@@ -5572,10 +5572,10 @@ ovl01_2170258: // _02170258
 	movne r0, #1
 	moveq r0, #0
 	bx lr
-	arm_func_end ovl01_2170258
+	arm_func_end Boss4__Func_2170258
 
-	arm_func_start ovl01_217027C
-ovl01_217027C: // _0217027C
+	arm_func_start Boss4__Func_217027C
+Boss4__Func_217027C: // _0217027C
 	stmdb sp!, {r3, lr}
 	ldr r0, [r0, #0x20]
 	tst r0, #1
@@ -5596,10 +5596,10 @@ _021702A4:
 	.align 2, 0
 _021702BC: .word FX_SinCosTable_+0x00003000
 _021702C0: .word FX_SinCosTable_+0x00001000
-	arm_func_end ovl01_217027C
+	arm_func_end Boss4__Func_217027C
 
-	arm_func_start ovl01_21702C4
-ovl01_21702C4: // _021702C4
+	arm_func_start Boss4__Func_21702C4
+Boss4__Func_21702C4: // _021702C4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x48]
@@ -5612,13 +5612,13 @@ ovl01_21702C4: // _021702C4
 	mov r4, r0
 	mov r0, r6
 	add r1, r4, #0x18c
-	bl ovl01_217027C
+	bl Boss4__Func_217027C
 	str r5, [r4, #0x280]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ovl01_21702C4
+	arm_func_end Boss4__Func_21702C4
 
-	arm_func_start ovl01_2170300
-ovl01_2170300: // _02170300
+	arm_func_start Boss4__Func_2170300
+Boss4__Func_2170300: // _02170300
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x48]
@@ -5631,13 +5631,13 @@ ovl01_2170300: // _02170300
 	mov r4, r0
 	mov r0, r6
 	add r1, r4, #0x18c
-	bl ovl01_217027C
+	bl Boss4__Func_217027C
 	str r5, [r4, #0x280]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ovl01_2170300
+	arm_func_end Boss4__Func_2170300
 
-	arm_func_start ovl01_217033C
-ovl01_217033C: // _0217033C
+	arm_func_start Boss4__Func_217033C
+Boss4__Func_217033C: // _0217033C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x48]
@@ -5649,12 +5649,12 @@ ovl01_217033C: // _0217033C
 	mov r1, r0
 	mov r0, r4
 	add r1, r1, #0x18c
-	bl ovl01_217027C
+	bl Boss4__Func_217027C
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_217033C
+	arm_func_end Boss4__Func_217033C
 
-	arm_func_start ovl01_2170370
-ovl01_2170370: // _02170370
+	arm_func_start Boss4__Func_2170370
+Boss4__Func_2170370: // _02170370
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x48]
@@ -5666,20 +5666,20 @@ ovl01_2170370: // _02170370
 	mov r1, r0
 	mov r0, r4
 	add r1, r1, #0x18c
-	bl ovl01_217027C
+	bl Boss4__Func_217027C
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_2170370
+	arm_func_end Boss4__Func_2170370
 
-	arm_func_start ovl01_21703A4
-ovl01_21703A4: // _021703A4
+	arm_func_start Boss4__Func_21703A4
+Boss4__Func_21703A4: // _021703A4
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r5, r4, #0x394
-	bl ovl01_216CE28
+	bl Boss4__Func_216CE28
 	ldr r1, _021704A8 // =gPlayer
 	str r0, [r4, #0x794]
 	ldr r0, [r1, #0]
-	bl ovl01_216CE28
+	bl Boss4__Func_216CE28
 	str r0, [r5, #0x404]
 	ldr r0, _021704A8 // =gPlayer
 	ldr r1, [r4, #0x44]
@@ -5747,10 +5747,10 @@ _02170490:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _021704A8: .word gPlayer
-	arm_func_end ovl01_21703A4
+	arm_func_end Boss4__Func_21703A4
 
-	arm_func_start ovl01_21704AC
-ovl01_21704AC: // _021704AC
+	arm_func_start Boss4__Func_21704AC
+Boss4__Func_21704AC: // _021704AC
 	ldr r1, [r0, #0x794]
 	add r0, r0, #0x394
 	cmp r1, #0
@@ -5762,10 +5762,10 @@ ovl01_21704AC: // _021704AC
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	arm_func_end ovl01_21704AC
+	arm_func_end Boss4__Func_21704AC
 
-	arm_func_start ovl01_21704D8
-ovl01_21704D8: // _021704D8
+	arm_func_start Boss4__Func_21704D8
+Boss4__Func_21704D8: // _021704D8
 	ldr r2, _02170510 // =_mt_math_rand
 	ldr r0, _02170514 // =0x00196225
 	ldr r3, [r2, #0]
@@ -5784,10 +5784,10 @@ ovl01_21704D8: // _021704D8
 _02170510: .word _mt_math_rand
 _02170514: .word 0x00196225
 _02170518: .word 0x3C6EF35F
-	arm_func_end ovl01_21704D8
+	arm_func_end Boss4__Func_21704D8
 
-	arm_func_start ovl01_217051C
-ovl01_217051C: // _0217051C
+	arm_func_start Boss4__Func_217051C
+Boss4__Func_217051C: // _0217051C
 	ldr r2, _02170550 // =_mt_math_rand
 	ldr r0, _02170554 // =0x00196225
 	ldr r3, [r2, #0]
@@ -5805,13 +5805,13 @@ ovl01_217051C: // _0217051C
 _02170550: .word _mt_math_rand
 _02170554: .word 0x00196225
 _02170558: .word 0x3C6EF35F
-	arm_func_end ovl01_217051C
+	arm_func_end Boss4__Func_217051C
 
-	arm_func_start ovl01_217055C
-ovl01_217055C: // _0217055C
+	arm_func_start Boss4__Func_217055C
+Boss4__Func_217055C: // _0217055C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r0, [r0, #0x37c]
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	ldr ip, _021705DC // =_mt_math_rand
 	ldr r1, _021705E0 // =0x00196225
 	ldr r4, [ip]
@@ -5847,13 +5847,13 @@ _021705E0: .word 0x00196225
 _021705E4: .word 0x3C6EF35F
 _021705E8: .word gameState
 _021705EC: .word _02179FF8
-	arm_func_end ovl01_217055C
+	arm_func_end Boss4__Func_217055C
 
-	arm_func_start ovl01_21705F0
-ovl01_21705F0: // _021705F0
+	arm_func_start Boss4__Func_21705F0
+Boss4__Func_21705F0: // _021705F0
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r0, [r0, #0x37c]
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	ldr r1, _02170654 // =gameState
 	ldr r3, _02170658 // =_mt_math_rand
 	mov r2, #6
@@ -5882,20 +5882,20 @@ _02170658: .word _mt_math_rand
 _0217065C: .word _02179FC8
 _02170660: .word 0x00196225
 _02170664: .word 0x3C6EF35F
-	arm_func_end ovl01_21705F0
+	arm_func_end Boss4__Func_21705F0
 
-	arm_func_start ovl01_2170668
-ovl01_2170668: // _02170668
+	arm_func_start Boss4__Func_2170668
+Boss4__Func_2170668: // _02170668
 	stmdb sp!, {r3, lr}
-	bl ovl01_21704AC
+	bl Boss4__Func_21704AC
 	cmp r0, #0
 	moveq r0, #1
 	movne r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_2170668
+	arm_func_end Boss4__Func_2170668
 
-	arm_func_start ovl01_2170680
-ovl01_2170680: // _02170680
+	arm_func_start Boss4__Func_2170680
+Boss4__Func_2170680: // _02170680
 	add r0, r0, #0x394
 	ldr r1, [r0, #0x418]
 	ldr r0, [r0, #0x410]
@@ -5903,14 +5903,14 @@ ovl01_2170680: // _02170680
 	movle r0, #1
 	movgt r0, #0
 	bx lr
-	arm_func_end ovl01_2170680
+	arm_func_end Boss4__Func_2170680
 
-	arm_func_start ovl01_217069C
-ovl01_217069C: // _0217069C
+	arm_func_start Boss4__Func_217069C
+Boss4__Func_217069C: // _0217069C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r7, r0
 	ldr r0, [r7, #0x37c]
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	cmp r0, #2
 	ldreq r0, [r7, #0x7e0]
 	cmpeq r0, #0
@@ -5948,7 +5948,7 @@ _0217071C:
 	mov r1, r0, lsl #0x10
 	ldr r0, [r7, #0x37c]
 	mov r10, r1, lsr #0x10
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	and r1, r10, #7
 	add r0, r6, r0, lsl #5
 	ldr r0, [r0, r1, lsl #2]
@@ -5964,14 +5964,14 @@ _0217075C: .word gameState
 _02170760: .word _mt_math_rand
 _02170764: .word 0x00196225
 _02170768: .word 0x3C6EF35F
-	arm_func_end ovl01_217069C
+	arm_func_end Boss4__Func_217069C
 
-	arm_func_start ovl01_217076C
-ovl01_217076C: // _0217076C
+	arm_func_start Boss4__Func_217076C
+Boss4__Func_217076C: // _0217076C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r7, r0
 	ldr r0, [r7, #0x37c]
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	cmp r0, #2
 	ldreq r0, [r7, #0x7e0]
 	cmpeq r0, #0
@@ -6009,7 +6009,7 @@ _021707EC:
 	mov r1, r0, lsl #0x10
 	ldr r0, [r7, #0x37c]
 	mov r10, r1, lsr #0x10
-	bl ovl01_216C9B0
+	bl Boss4__Func_216C9B0
 	and r1, r10, #7
 	add r0, r6, r0, lsl #5
 	ldr r0, [r0, r1, lsl #2]
@@ -6025,10 +6025,10 @@ _0217082C: .word gameState
 _02170830: .word _mt_math_rand
 _02170834: .word 0x00196225
 _02170838: .word 0x3C6EF35F
-	arm_func_end ovl01_217076C
+	arm_func_end Boss4__Func_217076C
 
-	arm_func_start ovl01_217083C
-ovl01_217083C: // _0217083C
+	arm_func_start Boss4__Func_217083C
+Boss4__Func_217083C: // _0217083C
 	ldr r3, _0217087C // =_mt_math_rand
 	ldr r0, _02170880 // =0x00196225
 	ldr ip, [r3]
@@ -6049,10 +6049,10 @@ ovl01_217083C: // _0217083C
 _0217087C: .word _mt_math_rand
 _02170880: .word 0x00196225
 _02170884: .word 0x3C6EF35F
-	arm_func_end ovl01_217083C
+	arm_func_end Boss4__Func_217083C
 
-	arm_func_start ovl01_2170888
-ovl01_2170888: // _02170888
+	arm_func_start Boss4__Func_2170888
+Boss4__Func_2170888: // _02170888
 	ldr r2, _021708C4 // =_mt_math_rand
 	ldr r0, _021708C8 // =0x00196225
 	ldr r3, [r2, #0]
@@ -6072,27 +6072,27 @@ ovl01_2170888: // _02170888
 _021708C4: .word _mt_math_rand
 _021708C8: .word 0x00196225
 _021708CC: .word 0x3C6EF35F
-	arm_func_end ovl01_2170888
+	arm_func_end Boss4__Func_2170888
 
-	arm_func_start ovl01_21708D0
-ovl01_21708D0: // _021708D0
+	arm_func_start Boss4__Func_21708D0
+Boss4__Func_21708D0: // _021708D0
 	mov r2, #0
-	ldr r1, _021708E4 // =ovl01_2170BF8
+	ldr r1, _021708E4 // =Boss4__Func_2170BF8
 	str r2, [r0, #0x7d4]
 	str r1, [r0, #0x7d0]
 	bx lr
 	.align 2, 0
-_021708E4: .word ovl01_2170BF8
-	arm_func_end ovl01_21708D0
+_021708E4: .word Boss4__Func_2170BF8
+	arm_func_end Boss4__Func_21708D0
 
-	arm_func_start ovl01_21708E8
-ovl01_21708E8: // _021708E8
+	arm_func_start Boss4__Func_21708E8
+Boss4__Func_21708E8: // _021708E8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0x394
 	add r4, r0, #0x400
 	mov r0, #1
-	ldr r3, _02170964 // =ovl01_2170C20
+	ldr r3, _02170964 // =Boss4__Func_2170C20
 	str r0, [r5, #0x7d4]
 	add r1, r4, #0x24
 	mov r0, #0
@@ -6100,37 +6100,37 @@ ovl01_21708E8: // _021708E8
 	str r3, [r5, #0x7d0]
 	bl MIi_CpuClear16
 	mov r0, r5
-	bl ovl01_21704D8
+	bl Boss4__Func_21704D8
 	str r0, [r4, #0x18]
 	mov r0, r5
-	bl ovl01_217051C
+	bl Boss4__Func_217051C
 	str r0, [r4, #0x14]
 	ldr r0, [r4, #0x1c]
 	cmp r0, #0
 	bge _02170948
 	mov r0, r5
-	bl ovl01_217055C
+	bl Boss4__Func_217055C
 	str r0, [r4, #0x1c]
 _02170948:
 	ldr r0, [r4, #0x20]
 	cmp r0, #0
 	ldmgeia sp!, {r3, r4, r5, pc}
 	mov r0, r5
-	bl ovl01_21705F0
+	bl Boss4__Func_21705F0
 	str r0, [r4, #0x20]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02170964: .word ovl01_2170C20
-	arm_func_end ovl01_21708E8
+_02170964: .word Boss4__Func_2170C20
+	arm_func_end Boss4__Func_21708E8
 
-	arm_func_start ovl01_2170968
-ovl01_2170968: // _02170968
+	arm_func_start Boss4__Func_2170968
+Boss4__Func_2170968: // _02170968
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r2, #2
 	add r0, r5, #0x3b8
 	mov r4, r1
-	ldr r3, _021709A0 // =ovl01_2170F30
+	ldr r3, _021709A0 // =Boss4__Func_2170F30
 	str r2, [r5, #0x7d4]
 	add r1, r0, #0x400
 	mov r0, #0
@@ -6140,11 +6140,11 @@ ovl01_2170968: // _02170968
 	str r4, [r5, #0x7b8]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_021709A0: .word ovl01_2170F30
-	arm_func_end ovl01_2170968
+_021709A0: .word Boss4__Func_2170F30
+	arm_func_end Boss4__Func_2170968
 
-	arm_func_start ovl01_21709A4
-ovl01_21709A4: // _021709A4
+	arm_func_start Boss4__Func_21709A4
+Boss4__Func_21709A4: // _021709A4
 	stmdb sp!, {r3, r4, r5, lr}
 	movs r5, r1
 	ldrne r1, [r0, #0x794]
@@ -6152,7 +6152,7 @@ ovl01_21709A4: // _021709A4
 	cmpne r1, r5
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r2, #3
-	ldr r1, _021709E4 // =ovl01_2170FD4
+	ldr r1, _021709E4 // =Boss4__Func_2170FD4
 	str r2, [r0, #0x7d4]
 	str r1, [r0, #0x7d0]
 	add r1, r4, #0x400
@@ -6162,16 +6162,16 @@ ovl01_21709A4: // _021709A4
 	str r5, [r4, #0x400]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_021709E4: .word ovl01_2170FD4
-	arm_func_end ovl01_21709A4
+_021709E4: .word Boss4__Func_2170FD4
+	arm_func_end Boss4__Func_21709A4
 
-	arm_func_start ovl01_21709E8
-ovl01_21709E8: // _021709E8
+	arm_func_start Boss4__Func_21709E8
+Boss4__Func_21709E8: // _021709E8
 	stmdb sp!, {r3, lr}
 	mov ip, r0
 	add r0, ip, #0x3b8
 	mov r2, #4
-	ldr r3, _02170A14 // =ovl01_21710FC
+	ldr r3, _02170A14 // =Boss4__Func_21710FC
 	str r2, [ip, #0x7d4]
 	add r1, r0, #0x400
 	mov r0, #0
@@ -6179,16 +6179,16 @@ ovl01_21709E8: // _021709E8
 	bl MIi_CpuClear16
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02170A14: .word ovl01_21710FC
-	arm_func_end ovl01_21709E8
+_02170A14: .word Boss4__Func_21710FC
+	arm_func_end Boss4__Func_21709E8
 
-	arm_func_start ovl01_2170A18
-ovl01_2170A18: // _02170A18
+	arm_func_start Boss4__Func_2170A18
+Boss4__Func_2170A18: // _02170A18
 	stmdb sp!, {r3, r4, r5, lr}
 	mov ip, #5
 	str ip, [r0, #0x7d4]
 	add r2, r0, #0x394
-	ldr r3, _02170A5C // =ovl01_2171190
+	ldr r3, _02170A5C // =Boss4__Func_2171190
 	str ip, [r0, #0x7d8]
 	str r3, [r0, #0x7d0]
 	add r4, r2, #0x400
@@ -6202,16 +6202,16 @@ ovl01_2170A18: // _02170A18
 	str r0, [r4, #0x1c]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02170A5C: .word ovl01_2171190
-	arm_func_end ovl01_2170A18
+_02170A5C: .word Boss4__Func_2171190
+	arm_func_end Boss4__Func_2170A18
 
-	arm_func_start ovl01_2170A60
-ovl01_2170A60: // _02170A60
+	arm_func_start Boss4__Func_2170A60
+Boss4__Func_2170A60: // _02170A60
 	stmdb sp!, {r3, r4, r5, lr}
 	mov ip, #6
 	str ip, [r0, #0x7d4]
 	add r2, r0, #0x394
-	ldr r3, _02170AA4 // =ovl01_2171310
+	ldr r3, _02170AA4 // =Boss4__Func_2171310
 	str ip, [r0, #0x7d8]
 	str r3, [r0, #0x7d0]
 	add r4, r2, #0x400
@@ -6225,17 +6225,17 @@ ovl01_2170A60: // _02170A60
 	str r0, [r4, #0x20]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02170AA4: .word ovl01_2171310
-	arm_func_end ovl01_2170A60
+_02170AA4: .word Boss4__Func_2171310
+	arm_func_end Boss4__Func_2170A60
 
-	arm_func_start ovl01_2170AA8
-ovl01_2170AA8: // _02170AA8
+	arm_func_start Boss4__Func_2170AA8
+Boss4__Func_2170AA8: // _02170AA8
 	stmdb sp!, {r4, lr}
 	mov r2, #7
 	str r2, [r0, #0x7d4]
 	add r1, r0, #0x394
 	add r4, r1, #0x400
-	ldr r1, _02170AE4 // =ovl01_2171434
+	ldr r1, _02170AE4 // =Boss4__Func_2171434
 	str r2, [r0, #0x7d8]
 	str r1, [r0, #0x7d0]
 	add r1, r4, #0x24
@@ -6246,16 +6246,16 @@ ovl01_2170AA8: // _02170AA8
 	str r0, [r4, #0x1c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02170AE4: .word ovl01_2171434
-	arm_func_end ovl01_2170AA8
+_02170AE4: .word Boss4__Func_2171434
+	arm_func_end Boss4__Func_2170AA8
 
-	arm_func_start ovl01_2170AE8
-ovl01_2170AE8: // _02170AE8
+	arm_func_start Boss4__Func_2170AE8
+Boss4__Func_2170AE8: // _02170AE8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r2, #8
 	str r2, [r0, #0x7d4]
 	add r3, r0, #0x394
-	ldr ip, _02170B2C // =ovl01_2171528
+	ldr ip, _02170B2C // =Boss4__Func_2171528
 	str r2, [r0, #0x7d8]
 	str ip, [r0, #0x7d0]
 	add r4, r3, #0x400
@@ -6269,14 +6269,14 @@ ovl01_2170AE8: // _02170AE8
 	str r0, [r4, #0x1c]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02170B2C: .word ovl01_2171528
-	arm_func_end ovl01_2170AE8
+_02170B2C: .word Boss4__Func_2171528
+	arm_func_end Boss4__Func_2170AE8
 
-	arm_func_start ovl01_2170B30
-ovl01_2170B30: // _02170B30
+	arm_func_start Boss4__Func_2170B30
+Boss4__Func_2170B30: // _02170B30
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r3, #9
-	ldr r2, _02170B64 // =ovl01_2171620
+	ldr r2, _02170B64 // =Boss4__Func_2171620
 	str r3, [r0, #0x7d4]
 	add r4, r0, #0x3b8
 	mov r5, r1
@@ -6288,16 +6288,16 @@ ovl01_2170B30: // _02170B30
 	str r5, [r4, #0x404]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02170B64: .word ovl01_2171620
-	arm_func_end ovl01_2170B30
+_02170B64: .word Boss4__Func_2171620
+	arm_func_end Boss4__Func_2170B30
 
-	arm_func_start ovl01_2170B68
-ovl01_2170B68: // _02170B68
+	arm_func_start Boss4__Func_2170B68
+Boss4__Func_2170B68: // _02170B68
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r2, #0xa
 	add r0, r4, #0x3b8
-	ldr r1, _02170BA0 // =ovl01_21717CC
+	ldr r1, _02170BA0 // =Boss4__Func_21717CC
 	str r2, [r4, #0x7d4]
 	str r1, [r4, #0x7d0]
 	add r1, r0, #0x400
@@ -6308,16 +6308,16 @@ ovl01_2170B68: // _02170B68
 	str r0, [r4, #0x7b8]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02170BA0: .word ovl01_21717CC
-	arm_func_end ovl01_2170B68
+_02170BA0: .word Boss4__Func_21717CC
+	arm_func_end Boss4__Func_2170B68
 
-	arm_func_start ovl01_2170BA4
-ovl01_2170BA4: // _02170BA4
+	arm_func_start Boss4__Func_2170BA4
+Boss4__Func_2170BA4: // _02170BA4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x3b8
 	mov r1, #0xb
-	ldr r3, _02170BDC // =ovl01_2171858
+	ldr r3, _02170BDC // =Boss4__Func_2171858
 	str r1, [r4, #0x7d4]
 	add r1, r0, #0x400
 	mov r0, #0
@@ -6325,25 +6325,25 @@ ovl01_2170BA4: // _02170BA4
 	str r3, [r4, #0x7d0]
 	bl MIi_CpuClear16
 	mov r0, r4
-	bl ovl01_2172134
+	bl Boss4__Func_2172134
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02170BDC: .word ovl01_2171858
-	arm_func_end ovl01_2170BA4
+_02170BDC: .word Boss4__Func_2171858
+	arm_func_end Boss4__Func_2170BA4
 
-	arm_func_start ovl01_2170BE0
-ovl01_2170BE0: // _02170BE0
+	arm_func_start Boss4__Func_2170BE0
+Boss4__Func_2170BE0: // _02170BE0
 	mov r2, #0xc
-	ldr r1, _02170BF4 // =ovl01_2171874
+	ldr r1, _02170BF4 // =Boss4__Func_2171874
 	str r2, [r0, #0x7d4]
 	str r1, [r0, #0x7d0]
 	bx lr
 	.align 2, 0
-_02170BF4: .word ovl01_2171874
-	arm_func_end ovl01_2170BE0
+_02170BF4: .word Boss4__Func_2171874
+	arm_func_end Boss4__Func_2170BE0
 
-	arm_func_start ovl01_2170BF8
-ovl01_2170BF8: // _02170BF8
+	arm_func_start Boss4__Func_2170BF8
+Boss4__Func_2170BF8: // _02170BF8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl GetSysEventList
@@ -6351,32 +6351,32 @@ ovl01_2170BF8: // _02170BF8
 	cmp r0, #0xd
 	beq _02170C18
 	mov r0, r4
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 _02170C18:
 	mov r0, #0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_2170BF8
+	arm_func_end Boss4__Func_2170BF8
 
-	arm_func_start ovl01_2170C20
-ovl01_2170C20: // _02170C20
+	arm_func_start Boss4__Func_2170C20
+Boss4__Func_2170C20: // _02170C20
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r1, [r5, #0x7e8]
 	add r4, r5, #0x394
 	cmp r1, #0xc
 	bne _02170C44
-	bl ovl01_2170B68
+	bl Boss4__Func_2170B68
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _02170C44:
 	ldr r1, [r4, #0x408]
 	cmp r1, #0
 	beq _02170C5C
-	bl ovl01_2170BA4
+	bl Boss4__Func_2170BA4
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _02170C5C:
-	bl ovl01_2170668
+	bl Boss4__Func_2170668
 	cmp r0, #0
 	beq _02170CF0
 	add r0, r5, #0x700
@@ -6384,7 +6384,7 @@ _02170C5C:
 	cmp r1, #0
 	bne _02170CE8
 	mov r0, r5
-	bl ovl01_217083C
+	bl Boss4__Func_217083C
 	add r1, r5, #0x700
 	ldr r2, _02170F20 // =_mt_math_rand
 	strh r0, [r1, #0xdc]
@@ -6397,19 +6397,19 @@ _02170C5C:
 	mov r1, r0, lsl #0x10
 	ldr r0, [r5, #0x37c]
 	mov r6, r1, lsr #0x10
-	bl ovl01_216CD28
+	bl Boss4__Func_216CD28
 	cmp r0, r6, asr #4
 	bgt _02170CCC
 	ldr r1, [r4, #0x404]
 	mov r0, r5
-	bl ovl01_21709A4
+	bl Boss4__Func_21709A4
 	b _02170CE0
 _02170CCC:
 	ldr r0, [r5, #0x37c]
-	bl ovl01_216CCCC
+	bl Boss4__Func_216CCCC
 	mov r1, r0
 	mov r0, r5
-	bl ovl01_2170B30
+	bl Boss4__Func_2170B30
 _02170CE0:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
@@ -6418,14 +6418,14 @@ _02170CE8:
 	strh r1, [r0, #0xdc]
 _02170CF0:
 	mov r0, r5
-	bl ovl01_2170680
+	bl Boss4__Func_2170680
 	cmp r0, #0
 	beq _02170D24
 	ldr r0, [r4, #0x414]
 	cmp r0, #0
 	bgt _02170D1C
 	mov r0, r5
-	bl ovl01_21709E8
+	bl Boss4__Func_21709E8
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _02170D1C:
@@ -6439,7 +6439,7 @@ _02170D24:
 	cmp r0, r1
 	bge _02170D8C
 	mov r0, r5
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	bne _02170D8C
 	add r0, r5, #0x700
@@ -6447,12 +6447,12 @@ _02170D24:
 	cmp r1, #0
 	bne _02170D80
 	mov r0, r5
-	bl ovl01_2170888
+	bl Boss4__Func_2170888
 	add r1, r5, #0x700
 	strh r0, [r1, #0xde]
 	mov r0, r5
 	mov r1, #1
-	bl ovl01_2170968
+	bl Boss4__Func_2170968
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _02170D80:
@@ -6467,12 +6467,12 @@ _02170D8C:
 	cmp r1, r0
 	bge _02170DC8
 	mov r0, r5
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	beq _02170DC8
 	mov r0, r5
 	mov r1, #0
-	bl ovl01_2170968
+	bl Boss4__Func_2170968
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _02170DC8:
@@ -6480,7 +6480,7 @@ _02170DC8:
 	cmp r0, #0
 	bne _02170E84
 	mov r0, r5
-	bl ovl01_217069C
+	bl Boss4__Func_217069C
 	cmp r0, #9
 	addls pc, pc, r0, lsl #2
 	b _02170E7C
@@ -6497,21 +6497,21 @@ _02170DE8: // jump table
 	b _02170E10 // case 9
 _02170E10:
 	ldr r0, [r5, #0x37c]
-	bl ovl01_216CCCC
+	bl Boss4__Func_216CCCC
 	mov r1, r0
 	mov r0, r5
-	bl ovl01_2170B30
+	bl Boss4__Func_2170B30
 	b _02170E7C
 _02170E28:
 	ldr r0, [r5, #0x37c]
-	bl ovl01_216CBCC
+	bl Boss4__Func_216CBCC
 	mov r1, r0
 	mov r0, r5
-	bl ovl01_2170A18
+	bl Boss4__Func_2170A18
 	b _02170E7C
 _02170E40:
 	mov r0, r5
-	bl ovl01_2170AA8
+	bl Boss4__Func_2170AA8
 	b _02170E7C
 _02170E4C:
 	ldr r3, _02170F20 // =_mt_math_rand
@@ -6525,7 +6525,7 @@ _02170E4C:
 	mov r1, r1, lsr #0x10
 	and r1, r1, #3
 	str r2, [r3]
-	bl ovl01_2170AE8
+	bl Boss4__Func_2170AE8
 _02170E7C:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
@@ -6534,7 +6534,7 @@ _02170E84:
 	cmp r0, #0
 	bne _02170F18
 	mov r0, r5
-	bl ovl01_217076C
+	bl Boss4__Func_217076C
 	cmp r0, #6
 	beq _02170EC8
 	cmp r0, #8
@@ -6542,17 +6542,17 @@ _02170E84:
 	cmp r0, #9
 	bne _02170F10
 	ldr r0, [r5, #0x37c]
-	bl ovl01_216CCCC
+	bl Boss4__Func_216CCCC
 	mov r1, r0
 	mov r0, r5
-	bl ovl01_2170B30
+	bl Boss4__Func_2170B30
 	b _02170F10
 _02170EC8:
 	ldr r0, [r5, #0x37c]
-	bl ovl01_216CC20
+	bl Boss4__Func_216CC20
 	mov r1, r0
 	mov r0, r5
-	bl ovl01_2170A60
+	bl Boss4__Func_2170A60
 	b _02170F10
 _02170EE0:
 	ldr r3, _02170F20 // =_mt_math_rand
@@ -6566,7 +6566,7 @@ _02170EE0:
 	mov r1, r1, lsr #0x10
 	and r1, r1, #3
 	str r2, [r3]
-	bl ovl01_2170AE8
+	bl Boss4__Func_2170AE8
 _02170F10:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
@@ -6578,10 +6578,10 @@ _02170F20: .word _mt_math_rand
 _02170F24: .word 0x00196225
 _02170F28: .word 0x3C6EF35F
 _02170F2C: .word gPlayer
-	arm_func_end ovl01_2170C20
+	arm_func_end Boss4__Func_2170C20
 
-	arm_func_start ovl01_2170F30
-ovl01_2170F30: // _02170F30
+	arm_func_start Boss4__Func_2170F30
+Boss4__Func_2170F30: // _02170F30
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r1, [r6, #0x7e8]
@@ -6589,14 +6589,14 @@ ovl01_2170F30: // _02170F30
 	cmp r1, #0xc
 	mov r5, #0
 	bne _02170F58
-	bl ovl01_2170B68
+	bl Boss4__Func_2170B68
 	mov r0, r5
 	ldmia sp!, {r4, r5, r6, pc}
 _02170F58:
 	ldr r1, [r4, #0x400]
 	cmp r1, #0
 	beq _02170F70
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	bne _02170F8C
 _02170F70:
@@ -6604,12 +6604,12 @@ _02170F70:
 	cmp r0, #0
 	bne _02170F9C
 	mov r0, r6
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	bne _02170F9C
 _02170F8C:
 	mov r0, r6
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _02170F9C:
@@ -6628,41 +6628,41 @@ _02170F9C:
 _02170FCC:
 	mov r0, r5
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ovl01_2170F30
+	arm_func_end Boss4__Func_2170F30
 
-	arm_func_start ovl01_2170FD4
-ovl01_2170FD4: // _02170FD4
+	arm_func_start Boss4__Func_2170FD4
+Boss4__Func_2170FD4: // _02170FD4
 	stmdb sp!, {r3, lr}
 	ldr r2, [r0, #0x7e8]
 	add r1, r0, #0x3b8
 	cmp r2, #0xc
 	bne _02170FF4
-	bl ovl01_2170B68
+	bl Boss4__Func_2170B68
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 _02170FF4:
 	ldr r1, [r1, #0x400]
 	sub r1, r1, #1
 	cmp r1, #1
-	ldrls r1, _02171014 // =ovl01_217101C
-	ldrhi r1, _02171018 // =ovl01_217105C
+	ldrls r1, _02171014 // =Boss4__Func_217101C
+	ldrhi r1, _02171018 // =Boss4__Func_217105C
 	str r1, [r0, #0x7d0]
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02171014: .word ovl01_217101C
-_02171018: .word ovl01_217105C
-	arm_func_end ovl01_2170FD4
+_02171014: .word Boss4__Func_217101C
+_02171018: .word Boss4__Func_217105C
+	arm_func_end Boss4__Func_2170FD4
 
-	arm_func_start ovl01_217101C
-ovl01_217101C: // _0217101C
+	arm_func_start Boss4__Func_217101C
+Boss4__Func_217101C: // _0217101C
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x794]
 	mov r2, #0
 	sub r1, r1, #1
 	cmp r1, #1
 	bhi _02171040
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 _02171040:
@@ -6673,17 +6673,17 @@ _02171040:
 	moveq r2, r0, lsr #0x10
 	mov r0, r2
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_217101C
+	arm_func_end Boss4__Func_217101C
 
-	arm_func_start ovl01_217105C
-ovl01_217105C: // _0217105C
+	arm_func_start Boss4__Func_217105C
+Boss4__Func_217105C: // _0217105C
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x794]
 	mov r2, #0
 	sub r1, r1, #3
 	cmp r1, #1
 	bhi _02171080
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 _02171080:
@@ -6721,10 +6721,10 @@ _021710A8:
 _021710F4:
 	mov r0, r2
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_217105C
+	arm_func_end Boss4__Func_217105C
 
-	arm_func_start ovl01_21710FC
-ovl01_21710FC: // _021710FC
+	arm_func_start Boss4__Func_21710FC
+Boss4__Func_21710FC: // _021710FC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r1, [r6, #0x7e8]
@@ -6732,24 +6732,24 @@ ovl01_21710FC: // _021710FC
 	cmp r1, #0xc
 	mov r5, #0
 	bne _02171124
-	bl ovl01_2170B68
+	bl Boss4__Func_2170B68
 	mov r0, r5
 	ldmia sp!, {r4, r5, r6, pc}
 _02171124:
-	bl ovl01_2170680
+	bl Boss4__Func_2170680
 	cmp r0, #0
 	mov r0, r6
 	bne _02171140
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 	mov r0, r5
 	ldmia sp!, {r4, r5, r6, pc}
 _02171140:
-	bl ovl01_2170668
+	bl Boss4__Func_2170668
 	cmp r0, #0
 	beq _02171160
 	ldr r1, [r4, #0x404]
 	mov r0, r6
-	bl ovl01_21709A4
+	bl Boss4__Func_21709A4
 	mov r0, r5
 	ldmia sp!, {r4, r5, r6, pc}
 _02171160:
@@ -6766,10 +6766,10 @@ _02171160:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0217118C: .word gPlayer
-	arm_func_end ovl01_21710FC
+	arm_func_end Boss4__Func_21710FC
 
-	arm_func_start ovl01_2171190
-ovl01_2171190: // _02171190
+	arm_func_start Boss4__Func_2171190
+Boss4__Func_2171190: // _02171190
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r2, [r6, #0x7e8]
@@ -6778,7 +6778,7 @@ ovl01_2171190: // _02171190
 	add r4, r1, #0x400
 	mov r5, #0
 	bne _021711BC
-	bl ovl01_2170B68
+	bl Boss4__Func_2170B68
 	mov r0, r5
 	ldmia sp!, {r4, r5, r6, pc}
 _021711BC:
@@ -6808,7 +6808,7 @@ _02171204:
 	ldr r1, [r6, #0x784]
 	cmp r1, #0x14
 	bne _02171220
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 _02171220:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
@@ -6819,7 +6819,7 @@ _02171228:
 	ldr r1, [r6, #0x784]
 	cmp r1, #0x17
 	bne _02171244
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 _02171244:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
@@ -6827,13 +6827,13 @@ _0217124C:
 	ldr r1, [r6, #0x784]
 	cmp r1, #0x1a
 	bne _0217125C
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 _0217125C:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _02171264:
 	mov r0, r6
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _02171274:
@@ -6853,7 +6853,7 @@ _02171290:
 	ldr r1, [r1, #0x44]
 	cmp r1, r2
 	bge _021712CC
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	bne _021712CC
 	orr r0, r5, #0x20
@@ -6868,7 +6868,7 @@ _021712CC:
 	cmp r1, r0
 	bge _021712FC
 	mov r0, r6
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	orrne r0, r5, #0x10
 	movne r0, r0, lsl #0x10
@@ -6881,10 +6881,10 @@ _02171304:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0217130C: .word gPlayer
-	arm_func_end ovl01_2171190
+	arm_func_end Boss4__Func_2171190
 
-	arm_func_start ovl01_2171310
-ovl01_2171310: // _02171310
+	arm_func_start Boss4__Func_2171310
+Boss4__Func_2171310: // _02171310
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r2, [r6, #0x7e8]
@@ -6893,7 +6893,7 @@ ovl01_2171310: // _02171310
 	add r4, r1, #0x400
 	mov r5, #0
 	bne _0217133C
-	bl ovl01_2170B68
+	bl Boss4__Func_2170B68
 	mov r0, r5
 	ldmia sp!, {r4, r5, r6, pc}
 _0217133C:
@@ -6910,19 +6910,19 @@ _0217133C:
 	bne _02171378
 _02171368:
 	mov r0, r6
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _02171378:
 	cmp r2, #8
 	bne _021713A4
 	mov r0, r6
-	bl ovl01_2172C4C
+	bl Boss4__Func_2172C4C
 	ldrh r1, [r4, #4]
 	cmp r1, r0
 	bhi _021713A4
 	mov r0, r6
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _021713A4:
@@ -6939,7 +6939,7 @@ _021713B4:
 	ldr r1, [r1, #0x44]
 	cmp r1, r2
 	bge _021713F0
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	bne _021713F0
 	orr r0, r5, #0x20
@@ -6954,7 +6954,7 @@ _021713F0:
 	cmp r1, r0
 	bge _02171420
 	mov r0, r6
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	orrne r0, r5, #0x10
 	movne r0, r0, lsl #0x10
@@ -6967,10 +6967,10 @@ _02171428:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _02171430: .word gPlayer
-	arm_func_end ovl01_2171310
+	arm_func_end Boss4__Func_2171310
 
-	arm_func_start ovl01_2171434
-ovl01_2171434: // _02171434
+	arm_func_start Boss4__Func_2171434
+Boss4__Func_2171434: // _02171434
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r2, [r5, #0x7e8]
@@ -6978,7 +6978,7 @@ ovl01_2171434: // _02171434
 	cmp r2, #0xc
 	mov r4, #0
 	bne _0217145C
-	bl ovl01_2170B68
+	bl Boss4__Func_2170B68
 	mov r0, r4
 	ldmia sp!, {r4, r5, r6, pc}
 _0217145C:
@@ -6995,7 +6995,7 @@ _0217145C:
 	bne _02171498
 _02171488:
 	mov r0, r5
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _02171498:
@@ -7012,7 +7012,7 @@ _021714A8:
 	ldr r1, [r1, #0x44]
 	cmp r1, r2
 	bge _021714E4
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	bne _021714E4
 	orr r0, r4, #0x20
@@ -7027,7 +7027,7 @@ _021714E4:
 	cmp r1, r0
 	bge _02171514
 	mov r0, r5
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	orrne r0, r4, #0x10
 	movne r0, r0, lsl #0x10
@@ -7040,10 +7040,10 @@ _0217151C:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _02171524: .word gPlayer
-	arm_func_end ovl01_2171434
+	arm_func_end Boss4__Func_2171434
 
-	arm_func_start ovl01_2171528
-ovl01_2171528: // _02171528
+	arm_func_start Boss4__Func_2171528
+Boss4__Func_2171528: // _02171528
 	stmdb sp!, {r3, lr}
 	ldr r2, [r0, #0x7e8]
 	add r1, r0, #0x394
@@ -7051,7 +7051,7 @@ ovl01_2171528: // _02171528
 	add r3, r1, #0x400
 	mov ip, #0
 	bne _02171550
-	bl ovl01_2170B68
+	bl Boss4__Func_2170B68
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 _02171550:
@@ -7069,7 +7069,7 @@ _02171550:
 	str r1, [r3, #0x1c]
 	str r1, [r3, #0x20]
 _02171584:
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 _02171590:
@@ -7117,10 +7117,10 @@ _0217160C:
 _02171618:
 	mov r0, ip
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_2171528
+	arm_func_end Boss4__Func_2171528
 
-	arm_func_start ovl01_2171620
-ovl01_2171620: // _02171620
+	arm_func_start Boss4__Func_2171620
+Boss4__Func_2171620: // _02171620
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	mov lr, r0
@@ -7215,7 +7215,7 @@ _02171768:
 	b _021717BC
 _02171778:
 	mov r0, lr
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 	add sp, sp, #0xc
 	mov r0, #0
 	ldmia sp!, {pc}
@@ -7239,10 +7239,10 @@ _021717BC:
 	ldmia sp!, {pc}
 	.align 2, 0
 _021717C8: .word gPlayer
-	arm_func_end ovl01_2171620
+	arm_func_end Boss4__Func_2171620
 
-	arm_func_start ovl01_21717CC
-ovl01_21717CC: // _021717CC
+	arm_func_start Boss4__Func_21717CC
+Boss4__Func_21717CC: // _021717CC
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	mov ip, r0
@@ -7276,32 +7276,32 @@ _02171830:
 	ldmia sp!, {pc}
 _02171844:
 	mov r0, ip
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 	mov r0, #0
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
-	arm_func_end ovl01_21717CC
+	arm_func_end Boss4__Func_21717CC
 
-	arm_func_start ovl01_2171858
-ovl01_2171858: // _02171858
+	arm_func_start Boss4__Func_2171858
+Boss4__Func_2171858: // _02171858
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x7e8]
 	cmp r1, #0x10
 	beq _0217186C
-	bl ovl01_21708E8
+	bl Boss4__Func_21708E8
 _0217186C:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_2171858
+	arm_func_end Boss4__Func_2171858
 
-	arm_func_start ovl01_2171874
-ovl01_2171874: // _02171874
+	arm_func_start Boss4__Func_2171874
+Boss4__Func_2171874: // _02171874
 	mov r0, #0
 	bx lr
-	arm_func_end ovl01_2171874
+	arm_func_end Boss4__Func_2171874
 
-	arm_func_start ovl01_217187C
-ovl01_217187C: // _0217187C
+	arm_func_start Boss4__Func_217187C
+Boss4__Func_217187C: // _0217187C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r0, r4, #0x300
@@ -7316,13 +7316,13 @@ _0217189C:
 	ldr r0, [r4, #0x98]
 	cmp r0, #0
 	ble _021718C4
-	bl ovl01_216CDD8
+	bl Boss4__Func_216CDD8
 	ldr r1, [r4, #0x98]
 	sub r0, r1, r0
 	str r0, [r4, #0x98]
 	b _021718D4
 _021718C4:
-	bl ovl01_216CD84
+	bl Boss4__Func_216CD84
 	ldr r1, [r4, #0x98]
 	sub r0, r1, r0
 	str r0, [r4, #0x98]
@@ -7334,30 +7334,30 @@ _021718D4:
 	ldr r0, [r4, #0x98]
 	cmp r0, #0
 	bge _02171904
-	bl ovl01_216CDD8
+	bl Boss4__Func_216CDD8
 	ldr r1, [r4, #0x98]
 	add r0, r1, r0
 	str r0, [r4, #0x98]
 	b _02171914
 _02171904:
-	bl ovl01_216CD84
+	bl Boss4__Func_216CD84
 	ldr r1, [r4, #0x98]
 	add r0, r1, r0
 	str r0, [r4, #0x98]
 _02171914:
 	ldr r5, [r4, #0x98]
-	bl ovl01_216CE04
+	bl Boss4__Func_216CE04
 	rsb r0, r0, #0
 	cmp r5, r0
 	bge _02171934
-	bl ovl01_216CE04
+	bl Boss4__Func_216CE04
 	rsb r5, r0, #0
 	b _02171948
 _02171934:
-	bl ovl01_216CE04
+	bl Boss4__Func_216CE04
 	cmp r5, r0
 	ble _02171948
-	bl ovl01_216CE04
+	bl Boss4__Func_216CE04
 	mov r5, r0
 _02171948:
 	str r5, [r4, #0x98]
@@ -7366,35 +7366,35 @@ _02171950:
 	ldr r0, [r4, #0x98]
 	cmp r0, #0
 	bge _0217198C
-	bl ovl01_216CDAC
+	bl Boss4__Func_216CDAC
 	ldr r1, [r4, #0x98]
 	rsb r1, r1, #0
 	cmp r0, r1
 	movge r0, #0
 	strge r0, [r4, #0x98]
 	ldmgeia sp!, {r3, r4, r5, pc}
-	bl ovl01_216CDAC
+	bl Boss4__Func_216CDAC
 	ldr r1, [r4, #0x98]
 	add r0, r1, r0
 	str r0, [r4, #0x98]
 	ldmia sp!, {r3, r4, r5, pc}
 _0217198C:
 	ldmleia sp!, {r3, r4, r5, pc}
-	bl ovl01_216CDAC
+	bl Boss4__Func_216CDAC
 	ldr r1, [r4, #0x98]
 	cmp r0, r1
 	movge r0, #0
 	strge r0, [r4, #0x98]
 	ldmgeia sp!, {r3, r4, r5, pc}
-	bl ovl01_216CDAC
+	bl Boss4__Func_216CDAC
 	ldr r1, [r4, #0x98]
 	sub r0, r1, r0
 	str r0, [r4, #0x98]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl01_217187C
+	arm_func_end Boss4__Func_217187C
 
-	arm_func_start ovl01_21719BC
-ovl01_21719BC: // _021719BC
+	arm_func_start Boss4__Func_21719BC
+Boss4__Func_21719BC: // _021719BC
 	add r1, r0, #0x300
 	ldrh r1, [r1, #0x80]
 	tst r1, #0x30
@@ -7451,10 +7451,10 @@ _02171A60:
 	bx lr
 	.align 2, 0
 _02171A80: .word 0x000004CC
-	arm_func_end ovl01_21719BC
+	arm_func_end Boss4__Func_21719BC
 
-	arm_func_start ovl01_2171A84
-ovl01_2171A84: // _02171A84
+	arm_func_start Boss4__Func_2171A84
+Boss4__Func_2171A84: // _02171A84
 	add r1, r0, #0x300
 	ldrh r1, [r1, #0x80]
 	tst r1, #0x30
@@ -7533,10 +7533,10 @@ _02171B8C:
 	mov r1, #0
 	str r1, [r0, #0x9c]
 	bx lr
-	arm_func_end ovl01_2171A84
+	arm_func_end Boss4__Func_2171A84
 
-	arm_func_start ovl01_2171B98
-ovl01_2171B98: // _02171B98
+	arm_func_start Boss4__Func_2171B98
+Boss4__Func_2171B98: // _02171B98
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x1c]
 	tst r1, #1
@@ -7545,16 +7545,16 @@ ovl01_2171B98: // _02171B98
 	ldrh r1, [r1, #0x84]
 	tst r1, #1
 	beq _02171BC4
-	bl ovl01_2171ECC
+	bl Boss4__Func_2171ECC
 	mov r0, #1
 	ldmia sp!, {r3, pc}
 _02171BC4:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_2171B98
+	arm_func_end Boss4__Func_2171B98
 
-	arm_func_start ovl01_2171BCC
-ovl01_2171BCC: // _02171BCC
+	arm_func_start Boss4__Func_2171BCC
+Boss4__Func_2171BCC: // _02171BCC
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x1c]
 	tst r1, #1
@@ -7562,16 +7562,16 @@ ovl01_2171BCC: // _02171BCC
 	ldr r1, [r0, #0x7e8]
 	cmp r1, #4
 	beq _02171BF4
-	bl ovl01_2171EE4
+	bl Boss4__Func_2171EE4
 	mov r0, #1
 	ldmia sp!, {r3, pc}
 _02171BF4:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_2171BCC
+	arm_func_end Boss4__Func_2171BCC
 
-	arm_func_start ovl01_2171BFC
-ovl01_2171BFC: // _02171BFC
+	arm_func_start Boss4__Func_2171BFC
+Boss4__Func_2171BFC: // _02171BFC
 	stmdb sp!, {r3, lr}
 	ldr r3, [r0, #0x1c]
 	tst r3, #1
@@ -7596,16 +7596,16 @@ ovl01_2171BFC: // _02171BFC
 	ldr r1, [r0, #0x48]
 	add r1, r1, #0x20000
 	str r1, [r0, #0x48]
-	bl ovl01_2171EE4
+	bl Boss4__Func_2171EE4
 	mov r0, #1
 	ldmia sp!, {r3, pc}
 _02171C68:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_2171BFC
+	arm_func_end Boss4__Func_2171BFC
 
-	arm_func_start ovl01_2171C70
-ovl01_2171C70: // _02171C70
+	arm_func_start Boss4__Func_2171C70
+Boss4__Func_2171C70: // _02171C70
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x1c]
 	tst r1, #1
@@ -7618,26 +7618,26 @@ ovl01_2171C70: // _02171C70
 	and r1, r2, #0x82
 	cmp r1, #0x82
 	bne _02171CA8
-	bl ovl01_2171F60
+	bl Boss4__Func_2171F60
 	b _02171CC0
 _02171CA8:
 	and r1, r2, #0x42
 	cmp r1, #0x42
 	bne _02171CBC
-	bl ovl01_2171F84
+	bl Boss4__Func_2171F84
 	b _02171CC0
 _02171CBC:
-	bl ovl01_2171F10
+	bl Boss4__Func_2171F10
 _02171CC0:
 	mov r0, #1
 	ldmia sp!, {r3, pc}
 _02171CC8:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_2171C70
+	arm_func_end Boss4__Func_2171C70
 
-	arm_func_start ovl01_2171CD0
-ovl01_2171CD0: // _02171CD0
+	arm_func_start Boss4__Func_2171CD0
+Boss4__Func_2171CD0: // _02171CD0
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x1c]
 	tst r1, #1
@@ -7649,16 +7649,16 @@ ovl01_2171CD0: // _02171CD0
 	ldrh r1, [r1, #0x80]
 	tst r1, #0x40
 	beq _02171D08
-	bl ovl01_2172080
+	bl Boss4__Func_2172080
 	mov r0, #1
 	ldmia sp!, {r3, pc}
 _02171D08:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_2171CD0
+	arm_func_end Boss4__Func_2171CD0
 
-	arm_func_start ovl01_2171D10
-ovl01_2171D10: // _02171D10
+	arm_func_start Boss4__Func_2171D10
+Boss4__Func_2171D10: // _02171D10
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x1c]
 	tst r1, #1
@@ -7667,27 +7667,27 @@ ovl01_2171D10: // _02171D10
 	ldrh r1, [r1, #0x84]
 	tst r1, #4
 	beq _02171D3C
-	bl ovl01_2172134
+	bl Boss4__Func_2172134
 	mov r0, #1
 	ldmia sp!, {r3, pc}
 _02171D3C:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_2171D10
+	arm_func_end Boss4__Func_2171D10
 
-	arm_func_start ovl01_2171D44
-ovl01_2171D44: // _02171D44
+	arm_func_start Boss4__Func_2171D44
+Boss4__Func_2171D44: // _02171D44
 	mov r2, #0
-	ldr r1, _02171D58 // =ovl01_21721A0
+	ldr r1, _02171D58 // =Boss4__Func_21721A0
 	str r2, [r0, #0x7e8]
 	str r1, [r0, #0x7e4]
 	bx lr
 	.align 2, 0
-_02171D58: .word ovl01_21721A0
-	arm_func_end ovl01_2171D44
+_02171D58: .word Boss4__Func_21721A0
+	arm_func_end Boss4__Func_2171D44
 
-	arm_func_start ovl01_2171D5C
-ovl01_2171D5C: // _02171D5C
+	arm_func_start Boss4__Func_2171D5C
+Boss4__Func_2171D5C: // _02171D5C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	mov r0, #1
@@ -7701,7 +7701,7 @@ ovl01_2171D5C: // _02171D5C
 	cmp r0, #0
 	bgt _02171D9C
 	ldr r0, [r4, #0x37c]
-	bl ovl01_216CB7C
+	bl Boss4__Func_216CB7C
 	add r1, r4, #0x300
 	strh r0, [r1, #0xd2]
 _02171D9C:
@@ -7711,15 +7711,15 @@ _02171D9C:
 	cmp r0, #0
 	mov r0, r4
 	beq _02171DBC
-	bl ovl01_216FF98
+	bl Boss4__Func_216FF98
 	b _02171DC0
 _02171DBC:
-	bl ovl01_216FF88
+	bl Boss4__Func_216FF88
 _02171DC0:
 	mov r0, r4
-	bl ovl01_2170130
+	bl Boss4__Func_2170130
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	ldr r1, [r4, #0x1c]
 	mov r0, #1
 	bic r1, r1, #0x200
@@ -7760,155 +7760,155 @@ _02171DC0:
 	mov r0, r4
 	mov r1, #0
 	mov r2, #1
-	bl ovl01_21701CC
-	ldr r0, _02171E84 // =ovl01_21721B8
+	bl Boss4__Func_21701CC
+	ldr r0, _02171E84 // =Boss4__Func_21721B8
 	str r0, [r4, #0x7e4]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02171E80: .word _0217AFB0
-_02171E84: .word ovl01_21721B8
-	arm_func_end ovl01_2171D5C
+_02171E84: .word Boss4__Func_21721B8
+	arm_func_end Boss4__Func_2171D5C
 
-	arm_func_start ovl01_2171E88
-ovl01_2171E88: // _02171E88
+	arm_func_start Boss4__Func_2171E88
+Boss4__Func_2171E88: // _02171E88
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r3, #2
 	mov r1, #7
 	mov r2, #0
 	str r3, [r4, #0x7e8]
-	bl ovl01_21701CC
-	ldr r0, _02171EB0 // =ovl01_21722A4
+	bl Boss4__Func_21701CC
+	ldr r0, _02171EB0 // =Boss4__Func_21722A4
 	str r0, [r4, #0x7e4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02171EB0: .word ovl01_21722A4
-	arm_func_end ovl01_2171E88
+_02171EB0: .word Boss4__Func_21722A4
+	arm_func_end Boss4__Func_2171E88
 
-	arm_func_start ovl01_2171EB4
-ovl01_2171EB4: // _02171EB4
+	arm_func_start Boss4__Func_2171EB4
+Boss4__Func_2171EB4: // _02171EB4
 	mov r2, #3
-	ldr r1, _02171EC8 // =ovl01_2172358
+	ldr r1, _02171EC8 // =Boss4__Func_2172358
 	str r2, [r0, #0x7e8]
 	str r1, [r0, #0x7e4]
 	bx lr
 	.align 2, 0
-_02171EC8: .word ovl01_2172358
-	arm_func_end ovl01_2171EB4
+_02171EC8: .word Boss4__Func_2172358
+	arm_func_end Boss4__Func_2171EB4
 
-	arm_func_start ovl01_2171ECC
-ovl01_2171ECC: // _02171ECC
+	arm_func_start Boss4__Func_2171ECC
+Boss4__Func_2171ECC: // _02171ECC
 	mov r2, #4
-	ldr r1, _02171EE0 // =ovl01_2172468
+	ldr r1, _02171EE0 // =Boss4__Func_2172468
 	str r2, [r0, #0x7e8]
 	str r1, [r0, #0x7e4]
 	bx lr
 	.align 2, 0
-_02171EE0: .word ovl01_2172468
-	arm_func_end ovl01_2171ECC
+_02171EE0: .word Boss4__Func_2172468
+	arm_func_end Boss4__Func_2171ECC
 
-	arm_func_start ovl01_2171EE4
-ovl01_2171EE4: // _02171EE4
+	arm_func_start Boss4__Func_2171EE4
+Boss4__Func_2171EE4: // _02171EE4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r3, #4
 	mov r1, #0xf
 	mov r2, #0
 	str r3, [r4, #0x7e8]
-	bl ovl01_21701CC
-	ldr r0, _02171F0C // =ovl01_2172468
+	bl Boss4__Func_21701CC
+	ldr r0, _02171F0C // =Boss4__Func_2172468
 	str r0, [r4, #0x7e4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02171F0C: .word ovl01_2172468
-	arm_func_end ovl01_2171EE4
+_02171F0C: .word Boss4__Func_2172468
+	arm_func_end Boss4__Func_2171EE4
 
-	arm_func_start ovl01_2171F10
-ovl01_2171F10: // _02171F10
+	arm_func_start Boss4__Func_2171F10
+Boss4__Func_2171F10: // _02171F10
 	mov r1, #5
 	str r1, [r0, #0x7e8]
 	mov r2, #0
-	ldr r1, _02171F2C // =ovl01_21726AC
+	ldr r1, _02171F2C // =Boss4__Func_21726AC
 	str r2, [r0, #0x98]
 	str r1, [r0, #0x7e4]
 	bx lr
 	.align 2, 0
-_02171F2C: .word ovl01_21726AC
-	arm_func_end ovl01_2171F10
+_02171F2C: .word Boss4__Func_21726AC
+	arm_func_end Boss4__Func_2171F10
 
-	arm_func_start ovl01_2171F30
-ovl01_2171F30: // _02171F30
+	arm_func_start Boss4__Func_2171F30
+Boss4__Func_2171F30: // _02171F30
 	mov r2, #6
-	ldr r1, _02171F44 // =ovl01_217291C
+	ldr r1, _02171F44 // =Boss4__Func_217291C
 	str r2, [r0, #0x7e8]
 	str r1, [r0, #0x7e4]
 	bx lr
 	.align 2, 0
-_02171F44: .word ovl01_217291C
-	arm_func_end ovl01_2171F30
+_02171F44: .word Boss4__Func_217291C
+	arm_func_end Boss4__Func_2171F30
 
-	arm_func_start ovl01_2171F48
-ovl01_2171F48: // _02171F48
+	arm_func_start Boss4__Func_2171F48
+Boss4__Func_2171F48: // _02171F48
 	mov r2, #7
-	ldr r1, _02171F5C // =ovl01_2172AB4
+	ldr r1, _02171F5C // =Boss4__Func_2172AB4
 	str r2, [r0, #0x7e8]
 	str r1, [r0, #0x7e4]
 	bx lr
 	.align 2, 0
-_02171F5C: .word ovl01_2172AB4
-	arm_func_end ovl01_2171F48
+_02171F5C: .word Boss4__Func_2172AB4
+	arm_func_end Boss4__Func_2171F48
 
-	arm_func_start ovl01_2171F60
-ovl01_2171F60: // _02171F60
+	arm_func_start Boss4__Func_2171F60
+Boss4__Func_2171F60: // _02171F60
 	mov r1, #8
 	str r1, [r0, #0x7e8]
 	mov r2, #0
-	ldr r1, _02171F80 // =ovl01_2172C54
+	ldr r1, _02171F80 // =Boss4__Func_2172C54
 	str r2, [r0, #0x98]
 	str r1, [r0, #0x7e4]
 	str r2, [r0, #0x28]
 	bx lr
 	.align 2, 0
-_02171F80: .word ovl01_2172C54
-	arm_func_end ovl01_2171F60
+_02171F80: .word Boss4__Func_2172C54
+	arm_func_end Boss4__Func_2171F60
 
-	arm_func_start ovl01_2171F84
-ovl01_2171F84: // _02171F84
+	arm_func_start Boss4__Func_2171F84
+Boss4__Func_2171F84: // _02171F84
 	mov r1, #9
 	str r1, [r0, #0x7e8]
 	mov r2, #0
-	ldr r1, _02171FA0 // =ovl01_2172DE0
+	ldr r1, _02171FA0 // =Boss4__Func_2172DE0
 	str r2, [r0, #0x98]
 	str r1, [r0, #0x7e4]
 	bx lr
 	.align 2, 0
-_02171FA0: .word ovl01_2172DE0
-	arm_func_end ovl01_2171F84
+_02171FA0: .word Boss4__Func_2172DE0
+	arm_func_end Boss4__Func_2171F84
 
-	arm_func_start ovl01_2171FA4
-ovl01_2171FA4: // _02171FA4
+	arm_func_start Boss4__Func_2171FA4
+Boss4__Func_2171FA4: // _02171FA4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ovl01_2170120
+	bl Boss4__Func_2170120
 	mov r0, #0xa
 	str r0, [r4, #0x7e8]
 	mov r0, #0
-	ldr r1, _02171FE4 // =ovl01_2172F04
+	ldr r1, _02171FE4 // =Boss4__Func_2172F04
 	str r0, [r4, #0x98]
 	mov r0, r4
 	str r1, [r4, #0x7e4]
-	bl ovl01_216FF88
+	bl Boss4__Func_216FF88
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	mov r0, r4
-	bl ovl01_2170178
+	bl Boss4__Func_2170178
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02171FE4: .word ovl01_2172F04
-	arm_func_end ovl01_2171FA4
+_02171FE4: .word Boss4__Func_2172F04
+	arm_func_end Boss4__Func_2171FA4
 
-	arm_func_start ovl01_2171FE8
-ovl01_2171FE8: // _02171FE8
+	arm_func_start Boss4__Func_2171FE8
+Boss4__Func_2171FE8: // _02171FE8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0xb
@@ -7919,20 +7919,20 @@ ovl01_2171FE8: // _02171FE8
 	bic r2, r2, #0x200
 	str r2, [r4, #0x1c]
 	str r1, [r4, #0x98]
-	bl ovl01_216FF88
+	bl Boss4__Func_216FF88
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	mov r0, r4
-	bl ovl01_2170178
-	ldr r0, _02172030 // =ovl01_2172F94
+	bl Boss4__Func_2170178
+	ldr r0, _02172030 // =Boss4__Func_2172F94
 	str r0, [r4, #0x7e4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02172030: .word ovl01_2172F94
-	arm_func_end ovl01_2171FE8
+_02172030: .word Boss4__Func_2172F94
+	arm_func_end Boss4__Func_2171FE8
 
-	arm_func_start ovl01_2172034
-ovl01_2172034: // _02172034
+	arm_func_start Boss4__Func_2172034
+Boss4__Func_2172034: // _02172034
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0xc
@@ -7941,84 +7941,84 @@ ovl01_2172034: // _02172034
 	bic r1, r1, #0x80
 	orr r1, r1, #0x210
 	str r1, [r4, #0x1c]
-	bl ovl01_216FF88
+	bl Boss4__Func_216FF88
 	mov r0, r4
-	bl ovl01_2170090
+	bl Boss4__Func_2170090
 	mov r0, r4
-	bl ovl01_2170120
+	bl Boss4__Func_2170120
 	mov r1, #0
-	ldr r0, _0217207C // =ovl01_2173044
+	ldr r0, _0217207C // =Boss4__Func_2173044
 	str r1, [r4, #0x2c]
 	str r0, [r4, #0x7e4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0217207C: .word ovl01_2173044
-	arm_func_end ovl01_2172034
+_0217207C: .word Boss4__Func_2173044
+	arm_func_end Boss4__Func_2172034
 
-	arm_func_start ovl01_2172080
-ovl01_2172080: // _02172080
+	arm_func_start Boss4__Func_2172080
+Boss4__Func_2172080: // _02172080
 	mov r2, #0xd
-	ldr r1, _02172094 // =ovl01_2173330
+	ldr r1, _02172094 // =Boss4__Func_2173330
 	str r2, [r0, #0x7e8]
 	str r1, [r0, #0x7e4]
 	bx lr
 	.align 2, 0
-_02172094: .word ovl01_2173330
-	arm_func_end ovl01_2172080
+_02172094: .word Boss4__Func_2173330
+	arm_func_end Boss4__Func_2172080
 
-	arm_func_start ovl01_2172098
-ovl01_2172098: // _02172098
+	arm_func_start Boss4__Func_2172098
+Boss4__Func_2172098: // _02172098
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r3, #0xe
-	ldr r2, _021720E4 // =ovl01_21737C8
+	ldr r2, _021720E4 // =Boss4__Func_21737C8
 	str r3, [r4, #0x7e8]
 	str r2, [r4, #0x7e4]
 	mov r2, #0
 	str r2, [r4, #0x98]
 	str r2, [r4, #0x9c]
 	str r1, [r4, #0x2c]
-	bl ovl01_216FF88
+	bl Boss4__Func_216FF88
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	mov r0, r4
-	bl ovl01_2170120
+	bl Boss4__Func_2170120
 	ldr r0, [r4, #0x1c]
 	bic r0, r0, #0x200
 	str r0, [r4, #0x1c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021720E4: .word ovl01_21737C8
-	arm_func_end ovl01_2172098
+_021720E4: .word Boss4__Func_21737C8
+	arm_func_end Boss4__Func_2172098
 
-	arm_func_start ovl01_21720E8
-ovl01_21720E8: // _021720E8
+	arm_func_start Boss4__Func_21720E8
+Boss4__Func_21720E8: // _021720E8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r2, #0xf
-	ldr r1, _02172130 // =ovl01_2173830
+	ldr r1, _02172130 // =Boss4__Func_2173830
 	str r2, [r4, #0x7e8]
 	str r1, [r4, #0x7e4]
 	mov r1, #0
 	str r1, [r4, #0x98]
 	str r1, [r4, #0x9c]
-	bl ovl01_216FF88
+	bl Boss4__Func_216FF88
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	mov r0, r4
-	bl ovl01_2170120
+	bl Boss4__Func_2170120
 	ldr r0, [r4, #0x1c]
 	bic r0, r0, #0x200
 	str r0, [r4, #0x1c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02172130: .word ovl01_2173830
-	arm_func_end ovl01_21720E8
+_02172130: .word Boss4__Func_2173830
+	arm_func_end Boss4__Func_21720E8
 
-	arm_func_start ovl01_2172134
-ovl01_2172134: // _02172134
+	arm_func_start Boss4__Func_2172134
+Boss4__Func_2172134: // _02172134
 	mov r2, #0x10
-	ldr r1, _02172154 // =ovl01_21738DC
+	ldr r1, _02172154 // =Boss4__Func_21738DC
 	str r2, [r0, #0x7e8]
 	str r1, [r0, #0x7e4]
 	mov r1, #0
@@ -8026,15 +8026,15 @@ ovl01_2172134: // _02172134
 	str r1, [r0, #0x9c]
 	bx lr
 	.align 2, 0
-_02172154: .word ovl01_21738DC
-	arm_func_end ovl01_2172134
+_02172154: .word Boss4__Func_21738DC
+	arm_func_end Boss4__Func_2172134
 
-	arm_func_start ovl01_2172158
-ovl01_2172158: // _02172158
+	arm_func_start Boss4__Func_2172158
+Boss4__Func_2172158: // _02172158
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r2, #0x11
-	ldr r1, _0217219C // =ovl01_21739C0
+	ldr r1, _0217219C // =Boss4__Func_21739C0
 	str r2, [r4, #0x7e8]
 	str r1, [r4, #0x7e4]
 	mov r1, #0
@@ -8044,51 +8044,51 @@ ovl01_2172158: // _02172158
 	ldr r1, [r4, #0x1c]
 	bic r1, r1, #0x80
 	str r1, [r4, #0x1c]
-	bl ovl01_216FF88
+	bl Boss4__Func_216FF88
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0217219C: .word ovl01_21739C0
-	arm_func_end ovl01_2172158
+_0217219C: .word Boss4__Func_21739C0
+	arm_func_end Boss4__Func_2172158
 
-	arm_func_start ovl01_21721A0
-ovl01_21721A0: // _021721A0
+	arm_func_start Boss4__Func_21721A0
+Boss4__Func_21721A0: // _021721A0
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x1c]
 	tst r1, #1
 	ldmeqia sp!, {r3, pc}
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl01_21721A0
+	arm_func_end Boss4__Func_21721A0
 
-	arm_func_start ovl01_21721B8
-ovl01_21721B8: // _021721B8
+	arm_func_start Boss4__Func_21721B8
+Boss4__Func_21721B8: // _021721B8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ovl01_217187C
+	bl Boss4__Func_217187C
 	mov r0, r4
-	bl ovl01_2171BCC
+	bl Boss4__Func_2171BCC
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171BFC
+	bl Boss4__Func_2171BFC
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171D10
+	bl Boss4__Func_2171D10
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171CD0
+	bl Boss4__Func_2171CD0
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171B98
+	bl Boss4__Func_2171B98
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171C70
+	bl Boss4__Func_2171C70
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	add r0, r4, #0x300
@@ -8096,14 +8096,14 @@ ovl01_21721B8: // _021721B8
 	tst r1, #0x100
 	beq _02172240
 	mov r0, r4
-	bl ovl01_2171FA4
+	bl Boss4__Func_2171FA4
 	ldmia sp!, {r4, pc}
 _02172240:
 	ldrh r0, [r0, #0x80]
 	tst r0, #0x30
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	beq _0217226C
 	add r0, r4, #0x300
@@ -8112,7 +8112,7 @@ _02172240:
 	bne _0217228C
 _0217226C:
 	mov r0, r4
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	bne _02172298
 	add r0, r4, #0x300
@@ -8121,21 +8121,21 @@ _0217226C:
 	beq _02172298
 _0217228C:
 	mov r0, r4
-	bl ovl01_2171E88
+	bl Boss4__Func_2171E88
 	ldmia sp!, {r4, pc}
 _02172298:
 	mov r0, r4
-	bl ovl01_2171EB4
+	bl Boss4__Func_2171EB4
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_21721B8
+	arm_func_end Boss4__Func_21721B8
 
-	arm_func_start ovl01_21722A4
-ovl01_21722A4: // _021722A4
+	arm_func_start Boss4__Func_21722A4
+Boss4__Func_21722A4: // _021722A4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ovl01_217187C
+	bl Boss4__Func_217187C
 	mov r0, r4
-	bl ovl01_2171BCC
+	bl Boss4__Func_2171BCC
 	cmp r0, #0
 	beq _021722D0
 	ldr r0, [r4, #0x20]
@@ -8144,7 +8144,7 @@ ovl01_21722A4: // _021722A4
 	ldmia sp!, {r4, pc}
 _021722D0:
 	mov r0, r4
-	bl ovl01_2171CD0
+	bl Boss4__Func_2171CD0
 	cmp r0, #0
 	beq _021722F0
 	ldr r0, [r4, #0x20]
@@ -8153,7 +8153,7 @@ _021722D0:
 	ldmia sp!, {r4, pc}
 _021722F0:
 	mov r0, r4
-	bl ovl01_2171B98
+	bl Boss4__Func_2171B98
 	cmp r0, #0
 	beq _02172310
 	ldr r0, [r4, #0x20]
@@ -8162,7 +8162,7 @@ _021722F0:
 	ldmia sp!, {r4, pc}
 _02172310:
 	mov r0, r4
-	bl ovl01_2171C70
+	bl Boss4__Func_2171C70
 	cmp r0, #0
 	beq _02172330
 	ldr r0, [r4, #0x20]
@@ -8171,40 +8171,40 @@ _02172310:
 	ldmia sp!, {r4, pc}
 _02172330:
 	mov r0, r4
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	ldr r1, [r4, #0x20]
 	mov r0, r4
 	eor r1, r1, #1
 	str r1, [r4, #0x20]
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_21722A4
+	arm_func_end Boss4__Func_21722A4
 
-	arm_func_start ovl01_2172358
-ovl01_2172358: // _02172358
+	arm_func_start Boss4__Func_2172358
+Boss4__Func_2172358: // _02172358
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ovl01_217187C
+	bl Boss4__Func_217187C
 	mov r0, r4
-	bl ovl01_2171BCC
+	bl Boss4__Func_2171BCC
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171BFC
+	bl Boss4__Func_2171BFC
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171CD0
+	bl Boss4__Func_2171CD0
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171B98
+	bl Boss4__Func_2171B98
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171C70
+	bl Boss4__Func_2171C70
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	add r0, r4, #0x300
@@ -8214,7 +8214,7 @@ ovl01_2172358: // _02172358
 	tst r0, #0x20
 	beq _021723DC
 	mov r0, r4
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	beq _021723FC
 _021723DC:
@@ -8223,12 +8223,12 @@ _021723DC:
 	tst r0, #0x10
 	beq _02172408
 	mov r0, r4
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	beq _02172408
 _021723FC:
 	mov r0, r4
-	bl ovl01_21722A4
+	bl Boss4__Func_21722A4
 	ldmia sp!, {r4, pc}
 _02172408:
 	ldr r0, [r4, #0x784]
@@ -8241,30 +8241,30 @@ _02172408:
 	mov r0, r4
 	mov r1, #4
 	mov r2, #1
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldmia sp!, {r4, pc}
 _02172438:
 	mov r0, r4
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #5
 	mov r2, #1
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldmia sp!, {r4, pc}
 _0217245C:
 	mov r0, r4
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_2172358
+	arm_func_end Boss4__Func_2172358
 
-	arm_func_start ovl01_2172468
-ovl01_2172468: // _02172468
+	arm_func_start Boss4__Func_2172468
+Boss4__Func_2172468: // _02172468
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
-	bl ovl01_21719BC
+	bl Boss4__Func_21719BC
 	ldr r0, [r4, #0x784]
 	sub r0, r0, #0xd
 	cmp r0, #4
@@ -8280,21 +8280,21 @@ _021724A0:
 	mov r0, r4
 	mov r1, #0xd
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _021724B8:
 	mov r1, #0
 	mov r0, r4
 	str r1, [r4, #0x98]
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #0xe
 	mov r2, #1
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r3, #0
 	str r3, [r4, #0x28]
 	str r3, [r4, #0x2c]
@@ -8352,19 +8352,19 @@ _021725A0:
 	mov r0, r4
 	mov r1, #0xf
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _021725C8:
 	mov r0, r4
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #0x10
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _021725F4:
@@ -8376,7 +8376,7 @@ _021725F4:
 	mov r0, r4
 	str r2, [r4, #0x24]
 	mov r1, #0x11
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldr r2, [r4, #0x1c]
 	mov r0, #0xb4
 	bic r2, r2, #0x10
@@ -8404,22 +8404,22 @@ _02172664:
 	str r3, [r4, #0x98]
 	bl ShakeScreenEx
 	mov r0, r4
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_216FF98
+	bl Boss4__Func_216FF98
 	mov r0, r4
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021726A8: .word 0x00000111
-	arm_func_end ovl01_2172468
+	arm_func_end Boss4__Func_2172468
 
-	arm_func_start ovl01_21726AC
-ovl01_21726AC: // _021726AC
+	arm_func_start Boss4__Func_21726AC
+Boss4__Func_21726AC: // _021726AC
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -8432,12 +8432,12 @@ ovl01_21726AC: // _021726AC
 	beq _021728FC
 	mov r1, #0x12
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldr r0, [r4, #0x37c]
-	bl ovl01_216CA0C
+	bl Boss4__Func_216CA0C
 	mov r1, r0
 	mov r0, r4
-	bl ovl01_2170220
+	bl Boss4__Func_2170220
 	mov r0, #0
 	str r0, [r4, #0x28]
 	add sp, sp, #8
@@ -8450,20 +8450,20 @@ _02172708:
 	movne r0, #1
 	strne r0, [r4, #0x28]
 	mov r0, r4
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r4
 	mov r1, #0x3000
-	bl ovl01_21702C4
+	bl Boss4__Func_21702C4
 	mov r0, r4
 	mov r1, #0x13
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r0, r4
 	mov r1, #0x3000
-	bl ovl01_2170220
+	bl Boss4__Func_2170220
 	add r0, r4, #0x700
 	mov r1, #0
 	strh r1, [r0, #0x90]
@@ -8492,18 +8492,18 @@ _0217276C:
 	bl EnableSpatialVolume
 _021727BC:
 	mov r0, r4
-	bl ovl01_2170228
+	bl Boss4__Func_2170228
 	mov r5, r0
 	cmp r5, #0x1e000
 	ble _021727E4
 	cmp r5, #0x32000
 	bge _021727E4
 	mov r0, r4
-	bl ovl01_216FFB8
+	bl Boss4__Func_216FFB8
 	b _021727EC
 _021727E4:
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 _021727EC:
 	cmp r5, #0x1e000
 	ble _02172824
@@ -8511,7 +8511,7 @@ _021727EC:
 	cmp r0, #0
 	bne _0217288C
 	mov r0, r4
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	mov r0, #0x5000
 	rsbne r0, r0, #0
@@ -8523,27 +8523,27 @@ _02172824:
 	ldr r0, [r4, #0x98]
 	cmp r0, #0
 	bge _02172860
-	bl ovl01_216CDAC
+	bl Boss4__Func_216CDAC
 	ldr r1, [r4, #0x98]
 	rsb r1, r1, #0
 	cmp r0, r1
 	movge r0, #0
 	strge r0, [r4, #0x98]
 	bge _0217288C
-	bl ovl01_216CDAC
+	bl Boss4__Func_216CDAC
 	ldr r1, [r4, #0x98]
 	add r0, r1, r0
 	str r0, [r4, #0x98]
 	b _0217288C
 _02172860:
 	ble _0217288C
-	bl ovl01_216CDAC
+	bl Boss4__Func_216CDAC
 	ldr r1, [r4, #0x98]
 	cmp r0, r1
 	movge r0, #0
 	strge r0, [r4, #0x98]
 	bge _0217288C
-	bl ovl01_216CDAC
+	bl Boss4__Func_216CDAC
 	ldr r1, [r4, #0x98]
 	sub r0, r1, r0
 	str r0, [r4, #0x98]
@@ -8554,42 +8554,42 @@ _0217288C:
 	movne r0, #1
 	strne r0, [r4, #0x28]
 	mov r0, r4
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	mov r2, #0
 	str r2, [r4, #0x98]
 	ldr r0, [r4, #0x28]
 	cmp r0, #0
 	mov r0, r4
 	beq _021728E0
-	bl ovl01_2171F30
+	bl Boss4__Func_2171F30
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 _021728E0:
 	mov r1, #0x14
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r0, r4
 	mov r1, #0x3000
-	bl ovl01_2170220
+	bl Boss4__Func_2170220
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 _021728FC:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r4
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl01_21726AC
+	arm_func_end Boss4__Func_21726AC
 
-	arm_func_start ovl01_217291C
-ovl01_217291C: // _0217291C
+	arm_func_start Boss4__Func_217291C
+Boss4__Func_217291C: // _0217291C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -8602,12 +8602,12 @@ ovl01_217291C: // _0217291C
 	beq _02172A94
 	mov r1, #0x15
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldr r0, [r4, #0x37c]
-	bl ovl01_216CA68
+	bl Boss4__Func_216CA68
 	mov r1, r0
 	mov r0, r4
-	bl ovl01_2170220
+	bl Boss4__Func_2170220
 	mov r0, #0
 	add sp, sp, #8
 	str r0, [r4, #0x28]
@@ -8619,19 +8619,19 @@ _02172974:
 	movne r0, #1
 	strne r0, [r4, #0x28]
 	mov r0, r4
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_217033C
+	bl Boss4__Func_217033C
 	mov r0, r4
 	mov r1, #0x16
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r0, r4
 	mov r1, #0x3000
-	bl ovl01_2170220
+	bl Boss4__Func_2170220
 	mov r0, #0
 	str r0, [sp]
 	mov r0, #0xaa
@@ -8649,20 +8649,20 @@ _02172974:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02172A00:
-	bl ovl01_2170228
+	bl Boss4__Func_2170228
 	cmp r0, #0x10000
 	ble _02172A20
 	cmp r0, #0x1c000
 	bge _02172A20
 	mov r0, r4
-	bl ovl01_2170000
+	bl Boss4__Func_2170000
 	b _02172A34
 _02172A20:
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	mov r0, r4
 	mov r1, #0x3000
-	bl ovl01_2170220
+	bl Boss4__Func_2170220
 _02172A34:
 	add r0, r4, #0x300
 	ldrh r0, [r0, #0x84]
@@ -8670,38 +8670,38 @@ _02172A34:
 	movne r0, #1
 	strne r0, [r4, #0x28]
 	mov r0, r4
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	ldr r0, [r4, #0x28]
 	cmp r0, #0
 	mov r0, r4
 	beq _02172A80
-	bl ovl01_2171F48
+	bl Boss4__Func_2171F48
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02172A80:
 	mov r1, #0x17
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02172A94:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_217291C
+	arm_func_end Boss4__Func_217291C
 
-	arm_func_start ovl01_2172AB4
-ovl01_2172AB4: // _02172AB4
+	arm_func_start Boss4__Func_2172AB4
+Boss4__Func_2172AB4: // _02172AB4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -8714,14 +8714,14 @@ ovl01_2172AB4: // _02172AB4
 	beq _02172C2C
 	mov r1, #0x18
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldr r0, [r4, #0x37c]
-	bl ovl01_216CAC4
+	bl Boss4__Func_216CAC4
 	mov r1, r0
 	mov r0, r4
-	bl ovl01_2170220
+	bl Boss4__Func_2170220
 	mov r0, r4
-	bl ovl01_21701C0
+	bl Boss4__Func_21701C0
 	cmp r0, #0
 	mov r0, #0x1000
 	rsbne r0, r0, #0
@@ -8730,20 +8730,20 @@ ovl01_2172AB4: // _02172AB4
 	streq r0, [r4, #0x98]
 	ldmia sp!, {r4, pc}
 _02172B20:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #0x3000
-	bl ovl01_2170300
+	bl Boss4__Func_2170300
 	mov r0, r4
 	mov r1, #0x19
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r0, r4
 	mov r1, #0x3000
-	bl ovl01_2170220
+	bl Boss4__Func_2170220
 	add r0, r4, #0x700
 	mov r1, #0
 	strh r1, [r0, #0x90]
@@ -8772,54 +8772,54 @@ _02172B6C:
 	bl EnableSpatialVolume
 _02172BBC:
 	mov r0, r4
-	bl ovl01_2170228
+	bl Boss4__Func_2170228
 	cmp r0, #0x68000
 	ble _02172BE0
 	cmp r0, #0x84000
 	bge _02172BE0
 	mov r0, r4
-	bl ovl01_2170048
+	bl Boss4__Func_2170048
 	b _02172BE8
 _02172BE0:
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 _02172BE8:
 	mov r0, r4
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	mov r2, #0
 	mov r0, r4
 	mov r1, #0x1a
 	str r2, [r4, #0x98]
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r0, r4
 	mov r1, #0x3000
-	bl ovl01_2170220
+	bl Boss4__Func_2170220
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02172C2C:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_2172AB4
+	arm_func_end Boss4__Func_2172AB4
 
-	arm_func_start ovl01_2172C4C
-ovl01_2172C4C: // _02172C4C
+	arm_func_start Boss4__Func_2172C4C
+Boss4__Func_2172C4C: // _02172C4C
 	ldr r0, [r0, #0x28]
 	bx lr
-	arm_func_end ovl01_2172C4C
+	arm_func_end Boss4__Func_2172C4C
 
-	arm_func_start ovl01_2172C54
-ovl01_2172C54: // _02172C54
+	arm_func_start Boss4__Func_2172C54
+Boss4__Func_2172C54: // _02172C54
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -8832,25 +8832,25 @@ ovl01_2172C54: // _02172C54
 	beq _02172D78
 	mov r1, #0x1b
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02172C90:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #0x1c
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldr r0, [r4, #0x28]
 	add sp, sp, #8
 	add r0, r0, #1
 	str r0, [r4, #0x28]
 	ldmia sp!, {r4, pc}
 _02172CC4:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
@@ -8877,14 +8877,14 @@ _02172CC4:
 	mov r2, #0x2000
 	rsbne r2, r2, #0
 	sub r1, r1, #0x20000
-	bl ovl01_216D648
+	bl Boss4__Func_216D648
 	add r0, r4, #0x300
 	ldrh r0, [r0, #0x80]
 	and r0, r0, #0x82
 	cmp r0, #0x82
 	bne _02172D60
 	mov r1, #0
-	ldr r0, _02172D98 // =ovl01_2172D9C
+	ldr r0, _02172D98 // =Boss4__Func_2172D9C
 	str r1, [r4, #0x2c]
 	add sp, sp, #8
 	str r0, [r4, #0x7e4]
@@ -8893,24 +8893,24 @@ _02172D60:
 	mov r0, r4
 	mov r1, #0x1d
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02172D78:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02172D98: .word ovl01_2172D9C
-	arm_func_end ovl01_2172C54
+_02172D98: .word Boss4__Func_2172D9C
+	arm_func_end Boss4__Func_2172C54
 
-	arm_func_start ovl01_2172D9C
-ovl01_2172D9C: // _02172D9C
+	arm_func_start Boss4__Func_2172D9C
+Boss4__Func_2172D9C: // _02172D9C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r2, [r4, #0x2c]
@@ -8920,19 +8920,19 @@ ovl01_2172D9C: // _02172D9C
 	ldmltia sp!, {r4, pc}
 	mov r1, #0x1c
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldr r1, [r4, #0x28]
-	ldr r0, _02172DDC // =ovl01_2172C54
+	ldr r0, _02172DDC // =Boss4__Func_2172C54
 	add r1, r1, #1
 	str r1, [r4, #0x28]
 	str r0, [r4, #0x7e4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02172DDC: .word ovl01_2172C54
-	arm_func_end ovl01_2172D9C
+_02172DDC: .word Boss4__Func_2172C54
+	arm_func_end Boss4__Func_2172D9C
 
-	arm_func_start ovl01_2172DE0
-ovl01_2172DE0: // _02172DE0
+	arm_func_start Boss4__Func_2172DE0
+Boss4__Func_2172DE0: // _02172DE0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -8945,20 +8945,20 @@ ovl01_2172DE0: // _02172DE0
 	beq _02172EE4
 	mov r1, #0x1e
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r0, #0
 	add sp, sp, #8
 	str r0, [r4, #0x2c]
 	ldmia sp!, {r4, pc}
 _02172E24:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #0x1f
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02172E4C:
@@ -8967,24 +8967,24 @@ _02172E4C:
 	str r1, [r4, #0x2c]
 	cmp r2, #0xf
 	bne _02172E64
-	bl ovl01_2170370
+	bl Boss4__Func_2170370
 _02172E64:
 	mov r0, r4
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #0x20
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldr r0, [r4, #0x20]
 	ldr r1, [r4, #0x44]
 	tst r0, #1
 	subne r0, r1, #0x64000
 	addeq r0, r1, #0x64000
 	ldr r1, [r4, #0x48]
-	bl ovl01_216D99C
+	bl Boss4__Func_216D99C
 	mov r2, #0
 	mov r0, #0xb6
 	str r2, [sp]
@@ -9002,18 +9002,18 @@ _02172E64:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02172EE4:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_2172DE0
+	arm_func_end Boss4__Func_2172DE0
 
-	arm_func_start ovl01_2172F04
-ovl01_2172F04: // _02172F04
+	arm_func_start Boss4__Func_2172F04
+Boss4__Func_2172F04: // _02172F04
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -9021,11 +9021,11 @@ ovl01_2172F04: // _02172F04
 	cmp r1, #8
 	beq _02172F74
 	mov r1, #0x88
-	bl ovl01_2170240
+	bl Boss4__Func_2170240
 	mov r0, r4
 	mov r1, #8
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r2, #0
 	mov r0, #0xb2
 	str r2, [sp]
@@ -9043,38 +9043,38 @@ ovl01_2172F04: // _02172F04
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02172F74:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2172034
+	bl Boss4__Func_2172034
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_2172F04
+	arm_func_end Boss4__Func_2172F04
 
-	arm_func_start ovl01_2172F94
-ovl01_2172F94: // _02172F94
+	arm_func_start Boss4__Func_2172F94
+Boss4__Func_2172F94: // _02172F94
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
 	ldr r1, [r4, #0x784]
 	cmp r1, #0xa
 	beq _02173024
-	bl ovl01_2170258
+	bl Boss4__Func_2170258
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #0x88
-	bl ovl01_2170240
+	bl Boss4__Func_2170240
 	mov r0, r4
 	mov r1, #0xa
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r0, r4
 	mov r1, #0x2000
-	bl ovl01_2170220
+	bl Boss4__Func_2170220
 	mov r0, #0
 	str r0, [sp]
 	mov r0, #0xb3
@@ -9092,21 +9092,21 @@ ovl01_2172F94: // _02172F94
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02173024:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_2172F94
+	arm_func_end Boss4__Func_2172F94
 
-	arm_func_start ovl01_2173044
-ovl01_2173044: // _02173044
+	arm_func_start Boss4__Func_2173044
+Boss4__Func_2173044: // _02173044
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ovl01_2171A84
+	bl Boss4__Func_2171A84
 	add r0, r4, #0x300
 	ldrh r0, [r0, #0x84]
 	tst r0, #0x100
@@ -9118,7 +9118,7 @@ ovl01_2173044: // _02173044
 	ble _02173080
 _02173074:
 	mov r0, r4
-	bl ovl01_2171FE8
+	bl Boss4__Func_2171FE8
 	ldmia sp!, {r4, pc}
 _02173080:
 	ldr r1, [r4, #0x98]
@@ -9142,54 +9142,54 @@ _021730B8:
 	cmp r0, #0xb
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2170258
+	bl Boss4__Func_2170258
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #0x2d
-	bl ovl01_2170240
+	bl Boss4__Func_2170240
 	mov r0, r4
 	mov r1, #0xb
 	mov r2, #1
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldmia sp!, {r4, pc}
 _021730FC:
 	cmp r0, #0xc
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2170258
+	bl Boss4__Func_2170258
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #0x2d
-	bl ovl01_2170240
+	bl Boss4__Func_2170240
 	mov r0, r4
 	mov r1, #0xc
 	mov r2, #1
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldmia sp!, {r4, pc}
 _02173134:
 	ldr r0, [r4, #0x784]
 	cmp r0, #9
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2170258
+	bl Boss4__Func_2170258
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #0x2d
-	bl ovl01_2170240
+	bl Boss4__Func_2170240
 	mov r0, r4
 	mov r1, #9
 	mov r2, #1
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02173170: .word 0x00000333
-	arm_func_end ovl01_2173044
+	arm_func_end Boss4__Func_2173044
 
-	arm_func_start ovl01_2173174
-ovl01_2173174: // _02173174
+	arm_func_start Boss4__Func_2173174
+Boss4__Func_2173174: // _02173174
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r2, _0217332C // =gPlayer
 	mov r4, r0
@@ -9203,7 +9203,7 @@ ovl01_2173174: // _02173174
 	ldr r1, [r0, #0x1c]
 	tst r1, #1
 	ldmeqia sp!, {r4, r5, r6, pc}
-	bl ovl01_216CE28
+	bl Boss4__Func_216CE28
 	cmp r0, #4
 	addls pc, pc, r0, lsl #2
 	ldmia sp!, {r4, r5, r6, pc}
@@ -9309,10 +9309,10 @@ _021732F4:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0217332C: .word gPlayer
-	arm_func_end ovl01_2173174
+	arm_func_end Boss4__Func_2173174
 
-	arm_func_start ovl01_2173330
-ovl01_2173330: // _02173330
+	arm_func_start Boss4__Func_2173330
+Boss4__Func_2173330: // _02173330
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -9329,7 +9329,7 @@ _02173350: // jump table
 	b _02173788 // case 4
 _02173364:
 	mov r0, r4
-	bl ovl01_216FF88
+	bl Boss4__Func_216FF88
 	ldr r1, [r4, #0x1c]
 	mov r0, r4
 	orr r1, r1, #0x200
@@ -9337,7 +9337,7 @@ _02173364:
 	mov r1, #0x21
 	mov r2, #0
 	str r3, [r4, #0x1c]
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r0, #1
 	bl BossArena__GetCamera
 	ldr r1, _021737B8 // =0x001C2000
@@ -9377,14 +9377,14 @@ _02173364:
 _0217341C:
 	mov r1, #0
 	str r1, [r4, #0x98]
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r4
 	mov r1, #0x22
 	mov r2, #1
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r0, #0xa000
 	rsb r0, r0, #0
 	str r0, [r4, #0x9c]
@@ -9463,26 +9463,26 @@ _0217355C:
 	mov r0, r4
 	mov r1, #0x23
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r0, r4
-	bl ovl01_21700D8
+	bl Boss4__Func_21700D8
 	mov r0, r4
-	bl ovl01_2170120
+	bl Boss4__Func_2170120
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 _02173584:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r4
 	mov r1, #0x24
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 _021735AC:
-	bl ovl01_216CE28
+	bl Boss4__Func_216CE28
 	cmp r0, #1
 	cmpne r0, #2
 	addne sp, sp, #8
@@ -9496,7 +9496,7 @@ _021735AC:
 	mov r0, r4
 	mov r1, #0x25
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldr r0, [r4, #0x1c]
 	bic r0, r0, #0x10
 	str r0, [r4, #0x1c]
@@ -9513,36 +9513,36 @@ _02173614:
 	ldr r0, [r4, #0x37c]
 	ldr r1, _021737C0 // =0x00000E38
 	ldr r0, [r0, #0x384]
-	bl ovl01_216E34C
+	bl Boss4__Func_216E34C
 	b _02173660
 _02173628:
 	ldr r0, [r4, #0x37c]
 	ldr r1, _021737C4 // =0x00000AAA
 	ldr r0, [r0, #0x384]
-	bl ovl01_216E34C
+	bl Boss4__Func_216E34C
 	b _02173660
 _0217363C:
 	ldr r0, [r4, #0x37c]
 	ldr r1, _021737C4 // =0x00000AAA
 	ldr r0, [r0, #0x384]
-	bl ovl01_216E324
+	bl Boss4__Func_216E324
 	b _02173660
 _02173650:
 	ldr r0, [r4, #0x37c]
 	ldr r1, _021737C0 // =0x00000E38
 	ldr r0, [r0, #0x384]
-	bl ovl01_216E324
+	bl Boss4__Func_216E324
 _02173660:
 	ldr r1, [r4, #0x28]
 	mov r0, r4
-	bl ovl01_2173174
+	bl Boss4__Func_2173174
 	mov r0, r4
 	mov r1, #0x2000
-	bl ovl01_2170220
+	bl Boss4__Func_2170220
 	mov r0, r4
-	bl ovl01_216FFA8
+	bl Boss4__Func_216FFA8
 	mov r0, r4
-	bl ovl01_2170130
+	bl Boss4__Func_2170130
 	mov r0, #1
 	bl BossArena__GetCamera
 	mov r1, #0xc8000
@@ -9610,14 +9610,14 @@ _02173660:
 _02173788:
 	mov r1, #0
 	str r1, [r4, #0x98]
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r4
-	bl ovl01_216FF98
+	bl Boss4__Func_216FF98
 	mov r0, r4
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
@@ -9625,10 +9625,10 @@ _021737B8: .word 0x001C2000
 _021737BC: .word _0217AFB0
 _021737C0: .word 0x00000E38
 _021737C4: .word 0x00000AAA
-	arm_func_end ovl01_2173330
+	arm_func_end Boss4__Func_2173330
 
-	arm_func_start ovl01_21737C8
-ovl01_21737C8: // _021737C8
+	arm_func_start Boss4__Func_21737C8
+Boss4__Func_21737C8: // _021737C8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x784]
@@ -9638,16 +9638,16 @@ ovl01_21737C8: // _021737C8
 	beq _02173814
 	mov r1, #0x26
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldmia sp!, {r4, pc}
 _021737F4:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #0x27
 	mov r2, #1
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	ldmia sp!, {r4, pc}
 _02173814:
 	ldr r2, [r4, #0x2c]
@@ -9655,12 +9655,12 @@ _02173814:
 	str r1, [r4, #0x2c]
 	cmp r2, #0
 	ldmneia sp!, {r4, pc}
-	bl ovl01_21720E8
+	bl Boss4__Func_21720E8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_21737C8
+	arm_func_end Boss4__Func_21737C8
 
-	arm_func_start ovl01_2173830
-ovl01_2173830: // _02173830
+	arm_func_start Boss4__Func_2173830
+Boss4__Func_2173830: // _02173830
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -9669,7 +9669,7 @@ ovl01_2173830: // _02173830
 	beq _02173868
 	mov r1, #0x28
 	mov r2, #1
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	add r0, r4, #0x700
 	mov r1, #0
 	strh r1, [r0, #0x90]
@@ -9698,18 +9698,18 @@ _02173868:
 	bl EnableSpatialVolume
 _021738B8:
 	mov r0, r4
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_2173830
+	arm_func_end Boss4__Func_2173830
 
-	arm_func_start ovl01_21738DC
-ovl01_21738DC: // _021738DC
+	arm_func_start Boss4__Func_21738DC
+Boss4__Func_21738DC: // _021738DC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -9722,7 +9722,7 @@ ovl01_21738DC: // _021738DC
 	beq _021739A0
 	mov r1, #1
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	mov r2, #0
 	mov r0, #0xae
 	str r2, [sp]
@@ -9740,42 +9740,42 @@ ovl01_21738DC: // _021738DC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02173950:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #2
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02173978:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
 	mov r1, #3
 	mov r2, #0
-	bl ovl01_21701CC
+	bl Boss4__Func_21701CC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _021739A0:
-	bl ovl01_2170234
+	bl Boss4__Func_2170234
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl01_2171D5C
+	bl Boss4__Func_2171D5C
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl01_21738DC
+	arm_func_end Boss4__Func_21738DC
 
-	arm_func_start ovl01_21739C0
-ovl01_21739C0: // _021739C0
+	arm_func_start Boss4__Func_21739C0
+Boss4__Func_21739C0: // _021739C0
 	bx lr
-	arm_func_end ovl01_21739C0
+	arm_func_end Boss4__Func_21739C0
 
 	.rodata
 	

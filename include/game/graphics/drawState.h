@@ -90,8 +90,8 @@ typedef struct DrawState_
         u32 unused31 : 1;
     } flags;
 
-    VecFx32 lookAtTo;
-    VecFx32 lookAtFrom;
+    VecFx32 camPos;
+    VecFx32 camTarget;
 
     union
     {

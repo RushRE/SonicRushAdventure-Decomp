@@ -128,6 +128,8 @@ void GameObject__TransformWorldToScreen(VecFx32 *inputPos, VecFx32 *outputPos, M
 
 #define SpawnStageObject(id, x, y, type)                                           (type *)GameObject__SpawnObject(id, x, y, 0, 0, 0, 0, 0, 0)
 #define SpawnStageObjectFlags(id, x, y, type, flags)                               (type *)GameObject__SpawnObject(id, x, y, flags, 0, 0, 0, 0, 0)
+#define SpawnStageObjectParam(id, x, y, type, param)                               (type *)GameObject__SpawnObject(id, x, y, 0, 0, 0, 0, 0, param)
+#define SpawnStageObjectParamFlags(id, x, y, type, flags, param)                   (type *)GameObject__SpawnObject(id, x, y, flags, 0, 0, 0, 0, param)
 #define SpawnStageObjectEx(id, x, y, type, flags, left, top, width, height, param) (type *)GameObject__SpawnObject(id, x, y, flags, left, top, width, height, param)
 
 #endif // RUSH_GAMEOBJECT_H

@@ -821,7 +821,7 @@ void GameObject__TransformWorldToScreen(VecFx32 *inputPos, VecFx32 *outputPos, M
         const fx32 tangentHalfFOV           = FX_Div(FX_SIN_AND_COS(halfFOV));
         const fx32 frustumHalfHeight        = MultiplyFX(tangentHalfFOV, nearPlaneDistance);
         const fx32 frustumHalfWidth         = MultiplyFX(frustumHalfHeight, ptrConfig->aspectRatio);
-        const fx32 nearByZ                  = FX_Div(ptrConfig->projNear, g_obj.cameraConfig->lookAtTo.z);
+        const fx32 nearByZ                  = FX_Div(ptrConfig->projNear, g_obj.cameraConfig->camPos.z);
         const fx32 frustumCenterY           = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_Y) + outputPos->y));
         const fx32 frustumCenterX           = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_X) - outputPos->x));
         outputPos->x                        = FX32_FROM_WHOLE(HW_LCD_CENTER_X);

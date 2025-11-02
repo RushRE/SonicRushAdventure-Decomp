@@ -26,9 +26,9 @@ typedef struct CameraConfig_
 typedef struct Camera3D_
 {
     CameraConfig config;
-    VecFx32 lookAtTo;
-    VecFx32 lookAtFrom;
-    VecFx32 lookAtUp;
+    VecFx32 camPos;
+    VecFx32 camTarget;
+    VecFx32 camUp;
     VecFx32 position;
 } Camera3D;
 

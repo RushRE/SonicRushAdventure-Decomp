@@ -19,6 +19,13 @@
 #include <resources/narc/z1boss_act_lz7.h>
 
 // --------------------
+// CONSTANTS
+// --------------------
+
+#define MTXSTACK_WEAK NNS_G3D_MTXSTACK_SYS
+#define MTXSTACK_BODY_NECK NNS_G3D_MTXSTACK_USER
+
+// --------------------
 // ENUMS
 // --------------------
 
@@ -621,7 +628,7 @@ RUSH_INLINE void CreateStompSmokeFX(Camera3D *config)
     Boss1Stage *stage = TaskGetWork(Boss1Stage__Singleton, Boss1Stage);
     fx32 y            = -(FLOAT_TO_FX32(20.0) + GetStageUnknown(stage));
     y -= FLOAT_TO_FX32(15.0);
-    Boss1__CreateSmokeFX(config->lookAtTo.x, y, config->lookAtTo.z);
+    Boss1__CreateSmokeFX(config->camPos.x, y, config->camPos.z);
 }
 
 // --------------------
@@ -797,8 +804,8 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniBossMain, "/boss1.nsbca", NULL, gameArchiveStage);
     ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniBossMain, "/boss1.nsbva", NULL, gameArchiveStage);
     NNS_G3dRenderObjSetCallBack(&work->aniBossMain.ani.renderObj, BossHelpers__Model__RenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
-    BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, "weak", NNS_G3D_MTXSTACK_SYS, NULL, NULL);
-    BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, "body_neck", NNS_G3D_MTXSTACK_USER, Boss1__NeckRenderCallback, work);
+    BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, "weak", MTXSTACK_WEAK, NULL, NULL);
+    BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, "body_neck", MTXSTACK_BODY_NECK, Boss1__NeckRenderCallback, work);
 
     OBS_ACTION3D_NN_WORK *aniBossSub = &work->aniBossSub1;
     ObjAction3dNNModelLoad(&work->gameWork.objWork, aniBossSub, "", 2, &bossAssetFiles[0], NULL);
@@ -1840,9 +1847,9 @@ void Boss1Stage__HandleCamera(Boss1Stage *work)
 {
     Camera3D *config = BossArena__GetCameraConfig2(BossArena__GetCamera(1));
 
-    MtxFx43 mtxLookAt;
-    MTX_LookAt(&config->lookAtTo, &config->lookAtUp, &config->lookAtFrom, &mtxLookAt);
-    InitSpatialAudioMatrix((MtxFx33 *)&mtxLookAt);
+    MtxFx43 mtxView;
+    MTX_LookAt(&config->camPos, &config->camUp, &config->camTarget, &mtxView);
+    InitSpatialAudioMatrix((MtxFx33*)&mtxView);
 }
 
 void Boss1Stage__State_Active(Boss1Stage *work)
@@ -1888,9 +1895,9 @@ void Boss1Stage__Draw(void)
 
 NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
 {
-    // will match when 'upVector' is decompiled
+    // will match when 'camUp' is decompiled
 #ifdef NON_MATCHING
-    VecFx32 upVector = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0) };
+    VecFx32 camUp = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0) };
 
     BossArena__SetType(BOSSARENA_TYPE_4);
     BossArena__SetField358(FLOAT_TO_FX32(350.0));
@@ -1919,7 +1926,7 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
     BossArena__SetAmplitudeYSpeed(cameraA, FLOAT_TO_FX32(0.05));
     BossArena__ApplyAmplitudeYTarget(cameraA);
     BossArena__ApplyAngleTarget(cameraA);
-    BossArena__SetUpVector(cameraA, &upVector);
+    BossArena__SetUpVector(cameraA, &camUp);
     BossArena__DoProcess();
     BossArena__UpdateTracker1TargetPos(cameraA);
     BossArena__UpdateTracker0TargetPos(cameraA);
@@ -1939,7 +1946,7 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
     BossArena__SetAmplitudeYSpeed(cameraB, FLOAT_TO_FX32(0.05));
     BossArena__ApplyAmplitudeYTarget(cameraB);
     BossArena__ApplyAngleTarget(cameraB);
-    BossArena__SetUpVector(cameraB, &upVector);
+    BossArena__SetUpVector(cameraB, &camUp);
     BossArena__DoProcess();
     BossArena__UpdateTracker1TargetPos(cameraB);
     BossArena__UpdateTracker0TargetPos(cameraB);
@@ -3106,8 +3113,8 @@ void Boss1__SetAnimation(Boss1 *work, u16 animID, BOOL playOnce)
     else
         work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_LOOPING;
 
-    BossHelpers__SetAnimation(&work->aniBossMain, B3D_ANIM_JOINT_ANIM, work->aniBossMain.resources[B3D_RESOURCE_JOINT_ANIM], animID, NULL, FALSE);
-    BossHelpers__SetAnimation(&work->aniBossMain, B3D_ANIM_VIS_ANIM, work->aniBossMain.resources[B3D_RESOURCE_VIS_ANIM], animID, NULL, FALSE);
+    BossHelpers__SetAnimation(&work->aniBossMain.ani, B3D_ANIM_JOINT_ANIM, work->aniBossMain.resources[B3D_RESOURCE_JOINT_ANIM], animID, NULL, FALSE);
+    BossHelpers__SetAnimation(&work->aniBossMain.ani, B3D_ANIM_VIS_ANIM, work->aniBossMain.resources[B3D_RESOURCE_VIS_ANIM], animID, NULL, FALSE);
 
     work->aniBossMain.ani.speedMultiplier = FLOAT_TO_FX32(1.0);
     work->animID                          = animID;
@@ -3461,8 +3468,8 @@ void Boss1__Draw(void)
     Boss1 *work = TaskGetWorkCurrent(Boss1);
 
     StageTask__Draw3D(&work->gameWork.objWork, &work->aniBossMain.ani.work);
-    BossHelpers__Model__SetMatrixMode(NNS_G3D_MTXSTACK_SYS, &work->mtx1);
-    BossHelpers__Model__SetMatrixMode(NNS_G3D_MTXSTACK_USER, &work->mtx2);
+    BossHelpers__Model__SetMatrixMode(MTXSTACK_WEAK, &work->mtxWeakPoint);
+    BossHelpers__Model__SetMatrixMode(MTXSTACK_BODY_NECK, &work->mtxBodyNeck);
 
     AnimatorMDL *aniSub1        = &work->aniBossSub1.ani;
     aniSub1->work.translation   = work->gameWork.objWork.position;
@@ -3495,9 +3502,9 @@ void Boss1__Collide(void)
         fx32 y;
         fx32 z;
 
-        y = -work->mtx2.m[3][1];
-        z = work->mtx2.m[3][2];
-        x = work->mtx2.m[3][0];
+        y = -work->mtxBodyNeck.m[3][1];
+        z = work->mtxBodyNeck.m[3][2];
+        x = work->mtxBodyNeck.m[3][0];
 
         OBS_RECT_WORK *collider = &work->bossColliders[0];
         if ((collider->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
@@ -3825,7 +3832,7 @@ void Boss1__OnDefend_Invulnerable(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         }
 
         fx32 x  = player->objWork.position.x;
-        fx32 x2 = boss->mtx2.m[3][0];
+        fx32 x2 = boss->mtxBodyNeck.m[3][0];
 
         if (x2 < x)
         {
@@ -4147,7 +4154,7 @@ void Boss1__CreateBiteFX(Boss1 *work, struct Boss1ActionBite *config)
     y = -y;
     y += FLOAT_TO_FX32(50.0);
 
-    BossFX3D *effect = BossFX__CreateRexBite(BOSSFX3D_FLAG_NONE, work->mtx2.m[3][0], y, FLOAT_TO_FX32(0.0));
+    BossFX3D *effect = BossFX__CreateRexBite(BOSSFX3D_FLAG_NONE, work->mtxBodyNeck.m[3][0], y, FLOAT_TO_FX32(0.0));
 
     u32 type = config->type;
     if (config->type == 3)
@@ -4882,7 +4889,7 @@ void Boss1__BossState_HeadSlamDown(Boss1 *work)
     if (!action->finished && work->aniBossMain.ani.currentAnimObj[B3D_ANIM_JOINT_ANIM]->frame >= FLOAT_TO_FX32(25.0))
     {
         Boss1Stage *stage = TaskGetWork(Boss1Stage__Singleton, Boss1Stage);
-        BossFX__CreateRexHead(BOSSFX3D_FLAG_NONE, work->mtx2.m[3][0], stage->field_378, FLOAT_TO_FX32(0.0));
+        BossFX__CreateRexHead(BOSSFX3D_FLAG_NONE, work->mtxBodyNeck.m[3][0], stage->field_378, FLOAT_TO_FX32(0.0));
 
         ShakeScreenEx(0x6000, 0x3000, 204);
         PlayHandleStageSfx(work->sndHandle[2], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SHOCK_L);
@@ -5279,7 +5286,7 @@ void Boss1__CreateDropSmokeFX(Boss1 *work)
         {
             Camera3D *config = BossArena__GetCameraConfig2(BossArena__GetCamera(1));
 
-            BossFX2D *effect = Boss1__CreateSmokeFX(config->lookAtTo.x, config->lookAtTo.y, config->lookAtTo.z);
+            BossFX2D *effect = Boss1__CreateSmokeFX(config->camPos.x, config->camPos.y, config->camPos.z);
             effect->objWork.position.y -= MultiplyFX(FLOAT_TO_FX32(200.0), speed);
             effect->objWork.velocity.y = -FLOAT_TO_FX32(10.0);
         }
@@ -6011,7 +6018,7 @@ void Boss1__BossState_PrepareCameraForDestroyed(Boss1 *work)
     struct Boss1ActionDestroyed *action = &work->action.destroyed;
 
     action->timer++;
-    if (action->timer == 90)
+    if (action->timer == SECONDS_TO_FRAMES(1.5))
     {
         BossArenaCamera *camera = BossArena__GetCamera(2);
 
@@ -6086,20 +6093,20 @@ void Boss1__BossState_DestroyedShock(Boss1 *work)
     {
         if (action->timer == BossArena__explosionFXSpawnTime[i])
         {
-            BossFX__CreateRexExplode0(BOSSFX3D_FLAG_NONE, work->mtx2.m[3][0], work->mtx2.m[3][1], work->mtx2.m[3][2]);
+            BossFX__CreateRexExplode0(BOSSFX3D_FLAG_NONE, work->mtxBodyNeck.m[3][0], work->mtxBodyNeck.m[3][1], work->mtxBodyNeck.m[3][2]);
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TODOME_EFFECT);
             CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_ENGINEB_ONLY | DRAW_FADE_TASK_FLAG_FADE_TO_BLACK | DRAW_FADE_TASK_FLAG_REVERSE_BRIGHTNESS, FLOAT_TO_FX32(2.0));
             ShakeScreenEx(0x3000, 0x3000, 0x600);
         }
     }
 
-    if (action->timer++ > 210)
+    if (action->timer++ > SECONDS_TO_FRAMES(3.5))
         work->bossState = Boss1__BossState_StartExplode;
 }
 
 void Boss1__BossState_StartExplode(Boss1 *work)
 {
-    BossFX3D *effect                     = BossFX__CreateRexExplode1(BOSSFX3D_FLAG_NONE, work->mtx2.m[3][0], work->mtx2.m[3][1], work->mtx2.m[3][2]);
+    BossFX3D *effect                     = BossFX__CreateRexExplode1(BOSSFX3D_FLAG_NONE, work->mtxBodyNeck.m[3][0], work->mtxBodyNeck.m[3][1], work->mtxBodyNeck.m[3][2]);
     effect->objWork.scale.x              = FLOAT_TO_FX32(2.0);
     effect->objWork.scale.y              = FLOAT_TO_FX32(2.0);
     effect->objWork.scale.z              = FLOAT_TO_FX32(2.0);
@@ -6131,7 +6138,7 @@ void Boss1__BossState_Explode(Boss1 *work)
 
     if (camera3D->gfxControl[0].brightness < RENDERCORE_BRIGHTNESS_WHITE)
     {
-        if (action->timer > 180 && ++action->fadeOutTimer > 3)
+        if (action->timer > SECONDS_TO_FRAMES(3.0) && ++action->fadeOutTimer > 3)
         {
             camera3D->gfxControl[0].brightness++;
             camera3D->gfxControl[1].brightness++;

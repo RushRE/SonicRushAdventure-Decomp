@@ -164,14 +164,14 @@ void ExPlayerScreenMover_Main_Active(void)
 
     if (work->cameraConfig[GRAPHICS_ENGINE_A]->type == EXDRAW_CAMERACONFIG_1 && exPlayerScreenMoverTargetPos != NULL)
     {
-        work->cameraConfig[GRAPHICS_ENGINE_A]->nextCamera.lookAtTo.x   = targetPos;
-        work->cameraConfig[GRAPHICS_ENGINE_A]->nextCamera.lookAtFrom.x = targetPos;
+        work->cameraConfig[GRAPHICS_ENGINE_A]->nextCamera.camPos.x   = targetPos;
+        work->cameraConfig[GRAPHICS_ENGINE_A]->nextCamera.camTarget.x = targetPos;
     }
 
     if (work->cameraConfig[GRAPHICS_ENGINE_B]->type == EXDRAW_CAMERACONFIG_1 && exPlayerScreenMoverTargetPos != NULL)
     {
-        work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.lookAtTo.x   = targetPos;
-        work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.lookAtFrom.x = targetPos;
+        work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.camPos.x   = targetPos;
+        work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.camTarget.x = targetPos;
     }
 
     RunCurrentExTaskOnCheckStageFinishedEvent();
