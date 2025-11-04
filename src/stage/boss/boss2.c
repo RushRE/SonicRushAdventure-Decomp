@@ -137,7 +137,7 @@ NOT_DECOMPILED const void *Boss2__ballScales;
 NOT_DECOMPILED const void *Boss2Stage__State2_215C938_camUp;
 NOT_DECOMPILED const fx32 Boss2__hitFXScaleTable[BOSS2_BALL_COUNT];
 NOT_DECOMPILED const void *Boss2Stage__State2_215CD08_camUp;
-NOT_DECOMPILED const void *_02179CC8;
+NOT_DECOMPILED const void *Boss2Ball__Func_215F490_offset;
 NOT_DECOMPILED const void *Boss2__activeArmCountTable;
 NOT_DECOMPILED const void *Boss2__ballHitboxes;
 NOT_DECOMPILED const u16 Boss2__damageModifierTable[BOSS2_PHASE_COUNT][BOSS2_BALL_COUNT];
@@ -1681,9 +1681,9 @@ void Boss2__Draw(void)
         if (canDraw)
         {
             AnimatorMDL__Draw(aniBody);
-            BossHelpers__Model__SetMatrixMode(MTXSTACK_BOSS2_BODY_TOP, &work->mtxBodyTop);
-            BossHelpers__Model__SetMatrixMode(MTXSTACK_BOSS2_BODY_MID, &work->mtxBodyMid);
-            BossHelpers__Model__SetMatrixMode(MTXSTACK_BOSS2_BODY_BOTTOM, &work->mtxBodyBottom);
+            BossHelpers__Model__SetMatrixMode(MTXSTACK_BOSS2_BODY_TOP, &work->mtxBody[0]);
+            BossHelpers__Model__SetMatrixMode(MTXSTACK_BOSS2_BODY_MID, &work->mtxBody[1]);
+            BossHelpers__Model__SetMatrixMode(MTXSTACK_BOSS2_BODY_BOTTOM, &work->mtxBody[2]);
             BossHelpers__Model__SetMatrixMode(MTXSTACK_BOSS2_WEAK, &work->mtxWeakPoint);
         }
 
@@ -2267,9 +2267,9 @@ void Boss2Drop__Draw(void)
         {
             work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
 
-            work->gameWork.objWork.position.x = boss->mtxBodyBottom.m[3][0];
-            work->gameWork.objWork.position.y = -boss->mtxBodyBottom.m[3][1];
-            work->gameWork.objWork.position.z = boss->mtxBodyBottom.m[3][2];
+            work->gameWork.objWork.position.x = boss->mtxBody[2].m[3][0];
+            work->gameWork.objWork.position.y = -boss->mtxBody[2].m[3][1];
+            work->gameWork.objWork.position.z = boss->mtxBody[2].m[3][2];
 
             work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
             work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
@@ -2314,7 +2314,7 @@ void Boss2Drop__State_Init(Boss2Drop *work)
 
 void Boss2Drop__State_Attached(Boss2Drop *work)
 {
-    *(MtxFx33 *)&work->aniDrop.work.rotation._00 = *(MtxFx33 *)&work->stage->boss->mtxBodyBottom;
+    *(MtxFx33 *)&work->aniDrop.work.rotation._00 = *(MtxFx33 *)&work->stage->boss->mtxBody[2];
 
     work->aniDrop.work.rotation.m[0][0] = MultiplyFX(FLOAT_TO_FX32(0.302978515625), work->aniDrop.work.rotation.m[0][0]);
     work->aniDrop.work.rotation.m[0][1] = MultiplyFX(FLOAT_TO_FX32(0.302978515625), work->aniDrop.work.rotation.m[0][1]);
@@ -2478,7 +2478,7 @@ void Boss2Drop__State2_215E7D8(Boss2Drop *work)
 
         case 1:
         case 2:
-            if (work->gameWork.objWork.position.y <= boss->mtxBodyBottom.m[3][1])
+            if (work->gameWork.objWork.position.y <= boss->mtxBody[2].m[3][1])
             {
                 work->gameWork.objWork.position.y = boss->gameWork.objWork.position.y;
                 work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
@@ -2503,777 +2503,321 @@ void Boss2Drop__State2_215E8C0(Boss2Drop *work)
         Boss2Drop__SetupObject(work);
 }
 
-NONMATCH_FUNC void Boss2Arm__State_Active(Boss2Arm *work)
+void Boss2Arm__State_Active(Boss2Arm *work)
 {
-#ifdef NON_MATCHING
+    if (work->field_3B8)
+    {
+        Boss2 *boss = work->stage->boss;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r5, r0
-	ldr r0, [r5, #0x3b8]
-	cmp r0, #0
-	beq _0215EAAC
-	ldr r1, [r5, #0x370]
-	ldr r0, [r5, #0x3bc]
-	ldr r4, [r1, #0x370]
-	cmp r0, #0
-	beq _0215EA58
-	add r0, r5, #0x300
-	ldrsh r1, [r0, #0xc6]
-	ldrsh r0, [r0, #0xc2]
-	rsb r2, r1, #0
-	cmp r0, r2
-	blt _0215E928
-	cmp r0, r1
-	movle r1, r0
-	mov r2, r1
-_0215E928:
-	add r3, r5, #0x300
-	strh r2, [r3, #0xc2]
-	ldrsh r0, [r3, #0xc2]
-	cmp r0, #0
-	ble _0215E9BC
-	ldrsh r1, [r3, #0xc4]
-	cmp r0, r1
-	bge _0215E980
-	sub r6, r1, r0
-	mov r1, #0x7a
-	umull lr, ip, r6, r1
-	mov r2, #0
-	mla ip, r6, r2, ip
-	mov r2, r6, asr #0x1f
-	adds r6, lr, #0x800
-	mla ip, r2, r1, ip
-	adc r1, ip, #0
-	mov r2, r6, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	add r0, r0, r2
-	strh r0, [r3, #0xc2]
-	b _0215EA44
-_0215E980:
-	ble _0215EA44
-	sub r6, r0, r1
-	mov r1, #0x7a
-	umull lr, ip, r6, r1
-	mov r2, #0
-	mla ip, r6, r2, ip
-	mov r2, r6, asr #0x1f
-	adds r6, lr, #0x800
-	mla ip, r2, r1, ip
-	adc r1, ip, #0
-	mov r2, r6, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	sub r0, r0, r2
-	strh r0, [r3, #0xc2]
-	b _0215EA44
-_0215E9BC:
-	bge _0215EA44
-	ldrsh r2, [r3, #0xc4]
-	rsb r1, r2, #0
-	cmp r0, r1
-	bge _0215EA0C
-	add r1, r2, r0
-	rsb r6, r1, #0
-	mov r1, #0x7a
-	umull lr, ip, r6, r1
-	mov r2, #0
-	mla ip, r6, r2, ip
-	mov r2, r6, asr #0x1f
-	adds r6, lr, #0x800
-	mla ip, r2, r1, ip
-	adc r1, ip, #0
-	mov r2, r6, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	add r0, r0, r2
-	strh r0, [r3, #0xc2]
-	b _0215EA44
-_0215EA0C:
-	ble _0215EA44
-	add ip, r0, r2
-	mov r1, #0x7a
-	umull r6, lr, ip, r1
-	mov r2, #0
-	mla lr, ip, r2, lr
-	mov r2, ip, asr #0x1f
-	adds r6, r6, #0x800
-	mla lr, r2, r1, lr
-	adc r1, lr, #0
-	mov r2, r6, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	sub r0, r0, r2
-	strh r0, [r3, #0xc2]
-_0215EA44:
-	add r0, r5, #0x300
-	ldrh r2, [r0, #0xc0]
-	ldrsh r1, [r0, #0xc2]
-	add r1, r2, r1
-	strh r1, [r0, #0xc0]
-_0215EA58:
-	add r0, r5, #0x300
-	ldrh r1, [r0, #0xc0]
-	ldr r3, =FX_SinCosTable_
-	add r0, r5, #0x3f0
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov ip, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, ip]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotY33_
-	ldr r2, [r5, #0x384]
-	mov r0, #0x30
-	mla r1, r2, r0, r4
-	add r0, r5, #0x14
-	add r1, r1, #0x3f8
-	add r3, r0, #0x400
-	ldmia r1, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	b _0215EAC8
-_0215EAAC:
-	ldr r1, [r5, #0x48]
-	ldr r2, [r5, #0x4c]
-	ldr r0, [r5, #0x44]
-	rsb r1, r1, #0
-	str r0, [r5, #0x414]
-	str r1, [r5, #0x418]
-	str r2, [r5, #0x41c]
-_0215EAC8:
-	ldr r1, [r5, #0x37c]
-	mov r0, r5
-	blx r1
-	ldmia sp!, {r4, r5, r6, pc}
+        if (work->field_3BC)
+        {
+            work->angleSpeed = MTM_MATH_CLIP_3(work->angleSpeed, -work->word3C6, work->word3C6);
 
-// clang-format on
-#endif
+            if (work->angleSpeed > 0)
+            {
+                if (work->angleSpeed < work->targetAngleSpeed)
+                {
+                    work->angleSpeed += MultiplyFX(122, (work->targetAngleSpeed - work->angleSpeed));
+                }
+                else if (work->angleSpeed > work->targetAngleSpeed)
+                {
+                    work->angleSpeed -= MultiplyFX(122, (work->angleSpeed - work->targetAngleSpeed));
+                }
+            }
+            else if (work->angleSpeed < 0)
+            {
+                if (work->angleSpeed < -work->targetAngleSpeed)
+                {
+                    work->angleSpeed += MultiplyFX(122, -(work->targetAngleSpeed + work->angleSpeed));
+                }
+                else if (work->angleSpeed > -work->targetAngleSpeed)
+                {
+                    work->angleSpeed -= MultiplyFX(122, (work->angleSpeed + work->targetAngleSpeed));
+                }
+            }
+
+            work->angle += work->angleSpeed;
+        }
+
+        MTX_RotY33(&work->animator.work.rotation, SinFX(work->angle), CosFX(work->angle));
+
+        VEC_SetFromArray(&work->animator.work.translation, boss->mtxBody[work->type].m[3]);
+    }
+    else
+    {
+        VEC_Set(&work->animator.work.translation, work->gameWork.objWork.position.x, -work->gameWork.objWork.position.y, work->gameWork.objWork.position.z);
+    }
+
+    work->state2(work);
 }
 
-NONMATCH_FUNC void Boss2Arm__Destructor(Task *task)
+void Boss2Arm__Destructor(Task *task)
 {
-#ifdef NON_MATCHING
+    Boss2Arm *work = TaskGetWork(task, Boss2Arm);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl GetTaskWork_
-	add r0, r0, #0x3cc
-	bl AnimatorMDL__Release
-	mov r0, r4
-	bl GameObject__Destructor
-	ldmia sp!, {r4, pc}
+    AnimatorMDL__Release(&work->animator);
 
-// clang-format on
-#endif
+    GameObject__Destructor(task);
 }
 
-NONMATCH_FUNC void Boss2Arm__Draw(void)
+void Boss2Arm__Draw(void)
 {
-#ifdef NON_MATCHING
+    Boss2Arm *work = TaskGetWorkCurrent(Boss2Arm);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	bl GetCurrentTaskWork_
-	mov r5, r0
-	ldr r1, [r5, #0x20]
-	tst r1, #0x20
-	ldmneia sp!, {r3, r4, r5, pc}
-	bl Boss2Arm__CheckCanDraw
-	mov r4, r0
-	add r0, r5, #0x3cc
-	bl AnimatorMDL__ProcessAnimation
-	cmp r4, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	add r0, r5, #0x3cc
-	bl AnimatorMDL__Draw
-	add r1, r5, #0x388
-	mov r0, #0x1e
-	bl BossHelpers__Model__SetMatrixMode
-	ldmia sp!, {r3, r4, r5, pc}
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0)
+    {
+        BOOL canDraw = Boss2Arm__CheckCanDraw(work);
 
-// clang-format on
-#endif
+        AnimatorMDL__ProcessAnimation(&work->animator);
+
+        if (canDraw)
+        {
+            AnimatorMDL__Draw(&work->animator);
+            BossHelpers__Model__SetMatrixMode(MTXSTACK_BOSS2ARM_ARM_BALL, &work->mtxArmBall);
+        }
+    }
 }
 
-NONMATCH_FUNC void Boss2Arm__CheckCanDraw(Boss2Arm *work)
+BOOL Boss2Arm__CheckCanDraw(Boss2Arm *work)
 {
-#ifdef NON_MATCHING
+    BOOL canDraw = FALSE;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, [r0, #0x3c8]
-	mov r4, #0
-	cmp r1, #0
-	beq _0215EB98
-	ldr r0, [r0, #0x380]
-	cmp r0, #4
-	addls pc, pc, r0, lsl #2
-	b _0215EB88
-_0215EB68: // jump table
-	b _0215EB7C // case 0
-	b _0215EB80 // case 1
-	b _0215EB80 // case 2
-	b _0215EB88 // case 3
-	b _0215EB80 // case 4
-_0215EB7C:
-	b _0215EBA0
-_0215EB80:
-	mov r4, #1
-	b _0215EBA0
-_0215EB88:
-	bl Camera3D__UseEngineA
-	cmp r0, #0
-	movne r4, #1
-	b _0215EBA0
-_0215EB98:
-	mov r4, #1
-	str r4, [r0, #0x3c8]
-_0215EBA0:
-	mov r0, r4
-	ldmia sp!, {r4, pc}
+    if (work->field_3C8)
+    {
+        switch (work->field_380)
+        {
+            case 0:
+                canDraw = FALSE;
+                break;
 
-// clang-format on
-#endif
+            case 1:
+            case 2:
+            case 4:
+                canDraw = TRUE;
+                break;
+
+            default:
+                if (Camera3D__UseEngineA())
+                    canDraw = TRUE;
+                break;
+        }
+    }
+    else
+    {
+        canDraw         = TRUE;
+        work->field_3C8 = canDraw;
+    }
+
+    return canDraw;
 }
 
-NONMATCH_FUNC void Boss2Arm__SetupObject(Boss2Arm *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r2, #0
-	ldr r1, =Boss2Arm__State2_215EC44
-	str r2, [r0, #0x380]
-	str r1, [r0, #0x37c]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss2Arm__Action_215EBC0(Boss2Arm *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r2, #1
-	ldr r1, =Boss2Arm__State2_215EC5C
-	str r2, [r0, #0x380]
-	str r1, [r0, #0x37c]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss2Arm__Func_215EBD8(Boss2Arm *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r2, #2
-	ldr r1, =Boss2Arm__State2_215EF50
-	str r2, [r0, #0x380]
-	str r1, [r0, #0x37c]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss2Arm__Func_215EBF0(Boss2Arm *work, s16 angle, s16 angleSpeed)
+void Boss2Arm__SetupObject(Boss2Arm *work)
 {
-#ifdef NON_MATCHING
+    work->field_380 = 0;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r3, #3
-	str r3, [r0, #0x380]
-	mov r3, #1
-	str r3, [r0, #0x3bc]
-	add r3, r0, #0x300
-	strh r1, [r3, #0xc0]
-	ldr ip, =Boss2Arm__State2_215F204
-	strh r2, [r3, #0xc2]
-	str ip, [r0, #0x37c]
-	blx ip
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    work->state2 = Boss2Arm__State2_215EC44;
 }
 
-NONMATCH_FUNC void Boss2Arm__Func_215EC24(Boss2Arm *work)
+void Boss2Arm__Action_215EBC0(Boss2Arm *work)
 {
-#ifdef NON_MATCHING
+    work->field_380 = 1;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r2, #4
-	ldr r1, =Boss2Arm__State2_215F258
-	str r2, [r0, #0x380]
-	str r1, [r0, #0x37c]
-	blx r1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    work->state2 = Boss2Arm__State2_215EC5C;
 }
 
-NONMATCH_FUNC void Boss2Arm__State2_215EC44(Boss2Arm *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r1, #0
-	str r1, [r0, #0x3bc]
-	ldr r1, [r0, #0x20]
-	orr r1, r1, #0x20
-	str r1, [r0, #0x20]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss2Arm__State2_215EC5C(Boss2Arm *work)
+void Boss2Arm__Func_215EBD8(Boss2Arm *work)
 {
-#ifdef NON_MATCHING
+    work->field_380 = 2;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r0, #0
-	str r0, [r4, #0x3b8]
-	ldr r1, [r4, #0x1c]
-	ldr r0, =gPlayer
-	bic r1, r1, #0x80
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x20]
-	ldr r2, =BOSS2_STAGE_END
-	bic r1, r1, #0x20
-	str r1, [r4, #0x20]
-	ldr r0, [r0, #0]
-	mov r1, #BOSS2_STAGE_START
-	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__GetAngle
-	ldr r1, =0xFFFFB556
-	add r2, r4, #0x300
-	add r0, r0, r1
-	strh r0, [r2, #0xc0]
-	mov r0, #0x800
-	strh r0, [r2, #0xc2]
-	mov r1, #0x1f4000
-	ldr r0, =Boss2Arm__State2_215ECD8
-	str r1, [r4, #0x374]
-	str r0, [r4, #0x37c]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    work->state2 = Boss2Arm__State2_215EF50;
 }
 
-NONMATCH_FUNC void Boss2Arm__State2_215ECD8(Boss2Arm *work)
+void Boss2Arm__Func_215EBF0(Boss2Arm *work, u16 angle, s16 angleSpeed)
 {
-#ifdef NON_MATCHING
+    work->field_380  = 3;
+    work->field_3BC  = 1;
+    work->angle      = angle;
+    work->angleSpeed = angleSpeed;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0x24
-	mov r6, r0
-	ldr r1, [r6, #0x370]
-	ldr r0, [r6, #0x374]
-	ldr r4, [r1, #0x370]
-	sub r0, r0, #0x2000
-	str r0, [r6, #0x374]
-	cmp r0, #0xfa000
-	movlt r0, #0xfa000
-	strlt r0, [r6, #0x374]
-	add r0, r6, #0x300
-	mov r5, #0
-	ldrh r0, [r0, #0xc0]
-	ldr r1, [r6, #0x374]
-	add r2, r6, #0x44
-	add r3, r6, #0x4c
-	movlt r5, #1
-	bl BossHelpers__Arena__GetXZPos
-	ldr r1, [r6, #0x384]
-	mov r0, #0x30
-	mla r0, r1, r0, r4
-	ldr r1, [r0, #0x3fc]
-	add r0, r6, #0x300
-	rsb r1, r1, #0
-	str r1, [r6, #0x48]
-	ldrsh r1, [r0, #0xc2]
-	add r3, r6, #0x300
-	sub r1, r1, #0x10
-	strh r1, [r0, #0xc2]
-	ldrsh r1, [r0, #0xc2]
-	cmp r1, #0x300
-	movlt r1, #0x300
-	strlth r1, [r0, #0xc2]
-	ldr r0, =FX_SinCosTable_+0x3800
-	ldrh ip, [r3, #0xc0]
-	ldrsh r4, [r3, #0xc2]
-	ldrsh r1, [r0, #0xe0]
-	ldrsh r2, [r0, #0xe2]
-	add r4, ip, r4
-	add r0, r6, #0x3f0
-	strh r4, [r3, #0xc0]
-	bl MTX_RotX33_
-	add r0, r6, #0x300
-	ldrh r1, [r0, #0xc0]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov r4, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, r4]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotY33_
-	add r0, r6, #0x3f0
-	add r1, sp, #0
-	mov r2, r0
-	bl MTX_Concat33
-	cmp r5, #0
-	ldrne r0, =Boss2Arm__State2_215EDE4
-	strne r0, [r6, #0x37c]
-	add sp, sp, #0x24
-	ldmia sp!, {r3, r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    work->state2 = Boss2Arm__State2_215F204;
+    work->state2(work);
 }
 
-NONMATCH_FUNC void Boss2Arm__State2_215EDE4(Boss2Arm *work)
+void Boss2Arm__Func_215EC24(Boss2Arm *work)
 {
-#ifdef NON_MATCHING
+    work->field_380 = 4;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0x24
-	mov r4, r0
-	ldr r1, [r4, #0x374]
-	ldr r0, =0x001C2000
-	add r1, r1, #0x2000
-	str r1, [r4, #0x374]
-	cmp r1, r0
-	strgt r0, [r4, #0x374]
-	add r0, r4, #0x300
-	ldrh r0, [r0, #0xc0]
-	ldr r1, [r4, #0x374]
-	add r2, r4, #0x44
-	add r3, r4, #0x4c
-	bl BossHelpers__Arena__GetXZPos
-	ldr r0, [r4, #0x9c]
-	ldr r2, =FX_SinCosTable_+0x3800
-	add r0, r0, #0x99
-	add r0, r0, #0x100
-	str r0, [r4, #0x9c]
-	cmp r0, #0x8000
-	movgt r0, #0x8000
-	strgt r0, [r4, #0x9c]
-	add r0, r4, #0x300
-	ldrsh r1, [r0, #0xc2]
-	add r1, r1, #8
-	strh r1, [r0, #0xc2]
-	ldrsh r1, [r0, #0xc2]
-	cmp r1, #0x400
-	movgt r1, #0x400
-	strgth r1, [r0, #0xc2]
-	add r0, r4, #0x300
-	ldrsh r1, [r2, #0xe0]
-	ldrh ip, [r0, #0xc0]
-	ldrsh r3, [r0, #0xc2]
-	ldrsh r2, [r2, #0xe2]
-	add r3, ip, r3
-	strh r3, [r0, #0xc0]
-	add r0, r4, #0x3f0
-	bl MTX_RotX33_
-	ldr r0, [r4, #0x9c]
-	mov r1, #0x5000
-	bl FX_Div
-	rsb r0, r0, #0
-	mov r0, r0, lsl #0xf
-	mov r0, r0, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, asr #4
-	mov r1, r0, lsl #1
-	add r0, r1, #1
-	ldr r2, =FX_SinCosTable_
-	mov r1, r1, lsl #1
-	mov r0, r0, lsl #1
-	ldrsh r1, [r2, r1]
-	ldrsh r2, [r2, r0]
-	add r0, sp, #0
-	bl MTX_RotZ33_
-	add r0, r4, #0x3f0
-	add r1, sp, #0
-	mov r2, r0
-	bl MTX_Concat33
-	add r0, r4, #0x300
-	ldrh r1, [r0, #0xc0]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	mov r1, r2, lsl #1
-	add r2, r2, #1
-	mov r2, r2, lsl #1
-	ldrsh r1, [r3, r1]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotY33_
-	add r0, r4, #0x3f0
-	add r1, sp, #0
-	mov r2, r0
-	bl MTX_Concat33
-	ldr r0, [r4, #0x48]
-	cmp r0, #0x320000
-	addle sp, sp, #0x24
-	ldmleia sp!, {r3, r4, pc}
-	mov r1, #0x320000
-	mov r0, r4
-	str r1, [r4, #0x48]
-	bl Boss2Arm__Func_215EBD8
-	add sp, sp, #0x24
-	ldmia sp!, {r3, r4, pc}
-
-// clang-format on
-#endif
+    work->state2 = Boss2Arm__State2_215F258;
+    work->state2(work);
 }
 
-NONMATCH_FUNC void Boss2Arm__State2_215EF50(Boss2Arm *work)
+void Boss2Arm__State2_215EC44(Boss2Arm *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r5, r0
-	ldr r2, [r5, #0x370]
-	ldr r1, [r5, #0x384]
-	mov r0, #0
-	add r1, r2, r1, lsl #2
-	ldr r4, [r1, #0x384]
-	mov ip, #0x3e8000
-	str r0, [r5, #0x3b8]
-	ldr r0, [r5, #0x1c]
-	ldr r6, =_mt_math_rand
-	bic r0, r0, #0x80
-	str r0, [r5, #0x1c]
-	ldr r1, [r5, #0x20]
-	ldr r0, =0x00196225
-	bic r1, r1, #0x20
-	str r1, [r5, #0x20]
-	ldr r3, [r5, #0x370]
-	ldr r2, [r5, #0x384]
-	ldr r1, =0x3C6EF35F
-	add r2, r3, r2, lsl #2
-	ldr r7, [r2, #0x384]
-	ldr r3, =gPlayer
-	ldr lr, [r7, #0x20]
-	ldr r2, =BOSS2_STAGE_END
-	bic lr, lr, #0x20
-	str lr, [r7, #0x20]
-	str ip, [r5, #0x48]
-	ldr ip, [r6]
-	ldr r3, [r3, #0]
-	mla r0, ip, r0, r1
-	str r0, [r6]
-	mov r6, r0, lsr #0x10
-	ldr r0, [r3, #0x44]
-	mov r1, #BOSS2_STAGE_START
-	mov r6, r6, lsl #0x10
-	bl BossHelpers__Arena__GetAngle
-	ldr r1, =0x00003FFF
-	add r2, r0, #0x6000
-	and r0, r1, r6, lsr #16
-	add r1, r2, r0
-	add r0, r5, #0x300
-	strh r1, [r0, #0xc0]
-	mov r1, #0x190000
-	str r1, [r5, #0x374]
-	ldrh r1, [r0, #0xc0]
-	ldr r3, =FX_SinCosTable_
-	add r0, r5, #0x3f0
-	sub r1, r1, #0x4000
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov r6, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, r6]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotY33_
-	mov r0, r4
-	bl Boss2Ball__State2_215FB14
-	add r0, r4, #0x380
-	bl Boss2Ball__Func_21600AC
-	ldr r1, [r4, #0x18]
-	ldr r0, =Boss2Arm__State2_215F08C
-	orr r1, r1, #2
-	str r1, [r4, #0x18]
-	str r0, [r5, #0x37c]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
+    work->field_3BC = 0;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 }
 
-NONMATCH_FUNC void Boss2Arm__State2_215F08C(Boss2Arm *work)
+void Boss2Arm__State2_215EC5C(Boss2Arm *work)
 {
-#ifdef NON_MATCHING
+    work->field_3B8 = 0;
+    work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r5, r0
-	add r0, r5, #0x300
-	ldrh r0, [r0, #0xc0]
-	ldr r4, [r5, #0x370]
-	ldr r1, [r5, #0x374]
-	ldr r6, [r4, #0x370]
-	add r2, r5, #0x44
-	add r3, r5, #0x4c
-	mov r4, #0
-	bl BossHelpers__Arena__GetXZPos
-	ldr r1, [r5, #0x384]
-	mov r0, #0x30
-	mla r0, r1, r0, r6
-	ldr r1, [r0, #0x3fc]
-	ldr r2, [r5, #0x48]
-	ldr r0, =0x00000199
-	add r2, r2, r1
-	umull ip, r3, r2, r0
-	mov r1, r4
-	mla r3, r2, r1, r3
-	mov r1, r2, asr #0x1f
-	mla r3, r1, r0, r3
-	adds ip, ip, #0x800
-	adc r0, r3, #0
-	mov r1, ip, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	cmp r1, #0x8000
-	movgt r1, #0x8000
-	cmp r1, #0x28
-	movlt r4, #1
-	rsb r0, r1, #0
-	str r0, [r5, #0x9c]
-	cmp r4, #0
-	ldrne r0, =Boss2Arm__State2_215F128
-	strne r0, [r5, #0x37c]
-	ldmia sp!, {r4, r5, r6, pc}
+    work->angle      = BossHelpers__Arena__GetAngle(gPlayer->objWork.position.x, BOSS2_STAGE_START, BOSS2_STAGE_END) - FLOAT_DEG_TO_IDX(105.0);
+    work->angleSpeed = FLOAT_DEG_TO_IDX(11.25);
+    work->field_374  = FLOAT_TO_FX32(500.0);
 
-// clang-format on
-#endif
+    work->state2 = Boss2Arm__State2_215ECD8;
 }
 
-NONMATCH_FUNC void Boss2Arm__State2_215F128(Boss2Arm *work)
+void Boss2Arm__State2_215ECD8(Boss2Arm *work)
 {
-#ifdef NON_MATCHING
+    Boss2 *boss = work->stage->boss;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r0, [r4, #0x374]
-	mov r5, #0
-	subs r0, r0, #0xa000
-	str r0, [r4, #0x374]
-	strmi r5, [r4, #0x374]
-	add r0, r4, #0x300
-	ldrh r0, [r0, #0xc0]
-	ldr r1, [r4, #0x374]
-	movmi r5, #1
-	add r2, r4, #0x44
-	add r3, r4, #0x4c
-	bl BossHelpers__Arena__GetXZPos
-	cmp r5, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r1, [r4, #0x370]
-	ldr r0, [r4, #0x384]
-	add r0, r1, r0, lsl #2
-	ldr r0, [r0, #0x384]
-	add r0, r0, #0x380
-	bl Boss2Ball__Func_216009C
-	mov ip, #0x9c
-	sub r1, ip, #0x9d
-	mov r0, #0
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r0, ip}
-	bl PlaySfxEx
-	ldr r2, =_mt_math_rand
-	ldr r0, =0x00196225
-	ldr r3, [r2, #0]
-	ldr r1, =0x3C6EF35F
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	tst r0, #1
-	str r1, [r2]
-	add r0, r4, #0x300
-	ldrh r1, [r0, #0xc0]
-	movne r2, #1
-	mvneq r2, #0
-	sub r1, r1, #0x4000
-	mov r1, r1, lsl #0x10
-	mov r0, r4
-	mov r1, r1, lsr #0x10
-	bl Boss2Arm__Func_215EBF0
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
+    BOOL done = FALSE;
 
-// clang-format on
-#endif
+    work->field_374 -= FLOAT_TO_FX32(2.0);
+    if (work->field_374 < FLOAT_TO_FX32(250.0))
+    {
+        work->field_374 = FLOAT_TO_FX32(250.0);
+        done            = TRUE;
+    }
+
+    BossHelpers__Arena__GetXZPos(work->angle, work->field_374, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
+    work->gameWork.objWork.position.y = -boss->mtxBody[work->type].m[3][1];
+
+    work->angleSpeed -= FLOAT_DEG_TO_IDX(0.088);
+    if (work->angleSpeed < FLOAT_DEG_TO_IDX(4.21875))
+        work->angleSpeed = FLOAT_DEG_TO_IDX(4.21875);
+
+    work->angle += work->angleSpeed;
+
+    MtxFx33 mtxRot;
+    MTX_RotX33(&work->animator.work.rotation, SinFX(FLOAT_DEG_TO_IDX(319.922)), CosFX(FLOAT_DEG_TO_IDX(319.922)));
+    MTX_RotY33(&mtxRot, SinFX(work->angle), CosFX(work->angle));
+    MTX_Concat33(&work->animator.work.rotation, &mtxRot, &work->animator.work.rotation);
+
+    if (done)
+        work->state2 = Boss2Arm__State2_215EDE4;
 }
 
-NONMATCH_FUNC void Boss2Arm__State2_215F204(Boss2Arm *work)
+void Boss2Arm__State2_215EDE4(Boss2Arm *work)
 {
-#ifdef NON_MATCHING
+    work->field_374 += FLOAT_TO_FX32(2.0);
+    if (work->field_374 > FLOAT_TO_FX32(450.0))
+        work->field_374 = FLOAT_TO_FX32(450.0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	add r0, r4, #0x300
-	mov r1, #0x400
-	strh r1, [r0, #0xc6]
-	mov r0, #1
-	str r0, [r4, #0x3b8]
-	ldr r1, [r4, #0x370]
-	ldr r0, [r4, #0x384]
-	add r0, r1, r0, lsl #2
-	ldr r5, [r0, #0x384]
-	add r0, r5, #0x380
-	bl Boss2Ball__EnableSpikes
-	ldr r1, [r5, #0x18]
-	ldr r0, =Boss2Arm__State2_215F254
-	bic r1, r1, #2
-	str r1, [r5, #0x18]
-	str r0, [r4, #0x37c]
-	ldmia sp!, {r3, r4, r5, pc}
+    BossHelpers__Arena__GetXZPos(work->angle, work->field_374, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
 
-// clang-format on
-#endif
+    work->gameWork.objWork.velocity.y += FLOAT_TO_FX32(0.1);
+    if (work->gameWork.objWork.velocity.y > FLOAT_TO_FX32(8.0))
+        work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(8.0);
+
+    work->angleSpeed += FLOAT_DEG_TO_IDX(0.044);
+    if (work->angleSpeed > FLOAT_DEG_TO_IDX(5.625))
+        work->angleSpeed = FLOAT_DEG_TO_IDX(5.625);
+
+    work->angle += work->angleSpeed;
+
+    MtxFx33 mtxRot;
+    MTX_RotX33(&work->animator.work.rotation, SinFX(FLOAT_DEG_TO_IDX(319.922)), CosFX(FLOAT_DEG_TO_IDX(319.922)));
+
+    u32 angle = (u32)((FLOAT_DEG_TO_IDX(180.0) * -FX_Div(work->gameWork.objWork.velocity.y, FLOAT_TO_FX32(5.0)))) >> 16;
+    MTX_RotZ33(&mtxRot, SinFX(angle), CosFX(angle));
+    MTX_Concat33(&work->animator.work.rotation, &mtxRot, &work->animator.work.rotation);
+
+    MTX_RotY33(&mtxRot, SinFX(work->angle), CosFX(work->angle));
+    MTX_Concat33(&work->animator.work.rotation, &mtxRot, &work->animator.work.rotation);
+
+    if (work->gameWork.objWork.position.y > FLOAT_TO_FX32(800.0))
+    {
+        work->gameWork.objWork.position.y = FLOAT_TO_FX32(800.0);
+        Boss2Arm__Func_215EBD8(work);
+    }
+}
+
+void Boss2Arm__State2_215EF50(Boss2Arm *work)
+{
+    Boss2Ball *ball = work->stage->balls[work->type];
+
+    work->field_3B8 = 0;
+    work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
+
+    work->stage->balls[work->type]->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
+    work->gameWork.objWork.position.y = FLOAT_TO_FX32(1000.0);
+
+    work->angle =
+        BossHelpers__Arena__GetAngle(gPlayer->objWork.position.x, BOSS2_STAGE_START, BOSS2_STAGE_END) + FLOAT_DEG_TO_IDX(135.0) + mtMathRandRepeat(FLOAT_DEG_TO_IDX(90.0));
+    work->field_374 = FLOAT_TO_FX32(400.0);
+
+    MTX_RotY33(&work->animator.work.rotation, SinFX((s32)(u16)(work->angle - FLOAT_DEG_TO_IDX(90.0))), CosFX((s32)(u16)(work->angle - FLOAT_DEG_TO_IDX(90.0))));
+
+    Boss2Ball__State2_215FB14(ball);
+    Boss2Ball__Func_21600AC(&ball->spikeWorker);
+    ball->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+
+    work->state2 = Boss2Arm__State2_215F08C;
+}
+
+void Boss2Arm__State2_215F08C(Boss2Arm *work)
+{
+    Boss2 *boss = work->stage->boss;
+
+    BOOL isIdle = FALSE;
+
+    BossHelpers__Arena__GetXZPos(work->angle, work->field_374, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
+
+    fx32 velocity = MultiplyFX(FLOAT_TO_FX32(0.1), (work->gameWork.objWork.position.y + boss->mtxBody[work->type].m[3][1]));
+    if (velocity > FLOAT_TO_FX32(8.0))
+        velocity = FLOAT_TO_FX32(8.0);
+
+    if (velocity < FLOAT_TO_FX32(0.009765625))
+        isIdle = TRUE;
+
+    work->gameWork.objWork.velocity.y = -velocity;
+
+    if (isIdle)
+        work->state2 = Boss2Arm__State2_215F128;
+}
+
+void Boss2Arm__State2_215F128(Boss2Arm *work)
+{
+    BOOL done = FALSE;
+
+    work->field_374 -= FLOAT_TO_FX32(10.0);
+    if (work->field_374 < FLOAT_TO_FX32(0.0))
+    {
+        work->field_374 = FLOAT_TO_FX32(0.0);
+        done            = TRUE;
+    }
+
+    BossHelpers__Arena__GetXZPos(work->angle, work->field_374, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
+
+    if (done)
+    {
+        Boss2Ball__Func_216009C(&work->stage->balls[work->type]->spikeWorker);
+        PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_PENDULUM_HIT);
+
+        s16 nextDir;
+        if (mtMathRandRepeat(2) != 0)
+            nextDir = 1;
+        else
+            nextDir = -1;
+        Boss2Arm__Func_215EBF0(work, work->angle - FLOAT_DEG_TO_IDX(90.0), nextDir);
+    }
+}
+
+void Boss2Arm__State2_215F204(Boss2Arm *work)
+{
+    work->word3C6   = 0x400;
+    work->field_3B8 = 1;
+
+    Boss2Ball *ball = work->stage->balls[work->type];
+    Boss2Ball__EnableSpikes(&ball->spikeWorker);
+    ball->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+
+    work->state2 = Boss2Arm__State2_215F254;
 }
 
 void Boss2Arm__State2_215F254(Boss2Arm *work)
@@ -3281,209 +2825,123 @@ void Boss2Arm__State2_215F254(Boss2Arm *work)
     // Do nothing
 }
 
-NONMATCH_FUNC void Boss2Arm__State2_215F258(Boss2Arm *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov ip, #0
-	str ip, [r0, #0x374]
-	str ip, [r0, #0x3b8]
-	ldr r1, [r0, #0x414]
-	sub r2, ip, #0x5000
-	str r1, [r0, #0x44]
-	ldr r3, [r0, #0x418]
-	ldr r1, =Boss2Arm__State2_215F2C8
-	rsb r3, r3, #0
-	str r3, [r0, #0x48]
-	ldr r3, [r0, #0x41c]
-	str r3, [r0, #0x4c]
-	ldr r3, [r0, #0x1c]
-	orr r3, r3, #0x80
-	str r3, [r0, #0x1c]
-	str r2, [r0, #0x9c]
-	str ip, [r0, #0x98]
-	str ip, [r0, #0xa0]
-	ldr r3, [r0, #0x370]
-	ldr r2, [r0, #0x384]
-	add r2, r3, r2, lsl #2
-	ldr r3, [r2, #0x384]
-	ldr r2, [r3, #0x18]
-	orr r2, r2, #2
-	str r2, [r3, #0x18]
-	str r1, [r0, #0x37c]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss2Arm__State2_215F2C8(Boss2Arm *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r3, r0
-	ldr r1, [r3, #0x374]
-	ldr r0, =BOSS2_STAGE_RADIUS
-	add r1, r1, #0x2000
-	cmp r1, r0
-	str r1, [r3, #0x374]
-	ldrle r1, [r3, #0x48]
-	ldrle r0, =0x005DC000
-	cmple r1, r0
-	ble _0215F334
-	ldr r1, =BOSS2_STAGE_RADIUS
-	ldr r0, =0x005DC000
-	str r1, [r3, #0x374]
-	ldr r1, [r3, #0x20]
-	orr r1, r1, #0x20
-	str r1, [r3, #0x20]
-	ldr r2, [r3, #0x370]
-	ldr r1, [r3, #0x384]
-	add r1, r2, r1, lsl #2
-	ldr r2, [r1, #0x384]
-	ldr r1, [r2, #0x20]
-	orr r1, r1, #0x20
-	str r1, [r2, #0x20]
-	str r0, [r3, #0x48]
-	ldr r0, [r3, #0x1c]
-	bic r0, r0, #0x80
-	str r0, [r3, #0x1c]
-_0215F334:
-	add r0, r3, #0x300
-	ldrh r0, [r0, #0xc0]
-	ldr ip, =BossHelpers__Arena__GetXZPos
-	ldr r1, [r3, #0x374]
-	add r0, r0, #0x4000
-	mov r0, r0, lsl #0x10
-	add r2, r3, #0x44
-	mov r0, r0, lsr #0x10
-	add r3, r3, #0x4c
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss2Ball__State_Active(Boss2Ball *work)
+void Boss2Arm__State2_215F258(Boss2Arm *work)
 {
-#ifdef NON_MATCHING
+    work->field_374 = FLOAT_TO_FX32(0.0);
+    work->field_3B8 = 0;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r3, r4, #0x8e
-	ldr r0, [r4, #0x370]
-	ldr r1, [r4, #0x37c]
-	add r2, r4, #0x38c
-	add r3, r3, #0x300
-	bl Boss2Stage__GetBallConfig
-	ldr r1, [r4, #0x374]
-	mov r0, r4
-	blx r1
-	ldr r2, [r4, #0x380]
-	mov r0, r4
-	add r1, r4, #0x380
-	blx r2
-	ldmia sp!, {r4, pc}
+    work->gameWork.objWork.position.x = work->animator.work.translation.x;
+    work->gameWork.objWork.position.y = -work->animator.work.translation.y;
+    work->gameWork.objWork.position.z = work->animator.work.translation.z;
 
-// clang-format on
-#endif
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+
+    work->gameWork.objWork.velocity.y = -FLOAT_TO_FX32(5.0);
+    work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
+    work->gameWork.objWork.velocity.z = FLOAT_TO_FX32(0.0);
+
+    work->stage->balls[work->type]->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+
+    work->state2 = Boss2Arm__State2_215F2C8;
 }
 
-NONMATCH_FUNC void Boss2Ball__Destructor(Task *task)
+void Boss2Arm__State2_215F2C8(Boss2Arm *work)
 {
-#ifdef NON_MATCHING
+    work->field_374 += FLOAT_TO_FX32(2.0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	bl GetTaskWork_
-	mov r4, r0
-	add r0, r4, #0x1b8
-	add r0, r0, #0x400
-	bl AnimatorMDL__Release
-	add r0, r4, #0x2fc
-	add r0, r0, #0x400
-	bl AnimatorMDL__Release
-	add r0, r4, #0x840
-	bl AnimatorMDL__Release
-	add r0, r4, #0x394
-	bl AnimatorMDL__Release
-	add r0, r4, #0x198
-	add r0, r0, #0x400
-	bl ReleasePaletteAnimator
-	ldr r0, [r4, #0x984]
-	bl FreeSndHandle
-	mov r0, r5
-	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, pc}
+    if (work->field_374 > BOSS2_STAGE_RADIUS || work->gameWork.objWork.position.y > FLOAT_TO_FX32(1500.0))
+    {
+        work->field_374 = BOSS2_STAGE_RADIUS;
 
-// clang-format on
-#endif
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
+        work->stage->balls[work->type]->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
+
+        work->gameWork.objWork.position.y = FLOAT_TO_FX32(1500.0);
+        work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    }
+
+    BossHelpers__Arena__GetXZPos(work->angle + FLOAT_DEG_TO_IDX(90.0), work->field_374, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
 }
 
-NONMATCH_FUNC void Boss2Ball__Draw(void)
+void Boss2Ball__State_Active(Boss2Ball *work)
 {
-#ifdef NON_MATCHING
+    Boss2Stage__GetBallConfig(work->stage, work->type, &work->spikeWorker.spikeDuration, &work->spikeWorker.vulnerableDuration);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	bl GetCurrentTaskWork_
-	mov r5, r0
-	ldr r0, [r5, #0x20]
-	tst r0, #0x20
-	ldmneia sp!, {r3, r4, r5, pc}
-	add r4, r5, #0x1b8
-	add r0, r4, #0x400
-	bl AnimatorMDL__ProcessAnimation
-	add r0, r4, #0x400
-	bl AnimatorMDL__Draw
-	add r0, r5, #0xd8
-	add r1, r0, #0x400
-	mov r0, #0x1e
-	bl BossHelpers__Model__SetMatrixMode
-	add r0, r5, #0xd8
-	add ip, r0, #0x400
-	add r4, r5, #0x3b8
-	ldmia ip!, {r0, r1, r2, r3}
-	stmia r4!, {r0, r1, r2, r3}
-	ldmia ip!, {r0, r1, r2, r3}
-	stmia r4!, {r0, r1, r2, r3}
-	ldmia ip, {r0, r1, r2, r3}
-	stmia r4, {r0, r1, r2, r3}
-	add r0, r5, #0x394
-	bl AnimatorMDL__ProcessAnimation
-	add r0, r5, #0x394
-	bl AnimatorMDL__Draw
-	mov r0, r5
-	bl Boss2Ball__Func_215F490
-	add r4, r5, #0x198
-	add r0, r4, #0x400
-	bl AnimatePalette
-	add r0, r4, #0x400
-	bl DrawAnimatedPalette
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    work->state2(work);
+    work->spikeWorker.state3(work, &work->spikeWorker);
 }
 
-NONMATCH_FUNC void Boss2Ball__Func_215F490(void)
+void Boss2Ball__Destructor(Task *task)
 {
-#ifdef NON_MATCHING
+    Boss2Ball *work = TaskGetWork(task, Boss2Ball);
 
+    AnimatorMDL__Release(&work->aniBall);
+    AnimatorMDL__Release(&work->aniBallD);
+    AnimatorMDL__Release(&work->aniBallM);
+    AnimatorMDL__Release(&work->spikeWorker.aniSpike);
+
+    ReleasePaletteAnimator(&work->aniPalette);
+
+    FreeSndHandle(work->sndHandle);
+
+    GameObject__Destructor(task);
+}
+
+void Boss2Ball__Draw(void)
+{
+    Boss2Ball *work = TaskGetWorkCurrent(Boss2Ball);
+
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0)
+    {
+        PaletteAnimator *aniPalette;
+        AnimatorMDL *aniSpike;
+        AnimatorMDL *aniBall;
+
+        aniBall = &work->aniBall;
+        AnimatorMDL__ProcessAnimation(aniBall);
+        AnimatorMDL__Draw(aniBall);
+
+        BossHelpers__Model__SetMatrixMode(MTXSTACK_BOSS2BALL_BALL_HIT, &work->mtxBallCenter);
+
+        aniSpike                             = &work->spikeWorker.aniSpike;
+        *(MtxFx43 *)&aniSpike->work.rotation = *(MtxFx43 *)&work->mtxBallCenter;
+
+        AnimatorMDL__ProcessAnimation(aniSpike);
+        AnimatorMDL__Draw(aniSpike);
+
+        Boss2Ball__Func_215F490(work);
+
+        aniPalette = &work->aniPalette;
+        AnimatePalette(aniPalette);
+        DrawAnimatedPalette(aniPalette);
+    }
+}
+
+NONMATCH_FUNC void Boss2Ball__Func_215F490(Boss2Ball *work)
+{
+	// will match when 'offset' is decompiled
+#ifdef NON_MATCHING
+    AnimatorMDL *aniBallD = &work->aniBallD;
+
+    const fx32 offset[BOSS2_BALL_COUNT] = { [BOSS2_BALL_M] = 0x1A660, [BOSS2_BALL_S] = 0x2E328, [BOSS2_BALL_L] = 0x41FF0 };
+
+    VEC_SetFromArray(&aniBallD->work.translation, work->mtxBallCenter.m[3]);
+
+    fx32 position;
+    BossHelpers__Arena__GetPosition(&position, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS, aniBallD->work.translation.x, aniBallD->work.translation.z);
+    BossHelpers__Arena__Func_2038CDC(position, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS, &aniBallD->work.translation.x, &aniBallD->work.translation.z);
+
+    aniBallD->work.translation.y -= offset[work->type];
+
+    AnimatorMDL__Draw(aniBallD);
+    AnimatorMDL__Draw(&work->aniBallM);
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x18
 	mov r5, r0
 	add r0, r5, #0x2fc
-	ldr r1, =_02179CC8
+	ldr r1, =Boss2Ball__Func_215F490_offset
 	add r4, r0, #0x400
 	add ip, sp, #0xc
 	ldmia r1, {r0, r1, r2}
@@ -3528,71 +2986,118 @@ NONMATCH_FUNC void Boss2Ball__Func_215F490(void)
 #endif
 }
 
-NONMATCH_FUNC void Boss2Ball__Collide(void)
+void Boss2Ball__Collide(void)
 {
-#ifdef NON_MATCHING
+    Boss2Ball *work = TaskGetWorkCurrent(Boss2Ball);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #8
-	bl GetCurrentTaskWork_
-	ldr r1, [r0, #0x18]
-	tst r1, #0xc
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	tst r1, #2
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	add r1, r0, #0x500
-	ldrh r2, [r1, #0x88]
-	cmp r2, #0
-	subne r0, r2, #1
-	strneh r0, [r1, #0x88]
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	add r1, r0, #0x108
-	ldr r10, =BOSS2_STAGE_END
-	ldr r9, =BOSS2_STAGE_RADIUS
-	add r5, r0, #0x218
-	add r6, r1, #0x400
-	mov r4, #0
-	add r7, r0, #0xfc
-	mov r8, #BOSS2_STAGE_START
-_0215F5B0:
-	ldr r0, [r5, #0x18]
-	bic r0, r0, #0x800
-	str r0, [r5, #0x18]
-	ldr r0, [r6, #0x18]
-	bic r0, r0, #0x800
-	str r0, [r6, #0x18]
-	ldr r0, [r5, #0x18]
-	tst r0, #4
-	beq _0215F5F0
-	str r10, [sp]
-	mov r0, r5
-	mov r1, r6
-	mov r3, r8
-	add r2, r7, #0x400
-	str r9, [sp, #4]
-	bl BossHelpers__Collision__HandleArenaCollider
-_0215F5F0:
-	add r4, r4, #1
-	cmp r4, #2
-	add r5, r5, #0x40
-	add r6, r6, #0x40
-	blt _0215F5B0
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+    if ((work->gameWork.objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) != 0)
+        return;
 
-// clang-format on
-#endif
+    if ((work->gameWork.objWork.flag & (STAGE_TASK_FLAG_NO_OBJ_COLLISION)) != 0)
+        return;
+
+    if (work->field_208 > 0)
+    {
+        work->field_208--;
+    }
+    else
+    {
+        for (s32 i = 0; i < 2; i++)
+        {
+            OBS_RECT_WORK *colliderSrc = &work->gameWork.colliders[i];
+            OBS_RECT_WORK *colliderDst = &work->field_188[i];
+
+            colliderSrc->flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+            colliderDst->flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+
+            if ((colliderSrc->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
+            {
+                BossHelpers__Collision__HandleArenaCollider(colliderSrc, colliderDst, (VecFx32 *)work->mtxBallCenter.m[3], BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS);
+            }
+        }
+    }
 }
 
 NONMATCH_FUNC void Boss2Ball__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
+    // https://decomp.me/scratch/MDWLZ -> 80.82%
 #ifdef NON_MATCHING
+    Boss2Ball *ball = (Boss2Ball *)rect2->parent;
+    Player *player  = (Player *)rect1->parent;
 
+    if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0)
+    {
+        fx32 position;
+        BossHelpers__Arena__GetPosition(&position, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS, ball->mtxBallCenter.m[3][0], ball->mtxBallCenter.m[3][2]);
+
+        fx32 y = -ball->mtxBallCenter.m[3][1];
+
+        BOOL flag;
+        if (ball->angleAccel > 0x4000)
+        {
+            flag = ball->field_20C;
+        }
+        else
+        {
+            if (MATH_ABS(player->objWork.velocity.x) > 128)
+                flag = player->objWork.velocity.x <= 0;
+            else
+                flag = position < player->objWork.position.x;
+        }
+
+        fx32 velX = player->objWork.velocity.x;
+        if (flag)
+        {
+            velX = MATH_MIN(velX, 0);
+        }
+        else
+        {
+            velX = MATH_MAX(velX, 0);
+        }
+
+        fx32 velY = player->objWork.velocity.y;
+        velY      = MATH_MIN(velY, 0);
+
+        velY = MATH_ABS(velY);
+        velX = MATH_ABS(velX);
+
+        fx32 playerForce = MultiplyFX(0xB50, velX) + MultiplyFX(0xB50, velY);
+        if (playerForce < 0xB33)
+            playerForce = 0xB33;
+
+        fx16 weight = Boss2Stage__GetBallWeight(ball->stage, ball->type);
+        Boss2Ball__Action_Hit(ball, flag, MultiplyFX(playerForce, weight));
+
+        if (y < player->objWork.position.y)
+        {
+            player->objWork.flow.y     = y + FX32_FROM_WHOLE(rect2->rect.bottom) - (player->objWork.position.y + FX32_FROM_WHOLE(rect1->rect.top));
+            player->objWork.velocity.y = FLOAT_TO_FX32(1.0);
+        }
+        else
+        {
+            player->objWork.flow.y     = y + FX32_FROM_WHOLE(rect2->rect.top) - (player->objWork.position.y + FX32_FROM_WHOLE(rect1->rect.bottom));
+            player->objWork.velocity.y = -FLOAT_TO_FX32(4.0);
+        }
+
+        if (!flag)
+            player->objWork.velocity.x = -FLOAT_TO_FX32(8.0);
+        else
+            player->objWork.velocity.x = FLOAT_TO_FX32(8.0);
+
+        fx32 x, z;
+        BossHelpers__Arena__Func_2038CDC(player->objWork.position.x, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS, &x, &z);
+
+        BossFX__CreateHitB(BOSSFX3D_FLAG_NONE, x, -player->objWork.position.y, z);
+        PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_PENDULUM_HIT);
+
+        ball->field_208 = 4;
+
+        for (s32 i = 0; i < 2; i++)
+        {
+            ball->gameWork.colliders[i].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+            ball->field_188[i].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        }
+    }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
@@ -3764,70 +3269,29 @@ _0215F858:
 #endif
 }
 
-NONMATCH_FUNC void Boss2Ball__Func_215F890(Boss2Ball *work)
+void Boss2Ball__Func_215F890(Boss2Ball *work)
 {
-#ifdef NON_MATCHING
+    Boss2Arm *arm = work->stage->arms[work->type];
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	ldr r2, [r6, #0x370]
-	ldr r1, [r6, #0x37c]
-	add r0, r6, #0x1dc
-	add r1, r2, r1, lsl #2
-	ldr r4, [r1, #0x374]
-	add r5, r0, #0x400
-	add lr, r4, #0x388
-	ldmia lr!, {r0, r1, r2, r3}
-	mov ip, r5
-	stmia ip!, {r0, r1, r2, r3}
-	ldmia lr!, {r0, r1, r2, r3}
-	stmia ip!, {r0, r1, r2, r3}
-	ldr r0, [lr]
-	mov r2, #0
-	str r0, [ip]
-	str r2, [r5, #0xc]
-	mov r0, #0x1000
-	str r0, [r5, #0x10]
-	str r2, [r5, #0x14]
-	mov r0, r5
-	add r1, r5, #0xc
-	add r2, r5, #0x18
-	bl VEC_CrossProduct
-	add r0, r5, #0x18
-	mov r1, r0
-	bl VEC_Normalize
-	add r0, r5, #0xc
-	add r1, r5, #0x18
-	mov r2, r5
-	bl VEC_CrossProduct
-	add r0, r4, #0x3ac
-	add r3, r6, #0x600
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldmia sp!, {r4, r5, r6, pc}
+    AnimatorMDL *aniBall = &work->aniBall;
+    MtxFx33 *mtxRotation = &work->aniBall.work.rotation;
 
-// clang-format on
-#endif
+    aniBall->work.rotation = *(MtxFx33 *)&arm->mtxArmBall;
+
+    VEC_Set((VecFx32 *)mtxRotation->m[1], FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
+    VEC_CrossProduct((VecFx32 *)mtxRotation->m[0], (VecFx32 *)mtxRotation->m[1], (VecFx32 *)mtxRotation->m[2]);
+    VEC_Normalize((VecFx32 *)mtxRotation->m[2], (VecFx32 *)mtxRotation->m[2]);
+    VEC_CrossProduct((VecFx32 *)mtxRotation->m[1], (VecFx32 *)mtxRotation->m[2], (VecFx32 *)mtxRotation->m[0]);
+
+    VEC_SetFromArray(&work->aniBall.work.translation, arm->mtxArmBall.m[3]);
 }
 
-NONMATCH_FUNC void Boss2Ball__SetupObject(Boss2Ball *work)
+void Boss2Ball__SetupObject(Boss2Ball *work)
 {
-#ifdef NON_MATCHING
+    work->field_378 = 0;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r2, #0
-	ldr r1, =Boss2Ball__State_215FAE0
-	str r2, [r0, #0x378]
-	str r1, [r0, #0x374]
-	blx r1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    work->state2 = Boss2Ball__State_215FAE0;
+    work->state2(work);
 }
 
 NONMATCH_FUNC void Boss2Ball__Func_215F944(Boss2Ball *work)
@@ -3848,7 +3312,7 @@ NONMATCH_FUNC void Boss2Ball__Func_215F944(Boss2Ball *work)
 #endif
 }
 
-NONMATCH_FUNC void Boss2Ball__Action_Hit(Boss2Ball *work)
+NONMATCH_FUNC void Boss2Ball__Action_Hit(Boss2Ball *work, s32 direction, fx32 force)
 {
 #ifdef NON_MATCHING
 
@@ -4795,7 +4259,7 @@ NONMATCH_FUNC void Boss2Ball__StateSpikes_216050C(Boss2Ball *work, Boss2BallSpik
 
 Boss2Bomb *Boss2Bomb__Spawn(Boss2Stage *work, fx32 moveSpeed, BOOL flipped)
 {
-    Boss2Bomb *bomb = SpawnStageObject(MAPOBJECT_282, FLOAT_TO_FX32(0.0), -work->boss->mtxBodyBottom.m[3][1], Boss2Bomb);
+    Boss2Bomb *bomb = SpawnStageObject(MAPOBJECT_282, FLOAT_TO_FX32(0.0), -work->boss->mtxBody[2].m[3][1], Boss2Bomb);
 
     bomb->gameWork.objWork.parentObj = &work->gameWork.objWork;
     bomb->stage                      = work;

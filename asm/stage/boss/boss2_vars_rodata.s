@@ -29,8 +29,8 @@ Boss2Stage__State2_215CD08_camUp: // 0x02179CB0
 Boss2__Unused2179CBC: // 0x02179CB0
 	.word 0x3000, 0x4000, 0x5000
 
-.public _02179CC8
-_02179CC8: // 0x02179CC8
+.public Boss2Ball__Func_215F490_offset
+Boss2Ball__Func_215F490_offset: // 0x02179CC8
     .word 0x1A660, 0x2E328, 0x41FF0
 	
 .public Boss2__activeArmCountTable
