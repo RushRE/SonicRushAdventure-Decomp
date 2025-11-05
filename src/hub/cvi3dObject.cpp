@@ -558,20 +558,20 @@ void CVi3dObject::Draw()
     this->aniBody.work.scale.x       = MultiplyFX(this->scale.x, this->worldScale.x);
     this->aniBody.work.scale.y       = MultiplyFX(this->scale.y, this->worldScale.y);
     this->aniBody.work.scale.z       = MultiplyFX(this->scale.z, this->worldScale.z);
-    MTX_RotY33(&this->aniBody.work.rotation, SinFX(this->currentTurnAngle + this->rotationY), CosFX(this->currentTurnAngle + this->rotationY));
+    MTX_RotY33(this->aniBody.work.rotation.nnMtx, SinFX(this->currentTurnAngle + this->rotationY), CosFX(this->currentTurnAngle + this->rotationY));
 
     if (this->rotationX != FLOAT_DEG_TO_IDX(0.0))
     {
-        MtxFx33 mtx;
-        MTX_RotX33(&mtx, SinFX(this->rotationX), CosFX(this->rotationX));
-        MTX_Concat33(&this->aniBody.work.rotation, &mtx, &this->aniBody.work.rotation);
+        FXMatrix33 mtx;
+        MTX_RotX33(mtx.nnMtx, SinFX(this->rotationX), CosFX(this->rotationX));
+        MTX_Concat33(this->aniBody.work.rotation.nnMtx, mtx.nnMtx, this->aniBody.work.rotation.nnMtx);
     }
 
     if (this->rotationZ != FLOAT_DEG_TO_IDX(0.0))
     {
-        MtxFx33 mtx;
-        MTX_RotZ33(&mtx, SinFX(this->rotationZ), CosFX(this->rotationZ));
-        MTX_Concat33(&this->aniBody.work.rotation, &mtx, &this->aniBody.work.rotation);
+        FXMatrix33 mtx;
+        MTX_RotZ33(mtx.nnMtx, SinFX(this->rotationZ), CosFX(this->rotationZ));
+        MTX_Concat33(this->aniBody.work.rotation.nnMtx, mtx.nnMtx, this->aniBody.work.rotation.nnMtx);
     }
 
     AnimatorMDL__Draw(&this->aniBody);
@@ -584,7 +584,7 @@ void CVi3dObject::Draw()
         this->aniTail.work.scale.x       = this->aniBody.work.scale.x;
         this->aniTail.work.scale.y       = this->aniBody.work.scale.y;
         this->aniTail.work.scale.z       = this->aniBody.work.scale.z;
-        MI_CpuCopy16(&this->aniBody.work.rotation, &this->aniTail.work.rotation, sizeof(this->aniBody.work.rotation));
+        MI_CpuCopy16(this->aniBody.work.rotation.nnMtx, this->aniTail.work.rotation.nnMtx, sizeof(this->aniBody.work.rotation));
 
         AnimatorMDL__Draw(&this->aniTail);
     }
@@ -711,8 +711,8 @@ void CViShadow::Release()
 
 void CViShadow::Draw(VecFx32 &position)
 {
-    MtxFx43 mtx;
-    MtxFx33 mtxRot;
+    FXMatrix43 mtx;
+    FXMatrix33 mtxRot;
     VecFx32 scale;
 
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
@@ -723,8 +723,8 @@ void CViShadow::Draw(VecFx32 &position)
     scale.z = this->scale;
     NNS_G3dGlbSetBaseScale(&scale);
 
-    MTX_Identity33(&mtxRot);
-    NNS_G3dGlbSetBaseRot(&mtxRot);
+    MTX_Identity33(mtxRot.nnMtx);
+    NNS_G3dGlbSetBaseRot(mtxRot.nnMtx);
 
     scale.x = position.x - (this->scale >> 1);
     scale.y = position.y + 1024;
@@ -740,10 +740,10 @@ void CViShadow::Draw(VecFx32 &position)
     NNS_G3dGeTexPlttBase(VRAMKEY_TO_KEY(this->palette) & 0x1FFFF, GX_TEXFMT_PLTT4);
 
     NNS_G3dGeMtxMode(GX_MTXMODE_TEXTURE);
-    MTX_Identity43(&mtx);
+    MTX_Identity43(mtx.nnMtx);
     mtx.m[0][0] = FLOAT_TO_FX32(64.0);
     mtx.m[1][1] = FLOAT_TO_FX32(64.0);
-    NNS_G3dGeLoadMtx43(&mtx);
+    NNS_G3dGeLoadMtx43(mtx.nnMtx);
 
     NNS_G3dGeColor(GX_RGB_888(0xFF, 0xFF, 0xFF));
     NNS_G3dGeSendDL(drawListShadow, sizeof(drawListShadow));

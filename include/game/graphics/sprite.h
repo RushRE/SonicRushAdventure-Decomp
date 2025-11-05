@@ -480,10 +480,18 @@ typedef struct Animator3D_
     MatrixOpTypes matrixOpIDs[ANIMATOR3D_MATRIXOP_COUNT]; // TODO: rename this to 'commandList' or something similar.
     void (*matrixCallback)(struct Animator3D_ *animator); // TODO: rename this to 'commandListCallback' or something similar.
     VecFx32 scale;
-    MtxFx33 rotation;
-    VecFx32 translation;
+    union
+    {
+        struct
+        {
+            FXMatrix33 rotation;
+            VecFx32 translation;
+        };
+
+        FXMatrix43 mtxRotTranslate;
+    };
     VecFx32 translation2;
-    MtxFx43 matrix43;
+    FXMatrix43 matrix43;
 } Animator3D;
 
 typedef struct AnimatorMDL_

@@ -97,9 +97,9 @@ void MoveSailSea(fx32 speed)
     move.y = MultiplyFX(speed, FLOAT_TO_FX32(64.0));
     move.z = FLOAT_TO_FX32(0.0);
 
-    MtxFx43 matrix;
-    MTX_RotZ43(&matrix, SinFX(sea->voyageAngle), CosFX(sea->voyageAngle));
-    MTX_MultVec43(&move, &matrix, &move);
+    FXMatrix43 matrix;
+    MTX_RotZ43(matrix.nnMtx, SinFX(sea->voyageAngle), CosFX(sea->voyageAngle));
+    MTX_MultVec43(&move, matrix.nnMtx, &move);
 
     VEC_Add(&sea->translation, &move, &sea->translation);
     sea->translation.x &= ~0xFF000000;
@@ -277,23 +277,23 @@ void SailSea_Draw(SailSea *work)
     VecFx32 translation = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0) };
     VecFx32 scale       = { FLOAT_TO_FX32(16.0), FLOAT_TO_FX32(16.0), FLOAT_TO_FX32(16.0) };
 
-    MtxFx33 rotation;
-    MTX_Identity33(&rotation);
+    FXMatrix33 rotation;
+    MTX_Identity33(rotation.nnMtx);
 
     NNS_G3dGlbSetBaseScale(&scale);
-    MTX_RotY33(&rotation, SinFX((s32)(u16)(work->voyageAngle + work->playerAngle)), CosFX((s32)(u16)(work->voyageAngle + work->playerAngle)));
-    NNS_G3dGlbSetBaseRot(&rotation);
+    MTX_RotY33(rotation.nnMtx, SinFX((s32)(u16)(work->voyageAngle + work->playerAngle)), CosFX((s32)(u16)(work->voyageAngle + work->playerAngle)));
+    NNS_G3dGlbSetBaseRot(rotation.nnMtx);
     NNS_G3dGlbSetBaseTrans(&translation);
 
-    MtxFx43 mtxTexture;
-    MtxFx43 mtxTexTranslate;
+    FXMatrix43 mtxTexture;
+    FXMatrix43 mtxTexTranslate;
     NNS_G3dGeMtxMode(GX_MTXMODE_TEXTURE);
-    MTX_Identity43(&mtxTexture);
-    MTX_Identity43(&mtxTexTranslate);
-    MTX_RotZ43(&mtxTexture, SinFX((s32)(u16)(work->voyageAngle + work->playerAngle)), CosFX((s32)(u16)(work->voyageAngle + work->playerAngle)));
-    MTX_TransApply43(&mtxTexTranslate, &mtxTexTranslate, work->translation.x, work->translation.y, work->translation.z);
-    MTX_Concat43(&mtxTexture, &mtxTexTranslate, &mtxTexture);
-    NNS_G3dGeLoadMtx43(&mtxTexture);
+    MTX_Identity43(mtxTexture.nnMtx);
+    MTX_Identity43(mtxTexTranslate.nnMtx);
+    MTX_RotZ43(mtxTexture.nnMtx, SinFX((s32)(u16)(work->voyageAngle + work->playerAngle)), CosFX((s32)(u16)(work->voyageAngle + work->playerAngle)));
+    MTX_TransApply43(mtxTexTranslate.nnMtx, mtxTexTranslate.nnMtx, work->translation.x, work->translation.y, work->translation.z);
+    MTX_Concat43(mtxTexture.nnMtx, mtxTexTranslate.nnMtx, mtxTexture.nnMtx);
+    NNS_G3dGeLoadMtx43(mtxTexture.nnMtx);
 
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
     NNS_G3dGlbFlushVP();

@@ -939,7 +939,7 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
     Camera3D defaultCamera3D;
     MtxFx44 backupNNS_G3dGlb_projMtx;
     VecFx32 copyScale;
-    MtxFx33 mat33Rotations;
+    FXMatrix33 mat33Rotations;
     fx32 xCameraFunc;
     fx32 yCameraFunc;
     u16 baseAngleRotationAroundYAxis;
@@ -1087,15 +1087,19 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
 
     if (((copyStageDisplayFlags & DISPLAY_FLAG_DISABLE_ROTATION) == 0) && (disablePosition == FALSE))
     {
-        MTX_Identity33(&animator->rotation);
-        MTX_RotY33(&mat33Rotations, FX_SIN_AND_COS(baseAngleRotationAroundYAxis));
-        MTX_Concat33(&animator->rotation, &mat33Rotations, &animator->rotation);
-        MTX_RotX33(&mat33Rotations, FX_SIN_AND_COS(-dir->x));
-        MTX_Concat33(&animator->rotation, &mat33Rotations, &animator->rotation);
-        MTX_RotY33(&mat33Rotations, FX_SIN_AND_COS(-dir->y));
-        MTX_Concat33(&animator->rotation, &mat33Rotations, &animator->rotation);
-        MTX_RotZ33(&mat33Rotations, FX_SIN_AND_COS(-dir->z));
-        MTX_Concat33(&animator->rotation, &mat33Rotations, &animator->rotation);
+        MTX_Identity33(animator->rotation.nnMtx);
+
+        MTX_RotY33(mat33Rotations.nnMtx, FX_SIN_AND_COS(baseAngleRotationAroundYAxis));
+        MTX_Concat33(animator->rotation.nnMtx, mat33Rotations.nnMtx, animator->rotation.nnMtx);
+
+        MTX_RotX33(mat33Rotations.nnMtx, FX_SIN_AND_COS(-dir->x));
+        MTX_Concat33(animator->rotation.nnMtx, mat33Rotations.nnMtx, animator->rotation.nnMtx);
+
+        MTX_RotY33(mat33Rotations.nnMtx, FX_SIN_AND_COS(-dir->y));
+        MTX_Concat33(animator->rotation.nnMtx, mat33Rotations.nnMtx, animator->rotation.nnMtx);
+
+        MTX_RotZ33(mat33Rotations.nnMtx, FX_SIN_AND_COS(-dir->z));
+        MTX_Concat33(animator->rotation.nnMtx, mat33Rotations.nnMtx, animator->rotation.nnMtx);
     }
 
     fx32 xScaled = FLOAT_TO_FX32(1.0), yScaled = FLOAT_TO_FX32(1.0), zScaled = FLOAT_TO_FX32(1.0);
@@ -1448,7 +1452,7 @@ void StageTask__Move(StageTask *work)
 
 void StageTask__ObjectSpdDirFall(fx32 *velX, fx32 *velY, u16 fallDir)
 {
-    MtxFx33 matrix;
+    FXMatrix33 matrix;
 
     fx32 x = 0;
     fx32 y = 0;
@@ -1459,14 +1463,14 @@ void StageTask__ObjectSpdDirFall(fx32 *velX, fx32 *velY, u16 fallDir)
     if (velY != NULL)
         y = *velY;
 
-    MTX_Identity33(&matrix);
-    MTX_RotZ33(&matrix, SinFX((s32)fallDir), CosFX((s32)fallDir));
+    MTX_Identity33(matrix.nnMtx);
+    MTX_RotZ33(matrix.nnMtx, SinFX((s32)fallDir), CosFX((s32)fallDir));
 
     VecFx32 velocity;
     velocity.x = x;
     velocity.y = y;
     velocity.z = 0;
-    MTX_MultVec33(&velocity, &matrix, &velocity);
+    MTX_MultVec33(&velocity, matrix.nnMtx, &velocity);
 
     if (velX != NULL)
         *velX = velocity.x;

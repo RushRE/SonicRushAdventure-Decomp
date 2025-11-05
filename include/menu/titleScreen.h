@@ -38,8 +38,8 @@ typedef struct TitleScreenWorldControl_
     void *texAniCutscene;
     void *visAniCutscene;
     void *drawStateCutscene;
-    MtxFx43 mtxCamera;
-    MtxFx43 mtxTarget;
+    FXMatrix43 mtxCamera;
+    FXMatrix43 mtxTarget;
     Camera3D cameraConfig;
     fx32 matProjPositionY;
 

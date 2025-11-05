@@ -69,9 +69,9 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
                       VRAMKEY_TO_KEY(work->aniDiveStand[0].animatorSprite.vramPixels) & 0x7FFFF);
     G3C_MtxMode(&work->drawList, GX_MTXMODE_TEXTURE);
 
-    MtxFx43 mtx;
-    MTX_Identity43(&mtx);
-    G3C_LoadMtx43(&work->drawList, &mtx);
+    FXMatrix43 mtx;
+    MTX_Identity43(mtx.nnMtx);
+    G3C_LoadMtx43(&work->drawList, mtx.nnMtx);
     G3C_MtxMode(&work->drawList, GX_MTXMODE_POSITION);
 
     work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
@@ -576,14 +576,14 @@ NONMATCH_FUNC void DiveStand__State_Active(DiveStand *work)
     work->vertices[0][0] = v69;
     work->vertices[0][1] = v68;
 
-    MtxFx43 mtxIdentity;
-    MtxFx43 mtxSegment;
-    MtxFx43 mtxVertex;
-    MtxFx43 mtxTranslate;
-    MTX_Identity43(&mtxIdentity);
-    MI_CpuCopy32(&mtxIdentity, &mtxVertex, sizeof(mtxVertex));
-    MI_CpuCopy32(&mtxIdentity, &mtxTranslate, sizeof(mtxTranslate));
-    MTX_TransApply43(&mtxTranslate, &mtxTranslate, upper.x, upper.y, upper.z);
+    FXMatrix43 mtxIdentity;
+    FXMatrix43 mtxSegment;
+    FXMatrix43 mtxVertex;
+    FXMatrix43 mtxTranslate;
+    MTX_Identity43(mtxIdentity.nnMtx);
+    MI_CpuCopy32(mtxIdentity.nnMtx, mtxVertex.nnMtx, sizeof(mtxVertex));
+    MI_CpuCopy32(mtxIdentity.nnMtx, mtxTranslate.nnMtx, sizeof(mtxTranslate));
+    MTX_TransApply43(mtxTranslate.nnMtx, mtxTranslate.nnMtx, upper.x, upper.y, upper.z);
 
     {
         VecFx32 *vertices = &work->vertices[1][0];
@@ -592,13 +592,13 @@ NONMATCH_FUNC void DiveStand__State_Active(DiveStand *work)
         {
             for (i = 0; i < 24; i++)
             {
-                MI_CpuCopy32(&mtxIdentity, &mtxSegment, sizeof(mtxSegment));
+                MI_CpuCopy32(mtxIdentity.nnMtx, mtxSegment.nnMtx, sizeof(mtxSegment));
                 VEC_Set(&lower, MultiplyFX(CosFX(*angles), v29), -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
-                MTX_MultVec43(&upper, &mtxVertex, &vertices[0]);
-                MTX_MultVec43(&lower, &mtxVertex, &vertices[1]);
-                MTX_RotZ33((MtxFx33 *)&mtxSegment, SinFX(*angles), CosFX(*angles));
-                MTX_Concat43(&mtxSegment, &mtxTranslate, &mtxSegment);
-                MTX_Concat43(&mtxSegment, &mtxVertex, &mtxVertex);
+                MTX_MultVec43(&upper, mtxVertex.nnMtx, &vertices[0]);
+                MTX_MultVec43(&lower, mtxVertex.nnMtx, &vertices[1]);
+                MTX_RotZ33(mtxSegment.nnMtx33, SinFX(*angles), CosFX(*angles));
+                MTX_Concat43(mtxSegment.nnMtx, mtxTranslate.nnMtx, mtxSegment.nnMtx);
+                MTX_Concat43(mtxSegment.nnMtx, mtxVertex.nnMtx, mtxVertex.nnMtx);
 
                 angles++;
                 vertices += 2;
@@ -608,13 +608,13 @@ NONMATCH_FUNC void DiveStand__State_Active(DiveStand *work)
         {
             for (i = 0; i < 24; i++)
             {
-                MI_CpuCopy32(&mtxIdentity, &mtxSegment, sizeof(mtxSegment));
+                MI_CpuCopy32(mtxIdentity.nnMtx, mtxSegment.nnMtx, sizeof(mtxSegment));
                 VEC_Set(&lower, MultiplyFX(CosFX(*angles), v29), -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
-                MTX_MultVec43(&upper, &mtxVertex, &vertices[0]);
-                MTX_MultVec43(&lower, &mtxVertex, &vertices[1]);
-                MTX_RotZ33((MtxFx33 *)&mtxSegment, SinFX((s32)(u16) - *angles), CosFX((s32)(u16) - *angles));
-                MTX_Concat43(&mtxSegment, &mtxTranslate, &mtxSegment);
-                MTX_Concat43(&mtxSegment, &mtxVertex, &mtxVertex);
+                MTX_MultVec43(&upper, mtxVertex.nnMtx, &vertices[0]);
+                MTX_MultVec43(&lower, mtxVertex.nnMtx, &vertices[1]);
+                MTX_RotZ33(mtxSegment.nnMtx33, SinFX((s32)(u16) - *angles), CosFX((s32)(u16) - *angles));
+                MTX_Concat43(mtxSegment.nnMtx, mtxTranslate.nnMtx, mtxSegment.nnMtx);
+                MTX_Concat43(mtxSegment.nnMtx, mtxVertex.nnMtx, mtxVertex.nnMtx);
 
                 angles++;
                 vertices += 2;
@@ -1300,11 +1300,11 @@ void DiveStand__Draw(void)
 
     VecFx32 baseTranslation;
     s32 v;
-    MtxFx33 baseRot;
-    MTX_Identity33(&baseRot);
+    FXMatrix33 baseRot;
+    MTX_Identity33(baseRot.nnMtx);
     GameObject__TransformWorldToScreen(&work->gameWork.objWork.position, &baseTranslation, &matTrans, FALSE);
     NNS_G3dGlbSetBaseScale(&baseScale);
-    NNS_G3dGlbSetBaseRot(&baseRot);
+    NNS_G3dGlbSetBaseRot(baseRot.nnMtx);
     NNS_G3dGlbSetBaseTrans(&baseTranslation);
 
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);

@@ -1,7 +1,7 @@
 #ifndef RUSH_CPPMATH_HPP
 #define RUSH_CPPMATH_HPP
 
-#include <global.h>
+#include <game/math/mtMath.h>
 
 // --------------------
 // CFUNCTIONS
@@ -107,8 +107,8 @@ struct CMatrix33
 
     static CVector3 *MultiplyVector(CVector3 &lhs, const CMatrix33 *rhs);
 
-    static void MtxFx33_Copy33To43(const MtxFx33 *src, MtxFx43 *dst);
-    static void MtxFx33_MultiplyVec(VecFx32 &vec, const MtxFx33 *mtx);
+    static void FXMatrix33_Copy33To43(const FXMatrix33 *src, FXMatrix43 *dst);
+    static void FXMatrix33_MultiplyVec(VecFx32 &vec, const FXMatrix33 *mtx);
 
     // --------------------
     // OPERATOR OVERLOADS
@@ -116,8 +116,8 @@ struct CMatrix33
 
     // These are probably typecast overloads. However, those don't appear to work with the compiler?
     // so for now, they're manual functions
-    MtxFx33 *ToMtxFx33() const;
-    const MtxFx33 *ToConstMtxFx33() const;
+    FXMatrix33 *ToFXMatrix33() const;
+    const FXMatrix33 *ToConstFXMatrix33() const;
 };
 
 // --------------------

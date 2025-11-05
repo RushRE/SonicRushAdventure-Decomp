@@ -63,6 +63,53 @@ typedef struct VecU16_
     u16 z;
 } VecU16;
 
+// This struct is a wrapper around "MtxFx33" for various types of member access
+typedef union FXMatrix33_
+{
+    struct
+    {
+        fx32 _00, _01, _02;
+        fx32 _10, _11, _12;
+        fx32 _20, _21, _22;
+    };
+    
+    fx32 m[3][3];
+    fx32 a[9];
+
+    VecFx32 row[3];
+
+    MtxFx33 nnMtx[1];
+} FXMatrix33;
+
+// This struct is a wrapper around "MtxFx43" for various types of member access
+typedef union FXMatrix43_
+{
+    struct
+    {
+        fx32 _00, _01, _02;
+        fx32 _10, _11, _12;
+        fx32 _20, _21, _22;
+        fx32 _30, _31, _32;
+    };
+
+    fx32 m[4][3];
+    fx32 a[12];
+
+    struct 
+    {
+        VecFx32 row[4];
+    };
+
+    struct 
+    {
+        MtxFx33 nnMtx33[1];
+        VecFx32 translation;
+    };
+
+    FXMatrix33 mtx33;
+    MtxFx43 nnMtx[1];
+} FXMatrix43;
+
 // --------------------
 // VARIABLES
 // --------------------

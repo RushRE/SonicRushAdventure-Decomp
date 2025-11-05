@@ -100,10 +100,10 @@ typedef struct OpeningWorldControl_
     void *texAniCutscene;
     void *visAniCutscene;
     void *drawStateCutscene[5];
-    MtxFx43 matCamera1;
-    MtxFx43 matTarget1;
-    MtxFx43 matCamera2;
-    MtxFx43 matTarget2;
+    FXMatrix43 matCamera1;
+    FXMatrix43 matTarget1;
+    FXMatrix43 matCamera2;
+    FXMatrix43 matTarget2;
     Camera3D camera;
     fx32 matProjPosY;
     AnimatorMDL animators[OPENING_ANIMATOR_COUNT];

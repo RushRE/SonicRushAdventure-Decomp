@@ -238,14 +238,14 @@ NONMATCH_FUNC void SpringCrystal_HandleInteractions(OBS_RECT_WORK *rect1, OBS_RE
                 break;
         }
 
-        MtxFx33 mtx;
+        FXMatrix33 mtx;
         VecFx32 dest;
         dest.x = playerX - crystalX;
         dest.y = playerY - crystalY;
         dest.z = 0;
 
-        MTX_RotZ33(&mtx, SinFX((s32)angle), CosFX((s32)angle));
-        MTX_MultVec33(&dest, &mtx, &dest);
+        MTX_RotZ33(mtx.nnMtx, SinFX((s32)angle), CosFX((s32)angle));
+        MTX_MultVec33(&dest, mtx.nnMtx, &dest);
 
         playerX = dest.x + crystalX;
         playerY = dest.y + crystalY;

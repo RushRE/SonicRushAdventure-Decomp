@@ -210,7 +210,7 @@ u16 BossHelpers__Arena__GetObjectDrawMtx(StageTask *work, AnimatorMDL *animator,
     else
         angleOffset = FLOAT_DEG_TO_IDX(90.0);
 
-    MTX_RotY33(&animator->work.rotation, SinFX((s32)(u16)(angleOffset + angle)), CosFX((s32)(u16)(angleOffset + angle)));
+    MTX_RotY33(animator->work.rotation.nnMtx, SinFX((s32)(u16)(angleOffset + angle)), CosFX((s32)(u16)(angleOffset + angle)));
 
     return angle;
 }
@@ -271,11 +271,11 @@ NONMATCH_FUNC void BossHelpers__Model__Init(void *resMdl, const char *jointName,
 #endif
 }
 
-void BossHelpers__Model__SetMatrixMode(s32 id, MtxFx43 *mtx)
+void BossHelpers__Model__SetMatrixMode(s32 id, FXMatrix43 *mtx)
 {
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
     NNS_G3dGeRestoreMtx(id);
-    NNS_G3dGetCurrentMtx(mtx, NULL);
+    NNS_G3dGetCurrentMtx(mtx->nnMtx, NULL);
 }
 
 NONMATCH_FUNC void BossHelpers__Model__RenderCallback(NNSG3dRS *rs)
@@ -392,47 +392,12 @@ void BossHelpers__Collision__InitArenaCollider(OBS_RECT_WORK *srcCollider, OBS_R
     StageTask__HandleCollider(dstCollider->parent, dstCollider);
 }
 
-NONMATCH_FUNC void BossHelpers__Collision__HandleArenaCollider(OBS_RECT_WORK *srcCollider, OBS_RECT_WORK *dstCollider, VecFx32 *translation, fx32 start, fx32 end, fx32 radius)
+void BossHelpers__Collision__HandleArenaCollider(OBS_RECT_WORK *srcCollider, OBS_RECT_WORK *dstCollider, VecFx32 *translation, fx32 start, fx32 end, fx32 radius)
 {
-    // https://decomp.me/scratch/66bK2 -> 79.07%
-#ifdef NON_MATCHING
     fx32 position;
 
     BossHelpers__Arena__GetPosition(&position, start, end, radius, translation->x, translation->z);
-    BossHelpers__Collision__InitArenaCollider(srcCollider, dstCollider, position, -translation->y, start, end);
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	sub sp, sp, #0x10
-	mov r4, r2
-	ldr r2, [r4, #0]
-	mov r7, r3
-	str r2, [sp]
-	ldr ip, [r4, #8]
-	mov r6, r0
-	mov r5, r1
-	ldr r2, [sp, #0x28]
-	ldr r3, [sp, #0x2c]
-	add r0, sp, #0xc
-	mov r1, r7
-	str ip, [sp, #4]
-	bl BossHelpers__Arena__GetPosition
-	ldr r1, [sp, #0x28]
-	str r7, [sp]
-	str r1, [sp, #4]
-	ldr r0, [sp, #0x2c]
-	mov r1, r5
-	str r0, [sp, #8]
-	ldr r3, [r4, #4]
-	ldr r2, [sp, #0xc]
-	mov r0, r6
-	rsb r3, r3, #0
-	bl BossHelpers__Collision__InitArenaCollider
-	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
+    BossHelpers__Collision__InitArenaCollider(srcCollider, dstCollider, position, -translation->y, start, end, radius);
 }
 
 NONMATCH_FUNC BOOL BossHelpers__Player__IsAlive(Player *player)

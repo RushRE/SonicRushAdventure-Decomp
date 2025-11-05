@@ -1337,7 +1337,7 @@ void CViDock::DrawShipConstructedBG(CViDock *work)
 
     VecFx32 translation;
     VecFx32 scale;
-    MtxFx33 mtxRot;
+    FXMatrix33 mtxRot;
 
     translation.x = FLOAT_TO_FX32(0.0);
     translation.y = FLOAT_TO_FX32(0.0);
@@ -1347,11 +1347,11 @@ void CViDock::DrawShipConstructedBG(CViDock *work)
     scale.y = FLOAT_TO_FX32(768.0);
     scale.z = FLOAT_TO_FX32(1.0);
 
-    MTX_Identity33(&mtxRot);
+    MTX_Identity33(mtxRot.nnMtx);
 
     NNS_G3dGlbSetBaseTrans(&translation);
     NNS_G3dGlbSetBaseScale(&scale);
-    NNS_G3dGlbSetBaseRot(&mtxRot);
+    NNS_G3dGlbSetBaseRot(mtxRot.nnMtx);
     NNS_G3dGlbFlushAlt();
 
     NNS_G3dGePolygonAttr(GX_LIGHTMASK_NONE, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, GX_COLOR_FROM_888(0xFF), GX_POLYGON_ATTR_MISC_NONE);

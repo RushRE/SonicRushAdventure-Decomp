@@ -457,7 +457,7 @@ BossFX3D *BossFX__CreateWhaleTsunami2(BossFX3DFlags flags, fx32 x, fx32 y, fx32 
     return effect;
 }
 
-BossFX3D *BossFX__CreateWhaleSplashB(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, MtxFx33 *mtx)
+BossFX3D *BossFX__CreateWhaleSplashB(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, FXMatrix33 *mtx)
 {
 
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef5_splash_b", B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z,
@@ -587,7 +587,7 @@ BossFX3D *BossFX__CreateCondorExplode1(BossFX3DFlags flags, fx32 x, fx32 y, fx32
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef6_f_exp01",
                                         B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, NULL);
     effect->objWork.flag |= DISPLAY_FLAG_DISABLE_DRAW;
-    MTX_RotX33(&effect->aniModel.ani.work.rotation, SinFX(FLOAT_DEG_TO_IDX(29.970703125)), CosFX(FLOAT_DEG_TO_IDX(29.970703125)));
+    MTX_RotX33(effect->aniModel.ani.work.rotation.nnMtx, SinFX(FLOAT_DEG_TO_IDX(29.970703125)), CosFX(FLOAT_DEG_TO_IDX(29.970703125)));
 
     return effect;
 }
@@ -651,7 +651,7 @@ BossFX2D *BossFX__CreateTitanBomb(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z)
     return effect;
 }
 
-BossFX3D *BossFX__CreateTitanFlashG(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, MtxFx33 *mtx)
+BossFX3D *BossFX__CreateTitanFlashG(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, FXMatrix33 *mtx)
 {
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef8_g_flash", B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z,
                                         &TitanFlashG_ReferenceCount);
@@ -666,7 +666,7 @@ BossFX3D *BossFX__CreateTitanFlashG(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z,
     return effect;
 }
 
-BossFX3D *BossFX__CreateTitanFlashC(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, MtxFx33 *mtx)
+BossFX3D *BossFX__CreateTitanFlashC(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, FXMatrix33 *mtx)
 {
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef8_c_flash", B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z,
                                         &TitanFlashC_ReferenceCount);

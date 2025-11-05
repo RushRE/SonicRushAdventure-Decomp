@@ -127,11 +127,11 @@ void ExUtils_ResetRenderTransform(void)
 {
     VecFx32 translation = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0) };
     VecFx32 scale       = { FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0) };
-    MtxFx33 rotation;
+    FXMatrix33 rotation;
 
-    MTX_Identity33(&rotation);
+    MTX_Identity33(rotation.nnMtx);
     NNS_G3dGlbSetBaseScale(&scale);
-    NNS_G3dGlbSetBaseRot(&rotation);
+    NNS_G3dGlbSetBaseRot(rotation.nnMtx);
     NNS_G3dGlbSetBaseTrans(&translation);
 }
 

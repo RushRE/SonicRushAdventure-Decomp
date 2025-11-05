@@ -192,13 +192,13 @@ void CViDockCamera::Process()
 
     this->projFOV = this->targetState.projFOV;
 
-    MtxFx33 mtx;
-    MtxFx33 mtx2;
-    MTX_RotX33(&mtx, SinFX(this->targetState.angle1), CosFX(this->targetState.angle1));
-    MTX_RotY33(&mtx2, SinFX((s32)(u16)(this->targetState.angle2 - FLOAT_DEG_TO_IDX(180.0))), CosFX((s32)(u16)(this->targetState.angle2 - FLOAT_DEG_TO_IDX(180.0))));
-    MTX_Concat33(&mtx, &mtx2, &mtx);
-    MTX_MultVec33(&this->camPos, &mtx, &this->camPos);
-    MTX_MultVec33(&this->camUp, &mtx, &this->camUp);
+    FXMatrix33 mtx;
+    FXMatrix33 mtx2;
+    MTX_RotX33(mtx.nnMtx, SinFX(this->targetState.angle1), CosFX(this->targetState.angle1));
+    MTX_RotY33(mtx2.nnMtx, SinFX((s32)(u16)(this->targetState.angle2 - FLOAT_DEG_TO_IDX(180.0))), CosFX((s32)(u16)(this->targetState.angle2 - FLOAT_DEG_TO_IDX(180.0))));
+    MTX_Concat33(mtx.nnMtx, mtx2.nnMtx, mtx.nnMtx);
+    MTX_MultVec33(&this->camPos, mtx.nnMtx, &this->camPos);
+    MTX_MultVec33(&this->camUp, mtx.nnMtx, &this->camUp);
     VEC_Add(&this->camPos, &this->camTarget, &this->camPos);
 }
 
@@ -292,8 +292,8 @@ void CViDockCamera::InitLights(DirLight *lights, DockArea dockArea, void *drawSt
         case CViDockCamera::TYPE_DOCK: {
             const CViDockBackAreaConfig *config = HubConfig__GetDockBackInfo(dockArea);
 
-            MtxFx33 mtx;
-            MTX_RotY33(&mtx, SinFX(config->dockRotationY), CosFX(config->dockRotationY));
+            FXMatrix33 mtx;
+            MTX_RotY33(mtx.nnMtx, SinFX(config->dockRotationY), CosFX(config->dockRotationY));
 
             for (s32 i = 0; i < 4; i++)
             {
@@ -301,7 +301,7 @@ void CViDockCamera::InitLights(DirLight *lights, DockArea dockArea, void *drawSt
                 dir.x = gxLights[i].dir.x;
                 dir.y = gxLights[i].dir.y;
                 dir.z = gxLights[i].dir.z;
-                MTX_MultVec33(&dir, &mtx, &dir);
+                MTX_MultVec33(&dir, mtx.nnMtx, &dir);
                 lights[i].dir.x = dir.x;
                 lights[i].dir.y = dir.y;
                 lights[i].dir.z = dir.z;

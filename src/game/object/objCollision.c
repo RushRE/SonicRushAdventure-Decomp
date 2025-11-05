@@ -1741,12 +1741,12 @@ s32 ObjCollisionObjectFastCheck(OBS_COL_CHK_DATA *colWork)
             colWorkCopy.y = colWork->y;
             if ((collisionWork->flag & STAGE_TASK_OBJCOLLISION_FLAG_ROTATE_USING_TILE_ANGLE) != 0 && collisionWork->check_dir != FLOAT_DEG_TO_IDX(0.0))
             {
-                MtxFx33 matRot;
+                FXMatrix33 matRot;
                 VecFx32 rotPos;
                 VEC_Set(&rotPos, FX32_FROM_WHOLE(colWorkCopy.x) - collisionWork->check_pos.x, FX32_FROM_WHOLE(colWorkCopy.y) - collisionWork->check_pos.y, 0);
 
-                MTX_RotZ33(&matRot, SinFX((s32)(u16)-collisionWork->check_dir), CosFX((s32)(u16)-collisionWork->check_dir));
-                MTX_MultVec33(&rotPos, &matRot, &rotPos);
+                MTX_RotZ33(matRot.nnMtx, SinFX((s32)(u16)-collisionWork->check_dir), CosFX((s32)(u16)-collisionWork->check_dir));
+                MTX_MultVec33(&rotPos, matRot.nnMtx, &rotPos);
                 colWorkCopy.x = FX32_TO_WHOLE(rotPos.x + collisionWork->check_pos.x);
                 colWorkCopy.y = FX32_TO_WHOLE(rotPos.y + collisionWork->check_pos.y);
             }
@@ -1888,12 +1888,12 @@ s32 ObjCollisionObjectCheck(StageTask *work, OBS_COL_CHK_DATA *colWork)
             colWorkCopy.y = colWork->y;
             if ((collisionWork->flag & STAGE_TASK_OBJCOLLISION_FLAG_ROTATE_USING_TILE_ANGLE) != 0 && collisionWork->check_dir != FLOAT_DEG_TO_IDX(0.0))
             {
-                MtxFx33 matRot;
+                FXMatrix33 matRot;
                 VecFx32 rotPos;
                 VEC_Set(&rotPos, FX32_FROM_WHOLE(colWorkCopy.x) - collisionWork->check_pos.x, FX32_FROM_WHOLE(colWorkCopy.y) - collisionWork->check_pos.y, 0);
 
-                MTX_RotZ33(&matRot, SinFX((s32)(u16)-collisionWork->check_dir), CosFX((s32)(u16)-collisionWork->check_dir));
-                MTX_MultVec33(&rotPos, &matRot, &rotPos);
+                MTX_RotZ33(matRot.nnMtx, SinFX((s32)(u16)-collisionWork->check_dir), CosFX((s32)(u16)-collisionWork->check_dir));
+                MTX_MultVec33(&rotPos, matRot.nnMtx, &rotPos);
                 colWorkCopy.x = FX32_TO_WHOLE(rotPos.x + collisionWork->check_pos.x);
                 colWorkCopy.y = FX32_TO_WHOLE(rotPos.y + collisionWork->check_pos.y);
             }

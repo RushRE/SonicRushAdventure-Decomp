@@ -277,9 +277,9 @@ void SailObject_HandleParentFollow(StageTask *work)
     work->dir.y = parent->dir.y;
 
     VecFx32 offset;
-    MtxFx33 mtx;
-    MTX_RotY33(&mtx, SinFX(work->dir.y), CosFX(work->dir.y));
-    MTX_MultVec33(&work->parentOffset, &mtx, &offset);
+    FXMatrix33 mtx;
+    MTX_RotY33(mtx.nnMtx, SinFX(work->dir.y), CosFX(work->dir.y));
+    MTX_MultVec33(&work->parentOffset, mtx.nnMtx, &offset);
 
     work->position.x = parent->position.x + offset.x;
     work->position.y = parent->position.y + offset.y;
@@ -310,25 +310,25 @@ void SailObject_ApplyRotation(StageTask *work)
         return;
     }
 
-    MtxFx33 mtx;
-    MTX_Identity33(&animator->rotation);
+    FXMatrix33 mtx;
+    MTX_Identity33(animator->rotation.nnMtx);
 
     if (work->dir.x != FLOAT_DEG_TO_IDX(0.0))
     {
-        MTX_RotX33(&mtx, SinFX((s32)work->dir.x), CosFX((s32)work->dir.x));
-        MTX_Concat33(&animator->rotation, &mtx, &animator->rotation);
+        MTX_RotX33(mtx.nnMtx, SinFX((s32)work->dir.x), CosFX((s32)work->dir.x));
+        MTX_Concat33(animator->rotation.nnMtx, mtx.nnMtx, animator->rotation.nnMtx);
     }
 
     if (work->dir.z != FLOAT_DEG_TO_IDX(0.0))
     {
-        MTX_RotZ33(&mtx, SinFX((s32)work->dir.z), CosFX((s32)work->dir.z));
-        MTX_Concat33(&animator->rotation, &mtx, &animator->rotation);
+        MTX_RotZ33(mtx.nnMtx, SinFX((s32)work->dir.z), CosFX((s32)work->dir.z));
+        MTX_Concat33(animator->rotation.nnMtx, mtx.nnMtx, animator->rotation.nnMtx);
     }
 
     if (work->dir.y != FLOAT_DEG_TO_IDX(0.0))
     {
-        MTX_RotY33(&mtx, SinFX((s32)work->dir.y), CosFX((s32)work->dir.y));
-        MTX_Concat33(&animator->rotation, &mtx, &animator->rotation);
+        MTX_RotY33(mtx.nnMtx, SinFX((s32)work->dir.y), CosFX((s32)work->dir.y));
+        MTX_Concat33(animator->rotation.nnMtx, mtx.nnMtx, animator->rotation.nnMtx);
     }
 }
 
@@ -2081,7 +2081,7 @@ void SailObject_HandleLookAt(StageTask *work)
 
 void SailObject_LookAt(StageTask *work, VecFx32 *vecFrom, VecFx32 *vecTo)
 {
-    MtxFx43 mtx;
+    FXMatrix43 mtx;
 
     OBS_ACTION3D_NN_WORK *animator = work->obj_3d;
 
@@ -2094,7 +2094,7 @@ void SailObject_LookAt(StageTask *work, VecFx32 *vecFrom, VecFx32 *vecTo)
     to.y   = -to.y;
 
     Unknown2066510__LookAt(&from, &to, &up, &mtx);
-    MTX_Copy43To33(&mtx, &animator->ani.work.rotation);
+    MTX_Copy43To33(mtx.nnMtx, animator->ani.work.rotation.nnMtx);
 }
 
 void SailObject_HandleVoyageScroll(StageTask *work, VecFx32 *velocity)
@@ -2236,7 +2236,7 @@ void SailObject_ProcessColliders(void)
             collider = rect->userData;
 
             VecFx32 position;
-            MtxFx33 mtxRotate;
+            FXMatrix33 mtxRotate;
             switch (collider->type)
             {
                 case SAILCOLLIDER_TYPE_BOX: {
@@ -2257,8 +2257,8 @@ void SailObject_ProcessColliders(void)
                     {
                         if (hitCheck->offset.x != 0 || hitCheck->offset.z != 0)
                         {
-                            MTX_RotY33(&mtxRotate, SinFX((s32)hitCheck->angle), CosFX((s32)hitCheck->angle));
-                            MTX_MultVec33(&position, &mtxRotate, &position);
+                            MTX_RotY33(mtxRotate.nnMtx, SinFX((s32)hitCheck->angle), CosFX((s32)hitCheck->angle));
+                            MTX_MultVec33(&position, mtxRotate.nnMtx, &position);
                         }
                     }
 
@@ -6409,14 +6409,14 @@ void SailGoalChaosEmerald_State_Grabbed(StageTask *work)
 
     if (worker->player != NULL)
     {
-        MtxFx33 mtx;
+        FXMatrix33 mtx;
         VecFx32 offset;
 
         offset.x = -FLOAT_TO_FX32(0.25);
         offset.y = -FLOAT_TO_FX32(1.0625);
         offset.z = FLOAT_TO_FX32(0.0);
-        MTX_RotY33(&mtx, SinFX(worker->player->dir.y), CosFX(worker->player->dir.y));
-        MTX_MultVec33(&offset, &mtx, &offset);
+        MTX_RotY33(mtx.nnMtx, SinFX(worker->player->dir.y), CosFX(worker->player->dir.y));
+        MTX_MultVec33(&offset, mtx.nnMtx, &offset);
 
         work->position.x = ObjShiftSet(work->position.x, worker->player->position.x + offset.x, 1, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(2.0));
         work->position.y = ObjShiftSet(work->position.y, worker->player->position.y + offset.y, 1, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(2.0));

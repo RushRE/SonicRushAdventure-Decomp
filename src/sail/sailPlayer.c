@@ -6602,17 +6602,17 @@ NONMATCH_FUNC void SailPlayer__BoatRenderCallback(NNSG3dRS *rs)
 
         NNS_G3dGeScale(invPosScale, invPosScale, invPosScale);
 
-        MtxFx33 mtx;
+        FXMatrix33 mtx;
         if (idxScrewL == NNS_G3dRSGetCurrentNodeDescID(rs))
         {
-            MTX_RotX33(&mtx, SinFX(worker->field_208), CosFX(worker->field_208));
+            MTX_RotX33(mtx.nnMtx, SinFX(worker->field_208), CosFX(worker->field_208));
         }
         else
         {
-            MTX_RotX33(&mtx, SinFX(worker->field_20A), CosFX(worker->field_20A));
+            MTX_RotX33(mtx.nnMtx, SinFX(worker->field_20A), CosFX(worker->field_20A));
         }
 
-        NNS_G3dGeMultMtx33(&mtx);
+        NNS_G3dGeMultMtx33(mtx.nnMtx);
     }
 #else
     // clang-format off

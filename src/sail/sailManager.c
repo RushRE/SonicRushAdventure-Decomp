@@ -416,8 +416,8 @@ void SailManager__Main(void)
         SailPlayer *player = GetStageTaskWorker(work->sailPlayer, SailPlayer);
         s32 angle          = (u16)((u16)-work->voyageManager->angle - player->seaAngle2);
 
-        MtxFx33 mtx;
-        MTX_RotY33(&mtx, SinFX(angle), CosFX(angle));
+        FXMatrix33 mtx;
+        MTX_RotY33(mtx.nnMtx, SinFX(angle), CosFX(angle));
 
         InitSpatialAudioMatrix(&mtx);
         SetSpatialAudioOriginPosition(&work->sailPlayer->position);
@@ -451,9 +451,9 @@ void SailManager__Main(void)
     }
     work->field_30 = 0;
 
-    MtxFx33 matRot;
-    MTX_RotY33(&matRot, SinFX(work->voyageManager->angle), CosFX(work->voyageManager->angle));
-    MTX_MultVec33(&work->initialVelocity, &matRot, &work->velocity);
+    FXMatrix33 matRot;
+    MTX_RotY33(matRot.nnMtx, SinFX(work->voyageManager->angle), CosFX(work->voyageManager->angle));
+    MTX_MultVec33(&work->initialVelocity, matRot.nnMtx, &work->velocity);
 
     // process time of day timer
     if ((work->flags & SAILMANAGER_FLAG_FREEZE_DAYTIME_TIMER) == 0)

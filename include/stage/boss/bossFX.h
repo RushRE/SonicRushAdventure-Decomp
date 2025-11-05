@@ -109,7 +109,7 @@ BossFX2D *BossFX__CreateWhaleIceB(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z, f
 BossFX2D *BossFX__CreateWhaleSpout(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z);
 BossFX3D *BossFX__CreateWhaleTsunami1(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z);
 BossFX3D *BossFX__CreateWhaleTsunami2(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z);
-BossFX3D *BossFX__CreateWhaleSplashB(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, MtxFx33 *mtx);
+BossFX3D *BossFX__CreateWhaleSplashB(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, FXMatrix33 *mtx);
 BossFX2D *BossFX__CreateWhaleSplashC(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z);
 BossFX3D *BossFX__CreateWhaleExplode0(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z);
 BossFX3D *BossFX__CreateWhaleExplode1(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z);
@@ -130,8 +130,8 @@ BossFX3D *BossFX__CreateRivalExplode2(BossFX3DFlags flags, fx32 x, fx32 y, fx32 
 
 // BossF FX
 BossFX2D *BossFX__CreateTitanBomb(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z);
-BossFX3D *BossFX__CreateTitanFlashG(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, MtxFx33 *mtx);
-BossFX3D *BossFX__CreateTitanFlashC(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, MtxFx33 *mtx);
+BossFX3D *BossFX__CreateTitanFlashG(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, FXMatrix33 *mtx);
+BossFX3D *BossFX__CreateTitanFlashC(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, FXMatrix33 *mtx);
 BossFX3D *BossFX__CreateTitanHover(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z);
 BossFX2D *BossFX__CreateTitanLightning(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z);
 BossFX3D *BossFX__CreateTitanBreak(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z);

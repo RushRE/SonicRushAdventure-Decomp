@@ -380,7 +380,7 @@ void SailRingManager_DrawRings(SailRingManager *work)
     aniRingSparkle->work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
 
     Animator3D__Process(&aniRing->work);
-    Camera3D__CopyMatrix3x3(NNS_G3dGlbGetCameraMtx(), &aniRing->work.rotation);
+    Camera3D__CopyMatrix3x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &aniRing->work.rotation);
     aniRingSparkle->work.rotation = aniRing->work.rotation;
 
     for (u16 r = 0; r < SAILRINGMANAGER_RING_LIST_SIZE; r++)

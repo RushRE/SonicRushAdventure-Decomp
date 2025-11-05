@@ -131,7 +131,7 @@ static void InitOpeningCameraForScene(Opening *work, s32 id);
 static void OpeningRenderCallback(NNSG3dRS *rs);
 static void AddOpeningRenderCallback(NNSG3dResMdl *resMdl, const char *name, s16 mtxStore, void (*callback)(NNSG3dRS *context, void *userData), void *userData);
 static s32 GetOpeningNodeDesc(NNSG3dResMdl *resMdl, const char *name);
-static void GetOpeningMatrix(s32 num, MtxFx43 *mtx);
+static void GetOpeningMatrix(s32 num, FXMatrix43 *mtx);
 static void StartOpeningFade(OpeningFadeController *controller, OpeningFadeMode mode, fx32 fadeSpeed);
 static void EndOpeningFade(OpeningFadeController *controller);
 static BOOL ProcessOpeningFade(OpeningFadeController *controller);
@@ -685,11 +685,11 @@ s32 GetOpeningNodeDesc(NNSG3dResMdl *resMdl, const char *name)
     return NNS_G3dGetResDictIdxByName(&resMdl->nodeInfo.dict, &resName);
 }
 
-void GetOpeningMatrix(s32 num, MtxFx43 *mtx)
+void GetOpeningMatrix(s32 num, FXMatrix43 *mtx)
 {
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
     NNS_G3dGeRestoreMtx(num);
-    NNS_G3dGetCurrentMtx(mtx, NULL);
+    NNS_G3dGetCurrentMtx(mtx->nnMtx, NULL);
 }
 
 void StartOpeningFade(OpeningFadeController *controller, OpeningFadeMode mode, fx32 fadeSpeed)

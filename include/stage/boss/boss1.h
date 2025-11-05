@@ -261,8 +261,8 @@ struct Boss1_
     Boss1Action actionType;
     Boss1AttackConfig attackConfig;
     OBS_RECT_WORK bossColliders[10];
-    MtxFx43 mtxWeakPoint;
-    MtxFx43 mtxBodyNeck;
+    FXMatrix43 mtxWeakPoint;
+    FXMatrix43 mtxBodyNeck;
     s32 field_694;
     Boss1Unknown field_698;
     BOOL changedBossPhase;

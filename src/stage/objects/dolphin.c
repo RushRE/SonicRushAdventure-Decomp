@@ -554,28 +554,28 @@ void Dolphin_State_RideActive(Dolphin *work)
             work->gameWork.flags &= ~DOLPHIN_FLAG_PLAYING_BEGIN_ANIM;
         }
 
-        MtxFx33 mtx;
-        MtxFx33 mtxTemp;
+        FXMatrix33 mtx;
+        FXMatrix33 mtxTemp;
 
         work->gameWork.objWork.prevPosition.x = work->gameWork.objWork.position.x;
         work->gameWork.objWork.prevPosition.y = work->gameWork.objWork.position.y;
         work->gameWork.objWork.prevPosition.z = work->gameWork.objWork.position.z;
 
-        MTX_Identity33(&mtx);
+        MTX_Identity33(mtx.nnMtx);
 
-        MTX_RotY33(&mtx, SinFX((s32)(u16)-player->objWork.dir.y), CosFX((s32)(u16)-player->objWork.dir.y));
+        MTX_RotY33(mtx.nnMtx, SinFX((s32)(u16)-player->objWork.dir.y), CosFX((s32)(u16)-player->objWork.dir.y));
         work->gameWork.objWork.dir.y = player->objWork.dir.y;
 
-        MTX_RotZ33(&mtxTemp, SinFX(player->objWork.dir.z), CosFX(player->objWork.dir.z));
+        MTX_RotZ33(mtxTemp.nnMtx, SinFX(player->objWork.dir.z), CosFX(player->objWork.dir.z));
         work->gameWork.objWork.dir.z = player->objWork.dir.z;
 
-        MTX_Concat33(&mtx, &mtxTemp, &mtx);
+        MTX_Concat33(mtx.nnMtx, mtxTemp.nnMtx, mtx.nnMtx);
 
         VecFx32 playerOffset;
         playerOffset.x = FLOAT_TO_FX32(0.0);
         playerOffset.z = FLOAT_TO_FX32(0.0);
         playerOffset.y = FLOAT_TO_FX32(8.0);
-        MTX_MultVec33(&playerOffset, &mtx, &playerOffset);
+        MTX_MultVec33(&playerOffset, mtx.nnMtx, &playerOffset);
 
         work->gameWork.objWork.position.x = player->objWork.position.x + playerOffset.x;
         work->gameWork.objWork.position.y = player->objWork.position.y + playerOffset.y;

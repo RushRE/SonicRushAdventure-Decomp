@@ -1490,18 +1490,18 @@ CutsceneScriptResult CutsceneScript_ModelCommand_SetModelRotation(ScriptThread *
 
     AnimatorMDL *aniModel = CutsceneModelManager_GetModelHandleModel(&work->systemManager, handleSlot);
 
-    MtxFx33 mtx;
-    MtxFx33 mtxTemp;
+    FXMatrix33 mtx;
+    FXMatrix33 mtxTemp;
 
-    MTX_RotY33(&mtx, SinFX((s32)y), CosFX((s32)y));
+    MTX_RotY33(mtx.nnMtx, SinFX((s32)y), CosFX((s32)y));
 
-    MTX_RotX33(&mtxTemp, SinFX((s32)x), CosFX((s32)x));
-    MTX_Concat33(&mtx, &mtxTemp, &mtx);
+    MTX_RotX33(mtxTemp.nnMtx, SinFX((s32)x), CosFX((s32)x));
+    MTX_Concat33(mtx.nnMtx, mtxTemp.nnMtx, mtx.nnMtx);
 
-    MTX_RotZ33(&mtxTemp, SinFX((s32)z), CosFX((s32)z));
-    MTX_Concat33(&mtx, &mtxTemp, &mtx);
+    MTX_RotZ33(mtxTemp.nnMtx, SinFX((s32)z), CosFX((s32)z));
+    MTX_Concat33(mtx.nnMtx, mtxTemp.nnMtx, mtx.nnMtx);
 
-    MI_CpuCopy32(&mtx, &aniModel->work.rotation, sizeof(MtxFx33));
+    MI_CpuCopy32(mtx.nnMtx, &aniModel->work.rotation, sizeof(FXMatrix33));
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
@@ -3509,17 +3509,17 @@ void CutsceneModelManager_SetRenderCallback(CutsceneSystemManager *work, s32 typ
             break;
     }
 
-    MtxFx43 mtx;
+    FXMatrix43 mtx;
     MI_CpuClear16(&mtx, sizeof(mtx));
 
     NNS_G3dGePushMtx();
-    NNS_G3dGeLoadMtx43(&mtx);
+    NNS_G3dGeLoadMtx43(mtx.nnMtx);
     NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_SYS);
     NNS_G3dGePopMtx(1);
 
     NNS_G3dGePushMtx();
-    mtx.m[3][2] = -FLOAT_TO_FX32(1.0);
-    NNS_G3dGeLoadMtx43(&mtx);
+    mtx.translation.z = -FLOAT_TO_FX32(1.0);
+    NNS_G3dGeLoadMtx43(mtx.nnMtx);
     NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_USER);
     NNS_G3dGePopMtx(1);
 }
@@ -3698,21 +3698,21 @@ void CutsceneModelManager_RenderCallback_Double(NNSG3dRS *rs)
 
 void CutsceneModelManager_ConfigureCameraState(CutsceneCamera3D *work)
 {
-    MtxFx43 mtxLookAt;
+    FXMatrix43 mtxLookAt;
 
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
     NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_SYS);
-    NNS_G3dGetCurrentMtx(&mtxLookAt, NULL);
-    work->config.camPos.x = mtxLookAt.m[3][0];
-    work->config.camPos.y = mtxLookAt.m[3][1];
-    work->config.camPos.z = mtxLookAt.m[3][2];
+    NNS_G3dGetCurrentMtx(mtxLookAt.nnMtx, NULL);
+    work->config.camPos.x = mtxLookAt.translation.x;
+    work->config.camPos.y = mtxLookAt.translation.y;
+    work->config.camPos.z = mtxLookAt.translation.z;
 
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
     NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_USER);
-    NNS_G3dGetCurrentMtx(&mtxLookAt, NULL);
-    work->config.camTarget.x = mtxLookAt.m[3][0];
-    work->config.camTarget.y = mtxLookAt.m[3][1];
-    work->config.camTarget.z = mtxLookAt.m[3][2];
+    NNS_G3dGetCurrentMtx(mtxLookAt.nnMtx, NULL);
+    work->config.camTarget.x = mtxLookAt.translation.x;
+    work->config.camTarget.y = mtxLookAt.translation.y;
+    work->config.camTarget.z = mtxLookAt.translation.z;
 
     if (work->active == 2)
     {

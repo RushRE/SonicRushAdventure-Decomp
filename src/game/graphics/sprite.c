@@ -2391,8 +2391,8 @@ void AnimatorMDL__Init(AnimatorMDL *animator, AnimatorFlags flags)
     animator->work.scale.y        = FX_ONE;
     animator->work.scale.x        = FX_ONE;
 
-    MTX_Identity33(&animator->work.rotation);
-    MTX_Identity43(&animator->work.matrix43);
+    MTX_Identity33(animator->work.rotation.nnMtx);
+    MTX_Identity43(animator->work.matrix43.nnMtx);
 
     for (u32 i = 0; i < B3D_ANIM_MAX; i++)
     {
@@ -2605,8 +2605,8 @@ void AnimatorShape3D__Init(AnimatorShape3D *animator, AnimatorFlags flags)
     animator->work.scale.y        = FX_ONE;
     animator->work.scale.x        = FX_ONE;
 
-    MTX_Identity33(&animator->work.rotation);
-    MTX_Identity43(&animator->work.matrix43);
+    MTX_Identity33(animator->work.rotation.nnMtx);
+    MTX_Identity43(animator->work.matrix43.nnMtx);
 
     animator->sendMat = TRUE;
 }
@@ -2649,8 +2649,8 @@ void AnimatorSprite3D__Init(AnimatorSprite3D *animator, u32 flags3D, void *fileD
     animator->work.scale.y        = FX_ONE;
     animator->work.scale.x        = FX_ONE;
 
-    MTX_Identity33(&animator->work.rotation);
-    MTX_Identity43(&animator->work.matrix43);
+    MTX_Identity33(animator->work.rotation.nnMtx);
+    MTX_Identity43(animator->work.matrix43.nnMtx);
 
     AnimatorSprite__Init(&animator->animatorSprite, fileData, animID, flags, 0, PIXEL_MODE_TEXTURE, vramPixels, PALETTE_MODE_TEXTURE, vramPalette, SPRITE_PRIORITY_0,
                          SPRITE_ORDER_0);
@@ -2727,10 +2727,10 @@ void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
     sprite      = frame->spriteList;
     tileDataPos = VRAMKEY_TO_KEY(animator->animatorSprite.vramPixels) & 0x7FFFF;
 
-    MtxFx43 matTranslate;
-    MtxFx43 matTexture;
-    MTX_Identity43(&matTranslate);
-    MTX_Identity43(&matTexture);
+    FXMatrix43 matTranslate;
+    FXMatrix43 matTexture;
+    MTX_Identity43(matTranslate.nnMtx);
+    MTX_Identity43(matTexture.nnMtx);
 
     // direct buffer because we use 'animator->polygonAttr' instead of function params
     NNS_G3dGeBufferOP_N(G3OP_POLYGON_ATTR, &animator->polygonAttr.value, G3OP_POLYGON_ATTR_NPARAMS);
@@ -2758,20 +2758,20 @@ void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
 
         if (flipFlags & SPRITE_OAM_ATTR1_FLIP_X)
         {
-            matTranslate.m[3][0] = FX32_FROM_WHOLE(frame->center.x - OAM_X - size->x);
+            matTranslate.translation.x = FX32_FROM_WHOLE(frame->center.x - OAM_X - size->x);
         }
         else
         {
-            matTranslate.m[3][0] = FX32_FROM_WHOLE(-frame->center.x + OAM_X);
+            matTranslate.translation.x = FX32_FROM_WHOLE(-frame->center.x + OAM_X);
         }
 
         if (flipFlags & SPRITE_OAM_ATTR1_FLIP_Y)
         {
-            matTranslate.m[3][1] = FX32_FROM_WHOLE(frame->center.y - OAM_Y - size->y);
+            matTranslate.translation.y = FX32_FROM_WHOLE(frame->center.y - OAM_Y - size->y);
         }
         else
         {
-            matTranslate.m[3][1] = FX32_FROM_WHOLE(-frame->center.y + OAM_Y);
+            matTranslate.translation.y = FX32_FROM_WHOLE(-frame->center.y + OAM_Y);
         }
 
 #undef OAM_X
@@ -2779,24 +2779,24 @@ void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
 
         if (flipFlags & SPRITE_OAM_ATTR1_FLIP_X)
         {
-            matTexture.m[3][0] = FX32_FROM_WHOLE((size->x - 1) << 4);
-            matTexture.m[0][0] = FX32_FROM_WHOLE(-size->x);
+            matTexture.translation.x = FX32_FROM_WHOLE((size->x - 1) << 4);
+            matTexture.m[0][0]       = FX32_FROM_WHOLE(-size->x);
         }
         else
         {
-            matTexture.m[3][0] = FLOAT_TO_FX32(0.0);
-            matTexture.m[0][0] = FX32_FROM_WHOLE(size->x);
+            matTexture.translation.x = FLOAT_TO_FX32(0.0);
+            matTexture.m[0][0]       = FX32_FROM_WHOLE(size->x);
         }
 
         if (flipFlags & SPRITE_OAM_ATTR1_FLIP_Y)
         {
-            matTexture.m[3][1] = (FX32_FROM_WHOLE(size->y - 1) << 4);
-            matTexture.m[1][1] = FX32_FROM_WHOLE(-size->y);
+            matTexture.translation.y = (FX32_FROM_WHOLE(size->y - 1) << 4);
+            matTexture.m[1][1]       = FX32_FROM_WHOLE(-size->y);
         }
         else
         {
-            matTexture.m[3][1] = FLOAT_TO_FX32(0.0);
-            matTexture.m[1][1] = FX32_FROM_WHOLE(size->y);
+            matTexture.translation.y = FLOAT_TO_FX32(0.0);
+            matTexture.m[1][1]       = FX32_FROM_WHOLE(size->y);
         }
 
         matTranslate.m[0][0] = FX32_FROM_WHOLE(size->x);
@@ -2816,11 +2816,11 @@ void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
                                GX_TEXREPEAT_NONE, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS, pixelAddr);
 
         NNS_G3dGeMtxMode(GX_MTXMODE_TEXTURE);
-        NNS_G3dGeLoadMtx43(&matTexture);
+        NNS_G3dGeLoadMtx43(matTexture.nnMtx);
 
         NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
         NNS_G3dGePushMtx();
-        NNS_G3dGeMultMtx43(&matTranslate);
+        NNS_G3dGeMultMtx43(matTranslate.nnMtx);
         NNS_G3dGeSendDL(drawListSprite3D, sizeof(drawListSprite3D));
         NNS_G3dGePopMtx(1);
     }
@@ -3398,7 +3398,7 @@ s32 BAC_FrameGroupFunc_Unused_11(BACFrameGroupBlockHeader *block, AnimatorSprite
 void Animator3D__HandleMatrixOperations(Animator3D *animator, u32 flags)
 {
     NNS_G3dGlbSetBaseScale(&animator->scale);
-    NNS_G3dGlbSetBaseRot(&animator->rotation);
+    NNS_G3dGlbSetBaseRot(animator->rotation.nnMtx);
     NNS_G3dGlbSetBaseTrans(&animator->translation);
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
 
@@ -3466,10 +3466,10 @@ void Animator3D__MatrixOp_IdentityScale(Animator3D *animator)
 
 void Animator3D__MatrixOp_CopyMtx33To43(Animator3D *animator)
 {
-    MtxFx43 matrix;
+    FXMatrix43 matrix;
 
-    MTX_Copy33To43(&animator->rotation, &matrix);
-    NNS_G3dGeLoadMtx43(&matrix);
+    MTX_Copy33To43(animator->rotation.nnMtx, matrix.nnMtx);
+    NNS_G3dGeLoadMtx43(matrix.nnMtx);
 }
 
 void Animator3D__MatrixOp_IdentityTranslate(Animator3D *animator)
@@ -3486,40 +3486,40 @@ void Animator3D__MatrixOp_IdentityTranslate2(Animator3D *animator)
 
 void Animator3D__MatrixOp_IdentityRotateScale(Animator3D *animator)
 {
-    NNS_G3dGeLoadMtx43((MtxFx43 *)&animator->rotation);
+    NNS_G3dGeLoadMtx43(animator->mtxRotTranslate.nnMtx);
     NNS_G3dGeScaleVec(&animator->scale);
 }
 
 void Animator3D__MatrixOp_IdentityRotateTranslate2Scale(Animator3D *animator)
 {
-    NNS_G3dGeLoadMtx43((MtxFx43 *)&animator->rotation);
+    NNS_G3dGeLoadMtx43(animator->mtxRotTranslate.nnMtx);
     NNS_G3dGeTranslateVec(&animator->translation2);
     NNS_G3dGeScaleVec(&animator->scale);
 }
 
 void Animator3D__MatrixOp_LoadMtx43(Animator3D *animator)
 {
-    NNS_G3dGeLoadMtx43(&animator->matrix43);
+    NNS_G3dGeLoadMtx43(animator->matrix43.nnMtx);
 }
 
 void Animator3D__MatrixOp_LoadCameraMtx43(Animator3D *animator)
 {
-    MtxFx43 matrix;
-    Camera3D__CopyMatrix4x3(NNS_G3dGlbGetCameraMtx(), (MtxFx33 *)&matrix);
+    FXMatrix43 matrix;
+    Camera3D__CopyMatrix4x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix.mtx33);
 
-    matrix.m[3][0] = matrix.m[3][1] = matrix.m[3][2] = FLOAT_TO_FX32(0.0);
+    matrix.translation.x = matrix.translation.y = matrix.translation.z = FLOAT_TO_FX32(0.0);
 
-    NNS_G3dGeLoadMtx43(&matrix);
+    NNS_G3dGeLoadMtx43(matrix.nnMtx);
 }
 
 void Animator3D__MatrixOp_LoadCameraMtx33(Animator3D *animator)
 {
-    MtxFx43 matrix;
-    Camera3D__CopyMatrix3x3(NNS_G3dGlbGetCameraMtx(), (MtxFx33 *)&matrix);
+    FXMatrix43 matrix;
+    Camera3D__CopyMatrix3x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix.mtx33);
 
-    matrix.m[3][0] = matrix.m[3][1] = matrix.m[3][2] = FLOAT_TO_FX32(0.0);
+    matrix.translation.x = matrix.translation.y = matrix.translation.z = FLOAT_TO_FX32(0.0);
 
-    NNS_G3dGeLoadMtx43(&matrix);
+    NNS_G3dGeLoadMtx43(matrix.nnMtx);
 }
 
 void Animator3D__MatrixOp_Scale(Animator3D *animator)
@@ -3529,7 +3529,7 @@ void Animator3D__MatrixOp_Scale(Animator3D *animator)
 
 void Animator3D__MatrixOp_Rotate(Animator3D *animator)
 {
-    NNS_G3dGeMultMtx33(&animator->rotation);
+    NNS_G3dGeMultMtx33(animator->rotation.nnMtx);
 }
 
 void Animator3D__MatrixOp_Translate(Animator3D *animator)
@@ -3544,48 +3544,48 @@ void Animator3D__MatrixOp_Translate2(Animator3D *animator)
 
 void Animator3D__MatrixOp_RotateScale(Animator3D *animator)
 {
-    NNS_G3dGeMultMtx43((MtxFx43 *)&animator->rotation);
+    NNS_G3dGeMultMtx43(animator->mtxRotTranslate.nnMtx);
     NNS_G3dGeScaleVec(&animator->scale);
 }
 
 void Animator3D__MatrixOp_RotateTranslate2Scale(Animator3D *animator)
 {
-    NNS_G3dGeMultMtx43((MtxFx43 *)&animator->rotation);
+    NNS_G3dGeMultMtx43(animator->mtxRotTranslate.nnMtx);
     NNS_G3dGeTranslateVec(&animator->translation2);
     NNS_G3dGeScaleVec(&animator->scale);
 }
 
 void Animator3D__MatrixOp_MultMtx43(Animator3D *animator)
 {
-    NNS_G3dGeMultMtx43(&animator->matrix43);
+    NNS_G3dGeMultMtx43(animator->matrix43.nnMtx);
 }
 
 void Animator3D__MatrixOp_MultCameraMtx43(Animator3D *animator)
 {
-    MtxFx33 matrix;
-    Camera3D__CopyMatrix4x3(NNS_G3dGlbGetCameraMtx(), &matrix);
-    NNS_G3dGeMultMtx33(&matrix);
+    FXMatrix33 matrix;
+    Camera3D__CopyMatrix4x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix);
+    NNS_G3dGeMultMtx33(matrix.nnMtx);
 }
 
 void Animator3D__MatrixOp_MultCameraMtx33(Animator3D *animator)
 {
-    MtxFx33 matrix;
-    Camera3D__CopyMatrix3x3(NNS_G3dGlbGetCameraMtx(), &matrix);
-    NNS_G3dGeMultMtx33(&matrix);
+    FXMatrix33 matrix;
+    Camera3D__CopyMatrix3x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix);
+    NNS_G3dGeMultMtx33(matrix.nnMtx);
 }
 
 void Animator3D__MatrixOp_SetCameraRot4x3(Animator3D *animator)
 {
-    MtxFx33 matrix;
-    Camera3D__CopyMatrix4x3(NNS_G3dGlbGetCameraMtx(), &matrix);
-    NNS_G3dGlbSetBaseRot(&matrix);
+    FXMatrix33 matrix;
+    Camera3D__CopyMatrix4x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix);
+    NNS_G3dGlbSetBaseRot(matrix.nnMtx);
 }
 
 void Animator3D__MatrixOp_SetCameraRot3x3(Animator3D *animator)
 {
-    MtxFx33 matrix;
-    Camera3D__CopyMatrix3x3(NNS_G3dGlbGetCameraMtx(), &matrix);
-    NNS_G3dGlbSetBaseRot(&matrix);
+    FXMatrix33 matrix;
+    Camera3D__CopyMatrix3x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix);
+    NNS_G3dGlbSetBaseRot(matrix.nnMtx);
 }
 
 void Animator3D__MatrixOp_Callback(Animator3D *animator)

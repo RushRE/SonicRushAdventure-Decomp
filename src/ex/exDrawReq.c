@@ -436,16 +436,16 @@ void InitExDrawRequestModel(EX_ACTION_NN_WORK *work)
 
 void ProcessExDrawRequestModelTransform(ExGraphicsModel *work)
 {
-    MtxFx33 matRotZ;
-    MtxFx33 matRotY;
-    MtxFx33 matRotX;
-    MtxFx33 matRotXY;
+    FXMatrix33 matRotZ;
+    FXMatrix33 matRotY;
+    FXMatrix33 matRotX;
+    FXMatrix33 matRotXY;
 
-    MTX_RotX33(&matRotX, SinFX(work->angle.x), CosFX(work->angle.x));
-    MTX_RotY33(&matRotY, SinFX(work->angle.y), CosFX(work->angle.y));
-    MTX_RotZ33(&matRotZ, SinFX(work->angle.z), CosFX(work->angle.z));
-    MTX_Concat33(&matRotY, &matRotX, &matRotXY);
-    MTX_Concat33(&matRotZ, &matRotXY, &work->animator.work.rotation);
+    MTX_RotX33(matRotX.nnMtx, SinFX(work->angle.x), CosFX(work->angle.x));
+    MTX_RotY33(matRotY.nnMtx, SinFX(work->angle.y), CosFX(work->angle.y));
+    MTX_RotZ33(matRotZ.nnMtx, SinFX(work->angle.z), CosFX(work->angle.z));
+    MTX_Concat33(matRotY.nnMtx, matRotX.nnMtx, matRotXY.nnMtx);
+    MTX_Concat33(matRotZ.nnMtx, matRotXY.nnMtx, work->animator.work.rotation.nnMtx);
 
     work->animator.work.translation.x = work->translation.x;
     work->animator.work.translation.y = work->translation.y;
@@ -598,7 +598,7 @@ BOOL AnimateExDrawRequestModel(EX_ACTION_NN_WORK *work)
 
 void DrawExDrawRequestModel(EX_ACTION_NN_WORK *work)
 {
-    MtxFx43 mtxCurrent;
+    FXMatrix43 mtxCurrent;
 
     if (work->config.control.isInvisible)
     {
@@ -627,16 +627,16 @@ void DrawExDrawRequestModel(EX_ACTION_NN_WORK *work)
 
         NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
         NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_SYS);
-        NNS_G3dGetCurrentMtx(&mtxCurrent, NULL);
-        bossWork->model.bossStaffPos.x = mtxCurrent.m[3][0];
-        bossWork->model.bossStaffPos.y = mtxCurrent.m[3][1];
-        bossWork->model.bossStaffPos.z = mtxCurrent.m[3][2];
+        NNS_G3dGetCurrentMtx(mtxCurrent.nnMtx, NULL);
+        bossWork->model.bossStaffPos.x = mtxCurrent.translation.x;
+        bossWork->model.bossStaffPos.y = mtxCurrent.translation.y;
+        bossWork->model.bossStaffPos.z = mtxCurrent.translation.z;
 
         NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
         NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_USER);
-        NNS_G3dGetCurrentMtx(&mtxCurrent, NULL);
-        bossWork->model.bossChestPos.x = mtxCurrent.m[3][0];
-        bossWork->model.bossChestPos.y = mtxCurrent.m[3][1];
+        NNS_G3dGetCurrentMtx(mtxCurrent.nnMtx, NULL);
+        bossWork->model.bossChestPos.x = mtxCurrent.translation.x;
+        bossWork->model.bossChestPos.y = mtxCurrent.translation.y;
         bossWork->model.bossChestPos.z = FLOAT_TO_FX32(60.0);
     }
     else
@@ -1079,7 +1079,7 @@ NONMATCH_FUNC void ProcessTrailExDrawRequest(EX_ACTION_TRAIL_WORK *work)
     // https://decomp.me/scratch/Fmh68 -> 99.74%
 #ifdef NON_MATCHING
     VecFx16 trailBuffer[EXDRAW_TRAIL_SEGMENT_COUNT];
-    MtxFx43 matrix;
+    FXMatrix43 matrix;
     u16 i;
 
     ExGraphicsTrail *trail = &work->trail;
@@ -1141,7 +1141,7 @@ NONMATCH_FUNC void ProcessTrailExDrawRequest(EX_ACTION_TRAIL_WORK *work)
     NNS_G3dGeTexImageParam(GX_TEXFMT_NONE, GX_TEXGEN_NONE, GX_TEXSIZE_S8, GX_TEXSIZE_T8, GX_TEXREPEAT_NONE, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS, 0x00000000);
 
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
-    NNS_G3dGeLoadMtx43(&matrix);
+    NNS_G3dGeLoadMtx43(matrix.nnMtx);
 
     for (i = 0; i < ARRAY_COUNT(trailBuffer) - 2; i += 2)
     {
@@ -1473,16 +1473,16 @@ void InitExDrawRequestSprite3D(EX_ACTION_BAC3D_WORK *work)
 
 void ProcessExDrawRequestSprite3DTransform(ExGraphicsSprite3D *work)
 {
-    MtxFx33 matRotZ;
-    MtxFx33 matRotY;
-    MtxFx33 matRotX;
-    MtxFx33 matRotXY;
+    FXMatrix33 matRotZ;
+    FXMatrix33 matRotY;
+    FXMatrix33 matRotX;
+    FXMatrix33 matRotXY;
 
-    MTX_RotX33(&matRotX, SinFX(work->angle.x), CosFX(work->angle.x));
-    MTX_RotY33(&matRotY, SinFX(work->angle.y), CosFX(work->angle.y));
-    MTX_RotZ33(&matRotZ, SinFX(work->angle.z), CosFX(work->angle.z));
-    MTX_Concat33(&matRotY, &matRotX, &matRotXY);
-    MTX_Concat33(&matRotZ, &matRotXY, &work->animator.work.rotation);
+    MTX_RotX33(matRotX.nnMtx, SinFX(work->angle.x), CosFX(work->angle.x));
+    MTX_RotY33(matRotY.nnMtx, SinFX(work->angle.y), CosFX(work->angle.y));
+    MTX_RotZ33(matRotZ.nnMtx, SinFX(work->angle.z), CosFX(work->angle.z));
+    MTX_Concat33(matRotY.nnMtx, matRotX.nnMtx, matRotXY.nnMtx);
+    MTX_Concat33(matRotZ.nnMtx, matRotXY.nnMtx, work->animator.work.rotation.nnMtx);
 
     work->animator.work.translation.x = work->translation.x;
     work->animator.work.translation.y = work->translation.y;

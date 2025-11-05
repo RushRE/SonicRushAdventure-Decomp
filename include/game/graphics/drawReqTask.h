@@ -86,8 +86,8 @@ void Camera3D__SetMatrixMode(void);
 void Camera3D__FlushP(void);
 void Camera3D__FlushVP(void);
 void Camera3D__FlushWVP(void);
-void Camera3D__CopyMatrix4x3(const MtxFx43 *src, MtxFx33 *dst);
-void Camera3D__CopyMatrix3x3(const MtxFx43 *src, MtxFx33 *dst);
+void Camera3D__CopyMatrix4x3(const FXMatrix43 *src, FXMatrix33 *dst);
+void Camera3D__CopyMatrix3x3(const FXMatrix43 *src, FXMatrix33 *dst);
 
 // Asset3DSetup
 u32 Asset3DSetup__GetTexSize(void *resource);

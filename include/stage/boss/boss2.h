@@ -109,8 +109,8 @@ typedef struct Boss2_
     u16 angle;
     s16 field_3CE;
     s32 field_3D0;
-    MtxFx43 mtxBody[BOSS2_BALL_COUNT];
-    MtxFx43 mtxWeakPoint;
+    FXMatrix43 mtxBody[BOSS2_BALL_COUNT];
+    FXMatrix43 mtxWeakPoint;
     s32 activeArmCount;
     fx32 bodyHeightA;
     fx32 bodyHeightB;
@@ -147,7 +147,7 @@ typedef struct Boss2Arm_
     void (*state2)(struct Boss2Arm_ *work);
     s32 field_380;
     u32 type;
-    MtxFx43 mtxArmBall;
+    FXMatrix43 mtxArmBall;
     s32 field_3B8;
     s32 field_3BC;
     u16 angle;
@@ -178,7 +178,7 @@ typedef struct Boss2Ball_
     s32 field_378;
     u32 type;
     Boss2BallSpikeWorker spikeWorker;
-    MtxFx43 mtxBallCenter;
+    FXMatrix43 mtxBallCenter;
     OBS_RECT_WORK field_188[2];
     u16 field_208;
     s16 field_20A;

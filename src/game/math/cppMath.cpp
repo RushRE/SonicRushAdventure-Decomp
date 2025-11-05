@@ -123,37 +123,37 @@ CMatrix33::CMatrix33()
 
 CMatrix33 *CMatrix33::RotateY(fx32 *sin, fx32 *cos)
 {
-    MTX_RotY33(this->ToMtxFx33(), *sin, *cos);
+    MTX_RotY33(this->ToFXMatrix33()->nnMtx, *sin, *cos);
     return this;
 }
 
-MtxFx33 *CMatrix33::ToMtxFx33() const
+FXMatrix33 *CMatrix33::ToFXMatrix33() const
 {
-    return (MtxFx33 *)this;
+    return (FXMatrix33 *)this;
 }
 
-const MtxFx33 *CMatrix33::ToConstMtxFx33() const
+const FXMatrix33 *CMatrix33::ToConstFXMatrix33() const
 {
-    return (const MtxFx33 *)this;
+    return (const FXMatrix33 *)this;
 }
 
 CVector3 *CMatrix33::MultiplyVector(CVector3 &lhs, const CMatrix33 *rhs)
 {
-    CMatrix33::MtxFx33_MultiplyVec(lhs.ToVecFx32Ref(), rhs->ToConstMtxFx33());
+    CMatrix33::FXMatrix33_MultiplyVec(lhs.ToVecFx32Ref(), rhs->ToConstFXMatrix33());
     return &lhs;
 }
 
-void CMatrix33::MtxFx33_Copy33To43(const MtxFx33 *src, MtxFx43 *dst)
+void CMatrix33::FXMatrix33_Copy33To43(const FXMatrix33 *src, FXMatrix43 *dst)
 {
-    MTX_Copy33To43(src, dst);
+    MTX_Copy33To43(src->nnMtx, dst->nnMtx);
 }
 
-void CMatrix33::MtxFx33_MultiplyVec(VecFx32 &vec, const MtxFx33 *mtx)
+void CMatrix33::FXMatrix33_MultiplyVec(VecFx32 &vec, const FXMatrix33 *mtx)
 {
-    MtxFx43 mtx43;
+    FXMatrix43 mtx43;
 
-    CMatrix33::MtxFx33_Copy33To43(mtx, &mtx43);
-    MTX_MultVec43(&vec, &mtx43, &vec);
+    CMatrix33::FXMatrix33_Copy33To43(mtx, &mtx43);
+    MTX_MultVec43(&vec, mtx43.nnMtx, &vec);
 }
 
 void Unknown2085D08_InitUnknown6(void)

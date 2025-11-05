@@ -261,41 +261,41 @@ void Player__State_FollowParent(Player *work)
 
         if ((work->playerFlag & (PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG)) != 0)
         {
-            MtxFx33 matDirection;
-            MtxFx33 matTemp;
+            FXMatrix33 matDirection;
+            FXMatrix33 matTemp;
 
-            MTX_Identity33(&matDirection);
+            MTX_Identity33(matDirection.nnMtx);
 
             if ((work->playerFlag & PLAYER_FLAG_DISABLE_TRICK_FINISHER) != 0)
             {
-                MTX_RotZ33(&matDirection, SinFX(gimmickObj->objWork.dir.z), CosFX(gimmickObj->objWork.dir.z));
+                MTX_RotZ33(matDirection.nnMtx, SinFX(gimmickObj->objWork.dir.z), CosFX(gimmickObj->objWork.dir.z));
                 work->objWork.dir.z = gimmickObj->objWork.dir.z;
             }
 
             if ((work->playerFlag & PLAYER_FLAG_USER_FLAG) != 0)
             {
-                MTX_RotX33(&matTemp, SinFX(gimmickObj->objWork.dir.x), CosFX(gimmickObj->objWork.dir.x));
+                MTX_RotX33(matTemp.nnMtx, SinFX(gimmickObj->objWork.dir.x), CosFX(gimmickObj->objWork.dir.x));
                 work->objWork.dir.x = gimmickObj->objWork.dir.x;
-                MTX_Concat33(&matDirection, &matTemp, &matDirection);
+                MTX_Concat33(matDirection.nnMtx, matTemp.nnMtx, matDirection.nnMtx);
             }
 
             if ((work->playerFlag & PLAYER_FLAG_ALLOW_TRICKS) != 0)
             {
-                MTX_RotY33(&matTemp, SinFX((s32)(u16)-gimmickObj->objWork.dir.y), CosFX((s32)(u16)-gimmickObj->objWork.dir.y));
+                MTX_RotY33(matTemp.nnMtx, SinFX((s32)(u16)-gimmickObj->objWork.dir.y), CosFX((s32)(u16)-gimmickObj->objWork.dir.y));
                 work->objWork.dir.y = gimmickObj->objWork.dir.y;
-                MTX_Concat33(&matDirection, &matTemp, &matDirection);
+                MTX_Concat33(matDirection.nnMtx, matTemp.nnMtx, matDirection.nnMtx);
             }
 
             if ((work->playerFlag & PLAYER_FLAG_FINISHED_TRICK_COMBO) != 0)
             {
-                MTX_RotZ33(&matTemp, SinFX(gimmickObj->objWork.dir.z), CosFX(gimmickObj->objWork.dir.z));
+                MTX_RotZ33(matTemp.nnMtx, SinFX(gimmickObj->objWork.dir.z), CosFX(gimmickObj->objWork.dir.z));
                 work->objWork.dir.z = gimmickObj->objWork.dir.z;
-                MTX_Concat33(&matDirection, &matTemp, &matDirection);
+                MTX_Concat33(matDirection.nnMtx, matTemp.nnMtx, matDirection.nnMtx);
             }
 
             VecFx32 offset;
             VEC_Set(&offset, work->gimmick.followParent.offset.x, work->gimmick.followParent.offset.y, work->gimmick.followParent.offset.z);
-            MTX_MultVec33(&offset, &matDirection, &offset);
+            MTX_MultVec33(&offset, matDirection.nnMtx, &offset);
 
             if ((work->objWork.userFlag & PLAYER_CHILDFLAG_FOLLOW_PREV_POS) != 0)
             {
@@ -7941,19 +7941,19 @@ void Player__State_SpringRope(Player *work)
 
         work->objWork.prevPosition = work->objWork.position;
 
-        MtxFx33 mtx;
-        MtxFx33 mtxTemp;
-        MTX_Identity33(&mtx);
-        MTX_RotZ33(&mtxTemp, SinFX((s32)(u16)work->objWork.userWork), CosFX((s32)(u16)work->objWork.userWork));
-        MTX_Concat33(&mtx, &mtxTemp, &mtx);
-        MTX_RotY33(&mtxTemp, SinFX((s32)(u16)-work->objWork.dir.y), CosFX((s32)(u16)-work->objWork.dir.y));
-        MTX_Concat33(&mtx, &mtxTemp, &mtx);
+        FXMatrix33 mtx;
+        FXMatrix33 mtxTemp;
+        MTX_Identity33(mtx.nnMtx);
+        MTX_RotZ33(mtxTemp.nnMtx, SinFX((s32)(u16)work->objWork.userWork), CosFX((s32)(u16)work->objWork.userWork));
+        MTX_Concat33(mtx.nnMtx, mtxTemp.nnMtx, mtx.nnMtx);
+        MTX_RotY33(mtxTemp.nnMtx, SinFX((s32)(u16)-work->objWork.dir.y), CosFX((s32)(u16)-work->objWork.dir.y));
+        MTX_Concat33(mtx.nnMtx, mtxTemp.nnMtx, mtx.nnMtx);
 
         VecFx32 position;
         position.x = work->objWork.userTimer;
         position.y = FLOAT_TO_FX32(0.0);
         position.z = FLOAT_TO_FX32(0.0);
-        MTX_MultVec33(&position, &mtx, &position);
+        MTX_MultVec33(&position, mtx.nnMtx, &position);
 
         work->objWork.position.x = work->gimmickObj->objWork.position.x - position.x;
         work->objWork.position.y = work->gimmickObj->objWork.position.y - position.y;

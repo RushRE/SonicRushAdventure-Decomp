@@ -212,9 +212,9 @@ void GhostTree_Draw(void)
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
     NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_SYS);
 
-    MtxFx43 cameraMtx;
-    MtxFx33 mtxArm;
-    NNS_G3dGetCurrentMtx(&cameraMtx, &mtxArm);
+    FXMatrix43 cameraMtx;
+    FXMatrix33 mtxArm;
+    NNS_G3dGetCurrentMtx(cameraMtx.nnMtx, mtxArm.nnMtx);
 
     fx32 cameraX;
     fx32 cameraY;
@@ -234,11 +234,11 @@ void GhostTree_Draw(void)
     armPos.x = FLOAT_TO_FX32(0.0);
     armPos.y = FLOAT_TO_FX32(56.0);
     armPos.z = FLOAT_TO_FX32(0.0);
-    MTX_MultVec33(&armPos, &mtxArm, &armPos);
+    MTX_MultVec33(&armPos, mtxArm.nnMtx, &armPos);
 
-    work->gameWork.objWork.prevPosition.x = cameraX + cameraMtx.m[3][0] + cameraConfig->camPos.x + armPos.x;
-    work->gameWork.objWork.prevPosition.y = cameraY - cameraMtx.m[3][1] - cameraConfig->camPos.y - armPos.y;
-    work->gameWork.objWork.prevPosition.z = cameraMtx.m[3][2] + cameraConfig->camPos.z + armPos.z;
+    work->gameWork.objWork.prevPosition.x = cameraX + cameraMtx.translation.x + cameraConfig->camPos.x + armPos.x;
+    work->gameWork.objWork.prevPosition.y = cameraY - cameraMtx.translation.y - cameraConfig->camPos.y - armPos.y;
+    work->gameWork.objWork.prevPosition.z = cameraMtx.translation.z + cameraConfig->camPos.z + armPos.z;
 }
 
 void GhostTree_OnDefend_GrabTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)

@@ -97,14 +97,14 @@ void SpringRope_State_Active(SpringRope *work)
         {
             OBS_ACTION3D_NN_WORK *aniRope3D = work->gameWork.objWork.obj_3d;
 
-            MtxFx33 mtxTemp;
-            MTX_Identity33(&aniRope3D->ani.work.rotation);
-            MTX_RotX33(&mtxTemp, SinFX((s32)(u16)player->objWork.userWork), CosFX((s32)(u16)player->objWork.userWork));
-            MTX_Concat33(&aniRope3D->ani.work.rotation, &mtxTemp, &aniRope3D->ani.work.rotation);
+            FXMatrix33 mtxTemp;
+            MTX_Identity33(aniRope3D->ani.work.rotation.nnMtx);
+            MTX_RotX33(mtxTemp.nnMtx, SinFX((s32)(u16)player->objWork.userWork), CosFX((s32)(u16)player->objWork.userWork));
+            MTX_Concat33(aniRope3D->ani.work.rotation.nnMtx, mtxTemp.nnMtx, aniRope3D->ani.work.rotation.nnMtx);
 
             s32 angle = (s32)(u16) - (s32)(u16)(player->objWork.dir.y - FLOAT_DEG_TO_IDX(90.0));
-            MTX_RotY33(&mtxTemp, SinFX(angle), CosFX(angle));
-            MTX_Concat33(&aniRope3D->ani.work.rotation, &mtxTemp, &aniRope3D->ani.work.rotation);
+            MTX_RotY33(mtxTemp.nnMtx, SinFX(angle), CosFX(angle));
+            MTX_Concat33(aniRope3D->ani.work.rotation.nnMtx, mtxTemp.nnMtx, aniRope3D->ani.work.rotation.nnMtx);
 
             VEC_Set(&aniRope3D->ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FX32_TO_WHOLE(FLOAT_TO_FX32(3.3) * FX_DivS32(player->objWork.userTimer, 160)));
 
@@ -119,12 +119,14 @@ void SpringRope_State_Active(SpringRope *work)
         OBS_ACTION3D_NN_WORK *aniRope3D = work->gameWork.objWork.obj_3d;
         work->gameWork.flags &= ~SPRINGROPE_FLAG_USE_LOW_PRIORITY;
 
-        MtxFx33 mtxTemp;
-        MTX_Identity33(&aniRope3D->ani.work.rotation);
-        MTX_RotX33(&mtxTemp, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
-        MTX_Concat33(&aniRope3D->ani.work.rotation, &mtxTemp, &aniRope3D->ani.work.rotation);
-        MTX_RotY33(&mtxTemp, SinFX(FLOAT_DEG_TO_IDX(90.0)), CosFX(FLOAT_DEG_TO_IDX(90.0)));
-        MTX_Concat33(&aniRope3D->ani.work.rotation, &mtxTemp, &aniRope3D->ani.work.rotation);
+        FXMatrix33 mtxTemp;
+        MTX_Identity33(aniRope3D->ani.work.rotation.nnMtx);
+
+        MTX_RotX33(mtxTemp.nnMtx, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
+        MTX_Concat33(aniRope3D->ani.work.rotation.nnMtx, mtxTemp.nnMtx, aniRope3D->ani.work.rotation.nnMtx);
+        
+        MTX_RotY33(mtxTemp.nnMtx, SinFX(FLOAT_DEG_TO_IDX(90.0)), CosFX(FLOAT_DEG_TO_IDX(90.0)));
+        MTX_Concat33(aniRope3D->ani.work.rotation.nnMtx, mtxTemp.nnMtx, aniRope3D->ani.work.rotation.nnMtx);
 
         aniRope3D->ani.work.scale.x = FLOAT_TO_FX32(3.3);
         aniRope3D->ani.work.scale.y = FLOAT_TO_FX32(3.3);

@@ -621,14 +621,14 @@ void EffectUnknown202C414__Draw(void)
     baseScale.y = FLOAT_TO_FX32(211.1875);
     baseScale.z = FLOAT_TO_FX32(211.1875);
 
-    MtxFx33 matRotation;
-    MtxFx33 matTemp;
-    MTX_RotX33(&matRotation, SinFX(FLOAT_DEG_TO_IDX(22.5)), CosFX(FLOAT_DEG_TO_IDX(22.5)));
-    MTX_RotY33(&matTemp, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
-    MTX_Concat33(&matRotation, &matTemp, &matRotation);
+    FXMatrix33 matRotation;
+    FXMatrix33 matTemp;
+    MTX_RotX33(matRotation.nnMtx, SinFX(FLOAT_DEG_TO_IDX(22.5)), CosFX(FLOAT_DEG_TO_IDX(22.5)));
+    MTX_RotY33(matTemp.nnMtx, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
+    MTX_Concat33(matRotation.nnMtx, matTemp.nnMtx, matRotation.nnMtx);
 
-    MTX_RotZ33(&matTemp, SinFX(FLOAT_DEG_TO_IDX(0.0)), CosFX(FLOAT_DEG_TO_IDX(0.0)));
-    MTX_Concat33(&matRotation, &matTemp, &matRotation);
+    MTX_RotZ33(matTemp.nnMtx, SinFX(FLOAT_DEG_TO_IDX(0.0)), CosFX(FLOAT_DEG_TO_IDX(0.0)));
+    MTX_Concat33(matRotation.nnMtx, matTemp.nnMtx, matRotation.nnMtx);
 
     VecFx32 baseTranslation;
     inputPos.x = work->objWork.position.x + FLOAT_TO_FX32(24.0);
@@ -636,7 +636,7 @@ void EffectUnknown202C414__Draw(void)
     inputPos.z = work->objWork.position.z;
     GameObject__TransformWorldToScreen(&inputPos, &baseTranslation, NULL, FALSE);
     NNS_G3dGlbSetBaseScale(&baseScale);
-    NNS_G3dGlbSetBaseRot(&matRotation);
+    NNS_G3dGlbSetBaseRot(matRotation.nnMtx);
     NNS_G3dGlbSetBaseTrans(&baseTranslation);
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
     NNS_G3dGlbFlushP();
@@ -648,14 +648,14 @@ void EffectUnknown202C414__Draw(void)
         {
             NNS_G3dGePushMtx();
 
-            MTX_RotX33(&matRotation, SinFX(entry->angle0), CosFX(entry->angle0));
-            MTX_RotY33(&matTemp, SinFX(entry->angle1), CosFX(entry->angle1));
-            MTX_Concat33(&matRotation, &matTemp, &matRotation);
+            MTX_RotX33(matRotation.nnMtx, SinFX(entry->angle0), CosFX(entry->angle0));
+            MTX_RotY33(matTemp.nnMtx, SinFX(entry->angle1), CosFX(entry->angle1));
+            MTX_Concat33(matRotation.nnMtx, matTemp.nnMtx, matRotation.nnMtx);
 
-            MTX_RotZ33(&matTemp, SinFX(EffectUnknown202C414_GetAngle2(entry)), CosFX(EffectUnknown202C414_GetAngle2(entry)));
-            MTX_Concat33(&matRotation, &matTemp, &matRotation);
+            MTX_RotZ33(matTemp.nnMtx, SinFX(EffectUnknown202C414_GetAngle2(entry)), CosFX(EffectUnknown202C414_GetAngle2(entry)));
+            MTX_Concat33(matRotation.nnMtx, matTemp.nnMtx, matRotation.nnMtx);
 
-            NNS_G3dGeMultMtx33(&matRotation);
+            NNS_G3dGeMultMtx33(matRotation.nnMtx);
 
             NNS_G3dGeTranslate(entry->position.x, entry->position.y, entry->position.z);
             NNS_G3dGeScale(FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), entry->scale);
@@ -718,20 +718,20 @@ EffectSailboatBazookaSmoke *EffectSailboatBazookaSmoke__Create(StageTask *parent
     LoadEffectTask3DAsset(&work->effWork, "/mod/sb_bazooka", GetObjectFileWork(OBJDATAWORK_167), gameArchiveStage,
                           B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, EffectTask_State_TrackParent, FALSE);
 
-    MtxFx33 matRotate;
-    MtxFx33 matTemp;
-    MTX_RotX33(&matRotate, SinFX(parent->dir.x), CosFX(parent->dir.x));
-    MTX_RotY33(&matTemp, SinFX((s32)(u16)-parent->dir.y), CosFX((s32)(u16)-parent->dir.y));
-    MTX_Concat33(&matRotate, &matTemp, &matRotate);
+    FXMatrix33 matRotate;
+    FXMatrix33 matTemp;
+    MTX_RotX33(matRotate.nnMtx, SinFX(parent->dir.x), CosFX(parent->dir.x));
+    MTX_RotY33(matTemp.nnMtx, SinFX((s32)(u16)-parent->dir.y), CosFX((s32)(u16)-parent->dir.y));
+    MTX_Concat33(matRotate.nnMtx, matTemp.nnMtx, matRotate.nnMtx);
 
-    MTX_RotZ33(&matTemp, SinFX(parent->dir.z), CosFX(parent->dir.z));
-    MTX_Concat33(&matRotate, &matTemp, &matRotate);
+    MTX_RotZ33(matTemp.nnMtx, SinFX(parent->dir.z), CosFX(parent->dir.z));
+    MTX_Concat33(matRotate.nnMtx, matTemp.nnMtx, matRotate.nnMtx);
 
     VecFx32 velocity;
     velocity.x = velX;
     velocity.y = velY;
     velocity.z = velZ;
-    MTX_MultVec33(&velocity, &matRotate, &velocity);
+    MTX_MultVec33(&velocity, matRotate.nnMtx, &velocity);
 
     work->effWork.objWork.position.x = parent->position.x + velocity.x;
     work->effWork.objWork.position.y = parent->position.y + velocity.y;

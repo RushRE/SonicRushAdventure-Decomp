@@ -27,7 +27,7 @@ struct SpatialAudioManager
     fx32 dropoffRate;
     fx32 minDistanceThreshold;
     VecFx32 originPos;
-    MtxFx33 matrix;
+    FXMatrix33 matrix;
 };
 
 // --------------------
@@ -61,7 +61,7 @@ void InitSpatialAudioConfig(void)
     spatialAudioManager.dropoffRate          = FLOAT_TO_FX32(256.0);
     spatialAudioManager.minDistanceThreshold = FLOAT_TO_FX32(0.0);
 
-    MTX_Identity33(&spatialAudioManager.matrix);
+    MTX_Identity33(spatialAudioManager.matrix.nnMtx);
 }
 
 void SetSpatialAudioOriginPosition(VecFx32 *position)
@@ -69,7 +69,7 @@ void SetSpatialAudioOriginPosition(VecFx32 *position)
     MI_CpuCopy16(position, &spatialAudioManager.originPos, sizeof(spatialAudioManager.originPos));
 }
 
-void InitSpatialAudioMatrix(MtxFx33 *matrix)
+void InitSpatialAudioMatrix(FXMatrix33 *matrix)
 {
     MI_CpuCopy16(matrix, &spatialAudioManager.matrix, sizeof(spatialAudioManager.matrix));
 
@@ -150,7 +150,7 @@ s32 GetSpatialPanning(VecFx32 *position, VecFx32 *origin)
     VEC_Subtract(position, origin, &distance);
 
     if ((spatialAudioManager.flags & SPATIALAUDIO_FLAG_HAS_MATRIX) != 0)
-        MTX_MultVec33(&distance, &spatialAudioManager.matrix, &distance);
+        MTX_MultVec33(&distance, spatialAudioManager.matrix.nnMtx, &distance);
 
     if ((distance.x | distance.y | distance.z) != 0)
         VEC_Normalize(&distance, &distance);

@@ -1597,7 +1597,7 @@ _02155CCC:
 
 void EmeraldCollectedScreen_RenderCallback(NNSG3dRS *rs)
 {
-    MtxFx43 mtx;
+    FXMatrix43 mtx;
     VecFx32 worldPos;
     fx32 sy;
     fx32 sx;
@@ -1605,16 +1605,16 @@ void EmeraldCollectedScreen_RenderCallback(NNSG3dRS *rs)
     EmeraldCollectedScreen *work          = TaskGetWork(sVars.singleton, EmeraldCollectedScreen);
     EmeraldCollectedScreenWorker *process = &work->process;
 
-    NNS_G3dGetCurrentMtx(&mtx, 0);
+    NNS_G3dGetCurrentMtx(mtx.nnMtx, 0);
 
-    worldPos.x = mtx.m[3][0];
-    worldPos.y = mtx.m[3][1];
-    worldPos.z = mtx.m[3][2];
+    worldPos.x = mtx.translation.x;
+    worldPos.y = mtx.translation.y;
+    worldPos.z = mtx.translation.z;
     NNS_G3dWorldPosToScrPos(&worldPos, &sx, &sy);
 
     process->emeraldPos.x = sx;
     process->emeraldPos.y = sy;
-    process->emeraldPos.z = mtx.m[3][2];
+    process->emeraldPos.z = mtx.translation.z;
 }
 
 void InitEmeraldCollectedScreenSparkles(EmeraldCollectedScreenSparkles *work, void *spriteFile)

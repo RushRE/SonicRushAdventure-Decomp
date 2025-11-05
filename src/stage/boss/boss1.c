@@ -1574,8 +1574,8 @@ NONMATCH_FUNC void Boss1Stage__SetupAnimators(Boss1Stage *work)
     ObjAction3dNNMotionLoad(&work->gameWork.objWork, animator, "/boss1.nsbca", NULL, gameArchiveStage);
     ObjAction3dNNMotionLoad(&work->gameWork.objWork, animator, "/boss1.nsbva", NULL, gameArchiveStage);
 
-    BossHelpers__SetAnimation(animator, B3D_ANIM_JOINT_ANIM, animator->resources[B3D_RESOURCE_JOINT_ANIM], ANI_bs1_stage_01, NULL, FALSE);
-    BossHelpers__SetAnimation(animator, B3D_ANIM_VIS_ANIM, animator->resources[B3D_RESOURCE_VIS_ANIM], ANI_bs1_stage_01, NULL, FALSE);
+    BossHelpers__SetAnimation(&animator->ani, B3D_ANIM_JOINT_ANIM, animator->resources[B3D_RESOURCE_JOINT_ANIM], ANI_bs1_stage_01, NULL, FALSE);
+    BossHelpers__SetAnimation(&animator->ani, B3D_ANIM_VIS_ANIM, animator->resources[B3D_RESOURCE_VIS_ANIM], ANI_bs1_stage_01, NULL, FALSE);
 
     control->meshParts[0] = BOSS1STAGE_PART_STAGE_1;
     for (s32 i = 1; i < 7; i++)
@@ -1847,9 +1847,9 @@ void Boss1Stage__HandleCamera(Boss1Stage *work)
 {
     Camera3D *config = BossArena__GetCameraConfig2(BossArena__GetCamera(1));
 
-    MtxFx43 mtxView;
-    MTX_LookAt(&config->camPos, &config->camUp, &config->camTarget, &mtxView);
-    InitSpatialAudioMatrix((MtxFx33*)&mtxView);
+    FXMatrix43 mtxView;
+    MTX_LookAt(&config->camPos, &config->camUp, &config->camTarget, mtxView.nnMtx);
+    InitSpatialAudioMatrix(&mtxView.mtx33);
 }
 
 void Boss1Stage__State_Active(Boss1Stage *work)
@@ -3134,7 +3134,7 @@ void Boss1__EnableAnimBlending(Boss1 *work)
 void Boss1__HandleRotation(Boss1 *work)
 {
     u16 angle = (work->angle + work->field_6BE);
-    MTX_RotY33(&work->aniBossMain.ani.work.rotation, SinFX((s32)angle), CosFX((s32)angle));
+    MTX_RotY33(work->aniBossMain.ani.work.rotation.nnMtx, SinFX((s32)angle), CosFX((s32)angle));
 }
 
 void Boss1__ConfigureCollider(Boss1 *work, Boss1ColliderMode mode)
@@ -4171,23 +4171,23 @@ void Boss1__CreateBiteFX(Boss1 *work, struct Boss1ActionBite *config)
         }
     }
 
-    MtxFx33 mtxRotate;
+    FXMatrix33 mtxRotate;
     switch (type)
     {
         case 1:
-            MTX_RotZ33(&mtxRotate, SinFX(FLOAT_DEG_TO_IDX(315.0)), CosFX(FLOAT_DEG_TO_IDX(315.0)));
+            MTX_RotZ33(mtxRotate.nnMtx, SinFX(FLOAT_DEG_TO_IDX(315.0)), CosFX(FLOAT_DEG_TO_IDX(315.0)));
             break;
 
         case 2:
-            MTX_RotZ33(&mtxRotate, SinFX(FLOAT_DEG_TO_IDX(45.0)), CosFX(FLOAT_DEG_TO_IDX(45.0)));
+            MTX_RotZ33(mtxRotate.nnMtx, SinFX(FLOAT_DEG_TO_IDX(45.0)), CosFX(FLOAT_DEG_TO_IDX(45.0)));
             break;
 
         default:
-            MTX_Identity33(&mtxRotate);
+            MTX_Identity33(mtxRotate.nnMtx);
             break;
     }
 
-    MTX_Concat33(&mtxRotate, &work->aniBossMain.ani.work.rotation, &effect->aniModel.ani.work.rotation);
+    MTX_Concat33(mtxRotate.nnMtx, work->aniBossMain.ani.work.rotation.nnMtx, effect->aniModel.ani.work.rotation.nnMtx);
 }
 
 void Boss1__BossState_InitBite(Boss1 *work)

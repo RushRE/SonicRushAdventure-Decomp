@@ -81,7 +81,7 @@ void SetTitleScreenAnimation3D(AnimatorMDL *animator, u32 type, NNSG3dResFileHea
 void TitleScreenRenderCallback(NNSG3dRS *rs);
 void AddTitleScreenRenderCallback(NNSG3dResMdl *resMdl, const char *name, s16 mtxStore, void (*callback)(NNSG3dRS *context, void *userData), void *userData);
 s32 GetTitleScreenNodeDesc(NNSG3dResMdl *resMdl, const char *name);
-void GetTitleScreenMatrix(s32 id, MtxFx43 *dest);
+void GetTitleScreenMatrix(s32 id, FXMatrix43 *dest);
 
 // TitleScreen
 void TitleScreen_Destructor(Task *task);
@@ -495,11 +495,11 @@ s32 GetTitleScreenNodeDesc(NNSG3dResMdl *resMdl, const char *name)
     return NNS_G3dGetResDictIdxByName(&resMdl->nodeInfo.dict, &resName);
 }
 
-void GetTitleScreenMatrix(s32 id, MtxFx43 *dest)
+void GetTitleScreenMatrix(s32 id, FXMatrix43 *dest)
 {
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
     NNS_G3dGeRestoreMtx(id);
-    NNS_G3dGetCurrentMtx(dest, NULL);
+    NNS_G3dGetCurrentMtx(dest->nnMtx, NULL);
 }
 
 void TitleScreen_Destructor(Task *task)

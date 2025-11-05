@@ -145,9 +145,10 @@ Trampoline *CreateTrampoline(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
                       VRAMKEY_TO_KEY(work->aniTrampoline.animatorSprite.vramPixels) & 0x7FFFF);
 
     G3C_MtxMode(&work->drawList, GX_MTXMODE_TEXTURE);
-    MtxFx43 mtx;
-    MTX_Identity43(&mtx);
-    G3C_LoadMtx43(&work->drawList, &mtx);
+
+    FXMatrix43 mtx;
+    MTX_Identity43(mtx.nnMtx);
+    G3C_LoadMtx43(&work->drawList, mtx.nnMtx);
     G3C_MtxMode(&work->drawList, GX_MTXMODE_POSITION);
 
     work->position = work->gameWork.objWork.position;
@@ -563,7 +564,7 @@ void Trampoline_Draw(void)
     MtxFx44 mtx;
     VecFx32 scale;
     VecFx32 outputPos;
-    MtxFx33 matRot;
+    FXMatrix33 matRot;
 
     VEC_Set(&scale, FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
 
@@ -577,10 +578,10 @@ void Trampoline_Draw(void)
     scale.y <<= 7;
     scale.z <<= 7;
 
-    MTX_Identity33(&matRot);
+    MTX_Identity33(matRot.nnMtx);
     GameObject__TransformWorldToScreen(&work->position, &outputPos, &mtx, FALSE);
     NNS_G3dGlbSetBaseScale(&scale);
-    NNS_G3dGlbSetBaseRot(&matRot);
+    NNS_G3dGlbSetBaseRot(matRot.nnMtx);
     NNS_G3dGlbSetBaseTrans(&outputPos);
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
     NNS_G3dGlbFlush();

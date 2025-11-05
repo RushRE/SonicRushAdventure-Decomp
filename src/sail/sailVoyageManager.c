@@ -1102,11 +1102,11 @@ void SailVoyageManager__LoadSegment(SailVoyageManager *work, u8 type)
 
             case SAILVOYAGESEGMENT_TYPE_14: {
                 SBBObject islandObject;
-                MtxFx33 mtx;
+                FXMatrix33 mtx;
                 VecFx32 offset = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(320.0) };
 
-                MTX_RotY33(&mtx, SinFX(work->angle), CosFX(work->angle));
-                MTX_MultVec33(&offset, &mtx, &offset);
+                MTX_RotY33(mtx.nnMtx, SinFX(work->angle), CosFX(work->angle));
+                MTX_MultVec33(&offset, mtx.nnMtx, &offset);
 
                 islandObject.voyagePosition = work->position;
                 VEC_Add(&islandObject.voyagePosition, &offset, &islandObject.voyagePosition);

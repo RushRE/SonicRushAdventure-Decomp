@@ -56,7 +56,7 @@ u16 BossHelpers__Arena__GetPlayerDrawMtx(Player *player, fx32 start, fx32 end, f
 
 void BossHelpers__Model__InitSystem(void);
 void BossHelpers__Model__Init(void *resMdl, const char *jointName, u16 matrixID, void (*renderCallback)(NNSG3dRS *context, void *userData), void *context);
-void BossHelpers__Model__SetMatrixMode(s32 id, MtxFx43 *mtx);
+void BossHelpers__Model__SetMatrixMode(s32 id, FXMatrix43 *mtx);
 void BossHelpers__Model__RenderCallback(NNSG3dRS *rs);
 
 void BossHelpers__Collision__HandleColliderSimple(OBS_RECT_WORK *collider, fx32 x, fx32 y, fx32 z);

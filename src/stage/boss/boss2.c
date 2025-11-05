@@ -1061,12 +1061,12 @@ u16 Boss2Stage__Func_215C6E0(Boss2Stage *work, Boss2Ball **balls)
 
 void Boss2Stage__HandleBossCamera(Boss2Stage *work)
 {
-    MtxFx43 mtxView;
+    FXMatrix43 mtxView;
 
     Camera3D *config = BossArena__GetCameraConfig2(BossArena__GetCamera(1));
 
-    MTX_LookAt(&config->camPos, &config->camUp, &config->camTarget, &mtxView);
-    InitSpatialAudioMatrix((MtxFx33 *)&mtxView);
+    MTX_LookAt(&config->camPos, &config->camUp, &config->camTarget, mtxView.nnMtx);
+    InitSpatialAudioMatrix(&mtxView.mtx33);
     SetSpatialAudioOriginPosition(&gPlayer->aniPlayerModel.ani.work.translation);
 }
 
@@ -1674,7 +1674,7 @@ void Boss2__Draw(void)
 
         VEC_Set(&aniBody->work.translation, work->gameWork.objWork.position.x, -work->gameWork.objWork.position.y, work->gameWork.objWork.position.z);
 
-        MTX_RotY33(&aniBody->work.rotation, SinFX(work->angle), CosFX(work->angle));
+        MTX_RotY33(aniBody->work.rotation.nnMtx, SinFX(work->angle), CosFX(work->angle));
 
         AnimatorMDL__ProcessAnimation(aniBody);
 
@@ -2314,7 +2314,7 @@ void Boss2Drop__State_Init(Boss2Drop *work)
 
 void Boss2Drop__State_Attached(Boss2Drop *work)
 {
-    *(MtxFx33 *)&work->aniDrop.work.rotation._00 = *(MtxFx33 *)&work->stage->boss->mtxBody[2];
+    *(FXMatrix33 *)&work->aniDrop.work.rotation._00 = *(FXMatrix33 *)&work->stage->boss->mtxBody[2];
 
     work->aniDrop.work.rotation.m[0][0] = MultiplyFX(FLOAT_TO_FX32(0.302978515625), work->aniDrop.work.rotation.m[0][0]);
     work->aniDrop.work.rotation.m[0][1] = MultiplyFX(FLOAT_TO_FX32(0.302978515625), work->aniDrop.work.rotation.m[0][1]);
@@ -2539,7 +2539,7 @@ void Boss2Arm__State_Active(Boss2Arm *work)
             work->angle += work->angleSpeed;
         }
 
-        MTX_RotY33(&work->animator.work.rotation, SinFX(work->angle), CosFX(work->angle));
+        MTX_RotY33(work->animator.work.rotation.nnMtx, SinFX(work->angle), CosFX(work->angle));
 
         VEC_SetFromArray(&work->animator.work.translation, boss->mtxBody[work->type].m[3]);
     }
@@ -2692,10 +2692,10 @@ void Boss2Arm__State2_215ECD8(Boss2Arm *work)
 
     work->angle += work->angleSpeed;
 
-    MtxFx33 mtxRot;
-    MTX_RotX33(&work->animator.work.rotation, SinFX(FLOAT_DEG_TO_IDX(319.922)), CosFX(FLOAT_DEG_TO_IDX(319.922)));
-    MTX_RotY33(&mtxRot, SinFX(work->angle), CosFX(work->angle));
-    MTX_Concat33(&work->animator.work.rotation, &mtxRot, &work->animator.work.rotation);
+    FXMatrix33 mtxRot;
+    MTX_RotX33(work->animator.work.rotation.nnMtx, SinFX(FLOAT_DEG_TO_IDX(319.922)), CosFX(FLOAT_DEG_TO_IDX(319.922)));
+    MTX_RotY33(mtxRot.nnMtx, SinFX(work->angle), CosFX(work->angle));
+    MTX_Concat33(work->animator.work.rotation.nnMtx, mtxRot.nnMtx, work->animator.work.rotation.nnMtx);
 
     if (done)
         work->state2 = Boss2Arm__State2_215EDE4;
@@ -2719,15 +2719,15 @@ void Boss2Arm__State2_215EDE4(Boss2Arm *work)
 
     work->angle += work->angleSpeed;
 
-    MtxFx33 mtxRot;
-    MTX_RotX33(&work->animator.work.rotation, SinFX(FLOAT_DEG_TO_IDX(319.922)), CosFX(FLOAT_DEG_TO_IDX(319.922)));
+    FXMatrix33 mtxRot;
+    MTX_RotX33(work->animator.work.rotation.nnMtx, SinFX(FLOAT_DEG_TO_IDX(319.922)), CosFX(FLOAT_DEG_TO_IDX(319.922)));
 
     u32 angle = (u32)((FLOAT_DEG_TO_IDX(180.0) * -FX_Div(work->gameWork.objWork.velocity.y, FLOAT_TO_FX32(5.0)))) >> 16;
-    MTX_RotZ33(&mtxRot, SinFX(angle), CosFX(angle));
-    MTX_Concat33(&work->animator.work.rotation, &mtxRot, &work->animator.work.rotation);
+    MTX_RotZ33(mtxRot.nnMtx, SinFX(angle), CosFX(angle));
+    MTX_Concat33(work->animator.work.rotation.nnMtx, mtxRot.nnMtx, work->animator.work.rotation.nnMtx);
 
-    MTX_RotY33(&mtxRot, SinFX(work->angle), CosFX(work->angle));
-    MTX_Concat33(&work->animator.work.rotation, &mtxRot, &work->animator.work.rotation);
+    MTX_RotY33(mtxRot.nnMtx, SinFX(work->angle), CosFX(work->angle));
+    MTX_Concat33(work->animator.work.rotation.nnMtx, mtxRot.nnMtx, work->animator.work.rotation.nnMtx);
 
     if (work->gameWork.objWork.position.y > FLOAT_TO_FX32(800.0))
     {
@@ -2751,7 +2751,7 @@ void Boss2Arm__State2_215EF50(Boss2Arm *work)
         BossHelpers__Arena__GetAngle(gPlayer->objWork.position.x, BOSS2_STAGE_START, BOSS2_STAGE_END) + FLOAT_DEG_TO_IDX(135.0) + mtMathRandRepeat(FLOAT_DEG_TO_IDX(90.0));
     work->field_374 = FLOAT_TO_FX32(400.0);
 
-    MTX_RotY33(&work->animator.work.rotation, SinFX((s32)(u16)(work->angle - FLOAT_DEG_TO_IDX(90.0))), CosFX((s32)(u16)(work->angle - FLOAT_DEG_TO_IDX(90.0))));
+    MTX_RotY33(work->animator.work.rotation.nnMtx, SinFX((s32)(u16)(work->angle - FLOAT_DEG_TO_IDX(90.0))), CosFX((s32)(u16)(work->angle - FLOAT_DEG_TO_IDX(90.0))));
 
     Boss2Ball__State2_215FB14(ball);
     Boss2Ball__Func_21600AC(&ball->spikeWorker);
@@ -2903,8 +2903,8 @@ void Boss2Ball__Draw(void)
 
         BossHelpers__Model__SetMatrixMode(MTXSTACK_BOSS2BALL_BALL_HIT, &work->mtxBallCenter);
 
-        aniSpike                             = &work->spikeWorker.aniSpike;
-        *(MtxFx43 *)&aniSpike->work.rotation = *(MtxFx43 *)&work->mtxBallCenter;
+        aniSpike                       = &work->spikeWorker.aniSpike;
+        aniSpike->work.mtxRotTranslate = work->mtxBallCenter;
 
         AnimatorMDL__ProcessAnimation(aniSpike);
         AnimatorMDL__Draw(aniSpike);
@@ -2919,7 +2919,7 @@ void Boss2Ball__Draw(void)
 
 NONMATCH_FUNC void Boss2Ball__Func_215F490(Boss2Ball *work)
 {
-	// will match when 'offset' is decompiled
+    // will match when 'offset' is decompiled
 #ifdef NON_MATCHING
     AnimatorMDL *aniBallD = &work->aniBallD;
 
@@ -2929,7 +2929,7 @@ NONMATCH_FUNC void Boss2Ball__Func_215F490(Boss2Ball *work)
 
     fx32 position;
     BossHelpers__Arena__GetPosition(&position, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS, aniBallD->work.translation.x, aniBallD->work.translation.z);
-    BossHelpers__Arena__Func_2038CDC(position, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS, &aniBallD->work.translation.x, &aniBallD->work.translation.z);
+    BossStage_GetCirclePos(position, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS, &aniBallD->work.translation.x, &aniBallD->work.translation.z);
 
     aniBallD->work.translation.y -= offset[work->type];
 
@@ -3085,7 +3085,7 @@ NONMATCH_FUNC void Boss2Ball__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect
             player->objWork.velocity.x = FLOAT_TO_FX32(8.0);
 
         fx32 x, z;
-        BossHelpers__Arena__Func_2038CDC(player->objWork.position.x, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS, &x, &z);
+        BossStage_GetCirclePos(player->objWork.position.x, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS, &x, &z);
 
         BossFX__CreateHitB(BOSSFX3D_FLAG_NONE, x, -player->objWork.position.y, z);
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_PENDULUM_HIT);
@@ -3273,10 +3273,10 @@ void Boss2Ball__Func_215F890(Boss2Ball *work)
 {
     Boss2Arm *arm = work->stage->arms[work->type];
 
-    AnimatorMDL *aniBall = &work->aniBall;
-    MtxFx33 *mtxRotation = &work->aniBall.work.rotation;
+    AnimatorMDL *aniBall    = &work->aniBall;
+    FXMatrix33 *mtxRotation = &work->aniBall.work.rotation;
 
-    aniBall->work.rotation = *(MtxFx33 *)&arm->mtxArmBall;
+    aniBall->work.rotation = *(FXMatrix33 *)&arm->mtxArmBall;
 
     VEC_Set((VecFx32 *)mtxRotation->m[1], FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
     VEC_CrossProduct((VecFx32 *)mtxRotation->m[0], (VecFx32 *)mtxRotation->m[1], (VecFx32 *)mtxRotation->m[2]);
@@ -4395,7 +4395,7 @@ NONMATCH_FUNC void Boss2Bomb__State2_21607C8(Boss2Bomb *work)
     UNUSED(mtMathRand());
 
     work->field_388 = 0x4000;
-    MTX_RotY33(&work->aniBomb.work.rotation, SinFX(FLOAT_DEG_TO_IDX(45.0)), CosFX(FLOAT_DEG_TO_IDX(45.0)));
+    MTX_RotY33(work->aniBomb.work.rotation.nnMtx, SinFX(FLOAT_DEG_TO_IDX(45.0)), CosFX(FLOAT_DEG_TO_IDX(45.0)));
 
     work->state2 = Boss2Bomb__State2_EnterArena;
     work->state2(work);

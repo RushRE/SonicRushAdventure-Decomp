@@ -62,29 +62,29 @@ void ProcessObjTblMove(StageTask *work, OBS_TBL_WORK *tblWork)
 
                     if (tblWork->angle.x | tblWork->angle.y | tblWork->angle.z)
                     {
-                        MtxFx33 matTemp;
-                        MtxFx33 matRotate;
-                        MTX_Identity33(&matRotate);
+                        FXMatrix33 matTemp;
+                        FXMatrix33 matRotate;
+                        MTX_Identity33(matRotate.nnMtx);
 
                         if (tblWork->angle.x != FLOAT_DEG_TO_IDX(0.0))
                         {
-                            MTX_RotX33(&matTemp, SinFX((s32)(u16)tblWork->angle.x), CosFX((s32)(u16)tblWork->angle.x));
-                            MTX_Concat33(&matRotate, &matTemp, &matRotate);
+                            MTX_RotX33(matTemp.nnMtx, SinFX((s32)(u16)tblWork->angle.x), CosFX((s32)(u16)tblWork->angle.x));
+                            MTX_Concat33(matRotate.nnMtx, matTemp.nnMtx, matRotate.nnMtx);
                         }
 
                         if (tblWork->angle.y != FLOAT_DEG_TO_IDX(0.0))
                         {
-                            MTX_RotY33(&matTemp, SinFX((s32)(u16)tblWork->angle.y), CosFX((s32)(u16)tblWork->angle.y));
-                            MTX_Concat33(&matRotate, &matTemp, &matRotate);
+                            MTX_RotY33(matTemp.nnMtx, SinFX((s32)(u16)tblWork->angle.y), CosFX((s32)(u16)tblWork->angle.y));
+                            MTX_Concat33(matRotate.nnMtx, matTemp.nnMtx, matRotate.nnMtx);
                         }
 
                         if (tblWork->angle.z != FLOAT_DEG_TO_IDX(0.0))
                         {
-                            MTX_RotZ33(&matTemp, SinFX((s32)(u16)tblWork->angle.z), CosFX((s32)(u16)tblWork->angle.z));
-                            MTX_Concat33(&matRotate, &matTemp, &matRotate);
+                            MTX_RotZ33(matTemp.nnMtx, SinFX((s32)(u16)tblWork->angle.z), CosFX((s32)(u16)tblWork->angle.z));
+                            MTX_Concat33(matRotate.nnMtx, matTemp.nnMtx, matRotate.nnMtx);
                         }
 
-                        MTX_MultVec33(&velocity, &matRotate, &velocity);
+                        MTX_MultVec33(&velocity, matRotate.nnMtx, &velocity);
                     }
 
                     if ((tblWork->flags & OBD_TBLWORK_FLAG_MOVE_FLIP_X) != 0)
@@ -121,29 +121,29 @@ void ProcessObjTblMove(StageTask *work, OBS_TBL_WORK *tblWork)
 
                 if (tblWork->angle.x | tblWork->angle.y | tblWork->angle.z)
                 {
-                    MtxFx33 matTemp;
-                    MtxFx33 matRotate;
-                    MTX_Identity33(&matRotate);
+                    FXMatrix33 matTemp;
+                    FXMatrix33 matRotate;
+                    MTX_Identity33(matRotate.nnMtx);
 
                     if (tblWork->angle.x != FLOAT_DEG_TO_IDX(0.0))
                     {
-                        MTX_RotX33(&matTemp, SinFX((s32)(u16)tblWork->angle.x), CosFX((s32)(u16)tblWork->angle.x));
-                        MTX_Concat33(&matRotate, &matTemp, &matRotate);
+                        MTX_RotX33(matTemp.nnMtx, SinFX((s32)(u16)tblWork->angle.x), CosFX((s32)(u16)tblWork->angle.x));
+                        MTX_Concat33(matRotate.nnMtx, matTemp.nnMtx, matRotate.nnMtx);
                     }
 
                     if (tblWork->angle.y != FLOAT_DEG_TO_IDX(0.0))
                     {
-                        MTX_RotY33(&matTemp, SinFX((s32)(u16)tblWork->angle.y), CosFX((s32)(u16)tblWork->angle.y));
-                        MTX_Concat33(&matRotate, &matTemp, &matRotate);
+                        MTX_RotY33(matTemp.nnMtx, SinFX((s32)(u16)tblWork->angle.y), CosFX((s32)(u16)tblWork->angle.y));
+                        MTX_Concat33(matRotate.nnMtx, matTemp.nnMtx, matRotate.nnMtx);
                     }
 
                     if (tblWork->angle.z != FLOAT_DEG_TO_IDX(0.0))
                     {
-                        MTX_RotZ33(&matTemp, SinFX((s32)(u16)tblWork->angle.z), CosFX((s32)(u16)tblWork->angle.z));
-                        MTX_Concat33(&matRotate, &matTemp, &matRotate);
+                        MTX_RotZ33(matTemp.nnMtx, SinFX((s32)(u16)tblWork->angle.z), CosFX((s32)(u16)tblWork->angle.z));
+                        MTX_Concat33(matRotate.nnMtx, matTemp.nnMtx, matRotate.nnMtx);
                     }
 
-                    MTX_MultVec33(&velocity, &matRotate, &velocity);
+                    MTX_MultVec33(&velocity, matRotate.nnMtx, &velocity);
                 }
 
                 if ((tblWork->flags & OBD_TBLWORK_FLAG_MOVE_FLIP_X) != 0)

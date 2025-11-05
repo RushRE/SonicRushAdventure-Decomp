@@ -333,7 +333,7 @@ void AnchorRope_Draw(void)
 {
     AnchorRope *work = TaskGetWorkCurrent(AnchorRope);
 
-    MtxFx33 mtxRotation;
+    FXMatrix33 mtxRotation;
     VecFx32 position;
 
     u32 displayFlag3D;
@@ -348,11 +348,14 @@ void AnchorRope_Draw(void)
     AnimatorMDL *aniAnchor3D      = &work->aniAnchor3D;
     AnimatorSpriteDS *aniAnchor2D = &work->aniAnchor2D;
     position                      = work->ropePos;
-    MTX_Identity33(&aniAnchor3D->work.rotation);
-    MTX_RotX33(&mtxRotation, SinFX((s32)(u16)-work->anchorAngle.x), CosFX((s32)(u16)-work->anchorAngle.x));
-    MTX_Concat33(&aniAnchor3D->work.rotation, &mtxRotation, &aniAnchor3D->work.rotation);
-    MTX_RotY33(&mtxRotation, SinFX((s32)(u16)-work->anchorAngle.y), CosFX((s32)(u16)-work->anchorAngle.y));
-    MTX_Concat33(&aniAnchor3D->work.rotation, &mtxRotation, &aniAnchor3D->work.rotation);
+
+    MTX_Identity33(aniAnchor3D->work.rotation.nnMtx);
+    MTX_RotX33(mtxRotation.nnMtx, SinFX((s32)(u16)-work->anchorAngle.x), CosFX((s32)(u16)-work->anchorAngle.x));
+    MTX_Concat33(aniAnchor3D->work.rotation.nnMtx, mtxRotation.nnMtx, aniAnchor3D->work.rotation.nnMtx);
+
+    MTX_RotY33(mtxRotation.nnMtx, SinFX((s32)(u16)-work->anchorAngle.y), CosFX((s32)(u16)-work->anchorAngle.y));
+    MTX_Concat33(aniAnchor3D->work.rotation.nnMtx, mtxRotation.nnMtx, aniAnchor3D->work.rotation.nnMtx);
+
     StageTask__Draw3DEx(&aniAnchor3D->work, &position, &work->anchorAngle, NULL, &displayFlag3D, NULL, NULL, NULL);
     StageTask__Draw2DEx(aniAnchor2D, &position, NULL, NULL, &displayFlag2D, NULL, NULL);
 
@@ -360,11 +363,14 @@ void AnchorRope_Draw(void)
     AnimatorMDL *aniRope3D      = &work->aniRopeString3D;
     AnimatorSpriteDS *aniRope2D = &work->aniRopeString2D;
     position                    = work->gameWork.objWork.position;
-    MTX_Identity33(&aniRope3D->work.rotation);
-    MTX_RotX33(&mtxRotation, SinFX((s32)(u16)-work->ropeAngle.x), CosFX((s32)(u16)-work->ropeAngle.x));
-    MTX_Concat33(&aniRope3D->work.rotation, &mtxRotation, &aniRope3D->work.rotation);
-    MTX_RotY33(&mtxRotation, SinFX((s32)(u16)-work->ropeAngle.y), CosFX((s32)(u16)-work->ropeAngle.y));
-    MTX_Concat33(&aniRope3D->work.rotation, &mtxRotation, &aniRope3D->work.rotation);
+
+    MTX_Identity33(aniRope3D->work.rotation.nnMtx);
+    MTX_RotX33(mtxRotation.nnMtx, SinFX((s32)(u16)-work->ropeAngle.x), CosFX((s32)(u16)-work->ropeAngle.x));
+    MTX_Concat33(aniRope3D->work.rotation.nnMtx, mtxRotation.nnMtx, aniRope3D->work.rotation.nnMtx);
+
+    MTX_RotY33(mtxRotation.nnMtx, SinFX((s32)(u16)-work->ropeAngle.y), CosFX((s32)(u16)-work->ropeAngle.y));
+    MTX_Concat33(aniRope3D->work.rotation.nnMtx, mtxRotation.nnMtx, aniRope3D->work.rotation.nnMtx);
+
     StageTask__Draw3DEx(&aniRope3D->work, &position, &work->ropeAngle, NULL, &displayFlag3D, NULL, NULL, NULL);
     StageTask__Draw2DEx(aniRope2D, &position, NULL, NULL, &displayFlag2D, NULL, NULL);
 }
@@ -402,28 +408,28 @@ void AnchorRope_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
 void AnchorRope_HandleRopePos(AnchorRope *work)
 {
-    MtxFx33 mtx;
-    MtxFx33 mtxRot;
+    FXMatrix33 mtx;
+    FXMatrix33 mtxRot;
     VecFx32 offset;
 
     // Rotate Rope
-    MTX_Identity33(&mtx);
-    MTX_RotX33(&mtxRot, SinFX(work->ropeAngle.x), CosFX(work->ropeAngle.x));
-    MTX_Concat33(&mtx, &mtxRot, &mtx);
-    MTX_RotY33(&mtxRot, SinFX((s32)(u16)-work->ropeAngle.y), CosFX((s32)(u16)-work->ropeAngle.y));
-    MTX_Concat33(&mtx, &mtxRot, &mtx);
+    MTX_Identity33(mtx.nnMtx);
+    MTX_RotX33(mtxRot.nnMtx, SinFX(work->ropeAngle.x), CosFX(work->ropeAngle.x));
+    MTX_Concat33(mtx.nnMtx, mtxRot.nnMtx, mtx.nnMtx);
+    MTX_RotY33(mtxRot.nnMtx, SinFX((s32)(u16)-work->ropeAngle.y), CosFX((s32)(u16)-work->ropeAngle.y));
+    MTX_Concat33(mtx.nnMtx, mtxRot.nnMtx, mtx.nnMtx);
     VEC_Set(&offset, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -work->anchorPos);
-    MTX_MultVec33(&offset, &mtx, &offset);
+    MTX_MultVec33(&offset, mtx.nnMtx, &offset);
     VEC_Set(&work->ropePos, work->gameWork.objWork.position.x + offset.x, work->gameWork.objWork.position.y + offset.y, work->gameWork.objWork.position.z + offset.z);
 
     // Rotate Anchor
-    MTX_Identity33(&mtx);
-    MTX_RotX33(&mtxRot, SinFX(work->anchorAngle.x), CosFX(work->anchorAngle.x));
-    MTX_Concat33(&mtx, &mtxRot, &mtx);
-    MTX_RotY33(&mtxRot, SinFX((s32)(u16)-work->anchorAngle.y), CosFX((s32)(u16)-work->anchorAngle.y));
-    MTX_Concat33(&mtx, &mtxRot, &mtx);
+    MTX_Identity33(mtx.nnMtx);
+    MTX_RotX33(mtxRot.nnMtx, SinFX(work->anchorAngle.x), CosFX(work->anchorAngle.x));
+    MTX_Concat33(mtx.nnMtx, mtxRot.nnMtx, mtx.nnMtx);
+    MTX_RotY33(mtxRot.nnMtx, SinFX((s32)(u16)-work->anchorAngle.y), CosFX((s32)(u16)-work->anchorAngle.y));
+    MTX_Concat33(mtx.nnMtx, mtxRot.nnMtx, mtx.nnMtx);
     VEC_Set(&offset, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(60.0), FLOAT_TO_FX32(0.0));
-    MTX_MultVec33(&offset, &mtx, &offset);
+    MTX_MultVec33(&offset, mtx.nnMtx, &offset);
     VEC_Set(&work->gameWork.objWork.prevPosition, work->ropePos.x + offset.x, work->ropePos.y + offset.y, work->ropePos.z + offset.z);
 
     work->gameWork.objWork.dir.x = -FLOAT_DEG_TO_IDX(90.0);

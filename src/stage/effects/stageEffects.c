@@ -120,7 +120,7 @@ NOT_DECOMPILED u8 RegularShield__shpList[];
 NOT_DECOMPILED u8 MagnetShield__matList[];
 NOT_DECOMPILED u8 MagnetShield__shpList[];
 
-NOT_DECOMPILED MtxFx33 PlayerTrail__mtxIdentity;
+NOT_DECOMPILED FXMatrix33 PlayerTrail__mtxIdentity;
 
 // --------------------
 // FUNCTION DECLS
@@ -1758,8 +1758,8 @@ void EffectPlayerTrail_State_Finish(EffectPlayerTrail *work)
 
 void RecordPlayerTrailBuffer(TrailEffect *trail, Player *player, fx32 height)
 {
-    MtxFx33 matTransform;
-    MtxFx33 matTemp;
+    FXMatrix33 matTransform;
+    FXMatrix33 matTemp;
     VecFx32 end;
     VecFx32 start;
 
@@ -1790,18 +1790,18 @@ void RecordPlayerTrailBuffer(TrailEffect *trail, Player *player, fx32 height)
     if ((player->objWork.moveFlag & PLAYER_FLAG_IS_ATTACKING_PLAYER) != 0)
         angle = FX_Atan2Idx(player->objWork.position.y - player->objWork.prevPosition.y, player->objWork.position.x - player->objWork.prevPosition.x);
 
-    MTX_RotX33(&matTransform, SinFX(player->objWork.dir.x), CosFX(player->objWork.dir.x));
-    MTX_RotY33(&matTemp, SinFX(player->objWork.dir.y), CosFX(player->objWork.dir.y));
-    MTX_Concat33(&matTransform, &matTemp, &matTransform);
-    MTX_RotZ33(&matTemp, SinFX((s32)(u16)(player->objWork.dir.z + angle)), CosFX((s32)(u16)(player->objWork.dir.z + angle)));
-    MTX_Concat33(&matTransform, &matTemp, &matTransform);
+    MTX_RotX33(matTransform.nnMtx, SinFX(player->objWork.dir.x), CosFX(player->objWork.dir.x));
+    MTX_RotY33(matTemp.nnMtx, SinFX(player->objWork.dir.y), CosFX(player->objWork.dir.y));
+    MTX_Concat33(matTransform.nnMtx, matTemp.nnMtx, matTransform.nnMtx);
+    MTX_RotZ33(matTemp.nnMtx, SinFX((s32)(u16)(player->objWork.dir.z + angle)), CosFX((s32)(u16)(player->objWork.dir.z + angle)));
+    MTX_Concat33(matTransform.nnMtx, matTemp.nnMtx, matTransform.nnMtx);
 
-    MTX_MultVec33(&start, &matTransform, &start);
+    MTX_MultVec33(&start, matTransform.nnMtx, &start);
     trail->start.x = player->objWork.position.x + start.x;
     trail->start.y = player->objWork.position.y + start.y;
     trail->start.z = player->objWork.position.z + start.z;
 
-    MTX_MultVec33(&end, &matTransform, &end);
+    MTX_MultVec33(&end, matTransform.nnMtx, &end);
     trail->end.x = player->objWork.position.x + end.x;
     trail->end.y = player->objWork.position.y + end.y;
     trail->end.z = player->objWork.position.z + end.z;
@@ -1888,14 +1888,14 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
 
         VEC_Set(&baseScale, FLOAT_TO_FX32(4096.0), FLOAT_TO_FX32(4096.0), FLOAT_TO_FX32(4096.0));
 
-        static MtxFx33 baseRot = { FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0),
+        static FXMatrix33 baseRot = { FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0),
                                    FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0) };
 
         VEC_Set(&baseTranslation, FX32_FROM_WHOLE(offset.x), FX32_FROM_WHOLE(-offset.y), FX32_FROM_WHOLE(offset.z));
         baseTranslation.z += FLOAT_TO_FX32(1.0);
 
         NNS_G3dGlbSetBaseScale(&baseScale);
-        NNS_G3dGlbSetBaseRot(&baseRot);
+        NNS_G3dGlbSetBaseRot(baseRot.nnMtx);
         NNS_G3dGlbSetBaseTrans(&baseTranslation);
         NNS_G3dGlbFlush();
 
@@ -2242,11 +2242,11 @@ EffectShield *CreateEffectRegularShield(Player *parent)
     return work;
 }
 
-RUSH_INLINE void EffectRegularShield__RotateMtx(MtxFx33 *mtx, MtxFx33 *matTemp, u16 angle)
+RUSH_INLINE void EffectRegularShield__RotateMtx(FXMatrix33 *mtx, FXMatrix33 *matTemp, u16 angle)
 {
-    MTX_RotY33(mtx, SinFX((s32)angle), CosFX((s32)angle));
-    MTX_RotZ33(matTemp, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
-    MTX_Concat33(mtx, matTemp, mtx);
+    MTX_RotY33(mtx->nnMtx, SinFX((s32)angle), CosFX((s32)angle));
+    MTX_RotZ33(matTemp->nnMtx, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
+    MTX_Concat33(mtx->nnMtx, matTemp->nnMtx, mtx->nnMtx);
 }
 
 NONMATCH_FUNC void EffectRegularShield_State_Active(EffectShield *work)
@@ -2266,7 +2266,7 @@ NONMATCH_FUNC void EffectRegularShield_State_Active(EffectShield *work)
         else
             work->esWork[4].flags &= ~0x80;
 
-        MtxFx33 matTemp;
+        FXMatrix33 matTemp;
         EffectRegularShield__RotateMtx(&work->objWork.obj_3des->ani.work.rotation, &matTemp, work->field_79C);
         EffectRegularShield__RotateMtx(&work->esWork[3].ani.work.rotation, &matTemp, -work->field_79E);
 
@@ -2451,7 +2451,7 @@ NONMATCH_FUNC void EffectMagnetShield_State_Active(EffectShield *work)
     Player *player = (Player *)work->objWork.parentObj;
     if (player != NULL)
     {
-        MtxFx33 matTemp;
+        FXMatrix33 matTemp;
 
         work->objWork.position = player->objWork.position;
 
@@ -2472,14 +2472,14 @@ NONMATCH_FUNC void EffectMagnetShield_State_Active(EffectShield *work)
 
         NNS_G3dMdlSetMdlAlpha((NNSG3dResMdl *)work->objWork.obj_3des->resource, 4, FX32_TO_WHOLE(work->alpha) & 0x1F);
 
-        MTX_RotZ33(&work->objWork.obj_3des->ani.work.rotation, SinFX((s32)work->field_79C), CosFX((s32)work->field_79C));
+        MTX_RotZ33(work->objWork.obj_3des->ani.work.rotation.nnMtx, SinFX((s32)work->field_79C), CosFX((s32)work->field_79C));
 
-        MtxFx33 *mtx = &work->esWork[6].ani.work.rotation;
-        MTX_RotY33(mtx, SinFX((s32)(u16)-work->field_79E), CosFX((s32)(u16)-work->field_79E));
-        MTX_RotZ33(&matTemp, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
-        MTX_Concat33(mtx, &matTemp, mtx);
+        FXMatrix33 *mtx = &work->esWork[6].ani.work.rotation;
+        MTX_RotY33(mtx->nnMtx, SinFX((s32)(u16)-work->field_79E), CosFX((s32)(u16)-work->field_79E));
+        MTX_RotZ33(matTemp.nnMtx, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
+        MTX_Concat33(mtx->nnMtx, matTemp.nnMtx, mtx->nnMtx);
 
-        MTX_RotZ33(&work->esWork[5].ani.work.rotation, SinFX((s32)work->field_7A0), CosFX((s32)work->field_7A0));
+        MTX_RotZ33(work->esWork[5].ani.work.rotation.nnMtx, SinFX((s32)work->field_7A0), CosFX((s32)work->field_7A0));
 
         if ((player->playerFlag & PLAYER_FLAG_SHIELD_MAGNET) == 0)
             DestroyStageTask(&work->objWork);
