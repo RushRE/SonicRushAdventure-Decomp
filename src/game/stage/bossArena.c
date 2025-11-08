@@ -149,7 +149,7 @@ void BossArena__SetType(BossArenaType type)
     work->type = type;
 }
 
-s32 BossArena__GetType(void)
+BossArenaType BossArena__GetType(void)
 {
     BossArena *work = BossArena__GetWork();
 
@@ -390,33 +390,33 @@ void BossArena__SetBoundsY(s16 top, s16 bottom)
     background->bottom = bottom;
 }
 
-void BossArena__Func_2039AD4(VecFx32 *a1, VecFx32 *a2, VecFx32 *a3, s32 a4, u16 a5, VecFx32 *a6, VecFx32 *a7, VecFx32 *a8, VecFx32 *a9, VecFx32 *a10, VecFx32 *a11)
+void BossArena__Func_2039AD4(VecFx32 *camPos, VecFx32 *camTarget, VecFx32 *camUp, fx32 targetDist, u16 aspectRatio, VecFx32 *cam1Target0, VecFx32 *cam1Target1, VecFx32 *outCam1Up, VecFx32 *cam2Target0, VecFx32 *cam2Target1, VecFx32 *outCam2Up)
 {
-    VecFx32 vec1;
-    VecFx32 dir;
+    VecFx32 camTargetLocalPos;
+    VecFx32 camLookDir;
     VecFx32 vec2;
 
-    VEC_Subtract(a2, a1, &vec1);
-    VEC_CrossProduct(a3, &vec1, &vec2);
+    VEC_Subtract(camTarget, camPos, &camTargetLocalPos);
+    VEC_CrossProduct(camUp, &camTargetLocalPos, &vec2);
     VEC_Normalize(&vec2, &vec2);
-    VEC_CrossProduct(&vec1, &vec2, &dir);
-    VEC_Normalize(&dir, &dir);
+    VEC_CrossProduct(&camTargetLocalPos, &vec2, &camLookDir);
+    VEC_Normalize(&camLookDir, &camLookDir);
 
-    a6->x = a1->x + MultiplyFX((a4 >> 1), dir.x);
-    a6->y = a1->y + MultiplyFX((a4 >> 1), dir.y);
-    a6->z = a1->z + MultiplyFX((a4 >> 1), dir.z);
-    Unknown2066510__Func_20668A8(&vec2, -a5 >> 1, &vec1, a7);
-    VEC_Add(a6, a7, a7);
+    cam1Target0->x = camPos->x + MultiplyFX((targetDist >> 1), camLookDir.x);
+    cam1Target0->y = camPos->y + MultiplyFX((targetDist >> 1), camLookDir.y);
+    cam1Target0->z = camPos->z + MultiplyFX((targetDist >> 1), camLookDir.z);
+    Unknown2066510__Func_20668A8(&vec2, -aspectRatio >> 1, &camTargetLocalPos, cam1Target1);
+    VEC_Add(cam1Target0, cam1Target1, cam1Target1);
 
-    *a8 = *a3;
+    *outCam1Up = *camUp;
 
-    a9->x = a1->x - MultiplyFX((a4 >> 1), dir.x);
-    a9->y = a1->y - MultiplyFX((a4 >> 1), dir.y);
-    a9->z = a1->z - MultiplyFX((a4 >> 1), dir.z);
-    Unknown2066510__Func_20668A8(&vec2, a5 >> 1, &vec1, a10);
-    VEC_Add(a9, a10, a10);
+    cam2Target0->x = camPos->x - MultiplyFX((targetDist >> 1), camLookDir.x);
+    cam2Target0->y = camPos->y - MultiplyFX((targetDist >> 1), camLookDir.y);
+    cam2Target0->z = camPos->z - MultiplyFX((targetDist >> 1), camLookDir.z);
+    Unknown2066510__Func_20668A8(&vec2, aspectRatio >> 1, &camTargetLocalPos, cam2Target1);
+    VEC_Add(cam2Target0, cam2Target1, cam2Target1);
 
-    *a11 = *a3;
+    *outCam2Up = *camUp;
 }
 
 NONMATCH_FUNC void BossArena__Func_2039CA4(s16 *xz, s16 *y, VecFx32 *camPos, VecFx32 *camTarget, u16 a5, u16 a6, s16 left, s16 right)

@@ -137,7 +137,7 @@ typedef struct BossArenaBackground_
 
 typedef struct BossArena_
 {
-    s32 type;
+    BossArenaType type;
     BossArenaCamera camera[3];
     s32 field_358;
     s16 field_35C;
@@ -159,7 +159,7 @@ void BossArena__Create(BossArenaType type, u32 priority);
 void BossArena__Destroy(void);
 void BossArena__DoProcess(void);
 void BossArena__SetType(BossArenaType type);
-s32 BossArena__GetType(void);
+BossArenaType BossArena__GetType(void);
 
 BossArenaCamera *BossArena__GetCamera(s32 id);
 void BossArena__SetField358(s32 value);
@@ -201,7 +201,7 @@ AnimatorMDL *BossArena__GetBackgroundAnimator(void);
 BossArenaUnknown4A8 *BossArena__GetField4A8(void);
 void BossArena__SetBoundsX(s16 left, s16 right);
 void BossArena__SetBoundsY(s16 top, s16 bottom);
-void BossArena__Func_2039AD4(VecFx32 *a1, VecFx32 *a2, VecFx32 *a3, s32 a4, u16 a5, VecFx32 *a6, VecFx32 *a7, VecFx32 *a8, VecFx32 *a9, VecFx32 *a10, VecFx32 *a11);
+void BossArena__Func_2039AD4(VecFx32 *camPos, VecFx32 *camTarget, VecFx32 *camUp, fx32 targetDist, u16 aspectRatio, VecFx32 *cam1Target0, VecFx32 *cam1Target1, VecFx32 *outCam1Up, VecFx32 *cam2Target0, VecFx32 *cam2Target1, VecFx32 *outCam2Up);
 void BossArena__Func_2039CA4(s16 *xz, s16 *y, VecFx32 *a3, VecFx32 *a4, u16 a5, u16 a6, s16 a7, s16 a8);
 BossArena *BossArena__GetWork(void);
 void BossArena__InitCamera(BossArenaCamera *camera);

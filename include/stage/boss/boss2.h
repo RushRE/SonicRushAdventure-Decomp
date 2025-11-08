@@ -10,9 +10,9 @@
 // CONSTANTS
 // --------------------
 
-#define BOSS2_STAGE_START 0x40000
-#define BOSS2_STAGE_END 0x722543
-#define BOSS2_STAGE_RADIUS 0x1187BC
+#define BOSS2_STAGE_START  0x40000  // FLOAT_TO_FX32(64.0)
+#define BOSS2_STAGE_END    0x722543 // FLOAT_TO_FX32(1826.32886)
+#define BOSS2_STAGE_RADIUS 0x1187BC // FLOAT_TO_FX32(280.4834)
 
 #define BOSS2_DEACTIVATE_TIME   SECONDS_TO_FRAMES(10.0)
 #define BOSS2_REACTIVATE_HEALTH (HUD_BOSS_HEALTH_MAX * 0.3125)
@@ -34,57 +34,74 @@ typedef u16 Boss2Phase;
 
 enum Boss2BallType_
 {
-    BOSS2_BALL_M,
-    BOSS2_BALL_S,
-    BOSS2_BALL_L,
+    BOSS2_BALL_S, // Blue/Small
+    BOSS2_BALL_M, // Yellow/Medium
+    BOSS2_BALL_L, // Red/Large
 
     BOSS2_BALL_COUNT,
 };
-typedef s32 Boss2BallType;
+typedef u32 Boss2BallType;
 
 enum Boss2Action_
 {
-    BOSS2_ACTION_0,
-    BOSS2_ACTION_1,
-    BOSS2_ACTION_2,
-    BOSS2_ACTION_3,
-    BOSS2_ACTION_4,
+    BOSS2_ACTION_INIT,
+    BOSS2_ACTION_IDLE,
+    BOSS2_ACTION_HIT,
+    BOSS2_ACTION_DEACTIVATE,
+    BOSS2_ACTION_DESTROYED,
 };
 typedef u32 Boss2Action;
 
 enum Boss2ArmAction_
 {
-    BOSS2ARM_ACTION_0,
-    BOSS2ARM_ACTION_1,
-    BOSS2ARM_ACTION_2,
-    BOSS2ARM_ACTION_3,
-    BOSS2ARM_ACTION_4,
+    BOSS2ARM_ACTION_INACTIVE,
+    BOSS2ARM_ACTION_APPEAR,
+    BOSS2ARM_ACTION_FETCH_BALL,
+    BOSS2ARM_ACTION_ATTACH,
+    BOSS2ARM_ACTION_DETATTACH,
 };
 typedef u32 Boss2ArmAction;
 
 enum Boss2BallAction_
 {
-    BOSS2BALL_ACTION_0,
-    BOSS2BALL_ACTION_1,
-    BOSS2BALL_ACTION_2,
-    BOSS2BALL_ACTION_3,
+    BOSS2BALL_ACTION_INACTIVE,
+    BOSS2BALL_ACTION_IDLE,
+    BOSS2BALL_ACTION_HIT,
+    BOSS2BALL_ACTION_HIT_RECOIL,
 };
 typedef u32 Boss2BallAction;
 
+enum Boss2BallSpikesAction_
+{
+    BOSS2BALLSPIKES_ACTION_INACTIVE,
+    BOSS2BALLSPIKES_ACTION_EXTENDED,
+    BOSS2BALLSPIKES_ACTION_RETRACTING,
+    BOSS2BALLSPIKES_ACTION_RETRACTED,
+    BOSS2BALLSPIKES_ACTION_EXTENDING,
+};
+typedef u32 Boss2BallSpikesAction;
+
 enum Boss2DropAction_
 {
-    BOSS2DROP_ACTION_0,
-    BOSS2DROP_ACTION_1,
+    BOSS2DROP_ACTION_ATTACHED,
+    BOSS2DROP_ACTION_DROP,
 };
 typedef u32 Boss2DropAction;
 
 enum Boss2BombAction_
 {
-    BOSS2BOMB_ACTION_0,
-    BOSS2BOMB_ACTION_1,
-    BOSS2BOMB_ACTION_2,
+    BOSS2BOMB_ACTION_FALL,
+    BOSS2BOMB_ACTION_MOVING, // Unused. based on how actionStates are usually assigned, it's likely this.
+    BOSS2BOMB_ACTION_DESTROY,
 };
 typedef u32 Boss2BombAction;
+
+enum Boss2BallDirection_
+{
+    BOSS2BALL_DIR_BACKWARD,
+    BOSS2BALL_DIR_FORWARD,
+};
+typedef s32 Boss2BallDirection;
 
 // --------------------
 // STRUCTS
@@ -111,7 +128,7 @@ typedef struct Boss2Stage_
     s16 health;
     u32 groundHeight;
     BossLight lightConfig;
-    s32 field_3D4;
+    BOOL hasCameraOverride;
     AnimatorMDL aniStage[2];
 } Boss2Stage;
 
@@ -121,7 +138,6 @@ typedef struct Boss2_
 
     Boss2Assets assets;
     Boss2Stage *stage;
-
 
     union
     {
@@ -146,13 +162,12 @@ typedef struct Boss2_
     u16 dropActionTimer;
     u16 bombSpawnTimer;
     u16 angle;
-    s16 field_3CE;
-    s32 field_3D0;
+    BOOL tryLookAtPlayer;
     FXMatrix43 mtxBody[BOSS2_BALL_COUNT];
     FXMatrix43 mtxWeakPoint;
     s32 activeArmCount;
-    fx32 bodyHeightA;
-    fx32 bodyHeightB;
+    fx32 bodyMiddlePos;
+    fx32 bodyBottomPos;
     BOOL prevCanDraw;
     PaletteAnimator aniPalette[8];
     AnimatorMDL aniBody;
@@ -163,18 +178,18 @@ typedef struct Boss2Arm_
     GameObjectTask gameWork;
     Boss2Assets assets;
     Boss2Stage *stage;
-    s32 radius;
-    s32 field_378;
+    fx32 radius;
+    s32 unused;
     void (*armState)(struct Boss2Arm_ *work);
     Boss2ArmAction actionState;
-    u32 type;
+    Boss2BallType type;
     FXMatrix43 mtxArmBall;
-    s32 field_3B8;
-    s32 field_3BC;
+    BOOL isAttached;
+    BOOL isRotating;
     u16 angle;
-    s16 angleSpeed;
-    s16 targetAngleSpeed;
-    s16 word3C6;
+    s16 angleVelocity;
+    s16 targetAngleVelocity;
+    s16 maxAngleVelocity;
     BOOL prevCanDraw;
     AnimatorMDL animator;
 } Boss2Arm;
@@ -182,7 +197,7 @@ typedef struct Boss2Arm_
 typedef struct Boss2BallSpikeWorker_
 {
     void (*spikeState)(struct Boss2Ball_ *work, struct Boss2BallSpikeWorker_ *worker);
-    u32 type;
+    Boss2BallSpikesAction actionState;
     BOOL disableSpikes;
     u16 spikeDuration;
     u16 vulnerableDuration;
@@ -197,14 +212,14 @@ typedef struct Boss2Ball_
     Boss2Stage *stage;
     void (*ballState)(struct Boss2Ball_ *work);
     Boss2BallAction actionState;
-    u32 type;
+    Boss2BallType type;
     Boss2BallSpikeWorker spikeWorker;
     FXMatrix43 mtxBallCenter;
     OBS_RECT_WORK worldCollider[2];
     u16 invincibleTimer;
-    s32 direction;
-    s32 angleAccel;
-    s32 targetAngleAccel;
+    Boss2BallDirection direction;
+    fx32 hitImpactForce;
+    fx32 hitVelocity;
     PaletteAnimator aniPalette[1];
     AnimatorMDL aniBall;
     AnimatorMDL aniBallD;
@@ -219,7 +234,7 @@ typedef struct Boss2Drop_
     Boss2Stage *stage;
     void (*dropState)(struct Boss2Drop_ *work);
     Boss2DropAction actionState;
-    s32 field_37C;
+    BOOL isAttached;
     BOOL playedSteamSfx;
     AnimatorMDL aniDrop;
     BossFX3D *pendulumFallFX;
@@ -234,10 +249,10 @@ typedef struct Boss2Bomb_
     void (*bombState)(struct Boss2Bomb_ *work);
     Boss2BombAction actionState;
     s32 timer;
-    BOOL field_380;
+    BOOL disableBossStageWrap;
     fx32 moveSpeed;
     s16 angle;
-    s32 radius;
+    fx32 radius;
     OBS_RECT_WORK worldCollider;
     AnimatorMDL aniBomb;
 } Boss2Bomb;

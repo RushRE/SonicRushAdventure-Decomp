@@ -10,8 +10,11 @@
 // CONSTANTS
 // --------------------
 
-#define HUD_BOSS_HEALTH_MIN 0x000
+#define HUD_BOSS_HEALTH_NONE 0x000
+#define HUD_BOSS_HEALTH_MIN 0x001
 #define HUD_BOSS_HEALTH_MAX 0x400
+
+#define HUD_BOSS_HEALTH_PERCENT(n) ((s32)((n) * HUD_BOSS_HEALTH_MAX))
 
 // --------------------
 // ENUMS

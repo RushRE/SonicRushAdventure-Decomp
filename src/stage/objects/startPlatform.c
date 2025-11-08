@@ -222,7 +222,7 @@ void StartPlatform_State_Active(StartPlatform *work)
 
     work->stateCamera(work);
 
-    if (BossArena__GetType() == 1)
+    if (BossArena__GetType() == BOSSARENA_TYPE_1)
     {
         s16 y, xz;
 

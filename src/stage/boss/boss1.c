@@ -3707,9 +3707,9 @@ void Boss1__OnDefend_Core(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
         Boss1Phase phase = Boss1Stage__GetBossPhase(boss->stage);
         boss->stage->health -= MultiplyFX(Boss1Stage__GetBaseDamageValue(), Boss1Stage__GetDamageModifier(boss->stage));
-        if (boss->stage->health <= HUD_BOSS_HEALTH_MIN)
+        if (boss->stage->health <= HUD_BOSS_HEALTH_NONE)
         {
-            boss->stage->health = HUD_BOSS_HEALTH_MIN + 1;
+            boss->stage->health = HUD_BOSS_HEALTH_MIN;
             Boss1__Action_Deactivate(boss);
 
             if (player->objWork.velocity.x <= 0)
@@ -3767,9 +3767,9 @@ void Boss1__OnDefend_Core_Charging(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             fx32 damage     = Boss1Stage__GetBaseDamageValue();
             boss->stage->health -= MultiplyFX(MultiplyFX(damage, multiplier), Boss1Stage__GetDmgMultiplier2(boss->stage));
 
-            if (boss->stage->health <= HUD_BOSS_HEALTH_MIN)
+            if (boss->stage->health <= HUD_BOSS_HEALTH_NONE)
             {
-                boss->stage->health = HUD_BOSS_HEALTH_MIN + 1;
+                boss->stage->health = HUD_BOSS_HEALTH_MIN;
 
                 Boss1__Action_ChargeDeactivate(boss, boss->action.charge.direction);
 

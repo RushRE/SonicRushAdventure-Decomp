@@ -1126,7 +1126,7 @@ GraphicsEngine GetHUDActiveScreen(void)
 
 void UpdateBossHealthHUD(s32 health)
 {
-    hudWorkSingleton->bossManager.targetHealth = MTM_MATH_CLIP(health, HUD_BOSS_HEALTH_MIN, HUD_BOSS_HEALTH_MAX);
+    hudWorkSingleton->bossManager.targetHealth = MTM_MATH_CLIP(health, HUD_BOSS_HEALTH_NONE, HUD_BOSS_HEALTH_MAX);
 }
 
 void SetBossHealthbarPosition(fx16 x, fx16 y)
@@ -1140,7 +1140,7 @@ void SetActiveBossHealthbar(s32 id)
     if (hudWorkSingleton->bossManager.activeHealthbar != id)
     {
         hudWorkSingleton->bossManager.displayHealth[hudWorkSingleton->bossManager.activeHealthbar] = hudWorkSingleton->bossManager.targetHealth;
-        hudWorkSingleton->bossManager.targetHealth    = MTM_MATH_CLIP(hudWorkSingleton->bossManager.displayHealth[id], HUD_BOSS_HEALTH_MIN, HUD_BOSS_HEALTH_MAX);
+        hudWorkSingleton->bossManager.targetHealth    = MTM_MATH_CLIP(hudWorkSingleton->bossManager.displayHealth[id], HUD_BOSS_HEALTH_NONE, HUD_BOSS_HEALTH_MAX);
         hudWorkSingleton->bossManager.activeHealthbar = id;
     }
 }
@@ -2733,7 +2733,7 @@ void BossGaugeHUD_Draw(BossGaugeHUD *work)
 
 void CalculateBossGaugeSegmentFrames(BossGaugeHUD *work, s32 health, u32 *segmentAnimID, s32 count)
 {
-    if (health <= HUD_BOSS_HEALTH_MIN)
+    if (health <= HUD_BOSS_HEALTH_NONE)
     {
         for (s32 i = 0; i < count; i++)
         {
