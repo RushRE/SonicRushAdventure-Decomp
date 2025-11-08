@@ -109,7 +109,7 @@ void BossHelpers__SetPaletteAnimations(PaletteAnimator *animators, u32 animatorC
     }
 }
 
-void BossHelpers__SetAnimation(AnimatorMDL *work, B3DAnimationTypes type, NNSG3dResFileHeader *resource, u16 animID, const NNSG3dResTex *texResource, BOOL canLoop)
+void BossHelpers__SetAnimation(AnimatorMDL *work, B3DAnimationTypes type, NNSG3dResFileHeader *resource, u32 animID, const NNSG3dResTex *texResource, BOOL canLoop)
 {
     AnimatorMDL__SetAnimation(work, type, resource, animID, texResource);
 
@@ -400,28 +400,17 @@ void BossHelpers__Collision__HandleArenaCollider(OBS_RECT_WORK *srcCollider, OBS
     BossHelpers__Collision__InitArenaCollider(srcCollider, dstCollider, position, -translation->y, start, end, radius);
 }
 
-NONMATCH_FUNC BOOL BossHelpers__Player__IsAlive(Player *player)
+BOOL BossHelpers__Player__IsAlive(Player *player)
 {
-    // https://decomp.me/scratch/0DVtN -> 33.33%
-#ifdef NON_MATCHING
-    if (player->actionState == PLAYER_ACTION_DEATH_01 || (s32)player->actionState == PLAYER_ACTION_DEATH_02)
-        return FALSE;
-    else
-        return TRUE;
-#else
-    // clang-format off
-    add r0, r0, #0x500
-    ldrsh r0, [r0, #0xd4]
-    cmp r0, #0x10
-    cmpne r0, #0x11
-    bne _02039228
-    mov r0, #0
-    bx lr
-_02039228:
-    mov r0, #1
-    bx lr
-// clang-format on
-#endif
+    switch (player->actionState)
+    {
+        case PLAYER_ACTION_DEATH_01:
+        case PLAYER_ACTION_DEATH_02:
+            return FALSE;
+
+        default:
+            return TRUE;
+    }
 }
 
 void BossHelpers__Player__LockControl(Player *player)

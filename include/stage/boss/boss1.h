@@ -258,7 +258,7 @@ struct Boss1_
     } action;
 
     void (*bossState)(Boss1 *work);
-    Boss1Action actionType;
+    Boss1Action actionState;
     Boss1AttackConfig attackConfig;
     OBS_RECT_WORK bossColliders[10];
     FXMatrix43 mtxWeakPoint;

@@ -3430,7 +3430,7 @@ void Boss1__State_Active(Boss1 *work)
 
     Boss1__HandleRotation(work);
 
-    if (work->actionType != BOSS1_ACTION_DESTROY)
+    if (work->actionState != BOSS1_ACTION_DESTROY)
         Boss1__HandleCameraOrientation(work);
 
     Boss1__HandlePalette(work);
@@ -3564,7 +3564,7 @@ void Boss1__HandleCoreBiteBounce(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
                 * (s16)Boss1__GetPlayerBounceAngle(rect2, boss->gameWork.objWork.position.x + FX32_FROM_WHOLE(rect2->rect.pos.x),
                                                    boss->gameWork.objWork.position.y + FX32_FROM_WHOLE(rect2->rect.pos.y), player, 910, FLOAT_DEG_TO_IDX(30.0));
 
-    switch (boss->actionType)
+    switch (boss->actionState)
     {
         case BOSS1_ACTION_BITE:
             if (Boss1__Func_2155D14(&boss->field_698) == 2)
@@ -3664,7 +3664,7 @@ void Boss1__OnDefend_Core(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
     {
-        switch (boss->actionType)
+        switch (boss->actionState)
         {
             case BOSS1_ACTION_BITE:
                 Boss1__Action_Damage(boss, boss->action.bite.type, Boss1Stage__GetBiteDamageDuration(boss->stage));
@@ -3689,7 +3689,7 @@ void Boss1__OnDefend_Core(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         }
 
         Player__Action_AttackRecoil(player);
-        switch (boss->actionType)
+        switch (boss->actionState)
         {
             case BOSS1_ACTION_BITE:
             case BOSS1_ACTION_DAMAGE:
@@ -3847,7 +3847,7 @@ void Boss1__OnDefend_Invulnerable(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
                 player->objWork.flow.x = 0;
         }
 
-        if (boss->actionType == BOSS1_ACTION_CHARGE)
+        if (boss->actionState == BOSS1_ACTION_CHARGE)
         {
             player->overSpeedLimitTimer = 20;
 
@@ -3893,7 +3893,7 @@ void Boss1__OnDefend_Harmful(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         BossFX__CreateHitB(0, player->objWork.position.x, -player->objWork.position.y, player->objWork.position.z);
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_UNWEAK);
 
-        if (boss->actionType == BOSS1_ACTION_CHARGE)
+        if (boss->actionState == BOSS1_ACTION_CHARGE)
         {
             if (boss->action.charge.direction != 0)
             {
@@ -3911,7 +3911,7 @@ void Boss1__OnDefend_Harmful(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
 void Boss1__Action_Init(Boss1 *work)
 {
-    work->actionType = BOSS1_ACTION_INIT;
+    work->actionState = BOSS1_ACTION_INIT;
     Boss1__ConfigureCollider(work, BOSS1_COLLIDER_NONE);
     work->bossState = Boss1__BossState_StartInitWait;
 }
@@ -3921,7 +3921,7 @@ void Boss1__Action_Idle(Boss1 *work, u16 duration)
     MI_CpuClear16(&work->action.idle, sizeof(work->action.idle));
 
     work->action.idle.duration = duration;
-    work->actionType           = BOSS1_ACTION_IDLE;
+    work->actionState           = BOSS1_ACTION_IDLE;
 
     work->bossState = Boss1__BossState_StartIdle;
     work->bossState(work);
@@ -3933,7 +3933,7 @@ void Boss1__Action_Bite(Boss1 *work, s32 type, const Boss1BiteConfig *config)
 
     work->action.bite.type   = type;
     work->action.bite.config = config;
-    work->actionType         = BOSS1_ACTION_BITE;
+    work->actionState         = BOSS1_ACTION_BITE;
 
     work->bossState = Boss1__BossState_InitBite;
     work->bossState(work);
@@ -3946,7 +3946,7 @@ void Boss1__Action_Charge(Boss1 *work, s32 direction, s32 a3)
     work->action.charge.config    = Boss1Stage__GetChargeConfig(work->stage);
     work->action.charge.direction = direction;
     work->action.charge.field_C   = a3;
-    work->actionType              = BOSS1_ACTION_CHARGE;
+    work->actionState              = BOSS1_ACTION_CHARGE;
 
     work->bossState = Boss1__BossState_InitCharge;
     work->bossState(work);
@@ -3957,7 +3957,7 @@ void Boss1__Action_HeadSlam(Boss1 *work, const Boss1HeadSlamConfig *config)
     MI_CpuClear16(&work->action.headSlam, sizeof(work->action.headSlam));
 
     work->action.headSlam.config = config;
-    work->actionType             = BOSS1_ACTION_HEADSLAM;
+    work->actionState             = BOSS1_ACTION_HEADSLAM;
 
     work->bossState = Boss1__BossState_InitHeadSlam;
     work->bossState(work);
@@ -3971,7 +3971,7 @@ void Boss1__Action_Damage(Boss1 *work, s32 type, u16 duration)
 
     action->type     = type;
     action->duration = duration;
-    work->actionType = BOSS1_ACTION_DAMAGE;
+    work->actionState = BOSS1_ACTION_DAMAGE;
 
     work->bossState = Boss1__BossState_InitDamage;
     work->bossState(work);
@@ -3982,7 +3982,7 @@ void Boss1__Action_ChargeDamage(Boss1 *work, u16 duration)
     MI_CpuClear16(&work->action.chargeDamage, sizeof(work->action.chargeDamage));
 
     work->action.chargeDamage.duration = duration;
-    work->actionType                   = BOSS1_ACTION_CHARGE_DAMAGE;
+    work->actionState                   = BOSS1_ACTION_CHARGE_DAMAGE;
 
     work->bossState = Boss1__BossState_InitChargeDamage;
     work->bossState(work);
@@ -3993,7 +3993,7 @@ void Boss1__Action_Jump(Boss1 *work, s32 a2)
     MI_CpuClear16(&work->action.jump, sizeof(work->action.jump));
 
     work->action.jump.field_0 = a2;
-    work->actionType          = BOSS1_ACTION_JUMP;
+    work->actionState          = BOSS1_ACTION_JUMP;
 
     work->bossState = Boss1__BossState_InitJump;
     work->bossState(work);
@@ -4001,7 +4001,7 @@ void Boss1__Action_Jump(Boss1 *work, s32 a2)
 
 void Boss1__Action_Drop(Boss1 *work)
 {
-    work->actionType = BOSS1_ACTION_DROP;
+    work->actionState = BOSS1_ACTION_DROP;
 
     work->bossState = Boss1__BossState_InitDrop;
     work->bossState(work);
@@ -4009,7 +4009,7 @@ void Boss1__Action_Drop(Boss1 *work)
 
 void Boss1__Action_Deactivate(Boss1 *work)
 {
-    work->actionType = BOSS1_ACTION_DEACTIVATE;
+    work->actionState = BOSS1_ACTION_DEACTIVATE;
 
     work->bossState = Boss1__BossState_InitDeactivate;
     work->bossState(work);
@@ -4020,7 +4020,7 @@ void Boss1__Action_ChargeDeactivate(Boss1 *work, s32 direction)
     MI_CpuClear16(&work->action.chargeDeactivate, sizeof(work->action.chargeDeactivate));
 
     work->action.chargeDeactivate.direction = direction;
-    work->actionType                        = BOSS1_ACTION_CHARGE_DEACTIVATE;
+    work->actionState                        = BOSS1_ACTION_CHARGE_DEACTIVATE;
 
     work->bossState = Boss1__BossState_InitChargeDeactivate;
     work->bossState(work);
@@ -4028,7 +4028,7 @@ void Boss1__Action_ChargeDeactivate(Boss1 *work, s32 direction)
 
 void Boss1__Action_Destroy(Boss1 *work)
 {
-    work->actionType = BOSS1_ACTION_DESTROY;
+    work->actionState = BOSS1_ACTION_DESTROY;
 
     work->bossState = Boss1__BossState_InitDestroyed;
     work->bossState(work);
@@ -5887,8 +5887,8 @@ void Boss1__BossState_StartDeactivate(Boss1 *work)
 
 void Boss1__BossState_Deactivate(Boss1 *work)
 {
-    work->action.idle.duration++;
-    if (work->action.idle.duration > BOSS1_DEACTIVATE_TIME)
+    work->action.deactivate.timer++;
+    if (work->action.deactivate.timer > BOSS1_DEACTIVATE_TIME)
         work->bossState = Boss1__BossState_StartDeactivateRevive;
 }
 

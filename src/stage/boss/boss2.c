@@ -37,70 +37,89 @@
 
 enum Boss2JointAniID
 {
-    bs2_body_fw0,
-    bs2_arm_fw0,
-    bs2_drop_fw0,
-    bs2_balla_fw0,
-    bs2_ballb_fw0,
-    bs2_ballc_fw0,
-    bs2_body_gura0,
-    bs2_drop_gura0,
-    bs2_body_gura1,
-    bs2_drop_gura1,
-    bs2_body_gura2,
-    bs2_drop_gura2,
-    bs2_body_gura3,
-    bs2_drop_gura3,
-    bs2_body_gura4,
-    bs2_drop_gura4,
-    bs2_body_gura5,
-    bs2_drop_gura5,
-    bs2_body_zako0,
-    bs2_drop_zako0,
-    bs2_body_zako1,
-    bs2_drop_zako1,
-    bs2_body_zako2,
-    bs2_drop_zako2,
-    bs2_body_dmg0,
-    bs2_body_dmg1,
-    bs2_body_down0,
-    bs2_body_down1,
-    bs2_body_down2,
-    bs2_body_down3,
-    bs2_body_down4,
-    bs2_body_down5,
-    bs2_body_down6,
-    bs2_body_exp0,
-    bs2_balla_ratk0,
-    bs2_ballb_ratk0,
-    bs2_ballc_ratk0,
-    bs2_balla_ratk1,
-    bs2_ballb_ratk1,
-    bs2_ballc_ratk1,
-    bs2_balla_pendf0,
-    bs2_ballb_pendf0,
-    bs2_ballc_pendf0,
-    bs2_balla_pendf1,
-    bs2_ballb_pendf1,
-    bs2_ballc_pendf1,
-    bs2_balla_pendb0,
-    bs2_ballb_pendb0,
-    bs2_ballc_pendb0,
-    bs2_balla_pendb1,
-    bs2_ballb_pendb1,
-    bs2_ballc_pendb1,
-    bs2_spka_0,
-    bs2_spkb_0,
-    bs2_spkc_0,
-    bs2_spka_1,
-    bs2_spkb_1,
-    bs2_spkc_1,
-    bs2_spka_2,
-    bs2_spkb_2,
-    bs2_spkc_2,
-    bs2_spka_3,
-    bs2_spkb_3,
-    bs2_spkc_3,
+    ANI_JNT_bs2_body_fw0,
+    ANI_JNT_bs2_arm_fw0,
+    ANI_JNT_bs2_drop_fw0,
+    ANI_JNT_bs2_balla_fw0,
+    ANI_JNT_bs2_ballb_fw0,
+    ANI_JNT_bs2_ballc_fw0,
+    ANI_JNT_bs2_body_gura0,
+    ANI_JNT_bs2_drop_gura0,
+    ANI_JNT_bs2_body_gura1,
+    ANI_JNT_bs2_drop_gura1,
+    ANI_JNT_bs2_body_gura2,
+    ANI_JNT_bs2_drop_gura2,
+    ANI_JNT_bs2_body_gura3,
+    ANI_JNT_bs2_drop_gura3,
+    ANI_JNT_bs2_body_gura4,
+    ANI_JNT_bs2_drop_gura4,
+    ANI_JNT_bs2_body_gura5,
+    ANI_JNT_bs2_drop_gura5,
+    ANI_JNT_bs2_body_zako0,
+    ANI_JNT_bs2_drop_zako0,
+    ANI_JNT_bs2_body_zako1,
+    ANI_JNT_bs2_drop_zako1,
+    ANI_JNT_bs2_body_zako2,
+    ANI_JNT_bs2_drop_zako2,
+    ANI_JNT_bs2_body_dmg0,
+    ANI_JNT_bs2_body_dmg1,
+    ANI_JNT_bs2_body_down0,
+    ANI_JNT_bs2_body_down1,
+    ANI_JNT_bs2_body_down2,
+    ANI_JNT_bs2_body_down3,
+    ANI_JNT_bs2_body_down4,
+    ANI_JNT_bs2_body_down5,
+    ANI_JNT_bs2_body_down6,
+    ANI_JNT_bs2_body_exp0,
+    ANI_JNT_bs2_balla_ratk0,
+    ANI_JNT_bs2_ballb_ratk0,
+    ANI_JNT_bs2_ballc_ratk0,
+    ANI_JNT_bs2_balla_ratk1,
+    ANI_JNT_bs2_ballb_ratk1,
+    ANI_JNT_bs2_ballc_ratk1,
+    ANI_JNT_bs2_balla_pendf0,
+    ANI_JNT_bs2_ballb_pendf0,
+    ANI_JNT_bs2_ballc_pendf0,
+    ANI_JNT_bs2_balla_pendf1,
+    ANI_JNT_bs2_ballb_pendf1,
+    ANI_JNT_bs2_ballc_pendf1,
+    ANI_JNT_bs2_balla_pendb0,
+    ANI_JNT_bs2_ballb_pendb0,
+    ANI_JNT_bs2_ballc_pendb0,
+    ANI_JNT_bs2_balla_pendb1,
+    ANI_JNT_bs2_ballb_pendb1,
+    ANI_JNT_bs2_ballc_pendb1,
+    ANI_JNT_bs2_spka_0,
+    ANI_JNT_bs2_spkb_0,
+    ANI_JNT_bs2_spkc_0,
+    ANI_JNT_bs2_spka_1,
+    ANI_JNT_bs2_spkb_1,
+    ANI_JNT_bs2_spkc_1,
+    ANI_JNT_bs2_spka_2,
+    ANI_JNT_bs2_spkb_2,
+    ANI_JNT_bs2_spkc_2,
+    ANI_JNT_bs2_spka_3,
+    ANI_JNT_bs2_spkb_3,
+    ANI_JNT_bs2_spkc_3,
+};
+
+enum Boss2VizAniID
+{
+    ANI_VIZ_bs2_spka_0,
+    ANI_VIZ_bs2_spkb_0,
+    ANI_VIZ_bs2_spkc_0,
+
+    ANI_VIZ_bs2_spka_1,
+    ANI_VIZ_bs2_spkb_1,
+    ANI_VIZ_bs2_spkc_1,
+
+    ANI_VIZ_bs2_spka_2,
+    ANI_VIZ_bs2_spkb_2,
+    ANI_VIZ_bs2_spkc_2,
+
+    ANI_VIZ_bs2_spka_3,
+    ANI_VIZ_bs2_spkb_3,
+    ANI_VIZ_bs2_spkc_3,
 };
 
 // --------------------
@@ -113,9 +132,9 @@ struct Boss2BallConfig
     u16 vulnerableDuration;
 };
 
-struct Boss2UnknownConfig
+struct Boss2TimerConfig
 {
-    u16 value;
+    u16 baseValue;
     u16 range;
 };
 
@@ -123,36 +142,333 @@ struct Boss2UnknownConfig
 // VARIABLES
 // --------------------
 
-static void (*Boss2__PlayerDrawFunc)(void);
-static Task *Boss2Stage__Singleton;
+#ifdef NON_MATCHING
+
+static const struct Boss2BallConfig Boss2__ballConfigTable[BOSS2_PHASE_COUNT][BOSS2_BALL_COUNT] =
+{
+	{
+		{ 0, 0 },
+    	{ 0, 0 },
+    	{ 0, 0 },
+	},
+    
+	{
+    	{ 60, 180 },
+    	{ 0, 0 },
+    	{ 0, 0 },
+	},
+    
+	{
+    	{ 60, 180 },
+    	{ 120, 180 },
+    	{ 0, 0 },
+	},
+    
+	{
+    	{ 60, 180 },
+    	{ 120, 180 },
+    	{ 180, 180 },
+	}
+};
+
+static const u16 Boss2__damageModifierTable[BOSS2_PHASE_COUNT][BOSS2_BALL_COUNT] =
+{
+	{ 0x20, 0x30, 0x80 },
+	{ 0x20, 0x30, 0x80 },
+	{ 0x20, 0x30, 0x80 },
+	{ 0x20, 0x30, 0x80 },
+};
+
+static const s16 Boss2__spinSpeeds[BOSS2_PHASE_COUNT][BOSS2_BALL_COUNT] =
+{
+	{ 0x60, 0x40, 0x20 },
+	{ 0x80, 0x60, 0x40 },
+	{ 0xA0, 0x80, 0x60 },
+	{ 0xC0, 0xA0, 0x80 },
+};
+
+static const fx16 Boss2__ballWeightTable_Normal[BOSS2_BALL_COUNT] = { 0x4000, 0x2999, 0x2000 };
+
+static const s16 Boss2__healthPhaseTable[BOSS2_PHASE_COUNT - 1]   = { 0x3A0, 0x280, 0x140 };
+
+static const fx16 Boss2__ballWeightTable_Heavy[BOSS2_BALL_COUNT]  = { 0x3000, 0x2000, 0x1800 };
+
+static const s32 Boss2__activeArmCountTable[BOSS2_PHASE_COUNT] = {0, 1, 2, 2};
+
+static const fx32 Boss2__baseDamageTable[DIFFICULTY_COUNT] = { 0x1000, 0x1000 };
+
+static const struct Boss2TimerConfig Boss2__UnknownConfig1[DIFFICULTY_COUNT][BOSS2_PHASE_COUNT] =
+{
+	{
+		{ 0, 0},
+    	{ 0, 0},
+    	{ 360, 255},
+    	{ 300, 255},
+	},
+
+	{
+		{ 300, 511 },
+    	{ 300, 255 },
+    	{ 240, 255 },
+    	{ 180, 255 },
+	},
+};
+
+static const struct Boss2TimerConfig Boss2__UnknownConfig2[DIFFICULTY_COUNT][BOSS2_PHASE_COUNT] =
+{
+	{
+		{ 0, 0 },
+    	{ 0, 0 },
+    	{ 0, 0 },
+    	{ 300, 127 },
+	},
+
+	{
+		{ 0, 0 },
+    	{ 0, 0 },
+    	{ 240, 255 },
+    	{ 180, 255 },
+	},
+};
+
+static const fx32 Boss2__hitFXScaleTable[BOSS2_BALL_COUNT] = {0x4000, 0x6000, 0x8000};
+
+static const char* Boss2Ball__paletteNames[BOSS2_BALL_COUNT] =
+{
+    "h_tama_a_pl",
+	"h_tama_b_pl",
+	"h_tama_c_pl",
+};
+
+static const char* Boss2__paletteNames[] =
+{
+    "eye_pl",
+	"face_pl",
+	"setuzoku_meka_pl",
+	"side_b_pl",
+	"side_meka1_pl",
+	"side_meka2_pl",
+	"side_meka3_pl",
+	"top_pl",
+};
+
+#else
 
 static const fx16 Boss2__ballWeightTable_Normal[BOSS2_BALL_COUNT] = { 0x4000, 0x2999, 0x2000 };
 static const s16 Boss2__healthPhaseTable[BOSS2_PHASE_COUNT - 1]   = { 0x3A0, 0x280, 0x140 };
 static const fx16 Boss2__ballWeightTable_Heavy[BOSS2_BALL_COUNT]  = { 0x3000, 0x2000, 0x1800 };
-
 static const fx32 Boss2__baseDamageTable[DIFFICULTY_COUNT] = { 0x1000, 0x1000 };
 
-NOT_DECOMPILED const void *Boss2__ballNames;
-NOT_DECOMPILED const void *Boss2__ballScales;
-NOT_DECOMPILED const void *Boss2Stage__State2_215C938_camUp;
-NOT_DECOMPILED const fx32 Boss2__hitFXScaleTable[BOSS2_BALL_COUNT];
-NOT_DECOMPILED const void *Boss2Stage__State2_215CD08_camUp;
-NOT_DECOMPILED const void *Boss2Ball__Func_215F490_offset;
-NOT_DECOMPILED const void *Boss2__activeArmCountTable;
-NOT_DECOMPILED const void *Boss2__ballHitboxes;
-NOT_DECOMPILED const u16 Boss2__damageModifierTable[BOSS2_PHASE_COUNT][BOSS2_BALL_COUNT];
-NOT_DECOMPILED const s16 Boss2__spinSpeeds[BOSS2_PHASE_COUNT][BOSS2_BALL_COUNT];
-NOT_DECOMPILED const void *_02179D2C;
-NOT_DECOMPILED const struct Boss2UnknownConfig Boss2__UnknownConfig1[DIFFICULTY_COUNT][BOSS2_PHASE_COUNT];
-NOT_DECOMPILED const struct Boss2UnknownConfig Boss2__UnknownConfig2[DIFFICULTY_COUNT][BOSS2_PHASE_COUNT];
 NOT_DECOMPILED const struct Boss2BallConfig Boss2__ballConfigTable[BOSS2_PHASE_COUNT][BOSS2_BALL_COUNT];
 
-NOT_DECOMPILED const char *Boss2Ball__paletteNames[BOSS2_BALL_COUNT];
-NOT_DECOMPILED const char *Boss2__paletteNames[8];
+NOT_DECOMPILED const u16 Boss2__damageModifierTable[BOSS2_PHASE_COUNT][BOSS2_BALL_COUNT];
+
+NOT_DECOMPILED const s16 Boss2__spinSpeeds[BOSS2_PHASE_COUNT][BOSS2_BALL_COUNT];
+
+NOT_DECOMPILED const s32 Boss2__activeArmCountTable[BOSS2_PHASE_COUNT];
+
+NOT_DECOMPILED const struct Boss2TimerConfig Boss2__UnknownConfig1[DIFFICULTY_COUNT][BOSS2_PHASE_COUNT];
+NOT_DECOMPILED const struct Boss2TimerConfig Boss2__UnknownConfig2[DIFFICULTY_COUNT][BOSS2_PHASE_COUNT];
+
+NOT_DECOMPILED const fx32 Boss2__hitFXScaleTable[BOSS2_BALL_COUNT];
+
+
+NOT_DECOMPILED const char* Boss2Ball__paletteNames[BOSS2_BALL_COUNT];
+NOT_DECOMPILED const char* Boss2__paletteNames[];
+
+NOT_DECOMPILED const VecFx32 Boss2Stage__State2_215C938_camUp;
+NOT_DECOMPILED const VecFx32 Boss2Stage__State2_215CD08_camUp;
+NOT_DECOMPILED const fx32 Boss2Ball__Func_215F490_offset[BOSS2_BALL_COUNT];
+
+NOT_DECOMPILED const HitboxRect Boss2__ballHitboxes[BOSS2_BALL_COUNT];
+NOT_DECOMPILED const char* Boss2__ballNames[BOSS2_BALL_COUNT];
+NOT_DECOMPILED const fx32 Boss2__ballScales[BOSS2_BALL_COUNT];
+
+#endif
+
+static void (*Boss2__PlayerDrawFunc)(void);
+static Task *Boss2Stage__Singleton;
 
 // --------------------
 // FUNCTION DECLS
 // --------------------
+
+// Boss2 Helpers
+static void Boss2__DrawPlayer(void);
+static void Boss2__LoadAssets(Boss2Assets* assets);
+
+// Boss2Stage
+static Boss2Phase Boss2__GetBossPhase(Boss2Stage *work);
+static fx32 Boss2Stage__GetBaseDamageValue(Boss2Stage *work, s32 ballType);
+static fx32 Boss2Stage__GetDamageModifier(Boss2Stage *work, s32 ballType);
+static u16 Boss2Stage__GetImpactDamage(Boss2Stage *work, s32 ballType);
+static fx32 Boss2__GetHitFXScale(Boss2Stage *work, s32 ballType);
+static s16 Boss2__GetBallSpinSpeed(Boss2Stage *work, s32 ballType);
+static fx16 Boss2Stage__GetBallWeight(Boss2Stage *work, s32 ballType);
+static void Boss2Stage__GetBallConfig(Boss2Stage *work, s32 ballType, u16 *spikeDuration, u16 *vulnerableDuration);
+static u16 Boss2__Func_215C104(Boss2Stage *work);
+static u16 Boss2__Func_215C19C(Boss2Stage *work);
+static void Boss2__Func_215C240(Boss2Stage *work);
+static void Boss2Stage__Func_215C2CC(Boss2Stage *work);
+static void Boss2Stage__Func_215C5F8(Boss2Stage *work, VecFx32 *target0, VecFx32 *target1, VecFx32 *up);
+static void Boss2Stage__Func_215C66C(Boss2Stage *work, VecFx32 *target0, VecFx32 *target1, VecFx32 *up);
+static u16 Boss2Stage__Func_215C6E0(Boss2Stage *work, Boss2Ball **balls);
+static void Boss2Stage__HandleBossCamera(Boss2Stage *work);
+static void Boss2Stage__State_Active(Boss2Stage* work);
+static void Boss2Stage__Destructor(Task *task);
+static void Boss2Stage__Draw(void);
+static void Boss2__Collide(void);
+static void Boss2__OnDefend(OBS_RECT_WORK* rect1, OBS_RECT_WORK* rect2);
+static void Boss2Stage__State2_215C938(Boss2Stage* work);
+static void Boss2Stage__State2_215CD08(Boss2Stage* work);
+static void Boss2Stage__State2_215CE88(Boss2Stage* work);
+
+// Boss2
+static void Boss2__State_Active(Boss2* work);
+static void Boss2__Destructor(Task *task);
+static void Boss2__Draw(void);
+static BOOL Boss2__Func_215D168(Boss2* work);
+static void Boss2__BodyACallback(NNSG3dRS *context, void *userData);
+static void Boss2__BodyBCallback(NNSG3dRS *context, void *userData);
+static void Boss2__SetupObject(Boss2* work);
+static void Boss2__Action_Attack1(Boss2* work);
+static void Boss2__Action_Attack2(Boss2* work);
+static void Boss2__Action_Attack3(Boss2* work);
+static void Boss2__Action_Die(Boss2* work);
+static void Boss2_BossState_215D2E4(Boss2* work);
+static void Boss2_BossState_215D2F0(Boss2* work);
+static void Boss2_BossState_215D334(Boss2* work);
+static void Boss2_BossState_215D4DC(Boss2* work);
+static void Boss2_BossState_215D4EC(Boss2* work);
+static void Boss2_BossState_215D544(Boss2* work);
+static void Boss2_BossState_215D560(Boss2* work);
+static void Boss2_BossState_215D5A0(Boss2* work);
+static void Boss2_BossState_215D5DC(Boss2* work);
+static void Boss2_BossState_215D5F4(Boss2* work);
+static void Boss2_BossState_215D64C(Boss2* work);
+static void Boss2_BossState_215D668(Boss2* work);
+static void Boss2_BossState_215D6A8(Boss2* work);
+static void Boss2_BossState_215D6CC(Boss2* work);
+static void Boss2_BossState_215D71C(Boss2* work);
+static void Boss2_BossState_215D790(Boss2* work);
+static void Boss2_BossState_215D824(Boss2* work);
+static void Boss2_BossState_215D840(Boss2* work);
+static void Boss2_BossState_215D88C(Boss2* work);
+static void Boss2_BossState_215D8A8(Boss2* work);
+static void Boss2_BossState_215D914(Boss2* work);
+static void Boss2_BossState_215D970(Boss2* work);
+static void Boss2_BossState_215D9BC(Boss2* work);
+static void Boss2_BossState_215DA44(Boss2* work);
+static void Boss2_BossState_215DAB8(Boss2* work);
+static void Boss2_BossState_215DAD4(Boss2* work);
+static void Boss2_BossState_215DC20(Boss2* work);
+static void Boss2_BossState_215DDD8(Boss2* work);
+static void Boss2_BossState_215DE40(Boss2* work);
+static void Boss2_BossState_StartExplode(Boss2* work);
+static void Boss2_BossState_215E050(Boss2* work);
+static void Boss2_BossState_ShowResultsScreen(Boss2* work);
+
+// Boss2Drop
+static void Boss2Drop__State_Active(Boss2Drop *work);
+static void Boss2Drop__Destructor(Task *task);
+static void Boss2Drop__Draw(void);
+static void Boss2Drop__SetupObject(Boss2Drop *work);
+static void Boss2Drop__Func_215E208(Boss2Drop *work);
+static void Boss2Drop__State_Init(Boss2Drop *work);
+static void Boss2Drop__State_Attached(Boss2Drop *work);
+static void Boss2Drop_DropState_215E3F4(Boss2Drop *work);
+static void Boss2Drop_DropState_215E40C(Boss2Drop *work);
+static void Boss2Drop_DropState_215E46C(Boss2Drop *work);
+static void Boss2Drop_DropState_215E4CC(Boss2Drop *work);
+static void Boss2Drop_DropState_215E564(Boss2Drop *work);
+static void Boss2Drop_DropState_215E604(Boss2Drop *work);
+static void Boss2Drop_DropState_215E6D8(Boss2Drop *work);
+static void Boss2Drop_DropState_215E718(Boss2Drop *work);
+static void Boss2Drop_DropState_215E754(Boss2Drop *work);
+static void Boss2Drop_DropState_215E770(Boss2Drop *work);
+static void Boss2Drop_DropState_215E7D8(Boss2Drop *work);
+static void Boss2Drop_DropState_215E87C(Boss2Drop *work);
+static void Boss2Drop_DropState_215E8C0(Boss2Drop *work);
+
+// Boss2Arm
+static void Boss2Arm__State_Active(Boss2Arm *work);
+static void Boss2Arm__Destructor(Task *task);
+static void Boss2Arm__Draw(void);
+static BOOL Boss2Arm__CheckCanDraw(Boss2Arm *work);
+static void Boss2Arm__SetupObject(Boss2Arm *work);
+static void Boss2Arm__Action_215EBC0(Boss2Arm *work);
+static void Boss2Arm__Func_215EBD8(Boss2Arm *work);
+static void Boss2Arm__Func_215EBF0(Boss2Arm *work, u16 angle, s16 angleSpeed);
+static void Boss2Arm__Func_215EC24(Boss2Arm *work);
+static void Boss2Arm_ArmState_215EC44(Boss2Arm *work);
+static void Boss2Arm_ArmState_215EC5C(Boss2Arm *work);
+static void Boss2Arm_ArmState_215ECD8(Boss2Arm *work);
+static void Boss2Arm_ArmState_215EDE4(Boss2Arm *work);
+static void Boss2Arm_ArmState_215EF50(Boss2Arm *work);
+static void Boss2Arm_ArmState_215F08C(Boss2Arm *work);
+static void Boss2Arm_ArmState_215F128(Boss2Arm *work);
+static void Boss2Arm_ArmState_215F204(Boss2Arm *work);
+static void Boss2Arm_ArmState_215F254(Boss2Arm *work);
+static void Boss2Arm_ArmState_215F258(Boss2Arm *work);
+static void Boss2Arm_ArmState_215F2C8(Boss2Arm *work);
+
+// Boss2Ball
+static void Boss2Ball__State_Active(Boss2Ball* work);
+static void Boss2Ball__Destructor(Task *task);
+static void Boss2Ball__Draw(void);
+static void Boss2Ball__Func_215F490(Boss2Ball *work);
+static void Boss2Ball__Collide(void);
+static void Boss2Ball__OnDefend(OBS_RECT_WORK* rect1, OBS_RECT_WORK* rect2);
+static void Boss2Ball__Func_215F890(Boss2Ball* work);
+static void Boss2Ball__SetupObject(Boss2Ball* work);
+static void Boss2Ball__Func_215F944(Boss2Ball* work);
+static void Boss2Ball__Action_Hit(Boss2Ball *work, s32 direction, fx32 force);
+static void Boss2Ball__Action_HitRecoil(Boss2Ball* work);
+static void Boss2Ball__State_215FAE0(Boss2Ball* work);
+static void Boss2Ball_BallState_215FB14(Boss2Ball* work);
+static void Boss2Ball_BallState_215FB78(Boss2Ball* work);
+static void Boss2Ball_BallState_InitHit(Boss2Ball* work);
+static void Boss2Ball_BallState_Hit(Boss2Ball* work);
+static void Boss2Ball_BallState_215FF00(Boss2Ball* work);
+static void Boss2Ball_BallState_215FFFC(Boss2Ball* work);
+static void Boss2Ball__EnableSpikes(Boss2BallSpikeWorker* worker);
+static void Boss2Ball__DisableSpikes(Boss2BallSpikeWorker* worker);
+static void Boss2Ball__Func_216009C(Boss2BallSpikeWorker* worker);
+static void Boss2Ball__Func_21600AC(Boss2BallSpikeWorker* worker);
+static void Boss2Ball_SpikeState_21600BC(Boss2Ball* work, Boss2BallSpikeWorker* worker);
+static void Boss2Ball_SpikeState_Blank(Boss2Ball* work, Boss2BallSpikeWorker* worker);
+static void Boss2Ball_SpikeState_2160174(Boss2Ball* work, Boss2BallSpikeWorker* worker);
+static void Boss2Ball_SpikeState_2160268(Boss2Ball* work, Boss2BallSpikeWorker* worker);
+static void Boss2Ball_SpikeState_21602A4(Boss2Ball* work, Boss2BallSpikeWorker* worker);
+static void Boss2Ball_SpikeState_2160354(Boss2Ball* work, Boss2BallSpikeWorker* worker);
+static void Boss2Ball_SpikeState_2160420(Boss2Ball* work, Boss2BallSpikeWorker* worker);
+static void Boss2Ball_SpikeState_216045C(Boss2Ball* work, Boss2BallSpikeWorker* worker);
+static void Boss2Ball_SpikeState_216050C(Boss2Ball* work, Boss2BallSpikeWorker* worker);
+
+// Boss2Bomb
+static Boss2Bomb* Boss2Bomb__Spawn(Boss2Stage *work, fx32 moveSpeed, BOOL flipped);
+static void Boss2Bomb__State_Active(Boss2Bomb* work);
+static void Boss2Bomb__Destructor(Task *task);
+static void Boss2Bomb__Draw(void);
+static void Boss2Bomb__Collide(void);
+static void Boss2Bomb__OnDefend_21606DC(OBS_RECT_WORK* rect1, OBS_RECT_WORK* rect2);
+static void Boss2Bomb__SetupObject(Boss2Bomb* work);
+static void Boss2Bomb__Func_216073C(Boss2Bomb* work);
+static void Boss2Bomb_BombState_216075C(Boss2Bomb* work);
+static void Boss2Bomb_BombState_2160774(Boss2Bomb* work);
+static void Boss2Bomb_BombState_216078C(Boss2Bomb* work);
+static void Boss2Bomb_BombState_21607AC(Boss2Bomb* work);
+static void Boss2Bomb_BombState_21607C8(Boss2Bomb* work);
+static void Boss2Bomb_BombState_EnterArena(Boss2Bomb* work);
+static void Boss2Bomb_BombState_StartMoving(Boss2Bomb* work);
+static void Boss2Bomb_BombState_Moving(Boss2Bomb* work);
+static void Boss2Bomb_BombState_2160938(Boss2Bomb* work);
+static void Boss2Bomb_BombState_21609A8(Boss2Bomb* work);
+
+// Boss2Wave
+static void Boss2Wave__State_Active(Boss2Wave* work);
+static void Boss2Wave__Destructor(Task *task);
+static void Boss2Wave__Draw(void);
 
 // --------------------
 // INLINE FUNCTIONS
@@ -162,7 +478,7 @@ NOT_DECOMPILED const char *Boss2__paletteNames[8];
 // FUNCTIONS
 // --------------------
 
-Boss2Stage *Boss2Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
+Boss2Stage *CreateBoss2Stage(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 {
     NNSFndArchive arc;
 
@@ -178,9 +494,9 @@ Boss2Stage *Boss2Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS
                                        | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    work->health   = 0x400;
-    work->dword39C = -y;
-    work->state2   = Boss2Stage__State2_215C938;
+    work->health       = HUD_BOSS_HEALTH_MAX;
+    work->groundHeight = -y;
+    work->stageState   = Boss2Stage__State2_215C938;
 
     Boss2__LoadAssets(&work->assets);
 
@@ -238,7 +554,7 @@ Boss2Stage *Boss2Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
     return work;
 }
 
-Boss2 *Boss2__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
+Boss2 *CreateBoss2(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 {
     NNSFndArchive arc;
 
@@ -283,6 +599,7 @@ Boss2 *Boss2__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
     BossHelpers__Model__Init(aniBody->renderObj.resMdl, "weak", MTXSTACK_BOSS2_WEAK, NULL, NULL);
 
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+
     for (s32 i = 0; i < (s32)ARRAY_COUNT(work->aniPalette); i++)
     {
         InitPaletteAnimator(&work->aniPalette[i], NNS_FndGetArchiveFileByIndex(&arc, i + ARCHIVE_Z2BOSS_ACT_LZ7_FILE_BOSS2_EYE_BPA), 0, ANIMATORBPA_FLAG_NONE, 5,
@@ -296,7 +613,7 @@ Boss2 *Boss2__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
     return work;
 }
 
-Boss2Arm *Boss2Arm__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
+Boss2Arm *CreateBoss2Arm(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 {
     Task *task = CreateStageTask(Boss2Arm__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), Boss2Arm);
 
@@ -334,7 +651,7 @@ Boss2Arm *Boss2Arm__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
     return work;
 }
 
-Boss2Drop *Boss2Drop__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
+Boss2Drop *CreateBoss2Drop(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 {
     Task *task = CreateStageTask(Boss2Drop__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), Boss2Drop);
 
@@ -366,8 +683,9 @@ Boss2Drop *Boss2Drop__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
     return work;
 }
 
-NONMATCH_FUNC Boss2Ball *Boss2Ball__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
+NONMATCH_FUNC Boss2Ball *CreateBoss2Ball(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 {
+    // will match when 'ballHitboxes', 'ballNames' & 'ballScale' is decompiled
 #ifdef NON_MATCHING
     NNSFndArchive arc;
 
@@ -387,7 +705,7 @@ NONMATCH_FUNC Boss2Ball *Boss2Ball__Create(MapObject *mapObject, fx32 x, fx32 y,
     work->sndHandle          = AllocSndHandle();
     work->type               = type;
     work->spikeWorker.type   = 3;
-    work->spikeWorker.state3 = Boss2Ball__StateSpikes_2160354;
+    work->spikeWorker.spikeState = Boss2Ball_SpikeState_2160354;
 
     Boss2Ball__DisableSpikes(&work->spikeWorker);
 
@@ -410,13 +728,13 @@ NONMATCH_FUNC Boss2Ball *Boss2Ball__Create(MapObject *mapObject, fx32 x, fx32 y,
 
     ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
     ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_DEFPOWER_DEFAULT);
-    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, curHitbox->left, curHitbox->top, curHitbox->right, curHitbox->bottom);
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, (s32)curHitbox->left, (s32)curHitbox->top, curHitbox->right, curHitbox->bottom);
     work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
     work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
 
     AnimatorMDL *aniBall = &work->aniBall;
     AnimatorMDL__Init(aniBall, ANIMATORMDL_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->aniBall, bossAssetFiles[3].fileData, type, FALSE, FALSE);
+    AnimatorMDL__SetResource(aniBall, bossAssetFiles[3].fileData, type, FALSE, FALSE);
     aniBall->work.translation.x = FLOAT_TO_FX32(0.0);
     aniBall->work.translation.y = FLOAT_TO_FX32(0.0);
     aniBall->work.translation.z = FLOAT_TO_FX32(0.0);
@@ -471,9 +789,9 @@ NONMATCH_FUNC Boss2Ball *Boss2Ball__Create(MapObject *mapObject, fx32 x, fx32 y,
     work->aniBallM.work.scale.z        = ballScale[type];
 
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
-    InitPaletteAnimator(&work->aniPalette, NNS_FndGetArchiveFileByIndex(&arc, type + ARCHIVE_Z2BOSS_ACT_LZ7_FILE_BOSS2_BALL_A_BPA), 0, ANIMATORBPA_FLAG_CAN_LOOP, 5,
+    InitPaletteAnimator(&work->aniPalette[0], NNS_FndGetArchiveFileByIndex(&arc, type + ARCHIVE_Z2BOSS_ACT_LZ7_FILE_BOSS2_BALL_A_BPA), 0, ANIMATORBPA_FLAG_CAN_LOOP, 5,
                         VRAMKEY_TO_ADDR(Asset3DSetup__PaletteFromName(NNS_G3dGetTex(bossAssetFiles[3].fileData), Boss2Ball__paletteNames[type])));
-    BossHelpers__SetPaletteAnimations(&work->aniPalette, 1, 0, FALSE);
+    BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), 0, FALSE);
     NNS_FndUnmountArchive(&arc);
 
     Boss2Ball__SetupObject(work);
@@ -526,7 +844,7 @@ NONMATCH_FUNC Boss2Ball *Boss2Ball__Create(MapObject *mapObject, fx32 x, fx32 y,
 	str r8, [r6, #0x37c]
 	mov r0, #3
 	str r0, [r6, #0x384]
-	ldr r1, =Boss2Ball__StateSpikes_2160354
+	ldr r1, =Boss2Ball_SpikeState_2160354
 	add r0, r6, #0x380
 	str r1, [r6, #0x380]
 	bl Boss2Ball__DisableSpikes
@@ -730,7 +1048,7 @@ _0215B838:
 #endif
 }
 
-Boss2Bomb *Boss2Bomb__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
+Boss2Bomb *CreateBoss2Bomb(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 {
     Task *task = CreateStageTask(Boss2Bomb__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), Boss2Bomb);
 
@@ -768,7 +1086,7 @@ Boss2Bomb *Boss2Bomb__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
     return work;
 }
 
-Boss2Wave *Boss2Wave__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
+Boss2Wave *CreateBoss2Wave(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 {
     NNSFndArchive arc;
 
@@ -907,7 +1225,7 @@ void Boss2Stage__GetBallConfig(Boss2Stage *work, s32 ballType, u16 *spikeDuratio
 
 u16 Boss2__Func_215C104(Boss2Stage *work)
 {
-    const struct Boss2UnknownConfig *config;
+    const struct Boss2TimerConfig *config;
 
     if (gmCheckMissionType(MISSION_TYPE_BOSS_REMATCH))
     {
@@ -918,12 +1236,12 @@ u16 Boss2__Func_215C104(Boss2Stage *work)
         config = &Boss2__UnknownConfig1[gameState.difficulty][Boss2__GetBossPhase(work)];
     }
 
-    return config->value + (mtMathRand() & config->range);
+    return config->baseValue + (mtMathRand() & config->range);
 }
 
 u16 Boss2__Func_215C19C(Boss2Stage *work)
 {
-    const struct Boss2UnknownConfig *config;
+    const struct Boss2TimerConfig *config;
 
     Boss2Phase phase = Boss2__GetBossPhase(work);
     UNUSED(phase);
@@ -937,16 +1255,16 @@ u16 Boss2__Func_215C19C(Boss2Stage *work)
         config = &Boss2__UnknownConfig2[gameState.difficulty][Boss2__GetBossPhase(work)];
     }
 
-    return config->value + (mtMathRand() & config->range);
+    return config->baseValue + (mtMathRand() & config->range);
 }
 
 void Boss2__Func_215C240(Boss2Stage *work)
 {
-    if (work->boss->field_3C8 == 0)
-        work->boss->field_3C8 = Boss2__Func_215C104(work);
+    if (work->boss->dropActionTimer == 0)
+        work->boss->dropActionTimer = Boss2__Func_215C104(work);
 
-    if (work->boss->field_3CA == 0)
-        work->boss->field_3CA = Boss2__Func_215C19C(work);
+    if (work->boss->bombSpawnTimer == 0)
+        work->boss->bombSpawnTimer = Boss2__Func_215C19C(work);
 
     for (s32 i = 0; i < BOSS2_BALL_COUNT; i++)
     {
@@ -979,9 +1297,9 @@ void Boss2Stage__Func_215C2CC(Boss2Stage *work)
         {
             Boss2Ball *ball = balls[i];
 
-            camTarget.x += ball->mtxBallCenter.m[3][0];
-            camTarget.y += ball->mtxBallCenter.m[3][1];
-            camTarget.z += ball->mtxBallCenter.m[3][2];
+            camTarget.x += ball->mtxBallCenter.translation.x;
+            camTarget.y += ball->mtxBallCenter.translation.y;
+            camTarget.z += ball->mtxBallCenter.translation.z;
         }
 
         camTarget.x = FX_DivS32(camTarget.x, ballCount);
@@ -1046,10 +1364,10 @@ u16 Boss2Stage__Func_215C6E0(Boss2Stage *work, Boss2Ball **balls)
     s32 i;
     u16 count = 0;
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < BOSS2_BALL_COUNT; i++)
     {
         Boss2Ball *ball = work->balls[i];
-        if (ball->field_378 == 2 && ball->angleAccel > 0x6000)
+        if (ball->actionState == BOSS2BALL_ACTION_2 && ball->angleAccel > 0x6000)
         {
             balls[count] = ball;
             count++;
@@ -1075,7 +1393,7 @@ void Boss2Stage__State_Active(Boss2Stage *work)
     BossHelpers__ProcessLights(&work->lightConfig);
     Boss2Stage__HandleBossCamera(work);
 
-    work->state2(work);
+    work->stageState(work);
 }
 
 void Boss2Stage__Destructor(Task *task)
@@ -1126,7 +1444,7 @@ void Boss2__Collide(void)
     if ((work->gameWork.colliders[0].flag & OBS_RECT_WORK_FLAG_ENABLED) == 0)
         return;
 
-    BossHelpers__Collision__HandleArenaCollider(work->gameWork.colliders, &work->field_388, (VecFx32 *)work->mtxWeakPoint.m[3], BOSS2_STAGE_START, BOSS2_STAGE_END,
+    BossHelpers__Collision__HandleArenaCollider(work->gameWork.colliders, &work->worldCollider, &work->mtxWeakPoint.translation, BOSS2_STAGE_START, BOSS2_STAGE_END,
                                                 BOSS2_STAGE_RADIUS);
 }
 
@@ -1137,7 +1455,7 @@ void Boss2__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
     {
-        boss->stage->health = 0;
+        boss->stage->health = HUD_BOSS_HEALTH_MIN;
         UpdateBossHealthHUD(boss->stage->health);
         Boss2__Action_Die(boss);
     }
@@ -1145,7 +1463,7 @@ void Boss2__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
 NONMATCH_FUNC void Boss2Stage__State2_215C938(Boss2Stage *work)
 {
-    // https://decomp.me/scratch/y3AaP -> 94.63%
+	// will match when 'Boss2Stage__State2_215C938_camUp' is decompiled
 #ifdef NON_MATCHING
     VecFx32 camUp = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0) };
 
@@ -1163,7 +1481,7 @@ NONMATCH_FUNC void Boss2Stage__State2_215C938(Boss2Stage *work)
     BossArena__SetCameraType(camera0, BOSSARENACAMERA_TYPE_1);
     BossArena__SetCameraConfig(camera0, &config);
     BossArena__SetTracker1TargetWork(camera0, &gPlayer->objWork, 0, &gPlayer->objWork);
-    BossArena__SetTracker1TargetPos(camera0, 0, work->dword39C + 0x118000, 0);
+    BossArena__SetTracker1TargetPos(camera0, 0, work->groundHeight + 0x118000, 0);
     BossArena__SetTracker1Speed(camera0, 1024, 0);
     BossArena__SetTracker1UseObj3D(camera0, TRUE);
     BossArena__UpdateTracker1TargetPos(camera0);
@@ -1203,7 +1521,8 @@ NONMATCH_FUNC void Boss2Stage__State2_215C938(Boss2Stage *work)
     unknown->screenBaseA         = 0;
     unknown->screenBaseBlock     = 0;
 
-    LoadCompressedPixels(GetBackgroundPixels(work->assets.background), PIXEL_MODE_SPRITE, VRAMSystem__VRAM_BG[0] + 0x4000);
+    void* background = GetBackgroundPixels(work->assets.background);
+    LoadCompressedPixels(background, PIXEL_MODE_SPRITE, VRAMSystem__VRAM_BG[0] + 0x4000);
     LoadCompressedPalette(GetBackgroundPalette(work->assets.background), PALETTE_MODE_SPRITE, VRAMSystem__VRAM_PALETTE_BG[0]);
 
     BossArena__SetBoundsX(0, -160);
@@ -1228,7 +1547,7 @@ NONMATCH_FUNC void Boss2Stage__State2_215C938(Boss2Stage *work)
     UpdateBossHealthHUD(work->health);
     SetHUDActiveScreen(1);
 
-    work->state2 = Boss2Stage__State2_215CD08;
+    work->stageState = Boss2Stage__State2_215CD08;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, lr}
@@ -1472,7 +1791,7 @@ NONMATCH_FUNC void Boss2Stage__State2_215C938(Boss2Stage *work)
 
 NONMATCH_FUNC void Boss2Stage__State2_215CD08(Boss2Stage *work)
 {
-    // will match when 'camUp' is decompiled
+    // will match when 'camUp' / 'Boss2Stage__State2_215CD08_camUp' is decompiled
 #ifdef NON_MATCHING
     VecFx32 camUp = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0) };
 
@@ -1481,7 +1800,7 @@ NONMATCH_FUNC void Boss2Stage__State2_215CD08(Boss2Stage *work)
     BossArenaCamera *camera0 = BossArena__GetCamera(0);
     BossArena__SetCameraType(camera0, BOSSARENACAMERA_TYPE_1);
     BossArena__SetTracker1TargetWork(camera0, &gPlayer->objWork, 0, &gPlayer->objWork);
-    BossArena__SetTracker1TargetPos(camera0, 0, work->dword39C + 0x118000, 0);
+    BossArena__SetTracker1TargetPos(camera0, 0, work->groundHeight + 0x118000, 0);
     BossArena__SetTracker1Speed(camera0, 1024, 0);
     BossArena__SetTracker1UseObj3D(camera0, TRUE);
     BossArena__UpdateTracker1TargetPos(camera0);
@@ -1509,7 +1828,7 @@ NONMATCH_FUNC void Boss2Stage__State2_215CD08(Boss2Stage *work)
     BossArena__UpdateTracker1TargetPos(camera2);
     BossArena__UpdateTracker0TargetPos(camera2);
 
-    work->state2 = Boss2Stage__State2_215CE88;
+    work->stageState = Boss2Stage__State2_215CE88;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, lr}
@@ -1647,7 +1966,7 @@ void Boss2__State_Active(Boss2 *work)
             break;
     }
 
-    work->state2(work);
+    work->bossState(work);
 }
 
 void Boss2__Destructor(Task *task)
@@ -1699,12 +2018,12 @@ BOOL Boss2__Func_215D168(Boss2 *work)
 {
     BOOL canDraw = FALSE;
 
-    if (work->field_4A0)
+    if (work->prevCanDraw)
     {
-        switch (work->attackType)
+        switch (work->actionState)
         {
-            case 3:
-            case 4:
+            case BOSS2_ACTION_3:
+            case BOSS2_ACTION_4:
                 canDraw = TRUE;
                 break;
 
@@ -1716,8 +2035,8 @@ BOOL Boss2__Func_215D168(Boss2 *work)
     }
     else
     {
-        canDraw         = TRUE;
-        work->field_4A0 = canDraw;
+        canDraw           = TRUE;
+        work->prevCanDraw = canDraw;
     }
 
     return canDraw;
@@ -1739,57 +2058,57 @@ void Boss2__BodyBCallback(NNSG3dRS *context, void *userData)
 
 void Boss2__SetupObject(Boss2 *work)
 {
-    work->attackType = 0;
+    work->actionState = BOSS2_ACTION_0;
 
-    work->state2 = Boss2__State2_215D2E4;
-    work->state2(work);
+    work->bossState = Boss2_BossState_215D2E4;
+    work->bossState(work);
 }
 
 void Boss2__Action_Attack1(Boss2 *work)
 {
-    work->attackType = 1;
+    work->actionState = BOSS2_ACTION_1;
 
-    work->state2 = Boss2__State2_215D2F0;
-    work->state2(work);
+    work->bossState = Boss2_BossState_215D2F0;
+    work->bossState(work);
 }
 
 void Boss2__Action_Attack2(Boss2 *work)
 {
-    work->attackType = 2;
+    work->actionState = BOSS2_ACTION_2;
 
-    work->state2 = Boss2__State2_215D4DC;
-    work->state2(work);
+    work->bossState = Boss2_BossState_215D4DC;
+    work->bossState(work);
 }
 
 void Boss2__Action_Attack3(Boss2 *work)
 {
-    work->attackType = 3;
+    work->actionState = BOSS2_ACTION_3;
 
-    work->state2 = Boss2__State2_215D5DC;
-    work->state2(work);
+    work->bossState = Boss2_BossState_215D5DC;
+    work->bossState(work);
 }
 
 void Boss2__Action_Die(Boss2 *work)
 {
-    work->attackType = 4;
+    work->actionState = BOSS2_ACTION_4;
 
-    work->state2 = Boss2__State2_215DAD4;
-    work->state2(work);
+    work->bossState = Boss2_BossState_215DAD4;
+    work->bossState(work);
 }
 
-void Boss2__State2_215D2E4(Boss2 *work)
+void Boss2_BossState_215D2E4(Boss2 *work)
 {
     Boss2__Action_Attack1(work);
 }
 
-void Boss2__State2_215D2F0(Boss2 *work)
+void Boss2_BossState_215D2F0(Boss2 *work)
 {
-    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_body_fw0, 0, TRUE);
+    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_body_fw0, 0, TRUE);
 
-    work->state2 = Boss2__State2_215D334;
+    work->bossState = Boss2_BossState_215D334;
 }
 
-void Boss2__State2_215D334(Boss2 *work)
+void Boss2_BossState_215D334(Boss2 *work)
 {
     u16 angle = BossHelpers__Arena__GetAngle(gPlayer->objWork.position.x, BOSS2_STAGE_START, BOSS2_STAGE_END);
 
@@ -1806,26 +2125,26 @@ void Boss2__State2_215D334(Boss2 *work)
             work->field_3D0 = FALSE;
     }
 
-    if (work->field_3C8)
+    if (work->dropActionTimer != 0)
     {
-        if (work->stage->drop->field_378 == 0)
+        if (work->stage->drop->actionState == BOSS2DROP_ACTION_0)
         {
-            work->field_3C8--;
-            if (work->field_3C8 == 0)
+            work->dropActionTimer--;
+            if (work->dropActionTimer == 0)
             {
                 Boss2Drop__Func_215E208(work->stage->drop);
-                work->field_3C8 = Boss2__Func_215C104(work->stage);
+                work->dropActionTimer = Boss2__Func_215C104(work->stage);
             }
         }
     }
 
-    if (work->field_3CA)
+    if (work->bombSpawnTimer != 0)
     {
-        if (work->stage->bomb == NULL && work->stage->drop->field_378 == 0)
+        if (work->stage->bomb == NULL && work->stage->drop->actionState == BOSS2DROP_ACTION_0)
         {
-            work->field_3CA--;
+            work->bombSpawnTimer--;
 
-            if (work->field_3CA == 0)
+            if (work->bombSpawnTimer == 0)
             {
                 BOOL flipped;
                 if (mtMathRandRepeat(2) != 0)
@@ -1834,125 +2153,125 @@ void Boss2__State2_215D334(Boss2 *work)
                     flipped = FALSE;
                 Boss2Bomb__Spawn(work->stage, FLOAT_TO_FX32(1.5), flipped);
 
-                work->field_3CA = Boss2__Func_215C19C(work->stage);
+                work->bombSpawnTimer = Boss2__Func_215C19C(work->stage);
 
-                if (work->field_3C8 != 0)
+                if (work->dropActionTimer != 0)
                 {
-                    if (work->field_3C8 < 120)
-                        work->field_3C8 += 120;
+                    if (work->dropActionTimer < 120)
+                        work->dropActionTimer += 120;
                 }
             }
         }
     }
 }
 
-void Boss2__State2_215D4DC(Boss2 *work)
+void Boss2_BossState_215D4DC(Boss2 *work)
 {
-    work->state2 = Boss2__State2_215D4EC;
+    work->bossState = Boss2_BossState_215D4EC;
 }
 
-void Boss2__State2_215D4EC(Boss2 *work)
+void Boss2_BossState_215D4EC(Boss2 *work)
 {
-    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_body_dmg0, 0, FALSE);
+    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_body_dmg0, NULL, FALSE);
     BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), 1, TRUE);
 
-    work->state2 = Boss2__State2_215D544;
+    work->bossState = Boss2_BossState_215D544;
 }
 
-void Boss2__State2_215D544(Boss2 *work)
+void Boss2_BossState_215D544(Boss2 *work)
 {
-    if ((work->aniBody.animFlags[0] & ANIMATORMDL_FLAG_FINISHED) != 0)
-        work->state2 = Boss2__State2_215D560;
+    if ((work->aniBody.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
+        work->bossState = Boss2_BossState_215D560;
 }
 
-void Boss2__State2_215D560(Boss2 *work)
+void Boss2_BossState_215D560(Boss2 *work)
 {
-    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_body_dmg1, 0, FALSE);
+    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_body_dmg1, NULL, FALSE);
 
-    work->state2 = Boss2__State2_215D5A0;
+    work->bossState = Boss2_BossState_215D5A0;
 }
 
-void Boss2__State2_215D5A0(Boss2 *work)
+void Boss2_BossState_215D5A0(Boss2 *work)
 {
-    if ((work->aniBody.animFlags[0] & ANIMATORMDL_FLAG_FINISHED) != 0)
+    if ((work->aniBody.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
     {
         BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), 0, FALSE);
         Boss2__Action_Attack1(work);
     }
 }
 
-void Boss2__State2_215D5DC(Boss2 *work)
+void Boss2_BossState_215D5DC(Boss2 *work)
 {
     struct Boss2ActionAttack3 *action = &work->action.attack3;
 
-    action->value = 0;
+    action->radius = 0;
 
-    work->state2 = Boss2__State2_215D5F4;
+    work->bossState = Boss2_BossState_215D5F4;
 }
 
-void Boss2__State2_215D5F4(Boss2 *work)
+void Boss2_BossState_215D5F4(Boss2 *work)
 {
-    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_body_dmg0, 0, FALSE);
+    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_body_dmg0, NULL, FALSE);
     BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), 1, TRUE);
 
-    work->state2 = Boss2__State2_215D64C;
+    work->bossState = Boss2_BossState_215D64C;
 }
 
-void Boss2__State2_215D64C(Boss2 *work)
+void Boss2_BossState_215D64C(Boss2 *work)
 {
-    if ((work->aniBody.animFlags[0] & ANIMATORMDL_FLAG_FINISHED) != 0)
-        work->state2 = Boss2__State2_215D668;
+    if ((work->aniBody.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
+        work->bossState = Boss2_BossState_215D668;
 }
 
-void Boss2__State2_215D668(Boss2 *work)
+void Boss2_BossState_215D668(Boss2 *work)
 {
-    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_body_down0, 0, FALSE);
+    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_body_down0, NULL, FALSE);
 
-    work->state2 = Boss2__State2_215D6A8;
+    work->bossState = Boss2_BossState_215D6A8;
 }
 
-void Boss2__State2_215D6A8(Boss2 *work)
+void Boss2_BossState_215D6A8(Boss2 *work)
 {
     work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(4.0);
 
-    if ((work->aniBody.animFlags[0] & ANIMATORMDL_FLAG_FINISHED) != 0)
-        work->state2 = Boss2__State2_215D6CC;
+    if ((work->aniBody.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
+        work->bossState = Boss2_BossState_215D6CC;
 }
 
-void Boss2__State2_215D6CC(Boss2 *work)
+void Boss2_BossState_215D6CC(Boss2 *work)
 {
     work->gameWork.objWork.userWork = work->activeArmCount;
     work->activeArmCount            = 0;
 
-    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_body_down1, 0, TRUE);
+    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_body_down1, 0, TRUE);
 
-    work->state2 = Boss2__State2_215D71C;
+    work->bossState = Boss2_BossState_215D71C;
 }
 
-void Boss2__State2_215D71C(Boss2 *work)
+void Boss2_BossState_215D71C(Boss2 *work)
 {
     struct Boss2ActionAttack3 *action = &work->action.attack3;
 
-    fx32 targetY = -FLOAT_TO_FX32(70.0) - work->stage->dword39C;
+    fx32 targetY = -FLOAT_TO_FX32(70.0) - work->stage->groundHeight;
 
-    action->value += FLOAT_TO_FX32(2.5);
-    if (action->value > FLOAT_TO_FX32(120.0))
-        action->value = FLOAT_TO_FX32(120.0);
+    action->radius += FLOAT_TO_FX32(2.5);
+    if (action->radius > FLOAT_TO_FX32(120.0))
+        action->radius = FLOAT_TO_FX32(120.0);
 
-    BossHelpers__Arena__GetXZPos(work->angle, action->value, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
+    BossHelpers__Arena__GetXZPos(work->angle, action->radius, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
 
     if (work->gameWork.objWork.position.y >= targetY)
     {
         work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
         work->gameWork.objWork.position.y = targetY;
 
-        work->state2 = Boss2__State2_215D790;
+        work->bossState = Boss2_BossState_215D790;
     }
 }
 
-void Boss2__State2_215D790(Boss2 *work)
+void Boss2_BossState_215D790(Boss2 *work)
 {
-    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_body_down2, 0, FALSE);
+    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_body_down2, NULL, FALSE);
     BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), 0, FALSE);
 
     ShakeScreenEx(0xA000, 0x3000, 227);
@@ -1960,108 +2279,108 @@ void Boss2__State2_215D790(Boss2 *work)
 
     work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_ENABLED;
 
-    work->state2 = Boss2__State2_215D824;
+    work->bossState = Boss2_BossState_215D824;
 }
 
-void Boss2__State2_215D824(Boss2 *work)
+void Boss2_BossState_215D824(Boss2 *work)
 {
-    if ((work->aniBody.animFlags[0] & ANIMATORMDL_FLAG_FINISHED) != 0)
-        work->state2 = Boss2__State2_215D840;
+    if ((work->aniBody.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
+        work->bossState = Boss2_BossState_215D840;
 }
 
-void Boss2__State2_215D840(Boss2 *work)
+void Boss2_BossState_215D840(Boss2 *work)
 {
-    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_body_down3, 0, TRUE);
+    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_body_down3, 0, TRUE);
 
-    work->gameWork.objWork.userTimer = 600;
+    work->gameWork.objWork.userTimer = BOSS2_DEACTIVATE_TIME;
 
-    work->state2 = Boss2__State2_215D88C;
+    work->bossState = Boss2_BossState_215D88C;
 }
 
-void Boss2__State2_215D88C(Boss2 *work)
+void Boss2_BossState_215D88C(Boss2 *work)
 {
     work->gameWork.objWork.userTimer--;
     if (work->gameWork.objWork.userTimer == 0)
-        work->state2 = Boss2__State2_215D8A8;
+        work->bossState = Boss2_BossState_215D8A8;
 }
 
-void Boss2__State2_215D8A8(Boss2 *work)
+void Boss2_BossState_215D8A8(Boss2 *work)
 {
-    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_body_down4, 0, FALSE);
+    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_body_down4, NULL, FALSE);
 
     work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
-    work->stage->health = 320;
+    work->stage->health = BOSS2_REACTIVATE_HEALTH;
 
     UpdateBossHealthHUD(work->stage->health);
 
-    work->state2 = Boss2__State2_215D914;
+    work->bossState = Boss2_BossState_215D914;
 }
 
-void Boss2__State2_215D914(Boss2 *work)
+void Boss2_BossState_215D914(Boss2 *work)
 {
     struct Boss2ActionAttack3 *action = &work->action.attack3;
 
-    action->value -= FLOAT_TO_FX32(2.5);
-    if (action->value < FLOAT_TO_FX32(0.0))
-        action->value = FLOAT_TO_FX32(0.0);
+    action->radius -= FLOAT_TO_FX32(2.5);
+    if (action->radius < FLOAT_TO_FX32(0.0))
+        action->radius = FLOAT_TO_FX32(0.0);
 
-    BossHelpers__Arena__GetXZPos(work->angle, action->value, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
+    BossHelpers__Arena__GetXZPos(work->angle, action->radius, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
 
     work->gameWork.objWork.velocity.y = -FLOAT_TO_FX32(8.0);
 
-    if ((work->aniBody.animFlags[0] & ANIMATORMDL_FLAG_FINISHED) != 0)
-        work->state2 = Boss2__State2_215D970;
+    if ((work->aniBody.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
+        work->bossState = Boss2_BossState_215D970;
 }
 
-void Boss2__State2_215D970(Boss2 *work)
+void Boss2_BossState_215D970(Boss2 *work)
 {
-    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_body_down5, 0, TRUE);
+    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_body_down5, 0, TRUE);
 
-    work->state2 = Boss2__State2_215D9BC;
-    work->state2(work);
+    work->bossState = Boss2_BossState_215D9BC;
+    work->bossState(work);
 }
 
-void Boss2__State2_215D9BC(Boss2 *work)
+void Boss2_BossState_215D9BC(Boss2 *work)
 {
     struct Boss2ActionAttack3 *action = &work->action.attack3;
 
     fx32 targetY = work->stage->gameWork.objWork.position.y - FLOAT_TO_FX32(585.0);
 
-    action->value -= FLOAT_TO_FX32(2.5);
-    if (action->value < FLOAT_TO_FX32(0.0))
-        action->value = FLOAT_TO_FX32(0.0);
+    action->radius -= FLOAT_TO_FX32(2.5);
+    if (action->radius < FLOAT_TO_FX32(0.0))
+        action->radius = FLOAT_TO_FX32(0.0);
 
-    BossHelpers__Arena__GetXZPos(work->angle, action->value, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
+    BossHelpers__Arena__GetXZPos(work->angle, action->radius, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
 
     work->gameWork.objWork.velocity.y = -FLOAT_TO_FX32(8.0);
 
-    if (work->gameWork.objWork.position.y <= targetY && !action->value)
+    if (work->gameWork.objWork.position.y <= targetY && action->radius == 0)
     {
         work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
         work->gameWork.objWork.position.y = targetY;
 
-        work->state2 = Boss2__State2_215DA44;
+        work->bossState = Boss2_BossState_215DA44;
     }
 }
 
-void Boss2__State2_215DA44(Boss2 *work)
+void Boss2_BossState_215DA44(Boss2 *work)
 {
     work->activeArmCount = work->gameWork.objWork.userWork;
 
     for (s32 i = 0; i <= work->activeArmCount; i++)
         Boss2Arm__Func_215EBD8(work->stage->arms[i]);
 
-    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_body_down6, 0, FALSE);
-    work->state2 = Boss2__State2_215DAB8;
+    BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_body_down6, NULL, FALSE);
+    work->bossState = Boss2_BossState_215DAB8;
 }
 
-void Boss2__State2_215DAB8(Boss2 *work)
+void Boss2_BossState_215DAB8(Boss2 *work)
 {
     if ((work->aniBody.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
         Boss2__Action_Attack1(work);
 }
 
-void Boss2__State2_215DAD4(Boss2 *work)
+void Boss2_BossState_215DAD4(Boss2 *work)
 {
     struct Boss2ActionDestroyed *action = &work->action.destroyed;
 
@@ -2081,7 +2400,7 @@ void Boss2__State2_215DAD4(Boss2 *work)
     work->aniBody.speedMultiplier = FLOAT_TO_FX32(0.0);
 
     EnableObjectManagerFlag2();
-    work->gameWork.objWork.flag |= 0x20;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_ACTIVE_DURING_PAUSE;
     work->stage->gameWork.objWork.flag |= STAGE_TASK_FLAG_ACTIVE_DURING_PAUSE;
 
     for (s32 i = 0; i < 3; i++)
@@ -2095,11 +2414,11 @@ void Boss2__State2_215DAD4(Boss2 *work)
                                    gPlayer->aniPlayerModel.ani.work.translation.z);
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SHOCK_L);
 
-    action->timer = 0;
-    work->state2  = Boss2__State2_215DC20;
+    action->timer   = 0;
+    work->bossState = Boss2_BossState_215DC20;
 }
 
-void Boss2__State2_215DC20(Boss2 *work)
+void Boss2_BossState_215DC20(Boss2 *work)
 {
     struct Boss2ActionDestroyed *action = &work->action.destroyed;
 
@@ -2129,11 +2448,11 @@ void Boss2__State2_215DC20(Boss2 *work)
         BossArena__SetTracker1Speed(camera, FLOAT_TO_FX32(0.05), FLOAT_TO_FX32(0.05));
         BossArena__SetTracker0Speed(camera, FLOAT_TO_FX32(0.05), FLOAT_TO_FX32(0.05));
 
-        work->state2 = Boss2__State2_215DDD8;
+        work->bossState = Boss2_BossState_215DDD8;
     }
 }
 
-void Boss2__State2_215DDD8(Boss2 *work)
+void Boss2_BossState_215DDD8(Boss2 *work)
 {
     Camera3DTask *camera3D = Camera3D__GetWork();
 
@@ -2143,10 +2462,10 @@ void Boss2__State2_215DDD8(Boss2 *work)
     camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.value |= GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ;
 
     work->action.destroyed.timer = 0;
-    work->state2                 = Boss2__State2_215DE40;
+    work->bossState              = Boss2_BossState_215DE40;
 }
 
-void Boss2__State2_215DE40(Boss2 *work)
+void Boss2_BossState_215DE40(Boss2 *work)
 {
     Boss2Stage *stage                   = work->stage;
     struct Boss2ActionDestroyed *action = &work->action.destroyed;
@@ -2172,7 +2491,7 @@ void Boss2__State2_215DE40(Boss2 *work)
     {
         if (action->timer == BossArena__explosionFXSpawnTime[i])
         {
-            BossFX__CreatePendulumExplode0(BOSSFX3D_FLAG_NONE, work->mtxWeakPoint.m[3][0], work->mtxWeakPoint.m[3][1], work->mtxWeakPoint.m[3][2]);
+            BossFX__CreatePendulumExplode0(BOSSFX3D_FLAG_NONE, work->mtxWeakPoint.translation.x, work->mtxWeakPoint.translation.y, work->mtxWeakPoint.translation.z);
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TODOME_EFFECT);
             CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_ENGINEB_ONLY | DRAW_FADE_TASK_FLAG_FADE_TO_BLACK | DRAW_FADE_TASK_FLAG_REVERSE_BRIGHTNESS, FLOAT_TO_FX32(2.0));
             ShakeScreenEx(0x3000, 0x3000, 0x600);
@@ -2180,13 +2499,13 @@ void Boss2__State2_215DE40(Boss2 *work)
     }
 
     if (action->timer++ > SECONDS_TO_FRAMES(4))
-        work->state2 = Boss2__State2_215DF78;
+        work->bossState = Boss2_BossState_StartExplode;
 }
 
-void Boss2__State2_215DF78(Boss2 *work)
+void Boss2_BossState_StartExplode(Boss2 *work)
 {
-    BossFX3D *effect        = BossFX__CreatePendulumExplode1(BOSSFX3D_FLAG_NONE, MultiplyFX(FLOAT_TO_FX32(0.7), work->mtxWeakPoint.m[3][0]), work->mtxWeakPoint.m[3][1],
-                                                             MultiplyFX(FLOAT_TO_FX32(0.7), work->mtxWeakPoint.m[3][2]));
+    BossFX3D *effect        = BossFX__CreatePendulumExplode1(BOSSFX3D_FLAG_NONE, MultiplyFX(FLOAT_TO_FX32(0.7), work->mtxWeakPoint.translation.x), work->mtxWeakPoint.translation.y,
+                                                             MultiplyFX(FLOAT_TO_FX32(0.7), work->mtxWeakPoint.translation.z));
     effect->objWork.scale.x = FLOAT_TO_FX32(3.0);
     effect->objWork.scale.y = FLOAT_TO_FX32(3.0);
     effect->objWork.scale.z = FLOAT_TO_FX32(3.0);
@@ -2197,11 +2516,11 @@ void Boss2__State2_215DF78(Boss2 *work)
 
     work->action.destroyed.timer = 0;
 
-    work->state2 = Boss2__State2_215E050;
-    work->state2(work);
+    work->bossState = Boss2_BossState_215E050;
+    work->bossState(work);
 }
 
-void Boss2__State2_215E050(Boss2 *work)
+void Boss2_BossState_215E050(Boss2 *work)
 {
     Boss2Stage *stage                   = work->stage;
     struct Boss2ActionDestroyed *action = &work->action.destroyed;
@@ -2233,17 +2552,17 @@ void Boss2__State2_215E050(Boss2 *work)
     action->timer++;
 
     if (doneLights && doneFading)
-        work->state2 = Boss2__State2_ShowResultsScreen;
+        work->bossState = Boss2_BossState_ShowResultsScreen;
 }
 
-void Boss2__State2_ShowResultsScreen(Boss2 *work)
+void Boss2_BossState_ShowResultsScreen(Boss2 *work)
 {
     playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_CAN_CHANGE_EVENT;
 }
 
 void Boss2Drop__State_Active(Boss2Drop *work)
 {
-    work->state2(work);
+    work->dropState(work);
 }
 
 void Boss2Drop__Destructor(Task *task)
@@ -2267,9 +2586,9 @@ void Boss2Drop__Draw(void)
         {
             work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
 
-            work->gameWork.objWork.position.x = boss->mtxBody[2].m[3][0];
-            work->gameWork.objWork.position.y = -boss->mtxBody[2].m[3][1];
-            work->gameWork.objWork.position.z = boss->mtxBody[2].m[3][2];
+            work->gameWork.objWork.position.x = boss->mtxBody[2].translation.x;
+            work->gameWork.objWork.position.y = -boss->mtxBody[2].translation.y;
+            work->gameWork.objWork.position.z = boss->mtxBody[2].translation.z;
 
             work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
             work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
@@ -2290,31 +2609,31 @@ void Boss2Drop__Draw(void)
 
 void Boss2Drop__SetupObject(Boss2Drop *work)
 {
-    work->field_378 = 0;
+    work->actionState = BOSS2DROP_ACTION_0;
 
-    work->state2 = Boss2Drop__State_Init;
-    work->state2(work);
+    work->dropState = Boss2Drop__State_Init;
+    work->dropState(work);
 }
 
 void Boss2Drop__Func_215E208(Boss2Drop *work)
 {
-    work->field_378      = 1;
+    work->actionState    = BOSS2DROP_ACTION_1;
     work->playedSteamSfx = FALSE;
 
-    work->state2 = Boss2Drop__State2_215E3F4;
-    work->state2(work);
+    work->dropState = Boss2Drop_DropState_215E3F4;
+    work->dropState(work);
 }
 
 void Boss2Drop__State_Init(Boss2Drop *work)
 {
     work->field_37C = 1;
 
-    work->state2 = Boss2Drop__State_Attached;
+    work->dropState = Boss2Drop__State_Attached;
 }
 
 void Boss2Drop__State_Attached(Boss2Drop *work)
 {
-    *(FXMatrix33 *)&work->aniDrop.work.rotation._00 = *(FXMatrix33 *)&work->stage->boss->mtxBody[2];
+    work->aniDrop.work.rotation = work->stage->boss->mtxBody[2].mtx33;
 
     work->aniDrop.work.rotation.m[0][0] = MultiplyFX(FLOAT_TO_FX32(0.302978515625), work->aniDrop.work.rotation.m[0][0]);
     work->aniDrop.work.rotation.m[0][1] = MultiplyFX(FLOAT_TO_FX32(0.302978515625), work->aniDrop.work.rotation.m[0][1]);
@@ -2327,57 +2646,57 @@ void Boss2Drop__State_Attached(Boss2Drop *work)
     work->aniDrop.work.rotation.m[2][2] = MultiplyFX(FLOAT_TO_FX32(0.302978515625), work->aniDrop.work.rotation.m[2][2]);
 }
 
-void Boss2Drop__State2_215E3F4(Boss2Drop *work)
+void Boss2Drop_DropState_215E3F4(Boss2Drop *work)
 {
     work->field_37C = 1;
 
-    work->state2 = Boss2Drop__State2_215E40C;
+    work->dropState = Boss2Drop_DropState_215E40C;
 }
 
-void Boss2Drop__State2_215E40C(Boss2Drop *work)
+void Boss2Drop_DropState_215E40C(Boss2Drop *work)
 {
-    BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_drop_gura0, 0, FALSE);
+    BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_drop_gura0, NULL, FALSE);
 
     work->gameWork.objWork.userTimer = 60;
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOSS_STEAM);
 
-    work->state2 = Boss2Drop__State2_215E46C;
+    work->dropState = Boss2Drop_DropState_215E46C;
 }
 
-void Boss2Drop__State2_215E46C(Boss2Drop *work)
+void Boss2Drop_DropState_215E46C(Boss2Drop *work)
 {
-    if (work->stage->lightConfig.brightness >= -8 && (work->gameWork.objWork.userTimer & 1) == 0)
+    if (work->stage->lightConfig.brightness >= (RENDERCORE_BRIGHTNESS_BLACK / 2) && (work->gameWork.objWork.userTimer & 1) == 0)
         work->stage->lightConfig.brightness--;
 
     if (work->gameWork.objWork.userTimer != 0)
         work->gameWork.objWork.userTimer--;
 
-    if ((work->aniDrop.animFlags[0] & ANIMATORMDL_FLAG_FINISHED) != 0 && work->gameWork.objWork.userTimer == 0)
-        work->state2 = Boss2Drop__State2_215E4CC;
+    if ((work->aniDrop.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0 && work->gameWork.objWork.userTimer == 0)
+        work->dropState = Boss2Drop_DropState_215E4CC;
 }
 
-void Boss2Drop__State2_215E4CC(Boss2Drop *work)
+void Boss2Drop_DropState_215E4CC(Boss2Drop *work)
 {
     BossFX__CreatePendulumDrop(BOSSFX3D_FLAG_NONE, work->aniDrop.work.translation.x, work->aniDrop.work.translation.y - FLOAT_TO_FX32(50.0), work->aniDrop.work.translation.z);
 
     work->pendulumFallFX = BossFX__CreatePendulumFall(BOSSFX3D_FLAG_NONE, work->gameWork.objWork.position.x, -work->gameWork.objWork.position.y, work->gameWork.objWork.position.z);
 
-    BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_drop_gura1, 0, TRUE);
+    BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_drop_gura1, 0, TRUE);
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(32.0);
 
     work->field_37C = 0;
 
-    work->state2 = Boss2Drop__State2_215E564;
-    work->state2(work);
+    work->dropState = Boss2Drop_DropState_215E564;
+    work->dropState(work);
 }
 
-void Boss2Drop__State2_215E564(Boss2Drop *work)
+void Boss2Drop_DropState_215E564(Boss2Drop *work)
 {
     Boss2Stage *stage = TaskGetWork(Boss2Stage__Singleton, Boss2Stage);
 
-    fx32 targetY = -stage->dword39C;
+    fx32 targetY = -stage->groundHeight;
     targetY -= FLOAT_TO_FX32(120.0);
 
     if (targetY <= work->gameWork.objWork.position.y)
@@ -2392,7 +2711,7 @@ void Boss2Drop__State2_215E564(Boss2Drop *work)
             work->pendulumFallFX = NULL;
         }
 
-        work->state2 = Boss2Drop__State2_215E604;
+        work->dropState = Boss2Drop_DropState_215E604;
     }
 
     if (work->pendulumFallFX != NULL)
@@ -2403,16 +2722,16 @@ void Boss2Drop__State2_215E564(Boss2Drop *work)
     }
 }
 
-void Boss2Drop__State2_215E604(Boss2Drop *work)
+void Boss2Drop_DropState_215E604(Boss2Drop *work)
 {
-    BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_drop_gura2, 0, FALSE);
-    work->gameWork.objWork.userTimer = 120;
+    BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_drop_gura2, NULL, FALSE);
+    work->gameWork.objWork.userTimer = SECONDS_TO_FRAMES(2.0);
 
     if (work->playedSteamSfx == FALSE)
     {
-        BossFX__CreatePendulumSmoke(BOSSFX3D_FLAG_NONE, work->aniDrop.work.translation.x, work->stage->dword39C, work->aniDrop.work.translation.z);
+        BossFX__CreatePendulumSmoke(BOSSFX3D_FLAG_NONE, work->aniDrop.work.translation.x, work->stage->groundHeight, work->aniDrop.work.translation.z);
 
-        Boss2Wave *wave = SpawnStageObject(MAPOBJECT_283, 0, -FLOAT_TO_FX32(5.0) - work->stage->dword39C, Boss2Wave);
+        Boss2Wave *wave = SpawnStageObject(MAPOBJECT_283, 0, -FLOAT_TO_FX32(5.0) - work->stage->groundHeight, Boss2Wave);
         UNUSED(wave);
 
         ShakeScreenEx(0x5000, 0x3000, 170);
@@ -2421,85 +2740,84 @@ void Boss2Drop__State2_215E604(Boss2Drop *work)
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOSS_STEAM);
 
-    work->state2 = Boss2Drop__State2_215E6D8;
+    work->dropState = Boss2Drop_DropState_215E6D8;
 }
 
-void Boss2Drop__State2_215E6D8(Boss2Drop *work)
+void Boss2Drop_DropState_215E6D8(Boss2Drop *work)
 {
-    if (work->stage->lightConfig.brightness != 0 && (work->gameWork.objWork.userTimer & 1) == 0)
+    if (work->stage->lightConfig.brightness != RENDERCORE_BRIGHTNESS_DEFAULT && (work->gameWork.objWork.userTimer & 1) == 0)
         work->stage->lightConfig.brightness++;
 
     work->gameWork.objWork.userTimer--;
     if (work->gameWork.objWork.userTimer == 0)
-        work->state2 = Boss2Drop__State2_215E718;
+        work->dropState = Boss2Drop_DropState_215E718;
 }
 
-void Boss2Drop__State2_215E718(Boss2Drop *work)
+void Boss2Drop_DropState_215E718(Boss2Drop *work)
 {
-    BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_drop_gura3, 0, FALSE);
+    BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_drop_gura3, NULL, FALSE);
 
-    work->state2 = Boss2Drop__State2_215E754;
+    work->dropState = Boss2Drop_DropState_215E754;
 }
 
-void Boss2Drop__State2_215E754(Boss2Drop *work)
+void Boss2Drop_DropState_215E754(Boss2Drop *work)
 {
-    if ((work->aniDrop.animFlags[0] & ANIMATORMDL_FLAG_FINISHED) != 0)
-        work->state2 = Boss2Drop__State2_215E770;
+    if ((work->aniDrop.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
+        work->dropState = Boss2Drop_DropState_215E770;
 }
 
-void Boss2Drop__State2_215E770(Boss2Drop *work)
+void Boss2Drop_DropState_215E770(Boss2Drop *work)
 {
-    switch (work->stage->boss->attackType)
+    switch (work->stage->boss->actionState)
     {
-        case 1:
-        case 2:
-            BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_drop_gura4, 0, TRUE);
+        case BOSS2_ACTION_1:
+        case BOSS2_ACTION_2:
+            BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_drop_gura4, 0, TRUE);
             work->gameWork.objWork.velocity.y = -FLOAT_TO_FX32(10.0);
-            work->state2                      = Boss2Drop__State2_215E7D8;
+            work->dropState                   = Boss2Drop_DropState_215E7D8;
             break;
     }
 }
 
-void Boss2Drop__State2_215E7D8(Boss2Drop *work)
+void Boss2Drop_DropState_215E7D8(Boss2Drop *work)
 {
     Boss2 *boss = work->stage->boss;
 
-    switch (boss->attackType)
+    switch (boss->actionState)
     {
-
         default:
-            BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_drop_gura1, 0, TRUE);
+            BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_drop_gura1, 0, TRUE);
 
             work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
             work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
 
-            work->state2 = Boss2Drop__State2_215E564;
+            work->dropState = Boss2Drop_DropState_215E564;
             break;
 
-        case 1:
-        case 2:
-            if (work->gameWork.objWork.position.y <= boss->mtxBody[2].m[3][1])
+        case BOSS2_ACTION_1:
+        case BOSS2_ACTION_2:
+            if (work->gameWork.objWork.position.y <= boss->mtxBody[2].translation.y)
             {
                 work->gameWork.objWork.position.y = boss->gameWork.objWork.position.y;
                 work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
 
-                work->state2 = Boss2Drop__State2_215E87C;
+                work->dropState = Boss2Drop_DropState_215E87C;
             }
             break;
     }
 }
 
-void Boss2Drop__State2_215E87C(Boss2Drop *work)
+void Boss2Drop_DropState_215E87C(Boss2Drop *work)
 {
-    BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, bs2_drop_gura5, 0, FALSE);
+    BossHelpers__SetAnimation(&work->aniDrop, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_drop_gura5, NULL, FALSE);
 
     work->field_37C = 1;
-    work->state2    = Boss2Drop__State2_215E8C0;
+    work->dropState = Boss2Drop_DropState_215E8C0;
 }
 
-void Boss2Drop__State2_215E8C0(Boss2Drop *work)
+void Boss2Drop_DropState_215E8C0(Boss2Drop *work)
 {
-    if ((work->aniDrop.animFlags[0] & ANIMATORMDL_FLAG_FINISHED) != 0)
+    if ((work->aniDrop.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
         Boss2Drop__SetupObject(work);
 }
 
@@ -2541,14 +2859,14 @@ void Boss2Arm__State_Active(Boss2Arm *work)
 
         MTX_RotY33(work->animator.work.rotation.nnMtx, SinFX(work->angle), CosFX(work->angle));
 
-        VEC_SetFromArray(&work->animator.work.translation, boss->mtxBody[work->type].m[3]);
+        work->animator.work.translation = boss->mtxBody[work->type].translation;
     }
     else
     {
         VEC_Set(&work->animator.work.translation, work->gameWork.objWork.position.x, -work->gameWork.objWork.position.y, work->gameWork.objWork.position.z);
     }
 
-    work->state2(work);
+    work->armState(work);
 }
 
 void Boss2Arm__Destructor(Task *task)
@@ -2582,17 +2900,17 @@ BOOL Boss2Arm__CheckCanDraw(Boss2Arm *work)
 {
     BOOL canDraw = FALSE;
 
-    if (work->field_3C8)
+    if (work->prevCanDraw)
     {
-        switch (work->field_380)
+        switch (work->actionState)
         {
-            case 0:
+            case BOSS2ARM_ACTION_0:
                 canDraw = FALSE;
                 break;
 
-            case 1:
-            case 2:
-            case 4:
+            case BOSS2ARM_ACTION_1:
+            case BOSS2ARM_ACTION_2:
+            case BOSS2ARM_ACTION_4:
                 canDraw = TRUE;
                 break;
 
@@ -2604,8 +2922,8 @@ BOOL Boss2Arm__CheckCanDraw(Boss2Arm *work)
     }
     else
     {
-        canDraw         = TRUE;
-        work->field_3C8 = canDraw;
+        canDraw           = TRUE;
+        work->prevCanDraw = canDraw;
     }
 
     return canDraw;
@@ -2613,78 +2931,80 @@ BOOL Boss2Arm__CheckCanDraw(Boss2Arm *work)
 
 void Boss2Arm__SetupObject(Boss2Arm *work)
 {
-    work->field_380 = 0;
+    work->actionState = BOSS2ARM_ACTION_0;
 
-    work->state2 = Boss2Arm__State2_215EC44;
+    work->armState = Boss2Arm_ArmState_215EC44;
 }
 
 void Boss2Arm__Action_215EBC0(Boss2Arm *work)
 {
-    work->field_380 = 1;
+    work->actionState = BOSS2ARM_ACTION_1;
 
-    work->state2 = Boss2Arm__State2_215EC5C;
+    work->armState = Boss2Arm_ArmState_215EC5C;
 }
 
 void Boss2Arm__Func_215EBD8(Boss2Arm *work)
 {
-    work->field_380 = 2;
+    work->actionState = BOSS2ARM_ACTION_2;
 
-    work->state2 = Boss2Arm__State2_215EF50;
+    work->armState = Boss2Arm_ArmState_215EF50;
 }
 
 void Boss2Arm__Func_215EBF0(Boss2Arm *work, u16 angle, s16 angleSpeed)
 {
-    work->field_380  = 3;
+    work->actionState = BOSS2ARM_ACTION_3;
+
     work->field_3BC  = 1;
     work->angle      = angle;
     work->angleSpeed = angleSpeed;
 
-    work->state2 = Boss2Arm__State2_215F204;
-    work->state2(work);
+    work->armState = Boss2Arm_ArmState_215F204;
+    work->armState(work);
 }
 
 void Boss2Arm__Func_215EC24(Boss2Arm *work)
 {
-    work->field_380 = 4;
+    work->actionState = BOSS2ARM_ACTION_4;
 
-    work->state2 = Boss2Arm__State2_215F258;
-    work->state2(work);
+    work->armState = Boss2Arm_ArmState_215F258;
+    work->armState(work);
 }
 
-void Boss2Arm__State2_215EC44(Boss2Arm *work)
+void Boss2Arm_ArmState_215EC44(Boss2Arm *work)
 {
     work->field_3BC = 0;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 }
 
-void Boss2Arm__State2_215EC5C(Boss2Arm *work)
+void Boss2Arm_ArmState_215EC5C(Boss2Arm *work)
 {
-    work->field_3B8 = 0;
+    work->field_3B8 = FALSE;
+
     work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
     work->angle      = BossHelpers__Arena__GetAngle(gPlayer->objWork.position.x, BOSS2_STAGE_START, BOSS2_STAGE_END) - FLOAT_DEG_TO_IDX(105.0);
     work->angleSpeed = FLOAT_DEG_TO_IDX(11.25);
-    work->field_374  = FLOAT_TO_FX32(500.0);
+    work->radius     = FLOAT_TO_FX32(500.0);
 
-    work->state2 = Boss2Arm__State2_215ECD8;
+    work->armState = Boss2Arm_ArmState_215ECD8;
 }
 
-void Boss2Arm__State2_215ECD8(Boss2Arm *work)
+void Boss2Arm_ArmState_215ECD8(Boss2Arm *work)
 {
     Boss2 *boss = work->stage->boss;
 
     BOOL done = FALSE;
 
-    work->field_374 -= FLOAT_TO_FX32(2.0);
-    if (work->field_374 < FLOAT_TO_FX32(250.0))
+    work->radius -= FLOAT_TO_FX32(2.0);
+    if (work->radius < FLOAT_TO_FX32(250.0))
     {
-        work->field_374 = FLOAT_TO_FX32(250.0);
-        done            = TRUE;
+        work->radius = FLOAT_TO_FX32(250.0);
+        done         = TRUE;
     }
 
-    BossHelpers__Arena__GetXZPos(work->angle, work->field_374, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
-    work->gameWork.objWork.position.y = -boss->mtxBody[work->type].m[3][1];
+    BossHelpers__Arena__GetXZPos(work->angle, work->radius, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
+    work->gameWork.objWork.position.y = -boss->mtxBody[work->type].translation.y;
 
     work->angleSpeed -= FLOAT_DEG_TO_IDX(0.088);
     if (work->angleSpeed < FLOAT_DEG_TO_IDX(4.21875))
@@ -2698,16 +3018,16 @@ void Boss2Arm__State2_215ECD8(Boss2Arm *work)
     MTX_Concat33(work->animator.work.rotation.nnMtx, mtxRot.nnMtx, work->animator.work.rotation.nnMtx);
 
     if (done)
-        work->state2 = Boss2Arm__State2_215EDE4;
+        work->armState = Boss2Arm_ArmState_215EDE4;
 }
 
-void Boss2Arm__State2_215EDE4(Boss2Arm *work)
+void Boss2Arm_ArmState_215EDE4(Boss2Arm *work)
 {
-    work->field_374 += FLOAT_TO_FX32(2.0);
-    if (work->field_374 > FLOAT_TO_FX32(450.0))
-        work->field_374 = FLOAT_TO_FX32(450.0);
+    work->radius += FLOAT_TO_FX32(2.0);
+    if (work->radius > FLOAT_TO_FX32(450.0))
+        work->radius = FLOAT_TO_FX32(450.0);
 
-    BossHelpers__Arena__GetXZPos(work->angle, work->field_374, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
+    BossHelpers__Arena__GetXZPos(work->angle, work->radius, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
 
     work->gameWork.objWork.velocity.y += FLOAT_TO_FX32(0.1);
     if (work->gameWork.objWork.velocity.y > FLOAT_TO_FX32(8.0))
@@ -2736,11 +3056,12 @@ void Boss2Arm__State2_215EDE4(Boss2Arm *work)
     }
 }
 
-void Boss2Arm__State2_215EF50(Boss2Arm *work)
+void Boss2Arm_ArmState_215EF50(Boss2Arm *work)
 {
     Boss2Ball *ball = work->stage->balls[work->type];
 
-    work->field_3B8 = 0;
+    work->field_3B8 = FALSE;
+
     work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
@@ -2749,26 +3070,26 @@ void Boss2Arm__State2_215EF50(Boss2Arm *work)
 
     work->angle =
         BossHelpers__Arena__GetAngle(gPlayer->objWork.position.x, BOSS2_STAGE_START, BOSS2_STAGE_END) + FLOAT_DEG_TO_IDX(135.0) + mtMathRandRepeat(FLOAT_DEG_TO_IDX(90.0));
-    work->field_374 = FLOAT_TO_FX32(400.0);
+    work->radius = FLOAT_TO_FX32(400.0);
 
     MTX_RotY33(work->animator.work.rotation.nnMtx, SinFX((s32)(u16)(work->angle - FLOAT_DEG_TO_IDX(90.0))), CosFX((s32)(u16)(work->angle - FLOAT_DEG_TO_IDX(90.0))));
 
-    Boss2Ball__State2_215FB14(ball);
+    Boss2Ball_BallState_215FB14(ball);
     Boss2Ball__Func_21600AC(&ball->spikeWorker);
     ball->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
-    work->state2 = Boss2Arm__State2_215F08C;
+    work->armState = Boss2Arm_ArmState_215F08C;
 }
 
-void Boss2Arm__State2_215F08C(Boss2Arm *work)
+void Boss2Arm_ArmState_215F08C(Boss2Arm *work)
 {
     Boss2 *boss = work->stage->boss;
 
     BOOL isIdle = FALSE;
 
-    BossHelpers__Arena__GetXZPos(work->angle, work->field_374, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
+    BossHelpers__Arena__GetXZPos(work->angle, work->radius, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
 
-    fx32 velocity = MultiplyFX(FLOAT_TO_FX32(0.1), (work->gameWork.objWork.position.y + boss->mtxBody[work->type].m[3][1]));
+    fx32 velocity = MultiplyFX(FLOAT_TO_FX32(0.1), (work->gameWork.objWork.position.y + boss->mtxBody[work->type].translation.y));
     if (velocity > FLOAT_TO_FX32(8.0))
         velocity = FLOAT_TO_FX32(8.0);
 
@@ -2778,21 +3099,21 @@ void Boss2Arm__State2_215F08C(Boss2Arm *work)
     work->gameWork.objWork.velocity.y = -velocity;
 
     if (isIdle)
-        work->state2 = Boss2Arm__State2_215F128;
+        work->armState = Boss2Arm_ArmState_215F128;
 }
 
-void Boss2Arm__State2_215F128(Boss2Arm *work)
+void Boss2Arm_ArmState_215F128(Boss2Arm *work)
 {
     BOOL done = FALSE;
 
-    work->field_374 -= FLOAT_TO_FX32(10.0);
-    if (work->field_374 < FLOAT_TO_FX32(0.0))
+    work->radius -= FLOAT_TO_FX32(10.0);
+    if (work->radius < FLOAT_TO_FX32(0.0))
     {
-        work->field_374 = FLOAT_TO_FX32(0.0);
-        done            = TRUE;
+        work->radius = FLOAT_TO_FX32(0.0);
+        done         = TRUE;
     }
 
-    BossHelpers__Arena__GetXZPos(work->angle, work->field_374, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
+    BossHelpers__Arena__GetXZPos(work->angle, work->radius, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
 
     if (done)
     {
@@ -2808,27 +3129,27 @@ void Boss2Arm__State2_215F128(Boss2Arm *work)
     }
 }
 
-void Boss2Arm__State2_215F204(Boss2Arm *work)
+void Boss2Arm_ArmState_215F204(Boss2Arm *work)
 {
     work->word3C6   = 0x400;
-    work->field_3B8 = 1;
+    work->field_3B8 = TRUE;
 
     Boss2Ball *ball = work->stage->balls[work->type];
     Boss2Ball__EnableSpikes(&ball->spikeWorker);
     ball->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
-    work->state2 = Boss2Arm__State2_215F254;
+    work->armState = Boss2Arm_ArmState_215F254;
 }
 
-void Boss2Arm__State2_215F254(Boss2Arm *work)
+void Boss2Arm_ArmState_215F254(Boss2Arm *work)
 {
     // Do nothing
 }
 
-void Boss2Arm__State2_215F258(Boss2Arm *work)
+void Boss2Arm_ArmState_215F258(Boss2Arm *work)
 {
-    work->field_374 = FLOAT_TO_FX32(0.0);
-    work->field_3B8 = 0;
+    work->radius    = FLOAT_TO_FX32(0.0);
+    work->field_3B8 = FALSE;
 
     work->gameWork.objWork.position.x = work->animator.work.translation.x;
     work->gameWork.objWork.position.y = -work->animator.work.translation.y;
@@ -2842,16 +3163,16 @@ void Boss2Arm__State2_215F258(Boss2Arm *work)
 
     work->stage->balls[work->type]->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
-    work->state2 = Boss2Arm__State2_215F2C8;
+    work->armState = Boss2Arm_ArmState_215F2C8;
 }
 
-void Boss2Arm__State2_215F2C8(Boss2Arm *work)
+void Boss2Arm_ArmState_215F2C8(Boss2Arm *work)
 {
-    work->field_374 += FLOAT_TO_FX32(2.0);
+    work->radius += FLOAT_TO_FX32(2.0);
 
-    if (work->field_374 > BOSS2_STAGE_RADIUS || work->gameWork.objWork.position.y > FLOAT_TO_FX32(1500.0))
+    if (work->radius > BOSS2_STAGE_RADIUS || work->gameWork.objWork.position.y > FLOAT_TO_FX32(1500.0))
     {
-        work->field_374 = BOSS2_STAGE_RADIUS;
+        work->radius = BOSS2_STAGE_RADIUS;
 
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         work->stage->balls[work->type]->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
@@ -2860,15 +3181,23 @@ void Boss2Arm__State2_215F2C8(Boss2Arm *work)
         work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     }
 
-    BossHelpers__Arena__GetXZPos(work->angle + FLOAT_DEG_TO_IDX(90.0), work->field_374, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
+    BossHelpers__Arena__GetXZPos(work->angle + FLOAT_DEG_TO_IDX(90.0), work->radius, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
 }
+
+// TODO: uncomment when attempting to match static variable order
+/*
+FORCE_INCLUDE_ARRAY(const fx32, Boss2__Unused2179CBC, 3,
+                    {
+                        0x3000, 0x4000, 0x5000
+                    })
+*/
 
 void Boss2Ball__State_Active(Boss2Ball *work)
 {
     Boss2Stage__GetBallConfig(work->stage, work->type, &work->spikeWorker.spikeDuration, &work->spikeWorker.vulnerableDuration);
 
-    work->state2(work);
-    work->spikeWorker.state3(work, &work->spikeWorker);
+    work->ballState(work);
+    work->spikeWorker.spikeState(work, &work->spikeWorker);
 }
 
 void Boss2Ball__Destructor(Task *task)
@@ -2880,7 +3209,7 @@ void Boss2Ball__Destructor(Task *task)
     AnimatorMDL__Release(&work->aniBallM);
     AnimatorMDL__Release(&work->spikeWorker.aniSpike);
 
-    ReleasePaletteAnimator(&work->aniPalette);
+    ReleasePaletteAnimator(&work->aniPalette[0]);
 
     FreeSndHandle(work->sndHandle);
 
@@ -2911,7 +3240,7 @@ void Boss2Ball__Draw(void)
 
         Boss2Ball__Func_215F490(work);
 
-        aniPalette = &work->aniPalette;
+        aniPalette = &work->aniPalette[0];
         AnimatePalette(aniPalette);
         DrawAnimatedPalette(aniPalette);
     }
@@ -2919,13 +3248,13 @@ void Boss2Ball__Draw(void)
 
 NONMATCH_FUNC void Boss2Ball__Func_215F490(Boss2Ball *work)
 {
-    // will match when 'offset' is decompiled
+    // will match when 'offset' / 'Boss2Ball__Func_215F490_offset' is decompiled
 #ifdef NON_MATCHING
     AnimatorMDL *aniBallD = &work->aniBallD;
 
     const fx32 offset[BOSS2_BALL_COUNT] = { [BOSS2_BALL_M] = 0x1A660, [BOSS2_BALL_S] = 0x2E328, [BOSS2_BALL_L] = 0x41FF0 };
 
-    VEC_SetFromArray(&aniBallD->work.translation, work->mtxBallCenter.m[3]);
+    aniBallD->work.translation = work->mtxBallCenter.translation;
 
     fx32 position;
     BossHelpers__Arena__GetPosition(&position, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS, aniBallD->work.translation.x, aniBallD->work.translation.z);
@@ -2996,23 +3325,23 @@ void Boss2Ball__Collide(void)
     if ((work->gameWork.objWork.flag & (STAGE_TASK_FLAG_NO_OBJ_COLLISION)) != 0)
         return;
 
-    if (work->field_208 > 0)
+    if (work->invincibleTimer > 0)
     {
-        work->field_208--;
+        work->invincibleTimer--;
     }
     else
     {
         for (s32 i = 0; i < 2; i++)
         {
             OBS_RECT_WORK *colliderSrc = &work->gameWork.colliders[i];
-            OBS_RECT_WORK *colliderDst = &work->field_188[i];
+            OBS_RECT_WORK *colliderDst = &work->worldCollider[i];
 
             colliderSrc->flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             colliderDst->flag &= ~OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
 
             if ((colliderSrc->flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
             {
-                BossHelpers__Collision__HandleArenaCollider(colliderSrc, colliderDst, (VecFx32 *)work->mtxBallCenter.m[3], BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS);
+                BossHelpers__Collision__HandleArenaCollider(colliderSrc, colliderDst, &work->mtxBallCenter.translation, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS);
             }
         }
     }
@@ -3028,25 +3357,25 @@ NONMATCH_FUNC void Boss2Ball__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect
     if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0)
     {
         fx32 position;
-        BossHelpers__Arena__GetPosition(&position, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS, ball->mtxBallCenter.m[3][0], ball->mtxBallCenter.m[3][2]);
+        BossHelpers__Arena__GetPosition(&position, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS, ball->mtxBallCenter.translation.x, ball->mtxBallCenter.translation.z);
 
-        fx32 y = -ball->mtxBallCenter.m[3][1];
+        fx32 y = -ball->mtxBallCenter.translation.y;
 
-        BOOL flag;
+        BOOL dir;
         if (ball->angleAccel > 0x4000)
         {
-            flag = ball->field_20C;
+            dir = ball->direction;
         }
         else
         {
             if (MATH_ABS(player->objWork.velocity.x) > 128)
-                flag = player->objWork.velocity.x <= 0;
+                dir = player->objWork.velocity.x <= 0;
             else
-                flag = position < player->objWork.position.x;
+                dir = position < player->objWork.position.x;
         }
 
         fx32 velX = player->objWork.velocity.x;
-        if (flag)
+        if (dir != 0)
         {
             velX = MATH_MIN(velX, 0);
         }
@@ -3066,7 +3395,7 @@ NONMATCH_FUNC void Boss2Ball__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect
             playerForce = 0xB33;
 
         fx16 weight = Boss2Stage__GetBallWeight(ball->stage, ball->type);
-        Boss2Ball__Action_Hit(ball, flag, MultiplyFX(playerForce, weight));
+        Boss2Ball__Action_Hit(ball, dir, MultiplyFX(playerForce, weight));
 
         if (y < player->objWork.position.y)
         {
@@ -3079,7 +3408,7 @@ NONMATCH_FUNC void Boss2Ball__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect
             player->objWork.velocity.y = -FLOAT_TO_FX32(4.0);
         }
 
-        if (!flag)
+        if (dir == 0)
             player->objWork.velocity.x = -FLOAT_TO_FX32(8.0);
         else
             player->objWork.velocity.x = FLOAT_TO_FX32(8.0);
@@ -3090,12 +3419,12 @@ NONMATCH_FUNC void Boss2Ball__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect
         BossFX__CreateHitB(BOSSFX3D_FLAG_NONE, x, -player->objWork.position.y, z);
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_PENDULUM_HIT);
 
-        ball->field_208 = 4;
+        ball->invincibleTimer = 4;
 
         for (s32 i = 0; i < 2; i++)
         {
             ball->gameWork.colliders[i].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-            ball->field_188[i].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+            ball->worldCollider[i].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
         }
     }
 #else
@@ -3276,596 +3605,271 @@ void Boss2Ball__Func_215F890(Boss2Ball *work)
     AnimatorMDL *aniBall    = &work->aniBall;
     FXMatrix33 *mtxRotation = &work->aniBall.work.rotation;
 
-    aniBall->work.rotation = *(FXMatrix33 *)&arm->mtxArmBall;
+    aniBall->work.rotation = arm->mtxArmBall.mtx33;
 
-    VEC_Set((VecFx32 *)mtxRotation->m[1], FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
-    VEC_CrossProduct((VecFx32 *)mtxRotation->m[0], (VecFx32 *)mtxRotation->m[1], (VecFx32 *)mtxRotation->m[2]);
-    VEC_Normalize((VecFx32 *)mtxRotation->m[2], (VecFx32 *)mtxRotation->m[2]);
-    VEC_CrossProduct((VecFx32 *)mtxRotation->m[1], (VecFx32 *)mtxRotation->m[2], (VecFx32 *)mtxRotation->m[0]);
+    VEC_Set(&mtxRotation->row[1], FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
+    VEC_CrossProduct(&mtxRotation->row[0], &mtxRotation->row[1], &mtxRotation->row[2]);
+    VEC_Normalize(&mtxRotation->row[2], &mtxRotation->row[2]);
+    VEC_CrossProduct(&mtxRotation->row[1], &mtxRotation->row[2], &mtxRotation->row[0]);
 
-    VEC_SetFromArray(&work->aniBall.work.translation, arm->mtxArmBall.m[3]);
+    work->aniBall.work.translation = arm->mtxArmBall.translation;
 }
 
 void Boss2Ball__SetupObject(Boss2Ball *work)
 {
-    work->field_378 = 0;
+    work->actionState = BOSS2BALL_ACTION_0;
 
-    work->state2 = Boss2Ball__State_215FAE0;
-    work->state2(work);
+    work->ballState = Boss2Ball__State_215FAE0;
+    work->ballState(work);
 }
 
-NONMATCH_FUNC void Boss2Ball__Func_215F944(Boss2Ball *work)
+void Boss2Ball__Func_215F944(Boss2Ball *work)
 {
-#ifdef NON_MATCHING
+    work->actionState = BOSS2BALL_ACTION_1;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r2, #1
-	ldr r1, =Boss2Ball__State2_215FB14
-	str r2, [r0, #0x378]
-	str r1, [r0, #0x374]
-	blx r1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    work->ballState = Boss2Ball_BallState_215FB14;
+    work->ballState(work);
 }
 
-NONMATCH_FUNC void Boss2Ball__Action_Hit(Boss2Ball *work, s32 direction, fx32 force)
+void Boss2Ball__Action_Hit(Boss2Ball *work, s32 direction, fx32 force)
 {
-#ifdef NON_MATCHING
+    Boss2Arm *arm = work->stage->arms[work->type];
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr ip, [r0, #0x370]
-	ldr r4, [r0, #0x37c]
-	mov r3, #2
-	add r4, ip, r4, lsl #2
-	ldr lr, [r4, #0x374]
-	str r3, [r0, #0x378]
-	str r1, [r0, #0x58c]
-	ldr r3, [lr, #0x3bc]
-	cmp r3, #0
-	mov r3, #0
-	beq _0215FA6C
-	cmp r1, #0
-	beq _0215F9E4
-	add ip, lr, #0x300
-	ldrsh r4, [ip, #0xc2]
-	cmp r4, #0
-	ble _0215F9E4
-	ldrsh r1, [ip, #0xc4]
-	cmp r4, r1
-	ble _0215FA38
-	sub r4, r4, r1
-	mov r1, #0x64000
-	umull lr, ip, r4, r1
-	mla ip, r4, r3, ip
-	mov r4, r4, asr #0x1f
-	mla ip, r4, r1, ip
-	adds r4, lr, #0x800
-	adc r1, ip, r3
-	mov r3, r4, lsr #0xc
-	orr r3, r3, r1, lsl #20
-	b _0215FA38
-_0215F9E4:
-	cmp r1, #0
-	bne _0215FA38
-	add r1, lr, #0x300
-	ldrsh ip, [r1, #0xc2]
-	cmp ip, #0
-	ldrltsh r4, [r1, #0xc4]
-	rsblt r1, r4, #0
-	cmplt ip, r1
-	bge _0215FA38
-	add r1, r4, ip
-	rsb r4, r1, #0
-	mov r1, #0x64000
-	umull lr, ip, r4, r1
-	mov r3, #0
-	mla ip, r4, r3, ip
-	mov r3, r4, asr #0x1f
-	adds r4, lr, #0x800
-	mla ip, r3, r1, ip
-	adc r1, ip, #0
-	mov r3, r4, lsr #0xc
-	orr r3, r3, r1, lsl #20
-_0215FA38:
-	ldr r1, =0x00000CCC
-	mov ip, #0
-	umull lr, r4, r3, r1
-	mla r4, r3, ip, r4
-	mov r3, r3, asr #0x1f
-	adds ip, lr, #0x800
-	mla r4, r3, r1, r4
-	adc r1, r4, #0
-	mov r3, ip, lsr #0xc
-	orr r3, r3, r1, lsl #20
-	add r1, r2, r3
-	str r1, [r0, #0x590]
-	b _0215FA9C
-_0215FA6C:
-	ldr ip, [r0, #0x590]
-	ldr r1, =0x00000CCC
-	umull r4, lr, ip, r1
-	mla lr, ip, r3, lr
-	mov r3, ip, asr #0x1f
-	mla lr, r3, r1, lr
-	adds r4, r4, #0x800
-	adc r1, lr, #0
-	mov r3, r4, lsr #0xc
-	orr r3, r3, r1, lsl #20
-	add r1, r3, r2
-	str r1, [r0, #0x590]
-_0215FA9C:
-	ldr r1, =Boss2Ball__State2_InitHit
-	str r1, [r0, #0x374]
-	blx r1
-	ldmia sp!, {r4, pc}
+    work->actionState = BOSS2BALL_ACTION_2;
+    work->direction   = direction;
 
-// clang-format on
-#endif
+    if (arm->field_3BC)
+    {
+        fx32 speed = 0;
+
+        if (direction != 0 && arm->angleSpeed > 0)
+        {
+            if (arm->angleSpeed > arm->targetAngleSpeed)
+                speed = MultiplyFX(FLOAT_TO_FX32(100.0), (arm->angleSpeed - arm->targetAngleSpeed));
+        }
+        else if (direction == 0 && arm->angleSpeed < 0)
+        {
+            if (arm->angleSpeed < -arm->targetAngleSpeed)
+                speed = MultiplyFX(FLOAT_TO_FX32(100.0), -(arm->targetAngleSpeed + arm->angleSpeed));
+        }
+
+        work->angleAccel = force + MultiplyFX(speed, FLOAT_TO_FX32(0.8));
+    }
+    else
+    {
+        fx32 speed = work->angleAccel;
+
+        work->angleAccel = MultiplyFX(speed, FLOAT_TO_FX32(0.8));
+        work->angleAccel += force;
+    }
+
+    work->ballState = Boss2Ball_BallState_InitHit;
+    work->ballState(work);
 }
 
-NONMATCH_FUNC void Boss2Ball__Action_HitRecoil(Boss2Ball *work)
+void Boss2Ball__Action_HitRecoil(Boss2Ball *work)
 {
-#ifdef NON_MATCHING
+    work->actionState = BOSS2BALL_ACTION_3;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r2, #3
-	str r2, [r0, #0x378]
-	mov r2, #0
-	str r2, [r0, #0x590]
-	ldr r1, =Boss2Ball__State2_215FF00
-	str r2, [r0, #0x594]
-	str r1, [r0, #0x374]
-	blx r1
-	ldmia sp!, {r3, pc}
+    work->angleAccel       = 0;
+    work->targetAngleAccel = 0;
 
-// clang-format on
-#endif
+    work->ballState = Boss2Ball_BallState_215FF00;
+    work->ballState(work);
 }
 
-NONMATCH_FUNC void Boss2Ball__State_215FAE0(Boss2Ball *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r1, #0x3e8000
-	rsb r1, r1, #0
-	str r1, [r0, #0x48]
-	ldr r1, [r0, #0x20]
-	ldr ip, =Boss2Ball__DisableSpikes
-	orr r1, r1, #0x20
-	str r1, [r0, #0x20]
-	ldr r1, [r0, #0x18]
-	orr r1, r1, #2
-	str r1, [r0, #0x18]
-	add r0, r0, #0x380
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss2Ball__State2_215FB14(Boss2Ball *work)
+void Boss2Ball__State_215FAE0(Boss2Ball *work)
 {
-#ifdef NON_MATCHING
+    work->gameWork.objWork.position.y = -FLOAT_TO_FX32(1000.0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r1, [r4, #0x20]
-	add r0, r4, #0x1b8
-	bic r1, r1, #0x20
-	str r1, [r4, #0x20]
-	mov r1, #0
-	str r1, [sp]
-	str r1, [sp, #4]
-	ldr r3, [r4, #0x37c]
-	ldr r2, [r4, #0x368]
-	add r0, r0, #0x400
-	add r3, r3, #3
-	bl BossHelpers__SetAnimation
-	ldr r1, [r4, #0x18]
-	add r0, r4, #0x380
-	bic r1, r1, #2
-	str r1, [r4, #0x18]
-	bl Boss2Ball__EnableSpikes
-	ldr r0, =Boss2Ball__State2_215FB78
-	str r0, [r4, #0x374]
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
-// clang-format on
-#endif
+    Boss2Ball__DisableSpikes(&work->spikeWorker);
 }
 
-NONMATCH_FUNC void Boss2Ball__State2_215FB78(Boss2Ball *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =Boss2Ball__Func_215F890
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss2Ball__State2_InitHit(Boss2Ball *work)
+void Boss2Ball_BallState_215FB14(Boss2Ball *work)
 {
-#ifdef NON_MATCHING
+    work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r2, [r4, #0x370]
-	ldr r1, [r4, #0x37c]
-	ldr r0, [r4, #0x20]
-	add r1, r2, r1, lsl #2
-	ldr r2, [r1, #0x374]
-	bic r0, r0, #0x20
-	str r0, [r4, #0x20]
-	mov r1, #0
-	add r0, r4, #0x380
-	str r1, [r2, #0x3bc]
-	bl Boss2Ball__Func_216009C
-	add r0, r4, #0x380
-	bl Boss2Ball__DisableSpikes
-	ldr r0, [r4, #0x590]
-	mov r1, #0
-	str r0, [r4, #0x594]
-	ldr r0, [r4, #0x58c]
-	cmp r0, #0
-	str r1, [sp]
-	str r1, [sp, #4]
-	movne ip, #0x28
-	add r0, r4, #0x1b8
-	ldr r3, [r4, #0x37c]
-	moveq ip, #0x2e
-	ldr r2, [r4, #0x368]
-	add r0, r0, #0x400
-	add r3, ip, r3
-	bl BossHelpers__SetAnimation
-	mov r1, #0
-	ldr r0, =Boss2Ball__State2_Hit
-	str r1, [r4, #0x6d0]
-	str r0, [r4, #0x374]
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    BossHelpers__SetAnimation(&work->aniBall, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_balla_fw0 + work->type, NULL, FALSE);
 
-// clang-format on
-#endif
+    work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+    Boss2Ball__EnableSpikes(&work->spikeWorker);
+
+    work->ballState = Boss2Ball_BallState_215FB78;
 }
 
-NONMATCH_FUNC void Boss2Ball__State2_Hit(Boss2Ball *work)
+void Boss2Ball_BallState_215FB78(Boss2Ball *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	sub sp, sp, #8
-	mov r7, r0
-	mov r1, #0x6000
-	ldr r0, [r7, #0x594]
-	rsb r1, r1, #0
-	cmp r0, r1
-	ldr r0, [r7, #0x69c]
-	strlt r1, [r7, #0x594]
-	ldr r2, [r0, #0]
-	ldr r1, [r7, #0x594]
-	add r1, r2, r1
-	str r1, [r0]
-	ldr r1, [r7, #0x594]
-	sub r1, r1, #0x66
-	sub r1, r1, #0x200
-	str r1, [r7, #0x594]
-	ldr r2, [r0, #0]
-	cmp r2, #0
-	bgt _0215FD24
-	ldr r3, [r7, #0x370]
-	ldr r1, [r7, #0x37c]
-	mov r2, #0
-	add r1, r3, r1, lsl #2
-	ldr r3, [r1, #0x374]
-	mov r1, #1
-	str r2, [r0]
-	str r1, [r3, #0x3bc]
-	add r0, r3, #0x300
-	ldrsh r0, [r0, #0xc2]
-	add r2, r3, #0x300
-	mov r1, #0
-	cmp r0, #0
-	rsblt r0, r0, #0
-	strh r0, [r2, #0xc2]
-	ldr r3, [r7, #0x590]
-	mov r0, #0x28
-	umull r5, r4, r3, r0
-	mla r4, r3, r1, r4
-	mov r1, r3, asr #0x1f
-	mla r4, r1, r0, r4
-	adds r3, r5, #0x800
-	mov r1, r3, lsr #0xc
-	adc r0, r4, #0
-	orr r1, r1, r0, lsl #20
-	ldrsh r3, [r2, #0xc2]
-	mov r0, r1, lsl #0x10
-	add r0, r3, r0, asr #16
-	strh r0, [r2, #0xc2]
-	ldr r0, [r7, #0x58c]
-	cmp r0, #0
-	ldreqsh r0, [r2, #0xc2]
-	rsbeq r0, r0, #0
-	streqh r0, [r2, #0xc2]
-	mov r0, #0
-	str r0, [r7, #0x590]
-	mov r0, #0x1000
-	str r0, [r7, #0x6d0]
-	ldr r1, [r7, #0x594]
-	mov r0, r7
-	cmp r1, #0
-	rsblt r1, r1, #0
-	str r1, [r7, #0x590]
-	bl Boss2Ball__Func_215F944
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0215FD24:
-	ldr r1, [r0, #8]
-	sub r0, r2, #1
-	ldrh r1, [r1, #4]
-	cmp r0, r1, lsl #12
-	blt _0215FEEC
-	ldr r4, [r7, #0x370]
-	mov r0, r4
-	bl Boss2__GetBossPhase
-	mov r5, r0
-	ldr r1, [r7, #0x37c]
-	mov r0, r4
-	bl Boss2Stage__GetImpactDamage
-	ldr r1, [r7, #0x370]
-	add r1, r1, #0x300
-	ldrsh r2, [r1, #0x98]
-	sub r2, r2, r0
-	mov r0, r4
-	strh r2, [r1, #0x98]
-	bl Boss2__GetBossPhase
-	ldr r2, =Boss2__activeArmCountTable
-	mov r6, r0
-	ldr r1, [r2, r6, lsl #2]
-	ldr r0, [r2, r5, lsl #2]
-	cmp r0, r1
-	bge _0215FDAC
-	ldr r0, [r7, #0x370]
-	ldr r0, [r0, #0x370]
-	str r1, [r0, #0x494]
-	ldr r0, [r7, #0x370]
-	add r0, r0, r1, lsl #2
-	ldr r0, [r0, #0x374]
-	bl Boss2Arm__Action_215EBC0
-	mov r0, r4
-	bl Boss2__Func_215C240
-_0215FDAC:
-	cmp r5, r6
-	beq _0215FDC4
-	cmp r6, #3
-	blo _0215FDC4
-	mov r0, #1
-	bl ChangeBossBGMVariant
-_0215FDC4:
-	ldr r1, [r7, #0x370]
-	add r0, r1, #0x300
-	ldrsh r0, [r0, #0x98]
-	cmp r0, #0
-	ble _0215FE14
-	mov r0, #0x1000
-	str r0, [r7, #0x6d0]
-	ldr r0, [r7, #0x370]
-	ldr r0, [r0, #0x370]
-	bl Boss2__Action_Attack2
-	mov r0, r7
-	bl Boss2Ball__Action_HitRecoil
-	mov r3, #0x8c
-	sub r1, r3, #0x8d
-	mov r0, #0
-	stmia sp, {r0, r3}
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	b _0215FEA8
-_0215FE14:
-	ldr r0, [r1, #0x370]
-	ldr r0, [r0, #0x384]
-	cmp r0, #3
-	beq _0215FEA0
-	mov r0, r4
-	bl Boss2__GetBossPhase
-	ldr r1, =Boss2__activeArmCountTable
-	mov r5, #0
-	ldr r0, [r1, r0, lsl #2]
-	add r0, r0, #1
-	mov r0, r0, lsl #0x10
-	movs r6, r0, lsr #0x10
-	beq _0215FE6C
-_0215FE48:
-	ldr r0, [r7, #0x370]
-	add r0, r0, r5, lsl #2
-	ldr r0, [r0, #0x374]
-	bl Boss2Arm__Func_215EC24
-	add r0, r5, #1
-	mov r0, r0, lsl #0x10
-	cmp r6, r0, lsr #16
-	mov r5, r0, lsr #0x10
-	bhi _0215FE48
-_0215FE6C:
-	ldr r0, [r7, #0x370]
-	ldr r0, [r0, #0x370]
-	bl Boss2__Action_Attack3
-	mov r5, #0xce
-	sub r1, r5, #0xcf
-	add r0, r4, #0x300
-	mov r2, #1
-	strh r2, [r0, #0x98]
-	mov r0, #0
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r0, r5}
-	bl PlaySfxEx
-_0215FEA0:
-	mov r0, r7
-	bl Boss2Ball__Action_HitRecoil
-_0215FEA8:
-	add r0, r4, #0x300
-	ldrsh r0, [r0, #0x98]
-	bl UpdateBossHealthHUD
-	ldr r1, [r7, #0x4fc]
-	ldr r2, [r7, #0x500]
-	ldr r3, [r7, #0x504]
-	mov r0, #0
-	bl BossFX__CreateHitA
-	mov r5, r0
-	ldr r1, [r7, #0x37c]
-	mov r0, r4
-	bl Boss2__GetHitFXScale
-	str r0, [r5, #0x38]
-	str r0, [r5, #0x3c]
-	add sp, sp, #8
-	str r0, [r5, #0x40]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0215FEEC:
-	mov r0, r7
-	bl Boss2Ball__Func_215F890
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
+    Boss2Ball__Func_215F890(work);
 }
 
-NONMATCH_FUNC void Boss2Ball__State2_215FF00(Boss2Ball *work)
+void Boss2Ball_BallState_InitHit(Boss2Ball *work)
 {
-#ifdef NON_MATCHING
+    Boss2Arm *arm = work->stage->arms[work->type];
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r5, r0
-	ldr r2, [r5, #0x370]
-	ldr r1, [r5, #0x37c]
-	ldr r0, [r5, #0x18]
-	add r1, r2, r1, lsl #2
-	ldr r4, [r1, #0x374]
-	orr r1, r0, #2
-	add r0, r5, #0x380
-	str r1, [r5, #0x18]
-	bl Boss2Ball__Func_216009C
-	add r0, r5, #0x380
-	bl Boss2Ball__DisableSpikes
-	mov r0, #1
-	str r0, [r4, #0x3bc]
-	ldr r2, =_mt_math_rand
-	ldr r0, =0x00196225
-	ldr r3, [r2, #0]
-	ldr r1, =0x3C6EF35F
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	str r1, [r2]
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	tst r0, #1
-	mov r1, #0x800
-	rsbeq r1, r1, #0
-	add r0, r4, #0x300
-	strh r1, [r0, #0xc2]
-	ldr r2, =_mt_math_rand
-	ldr r0, =0x00196225
-	ldr r3, [r2, #0]
-	ldr r1, =0x3C6EF35F
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	and r0, r0, #0xf
-	str r1, [r2]
-	add r0, r0, #0x1e
-	str r0, [r5, #0x2c]
-	ldr r0, [r5, #0x58c]
-	mov r1, #0
-	cmp r0, #0
-	str r1, [sp]
-	str r1, [sp, #4]
-	movne r4, #0x2b
-	add r0, r5, #0x1b8
-	ldr r3, [r5, #0x37c]
-	moveq r4, #0x31
-	ldr r2, [r5, #0x368]
-	add r0, r0, #0x400
-	add r3, r4, r3
-	bl BossHelpers__SetAnimation
-	ldr r0, =Boss2Ball__State2_215FFFC
-	str r0, [r5, #0x374]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
+    work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
+    arm->field_3BC = 0;
 
-// clang-format on
-#endif
+    Boss2Ball__Func_216009C(&work->spikeWorker);
+    Boss2Ball__DisableSpikes(&work->spikeWorker);
+
+    work->targetAngleAccel = work->angleAccel;
+
+    s32 anim;
+    if (work->direction)
+        anim = ANI_JNT_bs2_balla_pendf0;
+    else
+        anim = ANI_JNT_bs2_balla_pendb0;
+    BossHelpers__SetAnimation(&work->aniBall, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, anim + work->type, NULL, FALSE);
+    work->aniBall.speedMultiplier = FLOAT_TO_FX32(0.0);
+
+    work->ballState = Boss2Ball_BallState_Hit;
 }
 
-NONMATCH_FUNC void Boss2Ball__State2_215FFFC(Boss2Ball *work)
+void Boss2Ball_BallState_Hit(Boss2Ball *work)
 {
-#ifdef NON_MATCHING
+    NNSG3dAnmObj *animObj = work->aniBall.currentAnimObj[B3D_ANIM_JOINT_ANIM];
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r2, [r4, #0x370]
-	ldr r1, [r4, #0x37c]
-	add r1, r2, r1, lsl #2
-	ldr r5, [r1, #0x374]
-	bl Boss2Ball__Func_215F890
-	ldr r0, [r4, #0x2c]
-	cmp r0, #0
-	ble _02160050
-	sub r0, r0, #1
-	str r0, [r4, #0x2c]
-	add r0, r5, #0x300
-	mov r1, #0x800
-	strh r1, [r0, #0xc6]
-	ldrsh r0, [r0, #0xc2]
-	cmp r0, #0
-	suble r1, r1, #0x1000
-	add r0, r5, #0x300
-	strh r1, [r0, #0xc2]
-	b _0216005C
-_02160050:
-	add r0, r5, #0x300
-	mov r1, #0x400
-	strh r1, [r0, #0xc6]
-_0216005C:
-	add r0, r4, #0x600
-	ldrh r0, [r0, #0xc4]
-	tst r0, #0x8000
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r0, [r4, #0x2c]
-	cmp r0, #0
-	ldmneia sp!, {r3, r4, r5, pc}
-	mov r0, r4
-	bl Boss2Ball__Func_215F944
-	ldmia sp!, {r3, r4, r5, pc}
+    if (work->targetAngleAccel < -FLOAT_TO_FX32(6.0))
+        work->targetAngleAccel = -FLOAT_TO_FX32(6.0);
 
-// clang-format on
-#endif
+    animObj->frame += work->targetAngleAccel;
+    work->targetAngleAccel -= FLOAT_TO_FX32(0.15);
+
+    fx32 frame = animObj->frame;
+    if (frame <= FLOAT_TO_FX32(0.0))
+    {
+        Boss2Arm *arm = work->stage->arms[work->type];
+
+        animObj->frame = FLOAT_TO_FX32(0.0);
+
+        arm->field_3BC  = 1;
+        arm->angleSpeed = MATH_ABS(arm->angleSpeed);
+        arm->angleSpeed += (s16)MultiplyFX(work->angleAccel, 40);
+        if (work->direction == 0)
+            arm->angleSpeed = -arm->angleSpeed;
+
+        work->angleAccel              = 0;
+        work->aniBall.speedMultiplier = FLOAT_TO_FX32(1.0);
+        work->angleAccel              = MATH_ABS(work->targetAngleAccel);
+
+        Boss2Ball__Func_215F944(work);
+    }
+    else if (NNS_G3dAnmObjGetNumFrame(animObj) <= (frame - 1))
+    {
+        Boss2Stage *stage = work->stage;
+
+        u32 prevPhase = Boss2__GetBossPhase(stage);
+        work->stage->health -= Boss2Stage__GetImpactDamage(stage, work->type);
+        u32 curPhase = Boss2__GetBossPhase(stage);
+
+        s32 newArmCount = Boss2__activeArmCountTable[curPhase];
+        if (Boss2__activeArmCountTable[prevPhase] < newArmCount)
+        {
+            work->stage->boss->activeArmCount = newArmCount;
+            Boss2Arm__Action_215EBC0(work->stage->arms[newArmCount]);
+            Boss2__Func_215C240(stage);
+        }
+
+        if (prevPhase != curPhase && curPhase >= BOSS2_PHASE_4)
+            ChangeBossBGMVariant(1);
+
+        if (work->stage->health > HUD_BOSS_HEALTH_MIN)
+        {
+            work->aniBall.speedMultiplier = FLOAT_TO_FX32(1.0);
+            Boss2__Action_Attack2(work->stage->boss);
+            Boss2Ball__Action_HitRecoil(work);
+            PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOSS_DAMAGE);
+        }
+        else
+        {
+            if (work->stage->boss->actionState != BOSS2_ACTION_3)
+            {
+                s32 phase = Boss2__GetBossPhase(stage);
+
+                u16 a;
+                u16 count = Boss2__activeArmCountTable[phase] + 1;
+                for (a = 0; a < count; a++)
+                {
+                    Boss2Arm__Func_215EC24(work->stage->arms[a]);
+                }
+
+                Boss2__Action_Attack3(work->stage->boss);
+                stage->health = HUD_BOSS_HEALTH_MIN + 1;
+                PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TODOME_HIT);
+            }
+
+            Boss2Ball__Action_HitRecoil(work);
+        }
+
+        UpdateBossHealthHUD(stage->health);
+
+        BossFX3D *hitFX = BossFX__CreateHitA(BOSSFX3D_FLAG_NONE, work->mtxBallCenter.translation.x, work->mtxBallCenter.translation.y, work->mtxBallCenter.translation.z);
+
+        fx32 scale             = Boss2__GetHitFXScale(stage, work->type);
+        hitFX->objWork.scale.x = scale;
+        hitFX->objWork.scale.y = scale;
+        hitFX->objWork.scale.z = scale;
+    }
+    else
+    {
+        Boss2Ball__Func_215F890(work);
+    }
+}
+
+void Boss2Ball_BallState_215FF00(Boss2Ball *work)
+{
+    Boss2Arm *arm = work->stage->arms[work->type];
+
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+
+    Boss2Ball__Func_216009C(&work->spikeWorker);
+    Boss2Ball__DisableSpikes(&work->spikeWorker);
+    arm->field_3BC = 1;
+
+    arm->angleSpeed = mtMathRandRepeat(2) == 0 ? -0x800 : 0x800;
+
+    work->gameWork.objWork.userTimer = mtMathRandRepeat(16) + 30;
+
+    s32 anim;
+    if (work->direction)
+        anim = ANI_JNT_bs2_balla_pendf1;
+    else
+        anim = ANI_JNT_bs2_balla_pendb1;
+    BossHelpers__SetAnimation(&work->aniBall, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, anim + work->type, NULL, FALSE);
+
+    work->ballState = Boss2Ball_BallState_215FFFC;
+}
+
+void Boss2Ball_BallState_215FFFC(Boss2Ball *work)
+{
+    Boss2Arm *arm = work->stage->arms[work->type];
+
+    Boss2Ball__Func_215F890(work);
+
+    if (work->gameWork.objWork.userTimer > 0)
+    {
+        work->gameWork.objWork.userTimer--;
+
+        arm->word3C6 = 0x800;
+
+        s16 angleSpeed = 0x800;
+        if (arm->angleSpeed <= 0)
+            angleSpeed = -0x800;
+
+        arm->angleSpeed = angleSpeed;
+    }
+    else
+    {
+        arm->word3C6 = 0x400;
+    }
+
+    if ((work->aniBall.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0 && work->gameWork.objWork.userTimer == 0)
+    {
+        Boss2Ball__Func_215F944(work);
+    }
 }
 
 void Boss2Ball__EnableSpikes(Boss2BallSpikeWorker *worker)
@@ -3880,386 +3884,137 @@ void Boss2Ball__DisableSpikes(Boss2BallSpikeWorker *worker)
 
 void Boss2Ball__Func_216009C(Boss2BallSpikeWorker *worker)
 {
-    worker->state3 = Boss2Ball__StateSpikes_2160354;
+    worker->spikeState = Boss2Ball_SpikeState_2160354;
 }
 
 void Boss2Ball__Func_21600AC(Boss2BallSpikeWorker *worker)
 {
-    worker->state3 = Boss2Ball__StateSpikes_21600BC;
+    worker->spikeState = Boss2Ball_SpikeState_21600BC;
 }
 
-NONMATCH_FUNC void Boss2Ball__StateSpikes_21600BC(Boss2Ball *work, Boss2BallSpikeWorker *worker)
+void Boss2Ball_SpikeState_21600BC(Boss2Ball *work, Boss2BallSpikeWorker *worker)
 {
-#ifdef NON_MATCHING
+    worker->type = 0;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r1
-	mov r1, #0
-	str r1, [r4, #4]
-	mov r5, r0
-	str r1, [sp]
-	mov r0, #1
-	str r0, [sp, #4]
-	ldr r3, [r5, #0x37c]
-	ldr r2, [r5, #0x368]
-	add r0, r4, #0x14
-	add r3, r3, #0x37
-	bl BossHelpers__SetAnimation
-	mov r0, #0
-	str r0, [sp]
-	mov r0, #1
-	str r0, [sp, #4]
-	ldr r1, [r5, #0x37c]
-	ldr r2, [r5, #0x36c]
-	add r0, r4, #0x14
-	add r3, r1, #3
-	mov r1, #4
-	bl BossHelpers__SetAnimation
-	ldr r1, [r5, #0x230]
-	add r0, r5, #0x500
-	bic r1, r1, #4
-	str r1, [r5, #0x230]
-	ldr r1, [r5, #0x270]
-	bic r1, r1, #4
-	str r1, [r5, #0x270]
-	ldrh r0, [r0, #0x9c]
-	cmp r0, #1
-	beq _0216015C
-	add r0, r5, #0x198
-	mov r2, #0
-	mov r3, r2
-	add r0, r0, #0x400
-	mov r1, #1
-	bl BossHelpers__SetPaletteAnimations
-_0216015C:
-	ldr r0, =Boss2Ball__StateSpikes_Blank
-	str r0, [r4]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
+    BossHelpers__SetAnimation(&worker->aniSpike, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_spka_1 + work->type, NULL, TRUE);
+    BossHelpers__SetAnimation(&worker->aniSpike, B3D_ANIM_VIS_ANIM, work->assets.visAnims, ANI_VIZ_bs2_spka_1 + work->type, NULL, TRUE);
 
-// clang-format on
-#endif
+    work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+
+    if (work->aniPalette[0].animID != 1)
+        BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), 0, FALSE);
+
+    worker->spikeState = Boss2Ball_SpikeState_Blank;
 }
 
-void Boss2Ball__StateSpikes_Blank(Boss2Ball *work, Boss2BallSpikeWorker *worker)
+void Boss2Ball_SpikeState_Blank(Boss2Ball *work, Boss2BallSpikeWorker *worker)
 {
     // Do nothing
 }
 
-NONMATCH_FUNC void Boss2Ball__StateSpikes_2160174(Boss2Ball *work, Boss2BallSpikeWorker *worker)
+void Boss2Ball_SpikeState_2160174(Boss2Ball *work, Boss2BallSpikeWorker *worker)
 {
-#ifdef NON_MATCHING
+    worker->type = 1;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r1
-	mov r2, #1
-	str r2, [r4, #4]
-	mov r1, #0
-	mov r5, r0
-	stmia sp, {r1, r2}
-	ldr r3, [r5, #0x37c]
-	ldr r2, [r5, #0x368]
-	add r0, r4, #0x14
-	add r3, r3, #0x34
-	bl BossHelpers__SetAnimation
-	mov r0, #0
-	str r0, [sp]
-	mov r0, #1
-	str r0, [sp, #4]
-	ldr r2, [r5, #0x36c]
-	ldr r3, [r5, #0x37c]
-	add r0, r4, #0x14
-	mov r1, #4
-	bl BossHelpers__SetAnimation
-	ldr r1, [r5, #0x230]
-	add r0, r5, #0x500
-	bic r1, r1, #4
-	str r1, [r5, #0x230]
-	ldr r1, [r5, #0x270]
-	orr r1, r1, #4
-	str r1, [r5, #0x270]
-	ldrh r0, [r0, #0x9c]
-	cmp r0, #1
-	beq _0216020C
-	mov r1, #1
-	add r0, r5, #0x198
-	mov r2, r1
-	mov r3, r1
-	add r0, r0, #0x400
-	bl BossHelpers__SetPaletteAnimations
-_0216020C:
-	mov r1, #0
-	mov r0, #0x9a
-	str r1, [sp]
-	sub r1, r0, #0x9b
-	str r0, [sp, #4]
-	ldr r0, [r5, #0x984]
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	add r1, r5, #0xfc
-	ldr r0, [r5, #0x984]
-	add r1, r1, #0x400
-	bl ProcessSpatialVoiceClip
-	mov r0, #0
-	str r0, [r4, #0x10]
-	ldr r2, =Boss2Ball__StateSpikes_2160268
-	mov r0, r5
-	mov r1, r4
-	str r2, [r4]
-	blx r2
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
+    BossHelpers__SetAnimation(&worker->aniSpike, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_spka_0 + work->type, NULL, TRUE);
+    BossHelpers__SetAnimation(&worker->aniSpike, B3D_ANIM_VIS_ANIM, work->assets.visAnims, ANI_VIZ_bs2_spka_0 + work->type, NULL, TRUE);
 
-// clang-format on
-#endif
+    work->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+
+    if (work->aniPalette[0].animID != 1)
+        BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), 1, TRUE);
+
+    PlayHandleStageSfx(work->sndHandle, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TOGE_APPEAR);
+    ProcessSpatialVoiceClip(work->sndHandle, &work->mtxBallCenter.translation);
+
+    worker->timer = 0;
+
+    worker->spikeState = Boss2Ball_SpikeState_2160268;
+    worker->spikeState(work, worker);
 }
 
-NONMATCH_FUNC void Boss2Ball__StateSpikes_2160268(Boss2Ball *work, Boss2BallSpikeWorker *worker){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r1, #8]
-	cmp r0, #0
-	bxne lr
-	ldrh r0, [r1, #0xc]
-	cmp r0, #0
-	bxeq lr
-	ldr r0, [r1, #0x10]
-	add r2, r0, #1
-	str r2, [r1, #0x10]
-	ldrh r0, [r1, #0xc]
-	cmp r2, r0
-	ldrhi r0, =Boss2Ball__StateSpikes_21602A4
-	strhi r0, [r1]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss2Ball__StateSpikes_21602A4(Boss2Ball *work, Boss2BallSpikeWorker *worker)
+void Boss2Ball_SpikeState_2160268(Boss2Ball *work, Boss2BallSpikeWorker *worker)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r1
-	mov r1, #2
-	str r1, [r4, #4]
-	mov r1, #0
-	str r1, [sp]
-	mov r5, r0
-	str r1, [sp, #4]
-	ldr r3, [r5, #0x37c]
-	ldr r2, [r5, #0x368]
-	add r0, r4, #0x14
-	add r3, r3, #0x3d
-	bl BossHelpers__SetAnimation
-	mov r0, #0
-	str r0, [sp]
-	str r0, [sp, #4]
-	ldr r1, [r5, #0x37c]
-	ldr r2, [r5, #0x36c]
-	add r0, r4, #0x14
-	add r3, r1, #9
-	mov r1, #4
-	bl BossHelpers__SetAnimation
-	ldr r1, [r5, #0x230]
-	add r0, r5, #0x500
-	orr r1, r1, #4
-	str r1, [r5, #0x230]
-	ldr r1, [r5, #0x270]
-	bic r1, r1, #4
-	str r1, [r5, #0x270]
-	ldrh r0, [r0, #0x9c]
-	cmp r0, #2
-	beq _02160340
-	add r0, r5, #0x198
-	mov r1, #1
-	mov r3, r1
-	add r0, r0, #0x400
-	mov r2, #2
-	bl BossHelpers__SetPaletteAnimations
-_02160340:
-	ldr r0, =Boss2Ball__StateSpikes_2160354
-	str r0, [r4]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    if (worker->disableSpikes == FALSE && worker->spikeDuration)
+    {
+        worker->timer++;
+        if (worker->timer > worker->spikeDuration)
+            worker->spikeState = Boss2Ball_SpikeState_21602A4;
+    }
 }
 
-NONMATCH_FUNC void Boss2Ball__StateSpikes_2160354(Boss2Ball *work, Boss2BallSpikeWorker *worker)
+void Boss2Ball_SpikeState_21602A4(Boss2Ball *work, Boss2BallSpikeWorker *worker)
 {
-#ifdef NON_MATCHING
+    worker->type = 2;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r1
-	mov r1, #3
-	str r1, [r4, #4]
-	mov r1, #0
-	mov r5, r0
-	str r1, [sp]
-	mov r0, #1
-	str r0, [sp, #4]
-	ldr r3, [r5, #0x37c]
-	ldr r2, [r5, #0x368]
-	add r0, r4, #0x14
-	add r3, r3, #0x37
-	bl BossHelpers__SetAnimation
-	mov r0, #0
-	str r0, [sp]
-	mov r0, #1
-	str r0, [sp, #4]
-	ldr r1, [r5, #0x37c]
-	ldr r2, [r5, #0x36c]
-	add r0, r4, #0x14
-	add r3, r1, #3
-	mov r1, #4
-	bl BossHelpers__SetAnimation
-	ldr r1, [r5, #0x230]
-	add r0, r5, #0x500
-	orr r1, r1, #4
-	str r1, [r5, #0x230]
-	ldr r1, [r5, #0x270]
-	bic r1, r1, #4
-	str r1, [r5, #0x270]
-	ldrh r0, [r0, #0x9c]
-	cmp r0, #2
-	beq _021603F8
-	add r0, r5, #0x198
-	mov r1, #1
-	mov r3, r1
-	add r0, r0, #0x400
-	mov r2, #2
-	bl BossHelpers__SetPaletteAnimations
-_021603F8:
-	mov r0, #0
-	str r0, [r4, #0x10]
-	ldr r2, =Boss2Ball__StateSpikes_2160420
-	mov r0, r5
-	mov r1, r4
-	str r2, [r4]
-	blx r2
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
+    BossHelpers__SetAnimation(&worker->aniSpike, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_spka_3 + work->type, NULL, FALSE);
+    BossHelpers__SetAnimation(&worker->aniSpike, B3D_ANIM_VIS_ANIM, work->assets.visAnims, ANI_VIZ_bs2_spka_3 + work->type, NULL, FALSE);
 
-// clang-format on
-#endif
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+    work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+
+    if (work->aniPalette[0].animID != 2)
+        BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), 2, TRUE);
+
+    worker->spikeState = Boss2Ball_SpikeState_2160354;
 }
 
-NONMATCH_FUNC void Boss2Ball__StateSpikes_2160420(Boss2Ball *work, Boss2BallSpikeWorker *worker){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r1, #8]
-	cmp r0, #0
-	bxne lr
-	ldrh r0, [r1, #0xe]
-	cmp r0, #0
-	bxeq lr
-	ldr r0, [r1, #0x10]
-	add r2, r0, #1
-	str r2, [r1, #0x10]
-	ldrh r0, [r1, #0xe]
-	cmp r2, r0
-	ldrhi r0, =Boss2Ball__StateSpikes_216045C
-	strhi r0, [r1]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss2Ball__StateSpikes_216045C(Boss2Ball *work, Boss2BallSpikeWorker *worker)
+void Boss2Ball_SpikeState_2160354(Boss2Ball *work, Boss2BallSpikeWorker *worker)
 {
-#ifdef NON_MATCHING
+    worker->type = 3;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r1
-	mov r1, #4
-	str r1, [r4, #4]
-	mov r1, #0
-	str r1, [sp]
-	mov r5, r0
-	str r1, [sp, #4]
-	ldr r3, [r5, #0x37c]
-	ldr r2, [r5, #0x368]
-	add r0, r4, #0x14
-	add r3, r3, #0x3a
-	bl BossHelpers__SetAnimation
-	mov r0, #0
-	str r0, [sp]
-	str r0, [sp, #4]
-	ldr r1, [r5, #0x37c]
-	ldr r2, [r5, #0x36c]
-	add r0, r4, #0x14
-	add r3, r1, #6
-	mov r1, #4
-	bl BossHelpers__SetAnimation
-	ldr r1, [r5, #0x230]
-	add r0, r5, #0x500
-	orr r1, r1, #4
-	str r1, [r5, #0x230]
-	ldr r1, [r5, #0x270]
-	bic r1, r1, #4
-	str r1, [r5, #0x270]
-	ldrh r0, [r0, #0x9c]
-	cmp r0, #2
-	beq _021604F8
-	add r0, r5, #0x198
-	mov r1, #1
-	mov r3, r1
-	add r0, r0, #0x400
-	mov r2, #2
-	bl BossHelpers__SetPaletteAnimations
-_021604F8:
-	ldr r0, =Boss2Ball__StateSpikes_216050C
-	str r0, [r4]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
+    BossHelpers__SetAnimation(&worker->aniSpike, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_spka_1 + work->type, NULL, TRUE);
+    BossHelpers__SetAnimation(&worker->aniSpike, B3D_ANIM_VIS_ANIM, work->assets.visAnims, ANI_VIZ_bs2_spka_1 + work->type, NULL, TRUE);
 
-// clang-format on
-#endif
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+    work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+
+    if (work->aniPalette[0].animID != 2)
+        BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), 2, TRUE);
+
+    worker->timer = 0;
+
+    worker->spikeState = Boss2Ball_SpikeState_2160420;
+    worker->spikeState(work, worker);
 }
 
-NONMATCH_FUNC void Boss2Ball__StateSpikes_216050C(Boss2Ball *work, Boss2BallSpikeWorker *worker){
-#ifdef NON_MATCHING
+void Boss2Ball_SpikeState_2160420(Boss2Ball *work, Boss2BallSpikeWorker *worker)
+{
+    if (worker->disableSpikes == FALSE && worker->vulnerableDuration != 0)
+    {
+        worker->timer++;
+        if (worker->timer > worker->vulnerableDuration)
+            worker->spikeState = Boss2Ball_SpikeState_216045C;
+    }
+}
 
-#else
-    // clang-format off
-	add r0, r1, #0x100
-	ldrh r0, [r0, #0x20]
-	tst r0, #0x8000
-	ldrne r0, =Boss2Ball__StateSpikes_2160174
-	strne r0, [r1]
-	bx lr
+void Boss2Ball_SpikeState_216045C(Boss2Ball *work, Boss2BallSpikeWorker *worker)
+{
+    worker->type = 4;
 
-// clang-format on
-#endif
+    BossHelpers__SetAnimation(&worker->aniSpike, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_spka_2 + work->type, NULL, FALSE);
+    BossHelpers__SetAnimation(&worker->aniSpike, B3D_ANIM_VIS_ANIM, work->assets.visAnims, ANI_VIZ_bs2_spka_2 + work->type, NULL, FALSE);
+
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+    work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+
+    if (work->aniPalette[0].animID != 2)
+        BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), 2, TRUE);
+
+    worker->spikeState = Boss2Ball_SpikeState_216050C;
+}
+
+void Boss2Ball_SpikeState_216050C(Boss2Ball *work, Boss2BallSpikeWorker *worker)
+{
+    if ((worker->aniSpike.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
+        worker->spikeState = Boss2Ball_SpikeState_2160174;
 }
 
 Boss2Bomb *Boss2Bomb__Spawn(Boss2Stage *work, fx32 moveSpeed, BOOL flipped)
 {
-    Boss2Bomb *bomb = SpawnStageObject(MAPOBJECT_282, FLOAT_TO_FX32(0.0), -work->boss->mtxBody[2].m[3][1], Boss2Bomb);
+    Boss2Bomb *bomb = SpawnStageObject(MAPOBJECT_282, FLOAT_TO_FX32(0.0), -work->boss->mtxBody[2].translation.y, Boss2Bomb);
 
     bomb->gameWork.objWork.parentObj = &work->gameWork.objWork;
     bomb->stage                      = work;
@@ -4278,7 +4033,7 @@ Boss2Bomb *Boss2Bomb__Spawn(Boss2Stage *work, fx32 moveSpeed, BOOL flipped)
 
 void Boss2Bomb__State_Active(Boss2Bomb *work)
 {
-    work->state2(work);
+    work->bombState(work);
 }
 
 void Boss2Bomb__Destructor(Task *task)
@@ -4323,7 +4078,7 @@ void Boss2Bomb__Collide(void)
     if ((work->gameWork.colliders[0].flag & OBS_RECT_WORK_FLAG_ENABLED) == 0)
         return;
 
-    BossHelpers__Collision__InitArenaCollider(&work->gameWork.colliders[0], &work->field_390, work->gameWork.objWork.position.x, work->gameWork.objWork.position.y,
+    BossHelpers__Collision__InitArenaCollider(&work->gameWork.colliders[0], &work->worldCollider, work->gameWork.objWork.position.x, work->gameWork.objWork.position.y,
                                               BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS);
 }
 
@@ -4335,7 +4090,7 @@ void Boss2Bomb__OnDefend_21606DC(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
     {
         bomb->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
-        bomb->field_390.flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
+        bomb->worldCollider.flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
         Boss2Bomb__Func_216073C(bomb);
         Player__Action_DestroyAttackRecoil(player);
     }
@@ -4343,62 +4098,62 @@ void Boss2Bomb__OnDefend_21606DC(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
 void Boss2Bomb__SetupObject(Boss2Bomb *work)
 {
-    work->field_378 = 0;
+    work->actionState = BOSS2BOMB_ACTION_0;
 
-    work->state2 = Boss2Bomb__State2_216075C;
-    work->state2(work);
+    work->bombState = Boss2Bomb_BombState_216075C;
+    work->bombState(work);
 }
 
 void Boss2Bomb__Func_216073C(Boss2Bomb *work)
 {
-    work->field_378 = 2;
+    work->actionState = BOSS2BOMB_ACTION_2;
 
-    work->state2 = Boss2Bomb__State2_2160938;
-    work->state2(work);
+    work->bombState = Boss2Bomb_BombState_2160938;
+    work->bombState(work);
 }
 
-void Boss2Bomb__State2_216075C(Boss2Bomb *work)
+void Boss2Bomb_BombState_216075C(Boss2Bomb *work)
 {
     work->field_380 = TRUE;
 
-    work->state2 = Boss2Bomb__State2_2160774;
+    work->bombState = Boss2Bomb_BombState_2160774;
 }
 
-void Boss2Bomb__State2_2160774(Boss2Bomb *work)
+void Boss2Bomb_BombState_2160774(Boss2Bomb *work)
 {
     if ((work->gameWork.objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
-        work->state2 = Boss2Bomb__State2_216078C;
+        work->bombState = Boss2Bomb_BombState_216078C;
 }
 
-void Boss2Bomb__State2_216078C(Boss2Bomb *work)
+void Boss2Bomb_BombState_216078C(Boss2Bomb *work)
 {
     work->gameWork.objWork.userTimer = 60;
 
-    work->state2 = Boss2Bomb__State2_21607AC;
-    work->state2(work);
+    work->bombState = Boss2Bomb_BombState_21607AC;
+    work->bombState(work);
 }
 
-void Boss2Bomb__State2_21607AC(Boss2Bomb *work)
+void Boss2Bomb_BombState_21607AC(Boss2Bomb *work)
 {
     work->gameWork.objWork.userTimer--;
 
     if (work->gameWork.objWork.userTimer == 0)
-        work->state2 = Boss2Bomb__State2_21607C8;
+        work->bombState = Boss2Bomb_BombState_21607C8;
 }
 
-NONMATCH_FUNC void Boss2Bomb__State2_21607C8(Boss2Bomb *work)
+NONMATCH_FUNC void Boss2Bomb_BombState_21607C8(Boss2Bomb *work)
 {
     // https://decomp.me/scratch/XdCQn -> 50.45%
 #ifdef NON_MATCHING
-    work->field_38C = 0;
+    work->radius = 0;
 
     UNUSED(mtMathRand());
 
-    work->field_388 = 0x4000;
+    work->angle = FLOAT_DEG_TO_IDX(90.0);
     MTX_RotY33(work->aniBomb.work.rotation.nnMtx, SinFX(FLOAT_DEG_TO_IDX(45.0)), CosFX(FLOAT_DEG_TO_IDX(45.0)));
 
-    work->state2 = Boss2Bomb__State2_EnterArena;
-    work->state2(work);
+    work->bombState = Boss2Bomb_BombState_EnterArena;
+    work->bombState(work);
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
@@ -4424,7 +4179,7 @@ NONMATCH_FUNC void Boss2Bomb__State2_21607C8(Boss2Bomb *work)
 	add r0, r4, #0x3f4
 	strh r3, [ip, #0x88]
 	bl MTX_RotY33_
-	ldr r1, =Boss2Bomb__State2_EnterArena
+	ldr r1, =Boss2Bomb_BombState_EnterArena
 	mov r0, r4
 	str r1, [r4, #0x374]
 	blx r1
@@ -4434,18 +4189,18 @@ NONMATCH_FUNC void Boss2Bomb__State2_21607C8(Boss2Bomb *work)
 #endif
 }
 
-void Boss2Bomb__State2_EnterArena(Boss2Bomb *work)
+void Boss2Bomb_BombState_EnterArena(Boss2Bomb *work)
 {
-    work->field_38C += 0x3000;
+    work->radius += FLOAT_TO_FX32(3.0);
 
     BOOL isDone = FALSE;
-    if (work->field_38C >= BOSS2_STAGE_RADIUS)
+    if (work->radius >= BOSS2_STAGE_RADIUS)
     {
-        isDone          = TRUE;
-        work->field_38C = BOSS2_STAGE_RADIUS;
+        isDone       = TRUE;
+        work->radius = BOSS2_STAGE_RADIUS;
     }
 
-    BossHelpers__Arena__GetXZPos(work->field_388, work->field_38C, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
+    BossHelpers__Arena__GetXZPos(work->angle, work->radius, &work->gameWork.objWork.position.x, &work->gameWork.objWork.position.z);
 
     if (isDone)
     {
@@ -4455,20 +4210,20 @@ void Boss2Bomb__State2_EnterArena(Boss2Bomb *work)
 
         work->gameWork.objWork.position.z = FLOAT_TO_FX32(0.0);
 
-        work->state2 = Boss2Bomb__State2_StartMoving;
+        work->bombState = Boss2Bomb_BombState_StartMoving;
     }
 }
 
-void Boss2Bomb__State2_StartMoving(Boss2Bomb *work)
+void Boss2Bomb_BombState_StartMoving(Boss2Bomb *work)
 {
     work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_ENABLED;
 
-    work->timer = 120;
+    work->timer = SECONDS_TO_FRAMES(2.0);
 
-    work->state2 = Boss2Bomb__State2_Moving;
+    work->bombState = Boss2Bomb_BombState_Moving;
 }
 
-void Boss2Bomb__State2_Moving(Boss2Bomb *work)
+void Boss2Bomb_BombState_Moving(Boss2Bomb *work)
 {
     if (work->timer != 0)
     {
@@ -4481,7 +4236,7 @@ void Boss2Bomb__State2_Moving(Boss2Bomb *work)
     }
 }
 
-void Boss2Bomb__State2_2160938(Boss2Bomb *work)
+void Boss2Bomb_BombState_2160938(Boss2Bomb *work)
 {
     Boss2Stage *stage = (Boss2Stage *)work->gameWork.objWork.parentObj;
     if (stage != NULL)
@@ -4493,10 +4248,10 @@ void Boss2Bomb__State2_2160938(Boss2Bomb *work)
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_B_BOMB);
 
-    work->state2 = Boss2Bomb__State2_21609A8;
+    work->bombState = Boss2Bomb_BombState_21609A8;
 }
 
-void Boss2Bomb__State2_21609A8(Boss2Bomb *work)
+void Boss2Bomb_BombState_21609A8(Boss2Bomb *work)
 {
     // Do nothing
 }
@@ -4510,7 +4265,7 @@ void Boss2Wave__State_Active(Boss2Wave *work)
             Player__Hurt(gPlayer);
     }
 
-    if ((work->aniWave.animFlags[0] & ANIMATORMDL_FLAG_FINISHED) != 0)
+    if ((work->aniWave.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
         work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME;
 }
 

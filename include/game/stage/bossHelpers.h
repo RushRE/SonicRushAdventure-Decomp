@@ -41,7 +41,7 @@ void *BossHelpers__Unknown2038AEC__Func_2038B7C(Unknown2038AEC *work);
 void BossHelpers__SetPaletteAnimation(PaletteAnimator *animator, u16 anim, BOOL canLoop);
 void BossHelpers__SetPaletteAnimations(PaletteAnimator *animators, u32 animatorCount, u16 anim, BOOL canLoop);
 
-void BossHelpers__SetAnimation(AnimatorMDL *work, B3DAnimationTypes type, NNSG3dResFileHeader *resource, u16 animID, const NNSG3dResTex *texResource, BOOL canLoop);
+void BossHelpers__SetAnimation(AnimatorMDL *work, B3DAnimationTypes type, NNSG3dResFileHeader *resource, u32 animID, const NNSG3dResTex *texResource, BOOL canLoop);
 BOOL BossHelpers__IsAnimFinished(AnimatorMDL *work, B3DAnimationTypes type);
 void BossHelpers__ReleaseAnimation(OBS_ACTION3D_NN_WORK *work);
 
