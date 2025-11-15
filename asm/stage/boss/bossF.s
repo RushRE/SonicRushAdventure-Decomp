@@ -4293,7 +4293,7 @@ BossF__State_216B808: // 0x0216B808
 	mov r0, #0x6000
 	mov r1, #0x3000
 	str r3, [r5, #0x28]
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 	mov r0, #0x4000
 	str r0, [r5, #4]
 	str r0, [r5, #8]
@@ -4516,7 +4516,7 @@ _0216BB90:
 	ldr r2, _0216BBD0 // =0x000001C7
 	mov r0, #0x8000
 	mov r1, #0x3000
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 	mov r1, #0x10000
 	str r1, [r5, #4]
 	mov r0, r5
@@ -5203,7 +5203,7 @@ _0216C4D0:
 	ldr r2, _0216C6CC // =0x00000266
 	mov r0, #0x6000
 	mov r1, #0x3000
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 	ldr r1, [r5, #0x1c]
 	mov r0, r5
 	bic r2, r1, #0x10
@@ -10284,7 +10284,7 @@ _02170D38:
 	ldr r2, _02170DE0 // =0x000001C7
 	mov r0, #0x8000
 	mov r1, #0x3000
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 	mov r0, #0
 	ldr r1, [r5, #0x44]
 	mov r3, r0

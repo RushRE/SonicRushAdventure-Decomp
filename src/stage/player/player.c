@@ -1653,7 +1653,7 @@ void Player__Action_Die(Player *player)
     player->objWork.userTimer = 0;
     player->waterTimer        = 0;
     player->playerFlag |= PLAYER_FLAG_DEATH;
-    ShakeScreen(SCREENSHAKE_D_SHORT);
+    ShakeScreen(SCREENSHAKE_BIG_SHORT);
 
     if ((player->playerFlag & PLAYER_FLAG_IN_WATER) != 0)
         PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_WATER_DEATH);
@@ -1687,7 +1687,7 @@ void Player__Action_Warp(Player *player)
     player->objWork.scale.y   = FLOAT_TO_FX32(1.0);
     player->playerFlag |= PLAYER_FLAG_DEATH;
 
-    ShakeScreen(SCREENSHAKE_D_SHORT);
+    ShakeScreen(SCREENSHAKE_BIG_SHORT);
     if (!IsDrawFadeTaskFinished())
         CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_DESTROY_ON_FINISHED, FLOAT_TO_FX32(0.0));
 }
@@ -2351,7 +2351,7 @@ void Player__OnDefend_Regular(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     }
 
     player->playerFlag &= ~(PLAYER_FLAG_SHIELD_MAGNET | PLAYER_FLAG_SHIELD_REGULAR);
-    ShakeScreen(SCREENSHAKE_C_SHORT);
+    ShakeScreen(SCREENSHAKE_MEDIUM_SHORT);
 
     player->blinkTimer            = player->hurtInvulnDuration;
     player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
@@ -2452,7 +2452,7 @@ void Player__Hurt(Player *player)
         }
 
         player->playerFlag &= ~(PLAYER_FLAG_SHIELD_MAGNET | PLAYER_FLAG_SHIELD_REGULAR);
-        ShakeScreen(SCREENSHAKE_C_SHORT);
+        ShakeScreen(SCREENSHAKE_MEDIUM_SHORT);
 
         player->blinkTimer            = player->hurtInvulnDuration;
         player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
@@ -2581,7 +2581,7 @@ void Player__Action_SuperBoost(Player *player)
         StopPlayerSfx(player, PLAYER_SEQPLAYER_SUPERBOOST);
         player->cameraScrollDelay = 12;
         player->playerFlag |= PLAYER_FLAG_SUPERBOOST_UNKNOWN | PLAYER_FLAG_SUPERBOOST;
-        ShakeScreen(SCREENSHAKE_D_SHORT);
+        ShakeScreen(SCREENSHAKE_BIG_SHORT);
 
         if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
         {
@@ -5301,7 +5301,7 @@ void Player__Action_TrickFinisherVertical(Player *player)
             player->axelTornadoFXSpawnTimer = 0;
             player->cameraScrollDelay       = 6;
             player->objWork.velocity.y      = -2 * player->jumpForce;
-            ShakeScreen(SCREENSHAKE_B_SHORT);
+            ShakeScreen(SCREENSHAKE_SMALL_SHORT);
 
             if ((player->inputKeyDown & PAD_KEY_RIGHT) != 0)
             {
@@ -6687,7 +6687,7 @@ void PlayerBoostCollider_State_ActiveBoosting(PlayerBoost *work)
     // shake the screen on impact
     if ((work->collider.flag & OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME) != 0)
     {
-        ShakeScreen(SCREENSHAKE_D_SHORT);
+        ShakeScreen(SCREENSHAKE_BIG_SHORT);
         work->collider.flag &= ~OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
     }
 

@@ -186,7 +186,7 @@ void Avalanche_State_Ready(Avalanche *work)
         PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SNOWSLIDE);
         ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
 
-        ShakeScreen(SCREENSHAKE_D_LONG);
+        ShakeScreen(SCREENSHAKE_BIG_MIDDLE);
 
         work->gameWork.objWork.userWork = 8;
     }
@@ -208,7 +208,7 @@ void Avalanche_State_Active(Avalanche *work)
             DestroyStageTask(&work->gameWork.objWork);
 
             ShakeScreen(SCREENSHAKE_STOP);
-            ShakeScreen(SCREENSHAKE_C_LONG);
+            ShakeScreen(SCREENSHAKE_MEDIUM_MIDDLE);
 
             gPlayer->gimmickCamCenterOffsetX = 0;
             gPlayer->gimmickCamCenterOffsetY = 0;
@@ -224,7 +224,7 @@ void Avalanche_State_Active(Avalanche *work)
 
                 StopStageSfx(work->gameWork.objWork.sequencePlayerPtr);
                 ShakeScreen(SCREENSHAKE_STOP);
-                ShakeScreen(SCREENSHAKE_C_LONG);
+                ShakeScreen(SCREENSHAKE_MEDIUM_MIDDLE);
 
                 gPlayer->gimmickCamCenterOffsetX = 0;
                 gPlayer->gimmickCamCenterOffsetY = 0;
@@ -248,7 +248,7 @@ void Avalanche_State_Active(Avalanche *work)
     {
         work->gameWork.objWork.userWork--;
         if (work->gameWork.objWork.userWork == 0)
-            ShakeScreen(SCREENSHAKE_C_LOOP);
+            ShakeScreen(SCREENSHAKE_MEDIUM_LONG);
     }
 
     if ((work->gameWork.flags & AVALANCHE_FLAG_TRACK_DISTANCE) != 0)
@@ -344,7 +344,7 @@ void Avalanche_OnDefend_EndTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         QueueDestroyStageTask(&avalanche->gameWork.objWork);
 
         ShakeScreen(SCREENSHAKE_STOP);
-        ShakeScreen(SCREENSHAKE_C_LONG);
+        ShakeScreen(SCREENSHAKE_MEDIUM_MIDDLE);
 
         gPlayer->gimmickCamCenterOffsetX = 0;
         gPlayer->gimmickCamCenterOffsetY = 0;

@@ -2,6 +2,15 @@
 #include <game/math/mtMath.h>
 
 // --------------------
+// CONSTANTS
+// --------------------
+
+#define SHAKE_DURATION_SHORTEST 8
+#define SHAKE_DURATION_SHORT    12
+#define SHAKE_DURATION_LONG     16
+#define SHAKE_DURATION_LONGEST  22
+
+// --------------------
 // VARIABLES
 // --------------------
 
@@ -22,7 +31,7 @@ static void ScreenShake_Destructor(Task *task);
 
 ScreenShake *ShakeScreen(ScreenShakeType type)
 {
-    if (type == SCREENSHAKE_CUSTOM)
+    if (type == SCREENSHAKE_GET_ACTIVE)
     {
         if (screenShakeTask != NULL)
             return TaskGetWork(screenShakeTask, ScreenShake);
@@ -59,7 +68,7 @@ ScreenShake *ShakeScreen(ScreenShakeType type)
     }
 }
 
-ScreenShake *ShakeScreenEx(s32 lifetime, s32 rotSpeed, s32 lifetimeDrain)
+ScreenShake *ShakeScreenCycle(fx32 power, s32 angleSpeed, fx32 deceleration)
 {
     Task *task = screenShakeTask;
     if (screenShakeTask == NULL)
@@ -72,14 +81,14 @@ ScreenShake *ShakeScreenEx(s32 lifetime, s32 rotSpeed, s32 lifetimeDrain)
     }
 
     ScreenShake *work = TaskGetWork(task, ScreenShake);
-    work->type        = SCREENSHAKE_COSINE_WAVE;
+    work->type        = SCREENSHAKE_CYCLE;
     work->flags       = SCREENSHAKE_FLAG_ACTIVE;
 
-    if (lifetime != 0)
-        work->lifetime = lifetime;
+    if (power != FLOAT_TO_FX32(0.0))
+        work->power = power;
 
-    work->rotSpeed      = rotSpeed;
-    work->lifetimeDrain = lifetimeDrain;
+    work->angleSpeed   = angleSpeed;
+    work->deceleration = deceleration;
 
     return work;
 }
@@ -87,9 +96,7 @@ ScreenShake *ShakeScreenEx(s32 lifetime, s32 rotSpeed, s32 lifetimeDrain)
 s32 GetScreenShakeOffsetX(void)
 {
     if (screenShakeTask == NULL)
-    {
         return 0;
-    }
 
     ScreenShake *work = TaskGetWork(screenShakeTask, ScreenShake);
     return work->offset.x;
@@ -98,9 +105,7 @@ s32 GetScreenShakeOffsetX(void)
 s32 GetScreenShakeOffsetY(void)
 {
     if (screenShakeTask == NULL)
-    {
         return 0;
-    }
 
     ScreenShake *work = TaskGetWork(screenShakeTask, ScreenShake);
     return work->offset.y;
@@ -135,7 +140,7 @@ void ScreenShake_Main(void)
         (0) | (-2 << 4),
         (0) | (-2 << 4),
     };
-    
+
     static const s8 shakeWeakTable[] = {
         (0) | (2 << 4),  // [Line formatting comment]
         (0) | (2 << 4),  // [Line formatting comment]
@@ -192,61 +197,61 @@ void ScreenShake_Main(void)
         {
             switch (work->type)
             {
-                case SCREENSHAKE_COSINE_WAVE:
-                    work->offset.y = FX32_TO_WHOLE(work->lifetime * CosFX((s32)(u16)work->angle));
+                case SCREENSHAKE_CYCLE:
+                    work->offset.y = FX32_TO_WHOLE(work->power * CosFX((s32)(u16)work->angle));
 
-                    work->lifetime -= work->lifetimeDrain;
-                    if (work->lifetime < 0)
-                        work->lifetime = 0;
+                    work->power -= work->deceleration;
+                    if (work->power < FLOAT_TO_FX32(0.0))
+                        work->power = FLOAT_TO_FX32(0.0);
 
-                    work->angle += work->rotSpeed;
+                    work->angle += work->angleSpeed;
 
-                    if (work->lifetime == 0)
+                    if (work->power == FLOAT_TO_FX32(0.0))
                         DestroyScreenShake();
                     break;
 
-                case SCREENSHAKE_A_SHORT:
-                    if (work->timer > 8)
+                case SCREENSHAKE_TINY_SHORT:
+                    if (work->timer > SHAKE_DURATION_SHORTEST)
                     {
                         DestroyScreenShake();
                         break;
                     }
                     // fallthrough
 
-                case SCREENSHAKE_A_LONG:
-                    if (work->timer >= 12)
+                case SCREENSHAKE_TINY_MIDDLE:
+                    if (work->timer >= SHAKE_DURATION_SHORT)
                     {
                         DestroyScreenShake();
                         break;
                     }
                     // fallthrough
 
-                case SCREENSHAKE_A_LOOP:
-                    if (work->timer >= 12)
+                case SCREENSHAKE_TINY_LONG:
+                    if (work->timer >= SHAKE_DURATION_SHORT)
                         work->timer = 0;
 
                     work->offset.x = FX32_FROM_WHOLE((s8)((shakeWeakTable[work->timer] & 0xF) >> 1));
                     work->offset.y = FX32_FROM_WHOLE((s8)((shakeWeakTable[work->timer] >> 4) >> 1));
                     break;
 
-                case SCREENSHAKE_B_SHORT:
-                    if (work->timer > 8)
+                case SCREENSHAKE_SMALL_SHORT:
+                    if (work->timer > SHAKE_DURATION_SHORTEST)
                     {
                         DestroyScreenShake();
                         break;
                     }
                     // fallthrough
 
-                case SCREENSHAKE_B_LONG:
-                    if (work->timer >= 12)
+                case SCREENSHAKE_SMALL_MIDDLE:
+                    if (work->timer >= SHAKE_DURATION_SHORT)
                     {
                         DestroyScreenShake();
                         break;
                     }
                     // fallthrough
 
-                case SCREENSHAKE_B_LOOP:
-                    if (work->timer >= 12)
+                case SCREENSHAKE_SMALL_LONG:
+                    if (work->timer >= SHAKE_DURATION_SHORT)
                         work->timer = 0;
 
                     work->offset.x = FX32_FROM_WHOLE((s8)(shakeWeakTable[work->timer] & 0xF));
@@ -260,24 +265,24 @@ void ScreenShake_Main(void)
                     }
                     break;
 
-                case SCREENSHAKE_C_SHORT:
-                    if (work->timer >= 8)
+                case SCREENSHAKE_MEDIUM_SHORT:
+                    if (work->timer >= SHAKE_DURATION_SHORTEST)
                     {
                         DestroyScreenShake();
                         break;
                     }
                     // fallthrough
 
-                case SCREENSHAKE_C_LONG:
-                    if (work->timer >= 16)
+                case SCREENSHAKE_MEDIUM_MIDDLE:
+                    if (work->timer >= SHAKE_DURATION_LONG)
                     {
                         DestroyScreenShake();
                         break;
                     }
                     // fallthrough
 
-                case SCREENSHAKE_C_LOOP:
-                    if (work->timer >= 16)
+                case SCREENSHAKE_MEDIUM_LONG:
+                    if (work->timer >= SHAKE_DURATION_LONG)
                         work->timer = 0;
 
                     work->offset.x = FX32_FROM_WHOLE((s8)(shakeMedTable[work->timer & 3] & 0xF));
@@ -291,24 +296,24 @@ void ScreenShake_Main(void)
                     }
                     break;
 
-                case SCREENSHAKE_D_SHORT:
-                    if (work->timer >= 8)
+                case SCREENSHAKE_BIG_SHORT:
+                    if (work->timer >= SHAKE_DURATION_SHORTEST)
                     {
                         DestroyScreenShake();
                         break;
                     }
                     // fallthrough
 
-                case SCREENSHAKE_D_LONG:
-                    if (work->timer >= 22)
+                case SCREENSHAKE_BIG_MIDDLE:
+                    if (work->timer >= SHAKE_DURATION_LONGEST)
                     {
                         DestroyScreenShake();
                         break;
                     }
                     // fallthrough
 
-                case SCREENSHAKE_D_LOOP:
-                    if (work->timer >= 22)
+                case SCREENSHAKE_BIG_LONG:
+                    if (work->timer >= SHAKE_DURATION_LONGEST)
                         work->timer = 0;
 
                     work->offset.x = FX32_FROM_WHOLE((s8)(shakeStrongTable[work->timer] & 0xF));
@@ -322,24 +327,24 @@ void ScreenShake_Main(void)
                     }
                     break;
 
-                case SCREENSHAKE_E_SHORT:
-                    if (work->timer >= 8)
+                case SCREENSHAKE_MASSIVE_SHORT:
+                    if (work->timer >= SHAKE_DURATION_SHORTEST)
                     {
                         DestroyScreenShake();
                         break;
                     }
                     // fallthrough
 
-                case SCREENSHAKE_E_LONG:
-                    if (work->timer >= 22)
+                case SCREENSHAKE_MASSIVE_MIDDLE:
+                    if (work->timer >= SHAKE_DURATION_LONGEST)
                     {
                         DestroyScreenShake();
                         break;
                     }
                     // fallthrough
 
-                case SCREENSHAKE_E_LOOP:
-                    if (work->timer >= 22)
+                case SCREENSHAKE_MASSIVE_LONG:
+                    if (work->timer >= SHAKE_DURATION_LONGEST)
                         work->timer = 0;
 
                     work->offset.x = FX32_FROM_WHOLE((s8)(shakeStrongTable[work->timer] & 0xF));

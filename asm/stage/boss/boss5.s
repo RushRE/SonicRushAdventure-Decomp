@@ -946,8 +946,8 @@ _021741F8: .word bossAssetFiles+0x00000018
 _021741FC: .word _0217AEF4
 	thumb_func_end Boss5MapChunk__Create
 
-	thumb_func_start Boss5Unknown2174200__Create
-Boss5Unknown2174200__Create: // _02174200
+	thumb_func_start Boss5MissileLauncher__Create
+Boss5MissileLauncher__Create: // _02174200
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xc
 	mov r5, r0
@@ -1058,7 +1058,7 @@ _021742DC: .word StageTask_Main
 _021742E0: .word GameObject__Destructor
 _021742E4: .word Boss5__Func_2175C20
 _021742E8: .word Boss5__Func_21758A0
-	thumb_func_end Boss5Unknown2174200__Create
+	thumb_func_end Boss5MissileLauncher__Create
 
 	thumb_func_start Boss5Battery__Create
 Boss5Battery__Create: // _021742EC
@@ -1364,8 +1364,8 @@ _02174570: .word _0217AEF4
 _02174574: .word 0x000034CC
 	thumb_func_end Boss5Missile__Create
 
-	thumb_func_start Boss5Unknown2174578__Create
-Boss5Unknown2174578__Create: // _02174578
+	thumb_func_start Boss5IcicleSpawner__Create
+Boss5IcicleSpawner__Create: // _02174578
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xc
 	mov r5, r0
@@ -1478,7 +1478,7 @@ _02174658: .word StageTask_Main
 _0217465C: .word GameObject__Destructor
 _02174660: .word Boss5__Func_2175D7C
 _02174664: .word Boss5__Func_21758A0
-	thumb_func_end Boss5Unknown2174578__Create
+	thumb_func_end Boss5IcicleSpawner__Create
 
 	thumb_func_start CreateBoss5Icicle
 CreateBoss5Icicle: // _02174668
@@ -9274,7 +9274,7 @@ Boss5__Func_21783B8: // 0x021783B8
 	ldr r2, _0217840C // =0x00000199
 	lsl r0, r0, #0xe
 	lsl r1, r1, #0xc
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 _021783FA:
 	mov r0, r4
 	bl Boss5__Func_21774E8
@@ -11800,7 +11800,7 @@ _021797C4:
 	lsl r0, r0, #0xc
 	mov r1, r0
 	lsr r2, r0, #3
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 _0217980A:
 	add r7, r7, #1
 	add r4, r4, #4
@@ -11867,7 +11867,7 @@ Boss5__Func_2179848: // 0x02179848
 	lsl r0, r0, #0xc
 	lsl r1, r1, #0xc
 	mov r2, #0xe3
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0x8d

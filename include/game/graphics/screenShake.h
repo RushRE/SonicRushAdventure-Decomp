@@ -4,29 +4,43 @@
 #include <game/system/task.h>
 
 // --------------------
+// MACROS
+// --------------------
+
+// Calculate deceleration value based on a given power & duration for SCREENSHAKE_CYCLE type
+#define SCREENSHAKE_DECEL_FROM_TIME(power, duration) ((power) / (duration))
+
+// --------------------
 // ENUMS
 // --------------------
 
 enum ScreenShakeType_
 {
+    // Stops the active screen shake
     SCREENSHAKE_STOP,
-    SCREENSHAKE_A_SHORT,
-    SCREENSHAKE_B_SHORT,
-    SCREENSHAKE_C_SHORT,
-    SCREENSHAKE_D_SHORT,
-    SCREENSHAKE_E_SHORT,
-    SCREENSHAKE_A_LONG,
-    SCREENSHAKE_B_LONG,
-    SCREENSHAKE_C_LONG,
-    SCREENSHAKE_D_LONG,
-    SCREENSHAKE_E_LONG,
-    SCREENSHAKE_A_LOOP,
-    SCREENSHAKE_B_LOOP,
-    SCREENSHAKE_C_LOOP,
-    SCREENSHAKE_D_LOOP,
-    SCREENSHAKE_E_LOOP,
-    SCREENSHAKE_COSINE_WAVE,
-    SCREENSHAKE_CUSTOM,
+
+    SCREENSHAKE_TINY_SHORT,
+    SCREENSHAKE_SMALL_SHORT,
+    SCREENSHAKE_MEDIUM_SHORT,
+    SCREENSHAKE_BIG_SHORT,
+    SCREENSHAKE_MASSIVE_SHORT,
+
+    SCREENSHAKE_TINY_MIDDLE,
+    SCREENSHAKE_SMALL_MIDDLE,
+    SCREENSHAKE_MEDIUM_MIDDLE,
+    SCREENSHAKE_BIG_MIDDLE,
+    SCREENSHAKE_MASSIVE_MIDDLE,
+
+    SCREENSHAKE_TINY_LONG,
+    SCREENSHAKE_SMALL_LONG,
+    SCREENSHAKE_MEDIUM_LONG,
+    SCREENSHAKE_BIG_LONG,
+    SCREENSHAKE_MASSIVE_LONG,
+
+    SCREENSHAKE_CYCLE,
+
+    // Returns the active screen shake
+    SCREENSHAKE_GET_ACTIVE,
 };
 typedef u8 ScreenShakeType;
 
@@ -46,9 +60,9 @@ typedef u16 ScreenShakeFlags;
 
 typedef struct ScreenShake_
 {
-    s32 lifetime;
-    s32 rotSpeed;
-    s32 lifetimeDrain;
+    fx32 power;
+    s32 angleSpeed;
+    fx32 deceleration;
     s32 angle;
     u8 type;
     ScreenShakeFlags flags;
@@ -61,7 +75,7 @@ typedef struct ScreenShake_
 // --------------------
 
 ScreenShake *ShakeScreen(ScreenShakeType type);
-ScreenShake *ShakeScreenEx(s32 lifetime, s32 rotSpeed, s32 lifetimeDrain);
+ScreenShake *ShakeScreenCycle(fx32 power, s32 angleSpeed, fx32 deceleration);
 s32 GetScreenShakeOffsetX(void);
 s32 GetScreenShakeOffsetY(void);
 

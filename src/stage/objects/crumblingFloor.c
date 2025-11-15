@@ -194,7 +194,7 @@ void CrumblingFloor_State_Active(CrumblingFloor *work)
                 work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
                 work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
 
-                ShakeScreen(SCREENSHAKE_C_LONG);
+                ShakeScreen(SCREENSHAKE_MEDIUM_MIDDLE);
                 CreateEffectExplosion(&work->gameWork.objWork, 0, 0, 2);
                 PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_LARGE_COLLAPSE);
                 work->gameWork.objWork.userTimer = 8;

@@ -989,20 +989,20 @@ CutsceneScriptResult CutsceneScript_ScreenCommand_SetCapture(ScriptThread *threa
 
 CutsceneScriptResult CutsceneScript_ScreenCommand_ShakeScreen1(ScriptThread *thread, CutsceneScript *work)
 {
-    s32 lifetime = CutsceneScript_GetFunctionParamRegister(thread, CUTSCENESCRIPT_REGISTER_R0);
+    fx32 power = CutsceneScript_GetFunctionParamRegister(thread, CUTSCENESCRIPT_REGISTER_R0);
 
-    ShakeScreenEx(lifetime, FLOAT_TO_FX32(4.8), 0);
+    ShakeScreenCycle(power, FLOAT_DEG_TO_IDX(108.0), FLOAT_TO_FX32(0.0));
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
 CutsceneScriptResult CutsceneScript_ScreenCommand_ShakeScreen2(ScriptThread *thread, CutsceneScript *work)
 {
-    u32 lifetime = CutsceneScript_GetFunctionParamRegister(thread, CUTSCENESCRIPT_REGISTER_R0);
+    u32 decel = CutsceneScript_GetFunctionParamRegister(thread, CUTSCENESCRIPT_REGISTER_R0);
 
-    ScreenShake *screenShake = ShakeScreen(SCREENSHAKE_CUSTOM);
+    ScreenShake *screenShake = ShakeScreen(SCREENSHAKE_GET_ACTIVE);
     if (screenShake != NULL)
-        ShakeScreenEx(0, FLOAT_TO_FX32(4.8), screenShake->lifetime / lifetime);
+        ShakeScreenCycle(FLOAT_TO_FX32(0.0), FLOAT_DEG_TO_IDX(108.0), screenShake->power / decel);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
@@ -3893,12 +3893,12 @@ void ProcessCutsceneSpriteButtonManager(CutsceneSystemManager *work)
         s32 shakeX;
         s32 shakeY;
 
-        if (ShakeScreen(SCREENSHAKE_CUSTOM))
+        if (ShakeScreen(SCREENSHAKE_GET_ACTIVE))
         {
             s32 seed = GetScreenShakeOffsetY();
 
             shakeX      = FX32_TO_WHOLE(seed);
-            shakeY      = FX32_TO_WHOLE(MultiplyFX(ShakeScreen(SCREENSHAKE_CUSTOM)->lifetime, FX32_TO_WHOLE(Task__Unknown204BE48__Func_204C104(seed)) >> 7));
+            shakeY      = FX32_TO_WHOLE(MultiplyFX(ShakeScreen(SCREENSHAKE_GET_ACTIVE)->power, FX32_TO_WHOLE(Task__Unknown204BE48__Func_204C104(seed)) >> 7));
             screenShook = TRUE;
         }
         else
@@ -3976,12 +3976,12 @@ void ProcessCutsceneBackgroundManager(CutsceneSystemManager *work)
         s32 shakeX;
         s32 shakeY;
 
-        if (ShakeScreen(SCREENSHAKE_CUSTOM) != NULL)
+        if (ShakeScreen(SCREENSHAKE_GET_ACTIVE) != NULL)
         {
             s32 seed = GetScreenShakeOffsetY();
 
             shakeX      = FX32_TO_WHOLE(seed);
-            shakeY      = FX32_TO_WHOLE(MultiplyFX(ShakeScreen(SCREENSHAKE_CUSTOM)->lifetime, FX32_TO_WHOLE(Task__Unknown204BE48__Func_204C104(seed)) >> 7));
+            shakeY      = FX32_TO_WHOLE(MultiplyFX(ShakeScreen(SCREENSHAKE_GET_ACTIVE)->power, FX32_TO_WHOLE(Task__Unknown204BE48__Func_204C104(seed)) >> 7));
             screenShook = TRUE;
         }
         else

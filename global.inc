@@ -1225,7 +1225,7 @@
 .public ScreenEffect_Destructor
 .public ReleaseSpritePalette_OLD
 .public ShakeScreen
-.public ShakeScreenEx
+.public ShakeScreenCycle
 .public GetScreenShakeOffsetX
 .public GetScreenShakeOffsetY
 .public CreateScreenShake
@@ -10161,10 +10161,10 @@
 .public Boss5Core__Create
 .public Boss5Sea__Create
 .public Boss5MapChunk__Create
-.public Boss5Unknown2174200__Create
+.public Boss5MissileLauncher__Create
 .public Boss5Battery__Create
 .public Boss5Missile__Create
-.public Boss5Unknown2174578__Create
+.public Boss5IcicleSpawner__Create
 .public CreateBoss5Icicle
 .public Boss5Icicle2__Create
 .public Boss5Unknown21748C4__Create

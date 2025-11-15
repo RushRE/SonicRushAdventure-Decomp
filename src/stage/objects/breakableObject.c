@@ -106,7 +106,7 @@ void BreakableObject__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             break;
     }
 
-    ShakeScreen(SCREENSHAKE_C_SHORT);
+    ShakeScreen(SCREENSHAKE_MEDIUM_SHORT);
     QueueDestroyStageTask(&breakable->gameWork.objWork);
     breakable->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     breakable->gameWork.flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
@@ -144,7 +144,7 @@ NONMATCH_FUNC void BreakableObject__State_Tutorial(BreakableObject *work)
 #ifdef NON_MATCHING
     if (brokeInstance)
     {
-        ShakeScreen(SCREENSHAKE_C_SHORT);
+        ShakeScreen(SCREENSHAKE_MEDIUM_SHORT);
 
         work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 		DestroyStageTask(&work->gameWork.objWork);

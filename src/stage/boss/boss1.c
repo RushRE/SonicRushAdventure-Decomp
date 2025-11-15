@@ -4073,7 +4073,7 @@ void Boss1__BossState_Init1(Boss1 *work)
         DisableSpatialVolume();
         ProcessSpatialVoiceClip(work->sndHandle[0], &work->gameWork.objWork.position);
         EnableSpatialVolume();
-        ShakeScreenEx(0x1800, 0x3000, 34);
+        ShakeScreenCycle(FLOAT_TO_FX32(1.5), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(1.5), SECONDS_TO_FRAMES(3.0)));
     }
 
     if (Boss1__CheckAnimFinished(work))
@@ -4633,7 +4633,7 @@ void Boss1__BossState_ChargeJump1(Boss1 *work)
             VecFx32 ragePos = work->aniBossMain.ani.work.translation;
             BossFX__CreateRexRage(BOSSFX3D_FLAG_NONE, ragePos.x, ragePos.y, ragePos.z);
 
-            ShakeScreenEx(0x4000, 0x3000, 273);
+            ShakeScreenCycle(FLOAT_TO_FX32(4.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(4.0), SECONDS_TO_FRAMES(1.0)));
             PlayHandleStageSfx(work->sndHandle[1], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TYRANNO_LAND);
 
             DisableSpatialVolume();
@@ -4891,7 +4891,7 @@ void Boss1__BossState_HeadSlamDown(Boss1 *work)
         Boss1Stage *stage = TaskGetWork(Boss1Stage__Singleton, Boss1Stage);
         BossFX__CreateRexHead(BOSSFX3D_FLAG_NONE, work->mtxBodyNeck.m[3][0], stage->field_378, FLOAT_TO_FX32(0.0));
 
-        ShakeScreenEx(0x6000, 0x3000, 204);
+        ShakeScreenCycle(FLOAT_TO_FX32(6.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(6.0), SECONDS_TO_FRAMES(2.0)));
         PlayHandleStageSfx(work->sndHandle[2], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SHOCK_L);
 
         DisableSpatialVolume();
@@ -5236,7 +5236,7 @@ void Boss1__BossState_Jump1(Boss1 *work)
             VecFx32 ragePos = work->aniBossMain.ani.work.translation;
             BossFX__CreateRexRage(BOSSFX3D_FLAG_NONE, ragePos.x, ragePos.y, ragePos.z);
 
-            ShakeScreenEx(0x4000, 0x3000, 273);
+            ShakeScreenCycle(FLOAT_TO_FX32(4.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(4.0), SECONDS_TO_FRAMES(1.0)));
             PlayHandleStageSfx(work->sndHandle[1], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TYRANNO_LAND);
 
             DisableSpatialVolume();
@@ -5480,7 +5480,7 @@ NONMATCH_FUNC void Boss1__BossState_Drop(Boss1 *work)
     switch (FX32_TO_WHOLE(work->aniBossMain.ani.currentAnimObj[B3D_ANIM_JOINT_ANIM]->frame))
     {
         case 35: // stomp.
-            ShakeScreenEx(0x4000, 0x3000, 273);
+            ShakeScreenCycle(FLOAT_TO_FX32(4.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(4.0), SECONDS_TO_FRAMES(1.0)));
             BossFX__CreateRexRage(BOSSFX3D_FLAG_NONE, translation.x, translation.y, translation.z);
             PlayHandleStageSfx(work->sndHandle[1], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TYRANNO_LAND);
             DisableSpatialVolume();
@@ -5489,7 +5489,7 @@ NONMATCH_FUNC void Boss1__BossState_Drop(Boss1 *work)
             break;
 
         case 70: // stomp..
-            ShakeScreenEx(0x4000, 0x3000, 273);
+            ShakeScreenCycle(FLOAT_TO_FX32(4.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(4.0), SECONDS_TO_FRAMES(1.0)));
             BossFX__CreateRexRage(BOSSFX3D_FLAG_NONE, translation.x, translation.y, translation.z);
             PlayHandleStageSfx(work->sndHandle[1], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TYRANNO_LAND);
             DisableSpatialVolume();
@@ -5498,7 +5498,7 @@ NONMATCH_FUNC void Boss1__BossState_Drop(Boss1 *work)
             break;
 
         case 100: // stomp...
-            ShakeScreenEx(0x4000, 0x3000, 273);
+            ShakeScreenCycle(FLOAT_TO_FX32(4.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(4.0), SECONDS_TO_FRAMES(1.0)));
             BossFX__CreateRexRage(BOSSFX3D_FLAG_NONE, translation.x, translation.y, translation.z);
             PlayHandleStageSfx(work->sndHandle[1], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TYRANNO_LAND);
             DisableSpatialVolume();
@@ -5507,7 +5507,7 @@ NONMATCH_FUNC void Boss1__BossState_Drop(Boss1 *work)
             break;
 
         case 150: // crash!!
-            ShakeScreenEx(0x8000, 0x3000, 273);
+            ShakeScreenCycle(FLOAT_TO_FX32(8.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(8.0), SECONDS_TO_FRAMES(2.0)));
             BossFX__CreateRexHead(BOSSFX3D_FLAG_NONE, translation.x, translation.y, translation.z);
             PlayHandleStageSfx(work->sndHandle[1], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TYRANNO_LAND);
             DisableSpatialVolume();
@@ -5560,7 +5560,7 @@ _0215A070:
 	ldr r2, =0x00000111
 	mov r0, #0x4000
 	mov r1, #0x3000
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 	ldr r1, [sp, #8]
 	ldr r2, [sp, #0xc]
 	ldr r3, [sp, #0x10]
@@ -5585,7 +5585,7 @@ _0215A0D0:
 	ldr r2, =0x00000111
 	mov r0, #0x4000
 	mov r1, #0x3000
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 	ldr r1, [sp, #8]
 	ldr r2, [sp, #0xc]
 	ldr r3, [sp, #0x10]
@@ -5610,7 +5610,7 @@ _0215A130:
 	ldr r2, =0x00000111
 	mov r0, #0x4000
 	mov r1, #0x3000
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 	ldr r1, [sp, #8]
 	ldr r2, [sp, #0xc]
 	ldr r3, [sp, #0x10]
@@ -5635,7 +5635,7 @@ _0215A190:
 	ldr r2, =0x00000111
 	mov r0, #0x8000
 	mov r1, #0x3000
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 	ldr r1, [sp, #8]
 	ldr r2, [sp, #0xc]
 	ldr r3, [sp, #0x10]
@@ -5797,7 +5797,7 @@ void Boss1__BossState_StartDropLand(Boss1 *work)
 
         BossFX__CreateRexHead(BOSSFX3D_FLAG_NONE, work->aniBossMain.ani.work.translation.x, work->aniBossMain.ani.work.translation.y, work->aniBossMain.ani.work.translation.z);
 
-        ShakeScreenEx(0xA000, 0x3000, 227);
+        ShakeScreenCycle(FLOAT_TO_FX32(10.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(10.0), SECONDS_TO_FRAMES(3.0)));
         SetHUDActiveScreen(1);
 
         PlayHandleStageSfx(work->sndHandle[1], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TYRANNO_LAND);
@@ -5834,7 +5834,7 @@ void Boss1__BossState_DropFinish(Boss1 *work)
         ProcessSpatialVoiceClip(work->sndHandle[0], &work->gameWork.objWork.position);
         EnableSpatialVolume();
 
-        ShakeScreenEx(0x1800, 0x3000, 34);
+        ShakeScreenCycle(FLOAT_TO_FX32(1.5), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(1.5), SECONDS_TO_FRAMES(3.0)));
     }
 
     if (Boss1__CheckAnimFinished(work))
@@ -6096,7 +6096,7 @@ void Boss1__BossState_DestroyedShock(Boss1 *work)
             BossFX__CreateRexExplode0(BOSSFX3D_FLAG_NONE, work->mtxBodyNeck.m[3][0], work->mtxBodyNeck.m[3][1], work->mtxBodyNeck.m[3][2]);
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TODOME_EFFECT);
             CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_ENGINEB_ONLY | DRAW_FADE_TASK_FLAG_FADE_TO_BLACK | DRAW_FADE_TASK_FLAG_REVERSE_BRIGHTNESS, FLOAT_TO_FX32(2.0));
-            ShakeScreenEx(0x3000, 0x3000, 0x600);
+            ShakeScreenCycle(FLOAT_TO_FX32(3.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(3.0), 8));
         }
     }
 
@@ -6112,7 +6112,7 @@ void Boss1__BossState_StartExplode(Boss1 *work)
     effect->objWork.scale.z              = FLOAT_TO_FX32(2.0);
     effect->aniModel.ani.speedMultiplier = FLOAT_TO_FX32(0.333251953125);
 
-    ShakeScreenEx(0xA000, 0x3000, 227);
+    ShakeScreenCycle(FLOAT_TO_FX32(10.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(10.0), SECONDS_TO_FRAMES(3.0)));
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOSS_EXPLOSION);
 
     work->action.destroyed.timer = 0;

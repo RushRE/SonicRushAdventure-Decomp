@@ -2120,12 +2120,12 @@ void SailPlayer__OnDefend_JetHover(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         else
         {
             EffectUnknown21614E4__Create(colliderPlayer->stageTask);
-            ShakeScreen(SCREENSHAKE_D_LONG);
+            ShakeScreen(SCREENSHAKE_BIG_MIDDLE);
             SailPlayer__RemoveHealth(colliderPlayer->stageTask, colliderOther->atkPower);
 
             if (SailPlayer__HasRetired(colliderPlayer->stageTask))
             {
-                ShakeScreen(SCREENSHAKE_D_LOOP);
+                ShakeScreen(SCREENSHAKE_BIG_LONG);
                 SailPlayer__Action_RetireJetHover(colliderPlayer->stageTask);
             }
             else

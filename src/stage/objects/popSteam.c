@@ -884,7 +884,7 @@ void PopSteam__OnDefend_Cork(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             break;
     }
 
-    ShakeScreen(SCREENSHAKE_C_SHORT);
+    ShakeScreen(SCREENSHAKE_MEDIUM_SHORT);
 
     popSteam->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
     popSteam->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;

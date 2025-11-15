@@ -2321,7 +2321,7 @@ void Boss2_BossState_StartDeactivatedFallLand(Boss2 *work)
     BossHelpers__SetAnimation(&work->aniBody, B3D_ANIM_JOINT_ANIM, work->assets.jointAnims, ANI_JNT_bs2_body_down2, NULL, FALSE);
     BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), BOSS2_PALANI_IDLE, FALSE);
 
-    ShakeScreenEx(0xA000, 0x3000, 227);
+    ShakeScreenCycle(FLOAT_TO_FX32(10.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(10.0), SECONDS_TO_FRAMES(3.0)));
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ZAKO_LAND);
 
     work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_ENABLED;
@@ -2453,7 +2453,7 @@ void Boss2_BossState_InitDestroyed(Boss2 *work)
     for (s32 i = 0; i < 3; i++)
         Boss2Arm_Action_Inactive(work->stage->arms[i]);
 
-    ShakeScreenEx(0x5000, 0x3000, 0x2AA);
+    ShakeScreenCycle(FLOAT_TO_FX32(5.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(5.0), SECONDS_TO_FRAMES(0.5)));
     gPlayer->objWork.shakeTimer = FLOAT_TO_FX32(16.0);
 
     // Create explode impact fx
@@ -2541,7 +2541,7 @@ void Boss2_BossState_DestroyedShock(Boss2 *work)
             BossFX__CreatePendulumExplode0(BOSSFX3D_FLAG_NONE, work->mtxWeakPoint.translation.x, work->mtxWeakPoint.translation.y, work->mtxWeakPoint.translation.z);
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TODOME_EFFECT);
             CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_ENGINEB_ONLY | DRAW_FADE_TASK_FLAG_FADE_TO_BLACK | DRAW_FADE_TASK_FLAG_REVERSE_BRIGHTNESS, FLOAT_TO_FX32(2.0));
-            ShakeScreenEx(0x3000, 0x3000, 0x600);
+            ShakeScreenCycle(FLOAT_TO_FX32(3.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(3.0), 8));
         }
     }
 
@@ -2558,7 +2558,7 @@ void Boss2_BossState_StartExplode(Boss2 *work)
     effect->objWork.scale.z = FLOAT_TO_FX32(3.0);
     effect->aniModel.ani.speedMultiplier = FLOAT_TO_FX32(0.333251953125);
 
-    ShakeScreenEx(0xA000, 0x3000, 227);
+    ShakeScreenCycle(FLOAT_TO_FX32(10.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(10.0), SECONDS_TO_FRAMES(3.0)));
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOSS_EXPLOSION);
 
     work->action.destroyed.timer = 0;
@@ -2781,7 +2781,7 @@ void Boss2Drop_DropState_DropLand(Boss2Drop *work)
         Boss2Wave *wave = SpawnStageObject(MAPOBJECT_283, 0, -FLOAT_TO_FX32(5.0) - work->stage->groundHeight, Boss2Wave);
         UNUSED(wave);
 
-        ShakeScreenEx(0x5000, 0x3000, 170);
+        ShakeScreenCycle(FLOAT_TO_FX32(5.0), FLOAT_DEG_TO_IDX(67.5), SCREENSHAKE_DECEL_FROM_TIME(FLOAT_TO_FX32(5.0), SECONDS_TO_FRAMES(2.0)));
         work->playedSteamSfx = TRUE;
     }
 

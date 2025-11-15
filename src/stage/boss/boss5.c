@@ -4,6 +4,8 @@
 // resources
 #include <resources/narc/z5boss_act_lz7.h>
 
+#include <nitro/code16.h>
+
 // --------------------
 // ENUMS
 // --------------------
@@ -27,3 +29,5 @@
 // --------------------
 // FUNCTIONS
 // --------------------
+
+#include <nitro/codereset.h>

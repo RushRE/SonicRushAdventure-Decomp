@@ -7549,7 +7549,7 @@ _02167028:
 	mov r0, #0x3000
 	mov r1, r0
 	mov r2, #0x600
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 _02167090:
 	add r9, r9, #1
 	cmp r9, #3
@@ -7588,7 +7588,7 @@ Boss3__Func_21670C4: // 0x021670C4
 	str r1, [r0, #0x280]
 	mov r0, #0xa000
 	mov r1, #0x3000
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 	mov r2, #0
 	mov r0, #0x8d
 	str r2, [sp]

@@ -7484,7 +7484,7 @@ _0215A0BC:
 	mov r0, #0x3000
 	mov r1, r0
 	mov r2, #0x600
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 _0215A11C:
 	add r9, r9, #1
 	cmp r9, #3
@@ -7522,7 +7522,7 @@ Boss6__State2_215A150: // 0x0215A150
 	str r1, [r0, #0x280]
 	mov r0, #0xa000
 	mov r1, #0x3000
-	bl ShakeScreenEx
+	bl ShakeScreenCycle
 	mov r3, #0x8d
 	sub r1, r3, #0x8e
 	mov r0, #0

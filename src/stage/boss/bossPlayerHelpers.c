@@ -30,7 +30,7 @@ void BossPlayerHelpers_Action_Boss1ChargeKnockback(Player *player, fx32 velX, fx
             Player__InitState(player);
             player->gimmickFlag |= gimmickFlag & PLAYER_GIMMICK_40000;
 
-            ShakeScreen(SCREENSHAKE_C_SHORT);
+            ShakeScreen(SCREENSHAKE_MEDIUM_SHORT);
 
             player->blinkTimer            = player->hurtInvulnDuration;
             player->colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = PLAYER_DEFPOWER_INVINCIBLE;

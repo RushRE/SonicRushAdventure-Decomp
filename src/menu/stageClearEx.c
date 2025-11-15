@@ -786,7 +786,7 @@ void StageClearEx_State_RankAppear(StageClearEx *work)
     {
         graphics2D->rankScale = FLOAT_TO_FX32(1.0);
         PlaySystemSfx(SND_SYS_SEQARC_ARC_CLEAR_E, SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_RANKING);
-        ShakeScreen(SCREENSHAKE_A_LONG);
+        ShakeScreen(SCREENSHAKE_TINY_MIDDLE);
         SetStageClearExState(work, StageClearEx_State_RankGet);
     }
 }
@@ -798,7 +798,7 @@ void StageClearEx_State_RankGet(StageClearEx *work)
     graphics2D->rankPos.x = FX32_TO_WHOLE(GetScreenShakeOffsetX());
     graphics2D->rankPos.y = FX32_TO_WHOLE(GetScreenShakeOffsetY());
 
-    if (!ShakeScreen(SCREENSHAKE_CUSTOM))
+    if (ShakeScreen(SCREENSHAKE_GET_ACTIVE) == NULL)
     {
         SetStageClearExState(work, StageClearEx_State_ShowRank);
     }

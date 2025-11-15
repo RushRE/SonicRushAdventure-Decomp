@@ -546,7 +546,7 @@ void FallingStalactite_State_Fall(FallingStalactite *work)
     {
         work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
         work->gameWork.objWork.move.x = work->gameWork.objWork.move.y = work->gameWork.objWork.move.z = FLOAT_TO_FX32(0.0);
-        ShakeScreen(SCREENSHAKE_D_SHORT);
+        ShakeScreen(SCREENSHAKE_BIG_SHORT);
         work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         work->gameWork.objWork.userFlag |= FALLINGSTALACTITE_FLAG_LANDED;
         work->gameWork.objWork.state = 0;

@@ -2081,7 +2081,7 @@ void Player__OnDefend_TripleGrindRail(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2
     }
 
     player->playerFlag &= ~(PLAYER_FLAG_SHIELD_MAGNET | PLAYER_FLAG_SHIELD_REGULAR);
-    ShakeScreen(SCREENSHAKE_C_SHORT);
+    ShakeScreen(SCREENSHAKE_MEDIUM_SHORT);
 
     player->objWork.shakeTimer    = 8;
     player->blinkTimer            = player->hurtInvulnDuration;
@@ -5157,7 +5157,7 @@ void Player__OnDefend_TruckRide(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     }
 
     player->playerFlag &= ~(PLAYER_FLAG_SHIELD_MAGNET | PLAYER_FLAG_SHIELD_REGULAR);
-    ShakeScreen(SCREENSHAKE_C_SHORT);
+    ShakeScreen(SCREENSHAKE_MEDIUM_SHORT);
 
     player->objWork.shakeTimer    = 8;
     player->blinkTimer            = player->hurtInvulnDuration;

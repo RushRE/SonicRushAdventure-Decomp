@@ -339,7 +339,7 @@ void FallingAnchor_State_Active(FallingAnchor *work)
                 if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_CAM_B_ON_TOP) == 0
                     && work->gameWork.objWork.position.y - FLOAT_TO_FX32(61.0) >= gPlayer->objWork.position.y)
                 {
-                    ShakeScreen(SCREENSHAKE_D_LONG);
+                    ShakeScreen(SCREENSHAKE_BIG_MIDDLE);
                 }
 
                 work->gameWork.objWork.userWork++;

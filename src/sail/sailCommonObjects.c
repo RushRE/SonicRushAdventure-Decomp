@@ -5087,7 +5087,7 @@ void SailObject_OnDefend_Default(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
                     if ((collider1->flags & SAILCOLLIDER_FLAG_800) == 0 && (SailManager__GetShipType() == SHIP_JET || SailManager__GetShipType() == SHIP_HOVER))
                     {
-                        ShakeScreen(SCREENSHAKE_C_SHORT);
+                        ShakeScreen(SCREENSHAKE_MEDIUM_SHORT);
                     }
 
                     if (SailManager__GetShipType() == SHIP_BOAT)
