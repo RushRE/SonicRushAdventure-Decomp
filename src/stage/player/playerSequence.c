@@ -25,6 +25,7 @@
 #include <stage/objects/playerSnowboard.h>
 #include <stage/objects/tripleGrindRail.h>
 #include <stage/objects/cannon.h>
+#include <stage/objects/waterGun.h>
 
 // Effects
 #include <stage/effects/buttonPrompt.h>
@@ -2689,7 +2690,7 @@ void Player__Action_PopSteam(Player *player, GameObjectTask *other, fx32 velX, f
                 player->objWork.dir.z = FLOAT_DEG_TO_IDX(180.0);
         }
 
-        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
         player->gimmick.popSteam.threshold   = speedThreshold;
         player->gimmick.popSteam.x           = other->objWork.position.x;
         player->gimmick.popSteam.y           = other->objWork.position.y;
@@ -2782,7 +2783,7 @@ void Player__Action_DreamWing(Player *player, GameObjectTask *other, fx32 velX, 
         else
             player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
-        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
         player->objWork.userTimer = 8;
         player->objWork.userWork  = 0;
         SetTaskState(&player->objWork, Player__State_DreamWing);
@@ -2922,7 +2923,7 @@ void Player__Action_LargePiston1(Player *player, GameObjectTask *other, fx32 vel
 
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
-        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
 
         player->objWork.position.x = other->objWork.position.x;
         player->objWork.position.y = other->objWork.position.y;
@@ -3008,7 +3009,7 @@ void Player__Action_LargePiston2(Player *player, GameObjectTask *other, fx32 vel
 {
     if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0 && StageTaskStateMatches(&player->objWork, Player__State_LargePiston1))
     {
-        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
 
         if (player->actionState >= PLAYER_ACTION_TRICK_FINISH_V_01 && player->actionState <= PLAYER_ACTION_TRICK_FINISH)
         {
@@ -3171,7 +3172,7 @@ void Player__Action_IcicleGrab(Player *player, GameObjectTask *other, s32 width)
         player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
-        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
 
         player->gimmick.icicleGrab.width = width;
         fx32 icicleY                     = other->objWork.position.y - FLOAT_TO_FX32(256.0);
@@ -3277,7 +3278,7 @@ void Player__Action_IceSlide(Player *player, s32 _unused)
         Player__InitGimmick(player, FALSE);
         Player__ChangeAction(player, PLAYER_ACTION_ICE_SLIDE);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
 
         if (MATH_ABS(player->objWork.velocity.x) < MATH_ABS(player->objWork.groundVel))
             player->objWork.velocity.x = player->objWork.groundVel;
@@ -3752,7 +3753,7 @@ void Player__Action_DiveStandGrab(Player *player, GameObjectTask *other)
     }
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
     player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 
     if (other->mapObject->id == MAPOBJECT_143)
@@ -5282,7 +5283,7 @@ void Player__Action_BarrelGrab(Player *player, GameObjectTask *other)
     Player__ChangeAction(player, PLAYER_ACTION_HOMING_ATTACK);
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
     player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
     player->blinkTimer            = 0;
     player->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
@@ -5352,7 +5353,7 @@ void Player__Gimmick_2021E9C(Player *player, GameObjectTask *other)
 
         Player__ChangeAction(player, PLAYER_ACTION_JUMPFALL);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
+        ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
         player->objWork.userWork = 0;
         SetTaskState(&player->objWork, Player__State_2021FA8);
     }
@@ -5440,7 +5441,7 @@ void Player__Action_Trampoline(Player *player, fx32 velX, fx32 velY)
     player->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
 
     Player__ChangeAction(player, PLAYER_ACTION_TRAMPOLINE);
-    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);;
+    ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
 
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TRAMPOLINE);
 }
@@ -7672,68 +7673,41 @@ void Player__Action_WaterGun(Player *player, GameObjectTask *other)
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GIMMICK);
 }
 
-NONMATCH_FUNC void Player__State_WaterGun(Player *work)
+void Player__State_WaterGun(Player *work)
 {
-#ifdef NON_MATCHING
+    WaterGun *waterGun = (WaterGun *)work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r2, [r4, #0x6d8]
-	cmp r2, #0
-	beq _02024840
-	ldr r1, [r2, #0x18]
-	tst r1, #0xc
-	bne _02024840
-	ldr r1, [r2, #0x24]
-	tst r1, #1
-	beq _02024894
-_02024840:
-	mov r1, #0
-	str r1, [r4, #0x6d8]
-	ldr r3, [r4, #0x5dc]
-	ldr r0, =0xFFFDFF0F
-	add r2, r4, #0x600
-	and r0, r3, r0
-	str r0, [r4, #0x5dc]
-	ldr r0, [r4, #0x5d8]
-	add r3, r4, #0x500
-	bic r0, r0, #0x100000
-	str r0, [r4, #0x5d8]
-	strh r1, [r2, #0xdc]
-	strh r1, [r2, #0xde]
-	mov r2, #0x3f
-	mov r0, r4
-	strh r2, [r3, #0x3e]
-	bl Player__Action_LandOnGround
-	ldr r1, [r4, #0x5e4]
-	mov r0, r4
-	blx r1
-	ldmia sp!, {r4, pc}
-_02024894:
-	tst r1, #2
-	add r1, r4, #0x500
-	ldrsh r1, [r1, #0xd4]
-	beq _020248C0
-	cmp r1, #0x3b
-	ldmeqia sp!, {r4, pc}
-	mov r1, #0x3b
-	bl Player__ChangeAction
-	mov r0, #0x8000
-	str r0, [r4, #4]
-	ldmia sp!, {r4, pc}
-_020248C0:
-	cmp r1, #0x3c
-	ldmeqia sp!, {r4, pc}
-	mov r1, #0x3c
-	bl Player__ChangeAction
-	mov r0, #0x8000
-	str r0, [r4, #4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if (waterGun == NULL || (waterGun->gameWork.objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) != 0
+        || (waterGun->gameWork.objWork.userFlag & WATERGUN_USERFLAG_USED_GUN) != 0)
+    {
+        work->gimmickObj = NULL;
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_40 | PLAYER_GIMMICK_80 | PLAYER_GIMMICK_GRABBED);
+        work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
+        work->gimmickCamOffsetX     = 0;
+        work->gimmickCamOffsetY     = 0;
+        work->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
+        Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
+        work->actionGroundIdle(work);
+    }
+    else
+    {
+        if ((waterGun->gameWork.objWork.userFlag & WATERGUN_USERFLAG_AIMING_UPWARDS) != 0)
+        {
+            if (work->actionState != PLAYER_ACTION_WATERGUN_01)
+            {
+                Player__ChangeAction(work, PLAYER_ACTION_WATERGUN_01);
+                work->objWork.shakeTimer = FLOAT_TO_FX32(8.0);
+            }
+        }
+        else
+        {
+            if (work->actionState != PLAYER_ACTION_WATERGUN_02)
+            {
+                Player__ChangeAction(work, PLAYER_ACTION_WATERGUN_02);
+                work->objWork.shakeTimer = FLOAT_TO_FX32(8.0);
+            }
+        }
+    }
 }
 
 void Player__Action_Bungee(Player *player, GameObjectTask *bungee, fx32 startX, fx32 startY)

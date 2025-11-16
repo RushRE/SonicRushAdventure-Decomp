@@ -4,6 +4,18 @@
 #include <stage/gameObject.h>
 
 // --------------------
+// enums
+// --------------------
+
+enum WaterGunUserFlags
+{
+    WATERGUN_USERFLAG_NONE,
+
+    WATERGUN_USERFLAG_USED_GUN = 1 << 0,
+    WATERGUN_USERFLAG_AIMING_UPWARDS = 1 << 1,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -12,45 +24,24 @@ typedef struct WaterGun_
     GameObjectTask gameWork;
 } WaterGun;
 
-typedef struct WaterGrindTrigger_
+typedef struct WaterGrindRailSegment_
 {
     GameObjectTask gameWork;
-} WaterGrindTrigger;
+} WaterGrindRailSegment;
 
-typedef struct WaterGrindRail_
+typedef struct WaterGrindRailManager_
 {
     StageTask objWork;
     AnimatorSpriteDS animators[5];
     u16 instanceID;
     u16 instanceCount;
-} WaterGrindRail;
+} WaterGrindRailManager;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-WaterGun *WaterGun__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-WaterGun *WaterGrindTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-
-void WaterGun__Destructor(Task *task);
-void WaterGun__State_2183EC4(WaterGun *work);
-void WaterGun__State_21840B4(WaterGun *work);
-void WaterGun__State_2184248(WaterGun *work);
-void WaterGun__State_21842A8(WaterGun *work);
-void WaterGun__State_21843E4(WaterGun *work);
-void WaterGun__Func_218448C(WaterGun *work);
-void WaterGun__Draw(void);
-void WaterGun__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-
-void WaterGrindTrigger__State_218477C(WaterGrindTrigger *work);
-void WaterGrindTrigger__Draw(void);
-void WaterGrindTrigger__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-
-void WaterGrindRail__Create(s32 id);
-void WaterGrindRail__Func_2184D34(s32 id);
-void WaterGrindRail__Destructor(Task *task);
-void WaterGrindRail__Func_2184DB8(WaterGrindRail *work);
-AnimatorSpriteDS *WaterGrindRail__GetAnimator(s32 id);
-void WaterGrindRail__Draw(void);
+WaterGun *CreateWaterGun(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+WaterGrindRailSegment *CreateWaterGrindRailSegment(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
 #endif // RUSH_WATER_GUN_H

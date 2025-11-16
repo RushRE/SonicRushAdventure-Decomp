@@ -8924,8 +8924,8 @@
 .public Balloon_Draw
 .public CreateCrumblingFloor
 .public CrumblingFloor_State_Active
-.public WaterGun__Create
-.public WaterGrindTrigger__Create
+.public CreateWaterGun
+.public CreateWaterGrindRailSegment
 .public WaterGun__Destructor
 .public WaterGun__State_2183EC4
 .public WaterGun__State_21840B4
@@ -8935,9 +8935,9 @@
 .public WaterGun__Func_218448C
 .public WaterGun__Draw
 .public WaterGun__OnDefend
-.public WaterGrindTrigger__State_218477C
-.public WaterGrindTrigger__Draw
-.public WaterGrindTrigger__OnDefend
+.public WaterGrindRailSegment__State_218477C
+.public WaterGrindRailSegment__Draw
+.public WaterGrindRailSegment__OnDefend
 .public WaterGrindRail__Create
 .public WaterGrindRail__Func_2184D34
 .public WaterGrindRail__Destructor
