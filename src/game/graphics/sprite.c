@@ -423,7 +423,7 @@ static u8 spriteUnknown[0x40]; // unknown
 #define GetFile(filePtr)                           ((struct BACFile *)filePtr)
 #define GetAnimHeaderBlock(filePtr)                ((struct BACAnimHeaderBlock *)&filePtr[GetFile(filePtr)->animHeaderOffset])
 #define GetInfoBlock(filePtr)                      ((struct BACInfoBlock *)&filePtr[GetFile(filePtr)->infoOffset])
-#define GetSpritePixelsBlock(filePtr, blockOffset) ((u8 *)&filePtr[GetFile(filePtr)->spritePixelOffset] + (blockOffset))
+#define GetSpritePixelsBlock(filePtr, blockOffset) (u8 *)((blockOffset) + (u32)(filePtr + GetFile(filePtr)->spritePixelOffset))
 #define GetPaletteBlock(filePtr, blockOffset)      ((struct BACPaletteBlock *)(&filePtr[GetFile(filePtr)->paletteOffset] + (blockOffset)))
 
 #define GetAnimHeaderBlockFromAnimator(animator)   ((struct BACAnimHeaderBlock *)(animator)->animHeaders)
@@ -2800,11 +2800,8 @@ s32 BAC_FrameGroupFunc_FrameAssembly(BACFrameGroupBlock_FrameAssembly *block, An
     return FRAME_CONTINUE;
 }
 
-NONMATCH_FUNC s32 BAC_FrameGroupFunc_SpriteParts(BACFrameGroupBlock_SpriteParts *block, AnimatorSprite *animator, SpriteFrameCallback callback, void *userData)
+s32 BAC_FrameGroupFunc_SpriteParts(BACFrameGroupBlock_SpriteParts *block, AnimatorSprite *animator, SpriteFrameCallback callback, void *userData)
 {
-    // https://decomp.me/scratch/Xytta -> 99.19%
-    // register mismatch near GetSpritePixelsBlock()
-#ifdef NON_MATCHING
     typedef void (*PixelsFunc)(void *pixels, PixelMode mode, void *vramPixels);
 
     struct BACFrameSpritePart *part;
@@ -2847,84 +2844,6 @@ NONMATCH_FUNC s32 BAC_FrameGroupFunc_SpriteParts(BACFrameGroupBlock_SpriteParts 
 
     animator->animSequenceOffset += block->header.blockSize;
     return FRAME_CONTINUE;
-#else
-    // clang-format off
-    stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	mov r9, r1
-	ldr r1, [r9, #0x3c]
-	mov r10, r0
-	tst r1, #8
-	bne _02083A1C
-	tst r1, #0x20
-	ldrne r8, =LoadCompressedPixels
-	ldr r0, [r9, #0x40]
-	ldreq r8, =QueueCompressedPixels
-	add r4, r10, #4
-	cmp r0, #0
-	ldr r7, [r9, #0x44]
-	mov r6, #4
-	bne _0208399C
-	ldr r1, [r9, #0x1c]
-	ldr r0, [r9, #0x2c]
-	add r0, r1, r0
-	ldrh r0, [r0, #0x10]
-	ldr r1, [r9, #4]
-	and r0, r0, #0xc00
-	cmp r0, #0xc00
-	bne _0208398C
-	ldr r0, =objBmpUse256K
-	mov r1, r1, lsl #1
-	ldrh r5, [r0, r1]
-	b _020839A0
-_0208398C:
-	ldr r0, =objBankShift
-	mov r1, r1, lsl #1
-	ldrh r5, [r0, r1]
-	b _020839A0
-_0208399C:
-	mov r5, #0
-_020839A0:
-	ldrh r1, [r9, #0xc]
-	ldr r2, [r9, #0x18]
-	ldrh r0, [r10, #2]
-	add r1, r2, r1, lsl #3
-	ldrh r2, [r1, #8]
-	ldr r1, =pixelFormatShift
-	cmp r0, #4
-	ldrb r0, [r1, r2]
-	bls _02083A1C
-	add r11, r5, r0
-_020839C8:
-	ldr r2, [r9, #0x14]
-	ldr r3, [r4, #0]
-	ldr r0, [r2, #0x14]
-	ldr r1, [r9, #0x40]
-	add r0, r2, r0
-	mov r2, r7
-	add r0, r3, r0
-	blx r8
-	ldrh r3, [r4, #4]
-	add r0, r6, #8
-	mov r1, r0, lsl #0x10
-	mov r0, #1
-	add r0, r3, r0, lsl r5
-	ldrh r2, [r10, #2]
-	sub r0, r0, #1
-	mov r0, r0, lsr r5
-	cmp r2, r1, lsr #16
-	add r7, r7, r0, lsl r11
-	add r4, r4, #8
-	mov r6, r1, lsr #0x10
-	bhi _020839C8
-_02083A1C:
-	ldrh r1, [r10, #2]
-	ldr r2, [r9, #0x24]
-	mov r0, #FRAME_CONTINUE
-	add r1, r2, r1
-	str r1, [r9, #0x24]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC s32 BAC_FrameGroupFunc_Palette(BACFrameGroupBlock_Palette *block, AnimatorSprite *animator, SpriteFrameCallback callback, void *userData)
