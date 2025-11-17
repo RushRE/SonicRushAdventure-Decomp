@@ -424,7 +424,7 @@ static u8 spriteUnknown[0x40]; // unknown
 #define GetAnimHeaderBlock(filePtr)                ((struct BACAnimHeaderBlock *)&filePtr[GetFile(filePtr)->animHeaderOffset])
 #define GetInfoBlock(filePtr)                      ((struct BACInfoBlock *)&filePtr[GetFile(filePtr)->infoOffset])
 #define GetSpritePixelsBlock(filePtr, blockOffset) (u8 *)((blockOffset) + (u32)(filePtr + GetFile(filePtr)->spritePixelOffset))
-#define GetPaletteBlock(filePtr, blockOffset)      ((struct BACPaletteBlock *)(&filePtr[GetFile(filePtr)->paletteOffset] + (blockOffset)))
+#define GetPaletteBlock(filePtr, blockOffset)      (struct BACPaletteBlock *)((blockOffset) + (u32)(filePtr + GetFile(filePtr)->paletteOffset))
 
 #define GetAnimHeaderBlockFromAnimator(animator)   ((struct BACAnimHeaderBlock *)(animator)->animHeaders)
 #define GetAnimSequenceBlockFromAnimator(animator) ((BACFrameGroupBlockHeader *)&(animator)->animSequences[(animator)->animSequenceOffset])
@@ -2848,45 +2848,44 @@ s32 BAC_FrameGroupFunc_SpriteParts(BACFrameGroupBlock_SpriteParts *block, Animat
 
 NONMATCH_FUNC s32 BAC_FrameGroupFunc_Palette(BACFrameGroupBlock_Palette *block, AnimatorSprite *animator, SpriteFrameCallback callback, void *userData)
 {
-    // https://decomp.me/scratch/hlf1C -> 99.50%
-    // register mismatch near GetPaletteBlock()
+    // https://decomp.me/scratch/WXns6 -> 99.67%
+    // register mismatch inside GetPaletteBlock()
 #ifdef NON_MATCHING
     typedef void (*PaletteFunc)(void *srcPalettePtr, u16 colorCount, PaletteMode mode, size_t dstPalettePtr);
+    UNUSED(callback);
+    UNUSED(userData);
 
-    u8 *paletteData;
-    size_t aniPaletteOffset;
     AnimatorFlags *aniFlags;
 
     aniFlags = &animator->flags;
     if ((animator->flags & ANIMATOR_FLAG_DISABLE_PALETTES) == 0)
     {
-        PaletteFunc paletteFunc;
-        aniPaletteOffset     = animator->paletteOffset;
-        struct BACFile *file = ((struct BACFile *)animator->fileData);
-        paletteData          = animator->fileData + file->paletteOffset + block->paletteOffset;
-        if (((*aniFlags) & ANIMATOR_FLAG_UNCOMPRESSED_PALETTES) != 0)
-            paletteFunc = LoadUncompressedPalette;
-        else
-            paletteFunc = QueueUncompressedPalette;
+        struct BACPaletteBlock *paletteData = GetPaletteBlock(animator->fileData, block->paletteOffset);
+        s32 aniPaletteOffset                = animator->paletteOffset;
 
-        u16 *srcPalettePtr = &((struct BACPaletteBlock *)paletteData)->colors[aniPaletteOffset];
+        PaletteFunc paletteFunc = ((*aniFlags) & ANIMATOR_FLAG_UNCOMPRESSED_PALETTES) ? LoadUncompressedPalette : QueueUncompressedPalette;
+
+        u16 *srcPalettePtr = &paletteData->colors[aniPaletteOffset];
 
         u16 colorCount = animator->colorCount;
         u16 *destPalettePtr;
         switch (animator->paletteMode)
         {
-            case PALETTE_MODE_SPRITE:
+            case PALETTE_MODE_SPRITE: {
                 destPalettePtr = &((u16 *)animator->vramPalette)[16 * block->colorCount + 16 * animator->cParam.palette];
                 break;
+            }
 
             case PALETTE_MODE_OBJ:
-            case PALETTE_MODE_SUB_OBJ:
+            case PALETTE_MODE_SUB_OBJ: {
                 destPalettePtr = &((u16 *)animator->vramPalette)[256 * (block->colorCount + animator->cParam.palette)];
                 break;
+            }
 
-            default:
+            default: {
                 destPalettePtr = &((u16 *)animator->vramPalette)[16 * block->colorCount];
                 break;
+            }
         }
 
         if (colorCount == 0)
