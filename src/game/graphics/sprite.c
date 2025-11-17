@@ -1180,518 +1180,242 @@ void AnimatorSpriteDS__ProcessFrame(AnimatorSpriteDS *animator)
     }
 }
 
-NONMATCH_FUNC void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
+RUSH_INLINE void CallAnimatorSpriteDrawFrameForEngine(AnimatorSpriteDS *animator, int engineIndex)
 {
-#ifdef NON_MATCHING
+    animator->work.useEngineB     = engineIndex;
+    animator->work.pos.x          = animator->position[engineIndex].x;
+    animator->work.pos.y          = animator->position[engineIndex].y;
+    animator->work.pixelMode      = animator->pixelMode[engineIndex];
+    animator->work.vramPixels     = animator->vramPixels[engineIndex];
+    animator->work.paletteMode    = animator->paletteMode[engineIndex];
+    animator->work.vramPalette    = animator->vramPalette[engineIndex];
+    animator->work.cParam.palette = animator->cParam[engineIndex].palette;
+    AnimatorSprite__DrawFrame(&animator->work);
+    animator->firstSprite[engineIndex] = animator->work.firstSprite;
+    animator->lastSprite[engineIndex]  = animator->work.lastSprite;
+}
 
-#else
-    // clang-format off
-    stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x48
-	mov r10, r0
-	ldr r0, [r10, #0x64]
-	ldr r4, [r10, #0x1c]
-	ldr r3, [r10, #0x2c]
-	mov r1, #0
-	str r1, [r10, #0x98]
-	str r1, [r10, #0x94]
-	str r1, [r10, #0xa0]
-	str r1, [r10, #0x9c]
-	ldr r2, [r10, #0x3c]
-	add r6, r4, r3
-	str r1, [sp, #0x1c]
-	tst r2, #1
-	addne sp, sp, #0x48
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r3, [r6, #0]
-	cmp r3, #0
-	addeq sp, sp, #0x48
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	tst r2, #0x800
-	beq _020817C4
-	tst r0, #1
-	bne _020816F8
-	tst r2, #0x80
-	ldrsh r5, [r10, #0x68]
-	beq _02081668
-	ldrsh r4, [r6, #4]
-	sub r4, r5, r4
-	cmp r4, #0
-	ble _02081660
-	ldrsh r4, [r6, #8]
-	sub r4, r5, r4
-	cmp r4, #0x100
-	blt _02081690
-_02081660:
-	mov r4, #0
-	b _020816F0
-_02081668:
-	ldrsh r4, [r6, #8]
-	add r4, r5, r4
-	cmp r4, #0
-	ble _02081688
-	ldrsh r4, [r6, #4]
-	add r4, r5, r4
-	cmp r4, #0x100
-	blt _02081690
-_02081688:
-	mov r4, #0
-	b _020816F0
-_02081690:
-	tst r2, #0x100
-	ldrsh r5, [r10, #0x6a]
-	beq _020816C4
-	ldrsh r4, [r6, #6]
-	sub r4, r5, r4
-	cmp r4, #0
-	ble _020816BC
-	ldrsh r4, [r6, #0xa]
-	sub r4, r5, r4
-	cmp r4, #0xc0
-	blt _020816EC
-_020816BC:
-	mov r4, #0
-	b _020816F0
-_020816C4:
-	ldrsh r4, [r6, #0xa]
-	add r4, r5, r4
-	cmp r4, #0
-	ble _020816E4
-	ldrsh r4, [r6, #6]
-	add r4, r5, r4
-	cmp r4, #0xc0
-	blt _020816EC
-_020816E4:
-	mov r4, #0
-	b _020816F0
-_020816EC:
-	mov r4, #1
-_020816F0:
-	cmp r4, #0
-	orreq r0, r0, #1
-_020816F8:
-	tst r0, #2
-	bne _020817C4
-	tst r2, #0x80
-	ldrsh r5, [r10, #0x6c]
-	beq _02081734
-	ldrsh r4, [r6, #4]
-	sub r4, r5, r4
-	cmp r4, #0
-	ble _0208172C
-	ldrsh r4, [r6, #8]
-	sub r4, r5, r4
-	cmp r4, #0x100
-	blt _0208175C
-_0208172C:
-	mov r4, #0
-	b _020817BC
-_02081734:
-	ldrsh r4, [r6, #8]
-	add r4, r5, r4
-	cmp r4, #0
-	ble _02081754
-	ldrsh r4, [r6, #4]
-	add r4, r5, r4
-	cmp r4, #0x100
-	blt _0208175C
-_02081754:
-	mov r4, #0
-	b _020817BC
-_0208175C:
-	tst r2, #0x100
-	ldrsh r5, [r10, #0x6e]
-	beq _02081790
-	ldrsh r4, [r6, #6]
-	sub r4, r5, r4
-	cmp r4, #0
-	ble _02081788
-	ldrsh r4, [r6, #0xa]
-	sub r4, r5, r4
-	cmp r4, #0xc0
-	blt _020817B8
-_02081788:
-	mov r4, #0
-	b _020817BC
-_02081790:
-	ldrsh r4, [r6, #0xa]
-	add r4, r5, r4
-	cmp r4, #0
-	ble _020817B0
-	ldrsh r4, [r6, #6]
-	add r4, r5, r4
-	cmp r4, #0xc0
-	blt _020817B8
-_020817B0:
-	mov r4, #0
-	b _020817BC
-_020817B8:
-	mov r4, #1
-_020817BC:
-	cmp r4, #0
-	orreq r0, r0, #2
-_020817C4:
-	and r0, r0, #3
-	cmp r0, #3
-	addeq sp, sp, #0x48
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	cmp r0, #1
-	beq _02081844
-	cmp r0, #2
-	bne _020818A4
-	mov r0, #0
-	str r0, [r10, #4]
-	ldrsh r1, [r10, #0x68]
-	mov r0, r10
-	strh r1, [r10, #8]
-	ldrsh r1, [r10, #0x6a]
-	strh r1, [r10, #0xa]
-	ldr r1, [r10, #0x70]
-	str r1, [r10, #0x40]
-	ldr r1, [r10, #0x78]
-	str r1, [r10, #0x44]
-	ldr r1, [r10, #0x80]
-	str r1, [r10, #0x48]
-	ldr r1, [r10, #0x88]
-	str r1, [r10, #0x4c]
-	ldrh r1, [r10, #0x90]
-	strh r1, [r10, #0x50]
-	bl AnimatorSprite__DrawFrame
-	ldr r0, [r10, #0x5c]
-	add sp, sp, #0x48
-	str r0, [r10, #0x94]
-	ldr r0, [r10, #0x60]
-	str r0, [r10, #0x9c]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-_02081844:
-	mov r0, #1
-	str r0, [r10, #4]
-	ldrsh r1, [r10, #0x6c]
-	mov r0, r10
-	strh r1, [r10, #8]
-	ldrsh r1, [r10, #0x6e]
-	strh r1, [r10, #0xa]
-	ldr r1, [r10, #0x74]
-	str r1, [r10, #0x40]
-	ldr r1, [r10, #0x7c]
-	str r1, [r10, #0x44]
-	ldr r1, [r10, #0x84]
-	str r1, [r10, #0x48]
-	ldr r1, [r10, #0x8c]
-	str r1, [r10, #0x4c]
-	ldrh r1, [r10, #0x92]
-	strh r1, [r10, #0x50]
-	bl AnimatorSprite__DrawFrame
-	ldr r0, [r10, #0x5c]
-	add sp, sp, #0x48
-	str r0, [r10, #0x98]
-	ldr r0, [r10, #0x60]
-	str r0, [r10, #0xa0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-_020818A4:
-	tst r2, #0x80
-	beq _020818C0
-	ldr r0, [sp, #0x1c]
-	orr r0, r0, #0x1000
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	str r0, [sp, #0x1c]
-_020818C0:
-	tst r2, #0x100
-	beq _020818DC
-	ldr r0, [sp, #0x1c]
-	orr r0, r0, #0x2000
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	str r0, [sp, #0x1c]
-_020818DC:
-	tst r2, #0x400
-	orrne r0, r1, #0x1000
-	movne r0, r0, lsl #0x10
-	movne r1, r0, lsr #0x10
-	ldrh r0, [r6, #0x10]
-	ldr r5, [r10, #0x58]
-	ldrh r4, [r10, #0x90]
-	and r0, r0, #0xc00
-	ldrh r2, [r10, #0x92]
-	orr r5, r1, r5, lsl #10
-	cmp r0, #0xc00
-	mov r0, r5, lsl #0x10
-	mov r4, r4, lsl #0xc
-	mov r1, r2, lsl #0xc
-	str r0, [sp, #0x24]
-	mov r0, #0
-	strh r4, [sp, #0x2c]
-	strh r1, [sp, #0x2e]
-	add r7, r6, #0x10
-	str r0, [sp, #0x18]
-	bne _02081980
-	ldr r4, =objBmpUse256K
-	ldr r2, =VRAMSystem__VRAM_OBJ
-	ldrh r0, [r4, #0]
-	ldr r8, [r10, #0x78]
-	ldr r5, [r2, #0]
-	ldr r1, =0x000003FF
-	sub r8, r8, r5
-	add r5, r0, #7
-	and r5, r1, r8, lsr r5
-	str r5, [sp, #0x40]
-	ldrh r8, [r4, #2]
-	ldr r5, [r10, #0x7c]
-	ldr r4, [r2, #4]
-	add r2, r8, #7
-	sub r4, r5, r4
-	and r1, r1, r4, lsr r2
-	str r1, [sp, #0x44]
-	str r0, [sp, #0x38]
-	str r8, [sp, #0x3c]
-	b _020819E8
-_02081980:
-	ldr r0, =objBankShift
-	ldr r4, =VRAMSystem__VRAM_OBJ
-	ldrh r1, [r0, #0]
-	ldr r8, [r10, #0x78]
-	ldr r5, [r4, #0]
-	ldr r2, =0x000003FF
-	sub r8, r8, r5
-	add r5, r1, #5
-	and r5, r2, r8, lsr r5
-	str r5, [sp, #0x40]
-	ldrh r0, [r0, #2]
-	ldr r5, [r4, #4]
-	ldr r8, [r10, #0x7c]
-	add r4, r0, #5
-	sub r5, r8, r5
-	and r2, r2, r5, lsr r4
-	str r2, [sp, #0x44]
-	ldrh r2, [r10, #0xc]
-	ldr r4, [r10, #0x18]
-	str r1, [sp, #0x38]
-	add r1, r4, r2, lsl #3
-	ldrh r1, [r1, #8]
-	str r0, [sp, #0x3c]
-	cmp r1, #0
-	movne r0, #1
-	strne r0, [sp, #0x18]
-_020819E8:
-	ldr r1, [sp, #0x38]
-	mov r2, #1
-	ldr r0, [sp, #0x3c]
-	mov r1, r2, lsl r1
-	mov r0, r2, lsl r0
-	sub r2, r1, #1
-	sub r1, r0, #1
-	mov r0, r2, lsl #0x10
-	mov r2, r0, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r0, r1, lsr #0x10
-	str r0, [sp, #0x34]
-	mov r0, #0
-	str r2, [sp, #0x30]
-	cmp r3, #0
-	str r0, [sp, #0x14]
-	addls sp, sp, #0x48
-	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r0, [sp, #0x1c]
-	and r0, r0, #0x1000
-	str r0, [sp, #0xc]
-	ldr r0, [sp, #0x1c]
-	and r0, r0, #0x2000
-	str r0, [sp, #8]
-_02081A48:
-	ldrh r4, [r7, #2]
-	ldrh r1, [r7, #0]
-	ldr r3, =spriteShapeSizes2D
-	and r0, r4, #0xc000
-	and r2, r1, #0xc000
-	mov r0, r0, asr #0xe
-	orr r0, r0, r2, asr #12
-	ldr r2, [sp, #0xc]
-	cmp r2, #0
-	add r2, r3, r0, lsl #2
-	str r2, [sp, #0x10]
-	mov r2, r4, lsl #0x16
-	mov r2, r2, lsr #0x10
-	beq _02081AA0
-	mov r3, r2, lsl #0x10
-	ldr r2, [sp, #0x10]
-	ldrsh r4, [r6, #0xc]
-	ldrh r2, [r2, #0]
-	sub r3, r4, r3, asr #22
-	sub r2, r3, r2
-	str r2, [sp, #4]
-	b _02081AB0
-_02081AA0:
-	ldrsh r3, [r6, #0xc]
-	mov r2, r2, lsl #0x10
-	rsb r2, r3, r2, asr #22
-	str r2, [sp, #4]
-_02081AB0:
-	ldr r2, [sp, #8]
-	mov r1, r1, lsl #0x17
-	cmp r2, #0
-	mov r1, r1, lsr #0x10
-	beq _02081AE4
-	mov r2, r1, lsl #0x10
-	ldr r1, [sp, #0x10]
-	ldrsh r3, [r6, #0xe]
-	ldrh r1, [r1, #2]
-	sub r2, r3, r2, asr #23
-	sub r1, r2, r1
-	str r1, [sp]
-	b _02081AF4
-_02081AE4:
-	ldrsh r2, [r6, #0xe]
-	mov r1, r1, lsl #0x10
-	rsb r1, r2, r1, asr #23
-	str r1, [sp]
-_02081AF4:
-	mov r1, r0, lsl #1
-	ldr r0, =formatShapeTileCount
-	mov r4, #0x200
-	ldrh r0, [r0, r1]
-	rsb r4, r4, #0
-	mov r9, #0
-	str r0, [sp, #0x20]
-	sub r0, r4, #0x200
-	add r5, sp, #0x40
-	str r0, [sp, #0x28]
-_02081B1C:
-	add r0, r10, r9, lsl #2
-	ldrsh r3, [r0, #0x68]
-	ldrsh r2, [r0, #0x6a]
-	ldr r0, [sp, #4]
-	ldr r1, [r10, #0x3c]
-	add r11, r0, r3
-	ldr r0, [sp]
-	tst r1, #0x800
-	add r8, r0, r2
-	beq _02081BC4
-	ldr r0, [sp, #0x10]
-	ldrh r0, [r0, #0]
-	add r1, r11, r0
-	add r0, r0, #0x100
-	cmp r1, r0
-	bhs _02081B74
-	ldr r0, [sp, #0x10]
-	ldrh r0, [r0, #2]
-	add r1, r8, r0
-	add r0, r0, #0xc0
-	cmp r1, r0
-	blo _02081B7C
-_02081B74:
-	mov r0, #0
-	b _02081B80
-_02081B7C:
-	mov r0, #1
-_02081B80:
-	cmp r0, #0
-	bne _02081BC4
-	ldrh r0, [r6, #2]
-	tst r0, #1
-	bne _02081CE0
-	add r1, sp, #0x30
-	ldr r3, [r1, r9, lsl #2]
-	add r1, sp, #0x38
-	ldr r2, [r1, r9, lsl #2]
-	ldr r1, [sp, #0x20]
-	ldr r0, [r5, r9, lsl #2]
-	add r1, r1, r3
-	mov r2, r1, lsr r2
-	ldr r1, [sp, #0x18]
-	add r0, r0, r2, lsl r1
-	str r0, [r5, r9, lsl #2]
-	b _02081CE0
-_02081BC4:
-	ldrb r1, [r10, #0x57]
-	mov r0, r9
-	bl OAMSystem__Alloc
-	ldr r1, =oamDefault
-	cmp r1, r0
-	addeq sp, sp, #0x48
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	add r2, r10, r9, lsl #2
-	ldr r1, [r2, #0x94]
-	str r0, [r2, #0x9c]
-	cmp r1, #0
-	streq r0, [r2, #0x94]
-	ldrh r3, [r7, #0]
-	and r1, r8, #0xff
-	and r2, r11, r4, lsr #23
-	and r3, r3, r4
-	orr r1, r3, r1
-	strh r1, [r0]
-	ldrh r3, [r0, #0]
-	ldr r1, [sp, #0x24]
-	orr r1, r3, r1, lsr #16
-	strh r1, [r0]
-	ldrh r3, [r7, #2]
-	ldr r1, [sp, #0x28]
-	and r1, r3, r1
-	orr r1, r1, r2
-	strh r1, [r0, #2]
-	ldrh r2, [r0, #2]
-	ldr r1, [sp, #0x1c]
-	eor r1, r2, r1
-	strh r1, [r0, #2]
-	ldrh r1, [r6, #2]
-	tst r1, #1
-	bne _02081CAC
-	ldr r1, [r5, r9, lsl #2]
-	ldrb r2, [r10, #0x56]
-	and r1, r1, r4, lsr #22
-	add r11, sp, #0x38
-	orr r8, r1, r2, lsl #10
-	mov r2, r9, lsl #1
-	add r1, sp, #0x2c
-	ldrh r2, [r1, r2]
-	ldrh r3, [r7, #4]
-	add r1, sp, #0x30
-	ldr r1, [r1, r9, lsl #2]
-	add r2, r3, r2
-	and r2, r2, #0xf000
-	orr r2, r8, r2
-	strh r2, [r0, #4]
-	ldr r0, [sp, #0x20]
-	ldr r11, [r11, r9, lsl #2]
-	add r0, r0, r1
-	mov r1, r0, lsr r11
-	ldr r2, [r5, r9, lsl #2]
-	ldr r0, [sp, #0x18]
-	add r0, r2, r1, lsl r0
-	str r0, [r5, r9, lsl #2]
-	b _02081CE0
-_02081CAC:
-	ldrh r2, [r7, #4]
-	ldr r1, [r5, r9, lsl #2]
-	ldrb r3, [r10, #0x56]
-	add r1, r2, r1
-	and r1, r1, r4, lsr #22
-	orr r1, r1, r3, lsl #10
-	mov r8, r9, lsl #1
-	add r3, sp, #0x2c
-	ldrh r3, [r3, r8]
-	add r2, r2, r3
-	and r2, r2, #0xf000
-	orr r1, r1, r2
-	strh r1, [r0, #4]
-_02081CE0:
-	add r9, r9, #1
-	cmp r9, #2
-	blt _02081B1C
-	ldr r0, [sp, #0x14]
-	ldrh r1, [r6, #0]
-	add r0, r0, #1
-	mov r0, r0, lsl #0x10
-	cmp r1, r0, lsr #16
-	mov r0, r0, lsr #0x10
-	str r0, [sp, #0x14]
-	add r7, r7, #8
-	bhi _02081A48
-	add sp, sp, #0x48
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-// clang-format on
-#endif
+RUSH_INLINE BOOL AnimatorVisibleOnScreen(AnimatorSpriteDS *animator, struct BACFrame *frame, int engineIndex)
+{
+    // The posX and posY temporaries are necessary for 100% match.
+    if ((animator->work.flags & ANIMATOR_FLAG_FLIP_X))
+    {
+        fx16 posX = animator->position[engineIndex].x;
+        if (((posX - frame->left) <= 0) || ((posX - frame->right) >= HW_LCD_WIDTH))
+        {
+            return FALSE;
+        }
+    }
+    else
+    {
+        fx16 posX = animator->position[engineIndex].x;
+        if (((posX + frame->right) <= 0) || ((posX + frame->left) >= HW_LCD_WIDTH))
+        {
+            return FALSE;
+        }
+    }
+    if ((animator->work.flags & ANIMATOR_FLAG_FLIP_Y))
+    {
+        fx16 posY = animator->position[engineIndex].y;
+        if (((posY - frame->top) <= 0) || ((posY - frame->bottom) >= HW_LCD_HEIGHT))
+        {
+            return FALSE;
+        }
+    }
+    else
+    {
+        fx16 posY = animator->position[engineIndex].y;
+        if (((posY + frame->bottom) <= 0) || ((posY + frame->top) >= HW_LCD_HEIGHT))
+        {
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+RUSH_INLINE void DisableDrawForEngineIfInvisible(AnimatorSpriteDS *animator, struct BACFrame *frame, int engineIndex, AnimatorSpriteDSFlags *screensDrawFlag)
+{
+    if (!AnimatorVisibleOnScreen(animator, frame, engineIndex))
+    {
+        int doNotDrawOnEngine = 1;
+        *screensDrawFlag |= (doNotDrawOnEngine << engineIndex);
+    }
+}
+
+void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
+{
+    enum
+    {
+        ANIMATORSPRITE_DRAWFRAME_HFLIP          = SPRITE_OAM_ATTR1_FLIP_X,
+        ANIMATORSPRITE_DRAWFRAME_VFLIP          = SPRITE_OAM_ATTR1_FLIP_Y,
+        ANIMATORSPRITE_DRAWFRAMEROTOZOOM_SCALE  = 0x200,
+        ANIMATORSPRITE_DRAWFRAMEROTOZOOM_MOSAIC = SPRITE_OAM_ATTR0_MOSAIC,
+    };
+    AnimatorSpriteDSFlags screensDrawFlag;
+    struct BACFrame *frame;
+    GXOamAttr *currentSprite;
+    int engineIndex;
+    u32 vramLocation[GRAPHICS_ENGINE_COUNT];
+    u32 shift[GRAPHICS_ENGINE_COUNT];
+    u32 shiftMask[GRAPHICS_ENGINE_COUNT];
+    u16 paletteOffset[GRAPHICS_ENGINE_COUNT];
+    u16 flagAffine = 0;
+    u16 flagFlip   = 0;
+    u32 sp_18;
+    u16 i;
+    Vec2U16 const *shapeSize;
+    s32 offsetX;
+    s32 offsetY;
+
+    screensDrawFlag                          = animator->flags;
+    frame                                    = GetFrameAssemblyFromAnimator(&animator->work);
+    animator->firstSprite[GRAPHICS_ENGINE_A] = animator->firstSprite[GRAPHICS_ENGINE_B] = NULL;
+    animator->lastSprite[GRAPHICS_ENGINE_A] = animator->lastSprite[GRAPHICS_ENGINE_B] = NULL;
+    if (animator->work.flags & ANIMATOR_FLAG_DISABLE_DRAW)
+    {
+        return;
+    }
+    if (frame->spriteCount == 0)
+    {
+        return;
+    }
+    if (animator->work.flags & ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK)
+    {
+        if ((screensDrawFlag & ANIMATORSPRITEDS_FLAG_DISABLE_A) == 0)
+        {
+            DisableDrawForEngineIfInvisible(animator, frame, GRAPHICS_ENGINE_A, &screensDrawFlag);
+        }
+        if ((screensDrawFlag & ANIMATORSPRITEDS_FLAG_DISABLE_B) == 0)
+        {
+            DisableDrawForEngineIfInvisible(animator, frame, GRAPHICS_ENGINE_B, &screensDrawFlag);
+        }
+    }
+    screensDrawFlag &= ANIMATORSPRITEDS_FLAG_DISABLE_AB;
+    if (screensDrawFlag == ANIMATORSPRITEDS_FLAG_DISABLE_AB)
+    {
+        return;
+    }
+    if ((screensDrawFlag == ANIMATORSPRITEDS_FLAG_DISABLE_A) == 0)
+    {
+        if ((screensDrawFlag == ANIMATORSPRITEDS_FLAG_DISABLE_B) != 0)
+        {
+            CallAnimatorSpriteDrawFrameForEngine(animator, GRAPHICS_ENGINE_A);
+            return;
+        }
+    }
+    else
+    {
+        CallAnimatorSpriteDrawFrameForEngine(animator, GRAPHICS_ENGINE_B);
+        return;
+    }
+    if (animator->work.flags & ANIMATOR_FLAG_FLIP_X)
+    {
+        flagFlip |= ANIMATORSPRITE_DRAWFRAME_HFLIP;
+    }
+    if (animator->work.flags & ANIMATOR_FLAG_FLIP_Y)
+    {
+        flagFlip |= ANIMATORSPRITE_DRAWFRAME_VFLIP;
+    }
+    if (animator->work.flags & ANIMATOR_FLAG_ENABLE_MOSAIC)
+    {
+        flagAffine |= ANIMATORSPRITE_DRAWFRAMEROTOZOOM_MOSAIC;
+    }
+    flagAffine |= (animator->work.spriteType << GX_OAM_ATTR01_MODE_SHIFT);
+    paletteOffset[GRAPHICS_ENGINE_A] = animator->cParam[GRAPHICS_ENGINE_A].palette << GX_OAM_ATTR2_CPARAM_SHIFT;
+    paletteOffset[GRAPHICS_ENGINE_B] = animator->cParam[GRAPHICS_ENGINE_B].palette << GX_OAM_ATTR2_CPARAM_SHIFT;
+    sp_18                            = 0;
+    currentSprite                    = &frame->spriteList[0];
+    if ((frame->spriteList[0].attr0 & GX_OAM_ATTR01_MODE_MASK) == (GX_OAM_MODE_BITMAPOBJ << GX_OAM_ATTR01_MODE_SHIFT))
+    {
+        u32 diffA                       = animator->vramPixels[GRAPHICS_ENGINE_A] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_A];
+        vramLocation[GRAPHICS_ENGINE_A] = GX_OAM_ATTR2_NAME_MASK & (diffA >> (objBmpUse256K[GRAPHICS_ENGINE_A] + 7));
+        u32 diffB                       = animator->vramPixels[GRAPHICS_ENGINE_B] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_B];
+        vramLocation[GRAPHICS_ENGINE_B] = GX_OAM_ATTR2_NAME_MASK & (diffB >> (objBmpUse256K[GRAPHICS_ENGINE_B] + 7));
+        shift[GRAPHICS_ENGINE_A]        = objBmpUse256K[GRAPHICS_ENGINE_A];
+        shift[GRAPHICS_ENGINE_B]        = objBmpUse256K[GRAPHICS_ENGINE_B];
+    }
+    else
+    {
+        u32 diffA                       = animator->vramPixels[GRAPHICS_ENGINE_A] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_A];
+        vramLocation[GRAPHICS_ENGINE_A] = GX_OAM_ATTR2_NAME_MASK & (diffA >> (objBankShift[GRAPHICS_ENGINE_A] + 5));
+        u32 diffB                       = animator->vramPixels[GRAPHICS_ENGINE_B] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_B];
+        vramLocation[GRAPHICS_ENGINE_B] = GX_OAM_ATTR2_NAME_MASK & (diffB >> (objBankShift[GRAPHICS_ENGINE_B] + 5));
+        shift[GRAPHICS_ENGINE_A]        = objBankShift[GRAPHICS_ENGINE_A];
+        shift[GRAPHICS_ENGINE_B]        = objBankShift[GRAPHICS_ENGINE_B];
+        if (GetAnimHeaderBlockFromAnimator(&animator->work)->anims[animator->work.animID].format != BAC_FORMAT_PLTT16_2D)
+        {
+            sp_18 = 1;
+        }
+    }
+    shiftMask[GRAPHICS_ENGINE_A] = (u16)((1 << shift[GRAPHICS_ENGINE_A]) - 1);
+    shiftMask[GRAPHICS_ENGINE_B] = (u16)((1 << shift[GRAPHICS_ENGINE_B]) - 1);
+
+    for (i = 0; i < frame->spriteCount; i++, currentSprite++)
+    {
+        u32 shape = ((currentSprite->attr0 & SPRITE_OAM_ATTR0_SHAPE) >> (SPRITE_OAM_ATTR0_SHAPE_SHIFT - 2))
+                    | ((currentSprite->attr1 & SPRITE_OAM_ATTR1_SIZE) >> SPRITE_OAM_ATTR1_SIZE_SHIFT);
+        shapeSize = &spriteShapeSizes2D[shape];
+        if (flagFlip & ANIMATORSPRITE_DRAWFRAME_HFLIP)
+        {
+            offsetX = frame->center.x - OamGetSignedX(currentSprite) - shapeSize->x;
+        }
+        else
+        {
+            offsetX = -1 * frame->center.x + OamGetSignedX(currentSprite);
+        }
+        if (flagFlip & ANIMATORSPRITE_DRAWFRAME_VFLIP)
+        {
+            offsetY = frame->center.y - OamGetSignedY(currentSprite) - shapeSize->y;
+        }
+        else
+        {
+            offsetY = -1 * frame->center.y + OamGetSignedY(currentSprite);
+        }
+        for (engineIndex = 0; engineIndex < GRAPHICS_ENGINE_COUNT; engineIndex++)
+        {
+            u32 xOAM = animator->position[engineIndex].x + offsetX;
+            u32 yOAM = animator->position[engineIndex].y + offsetY;
+
+            if ((animator->work.flags & ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK) && !SpriteDrawBoundsCheck(shapeSize, xOAM, yOAM))
+            {
+                if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
+                {
+                    vramLocation[engineIndex] += ((formatShapeTileCount[shape] + shiftMask[engineIndex]) >> shift[engineIndex]) << sp_18;
+                }
+            }
+            else
+            {
+                GXOamAttr *oam;
+                oam = OAMSystem__Alloc(engineIndex, animator->work.oamOrder);
+                if (&oamDefault == oam)
+                {
+                    return;
+                }
+                GXOamAttr *first                  = animator->firstSprite[engineIndex];
+                animator->lastSprite[engineIndex] = oam;
+                if (first == NULL)
+                {
+                    animator->firstSprite[engineIndex] = oam;
+                }
+                oam->attr0 = (currentSprite->attr0 & (ATTR0_MASK_NOT_Y)) | (yOAM & SPRITE_OAM_ATTR0_Y);
+                oam->attr0 |= flagAffine;
+                oam->attr1 = (currentSprite->attr1 & (ATTR1_MASK_NOT_X)) | (xOAM & SPRITE_OAM_ATTR1_X);
+                oam->attr1 ^= flagFlip;
+                if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
+                {
+                    oam->attr2 = (vramLocation[engineIndex] & GX_OAM_ATTR2_NAME_MASK) | (animator->work.oamPriority << GX_OAM_ATTR2_PRIORITY_SHIFT)
+                                 | ((currentSprite->attr2 + paletteOffset[engineIndex]) & GX_OAM_ATTR2_CPARAM_MASK);
+
+                    vramLocation[engineIndex] += ((formatShapeTileCount[shape] + shiftMask[engineIndex]) >> shift[engineIndex]) << sp_18;
+                }
+                else
+                {
+                    oam->attr2 = ((currentSprite->attr2 + vramLocation[engineIndex]) & GX_OAM_ATTR2_NAME_MASK) | (animator->work.oamPriority << GX_OAM_ATTR2_PRIORITY_SHIFT)
+                                 | ((currentSprite->attr2 + paletteOffset[engineIndex]) & GX_OAM_ATTR2_CPARAM_MASK);
+                }
+            }
+        }
+    }
 }
 
 // TODO: Lets call this "DrawFrameAffine"
