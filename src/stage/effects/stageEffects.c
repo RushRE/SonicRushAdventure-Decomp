@@ -35,7 +35,7 @@
 #include <stage/effects/snowslide.h>
 #include <stage/effects/truckJewel.h>
 #include <stage/effects/pirateShipCannonBlast.h>
-#include <stage/effects/unknown202C414.h>
+#include <stage/effects/cannonFireSpeedLines.h>
 #include <stage/effects/slingDust.h>
 #include <stage/effects/sailboatBazookaSmoke.h>
 #include <stage/effects/hoverCrystalSparkle.h>

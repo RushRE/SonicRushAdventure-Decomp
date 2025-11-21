@@ -4,50 +4,92 @@
 #include <stage/gameObject.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum CannonRingType_
+{
+    CANNONRING_TYPE_A_BUTTON,
+    CANNONRING_TYPE_B_BUTTON,
+    CANNONRING_TYPE_R_BUTTON,
+    CANNONRING_TYPE_COUNT,
+
+    CANNONRING_TYPE_FORCE_COMBO_FINISH = 0x80000000,
+};
+
+enum CannonPathModes_
+{
+    CANNONPATH_MODE_MOVE_TO_PATH,
+    CANNONPATH_MODE_READY_PATH_TRAVERSE,
+    CANNONPATH_MODE_TRAVERSE_PATH,
+    CANNONPATH_MODE_BEGIN_EXIT_PATH,
+    CANNONPATH_MODE_EXIT_PATH,
+};
+
+enum CannonPlayerEntryType_
+{
+    PLAYER_CANNON_ENTRY_FALL_INTO,
+    PLAYER_CANNON_ENTRY_WALK_INTO,
+    PLAYER_CANNON_ENTRY_ROTATE_INTO,
+};
+typedef s32 CannonPlayerEntryType;
+
+enum CannonPlayerFlags_
+{
+    PLAYER_CANNON_FLAG_NONE = 0x00,
+
+    PLAYER_CANNON_FLAG_IN_CANNON = 1 << 0,
+};
+
+enum CannonPathPlayerFlags_
+{
+    PLAYER_CANNONPATH_FLAG_NONE = 0x00,
+
+    PLAYER_CANNONPATH_FLAG_UNUSED_1           = 1 << 0,
+    PLAYER_CANNONPATH_FLAG_COMBO_B_BUTTON     = 1 << 1,
+    PLAYER_CANNONPATH_FLAG_COMBO_A_BUTTON     = 1 << 2,
+    PLAYER_CANNONPATH_FLAG_COMBO_R_BUTTON     = 1 << 3,
+    PLAYER_CANNONPATH_FLAG_UNUSED_10          = 1 << 4,
+    PLAYER_CANNONPATH_FLAG_FORCE_COMBO_FINISH = 1 << 5,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
+
+typedef struct CannonFloor_
+{
+    GameObjectTask gameWork;
+    OBS_ACTION3D_NN_WORK aniCannon;
+    StageTaskCollisionObj collisionWorkWallL;
+    StageTaskCollisionObj collisionWorkWallR;
+} CannonFloor;
 
 typedef struct Cannon_
 {
     GameObjectTask gameWork;
-    OBS_ACTION3D_NN_WORK aniCannon;
-    StageTaskCollisionObj collisionWork1;
-    StageTaskCollisionObj collisionWork2;
-} Cannon;
-
-typedef struct CannonField_
-{
-    GameObjectTask gameWork;
     AnimatorMDL aniCannon[2];
-} CannonField;
+} Cannon;
 
 typedef struct CannonPath_
 {
     GameObjectTask gameWork;
-    s32 field_364;
-    s32 field_368;
-    s32 field_36C;
-    u16 field_370;
-    u16 field_372;
-    u16 field_374;
-    s16 field_376;
-    fx32 dword378;
-    fx32 dword37C;
-    VecFx32 field_380;
-    fx32 dword38C;
-    s32 field_390;
-    s32 field_394;
-    s32 field_398;
-    s32 field_39C;
-    s32 field_3A0;
-    s32 field_3A4;
+    VecFx32 cannonPos;
+    VecU16 dir;
+    s16 percent;
+    fx32 pathRemaining;
+    fx32 pathFallDistance;
+    VecFx32 launchVelocity;
+    fx32 fallVelocity;
+    VecFx32 pathFinishTargetPos;
+    VecFx32 pathFinishStartPos;
 } CannonPath;
 
 typedef struct CannonRing_
 {
     GameObjectTask gameWork;
-    AnimatorSprite3D animator1;
-    AnimatorSprite3D animator2;
+    AnimatorSprite3D aniRing;
+    AnimatorSprite3D aniButtonPrompt;
     u16 type;
 } CannonRing;
 
@@ -55,28 +97,11 @@ typedef struct CannonRing_
 // FUNCTIONS
 // --------------------
 
-CannonField *CannonField__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-Cannon *Cannon__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-CannonPath *CannonPath__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+Cannon *CreateCannon(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+CannonFloor *CreateCannonFloor(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+CannonPath *CreateCannonPath(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+CannonRing *CreateCannonRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-fx32 CannonPath__GetOffsetZ(void);
-CannonRing *CannonRing__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-
-void CannonField__Destructor(Task *task);
-void CannonField__State_217B17C(Cannon *work);
-void CannonField__State_217B474(Cannon *work);
-void CannonField__Draw(void);
-void CannonField__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-
-void Cannon__State_217B7A8(Cannon *work);
-void Cannon__Collide(void);
-
-void CannonPath__Destructor(Task *task);
-void CannonPath__State_217B868(Cannon *work);
-
-void CannonRing__Destructor(Task *task);
-void CannonRing__Draw_217BC38(void);
-void CannonRing__OnDefend_217BD90(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void CannonRing__OnDefend_217BE24(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+fx32 GetCannonPlayerPosZ(void);
 
 #endif // RUSH_CANNON_H

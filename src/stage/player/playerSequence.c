@@ -5359,77 +5359,50 @@ void Player__Gimmick_2021E9C(Player *player, GameObjectTask *other)
     }
 }
 
-NONMATCH_FUNC void Player__State_2021FA8(Player *work)
+void Player__State_2021FA8(Player *work)
 {
-#ifdef NON_MATCHING
+    work->objWork.velocity.y -= (work->objWork.velocity.y >> 2);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r0, [r5, #0x9c]
-	sub r0, r0, r0, asr #2
-	str r0, [r5, #0x9c]
-	cmp r0, #0x2000
-	bgt _02021FD8
-	add r0, r5, #0x700
-	ldrh r0, [r0, #0x20]
-	tst r0, #3
-	movne r0, #1
-	strne r0, [r5, #0x28]
-_02021FD8:
-	ldr r0, [r5, #0x9c]
-	cmp r0, #0x400
-	ldmgtia sp!, {r3, r4, r5, pc}
-	ldr r0, [r5, #0x28]
-	ldr r4, [r5, #0x6d8]
-	cmp r0, #0
-	ldr r0, [r5, #0x1c]
-	mov r1, #0
-	orr r0, r0, #0x80
-	str r0, [r5, #0x1c]
-	ldr r2, [r5, #0xc8]
-	subne r1, r1, #0x2000
-	cmp r2, #0
-	ldr r0, [r5, #0x64c]
-	blt _02022020
-	cmp r2, r0
-	strgt r0, [r5, #0xc8]
-	b _0202202C
-_02022020:
-	rsb r0, r0, #0
-	cmp r2, r0
-	strlt r0, [r5, #0xc8]
-_0202202C:
-	ldr r2, [r5, #0x98]
-	ldr r0, [r5, #0x64c]
-	cmp r2, #0
-	blt _02022048
-	cmp r2, r0
-	strgt r0, [r5, #0x98]
-	b _02022054
-_02022048:
-	rsb r0, r0, #0
-	cmp r2, r0
-	strlt r0, [r5, #0x98]
-_02022054:
-	ldr r2, [r5, #0x6f4]
-	mov r0, r5
-	add r2, r2, r1
-	mov r1, #0
-	bl Player__Action_Trampoline
-	mov r0, r5
-	mov r1, r4
-	add r2, r5, #0x600
-	mov r3, #2
-	strh r3, [r2, #0x98]
-	bl Player__Action_AllowTrickCombos
-	mov r0, #0
-	str r0, [r5, #0x6d8]
-	ldmia sp!, {r3, r4, r5, pc}
+    if (work->objWork.velocity.y <= FLOAT_TO_FX32(2.0) && (work->inputKeyDown & PLAYER_INPUT_JUMP) != 0)
+        work->objWork.userWork = 1;
 
-// clang-format on
-#endif
+    if (work->objWork.velocity.y <= FLOAT_TO_FX32(0.25))
+    {
+        GameObjectTask *trampoline = work->gimmickObj;
+
+        fx32 velY = FLOAT_TO_FX32(0.0);
+        if (work->objWork.userWork != 0)
+            velY = -FLOAT_TO_FX32(2.0);
+
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+
+        if (work->objWork.groundVel >= 0)
+        {
+            if (work->objWork.groundVel > work->spdThresholdDash)
+                work->objWork.groundVel = work->spdThresholdDash;
+        }
+        else
+        {
+            if (work->objWork.groundVel < -work->spdThresholdDash)
+                work->objWork.groundVel = -work->spdThresholdDash;
+        }
+
+        if (work->objWork.velocity.x >= 0)
+        {
+            if (work->objWork.velocity.x > work->spdThresholdDash)
+                work->objWork.velocity.x = work->spdThresholdDash;
+        }
+        else
+        {
+            if (work->objWork.velocity.x < -work->spdThresholdDash)
+                work->objWork.velocity.x = -work->spdThresholdDash;
+        }
+
+        Player__Action_Trampoline(work, FLOAT_TO_FX32(0.0), work->gimmick.value2 + velY);
+        work->inputLock = 2;
+        Player__Action_AllowTrickCombos(work, trampoline);
+        work->gimmickObj = NULL;
+    }
 }
 
 void Player__Action_Trampoline(Player *player, fx32 velX, fx32 velY)
@@ -5446,424 +5419,280 @@ void Player__Action_Trampoline(Player *player, fx32 velX, fx32 velY)
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TRAMPOLINE);
 }
 
-NONMATCH_FUNC void Player__Gimmick_2022108(Player *player, GameObjectTask *other, s32 a3)
+void Player__Action_EnterCannon(Player *player, GameObjectTask *other, CannonPlayerEntryType type)
 {
-#ifdef NON_MATCHING
+    Player__InitGimmick(player, FALSE);
+    Player__InitState(player);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	mov r5, r0
-	mov r1, #0
-	mov r6, r2
-	bl Player__InitGimmick
-	mov r0, r5
-	bl Player__InitState
-	str r4, [r5, #0x6d8]
-	cmp r6, #0
-	beq _02022144
-	cmp r6, #1
-	beq _02022168
-	cmp r6, #2
-	b _020221B4
-_02022144:
-	mov r0, r5
-	mov r1, #0x13
-	bl Player__ChangeAction
-	ldr r1, [r5, #0x20]
-	ldr r0, =Player__State_20222E4
-	orr r1, r1, #4
-	str r1, [r5, #0x20]
-	str r0, [r5, #0xf4]
-	b _02022244
-_02022168:
-	mov r0, r5
-	mov r1, #0x6b
-	bl Player__ChangeAction
-	ldr r0, [r5, #0x20]
-	orr r0, r0, #4
-	str r0, [r5, #0x20]
-	ldr r0, [r5, #0x1c]
-	orr r0, r0, #0x2000
-	str r0, [r5, #0x1c]
-	ldr r1, [r5, #0x44]
-	ldr r0, [r4, #0x44]
-	cmp r1, r0
-	ldr r0, [r5, #0x20]
-	biclt r0, r0, #1
-	orrge r0, r0, #1
-	str r0, [r5, #0x20]
-	ldr r0, =Player__Func_20223F8
-	str r0, [r5, #0xf4]
-	b _02022244
-_020221B4:
-	mov r0, r5
-	mov r1, #0x25
-	bl Player__ChangeAction
-	ldr r1, [r5, #0x20]
-	mov r0, r5
-	orr r2, r1, #0x10
-	mov r1, #0x28000
-	str r2, [r5, #0x20]
-	bl Player__SetAnimFrame
-	mov r0, #0x28000
-	str r0, [r5, #0x2c]
-	ldr r1, [r5, #0x44]
-	ldr r0, [r4, #0x44]
-	cmp r1, r0
-	ldr r0, [r5, #0x20]
-	bge _02022208
-	bic r0, r0, #1
-	str r0, [r5, #0x20]
-	ldr r0, [r4, #0x44]
-	sub r0, r0, #0xe000
-	b _02022218
-_02022208:
-	orr r0, r0, #1
-	str r0, [r5, #0x20]
-	ldr r0, [r4, #0x44]
-	add r0, r0, #0xe000
-_02022218:
-	str r0, [r5, #0x44]
-	ldr r0, [r4, #0x48]
-	sub r0, r0, #0x4c000
-	str r0, [r5, #0x48]
-	ldr r1, [r5, #0x1c]
-	ldr r0, =Player__Func_20224BC
-	orr r1, r1, #0x2000
-	str r1, [r5, #0x1c]
-	str r0, [r5, #0xf4]
-	mov r0, #0
-	str r0, [r5, #0x9c]
-_02022244:
-	mov r0, r5
-	bl Player__Action_StopSuperBoost
-	mov r0, r5
-	bl Player__Action_StopBoost
-	mov r3, #0
-	add r1, r5, #0x600
-	strh r3, [r1, #0x82]
-	ldr r2, [r5, #0x20]
-	add r0, r5, #0x500
-	bic r2, r2, #0x20
-	str r2, [r5, #0x20]
-	mov r2, #0xff
-	strh r2, [r0, #0x3e]
-	ldr r2, [r5, #0x1c]
-	mov r0, #0x40
-	orr r2, r2, #0x110
-	orr r2, r2, #0x8000
-	str r2, [r5, #0x1c]
-	ldr r2, [r5, #0x5dc]
-	orr r2, r2, #0x30
-	str r2, [r5, #0x5dc]
-	strh r3, [r1, #0xdc]
-	strh r0, [r1, #0xde]
-	ldr r0, [r5, #0x5d8]
-	orr r0, r0, #0x2000
-	orr r0, r0, #0x100000
-	str r0, [r5, #0x5d8]
-	str r3, [r5, #0x98]
-	str r3, [r5, #0xc8]
-	strh r3, [r5, #0x34]
-	str r3, [r5, #0x28]
-	str r3, [r5, #0x24]
-	ldr r0, [r5, #0x44]
-	str r0, [r5, #0x6f0]
-	ldr r0, [r5, #0x48]
-	str r0, [r5, #0x6f4]
-	ldmia sp!, {r4, r5, r6, pc}
+    player->gimmickObj = other;
 
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Player__State_20222E4(Player *work)
-{
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r5, r0
-	ldr r4, [r5, #0x6d8]
-	cmp r4, #0
-	beq _020223C4
-	ldr r0, [r5, #0x44]
-	str r0, [r5, #0x8c]
-	ldr r0, [r5, #0x48]
-	str r0, [r5, #0x90]
-	ldr r0, [r5, #0x28]
-	cmp r0, #0
-	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, pc}
-	mov r0, #0x4000
-	str r0, [sp]
-	mov r0, #0x800
-	str r0, [sp, #4]
-	ldr r0, [r5, #0x44]
-	ldr r1, [r4, #0x44]
-	ldr r2, [r5, #0x6f0]
-	mov r3, #1
-	bl ObjDiffSet
-	str r0, [r5, #0x44]
-	ldr r1, [r4, #0x48]
-	ldr r0, [r5, #0x48]
-	sub r1, r1, #0x27000
-	cmp r0, r1
-	blt _02022370
-	str r1, [r5, #0x48]
-	ldr r1, [r5, #0x1c]
-	mov r0, #0
-	orr r1, r1, #0x2000
-	str r1, [r5, #0x1c]
-	str r0, [r5, #0x9c]
-_02022370:
-	ldr r1, [r5, #0x44]
-	ldr r0, [r4, #0x44]
-	cmp r1, r0
-	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r0, [r4, #0x48]
-	ldr r1, [r5, #0x48]
-	sub r0, r0, #0x27000
-	cmp r1, r0
-	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r0, =Player__Func_2022694
-	add sp, sp, #8
-	str r0, [r5, #0xf4]
-	ldr r0, [r5, #0x20]
-	bic r0, r0, #1
-	str r0, [r5, #0x20]
-	ldr r0, [r5, #0x24]
-	orr r0, r0, #1
-	str r0, [r5, #0x24]
-	ldmia sp!, {r3, r4, r5, pc}
-_020223C4:
-	add r1, r5, #0x500
-	mov r2, #0x3f
-	strh r2, [r1, #0x3e]
-	ldr r1, [r5, #0x5e4]
-	cmp r1, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-	bl Player__InitState
-	ldr r0, [r5, #0x5e4]
-	blx r0
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
-}
-
-void Player__Func_20223F8(Player *player)
-{
-    GameObjectTask *gimmick = player->gimmickObj;
-    if (gimmick != NULL)
+    switch (type)
     {
-        player->objWork.position.x = ObjDiffSet(player->objWork.position.x, gimmick->objWork.position.x, player->gimmick.value1, 1, FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(0.5));
-        if (player->objWork.position.x == gimmick->objWork.position.x)
-        {
-            SetTaskState(&player->objWork, Player__State_20222E4);
+        case PLAYER_CANNON_ENTRY_FALL_INTO:
             Player__ChangeAction(player, PLAYER_ACTION_JUMPFALL);
-
             player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IN_AIR;
-            player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT);
+            SetTaskState(&player->objWork, Player__State_CannonEnter_FallInto);
+            break;
+
+        case PLAYER_CANNON_ENTRY_WALK_INTO:
+            Player__ChangeAction(player, PLAYER_ACTION_WALK2);
+            player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+
+            if (player->objWork.position.x < other->objWork.position.x)
+                player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+            else
+                player->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+
+            SetTaskState(&player->objWork, Player__State_CannonEnter_WalkInto);
+            break;
+
+        case PLAYER_CANNON_ENTRY_ROTATE_INTO:
+        default:
+            Player__ChangeAction(player, PLAYER_ACTION_HANG_ROT);
+            player->objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
+            Player__SetAnimFrame(player, FLOAT_TO_FX32(40.0));
+            player->objWork.userTimer = FLOAT_TO_FX32(40.0);
+
+            if (player->objWork.position.x < other->objWork.position.x)
+            {
+                player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+                player->objWork.position.x = other->objWork.position.x - FLOAT_TO_FX32(14.0);
+                player->objWork.position.y = other->objWork.position.y - FLOAT_TO_FX32(76.0);
+            }
+            else
+            {
+                player->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+                player->objWork.position.x = other->objWork.position.x + FLOAT_TO_FX32(14.0);
+                player->objWork.position.y = other->objWork.position.y - FLOAT_TO_FX32(76.0);
+            }
+
+            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+            SetTaskState(&player->objWork, Player__State_CannonEnter_RotateInto);
+            player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
+            break;
+    }
+
+    Player__Action_StopSuperBoost(player);
+    Player__Action_StopBoost(player);
+
+    player->blinkTimer = 0;
+
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
+    player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->gimmickFlag |= PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
+
+    player->gimmickCamOffsetX = 0;
+    player->gimmickCamOffsetY = 64;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_2000;
+    player->objWork.groundVel = player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
+    player->objWork.dir.z                                  = FLOAT_DEG_TO_IDX(0.0);
+    player->objWork.userWork                               = 0;
+    player->objWork.userFlag                               = PLAYER_CANNON_FLAG_NONE;
+    player->gimmick.cannonEntry.startX                     = player->objWork.position.x;
+    player->gimmick.cannonEntry.startY                     = player->objWork.position.y;
+}
+
+void Player__State_CannonEnter_FallInto(Player *work)
+{
+    Cannon *cannon = (Cannon *)work->gimmickObj;
+
+    if (cannon != NULL)
+    {
+        work->objWork.prevPosition.x = work->objWork.position.x;
+        work->objWork.prevPosition.y = work->objWork.position.y;
+        if (work->objWork.userWork == 0)
+        {
+            work->objWork.position.x =
+                ObjDiffSet(work->objWork.position.x, cannon->gameWork.objWork.position.x, work->gimmick.cannonEntry.startX, 1, FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(0.5));
+
+            if (work->objWork.position.y >= cannon->gameWork.objWork.position.y - FLOAT_TO_FX32(39.0))
+            {
+                work->objWork.position.y = cannon->gameWork.objWork.position.y - FLOAT_TO_FX32(39.0);
+
+                work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+                work->objWork.velocity.y = FLOAT_TO_FX32(0.0);
+            }
+
+            if (work->objWork.position.x == cannon->gameWork.objWork.position.x && work->objWork.position.y == cannon->gameWork.objWork.position.y - FLOAT_TO_FX32(39.0))
+            {
+                SetTaskState(&work->objWork, Player__State_InsideCannon);
+                work->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+                work->objWork.userFlag |= PLAYER_CANNON_FLAG_IN_CANNON;
+            }
         }
     }
     else
     {
-        player->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
+        work->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
 
-        if (player->actionGroundIdle != NULL)
+        if (work->actionGroundIdle != NULL)
         {
-            Player__InitState(player);
+            Player__InitState(work);
 
             // TODO: I can't figure out what this must be, because it can't possibly be missing the 1st argument can it?
             // until then, I've added a "corrected" version as a non-matching solution, in the event the codebase needs to be more modular
 #ifdef NON_MATCHING
-            player->actionGroundIdle(player);
+            work->actionGroundIdle(work);
 #else
-            ((void (*)(void))player->actionGroundIdle)();
+            ((void (*)(void))work->actionGroundIdle)();
 #endif
         }
     }
 }
 
-NONMATCH_FUNC void Player__Func_20224BC(Player *player)
+void Player__State_CannonEnter_WalkInto(Player *work)
 {
-#ifdef NON_MATCHING
+    Cannon *cannon = (Cannon *)work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r5, r0
-	ldr r4, [r5, #0x6d8]
-	cmp r4, #0
-	beq _02022660
-	ldr r1, [r5, #0x44]
-	str r1, [r5, #0x8c]
-	ldr r1, [r5, #0x48]
-	str r1, [r5, #0x90]
-	ldr r1, [r5, #0x28]
-	cmp r1, #0
-	beq _02022504
-	cmp r1, #1
-	beq _0202254C
-	cmp r1, #2
-	beq _020225A0
-	b _02022638
-_02022504:
-	ldr r0, [r5, #0x2c]
-	subs r0, r0, #0x2000
-	str r0, [r5, #0x2c]
-	bpl _0202253C
-	ldr r0, [r5, #0x28]
-	add r0, r0, #1
-	str r0, [r5, #0x28]
-	ldr r0, [r5, #0x12c]
-	ldr r0, [r0, #0xe4]
-	ldr r0, [r0, #8]
-	ldrh r0, [r0, #4]
-	mov r0, r0, lsl #0xc
-	sub r0, r0, #1
-	str r0, [r5, #0x2c]
-_0202253C:
-	ldr r1, [r5, #0x2c]
-	mov r0, r5
-	bl Player__SetAnimFrame
-	b _02022638
-_0202254C:
-	ldr r1, [r5, #0x2c]
-	sub r1, r1, #0x2000
-	str r1, [r5, #0x2c]
-	bl Player__SetAnimFrame
-	ldr r0, [r5, #0x2c]
-	cmp r0, #0x32000
-	bgt _02022638
-	ldr r1, [r5, #0x28]
-	mov r0, r5
-	add r1, r1, #1
-	str r1, [r5, #0x28]
-	ldr r2, [r5, #0x20]
-	mov r1, #0x13
-	orr r2, r2, #0x400
-	str r2, [r5, #0x20]
-	bl Player__ChangeAction
-	ldr r0, [r5, #0x20]
-	orr r0, r0, #4
-	bic r0, r0, #0x10
-	str r0, [r5, #0x20]
-	b _02022638
-_020225A0:
-	mov r0, #0x4000
-	str r0, [sp]
-	mov r0, #0x1000
-	str r0, [sp, #4]
-	ldr r0, [r5, #0x44]
-	ldr r1, [r4, #0x44]
-	ldr r2, [r5, #0x6f0]
-	mov r3, #1
-	bl ObjDiffSet
-	str r0, [r5, #0x44]
-	mov r0, #0x4000
-	str r0, [sp]
-	mov r0, #0x1000
-	str r0, [sp, #4]
-	ldr r1, [r4, #0x48]
-	ldr r0, [r5, #0x48]
-	ldr r2, [r5, #0x6f4]
-	sub r1, r1, #0x27000
-	mov r3, #1
-	bl ObjDiffSet
-	str r0, [r5, #0x48]
-	ldr r1, [r5, #0x44]
-	ldr r0, [r4, #0x44]
-	cmp r1, r0
-	bne _02022638
-	ldr r0, [r4, #0x48]
-	ldr r1, [r5, #0x48]
-	sub r0, r0, #0x27000
-	cmp r1, r0
-	bne _02022638
-	ldr r0, =Player__Func_2022694
-	str r0, [r5, #0xf4]
-	ldr r0, [r5, #0x20]
-	bic r0, r0, #1
-	str r0, [r5, #0x20]
-	ldr r0, [r5, #0x24]
-	orr r0, r0, #1
-	str r0, [r5, #0x24]
-_02022638:
-	ldr r1, [r5, #0x44]
-	ldr r0, [r5, #0x8c]
-	add sp, sp, #8
-	sub r0, r1, r0
-	str r0, [r5, #0xbc]
-	ldr r1, [r5, #0x48]
-	ldr r0, [r5, #0x90]
-	sub r0, r1, r0
-	str r0, [r5, #0xc0]
-	ldmia sp!, {r3, r4, r5, pc}
-_02022660:
-	add r1, r5, #0x500
-	mov r2, #0x3f
-	strh r2, [r1, #0x3e]
-	ldr r1, [r5, #0x5e4]
-	cmp r1, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-	bl Player__InitState
-	ldr r0, [r5, #0x5e4]
-	blx r0
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
-}
-
-void Player__Func_2022694(Player *player)
-{
-    if (player->gimmickObj != NULL)
+    if (cannon != NULL)
     {
-        player->objWork.dir.y    = FLOAT_DEG_TO_IDX(90.0);
-        player->objWork.offset.z = -FLOAT_TO_FX32(16.0);
+        work->objWork.position.x =
+            ObjDiffSet(work->objWork.position.x, cannon->gameWork.objWork.position.x, work->gimmick.cannonEntry.startX, 1, FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(0.5));
+        if (work->objWork.position.x == cannon->gameWork.objWork.position.x)
+        {
+            SetTaskState(&work->objWork, Player__State_CannonEnter_FallInto);
+            Player__ChangeAction(work, PLAYER_ACTION_JUMPFALL);
+
+            work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+            work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IN_AIR;
+            work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT);
+        }
     }
     else
     {
-        player->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
+        work->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
 
-        if (player->actionGroundIdle != NULL)
+        if (work->actionGroundIdle != NULL)
         {
-            Player__InitState(player);
+            Player__InitState(work);
 
             // TODO: I can't figure out what this must be, because it can't possibly be missing the 1st argument can it?
             // until then, I've added a "corrected" version as a non-matching solution, in the event the codebase needs to be more modular
 #ifdef NON_MATCHING
-            player->actionGroundIdle(player);
+            work->actionGroundIdle(work);
 #else
-            ((void (*)(void))player->actionGroundIdle)();
+            ((void (*)(void))work->actionGroundIdle)();
 #endif
         }
     }
 }
 
-void Player__Action_PRCannon(Player *player, GameObjectTask *other)
+void Player__State_CannonEnter_RotateInto(Player *work)
 {
-    if (StageTaskStateMatches(&player->objWork, Player__Func_2022694))
+    enum PlayerCannonEnterMode_
+    {
+        PLAYER_CANNONENTER_MODE_ROTATE_ANIMATE,
+        PLAYER_CANNONENTER_MODE_ROTATE_CONTROLLED,
+        PLAYER_CANNONENTER_MODE_FALL_INTO,
+    };
+
+    Cannon *cannon = (Cannon *)work->gimmickObj;
+
+    if (cannon != NULL)
+    {
+        work->objWork.prevPosition.x = work->objWork.position.x;
+        work->objWork.prevPosition.y = work->objWork.position.y;
+
+        switch (work->objWork.userWork)
+        {
+            case PLAYER_CANNONENTER_MODE_ROTATE_ANIMATE:
+                work->objWork.userTimer -= FLOAT_TO_FX32(2.0);
+                if (work->objWork.userTimer < 0)
+                {
+                    work->objWork.userWork++;
+                    work->objWork.userTimer = NNS_G3dAnmObjGetNumFrame(work->objWork.obj_3d->ani.currentAnimObj[B3D_ANIM_JOINT_ANIM]) - 1;
+                }
+                Player__SetAnimFrame(work, work->objWork.userTimer);
+                break;
+
+            case PLAYER_CANNONENTER_MODE_ROTATE_CONTROLLED:
+                work->objWork.userTimer -= FLOAT_TO_FX32(2.0);
+                Player__SetAnimFrame(work, work->objWork.userTimer);
+
+                if (work->objWork.userTimer <= FLOAT_TO_FX32(50.0))
+                {
+                    work->objWork.userWork++;
+                    work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
+                    Player__ChangeAction(work, PLAYER_ACTION_JUMPFALL);
+                    work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+                    work->objWork.displayFlag &= ~DISPLAY_FLAG_PAUSED;
+                }
+                break;
+
+            case PLAYER_CANNONENTER_MODE_FALL_INTO:
+                work->objWork.position.x =
+                    ObjDiffSet(work->objWork.position.x, cannon->gameWork.objWork.position.x, work->gimmick.cannonEntry.startX, 1, FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(1.0));
+                work->objWork.position.y = ObjDiffSet(work->objWork.position.y, cannon->gameWork.objWork.position.y - FLOAT_TO_FX32(39.0), work->gimmick.cannonEntry.startY, 1,
+                                                      FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(1.0));
+
+                if (work->objWork.position.x == cannon->gameWork.objWork.position.x && work->objWork.position.y == cannon->gameWork.objWork.position.y - FLOAT_TO_FX32(39.0))
+                {
+                    SetTaskState(&work->objWork, Player__State_InsideCannon);
+                    work->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+                    work->objWork.userFlag |= PLAYER_CANNON_FLAG_IN_CANNON;
+                }
+                break;
+        }
+
+        work->objWork.move.x = work->objWork.position.x - work->objWork.prevPosition.x;
+        work->objWork.move.y = work->objWork.position.y - work->objWork.prevPosition.y;
+    }
+    else
+    {
+        work->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
+
+        if (work->actionGroundIdle != NULL)
+        {
+            Player__InitState(work);
+
+            // TODO: I can't figure out what this must be, because it can't possibly be missing the 1st argument can it?
+            // until then, I've added a "corrected" version as a non-matching solution, in the event the codebase needs to be more modular
+#ifdef NON_MATCHING
+            work->actionGroundIdle(work);
+#else
+            ((void (*)(void))work->actionGroundIdle)();
+#endif
+        }
+    }
+}
+
+void Player__State_InsideCannon(Player *work)
+{
+    if (work->gimmickObj != NULL)
+    {
+        work->objWork.dir.y    = FLOAT_DEG_TO_IDX(90.0);
+        work->objWork.offset.z = -FLOAT_TO_FX32(16.0);
+    }
+    else
+    {
+        work->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
+
+        if (work->actionGroundIdle != NULL)
+        {
+            Player__InitState(work);
+
+            // TODO: I can't figure out what this must be, because it can't possibly be missing the 1st argument can it?
+            // until then, I've added a "corrected" version as a non-matching solution, in the event the codebase needs to be more modular
+#ifdef NON_MATCHING
+            work->actionGroundIdle(work);
+#else
+            ((void (*)(void))work->actionGroundIdle)();
+#endif
+        }
+    }
+}
+
+void Player__Action_FireCannon(Player *player, GameObjectTask *other)
+{
+    if (StageTaskStateMatches(&player->objWork, Player__State_InsideCannon))
     {
         player->gimmickObj = other;
         Player__ChangeAction(player, PLAYER_ACTION_AIRRISE);
 
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-        player->objWork.velocity.y = 0;
+        player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
         player->objWork.displayFlag &= ~(DISPLAY_FLAG_FLIP_X | DISPLAY_FLAG_ROTATE_CAMERA_DIR);
 
         player->objWork.dir = other->objWork.dir;
@@ -5873,335 +5702,184 @@ void Player__Action_PRCannon(Player *player, GameObjectTask *other)
         player->gimmickCamOffsetY = 25;
         player->playerFlag |= PLAYER_FLAG_2000;
         player->objWork.userWork = 0;
-        player->objWork.userFlag = 0;
-        SetTaskState(&player->objWork, Player__State_CannonLanched);
+        player->objWork.userFlag = PLAYER_CANNONPATH_FLAG_NONE;
+        SetTaskState(&player->objWork, Player__State_CannonLaunched);
         PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_PL_CANNON);
     }
 }
 
-NONMATCH_FUNC void Player__State_CannonLanched(Player *work)
+void Player__State_CannonLaunched(Player *work)
 {
+    CannonPath *cannonPath = (CannonPath *)work->gimmickObj;
+
+    if (cannonPath != NULL)
+    {
+        work->objWork.prevPosition = work->objWork.position;
+
+        if (cannonPath->gameWork.objWork.userWork < CANNONPATH_MODE_BEGIN_EXIT_PATH)
+        {
+            work->objWork.position = cannonPath->gameWork.objWork.position;
+
+            work->objWork.offset.z = GetCannonPlayerPosZ();
+        }
+        else
+        {
+            work->objWork.position.x = cannonPath->gameWork.objWork.position.x;
+            work->objWork.position.y = cannonPath->gameWork.objWork.position.y;
+        }
+
+        switch (cannonPath->gameWork.objWork.userWork)
+        {
+            case CANNONPATH_MODE_MOVE_TO_PATH:
+            case CANNONPATH_MODE_READY_PATH_TRAVERSE:
+                work->objWork.dir.x = ObjRoopMove16(work->objWork.dir.x, FLOAT_DEG_TO_IDX(67.5), FLOAT_DEG_TO_IDX(4.921875));
+                work->objWork.dir.y = ObjRoopMove16(work->objWork.dir.y, FLOAT_DEG_TO_IDX(315.0), FLOAT_DEG_TO_IDX(4.921875));
+                work->objWork.dir.z = ObjRoopMove16(work->objWork.dir.z, FLOAT_DEG_TO_IDX(90.0), FLOAT_DEG_TO_IDX(4.921875));
+                break;
+
+            case CANNONPATH_MODE_TRAVERSE_PATH:
+                if ((work->objWork.userFlag & PLAYER_CANNONPATH_FLAG_COMBO_B_BUTTON) != 0 && (work->inputKeyPress & (PAD_BUTTON_A | PAD_BUTTON_B | PAD_BUTTON_R)) == PAD_BUTTON_B)
+                {
+                    if (work->actionState == PLAYER_ACTION_TRICK_SUCCESS1)
+                    {
+                        Player__ChangeAction(work, PLAYER_ACTION_TRICK_SUCCESS2);
+                        Player__GiveTension(work, PLAYER_TENSION_TRICK >> work->tensionPenalty);
+                    }
+                    else
+                    {
+                        Player__ChangeAction(work, PLAYER_ACTION_TRICK_SUCCESS1);
+                        Player__GiveTension(work, PLAYER_TENSION_TRICK >> work->tensionPenalty);
+                    }
+                    work->objWork.userFlag &= ~PLAYER_CANNONPATH_FLAG_COMBO_B_BUTTON;
+                    Player__GiveScore(work, PLAYER_SCOREBONUS_TRICK);
+
+                    if ((work->objWork.userFlag & PLAYER_CANNONPATH_FLAG_FORCE_COMBO_FINISH) != 0)
+                    {
 #ifdef NON_MATCHING
-
+                        StarCombo__FinishTrickCombo(work, TRUE);
 #else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r5, r0
-	ldr r4, [r5, #0x6d8]
-	cmp r4, #0
-	beq _02022C0C
-	add ip, r5, #0x44
-	add r3, r5, #0x8c
-	ldmia ip, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldr r0, [r4, #0x28]
-	cmp r0, #3
-	bhs _0202280C
-	add r0, r4, #0x44
-	ldmia r0, {r0, r1, r2}
-	stmia ip, {r0, r1, r2}
-	bl CannonPath__GetOffsetZ
-	str r0, [r5, #0x58]
-	b _0202281C
-_0202280C:
-	ldr r0, [r4, #0x44]
-	str r0, [r5, #0x44]
-	ldr r0, [r4, #0x48]
-	str r0, [r5, #0x48]
-_0202281C:
-	ldr r0, [r4, #0x28]
-	cmp r0, #4
-	addls pc, pc, r0, lsl #2
-	b _02022BD4
-_0202282C: // jump table
-	b _02022840 // case 0
-	b _02022840 // case 1
-	b _02022880 // case 2
-	b _02022AE0 // case 3
-	b _02022AF4 // case 4
-_02022840:
-	ldrh r0, [r5, #0x30]
-	mov r1, #0x3000
-	mov r2, #0x380
-	bl ObjRoopMove16
-	strh r0, [r5, #0x30]
-	ldrh r0, [r5, #0x32]
-	mov r1, #0xe000
-	mov r2, #0x380
-	bl ObjRoopMove16
-	strh r0, [r5, #0x32]
-	ldrh r0, [r5, #0x34]
-	mov r1, #0x4000
-	mov r2, #0x380
-	bl ObjRoopMove16
-	strh r0, [r5, #0x34]
-	b _02022BD4
-_02022880:
-	ldr r2, [r5, #0x24]
-	tst r2, #2
-	beq _02022954
-	add r0, r5, #0x700
-	ldrh r1, [r0, #0x22]
-	ldr r0, =0x00000103
-	and r0, r1, r0
-	cmp r0, #2
-	bne _02022954
-	add r0, r5, #0x500
-	ldrsh r0, [r0, #0xd4]
-	cmp r0, #0x67
-	mov r0, r5
-	bne _020228D8
-	mov r1, #0x68
-	bl Player__ChangeAction
-	ldrb r1, [r5, #0x6c9]
-	mov r2, #0xa0
-	mov r0, r5
-	mov r1, r2, asr r1
-	bl Player__GiveTension
-	b _020228F4
-_020228D8:
-	mov r1, #0x67
-	bl Player__ChangeAction
-	ldrb r1, [r5, #0x6c9]
-	mov r2, #0xa0
-	mov r0, r5
-	mov r1, r2, asr r1
-	bl Player__GiveTension
-_020228F4:
-	ldr r1, [r5, #0x24]
-	mov r0, r5
-	bic r1, r1, #2
-	str r1, [r5, #0x24]
-	mov r1, #0xc8
-	bl Player__GiveScore
-	ldr r0, [r5, #0x24]
-	tst r0, #0x20
-	mov r0, r5
-	beq _02022924
-	bl StarCombo__FinishTrickCombo
-	b _02022928
-_02022924:
-	bl StarCombo__PerformTrick
-_02022928:
-	mov r4, #0x3b
-	sub r1, r4, #0x3c
-	add r0, r5, #0x254
-	mov r2, #0
-	str r2, [sp]
-	mov r2, r1
-	mov r3, r1
-	add r0, r0, #0x400
-	str r4, [sp, #4]
-	bl PlaySfxEx
-	b _02022AA0
-_02022954:
-	tst r2, #4
-	beq _020229FC
-	add r0, r5, #0x700
-	ldrh r1, [r0, #0x22]
-	ldr r0, =0x00000103
-	and r0, r1, r0
-	cmp r0, #1
-	bne _020229FC
-	mov r1, #0
-	strb r1, [r5, #0x6c9]
-	mov r0, r5
-	mov r1, #0x69
-	bl Player__ChangeAction
-	ldr r0, [r5, #0x24]
-	mov r2, #0x140
-	bic r0, r0, #4
-	str r0, [r5, #0x24]
-	ldrb r1, [r5, #0x6c9]
-	mov r0, r5
-	mov r1, r2, asr r1
-	bl Player__GiveTension
-	mov r0, r5
-	mov r1, #0x190
-	bl Player__GiveScore
-	ldr r0, [r5, #0x24]
-	tst r0, #0x20
-	mov r0, r5
-	beq _020229CC
-	bl StarCombo__FinishTrickCombo
-	b _020229D0
-_020229CC:
-	bl StarCombo__PerformTrick
-_020229D0:
-	mov r4, #0x3b
-	sub r1, r4, #0x3c
-	add r0, r5, #0x254
-	mov r2, #0
-	str r2, [sp]
-	mov r2, r1
-	mov r3, r1
-	add r0, r0, #0x400
-	str r4, [sp, #4]
-	bl PlaySfxEx
-	b _02022AA0
-_020229FC:
-	tst r2, #8
-	beq _02022AA0
-	add r0, r5, #0x700
-	ldrh r1, [r0, #0x22]
-	ldr r0, =0x00000103
-	and r0, r1, r0
-	cmp r0, #0x100
-	bne _02022AA0
-	mov r1, #0
-	strb r1, [r5, #0x6c9]
-	mov r0, r5
-	mov r1, #0x64
-	bl Player__ChangeAction
-	ldr r0, [r5, #0x24]
-	mov r2, #0x140
-	bic r0, r0, #8
-	str r0, [r5, #0x24]
-	ldrb r1, [r5, #0x6c9]
-	mov r0, r5
-	mov r1, r2, asr r1
-	bl Player__GiveTension
-	mov r0, r5
-	mov r1, #0xc8
-	bl Player__GiveScore
-	ldr r0, [r5, #0x24]
-	tst r0, #0x20
-	mov r0, r5
-	beq _02022A74
-	bl StarCombo__FinishTrickCombo
-	b _02022A78
-_02022A74:
-	bl StarCombo__PerformTrick
-_02022A78:
-	mov r4, #0x3b
-	sub r1, r4, #0x3c
-	add r0, r5, #0x254
-	mov r2, #0
-	str r2, [sp]
-	mov r2, r1
-	mov r3, r1
-	add r0, r0, #0x400
-	str r4, [sp, #4]
-	bl PlaySfxEx
-_02022AA0:
-	add r0, r5, #0x500
-	ldrsh r0, [r0, #0xd4]
-	cmp r0, #0x14
-	beq _02022BD4
-	ldr r0, [r5, #0x20]
-	tst r0, #8
-	beq _02022BD4
-	orr r1, r0, #0x400
-	mov r0, r5
-	str r1, [r5, #0x20]
-	mov r1, #0x14
-	bl Player__ChangeAction
-	ldr r0, [r5, #0x20]
-	orr r0, r0, #4
-	str r0, [r5, #0x20]
-	b _02022BD4
-_02022AE0:
-	bl CannonPath__GetOffsetZ
-	ldr r1, [r4, #0x4c]
-	add r0, r1, r0
-	str r0, [r5, #0x4c]
-	b _02022BD4
-_02022AF4:
-	bl CannonPath__GetOffsetZ
-	mov r1, #0xc8000
-	rsb r1, r1, #0
-	cmp r0, r1
-	ble _02022B44
-	ldrh r0, [r5, #0x30]
-	mov r1, #0
-	mov r2, #0xb6
-	bl ObjRoopMove16
-	strh r0, [r5, #0x30]
-	ldrh r0, [r5, #0x32]
-	mov r1, #0
-	mov r2, #0xb6
-	bl ObjRoopMove16
-	strh r0, [r5, #0x32]
-	ldrh r0, [r5, #0x34]
-	mov r1, #0
-	mov r2, #0x16c
-	bl ObjRoopMove16
-	strh r0, [r5, #0x34]
-_02022B44:
-	bl CannonPath__GetOffsetZ
-	mov r1, #0x12c000
-	rsb r1, r1, #0
-	cmp r0, r1
-	ble _02022B74
-	ldr r0, [r5, #0x4c]
-	mov r1, #0x1000
-	bl ObjSpdDownSet
-	mov r1, #0x1000
-	rsb r1, r1, #0
-	and r0, r0, r1
-	str r0, [r5, #0x4c]
-_02022B74:
-	add r0, r5, #0x600
-	ldrsh r1, [r0, #0xde]
-	sub r1, r1, #1
-	strh r1, [r0, #0xde]
-	ldrsh r1, [r0, #0xde]
-	cmp r1, #0
-	movlt r1, #0
-	strlth r1, [r0, #0xde]
-	add r0, r5, #0x500
-	ldrsh r0, [r0, #0xd4]
-	cmp r0, #0x13
-	beq _02022BD4
-	ldrh r0, [r5, #0x34]
-	cmp r0, #0x2000
-	bhi _02022BD4
-	ldr r1, [r5, #0x20]
-	mov r0, r5
-	orr r1, r1, #0x400
-	str r1, [r5, #0x20]
-	mov r1, #0x13
-	bl Player__ChangeAction
-	ldr r0, [r5, #0x20]
-	orr r0, r0, #4
-	str r0, [r5, #0x20]
-_02022BD4:
-	ldr r1, [r5, #0x44]
-	ldr r0, [r5, #0x8c]
-	add sp, sp, #8
-	sub r0, r1, r0
-	str r0, [r5, #0xbc]
-	ldr r1, [r5, #0x48]
-	ldr r0, [r5, #0x90]
-	sub r0, r1, r0
-	str r0, [r5, #0xc0]
-	ldr r1, [r5, #0x4c]
-	ldr r0, [r5, #0x94]
-	sub r0, r1, r0
-	str r0, [r5, #0xc4]
-	ldmia sp!, {r3, r4, r5, pc}
-_02022C0C:
-	add r1, r5, #0x500
-	mov r2, #0x3f
-	strh r2, [r1, #0x3e]
-	ldr r1, [r5, #0x5e4]
-	cmp r1, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-	bl Player__InitState
-	ldr r0, [r5, #0x5e4]
-	blx r0
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
+                        ((void (*)(Player *))StarCombo__FinishTrickCombo)(work);
 #endif
+                    }
+                    else
+                    {
+                        StarCombo__PerformTrick(work);
+                    }
+                    PlayHandleStageSfx(&work->seqPlayers[PLAYER_SEQPLAYER_COMMON], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TRICK_DASH);
+                }
+                else if ((work->objWork.userFlag & PLAYER_CANNONPATH_FLAG_COMBO_A_BUTTON) != 0
+                         && (work->inputKeyPress & (PAD_BUTTON_A | PAD_BUTTON_B | PAD_BUTTON_R)) == PAD_BUTTON_A)
+                {
+                    work->tensionPenalty = 0;
+                    Player__ChangeAction(work, PLAYER_ACTION_TRICK_FINISH);
+                    work->objWork.userFlag &= ~PLAYER_CANNONPATH_FLAG_COMBO_A_BUTTON;
+                    Player__GiveTension(work, PLAYER_TENSION_TRICKFINISH >> work->tensionPenalty);
+                    Player__GiveScore(work, PLAYER_SCOREBONUS_TRICK_FINISH);
+
+                    if ((work->objWork.userFlag & PLAYER_CANNONPATH_FLAG_FORCE_COMBO_FINISH) != 0)
+                    {
+#ifdef NON_MATCHING
+                        StarCombo__FinishTrickCombo(work, TRUE);
+#else
+                        ((void (*)(Player *))StarCombo__FinishTrickCombo)(work);
+#endif
+                    }
+                    else
+                    {
+                        StarCombo__PerformTrick(work);
+                    }
+                    PlayHandleStageSfx(&work->seqPlayers[PLAYER_SEQPLAYER_COMMON], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TRICK_DASH);
+                }
+                else if ((work->objWork.userFlag & PLAYER_CANNONPATH_FLAG_COMBO_R_BUTTON) != 0
+                         && (work->inputKeyPress & (PAD_BUTTON_A | PAD_BUTTON_B | PAD_BUTTON_R)) == PAD_BUTTON_R)
+                {
+                    work->tensionPenalty = 0;
+                    Player__ChangeAction(work, PLAYER_ACTION_TRICK_FINISH_H_01);
+                    work->objWork.userFlag &= ~PLAYER_CANNONPATH_FLAG_COMBO_R_BUTTON;
+                    Player__GiveTension(work, PLAYER_TENSION_TRICKFINISH >> work->tensionPenalty);
+                    Player__GiveScore(work, PLAYER_SCOREBONUS_TRICK);
+
+                    if ((work->objWork.userFlag & PLAYER_CANNONPATH_FLAG_FORCE_COMBO_FINISH) != 0)
+                    {
+#ifdef NON_MATCHING
+                        StarCombo__FinishTrickCombo(work, TRUE);
+#else
+                        ((void (*)(Player *))StarCombo__FinishTrickCombo)(work);
+#endif
+                    }
+                    else
+                    {
+                        StarCombo__PerformTrick(work);
+                    }
+                    PlayHandleStageSfx(&work->seqPlayers[PLAYER_SEQPLAYER_COMMON], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TRICK_DASH);
+                }
+
+                if (work->actionState != PLAYER_ACTION_AIRRISE)
+                {
+                    if ((work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+                    {
+                        work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
+                        Player__ChangeAction(work, PLAYER_ACTION_AIRRISE);
+                        work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+                    }
+                }
+
+                break;
+
+            case CANNONPATH_MODE_BEGIN_EXIT_PATH:
+                work->objWork.position.z = cannonPath->gameWork.objWork.position.z + GetCannonPlayerPosZ();
+                break;
+
+            case CANNONPATH_MODE_EXIT_PATH:
+                if (GetCannonPlayerPosZ() > -FLOAT_TO_FX32(200.0))
+                {
+                    work->objWork.dir.x = ObjRoopMove16(work->objWork.dir.x, FLOAT_DEG_TO_IDX(0.0), FLOAT_DEG_TO_IDX(1.0));
+                    work->objWork.dir.y = ObjRoopMove16(work->objWork.dir.y, FLOAT_DEG_TO_IDX(0.0), FLOAT_DEG_TO_IDX(1.0));
+                    work->objWork.dir.z = ObjRoopMove16(work->objWork.dir.z, FLOAT_DEG_TO_IDX(0.0), FLOAT_DEG_TO_IDX(2.0));
+                }
+
+                if (GetCannonPlayerPosZ() > -FLOAT_TO_FX32(300.0))
+                    work->objWork.position.z = ObjSpdDownSet(work->objWork.position.z, FLOAT_TO_FX32(1.0)) & 0xFFFFF000;
+
+                work->gimmickCamOffsetY--;
+                if (work->gimmickCamOffsetY < 0)
+                    work->gimmickCamOffsetY = 0;
+
+                if (work->actionState != PLAYER_ACTION_JUMPFALL && work->objWork.dir.z <= FLOAT_DEG_TO_IDX(45.0))
+                {
+                    work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
+                    Player__ChangeAction(work, PLAYER_ACTION_JUMPFALL);
+                    work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+                }
+                break;
+        }
+
+        work->objWork.move.x = work->objWork.position.x - work->objWork.prevPosition.x;
+        work->objWork.move.y = work->objWork.position.y - work->objWork.prevPosition.y;
+        work->objWork.move.z = work->objWork.position.z - work->objWork.prevPosition.z;
+    }
+    else
+    {
+        work->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
+
+        if (work->actionGroundIdle != NULL)
+        {
+            Player__InitState(work);
+
+            // TODO: I can't figure out what this must be, because it can't possibly be missing the 1st argument can it?
+            // until then, I've added a "corrected" version as a non-matching solution, in the event the codebase needs to be more modular
+#ifdef NON_MATCHING
+            work->actionGroundIdle(work);
+#else
+            ((void (*)(void))work->actionGroundIdle)();
+#endif
+        }
+    }
 }
 
-void Player__Func_2022C40(Player *player)
+void Player__Action_ExitCannonPath(Player *player, GameObjectTask *other)
 {
-    if (StageTaskStateMatches(&player->objWork, Player__State_CannonLanched))
+    if (StageTaskStateMatches(&player->objWork, Player__State_CannonLaunched))
     {
         player->objWork.moveFlag &=
             ~(STAGE_TASK_MOVE_FLAG_IN_AIR | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES);
@@ -6213,7 +5891,7 @@ void Player__Func_2022C40(Player *player)
         player->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
         player->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
 
-        player->objWork.dir.y = 0;
+        player->objWork.dir.y = FLOAT_DEG_TO_IDX(0.0);
         Player__Action_Launch(player);
 
         player->objWork.velocity.x = player->objWork.move.x;
@@ -6221,25 +5899,25 @@ void Player__Func_2022C40(Player *player)
     }
 }
 
-void Player__Func_2022CD4(Player *player, u32 flags)
+void Player__Action_EnterCannonRingTrigger(Player *player, u32 type)
 {
-    u32 id = flags & ~0x80000000;
-    if (StageTaskStateMatches(&player->objWork, Player__State_CannonLanched))
+    u32 button = type & ~CANNONRING_TYPE_FORCE_COMBO_FINISH;
+    if (StageTaskStateMatches(&player->objWork, Player__State_CannonLaunched))
     {
-        if (id >= 3)
-            id = 0;
+        if (button >= CANNONRING_TYPE_COUNT)
+            button = CANNONRING_TYPE_A_BUTTON;
 
-        player->objWork.userFlag = (player->objWork.userFlag | (1 << (id + 1))) & ~0x20;
+        player->objWork.userFlag = (player->objWork.userFlag | (1 << (button + 1))) & ~PLAYER_CANNONPATH_FLAG_FORCE_COMBO_FINISH;
 
-        if (flags & 0x80000000)
-            player->objWork.userFlag |= 0x20;
+        if (type & CANNONRING_TYPE_FORCE_COMBO_FINISH)
+            player->objWork.userFlag |= PLAYER_CANNONPATH_FLAG_FORCE_COMBO_FINISH;
     }
 }
 
-void Player__Func_2022D24(Player *player, u8 flag)
+void Player__Action_ExitCannonRingTrigger(Player *player, u16 type)
 {
-    if (StageTaskStateMatches(&player->objWork, Player__State_CannonLanched))
-        player->objWork.userFlag &= ~(1 << (flag + 1));
+    if (StageTaskStateMatches(&player->objWork, Player__State_CannonLaunched))
+        player->objWork.userFlag &= ~(1 << (type + 1));
 }
 
 void Player__Gimmick_JumpBox(Player *player, GameObjectTask *other, CharacterID characterID)

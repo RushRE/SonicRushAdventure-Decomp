@@ -35,7 +35,7 @@
 #include <stage/effects/snowslide.h>
 #include <stage/effects/truckJewel.h>
 #include <stage/effects/pirateShipCannonBlast.h>
-#include <stage/effects/unknown202C414.h>
+#include <stage/effects/cannonFireSpeedLines.h>
 #include <stage/effects/slingDust.h>
 #include <stage/effects/sailboatBazookaSmoke.h>
 #include <stage/effects/hoverCrystalSparkle.h>
@@ -1285,9 +1285,9 @@ EffectBouncyMushroomPuff *EffectBouncyMushroomPuff__Create(fx32 x, fx32 y, fx32 
         return NULL;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_flipmush.bac", GetObjectFileWork(OBJDATAWORK_166), gameArchiveStage, OBJ_DATA_GFX_NONE);
-    ObjActionAllocSpritePalette(&work->objWork, FLIPMUSHROOM_ANI_PUFF, 15);
-    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, FLIPMUSHROOM_ANI_PUFF), GetObjectSpriteRef(OBJDATAWORK_171));
-    StageTask__SetAnimation(&work->objWork, FLIPMUSHROOM_ANI_PUFF);
+    ObjActionAllocSpritePalette(&work->objWork, BOUNCYMUSHROOM_ANI_PUFF, 15);
+    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, BOUNCYMUSHROOM_ANI_PUFF), GetObjectSpriteRef(OBJDATAWORK_171));
+    StageTask__SetAnimation(&work->objWork, BOUNCYMUSHROOM_ANI_PUFF);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
 

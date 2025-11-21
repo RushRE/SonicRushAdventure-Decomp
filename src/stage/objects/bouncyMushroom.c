@@ -10,18 +10,18 @@
 
 enum BouncyMushroomObjectFlags
 {
-    FLIPMUSHROOM_OBJFLAG_NONE,
+    BOUNCYMUSHROOM_OBJFLAG_NONE,
 
-    FLIPMUSHROOM_OBJFLAG_ALT_PALETTE = 1 << 0,
+    BOUNCYMUSHROOM_OBJFLAG_ALT_PALETTE = 1 << 0,
 };
 
 enum BouncyMushroomTypes
 {
-    FLIPMUSHROOM_TYPE_U,  // straight upwards
-    FLIPMUSHROOM_TYPE_UL, // up-left
-    FLIPMUSHROOM_TYPE_UR, // up-right
+    BOUNCYMUSHROOM_TYPE_U,  // straight upwards
+    BOUNCYMUSHROOM_TYPE_UL, // up-left
+    BOUNCYMUSHROOM_TYPE_UR, // up-right
 
-    FLIPMUSHROOM_TYPE_COUNT,
+    BOUNCYMUSHROOM_TYPE_COUNT,
 };
 
 // --------------------
@@ -46,34 +46,34 @@ struct BouncyMushroomUnknown
 // VARIABLES
 // --------------------
 
-static const Vec2Fx16 collisionOffsetTable[FLIPMUSHROOM_TYPE_COUNT] = {
-    [FLIPMUSHROOM_TYPE_U]  = { -96, -14 },
-    [FLIPMUSHROOM_TYPE_UL] = { -78, -80 },
-    [FLIPMUSHROOM_TYPE_UR] = { -72, -80 },
+static const Vec2Fx16 collisionOffsetTable[BOUNCYMUSHROOM_TYPE_COUNT] = {
+    [BOUNCYMUSHROOM_TYPE_U]  = { -96, -14 },
+    [BOUNCYMUSHROOM_TYPE_UL] = { -78, -80 },
+    [BOUNCYMUSHROOM_TYPE_UR] = { -72, -80 },
 };
 
-static const Vec2U16 collisionSizeTable[FLIPMUSHROOM_TYPE_COUNT] = {
-    [FLIPMUSHROOM_TYPE_U]  = { 192, 24 },
-    [FLIPMUSHROOM_TYPE_UL] = { 152, 152 },
-    [FLIPMUSHROOM_TYPE_UR] = { 152, 152 },
+static const Vec2U16 collisionSizeTable[BOUNCYMUSHROOM_TYPE_COUNT] = {
+    [BOUNCYMUSHROOM_TYPE_U]  = { 192, 24 },
+    [BOUNCYMUSHROOM_TYPE_UL] = { 152, 152 },
+    [BOUNCYMUSHROOM_TYPE_UR] = { 152, 152 },
 };
 
-static const HitboxRect hitboxTable[FLIPMUSHROOM_TYPE_COUNT][4] ={
-	[FLIPMUSHROOM_TYPE_U] = {
+static const HitboxRect hitboxTable[BOUNCYMUSHROOM_TYPE_COUNT][4] ={
+	[BOUNCYMUSHROOM_TYPE_U] = {
 		{ -108, -24, 108, 0 },
 		{ 0, 0, 0, 0 },
 		{ 0, 0, 0, 0 },
 		{ 0, 0, 0, 0 },
 	},
 
-	[FLIPMUSHROOM_TYPE_UL] = {
+	[BOUNCYMUSHROOM_TYPE_UL] = {
 		{ -84, 18, -50, 52 },
 		{ -50, -16, -16, 18 },
 		{ -16, -50, 18, -16 },
 		{ 18, -84, 52, -50 },
 	},
 
-	[FLIPMUSHROOM_TYPE_UR] = {
+	[BOUNCYMUSHROOM_TYPE_UR] = {
 		{ -52, -84, -18, -50 },
 		{ -18, -50, 16, -16 },
 		{ 16, -16, 50, 18 },
@@ -81,9 +81,9 @@ static const HitboxRect hitboxTable[FLIPMUSHROOM_TYPE_COUNT][4] ={
 	},
 };
 
-static const struct BouncyMushroomUnknown puffParticleConfig[FLIPMUSHROOM_TYPE_COUNT] =
+static const struct BouncyMushroomUnknown puffParticleConfig[BOUNCYMUSHROOM_TYPE_COUNT] =
 {
-	[FLIPMUSHROOM_TYPE_U] = {
+	[BOUNCYMUSHROOM_TYPE_U] = {
     	.x = -0x54000,
     	.y = -0x20000,
     	.field_8 = 0x2A000,
@@ -96,7 +96,7 @@ static const struct BouncyMushroomUnknown puffParticleConfig[FLIPMUSHROOM_TYPE_C
     	.field_22 = 0x1F,
 	},
 	
-	[FLIPMUSHROOM_TYPE_UL] = {
+	[BOUNCYMUSHROOM_TYPE_UL] = {
     	.x = -0x4B000,
     	.y = 0x2B000,
     	.field_8 = 0x1F800,
@@ -109,7 +109,7 @@ static const struct BouncyMushroomUnknown puffParticleConfig[FLIPMUSHROOM_TYPE_C
     	.field_22 = 0xF,
 	},
 	
-	[FLIPMUSHROOM_TYPE_UR] = {
+	[BOUNCYMUSHROOM_TYPE_UR] = {
     	.x = 0x4B000,
     	.y = 0x2B000,
     	.field_8 = -0x1F800,
@@ -130,10 +130,10 @@ static const char *_MATCHING_FIX_02 = "/df/gmk_flipmush_ur.df";
 static const char *_MATCHING_FIX_01 = "/df/gmk_flipmush_ul.df";
 #endif
 
-static const char *bounceMushCollisionList[FLIPMUSHROOM_TYPE_COUNT] = {
-    [FLIPMUSHROOM_TYPE_U]  = "/df/gmk_flipmush_u.df",
-    [FLIPMUSHROOM_TYPE_UL] = "/df/gmk_flipmush_ul.df",
-    [FLIPMUSHROOM_TYPE_UR] = "/df/gmk_flipmush_ur.df",
+static const char *bounceMushCollisionList[BOUNCYMUSHROOM_TYPE_COUNT] = {
+    [BOUNCYMUSHROOM_TYPE_U]  = "/df/gmk_flipmush_u.df",
+    [BOUNCYMUSHROOM_TYPE_UL] = "/df/gmk_flipmush_ul.df",
+    [BOUNCYMUSHROOM_TYPE_UR] = "/df/gmk_flipmush_ur.df",
 };
 
 // --------------------
@@ -200,12 +200,12 @@ BouncyMushroom *CreateBouncyMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_flipmush.bac", GetObjectDataWork(OBJDATAWORK_166), gameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 48, GetObjectSpriteRef(OBJDATAWORK_167));
-    StageTask__SetAnimation(&work->gameWork.objWork, FLIPMUSHROOM_ANI_MUSHROOM);
+    StageTask__SetAnimation(&work->gameWork.objWork, BOUNCYMUSHROOM_ANI_MUSHROOM);
     work->gameWork.animator.ani.work.flags |= aniFlags;
-    if ((mapObject->flags & FLIPMUSHROOM_OBJFLAG_ALT_PALETTE) != 0)
-        ObjActionAllocSpritePalette(&work->gameWork.objWork, FLIPMUSHROOM_ANI_ALT_PALETTE, 29);
+    if ((mapObject->flags & BOUNCYMUSHROOM_OBJFLAG_ALT_PALETTE) != 0)
+        ObjActionAllocSpritePalette(&work->gameWork.objWork, BOUNCYMUSHROOM_ANI_ALT_PALETTE, 29);
     else
-        ObjActionAllocSpritePalette(&work->gameWork.objWork, FLIPMUSHROOM_ANI_MUSHROOM, 14);
+        ObjActionAllocSpritePalette(&work->gameWork.objWork, BOUNCYMUSHROOM_ANI_MUSHROOM, 14);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
 

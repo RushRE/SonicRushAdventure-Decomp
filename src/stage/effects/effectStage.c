@@ -36,7 +36,7 @@
 #include <stage/effects/snowslide.h>
 #include <stage/effects/truckJewel.h>
 #include <stage/effects/pirateShipCannonBlast.h>
-#include <stage/effects/unknown202C414.h>
+#include <stage/effects/cannonFireSpeedLines.h>
 #include <stage/effects/slingDust.h>
 #include <stage/effects/sailboatBazookaSmoke.h>
 #include <stage/effects/hoverCrystalSparkle.h>
@@ -346,14 +346,14 @@ EffectPirateShipCannonBlast *PirateShipCannonBlast__Create(StageTask *parent, fx
     return work;
 }
 
-// EffectUnknown202C414
-EffectUnknown202C414 *EffectUnknown202C414__Create(StageTask *parent)
+// EffectCannonFireSpeedLines
+EffectCannonFireSpeedLines *EffectCannonFireSpeedLines__Create(StageTask *parent)
 {
-    EffectUnknown202C414 *work = CreateEffect(EffectUnknown202C414, parent);
+    EffectCannonFireSpeedLines *work = CreateEffect(EffectCannonFireSpeedLines, parent);
     if (work == NULL)
         return NULL;
 
-    SetTaskDestructorEvent(EffectTask__sVars.lastCreatedTask, EffectUnknown202C414__Destructor);
+    SetTaskDestructorEvent(EffectTask__sVars.lastCreatedTask, EffectCannonFireSpeedLines__Destructor);
 
     work->drawList = HeapAllocHead(HEAP_SYSTEM, 0x300);
     G3_BeginMakeDL(&work->dlInfo, work->drawList, 0x300);
@@ -387,27 +387,27 @@ EffectUnknown202C414 *EffectUnknown202C414__Create(StageTask *parent)
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
-    SetTaskState(&work->objWork, EffectUnknown202C414__State_202C5F8);
-    SetTaskOutFunc(&work->objWork, EffectUnknown202C414__Draw);
+    SetTaskState(&work->objWork, EffectCannonFireSpeedLines__State_Active);
+    SetTaskOutFunc(&work->objWork, EffectCannonFireSpeedLines__Draw);
 
     work->objWork.position.z = FLOAT_TO_FX32(0.0);
     return work;
 }
 
-void EffectUnknown202C414__Destructor(Task *task)
+void EffectCannonFireSpeedLines__Destructor(Task *task)
 {
-    EffectUnknown202C414 *work = TaskGetWork(task, EffectUnknown202C414);
+    EffectCannonFireSpeedLines *work = TaskGetWork(task, EffectCannonFireSpeedLines);
 
     HeapFree(HEAP_SYSTEM, work->drawList);
     StageTask_Destructor(task);
 }
 
-NONMATCH_FUNC void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *work)
+NONMATCH_FUNC void EffectCannonFireSpeedLines__State_Active(EffectCannonFireSpeedLines *work)
 {
     // https://decomp.me/scratch/fpt9F -> 99.03%
     // minor register issues
 #ifdef NON_MATCHING
-    EffectUnknown202C414Entry *entry;
+    EffectCannonFireSpeedLine *entry;
     s32 id;
     BOOL isActive = FALSE;
     s32 i;
@@ -421,7 +421,7 @@ NONMATCH_FUNC void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *wor
     work->objWork.userTimer--;
     if (work->objWork.userTimer <= 0 && !work->objWork.userFlag)
     {
-        for (id = 0; id < EFFECTUNKNOWN202C414_LIST_SIZE; id++)
+        for (id = 0; id < EFFECTCANNONFIRESPEEDLINES_LIST_SIZE; id++)
         {
             entry = &work->list[id];
 
@@ -440,13 +440,13 @@ NONMATCH_FUNC void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *wor
             break;
         }
 
-        if (id < EFFECTUNKNOWN202C414_LIST_SIZE)
+        if (id < EFFECTCANNONFIRESPEEDLINES_LIST_SIZE)
         {
             work->objWork.userTimer = mtMathRand() & 7;
         }
     }
 
-    for (i = 0; i < EFFECTUNKNOWN202C414_LIST_SIZE; i++)
+    for (i = 0; i < EFFECTCANNONFIRESPEEDLINES_LIST_SIZE; i++)
     {
         entry = &work->list[i];
 
@@ -606,14 +606,14 @@ _0202C798:
 #endif
 }
 
-RUSH_INLINE u16 EffectUnknown202C414_GetAngle2(EffectUnknown202C414Entry *work)
+RUSH_INLINE u16 EffectCannonFireSpeedLines_GetAngle2(EffectCannonFireSpeedLine *work)
 {
     return work->angle2;
 }
 
-void EffectUnknown202C414__Draw(void)
+void EffectCannonFireSpeedLines__Draw(void)
 {
-    EffectUnknown202C414 *work = TaskGetWorkCurrent(EffectUnknown202C414);
+    EffectCannonFireSpeedLines *work = TaskGetWorkCurrent(EffectCannonFireSpeedLines);
 
     VecFx32 inputPos;
     VecFx32 baseScale;
@@ -641,7 +641,7 @@ void EffectUnknown202C414__Draw(void)
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
     NNS_G3dGlbFlushP();
 
-    EffectUnknown202C414Entry *entry = work->list;
+    EffectCannonFireSpeedLine *entry = work->list;
     for (s32 i = 0; i < 32;)
     {
         if (entry->active)
@@ -652,7 +652,7 @@ void EffectUnknown202C414__Draw(void)
             MTX_RotY33(matTemp.nnMtx, SinFX(entry->angle1), CosFX(entry->angle1));
             MTX_Concat33(matRotation.nnMtx, matTemp.nnMtx, matRotation.nnMtx);
 
-            MTX_RotZ33(matTemp.nnMtx, SinFX(EffectUnknown202C414_GetAngle2(entry)), CosFX(EffectUnknown202C414_GetAngle2(entry)));
+            MTX_RotZ33(matTemp.nnMtx, SinFX(EffectCannonFireSpeedLines_GetAngle2(entry)), CosFX(EffectCannonFireSpeedLines_GetAngle2(entry)));
             MTX_Concat33(matRotation.nnMtx, matTemp.nnMtx, matRotation.nnMtx);
 
             NNS_G3dGeMultMtx33(matRotation.nnMtx);

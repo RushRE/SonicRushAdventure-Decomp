@@ -72,6 +72,12 @@ struct
 {
     fx32 startX;
     fx32 startY;
+} cannonEntry;
+
+struct
+{
+    fx32 startX;
+    fx32 startY;
     fx32 progress;
     fx32 animSpeed;
 } jumpBox;

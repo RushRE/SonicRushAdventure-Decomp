@@ -59,7 +59,7 @@ static u32 vramOffset[] = { 0x0000, 0x0A00, 0x0F00, 0x1200, 0x0000 };
 
 NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    // https://decomp.me/scratch/1pyBn -> 95.38%
+    // https://decomp.me/scratch/1pyBn -> 96.56%
 #ifdef NON_MATCHING
     OBS_SPRITE_REF *spriteRef;
 
