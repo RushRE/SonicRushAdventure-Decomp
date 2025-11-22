@@ -108,7 +108,7 @@ BossFX2D *BossFX__CreateRexSmoke(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z)
     effect->aniSprite.ani.work.scale.y = FLOAT_TO_FX32(3.0);
     effect->aniSprite.ani.work.scale.z = FLOAT_TO_FX32(3.0);
 
-    effect->aniSprite.ani.polygonAttr.noCullBack = TRUE;
+    effect->aniSprite.ani.polygonAttr.noCullBack  = TRUE;
     effect->aniSprite.ani.polygonAttr.noCullFront = TRUE;
 
     return effect;
@@ -860,9 +860,9 @@ void BossFX3D__Destructor(Task *task)
 
 void BossFX3D__State_Billboard(BossFX3D *work)
 {
-    VecFx32 position;  
-    Unknown206703C unknown1; 
-    Unknown2066510 unknown2; 
+    VecFx32 position;
+    Unknown206703C unknown1;
+    Unknown2066510 unknown2;
     VecFx32 camDir;
     VecFx32 camEnd;
 
@@ -934,10 +934,8 @@ BossFX2D *BossFX2D__Create(size_t size, BossFX2DState state, const char *path, u
     return work;
 }
 
-NONMATCH_FUNC void BossFX2D__State_Active(BossFX2D *work)
+void BossFX2D__State_Active(BossFX2D *work)
 {
-    // https://decomp.me/scratch/TSCD2 -> 86%
-#ifdef NON_MATCHING
     if ((work->flags & (BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_B | BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_A)) != 0 && Camera3D__GetTask() != NULL)
     {
         if ((work->flags & BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_A) != 0 && Camera3D__UseEngineA()
@@ -967,70 +965,12 @@ NONMATCH_FUNC void BossFX2D__State_Active(BossFX2D *work)
         {
             work->objWork.userTimer--;
             if (work->objWork.userTimer == 0)
+            {
                 DestroyStageTask(&work->objWork);
+                return;
+            }
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0x280]
-	tst r0, #3
-	beq _02154450
-	bl Camera3D__GetTask
-	cmp r0, #0
-	beq _02154450
-	ldr r0, [r4, #0x280]
-	tst r0, #1
-	beq _0215441C
-	bl Camera3D__UseEngineA
-	cmp r0, #0
-	bne _02154434
-_0215441C:
-	ldr r0, [r4, #0x280]
-	tst r0, #2
-	beq _02154444
-	bl Camera3D__UseEngineA
-	cmp r0, #0
-	bne _02154444
-_02154434:
-	ldr r0, [r4, #0x20]
-	orr r0, r0, #0x20
-	str r0, [r4, #0x20]
-	b _02154450
-_02154444:
-	ldr r0, [r4, #0x20]
-	bic r0, r0, #0x20
-	str r0, [r4, #0x20]
-_02154450:
-	ldr r1, [r4, #0x27c]
-	cmp r1, #0
-	beq _02154464
-	mov r0, r4
-	blx r1
-_02154464:
-	ldr r0, [r4, #0x2c]
-	cmp r0, #0
-	bne _0215448C
-	ldr r0, [r4, #0x20]
-	tst r0, #8
-	ldmeqia sp!, {r4, pc}
-	ldr r0, [r4, #0x18]
-	orr r0, r0, #4
-	str r0, [r4, #0x18]
-	ldmia sp!, {r4, pc}
-_0215448C:
-	ldmleia sp!, {r4, pc}
-	subs r0, r0, #1
-	str r0, [r4, #0x2c]
-	ldmneia sp!, {r4, pc}
-	ldr r0, [r4, #0x18]
-	orr r0, r0, #4
-	str r0, [r4, #0x18]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void BossFX2D__Destructor(Task *task)

@@ -302,7 +302,7 @@ void Platform__Action_Collapse(Platform *work)
 
 NONMATCH_FUNC void Platform__State_Collapse(Platform2 *work)
 {
-    // https://decomp.me/scratch/xPfQt -> 60.62%
+    // https://decomp.me/scratch/xPfQt -> 67.24%
 #ifdef NON_MATCHING
     work->gameWork.objWork.userTimer++;
 

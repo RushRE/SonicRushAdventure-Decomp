@@ -266,7 +266,6 @@ void TouchField__Func_206EAC4(TouchArea *area1, TouchArea *area2)
 
 NONMATCH_FUNC BOOL TouchField__PointInRect(TouchArea *area)
 {
-    // TODO: decompile this
 #ifdef NON_MATCHING
 
 #else
@@ -316,7 +315,6 @@ _0206EB5C:
 
 NONMATCH_FUNC BOOL TouchField__PointInCircle(TouchArea *area)
 {
-    // TODO: decompile this
 #ifdef NON_MATCHING
 
 #else
@@ -386,7 +384,6 @@ _0206EC34:
 
 NONMATCH_FUNC BOOL TouchField__PointInAnimator(TouchArea *area)
 {
-    // TODO: decompile this
 #ifdef NON_MATCHING
 
 #else

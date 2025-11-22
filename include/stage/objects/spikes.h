@@ -4,6 +4,19 @@
 #include <stage/gameObject.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum SpikesAnimID
+{
+    SPIKES_ANI_VERTICAL_VISIBLE,
+    SPIKES_ANI_VERTICAL_EXTEND,
+    SPIKES_ANI_VERTICAL_RETRACT,
+    SPIKES_ANI_VERTICAL_HIDDEN,
+    SPIKES_ANI_HORIZONTAL,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 

@@ -2104,7 +2104,30 @@ void Player__OnDefend_TripleGrindRail(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2
 NONMATCH_FUNC void Player__Func_201DD24(Player *player)
 {
 #ifdef NON_MATCHING
+    player->playerFlag &= ~PLAYER_FLAG_2000;
+    player->gimmickFlag &= ~PLAYER_GIMMICK_10;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_INPUT_READ;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0 || player->gimmickObj == NULL)
+    {
+        player->gimmick.value1 = 0xE8A2E + player->gimmick.value1 * 0x59184;
+        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.velocity.x = player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
+    }
+    else
+    {
+        player->gimmick.value1 = player->gimmickObj->objWork.position.x + 0x141BB2 - player->objWork.position.x;
+    }
+
+    player->gimmick.value2 = 0;
+
+    fx32 v3                  = MultiplyFX(player->gimmick.value1, 0x647A) >> 2;
+    player->gimmick.value3   = MultiplyFX(0x66666667, v3) >> 4;
+    
+    player->objWork.userWork = 0;
+
+    SetTaskState(&player->objWork, Player__State_201DE24);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -2437,102 +2460,47 @@ void Player__Gimmick_WaterRun(Player *player)
     }
 }
 
-NONMATCH_FUNC void Player__State_WaterRun(Player *work)
+void Player__State_WaterRun(Player *work)
 {
-#ifdef NON_MATCHING
+    if (MATH_ABS(work->objWork.groundVel) < work->spdThresholdRun && Player__HandleFallOffSurface(work))
+    {
+        StopStageSfx(&work->seqPlayers[PLAYER_SEQPLAYER_COMMON]);
+        work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+        Player__Action_Launch(work);
+        return;
+    }
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0xc8]
-	ldr r0, [r4, #0x648]
-	cmp r1, #0
-	rsblt r1, r1, #0
-	cmp r1, r0
-	bge _0201E304
-	mov r0, r4
-	bl Player__HandleFallOffSurface
-	cmp r0, #0
-	beq _0201E304
-	add r0, r4, #0x254
-	add r0, r0, #0x400
-	mov r1, #0
-	bl NNS_SndPlayerStopSeq
-	mov r0, #0
-	strh r0, [r4, #0x34]
-	ldr r1, [r4, #0x1c]
-	mov r0, r4
-	orr r1, r1, #0x80
-	str r1, [r4, #0x1c]
-	bl Player__Action_Launch
-	ldmia sp!, {r4, pc}
-_0201E304:
-	add r0, r4, #0x700
-	ldrh r0, [r0, #0x22]
-	tst r0, #3
-	ldrne r0, [r4, #0x5f0]
-	cmpne r0, #0
-	beq _0201E350
-	add r0, r4, #0x254
-	add r0, r0, #0x400
-	mov r1, #0
-	bl NNS_SndPlayerStopSeq
-	mov r0, #0
-	strh r0, [r4, #0x34]
-	ldr r1, [r4, #0x1c]
-	mov r0, r4
-	orr r1, r1, #0x80
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x5f0]
-	blx r1
-	ldmia sp!, {r4, pc}
-_0201E350:
-	add r0, r4, #0x500
-	ldrsh r1, [r0, #0xd6]
-	cmp r1, #0
-	subne r1, r1, #1
-	strneh r1, [r0, #0xd6]
-	bne _0201E3BC
-	ldr r0, [r4, #0x1c]
-	tst r0, #0xd
-	beq _0201E3BC
-	add r0, r4, #0x254
-	add r0, r0, #0x400
-	mov r1, #0
-	bl NNS_SndPlayerStopSeq
-	mov r1, #0
-	strh r1, [r4, #0x34]
-	ldr r2, [r4, #0x1c]
-	mov r0, r4
-	bic r2, r2, #0x2000
-	orr r2, r2, #0x80
-	str r2, [r4, #0x1c]
-	ldr r2, [r4, #0xc8]
-	str r2, [r4, #0x98]
-	bl Player__Action_LandOnGround
-	ldr r1, [r4, #0x5e4]
-	mov r0, r4
-	blx r1
-	ldmia sp!, {r4, pc}
-_0201E3BC:
-	ldr r1, [r4, #0xc8]
-	mov r0, r4
-	bl Player__SetAnimSpeedFromVelocity
-	mov r0, r4
-	bl Player__HandleActiveWalkAnimation
-	mov r0, r4
-	bl Player__HandleGroundMovement
-	ldr r0, =playerGameStatus
-	ldr r0, [r0, #0xc]
-	tst r0, #7
-	ldmneia sp!, {r4, pc}
-	mov r0, r4
-	bl CreateEffectWaterWakeForPlayer
-	ldmia sp!, {r4, pc}
+    if ((work->inputKeyPress & PLAYER_INPUT_JUMP) != 0 && work->actionJump != NULL)
+    {
+        StopStageSfx(&work->seqPlayers[PLAYER_SEQPLAYER_COMMON]);
+        work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+        work->actionJump(work);
+        return;
+    }
 
-// clang-format on
-#endif
+    if (work->trickCooldownTimer != 0)
+    {
+        work->trickCooldownTimer--;
+    }
+    else if ((work->objWork.moveFlag & (STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR)) != 0)
+    {
+        StopStageSfx(&work->seqPlayers[PLAYER_SEQPLAYER_COMMON]);
+        work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+        work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+        work->objWork.velocity.x = work->objWork.groundVel;
+        Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
+        work->actionGroundIdle(work);
+        return;
+    }
+
+    Player__SetAnimSpeedFromVelocity(work, work->objWork.groundVel);
+    Player__HandleActiveWalkAnimation(work);
+    Player__HandleGroundMovement(work);
+    if ((playerGameStatus.stageTimer & 7) == 0)
+        CreateEffectWaterWakeForPlayer(work);
 }
 
 void Player__Action_SteamFan(Player *player, GameObjectTask *other, s32 fanRadius)
@@ -3483,45 +3451,32 @@ void Player__Action_EnableSnowboard(Player *player, s32 type)
     }
 }
 
-NONMATCH_FUNC void Player__Action_LoseSnowboard(Player *player)
+void Player__Action_LoseSnowboard(Player *player)
 {
-#ifdef NON_MATCHING
+    player->gimmickFlag &= ~PLAYER_GIMMICK_SNOWBOARD;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_ACCELERATION;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r1, [r0, #0x5dc]
-	bic r1, r1, #0x800
-	str r1, [r0, #0x5dc]
-	ldr r1, [r0, #0x1c]
-	orr r1, r1, #0x20000
-	str r1, [r0, #0x1c]
-	tst r1, #1
-	beq _0201FD48
-	ldr r1, [r0, #0xc8]
-	ldr r2, [r0, #0x98]
-	cmp r2, r1
-	movge r1, r2
-	mov r2, #0x6000
-	cmp r1, #0x4800
-	movlt r1, #0x4800
-	rsb r2, r2, #0
-	bl Player__Action_JumpDashLaunch
-	ldmia sp!, {r3, pc}
-_0201FD48:
-	ldr r1, [r0, #0x9c]
-	cmp r1, #0
-	bge _0201FD60
-	mov r1, #0x19
-	bl Player__ChangeAction
-	ldmia sp!, {r3, pc}
-_0201FD60:
-	mov r1, #0x1a
-	bl Player__ChangeAction
-	ldmia sp!, {r3, pc}
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+    {
+        fx32 velX = player->objWork.groundVel;
+        if (player->objWork.velocity.x >= velX)
+            velX = player->objWork.velocity.x;
 
-// clang-format on
-#endif
+        if (velX < FLOAT_TO_FX32(4.5))
+            velX = FLOAT_TO_FX32(4.5);
+        Player__Action_JumpDashLaunch(player, velX, -FLOAT_TO_FX32(6.0));
+    }
+    else
+    {
+        if (player->objWork.velocity.y < FLOAT_TO_FX32(0.0))
+        {
+            Player__ChangeAction(player, PLAYER_ACTION_JUMPDASH_01);
+        }
+        else
+        {
+            Player__ChangeAction(player, PLAYER_ACTION_JUMPDASH_02);
+        }
+    }
 }
 
 void Player__Action_Flipboard(Player *player, fx32 velX, fx32 velY)
@@ -4691,61 +4646,30 @@ _020210BC:
 #endif
 }
 
-NONMATCH_FUNC void Player__Action_ExitHalfpipe(Player *player)
+void Player__Action_ExitHalfpipe(Player *player)
 {
-#ifdef NON_MATCHING
+    if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0 && StageTaskStateMatches(&player->objWork, Player__State_Halfpipe))
+    {
+        player->gimmickObj = NULL;
+        player->gimmickFlag &= ~PLAYER_GIMMICK_GRABBED;
+        player->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
+        player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0x5d8]
-	tst r1, #0x400
-	ldreq r2, [r4, #0xf4]
-	ldreq r1, =Player__State_Halfpipe
-	cmpeq r2, r1
-	ldmneia sp!, {r4, pc}
-	mov r1, #0
-	str r1, [r4, #0x6d8]
-	ldr r1, [r4, #0x5dc]
-	bic r1, r1, #0x20000
-	str r1, [r4, #0x5dc]
-	ldr r1, [r4, #0x5d8]
-	bic r1, r1, #0x100000
-	str r1, [r4, #0x5d8]
-	ldr r1, [r4, #0x1c]
-	bic r1, r1, #0x2300
-	str r1, [r4, #0x1c]
-	ldr r2, [r4, #0x48]
-	ldr r1, [r4, #0x6f0]
-	cmp r2, r1
-	beq _02021178
-	ldr r1, [r4, #0x1c]
-	bic r1, r1, #1
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x5f0]
-	blx r1
-	ldr r0, [r4, #0x5d8]
-	orr r0, r0, #3
-	str r0, [r4, #0x5d8]
-	ldr r0, [r4, #0xbc]
-	str r0, [r4, #0x98]
-	ldr r0, [r4, #0xc0]
-	str r0, [r4, #0x9c]
-	ldr r0, [r4, #0x5dc]
-	tst r0, #0x800
-	ldmneia sp!, {r4, pc}
-	mov r0, r4
-	mov r1, #0x13
-	bl Player__ChangeAction
-	ldmia sp!, {r4, pc}
-_02021178:
-	ldr r1, [r4, #0x5e8]
-	blx r1
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+        if (player->objWork.position.y != player->gimmick.value1)
+        {
+            player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
+            player->actionJump(player);
+            player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
+            player->objWork.velocity.x = player->objWork.move.x;
+            player->objWork.velocity.y = player->objWork.move.y;
+            if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
+                Player__ChangeAction(player, PLAYER_ACTION_JUMPFALL);
+        }
+        else
+        {
+            player->actionGroundMove(player);
+        }
+    }
 }
 
 void Player__Action_GhostTree(Player *player, GameObjectTask *other)

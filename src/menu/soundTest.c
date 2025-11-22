@@ -834,7 +834,6 @@ _0215D734:
 
 NONMATCH_FUNC void DrawSoundTestDrumBG(SoundTest *work, u16 id, u16 a3, s16 a4)
 {
-    // TODO: decompile this
 #ifdef NON_MATCHING
 
 #else

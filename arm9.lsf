@@ -470,6 +470,7 @@ Overlay ZoneAct
     Object src/stage/objects/dashPanel.o
     Object src/stage/objects/dashRing.o
     Object src/stage/objects/springboard.o
+    Object src/stage/objects/spikes_0.o
     Object src/stage/objects/spikes.o
     Object asm/stage/objects/spikes_vars.o
     Object src/stage/objects/breakableObject.o
@@ -492,12 +493,13 @@ Overlay ZoneAct
     Object src/stage/objects/dreamWing.o
     Object asm/stage/objects/largePiston_vars.o
     Object src/stage/objects/largePiston.o # not yet started
-    Object src/stage/objects/cameraBoundsTrigger.o
+    Object src/stage/objects/cameraBoundsTrigger.o # not yet started
     Object src/stage/objects/icicle.o
     Object src/stage/objects/playerSnowboard.o
     Object asm/stage/objects/flipBoard_vars.o
     Object src/stage/objects/flipBoard.o
     Object asm/stage/objects/diveStand_vars.o
+    Object src/stage/objects/diveStand_0.o
     Object src/stage/objects/diveStand.o
     Object src/stage/objects/iceBlock.o
     Object src/stage/objects/halfpipe.o
@@ -506,7 +508,7 @@ Overlay ZoneAct
     Object src/stage/objects/stalactite.o
     Object src/stage/objects/springCrystal.o
     Object asm/stage/objects/rotateCrane_vars.o
-    Object src/stage/objects/rotateCrane.o
+    Object src/stage/objects/rotateCrane.o # not yet started
     Object asm/stage/objects/winch_vars.o
     Object src/stage/objects/winch.o
     Object asm/stage/objects/truck_vars.o
@@ -521,7 +523,6 @@ Overlay ZoneAct
     Object src/stage/objects/startPlatform.o
     Object src/stage/objects/trampoline.o
     Object src/stage/objects/pirateShip.o
-    Object asm/stage/objects/pirateShip_vars.o
     Object src/stage/objects/cannon_0.o
     Object src/stage/objects/cannon.o
     Object src/stage/objects/tutorial.o

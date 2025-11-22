@@ -24,11 +24,11 @@ NOT_DECOMPILED void *aActAcGmkPopSte;
 
 NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    // https://decomp.me/scratch/Xo0hU -> 85.79%
+    // https://decomp.me/scratch/Xo0hU -> 94.21%
 #ifdef NON_MATCHING
     Task *task;
     PopSteam *work;
-
+    
     s16 popSteamType = 0;
 
     task = CreateStageTask(PopSteam__Destructor, TASK_FLAG_NONE, TASK_PAUSELEVEL_0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), PopSteam);
@@ -63,28 +63,31 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 34);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
-    StageTask__SetAnimation(&work->gameWork.objWork, 2 * popSteamType + 1);
+    StageTask__SetAnimation(&work->gameWork.objWork, 1 + 2 * popSteamType);
 
     if ((mapObject->flags & 1) != 0)
     {
         AnimatorSpriteDS *aniCork = &work->aniCork.ani;
-
+        
         ObjAction2dBACLoad(aniCork, "/act/ac_gmk_pop_steam.bac", OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_170), gameArchiveStage);
         StageTask__SetOAMOrder(&aniCork->work, SPRITE_ORDER_23);
         StageTask__SetOAMPriority(&aniCork->work, SPRITE_PRIORITY_2);
         aniCork->flags |= ANIMATORSPRITEDS_FLAG_11 | ANIMATORSPRITEDS_FLAG_4;
         AnimatorSpriteDS__SetAnimation(aniCork, 2 * popSteamType);
 
-        aniCork->cParam[1].palette = aniCork->cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
-        aniCork->work.cParam.palette                            = aniCork->cParam[0].palette;
+        aniCork->cParam[1].palette   = aniCork->cParam[0].palette   = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+        aniCork->work.cParam.palette = aniCork->cParam[0].palette;
 
         work->gameWork.objWork.collisionObj           = NULL;
+        
         work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
         work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
+        
+        const Vec2Fx16 *offset = &PopSteam__offsetTable[mapObject->id - MAPOBJECT_84];
         work->gameWork.collisionObject.work.width     = 32;
         work->gameWork.collisionObject.work.height    = 32;
-        work->gameWork.collisionObject.work.ofst_x    = PopSteam__offsetTable[mapObject->id - MAPOBJECT_84].x;
-        work->gameWork.collisionObject.work.ofst_y    = PopSteam__offsetTable[mapObject->id - MAPOBJECT_84].y;
+        work->gameWork.collisionObject.work.ofst_x    = offset->x;
+        work->gameWork.collisionObject.work.ofst_y    = offset->y;
 
         ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
         ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_VULNERABLE);
@@ -94,7 +97,7 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
     }
     else
     {
-        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
+        work->gameWork.colliders[1].parent = &work->gameWork.objWork;
 
         if (mapObject->id == MAPOBJECT_86 || (s32)mapObject->id == MAPOBJECT_87)
             ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, 0, -16, work->steamSize, 16);
@@ -112,9 +115,9 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
     ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], PopSteam__OnDefend_Steam);
     work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
-    u16 steamEffectType = EFFECTSTEAM_TYPE_LARGE;
+    u16 steamEffectType = 0;
 
-    fx32 duration   = FX_DivS32(FLOAT_TO_FX32(48.0), (work->gameWork.mapObject->top << (FX32_SHIFT - 1)) + FLOAT_TO_FX32(4.0)) << 12;
+    fx32 duration   = FX32_FROM_WHOLE(FX_DivS32(FLOAT_TO_FX32(48.0), (work->gameWork.mapObject->top << (FX32_SHIFT - 1)) + FLOAT_TO_FX32(4.0)));
     work->durationS = duration;
     work->durationL = duration;
     work->timerL    = duration >> 1;
@@ -132,17 +135,17 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
 
     switch (mapObject->id)
     {
-        case MAPOBJECT_87:
-            steamStepX   = force * steamTimerStep;
-            steamVelX    = force;
-            steamOffsetX = FLOAT_TO_FX32(16.0);
-            break;
-
         case MAPOBJECT_86:
         default:
             steamVelX    = -force;
             steamStepX   = -force * steamTimerStep;
             steamOffsetX = -FLOAT_TO_FX32(16.0);
+            break;
+        
+        case MAPOBJECT_87:
+            steamStepX   = force * steamTimerStep;
+            steamVelX    = force;
+            steamOffsetX = FLOAT_TO_FX32(16.0);
             break;
 
         case MAPOBJECT_84:
@@ -158,10 +161,10 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
             break;
     }
 
-    s32 v27         = FX_DivS32(FX32_FROM_WHOLE(work->steamPos), force);
-    fx32 steamTimer = FX32_FROM_WHOLE(v27);
+    s32 steamForce         = FX_DivS32(FX32_FROM_WHOLE(work->steamPos), force);
+    fx32 steamTimer = FX32_FROM_WHOLE(steamForce);
 
-    s32 i = FX_DivS32(v27, steamTimerStep);
+    s32 i = FX_DivS32(steamForce, steamTimerStep);
     while (i > 0)
     {
         EffectSteamEffect__Create(steamEffectType, steamSpawnX + steamOffsetX, steamSpawnY + steamOffsetY, steamVelX, steamVelY, steamTimer);
@@ -169,7 +172,7 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
         steamOffsetY += steamStepY;
         steamOffsetX += steamStepX;
         steamTimer -= FX32_FROM_WHOLE(steamTimerStep);
-        i--;
+		i--;
     }
 
     SetTaskOutFunc(&work->gameWork.objWork, PopSteam__Draw);

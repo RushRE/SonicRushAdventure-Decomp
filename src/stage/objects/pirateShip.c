@@ -32,8 +32,6 @@ static s16 cannonBallShootIntervalTable[] = { 25, 15, 20, 15, 25, 5, 10, 20, 5, 
 static s16 cannonBallSpawnPosTable[]      = { 0, -41, -37, -34, -21, -38, 39, -34, 0, -41, -37, -34, 22, -39, 39, -34 };
 static s16 cannonBallVelocityXTable[]     = { 56, -88, 108, -56, 72, -76, 64, -64, 80, -80, 96, -72, 48, -60, 88, -48 };
 
-NOT_DECOMPILED void *aActAcGmkPirate_0;
-
 // --------------------
 // FUNCTION DECLS
 // --------------------
@@ -48,13 +46,20 @@ static void PirateShipCannonBall_State_Active(PirateShipCannonBall *work);
 static void PirateShipCannonBall_OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 // --------------------
+// INLINE FUNCTIONS
+// --------------------
+
+RUSH_INLINE OBS_SPRITE_REF *GetCannonBallSpriteRef(int arg0)
+{
+  return GetObjectSpriteRef(arg0);
+}
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC PirateShip *CreatePirateShip(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+PirateShip *CreatePirateShip(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    // should match, just waiting on 'aActAcGmkPirate_0' to be decompiled!
-#ifdef NON_MATCHING
     Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), PirateShip);
     if (task == HeapNull)
         return NULL;
@@ -83,117 +88,10 @@ NONMATCH_FUNC PirateShip *CreatePirateShip(MapObject *mapObject, fx32 x, fx32 y,
     work->endPos   = work->gameWork.objWork.position.x + FX32_FROM_WHOLE((mapObjectParam_distanceSubUnits + 100 * mapObjectParam_distanceUnits)) + FLOAT_TO_FX32(32.0);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r3, #0x1800
-	mov r7, r0
-	mov r6, r1
-	mov r5, r2
-	mov r2, #0
-	str r3, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x378
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x378
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldr r1, [r4, #0x1c]
-	mov r0, #0xa2
-	orr r1, r1, #0x2100
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x20]
-	orr r1, r1, #0x20
-	str r1, [r4, #0x20]
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	mov r1, #0x77
-	ldr r2, [r0, #0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	add r1, r4, #0x168
-	ldr r2, =aActAcGmkPirate_0
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0
-	mov r2, #0x57
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #3
-	bl StageTask__SetAnimatorPriority
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimation
-	str r4, [r4, #0x234]
-	mov r1, #0
-	str r1, [sp]
-	add r0, r4, #0x218
-	sub r2, r1, #0x200
-	mov r3, #0x40
-	bl ObjRect__SetBox2D
-	add r0, r4, #0x218
-	mov r1, #0
-	mov r2, r1
-	bl ObjRect__SetAttackStat
-	add r0, r4, #0x218
-	ldr r1, =0x0000FFFE
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, =PirateShip_OnDefend
-	mov r0, #0x64
-	str r1, [r4, #0x23c]
-	ldr r1, [r4, #0x230]
-	orr r1, r1, #0x400
-	str r1, [r4, #0x230]
-	ldr r1, [r4, #0x44]
-	sub r1, r1, #0x20000
-	str r1, [r4, #0x368]
-	ldr r3, [r4, #0x44]
-	ldrb r2, [r7, #8]
-	ldrsb r1, [r7, #7]
-	mla r0, r1, r0, r2
-	add r0, r3, r0, lsl #12
-	add r0, r0, #0x20000
-	str r0, [r4, #0x36c]
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC PirateShipCannonBall *CreatePirateShipCannonBall(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+PirateShipCannonBall *CreatePirateShipCannonBall(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    // https://decomp.me/scratch/YuFeZ -> 97.96%
-    // issue with return instruction?
-#ifdef NON_MATCHING
     Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), PirateShipCannonBall);
     if (task == HeapNull)
         return NULL;
@@ -202,12 +100,15 @@ NONMATCH_FUNC PirateShipCannonBall *CreatePirateShipCannonBall(MapObject *mapObj
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_X_COLLISION_CHECK;
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    work->gameWork.objWork.moveFlag |= 
+        STAGE_TASK_MOVE_FLAG_DISABLE_X_COLLISION_CHECK |
+        STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | 
+        STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | 
+        STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_pirate_ship.bac", GetObjectDataWork(OBJDATAWORK_162), gameArchiveStage,
                              OBJ_DATA_GFX_NONE);
-    ObjObjectActionAllocSprite(&work->gameWork.objWork, 8, GetObjectSpriteRef(OBJDATAWORK_163));
+    ObjObjectActionAllocSprite(&work->gameWork.objWork, 8, GetCannonBallSpriteRef(OBJDATAWORK_163));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, PIRATESHIP_ANI_CANNONBALL, 83);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -225,108 +126,6 @@ NONMATCH_FUNC PirateShipCannonBall *CreatePirateShipCannonBall(MapObject *mapObj
     SetTaskState(&work->gameWork.objWork, PirateShipCannonBall_State_Active);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r3, #0x1800
-	mov r7, r0
-	mov r6, r1
-	mov r5, r2
-	mov r2, #0
-	str r3, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x364
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x364
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldr r1, [r4, #0x1c]
-	mov r0, #0xa2
-	orr r1, r1, #0x780
-	str r1, [r4, #0x1c]
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	mov r1, #0
-	ldr r2, [r0, #0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	add r1, r4, #0x168
-	ldr r2, =aActAcGmkPirate_0
-	bl ObjObjectAction2dBACLoad
-	mov r0, #0xa3
-	bl GetObjectFileWork
-	mov r2, r0
-	mov r0, r4
-	mov r1, #8
-	bl ObjObjectActionAllocSprite
-	mov r0, r4
-	mov r1, #2
-	mov r2, #0x53
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimation
-	add r0, r4, #0x218
-	mov r1, #1
-	mov r2, #0x41
-	bl ObjRect__SetDefenceStat
-	ldr r0, =PirateShipCannonBall_OnHit
-	mov r1, #0xd
-	str r0, [r4, #0x278]
-	ldr r2, [r4, #0x270]
-	mov r0, r4
-	orr r2, r2, #0x20
-	str r2, [r4, #0x270]
-	str r1, [sp]
-	sub r1, r1, #0x11
-	mov r2, #7
-	mov r3, #4
-	bl StageTask__SetHitbox
-	ldr r1, [r4, #0x1c]
-	mov r0, #0x40000
-	orr r1, r1, #0x100
-	str r1, [r4, #0x1c]
-	str r0, [r4, #0x4c]
-	mov r0, #0x200
-	str r0, [r4, #0x38]
-	str r0, [r4, #0x3c]
-	ldr r1, =PirateShipCannonBall_State_Active
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 void PirateShip_State_Appear(PirateShip *work)

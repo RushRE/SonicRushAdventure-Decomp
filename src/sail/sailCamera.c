@@ -143,23 +143,23 @@ SailCamera *CreateSailCamera(void)
     return work;
 }
 
-NONMATCH_FUNC void SailCamera_Main(void)
+void SailCamera_Main(void)
 {
-    // https://decomp.me/scratch/95Y4x -> 98.92%
-    // minor register mismatches
-#ifdef NON_MATCHING
+    u16 shipType;
     SailManager *manager;
+    u16 voyageAngle;
+    StageTask *player;
+    SailCamera *work;
     Camera3D *cameraConfig;
     BossArenaCamera *camera3D;
-    SailCamera *work;
-
+    
     manager = SailManager__GetWork();
-    work    = TaskGetWorkCurrent(SailCamera);
+    work     = TaskGetWorkCurrent(SailCamera);
 
-    camera3D     = BossArena__GetCamera(0);
-    cameraConfig = BossArena__GetCameraConfig2(camera3D);
+    camera3D = BossArena__GetCamera(0);
+    cameraConfig      = BossArena__GetCameraConfig2(camera3D);
 
-    u16 shipType       = SailManager__GetShipType();
+    shipType       = SailManager__GetShipType();
     g_obj.cameraConfig = cameraConfig;
 
     VecFx32 tracker1;
@@ -175,9 +175,9 @@ NONMATCH_FUNC void SailCamera_Main(void)
         work->trackY1 = ObjShiftSet(work->trackY1, work->targetTrackY1, 4, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
     }
 
-    u16 voyageAngle = SailVoyageManager__GetVoyageAngle();
+    voyageAngle = SailVoyageManager__GetVoyageAngle();
 
-    StageTask *player = SailManager__GetWork()->sailPlayer;
+    player = SailManager__GetWork()->sailPlayer;
     if (player != NULL)
     {
         SailPlayer *playerWorker = GetStageTaskWorker(player, SailPlayer);
@@ -202,153 +202,6 @@ NONMATCH_FUNC void SailCamera_Main(void)
         if (work->state != NULL)
             work->state(work);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #0x1c
-	bl SailManager__GetWork
-	mov r5, r0
-	bl GetCurrentTaskWork_
-	mov r7, r0
-	mov r0, #0
-	bl BossArena__GetCamera
-	mov r8, r0
-	bl BossArena__GetCameraConfig2
-	mov r6, r0
-	bl SailManager__GetShipType
-	ldr r1, =g_obj
-	mov r4, r0, lsl #0x10
-	str r6, [r1, #0x3c]
-	mov r0, r8
-	add r1, sp, #0x10
-	add r2, sp, #0x14
-	add r3, sp, #0x18
-	bl BossArena__GetTracker1TargetPos
-	mov r0, r8
-	add r1, sp, #4
-	add r2, sp, #8
-	add r3, sp, #0xc
-	bl BossArena__GetTracker0TargetPos
-	ldr r0, [r5, #0x24]
-	tst r0, #1
-	bne _0215F5D4
-	mov r3, #0
-	str r3, [sp]
-	ldr r0, [r7, #0x18]
-	ldr r1, [r7, #0x1c]
-	mov r2, #3
-	bl ObjShiftSet
-	str r0, [r7, #0x18]
-	mov r3, #0
-	str r3, [sp]
-	ldmia r7, {r0, r1}
-	mov r2, #4
-	bl ObjShiftSet
-	str r0, [r7]
-	mov r3, #0
-	str r3, [sp]
-	ldr r0, [r7, #0x10]
-	ldr r1, [r7, #0x14]
-	mov r2, #4
-	bl ObjShiftSet
-	str r0, [r7, #0x10]
-	mov r3, #0
-	str r3, [sp]
-	ldr r0, [r7, #8]
-	ldr r1, [r7, #0xc]
-	mov r2, #4
-	bl ObjShiftSet
-	str r0, [r7, #8]
-_0215F5D4:
-	bl SailVoyageManager__GetVoyageAngle
-	mov r6, r0
-	bl SailManager__GetWork
-	ldr r0, [r0, #0x70]
-	cmp r0, #0
-	beq _0215F604
-	ldr r0, [r0, #0x124]
-	add r0, r0, #0x100
-	ldrsh r0, [r0, #0xca]
-	add r0, r6, r0
-	mov r0, r0, lsl #0x10
-	mov r6, r0, lsr #0x10
-_0215F604:
-	ldr r1, [r7, #0x30]
-	mov r0, r6, lsl #0x10
-	str r1, [sp, #0x10]
-	ldr r3, [r7, #0x34]
-	ldr r2, [r7, #0]
-	ldr r6, [r7, #8]
-	add r2, r3, r2
-	add r2, r6, r2
-	str r2, [sp, #0x14]
-	ldr r3, [r7, #0x38]
-	mov r0, r0, lsr #0x10
-	str r3, [sp, #0x18]
-	mov r0, r0, asr #4
-	ldr r9, [r7, #0x28]
-	ldr r6, [r7, #0]
-	mov ip, r0, lsl #1
-	add r0, r9, r6
-	ldr r10, [r7, #0x10]
-	mov r6, ip, lsl #1
-	add r0, r10, r0
-	str r0, [sp, #8]
-	ldr r0, =FX_SinCosTable_
-	ldr r10, [r7, #0x18]
-	ldr r9, [r7, #0x20]
-	ldrsh lr, [r0, r6]
-	add r6, ip, #1
-	add r9, r10, r9
-	smull ip, r10, r9, lr
-	adds ip, ip, #0x800
-	adc r9, r10, #0
-	mov r10, ip, lsr #0xc
-	orr r10, r10, r9, lsl #20
-	str r10, [sp, #4]
-	mov r6, r6, lsl #1
-	ldrsh r6, [r0, r6]
-	ldr lr, [r7, #0x18]
-	ldr ip, [r7, #0x20]
-	mov r0, r8
-	add ip, lr, ip
-	smull lr, r6, ip, r6
-	adds ip, lr, #0x800
-	adc r6, r6, #0
-	mov ip, ip, lsr #0xc
-	orr ip, ip, r6, lsl #20
-	str ip, [sp, #0xc]
-	bl BossArena__SetTracker1TargetPos
-	ldr r1, [sp, #4]
-	ldr r2, [sp, #8]
-	ldr r3, [sp, #0xc]
-	mov r0, r8
-	bl BossArena__SetTracker0TargetPos
-	ldr r0, =shipShiftUnknown
-	ldrb r6, [r0, r4, lsr #16]
-	bl GetScreenShakeOffsetX
-	mov r4, r0
-	bl GetScreenShakeOffsetY
-	mov r2, r0, asr r6
-	mov r1, r4, asr r6
-	mov r0, r8
-	mov r3, #0
-	bl BossArena__SetNextPos
-	ldr r0, [r5, #0x24]
-	tst r0, #1
-	addne sp, sp, #0x1c
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	ldr r1, [r7, #0x3c]
-	cmp r1, #0
-	addeq sp, sp, #0x1c
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	mov r0, r7
-	blx r1
-	add sp, sp, #0x1c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-
-// clang-format on
-#endif
 }
 
 void SailCamera_State_JetHover(SailCamera *work)

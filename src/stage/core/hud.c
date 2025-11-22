@@ -198,7 +198,7 @@ void CreateHUD(BOOL forStage)
 
 NONMATCH_FUNC BOOL LoadHUDAssets(void)
 {
-    // https://decomp.me/scratch/uWh12 -> 98.80%
+    // https://decomp.me/scratch/uWh12 -> 98.97%
 #ifdef NON_MATCHING
     HUD *work = hudWorkSingleton;
 
