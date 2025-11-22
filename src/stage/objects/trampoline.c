@@ -685,7 +685,7 @@ NONMATCH_FUNC void Trampoline_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect
         if (canBounce)
         {
             trampoline->gameWork.parent = &player->objWork;
-            Player__Gimmick_2021E9C(player, &trampoline->gameWork);
+            Player__Action_TrampolineLand(player, &trampoline->gameWork);
             trampoline->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
             trampoline->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_NO_HIT_CHECKS;
             trampoline->playerBouncePos = player->objWork.position.y;
@@ -846,7 +846,7 @@ _02179F84:
 	mov r0, r4
 	mov r1, r5
 	str r4, [r5, #0x35c]
-	bl Player__Gimmick_2021E9C
+	bl Player__Action_TrampolineLand
 	mov r0, #0
 	str r0, [r5, #0x234]
 	ldr r0, [r5, #0x230]

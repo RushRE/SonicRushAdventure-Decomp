@@ -742,9 +742,9 @@
 .public Player__State_AnchorRope
 .public Player__Action_BarrelGrab
 .public Player__State_BarrelGrab
-.public Player__Gimmick_2021E9C
-.public Player__State_2021FA8
-.public Player__Action_Trampoline
+.public Player__Action_TrampolineLand
+.public Player__State_TrampolineLand
+.public Player__Action_TrampolineBounce
 .public Player__Gimmick_2022108
 .public Player__State_CannonEnter_FallInto
 .public Player__State_CannonEnter_WalkInto

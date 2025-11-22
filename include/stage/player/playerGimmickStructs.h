@@ -70,6 +70,12 @@ struct
 
 struct
 {
+    fx32 velocityX;
+    fx32 velocityY;
+} trampoline;
+
+struct
+{
     fx32 startX;
     fx32 startY;
 } cannonEntry;

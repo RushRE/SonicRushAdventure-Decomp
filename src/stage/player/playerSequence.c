@@ -2122,9 +2122,9 @@ NONMATCH_FUNC void Player__Func_201DD24(Player *player)
 
     player->gimmick.value2 = 0;
 
-    fx32 v3                  = MultiplyFX(player->gimmick.value1, 0x647A) >> 2;
-    player->gimmick.value3   = MultiplyFX(0x66666667, v3) >> 4;
-    
+    fx32 v3                = MultiplyFX(player->gimmick.value1, 0x647A) >> 2;
+    player->gimmick.value3 = MultiplyFX(0x66666667, v3) >> 4;
+
     player->objWork.userWork = 0;
 
     SetTaskState(&player->objWork, Player__State_201DE24);
@@ -5244,7 +5244,7 @@ void Player__State_BarrelGrab(Player *work)
     }
 }
 
-void Player__Gimmick_2021E9C(Player *player, GameObjectTask *other)
+void Player__Action_TrampolineLand(Player *player, GameObjectTask *other)
 {
     fx32 velX;
     fx32 velY;
@@ -5268,10 +5268,10 @@ void Player__Gimmick_2021E9C(Player *player, GameObjectTask *other)
         if (velY < FLOAT_TO_FX32(6.0))
             velY = FLOAT_TO_FX32(6.0);
 
-        player->gimmick.value1     = velX;
-        player->gimmick.value2     = -velY;
-        player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
-        player->objWork.velocity.y = velY;
+        player->gimmick.trampoline.velocityX = velX;
+        player->gimmick.trampoline.velocityY = -velY;
+        player->objWork.velocity.x           = FLOAT_TO_FX32(0.0);
+        player->objWork.velocity.y           = velY;
         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 
@@ -5279,11 +5279,11 @@ void Player__Gimmick_2021E9C(Player *player, GameObjectTask *other)
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
         player->objWork.userWork = 0;
-        SetTaskState(&player->objWork, Player__State_2021FA8);
+        SetTaskState(&player->objWork, Player__State_TrampolineLand);
     }
 }
 
-void Player__State_2021FA8(Player *work)
+void Player__State_TrampolineLand(Player *work)
 {
     work->objWork.velocity.y -= (work->objWork.velocity.y >> 2);
 
@@ -5322,14 +5322,14 @@ void Player__State_2021FA8(Player *work)
                 work->objWork.velocity.x = -work->spdThresholdDash;
         }
 
-        Player__Action_Trampoline(work, FLOAT_TO_FX32(0.0), work->gimmick.value2 + velY);
+        Player__Action_TrampolineBounce(work, FLOAT_TO_FX32(0.0), work->gimmick.trampoline.velocityY + velY);
         work->inputLock = 2;
         Player__Action_AllowTrickCombos(work, trampoline);
         work->gimmickObj = NULL;
     }
 }
 
-void Player__Action_Trampoline(Player *player, fx32 velX, fx32 velY)
+void Player__Action_TrampolineBounce(Player *player, fx32 velX, fx32 velY)
 {
     Player__Action_GimmickLaunch(player, velX, velY);
 

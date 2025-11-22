@@ -19,7 +19,7 @@ enum CrumblingFloorObjectFlags
 {
     BARREL_OBJFLAG_NONE,
 
-    BARREL_OBJFLAG_SPINNING    = 1 << 0,
+    BARREL_OBJFLAG_SHAKING     = 1 << 0,
     BARREL_OBJFLAG_HAS_CAPTURE = 1 << 1,
 };
 
@@ -81,7 +81,7 @@ Barrel *CreateBarrel(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         mapObjectParam_dropDistance = 38;
     }
     work->dropDistance = mapObjectParam_dropDistance << 15;
-	
+
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_barrel.bac", GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage, OBJ_DATA_GFX_AUTO);
@@ -258,7 +258,7 @@ void Barrel_Action_Close(Barrel *work)
     SetTaskState(&work->gameWork.objWork, Barrel_State_Close);
 
     work->gameWork.objWork.userWork = 0;
-    work->gameWork.flags &= ~BARREL_OBJFLAG_SPINNING;
+    work->gameWork.flags &= ~BARREL_OBJFLAG_SHAKING;
 
     StopStageSfx(work->gameWork.objWork.sequencePlayerPtr);
 }
@@ -270,7 +270,7 @@ void Barrel_State_Close(Barrel *work)
     if (player != NULL && CheckPlayerGimmickObj(player, work) == FALSE)
     {
         work->gameWork.parent = NULL;
-        work->gameWork.flags &= ~BARREL_OBJFLAG_SPINNING;
+        work->gameWork.flags &= ~BARREL_OBJFLAG_SHAKING;
         work->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
     }
 
@@ -354,7 +354,7 @@ void Barrel_State_Close(Barrel *work)
         if ((work->gameWork.parent->userWork & 2) != 0)
         {
             work->gameWork.parent = NULL;
-            work->gameWork.flags &= ~BARREL_OBJFLAG_SPINNING;
+            work->gameWork.flags &= ~BARREL_OBJFLAG_SHAKING;
 
             work->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
             work->gameWork.objWork.userFlag |= 1;
@@ -367,10 +367,10 @@ void Barrel_State_Close(Barrel *work)
         else if ((work->gameWork.parent->userWork & 1) != 0)
         {
             work->gameWork.objWork.userTimer = work->gameWork.parent->userTimer + 2;
-            if ((work->gameWork.flags & BARREL_OBJFLAG_SPINNING) == 0)
+            if ((work->gameWork.flags & BARREL_OBJFLAG_SHAKING) == 0)
                 work->angleVelocity = work->gameWork.objWork.userTimer * 128;
 
-            work->gameWork.flags |= BARREL_OBJFLAG_SPINNING;
+            work->gameWork.flags |= BARREL_OBJFLAG_SHAKING;
 
             CreateEffectBattleBurst(work->gameWork.objWork.position.x + FX32_FROM_WHOLE(mtMathRandRange2(-15, 17)),
                                     work->gameWork.objWork.position.y + work->barrelPos + FX32_FROM_WHOLE(mtMathRandRange2(-215, -183)));
@@ -384,7 +384,7 @@ void Barrel_State_Close(Barrel *work)
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_DEST_OBJ);
         }
 
-        if ((work->gameWork.flags & BARREL_OBJFLAG_SPINNING) != 0)
+        if ((work->gameWork.flags & BARREL_OBJFLAG_SHAKING) != 0)
         {
             work->gameWork.objWork.dir.z += work->angleVelocity;
 
@@ -411,7 +411,7 @@ void Barrel_State_Close(Barrel *work)
             {
                 if ((work->angleVelocity >= 0 && (s16)work->gameWork.objWork.dir.z >= 0) || (work->angleVelocity < 0 && (s16)work->gameWork.objWork.dir.z < 0))
                 {
-                    work->gameWork.flags &= ~BARREL_OBJFLAG_SPINNING;
+                    work->gameWork.flags &= ~BARREL_OBJFLAG_SHAKING;
                     work->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
                 }
             }
@@ -428,7 +428,7 @@ void Barrel_Draw(void)
     Barrel *work = TaskGetWorkCurrent(Barrel);
 
     u32 displayFlag = work->gameWork.objWork.displayFlag;
-    if ((work->gameWork.flags & BARREL_OBJFLAG_SPINNING) == 0)
+    if ((work->gameWork.flags & BARREL_OBJFLAG_SHAKING) == 0)
         displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
 
     VecFx32 position;
