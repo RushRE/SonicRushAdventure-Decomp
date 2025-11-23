@@ -210,7 +210,7 @@ void SailCamera_State_JetHover(SailCamera *work)
 
     if (player != NULL)
     {
-        if ((player->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+        if ((player->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
         {
             if (player->velocity.y < -FLOAT_TO_FX32(0.03125))
             {

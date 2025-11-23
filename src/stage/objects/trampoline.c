@@ -643,7 +643,7 @@ NONMATCH_FUNC void Trampoline_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect
     if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
         return;
 
-    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0 && player->objWork.velocity.y >= 0 && player->gimmickObj == NULL)
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0 && player->objWork.velocity.y >= 0 && player->gimmickObj == NULL)
     {
         fx32 playerX     = player->objWork.position.x;
         fx32 playerY     = player->objWork.position.y;

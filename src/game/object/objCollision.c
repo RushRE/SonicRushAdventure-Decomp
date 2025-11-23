@@ -278,10 +278,10 @@ void ObjDiffCollisionEarthCheck(StageTask *work)
 
 void objDiffCollisionDirCheck(StageTask *work)
 {
-    work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_400000;
+    work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_PREV_TOUCHING_FLOOR;
 
     if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
-        work->moveFlag |= STAGE_TASK_MOVE_FLAG_400000;
+        work->moveFlag |= STAGE_TASK_MOVE_FLAG_PREV_TOUCHING_FLOOR;
 
     work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_ANY;
     work->collisionFlag = STAGE_TASK_COLLISION_FLAG_NONE;
@@ -308,13 +308,13 @@ ObjCollisionFlags objDiffSufSet(StageTask *work)
     if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_ALLOW_TOP_SOLID) != 0)
         flags |= OBJ_COL_FLAG_ALLOW_TOP_SOLID;
 
-    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_100000) == 0)
+    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_NO_BOTTOM_COLLISION) == 0)
         flags |= OBJ_COL_FLAG_ALLOW_TOP_SOLID;
 
     if ((work->flag & STAGE_TASK_FLAG_ON_PLANE_B) != 0)
         flags |= OBJ_COL_FLAG_USE_PLANE_B;
 
-    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_80000) != 0)
+    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_LIMIT_MAP_BOUNDS) != 0)
         flags |= OBJ_COL_FLAG_LIMIT_MAP_BOUNDS;
 
     return flags;
@@ -381,7 +381,7 @@ void objDiffCollisionDirWidthCheck(StageTask *work, u8 wallOnly, s32 moveSpeed)
         flip ^= 1;
     }
 
-    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
         dir += work->dir.z;
 
     if (objDiffCollisionSimpleOverCheck(work))
@@ -462,7 +462,7 @@ void objDiffCollisionDirWidthCheck(StageTask *work, u8 wallOnly, s32 moveSpeed)
         {
             work->moveFlag |= STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL;
 
-            if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_4000) == 0)
+            if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT) == 0)
             {
                 if (colWork.vec == OBD_COL_LEFT && work->move.x < 0)
                 {
@@ -479,7 +479,7 @@ void objDiffCollisionDirWidthCheck(StageTask *work, u8 wallOnly, s32 moveSpeed)
 
             if (colWork.vec & OBD_COL_Y)
             {
-                if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_4000) == 0)
+                if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT) == 0)
                 {
                     work->velocity.y = FLOAT_TO_FX32(0.0);
                     work->groundVel  = FLOAT_TO_FX32(0.0);
@@ -565,7 +565,7 @@ void objDiffCollisionDirWidthCheck(StageTask *work, u8 wallOnly, s32 moveSpeed)
             if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) == 0 || penetration1 < 0)
                 work->moveFlag |= STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL;
 
-            if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_4000) == 0)
+            if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT) == 0)
             {
                 if (colWork.vec == OBD_COL_LEFT && moveSpeed < FLOAT_TO_FX32(0.0))
                     work->groundVel = FLOAT_TO_FX32(0.0);
@@ -595,12 +595,12 @@ BOOL objDiffCollisionSimpleOverCheck(StageTask *work)
     colWork.flag             = objDiffSufSet(work);
 
     u16 dir;
-    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
         dir = 0;
     else
         dir = (work->dir.z + FLOAT_DEG_TO_IDX(45.0) & 0xC000) >> 14;
 
-    if (work->fallDir != 0)
+    if (work->fallDir != FLOAT_DEG_TO_IDX(0.0))
         dir = (u16)(dir + (u16)((work->fallDir + FLOAT_DEG_TO_IDX(45.0) & 0xC000) >> 14)) & 3;
 
     s16 rectX1;
@@ -696,12 +696,12 @@ void objDiffCollisionDirHeightCheck(StageTask *work)
 
     dir1 = dir2 = (u16)work->dir.z;
 
-    if (work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR)
+    if (work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING)
         dir = 0;
     else
         dir = (u16)(((work->dir.z + FLOAT_DEG_TO_IDX(45.0)) & 0xC000) >> 14);
 
-    if (work->fallDir)
+    if (work->fallDir != FLOAT_DEG_TO_IDX(0.0))
     {
         dir += (u16)(((work->fallDir + FLOAT_DEG_TO_IDX(45.0)) & 0xC000) >> 14);
         dir &= 0x3;
@@ -769,7 +769,7 @@ void objDiffCollisionDirHeightCheck(StageTask *work)
 
     if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_ALLOW_TOP_SOLID) == 0)
     {
-        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_400000) == 0)
+        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_PREV_TOUCHING_FLOOR) == 0)
         {
             u16 storedFlag = colWork.flag;
 
@@ -792,20 +792,20 @@ void objDiffCollisionDirHeightCheck(StageTask *work)
                 delta = penetration2;
 
             if (delta >= 0)
-                work->moveFlag |= STAGE_TASK_MOVE_FLAG_100000;
+                work->moveFlag |= STAGE_TASK_MOVE_FLAG_NO_BOTTOM_COLLISION;
             else
-                work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_100000;
+                work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_NO_BOTTOM_COLLISION;
         }
         else
         {
             if ((colWork.vec & OBD_COL_Y) != 0 || (work->prevCollisionFlag & STAGE_TASK_COLLISION_FLAG_GRIND_RAIL) != 0)
-                work->moveFlag |= STAGE_TASK_MOVE_FLAG_100000;
+                work->moveFlag |= STAGE_TASK_MOVE_FLAG_NO_BOTTOM_COLLISION;
             else
-                work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_100000;
+                work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_NO_BOTTOM_COLLISION;
         }
     }
 
-    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_100000) == 0)
+    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_NO_BOTTOM_COLLISION) == 0)
         colWork.flag |= OBJ_COL_FLAG_ALLOW_TOP_SOLID;
 
     colWork.attr = &attr;
@@ -824,7 +824,7 @@ void objDiffCollisionDirHeightCheck(StageTask *work)
     colWork.dir  = &dir3;
     colWork.attr = NULL;
     colWork.y    = posY + rectY1;
-    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_200000) != 0 && (work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS) == 0)
+    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_PRECISE_FLOOR_CHECKS) != 0 && (work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS) == 0)
     {
         u8 i;
         s32 tempPos;
@@ -870,7 +870,7 @@ void objDiffCollisionDirHeightCheck(StageTask *work)
 
     if (work->collisionFlag & STAGE_TASK_COLLISION_FLAG_GRIND_RAIL)
     {
-        if (work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR && stepY > FLOAT_TO_FX32(0.0))
+        if (work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING && stepY > FLOAT_TO_FX32(0.0))
         {
             if ((work->collisionFlag & STAGE_TASK_COLLISION_FLAG_CLIFF_EDGE) == 0)
             {
@@ -893,34 +893,34 @@ void objDiffCollisionDirHeightCheck(StageTask *work)
     {
         if (delta < 0)
         {
-            if (!(work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR && stepY < FLOAT_TO_FX32(0.0)))
+            if (!(work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING && stepY < FLOAT_TO_FX32(0.0)))
                 work->moveFlag |= STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
 
             if (delta >= -14 && work->moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR)
             {
-                if (delta == -1 && work->moveFlag & STAGE_TASK_MOVE_FLAG_10000)
+                if (delta == -1 && work->moveFlag & STAGE_TASK_MOVE_FLAG_DO_COL_VIB_CHECK)
                 {
                     penetration1 = objDiffColVibCheck(posX, posY, rectX1, rectX2, rectY1, rectY2, colWork.vec, colWork.flag, penetration1, penetration2);
 
                     if (penetration1 != 1)
                     {
                         objDiffColDirMove(&posX, &posY, delta, colWork.vec);
-                        work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_10000;
+                        work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_DO_COL_VIB_CHECK;
                     }
                 }
                 else
                 {
                     objDiffColDirMove(&posX, &posY, delta, colWork.vec);
-                    work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_10000;
+                    work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_DO_COL_VIB_CHECK;
                 }
             }
         }
         else
         {
             if (delta == 1)
-                work->moveFlag |= STAGE_TASK_MOVE_FLAG_10000;
+                work->moveFlag |= STAGE_TASK_MOVE_FLAG_DO_COL_VIB_CHECK;
 
-            if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+            if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
             {
                 if (dir & 1)
                     stepSpeed = (s8)(FX32_TO_WHOLE(MATH_ABS(stepY)) + 3);
@@ -959,7 +959,7 @@ void objDiffCollisionDirHeightCheck(StageTask *work)
     }
     else
     {
-        if (!(work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR && work->velocity.y < 0))
+        if (!(work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING && work->velocity.y < FLOAT_TO_FX32(0.0)))
         {
             work->moveFlag |= STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
         }
@@ -967,7 +967,7 @@ void objDiffCollisionDirHeightCheck(StageTask *work)
 
     if (work->moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR)
     {
-        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_20000000) == 0)
+        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_ANGLE_UPDATES) == 0)
         {
             if ((work->collisionFlag & STAGE_TASK_COLLISION_FLAG_CLIFF_EDGE) == 0 && (work->moveFlag & STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES) != 0)
             {
@@ -992,16 +992,16 @@ void objDiffCollisionDirHeightCheck(StageTask *work)
                     dir1 += work->fallDir;
                 }
 
-                if (work->moveFlag & STAGE_TASK_MOVE_FLAG_800000)
+                if (work->moveFlag & STAGE_TASK_MOVE_FLAG_STEP_TOWARDS_ANGLES)
                     work->dir.z = ObjRoopMove16(work->dir.z, dir1, FLOAT_DEG_TO_IDX(1.40625));
                 else
                     work->dir.z = dir1;
             }
         }
 
-        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_4000) == 0)
+        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT) == 0)
         {
-            if (work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR)
+            if (work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING)
                 dir = 0;
             else
                 dir = (u16)(((work->dir.z + FLOAT_DEG_TO_IDX(45.0)) & 0xC000) >> 14);
@@ -1096,7 +1096,7 @@ void objDiffCollisionDirHeightCheck(StageTask *work)
             {
                 objDiffColDirMove(&posX, &posY, hitboxTopOffset, colWork.vec);
 
-                if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_4000) == 0 && stepY < FLOAT_TO_FX32(0.0))
+                if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT) == 0 && stepY < FLOAT_TO_FX32(0.0))
                 {
                     if (colWork.vec & OBD_COL_Y)
                         work->velocity.y = FLOAT_TO_FX32(0.0);
@@ -1832,7 +1832,7 @@ s32 ObjCollisionObjectCheck(StageTask *work, OBS_COL_CHK_DATA *colWork)
         return penetration;
 
     u16 angle;
-    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
     {
         angle = work->fallDir;
     }
@@ -1846,7 +1846,7 @@ s32 ObjCollisionObjectCheck(StageTask *work, OBS_COL_CHK_DATA *colWork)
     {
         default:
             // case 0:
-            if (colWork->vec == OBD_COL_DOWN && ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 || work->move.y >= 0))
+            if (colWork->vec == OBD_COL_DOWN && ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0 || work->move.y >= 0))
             {
                 isRiding = TRUE;
                 break;
@@ -1854,7 +1854,7 @@ s32 ObjCollisionObjectCheck(StageTask *work, OBS_COL_CHK_DATA *colWork)
             break;
 
         case 1:
-            if (colWork->vec == OBD_COL_LEFT && ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 || work->move.x < 0))
+            if (colWork->vec == OBD_COL_LEFT && ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0 || work->move.x < 0))
             {
                 isRiding = TRUE;
                 break;
@@ -1862,7 +1862,7 @@ s32 ObjCollisionObjectCheck(StageTask *work, OBS_COL_CHK_DATA *colWork)
             break;
 
         case 2:
-            if (colWork->vec == OBD_COL_UP && ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 || work->move.y < 0))
+            if (colWork->vec == OBD_COL_UP && ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0 || work->move.y < 0))
             {
                 isRiding = TRUE;
                 break;
@@ -1870,7 +1870,7 @@ s32 ObjCollisionObjectCheck(StageTask *work, OBS_COL_CHK_DATA *colWork)
             break;
 
         case 3:
-            if (colWork->vec == OBD_COL_RIGHT && ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 || work->move.x > 0))
+            if (colWork->vec == OBD_COL_RIGHT && ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0 || work->move.x > 0))
             {
                 isRiding = TRUE;
                 break;

@@ -614,7 +614,7 @@ void GameObject__BoostImpactEnemy(GameObjectTask *work, Player *player)
 
     work->objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
     work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
-    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
     work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     SetTaskState(&work->objWork, GameObject__State_BoostImpactSpin);
     work->objWork.groundVel = 0;

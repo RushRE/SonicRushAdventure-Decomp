@@ -145,7 +145,7 @@ EnemyGhostBomb *CreateGhostBomb(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     ObjRect__SetOnAttack(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemyGhostBomb_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetGravity(&work->gameWork.objWork, 0xA8, FLOAT_TO_FX32(15.0));
     StageTask__SetHitbox(&work->gameWork.objWork, -4, -3, 3, 4);

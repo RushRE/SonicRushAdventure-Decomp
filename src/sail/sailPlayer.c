@@ -3892,7 +3892,7 @@ void SailPlayer__HandleTimers(StageTask *work)
 
             if ((work->userFlag & SAILPLAYER_FLAG_BOOST) != 0)
             {
-                if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+                if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
                     SailPlayer__GiveBoost(work, -SAILPLAYER_BOOST_DRAIN_GROUND);
                 else
                     SailPlayer__GiveBoost(work, -SAILPLAYER_BOOST_DRAIN_AIR);
@@ -4001,7 +4001,7 @@ NONMATCH_FUNC void SailPlayer__HandleJetControl(StageTask *work)
 
         worker->touchPos.y = worker->touchOn.y;
 
-        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) == 0 && (work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) == 0 && (work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
         {
             if ((work->userFlag & SAILPLAYER_FLAG_8) == 0)
             {
@@ -4108,7 +4108,7 @@ NONMATCH_FUNC void SailPlayer__HandleJetControl(StageTask *work)
     }
     else
     {
-        if (worker->speed > FLOAT_TO_FX32(0.0) && (work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 && (work->userFlag & SAILPLAYER_FLAG_8) == 0)
+        if (worker->speed > FLOAT_TO_FX32(0.0) && (work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0 && (work->userFlag & SAILPLAYER_FLAG_8) == 0)
         {
             if (TOUCH_HAS_PULL(worker->touchFlags) && !worker->isRival)
             {
@@ -4155,7 +4155,7 @@ NONMATCH_FUNC void SailPlayer__HandleJetControl(StageTask *work)
 
     if ((work->userFlag & SAILPLAYER_FLAG_8) == 0 && !SailPlayer__HasRetired(work))
     {
-        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
         {
             if (TOUCH_HAS_PUSH(worker->touchFlags) && worker->boostTapTimer > 6)
                 worker->boostTapTimer = 0;
@@ -5361,7 +5361,7 @@ void SailPlayer__HandleHoverControl1(StageTask *work)
     work->userFlag &= ~SAILPLAYER_FLAG_2000;
     if ((work->userFlag & SAILPLAYER_FLAG_8) == 0 && !SailPlayer__HasRetired(work))
     {
-        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
         {
             if (TOUCH_HAS_ON(worker->touchFlags))
             {

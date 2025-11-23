@@ -880,7 +880,7 @@ void PopSteam__OnDefend_Cork(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
                 return;
 
-            if (((player->objWork.moveFlag == STAGE_TASK_MOVE_FLAG_NONE) & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+            if (((player->objWork.moveFlag == STAGE_TASK_MOVE_FLAG_NONE) & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
                 return;
 
             Player__Action_DestroyAttackRecoil(player);

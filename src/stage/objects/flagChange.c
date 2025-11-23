@@ -18,7 +18,7 @@ enum FlagChangeObjectFlags
     FLAGCHANGE_OBJFLAG_NONE,
 
     // used for MAPOBJECT_64 & MAPOBJECT_259 only
-    FLAGCHANGE_OBJFLAG_ENABLE_GIMMICK2 = 1 << 4,
+    FLAGCHANGE_OBJFLAG_SURFACE_ATTACH_FLIP = 1 << 4,
 
     // used for MAPOBJECT_151 only
     FLAGCHANGE_OBJFLAG_GIMMICKOFFSET_X_MASK     = (1 << 0) | (1 << 1) | (1 << 2),
@@ -86,22 +86,23 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     switch (flagChange->gameWork.mapObject->id)
     {
+        // Surface Attach Trigger
         default:
             // case MAPOBJECT_64:
             // case MAPOBJECT_259:
-            if (CheckStageTaskType(rect1->parent, STAGE_OBJ_TYPE_PLAYER) == FALSE || (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+            if (CheckStageTaskType(rect1->parent, STAGE_OBJ_TYPE_PLAYER) == FALSE || (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
                 return;
 
-            player->gimmickFlag |= PLAYER_GIMMICK_1;
+            player->gimmickFlag |= PLAYER_GIMMICK_FORCE_SURFACE_ATTACH;
 
-            if ((flagChange->gameWork.mapObject->flags & FLAGCHANGE_OBJFLAG_ENABLE_GIMMICK2) != 0)
-                player->gimmickFlag |= PLAYER_GIMMICK_2;
+            if ((flagChange->gameWork.mapObject->flags & FLAGCHANGE_OBJFLAG_SURFACE_ATTACH_FLIP) != 0)
+                player->gimmickFlag |= PLAYER_GIMMICK_FORCE_SURFACE_ATTACH_FLIP;
 
             player->starComboCount = 0;
             player->gimmickFlag &= ~PLAYER_GIMMICK_ALLOW_TRICK_COMBO;
             break;
 
-            // Gimmick (A)
+            // Plane Switch (A)
         case MAPOBJECT_65:
             player->objWork.flag &= ~STAGE_TASK_FLAG_ON_PLANE_B;
 
@@ -111,7 +112,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             player->grindPrevRide = 0;
             break;
 
-            // Gimmick (B)
+            // Plane Switch (B)
         case MAPOBJECT_66:
             player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
 
@@ -136,7 +137,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
                 }
             }
 
-            player->gimmickFlag |= PLAYER_GIMMICK_4;
+            player->gimmickFlag |= PLAYER_GIMMICK_CHECK_GRIND_COLLISIONS;
             break;
 
             // Grind Plane Switch (A)
@@ -157,6 +158,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
                 player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
             break;
 
+            // Ice Slide Trigger
         case MAPOBJECT_140:
             if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0)
             {
@@ -188,8 +190,9 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         }
         break;
 
+        // Truck Entry Trigger
         case MAPOBJECT_175:
-            if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_2000000) != 0 && player->objWork.touchObj != NULL)
+            if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_CAN_PUSH) != 0 && player->objWork.touchObj != NULL)
             {
                 Truck *truck = (Truck *)player->objWork.touchObj;
                 if (truck->gameWork.objWork.objType == STAGE_OBJ_TYPE_OBJECT && truck->gameWork.mapObject->id == MAPOBJECT_173)
@@ -200,6 +203,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             }
             break;
 
+            // Truck 3D Zone Entry Trigger
         case MAPOBJECT_177:
             if (player->gimmickObj != NULL)
             {
@@ -209,6 +213,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             }
             break;
 
+            // Speed Check Trigger
         case MAPOBJECT_186:
             if (CheckStageTaskType(&player->objWork, STAGE_OBJ_TYPE_PLAYER) == FALSE)
                 return;
@@ -233,6 +238,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             flagChange->gameWork.flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
             break;
 
+            // Death Trigger
         case MAPOBJECT_230:
             if (CheckStageTaskType(&player->objWork, STAGE_OBJ_TYPE_PLAYER) == FALSE)
                 return;
@@ -241,6 +247,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
                 Player__Action_Die(player);
             break;
 
+            // Far Plane Trigger
         case MAPOBJECT_241:
             if (CheckStageTaskType(&player->objWork, STAGE_OBJ_TYPE_PLAYER) == FALSE)
                 return;

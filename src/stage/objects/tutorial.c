@@ -805,8 +805,8 @@ void UpdateTutorialBounds(Tutorial *work, fx32 nextSectionWidth)
     cameraA->boundsR = cameraA->disp_pos.x + FLOAT_TO_FX32(HW_LCD_WIDTH);
     cameraB->boundsR = cameraB->disp_pos.x + FLOAT_TO_FX32(HW_LCD_WIDTH);
 
-    gPlayer->gimmickFlag |= PLAYER_GIMMICK_8000000;
-    gPlayer->gimmickMapLimitTop = FX32_TO_WHOLE(work->boundsR);
+    gPlayer->gimmickFlag |= PLAYER_GIMMICK_USE_GIMMICK_BOUNDS_X;
+    gPlayer->gimmickMapLimitRight = FX32_TO_WHOLE(work->boundsR);
 
     work->stateScroll = Tutorial_StateScroll_Scrolling;
 }
@@ -859,7 +859,7 @@ void Tutorial_StateTalk_WaitForEventChange(Tutorial *work)
         gPlayer->objWork.groundVel  = FLOAT_TO_FX32(0.0);
         gPlayer->objWork.velocity.x = gPlayer->objWork.velocity.y = gPlayer->objWork.groundVel;
 
-        gPlayer->gimmickFlag |= PLAYER_GIMMICK_8000000;
+        gPlayer->gimmickFlag |= PLAYER_GIMMICK_USE_GIMMICK_BOUNDS_X;
         mapCamera.camControl.flags |= MAPSYS_CAMERACTRL_FLAG_DISABLE_CAM_LOOK;
     }
 }
@@ -1038,7 +1038,7 @@ void Tutorial_StateTalk_SkipTutorial(Tutorial *work)
         cameraB->boundsR = FX32_FROM_WHOLE(mapCamera.camControl.width - 8);
 
         gPlayer->gimmickMapLimitLeft = 8;
-        gPlayer->gimmickMapLimitTop  = FX32_TO_WHOLE(FX32_FROM_WHOLE(mapCamera.camControl.width - 8));
+        gPlayer->gimmickMapLimitRight  = FX32_TO_WHOLE(FX32_FROM_WHOLE(mapCamera.camControl.width - 8));
         gPlayer->playerFlag &= ~(PLAYER_FLAG_DISABLE_INPUT_READ | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
 
         work->stateScroll    = NULL;

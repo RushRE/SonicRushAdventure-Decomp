@@ -1366,11 +1366,11 @@ void StageTask__Move(StageTask *work)
     work->prevPosition.y = work->position.y;
     work->prevPosition.z = work->position.z;
 
-    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_RESET_FLOW) != 0)
+    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_FLOW) != 0)
     {
-        work->flow.x = 0;
-        work->flow.y = 0;
-        work->flow.z = 0;
+        work->flow.x = FLOAT_TO_FX32(0.0);
+        work->flow.y = FLOAT_TO_FX32(0.0);
+        work->flow.z = FLOAT_TO_FX32(0.0);
     }
 
     fx32 flowX = work->flow.x;
@@ -1422,7 +1422,7 @@ void StageTask__Move(StageTask *work)
             }
         }
 
-        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_OBJECT_SCROLL) != 0)
+        if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_AUTO_SCROLL) != 0)
         {
             work->move.x = MultiplyFX(work->velocity.x + slopeX + flowX, g_obj.speed);
             work->move.y = MultiplyFX(work->velocity.y + slopeY + flowY, g_obj.speed);
@@ -1493,7 +1493,7 @@ void StageTask__HandleRide(StageTask *work)
 
         if (work->collisionObj->work.toucherObj != NULL && work->collisionObj->work.toucherObj != work->collisionObj->work.riderObj)
         {
-            if ((work->collisionObj->work.toucherObj->moveFlag & STAGE_TASK_MOVE_FLAG_2000000) != 0 && (work->moveFlag & STAGE_TASK_MOVE_FLAG_4000000) != 0)
+            if ((work->collisionObj->work.toucherObj->moveFlag & STAGE_TASK_MOVE_FLAG_CAN_PUSH) != 0 && (work->moveFlag & STAGE_TASK_MOVE_FLAG_CAN_BE_PUSHED) != 0)
             {
                 fx32 pushMove = MTM_MATH_CLIP_2(
                     MTM_MATH_CLIP_2(work->collisionObj->work.toucherObj->move.x, -work->collisionObj->work.toucherObj->pushCap, work->collisionObj->work.toucherObj->pushCap),
@@ -1509,7 +1509,7 @@ void StageTask__HandleRide(StageTask *work)
 
     if (work->touchObj != NULL)
     {
-        if ((work->touchObj->moveFlag & STAGE_TASK_MOVE_FLAG_4000000) != 0 && (work->moveFlag & STAGE_TASK_MOVE_FLAG_2000000) != 0)
+        if ((work->touchObj->moveFlag & STAGE_TASK_MOVE_FLAG_CAN_BE_PUSHED) != 0 && (work->moveFlag & STAGE_TASK_MOVE_FLAG_CAN_PUSH) != 0)
         {
             work->flow.x += (s16)(work->touchObj->position.x - work->touchObj->prevPosition.x);
 

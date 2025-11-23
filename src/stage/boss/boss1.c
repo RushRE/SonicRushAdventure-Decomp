@@ -5739,7 +5739,7 @@ void Boss1__BossState_StartDropFallStart(Boss1 *work)
     Boss1Stage__Func_21556BC(work->stage);
 
     gPlayer->objWork.flow.y -= FLOAT_TO_FX32(8.0);
-    gPlayer->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+    gPlayer->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     PlayHandleStageSfx(work->sndHandle[1], SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GROUND_DESTROY);
 

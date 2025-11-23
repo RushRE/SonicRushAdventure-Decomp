@@ -967,7 +967,7 @@ void WaterGrindRailSegment_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         return;
 
     player->objWork.flag &= ~STAGE_TASK_FLAG_ON_PLANE_B;
-    player->gimmickFlag |= PLAYER_GIMMICK_10000;
+    player->gimmickFlag |= PLAYER_GIMMICK_USE_WATER_GRIND_SPARK;
 
     if ((player->grindID & ~PLAYER_GRIND_ACTIVE) != trigger->gameWork.mapObject->flags + 1)
     {
@@ -995,7 +995,7 @@ void WaterGrindRailSegment_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         }
     }
 
-    player->gimmickFlag |= PLAYER_GIMMICK_4;
+    player->gimmickFlag |= PLAYER_GIMMICK_CHECK_GRIND_COLLISIONS;
 
     if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
     {

@@ -158,7 +158,7 @@ void SailStylusPrompt_State_Active(StageTask *work)
     StageTask *player        = SailManager__GetWork()->sailPlayer;
     SailPlayer *playerWorker = GetStageTaskWorker(player, SailPlayer);
 
-    if ((player->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+    if ((player->moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
     {
         work->userTimer++;
         if (work->userTimer == 2)

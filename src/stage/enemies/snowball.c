@@ -103,7 +103,7 @@ EnemySnowballShot *CreateSnowballShot(MapObject *mapObject, fx32 x, fx32 y, fx32
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
     work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS;
 
     StageTask__SetHitbox(&work->gameWork.objWork, 3, 3, -3, -3);

@@ -618,7 +618,7 @@ EffectEnemyDebris *CreateEffectEnemyDebris(StageTask *parent, fx32 offsetX, fx32
 
     StageTask__SetHitbox(&work->objWork, -2, -4, 2, 4);
     work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
-    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IS_FALLING;
     work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
     InitEffectTaskViewCheck(&work->objWork, 16, 0, 0, 0, 0);
 
@@ -652,7 +652,7 @@ void EffectEnemyDebris_State_Active(EffectEnemyDebris *work)
             work->objWork.velocity.y = -(work->objWork.move.y >> 1);
             work->objWork.velocity.x >>= 1;
             work->objWork.shakeTimer = FLOAT_TO_FX32(4.0);
-            work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+            work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
             work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
         }
     }

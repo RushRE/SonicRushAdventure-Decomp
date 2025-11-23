@@ -123,38 +123,38 @@ typedef u8 CharacterID;
 
 enum PlayerFlags_
 {
-    PLAYER_FLAG_USER_FLAG              = 0x1, // misc user flag
-    PLAYER_FLAG_ALLOW_TRICKS           = 0x2,
-    PLAYER_FLAG_FINISHED_TRICK_COMBO   = 0x4,
-    PLAYER_FLAG_DISABLE_TRICK_FINISHER = 0x8,
-    PLAYER_FLAG_IS_ATTACKING_PLAYER    = 0x10, // used for vs battle communications
-    PLAYER_FLAG_DO_LOSE_RING_EFFECT    = 0x20, // used for vs battle communications
-    PLAYER_FLAG_DISABLE_HOMING_ATTACK  = 0x40,
-    PLAYER_FLAG_SUPERBOOST             = 0x80,
-    PLAYER_FLAG_BOOST                  = 0x100,
-    PLAYER_FLAG_TAIL_IS_ACTIVE         = 0x200,
-    PLAYER_FLAG_DEATH                  = 0x400,
-    PLAYER_FLAG_800                    = 0x800,
-    PLAYER_FLAG_DISABLE_PRESSURE_CHECK = 0x1000,
-    PLAYER_FLAG_2000                   = 0x2000,
-    PLAYER_FLAG_TRICK_SUCCESS          = 0x4000,
-    PLAYER_FLAG_8000                   = 0x8000,
-    PLAYER_FLAG_DO_ATTACK_RECOIL       = 0x10000, // used for vs battle communications
-    PLAYER_FLAG_SUPERBOOST_UNKNOWN     = 0x20000,
-    PLAYER_FLAG_USED_INFINITE_TENSION  = 0x40000,
-    PLAYER_FLAG_SLOWMO                 = 0x80000,
-    PLAYER_FLAG_DISABLE_TENSION_DRAIN  = 0x100000,
-    PLAYER_FLAG_DISABLE_INPUT_READ     = 0x200000,
-    PLAYER_FLAG_DISABLE_TENSION_CHANGE = 0x400000,
-    PLAYER_FLAG_800000                 = 0x800000,
-    PLAYER_FLAG_FINISHED_STAGE         = 0x1000000,
-    PLAYER_FLAG_2000000                = 0x2000000,
-    PLAYER_FLAG_IN_WATER               = 0x4000000,
-    PLAYER_FLAG_SLOPE_FORCE_APPLIED    = 0x8000000,
-    PLAYER_FLAG_SHIELD_REGULAR         = 0x10000000,
-    PLAYER_FLAG_SHIELD_MAGNET          = 0x20000000,
-    PLAYER_FLAG_40000000               = 0x40000000,
-    PLAYER_FLAG_80000000               = 0x80000000,
+    PLAYER_FLAG_USER_FLAG               = 1 << 0, // misc user flag
+    PLAYER_FLAG_ALLOW_TRICKS            = 1 << 1,
+    PLAYER_FLAG_FINISHED_TRICK_COMBO    = 1 << 2,
+    PLAYER_FLAG_DISABLE_TRICK_FINISHER  = 1 << 3,
+    PLAYER_FLAG_VS_IS_ATTACKING_PLAYER  = 1 << 4, // used for vs battle communications
+    PLAYER_FLAG_VS_DO_LOSE_RING_EFFECT  = 1 << 5, // used for vs battle communications
+    PLAYER_FLAG_DISABLE_HOMING_ATTACK   = 1 << 6,
+    PLAYER_FLAG_SUPERBOOST              = 1 << 7,
+    PLAYER_FLAG_BOOST                   = 1 << 8,
+    PLAYER_FLAG_TAIL_IS_ACTIVE          = 1 << 9,
+    PLAYER_FLAG_DEATH                   = 1 << 10,
+    PLAYER_FLAG_CHECK_WALL_CRUSH        = 1 << 11,
+    PLAYER_FLAG_DISABLE_OBJ_CRUSH_CHECK = 1 << 12,
+    PLAYER_FLAG_DISABLE_CAMERA_OFFSET   = 1 << 13,
+    PLAYER_FLAG_TRICK_SUCCESS           = 1 << 14,
+    PLAYER_FLAG_TRICK_SPECIAL_ACTIVE    = 1 << 15,
+    PLAYER_FLAG_VS_DO_ATTACK_RECOIL     = 1 << 16, // used for vs battle communications
+    PLAYER_FLAG_SUPERBOOST_UNKNOWN      = 1 << 17,
+    PLAYER_FLAG_USED_INFINITE_TENSION   = 1 << 18,
+    PLAYER_FLAG_SLOWMO                  = 1 << 19,
+    PLAYER_FLAG_DISABLE_TENSION_DRAIN   = 1 << 20,
+    PLAYER_FLAG_DISABLE_INPUT_READ      = 1 << 21,
+    PLAYER_FLAG_DISABLE_TENSION_CHANGE  = 1 << 22,
+    PLAYER_FLAG_HAS_GAME_OVER           = 1 << 23, // Used in prior games, unused in Sonic Rush Adventure. A "Game Over: just sends the player back to southern island
+    PLAYER_FLAG_FINISHED_STAGE          = 1 << 24,
+    PLAYER_FLAG_2000000                 = 1 << 25,
+    PLAYER_FLAG_IN_WATER                = 1 << 26,
+    PLAYER_FLAG_SLOPE_FORCE_APPLIED     = 1 << 27,
+    PLAYER_FLAG_SHIELD_REGULAR          = 1 << 28,
+    PLAYER_FLAG_SHIELD_MAGNET           = 1 << 29,
+    PLAYER_FLAG_VS_QUEUED_PLAYER_HIT    = 1 << 30,
+    PLAYER_FLAG_MODEL_CHANGED           = 1 << 31,
 
     // Helpers
     PLAYER_FLAG_SHIELD_ANY = PLAYER_FLAG_SHIELD_REGULAR | PLAYER_FLAG_SHIELD_MAGNET,
@@ -163,38 +163,44 @@ typedef u32 PlayerFlags;
 
 enum PlayerGimmickFlags_
 {
-    PLAYER_GIMMICK_1                 = 0x1,
-    PLAYER_GIMMICK_2                 = 0x2,
-    PLAYER_GIMMICK_4                 = 0x4,
-    PLAYER_GIMMICK_8                 = 0x8,
-    PLAYER_GIMMICK_10                = 0x10,
-    PLAYER_GIMMICK_20                = 0x20,
-    PLAYER_GIMMICK_40                = 0x40,
-    PLAYER_GIMMICK_80                = 0x80,
-    PLAYER_GIMMICK_100               = 0x100,
-    PLAYER_GIMMICK_200               = 0x200,
-    PLAYER_GIMMICK_400               = 0x400,
-    PLAYER_GIMMICK_SNOWBOARD         = 0x800,
-    PLAYER_GIMMICK_1000              = 0x1000,
-    PLAYER_GIMMICK_2000              = 0x2000,
-    PLAYER_GIMMICK_4000              = 0x4000,
-    PLAYER_GIMMICK_8000              = 0x8000,
-    PLAYER_GIMMICK_10000             = 0x10000,
-    PLAYER_GIMMICK_GRABBED           = 0x20000,
-    PLAYER_GIMMICK_40000             = 0x40000,
-    PLAYER_GIMMICK_80000             = 0x80000,
-    PLAYER_GIMMICK_BUNGEE            = 0x100000,
-    PLAYER_GIMMICK_IS_CREATED            = 0x200000,
-    PLAYER_GIMMICK_WARP            = 0x400000,
-    PLAYER_GIMMICK_800000            = 0x800000,
-    PLAYER_GIMMICK_ALLOW_TRICK_COMBO = 0x1000000,
-    PLAYER_GIMMICK_2000000           = 0x2000000,
-    PLAYER_GIMMICK_4000000           = 0x4000000,
-    PLAYER_GIMMICK_8000000           = 0x8000000,
-    PLAYER_GIMMICK_10000000          = 0x10000000,
-    PLAYER_GIMMICK_20000000          = 0x20000000,
-    PLAYER_GIMMICK_40000000          = 0x40000000,
-    PLAYER_GIMMICK_80000000          = 0x80000000,
+    PLAYER_GIMMICK_FORCE_SURFACE_ATTACH                = 1 << 0,
+    PLAYER_GIMMICK_FORCE_SURFACE_ATTACH_FLIP           = 1 << 1,
+    PLAYER_GIMMICK_CHECK_GRIND_COLLISIONS              = 1 << 2,
+    PLAYER_GIMMICK_CHECK_SUPERBOOST_END_DURING_GIMMICK = 1 << 3,
+    PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X                 = 1 << 4,
+    PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y                 = 1 << 5,
+    PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_X         = 1 << 6,
+    PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_Y         = 1 << 7,
+    PLAYER_GIMMICK_ENABLE_Z_MOVEMENT                   = 1 << 8,
+    PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_X       = 1 << 9,
+    PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_Y       = 1 << 10,
+    PLAYER_GIMMICK_SNOWBOARD                           = 1 << 11,
+    PLAYER_GIMMICK_ATTACHED_TO_WALL                    = 1 << 12,
+    PLAYER_GIMMICK_UNKNOWN                             = 1 << 13,
+    PLAYER_GIMMICK_4000                                = 1 << 14,
+    PLAYER_GIMMICK_8000                                = 1 << 15,
+    PLAYER_GIMMICK_USE_WATER_GRIND_SPARK               = 1 << 16,
+    PLAYER_GIMMICK_HIDE_SUPERBOOST                     = 1 << 17,
+    PLAYER_GIMMICK_DISABLE_RINGS_ON_PLANE_B            = 1 << 18,
+    PLAYER_GIMMICK_WAS_ATTACHED_TO_WALL                = 1 << 19,
+    PLAYER_GIMMICK_CONTOLLED_BY_GIMMICK                = 1 << 20,
+    PLAYER_GIMMICK_IS_CREATED                          = 1 << 21,
+    PLAYER_GIMMICK_WARP                                = 1 << 22,
+    PLAYER_GIMMICK_2P_IS_ON_PLANE_B                    = 1 << 23,
+    PLAYER_GIMMICK_ALLOW_TRICK_COMBO                   = 1 << 24,
+    PLAYER_GIMMICK_WANT_GRAVITY_RESET                  = 1 << 25,
+    PLAYER_GIMMICK_USE_CAMERA_CENTER_OFFSET            = 1 << 26,
+    PLAYER_GIMMICK_USE_GIMMICK_BOUNDS_X                = 1 << 27,
+    PLAYER_GIMMICK_USE_GIMMICK_BOUNDS_Y                = 1 << 28,
+    PLAYER_GIMMICK_DISABLE_Z_AUTO_RETURN               = 1 << 29, // prevent z pos from returning to 0.0
+    PLAYER_GIMMICK_40000000                            = 1 << 30,
+    PLAYER_GIMMICK_80000000                            = 1 << 31,
+
+    // Helpers
+    PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY           = PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y,
+    PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_XY   = PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_X | PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_Y,
+    PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_XY = PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_X | PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_Y,
+    PLAYER_GIMMICK_USE_GIMMICK_BOUNDS_XY          = PLAYER_GIMMICK_USE_GIMMICK_BOUNDS_X | PLAYER_GIMMICK_USE_GIMMICK_BOUNDS_Y,
 };
 typedef u32 PlayerGimmickFlags;
 
@@ -559,8 +565,8 @@ typedef struct Player_
     s16 gimmickCamGimmickCenterOffsetX;
     s16 gimmickCamGimmickCenterOffsetY;
     s16 gimmickMapLimitLeft;
-    s16 gimmickMapLimitTop;
     s16 gimmickMapLimitRight;
+    s16 gimmickMapLimitTop;
     s16 gimmickMapLimitBottom;
 
     union
@@ -721,7 +727,7 @@ void Player__HandleZMovement(Player *player);
 void Player__HandleLapEventManager(Player *player);
 void Player__HandleLapStageWrap(Player *player);
 void Player__HandleMaxPush(Player *player);
-void Player__HandleGroundCollisions(Player *player);
+void Player__HandleForceSurfaceAttach(Player *player);
 void Player__HandleTensionDrain(Player *player);
 void Player__GiveScore(Player *player, u32 score);
 void Player__ApplyClingWeight(Player *player);
@@ -843,7 +849,7 @@ void Player__State_CannonEnter_RotateInto(Player *work);
 void Player__State_InsideCannon(Player *work);
 void Player__Action_FireCannon(Player *player, GameObjectTask *other);
 void Player__State_CannonLaunched(Player *work);
-void Player__Action_ExitCannonPath(Player *player, GameObjectTask* other);
+void Player__Action_ExitCannonPath(Player *player, GameObjectTask *other);
 void Player__Action_EnterCannonRingTrigger(Player *player, u32 type);
 void Player__Action_ExitCannonRingTrigger(Player *player, u16 type);
 void Player__Gimmick_JumpBox(Player *player, GameObjectTask *other, CharacterID characterID);

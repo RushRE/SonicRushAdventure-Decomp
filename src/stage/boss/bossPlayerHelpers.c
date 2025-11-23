@@ -28,7 +28,7 @@ void BossPlayerHelpers_Action_Boss1ChargeKnockback(Player *player, fx32 velX, fx
         {
             u32 gimmickFlag = player->gimmickFlag;
             Player__InitState(player);
-            player->gimmickFlag |= gimmickFlag & PLAYER_GIMMICK_40000;
+            player->gimmickFlag |= gimmickFlag & PLAYER_GIMMICK_DISABLE_RINGS_ON_PLANE_B;
 
             ShakeScreen(SCREENSHAKE_MEDIUM_SHORT);
 
@@ -61,7 +61,7 @@ void BossPlayerHelpers_Action_Boss1ChargeKnockback(Player *player, fx32 velX, fx
                     player->objWork.velocity.x = -player->objWork.velocity.x;
             }
 
-            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
             player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
             player->objWork.velocity.x = velX;
             player->objWork.velocity.y = velY;
@@ -140,7 +140,7 @@ void BossPlayerHelpers_OnDefend_Boss3(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2
         // perhaps they meant to check for 'BossPlayerHelpers_State_SplatInkHit' instead?
         if (!StageTaskStateMatches(&player->objWork, BossPlayerHelpers_State_SplatInkStuck) && !StageTaskStateMatches(&player->objWork, BossPlayerHelpers_Action_SplatInkAir))
         {
-            if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+            if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
                 BossPlayerHelpers_Action_SplatInkAir(player);
             else
                 BossPlayerHelpers_Action_SplatInkGround(player);
@@ -162,7 +162,7 @@ void BossPlayerHelpers_Action_SplatInkGround(Player *player)
         player->objWork.velocity.y = -FLOAT_TO_FX32(3.0);
         player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
         player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
         SetTaskState(&player->objWork, BossPlayerHelpers_State_SplatInkHit);
     }
@@ -326,7 +326,7 @@ void BossPlayerHelpers_OnLandGround_Boss6(Player *player)
     }
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
     SetTaskState(&player->objWork, BossPlayerHelpers_State_Ground_Boss6);
 }
 

@@ -512,7 +512,7 @@ Overlay ZoneAct
     Object asm/stage/objects/winch_vars.o
     Object src/stage/objects/winch.o
     Object asm/stage/objects/truck_vars.o
-    Object src/stage/objects/truck.o
+    Object src/stage/objects/truck.o # not yet started
     Object src/stage/objects/planeRing.o
     Object src/stage/objects/itemBox.o
     Object src/stage/objects/checkpoint.o

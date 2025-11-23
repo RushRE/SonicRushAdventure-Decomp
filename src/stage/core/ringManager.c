@@ -279,7 +279,7 @@ void CreateLoseRingEffect(Player *player, s32 rings)
 
     ringManagerWork->flags |= RINGMANAGER_FLAG_PENALTY_ACTIVE_P1 << playerID;
 
-    if ((player->objWork.flag & STAGE_TASK_FLAG_ON_PLANE_B) != 0 && (player->gimmickFlag & PLAYER_GIMMICK_40000) == 0)
+    if ((player->objWork.flag & STAGE_TASK_FLAG_ON_PLANE_B) != 0 && (player->gimmickFlag & PLAYER_GIMMICK_DISABLE_RINGS_ON_PLANE_B) == 0)
         flag |= RING_FLAG_USE_PLANE_B;
 
     ringAngle += (ringManagerWork->ringPenaltyCount[playerID] << 8);

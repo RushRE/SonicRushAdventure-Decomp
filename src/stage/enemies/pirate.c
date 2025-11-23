@@ -262,7 +262,7 @@ EnemyPirate *CreatePirate(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             pirateType = PIRATE_TYPE_KNIFE;
 
             work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-            work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_4000 | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+            work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
             EnemyPirate_InitMoveRange(work);
 
             work->onInit                     = EnemyPirate_OnInit_Common;
@@ -457,7 +457,7 @@ EnemyBazookaPirateShot *CreateBazookaPirateShot(MapObject *mapObject, fx32 x, fx
     ObjRect__SetOnAttack(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemyBazookaPirateShot_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -7, -7, 7, 7);
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[PIRATE_TYPE_BAZOOKA], GetObjectDataWork(OBJDATAWORK_16), gameArchiveStage,
@@ -489,7 +489,7 @@ EnemyBallChainPirateBall *CreateBallChainPirateBall(MapObject *mapObject, fx32 x
 
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -13, -13, 13, 13);
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[PIRATE_TYPE_BALLCHAIN], GetObjectDataWork(OBJDATAWORK_17), gameArchiveStage,
@@ -522,7 +522,7 @@ EnemyBombPirateBomb *CreateBombPirateBomb(MapObject *mapObject, fx32 x, fx32 y, 
     ObjRect__SetOnAttack(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemyBombPirateBomb_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -6, -6, 6, 6);
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[PIRATE_TYPE_BOMB], GetObjectDataWork(OBJDATAWORK_18), gameArchiveStage,
@@ -554,7 +554,7 @@ EnemySkeletonPirateBone *CreateSkeletonPirateBone(MapObject *mapObject, fx32 x, 
     ObjRect__SetOnAttack(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemySkeletonPirateBone_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -3, -3, 3, 3);
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[PIRATE_TYPE_SKELETON], GetObjectDataWork(OBJDATAWORK_19), gameArchiveStage,
@@ -586,7 +586,7 @@ EnemyHoverBomberPirateBomb *CreateHoverBomberPirateBomb(MapObject *mapObject, fx
     ObjRect__SetOnAttack(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemyHoverBomberPirateBomb_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -8, -8, 8, 8);
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[PIRATE_TYPE_HOVERBOMBER], GetObjectDataWork(OBJDATAWORK_20), gameArchiveStage,
@@ -618,7 +618,7 @@ EnemyHoverGunnerPirateShot *CreateHoverGunnerPirateShot(MapObject *mapObject, fx
     ObjRect__SetOnAttack(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], EnemyBazookaPirateShot_OnHit);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -4, -4, 4, 4);
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[PIRATE_TYPE_HOVERGUNNER], GetObjectDataWork(OBJDATAWORK_21), gameArchiveStage,
@@ -1291,7 +1291,7 @@ void EnemyBallChainPirateBall_StateBall_InitThrow(EnemyBallChainPirateBall *work
     work->gameWork.objWork.position.y = work->gameWork.objWork.parentObj->position.y - FLOAT_TO_FX32(57.0);
 
     StageTask__SetGravity(&work->gameWork.objWork, FLOAT_TO_FX32(0.08203125), FLOAT_TO_FX32(15.0));
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_20000000 | STAGE_TASK_MOVE_FLAG_4000;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_ANGLE_UPDATES | STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT;
 
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
         work->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(15.0);
@@ -1344,7 +1344,7 @@ void EnemyBallChainPirateBall_StateBall_Thrown(EnemyBallChainPirateBall *work)
             {
                 work->bounceCount++;
                 work->bounceTimer = 5;
-                work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+                work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
                 PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_THROW_HAMMER);
 
                 work->gameWork.objWork.velocity.x = work->gameWork.objWork.velocity.y = work->gameWork.objWork.velocity.z = FLOAT_TO_FX32(0.0);
@@ -1401,7 +1401,7 @@ void EnemyBombPirateBomb_State_Init(EnemyBombPirateBomb *work)
 {
     StageTask__SetGravity(&work->gameWork.objWork, FLOAT_TO_FX32(0.08203125), FLOAT_TO_FX32(15.0));
 
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_20000000 | STAGE_TASK_MOVE_FLAG_4000;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_ANGLE_UPDATES | STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT;
 
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
         work->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(300.0);
@@ -1444,7 +1444,7 @@ void EnemyBombPirateBomb_State_Active(EnemyBombPirateBomb *work)
             {
                 work->bounceCount++;
                 work->bounceTimer = 5;
-                work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+                work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
                 work->gameWork.objWork.velocity.x = work->gameWork.objWork.velocity.y = work->gameWork.objWork.velocity.z = FLOAT_TO_FX32(0.0);
 
@@ -1478,7 +1478,7 @@ void EnemyBombPirateBomb_State_Explode(EnemyBombPirateBomb *work)
 void EnemySkeletonPirateBone_State_Init(EnemyBombPirateBomb *work)
 {
     StageTask__SetGravity(&work->gameWork.objWork, FLOAT_TO_FX32(0.08203125), FLOAT_TO_FX32(15.0));
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_4000;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT;
 
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
         work->gameWork.objWork.dir.z = -FLOAT_DEG_TO_IDX(70.0048828125);

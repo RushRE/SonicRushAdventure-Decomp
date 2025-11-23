@@ -744,7 +744,7 @@ NONMATCH_FUNC Boss2Ball *CreateBoss2Ball(MapObject *mapObject, fx32 x, fx32 y, s
     SetTaskState(&work->gameWork.objWork, Boss2Ball_State_Active);
     SetTaskOutFunc(&work->gameWork.objWork, Boss2Ball_Draw);
     SetTaskCollideFunc(&work->gameWork.objWork, Boss2Ball_Collide);
-    work->gameWork.objWork.flag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+    work->gameWork.objWork.flag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS
                                        | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
@@ -2439,7 +2439,7 @@ void Boss2_BossState_InitDestroyed(Boss2 *work)
     StopStageBGM();
 
     Player__Action_Blank(gPlayer);
-    gPlayer->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+    gPlayer->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
     Player__ChangeAction(gPlayer, PLAYER_ACTION_HOMING_ATTACK);
     gPlayer->blinkTimer = 0;
     BossHelpers__Player__LockControl(gPlayer);
@@ -4313,7 +4313,7 @@ void Boss2Wave_State_Active(Boss2Wave *work)
     fx32 frame = work->aniWave.currentAnimObj[0]->frame;
     if (frame >= FLOAT_TO_FX32(27.0) && frame < FLOAT_TO_FX32(29.0) && BossHelpers__Player__IsAlive(gPlayer))
     {
-        if ((gPlayer->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 && gPlayer->blinkTimer == 0)
+        if ((gPlayer->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0 && gPlayer->blinkTimer == 0)
             Player__Hurt(gPlayer);
     }
 

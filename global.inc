@@ -630,7 +630,7 @@
 .public Player__HandleLapEventManager
 .public Player__HandleLapStageWrap
 .public Player__HandleMaxPush
-.public Player__HandleGroundCollisions
+.public Player__HandleForceSurfaceAttach
 .public Player__HandleTensionDrain
 .public Player__GiveScore
 .public Player__ApplyClingWeight

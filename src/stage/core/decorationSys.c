@@ -4512,7 +4512,7 @@ void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
         case MAPDECOR_281:
         case MAPDECOR_282:
-            if ((player->objWork.moveFlag & (STAGE_TASK_MOVE_FLAG_400000 | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR)) != 0)
+            if ((player->objWork.moveFlag & (STAGE_TASK_MOVE_FLAG_PREV_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR)) != 0)
             {
                 if (MATH_ABS(player->objWork.move.x) > FLOAT_TO_FX32(0.5) || player->objWork.move.y)
                 {

@@ -65,7 +65,7 @@ Balloon *CreateBalloon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS
                                        | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_80000;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_LIMIT_MAP_BOUNDS;
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_balloon.bac", GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage, 16);
@@ -298,7 +298,7 @@ void Balloon_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     balloon->gameWork.objWork.parentObj = NULL;
     balloon->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     StageTask__SetHitbox(&balloon->gameWork.objWork, -20, -80, 20, -40);
-    balloon->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+    balloon->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     SetTaskState(&balloon->gameWork.objWork, Balloon_State_FloatingUp);
 

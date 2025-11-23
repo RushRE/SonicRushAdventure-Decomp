@@ -370,7 +370,7 @@ void Cannon_OnDefend_Entrry(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         if ((player->objWork.position.x + FLOAT_TO_FX32(6.0) <= cannon->gameWork.objWork.position.x - FLOAT_TO_FX32(16.0)
              || player->objWork.position.x - FLOAT_TO_FX32(6.0) >= cannon->gameWork.objWork.position.x + FLOAT_TO_FX32(24.0)))
         {
-            if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0
+            if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0
                 && player->objWork.position.y + FLOAT_TO_FX32(13.0) >= cannon->gameWork.objWork.position.y - FLOAT_TO_FX32(58.0))
             {
                 Player__Action_EnterCannon(player, &cannon->gameWork, PLAYER_CANNON_ENTRY_ROTATE_INTO);

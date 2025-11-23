@@ -388,7 +388,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     {
         StageTask__InitCollider(&work->objWork, &work->colliders[1], 1, STAGE_TASK_COLLIDER_FLAGS_DYNAMIC_HITBOX);
         StageTask__InitCollider(&work->objWork, &work->colliders[2], 2, STAGE_TASK_COLLIDER_FLAGS_DYNAMIC_HITBOX);
-        work->playerFlag |= PLAYER_FLAG_DISABLE_PRESSURE_CHECK;
+        work->playerFlag |= PLAYER_FLAG_DISABLE_OBJ_CRUSH_CHECK;
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS;
     }
 
@@ -544,10 +544,10 @@ void Player__Action_ResetPlayer(Player *work)
         g_obj.flag &= ~OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL;
         g_obj.scroll.x = g_obj.scroll.y = 0;
 
-        work->playerFlag &= ~(PLAYER_FLAG_SUPERBOOST | PLAYER_FLAG_BOOST | PLAYER_FLAG_800 | PLAYER_FLAG_DISABLE_PRESSURE_CHECK | PLAYER_FLAG_DISABLE_INPUT_READ);
+        work->playerFlag &= ~(PLAYER_FLAG_SUPERBOOST | PLAYER_FLAG_BOOST | PLAYER_FLAG_CHECK_WALL_CRUSH | PLAYER_FLAG_DISABLE_OBJ_CRUSH_CHECK | PLAYER_FLAG_DISABLE_INPUT_READ);
         work->gimmickFlag &=
-            ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_40 | PLAYER_GIMMICK_80 | PLAYER_GIMMICK_100 | PLAYER_GIMMICK_200 | PLAYER_GIMMICK_400 | PLAYER_GIMMICK_1000
-              | PLAYER_GIMMICK_2000 | PLAYER_GIMMICK_80000 | PLAYER_GIMMICK_BUNGEE | PLAYER_GIMMICK_4000000 | PLAYER_GIMMICK_8000000 | PLAYER_GIMMICK_20000000);
+            ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY | PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_XY | PLAYER_GIMMICK_ENABLE_Z_MOVEMENT | PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_XY | PLAYER_GIMMICK_ATTACHED_TO_WALL
+              | PLAYER_GIMMICK_UNKNOWN | PLAYER_GIMMICK_WAS_ATTACHED_TO_WALL | PLAYER_GIMMICK_CONTOLLED_BY_GIMMICK | PLAYER_GIMMICK_USE_CAMERA_CENTER_OFFSET | PLAYER_GIMMICK_USE_GIMMICK_BOUNDS_X | PLAYER_GIMMICK_DISABLE_Z_AUTO_RETURN);
 
         MapSys__Func_20091D0(work->cameraID);
         MapSys__Func_20091F0(work->cameraID);
@@ -556,7 +556,7 @@ void Player__Action_ResetPlayer(Player *work)
         work->comboTensionMultiplier = 0;
         work->grindID                = 0;
         work->grindPrevRide          = 0;
-        work->gimmickFlag &= ~PLAYER_GIMMICK_4;
+        work->gimmickFlag &= ~PLAYER_GIMMICK_CHECK_GRIND_COLLISIONS;
         work->boostTimer      = 0;
         work->objWork.scale.x = work->objWork.scale.y = work->objWork.scale.z = FLOAT_TO_FX32(1.0);
         Player__InitState(work);
@@ -604,27 +604,27 @@ void Player__InitState(Player *player)
     }
 
     Player__InitPhysics(player);
-    player->objWork.dir.x               = 0;
-    player->objWork.dir.y               = 0;
-    player->objWork.dir.z               = 0;
-    player->objWork.groundVel           = 0;
-    player->objWork.velocity.x          = 0;
-    player->objWork.velocity.y          = 0;
-    player->objWork.velocity.z          = 0;
+    player->objWork.dir.x               = FLOAT_DEG_TO_IDX(0.0);
+    player->objWork.dir.y               = FLOAT_DEG_TO_IDX(0.0);
+    player->objWork.dir.z               = FLOAT_DEG_TO_IDX(0.0);
+    player->objWork.groundVel           = FLOAT_TO_FX32(0.0);
+    player->objWork.velocity.x          = FLOAT_TO_FX32(0.0);
+    player->objWork.velocity.y          = FLOAT_TO_FX32(0.0);
+    player->objWork.velocity.z          = FLOAT_TO_FX32(0.0);
     player->trickFinishHorizFreezeTimer = 0;
 
-    if ((player->gimmickFlag & PLAYER_GIMMICK_100) == 0)
-        player->objWork.position.z = 0;
+    if ((player->gimmickFlag & PLAYER_GIMMICK_ENABLE_Z_MOVEMENT) == 0)
+        player->objWork.position.z = FLOAT_TO_FX32(0.0);
     player->objWork.rideObj = NULL;
 
-    if ((player->gimmickFlag & (PLAYER_GIMMICK_400 | PLAYER_GIMMICK_200)) == 0)
+    if ((player->gimmickFlag & (PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_Y | PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_X)) == 0)
     {
-        player->gimmickObj                     = 0;
+        player->gimmickObj                     = NULL;
         player->gimmickCamOffsetX              = 0;
         player->gimmickCamOffsetY              = 0;
         player->gimmickCamGimmickCenterOffsetX = 0;
         player->gimmickCamGimmickCenterOffsetY = 0;
-        player->gimmickFlag &= ~(PLAYER_GIMMICK_8 | PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_40 | PLAYER_GIMMICK_80 | PLAYER_GIMMICK_4000000);
+        player->gimmickFlag &= ~(PLAYER_GIMMICK_CHECK_SUPERBOOST_END_DURING_GIMMICK | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY | PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_XY | PLAYER_GIMMICK_USE_CAMERA_CENTER_OFFSET);
     }
 
     player->gimmick.value1          = 0;
@@ -635,15 +635,15 @@ void Player__InitState(Player *player)
     player->superBoostCooldownTimer = 0;
     player->starComboCount          = 0;
     player->activeTopSpeed          = 0;
-    player->blazeHoverTimer         = 120;
+    player->blazeHoverTimer         = SECONDS_TO_FRAMES(2.0);
     player->cameraJumpPosY          = 0;
 
     if ((player->grindID & PLAYER_GRIND_ACTIVE) != 0)
         player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
 
-    player->gimmickFlag &= ~(PLAYER_GIMMICK_1 | PLAYER_GIMMICK_2 | PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_40000 | PLAYER_GIMMICK_WARP | PLAYER_GIMMICK_20000000);
+    player->gimmickFlag &= ~(PLAYER_GIMMICK_FORCE_SURFACE_ATTACH | PLAYER_GIMMICK_FORCE_SURFACE_ATTACH_FLIP | PLAYER_GIMMICK_HIDE_SUPERBOOST | PLAYER_GIMMICK_DISABLE_RINGS_ON_PLANE_B | PLAYER_GIMMICK_WARP | PLAYER_GIMMICK_DISABLE_Z_AUTO_RETURN);
     player->playerFlag &= ~(PLAYER_FLAG_USER_FLAG | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_DISABLE_TRICK_FINISHER
-                            | PLAYER_FLAG_DISABLE_HOMING_ATTACK | PLAYER_FLAG_DEATH | PLAYER_FLAG_2000 | PLAYER_FLAG_TRICK_SUCCESS | PLAYER_FLAG_8000 | PLAYER_FLAG_SLOWMO
+                            | PLAYER_FLAG_DISABLE_HOMING_ATTACK | PLAYER_FLAG_DEATH | PLAYER_FLAG_DISABLE_CAMERA_OFFSET | PLAYER_FLAG_TRICK_SUCCESS | PLAYER_FLAG_TRICK_SPECIAL_ACTIVE | PLAYER_FLAG_SLOWMO
                             | PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_DISABLE_TENSION_CHANGE);
 
     player->objWork.flag &= ~(STAGE_TASK_FLAG_NO_OBJ_COLLISION);
@@ -655,9 +655,9 @@ void Player__InitState(Player *player)
 
     player->objWork.moveFlag &=
         ~(STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL
-          | STAGE_TASK_MOVE_FLAG_IN_AIR | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS
-          | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_4000 | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_RESET_FLOW);
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_200000 | STAGE_TASK_MOVE_FLAG_80000 | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_IDLE_ACCELERATION
+          | STAGE_TASK_MOVE_FLAG_IS_FALLING | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS
+          | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_FLOW);
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_PRECISE_FLOOR_CHECKS | STAGE_TASK_MOVE_FLAG_LIMIT_MAP_BOUNDS | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_IDLE_ACCELERATION
                                 | STAGE_TASK_MOVE_FLAG_USE_SLOPE_ACCELERATION | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
 
     if (player->objWork.obj_3d != NULL)
@@ -712,18 +712,18 @@ void Player__InitGimmick(Player *player, BOOL allowTricks)
     ObjRect__SetOnDefend(&player->colliders[0], Player__OnDefend_Regular);
     player->colliders[0].flag &= ~(OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME | OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
 
-    player->playerFlag &= ~(PLAYER_FLAG_USER_FLAG | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_2000
-                            | PLAYER_FLAG_TRICK_SUCCESS | PLAYER_FLAG_8000 | PLAYER_FLAG_SLOWMO | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+    player->playerFlag &= ~(PLAYER_FLAG_USER_FLAG | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_DISABLE_CAMERA_OFFSET
+                            | PLAYER_FLAG_TRICK_SUCCESS | PLAYER_FLAG_TRICK_SPECIAL_ACTIVE | PLAYER_FLAG_SLOWMO | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
 
     player->gimmickFlag &=
-        ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_40 | PLAYER_GIMMICK_80 | PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_40000 | PLAYER_GIMMICK_4000000);
+        ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY | PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_XY | PLAYER_GIMMICK_HIDE_SUPERBOOST | PLAYER_GIMMICK_DISABLE_RINGS_ON_PLANE_B | PLAYER_GIMMICK_USE_CAMERA_CENTER_OFFSET);
 
     player->objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_DRAW);
 
     player->objWork.moveFlag &=
         ~(STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS
-          | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_4000 | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_RESET_FLOW);
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_200000 | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_IDLE_ACCELERATION | STAGE_TASK_MOVE_FLAG_USE_SLOPE_ACCELERATION
+          | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_FLOW);
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_PRECISE_FLOOR_CHECKS | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_IDLE_ACCELERATION | STAGE_TASK_MOVE_FLAG_USE_SLOPE_ACCELERATION
                                 | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
 
     if (!IsBossStage())
@@ -999,7 +999,7 @@ void Player__ApplyWarpEfect(Player *player)
 {
     if ((player->playerFlag & PLAYER_FLAG_FINISHED_STAGE) == 0)
     {
-        if ((gPlayerList[1]->gimmickFlag & PLAYER_GIMMICK_800000) != 0)
+        if ((gPlayerList[1]->gimmickFlag & PLAYER_GIMMICK_2P_IS_ON_PLANE_B) != 0)
             player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
         else
             player->objWork.flag &= ~STAGE_TASK_FLAG_ON_PLANE_B;
@@ -1035,7 +1035,7 @@ void Player__ChangeAction(Player *player, PlayerAction action)
 
             player->aniPlayerModel.ani.renderObj.recJntAnm = recJntAnm;
             player->aniPlayerModel.ani.renderObj.recMatAnm = recMatAnm;
-            player->playerFlag |= PLAYER_FLAG_80000000;
+            player->playerFlag |= PLAYER_FLAG_MODEL_CHANGED;
         }
 
         if (CheckIsPlayer1(player) && (player->objWork.displayFlag & DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING) != 0)
@@ -1135,7 +1135,7 @@ void Player__UseDashPanel(Player *player, fx32 velX, fx32 velY)
     else
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
-    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
     {
         if ((player->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0 && player->objWork.velocity.x > velX
             || (player->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0 && player->objWork.velocity.x < velX)
@@ -1159,7 +1159,7 @@ void Player__UseDashPanel(Player *player, fx32 velX, fx32 velY)
                     player->objWork.velocity.y = velY;
 
                     if (velY < 0)
-                        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+                        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
                 }
                 break;
 
@@ -1324,14 +1324,14 @@ void Player__Action_LandOnGround(Player *player, fx32 dirZ)
     Player__InitPhysics(player);
 
     player->trickStateRef = NULL;
-    player->playerFlag &= ~(PLAYER_FLAG_8000 | PLAYER_FLAG_TRICK_SUCCESS);
-    player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_IN_AIR | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES);
+    player->playerFlag &= ~(PLAYER_FLAG_TRICK_SPECIAL_ACTIVE | PLAYER_FLAG_TRICK_SUCCESS);
+    player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_IS_FALLING | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES);
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     player->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     player->blazeHoverTimer             = SECONDS_TO_FRAMES(2.0);
     player->trickFinishHorizFreezeTimer = 0;
 
-    if ((player->gimmickFlag & PLAYER_GIMMICK_1) == 0 && (player->objWork.collisionFlag & STAGE_TASK_COLLISION_FLAG_CLIFF_EDGE) != 0)
+    if ((player->gimmickFlag & PLAYER_GIMMICK_FORCE_SURFACE_ATTACH) == 0 && (player->objWork.collisionFlag & STAGE_TASK_COLLISION_FLAG_CLIFF_EDGE) != 0)
         player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 
     if ((player->actionState < PLAYER_ACTION_GRIND || player->actionState > PLAYER_ACTION_GRINDTRICK_3_03)
@@ -1377,14 +1377,14 @@ void Player__Action_LandOnGround(Player *player, fx32 dirZ)
     if (player->activeTopSpeed > player->objWork.maxSlopeSpeed)
         player->activeTopSpeed = player->objWork.maxSlopeSpeed;
 
-    player->objWork.velocity.x = 0;
-    player->objWork.velocity.y = 0;
+    player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
+    player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
 
-    if (dirZ)
+    if (dirZ != FLOAT_DEG_TO_IDX(0.0))
         player->objWork.dir.z = dirZ;
 
-    if ((player->gimmickFlag & PLAYER_GIMMICK_1000) == 0)
-        player->objWork.dir.x = 0;
+    if ((player->gimmickFlag & PLAYER_GIMMICK_ATTACHED_TO_WALL) == 0)
+        player->objWork.dir.x = FLOAT_DEG_TO_IDX(0.0);
 
     player->cameraJumpPosY = 0;
 
@@ -1455,7 +1455,7 @@ void Player__OnGroundIdle(Player *player)
         }
 
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
         SetTaskState(&player->objWork, Player__State_GroundIdle);
     }
 }
@@ -1494,7 +1494,7 @@ void Player__OnGroundMove(Player *player)
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
     }
 
-    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
     SetTaskState(&player->objWork, Player__State_GroundMove);
     Player__HandleGroundMovement(player);
 }
@@ -1513,7 +1513,7 @@ void Player__Action_Launch(Player *player)
     }
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
     SetTaskState(&player->objWork, Player__State_Air);
 
     player->objWork.velocity.x = MultiplyFX(player->objWork.groundVel, CosFX(player->objWork.dir.z));
@@ -1557,7 +1557,7 @@ void Player__PerformTrick(Player *player)
         HandlePlayerTrickSuccessBonus(player);
     }
 
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
     StarCombo__DisplayConfetti(player);
 
     player->objWork.userWork   = 0;
@@ -1580,8 +1580,8 @@ void Player__Action_Grind(Player *player)
     }
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
-    player->playerFlag &= ~(PLAYER_FLAG_8000 | PLAYER_FLAG_TRICK_SUCCESS);
+    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
+    player->playerFlag &= ~(PLAYER_FLAG_TRICK_SPECIAL_ACTIVE | PLAYER_FLAG_TRICK_SUCCESS);
     player->grindID |= PLAYER_GRIND_ACTIVE;
     player->grindPrevRide = PLAYER_GRIND_NONE;
     SetTaskState(&player->objWork, Player__State_Grinding);
@@ -1694,14 +1694,14 @@ void Player__Action_Warp(Player *player)
 
 void Player__Action_DestroyAttackRecoil(Player *player)
 {
-    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
     {
         fx32 velX      = player->objWork.velocity.x;
         fx32 groundVel = player->objWork.groundVel;
 
         Player__InitState(player);
 
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         SetTaskState(&player->objWork, Player__State_Air);
         ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
 
@@ -1720,7 +1720,7 @@ void Player__Action_DestroyAttackRecoil(Player *player)
 void Player__Action_AttackRecoil(Player *player)
 {
     Player__InitState(player);
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
     if (player->objWork.move.x <= 0)
         player->objWork.velocity.x = FLOAT_TO_FX32(1.5);
     else
@@ -1742,7 +1742,7 @@ void Player__Action_Knockback_NoHurt(Player *player, fx32 velX, fx32 velY)
     else
         player->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
 
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES;
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
 
@@ -1780,7 +1780,7 @@ void Player__Action_FinishMission(Player *player, GameObjectTask *other)
                             player->actionGroundIdle(player);
                         }
 
-                        if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+                        if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
                         {
                             if (gameMode == GAMEMODE_VS_BATTLE)
                             {
@@ -1810,7 +1810,7 @@ void Player__Action_FinishMission(Player *player, GameObjectTask *other)
                         }
 
                         player->gimmickObj = other;
-                        player->gimmickFlag |= PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
+                        player->gimmickFlag |= PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY;
                         player->gimmickCamOffsetY = 56;
                     }
                 }
@@ -1823,7 +1823,7 @@ void Player__Action_FinishMission(Player *player, GameObjectTask *other)
                     player->objWork.groundVel   = 0;
                     player->objWork.dir.z       = 0;
                     player->overSpeedLimitTimer = 24;
-                    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+                    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
                     Player__Action_DestroyAttackRecoil(player);
                     player->objWork.velocity.y = -FLOAT_TO_FX32(4.5);
 
@@ -1838,7 +1838,7 @@ void Player__Action_FinishMission(Player *player, GameObjectTask *other)
                                 player->objWork.velocity.x = (distance + FLOAT_TO_FX32(64.0)) >> 5;
                         }
                         player->gimmickObj = other;
-                        player->gimmickFlag |= PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
+                        player->gimmickFlag |= PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY;
                         player->gimmickCamOffsetX = 0;
                         player->gimmickCamOffsetY = 56;
                     }
@@ -1869,7 +1869,7 @@ void Player__Action_FinishMission(Player *player, GameObjectTask *other)
             {
                 if (gameState.missionType == MISSION_TYPE_REACH_GOAL_TIME_LIMIT || gameState.missionType == MISSION_TYPE_REACH_GOAL)
                 {
-                    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_80000;
+                    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_LIMIT_MAP_BOUNDS;
                     player->inputKeyPress  = PAD_INPUT_NONE_MASK;
                     player->inputKeyRepeat = PAD_INPUT_NONE_MASK;
                     player->inputKeyDown &= (PAD_BUTTON_A | PAD_BUTTON_B | PAD_BUTTON_Y);
@@ -1893,7 +1893,7 @@ void Player__Action_FinishMission(Player *player, GameObjectTask *other)
             }
             else
             {
-                player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_80000;
+                player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_LIMIT_MAP_BOUNDS;
                 player->inputKeyPress  = PAD_INPUT_NONE_MASK;
                 player->inputKeyRepeat = PAD_INPUT_NONE_MASK;
                 player->inputKeyDown &= (PAD_BUTTON_A | PAD_BUTTON_B | PAD_BUTTON_Y);
@@ -2127,7 +2127,7 @@ void Player__HandleAirMovement(Player *player)
             airAcceleration = acceleration - MultiplyFX(acceleration, accel);
         }
 
-        if ((player->playerFlag & PLAYER_GIMMICK_4000000) != 0)
+        if ((player->playerFlag & PLAYER_GIMMICK_USE_CAMERA_CENTER_OFFSET) != 0)
         {
             if (!IsBossStage())
                 airAcceleration >>= 1;
@@ -2261,7 +2261,7 @@ void Player__OnDefend_Regular(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     {
         if ((player->colliders[1].flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
         {
-            if ((player->playerFlag & PLAYER_FLAG_40000000) == 0)
+            if ((player->playerFlag & PLAYER_FLAG_VS_QUEUED_PLAYER_HIT) == 0)
             {
                 if (player->actionState >= PLAYER_ACTION_ROLL && player->actionState <= PLAYER_ACTION_SPINDASH_CHARGE)
                 {
@@ -2278,7 +2278,7 @@ void Player__OnDefend_Regular(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
                 }
 
                 Player__Action_AttackRecoil(player);
-                player->playerFlag |= PLAYER_FLAG_40000000;
+                player->playerFlag |= PLAYER_FLAG_VS_QUEUED_PLAYER_HIT;
             }
             return;
         }
@@ -2286,7 +2286,7 @@ void Player__OnDefend_Regular(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         if (player->stageTimerStore + 10 >= playerGameStatus.stageTimer)
             return;
 
-        player->playerFlag |= PLAYER_FLAG_DO_ATTACK_RECOIL;
+        player->playerFlag |= PLAYER_FLAG_VS_DO_ATTACK_RECOIL;
     }
 
     fx32 velocity;
@@ -2330,7 +2330,7 @@ void Player__OnDefend_Regular(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     u32 prevFlag = player->gimmickFlag;
     Player__InitState(player);
-    player->gimmickFlag |= prevFlag & PLAYER_GIMMICK_40000;
+    player->gimmickFlag |= prevFlag & PLAYER_GIMMICK_DISABLE_RINGS_ON_PLANE_B;
 
     if ((player->playerFlag & PLAYER_FLAG_SHIELD_REGULAR) == 0)
     {
@@ -2346,7 +2346,7 @@ void Player__OnDefend_Regular(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         else
         {
             CreateLoseRingEffect(player, 10);
-            player->playerFlag |= PLAYER_FLAG_DO_LOSE_RING_EFFECT;
+            player->playerFlag |= PLAYER_FLAG_VS_DO_LOSE_RING_EFFECT;
         }
     }
 
@@ -2386,7 +2386,7 @@ void Player__OnDefend_Regular(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             }
         }
 
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR);
         SetTaskState(&player->objWork, Player__State_Hurt);
     }
@@ -2399,7 +2399,7 @@ void Player__OnDefend_Regular(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         player->objWork.velocity.x = velocity >> 2;
         player->objWork.velocity.y = -FLOAT_TO_FX32(3.0);
         player->objWork.groundVel  = 0;
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR);
         player->objWork.userTimer = 32;
         SetTaskState(&player->objWork, Player__State_HurtSnowboard);
@@ -2443,7 +2443,7 @@ void Player__Hurt(Player *player)
     {
         u32 prevFlag = player->gimmickFlag;
         Player__InitState(player);
-        player->gimmickFlag |= prevFlag & PLAYER_GIMMICK_40000;
+        player->gimmickFlag |= prevFlag & PLAYER_GIMMICK_DISABLE_RINGS_ON_PLANE_B;
 
         if ((player->playerFlag & PLAYER_FLAG_SHIELD_REGULAR) == 0)
         {
@@ -2487,7 +2487,7 @@ void Player__Hurt(Player *player)
                 }
             }
 
-            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
             player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR);
             SetTaskState(&player->objWork, Player__State_Hurt);
         }
@@ -2500,7 +2500,7 @@ void Player__Hurt(Player *player)
             player->objWork.velocity.x = velocity >> 2;
             player->objWork.velocity.y = -FLOAT_TO_FX32(3.0);
             player->objWork.groundVel  = 0;
-            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
             player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR);
             player->objWork.userTimer = 32;
             SetTaskState(&player->objWork, Player__State_HurtSnowboard);
@@ -2561,9 +2561,9 @@ void Player__Action_SuperBoost(Player *player)
     if ((player->playerFlag & PLAYER_FLAG_SUPERBOOST) == 0)
     {
         if ((g_obj.flag & OBJECTMANAGER_FLAG_USE_Z_AS_SCROLL) == 0)
-            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_4000;
+            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT;
 
-        if (!player->characterID && (player->gimmickFlag & PLAYER_GIMMICK_100) == 0)
+        if (player->characterID == CHARACTER_SONIC && (player->gimmickFlag & PLAYER_GIMMICK_ENABLE_Z_MOVEMENT) == 0)
             CreateEffectPlayerTrail(player, FLOAT_TO_FX32(24.0), 10, GX_RGB_888(0x28, 0x28, 0xFF), GX_RGB_888(0x28, 0x28, 0xFF));
 
         switch (player->characterID)
@@ -2598,7 +2598,7 @@ void Player__Action_SuperBoost(Player *player)
         CreateEffectBoostSuperStartFX(player);
         CreateEffectBoostAura(player);
 
-        if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+        if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
         {
             if (MATH_ABS(player->objWork.velocity.x) < player->topSpeed_SuperBoost)
             {
@@ -2847,7 +2847,7 @@ void Player__Func_20133B8(Player *work)
 
         if (work->gimmickObj == NULL)
         {
-            work->gimmickFlag &= ~PLAYER_GIMMICK_4000000;
+            work->gimmickFlag &= ~PLAYER_GIMMICK_USE_CAMERA_CENTER_OFFSET;
             work->gimmickCamGimmickCenterOffsetX = 0;
             work->gimmickCamGimmickCenterOffsetY = 0;
         }
@@ -2938,12 +2938,12 @@ void Player__Func_20133B8(Player *work)
         work->cameraVelocity.x = velX;
         work->cameraVelocity.y = velY;
 
-        if ((work->playerFlag & PLAYER_FLAG_2000) != 0)
+        if ((work->playerFlag & PLAYER_FLAG_DISABLE_CAMERA_OFFSET) != 0)
         {
             work->cameraOffset.x -= work->cameraOffset.x >> 2;
             work->cameraOffset.y -= work->cameraOffset.y >> 2;
         }
-        else if ((work->gimmickFlag & PLAYER_GIMMICK_4000000) != 0)
+        else if ((work->gimmickFlag & PLAYER_GIMMICK_USE_CAMERA_CENTER_OFFSET) != 0)
         {
             work->cameraOffset.x +=
                 (work->cameraVelocity.x - work->cameraOffset.x + (FX32_FROM_WHOLE(work->gimmickCamCenterOffsetX + work->gimmickCamGimmickCenterOffsetX))) >> camShift;
@@ -2964,7 +2964,7 @@ void Player__Func_2013630(Player *work)
 {
     if (CheckIsPlayer1(work))
     {
-        if ((work->gimmickFlag & PLAYER_GIMMICK_10) != 0)
+        if ((work->gimmickFlag & PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X) != 0)
         {
             if ((mapCamera.camera[work->cameraID].flags & MAPSYS_CAMERA_FLAG_40) == 0)
                 MapSys__Func_2009190(work->cameraID);
@@ -2972,7 +2972,7 @@ void Player__Func_2013630(Player *work)
             if (work->gimmickObj != NULL)
             {
                 fx32 x = work->gimmickObj->objWork.position.x - FX32_FROM_WHOLE(work->gimmickCamOffsetX + HW_LCD_CENTER_X);
-                if ((work->gimmickFlag & PLAYER_GIMMICK_40) != 0)
+                if ((work->gimmickFlag & PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_X) != 0)
                 {
                     mapCamera.camera[work->cameraID].disp_pos.x = x;
                 }
@@ -2984,23 +2984,23 @@ void Player__Func_2013630(Player *work)
                         mapCamera.camera[work->cameraID].disp_pos.x = ObjShiftSet(mapCamera.camera[work->cameraID].disp_pos.x, x, 4, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0));
 
                     if ((x & ~0x1FFF) == (mapCamera.camera[work->cameraID].disp_pos.x & ~0x1FFF))
-                        work->gimmickFlag |= PLAYER_GIMMICK_40;
+                        work->gimmickFlag |= PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_X;
                 }
             }
             else
             {
-                work->gimmickFlag &= ~(PLAYER_GIMMICK_40 | PLAYER_GIMMICK_10);
+                work->gimmickFlag &= ~(PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_X | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X);
                 Player__Func_20138F4(work);
             }
         }
         else
         {
-            work->gimmickFlag &= ~PLAYER_GIMMICK_40;
+            work->gimmickFlag &= ~PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_X;
             if ((mapCamera.camera[work->cameraID].flags & MAPSYS_CAMERA_FLAG_40) != 0)
                 Player__Func_20138F4(work);
         }
 
-        if ((work->gimmickFlag & PLAYER_GIMMICK_20) != 0)
+        if ((work->gimmickFlag & PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y) != 0)
         {
             if ((mapCamera.camera[work->cameraID].flags & MAPSYS_CAMERA_FLAG_80) == 0)
                 MapSys__Func_20091B0(work->cameraID);
@@ -3009,7 +3009,7 @@ void Player__Func_2013630(Player *work)
             {
                 fx32 y = work->gimmickObj->objWork.position.y - FX32_FROM_WHOLE(work->gimmickCamOffsetY + HW_LCD_CENTER_Y);
 
-                if ((work->gimmickFlag & PLAYER_GIMMICK_80) != 0)
+                if ((work->gimmickFlag & PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_Y) != 0)
                 {
                     mapCamera.camera[work->cameraID].disp_pos.y = y;
                 }
@@ -3018,18 +3018,18 @@ void Player__Func_2013630(Player *work)
                     mapCamera.camera[work->cameraID].disp_pos.y = ObjShiftSet(mapCamera.camera[work->cameraID].disp_pos.y, y, 4, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0));
 
                     if ((y & ~0x1FFF) == (mapCamera.camera[work->cameraID].disp_pos.y & ~0x1FFF))
-                        work->gimmickFlag |= PLAYER_GIMMICK_80;
+                        work->gimmickFlag |= PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_Y;
                 }
             }
             else
             {
-                work->gimmickFlag &= ~(PLAYER_GIMMICK_80 | PLAYER_GIMMICK_20);
+                work->gimmickFlag &= ~(PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_Y | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y);
                 Player__Func_2013948(work);
             }
         }
         else
         {
-            work->gimmickFlag &= ~PLAYER_GIMMICK_80;
+            work->gimmickFlag &= ~PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_Y;
             if ((mapCamera.camera[work->cameraID].flags & MAPSYS_CAMERA_FLAG_80) != 0)
                 Player__Func_2013948(work);
         }
@@ -3064,16 +3064,16 @@ void Player__HandleCollisionBounds(Player *player)
 {
     if (CheckIsPlayer1(player) && !IsBossStage())
     {
-        if ((player->gimmickFlag & PLAYER_GIMMICK_200) != 0)
+        if ((player->gimmickFlag & PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_X) != 0)
         {
             if (player->gimmickObj != NULL)
             {
-                stageCollision.left  = FX32_TO_WHOLE(player->gimmickObj->objWork.position.x) - 108;
-                stageCollision.right = FX32_TO_WHOLE(player->gimmickObj->objWork.position.x) + 108;
+                stageCollision.left  = FX32_TO_WHOLE(player->gimmickObj->objWork.position.x) - ((HW_LCD_WIDTH / 2) - 20);
+                stageCollision.right = FX32_TO_WHOLE(player->gimmickObj->objWork.position.x) + ((HW_LCD_WIDTH / 2) - 20);
             }
             else
             {
-                player->gimmickFlag &= ~PLAYER_GIMMICK_200;
+                player->gimmickFlag &= ~PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_X;
 
                 stageCollision.left  = 0;
                 stageCollision.right = stageCollision.blockWidth << 6;
@@ -3081,10 +3081,10 @@ void Player__HandleCollisionBounds(Player *player)
         }
         else
         {
-            if ((player->gimmickFlag & PLAYER_GIMMICK_8000000) != 0)
+            if ((player->gimmickFlag & PLAYER_GIMMICK_USE_GIMMICK_BOUNDS_X) != 0)
             {
                 stageCollision.left  = player->gimmickMapLimitLeft;
-                stageCollision.right = player->gimmickMapLimitTop;
+                stageCollision.right = player->gimmickMapLimitRight;
             }
             else
             {
@@ -3093,16 +3093,16 @@ void Player__HandleCollisionBounds(Player *player)
             }
         }
 
-        if ((player->gimmickFlag & PLAYER_GIMMICK_400) != 0)
+        if ((player->gimmickFlag & PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_Y) != 0)
         {
             if (player->gimmickObj != NULL)
             {
-                stageCollision.top    = FX32_TO_WHOLE(player->gimmickObj->objWork.position.y) - 88;
-                stageCollision.bottom = FX32_TO_WHOLE(player->gimmickObj->objWork.position.y) + 88;
+                stageCollision.top    = FX32_TO_WHOLE(player->gimmickObj->objWork.position.y) - ((HW_LCD_HEIGHT / 2) - 8);
+                stageCollision.bottom = FX32_TO_WHOLE(player->gimmickObj->objWork.position.y) + ((HW_LCD_HEIGHT / 2) - 8);
             }
             else
             {
-                player->gimmickFlag &= ~PLAYER_GIMMICK_400;
+                player->gimmickFlag &= ~PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_Y;
 
                 stageCollision.top    = 0;
                 stageCollision.bottom = stageCollision.blockHeight << 6;
@@ -3110,9 +3110,9 @@ void Player__HandleCollisionBounds(Player *player)
         }
         else
         {
-            if ((player->gimmickFlag & PLAYER_GIMMICK_10000000) != 0)
+            if ((player->gimmickFlag & PLAYER_GIMMICK_USE_GIMMICK_BOUNDS_Y) != 0)
             {
-                stageCollision.top    = player->gimmickMapLimitRight;
+                stageCollision.top    = player->gimmickMapLimitTop;
                 stageCollision.bottom = player->gimmickMapLimitBottom;
             }
             else
@@ -3173,7 +3173,7 @@ void Player__In_Default(void)
 
     if (work->grindID != PLAYER_GRIND_NONE)
     {
-        if ((work->actionState < PLAYER_ACTION_GRIND || work->actionState > PLAYER_ACTION_GRINDTRICK_3_03) && (work->gimmickFlag & PLAYER_GIMMICK_4) == 0
+        if ((work->actionState < PLAYER_ACTION_GRIND || work->actionState > PLAYER_ACTION_GRINDTRICK_3_03) && (work->gimmickFlag & PLAYER_GIMMICK_CHECK_GRIND_COLLISIONS) == 0
             && (work->grindPrevRide & 2) != 0)
         {
             work->objWork.flag &= ~STAGE_TASK_FLAG_ON_PLANE_B;
@@ -3183,7 +3183,7 @@ void Player__In_Default(void)
                 work->grindID = PLAYER_GRIND_NONE;
         }
 
-        work->gimmickFlag &= ~PLAYER_GIMMICK_4;
+        work->gimmickFlag &= ~PLAYER_GIMMICK_CHECK_GRIND_COLLISIONS;
     }
 
     if (work->overSpeedLimitTimer != 0)
@@ -3380,7 +3380,7 @@ void Player__In_Default(void)
 
     Player__HandleWaterEntry(work);
     Player__HandleHomingTarget(work);
-    Player__HandleGroundCollisions(work);
+    Player__HandleForceSurfaceAttach(work);
     Player__HandleSuperBoost(work);
     Player__HandleGrinding(work);
     Player__HandleTensionDrain(work);
@@ -3404,11 +3404,11 @@ void Player__Last_Default(void)
     Player__Func_2013630(work);
     Player__Func_20133B8(work);
 
-    if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) != 0 && (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_4000) == 0)
+    if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) != 0 && (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT) == 0)
         work->overSpeedLimitTimer = 0;
 
-    if ((work->gimmickObj == NULL || (work->gimmickFlag & PLAYER_GIMMICK_8) != 0) && (work->playerFlag & PLAYER_FLAG_SUPERBOOST_UNKNOWN) == 0)
-        work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_4000;
+    if ((work->gimmickObj == NULL || (work->gimmickFlag & PLAYER_GIMMICK_CHECK_SUPERBOOST_END_DURING_GIMMICK) != 0) && (work->playerFlag & PLAYER_FLAG_SUPERBOOST_UNKNOWN) == 0)
+        work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT;
 
     if ((work->playerFlag & PLAYER_FLAG_SUPERBOOST_UNKNOWN) != 0)
         work->playerFlag &= ~PLAYER_FLAG_SUPERBOOST_UNKNOWN;
@@ -3430,48 +3430,48 @@ void Player__Last_Default(void)
         }
     }
 
-    if ((work->gimmickFlag & PLAYER_GIMMICK_1000) != 0)
+    if ((work->gimmickFlag & PLAYER_GIMMICK_ATTACHED_TO_WALL) != 0)
     {
-        work->gimmickFlag &= ~PLAYER_GIMMICK_1000;
-        work->gimmickFlag |= PLAYER_GIMMICK_80000;
+        work->gimmickFlag &= ~PLAYER_GIMMICK_ATTACHED_TO_WALL;
+        work->gimmickFlag |= PLAYER_GIMMICK_WAS_ATTACHED_TO_WALL;
 
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
         work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     }
-    else if ((work->gimmickFlag & PLAYER_GIMMICK_80000) != 0)
+    else if ((work->gimmickFlag & PLAYER_GIMMICK_WAS_ATTACHED_TO_WALL) != 0)
     {
-        work->gimmickFlag &= ~PLAYER_GIMMICK_BUNGEE;
-        if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+        work->gimmickFlag &= ~PLAYER_GIMMICK_CONTOLLED_BY_GIMMICK;
+        if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
         {
             work->objWork.position.z = ObjSpdDownSet(work->objWork.position.z, FLOAT_TO_FX32(2.0));
             work->objWork.velocity.z = ObjSpdDownSet(work->objWork.velocity.z, FLOAT_TO_FX32(0.5));
         }
     }
 
-    if ((work->playerFlag & PLAYER_GIMMICK_2000000) != 0)
+    if ((work->playerFlag & PLAYER_GIMMICK_WANT_GRAVITY_RESET) != 0)
     {
         work->objWork.gravityStrength  = playerPhysicsTable[work->characterID].gravityStrength;
         work->objWork.terminalVelocity = playerPhysicsTable[work->characterID].terminalVelocity;
 
-        work->playerFlag &= ~PLAYER_GIMMICK_2000000;
+        work->playerFlag &= ~PLAYER_GIMMICK_WANT_GRAVITY_RESET;
 
         if ((work->playerFlag & PLAYER_FLAG_IN_WATER) != 0 && !IsBossStage())
             work->objWork.gravityStrength >>= 1;
     }
 
-    if ((work->gimmickFlag & PLAYER_GIMMICK_2000) != 0)
+    if ((work->gimmickFlag & PLAYER_GIMMICK_UNKNOWN) != 0)
     {
-        work->gimmickFlag &= ~PLAYER_GIMMICK_2000;
+        work->gimmickFlag &= ~PLAYER_GIMMICK_UNKNOWN;
         work->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
     }
 
-    if ((work->gimmickFlag & PLAYER_GIMMICK_10000) != 0)
+    if ((work->gimmickFlag & PLAYER_GIMMICK_USE_WATER_GRIND_SPARK) != 0)
     {
-        work->gimmickFlag &= ~PLAYER_GIMMICK_10000;
+        work->gimmickFlag &= ~PLAYER_GIMMICK_USE_WATER_GRIND_SPARK;
         work->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
     }
 
-    if ((work->gimmickFlag & PLAYER_GIMMICK_40000) != 0 && gmCheckVsBattleFlag() && CheckIsPlayer1(work))
+    if ((work->gimmickFlag & PLAYER_GIMMICK_DISABLE_RINGS_ON_PLANE_B) != 0 && gmCheckVsBattleFlag() && CheckIsPlayer1(work))
     {
         StageTask *objWork = &work->gimmickObj->objWork;
 
@@ -3497,11 +3497,11 @@ void Player__Last_Default(void)
     work->clingWeight     = 0;
 
     Player__SendPacket(work);
-    work->playerFlag &= ~(PLAYER_FLAG_DO_LOSE_RING_EFFECT | PLAYER_FLAG_DO_ATTACK_RECOIL);
+    work->playerFlag &= ~(PLAYER_FLAG_VS_DO_LOSE_RING_EFFECT | PLAYER_FLAG_VS_DO_ATTACK_RECOIL);
 
-    if ((work->colliders[1].flag & OBS_RECT_WORK_FLAG_ENABLED) == 0 && (work->playerFlag & PLAYER_FLAG_40000000) != 0)
+    if ((work->colliders[1].flag & OBS_RECT_WORK_FLAG_ENABLED) == 0 && (work->playerFlag & PLAYER_FLAG_VS_QUEUED_PLAYER_HIT) != 0)
     {
-        work->playerFlag &= ~PLAYER_FLAG_40000000;
+        work->playerFlag &= ~PLAYER_FLAG_VS_QUEUED_PLAYER_HIT;
         if (CheckIsPlayer1(work))
             work->stageTimerStore = playerGameStatus.stageTimer;
     }
@@ -3584,10 +3584,10 @@ void Player__DrawAfterImages(void)
                 }
 
                 work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE | DISPLAY_FLAG_PAUSED;
-                if ((work->playerFlag & PLAYER_FLAG_80000000) != 0)
+                if ((work->playerFlag & PLAYER_FLAG_MODEL_CHANGED) != 0)
                 {
                     work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_UPDATE;
-                    work->playerFlag &= ~PLAYER_FLAG_80000000;
+                    work->playerFlag &= ~PLAYER_FLAG_MODEL_CHANGED;
                 }
 
                 if ((work->afterImageTimer & 1) != 0)
@@ -3656,7 +3656,7 @@ void Player__State_GroundIdle(Player *work)
         }
     }
 
-    if ((work->gimmickFlag & (PLAYER_GIMMICK_1000 | PLAYER_GIMMICK_SNOWBOARD | PLAYER_GIMMICK_100)) == 0 && (work->inputKeyDown & PAD_KEY_UP) != 0)
+    if ((work->gimmickFlag & (PLAYER_GIMMICK_ATTACHED_TO_WALL | PLAYER_GIMMICK_SNOWBOARD | PLAYER_GIMMICK_ENABLE_Z_MOVEMENT)) == 0 && (work->inputKeyDown & PAD_KEY_UP) != 0)
     {
         if (work->actionState < PLAYER_ACTION_LOOKUP_01 || work->actionState > PLAYER_ACTION_LOOKUP_02)
         {
@@ -3675,7 +3675,7 @@ void Player__State_GroundIdle(Player *work)
     {
         if (work->actionState >= PLAYER_ACTION_BALANCE_FORWARD && work->actionState <= PLAYER_ACTION_BALANCE_BACKWARD)
         {
-            if (CheckIsPlayer1(work) && !Player__IsBalancing(work, FALSE))
+            if (CheckIsPlayer1(work) && Player__IsBalancing(work, FALSE) == FALSE)
             {
                 work->objWork.displayFlag |= DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                 Player__ChangeAction(work, PLAYER_ACTION_IDLE);
@@ -3703,7 +3703,7 @@ void Player__State_GroundIdle(Player *work)
         }
         else
         {
-            if ((work->gimmickFlag & (PLAYER_GIMMICK_1000 | PLAYER_GIMMICK_SNOWBOARD | PLAYER_GIMMICK_100)) == 0 && (work->inputKeyDown & PAD_KEY_DOWN) != 0
+            if ((work->gimmickFlag & (PLAYER_GIMMICK_ATTACHED_TO_WALL | PLAYER_GIMMICK_SNOWBOARD | PLAYER_GIMMICK_ENABLE_Z_MOVEMENT)) == 0 && (work->inputKeyDown & PAD_KEY_DOWN) != 0
                 && work->actionCrouch != NULL)
             {
                 work->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
@@ -3718,7 +3718,7 @@ void Player__State_GroundIdle(Player *work)
                 if ((work->inputKeyDown & (PAD_KEY_LEFT | PAD_KEY_RIGHT)) != 0 || work->objWork.groundVel != 0)
                 {
                     // and the player's direction matches their velocity...
-                    if (((work->gimmickFlag & PLAYER_GIMMICK_40000) == 0 || (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) == 0
+                    if (((work->gimmickFlag & PLAYER_GIMMICK_DISABLE_RINGS_ON_PLANE_B) == 0 || (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) == 0
                          || ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0 || (work->inputKeyDown & PAD_KEY_LEFT) == 0)
                                 && ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0 || (work->inputKeyDown & PAD_KEY_RIGHT) == 0)))
                     {
@@ -3740,7 +3740,7 @@ void Player__State_GroundIdle(Player *work)
 
                 Player__HandleZMovement(work);
 
-                if ((work->gimmickFlag & PLAYER_GIMMICK_100) != 0 && work->objWork.velocity.z != 0 && work->actionGroundMove != NULL)
+                if ((work->gimmickFlag & PLAYER_GIMMICK_ENABLE_Z_MOVEMENT) != 0 && work->objWork.velocity.z != 0 && work->actionGroundMove != NULL)
                 {
                     work->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
                     work->actionGroundMove(work);
@@ -3874,7 +3874,7 @@ void Player__State_GroundMove(Player *work)
         else
         {
 
-            if (!(((work->gimmickFlag & PLAYER_GIMMICK_40000) != 0 || (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) == 0)
+            if (!(((work->gimmickFlag & PLAYER_GIMMICK_DISABLE_RINGS_ON_PLANE_B) != 0 || (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) == 0)
                   || (((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0 || (work->inputKeyDown & PAD_KEY_LEFT) == 0)
                       && ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0 || (work->inputKeyDown & PAD_KEY_RIGHT) == 0)))
                 && (FX32_TO_WHOLE(work->objWork.position.x) > stageCollision.left + 14 && FX32_TO_WHOLE(work->objWork.position.x) < stageCollision.right - 14))
@@ -3924,7 +3924,7 @@ void Player__State_GroundMove(Player *work)
     }
     else
     {
-        if ((work->gimmickFlag & (PLAYER_GIMMICK_SNOWBOARD | PLAYER_GIMMICK_100)) == 0 && ((work->inputKeyDown & PAD_KEY_DOWN) != 0 && work->actionCrouch != NULL))
+        if ((work->gimmickFlag & (PLAYER_GIMMICK_SNOWBOARD | PLAYER_GIMMICK_ENABLE_Z_MOVEMENT)) == 0 && ((work->inputKeyDown & PAD_KEY_DOWN) != 0 && work->actionCrouch != NULL))
         {
             Player__FinishTurningSkidding(work);
             work->actionCrouch(work);
@@ -3983,7 +3983,7 @@ void Player__Action_Crouch(Player *player)
     else
     {
         Player__ChangeAction(player, PLAYER_ACTION_CROUCH);
-        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
         SetTaskState(&player->objWork, Player__State_Crouch);
         player->objWork.groundVel  = 0;
         player->objWork.velocity.x = 0;
@@ -4024,7 +4024,7 @@ void Player__Action_Roll(Player *player)
     Player__ChangeAction(player, PLAYER_ACTION_ROLL);
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
     SetTaskState(&player->objWork, Player__State_Roll);
 
     ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
@@ -4087,7 +4087,7 @@ void Player__Action_StartSpindash(Player *player)
     Player__ChangeAction(player, PLAYER_ACTION_SPINDASH);
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
     SetTaskState(&player->objWork, Player__State_Spindash);
     player->spindashPower = player->initialSpindashPower;
 
@@ -4096,7 +4096,7 @@ void Player__Action_StartSpindash(Player *player)
     player->colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_ONATTACK;
 
     player->playerFlag |= PLAYER_FLAG_USER_FLAG;
-    if ((player->gimmickFlag & PLAYER_GIMMICK_1000) == 0)
+    if ((player->gimmickFlag & PLAYER_GIMMICK_ATTACHED_TO_WALL) == 0)
         CreateEffectBigSpindashDust(player);
 
     switch (player->characterID)
@@ -4141,7 +4141,7 @@ void Player__State_Spindash(Player *work)
             if (MATH_ABS(releaseVelocity) > MATH_ABS(work->objWork.groundVel))
                 work->objWork.groundVel = releaseVelocity;
 
-            work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_4000;
+            work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT;
             Player__Action_Roll(work);
 
             switch (work->characterID)
@@ -4177,7 +4177,7 @@ void Player__State_Spindash(Player *work)
             Player__ChangeAction(work, PLAYER_ACTION_SPINDASH_CHARGE);
             work->spindashPower = ObjSpdUpSet(work->spindashPower, work->spindashChargePower, work->spindashTopSpeed);
 
-            if ((work->gimmickFlag & PLAYER_GIMMICK_1000) == 0 && (work->playerFlag & PLAYER_FLAG_USER_FLAG) == 0)
+            if ((work->gimmickFlag & PLAYER_GIMMICK_ATTACHED_TO_WALL) == 0 && (work->playerFlag & PLAYER_FLAG_USER_FLAG) == 0)
                 CreateEffectBigSpindashDust(work);
 
             work->playerFlag |= PLAYER_FLAG_USER_FLAG;
@@ -4240,11 +4240,11 @@ void Player__Action_Jump(Player *player)
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_USE_SLOPE_ACCELERATION;
     }
 
-    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
         player->cameraJumpPosY = player->objWork.position.y;
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    player->objWork.moveFlag |= PLAYER_FLAG_8000 | PLAYER_FLAG_IS_ATTACKING_PLAYER;
+    player->objWork.moveFlag |= PLAYER_FLAG_TRICK_SPECIAL_ACTIVE | PLAYER_FLAG_VS_IS_ATTACKING_PLAYER;
     SetTaskState(&player->objWork, Player__State_Air);
 
     player->objWork.velocity.x = MultiplyFX(player->objWork.groundVel, CosFX(player->objWork.dir.z));
@@ -4252,10 +4252,10 @@ void Player__Action_Jump(Player *player)
     player->objWork.velocity.x += MultiplyFX(player->jumpForce, SinFX(player->objWork.dir.z));
     player->objWork.velocity.y += MultiplyFX(-player->jumpForce, CosFX(player->objWork.dir.z));
 
-    if ((player->gimmickFlag & PLAYER_GIMMICK_1000) != 0)
+    if ((player->gimmickFlag & PLAYER_GIMMICK_ATTACHED_TO_WALL) != 0)
     {
         player->objWork.velocity.z = player->objWork.velocity.y;
-        player->objWork.velocity.y = 0;
+        player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
 
         if (player->objWork.position.z < 0)
             player->objWork.velocity.z = -player->objWork.velocity.z;
@@ -4263,7 +4263,7 @@ void Player__Action_Jump(Player *player)
 
     ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
     player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
-    player->playerFlag &= ~(PLAYER_FLAG_8000 | PLAYER_FLAG_TRICK_SUCCESS);
+    player->playerFlag &= ~(PLAYER_FLAG_TRICK_SPECIAL_ACTIVE | PLAYER_FLAG_TRICK_SUCCESS);
     player->objWork.userTimer  = 0;
     player->objWork.userWork   = 0;
     player->trickCooldownTimer = 0;
@@ -4305,7 +4305,7 @@ void Player__Action_JumpDash(Player *player)
     Player__ChangeAction(player, PLAYER_ACTION_JUMPDASH_01);
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
     SetTaskState(&player->objWork, Player__State_Air);
 
     s32 angle;
@@ -4331,7 +4331,7 @@ void Player__State_Air(Player *work)
 {
     fx32 velocityY = work->objWork.velocity.y;
 
-    if ((work->gimmickFlag & PLAYER_GIMMICK_1000) != 0)
+    if ((work->gimmickFlag & PLAYER_GIMMICK_ATTACHED_TO_WALL) != 0)
     {
         velocityY = work->objWork.velocity.z;
         if (work->objWork.dir.x > FLOAT_TO_FX32(8.0))
@@ -4350,8 +4350,8 @@ void Player__State_Air(Player *work)
 
     if ((work->playerFlag & PLAYER_FLAG_USER_FLAG) == 0 && (work->inputKeyDown & PLAYER_INPUT_JUMP) == 0 && velocityY < -FLOAT_TO_FX32(0.25))
     {
-        if ((work->gimmickFlag & PLAYER_GIMMICK_1000) != 0)
-            work->objWork.velocity.z = 0;
+        if ((work->gimmickFlag & PLAYER_GIMMICK_ATTACHED_TO_WALL) != 0)
+            work->objWork.velocity.z = FLOAT_TO_FX32(0.0);
         else
             work->objWork.velocity.y = -FLOAT_TO_FX32(0.015625);
     }
@@ -4781,7 +4781,7 @@ void Player__State_Air(Player *work)
             {
                 if ((work->inputKeyPress & PAD_BUTTON_R) && work->actionRButtonAir != NULL)
                 {
-                    if ((work->gimmickFlag & PLAYER_GIMMICK_1000) == 0)
+                    if ((work->gimmickFlag & PLAYER_GIMMICK_ATTACHED_TO_WALL) == 0)
                         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 
                     work->actionRButtonAir(work);
@@ -4819,7 +4819,7 @@ void Player__State_Death(Player *player)
             if (gmCheckRaceStage())
             {
                 playerGameStatus.playerLapCounter[player->controlID] = playerGameStatus.playerTargetLaps[player->controlID];
-                player->playerFlag |= PLAYER_GIMMICK_400;
+                player->playerFlag |= PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_Y;
             }
 
             player->gimmickFlag &= ~PLAYER_GIMMICK_IS_CREATED;
@@ -5276,8 +5276,8 @@ void Player__Action_TrickFinisherVertical(Player *player)
         ChangePlayerSnowboardAction(player, PLAYERSNOWBOARD_ACTION_TRICK_FINISH_V_01);
     }
 
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
-    player->playerFlag |= PLAYER_FLAG_8000;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
+    player->playerFlag |= PLAYER_FLAG_TRICK_SPECIAL_ACTIVE;
     SetTaskState(&player->objWork, Player__State_Air);
 
     switch (player->characterID)
@@ -5352,8 +5352,8 @@ void Player__Action_TrickFinisherHorizontal(Player *player)
         ChangePlayerSnowboardAction(player, PLAYERSNOWBOARD_ACTION_TRICK_FINISH_H_01);
     }
 
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
-    player->playerFlag |= PLAYER_FLAG_8000;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
+    player->playerFlag |= PLAYER_FLAG_TRICK_SPECIAL_ACTIVE;
     SetTaskState(&player->objWork, Player__State_Air);
 
     player->objWork.velocity.y = 0;
@@ -5402,7 +5402,7 @@ void Player__Action_TrickFinisherHorizontal(Player *player)
             break;
     }
 
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_4000;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT;
     player->objWork.userWork   = 0;
     player->trickCooldownTimer = 0;
 
@@ -5545,7 +5545,7 @@ void PLayer__PerformGrindTrick(Player *player)
         }
     }
 
-    player->playerFlag |= PLAYER_FLAG_8000;
+    player->playerFlag |= PLAYER_FLAG_TRICK_SPECIAL_ACTIVE;
     StarCombo__DisplayConfetti(player);
     Player__GiveScore(player, PLAYER_SCOREBONUS_GRIND_TRICK);
     player->objWork.userTimer  = 0;
@@ -5578,7 +5578,7 @@ void Player__Action_HomingAttack_Sonic(Player *player)
     Player__ChangeAction(player, PLAYER_ACTION_HOMING_ATTACK);
     Player__SetAnimSpeedFromVelocity(player, FLOAT_TO_FX32(8.0));
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES;
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     player->playerFlag |= PLAYER_FLAG_DISABLE_HOMING_ATTACK;
@@ -5595,7 +5595,7 @@ void Player__State_HomingAttack(Player *work)
     if (work->objWork.userTimer == 0)
     {
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
-        work->playerFlag &= ~PLAYER_GIMMICK_40;
+        work->playerFlag &= ~PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_X;
         Player__Action_Launch(work);
         return;
     }
@@ -5605,7 +5605,7 @@ void Player__State_HomingAttack(Player *work)
     if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
     {
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
-        work->playerFlag &= ~PLAYER_GIMMICK_40;
+        work->playerFlag &= ~PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_X;
 
         Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
         work->actionGroundIdle(work);
@@ -5657,12 +5657,12 @@ void Player__Action_FlameHover(Player *player)
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         player->playerFlag &= ~(PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
 
-        if ((player->gimmickFlag & PLAYER_GIMMICK_1000) == 0)
+        if ((player->gimmickFlag & PLAYER_GIMMICK_ATTACHED_TO_WALL) == 0)
             CreateEffectFlameJetForPlayer(player);
 
-        player->objWork.velocity.y = 0;
-        if ((player->gimmickFlag & PLAYER_GIMMICK_1000) != 0)
-            player->objWork.velocity.z = 0;
+        player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
+        if ((player->gimmickFlag & PLAYER_GIMMICK_ATTACHED_TO_WALL) != 0)
+            player->objWork.velocity.z = FLOAT_TO_FX32(0.0);
 
         // manual physics override
         player->objWork.gravityStrength  = FLOAT_TO_FX32(0.03125);
@@ -5686,7 +5686,7 @@ void Player__Action_FlameHover(Player *player)
 
 void Player__State_FlameHover(Player *work)
 {
-    if ((work->gimmickFlag & PLAYER_GIMMICK_1000) == 0 && (playerGameStatus.stageTimer & 7) == 0 && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0)
+    if ((work->gimmickFlag & PLAYER_GIMMICK_ATTACHED_TO_WALL) == 0 && (playerGameStatus.stageTimer & 7) == 0 && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0)
     {
         CreateEffectFlameJetForPlayer(work);
     }
@@ -5719,14 +5719,14 @@ void Player__HandleAirDrag(Player *player)
 {
     player->objWork.dir.z = ObjRoopMove16((u16)player->objWork.dir.z, 0, FLOAT_TO_FX32(0.125));
 
-    if ((player->gimmickFlag & (PLAYER_GIMMICK_100 | PLAYER_GIMMICK_1000 | PLAYER_GIMMICK_20000000)) == 0)
+    if ((player->gimmickFlag & (PLAYER_GIMMICK_ENABLE_Z_MOVEMENT | PLAYER_GIMMICK_ATTACHED_TO_WALL | PLAYER_GIMMICK_DISABLE_Z_AUTO_RETURN)) == 0)
     {
         player->objWork.position.z = ObjSpdDownSet(player->objWork.position.z, FLOAT_TO_FX32(4.0)) & 0xFFFFF000;
         player->objWork.velocity.z = ObjSpdDownSet(player->objWork.velocity.z, FLOAT_TO_FX32(0.125));
         player->objWork.dir.x      = ObjRoopMove16((u16)player->objWork.dir.x, 0, FLOAT_TO_FX32(0.25));
     }
 
-    if ((player->gimmickFlag & PLAYER_GIMMICK_2000000) == 0)
+    if ((player->gimmickFlag & PLAYER_GIMMICK_WANT_GRAVITY_RESET) == 0)
     {
         if (player->objWork.scale.x != FLOAT_TO_FX32(1.0))
         {
@@ -5750,7 +5750,7 @@ void Player__HandleAirDrag(Player *player)
 
 void Player__HandleZMovement(Player *player)
 {
-    if ((player->gimmickFlag & PLAYER_GIMMICK_100) != 0)
+    if ((player->gimmickFlag & PLAYER_GIMMICK_ENABLE_Z_MOVEMENT) != 0)
     {
         if (player->objWork.position.z >= FLOAT_TO_FX32(0.0))
         {
@@ -5781,14 +5781,14 @@ void Player__HandleZMovement(Player *player)
         {
             if ((player->inputKeyDown & PAD_KEY_DOWN) != 0)
             {
-                if (player->objWork.velocity.z < 0)
+                if (player->objWork.velocity.z < FLOAT_TO_FX32(0.0))
                     player->objWork.velocity.z = ObjSpdDownSet(player->objWork.velocity.z, deceleration);
 
                 player->objWork.velocity.z = ObjSpdUpSet(player->objWork.velocity.z, acceleration, topSpeed);
             }
             else
             {
-                if (player->objWork.velocity.z > 0)
+                if (player->objWork.velocity.z > FLOAT_TO_FX32(0.0))
                     player->objWork.velocity.z = ObjSpdDownSet(player->objWork.velocity.z, deceleration);
 
                 player->objWork.velocity.z = ObjSpdUpSet(player->objWork.velocity.z, -acceleration, topSpeed);
@@ -5913,7 +5913,7 @@ void Player__HandleMaxPush(Player *player)
 {
     if (player->actionState == PLAYER_ACTION_PUSH_02 || (player->playerFlag & PLAYER_FLAG_SUPERBOOST) != 0)
     {
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_2000000;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_CAN_PUSH;
         if ((player->playerFlag & PLAYER_FLAG_SUPERBOOST) != 0)
             player->objWork.pushCap = player->topSpeed_SuperBoost >> 1;
         else
@@ -5922,13 +5922,13 @@ void Player__HandleMaxPush(Player *player)
     else
     {
         player->objWork.pushCap = playerPhysicsTable[player->characterID].pushCap;
-        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_2000000;
+        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_CAN_PUSH;
     }
 }
 
-void Player__HandleGroundCollisions(Player *player)
+void Player__HandleForceSurfaceAttach(Player *player)
 {
-    if ((player->gimmickFlag & PLAYER_GIMMICK_1) == 0)
+    if ((player->gimmickFlag & PLAYER_GIMMICK_FORCE_SURFACE_ATTACH) == 0)
         return;
 
     u16 dir = FLOAT_DEG_TO_IDX(0.0);
@@ -5988,14 +5988,14 @@ void Player__HandleGroundCollisions(Player *player)
         }
     }
 
-    if ((player->gimmickFlag & PLAYER_GIMMICK_2) != 0)
+    if ((player->gimmickFlag & PLAYER_GIMMICK_FORCE_SURFACE_ATTACH_FLIP) != 0)
     {
         player->objWork.displayFlag ^= DISPLAY_FLAG_FLIP_X;
         player->objWork.groundVel = -player->objWork.groundVel;
     }
 
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
-    player->gimmickFlag &= ~(PLAYER_GIMMICK_2 | PLAYER_GIMMICK_1);
+    player->gimmickFlag &= ~(PLAYER_GIMMICK_FORCE_SURFACE_ATTACH_FLIP | PLAYER_GIMMICK_FORCE_SURFACE_ATTACH);
 
     player->actionGroundIdle(player);
     if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
@@ -6044,7 +6044,7 @@ void Player__HandleTensionDrain(Player *player)
             Player__GiveTension(player, tensionPityBonus);
     }
 
-    if ((player->playerFlag & PLAYER_FLAG_SUPERBOOST) != 0 && !player->tensionMaxTimer && (!player->gimmickObj || (player->gimmickFlag & PLAYER_GIMMICK_8) != 0)
+    if ((player->playerFlag & PLAYER_FLAG_SUPERBOOST) != 0 && !player->tensionMaxTimer && (player->gimmickObj == NULL || (player->gimmickFlag & PLAYER_GIMMICK_CHECK_SUPERBOOST_END_DURING_GIMMICK) != 0)
         && (player->playerFlag & PLAYER_FLAG_DISABLE_TENSION_DRAIN) == 0)
     {
         Player__GiveTension(player, -PLAYER_SUPERBOOST_DRAIN_SPEED);
@@ -6176,14 +6176,14 @@ void Player__HandleSuperBoost(Player *player)
             (StageTaskStateMatches(&player->objWork, Player__State_Air) == FALSE || (player->playerFlag & PLAYER_FLAG_ALLOW_TRICKS) == 0) && // ...and isn't in the air
             !IsBossStage() &&                                                                                                                // ...and the stage isn't a boss
             (player->playerFlag & PLAYER_FLAG_DISABLE_TENSION_DRAIN) == 0 &&                                                                 // ...and we CAN drain tension
-            ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 || Player__CheckOnCorkscrewPath(player)) &&                       // ...and we're not in the air
+            ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0 || Player__CheckOnCorkscrewPath(player)) &&                       // ...and we're not in the air
             player->superBoostCooldownTimer == 0)                                                                                            // ...and we don't have a cooldown
         {
             if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0 && player->tension >= PLAYER_SUPERBOOST_MINIMUM && (player->playerFlag & PLAYER_FLAG_SUPERBOOST) == 0)
                 Player__Action_SuperBoost(player);
         }
 
-        if ((!player->gimmickObj || (player->gimmickFlag & PLAYER_GIMMICK_8) != 0) && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0
+        if ((player->gimmickObj == NULL || (player->gimmickFlag & PLAYER_GIMMICK_CHECK_SUPERBOOST_END_DURING_GIMMICK) != 0) && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0
                 && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT) == 0 && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES) == 0
                 && (player->actionState <= PLAYER_ACTION_HANG_ROT || player->actionState >= PLAYER_ACTION_BUNGEE)
             || player->tension == 0)
@@ -6208,7 +6208,7 @@ void Player__HandleSuperBoost(Player *player)
 
         if (player->gimmickObj == NULL)
         {
-            if ((player->gimmickFlag & PLAYER_GIMMICK_8) == 0)
+            if ((player->gimmickFlag & PLAYER_GIMMICK_CHECK_SUPERBOOST_END_DURING_GIMMICK) == 0)
             {
                 if ((playerGameStatus.stageTimer & 7) == 0 && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0)
                 {
@@ -6217,7 +6217,7 @@ void Player__HandleSuperBoost(Player *player)
                         if ((player->playerFlag & PLAYER_FLAG_SUPERBOOST) == 0 && (player->playerFlag & PLAYER_FLAG_BOOST) != 0
                             && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
                         {
-                            if ((player->gimmickFlag & PLAYER_GIMMICK_1000) == 0)
+                            if ((player->gimmickFlag & PLAYER_GIMMICK_ATTACHED_TO_WALL) == 0)
                                 CreateEffectBoostParticle(player, -FLOAT_TO_FX32(13.0), FLOAT_TO_FX32(13.0));
                             else
                                 CreateEffectBoostParticle(player, -FLOAT_TO_FX32(13.0), FLOAT_TO_FX32(0.0));
@@ -6486,13 +6486,13 @@ void Player__HandleGravitySwapping(Player *player)
 
 void Player__HandlePressure(Player *player)
 {
-    if ((player->playerFlag & PLAYER_FLAG_800) != 0 && player->objWork.touchObj == NULL)
+    if ((player->playerFlag & PLAYER_FLAG_CHECK_WALL_CRUSH) != 0 && player->objWork.touchObj == NULL)
     {
         if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) != 0 && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL) != 0)
             Player__Action_Die(player);
     }
 
-    if (player->objWork.touchObj != NULL && (player->playerFlag & PLAYER_FLAG_DISABLE_PRESSURE_CHECK) == 0)
+    if (player->objWork.touchObj != NULL && (player->playerFlag & PLAYER_FLAG_DISABLE_OBJ_CRUSH_CHECK) == 0)
     {
         if (!player->objWork.rideObj && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0
             && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING) != 0 && player->objWork.touchObj->move.y <= 0)
@@ -6743,7 +6743,7 @@ void Player__ReceivePacket(Player *player)
             {
                 if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT) != 0)
                 {
-                    player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_IN_AIR | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT);
+                    player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_IS_FALLING | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT);
                     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
                     player->objWork.velocity.x = player->objWork.position.x - player->objWork.prevPosition.x;
                     player->objWork.velocity.y = player->objWork.position.y - player->objWork.prevPosition.y;
@@ -6763,7 +6763,7 @@ void Player__ReceivePacket(Player *player)
                     }
                     else
                     {
-                        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+                        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
                         SetTaskState(&player->objWork, Player__State_Air);
 
                         player->objWork.userTimer  = 0;
@@ -6778,7 +6778,7 @@ void Player__ReceivePacket(Player *player)
                 {
                     player->objWork.displayFlag ^= DISPLAY_FLAG_DISABLE_UPDATE;
                 }
-                player->playerFlag |= PLAYER_FLAG_DISABLE_PRESSURE_CHECK;
+                player->playerFlag |= PLAYER_FLAG_DISABLE_OBJ_CRUSH_CHECK;
                 player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS;
                 return;
             }
@@ -6799,7 +6799,7 @@ void Player__ReceivePacket(Player *player)
 
         player->objWork.flag &= ~STAGE_TASK_FLAG_ON_PLANE_B;
 
-        if ((playerPacket->gimmickFlag & PLAYER_GIMMICK_800000) != 0)
+        if ((playerPacket->gimmickFlag & PLAYER_GIMMICK_2P_IS_ON_PLANE_B) != 0)
             player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
 
         Player__HandleLapStageWrap(player);
@@ -6812,15 +6812,15 @@ void Player__ReceivePacket(Player *player)
             player->cameraDispPosStore.y = playerPacket->cameraDispPos.y;
         }
 
-        if ((playerPacket->playerFlag & PLAYER_FLAG_IS_ATTACKING_PLAYER) != 0)
+        if ((playerPacket->playerFlag & PLAYER_FLAG_VS_IS_ATTACKING_PLAYER) != 0)
             ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
         else
             ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
 
-        if ((playerPacket->playerFlag & PLAYER_FLAG_DO_LOSE_RING_EFFECT) != 0)
+        if ((playerPacket->playerFlag & PLAYER_FLAG_VS_DO_LOSE_RING_EFFECT) != 0)
             CreateLoseRingEffect(player, 10);
 
-        if ((playerPacket->playerFlag & PLAYER_FLAG_DO_ATTACK_RECOIL) != 0 && gPlayer->actionState == PLAYER_ACTION_HOMING_ATTACK)
+        if ((playerPacket->playerFlag & PLAYER_FLAG_VS_DO_ATTACK_RECOIL) != 0 && gPlayer->actionState == PLAYER_ACTION_HOMING_ATTACK)
             Player__Action_AttackRecoil(gPlayer);
 
         if (player->actionState != playerPacket->actionState)
@@ -6846,7 +6846,7 @@ void Player__ReceivePacket(Player *player)
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_ANY;
         player->objWork.moveFlag = playerPacket->moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_ANY;
         player->playerFlag =
-            (playerPacket->playerFlag | PLAYER_FLAG_DISABLE_PRESSURE_CHECK) & ~(PLAYER_FLAG_IS_ATTACKING_PLAYER | PLAYER_FLAG_DO_LOSE_RING_EFFECT | PLAYER_FLAG_DO_ATTACK_RECOIL);
+            (playerPacket->playerFlag | PLAYER_FLAG_DISABLE_OBJ_CRUSH_CHECK) & ~(PLAYER_FLAG_VS_IS_ATTACKING_PLAYER | PLAYER_FLAG_VS_DO_LOSE_RING_EFFECT | PLAYER_FLAG_VS_DO_ATTACK_RECOIL);
         player->gimmickFlag    = playerPacket->gimmickFlag;
         player->objWork.move.x = playerPacket->moveX << 8;
         player->objWork.move.y = playerPacket->moveY << 8;
@@ -6896,14 +6896,14 @@ void Player__SendPacket(Player *player)
     packet->dirY          = player->objWork.dir.y >> 8;
     packet->displayFlag   = player->objWork.displayFlag;
     packet->moveFlag      = player->objWork.moveFlag;
-    packet->playerFlag    = player->playerFlag & ~(PLAYER_FLAG_40000000 | PLAYER_FLAG_IS_ATTACKING_PLAYER);
+    packet->playerFlag    = player->playerFlag & ~(PLAYER_FLAG_VS_QUEUED_PLAYER_HIT | PLAYER_FLAG_VS_IS_ATTACKING_PLAYER);
 
     if (player->colliders[1].hitFlag && (player->colliders[1].flag & OBS_RECT_WORK_FLAG_ENABLED) != 0)
-        packet->playerFlag |= PLAYER_FLAG_IS_ATTACKING_PLAYER;
+        packet->playerFlag |= PLAYER_FLAG_VS_IS_ATTACKING_PLAYER;
 
     packet->gimmickFlag = player->gimmickFlag;
-    if ((player->objWork.flag & 1) != 0)
-        packet->gimmickFlag |= PLAYER_GIMMICK_800000;
+    if ((player->objWork.flag & STAGE_TASK_FLAG_ON_PLANE_B) != 0)
+        packet->gimmickFlag |= PLAYER_GIMMICK_2P_IS_ON_PLANE_B;
 
     if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
         packet->gimmickFlag &= ~PLAYER_GIMMICK_IS_CREATED;

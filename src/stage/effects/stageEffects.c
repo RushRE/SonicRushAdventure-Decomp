@@ -1451,7 +1451,7 @@ void EffectBoost_State_Aura(EffectBoost *work)
         work->objWork.position.x += work->objWork.velocity.x;
         work->objWork.position.y += work->objWork.velocity.y;
 
-        if ((player->gimmickFlag & PLAYER_GIMMICK_GRABBED) != 0)
+        if ((player->gimmickFlag & PLAYER_GIMMICK_HIDE_SUPERBOOST) != 0)
             work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         else
             work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
@@ -1787,7 +1787,7 @@ void RecordPlayerTrailBuffer(TrailEffect *trail, Player *player, fx32 height)
     VEC_Set(&start, FLOAT_TO_FX32(0.0), -height >> 1, FLOAT_TO_FX32(0.0));
     VEC_Set(&end, FLOAT_TO_FX32(0.0), height >> 1, FLOAT_TO_FX32(0.0));
 
-    if ((player->objWork.moveFlag & PLAYER_FLAG_IS_ATTACKING_PLAYER) != 0)
+    if ((player->objWork.moveFlag & PLAYER_FLAG_VS_IS_ATTACKING_PLAYER) != 0)
         angle = FX_Atan2Idx(player->objWork.position.y - player->objWork.prevPosition.y, player->objWork.position.x - player->objWork.prevPosition.x);
 
     MTX_RotX33(matTransform.nnMtx, SinFX(player->objWork.dir.x), CosFX(player->objWork.dir.x));
@@ -1876,7 +1876,7 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
     work   = TaskGetWorkCurrent(EffectPlayerTrail);
     player = (Player *)work->objWork.parentObj;
 
-    if ((work->objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0 && work->nodeCount && (player->objWork.objType != 1 || (player->gimmickFlag & PLAYER_GIMMICK_GRABBED) == 0))
+    if ((work->objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0 && work->nodeCount && (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER || (player->gimmickFlag & PLAYER_GIMMICK_HIDE_SUPERBOOST) == 0))
     {
         MapSys__Func_20090D0(&mapCamera.camera[0], work->trailListStart->start.x, work->trailListStart->start.y, &offset.x, &offset.y);
         offset.z = 0;
@@ -2654,7 +2654,7 @@ EffectGrind *CreateEffectGrindSparkForPlayer(Player *player)
     if (IsBossStage())
         return NULL;
 
-    if ((player->gimmickFlag & PLAYER_GIMMICK_10000) != 0)
+    if ((player->gimmickFlag & PLAYER_GIMMICK_USE_WATER_GRIND_SPARK) != 0)
         return CreateEffectWaterGrindSpark(player, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(18.0));
 
     return CreateEffectGrindSpark(player, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(18.0));

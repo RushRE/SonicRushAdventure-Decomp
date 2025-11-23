@@ -80,7 +80,7 @@ void Player__Action_StageStartSnowboard(Player *player)
     ChangePlayerSnowboardAction(player, PLAYERSNOWBOARD_ACTION_IDLE);
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
     SetTaskState(&player->objWork, Player__State_StageStartSnowboard);
 }
 
@@ -107,10 +107,10 @@ void Player__Action_GimmickLaunch(Player *player, fx32 velX, fx32 velY)
         Player__Action_LandOnGround(player, FLOAT_DEG_TO_IDX(0.0));
         StageTask__ObjectSpdDirFall(&velX, &velY, player->objWork.fallDir);
 
-        if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+        if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
             player->cameraJumpPosY = player->objWork.position.y;
 
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
         SetTaskState(&player->objWork, Player__State_Air);
 
@@ -204,7 +204,7 @@ void Player__Gimmick_201B418(Player *player, fx32 velX, fx32 velY, BOOL allowTri
     }
 
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
     player->objWork.velocity.x = velX;
     player->objWork.velocity.y = velY;
     ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NORMAL, PLAYER_HITPOWER_NORMAL);
@@ -231,7 +231,7 @@ void Player__Action_FollowParent(Player *player, GameObjectTask *other, fx32 off
         Player__InitGimmick(player, FALSE);
 
         player->gimmickObj = other;
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES);
         player->objWork.displayFlag &= ~DISPLAY_FLAG_ROTATE_CAMERA_DIR;
         player->objWork.userFlag = PLAYER_CHILDFLAG_NONE;
@@ -356,8 +356,8 @@ void Player__State_FollowParent(Player *work)
                                   | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
         work->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
-        work->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
-        work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_GRABBED);
+        work->playerFlag &= ~(PLAYER_FLAG_DISABLE_CAMERA_OFFSET | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY | PLAYER_GIMMICK_HIDE_SUPERBOOST);
 
         work->gimmickCamOffsetX = work->gimmickCamOffsetY = 0;
         work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
@@ -397,8 +397,8 @@ void Player__State_FollowParent(Player *work)
 
 void Player__Action_DashRing(Player *player, fx32 x, fx32 y, fx32 velX, fx32 velY)
 {
-    player->gimmickFlag &= ~(PLAYER_GIMMICK_40 | PLAYER_GIMMICK_10);
-    player->gimmickFlag &= ~(PLAYER_GIMMICK_80 | PLAYER_GIMMICK_20);
+    player->gimmickFlag &= ~(PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_X | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X);
+    player->gimmickFlag &= ~(PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_Y | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y);
 
     MapSys__Func_20091D0(player->cameraID);
     MapSys__Func_20091F0(player->cameraID);
@@ -430,10 +430,10 @@ void Player__Action_JumpDashLaunch(Player *player, fx32 velX, fx32 velY)
     Player__Action_LandOnGround(player, FLOAT_DEG_TO_IDX(0.0));
     StageTask__ObjectSpdDirFall(&velX, &velY, player->objWork.fallDir);
 
-    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
         player->cameraJumpPosY = player->objWork.position.y;
 
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES;
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
 
@@ -552,7 +552,7 @@ void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 flags, u16
         }
 
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->playerFlag &= ~(PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
 
         player->gimmick.corkscrewPath.x        = x;
@@ -625,7 +625,7 @@ void Player__State_CorkscrewPath(Player *work)
     else
     {
         if ((work->objWork.userWork & CORKSCREWPATH_OBJFLAG_2) != 0)
-            work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+            work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
         if ((work->objWork.moveFlag & (STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR)) != 0)
         {
@@ -1182,11 +1182,11 @@ void Player__Action_PipeEnter(Player *player, GameObjectTask *other, u16 angle, 
 
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
         player->objWork.moveFlag |=
-            STAGE_TASK_MOVE_FLAG_4000 | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
+            STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_ACCELERATION | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_IDLE_ACCELERATION);
         player->playerFlag &= ~PLAYER_FLAG_USER_FLAG;
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
-        player->gimmickFlag |= PLAYER_GIMMICK_GRABBED;
+        player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST;
         player->objWork.groundVel     = FLOAT_TO_FX32(0.0);
         player->objWork.velocity.x    = FLOAT_TO_FX32(0.0);
         player->objWork.velocity.y    = FLOAT_TO_FX32(0.0);
@@ -1237,7 +1237,7 @@ void Player__State_PipeTravel(Player *work)
 
                 if (work->gimmickObj->objWork.position.x == work->objWork.position.x && work->gimmickObj->objWork.position.y == work->objWork.position.y)
                 {
-                    work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+                    work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
                     work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
                     work->objWork.userWork++;
                     work->objWork.dir.z = work->gimmick.pipe.angle;
@@ -1245,7 +1245,7 @@ void Player__State_PipeTravel(Player *work)
             }
             else
             {
-                work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+                work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
                 work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
                 work->objWork.userWork++;
                 work->objWork.dir.z = work->gimmick.pipe.angle;
@@ -1305,10 +1305,10 @@ void Player__Action_PipeExit(Player *player, fx32 velocity, BOOL allowTricks, u3
         player->gimmickObj = NULL;
         player->objWork.moveFlag |= (STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_IDLE_ACCELERATION | STAGE_TASK_MOVE_FLAG_USE_SLOPE_ACCELERATION | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY);
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS
-                                      | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_4000);
+                                      | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT);
         player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
         player->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
-        player->gimmickFlag &= ~PLAYER_GIMMICK_GRABBED;
+        player->gimmickFlag &= ~PLAYER_GIMMICK_HIDE_SUPERBOOST;
 
         PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], sfxEject[type]);
 
@@ -1401,12 +1401,12 @@ void Player__Action_RotatingHanger(Player *player, GameObjectTask *hanger, fx32 
     player->objWork.obj_3d->ani.speedMultiplier = FLOAT_TO_FX32(0.0);
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-    player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR);
+    player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING);
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     player->objWork.flag |= STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING;
-    player->playerFlag |= PLAYER_FLAG_2000;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_CAMERA_OFFSET;
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
-    player->gimmickFlag |= PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10 | PLAYER_GIMMICK_8;
+    player->gimmickFlag |= PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY | PLAYER_GIMMICK_CHECK_SUPERBOOST_END_DURING_GIMMICK;
     player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
     player->objWork.dir.x = FLOAT_DEG_TO_IDX(0.0);
@@ -1511,14 +1511,14 @@ NONMATCH_FUNC void Player__State_RotatingHanger(Player *work)
         work->objWork.dir.z     = 0;
         work->gimmickObj        = NULL;
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
-        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_4000 | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
 
         force *= 16;
         fx32 velX = MultiplyFX(force, CosFX(angle));
         fx32 velY = MultiplyFX(force, SinFX(angle));
         work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-        work->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
-        work->gimmickFlag &= ~(PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10 | PLAYER_GIMMICK_8);
+        work->playerFlag &= ~(PLAYER_FLAG_DISABLE_CAMERA_OFFSET | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY | PLAYER_GIMMICK_CHECK_SUPERBOOST_END_DURING_GIMMICK);
         Player__Gimmick_201B418(work, velX, velY, TRUE);
         work->objWork.userTimer = 5;
         work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
@@ -1772,10 +1772,10 @@ void Player__Action_SwingRope(Player *player, GameObjectTask *swingRope, s32 rad
         Player__InitPhysics(player);
         Player__InitGimmick(player, 0);
         player->gimmickObj = swingRope;
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
-        player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_2000;
-        player->gimmickFlag |= PLAYER_GIMMICK_20;
+        player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_DISABLE_CAMERA_OFFSET;
+        player->gimmickFlag |= PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y;
         player->gimmickCamOffsetY             = -58;
         player->objWork.velocity.x            = 0;
         player->objWork.velocity.y            = 0;
@@ -1823,9 +1823,9 @@ void Player__State_SwingRope(Player *work)
     if (work->gimmickObj == NULL || (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
     {
         work->gimmickObj = NULL;
-        work->gimmickFlag &= ~PLAYER_GIMMICK_20;
+        work->gimmickFlag &= ~PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y;
         work->gimmickCamOffsetY = 0;
-        work->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+        work->playerFlag &= ~(PLAYER_FLAG_DISABLE_CAMERA_OFFSET | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
         work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
         work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
         work->objWork.groundVel >>= 1;
@@ -1869,7 +1869,7 @@ void Player__Action_TripleGrindRailStartSpring(Player *player, GameObjectTask *t
 
     player->playerFlag |= PLAYER_FLAG_SLOWMO | PLAYER_FLAG_DISABLE_TRICK_FINISHER;
     player->slomoTimer = 0;
-    player->gimmickFlag |= PLAYER_GIMMICK_2000000;
+    player->gimmickFlag |= PLAYER_GIMMICK_WANT_GRAVITY_RESET;
     player->gimmick.tripleGrindRailSpring.scaleSpeed = 30;
     Player__Action_StopSuperBoost(player);
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
@@ -1890,7 +1890,7 @@ void Player__State_TripleGrindRailStartSpring(Player *work)
 
     if (!StageTaskStateMatches(&work->objWork, Player__State_TripleGrindRailStartSpring))
     {
-        work->gimmickFlag &= ~PLAYER_GIMMICK_2000000;
+        work->gimmickFlag &= ~PLAYER_GIMMICK_WANT_GRAVITY_RESET;
         work->playerFlag &= ~PLAYER_FLAG_SLOWMO;
     }
 }
@@ -1906,9 +1906,9 @@ void Player__Action_TripleGrindRailEndSpring(Player *player, GameObjectTask *tri
 
         fx32 moveX                                       = FX_DivS32(tripleGrindRail->objWork.position.x - player->objWork.position.x, player->objWork.velocity.x);
         player->gimmick.tripleGrindRailSpring.angleSpeed = FX_DivS32(FLOAT_TO_FX32(4.0), moveX);
-        player->gimmickFlag |= PLAYER_GIMMICK_2000000;
+        player->gimmickFlag |= PLAYER_GIMMICK_WANT_GRAVITY_RESET;
         player->gimmick.tripleGrindRailSpring.scaleSpeed = FX_DivS32(FLOAT_TO_FX32(1.5), moveX);
-        player->gimmickFlag |= PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
+        player->gimmickFlag |= PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY;
         player->gimmickCamOffsetY = 80;
 
         SetTaskState(&player->objWork, Player__State_TripleGrindRailEndSpring);
@@ -1935,8 +1935,8 @@ void Player__State_TripleGrindRailEndSpring(Player *work)
 
 void Player__Gimmick_TripleGrindRail(Player *player)
 {
-    player->playerFlag |= PLAYER_FLAG_2000;
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_RESET_FLOW | STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_CAMERA_OFFSET;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_FLOW | STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS;
     Player__Action_LandOnGround(player, FLOAT_DEG_TO_IDX(0.0));
 
     player->objWork.velocity.x = player->objWork.velocity.y = 0;
@@ -1962,7 +1962,7 @@ void Player__State_TripleGrindRail(Player *work)
 
 void Player__HandleRideTripleGrindRail(Player *player)
 {
-    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
     {
         BOOL jumped = FALSE;
         fx32 velX   = 0;
@@ -2001,7 +2001,7 @@ void Player__HandleRideTripleGrindRail(Player *player)
             Player__ChangeAction(player, PLAYER_ACTION_HOMING_ATTACK);
             player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
             if (velX != 0)
             {
@@ -2025,7 +2025,7 @@ void Player__HandleRideTripleGrindRail(Player *player)
         if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
         {
             // player has landed... put them back in the grind action!
-            player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+            player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
             player->objWork.velocity.x = player->objWork.velocity.y = 0;
             Player__ChangeAction(player, PLAYER_ACTION_GRIND2);
             player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -2104,15 +2104,15 @@ void Player__OnDefend_TripleGrindRail(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2
 NONMATCH_FUNC void Player__Func_201DD24(Player *player)
 {
 #ifdef NON_MATCHING
-    player->playerFlag &= ~PLAYER_FLAG_2000;
-    player->gimmickFlag &= ~PLAYER_GIMMICK_10;
+    player->playerFlag &= ~PLAYER_FLAG_DISABLE_CAMERA_OFFSET;
+    player->gimmickFlag &= ~PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X;
     player->playerFlag |= PLAYER_FLAG_DISABLE_INPUT_READ;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 
     if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0 || player->gimmickObj == NULL)
     {
         player->gimmick.value1 = 0xE8A2E + player->gimmick.value1 * 0x59184;
-        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.velocity.x = player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
     }
     else
@@ -2443,13 +2443,13 @@ _0201E108:
 
 void Player__Gimmick_WaterRun(Player *player)
 {
-    if (!StageTaskStateMatches(&player->objWork, Player__State_WaterRun) && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+    if (!StageTaskStateMatches(&player->objWork, Player__State_WaterRun) && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) == 0)
     {
         Player__InitGimmick(player, FALSE);
         Player__HandleStartWalkAnimation(player);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 
         player->objWork.position.y = FX32_FROM_WHOLE(mapCamera.camera[player->cameraID].waterLevel - 15);
@@ -2527,9 +2527,9 @@ void Player__Action_SteamFan(Player *player, GameObjectTask *other, s32 fanRadiu
             player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         }
         SetTaskState(&player->objWork, Player__State_SteamFan);
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_4000 | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
-        player->gimmickFlag |= PLAYER_GIMMICK_GRABBED;
+        player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST;
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
         player->objWork.velocity.y = player->objWork.velocity.z = FLOAT_TO_FX32(0.0);
@@ -2546,8 +2546,8 @@ void Player__State_SteamFan(Player *work)
 {
     if (work->gimmickObj == NULL || (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
     {
-        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_4000 | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
-        work->gimmickFlag &= ~PLAYER_GIMMICK_GRABBED;
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+        work->gimmickFlag &= ~PLAYER_GIMMICK_HIDE_SUPERBOOST;
         work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
         work->objWork.dir.z      = FLOAT_DEG_TO_IDX(0.0);
@@ -2624,7 +2624,7 @@ void Player__Action_PopSteam(Player *player, GameObjectTask *other, fx32 velX, f
         Player__InitPhysics(player);
         Player__InitGimmick(player, TRUE);
 
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR);
         player->objWork.velocity.x = velX;
         player->objWork.velocity.y = velY;
@@ -2725,7 +2725,7 @@ void Player__Action_DreamWing(Player *player, GameObjectTask *other, fx32 velX, 
         Player__ChangeAction(player, PLAYER_ACTION_DREAMWING);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         player->gimmickObj = other;
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
 
@@ -2878,10 +2878,10 @@ void Player__Action_LargePiston1(Player *player, GameObjectTask *other, fx32 vel
                 player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
         }
 
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES);
 
-        player->gimmickFlag |= PLAYER_GIMMICK_4000000 | PLAYER_GIMMICK_GRABBED;
+        player->gimmickFlag |= PLAYER_GIMMICK_USE_CAMERA_CENTER_OFFSET | PLAYER_GIMMICK_HIDE_SUPERBOOST;
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
         if (velX > FLOAT_TO_FX32(0.0))
@@ -2962,7 +2962,7 @@ void Player__State_LargePiston1(Player *work)
     {
         work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
-        work->gimmickFlag &= ~(PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_4000000);
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_HIDE_SUPERBOOST | PLAYER_GIMMICK_USE_CAMERA_CENTER_OFFSET);
         work->playerFlag &= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
         work->gimmickCamGimmickCenterOffsetX = 0;
@@ -3101,7 +3101,7 @@ void Player__State_LargePiston2(Player *work)
 
         work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
-        work->gimmickFlag &= ~(PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_4000000);
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_HIDE_SUPERBOOST | PLAYER_GIMMICK_USE_CAMERA_CENTER_OFFSET);
         work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
         work->gimmickCamGimmickCenterOffsetX = 0;
@@ -3133,11 +3133,11 @@ void Player__Action_IcicleGrab(Player *player, GameObjectTask *other, s32 width)
 
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         player->gimmickObj = other;
-        player->objWork.moveFlag |= PLAYER_GIMMICK_2000 | PLAYER_GIMMICK_200 | PLAYER_GIMMICK_100 | PLAYER_GIMMICK_10;
-        player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_10;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT|STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS|STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT|STAGE_TASK_MOVE_FLAG_IS_FALLING;
+        player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X;
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
         player->gimmickCamOffsetX = 0;
-        player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
+        player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
         ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
@@ -3175,7 +3175,7 @@ void Player__State_IcicleGrab(Player *work)
     GameObjectTask *icicle = work->gimmickObj;
     if (icicle == NULL || (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
     {
-        work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_GRABBED);
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X | PLAYER_GIMMICK_HIDE_SUPERBOOST);
         work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
         work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
         work->objWork.dir.y     = FLOAT_DEG_TO_IDX(0.0);
@@ -3214,7 +3214,7 @@ void Player__State_IcicleGrab(Player *work)
 
     if (size <= FLOAT_TO_FX32(2.0))
     {
-        work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_GRABBED);
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X | PLAYER_GIMMICK_HIDE_SUPERBOOST);
         work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
         work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
         work->objWork.dir.y      = FLOAT_DEG_TO_IDX(0.0);
@@ -3310,7 +3310,7 @@ void Player__State_IceSlide(Player *player)
 
     if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0)
     {
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_USE_SLOPE_ACCELERATION;
 
         player->objWork.velocity.x = MultiplyFX(player->objWork.groundVel, CosFX(player->objWork.dir.z));
@@ -3490,7 +3490,7 @@ void Player__Action_DiveStandStood(Player *player, GameObjectTask *other)
     {
         Player__InitGimmick(player, FALSE);
 
-        if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+        if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
         {
             Player__Action_LandOnGround(player, FLOAT_DEG_TO_IDX(0.0));
             player->actionGroundIdle(player);
@@ -4651,7 +4651,7 @@ void Player__Action_ExitHalfpipe(Player *player)
     if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0 && StageTaskStateMatches(&player->objWork, Player__State_Halfpipe))
     {
         player->gimmickObj = NULL;
-        player->gimmickFlag &= ~PLAYER_GIMMICK_GRABBED;
+        player->gimmickFlag &= ~PLAYER_GIMMICK_HIDE_SUPERBOOST;
         player->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
 
@@ -4683,7 +4683,7 @@ void Player__Action_GhostTree(Player *player, GameObjectTask *other)
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
-    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED;
+    player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST;
 
     ObjRect__SetAttackStat(&player->colliders[1], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
 }
@@ -4705,7 +4705,7 @@ void Player__Action_CraneGrab(Player *player, GameObjectTask *other)
 
     player->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED;
+    player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST;
 
     Player__ChangeAction(player, PLAYER_ACTION_CRANE);
 
@@ -4757,7 +4757,7 @@ void Player__Action_EnterTruck(Player *player, GameObjectTask *other)
 
         Player__Action_StopBoost(player);
         Player__Action_StopSuperBoost(player);
-        player->playerFlag |= PLAYER_GIMMICK_BUNGEE;
+        player->playerFlag |= PLAYER_GIMMICK_CONTOLLED_BY_GIMMICK;
         Player__ChangeAction(player, PLAYER_ACTION_HANG_ROT);
         player->objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
         Player__SetAnimFrame(player, FLOAT_TO_FX32(40.0));
@@ -5006,8 +5006,8 @@ void Player__Action_TruckLaunch(Player *player, GameObjectTask *other, s32 a3)
         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
         player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
         player->objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_DRAW | DISPLAY_FLAG_PAUSED);
-        player->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
-        player->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_GRABBED);
+        player->playerFlag &= ~(PLAYER_FLAG_DISABLE_CAMERA_OFFSET | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+        player->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY | PLAYER_GIMMICK_HIDE_SUPERBOOST);
 
         player->gimmickCamOffsetX = player->gimmickCamOffsetY = 0;
         player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
@@ -5106,7 +5106,7 @@ void Player__Func_2021A84(Player *player, GameObjectTask *other)
     if (player->gimmickObj == other)
     {
         player->objWork.flag &= ~STAGE_TASK_FLAG_ON_PLANE_B;
-        player->gimmickFlag |= PLAYER_GIMMICK_10;
+        player->gimmickFlag |= PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X;
         player->gimmickCamOffsetX = 0;
         Player__ChangeAction(player, PLAYER_ACTION_BALANCE_BACKWARD);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -5121,7 +5121,7 @@ void Player__Func_2021AE8(Player *player, GameObjectTask *other)
     if (player->gimmickObj == other)
     {
         player->objWork.flag &= ~STAGE_TASK_FLAG_ON_PLANE_B;
-        player->gimmickFlag |= PLAYER_GIMMICK_20;
+        player->gimmickFlag |= PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y;
         player->gimmickCamOffsetY = 64;
         Player__ChangeAction(player, PLAYER_ACTION_IDLE);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -5135,7 +5135,7 @@ void Player__Func_2021B44(Player *player, GameObjectTask *other)
     {
         player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
         player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
-        player->gimmickFlag &= ~PLAYER_GIMMICK_20;
+        player->gimmickFlag &= ~PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y;
         player->gimmickCamOffsetY = 0;
     }
 }
@@ -5149,7 +5149,7 @@ void Player__Action_AnchorRope(Player *player, GameObjectTask *other)
     player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
     player->objWork.userFlag |= PLAYER_CHILDFLAG_CAN_JUMP | PLAYER_CHILDFLAG_FOLLOW_PREV_POS | PLAYER_CHILDFLAG_FORCE_LAUNCH_ACTION;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_10;
+    player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X;
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
     player->gimmickCamOffsetX = 0;
@@ -5198,7 +5198,7 @@ void Player__Action_BarrelGrab(Player *player, GameObjectTask *other)
     player->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO;
     player->objWork.userFlag |= PLAYER_CHILDFLAG_FOLLOW_PREV_POS | PLAYER_CHILDFLAG_FORCE_JUMP_ACTION;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_10;
+    player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X;
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
     player->gimmickCamOffsetX = 0;
@@ -5272,7 +5272,7 @@ void Player__Action_TrampolineLand(Player *player, GameObjectTask *other)
         player->gimmick.trampoline.velocityY = -velY;
         player->objWork.velocity.x           = FLOAT_TO_FX32(0.0);
         player->objWork.velocity.y           = velY;
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 
         Player__ChangeAction(player, PLAYER_ACTION_JUMPFALL);
@@ -5404,12 +5404,12 @@ void Player__Action_EnterCannon(Player *player, GameObjectTask *other, CannonPla
 
     player->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
-    player->gimmickFlag |= PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
+    player->gimmickFlag |= PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY;
 
     player->gimmickCamOffsetX = 0;
     player->gimmickCamOffsetY = 64;
-    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_2000;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_DISABLE_CAMERA_OFFSET;
     player->objWork.groundVel = player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
     player->objWork.dir.z                                  = FLOAT_DEG_TO_IDX(0.0);
     player->objWork.userWork                               = 0;
@@ -5480,7 +5480,7 @@ void Player__State_CannonEnter_WalkInto(Player *work)
             Player__ChangeAction(work, PLAYER_ACTION_JUMPFALL);
 
             work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-            work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IN_AIR;
+            work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IS_FALLING;
             work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT);
         }
     }
@@ -5622,9 +5622,9 @@ void Player__Action_FireCannon(Player *player, GameObjectTask *other)
         player->objWork.dir = other->objWork.dir;
 
         player->objWork.moveFlag |=
-            STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
+            STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->gimmickCamOffsetY = 25;
-        player->playerFlag |= PLAYER_FLAG_2000;
+        player->playerFlag |= PLAYER_FLAG_DISABLE_CAMERA_OFFSET;
         player->objWork.userWork = 0;
         player->objWork.userFlag = PLAYER_CANNONPATH_FLAG_NONE;
         SetTaskState(&player->objWork, Player__State_CannonLaunched);
@@ -5806,13 +5806,13 @@ void Player__Action_ExitCannonPath(Player *player, GameObjectTask *other)
     if (StageTaskStateMatches(&player->objWork, Player__State_CannonLaunched))
     {
         player->objWork.moveFlag &=
-            ~(STAGE_TASK_MOVE_FLAG_IN_AIR | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES);
+            ~(STAGE_TASK_MOVE_FLAG_IS_FALLING | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES);
         player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
-        player->gimmickFlag &= ~(PLAYER_GIMMICK_80 | PLAYER_GIMMICK_40 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10);
+        player->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY | PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_XY);
 
         player->gimmickCamOffsetX = 0;
         player->gimmickCamOffsetY = 0;
-        player->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+        player->playerFlag &= ~(PLAYER_FLAG_DISABLE_CAMERA_OFFSET | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
         player->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
 
         player->objWork.dir.y = FLOAT_DEG_TO_IDX(0.0);
@@ -5863,7 +5863,7 @@ void Player__Gimmick_JumpBox(Player *player, GameObjectTask *other, CharacterID 
     else
         player->objWork.userFlag = TRUE;
 
-    player->gimmickFlag |= PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
+    player->gimmickFlag |= PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY;
     player->gimmickCamOffsetX = 0;
     player->gimmickCamOffsetY = 64;
 
@@ -5947,7 +5947,7 @@ NONMATCH_FUNC void Player__State_JumpBox(Player *work)
             {
                 id               = work->gimmickObj->mapObject->id;
                 work->gimmickObj = NULL;
-                work->gimmickFlag &= ~(PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10);
+                work->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY);
                 work->gimmickCamOffsetX = 0;
                 work->gimmickCamOffsetY = 0;
                 work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
@@ -6054,7 +6054,7 @@ NONMATCH_FUNC void Player__State_JumpBox(Player *work)
             if (work->objWork.userTimer <= FLOAT_TO_FX32(46.0))
             {
                 work->gimmickObj = NULL;
-                work->gimmickFlag &= ~(PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10);
+                work->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY);
                 work->gimmickCamOffsetX = 0;
                 work->gimmickCamOffsetY = 0;
                 work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
@@ -6502,7 +6502,7 @@ void Player__Action_JumpBoxPlaneSwitchLaunch(Player *player, fx32 velX, fx32 vel
     player->playerFlag |= PLAYER_FLAG_DISABLE_INPUT_READ | PLAYER_FLAG_SLOWMO | PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO;
     player->slomoTimer   = 0;
     player->inputKeyDown = player->inputKeyPress = player->inputKeyRepeat = PAD_INPUT_NONE_MASK;
-    player->gimmickFlag |= PLAYER_GIMMICK_20000000;
+    player->gimmickFlag |= PLAYER_GIMMICK_DISABLE_Z_AUTO_RETURN;
 
     if (velZ <= 0)
         player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
@@ -6638,7 +6638,7 @@ void Player__State_PlaneSwitchSpring(Player *work)
     if (!StageTaskStateMatches(&work->objWork, Player__State_PlaneSwitchSpring) || (work->objWork.velocity.z == 0 && work->objWork.dir.y == 0))
     {
         work->objWork.dir.y = 0;
-        work->gimmickFlag &= ~PLAYER_GIMMICK_20000000;
+        work->gimmickFlag &= ~PLAYER_GIMMICK_DISABLE_Z_AUTO_RETURN;
         work->playerFlag &= ~PLAYER_FLAG_SLOWMO;
     }
 }
@@ -6647,7 +6647,7 @@ void Player_Action_EnterFarPlane(Player *player)
 {
     if (!StageTaskStateMatches(&player->objWork, Player__State_PlaneSwitchSpring) && !StageTaskStateMatches(&player->objWork, Player__State_JumpBoxPlaneSwitchLaunch))
     {
-        player->gimmickFlag &= ~PLAYER_GIMMICK_20000000;
+        player->gimmickFlag &= ~PLAYER_GIMMICK_DISABLE_Z_AUTO_RETURN;
         player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
 
         if (player->objWork.position.z != FLOAT_TO_FX32(0.0))
@@ -6663,7 +6663,7 @@ void Player__Action_EnterSlingshot(Player *player, GameObjectTask *other)
     player->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO;
     player->objWork.userFlag |= PLAYER_CHILDFLAG_CAN_JUMP | PLAYER_CHILDFLAG_FOLLOW_PREV_POS | PLAYER_CHILDFLAG_FORCE_LAUNCH_ACTION;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
+    player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY;
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
     player->gimmickCamOffsetX = 0;
@@ -6732,8 +6732,8 @@ void Player__Action_RideDolphin(Player *player, GameObjectTask *dolphin)
     player->objWork.displayFlag |= dolphin->objWork.displayFlag & DISPLAY_FLAG_FLIP_X;
     Player__Action_StopBoost(player);
     Player__Action_StopSuperBoost(player);
-    player->gimmickFlag |= PLAYER_GIMMICK_10;
-    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_2000;
+    player->gimmickFlag |= PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_DISABLE_CAMERA_OFFSET;
 
     if ((player->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
         player->gimmickCamOffsetX = 112;
@@ -6985,8 +6985,8 @@ void Player__LeaveDolphinRide(Player *player)
     player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    player->gimmickFlag &= ~(PLAYER_GIMMICK_40 | PLAYER_GIMMICK_10);
-    player->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+    player->gimmickFlag &= ~(PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_X | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X);
+    player->playerFlag &= ~(PLAYER_FLAG_DISABLE_CAMERA_OFFSET | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
     player->gimmickCamOffsetX = 0;
     player->gimmickCamOffsetY = 0;
 
@@ -7094,11 +7094,11 @@ void Player__Action_HoverCrystal(Player *player, GameObjectTask *other, fx32 lef
             }
             player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 
-            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
             player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
             player->objWork.userFlag = 0;
 
-            player->gimmickFlag |= PLAYER_GIMMICK_GRABBED;
+            player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST;
             player->gimmickObj                   = other;
             player->gimmick.hoverCrystal.boundsL = left - FLOAT_TO_FX32(1.0);
             player->gimmick.hoverCrystal.targetY = y;
@@ -7150,8 +7150,8 @@ void Player__State_HoverCrystal(Player *work)
     }
     else
     {
-        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IN_AIR;
-        work->gimmickFlag &= ~PLAYER_GIMMICK_GRABBED;
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IS_FALLING;
+        work->gimmickFlag &= ~PLAYER_GIMMICK_HIDE_SUPERBOOST;
         Player__Action_LandOnGround(work, 0);
         work->actionGroundIdle(work);
     }
@@ -7174,12 +7174,12 @@ void Player__Action_BalloonRide(Player *player, GameObjectTask *balloon, fx32 fl
     player->objWork.position.x = balloon->objWork.position.x;
     player->objWork.position.y = balloon->objWork.position.y + FLOAT_TO_FX32(16.0);
     player->objWork.position.z = balloon->objWork.position.z;
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
     player->gimmickObj = balloon;
-    player->gimmickFlag |= PLAYER_GIMMICK_4000000;
+    player->gimmickFlag |= PLAYER_GIMMICK_USE_CAMERA_CENTER_OFFSET;
     player->gimmickCamGimmickCenterOffsetY = 64;
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
     player->gimmick.balloonRide.floatSpeed = floatSpeed;
@@ -7197,10 +7197,10 @@ void Player__State_BalloonRide(Player *work)
     if (balloon == NULL || IsStageTaskDestroyedAny(&balloon->objWork) || (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
     {
         work->gimmickObj = NULL;
-        work->gimmickFlag &= ~PLAYER_GIMMICK_4000000;
+        work->gimmickFlag &= ~PLAYER_GIMMICK_USE_CAMERA_CENTER_OFFSET;
         work->gimmickCamGimmickCenterOffsetY = 0;
         work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
-        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
         if ((work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
         {
@@ -7259,7 +7259,7 @@ void Player__Action_WaterGun(Player *player, GameObjectTask *other)
 
     player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
     player->objWork.displayFlag |= other->objWork.displayFlag & DISPLAY_FLAG_FLIP_X;
-    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
+    player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY;
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
     player->gimmickCamOffsetY = 32;
 
@@ -7283,7 +7283,7 @@ void Player__State_WaterGun(Player *work)
         || (waterGun->gameWork.objWork.userFlag & WATERGUN_USERFLAG_USED_GUN) != 0)
     {
         work->gimmickObj = NULL;
-        work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_40 | PLAYER_GIMMICK_80 | PLAYER_GIMMICK_GRABBED);
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY | PLAYER_GIMMICK_SNAP_CAM_FOCUS_TO_GIMMICK_XY | PLAYER_GIMMICK_HIDE_SUPERBOOST);
         work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
         work->gimmickCamOffsetX     = 0;
         work->gimmickCamOffsetY     = 0;
@@ -7322,9 +7322,9 @@ void Player__Action_Bungee(Player *player, GameObjectTask *bungee, fx32 startX, 
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     SetTaskState(&player->objWork, Player__State_Bungee);
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_4000 | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
     player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES);
-    player->playerFlag |= PLAYER_GIMMICK_BUNGEE;
+    player->playerFlag |= PLAYER_GIMMICK_CONTOLLED_BY_GIMMICK;
 
     if (player->objWork.dir.z == FLOAT_DEG_TO_IDX(90.0) || player->objWork.dir.z == FLOAT_DEG_TO_IDX(270.0))
     {
@@ -7391,7 +7391,7 @@ void Player__State_Bungee(Player *work)
                 work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
                 work->gimmickObj    = NULL;
                 work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
-                work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_4000);
+                work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT);
                 work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
                 work->actionGroundIdle(work);
@@ -7425,7 +7425,7 @@ void Player__State_Bungee(Player *work)
                 work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
                 work->gimmickObj    = NULL;
                 work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
-                work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_4000);
+                work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT);
                 work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
                 Player__Action_Spring(work, work->objWork.velocity.x, work->objWork.velocity.y);
@@ -7439,7 +7439,7 @@ void Player__State_Bungee(Player *work)
         work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
         work->gimmickObj    = NULL;
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
-        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_4000);
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT);
         work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
         work->actionJump(work);
     }
@@ -7455,11 +7455,11 @@ void Player__Action_SpringRope(Player *player, GameObjectTask *springRope, s32 t
     SetTaskState(&player->objWork, Player__State_SpringRope);
 
     player->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
     player->objWork.displayFlag &= ~(DISPLAY_FLAG_FLIP_X | DISPLAY_FLAG_ROTATE_CAMERA_DIR);
 
-    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_2000;
-    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_DISABLE_CAMERA_OFFSET;
+    player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY;
 
     player->gimmickCamOffsetX = player->gimmickCamOffsetY = 0;
     player->objWork.velocity.x = player->objWork.velocity.y = player->objWork.velocity.z = FLOAT_TO_FX32(0.0);
@@ -7481,8 +7481,8 @@ void Player__State_SpringRope(Player *work)
 
         work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
-        work->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
-        work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_GRABBED);
+        work->playerFlag &= ~(PLAYER_FLAG_DISABLE_CAMERA_OFFSET | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY | PLAYER_GIMMICK_HIDE_SUPERBOOST);
         work->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
         work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 
@@ -7545,8 +7545,8 @@ void Player__State_SpringRope(Player *work)
 
             work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
-            work->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
-            work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_GRABBED);
+            work->playerFlag &= ~(PLAYER_FLAG_DISABLE_CAMERA_OFFSET | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+            work->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY | PLAYER_GIMMICK_HIDE_SUPERBOOST);
             work->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
             work->objWork.groundVel = FLOAT_TO_FX32(0.0);
             work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);

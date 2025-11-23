@@ -126,7 +126,7 @@ NONMATCH_FUNC Dolphin *CreateDolphin(MapObject *mapObject, fx32 x, fx32 y, fx32 
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_80000;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_LIMIT_MAP_BOUNDS;
 
     OBS_ACTION3D_NN_WORK *aniDolphin = &work->aniDolphin;
     ObjAction3dNNModelLoad(&work->gameWork.objWork, aniDolphin, "/mod/gmk_dolphin.nsbmd", 0, GetObjectDataWork(OBJDATAWORK_169), gameArchiveStage);
