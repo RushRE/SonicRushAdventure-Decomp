@@ -24,6 +24,10 @@ extern "C"
 #define HW_LCD_CENTER_X (HW_LCD_WIDTH / 2)
 #define HW_LCD_CENTER_Y (HW_LCD_HEIGHT / 2)
 
+// 1 Screen + Padding
+#define HW_LCD_HEIGHT_SPACING ((HW_LCD_HEIGHT) + 80)
+
+// Both Screens + Padding
 #define HW_LCD_DUAL_HEIGHT ((HW_LCD_HEIGHT * 2) + 80)
 
 #define VRAM_GET_PALETTE_COLOR(palette, index) ((GXRgb *)(palette))[index]

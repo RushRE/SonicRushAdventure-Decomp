@@ -64,7 +64,7 @@
 #include <stage/objects/popSteam.h>
 #include <stage/objects/dreamWing.h>
 #include <stage/objects/largePiston.h>
-#include <stage/objects/cameraBoundsTrigger.h>
+#include <stage/objects/cameraLockZone.h>
 #include <stage/objects/rotateCrane.h>
 #include <stage/objects/truck.h>
 #include <stage/objects/anchorRope.h>
@@ -589,7 +589,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_135] = (CreateObjectFunc)CreateSteamFan,
     [MAPOBJECT_136] = (CreateObjectFunc)CreateDreamWing,
     [MAPOBJECT_137] = (CreateObjectFunc)CreateDreamWingHangChain,
-    [MAPOBJECT_138] = (CreateObjectFunc)CameraBoundsTrigger__Create,
+    [MAPOBJECT_138] = (CreateObjectFunc)CreateCameraLockZone,
     [MAPOBJECT_139] = (CreateObjectFunc)CreateIcicle,
     [MAPOBJECT_140] = (CreateObjectFunc)CreateFlagChange,
     [MAPOBJECT_141] = (CreateObjectFunc)CreateFlipboard,

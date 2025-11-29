@@ -17,9 +17,9 @@
 // ENUMS
 // --------------------
 
-enum Unknown1ObjectFlags
+enum BGUnknownTriggerObjectFlags_
 {
-    BGUNKNOWNTRIGGER_OBJFLAG_NONE,
+    BGUNKNOWNTRIGGER_OBJFLAG_NONE = 0x00,
 
     BGUNKNOWNTRIGGER_OBJFLAG_USE_Y      = 1 << 0,
     BGUNKNOWNTRIGGER_OBJFLAG_FLIPPED    = 1 << 1,
@@ -32,7 +32,7 @@ enum Unknown1ObjectFlags
 // --------------------
 
 static void BGUnknownTrigger_State_Active(BGUnknownTrigger *work);
-static BOOL BGUnknownTrigger_CheckBounds(BGUnknownTrigger *work, MapSysCamera *camera);
+static BOOL CheckCameraInTriggerBounds(BGUnknownTrigger *work, MapSysCamera *camera);
 
 // --------------------
 // FUNCTIONS
@@ -88,7 +88,7 @@ BGUnknownTrigger *CreateBGUnknownTrigger(MapObject *mapObject, fx32 x, fx32 y, f
         if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
         {
             targetPlayer[0] = mapCamera.camera[0].targetPlayerID;
-            targetPlayer[1] = -1;
+            targetPlayer[1] = MAPSYS_CAMERA_TARGET_NONE;
         }
         else
         {
@@ -99,7 +99,7 @@ BGUnknownTrigger *CreateBGUnknownTrigger(MapObject *mapObject, fx32 x, fx32 y, f
         for (i = 0; i < 2; i++)
         {
             s8 target = targetPlayer[i];
-            if (target >= 0)
+            if (target >= MAPSYS_CAMERA_TARGET_P1)
             {
                 Player *player = gPlayerList[target];
 
@@ -127,20 +127,20 @@ void BGUnknownTrigger_State_Active(BGUnknownTrigger *work)
 {
     if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
     {
-        if (BGUnknownTrigger_CheckBounds(work, MapSys__GetCameraA()))
+        if (CheckCameraInTriggerBounds(work, MapSys__GetCameraA()))
             MapFarSys__Func_200B524(work->unknown.x, work->unknown.y, work->gameWork.mapObjectParam_height, GRAPHICS_ENGINE_A);
     }
     else
     {
         for (s32 i = 0; i < GRAPHICS_ENGINE_COUNT; i++)
         {
-            if (BGUnknownTrigger_CheckBounds(work, &mapCamera.camera[i]))
+            if (CheckCameraInTriggerBounds(work, &mapCamera.camera[i]))
                 MapFarSys__Func_200B524(work->unknown.x, work->unknown.y, work->gameWork.mapObjectParam_height, i);
         }
     }
 }
 
-BOOL BGUnknownTrigger_CheckBounds(BGUnknownTrigger *work, MapSysCamera *camera)
+BOOL CheckCameraInTriggerBounds(BGUnknownTrigger *work, MapSysCamera *camera)
 {
     BOOL inBounds = FALSE;
 

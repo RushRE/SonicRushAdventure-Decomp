@@ -141,7 +141,7 @@ void WaterLevelTrigger_SetupWaterLevel(fx32 x, u16 waterLevel, u16 flags, s8 *ta
         MapSysCamera *camera = &mapCamera.camera[i];
 
         s8 targetPlayer = targetPlayers[i];
-        if (targetPlayer >= 0)
+        if (targetPlayer >= MAPSYS_CAMERA_TARGET_P1)
         {
             if (x >= gPlayerList[targetPlayer]->objWork.position.x - FLOAT_TO_FX32(64.0) && x <= gPlayerList[targetPlayer]->objWork.position.x + FLOAT_TO_FX32(64.0))
             {

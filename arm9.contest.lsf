@@ -110,7 +110,7 @@ Static arm9
     Object asm/stage/objects/popSteam.o
     Object asm/stage/objects/dreamWing.o
     Object asm/stage/objects/largePiston.o
-    Object asm/stage/objects/cameraBoundsTrigger.o
+    Object asm/stage/objects/cameraLockZone.o
     Object src/stage/objects/icicle.o
     Object src/stage/objects/playerSnowboard.o
     Object asm/stage/objects/flipBoard_vars.o

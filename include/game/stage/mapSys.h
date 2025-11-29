@@ -103,6 +103,14 @@ enum MapSysCameraFlags_
 };
 typedef u32 MapSysCameraFlags;
 
+enum MapSysCameraTarget_
+{
+    MAPSYS_CAMERA_TARGET_NONE = -1,
+    MAPSYS_CAMERA_TARGET_P1 = 0,
+    MAPSYS_CAMERA_TARGET_P2 = 1,
+};
+typedef s8 MapSysCameraTarget;
+
 enum FileList_ArchiveMap
 {
     ARC_MAP_FILE_CAMERAZONES,
@@ -874,17 +882,17 @@ typedef struct MapSysCamera_
     u32 flags2;
     u8 field_44;
     u8 field_45;
-    s8 targetPlayerID;
+    MapSysCameraTarget targetPlayerID;
     u8 field_47;
     Vec2Fx32 targetOffset[2];
     fx32 boundsL;
     fx32 boundsT;
     fx32 boundsR;
     fx32 boundsB;
-    u8 field_68;
-    u8 field_69;
-    u8 field_6A;
-    u8 field_6B;
+    s8 lockTimerL;
+    s8 lockTimerT;
+    s8 lockTimerR;
+    s8 lockTimerB;
     u8 field_6C;
     u8 field_6D;
     u16 waterLevel;

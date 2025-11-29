@@ -47,10 +47,10 @@ struct MapFarSysUnknown
     Task *task;
     fx32 scrollSpeedY[2];
     Vec2Fx32 scrollSpeed[2];
-    u8 bg1VOfs[2][192];
-    u8 bg1VOfs_sub[2][192];
-    u8 bg1VOfs_2[2][192];
-    u8 bg1VOfs_sub_2[2][192];
+    u8 bg1VOfs[2][HW_LCD_HEIGHT];
+    u8 bg1VOfs_sub[2][HW_LCD_HEIGHT];
+    u8 bg1VOfs_2[2][HW_LCD_HEIGHT];
+    u8 bg1VOfs_sub_2[2][HW_LCD_HEIGHT];
     MapFarSysScroll *scroll1[2][3];
     u16 field_638[2];
     MapFarSysUnknownUnknown field_63C;
@@ -630,7 +630,7 @@ void MapFarSys__Build_Z1(void)
 
         MapSysCamera *cameraB = MapSys__GetCameraB();
         cameraB->bgPos.x      = FLOAT_TO_FX32(0.0);
-        cameraB->bgPos.y      = FLOAT_TO_FX32(272.0);
+        cameraB->bgPos.y      = FX32_FROM_WHOLE(HW_LCD_HEIGHT_SPACING);
     }
     else
     {
@@ -665,7 +665,7 @@ void MapFarSys__Build_Z1(void)
         {
             LoadScrollInfo(_0210E30C);
 
-            MapFarSys__sVars.scrollControl->scrollSpeedY[0] = MapFarSys__sVars.scrollControl->scrollSpeedY[1] = 464;
+            MapFarSys__sVars.scrollControl->scrollSpeedY[0] = MapFarSys__sVars.scrollControl->scrollSpeedY[1] = HW_LCD_DUAL_HEIGHT;
         }
     }
 }
@@ -680,7 +680,7 @@ void MapFarSys__Build_Z2(void)
 
         MapSysCamera *cameraB = MapSys__GetCameraB();
         cameraB->bgPos.x      = FLOAT_TO_FX32(0.0);
-        cameraB->bgPos.y      = FLOAT_TO_FX32(272.0);
+        cameraB->bgPos.y      = FX32_FROM_WHOLE(HW_LCD_HEIGHT_SPACING);
     }
     else
     {
@@ -693,7 +693,7 @@ void MapFarSys__Build_Z2(void)
         cameraB->bgPos.y      = FLOAT_TO_FX32(0.0);
     }
 
-    MapFarSys__sVars.scrollControl->scrollSpeedY[0] = MapFarSys__sVars.scrollControl->scrollSpeedY[1] = 464;
+    MapFarSys__sVars.scrollControl->scrollSpeedY[0] = MapFarSys__sVars.scrollControl->scrollSpeedY[1] = HW_LCD_DUAL_HEIGHT;
 
     RenderCore_PrepareDMA(0, MapFarSys__sVars.scrollControl->bg1VOfs, MapFarSys__sVars.scrollControl->bg1VOfs_2, (void *)REG_BG1VOFS_ADDR, 2);
     RenderCore_PrepareDMA(1, MapFarSys__sVars.scrollControl->bg1VOfs_sub, MapFarSys__sVars.scrollControl->bg1VOfs_sub_2, (void *)REG_DB_BG1VOFS_ADDR, 2);
@@ -711,7 +711,7 @@ void MapFarSys__Build_Z3(void)
 
         MapSysCamera *cameraB = MapSys__GetCameraB();
         cameraB->bgPos.x      = FLOAT_TO_FX32(0.0);
-        cameraB->bgPos.y      = FLOAT_TO_FX32(272.0);
+        cameraB->bgPos.y      = FX32_FROM_WHOLE(HW_LCD_HEIGHT_SPACING);
     }
     else
     {
@@ -743,7 +743,7 @@ void MapFarSys__Build_Z4(void)
 
         MapSysCamera *cameraB = MapSys__GetCameraB();
         cameraB->bgPos.x      = FLOAT_TO_FX32(0.0);
-        cameraB->bgPos.y      = FLOAT_TO_FX32(272.0);
+        cameraB->bgPos.y      = FX32_FROM_WHOLE(HW_LCD_HEIGHT_SPACING);
     }
     else
     {
@@ -801,7 +801,7 @@ void MapFarSys__Build_Z6(void)
 
         MapSysCamera *cameraB = MapSys__GetCameraB();
         cameraB->bgPos.x      = FLOAT_TO_FX32(0.0);
-        cameraB->bgPos.y      = FLOAT_TO_FX32(272.0);
+        cameraB->bgPos.y      = FX32_FROM_WHOLE(HW_LCD_HEIGHT_SPACING);
     }
     else
     {
@@ -832,7 +832,7 @@ void MapFarSys__Build_Z7(void)
 
         MapSysCamera *cameraB = MapSys__GetCameraB();
         cameraB->bgPos.x      = FLOAT_TO_FX32(0.0);
-        cameraB->bgPos.y      = FLOAT_TO_FX32(272.0);
+        cameraB->bgPos.y      = FX32_FROM_WHOLE(HW_LCD_HEIGHT_SPACING);
     }
     else
     {
@@ -845,7 +845,7 @@ void MapFarSys__Build_Z7(void)
         cameraB->bgPos.y      = FLOAT_TO_FX32(0.0);
     }
 
-    MapFarSys__sVars.scrollControl->scrollSpeedY[0] = MapFarSys__sVars.scrollControl->scrollSpeedY[1] = 464; // FLOAT_TO_FX32(0.11328125)
+    MapFarSys__sVars.scrollControl->scrollSpeedY[0] = MapFarSys__sVars.scrollControl->scrollSpeedY[1] = HW_LCD_DUAL_HEIGHT; // FLOAT_TO_FX32(0.11328125)
 
     MapFarSysUnknownUnknown *unknown = &MapFarSys__sVars.scrollControl->field_63C;
     MI_CpuClear32(unknown, sizeof(MapFarSys__sVars.scrollControl->field_63C.x16));
@@ -863,7 +863,7 @@ void MapFarSys__Build_Z9(void)
 
         MapSysCamera *cameraB = MapSys__GetCameraB();
         cameraB->bgPos.x      = FLOAT_TO_FX32(0.0);
-        cameraB->bgPos.y      = FLOAT_TO_FX32(272.0);
+        cameraB->bgPos.y      = FX32_FROM_WHOLE(HW_LCD_HEIGHT_SPACING);
     }
     else
     {
@@ -1962,22 +1962,22 @@ void MapFarSys__DoFarScrollY(void)
 
         scrollSpeed = MapFarSys__sVars.scrollControl->scrollSpeedY[0];
         if ((cameraA->flags2 & 1) == 0)
-            cameraA->bgPos.y = FX_DivS32(cameraA->disp_pos.y * (scrollSpeed - 464), mapCamera.camControl.height - HW_LCD_HEIGHT);
+            cameraA->bgPos.y = FX_DivS32(cameraA->disp_pos.y * (scrollSpeed - HW_LCD_DUAL_HEIGHT), mapCamera.camControl.height - HW_LCD_HEIGHT);
 
         if ((cameraB->flags2 & 1) == 0)
-            cameraB->bgPos.y = FX_DivS32(cameraA->disp_pos.y * (scrollSpeed - 464), mapCamera.camControl.height - HW_LCD_HEIGHT) + FLOAT_TO_FX32(272.0);
+            cameraB->bgPos.y = FX_DivS32(cameraA->disp_pos.y * (scrollSpeed - HW_LCD_DUAL_HEIGHT), mapCamera.camControl.height - HW_LCD_HEIGHT) + FX32_FROM_WHOLE(HW_LCD_HEIGHT_SPACING);
     }
     else
     {
         MapSysCamera *cameraA = &mapCamera.camera[GRAPHICS_ENGINE_A];
         fx32 scrollSpeed      = MapFarSys__sVars.scrollControl->scrollSpeedY[0];
         if ((cameraA->flags2 & 1) == 0)
-            cameraA->bgPos.y = FX_DivS32(cameraA->disp_pos.y * (scrollSpeed - 464), mapCamera.camControl.height - HW_LCD_HEIGHT);
+            cameraA->bgPos.y = FX_DivS32(cameraA->disp_pos.y * (scrollSpeed - HW_LCD_DUAL_HEIGHT), mapCamera.camControl.height - HW_LCD_HEIGHT);
 
         MapSysCamera *cameraB = &mapCamera.camera[GRAPHICS_ENGINE_B];
         scrollSpeed           = MapFarSys__sVars.scrollControl->scrollSpeedY[1];
         if ((cameraB->flags2 & 1) == 0)
-            cameraB->bgPos.y = FX_DivS32(cameraB->disp_pos.y * (scrollSpeed - 464), mapCamera.camControl.height - HW_LCD_HEIGHT);
+            cameraB->bgPos.y = FX_DivS32(cameraB->disp_pos.y * (scrollSpeed - HW_LCD_DUAL_HEIGHT), mapCamera.camControl.height - HW_LCD_HEIGHT);
     }
 }
 

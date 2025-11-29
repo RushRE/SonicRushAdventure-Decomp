@@ -1092,8 +1092,8 @@ void MapSys__InitBoundsForStage(void)
     mapCamera.camControl.flags &= ~MAPSYS_CAMERACTRL_FLAG_DISABLE_SCREEN_SWAP;
     mapCamera.camControl.field_8 = FLOAT_TO_FX32(80.0);
 
-    mapCamera.camera[0].targetPlayerID = 0;
-    mapCamera.camera[1].targetPlayerID = -1;
+    mapCamera.camera[0].targetPlayerID = MAPSYS_CAMERA_TARGET_P1;
+    mapCamera.camera[1].targetPlayerID = MAPSYS_CAMERA_TARGET_NONE;
 
     mapCamera.camera[0].targetOffset[0].x = FLOAT_TO_FX32(128.0);
     mapCamera.camera[0].targetOffset[0].y = FLOAT_TO_FX32(96.0);
@@ -1179,14 +1179,14 @@ void MapSys__InitBoundsForVSRings(void)
         camera++;
     }
 
-    mapCamera.camera[0].targetPlayerID    = 0;
+    mapCamera.camera[0].targetPlayerID    = MAPSYS_CAMERA_TARGET_P1;
     mapCamera.camera[0].targetOffset[0].x = FLOAT_TO_FX32(128.0);
     mapCamera.camera[0].targetOffset[0].y = FLOAT_TO_FX32(96.0);
     mapCamera.camera[0].scale.x           = FLOAT_TO_FX32(1.0);
     mapCamera.camera[0].scale.y           = FLOAT_TO_FX32(1.0);
 
     MapSysCamera *cameraB      = &mapCamera.camera[1];
-    cameraB->targetPlayerID    = 0;
+    cameraB->targetPlayerID    = MAPSYS_CAMERA_TARGET_P1;
     cameraB->targetOffset[0].x = FLOAT_TO_FX32(128.0);
     cameraB->targetOffset[0].y = FLOAT_TO_FX32(88.0);
     cameraB->scale.x           = FLOAT_TO_FX32(1.0);
@@ -1221,14 +1221,14 @@ void MapSys__SetupBoss_Zone5(void)
         camera++;
     }
 
-    mapCamera.camera[0].targetPlayerID    = 0;
+    mapCamera.camera[0].targetPlayerID    = MAPSYS_CAMERA_TARGET_P1;
     mapCamera.camera[0].targetOffset[0].x = FLOAT_TO_FX32(128.0);
     mapCamera.camera[0].targetOffset[0].y = FLOAT_TO_FX32(96.0);
     mapCamera.camera[0].scale.x           = FLOAT_TO_FX32(1.0);
     mapCamera.camera[0].scale.y           = FLOAT_TO_FX32(1.0);
 
     MapSysCamera *cameraB      = &mapCamera.camera[1];
-    cameraB->targetPlayerID    = 0;
+    cameraB->targetPlayerID    = MAPSYS_CAMERA_TARGET_P1;
     cameraB->targetOffset[0].x = FLOAT_TO_FX32(128.0);
     cameraB->targetOffset[0].y = FLOAT_TO_FX32(88.0);
     cameraB->scale.x           = FLOAT_TO_FX32(1.0);
