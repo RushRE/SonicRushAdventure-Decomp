@@ -1327,26 +1327,26 @@ void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
     {
         flagAffine |= ANIMATORSPRITE_DRAWFRAMEROTOZOOM_MOSAIC;
     }
-    flagAffine |= (animator->work.spriteType << GX_OAM_ATTR01_MODE_SHIFT);
-    paletteOffset[GRAPHICS_ENGINE_A] = animator->cParam[GRAPHICS_ENGINE_A].palette << GX_OAM_ATTR2_CPARAM_SHIFT;
-    paletteOffset[GRAPHICS_ENGINE_B] = animator->cParam[GRAPHICS_ENGINE_B].palette << GX_OAM_ATTR2_CPARAM_SHIFT;
+    flagAffine |= (animator->work.spriteType << SPRITE_OAM_ATTR0_MODE_SHIFT);
+    paletteOffset[GRAPHICS_ENGINE_A] = animator->cParam[GRAPHICS_ENGINE_A].palette << SPRITE_OAM_ATTR2_CPARAM_SHIFT;
+    paletteOffset[GRAPHICS_ENGINE_B] = animator->cParam[GRAPHICS_ENGINE_B].palette << SPRITE_OAM_ATTR2_CPARAM_SHIFT;
     sp_18                            = 0;
     currentSprite                    = &frame->spriteList[0];
-    if ((frame->spriteList[0].attr0 & GX_OAM_ATTR01_MODE_MASK) == (GX_OAM_MODE_BITMAPOBJ << GX_OAM_ATTR01_MODE_SHIFT))
+    if ((frame->spriteList[0].attr0 & SPRITE_OAM_ATTR0_MODE) == (SPRITE_OAM_MODE_BITMAPOBJ << SPRITE_OAM_ATTR0_MODE_SHIFT))
     {
         u32 diffA                       = animator->vramPixels[GRAPHICS_ENGINE_A] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_A];
-        vramLocation[GRAPHICS_ENGINE_A] = GX_OAM_ATTR2_NAME_MASK & (diffA >> (objBmpUse256K[GRAPHICS_ENGINE_A] + 7));
+        vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (objBmpUse256K[GRAPHICS_ENGINE_A] + 7));
         u32 diffB                       = animator->vramPixels[GRAPHICS_ENGINE_B] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_B];
-        vramLocation[GRAPHICS_ENGINE_B] = GX_OAM_ATTR2_NAME_MASK & (diffB >> (objBmpUse256K[GRAPHICS_ENGINE_B] + 7));
+        vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (objBmpUse256K[GRAPHICS_ENGINE_B] + 7));
         shift[GRAPHICS_ENGINE_A]        = objBmpUse256K[GRAPHICS_ENGINE_A];
         shift[GRAPHICS_ENGINE_B]        = objBmpUse256K[GRAPHICS_ENGINE_B];
     }
     else
     {
         u32 diffA                       = animator->vramPixels[GRAPHICS_ENGINE_A] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_A];
-        vramLocation[GRAPHICS_ENGINE_A] = GX_OAM_ATTR2_NAME_MASK & (diffA >> (objBankShift[GRAPHICS_ENGINE_A] + 5));
+        vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (objBankShift[GRAPHICS_ENGINE_A] + 5));
         u32 diffB                       = animator->vramPixels[GRAPHICS_ENGINE_B] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_B];
-        vramLocation[GRAPHICS_ENGINE_B] = GX_OAM_ATTR2_NAME_MASK & (diffB >> (objBankShift[GRAPHICS_ENGINE_B] + 5));
+        vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (objBankShift[GRAPHICS_ENGINE_B] + 5));
         shift[GRAPHICS_ENGINE_A]        = objBankShift[GRAPHICS_ENGINE_A];
         shift[GRAPHICS_ENGINE_B]        = objBankShift[GRAPHICS_ENGINE_B];
         if (GetAnimHeaderBlockFromAnimator(&animator->work)->anims[animator->work.animID].format != BAC_FORMAT_PLTT16_2D)
@@ -1410,15 +1410,15 @@ void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
                 oam->attr1 ^= flagFlip;
                 if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
                 {
-                    oam->attr2 = (vramLocation[engineIndex] & GX_OAM_ATTR2_NAME_MASK) | (animator->work.oamPriority << GX_OAM_ATTR2_PRIORITY_SHIFT)
-                                 | ((currentSprite->attr2 + paletteOffset[engineIndex]) & GX_OAM_ATTR2_CPARAM_MASK);
+                    oam->attr2 = (vramLocation[engineIndex] & SPRITE_OAM_ATTR2_NAME) | (animator->work.oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT)
+                                 | ((currentSprite->attr2 + paletteOffset[engineIndex]) & SPRITE_OAM_ATTR2_CPARAM);
 
                     vramLocation[engineIndex] += ((formatShapeTileCount[shape] + shiftMask[engineIndex]) >> shift[engineIndex]) << sp_18;
                 }
                 else
                 {
-                    oam->attr2 = ((currentSprite->attr2 + vramLocation[engineIndex]) & GX_OAM_ATTR2_NAME_MASK) | (animator->work.oamPriority << GX_OAM_ATTR2_PRIORITY_SHIFT)
-                                 | ((currentSprite->attr2 + paletteOffset[engineIndex]) & GX_OAM_ATTR2_CPARAM_MASK);
+                    oam->attr2 = ((currentSprite->attr2 + vramLocation[engineIndex]) & SPRITE_OAM_ATTR2_NAME) | (animator->work.oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT)
+                                 | ((currentSprite->attr2 + paletteOffset[engineIndex]) & SPRITE_OAM_ATTR2_CPARAM);
                 }
             }
         }
