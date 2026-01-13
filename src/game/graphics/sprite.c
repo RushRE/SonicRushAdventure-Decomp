@@ -1108,7 +1108,7 @@ void AnimatorSpriteDS__Init(AnimatorSpriteDS *animator, void *fileData, u16 anim
 
 void AnimatorSpriteDS__Release(AnimatorSpriteDS *animator)
 {
-    for (u32 i = 0; i < GRAPHICS_ENGINE_COUNT; i++)
+    for (u32 i = GRAPHICS_ENGINE_A; i < GRAPHICS_ENGINE_COUNT; i++)
     {
         switch (animator->pixelMode[i])
         {
@@ -1175,7 +1175,7 @@ void AnimatorSpriteDS__ProcessFrame(AnimatorSpriteDS *animator)
     AnimatorSprite animatorSprite;
     MI_CpuCopy16(&animator->work, &animatorSprite, sizeof(animatorSprite));
 
-    for (u32 i = 0; i < 2; i++)
+    for (u32 i = GRAPHICS_ENGINE_A; i < GRAPHICS_ENGINE_COUNT; i++)
     {
         animatorSprite.useEngineB     = i;
         animatorSprite.pixelMode      = animator->pixelMode[i];
@@ -1187,27 +1187,27 @@ void AnimatorSpriteDS__ProcessFrame(AnimatorSpriteDS *animator)
     }
 }
 
-RUSH_INLINE void CallAnimatorSpriteDrawFrameForEngine(AnimatorSpriteDS *animator, int engineIndex)
+RUSH_INLINE void CallAnimatorSpriteDrawFrameForEngine(AnimatorSpriteDS *animator, GraphicsEngine graphicsEngine)
 {
-    animator->work.useEngineB     = engineIndex;
-    animator->work.pos.x          = animator->position[engineIndex].x;
-    animator->work.pos.y          = animator->position[engineIndex].y;
-    animator->work.pixelMode      = animator->pixelMode[engineIndex];
-    animator->work.vramPixels     = animator->vramPixels[engineIndex];
-    animator->work.paletteMode    = animator->paletteMode[engineIndex];
-    animator->work.vramPalette    = animator->vramPalette[engineIndex];
-    animator->work.cParam.palette = animator->cParam[engineIndex].palette;
+    animator->work.useEngineB     = graphicsEngine;
+    animator->work.pos.x          = animator->position[graphicsEngine].x;
+    animator->work.pos.y          = animator->position[graphicsEngine].y;
+    animator->work.pixelMode      = animator->pixelMode[graphicsEngine];
+    animator->work.vramPixels     = animator->vramPixels[graphicsEngine];
+    animator->work.paletteMode    = animator->paletteMode[graphicsEngine];
+    animator->work.vramPalette    = animator->vramPalette[graphicsEngine];
+    animator->work.cParam.palette = animator->cParam[graphicsEngine].palette;
     AnimatorSprite__DrawFrame(&animator->work);
-    animator->firstSprite[engineIndex] = animator->work.firstSprite;
-    animator->lastSprite[engineIndex]  = animator->work.lastSprite;
+    animator->firstSprite[graphicsEngine] = animator->work.firstSprite;
+    animator->lastSprite[graphicsEngine]  = animator->work.lastSprite;
 }
 
-RUSH_INLINE BOOL AnimatorVisibleOnScreen(AnimatorSpriteDS *animator, struct BACFrame *frame, int engineIndex)
+RUSH_INLINE BOOL AnimatorVisibleOnScreen(AnimatorSpriteDS *animator, struct BACFrame *frame, GraphicsEngine graphicsEngine)
 {
     // The posX and posY temporaries are necessary for 100% match.
     if ((animator->work.flags & ANIMATOR_FLAG_FLIP_X))
     {
-        fx16 posX = animator->position[engineIndex].x;
+        fx16 posX = animator->position[graphicsEngine].x;
         if (((posX - frame->left) <= 0) || ((posX - frame->right) >= HW_LCD_WIDTH))
         {
             return FALSE;
@@ -1215,15 +1215,16 @@ RUSH_INLINE BOOL AnimatorVisibleOnScreen(AnimatorSpriteDS *animator, struct BACF
     }
     else
     {
-        fx16 posX = animator->position[engineIndex].x;
+        fx16 posX = animator->position[graphicsEngine].x;
         if (((posX + frame->right) <= 0) || ((posX + frame->left) >= HW_LCD_WIDTH))
         {
             return FALSE;
         }
     }
+
     if ((animator->work.flags & ANIMATOR_FLAG_FLIP_Y))
     {
-        fx16 posY = animator->position[engineIndex].y;
+        fx16 posY = animator->position[graphicsEngine].y;
         if (((posY - frame->top) <= 0) || ((posY - frame->bottom) >= HW_LCD_HEIGHT))
         {
             return FALSE;
@@ -1231,21 +1232,22 @@ RUSH_INLINE BOOL AnimatorVisibleOnScreen(AnimatorSpriteDS *animator, struct BACF
     }
     else
     {
-        fx16 posY = animator->position[engineIndex].y;
+        fx16 posY = animator->position[graphicsEngine].y;
         if (((posY + frame->bottom) <= 0) || ((posY + frame->top) >= HW_LCD_HEIGHT))
         {
             return FALSE;
         }
     }
+
     return TRUE;
 }
 
-RUSH_INLINE void DisableDrawForEngineIfInvisible(AnimatorSpriteDS *animator, struct BACFrame *frame, int engineIndex, AnimatorSpriteDSFlags *screensDrawFlag)
+RUSH_INLINE void DisableDrawForEngineIfInvisible(AnimatorSpriteDS *animator, struct BACFrame *frame, GraphicsEngine graphicsEngine, AnimatorSpriteDSFlags *screensDrawFlag)
 {
-    if (!AnimatorVisibleOnScreen(animator, frame, engineIndex))
+    if (!AnimatorVisibleOnScreen(animator, frame, graphicsEngine))
     {
         int doNotDrawOnEngine = 1;
-        *screensDrawFlag |= (doNotDrawOnEngine << engineIndex);
+        *screensDrawFlag |= (doNotDrawOnEngine << graphicsEngine);
     }
 }
 
@@ -1258,17 +1260,18 @@ void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
         ANIMATORSPRITE_DRAWFRAMEROTOZOOM_SCALE  = 0x200,
         ANIMATORSPRITE_DRAWFRAMEROTOZOOM_MOSAIC = SPRITE_OAM_ATTR0_MOSAIC,
     };
+
     AnimatorSpriteDSFlags screensDrawFlag;
     struct BACFrame *frame;
     GXOamAttr *currentSprite;
-    int engineIndex;
+    int graphicsEngine;
     u32 vramLocation[GRAPHICS_ENGINE_COUNT];
     u32 shift[GRAPHICS_ENGINE_COUNT];
     u32 shiftMask[GRAPHICS_ENGINE_COUNT];
     u16 paletteOffset[GRAPHICS_ENGINE_COUNT];
     u16 flagAffine = 0;
     u16 flagFlip   = 0;
-    u32 sp_18;
+    u32 shiftTileOffset;
     u16 i;
     Vec2U16 const *shapeSize;
     s32 offsetX;
@@ -1278,30 +1281,31 @@ void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
     frame                                    = GetFrameAssemblyFromAnimator(&animator->work);
     animator->firstSprite[GRAPHICS_ENGINE_A] = animator->firstSprite[GRAPHICS_ENGINE_B] = NULL;
     animator->lastSprite[GRAPHICS_ENGINE_A] = animator->lastSprite[GRAPHICS_ENGINE_B] = NULL;
+
     if (animator->work.flags & ANIMATOR_FLAG_DISABLE_DRAW)
-    {
         return;
-    }
+
     if (frame->spriteCount == 0)
-    {
         return;
-    }
+
     if (animator->work.flags & ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK)
     {
         if ((screensDrawFlag & ANIMATORSPRITEDS_FLAG_DISABLE_A) == 0)
         {
             DisableDrawForEngineIfInvisible(animator, frame, GRAPHICS_ENGINE_A, &screensDrawFlag);
         }
+
         if ((screensDrawFlag & ANIMATORSPRITEDS_FLAG_DISABLE_B) == 0)
         {
             DisableDrawForEngineIfInvisible(animator, frame, GRAPHICS_ENGINE_B, &screensDrawFlag);
         }
     }
+
     screensDrawFlag &= ANIMATORSPRITEDS_FLAG_DISABLE_AB;
+
     if (screensDrawFlag == ANIMATORSPRITEDS_FLAG_DISABLE_AB)
-    {
         return;
-    }
+
     if ((screensDrawFlag == ANIMATORSPRITEDS_FLAG_DISABLE_A) == 0)
     {
         if ((screensDrawFlag == ANIMATORSPRITEDS_FLAG_DISABLE_B) != 0)
@@ -1315,45 +1319,50 @@ void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
         CallAnimatorSpriteDrawFrameForEngine(animator, GRAPHICS_ENGINE_B);
         return;
     }
+
     if (animator->work.flags & ANIMATOR_FLAG_FLIP_X)
-    {
         flagFlip |= ANIMATORSPRITE_DRAWFRAME_HFLIP;
-    }
+
     if (animator->work.flags & ANIMATOR_FLAG_FLIP_Y)
-    {
         flagFlip |= ANIMATORSPRITE_DRAWFRAME_VFLIP;
-    }
+
     if (animator->work.flags & ANIMATOR_FLAG_ENABLE_MOSAIC)
-    {
         flagAffine |= ANIMATORSPRITE_DRAWFRAMEROTOZOOM_MOSAIC;
-    }
+
     flagAffine |= (animator->work.spriteType << SPRITE_OAM_ATTR0_MODE_SHIFT);
     paletteOffset[GRAPHICS_ENGINE_A] = animator->cParam[GRAPHICS_ENGINE_A].palette << SPRITE_OAM_ATTR2_CPARAM_SHIFT;
     paletteOffset[GRAPHICS_ENGINE_B] = animator->cParam[GRAPHICS_ENGINE_B].palette << SPRITE_OAM_ATTR2_CPARAM_SHIFT;
-    sp_18                            = 0;
-    currentSprite                    = &frame->spriteList[0];
+
+    shiftTileOffset = 0;
+    currentSprite   = &frame->spriteList[0];
     if ((frame->spriteList[0].attr0 & SPRITE_OAM_ATTR0_MODE) == (SPRITE_OAM_MODE_BITMAPOBJ << SPRITE_OAM_ATTR0_MODE_SHIFT))
     {
         u32 diffA                       = animator->vramPixels[GRAPHICS_ENGINE_A] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_A];
         vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (objBmpUse256K[GRAPHICS_ENGINE_A] + 7));
+
         u32 diffB                       = animator->vramPixels[GRAPHICS_ENGINE_B] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_B];
         vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (objBmpUse256K[GRAPHICS_ENGINE_B] + 7));
-        shift[GRAPHICS_ENGINE_A]        = objBmpUse256K[GRAPHICS_ENGINE_A];
-        shift[GRAPHICS_ENGINE_B]        = objBmpUse256K[GRAPHICS_ENGINE_B];
+
+        shift[GRAPHICS_ENGINE_A] = objBmpUse256K[GRAPHICS_ENGINE_A];
+        shift[GRAPHICS_ENGINE_B] = objBmpUse256K[GRAPHICS_ENGINE_B];
     }
     else
     {
         u32 diffA                       = animator->vramPixels[GRAPHICS_ENGINE_A] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_A];
         vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (objBankShift[GRAPHICS_ENGINE_A] + 5));
+
         u32 diffB                       = animator->vramPixels[GRAPHICS_ENGINE_B] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_B];
         vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (objBankShift[GRAPHICS_ENGINE_B] + 5));
-        shift[GRAPHICS_ENGINE_A]        = objBankShift[GRAPHICS_ENGINE_A];
-        shift[GRAPHICS_ENGINE_B]        = objBankShift[GRAPHICS_ENGINE_B];
+
+        shift[GRAPHICS_ENGINE_A] = objBankShift[GRAPHICS_ENGINE_A];
+        shift[GRAPHICS_ENGINE_B] = objBankShift[GRAPHICS_ENGINE_B];
+
         if (GetAnimHeaderBlockFromAnimator(&animator->work)->anims[animator->work.animID].format != BAC_FORMAT_PLTT16_2D)
         {
-            sp_18 = 1;
+            shiftTileOffset = 1;
         }
     }
+
     shiftMask[GRAPHICS_ENGINE_A] = (u16)((1 << shift[GRAPHICS_ENGINE_A]) - 1);
     shiftMask[GRAPHICS_ENGINE_B] = (u16)((1 << shift[GRAPHICS_ENGINE_B]) - 1);
 
@@ -1362,6 +1371,7 @@ void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
         u32 shape = ((currentSprite->attr0 & SPRITE_OAM_ATTR0_SHAPE) >> (SPRITE_OAM_ATTR0_SHAPE_SHIFT - 2))
                     | ((currentSprite->attr1 & SPRITE_OAM_ATTR1_SIZE) >> SPRITE_OAM_ATTR1_SIZE_SHIFT);
         shapeSize = &spriteShapeSizes2D[shape];
+
         if (flagFlip & ANIMATORSPRITE_DRAWFRAME_HFLIP)
         {
             offsetX = frame->center.x - OamGetSignedX(currentSprite) - shapeSize->x;
@@ -1370,6 +1380,7 @@ void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
         {
             offsetX = -1 * frame->center.x + OamGetSignedX(currentSprite);
         }
+
         if (flagFlip & ANIMATORSPRITE_DRAWFRAME_VFLIP)
         {
             offsetY = frame->center.y - OamGetSignedY(currentSprite) - shapeSize->y;
@@ -1378,79 +1389,79 @@ void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
         {
             offsetY = -1 * frame->center.y + OamGetSignedY(currentSprite);
         }
-        for (engineIndex = 0; engineIndex < GRAPHICS_ENGINE_COUNT; engineIndex++)
+
+        for (graphicsEngine = GRAPHICS_ENGINE_A; graphicsEngine < GRAPHICS_ENGINE_COUNT; graphicsEngine++)
         {
-            u32 xOAM = animator->position[engineIndex].x + offsetX;
-            u32 yOAM = animator->position[engineIndex].y + offsetY;
+            u32 xOAM = animator->position[graphicsEngine].x + offsetX;
+            u32 yOAM = animator->position[graphicsEngine].y + offsetY;
 
             if ((animator->work.flags & ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK) && !SpriteDrawBoundsCheck(shapeSize, xOAM, yOAM))
             {
                 if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
                 {
-                    vramLocation[engineIndex] += ((formatShapeTileCount[shape] + shiftMask[engineIndex]) >> shift[engineIndex]) << sp_18;
+                    vramLocation[graphicsEngine] += ((formatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
                 }
             }
             else
             {
                 GXOamAttr *oam;
-                oam = OAMSystem__Alloc(engineIndex, animator->work.oamOrder);
+                oam = OAMSystem__Alloc(graphicsEngine, animator->work.oamOrder);
                 if (&oamDefault == oam)
-                {
                     return;
-                }
-                GXOamAttr *first                  = animator->firstSprite[engineIndex];
-                animator->lastSprite[engineIndex] = oam;
+
+                GXOamAttr *first                     = animator->firstSprite[graphicsEngine];
+                animator->lastSprite[graphicsEngine] = oam;
                 if (first == NULL)
-                {
-                    animator->firstSprite[engineIndex] = oam;
-                }
+                    animator->firstSprite[graphicsEngine] = oam;
+
                 oam->attr0 = (currentSprite->attr0 & (ATTR0_MASK_NOT_Y)) | (yOAM & SPRITE_OAM_ATTR0_Y);
                 oam->attr0 |= flagAffine;
                 oam->attr1 = (currentSprite->attr1 & (ATTR1_MASK_NOT_X)) | (xOAM & SPRITE_OAM_ATTR1_X);
                 oam->attr1 ^= flagFlip;
+
                 if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
                 {
-                    oam->attr2 = (vramLocation[engineIndex] & SPRITE_OAM_ATTR2_NAME) | (animator->work.oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT)
-                                 | ((currentSprite->attr2 + paletteOffset[engineIndex]) & SPRITE_OAM_ATTR2_CPARAM);
+                    oam->attr2 = (vramLocation[graphicsEngine] & SPRITE_OAM_ATTR2_NAME) | (animator->work.oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT)
+                                 | ((currentSprite->attr2 + paletteOffset[graphicsEngine]) & SPRITE_OAM_ATTR2_CPARAM);
 
-                    vramLocation[engineIndex] += ((formatShapeTileCount[shape] + shiftMask[engineIndex]) >> shift[engineIndex]) << sp_18;
+                    vramLocation[graphicsEngine] += ((formatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
                 }
                 else
                 {
-                    oam->attr2 = ((currentSprite->attr2 + vramLocation[engineIndex]) & SPRITE_OAM_ATTR2_NAME) | (animator->work.oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT)
-                                 | ((currentSprite->attr2 + paletteOffset[engineIndex]) & SPRITE_OAM_ATTR2_CPARAM);
+                    oam->attr2 = ((currentSprite->attr2 + vramLocation[graphicsEngine]) & SPRITE_OAM_ATTR2_NAME) | (animator->work.oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT)
+                                 | ((currentSprite->attr2 + paletteOffset[graphicsEngine]) & SPRITE_OAM_ATTR2_CPARAM);
                 }
             }
         }
     }
 }
 
-RUSH_INLINE void CallAnimatorSpriteDrawFrameForEngine__RotoZoomVariant(AnimatorSpriteDS *animator, GraphicsEngine engineIndex)
+RUSH_INLINE void CallAnimatorSpriteDrawFrameForEngine__RotoZoomVariant(AnimatorSpriteDS *animator, GraphicsEngine graphicsEngine)
 {
-    animator->work.useEngineB     = engineIndex;
-    animator->work.pos.x          = animator->position[engineIndex].x;
-    animator->work.pos.y          = animator->position[engineIndex].y;
-    animator->work.pixelMode      = animator->pixelMode[engineIndex];
-    animator->work.vramPixels     = animator->vramPixels[engineIndex];
-    animator->work.paletteMode    = animator->paletteMode[engineIndex];
-    animator->work.vramPalette    = animator->vramPalette[engineIndex];
-    animator->work.cParam.palette = animator->cParam[engineIndex].palette;
+    animator->work.useEngineB     = graphicsEngine;
+    animator->work.pos.x          = animator->position[graphicsEngine].x;
+    animator->work.pos.y          = animator->position[graphicsEngine].y;
+    animator->work.pixelMode      = animator->pixelMode[graphicsEngine];
+    animator->work.vramPixels     = animator->vramPixels[graphicsEngine];
+    animator->work.paletteMode    = animator->paletteMode[graphicsEngine];
+    animator->work.vramPalette    = animator->vramPalette[graphicsEngine];
+    animator->work.cParam.palette = animator->cParam[graphicsEngine].palette;
     AnimatorSprite__DrawFrame(&animator->work);
 }
 
-RUSH_INLINE void CallAnimatorSpriteDrawFrameRotoZoomForEngine(AnimatorSpriteDS *animator, GraphicsEngine engineIndex, fx32 scaleX, fx32 scaleY, s32 rotation)
+RUSH_INLINE void CallAnimatorSpriteDrawFrameRotoZoomForEngine(AnimatorSpriteDS *animator, GraphicsEngine graphicsEngine, fx32 scaleX, fx32 scaleY, s32 rotation)
 {
-    animator->work.useEngineB     = engineIndex;
-    animator->work.pos.x          = animator->position[engineIndex].x;
-    animator->work.pos.y          = animator->position[engineIndex].y;
-    animator->work.pixelMode      = animator->pixelMode[engineIndex];
-    animator->work.vramPixels     = animator->vramPixels[engineIndex];
-    animator->work.paletteMode    = animator->paletteMode[engineIndex];
-    animator->work.vramPalette    = animator->vramPalette[engineIndex];
-    animator->work.cParam.palette = animator->cParam[engineIndex].palette;
+    animator->work.useEngineB     = graphicsEngine;
+    animator->work.pos.x          = animator->position[graphicsEngine].x;
+    animator->work.pos.y          = animator->position[graphicsEngine].y;
+    animator->work.pixelMode      = animator->pixelMode[graphicsEngine];
+    animator->work.vramPixels     = animator->vramPixels[graphicsEngine];
+    animator->work.paletteMode    = animator->paletteMode[graphicsEngine];
+    animator->work.vramPalette    = animator->vramPalette[graphicsEngine];
+    animator->work.cParam.palette = animator->cParam[graphicsEngine].palette;
     AnimatorSprite__DrawFrameRotoZoom(&animator->work, scaleX, scaleY, rotation);
-    animator->firstSprite[engineIndex] = animator->work.firstSprite;
-    animator->lastSprite[engineIndex]  = animator->work.lastSprite;
+    animator->firstSprite[graphicsEngine] = animator->work.firstSprite;
+    animator->lastSprite[graphicsEngine]  = animator->work.lastSprite;
 }
 
 // TODO: Lets call this "DrawFrameAffine"
@@ -1466,13 +1477,15 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
         HVFLIP             = 3,
         FLIP_VARIANT_COUNT = 4
     };
+
     enum
     {
         ANIMATORSPRITE_DRAWFRAME_HFLIP          = SPRITE_OAM_ATTR1_FLIP_X,
         ANIMATORSPRITE_DRAWFRAME_VFLIP          = SPRITE_OAM_ATTR1_FLIP_Y,
         ANIMATORSPRITE_DRAWFRAMEROTOZOOM_SCALE  = 0x200,
-        ANIMATORSPRITE_DRAWFRAMEROTOZOOM_MOSAIC = 0x1000,
+        ANIMATORSPRITE_DRAWFRAMEROTOZOOM_MOSAIC = SPRITE_OAM_ATTR0_MOSAIC,
     };
+
     typedef union
     {
         Vec2U16 v;
@@ -1505,7 +1518,7 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
     struct BACFrame *frame;
     GXOamAttr *currentOamAttr;
     MtxFx22 *ptrMatrixAffineParams;
-    s32 engineIndex;
+    s32 graphicsEngine;
 
 #define matrixRotationNoFlip matricesRotationAndScale[NO_FLIP]
 #define mtx22ParamsHFlip     matricesAffineParams[HFLIP]
@@ -1523,25 +1536,20 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
     animator->lastSprite[GRAPHICS_ENGINE_A] = animator->lastSprite[GRAPHICS_ENGINE_B] = NULL;
 
     if (animator->work.flags & ANIMATOR_FLAG_DISABLE_DRAW)
-    {
         return;
-    }
+
     if (frame->spriteCount == 0)
-    {
         return;
-    }
+
     if (Abs(scaleX) < MIN_SCALE_VALUE)
-    {
         return;
-    }
+
     if (Abs(scaleY) < MIN_SCALE_VALUE)
-    {
         return;
-    }
+
     if ((animator->flags & ANIMATORSPRITEDS_FLAG_DISABLE_AB) == ANIMATORSPRITEDS_FLAG_DISABLE_AB)
-    {
         return;
-    }
+
     if ((animator->work.flags & ANIMATOR_FLAG_FORCE_AFFINE) == 0)
     {
         s32 localSpriteCount = MT_MATH_MIN(frame->spriteCount, MAX_ANIMATOR_AFFINE_OAM_COUNT);
@@ -1553,6 +1561,7 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
             return;
         }
     }
+
     s32 screenDrawFlag = animator->flags & ANIMATORSPRITEDS_FLAG_DISABLE_AB;
     if (screenDrawFlag != ANIMATORSPRITEDS_FLAG_DISABLE_A)
     {
@@ -1580,6 +1589,7 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
         {
             scaleX += FLOAT_TO_FX32(0.03125);
         }
+
         if (scaleY > FLOAT_TO_FX32(0.0))
         {
             scaleY -= FLOAT_TO_FX32(0.03125);
@@ -1599,6 +1609,7 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
         {
             scaleX += FLOAT_TO_FX32(0.03515625);
         }
+
         if (scaleY > FLOAT_TO_FX32(0.0))
         {
             scaleY -= FLOAT_TO_FX32(0.03515625);
@@ -1618,22 +1629,19 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
     MTX_ScaleApply22(&matrixRotationNoFlip, &mtx22RotHVFlip, -scaleX, -scaleY);
     MTX_ScaleApply22(&matrixRotationNoFlip, &mtx22ParamsNoFlip, invScaleX, invScaleY);
     MTX_ScaleApply22(&matrixRotationNoFlip, &matrixRotationNoFlip, scaleX, scaleY);
+
     if ((animator->work.flags & ANIMATOR_FLAG_FLIP_X) != 0)
-    {
         flagFlip |= ANIMATORSPRITE_DRAWFRAME_HFLIP;
-    }
+
     if ((animator->work.flags & ANIMATOR_FLAG_FLIP_Y) != 0)
-    {
         flagFlip |= ANIMATORSPRITE_DRAWFRAME_VFLIP;
-    }
+
     if ((animator->work.flags & ANIMATOR_FLAG_ENABLE_MOSAIC) != 0)
-    {
         flagAffine |= ANIMATORSPRITE_DRAWFRAMEROTOZOOM_MOSAIC;
-    }
+
     if ((animator->work.flags & ANIMATOR_FLAG_ENABLE_SCALE) != 0)
-    {
         flagAffine |= ANIMATORSPRITE_DRAWFRAMEROTOZOOM_SCALE;
-    }
+
     flagAffine |= (animator->work.spriteType << SPRITE_OAM_ATTR0_MODE_SHIFT);
 
     paletteOffset[GRAPHICS_ENGINE_A] = animator->cParam[GRAPHICS_ENGINE_A].palette << SPRITE_OAM_ATTR2_CPARAM_SHIFT;
@@ -1646,19 +1654,24 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
     {
         u32 diffA                       = animator->vramPixels[GRAPHICS_ENGINE_A] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_A];
         vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (objBmpUse256K[GRAPHICS_ENGINE_A] + 7));
+
         u32 diffB                       = animator->vramPixels[GRAPHICS_ENGINE_B] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_B];
         vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (objBmpUse256K[GRAPHICS_ENGINE_B] + 7));
-        shift[GRAPHICS_ENGINE_A]        = objBmpUse256K[GRAPHICS_ENGINE_A];
-        shift[GRAPHICS_ENGINE_B]        = objBmpUse256K[GRAPHICS_ENGINE_B];
+
+        shift[GRAPHICS_ENGINE_A] = objBmpUse256K[GRAPHICS_ENGINE_A];
+        shift[GRAPHICS_ENGINE_B] = objBmpUse256K[GRAPHICS_ENGINE_B];
     }
     else
     {
         u32 diffA                       = animator->vramPixels[GRAPHICS_ENGINE_A] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_A];
         vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (objBankShift[GRAPHICS_ENGINE_A] + 5));
+
         u32 diffB                       = animator->vramPixels[GRAPHICS_ENGINE_B] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_B];
         vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (objBankShift[GRAPHICS_ENGINE_B] + 5));
-        shift[GRAPHICS_ENGINE_A]        = objBankShift[GRAPHICS_ENGINE_A];
-        shift[GRAPHICS_ENGINE_B]        = objBankShift[GRAPHICS_ENGINE_B];
+
+        shift[GRAPHICS_ENGINE_A] = objBankShift[GRAPHICS_ENGINE_A];
+        shift[GRAPHICS_ENGINE_B] = objBankShift[GRAPHICS_ENGINE_B];
+
         if (GetAnimHeaderBlockFromAnimator(&animator->work)->anims[animator->work.animID].format != BAC_FORMAT_PLTT16_2D)
         {
             shiftTileOffset = 1;
@@ -1703,33 +1716,35 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
         }
         ptrMatrixAffineParams            = &matricesAffineParams[mtx22AffineParamsIndexCurrentOAM];
         ptrArrayCacheAffineSpriteIndices = &cacheAffineSpriteIndicesBothEngines[mtx22AffineParamsIndexCurrentOAM];
-        for (engineIndex = 0; engineIndex < GRAPHICS_ENGINE_COUNT; engineIndex++)
+        for (graphicsEngine = GRAPHICS_ENGINE_A; graphicsEngine < GRAPHICS_ENGINE_COUNT; graphicsEngine++)
         {
-            xOAMEngine = baseX + animator->position[engineIndex].x;
-            yOAMEngine = baseY + animator->position[engineIndex].y;
+            xOAMEngine = baseX + animator->position[graphicsEngine].x;
+            yOAMEngine = baseY + animator->position[graphicsEngine].y;
             if ((animator->work.flags & ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK) && !SpriteDrawBoundsCheck(&sprite2DSize.v, xOAMEngine, yOAMEngine))
             {
                 if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
                 {
-                    vramLocation[engineIndex] += ((formatShapeTileCount[shape] + shiftMask[engineIndex]) >> shift[engineIndex]) << shiftTileOffset;
+                    vramLocation[graphicsEngine] += ((formatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
                 }
             }
             else
             {
-                affineSpriteIndex = ptrArrayCacheAffineSpriteIndices[engineIndex * FLIP_VARIANT_COUNT];
+                affineSpriteIndex = ptrArrayCacheAffineSpriteIndices[graphicsEngine * FLIP_VARIANT_COUNT];
                 BOOL addAffineOAMSuccess;
                 do
                 {
                     if (affineSpriteIndex < 0)
                     {
-                        affineSpriteIndex                                                  = OAMSystem__AddAffineSprite(engineIndex, ptrMatrixAffineParams);
-                        ptrArrayCacheAffineSpriteIndices[engineIndex * FLIP_VARIANT_COUNT] = affineSpriteIndex;
+                        affineSpriteIndex                                                     = OAMSystem__AddAffineSprite(graphicsEngine, ptrMatrixAffineParams);
+                        ptrArrayCacheAffineSpriteIndices[graphicsEngine * FLIP_VARIANT_COUNT] = affineSpriteIndex;
+
                         if (affineSpriteIndex < 0)
                         {
                             addAffineOAMSuccess = FALSE;
                             break;
                         }
-                        GXOamAffine *res = (GXOamAffine *)OAMSystem__GetList1(engineIndex);
+
+                        GXOamAffine *res = (GXOamAffine *)OAMSystem__GetList1(graphicsEngine);
                         res += affineSpriteIndex;
                         G2_SetOBJAffine(res, &matricesAffineParams[mtx22AffineParamsIndexCurrentOAM]);
                     }
@@ -1741,22 +1756,19 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
                 {
                     if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
                     {
-                        vramLocation[engineIndex] += ((formatShapeTileCount[shape] + shiftMask[engineIndex]) >> shift[engineIndex]) << shiftTileOffset;
+                        vramLocation[graphicsEngine] += ((formatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
                     }
                 }
                 else
                 {
-                    GXOamAttr *res = OAMSystem__Alloc(engineIndex, animator->work.oamOrder);
+                    GXOamAttr *res = OAMSystem__Alloc(graphicsEngine, animator->work.oamOrder);
                     if (&oamDefault == res)
-                    {
                         return;
-                    }
-                    GXOamAttr *firstSprite            = animator->firstSprite[engineIndex];
-                    animator->lastSprite[engineIndex] = res;
+
+                    GXOamAttr *firstSprite               = animator->firstSprite[graphicsEngine];
+                    animator->lastSprite[graphicsEngine] = res;
                     if (firstSprite == NULL)
-                    {
-                        animator->firstSprite[engineIndex] = res;
-                    }
+                        animator->firstSprite[graphicsEngine] = res;
 
                     u32 xOAMMasked = xOAMEngine & SPRITE_OAM_ATTR1_X;
                     res->attr0     = (currentOamAttr->attr0 & (ATTR0_MASK_NOT_Y)) | (yOAMEngine & SPRITE_OAM_ATTR0_Y) | SPRITE_OAM_EFFECT_AFFINE;
@@ -1765,15 +1777,16 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
                     res->attr1 = (res->attr1 & ~SPRITE_OAM_ATTR1_RSPARAM) | (affineSpriteIndex << SPRITE_OAM_ATTR1_AFFINE_SHIFT);
                     if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
                     {
-                        u32 tileOffsetAndOamPriority = (vramLocation[engineIndex] & SPRITE_OAM_ATTR2_NAME) | (animator->work.oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT);
-                        u32 colorParam               = (currentOamAttr->attr2 + paletteOffset[engineIndex]) & SPRITE_OAM_ATTR2_CPARAM;
+                        u32 tileOffsetAndOamPriority = (vramLocation[graphicsEngine] & SPRITE_OAM_ATTR2_NAME) | (animator->work.oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT);
+                        u32 colorParam               = (currentOamAttr->attr2 + paletteOffset[graphicsEngine]) & SPRITE_OAM_ATTR2_CPARAM;
                         res->attr2                   = tileOffsetAndOamPriority | colorParam;
-                        vramLocation[engineIndex] += ((u32)(formatShapeTileCount[shape] + shiftMask[engineIndex]) >> shift[engineIndex]) << shiftTileOffset;
+                        vramLocation[graphicsEngine] += ((u32)(formatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
                     }
                     else
                     {
-                        res->attr2 = ((currentOamAttr->attr2 + vramLocation[engineIndex]) & SPRITE_OAM_ATTR2_NAME) | (animator->work.oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT)
-                                     | ((currentOamAttr->attr2 + paletteOffset[engineIndex]) & SPRITE_OAM_ATTR2_CPARAM);
+                        res->attr2 = ((currentOamAttr->attr2 + vramLocation[graphicsEngine]) & SPRITE_OAM_ATTR2_NAME)
+                                     | (animator->work.oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT)
+                                     | ((currentOamAttr->attr2 + paletteOffset[graphicsEngine]) & SPRITE_OAM_ATTR2_CPARAM);
                     }
                 }
             }
@@ -3059,7 +3072,7 @@ BOOL Sprite__AnimateDS(AnimatorSpriteDS *animator, SpriteFrameCallback callback,
     MI_CpuCopy16(animator, tempAnimPtr, sizeof(tempAnim));
 
     AnimatorSprite *curAnimator = &animator->work;
-    for (u32 i = 0; i < 2; i++)
+    for (u32 i = GRAPHICS_ENGINE_A; i < GRAPHICS_ENGINE_COUNT; i++)
     {
         if ((animator->flags & (1 << i)) == 0)
         {
