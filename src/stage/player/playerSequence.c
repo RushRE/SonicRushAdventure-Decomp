@@ -1426,10 +1426,8 @@ void Player__Action_RotatingHanger(Player *player, GameObjectTask *hanger, fx32 
     SetTaskState(&player->objWork, Player__State_RotatingHanger);
 }
 
-NONMATCH_FUNC void Player__State_RotatingHanger(Player *work)
+void Player__State_RotatingHanger(Player *work)
 {
-    // https://decomp.me/scratch/CFcqm -> 94.49%
-#ifdef NON_MATCHING
     if (work->gimmickObj != NULL)
     {
         s32 spinDir;
@@ -1498,14 +1496,14 @@ NONMATCH_FUNC void Player__State_RotatingHanger(Player *work)
 
     if (work->gimmickObj == NULL || (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
     {
-        s32 offset = FLOAT_DEG_TO_IDX(45.0);
-        if (work->objWork.dir.y == FLOAT_DEG_TO_IDX(0.0))
-            offset = -offset;
-        u16 angle = (u16)work->gimmick.value3 + FLOAT_DEG_TO_IDX(180.0) + offset;
+        s32 offset = (work->objWork.dir.y == FLOAT_DEG_TO_IDX(0.0)) ? FLOAT_DEG_TO_IDX(-45.0) : FLOAT_DEG_TO_IDX(45.0);
+        s32 angle  = (u16)((u16)work->gimmick.value3 + FLOAT_DEG_TO_IDX(180.0) + offset);
 
         StopPlayerSfx(work, PLAYER_SEQPLAYER_COMMON);
 
-        fx32 force              = work->gimmick.value2;
+        fx32 force              = work->gimmick.value2 * 16;
+        fx32 velX               = MultiplyFX(force, CosFX(angle));
+        fx32 velY               = MultiplyFX(force, SinFX(angle));
         work->objWork.groundVel = 0;
         work->objWork.dir.y     = 0;
         work->objWork.dir.z     = 0;
@@ -1513,256 +1511,13 @@ NONMATCH_FUNC void Player__State_RotatingHanger(Player *work)
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
         work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
 
-        force *= 16;
-        fx32 velX = MultiplyFX(force, CosFX(angle));
-        fx32 velY = MultiplyFX(force, SinFX(angle));
         work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         work->playerFlag &= ~(PLAYER_FLAG_DISABLE_CAMERA_OFFSET | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
-        work->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_XY | PLAYER_GIMMICK_CHECK_SUPERBOOST_END_DURING_GIMMICK);
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X | PLAYER_GIMMICK_CHECK_SUPERBOOST_END_DURING_GIMMICK);
         Player__Gimmick_201B418(work, velX, velY, TRUE);
         work->objWork.userTimer = 5;
         work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r5, r0
-	ldr r0, [r5, #0x6d8]
-	cmp r0, #0
-	beq _0201D1E4
-	ldrh r0, [r5, #0x32]
-	cmp r0, #0
-	ldr r0, [r5, #0x6f8]
-	beq _0201CFE0
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r1, #0
-	cmp r0, #0x4000
-	bls _0201CFD8
-	cmp r0, #0xc000
-	movls r1, #1
-_0201CFD8:
-	mov r4, #1
-	b _0201D000
-_0201CFE0:
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r1, #1
-	cmp r0, #0x4000
-	bls _0201CFFC
-	cmp r0, #0xc000
-	movls r1, #0
-_0201CFFC:
-	mvn r4, #0
-_0201D000:
-	cmp r1, #0
-	beq _0201D020
-	ldr r2, [r5, #0x6f4]
-	ldr r0, [r5, #0xc8]
-	mov r1, r2, asr #5
-	bl ObjSpdUpSet
-	str r0, [r5, #0xc8]
-	b _0201D044
-_0201D020:
-	ldr r1, [r5, #0x6f4]
-	ldr r0, [r5, #0xc8]
-	mov r1, r1, asr #5
-	bl ObjSpdDownSet
-	str r0, [r5, #0xc8]
-	ldr r1, [r5, #0x6f4]
-	cmp r0, r1, asr #1
-	mov r0, r1, asr #1
-	strlt r0, [r5, #0xc8]
-_0201D044:
-	ldr r2, [r5, #0x6f8]
-	ldr r1, [r5, #0xc8]
-	mov r0, r2, lsl #0x10
-	mla r1, r4, r1, r2
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	str r1, [r5, #0x6f8]
-	ldrh r2, [r5, #0x32]
-	mov r1, r0, lsr #0x10
-	cmp r2, #0
-	beq _0201D084
-	cmp r1, #0x8000
-	bhs _0201D084
-	ldr r0, [r5, #0x6f8]
-	cmp r0, #0x8000
-	bge _0201D0A0
-_0201D084:
-	cmp r2, #0
-	bne _0201D0C8
-	cmp r1, #0x8000
-	bhs _0201D0C8
-	ldr r0, [r5, #0x6f8]
-	cmp r0, #0x8000
-	ble _0201D0C8
-_0201D0A0:
-	mov r4, #0x4d
-	sub r1, r4, #0x4e
-	add r0, r5, #0x254
-	mov r2, #0
-	str r2, [sp]
-	mov r2, r1
-	mov r3, r1
-	add r0, r0, #0x400
-	str r4, [sp, #4]
-	bl PlaySfxEx
-_0201D0C8:
-	ldrh r0, [r5, #0x32]
-	cmp r0, #0
-	ldr r0, [r5, #0x6f8]
-	beq _0201D0E8
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	add r0, r0, #0xc000
-	b _0201D0F8
-_0201D0E8:
-	rsb r0, r0, #0
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	add r0, r0, #0x4000
-_0201D0F8:
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, asr #8
-	add r0, r0, r0, lsl #2
-	mov r1, r0, lsl #0x10
-	mov r0, r5
-	mov r1, r1, asr #8
-	bl Player__SetAnimFrame
-	ldr r1, [r5, #0x44]
-	ldr r0, =FX_SinCosTable_
-	str r1, [r5, #0x8c]
-	ldr r1, [r5, #0x48]
-	str r1, [r5, #0x90]
-	ldr r2, [r5, #0x6f8]
-	ldr r1, [r5, #0x6d8]
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, asr #4
-	mov r2, r2, lsl #1
-	add r2, r2, #1
-	mov r2, r2, lsl #1
-	ldrsh r2, [r0, r2]
-	ldr r3, [r5, #0x6f0]
-	ldr r4, [r1, #0x44]
-	smull r2, r1, r3, r2
-	adds r2, r2, #0x800
-	adc r1, r1, #0
-	mov r2, r2, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	add r1, r4, r2
-	str r1, [r5, #0x44]
-	ldr r1, [r5, #0x6f8]
-	ldr r2, [r5, #0x6d8]
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r1, r1, lsl #2
-	ldrsh r0, [r0, r1]
-	ldr r1, [r5, #0x6f0]
-	ldr r3, [r2, #0x48]
-	smull r2, r0, r1, r0
-	adds r1, r2, #0x800
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	add r0, r3, r1
-	str r0, [r5, #0x48]
-	ldr r1, [r5, #0x44]
-	ldr r0, [r5, #0x8c]
-	sub r0, r1, r0
-	str r0, [r5, #0xbc]
-	ldr r1, [r5, #0x48]
-	ldr r0, [r5, #0x90]
-	sub r0, r1, r0
-	str r0, [r5, #0xc0]
-_0201D1E4:
-	ldr r0, [r5, #0x6d8]
-	cmp r0, #0
-	beq _0201D204
-	add r0, r5, #0x700
-	ldrh r0, [r0, #0x22]
-	tst r0, #3
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-_0201D204:
-	ldrh r0, [r5, #0x32]
-	mov r2, #0x2000
-	add r1, r5, #0x254
-	cmp r0, #0
-	ldr r0, [r5, #0x6f8]
-	rsbeq r2, r2, #0
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	add r0, r0, #0x8000
-	add r0, r0, r2
-	mov r2, r0, lsl #0x10
-	add r0, r1, #0x400
-	mov r1, #0
-	mov r4, r2, lsr #0x10
-	bl NNS_SndPlayerStopSeq
-	ldr ip, [r5, #0x6f4]
-	mov r1, #0
-	str r1, [r5, #0xc8]
-	mov r0, r4, lsl #0x10
-	strh r1, [r5, #0x32]
-	mov r0, r0, lsr #0x10
-	strh r1, [r5, #0x34]
-	mov r0, r0, asr #4
-	str r1, [r5, #0x6d8]
-	mov r4, r0, lsl #1
-	ldr r1, [r5, #0x1c]
-	add r0, r4, #1
-	orr r3, r1, #0xc0
-	mov r1, r0, lsl #1
-	ldr r2, =FX_SinCosTable_
-	mov r0, r4, lsl #1
-	bic r3, r3, #0x6100
-	str r3, [r5, #0x1c]
-	ldrsh r1, [r2, r1]
-	mov ip, ip, lsl #4
-	ldrsh r0, [r2, r0]
-	smull r2, r1, ip, r1
-	ldr r4, [r5, #0x18]
-	adds r3, r2, #0x800
-	bic r2, r4, #2
-	str r2, [r5, #0x18]
-	smull r0, r2, ip, r0
-	adc ip, r1, #0
-	adds r4, r0, #0x800
-	mov r1, r3, lsr #0xc
-	adc r3, r2, #0
-	mov r2, r4, lsr #0xc
-	orr r2, r2, r3, lsl #20
-	ldr lr, [r5, #0x5d8]
-	ldr r0, =0xFFEFDFFF
-	orr r1, r1, ip, lsl #20
-	and r0, lr, r0
-	str r0, [r5, #0x5d8]
-	ldr r0, [r5, #0x5dc]
-	mov r3, #1
-	bic r4, r0, #0x38
-	mov r0, r5
-	str r4, [r5, #0x5dc]
-	bl Player__Gimmick_201B418
-	mov r0, #5
-	str r0, [r5, #0x2c]
-	ldr r0, [r5, #0x1c]
-	bic r0, r0, #0x80
-	str r0, [r5, #0x1c]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
 }
 
 void Player__Action_SwingRope(Player *player, GameObjectTask *swingRope, s32 radius, s32 angleOffset)
