@@ -24,51 +24,27 @@ void AkMath__Func_2002C98(s32 radiusX, s32 radiusY, fx32 *x, fx32 *y, u16 angle)
     *y = MultiplyFX(radiusX, SinFX(angle)) + MultiplyFX(radiusY, CosFX(angle));
 }
 
-NONMATCH_FUNC u16 AkMath__Func_2002D28(u16 angle, u16 targetAngle, s16 percent)
+u16 AkMath__Func_2002D28(u16 angle, u16 targetAngle, s16 percent)
 {
-    // https://decomp.me/scratch/ay6vo -> 61.11%
-#ifdef NON_MATCHING
+    u16 angleDist;
+
     if (angle == targetAngle)
         return targetAngle;
 
-    u16 angleDist;
     if (percent >= 0)
         angleDist = targetAngle - angle;
     else
         angleDist = angle - targetAngle;
-    
+
     if (angleDist > MATH_ABS(percent))
     {
-        angle += percent;
-
-        targetAngle = angle;
+        angle = angle + percent;
     }
-    
-    return targetAngle;
-#else
-    // clang-format off
-	cmp r0, r1
-	moveq r0, r1
-	bxeq lr
-	cmp r2, #0
-	subge r3, r1, r0
-	sublt r3, r0, r1
-	mov r3, r3, lsl #0x10
-	cmp r2, #0
-	rsblt ip, r2, #0
-	mov r3, r3, lsr #0x10
-	movge ip, r2
-	cmp r3, ip
-	ble _02002D68
-	add r0, r0, r2
-	mov r0, r0, lsl #0x10
-	mov r1, r0, lsr #0x10
-_02002D68:
-	mov r0, r1
-	bx lr
-
-// clang-format on
-#endif
+    else
+    {
+        angle = targetAngle;
+    }
+    return angle;
 }
 
 NONMATCH_FUNC void AkMath__BlendColors(GXRgb *colorPtr, GXRgb inputColor1, GXRgb inputColor2, s32 id, s32 count)
