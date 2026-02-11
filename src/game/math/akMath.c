@@ -2,6 +2,16 @@
 #include <game/math/mtMath.h>
 
 // --------------------
+// INLINE FUNCTIONS
+// --------------------
+
+RUSH_INLINE s16 CP_GetDivResult16()
+{
+    CP_WaitDiv(); 
+    return (s16)(*(REGType16 *)REG_DIV_RESULT_ADDR);
+}
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
@@ -47,92 +57,47 @@ u16 AkMath__Func_2002D28(u16 angle, u16 targetAngle, s16 percent)
     return angle;
 }
 
-NONMATCH_FUNC void AkMath__BlendColors(GXRgb *colorPtr, GXRgb inputColor1, GXRgb inputColor2, s32 id, s32 count)
+void AkMath__BlendColors(GXRgb *colorPtr, GXRgb inputColor0, GXRgb inputColor1, s32 count, s32 id)
 {
-    // https://decomp.me/scratch/lajbm -> 33.93%
-#ifdef NON_MATCHING
-    CP_SetDiv32_32(((inputColor2 & GX_RGB_R_MASK) >> GX_RGB_R_SHIFT) * id + ((inputColor1 & GX_RGB_R_MASK) >> GX_RGB_R_SHIFT) * (count - id), count);
-    *colorPtr = (u16)(((u16)CP_GetDivResult32() << GX_RGB_R_SHIFT) & GX_RGB_R_MASK);
+    s32 diff;
+    s32 r0;
+    s32 r1;
+    s32 b0;
+    s32 b1;
+    s32 g0;
+    s32 g1;
+    s32 finalR;
+    u16 finalG;
+    u16 finalB;
+    
+    diff = count - id;
 
-    CP_SetDiv32_32(((inputColor2 & GX_RGB_G_MASK) >> GX_RGB_G_SHIFT) * id + ((inputColor1 & GX_RGB_G_MASK) >> GX_RGB_G_SHIFT) * (count - id), count);
-    *colorPtr |= (u16)(((u16)CP_GetDivResult32() << GX_RGB_G_SHIFT) & GX_RGB_G_MASK);
+    // red
+    r1 = (inputColor1 & GX_RGB_R_MASK) * id;
+    r0 = (inputColor0 & GX_RGB_R_MASK) * diff;
+    r0 += r1;
 
-    CP_SetDiv32_32(((inputColor2 & GX_RGB_B_MASK) >> GX_RGB_B_SHIFT) * id + ((inputColor1 & GX_RGB_B_MASK) >> GX_RGB_B_SHIFT) * (count - id), count);
-    *colorPtr |= (u16)(((u16)CP_GetDivResult32() << GX_RGB_B_SHIFT) & GX_RGB_B_MASK);
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	ldr r6, [sp, #0x20]
-	and r4, r2, #0x1f
-	mul r8, r4, r6
-	and r4, r2, #0x3e0
-	mov r4, r4, asr #5
-	mul r5, r4, r6
-	and r7, r1, #0x3e0
-	sub lr, r3, r6
-	and r4, r1, #0x1f
-	mla r8, r4, lr, r8
-	mov r7, r7, asr #5
-	mla r4, r7, lr, r5
-	ldr ip, =0x04000280
-	mov r5, #0
-	strh r5, [ip]
-	str r8, [ip, #0x10]
-	str r3, [ip, #0x18]
-	str r5, [ip, #0x1c]
-_02002DBC:
-	ldrh r7, [ip]
-	tst r7, #0x8000
-	bne _02002DBC
-	and r2, r2, #0x7c00
-	mov r2, r2, asr #0xa
-	mul r6, r2, r6
-	ldr r2, =0x040002A0
-	and r1, r1, #0x7c00
-	mov r7, r1, asr #0xa
-	mla r1, r7, lr, r6
-	ldrsh r9, [r2, #0]
-	mov r8, #0
-	sub r7, r2, #0x20
-	strh r8, [ip]
-	str r4, [r2, #-0x10]
-	sub r4, r2, #8
-	mov r6, r9, lsl #0x10
-	stmia r4, {r3, r5}
-	mov r4, r6, lsr #0x10
-_02002E08:
-	ldrh r2, [r7, #0]
-	tst r2, #0x8000
-	bne _02002E08
-	ldr lr, =0x040002A0
-	mov r2, #0
-	ldrsh ip, [lr]
-	sub r6, lr, #8
-	and r4, r4, #0x1f
-	strh r2, [r7]
-	str r1, [lr, #-0x10]
-	mov r2, ip, lsl #0x10
-	mov r1, r2, lsr #0xb
-	and r1, r1, #0x3e0
-	stmia r6, {r3, r5}
-	orr r1, r4, r1
-	strh r1, [r0]
-	sub r2, lr, #0x20
-_02002E4C:
-	ldrh r1, [r2, #0]
-	tst r1, #0x8000
-	bne _02002E4C
-	ldr r1, =0x040002A0
-	ldrh r2, [r0, #0]
-	ldrsh r1, [r1, #0]
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #6
-	and r1, r1, #0x7c00
-	mov r1, r1, lsl #0x10
-	orr r1, r2, r1, lsr #16
-	strh r1, [r0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+    // green
+    g0 = ((inputColor1 & GX_RGB_G_MASK) >> GX_RGB_G_SHIFT) * id;
+    g1 = ((inputColor0 & GX_RGB_G_MASK) >> GX_RGB_G_SHIFT) * diff;
+    g1 += g0;
+    
+    CP_SetDiv32_32(r0, count);
+    finalR = (u16)CP_GetDivResult16();
+    finalR &= GX_RGB_R_MASK;
+    
+    CP_SetDiv32_32(g1, count);
+    
+    // blue
+    b0 = ((inputColor1 & GX_RGB_B_MASK) >> GX_RGB_B_SHIFT) * id;
+    b1 = ((inputColor0 & GX_RGB_B_MASK) >> GX_RGB_B_SHIFT) * diff;
+    b1 += b0;
 
-// clang-format on
-#endif
+    finalG = CP_GetDivResult16();
+    CP_SetDiv32_32(b1, count);
+    
+    *colorPtr = finalR | ((finalG << GX_RGB_G_SHIFT) & GX_RGB_G_MASK);
+    finalB = CP_GetDivResult16();
+    
+    *colorPtr |= (u16)(finalB << GX_RGB_B_SHIFT & GX_RGB_B_MASK);
 }
