@@ -21,7 +21,7 @@ CorkscrewPath *CreateCorkscrewPath(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    if ((mapObject->flags & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) != 0)
+    if ((mapObject->flags & CORKSCREWPATH_OBJFLAG_LEFTWARDS) != 0)
         ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -16, -8, -4, 0); // vertical corkscrew path
     else
         ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, 4, -8, 16, 0); // horizontal corkscrew path
@@ -41,9 +41,9 @@ void CorkscrewPath_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     CorkscrewPath *corkscrewPath = (CorkscrewPath *)rect2->parent;
 
-    u16 type             = 0;
+    u16 type             = CORKSCREWVERTICALPATH_TYPE_RUSH_LEAF_STORM_2;
     MapObject *mapObject = corkscrewPath->gameWork.mapObject;
-    u16 flags            = mapObject->flags & ~CORKSCREWPATH_OBJFLAG_80;
+    u16 flags            = mapObject->flags & ~CORKSCREWPATH_OBJFLAG_RAIL_CORKSCREW;
 
     if (mapObject->id == MAPOBJECT_105)
         flags |= (mapObject->left << 2);
@@ -54,23 +54,22 @@ void CorkscrewPath_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     {
         fx32 threshold = player->spdThresholdRun;
         fx32 speed     = player->objWork.groundVel;
-        if ((mapObject->flags & CORKSCREWPATH_OBJFLAG_80) != 0)
+        if ((mapObject->flags & CORKSCREWPATH_OBJFLAG_RAIL_CORKSCREW) != 0)
             threshold = FLOAT_TO_FX32(0.0);
 
-        if (speed >= threshold && (mapObject->flags & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) == 0
-            || speed <= -threshold && (mapObject->flags & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) != 0)
+        if (speed >= threshold && (mapObject->flags & CORKSCREWPATH_OBJFLAG_LEFTWARDS) == 0 || speed <= -threshold && (mapObject->flags & CORKSCREWPATH_OBJFLAG_LEFTWARDS) != 0)
         {
             if (mapObject->id == MAPOBJECT_105)
             {
                 flags |= CORKSCREWPATH_TYPE_VERTICAL << CORKSCREWPATH_OBJFLAG_TYPE_SHIFT;
                 if (mapObject->top == 1)
-                    type = 1;
+                    type = CORKSCREWVERTICALPATH_TYPE_SKY_BABYLON;
             }
 
-            if ((mapObject->flags & CORKSCREWPATH_OBJFLAG_80) != 0)
-                flags |= CORKSCREWPATH_TYPE_2 << CORKSCREWPATH_OBJFLAG_TYPE_SHIFT;
+            if ((mapObject->flags & CORKSCREWPATH_OBJFLAG_RAIL_CORKSCREW) != 0)
+                flags |= CORKSCREWPATH_TYPE_HORIZONTAL_RAIL << CORKSCREWPATH_OBJFLAG_TYPE_SHIFT;
 
-            if ((mapObject->flags & CORKSCREWPATH_OBJFLAG_80) != 0)
+            if ((mapObject->flags & CORKSCREWPATH_OBJFLAG_RAIL_CORKSCREW) != 0)
             {
                 if (player->actionState >= PLAYER_ACTION_GRIND && player->actionState <= PLAYER_ACTION_GRINDTRICK_3_03
                     || player->actionState >= PLAYER_ACTION_GRIND_SNOWBOARD && player->actionState <= PLAYER_ACTION_GRINDTRICK_SNOWBOARD_3_03)

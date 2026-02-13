@@ -525,7 +525,7 @@ u16 Player__CheckOnCorkscrewPath(Player *player)
         return FALSE;
 }
 
-void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 flags, u16 type)
+void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 flags, u16 verticalPathType)
 {
     if (!Player__CheckOnCorkscrewPath(player))
     {
@@ -537,14 +537,14 @@ void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 flags, u16
         s32 pathType = (flags >> CORKSCREWPATH_OBJFLAG_TYPE_SHIFT);
         if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
         {
-            if (pathType != CORKSCREWPATH_TYPE_2 && player->actionState != PLAYER_ACTION_ROLL)
+            if (pathType != CORKSCREWPATH_TYPE_HORIZONTAL_RAIL && player->actionState != PLAYER_ACTION_ROLL)
             {
                 Player__HandleStartWalkAnimation(player);
             }
         }
         else
         {
-            if (pathType != CORKSCREWPATH_TYPE_2 && player->actionState != PLAYER_ACTION_WALK_SNOWBOARD)
+            if (pathType != CORKSCREWPATH_TYPE_HORIZONTAL_RAIL && player->actionState != PLAYER_ACTION_WALK_SNOWBOARD)
             {
                 Player__ChangeAction(player, PLAYER_ACTION_WALK_SNOWBOARD);
                 ChangePlayerSnowboardAction(player, PLAYERSNOWBOARD_ACTION_WALK);
@@ -558,11 +558,11 @@ void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 flags, u16
         player->gimmick.corkscrewPath.x        = x;
         player->gimmick.corkscrewPath.y        = y;
         player->gimmick.corkscrewPath.pathType = pathType;
-        player->gimmick.corkscrewPath.type     = type;
+        player->gimmick.corkscrewPath.type     = verticalPathType;
         player->objWork.userWork               = flags & CORKSCREWPATH_OBJFLAG_FLAG_MASK;
         player->objWork.userTimer              = 0;
 
-        if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) != 0)
+        if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_LEFTWARDS) != 0)
         {
             if (player->gimmick.corkscrewPath.x > player->objWork.position.x)
             {
@@ -581,12 +581,12 @@ void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 flags, u16
 
         if (player->gimmick.corkscrewPath.pathType == CORKSCREWPATH_TYPE_VERTICAL)
         {
-            if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_2) == 0)
+            if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) == 0)
                 player->gimmick.corkscrewPath.y -= FLOAT_TO_FX32(4.0);
         }
         else
         {
-            player->objWork.userWork |= CORKSCREWPATH_OBJFLAG_2;
+            player->objWork.userWork |= CORKSCREWPATH_OBJFLAG_UPWARDS;
         }
 
         SetTaskState(&player->objWork, Player__State_CorkscrewPath);
@@ -596,7 +596,7 @@ void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 flags, u16
 
 void Player__State_CorkscrewPath(Player *work)
 {
-    if (work->gimmick.corkscrewPath.pathType != CORKSCREWPATH_TYPE_2)
+    if (work->gimmick.corkscrewPath.pathType != CORKSCREWPATH_TYPE_HORIZONTAL_RAIL)
     {
         if (MATH_ABS(work->objWork.groundVel) < work->spdThresholdJog && Player__HandleFallOffSurface(work))
         {
@@ -609,7 +609,7 @@ void Player__State_CorkscrewPath(Player *work)
 
     if ((work->inputKeyPress & PAD_BUTTON_A) != 0 && work->actionJump != NULL)
     {
-        if (work->gimmick.corkscrewPath.pathType == CORKSCREWPATH_TYPE_2)
+        if (work->gimmick.corkscrewPath.pathType == CORKSCREWPATH_TYPE_HORIZONTAL_RAIL)
             work->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
 
         work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
@@ -624,7 +624,7 @@ void Player__State_CorkscrewPath(Player *work)
     }
     else
     {
-        if ((work->objWork.userWork & CORKSCREWPATH_OBJFLAG_2) != 0)
+        if ((work->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) != 0)
             work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
         if ((work->objWork.moveFlag & (STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR)) != 0)
@@ -641,7 +641,7 @@ void Player__State_CorkscrewPath(Player *work)
             work->objWork.velocity.x = work->objWork.groundVel;
             Player__Action_LandOnGround(work, 0);
 
-            if (work->gimmick.corkscrewPath.pathType == CORKSCREWPATH_TYPE_2)
+            if (work->gimmick.corkscrewPath.pathType == CORKSCREWPATH_TYPE_HORIZONTAL_RAIL)
                 Player__Action_Grind(work);
             else
                 work->actionGroundIdle(work);
@@ -650,7 +650,7 @@ void Player__State_CorkscrewPath(Player *work)
         }
     }
 
-    if (work->gimmick.corkscrewPath.pathType != CORKSCREWPATH_TYPE_2)
+    if (work->gimmick.corkscrewPath.pathType != CORKSCREWPATH_TYPE_HORIZONTAL_RAIL)
     {
         if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
         {
@@ -669,13 +669,13 @@ void Player__State_CorkscrewPath(Player *work)
             break;
 
         case CORKSCREWPATH_TYPE_VERTICAL:
-            if (work->gimmick.corkscrewPath.type == 0)
+            if (work->gimmick.corkscrewPath.type == CORKSCREWVERTICALPATH_TYPE_RUSH_LEAF_STORM_2)
                 Player__HandleCorkscrewPathV(work, 0x21E520, 84, 128, 0x83F00, 128, 32);
             else
                 Player__HandleCorkscrewPathV(work, 0x13C030, 40, 192, 327680, 64, 50);
             break;
 
-        case CORKSCREWPATH_TYPE_2:
+        case CORKSCREWPATH_TYPE_HORIZONTAL_RAIL:
             Player__HandleCorkscrewPathH(work, 0x13D9D0, 256, 30);
             break;
     }
