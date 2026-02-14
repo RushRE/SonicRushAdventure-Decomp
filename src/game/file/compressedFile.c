@@ -1,6 +1,31 @@
 #include <game/file/compressedFile.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum CompressedFileFlags_
+{
+    COMPRESSEDFILE_FLAG_NONE = 0x00,
+
+    COMPRESSEDFILE_FLAG_USE_8_BIT_UNITS = 1 << 0,
+    COMPRESSEDFILE_FLAG_DO_CACHE_WRITE = 1 << 1,
+};
+typedef u8 CompressedFileFlags;
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static BOOL CompressedFile__IsVISFile(void *memory);
+static u8 CompressedFile__GetVisCompressCount(void *memory);
+static size_t CompressedFile__GetUnknownSize(void *memory);
+static void *CompressedFile__GetCompressedDataPtr(void *memory);
+static void *CompressedFile__AllocateMemIfNeeded(void *memory, size_t size);
+static void CompressedFile__HandleDecompression2(void *src, void *dst, CompressedFileFlags flags);
+static void CompressedFile__HandleDecompression(void *src, void *dst, CompressedFileFlags flags);
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
@@ -15,7 +40,7 @@ NONMATCH_FUNC void *CompressedFile__Decompress(void *src, void *dst, void *buffe
     void *memory = CompressedFile__AllocateMemIfNeeded(dst, size);
 
     size_t ptr[2];
-    if (CompressedFile__IsVisAnim(src))
+    if (CompressedFile__IsVISFile(src))
     {
         count = CompressedFile__GetVisCompressCount(src);
         if (count > 1)
@@ -30,19 +55,19 @@ NONMATCH_FUNC void *CompressedFile__Decompress(void *src, void *dst, void *buffe
 
     if (count == 0)
     {
-        RenderCore_CPUCopy(CompressedFile__GetUnknown2Size(src), memory, size);
+        RenderCore_CPUCopy(CompressedFile__GetCompressedDataPtr(src), memory, size);
     }
     else
     {
         if ((count & 1) != 0)
         {
-            CompressedFile__HandleDecompression2(CompressedFile__GetUnknown2Size(src), memory, 2);
+            CompressedFile__HandleDecompression2(CompressedFile__GetCompressedDataPtr(src), memory, 2);
             ptr[1] = (size_t)memory;
             ptr[0] = (size_t)buffer;
         }
         else
         {
-            CompressedFile__HandleDecompression2(CompressedFile__GetUnknown2Size(src), buffer, 2);
+            CompressedFile__HandleDecompression2(CompressedFile__GetCompressedDataPtr(src), buffer, 2);
             ptr[1] = (size_t)buffer;
             ptr[0] = (size_t)memory;
         }
@@ -50,7 +75,7 @@ NONMATCH_FUNC void *CompressedFile__Decompress(void *src, void *dst, void *buffe
 
     for (u32 i = count - 1; i > 0; i--)
     {
-        CompressedFile__HandleDecompression2(CompressedFile__GetUnknown2Size((void *)ptr[1]), (void *)ptr[0], 2);
+        CompressedFile__HandleDecompression2(CompressedFile__GetCompressedDataPtr((void *)ptr[1]), (void *)ptr[0], 2);
 
         MTM_MATH_SWAP(ptr[0], ptr[1]);
     }
@@ -77,7 +102,7 @@ NONMATCH_FUNC void *CompressedFile__Decompress(void *src, void *dst, void *buffe
 	bl CompressedFile__AllocateMemIfNeeded
 	mov r10, r0
 	mov r0, r4
-	bl CompressedFile__IsVisAnim
+	bl CompressedFile__IsVISFile
 	cmp r0, #0
 	beq _0205B76C
 	mov r0, r4
@@ -100,7 +125,7 @@ _0205B76C:
 	cmp r8, #0
 	bne _0205B78C
 	mov r0, r4
-	bl CompressedFile__GetUnknown2Size
+	bl CompressedFile__GetCompressedDataPtr
 	mov r1, r10
 	mov r2, r11
 	bl RenderCore_CPUCopy
@@ -109,7 +134,7 @@ _0205B78C:
 	tst r8, #1
 	mov r0, r4
 	beq _0205B7B4
-	bl CompressedFile__GetUnknown2Size
+	bl CompressedFile__GetCompressedDataPtr
 	mov r1, r10
 	mov r2, #2
 	bl CompressedFile__HandleDecompression2
@@ -117,7 +142,7 @@ _0205B78C:
 	str r9, [sp]
 	b _0205B7CC
 _0205B7B4:
-	bl CompressedFile__GetUnknown2Size
+	bl CompressedFile__GetCompressedDataPtr
 	mov r1, r9
 	mov r2, #2
 	bl CompressedFile__HandleDecompression2
@@ -131,7 +156,7 @@ _0205B7CC:
 	add r5, sp, #4
 	add r4, sp, #0
 _0205B7E4:
-	bl CompressedFile__GetUnknown2Size
+	bl CompressedFile__GetCompressedDataPtr
 	ldr r1, [sp]
 	mov r2, r6
 	bl CompressedFile__HandleDecompression2
@@ -162,49 +187,37 @@ _0205B82C:
 #endif
 }
 
-BOOL CompressedFile__IsVisAnim(void *memory)
+BOOL CompressedFile__IsVISFile(void *memory)
 {
-    return ((NNSG3dResAnmSet *)memory)->header.kind == '\0SIV';
+    return ((CompressedVISFileHeader *)memory)->signature == '\0SIV';
 }
 
 u8 CompressedFile__GetVisCompressCount(void *memory)
 {
-    return (16 * ((NNSG3dResAnmSet *)memory)->header.size) >> 28;
+    return ((CompressedVISFileHeader *)memory)->unknownCount;
 }
 
 size_t CompressedFile__GetCompressedSize(void *memory)
 {
-    size_t size;
-
-    if (CompressedFile__IsVisAnim(memory))
-        size = ((NNSG3dResAnmSet *)memory)->header.size << 8;
-    else
-        size = *((u32 *)memory);
-
-    return size >> 8;
+    if (CompressedFile__IsVISFile(memory))
+        return ((CompressedVISFileHeader *)memory)->destSize;
+        
+    return ((MICompressionHeader *)memory)->destSize;
 }
 
 size_t CompressedFile__GetUnknownSize(void *memory)
 {
-    if (CompressedFile__IsVisAnim(memory))
-    {
-        // TODO: figure out what struct this is
-        u32 size = (*(s32 *)((u8 *)memory + 8)) << 8;
-
-        return size >> 8;
-    }
-
+    if (CompressedFile__IsVISFile(memory))
+        return ((CompressedVISFileHeader*)memory)->unknownSize;
+    
     return 0;
 }
 
-void *CompressedFile__GetUnknown2Size(void *memory)
+void *CompressedFile__GetCompressedDataPtr(void *memory)
 {
     void *ptr = memory;
-    if (CompressedFile__IsVisAnim(memory))
-    {
-        // TODO: figure out what struct this is
-        ptr += 12;
-    }
+    if (CompressedFile__IsVISFile(memory))
+        ptr = ((CompressedVISFileHeader*)memory)->data;
 
     return ptr;
 }
@@ -224,17 +237,17 @@ void *CompressedFile__AllocateMemIfNeeded(void *memory, size_t size)
     }
 }
 
-void CompressedFile__HandleDecompression2(void *src, void *dst, u8 flags)
+void CompressedFile__HandleDecompression2(void *src, void *dst, CompressedFileFlags flags)
 {
     CompressedFile__HandleDecompression(src, dst, flags);
 }
 
-void CompressedFile__HandleDecompression(void *src, void *dst, u8 flags)
+void CompressedFile__HandleDecompression(void *src, void *dst, CompressedFileFlags flags)
 {
     switch (MI_GetCompressionType(src))
     {
         case MI_COMPRESSION_LZ:
-            if ((flags & 1) != 0)
+            if ((flags & COMPRESSEDFILE_FLAG_USE_8_BIT_UNITS) != 0)
                 MI_UncompressLZ8(src, dst);
             else
                 MI_UncompressLZ16(src, dst);
@@ -245,14 +258,14 @@ void CompressedFile__HandleDecompression(void *src, void *dst, u8 flags)
             break;
 
         case MI_COMPRESSION_RL:
-            if ((flags & 1) != 0)
+            if ((flags & COMPRESSEDFILE_FLAG_USE_8_BIT_UNITS) != 0)
                 MI_UncompressRL8(src, dst);
             else
                 MI_UncompressRL16(src, dst);
             break;
 
         case MI_COMPRESSION_DIFF:
-            if ((flags & 1) != 0)
+            if ((flags & COMPRESSEDFILE_FLAG_USE_8_BIT_UNITS) != 0)
                 MI_UnfilterDiff8(src, dst);
             else
                 MI_UnfilterDiff16(src, dst);
@@ -263,6 +276,6 @@ void CompressedFile__HandleDecompression(void *src, void *dst, u8 flags)
             break;
     }
 
-    if ((flags & 2) == 0)
+    if ((flags & COMPRESSEDFILE_FLAG_DO_CACHE_WRITE) == 0)
         DC_StoreRange(dst, MI_GetUncompressedSize(src));
 }

@@ -2079,11 +2079,11 @@
 .public GetScriptCanSkipFlagIn
 .public GetScriptCanSkipFlagOut
 .public CompressedFile__Decompress
-.public CompressedFile__IsVisAnim
+.public CompressedFile__IsVISFile
 .public CompressedFile__GetVisCompressCount
 .public CompressedFile__GetCompressedSize
 .public CompressedFile__GetUnknownSize
-.public CompressedFile__GetUnknown2Size
+.public CompressedFile__GetCompressedDataPtr
 .public CompressedFile__AllocateMemIfNeeded
 .public CompressedFile__HandleDecompression2
 .public CompressedFile__HandleDecompression

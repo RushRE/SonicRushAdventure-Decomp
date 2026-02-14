@@ -12,17 +12,26 @@
 #define COMPRESSEDFILE_AUTO_ALLOC_TAIL ((void *)(size_t) - 1)
 
 // --------------------
+// STRUCTS
+// --------------------
+
+typedef struct CompressedVISFileHeader_
+{
+  u32 signature;
+  u32 destSize : 24;
+  u32 unknownCount : 4;
+  u32 unused1 : 4;
+  u32 unknownSize : 24;
+  u32 unused2 : 8;
+  u8 data[1]; // C-style variable array
+} CompressedVISFileHeader;
+
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
 void *CompressedFile__Decompress(void *src, void *dst, void *buffer);
-BOOL CompressedFile__IsVisAnim(void *memory);
-u8 CompressedFile__GetVisCompressCount(void *memory);
 size_t CompressedFile__GetCompressedSize(void *memory);
-size_t CompressedFile__GetUnknownSize(void *memory);
-void *CompressedFile__GetUnknown2Size(void *memory);
-void *CompressedFile__AllocateMemIfNeeded(void *memory, size_t size);
-void CompressedFile__HandleDecompression2(void *src, void *dst, u8 flags);
-void CompressedFile__HandleDecompression(void *src, void *dst, u8 flags);
 
 #endif // RUSH_COMPRESSEDFILE_H
