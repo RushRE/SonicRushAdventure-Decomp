@@ -28,7 +28,7 @@
 #include <game/graphics/drawFadeTask.h>
 #include <game/graphics/screenShake.h>
 #include <stage/core/demoPlayer.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <stage/gameObject.h>
 #include <game/network/wirelessManager.h>
 
@@ -653,8 +653,8 @@ void *AllocBossAsset(void *compressedFile)
     HeapFree(HEAP_USER, compressedFile);
 
     NNS_G3dResDefaultSetup(file);
-    void *resource = HeapAllocHead(HEAP_USER, Asset3DSetup__GetTexSize(file));
-    Asset3DSetup__GetTexture(file, resource);
+    void *resource = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(file));
+    Asset3DSetup_CopyResourceData(file, resource);
     HeapFree(HEAP_USER, file);
 
     return resource;

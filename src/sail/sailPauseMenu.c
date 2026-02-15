@@ -3,7 +3,7 @@
 #include <sail/sailManager.h>
 #include <game/input/replayRecorder.h>
 #include <sail/sailInitEvent.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <sail/sailAudio.h>
 
 // --------------------
@@ -40,7 +40,7 @@ void CreateSailPauseMenu(void)
     if (CheckTaskPaused(&work->prevPausePriority))
         work->flags |= SAILPAUSEMENU_FLAG_DID_PAUSE;
 
-    DrawReqTask__Create(TASK_PAUSELEVEL_2, TRUE, TRUE, TRUE);
+    BeginSysPause(TASK_PAUSELEVEL_2, TRUE, TRUE, TRUE);
 
     work->flags |= SAILPAUSEMENU_FLAG_PLAY_PAUSE_SFX;
     manager->flags |= SAILMANAGER_FLAG_10000000;
@@ -62,7 +62,7 @@ void CreateSailReplayPauseMenu(void)
     if (CheckTaskPaused(&work->prevPausePriority))
         work->flags |= SAILPAUSEMENU_FLAG_DID_PAUSE;
 
-    DrawReqTask__Create(TASK_PAUSELEVEL_2, TRUE, TRUE, TRUE);
+    BeginSysPause(TASK_PAUSELEVEL_2, TRUE, TRUE, TRUE);
 
     work->flags |= SAILPAUSEMENU_FLAG_PLAY_PAUSE_SFX;
 
@@ -93,10 +93,10 @@ void SailReplayPauseMenu_Main(void)
     }
     else if ((manager->flags & SAILMANAGER_FLAG_10) == 0)
     {
-        DrawReqTask__Enable();
+        EndSysPause();
 
         if ((work->flags & SAILPAUSEMENU_FLAG_DID_PAUSE) != 0)
-            DrawReqTask__Create(work->prevPausePriority, TRUE, TRUE, TRUE);
+            BeginSysPause(work->prevPausePriority, TRUE, TRUE, TRUE);
 
         NNS_SndPlayerMoveVolume(&defaultTrackPlayer, 0, 30);
         SailRetireEvent__CreateFadeOut();
@@ -130,11 +130,11 @@ void SailPauseMenu_Main(void)
     }
     else if ((manager->flags & SAILMANAGER_FLAG_10) == 0)
     {
-        DrawReqTask__Enable();
+        EndSysPause();
         NNS_SndPlayerPauseAll(FALSE);
 
         if ((work->flags & SAILPAUSEMENU_FLAG_DID_PAUSE) != 0)
-            DrawReqTask__Create(work->prevPausePriority, TRUE, TRUE, TRUE);
+            BeginSysPause(work->prevPausePriority, TRUE, TRUE, TRUE);
 
         manager->flags |= SAILMANAGER_FLAG_DISABLE_BTN_PRESS;
 

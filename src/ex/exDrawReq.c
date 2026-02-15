@@ -300,14 +300,14 @@ void DrawExDrawRequestSprite2D(EX_ACTION_BAC2D_WORK *work)
     {
         if (work->sprite.targetAlpha != 0)
         {
-            RenderCore_ChangeBlendAlpha(&Camera3D__GetWork()->gfxControl[GRAPHICS_ENGINE_B].blendManager, work->sprite.targetAlpha, 0x1F);
+            RenderCore_ChangeBlendAlpha(&GetSwapBuffer3DWork()->gfxControl[GRAPHICS_ENGINE_B].blendManager, work->sprite.targetAlpha, 0x1F);
             work->sprite.animator.spriteType = GX_OAM_MODE_XLU;
         }
 
         ExDrawReqTaskConfig_ActiveScreens activeScreens = work->config.control.activeScreens;
         if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_BOTH)
         {
-            if (Camera3D__UseEngineA())
+            if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
             {
                 work->sprite.animator.pos.y += HW_LCD_HEIGHT;
                 if (work->config.display.disableAffine == FALSE)
@@ -326,7 +326,7 @@ void DrawExDrawRequestSprite2D(EX_ACTION_BAC2D_WORK *work)
         }
         else if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_A)
         {
-            if (Camera3D__UseEngineA())
+            if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
             {
                 if (work->config.display.disableAffine == FALSE)
                     AnimatorSprite__DrawFrameRotoZoom(&work->sprite.animator, work->sprite.scale.x, work->sprite.scale.y, work->sprite.rotation);
@@ -336,7 +336,7 @@ void DrawExDrawRequestSprite2D(EX_ACTION_BAC2D_WORK *work)
         }
         else if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_B)
         {
-            if (Camera3D__UseEngineA() == FALSE)
+            if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
             {
                 if (work->config.display.disableAffine == FALSE)
                     AnimatorSprite__DrawFrameRotoZoom(&work->sprite.animator, work->sprite.scale.x, work->sprite.scale.y, work->sprite.rotation);
@@ -490,7 +490,7 @@ void ProcessExDrawRequestModelPriority(EX_ACTION_NN_WORK *work)
     ExDrawReqTaskConfig_ActiveScreens activeScreens = work->config.control.activeScreens;
     if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_BOTH)
     {
-        if (Camera3D__UseEngineA())
+        if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
         {
             ApplyExDrawCameraConfig(cameraA);
         }
@@ -501,7 +501,7 @@ void ProcessExDrawRequestModelPriority(EX_ACTION_NN_WORK *work)
     }
     else if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_A)
     {
-        if (Camera3D__UseEngineA() == FALSE)
+        if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
         {
             ApplyExDrawCameraConfig(cameraB);
             return;
@@ -511,7 +511,7 @@ void ProcessExDrawRequestModelPriority(EX_ACTION_NN_WORK *work)
     }
     else if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_B)
     {
-        if (Camera3D__UseEngineA())
+        if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
         {
             ApplyExDrawCameraConfig(cameraA);
             return;
@@ -612,7 +612,7 @@ void DrawExDrawRequestModel(EX_ACTION_NN_WORK *work)
     {
         if (IsExDrawRequestModelAnimFinished(work))
         {
-            Camera3D__UseEngineA();
+            UNUSED(SwapBuffer3D_GetPrimaryScreen());
             AnimatorMDL__Draw(&work->model.animator);
         }
         else
@@ -1089,7 +1089,7 @@ NONMATCH_FUNC void ProcessTrailExDrawRequest(EX_ACTION_TRAIL_WORK *work)
         return;
     }
 
-    if (Camera3D__GetTask() == NULL)
+    if (GetSwapBuffer3DTask() == NULL)
         return;
 
     Unknown2066510__Func_2066D18(trail->position, ARRAY_COUNT(trailBuffer), trailBuffer, &matrix);
@@ -1113,28 +1113,28 @@ NONMATCH_FUNC void ProcessTrailExDrawRequest(EX_ACTION_TRAIL_WORK *work)
     ExDrawReqTaskConfig_ActiveScreens activeScreens = work->config.control.activeScreens;
     if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_BOTH)
     {
-        if (Camera3D__UseEngineA())
+        if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
         {
-            Camera3D__LoadState(&cameraA->currentCamera);
+            SwapBuffer3D_ApplyCameraState(&cameraA->currentCamera);
         }
         else
         {
-            Camera3D__LoadState(&cameraB->currentCamera);
+            SwapBuffer3D_ApplyCameraState(&cameraB->currentCamera);
         }
     }
     else if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_A)
     {
-        if (Camera3D__UseEngineA() != FALSE)
+        if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
             return;
 
-        Camera3D__LoadState(&cameraB->currentCamera);
+        SwapBuffer3D_ApplyCameraState(&cameraB->currentCamera);
     }
     else if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_B)
     {
-        if (Camera3D__UseEngineA() == FALSE)
+        if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
             return;
 
-        Camera3D__LoadState(&cameraA->currentCamera);
+        SwapBuffer3D_ApplyCameraState(&cameraA->currentCamera);
     }
 
     NNS_G3dGlbFlushVP();
@@ -1186,7 +1186,7 @@ NONMATCH_FUNC void ProcessTrailExDrawRequest(EX_ACTION_TRAIL_WORK *work)
 	addlo sp, sp, #0x118
 	strloh r0, [r1]
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	bl Camera3D__GetTask
+	bl GetSwapBuffer3DTask
 	cmp r0, #0
 	addeq sp, sp, #0x118
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -1215,35 +1215,35 @@ _021632B4:
 	mov r0, r0, lsl #0x1e
 	movs r0, r0, lsr #0x1e
 	bne _021632F8
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	beq _021632EC
 	mov r0, r5
-	bl Camera3D__LoadState
+	bl SwapBuffer3D_ApplyCameraState
 	b _0216333C
 _021632EC:
 	mov r0, r6
-	bl Camera3D__LoadState
+	bl SwapBuffer3D_ApplyCameraState
 	b _0216333C
 _021632F8:
 	cmp r0, #1
 	bne _0216331C
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	addne sp, sp, #0x118
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r6
-	bl Camera3D__LoadState
+	bl SwapBuffer3D_ApplyCameraState
 	b _0216333C
 _0216331C:
 	cmp r0, #2
 	bne _0216333C
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	addeq sp, sp, #0x118
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r5
-	bl Camera3D__LoadState
+	bl SwapBuffer3D_ApplyCameraState
 _0216333C:
 	bl NNS_G3dGlbFlushVP
 	mov r3, #0x20000000
@@ -1523,7 +1523,7 @@ void ProcessExDrawRequestSprite3DPriority(EX_ACTION_BAC3D_WORK *work)
     ExDrawReqTaskConfig_ActiveScreens activeScreens = work->config.control.activeScreens;
     if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_BOTH)
     {
-        if (Camera3D__UseEngineA())
+        if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
         {
             ApplyExDrawCameraConfig(cameraA);
         }
@@ -1534,7 +1534,7 @@ void ProcessExDrawRequestSprite3DPriority(EX_ACTION_BAC3D_WORK *work)
     }
     else if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_A)
     {
-        if (Camera3D__UseEngineA() == FALSE)
+        if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
         {
             ApplyExDrawCameraConfig(cameraB);
             return;
@@ -1544,7 +1544,7 @@ void ProcessExDrawRequestSprite3DPriority(EX_ACTION_BAC3D_WORK *work)
     }
     else if (activeScreens == EXDRAWREQTASKCONFIG_SCREEN_B)
     {
-        if (Camera3D__UseEngineA())
+        if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
         {
             ApplyExDrawCameraConfig(cameraA);
             return;
@@ -1693,7 +1693,7 @@ void ExDrawFadeTask_Main_Active(void)
             if (brightness > RENDERCORE_BRIGHTNESS_WHITE)
                 brightness = RENDERCORE_BRIGHTNESS_WHITE;
 
-            Camera3D__GetWork()->gfxControl[0].brightness = brightness;
+            GetSwapBuffer3DWork()->gfxControl[0].brightness = brightness;
         }
 
         if ((work->flags & EXDRAWFADETASK_FLAG_ON_ENGINE_B) != 0)
@@ -1704,16 +1704,16 @@ void ExDrawFadeTask_Main_Active(void)
             if (brightness > RENDERCORE_BRIGHTNESS_WHITE)
                 brightness = RENDERCORE_BRIGHTNESS_WHITE;
 
-            Camera3D__GetWork()->gfxControl[1].brightness = brightness;
+            GetSwapBuffer3DWork()->gfxControl[1].brightness = brightness;
         }
 
         if (progress >= work->duration)
         {
             if ((work->flags & EXDRAWFADETASK_FLAG_ON_ENGINE_A) != 0)
-                Camera3D__GetWork()->gfxControl[0].brightness = work->targetBrightness;
+                GetSwapBuffer3DWork()->gfxControl[0].brightness = work->targetBrightness;
 
             if ((work->flags & EXDRAWFADETASK_FLAG_ON_ENGINE_B) != 0)
-                Camera3D__GetWork()->gfxControl[1].brightness = work->targetBrightness;
+                GetSwapBuffer3DWork()->gfxControl[1].brightness = work->targetBrightness;
 
             DestroyCurrentExTask();
         }

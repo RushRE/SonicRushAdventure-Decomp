@@ -2,7 +2,7 @@
 #define RUSH_DRAWSTATE_H
 
 #include <global.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -135,7 +135,7 @@ typedef struct DrawState_
 
 void InitDrawStateSystem(void);
 void LoadDrawState(void *fileData, DrawStateSystems systems);
-BOOL GetDrawStateCameraProjection(DrawState *state, CameraConfig *camera);
+BOOL GetDrawStateCameraProjection(DrawState *state, ProjectionDisplayConfig *camera);
 void GetDrawStateCameraView(DrawState *state, Camera3D *camera);
 void GetDrawStateLight(DrawState *state, DirLight *light, GXLightId id);
 

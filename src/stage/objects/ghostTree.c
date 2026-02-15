@@ -236,9 +236,9 @@ void GhostTree_Draw(void)
     armPos.z = FLOAT_TO_FX32(0.0);
     MTX_MultVec33(&armPos, mtxArm.nnMtx, &armPos);
 
-    work->gameWork.objWork.prevPosition.x = cameraX + cameraMtx.translation.x + cameraConfig->camPos.x + armPos.x;
-    work->gameWork.objWork.prevPosition.y = cameraY - cameraMtx.translation.y - cameraConfig->camPos.y - armPos.y;
-    work->gameWork.objWork.prevPosition.z = cameraMtx.translation.z + cameraConfig->camPos.z + armPos.z;
+    work->gameWork.objWork.prevPosition.x = cameraX + cameraMtx.translation.x + cameraConfig->view.camPos.x + armPos.x;
+    work->gameWork.objWork.prevPosition.y = cameraY - cameraMtx.translation.y - cameraConfig->view.camPos.y - armPos.y;
+    work->gameWork.objWork.prevPosition.z = cameraMtx.translation.z + cameraConfig->view.camPos.z + armPos.z;
 }
 
 void GhostTree_OnDefend_GrabTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)

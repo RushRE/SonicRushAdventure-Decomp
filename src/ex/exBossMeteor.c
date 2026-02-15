@@ -164,7 +164,7 @@ BOOL LoadExBossMeteorBombAssets(EX_ACTION_NN_WORK *work)
         meteorBombAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEXP_NSBVA);
         meteorBombAnimType[3]     = B3D_ANIM_VIS_ANIM;
 
-        Asset3DSetup__Create(meteorBombModelResource);
+        CreateAsset3DSetup(meteorBombModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
@@ -355,7 +355,7 @@ BOOL LoadExBossMeteorLockOnAssets(EX_ACTION_NN_WORK *work)
         meteorLockOnAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_TARG_NSBTA);
         meteorLockOnAnimType[1]     = B3D_ANIM_TEX_ANIM;
 
-        Asset3DSetup__Create(meteorLockOnModelResource);
+        CreateAsset3DSetup(meteorLockOnModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
@@ -727,7 +727,7 @@ BOOL LoadExBossMeteorAssets(EX_ACTION_NN_WORK *work)
         meteorAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEF_NSBCA);
         meteorAnimType[0]     = B3D_ANIM_JOINT_ANIM;
 
-        Asset3DSetup__Create(meteorModelResource);
+        CreateAsset3DSetup(meteorModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
@@ -869,7 +869,7 @@ void ExBossMeteor_Main_FallToLockOnPos(void)
         work->animator.model.angle.x = ExUtils_Atan2(work->meteorMover.step.z, work->meteorMover.step.y);
         work->animator.model.angle.z = ExUtils_Atan2(work->meteorMover.step.x, work->meteorMover.step.y);
 
-        if (Camera3D__UseEngineA() == FALSE)
+        if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
             ExUtils_RotateOnAxis(&work->angle, &work->rotateDir, &work->rotateSpeed, EXUTIL_ROTATE_AXIS_X);
 
         work->animator.model.angle.x += work->angle.x;

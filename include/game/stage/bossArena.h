@@ -4,7 +4,7 @@
 #include <global.h>
 #include <game/graphics/sprite.h>
 #include <game/graphics/mappingsQueue.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <stage/stageTask.h>
 
 // --------------------
@@ -167,7 +167,7 @@ void BossArena__SetField35C(s32 value);
 void BossArena__SetCameraType(BossArenaCamera *camera, BossArenaCameraType type);
 Camera3D *BossArena__GetCameraConfig2(BossArenaCamera *camera);
 Camera3D *BossArena__GetCameraConfig(BossArenaCamera *camera);
-void BossArena__SetCameraConfig(BossArenaCamera *camera, CameraConfig *config);
+void BossArena__SetCameraConfig(BossArenaCamera *camera, ProjectionDisplayConfig *config);
 void BossArena__SetUpVector(BossArenaCamera *camera, VecFx32 *up);
 void BossArena__SetNextPos(BossArenaCamera *camera, fx32 x, fx32 y, fx32 z);
 

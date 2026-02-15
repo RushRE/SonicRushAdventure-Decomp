@@ -7,7 +7,7 @@
 #include <game/object/objDraw.h>
 #include <game/object/obj.h>
 #include <game/audio/audioSystem.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/graphics/spritePaletteAnimation.h>
 
 // --------------------
@@ -1122,44 +1122,44 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
     applyCameraConfig = copyStageDisplayFlags & DISPLAY_FLAG_ROTATE_CAMERA_DIR;
     if (applyCameraConfig)
     {
-        CameraConfig const *const ptrConfig = &g_obj.cameraConfig->config;
-        const u32 halfFOV                   = ptrConfig->projFOV;
-        const u32 nearPlaneDistance         = ptrConfig->projNear;
-        const fx32 tangentHalfFOV           = FX_Div(FX_SIN_AND_COS(halfFOV));
-        const fx32 frustumHalfHeight        = MultiplyFX(tangentHalfFOV, nearPlaneDistance);
-        const fx32 frustumHalfWidth         = MultiplyFX(frustumHalfHeight, ptrConfig->aspectRatio);
-        const fx32 nearByZ                  = FX_Div(ptrConfig->projNear, g_obj.cameraConfig->camPos.z);
-        const fx32 frustumCenterY           = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_Y) + animator->translation.y));
-        const fx32 frustumCenterX           = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_X) - animator->translation.x));
-        animator->translation.x             = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
-        animator->translation.y             = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
+        ProjectionDisplayConfig const *const ptrConfig = &g_obj.cameraConfig->projection;
+        const u32 halfFOV                              = ptrConfig->fov;
+        const u32 nearPlaneDistance                    = ptrConfig->nearPlane;
+        const fx32 tangentHalfFOV                      = FX_Div(FX_SIN_AND_COS(halfFOV));
+        const fx32 frustumHalfHeight                   = MultiplyFX(tangentHalfFOV, nearPlaneDistance);
+        const fx32 frustumHalfWidth                    = MultiplyFX(frustumHalfHeight, ptrConfig->aspectRatio);
+        const fx32 nearByZ                             = FX_Div(ptrConfig->nearPlane, g_obj.cameraConfig->view.camPos.z);
+        const fx32 frustumCenterY                      = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_Y) + animator->translation.y));
+        const fx32 frustumCenterX                      = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_X) - animator->translation.x));
+        animator->translation.x                        = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
+        animator->translation.y                        = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
 
         backupNNS_G3dGlb_projMtx = *NNS_G3dGlbGetProjectionMtx();
 
-        const fx32 top    = -frustumCenterY + frustumHalfHeight;
-        const fx32 bottom = -(frustumHalfHeight + frustumCenterY);
-        const fx32 left   = frustumCenterX - frustumHalfWidth;
-        const fx32 right  = frustumHalfWidth + frustumCenterX;
-        const fx32 near   = ptrConfig->projNear;
-        const fx32 far    = ptrConfig->projFar;
-        NNS_G3dGlbFrustum(top, bottom, left, right, near, far);
+        const fx32 top       = -frustumCenterY + frustumHalfHeight;
+        const fx32 bottom    = -(frustumHalfHeight + frustumCenterY);
+        const fx32 left      = frustumCenterX - frustumHalfWidth;
+        const fx32 right     = frustumHalfWidth + frustumCenterX;
+        const fx32 nearPlane = ptrConfig->nearPlane;
+        const fx32 farPlane  = ptrConfig->farPlane;
+        NNS_G3dGlbFrustum(top, bottom, left, right, nearPlane, farPlane);
     }
     else if (copyStageDisplayFlags & DISPLAY_FLAG_DRAW_3D_SPRITE_AS_2D)
     {
         const u16 defaultFOV = FLOAT_DEG_TO_IDX(88.59375); // or 0x3F00
         // MW < 2.0sp1p5 seems necessary in order to match the early computing of the sin/cos array indices.
-        defaultCamera3D                = *g_obj.cameraConfig;
-        defaultCamera3D.config.projFOV = defaultFOV;
-        defaultCamera3D.camTarget.x   = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
-        defaultCamera3D.camTarget.y   = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
-        defaultCamera3D.camTarget.z   = FLOAT_TO_FX32(0.0);
-        defaultCamera3D.camPos.x     = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
-        defaultCamera3D.camPos.y     = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
-        defaultCamera3D.camPos.z     = HW_LCD_CENTER_Y * FX_Div(CosFX(FX_SINCOSCAST(defaultCamera3D.config.projFOV)), SinFX(FX_SINCOSCAST(defaultCamera3D.config.projFOV)));
-        defaultCamera3D.camUp.x     = FLOAT_TO_FX32(0.0);
-        defaultCamera3D.camUp.y     = FLOAT_TO_FX32(1.0);
-        defaultCamera3D.camUp.z     = FLOAT_TO_FX32(0.0);
-        Camera3D__LoadState(&defaultCamera3D);
+        defaultCamera3D                  = *g_obj.cameraConfig;
+        defaultCamera3D.projection.fov   = defaultFOV;
+        defaultCamera3D.view.camTarget.x = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
+        defaultCamera3D.view.camTarget.y = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
+        defaultCamera3D.view.camTarget.z = FLOAT_TO_FX32(0.0);
+        defaultCamera3D.view.camPos.x    = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
+        defaultCamera3D.view.camPos.y    = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
+        defaultCamera3D.view.camPos.z    = HW_LCD_CENTER_Y * FX_Div(CosFX(FX_SINCOSCAST(defaultCamera3D.projection.fov)), SinFX(FX_SINCOSCAST(defaultCamera3D.projection.fov)));
+        defaultCamera3D.view.camUp.x     = FLOAT_TO_FX32(0.0);
+        defaultCamera3D.view.camUp.y     = FLOAT_TO_FX32(1.0);
+        defaultCamera3D.view.camUp.z     = FLOAT_TO_FX32(0.0);
+        SwapBuffer3D_ApplyCameraState(&defaultCamera3D);
     }
 
     if (mdlAnimator != NULL)
@@ -1257,7 +1257,7 @@ void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, VecU16 *dir, V
 
     if (copyStageDisplayFlags & DISPLAY_FLAG_DRAW_3D_SPRITE_AS_2D)
     {
-        Camera3D__LoadState(g_obj.cameraConfig);
+        SwapBuffer3D_ApplyCameraState(g_obj.cameraConfig);
     }
 
     if (mdlAnimator != NULL)

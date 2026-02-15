@@ -2,7 +2,7 @@
 #define RUSH_OBJECT_MANAGER_H
 
 #include <game/object/objData.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 
 // --------------------
 // ENUMS

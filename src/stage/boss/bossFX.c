@@ -1,5 +1,5 @@
 #include <stage/boss/bossFX.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/stage/gameSystem.h>
 #include <game/object/obj.h>
 #include <game/math/unknown2066510.h>
@@ -750,11 +750,11 @@ BossFX3D *BossFX3D__Create(size_t size, BossFX3DState state, const char *path, u
         if (work->referenceCount != NULL)
         {
             if ((*work->referenceCount) == 1)
-                Asset3DSetup__Create(work->resModel);
+                CreateAsset3DSetup(work->resModel);
         }
         else
         {
-            Asset3DSetup__Create(work->resModel);
+            CreateAsset3DSetup(work->resModel);
         }
     }
 
@@ -784,10 +784,10 @@ void BossFX3D__State_Active(BossFX3D *work)
 {
     OBS_ACTION3D_NN_WORK *ani = &work->aniModel;
 
-    if ((work->flags & (BOSSFX3D_FLAG_INVISIBLE_ON_ENGINE_B | BOSSFX3D_FLAG_INVISIBLE_ON_ENGINE_A)) != 0 && Camera3D__GetTask())
+    if ((work->flags & (BOSSFX3D_FLAG_INVISIBLE_ON_ENGINE_B | BOSSFX3D_FLAG_INVISIBLE_ON_ENGINE_A)) != 0 && GetSwapBuffer3DTask())
     {
-        if ((work->flags & BOSSFX3D_FLAG_INVISIBLE_ON_ENGINE_A) != 0 && Camera3D__UseEngineA()
-            || (work->flags & BOSSFX3D_FLAG_INVISIBLE_ON_ENGINE_B) != 0 && !Camera3D__UseEngineA())
+        if ((work->flags & BOSSFX3D_FLAG_INVISIBLE_ON_ENGINE_A) != 0 && SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM
+            || (work->flags & BOSSFX3D_FLAG_INVISIBLE_ON_ENGINE_B) != 0 && SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
             work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         else
             work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
@@ -936,10 +936,10 @@ BossFX2D *BossFX2D__Create(size_t size, BossFX2DState state, const char *path, u
 
 void BossFX2D__State_Active(BossFX2D *work)
 {
-    if ((work->flags & (BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_B | BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_A)) != 0 && Camera3D__GetTask() != NULL)
+    if ((work->flags & (BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_B | BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_A)) != 0 && GetSwapBuffer3DTask() != NULL)
     {
-        if ((work->flags & BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_A) != 0 && Camera3D__UseEngineA()
-            || (work->flags & BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_B) != 0 && !Camera3D__UseEngineA())
+        if ((work->flags & BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_A) != 0 && SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM
+            || (work->flags & BOSSFX2D_FLAG_INVISIBLE_ON_ENGINE_B) != 0 && SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
         {
             work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
         }

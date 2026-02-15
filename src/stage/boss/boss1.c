@@ -22,7 +22,7 @@
 // CONSTANTS
 // --------------------
 
-#define MTXSTACK_WEAK NNS_G3D_MTXSTACK_SYS
+#define MTXSTACK_WEAK      NNS_G3D_MTXSTACK_SYS
 #define MTXSTACK_BODY_NECK NNS_G3D_MTXSTACK_USER
 
 // --------------------
@@ -628,7 +628,7 @@ RUSH_INLINE void CreateStompSmokeFX(Camera3D *config)
     Boss1Stage *stage = TaskGetWork(Boss1Stage__Singleton, Boss1Stage);
     fx32 y            = -(FLOAT_TO_FX32(20.0) + GetStageUnknown(stage));
     y -= FLOAT_TO_FX32(15.0);
-    Boss1__CreateSmokeFX(config->camPos.x, y, config->camPos.z);
+    Boss1__CreateSmokeFX(config->view.camPos.x, y, config->view.camPos.z);
 }
 
 // --------------------
@@ -827,7 +827,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     for (s32 i = 0; i < 24; i++)
     {
         InitPaletteAnimator(&work->aniPalette[i], NNS_FndGetArchiveFileByIndex(&arc, i + ARCHIVE_Z1BOSS_ACT_LZ7_FILE_BOSS1_Z1_AGO_BPA), 0, ANIMATORBPA_FLAG_NONE,
-                            PALETTE_MODE_TEXTURE, VRAMKEY_TO_ADDR(Asset3DSetup__PaletteFromName(NNS_G3dGetTex(bossAssetFiles[0].fileData), Boss1__paletteNameTable[i])));
+                            PALETTE_MODE_TEXTURE, VRAMKEY_TO_ADDR(Asset3DSetup_GetPaletteFromName(NNS_G3dGetTex(bossAssetFiles[0].fileData), Boss1__paletteNameTable[i])));
     }
     BossHelpers__SetPaletteAnimations(work->aniPalette, 24, 0, 0);
     NNS_FndUnmountArchive(&arc);
@@ -1361,7 +1361,7 @@ _02154E24:
 	ldr r0, [r4, #0]
 	bl NNS_G3dGetTex
 	ldr r1, [r6, r9, lsl #2]
-	bl Asset3DSetup__PaletteFromName
+	bl Asset3DSetup_GetPaletteFromName
 	str r5, [sp]
 	mov r2, #0
 	str r0, [sp, #4]
@@ -1848,7 +1848,7 @@ void Boss1Stage__HandleCamera(Boss1Stage *work)
     Camera3D *config = BossArena__GetCameraConfig2(BossArena__GetCamera(1));
 
     FXMatrix43 mtxView;
-    MTX_LookAt(&config->camPos, &config->camUp, &config->camTarget, mtxView.nnMtx);
+    MTX_LookAt(&config->view.camPos, &config->view.camUp, &config->view.camTarget, mtxView.nnMtx);
     InitSpatialAudioMatrix(&mtxView.mtx33);
 }
 
@@ -1903,17 +1903,17 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
     BossArena__SetField358(FLOAT_TO_FX32(350.0));
     BossArena__SetField35C(FLOAT_TO_FX32(1.3333));
 
-    CameraConfig config;
-    MI_CpuClear16(&config, sizeof(config));
-    config.projFOV     = FLOAT_DEG_TO_IDX(20.0);
-    config.projNear    = FLOAT_TO_FX32(1.0);
-    config.projFar     = FLOAT_TO_FX32(3000.0);
-    config.aspectRatio = FLOAT_TO_FX32(1.3333);
-    config.projScaleW  = FLOAT_TO_FX32(0.5);
+    ProjectionDisplayConfig projection;
+    MI_CpuClear16(&projection, sizeof(projection));
+    projection.fov         = FLOAT_DEG_TO_IDX(20.0);
+    projection.nearPlane   = FLOAT_TO_FX32(1.0);
+    projection.farPlane    = FLOAT_TO_FX32(3000.0);
+    projection.aspectRatio = FLOAT_TO_FX32(1.3333);
+    projection.scaleW      = FLOAT_TO_FX32(0.5);
 
     BossArenaCamera *cameraA = BossArena__GetCamera(1);
     BossArena__SetCameraType(cameraA, BOSSARENACAMERA_TYPE_1);
-    BossArena__SetCameraConfig(cameraA, &config);
+    BossArena__SetCameraConfig(cameraA, &projection);
     BossArena__SetTracker1TargetWork(cameraA, &gPlayer->objWork, NULL, &gPlayer->objWork);
     BossArena__SetTracker1TargetPos(cameraA, FLOAT_TO_FX32(0.0), work->field_378 + FLOAT_TO_FX32(80.0), FLOAT_TO_FX32(0.0));
     BossArena__SetTracker1Speed(cameraA, FLOAT_TO_FX32(0.25), FLOAT_TO_FX32(0.0));
@@ -1933,7 +1933,7 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
 
     BossArenaCamera *cameraB = BossArena__GetCamera(2);
     BossArena__SetCameraType(cameraB, BOSSARENACAMERA_TYPE_1);
-    BossArena__SetCameraConfig(cameraB, &config);
+    BossArena__SetCameraConfig(cameraB, &projection);
     BossArena__SetTracker1TargetWork(cameraB, &gPlayer->objWork, NULL, &gPlayer->objWork);
     BossArena__SetTracker1TargetPos(cameraB, FLOAT_TO_FX32(0.0), work->field_378 - FLOAT_TO_FX32(520.0), FLOAT_TO_FX32(0.0));
     BossArena__SetTracker1Speed(cameraB, FLOAT_TO_FX32(0.25), FLOAT_TO_FX32(0.0));
@@ -1966,9 +1966,9 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
 
     GX_SetVisiblePlane(GX_GetVisiblePlane() | GX_PLANEMASK_BG1);
 
-    Camera3D__Create();
-    Camera3DTask *camera3D_A = Camera3D__GetWork();
-    Camera3DTask *camera3D_B = Camera3D__GetWork();
+    CreateSwapBuffer3D();
+    SwapBuffer3D *camera3D_A = GetSwapBuffer3DWork();
+    SwapBuffer3D *camera3D_B = GetSwapBuffer3DWork();
 
     camera3D_A->gfxControl[0].blendManager.blendControl.value = camera3D_B->gfxControl[1].blendManager.blendControl.value = 0x00;
     camera3D_A->gfxControl[0].blendManager.blendControl.plane1_BG0 = camera3D_B->gfxControl[1].blendManager.blendControl.plane1_BG0 = TRUE;
@@ -2160,10 +2160,10 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
 	orr r0, r3, #2
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
-	bl Camera3D__Create
-	bl Camera3D__GetWork
+	bl CreateSwapBuffer3D
+	bl GetSwapBuffer3DWork
 	mov r4, r0
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0
 	strh r1, [r0, #0x7c]
 	strh r1, [r4, #0x20]
@@ -3921,7 +3921,7 @@ void Boss1__Action_Idle(Boss1 *work, u16 duration)
     MI_CpuClear16(&work->action.idle, sizeof(work->action.idle));
 
     work->action.idle.duration = duration;
-    work->actionState           = BOSS1_ACTION_IDLE;
+    work->actionState          = BOSS1_ACTION_IDLE;
 
     work->bossState = Boss1__BossState_StartIdle;
     work->bossState(work);
@@ -3933,7 +3933,7 @@ void Boss1__Action_Bite(Boss1 *work, s32 type, const Boss1BiteConfig *config)
 
     work->action.bite.type   = type;
     work->action.bite.config = config;
-    work->actionState         = BOSS1_ACTION_BITE;
+    work->actionState        = BOSS1_ACTION_BITE;
 
     work->bossState = Boss1__BossState_InitBite;
     work->bossState(work);
@@ -3946,7 +3946,7 @@ void Boss1__Action_Charge(Boss1 *work, s32 direction, s32 a3)
     work->action.charge.config    = Boss1Stage__GetChargeConfig(work->stage);
     work->action.charge.direction = direction;
     work->action.charge.field_C   = a3;
-    work->actionState              = BOSS1_ACTION_CHARGE;
+    work->actionState             = BOSS1_ACTION_CHARGE;
 
     work->bossState = Boss1__BossState_InitCharge;
     work->bossState(work);
@@ -3957,7 +3957,7 @@ void Boss1__Action_HeadSlam(Boss1 *work, const Boss1HeadSlamConfig *config)
     MI_CpuClear16(&work->action.headSlam, sizeof(work->action.headSlam));
 
     work->action.headSlam.config = config;
-    work->actionState             = BOSS1_ACTION_HEADSLAM;
+    work->actionState            = BOSS1_ACTION_HEADSLAM;
 
     work->bossState = Boss1__BossState_InitHeadSlam;
     work->bossState(work);
@@ -3969,8 +3969,8 @@ void Boss1__Action_Damage(Boss1 *work, s32 type, u16 duration)
 
     MI_CpuClear16(action, sizeof(work->action.damage));
 
-    action->type     = type;
-    action->duration = duration;
+    action->type      = type;
+    action->duration  = duration;
     work->actionState = BOSS1_ACTION_DAMAGE;
 
     work->bossState = Boss1__BossState_InitDamage;
@@ -3982,7 +3982,7 @@ void Boss1__Action_ChargeDamage(Boss1 *work, u16 duration)
     MI_CpuClear16(&work->action.chargeDamage, sizeof(work->action.chargeDamage));
 
     work->action.chargeDamage.duration = duration;
-    work->actionState                   = BOSS1_ACTION_CHARGE_DAMAGE;
+    work->actionState                  = BOSS1_ACTION_CHARGE_DAMAGE;
 
     work->bossState = Boss1__BossState_InitChargeDamage;
     work->bossState(work);
@@ -3993,7 +3993,7 @@ void Boss1__Action_Jump(Boss1 *work, s32 a2)
     MI_CpuClear16(&work->action.jump, sizeof(work->action.jump));
 
     work->action.jump.field_0 = a2;
-    work->actionState          = BOSS1_ACTION_JUMP;
+    work->actionState         = BOSS1_ACTION_JUMP;
 
     work->bossState = Boss1__BossState_InitJump;
     work->bossState(work);
@@ -4020,7 +4020,7 @@ void Boss1__Action_ChargeDeactivate(Boss1 *work, s32 direction)
     MI_CpuClear16(&work->action.chargeDeactivate, sizeof(work->action.chargeDeactivate));
 
     work->action.chargeDeactivate.direction = direction;
-    work->actionState                        = BOSS1_ACTION_CHARGE_DEACTIVATE;
+    work->actionState                       = BOSS1_ACTION_CHARGE_DEACTIVATE;
 
     work->bossState = Boss1__BossState_InitChargeDeactivate;
     work->bossState(work);
@@ -5286,7 +5286,7 @@ void Boss1__CreateDropSmokeFX(Boss1 *work)
         {
             Camera3D *config = BossArena__GetCameraConfig2(BossArena__GetCamera(1));
 
-            BossFX2D *effect = Boss1__CreateSmokeFX(config->camPos.x, config->camPos.y, config->camPos.z);
+            BossFX2D *effect = Boss1__CreateSmokeFX(config->view.camPos.x, config->view.camPos.y, config->view.camPos.z);
             effect->objWork.position.y -= MultiplyFX(FLOAT_TO_FX32(200.0), speed);
             effect->objWork.velocity.y = -FLOAT_TO_FX32(10.0);
         }
@@ -6056,7 +6056,7 @@ void Boss1__BossState_PrepareCameraForDestroyed(Boss1 *work)
 
 void Boss1__BossState_StartDestroyedShock(Boss1 *work)
 {
-    Camera3DTask *camera3D = Camera3D__GetWork();
+    SwapBuffer3D *camera3D = GetSwapBuffer3DWork();
 
     MI_CpuClear16(&camera3D->gfxControl[0].blendManager, sizeof(camera3D->gfxControl[0].blendManager));
     camera3D->gfxControl[0].blendManager.blendControl.effect     = BLENDTYPE_FADEOUT;
@@ -6072,7 +6072,7 @@ void Boss1__BossState_DestroyedShock(Boss1 *work)
     Boss1Stage *stage                   = work->stage;
     struct Boss1ActionDestroyed *action = &work->action.destroyed;
 
-    Camera3DTask *camera3D = Camera3D__GetWork();
+    SwapBuffer3D *camera3D = GetSwapBuffer3DWork();
 
     // dim the lights
     if (stage->lightConfig.brightness != RENDERCORE_BRIGHTNESS_BLACK && ++action->lightDimTimer > 1)
@@ -6126,7 +6126,7 @@ void Boss1__BossState_Explode(Boss1 *work)
     Boss1Stage *stage                   = work->stage;
     struct Boss1ActionDestroyed *action = &work->action.destroyed;
 
-    Camera3DTask *camera3D = Camera3D__GetWork();
+    SwapBuffer3D *camera3D = GetSwapBuffer3DWork();
 
     BOOL doneLights = FALSE;
     BOOL doneFading = FALSE;

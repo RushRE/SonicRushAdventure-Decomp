@@ -1,6 +1,6 @@
 #include <game/graphics/drawFadeTask.h>
 #include <game/graphics/renderCore.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/math/mtMath.h>
 
 // --------------------
@@ -145,9 +145,9 @@ void SetDrawFadeTaskBrightness(DrawFadeTask *work)
         renderCoreGFXControlB.brightness = brightness;
     }
 
-    if (Camera3D__GetTask())
+    if (GetSwapBuffer3DTask())
     {
-        Camera3DTask *camera3D = Camera3D__GetWork();
+        SwapBuffer3D *camera3D = GetSwapBuffer3DWork();
         if ((work->flags & (DRAW_FADE_TASK_FLAG_ENGINEA_ONLY | DRAW_FADE_TASK_FLAG_ENGINEB_ONLY)) != 0)
         {
             if ((work->flags & DRAW_FADE_TASK_FLAG_ENGINEA_ONLY) != 0)

@@ -7,7 +7,7 @@
 #include <game/graphics/paletteQueue.h>
 #include <game/graphics/pixelsQueue.h>
 #include <game/math/mtMath.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 
 // --------------------
 // CONSTANTS
@@ -3451,22 +3451,22 @@ void Animator3D__MatrixOp_FlushWVP(Animator3D *animator)
 
 void Animator3D__MatrixOp_SetMatrixMode(Animator3D *animator)
 {
-    Camera3D__SetMatrixMode();
+    SwapBuffer3D_Op_Init();
 }
 
 void Animator3D__MatrixOp_FlushP_Camera3D(Animator3D *animator)
 {
-    Camera3D__FlushP();
+    SwapBuffer3D_Op_FlushP();
 }
 
 void Animator3D__MatrixOp_FlushVP_Camera3D(Animator3D *animator)
 {
-    Camera3D__FlushVP();
+    SwapBuffer3D_Op_FlushVP();
 }
 
 void Animator3D__MatrixOp_FlushWVP_Camera3D(Animator3D *animator)
 {
-    Camera3D__FlushWVP();
+    SwapBuffer3D_Op_FlushWVP();
 }
 
 void Animator3D__MatrixOp_IdentityScale(Animator3D *animator)
@@ -3516,7 +3516,7 @@ void Animator3D__MatrixOp_LoadMtx43(Animator3D *animator)
 void Animator3D__MatrixOp_LoadCameraMtx43(Animator3D *animator)
 {
     FXMatrix43 matrix;
-    Camera3D__CopyMatrix4x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix.mtx33);
+    SwapBuffer3D_CopyMatrix_Standard((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix.mtx33);
 
     matrix.translation.x = matrix.translation.y = matrix.translation.z = FLOAT_TO_FX32(0.0);
 
@@ -3526,7 +3526,7 @@ void Animator3D__MatrixOp_LoadCameraMtx43(Animator3D *animator)
 void Animator3D__MatrixOp_LoadCameraMtx33(Animator3D *animator)
 {
     FXMatrix43 matrix;
-    Camera3D__CopyMatrix3x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix.mtx33);
+    SwapBuffer3D_CopyMatrix_Billboard((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix.mtx33);
 
     matrix.translation.x = matrix.translation.y = matrix.translation.z = FLOAT_TO_FX32(0.0);
 
@@ -3574,28 +3574,28 @@ void Animator3D__MatrixOp_MultMtx43(Animator3D *animator)
 void Animator3D__MatrixOp_MultCameraMtx43(Animator3D *animator)
 {
     FXMatrix33 matrix;
-    Camera3D__CopyMatrix4x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix);
+    SwapBuffer3D_CopyMatrix_Standard((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix);
     NNS_G3dGeMultMtx33(matrix.nnMtx);
 }
 
 void Animator3D__MatrixOp_MultCameraMtx33(Animator3D *animator)
 {
     FXMatrix33 matrix;
-    Camera3D__CopyMatrix3x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix);
+    SwapBuffer3D_CopyMatrix_Billboard((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix);
     NNS_G3dGeMultMtx33(matrix.nnMtx);
 }
 
 void Animator3D__MatrixOp_SetCameraRot4x3(Animator3D *animator)
 {
     FXMatrix33 matrix;
-    Camera3D__CopyMatrix4x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix);
+    SwapBuffer3D_CopyMatrix_Standard((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix);
     NNS_G3dGlbSetBaseRot(matrix.nnMtx);
 }
 
 void Animator3D__MatrixOp_SetCameraRot3x3(Animator3D *animator)
 {
     FXMatrix33 matrix;
-    Camera3D__CopyMatrix3x3((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix);
+    SwapBuffer3D_CopyMatrix_Billboard((const FXMatrix43 *)NNS_G3dGlbGetCameraMtx(), &matrix);
     NNS_G3dGlbSetBaseRot(matrix.nnMtx);
 }
 

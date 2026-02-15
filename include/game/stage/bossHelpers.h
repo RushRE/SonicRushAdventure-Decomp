@@ -3,7 +3,7 @@
 
 #include <global.h>
 #include <game/graphics/paletteAnimation.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/graphics/sprite.h>
 #include <game/object/objAction.h>
 #include <stage/stageTask.h>

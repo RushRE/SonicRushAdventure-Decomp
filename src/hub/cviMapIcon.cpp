@@ -4,7 +4,7 @@
 #include <game/input/padInput.h>
 #include <game/input/touchInput.h>
 #include <game/graphics/drawState.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <hub/hubConfig.h>
 #include <hub/hubControl.hpp>
 

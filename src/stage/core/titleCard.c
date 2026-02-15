@@ -6,7 +6,7 @@
 #include <game/system/sysEvent.h>
 #include <game/object/objDraw.h>
 #include <game/audio/audioSystem.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/graphics/drawFadeTask.h>
 #include <game/game/gameState.h>
 #include <game/stage/gameSystem.h>
@@ -730,14 +730,14 @@ void TitleCard__Draw(TitleCard *work)
     {
         if (!zoneFlag[GetCurrentZoneID()])
         {
-            if (!Camera3D__UseEngineA())
+            if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
             {
                 isVisible = FALSE;
             }
         }
         else
         {
-            if (Camera3D__UseEngineA())
+            if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
             {
                 isVisible = FALSE;
             }

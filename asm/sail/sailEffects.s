@@ -1004,7 +1004,7 @@ EffectUnknown21615C8__Create: // 0x021615C8
 	mov r2, r1
 	mov r0, #0
 	mov r3, r1
-	bl DrawReqTask__Create
+	bl BeginSysPause
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
@@ -3867,7 +3867,7 @@ EffectUnknown21615C8__Main: // 0x02163F80
 	str r1, [r0]
 	cmp r1, #0
 	ldmgtia sp!, {r3, pc}
-	bl DrawReqTask__Enable
+	bl EndSysPause
 	bl DestroyCurrentTask
 	ldmia sp!, {r3, pc}
 	arm_func_end EffectUnknown21615C8__Main

@@ -7,7 +7,7 @@
 #include <game/graphics/renderCore.h>
 #include <game/input/replayRecorder.h>
 #include <game/graphics/drawFadeTask.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 
 // resources
 #include <resources/bb/gm_demoplay.h>
@@ -240,7 +240,7 @@ void DemoPlayer_Draw(DemoPlayer *work)
         return;
     }
 
-    if (!IsBossStage())
+    if (IsBossStage() == FALSE)
     {
         work->aniDemoPlay.flags &= ~(ANIMATORSPRITEDS_FLAG_DISABLE_A | ANIMATORSPRITEDS_FLAG_DISABLE_B);
         work->aniPressStart.flags &= ~(ANIMATORSPRITEDS_FLAG_DISABLE_A | ANIMATORSPRITEDS_FLAG_DISABLE_B);
@@ -261,7 +261,7 @@ void DemoPlayer_Draw(DemoPlayer *work)
     }
     else
     {
-        if (Camera3D__UseEngineA())
+        if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
             AnimatorSpriteDS__DrawFrame(&work->aniDemoPlay);
         else
             AnimatorSpriteDS__DrawFrame(&work->aniPressStart);

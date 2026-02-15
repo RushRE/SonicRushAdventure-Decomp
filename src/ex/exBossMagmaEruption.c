@@ -126,7 +126,7 @@ BOOL LoadExBossMagmeWaveAttackAssets(EX_ACTION_NN_WORK *work)
         magmaEruptionAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FCOL_NSBTA);
         magmaEruptionAnimType[1]     = B3D_ANIM_TEX_ANIM;
 
-        Asset3DSetup__Create(magmaEruptionModelResource);
+        CreateAsset3DSetup(magmaEruptionModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
@@ -405,7 +405,7 @@ BOOL LoadExBossMagmaWaveAssets(EX_ACTION_NN_WORK *work)
         magmaWaveAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_WAVE_NSBVA);
         magmaWaveAnimType[3]     = B3D_ANIM_VIS_ANIM;
 
-        Asset3DSetup__Create(magmaWaveModelResource);
+        CreateAsset3DSetup(magmaWaveModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;

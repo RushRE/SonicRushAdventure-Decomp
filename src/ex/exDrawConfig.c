@@ -38,56 +38,56 @@ void InitExDrawCameraConfig(ExDrawCameraConfig *work)
 {
     MI_CpuClear16(work, sizeof(*work));
 
-    work->nextCamera.config.projFOV    = FLOAT_DEG_TO_IDX(0.0);
-    work->currentCamera.config.projFOV = FLOAT_DEG_TO_IDX(0.0);
+    work->nextCamera.projection.fov    = FLOAT_DEG_TO_IDX(0.0);
+    work->currentCamera.projection.fov = FLOAT_DEG_TO_IDX(0.0);
 
-    work->nextCamera.config.projNear    = FLOAT_TO_FX32(0.0);
-    work->currentCamera.config.projNear = FLOAT_TO_FX32(0.0);
+    work->nextCamera.projection.nearPlane    = FLOAT_TO_FX32(0.0);
+    work->currentCamera.projection.nearPlane = FLOAT_TO_FX32(0.0);
 
-    work->nextCamera.config.projFar    = FLOAT_TO_FX32(0.0);
-    work->currentCamera.config.projFar = FLOAT_TO_FX32(0.0);
+    work->nextCamera.projection.farPlane    = FLOAT_TO_FX32(0.0);
+    work->currentCamera.projection.farPlane = FLOAT_TO_FX32(0.0);
 
-    work->nextCamera.config.aspectRatio    = FLOAT_DEG_TO_IDX(0.0);
-    work->currentCamera.config.aspectRatio = FLOAT_DEG_TO_IDX(0.0);
+    work->nextCamera.projection.aspectRatio    = FLOAT_DEG_TO_IDX(0.0);
+    work->currentCamera.projection.aspectRatio = FLOAT_DEG_TO_IDX(0.0);
 
-    work->nextCamera.config.projScaleW    = FLOAT_DEG_TO_IDX(0.0);
-    work->currentCamera.config.projScaleW = FLOAT_DEG_TO_IDX(0.0);
+    work->nextCamera.projection.scaleW    = FLOAT_DEG_TO_IDX(0.0);
+    work->currentCamera.projection.scaleW = FLOAT_DEG_TO_IDX(0.0);
 
-    work->nextCamera.config.matProjPosition.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.config.matProjPosition.y = FLOAT_TO_FX32(0.0);
-    work->nextCamera.config.matProjPosition.z = FLOAT_TO_FX32(0.0);
+    work->nextCamera.projection.position.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.projection.position.y = FLOAT_TO_FX32(0.0);
+    work->nextCamera.projection.position.z = FLOAT_TO_FX32(0.0);
 
-    work->currentCamera.config.matProjPosition.x = work->nextCamera.config.matProjPosition.x;
-    work->currentCamera.config.matProjPosition.y = work->nextCamera.config.matProjPosition.y;
-    work->currentCamera.config.matProjPosition.z = work->nextCamera.config.matProjPosition.z;
+    work->currentCamera.projection.position.x = work->nextCamera.projection.position.x;
+    work->currentCamera.projection.position.y = work->nextCamera.projection.position.y;
+    work->currentCamera.projection.position.z = work->nextCamera.projection.position.z;
 
-    work->nextCamera.camPos.x    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.camPos.y    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.camPos.z    = FLOAT_TO_FX32(0.0);
-    work->currentCamera.camPos.x = work->nextCamera.camPos.x;
-    work->currentCamera.camPos.y = work->nextCamera.camPos.y;
-    work->currentCamera.camPos.z = work->nextCamera.camPos.z;
+    work->nextCamera.view.camPos.x    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camPos.y    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camPos.z    = FLOAT_TO_FX32(0.0);
+    work->currentCamera.view.camPos.x = work->nextCamera.view.camPos.x;
+    work->currentCamera.view.camPos.y = work->nextCamera.view.camPos.y;
+    work->currentCamera.view.camPos.z = work->nextCamera.view.camPos.z;
 
-    work->nextCamera.camTarget.x    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.camTarget.y    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.camTarget.z    = FLOAT_TO_FX32(0.0);
-    work->currentCamera.camTarget.x = work->nextCamera.camTarget.x;
-    work->currentCamera.camTarget.y = work->nextCamera.camTarget.y;
-    work->currentCamera.camTarget.z = work->nextCamera.camTarget.z;
+    work->nextCamera.view.camTarget.x    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camTarget.y    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camTarget.z    = FLOAT_TO_FX32(0.0);
+    work->currentCamera.view.camTarget.x = work->nextCamera.view.camTarget.x;
+    work->currentCamera.view.camTarget.y = work->nextCamera.view.camTarget.y;
+    work->currentCamera.view.camTarget.z = work->nextCamera.view.camTarget.z;
 
-    work->nextCamera.camUp.x    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.camUp.y    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.camUp.z    = FLOAT_TO_FX32(0.0);
-    work->currentCamera.camUp.x = work->nextCamera.camUp.x;
-    work->currentCamera.camUp.y = work->nextCamera.camUp.y;
-    work->currentCamera.camUp.z = work->nextCamera.camUp.z;
+    work->nextCamera.view.camUp.x    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camUp.y    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camUp.z    = FLOAT_TO_FX32(0.0);
+    work->currentCamera.view.camUp.x = work->nextCamera.view.camUp.x;
+    work->currentCamera.view.camUp.y = work->nextCamera.view.camUp.y;
+    work->currentCamera.view.camUp.z = work->nextCamera.view.camUp.z;
 
-    work->nextCamera.position.x    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.position.y    = FLOAT_TO_FX32(0.0);
-    work->nextCamera.position.z    = FLOAT_TO_FX32(0.0);
-    work->currentCamera.position.x = work->nextCamera.position.x;
-    work->currentCamera.position.y = work->nextCamera.position.y;
-    work->currentCamera.position.z = work->nextCamera.position.z;
+    work->nextCamera.view.position.x    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.position.y    = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.position.z    = FLOAT_TO_FX32(0.0);
+    work->currentCamera.view.position.x = work->nextCamera.view.position.x;
+    work->currentCamera.view.position.y = work->nextCamera.view.position.y;
+    work->currentCamera.view.position.z = work->nextCamera.view.position.z;
 }
 
 void InitExDrawLightConfig(ExDrawLightConfig *work)
@@ -108,39 +108,39 @@ void InitExDrawLightConfig(ExDrawLightConfig *work)
 
 void ApplyExDrawCameraConfig(ExDrawCameraConfig *work)
 {
-    if (work->nextCamera.config.projFOV < FLOAT_DEG_TO_IDX(1.0))
-        work->nextCamera.config.projFOV = FLOAT_DEG_TO_IDX(1.0);
+    if (work->nextCamera.projection.fov < FLOAT_DEG_TO_IDX(1.0))
+        work->nextCamera.projection.fov = FLOAT_DEG_TO_IDX(1.0);
 
-    if (work->nextCamera.config.projFOV > FLOAT_DEG_TO_IDX(89.0))
-        work->nextCamera.config.projFOV = FLOAT_DEG_TO_IDX(89.0);
+    if (work->nextCamera.projection.fov > FLOAT_DEG_TO_IDX(89.0))
+        work->nextCamera.projection.fov = FLOAT_DEG_TO_IDX(89.0);
 
-    work->currentCamera.config.projFOV     = work->nextCamera.config.projFOV;
-    work->currentCamera.config.projNear    = work->nextCamera.config.projNear;
-    work->currentCamera.config.projFar     = work->nextCamera.config.projFar;
-    work->currentCamera.config.aspectRatio = work->nextCamera.config.aspectRatio;
-    work->currentCamera.config.projScaleW  = work->nextCamera.config.projScaleW;
+    work->currentCamera.projection.fov     = work->nextCamera.projection.fov;
+    work->currentCamera.projection.nearPlane    = work->nextCamera.projection.nearPlane;
+    work->currentCamera.projection.farPlane     = work->nextCamera.projection.farPlane;
+    work->currentCamera.projection.aspectRatio = work->nextCamera.projection.aspectRatio;
+    work->currentCamera.projection.scaleW  = work->nextCamera.projection.scaleW;
 
-    work->currentCamera.config.matProjPosition.x = work->nextCamera.config.matProjPosition.x;
-    work->currentCamera.config.matProjPosition.y = work->nextCamera.config.matProjPosition.y;
-    work->currentCamera.config.matProjPosition.z = work->nextCamera.config.matProjPosition.z;
+    work->currentCamera.projection.position.x = work->nextCamera.projection.position.x;
+    work->currentCamera.projection.position.y = work->nextCamera.projection.position.y;
+    work->currentCamera.projection.position.z = work->nextCamera.projection.position.z;
 
-    work->currentCamera.camPos.x = work->nextCamera.camPos.x;
-    work->currentCamera.camPos.y = work->nextCamera.camPos.y;
-    work->currentCamera.camPos.z = work->nextCamera.camPos.z;
+    work->currentCamera.view.camPos.x = work->nextCamera.view.camPos.x;
+    work->currentCamera.view.camPos.y = work->nextCamera.view.camPos.y;
+    work->currentCamera.view.camPos.z = work->nextCamera.view.camPos.z;
 
-    work->currentCamera.camTarget.x = work->nextCamera.camTarget.x;
-    work->currentCamera.camTarget.y = work->nextCamera.camTarget.y;
-    work->currentCamera.camTarget.z = work->nextCamera.camTarget.z;
+    work->currentCamera.view.camTarget.x = work->nextCamera.view.camTarget.x;
+    work->currentCamera.view.camTarget.y = work->nextCamera.view.camTarget.y;
+    work->currentCamera.view.camTarget.z = work->nextCamera.view.camTarget.z;
 
-    work->currentCamera.camUp.x = work->nextCamera.camUp.x;
-    work->currentCamera.camUp.y = work->nextCamera.camUp.y;
-    work->currentCamera.camUp.z = work->nextCamera.camUp.z;
+    work->currentCamera.view.camUp.x = work->nextCamera.view.camUp.x;
+    work->currentCamera.view.camUp.y = work->nextCamera.view.camUp.y;
+    work->currentCamera.view.camUp.z = work->nextCamera.view.camUp.z;
 
-    work->currentCamera.position.x = work->nextCamera.position.x;
-    work->currentCamera.position.y = work->nextCamera.position.y;
-    work->currentCamera.position.z = work->nextCamera.position.z;
+    work->currentCamera.view.position.x = work->nextCamera.view.position.x;
+    work->currentCamera.view.position.y = work->nextCamera.view.position.y;
+    work->currentCamera.view.position.z = work->nextCamera.view.position.z;
 
-    Camera3D__LoadState(&work->currentCamera);
+    SwapBuffer3D_ApplyCameraState(&work->currentCamera);
 }
 
 void SetExDrawLightConfig(ExDrawLightConfig *config)
@@ -173,16 +173,16 @@ void SetExDrawLightConfig(ExDrawLightConfig *config)
 
         case EXDRAWREQ_LIGHT_DEFAULT:
             GetDrawStateLight(GetExSystemDrawState(), &config->curLight, GX_LIGHTID_0);
-            Camera3D__SetLight(GX_LIGHTID_0, &config->curLight);
+            SwapBuffer3D_SetLight(GX_LIGHTID_0, &config->curLight);
 
             GetDrawStateLight(GetExSystemDrawState(), &config->curLight, GX_LIGHTID_1);
-            Camera3D__SetLight(GX_LIGHTID_1, &config->curLight);
+            SwapBuffer3D_SetLight(GX_LIGHTID_1, &config->curLight);
 
             GetDrawStateLight(GetExSystemDrawState(), &config->curLight, GX_LIGHTID_2);
-            Camera3D__SetLight(GX_LIGHTID_2, &config->curLight);
+            SwapBuffer3D_SetLight(GX_LIGHTID_2, &config->curLight);
 
             GetDrawStateLight(GetExSystemDrawState(), &config->curLight, GX_LIGHTID_3);
-            Camera3D__SetLight(GX_LIGHTID_3, &config->curLight);
+            SwapBuffer3D_SetLight(GX_LIGHTID_3, &config->curLight);
             return;
 
         default:
@@ -194,138 +194,138 @@ void SetExDrawLightConfig(ExDrawLightConfig *config)
     config->curLight.dir.y = config->nextLight.dir.y;
     config->curLight.dir.z = config->nextLight.dir.z;
 
-    Camera3D__SetLight(GX_LIGHTID_0, &config->curLight);
-    Camera3D__SetLight(GX_LIGHTID_1, &config->curLight);
-    Camera3D__SetLight(GX_LIGHTID_2, &config->curLight);
-    Camera3D__SetLight(GX_LIGHTID_3, &config->curLight);
+    SwapBuffer3D_SetLight(GX_LIGHTID_0, &config->curLight);
+    SwapBuffer3D_SetLight(GX_LIGHTID_1, &config->curLight);
+    SwapBuffer3D_SetLight(GX_LIGHTID_2, &config->curLight);
+    SwapBuffer3D_SetLight(GX_LIGHTID_3, &config->curLight);
 }
 
 void LoadExDrawCameraConfig_1(ExDrawCameraConfig *work)
 {
     work->type = EXDRAW_CAMERACONFIG_1;
 
-    work->nextCamera.config.projFOV     = FLOAT_DEG_TO_IDX(7.0);
-    work->nextCamera.config.projNear    = FLOAT_TO_FX32(1.0);
-    work->nextCamera.config.projFar     = FLOAT_TO_FX32(2048.0);
-    work->nextCamera.config.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
-    work->nextCamera.config.projScaleW  = FLOAT_TO_FX32(1.0);
+    work->nextCamera.projection.fov     = FLOAT_DEG_TO_IDX(7.0);
+    work->nextCamera.projection.nearPlane    = FLOAT_TO_FX32(1.0);
+    work->nextCamera.projection.farPlane     = FLOAT_TO_FX32(2048.0);
+    work->nextCamera.projection.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
+    work->nextCamera.projection.scaleW  = FLOAT_TO_FX32(1.0);
 
-    work->nextCamera.camPos.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.camPos.y = -FLOAT_TO_FX32(38.5);
-    work->nextCamera.camPos.z = FLOAT_TO_FX32(308.0);
+    work->nextCamera.view.camPos.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camPos.y = -FLOAT_TO_FX32(38.5);
+    work->nextCamera.view.camPos.z = FLOAT_TO_FX32(308.0);
 
     if (work->useEngineB == GRAPHICS_ENGINE_A)
     {
-        work->nextCamera.camTarget.x = FLOAT_TO_FX32(0.0);
-        work->nextCamera.camTarget.y = FLOAT_TO_FX32(128.0);
-        work->nextCamera.camTarget.z = FLOAT_TO_FX32(0.0);
+        work->nextCamera.view.camTarget.x = FLOAT_TO_FX32(0.0);
+        work->nextCamera.view.camTarget.y = FLOAT_TO_FX32(128.0);
+        work->nextCamera.view.camTarget.z = FLOAT_TO_FX32(0.0);
     }
     else if (work->useEngineB == GRAPHICS_ENGINE_B)
     {
-        work->nextCamera.camTarget.x = FLOAT_TO_FX32(0.0);
-        work->nextCamera.camTarget.y = FLOAT_TO_FX32(0.0);
-        work->nextCamera.camTarget.z = FLOAT_TO_FX32(0.0);
+        work->nextCamera.view.camTarget.x = FLOAT_TO_FX32(0.0);
+        work->nextCamera.view.camTarget.y = FLOAT_TO_FX32(0.0);
+        work->nextCamera.view.camTarget.z = FLOAT_TO_FX32(0.0);
     }
 
-    work->nextCamera.camUp.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.camUp.y = FLOAT_TO_FX32(1.0);
-    work->nextCamera.camUp.z = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camUp.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camUp.y = FLOAT_TO_FX32(1.0);
+    work->nextCamera.view.camUp.z = FLOAT_TO_FX32(0.0);
 }
 
 void LoadExDrawCameraConfig_2(ExDrawCameraConfig *work)
 {
     work->type = EXDRAW_CAMERACONFIG_2;
 
-    work->nextCamera.config.projFOV     = FLOAT_DEG_TO_IDX(7.0);
-    work->nextCamera.config.projNear    = FLOAT_TO_FX32(1.0);
-    work->nextCamera.config.projFar     = FLOAT_TO_FX32(2048.0);
-    work->nextCamera.config.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
-    work->nextCamera.config.projScaleW  = FLOAT_TO_FX32(1.0);
+    work->nextCamera.projection.fov     = FLOAT_DEG_TO_IDX(7.0);
+    work->nextCamera.projection.nearPlane    = FLOAT_TO_FX32(1.0);
+    work->nextCamera.projection.farPlane     = FLOAT_TO_FX32(2048.0);
+    work->nextCamera.projection.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
+    work->nextCamera.projection.scaleW  = FLOAT_TO_FX32(1.0);
 
-    work->nextCamera.camPos.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.camPos.y = -FLOAT_TO_FX32(38.5);
-    work->nextCamera.camPos.z = FLOAT_TO_FX32(308.0);
+    work->nextCamera.view.camPos.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camPos.y = -FLOAT_TO_FX32(38.5);
+    work->nextCamera.view.camPos.z = FLOAT_TO_FX32(308.0);
 
     if (work->useEngineB == GRAPHICS_ENGINE_A)
     {
-        work->nextCamera.camTarget.x = FLOAT_TO_FX32(0.0);
-        work->nextCamera.camTarget.y = FLOAT_TO_FX32(128.0);
-        work->nextCamera.camTarget.z = FLOAT_TO_FX32(0.0);
+        work->nextCamera.view.camTarget.x = FLOAT_TO_FX32(0.0);
+        work->nextCamera.view.camTarget.y = FLOAT_TO_FX32(128.0);
+        work->nextCamera.view.camTarget.z = FLOAT_TO_FX32(0.0);
     }
     else if (work->useEngineB == GRAPHICS_ENGINE_B)
     {
-        work->nextCamera.camTarget.x = FLOAT_TO_FX32(0.0);
-        work->nextCamera.camTarget.y = FLOAT_TO_FX32(0.0);
-        work->nextCamera.camTarget.z = FLOAT_TO_FX32(0.0);
+        work->nextCamera.view.camTarget.x = FLOAT_TO_FX32(0.0);
+        work->nextCamera.view.camTarget.y = FLOAT_TO_FX32(0.0);
+        work->nextCamera.view.camTarget.z = FLOAT_TO_FX32(0.0);
     }
 
-    work->nextCamera.camUp.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.camUp.y = FLOAT_TO_FX32(1.0);
-    work->nextCamera.camUp.z = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camUp.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camUp.y = FLOAT_TO_FX32(1.0);
+    work->nextCamera.view.camUp.z = FLOAT_TO_FX32(0.0);
 }
 
 void LoadExDrawCameraConfig_3(ExDrawCameraConfig *work)
 {
     work->type = EXDRAW_CAMERACONFIG_3;
 
-    work->nextCamera.config.projFOV     = FLOAT_DEG_TO_IDX(7.0);
-    work->nextCamera.config.projNear    = FLOAT_TO_FX32(1.0);
-    work->nextCamera.config.projFar     = FLOAT_TO_FX32(2048.0);
-    work->nextCamera.config.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
-    work->nextCamera.config.projScaleW  = FLOAT_TO_FX32(1.0);
+    work->nextCamera.projection.fov     = FLOAT_DEG_TO_IDX(7.0);
+    work->nextCamera.projection.nearPlane    = FLOAT_TO_FX32(1.0);
+    work->nextCamera.projection.farPlane     = FLOAT_TO_FX32(2048.0);
+    work->nextCamera.projection.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
+    work->nextCamera.projection.scaleW  = FLOAT_TO_FX32(1.0);
 
-    work->nextCamera.camPos.x = FLOAT_TO_FX32(500.0);
-    work->nextCamera.camPos.y = -FLOAT_TO_FX32(40.0);
-    work->nextCamera.camPos.z = FLOAT_TO_FX32(290.0);
+    work->nextCamera.view.camPos.x = FLOAT_TO_FX32(500.0);
+    work->nextCamera.view.camPos.y = -FLOAT_TO_FX32(40.0);
+    work->nextCamera.view.camPos.z = FLOAT_TO_FX32(290.0);
 
     if (work->useEngineB == GRAPHICS_ENGINE_A)
     {
-        work->nextCamera.camTarget.x = FLOAT_TO_FX32(6.4);
-        work->nextCamera.camTarget.y = FLOAT_TO_FX32(128.0);
-        work->nextCamera.camTarget.z = FLOAT_TO_FX32(64.0);
+        work->nextCamera.view.camTarget.x = FLOAT_TO_FX32(6.4);
+        work->nextCamera.view.camTarget.y = FLOAT_TO_FX32(128.0);
+        work->nextCamera.view.camTarget.z = FLOAT_TO_FX32(64.0);
     }
     else if (work->useEngineB == GRAPHICS_ENGINE_B)
     {
-        work->nextCamera.camTarget.x = FLOAT_TO_FX32(6.4);
-        work->nextCamera.camTarget.y = FLOAT_TO_FX32(0.0);
-        work->nextCamera.camTarget.z = FLOAT_TO_FX32(64.0);
+        work->nextCamera.view.camTarget.x = FLOAT_TO_FX32(6.4);
+        work->nextCamera.view.camTarget.y = FLOAT_TO_FX32(0.0);
+        work->nextCamera.view.camTarget.z = FLOAT_TO_FX32(64.0);
     }
 
-    work->nextCamera.camUp.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.camUp.y = FLOAT_TO_FX32(1.0);
-    work->nextCamera.camUp.z = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camUp.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camUp.y = FLOAT_TO_FX32(1.0);
+    work->nextCamera.view.camUp.z = FLOAT_TO_FX32(0.0);
 }
 
 void LoadExDrawCameraConfig_4(ExDrawCameraConfig *work)
 {
     work->type = EXDRAW_CAMERACONFIG_4;
 
-    work->nextCamera.config.projFOV     = FLOAT_DEG_TO_IDX(7.0);
-    work->nextCamera.config.projNear    = FLOAT_TO_FX32(1.0);
-    work->nextCamera.config.projFar     = FLOAT_TO_FX32(2048.0);
-    work->nextCamera.config.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
-    work->nextCamera.config.projScaleW  = FLOAT_TO_FX32(1.0);
+    work->nextCamera.projection.fov     = FLOAT_DEG_TO_IDX(7.0);
+    work->nextCamera.projection.nearPlane    = FLOAT_TO_FX32(1.0);
+    work->nextCamera.projection.farPlane     = FLOAT_TO_FX32(2048.0);
+    work->nextCamera.projection.aspectRatio = FLOAT_DEG_TO_IDX(30.0);
+    work->nextCamera.projection.scaleW  = FLOAT_TO_FX32(1.0);
 
-    work->nextCamera.camPos.x = -FLOAT_TO_FX32(500.0);
-    work->nextCamera.camPos.y = -FLOAT_TO_FX32(40.0);
-    work->nextCamera.camPos.z = FLOAT_TO_FX32(290.0);
+    work->nextCamera.view.camPos.x = -FLOAT_TO_FX32(500.0);
+    work->nextCamera.view.camPos.y = -FLOAT_TO_FX32(40.0);
+    work->nextCamera.view.camPos.z = FLOAT_TO_FX32(290.0);
 
     if (work->useEngineB == GRAPHICS_ENGINE_A)
     {
-        work->nextCamera.camTarget.x = -FLOAT_TO_FX32(6.4);
-        work->nextCamera.camTarget.y = FLOAT_TO_FX32(128.0);
-        work->nextCamera.camTarget.z = FLOAT_TO_FX32(64.0);
+        work->nextCamera.view.camTarget.x = -FLOAT_TO_FX32(6.4);
+        work->nextCamera.view.camTarget.y = FLOAT_TO_FX32(128.0);
+        work->nextCamera.view.camTarget.z = FLOAT_TO_FX32(64.0);
     }
     else if (work->useEngineB == GRAPHICS_ENGINE_B)
     {
-        work->nextCamera.camTarget.x = -FLOAT_TO_FX32(6.4);
-        work->nextCamera.camTarget.y = FLOAT_TO_FX32(0.0);
-        work->nextCamera.camTarget.z = FLOAT_TO_FX32(64.0);
+        work->nextCamera.view.camTarget.x = -FLOAT_TO_FX32(6.4);
+        work->nextCamera.view.camTarget.y = FLOAT_TO_FX32(0.0);
+        work->nextCamera.view.camTarget.z = FLOAT_TO_FX32(64.0);
     }
 
-    work->nextCamera.camUp.x = FLOAT_TO_FX32(0.0);
-    work->nextCamera.camUp.y = FLOAT_TO_FX32(1.0);
-    work->nextCamera.camUp.z = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camUp.x = FLOAT_TO_FX32(0.0);
+    work->nextCamera.view.camUp.y = FLOAT_TO_FX32(1.0);
+    work->nextCamera.view.camUp.z = FLOAT_TO_FX32(0.0);
 }
 
 void LoadExDrawConfig(ExDrawReqTaskCameraConfigType currentCameraType, ExDrawReqLightType lightType)

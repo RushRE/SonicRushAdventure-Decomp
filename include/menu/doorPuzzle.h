@@ -6,7 +6,7 @@
 #include <game/graphics/paletteAnimation.h>
 #include <game/graphics/background.h>
 #include <game/graphics/paletteAnimation.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/text/fontAnimator.h>
 #include <game/text/fontWindow.h>
 #include <game/text/fontWindowAnimator.h>

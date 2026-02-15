@@ -5,7 +5,7 @@
 #include <game/audio/sysSound.h>
 #include <game/graphics/spriteUnknown.h>
 #include <game/graphics/drawFadeTask.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/graphics/drawState.h>
 #include <game/graphics/background.h>
 #include <game/input/padInput.h>
@@ -603,13 +603,13 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenGraphics(EmeraldCollectedScreenWork
     Camera3D camera;
     MI_CpuClear16(&camera, sizeof(camera));
     GetDrawStateCameraView(drawState, &camera);
-    GetDrawStateCameraProjection(drawState, &camera.config);
+    GetDrawStateCameraProjection(drawState, &camera.projection);
     if (IsEmeraldCollectedScreenUsingChaosEmeralds())
-        camera.config.matProjPosition.y = MultiplyFX(camera.config.projScaleW, -106);
+        camera.projection.position.y = MultiplyFX(camera.projection.scaleW, -106);
     else
-        camera.config.matProjPosition.y = MultiplyFX(camera.config.projScaleW, -213);
-    camera.config.matProjPosition.x = 0;
-    Camera3D__LoadState(&camera);
+        camera.projection.position.y = MultiplyFX(camera.projection.scaleW, -213);
+    camera.projection.position.x = 0;
+    SwapBuffer3D_ApplyCameraState(&camera);
 
     work->mdlEmerald = mdlEmerald;
     NNS_G3dResDefaultSetup(work->mdlEmerald);
@@ -909,7 +909,7 @@ _021553F4:
 	mov r0, #0
 	str r0, [sp, #0x68]
 	add r0, sp, #0x54
-	bl Camera3D__LoadState
+	bl SwapBuffer3D_ApplyCameraState
 	ldr r2, [sp, #0x44]
 	ldr r1, =0x0000078C
 	ldr r0, [sp, #0x28]

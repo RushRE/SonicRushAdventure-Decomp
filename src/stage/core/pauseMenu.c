@@ -2,7 +2,7 @@
 #include <game/stage/gameSystem.h>
 #include <stage/core/hud.h>
 #include <game/audio/audioSystem.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/graphics/drawFadeTask.h>
 #include <game/input/replayRecorder.h>
 #include <game/object/objData.h>
@@ -31,12 +31,12 @@ void TryOpenPauseMenu(void)
     if (gmCheckVsBattleFlag() || gameState.gameMode == GAMEMODE_TIMEATTACK && (gameState.gameFlag & GAME_FLAG_REPLAY_STARTED) != 0)
         return;
 
-    if (Camera3D__GetTask() != NULL)
+    if (GetSwapBuffer3DTask() != NULL)
     {
-        Camera3DTask *bossCamera         = Camera3D__GetWork();
+        SwapBuffer3D *bossCamera         = GetSwapBuffer3DWork();
         RenderCoreGFXControl *gfxControl = &bossCamera->gfxControl[GetHUDActiveScreen()];
 
-        if (gfxControl->brightness != 0)
+        if (gfxControl->brightness != RENDERCORE_BRIGHTNESS_DEFAULT)
             return;
 
         if ((gfxControl->blendManager.blendControl.effect & BLENDTYPE_FADEIN) != 0 && gfxControl->blendManager.coefficient.value != RENDERCORE_BRIGHTNESS_DEFAULT
@@ -45,16 +45,14 @@ void TryOpenPauseMenu(void)
     }
     else
     {
-        if (renderCoreGFXControlA.brightness != 0 || renderCoreGFXControlB.brightness != 0)
-        {
+        if (renderCoreGFXControlA.brightness != RENDERCORE_BRIGHTNESS_DEFAULT || renderCoreGFXControlB.brightness != RENDERCORE_BRIGHTNESS_DEFAULT)
             return;
-        }
     }
 
     if (GetSysEventList()->currentEventID != SYSEVENT_TITLECARD && CreatePauseMenu())
     {
-        if (!CheckTaskPaused(NULL))
-            DrawReqTask__Create(TASK_PAUSELEVEL_2, TRUE, TRUE, TRUE);
+        if (CheckTaskPaused(NULL) == FALSE)
+            BeginSysPause(TASK_PAUSELEVEL_2, TRUE, TRUE, TRUE);
 
         padInput.btnPress = PAD_INPUT_NONE_MASK;
 
@@ -307,7 +305,7 @@ void PauseMenu_Main_Selected(void)
             {
                 DestroyCurrentTask();
                 if (CheckTaskPaused(NULL))
-                    DrawReqTask__Enable();
+                    EndSysPause();
 
                 return;
             }
@@ -330,7 +328,7 @@ void PauseMenu_Main_DoAction(void)
     PauseMenuButtonAction action = work->buttonAction[work->selectedButton + 1];
     if (work->timer != 0)
     {
-        if (!DrawReqTask__GetEnabled())
+        if (SysPause_IsActive() == FALSE)
         {
             if (action == PAUSEMENU_ACTION_RESTART)
                 gameState.gameFlag |= GAME_FLAG_PLAYER_RESTARTED;
@@ -360,7 +358,7 @@ void PauseMenu_Main_DoAction(void)
             ReleasePauseMenuSprites(work);
 
             if (CheckTaskPaused(NULL))
-                DrawReqTask__Enable();
+                EndSysPause();
 
             SetPadReplayState(REPLAY_MODE_FORCE_QUIT);
             work->timer++;

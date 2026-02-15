@@ -65,8 +65,8 @@ void LoadExSuperSonicModel(EX_ACTION_NN_WORK *work)
         NNS_G3dResDefaultSetup(exSuperSonicModelResource);
 
         void *oldMemory           = exSuperSonicModelResource;
-        exSuperSonicModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup__GetTexSize(exSuperSonicModelResource));
-        Asset3DSetup__GetTexture(oldMemory, exSuperSonicModelResource);
+        exSuperSonicModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(exSuperSonicModelResource));
+        Asset3DSetup_CopyResourceData(oldMemory, exSuperSonicModelResource);
         HeapFree(HEAP_USER, oldMemory);
     }
 
@@ -145,7 +145,7 @@ void LoadExRegularSonicModel(EX_ACTION_NN_WORK *work)
         GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_NSON_NSBMD, &exRegularSonicModelResource, TRUE, FALSE);
 
         exRegularSonicJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_NSON_NSBCA);
-        Asset3DSetup__Create(exRegularSonicModelResource);
+        CreateAsset3DSetup(exRegularSonicModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
@@ -238,7 +238,7 @@ BOOL LoadExSonicDashEffectAssets(EX_ACTION_NN_WORK *work)
         exSonicDashEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SDASH_NSBVA);
         exSonicDashEffectAnimType[2]     = B3D_ANIM_VIS_ANIM;
 
-        Asset3DSetup__Create(exSonicDashEffectModelResource);
+        CreateAsset3DSetup(exSonicDashEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);

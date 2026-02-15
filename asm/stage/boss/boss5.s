@@ -525,7 +525,7 @@ _02173E34:
 	ldr r0, [r0, #0]
 	bl NNS_G3dGetTex
 	ldr r1, [r5, #0]
-	bl Asset3DSetup__PaletteFromName
+	bl Asset3DSetup_GetPaletteFromName
 	mov r1, #5
 	str r1, [sp]
 	mov r2, #0
@@ -3697,10 +3697,10 @@ Boss5__Func_21758CC: // _021758CC
 	mov r6, #0xd9
 	mov r5, r0
 	lsl r6, r6, #2
-	bl Camera3D__GetTask
+	bl GetSwapBuffer3DTask
 	cmp r0, #0
 	beq _021758F2
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	bne _021758FA
 _021758F2:
@@ -3739,10 +3739,10 @@ Boss5__Func_2175924: // _02175924
 	mov r6, #0xd9
 	mov r5, r0
 	lsl r6, r6, #2
-	bl Camera3D__GetTask
+	bl GetSwapBuffer3DTask
 	cmp r0, #0
 	beq _0217594A
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	beq _02175952
 _0217594A:
@@ -4121,10 +4121,10 @@ Boss5__Func_2175BD0: // _02175BD0
 	mov r0, #0x20
 	tst r0, r1
 	bne _02175C16
-	bl Camera3D__GetTask
+	bl GetSwapBuffer3DTask
 	cmp r0, #0
 	beq _02175C16
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	bne _02175C16
 	ldr r0, _02175C1C // =0x000003C6
@@ -5973,10 +5973,10 @@ Boss5__Func_2176998: // 0x02176998
 	mov r4, r0
 	bl GetCurrentTaskWork_
 	mov r5, r0
-	bl Camera3D__GetTask
+	bl GetSwapBuffer3DTask
 	cmp r0, #0
 	beq _021769BA
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	beq _021769C2
 _021769BA:
@@ -6612,10 +6612,10 @@ Boss5__Func_2176EAC: // 0x02176EAC
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	mov r5, #0
-	bl Camera3D__GetTask
+	bl GetSwapBuffer3DTask
 	cmp r0, #0
 	beq _02176ED4
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	beq _02176EC8
 	mov r5, #1
@@ -6644,10 +6644,10 @@ _02176ED4:
 	bic r1, r0
 	str r1, [r4, #0x20]
 	mov r5, #0
-	bl Camera3D__GetTask
+	bl GetSwapBuffer3DTask
 	cmp r0, #0
 	beq _02176F18
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	bne _02176F18
 	mov r0, r4
@@ -6685,10 +6685,10 @@ _02176F4E:
 	bl BossHelpers__ApplyModifiedLights
 	mov r0, #0
 	str r0, [sp]
-	bl Camera3D__GetTask
+	bl GetSwapBuffer3DTask
 	cmp r0, #0
 	beq _02176F88
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	bne _02176F7A
 	mov r0, r4
@@ -6888,7 +6888,7 @@ Boss5__Func_2177018: // 0x02177018
 	lsl r1, r1, #8
 	orr r1, r2
 	str r1, [r0]
-	bl Camera3D__Create
+	bl CreateSwapBuffer3D
 	mov r0, r6
 	add r0, #0x28
 	ldrsh r0, [r4, r0]
@@ -7210,10 +7210,10 @@ Boss5__Func_21773A0: // 0x021773A0
 	mov r0, #0x20
 	tst r0, r1
 	bne _021773F8
-	bl Camera3D__GetTask
+	bl GetSwapBuffer3DTask
 	cmp r0, #0
 	beq _021773C0
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	bne _021773C8
 _021773C0:
@@ -7536,10 +7536,10 @@ _021775E8:
 	mov r0, #0x20
 	tst r0, r1
 	bne _02177650
-	bl Camera3D__GetTask
+	bl GetSwapBuffer3DTask
 	cmp r0, #0
 	beq _02177614
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	bne _0217761C
 _02177614:
@@ -9897,12 +9897,12 @@ Boss5__Func_21788B8: // 0x021788B8
 	strh r0, [r1]
 	mov r0, #0
 	strh r0, [r1, #2]
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	add r0, #0x20
 	mov r1, #0xf
 	mov r2, #0
 	bl RenderCore_SetBlendBrightness
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	add r0, #0x7c
 	mov r1, #0xf
 	mov r2, #0
@@ -9943,11 +9943,11 @@ _0217891E:
 	ldrsh r7, [r4, r0]
 	cmp r7, #0
 	bge _02178940
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	add r0, #0x20
 	mov r1, r7
 	bl RenderCore_ChangeBlendBrightness
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0
 	ldrsh r1, [r4, r1]
 	add r0, #0x7c
@@ -10188,7 +10188,7 @@ Boss5__Func_2178B44: // 0x02178B44
 	add r0, r0, #1
 	strh r0, [r4]
 _02178B58:
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0
 	ldrsh r1, [r4, r1]
 	add r0, #0x7c
@@ -10250,7 +10250,7 @@ Boss5__Func_2178BAC: // 0x02178BAC
 	add r0, r0, #1
 	strh r0, [r4]
 _02178BCC:
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0
 	ldrsh r1, [r4, r1]
 	add r0, #0x20
@@ -10466,7 +10466,7 @@ Boss5__Func_2178D38: // 0x02178D38
 	ldr r0, _02178D90 // =gPlayer
 	ldr r0, [r0, #0]
 	bl BossHelpers__Player__LockControl
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	add r0, #0x7c
 	mov r1, #0x1f
 	mov r2, #0
@@ -10505,7 +10505,7 @@ Boss5__Func_2178DA0: // 0x02178DA0
 	ble _02178DD0
 	sub r0, r1, #1
 	strh r0, [r4, #4]
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #4
 	ldrsh r1, [r4, r1]
 	add r0, #0x7c
@@ -10893,7 +10893,7 @@ Boss5__Func_21790D0: // 0x021790D0
 	bge _021790F6
 	add r0, r0, #1
 	strh r0, [r4, #4]
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #4
 	ldrsh r1, [r4, r1]
 	add r0, #0x7c
@@ -11121,7 +11121,7 @@ Boss5__Func_217928C: // 0x0217928C
 	bge _021792B4
 	add r0, r0, #1
 	strh r0, [r4]
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0
 	ldrsh r1, [r4, r1]
 	add r0, #0x7c
@@ -11654,7 +11654,7 @@ Boss5__Func_21796D0: // 0x021796D0
 	mov r0, #0xde
 	lsl r0, r0, #2
 	add r4, r6, r0
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r5, r0
 	add r5, #0x5c
 	mov r1, r5
@@ -11719,7 +11719,7 @@ Boss5__Func_2179750: // 0x02179750
 	ldr r4, [r5, r0]
 	add r0, r0, #4
 	add r6, r5, r0
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0xf1
 	lsl r1, r1, #2
 	mov r2, #0xf
@@ -11910,7 +11910,7 @@ Boss5__Func_21798E0: // 0x021798E0
 	ldr r7, [r6, r0]
 	add r0, r0, #4
 	add r4, r6, r0
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0xf1
 	lsl r1, r1, #2
 	mov r5, #0

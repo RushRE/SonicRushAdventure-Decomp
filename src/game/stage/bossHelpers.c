@@ -542,7 +542,7 @@ s16 BossHelpers__Math__Func_2039360(s32 curPos, s32 targetPos, s16 angle, s16 an
 
 void BossHelpers__InitBoss5Blending(GraphicsEngine useEngineB)
 {
-    RenderCoreGFXControl *gfxControl = &Camera3D__GetWork()->gfxControl[useEngineB];
+    RenderCoreGFXControl *gfxControl = &GetSwapBuffer3DWork()->gfxControl[useEngineB];
 
     gfxControl->blendManager.blendControl.value      = 0x00;
     gfxControl->blendManager.blendControl.plane1_BG0 = TRUE;
@@ -595,7 +595,7 @@ void BossHelpers__ApplyModifiedLights(BossLight *config)
 {
     for (s32 i = 0; i < GX_LIGHTID_3; i++)
     {
-        Camera3D__SetLight((GXLightId)i, &config->modifiedLights[i]);
+        SwapBuffer3D_SetLight((GXLightId)i, &config->modifiedLights[i]);
     }
 }
 
@@ -603,7 +603,7 @@ void BossHelpers__RevertModifiedLights(BossLight *config)
 {
     for (s32 i = 0; i < GX_LIGHTID_3; i++)
     {
-        Camera3D__SetLight((GXLightId)i, &config->initialLights[i]);
+        SwapBuffer3D_SetLight((GXLightId)i, &config->initialLights[i]);
     }
 }
 

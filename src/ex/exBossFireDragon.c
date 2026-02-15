@@ -151,7 +151,7 @@ BOOL LoadExBossFireDragonAssets(EX_ACTION_NN_WORK *work)
         GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SALA_NSBMD, &exBossFireDragonModelResource, &exBossFireDragonModelFileSize, TRUE,
                                       FALSE);
 
-        Asset3DSetup__Create(exBossFireDragonModelResource);
+        CreateAsset3DSetup(exBossFireDragonModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;

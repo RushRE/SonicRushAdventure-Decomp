@@ -823,7 +823,7 @@ _02157234:
 	lsl r0, r0, #8
 	str r0, [r4, #0x18]
 	mov r0, r4
-	bl Camera3D__LoadState
+	bl SwapBuffer3D_ApplyCameraState
 	mov r1, #0
 	mov r0, #0x41
 	str r0, [sp]

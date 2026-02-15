@@ -25,7 +25,7 @@
 #include <game/graphics/drawFadeTask.h>
 #include <game/graphics/screenShake.h>
 #include <stage/core/demoPlayer.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <stage/gameObject.h>
 #include <stage/objects/playerSnowboard.h>
 #include <game/save/saveGame.h>
@@ -1409,9 +1409,9 @@ void ReleaseGameSystem(void)
     StarCombo__Destroy();
     BossArena__Destroy();
 
-    if (Camera3D__GetTask() != NULL)
+    if (GetSwapBuffer3DTask() != NULL)
     {
-        Camera3D__Destroy();
+        DestroySwapBuffer3D();
         if ((gameState.gameFlag & (GAME_FLAG_PLAYER_RESPAWNED | GAME_FLAG_PLAYER_RESTARTED)) == 0)
             SetupDisplayForZone(FALSE);
     }
@@ -2366,13 +2366,13 @@ void GameSystem_Main_Late(void)
 
             if (IsBossStage())
             {
-                GraphicsEngine engine    = Camera3D__UseEngineA() ? GRAPHICS_ENGINE_A : GRAPHICS_ENGINE_B;
+                GraphicsEngine engine    = SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM ? GRAPHICS_ENGINE_A : GRAPHICS_ENGINE_B;
                 GraphicsEngine hudEngine = GetHUDActiveScreen();
 
                 if (hudEngine == engine)
                 {
                     work->forceActivatePauseMenu = FALSE;
-                    TryOpenPauseMenu(); // spawns pause menu
+                    TryOpenPauseMenu();
                 }
             }
             else

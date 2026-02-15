@@ -5,7 +5,7 @@
 #include <game/graphics/sprite.h>
 #include <game/graphics/paletteAnimation.h>
 #include <game/graphics/background.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 
 // --------------------
 // TYPES

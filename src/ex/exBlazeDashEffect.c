@@ -63,8 +63,8 @@ void LoadExBurningBlazeModel(EX_ACTION_NN_WORK *work)
         NNS_G3dResDefaultSetup(exBurningBlazeModelResource);
 
         void *oldMemory             = exBurningBlazeModelResource;
-        exBurningBlazeModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup__GetTexSize(exBurningBlazeModelResource));
-        Asset3DSetup__GetTexture(oldMemory, exBurningBlazeModelResource);
+        exBurningBlazeModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(exBurningBlazeModelResource));
+        Asset3DSetup_CopyResourceData(oldMemory, exBurningBlazeModelResource);
         HeapFree(HEAP_USER, oldMemory);
     }
 
@@ -142,7 +142,7 @@ void LoadExRegularBlazeModel(EX_ACTION_NN_WORK *work)
         GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_NBLZ_NSBMD, &exRegularBlazeModelResource, TRUE, FALSE);
 
         exRegularBlazeJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_NBLZ_NSBCA);
-        Asset3DSetup__Create(exRegularBlazeModelResource);
+        CreateAsset3DSetup(exRegularBlazeModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
@@ -234,7 +234,7 @@ BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
         exBlazeDashEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BDASH_NSBVA);
         exBlazeDashEffectAnimType[2]     = B3D_ANIM_VIS_ANIM;
 
-        Asset3DSetup__Create(exBlazeDashEffectModelResource);
+        CreateAsset3DSetup(exBlazeDashEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);

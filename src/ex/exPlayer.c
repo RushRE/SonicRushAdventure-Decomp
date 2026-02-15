@@ -164,14 +164,14 @@ void ExPlayerScreenMover_Main_Active(void)
 
     if (work->cameraConfig[GRAPHICS_ENGINE_A]->type == EXDRAW_CAMERACONFIG_1 && exPlayerScreenMoverTargetPos != NULL)
     {
-        work->cameraConfig[GRAPHICS_ENGINE_A]->nextCamera.camPos.x   = targetPos;
-        work->cameraConfig[GRAPHICS_ENGINE_A]->nextCamera.camTarget.x = targetPos;
+        work->cameraConfig[GRAPHICS_ENGINE_A]->nextCamera.view.camPos.x   = targetPos;
+        work->cameraConfig[GRAPHICS_ENGINE_A]->nextCamera.view.camTarget.x = targetPos;
     }
 
     if (work->cameraConfig[GRAPHICS_ENGINE_B]->type == EXDRAW_CAMERACONFIG_1 && exPlayerScreenMoverTargetPos != NULL)
     {
-        work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.camPos.x   = targetPos;
-        work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.camTarget.x = targetPos;
+        work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.view.camPos.x   = targetPos;
+        work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.view.camTarget.x = targetPos;
     }
 
     RunCurrentExTaskOnCheckStageFinishedEvent();
@@ -975,7 +975,7 @@ void ExPlayer_Main_StartSonicBarrier(void)
             {
                 if (work->worker->barrierChargeTimer++ >= SECONDS_TO_FRAMES(2.0))
                 {
-                    if (!Camera3D__UseEngineA())
+                    if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
                     {
                         u32 isChargeFlash = work->worker->moveFlags.isChargeFlash;
                         work->worker->moveFlags.isChargeFlash++;
@@ -1157,7 +1157,7 @@ void ExPlayer_Main_ChargeBlazeFireball(void)
             {
                 if (work->worker->fireballChargeTimer++ >= SECONDS_TO_FRAMES(2.0))
                 {
-                    if (!Camera3D__UseEngineA())
+                    if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
                     {
                         u32 isChargeFlash = work->worker->moveFlags.isChargeFlash;
                         work->worker->moveFlags.isChargeFlash++;
@@ -1743,7 +1743,7 @@ void ExPlayer_Draw(void)
     {
         work->activeModelMain->hitChecker.output.isInvincible = TRUE;
 
-        if (!Camera3D__UseEngineA())
+        if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
         {
             BOOL isInvisible = work->worker->playerFlags.isInvisible;
 

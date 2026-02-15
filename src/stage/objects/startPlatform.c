@@ -228,7 +228,7 @@ void StartPlatform_State_Active(StartPlatform *work)
 
         BossArenaCamera *camera = BossArena__GetCamera(0);
         Camera3D *config        = BossArena__GetCameraConfig2(camera);
-        BossArena__Func_2039CA4(&xz, &y, &config->camPos, &config->camTarget, 0x400, 0x240, 0, 0);
+        BossArena__Func_2039CA4(&xz, &y, &config->view.camPos, &config->view.camTarget, 0x400, 0x240, 0, 0);
         MapFarSys__SetScrollSpeed(0, FX32_FROM_WHOLE(xz), 0);
     }
 }
@@ -368,7 +368,7 @@ void StartPlatform_StateCamera_SetupPlatformWalk(StartPlatform *work)
     camConfig->angleEnd      = 0;
 
     Camera3D *config          = BossArena__GetCameraConfig(camera);
-    camConfig->amplitudeXZEnd = FX_Div(FLOAT_TO_FX32(96.0), FX_Div(SinFX((s32)config->config.projFOV), CosFX(config->config.projFOV)));
+    camConfig->amplitudeXZEnd = FX_Div(FLOAT_TO_FX32(96.0), FX_Div(SinFX((s32)config->projection.fov), CosFX(config->projection.fov)));
 
     Player__OnGroundIdle(gPlayer);
     work->startDashTimer = 0;

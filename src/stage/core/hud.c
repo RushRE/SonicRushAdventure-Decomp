@@ -5,7 +5,7 @@
 #include <game/stage/mapSys.h>
 #include <game/object/objectManager.h>
 #include <game/util/akUtil.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/audio/audioSystem.h>
 #include <game/network/wirelessManager.h>
 
@@ -390,16 +390,16 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
         new_var = PIXEL_MODE_SPRITE;
         work->animators[0].flags &= ~ANIMATORSPRITEDS_FLAG_DISABLE_B;
         vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, spriteSize);
-        AnimatorSpriteDS__Init(animator, contSpriteFile, playerBorderAniA, ANIMATORSPRITEDS_FLAG_DISABLE_B, ANIMATOR_FLAG_DISABLE_PALETTES, new_var, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
-                               new_var, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
+        AnimatorSpriteDS__Init(animator, contSpriteFile, playerBorderAniA, ANIMATORSPRITEDS_FLAG_DISABLE_B, ANIMATOR_FLAG_DISABLE_PALETTES, new_var, vramPixelsA,
+                               PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, new_var, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
         animator->cParam[0].palette = PALETTE_ROW_0;
         animator->cParam[1].palette = PALETTE_ROW_0;
         AnimatorSpriteDS__ProcessAnimationFast(animator);
 
         AnimatorSpriteDS *playerBorderAnimatorB = GetHUDAnimator(work, HUD_ANIMATOR_PLAYER_BORDER2);
         vramPixelsB                             = VRAMSystem__AllocSpriteVram(TRUE, spriteSize);
-        AnimatorSpriteDS__Init(playerBorderAnimatorB, contSpriteFile, playerBorderAniB, ANIMATORSPRITEDS_FLAG_DISABLE_A, ANIMATOR_FLAG_DISABLE_PALETTES, new_var, 0, PALETTE_MODE_SPRITE,
-                               VRAM_OBJ_PLTT, new_var, vramPixelsB, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
+        AnimatorSpriteDS__Init(playerBorderAnimatorB, contSpriteFile, playerBorderAniB, ANIMATORSPRITEDS_FLAG_DISABLE_A, ANIMATOR_FLAG_DISABLE_PALETTES, new_var, 0,
+                               PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, new_var, vramPixelsB, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
         playerBorderAnimatorB->cParam[0].palette = PALETTE_ROW_0;
         playerBorderAnimatorB->cParam[1].palette = PALETTE_ROW_0;
         AnimatorSpriteDS__ProcessAnimationFast(playerBorderAnimatorB);
@@ -1228,9 +1228,9 @@ void CreateConnectionStatusHUD(BOOL useDWC)
     {
         ani = &work->animators[i];
 
-        AnimatorSpriteDS__Init(ani, spriteFile, work->animID + animID, ANIMATORSPRITEDS_FLAG_DISABLE_A, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 2),
-                               PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(TRUE, 2), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
-                               SPRITE_PRIORITY_0, SPRITE_ORDER_1);
+        AnimatorSpriteDS__Init(ani, spriteFile, work->animID + animID, ANIMATORSPRITEDS_FLAG_DISABLE_A, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE,
+                               VRAMSystem__AllocSpriteVram(FALSE, 2), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(TRUE, 2),
+                               PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
         ani->work.cParam.palette = paletteRow;
         ani->cParam[0].palette = ani->cParam[1].palette = ani->work.cParam.palette;
 
@@ -1353,7 +1353,9 @@ NONMATCH_FUNC void HUD_Main(void)
     if (!work->loadedSprites || (work->flags & HUD_FLAG_VISIBLE) != 0)
         isVisible = FALSE;
 
-    if (IsBossStage() && (Camera3D__UseEngineA() && (work->flags & HUD_FLAG_USE_SCREEN_B) == 0 || !Camera3D__UseEngineA() && (work->flags & HUD_FLAG_USE_SCREEN_B) != 0))
+    if (IsBossStage()
+        && (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM && (work->flags & HUD_FLAG_USE_SCREEN_B) == 0
+            || SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM && (work->flags & HUD_FLAG_USE_SCREEN_B) != 0))
     {
         isVisible = FALSE;
     }
@@ -1378,7 +1380,7 @@ NONMATCH_FUNC void HUD_Main(void)
             AnimatorSpriteDS *aniRingDigit = GetHUDTimeNumAnimator(digit, useAltRingPalette);
             aniRingDigit->position[0].x    = ringDigitX;
             aniRingDigit->position[0].y    = 16;
-            aniRingDigit->flags    = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+            aniRingDigit->flags            = ANIMATORSPRITEDS_FLAG_DISABLE_B;
             AnimatorSpriteDS__DrawFrame(aniRingDigit);
 
             ringDigitX += 10;
@@ -1407,7 +1409,7 @@ NONMATCH_FUNC void HUD_Main(void)
                 AnimatorSpriteDS *aniRingDigit = GetHUDTimeNumAnimator(digit, useAltRingPalette);
                 aniRingDigit->position[1].x    = ringDigitX;
                 aniRingDigit->position[1].y    = 16;
-                aniRingDigit->flags    = ANIMATORSPRITEDS_FLAG_DISABLE_A;
+                aniRingDigit->flags            = ANIMATORSPRITEDS_FLAG_DISABLE_A;
                 AnimatorSpriteDS__DrawFrame(aniRingDigit);
 
                 ringDigitX += 10;
@@ -1464,7 +1466,7 @@ NONMATCH_FUNC void HUD_Main(void)
         AnimatorSpriteDS *aniTimeDigit = GetHUDTimeNumAnimator(minutes, useAltTimePalette);
         aniTimeDigit->position[0].x    = timeDrawX + 180;
         aniTimeDigit->position[0].y    = 13;
-        aniTimeDigit->flags    = 2;
+        aniTimeDigit->flags            = 2;
         AnimatorSpriteDS__DrawFrame(aniTimeDigit);
 
         u16 secs                    = FX_DivS32(seconds, 10);
@@ -1488,13 +1490,13 @@ NONMATCH_FUNC void HUD_Main(void)
         aniTimeDigit                = GetHUDTimeNumAnimator(HUD_DIGIT_COLON, useAltTimePalette);
         aniTimeDigit->position[0].x = timeDrawX + 187;
         aniTimeDigit->position[0].y = 5;
-        aniTimeDigit->flags = 2;
+        aniTimeDigit->flags         = 2;
         AnimatorSpriteDS__DrawFrame(aniTimeDigit);
 
         aniTimeDigit                = GetHUDTimeNumAnimator(HUD_DIGIT_COLON2, useAltTimePalette);
         aniTimeDigit->position[0].x = timeDrawX + 219;
         aniTimeDigit->position[0].y = 5;
-        aniTimeDigit->flags = 2;
+        aniTimeDigit->flags         = 2;
         AnimatorSpriteDS__DrawFrame(aniTimeDigit);
 
         work->animators[1].position[0].x = timeDrawX;
@@ -1514,7 +1516,7 @@ NONMATCH_FUNC void HUD_Main(void)
             AnimatorSpriteDS *aniLifeNum = GetHUDLifeNumAnimator(lifeDigit0, FALSE);
             aniLifeNum->position[0].x    = 22;
             aniLifeNum->position[0].y    = 170;
-            aniLifeNum->flags    = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+            aniLifeNum->flags            = ANIMATORSPRITEDS_FLAG_DISABLE_B;
             AnimatorSpriteDS__DrawFrame(aniLifeNum);
 
             aniLifeNum                = GetHUDLifeNumAnimator(lives - 10 * lifeDigit0, FALSE);
@@ -1583,14 +1585,14 @@ _02035704:
 	bl IsBossStage
 	cmp r0, #0
 	beq _02035748
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	beq _02035728
 	ldr r0, [r5, #4]
 	tst r0, #0x100
 	beq _02035740
 _02035728:
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	bne _02035748
 	ldr r0, [r5, #4]
@@ -2137,7 +2139,7 @@ NONMATCH_FUNC void DrawTensionGaugeHUD(HUD *work)
 
     // Draw static tension gauge sprites (in sets of 4)
     s16 tensionDrawLowY = 163;
-    s32 i = 0;
+    s32 i               = 0;
     for (i = 0; i < tensionX4CountLow; i++)
     {
         aniTensionLowX4->position[0].y = tensionDrawLowY + tensionGaugeY;
@@ -2790,7 +2792,7 @@ void CheckpointTimeHUD_Main(void)
     AnimatorSpriteDS *digitAnimator = GetHUDTimeNumAnimator(checkpointTime->minutes, isFlashing);
     digitAnimator->position[0].x    = 180;
     digitAnimator->position[0].y    = 29;
-    digitAnimator->flags    = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+    digitAnimator->flags            = ANIMATORSPRITEDS_FLAG_DISABLE_B;
     AnimatorSpriteDS__DrawFrame(digitAnimator);
 
     u16 secs                     = FX_DivS32(checkpointTime->seconds, 10);
@@ -2816,13 +2818,13 @@ void CheckpointTimeHUD_Main(void)
     digitAnimator                = GetHUDTimeNumAnimator(HUD_DIGIT_COLON, isFlashing);
     digitAnimator->position[0].x = 187;
     digitAnimator->position[0].y = 21;
-    digitAnimator->flags = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+    digitAnimator->flags         = ANIMATORSPRITEDS_FLAG_DISABLE_B;
     AnimatorSpriteDS__DrawFrame(digitAnimator);
 
     digitAnimator                = GetHUDTimeNumAnimator(HUD_DIGIT_COLON2, isFlashing);
     digitAnimator->position[0].x = 219;
     digitAnimator->position[0].y = 21;
-    digitAnimator->flags = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+    digitAnimator->flags         = ANIMATORSPRITEDS_FLAG_DISABLE_B;
     AnimatorSpriteDS__DrawFrame(digitAnimator);
 
     if (checkpointTime->timer <= 0)
@@ -2846,7 +2848,7 @@ void LapTimeHUD_Main(void)
         AnimatorSpriteDS *digitAnimator = GetHUDTimeNumAnimator(i + 1, FALSE);
         digitAnimator->position[1].x    = 8;
         digitAnimator->position[1].y    = timeY;
-        digitAnimator->flags    = ANIMATORSPRITEDS_FLAG_DISABLE_A;
+        digitAnimator->flags            = ANIMATORSPRITEDS_FLAG_DISABLE_A;
         AnimatorSpriteDS__DrawFrame(digitAnimator);
 
         digitAnimator                = GetHUDTimeNumAnimator(lapTimes->minutes[i], FALSE);
@@ -2877,13 +2879,13 @@ void LapTimeHUD_Main(void)
         digitAnimator->position[1].x = 39;
         colonY                       = timeY - 8;
         digitAnimator->position[1].y = colonY;
-        digitAnimator->flags = ANIMATORSPRITEDS_FLAG_DISABLE_A;
+        digitAnimator->flags         = ANIMATORSPRITEDS_FLAG_DISABLE_A;
         AnimatorSpriteDS__DrawFrame(digitAnimator);
 
         digitAnimator                = GetHUDTimeNumAnimator(HUD_DIGIT_COLON2, FALSE);
         digitAnimator->position[1].x = 71;
         digitAnimator->position[1].y = colonY;
-        digitAnimator->flags = ANIMATORSPRITEDS_FLAG_DISABLE_A;
+        digitAnimator->flags         = ANIMATORSPRITEDS_FLAG_DISABLE_A;
         AnimatorSpriteDS__DrawFrame(digitAnimator);
     }
 }
@@ -3062,8 +3064,9 @@ void CreatePassFlagMissionHUD(void)
     {
         AnimatorSpriteDS *animator = &work->animators[i];
 
-        AnimatorSpriteDS__Init(animator, spriteFile, i, ANIMATORSPRITEDS_FLAG_DISABLE_B, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, spriteSize[i]),
-                               PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
+        AnimatorSpriteDS__Init(animator, spriteFile, i, ANIMATORSPRITEDS_FLAG_DISABLE_B, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE,
+                               VRAMSystem__AllocSpriteVram(FALSE, spriteSize[i]), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
+                               SPRITE_PRIORITY_0, SPRITE_ORDER_1);
         animator->work.cParam.palette = PALETTE_ROW_0;
         animator->cParam[0].palette = animator->cParam[1].palette = animator->work.cParam.palette;
         AnimatorSpriteDS__ProcessAnimationFast(animator);
@@ -3102,14 +3105,14 @@ void PassFlagMissionHUD_Main(void)
             aniDigit                = GetHUDTimeNumAnimator(digit1, FALSE);
             aniDigit->position[0].x = 93;
             aniDigit->position[0].y = 17;
-            aniDigit->flags = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+            aniDigit->flags         = ANIMATORSPRITEDS_FLAG_DISABLE_B;
             AnimatorSpriteDS__DrawFrame(aniDigit);
         }
 
         aniDigit                = GetHUDTimeNumAnimator(playerGameStatus.missionStatus.passedFlagID - 10 * digit2, FALSE);
         aniDigit->position[0].x = 103;
         aniDigit->position[0].y = 17;
-        aniDigit->flags = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+        aniDigit->flags         = ANIMATORSPRITEDS_FLAG_DISABLE_B;
         AnimatorSpriteDS__DrawFrame(aniDigit);
 
         // Draw total flag count
@@ -3120,14 +3123,14 @@ void PassFlagMissionHUD_Main(void)
             aniDigit                = GetHUDTimeNumAnimator(digit1, 0);
             aniDigit->position[0].x = 123;
             aniDigit->position[0].y = 17;
-            aniDigit->flags = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+            aniDigit->flags         = ANIMATORSPRITEDS_FLAG_DISABLE_B;
             AnimatorSpriteDS__DrawFrame(aniDigit);
         }
 
         aniDigit                = GetHUDTimeNumAnimator(playerGameStatus.missionStatus.quota - 10 * digit2, FALSE);
         aniDigit->position[0].x = 133;
         aniDigit->position[0].y = 17;
-        aniDigit->flags = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+        aniDigit->flags         = ANIMATORSPRITEDS_FLAG_DISABLE_B;
         AnimatorSpriteDS__DrawFrame(aniDigit);
 
         // Draw icons
@@ -3147,9 +3150,9 @@ void CreateCollectRingsMissionHUD(void)
     CollectRingsMissionHUD *work = TaskGetWork(task, CollectRingsMissionHUD);
     TaskInitWork16(work);
 
-    AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gameArchiveCommon), HUD_MSNANI_RING_ICON, ANIMATORSPRITEDS_FLAG_DISABLE_B,
-                           ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 2), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0,
-                           PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
+    AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gameArchiveCommon), HUD_MSNANI_RING_ICON,
+                           ANIMATORSPRITEDS_FLAG_DISABLE_B, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 2), PALETTE_MODE_SPRITE,
+                           VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
     work->animator.work.cParam.palette = PALETTE_ROW_2;
     work->animator.cParam[0].palette = work->animator.cParam[1].palette = PALETTE_ROW_2;
     AnimatorSpriteDS__ProcessAnimationFast(&work->animator);
@@ -3186,7 +3189,7 @@ void CollectRingsMissionHUD_Main(void)
             AnimatorSpriteDS *aniDigit = GetHUDTimeNumAnimator(digit, FALSE);
             aniDigit->position[0].x    = digitX;
             aniDigit->position[0].y    = 17;
-            aniDigit->flags    = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+            aniDigit->flags            = ANIMATORSPRITEDS_FLAG_DISABLE_B;
             AnimatorSpriteDS__DrawFrame(aniDigit);
 
             digitX += 10;
@@ -3291,14 +3294,14 @@ void GenericQuotaMissionHUD_Main(void)
             AnimatorSpriteDS *aniDigit = GetHUDTimeNumAnimator(digit1, FALSE);
             aniDigit->position[0].x    = currentDigitX;
             aniDigit->position[0].y    = digitY;
-            aniDigit->flags    = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+            aniDigit->flags            = ANIMATORSPRITEDS_FLAG_DISABLE_B;
             AnimatorSpriteDS__DrawFrame(aniDigit);
         }
 
         AnimatorSpriteDS *aniDigit = GetHUDTimeNumAnimator(current - 10 * digit2, FALSE);
         aniDigit->position[0].x    = currentDigitX + 10;
         aniDigit->position[0].y    = digitY;
-        aniDigit->flags    = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+        aniDigit->flags            = ANIMATORSPRITEDS_FLAG_DISABLE_B;
         AnimatorSpriteDS__DrawFrame(aniDigit);
 
         // Draw total count
@@ -3353,11 +3356,11 @@ void TimeAttackReplayHUD_Main(void)
     {
         if (IsBossStage())
         {
-            if (Camera3D__UseEngineA() && (hudWorkSingleton->flags & HUD_FLAG_USE_SCREEN_B) == 0)
+            if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM && (hudWorkSingleton->flags & HUD_FLAG_USE_SCREEN_B) == 0)
             {
                 work->animator.pos.y = 184;
             }
-            else if (!Camera3D__UseEngineA() && (hudWorkSingleton->flags & HUD_FLAG_USE_SCREEN_B) != 0)
+            else if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM && (hudWorkSingleton->flags & HUD_FLAG_USE_SCREEN_B) != 0)
             {
                 work->animator.pos.y = 8;
             }

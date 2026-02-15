@@ -413,7 +413,7 @@ void ExPauseMenu_Draw(void)
     work->aniBackButton[work->buttonSelected[EXPAUSEMENU_BUTTON_BACK]].sprite.animator.pos.x = work->aniBackButton[work->buttonSelected[EXPAUSEMENU_BUTTON_BACK]].sprite.pos.x;
     work->aniBackButton[work->buttonSelected[EXPAUSEMENU_BUTTON_BACK]].sprite.animator.pos.y = work->aniBackButton[work->buttonSelected[EXPAUSEMENU_BUTTON_BACK]].sprite.pos.y;
 
-    if (Camera3D__UseEngineA())
+    if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
     {
         AnimatorSprite__DrawFrame(&work->aniPauseText.sprite.animator);
         AnimatorSprite__DrawFrame(&work->aniContinueButton[work->buttonSelected[EXPAUSEMENU_BUTTON_CONTINUE]].sprite.animator);

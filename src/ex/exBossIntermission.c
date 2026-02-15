@@ -86,8 +86,8 @@ void LoadExBossAssets(EX_ACTION_NN_WORK *work)
         NNS_G3dResDefaultSetup(exBossModelResource);
 
         void *mdlResource   = exBossModelResource;
-        exBossModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup__GetTexSize(exBossModelResource));
-        Asset3DSetup__GetTexture(mdlResource, exBossModelResource);
+        exBossModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(exBossModelResource));
+        Asset3DSetup_CopyResourceData(mdlResource, exBossModelResource);
         HeapFree(HEAP_USER, mdlResource);
     }
 
@@ -132,7 +132,7 @@ void LoadExBossAssets(EX_ACTION_NN_WORK *work)
     for (s16 p = 0; p < 15; p++)
     {
         InitPaletteAnimator(&work->model.paletteAnimator[p], exBossPaletteAnimResource[p], 0, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_TEXTURE,
-                            VRAMKEY_TO_ADDR(Asset3DSetup__PaletteFromName(NNS_G3dGetTex(exBossModelResource), texturePaletteNameList[p])));
+                            VRAMKEY_TO_ADDR(Asset3DSetup_GetPaletteFromName(NNS_G3dGetTex(exBossModelResource), texturePaletteNameList[p])));
     }
 
     work->model.scale.x = FLOAT_TO_FX32(1.0);
@@ -515,7 +515,7 @@ void ExBoss_Main_DefeatedFlashing(void)
     }
     else
     {
-        if (!Camera3D__UseEngineA())
+        if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
         {
             if (work->moveFlags.flashTimer++ != 0)
                 SetExDrawLightType(&work->aniBoss.config, EXDRAWREQ_LIGHT_RED);
@@ -550,7 +550,7 @@ void ExBoss_Main_FinalizeDefeatedFlashing(void)
     else
     {
         work->genericCooldown--;
-        if (!Camera3D__UseEngineA())
+        if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
         {
             if (work->moveFlags.flashTimer++ != 0)
                 SetExDrawLightType(&work->aniBoss.config, EXDRAWREQ_LIGHT_RED);
@@ -577,7 +577,7 @@ void ExBoss_Main_Defeated(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
     AnimateExDrawRequestModel(&work->aniBoss);
-    if (!Camera3D__UseEngineA())
+    if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
     {
         if (work->moveFlags.flashTimer++ != 0)
             SetExDrawLightType(&work->aniBoss.config, EXDRAWREQ_LIGHT_RED);

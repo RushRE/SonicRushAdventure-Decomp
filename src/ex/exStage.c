@@ -44,8 +44,8 @@ void LoadExStageAssets(EX_ACTION_NN_WORK *work)
     NNS_G3dResDefaultSetup(exStageModel);
 
     void *oldMemory = exStageModel;
-    exStageModel    = HeapAllocHead(HEAP_USER, Asset3DSetup__GetTexSize(oldMemory));
-    Asset3DSetup__GetTexture(oldMemory, exStageModel);
+    exStageModel    = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(oldMemory));
+    Asset3DSetup_CopyResourceData(oldMemory, exStageModel);
     HeapFree(HEAP_USER, oldMemory);
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
@@ -142,7 +142,7 @@ void ExStage_Main_Scrolling(void)
     AnimateExDrawRequestModel(&work->aniStage);
     AddExDrawRequest(&work->aniStage, &work->aniStage.config);
 
-    Camera3D__UseEngineA();
+    UNUSED(SwapBuffer3D_GetPrimaryScreen());
 
     work->aniStage.model.translation.y += FLOAT_TO_FX32(499.5);
     AddExDrawRequest(&work->aniStage, &work->aniStage.config);

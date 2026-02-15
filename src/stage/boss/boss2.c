@@ -649,7 +649,7 @@ Boss2 *CreateBoss2(MapObject *mapObject, fx32 x, fx32 y, s32 type)
     for (s32 i = 0; i < (s32)ARRAY_COUNT(work->aniPalette); i++)
     {
         InitPaletteAnimator(&work->aniPalette[i], NNS_FndGetArchiveFileByIndex(&arc, i + ARCHIVE_Z2BOSS_ACT_LZ7_FILE_BOSS2_EYE_BPA), 0, ANIMATORBPA_FLAG_NONE, 5,
-                            VRAMKEY_TO_ADDR(Asset3DSetup__PaletteFromName(NNS_G3dGetTex(bossAssetFiles[0].fileData), Boss2__paletteNames[i])));
+                            VRAMKEY_TO_ADDR(Asset3DSetup_GetPaletteFromName(NNS_G3dGetTex(bossAssetFiles[0].fileData), Boss2__paletteNames[i])));
     }
     BossHelpers__SetPaletteAnimations(work->aniPalette, (s32)ARRAY_COUNT(work->aniPalette), BOSS2_PALANI_IDLE, FALSE);
     NNS_FndUnmountArchive(&arc);
@@ -836,7 +836,7 @@ NONMATCH_FUNC Boss2Ball *CreateBoss2Ball(MapObject *mapObject, fx32 x, fx32 y, s
 
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
     InitPaletteAnimator(&work->aniPalette[0], NNS_FndGetArchiveFileByIndex(&arc, type + ARCHIVE_Z2BOSS_ACT_LZ7_FILE_BOSS2_BALL_A_BPA), 0, ANIMATORBPA_FLAG_CAN_LOOP, 5,
-                        VRAMKEY_TO_ADDR(Asset3DSetup__PaletteFromName(NNS_G3dGetTex(bossAssetFiles[3].fileData), Boss2Ball__paletteNames[type])));
+                        VRAMKEY_TO_ADDR(Asset3DSetup_GetPaletteFromName(NNS_G3dGetTex(bossAssetFiles[3].fileData), Boss2Ball__paletteNames[type])));
     BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), BOSS2BALL_PALANI_INACTIVE, FALSE);
     NNS_FndUnmountArchive(&arc);
 
@@ -1066,7 +1066,7 @@ _0215B838:
 	bl NNS_G3dGetTex
 	ldr r1, =Boss2Ball__paletteNames
 	ldr r1, [r1, r8, lsl #2]
-	bl Asset3DSetup__PaletteFromName
+	bl Asset3DSetup_GetPaletteFromName
 	mov r2, #5
 	str r2, [sp]
 	str r0, [sp, #4]
@@ -1352,16 +1352,16 @@ void ConfigureBossStageCamera(Boss2Stage *work)
         camTarget.y = FX_DivS32(camTarget.y, ballCount);
         camTarget.z = FX_DivS32(camTarget.z, ballCount);
 
-        camTarget.x = cameraConfig->camTarget.x + MultiplyFX(FLOAT_TO_FX32(0.3), camTarget.x - cameraConfig->camTarget.x);
-        camTarget.y = cameraConfig->camTarget.y + MultiplyFX(FLOAT_TO_FX32(0.05), camTarget.y - cameraConfig->camTarget.y);
-        camTarget.z = cameraConfig->camTarget.z + MultiplyFX(FLOAT_TO_FX32(0.3), camTarget.z - cameraConfig->camTarget.z);
+        camTarget.x = cameraConfig->view.camTarget.x + MultiplyFX(FLOAT_TO_FX32(0.3), camTarget.x - cameraConfig->view.camTarget.x);
+        camTarget.y = cameraConfig->view.camTarget.y + MultiplyFX(FLOAT_TO_FX32(0.05), camTarget.y - cameraConfig->view.camTarget.y);
+        camTarget.z = cameraConfig->view.camTarget.z + MultiplyFX(FLOAT_TO_FX32(0.3), camTarget.z - cameraConfig->view.camTarget.z);
 
         VecFx32 camConfigLocalPos;
         VecFx32 camLocalPos;
         VecFx32 camDir;
         VecFx32 distance;
-        VEC_Subtract(&cameraConfig->camTarget, &cameraConfig->camPos, &camConfigLocalPos);
-        VEC_Subtract(&camTarget, &cameraConfig->camPos, &camLocalPos);
+        VEC_Subtract(&cameraConfig->view.camTarget, &cameraConfig->view.camPos, &camConfigLocalPos);
+        VEC_Subtract(&camTarget, &cameraConfig->view.camPos, &camLocalPos);
         VEC_Normalize(&camLocalPos, &camDir);
         VEC_Subtract(&camLocalPos, &camConfigLocalPos, &distance);
 
@@ -1372,11 +1372,11 @@ void ConfigureBossStageCamera(Boss2Stage *work)
     }
     else
     {
-        camPos    = cameraConfig->camPos;
-        camTarget = cameraConfig->camTarget;
+        camPos    = cameraConfig->view.camPos;
+        camTarget = cameraConfig->view.camTarget;
     }
 
-    BossArena__Func_2039AD4(&camPos, &camTarget, &cameraConfig->camUp, FLOAT_TO_FX32(350.0), FLOAT_TO_FX32(1.3333), &cam1Target0, &cam1Target1, &cam1Up, &cam2Target0, &cam2Target1,
+    BossArena__Func_2039AD4(&camPos, &camTarget, &cameraConfig->view.camUp, FLOAT_TO_FX32(350.0), FLOAT_TO_FX32(1.3333), &cam1Target0, &cam1Target1, &cam1Up, &cam2Target0, &cam2Target1,
                             &cam2Up);
     ConfigureBossCamera1(work, &cam1Target0, &cam1Target1, &cam1Up);
     ConfigureBossCamera2(work, &cam2Target0, &cam2Target1, &cam2Up);
@@ -1430,7 +1430,7 @@ void HandleBossCamera(Boss2Stage *work)
 
     Camera3D *config = BossArena__GetCameraConfig2(BossArena__GetCamera(1));
 
-    MTX_LookAt(&config->camPos, &config->camUp, &config->camTarget, mtxView.nnMtx);
+    MTX_LookAt(&config->view.camPos, &config->view.camUp, &config->view.camTarget, mtxView.nnMtx);
     InitSpatialAudioMatrix(&mtxView.mtx33);
     SetSpatialAudioOriginPosition(&gPlayer->aniPlayerModel.ani.work.translation);
 }
@@ -1514,19 +1514,19 @@ NONMATCH_FUNC void Boss2Stage_StageState_Init_Part1(Boss2Stage *work)
 #ifdef NON_MATCHING
     VecFx32 camUp = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0) };
 
-    CameraConfig config;
-    MI_CpuClear16(&config, sizeof(config));
-    config.projFOV     = FLOAT_DEG_TO_IDX(30.0);
-    config.projNear    = FLOAT_TO_FX32(1.0);
-    config.projFar     = FLOAT_TO_FX32(2560.0);
-    config.aspectRatio = FLOAT_TO_FX32(1.3333);
-    config.projScaleW  = FLOAT_TO_FX32(0.8);
+    ProjectionDisplayConfig projection;
+    MI_CpuClear16(&projection, sizeof(projection));
+    projection.fov         = FLOAT_DEG_TO_IDX(30.0);
+    projection.nearPlane   = FLOAT_TO_FX32(1.0);
+    projection.farPlane    = FLOAT_TO_FX32(2560.0);
+    projection.aspectRatio = FLOAT_TO_FX32(1.3333);
+    projection.scaleW      = FLOAT_TO_FX32(0.8);
 
     BossArena__SetType(BOSSARENA_TYPE_4);
 
     BossArenaCamera *camera0 = BossArena__GetCamera(0);
     BossArena__SetCameraType(camera0, BOSSARENACAMERA_TYPE_1);
-    BossArena__SetCameraConfig(camera0, &config);
+    BossArena__SetCameraConfig(camera0, &projection);
     BossArena__SetTracker1TargetWork(camera0, &gPlayer->objWork, 0, &gPlayer->objWork);
     BossArena__SetTracker1TargetPos(camera0, 0, work->groundHeight + 0x118000, 0);
     BossArena__SetTracker1Speed(camera0, 1024, 0);
@@ -1547,13 +1547,13 @@ NONMATCH_FUNC void Boss2Stage_StageState_Init_Part1(Boss2Stage *work)
     ConfigureBossStageCamera(work);
 
     BossArenaCamera *camera1 = BossArena__GetCamera(1);
-    BossArena__SetCameraConfig(camera1, &config);
+    BossArena__SetCameraConfig(camera1, &projection);
     BossArena__SetUpVector(camera1, &camUp);
     BossArena__UpdateTracker1TargetPos(camera1);
     BossArena__UpdateTracker0TargetPos(camera1);
 
     BossArenaCamera *camera2 = BossArena__GetCamera(2);
-    BossArena__SetCameraConfig(camera2, &config);
+    BossArena__SetCameraConfig(camera2, &projection);
     BossArena__SetUpVector(camera2, &camUp);
     BossArena__UpdateTracker1TargetPos(camera2);
     BossArena__UpdateTracker0TargetPos(camera2);
@@ -1576,9 +1576,9 @@ NONMATCH_FUNC void Boss2Stage_StageState_Init_Part1(Boss2Stage *work)
 
     GX_SetVisiblePlane(GX_GetVisiblePlane() | GX_PLANEMASK_BG1);
 
-    Camera3D__Create();
-    Camera3DTask *camera3D_A = Camera3D__GetWork();
-    Camera3DTask *camera3D_B = Camera3D__GetWork();
+    CreateSwapBuffer3D();
+    SwapBuffer3D *camera3D_A = GetSwapBuffer3DWork();
+    SwapBuffer3D *camera3D_B = GetSwapBuffer3DWork();
 
     camera3D_A->gfxControl[0].blendManager.blendControl.value = camera3D_B->gfxControl[1].blendManager.blendControl.value = 0x00;
     camera3D_A->gfxControl[0].blendManager.blendControl.plane1_BG0 = camera3D_B->gfxControl[1].blendManager.blendControl.plane1_BG0 = TRUE;
@@ -1748,10 +1748,10 @@ NONMATCH_FUNC void Boss2Stage_StageState_Init_Part1(Boss2Stage *work)
 	bic r1, r1, #0x1f00
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
-	bl Camera3D__Create
-	bl Camera3D__GetWork
+	bl CreateSwapBuffer3D
+	bl GetSwapBuffer3DWork
 	mov r4, r0
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0
 	strh r1, [r0, #0x7c]
 	strh r1, [r4, #0x20]
@@ -2075,7 +2075,7 @@ BOOL CheckBossCanDraw(Boss2 *work)
                 break;
 
             default:
-                if (Camera3D__UseEngineA())
+                if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
                     canDraw = TRUE;
                 break;
         }
@@ -2469,7 +2469,7 @@ void Boss2_BossState_PrepareCameraForDestroyed(Boss2 *work)
 {
     struct Boss2ActionDestroyed *action = &work->action.destroyed;
 
-    UNUSED(Camera3D__GetWork());
+    UNUSED(GetSwapBuffer3DWork());
 
     action->timer++;
     if (action->timer == SECONDS_TO_FRAMES(1.5))
@@ -2501,7 +2501,7 @@ void Boss2_BossState_PrepareCameraForDestroyed(Boss2 *work)
 
 void Boss2_BossState_StartDestroyedShock(Boss2 *work)
 {
-    Camera3DTask *camera3D = Camera3D__GetWork();
+    SwapBuffer3D *camera3D = GetSwapBuffer3DWork();
 
     MI_CpuClear16(&camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager, sizeof(camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager));
     camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.effect     = BLENDTYPE_FADEOUT;
@@ -2517,7 +2517,7 @@ void Boss2_BossState_DestroyedShock(Boss2 *work)
     Boss2Stage *stage                   = work->stage;
     struct Boss2ActionDestroyed *action = &work->action.destroyed;
 
-    Camera3DTask *camera3D = Camera3D__GetWork();
+    SwapBuffer3D *camera3D = GetSwapBuffer3DWork();
 
     // dim the lights
     if (stage->lightConfig.brightness != RENDERCORE_BRIGHTNESS_BLACK && ++action->lightDimTimer > 1)
@@ -2572,7 +2572,7 @@ void Boss2_BossState_Explode(Boss2 *work)
     Boss2Stage *stage                   = work->stage;
     struct Boss2ActionDestroyed *action = &work->action.destroyed;
 
-    Camera3DTask *camera3D = Camera3D__GetWork();
+    SwapBuffer3D *camera3D = GetSwapBuffer3DWork();
 
     BOOL doneLights = FALSE;
     BOOL doneFading = FALSE;
@@ -2962,7 +2962,7 @@ BOOL CheckBossArmCanDraw(Boss2Arm *work)
                 break;
 
             default:
-                if (Camera3D__UseEngineA())
+                if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
                     canDraw = TRUE;
                 break;
         }

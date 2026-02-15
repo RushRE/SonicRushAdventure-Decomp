@@ -1178,7 +1178,7 @@ _02184610:
 	mov r7, r0
 	ldr r0, [r5, #0x194]
 	mov r1, #0
-	bl Asset3DSetup__GetTexPaletteLocation
+	bl Asset3DSetup_GetPaletteFromIndex
 	mov r1, r7, lsl #0xf
 	mov r1, r1, lsr #0x10
 	mov r3, r0

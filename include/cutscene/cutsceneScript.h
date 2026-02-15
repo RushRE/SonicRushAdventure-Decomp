@@ -28,7 +28,7 @@ typedef struct CutsceneArchive_ CutsceneArchive;
 typedef struct CutsceneTouchArea_ CutsceneTouchArea;
 typedef struct CutsceneSpriteButton_ CutsceneSpriteButton;
 typedef struct CutsceneBackground_ CutsceneBackground;
-typedef struct CutsceneCamera3D_ CutsceneCamera3D;
+typedef struct CutsceneSwapBuffer3D_ CutsceneCamera3D;
 typedef struct CutsceneModel_ CutsceneModel;
 typedef struct CutsceneAudioHandle_ CutsceneAudioHandle;
 typedef struct CutsceneTextWorker_ CutsceneTextWorker;

@@ -2,7 +2,7 @@
 #include <game/graphics/vramSystem.h>
 #include <game/graphics/paletteQueue.h>
 #include <game/graphics/sprite.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/system/allocator.h>
 
 // --------------------
@@ -333,9 +333,9 @@ NONMATCH_FUNC void ObjDraw__PaletteTex__Init(NNSG3dResFileHeader *fileData, Pale
     paletteTex->palettePtr1 = (u16 *)HeapAllocHead(HEAP_USER, NNS_G3dPlttGetRequiredSize(paletteTex->texture));
     paletteTex->palettePtr2 = (u16 *)HeapAllocHead(HEAP_USER, NNS_G3dPlttGetRequiredSize(paletteTex->texture));
 
-    u32 id    = Asset3DSetup__GetTexPaletteLocation(paletteTex->texture, 0) >> 14;
+    u32 id    = Asset3DSetup_GetPaletteFromIndex(paletteTex->texture, 0) >> 14;
     u8 *addr  = (u8 *)VRAMSystem__GetTexturePaletteAddr(id);
-    void *dst = &addr[Asset3DSetup__GetTexPaletteLocation(paletteTex->texture, 0) + -0x4000 * id];
+    void *dst = &addr[Asset3DSetup_GetPaletteFromIndex(paletteTex->texture, 0) + -0x4000 * id];
     MI_CpuCopy8(dst, paletteTex->palettePtr2, NNS_G3dPlttGetRequiredSize(paletteTex->texture));
 
     GX_SetBankForTexPltt(sTexPltt);
@@ -358,14 +358,14 @@ NONMATCH_FUNC void ObjDraw__PaletteTex__Init(NNSG3dResFileHeader *fileData, Pale
 	str r0, [r7, #4]
 	ldr r0, [r7, #8]
 	mov r1, #0
-	bl Asset3DSetup__GetTexPaletteLocation
+	bl Asset3DSetup_GetPaletteFromIndex
 	mov r6, r0, lsr #0xe
 	and r0, r6, #0xff
 	bl VRAMSystem__GetTexturePaletteAddr
 	mov r4, r0
 	ldr r0, [r7, #8]
 	mov r1, #0
-	bl Asset3DSetup__GetTexPaletteLocation
+	bl Asset3DSetup_GetPaletteFromIndex
 	add r0, r4, r0
 	sub r4, r0, r6, lsl #14
 	ldr r0, [r7, #8]
@@ -402,7 +402,7 @@ void ObjDraw__PaletteTex__Process(PaletteTexture *paletteTex, s16 iR, s16 iG, s1
     }
 
     QueueUncompressedPalette(palettePtr1, NNS_G3dPlttGetRequiredSize(paletteTex->texture) >> 1, PALETTE_MODE_TEXTURE,
-                             VRAMKEY_TO_KEY(Asset3DSetup__GetTexPaletteLocation(paletteTex->texture, 0)));
+                             VRAMKEY_TO_KEY(Asset3DSetup_GetPaletteFromIndex(paletteTex->texture, 0)));
 }
 
 u8 ObjDrawGetRowForID(u8 id)

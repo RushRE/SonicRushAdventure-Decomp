@@ -3,7 +3,7 @@
 #include <game/graphics/mappingsQueue.h>
 #include <game/graphics/paletteQueue.h>
 #include <game/graphics/pixelsQueue.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/graphics/vramSystem.h>
 
 // --------------------

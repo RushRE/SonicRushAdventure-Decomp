@@ -157,7 +157,7 @@ BOOL LoadExBlazeFireballChargingEffectAssets(EX_ACTION_NN_WORK *work)
         exBlazeFireballChargingEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFA_NSBCA);
         exBlazeFireballChargingEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFA_NSBVA);
 
-        Asset3DSetup__Create(exBlazeFireballChargingEffectModelResource);
+        CreateAsset3DSetup(exBlazeFireballChargingEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
@@ -253,7 +253,7 @@ BOOL LoadExBlazeFireballShotEffectAssets(EX_ACTION_NN_WORK *work)
         exBlazeFireballShotEffectAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFB_NSBTP);
         exBlazeFireballShotEffectAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
-        Asset3DSetup__Create(exBlazeFireballShotEffectModelResource);
+        CreateAsset3DSetup(exBlazeFireballShotEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);

@@ -2,7 +2,7 @@
 #include <game/system/allocator.h>
 #include <game/file/fsRequest.h>
 #include <game/graphics/sprite.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <stage/stageTask.h>
 #include <game/graphics/spritePaletteAnimation.h>
 #include <game/object/objectManager.h>
@@ -189,9 +189,9 @@ void ObjActionLoadModelTextures(OBS_DATA_WORK *work, const char *path)
         resource = (NNSG3dResFileHeader *)ObjDataLoad(work, path, NULL);
 
     NNS_G3dResDefaultSetup(resource);
-    work->fileData = HeapAllocHead(HEAP_USER, Asset3DSetup__GetTexSize(resource));
+    work->fileData = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(resource));
 
-    Asset3DSetup__GetTexture(resource, work->fileData);
+    Asset3DSetup_CopyResourceData(resource, work->fileData);
     HeapFree(HEAP_USER, resource);
 }
 

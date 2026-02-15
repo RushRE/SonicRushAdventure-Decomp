@@ -5,7 +5,7 @@
 #include <game/file/binaryBundle.h>
 #include <game/text/messageController.h>
 #include <game/graphics/background.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/save/saveGame.h>
 #include <seaMap/seaMapEventManager.h>
 

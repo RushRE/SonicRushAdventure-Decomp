@@ -9,7 +9,7 @@
 #include <game/graphics/sprite.h>
 #include <game/graphics/background.h>
 #include <game/graphics/drawState.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/graphics/spriteUnknown.h>
 #include <game/graphics/bankUnknown.h>
 #include <game/audio/audioSystem.h>
@@ -102,7 +102,7 @@ struct CutsceneBackground_
     u32 flags;
 };
 
-struct CutsceneCamera3D_
+struct CutsceneSwapBuffer3D_
 {
     BOOL active;
     s32 modelHandle;
@@ -3476,9 +3476,9 @@ void CutsceneModelManager_SetRenderCallback(CutsceneSystemManager *work, s32 typ
     manager->camera.modelHandle = handleSlot - CUTSCENESCRIPT_ASSETSLOT_START;
     manager->camera.posY        = posY;
 
-    if (manager->camera.config.config.projScaleW != 0)
+    if (manager->camera.config.projection.scaleW != 0)
     {
-        manager->camera.matProjPositionY = manager->camera.config.config.projScaleW + MultiplyFX(manager->camera.config.config.projScaleW, (posY / HW_LCD_HEIGHT));
+        manager->camera.matProjPositionY = manager->camera.config.projection.scaleW + MultiplyFX(manager->camera.config.projection.scaleW, (posY / HW_LCD_HEIGHT));
     }
     else
     {
@@ -3492,20 +3492,20 @@ void CutsceneModelManager_SetRenderCallback(CutsceneSystemManager *work, s32 typ
     {
         case 1:
             NNS_G3dRenderObjSetCallBack(&animatorMDL->renderObj, CutsceneModelManager_RenderCallback_Single, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
-            if (Camera3D__GetTask() != NULL)
-                Camera3D__Destroy();
+            if (GetSwapBuffer3DTask() != NULL)
+                DestroySwapBuffer3D();
             break;
 
         case 2:
             NNS_G3dRenderObjSetCallBack(&animatorMDL->renderObj, CutsceneModelManager_RenderCallback_Single, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
-            if (Camera3D__GetTask() == NULL)
-                Camera3D__Create();
+            if (GetSwapBuffer3DTask() == NULL)
+                CreateSwapBuffer3D();
             break;
 
         case 3:
             NNS_G3dRenderObjSetCallBack(&animatorMDL->renderObj, CutsceneModelManager_RenderCallback_Double, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
-            if (Camera3D__GetTask() == NULL)
-                Camera3D__Create();
+            if (GetSwapBuffer3DTask() == NULL)
+                CreateSwapBuffer3D();
             break;
     }
 
@@ -3535,7 +3535,7 @@ void CutsceneModelManager_ResetRenderCallback(CutsceneSystemManager *work)
         NNS_G3dRenderObjResetCallBack(&animatorMDL->renderObj);
 
         if (manager->camera.active == 2 || (s32)manager->camera.active == 3)
-            Camera3D__Destroy();
+            DestroySwapBuffer3D();
 
         manager->camera.active = FALSE;
     }
@@ -3547,17 +3547,17 @@ void CutsceneModelManager_LoadDrawState(CutsceneSystemManager *work, void *memor
 
     CutsceneModelManager *manager = work->modelManager;
 
-    GetDrawStateCameraProjection(memory, &manager->camera.config.config);
+    GetDrawStateCameraProjection(memory, &manager->camera.config.projection);
 
-    manager->camera.config.camUp.y = FLOAT_TO_FX32(1.0);
+    manager->camera.config.view.camUp.y = FLOAT_TO_FX32(1.0);
 
     if (manager->camera.posY != 0)
     {
-        manager->camera.matProjPositionY = manager->camera.config.config.projScaleW + MultiplyFX(manager->camera.config.config.projScaleW, (manager->camera.posY / HW_LCD_HEIGHT));
+        manager->camera.matProjPositionY = manager->camera.config.projection.scaleW + MultiplyFX(manager->camera.config.projection.scaleW, (manager->camera.posY / HW_LCD_HEIGHT));
     }
     else
     {
-        manager->camera.matProjPositionY = manager->camera.config.config.projScaleW;
+        manager->camera.matProjPositionY = manager->camera.config.projection.scaleW;
     }
 }
 
@@ -3661,9 +3661,9 @@ void CutsceneModelManager_RenderCallback_Double(NNSG3dRS *rs)
 {
     s32 node = NNS_G3dRSGetCurrentNodeDescID(rs);
 
-    switch (Camera3D__UseEngineA())
+    switch (SwapBuffer3D_GetPrimaryScreen())
     {
-        // case GRAPHICS_ENGINE_B:
+        // case SWAPBUFFER3D_PRIMARY_TOP:
         default: {
             s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &camera1NodeName);
             if (cameraNodeIdx >= 0 && node == cameraNodeIdx)
@@ -3679,7 +3679,7 @@ void CutsceneModelManager_RenderCallback_Double(NNSG3dRS *rs)
         }
         break;
 
-        case GRAPHICS_ENGINE_A: {
+        case SWAPBUFFER3D_PRIMARY_BOTTOM: {
             s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &camera2NodeName);
             if (cameraNodeIdx >= 0 && node == cameraNodeIdx)
             {
@@ -3703,33 +3703,33 @@ void CutsceneModelManager_ConfigureCameraState(CutsceneCamera3D *work)
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
     NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_SYS);
     NNS_G3dGetCurrentMtx(mtxLookAt.nnMtx, NULL);
-    work->config.camPos.x = mtxLookAt.translation.x;
-    work->config.camPos.y = mtxLookAt.translation.y;
-    work->config.camPos.z = mtxLookAt.translation.z;
+    work->config.view.camPos.x = mtxLookAt.translation.x;
+    work->config.view.camPos.y = mtxLookAt.translation.y;
+    work->config.view.camPos.z = mtxLookAt.translation.z;
 
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
     NNS_G3dGeRestoreMtx(NNS_G3D_MTXSTACK_USER);
     NNS_G3dGetCurrentMtx(mtxLookAt.nnMtx, NULL);
-    work->config.camTarget.x = mtxLookAt.translation.x;
-    work->config.camTarget.y = mtxLookAt.translation.y;
-    work->config.camTarget.z = mtxLookAt.translation.z;
+    work->config.view.camTarget.x = mtxLookAt.translation.x;
+    work->config.view.camTarget.y = mtxLookAt.translation.y;
+    work->config.view.camTarget.z = mtxLookAt.translation.z;
 
     if (work->active == 2)
     {
         s32 matProjPositionY;
-        if (Camera3D__UseEngineA() != GRAPHICS_ENGINE_A)
+        if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
             matProjPositionY = -work->matProjPositionY;
         else
             matProjPositionY = work->matProjPositionY;
 
-        work->config.config.matProjPosition.y = matProjPositionY;
+        work->config.projection.position.y = matProjPositionY;
     }
     else
     {
-        work->config.config.matProjPosition.y = 0;
+        work->config.projection.position.y = FLOAT_TO_FX32(0.0);
     }
 
-    Camera3D__LoadState(&work->config);
+    SwapBuffer3D_ApplyCameraState(&work->config);
 }
 
 void CreateCutsceneFadeManager(CutsceneSystemManager *work)
@@ -4122,7 +4122,7 @@ void ReleaseCutsceneModelManager(CutsceneSystemManager *work)
 
         if (work->modelManager->camera.active == 2 || (s32)work->modelManager->camera.active == 3)
         {
-            Camera3D__Destroy();
+            DestroySwapBuffer3D();
             work->modelManager->camera.active = FALSE;
         }
 

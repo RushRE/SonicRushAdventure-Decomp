@@ -248,7 +248,7 @@ BOOL LoadExMeteorAssets(EX_ACTION_NN_WORK *work)
     {
         GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_METEO_NSBMD, &exMeteorModelResource, &exMeteorModelFileSize, TRUE, FALSE);
 
-        Asset3DSetup__Create(exMeteorModelResource);
+        CreateAsset3DSetup(exMeteorModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
@@ -318,7 +318,7 @@ BOOL LoadExBrokenMeteorAssets(EX_ACTION_NN_WORK *work)
         exBrokenMeteorAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEO_BRK_NSBVA);
         exBrokenMeteorAnimType[1]     = B3D_ANIM_VIS_ANIM;
 
-        Asset3DSetup__Create(exBrokenMeteorModelResource);
+        CreateAsset3DSetup(exBrokenMeteorModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);

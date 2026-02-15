@@ -170,7 +170,7 @@ BOOL LoadExBossSpikedLineMissileAssets(EX_ACTION_NN_WORK *work)
         lineNeedleAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_MSLB_NSBTP);
         lineNeedleAnimType[0]     = B3D_ANIM_PAT_ANIM;
 
-        Asset3DSetup__Create(lineNeedleModelResource);
+        CreateAsset3DSetup(lineNeedleModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
@@ -446,7 +446,7 @@ BOOL LoadExBossBluntLineMissileAssets(EX_ACTION_NN_WORK *work)
         lineMissileAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_MSLA_NSBTP);
         lineMissileAnimType[0]     = B3D_ANIM_PAT_ANIM;
 
-        Asset3DSetup__Create(lineMissileModelResource);
+        CreateAsset3DSetup(lineMissileModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;

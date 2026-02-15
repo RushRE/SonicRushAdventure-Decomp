@@ -3734,10 +3734,10 @@ Boss7Stage__State2_215F920: // 0x0215F920
 	orr r0, r3, #2
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
-	bl Camera3D__Create
-	bl Camera3D__GetWork
+	bl CreateSwapBuffer3D
+	bl GetSwapBuffer3DWork
 	mov r4, r0
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0
 	strh r1, [r4, #0x20]
 	strh r1, [r0, #0x7c]
@@ -3936,7 +3936,7 @@ _0215FDF4:
 	ldr r1, [r0, #0]
 	bic r1, r1, #1
 	str r1, [r0]
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	ldr r2, [r5, #0x3fc]
 	mov r1, #0x5c
 	mla r4, r2, r1, r0
@@ -4073,7 +4073,7 @@ Boss7Stage__Func_215FFDC: // 0x0215FFDC
 	arm_func_start Boss7Stage__Func_215FFE4
 Boss7Stage__Func_215FFE4: // 0x0215FFE4
 	stmdb sp!, {r3, lr}
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	beq _02160010
 	mov r0, #0x20
@@ -7739,7 +7739,7 @@ Boss7Whisker__State3_2162DF0: // 0x02162DF0
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	ldr r4, [r7, #0x370]
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	add r2, r4, #0x300
 	mov r5, #0
 	ldr r3, [r4, #0x3fc]
@@ -7884,7 +7884,7 @@ Boss7Whisker__State3_2162FF4: // 0x02162FF4
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	ldr r4, [r7, #0x370]
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	add r1, r4, #0x300
 	ldrsh r2, [r1, #0xd8]
 	mov r5, #0
@@ -7968,9 +7968,9 @@ _021630F4:
 	bl UpdateBossHealthHUD
 	ldr r0, [r4, #0x370]
 	bl Boss7Stage__Func_215E0BC
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r4, r0
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0
 	strh r1, [r4, #0x20]
 	strh r1, [r0, #0x7c]
@@ -12084,7 +12084,7 @@ Boss7Johnny__State3_21666C8: // 0x021666C8
 	mov r8, r0
 	ldr r5, [r8, #0x370]
 	add r4, r8, #0x188
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r6, #0
 	add r2, r5, #0x300
 	ldr r3, [r5, #0x3fc]
@@ -12233,7 +12233,7 @@ Boss7Johnny__State3_21668DC: // 0x021668DC
 	mov r9, r0
 	ldr r5, [r9, #0x370]
 	add r4, r9, #0x188
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	add r1, r5, #0x300
 	ldrsh r2, [r1, #0xd8]
 	mov r6, r0
@@ -12332,9 +12332,9 @@ _02166A08:
 	bl UpdateBossHealthHUD
 	ldr r0, [r4, #0x370]
 	bl Boss7Stage__Func_215E0BC
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r4, r0
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0
 	strh r1, [r4, #0x20]
 	strh r1, [r0, #0x7c]

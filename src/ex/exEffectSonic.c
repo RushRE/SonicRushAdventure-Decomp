@@ -125,7 +125,7 @@ BOOL LoadExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work)
         exSonicBarrierHitEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HIT0_NSBVA);
         exSonicBarrierHitEffectAnimType[2]     = B3D_ANIM_VIS_ANIM;
 
-        Asset3DSetup__Create(exSonicBarrierHitEffectModelResource);
+        CreateAsset3DSetup(exSonicBarrierHitEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
@@ -558,7 +558,7 @@ BOOL LoadExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work)
 
         exSonicBarrierChargingEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SONSA_NSBCA);
         exSonicBarrierChargingEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SONSA_NSBVA);
-        Asset3DSetup__Create(exSonicBarrierChargingEffectModelResource);
+        CreateAsset3DSetup(exSonicBarrierChargingEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);

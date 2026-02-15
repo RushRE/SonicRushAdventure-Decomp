@@ -213,7 +213,7 @@ void DestroyStageClearEx(StageClearEx *work)
         DestroyTask(work->taskDrawManager);
 
     work->isActive = FALSE;
-    Camera3D__Destroy();
+    DestroySwapBuffer3D();
     ReleaseStageClearExGraphics2D(&work->graphics2D);
     ReleaseStageClearExGraphics3D(&work->graphics3D);
     ReleaseSysSound();
@@ -247,9 +247,9 @@ void InitStageClearExGraphics3D(StageClearExGraphics3D *work, StageClearExAssets
 
     Camera3D *cameraConfig = &work->cameraConfig;
     GetDrawStateCameraView(drawState, cameraConfig);
-    GetDrawStateCameraProjection(drawState, &cameraConfig->config);
+    GetDrawStateCameraProjection(drawState, &cameraConfig->projection);
 
-    work->projectionY = cameraConfig->config.projScaleW + MultiplyFX(cameraConfig->config.projScaleW, 260);
+    work->projectionY = cameraConfig->projection.scaleW + MultiplyFX(cameraConfig->projection.scaleW, 260);
 
     void *mdlCharacters    = work->mdlCharacters;
     void *texAniCharacters = work->texAniCharacters;
@@ -486,15 +486,15 @@ void HandleStageClearExDrawing(StageClearEx *work)
     StageClearExGraphics3D *graphics3D = &work->graphics3D;
 
     Camera3D *camera = &graphics3D->cameraConfig;
-    if (Camera3D__UseEngineA())
+    if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
     {
-        camera->config.matProjPosition.y = -graphics3D->projectionY;
-        Camera3D__LoadState(&graphics3D->cameraConfig);
+        camera->projection.position.y = -graphics3D->projectionY;
+        SwapBuffer3D_ApplyCameraState(&graphics3D->cameraConfig);
     }
     else
     {
-        camera->config.matProjPosition.y = graphics3D->projectionY;
-        Camera3D__LoadState(&graphics3D->cameraConfig);
+        camera->projection.position.y = graphics3D->projectionY;
+        SwapBuffer3D_ApplyCameraState(&graphics3D->cameraConfig);
     }
 
     AnimatorMDL *ani = &graphics3D->aniModels[0];
@@ -504,7 +504,7 @@ void HandleStageClearExDrawing(StageClearEx *work)
     }
 
     StageClearExGraphics2D *graphics2D = &work->graphics2D;
-    if (Camera3D__UseEngineA())
+    if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
     {
         AnimatorSprite *aniNameBackdrop = &graphics2D->aniNameBackdrop;
         aniNameBackdrop->pos.x          = FX32_TO_WHOLE(graphics2D->namePos.x);
@@ -622,9 +622,9 @@ void HandleStageClearExDrawing(StageClearEx *work)
 
 void StageClearEx_State_Init(StageClearEx *work)
 {
-    Camera3D__Create();
+    CreateSwapBuffer3D();
 
-    Camera3DTask *camera3D             = Camera3D__GetWork();
+    SwapBuffer3D *camera3D             = GetSwapBuffer3DWork();
     camera3D->gfxControl[0].brightness = renderCoreGFXControlA.brightness;
     camera3D->gfxControl[1].brightness = renderCoreGFXControlB.brightness;
 
@@ -642,7 +642,7 @@ void StageClearEx_State_Init(StageClearEx *work)
 
 void StageClearEx_State_FadeIn(StageClearEx *work)
 {
-    Camera3DTask *camera             = Camera3D__GetWork();
+    SwapBuffer3D *camera             = GetSwapBuffer3DWork();
     RenderCoreGFXControl *gfxControl = &camera->gfxControl[0];
 
     s32 startBrightness;
@@ -829,7 +829,7 @@ void StageClearEx_State_DisplayResults(StageClearEx *work)
 
 void StageClearEx_State_FadeOut(StageClearEx *work)
 {
-    Camera3DTask *camera             = Camera3D__GetWork();
+    SwapBuffer3D *camera             = GetSwapBuffer3DWork();
     RenderCoreGFXControl *gfxControl = &camera->gfxControl[0];
 
     for (; gfxControl != &camera->gfxControl[2]; gfxControl++)

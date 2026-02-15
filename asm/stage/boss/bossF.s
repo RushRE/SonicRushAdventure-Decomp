@@ -404,7 +404,7 @@ _0216817C:
 	ldr r0, [r11, #0]
 	bl NNS_G3dGetTex
 	ldr r1, [r5, r9, lsl #2]
-	bl Asset3DSetup__PaletteFromName
+	bl Asset3DSetup_GetPaletteFromName
 	str r4, [sp]
 	mov r2, #0
 	str r0, [sp, #4]
@@ -682,7 +682,7 @@ _021685A4:
 	bl NNS_G3dGetTex
 	ldr r1, _02168688 // =_02179844
 	ldr r1, [r1, r9, lsl #2]
-	bl Asset3DSetup__PaletteFromName
+	bl Asset3DSetup_GetPaletteFromName
 	mov r2, #5
 	str r2, [sp]
 	mov r2, #0
@@ -835,7 +835,7 @@ _021687F0:
 	mov r0, r9
 	bl NNS_G3dGetTex
 	ldr r1, [r5, r8, lsl #2]
-	bl Asset3DSetup__PaletteFromName
+	bl Asset3DSetup_GetPaletteFromName
 	str r4, [sp]
 	mov r2, #0
 	str r0, [sp, #4]
@@ -1641,7 +1641,7 @@ _02169368:
 	ldrh r0, [r0, #0x36]
 	cmp r1, r0
 	beq _021693C8
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	add r0, r4, #0x500
 	ldrh r0, [r0, #0x36]
 	cmp r0, #1
@@ -2413,7 +2413,7 @@ BossFShipLight__HandleVisibility: // 0x02169E34
 _02169E6C:
 	cmp r5, #0
 	bne _02169E94
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	ldr r0, [r4, #0x20]
 	bicne r0, r0, #0x20
@@ -2422,7 +2422,7 @@ _02169E6C:
 	streq r0, [r4, #0x20]
 	ldmia sp!, {r3, r4, r5, pc}
 _02169E94:
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	ldr r0, [r4, #0x20]
 	orrne r0, r0, #0x20
@@ -2779,10 +2779,10 @@ BossFStage__State2_216A120: // 0x0216A120
 	orr r0, r3, #2
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
-	bl Camera3D__Create
-	bl Camera3D__GetWork
+	bl CreateSwapBuffer3D
+	bl GetSwapBuffer3DWork
 	mov r4, r0
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0
 	strh r1, [r0, #0x7c]
 	strh r1, [r4, #0x20]

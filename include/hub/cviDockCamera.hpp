@@ -1,7 +1,7 @@
 #ifndef RUSH_CVIDOCKDRAWSTATE_HPP
 #define RUSH_CVIDOCKDRAWSTATE_HPP
 
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <hub/hubConfig.h>
 
 struct CViDockCamera
@@ -36,7 +36,7 @@ struct CViDockCamera
         u32 camPosZ;
         u16 angle1;
         u16 angle2;
-        u16 projFOV;
+        u16 fov;
     };
 
     // --------------------
@@ -57,7 +57,7 @@ struct CViDockCamera
     VecFx32 camPos;
     VecFx32 camTarget;
     VecFx32 camUp;
-    u16 projFOV;
+    u16 fov;
     u16 unknown2;
     DirLight lights[4];
     void *drawState;

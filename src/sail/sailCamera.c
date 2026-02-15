@@ -30,14 +30,14 @@ SailCamera *CreateSailCamera(void)
     BossArenaCamera *camera3D = BossArena__GetCamera(0);
     BossArena__SetCameraType(camera3D, BOSSARENACAMERA_TYPE_0);
 
-    CameraConfig config;
-    MI_CpuClear16(&config, sizeof(config));
+    ProjectionDisplayConfig projection;
+    MI_CpuClear16(&projection, sizeof(projection));
 
-    config.projFOV     = FLOAT_TO_FX32(0.75);
-    config.projNear    = FLOAT_TO_FX32(1.0);
-    config.projScaleW  = FLOAT_TO_FX32(1.0);
-    config.projFar     = FLOAT_TO_FX32(400.0);
-    config.aspectRatio = FLOAT_TO_FX32(1.3333);
+    projection.fov         = FLOAT_TO_FX32(0.75);
+    projection.nearPlane   = FLOAT_TO_FX32(1.0);
+    projection.scaleW      = FLOAT_TO_FX32(1.0);
+    projection.farPlane    = FLOAT_TO_FX32(400.0);
+    projection.aspectRatio = FLOAT_TO_FX32(1.3333);
 
     switch (SailManager__GetShipType())
     {
@@ -60,7 +60,7 @@ SailCamera *CreateSailCamera(void)
 
             work->radius1  = FLOAT_TO_FX32(8.0);
             work->state    = SailCamera_State_JetHover;
-            config.projFOV = FLOAT_TO_FX32(0.75);
+            projection.fov = FLOAT_TO_FX32(0.75);
             break;
 
         case SHIP_HOVER:
@@ -81,7 +81,7 @@ SailCamera *CreateSailCamera(void)
 
             work->radius1  = FLOAT_TO_FX32(8.0);
             work->state    = SailCamera_State_JetHover;
-            config.projFOV = FLOAT_TO_FX32(0.75);
+            projection.fov = FLOAT_TO_FX32(0.75);
             break;
 
         case SHIP_BOAT:
@@ -103,7 +103,7 @@ SailCamera *CreateSailCamera(void)
 
             work->radius1  = FLOAT_TO_FX32(48.0);
             work->state    = SailCamera_State_Boat;
-            config.projFOV = FLOAT_TO_FX32(0.625);
+            projection.fov = FLOAT_TO_FX32(0.625);
             break;
 
         case SHIP_SUBMARINE:
@@ -124,7 +124,7 @@ SailCamera *CreateSailCamera(void)
             work->tracker0.z = FLOAT_TO_FX32(16.0);
 
             work->radius1  = FLOAT_TO_FX32(16.0);
-            config.projFOV = FLOAT_TO_FX32(0.625);
+            projection.fov = FLOAT_TO_FX32(0.625);
             break;
     }
 
@@ -134,7 +134,7 @@ SailCamera *CreateSailCamera(void)
     BossArena__SetTracker0TargetPos(camera3D, work->tracker0.x, work->tracker0.y, work->tracker0.z);
     BossArena__UpdateTracker0TargetPos(camera3D);
     BossArena__SetTracker0Speed(camera3D, FLOAT_TO_FX32(1.0), 0);
-    BossArena__SetCameraConfig(camera3D, &config);
+    BossArena__SetCameraConfig(camera3D, &projection);
 
     work->targetRadius1 = work->radius1;
 
@@ -152,14 +152,14 @@ void SailCamera_Main(void)
     SailCamera *work;
     Camera3D *cameraConfig;
     BossArenaCamera *camera3D;
-    
+
     manager = SailManager__GetWork();
-    work     = TaskGetWorkCurrent(SailCamera);
+    work    = TaskGetWorkCurrent(SailCamera);
 
-    camera3D = BossArena__GetCamera(0);
-    cameraConfig      = BossArena__GetCameraConfig2(camera3D);
+    camera3D     = BossArena__GetCamera(0);
+    cameraConfig = BossArena__GetCameraConfig2(camera3D);
 
-    shipType       = SailManager__GetShipType();
+    shipType           = SailManager__GetShipType();
     g_obj.cameraConfig = cameraConfig;
 
     VecFx32 tracker1;

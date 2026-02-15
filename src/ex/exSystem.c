@@ -155,10 +155,10 @@ void ExSystem_Main_Init(void)
 
     LoadExSystemAssets(work);
     SetupExSystemDisplay(work);
-    Camera3D__Create();
+    CreateSwapBuffer3D();
 
-    Camera3DTask *cameraA = Camera3D__GetWork();
-    Camera3DTask *cameraB = Camera3D__GetWork();
+    SwapBuffer3D *cameraA = GetSwapBuffer3DWork();
+    SwapBuffer3D *cameraB = GetSwapBuffer3DWork();
 
     cameraA->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.value = cameraB->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.value = 0;
 
@@ -177,7 +177,7 @@ void ExSystem_Main_Init(void)
     cameraB->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_OBJ = TRUE;
     cameraA->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane2_OBJ = cameraB->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_OBJ;
 
-    Camera3DTask *camera = Camera3D__GetWork();
+    SwapBuffer3D *camera = GetSwapBuffer3DWork();
     RenderCore_SetBlendBrightnessExt(VOID_TO_INT(&camera->gfxControl[1].blendManager), 16, 1, 31, 31, 0);
     InitExSystemStatus();
     LoadExDrawConfig(EXDRAW_CAMERACONFIG_1, EXDRAWREQ_LIGHT_BLUE);
@@ -489,7 +489,7 @@ void ExSystem_Main_EndStage(void)
     UNUSED(work);
 
     CloseTaskSystem();
-    Camera3D__Destroy();
+    DestroySwapBuffer3D();
     EndExBossStage(GetExSystemStatus()->finishMode);
 }
 

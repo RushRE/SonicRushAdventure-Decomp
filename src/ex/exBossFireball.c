@@ -121,7 +121,7 @@ BOOL LoadExBossFireBlueAssets(EX_ACTION_NN_WORK *work)
         fireballBlueAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBTP);
         fireballBlueAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
-        Asset3DSetup__Create(fireballBlueModelResource);
+        CreateAsset3DSetup(fireballBlueModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
@@ -475,7 +475,7 @@ BOOL LoadExBossFireRedAssets(EX_ACTION_NN_WORK *work)
         fireballRedAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBTP);
         fireballRedAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
-        Asset3DSetup__Create(fireballRedModelResource);
+        CreateAsset3DSetup(fireballRedModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;

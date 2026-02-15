@@ -4,7 +4,7 @@
 #include <game/save/saveGame.h>
 #include <game/graphics/screenShake.h>
 #include <game/graphics/screenEffect.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/object/obj.h>
 #include <game/object/objectManager.h>
 #include <game/audio/audioSystem.h>
@@ -6521,7 +6521,7 @@ _0215EE94:
 	tst r0, #0x10000
 	addne sp, sp, #0xc
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	bl DrawReqTask__GetEnabled
+	bl SysPause_IsActive
 	cmp r0, #0
 	addne sp, sp, #0xc
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}

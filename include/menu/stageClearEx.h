@@ -3,7 +3,7 @@
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/util/unknown204BE48.h>
 
 // --------------------

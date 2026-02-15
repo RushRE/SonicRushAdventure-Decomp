@@ -72,7 +72,7 @@ typedef union FXMatrix33_
         fx32 _10, _11, _12;
         fx32 _20, _21, _22;
     };
-    
+
     fx32 m[3][3];
     fx32 a[9];
 
@@ -95,12 +95,12 @@ typedef union FXMatrix43_
     fx32 m[4][3];
     fx32 a[12];
 
-    struct 
+    struct
     {
         VecFx32 row[4];
     };
 
-    struct 
+    struct
     {
         MtxFx33 nnMtx33[1];
         VecFx32 translation;
@@ -109,6 +109,32 @@ typedef union FXMatrix43_
     FXMatrix33 mtx33;
     MtxFx43 nnMtx[1];
 } FXMatrix43;
+
+// This struct is a wrapper around "MtxFx44" for various types of member access
+typedef union FXMatrix44_
+{
+    struct
+    {
+        fx32 _00, _01, _02, _03;
+        fx32 _10, _11, _12, _13;
+        fx32 _20, _21, _22, _23;
+        fx32 _30, _31, _32, _33;
+    };
+
+    fx32 m[4][4];
+    fx32 a[16];
+
+    struct
+    {
+        struct
+        {
+            VecFx32 vec;
+            float w;
+        } row[4];
+    };
+
+    MtxFx44 nnMtx[1];
+} FXMatrix44;
 
 // --------------------
 // VARIABLES

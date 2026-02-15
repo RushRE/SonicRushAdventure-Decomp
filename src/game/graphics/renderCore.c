@@ -14,7 +14,7 @@
 #include <game/graphics/oamSystem.h>
 #include <game/file/fsRequest.h>
 #include <game/system/sysEvent.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 
 // --------------------
 // STATIC FUNCTIONS

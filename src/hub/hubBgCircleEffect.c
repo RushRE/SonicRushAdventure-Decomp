@@ -1,6 +1,6 @@
 #include <hub/hubBgCircleEffect.h>
 #include <game/system/allocator.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/math/unknown2051334.h>
 
 // --------------------

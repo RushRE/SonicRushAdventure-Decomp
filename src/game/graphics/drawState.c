@@ -75,30 +75,30 @@ void LoadDrawState(void *fileData, DrawStateSystems systems)
     }
 }
 
-BOOL GetDrawStateCameraProjection(DrawState *state, CameraConfig *config)
+BOOL GetDrawStateCameraProjection(DrawState *state, ProjectionDisplayConfig *config)
 {
     if (state->flags.useOrthoProjection)
         return TRUE;
 
-    config->projFOV     = state->projection.perspective.fov >> 1;
-    config->projNear    = state->matProjNear;
-    config->projFar     = state->matProjFar;
+    config->fov         = state->projection.perspective.fov >> 1;
+    config->nearPlane   = state->matProjNear;
+    config->farPlane    = state->matProjFar;
     config->aspectRatio = state->projection.perspective.aspectRatio;
-    config->projScaleW  = state->matProjScaleW;
+    config->scaleW      = state->matProjScaleW;
     return FALSE;
 }
 
 void GetDrawStateCameraView(DrawState *state, Camera3D *camera)
 {
-    MI_CpuCopy32(&state->camPos, &camera->camPos, sizeof(camera->camPos));
-    MI_CpuCopy32(&state->camTarget, &camera->camTarget, sizeof(camera->camTarget));
+    MI_CpuCopy32(&state->camPos, &camera->view.camPos, sizeof(camera->view.camPos));
+    MI_CpuCopy32(&state->camTarget, &camera->view.camTarget, sizeof(camera->view.camTarget));
 
     // Vector3.Up
-    camera->camUp.x = FLOAT_TO_FX32(0.0);
-    camera->camUp.y = FLOAT_TO_FX32(1.0);
-    camera->camUp.z = FLOAT_TO_FX32(0.0);
+    camera->view.camUp.x = FLOAT_TO_FX32(0.0);
+    camera->view.camUp.y = FLOAT_TO_FX32(1.0);
+    camera->view.camUp.z = FLOAT_TO_FX32(0.0);
 
-    MI_CpuClear32(&camera->position, sizeof(camera->position));
+    MI_CpuClear32(&camera->view.position, sizeof(camera->view.position));
 }
 
 void GetDrawStateLight(DrawState *state, DirLight *light, GXLightId id)
@@ -146,7 +146,7 @@ void DrawState_SetupLight0(DrawState *state)
 
     MI_CpuClear16(&light, sizeof(light));
     GetDrawStateLight(state, &light, GX_LIGHTID_0);
-    Camera3D__SetLight(GX_LIGHTID_0, &light);
+    SwapBuffer3D_SetLight(GX_LIGHTID_0, &light);
 }
 
 void DrawState_SetupLight1(DrawState *state)
@@ -155,7 +155,7 @@ void DrawState_SetupLight1(DrawState *state)
 
     MI_CpuClear16(&light, sizeof(light));
     GetDrawStateLight(state, &light, GX_LIGHTID_1);
-    Camera3D__SetLight(GX_LIGHTID_1, &light);
+    SwapBuffer3D_SetLight(GX_LIGHTID_1, &light);
 }
 
 void DrawState_SetupLight2(DrawState *state)
@@ -164,7 +164,7 @@ void DrawState_SetupLight2(DrawState *state)
 
     MI_CpuClear16(&light, sizeof(light));
     GetDrawStateLight(state, &light, GX_LIGHTID_2);
-    Camera3D__SetLight(GX_LIGHTID_2, &light);
+    SwapBuffer3D_SetLight(GX_LIGHTID_2, &light);
 }
 
 void DrawState_SetupLight3(DrawState *state)
@@ -173,7 +173,7 @@ void DrawState_SetupLight3(DrawState *state)
 
     MI_CpuClear16(&light, sizeof(light));
     GetDrawStateLight(state, &light, GX_LIGHTID_3);
-    Camera3D__SetLight(GX_LIGHTID_3, &light);
+    SwapBuffer3D_SetLight(GX_LIGHTID_3, &light);
 }
 
 void DrawState_SetupShininessTable(DrawState *state)

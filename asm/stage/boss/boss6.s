@@ -162,7 +162,7 @@ _02153BF4:
 	ldr r0, [r4, #0x10]
 	bl NNS_G3dGetTex
 	ldr r1, _02153E14 // =aZ6TaLinePl
-	bl Asset3DSetup__PaletteFromName
+	bl Asset3DSetup_GetPaletteFromName
 	str r5, [sp]
 	str r0, [sp, #4]
 	mov r1, r6
@@ -189,7 +189,7 @@ _02153C5C:
 	ldr r0, [r4, #0x18]
 	bl NNS_G3dGetTex
 	ldr r1, [r6, r10, lsl #2]
-	bl Asset3DSetup__PaletteFromName
+	bl Asset3DSetup_GetPaletteFromName
 	str r5, [sp]
 	mov r2, #0
 	str r0, [sp, #4]
@@ -216,7 +216,7 @@ _02153C5C:
 	bl NNS_G3dGetTex
 	ldr r1, _02153E1C // =_021794DC
 	ldr r1, [r1, #0]
-	bl Asset3DSetup__PaletteFromName
+	bl Asset3DSetup_GetPaletteFromName
 	mov r2, #5
 	str r2, [sp]
 	str r0, [sp, #4]
@@ -508,7 +508,7 @@ _0215413C:
 	ldr r0, [r4, #0]
 	bl NNS_G3dGetTex
 	ldr r1, [r6, r9, lsl #2]
-	bl Asset3DSetup__PaletteFromName
+	bl Asset3DSetup_GetPaletteFromName
 	str r5, [sp]
 	mov r2, #0
 	str r0, [sp, #4]
@@ -3322,7 +3322,7 @@ Boss6Stage__Draw: // 0x021567AC
 	ldr r0, [r4, #0x20]
 	tst r0, #0x20
 	ldmneia sp!, {r4, r5, r6, pc}
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	bne _021567F0
 	add r0, r4, #0x154
@@ -3427,7 +3427,7 @@ Boss6Stage__State2_2156834: // 0x02156834
 	str r0, [r5, #0x18]
 	str r0, [r5, #0x1c]
 	str r0, [r5, #0x20]
-	bl Camera3D__Create
+	bl CreateSwapBuffer3D
 	ldr r0, _021569A8 // =gPlayer
 	ldr r0, [r0, #0]
 	bl BossPlayerHelpers_Action_SetOnLandGround_Boss6
@@ -3912,7 +3912,7 @@ Boss6__Func_2156FDC: // 0x02156FDC
 	mov r4, #1
 	b _02157024
 _0215700C:
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	movne r4, #1
 	b _02157024
@@ -7387,7 +7387,7 @@ _02159FA8: .word Boss6__State2_2159FAC
 Boss6__State2_2159FAC: // 0x02159FAC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r4, r0
 	add r1, r4, #0x20
 	mov r0, #0
@@ -7421,7 +7421,7 @@ Boss6__State2_215A014: // 0x0215A014
 	mov r10, r0
 	ldr r4, [r10, #0x370]
 	add r8, r10, #0x374
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	add r1, r4, #0xd00
 	ldrsh r3, [r1, #0x84]
 	mvn r2, #0xf
@@ -7550,7 +7550,7 @@ Boss6__State2_215A1E4: // 0x0215A1E4
 	mov r5, r0
 	ldr r6, [r5, #0x370]
 	add r4, r5, #0x374
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	add r3, r6, #0xd00
 	ldrsh ip, [r3, #0x84]
 	mov r1, #0
@@ -7702,7 +7702,7 @@ Boss6Platform__Draw: // 0x0215A3BC
 	mov r5, #1
 	b _0215A3F4
 _0215A3E8:
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	movne r5, #1
 _0215A3F4:

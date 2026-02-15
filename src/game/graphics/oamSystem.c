@@ -135,12 +135,12 @@ u32 OAMSystem__GetOAMCount(BOOL useEngineB)
     return oamManagers[useEngineB]->count;
 }
 
-u32 OAMSystem__GetOAMAffineCount(BOOL useEngineB)
+u16 OAMSystem__GetOAMAffineCount(BOOL useEngineB)
 {
     return oamManagers[useEngineB]->affineCount;
 }
 
-u32 OAMSystem__GetOAMAffineOffset(BOOL useEngineB)
+u16 OAMSystem__GetOAMAffineOffset(BOOL useEngineB)
 {
     return oamManagers[useEngineB]->affineOffset;
 }

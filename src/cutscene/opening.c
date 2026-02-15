@@ -305,10 +305,10 @@ void CreateOpening(void)
     LoadOpeningBackgrounds(work);
     StartSamplingTouchInput(4);
 
-    Camera3D__Create();
+    CreateSwapBuffer3D();
 
-    Camera3DTask *camA             = Camera3D__GetWork();
-    Camera3DTask *camB             = Camera3D__GetWork();
+    SwapBuffer3D *camA             = GetSwapBuffer3DWork();
+    SwapBuffer3D *camB             = GetSwapBuffer3DWork();
     camA->gfxControl[0].brightness = RENDERCORE_BRIGHTNESS_WHITE;
     camB->gfxControl[1].brightness = RENDERCORE_BRIGHTNESS_WHITE;
 
@@ -519,19 +519,19 @@ void InitOpeningCameraForScene(Opening *work, s32 id)
     void *drawState = control->drawStateCutscene[id];
     LoadDrawState(drawState, DRAWSTATE_ALL & ~(DRAWSTATE_LOOKAT));
     GetDrawStateCameraView(drawState, &control->camera);
-    GetDrawStateCameraProjection(drawState, &control->camera.config);
+    GetDrawStateCameraProjection(drawState, &control->camera.projection);
 
     switch (id)
     {
         case 0:
         case 1:
         case 4:
-            control->matProjPosY = control->camera.config.projScaleW + MultiplyFX(FLOAT_TO_FX32(0.416504), control->camera.config.projScaleW);
+            control->matProjPosY = control->camera.projection.scaleW + MultiplyFX(FLOAT_TO_FX32(0.416504), control->camera.projection.scaleW);
             break;
 
         case 2:
         case 3:
-            control->matProjPosY = 0;
+            control->matProjPosY = FLOAT_TO_FX32(0.0);
             break;
 
         default:
@@ -694,11 +694,11 @@ void GetOpeningMatrix(s32 num, FXMatrix43 *mtx)
 
 void StartOpeningFade(OpeningFadeController *controller, OpeningFadeMode mode, fx32 fadeSpeed)
 {
-    Camera3DTask *camB;
-    Camera3DTask *camA;
+    SwapBuffer3D *camB;
+    SwapBuffer3D *camA;
 
-    camA = Camera3D__GetWork();
-    camB = Camera3D__GetWork();
+    camA = GetSwapBuffer3DWork();
+    camB = GetSwapBuffer3DWork();
 
     MI_CpuClear16(controller, sizeof(OpeningFadeController));
     controller->mode      = mode;
@@ -732,8 +732,8 @@ void StartOpeningFade(OpeningFadeController *controller, OpeningFadeMode mode, f
 
 void EndOpeningFade(OpeningFadeController *controller)
 {
-    Camera3DTask *camA = Camera3D__GetWork();
-    Camera3DTask *camB = Camera3D__GetWork();
+    SwapBuffer3D *camA = GetSwapBuffer3DWork();
+    SwapBuffer3D *camB = GetSwapBuffer3DWork();
 
     switch (controller->mode)
     {
@@ -760,8 +760,8 @@ void EndOpeningFade(OpeningFadeController *controller)
 
 BOOL ProcessOpeningFade(OpeningFadeController *controller)
 {
-    Camera3DTask *camA = Camera3D__GetWork();
-    Camera3DTask *camB = Camera3D__GetWork();
+    SwapBuffer3D *camA = GetSwapBuffer3DWork();
+    SwapBuffer3D *camB = GetSwapBuffer3DWork();
 
     BOOL finished  = FALSE;
     fx32 fadeSpeed = MTM_MATH_CLIP(controller->fadeSpeed, FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_DEFAULT), FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_WHITE));
@@ -826,7 +826,7 @@ BOOL IsOpeningSceneCompleteFinished(Opening *work)
 
 void InitOpeningWindowConfig(void)
 {
-    Camera3DTask *camera3DWork = Camera3D__GetWork();
+    SwapBuffer3D *camera3DWork = GetSwapBuffer3DWork();
 
     // Engine A
     {
@@ -857,7 +857,7 @@ void InitOpeningWindowConfig(void)
 
 void ConfigureOpeningWindowForSonic(fx32 y)
 {
-    Camera3DTask *camera3DWork = Camera3D__GetWork();
+    SwapBuffer3D *camera3DWork = GetSwapBuffer3DWork();
 
     if (y > HW_LCD_HEIGHT)
     {
@@ -873,7 +873,7 @@ void ConfigureOpeningWindowForSonic(fx32 y)
 
 void ConfigureOpeningWindowForBlaze(fx32 y)
 {
-    Camera3DTask *camera3DWork = Camera3D__GetWork();
+    SwapBuffer3D *camera3DWork = GetSwapBuffer3DWork();
 
     if (y > HW_LCD_HEIGHT)
     {
@@ -890,7 +890,7 @@ void ConfigureOpeningWindowForBlaze(fx32 y)
 
 void ClearOpeningWindowConfig(void)
 {
-    Camera3DTask *camera3DWork = Camera3D__GetWork();
+    SwapBuffer3D *camera3DWork = GetSwapBuffer3DWork();
 
     MI_CpuClear16(&camera3DWork->gfxControl[GRAPHICS_ENGINE_A].windowManager, sizeof(camera3DWork->gfxControl[GRAPHICS_ENGINE_A].windowManager));
     MI_CpuClear16(&camera3DWork->gfxControl[GRAPHICS_ENGINE_B].windowManager, sizeof(camera3DWork->gfxControl[GRAPHICS_ENGINE_B].windowManager));
@@ -898,7 +898,7 @@ void ClearOpeningWindowConfig(void)
 
 void SetOpeningBackgroundPos(s32 id, fx32 x, fx32 y)
 {
-    Camera3DTask *camera3DWork = Camera3D__GetWork();
+    SwapBuffer3D *camera3DWork = GetSwapBuffer3DWork();
 
     camera3DWork->gfxControl[GRAPHICS_ENGINE_A].bgPosition[id].x = FX32_TO_WHOLE(x);
     camera3DWork->gfxControl[GRAPHICS_ENGINE_A].bgPosition[id].y = MTM_MATH_CLIP_2(FX32_TO_WHOLE(y), -HW_LCD_WIDTH, HW_LCD_WIDTH);
@@ -909,7 +909,7 @@ void SetOpeningBackgroundPos(s32 id, fx32 x, fx32 y)
 
 void DrawOpeningSprite(AnimatorSprite *animator)
 {
-    if (Camera3D__UseEngineA())
+    if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
     {
         AnimatorSprite__DrawFrame(animator);
     }
@@ -978,7 +978,7 @@ void Opening_Main_Finished(void)
 {
     Opening *work = TaskGetWorkCurrent(Opening);
 
-    Camera3D__Destroy();
+    DestroySwapBuffer3D();
     ChangeEventForOpening(work);
     ClearOpeningTasks();
 }
@@ -1156,30 +1156,30 @@ void Opening_StateScene_ProcessAnimatedScene(Opening *work)
     GetOpeningMatrix(OPENING_MAT_CAMERA2_NODE, &work->worldControl.matCamera2);
     GetOpeningMatrix(OPENING_MAT_TARGET2_NODE, &work->worldControl.matTarget2);
 
-    if (Camera3D__UseEngineA())
+    if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
     {
-        work->worldControl.camera.config.matProjPosition.y = -work->worldControl.matProjPosY;
+        work->worldControl.camera.projection.position.y = -work->worldControl.matProjPosY;
 
-        VEC_SetFromArray(&work->worldControl.camera.camPos, &work->worldControl.matCamera1.m[3][0]);
-        VEC_SetFromArray(&work->worldControl.camera.camTarget, &work->worldControl.matTarget1.m[3][0]);
+        VEC_SetFromArray(&work->worldControl.camera.view.camPos, &work->worldControl.matCamera1.m[3][0]);
+        VEC_SetFromArray(&work->worldControl.camera.view.camTarget, &work->worldControl.matTarget1.m[3][0]);
     }
     else
     {
         if (work->worldControl.matProjPosY != 0)
         {
-            work->worldControl.camera.config.matProjPosition.y = work->worldControl.matProjPosY;
+            work->worldControl.camera.projection.position.y = work->worldControl.matProjPosY;
 
-            VEC_SetFromArray(&work->worldControl.camera.camPos, &work->worldControl.matCamera1.m[3][0]);
-            VEC_SetFromArray(&work->worldControl.camera.camTarget, &work->worldControl.matTarget1.m[3][0]);
+            VEC_SetFromArray(&work->worldControl.camera.view.camPos, &work->worldControl.matCamera1.m[3][0]);
+            VEC_SetFromArray(&work->worldControl.camera.view.camTarget, &work->worldControl.matTarget1.m[3][0]);
         }
         else
         {
-            VEC_SetFromArray(&work->worldControl.camera.camPos, &work->worldControl.matCamera2.m[3][0]);
-            VEC_SetFromArray(&work->worldControl.camera.camTarget, &work->worldControl.matTarget2.m[3][0]);
+            VEC_SetFromArray(&work->worldControl.camera.view.camPos, &work->worldControl.matCamera2.m[3][0]);
+            VEC_SetFromArray(&work->worldControl.camera.view.camTarget, &work->worldControl.matTarget2.m[3][0]);
         }
     }
 
-    Camera3D__LoadState(&work->worldControl.camera);
+    SwapBuffer3D_ApplyCameraState(&work->worldControl.camera);
 
     for (i = OPENING_ANIMATOR_SEAGULL; i < OPENING_ANIMATOR_COUNT; i++)
     {
@@ -1200,7 +1200,7 @@ void Opening_StateScene_ProcessAnimatedScene(Opening *work)
                     case OPENING_ANIMATOR_JETSKI:
                     case OPENING_ANIMATOR_SONIC:
                     case OPENING_ANIMATOR_BLAZE:
-                        if (!Camera3D__UseEngineA())
+                        if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
                             break;
                         // fallthrough
 
@@ -1254,7 +1254,7 @@ void Opening_StateScene_InitCutInScene(Opening *work)
 
 void Opening_StateScene_ProcessCutInScene(Opening *work)
 {
-    Camera3DTask *camera3DWork = Camera3D__GetWork();
+    SwapBuffer3D *camera3DWork = GetSwapBuffer3DWork();
 
     for (s32 i = 0; i < 4; i++)
     {
@@ -1496,7 +1496,7 @@ void OpeningBorderSprite_Main_Finished(void)
 // OpeningSonicNameSprite
 void CreateOpeningSonicNameSprite(Opening *parent)
 {
-    Camera3DTask *camera3D = Camera3D__GetWork();
+    SwapBuffer3D *camera3D = GetSwapBuffer3DWork();
     UNUSED(camera3D);
 
     Task *task = TaskCreate(OpeningSonicNameSprite_Main_Init, OpeningSonicNameSprite_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4000, TASK_GROUP(1),

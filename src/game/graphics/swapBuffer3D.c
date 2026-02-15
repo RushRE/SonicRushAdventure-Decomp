@@ -1,4 +1,4 @@
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <game/graphics/vramSystem.h>
 #include <game/graphics/oamSystem.h>
 #include <game/graphics/pixelsQueue.h>
@@ -7,32 +7,67 @@
 #include <game/graphics/background.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum SwapBuffer3DInitMode_
+{
+    SWAPBUFFER3D_MODE_PAUSED  = -1,
+    SWAPBUFFER3D_MODE_IDLE    = 0,
+    SWAPBUFFER3D_MODE_REGULAR = 1,
+};
+typedef s32 SwapBuffer3DInitMode;
+
+// --------------------
 // STRUCTS
 // --------------------
 
-struct DrawReqTask__StaticVars
+typedef struct DisableSwapBuffersTask_
 {
-    Task *drawReqTask;
-    Task *cam3DTask;
-    u32 field_8;
-    u32 field_C;
-};
+    BOOL swapBuffersDisabled;
+} DisableSwapBuffersTask;
 
 // --------------------
 // VARIABLES
 // --------------------
 
-static struct DrawReqTask__StaticVars DrawReqTask__sVars;
+static Task *sSysPauseTask;
+static Task *sSwapBuffer3D;
+static SwapBuffer3DPrimaryScreen sPrimary3DScreen;
+static SwapBuffer3DInitMode sSwapBuffer3DMode;
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+// SysPause (Part 2)
+static void SysPause_Main_Init(void);
+static void SysPause_Main_Active(void);
+static void SysPause_Func_207FC10(BOOL useEngineB);
+
+// DisableSwapBuffersTask
+static void CreateDisableSwapBuffersTask(BOOL swapBuffersDisabled);
+static void DisableSwapBuffersTask_Main(void);
+
+// Asset3DSetup
+static void Asset3DSetup_Main(void);
+
+// SwapBuffer3D (Part 2)
+static void SwapBuffer3D_Main(void);
+static void SwapBuffer3D_InitOAM(void);
+static void SwapBuffer3D_VBlankCallback(void);
+static void SwapBuffer3D_Use3DOnTopScreen(void);
+static void SwapBuffer3D_Use3DOnBottomScreen(void);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-// DrawReqTask
+// SysPause
 void InitDrawReqSystem(void)
 {
-    DrawReqTask__sVars.drawReqTask = NULL;
-    DrawReqTask__sVars.cam3DTask   = NULL;
+    sSysPauseTask = NULL;
+    sSwapBuffer3D = NULL;
 }
 
 void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *paletteMode, void **palettePtr)
@@ -636,297 +671,138 @@ void GetVRAMPixelConfig(BOOL useEngineB, u8 bgID, PixelMode *pixelMode, u16 *scr
 #undef bg3_256ColorChar04000
 }
 
-void DrawReqTask__Create(u8 pauseLevel, BOOL canDrawA, BOOL canDrawB, BOOL createPauseDrawControl)
+void BeginSysPause(u8 pauseLevel, BOOL engineActiveA, BOOL engineActiveB, BOOL disableSwapBuffers)
 {
-    Task *task = TaskCreate(DrawReqTask__Main, NULL, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSELEVEL_0, TASK_PRIORITY_UPDATE_LIST_END - 0,
-                            TASK_GROUP_HIGHEST - 1, DrawReqTask);
-    DrawReqTask__sVars.drawReqTask = task;
+    Task *task    = TaskCreate(SysPause_Main_Init, NULL, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSELEVEL_0, TASK_PRIORITY_UPDATE_LIST_END - 0,
+                               TASK_GROUP_HIGHEST - 1, SysPause);
+    sSysPauseTask = task;
 
-    DrawReqTask *work = TaskGetWork(task, DrawReqTask);
+    SysPause *work = TaskGetWork(task, SysPause);
     TaskInitWork16(work);
 
-    work->screenCanDraw[0] = canDrawA;
-    work->screenCanDraw[1] = canDrawB;
+    work->engineActive[GRAPHICS_ENGINE_A] = engineActiveA;
+    work->engineActive[GRAPHICS_ENGINE_B] = engineActiveB;
     StartTaskPause(pauseLevel);
 
-    if (Camera3D__GetTask() == NULL)
+    if (GetSwapBuffer3DTask() == NULL)
     {
-        if (createPauseDrawControl)
-            SysPauseDrawControl__Create(TRUE);
+        if (disableSwapBuffers)
+            CreateDisableSwapBuffersTask(TRUE);
     }
 }
 
-void DrawReqTask__Enable(void)
+void EndSysPause(void)
 {
-    DrawReqTask *work = TaskGetWork(DrawReqTask__sVars.drawReqTask, DrawReqTask);
-    work->enabled     = TRUE;
+    SysPause *work   = TaskGetWork(sSysPauseTask, SysPause);
+    work->isFinished = TRUE;
 
-    if (Camera3D__GetTask() == NULL)
-        SysPauseDrawControl__Create(FALSE);
+    if (GetSwapBuffer3DTask() == NULL)
+        CreateDisableSwapBuffersTask(FALSE);
 
     EndTaskPause();
 }
 
-BOOL DrawReqTask__GetEnabled(void)
+BOOL SysPause_IsActive(void)
 {
-    if (DrawReqTask__sVars.drawReqTask == NULL)
+    if (sSysPauseTask == NULL)
         return FALSE;
 
-    DrawReqTask *work = TaskGetWork(DrawReqTask__sVars.drawReqTask, DrawReqTask);
-    return work->field_4;
+    SysPause *work = TaskGetWork(sSysPauseTask, SysPause);
+    return work->isActive;
 }
 
-// Camera3D
-NONMATCH_FUNC void Camera3D__Create(void)
+// SwapBuffer3D
+void CreateSwapBuffer3D(void)
 {
-#ifdef NON_MATCHING
+    sPrimary3DScreen  = SWAPBUFFER3D_PRIMARY_TOP;
+    sSwapBuffer3DMode = SWAPBUFFER3D_MODE_IDLE;
 
-#else
-    // clang-format off
-	stmdb sp!, {lr}
-	sub sp, sp, #0xc
-	ldr r0, =DrawReqTask__sVars
-	mov r2, #1
-	mov r1, #0
-	str r2, [r0, #8]
-	str r1, [r0, #0xc]
-	rsb r0, r2, #0xf000
-	str r0, [sp]
-	mov r2, #0xfe
-	str r2, [sp, #4]
-	mov ip, #0x8c0
-	ldr r0, =Camera3D__Main
-	mov r3, r1
-	mov r2, #3
-	str ip, [sp, #8]
-	bl TaskCreate_
-	ldr r1, =DrawReqTask__sVars
-	str r0, [r1, #4]
-	bl GetTaskWork_
-	mov r1, r0
-	mov r0, #0
-	mov r2, #0x8c0
-	bl MIi_CpuClear16
-	mov r0, #1
-	bl RenderCore_DisableSwapBuffers
-	mov r0, #1
-	bl RenderCore_DisableOAMReset
-	ldr r0, =Camera3D__VBlankCallback
-	bl RenderCore_SetVBlankCallback
-	ldr r0, =renderCoreGFXControlB+0x00000028
-	bl MTX_Identity22_
-	ldr r0, =renderCoreGFXControlB
-	mov r1, #0
-	strh r1, [r0, #0x3a]
-	strh r1, [r0, #0x38]
-	strh r1, [r0, #0x3e]
-	strh r1, [r0, #0x3c]
-	bl Camera3D__ProcessOAMList
-	add sp, sp, #0xc
-	ldmia sp!, {pc}
+    Task *task    = TaskCreate(SwapBuffer3D_Main, NULL, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSELEVEL_0, TASK_PRIORITY_UPDATE_LIST_END - 0,
+                               TASK_GROUP_HIGHEST - 1, SwapBuffer3D);
+    sSwapBuffer3D = task;
 
-// clang-format on
-#endif
+    SwapBuffer3D *work = TaskGetWork(task, SwapBuffer3D);
+    TaskInitWork16(work);
+
+    RenderCore_DisableSwapBuffers(TRUE);
+    RenderCore_DisableOAMReset(TRUE);
+    RenderCore_SetVBlankCallback(SwapBuffer3D_VBlankCallback);
+
+    MTX_Identity22(&renderCoreGFXControlB.affineBG2.matrix);
+    renderCoreGFXControlB.affineBG2.centerX = renderCoreGFXControlB.affineBG2.centerY = 0;
+    renderCoreGFXControlB.affineBG2.x = renderCoreGFXControlB.affineBG2.y = 0;
+
+    SwapBuffer3D_InitOAM();
 }
 
-NONMATCH_FUNC void Camera3D__Destroy(void)
+void DestroySwapBuffer3D(void)
 {
-#ifdef NON_MATCHING
+    if (sSwapBuffer3D == NULL)
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =DrawReqTask__sVars
-	ldr r0, [r0, #4]
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	mov r0, #0
-	bl RenderCore_SetVBlankCallback
-	ldr r0, =DrawReqTask__sVars
-	ldr r2, [r0, #4]
-	ldrh r1, [r2, #0x16]
-	bic r1, r1, #2
-	strh r1, [r2, #0x16]
-	ldr r0, [r0, #4]
-	bl DestroyTask
-	ldr r1, =DrawReqTask__sVars
-	mov r0, #0
-	str r0, [r1, #4]
-	bl RenderCore_DisableSwapBuffers
-	mov r0, #0
-	bl RenderCore_DisableOAMReset
-	mov r0, #1
-	bl OAMSystem__GetList2
-	mov r1, r0
-	mov r0, #0x200
-	mov r2, #0x400
-	bl MIi_CpuClear16
-	ldmia sp!, {r3, pc}
+    RenderCore_SetVBlankCallback(NULL);
 
-// clang-format on
-#endif
+    sSwapBuffer3D->usrFlags &= ~TASKLIST_FLAG_PRIORITY_ACTIVE;
+    DestroyTask(sSwapBuffer3D);
+    sSwapBuffer3D = NULL;
+
+    RenderCore_DisableSwapBuffers(FALSE);
+    RenderCore_DisableOAMReset(FALSE);
+
+    MI_CpuFill16(OAMSystem__GetList2(GRAPHICS_ENGINE_B), 0x200, HW_OAM_SIZE);
 }
 
-Task *Camera3D__GetTask(void)
+Task *GetSwapBuffer3DTask(void)
 {
-    return DrawReqTask__sVars.cam3DTask;
+    return sSwapBuffer3D;
 }
 
-BOOL Camera3D__UseEngineA(void)
+SwapBuffer3DPrimaryScreen SwapBuffer3D_GetPrimaryScreen(void)
 {
-    return DrawReqTask__sVars.field_8;
+    return sPrimary3DScreen;
 }
 
-Camera3DTask *Camera3D__GetWork(void)
+SwapBuffer3D *GetSwapBuffer3DWork(void)
 {
-    return TaskGetWork(DrawReqTask__sVars.cam3DTask, Camera3DTask);
+    return TaskGetWork(sSwapBuffer3D, SwapBuffer3D);
 }
 
-NONMATCH_FUNC void Camera3D__LoadState(Camera3D *camera)
+void SwapBuffer3D_ApplyCameraState(Camera3D *camera)
 {
-#ifdef NON_MATCHING
+    FXMatrix43 *matView;
+    FXMatrix44 matTranslate;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #0x50
-	mov r4, r0
-	add r5, r4, #0x20
-	ldr r3, =NNS_G3dGlb+0x00000240
-	ldmia r5, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	add lr, r4, #0x38
-	ldr r3, =NNS_G3dGlb+0x0000024C
-	ldmia lr, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	add ip, r4, #0x2c
-	ldr r3, =NNS_G3dGlb+0x00000258
-	ldmia ip, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	mov r2, ip
-	ldr ip, =NNS_G3dGlb+0x0000004C
-	mov r0, r5
-	mov r1, lr
-	mov r3, #0
-	str ip, [sp]
-	bl G3i_LookAt_
-	ldr r1, =NNS_G3dGlb
-	ldr r0, =NNS_G3dGlb+0x0000004C
-	ldr r2, [r1, #0xfc]
-	mov r3, #0
-	bic r2, r2, #0xe8
-	str r2, [r1, #0xfc]
-	ldr ip, [r0, #0x24]
-	ldr r1, [r4, #0x44]
-	ldr r2, [r0, #0x28]
-	add r1, ip, r1
-	str r1, [r0, #0x24]
-	ldr r1, [r4, #0x48]
-	ldr ip, [r0, #0x2c]
-	add r1, r2, r1
-	str r1, [r0, #0x28]
-	ldr r2, [r4, #0x4c]
-	ldr r1, =NNS_G3dGlb+0x00000008
-	add r2, ip, r2
-	str r2, [r0, #0x2c]
-	ldrh ip, [r4]
-	ldr r0, [r4, #8]
-	ldr r2, =FX_SinCosTable_
-	str r0, [sp]
-	mov r0, ip, asr #4
-	ldr ip, [r4, #0x10]
-	mov lr, r0, lsl #1
-	str ip, [sp, #4]
-	str r3, [sp, #8]
-	str r1, [sp, #0xc]
-	add r1, lr, #1
-	mov r0, lr, lsl #1
-	mov r1, r1, lsl #1
-	ldrsh r0, [r2, r0]
-	ldrsh r1, [r2, r1]
-	ldr r2, [r4, #0xc]
-	ldr r3, [r4, #4]
-	bl G3i_PerspectiveW_
-	ldr r1, =NNS_G3dGlb
-	ldr r5, =NNS_G3dGlb+0x00000008
-	ldr r2, [r1, #0xfc]
-	add r0, sp, #0x10
-	bic r2, r2, #0x50
-	str r2, [r1, #0xfc]
-	bl MTX_Identity44_
-	add r0, r4, #0x14
-	add r3, sp, #0x40
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	mov r0, r5
-	mov r2, r5
-	add r1, sp, #0x10
-	bl MTX_Concat44
-	add sp, sp, #0x50
-	ldmia sp!, {r3, r4, r5, pc}
+    NNS_G3dGlbLookAt(&camera->view.camPos, &camera->view.camUp, &camera->view.camTarget);
 
-// clang-format on
-#endif
+    matView = (FXMatrix43 *)NNS_G3dGlbGetCameraMtx();
+    matView->row[3].x += camera->view.position.x;
+    matView->row[3].y += camera->view.position.y;
+    matView->row[3].z += camera->view.position.z;
+
+    NNS_G3dGlbPerspectiveW(SinFX(camera->projection.fov), CosFX(camera->projection.fov), camera->projection.aspectRatio, camera->projection.nearPlane, camera->projection.farPlane,
+                           camera->projection.scaleW);
+
+    FXMatrix44 *matProj = (FXMatrix44 *)NNS_G3dGlbGetProjectionMtx();
+
+    MTX_Identity44(matTranslate.nnMtx);
+    matTranslate.row[3].vec = camera->projection.position;
+    MTX_Concat44(matProj->nnMtx, matTranslate.nnMtx, matProj->nnMtx);
 }
 
-NONMATCH_FUNC void Camera3D__SetLight(GXLightId lightID, DirLight *light)
+void SwapBuffer3D_SetLight(GXLightId lightID, DirLight *light)
 {
-#ifdef NON_MATCHING
-    NNS_G3dGlbLightVector(lightID, MTM_MATH_CLIP(light->dir.x, -0xFFF, 0xFFF), MTM_MATH_CLIP(light->dir.y, -0xFFF, 0xFFF), MTM_MATH_CLIP(light->dir.z, -0xFFF, 0xFFF));
+    fx32 z = MTM_MATH_CLIP(light->dir.z, -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0) - 1);
+    fx32 y = MTM_MATH_CLIP(light->dir.y, -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0) - 1);
+    fx32 x = MTM_MATH_CLIP(light->dir.x, -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0) - 1);
+
+    NNS_G3dGlbLightVector(lightID, x, y, z);
     NNS_G3dGlbLightColor(lightID, light->color);
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r1
-	ldrsh r3, [r4, #4]
-	mov r1, #0x1000
-	rsb r1, r1, #0
-	cmp r3, r1
-	mov r5, r0
-	movlt r3, r1
-	blt _0207F600
-	cmp r3, r1, lsr #20
-	movgt r3, r1, lsr #0x14
-_0207F600:
-	ldrsh r2, [r4, #2]
-	mov r0, #0x1000
-	rsb r0, r0, #0
-	cmp r2, r0
-	movlt r2, r0
-	blt _0207F620
-	cmp r2, r0, lsr #20
-	movgt r2, r0, lsr #0x14
-_0207F620:
-	ldrsh r1, [r4, #0]
-	mov r0, #0x1000
-	rsb r0, r0, #0
-	cmp r1, r0
-	movlt r1, r0
-	blt _0207F640
-	cmp r1, r0, lsr #20
-	movgt r1, r0, lsr #0x14
-_0207F640:
-	mov r1, r1, lsl #0x10
-	mov r2, r2, lsl #0x10
-	mov r3, r3, lsl #0x10
-	mov r0, r5
-	mov r1, r1, asr #0x10
-	mov r2, r2, asr #0x10
-	mov r3, r3, asr #0x10
-	bl NNS_G3dGlbLightVector
-	ldrh r1, [r4, #6]
-	mov r0, r5
-	bl NNS_G3dGlbLightColor
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
 }
 
-void Camera3D__SetMatrixMode(void)
+void SwapBuffer3D_Op_Init(void)
 {
     // clang-format off
-static const u32 sz = (sizeof(NNS_G3dGlb.cmd1) +
+	static const u32 sz = (sizeof(NNS_G3dGlb.cmd1) +
                            sizeof(NNS_G3dGlb.lightVec[0]) * 4 +
                            sizeof(NNS_G3dGlb.cmd2) +
                            sizeof(NNS_G3dGlb.prmMatColor0) +
@@ -934,121 +810,61 @@ static const u32 sz = (sizeof(NNS_G3dGlb.cmd1) +
                            sizeof(NNS_G3dGlb.prmPolygonAttr) +
                            sizeof(NNS_G3dGlb.prmViewPort) +
                            sizeof(NNS_G3dGlb.cmd3) +
-                           sizeof(NNS_G3dGlb.lightColor[0]) * 4) / 4;
+                           sizeof(NNS_G3dGlb.lightColor[0]) * 4) / sizeof(u32);
     // clang-format on
-
-    // TODO: is this an inlined function call?
-    // it seems too "raw" too be game logic?
-    // the closest function so far is "NNS_G3dGlbFlushWVP"
 
     NNS_G3dGeBufferData_N((u32 *)&NNS_G3dGlb.cmd1, sz);
     NNS_G3dGeBufferOP_N(G3OP_TEXIMAGE_PARAM, &NNS_G3dGlb.prmTexImageParam, 1);
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
 }
 
-NONMATCH_FUNC void Camera3D__FlushP(void)
+void SwapBuffer3D_Op_FlushP(void)
 {
-#ifdef NON_MATCHING
-
-#else
     // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r1, =NNS_G3dGlb
-	mov r2, #0x1e
-	ldr r0, [r1], #4
-	bl NNS_G3dGeBufferOP_N
-	ldr r0, =0x00001B19
-	ldr r1, =NNS_G3dGlb+0x000000BC
-	mov r2, #0xf
-	bl NNS_G3dGeBufferOP_N
-	ldr r0, =NNS_G3dGlb
-	ldr r1, [r0, #0xfc]
-	bic r1, r1, #1
-	bic r1, r1, #2
-	str r1, [r0, #0xfc]
-	ldmia sp!, {r3, pc}
+	static const u32 sz = (sizeof(NNS_G3dGlb.cmd0) +
+                           sizeof(NNS_G3dGlb.mtxmode_proj) +
+                           sizeof(NNS_G3dGlb.projMtx) +
+                           sizeof(NNS_G3dGlb.mtxmode_posvec) +
+                           sizeof(NNS_G3dGlb.cameraMtx)) / sizeof(u32);
+    // clang-format on
 
-// clang-format on
-#endif
+    NNS_G3dGeBufferData_N((u32 *)&NNS_G3dGlb, sz);
+    NNS_G3dGeBufferOP_N(GX_PACK_OP(G3OP_MTX_MULT_4x3, G3OP_MTX_SCALE, G3OP_NOP, G3OP_NOP), (u32 *)NNS_G3dGlbGetBaseRot(), (sizeof(MtxFx44) / sizeof(u32)) - 1);
+
+    NNS_G3dGlb.flag &= ~NNS_G3D_GLB_FLAG_FLUSH_WVP;
+    NNS_G3dGlb.flag &= ~NNS_G3D_GLB_FLAG_FLUSH_VP;
 }
 
-NONMATCH_FUNC void Camera3D__FlushVP(void)
+void SwapBuffer3D_Op_FlushVP(void)
 {
-#ifdef NON_MATCHING
+    static const u32 sz = (sizeof(NNS_G3dGlb.mtxmode_proj) + sizeof(NNS_G3dGlb.projMtx)) / sizeof(u32);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =0x00001610
-	ldr r1, =NNS_G3dGlb+0x00000004
-	mov r2, #0x11
-	bl NNS_G3dGeBufferOP_N
-	ldr r1, =NNS_G3dGlb+0x0000004C
-	mov r0, #0x19
-	mov r2, #0xc
-	bl NNS_G3dGeBufferOP_N
-	mov r3, #2
-	add r1, sp, #0
-	mov r0, #0x10
-	mov r2, #1
-	str r3, [sp]
-	bl NNS_G3dGeBufferOP_N
-	ldr r0, =0x00001B17
-	ldr r1, =NNS_G3dGlb+0x000000BC
-	mov r2, #0xf
-	bl NNS_G3dGeBufferOP_N
-	ldr r0, =NNS_G3dGlb
-	ldr r1, [r0, #0xfc]
-	bic r1, r1, #1
-	orr r1, r1, #2
-	str r1, [r0, #0xfc]
-	ldmia sp!, {r3, pc}
+    NNS_G3dGeBufferOP_N(GX_PACK_OP(G3OP_MTX_MODE, G3OP_MTX_LOAD_4x4, G3OP_NOP, G3OP_NOP), (u32 *)&NNS_G3dGlb.mtxmode_proj, sz);
+    NNS_G3dGeBufferOP_N(G3OP_MTX_MULT_4x3, (u32 *)NNS_G3dGlbGetCameraMtx(), (sizeof(MtxFx43) / sizeof(u32)));
 
-// clang-format on
-#endif
+    NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
+    NNS_G3dGeBufferOP_N(GX_PACK_OP(G3OP_MTX_LOAD_4x3, G3OP_MTX_SCALE, G3OP_NOP, G3OP_NOP), (u32 *)NNS_G3dGlbGetBaseRot(), (sizeof(MtxFx44) / sizeof(u32)) - 1);
+
+    NNS_G3dGlb.flag &= ~NNS_G3D_GLB_FLAG_FLUSH_WVP;
+    NNS_G3dGlb.flag |= NNS_G3D_GLB_FLAG_FLUSH_VP;
 }
 
-NONMATCH_FUNC void Camera3D__FlushWVP(void)
+void SwapBuffer3D_Op_FlushWVP(void)
 {
-#ifdef NON_MATCHING
+    static const u32 sz = (sizeof(NNS_G3dGlb.mtxmode_proj) + sizeof(NNS_G3dGlb.projMtx)) / sizeof(u32);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =0x00001610
-	ldr r1, =NNS_G3dGlb+0x00000004
-	mov r2, #0x11
-	bl NNS_G3dGeBufferOP_N
-	ldr r1, =NNS_G3dGlb+0x0000004C
-	mov r0, #0x19
-	mov r2, #0xc
-	bl NNS_G3dGeBufferOP_N
-	ldr r0, =0x00001B19
-	ldr r1, =NNS_G3dGlb+0x000000BC
-	mov r2, #0xf
-	bl NNS_G3dGeBufferOP_N
-	mov r3, #2
-	add r1, sp, #0
-	mov r0, #0x10
-	mov r2, #1
-	str r3, [sp]
-	bl NNS_G3dGeBufferOP_N
-	mov r1, #0
-	mov r2, r1
-	mov r0, #0x15
-	bl NNS_G3dGeBufferOP_N
-	ldr r0, =NNS_G3dGlb
-	ldr r1, [r0, #0xfc]
-	orr r1, r1, #1
-	bic r1, r1, #2
-	str r1, [r0, #0xfc]
-	ldmia sp!, {r3, pc}
+    NNS_G3dGeBufferOP_N(GX_PACK_OP(G3OP_MTX_MODE, G3OP_MTX_LOAD_4x4, G3OP_NOP, G3OP_NOP), (u32 *)&NNS_G3dGlb.mtxmode_proj, sz);
+    NNS_G3dGeBufferOP_N(G3OP_MTX_MULT_4x3, (u32 *)NNS_G3dGlbGetCameraMtx(), (sizeof(MtxFx43) / sizeof(u32)));
+    NNS_G3dGeBufferOP_N(GX_PACK_OP(G3OP_MTX_MULT_4x3, G3OP_MTX_SCALE, G3OP_NOP, G3OP_NOP), (u32 *)NNS_G3dGlbGetBaseRot(), (sizeof(MtxFx44) / sizeof(u32)) - 1);
 
-// clang-format on
-#endif
+    NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
+    NNS_G3dGeIdentity();
+
+    NNS_G3dGlb.flag |= NNS_G3D_GLB_FLAG_FLUSH_WVP;
+    NNS_G3dGlb.flag &= ~NNS_G3D_GLB_FLAG_FLUSH_VP;
 }
 
-void Camera3D__CopyMatrix4x3(const FXMatrix43 *src, FXMatrix33 *dst)
+void SwapBuffer3D_CopyMatrix_Standard(const FXMatrix43 *src, FXMatrix33 *dst)
 {
     dst->m[0][0] = src->m[0][0];
     dst->m[0][1] = src->m[1][0];
@@ -1061,7 +877,7 @@ void Camera3D__CopyMatrix4x3(const FXMatrix43 *src, FXMatrix33 *dst)
     dst->m[2][2] = src->m[2][2];
 }
 
-void Camera3D__CopyMatrix3x3(const FXMatrix43 *src, FXMatrix33 *dst)
+void SwapBuffer3D_CopyMatrix_Billboard(const FXMatrix43 *src, FXMatrix33 *dst)
 {
     dst->m[0][0] = src->m[0][0];
     dst->m[0][1] = src->m[1][0];
@@ -1075,270 +891,167 @@ void Camera3D__CopyMatrix3x3(const FXMatrix43 *src, FXMatrix33 *dst)
 }
 
 // Asset3DSetup
-u32 Asset3DSetup__GetTexSize(void *resource)
+u32 Asset3DSetup_GetResourceSize(void *resource)
 {
     NNSG3dResTex *tex = NNS_G3dGetTex(resource);
     if (tex != NULL)
-        return (void *)tex + tex->texInfo.ofsTex - resource;
+        return NNS_G3dGetTexData(tex) - resource;
 
     return ((NNSG3dResFileHeader *)resource)->fileSize;
 }
 
-void Asset3DSetup__GetTexture(void *resource, void *dest)
+void Asset3DSetup_CopyResourceData(void *resource, void *dest)
 {
-    u32 size = Asset3DSetup__GetTexSize(resource);
+    u32 size = Asset3DSetup_GetResourceSize(resource);
     MI_CpuCopy32(resource, dest, size);
     DC_StoreRange(dest, size);
 }
 
-void Asset3DSetup__Create(void *resource)
+void CreateAsset3DSetup(void *resource)
 {
-    Task *task = TaskCreate(Asset3DSetup__Main, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_RENDER_LIST_START + 0x0001, 254, AssetSetupTask);
+    Task *task = TaskCreate(Asset3DSetup_Main, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_RENDER_LIST_START + 0x0001, TASK_GROUP_HIGHEST - 1, AssetSetupTask);
 
     AssetSetupTask *work = TaskGetWork(task, AssetSetupTask);
     work->resource       = resource;
 }
 
-NONMATCH_FUNC u32 Asset3DSetup__GetTexPaletteLocation(void *texture, u32 id){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldrh r3, [r0, #0x34]
-	ldr r2, [r0, #0x2c]
-	add ip, r0, r3
-	ldrh r3, [ip, #6]
-	mov r0, r2, lsl #0x10
-	ldrh r2, [ip, r3]
-	add r3, ip, r3
-	mla r1, r2, r1, r3
-	ldrh r1, [r1, #4]
-	add r0, r1, r0, lsr #16
-	mov r0, r0, lsl #3
-	orr r0, r0, #0x80000000
-	bx lr
-
-// clang-format on
-#endif
+u32 Asset3DSetup_GetPaletteFromIndex(const NNSG3dResTex *texture, u32 id)
+{
+    return ((NNS_G3dGetPlttDataByIdx(texture, id)->offset + (u16)((NNSG3dResTex *)texture)->plttInfo.vramKey) << NNS_GFD_PLTTKEY_ADDR_SHIFT) | VRAMSYSTEM_FLAG_ALLOCATED;
 }
 
-NONMATCH_FUNC u32 Asset3DSetup__PaletteFromName(const NNSG3dResTex *tex, const char *name)
+u32 Asset3DSetup_GetPaletteFromName(const NNSG3dResTex *texture, const char *name)
 {
-#ifdef NON_MATCHING
-    s32 length = STD_GetStringLength(name);
-    if (length > 16)
-        length = 16;
-
     NNSG3dResName resName;
+
+    u32 length = STD_GetStringLength(name);
+    if (length > sizeof(NNSG3dResName))
+        length = sizeof(NNSG3dResName);
+
     MI_CpuClear32(&resName, sizeof(resName));
     MI_CpuCopy8(name, &resName.name, length);
 
-    return ((*(u16 *)NNS_G3dGetResDataByName((void *)tex + tex->plttInfo.ofsDict, &resName) + (u16)tex->plttInfo.vramKey) * 8) | VRAMSYSTEM_FLAG_ALLOCATED;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #0x10
-	mov r5, r1
-	mov r6, r0
-	mov r0, r5
-	bl STD_GetStringLength
-	mov r4, r0
-	cmp r4, #0x10
-	movhi r4, #0x10
-	add r1, sp, #0
-	mov r0, #0
-	mov r2, #0x10
-	bl MIi_CpuClear32
-	add r1, sp, #0
-	mov r0, r5
-	mov r2, r4
-	bl MI_CpuCopy8
-	ldrh r0, [r6, #0x34]
-	add r1, sp, #0
-	add r0, r6, r0
-	bl NNS_G3dGetResDataByName
-	ldr r2, [r6, #0x2c]
-	ldrh r1, [r0, #0]
-	mov r0, r2, lsl #0x10
-	add r0, r1, r0, lsr #16
-	mov r0, r0, lsl #3
-	orr r0, r0, #0x80000000
-	add sp, sp, #0x10
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    return ((NNS_G3dGetPlttDataByName(texture, &resName)->offset + (u16)((NNSG3dResTex *)texture)->plttInfo.vramKey) << NNS_GFD_PLTTKEY_ADDR_SHIFT) | VRAMSYSTEM_FLAG_ALLOCATED;
 }
 
-// DrawReqTask (Part 2)
-NONMATCH_FUNC void DrawReqTask__Main(void)
+// SysPause (Part 2)
+void SysPause_Main_Init(void)
 {
-#ifdef NON_MATCHING
+    SwapBuffer3D *camera3D;
+    SysPause *work;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	bl Camera3D__GetTask
-	cmp r0, #0
-	beq _0207FB0C
-	ldr r0, =DrawReqTask__sVars
-	ldr r0, [r0, #4]
-	bl GetTaskWork_
-	mov r5, r0
-	mov r0, #0
-	bl OAMSystem__GetList2
-	add r1, r4, #0x10
-	mov r2, #0x400
-	mov r6, r0
-	bl MIi_CpuCopyFast
-	bl Camera3D__UseEngineA
-	cmp r0, #0
-	bne _0207FA60
-	add r1, r5, #0x800
-	add r0, r5, #0xb8
-	add r0, r0, #0x400
-	ldrh r7, [r1, #0xba]
-	ldrh r9, [r1, #0xbe]
-	b _0207FA70
-_0207FA60:
-	add r0, r5, #0x800
-	ldrh r7, [r0, #0xb8]
-	ldrh r9, [r0, #0xbc]
-	add r0, r5, #0xb8
-_0207FA70:
-	mov r1, r6
-	mov r2, #0x400
-	bl MIi_CpuCopyFast
-	cmp r9, #0
-	mov r5, #0
-	ble _0207FAB4
-	sub r8, r9, #1
-	mov r10, #6
-_0207FA90:
-	sub r0, r8, r5
-	rsb r1, r5, #0x7f
-	mov r2, r10
-	add r0, r6, r0, lsl #3
-	add r1, r6, r1, lsl #3
-	bl MIi_CpuCopy16
-	add r5, r5, #1
-	cmp r5, r9
-	blt _0207FA90
-_0207FAB4:
-	cmp r5, #0x80
-	bge _0207FAD4
-	mov r1, #0x200
-_0207FAC0:
-	sub r0, r5, r9
-	add r5, r5, #1
-	str r1, [r6, r0, lsl #3]
-	cmp r5, #0x80
-	blt _0207FAC0
-_0207FAD4:
-	add r1, r4, #0x800
-	mov r0, #1
-	strh r7, [r1, #0x10]
-	bl OAMSystem__GetList2
-	add r1, r4, #0x410
-	mov r2, #0x400
-	bl MIi_CpuCopyFast
-	mov r0, #1
-	bl OAMSystem__GetOAMAffineOffset
-	add r1, r4, #0x800
-	strh r0, [r1, #0x12]
-	mov r0, #1
-	bl DrawReqTask__Func_207FC10
-	b _0207FB68
-_0207FB0C:
-	add r5, r4, #0x10
-	mov r6, #0
-	mov r7, #0x400
-_0207FB18:
-	add r0, r4, r6, lsl #2
-	ldr r0, [r0, #8]
-	cmp r0, #0
-	beq _0207FB58
-	mov r0, r6
-	bl OAMSystem__GetList2
-	mov r1, r5
-	mov r2, r7
-	bl MIi_CpuCopyFast
-	mov r0, r6
-	bl OAMSystem__GetOAMAffineOffset
-	add r1, r4, r6, lsl #1
-	add r1, r1, #0x800
-	strh r0, [r1, #0x10]
-	mov r0, r6
-	bl DrawReqTask__Func_207FC10
-_0207FB58:
-	add r6, r6, #1
-	cmp r6, #2
-	add r5, r5, #0x400
-	blt _0207FB18
-_0207FB68:
-	ldr r0, =DrawReqTask__Main_207FB88
-	mov r1, #1
-	str r1, [r4, #4]
-	bl SetCurrentTaskMainEvent
-	bl DrawReqTask__Main_207FB88
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+    s32 i;
+    GXOamAttr *oamSrc;
+    GXOamAttr *oamList2;
+    u16 oamAffineOffset;
+    u16 oamCount;
 
-// clang-format on
-#endif
+    work = TaskGetWorkCurrent(SysPause);
+
+    if (GetSwapBuffer3DTask() != NULL)
+    {
+        camera3D = TaskGetWork(sSwapBuffer3D, SwapBuffer3D);
+
+        oamList2 = OAMSystem__GetList2(GRAPHICS_ENGINE_A);
+        MI_CpuCopyFast(oamList2, work->oam[GRAPHICS_ENGINE_A], sizeof(work->oam[GRAPHICS_ENGINE_A]));
+
+        if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
+        {
+            oamSrc          = camera3D->oam[GRAPHICS_ENGINE_B];
+            oamAffineOffset = camera3D->oamAffineOffset[GRAPHICS_ENGINE_B];
+            oamCount        = camera3D->oamCount[GRAPHICS_ENGINE_B];
+        }
+        else
+        {
+            oamAffineOffset = camera3D->oamAffineOffset[GRAPHICS_ENGINE_A];
+            oamCount        = camera3D->oamCount[GRAPHICS_ENGINE_A];
+            oamSrc          = camera3D->oam[GRAPHICS_ENGINE_A];
+        }
+
+        MI_CpuCopyFast(oamSrc, oamList2, sizeof(work->oam[GRAPHICS_ENGINE_A]));
+
+        for (i = 0; i < oamCount; i++)
+            MI_CpuCopy16(&oamList2[oamCount - 1 - i], &oamList2[OAMSYSTEM_OAM_LIST_SIZE - 1 - i], sizeof(GXOamAttr) - sizeof(u16));
+
+        for (; i < OAMSYSTEM_OAM_LIST_SIZE; i++)
+        {
+            oamList2[i - oamCount].attr01 = 0x200;
+        }
+        work->oamAffineOffset[0] = oamAffineOffset;
+
+        MI_CpuCopyFast(OAMSystem__GetList2(GRAPHICS_ENGINE_B), work->oam[GRAPHICS_ENGINE_B], sizeof(work->oam[GRAPHICS_ENGINE_B]));
+        work->oamAffineOffset[GRAPHICS_ENGINE_B] = OAMSystem__GetOAMAffineOffset(GRAPHICS_ENGINE_B);
+        SysPause_Func_207FC10(GRAPHICS_ENGINE_B);
+    }
+    else
+    {
+        for (i = 0; i < GRAPHICS_ENGINE_COUNT; i++)
+        {
+            if (work->engineActive[i])
+            {
+                MI_CpuCopyFast(OAMSystem__GetList2(i), work->oam[i], sizeof(work->oam[i]));
+                work->oamAffineOffset[i] = OAMSystem__GetOAMAffineOffset(i);
+                SysPause_Func_207FC10(i);
+            }
+        }
+    }
+
+    work->isActive = TRUE;
+    SetCurrentTaskMainEvent(SysPause_Main_Active);
+    SysPause_Main_Active();
 }
 
-NONMATCH_FUNC void DrawReqTask__Main_207FB88(void)
+void SysPause_Main_Active(void)
 {
-#ifdef NON_MATCHING
+    SysPause *work = TaskGetWorkCurrent(SysPause);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	ldr r0, [r4, #0]
-	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	add r6, r4, #0x10
-	mov r5, #0
-	mov r7, #0x400
-_0207FBAC:
-	add r0, r4, r5, lsl #2
-	ldr r0, [r0, #8]
-	cmp r0, #0
-	beq _0207FBE8
-	mov r0, r5
-	bl OAMSystem__GetList2
-	mov r1, r0
-	mov r0, r6
-	mov r2, r7
-	bl MIi_CpuCopyFast
-	add r0, r4, r5, lsl #1
-	add r0, r0, #0x800
-	ldrh r1, [r0, #0x10]
-	mov r0, r5
-	bl OAMSystem__SetOAMAffineOffset
-_0207FBE8:
-	add r5, r5, #1
-	cmp r5, #2
-	add r6, r6, #0x400
-	blt _0207FBAC
-	bl DestroyCurrentTask
-	ldr r0, =DrawReqTask__sVars
-	mov r1, #0
-	str r1, [r0]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    if (work->isFinished)
+    {
+        for (s32 i = 0; i < GRAPHICS_ENGINE_COUNT; i++)
+        {
+            if (work->engineActive[i])
+            {
+                MI_CpuCopyFast(&work->oam[i], OAMSystem__GetList2(i), sizeof(work->oam[i]));
+                OAMSystem__SetOAMAffineOffset(i, work->oamAffineOffset[i]);
+            }
+        }
 
-// clang-format on
-#endif
+        DestroyCurrentTask();
+        sSysPauseTask = NULL;
+    }
 }
 
-NONMATCH_FUNC void DrawReqTask__Func_207FC10(BOOL useEngineB)
+NONMATCH_FUNC void SysPause_Func_207FC10(BOOL useEngineB)
 {
+    // https://decomp.me/scratch/iIxdp -> 90.77%
 #ifdef NON_MATCHING
+    GXOamAttr *oamList3 = OAMSystem__GetList3(useEngineB);
+    GXOamAttr *oamList2 = OAMSystem__GetList2(useEngineB);
 
+    GXOamAttr *oamPtr = &oamList2[OAMSYSTEM_OAM_LIST_SIZE - 1 - OAMSystem__GetOAMCount(useEngineB)];
+    for (u16 i = 0; i < OAMSYSTEM_OAM_COUNT; i++)
+    {
+        for (u32 index = OAMSystem__GetListMap(useEngineB, i); index != 0xFFFF; oamPtr++)
+        {
+            MI_CpuCopy16(&oamList3[index], oamPtr, sizeof(GXOamAttr) - sizeof(u16));
+            index = oamList3[index]._3;
+        }
+    }
+
+    GXOamAttr *oamList2_2 = (GXOamAttr *)OAMSystem__GetList2(useEngineB);
+    GXOamAttr *oamList1   = (GXOamAttr *)OAMSystem__GetList1(useEngineB);
+    for (u16 i = 0; i < OAMSystem__GetOAMAffineCount(useEngineB); i++)
+    {
+        oamList2_2[0]._3 = oamList1[0]._3;
+        oamList2_2[1]._3 = oamList1[1]._3;
+        oamList2_2[2]._3 = oamList1[2]._3;
+        oamList2_2[3]._3 = oamList1[3]._3;
+
+        oamList1 += 4;
+        oamList2_2 += 4;
+    }
+
+    OAMSystem__SetOAMAffineOffset(useEngineB, OAMSystem__GetOAMAffineCount(useEngineB));
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
@@ -1421,55 +1134,26 @@ _0207FD10:
 #endif
 }
 
-// SysPauseDrawControl
-NONMATCH_FUNC void SysPauseDrawControl__Create(BOOL enabled)
+// DisableSwapBuffersTask
+void CreateDisableSwapBuffersTask(BOOL swapBuffersDisabled)
 {
-#ifdef NON_MATCHING
+    Task *task = TaskCreate(DisableSwapBuffersTask_Main, NULL, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSELEVEL_0,
+                            TASK_PRIORITY_RENDER_LIST_END - 0, TASK_GROUP_HIGHEST - 1, DisableSwapBuffersTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0xc
-	ldr r2, =0x0000FFFF
-	mov r4, r0
-	mov r1, #0
-	str r2, [sp]
-	mov r2, #0xfe
-	ldr r0, =SysPauseDrawControl__Main
-	mov r3, r1
-	str r2, [sp, #4]
-	mov ip, #4
-	mov r2, #3
-	str ip, [sp, #8]
-	bl TaskCreate_
-	bl GetTaskWork_
-	str r4, [r0]
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-
-// clang-format on
-#endif
+    DisableSwapBuffersTask *work = TaskGetWork(task, DisableSwapBuffersTask);
+    work->swapBuffersDisabled    = swapBuffersDisabled;
 }
 
-NONMATCH_FUNC void SysPauseDrawControl__Main(void)
+void DisableSwapBuffersTask_Main(void)
 {
-#ifdef NON_MATCHING
+    DisableSwapBuffersTask *work = TaskGetWorkCurrent(DisableSwapBuffersTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetCurrentTaskWork_
-	ldr r0, [r0, #0]
-	bl RenderCore_DisableSwapBuffers
-	bl DestroyCurrentTask
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    RenderCore_DisableSwapBuffers(work->swapBuffersDisabled);
+    DestroyCurrentTask();
 }
 
 // Asset3DSetup
-void Asset3DSetup__Main(void)
+void Asset3DSetup_Main(void)
 {
     AssetSetupTask *work = TaskGetWorkCurrent(AssetSetupTask);
 
@@ -1477,85 +1161,56 @@ void Asset3DSetup__Main(void)
     DestroyCurrentTask();
 }
 
-// Camera3D (Part 2)
-NONMATCH_FUNC void Camera3D__Main(void)
+// SwapBuffer3D (Part 2)
+void SwapBuffer3D_Main(void)
 {
-#ifdef NON_MATCHING
+    SwapBuffer3D *work = TaskGetWorkCurrent(SwapBuffer3D);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	bl Camera3D__UseEngineA
-	bl DrawReqTask__GetEnabled
-	cmp r0, #0
-	beq _0207FDDC
-	bl Camera3D__UseEngineA
-	cmp r0, #0
-	moveq r5, #0
-	movne r5, #1
-	b _0207FDEC
-_0207FDDC:
-	bl Camera3D__UseEngineA
-	cmp r0, #0
-	movne r5, #0
-	moveq r5, #1
-_0207FDEC:
-	mov r2, #0x5c
-	mla r0, r5, r2, r4
-	ldr r1, =renderCoreGFXControlA
-	bl MIi_CpuCopy32
-	mov r0, #0
-	bl OAMSystem__GetOAMAffineOffset
-	add r1, r4, r5, lsl #1
-	add r1, r1, #0x800
-	strh r0, [r1, #0xb8]
-	mov r0, #0
-	bl OAMSystem__GetOAMCount
-	add r1, r4, r5, lsl #1
-	add r1, r1, #0x800
-	strh r0, [r1, #0xbc]
-	mov r0, #0
-	bl OAMSystem__PrepareNewFrame
-	mov r0, #1
-	bl OAMSystem__PrepareNewFrame
-	ldr r1, =0x04000304
-	ldr r0, =0x0000020E
-	ldrh r1, [r1, #0]
-	and r0, r1, r0
-	tst r0, #0xc
-	ldmeqia sp!, {r3, r4, r5, pc}
-	bl DrawReqTask__GetEnabled
-	cmp r0, #0
-	bne _0207FE70
-	ldr r0, =renderCoreSwapBuffer
-	ldr r1, =0x04000540
-	ldr r2, [r0, #8]
-	ldr r0, [r0, #4]
-	orr r0, r0, r2, lsl #1
-	str r0, [r1]
-_0207FE70:
-	bl OS_DisableInterrupts
-	mov r4, r0
-	bl DrawReqTask__GetEnabled
-	cmp r0, #0
-	moveq r2, #1
-	ldr r1, =DrawReqTask__sVars
-	mvnne r2, #0
-	mov r0, r4
-	str r2, [r1, #0xc]
-	bl OS_RestoreInterrupts
-	ldmia sp!, {r3, r4, r5, pc}
+    UNUSED(SwapBuffer3D_GetPrimaryScreen());
 
-// clang-format on
-#endif
+    s32 id;
+    if (SysPause_IsActive())
+        id = SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM ? GRAPHICS_ENGINE_A : GRAPHICS_ENGINE_B;
+    else
+        id = SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM ? GRAPHICS_ENGINE_A : GRAPHICS_ENGINE_B;
+
+    MI_CpuCopy32(&work->gfxControl[id], &renderCoreGFXControlA, sizeof(renderCoreGFXControlA));
+    work->oamAffineOffset[id] = OAMSystem__GetOAMAffineOffset(GRAPHICS_ENGINE_A);
+    work->oamCount[id]        = OAMSystem__GetOAMCount(GRAPHICS_ENGINE_A);
+    OAMSystem__PrepareNewFrame(GRAPHICS_ENGINE_A);
+    OAMSystem__PrepareNewFrame(GRAPHICS_ENGINE_B);
+
+    if ((GX_GetPower() & GX_POWER_3D) != 0)
+    {
+        if (SysPause_IsActive() == FALSE)
+            G3_SwapBuffers(renderCoreSwapBuffer.sortMode, renderCoreSwapBuffer.bufferMode);
+
+        OSIntrMode enabled = OS_DisableInterrupts();
+        sSwapBuffer3DMode  = SysPause_IsActive() == FALSE ? SWAPBUFFER3D_MODE_REGULAR : SWAPBUFFER3D_MODE_PAUSED;
+        OS_RestoreInterrupts(enabled);
+    }
 }
 
-NONMATCH_FUNC void Camera3D__ProcessOAMList(void)
+NONMATCH_FUNC void SwapBuffer3D_InitOAM(void)
 {
+    // https://decomp.me/scratch/pQdeO -> 99.17%
 #ifdef NON_MATCHING
+    s32 x;
+    s32 y;
+    GXOamAttr *attr = OAMSystem__GetList2(GRAPHICS_ENGINE_B);
 
+    for (y = 0; y < BG_DISPLAY_SINGLE_HEIGHT; y += TILE_SIZE)
+    {
+        for (x = 0; x < BG_DISPLAY_FULL_WIDTH; x += TILE_SIZE)
+        {
+            attr->attr01 = (((y * TILE_SIZE) & GX_OAM_ATTR01_Y_MASK) << GX_OAM_ATTR01_Y_SHIFT) | GX_OAM_SHAPE_64x64 | (GX_OAM_MODE_BITMAPOBJ << GX_OAM_ATTR01_MODE_SHIFT)
+                           | (((x * TILE_SIZE) & (GX_OAM_ATTR01_X_MASK >> GX_OAM_ATTR01_X_SHIFT)) << GX_OAM_ATTR01_X_SHIFT);
+
+            attr->attr2 = ((y * BG_DISPLAY_FULL_WIDTH) + x) | (PALETTE_ROW_15 << GX_OAM_ATTR2_CPARAM_SHIFT);
+
+            attr++;
+        }
+    }
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
@@ -1594,326 +1249,150 @@ _0207FEE4:
 #endif
 }
 
-NONMATCH_FUNC void Camera3D__VBlankCallback(void)
+void SwapBuffer3D_VBlankCallback(void)
 {
-#ifdef NON_MATCHING
+    SwapBuffer3D *work = TaskGetWork(sSwapBuffer3D, SwapBuffer3D);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	ldr r0, =DrawReqTask__sVars
-	ldr r0, [r0, #4]
-	bl GetTaskWork_
-	ldr r1, =DrawReqTask__sVars
-	mov r4, r0
-	ldr r0, [r1, #0xc]
-	cmp r0, #0
-	ble _02080130
-	ldr r0, =0x04000006
-	ldrh r0, [r0, #0]
-	cmp r0, #0xc1
-	bgt _0207FF6C
-	mov r0, #0x310
-	bl OS_SpinWait
-_0207FF6C:
-	ldr r0, =renderCoreGFXControlA
-	mov r1, #0x5c
-	bl DC_StoreRange
-	ldr r0, =renderCoreGFXControlB
-	mov r1, #0x5c
-	bl DC_StoreRange
-	bl DC_WaitWriteBufferEmpty
-	bl Camera3D__UseEngineA
-	cmp r0, #0
-	beq _0207FFAC
-	ldrsh r2, [r4, #0x58]
-	ldr r1, =renderCoreGFXControlA
-	ldr r0, =renderCoreGFXControlB
-	strh r2, [r1, #0x58]
-	ldrsh r1, [r4, #0xb4]
-	b _0207FFC0
-_0207FFAC:
-	ldrsh r2, [r4, #0xb4]
-	ldr r1, =renderCoreGFXControlA
-	ldr r0, =renderCoreGFXControlB
-	strh r2, [r1, #0x58]
-	ldrsh r1, [r4, #0x58]
-_0207FFC0:
-	ldr r2, =0x04000600
-	strh r1, [r0, #0x58]
-	ldr r0, [r2, #0]
-	tst r0, #0x8000000
-	addne sp, sp, #8
-	ldmneia sp!, {r4, pc}
-	ldr r0, =renderDmaNo
-	ldr r1, =renderCoreGFXControlA
-	ldr r0, [r0, #0]
-	sub r2, r2, #0x5f0
-	mov r3, #0x10
-	bl MI_DmaCopy32
-	ldr r0, =renderDmaNo
-	ldr r1, =renderCoreGFXControlA+0x00000010
-	ldr r0, [r0, #0]
-	ldr r2, =0x04000040
-	mov r3, #0xc
-	bl MI_DmaCopy32
-	mov r2, #0x4000000
-	ldr r0, =renderCoreGFXControlA
-	ldr r1, [r2, #0]
-	ldr r0, [r0, #0x1c]
-	bic r1, r1, #0xe000
-	orr r1, r1, r0, lsl #13
-	str r1, [r2], #0x50
-	ldr r0, =renderDmaNo
-	ldr r1, =renderCoreGFXControlA+0x00000020
-	ldr r0, [r0, #0]
-	mov r3, #6
-	bl MI_DmaCopy16
-	ldr r3, =renderCoreGFXControlA
-	ldr r2, =0x0400004C
-	ldrh ip, [r3, #0x5a]
-	sub r0, r2, #0x2c
-	ldr r1, =renderCoreGFXControlA+0x00000028
-	strh ip, [r2]
-	ldrsh r2, [r3, #0x3c]
-	str r2, [sp]
-	ldrsh r2, [r3, #0x3e]
-	str r2, [sp, #4]
-	ldrsh r2, [r3, #0x38]
-	ldrsh r3, [r3, #0x3a]
-	bl G2x_SetBGyAffine_
-	ldr r3, =renderCoreGFXControlA
-	ldr r0, =0x04000030
-	ldrsh r2, [r3, #0x54]
-	ldr r1, =renderCoreGFXControlA+0x00000040
-	str r2, [sp]
-	ldrsh r2, [r3, #0x56]
-	str r2, [sp, #4]
-	ldrsh r2, [r3, #0x50]
-	ldrsh r3, [r3, #0x52]
-	bl G2x_SetBGyAffine_
-	mov r0, #0
-	bl OAMSystem__CopyToVRAM
-	bl Camera3D__UseEngineA
-	cmp r0, #0
-	mov r2, #0x400
-	beq _020800BC
-	add r1, r4, #0xb8
-	mov r0, #0x7000000
-	bl MIi_CpuCopyFast
-	b _020800CC
-_020800BC:
-	add r0, r4, #0xb8
-	add r1, r0, #0x400
-	mov r0, #0x7000000
-	bl MIi_CpuCopyFast
-_020800CC:
-	mov r0, #1
-	bl OAMSystem__CopyToVRAM
-	bl ProcessTexturePaletteQueue
-	bl ProcessTexturePixelQueue
-	bl ProcessBackgroundPaletteQueue
-	bl ProcessSpritePaletteQueue
-	bl Mappings__ReadList
-	bl ProcessSpritePixelQueue
-	ldr r0, =DrawReqTask__sVars
-	ldr r0, [r0, #8]
-	cmp r0, #0
-	beq _02080104
-	bl Camera3D__InitMode1
-	b _02080108
-_02080104:
-	bl Camera3D__InitMode2
-_02080108:
-	ldr r0, =DrawReqTask__sVars
-	mov r1, #0
-	str r1, [r0, #0xc]
-	ldr r0, [r0, #8]
-	add sp, sp, #8
-	cmp r0, #0
-	ldr r0, =DrawReqTask__sVars
-	moveq r1, #1
-	str r1, [r0, #8]
-	ldmia sp!, {r4, pc}
-_02080130:
-	addge sp, sp, #8
-	ldmgeia sp!, {r4, pc}
-	ldr r0, =0x04000006
-	ldrh r0, [r0, #0]
-	cmp r0, #0xc1
-	bgt _02080150
-	mov r0, #0x310
-	bl OS_SpinWait
-_02080150:
-	bl Camera3D__UseEngineA
-	cmp r0, #0
-	bne _02080174
-	ldrsh r2, [r4, #0x58]
-	ldr r1, =renderCoreGFXControlA
-	ldr r0, =renderCoreGFXControlB
-	strh r2, [r1, #0x58]
-	ldrsh r1, [r4, #0xb4]
-	b _02080188
-_02080174:
-	ldrsh r2, [r4, #0xb4]
-	ldr r1, =renderCoreGFXControlA
-	ldr r0, =renderCoreGFXControlB
-	strh r2, [r1, #0x58]
-	ldrsh r1, [r4, #0x58]
-_02080188:
-	ldr r2, =0x04000600
-	strh r1, [r0, #0x58]
-	ldr r0, [r2, #0]
-	tst r0, #0x8000000
-	bne _02080268
-	ldr r0, =renderDmaNo
-	ldr r1, =renderCoreGFXControlA
-	ldr r0, [r0, #0]
-	sub r2, r2, #0x5f0
-	mov r3, #0x10
-	bl MI_DmaCopy32
-	ldr r0, =renderDmaNo
-	ldr r1, =renderCoreGFXControlA+0x00000010
-	ldr r0, [r0, #0]
-	ldr r2, =0x04000040
-	mov r3, #0xc
-	bl MI_DmaCopy32
-	mov r2, #0x4000000
-	ldr r0, =renderCoreGFXControlA
-	ldr r1, [r2, #0]
-	ldr r0, [r0, #0x1c]
-	bic r1, r1, #0xe000
-	orr r1, r1, r0, lsl #13
-	str r1, [r2], #0x50
-	ldr r0, =renderDmaNo
-	ldr r1, =renderCoreGFXControlA+0x00000020
-	ldr r0, [r0, #0]
-	mov r3, #6
-	bl MI_DmaCopy16
-	ldr r3, =renderCoreGFXControlA
-	ldr r2, =0x0400004C
-	ldrh r4, [r3, #0x5a]
-	sub r0, r2, #0x2c
-	ldr r1, =renderCoreGFXControlA+0x00000028
-	strh r4, [r2]
-	ldrsh r2, [r3, #0x3c]
-	str r2, [sp]
-	ldrsh r2, [r3, #0x3e]
-	str r2, [sp, #4]
-	ldrsh r2, [r3, #0x38]
-	ldrsh r3, [r3, #0x3a]
-	bl G2x_SetBGyAffine_
-	ldr r3, =renderCoreGFXControlA
-	ldr r0, =0x04000030
-	ldrsh r2, [r3, #0x54]
-	ldr r1, =renderCoreGFXControlA+0x00000040
-	str r2, [sp]
-	ldrsh r2, [r3, #0x56]
-	str r2, [sp, #4]
-	ldrsh r2, [r3, #0x50]
-	ldrsh r3, [r3, #0x52]
-	bl G2x_SetBGyAffine_
-	mov r0, #0
-	bl OAMSystem__CopyToVRAM
-	mov r0, #1
-	bl OAMSystem__CopyToVRAM
-_02080268:
-	ldr r0, =DrawReqTask__sVars
-	mov r1, #0
-	str r1, [r0, #0xc]
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    if (sSwapBuffer3DMode > SWAPBUFFER3D_MODE_IDLE)
+    {
+        // SWAPBUFFER3D_MODE_REGULAR
 
-// clang-format on
-#endif
+        // Wait for one vertical line to be processed (784 cycles) if the scanline is on screen
+        // This is to confirm the swap buffer operation has completed successfully
+        if (GX_GetVCount() <= HW_LCD_HEIGHT + 1)
+            OS_SpinWait(784);
+
+        DC_StoreRange(&renderCoreGFXControlA, sizeof(renderCoreGFXControlA));
+        DC_StoreRange(&renderCoreGFXControlB, sizeof(renderCoreGFXControlB));
+        DC_WaitWriteBufferEmpty();
+
+        if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
+        {
+            renderCoreGFXControlA.brightness = work->gfxControl[GRAPHICS_ENGINE_A].brightness;
+            renderCoreGFXControlB.brightness = work->gfxControl[GRAPHICS_ENGINE_B].brightness;
+        }
+        else
+        {
+            renderCoreGFXControlA.brightness = work->gfxControl[GRAPHICS_ENGINE_B].brightness;
+            renderCoreGFXControlB.brightness = work->gfxControl[GRAPHICS_ENGINE_A].brightness;
+        }
+
+        if (G3X_IsGeometryBusy() == FALSE)
+        {
+            MI_DmaCopy32(renderDmaNo, renderCoreGFXControlA.bgPosition, &reg_G2_BG0OFS, sizeof(renderCoreGFXControlA.bgPosition));
+
+            {
+                MI_DmaCopy32(renderDmaNo, &renderCoreGFXControlA.windowManager.registers, &reg_G2_WIN0H, sizeof(renderCoreGFXControlA.windowManager.registers));
+                GX_SetVisibleWnd(renderCoreGFXControlA.windowManager.visible);
+            }
+
+            MI_DmaCopy16(renderDmaNo, &renderCoreGFXControlA.blendManager, &reg_G2_BLDCNT, sizeof(renderCoreGFXControlA.blendManager));
+
+            reg_G2_MOSAIC = renderCoreGFXControlA.mosaicSize;
+
+            G2_SetBG2Affine(&renderCoreGFXControlA.affineBG2.matrix, renderCoreGFXControlA.affineBG2.centerX, renderCoreGFXControlA.affineBG2.centerY,
+                            renderCoreGFXControlA.affineBG2.x, renderCoreGFXControlA.affineBG2.y);
+            G2_SetBG3Affine(&renderCoreGFXControlA.affineBG3.matrix, renderCoreGFXControlA.affineBG3.centerX, renderCoreGFXControlA.affineBG3.centerY,
+                            renderCoreGFXControlA.affineBG3.x, renderCoreGFXControlA.affineBG3.y);
+
+            OAMSystem__CopyToVRAM(GRAPHICS_ENGINE_A);
+            if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
+                MI_CpuCopyFast(RAW_ADDRESS(HW_OAM), work->oam[GRAPHICS_ENGINE_A], sizeof(work->oam[GRAPHICS_ENGINE_A]));
+            else
+                MI_CpuCopyFast(RAW_ADDRESS(HW_OAM), work->oam[GRAPHICS_ENGINE_B], sizeof(work->oam[GRAPHICS_ENGINE_B]));
+            OAMSystem__CopyToVRAM(GRAPHICS_ENGINE_B);
+
+            ProcessTexturePaletteQueue();
+            ProcessTexturePixelQueue();
+            ProcessBackgroundPaletteQueue();
+            ProcessSpritePaletteQueue();
+            Mappings__ReadList();
+            ProcessSpritePixelQueue();
+
+            if (sPrimary3DScreen != SWAPBUFFER3D_PRIMARY_BOTTOM)
+                SwapBuffer3D_Use3DOnTopScreen();
+            else
+                SwapBuffer3D_Use3DOnBottomScreen();
+
+            sSwapBuffer3DMode = SWAPBUFFER3D_MODE_IDLE;
+            sPrimary3DScreen  = sPrimary3DScreen == SWAPBUFFER3D_PRIMARY_BOTTOM ? SWAPBUFFER3D_PRIMARY_TOP : SWAPBUFFER3D_PRIMARY_BOTTOM;
+        }
+    }
+    else if (sSwapBuffer3DMode < SWAPBUFFER3D_MODE_IDLE)
+    {
+        // SWAPBUFFER3D_MODE_PAUSED
+
+        // Wait for one vertical line to be processed (784 cycles) if the scanline is on screen
+        // This is to confirm the swap buffer operation has completed successfully
+        if (GX_GetVCount() <= HW_LCD_HEIGHT + 1)
+            OS_SpinWait(784);
+
+        if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
+        {
+            renderCoreGFXControlA.brightness = work->gfxControl[GRAPHICS_ENGINE_A].brightness;
+            renderCoreGFXControlB.brightness = work->gfxControl[GRAPHICS_ENGINE_B].brightness;
+        }
+        else
+        {
+            renderCoreGFXControlA.brightness = work->gfxControl[GRAPHICS_ENGINE_B].brightness;
+            renderCoreGFXControlB.brightness = work->gfxControl[GRAPHICS_ENGINE_A].brightness;
+        }
+
+        if (G3X_IsGeometryBusy() == FALSE)
+        {
+            MI_DmaCopy32(renderDmaNo, renderCoreGFXControlA.bgPosition, &reg_G2_BG0OFS, sizeof(renderCoreGFXControlA.bgPosition));
+
+            {
+                MI_DmaCopy32(renderDmaNo, &renderCoreGFXControlA.windowManager.registers, &reg_G2_WIN0H, sizeof(renderCoreGFXControlA.windowManager.registers));
+                GX_SetVisibleWnd(renderCoreGFXControlA.windowManager.visible);
+            }
+
+            MI_DmaCopy16(renderDmaNo, &renderCoreGFXControlA.blendManager, &reg_G2_BLDCNT, sizeof(renderCoreGFXControlA.blendManager));
+
+            reg_G2_MOSAIC = renderCoreGFXControlA.mosaicSize;
+
+            G2_SetBG2Affine(&renderCoreGFXControlA.affineBG2.matrix, renderCoreGFXControlA.affineBG2.centerX, renderCoreGFXControlA.affineBG2.centerY,
+                            renderCoreGFXControlA.affineBG2.x, renderCoreGFXControlA.affineBG2.y);
+            G2_SetBG3Affine(&renderCoreGFXControlA.affineBG3.matrix, renderCoreGFXControlA.affineBG3.centerX, renderCoreGFXControlA.affineBG3.centerY,
+                            renderCoreGFXControlA.affineBG3.x, renderCoreGFXControlA.affineBG3.y);
+
+            OAMSystem__CopyToVRAM(GRAPHICS_ENGINE_A);
+            OAMSystem__CopyToVRAM(GRAPHICS_ENGINE_B);
+        }
+
+        sSwapBuffer3DMode = SWAPBUFFER3D_MODE_IDLE;
+    }
 }
 
-NONMATCH_FUNC void Camera3D__InitMode1(void)
+void SwapBuffer3D_Use3DOnTopScreen(void)
 {
-#ifdef NON_MATCHING
+    renderCurrentDisplay = GX_DISP_SELECT_MAIN_SUB;
+    GX_SetDispSelect(renderCurrentDisplay);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =renderCurrentDisplay
-	mov ip, #1
-	ldr r3, =0x04000304
-	str ip, [r0]
-	ldrh r2, [r3, #0]
-	mov r0, #0
-	ldr r1, =0x00200010
-	bic r2, r2, #0x8000
-	orr r2, r2, ip, lsl #15
-	strh r2, [r3]
-	mov r3, r0
-	mov r2, #0x20
-	str r0, [sp]
-	bl VRAMSystem__SetupSubOBJBank
-	mov r0, #4
-	bl VRAMSystem__SetupSubBGBank
-	mov r0, #8
-	bl GX_SetBankForLCDC
-	ldr r2, =0x80330010
-	ldr r1, =0x04000064
-	mov r0, #5
-	str r2, [r1]
-	bl GXS_SetGraphicsMode
-	ldr r1, =0x04001000
-	ldr r0, [r1, #0]
-	bic r0, r0, #0x1f00
-	orr r0, r0, #0x400
-	str r0, [r1]
-	ldrh r0, [r1, #0xc]
-	and r0, r0, #0x43
-	orr r0, r0, #0x84
-	orr r0, r0, #0x4000
-	strh r0, [r1, #0xc]
-	ldrh r0, [r1, #0xc]
-	bic r0, r0, #3
-	strh r0, [r1, #0xc]
-	ldmia sp!, {r3, pc}
+    VRAMSystem__SetupSubOBJBank(GX_VRAM_SUB_OBJ_NONE, GX_OBJVRAMMODE_CHAR_1D_128K, GX_OBJVRAMMODE_BMP_2D_W256, 0, 0);
+    VRAMSystem__SetupSubBGBank(GX_VRAM_SUB_BG_128_C);
+    GX_SetBankForLCDC(8);
 
-// clang-format on
-#endif
+    GX_SetCapture(GX_CAPTURE_SIZE_256x192, GX_CAPTURE_MODE_A, GX_CAPTURE_SRCA_2D3D, GX_CAPTURE_SRCB_VRAM_0x00000, GX_CAPTURE_DEST_VRAM_D_0x00000, 0x10, 0x00);
+
+    GXS_SetGraphicsMode(GX_BGMODE_5);
+    GXS_SetVisiblePlane(GX_PLANEMASK_BG2);
+
+    G2S_SetBG2ControlText(GX_BG_SCRSIZE_TEXT_512x256, GX_BG_COLORMODE_256, GX_BG_SCRBASE_0x0000, GX_BG_CHARBASE_0x04000);
+    G2S_SetBG2Priority(0);
 }
 
-NONMATCH_FUNC void Camera3D__InitMode2(void)
+void SwapBuffer3D_Use3DOnBottomScreen(void)
 {
-#ifdef NON_MATCHING
+    renderCurrentDisplay = GX_DISP_SELECT_SUB_MAIN;
+    GX_SetDispSelect(renderCurrentDisplay);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r1, =renderCurrentDisplay
-	mov r0, #0
-	ldr r2, =0x04000304
-	str r0, [r1]
-	ldrh r1, [r2, #0]
-	bic r1, r1, #0x8000
-	orr r1, r1, r0, lsl #15
-	strh r1, [r2]
-	bl VRAMSystem__SetupSubBGBank
-	mov r3, #0
-	ldr r1, =0x00200010
-	mov r0, #8
-	mov r2, #0x20
-	str r3, [sp]
-	bl VRAMSystem__SetupSubOBJBank
-	mov r0, #4
-	bl GX_SetBankForLCDC
-	ldr r2, =0x80320010
-	ldr r1, =0x04000064
-	mov r0, #5
-	str r2, [r1]
-	bl GXS_SetGraphicsMode
-	ldr r1, =0x04001000
-	ldr r0, [r1, #0]
-	bic r0, r0, #0x1f00
-	orr r0, r0, #0x1000
-	str r0, [r1]
-	ldmia sp!, {r3, pc}
+    VRAMSystem__SetupSubBGBank(GX_VRAM_SUB_BG_NONE);
+    VRAMSystem__SetupSubOBJBank(GX_VRAM_SUB_OBJ_128_D, GX_OBJVRAMMODE_CHAR_1D_128K, GX_OBJVRAMMODE_BMP_2D_W256, 0, 0);
+    GX_SetBankForLCDC(4);
 
-// clang-format on
-#endif
+    GX_SetCapture(GX_CAPTURE_SIZE_256x192, GX_CAPTURE_MODE_A, GX_CAPTURE_SRCA_2D3D, GX_CAPTURE_SRCB_VRAM_0x00000, GX_CAPTURE_DEST_VRAM_C_0x00000, 0x10, 0x00);
+
+    GXS_SetGraphicsMode(GX_BGMODE_5);
+    GXS_SetVisiblePlane(GX_PLANEMASK_OBJ);
 }

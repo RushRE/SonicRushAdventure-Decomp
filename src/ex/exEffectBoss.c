@@ -189,7 +189,7 @@ BOOL LoadExBossEffectHitAssets(EX_ACTION_NN_WORK *work)
         exBossEffectHitAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HITC_NSBTA);
         exBossEffectHitAnimType[1]     = B3D_ANIM_TEX_ANIM;
 
-        Asset3DSetup__Create(exBossEffectHitModelResource);
+        CreateAsset3DSetup(exBossEffectHitModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
@@ -361,7 +361,7 @@ BOOL LoadExBossEffectFireballShotAssets(EX_ACTION_NN_WORK *work)
         exBossEffectFireBallShotAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FBSHK_NSBVA);
         exBossEffectFireBallShotAnimType[1]     = B3D_ANIM_VIS_ANIM;
 
-        Asset3DSetup__Create(exBossEffectFireBallShotModelResource);
+        CreateAsset3DSetup(exBossEffectFireBallShotModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
@@ -541,7 +541,7 @@ BOOL LoadExBossEffectFireballAssets(EX_ACTION_NN_WORK *work)
         exBossEffectFireBallAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFB_NSBTP);
         exBossEffectFireBallAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
-        Asset3DSetup__Create(exBossEffectFireBallModelResource);
+        CreateAsset3DSetup(exBossEffectFireBallModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
@@ -836,7 +836,7 @@ BOOL LoadExEffectHomingAssets(EX_ACTION_NN_WORK *work)
         exBossEffectHomingAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SHOMI_NSBTP);
         exBossEffectHomingAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
-        Asset3DSetup__Create(exBossEffectHomingModelResource);
+        CreateAsset3DSetup(exBossEffectHomingModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
@@ -1122,7 +1122,7 @@ BOOL LoadExBossEffectShotAssets(EX_ACTION_NN_WORK *work)
         exBossEffectShotAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FSHK_NSBVA);
         exBossEffectShotAnimType[1]     = B3D_ANIM_VIS_ANIM;
 
-        Asset3DSetup__Create(exBossEffectShotModelResource);
+        CreateAsset3DSetup(exBossEffectShotModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
@@ -1300,7 +1300,7 @@ BOOL LoadExBossEffectFireAssets(EX_ACTION_NN_WORK *work)
         exBossEffectFireAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFIRE_NSBTP);
         exBossEffectFireAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
-        Asset3DSetup__Create(exBossEffectFireModelResource);
+        CreateAsset3DSetup(exBossEffectFireModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);

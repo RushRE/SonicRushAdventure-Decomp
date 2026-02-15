@@ -387,7 +387,7 @@ _0216BBD0:
 	ldr r0, [r4, #0]
 	bl NNS_G3dGetTex
 	ldr r1, [r6, r9, lsl #2]
-	bl Asset3DSetup__PaletteFromName
+	bl Asset3DSetup_GetPaletteFromName
 	str r5, [sp]
 	mov r2, #0
 	str r0, [sp, #4]
@@ -591,7 +591,7 @@ Boss4Core__Create: // 0x0216BCA0
 	bl NNS_G3dGetTex
 	ldr r1, _0216BFA0 // =_0217ABB0
 	ldr r1, [r1, #0]
-	bl Asset3DSetup__PaletteFromName
+	bl Asset3DSetup_GetPaletteFromName
 	mov r1, #5
 	str r1, [sp]
 	mov r2, #0
@@ -1018,7 +1018,7 @@ Boss4FireColumn__Create: // 0x0216C404
 	cmp r0, #1
 	bne _0216C57C
 	ldr r0, [r4, #0x4b0]
-	bl Asset3DSetup__Create
+	bl CreateAsset3DSetup
 _0216C57C:
 	ldr r0, _0216C63C // =gameArchiveStage
 	ldr r2, _0216C648 // =aBsef4FcolNsbca
@@ -1177,7 +1177,7 @@ Boss4FireBall__Create: // 0x0216C65C
 	cmp r0, #1
 	bne _0216C7E0
 	ldr r0, [r4, #0x4b4]
-	bl Asset3DSetup__Create
+	bl CreateAsset3DSetup
 _0216C7E0:
 	ldr r0, _0216C904 // =gameArchiveStage
 	ldr r2, _0216C910 // =aBsef4FballNsbc
@@ -1732,7 +1732,7 @@ Boss4__Func_216CE80: // 0x0216CE80
 	arm_func_start Boss4__Func_216CEE0
 Boss4__Func_216CEE0: // 0x0216CEE0
 	stmdb sp!, {r3, lr}
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	beq _0216CF0C
 	mov r0, #0x1c
@@ -1983,7 +1983,7 @@ Boss4__Func_216D1F4: // 0x0216D1F4
 	ldr r0, [r4, #0x20]
 	tst r0, #0x20
 	ldmneia sp!, {r4, pc}
-	bl Camera3D__UseEngineA
+	bl SwapBuffer3D_GetPrimaryScreen
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	add r0, r4, #0x39c
@@ -2177,10 +2177,10 @@ Boss4__Func_216D238: // 0x0216D238
 	orr r0, r3, #2
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
-	bl Camera3D__Create
-	bl Camera3D__GetWork
+	bl CreateSwapBuffer3D
+	bl GetSwapBuffer3DWork
 	mov r4, r0
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r1, #0
 	strh r1, [r0, #0x7c]
 	strh r1, [r4, #0x20]
@@ -4750,7 +4750,7 @@ _0216F7D0: .word Boss4__Func_216F7D4
 Boss4__Func_216F7D4: // 0x0216F7D4
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r4, r0
 	mov r0, r5
 	bl Boss4__Func_216F578
@@ -4811,7 +4811,7 @@ Boss4__Func_216F864: // 0x0216F864
 	sub r0, r0, #1
 	strh r0, [r1, #0xcc]
 _0216F8B8:
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	mov r4, r0
 	mov r0, r10
 	bl Boss4__Func_216F578
@@ -4949,7 +4949,7 @@ Boss4__Func_216FAA0: // 0x0216FAA0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r4, [r6, #0x37c]
-	bl Camera3D__GetWork
+	bl GetSwapBuffer3DWork
 	add r1, r4, #0x300
 	ldrsh r2, [r1, #0xcc]
 	mov r4, #0

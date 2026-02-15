@@ -538,13 +538,13 @@ void GameObject__In_Default(void)
             work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
         work->colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = OBS_RECT_DEFPOWER_INVINCIBLE;
-        work->colliders[GAMEOBJECT_COLLIDER_ATK].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
+        work->colliders[GAMEOBJECT_COLLIDER_ATK].hitPower  = OBS_RECT_HITPOWER_VULNERABLE;
 
         if (work->blinkTimer == 0)
         {
             work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
             work->colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = OBS_RECT_DEFPOWER_DEFAULT;
-            work->colliders[GAMEOBJECT_COLLIDER_ATK].hitPower = OBS_RECT_HITPOWER_DEFAULT;
+            work->colliders[GAMEOBJECT_COLLIDER_ATK].hitPower  = OBS_RECT_HITPOWER_DEFAULT;
         }
     }
 }
@@ -815,26 +815,26 @@ void GameObject__TransformWorldToScreen(VecFx32 *inputPos, VecFx32 *outputPos, M
 
     if (setFrustum)
     {
-        CameraConfig const *const ptrConfig = &g_obj.cameraConfig->config;
-        const u32 halfFOV                   = ptrConfig->projFOV;
-        const u32 nearPlaneDistance         = ptrConfig->projNear;
-        const fx32 tangentHalfFOV           = FX_Div(FX_SIN_AND_COS(halfFOV));
-        const fx32 frustumHalfHeight        = MultiplyFX(tangentHalfFOV, nearPlaneDistance);
-        const fx32 frustumHalfWidth         = MultiplyFX(frustumHalfHeight, ptrConfig->aspectRatio);
-        const fx32 nearByZ                  = FX_Div(ptrConfig->projNear, g_obj.cameraConfig->camPos.z);
-        const fx32 frustumCenterY           = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_Y) + outputPos->y));
-        const fx32 frustumCenterX           = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_X) - outputPos->x));
-        outputPos->x                        = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
-        outputPos->y                        = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
+        ProjectionDisplayConfig const *const ptrConfig = &g_obj.cameraConfig->projection;
+        const u32 halfFOV                              = ptrConfig->fov;
+        const u32 nearPlaneDistance                    = ptrConfig->nearPlane;
+        const fx32 tangentHalfFOV                      = FX_Div(FX_SIN_AND_COS(halfFOV));
+        const fx32 frustumHalfHeight                   = MultiplyFX(tangentHalfFOV, nearPlaneDistance);
+        const fx32 frustumHalfWidth                    = MultiplyFX(frustumHalfHeight, ptrConfig->aspectRatio);
+        const fx32 nearByZ                             = FX_Div(ptrConfig->nearPlane, g_obj.cameraConfig->view.camPos.z);
+        const fx32 frustumCenterY                      = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_Y) + outputPos->y));
+        const fx32 frustumCenterX                      = MultiplyFX(nearByZ, (FX32_FROM_WHOLE(HW_LCD_CENTER_X) - outputPos->x));
+        outputPos->x                                   = FX32_FROM_WHOLE(HW_LCD_CENTER_X);
+        outputPos->y                                   = -FX32_FROM_WHOLE(HW_LCD_CENTER_Y);
 
         (*outProjMtx) = *NNS_G3dGlbGetProjectionMtx();
 
-        const fx32 top    = -frustumCenterY + frustumHalfHeight;
-        const fx32 bottom = -(frustumHalfHeight + frustumCenterY);
-        const fx32 left   = frustumCenterX - frustumHalfWidth;
-        const fx32 right  = frustumHalfWidth + frustumCenterX;
-        const fx32 near   = ptrConfig->projNear;
-        const fx32 far    = ptrConfig->projFar;
-        NNS_G3dGlbFrustum(top, bottom, left, right, near, far);
+        const fx32 top       = -frustumCenterY + frustumHalfHeight;
+        const fx32 bottom    = -(frustumHalfHeight + frustumCenterY);
+        const fx32 left      = frustumCenterX - frustumHalfWidth;
+        const fx32 right     = frustumHalfWidth + frustumCenterX;
+        const fx32 nearPlane = ptrConfig->nearPlane;
+        const fx32 farPlane  = ptrConfig->farPlane;
+        NNS_G3dGlbFrustum(top, bottom, left, right, nearPlane, farPlane);
     }
 }

@@ -210,8 +210,8 @@ void InitTitleScreenAnimators(TitleScreen *work)
     void *drawState = control->drawStateCutscene;
     LoadDrawState(drawState, DRAWSTATE_ALL & ~(DRAWSTATE_LOOKAT));
     GetDrawStateCameraView(drawState, &control->cameraConfig);
-    GetDrawStateCameraProjection(drawState, &control->cameraConfig.config);
-    control->matProjPositionY = control->cameraConfig.config.projScaleW + MultiplyFX(FLOAT_TO_FX32(0.3125), control->cameraConfig.config.projScaleW);
+    GetDrawStateCameraProjection(drawState, &control->cameraConfig.projection);
+    control->matProjPositionY = control->cameraConfig.projection.scaleW + MultiplyFX(FLOAT_TO_FX32(0.3125), control->cameraConfig.projection.scaleW);
 
     void *mdlCutsceneOpening = control->mdlCutscene[0];
     NNS_G3dResDefaultSetup(mdlCutsceneOpening);
@@ -328,8 +328,8 @@ void ChangeEventForTitleScreen(TitleScreenNextEvent id)
 
 void SetTitleScreenBrightness(fx32 brightness32)
 {
-    Camera3DTask *camA = Camera3D__GetWork();
-    Camera3DTask *camB = Camera3D__GetWork();
+    SwapBuffer3D *camA = GetSwapBuffer3DWork();
+    SwapBuffer3D *camB = GetSwapBuffer3DWork();
 
     s32 brightness = FX32_TO_WHOLE(MTM_MATH_CLIP(brightness32, FX32_FROM_WHOLE(RENDERCORE_BRIGHTNESS_BLACK), FX32_FROM_WHOLE(RENDERCORE_BRIGHTNESS_WHITE)));
 
@@ -519,14 +519,14 @@ void TitleScreen_Main_Init(void)
 {
     TitleScreen *work = TaskGetWorkCurrent(TitleScreen);
 
-    Camera3D__Create();
+    CreateSwapBuffer3D();
 
     SetTitleScreenBrightness(work->worldControl.brightness = FX32_FROM_WHOLE(RENDERCORE_BRIGHTNESS_WHITE));
 
     work->worldControl.touchSkipDelay = 5;
     PlaySysStream(SYSSOUND_GROUP_TITLE_2, TRUE);
 
-    Camera3DTask *camera                                            = Camera3D__GetWork();
+    SwapBuffer3D *camera                                            = GetSwapBuffer3DWork();
     camera->gfxControl[GRAPHICS_ENGINE_B].windowManager.registers.win0X1            = 0;
     camera->gfxControl[GRAPHICS_ENGINE_B].windowManager.registers.win0X2            = 0;
     camera->gfxControl[GRAPHICS_ENGINE_B].windowManager.registers.win0Y1            = 0;
@@ -615,7 +615,7 @@ void TitleScreen_Main_ChangeEvent(void)
 {
     TitleScreen *work = TaskGetWorkCurrent(TitleScreen);
 
-    Camera3D__Destroy();
+    DestroySwapBuffer3D();
 
     if ((work->worldControl.flags & TITLESCREEN_FLAG_INIT_DEMO) != 0)
         ChangeEventForTitleScreen(TITLESCREEN_NEXTEVENT_DEMO);
@@ -659,22 +659,22 @@ void TitleScreenBackgroundView_Main_Active(void)
     GetTitleScreenMatrix(TITLESCREEN_MAT_TARGET_NODE, &parent->worldControl.mtxTarget);
 
     Camera3D *camera = &parent->worldControl.cameraConfig;
-    if (Camera3D__UseEngineA())
+    if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
     {
-        camera->config.matProjPosition.y = -parent->worldControl.matProjPositionY;
+        camera->projection.position.y = -parent->worldControl.matProjPositionY;
 
-        VEC_SetFromArray(&camera->camPos, &parent->worldControl.mtxCamera.m[3][0]);
-        VEC_SetFromArray(&camera->camTarget, &parent->worldControl.mtxTarget.m[3][0]);
+        VEC_SetFromArray(&camera->view.camPos, &parent->worldControl.mtxCamera.m[3][0]);
+        VEC_SetFromArray(&camera->view.camTarget, &parent->worldControl.mtxTarget.m[3][0]);
     }
     else
     {
-        camera->config.matProjPosition.y = parent->worldControl.matProjPositionY;
+        camera->projection.position.y = parent->worldControl.matProjPositionY;
 
-        VEC_SetFromArray(&camera->camPos, &parent->worldControl.mtxCamera.m[3][0]);
-        VEC_SetFromArray(&camera->camTarget, &parent->worldControl.mtxTarget.m[3][0]);
+        VEC_SetFromArray(&camera->view.camPos, &parent->worldControl.mtxCamera.m[3][0]);
+        VEC_SetFromArray(&camera->view.camTarget, &parent->worldControl.mtxTarget.m[3][0]);
     }
 
-    Camera3D__LoadState(camera);
+    SwapBuffer3D_ApplyCameraState(camera);
 
     s32 i                 = 1;
     AnimatorMDL *animator = &parent->worldControl.animators[i];
@@ -749,7 +749,7 @@ void TitleScreenCopyrightIcon_Main_Active(void)
     if ((work->parent->worldControl.flags & TITLESCREEN_FLAG_SHOW_COPYRIGHT) != 0)
     {
         AnimatorSprite__ProcessAnimationFast(&work->aniCopyright);
-        if (Camera3D__UseEngineA())
+        if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
             AnimatorSprite__DrawFrame(&work->aniCopyright);
     }
 
@@ -757,7 +757,7 @@ void TitleScreenCopyrightIcon_Main_Active(void)
     {
         AnimatorSprite__ProcessAnimationFast(&work->aniTrademark);
 
-        if (Camera3D__UseEngineA())
+        if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
             AnimatorSprite__DrawFrame(&work->aniTrademark);
     }
 
@@ -780,11 +780,11 @@ void TitleScreenCopyrightIcon_Main_Idle(void)
     TitleScreenCopyrightIcon *work = TaskGetWorkCurrent(TitleScreenCopyrightIcon);
 
     AnimatorSprite__ProcessAnimationFast(&work->aniCopyright);
-    if (Camera3D__UseEngineA())
+    if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
         AnimatorSprite__DrawFrame(&work->aniCopyright);
 
     AnimatorSprite__ProcessAnimationFast(&work->aniTrademark);
-    if (Camera3D__UseEngineA())
+    if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
         AnimatorSprite__DrawFrame(&work->aniTrademark);
 }
 
@@ -827,7 +827,7 @@ void TitleScreenPressStart_Main_AwaitPress(void)
 
     AnimatorSprite__ProcessAnimationFast(&work->aniButton);
 
-    if (!Camera3D__UseEngineA())
+    if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
         AnimatorSprite__DrawFrame(&work->aniButton);
 
     if (CheckTitleScreenConfirmPress(work->parent))
@@ -850,7 +850,7 @@ void TitleScreenPressStart_Main_Pressed(void)
 
     AnimatorSprite__ProcessAnimationFast(&work->aniButton);
 
-    if (!Camera3D__UseEngineA())
+    if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
         AnimatorSprite__DrawFrame(&work->aniButton);
 
     if (work->timer != 0)
@@ -870,6 +870,6 @@ void TitleScreenPressStart_Main_Idle(void)
 
     AnimatorSprite__ProcessAnimationFast(&work->aniButton);
 
-    if (!Camera3D__UseEngineA())
+    if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
         AnimatorSprite__DrawFrame(&work->aniButton);
 }

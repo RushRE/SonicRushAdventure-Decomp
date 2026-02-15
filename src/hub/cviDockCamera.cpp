@@ -5,7 +5,7 @@
 #include <game/input/padInput.h>
 #include <game/input/touchInput.h>
 #include <game/graphics/drawState.h>
-#include <game/graphics/drawReqTask.h>
+#include <game/graphics/swapBuffer3D.h>
 #include <hub/hubConfig.h>
 #include <game/math/unknown2051334.h>
 
@@ -29,7 +29,7 @@ void CViDockCamera::Init(DockArea dockArea, s32 type)
 
         this->drawState = ReadFileFromBundle("bb/vi_dock.bb", config->resDrawState, BINARYBUNDLE_AUTO_ALLOC_HEAD);
         CViDockCamera::InitState(&this->initialState, this->area, this->type);
-        this->initialState.projFOV = this->GetFOV();
+        this->initialState.fov = this->GetFOV();
         CViDockCamera::InitLights(this->lights, this->area, this->drawState, this->type);
         CViDockCamera::InitBounds(&this->bounds, this->area);
         this->Process();
@@ -106,7 +106,7 @@ void CViDockCamera::MoveToPosition(VecFx32 *camTarget, u16 duration, VecFx32 *ca
     }
 
     this->state1.angle2  = newAngle;
-    this->state1.projFOV = FLOAT_DEG_TO_IDX(20.0);
+    this->state1.fov = FLOAT_DEG_TO_IDX(20.0);
     this->lerpDuration   = duration;
     this->lerpTimer      = 0;
     this->flags          = CViDockCamera::FLAG_MOVE_TO_NEW;
@@ -190,7 +190,7 @@ void CViDockCamera::Process()
     this->camUp.y = FLOAT_TO_FX32(1.0);
     this->camUp.z = FLOAT_TO_FX32(0.0);
 
-    this->projFOV = this->targetState.projFOV;
+    this->fov = this->targetState.fov;
 
     FXMatrix33 mtx;
     FXMatrix33 mtx2;
@@ -209,10 +209,10 @@ void CViDockCamera::SetDrawPipeline()
 
     Camera3D camera;
     MI_CpuClear16(&camera, sizeof(camera));
-    GetDrawStateCameraProjection((DrawState *)this->drawState, &camera.config);
+    GetDrawStateCameraProjection((DrawState *)this->drawState, &camera.projection);
     GetDrawStateCameraView((DrawState *)this->drawState, &camera);
-    camera.config.projFOV = this->projFOV;
-    Camera3D__LoadState(&camera);
+    camera.projection.fov = this->fov;
+    SwapBuffer3D_ApplyCameraState(&camera);
 
     G3X_SetClearColor(GX_RGB_888(0x00, 0x00, 0x00), GX_COLOR_FROM_888(0xFF), 0x7FFF, 0, FALSE);
 
@@ -249,7 +249,7 @@ void CViDockCamera::InitState(CViDockCamera::State *state, DockArea dockArea, s3
                     state->camTarget.z              = FLOAT_TO_FX32(0.0);
                     state->angle1                   = config->camAngle;
                     state->angle2                   = FLOAT_DEG_TO_IDX(180.0);
-                    state->projFOV                  = FLOAT_DEG_TO_IDX(360.0) - 1;
+                    state->fov                  = FLOAT_DEG_TO_IDX(360.0) - 1;
                 }
                 else
                 {
@@ -259,7 +259,7 @@ void CViDockCamera::InitState(CViDockCamera::State *state, DockArea dockArea, s3
                     state->camTarget.z = FLOAT_TO_FX32(0.0);
                     state->angle1      = FLOAT_DEG_TO_IDX(0.0);
                     state->angle2      = FLOAT_DEG_TO_IDX(180.0);
-                    state->projFOV     = FLOAT_DEG_TO_IDX(360.0) - 1;
+                    state->fov     = FLOAT_DEG_TO_IDX(360.0) - 1;
                 }
             }
             break;
@@ -271,7 +271,7 @@ void CViDockCamera::InitState(CViDockCamera::State *state, DockArea dockArea, s3
                 state->camTarget.z = FLOAT_TO_FX32(0.0);
                 state->angle1      = FLOAT_DEG_TO_IDX(0.0);
                 state->angle2      = FLOAT_DEG_TO_IDX(180.0);
-                state->projFOV     = FLOAT_DEG_TO_IDX(360.0) - 1;
+                state->fov     = FLOAT_DEG_TO_IDX(360.0) - 1;
                 break;
         }
     }
@@ -332,10 +332,10 @@ void CViDockCamera::InitBounds(CViDockCameraBounds *bounds, DockArea dockArea)
 
 u16 CViDockCamera::GetFOV()
 {
-    CameraConfig config;
+    ProjectionDisplayConfig config;
 
     GetDrawStateCameraProjection((DrawState *)this->drawState, &config);
-    return config.projFOV;
+    return config.fov;
 }
 
 void CViDockCamera::HandleLerp(CViDockCamera::State *state1, CViDockCamera::State *state2, s32 angleProgress, fx32 posProgress, fx32 duration, CViDockCamera::State *targetState)
@@ -370,10 +370,10 @@ void CViDockCamera::HandleLerp(CViDockCamera::State *state1, CViDockCamera::Stat
     else
         targetState->angle2 = Unknown2051334__Func_20516B8(state1->angle2, state2->angle2, duration, angleProgress);
 
-    if (state1->projFOV == state2->projFOV)
-        targetState->projFOV = state1->projFOV;
+    if (state1->fov == state2->fov)
+        targetState->fov = state1->fov;
     else
-        targetState->projFOV = Unknown2051334__Func_20516B8(state1->projFOV, state2->projFOV, duration, posProgress);
+        targetState->fov = Unknown2051334__Func_20516B8(state1->fov, state2->fov, duration, posProgress);
 }
 
 void CViDockCamera::ApplyBounds(CViDockCamera::State *state)

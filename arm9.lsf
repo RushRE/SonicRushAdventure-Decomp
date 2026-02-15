@@ -185,7 +185,7 @@ Static arm9
     Object src/game/system/task.o
     Object src/game/input/touchInput.o
     Object src/game/system/queue.o
-    Object src/game/graphics/drawReqTask.o
+    Object src/game/graphics/swapBuffer3D.o
     Object src/game/graphics/sprite.o
     Object src/game/file/binaryBundle.o
     Object src/game/graphics/drawState.o
