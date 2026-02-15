@@ -1029,7 +1029,7 @@ void MapSys__FollowTargetX(MapSys *work, s32 id);
 void MapSys__FollowTargetY(MapSys *work, s32 id);
 void MapSys__Func_200A8D8(MapSys *work, s32 id);
 void MapSys__Func_200A910(MapSys *work, s32 id);
-void MapSys__Func_200A948(MapSys *work);
+BOOL MapSys__Func_200A948(MapSys *work);
 BOOL MapSys__Func_200AA18(MapSys *work);
 BOOL MapSys__Func_200AA84(MapSys *work, s32 id);
 void MapSys__Func_200AAF8(MapSys *work);

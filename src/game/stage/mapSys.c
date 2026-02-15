@@ -125,61 +125,35 @@ void MapSys__Create(void)
     MapFarSys__BuildBG();
 }
 
-NONMATCH_FUNC void MapSys__InitCameraForRestart(void)
+void MapSys__InitCameraForRestart(void)
 {
-#ifdef NON_MATCHING
+    mapCamera.camControl.flags &= ~(MAPSYS_CAMERACTRL_FLAG_DISABLE_SCREEN_SWAP | MAPSYS_CAMERACTRL_FLAG_DISABLE_CAM_LOOK | MAPSYS_CAMERACTRL_FLAG_10000
+                                    | MAPSYS_CAMERACTRL_FLAG_20000 | MAPSYS_CAMERACTRL_FLAG_40000);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	ldr r7, =mapSystemTask
-	mov r4, #0
-	ldr r0, =0xFFF8FEFB
-	ldr r1, [r7, #0x100]
-	ldr r5, =mapCamera
-	and r0, r1, r0
-	ldr r9, =0x0000FFFF
-	ldr r6, =0xFFFF0FCF
-	str r0, [r7, #0x100]
-	mov r8, r4
-_02008740:
-	ldrsb r0, [r5, #0x46]
-	cmp r0, #1
-	beq _020087AC
-	ldr r0, [r5, #0]
-	and r0, r0, r6
-	str r0, [r5]
-	ldr r0, [r7, #0x150]
-	str r0, [r5, #0x58]
-	ldr r0, [r7, #0x154]
-	str r0, [r5, #0x5c]
-	ldr r0, [r7, #0x158]
-	str r0, [r5, #0x60]
-	ldr r0, [r7, #0x15c]
-	str r0, [r5, #0x64]
-	bl GetCurrentZoneID
-	cmp r0, #0
-	bne _02008794
-	ldr r0, [r5, #0]
-	bic r0, r0, #0x3000000
-	str r0, [r5]
-	strh r9, [r5, #0x6e]
-_02008794:
-	strb r8, [r5, #0x6c]
-	strb r8, [r5, #0x6b]
-	ldrsb r0, [r5, #0x6b]
-	strb r0, [r5, #0x6a]
-	strb r0, [r5, #0x69]
-	strb r0, [r5, #0x68]
-_020087AC:
-	add r4, r4, #1
-	cmp r4, #2
-	add r5, r5, #0x70
-	blt _02008740
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+    for (s32 i = 0; i < (s32)ARRAY_COUNT(mapCamera.camera); i++)
+    {
+        MapSysCamera *camera = &mapCamera.camera[i];
 
-// clang-format on
-#endif
+        if (camera->targetPlayerID != MAPSYS_CAMERA_TARGET_P2)
+        {
+            camera->flags &= ~(MAPSYS_CAMERACTRL_FLAG_10 | MAPSYS_CAMERACTRL_FLAG_20 | MAPSYS_CAMERACTRL_FLAG_1000 | MAPSYS_CAMERACTRL_FLAG_2000 | MAPSYS_CAMERACTRL_FLAG_4000
+                               | MAPSYS_CAMERACTRL_FLAG_8000);
+
+            camera->boundsL = mapCamera.camControl.bounds.left;
+            camera->boundsT = mapCamera.camControl.bounds.top;
+            camera->boundsR = mapCamera.camControl.bounds.right;
+            camera->boundsB = mapCamera.camControl.bounds.bottom;
+
+            if (GetCurrentZoneID() == ZONE_PLANT_KINGDOM)
+            {
+                camera->flags &= ~(MAPSYS_CAMERA_FLAG_2000000 | MAPSYS_CAMERA_FLAG_1000000);
+                camera->waterLevel = 0xFFFF;
+            }
+
+            camera->field_6C   = 0;
+            camera->lockTimerL = camera->lockTimerT = camera->lockTimerR = camera->lockTimerB = 0;
+        }
+    }
 }
 
 void MapSys__LoadArchive_RAW(void *archive)
@@ -791,36 +765,49 @@ void MapSys__Func_20091F0(s32 id)
 
 NONMATCH_FUNC s32 MapSys__GetScreenSwapPos(fx32 x)
 {
+    // https://decomp.me/scratch/p8G4k -> 99.25%
+    // Minor register mismatches
 #ifdef NON_MATCHING
-    BOOL didHit                    = FALSE;
-    MapCameraZones *mapCameraZones = mapSysFiles.mapCameraZones;
-
-    x = MTM_MATH_CLIP(x, 0, FX32_FROM_WHOLE(mapCamera.camControl.width) - 1);
-
-    fx32 screenSwapY = 0;
-    fx32 prevScreenSwapY;
-
-    fx32 mapY = 0;
-    while (screenSwapY < mapCameraZones->height)
+    enum
     {
-        u32 zone = (mapCameraZones->data[((mapY + (x >> 18)) << 14) >> 16] >> ((2 * (mapY + (x >> 18))) & 7)) & 3;
+        CAMERA_FOCUS_TOP,
+        CAMERA_FOCUS_BOTTOM,
+    };
 
-        if (!didHit && zone != 0)
+    MapCameraZones *mapCameraZones;
+    fx32 y;
+    fx32 prevFindPos;
+    BOOL foundBottom = FALSE;
+    s32 width;
+    s32 height;
+
+    mapCameraZones = mapSysFiles.mapCameraZones;
+
+    x = MTM_MATH_CLIP_3(x, 0, FX32_FROM_WHOLE(mapCamera.camControl.width) - 1);
+
+    width  = mapCameraZones->width;
+    height = mapCameraZones->height;
+    for (y = 0; y < height; y++)
+    {
+        s32 dataPos = y * width + FX32_TO_WHOLE(x >> 6);
+
+        u16 pos   = dataPos >> 2;
+        u16 shift = (u32)dataPos << 30u >> 29u; // (dataPos << 1) & 7;
+        u16 focus = (mapCameraZones->data[pos] >> (shift)) & 3;
+
+        if (foundBottom == FALSE && focus != CAMERA_FOCUS_TOP)
         {
-            if (zone == 1)
-                return screenSwapY << 18;
+            if (focus == CAMERA_FOCUS_BOTTOM)
+                return FX32_FROM_WHOLE(y) << 6;
 
-            didHit          = TRUE;
-            prevScreenSwapY = screenSwapY;
+            foundBottom = TRUE;
+            prevFindPos = y;
         }
 
-        if (didHit && zone == 1)
+        if (foundBottom == TRUE && focus == CAMERA_FOCUS_BOTTOM)
         {
-            return (prevScreenSwapY + screenSwapY) << 17;
+            return FX32_FROM_WHOLE(prevFindPos + y) << 5;
         }
-
-        screenSwapY++;
-        mapY += mapCameraZones->width;
     }
 
     if (IsBossStage())
@@ -1344,8 +1331,62 @@ void MapSys__Main_Boss(void)
 
 NONMATCH_FUNC void MapSys__HandleCamera(MapSys *work)
 {
+	// https://decomp.me/scratch/2vrkf -> 88.90%
 #ifdef NON_MATCHING
+    if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_DISABLE_CAM_LOOK) == 0)
+        MapSys__HandleCamLook(work);
 
+    if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_200) == 0)
+    {
+        if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
+        {
+            MapSysCamera* cameraA = &mapCamera.camera[GRAPHICS_ENGINE_A];
+            
+            if ((cameraA->flags & (MAPSYS_CAMERA_FLAG_100 | MAPSYS_CAMERA_FLAG_40)) == 0)
+            {
+                MapSys__Func_2009E3C(work, GRAPHICS_ENGINE_A);
+                MapSys__Func_200A780(work, GRAPHICS_ENGINE_A);
+            }
+            else
+            {
+                MapSys__HandleHBounds(work, GRAPHICS_ENGINE_A);
+            }
+
+            if ((cameraA->flags & (MAPSYS_CAMERA_FLAG_200 | MAPSYS_CAMERA_FLAG_80)) == 0)
+            {
+                MapSys__Func_2009E80(work, GRAPHICS_ENGINE_A);
+                MapSys__Func_200A7E8(work, GRAPHICS_ENGINE_A);
+            }
+            else
+            {
+                MapSys__HandleVBounds(work, GRAPHICS_ENGINE_A);
+            }
+
+            MapSysCamera* cameraB = &mapCamera.camera[GRAPHICS_ENGINE_B];
+            if ((cameraB->flags & (MAPSYS_CAMERA_FLAG_100 | MAPSYS_CAMERA_FLAG_40)) == 0)
+                MapSys__Func_200A8D8(work, GRAPHICS_ENGINE_B);
+
+            if ((cameraB->flags & (MAPSYS_CAMERA_FLAG_200 | MAPSYS_CAMERA_FLAG_80)) == 0)
+                MapSys__Func_200A910(work, GRAPHICS_ENGINE_B);
+        }
+        else
+        {
+            for (s32 i = 0; i < (s32)ARRAY_COUNT(mapCamera.camera); i++)
+            {                
+                Player__Func_201301C(i);
+
+                if ((mapCamera.camera[i].flags & (MAPSYS_CAMERA_FLAG_100 | MAPSYS_CAMERA_FLAG_40)) == 0)
+                    MapSys__Func_2009E3C(work, i);
+                else
+                    MapSys__HandleHBounds(work, i);
+
+                if ((mapCamera.camera[i].flags & (MAPSYS_CAMERA_FLAG_200 | MAPSYS_CAMERA_FLAG_80)) == 0)
+                    MapSys__Func_200A460(work, i);
+                else
+                    MapSys__HandleVBounds(work, i);
+            }
+        }
+    }
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
@@ -2202,7 +2243,7 @@ void MapSys__Func_200A910(MapSys *work, s32 id)
     mapCamera.camera[id].disp_pos.y = mapCamera.camControl.field_10 + mapCamera.camera[(id + 1) & 1].disp_pos.y;
 }
 
-NONMATCH_FUNC void MapSys__Func_200A948(MapSys *work)
+NONMATCH_FUNC BOOL MapSys__Func_200A948(MapSys *work)
 {
 #ifdef NON_MATCHING
 

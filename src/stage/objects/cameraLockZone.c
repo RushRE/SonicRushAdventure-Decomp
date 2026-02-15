@@ -82,7 +82,7 @@ CameraLockZone *CreateCameraLockZone(MapObject *mapObject, fx32 x, fx32 y, fx32 
 
     for (i = 0; i < cameraCount; i++)
     {
-        MapSysCamera *camera                    = &mapCamera.camera[i];
+        MapSysCamera *camera               = &mapCamera.camera[i];
         CameraLockZoneCamera *cameraTarget = &work->camera[i];
 
         cameraTarget->targetPlayer = camera->targetPlayerID;
@@ -110,7 +110,7 @@ void CameraLockZone_State_Active(CameraLockZone *work)
 void CameraLockZone_CameraState_ApplyStageBounds(CameraLockZone *work, s32 id)
 {
     CameraLockZoneCamera *cameraTarget = &work->camera[id];
-    MapSysCamera *camera                    = &mapCamera.camera[id];
+    MapSysCamera *camera               = &mapCamera.camera[id];
 
     if ((cameraTarget->flags & CAMERALOCKZONE_FLAGS_LOCK_L) != 0)
     {
@@ -168,7 +168,7 @@ void CameraLockZone_CameraState_WaitForTriggerEnter(CameraLockZone *work, s32 id
 void CameraLockZone_CameraState_ApplyLockedBounds(CameraLockZone *work, s32 id)
 {
     CameraLockZoneCamera *cameraTarget = &work->camera[id];
-    MapSysCamera *camera                    = &mapCamera.camera[id];
+    MapSysCamera *camera               = &mapCamera.camera[id];
 
     MapObject *mapObject = work->gameWork.mapObject;
 

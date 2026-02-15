@@ -2699,7 +2699,7 @@ BOOL Player__UseUpsideDownGravity(fx32 x, fx32 y)
     return FALSE;
 }
 
-void Player__Func_201301C(s32 id)
+void Player__Func_201301C(u16 id)
 {
     if (gmCheckVsBattleFlag() && id != 0 && (mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) == 0)
     {

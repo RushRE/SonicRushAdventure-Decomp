@@ -680,7 +680,7 @@ void Player__Action_SuperBoost(Player *player); // Rush-style boost
 void Player__Action_StopSuperBoost(Player *player);
 PlayerBoost *CreatePlayerBoostCollider(Player *player, s16 left, s16 top, s16 right, s16 bottom, s16 timer);
 BOOL Player__UseUpsideDownGravity(fx32 x, fx32 y);
-void Player__Func_201301C(s32 id);
+void Player__Func_201301C(u16 id);
 void Player__SetP2Offset(fx32 x, fx32 y, fx32 z);
 s32 Player__GetPlayerCount(void);
 void Player__Destructor(Task *task);
