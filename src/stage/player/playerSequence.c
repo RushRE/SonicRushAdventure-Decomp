@@ -681,19 +681,19 @@ void Player__State_CorkscrewPath(Player *work)
     }
 }
 
-NONMATCH_FUNC void Player__HandleCorkscrewPathH(Player *player, s32 a2, s32 a3, s16 a4)
+void Player__HandleCorkscrewPathH(Player *player, fx32 singleLoopLogicalPathLength, s32 horizontalSizeOneLoop, s16 verticalHalfPixelsLoop)
 {
-    // https://decomp.me/scratch/VhMz7 -> 71.08%
-#ifdef NON_MATCHING
-    player->objWork.userTimer += MATH_ABS(player->objWork.groundVel);
+    fx32 cos;
 
-    s16 v11  = (player->objWork.userTimer / a2) << 8;
-    s32 v12  = ((player->objWork.userTimer - a2 * v11) << 8) / a2;
-    s32 v13  = v12 << 4;
-    u16 dirX = (v12 << 4);
+    fx32 totalDistanceRan = player->objWork.userTimer += MATH_ABS(player->objWork.groundVel);
+
+    s8 currentLoopIndex               = totalDistanceRan / singleLoopLogicalPathLength;
+    fx32 distanceRanWithinCurrentLoop = totalDistanceRan - (singleLoopLogicalPathLength * currentLoopIndex);
+    fx32 progressWithinLoop           = ((distanceRanWithinCurrentLoop << 8) / singleLoopLogicalPathLength) << 4;
+    s32 dirX                          = (u16)(progressWithinLoop << 4);
 
     player->objWork.dir.x = dirX;
-    if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) != 0)
+    if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_LEFTWARDS) != 0)
         player->objWork.dir.x = -player->objWork.dir.x;
 
     if (player->objWork.dir.x < FLOAT_DEG_TO_IDX(90.0))
@@ -712,140 +712,27 @@ NONMATCH_FUNC void Player__HandleCorkscrewPathH(Player *player, s32 a2, s32 a3, 
             player->objWork.dir.z = FLOAT_DEG_TO_IDX(360.0) - player->objWork.dir.x;
     }
 
-    player->objWork.dir.z = player->objWork.dir.z >> 1;
+    player->objWork.dir.z >>= 1;
     if (player->objWork.dir.x < FLOAT_DEG_TO_IDX(180.0))
         player->objWork.dir.z = -player->objWork.dir.z;
     player->objWork.dir.x = -player->objWork.dir.x;
 
-    fx32 cos = CosFX(dirX);
-    s16 v18  = (a4 - player->objWork.hitboxRect.bottom);
-    if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_2) != 0)
-        v18 = -v18;
+    cos = CosFX(dirX);
+    verticalHalfPixelsLoop -= player->objWork.hitboxRect.bottom;
+    if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) != 0)
+        verticalHalfPixelsLoop = -verticalHalfPixelsLoop;
 
     player->objWork.prevPosition.x = player->objWork.position.x;
     player->objWork.prevPosition.y = player->objWork.position.y;
-
-    if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) != 0)
-    {
-        player->objWork.position.x = player->gimmick.corkscrewPath.x - ((v11 * a3) << 12) - a3 * v13;
-    }
+    if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_LEFTWARDS) != 0)
+        player->objWork.position.x = player->gimmick.corkscrewPath.x - FX32_FROM_WHOLE(currentLoopIndex * horizontalSizeOneLoop) - (horizontalSizeOneLoop * progressWithinLoop);
     else
-    {
-        player->objWork.position.x = player->gimmick.corkscrewPath.x + ((v11 * a3) << 12) + a3 * v13;
-    }
+        player->objWork.position.x = player->gimmick.corkscrewPath.x + FX32_FROM_WHOLE(currentLoopIndex * horizontalSizeOneLoop) + (horizontalSizeOneLoop * progressWithinLoop);
 
-    player->objWork.position.y = player->gimmick.corkscrewPath.y + (v18 << 12) - cos * v18;
+    player->objWork.position.y = player->gimmick.corkscrewPath.y + FX32_FROM_WHOLE(verticalHalfPixelsLoop) - (cos * verticalHalfPixelsLoop);
 
     player->objWork.move.x = player->objWork.position.x - player->objWork.prevPosition.x;
     player->objWork.move.y = player->objWork.position.y - player->objWork.prevPosition.y;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	mov r7, r0
-	ldr r4, [r7, #0xc8]
-	ldr r0, [r7, #0x2c]
-	cmp r4, #0
-	rsblt r4, r4, #0
-	add r8, r0, r4
-	mov r9, r1
-	mov r1, r9
-	mov r0, r8
-	mov r6, r2
-	mov r5, r3
-	str r8, [r7, #0x2c]
-	bl _s32_div_f
-	mov r0, r0, lsl #0x18
-	mov r4, r0, asr #0x18
-	mul r0, r9, r4
-	sub r0, r8, r0
-	mov r1, r9
-	mov r0, r0, lsl #8
-	bl _s32_div_f
-	mov r1, r0, lsl #4
-	mov r0, r1, lsl #0x14
-	mov r0, r0, lsr #0x10
-	strh r0, [r7, #0x30]
-	ldr r2, [r7, #0x28]
-	tst r2, #1
-	ldrneh r2, [r7, #0x30]
-	rsbne r2, r2, #0
-	strneh r2, [r7, #0x30]
-	ldrh r2, [r7, #0x30]
-	cmp r2, #0x4000
-	strloh r2, [r7, #0x34]
-	blo _0201C298
-	cmp r2, #0x8000
-	rsblo r2, r2, #0x8000
-	strloh r2, [r7, #0x34]
-	blo _0201C298
-	cmp r2, #0xc000
-	sublo r2, r2, #0x8000
-	strloh r2, [r7, #0x34]
-	rsbhs r2, r2, #0x10000
-	strhsh r2, [r7, #0x34]
-_0201C298:
-	ldrh r2, [r7, #0x34]
-	mov r0, r0, lsl #0x10
-	mov r2, r2, asr #1
-	strh r2, [r7, #0x34]
-	ldrh r2, [r7, #0x30]
-	cmp r2, #0x8000
-	ldrloh r2, [r7, #0x34]
-	rsblo r2, r2, #0
-	strloh r2, [r7, #0x34]
-	ldrh r3, [r7, #0x30]
-	mov r2, r0, lsr #0x10
-	mov r2, r2, asr #4
-	rsb r0, r3, #0
-	strh r0, [r7, #0x30]
-	ldrsh r0, [r7, #0xf2]
-	mov r2, r2, lsl #1
-	add r8, r2, #1
-	sub r0, r5, r0
-	ldr r2, [r7, #0x28]
-	mov r0, r0, lsl #0x10
-	mov r5, r0, asr #0x10
-	tst r2, #2
-	rsbne r2, r5, #0
-	movne r2, r2, lsl #0x10
-	movne r5, r2, asr #0x10
-	ldr r2, [r7, #0x44]
-	ldr r3, =FX_SinCosTable_
-	str r2, [r7, #0x8c]
-	ldr r2, [r7, #0x48]
-	mov r8, r8, lsl #1
-	str r2, [r7, #0x90]
-	ldr r2, [r7, #0x28]
-	ldrsh r0, [r3, r8]
-	tst r2, #1
-	mul r2, r4, r6
-	ldreq r3, [r7, #0x6f0]
-	addeq r2, r3, r2, lsl #12
-	mlaeq r1, r6, r1, r2
-	beq _0201C344
-	mul r1, r6, r1
-	ldr r3, [r7, #0x6f0]
-	sub r2, r3, r2, lsl #12
-	sub r1, r2, r1
-_0201C344:
-	str r1, [r7, #0x44]
-	mul r1, r0, r5
-	ldr r0, [r7, #0x6f4]
-	add r0, r0, r5, lsl #12
-	sub r0, r0, r1
-	str r0, [r7, #0x48]
-	ldr r1, [r7, #0x44]
-	ldr r0, [r7, #0x8c]
-	sub r0, r1, r0
-	str r0, [r7, #0xbc]
-	ldr r1, [r7, #0x48]
-	ldr r0, [r7, #0x90]
-	sub r0, r1, r0
-	str r0, [r7, #0xc0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC void Player__HandleCorkscrewPathV(Player *player, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7)
