@@ -735,320 +735,129 @@ void Player__HandleCorkscrewPathH(Player *player, fx32 singleLoopLogicalPathLeng
     player->objWork.move.y = player->objWork.position.y - player->objWork.prevPosition.y;
 }
 
-NONMATCH_FUNC void Player__HandleCorkscrewPathV(Player *player, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7)
+void Player__HandleCorkscrewPathV(Player *player, s32 singleLoopPathLength, s16 horizontalHalfSizeLoop, s16 verticalSizeLoop, fx32 distanceToRunStraight,
+                                  s16 runningStraightLineWidth, s16 runningStraightLineHeight)
 {
-#ifdef NON_MATCHING
+    // In this function, a "subpath" is either a straight line at either end of the corkscrew subpath, or a single half-loop.
+    // lastSubpathID (the ID of the exit straight line) is one plus the number of times
+    // the player will rotate 180° around Y (or one plus the count of half-loops)
+    // It is also the count of alternating directions the player will take when fully traversing the path,
+    // from the camera's POV (e.g.: down-right, then down-left, then down-right again, then down-left again, etc.)
+    s8 lastSubpathID = player->objWork.userWork >> 2;
+    s32 totalDistanceRan = player->objWork.userTimer + MATH_ABS(player->objWork.groundVel);
+    player->objWork.userTimer = totalDistanceRan;
+    if (MATH_ABS(totalDistanceRan) >= distanceToRunStraight)
+    {
+        // Player is past the first straight line of running, so either in the main looping, or in the second exit straight line.
+        if ((player->playerFlag & PLAYER_FLAG_USER_FLAG) == 0)
+        {
+            player->playerFlag |= PLAYER_FLAG_USER_FLAG;
+            if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_LEFTWARDS) != 0)
+                player->gimmick.corkscrewPath.x -= FX32_FROM_WHOLE((runningStraightLineWidth - horizontalHalfSizeLoop) + player->objWork.hitboxRect.bottom);
+            else
+                player->gimmick.corkscrewPath.x += FX32_FROM_WHOLE((runningStraightLineWidth - horizontalHalfSizeLoop) + player->objWork.hitboxRect.bottom);
+            if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) != 0)
+                player->gimmick.corkscrewPath.y += FX32_FROM_WHOLE((verticalSizeLoop >> 2) - runningStraightLineHeight);
+            else
+                player->gimmick.corkscrewPath.y -= FX32_FROM_WHOLE((verticalSizeLoop >> 2) - runningStraightLineHeight);
+            if (((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) != 0) || (lastSubpathID & 1))
+                player->objWork.dir.x = FLOAT_DEG_TO_IDX(270.0);
+            else
+                player->objWork.dir.x = FLOAT_DEG_TO_IDX(90.0);
+        }
+        s32 quarterLoopPathLength                  = singleLoopPathLength >> 2;
+        s32 distanceRanPastFirstLine               = player->objWork.userTimer - distanceToRunStraight;
+        s32 distanceRanPastFirstLinePlusQuarter    = distanceRanPastFirstLine + quarterLoopPathLength;
+        s32 absDistanceRanPastFirstLinePlusQuarter = MATH_ABS(distanceRanPastFirstLinePlusQuarter);
+        s32 halfLoopPathLength = singleLoopPathLength >> 1;
+        s8 currentHalfLoopSubpathID = FX_DivS32(absDistanceRanPastFirstLinePlusQuarter + quarterLoopPathLength, halfLoopPathLength);
+        if (currentHalfLoopSubpathID >= lastSubpathID)
+        {
+            // Phase 3: Straight line again after the loops, an exit to progressively adjust the X rotation back to normal, Y rotation stays fixed.
+            if (((player->playerFlag & PLAYER_FLAG_ALLOW_TRICKS) == 0))
+            {
+                player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS;
+                if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_LEFTWARDS) != 0)
+                    player->gimmick.corkscrewPath.x -= FX32_FROM_WHOLE(horizontalHalfSizeLoop - player->objWork.hitboxRect.bottom);
+                else
+                    player->gimmick.corkscrewPath.x += FX32_FROM_WHOLE(horizontalHalfSizeLoop - player->objWork.hitboxRect.bottom);
+                if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) != 0)
+                    player->gimmick.corkscrewPath.y -= FX32_FROM_WHOLE(((currentHalfLoopSubpathID - 1) * (verticalSizeLoop >> 1)) + (verticalSizeLoop >> 2));
+                else
+                    player->gimmick.corkscrewPath.y += FX32_FROM_WHOLE(((currentHalfLoopSubpathID - 1) * (verticalSizeLoop >> 1)) + (verticalSizeLoop >> 2));
+            }
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	mov r10, r0
-	mov r11, r1
-	ldr r1, [sp, #0x28]
-	ldr r0, [r10, #0xc8]
-	str r1, [sp, #0x28]
-	cmp r0, #0
-	ldr r4, [r10, #0x28]
-	ldr r1, [r10, #0x2c]
-	mov r4, r4, lsl #0x16
-	rsblt r0, r0, #0
-	mov r9, r2
-	adds r2, r1, r0
-	rsbmi r1, r2, #0
-	ldr r7, [sp, #0x2c]
-	ldr r6, [sp, #0x30]
-	ldr r0, [sp, #0x28]
-	movpl r1, r2
-	mov r8, r3
-	mov r4, r4, asr #0x18
-	str r2, [r10, #0x2c]
-	cmp r1, r0
-	blt _0201C73C
-	ldr r0, [r10, #0x5d8]
-	tst r0, #1
-	bne _0201C470
-	orr r0, r0, #1
-	str r0, [r10, #0x5d8]
-	ldr r0, [r10, #0x28]
-	ldrsh r1, [r10, #0xf2]
-	tst r0, #1
-	sub r0, r7, r9
-	beq _0201C418
-	ldr r2, [r10, #0x6f0]
-	add r0, r1, r0
-	sub r0, r2, r0, lsl #12
-	b _0201C424
-_0201C418:
-	ldr r2, [r10, #0x6f0]
-	add r0, r1, r0
-	add r0, r2, r0, lsl #12
-_0201C424:
-	str r0, [r10, #0x6f0]
-	ldr r0, [r10, #0x28]
-	ldr r1, [r10, #0x6f4]
-	tst r0, #2
-	rsbne r0, r6, r8, asr #2
-	addne r0, r1, r0, lsl #12
-	rsbeq r0, r6, r8, asr #2
-	subeq r0, r1, r0, lsl #12
-	str r0, [r10, #0x6f4]
-	ldr r0, [r10, #0x28]
-	tst r0, #2
-	bne _0201C45C
-	tst r4, #1
-	beq _0201C468
-_0201C45C:
-	mov r0, #0xc000
-	strh r0, [r10, #0x30]
-	b _0201C470
-_0201C468:
-	mov r0, #0x4000
-	strh r0, [r10, #0x30]
-_0201C470:
-	ldr r1, [r10, #0x2c]
-	ldr r0, [sp, #0x28]
-	sub r0, r1, r0
-	adds r5, r0, r11, asr #2
-	rsbmi r0, r5, #0
-	movpl r0, r5
-	mov r1, r11, asr #1
-	add r0, r0, r11, asr #2
-	str r1, [sp]
-	bl FX_DivS32
-	mov r0, r0, lsl #0x18
-	cmp r4, r0, asr #24
-	mov r0, r0, asr #0x18
-	bgt _0201C614
-	ldr r1, [r10, #0x5d8]
-	tst r1, #2
-	bne _0201C528
-	orr r1, r1, #2
-	str r1, [r10, #0x5d8]
-	ldr r1, [r10, #0x28]
-	tst r1, #1
-	ldrsh r1, [r10, #0xf2]
-	ldreq r2, [r10, #0x6f0]
-	subeq r1, r9, r1
-	addeq r1, r2, r1, lsl #12
-	beq _0201C4E4
-	ldr r2, [r10, #0x6f0]
-	sub r1, r9, r1
-	sub r1, r2, r1, lsl #12
-_0201C4E4:
-	str r1, [r10, #0x6f0]
-	ldr r1, [r10, #0x28]
-	tst r1, #2
-	sub r1, r0, #1
-	mov r0, r8, asr #1
-	beq _0201C514
-	mul r0, r1, r0
-	ldr r1, [r10, #0x6f4]
-	add r0, r0, r8, asr #2
-	sub r0, r1, r0, lsl #12
-	str r0, [r10, #0x6f4]
-	b _0201C528
-_0201C514:
-	mul r0, r1, r0
-	ldr r1, [r10, #0x6f4]
-	add r0, r0, r8, asr #2
-	add r0, r1, r0, lsl #12
-	str r0, [r10, #0x6f4]
-_0201C528:
-	ldr r0, [sp]
-	mul r1, r0, r4
-	sub r0, r5, r1
-	add r0, r0, r11, asr #2
-	ldr r1, [sp, #0x28]
-	mov r0, r0, lsl #8
-	bl FX_DivS32
-	mov r0, r0, lsl #4
-	mov r1, r0, asr #0x1f
-	mov r2, r1, lsl #0xe
-	mov r1, #0x800
-	adds r3, r1, r0, lsl #14
-	orr r2, r2, r0, lsr #18
-	adc r1, r2, #0
-	mov r2, r3, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	add r1, r2, #0xc000
-	ldr r2, [r10, #0x28]
-	mov r1, r1, lsl #0x10
-	tst r2, #2
-	mov r1, r1, lsr #0x10
-	bne _0201C590
-	tst r4, #1
-	rsbeq r1, r1, #0
-	moveq r1, r1, lsl #0x10
-	moveq r1, r1, lsr #0x10
-_0201C590:
-	strh r1, [r10, #0x30]
-	ldr r2, [r10, #0x28]
-	tst r2, #2
-	rsbne r1, r6, #0
-	movne r1, r1, lsl #0x10
-	movne r6, r1, asr #0x10
-	tst r2, #1
-	rsbne r1, r7, #0
-	movne r1, r1, lsl #0x10
-	movne r7, r1, asr #0x10
-	tst r4, #1
-	rsbeq r1, r7, #0
-	moveq r1, r1, lsl #0x10
-	moveq r7, r1, asr #0x10
-	ldr r1, [r10, #0x44]
-	str r1, [r10, #0x8c]
-	ldr r1, [r10, #0x48]
-	str r1, [r10, #0x90]
-	ldr r1, [r10, #0x6f0]
-	mla r1, r7, r0, r1
-	str r1, [r10, #0x44]
-	ldr r1, [r10, #0x6f4]
-	mla r0, r6, r0, r1
-	str r0, [r10, #0x48]
-	ldr r1, [r10, #0x44]
-	ldr r0, [r10, #0x8c]
-	sub r0, r1, r0
-	str r0, [r10, #0xbc]
-	ldr r1, [r10, #0x48]
-	ldr r0, [r10, #0x90]
-	sub r0, r1, r0
-	str r0, [r10, #0xc0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-_0201C614:
-	mov r0, r5
-	mov r1, r11
-	bl FX_DivS32
-	mov r0, r0, lsl #0x18
-	mov r6, r0, asr #0x18
-	mul r0, r11, r6
-	mov r1, r11
-	sub r0, r5, r0
-	bl FX_Div
-	mov r1, r0, lsl #0x14
-	mov r1, r1, lsr #0x10
-	add r2, r1, #0xc000
-	and r2, r2, #0xff00
-	strh r2, [r10, #0x32]
-	ldr r2, [r10, #0x28]
-	tst r2, #1
-	ldrneh r2, [r10, #0x32]
-	rsbne r2, r2, #0
-	strneh r2, [r10, #0x32]
-	ldr r2, [r10, #0x28]
-	tst r2, #2
-	bne _0201C67C
-	tst r4, #1
-	ldreqh r2, [r10, #0x32]
-	rsbeq r2, r2, #0
-	streqh r2, [r10, #0x32]
-_0201C67C:
-	mov r1, r1, lsl #0x10
-	mov r2, r1, lsr #0x10
-	mov r2, r2, asr #4
-	mov r2, r2, lsl #1
-	add r4, r2, #1
-	ldr r2, [r10, #0x28]
-	ldrsh r1, [r10, #0xf2]
-	tst r2, #2
-	rsbne r2, r8, #0
-	movne r2, r2, lsl #0x10
-	movne r8, r2, asr #0x10
-	ldr r2, [r10, #0x44]
-	sub r1, r9, r1
-	str r2, [r10, #0x8c]
-	ldr r2, [r10, #0x48]
-	mov r1, r1, lsl #0x10
-	str r2, [r10, #0x90]
-	ldr r2, [r10, #0x28]
-	ldr r3, =FX_SinCosTable_
-	mov r4, r4, lsl #1
-	mov r9, r1, asr #0x10
-	ldrsh r1, [r3, r4]
-	tst r2, #1
-	beq _0201C6F0
-	ldr r2, [r10, #0x6f0]
-	sub r2, r2, r9, lsl #12
-	mla r2, r1, r9, r2
-	str r2, [r10, #0x44]
-	b _0201C704
-_0201C6F0:
-	mul r2, r1, r9
-	ldr r1, [r10, #0x6f0]
-	add r1, r1, r9, lsl #12
-	sub r1, r1, r2
-	str r1, [r10, #0x44]
-_0201C704:
-	mul r1, r6, r8
-	ldr r2, [r10, #0x6f4]
-	add r1, r2, r1, lsl #12
-	mla r0, r8, r0, r1
-	str r0, [r10, #0x48]
-	ldr r1, [r10, #0x44]
-	ldr r0, [r10, #0x8c]
-	sub r0, r1, r0
-	str r0, [r10, #0xbc]
-	ldr r1, [r10, #0x48]
-	ldr r0, [r10, #0x90]
-	sub r0, r1, r0
-	str r0, [r10, #0xc0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-_0201C73C:
-	mov r1, r0
-	mov r0, r2, lsl #8
-	bl FX_DivS32
-	mov r0, r0, lsl #4
-	mov r1, r0, asr #0x1f
-	mov r2, r1, lsl #0xe
-	mov r1, #0x800
-	adds r3, r1, r0, lsl #14
-	orr r2, r2, r0, lsr #18
-	adc r1, r2, #0
-	mov r3, r3, lsr #0xc
-	orr r3, r3, r1, lsl #20
-	ldr r2, [r10, #0x28]
-	mov r1, r3, lsl #0x10
-	tst r2, #2
-	mov r1, r1, lsr #0x10
-	bne _0201C788
-	tst r4, #1
-	beq _0201C794
-_0201C788:
-	rsb r1, r1, #0x10000
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-_0201C794:
-	strh r1, [r10, #0x30]
-	ldr r2, [r10, #0x28]
-	tst r2, #2
-	rsbne r1, r6, #0
-	movne r1, r1, lsl #0x10
-	movne r6, r1, asr #0x10
-	tst r2, #1
-	rsbne r1, r7, #0
-	movne r1, r1, lsl #0x10
-	movne r7, r1, asr #0x10
-	ldr r1, [r10, #0x44]
-	str r1, [r10, #0x8c]
-	ldr r1, [r10, #0x48]
-	str r1, [r10, #0x90]
-	ldr r1, [r10, #0x6f0]
-	mla r1, r7, r0, r1
-	str r1, [r10, #0x44]
-	ldr r1, [r10, #0x6f4]
-	mla r0, r6, r0, r1
-	str r0, [r10, #0x48]
-	ldr r1, [r10, #0x44]
-	ldr r0, [r10, #0x8c]
-	sub r0, r1, r0
-	str r0, [r10, #0xbc]
-	ldr r1, [r10, #0x48]
-	ldr r0, [r10, #0x90]
-	sub r0, r1, r0
-	str r0, [r10, #0xc0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+            s32 lengthBeforeExitLine = halfLoopPathLength * lastSubpathID;
+            // This would be simpler as "distanceRanPastFirstLine - lengthBeforeExitLine", but it would not match
+            s32 distanceRanInStraightLine = distanceRanPastFirstLinePlusQuarter - lengthBeforeExitLine + quarterLoopPathLength;
+            s32 progressInStraightLine    = FX_DivS32(distanceRanInStraightLine << 8, distanceToRunStraight) << 4;
+            s32 res01 = FX_MulInline(progressInStraightLine, FLOAT_TO_FX32(4.0));
+            u16 dirX = res01 + FLOAT_DEG_TO_IDX(270.0);
+            if (((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) == 0) && ((lastSubpathID & 1) == 0))
+                dirX = -dirX;
+            player->objWork.dir.x = dirX;
+            if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) != 0)
+                runningStraightLineHeight = -runningStraightLineHeight;
+            if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_LEFTWARDS) != 0)
+                runningStraightLineWidth = -runningStraightLineWidth;
+            if ((lastSubpathID & 1) == 0)
+                runningStraightLineWidth = -runningStraightLineWidth;
+            player->objWork.prevPosition.x = player->objWork.position.x;
+            player->objWork.prevPosition.y = player->objWork.position.y;
+            player->objWork.position.x = (runningStraightLineWidth * progressInStraightLine) + player->gimmick.corkscrewPath.x;
+            player->objWork.position.y = (runningStraightLineHeight * progressInStraightLine) + player->gimmick.corkscrewPath.y;
+            player->objWork.move.x = player->objWork.position.x - player->objWork.prevPosition.x;
+            player->objWork.move.y = player->objWork.position.y - player->objWork.prevPosition.y;
+            return;
+        }
+        else
+        { // currentHalfLoopSubpathID < lastSubpathID
+            // Phase 2: Actual corkscrew looping pattern around the Y axis.
+            s8 countLoopsRan          = FX_DivS32(distanceRanPastFirstLinePlusQuarter, singleLoopPathLength);
+            s32 distanceRanWithinLoop = distanceRanPastFirstLinePlusQuarter - (singleLoopPathLength * countLoopsRan);
+            fx32 progressWithinLoop   = FX_Div(distanceRanWithinLoop, singleLoopPathLength);
+            u32 res24                 = (u16)(progressWithinLoop << 4);
+            player->objWork.dir.y     = (res24 + FLOAT_DEG_TO_IDX(270.0)) & 0xFF00;
+            if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_LEFTWARDS) != 0)
+                player->objWork.dir.y = -player->objWork.dir.y;
+            if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) == 0 && (lastSubpathID & 1) == 0)
+                player->objWork.dir.y = -player->objWork.dir.y;
+            fx32 cos = CosFX(res24);
+            horizontalHalfSizeLoop -= player->objWork.hitboxRect.bottom;
+            if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) != 0)
+                verticalSizeLoop = -verticalSizeLoop;
 
-// clang-format on
-#endif
+            player->objWork.prevPosition.x = player->objWork.position.x;
+            player->objWork.prevPosition.y = player->objWork.position.y;
+            if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_LEFTWARDS) != 0)
+                player->objWork.position.x = player->gimmick.corkscrewPath.x - FX32_FROM_WHOLE(horizontalHalfSizeLoop) + (cos * horizontalHalfSizeLoop);
+            else
+                player->objWork.position.x = player->gimmick.corkscrewPath.x + FX32_FROM_WHOLE(horizontalHalfSizeLoop) - (cos * horizontalHalfSizeLoop);
+            player->objWork.position.y = player->gimmick.corkscrewPath.y + FX32_FROM_WHOLE(countLoopsRan * verticalSizeLoop) + (verticalSizeLoop * progressWithinLoop);
+            player->objWork.move.x = player->objWork.position.x - player->objWork.prevPosition.x;
+            player->objWork.move.y = player->objWork.position.y - player->objWork.prevPosition.y;
+            return;
+        }
+    }
+    else
+    { // MATH_ABS(totalDistanceRan) < distanceToRunStraight
+        // Phase 1: Before the actual corkscrew part, the player runs in a straight line (subpath ID 0) for a short time, Y rotation stays fixed
+        fx32 progressInStraightLine = FX_DivS32(totalDistanceRan << 8, distanceToRunStraight) << 4;
+        u16 dirX                    = FX_MulInline(progressInStraightLine, FLOAT_TO_FX32(4.0));
+        if (((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) != 0) || ((lastSubpathID & 1) != 0))
+            dirX = FLOAT_DEG_TO_IDX(360.0) - dirX;
+        player->objWork.dir.x = dirX;
+        if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) != 0)
+            runningStraightLineHeight = -runningStraightLineHeight;
+        if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_LEFTWARDS) != 0)
+            runningStraightLineWidth = -runningStraightLineWidth;
+        player->objWork.prevPosition.x = player->objWork.position.x;
+        player->objWork.prevPosition.y = player->objWork.position.y;
+        player->objWork.position.x = player->gimmick.corkscrewPath.x + (runningStraightLineWidth * progressInStraightLine);
+        player->objWork.position.y = player->gimmick.corkscrewPath.y + (runningStraightLineHeight * progressInStraightLine);
+        player->objWork.move.x = player->objWork.position.x - player->objWork.prevPosition.x;
+        player->objWork.move.y = player->objWork.position.y - player->objWork.prevPosition.y;
+    }
 }
 
 void Player__Action_PipeEnter(Player *player, GameObjectTask *other, u16 angle, s32 timer)
