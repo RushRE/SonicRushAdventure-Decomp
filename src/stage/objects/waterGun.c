@@ -98,13 +98,13 @@ void WaterGrindRailManager_Draw(void);
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC WaterGun *CreateWaterGun(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+WaterGun *CreateWaterGun(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    // https://decomp.me/scratch/8o3mf -> 94%
-#ifdef NON_MATCHING
     Task *task = CreateStageTask(WaterGun_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), WaterGun);
     if (task == HeapNull)
         return NULL;
+
+    void *collisionData;
 
     WaterGun *work = TaskGetWork(task, WaterGun);
     TaskInitWork8(work);
@@ -132,11 +132,12 @@ NONMATCH_FUNC WaterGun *CreateWaterGun(MapObject *mapObject, fx32 x, fx32 y, fx3
     ObjRect__SetDefenceStat(&work->gameWork.colliders[1], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_VULNERABLE);
     work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
 
-    ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_water_graind_gun00.df", GetObjectFileWork(OBJDATAWORK_193), gameArchiveStage);
+    collisionData = (void *)GetObjectFileWork(OBJDATAWORK_193);
+    ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_water_graind_gun00.df", collisionData, gameArchiveStage);
     work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.width  = 112;
     work->gameWork.collisionObject.work.height = 64;
-    work->gameWork.collisionObject.work.ofst_x = -32;
+    work->gameWork.collisionObject.work.ofst_x = work->gameWork.collisionObject.work.height - 96;
     work->gameWork.collisionObject.work.ofst_y = -64;
 
     CreateWaterGrindRailManager(mapObjectParam_id);
@@ -144,137 +145,6 @@ NONMATCH_FUNC WaterGun *CreateWaterGun(MapObject *mapObject, fx32 x, fx32 y, fx3
     work->gameWork.objWork.sequencePlayerPtr = AllocSndHandle();
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	ldr r3, =0x000010F6
-	mov r7, r0
-	mov r6, r1
-	mov r5, r2
-	mov r2, #0
-	str r3, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x364
-	ldr r0, =StageTask_Main
-	ldr r1, =WaterGun_Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x364
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldr r1, [r4, #0x1c]
-	mov r0, #0xac
-	orr r1, r1, #0x2100
-	str r1, [r4, #0x1c]
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	mov r1, #0x31
-	ldr r2, [r0, #0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	ldr r2, =aActAcGmkWaterG
-	add r1, r4, #0x168
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0
-	mov r2, #0x5f
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0x16
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimation
-	ldrh r0, [r7, #2]
-	cmp r0, #0xeb
-	ldreq r0, [r4, #0x20]
-	orreq r0, r0, #1
-	streq r0, [r4, #0x20]
-	mov r1, #0
-	mov r2, r1
-	add r0, r4, #0x218
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r4, #0x218
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r0, =WaterGun_OnDefend
-	mov r3, #8
-	str r0, [r4, #0x23c]
-	ldr r0, [r4, #0x230]
-	ldr r2, =0x00000201
-	orr r0, r0, #0x400
-	str r0, [r4, #0x230]
-	add r0, r4, #0x200
-	strh r2, [r0, #0x8c]
-	sub r1, r3, #0x10
-	mov r2, r1
-	add r0, r4, #0x258
-	str r3, [sp]
-	bl ObjRect__SetBox2D
-	add r0, r4, #0x258
-	mov r1, #2
-	mov r2, #0x40
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFF
-	add r0, r4, #0x258
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, [r4, #0x270]
-	mov r0, #0xc1
-	orr r1, r1, #0x20
-	str r1, [r4, #0x270]
-	bl GetObjectFileWork
-	ldr r3, =gameArchiveStage
-	mov r2, r0
-	ldr r1, =aDfGmkWaterGrai
-	ldr r3, [r3, #0]
-	mov r0, r4
-	bl ObjObjectCollisionDifSet
-	str r4, [r4, #0x2d8]
-	mov r1, #0x70
-	add r0, r4, #0x300
-	strh r1, [r0, #8]
-	mov r1, #0x40
-	strh r1, [r0, #0xa]
-	sub r2, r1, #0x60
-	add r0, r4, #0x200
-	sub r1, r1, #0x80
-	strh r2, [r0, #0xf0]
-	strh r1, [r0, #0xf2]
-	ldrsb r0, [r7, #6]
-	bl CreateWaterGrindRailManager
-	bl AllocSndHandle
-	str r0, [r4, #0x138]
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 WaterGrindRailSegment *CreateWaterGrindRailSegment(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
@@ -417,10 +287,8 @@ void WaterGun_State_PlayerAiming(WaterGun *work)
     }
 }
 
-NONMATCH_FUNC void WaterGun_State_CreateWaterTrail(WaterGun *work)
+void WaterGun_State_CreateWaterTrail(WaterGun *work)
 {
-    // will match when 'aDfGmkWaterGrai' & 'aDfGmkWaterGrai_0' are decompiled
-#ifdef NON_MATCHING
     work->gameWork.objWork.userTimer += FLOAT_TO_FX32(16.0);
 
     if (work->gameWork.objWork.userTimer >= FLOAT_TO_FX32(192.0))
@@ -465,111 +333,6 @@ NONMATCH_FUNC void WaterGun_State_CreateWaterTrail(WaterGun *work)
     }
 
     ProcessWaterGunSfx(work);
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r0, [r4, #0x2c]
-	add r0, r0, #0x10000
-	str r0, [r4, #0x2c]
-	cmp r0, #0xc0000
-	blt _02184228
-	ldr r1, [r4, #0x340]
-	ldr r0, =isGrindRailVisible
-	ldrsb r1, [r1, #6]
-	ldr r2, [r0, #8]
-	mov r3, #1
-	orr r1, r2, r3, lsl r1
-	str r1, [r0, #8]
-	ldr r1, [r4, #0x340]
-	ldr r2, [r0, #4]
-	ldrsb r1, [r1, #6]
-	mvn r1, r3, lsl r1
-	and r2, r2, r1
-	str r2, [r0, #4]
-	ldr r1, [r4, #0x128]
-	ldrh r1, [r1, #0xc]
-	cmp r1, #1
-	bne _02184124
-	ldr r1, [r4, #0x340]
-	ldrsb r1, [r1, #6]
-	orr r1, r2, r3, lsl r1
-	str r1, [r0, #4]
-_02184124:
-	ldr r1, [r4, #0x340]
-	ldr r0, =isGrindRailVisible
-	ldrsb r1, [r1, #6]
-	ldr r3, [r0, #0]
-	mov r2, #1
-	orr r1, r3, r2, lsl r1
-	str r1, [r0]
-	ldr r0, [r4, #0x340]
-	ldrb r1, [r0, #9]
-	ldrb r0, [r0, #8]
-	add r0, r1, r0
-	movs r0, r0, lsl #1
-	str r0, [r4, #0x2c]
-	moveq r0, #0x384
-	streq r0, [r4, #0x2c]
-	ldr r0, [r4, #0x128]
-	ldr r1, [r4, #0x13c]
-	ldrh r0, [r0, #0xc]
-	cmp r0, #0
-	bne _021841B4
-	ldr r5, [r1, #0x58]
-	mov r0, #0xc1
-	bl GetObjectFileWork
-	cmp r5, r0
-	beq _021841F0
-	mov r0, r5
-	bl ObjDataRelease
-	mov r0, #0xc1
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r2, r0
-	ldr r3, [r1, #0]
-	ldr r1, =aDfGmkWaterGrai
-	mov r0, r4
-	bl ObjObjectCollisionDifSet
-	b _021841F0
-_021841B4:
-	ldr r5, [r1, #0x58]
-	mov r0, #0xc2
-	bl GetObjectFileWork
-	cmp r5, r0
-	beq _021841F0
-	mov r0, r5
-	bl ObjDataRelease
-	mov r0, #0xc2
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r2, r0
-	ldr r3, [r1, #0]
-	ldr r1, =aDfGmkWaterGrai_0
-	mov r0, r4
-	bl ObjObjectCollisionDifSet
-_021841F0:
-	mov r2, #0
-	str r2, [r4, #0x274]
-	ldr r1, [r4, #0x270]
-	ldr r0, =WaterGun_State_TrailActive
-	orr r1, r1, #0x800
-	str r1, [r4, #0x270]
-	str r0, [r4, #0xf4]
-	str r2, [r4, #0xfc]
-	ldr r0, [r4, #0x20]
-	bic r0, r0, #0x40
-	str r0, [r4, #0x20]
-	ldr r0, [r4, #0x24]
-	orr r0, r0, #1
-	str r0, [r4, #0x24]
-_02184228:
-	mov r0, r4
-	bl ProcessWaterGunSfx
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
 }
 
 void WaterGun_State_TrailActive(WaterGun *work)
@@ -588,10 +351,8 @@ void WaterGun_State_TrailActive(WaterGun *work)
     }
 }
 
-NONMATCH_FUNC void WaterGun_Action_ResetGun(WaterGun *work)
+void WaterGun_Action_ResetGun(WaterGun *work)
 {
-    // will match when 'aDfGmkWaterGrai' is decompiled
-#ifdef NON_MATCHING
     GetWaterGrindRailManagerAnimators(work->gameWork.mapObjectParam_id);
 
     activeGrindRails &= ~(1 << work->gameWork.mapObjectParam_id);
@@ -621,85 +382,6 @@ NONMATCH_FUNC void WaterGun_Action_ResetGun(WaterGun *work)
         SetTaskState(&work->gameWork.objWork, NULL);
         work->gameWork.parent = NULL;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r0, [r4, #0x340]
-	ldrsb r0, [r0, #6]
-	bl GetWaterGrindRailManagerAnimators
-	ldr r1, [r4, #0x340]
-	ldr r0, =isGrindRailVisible
-	ldrsb r1, [r1, #6]
-	mov r3, #1
-	ldr r2, [r0, #8]
-	mvn r1, r3, lsl r1
-	and r1, r2, r1
-	str r1, [r0, #8]
-	ldr r1, [r4, #0x340]
-	ldr r2, [r0, #4]
-	ldrsb r1, [r1, #6]
-	mvn r1, r3, lsl r1
-	and r1, r2, r1
-	str r1, [r0, #4]
-	ldr r1, [r4, #0x340]
-	ldr r2, [r0, #0]
-	ldrsb r1, [r1, #6]
-	mvn r1, r3, lsl r1
-	and r1, r2, r1
-	str r1, [r0]
-	ldr r0, [r4, #0x128]
-	ldrh r0, [r0, #0xc]
-	cmp r0, #0
-	beq _0218439C
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimation
-	ldr r0, [r4, #0x13c]
-	ldr r0, [r0, #0x58]
-	bl ObjDataRelease
-	mov r0, #0xc1
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r2, r0
-	ldr r3, [r1, #0]
-	ldr r1, =aDfGmkWaterGrai
-	mov r0, r4
-	bl ObjObjectCollisionDifSet
-	mov r0, #0
-	ldr r1, =0x0000011B
-	str r0, [sp]
-	str r1, [sp, #4]
-	sub r1, r1, #0x11c
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	ldr r0, =defaultSfxPlayer
-	add r1, r4, #0x44
-	bl ProcessSpatialSfx
-	ldr r1, =WaterGun_State_ResetGun
-	mov r0, #4
-	str r1, [r4, #0xf4]
-	add sp, sp, #8
-	str r0, [r4, #0x28]
-	ldmia sp!, {r4, pc}
-_0218439C:
-	ldr r1, [r4, #0x18]
-	mov r0, #0
-	bic r1, r1, #0x10
-	str r1, [r4, #0x18]
-	str r4, [r4, #0x234]
-	ldr r1, [r4, #0x230]
-	bic r1, r1, #0x800
-	str r1, [r4, #0x230]
-	str r0, [r4, #0xf4]
-	str r0, [r4, #0x35c]
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void WaterGun_State_ResetGun(WaterGun *work)
@@ -958,7 +640,7 @@ void WaterGrindRailSegment_Draw(void)
 void WaterGrindRailSegment_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     WaterGrindRailSegment *trigger = (WaterGrindRailSegment *)rect2->parent;
-    Player *player             = (Player *)rect1->parent;
+    Player *player                 = (Player *)rect1->parent;
 
     if (trigger == NULL || player == NULL)
         return;
@@ -1023,188 +705,66 @@ void WaterGrindRailSegment_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     }
 }
 
-NONMATCH_FUNC AnimatorSpriteDS *CreateWaterGrindRailManager(s32 id)
+AnimatorSpriteDS *CreateWaterGrindRailManager(s32 id)
 {
-    // https://decomp.me/scratch/nZstC -> 80.62%
-#ifdef NON_MATCHING
+    s32 fileWorkID;
+    s32 fileWorkID2;
+    s32 i;
+    AnimatorSpriteDS *animator;
+    WaterGrindRailManager *work;
+    Task *task;
+
     if (grindRailTaskSingleton[id] != NULL)
     {
-        WaterGrindRailManager *work = TaskGetWork(grindRailTaskSingleton[id], WaterGrindRailManager);
+        work = TaskGetWork(grindRailTaskSingleton[id], WaterGrindRailManager);
         work->instanceCount++;
         return work->animators;
     }
 
-    Task *task = CreateStageTask(WaterGrindRailManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), WaterGrindRailManager);
+    task = CreateStageTask(WaterGrindRailManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), WaterGrindRailManager);
+
     if (task == HeapNull)
         return NULL;
 
     grindRailTaskSingleton[id] = task;
 
-    WaterGrindRailManager *work = TaskGetWork(grindRailTaskSingleton[id], WaterGrindRailManager);
+    work = TaskGetWork(grindRailTaskSingleton[id], WaterGrindRailManager);
     TaskInitWork8(work);
-
-    s32 i;
-    s32 fileWorkID = 10 * work->instanceID;
+    fileWorkID  = OBJDATAWORK_173 + id * 5 * 2;
+    fileWorkID2 = fileWorkID + 1;
 
     work->objWork.objType = STAGE_OBJ_TYPE_DECORATION;
     work->instanceID      = id;
-    work->instanceCount++;
-
-    AnimatorSpriteDS *animator = &work->animators[0];
-
-    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
-    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    work->instanceCount += 1;
+    work->objWork.moveFlag |= (STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT);
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
-    for (i = 0; i < (s32)ARRAY_COUNT(work->animators); i++, animator++)
+    animator = &work->animators[0];
+    i        = 0;
+    do
     {
         ObjAction2dBACLoad(animator, "/act/ac_gmk_water_graind.bac", OBJ_DATA_GFX_NONE, GetObjectFileWork(OBJDATAWORK_172), gameArchiveStage);
 
-        animator->vramPixels[GRAPHICS_ENGINE_A] = ObjActionAllocSprite(GetObjectFileWork(OBJDATAWORK_173 + (i * 2) + fileWorkID), GRAPHICS_ENGINE_A, grindRailSpriteSize[i]);
-        animator->vramPixels[GRAPHICS_ENGINE_B] = ObjActionAllocSprite(GetObjectFileWork(OBJDATAWORK_174 + (i * 2) + fileWorkID), GRAPHICS_ENGINE_B, grindRailSpriteSize[i]);
+        animator->vramPixels[GRAPHICS_ENGINE_A] = ObjActionAllocSprite(GetObjectFileWork(fileWorkID + i * 2), GRAPHICS_ENGINE_A, grindRailSpriteSize[i]);
+        animator->vramPixels[GRAPHICS_ENGINE_B] = ObjActionAllocSprite(GetObjectFileWork(fileWorkID2 + i * 2), GRAPHICS_ENGINE_B, grindRailSpriteSize[i]);
 
-        animator->work.cParam.palette               = ObjDrawAllocSpritePalette(animator->work.fileData, i + WATERGUN_ANI_GUN_WATER_TRAIL_STRAIGHT, 93);
+        animator->work.cParam.palette = ObjDrawAllocSpritePalette(animator->work.fileData, WATERGUN_ANI_GUN_WATER_TRAIL_STRAIGHT + i, 93);
         animator->cParam[GRAPHICS_ENGINE_A].palette = animator->cParam[GRAPHICS_ENGINE_B].palette = animator->work.cParam.palette;
 
-        animator->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING;
-        AnimatorSpriteDS__SetAnimation(animator, i + WATERGUN_ANI_GUN_WATER_TRAIL_STRAIGHT);
+        animator->work.flags |= (ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_PALETTES);
+        AnimatorSpriteDS__SetAnimation(animator, WATERGUN_ANI_GUN_WATER_TRAIL_STRAIGHT + i);
         StageTask__SetOAMOrder(&animator->work, SPRITE_ORDER_23);
         StageTask__SetOAMPriority(&animator->work, SPRITE_PRIORITY_2);
-    }
-    StageTask__SetOAMOrder(&work->animators[GET_ANIMATOR_FOR_ANIMATION(WATERGUN_ANI_GUN_WATER_SPLASH)].work, SPRITE_ORDER_22);
+
+        ++i;
+        ++animator;
+    } while (i < (s32)ARRAY_COUNT(work->animators));
+
+    StageTask__SetOAMOrder(&work->animators[2].work, SPRITE_ORDER_22);
 
     SetTaskOutFunc(&work->objWork, WaterGrindRailManager_Draw);
 
     return work->animators;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0xc
-	ldr r1, =grindRailTaskSingleton
-	mov r4, r0
-	ldr r0, [r1, r4, lsl #2]
-	cmp r0, #0
-	beq _02184B68
-	bl GetTaskWork_
-	add r1, r0, #0x400
-	ldrh r2, [r1, #0x9e]
-	add sp, sp, #0xc
-	add r0, r0, #0x168
-	add r2, r2, #1
-	strh r2, [r1, #0x9e]
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-_02184B68:
-	ldr r0, =0x000010F6
-	mov r2, #0
-	str r0, [sp]
-	mov r5, #2
-	str r5, [sp, #4]
-	mov r5, #0x4a0
-	ldr r0, =StageTask_Main
-	ldr r1, =WaterGrindRailManager_Destructor
-	mov r3, r2
-	str r5, [sp, #8]
-	bl TaskCreate_
-	mov r5, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r5, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r1, =grindRailTaskSingleton
-	mov r0, r5
-	str r5, [r1, r4, lsl #2]
-	bl GetTaskWork_
-	mov r1, #0
-	mov r2, #0x4a0
-	mov r10, r0
-	bl MI_CpuFill8
-	mov r0, #0xa
-	mul r0, r4, r0
-	add r8, r0, #0xad
-	mov r1, #4
-	strh r1, [r10]
-	add r0, r10, #0x400
-	strh r4, [r0, #0x9c]
-	ldrh r1, [r0, #0x9e]
-	ldr r7, =grindRailSpriteSize
-	ldr r4, =gameArchiveStage
-	add r1, r1, #1
-	strh r1, [r0, #0x9e]
-	ldr r0, [r10, #0x1c]
-	add r6, r10, #0x168
-	orr r0, r0, #0x2100
-	str r0, [r10, #0x1c]
-	ldr r0, [r10, #0x20]
-	add r9, r8, #1
-	orr r0, r0, #0x20
-	mov r5, #0
-	str r0, [r10, #0x20]
-	mov r11, #0xac
-_02184C28:
-	mov r0, r11
-	bl GetObjectFileWork
-	ldr r1, [r4, #0]
-	mov r3, r0
-	str r1, [sp]
-	ldr r1, =aActAcGmkWaterG
-	mov r0, r6
-	mov r2, #0
-	bl ObjAction2dBACLoad
-	mov r0, r8
-	bl GetObjectFileWork
-	ldrb r2, [r7, #0]
-	mov r1, #0
-	bl ObjActionAllocSprite
-	str r0, [r6, #0x78]
-	mov r0, r9
-	bl GetObjectFileWork
-	ldrb r2, [r7], #1
-	mov r1, #1
-	bl ObjActionAllocSprite
-	add r1, r5, #2
-	str r0, [r6, #0x7c]
-	mov r1, r1, lsl #0x10
-	ldr r0, [r6, #0x14]
-	mov r1, r1, lsr #0x10
-	mov r2, #0x5d
-	bl ObjDrawAllocSpritePalette
-	strh r0, [r6, #0x50]
-	ldrh r2, [r6, #0x50]
-	add r1, r5, #2
-	mov r1, r1, lsl #0x10
-	strh r2, [r6, #0x92]
-	strh r2, [r6, #0x90]
-	ldr r2, [r6, #0x3c]
-	mov r0, r6
-	orr r2, r2, #0x14
-	mov r1, r1, lsr #0x10
-	str r2, [r6, #0x3c]
-	bl AnimatorSpriteDS__SetAnimation
-	mov r0, r6
-	mov r1, #0x17
-	bl StageTask__SetOAMOrder
-	mov r0, r6
-	mov r1, #2
-	bl StageTask__SetOAMPriority
-	add r5, r5, #1
-	add r8, r8, #2
-	add r9, r9, #2
-	cmp r5, #5
-	add r6, r6, #0xa4
-	blt _02184C28
-	add r0, r10, #0x2b0
-	mov r1, #0x16
-	bl StageTask__SetOAMOrder
-	ldr r1, =WaterGrindRailManager_Draw
-	add r0, r10, #0x168
-	str r1, [r10, #0xfc]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
 }
 
 void DestroyWaterGrindRailManager(s32 id)
@@ -1262,7 +822,7 @@ AnimatorSpriteDS *GetWaterGrindRailManagerAnimators(u16 id)
     if (task != NULL)
     {
         WaterGrindRailManager *work = TaskGetWork(task, WaterGrindRailManager);
-        animators            = work->animators;
+        animators                   = work->animators;
     }
 
     return animators;
