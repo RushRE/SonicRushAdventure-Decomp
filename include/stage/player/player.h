@@ -764,10 +764,11 @@ void Player__Action_DashRing(Player *player, fx32 x, fx32 y, fx32 velX, fx32 vel
 void Player__Action_JumpDashLaunch(Player *player, fx32 velX, fx32 velY);
 void Player__Action_SpringboardLaunch(Player *player, fx32 velX, fx32 velY);
 u16 Player__CheckOnCorkscrewPath(Player *player);
-void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 a4, u16 a5);
+void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 flags, u16 verticalPathType);
 void Player__State_CorkscrewPath(Player *work);
-void Player__HandleCorkscrewPathH(Player *player, s32 a2, s32 a3, s16 a4);
-void Player__HandleCorkscrewPathV(Player *player, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
+void Player__HandleCorkscrewPathH(Player *player, fx32 singleLoopLogicalPathLength, s32 horizontalSizePixelsOneLoop, s16 verticalHalfSizePixelsLoop);
+void Player__HandleCorkscrewPathV(Player *player, s32 singleLoopPathLength, s16 horizontalHalfSizeLoop, s16 verticalSizeLoop, fx32 distanceToRunStraight,
+                                  s16 entryOrEndLineWidth, s16 entryOrEndLineHeight);
 void Player__Action_PipeEnter(Player *player, GameObjectTask *other, u16 angle, s32 timer);
 void Player__State_PipeTravel(Player *work);
 void Player__Action_PipeExit(Player *player, fx32 velocity, BOOL allowTricks, u32 type);
