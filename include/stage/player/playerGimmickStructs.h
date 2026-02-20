@@ -116,6 +116,13 @@ struct
 
 struct
 {
+    fx32 hangRadius;
+    fx32 speed;
+    s32 angle;
+} rotatingHanger;
+
+struct
+{
     s32 unused;
     s32 angle;
 } springRope;

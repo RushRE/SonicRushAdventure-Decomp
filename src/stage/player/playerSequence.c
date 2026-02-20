@@ -665,18 +665,18 @@ void Player__State_CorkscrewPath(Player *work)
     {
         case CORKSCREWPATH_TYPE_HORIZONTAL:
         default:
-            Player__HandleCorkscrewPathH(work, 0x1759D0, 288, 38);
+            Player__HandleCorkscrewPathH(work, FLOAT_TO_FX32(373.61328125), 288, 38);
             break;
 
         case CORKSCREWPATH_TYPE_VERTICAL:
             if (work->gimmick.corkscrewPath.type == CORKSCREWVERTICALPATH_TYPE_RUSH_LEAF_STORM_2)
-                Player__HandleCorkscrewPathV(work, 0x21E520, 84, 128, 0x83F00, 128, 32);
+                Player__HandleCorkscrewPathV(work, FLOAT_TO_FX32(542.3203125), 84, 128, FLOAT_TO_FX32(131.9375), 128, 32);
             else
-                Player__HandleCorkscrewPathV(work, 0x13C030, 40, 192, 327680, 64, 50);
+                Player__HandleCorkscrewPathV(work, FLOAT_TO_FX32(316.01171875), 40, 192, FLOAT_TO_FX32(80.0), 64, 50);
             break;
 
         case CORKSCREWPATH_TYPE_HORIZONTAL_RAIL:
-            Player__HandleCorkscrewPathH(work, 0x13D9D0, 256, 30);
+            Player__HandleCorkscrewPathH(work, FLOAT_TO_FX32(317.61328125), 256, 30);
             break;
     }
 }
@@ -735,7 +735,7 @@ void Player__HandleCorkscrewPathH(Player *player, fx32 singleLoopLogicalPathLeng
     player->objWork.move.y = player->objWork.position.y - player->objWork.prevPosition.y;
 }
 
-void Player__HandleCorkscrewPathV(Player *player, s32 singleLoopPathLength, s16 horizontalHalfSizeLoop, s16 verticalSizeLoop, fx32 distanceToRunStraight,
+void Player__HandleCorkscrewPathV(Player *player, fx32 singleLoopPathLength, s16 horizontalHalfSizeLoop, s16 verticalSizeLoop, fx32 distanceToRunStraight,
                                   s16 runningStraightLineWidth, s16 runningStraightLineHeight)
 {
     // In this function, a "subpath" is either a straight line at either end of the corkscrew subpath, or a single half-loop.
@@ -743,8 +743,8 @@ void Player__HandleCorkscrewPathV(Player *player, s32 singleLoopPathLength, s16 
     // the player will rotate 180° around Y (or one plus the count of half-loops)
     // It is also the count of alternating directions the player will take when fully traversing the path,
     // from the camera's POV (e.g.: down-right, then down-left, then down-right again, then down-left again, etc.)
-    s8 lastSubpathID = player->objWork.userWork >> 2;
-    s32 totalDistanceRan = player->objWork.userTimer + MATH_ABS(player->objWork.groundVel);
+    s8 lastSubpathID          = player->objWork.userWork >> 2;
+    s32 totalDistanceRan      = player->objWork.userTimer + MATH_ABS(player->objWork.groundVel);
     player->objWork.userTimer = totalDistanceRan;
     if (MATH_ABS(totalDistanceRan) >= distanceToRunStraight)
     {
@@ -769,8 +769,8 @@ void Player__HandleCorkscrewPathV(Player *player, s32 singleLoopPathLength, s16 
         s32 distanceRanPastFirstLine               = player->objWork.userTimer - distanceToRunStraight;
         s32 distanceRanPastFirstLinePlusQuarter    = distanceRanPastFirstLine + quarterLoopPathLength;
         s32 absDistanceRanPastFirstLinePlusQuarter = MATH_ABS(distanceRanPastFirstLinePlusQuarter);
-        s32 halfLoopPathLength = singleLoopPathLength >> 1;
-        s8 currentHalfLoopSubpathID = FX_DivS32(absDistanceRanPastFirstLinePlusQuarter + quarterLoopPathLength, halfLoopPathLength);
+        s32 halfLoopPathLength                     = singleLoopPathLength >> 1;
+        s8 currentHalfLoopSubpathID                = FX_DivS32(absDistanceRanPastFirstLinePlusQuarter + quarterLoopPathLength, halfLoopPathLength);
         if (currentHalfLoopSubpathID >= lastSubpathID)
         {
             // Phase 3: Straight line again after the loops, an exit to progressively adjust the X rotation back to normal, Y rotation stays fixed.
@@ -791,8 +791,8 @@ void Player__HandleCorkscrewPathV(Player *player, s32 singleLoopPathLength, s16 
             // This would be simpler as "distanceRanPastFirstLine - lengthBeforeExitLine", but it would not match
             s32 distanceRanInStraightLine = distanceRanPastFirstLinePlusQuarter - lengthBeforeExitLine + quarterLoopPathLength;
             s32 progressInStraightLine    = FX_DivS32(distanceRanInStraightLine << 8, distanceToRunStraight) << 4;
-            s32 res01 = FX_MulInline(progressInStraightLine, FLOAT_TO_FX32(4.0));
-            u16 dirX = res01 + FLOAT_DEG_TO_IDX(270.0);
+            s32 res01                     = FX_MulInline(progressInStraightLine, FLOAT_TO_FX32(4.0));
+            u16 dirX                      = res01 + FLOAT_DEG_TO_IDX(270.0);
             if (((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_UPWARDS) == 0) && ((lastSubpathID & 1) == 0))
                 dirX = -dirX;
             player->objWork.dir.x = dirX;
@@ -804,10 +804,10 @@ void Player__HandleCorkscrewPathV(Player *player, s32 singleLoopPathLength, s16 
                 runningStraightLineWidth = -runningStraightLineWidth;
             player->objWork.prevPosition.x = player->objWork.position.x;
             player->objWork.prevPosition.y = player->objWork.position.y;
-            player->objWork.position.x = (runningStraightLineWidth * progressInStraightLine) + player->gimmick.corkscrewPath.x;
-            player->objWork.position.y = (runningStraightLineHeight * progressInStraightLine) + player->gimmick.corkscrewPath.y;
-            player->objWork.move.x = player->objWork.position.x - player->objWork.prevPosition.x;
-            player->objWork.move.y = player->objWork.position.y - player->objWork.prevPosition.y;
+            player->objWork.position.x     = (runningStraightLineWidth * progressInStraightLine) + player->gimmick.corkscrewPath.x;
+            player->objWork.position.y     = (runningStraightLineHeight * progressInStraightLine) + player->gimmick.corkscrewPath.y;
+            player->objWork.move.x         = player->objWork.position.x - player->objWork.prevPosition.x;
+            player->objWork.move.y         = player->objWork.position.y - player->objWork.prevPosition.y;
             return;
         }
         else
@@ -834,8 +834,8 @@ void Player__HandleCorkscrewPathV(Player *player, s32 singleLoopPathLength, s16 
             else
                 player->objWork.position.x = player->gimmick.corkscrewPath.x + FX32_FROM_WHOLE(horizontalHalfSizeLoop) - (cos * horizontalHalfSizeLoop);
             player->objWork.position.y = player->gimmick.corkscrewPath.y + FX32_FROM_WHOLE(countLoopsRan * verticalSizeLoop) + (verticalSizeLoop * progressWithinLoop);
-            player->objWork.move.x = player->objWork.position.x - player->objWork.prevPosition.x;
-            player->objWork.move.y = player->objWork.position.y - player->objWork.prevPosition.y;
+            player->objWork.move.x     = player->objWork.position.x - player->objWork.prevPosition.x;
+            player->objWork.move.y     = player->objWork.position.y - player->objWork.prevPosition.y;
             return;
         }
     }
@@ -853,10 +853,10 @@ void Player__HandleCorkscrewPathV(Player *player, s32 singleLoopPathLength, s16 
             runningStraightLineWidth = -runningStraightLineWidth;
         player->objWork.prevPosition.x = player->objWork.position.x;
         player->objWork.prevPosition.y = player->objWork.position.y;
-        player->objWork.position.x = player->gimmick.corkscrewPath.x + (runningStraightLineWidth * progressInStraightLine);
-        player->objWork.position.y = player->gimmick.corkscrewPath.y + (runningStraightLineHeight * progressInStraightLine);
-        player->objWork.move.x = player->objWork.position.x - player->objWork.prevPosition.x;
-        player->objWork.move.y = player->objWork.position.y - player->objWork.prevPosition.y;
+        player->objWork.position.x     = player->gimmick.corkscrewPath.x + (runningStraightLineWidth * progressInStraightLine);
+        player->objWork.position.y     = player->gimmick.corkscrewPath.y + (runningStraightLineHeight * progressInStraightLine);
+        player->objWork.move.x         = player->objWork.position.x - player->objWork.prevPosition.x;
+        player->objWork.move.y         = player->objWork.position.y - player->objWork.prevPosition.y;
     }
 }
 
@@ -877,8 +877,8 @@ void Player__Action_PipeEnter(Player *player, GameObjectTask *other, u16 angle, 
         SetTaskState(&player->objWork, Player__State_PipeTravel);
 
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
-        player->objWork.moveFlag |=
-            STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT
+                                    | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_ACCELERATION | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_IDLE_ACCELERATION);
         player->playerFlag &= ~PLAYER_FLAG_USER_FLAG;
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
@@ -1064,7 +1064,7 @@ void Player__Action_PipeExit(Player *player, fx32 velocity, BOOL allowTricks, u3
     }
 }
 
-void Player__Action_RotatingHanger(Player *player, GameObjectTask *hanger, fx32 launchForce, BOOL launchUpwards)
+void Player__Action_RotatingHanger(Player *player, GameObjectTask *hanger, fx32 hangRadius, BOOL launchUpwards)
 {
     if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES) != 0)
     {
@@ -1075,6 +1075,7 @@ void Player__Action_RotatingHanger(Player *player, GameObjectTask *hanger, fx32 
         player->objWork.groundVel = MATH_ABS(player->objWork.groundVel) + MATH_ABS(player->objWork.velocity.x) + MATH_ABS(player->objWork.velocity.y);
     }
 
+    // player->objWork.groundVel = MTM_MATH_CLIP(player->objWork.groundVel, FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(7.5));
     if (player->objWork.groundVel < FLOAT_TO_FX32(6.0))
     {
         player->objWork.groundVel = FLOAT_TO_FX32(6.0);
@@ -1084,15 +1085,14 @@ void Player__Action_RotatingHanger(Player *player, GameObjectTask *hanger, fx32 
         player->objWork.groundVel = FLOAT_TO_FX32(7.5);
     }
 
-    // player->objWork.groundVel = MTM_MATH_CLIP(player->objWork.groundVel, FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(7.5));
     player->objWork.groundVel >>= 4;
 
     player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
     player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
     Player__InitPhysics(player);
     Player__InitGimmick(player, FALSE);
-    player->gimmickObj     = hanger;
-    player->gimmick.value2 = player->objWork.groundVel;
+    player->gimmickObj                   = hanger;
+    player->gimmick.rotatingHanger.speed = player->objWork.groundVel;
     Player__ChangeAction(player, PLAYER_ACTION_HANG_ROT);
     player->objWork.obj_3d->ani.speedMultiplier = FLOAT_TO_FX32(0.0);
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -1111,12 +1111,12 @@ void Player__Action_RotatingHanger(Player *player, GameObjectTask *hanger, fx32 
 
     u16 angle = FX_Atan2Idx(hanger->objWork.position.y - player->objWork.position.y, hanger->objWork.position.x - player->objWork.position.x);
 
-    player->objWork.dir.z     = FLOAT_DEG_TO_IDX(0.0);
-    player->gimmick.value3    = angle;
-    player->objWork.userWork  = 0;
-    player->objWork.userTimer = 0;
-    player->gimmickCamOffsetY = 0;
-    player->gimmick.value1    = launchForce;
+    player->objWork.dir.z                     = FLOAT_DEG_TO_IDX(0.0);
+    player->gimmick.rotatingHanger.angle      = angle;
+    player->objWork.userWork                  = 0;
+    player->objWork.userTimer                 = 0;
+    player->gimmickCamOffsetY                 = 0;
+    player->gimmick.rotatingHanger.hangRadius = hangRadius;
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GIMMICK);
 
     SetTaskState(&player->objWork, Player__State_RotatingHanger);
@@ -1130,7 +1130,7 @@ void Player__State_RotatingHanger(Player *work)
         BOOL flag;
         if (work->objWork.dir.y != FLOAT_DEG_TO_IDX(0.0))
         {
-            u16 angle = work->gimmick.value3;
+            u16 angle = work->gimmick.rotatingHanger.angle;
 
             flag = FALSE;
             if (angle > FLOAT_DEG_TO_IDX(90.0) && angle <= FLOAT_DEG_TO_IDX(270.0))
@@ -1140,7 +1140,7 @@ void Player__State_RotatingHanger(Player *work)
         }
         else
         {
-            u16 angle = work->gimmick.value3;
+            u16 angle = work->gimmick.rotatingHanger.angle;
 
             flag = TRUE;
             if (angle > FLOAT_DEG_TO_IDX(90.0) && angle <= FLOAT_DEG_TO_IDX(270.0))
@@ -1151,20 +1151,20 @@ void Player__State_RotatingHanger(Player *work)
 
         if (flag)
         {
-            work->objWork.groundVel = ObjSpdUpSet(work->objWork.groundVel, work->gimmick.value2 >> 5, work->gimmick.value2);
+            work->objWork.groundVel = ObjSpdUpSet(work->objWork.groundVel, work->gimmick.rotatingHanger.speed >> 5, work->gimmick.rotatingHanger.speed);
         }
         else
         {
-            work->objWork.groundVel = ObjSpdDownSet(work->objWork.groundVel, work->gimmick.value2 >> 5);
+            work->objWork.groundVel = ObjSpdDownSet(work->objWork.groundVel, work->gimmick.rotatingHanger.speed >> 5);
 
-            if (work->objWork.groundVel < work->gimmick.value2 >> 1)
-                work->objWork.groundVel = work->gimmick.value2 >> 1;
+            if (work->objWork.groundVel < work->gimmick.rotatingHanger.speed >> 1)
+                work->objWork.groundVel = work->gimmick.rotatingHanger.speed >> 1;
         }
 
-        u16 prevAngle        = work->gimmick.value3;
-        work->gimmick.value3 = (u16)(work->gimmick.value3 + spinDir * work->objWork.groundVel);
-        if (work->objWork.dir.y && prevAngle < FLOAT_DEG_TO_IDX(180.0) && work->gimmick.value3 >= FLOAT_DEG_TO_IDX(180.0)
-            || !work->objWork.dir.y && prevAngle < FLOAT_DEG_TO_IDX(180.0) && work->gimmick.value3 > FLOAT_DEG_TO_IDX(180.0))
+        u16 prevAngle                      = work->gimmick.rotatingHanger.angle;
+        work->gimmick.rotatingHanger.angle = (u16)(work->gimmick.rotatingHanger.angle + spinDir * work->objWork.groundVel);
+        if (work->objWork.dir.y && prevAngle < FLOAT_DEG_TO_IDX(180.0) && work->gimmick.rotatingHanger.angle >= FLOAT_DEG_TO_IDX(180.0)
+            || !work->objWork.dir.y && prevAngle < FLOAT_DEG_TO_IDX(180.0) && work->gimmick.rotatingHanger.angle > FLOAT_DEG_TO_IDX(180.0))
         {
             PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TURN_RING);
         }
@@ -1172,32 +1172,32 @@ void Player__State_RotatingHanger(Player *work)
         u16 angle;
         if (work->objWork.dir.y != FLOAT_DEG_TO_IDX(0.0))
         {
-            angle = work->gimmick.value3;
+            angle = work->gimmick.rotatingHanger.angle;
             angle += FLOAT_DEG_TO_IDX(270.0);
         }
         else
         {
-            angle = -work->gimmick.value3;
+            angle = -work->gimmick.rotatingHanger.angle;
             angle += FLOAT_DEG_TO_IDX(90.0);
         }
         Player__SetAnimFrame(work, (FLOAT_TO_FX32(80.0) * (angle >> 8)) >> 8);
 
         work->objWork.prevPosition.x = work->objWork.position.x;
         work->objWork.prevPosition.y = work->objWork.position.y;
-        work->objWork.position.x     = work->gimmickObj->objWork.position.x + MultiplyFX(work->gimmick.value1, CosFX((s32)(u16)work->gimmick.value3));
-        work->objWork.position.y     = work->gimmickObj->objWork.position.y + MultiplyFX(work->gimmick.value1, SinFX((s32)(u16)work->gimmick.value3));
-        work->objWork.move.x         = work->objWork.position.x - work->objWork.prevPosition.x;
-        work->objWork.move.y         = work->objWork.position.y - work->objWork.prevPosition.y;
+        work->objWork.position.x = work->gimmickObj->objWork.position.x + MultiplyFX(work->gimmick.rotatingHanger.hangRadius, CosFX((s32)(u16)work->gimmick.rotatingHanger.angle));
+        work->objWork.position.y = work->gimmickObj->objWork.position.y + MultiplyFX(work->gimmick.rotatingHanger.hangRadius, SinFX((s32)(u16)work->gimmick.rotatingHanger.angle));
+        work->objWork.move.x     = work->objWork.position.x - work->objWork.prevPosition.x;
+        work->objWork.move.y     = work->objWork.position.y - work->objWork.prevPosition.y;
     }
 
     if (work->gimmickObj == NULL || (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
     {
         s32 offset = (work->objWork.dir.y == FLOAT_DEG_TO_IDX(0.0)) ? FLOAT_DEG_TO_IDX(-45.0) : FLOAT_DEG_TO_IDX(45.0);
-        s32 angle  = (u16)((u16)work->gimmick.value3 + FLOAT_DEG_TO_IDX(180.0) + offset);
+        s32 angle  = (u16)((u16)work->gimmick.rotatingHanger.angle + FLOAT_DEG_TO_IDX(180.0) + offset);
 
         StopPlayerSfx(work, PLAYER_SEQPLAYER_COMMON);
 
-        fx32 force              = work->gimmick.value2 * 16;
+        fx32 force              = work->gimmick.rotatingHanger.speed * 16;
         fx32 velX               = MultiplyFX(force, CosFX(angle));
         fx32 velY               = MultiplyFX(force, SinFX(angle));
         work->objWork.groundVel = 0;
@@ -1978,7 +1978,8 @@ void Player__Action_SteamFan(Player *player, GameObjectTask *other, s32 fanRadiu
             player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         }
         SetTaskState(&player->objWork, Player__State_SteamFan);
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SPEED_LOSS_ON_IMPACT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT
+                                    | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
         player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST;
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
@@ -2584,7 +2585,8 @@ void Player__Action_IcicleGrab(Player *player, GameObjectTask *other, s32 width)
 
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         player->gimmickObj = other;
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT|STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS|STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT|STAGE_TASK_MOVE_FLAG_IS_FALLING;
+        player->objWork.moveFlag |=
+            STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST | PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X;
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
         player->gimmickCamOffsetX = 0;

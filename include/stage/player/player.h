@@ -767,12 +767,12 @@ u16 Player__CheckOnCorkscrewPath(Player *player);
 void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 flags, u16 verticalPathType);
 void Player__State_CorkscrewPath(Player *work);
 void Player__HandleCorkscrewPathH(Player *player, fx32 singleLoopLogicalPathLength, s32 horizontalSizePixelsOneLoop, s16 verticalHalfSizePixelsLoop);
-void Player__HandleCorkscrewPathV(Player *player, s32 singleLoopPathLength, s16 horizontalHalfSizeLoop, s16 verticalSizeLoop, fx32 distanceToRunStraight,
+void Player__HandleCorkscrewPathV(Player *player, fx32 singleLoopPathLength, s16 horizontalHalfSizeLoop, s16 verticalSizeLoop, fx32 distanceToRunStraight,
                                   s16 entryOrEndLineWidth, s16 entryOrEndLineHeight);
 void Player__Action_PipeEnter(Player *player, GameObjectTask *other, u16 angle, s32 timer);
 void Player__State_PipeTravel(Player *work);
 void Player__Action_PipeExit(Player *player, fx32 velocity, BOOL allowTricks, u32 type);
-void Player__Action_RotatingHanger(Player *player, GameObjectTask *hanger, fx32 launchForce, BOOL launchUpwards);
+void Player__Action_RotatingHanger(Player *player, GameObjectTask *hanger, fx32 hangRadius, BOOL launchUpwards);
 void Player__State_RotatingHanger(Player *work);
 void Player__Action_SwingRope(Player *player, GameObjectTask *swingRope, s32 radius, s32 angleOffset);
 void Player__State_SwingRope(Player *work);

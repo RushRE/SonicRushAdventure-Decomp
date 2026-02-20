@@ -11,8 +11,8 @@ enum CorkscrewPathObjectFlags
 {
     CORKSCREWPATH_OBJFLAG_NONE,
 
-    CORKSCREWPATH_OBJFLAG_LEFTWARDS = 1 << 0, // If set, while in the corkscrew sequence, the player will go from right to left if horizontal (object 104), or will do so in the
-                                              // first half-loop if vertical (object 105).
+    CORKSCREWPATH_OBJFLAG_LEFTWARDS = 1 << 0,      // If set, while in the corkscrew sequence, the player will go from right to left if horizontal (object 104),
+                                                   // or will do so in the first half-loop if vertical (object 105).
     CORKSCREWPATH_OBJFLAG_UPWARDS        = 1 << 1, // If set, when in a vertical corkscrew sequence the player will go upwards.
     CORKSCREWPATH_OBJFLAG_RAIL_CORKSCREW = 1 << 7, // Set for when grinding on rails (as in Hidden Island 16) or snowboarding.
 
@@ -29,8 +29,8 @@ enum CorkscrewPathType
 
 enum CorkscrewVerticalPathType
 {
-    CORKSCREWVERTICALPATH_TYPE_RUSH_LEAF_STORM_2 = 0, // This goes unused in Rush Adventure
-    CORKSCREWVERTICALPATH_TYPE_SKY_BABYLON       = 1,
+    CORKSCREWVERTICALPATH_TYPE_RUSH_LEAF_STORM_2, // This goes unused in Rush Adventure
+    CORKSCREWVERTICALPATH_TYPE_SKY_BABYLON,
 };
 
 // --------------------
