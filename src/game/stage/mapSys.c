@@ -20,20 +20,32 @@ typedef void (*MapFarSysLoadBossTilesFunc)(void *archive);
 // VARIABLES
 // --------------------
 
-static Task *mapSystemTask;
+static Task *sMapSystemTask;
 MapSysFiles mapSysFiles;
 MapSysCameraSys mapCamera;
 
-static MapFarSysLoadBossTilesFunc const MapSys__ZoneLoadBossTilesTable[ZONE_COUNT] = {
-    [ZONE_PLANT_KINGDOM] = MapSys__LoadBossTiles_Zone1,  [ZONE_MACHINE_LABYRINTH] = MapSys__LoadBossTiles_Zone2, [ZONE_CORAL_CAVE] = MapSys__LoadBossTiles_Zone3,
-    [ZONE_HAUNTED_SHIP] = MapSys__LoadBossTiles_Zone4,   [ZONE_BLIZZARD_PEAKS] = MapSys__LoadBossTiles_Zone5,    [ZONE_SKY_BABYLON] = MapSys__LoadBossTiles_Zone6,
-    [ZONE_PIRATES_ISLAND] = MapSys__LoadBossTiles_Zone7, [ZONE_BIG_SWELL] = MapSys__LoadBossTiles_ZoneF,         [ZONE_HIDDEN_ISLAND] = NULL,
+static MapFarSysLoadBossTilesFunc const sZoneLoadBossTiles[ZONE_COUNT] = {
+    [ZONE_PLANT_KINGDOM]     = MapSys__LoadBossTiles_Zone1, // Define logic to load the graphics for the boss of 'Plant Kingdom'
+    [ZONE_MACHINE_LABYRINTH] = MapSys__LoadBossTiles_Zone2, // Define logic to load the graphics for the boss of 'Machine Labyrinth'
+    [ZONE_CORAL_CAVE]        = MapSys__LoadBossTiles_Zone3, // Define logic to load the graphics for the boss of 'Coral Cave'
+    [ZONE_HAUNTED_SHIP]      = MapSys__LoadBossTiles_Zone4, // Define logic to load the graphics for the boss of 'Haunted Ship'
+    [ZONE_BLIZZARD_PEAKS]    = MapSys__LoadBossTiles_Zone5, // Define logic to load the graphics for the boss of 'Blizzard Peaks'
+    [ZONE_SKY_BABYLON]       = MapSys__LoadBossTiles_Zone6, // Define logic to load the graphics for the boss of 'Sky Babylon'
+    [ZONE_PIRATES_ISLAND]    = MapSys__LoadBossTiles_Zone7, // Define logic to load the graphics for the boss of 'Pirates Island'
+    [ZONE_BIG_SWELL]         = MapSys__LoadBossTiles_ZoneF, // Define logic to load the graphics for the boss of 'Big Swell'
+    [ZONE_HIDDEN_ISLAND]     = NULL,                        // Define logic to load the graphics for the boss of 'Hidden Island'
 };
 
-static MapFarSysLoadBossMapFunc const MapSys__ZoneLoadBossMapTable[ZONE_COUNT] = {
-    [ZONE_PLANT_KINGDOM] = MapSys__LoadBossMap_Zone1,  [ZONE_MACHINE_LABYRINTH] = MapSys__LoadBossMap_Zone2, [ZONE_CORAL_CAVE] = MapSys__LoadBossMap_Zone3,
-    [ZONE_HAUNTED_SHIP] = MapSys__LoadBossMap_Zone4,   [ZONE_BLIZZARD_PEAKS] = MapSys__LoadBossMap_Zone5,    [ZONE_SKY_BABYLON] = MapSys__LoadBossMap_Zone6,
-    [ZONE_PIRATES_ISLAND] = MapSys__LoadBossMap_Zone7, [ZONE_BIG_SWELL] = MapSys__LoadBossMap_ZoneF,         [ZONE_HIDDEN_ISLAND] = NULL,
+static MapFarSysLoadBossMapFunc const sZoneLoadBossMap[ZONE_COUNT] = {
+    [ZONE_PLANT_KINGDOM]     = MapSys__LoadBossMap_Zone1, // Define logic to load the map for the boss of 'Plant Kingdom'
+    [ZONE_MACHINE_LABYRINTH] = MapSys__LoadBossMap_Zone2, // Define logic to load the map for the boss of 'Machine Labyrinth'
+    [ZONE_CORAL_CAVE]        = MapSys__LoadBossMap_Zone3, // Define logic to load the map for the boss of 'Coral Cave'
+    [ZONE_HAUNTED_SHIP]      = MapSys__LoadBossMap_Zone4, // Define logic to load the map for the boss of 'Haunted Ship'
+    [ZONE_BLIZZARD_PEAKS]    = MapSys__LoadBossMap_Zone5, // Define logic to load the map for the boss of 'Blizzard Peaks'
+    [ZONE_SKY_BABYLON]       = MapSys__LoadBossMap_Zone6, // Define logic to load the map for the boss of 'Sky Babylon'
+    [ZONE_PIRATES_ISLAND]    = MapSys__LoadBossMap_Zone7, // Define logic to load the map for the boss of 'Pirates Island'
+    [ZONE_BIG_SWELL]         = MapSys__LoadBossMap_ZoneF, // Define logic to load the map for the boss of 'Big Swell'
+    [ZONE_HIDDEN_ISLAND]     = NULL,                      // Define logic to load the map for the boss of 'Hidden Island'
 };
 
 // --------------------
@@ -49,7 +61,7 @@ void MapSys__Init(void)
     mapCamera.camControl.width  = width;
     mapCamera.camControl.height = height;
 
-    mapSystemTask = NULL;
+    sMapSystemTask = NULL;
 }
 
 void MapSys__Create(void)
@@ -104,18 +116,18 @@ void MapSys__Create(void)
 
     if (!IsBossStage())
     {
-        mapSystemTask = TaskCreate(MapSys__Main_Zone, MapSys__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1080, TASK_GROUP(3), MapSys);
+        sMapSystemTask = TaskCreate(MapSys__Main_Zone, MapSys__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1080, TASK_GROUP(3), MapSys);
 
-        work = TaskGetWork(mapSystemTask, MapSys);
+        work = TaskGetWork(sMapSystemTask, MapSys);
         TaskInitWork16(work);
 
         work->stateCamLook = MapSys__HandleCameraLookUpDown;
     }
     else
     {
-        mapSystemTask = TaskCreate(MapSys__Main_Boss, MapSys__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1080, TASK_GROUP(3), MapSys);
+        sMapSystemTask = TaskCreate(MapSys__Main_Boss, MapSys__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1080, TASK_GROUP(3), MapSys);
 
-        work = TaskGetWork(mapSystemTask, MapSys);
+        work = TaskGetWork(sMapSystemTask, MapSys);
         TaskInitWork16(work);
 
         work->stateCamLook = NULL;
@@ -161,7 +173,7 @@ void MapSys__LoadArchive_RAW(void *archive)
     if (!IsBossStage())
         return MapSys__LoadZoneTiles(archive);
 
-    return MapSys__ZoneLoadBossTilesTable[GetCurrentZoneID()](archive);
+    return sZoneLoadBossTiles[GetCurrentZoneID()](archive);
 }
 
 void MapSys__LoadArchive_MAP(void *archive)
@@ -172,7 +184,7 @@ void MapSys__LoadArchive_MAP(void *archive)
     }
     else
     {
-        MapSys__ZoneLoadBossMapTable[GetCurrentZoneID()](archive);
+        sZoneLoadBossMap[GetCurrentZoneID()](archive);
     }
 
     mapCamera.camControl.width  = mapSysFiles.mapLayout[0]->width << 6;
@@ -274,14 +286,14 @@ _02008A08:
 	ldr r0, [sp, #0x30]
 	cmp r0, #0
 	bne _02008A2C
-	ldr r0, =mapSystemTask
+	ldr r0, =sMapSystemTask
 	ldr r4, [r0, #0x14]
 	ldr r0, [sp, #0x24]
 	ldr r0, [r0, #0x30]
 	str r0, [sp, #0x2c]
 	b _02008A40
 _02008A2C:
-	ldr r0, =mapSystemTask
+	ldr r0, =sMapSystemTask
 	ldr r4, [r0, #0x18]
 	ldr r0, [sp, #0x24]
 	ldr r0, [r0, #0x34]
@@ -306,7 +318,7 @@ _02008A74:
 	add r1, r11, r5
 	cmp r1, r0, lsr #16
 	bge _02008AE8
-	ldr r0, =mapSystemTask
+	ldr r0, =sMapSystemTask
 	add r7, r10, r5, lsl #4
 	ldr r2, [r0, #0x10]
 	ldrh r0, [r4, #0]
@@ -617,7 +629,7 @@ NONMATCH_FUNC void MapSys__Func_2008F28(s32 id)
 	stmdb sp!, {r4, lr}
 	cmp r0, #0
 	bne _02008F64
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	ldr r2, [r1, #0x100]
 	tst r2, #2
 	moveq r0, #0
@@ -630,7 +642,7 @@ NONMATCH_FUNC void MapSys__Func_2008F28(s32 id)
 	str r0, [r1, #0x100]
 	b _02008F90
 _02008F64:
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	ldr r2, [r1, #0x100]
 	tst r2, #2
 	movne r0, #0
@@ -819,7 +831,7 @@ NONMATCH_FUNC s32 MapSys__GetScreenSwapPos(fx32 x)
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	mov r3, #0
 	cmp r0, #0
 	ldr r1, [r1, #0x1c]
@@ -1233,7 +1245,7 @@ void MapSys__Destructor(Task *task)
     ReleaseWaterSurface();
     MapFarSys__ReleaseBG();
 
-    mapSystemTask = NULL;
+    sMapSystemTask = NULL;
 }
 
 void MapSys__Main_Zone(void)
@@ -1329,160 +1341,78 @@ void MapSys__Main_Boss(void)
     }
 }
 
-NONMATCH_FUNC void MapSys__HandleCamera(MapSys *work)
+void MapSys__HandleCamera(MapSys *work)
 {
-	// https://decomp.me/scratch/2vrkf -> 88.90%
-#ifdef NON_MATCHING
     if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_DISABLE_CAM_LOOK) == 0)
-        MapSys__HandleCamLook(work);
-
-    if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_200) == 0)
     {
-        if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
+        MapSys__HandleCamLook(work);
+    }
+
+    if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_200))
+    {
+        return;
+    }
+
+    if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
+    {
+        MapSysCamera *cameraA = &mapCamera.camera[GRAPHICS_ENGINE_A];
+        if ((mapCamera.camera[GRAPHICS_ENGINE_A].flags & (MAPSYS_CAMERA_FLAG_100 | MAPSYS_CAMERA_FLAG_40)) == 0)
         {
-            MapSysCamera* cameraA = &mapCamera.camera[GRAPHICS_ENGINE_A];
-            
-            if ((cameraA->flags & (MAPSYS_CAMERA_FLAG_100 | MAPSYS_CAMERA_FLAG_40)) == 0)
-            {
-                MapSys__Func_2009E3C(work, GRAPHICS_ENGINE_A);
-                MapSys__Func_200A780(work, GRAPHICS_ENGINE_A);
-            }
-            else
-            {
-                MapSys__HandleHBounds(work, GRAPHICS_ENGINE_A);
-            }
-
-            if ((cameraA->flags & (MAPSYS_CAMERA_FLAG_200 | MAPSYS_CAMERA_FLAG_80)) == 0)
-            {
-                MapSys__Func_2009E80(work, GRAPHICS_ENGINE_A);
-                MapSys__Func_200A7E8(work, GRAPHICS_ENGINE_A);
-            }
-            else
-            {
-                MapSys__HandleVBounds(work, GRAPHICS_ENGINE_A);
-            }
-
-            MapSysCamera* cameraB = &mapCamera.camera[GRAPHICS_ENGINE_B];
-            if ((cameraB->flags & (MAPSYS_CAMERA_FLAG_100 | MAPSYS_CAMERA_FLAG_40)) == 0)
-                MapSys__Func_200A8D8(work, GRAPHICS_ENGINE_B);
-
-            if ((cameraB->flags & (MAPSYS_CAMERA_FLAG_200 | MAPSYS_CAMERA_FLAG_80)) == 0)
-                MapSys__Func_200A910(work, GRAPHICS_ENGINE_B);
+            MapSys__Func_2009E3C(work, GRAPHICS_ENGINE_A);
+            MapSys__Func_200A780(work, GRAPHICS_ENGINE_A);
         }
         else
         {
-            for (s32 i = 0; i < (s32)ARRAY_COUNT(mapCamera.camera); i++)
-            {                
-                Player__Func_201301C(i);
+            MapSys__HandleHBounds(work, GRAPHICS_ENGINE_A);
+        }
 
-                if ((mapCamera.camera[i].flags & (MAPSYS_CAMERA_FLAG_100 | MAPSYS_CAMERA_FLAG_40)) == 0)
-                    MapSys__Func_2009E3C(work, i);
-                else
-                    MapSys__HandleHBounds(work, i);
+        if ((cameraA->flags & (MAPSYS_CAMERA_FLAG_200 | MAPSYS_CAMERA_FLAG_80)) == 0)
+        {
+            MapSys__Func_2009E80(work, GRAPHICS_ENGINE_A);
+            MapSys__Func_200A7E8(work, GRAPHICS_ENGINE_A);
+        }
+        else
+        {
+            MapSys__HandleVBounds(work, GRAPHICS_ENGINE_A);
+        }
 
-                if ((mapCamera.camera[i].flags & (MAPSYS_CAMERA_FLAG_200 | MAPSYS_CAMERA_FLAG_80)) == 0)
-                    MapSys__Func_200A460(work, i);
-                else
-                    MapSys__HandleVBounds(work, i);
+        MapSysCamera *cameraB = &mapCamera.camera[GRAPHICS_ENGINE_B];
+        if ((cameraB->flags & (MAPSYS_CAMERA_FLAG_100 | MAPSYS_CAMERA_FLAG_40)) == 0)
+        {
+            MapSys__Func_200A8D8(work, GRAPHICS_ENGINE_B);
+        }
+
+        if ((cameraB->flags & (MAPSYS_CAMERA_FLAG_200 | MAPSYS_CAMERA_FLAG_80)) == 0)
+        {
+            MapSys__Func_200A910(work, GRAPHICS_ENGINE_B);
+        }
+    }
+    else
+    {
+        for (enum GraphicsEngine_ engine = GRAPHICS_ENGINE_A; engine < GRAPHICS_ENGINE_COUNT; engine++)
+        {
+            MapSysCamera *camera = &mapCamera.camera[engine];
+            Player__Func_201301C(engine);
+
+            if ((camera->flags & (MAPSYS_CAMERA_FLAG_100 | MAPSYS_CAMERA_FLAG_40)) == 0)
+            {
+                MapSys__Func_2009E3C(work, engine);
+            }
+            else
+            {
+                MapSys__HandleHBounds(work, engine);
+            }
+
+            if ((camera->flags & (MAPSYS_CAMERA_FLAG_200 | MAPSYS_CAMERA_FLAG_80)) == 0)
+            {
+                MapSys__Func_200A460(work, engine);
+            }
+            else
+            {
+                MapSys__HandleVBounds(work, engine);
             }
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	ldr r1, =mapSystemTask
-	mov r6, r0
-	ldr r1, [r1, #0x100]
-	tst r1, #0x100
-	bne _02009D10
-	bl MapSys__HandleCamLook
-_02009D10:
-	ldr r0, =mapSystemTask
-	ldr r1, [r0, #0x100]
-	tst r1, #0x200
-	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
-	tst r1, #1
-	beq _02009DBC
-	ldr r0, [r0, #0x20]
-	ldr r4, =mapCamera
-	tst r0, #0x140
-	mov r0, r6
-	mov r1, #0
-	bne _02009D54
-	bl MapSys__Func_2009E3C
-	mov r0, r6
-	mov r1, #0
-	bl MapSys__Func_200A780
-	b _02009D58
-_02009D54:
-	bl MapSys__HandleHBounds
-_02009D58:
-	ldr r0, [r4, #0]
-	mov r1, #0
-	tst r0, #0x280
-	mov r0, r6
-	bne _02009D80
-	bl MapSys__Func_2009E80
-	mov r0, r6
-	mov r1, #0
-	bl MapSys__Func_200A7E8
-	b _02009D84
-_02009D80:
-	bl MapSys__HandleVBounds
-_02009D84:
-	ldr r4, =mapCamera+0x00000070
-	ldr r0, [r4, #0]
-	tst r0, #0x140
-	bne _02009DA0
-	mov r0, r6
-	mov r1, #1
-	bl MapSys__Func_200A8D8
-_02009DA0:
-	ldr r0, [r4, #0]
-	tst r0, #0x280
-	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
-	mov r0, r6
-	mov r1, #1
-	bl MapSys__Func_200A910
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-_02009DBC:
-	mov r5, #0
-	cmp r5, #2
-	ldmgeia sp!, {r4, r5, r6, r7, r8, pc}
-	ldr r4, =mapCamera
-	mov r7, #0x70
-_02009DD0:
-	mul r8, r5, r7
-	mov r0, r5, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl Player__Func_201301C
-	ldr r0, [r4, r8]
-	mov r1, r5
-	tst r0, #0x140
-	mov r0, r6
-	bne _02009DFC
-	bl MapSys__Func_2009E3C
-	b _02009E00
-_02009DFC:
-	bl MapSys__HandleHBounds
-_02009E00:
-	ldr r0, [r4, r8]
-	mov r1, r5
-	tst r0, #0x280
-	mov r0, r6
-	bne _02009E1C
-	bl MapSys__Func_200A460
-	b _02009E20
-_02009E1C:
-	bl MapSys__HandleVBounds
-_02009E20:
-	add r5, r5, #1
-	cmp r5, #2
-	blt _02009DD0
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-
-// clang-format on
-#endif
 }
 
 void MapSys__Func_2009E3C(MapSys *work, s32 id)
@@ -1507,7 +1437,7 @@ NONMATCH_FUNC void MapSys__Func_2009E80(MapSys *work, s32 id)
 	mov r8, r0
 	ldr r0, [r5, #4]
 	bl MapSys__GetScreenSwapPos
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	mov r6, r0
 	ldr r0, [r1, #0x100]
 	tst r0, #8
@@ -1527,7 +1457,7 @@ NONMATCH_FUNC void MapSys__Func_2009E80(MapSys *work, s32 id)
 	b _0200A440
 _02009EE8:
 	add r1, r2, r1
-	ldr r0, =mapSystemTask
+	ldr r0, =sMapSystemTask
 	str r1, [r5, #8]
 	ldr r0, [r0, #0x100]
 	ands r2, r0, #2
@@ -1550,7 +1480,7 @@ _02009F18:
 _02009F38:
 	mov r0, r8
 	bl MapSys__Func_200A948
-	ldr r0, =mapSystemTask
+	ldr r0, =sMapSystemTask
 	ldr r0, [r0, #0x100]
 	ands r1, r0, #2
 	beq _02009FB4
@@ -1571,7 +1501,7 @@ _02009F38:
 	cmp r2, r0
 	movle r0, r2
 _02009F90:
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	str r0, [r5, #8]
 	ldr r2, [r1, #0x100]
 	mov r0, r8
@@ -1600,7 +1530,7 @@ _02009FB4:
 	movle r1, r0
 	mov r2, r1
 _02009FFC:
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	str r2, [r5, #8]
 	ldr r2, [r1, #0x100]
 	mov r0, r8
@@ -1629,7 +1559,7 @@ _0200A020:
 	movle r1, r0
 	mov r2, r1
 _0200A068:
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	str r2, [r5, #8]
 	ldr r2, [r1, #0x100]
 	mov r0, r8
@@ -1647,7 +1577,7 @@ _0200A08C:
 	ldr r0, =gPlayerList
 	ldr r2, [r5, #0x54]
 	ldr r0, [r0, r1, lsl #2]
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	ldr r3, [r0, #0x48]
 	mov r0, r8
 	sub r2, r3, r2
@@ -1685,7 +1615,7 @@ _0200A0D8:
 	cmp r2, r0
 	movle r0, r2
 _0200A13C:
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	str r0, [r5, #8]
 	ldr r2, [r1, #0x100]
 	mov r0, r8
@@ -1699,7 +1629,7 @@ _0200A160:
 	bl MapSys__Func_200AAF8
 	cmp r0, #0
 	beq _0200A440
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	mov r0, r8
 	ldr r2, [r1, #0x100]
 	bic r2, r2, #0x10000
@@ -1736,7 +1666,7 @@ _0200A190:
 	cmp r2, r0
 	movle r0, r2
 _0200A1FC:
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	str r0, [r5, #8]
 	ldr r2, [r1, #0x100]
 	mov r0, r8
@@ -1761,7 +1691,7 @@ _0200A220:
 	cmp r2, r0
 	movle r0, r2
 _0200A258:
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	str r0, [r5, #8]
 	ldr r2, [r1, #0x100]
 	mov r0, r8
@@ -1779,7 +1709,7 @@ _0200A27C:
 	ldr r0, =gPlayerList
 	ldr r2, [r5, #0x54]
 	ldr r0, [r0, r1, lsl #2]
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	ldr r3, [r0, #0x48]
 	mov r0, r8
 	sub r2, r3, r2
@@ -1795,7 +1725,7 @@ _0200A2C8:
 	bl MapSys__Func_200AAF8
 	cmp r0, #0
 	beq _0200A440
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	mov r0, r8
 	ldr r2, [r1, #0x100]
 	bic r2, r2, #0x10000
@@ -1922,7 +1852,7 @@ NONMATCH_FUNC void MapSys__Func_200A460(MapSys *work, s32 id)
 	bl MapSys__Func_200A580
 	ldmia sp!, {r4, r5, r6, pc}
 _0200A494:
-	ldr r2, =mapSystemTask
+	ldr r2, =sMapSystemTask
 	ldr r2, [r2, #0x100]
 	tst r2, #0x10000
 	beq _0200A520
@@ -1947,7 +1877,7 @@ _0200A4C4:
 	ldr r0, =gPlayerList
 	ldr r2, [r4, #0x54]
 	ldr r0, [r0, r1, lsl #2]
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	ldr r3, [r0, #0x48]
 	mov r0, r6
 	sub r2, r3, r2
@@ -1995,7 +1925,7 @@ NONMATCH_FUNC void MapSys__Func_200A580(MapSys *work, s32 id)
     // clang-format off
 	ldr r3, =mapCamera
 	mov r0, #0x70
-	ldr r2, =mapSystemTask
+	ldr r2, =sMapSystemTask
 	mla r0, r1, r0, r3
 	ldr r1, [r2, #0x100]
 	tst r1, #0x200
@@ -2083,7 +2013,7 @@ NONMATCH_FUNC void MapSys__HandleVBounds(MapSys *work, s32 id)
 	ldr r2, =mapCamera
 	mov r0, #0x70
 	mla r2, r1, r0, r2
-	ldr r3, =mapSystemTask
+	ldr r3, =sMapSystemTask
 	ldr r0, =mapCamera+0x00000130
 	ldr r1, [r3, #0x100]
 	tst r1, #0x200
@@ -2152,7 +2082,7 @@ NONMATCH_FUNC void MapSys__Func_200A780(MapSys *work, s32 id)
 	stmdb sp!, {r3, lr}
 	ldr r3, =mapCamera
 	mov r0, #0x70
-	ldr r2, =mapSystemTask
+	ldr r2, =sMapSystemTask
 	mla lr, r1, r0, r3
 	ldr r0, [r2, #0x100]
 	tst r0, #0x200
@@ -2187,7 +2117,7 @@ NONMATCH_FUNC void MapSys__Func_200A7E8(MapSys *work, s32 id)
 	stmdb sp!, {r3, lr}
 	ldr r3, =mapCamera
 	mov r0, #0x70
-	ldr r2, =mapSystemTask
+	ldr r2, =sMapSystemTask
 	mla lr, r1, r0, r3
 	ldr r0, [r2, #0x100]
 	tst r0, #0x200
@@ -2250,7 +2180,7 @@ NONMATCH_FUNC BOOL MapSys__Func_200A948(MapSys *work)
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r0, =mapSystemTask
+	ldr r0, =sMapSystemTask
 	ldr r4, =mapCamera
 	ldr r0, [r0, #0x100]
 	tst r0, #2
@@ -2332,7 +2262,7 @@ NONMATCH_FUNC void MapSys__Func_200AAF8(MapSys *work)
 #else
     // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r2, =mapSystemTask
+	ldr r2, =sMapSystemTask
 	ldr r1, =mapCamera
 	ldr r2, [r2, #0x100]
 	tst r2, #0x200
@@ -2444,7 +2374,7 @@ NONMATCH_FUNC void MapSys__Func_200AC64(MapSys *work, s32 id)
 	mla r2, r1, r2, r3
 	ldrsb ip, [r2, #0x46]
 	ldr r3, =gPlayerList
-	ldr r1, =mapSystemTask
+	ldr r1, =sMapSystemTask
 	ldr ip, [r3, ip, lsl #2]
 	ldr r3, [r1, #0x100]
 	ldr r1, [ip, #0x48]
