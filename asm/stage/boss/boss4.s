@@ -9778,11 +9778,6 @@ Boss4__Func_21739C0: // _021739C0
 	arm_func_end Boss4__Func_21739C0
 
 	.rodata
-	
-_02179E7C: // 0x02179E7C
-    .word 0
-	.word 0xD7000, 0xF000, 0xFFF29000, 0xFFF74000, 0xF000, 0xFFF74000
-	.word 0xFFF29000, 0xF000, 0xD7000, 0x96000, 0xF000, 0x104000
 
 _02179EB0: // 0x02179EB0
     .word 0x280044
