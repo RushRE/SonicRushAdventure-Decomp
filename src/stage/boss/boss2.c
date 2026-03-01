@@ -1491,7 +1491,7 @@ void Boss2_Collide(void)
     if ((work->gameWork.colliders[0].flag & OBS_RECT_WORK_FLAG_ENABLED) == 0)
         return;
 
-    BossHelpers__Collision__HandleArenaCollider(work->gameWork.colliders, &work->worldCollider, &work->mtxWeakPoint.translation, BOSS2_STAGE_START, BOSS2_STAGE_END,
+    BossHelpers__Collision__HandleArenaCollider(&work->gameWork.colliders[0], &work->worldCollider, &work->mtxWeakPoint.translation, BOSS2_STAGE_START, BOSS2_STAGE_END,
                                                 BOSS2_STAGE_RADIUS);
 }
 
@@ -1580,12 +1580,12 @@ NONMATCH_FUNC void Boss2Stage_StageState_Init_Part1(Boss2Stage *work)
     SwapBuffer3D *camera3D_A = GetSwapBuffer3DWork();
     SwapBuffer3D *camera3D_B = GetSwapBuffer3DWork();
 
-    camera3D_A->gfxControl[0].blendManager.blendControl.value = camera3D_B->gfxControl[1].blendManager.blendControl.value = 0x00;
-    camera3D_A->gfxControl[0].blendManager.blendControl.plane1_BG0 = camera3D_B->gfxControl[1].blendManager.blendControl.plane1_BG0 = TRUE;
-    camera3D_A->gfxControl[0].blendManager.blendControl.plane2_BG1 = camera3D_B->gfxControl[1].blendManager.blendControl.plane2_BG1 = TRUE;
-    camera3D_A->gfxControl[0].blendManager.blendControl.plane2_BG2 = camera3D_B->gfxControl[1].blendManager.blendControl.plane2_BG2 = TRUE;
-    camera3D_A->gfxControl[0].blendManager.blendControl.plane2_BG3 = camera3D_B->gfxControl[1].blendManager.blendControl.plane2_BG3 = TRUE;
-    camera3D_A->gfxControl[0].blendManager.blendControl.plane2_OBJ = camera3D_B->gfxControl[1].blendManager.blendControl.plane2_OBJ = TRUE;
+    camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.value = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.value = 0x00;
+    camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane1_BG0 = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane1_BG0 = TRUE;
+    camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane2_BG1 = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_BG1 = TRUE;
+    camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane2_BG2 = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_BG2 = TRUE;
+    camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane2_BG3 = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_BG3 = TRUE;
+    camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane2_OBJ = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_OBJ = TRUE;
 
     originalPlayerDrawFunc = gPlayer->objWork.ppOut;
     SetTaskOutFunc(&gPlayer->objWork, DrawBossStagePlayer);
@@ -2527,10 +2527,10 @@ void Boss2_BossState_DestroyedShock(Boss2 *work)
     }
 
     // brighten the blending
-    if (camera3D->gfxControl[0].blendManager.coefficient.value < RENDERCORE_BRIGHTNESS_WHITE && ++action->brightnessTimer > 2)
+    if (camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager.coefficient.value < RENDERCORE_BRIGHTNESS_WHITE && ++action->brightnessTimer > 2)
     {
         action->brightnessTimer = 0;
-        camera3D->gfxControl[0].blendManager.coefficient.value++;
+        camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager.coefficient.value++;
     }
 
     // create explosion "shock" fx

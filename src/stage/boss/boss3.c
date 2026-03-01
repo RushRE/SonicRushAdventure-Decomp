@@ -70,7 +70,7 @@ NOT_DECOMPILED void *_0217A880;
 NOT_DECOMPILED void *_0217A898;
 NOT_DECOMPILED void *_0217A8B8;
 NOT_DECOMPILED void *_0217A8E8;
-NOT_DECOMPILED void *_0217A928;
+NOT_DECOMPILED VecFx32 _0217A928[6];
 NOT_DECOMPILED void *_0217A970;
 NOT_DECOMPILED void *_0217AA18;
 
@@ -7978,7 +7978,7 @@ NONMATCH_FUNC void Boss3__StateBoss_2166B90(Boss3 *work)
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	ldr r0, =Boss3__StateBoss_2166BF4
-	ldr r2, =Boss3SplatScreenInk__StateInk_21684EC
+	ldr r2, =Boss3ScreenSplatInk__StateInk_21684EC
 	str r0, [r4, #0xa40]
 	ldr r0, [r4, #0xa3c]
 	mov r1, #0
@@ -8208,7 +8208,7 @@ _02166D84:
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
-	ldr r3, =Boss3SplatScreenInk__StateInk_21684EC
+	ldr r3, =Boss3ScreenSplatInk__StateInk_21684EC
 	ldr r0, [r5, #0xa3c]
 	mov r2, #0
 	ldr r1, [r0, #0x394]
@@ -8559,7 +8559,7 @@ _02167330:
 	strh r0, [r4, #8]
 	ldrne r0, [sp]
 	cmpne r0, #0
-	ldrne r0, =Boss3__StateBoss_2167368
+	ldrne r0, =Boss3_BossState_ShowResultsScreen
 	strne r0, [r7, #0xa40]
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -8568,198 +8568,89 @@ _02167330:
 #endif
 }
 
-NONMATCH_FUNC void Boss3__StateBoss_2167368(Boss3 *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, =playerGameStatus
-	ldr r1, [r0, #0]
-	orr r1, r1, #4
-	str r1, [r0]
-	bx lr
-
-// clang-format on
-#endif
+void Boss3_BossState_ShowResultsScreen(Boss3 *work)
+{
+    playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_CAN_CHANGE_EVENT;
 }
 
-NONMATCH_FUNC void Boss3SplatInk__State_2167380(Boss3SplatInk *work)
+void Boss3SplatInk__State_2167380(Boss3SplatInk *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r1, [r0, #0x378]
-	blx r1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    work->stateInk(work);
 }
 
-NONMATCH_FUNC void Boss3SplatInk__Destructor(Task *task)
+void Boss3SplatInk__Destructor(Task *task)
 {
-#ifdef NON_MATCHING
+    Boss3SplatInk *work = TaskGetWork(task, Boss3SplatInk);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	bl GetTaskWork_
-	mov r4, r0
-	add r0, r4, #0x410
-	bl AnimatorMDL__Release
-	add r0, r4, #0x154
-	add r0, r0, #0x400
-	bl AnimatorMDL__Release
-	mov r0, r5
-	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, pc}
+    AnimatorMDL__Release(&work->animatormdl410);
+    AnimatorMDL__Release(&work->animatormdl554);
 
-// clang-format on
-#endif
+    GameObject__Destructor(task);
 }
 
-NONMATCH_FUNC void Boss3SplatInk__Draw(void)
+void Boss3SplatInk__Draw(void)
 {
-#ifdef NON_MATCHING
+    Boss3SplatInk *work = TaskGetWorkCurrent(Boss3SplatInk);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0x24
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	ldr r0, [r4, #0x20]
-	tst r0, #0x20
-	addne sp, sp, #0x24
-	ldmneia sp!, {r4, r5, r6, r7, pc}
-	ldr r0, [r4, #0x37c]
-	sub r0, r0, #2
-	cmp r0, #1
-	addls r0, r4, #0x154
-	addls r5, r0, #0x400
-	bls _021674BC
-	mov r2, #0
-	mov r3, #0x1000
-	add r1, sp, #0xc
-	add r0, r4, #0x98
-	str r3, [sp, #0x18]
-	str r2, [sp, #0x1c]
-	str r2, [sp, #0x20]
-	add r5, r4, #0x410
-	bl VEC_Normalize
-	ldr r0, [sp, #0x10]
-	ldr ip, [sp, #0x14]
-	rsb r1, r0, #0
-	smull r0, r3, r1, r1
-	adds r6, r0, #0x800
-	smull r2, r0, ip, ip
-	adc r3, r3, #0
-	adds r2, r2, #0x800
-	mov r6, r6, lsr #0xc
-	adc r0, r0, #0
-	mov r2, r2, lsr #0xc
-	orr r6, r6, r3, lsl #20
-	orr r2, r2, r0, lsl #20
-	ldr r7, [sp, #0xc]
-	add r0, r6, r2
-	str r1, [sp, #0x10]
-	bl FX_Sqrt
-	mov r1, r7
-	bl FX_Atan2Idx
-	mov r6, r0
-	add r0, sp, #0x18
-	add r1, sp, #0xc
-	add r2, sp, #0
-	bl VEC_CrossProduct
-	add r0, sp, #0
-	mov r1, r0
-	bl VEC_Normalize
-	mov r0, r6, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, asr #4
-	mov r2, r0, lsl #1
-	mov lr, r2, lsl #1
-	add r2, r2, #1
-	ldr ip, =FX_SinCosTable_
-	mov r3, r2, lsl #1
-	ldrsh r2, [ip, lr]
-	ldrsh r3, [ip, r3]
-	add r0, r5, #0x24
-	add r1, sp, #0
-	bl MTX_RotAxis33
-_021674BC:
-	add r0, r4, #0x44
-	add r3, r5, #0x48
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldr r1, [r5, #0x4c]
-	mov r0, r5
-	rsb r1, r1, #0
-	str r1, [r5, #0x4c]
-	bl AnimatorMDL__ProcessAnimation
-	mov r0, r5
-	bl AnimatorMDL__Draw
-	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0)
+    {
+        AnimatorMDL *aniMDL;
+        if (work->action == 2 || work->action == 3)
+        {
+            aniMDL = &work->animatormdl554;
+        }
+        else
+        {
+            VecFx32 right;
+            right.x = FLOAT_TO_FX32(1.0);
+            right.y = FLOAT_TO_FX32(0.0);
+            right.z = FLOAT_TO_FX32(0.0);
 
-// clang-format on
-#endif
+            aniMDL = &work->animatormdl410;
+
+            VecFx32 dir;
+            VEC_Normalize(&work->gameWork.objWork.velocity, &dir);
+            fx32 x = dir.x;
+            dir.y  = -dir.y;
+
+            s32 angle = FX_Atan2Idx(FX_Sqrt(MultiplyFX(dir.y, dir.y) + MultiplyFX(dir.z, dir.z)), x);
+
+            VecFx32 cross;
+            VEC_CrossProduct(&right, &dir, &cross);
+            VEC_Normalize(&cross, &cross);
+            MTX_RotAxis33(aniMDL->work.rotation.nnMtx, &cross, SinFX(angle), CosFX(angle));
+        }
+
+        aniMDL->work.translation   = work->gameWork.objWork.position;
+        aniMDL->work.translation.y = -aniMDL->work.translation.y;
+        AnimatorMDL__ProcessAnimation(aniMDL);
+        AnimatorMDL__Draw(aniMDL);
+    }
 }
 
-NONMATCH_FUNC void Boss3SplatInk__Collide(Boss3SplatInk *work)
+void Boss3SplatInk__Collide(void)
 {
-#ifdef NON_MATCHING
+    Boss3SplatInk *work = TaskGetWorkCurrent(Boss3SplatInk);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x14
-	bl GetCurrentTaskWork_
-	ldr r1, [r0, #0x18]
-	tst r1, #0xc
-	addne sp, sp, #0x14
-	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	tst r1, #2
-	addne sp, sp, #0x14
-	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r5, =0x006BAA99
-	ldr r4, =0x00107FC0
-	add r9, r0, #0x218
-	add r10, r0, #0x380
-	mov r8, #0
-	add r7, r0, #0x44
-	mov r11, #0x40000
-	add r6, sp, #8
-_0216753C:
-	ldmia r7, {r0, r1, r2}
-	stmia r6, {r0, r1, r2}
-	ldr r0, [sp, #0xc]
-	rsb r0, r0, #0
-	str r0, [sp, #0xc]
-	ldr r0, [r9, #0x18]
-	tst r0, #4
-	beq _02167578
-	str r5, [sp]
-	mov r0, r9
-	mov r1, r10
-	mov r2, r6
-	mov r3, r11
-	str r4, [sp, #4]
-	bl BossHelpers__Collision__HandleArenaCollider
-_02167578:
-	add r8, r8, #1
-	cmp r8, #2
-	add r9, r9, #0x40
-	add r10, r10, #0x40
-	blt _0216753C
-	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    if ((work->gameWork.objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) != 0)
+        return;
 
-// clang-format on
-#endif
+    if ((work->gameWork.objWork.flag & (STAGE_TASK_FLAG_NO_OBJ_COLLISION)) != 0)
+        return;
+
+    for (s32 i = 0; i < 2; i++)
+    {
+        OBS_RECT_WORK *colliderSrc = &work->gameWork.colliders[i];
+        OBS_RECT_WORK *colliderDst = &work->worldColliders[i];
+
+        VecFx32 translation = work->gameWork.objWork.position;
+        translation.y       = -translation.y;
+
+        if ((colliderSrc->flag & OBS_RECT_WORK_FLAG_ENABLED) == 0)
+            continue;
+
+        BossHelpers__Collision__HandleArenaCollider(colliderSrc, colliderDst, &translation, BOSS3_STAGE_START, BOSS3_STAGE_END, BOSS3_STAGE_RADIUS);
+    }
 }
 
 void Boss3SplatInk__OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
@@ -8767,50 +8658,42 @@ void Boss3SplatInk__OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     // Do nothing
 }
 
-NONMATCH_FUNC void Boss3SplatInk__Action_DecideNextAction(Boss3SplatInk *work, s32 action)
+void Boss3SplatInk__Action_DecideNextAction(Boss3SplatInk *work, s32 action)
 {
-#ifdef NON_MATCHING
+    work->action = action;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	str r1, [r0, #0x37c]
-	cmp r1, #3
-	addls pc, pc, r1, lsl #2
-	b _021675F0
-_021675B4: // jump table
-	b _021675C4 // case 0
-	b _021675D0 // case 1
-	b _021675DC // case 2
-	b _021675E8 // case 3
-_021675C4:
-	ldr r1, =Boss3SplatInk__StateInk_216760C
-	str r1, [r0, #0x378]
-	b _021675F0
-_021675D0:
-	ldr r1, =Boss3SplatInk__StateInk_216768C
-	str r1, [r0, #0x378]
-	b _021675F0
-_021675DC:
-	ldr r1, =Boss3SplatInk__StateInk_2167764
-	str r1, [r0, #0x378]
-	b _021675F0
-_021675E8:
-	ldr r1, =Boss3SplatInk__StateInk_2167784
-	str r1, [r0, #0x378]
-_021675F0:
-	ldr r1, [r0, #0x378]
-	blx r1
-	ldmia sp!, {r3, pc}
+    switch (action)
+    {
+        case 0:
+            work->stateInk = Boss3SplatInk__StateInk_216760C;
+            break;
 
-// clang-format on
-#endif
+        case 1:
+            work->stateInk = Boss3SplatInk__StateInk_216768C;
+            break;
+
+        case 2:
+            work->stateInk = Boss3SplatInk__StateInk_2167764;
+            break;
+
+        case 3:
+            work->stateInk = Boss3SplatInk__StateInk_2167784;
+            break;
+    }
+
+    work->stateInk(work);
 }
 
 NONMATCH_FUNC void Boss3SplatInk__StateInk_216760C(Boss3SplatInk *work)
 {
+    // Should match when 'aExc_3' is decompiled
 #ifdef NON_MATCHING
+    work->stateInk = Boss3SplatInk__StateInk_216767C;
 
+    NNSFndArchive arc;
+    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    BossHelpers__SetAnimation(&work->animatormdl410, B3D_ANIM_JOINT_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_INK_NSBCA), 0, NULL, TRUE);
+    NNS_FndUnmountArchive(&arc);
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -8843,109 +8726,40 @@ NONMATCH_FUNC void Boss3SplatInk__StateInk_216760C(Boss3SplatInk *work)
 #endif
 }
 
-NONMATCH_FUNC void Boss3SplatInk__StateInk_216767C(Boss3SplatInk *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =Boss3SplatInk__Action_DecideNextAction
-	mov r1, #1
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss3SplatInk__StateInk_216768C(Boss3SplatInk *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r1, =Boss3SplatInk__StateInk_216769C
-	str r1, [r0, #0x378]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss3SplatInk__StateInk_216769C(Boss3SplatInk *work)
+void Boss3SplatInk__StateInk_216767C(Boss3SplatInk *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0x14
-	mov r4, r0
-	add r0, r4, #0x58
-	add r0, r0, #0x400
-	add r3, sp, #8
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	mov r1, #0
-	mov r0, r3
-	str r1, [sp, #0xc]
-	bl VEC_Mag
-	cmp r0, #0
-	add r0, sp, #8
-	bge _021676E4
-	bl VEC_Mag
-	rsb r0, r0, #0
-	b _021676E8
-_021676E4:
-	bl VEC_Mag
-_021676E8:
-	ldr r1, =0x000D3300
-	cmp r0, r1
-	ldrge r0, [r4, #0x270]
-	orrge r0, r0, #4
-	strge r0, [r4, #0x270]
-	ldr r0, [r4, #0x1c]
-	tst r0, #0xf
-	addeq sp, sp, #0x14
-	ldmeqia sp!, {r3, r4, pc}
-	mov r3, #0
-	str r3, [r4, #0x98]
-	str r3, [r4, #0x9c]
-	str r3, [r4, #0xa0]
-	ldr r1, [r4, #0x374]
-	mov r0, #0xa5
-	ldr r2, [r1, #0x3c4]
-	sub r1, r0, #0xa6
-	sub r2, r2, #0x1000
-	str r2, [r4, #0x48]
-	str r3, [sp]
-	str r0, [sp, #4]
-	ldr r0, [r4, #0x138]
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	mov r0, r4
-	mov r1, #2
-	bl Boss3SplatInk__Action_DecideNextAction
-	add sp, sp, #0x14
-	ldmia sp!, {r3, r4, pc}
-
-// clang-format on
-#endif
+    Boss3SplatInk__Action_DecideNextAction(work, 1);
 }
 
-NONMATCH_FUNC void Boss3SplatInk__StateInk_2167764(Boss3SplatInk *work)
+void Boss3SplatInk__StateInk_216768C(Boss3SplatInk *work)
 {
-#ifdef NON_MATCHING
+    work->stateInk = Boss3SplatInk__StateInk_216769C;
+}
 
-#else
-    // clang-format off
-	ldr r2, [r0, #0x270]
-	ldr r1, =Boss3SplatInk__StateInk_2167780
-	bic r2, r2, #4
-	str r2, [r0, #0x270]
-	str r1, [r0, #0x378]
-	bx lr
+void Boss3SplatInk__StateInk_216769C(Boss3SplatInk *work)
+{
+    VecFx32 translation;
+    translation   = work->animatormdl410.work.translation;
+    translation.y = FLOAT_TO_FX32(0.0);
 
-// clang-format on
-#endif
+    if (MATH_ABS(VEC_Mag(&translation)) >= FLOAT_TO_FX32(211.1875))
+        work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_ENABLED;
+
+    if ((work->gameWork.objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_ANY) == 0)
+        return;
+
+    work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
+    work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
+    work->gameWork.objWork.velocity.z = FLOAT_TO_FX32(0.0);
+    work->gameWork.objWork.position.y = work->stage->dword3C4 - FLOAT_TO_FX32(1.0);
+    PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SUMI_GROUND);
+    Boss3SplatInk__Action_DecideNextAction(work, 2);
+}
+
+void Boss3SplatInk__StateInk_2167764(Boss3SplatInk *work)
+{
+    work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    work->stateInk = Boss3SplatInk__StateInk_2167780;
 }
 
 void Boss3SplatInk__StateInk_2167780(Boss3SplatInk *work)
@@ -8955,8 +8769,14 @@ void Boss3SplatInk__StateInk_2167780(Boss3SplatInk *work)
 
 NONMATCH_FUNC void Boss3SplatInk__StateInk_2167784(Boss3SplatInk *work)
 {
+    // Should match when 'aExc_3' is decompiled
 #ifdef NON_MATCHING
+    NNSFndArchive arc;
+    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    BossHelpers__SetAnimation(&work->animatormdl554, B3D_ANIM_MAT_ANIM, NNS_FndGetArchiveFileByIndex(&archivePtr, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_INK_NSBMA), 0, NULL, FALSE);
+    NNS_FndUnmountArchive(&arc);
 
+    work->stateInk = Boss3SplatInk__StateInk_21677F4;
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -8989,363 +8809,143 @@ NONMATCH_FUNC void Boss3SplatInk__StateInk_2167784(Boss3SplatInk *work)
 #endif
 }
 
-NONMATCH_FUNC void Boss3SplatInk__StateInk_21677F4(Boss3SplatInk *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	add r1, r0, #0x600
-	ldrh r1, [r1, #0x62]
-	tst r1, #0x8000
-	ldrne r1, [r0, #0x18]
-	orrne r1, r1, #4
-	strne r1, [r0, #0x18]
-	bx lr
-
-// clang-format on
-#endif
+void Boss3SplatInk__StateInk_21677F4(Boss3SplatInk *work)
+{
+    if ((work->animatormdl554.animFlags[B3D_ANIM_MAT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
+        work->gameWork.objWork.flag |= OBS_RECT_WORK_FLAG_ENABLED;
 }
 
-NONMATCH_FUNC void Boss3DimInk__State_2167810(Boss3DimInk *work)
+void Boss3DimInk__State_2167810(Boss3DimInk *work)
 {
-#ifdef NON_MATCHING
+    if (work->field_3C8 == 2)
+    {
+        FXMatrix43 mtx;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0x3c
-	mov r4, r0
-	add r0, r4, #0x300
-	ldrh r1, [r0, #0xc8]
-	cmp r1, #2
-	bne _021678AC
-	ldr r1, =gPlayer
-	mov r2, #0
-	str r2, [r4, #0x44]
-	ldr r2, [r1, #0]
-	ldr r1, =0x0020FF80
-	ldr r2, [r2, #0x48]
-	ldr r3, =FX_SinCosTable_
-	str r2, [r4, #0x48]
-	str r1, [r4, #0x4c]
-	ldrh r1, [r0, #0x7c]
-	add r0, sp, #0xc
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov ip, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, ip]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotY43_
-	add lr, sp, #0xc
-	ldmia lr!, {r0, r1, r2, r3}
-	add ip, r4, #0x380
-	stmia ip!, {r0, r1, r2, r3}
-	ldmia lr!, {r0, r1, r2, r3}
-	stmia ip!, {r0, r1, r2, r3}
-	ldr r1, [lr]
-	add r0, r4, #0x44
-	str r1, [ip]
-	add r1, sp, #0xc
-	mov r2, r0
-	bl MTX_MultVec43
-	b _0216794C
-_021678AC:
-	ldr r1, [r4, #0x374]
-	ldr r2, =FX_SinCosTable_
-	ldr r1, [r1, #0x374]
-	mov ip, #0
-	add r1, r1, #0xa00
-	ldrh r3, [r1, #0xd4]
-	add r0, sp, #0
-	mov r1, r0
-	add r3, r3, #0x4000
-	mov r3, r3, lsl #0x10
-	mov r3, r3, lsr #0x10
-	mov r3, r3, lsl #0x10
-	mov r3, r3, lsr #0x10
-	mov r3, r3, asr #4
-	mov r3, r3, lsl #2
-	ldrsh r3, [r2, r3]
-	str ip, [sp, #4]
-	str r3, [sp]
-	ldr r3, [r4, #0x374]
-	ldr r3, [r3, #0x374]
-	add r3, r3, #0xa00
-	ldrh r3, [r3, #0xd4]
-	add r3, r3, #0x4000
-	mov r3, r3, lsl #0x10
-	mov r3, r3, lsr #0x10
-	mov r3, r3, lsl #0x10
-	mov r3, r3, lsr #0x10
-	mov r3, r3, asr #4
-	mov r3, r3, lsl #1
-	add r3, r3, #1
-	mov r3, r3, lsl #1
-	ldrsh r2, [r2, r3]
-	str r2, [sp, #8]
-	bl VEC_Normalize
-	ldr r0, =FX_SinCosTable_+0x800
-	add r1, sp, #0
-	ldrsh r2, [r0, #0]
-	ldrsh r3, [r0, #2]
-	add r0, r4, #0x3a4
-	bl MTX_RotAxis33
-_0216794C:
-	ldr r1, [r4, #0x378]
-	mov r0, r4
-	blx r1
-	add sp, sp, #0x3c
-	ldmia sp!, {r3, r4, pc}
+        work->gameWork.objWork.position.x = FLOAT_TO_FX32(0.0);
+        work->gameWork.objWork.position.y = gPlayer->objWork.position.y;
+        work->gameWork.objWork.position.z = FLOAT_TO_FX32(527.96875);
+        MTX_RotY43(mtx.nnMtx, SinFX(work->angle), CosFX(work->angle));
+        work->rotation1 = mtx.mtx33;
 
-// clang-format on
-#endif
+        MTX_MultVec43(&work->gameWork.objWork.position, mtx.nnMtx, &work->gameWork.objWork.position);
+    }
+    else
+    {
+        VecFx32 dir;
+        dir.x = SinFX((s32)(u16)(work->stage->boss->field_AD4 + FLOAT_DEG_TO_IDX(90.0)));
+        dir.y = FLOAT_TO_FX32(0.0);
+        dir.z = CosFX((s32)(u16)(work->stage->boss->field_AD4 + FLOAT_DEG_TO_IDX(90.0)));
+        VEC_Normalize(&dir, &dir);
+
+        MTX_RotAxis33(work->rotation2.nnMtx, &dir, SinFX(FLOAT_DEG_TO_IDX(45.0)), CosFX(FLOAT_DEG_TO_IDX(45.0)));
+    }
+
+    work->stateInk(work);
 }
 
-NONMATCH_FUNC void Boss3DimInk__Destructor(Task *task)
+void Boss3DimInk__Destructor(Task *task)
 {
-#ifdef NON_MATCHING
+    Boss3DimInk *work = TaskGetWork(task, Boss3DimInk);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	bl GetTaskWork_
-	mov r4, r0
-	add r0, r4, #0x3d0
-	bl AnimatorMDL__Release
-	add r0, r4, #0x114
-	add r0, r0, #0x400
-	bl AnimatorMDL__Release
-	add r0, r4, #0x258
-	add r0, r0, #0x400
-	bl AnimatorMDL__Release
-	mov r0, r5
-	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, pc}
+    AnimatorMDL__Release(&work->aniModel1);
+    AnimatorMDL__Release(&work->aniModel2);
+    AnimatorMDL__Release(&work->aniModel3);
 
-// clang-format on
-#endif
+    GameObject__Destructor(task);
 }
 
-NONMATCH_FUNC void Boss3DimInk__Draw(void)
+void Boss3DimInk__Draw(void)
 {
-#ifdef NON_MATCHING
+    Boss3DimInk *work = TaskGetWorkCurrent(Boss3DimInk);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	ldr r1, [r4, #0x374]
-	ldr r0, [r4, #0x20]
-	ldr r5, [r1, #0x374]
-	tst r0, #0x20
-	ldmneia sp!, {r4, r5, r6, pc}
-	add r0, r4, #0x300
-	ldrh r0, [r0, #0xc8]
-	cmp r0, #0
-	beq _021679F0
-	cmp r0, #1
-	beq _02167A40
-	cmp r0, #2
-	beq _02167A90
-	b _02167AD0
-_021679F0:
-	add r0, r4, #0x138
-	add lr, r4, #0x3a4
-	add ip, r0, #0x400
-	mov r6, ip
-	ldmia lr!, {r0, r1, r2, r3}
-	stmia ip!, {r0, r1, r2, r3}
-	ldmia lr!, {r0, r1, r2, r3}
-	stmia ip!, {r0, r1, r2, r3}
-	ldr r2, [lr]
-	mov r0, r6
-	mov r1, r6
-	str r2, [ip]
-	bl Unknown2066510__NormalizeScale
-	add r0, r4, #0x114
-	add r6, r0, #0x400
-	add r0, r5, #0xb60
-	add r3, r6, #0x48
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	b _02167AD0
-_02167A40:
-	add r0, r4, #0x27c
-	add lr, r4, #0x3a4
-	add ip, r0, #0x400
-	mov r6, ip
-	ldmia lr!, {r0, r1, r2, r3}
-	stmia ip!, {r0, r1, r2, r3}
-	ldmia lr!, {r0, r1, r2, r3}
-	stmia ip!, {r0, r1, r2, r3}
-	ldr r2, [lr]
-	mov r0, r6
-	mov r1, r6
-	str r2, [ip]
-	bl Unknown2066510__NormalizeScale
-	add r0, r4, #0x258
-	add r6, r0, #0x400
-	add r0, r5, #0xb60
-	add r3, r6, #0x48
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	b _02167AD0
-_02167A90:
-	add r6, r4, #0x380
-	add r5, r4, #0x3f4
-	ldmia r6!, {r0, r1, r2, r3}
-	stmia r5!, {r0, r1, r2, r3}
-	ldmia r6!, {r0, r1, r2, r3}
-	stmia r5!, {r0, r1, r2, r3}
-	ldr r0, [r6, #0]
-	add r6, r4, #0x3d0
-	str r0, [r5]
-	add r0, r4, #0x44
-	add r3, r6, #0x48
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldr r0, [r6, #0x4c]
-	rsb r0, r0, #0
-	str r0, [r6, #0x4c]
-_02167AD0:
-	bl SwapBuffer3D_GetPrimaryScreen
-	cmp r0, #0
-	ldr r0, [r6, #0x94]
-	beq _02167AEC
-	mov r1, #1
-	bl NNS_G3dMdlSetMdlDepthTestCondAll
-	b _02167AF4
-_02167AEC:
-	mov r1, #0
-	bl NNS_G3dMdlSetMdlDepthTestCondAll
-_02167AF4:
-	mov r0, r6
-	bl AnimatorMDL__ProcessAnimation
-	mov r0, r6
-	bl AnimatorMDL__Draw
-	ldmia sp!, {r4, r5, r6, pc}
+    Boss3 *boss = work->stage->boss;
 
-// clang-format on
-#endif
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0)
+    {
+        AnimatorMDL *aniMDL;
+
+        switch (work->field_3C8)
+        {
+            case 0:
+                work->aniModel2.work.rotation = work->rotation2;
+                Unknown2066510__NormalizeScale(&work->aniModel2.work.rotation, &work->aniModel2.work.rotation);
+                aniMDL = &work->aniModel2;
+
+                aniMDL->work.translation = boss->field_B3C.row[3];
+                break;
+
+            case 1:
+                work->aniModel3.work.rotation = work->rotation2;
+                Unknown2066510__NormalizeScale(&work->aniModel3.work.rotation, &work->aniModel3.work.rotation);
+                aniMDL = &work->aniModel3;
+
+                aniMDL->work.translation = boss->field_B3C.row[3];
+                break;
+
+            case 2:
+                work->aniModel1.work.rotation = work->rotation1;
+
+                aniMDL                     = &work->aniModel1;
+                aniMDL->work.translation   = work->gameWork.objWork.position;
+                aniMDL->work.translation.y = -aniMDL->work.translation.y;
+                break;
+        }
+
+        if (SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM)
+            NNS_G3dMdlSetMdlDepthTestCondAll(aniMDL->renderObj.resMdl, TRUE);
+        else
+            NNS_G3dMdlSetMdlDepthTestCondAll(aniMDL->renderObj.resMdl, FALSE);
+        AnimatorMDL__ProcessAnimation(aniMDL);
+        AnimatorMDL__Draw(aniMDL);
+    }
 }
 
-NONMATCH_FUNC void Boss3DimInk__Action_2167B08(Boss3DimInk *work)
+void Boss3DimInk__Action_2167B08(Boss3DimInk *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r3, =gPlayer
-	mov r4, r0
-	ldr r0, [r3, #0]
-	ldr r2, =0x006BAA99
-	ldr r0, [r0, #0x48]
-	mov r1, #0x40000
-	str r0, [r4, #0x48]
-	ldr r0, [r3, #0]
-	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__GetAngle
-	add r1, r4, #0x300
-	strh r0, [r1, #0x7c]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    work->gameWork.objWork.position.y = gPlayer->objWork.position.y;
+    work->angle                       = BossHelpers__Arena__GetAngle(gPlayer->objWork.position.x, BOSS3_STAGE_START, BOSS3_STAGE_END);
 }
 
-NONMATCH_FUNC void Boss3DimInk__Action_2167B48(Boss3DimInk *work)
+void Boss3DimInk__Action_2167B48(Boss3DimInk *work, u16 angle)
 {
-#ifdef NON_MATCHING
+    Boss3Stage *stage = work->stage;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0x14
-	ldr r4, [r0, #0x374]
-	mov r5, r1
-	mov r1, #0
-	str r1, [sp]
-	str r1, [sp, #4]
-	str r1, [sp, #8]
-	str r1, [sp, #0xc]
-	ldr r0, =0x00000132
-	mov r2, r1
-	mov r3, r1
-	str r1, [sp, #0x10]
-	bl GameObject__SpawnObject
-	str r0, [r4, #0x38c]
-	str r4, [r0, #0x374]
-	ldr r1, [r4, #0x374]
-	mov r2, #0
-	ldr r3, [r1, #0x48]
-	add r1, r0, #0x300
-	str r2, [r0, #0x44]
-	str r3, [r0, #0x48]
-	str r2, [r0, #0x4c]
-	strh r5, [r1, #0xa0]
-	sub r0, r2, #0x2e
-	strh r0, [r1, #0xa2]
-	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, pc}
+    Boss3InkSmoke *smoke = SpawnStageObject(MAPOBJECT_306, 0, 0, Boss3InkSmoke);
+    stage->smoke         = smoke;
+    smoke->stage         = stage;
 
-// clang-format on
-#endif
+    VEC_Set(&smoke->gameWork.objWork.position, FLOAT_TO_FX32(0.0), stage->boss->gameWork.objWork.position.y, FLOAT_TO_FX32(0.0));
+
+    smoke->angle     = angle;
+    smoke->field_3A2 = -46;
 }
 
-NONMATCH_FUNC void Boss3DimInk__Action_2167BBC(Boss3DimInk *work)
+void Boss3DimInk__Action_2167BBC(s32 a1)
 {
-#ifdef NON_MATCHING
+    SwapBuffer3D *swapBuffer = GetSwapBuffer3DWork();
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	bl GetSwapBuffer3DWork
-	mov r4, r0
-	add r1, r4, #0x7c
-	mov r0, #0
-	mov r2, #6
-	bl MIi_CpuClear16
-	mov r0, r5, asr #0x1f
-	mov r1, r0, lsl #0x10
-	ldrh r2, [r4, #0x7c]
-	orr r1, r1, r5, lsr #16
-	bic r0, r2, #1
-	orr r0, r0, #1
-	strh r0, [r4, #0x7c]
-	mov r0, #0x800
-	ldrh r3, [r4, #0x7c]
-	adds r2, r0, r5, lsl #16
-	bic r0, r3, #0xc0
-	orr r3, r0, #0xc0
-	adc r0, r1, #0
-	mov r1, r2, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	movs r0, r1, asr #0xc
-	strh r3, [r4, #0x7c]
-	rsbmi r0, r0, #0
-	ldrh r1, [r4, #0x80]
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bic r1, r1, #0x1f
-	and r0, r0, #0x1f
-	orr r0, r1, r0
-	strh r0, [r4, #0x80]
-	ldmia sp!, {r3, r4, r5, pc}
+    MI_CpuClear16(&swapBuffer->gfxControl[GRAPHICS_ENGINE_B].blendManager, sizeof(swapBuffer->gfxControl[GRAPHICS_ENGINE_B].blendManager));
 
-// clang-format on
-#endif
+    swapBuffer->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane1_BG0 = TRUE;
+    swapBuffer->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.effect     = BLENDTYPE_FADEOUT;
+    swapBuffer->gfxControl[GRAPHICS_ENGINE_B].blendManager.coefficient.value5      = MATH_ABS(FX32_TO_WHOLE(MultiplyFX(a1, FLOAT_TO_FX32(16.0))));
 }
 
 NONMATCH_FUNC void Boss3DimInk__StateInk_2167C44(Boss3DimInk *work)
 {
+    // Should match when 'aExc_3' is decompiled
 #ifdef NON_MATCHING
+    work->field_3CC = FLOAT_TO_FX32(0.0);
+    work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
+    work->field_3C8 = 0;
 
+    NNSFndArchive arc;
+    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    BossHelpers__SetAnimation(&work->aniModel2, B3D_ANIM_JOINT_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_BLD_NSBCA), 0, NULL, FALSE);
+    BossHelpers__SetAnimation(&work->aniModel2, B3D_ANIM_TEX_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_BLD_NSBTA), 0, NULL, FALSE);
+    NNS_FndUnmountArchive(&arc);
+
+    work->stateInk = Boss3DimInk__StateInk_2167CFC;
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -9396,26 +8996,28 @@ NONMATCH_FUNC void Boss3DimInk__StateInk_2167C44(Boss3DimInk *work)
 #endif
 }
 
-NONMATCH_FUNC void Boss3DimInk__StateInk_2167CFC(Boss3DimInk *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	add r1, r0, #0x600
-	ldrh r1, [r1, #0x20]
-	tst r1, #0x8000
-	ldrne r1, =Boss3DimInk__StateInk_2167D18
-	strne r1, [r0, #0x378]
-	bx lr
-
-// clang-format on
-#endif
+void Boss3DimInk__StateInk_2167CFC(Boss3DimInk *work)
+{
+    if ((work->aniModel2.animFlags[B3D_ANIM_JOINT_ANIM] & ANIMATORMDL_FLAG_FINISHED) != 0)
+        work->stateInk = Boss3DimInk__StateInk_2167D18;
 }
 
 NONMATCH_FUNC void Boss3DimInk__StateInk_2167D18(Boss3DimInk *work)
 {
+    // Should match when 'aExc_3' is decompiled
 #ifdef NON_MATCHING
+    work->field_3C8 = 1;
 
+    NNSFndArchive arc;
+    NNS_FndMountArchive(&archivePtr, "exc", gameArchiveStage);
+    BossHelpers__SetAnimation(&work->aniModel3, B3D_ANIM_JOINT_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_BLD_NSBCA), 1, NULL, TRUE);
+    BossHelpers__SetAnimation(&work->aniModel3, B3D_ANIM_TEX_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_BLD_NSBTA), 1, NULL, TRUE);
+    NNS_FndUnmountArchive(&archivePtr);
+
+    work->field_3CA = 120;
+    Boss3DimInk__Action_2167B48(work, work->stage->boss->playerPos);
+
+    work->stateInk = Boss3DimInk__StateInk_2167DE8;
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -9472,428 +9074,193 @@ NONMATCH_FUNC void Boss3DimInk__StateInk_2167D18(Boss3DimInk *work)
 #endif
 }
 
-NONMATCH_FUNC void Boss3DimInk__StateInk_2167DE8(Boss3DimInk *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	add r1, r0, #0x300
-	ldrh r2, [r1, #0xca]
-	cmp r2, #0
-	subne r0, r2, #1
-	strneh r0, [r1, #0xca]
-	ldreq r1, =Boss3DimInk__StateInk_2167E0C
-	streq r1, [r0, #0x378]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss3DimInk__StateInk_2167E0C(Boss3DimInk *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r1, =Boss3DimInk__StateInk_2167E1C
-	str r1, [r0, #0x378]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss3DimInk__StateInk_2167E1C(Boss3DimInk *work)
+void Boss3DimInk__StateInk_2167DE8(Boss3DimInk *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl Boss3DimInk__Action_2167B08
-	ldr r0, [r4, #0x3cc]
-	cmp r0, #0x1000
-	addlt r0, r0, #0x80
-	strlt r0, [r4, #0x3cc]
-	blt _02167E60
-	add r0, r4, #0x300
-	mov r1, #2
-	strh r1, [r0, #0xc8]
-	ldr r0, [r4, #0x374]
-	ldr r2, =Boss3InkSmoke__StateSmoke_216821C
-	ldr r1, [r0, #0x38c]
-	ldr r0, =Boss3DimInk__StateInk_2167E74
-	str r2, [r1, #0x378]
-	str r0, [r4, #0x378]
-_02167E60:
-	ldr r0, [r4, #0x3cc]
-	bl Boss3DimInk__Action_2167BBC
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if (work->field_3CA != 0)
+        work->field_3CA--;
+    else
+        work->stateInk = Boss3DimInk__StateInk_2167E0C;
 }
 
-NONMATCH_FUNC void Boss3DimInk__StateInk_2167E74(Boss3DimInk *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	add r1, r0, #0x300
-	mov r3, #0x3e8
-	ldr r2, =Boss3DimInk__StateInk_2167E90
-	strh r3, [r1, #0xca]
-	str r2, [r0, #0x378]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss3DimInk__StateInk_2167E90(Boss3DimInk *work)
+void Boss3DimInk__StateInk_2167E0C(Boss3DimInk *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl Boss3DimInk__Action_2167B08
-	ldr r0, [r4, #0x3cc]
-	cmp r0, #0x800
-	subgt r0, r0, #0x40
-	strgt r0, [r4, #0x3cc]
-	ldr r0, [r4, #0x3cc]
-	bl Boss3DimInk__Action_2167BBC
-	add r0, r4, #0x300
-	ldrh r1, [r0, #0xca]
-	cmp r1, #0
-	subne r1, r1, #1
-	strneh r1, [r0, #0xca]
-	add r0, r4, #0x300
-	ldrh r0, [r0, #0xca]
-	cmp r0, #0
-	ldreq r0, =Boss3DimInk__StateInk_2167EE4
-	streq r0, [r4, #0x378]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    work->stateInk = Boss3DimInk__StateInk_2167E1C;
 }
 
-NONMATCH_FUNC void Boss3DimInk__StateInk_2167EE4(Boss3DimInk *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	add r1, r0, #0x300
-	mov r2, #0x78
-	strh r2, [r1, #0xca]
-	ldr r1, [r0, #0x374]
-	ldr r2, [r1, #0x38c]
-	cmp r2, #0
-	ldrne r1, =Boss3InkSmoke__StateSmoke_216821C
-	strne r1, [r2, #0x378]
-	ldr r1, =Boss3DimInk__StateInk_2167F18
-	str r1, [r0, #0x378]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss3DimInk__StateInk_2167F18(Boss3DimInk *work)
+void Boss3DimInk__StateInk_2167E1C(Boss3DimInk *work)
 {
-#ifdef NON_MATCHING
+    Boss3DimInk__Action_2167B08(work);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl Boss3DimInk__Action_2167B08
-	ldr r0, [r4, #0x3cc]
-	cmp r0, #0
-	subgt r0, r0, #0x20
-	movle r0, #0
-	str r0, [r4, #0x3cc]
-	ldr r0, [r4, #0x3cc]
-	bl Boss3DimInk__Action_2167BBC
-	add r0, r4, #0x300
-	ldrh r1, [r0, #0xca]
-	cmp r1, #0
-	subne r1, r1, #1
-	strneh r1, [r0, #0xca]
-	add r0, r4, #0x300
-	ldrh r0, [r0, #0xca]
-	cmp r0, #0
-	ldmneia sp!, {r4, pc}
-	ldr r0, [r4, #0x18]
-	mov r1, #0
-	orr r0, r0, #4
-	str r0, [r4, #0x18]
-	ldr r0, [r4, #0x374]
-	str r1, [r0, #0x388]
-	ldmia sp!, {r4, pc}
+    if (work->field_3CC < FLOAT_TO_FX32(1.0))
+    {
+        work->field_3CC += FLOAT_TO_FX32(1.0 / 32.0);
+    }
+    else
+    {
+        work->field_3C8                = 2;
+        work->stage->smoke->stateSmoke = Boss3InkSmoke__StateSmoke_216821C;
+        work->stateInk                 = Boss3DimInk__StateInk_2167E74;
+    }
 
-// clang-format on
-#endif
+    Boss3DimInk__Action_2167BBC(work->field_3CC);
 }
 
-NONMATCH_FUNC void Boss3InkSmoke__State_2167F80(Boss3InkSmoke *work)
+void Boss3DimInk__StateInk_2167E74(Boss3DimInk *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r0, r4, #0x300
-	ldrh r1, [r0, #0xa0]
-	ldr r3, =FX_SinCosTable_
-	add r0, r4, #0x37c
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov ip, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, ip]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotY33_
-	ldr r1, [r4, #0x378]
-	cmp r1, #0
-	ldmeqia sp!, {r4, pc}
-	mov r0, r4
-	blx r1
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    work->field_3CA = 1000;
+    work->stateInk  = Boss3DimInk__StateInk_2167E90;
 }
 
-NONMATCH_FUNC void Boss3InkSmoke__Destructor(Task *task)
+void Boss3DimInk__StateInk_2167E90(Boss3DimInk *work)
 {
-#ifdef NON_MATCHING
+    Boss3DimInk__Action_2167B08(work);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	bl GetTaskWork_
-	ldr r1, [r0, #0x374]
-	mov r4, #0
-	str r4, [r1, #0x38c]
-	add r5, r0, #0x3a8
-_02167FF0:
-	mov r0, r5
-	bl AnimatorSprite3D__Release
-	add r4, r4, #1
-	cmp r4, #3
-	add r5, r5, #0x104
-	blt _02167FF0
-	mov r0, r6
-	bl StageTask_Destructor
-	ldmia sp!, {r4, r5, r6, pc}
+    if (work->field_3CC > FLOAT_TO_FX32(0.5))
+        work->field_3CC -= FLOAT_TO_FX32(0.015625);
 
-// clang-format on
-#endif
+    Boss3DimInk__Action_2167BBC(work->field_3CC);
+
+    if (work->field_3CA != 0)
+        work->field_3CA--;
+
+    if (work->field_3CA == 0)
+        work->stateInk = Boss3DimInk__StateInk_2167EE4;
 }
 
-NONMATCH_FUNC void Boss3InkSmoke__Draw(void)
+void Boss3DimInk__StateInk_2167EE4(Boss3DimInk *work)
 {
-#ifdef NON_MATCHING
+    work->field_3CA = 120;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x3c
-	bl GetCurrentTaskWork_
-	mov r7, r0
-	ldr r0, [r7, #0x20]
-	tst r0, #0x20
-	addne sp, sp, #0x3c
-	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r10, =_0217A928
-	ldr r11, =0x55555556
-	mov r9, #0
-	add r5, r7, #0x3a8
-	add r4, r7, #0x44
-	add r6, sp, #0x30
-_0216804C:
-	smull r0, r1, r11, r9
-	add r1, r1, r9, lsr #31
-	mov r0, #3
-	smull r1, r2, r0, r1
-	sub r1, r9, r1
-	add r3, r1, r1, lsl #6
-	ldmia r10, {r0, r1, r2}
-	stmia r6, {r0, r1, r2}
-	add r8, r5, r3, lsl #2
-	add r3, r8, #0x48
-	ldmia r4, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldr r1, [r8, #0x4c]
-	mov r0, r3
-	rsb r1, r1, #0
-	str r1, [r8, #0x4c]
-	mov r2, r3
-	mov r1, r6
-	bl VEC_Add
-	add r0, r8, #0x48
-	add r1, r7, #0x37c
-	mov r2, r0
-	bl MTX_MultVec33
-	ldr r0, [r7, #0x3a4]
-	ldr r1, [r8, #0xf4]
-	mov r0, r0, asr #0xc
-	bic r1, r1, #0x1f0000
-	mov r0, r0, lsl #0x1b
-	orr r0, r1, r0, lsr #11
-	str r0, [r8, #0xf4]
-	mov r0, r8
-	bl AnimatorSprite3D__Draw
-	add r9, r9, #1
-	add r10, r10, #0xc
-	cmp r9, #6
-	blt _0216804C
-	ldr r8, =_0217A928
-	mov r9, #0
-	add r5, r7, #0x3a8
-	add r4, r7, #0x44
-	add r6, sp, #0x24
-	add r11, sp, #0
-_021680F4:
-	ldr r0, =0x55555556
-	smull r1, r2, r0, r9
-	add r2, r2, r9, lsr #31
-	mov r0, #3
-	smull r1, r2, r0, r2
-	sub r2, r9, r1
-	add r3, r2, r2, lsl #6
-	ldmia r8, {r0, r1, r2}
-	stmia r6, {r0, r1, r2}
-	add r10, r5, r3, lsl #2
-	add r3, r10, #0x48
-	ldmia r4, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldr r1, [r10, #0x4c]
-	mov r0, r3
-	rsb r1, r1, #0
-	add r1, r1, #0x3c000
-	str r1, [r10, #0x4c]
-	mov r2, r3
-	mov r1, r6
-	bl VEC_Add
-	add r0, r7, #0x37c
-	mov r1, r11
-	bl MTX_Transpose33_
-	add r0, r10, #0x48
-	mov r1, r11
-	mov r2, r0
-	bl MTX_MultVec33
-	ldr r0, [r7, #0x3a4]
-	ldr r1, [r10, #0xf4]
-	mov r0, r0, asr #0xc
-	bic r1, r1, #0x1f0000
-	mov r0, r0, lsl #0x1b
-	orr r0, r1, r0, lsr #11
-	str r0, [r10, #0xf4]
-	mov r0, r10
-	bl AnimatorSprite3D__Draw
-	add r9, r9, #1
-	add r8, r8, #0xc
-	cmp r9, #6
-	blt _021680F4
-	add sp, sp, #0x3c
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    if (work->stage->smoke)
+        work->stage->smoke->stateSmoke = Boss3InkSmoke__StateSmoke_216821C;
 
-// clang-format on
-#endif
+    work->stateInk = Boss3DimInk__StateInk_2167F18;
 }
 
-NONMATCH_FUNC void Boss3InkSmoke__StateSmoke_21681A8(Boss3InkSmoke *work){
-#ifdef NON_MATCHING
+void Boss3DimInk__StateInk_2167F18(Boss3DimInk *work)
+{
+    Boss3DimInk__Action_2167B08(work);
 
-#else
-    // clang-format off
-	add r1, r0, #0x9c
-	add r3, r1, #0x400
-	mov r2, #0
-_021681B4:
-	ldr r1, [r3, #0]
-	add r2, r2, #1
-	bic r1, r1, #0x1f0000
-	orr r1, r1, #0x10000
-	str r1, [r3]
-	cmp r2, #3
-	add r3, r3, #0x104
-	blt _021681B4
-	mov r2, #0x1000
-	ldr r1, =Boss3InkSmoke__StateSmoke_21681EC
-	str r2, [r0, #0x3a4]
-	str r1, [r0, #0x378]
-	bx lr
+    if (work->field_3CC > FLOAT_TO_FX32(0.0))
+        work->field_3CC -= FLOAT_TO_FX32(0.0078125);
+    else
+        work->field_3CC = FLOAT_TO_FX32(0.0);
 
-// clang-format on
-#endif
+    Boss3DimInk__Action_2167BBC(work->field_3CC);
+
+    if (work->field_3CA != 0)
+        work->field_3CA--;
+
+    if (work->field_3CA == 0)
+    {
+        DestroyStageTask(&work->gameWork.objWork);
+        work->stage->dimInk = NULL;
+    }
 }
 
-NONMATCH_FUNC void Boss3InkSmoke__StateSmoke_21681EC(Boss3InkSmoke *work){
-#ifdef NON_MATCHING
+void Boss3InkSmoke__State_2167F80(Boss3InkSmoke *work)
+{
+    MTX_RotY33(work->mtx.nnMtx, SinFX(work->angle), CosFX(work->angle));
 
-#else
-    // clang-format off
-	add r1, r0, #0x300
-	ldrsh r3, [r1, #0xa0]
-	ldrsh r2, [r1, #0xa2]
-	add r2, r3, r2
-	strh r2, [r1, #0xa0]
-	ldr r1, [r0, #0x3a4]
-	add r1, r1, #0x400
-	str r1, [r0, #0x3a4]
-	cmp r1, #0x1f000
-	movgt r1, #0x1f000
-	strgt r1, [r0, #0x3a4]
-	bx lr
-
-// clang-format on
-#endif
+    if (work->stateSmoke)
+        work->stateSmoke(work);
 }
 
-NONMATCH_FUNC void Boss3InkSmoke__StateSmoke_216821C(Boss3InkSmoke *work){
-#ifdef NON_MATCHING
+void Boss3InkSmoke__Destructor(Task *task)
+{
+    Boss3InkSmoke *work = TaskGetWork(task, Boss3InkSmoke);
 
-#else
-    // clang-format off
-	ldr r1, =Boss3InkSmoke__StateSmoke_216822C
-	str r1, [r0, #0x378]
-	bx lr
+    work->stage->smoke = NULL;
 
-// clang-format on
-#endif
+    for (s32 i = 0; i < 3; i++)
+    {
+        AnimatorSprite3D__Release(&work->aniSprite[i]);
+    }
+
+    StageTask_Destructor(task);
 }
 
-NONMATCH_FUNC void Boss3InkSmoke__StateSmoke_216822C(Boss3InkSmoke *work){
-#ifdef NON_MATCHING
+void Boss3InkSmoke__Draw(void)
+{
+    Boss3InkSmoke *work = TaskGetWorkCurrent(Boss3InkSmoke);
 
-#else
-    // clang-format off
-	ldr r1, [r0, #0x3a4]
-	sub r1, r1, #0x1000
-	str r1, [r0, #0x3a4]
-	cmp r1, #0
-	bxgt lr
-	mov r2, #0
-	str r2, [r0, #0x3a4]
-	ldr r1, [r0, #0x18]
-	orr r1, r1, #4
-	str r1, [r0, #0x18]
-	ldr r0, [r0, #0x374]
-	str r2, [r0, #0x38c]
-	bx lr
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0)
+    {
+        AnimatorSprite3D *aniSprite;
+        s32 i;
+        VecFx32 offset1;
+        VecFx32 offset2;
+        FXMatrix33 mtx;
 
-// clang-format on
-#endif
+        for (i = 0; i < 6; i++)
+        {
+            offset1 = _0217A928[i];
+
+            aniSprite = &work->aniSprite[i % 3];
+
+            aniSprite->work.translation   = work->gameWork.objWork.position;
+            aniSprite->work.translation.y = -aniSprite->work.translation.y;
+
+            VEC_Add(&aniSprite->work.translation, &offset1, &aniSprite->work.translation);
+            MTX_MultVec33(&aniSprite->work.translation, work->mtx.nnMtx, &aniSprite->work.translation);
+            aniSprite->polygonAttr.alpha = FX32_TO_WHOLE(work->field_3A4);
+            AnimatorSprite3D__Draw(aniSprite);
+        }
+
+        for (i = 0; i < 6; i++)
+        {
+            offset2 = _0217A928[i];
+
+            aniSprite = &work->aniSprite[i % 3];
+
+            aniSprite->work.translation   = work->gameWork.objWork.position;
+            aniSprite->work.translation.y = -aniSprite->work.translation.y;
+            aniSprite->work.translation.y += FLOAT_TO_FX32(60.0);
+
+            VEC_Add(&aniSprite->work.translation, &offset2, &aniSprite->work.translation);
+            MTX_Transpose33(work->mtx.nnMtx, mtx.nnMtx);
+            MTX_MultVec33(&aniSprite->work.translation, mtx.nnMtx, &aniSprite->work.translation);
+            aniSprite->polygonAttr.alpha = FX32_TO_WHOLE(work->field_3A4);
+            AnimatorSprite3D__Draw(aniSprite);
+        }
+    }
+}
+
+void Boss3InkSmoke__StateSmoke_21681A8(Boss3InkSmoke *work)
+{
+    for (s32 i = 0; i < 3; i++)
+    {
+        work->aniSprite[i].polygonAttr.alpha = GX_COLOR_FROM_888(0x8);
+    }
+    work->field_3A4 = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x8));
+
+    work->stateSmoke = Boss3InkSmoke__StateSmoke_21681EC;
+}
+
+void Boss3InkSmoke__StateSmoke_21681EC(Boss3InkSmoke *work)
+{
+    work->angle += work->field_3A2;
+
+    work->field_3A4 += FLOAT_TO_FX32(0.25); // RGBA8888 -> 0x2
+    if (work->field_3A4 > FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xFF)))
+        work->field_3A4 = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0xFF));
+}
+
+void Boss3InkSmoke__StateSmoke_216821C(Boss3InkSmoke *work)
+{
+    work->stateSmoke = Boss3InkSmoke__StateSmoke_216822C;
+}
+
+void Boss3InkSmoke__StateSmoke_216822C(Boss3InkSmoke *work)
+{
+    work->field_3A4 -= FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x8));
+
+    if (work->field_3A4 <= 0)
+    {
+        work->field_3A4 = FX32_FROM_WHOLE(GX_COLOR_FROM_888(0x0));
+        DestroyStageTask(&work->gameWork.objWork);
+        work->stage->smoke = NULL;
+    }
 }
 
 void Boss3ScreenSplatInk__State_2168260(Boss3ScreenSplatInk *work)
@@ -9905,7 +9272,7 @@ void Boss3ScreenSplatInk__State_2168260(Boss3ScreenSplatInk *work)
     work->stage->field_420 = TRUE;
     Unknown2066510__LookAt(&config->view.camPos, &config->view.camTarget, &config->view.camUp, &mtx);
 
-    work->gameWork.objWork.position = mtx.translation;
+    work->gameWork.objWork.position   = mtx.translation;
     work->gameWork.objWork.position.y = -work->gameWork.objWork.position.y;
 
     work->mtxRotation = mtx.mtx33;
@@ -9948,9 +9315,9 @@ void Boss3ScreenSplatInk__Draw(void)
 
 void Boss3ScreenSplatInk__StateInk_21683F0(Boss3ScreenSplatInk *work)
 {
-    work->alpha     = GX_COLOR_FROM_888(0xFF);
+    work->alpha       = GX_COLOR_FROM_888(0xFF);
     work->scrubAmount = FLOAT_TO_FX32(0.0);
-    work->stateInk  = Boss3ScreenSplatInk__StateInk_2168414;
+    work->stateInk    = Boss3ScreenSplatInk__StateInk_2168414;
 }
 
 void Boss3ScreenSplatInk__StateInk_2168414(Boss3ScreenSplatInk *work)
@@ -9980,7 +9347,7 @@ void Boss3ScreenSplatInk__StateInk_2168414(Boss3ScreenSplatInk *work)
         DestroyStageTask(&work->gameWork.objWork);
 }
 
-void Boss3SplatScreenInk__StateInk_21684EC(Boss3ScreenSplatInk *work)
+void Boss3ScreenSplatInk__StateInk_21684EC(Boss3ScreenSplatInk *work)
 {
     work->stateInk = Boss3ScreenSplatInk__StateInk_21684FC;
 }

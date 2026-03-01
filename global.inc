@@ -9776,7 +9776,7 @@
 .public Boss3__StateBoss_2166F80
 .public Boss3__StateBoss_21670C4
 .public Boss3__StateBoss_2167164
-.public Boss3__StateBoss_2167368
+.public Boss3_BossState_ShowResultsScreen
 .public Boss3SplatInk__State_2167380
 .public Boss3SplatInk__Destructor
 .public Boss3SplatInk__Draw
@@ -9819,7 +9819,7 @@
 .public Boss3ScreenSplatInk__Draw
 .public Boss3ScreenSplatInk__StateInk_21683F0
 .public Boss3ScreenSplatInk__StateInk_2168414
-.public Boss3SplatScreenInk__StateInk_21684EC
+.public Boss3ScreenSplatInk__StateInk_21684EC
 .public Boss3ScreenSplatInk__StateInk_21684FC
 .public Boss3Arm__State_2168520
 .public Boss3Arm__Destructor

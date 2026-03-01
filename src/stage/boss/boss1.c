@@ -1970,12 +1970,12 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
     SwapBuffer3D *camera3D_A = GetSwapBuffer3DWork();
     SwapBuffer3D *camera3D_B = GetSwapBuffer3DWork();
 
-    camera3D_A->gfxControl[0].blendManager.blendControl.value = camera3D_B->gfxControl[1].blendManager.blendControl.value = 0x00;
-    camera3D_A->gfxControl[0].blendManager.blendControl.plane1_BG0 = camera3D_B->gfxControl[1].blendManager.blendControl.plane1_BG0 = TRUE;
-    camera3D_A->gfxControl[0].blendManager.blendControl.plane2_BG1 = camera3D_B->gfxControl[1].blendManager.blendControl.plane2_BG1 = TRUE;
-    camera3D_A->gfxControl[0].blendManager.blendControl.plane2_BG2 = camera3D_B->gfxControl[1].blendManager.blendControl.plane2_BG2 = TRUE;
-    camera3D_A->gfxControl[0].blendManager.blendControl.plane2_BG3 = camera3D_B->gfxControl[1].blendManager.blendControl.plane2_BG3 = TRUE;
-    camera3D_A->gfxControl[0].blendManager.blendControl.plane2_OBJ = camera3D_B->gfxControl[1].blendManager.blendControl.plane2_OBJ = TRUE;
+    camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.value = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.value = 0x00;
+    camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane1_BG0 = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane1_BG0 = TRUE;
+    camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane2_BG1 = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_BG1 = TRUE;
+    camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane2_BG2 = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_BG2 = TRUE;
+    camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane2_BG3 = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_BG3 = TRUE;
+    camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane2_OBJ = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_OBJ = TRUE;
 
     UpdateBossHealthHUD(work->health);
     SetHUDActiveScreen(0);
@@ -6058,10 +6058,10 @@ void Boss1__BossState_StartDestroyedShock(Boss1 *work)
 {
     SwapBuffer3D *camera3D = GetSwapBuffer3DWork();
 
-    MI_CpuClear16(&camera3D->gfxControl[0].blendManager, sizeof(camera3D->gfxControl[0].blendManager));
-    camera3D->gfxControl[0].blendManager.blendControl.effect     = BLENDTYPE_FADEOUT;
-    camera3D->gfxControl[0].blendManager.blendControl.plane1_BG0 = TRUE;
-    camera3D->gfxControl[0].blendManager.blendControl.value |= GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ;
+    MI_CpuClear16(&camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager, sizeof(camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager));
+    camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.effect     = BLENDTYPE_FADEOUT;
+    camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane1_BG0 = TRUE;
+    camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.value |= GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ;
 
     work->action.destroyed.timer = 0;
     work->bossState              = Boss1__BossState_DestroyedShock;
@@ -6082,10 +6082,10 @@ void Boss1__BossState_DestroyedShock(Boss1 *work)
     }
 
     // brighten the blending
-    if (camera3D->gfxControl[0].blendManager.coefficient.value < RENDERCORE_BRIGHTNESS_WHITE && ++action->brightnessTimer > 2)
+    if (camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager.coefficient.value < RENDERCORE_BRIGHTNESS_WHITE && ++action->brightnessTimer > 2)
     {
         action->brightnessTimer = 0;
-        camera3D->gfxControl[0].blendManager.coefficient.value++;
+        camera3D->gfxControl[GRAPHICS_ENGINE_A].blendManager.coefficient.value++;
     }
 
     // create explosion "shock" fx
@@ -6136,12 +6136,12 @@ void Boss1__BossState_Explode(Boss1 *work)
     else
         stage->lightConfig.brightness++;
 
-    if (camera3D->gfxControl[0].brightness < RENDERCORE_BRIGHTNESS_WHITE)
+    if (camera3D->gfxControl[GRAPHICS_ENGINE_A].brightness < RENDERCORE_BRIGHTNESS_WHITE)
     {
         if (action->timer > SECONDS_TO_FRAMES(3.0) && ++action->fadeOutTimer > 3)
         {
-            camera3D->gfxControl[0].brightness++;
-            camera3D->gfxControl[1].brightness++;
+            camera3D->gfxControl[GRAPHICS_ENGINE_A].brightness++;
+            camera3D->gfxControl[GRAPHICS_ENGINE_B].brightness++;
             action->fadeOutTimer = 0;
         }
     }
