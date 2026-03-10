@@ -89,6 +89,24 @@ enum DecorationAssets
     DECOR_ASSET_COUNT,
 };
 
+enum DecorationCommonType_
+{
+    DECOR_COMMONTYPE_STATIC,
+    DECOR_COMMONTYPE_BREAKABLE,
+    DECOR_COMMONTYPE_WHALE_POINT_CLOUD,
+    DECOR_COMMONTYPE_GHOST_TREE_FACE,
+    DECOR_COMMONTYPE_GHOST_TREE_EYE,
+    DECOR_COMMONTYPE_SKY_BABYLON_FAR_CLOUD,
+    DECOR_COMMONTYPE_SKY_BABYLON_NEAR_CLOUD,
+    DECOR_COMMONTYPE_ICICLE,
+    DECOR_COMMONTYPE_ICE_TREE,
+    DECOR_COMMONTYPE_ANIMATED,
+    DECOR_COMMONTYPE_EMITTER,
+
+    DECOR_COMMONTYPE_COUNT,
+};
+typedef u8 DecorationCommonType;
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -115,7 +133,7 @@ struct DecorConfig
     u8 animFlags2;
     DecorationDrawOrder oamOrder;
     u8 spriteID;
-    u8 type;
+    DecorationCommonType type;
 };
 
 struct DecorRect
@@ -140,8 +158,8 @@ static OBS_SPRITE_REF decorSpriteRefList[55];
 
 NOT_DECOMPILED void *DecorationSys__rangeTable;
 NOT_DECOMPILED void *DecorationSys__offsetTable;
-NOT_DECOMPILED struct DecorRect DecorationSys__rectList[11];
-NOT_DECOMPILED DecorationSysInitFunc DecorationSys__initTable[11];
+NOT_DECOMPILED struct DecorRect DecorationSys__rectList[DECOR_COMMONTYPE_COUNT];
+NOT_DECOMPILED DecorationSysInitFunc DecorationSys__initTable[DECOR_COMMONTYPE_COUNT];
 NOT_DECOMPILED void *_021876CC;
 NOT_DECOMPILED const struct DecorConfig decorInfo3D[];
 
@@ -196,7 +214,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                      .animFlags2 = 0x80,
                      .oamOrder   = DECOR_DRAWORDER_25,
                      .spriteID   = 0,
-                     .type       = 0 },
+                     .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_1] = { .assetID    = DECOR_ASSET_Flipmush,
                      .flags      = DECOR_FLAG_NONE,
@@ -205,7 +223,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                      .animFlags2 = 0x80,
                      .oamOrder   = DECOR_DRAWORDER_25,
                      .spriteID   = 0,
-                     .type       = 0 },
+                     .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_2] = { .assetID    = DECOR_ASSET_Flipmush,
                      .flags      = DECOR_FLAG_NONE,
@@ -214,7 +232,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                      .animFlags2 = 0x80,
                      .oamOrder   = DECOR_DRAWORDER_25,
                      .spriteID   = 0,
-                     .type       = 0 },
+                     .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_3] = { .assetID    = DECOR_ASSET_Flipmush,
                      .flags      = DECOR_FLAG_NONE,
@@ -223,7 +241,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                      .animFlags2 = 0x80,
                      .oamOrder   = DECOR_DRAWORDER_25,
                      .spriteID   = 0,
-                     .type       = 0 },
+                     .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_4] = { .assetID    = DECOR_ASSET_Flipmush,
                      .flags      = DECOR_FLAG_NONE,
@@ -232,7 +250,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                      .animFlags2 = 0x80,
                      .oamOrder   = DECOR_DRAWORDER_25,
                      .spriteID   = 0,
-                     .type       = 0 },
+                     .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_5] = { .assetID    = DECOR_ASSET_Flipmush,
                      .flags      = DECOR_FLAG_NONE,
@@ -241,7 +259,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                      .animFlags2 = 0x80,
                      .oamOrder   = DECOR_DRAWORDER_25,
                      .spriteID   = 0,
-                     .type       = 0 },
+                     .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_6] = { .assetID    = DECOR_ASSET_Flipmush,
                      .flags      = DECOR_FLAG_NONE,
@@ -250,7 +268,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                      .animFlags2 = 0x80,
                      .oamOrder   = DECOR_DRAWORDER_25,
                      .spriteID   = 0,
-                     .type       = 0 },
+                     .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_7] = { .assetID    = DECOR_ASSET_Flipmush,
                      .flags      = DECOR_FLAG_NONE,
@@ -259,7 +277,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                      .animFlags2 = 0x80,
                      .oamOrder   = DECOR_DRAWORDER_25,
                      .spriteID   = 0,
-                     .type       = 0 },
+                     .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_8] = { .assetID    = DECOR_ASSET_Flipmush,
                      .flags      = DECOR_FLAG_NONE,
@@ -268,7 +286,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                      .animFlags2 = 0x80,
                      .oamOrder   = DECOR_DRAWORDER_25,
                      .spriteID   = 0,
-                     .type       = 0 },
+                     .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_9] = { .assetID    = DECOR_ASSET_Flipmush,
                      .flags      = DECOR_FLAG_NONE,
@@ -277,7 +295,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                      .animFlags2 = 0x80,
                      .oamOrder   = DECOR_DRAWORDER_25,
                      .spriteID   = 0,
-                     .type       = 0 },
+                     .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_10] = { .assetID    = DECOR_ASSET_Flipmush,
                       .flags      = DECOR_FLAG_NONE,
@@ -286,7 +304,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x80,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_11] = { .assetID    = DECOR_ASSET_Flipmush,
                       .flags      = DECOR_FLAG_NONE,
@@ -295,7 +313,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x80,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_12] = { .assetID    = DECOR_ASSET_Flipmush,
                       .flags      = DECOR_FLAG_NONE,
@@ -304,7 +322,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x80,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_13] = { .assetID    = DECOR_ASSET_Flipmush,
                       .flags      = DECOR_FLAG_NONE,
@@ -313,7 +331,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x80,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_14] = { .assetID    = DECOR_ASSET_Flipmush,
                       .flags      = DECOR_FLAG_NONE,
@@ -322,7 +340,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x80,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_15] = { .assetID    = DECOR_ASSET_Flipmush,
                       .flags      = DECOR_FLAG_NONE,
@@ -331,7 +349,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x80,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_16] = { .assetID    = DECOR_ASSET_Flipmush,
                       .flags      = DECOR_FLAG_NONE,
@@ -340,7 +358,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0E,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_17] = { .assetID    = DECOR_ASSET_Flipmush,
                       .flags      = DECOR_FLAG_NONE,
@@ -349,7 +367,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0E,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 1,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_18] = { .assetID    = DECOR_ASSET_Flipmush,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -358,7 +376,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0E,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 1,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_19] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_NONE,
@@ -367,7 +385,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_NONE,
                       .spriteID   = 2,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_20] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -376,7 +394,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_NONE,
                       .spriteID   = 2,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_21] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_NONE,
@@ -385,7 +403,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_NONE,
                       .spriteID   = 3,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_22] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -394,7 +412,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_NONE,
                       .spriteID   = 3,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_23] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_NONE,
@@ -403,7 +421,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_NONE,
                       .spriteID   = 4,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_24] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -412,7 +430,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_NONE,
                       .spriteID   = 4,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_25] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_NONE,
@@ -421,7 +439,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 5,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_26] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -430,7 +448,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 5,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_27] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_NONE,
@@ -439,7 +457,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 6,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_28] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -448,7 +466,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 6,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_29] = { .assetID    = DECOR_ASSET_Flw,
                       .flags      = DECOR_FLAG_NONE,
@@ -457,7 +475,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x10,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 7,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_30] = { .assetID    = DECOR_ASSET_Flw,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -466,7 +484,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x10,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 7,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_31] = { .assetID    = DECOR_ASSET_Kinoko2,
                       .flags      = DECOR_FLAG_NONE,
@@ -475,7 +493,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x12,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 8,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_32] = { .assetID    = DECOR_ASSET_Kinoko2,
                       .flags      = DECOR_FLAG_NONE,
@@ -484,7 +502,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x12,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 9,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_33] = { .assetID    = DECOR_ASSET_Kinoko2,
                       .flags      = DECOR_FLAG_NONE,
@@ -493,7 +511,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x12,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xA,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_34] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -502,7 +520,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x11,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xB,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_35] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -511,7 +529,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x11,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xB,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_36] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_NONE,
@@ -520,7 +538,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x11,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xC,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_37] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -529,7 +547,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x11,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xC,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_38] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_NONE,
@@ -538,7 +556,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x11,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xD,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_39] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -547,7 +565,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x11,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xD,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_40] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_NONE,
@@ -556,7 +574,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x11,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xE,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_41] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -565,7 +583,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x11,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xE,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_42] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_NONE,
@@ -574,7 +592,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x11,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xF,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_43] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -583,7 +601,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x11,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xF,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_44] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_NONE,
@@ -592,7 +610,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x11,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x10,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_45] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -601,7 +619,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x11,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x10,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_46] = { .assetID    = DECOR_ASSET_Palm,
                       .flags      = DECOR_FLAG_NONE,
@@ -610,7 +628,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x13,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x11,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_47] = { .assetID    = DECOR_ASSET_Palm,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -619,7 +637,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x13,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x11,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_48] = { .assetID    = DECOR_ASSET_PipeFlw,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -628,7 +646,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x09,
                       .oamOrder   = DECOR_DRAWORDER_26,
                       .spriteID   = 0x12,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_49] = { .assetID    = DECOR_ASSET_PipeFlw,
                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -637,7 +655,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x09,
                       .oamOrder   = DECOR_DRAWORDER_26,
                       .spriteID   = 0x12,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_50] = { .assetID    = DECOR_ASSET_PipeFlw,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -646,7 +664,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x09,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x13,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_51] = { .assetID    = DECOR_ASSET_PipeFlw,
                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -655,7 +673,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x09,
                       .oamOrder   = DECOR_DRAWORDER_26,
                       .spriteID   = 0x13,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_52] = { .assetID    = DECOR_ASSET_PipeFlw,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -664,7 +682,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x09,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x14,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_53] = { .assetID    = DECOR_ASSET_PipeFlw,
                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -673,7 +691,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x09,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x14,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_54] = { .assetID    = DECOR_ASSET_PipeFlw,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -682,7 +700,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x09,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x15,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_55] = { .assetID    = DECOR_ASSET_PipeFlw,
                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -691,7 +709,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x09,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x15,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_56] = { .assetID    = DECOR_ASSET_PipeFlw,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -700,7 +718,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x09,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x16,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_57] = { .assetID    = DECOR_ASSET_PipeFlw,
                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -709,7 +727,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x09,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x16,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_58] = { .assetID    = DECOR_ASSET_PipeFlw,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -718,7 +736,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x09,
                       .oamOrder   = DECOR_DRAWORDER_NONE,
                       .spriteID   = 0x17,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_59] = { .assetID    = DECOR_ASSET_PipeFlw,
                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -727,7 +745,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x09,
                       .oamOrder   = DECOR_DRAWORDER_NONE,
                       .spriteID   = 0x17,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_60] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_NONE,
@@ -736,7 +754,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x18,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_61] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -745,7 +763,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x18,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_62] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_NONE,
@@ -754,7 +772,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x19,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_63] = { .assetID    = DECOR_ASSET_Grass,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -763,7 +781,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x0F,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x19,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_64] = { .assetID    = DECOR_ASSET_Water,
                       .flags      = DECOR_FLAG_40,
@@ -772,7 +790,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x21,
                       .oamOrder   = DECOR_DRAWORDER_NONE,
                       .spriteID   = 0x1A,
-                      .type       = 10 },
+                      .type       = DECOR_COMMONTYPE_EMITTER },
 
     [MAPDECOR_65] = { .assetID    = DECOR_ASSET_Suimen,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -781,7 +799,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x16,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x1B,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_66] = { .assetID    = DECOR_ASSET_BigLeaf,
                       .flags      = DECOR_FLAG_NONE,
@@ -790,7 +808,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x18,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x1C,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_67] = { .assetID    = DECOR_ASSET_BigLeaf,
                       .flags      = DECOR_FLAG_NONE,
@@ -799,7 +817,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x18,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x1D,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_68] = { .assetID    = DECOR_ASSET_BigLeaf,
                       .flags      = DECOR_FLAG_NONE,
@@ -808,7 +826,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x18,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x1E,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_69] = { .assetID    = DECOR_ASSET_BigLeaf,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -817,7 +835,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x18,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x1E,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_70] = { .assetID    = DECOR_ASSET_BigLeaf,
                       .flags      = DECOR_FLAG_NONE,
@@ -826,7 +844,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x18,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x1F,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_71] = { .assetID    = DECOR_ASSET_BigLeaf,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -835,7 +853,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x18,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x1F,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_72] = { .assetID    = DECOR_ASSET_BigLeaf,
                       .flags      = DECOR_FLAG_NONE,
@@ -844,7 +862,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x18,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x20,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_73] = { .assetID    = DECOR_ASSET_BigLeaf,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -853,7 +871,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x18,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x20,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_74] = { .assetID    = DECOR_ASSET_BigLeaf,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -862,7 +880,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x18,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x21,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_75] = { .assetID    = DECOR_ASSET_BigLeaf,
                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -871,7 +889,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x18,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x21,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_76] = { .assetID    = DECOR_ASSET_BigLeaf,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -880,7 +898,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x18,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x22,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_77] = { .assetID    = DECOR_ASSET_BigLeaf,
                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -889,7 +907,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x18,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x22,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_78] = { .assetID    = DECOR_ASSET_Palm,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -898,7 +916,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x13,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x23,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_79] = { .assetID    = DECOR_ASSET_Palm,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -907,7 +925,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x13,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x24,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_80] = { .assetID    = DECOR_ASSET_Palm,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -916,7 +934,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x13,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x25,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_81] = { .assetID    = DECOR_ASSET_Palm,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -925,7 +943,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x13,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x26,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_82] = { .assetID    = DECOR_ASSET_Flw,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -934,7 +952,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x10,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x27,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_83] = { .assetID    = DECOR_ASSET_Flw,
                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -943,7 +961,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x10,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x27,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_84] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -952,7 +970,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x19,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xB,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_85] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -961,7 +979,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x19,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xB,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_86] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_NONE,
@@ -970,7 +988,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x19,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xD,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_87] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -979,7 +997,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x19,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xD,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_88] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_NONE,
@@ -988,7 +1006,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x19,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xF,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_89] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -997,7 +1015,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x19,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xF,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_90] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_NONE,
@@ -1006,7 +1024,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x19,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x10,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_91] = { .assetID    = DECOR_ASSET_Kinoko,
                       .flags      = DECOR_FLAG_FLIP_X,
@@ -1015,7 +1033,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x19,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x10,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_92] = { .assetID    = DECOR_ASSET_Kinoko2,
                       .flags      = DECOR_FLAG_NONE,
@@ -1024,7 +1042,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x1A,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 8,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_93] = { .assetID    = DECOR_ASSET_Kinoko2,
                       .flags      = DECOR_FLAG_NONE,
@@ -1033,7 +1051,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x1A,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 9,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_94] = { .assetID    = DECOR_ASSET_Kinoko2,
                       .flags      = DECOR_FLAG_NONE,
@@ -1042,7 +1060,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x1A,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xA,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_95] = { .assetID    = DECOR_ASSET_Kinoko2,
                       .flags      = DECOR_FLAG_NONE,
@@ -1051,7 +1069,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x1B,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 8,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_96] = { .assetID    = DECOR_ASSET_Kinoko2,
                       .flags      = DECOR_FLAG_NONE,
@@ -1060,7 +1078,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x1B,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 9,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_97] = { .assetID    = DECOR_ASSET_Kinoko2,
                       .flags      = DECOR_FLAG_NONE,
@@ -1069,7 +1087,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x1B,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0xA,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_98] = { .assetID    = DECOR_ASSET_FlwTubo,
                       .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1078,7 +1096,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x1C,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x28,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_99] = { .assetID    = DECOR_ASSET_FlwTubo,
                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -1087,7 +1105,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                       .animFlags2 = 0x1C,
                       .oamOrder   = DECOR_DRAWORDER_25,
                       .spriteID   = 0x28,
-                      .type       = 0 },
+                      .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_100] = { .assetID    = DECOR_ASSET_FlwTubo,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1096,7 +1114,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x1C,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x29,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_101] = { .assetID    = DECOR_ASSET_FlwTubo,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1105,7 +1123,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x1C,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x2A,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_102] = { .assetID    = DECOR_ASSET_Flipmush,
                        .flags      = DECOR_FLAG_NONE,
@@ -1114,7 +1132,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x1D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_103] = { .assetID    = DECOR_ASSET_Flipmush,
                        .flags      = DECOR_FLAG_NONE,
@@ -1123,7 +1141,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x1D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 1,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_104] = { .assetID    = DECOR_ASSET_Flipmush,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1132,7 +1150,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x1D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 1,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_105] = { .assetID    = DECOR_ASSET_Mo,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_10,
@@ -1141,7 +1159,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x0A,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x2B,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_106] = { .assetID    = DECOR_ASSET_Mo,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_10,
@@ -1150,7 +1168,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x0A,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x2C,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_107] = { .assetID    = DECOR_ASSET_Mo,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_10,
@@ -1159,7 +1177,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x0A,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x2D,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_108] = { .assetID    = DECOR_ASSET_Mo,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_LOW_PRIORITY | DECOR_FLAG_10,
@@ -1168,7 +1186,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x0A,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x2B,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_109] = { .assetID    = DECOR_ASSET_Mo,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_LOW_PRIORITY | DECOR_FLAG_10,
@@ -1177,7 +1195,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x0A,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x2C,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_110] = { .assetID    = DECOR_ASSET_Mo,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_LOW_PRIORITY | DECOR_FLAG_10,
@@ -1186,7 +1204,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x0A,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x2D,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_111] = { .assetID    = DECOR_ASSET_Flipmush,
                        .flags      = DECOR_FLAG_NONE,
@@ -1195,7 +1213,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x00,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_112] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1204,7 +1222,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_113] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1213,7 +1231,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 1,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_114] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1222,7 +1240,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 2,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_115] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1231,7 +1249,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_116] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1240,7 +1258,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 4,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_117] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1249,7 +1267,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_118] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1258,7 +1276,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 6,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_119] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1267,7 +1285,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 7,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_120] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1276,7 +1294,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 8,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_121] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1285,7 +1303,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 9,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_122] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1294,7 +1312,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xA,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_123] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1303,7 +1321,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xB,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_124] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1312,7 +1330,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xC,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_125] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1321,7 +1339,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xD,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_126] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1330,7 +1348,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xE,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_127] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1339,7 +1357,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xF,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_128] = { .assetID    = DECOR_ASSET_GstTree,
                        .flags      = DECOR_FLAG_NONE,
@@ -1348,7 +1366,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x27,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x2E,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_129] = { .assetID    = DECOR_ASSET_GstTree,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1357,7 +1375,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x27,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x2E,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_130] = { .assetID    = DECOR_ASSET_GstTree,
                        .flags      = DECOR_FLAG_NONE,
@@ -1366,7 +1384,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x27,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x2F,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_131] = { .assetID    = DECOR_ASSET_GstTree,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1375,7 +1393,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x27,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x2F,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_132] = { .assetID    = DECOR_ASSET_GstTree,
                        .flags      = DECOR_FLAG_NONE,
@@ -1384,7 +1402,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x27,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x30,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_133] = { .assetID    = DECOR_ASSET_GstTree,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1393,7 +1411,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x27,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x30,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_134] = { .assetID    = DECOR_ASSET_GstTree,
                        .flags      = DECOR_FLAG_NONE,
@@ -1402,7 +1420,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x27,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x31,
-                       .type       = 3 },
+                       .type       = DECOR_COMMONTYPE_GHOST_TREE_FACE },
 
     [MAPDECOR_135] = { .assetID    = DECOR_ASSET_GstTree,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1411,7 +1429,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x27,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x31,
-                       .type       = 3 },
+                       .type       = DECOR_COMMONTYPE_GHOST_TREE_FACE },
 
     [MAPDECOR_136] = { .assetID    = DECOR_ASSET_GstTree,
                        .flags      = DECOR_FLAG_NONE,
@@ -1420,7 +1438,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x27,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x32,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_137] = { .assetID    = DECOR_ASSET_GstTree,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1429,7 +1447,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x27,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x32,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_138] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1438,7 +1456,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x10,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_139] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1447,7 +1465,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x11,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_140] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1456,7 +1474,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x12,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_141] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1465,7 +1483,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x13,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_142] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1474,7 +1492,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x14,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_143] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -1483,7 +1501,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x14,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_144] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_FLIP_Y | DECOR_FLAG_LOW_PRIORITY,
@@ -1492,7 +1510,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x14,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_145] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_FLIP_Y | DECOR_FLAG_LOW_PRIORITY,
@@ -1501,7 +1519,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x14,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_146] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1510,7 +1528,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x15,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_147] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -1519,7 +1537,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x15,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_148] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1528,7 +1546,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x16,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_149] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_FLIP_Y | DECOR_FLAG_LOW_PRIORITY,
@@ -1537,7 +1555,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x16,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_150] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1546,7 +1564,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x17,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_151] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1555,7 +1573,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x18,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_152] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1564,7 +1582,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x19,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_153] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -1573,7 +1591,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x19,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_154] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1582,7 +1600,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x1A,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_155] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_FLIP_Y | DECOR_FLAG_LOW_PRIORITY,
@@ -1591,7 +1609,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x1A,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_156] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1600,7 +1618,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x1B,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_157] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_FLIP_Y | DECOR_FLAG_LOW_PRIORITY,
@@ -1609,7 +1627,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x1B,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_158] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1618,7 +1636,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x1C,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_159] = { .assetID    = DECOR_ASSET_Decopipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -1627,7 +1645,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x1C,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_160] = { .assetID    = DECOR_ASSET_Chimney,
                        .flags      = DECOR_FLAG_NONE,
@@ -1636,7 +1654,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x1D,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_161] = { .assetID    = DECOR_ASSET_Chimney,
                        .flags      = DECOR_FLAG_NONE,
@@ -1645,7 +1663,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x1E,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_162] = { .assetID    = DECOR_ASSET_Chimney,
                        .flags      = DECOR_FLAG_NONE,
@@ -1654,7 +1672,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x1F,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_163] = { .assetID    = DECOR_ASSET_Chimney,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1663,7 +1681,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x1F,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_164] = { .assetID    = DECOR_ASSET_Chimney,
                        .flags      = DECOR_FLAG_NONE,
@@ -1672,7 +1690,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x20,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_165] = { .assetID    = DECOR_ASSET_Chimney,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1681,7 +1699,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x20,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_166] = { .assetID    = DECOR_ASSET_Chimney,
                        .flags      = DECOR_FLAG_NONE,
@@ -1690,7 +1708,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x21,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_167] = { .assetID    = DECOR_ASSET_Chimney,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1699,7 +1717,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x21,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_168] = { .assetID    = DECOR_ASSET_Chimney,
                        .flags      = DECOR_FLAG_NONE,
@@ -1708,7 +1726,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x22,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_169] = { .assetID    = DECOR_ASSET_Chimney,
                        .flags      = DECOR_FLAG_NONE,
@@ -1717,7 +1735,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x23,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_170] = { .assetID    = DECOR_ASSET_Chimney,
                        .flags      = DECOR_FLAG_NONE,
@@ -1726,7 +1744,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x2F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x24,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_171] = { .assetID    = DECOR_ASSET_Icicle,
                        .flags      = DECOR_FLAG_NONE,
@@ -1735,7 +1753,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x3D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 7 },
+                       .type       = DECOR_COMMONTYPE_ICICLE },
 
     [MAPDECOR_172] = { .assetID    = DECOR_ASSET_Icicle,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1744,7 +1762,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x3D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 7 },
+                       .type       = DECOR_COMMONTYPE_ICICLE },
 
     [MAPDECOR_173] = { .assetID    = DECOR_ASSET_Icicle,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1753,7 +1771,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x3D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 7 },
+                       .type       = DECOR_COMMONTYPE_ICICLE },
 
     [MAPDECOR_174] = { .assetID    = DECOR_ASSET_Icicle,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -1762,7 +1780,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x3D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 7 },
+                       .type       = DECOR_COMMONTYPE_ICICLE },
 
     [MAPDECOR_175] = { .assetID    = DECOR_ASSET_Icicle,
                        .flags      = DECOR_FLAG_NONE,
@@ -1771,7 +1789,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x3D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 1,
-                       .type       = 7 },
+                       .type       = DECOR_COMMONTYPE_ICICLE },
 
     [MAPDECOR_176] = { .assetID    = DECOR_ASSET_Icicle,
                        .flags      = DECOR_FLAG_NONE,
@@ -1780,7 +1798,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x3D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 2,
-                       .type       = 7 },
+                       .type       = DECOR_COMMONTYPE_ICICLE },
 
     [MAPDECOR_177] = { .assetID    = DECOR_ASSET_IceTree,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1789,7 +1807,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x3F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 8 },
+                       .type       = DECOR_COMMONTYPE_ICE_TREE },
 
     [MAPDECOR_178] = { .assetID    = DECOR_ASSET_IceTree,
                        .flags      = DECOR_FLAG_HIGH_PRIORITY,
@@ -1798,7 +1816,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x3F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 8 },
+                       .type       = DECOR_COMMONTYPE_ICE_TREE },
 
     [MAPDECOR_179] = { .assetID    = DECOR_ASSET_IceTree,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1807,7 +1825,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x3E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 4,
-                       .type       = 8 },
+                       .type       = DECOR_COMMONTYPE_ICE_TREE },
 
     [MAPDECOR_180] = { .assetID    = DECOR_ASSET_IceTree,
                        .flags      = DECOR_FLAG_HIGH_PRIORITY,
@@ -1816,7 +1834,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x3E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 4,
-                       .type       = 8 },
+                       .type       = DECOR_COMMONTYPE_ICE_TREE },
 
     [MAPDECOR_181] = { .assetID    = DECOR_ASSET_IceTree,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1825,7 +1843,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x40,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_182] = { .assetID    = DECOR_ASSET_IceTree,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -1834,7 +1852,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x40,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_183] = { .assetID    = DECOR_ASSET_IceTree,
                        .flags      = DECOR_FLAG_HIGH_PRIORITY,
@@ -1843,7 +1861,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x40,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_184] = { .assetID    = DECOR_ASSET_IceTree,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_HIGH_PRIORITY,
@@ -1852,7 +1870,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x40,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_185] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1861,7 +1879,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x41,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_186] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -1870,7 +1888,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x41,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 1,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_187] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -1879,7 +1897,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 2,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_188] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1888,7 +1906,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 2,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_189] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -1897,7 +1915,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_190] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1906,7 +1924,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_191] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -1915,7 +1933,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 4,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_192] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1924,7 +1942,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 4,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_193] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -1933,7 +1951,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_194] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1942,7 +1960,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_195] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -1951,7 +1969,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 2,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_196] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1960,7 +1978,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 2,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_197] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -1969,7 +1987,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_198] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1978,7 +1996,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_199] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -1987,7 +2005,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 4,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_200] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -1996,7 +2014,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 4,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_201] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -2005,7 +2023,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_202] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2014,7 +2032,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_203] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_4,
@@ -2023,7 +2041,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x44,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 6,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_204] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_4,
@@ -2032,7 +2050,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x44,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 6,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_205] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_4,
@@ -2041,7 +2059,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x44,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 7,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_206] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_4,
@@ -2050,7 +2068,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x44,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 7,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_207] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -2059,7 +2077,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x45,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 8,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_208] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2068,7 +2086,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x45,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 8,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_209] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -2077,7 +2095,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x45,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 9,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_210] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2086,7 +2104,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x45,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 9,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_211] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -2095,7 +2113,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x45,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xA,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_212] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2104,7 +2122,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x45,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xA,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_213] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -2113,7 +2131,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xB,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_214] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2122,7 +2140,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xB,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_215] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -2131,7 +2149,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xC,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_216] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2140,7 +2158,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xC,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_217] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -2149,7 +2167,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xB,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_218] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2158,7 +2176,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xB,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_219] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -2167,7 +2185,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xC,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_220] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2176,7 +2194,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xC,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_221] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -2185,7 +2203,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xD,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_222] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2194,7 +2212,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xD,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_223] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -2203,7 +2221,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xE,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_224] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2212,7 +2230,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xE,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_225] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -2221,7 +2239,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xD,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_226] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2230,7 +2248,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xD,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_227] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_NONE,
@@ -2239,7 +2257,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xE,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_228] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2248,7 +2266,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x43,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xE,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_229] = { .assetID    = DECOR_ASSET_Boat,
                        .flags      = DECOR_FLAG_NONE,
@@ -2257,7 +2275,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x46,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_230] = { .assetID    = DECOR_ASSET_Cannon,
                        .flags      = DECOR_FLAG_NONE,
@@ -2266,7 +2284,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x47,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 1,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_231] = { .assetID    = DECOR_ASSET_Mast,
                        .flags      = DECOR_FLAG_NONE,
@@ -2275,7 +2293,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x48,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 2,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_232] = { .assetID    = DECOR_ASSET_Mast,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2284,7 +2302,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x48,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 2,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_233] = { .assetID    = DECOR_ASSET_Mast,
                        .flags      = DECOR_FLAG_FLIP_Y,
@@ -2293,7 +2311,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x48,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 2,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_234] = { .assetID    = DECOR_ASSET_Mast,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_FLIP_Y,
@@ -2302,7 +2320,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x48,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 2,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_235] = { .assetID    = DECOR_ASSET_Mast,
                        .flags      = DECOR_FLAG_NONE,
@@ -2311,7 +2329,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x48,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_236] = { .assetID    = DECOR_ASSET_Mast,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2320,7 +2338,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x48,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_237] = { .assetID    = DECOR_ASSET_Mast,
                        .flags      = DECOR_FLAG_FLIP_Y,
@@ -2329,7 +2347,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x48,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_238] = { .assetID    = DECOR_ASSET_Mast,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_FLIP_Y,
@@ -2338,7 +2356,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x48,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_239] = { .assetID    = DECOR_ASSET_Rudder,
                        .flags      = DECOR_FLAG_NONE,
@@ -2347,7 +2365,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x49,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 4,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_240] = { .assetID    = DECOR_ASSET_Rope,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -2356,7 +2374,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x48,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_241] = { .assetID    = DECOR_ASSET_AnchorRope3D,
                        .flags      = DECOR_FLAG_NONE,
@@ -2365,7 +2383,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x00,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 6,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_242] = { .assetID    = DECOR_ASSET_AnchorRope3D,
                        .flags      = DECOR_FLAG_NONE,
@@ -2374,7 +2392,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x01,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 7,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_243] = { .assetID    = DECOR_ASSET_AnchorRope3D,
                        .flags      = DECOR_FLAG_NONE,
@@ -2383,7 +2401,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x02,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 8,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_244] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_4,
@@ -2392,7 +2410,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_245] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_4,
@@ -2401,7 +2419,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_246] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_4,
@@ -2410,7 +2428,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 4,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_247] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_4,
@@ -2419,7 +2437,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 4,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_248] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_4,
@@ -2428,7 +2446,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_249] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_4,
@@ -2437,7 +2455,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_250] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_4,
@@ -2446,7 +2464,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xB,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_251] = { .assetID    = DECOR_ASSET_Coral,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_4,
@@ -2455,7 +2473,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x42,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xB,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_252] = { .assetID    = DECOR_ASSET_Barrel,
                        .flags      = DECOR_FLAG_NONE,
@@ -2464,7 +2482,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x5E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xC,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_253] = { .assetID    = DECOR_ASSET_Barrel,
                        .flags      = DECOR_FLAG_NONE,
@@ -2473,7 +2491,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x54,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xD,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_254] = { .assetID    = DECOR_ASSET_Sail,
                        .flags      = DECOR_FLAG_40,
@@ -2482,7 +2500,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x58,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xE,
-                       .type       = 10 },
+                       .type       = DECOR_COMMONTYPE_EMITTER },
 
     [MAPDECOR_255] = { .assetID    = DECOR_ASSET_Trampoline,
                        .flags      = DECOR_FLAG_NONE,
@@ -2491,7 +2509,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x59,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xF,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_256] = { .assetID    = DECOR_ASSET_Trampoline,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2500,7 +2518,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x59,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xF,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_257] = { .assetID    = DECOR_ASSET_Trampoline,
                        .flags      = DECOR_FLAG_NONE,
@@ -2509,7 +2527,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x59,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x10,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_258] = { .assetID    = DECOR_ASSET_Trampoline,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2518,7 +2536,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x59,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x10,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_259] = { .assetID    = DECOR_ASSET_Trampoline,
                        .flags      = DECOR_FLAG_FLIP_Y,
@@ -2527,7 +2545,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x59,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x10,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_260] = { .assetID    = DECOR_ASSET_Trampoline,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_FLIP_Y,
@@ -2536,7 +2554,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x59,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x10,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_261] = { .assetID    = DECOR_ASSET_Cloud,
                        .flags      = DECOR_FLAG_HIGH_PRIORITY,
@@ -2545,7 +2563,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x60,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x33,
-                       .type       = 2 },
+                       .type       = DECOR_COMMONTYPE_WHALE_POINT_CLOUD },
 
     [MAPDECOR_262] = { .assetID    = DECOR_ASSET_Cloud,
                        .flags      = DECOR_FLAG_HIGH_PRIORITY,
@@ -2554,7 +2572,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x60,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x34,
-                       .type       = 2 },
+                       .type       = DECOR_COMMONTYPE_WHALE_POINT_CLOUD },
 
     [MAPDECOR_263] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2563,7 +2581,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_264] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2572,7 +2590,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 1,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_265] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2581,7 +2599,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 2,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_266] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2590,7 +2608,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_267] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2599,7 +2617,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 4,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_268] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2608,7 +2626,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_269] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2617,7 +2635,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 6,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_270] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2626,7 +2644,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x26,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 7,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_271] = { .assetID    = DECOR_ASSET_Thunder,
                        .flags      = DECOR_FLAG_40,
@@ -2635,7 +2653,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x66,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 10 },
+                       .type       = DECOR_COMMONTYPE_EMITTER },
 
     [MAPDECOR_272] = { .assetID    = DECOR_ASSET_CloudSt6,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -2644,7 +2662,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x06,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 1,
-                       .type       = 5 },
+                       .type       = DECOR_COMMONTYPE_SKY_BABYLON_FAR_CLOUD },
 
     [MAPDECOR_273] = { .assetID    = DECOR_ASSET_CloudSt6,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -2653,7 +2671,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x06,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 2,
-                       .type       = 5 },
+                       .type       = DECOR_COMMONTYPE_SKY_BABYLON_FAR_CLOUD },
 
     [MAPDECOR_274] = { .assetID    = DECOR_ASSET_CloudSt6,
                        .flags      = DECOR_FLAG_HIGH_PRIORITY,
@@ -2662,7 +2680,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x06,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 6 },
+                       .type       = DECOR_COMMONTYPE_SKY_BABYLON_NEAR_CLOUD },
 
     [MAPDECOR_275] = { .assetID    = DECOR_ASSET_CloudSt6,
                        .flags      = DECOR_FLAG_HIGH_PRIORITY,
@@ -2671,7 +2689,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x06,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 4,
-                       .type       = 6 },
+                       .type       = DECOR_COMMONTYPE_SKY_BABYLON_NEAR_CLOUD },
 
     [MAPDECOR_276] = { .assetID    = DECOR_ASSET_Flipmush,
                        .flags      = DECOR_FLAG_NONE,
@@ -2680,7 +2698,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x00,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_277] = { .assetID    = DECOR_ASSET_FallingWater,
                        .flags      = DECOR_FLAG_40,
@@ -2689,7 +2707,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x5D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 10 },
+                       .type       = DECOR_COMMONTYPE_EMITTER },
 
     [MAPDECOR_278] = { .assetID    = DECOR_ASSET_FallingWater,
                        .flags      = DECOR_FLAG_40,
@@ -2698,7 +2716,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x5D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 1,
-                       .type       = 10 },
+                       .type       = DECOR_COMMONTYPE_EMITTER },
 
     [MAPDECOR_279] = { .assetID    = DECOR_ASSET_FallingWater,
                        .flags      = DECOR_FLAG_40,
@@ -2707,7 +2725,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x5D,
                        .oamOrder   = DECOR_DRAWORDER_NONE,
                        .spriteID   = 2,
-                       .type       = 10 },
+                       .type       = DECOR_COMMONTYPE_EMITTER },
 
     [MAPDECOR_280] = { .assetID    = DECOR_ASSET_LeafWater,
                        .flags      = DECOR_FLAG_40,
@@ -2716,7 +2734,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x5F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 10 },
+                       .type       = DECOR_COMMONTYPE_EMITTER },
 
     [MAPDECOR_281] = { .assetID    = DECOR_ASSET_Flipmush,
                        .flags      = DECOR_FLAG_NONE,
@@ -2725,7 +2743,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x00,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_282] = { .assetID    = DECOR_ASSET_Flipmush,
                        .flags      = DECOR_FLAG_NONE,
@@ -2734,7 +2752,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x00,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_283] = { .assetID    = DECOR_ASSET_Grass6,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -2743,7 +2761,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x68,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 5,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_284] = { .assetID    = DECOR_ASSET_Grass6,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -2752,7 +2770,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x68,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 6,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_285] = { .assetID    = DECOR_ASSET_Grass6,
                        .flags      = DECOR_FLAG_NONE,
@@ -2761,7 +2779,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x68,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 7,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_286] = { .assetID    = DECOR_ASSET_Grass6,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2770,7 +2788,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x68,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 7,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_287] = { .assetID    = DECOR_ASSET_Grass6,
                        .flags      = DECOR_FLAG_NONE,
@@ -2779,7 +2797,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x68,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 8,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_288] = { .assetID    = DECOR_ASSET_Grass6,
                        .flags      = DECOR_FLAG_NONE,
@@ -2788,7 +2806,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x68,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 9,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_289] = { .assetID    = DECOR_ASSET_Barrel,
                        .flags      = DECOR_FLAG_NONE,
@@ -2797,7 +2815,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x54,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x11,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_290] = { .assetID    = DECOR_ASSET_Saku,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -2806,7 +2824,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x59,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x12,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_291] = { .assetID    = DECOR_ASSET_Saku,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2815,7 +2833,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x59,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x12,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_292] = { .assetID    = DECOR_ASSET_Saku,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -2824,7 +2842,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x59,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x13,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_293] = { .assetID    = DECOR_ASSET_Saku,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
@@ -2833,7 +2851,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x59,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x13,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_294] = { .assetID    = DECOR_ASSET_Saku,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
@@ -2842,7 +2860,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x59,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0x14,
-                       .type       = 1 },
+                       .type       = DECOR_COMMONTYPE_BREAKABLE },
 
     [MAPDECOR_295] = { .assetID    = DECOR_ASSET_KojimaPalm,
                        .flags      = DECOR_FLAG_NONE,
@@ -2851,7 +2869,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x6E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_296] = { .assetID    = DECOR_ASSET_KojimaPalm,
                        .flags      = DECOR_FLAG_FLIP_X,
@@ -2860,7 +2878,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x6E,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 0 },
+                       .type       = DECOR_COMMONTYPE_STATIC },
 
     [MAPDECOR_297] = { .assetID    = DECOR_ASSET_GstTree,
                        .flags      = DECOR_FLAG_NONE,
@@ -2869,7 +2887,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x27,
                        .oamOrder   = DECOR_DRAWORDER_26,
                        .spriteID   = 0x35,
-                       .type       = 4 },
+                       .type       = DECOR_COMMONTYPE_GHOST_TREE_EYE },
 
     [MAPDECOR_298] = { .assetID    = DECOR_ASSET_Thunder,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_PREPEND,
@@ -2878,7 +2896,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x66,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 9 },
+                       .type       = DECOR_COMMONTYPE_ANIMATED },
 
     [MAPDECOR_299] = { .assetID    = DECOR_ASSET_Sail,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_PREPEND,
@@ -2887,7 +2905,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x58,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0xE,
-                       .type       = 9 },
+                       .type       = DECOR_COMMONTYPE_ANIMATED },
 
     [MAPDECOR_300] = { .assetID    = DECOR_ASSET_Water,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_LOW_PRIORITY,
@@ -2896,7 +2914,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x21,
                        .oamOrder   = DECOR_DRAWORDER_NONE,
                        .spriteID   = 0x1A,
-                       .type       = 9 },
+                       .type       = DECOR_COMMONTYPE_ANIMATED },
 
     [MAPDECOR_301] = { .assetID    = DECOR_ASSET_FallingWater,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_PREPEND,
@@ -2905,7 +2923,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x5D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 0,
-                       .type       = 9 },
+                       .type       = DECOR_COMMONTYPE_ANIMATED },
 
     [MAPDECOR_302] = { .assetID    = DECOR_ASSET_FallingWater,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_PREPEND,
@@ -2914,7 +2932,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x5D,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 1,
-                       .type       = 9 },
+                       .type       = DECOR_COMMONTYPE_ANIMATED },
 
     [MAPDECOR_303] = { .assetID    = DECOR_ASSET_FallingWater,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_PREPEND,
@@ -2923,7 +2941,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x5D,
                        .oamOrder   = DECOR_DRAWORDER_NONE,
                        .spriteID   = 2,
-                       .type       = 9 },
+                       .type       = DECOR_COMMONTYPE_ANIMATED },
 
     [MAPDECOR_304] = { .assetID    = DECOR_ASSET_LeafWater,
                        .flags      = DECOR_FLAG_4 | DECOR_FLAG_PREPEND,
@@ -2932,7 +2950,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .animFlags2 = 0x5F,
                        .oamOrder   = DECOR_DRAWORDER_25,
                        .spriteID   = 3,
-                       .type       = 9 },
+                       .type       = DECOR_COMMONTYPE_ANIMATED },
 };
 
 static s8 iceSparkleOffsetTable[16] = { 1, -52, -5, -44, 15, -32, -2, -30, 19, -23, -5, -21, 14, -6, -13, -4 };
@@ -3539,7 +3557,7 @@ void DecorationSys__CreateWaterBubble(StageDecoration *work)
     }
 }
 
-NONMATCH_FUNC void DecorationSys__InitFunc_21538D0(StageDecoration *work)
+NONMATCH_FUNC void DecorationSys__InitCmn_Breakable(StageDecoration *work)
 {
     // https://decomp.me/scratch/HeuQt -> 85.54%
 #ifdef NON_MATCHING
@@ -3575,7 +3593,7 @@ NONMATCH_FUNC void DecorationSys__InitFunc_21538D0(StageDecoration *work)
         left,  top, right,  bottom);
 
     work->rect[0].parent = &work->objWork;
-    ObjRect__SetOnDefend(&work->rect[0], DecorationSys__OnDefend_21539B0);
+    ObjRect__SetOnDefend(&work->rect[0], DecorationSys__OnDefend_Breakable);
     work->rect[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_ENABLED;
     work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 #else
@@ -3622,7 +3640,7 @@ _02153934:
 	add r0, r4, #0x168
 	str ip, [sp]
 	bl ObjRect__SetBox2D
-	ldr r0, =DecorationSys__OnDefend_21539B0
+	ldr r0, =DecorationSys__OnDefend_Breakable
 	str r4, [r4, #0x184]
 	str r0, [r4, #0x18c]
 	ldr r0, [r4, #0x180]
@@ -3639,7 +3657,7 @@ _02153934:
 #endif
 }
 
-NONMATCH_FUNC void DecorationSys__OnDefend_21539B0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+NONMATCH_FUNC void DecorationSys__OnDefend_Breakable(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
 #ifdef NON_MATCHING
 
@@ -4073,16 +4091,16 @@ _02153FD8:
 #endif
 }
 
-void DecorationSys__InitFunc_2154030(StageDecoration *work)
+void DecorationSys__InitCmn_WhalePointCloud(StageDecoration *work)
 {
     work->objWork.prevPosition.x = work->objWork.position.x - g_obj.camera[0].x;
     work->objWork.prevPosition.y = work->objWork.position.y - g_obj.camera[0].y;
     work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
-    SetTaskState(&work->objWork, DecorationSys__State_2154074);
+    SetTaskState(&work->objWork, DecorationSys__State_WhalePointCloud);
 }
 
-NONMATCH_FUNC void DecorationSys__State_2154074(StageDecoration *work)
+NONMATCH_FUNC void DecorationSys__State_WhalePointCloud(StageDecoration *work)
 {
     // Will match when DecorationSys__offsetTable & DecorationSys__rangeTable are decompiled
 #ifdef NON_MATCHING
@@ -4165,7 +4183,7 @@ _0215412C:
 #endif
 }
 
-void DecorationSys__InitFunc_2154150(StageDecoration *work)
+void DecorationSys__InitCmn_GhostTreeFace(StageDecoration *work)
 {
     s32 offset;
     if (work->mapDecor->id != MAPDECOR_134)
@@ -4173,21 +4191,22 @@ void DecorationSys__InitFunc_2154150(StageDecoration *work)
     else
         offset = FLOAT_TO_FX32(43.0);
 
-    StageDecoration *decor = DecorationSys__CreateTempDecoration(MAPDECOR_297, work->objWork.position.x + offset, work->objWork.position.y - FLOAT_TO_FX32(38.0));
-    if (decor != NULL)
-        decor->objWork.parentObj = &work->objWork;
+    // Spawn Eye
+    StageDecoration *eye = DecorationSys__CreateTempDecoration(MAPDECOR_297, work->objWork.position.x + offset, work->objWork.position.y - FLOAT_TO_FX32(38.0));
+    if (eye != NULL)
+        eye->objWork.parentObj = &work->objWork;
 }
 
-void DecorationSys__InitFunc_2154194(StageDecoration *work)
+void DecorationSys__InitCmn_GhostTreeEye(StageDecoration *work)
 {
     work->objWork.userTimer = work->objWork.position.x;
     work->objWork.userWork  = work->objWork.position.y;
     work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
-    SetTaskState(&work->objWork, DecorationSys__State_21541C0);
+    SetTaskState(&work->objWork, DecorationSys__State_GhostTreeEye);
 }
 
-NONMATCH_FUNC void DecorationSys__State_21541C0(StageDecoration *work)
+NONMATCH_FUNC void DecorationSys__State_GhostTreeEye(StageDecoration *work)
 {
 #ifdef NON_MATCHING
 
@@ -4250,14 +4269,14 @@ _02154220:
 #endif
 }
 
-void DecorationSys__InitFunc_2154294(StageDecoration *work)
+void DecorationSys__InitCmn_SkyBabylonFarCloud(StageDecoration *work)
 {
     work->objWork.viewOutOffset = 145;
-    SetDecorOutFunc(&work->objWork, DecorationSys__Draw_21542BC);
+    SetDecorOutFunc(&work->objWork, DecorationSys__Draw_SkyBabylonFarCloud);
     work->objWork.userTimer = (u16)work->objWork.position.x;
 }
 
-void DecorationSys__Draw_21542BC(StageDecoration *work)
+void DecorationSys__Draw_SkyBabylonFarCloud(StageDecoration *work)
 {
     work->objWork.userTimer = (s32)(u16)(work->objWork.userTimer + 256);
     work->objWork.offset.y  = MultiplyFX(0x7FFF, SinFX((s32)(u16)work->objWork.userTimer));
@@ -4283,28 +4302,28 @@ void DecorationSys__Draw_21542BC(StageDecoration *work)
     }
 }
 
-void DecorationSys__InitFunc_21543E8(StageDecoration *work)
+void DecorationSys__InitCmn_SkyBabylonNearCloud(StageDecoration *work)
 {
     work->objWork.userTimer = (u16)work->objWork.position.x;
-    SetTaskState(&work->objWork, DecorationSys__State_2154408);
+    SetTaskState(&work->objWork, DecorationSys__State_SkyBabylonNearCloud);
 }
 
-void DecorationSys__State_2154408(StageDecoration *work)
+void DecorationSys__State_SkyBabylonNearCloud(StageDecoration *work)
 {
     work->objWork.userTimer = (s32)(u16)(work->objWork.userTimer + 256);
     work->objWork.offset.y  = MultiplyFX(0x3FFF, SinFX((s32)(u16)work->objWork.userTimer));
 }
 
-void DecorationSys__InitFunc_2154478(StageDecoration *work)
+void DecorationSys__InitCmn_Icicle(StageDecoration *work)
 {
     ObjRect__SetBox2D(&work->rect[0].rect, 0, -48, 32, 0);
     work->rect[0].parent = &work->objWork;
-    ObjRect__SetOnDefend(&work->rect[0], DecorationSys__OnDefend_21544D0);
+    ObjRect__SetOnDefend(&work->rect[0], DecorationSys__OnDefend_Icicle);
     work->rect[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR | OBS_RECT_WORK_FLAG_ENABLED;
     work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 }
 
-void DecorationSys__OnDefend_21544D0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void DecorationSys__OnDefend_Icicle(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     StageDecoration *decor = (StageDecoration *)rect2->parent;
     Player *player         = (Player *)rect1->parent;
@@ -4317,12 +4336,12 @@ void DecorationSys__OnDefend_21544D0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     }
 }
 
-void DecorationSys__InitFunc_2154510(StageDecoration *work)
+void DecorationSys__InitCmn_IceTree(StageDecoration *work)
 {
-    SetTaskState(&work->objWork, DecorationSys__State_2154520);
+    SetTaskState(&work->objWork, DecorationSys__State_IceTree);
 }
 
-void DecorationSys__State_2154520(StageDecoration *work)
+void DecorationSys__State_IceTree(StageDecoration *work)
 {
     work->objWork.userTimer--;
     if (work->objWork.userTimer <= 0)
@@ -4529,7 +4548,7 @@ void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     decor->decorWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 }
 
-NONMATCH_FUNC s32 DecorationSys__Func_2154B7C(s32 id)
+NONMATCH_FUNC s32 DecorationSys__CreateEmitterChild(s32 id)
 {
 #ifdef NON_MATCHING
 
@@ -4587,7 +4606,7 @@ _02154C0C:
 #endif
 }
 
-void DecorationSys__Func_2154C30(s32 id)
+void DecorationSys__DestroyEmitterChild(s32 id)
 {
     if (decorUnknownList[id].timer != 0)
     {
@@ -4601,15 +4620,15 @@ void DecorationSys__Func_2154C30(s32 id)
     }
 }
 
-void DecorationSys__InitFunc_2154C90(StageDecoration *work)
+void DecorationSys__InitCmn_Animated(StageDecoration *work)
 {
-    SetDecorOutFunc(&work->objWork, DecorationSys__Draw_2154D14);
+    SetDecorOutFunc(&work->objWork, DecorationSys__Draw_Animated);
     work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
-    work->destructor = DecorationSys__Destructor_2154CCC;
+    work->destructor = DecorationSys__Destructor_Animated;
     AnimatorSpriteDS__ProcessAnimationFast(&work->objWork.obj_2d->ani);
 }
 
-void DecorationSys__Destructor_2154CCC(StageDecoration *work)
+void DecorationSys__Destructor_Animated(StageDecoration *work)
 {
     s32 id = work->objWork.userTimer;
     if (decorUnknownList[id].lastDecor == work)
@@ -4622,48 +4641,48 @@ void DecorationSys__Destructor_2154CCC(StageDecoration *work)
     DecorationSys__Destructor_21535B8(work);
 }
 
-void DecorationSys__Draw_2154D14(StageDecoration *work)
+void DecorationSys__Draw_Animated(StageDecoration *work)
 {
     AnimatorSpriteDS__ProcessAnimationFast(&work->objWork.obj_2d->ani);
 }
 
-void DecorationSys__InitFunc_2154D2C(StageDecoration *work)
+void DecorationSys__InitCmn_Emitter(StageDecoration *work)
 {
     u16 type = 0xFFFF;
     switch (work->mapDecor->id)
     {
         case MAPDECOR_271:
-            type = 298;
+            type = MAPDECOR_298;
             break;
 
         case MAPDECOR_254:
-            type = 299;
+            type = MAPDECOR_299;
             break;
 
         case MAPDECOR_64:
-            type = 300;
+            type = MAPDECOR_300;
             break;
 
         case MAPDECOR_277:
-            type = 301;
+            type = MAPDECOR_301;
             break;
 
         case MAPDECOR_278:
-            type = 302;
+            type = MAPDECOR_302;
             break;
 
         case MAPDECOR_279:
-            type = 303;
+            type = MAPDECOR_303;
             break;
 
         case MAPDECOR_280:
-            type = 304;
+            type = MAPDECOR_304;
             break;
     }
 
     if (type != 0xFFFF)
     {
-        s32 id = DecorationSys__Func_2154B7C(type);
+        s32 id = DecorationSys__CreateEmitterChild(type);
         if (id != -1)
         {
             StageDecoration *lastDecor = decorUnknownList[id].lastDecor;
@@ -4671,16 +4690,16 @@ void DecorationSys__InitFunc_2154D2C(StageDecoration *work)
             work->objWork.userTimer = id;
             work->objWork.obj_2d    = lastDecor->objWork.obj_2d;
             work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_UPDATE;
-            work->destructor = DecorationSys__Destructor_2154E20;
+            work->destructor = DecorationSys__Destructor_EmitterChild;
         }
     }
 }
 
-void DecorationSys__Destructor_2154E20(StageDecoration *work)
+void DecorationSys__Destructor_EmitterChild(StageDecoration *work)
 {
     work->objWork.obj_2d = NULL;
 
-    DecorationSys__Func_2154C30(work->objWork.userTimer);
+    DecorationSys__DestroyEmitterChild(work->objWork.userTimer);
     DecorationSys__Destructor_21535B8(work);
 }
 

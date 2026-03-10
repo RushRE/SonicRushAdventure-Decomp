@@ -28,16 +28,16 @@ DecorationSys__rectList: // 0x02187674
 .public DecorationSys__initTable
 DecorationSys__initTable: // 0x021876A0
     .word 0
-	.word DecorationSys__InitFunc_21538D0
-	.word DecorationSys__InitFunc_2154030
-	.word DecorationSys__InitFunc_2154150
-	.word DecorationSys__InitFunc_2154194
-	.word DecorationSys__InitFunc_2154294
-	.word DecorationSys__InitFunc_21543E8
-	.word DecorationSys__InitFunc_2154478
-	.word DecorationSys__InitFunc_2154510
-	.word DecorationSys__InitFunc_2154C90
-	.word DecorationSys__InitFunc_2154D2C
+	.word DecorationSys__InitCmn_Breakable
+	.word DecorationSys__InitCmn_WhalePointCloud
+	.word DecorationSys__InitCmn_GhostTreeFace
+	.word DecorationSys__InitCmn_GhostTreeEye
+	.word DecorationSys__InitCmn_SkyBabylonFarCloud
+	.word DecorationSys__InitCmn_SkyBabylonNearCloud
+	.word DecorationSys__InitCmn_Icicle
+	.word DecorationSys__InitCmn_IceTree
+	.word DecorationSys__InitCmn_Animated
+	.word DecorationSys__InitCmn_Emitter
 
 .public _021876CC
 _021876CC: // 0x021876CC
