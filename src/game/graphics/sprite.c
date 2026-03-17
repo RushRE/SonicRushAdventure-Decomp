@@ -728,13 +728,6 @@ void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
     }
 }
 
-#if defined(SDK_CW) || defined(__MWERKS__)
-// Direct array assignment is NOT standard C, and this macro thus requires another implementation outside of MWCC
-#define ARRAY_COPY(targetArr, srcArr) targetArr = srcArr
-#else
-#define ARRAY_COPY(targetArr, srcArr) memcpy(targetArr, srcArr, sizeof(srcArr))
-#endif
-
 // TODO: Lets call this "DrawFrameAffine"
 void AnimatorSprite__DrawFrameRotoZoom(AnimatorSprite *animator, fx32 scaleX, fx32 scaleY, s32 rotation)
 {

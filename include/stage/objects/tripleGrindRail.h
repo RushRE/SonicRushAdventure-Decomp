@@ -8,6 +8,21 @@
 // --------------------
 
 #define TRIPLEGRINDRAILRINGLOSS_MAX_RINGS 64
+#define TRIPLEGRINDRAIL_ANI_COUNT         7
+#define TRIPLEGRINDRAIL_LEAF_COUNT        64
+#define TRIPLEGRINDRAIL_MUSHROOM_COUNT    8
+#define TRIPLEGRINDRAIL_ANI_COUNT         7
+
+// --------------------
+// ENUMS
+// --------------------
+
+enum TripleGrindRailFlag_
+{
+    TRIPLEGRINDRAIL_FLAG_1 = 1 << 0,
+    TRIPLEGRINDRAIL_FLAG_2 = 1 << 1,
+};
+typedef u32 TripleGrindRailFlag;
 
 // --------------------
 // STRUCTS
@@ -15,7 +30,7 @@
 
 typedef struct TripleGrindRailParticle_
 {
-    s32 radius;
+    fx32 radius;
     u32 y;
     u16 angle;
     u16 id;
@@ -25,19 +40,19 @@ typedef struct TripleGrindRail_
 {
     GameObjectTask gameWork;
     OBS_ACTION3D_NN_WORK aniTripleGrindRail;
-    AnimatorSprite3D aniDecorations[7];
+    AnimatorSprite3D aniDecorations[TRIPLEGRINDRAIL_ANI_COUNT];
     AnimatorSprite3D aniRing;
     AnimatorSprite3D aniRingSparkle;
-    u32 flags;
-    u32 dwordE08;
+    TripleGrindRailFlag flags;
+    s32 dwordE08;
     s32 field_E0C;
     s32 field_E10;
     u16 field_E14;
     s16 field_E16;
-    TripleGrindRailParticle leafList[64];
+    TripleGrindRailParticle leafList[TRIPLEGRINDRAIL_LEAF_COUNT];
     s16 field_1118;
     s16 field_111A;
-    TripleGrindRailParticle mushroomList[8];
+    TripleGrindRailParticle mushroomList[TRIPLEGRINDRAIL_MUSHROOM_COUNT];
 } TripleGrindRail;
 
 typedef struct TripleGrindRailSpring_

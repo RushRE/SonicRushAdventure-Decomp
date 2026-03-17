@@ -284,13 +284,13 @@ SailJetRaceProgressIconHUD__Create: // 0x02188410
 	mov r0, r4
 	mov r1, r5
 	bl ObjActionAllocSpritePalette
-	b TripleGrindRail__stru_21884D4
+	b _021884D4
 _021884C4:
 	ldr r2, _0218854C // =0x00000802
 	mov r0, r4
 	mov r1, r5
 	bl ObjActionAllocSpritePalette
-TripleGrindRail__stru_21884D4:
+_021884D4:
 	mov r0, r4
 	mov r1, r5
 	bl StageTask__SetAnimation

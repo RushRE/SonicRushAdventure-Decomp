@@ -9016,9 +9016,9 @@
 .public collisionSizeTable
 .public hitboxTable
 .public puffParticleConfig
-.public TripleGrindRail__stru_21884D4
-.public TripleGrindRail__stru_21884E0
-.public TripleGrindRail__word_21884EC
+.public TripleGrindRail__LeafParticleDefaultScale
+.public TripleGrindRail__MushroomDefaultScale
+.public TripleGrindRail__ParticleIDs
 .public PopSteam__offsetTable
 .public animForAction
 .public _02188580

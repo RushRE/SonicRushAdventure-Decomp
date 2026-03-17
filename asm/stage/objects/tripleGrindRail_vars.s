@@ -3,16 +3,16 @@
 
 	.rodata
 
-.public TripleGrindRail__stru_21884D4
-TripleGrindRail__stru_21884D4: // 0x021884D4
+.public TripleGrindRail__LeafParticleDefaultScale
+TripleGrindRail__LeafParticleDefaultScale: // 0x021884D4
     .word 0x1800, 0x1800, 0x1800
 	
-.public TripleGrindRail__stru_21884E0
-TripleGrindRail__stru_21884E0: // 0x021884E0
+.public TripleGrindRail__MushroomDefaultScale
+TripleGrindRail__MushroomDefaultScale: // 0x021884E0
     .word 0x1000, 0x1000, 0x1000
 	
-.public TripleGrindRail__word_21884EC
-TripleGrindRail__word_21884EC: // 0x021884EC
+.public TripleGrindRail__ParticleIDs
+TripleGrindRail__ParticleIDs: // 0x021884EC
     .hword 0, 1, 2, 3, 4, 5, 0, 2
 
 	.data

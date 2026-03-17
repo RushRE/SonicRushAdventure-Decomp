@@ -10,18 +10,18 @@
 
 extern RingManager *ringManagerWork;
 
-static Task *TripleGrindRail__Singleton;
+static TripleGrindRail *TripleGrindRail__Singleton;
 
-NOT_DECOMPILED void *TripleGrindRail__stru_21884D4;
-NOT_DECOMPILED void *TripleGrindRail__stru_21884E0;
-NOT_DECOMPILED void *TripleGrindRail__word_21884EC;
+NOT_DECOMPILED void *TripleGrindRail__LeafParticleDefaultScale;
+NOT_DECOMPILED void *TripleGrindRail__MushroomDefaultScale;
+NOT_DECOMPILED u16 TripleGrindRail__ParticleIDs[8];
 
-NOT_DECOMPILED void *aActAcGmkGrd3lS;
-NOT_DECOMPILED void *aModGmkGrd3line;
-NOT_DECOMPILED void *aModGmkGrd3line_0;
-NOT_DECOMPILED void *aActAcEffGrd3lL_0;
-NOT_DECOMPILED void *aActAcItmRing3d;
-NOT_DECOMPILED void *aActAcGmkBallSi;
+NOT_DECOMPILED const char aActAcGmkGrd3lS[];
+NOT_DECOMPILED const char aModGmkGrd3line[];
+NOT_DECOMPILED const char aModGmkGrd3line_0[];
+NOT_DECOMPILED const char aActAcEffGrd3lL_0[];
+NOT_DECOMPILED const char aActAcItmRing3d[];
+NOT_DECOMPILED const char aActAcGmkBallSi[];
 
 // --------------------
 // FUNCTIONS
@@ -1025,7 +1025,7 @@ _0216433C:
 	add r0, r4, #0x800
 	strh r5, [r3, #0x14]
 	bl AnimatorSprite3D__ProcessAnimation
-	ldr r0, =TripleGrindRail__stru_21884D4
+	ldr r0, =TripleGrindRail__LeafParticleDefaultScale
 	add r4, r6, #0x218
 	mov r5, #0x1100
 	str r5, [sp, #0x1c]
@@ -1164,7 +1164,7 @@ _0216459C:
 	add r0, r6, #0xe00
 	strh r1, [r0, #0x16]
 _021645A4:
-	ldr r0, =TripleGrindRail__stru_21884E0
+	ldr r0, =TripleGrindRail__MushroomDefaultScale
 	add r3, sp, #0x20
 	ldmia r0, {r0, r1, r2}
 	mov r5, #0x1100
@@ -1307,7 +1307,7 @@ NONMATCH_FUNC void TripleGrindRail__CreateLeafParticle(TripleGrindRailParticle *
     // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x10
-	ldr r5, =TripleGrindRail__word_21884EC
+	ldr r5, =TripleGrindRail__ParticleIDs
 	add r4, sp, #0
 	mov r3, #4
 _021647EC:
