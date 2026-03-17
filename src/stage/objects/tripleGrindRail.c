@@ -1414,36 +1414,18 @@ void TripleGrindRailEntity__Draw(void)
     }
 }
 
-NONMATCH_FUNC void TripleGrindRailEntity__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void TripleGrindRailEntity__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r4, [r1, #0x1c]
-	ldr r0, [r0, #0x1c]
-	cmp r4, #0
-	ldmeqia sp!, {r4, pc}
-	cmp r0, #0
-	ldmeqia sp!, {r4, pc}
-	ldrh r1, [r0, #0]
-	cmp r1, #1
-	ldreqb r1, [r0, #0x5d1]
-	cmpeq r1, #0
-	ldmneia sp!, {r4, pc}
-	mov r1, #1
-	bl Player__GiveRings
-	ldr r1, [r4, #0x354]
-	mov r0, #0
-	orr r1, r1, #1
-	orr r1, r1, #0x10000
-	str r1, [r4, #0x354]
-	str r0, [r4, #0x234]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    TripleGrindRailEntity *railEntity = (TripleGrindRailEntity *)rect2->parent;
+    Player *player                    = (Player *)rect1->parent;
+    if (railEntity == NULL)
+        return;
+    if ((player == NULL) || (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER) || (player->controlID != PLAYER_CONTROL_P1))
+        return;
+    Player__GiveRings(player, 1);
+    railEntity->gameWork.flags |= GAMEOBJECT_FLAG_USER_1;
+    railEntity->gameWork.flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
+    railEntity->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
 }
 
 NONMATCH_FUNC void TripleGrindRailRingLoss__State_Active(TripleGrindRailRingLoss *work)
