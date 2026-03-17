@@ -1314,32 +1314,16 @@ void TripleGrindRail__CreateMushroomParticle(TripleGrindRailParticle *particle)
     particle->angle  = FLOAT_TO_FX32(13.55517578125);
 }
 
-NONMATCH_FUNC void TripleGrindRail__State_216492C(TripleGrindRail *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r1, [r0, #0x35c]
-	ldr r1, [r1, #0x2c]
-	cmp r1, #0
-	strne r1, [r0, #0xe10]
-	ldr r1, =0x00141BB2
-	str r1, [r0, #0x50]
-	ldr r1, [r0, #0xe10]
-	str r1, [r0, #0x58]
-	ldr r1, [r0, #0x35c]
-	ldr r1, [r1, #0x28]
-	cmp r1, #0
-	bxeq lr
-	ldr r1, =TripleGrindRail__State_216497C
-	str r1, [r0, #0xf4]
-	ldr r1, [r0, #0x35c]
-	ldr r1, [r1, #0x28]
-	str r1, [r0, #0x28]
-	bx lr
-
-// clang-format on
-#endif
+void TripleGrindRail__State_216492C(TripleGrindRail *work)
+{
+    if (work->gameWork.parent->userTimer != 0)
+        work->field_E10 = work->gameWork.parent->userTimer;
+    work->gameWork.objWork.offset.x = FLOAT_TO_FX32(321.73095703125);
+    work->gameWork.objWork.offset.z = work->field_E10;
+    if (work->gameWork.parent->userWork == 0)
+        return;
+    SetTaskState(&work->gameWork.objWork, TripleGrindRail__State_216497C);
+    work->gameWork.objWork.userWork = work->gameWork.parent->userWork;
 }
 
 NONMATCH_FUNC void TripleGrindRail__State_216497C(TripleGrindRail *work){
