@@ -751,10 +751,157 @@ void TripleGrindRail__State_21640DC(TripleGrindRail *work)
     work->field_E0C = 0x400;
 }
 
+RUSH_INLINE fx32 FX32_AddSignBit(fx32 val)
+{
+    s32 signBit = (u32)(val >> (FX32_DEC_SIZE - 1)) >> (FX32_INT_SIZE + 1);
+    return val + signBit;
+}
+
 NONMATCH_FUNC void TripleGrindRail__State_21641E0(TripleGrindRail *work)
 {
+    // https://decomp.me/scratch/OjJOV => 99.92%, bad regalloc
 #ifdef NON_MATCHING
+    VecFx32 positionLeaf;
+    VecFx32 scaleLeaf;
+    VecFx32 positionMushroom;
+    VecFx32 scaleMushroom;
+    StageDisplayFlags displayFlagsLeaf;
+    StageDisplayFlags displayFlagsMushroom;
+    TripleGrindRailParticle *currentLeafParticle;
+    TripleGrindRailParticle *currentMushroomParticle;
+    Player *player;
+    s32 listIndex;
+    s32 i;
 
+    work->gameWork.objWork.offset.x = FLOAT_TO_FX32(321.73095703125);
+    player                          = (Player *)work->gameWork.parent;
+    if (!CheckPlayerGimmickObj(player, work) || (player->playerFlag & PLAYER_FLAG_DEATH) != 0)
+    {
+        work->gameWork.parent = NULL;
+        SetTaskState(&work->gameWork.objWork, TripleGrindRail__State_216497C);
+        work->gameWork.objWork.userWork = 600;
+        return;
+    }
+    if (work->dwordE08 <= work->gameWork.objWork.position.x)
+    {
+        Player__Func_201DD24(player);
+        player->gimmickFlag &= ~(PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_X | PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_Y);
+        g_obj.scroll.x                               = 0;
+        work->aniTripleGrindRail.ani.speedMultiplier = 0;
+        work->flags |= TRIPLEGRINDRAIL_FLAG_2;
+        SetTaskState(&work->gameWork.objWork, TripleGrindRail__State_216492C);
+        return;
+    }
+    if ((work->dwordE08 - FLOAT_TO_FX32(9.375)) <= work->gameWork.objWork.position.x)
+    {
+        work->flags |= TRIPLEGRINDRAIL_FLAG_1;
+        player->playerFlag |= PLAYER_FLAG_DISABLE_INPUT_READ;
+    }
+    else if ((work->dwordE08 - FLOAT_TO_FX32(31.875)) <= work->gameWork.objWork.position.x)
+        work->flags |= TRIPLEGRINDRAIL_FLAG_1;
+    work->field_E0C += FLOAT_TO_FX32(0.00390625);
+    if (work->field_E0C > FX_ONE)
+        work->field_E0C = FX_ONE;
+    fx32 val       = FX32_AddSignBit(work->field_E0C * FLOAT_TO_FX32(0.375));
+    g_obj.scroll.x = val >> FX32_SHIFT;
+
+    s32 move = (work->field_E0C << 2) + (work->field_E0C << 1);
+    if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
+    {
+        MapFarSys__AdvanceScrollSpeed(GRAPHICS_ENGINE_A, move);
+        MapFarSys__AdvanceScrollSpeed(GRAPHICS_ENGINE_B, move);
+    }
+    else
+        MapFarSys__AdvanceScrollSpeed(player->cameraID, move);
+
+    fx32 v3                                      = FX32_AddSignBit(FX32_FROM_WHOLE(work->field_E0C));
+    work->aniTripleGrindRail.ani.speedMultiplier = (v3 >> FX32_SHIFT) << 2;
+    s32 v64                                      = (work->aniTripleGrindRail.ani.speedMultiplier << 14) / 60;
+    work->field_E14                              = v64 >> 14;
+    AnimatorSprite3D__ProcessAnimation(&work->aniRing, NULL, NULL);
+
+    scaleLeaf           = TripleGrindRail__LeafParticleDefaultScale;
+    displayFlagsLeaf    = DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_UPDATE;
+    currentLeafParticle = &work->leafList[0];
+    listIndex           = -1;
+    for (int i = 0; i < TRIPLEGRINDRAIL_LEAF_COUNT; i++, currentLeafParticle++)
+    {
+        if (currentLeafParticle->y == FLOAT_TO_FX32(256.0))
+            listIndex = i;
+        else
+        {
+            currentLeafParticle->angle -= TripleGrindRail__Singleton->field_E14 + (TripleGrindRail__Singleton->field_E14 >> 2);
+            if ((currentLeafParticle->angle <= FLOAT_TO_FX32(6.6669921875)) || ((s32)currentLeafParticle->y < FLOAT_TO_FX32(-400.0)))
+            {
+                currentLeafParticle->y = FLOAT_TO_FX32(256.0);
+                listIndex              = i;
+            }
+            else
+            {
+                currentLeafParticle->y = -(TripleGrindRail__Singleton->field_E14 << 4) + currentLeafParticle->y;
+                s32 particleID         = currentLeafParticle->id;
+
+                fx32 cos       = CosFX(currentLeafParticle->angle);
+                fx32 cosRad    = FX_MulInline(cos, currentLeafParticle->radius);
+                positionLeaf.x = TripleGrindRail__Singleton->gameWork.objWork.position.x + cosRad + FLOAT_TO_FX32(321.73095703125);
+                positionLeaf.y = currentLeafParticle->y + TripleGrindRail__Singleton->gameWork.objWork.position.y;
+                fx32 sin       = SinFX(currentLeafParticle->angle);
+                positionLeaf.z = FX_MulInline(sin, currentLeafParticle->radius);
+                StageTask__Draw3DEx(&work->aniDecorations[particleID].work, &positionLeaf, NULL, &scaleLeaf, &displayFlagsLeaf, NULL, NULL, NULL);
+            }
+        }
+    }
+    if ((work->flags & (TRIPLEGRINDRAIL_FLAG_1 | TRIPLEGRINDRAIL_FLAG_2)) == 0)
+    {
+        work->field_E16--;
+        if ((work->field_E16 <= 0) && (listIndex != -1))
+        {
+            s32 r4 = 256 - TripleGrindRail__Singleton->field_E14;
+            TripleGrindRail__CreateLeafParticle(&work->leafList[listIndex]);
+            s32 r1          = (r4 >> 3) + (r4 >> 5);
+            work->field_E16 = MTM_MATH_CLIP_3(r1, 3, 0x30);
+        }
+    }
+
+    displayFlagsMushroom    = DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_UPDATE;
+    scaleMushroom           = TripleGrindRail__MushroomDefaultScale;
+    listIndex               = -1;
+    currentMushroomParticle = &work->mushroomList[0];
+    for (int i = 0; i < TRIPLEGRINDRAIL_MUSHROOM_COUNT; i++, currentMushroomParticle++)
+    {
+        if (currentMushroomParticle->y == FLOAT_TO_FX32(256))
+            listIndex = i;
+        else
+        {
+            currentMushroomParticle->angle = currentMushroomParticle->angle - TripleGrindRail__Singleton->field_E14;
+            if (currentMushroomParticle->angle <= FLOAT_TO_FX32(6.6669921875))
+            {
+                currentMushroomParticle->y = FLOAT_TO_FX32(256);
+                listIndex                  = i;
+            }
+            else
+            {
+                fx32 cos           = CosFX((s32)currentMushroomParticle->angle);
+                fx32 cosRad        = FX_MulInline(cos, currentMushroomParticle->radius);
+                positionMushroom.x = TripleGrindRail__Singleton->gameWork.objWork.position.x + cosRad + FLOAT_TO_FX32(321.73095703125);
+                positionMushroom.y = currentMushroomParticle->y + TripleGrindRail__Singleton->gameWork.objWork.position.y;
+                fx32 sin           = SinFX(currentMushroomParticle->angle);
+                fx32 sinRad        = FX_MulInline(sin, currentMushroomParticle->radius);
+                positionMushroom.z = sinRad;
+                StageTask__Draw3DEx(&work->aniDecorations[6].work, &positionMushroom, NULL, &scaleMushroom, &displayFlagsMushroom, NULL, NULL, NULL);
+            }
+        }
+    }
+    if ((work->flags & (TRIPLEGRINDRAIL_FLAG_1 | TRIPLEGRINDRAIL_FLAG_2)) != 0)
+        return;
+    work->field_1118--;
+    if ((work->field_1118 > 0) || (listIndex == -1))
+        return;
+    s32 r4 = 256 - TripleGrindRail__Singleton->field_E14;
+    TripleGrindRail__CreateMushroomParticle(&work->mushroomList[listIndex]);
+    s32 r42          = MTM_MATH_CLIP_3(r4, 20, 165);
+    s32 randVal      = mtMathRandRepeat(0x20);
+    work->field_1118 = randVal + r42;
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
