@@ -1335,50 +1335,25 @@ void TripleGrindRail__State_216497C(TripleGrindRail *work)
     work->gameWork.objWork.offset.z = work->field_E10;
 }
 
-NONMATCH_FUNC void TripleGrindRail__OnDefend_StartTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void TripleGrindRail__OnDefend_StartTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    TripleGrindRail *rail = (TripleGrindRail *)rect2->parent;
+    Player *player        = (Player *)rect1->parent;
+    if ((rail == NULL) || (player == NULL) || (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER))
+        return;
+    if (!StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRailStartSpring))
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r4, [r1, #0x1c]
-	ldr r0, [r0, #0x1c]
-	cmp r4, #0
-	cmpne r0, #0
-	ldmeqia sp!, {r4, pc}
-	ldrh r1, [r0, #0]
-	cmp r1, #1
-	ldmneia sp!, {r4, pc}
-	ldr r2, [r0, #0xf4]
-	ldr r1, =Player__State_TripleGrindRailStartSpring
-	cmp r2, r1
-	ldmneia sp!, {r4, pc}
-	ldr r2, [r4, #0xe04]
-	mov r1, r4
-	bic r2, r2, #1
-	str r2, [r4, #0xe04]
-	ldr r2, [r4, #0x230]
-	bic r2, r2, #4
-	str r2, [r4, #0x230]
-	str r0, [r4, #0x35c]
-	bl Player__Action_TripleGrindRailEndSpring
-	mov r0, #0x2000
-	bl SetStageRingScale
-	ldr r1, =TripleGrindRail__State_21640DC
-	mov r0, #0x3000
-	str r1, [r4, #0xf4]
-	strh r0, [r4, #0x30]
-	ldr r1, [r4, #0x20]
-	mov r0, #0
-	bic r1, r1, #0x20
-	str r1, [r4, #0x20]
-	str r0, [r4, #0x47c]
-	str r4, [r4, #0x2d8]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    rail->flags &= ~TRIPLEGRINDRAIL_FLAG_1;
+    rail->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    rail->gameWork.parent = &player->objWork;
+    Player__Action_TripleGrindRailEndSpring(player, &rail->gameWork);
+    SetStageRingScale(FLOAT_TO_FX32(2.0));
+    SetTaskState(&rail->gameWork.objWork, TripleGrindRail__State_21640DC);
+    rail->gameWork.objWork.dir.x = FLOAT_TO_FX32(3.0);
+    rail->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
+    rail->aniTripleGrindRail.ani.speedMultiplier = 0;
+    rail->gameWork.collisionObject.work.parent   = &rail->gameWork.objWork;
 }
 
 NONMATCH_FUNC void TripleGrindRailEntity__State_Inactive(TripleGrindRailEntity *work)
