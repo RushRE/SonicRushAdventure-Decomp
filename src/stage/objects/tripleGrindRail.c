@@ -687,59 +687,25 @@ void TripleGrindRailSpring__State_Active(TripleGrindRailSpring *work)
     StageTask__SetAnimation(&work->gameWork.objWork, 0);
 }
 
-NONMATCH_FUNC void TripleGrindRailSpring__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void TripleGrindRailSpring__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    TripleGrindRailSpring *railSpring = (TripleGrindRailSpring *)rect2->parent;
+    Player *player                    = (Player *)rect1->parent;
+    if (railSpring == NULL)
+        return;
+    if ((player == NULL) || (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER))
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r4, [r1, #0x1c]
-	ldr r5, [r0, #0x1c]
-	cmp r4, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	cmp r5, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5, #0]
-	cmp r0, #1
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r1, [r4, #0x44]
-	mov r0, r4
-	str r1, [r5, #0x44]
-	ldr r2, [r4, #0x48]
-	mov r1, #1
-	str r2, [r5, #0x48]
-	bl StageTask__SetAnimation
-	ldr r0, [r4, #0x340]
-	ldrsb ip, [r0, #6]
-	cmp ip, #0x30
-	movlt ip, #0x30
-	blt _02163FFC
-	cmp ip, #0x40
-	movgt ip, #0x40
-_02163FFC:
-	ldr r1, =0xB60B60B7
-	mov r3, ip, lsl #0xf
-	smull r0, r2, r1, r3
-	add r2, r2, ip, lsl #15
-	mov ip, r3, lsr #0x1f
-	ldr r3, =0xFFFEEEF0
-	mov r0, r5
-	mov r1, r4
-	add r2, ip, r2, asr #6
-	bl Player__Action_TripleGrindRailStartSpring
-	add r0, r5, #0x500
-	mov r1, #0x5a
-	ldr r2, =0x00000611
-	strh r1, [r0, #0xfa]
-	mov r0, r5
-	mov r1, r4
-	str r2, [r5, #0xd8]
-	bl Player__Action_AllowTrickCombos
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    player->objWork.position.x = railSpring->gameWork.objWork.position.x;
+    player->objWork.position.y = railSpring->gameWork.objWork.position.y;
+    StageTask__SetAnimation(&railSpring->gameWork.objWork, 1);
+    s32 leftClamped = MTM_MATH_CLIP_3(railSpring->gameWork.mapObject->left, 0x30, 0x40);
+    fx32 velocityX  = FX32_FROM_WHOLE(leftClamped << 0x3) / 90;
+    fx32 velocityY  = FLOAT_TO_FX32(-17.06640625);
+    Player__Action_TripleGrindRailStartSpring(player, &railSpring->gameWork, velocityX, velocityY);
+    player->overSpeedLimitTimer     = 90;
+    player->objWork.gravityStrength = FLOAT_TO_FX32(0.379150390625);
+    Player__Action_AllowTrickCombos(player, &railSpring->gameWork);
 }
 
 NONMATCH_FUNC void TripleGrindRail__Destructor(Task *task)
