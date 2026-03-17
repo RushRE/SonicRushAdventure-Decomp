@@ -1373,89 +1373,27 @@ void TripleGrindRailEntity__State_Inactive(TripleGrindRailEntity *work)
         SetTaskOutFunc(&work->gameWork.objWork, TripleGrindRailEntity__Draw);
 }
 
-NONMATCH_FUNC void TripleGrindRailEntity__State_Active(TripleGrindRailEntity *work)
+void TripleGrindRailEntity__State_Active(TripleGrindRailEntity *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r3, =TripleGrindRail__Singleton
-	ldr r4, [r3, #0]
-	cmp r4, #0
-	ldrne r1, =g_obj
-	ldrne r1, [r1, #0x14]
-	cmpne r1, #0
-	beq _02164B00
-	ldr r1, [r4, #0xe04]
-	tst r1, #2
-	beq _02164B10
-_02164B00:
-	ldr r1, [r0, #0x18]
-	orr r1, r1, #4
-	str r1, [r0, #0x18]
-	ldmia sp!, {r4, pc}
-_02164B10:
-	add r2, r0, #0x400
-	add r1, r4, #0xe00
-	ldrh ip, [r2, #0x7c]
-	ldrh r4, [r1, #0x14]
-	ldr r1, =0x000071C8
-	sub r4, ip, r4
-	strh r4, [r2, #0x7c]
-	ldrh r2, [r2, #0x7c]
-	cmp r2, r1
-	bhi _02164B48
-	ldr r1, [r0, #0x18]
-	orr r1, r1, #4
-	str r1, [r0, #0x18]
-	ldmia sp!, {r4, pc}
-_02164B48:
-	ldr r1, [r0, #0x340]
-	ldrh r1, [r1, #2]
-	cmp r1, #0x7a
-	bne _02164B68
-	ldr r1, [r3, #0]
-	ldr r1, [r1, #0x47c]
-	mov r1, r1, asr #1
-	str r1, [r0, #0x42c]
-_02164B68:
-	add r2, r0, #0x400
-	ldrh r3, [r2, #0x7c]
-	ldr r1, =TripleGrindRail__Singleton
-	ldr lr, =FX_SinCosTable_
-	mov r3, r3, asr #4
-	mov r3, r3, lsl #1
-	add r3, r3, #1
-	mov r3, r3, lsl #1
-	ldrsh ip, [lr, r3]
-	ldr r3, [r0, #0x478]
-	ldr r4, [r1, #0]
-	smull r3, r1, ip, r3
-	adds r3, r3, #0x800
-	adc r1, r1, #0
-	mov r3, r3, lsr #0xc
-	ldr ip, [r4, #0x44]
-	orr r3, r3, r1, lsl #20
-	ldr r1, =0x00141BB2
-	add r3, ip, r3
-	add r1, r3, r1
-	str r1, [r0, #0x44]
-	ldrh r2, [r2, #0x7c]
-	ldr r1, [r0, #0x478]
-	mov r2, r2, asr #4
-	mov r2, r2, lsl #2
-	ldrsh r2, [lr, r2]
-	smull r3, r1, r2, r1
-	adds r2, r3, #0x800
-	adc r1, r1, #0
-	mov r2, r2, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	str r2, [r0, #0x4c]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if ((TripleGrindRail__Singleton == NULL) || (g_obj.scroll.x == 0) || ((TripleGrindRail__Singleton->flags & TRIPLEGRINDRAIL_FLAG_2) != 0))
+    {
+        DestroyStageTask(&work->gameWork.objWork);
+        return;
+    }
+    work->angle = work->angle - TripleGrindRail__Singleton->field_E14;
+    if (work->angle <= FLOAT_TO_FX32(7.111328125))
+    {
+        DestroyStageTask(&work->gameWork.objWork);
+        return;
+    }
+    if (work->gameWork.mapObject->id == MAPOBJECT_122)
+        work->aniSprite.ani.animatorSprite.animAdvance = TripleGrindRail__Singleton->aniTripleGrindRail.ani.speedMultiplier >> 1;
+    fx32 cos                          = CosFX(work->angle);
+    fx32 cosRad                       = MultiplyFX(cos, work->radius);
+    work->gameWork.objWork.position.x = TripleGrindRail__Singleton->gameWork.objWork.position.x + cosRad + FLOAT_TO_FX32(321.73095703125);
+    fx32 sin                          = SinFX(work->angle);
+    fx32 sinRad                       = MultiplyFX(sin, work->radius);
+    work->gameWork.objWork.position.z = sinRad;
 }
 
 NONMATCH_FUNC void TripleGrindRailEntity__Draw(void)
