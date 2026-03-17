@@ -9,6 +9,7 @@
 // --------------------
 
 extern RingManager *ringManagerWork;
+extern s16 spillRingGravityStrength;
 
 static TripleGrindRail *TripleGrindRail__Singleton;
 
@@ -1430,8 +1431,36 @@ void TripleGrindRailEntity__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
 NONMATCH_FUNC void TripleGrindRailRingLoss__State_Active(TripleGrindRailRingLoss *work)
 {
+    // https://decomp.me/scratch/QXAMV: 100% match on decomp.me, but compiling locally introduces an extraneous cmpgt r6, #0 right before the ble.
 #ifdef NON_MATCHING
+    BOOL allRingsOffscreen;
+    s32 i;
+    s32 ringCount;
+    VecFx32 *ringPosition;
+    fx32 *ringVelocityX;
+    fx32 *ringVelocityY;
 
+    allRingsOffscreen = TRUE;
+    ringCount         = work->ringCount;
+    if ((TripleGrindRail__Singleton == NULL) || (g_obj.scroll.x == 0) || (TripleGrindRail__Singleton->flags & TRIPLEGRINDRAIL_FLAG_2) != 0)
+    {
+        DestroyStageTask(&work->objWork);
+        return;
+    }
+    ringPosition  = &work->ringPosition[0];
+    ringVelocityX = &work->ringVelocityX[0];
+    ringVelocityY = &work->ringVelocityY[0];
+    for (i = 0; i < ringCount; i++, ringPosition++, ringVelocityX++, ringVelocityY++)
+    {
+        ringPosition->x += *ringVelocityX;
+        s32 gravityStrength = spillRingGravityStrength;
+        ringPosition->y += *ringVelocityY + gravityStrength;
+        *ringVelocityY += gravityStrength;
+        if (!StageTask__ViewOutCheck(ringPosition->x, ringPosition->y, 0x20, 0, 0, 0, 0))
+            allRingsOffscreen = FALSE;
+    }
+    if (allRingsOffscreen)
+        DestroyStageTask(&work->objWork);
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -1470,7 +1499,7 @@ _02164D78:
 	mov r2, #0x20
 	add r0, r1, r0
 	str r0, [r7]
-	ldr r0, =0x02118D5C
+	ldr r0, =spillRingGravityStrength
 	ldr r1, [r9, #0]
 	ldrsh r0, [r0, #0]
 	ldr r3, [r7, #4]
