@@ -484,8 +484,73 @@ TripleGrindRailEntity *TripleGrindRailEntity__Create(MapObject *mapObject, fx32 
 
 NONMATCH_FUNC void TripleGrindRailRingLoss__Create(Player *player)
 {
+    // https://decomp.me/scratch/fV24Q => 91.97%
 #ifdef NON_MATCHING
+    VecFx32 position;
+    s32 shift;
+    fx32 ringAngle;
+    s32 ringCount;
+    fx32 *currentRingVelocityX;
+    fx32 *currentRingVelocityY;
+    VecFx32 *currentRingPosition;
+    s32 i;
 
+    ringAngle = FLOAT_DEG_TO_IDX(6.375);
+
+    if (TripleGrindRail__Singleton == NULL)
+        return;
+    if ((TripleGrindRail__Singleton->flags & TRIPLEGRINDRAIL_FLAG_1) != 0)
+        return;
+
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), TripleGrindRailRingLoss);
+    if (task == HeapNull)
+        return;
+
+    TripleGrindRailRingLoss *work = TaskGetWork(task, TripleGrindRailRingLoss);
+    TaskInitWork8(work);
+
+    work->objWork.objType = STAGE_OBJ_TYPE_OBJECT;
+    fx32 scale            = GetStageRingScale();
+    work->objWork.scale.x = scale;
+    work->objWork.scale.y = scale;
+    work->objWork.scale.z = scale;
+    ringCount             = MATH_MIN(player->rings, RINGMANAGER_RING_SPILL_MAX);
+    player->rings         = 0;
+    work->ringCount       = ringCount;
+    position              = work->objWork.position;
+    ringAngle += (ringManagerWork->ringPenaltyCount[player->controlID] << 8);
+
+    currentRingVelocityX = &work->ringVelocityX[0];
+    currentRingVelocityY = &work->ringVelocityY[0];
+    currentRingPosition  = &work->ringPosition[0];
+
+    fx32 velocityX;
+    fx32 velocityY;
+    for (i = 0; i < ringCount; i++, currentRingPosition++)
+    {
+        *currentRingPosition = position;
+        if (ringAngle >= 0)
+        {
+            u16 index16   = ringAngle << 8;
+            s32 ang8      = ringAngle >> 8;
+            s32 shift     = (ang8 >= 6) ? (9 - ang8) : ang8;
+            fx32 sin      = SinFX((s32)(u16)(s32)index16);
+            fx32 cos      = CosFX((s32)(u16)(s32)index16);
+            fx32 tempVelX = (sin << 4) >> shift;
+            fx32 tempVelY = (cos << 4) >> shift;
+            velocityX     = tempVelX - (tempVelX >> 2);
+            velocityY     = tempVelY - (tempVelY >> 2);
+            ringAngle     = (ringAngle + 0x10) | 0x80;
+        }
+        *(currentRingVelocityX++) = velocityX;
+        *(currentRingVelocityY++) = velocityY;
+        ringAngle                 = -ringAngle;
+        velocityX                 = -velocityX;
+    }
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+    SetTaskOutFunc(&work->objWork, TripleGrindRailRingLoss__Draw);
+    SetTaskState(&work->objWork, TripleGrindRailRingLoss__State_Active);
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
