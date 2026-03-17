@@ -1326,25 +1326,13 @@ void TripleGrindRail__State_216492C(TripleGrindRail *work)
     work->gameWork.objWork.userWork = work->gameWork.parent->userWork;
 }
 
-NONMATCH_FUNC void TripleGrindRail__State_216497C(TripleGrindRail *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r1, [r0, #0x28]
-	subs r1, r1, #1
-	str r1, [r0, #0x28]
-	ldreq r1, [r0, #0x18]
-	orreq r1, r1, #4
-	streq r1, [r0, #0x18]
-	ldr r1, =0x00141BB2
-	str r1, [r0, #0x50]
-	ldr r1, [r0, #0xe10]
-	str r1, [r0, #0x58]
-	bx lr
-
-// clang-format on
-#endif
+void TripleGrindRail__State_216497C(TripleGrindRail *work)
+{
+    work->gameWork.objWork.userWork--;
+    if (work->gameWork.objWork.userWork == 0)
+        DestroyStageTask(&work->gameWork.objWork);
+    work->gameWork.objWork.offset.x = FLOAT_TO_FX32(321.73095703125);
+    work->gameWork.objWork.offset.z = work->field_E10;
 }
 
 NONMATCH_FUNC void TripleGrindRail__OnDefend_StartTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
