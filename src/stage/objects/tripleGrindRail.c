@@ -27,95 +27,30 @@ NOT_DECOMPILED const char aActAcGmkBallSi[];
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC TripleGrindRailSpring *TripleGrindRailSpring__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+TripleGrindRailSpring *TripleGrindRailSpring__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), TripleGrindRailSpring);
+    if (task == HeapNull)
+        return NULL;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r3, #0x1800
-	mov r7, r0
-	mov r6, r1
-	mov r5, r2
-	mov r2, #0
-	str r3, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x364
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x364
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	mov r0, #0xb0
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	ldr r1, =0x0000FFFF
-	ldr r2, [r0, #0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	add r1, r4, #0x168
-	ldr r2, =aActAcGmkGrd3lS
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0
-	mov r2, #0x56
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	add r0, r4, #0x218
-	mov r1, #0
-	mov r2, r1
-	bl ObjRect__SetAttackStat
-	add r0, r4, #0x218
-	ldr r1, =0x0000FFFE
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r0, =TripleGrindRailSpring__OnDefend
-	ldr r2, =TripleGrindRailSpring__State_Active
-	str r0, [r4, #0x23c]
-	ldr r1, [r4, #0x230]
-	mov r0, r4
-	orr r1, r1, #0x400
-	str r1, [r4, #0x230]
-	ldr r3, [r4, #0x1c]
-	mov r1, #0
-	orr r3, r3, #0x2100
-	str r3, [r4, #0x1c]
-	str r2, [r4, #0xf4]
-	bl StageTask__SetAnimation
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    TripleGrindRailSpring *work = TaskGetWork(task, TripleGrindRailSpring);
+    TaskInitWork8(work);
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-// clang-format on
-#endif
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkGrd3lS, GetObjectDataWork(OBJDATAWORK_176), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 86);
+    StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = TripleGrindRailSpring__OnDefend;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+    SetTaskState(&work->gameWork.objWork, TripleGrindRailSpring__State_Active);
+    StageTask__SetAnimation(&work->gameWork.objWork, 0);
+
+    return work;
 }
 
 NONMATCH_FUNC TripleGrindRail *TripleGrindRail__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
