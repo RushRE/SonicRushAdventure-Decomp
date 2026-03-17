@@ -708,48 +708,18 @@ void TripleGrindRailSpring__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     Player__Action_AllowTrickCombos(player, &railSpring->gameWork);
 }
 
-NONMATCH_FUNC void TripleGrindRail__Destructor(Task *task)
+void TripleGrindRail__Destructor(Task *task)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r6, #0
-	ldr r5, =TripleGrindRail__Singleton
-	mov r4, r0
-	mov r7, r6
-_02164068:
-	ldr r0, [r5, #0]
-	add r0, r0, #0x4e0
-	add r0, r0, r7
-	bl AnimatorSprite3D__Release
-	add r6, r6, #1
-	cmp r6, #7
-	add r7, r7, #0x104
-	blt _02164068
-	ldr r0, =TripleGrindRail__Singleton
-	ldr r0, [r0, #0]
-	add r0, r0, #0x3fc
-	add r0, r0, #0x800
-	bl AnimatorSprite3D__Release
-	ldr r0, =TripleGrindRail__Singleton
-	ldr r0, [r0, #0]
-	add r0, r0, #0xd00
-	bl AnimatorSprite3D__Release
-	ldr r2, =TripleGrindRail__Singleton
-	mov r3, #0
-	ldr r1, =g_obj
-	mov r0, #0x1000
-	str r3, [r2]
-	str r3, [r1, #0x14]
-	bl SetStageRingScale
-	mov r0, r4
-	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
+    for (s32 i = 0; i < TRIPLEGRINDRAIL_ANI_COUNT; i++)
+    {
+        AnimatorSprite3D__Release(&TripleGrindRail__Singleton->aniDecorations[i]);
+    }
+    AnimatorSprite3D__Release(&TripleGrindRail__Singleton->aniRing);
+    AnimatorSprite3D__Release(&TripleGrindRail__Singleton->aniRingSparkle);
+    TripleGrindRail__Singleton = NULL;
+    g_obj.scroll.x             = 0;
+    SetStageRingScale(FX32_ONE);
+    GameObject__Destructor(task);
 }
 
 NONMATCH_FUNC void TripleGrindRail__State_21640DC(TripleGrindRail *work)
