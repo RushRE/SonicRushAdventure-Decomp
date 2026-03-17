@@ -55,8 +55,100 @@ TripleGrindRailSpring *TripleGrindRailSpring__Create(MapObject *mapObject, fx32 
 
 NONMATCH_FUNC TripleGrindRail *TripleGrindRail__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
+    // https://decomp.me/scratch/vDReX => 97.90% at -O2,p, 92.11% at -O4,p
 #ifdef NON_MATCHING
+    TripleGrindRail *work;
+    s32 i1;
+    Task *task;
 
+    task = CreateStageTask(TripleGrindRail__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), TripleGrindRail);
+    if (task == HeapNull)
+        return NULL;
+
+    work = TaskGetWork(task, TripleGrindRail);
+    TaskInitWork8(work);
+    TripleGrindRail__Singleton = work;
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    s32 d                                            = MATH_MAX(mapObject->left, 8);
+    fx32 d2                                          = x + FX32_FROM_WHOLE((d - 4) << 6);
+    work->dwordE08                                   = d2 - FX32_FROM_WHOLE(0x22C);
+    work->gameWork.objWork.viewOutOffsetBoundsLeft   = -0x200;
+    work->gameWork.objWork.viewOutOffsetBoundsBottom = 0x200;
+    work->flags |= TRIPLEGRINDRAIL_FLAG_1;
+
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniTripleGrindRail, aModGmkGrd3line, 0, NULL, gameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniTripleGrindRail, aModGmkGrd3line_0, NULL, gameArchiveStage);
+    AnimatorMDL__SetAnimation(&work->gameWork.objWork.obj_3d->ani, B3D_ANIM_TEX_ANIM, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_TEX_ANIM], 0, NULL);
+
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+    work->aniTripleGrindRail.ani.speedMultiplier = 0;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+    VEC_Set(&work->aniTripleGrindRail.ani.work.scale, FLOAT_TO_FX32(3.2998046875), FLOAT_TO_FX32(3.2998046875), FLOAT_TO_FX32(3.2998046875));
+    work->gameWork.objWork.offset.x = FLOAT_TO_FX32(321.73095703125);
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
+
+    void *leaf3dLoad                    = ObjDataLoad(NULL, aActAcEffGrd3lL_0, gameArchiveStage);
+    AnimatorSprite3D *currentDecoration = &work->aniDecorations[0];
+    for (i1 = 0; i1 < TRIPLEGRINDRAIL_ANI_COUNT; currentDecoration++, i1++)
+    {
+        u32 size            = Sprite__GetTextureSizeFromAnim(leaf3dLoad, i1);
+        VRAMPixelKey tkey   = VRAMSystem__AllocTexture(size, FALSE);
+        size                = Sprite__GetPaletteSizeFromAnim(leaf3dLoad, i1);
+        VRAMPaletteKey pkey = VRAMSystem__AllocPalette(size, FALSE);
+        AnimatorSprite3D__Init(currentDecoration, 0, leaf3dLoad, i1,
+                               ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS, tkey, pkey);
+        currentDecoration->work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
+        currentDecoration->work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
+        AnimatorSprite3D__ProcessAnimation(currentDecoration, NULL, NULL);
+        currentDecoration->animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
+    }
+    for (i1 = 0; i1 < TRIPLEGRINDRAIL_LEAF_COUNT; i1++)
+    {
+        work->leafList[i1].y = FLOAT_TO_FX32(256.0);
+    }
+    for (i1 = 0; i1 < TRIPLEGRINDRAIL_MUSHROOM_COUNT; i1++)
+    {
+        work->mushroomList[i1].y = FLOAT_TO_FX32(256.0);
+    }
+
+    void *ring3dLoad          = ObjDataLoad(NULL, aActAcItmRing3d, gameArchiveStage);
+    AnimatorSprite3D *aniRing = &work->aniRing;
+    VRAMPixelKey tkeyRing     = VRAMSystem__AllocTexture(0x80, FALSE);
+    VRAMPaletteKey pkeyRing   = VRAMSystem__AllocPalette(0x10, FALSE);
+    AnimatorSprite3D__Init(aniRing, 0, ring3dLoad, 0, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING, tkeyRing,
+                           pkeyRing);
+    aniRing->work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
+    aniRing->work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
+    AnimatorSprite3D__ProcessAnimation(aniRing, NULL, NULL);
+    aniRing->animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
+
+    VRAMPixelKey tkeyRingSparkle   = VRAMSystem__AllocTexture(0x300, FALSE);
+    VRAMPaletteKey pkeyRingSparkle = VRAMSystem__AllocPalette(0x10, FALSE);
+    AnimatorSprite3D__Init(&work->aniRingSparkle, 0, ring3dLoad, 1,
+                           ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS, tkeyRingSparkle, pkeyRingSparkle);
+    work->aniRingSparkle.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
+    work->aniRingSparkle.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
+    AnimatorSprite3D__ProcessAnimation(&work->aniRingSparkle, NULL, NULL);
+    work->aniRingSparkle.animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
+
+    work->gameWork.objWork.collisionObj           = NULL;
+    work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
+    work->gameWork.collisionObject.work.width     = 0x200;
+    work->gameWork.collisionObject.work.height    = 8;
+    work->gameWork.collisionObject.work.ofst_x    = -0xC0;
+    work->gameWork.collisionObject.work.ofst_y    = 0;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, 0);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -0x80, -0xC0, 0x80, 0);
+
+    ObjRect__SetGroupFlags(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], 2, 1);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent   = &work->gameWork.objWork;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = TripleGrindRail__OnDefend_StartTrigger;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+
+    return work;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
