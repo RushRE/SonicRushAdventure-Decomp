@@ -418,188 +418,68 @@ _021638D0:
 #endif
 }
 
-NONMATCH_FUNC TripleGrindRailEntity *TripleGrindRailEntity__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+TripleGrindRailEntity *TripleGrindRailEntity__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    if (TripleGrindRail__Singleton == NULL)
+        return NULL;
+    if (x <= TripleGrindRail__Singleton->gameWork.objWork.position.x)
+        return NULL;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	ldr r3, =TripleGrindRail__Singleton
-	mov r7, r0
-	ldr r3, [r3, #0]
-	mov r6, r1
-	cmp r3, #0
-	mov r5, r2
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	ldr r0, [r3, #0x44]
-	cmp r6, r0
-	addle sp, sp, #0xc
-	movle r0, #0
-	ldmleia sp!, {r4, r5, r6, r7, pc}
-	ldr r0, [r3, #0xe04]
-	tst r0, #1
-	addne sp, sp, #0xc
-	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, r7, pc}
-	mov r0, #0x1800
-	str r0, [sp]
-	mov r0, #2
-	mov r2, #0
-	str r0, [sp, #4]
-	ldr r4, =0x0000117C
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x480
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldrsb r2, [r7, #6]
-	cmp r2, #0
-	movlt r2, #0
-	blt _02163B8C
-	cmp r2, #2
-	movgt r2, #2
-_02163B8C:
-	ldr r0, =0x00059184
-	ldr r1, =0x000E8A2E
-	mla r0, r2, r0, r1
-	str r0, [r4, #0x478]
-	ldrh r0, [r7, #2]
-	cmp r0, #0x7a
-	beq _02163BB0
-	cmp r0, #0x7b
-	beq _02163C88
-_02163BB0:
-	mov r0, #0xb1
-	bl GetObjectFileWork
-	mov r3, #0
-	str r3, [sp]
-	str r0, [sp, #4]
-	ldr r0, =gameArchiveStage
-	ldr r2, =aActAcGmkBallSi
-	ldr r5, [r0, #0]
-	mov r0, r4
-	add r1, r4, #0x364
-	str r5, [sp, #8]
-	bl ObjObjectAction3dBACLoad
-	mov r0, #0xb2
-	bl GetObjectFileWork
-	mov r3, r0
-	mov r0, r4
-	mov r1, #0x800
-	mov r2, #0x10
-	bl ObjObjectActionAllocTexture
-	mov r0, #0xb2
-	bl GetObjectFileWork
-	ldrh r0, [r0, #4]
-	bic r0, r0, #0x8000
-	cmp r0, #1
-	bne _02163C3C
-	ldr r0, [r4, #0x430]
-	mov r2, r4
-	orr r0, r0, #0x60
-	str r0, [r4, #0x430]
-	ldr r1, [r4, #0x104]
-	add r0, r4, #0x364
-	bl AnimatorSprite3D__ProcessAnimation
-	ldr r0, [r4, #0x430]
-	orr r0, r0, #0x18
-	str r0, [r4, #0x430]
-_02163C3C:
-	add r0, r4, #0x218
-	mov r1, #2
-	mov r2, #0x40
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFF
-	add r0, r4, #0x218
-	mov r2, #0xff
-	bl ObjRect__SetDefenceStat
-	ldr r1, [r4, #0x230]
-	mov r0, #0x2800
-	orr r1, r1, #0x400
-	str r1, [r4, #0x230]
-	ldr r1, [r4, #0x20]
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	str r0, [r4, #0x38]
-	str r0, [r4, #0x3c]
-	str r0, [r4, #0x40]
-	b _02163D14
-_02163C88:
-	ldr r0, =TripleGrindRail__Singleton
-	add r1, r4, #0x364
-	ldr r0, [r0, #0]
-	mov r2, #0x104
-	add r0, r0, #0xd00
-	bl MI_CpuCopy8
-	mov r5, #4
-	str r4, [r4, #0x234]
-	mov r0, #8
-	str r0, [sp]
-	mov r0, #0
-	str r0, [sp, #4]
-	add r0, r4, #0x218
-	sub r1, r5, #0xc
-	sub r2, r5, #0x14
-	sub r3, r5, #8
-	str r5, [sp, #8]
-	bl ObjRect__SetBox3D
-	mov r1, #0
-	mov r2, r1
-	add r0, r4, #0x218
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r4, #0x218
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, [r4, #0x230]
-	ldr r0, =TripleGrindRailEntity__OnDefend
-	orr r1, r1, #0x400
-	str r1, [r4, #0x230]
-	str r0, [r4, #0x23c]
-	mov r0, #0x2800
-	str r0, [r4, #0x38]
-	str r0, [r4, #0x3c]
-	str r0, [r4, #0x40]
-_02163D14:
-	ldr r0, [r4, #0x18]
-	ldr r1, =TripleGrindRailEntity__State_Inactive
-	orr r0, r0, #0x10
-	str r0, [r4, #0x18]
-	ldr r2, [r4, #0x1c]
-	mov r0, r4
-	orr r2, r2, #0x2100
-	str r2, [r4, #0x1c]
-	ldr r2, [r4, #0x20]
-	orr r2, r2, #0x20
-	str r2, [r4, #0x20]
-	str r1, [r4, #0xf4]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    if ((TripleGrindRail__Singleton->flags & TRIPLEGRINDRAIL_FLAG_1) != 0)
+        return NULL;
 
-// clang-format on
-#endif
+    TripleGrindRailEntity *work;
+    // Sic: we're allocating a TripleGrindRailEntity by asking for the (much greater) size of a TripleGrindRail
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), TripleGrindRail);
+    if (task == HeapNull)
+        return NULL;
+
+    work = TaskGetWork(task, TripleGrindRailEntity);
+    TaskInitWork8(work);
+
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    s32 val      = ClampS32(mapObject->left, 0, 2);
+    work->radius = val * FLOAT_TO_FX32(89.0947265625) + FLOAT_TO_FX32(232.63623046875);
+    if ((mapObject->id == MAPOBJECT_122) || (mapObject->id != MAPOBJECT_123))
+    {
+        ObjObjectAction3dBACLoad(&work->gameWork.objWork, &work->aniSprite, aActAcGmkBallSi, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectFileWork(OBJDATAWORK_177),
+                                 gameArchiveStage);
+        ObjObjectActionAllocTexture(&work->gameWork.objWork, 0x800, 16, GetObjectFileWork(OBJDATAWORK_178));
+        OBS_DATA_WORK *work178 = GetObjectFileWork(OBJDATAWORK_178);
+        if ((work178->referenceCount & ~0x8000) == 1)
+        {
+            work->aniSprite.ani.animatorSprite.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PIXELS | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES;
+            AnimatorSprite3D__ProcessAnimation(&work->aniSprite.ani, work->gameWork.objWork.ppSpriteCallback, work);
+            work->aniSprite.ani.animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS | ANIMATOR_FLAG_DISABLE_PALETTES;
+        }
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_INVINCIBLE);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+        work->gameWork.objWork.scale.x = FLOAT_TO_FX32(2.5);
+        work->gameWork.objWork.scale.y = FLOAT_TO_FX32(2.5);
+        work->gameWork.objWork.scale.z = FLOAT_TO_FX32(2.5);
+    }
+    else
+    {
+        MI_CpuCopy8(&TripleGrindRail__Singleton->aniRingSparkle, &work->aniSprite.ani, sizeof(work->aniSprite.ani));
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+        ObjRect__SetBox3D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -8, -16, -4, 8, 0, 4);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = TripleGrindRailEntity__OnDefend;
+        work->gameWork.objWork.scale.x                              = FLOAT_TO_FX32(2.5);
+        work->gameWork.objWork.scale.y                              = FLOAT_TO_FX32(2.5);
+        work->gameWork.objWork.scale.z                              = FLOAT_TO_FX32(2.5);
+    }
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
+    SetTaskState(&work->gameWork.objWork, TripleGrindRailEntity__State_Inactive);
+
+    return work;
 }
 
 NONMATCH_FUNC void TripleGrindRailRingLoss__Create(Player *player)
