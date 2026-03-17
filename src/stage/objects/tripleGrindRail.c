@@ -1307,34 +1307,11 @@ void TripleGrindRail__CreateLeafParticle(TripleGrindRailParticle *particle)
     particle->id                = particleIDsArray[randIndex];
 }
 
-NONMATCH_FUNC void TripleGrindRail__CreateMushroomParticle(TripleGrindRailParticle *particle)
+void TripleGrindRail__CreateMushroomParticle(TripleGrindRailParticle *particle)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r3, =_mt_math_rand
-	ldr r1, =0x00196225
-	ldr lr, [r3]
-	ldr r2, =0x3C6EF35F
-	ldr ip, =0x001CF9F6
-	mla r2, lr, r1, r2
-	mov r1, r2, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	and r1, r1, #0x1f
-	add r1, r1, #8
-	str r2, [r3]
-	mov r1, r1, lsl #0xc
-	str r1, [r0, #4]
-	ldr r1, =0x0000D8E2
-	str ip, [r0]
-	strh r1, [r0, #8]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    particle->y      = FX32_FROM_WHOLE(mtMathRandRepeat(0x20) + 8);
+    particle->radius = FLOAT_TO_FX32(463.62255859375);
+    particle->angle  = FLOAT_TO_FX32(13.55517578125);
 }
 
 NONMATCH_FUNC void TripleGrindRail__State_216492C(TripleGrindRail *work){
