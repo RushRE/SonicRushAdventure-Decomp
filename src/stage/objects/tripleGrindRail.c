@@ -675,29 +675,16 @@ _02163F14:
 #endif
 }
 
-NONMATCH_FUNC void TripleGrindRailSpring__State_Active(TripleGrindRailSpring *work)
+void TripleGrindRailSpring__State_Active(TripleGrindRailSpring *work)
 {
-#ifdef NON_MATCHING
+    if (work->gameWork.animator.ani.work.animID != 1)
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	add r1, r0, #0x100
-	ldrh r1, [r1, #0x74]
-	cmp r1, #1
-	ldmneia sp!, {r3, pc}
-	ldr r1, [r0, #0x20]
-	tst r1, #8
-	ldmeqia sp!, {r3, pc}
-	ldr r2, [r0, #0x230]
-	mov r1, #0
-	bic r2, r2, #0x100
-	str r2, [r0, #0x230]
-	bl StageTask__SetAnimation
-	ldmia sp!, {r3, pc}
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) == 0)
+        return;
 
-// clang-format on
-#endif
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~(OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
+    StageTask__SetAnimation(&work->gameWork.objWork, 0);
 }
 
 NONMATCH_FUNC void TripleGrindRailSpring__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
