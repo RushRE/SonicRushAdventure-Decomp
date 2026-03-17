@@ -1293,69 +1293,18 @@ _02164760:
 #endif
 }
 
-NONMATCH_FUNC void TripleGrindRail__CreateLeafParticle(TripleGrindRailParticle *particle)
+void TripleGrindRail__CreateLeafParticle(TripleGrindRailParticle *particle)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #0x10
-	ldr r5, =TripleGrindRail__ParticleIDs
-	add r4, sp, #0
-	mov r3, #4
-_021647EC:
-	ldrh r2, [r5, #0]
-	ldrh r1, [r5, #2]
-	add r5, r5, #4
-	strh r2, [r4]
-	strh r1, [r4, #2]
-	add r4, r4, #4
-	subs r3, r3, #1
-	bne _021647EC
-	ldr lr, =_mt_math_rand
-	ldr r3, =0x00196225
-	ldr r1, [lr]
-	ldr ip, =0x3C6EF35F
-	ldr r2, =0x000001FF
-	mla r4, r1, r3, ip
-	mov r1, r4, lsr #0x10
-	mov r1, r1, lsl #0x10
-	and r1, r2, r1, lsr #16
-	rsb r1, r1, #0x80
-	str r4, [lr]
-	mov r1, r1, lsl #0xc
-	str r1, [r0, #4]
-	ldr r1, [lr]
-	ldr r2, =0x000034CC
-	mla r5, r1, r3, ip
-	mov r1, r5, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	and r4, r1, #0x3f
-	ldr r1, =0x00141BB2
-	sub r4, r4, #0x1f
-	mla r2, r4, r2, r1
-	str r5, [lr]
-	str r2, [r0]
-	ldr r1, =0x0000D554
-	add r2, sp, #0
-	strh r1, [r0, #8]
-	ldr r1, [lr]
-	mla r3, r1, r3, ip
-	mov r1, r3, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x1d
-	mov r1, r1, lsr #0x1c
-	ldrh r1, [r2, r1]
-	str r3, [lr]
-	strh r1, [r0, #0xa]
-	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    u16 particleIDsArray[8];
+    ARRAY_COPY(particleIDsArray, TripleGrindRail__ParticleIDs);
+    s32 newY                    = 0x80 - mtMathRandRepeat(0x200);
+    particle->y                 = FX32_FROM_WHOLE(newY);
+    s32 randVal                 = mtMathRandRepeat(0x40) - 0x1F;
+    particle->radius            = randVal * FLOAT_TO_FX32(3.2998046875) + FLOAT_TO_FX32(321.73095703125);
+    particle->angle             = FLOAT_TO_FX32(13.3330078125);
+    int bitShiftKeep3LowestBits = sizeof(s32) * 8 - 3; // Keep only 3 bits (8-element array)
+    u32 randIndex               = (u32)(((s32)mtMathRand()) << bitShiftKeep3LowestBits) >> bitShiftKeep3LowestBits;
+    particle->id                = particleIDsArray[randIndex];
 }
 
 NONMATCH_FUNC void TripleGrindRail__CreateMushroomParticle(TripleGrindRailParticle *particle)
