@@ -722,81 +722,33 @@ void TripleGrindRail__Destructor(Task *task)
     GameObject__Destructor(task);
 }
 
-NONMATCH_FUNC void TripleGrindRail__State_21640DC(TripleGrindRail *work)
+void TripleGrindRail__State_21640DC(TripleGrindRail *work)
 {
-#ifdef NON_MATCHING
+    work->gameWork.objWork.offset.x = FLOAT_TO_FX32(321.73095703125);
+    if (work->gameWork.objWork.dir.x != 0)
+    {
+        work->gameWork.objWork.dir.x = work->gameWork.objWork.dir.x - FLOAT_TO_FX32(0.20703125);
+        if ((work->gameWork.objWork.dir.x == 0) || (work->gameWork.objWork.dir.x > FLOAT_TO_FX32(8.0)))
+            work->gameWork.objWork.dir.x = 0;
+        MTX_Identity33(&work->aniTripleGrindRail.ani.work.rotation.nnMtx[0]);
+        s32 index = (u16)(-work->gameWork.objWork.dir.x);
+        MTX_RotX33(&work->aniTripleGrindRail.ani.work.rotation.nnMtx[0], SinFX(index), CosFX(index));
+    }
+    Player *player = (Player *)work->gameWork.parent;
+    if (!CheckPlayerGimmickObj(work->gameWork.parent, work) || (player->playerFlag & PLAYER_FLAG_DEATH) != 0)
+    {
+        work->gameWork.parent = NULL;
+        SetTaskState(&work->gameWork.objWork, TripleGrindRail__State_216497C);
+        work->gameWork.objWork.userWork = 600;
+        return;
+    }
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0)
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, =0x00141BB2
-	mov r5, r0
-	str r1, [r5, #0x50]
-	ldrh r0, [r5, #0x30]
-	cmp r0, #0
-	beq _02164164
-	sub r0, r0, #0x350
-	strh r0, [r5, #0x30]
-	ldrh r0, [r5, #0x30]
-	cmp r0, #0
-	beq _02164114
-	cmp r0, #0x8000
-	bls _0216411C
-_02164114:
-	mov r0, #0
-	strh r0, [r5, #0x30]
-_0216411C:
-	add r0, r5, #0x388
-	bl MTX_Identity33_
-	ldrh r1, [r5, #0x30]
-	ldr r3, =FX_SinCosTable_
-	add r0, r5, #0x388
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov r4, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, r4]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotX33_
-_02164164:
-	ldr r4, [r5, #0x35c]
-	ldr r0, [r4, #0x6d8]
-	cmp r0, r5
-	bne _02164180
-	ldr r0, [r4, #0x5d8]
-	tst r0, #0x400
-	beq _0216419C
-_02164180:
-	mov r1, #0
-	ldr r0, =TripleGrindRail__State_216497C
-	str r1, [r5, #0x35c]
-	str r0, [r5, #0xf4]
-	mov r0, #0x258
-	str r0, [r5, #0x28]
-	ldmia sp!, {r3, r4, r5, pc}
-_0216419C:
-	ldr r0, [r4, #0x1c]
-	tst r0, #1
-	ldmeqia sp!, {r3, r4, r5, pc}
-	mov r0, r4
-	bl Player__Gimmick_TripleGrindRail
-	ldr r1, [r4, #0x5dc]
-	ldr r0, =TripleGrindRail__State_21641E0
-	orr r1, r1, #0x600
-	str r1, [r4, #0x5dc]
-	str r0, [r5, #0xf4]
-	mov r0, #0x400
-	str r0, [r5, #0xe0c]
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    Player__Gimmick_TripleGrindRail(player);
+    player->gimmickFlag |= PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_X | PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_Y;
+    SetTaskState(&work->gameWork.objWork, TripleGrindRail__State_21641E0);
+    work->field_E0C = 0x400;
 }
 
 NONMATCH_FUNC void TripleGrindRail__State_21641E0(TripleGrindRail *work)
