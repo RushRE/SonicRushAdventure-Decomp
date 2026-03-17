@@ -1356,50 +1356,21 @@ void TripleGrindRail__OnDefend_StartTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK 
     rail->gameWork.collisionObject.work.parent   = &rail->gameWork.objWork;
 }
 
-NONMATCH_FUNC void TripleGrindRailEntity__State_Inactive(TripleGrindRailEntity *work)
+void TripleGrindRailEntity__State_Inactive(TripleGrindRailEntity *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, =TripleGrindRail__Singleton
-	mov r4, r0
-	ldr r2, [r1, #0]
-	cmp r2, #0
-	beq _02164A64
-	ldr r1, [r2, #0xe04]
-	tst r1, #3
-	beq _02164A74
-_02164A64:
-	ldr r0, [r4, #0x18]
-	orr r0, r0, #4
-	str r0, [r4, #0x18]
-	ldmia sp!, {r4, pc}
-_02164A74:
-	ldr r1, [r2, #0x44]
-	ldr r2, [r4, #0x44]
-	add r1, r1, #0xa0000
-	cmp r2, r1
-	ldmgtia sp!, {r4, pc}
-	ldr r2, =0x0000CE38
-	add r1, r4, #0x400
-	strh r2, [r1, #0x7c]
-	ldr r2, [r4, #0x20]
-	ldr r1, =TripleGrindRailEntity__State_Active
-	bic r2, r2, #0x20
-	str r2, [r4, #0x20]
-	str r1, [r4, #0xf4]
-	bl TripleGrindRailEntity__State_Active
-	ldr r0, [r4, #0x340]
-	ldrh r0, [r0, #2]
-	cmp r0, #0x7b
-	ldreq r0, =TripleGrindRailEntity__Draw
-	streq r0, [r4, #0xfc]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if ((TripleGrindRail__Singleton == NULL) || (TripleGrindRail__Singleton->flags & (TRIPLEGRINDRAIL_FLAG_1 | TRIPLEGRINDRAIL_FLAG_2)) != 0)
+    {
+        DestroyStageTask(&work->gameWork.objWork);
+        return;
+    }
+    if (work->gameWork.objWork.position.x > (TripleGrindRail__Singleton->gameWork.objWork.position.x + FX32_FROM_WHOLE(0xA0)))
+        return;
+    work->angle = FLOAT_TO_FX32(12.888671875);
+    work->gameWork.objWork.displayFlag &= ~STAGE_TASK_FLAG_ACTIVE_DURING_PAUSE;
+    SetTaskState(&work->gameWork.objWork, TripleGrindRailEntity__State_Active);
+    TripleGrindRailEntity__State_Active(work);
+    if (work->gameWork.mapObject->id == MAPOBJECT_123)
+        SetTaskOutFunc(&work->gameWork.objWork, TripleGrindRailEntity__Draw);
 }
 
 NONMATCH_FUNC void TripleGrindRailEntity__State_Active(TripleGrindRailEntity *work)
