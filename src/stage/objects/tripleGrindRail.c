@@ -1396,59 +1396,22 @@ void TripleGrindRailEntity__State_Active(TripleGrindRailEntity *work)
     work->gameWork.objWork.position.z = sinRad;
 }
 
-NONMATCH_FUNC void TripleGrindRailEntity__Draw(void)
+void TripleGrindRailEntity__Draw(void)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0x14
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	ldr r0, [r4, #0x354]
-	mov r2, #0
-	tst r0, #1
-	add r0, sp, #0x10
-	beq _02164C70
-	mov r1, #0x100
-	str r1, [sp, #0x10]
-	str r0, [sp]
-	str r2, [sp, #4]
-	str r2, [sp, #8]
-	str r2, [sp, #0xc]
-	add r0, r4, #0x364
-	add r1, r4, #0x44
-	add r3, r4, #0x38
-	bl StageTask__Draw3DEx
-	ldr r0, [sp, #0x10]
-	tst r0, #0x40000000
-	addeq sp, sp, #0x14
-	ldmeqia sp!, {r3, r4, pc}
-	ldr r0, [r4, #0x18]
-	add sp, sp, #0x14
-	orr r0, r0, #4
-	str r0, [r4, #0x18]
-	ldmia sp!, {r3, r4, pc}
-_02164C70:
-	ldr r1, =0x00001104
-	add r3, r4, #0x38
-	str r1, [sp, #0x10]
-	str r0, [sp]
-	str r2, [sp, #4]
-	str r2, [sp, #8]
-	ldr r0, =TripleGrindRail__Singleton
-	str r2, [sp, #0xc]
-	ldr r0, [r0, #0]
-	add r1, r4, #0x44
-	add r0, r0, #0x3fc
-	add r0, r0, #0x800
-	bl StageTask__Draw3DEx
-	add sp, sp, #0x14
-	ldmia sp!, {r3, r4, pc}
-
-// clang-format on
-#endif
+    StageDisplayFlags flags;
+    TripleGrindRailEntity *work = TaskGetWorkCurrent(TripleGrindRailEntity);
+    if ((work->gameWork.flags & GAMEOBJECT_FLAG_USER_1) != 0)
+    {
+        flags = DISPLAY_FLAG_DISABLE_ROTATION;
+        StageTask__Draw3DEx(&work->aniSprite.ani.work, &work->gameWork.objWork.position, NULL, &work->gameWork.objWork.scale, &flags, NULL, NULL, NULL);
+        if ((flags & DISPLAY_FLAG_UNKNOWN_40000000) != 0)
+            DestroyStageTask(&work->gameWork.objWork);
+    }
+    else
+    {
+        flags = DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_UPDATE;
+        StageTask__Draw3DEx(&TripleGrindRail__Singleton->aniRing.work, &work->gameWork.objWork.position, NULL, &work->gameWork.objWork.scale, &flags, NULL, NULL, NULL);
+    }
 }
 
 NONMATCH_FUNC void TripleGrindRailEntity__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
