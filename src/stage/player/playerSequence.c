@@ -1552,98 +1552,30 @@ void Player__OnDefend_TripleGrindRail(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2
     }
 }
 
-NONMATCH_FUNC void Player__Func_201DD24(Player *player)
+void Player__Func_201DD24(Player *player)
 {
-#ifdef NON_MATCHING
     player->playerFlag &= ~PLAYER_FLAG_DISABLE_CAMERA_OFFSET;
     player->gimmickFlag &= ~PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X;
     player->playerFlag |= PLAYER_FLAG_DISABLE_INPUT_READ;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 
-    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0 || player->gimmickObj == NULL)
+    if (((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0) && (player->gimmickObj != NULL))
     {
-        player->gimmick.value1 = 0xE8A2E + player->gimmick.value1 * 0x59184;
-        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
-        player->objWork.velocity.x = player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
+        player->gimmick.value1 = player->gimmickObj->objWork.position.x + FLOAT_TO_FX32(321.73095703125) - player->objWork.position.x;
     }
     else
     {
-        player->gimmick.value1 = player->gimmickObj->objWork.position.x + 0x141BB2 - player->objWork.position.x;
+        player->gimmick.value1 = FLOAT_TO_FX32(232.63623046875) + player->gimmick.value1 * FLOAT_TO_FX32(89.0947265625);
+        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
+        player->objWork.velocity.x = player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
     }
 
-    player->gimmick.value2 = 0;
-
-    fx32 v3                = MultiplyFX(player->gimmick.value1, 0x647A) >> 2;
-    player->gimmick.value3 = MultiplyFX(0x66666667, v3) >> 4;
-
+    player->gimmick.value2   = 0;
+    fx32 v3                  = MultiplyFX(player->gimmick.value1, FLOAT_TO_FX32(6.27978515625)) >> 2;
+    player->gimmick.value3   = v3 / 40;
     player->objWork.userWork = 0;
 
     SetTaskState(&player->objWork, Player__State_201DE24);
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, [r0, #0x5d8]
-	bic r1, r1, #0x2000
-	str r1, [r0, #0x5d8]
-	ldr r1, [r0, #0x5dc]
-	bic r1, r1, #0x10
-	str r1, [r0, #0x5dc]
-	ldr r1, [r0, #0x5d8]
-	orr r1, r1, #0x200000
-	str r1, [r0, #0x5d8]
-	ldr r1, [r0, #0x1c]
-	orr r1, r1, #0x2080
-	str r1, [r0, #0x1c]
-	tst r1, #1
-	bne _0201DD88
-	ldr r1, [r0, #0x6d8]
-	cmp r1, #0
-	beq _0201DD88
-	ldr r3, [r1, #0x44]
-	ldr r1, =0x00141BB2
-	ldr r2, [r0, #0x44]
-	add r1, r3, r1
-	sub r1, r1, r2
-	str r1, [r0, #0x6f0]
-	b _0201DDB4
-_0201DD88:
-	ldr r4, [r0, #0x6f0]
-	ldr r1, =0x00059184
-	ldr r2, =0x000E8A2E
-	mov r3, #0
-	mla r1, r4, r1, r2
-	str r1, [r0, #0x6f0]
-	ldr r1, [r0, #0x1c]
-	bic r1, r1, #0x10
-	str r1, [r0, #0x1c]
-	str r3, [r0, #0x9c]
-	str r3, [r0, #0x98]
-_0201DDB4:
-	mov r1, #0
-	str r1, [r0, #0x6f4]
-	ldr ip, [r0, #0x6f0]
-	ldr r2, =0x0000647A
-	mov r3, ip, asr #0x1f
-	umull r4, lr, ip, r2
-	mla lr, ip, r1, lr
-	adds r4, r4, #0x800
-	mla lr, r3, r2, lr
-	adc r2, lr, #0
-	mov r3, r4, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	mov r3, r3, asr #2
-	ldr ip, =0x66666667
-	mov r2, r3, lsr #0x1f
-	smull r3, r4, ip, r3
-	add r4, r2, r4, asr #4
-	str r4, [r0, #0x6f8]
-	ldr r2, =Player__State_201DE24
-	str r1, [r0, #0x28]
-	str r2, [r0, #0xf4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC void Player__State_201DE24(Player *work)
