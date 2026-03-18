@@ -55,7 +55,7 @@ tar -xvf libpng-1.6.50.tar.gz
 cd libpng-1.6.50/
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr -DPNG_SHARED=OFF -S .. -B .
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DPNG_SHARED=OFF -S .. -B .
 cmake --build .
 cmake --install .
 ```
