@@ -1535,50 +1535,20 @@ _02164DEC:
 #endif
 }
 
-NONMATCH_FUNC void TripleGrindRailRingLoss__Draw(void)
+void TripleGrindRailRingLoss__Draw(void)
 {
-#ifdef NON_MATCHING
+    TripleGrindRailRingLoss *work;
+    s32 i;
+    s32 ringCount;
+    VecFx32 scale;
+    StageDisplayFlags displayFlag;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #0x20
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	add r0, r4, #0x38
-	add r7, sp, #0x14
-	ldmia r0, {r0, r1, r2}
-	ldr r3, =0x00001104
-	stmia r7, {r0, r1, r2}
-	str r3, [sp, #0x10]
-	ldr r9, [r4, #0x168]
-	mov r8, #0
-	cmp r9, #0
-	addle sp, sp, #0x20
-	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	add r10, r4, #0x16c
-	ldr r4, =TripleGrindRail__Singleton
-	add r6, sp, #0x10
-	mov r5, r8
-_02164E5C:
-	str r6, [sp]
-	str r5, [sp, #4]
-	str r5, [sp, #8]
-	str r5, [sp, #0xc]
-	ldr r0, [r4, #0]
-	mov r1, r10
-	add r0, r0, #0x3fc
-	mov r2, r5
-	mov r3, r7
-	add r0, r0, #0x800
-	bl StageTask__Draw3DEx
-	add r8, r8, #1
-	cmp r8, r9
-	add r10, r10, #0xc
-	blt _02164E5C
-	add sp, sp, #0x20
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-
-// clang-format on
-#endif
+    work        = TaskGetWorkCurrent(TripleGrindRailRingLoss);
+    scale       = work->objWork.scale;
+    displayFlag = DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_UPDATE;
+    ringCount   = work->ringCount;
+    for (i = 0; i < ringCount; i++)
+    {
+        StageTask__Draw3DEx(&TripleGrindRail__Singleton->aniRing.work, &work->ringPosition[i], NULL, &scale, &displayFlag, NULL, NULL, NULL);
+    }
 }
