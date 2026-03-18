@@ -1580,8 +1580,91 @@ void Player__Func_201DD24(Player *player)
 
 NONMATCH_FUNC void Player__State_201DE24(Player *work)
 {
+    // https://decomp.me/scratch/tqtIt => 98.80%, wrong instruction scheduling
 #ifdef NON_MATCHING
+    fx32 posX = 0;
+    if (player->gimmickObj != NULL)
+        posX = player->gimmickObj->objWork.position.x + FLOAT_TO_FX32(321.73095703125);
 
+    switch (player->gimmick.value2)
+    {
+        case 0: {
+            player->objWork.prevPosition.x = player->objWork.position.x;
+            player->objWork.prevPosition.y = player->objWork.position.y;
+            player->objWork.prevPosition.z = player->objWork.position.z;
+            if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+            {
+                if (player->actionState != PLAYER_ACTION_GRIND2)
+                {
+                    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
+                    player->objWork.velocity.y = 0;
+                    player->objWork.velocity.x = 0;
+                    Player__ChangeAction(player, PLAYER_ACTION_GRIND2);
+                    player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+                    PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_GRIND], 0x37);
+                }
+            }
+            else if ((player->objWork.velocity.x != 0) || (player->objWork.velocity.y != 0))
+            {
+                player->gimmick.value1          = player->gimmick.value1 - player->objWork.velocity.x;
+                player->objWork.gravityStrength = player->objWork.gravityStrength + player->objWork.velocity.y;
+                player->objWork.position.y      = player->objWork.position.y + player->objWork.gravityStrength;
+            }
+            s32 gimmVal1               = player->gimmick.value1;
+            u16 oldDirY                = player->objWork.dir.y;
+            fx32 speedMove             = FLOAT_TO_FX32(0.099853515625);
+            player->objWork.dir.y      = ObjRoopMove16(player->objWork.dir.y, 0, speedMove);
+            u16 dirYPlus90             = player->objWork.dir.y + FLOAT_DEG_TO_IDX(90.0);
+            s32 index                  = (u16)(dirYPlus90 + FLOAT_DEG_TO_IDX(180.0));
+            player->objWork.position.x = posX + FX_MulInline(CosFX(index), gimmVal1);
+            s32 dirYDiff               = (s16)(oldDirY - player->objWork.dir.y);
+            if (MATH_ABS(dirYDiff) < FLOAT_DEG_TO_IDX(2.2467041015625))
+            {
+                s32 newDiff = (s16)oldDirY - (s16)player->objWork.dir.y;
+                if (newDiff < 0)
+                    newDiff = -newDiff;
+                u16 diff3                  = (s32)(u16)(FLOAT_DEG_TO_IDX(272.2467041015625) - newDiff);
+                player->objWork.position.x = player->objWork.position.x + FX_MulInline(CosFX(diff3), gimmVal1);
+            }
+            player->objWork.userTimer = -FX_MulInline(SinFX(index), gimmVal1);
+            player->objWork.move.x    = player->objWork.position.x - player->objWork.prevPosition.x;
+            player->objWork.move.y    = player->objWork.position.y - player->objWork.prevPosition.y;
+            player->objWork.move.z    = player->objWork.position.z - player->objWork.prevPosition.z;
+            if (player->objWork.dir.y != 0)
+                return;
+            player->gimmick.value2++;
+            return;
+        }
+        case 1: {
+            player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT);
+            player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
+            player->objWork.velocity.x = player->gimmick.value3;
+            s32 dividend               = posX + FX32_FROM_WHOLE(300) - player->objWork.position.x;
+            player->objWork.userWork   = 120 + FX_DivS32(dividend, player->objWork.velocity.x);
+            player->gimmick.value2++;
+        }
+            // fallthrough!
+        case 2: {
+            if (player->objWork.position.x < (posX + FX32_FROM_WHOLE(300)))
+                return;
+            Player__InitPhysics(player);
+            player->objWork.moveFlag =
+                (player->objWork.moveFlag & ~(STAGE_TASK_MOVE_FLAG_DISABLE_FLOW | STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS)) | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+            player->playerFlag &= ~(PLAYER_FLAG_SLOWMO | PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_DISABLE_INPUT_READ);
+            player->gimmickFlag &= ~PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y;
+            player->gimmickCamOffsetY = 0;
+            player->inputLock         = 30;
+            StopStageSfx(&player->seqPlayers[PLAYER_SEQPLAYER_GRIND]);
+            fx32 velocityX = FLOAT_TO_FX32(3.555419921875);
+            fx32 velocityY = FLOAT_TO_FX32(-17.06640625);
+            Player__Action_Spring(player, velocityX, velocityY);
+            player->overSpeedLimitTimer     = 90;
+            player->objWork.gravityStrength = FLOAT_TO_FX32(0.379150390625);
+            player->gimmickFlag &= ~PLAYER_GIMMICK_WANT_GRAVITY_RESET;
+            ObjRect__SetOnDefend(&player->colliders[GAMEOBJECT_COLLIDER_WEAK], Player__OnDefend_Regular);
+            SetStageRingScale(FX_ONE);
+        }
+    }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
