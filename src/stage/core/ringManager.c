@@ -51,6 +51,7 @@ static Task *ringManagerTask;
 RingManager *ringManagerWork;
 
 static fx32 stageRingScale = FLOAT_TO_FX32(1.0);
+s16 spillRingGravityStrength = FLOAT_TO_FX32(0.0703125);
 
 // --------------------
 // FUNCTIONS
@@ -565,8 +566,6 @@ void RingManager_Destructor(Task *task)
 
 void RingManager_Main(void)
 {
-    static s16 spillRingGravityStrength = FLOAT_TO_FX32(0.0703125);
-
     s32 lastTimer;
     s32 p;
     Ring *ring;
