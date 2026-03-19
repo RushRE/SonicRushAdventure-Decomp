@@ -6919,7 +6919,7 @@ void Player__SendPacket(Player *player)
     packetWork->header.param  = playerGameStatus.sendPacketTicks[PLAYER_CONTROL_P1];
 
     if ((StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRail) || StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRailEndSpring)
-         || StageTaskStateMatches(&player->objWork, Player__State_201DE24))
+         || StageTaskStateMatches(&player->objWork, Player__State_ExitingTripleGrindRail))
         || (StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRailStartSpring) && player->objWork.scale.x != FLOAT_TO_FX32(1.0)))
     {
         packet->displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
@@ -7079,7 +7079,7 @@ void Player__ReadGhostFrame(Player *player)
                 player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
         }
 
-        if (player->actionState == PLAYER_ACTION_GRIND2)
+        if (player->actionState == PLAYER_ACTION_GRIND_TRIPLE_RAIL)
             player->objWork.dir.y = -FLOAT_DEG_TO_IDX(90.0);
         else
             player->objWork.dir.y = FLOAT_DEG_TO_IDX(0.0);

@@ -1393,7 +1393,7 @@ void Player__Gimmick_TripleGrindRail(Player *player)
     player->objWork.velocity.x = player->objWork.velocity.y = 0;
     player->objWork.groundVel                               = 0;
 
-    Player__ChangeAction(player, PLAYER_ACTION_GRIND2);
+    Player__ChangeAction(player, PLAYER_ACTION_GRIND_TRIPLE_RAIL);
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     player->objWork.gravityStrength = FLOAT_TO_FX32(0.328125);
     Player__Action_StopBoost(player);
@@ -1478,7 +1478,7 @@ void Player__HandleRideTripleGrindRail(Player *player)
             // player has landed... put them back in the grind action!
             player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
             player->objWork.velocity.x = player->objWork.velocity.y = 0;
-            Player__ChangeAction(player, PLAYER_ACTION_GRIND2);
+            Player__ChangeAction(player, PLAYER_ACTION_GRIND_TRIPLE_RAIL);
             player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
             PlayPlayerSfx(player, PLAYER_SEQPLAYER_GRIND, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GRIND);
         }
@@ -1552,7 +1552,14 @@ void Player__OnDefend_TripleGrindRail(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2
     }
 }
 
-void Player__Func_201DD24(Player *player)
+enum TripleGrindRailExitState
+{
+    TRIPLEGRINDRAILEXIT_STATE_EARLY_EXIT,
+    TRIPLEGRINDRAILEXIT_STATE_START_WAITING_FOR_LAUNCH,
+    TRIPLEGRINDRAILEXIT_STATE_WAIT_FOR_LAUNCH
+};
+
+void Player__PrepareTripleGrindRailExit(Player *player)
 {
     player->playerFlag &= ~PLAYER_FLAG_DISABLE_CAMERA_OFFSET;
     player->gimmickFlag &= ~PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X;
@@ -1561,91 +1568,93 @@ void Player__Func_201DD24(Player *player)
 
     if (((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0) && (player->gimmickObj != NULL))
     {
-        player->gimmick.value1 = player->gimmickObj->objWork.position.x + FLOAT_TO_FX32(321.73095703125) - player->objWork.position.x;
+        // player was in the middle of jumping when they hit the start-of-exit point.
+        player->gimmick.tripleGrindRailExit.xDistanceCircular = player->gimmickObj->objWork.position.x + TRIPLEGRINDRAIL_X_OFFSET - player->objWork.position.x;
     }
     else
     {
-        player->gimmick.value1 = FLOAT_TO_FX32(232.63623046875) + player->gimmick.value1 * FLOAT_TO_FX32(89.0947265625);
+        player->gimmick.tripleGrindRailExit.xDistanceCircular = TRIPLEGRINDRAIL_RADIUS_RAIL_0 + player->gimmick.tripleGrindRail.rail * TRIPLEGRINDRAIL_DISTANCE_BETWEEN_RAILS;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->objWork.velocity.x = player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
     }
 
-    player->gimmick.value2   = 0;
-    fx32 v3                  = MultiplyFX(player->gimmick.value1, FLOAT_TO_FX32(6.27978515625)) >> 2;
-    player->gimmick.value3   = v3 / 40;
-    player->objWork.userWork = 0;
+    player->gimmick.tripleGrindRailExit.state                = TRIPLEGRINDRAILEXIT_STATE_EARLY_EXIT;
+    fx32 v3                                                  = MultiplyFX(player->gimmick.tripleGrindRailExit.xDistanceCircular, FLOAT_TO_FX32(6.27978515625)) >> 2;
+    player->gimmick.tripleGrindRailExit.fixedPlayerXVelocity = v3 / 40;
+    player->objWork.userWork                                 = 0;
 
-    SetTaskState(&player->objWork, Player__State_201DE24);
+    SetTaskState(&player->objWork, Player__State_ExitingTripleGrindRail);
 }
 
-NONMATCH_FUNC void Player__State_201DE24(Player *work)
+NONMATCH_FUNC void Player__State_ExitingTripleGrindRail(Player *work)
 {
     // https://decomp.me/scratch/tqtIt => 98.80%, wrong instruction scheduling
 #ifdef NON_MATCHING
     fx32 posX = 0;
     if (player->gimmickObj != NULL)
-        posX = player->gimmickObj->objWork.position.x + FLOAT_TO_FX32(321.73095703125);
+        posX = player->gimmickObj->objWork.position.x + TRIPLEGRINDRAIL_X_OFFSET;
 
-    switch (player->gimmick.value2)
+    switch (player->gimmick.tripleGrindRailExit.state)
     {
-        case 0: {
+        case TRIPLEGRINDRAILEXIT_STATE_EARLY_EXIT: {
             player->objWork.prevPosition.x = player->objWork.position.x;
             player->objWork.prevPosition.y = player->objWork.position.y;
             player->objWork.prevPosition.z = player->objWork.position.z;
             if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
             {
-                if (player->actionState != PLAYER_ACTION_GRIND2)
+                if (player->actionState != PLAYER_ACTION_GRIND_TRIPLE_RAIL)
                 {
                     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
                     player->objWork.velocity.y = 0;
                     player->objWork.velocity.x = 0;
-                    Player__ChangeAction(player, PLAYER_ACTION_GRIND2);
+                    Player__ChangeAction(player, PLAYER_ACTION_GRIND_TRIPLE_RAIL);
                     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
                     PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_GRIND], 0x37);
                 }
             }
             else if ((player->objWork.velocity.x != 0) || (player->objWork.velocity.y != 0))
             {
-                player->gimmick.value1          = player->gimmick.value1 - player->objWork.velocity.x;
-                player->objWork.gravityStrength = player->objWork.gravityStrength + player->objWork.velocity.y;
-                player->objWork.position.y      = player->objWork.position.y + player->objWork.gravityStrength;
+                // player is not yet done jumping
+                player->gimmick.tripleGrindRailExit.xDistanceCircular = player->gimmick.tripleGrindRailExit.xDistanceCircular - player->objWork.velocity.x;
+                player->objWork.gravityStrength                       = player->objWork.gravityStrength + player->objWork.velocity.y;
+                player->objWork.position.y                            = player->objWork.position.y + player->objWork.gravityStrength;
             }
-            s32 gimmVal1               = player->gimmick.value1;
+            s32 xDistanceCircular      = player->gimmick.tripleGrindRailExit.xDistanceCircular;
             u16 oldDirY                = player->objWork.dir.y;
             fx32 speedMove             = FLOAT_TO_FX32(0.099853515625);
             player->objWork.dir.y      = ObjRoopMove16(player->objWork.dir.y, 0, speedMove);
             u16 dirYPlus90             = player->objWork.dir.y + FLOAT_DEG_TO_IDX(90.0);
-            s32 index                  = (u16)(dirYPlus90 + FLOAT_DEG_TO_IDX(180.0));
-            player->objWork.position.x = posX + FX_MulInline(CosFX(index), gimmVal1);
+            s32 index270               = (u16)(dirYPlus90 + FLOAT_DEG_TO_IDX(180.0));
+            player->objWork.position.x = posX + FX_MulInline(CosFX(index270), xDistanceCircular);
             s32 dirYDiff               = (s16)(oldDirY - player->objWork.dir.y);
             if (MATH_ABS(dirYDiff) < FLOAT_DEG_TO_IDX(2.2467041015625))
             {
-                s32 newDiff = (s16)oldDirY - (s16)player->objWork.dir.y;
-                if (newDiff < 0)
-                    newDiff = -newDiff;
-                u16 diff3                  = (s32)(u16)(FLOAT_DEG_TO_IDX(272.2467041015625) - newDiff);
-                player->objWork.position.x = player->objWork.position.x + FX_MulInline(CosFX(diff3), gimmVal1);
+                dirYDiff = (s16)oldDirY - (s16)player->objWork.dir.y;
+                if (dirYDiff < 0)
+                    dirYDiff = -dirYDiff;
+                u16 index2 = (s32)(u16)(FLOAT_DEG_TO_IDX(270.0) + FLOAT_DEG_TO_IDX(2.2467041015625) - dirYDiff);
+                player->objWork.position.x += FX_MulInline(CosFX(index2), xDistanceCircular);
             }
-            player->objWork.userTimer = -FX_MulInline(SinFX(index), gimmVal1);
+            player->objWork.userTimer = -FX_MulInline(SinFX(index270), xDistanceCircular);
             player->objWork.move.x    = player->objWork.position.x - player->objWork.prevPosition.x;
             player->objWork.move.y    = player->objWork.position.y - player->objWork.prevPosition.y;
             player->objWork.move.z    = player->objWork.position.z - player->objWork.prevPosition.z;
             if (player->objWork.dir.y != 0)
                 return;
-            player->gimmick.value2++;
+            player->gimmick.tripleGrindRailExit.state++;
             return;
         }
-        case 1: {
+        case TRIPLEGRINDRAILEXIT_STATE_START_WAITING_FOR_LAUNCH: {
             player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT);
             player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
-            player->objWork.velocity.x = player->gimmick.value3;
-            s32 dividend               = posX + FX32_FROM_WHOLE(300) - player->objWork.position.x;
+            player->objWork.velocity.x = player->gimmick.tripleGrindRailExit.fixedPlayerXVelocity;
+            s32 dividend               = posX + TRIPLEGRINDRAIL_EXIT_DISTANCE_TO_LAUNCH - player->objWork.position.x;
             player->objWork.userWork   = 120 + FX_DivS32(dividend, player->objWork.velocity.x);
-            player->gimmick.value2++;
+            player->gimmick.tripleGrindRailExit.state++;
         }
             // fallthrough!
-        case 2: {
-            if (player->objWork.position.x < (posX + FX32_FROM_WHOLE(300)))
+        case TRIPLEGRINDRAILEXIT_STATE_WAIT_FOR_LAUNCH: {
+            if (player->objWork.position.x < (posX + TRIPLEGRINDRAIL_EXIT_DISTANCE_TO_LAUNCH))
                 return;
             Player__InitPhysics(player);
             player->objWork.moveFlag =

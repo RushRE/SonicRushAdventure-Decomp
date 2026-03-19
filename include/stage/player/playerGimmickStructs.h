@@ -22,6 +22,13 @@ struct
 
 struct
 {
+    s32 xDistanceCircular;
+    s32 state;
+    fx32 fixedPlayerXVelocity;
+} tripleGrindRailExit;
+
+struct
+{
     s32 angle;
     fx32 startX;
     fx32 startY;

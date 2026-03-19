@@ -687,8 +687,8 @@
 .public Player__State_TripleGrindRail
 .public Player__HandleRideTripleGrindRail
 .public Player__OnDefend_TripleGrindRail
-.public Player__Func_201DD24
-.public Player__State_201DE24
+.public Player__PrepareTripleGrindRailExit
+.public Player__State_ExitingTripleGrindRail
 .public Player__Gimmick_WaterRun
 .public Player__State_WaterRun
 .public Player__Action_SteamFan
@@ -8519,12 +8519,12 @@
 .public TripleGrindRailSpring__State_Active
 .public TripleGrindRailSpring__OnDefend
 .public TripleGrindRail__Destructor
-.public TripleGrindRail__State_21640DC
-.public TripleGrindRail__State_21641E0
+.public TripleGrindRail__State_WaitUntilPlayerOnRails
+.public TripleGrindRail__State_PlayerGrinding
 .public TripleGrindRail__CreateLeafParticle
 .public TripleGrindRail__CreateMushroomParticle
-.public TripleGrindRail__State_216492C
-.public TripleGrindRail__State_216497C
+.public TripleGrindRail__State_PlayerExiting
+.public TripleGrindRail__State_Destroy
 .public TripleGrindRail__OnDefend_StartTrigger
 .public TripleGrindRailEntity__State_Inactive
 .public TripleGrindRailEntity__State_Active

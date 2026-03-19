@@ -7,11 +7,17 @@
 // CONSTANTS
 // --------------------
 
-#define TRIPLEGRINDRAILRINGLOSS_MAX_RINGS 64
-#define TRIPLEGRINDRAIL_ANI_COUNT         7
-#define TRIPLEGRINDRAIL_LEAF_COUNT        64
-#define TRIPLEGRINDRAIL_MUSHROOM_COUNT    8
-#define TRIPLEGRINDRAIL_ANI_COUNT         7
+#define TRIPLEGRINDRAILRINGLOSS_MAX_RINGS               64
+#define TRIPLEGRINDRAIL_ANI_COUNT                       7
+#define TRIPLEGRINDRAIL_LEAF_COUNT                      64
+#define TRIPLEGRINDRAIL_MUSHROOM_COUNT                  8
+#define TRIPLEGRINDRAIL_ANI_COUNT                       7
+#define TRIPLEGRINDRAIL_X_OFFSET                        FLOAT_TO_FX32(321.73095703125)
+#define TRIPLEGRINDRAIL_EXIT_DISTANCE_TO_LAUNCH         FX32_FROM_WHOLE(300)
+#define TRIPLEGRINDRAIL_DISTANCE_BETWEEN_RAILS          FLOAT_TO_FX32(89.0947265625)
+#define TRIPLEGRINDRAIL_RADIUS_RAIL_0                   FLOAT_TO_FX32(232.63623046875)    // The rail with ID 0 is the rightmost one on screen.
+#define TRIPLEGRINDRAIL_PARTICLE_CUTOFF_ANGLE_UNLOADING FLOAT_DEG_TO_IDX(150.00732421875) // Particles' angles start at around 300 and are decremented until this
+#define TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE               FLOAT_TO_FX32(256.0)
 
 // --------------------
 // ENUMS
@@ -19,8 +25,8 @@
 
 enum TripleGrindRailFlag_
 {
-    TRIPLEGRINDRAIL_FLAG_1 = 1 << 0,
-    TRIPLEGRINDRAIL_FLAG_2 = 1 << 1,
+    TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START = 1 << 0,
+    TRIPLEGRINDRAIL_FLAG_EXIT_STARTED        = 1 << 1,
 };
 typedef u32 TripleGrindRailFlag;
 
@@ -31,7 +37,7 @@ typedef u32 TripleGrindRailFlag;
 typedef struct TripleGrindRailParticle_
 {
     fx32 radius;
-    u32 y;
+    fx32 y;
     u16 angle;
     u16 id;
 } TripleGrindRailParticle;
@@ -44,14 +50,13 @@ typedef struct TripleGrindRail_
     AnimatorSprite3D aniRing;
     AnimatorSprite3D aniRingSparkle;
     TripleGrindRailFlag flags;
-    s32 dwordE08;
-    s32 field_E0C;
-    s32 field_E10;
-    u16 field_E14;
-    s16 field_E16;
+    s32 railStartExitX;
+    fx32 scrollAndAniSpeedMultiplier; // Starts at 0.25, progressively increases to 1.0
+    fx32 zOffset;
+    u16 sequenceSpeed; // Grows linearly with scrollAndAniSpeedMultiplier
+    s16 countFramesToNextLeafParticle;
     TripleGrindRailParticle leafList[TRIPLEGRINDRAIL_LEAF_COUNT];
-    s16 field_1118;
-    s16 field_111A;
+    s16 countFramesToNextMushroomParticle;
     TripleGrindRailParticle mushroomList[TRIPLEGRINDRAIL_MUSHROOM_COUNT];
 } TripleGrindRail;
 
@@ -60,11 +65,12 @@ typedef struct TripleGrindRailSpring_
     GameObjectTask gameWork;
 } TripleGrindRailSpring;
 
+// An hybrid used for both rings and spiked obstacles
 typedef struct TripleGrindRailEntity_
 {
     GameObjectTask gameWork;
-    OBS_ACTION3D_BAC_WORK aniSprite;
-    s32 radius;
+    OBS_ACTION3D_BAC_WORK aniSprite; // spiked obstacle graphics
+    fx32 radius;
     u16 angle;
 } TripleGrindRailEntity;
 
@@ -90,12 +96,12 @@ void TripleGrindRailSpring__State_Active(TripleGrindRailSpring *work);
 void TripleGrindRailSpring__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 void TripleGrindRail__Destructor(Task *task);
-void TripleGrindRail__State_21640DC(TripleGrindRail *work);
-void TripleGrindRail__State_21641E0(TripleGrindRail *work);
+void TripleGrindRail__State_WaitUntilPlayerOnRails(TripleGrindRail *work);
+void TripleGrindRail__State_PlayerGrinding(TripleGrindRail *work);
 void TripleGrindRail__CreateLeafParticle(TripleGrindRailParticle *particle);
 void TripleGrindRail__CreateMushroomParticle(TripleGrindRailParticle *particle);
-void TripleGrindRail__State_216492C(TripleGrindRail *work);
-void TripleGrindRail__State_216497C(TripleGrindRail *work);
+void TripleGrindRail__State_PlayerExiting(TripleGrindRail *work);
+void TripleGrindRail__State_Destroy(TripleGrindRail *work);
 void TripleGrindRail__OnDefend_StartTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 void TripleGrindRailEntity__State_Inactive(TripleGrindRailEntity *work);
