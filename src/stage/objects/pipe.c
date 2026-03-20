@@ -35,7 +35,7 @@ NOT_DECOMPILED fx32 FlowerPipe__dword_2188F54[];
 NOT_DECOMPILED fx32 FlowerPipe__dword_2188F68[];
 
 NOT_DECOMPILED const char aActAcGmkPipeFl_0[];
-NOT_DECOMPILED void *aActAcGmkPipeSt;
+NOT_DECOMPILED const char aActAcGmkPipeSt[];
 
 // --------------------
 // FUNCTIONS
@@ -147,10 +147,9 @@ FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     return work;
 }
 
-NONMATCH_FUNC SteamPipe *SteamPipe__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+SteamPipe *SteamPipe__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    // https://decomp.me/scratch/dHDuk -> 99.07%
-#ifdef NON_MATCHING
+    UNUSED(type);
     Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), SteamPipe);
     if (task == HeapNull)
         return NULL;
@@ -159,17 +158,17 @@ NONMATCH_FUNC SteamPipe *SteamPipe__Create(MapObject *mapObject, fx32 x, fx32 y,
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_pipe_steam.bac", GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage,
-                             OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkPipeSt, GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_0);
     ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     work->gameWork.objWork.userFlag = 1;
+    u16 const *id                   = &mapObject->id;
 
     u16 anim;
-    if (mapObject->id >= MAPOBJECT_127 && mapObject->id <= MAPOBJECT_130)
+    if (*id >= MAPOBJECT_127 && *id <= MAPOBJECT_130)
     {
         ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], SteamPipe__OnDefend_2161DA0);
 
@@ -247,205 +246,6 @@ NONMATCH_FUNC SteamPipe *SteamPipe__Create(MapObject *mapObject, fx32 x, fx32 y,
     StageTask__SetAnimation(&work->gameWork.objWork, anim);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0xc
-	mov r3, #0x1800
-	mov r8, r0
-	mov r7, r1
-	mov r6, r2
-	mov r2, #0
-	str r3, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x364
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x364
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r8
-	mov r2, r7
-	mov r3, r6
-	bl GameObject__InitFromObject
-	mov r0, #0x9f
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	ldr r1, =0x0000FFFF
-	ldr r2, [r0, #0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	add r1, r4, #0x168
-	ldr r2, =aActAcGmkPipeSt
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	add r0, r4, #0x218
-	mov r1, #0
-	mov r2, r1
-	bl ObjRect__SetAttackStat
-	add r0, r4, #0x218
-	ldr r1, =0x0000FFFE
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, [r4, #0x230]
-	mov r0, #1
-	orr r1, r1, #0x400
-	str r1, [r4, #0x230]
-	str r0, [r4, #0x24]
-	ldrh r0, [r8, #2]
-	cmp r0, #0x7f
-	blo _021615A8
-	cmp r0, #0x82
-	bhi _021615A8
-	ldr r0, =SteamPipe__OnDefend_2161DA0
-	str r0, [r4, #0x23c]
-	ldrh r0, [r8, #2]
-	sub r0, r0, #0x7f
-	mov r0, r0, lsl #1
-	str r0, [r4, #0x28]
-	ldrh r0, [r8, #2]
-	sub r0, r0, #0x7f
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	b _0216159C
-_02161568: // jump table
-	b _02161578 // case 0
-	b _02161598 // case 1
-	b _02161584 // case 2
-	b _0216158C // case 3
-_02161578:
-	ldr r0, [r4, #0x20]
-	orr r0, r0, #1
-	str r0, [r4, #0x20]
-_02161584:
-	mov r5, #0
-	b _0216159C
-_0216158C:
-	ldr r0, [r4, #0x20]
-	orr r0, r0, #2
-	str r0, [r4, #0x20]
-_02161598:
-	mov r5, #1
-_0216159C:
-	ldr r0, =SteamPipe__State_2161728
-	str r0, [r4, #0xf4]
-	b _0216166C
-_021615A8:
-	ldrh r0, [r8, #2]
-	cmp r0, #0x83
-	blo _0216166C
-	cmp r0, #0x86
-	bhi _0216166C
-	ldr r0, =SteamPipe__OnDefend_21617B0
-	mov r3, #2
-	str r0, [r4, #0x23c]
-	sub r1, r3, #4
-	str r4, [r4, #0x274]
-	mov r2, r1
-	add r0, r4, #0x258
-	str r3, [sp]
-	bl ObjRect__SetBox2D
-	mov r1, #0
-	mov r2, r1
-	add r0, r4, #0x258
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r4, #0x258
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, [r4, #0x270]
-	ldr r0, =SteamPipe__OnDefend_2161DE0
-	orr r1, r1, #0x400
-	str r1, [r4, #0x270]
-	str r0, [r4, #0x27c]
-	ldrh r0, [r8, #2]
-	sub r0, r0, #0x83
-	mov r0, r0, lsl #1
-	str r0, [r4, #0x28]
-	ldrh r0, [r8, #2]
-	sub r0, r0, #0x83
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	b _0216166C
-_02161638: // jump table
-	b _02161648 // case 0
-	b _02161668 // case 1
-	b _02161654 // case 2
-	b _0216165C // case 3
-_02161648:
-	ldr r0, [r4, #0x20]
-	orr r0, r0, #1
-	str r0, [r4, #0x20]
-_02161654:
-	mov r5, #2
-	b _0216166C
-_0216165C:
-	ldr r0, [r4, #0x20]
-	orr r0, r0, #2
-	str r0, [r4, #0x20]
-_02161668:
-	mov r5, #3
-_0216166C:
-	mov r1, #0
-	str r1, [r4, #0x13c]
-	ldr r0, =StageTask__DefaultDiffData
-	str r4, [r4, #0x2d8]
-	str r0, [r4, #0x2fc]
-	ldrh r0, [r8, #2]
-	ldr r6, =SteamPipe__stru_21883B0
-	add r3, r4, #0x300
-	sub r2, r0, #0x7f
-	mov r0, r2, lsl #3
-	ldrsh r0, [r6, r0]
-	add r8, r6, r2, lsl #3
-	add r6, r4, #0x200
-	strh r0, [r3, #8]
-	ldrsh r7, [r8, #2]
-	mov r0, r4
-	mov r2, #0x20
-	strh r7, [r3, #0xa]
-	ldrsh r3, [r8, #4]
-	strh r3, [r6, #0xf0]
-	ldrsh r3, [r8, #6]
-	strh r3, [r6, #0xf2]
-	ldr r3, [r4, #0x1c]
-	orr r3, r3, #0x2100
-	str r3, [r4, #0x1c]
-	ldr r3, [r4, #0x20]
-	orr r3, r3, #0x100
-	str r3, [r4, #0x20]
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, r5
-	bl StageTask__SetAnimation
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-
-// clang-format on
-#endif
 }
 
 void SteamPipe__State_2161728(SteamPipe *work)
