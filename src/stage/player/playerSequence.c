@@ -1587,7 +1587,7 @@ void Player__PrepareTripleGrindRailExit(Player *player)
     SetTaskState(&player->objWork, Player__State_ExitingTripleGrindRail);
 }
 
-NONMATCH_FUNC void Player__State_ExitingTripleGrindRail(Player *work)
+NONMATCH_FUNC void Player__State_ExitingTripleGrindRail(Player *player)
 {
     // https://decomp.me/scratch/tqtIt => 98.80%, wrong instruction scheduling
 #ifdef NON_MATCHING

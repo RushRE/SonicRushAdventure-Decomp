@@ -842,7 +842,7 @@ NONMATCH_FUNC void TripleGrindRail__State_PlayerGrinding(TripleGrindRail *work)
         {
             // equal to currentLeafParticle->angle -= TripleGrindRail__Singleton->sequenceSpeed * 5 / 4
             currentLeafParticle->angle -= TripleGrindRail__Singleton->sequenceSpeed + (TripleGrindRail__Singleton->sequenceSpeed >> 2);
-            if ((currentLeafParticle->angle <= TRIPLEGRINDRAIL_PARTICLE_CUTOFF_ANGLE_UNLOADING) || (currentLeafParticle->y < FLOAT_TO_FX32(-400.0)))
+            if ((currentLeafParticle->angle <= TRIPLEGRINDRAIL_PARTICLE_END_ANGLE) || (currentLeafParticle->y < FLOAT_TO_FX32(-400.0)))
             {
                 currentLeafParticle->y  = TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE;
                 listIndexUnusedParticle = i;
@@ -886,7 +886,7 @@ NONMATCH_FUNC void TripleGrindRail__State_PlayerGrinding(TripleGrindRail *work)
         else
         {
             currentMushroomParticle->angle = currentMushroomParticle->angle - TripleGrindRail__Singleton->sequenceSpeed;
-            if (currentMushroomParticle->angle <= TRIPLEGRINDRAIL_PARTICLE_CUTOFF_ANGLE_UNLOADING)
+            if (currentMushroomParticle->angle <= TRIPLEGRINDRAIL_PARTICLE_END_ANGLE)
             {
                 currentMushroomParticle->y = TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE;
                 listIndexUnusedParticle    = i;
@@ -910,9 +910,9 @@ NONMATCH_FUNC void TripleGrindRail__State_PlayerGrinding(TripleGrindRail *work)
     work->countFramesToNextMushroomParticle--;
     if ((work->countFramesToNextMushroomParticle > 0) || (listIndexUnusedParticle == -1))
         return;
-    s32 val = 256 - TripleGrindRail__Singleton->sequenceSpeed;
+    s32 val2 = 256 - TripleGrindRail__Singleton->sequenceSpeed;
     TripleGrindRail__CreateMushroomParticle(&work->mushroomList[listIndexUnusedParticle]);
-    s32 clampedVal                          = MTM_MATH_CLIP_3(val, 20, 165);
+    s32 clampedVal                          = MTM_MATH_CLIP_3(val2, 20, 165);
     s32 randVal                             = mtMathRandRepeat(0x20);
     work->countFramesToNextMushroomParticle = randVal + clampedVal;
 #else
