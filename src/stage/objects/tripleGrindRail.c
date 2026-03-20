@@ -1432,10 +1432,8 @@ void TripleGrindRailEntity__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     railEntity->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
 }
 
-NONMATCH_FUNC void TripleGrindRailRingLoss__State_Active(TripleGrindRailRingLoss *work)
+void TripleGrindRailRingLoss__State_Active(TripleGrindRailRingLoss *work)
 {
-    // https://decomp.me/scratch/QXAMV: 100% match on decomp.me, but compiling locally introduces an extraneous cmpgt r6, #0 right before the ble.
-#ifdef NON_MATCHING
     BOOL allRingsOffscreen;
     s32 i;
     s32 ringCount;
@@ -1453,7 +1451,7 @@ NONMATCH_FUNC void TripleGrindRailRingLoss__State_Active(TripleGrindRailRingLoss
     ringPosition  = &work->ringPosition[0];
     ringVelocityX = &work->ringVelocityX[0];
     ringVelocityY = &work->ringVelocityY[0];
-    for (i = 0; i < ringCount; i++, ringPosition++, ringVelocityX++, ringVelocityY++)
+    for (i = 0; i < ringCount; i++)
     {
         ringPosition->x += *ringVelocityX;
         s32 gravityStrength = spillRingGravityStrength;
@@ -1461,81 +1459,13 @@ NONMATCH_FUNC void TripleGrindRailRingLoss__State_Active(TripleGrindRailRingLoss
         *ringVelocityY += gravityStrength;
         if (!StageTask__ViewOutCheck(ringPosition->x, ringPosition->y, 0x20, 0, 0, 0, 0))
             allRingsOffscreen = FALSE;
+
+        ringPosition++;
+        ringVelocityX++;
+        ringVelocityY++;
     }
     if (allRingsOffscreen)
         DestroyStageTask(&work->objWork);
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0xc
-	ldr r1, =TripleGrindRail__Singleton
-	mov r10, r0
-	ldr r1, [r1, #0]
-	ldr r6, [r10, #0x168]
-	cmp r1, #0
-	ldrne r0, =g_obj
-	mov r11, #1
-	ldrne r0, [r0, #0x14]
-	cmpne r0, #0
-	beq _02164D44
-	ldr r0, [r1, #0xe04]
-	tst r0, #2
-	beq _02164D58
-_02164D44:
-	ldr r0, [r10, #0x18]
-	add sp, sp, #0xc
-	orr r0, r0, #4
-	str r0, [r10, #0x18]
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-_02164D58:
-	add r7, r10, #0x16c
-	add r0, r10, #0x6c
-	cmp r6, #0
-	add r8, r0, #0x400
-	add r9, r7, #0x400
-	mov r5, #0
-	ble _02164DEC
-	mov r4, r5
-_02164D78:
-	ldr r1, [r7, #0]
-	ldr r0, [r8, #0]
-	mov r2, #0x20
-	add r0, r1, r0
-	str r0, [r7]
-	ldr r0, =spillRingGravityStrength
-	ldr r1, [r9, #0]
-	ldrsh r0, [r0, #0]
-	ldr r3, [r7, #4]
-	add r1, r1, r0
-	add r1, r3, r1
-	str r1, [r7, #4]
-	ldr r1, [r9, #0]
-	mov r3, r4
-	add r0, r1, r0
-	str r0, [r9]
-	str r4, [sp]
-	str r4, [sp, #4]
-	str r4, [sp, #8]
-	ldmia r7, {r0, r1}
-	bl StageTask__ViewOutCheck
-	cmp r0, #0
-	add r5, r5, #1
-	moveq r11, #0
-	cmp r5, r6
-	add r7, r7, #0xc
-	add r8, r8, #4
-	add r9, r9, #4
-	blt _02164D78
-_02164DEC:
-	cmp r11, #0
-	ldrne r0, [r10, #0x18]
-	orrne r0, r0, #4
-	strne r0, [r10, #0x18]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
 }
 
 void TripleGrindRailRingLoss__Draw(void)
