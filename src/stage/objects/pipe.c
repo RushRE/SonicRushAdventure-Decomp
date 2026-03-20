@@ -34,17 +34,16 @@ NOT_DECOMPILED fx32 FlowerPipe__dword_2188F40[];
 NOT_DECOMPILED fx32 FlowerPipe__dword_2188F54[];
 NOT_DECOMPILED fx32 FlowerPipe__dword_2188F68[];
 
-NOT_DECOMPILED void *aActAcGmkPipeFl_0;
+NOT_DECOMPILED const char aActAcGmkPipeFl_0[];
 NOT_DECOMPILED void *aActAcGmkPipeSt;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-	// https://decomp.me/scratch/bbNIP -> 98.67%
-#ifdef NON_MATCHING
+    UNUSED(type);
     Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), FlowerPipe);
     if (task == HeapNull)
         return NULL;
@@ -53,8 +52,7 @@ NONMATCH_FUNC FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_pipe_flw.bac", GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage,
-                             OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkPipeFl_0, GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_0);
 
@@ -73,11 +71,12 @@ NONMATCH_FUNC FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 
     work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
     ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK], FlowerPipe__OnDefend_2161854);
 
-	u16 anim;
-	u16 paletteSlot;
+    u16 anim;
+    s16 paletteSlot;
     switch (mapObject->id)
     {
         case MAPOBJECT_115:
+        default:
             ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], FlowerPipe__OnDefend_216174C);
 
             work->gameWork.objWork.collisionObj           = NULL;
@@ -96,15 +95,15 @@ NONMATCH_FUNC FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 
         case MAPOBJECT_116:
             ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], SteamPipe__OnDefend_21617B0);
 
-            work->gameWork.objWork.collisionObj           = NULL;
-            work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
-            work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
-            work->gameWork.collisionObject.work.width     = 56;
-            work->gameWork.collisionObject.work.height    = 24;
-            work->gameWork.collisionObject.work.ofst_x    = -28;
-            work->gameWork.collisionObject.work.ofst_y    = 0;
-            work->gameWork.objWork.userWork               = 6;
-            work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent            = &work->gameWork.objWork;
+            work->gameWork.objWork.collisionObj                      = NULL;
+            work->gameWork.collisionObject.work.parent               = &work->gameWork.objWork;
+            work->gameWork.collisionObject.work.diff_data            = StageTask__DefaultDiffData;
+            work->gameWork.collisionObject.work.width                = 56;
+            work->gameWork.collisionObject.work.height               = 24;
+            work->gameWork.collisionObject.work.ofst_x               = -28;
+            work->gameWork.collisionObject.work.ofst_y               = 0;
+            work->gameWork.objWork.userWork                          = 6;
+            work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
 
             anim        = 1;
             paletteSlot = 10;
@@ -125,8 +124,8 @@ NONMATCH_FUNC FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 
             work->gameWork.collisionObject.work.ofst_x    = -32;
             work->gameWork.collisionObject.work.ofst_y    = -44;
 
-            work->gameWork.objWork.userWork    = 7;
-            work->gameWork.objWork.dir.z       = 0x4000;
+            work->gameWork.objWork.userWork                          = 7;
+            work->gameWork.objWork.dir.z                             = FLOAT_DEG_TO_IDX(90.0);
             work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].parent = &work->gameWork.objWork;
 
             anim        = 2;
@@ -146,217 +145,6 @@ NONMATCH_FUNC FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 
     SetTaskState(&work->gameWork.objWork, SteamPipe__State_2161728);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r3, #0x1800
-	mov r7, r0
-	mov r6, r1
-	mov r5, r2
-	mov r2, #0
-	str r3, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x364
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x364
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	mov r0, #0x9f
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	ldr r1, =0x0000FFFF
-	ldr r2, [r0, #0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	add r1, r4, #0x168
-	ldr r2, =aActAcGmkPipeFl_0
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	add r0, r4, #0x218
-	mov r1, #0
-	mov r2, r1
-	bl ObjRect__SetAttackStat
-	add r0, r4, #0x218
-	ldr r1, =0x0000FFFE
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r0, [r4, #0x230]
-	mov r3, #2
-	orr r0, r0, #0x400
-	str r0, [r4, #0x230]
-	str r3, [sp]
-	add r0, r4, #0x298
-	sub r1, r3, #4
-	mov r2, r1
-	bl ObjRect__SetBox2D
-	add r0, r4, #0x298
-	mov r1, #0
-	mov r2, r1
-	bl ObjRect__SetAttackStat
-	add r0, r4, #0x298
-	ldr r1, =0x0000FFFE
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, [r4, #0x2b0]
-	ldr r0, =FlowerPipe__OnDefend_216188C
-	orr r1, r1, #0x400
-	str r1, [r4, #0x2b0]
-	str r0, [r4, #0x2bc]
-	add r0, r4, #0x258
-	mov r1, #0
-	mov r2, r1
-	bl ObjRect__SetAttackStat
-	add r0, r4, #0x258
-	ldr r1, =0x0000FFFE
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, [r4, #0x270]
-	ldr r0, =FlowerPipe__OnDefend_2161854
-	orr r1, r1, #0x400
-	str r1, [r4, #0x270]
-	str r0, [r4, #0x27c]
-	ldrh r0, [r7, #2]
-	cmp r0, #0x73
-	beq _02161264
-	cmp r0, #0x74
-	beq _021612B8
-	cmp r0, #0x75
-	beq _02161330
-_02161264:
-	ldr r0, =FlowerPipe__OnDefend_216174C
-	mov r2, #0x58
-	str r0, [r4, #0x23c]
-	mov r5, #0
-	str r5, [r4, #0x13c]
-	ldr r0, =StageTask__DefaultDiffData
-	str r4, [r4, #0x2d8]
-	str r0, [r4, #0x2fc]
-	add r0, r4, #0x300
-	mov r1, #0x10
-	strh r1, [r0, #8]
-	strh r2, [r0, #0xa]
-	sub r1, r2, #0x68
-	add r0, r4, #0x200
-	strh r1, [r0, #0xf0]
-	sub r1, r2, #0x74
-	strh r1, [r0, #0xf2]
-	mov r0, #4
-	str r0, [r4, #0x28]
-	mov r6, #9
-	b _021613B0
-_021612B8:
-	ldr r0, =SteamPipe__OnDefend_21617B0
-	mov r2, #0x18
-	str r0, [r4, #0x23c]
-	mov r3, #0
-	str r3, [r4, #0x13c]
-	ldr r0, =StageTask__DefaultDiffData
-	str r4, [r4, #0x2d8]
-	str r0, [r4, #0x2fc]
-	add r0, r4, #0x300
-	mov r1, #0x38
-	strh r1, [r0, #8]
-	mov r1, #0x12
-	strh r2, [r0, #0xa]
-	sub r2, r2, #0x34
-	add r0, r4, #0x200
-	strh r2, [r0, #0xf0]
-	strh r3, [r0, #0xf2]
-	mov r0, #6
-	str r0, [r4, #0x28]
-	str r4, [r4, #0x274]
-	str r1, [sp]
-	add r0, r4, #0x258
-	sub r1, r1, #0x14
-	mov r2, #0xe
-	mov r3, #2
-	mov r5, #1
-	mov r6, #0xa
-	bl ObjRect__SetBox2D
-	str r4, [r4, #0x2b4]
-	b _021613B0
-_02161330:
-	ldr r0, =SteamPipe__OnDefend_21617B0
-	mov r3, #0x58
-	str r0, [r4, #0x23c]
-	mov r0, #0
-	str r0, [r4, #0x13c]
-	ldr r0, =StageTask__DefaultDiffData
-	str r4, [r4, #0x2d8]
-	str r0, [r4, #0x2fc]
-	add r0, r4, #0x300
-	mov r1, #0x10
-	strh r1, [r0, #8]
-	mov r5, #0x12
-	mov r2, #0xe
-	strh r3, [r0, #0xa]
-	sub r1, r3, #0x78
-	add r0, r4, #0x200
-	strh r1, [r0, #0xf0]
-	sub r1, r3, #0x84
-	strh r1, [r0, #0xf2]
-	mov r0, #7
-	str r0, [r4, #0x28]
-	mov r0, #0x4000
-	strh r0, [r4, #0x34]
-	str r4, [r4, #0x274]
-	add r0, r4, #0x258
-	sub r1, r5, #0x24
-	sub r3, r2, #0x1c
-	str r5, [sp]
-	mov r5, #2
-	mov r6, #0xa
-	bl ObjRect__SetBox2D
-	str r4, [r4, #0x2b4]
-_021613B0:
-	mov r0, #0
-	str r0, [r4, #0x24]
-	ldr r1, [r4, #0x1c]
-	mov r0, r4
-	orr r3, r1, #0x2100
-	mov r1, r5
-	mov r2, r6
-	str r3, [r4, #0x1c]
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, r5
-	bl StageTask__SetAnimation
-	ldr r1, =SteamPipe__State_2161728
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC SteamPipe *SteamPipe__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
