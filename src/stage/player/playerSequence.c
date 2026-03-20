@@ -1587,10 +1587,8 @@ void Player__PrepareTripleGrindRailExit(Player *player)
     SetTaskState(&player->objWork, Player__State_ExitingTripleGrindRail);
 }
 
-NONMATCH_FUNC void Player__State_ExitingTripleGrindRail(Player *player)
+void Player__State_ExitingTripleGrindRail(Player *player)
 {
-    // https://decomp.me/scratch/tqtIt => 98.80%, wrong instruction scheduling
-#ifdef NON_MATCHING
     fx32 posX = 0;
     if (player->gimmickObj != NULL)
         posX = player->gimmickObj->objWork.position.x + TRIPLEGRINDRAIL_X_OFFSET;
@@ -1606,8 +1604,7 @@ NONMATCH_FUNC void Player__State_ExitingTripleGrindRail(Player *player)
                 if (player->actionState != PLAYER_ACTION_GRIND_TRIPLE_RAIL)
                 {
                     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
-                    player->objWork.velocity.y = 0;
-                    player->objWork.velocity.x = 0;
+                    player->objWork.velocity.x = player->objWork.velocity.y = 0;
                     Player__ChangeAction(player, PLAYER_ACTION_GRIND_TRIPLE_RAIL);
                     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
                     PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_GRIND], 0x37);
@@ -1617,8 +1614,8 @@ NONMATCH_FUNC void Player__State_ExitingTripleGrindRail(Player *player)
             {
                 // player is not yet done jumping
                 player->gimmick.tripleGrindRailExit.xDistanceCircular = player->gimmick.tripleGrindRailExit.xDistanceCircular - player->objWork.velocity.x;
-                player->objWork.gravityStrength                       = player->objWork.gravityStrength + player->objWork.velocity.y;
-                player->objWork.position.y                            = player->objWork.position.y + player->objWork.gravityStrength;
+                player->objWork.velocity.y += player->objWork.gravityStrength;
+                player->objWork.position.y += player->objWork.velocity.y;
             }
             s32 xDistanceCircular      = player->gimmick.tripleGrindRailExit.xDistanceCircular;
             u16 oldDirY                = player->objWork.dir.y;
@@ -1675,246 +1672,6 @@ NONMATCH_FUNC void Player__State_ExitingTripleGrindRail(Player *player)
             SetStageRingScale(FX_ONE);
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	sub sp, sp, #8
-	mov r7, r0
-	ldr r0, [r7, #0x6d8]
-	mov r4, #0
-	cmp r0, #0
-	ldrne r1, [r0, #0x44]
-	ldrne r0, =0x00141BB2
-	addne r4, r1, r0
-	ldr r0, [r7, #0x6f4]
-	cmp r0, #0
-	beq _0201DE6C
-	cmp r0, #1
-	beq _0201E0C4
-	cmp r0, #2
-	beq _0201E108
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0201DE6C:
-	ldr r0, [r7, #0x44]
-	str r0, [r7, #0x8c]
-	ldr r0, [r7, #0x48]
-	str r0, [r7, #0x90]
-	ldr r0, [r7, #0x4c]
-	str r0, [r7, #0x94]
-	ldr r1, [r7, #0x1c]
-	tst r1, #1
-	beq _0201DEF8
-	add r0, r7, #0x500
-	ldrsh r0, [r0, #0xd4]
-	cmp r0, #0x28
-	beq _0201DF34
-	bic r0, r1, #0x10
-	str r0, [r7, #0x1c]
-	mov r1, #0
-	str r1, [r7, #0x9c]
-	str r1, [r7, #0x98]
-	mov r0, r7
-	mov r1, #0x28
-	bl Player__ChangeAction
-	ldr r0, [r7, #0x20]
-	mov r5, #0x37
-	orr r2, r0, #4
-	sub r1, r5, #0x38
-	add r0, r7, #0x258
-	str r2, [r7, #0x20]
-	mov r2, #0
-	str r2, [sp]
-	mov r2, r1
-	mov r3, r1
-	add r0, r0, #0x400
-	str r5, [sp, #4]
-	bl PlaySfxEx
-	b _0201DF34
-_0201DEF8:
-	ldr r1, [r7, #0x98]
-	cmp r1, #0
-	ldreq r0, [r7, #0x9c]
-	cmpeq r0, #0
-	beq _0201DF34
-	ldr r0, [r7, #0x6f0]
-	sub r0, r0, r1
-	str r0, [r7, #0x6f0]
-	ldr r1, [r7, #0x9c]
-	ldr r0, [r7, #0xd8]
-	add r1, r1, r0
-	str r1, [r7, #0x9c]
-	ldr r0, [r7, #0x48]
-	add r0, r0, r1
-	str r0, [r7, #0x48]
-_0201DF34:
-	ldrh r5, [r7, #0x32]
-	ldr r6, [r7, #0x6f0]
-	ldr r2, =0x00000199
-	mov r0, r5
-	mov r1, #0
-	bl ObjRoopMove16
-	strh r0, [r7, #0x32]
-	ldrh r1, [r7, #0x32]
-	ldr r2, =FX_SinCosTable_
-	mov r0, r6, asr #0x1f
-	add r1, r1, #0x4000
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	add r1, r1, #0x8000
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r1, r1, lsl #1
-	add r3, r1, #1
-	mov r3, r3, lsl #1
-	ldrsh r2, [r2, r3]
-	smull ip, r3, r2, r6
-	adds ip, ip, #0x800
-	adc r2, r3, #0
-	mov r3, ip, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	add r2, r4, r3
-	str r2, [r7, #0x44]
-	ldrh r3, [r7, #0x32]
-	sub r2, r5, r3
-	mov r2, r2, lsl #0x10
-	movs r4, r2, asr #0x10
-	ldr r2, =0x00000199
-	rsbmi r4, r4, #0
-	cmp r4, r2
-	bge _0201E03C
-	mov r3, r3, lsl #0x10
-	mov r2, r5, lsl #0x10
-	mov r3, r3, asr #0x10
-	rsbs r4, r3, r2, asr #16
-	ldr r2, =0x0000C199
-	rsbmi r4, r4, #0
-	sub r2, r2, r4
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, asr #4
-	mov r2, r2, lsl #1
-	add r2, r2, #1
-	ldr r3, =FX_SinCosTable_
-	mov r2, r2, lsl #1
-	ldrsh r2, [r3, r2]
-	ldr r5, [r7, #0x44]
-	umull r4, r3, r2, r6
-	mla r3, r2, r0, r3
-	mov r2, r2, asr #0x1f
-	mla r3, r2, r6, r3
-	adds r4, r4, #0x800
-	adc r2, r3, #0
-	mov r3, r4, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	add r2, r5, r3
-	str r2, [r7, #0x44]
-_0201E03C:
-	ldr r2, =FX_SinCosTable_
-	mov r1, r1, lsl #1
-	ldrsh r1, [r2, r1]
-	umull r3, r2, r1, r6
-	mla r2, r1, r0, r2
-	mov r0, r1, asr #0x1f
-	adds r1, r3, #0x800
-	mla r2, r0, r6, r2
-	adc r0, r2, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	rsb r0, r1, #0
-	str r0, [r7, #0x2c]
-	ldr r1, [r7, #0x44]
-	ldr r0, [r7, #0x8c]
-	sub r0, r1, r0
-	str r0, [r7, #0xbc]
-	ldr r1, [r7, #0x48]
-	ldr r0, [r7, #0x90]
-	sub r0, r1, r0
-	str r0, [r7, #0xc0]
-	ldr r1, [r7, #0x4c]
-	ldr r0, [r7, #0x94]
-	sub r0, r1, r0
-	str r0, [r7, #0xc4]
-	ldrh r0, [r7, #0x32]
-	cmp r0, #0
-	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r0, [r7, #0x6f4]
-	add sp, sp, #8
-	add r0, r0, #1
-	str r0, [r7, #0x6f4]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0201E0C4:
-	ldr r0, [r7, #0x1c]
-	add r2, r4, #0x12c000
-	bic r0, r0, #0x2080
-	str r0, [r7, #0x1c]
-	ldr r0, [r7, #0x20]
-	orr r0, r0, #0x200
-	str r0, [r7, #0x20]
-	ldr r1, [r7, #0x6f8]
-	str r1, [r7, #0x98]
-	ldr r0, [r7, #0x44]
-	sub r0, r2, r0
-	bl FX_DivS32
-	add r0, r0, #0x78
-	str r0, [r7, #0x28]
-	ldr r0, [r7, #0x6f4]
-	add r0, r0, #1
-	str r0, [r7, #0x6f4]
-_0201E108:
-	ldr r1, [r7, #0x44]
-	add r0, r4, #0x12c000
-	cmp r1, r0
-	addlt sp, sp, #8
-	ldmltia sp!, {r3, r4, r5, r6, r7, pc}
-	mov r0, r7
-	bl Player__InitPhysics
-	ldr r1, [r7, #0x1c]
-	ldr r0, =0xEFFFEFFF
-	add r3, r7, #0x258
-	and r0, r1, r0
-	orr r0, r0, #0x80
-	str r0, [r7, #0x1c]
-	ldr r0, [r7, #0x5d8]
-	add r2, r7, #0x600
-	bic r0, r0, #0x380000
-	str r0, [r7, #0x5d8]
-	ldr r0, [r7, #0x5dc]
-	mov r1, #0
-	bic r0, r0, #0x20
-	str r0, [r7, #0x5dc]
-	strh r1, [r2, #0xde]
-	mov r4, #0x1e
-	add r0, r3, #0x400
-	strh r4, [r2, #0x98]
-	bl NNS_SndPlayerStopSeq
-	ldr r1, =0x000038E3
-	ldr r2, =0xFFFEEEF0
-	mov r0, r7
-	bl Player__Action_Spring
-	add r0, r7, #0x500
-	mov r2, #0x5a
-	ldr r1, =0x00000611
-	strh r2, [r0, #0xfa]
-	str r1, [r7, #0xd8]
-	ldr r0, [r7, #0x5dc]
-	ldr r1, =Player__OnDefend_Regular
-	bic r0, r0, #0x2000000
-	str r0, [r7, #0x5dc]
-	mov r0, #0x1000
-	str r1, [r7, #0x534]
-	bl SetStageRingScale
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 void Player__Gimmick_WaterRun(Player *player)
