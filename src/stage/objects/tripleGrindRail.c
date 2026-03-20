@@ -5,6 +5,13 @@
 #include <stage/core/ringManager.h>
 
 // --------------------
+// MAPOBJECT PARAMS
+// --------------------
+
+#define mapObjectParam_railSize mapObject->left
+#define mapObjectParam_railID   mapObject->left
+
+// --------------------
 // VARIABLES
 // --------------------
 
@@ -73,7 +80,7 @@ NONMATCH_FUNC TripleGrindRail *TripleGrindRail__Create(MapObject *mapObject, fx3
     TripleGrindRail__Singleton = work;
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    s32 railSize                                     = MATH_MAX(mapObject->left, 8);
+    s32 railSize                                     = MATH_MAX(mapObjectParam_railSize, 8);
     fx32 railTailEndX                                = x + FX32_FROM_WHOLE((railSize - 4) * 64);
     work->railStartExitX                             = railTailEndX - FX32_FROM_WHOLE(0x22C);
     work->gameWork.objWork.viewOutOffsetBoundsLeft   = -0x200;
@@ -442,7 +449,7 @@ TripleGrindRailEntity *TripleGrindRailEntity__Create(MapObject *mapObject, fx32 
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    s32 railID   = ClampS32(mapObject->left, 0, 2);
+    s32 railID   = ClampS32(mapObjectParam_railID, 0, 2);
     work->radius = railID * TRIPLEGRINDRAIL_DISTANCE_BETWEEN_RAILS + TRIPLEGRINDRAIL_RADIUS_RAIL_0;
     if ((mapObject->id == MAPOBJECT_122) || (mapObject->id != MAPOBJECT_123))
     {
@@ -772,7 +779,7 @@ NONMATCH_FUNC void TripleGrindRail__State_PlayerGrinding(TripleGrindRail *work)
     TripleGrindRailParticle *currentLeafParticle;
     TripleGrindRailParticle *currentMushroomParticle;
     Player *player;
-    s32 listIndex;
+    s32 listIndexUnusedParticle;
 
     work->gameWork.objWork.offset.x = TRIPLEGRINDRAIL_X_OFFSET;
     player                          = (Player *)work->gameWork.parent;
@@ -823,22 +830,22 @@ NONMATCH_FUNC void TripleGrindRail__State_PlayerGrinding(TripleGrindRail *work)
     work->sequenceSpeed = quotient >> 14;
     AnimatorSprite3D__ProcessAnimation(&work->aniRing, NULL, NULL);
 
-    scaleLeaf           = TripleGrindRail__LeafParticleDefaultScale;
-    displayFlagsLeaf    = DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_UPDATE;
-    currentLeafParticle = &work->leafList[0];
-    listIndex           = -1;
+    scaleLeaf               = TripleGrindRail__LeafParticleDefaultScale;
+    displayFlagsLeaf        = DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_UPDATE;
+    currentLeafParticle     = &work->leafList[0];
+    listIndexUnusedParticle = -1;
     for (int i = 0; i < TRIPLEGRINDRAIL_LEAF_COUNT; i++, currentLeafParticle++)
     {
         if (currentLeafParticle->y == TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE)
-            listIndex = i;
+            listIndexUnusedParticle = i;
         else
         {
             // equal to currentLeafParticle->angle -= TripleGrindRail__Singleton->sequenceSpeed * 5 / 4
             currentLeafParticle->angle -= TripleGrindRail__Singleton->sequenceSpeed + (TripleGrindRail__Singleton->sequenceSpeed >> 2);
             if ((currentLeafParticle->angle <= TRIPLEGRINDRAIL_PARTICLE_CUTOFF_ANGLE_UNLOADING) || (currentLeafParticle->y < FLOAT_TO_FX32(-400.0)))
             {
-                currentLeafParticle->y = TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE;
-                listIndex              = i;
+                currentLeafParticle->y  = TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE;
+                listIndexUnusedParticle = i;
             }
             else
             {
@@ -855,13 +862,14 @@ NONMATCH_FUNC void TripleGrindRail__State_PlayerGrinding(TripleGrindRail *work)
             }
         }
     }
+    // Try spawning a new leaf if there is a spot for it and if it is time to do so.
     if ((work->flags & (TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START | TRIPLEGRINDRAIL_FLAG_EXIT_STARTED)) == 0)
     {
         work->countFramesToNextLeafParticle--;
-        if ((work->countFramesToNextLeafParticle <= 0) && (listIndex != -1))
+        if ((work->countFramesToNextLeafParticle <= 0) && (listIndexUnusedParticle != -1))
         {
             s32 val = 256 - TripleGrindRail__Singleton->sequenceSpeed;
-            TripleGrindRail__CreateLeafParticle(&work->leafList[listIndex]);
+            TripleGrindRail__CreateLeafParticle(&work->leafList[listIndexUnusedParticle]);
             s32 val2                            = (val >> 3) + (val >> 5); // equal to val * 5 / 32
             work->countFramesToNextLeafParticle = MTM_MATH_CLIP_3(val2, 3, 0x30);
         }
@@ -869,19 +877,19 @@ NONMATCH_FUNC void TripleGrindRail__State_PlayerGrinding(TripleGrindRail *work)
 
     displayFlagsMushroom    = DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_UPDATE;
     scaleMushroom           = TripleGrindRail__MushroomDefaultScale;
-    listIndex               = -1;
+    listIndexUnusedParticle = -1;
     currentMushroomParticle = &work->mushroomList[0];
     for (int i = 0; i < TRIPLEGRINDRAIL_MUSHROOM_COUNT; i++, currentMushroomParticle++)
     {
         if (currentMushroomParticle->y == TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE)
-            listIndex = i;
+            listIndexUnusedParticle = i;
         else
         {
             currentMushroomParticle->angle = currentMushroomParticle->angle - TripleGrindRail__Singleton->sequenceSpeed;
             if (currentMushroomParticle->angle <= TRIPLEGRINDRAIL_PARTICLE_CUTOFF_ANGLE_UNLOADING)
             {
                 currentMushroomParticle->y = TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE;
-                listIndex                  = i;
+                listIndexUnusedParticle    = i;
             }
             else
             {
@@ -892,17 +900,18 @@ NONMATCH_FUNC void TripleGrindRail__State_PlayerGrinding(TripleGrindRail *work)
                 fx32 sin           = SinFX(currentMushroomParticle->angle);
                 fx32 sinRad        = FX_MulInline(sin, currentMushroomParticle->radius);
                 positionMushroom.z = sinRad;
-                StageTask__Draw3DEx(&work->aniDecorations[6].work, &positionMushroom, NULL, &scaleMushroom, &displayFlagsMushroom, NULL, NULL, NULL);
+                StageTask__Draw3DEx(&work->aniDecorations[TRIPLEGRINDRAIL_MUSHROOM_DECORATION_ID].work, &positionMushroom, NULL, &scaleMushroom, &displayFlagsMushroom, NULL, NULL,
+                                    NULL);
             }
         }
     }
     if ((work->flags & (TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START | TRIPLEGRINDRAIL_FLAG_EXIT_STARTED)) != 0)
         return;
     work->countFramesToNextMushroomParticle--;
-    if ((work->countFramesToNextMushroomParticle > 0) || (listIndex == -1))
+    if ((work->countFramesToNextMushroomParticle > 0) || (listIndexUnusedParticle == -1))
         return;
     s32 val = 256 - TripleGrindRail__Singleton->sequenceSpeed;
-    TripleGrindRail__CreateMushroomParticle(&work->mushroomList[listIndex]);
+    TripleGrindRail__CreateMushroomParticle(&work->mushroomList[listIndexUnusedParticle]);
     s32 clampedVal                          = MTM_MATH_CLIP_3(val, 20, 165);
     s32 randVal                             = mtMathRandRepeat(0x20);
     work->countFramesToNextMushroomParticle = randVal + clampedVal;

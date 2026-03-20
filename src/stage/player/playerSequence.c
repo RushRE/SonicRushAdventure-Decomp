@@ -1554,9 +1554,10 @@ void Player__OnDefend_TripleGrindRail(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2
 
 enum TripleGrindRailExitState
 {
-    TRIPLEGRINDRAILEXIT_STATE_EARLY_EXIT,
-    TRIPLEGRINDRAILEXIT_STATE_START_WAITING_FOR_LAUNCH,
-    TRIPLEGRINDRAILEXIT_STATE_WAIT_FOR_LAUNCH
+    TRIPLEGRINDRAILEXIT_STATE_EARLY_EXIT, // The player is still on circular rails, their Y rotation goes back towards 0. Interaction is disabled, and there are no more particles
+                                          // nor objects.
+    TRIPLEGRINDRAILEXIT_STATE_START_WAITING_FOR_LAUNCH, // A one-frame preparatory state
+    TRIPLEGRINDRAILEXIT_STATE_WAIT_FOR_LAUNCH           // Rails are now a straight line parallel to the camera, the player gets launched off at the last frame of this state.
 };
 
 void Player__PrepareTripleGrindRailExit(Player *player)

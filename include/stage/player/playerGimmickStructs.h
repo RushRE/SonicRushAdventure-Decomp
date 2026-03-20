@@ -22,7 +22,7 @@ struct
 
 struct
 {
-    s32 xDistanceCircular;
+    s32 xDistanceCircular;    // The total distance on circular rails within the exit, during which the player is rotated towards the right again
     s32 state;
     fx32 fixedPlayerXVelocity;
 } tripleGrindRailExit;
