@@ -439,8 +439,13 @@ TripleGrindRailEntity *TripleGrindRailEntity__Create(MapObject *mapObject, fx32 
         return NULL;
 
     TripleGrindRailEntity *work;
+	Task *task;
+#ifdef RUSH_BUG_FIX
+    task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), TripleGrindRailEntity);
+#else
     // Sic: we're allocating a TripleGrindRailEntity by asking for the (much greater) size of a TripleGrindRail
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), TripleGrindRail);
+    task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), TripleGrindRail);
+#endif
     if (task == HeapNull)
         return NULL;
 

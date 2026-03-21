@@ -50,8 +50,8 @@ void SaveGame__ClearCallback_Common(SaveGame *save, SaveBlockFlags blockFlags)
 
         if (ownerInfo.nickNameLength == 0)
         {
-#if defined(RUSH_JAPAN)
-            // BUG: the japanese ROM inccorrectly used a length of 4 characters for the default "SONIC" string,
+#if defined(RUSH_JAPAN) && !defined(RUSH_BUG_FIX)
+            // The japanese ROM inccorrectly used a length of 4 characters for the default "SONIC" string,
             // this was corrected in later releases to use the proper length of 5 characters
             SaveGame__SetPlayerName(&save->system.name, L"SONIC", 4);
 #else

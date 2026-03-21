@@ -15,12 +15,16 @@ static void SeaMapPenPalette_Destructor(Task *task);
 
 Task *CreateSeaMapPenPalette(SeaMapView *parent)
 {
-    // BUG: this uses 'sizeof(SeaMapChartCourseView)' instead of the correct 'sizeof(SeaMapPenPalette)
+#ifdef RUSH_BUG_FIX
+    Task *task = TaskCreate(SeaMapPenPalette_Main, SeaMapPenPalette_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_RENDER_LIST_END, TASK_GROUP(0), SeaMapPenPalette);
+#else
+    // This uses 'sizeof(SeaMapChartCourseView)' instead of the correct 'sizeof(SeaMapPenPalette)
 #ifdef RUSH_DEBUG
     Task *task = TaskCreate_(SeaMapPenPalette_Main, SeaMapPenPalette_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_RENDER_LIST_END, TASK_GROUP(0), sizeof(SeaMapChartCourseView),
                              "SeaMapPenPalette");
 #else
     Task *task = TaskCreate_(SeaMapPenPalette_Main, SeaMapPenPalette_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_RENDER_LIST_END, TASK_GROUP(0), sizeof(SeaMapChartCourseView));
+#endif
 #endif
 
     SeaMapPenPalette *work = TaskGetWork(task, SeaMapPenPalette);

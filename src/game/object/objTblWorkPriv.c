@@ -254,8 +254,12 @@ void ProcessObjTblAngle(StageTask *work, OBS_TBL_WORK *tblWork)
 {
     OBS_DIR_TBL *angleTbl = tblWork->angleTbl;
 
-    // BUG: this should be using OBD_TBLWORK_FLAG_ANGLE_IS_FINISHED
+#ifdef RUSH_BUG_FIX
+    tblWork->flags &= ~OBD_TBLWORK_FLAG_ANGLE_IS_FINISHED;
+#else
+    // This should be using OBD_TBLWORK_FLAG_ANGLE_IS_FINISHED
     tblWork->flags &= ~OBD_TBLWORK_FLAG_SPRITE2D_IS_FINISHED;
+#endif
 
     if (tblWork->frameTimer[OBD_TBLWORK_TYPE_ANGLE] == 0)
     {
@@ -264,8 +268,13 @@ void ProcessObjTblAngle(StageTask *work, OBS_TBL_WORK *tblWork)
 
         if (tblWork->frameTimer[OBD_TBLWORK_TYPE_ANGLE] == 0)
         {
-            // BUG: this should be using OBD_TBLWORK_FLAG_ANGLE_IS_FINISHED
+
+#ifdef RUSH_BUG_FIX
+            tblWork->flags |= OBD_TBLWORK_FLAG_ANGLE_IS_FINISHED;
+#else
+            // This should be using OBD_TBLWORK_FLAG_ANGLE_IS_FINISHED
             tblWork->flags |= OBD_TBLWORK_FLAG_SPRITE2D_IS_FINISHED;
+#endif
 
             if ((tblWork->flags & OBD_TBLWORK_FLAG_CAN_LOOP) != 0)
             {

@@ -669,9 +669,11 @@ fx32 ObjRect__HitCenterX(OBS_RECT_WORK *work, OBS_RECT_WORK *attacker)
 
     if (TRUE)
     {
-        // BUG: this should be set, but it isn't?
+        // This should be set, but it isn't normally?
         // It IS set properly in ObjRect__HitCenterY, so it's likely it was intended to be set here too.
-        // maxPos = bounds[i];
+#ifdef RUSH_BUG_FIX
+        maxPos = bounds[i];
+#endif
         idxMax = i;
     }
     i++;

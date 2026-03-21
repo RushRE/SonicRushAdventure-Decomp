@@ -70,10 +70,10 @@ FloatingFountain *CreateFloatingFountain(MapObject *mapObject, fx32 x, fx32 y, f
 
     AnimatorSpriteDS *aniFountain = &work->aniFountain;
     ObjAction2dBACLoad(&work->aniFountain, "/act/ac_gmk_float_fountain.bac", 8, GetObjectDataWork(OBJDATAWORK_165), gameArchiveStage);
-    aniFountain->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniFountain->work.cParam.palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     aniFountain->cParam[0].palette = aniFountain->cParam[1].palette = aniFountain->work.cParam.palette;
     aniFountain->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
-    AnimatorSpriteDS__SetAnimation(&work->aniFountain, 2);
+    AnimatorSpriteDS__SetAnimation(&work->aniFountain, FLOATINGFOUNTAIN_ANI_SPLASH);
     StageTask__SetOAMOrder(&aniFountain->work, SPRITE_ORDER_22);
     StageTask__SetOAMPriority(&aniFountain->work, SPRITE_PRIORITY_2);
 
@@ -161,7 +161,8 @@ void FloatingFountain_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         return;
 
     FloatingFountain_Action_Activate(fountain);
-    Player__Action_Spring(player, FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(1.5) * ((fountain->gameWork.mapObject->flags & FLOATINGFOUNTAIN_OBJFLAG_FORCE_MASK) >> 6) - FLOAT_TO_FX32(7.5));
+    Player__Action_Spring(player, FLOAT_TO_FX32(0.0),
+                          -FLOAT_TO_FX32(1.5) * ((fountain->gameWork.mapObject->flags & FLOATINGFOUNTAIN_OBJFLAG_FORCE_MASK) >> 6) - FLOAT_TO_FX32(7.5));
     Player__Action_AllowTrickCombos(player, &fountain->gameWork);
     EffectIceSparklesSpawner__Create(&player->objWork);
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FOUNTAIN);

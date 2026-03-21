@@ -346,10 +346,13 @@ void SeaMapTraining_State_WaitingForButtonPress(SeaMapTraining *work)
 
     if (work->selectedButton != 0)
     {
-        // BUG: this is trying to call a sequence from the "ARC_VILLAGE" seqArchive, which is not currently loaded.
+#ifdef RUSH_BUG_FIX
+        PlaySystemSfx(SND_SYS_SEQARC_ARC_CHART, SND_SYS_SEQARC_ARC_CHART_SEQ_SE_PAUSE);
+#else
+        // This is trying to call a sequence from the "ARC_VILLAGE" seqArchive, which is not currently loaded.
         // the fix would probably to be to use the equivalent sfx id (which happens to be the same sfx) in the "ARC_CHART" seqArchive, which has been loaded.
         PlaySystemSfx(SND_SYS_SEQARC_ARC_VILLAGE, SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_PAUSE);
-        // PlaySystemSfx(SND_SYS_SEQARC_ARC_CHART, SND_SYS_SEQARC_ARC_CHART_SEQ_SE_PAUSE);
+#endif
 
         work->state = SeaMapTraining_State_FadeOutForChartCourseTutorial;
     }

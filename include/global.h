@@ -21,6 +21,10 @@ typedef u16 char16; // typedef u16 as char16 for readability
 // easier to read
 #define RUSH_INLINE static inline
 
+// Uncomment this line to enable misc bug fixes across the codebase
+// Note: code will become non-matching if uncommented.
+// #define RUSH_BUG_FIX
+
 // TODO: probably put these in a neater place
 #define ARRAY_COUNT(array) (sizeof(array) / sizeof((array)[0]))
 
