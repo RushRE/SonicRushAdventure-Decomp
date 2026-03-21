@@ -5,123 +5,160 @@
 #include <stage/core/ringManager.h>
 
 // --------------------
+// MAPOBJECT PARAMS
+// --------------------
+
+#define mapObjectParam_railSize mapObject->left
+#define mapObjectParam_railID   mapObject->left
+
+// --------------------
 // VARIABLES
 // --------------------
 
 extern RingManager *ringManagerWork;
+extern s16 spillRingGravityStrength;
 
-static Task *TripleGrindRail__Singleton;
+static TripleGrindRail *TripleGrindRail__Singleton;
 
-NOT_DECOMPILED void *TripleGrindRail__stru_21884D4;
-NOT_DECOMPILED void *TripleGrindRail__stru_21884E0;
-NOT_DECOMPILED void *TripleGrindRail__word_21884EC;
+NOT_DECOMPILED VecFx32 TripleGrindRail__LeafParticleDefaultScale;
+NOT_DECOMPILED VecFx32 TripleGrindRail__MushroomDefaultScale;
+NOT_DECOMPILED u16 TripleGrindRail__ParticleIDs[8];
 
-NOT_DECOMPILED void *aActAcGmkGrd3lS;
-NOT_DECOMPILED void *aModGmkGrd3line;
-NOT_DECOMPILED void *aModGmkGrd3line_0;
-NOT_DECOMPILED void *aActAcEffGrd3lL_0;
-NOT_DECOMPILED void *aActAcItmRing3d;
-NOT_DECOMPILED void *aActAcGmkBallSi;
+NOT_DECOMPILED const char aActAcGmkGrd3lS[];
+NOT_DECOMPILED const char aModGmkGrd3line[];
+NOT_DECOMPILED const char aModGmkGrd3line_0[];
+NOT_DECOMPILED const char aActAcEffGrd3lL_0[];
+NOT_DECOMPILED const char aActAcItmRing3d[];
+NOT_DECOMPILED const char aActAcGmkBallSi[];
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC TripleGrindRailSpring *TripleGrindRailSpring__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+TripleGrindRailSpring *TripleGrindRailSpring__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    UNUSED(type);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), TripleGrindRailSpring);
+    if (task == HeapNull)
+        return NULL;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r3, #0x1800
-	mov r7, r0
-	mov r6, r1
-	mov r5, r2
-	mov r2, #0
-	str r3, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x364
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x364
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	mov r0, #0xb0
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	ldr r1, =0x0000FFFF
-	ldr r2, [r0, #0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	add r1, r4, #0x168
-	ldr r2, =aActAcGmkGrd3lS
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0
-	mov r2, #0x56
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	add r0, r4, #0x218
-	mov r1, #0
-	mov r2, r1
-	bl ObjRect__SetAttackStat
-	add r0, r4, #0x218
-	ldr r1, =0x0000FFFE
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r0, =TripleGrindRailSpring__OnDefend
-	ldr r2, =TripleGrindRailSpring__State_Active
-	str r0, [r4, #0x23c]
-	ldr r1, [r4, #0x230]
-	mov r0, r4
-	orr r1, r1, #0x400
-	str r1, [r4, #0x230]
-	ldr r3, [r4, #0x1c]
-	mov r1, #0
-	orr r3, r3, #0x2100
-	str r3, [r4, #0x1c]
-	str r2, [r4, #0xf4]
-	bl StageTask__SetAnimation
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    TripleGrindRailSpring *work = TaskGetWork(task, TripleGrindRailSpring);
+    TaskInitWork8(work);
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-// clang-format on
-#endif
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkGrd3lS, GetObjectDataWork(OBJDATAWORK_176), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 86);
+    StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = TripleGrindRailSpring__OnDefend;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+    SetTaskState(&work->gameWork.objWork, TripleGrindRailSpring__State_Active);
+    StageTask__SetAnimation(&work->gameWork.objWork, 0);
+
+    return work;
 }
 
 NONMATCH_FUNC TripleGrindRail *TripleGrindRail__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
+    // https://decomp.me/scratch/vDReX => 97.90% at -O2,p, 92.11% at -O4,p
 #ifdef NON_MATCHING
+    UNUSED(type);
+    TripleGrindRail *work;
+    s32 i1;
+    Task *task;
 
+    task = CreateStageTask(TripleGrindRail__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), TripleGrindRail);
+    if (task == HeapNull)
+        return NULL;
+
+    work = TaskGetWork(task, TripleGrindRail);
+    TaskInitWork8(work);
+    TripleGrindRail__Singleton = work;
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    s32 railSize                                     = MATH_MAX(mapObjectParam_railSize, 8);
+    fx32 railTailEndX                                = x + FX32_FROM_WHOLE((railSize - 4) * 64);
+    work->railStartExitX                             = railTailEndX - FX32_FROM_WHOLE(0x22C);
+    work->gameWork.objWork.viewOutOffsetBoundsLeft   = -0x200;
+    work->gameWork.objWork.viewOutOffsetBoundsBottom = 0x200;
+    work->flags |= TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START;
+
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniTripleGrindRail, aModGmkGrd3line, 0, NULL, gameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniTripleGrindRail, aModGmkGrd3line_0, NULL, gameArchiveStage);
+    AnimatorMDL__SetAnimation(&work->gameWork.objWork.obj_3d->ani, B3D_ANIM_TEX_ANIM, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_TEX_ANIM], 0, NULL);
+
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+    work->aniTripleGrindRail.ani.speedMultiplier = 0;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+    VEC_Set(&work->aniTripleGrindRail.ani.work.scale, FLOAT_TO_FX32(3.2998046875), FLOAT_TO_FX32(3.2998046875), FLOAT_TO_FX32(3.2998046875));
+    work->gameWork.objWork.offset.x = TRIPLEGRINDRAIL_X_OFFSET;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
+
+    void *leaf3dLoad                    = ObjDataLoad(NULL, aActAcEffGrd3lL_0, gameArchiveStage);
+    AnimatorSprite3D *currentDecoration = &work->aniDecorations[0];
+    for (i1 = 0; i1 < TRIPLEGRINDRAIL_ANI_COUNT; currentDecoration++, i1++)
+    {
+        u32 size            = Sprite__GetTextureSizeFromAnim(leaf3dLoad, i1);
+        VRAMPixelKey tkey   = VRAMSystem__AllocTexture(size, FALSE);
+        size                = Sprite__GetPaletteSizeFromAnim(leaf3dLoad, i1);
+        VRAMPaletteKey pkey = VRAMSystem__AllocPalette(size, FALSE);
+        AnimatorSprite3D__Init(currentDecoration, 0, leaf3dLoad, i1,
+                               ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS, tkey, pkey);
+        currentDecoration->work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
+        currentDecoration->work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
+        AnimatorSprite3D__ProcessAnimation(currentDecoration, NULL, NULL);
+        currentDecoration->animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
+    }
+    for (i1 = 0; i1 < TRIPLEGRINDRAIL_LEAF_COUNT; i1++)
+    {
+        work->leafList[i1].y = TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE;
+    }
+    for (i1 = 0; i1 < TRIPLEGRINDRAIL_MUSHROOM_COUNT; i1++)
+    {
+        work->mushroomList[i1].y = TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE;
+    }
+
+    void *ring3dLoad          = ObjDataLoad(NULL, aActAcItmRing3d, gameArchiveStage);
+    AnimatorSprite3D *aniRing = &work->aniRing;
+    VRAMPixelKey tkeyRing     = VRAMSystem__AllocTexture(0x80, FALSE);
+    VRAMPaletteKey pkeyRing   = VRAMSystem__AllocPalette(0x10, FALSE);
+    AnimatorSprite3D__Init(aniRing, 0, ring3dLoad, 0, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING, tkeyRing,
+                           pkeyRing);
+    aniRing->work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
+    aniRing->work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
+    AnimatorSprite3D__ProcessAnimation(aniRing, NULL, NULL);
+    aniRing->animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
+
+    VRAMPixelKey tkeyRingSparkle   = VRAMSystem__AllocTexture(0x300, FALSE);
+    VRAMPaletteKey pkeyRingSparkle = VRAMSystem__AllocPalette(0x10, FALSE);
+    AnimatorSprite3D__Init(&work->aniRingSparkle, 0, ring3dLoad, 1,
+                           ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS, tkeyRingSparkle, pkeyRingSparkle);
+    work->aniRingSparkle.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
+    work->aniRingSparkle.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
+    AnimatorSprite3D__ProcessAnimation(&work->aniRingSparkle, NULL, NULL);
+    work->aniRingSparkle.animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
+
+    work->gameWork.objWork.collisionObj           = NULL;
+    work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
+    work->gameWork.collisionObject.work.width     = 0x200;
+    work->gameWork.collisionObject.work.height    = 8;
+    work->gameWork.collisionObject.work.ofst_x    = -0xC0;
+    work->gameWork.collisionObject.work.ofst_y    = 0;
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, 0);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -0x80, -0xC0, 0x80, 0);
+
+    ObjRect__SetGroupFlags(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], 2, 1);
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent   = &work->gameWork.objWork;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = TripleGrindRail__OnDefend_StartTrigger;
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+
+    return work;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -391,194 +428,138 @@ _021638D0:
 #endif
 }
 
-NONMATCH_FUNC TripleGrindRailEntity *TripleGrindRailEntity__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+TripleGrindRailEntity *TripleGrindRailEntity__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    UNUSED(type);
+    if (TripleGrindRail__Singleton == NULL)
+        return NULL;
+    if (x <= TripleGrindRail__Singleton->gameWork.objWork.position.x)
+        return NULL;
+    if ((TripleGrindRail__Singleton->flags & TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START) != 0)
+        return NULL;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	ldr r3, =TripleGrindRail__Singleton
-	mov r7, r0
-	ldr r3, [r3, #0]
-	mov r6, r1
-	cmp r3, #0
-	mov r5, r2
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	ldr r0, [r3, #0x44]
-	cmp r6, r0
-	addle sp, sp, #0xc
-	movle r0, #0
-	ldmleia sp!, {r4, r5, r6, r7, pc}
-	ldr r0, [r3, #0xe04]
-	tst r0, #1
-	addne sp, sp, #0xc
-	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, r7, pc}
-	mov r0, #0x1800
-	str r0, [sp]
-	mov r0, #2
-	mov r2, #0
-	str r0, [sp, #4]
-	ldr r4, =0x0000117C
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x480
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldrsb r2, [r7, #6]
-	cmp r2, #0
-	movlt r2, #0
-	blt _02163B8C
-	cmp r2, #2
-	movgt r2, #2
-_02163B8C:
-	ldr r0, =0x00059184
-	ldr r1, =0x000E8A2E
-	mla r0, r2, r0, r1
-	str r0, [r4, #0x478]
-	ldrh r0, [r7, #2]
-	cmp r0, #0x7a
-	beq _02163BB0
-	cmp r0, #0x7b
-	beq _02163C88
-_02163BB0:
-	mov r0, #0xb1
-	bl GetObjectFileWork
-	mov r3, #0
-	str r3, [sp]
-	str r0, [sp, #4]
-	ldr r0, =gameArchiveStage
-	ldr r2, =aActAcGmkBallSi
-	ldr r5, [r0, #0]
-	mov r0, r4
-	add r1, r4, #0x364
-	str r5, [sp, #8]
-	bl ObjObjectAction3dBACLoad
-	mov r0, #0xb2
-	bl GetObjectFileWork
-	mov r3, r0
-	mov r0, r4
-	mov r1, #0x800
-	mov r2, #0x10
-	bl ObjObjectActionAllocTexture
-	mov r0, #0xb2
-	bl GetObjectFileWork
-	ldrh r0, [r0, #4]
-	bic r0, r0, #0x8000
-	cmp r0, #1
-	bne _02163C3C
-	ldr r0, [r4, #0x430]
-	mov r2, r4
-	orr r0, r0, #0x60
-	str r0, [r4, #0x430]
-	ldr r1, [r4, #0x104]
-	add r0, r4, #0x364
-	bl AnimatorSprite3D__ProcessAnimation
-	ldr r0, [r4, #0x430]
-	orr r0, r0, #0x18
-	str r0, [r4, #0x430]
-_02163C3C:
-	add r0, r4, #0x218
-	mov r1, #2
-	mov r2, #0x40
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFF
-	add r0, r4, #0x218
-	mov r2, #0xff
-	bl ObjRect__SetDefenceStat
-	ldr r1, [r4, #0x230]
-	mov r0, #0x2800
-	orr r1, r1, #0x400
-	str r1, [r4, #0x230]
-	ldr r1, [r4, #0x20]
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	str r0, [r4, #0x38]
-	str r0, [r4, #0x3c]
-	str r0, [r4, #0x40]
-	b _02163D14
-_02163C88:
-	ldr r0, =TripleGrindRail__Singleton
-	add r1, r4, #0x364
-	ldr r0, [r0, #0]
-	mov r2, #0x104
-	add r0, r0, #0xd00
-	bl MI_CpuCopy8
-	mov r5, #4
-	str r4, [r4, #0x234]
-	mov r0, #8
-	str r0, [sp]
-	mov r0, #0
-	str r0, [sp, #4]
-	add r0, r4, #0x218
-	sub r1, r5, #0xc
-	sub r2, r5, #0x14
-	sub r3, r5, #8
-	str r5, [sp, #8]
-	bl ObjRect__SetBox3D
-	mov r1, #0
-	mov r2, r1
-	add r0, r4, #0x218
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r4, #0x218
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, [r4, #0x230]
-	ldr r0, =TripleGrindRailEntity__OnDefend
-	orr r1, r1, #0x400
-	str r1, [r4, #0x230]
-	str r0, [r4, #0x23c]
-	mov r0, #0x2800
-	str r0, [r4, #0x38]
-	str r0, [r4, #0x3c]
-	str r0, [r4, #0x40]
-_02163D14:
-	ldr r0, [r4, #0x18]
-	ldr r1, =TripleGrindRailEntity__State_Inactive
-	orr r0, r0, #0x10
-	str r0, [r4, #0x18]
-	ldr r2, [r4, #0x1c]
-	mov r0, r4
-	orr r2, r2, #0x2100
-	str r2, [r4, #0x1c]
-	ldr r2, [r4, #0x20]
-	orr r2, r2, #0x20
-	str r2, [r4, #0x20]
-	str r1, [r4, #0xf4]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    TripleGrindRailEntity *work;
+    // Sic: we're allocating a TripleGrindRailEntity by asking for the (much greater) size of a TripleGrindRail
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), TripleGrindRail);
+    if (task == HeapNull)
+        return NULL;
 
-// clang-format on
-#endif
+    work = TaskGetWork(task, TripleGrindRailEntity);
+    TaskInitWork8(work);
+
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    s32 railID   = ClampS32(mapObjectParam_railID, 0, 2);
+    work->radius = railID * TRIPLEGRINDRAIL_DISTANCE_BETWEEN_RAILS + TRIPLEGRINDRAIL_RADIUS_RAIL_0;
+    if ((mapObject->id == MAPOBJECT_122) || (mapObject->id != MAPOBJECT_123))
+    {
+        ObjObjectAction3dBACLoad(&work->gameWork.objWork, &work->aniSprite, aActAcGmkBallSi, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectFileWork(OBJDATAWORK_177),
+                                 gameArchiveStage);
+        ObjObjectActionAllocTexture(&work->gameWork.objWork, 0x800, 16, GetObjectFileWork(OBJDATAWORK_178));
+        OBS_DATA_WORK *work178 = GetObjectFileWork(OBJDATAWORK_178);
+        if ((work178->referenceCount & ~0x8000) == 1)
+        {
+            work->aniSprite.ani.animatorSprite.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PIXELS | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES;
+            AnimatorSprite3D__ProcessAnimation(&work->aniSprite.ani, work->gameWork.objWork.ppSpriteCallback, work);
+            work->aniSprite.ani.animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS | ANIMATOR_FLAG_DISABLE_PALETTES;
+        }
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_INVINCIBLE);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+        work->gameWork.objWork.scale.x = FLOAT_TO_FX32(2.5);
+        work->gameWork.objWork.scale.y = FLOAT_TO_FX32(2.5);
+        work->gameWork.objWork.scale.z = FLOAT_TO_FX32(2.5);
+    }
+    else
+    {
+        MI_CpuCopy8(&TripleGrindRail__Singleton->aniRingSparkle, &work->aniSprite.ani, sizeof(work->aniSprite.ani));
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
+        ObjRect__SetBox3D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -8, -16, -4, 8, 0, 4);
+        ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+        ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend = TripleGrindRailEntity__OnDefend;
+        work->gameWork.objWork.scale.x                              = FLOAT_TO_FX32(2.5);
+        work->gameWork.objWork.scale.y                              = FLOAT_TO_FX32(2.5);
+        work->gameWork.objWork.scale.z                              = FLOAT_TO_FX32(2.5);
+    }
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
+    SetTaskState(&work->gameWork.objWork, TripleGrindRailEntity__State_Inactive);
+
+    return work;
 }
 
 NONMATCH_FUNC void TripleGrindRailRingLoss__Create(Player *player)
 {
+    // https://decomp.me/scratch/fV24Q => 91.97%
 #ifdef NON_MATCHING
+    VecFx32 position;
+    fx32 ringAngle;
+    s32 ringCount;
+    fx32 *currentRingVelocityX;
+    fx32 *currentRingVelocityY;
+    VecFx32 *currentRingPosition;
+    s32 i;
 
+    ringAngle = FLOAT_DEG_TO_IDX(6.375);
+
+    if (TripleGrindRail__Singleton == NULL)
+        return;
+    if ((TripleGrindRail__Singleton->flags & TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START) != 0)
+        return;
+
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), TripleGrindRailRingLoss);
+    if (task == HeapNull)
+        return;
+
+    TripleGrindRailRingLoss *work = TaskGetWork(task, TripleGrindRailRingLoss);
+    TaskInitWork8(work);
+
+    work->objWork.objType = STAGE_OBJ_TYPE_OBJECT;
+    fx32 scale            = GetStageRingScale();
+    work->objWork.scale.x = scale;
+    work->objWork.scale.y = scale;
+    work->objWork.scale.z = scale;
+    ringCount             = MATH_MIN(player->rings, RINGMANAGER_RING_SPILL_MAX);
+    player->rings         = 0;
+    work->ringCount       = ringCount;
+    position              = work->objWork.position;
+    ringAngle += (ringManagerWork->ringPenaltyCount[player->controlID] << 8);
+
+    currentRingVelocityX = &work->ringVelocityX[0];
+    currentRingVelocityY = &work->ringVelocityY[0];
+    currentRingPosition  = &work->ringPosition[0];
+
+    fx32 velocityX;
+    fx32 velocityY;
+    for (i = 0; i < ringCount; i++, currentRingPosition++)
+    {
+        *currentRingPosition = position;
+        if (ringAngle >= 0)
+        {
+            u16 index16   = ringAngle << 8;
+            s32 ang8      = ringAngle >> 8;
+            s32 shift     = (ang8 >= 6) ? (9 - ang8) : ang8;
+            fx32 sin      = SinFX((s32)(u16)(s32)index16);
+            fx32 cos      = CosFX((s32)(u16)(s32)index16);
+            fx32 tempVelX = (sin << 4) >> shift;
+            fx32 tempVelY = (cos << 4) >> shift;
+            velocityX     = tempVelX - (tempVelX >> 2);
+            velocityY     = tempVelY - (tempVelY >> 2);
+            ringAngle     = (ringAngle + 0x10) | 0x80;
+        }
+        *(currentRingVelocityX++) = velocityX;
+        *(currentRingVelocityY++) = velocityY;
+        ringAngle                 = -ringAngle;
+        velocityX                 = -velocityX;
+    }
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+    SetTaskOutFunc(&work->objWork, TripleGrindRailRingLoss__Draw);
+    SetTaskState(&work->objWork, TripleGrindRailRingLoss__State_Active);
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -703,211 +684,237 @@ _02163F14:
 #endif
 }
 
-NONMATCH_FUNC void TripleGrindRailSpring__State_Active(TripleGrindRailSpring *work)
+void TripleGrindRailSpring__State_Active(TripleGrindRailSpring *work)
 {
-#ifdef NON_MATCHING
+    if (work->gameWork.animator.ani.work.animID != 1)
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	add r1, r0, #0x100
-	ldrh r1, [r1, #0x74]
-	cmp r1, #1
-	ldmneia sp!, {r3, pc}
-	ldr r1, [r0, #0x20]
-	tst r1, #8
-	ldmeqia sp!, {r3, pc}
-	ldr r2, [r0, #0x230]
-	mov r1, #0
-	bic r2, r2, #0x100
-	str r2, [r0, #0x230]
-	bl StageTask__SetAnimation
-	ldmia sp!, {r3, pc}
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) == 0)
+        return;
 
-// clang-format on
-#endif
+    work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~(OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME);
+    StageTask__SetAnimation(&work->gameWork.objWork, 0);
 }
 
-NONMATCH_FUNC void TripleGrindRailSpring__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void TripleGrindRailSpring__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    TripleGrindRailSpring *railSpring = (TripleGrindRailSpring *)rect2->parent;
+    Player *player                    = (Player *)rect1->parent;
+    if (railSpring == NULL)
+        return;
+    if ((player == NULL) || (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER))
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r4, [r1, #0x1c]
-	ldr r5, [r0, #0x1c]
-	cmp r4, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	cmp r5, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5, #0]
-	cmp r0, #1
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r1, [r4, #0x44]
-	mov r0, r4
-	str r1, [r5, #0x44]
-	ldr r2, [r4, #0x48]
-	mov r1, #1
-	str r2, [r5, #0x48]
-	bl StageTask__SetAnimation
-	ldr r0, [r4, #0x340]
-	ldrsb ip, [r0, #6]
-	cmp ip, #0x30
-	movlt ip, #0x30
-	blt _02163FFC
-	cmp ip, #0x40
-	movgt ip, #0x40
-_02163FFC:
-	ldr r1, =0xB60B60B7
-	mov r3, ip, lsl #0xf
-	smull r0, r2, r1, r3
-	add r2, r2, ip, lsl #15
-	mov ip, r3, lsr #0x1f
-	ldr r3, =0xFFFEEEF0
-	mov r0, r5
-	mov r1, r4
-	add r2, ip, r2, asr #6
-	bl Player__Action_TripleGrindRailStartSpring
-	add r0, r5, #0x500
-	mov r1, #0x5a
-	ldr r2, =0x00000611
-	strh r1, [r0, #0xfa]
-	mov r0, r5
-	mov r1, r4
-	str r2, [r5, #0xd8]
-	bl Player__Action_AllowTrickCombos
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    player->objWork.position.x = railSpring->gameWork.objWork.position.x;
+    player->objWork.position.y = railSpring->gameWork.objWork.position.y;
+    StageTask__SetAnimation(&railSpring->gameWork.objWork, 1);
+    s32 springStrength = MTM_MATH_CLIP_3(railSpring->gameWork.mapObject->left, 0x30, 0x40);
+    fx32 velocityX     = FX32_FROM_WHOLE(springStrength << 0x3) / 90;
+    fx32 velocityY     = FLOAT_TO_FX32(-17.06640625);
+    Player__Action_TripleGrindRailStartSpring(player, &railSpring->gameWork, velocityX, velocityY);
+    player->overSpeedLimitTimer     = 90;
+    player->objWork.gravityStrength = FLOAT_TO_FX32(0.379150390625);
+    Player__Action_AllowTrickCombos(player, &railSpring->gameWork);
 }
 
-NONMATCH_FUNC void TripleGrindRail__Destructor(Task *task)
+void TripleGrindRail__Destructor(Task *task)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r6, #0
-	ldr r5, =TripleGrindRail__Singleton
-	mov r4, r0
-	mov r7, r6
-_02164068:
-	ldr r0, [r5, #0]
-	add r0, r0, #0x4e0
-	add r0, r0, r7
-	bl AnimatorSprite3D__Release
-	add r6, r6, #1
-	cmp r6, #7
-	add r7, r7, #0x104
-	blt _02164068
-	ldr r0, =TripleGrindRail__Singleton
-	ldr r0, [r0, #0]
-	add r0, r0, #0x3fc
-	add r0, r0, #0x800
-	bl AnimatorSprite3D__Release
-	ldr r0, =TripleGrindRail__Singleton
-	ldr r0, [r0, #0]
-	add r0, r0, #0xd00
-	bl AnimatorSprite3D__Release
-	ldr r2, =TripleGrindRail__Singleton
-	mov r3, #0
-	ldr r1, =g_obj
-	mov r0, #0x1000
-	str r3, [r2]
-	str r3, [r1, #0x14]
-	bl SetStageRingScale
-	mov r0, r4
-	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
+    for (s32 i = 0; i < TRIPLEGRINDRAIL_ANI_COUNT; i++)
+    {
+        AnimatorSprite3D__Release(&TripleGrindRail__Singleton->aniDecorations[i]);
+    }
+    AnimatorSprite3D__Release(&TripleGrindRail__Singleton->aniRing);
+    AnimatorSprite3D__Release(&TripleGrindRail__Singleton->aniRingSparkle);
+    TripleGrindRail__Singleton = NULL;
+    g_obj.scroll.x             = 0;
+    SetStageRingScale(FX32_ONE);
+    GameObject__Destructor(task);
 }
 
-NONMATCH_FUNC void TripleGrindRail__State_21640DC(TripleGrindRail *work)
+void TripleGrindRail__State_WaitUntilPlayerOnRails(TripleGrindRail *work)
 {
-#ifdef NON_MATCHING
+    work->gameWork.objWork.offset.x = TRIPLEGRINDRAIL_X_OFFSET;
+    if (work->gameWork.objWork.dir.x != 0)
+    {
+        work->gameWork.objWork.dir.x = work->gameWork.objWork.dir.x - FLOAT_DEG_TO_IDX(4.658203125);
+        if ((work->gameWork.objWork.dir.x == 0) || (work->gameWork.objWork.dir.x > FLOAT_TO_FX32(8.0)))
+            work->gameWork.objWork.dir.x = 0;
+        MTX_Identity33(&work->aniTripleGrindRail.ani.work.rotation.nnMtx[0]);
+        s32 index = (u16)(-work->gameWork.objWork.dir.x);
+        MTX_RotX33(&work->aniTripleGrindRail.ani.work.rotation.nnMtx[0], SinFX(index), CosFX(index));
+    }
+    Player *player = (Player *)work->gameWork.parent;
+    if (!CheckPlayerGimmickObj(work->gameWork.parent, work) || (player->playerFlag & PLAYER_FLAG_DEATH) != 0)
+    {
+        work->gameWork.parent = NULL;
+        SetTaskState(&work->gameWork.objWork, TripleGrindRail__State_Destroy);
+        work->gameWork.objWork.userWork = 600;
+        return;
+    }
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0)
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, =0x00141BB2
-	mov r5, r0
-	str r1, [r5, #0x50]
-	ldrh r0, [r5, #0x30]
-	cmp r0, #0
-	beq _02164164
-	sub r0, r0, #0x350
-	strh r0, [r5, #0x30]
-	ldrh r0, [r5, #0x30]
-	cmp r0, #0
-	beq _02164114
-	cmp r0, #0x8000
-	bls _0216411C
-_02164114:
-	mov r0, #0
-	strh r0, [r5, #0x30]
-_0216411C:
-	add r0, r5, #0x388
-	bl MTX_Identity33_
-	ldrh r1, [r5, #0x30]
-	ldr r3, =FX_SinCosTable_
-	add r0, r5, #0x388
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov r4, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, r4]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotX33_
-_02164164:
-	ldr r4, [r5, #0x35c]
-	ldr r0, [r4, #0x6d8]
-	cmp r0, r5
-	bne _02164180
-	ldr r0, [r4, #0x5d8]
-	tst r0, #0x400
-	beq _0216419C
-_02164180:
-	mov r1, #0
-	ldr r0, =TripleGrindRail__State_216497C
-	str r1, [r5, #0x35c]
-	str r0, [r5, #0xf4]
-	mov r0, #0x258
-	str r0, [r5, #0x28]
-	ldmia sp!, {r3, r4, r5, pc}
-_0216419C:
-	ldr r0, [r4, #0x1c]
-	tst r0, #1
-	ldmeqia sp!, {r3, r4, r5, pc}
-	mov r0, r4
-	bl Player__Gimmick_TripleGrindRail
-	ldr r1, [r4, #0x5dc]
-	ldr r0, =TripleGrindRail__State_21641E0
-	orr r1, r1, #0x600
-	str r1, [r4, #0x5dc]
-	str r0, [r5, #0xf4]
-	mov r0, #0x400
-	str r0, [r5, #0xe0c]
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    Player__Gimmick_TripleGrindRail(player);
+    player->gimmickFlag |= PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_X | PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_Y;
+    SetTaskState(&work->gameWork.objWork, TripleGrindRail__State_PlayerGrinding);
+    work->scrollAndAniSpeedMultiplier = FLOAT_TO_FX32(0.25);
 }
 
-NONMATCH_FUNC void TripleGrindRail__State_21641E0(TripleGrindRail *work)
+RUSH_INLINE fx32 FX32_AddSignBit(fx32 val)
 {
-#ifdef NON_MATCHING
+    s32 signBit = (u32)(val >> (FX32_DEC_SIZE - 1)) >> (FX32_INT_SIZE + 1);
+    return val + signBit;
+}
 
+NONMATCH_FUNC void TripleGrindRail__State_PlayerGrinding(TripleGrindRail *work)
+{
+    // https://decomp.me/scratch/OjJOV => 99.92%, bad regalloc
+#ifdef NON_MATCHING
+    VecFx32 positionLeaf;
+    VecFx32 scaleLeaf;
+    VecFx32 positionMushroom;
+    VecFx32 scaleMushroom;
+    StageDisplayFlags displayFlagsLeaf;
+    StageDisplayFlags displayFlagsMushroom;
+    TripleGrindRailParticle *currentLeafParticle;
+    TripleGrindRailParticle *currentMushroomParticle;
+    Player *player;
+    s32 listIndexUnusedParticle;
+
+    work->gameWork.objWork.offset.x = TRIPLEGRINDRAIL_X_OFFSET;
+    player                          = (Player *)work->gameWork.parent;
+    if (!CheckPlayerGimmickObj(player, work) || (player->playerFlag & PLAYER_FLAG_DEATH) != 0)
+    {
+        work->gameWork.parent = NULL;
+        SetTaskState(&work->gameWork.objWork, TripleGrindRail__State_Destroy);
+        work->gameWork.objWork.userWork = 600;
+        return;
+    }
+    if (work->railStartExitX <= work->gameWork.objWork.position.x)
+    {
+        Player__PrepareTripleGrindRailExit(player);
+        player->gimmickFlag &= ~(PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_X | PLAYER_GIMMICK_LIMIT_BOUNDS_TO_GIMMICK_POS_Y);
+        g_obj.scroll.x                               = 0;
+        work->aniTripleGrindRail.ani.speedMultiplier = 0;
+        work->flags |= TRIPLEGRINDRAIL_FLAG_EXIT_STARTED;
+        SetTaskState(&work->gameWork.objWork, TripleGrindRail__State_PlayerExiting);
+        return;
+    }
+    if ((work->railStartExitX - FLOAT_TO_FX32(9.375)) <= work->gameWork.objWork.position.x)
+    {
+        work->flags |= TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START;
+        player->playerFlag |= PLAYER_FLAG_DISABLE_INPUT_READ;
+    }
+    else if ((work->railStartExitX - FLOAT_TO_FX32(31.875)) <= work->gameWork.objWork.position.x)
+        work->flags |= TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START;
+    work->scrollAndAniSpeedMultiplier += FLOAT_TO_FX32(0.00390625);
+    if (work->scrollAndAniSpeedMultiplier > FX_ONE)
+        work->scrollAndAniSpeedMultiplier = FX_ONE;
+    s32 val        = FX32_AddSignBit(work->scrollAndAniSpeedMultiplier * FLOAT_TO_FX32(0.375));
+    g_obj.scroll.x = FX32_TO_WHOLE(val);
+
+    // equal to work->scrollAndAniSpeedMultiplier * 6
+    fx32 move = (work->scrollAndAniSpeedMultiplier << 2) + (work->scrollAndAniSpeedMultiplier << 1);
+    if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
+    {
+        MapFarSys__AdvanceScrollSpeed(GRAPHICS_ENGINE_A, move);
+        MapFarSys__AdvanceScrollSpeed(GRAPHICS_ENGINE_B, move);
+    }
+    else
+        MapFarSys__AdvanceScrollSpeed(player->cameraID, move);
+
+    s32 lsm                                      = FX32_AddSignBit(work->scrollAndAniSpeedMultiplier << 12);
+    work->aniTripleGrindRail.ani.speedMultiplier = (lsm >> 12) << 2;
+    // Weird bit-shifting, since it doesn't increase precision in computing the quotient
+    s32 quotient        = (work->aniTripleGrindRail.ani.speedMultiplier << 14) / 60;
+    work->sequenceSpeed = quotient >> 14;
+    AnimatorSprite3D__ProcessAnimation(&work->aniRing, NULL, NULL);
+
+    scaleLeaf               = TripleGrindRail__LeafParticleDefaultScale;
+    displayFlagsLeaf        = DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_UPDATE;
+    currentLeafParticle     = &work->leafList[0];
+    listIndexUnusedParticle = -1;
+    for (int i = 0; i < TRIPLEGRINDRAIL_LEAF_COUNT; i++, currentLeafParticle++)
+    {
+        if (currentLeafParticle->y == TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE)
+            listIndexUnusedParticle = i;
+        else
+        {
+            // equal to currentLeafParticle->angle -= TripleGrindRail__Singleton->sequenceSpeed * 5 / 4
+            currentLeafParticle->angle -= TripleGrindRail__Singleton->sequenceSpeed + (TripleGrindRail__Singleton->sequenceSpeed >> 2);
+            if ((currentLeafParticle->angle <= TRIPLEGRINDRAIL_PARTICLE_END_ANGLE) || (currentLeafParticle->y < FLOAT_TO_FX32(-400.0)))
+            {
+                currentLeafParticle->y  = TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE;
+                listIndexUnusedParticle = i;
+            }
+            else
+            {
+                currentLeafParticle->y = -(TripleGrindRail__Singleton->sequenceSpeed * 16) + currentLeafParticle->y;
+                s32 particleID         = currentLeafParticle->id;
+
+                fx32 cos       = CosFX(currentLeafParticle->angle);
+                fx32 cosByRad  = FX_MulInline(cos, currentLeafParticle->radius);
+                positionLeaf.x = TripleGrindRail__Singleton->gameWork.objWork.position.x + cosByRad + TRIPLEGRINDRAIL_X_OFFSET;
+                positionLeaf.y = currentLeafParticle->y + TripleGrindRail__Singleton->gameWork.objWork.position.y;
+                fx32 sin       = SinFX(currentLeafParticle->angle);
+                positionLeaf.z = FX_MulInline(sin, currentLeafParticle->radius);
+                StageTask__Draw3DEx(&work->aniDecorations[particleID].work, &positionLeaf, NULL, &scaleLeaf, &displayFlagsLeaf, NULL, NULL, NULL);
+            }
+        }
+    }
+    // Try spawning a new leaf if there is a spot for it and if it is time to do so.
+    if ((work->flags & (TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START | TRIPLEGRINDRAIL_FLAG_EXIT_STARTED)) == 0)
+    {
+        work->countFramesToNextLeafParticle--;
+        if ((work->countFramesToNextLeafParticle <= 0) && (listIndexUnusedParticle != -1))
+        {
+            s32 val = 256 - TripleGrindRail__Singleton->sequenceSpeed;
+            TripleGrindRail__CreateLeafParticle(&work->leafList[listIndexUnusedParticle]);
+            s32 val2                            = (val >> 3) + (val >> 5); // equal to val * 5 / 32
+            work->countFramesToNextLeafParticle = MTM_MATH_CLIP_3(val2, 3, 0x30);
+        }
+    }
+
+    displayFlagsMushroom    = DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_UPDATE;
+    scaleMushroom           = TripleGrindRail__MushroomDefaultScale;
+    listIndexUnusedParticle = -1;
+    currentMushroomParticle = &work->mushroomList[0];
+    for (int i = 0; i < TRIPLEGRINDRAIL_MUSHROOM_COUNT; i++, currentMushroomParticle++)
+    {
+        if (currentMushroomParticle->y == TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE)
+            listIndexUnusedParticle = i;
+        else
+        {
+            currentMushroomParticle->angle = currentMushroomParticle->angle - TripleGrindRail__Singleton->sequenceSpeed;
+            if (currentMushroomParticle->angle <= TRIPLEGRINDRAIL_PARTICLE_END_ANGLE)
+            {
+                currentMushroomParticle->y = TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE;
+                listIndexUnusedParticle    = i;
+            }
+            else
+            {
+                fx32 cos           = CosFX((s32)currentMushroomParticle->angle);
+                fx32 cosRad        = FX_MulInline(cos, currentMushroomParticle->radius);
+                positionMushroom.x = TripleGrindRail__Singleton->gameWork.objWork.position.x + cosRad + TRIPLEGRINDRAIL_X_OFFSET;
+                positionMushroom.y = currentMushroomParticle->y + TripleGrindRail__Singleton->gameWork.objWork.position.y;
+                fx32 sin           = SinFX(currentMushroomParticle->angle);
+                fx32 sinRad        = FX_MulInline(sin, currentMushroomParticle->radius);
+                positionMushroom.z = sinRad;
+                StageTask__Draw3DEx(&work->aniDecorations[TRIPLEGRINDRAIL_MUSHROOM_DECORATION_ID].work, &positionMushroom, NULL, &scaleMushroom, &displayFlagsMushroom, NULL, NULL,
+                                    NULL);
+            }
+        }
+    }
+    if ((work->flags & (TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START | TRIPLEGRINDRAIL_FLAG_EXIT_STARTED)) != 0)
+        return;
+    work->countFramesToNextMushroomParticle--;
+    if ((work->countFramesToNextMushroomParticle > 0) || (listIndexUnusedParticle == -1))
+        return;
+    s32 val2 = 256 - TripleGrindRail__Singleton->sequenceSpeed;
+    TripleGrindRail__CreateMushroomParticle(&work->mushroomList[listIndexUnusedParticle]);
+    s32 clampedVal                          = MTM_MATH_CLIP_3(val2, 20, 165);
+    s32 randVal                             = mtMathRandRepeat(0x20);
+    work->countFramesToNextMushroomParticle = randVal + clampedVal;
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -924,7 +931,7 @@ NONMATCH_FUNC void TripleGrindRail__State_21641E0(TripleGrindRail *work)
 	beq _02164230
 _02164210:
 	mov r1, #0
-	ldr r0, =TripleGrindRail__State_216497C
+	ldr r0, =TripleGrindRail__State_Destroy
 	str r1, [r6, #0x35c]
 	str r0, [r6, #0xf4]
 	mov r0, #0x258
@@ -937,7 +944,7 @@ _02164230:
 	cmp r1, r2
 	bgt _02164280
 	mov r0, r4
-	bl Player__Func_201DD24
+	bl Player__PrepareTripleGrindRailExit
 	ldr r1, [r4, #0x5dc]
 	ldr r0, =g_obj
 	bic r1, r1, #0x600
@@ -946,7 +953,7 @@ _02164230:
 	str r1, [r0, #0x14]
 	str r1, [r6, #0x47c]
 	ldr r1, [r6, #0xe04]
-	ldr r0, =TripleGrindRail__State_216492C
+	ldr r0, =TripleGrindRail__State_PlayerExiting
 	orr r1, r1, #2
 	str r1, [r6, #0xe04]
 	add sp, sp, #0x50
@@ -1025,7 +1032,7 @@ _0216433C:
 	add r0, r4, #0x800
 	strh r5, [r3, #0x14]
 	bl AnimatorSprite3D__ProcessAnimation
-	ldr r0, =TripleGrindRail__stru_21884D4
+	ldr r0, =TripleGrindRail__LeafParticleDefaultScale
 	add r4, r6, #0x218
 	mov r5, #0x1100
 	str r5, [sp, #0x1c]
@@ -1164,7 +1171,7 @@ _0216459C:
 	add r0, r6, #0xe00
 	strh r1, [r0, #0x16]
 _021645A4:
-	ldr r0, =TripleGrindRail__stru_21884E0
+	ldr r0, =TripleGrindRail__MushroomDefaultScale
 	add r3, sp, #0x20
 	ldmia r0, {r0, r1, r2}
 	mov r5, #0x1100
@@ -1299,536 +1306,191 @@ _02164760:
 #endif
 }
 
-NONMATCH_FUNC void TripleGrindRail__CreateLeafParticle(TripleGrindRailParticle *particle)
+void TripleGrindRail__CreateLeafParticle(TripleGrindRailParticle *particle)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #0x10
-	ldr r5, =TripleGrindRail__word_21884EC
-	add r4, sp, #0
-	mov r3, #4
-_021647EC:
-	ldrh r2, [r5, #0]
-	ldrh r1, [r5, #2]
-	add r5, r5, #4
-	strh r2, [r4]
-	strh r1, [r4, #2]
-	add r4, r4, #4
-	subs r3, r3, #1
-	bne _021647EC
-	ldr lr, =_mt_math_rand
-	ldr r3, =0x00196225
-	ldr r1, [lr]
-	ldr ip, =0x3C6EF35F
-	ldr r2, =0x000001FF
-	mla r4, r1, r3, ip
-	mov r1, r4, lsr #0x10
-	mov r1, r1, lsl #0x10
-	and r1, r2, r1, lsr #16
-	rsb r1, r1, #0x80
-	str r4, [lr]
-	mov r1, r1, lsl #0xc
-	str r1, [r0, #4]
-	ldr r1, [lr]
-	ldr r2, =0x000034CC
-	mla r5, r1, r3, ip
-	mov r1, r5, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	and r4, r1, #0x3f
-	ldr r1, =0x00141BB2
-	sub r4, r4, #0x1f
-	mla r2, r4, r2, r1
-	str r5, [lr]
-	str r2, [r0]
-	ldr r1, =0x0000D554
-	add r2, sp, #0
-	strh r1, [r0, #8]
-	ldr r1, [lr]
-	mla r3, r1, r3, ip
-	mov r1, r3, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x1d
-	mov r1, r1, lsr #0x1c
-	ldrh r1, [r2, r1]
-	str r3, [lr]
-	strh r1, [r0, #0xa]
-	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    u16 particleIDsArray[8];
+    ARRAY_COPY(particleIDsArray, TripleGrindRail__ParticleIDs);
+    s32 newY                    = 0x80 - mtMathRandRepeat(0x200);
+    particle->y                 = FX32_FROM_WHOLE(newY);
+    s32 randVal                 = mtMathRandRepeat(0x40) - 0x1F;
+    particle->radius            = randVal * FLOAT_TO_FX32(3.2998046875) + TRIPLEGRINDRAIL_X_OFFSET;
+    particle->angle             = FLOAT_DEG_TO_IDX(299.99267578125);
+    int bitShiftKeep3LowestBits = sizeof(s32) * 8 - 3; // Keep only 3 bits (8-element array)
+    u32 randIndex               = (u32)(((s32)mtMathRand()) << bitShiftKeep3LowestBits) >> bitShiftKeep3LowestBits;
+    particle->id                = particleIDsArray[randIndex];
 }
 
-NONMATCH_FUNC void TripleGrindRail__CreateMushroomParticle(TripleGrindRailParticle *particle)
+void TripleGrindRail__CreateMushroomParticle(TripleGrindRailParticle *particle)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r3, =_mt_math_rand
-	ldr r1, =0x00196225
-	ldr lr, [r3]
-	ldr r2, =0x3C6EF35F
-	ldr ip, =0x001CF9F6
-	mla r2, lr, r1, r2
-	mov r1, r2, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	and r1, r1, #0x1f
-	add r1, r1, #8
-	str r2, [r3]
-	mov r1, r1, lsl #0xc
-	str r1, [r0, #4]
-	ldr r1, =0x0000D8E2
-	str ip, [r0]
-	strh r1, [r0, #8]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    particle->y      = FX32_FROM_WHOLE(mtMathRandRepeat(0x20) + 8);
+    particle->radius = FLOAT_TO_FX32(463.62255859375);
+    particle->angle  = FLOAT_DEG_TO_IDX(304.991455078125);
 }
 
-NONMATCH_FUNC void TripleGrindRail__State_216492C(TripleGrindRail *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r1, [r0, #0x35c]
-	ldr r1, [r1, #0x2c]
-	cmp r1, #0
-	strne r1, [r0, #0xe10]
-	ldr r1, =0x00141BB2
-	str r1, [r0, #0x50]
-	ldr r1, [r0, #0xe10]
-	str r1, [r0, #0x58]
-	ldr r1, [r0, #0x35c]
-	ldr r1, [r1, #0x28]
-	cmp r1, #0
-	bxeq lr
-	ldr r1, =TripleGrindRail__State_216497C
-	str r1, [r0, #0xf4]
-	ldr r1, [r0, #0x35c]
-	ldr r1, [r1, #0x28]
-	str r1, [r0, #0x28]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void TripleGrindRail__State_216497C(TripleGrindRail *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r1, [r0, #0x28]
-	subs r1, r1, #1
-	str r1, [r0, #0x28]
-	ldreq r1, [r0, #0x18]
-	orreq r1, r1, #4
-	streq r1, [r0, #0x18]
-	ldr r1, =0x00141BB2
-	str r1, [r0, #0x50]
-	ldr r1, [r0, #0xe10]
-	str r1, [r0, #0x58]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void TripleGrindRail__OnDefend_StartTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void TripleGrindRail__State_PlayerExiting(TripleGrindRail *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r4, [r1, #0x1c]
-	ldr r0, [r0, #0x1c]
-	cmp r4, #0
-	cmpne r0, #0
-	ldmeqia sp!, {r4, pc}
-	ldrh r1, [r0, #0]
-	cmp r1, #1
-	ldmneia sp!, {r4, pc}
-	ldr r2, [r0, #0xf4]
-	ldr r1, =Player__State_TripleGrindRailStartSpring
-	cmp r2, r1
-	ldmneia sp!, {r4, pc}
-	ldr r2, [r4, #0xe04]
-	mov r1, r4
-	bic r2, r2, #1
-	str r2, [r4, #0xe04]
-	ldr r2, [r4, #0x230]
-	bic r2, r2, #4
-	str r2, [r4, #0x230]
-	str r0, [r4, #0x35c]
-	bl Player__Action_TripleGrindRailEndSpring
-	mov r0, #0x2000
-	bl SetStageRingScale
-	ldr r1, =TripleGrindRail__State_21640DC
-	mov r0, #0x3000
-	str r1, [r4, #0xf4]
-	strh r0, [r4, #0x30]
-	ldr r1, [r4, #0x20]
-	mov r0, #0
-	bic r1, r1, #0x20
-	str r1, [r4, #0x20]
-	str r0, [r4, #0x47c]
-	str r4, [r4, #0x2d8]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if (work->gameWork.parent->userTimer != 0)
+        work->zOffset = work->gameWork.parent->userTimer;
+    work->gameWork.objWork.offset.x = TRIPLEGRINDRAIL_X_OFFSET;
+    work->gameWork.objWork.offset.z = work->zOffset;
+    if (work->gameWork.parent->userWork == 0)
+        return;
+    SetTaskState(&work->gameWork.objWork, TripleGrindRail__State_Destroy);
+    work->gameWork.objWork.userWork = work->gameWork.parent->userWork;
 }
 
-NONMATCH_FUNC void TripleGrindRailEntity__State_Inactive(TripleGrindRailEntity *work)
+void TripleGrindRail__State_Destroy(TripleGrindRail *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, =TripleGrindRail__Singleton
-	mov r4, r0
-	ldr r2, [r1, #0]
-	cmp r2, #0
-	beq _02164A64
-	ldr r1, [r2, #0xe04]
-	tst r1, #3
-	beq _02164A74
-_02164A64:
-	ldr r0, [r4, #0x18]
-	orr r0, r0, #4
-	str r0, [r4, #0x18]
-	ldmia sp!, {r4, pc}
-_02164A74:
-	ldr r1, [r2, #0x44]
-	ldr r2, [r4, #0x44]
-	add r1, r1, #0xa0000
-	cmp r2, r1
-	ldmgtia sp!, {r4, pc}
-	ldr r2, =0x0000CE38
-	add r1, r4, #0x400
-	strh r2, [r1, #0x7c]
-	ldr r2, [r4, #0x20]
-	ldr r1, =TripleGrindRailEntity__State_Active
-	bic r2, r2, #0x20
-	str r2, [r4, #0x20]
-	str r1, [r4, #0xf4]
-	bl TripleGrindRailEntity__State_Active
-	ldr r0, [r4, #0x340]
-	ldrh r0, [r0, #2]
-	cmp r0, #0x7b
-	ldreq r0, =TripleGrindRailEntity__Draw
-	streq r0, [r4, #0xfc]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    work->gameWork.objWork.userWork--;
+    if (work->gameWork.objWork.userWork == 0)
+        DestroyStageTask(&work->gameWork.objWork);
+    work->gameWork.objWork.offset.x = TRIPLEGRINDRAIL_X_OFFSET;
+    work->gameWork.objWork.offset.z = work->zOffset;
 }
 
-NONMATCH_FUNC void TripleGrindRailEntity__State_Active(TripleGrindRailEntity *work)
+void TripleGrindRail__OnDefend_StartTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    TripleGrindRail *rail = (TripleGrindRail *)rect2->parent;
+    Player *player        = (Player *)rect1->parent;
+    if ((rail == NULL) || (player == NULL) || (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER))
+        return;
+    if (!StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRailStartSpring))
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r3, =TripleGrindRail__Singleton
-	ldr r4, [r3, #0]
-	cmp r4, #0
-	ldrne r1, =g_obj
-	ldrne r1, [r1, #0x14]
-	cmpne r1, #0
-	beq _02164B00
-	ldr r1, [r4, #0xe04]
-	tst r1, #2
-	beq _02164B10
-_02164B00:
-	ldr r1, [r0, #0x18]
-	orr r1, r1, #4
-	str r1, [r0, #0x18]
-	ldmia sp!, {r4, pc}
-_02164B10:
-	add r2, r0, #0x400
-	add r1, r4, #0xe00
-	ldrh ip, [r2, #0x7c]
-	ldrh r4, [r1, #0x14]
-	ldr r1, =0x000071C8
-	sub r4, ip, r4
-	strh r4, [r2, #0x7c]
-	ldrh r2, [r2, #0x7c]
-	cmp r2, r1
-	bhi _02164B48
-	ldr r1, [r0, #0x18]
-	orr r1, r1, #4
-	str r1, [r0, #0x18]
-	ldmia sp!, {r4, pc}
-_02164B48:
-	ldr r1, [r0, #0x340]
-	ldrh r1, [r1, #2]
-	cmp r1, #0x7a
-	bne _02164B68
-	ldr r1, [r3, #0]
-	ldr r1, [r1, #0x47c]
-	mov r1, r1, asr #1
-	str r1, [r0, #0x42c]
-_02164B68:
-	add r2, r0, #0x400
-	ldrh r3, [r2, #0x7c]
-	ldr r1, =TripleGrindRail__Singleton
-	ldr lr, =FX_SinCosTable_
-	mov r3, r3, asr #4
-	mov r3, r3, lsl #1
-	add r3, r3, #1
-	mov r3, r3, lsl #1
-	ldrsh ip, [lr, r3]
-	ldr r3, [r0, #0x478]
-	ldr r4, [r1, #0]
-	smull r3, r1, ip, r3
-	adds r3, r3, #0x800
-	adc r1, r1, #0
-	mov r3, r3, lsr #0xc
-	ldr ip, [r4, #0x44]
-	orr r3, r3, r1, lsl #20
-	ldr r1, =0x00141BB2
-	add r3, ip, r3
-	add r1, r3, r1
-	str r1, [r0, #0x44]
-	ldrh r2, [r2, #0x7c]
-	ldr r1, [r0, #0x478]
-	mov r2, r2, asr #4
-	mov r2, r2, lsl #2
-	ldrsh r2, [lr, r2]
-	smull r3, r1, r2, r1
-	adds r2, r3, #0x800
-	adc r1, r1, #0
-	mov r2, r2, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	str r2, [r0, #0x4c]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    rail->flags &= ~TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START;
+    rail->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
+    rail->gameWork.parent = &player->objWork;
+    Player__Action_TripleGrindRailEndSpring(player, &rail->gameWork);
+    SetStageRingScale(FLOAT_TO_FX32(2.0));
+    SetTaskState(&rail->gameWork.objWork, TripleGrindRail__State_WaitUntilPlayerOnRails);
+    rail->gameWork.objWork.dir.x = FLOAT_DEG_TO_IDX(67.5);
+    rail->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
+    rail->aniTripleGrindRail.ani.speedMultiplier = 0;
+    rail->gameWork.collisionObject.work.parent   = &rail->gameWork.objWork;
 }
 
-NONMATCH_FUNC void TripleGrindRailEntity__Draw(void)
+void TripleGrindRailEntity__State_Inactive(TripleGrindRailEntity *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0x14
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	ldr r0, [r4, #0x354]
-	mov r2, #0
-	tst r0, #1
-	add r0, sp, #0x10
-	beq _02164C70
-	mov r1, #0x100
-	str r1, [sp, #0x10]
-	str r0, [sp]
-	str r2, [sp, #4]
-	str r2, [sp, #8]
-	str r2, [sp, #0xc]
-	add r0, r4, #0x364
-	add r1, r4, #0x44
-	add r3, r4, #0x38
-	bl StageTask__Draw3DEx
-	ldr r0, [sp, #0x10]
-	tst r0, #0x40000000
-	addeq sp, sp, #0x14
-	ldmeqia sp!, {r3, r4, pc}
-	ldr r0, [r4, #0x18]
-	add sp, sp, #0x14
-	orr r0, r0, #4
-	str r0, [r4, #0x18]
-	ldmia sp!, {r3, r4, pc}
-_02164C70:
-	ldr r1, =0x00001104
-	add r3, r4, #0x38
-	str r1, [sp, #0x10]
-	str r0, [sp]
-	str r2, [sp, #4]
-	str r2, [sp, #8]
-	ldr r0, =TripleGrindRail__Singleton
-	str r2, [sp, #0xc]
-	ldr r0, [r0, #0]
-	add r1, r4, #0x44
-	add r0, r0, #0x3fc
-	add r0, r0, #0x800
-	bl StageTask__Draw3DEx
-	add sp, sp, #0x14
-	ldmia sp!, {r3, r4, pc}
-
-// clang-format on
-#endif
+    if ((TripleGrindRail__Singleton == NULL) || (TripleGrindRail__Singleton->flags & (TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START | TRIPLEGRINDRAIL_FLAG_EXIT_STARTED)) != 0)
+    {
+        DestroyStageTask(&work->gameWork.objWork);
+        return;
+    }
+    if (work->gameWork.objWork.position.x > (TripleGrindRail__Singleton->gameWork.objWork.position.x + FX32_FROM_WHOLE(0xA0)))
+        return;
+    work->angle = FLOAT_DEG_TO_IDX(289.9951171875);
+    work->gameWork.objWork.displayFlag &= ~STAGE_TASK_FLAG_ACTIVE_DURING_PAUSE;
+    SetTaskState(&work->gameWork.objWork, TripleGrindRailEntity__State_Active);
+    TripleGrindRailEntity__State_Active(work);
+    if (work->gameWork.mapObject->id == MAPOBJECT_123)
+        SetTaskOutFunc(&work->gameWork.objWork, TripleGrindRailEntity__Draw);
 }
 
-NONMATCH_FUNC void TripleGrindRailEntity__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void TripleGrindRailEntity__State_Active(TripleGrindRailEntity *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r4, [r1, #0x1c]
-	ldr r0, [r0, #0x1c]
-	cmp r4, #0
-	ldmeqia sp!, {r4, pc}
-	cmp r0, #0
-	ldmeqia sp!, {r4, pc}
-	ldrh r1, [r0, #0]
-	cmp r1, #1
-	ldreqb r1, [r0, #0x5d1]
-	cmpeq r1, #0
-	ldmneia sp!, {r4, pc}
-	mov r1, #1
-	bl Player__GiveRings
-	ldr r1, [r4, #0x354]
-	mov r0, #0
-	orr r1, r1, #1
-	orr r1, r1, #0x10000
-	str r1, [r4, #0x354]
-	str r0, [r4, #0x234]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if ((TripleGrindRail__Singleton == NULL) || (g_obj.scroll.x == 0) || ((TripleGrindRail__Singleton->flags & TRIPLEGRINDRAIL_FLAG_EXIT_STARTED) != 0))
+    {
+        DestroyStageTask(&work->gameWork.objWork);
+        return;
+    }
+    work->angle = work->angle - TripleGrindRail__Singleton->sequenceSpeed;
+    if (work->angle <= FLOAT_DEG_TO_IDX(160.0048828125))
+    {
+        DestroyStageTask(&work->gameWork.objWork);
+        return;
+    }
+    if (work->gameWork.mapObject->id == MAPOBJECT_122)
+        work->aniSprite.ani.animatorSprite.animAdvance = TripleGrindRail__Singleton->aniTripleGrindRail.ani.speedMultiplier >> 1;
+    fx32 cos                          = CosFX(work->angle);
+    fx32 cosRad                       = MultiplyFX(cos, work->radius);
+    work->gameWork.objWork.position.x = TripleGrindRail__Singleton->gameWork.objWork.position.x + cosRad + TRIPLEGRINDRAIL_X_OFFSET;
+    fx32 sin                          = SinFX(work->angle);
+    fx32 sinRad                       = MultiplyFX(sin, work->radius);
+    work->gameWork.objWork.position.z = sinRad;
 }
 
-NONMATCH_FUNC void TripleGrindRailRingLoss__State_Active(TripleGrindRailRingLoss *work)
+void TripleGrindRailEntity__Draw(void)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0xc
-	ldr r1, =TripleGrindRail__Singleton
-	mov r10, r0
-	ldr r1, [r1, #0]
-	ldr r6, [r10, #0x168]
-	cmp r1, #0
-	ldrne r0, =g_obj
-	mov r11, #1
-	ldrne r0, [r0, #0x14]
-	cmpne r0, #0
-	beq _02164D44
-	ldr r0, [r1, #0xe04]
-	tst r0, #2
-	beq _02164D58
-_02164D44:
-	ldr r0, [r10, #0x18]
-	add sp, sp, #0xc
-	orr r0, r0, #4
-	str r0, [r10, #0x18]
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-_02164D58:
-	add r7, r10, #0x16c
-	add r0, r10, #0x6c
-	cmp r6, #0
-	add r8, r0, #0x400
-	add r9, r7, #0x400
-	mov r5, #0
-	ble _02164DEC
-	mov r4, r5
-_02164D78:
-	ldr r1, [r7, #0]
-	ldr r0, [r8, #0]
-	mov r2, #0x20
-	add r0, r1, r0
-	str r0, [r7]
-	ldr r0, =0x02118D5C
-	ldr r1, [r9, #0]
-	ldrsh r0, [r0, #0]
-	ldr r3, [r7, #4]
-	add r1, r1, r0
-	add r1, r3, r1
-	str r1, [r7, #4]
-	ldr r1, [r9, #0]
-	mov r3, r4
-	add r0, r1, r0
-	str r0, [r9]
-	str r4, [sp]
-	str r4, [sp, #4]
-	str r4, [sp, #8]
-	ldmia r7, {r0, r1}
-	bl StageTask__ViewOutCheck
-	cmp r0, #0
-	add r5, r5, #1
-	moveq r11, #0
-	cmp r5, r6
-	add r7, r7, #0xc
-	add r8, r8, #4
-	add r9, r9, #4
-	blt _02164D78
-_02164DEC:
-	cmp r11, #0
-	ldrne r0, [r10, #0x18]
-	orrne r0, r0, #4
-	strne r0, [r10, #0x18]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
+    StageDisplayFlags flags;
+    TripleGrindRailEntity *work = TaskGetWorkCurrent(TripleGrindRailEntity);
+    if ((work->gameWork.flags & GAMEOBJECT_FLAG_USER_1) != 0)
+    {
+        flags = DISPLAY_FLAG_DISABLE_ROTATION;
+        StageTask__Draw3DEx(&work->aniSprite.ani.work, &work->gameWork.objWork.position, NULL, &work->gameWork.objWork.scale, &flags, NULL, NULL, NULL);
+        if ((flags & DISPLAY_FLAG_UNKNOWN_40000000) != 0)
+            DestroyStageTask(&work->gameWork.objWork);
+    }
+    else
+    {
+        flags = DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_UPDATE;
+        StageTask__Draw3DEx(&TripleGrindRail__Singleton->aniRing.work, &work->gameWork.objWork.position, NULL, &work->gameWork.objWork.scale, &flags, NULL, NULL, NULL);
+    }
 }
 
-NONMATCH_FUNC void TripleGrindRailRingLoss__Draw(void)
+void TripleGrindRailEntity__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    TripleGrindRailEntity *railEntity = (TripleGrindRailEntity *)rect2->parent;
+    Player *player                    = (Player *)rect1->parent;
+    if (railEntity == NULL)
+        return;
+    if ((player == NULL) || (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER) || (player->controlID != PLAYER_CONTROL_P1))
+        return;
+    Player__GiveRings(player, 1);
+    railEntity->gameWork.flags |= GAMEOBJECT_FLAG_USER_1;
+    railEntity->gameWork.flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
+    railEntity->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = NULL;
+}
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #0x20
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	add r0, r4, #0x38
-	add r7, sp, #0x14
-	ldmia r0, {r0, r1, r2}
-	ldr r3, =0x00001104
-	stmia r7, {r0, r1, r2}
-	str r3, [sp, #0x10]
-	ldr r9, [r4, #0x168]
-	mov r8, #0
-	cmp r9, #0
-	addle sp, sp, #0x20
-	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	add r10, r4, #0x16c
-	ldr r4, =TripleGrindRail__Singleton
-	add r6, sp, #0x10
-	mov r5, r8
-_02164E5C:
-	str r6, [sp]
-	str r5, [sp, #4]
-	str r5, [sp, #8]
-	str r5, [sp, #0xc]
-	ldr r0, [r4, #0]
-	mov r1, r10
-	add r0, r0, #0x3fc
-	mov r2, r5
-	mov r3, r7
-	add r0, r0, #0x800
-	bl StageTask__Draw3DEx
-	add r8, r8, #1
-	cmp r8, r9
-	add r10, r10, #0xc
-	blt _02164E5C
-	add sp, sp, #0x20
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+void TripleGrindRailRingLoss__State_Active(TripleGrindRailRingLoss *work)
+{
+    BOOL allRingsOffscreen;
+    s32 i;
+    s32 ringCount;
+    VecFx32 *ringPosition;
+    fx32 *ringVelocityX;
+    fx32 *ringVelocityY;
 
-// clang-format on
-#endif
+    allRingsOffscreen = TRUE;
+    ringCount         = work->ringCount;
+    if ((TripleGrindRail__Singleton == NULL) || (g_obj.scroll.x == 0) || (TripleGrindRail__Singleton->flags & TRIPLEGRINDRAIL_FLAG_EXIT_STARTED) != 0)
+    {
+        DestroyStageTask(&work->objWork);
+        return;
+    }
+    ringPosition  = &work->ringPosition[0];
+    ringVelocityX = &work->ringVelocityX[0];
+    ringVelocityY = &work->ringVelocityY[0];
+    for (i = 0; i < ringCount; i++)
+    {
+        ringPosition->x += *ringVelocityX;
+        s32 gravityStrength = spillRingGravityStrength;
+        ringPosition->y += *ringVelocityY + gravityStrength;
+        *ringVelocityY += gravityStrength;
+        if (!StageTask__ViewOutCheck(ringPosition->x, ringPosition->y, 0x20, 0, 0, 0, 0))
+            allRingsOffscreen = FALSE;
+
+        ringPosition++;
+        ringVelocityX++;
+        ringVelocityY++;
+    }
+    if (allRingsOffscreen)
+        DestroyStageTask(&work->objWork);
+}
+
+void TripleGrindRailRingLoss__Draw(void)
+{
+    TripleGrindRailRingLoss *work;
+    s32 i;
+    s32 ringCount;
+    VecFx32 scale;
+    StageDisplayFlags displayFlag;
+
+    work        = TaskGetWorkCurrent(TripleGrindRailRingLoss);
+    scale       = work->objWork.scale;
+    displayFlag = DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_UPDATE;
+    ringCount   = work->ringCount;
+    for (i = 0; i < ringCount; i++)
+    {
+        StageTask__Draw3DEx(&TripleGrindRail__Singleton->aniRing.work, &work->ringPosition[i], NULL, &scale, &displayFlag, NULL, NULL, NULL);
+    }
 }

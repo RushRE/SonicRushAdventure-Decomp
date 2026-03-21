@@ -246,7 +246,7 @@ enum PlayerAction_
     PLAYER_ACTION_HANG_ROT,
     PLAYER_ACTION_MUSHROOM_BOUNCE,
     PLAYER_ACTION_ROPE_SWING,
-    PLAYER_ACTION_GRIND2,
+    PLAYER_ACTION_GRIND_TRIPLE_RAIL,
     PLAYER_ACTION_DREAMWING,
     PLAYER_ACTION_PISTON_01,
     PLAYER_ACTION_PISTON_02,
@@ -785,8 +785,8 @@ void Player__Gimmick_TripleGrindRail(Player *player);
 void Player__State_TripleGrindRail(Player *work);
 void Player__HandleRideTripleGrindRail(Player *player);
 void Player__OnDefend_TripleGrindRail(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void Player__Func_201DD24(Player *player);
-void Player__State_201DE24(Player *work);
+void Player__PrepareTripleGrindRailExit(Player *player);
+void Player__State_ExitingTripleGrindRail(Player *work);
 void Player__Gimmick_WaterRun(Player *player);
 void Player__State_WaterRun(Player *work);
 void Player__Action_SteamFan(Player *player, GameObjectTask *other, s32 fanRadius);

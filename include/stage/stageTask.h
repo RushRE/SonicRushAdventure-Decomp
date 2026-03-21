@@ -175,6 +175,7 @@ enum StageDisplayFlags_
     DISPLAY_FLAG_DISABLE_FINISH_EVENT      = 1 << 15,
     DISPLAY_FLAG_DISABLE_SCALE             = 1 << 16,
     DISPLAY_FLAG_DRAW_3D_SPRITE_AS_2D      = 1 << 17,
+    DISPLAY_FLAG_UNKNOWN_40000000          = 1 << 30,
 };
 typedef u32 StageDisplayFlags;
 

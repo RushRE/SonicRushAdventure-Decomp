@@ -1393,7 +1393,7 @@ void Player__Gimmick_TripleGrindRail(Player *player)
     player->objWork.velocity.x = player->objWork.velocity.y = 0;
     player->objWork.groundVel                               = 0;
 
-    Player__ChangeAction(player, PLAYER_ACTION_GRIND2);
+    Player__ChangeAction(player, PLAYER_ACTION_GRIND_TRIPLE_RAIL);
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     player->objWork.gravityStrength = FLOAT_TO_FX32(0.328125);
     Player__Action_StopBoost(player);
@@ -1478,7 +1478,7 @@ void Player__HandleRideTripleGrindRail(Player *player)
             // player has landed... put them back in the grind action!
             player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
             player->objWork.velocity.x = player->objWork.velocity.y = 0;
-            Player__ChangeAction(player, PLAYER_ACTION_GRIND2);
+            Player__ChangeAction(player, PLAYER_ACTION_GRIND_TRIPLE_RAIL);
             player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
             PlayPlayerSfx(player, PLAYER_SEQPLAYER_GRIND, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GRIND);
         }
@@ -1552,344 +1552,126 @@ void Player__OnDefend_TripleGrindRail(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2
     }
 }
 
-NONMATCH_FUNC void Player__Func_201DD24(Player *player)
+enum TripleGrindRailExitState
 {
-#ifdef NON_MATCHING
+    TRIPLEGRINDRAILEXIT_STATE_EARLY_EXIT, // The player is still on circular rails, their Y rotation goes back towards 0. Interaction is disabled, and there are no more particles
+                                          // nor objects.
+    TRIPLEGRINDRAILEXIT_STATE_START_WAITING_FOR_LAUNCH, // A one-frame preparatory state
+    TRIPLEGRINDRAILEXIT_STATE_WAIT_FOR_LAUNCH           // Rails are now a straight line parallel to the camera, the player gets launched off at the last frame of this state.
+};
+
+void Player__PrepareTripleGrindRailExit(Player *player)
+{
     player->playerFlag &= ~PLAYER_FLAG_DISABLE_CAMERA_OFFSET;
     player->gimmickFlag &= ~PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_X;
     player->playerFlag |= PLAYER_FLAG_DISABLE_INPUT_READ;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 
-    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0 || player->gimmickObj == NULL)
+    if (((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0) && (player->gimmickObj != NULL))
     {
-        player->gimmick.value1 = 0xE8A2E + player->gimmick.value1 * 0x59184;
-        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
-        player->objWork.velocity.x = player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
+        // player was in the middle of jumping when they hit the start-of-exit point.
+        player->gimmick.tripleGrindRailExit.xDistanceCircular = player->gimmickObj->objWork.position.x + TRIPLEGRINDRAIL_X_OFFSET - player->objWork.position.x;
     }
     else
     {
-        player->gimmick.value1 = player->gimmickObj->objWork.position.x + 0x141BB2 - player->objWork.position.x;
+        player->gimmick.tripleGrindRailExit.xDistanceCircular = TRIPLEGRINDRAIL_RADIUS_RAIL_0 + player->gimmick.tripleGrindRail.rail * TRIPLEGRINDRAIL_DISTANCE_BETWEEN_RAILS;
+        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
+        player->objWork.velocity.x = player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
     }
 
-    player->gimmick.value2 = 0;
+    player->gimmick.tripleGrindRailExit.state                = TRIPLEGRINDRAILEXIT_STATE_EARLY_EXIT;
+    fx32 v3                                                  = MultiplyFX(player->gimmick.tripleGrindRailExit.xDistanceCircular, FLOAT_TO_FX32(6.27978515625)) >> 2;
+    player->gimmick.tripleGrindRailExit.fixedPlayerXVelocity = v3 / 40;
+    player->objWork.userWork                                 = 0;
 
-    fx32 v3                = MultiplyFX(player->gimmick.value1, 0x647A) >> 2;
-    player->gimmick.value3 = MultiplyFX(0x66666667, v3) >> 4;
-
-    player->objWork.userWork = 0;
-
-    SetTaskState(&player->objWork, Player__State_201DE24);
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, [r0, #0x5d8]
-	bic r1, r1, #0x2000
-	str r1, [r0, #0x5d8]
-	ldr r1, [r0, #0x5dc]
-	bic r1, r1, #0x10
-	str r1, [r0, #0x5dc]
-	ldr r1, [r0, #0x5d8]
-	orr r1, r1, #0x200000
-	str r1, [r0, #0x5d8]
-	ldr r1, [r0, #0x1c]
-	orr r1, r1, #0x2080
-	str r1, [r0, #0x1c]
-	tst r1, #1
-	bne _0201DD88
-	ldr r1, [r0, #0x6d8]
-	cmp r1, #0
-	beq _0201DD88
-	ldr r3, [r1, #0x44]
-	ldr r1, =0x00141BB2
-	ldr r2, [r0, #0x44]
-	add r1, r3, r1
-	sub r1, r1, r2
-	str r1, [r0, #0x6f0]
-	b _0201DDB4
-_0201DD88:
-	ldr r4, [r0, #0x6f0]
-	ldr r1, =0x00059184
-	ldr r2, =0x000E8A2E
-	mov r3, #0
-	mla r1, r4, r1, r2
-	str r1, [r0, #0x6f0]
-	ldr r1, [r0, #0x1c]
-	bic r1, r1, #0x10
-	str r1, [r0, #0x1c]
-	str r3, [r0, #0x9c]
-	str r3, [r0, #0x98]
-_0201DDB4:
-	mov r1, #0
-	str r1, [r0, #0x6f4]
-	ldr ip, [r0, #0x6f0]
-	ldr r2, =0x0000647A
-	mov r3, ip, asr #0x1f
-	umull r4, lr, ip, r2
-	mla lr, ip, r1, lr
-	adds r4, r4, #0x800
-	mla lr, r3, r2, lr
-	adc r2, lr, #0
-	mov r3, r4, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	mov r3, r3, asr #2
-	ldr ip, =0x66666667
-	mov r2, r3, lsr #0x1f
-	smull r3, r4, ip, r3
-	add r4, r2, r4, asr #4
-	str r4, [r0, #0x6f8]
-	ldr r2, =Player__State_201DE24
-	str r1, [r0, #0x28]
-	str r2, [r0, #0xf4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    SetTaskState(&player->objWork, Player__State_ExitingTripleGrindRail);
 }
 
-NONMATCH_FUNC void Player__State_201DE24(Player *work)
+void Player__State_ExitingTripleGrindRail(Player *player)
 {
-#ifdef NON_MATCHING
+    fx32 posX = 0;
+    if (player->gimmickObj != NULL)
+        posX = player->gimmickObj->objWork.position.x + TRIPLEGRINDRAIL_X_OFFSET;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	sub sp, sp, #8
-	mov r7, r0
-	ldr r0, [r7, #0x6d8]
-	mov r4, #0
-	cmp r0, #0
-	ldrne r1, [r0, #0x44]
-	ldrne r0, =0x00141BB2
-	addne r4, r1, r0
-	ldr r0, [r7, #0x6f4]
-	cmp r0, #0
-	beq _0201DE6C
-	cmp r0, #1
-	beq _0201E0C4
-	cmp r0, #2
-	beq _0201E108
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0201DE6C:
-	ldr r0, [r7, #0x44]
-	str r0, [r7, #0x8c]
-	ldr r0, [r7, #0x48]
-	str r0, [r7, #0x90]
-	ldr r0, [r7, #0x4c]
-	str r0, [r7, #0x94]
-	ldr r1, [r7, #0x1c]
-	tst r1, #1
-	beq _0201DEF8
-	add r0, r7, #0x500
-	ldrsh r0, [r0, #0xd4]
-	cmp r0, #0x28
-	beq _0201DF34
-	bic r0, r1, #0x10
-	str r0, [r7, #0x1c]
-	mov r1, #0
-	str r1, [r7, #0x9c]
-	str r1, [r7, #0x98]
-	mov r0, r7
-	mov r1, #0x28
-	bl Player__ChangeAction
-	ldr r0, [r7, #0x20]
-	mov r5, #0x37
-	orr r2, r0, #4
-	sub r1, r5, #0x38
-	add r0, r7, #0x258
-	str r2, [r7, #0x20]
-	mov r2, #0
-	str r2, [sp]
-	mov r2, r1
-	mov r3, r1
-	add r0, r0, #0x400
-	str r5, [sp, #4]
-	bl PlaySfxEx
-	b _0201DF34
-_0201DEF8:
-	ldr r1, [r7, #0x98]
-	cmp r1, #0
-	ldreq r0, [r7, #0x9c]
-	cmpeq r0, #0
-	beq _0201DF34
-	ldr r0, [r7, #0x6f0]
-	sub r0, r0, r1
-	str r0, [r7, #0x6f0]
-	ldr r1, [r7, #0x9c]
-	ldr r0, [r7, #0xd8]
-	add r1, r1, r0
-	str r1, [r7, #0x9c]
-	ldr r0, [r7, #0x48]
-	add r0, r0, r1
-	str r0, [r7, #0x48]
-_0201DF34:
-	ldrh r5, [r7, #0x32]
-	ldr r6, [r7, #0x6f0]
-	ldr r2, =0x00000199
-	mov r0, r5
-	mov r1, #0
-	bl ObjRoopMove16
-	strh r0, [r7, #0x32]
-	ldrh r1, [r7, #0x32]
-	ldr r2, =FX_SinCosTable_
-	mov r0, r6, asr #0x1f
-	add r1, r1, #0x4000
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	add r1, r1, #0x8000
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r1, r1, lsl #1
-	add r3, r1, #1
-	mov r3, r3, lsl #1
-	ldrsh r2, [r2, r3]
-	smull ip, r3, r2, r6
-	adds ip, ip, #0x800
-	adc r2, r3, #0
-	mov r3, ip, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	add r2, r4, r3
-	str r2, [r7, #0x44]
-	ldrh r3, [r7, #0x32]
-	sub r2, r5, r3
-	mov r2, r2, lsl #0x10
-	movs r4, r2, asr #0x10
-	ldr r2, =0x00000199
-	rsbmi r4, r4, #0
-	cmp r4, r2
-	bge _0201E03C
-	mov r3, r3, lsl #0x10
-	mov r2, r5, lsl #0x10
-	mov r3, r3, asr #0x10
-	rsbs r4, r3, r2, asr #16
-	ldr r2, =0x0000C199
-	rsbmi r4, r4, #0
-	sub r2, r2, r4
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, asr #4
-	mov r2, r2, lsl #1
-	add r2, r2, #1
-	ldr r3, =FX_SinCosTable_
-	mov r2, r2, lsl #1
-	ldrsh r2, [r3, r2]
-	ldr r5, [r7, #0x44]
-	umull r4, r3, r2, r6
-	mla r3, r2, r0, r3
-	mov r2, r2, asr #0x1f
-	mla r3, r2, r6, r3
-	adds r4, r4, #0x800
-	adc r2, r3, #0
-	mov r3, r4, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	add r2, r5, r3
-	str r2, [r7, #0x44]
-_0201E03C:
-	ldr r2, =FX_SinCosTable_
-	mov r1, r1, lsl #1
-	ldrsh r1, [r2, r1]
-	umull r3, r2, r1, r6
-	mla r2, r1, r0, r2
-	mov r0, r1, asr #0x1f
-	adds r1, r3, #0x800
-	mla r2, r0, r6, r2
-	adc r0, r2, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	rsb r0, r1, #0
-	str r0, [r7, #0x2c]
-	ldr r1, [r7, #0x44]
-	ldr r0, [r7, #0x8c]
-	sub r0, r1, r0
-	str r0, [r7, #0xbc]
-	ldr r1, [r7, #0x48]
-	ldr r0, [r7, #0x90]
-	sub r0, r1, r0
-	str r0, [r7, #0xc0]
-	ldr r1, [r7, #0x4c]
-	ldr r0, [r7, #0x94]
-	sub r0, r1, r0
-	str r0, [r7, #0xc4]
-	ldrh r0, [r7, #0x32]
-	cmp r0, #0
-	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r0, [r7, #0x6f4]
-	add sp, sp, #8
-	add r0, r0, #1
-	str r0, [r7, #0x6f4]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0201E0C4:
-	ldr r0, [r7, #0x1c]
-	add r2, r4, #0x12c000
-	bic r0, r0, #0x2080
-	str r0, [r7, #0x1c]
-	ldr r0, [r7, #0x20]
-	orr r0, r0, #0x200
-	str r0, [r7, #0x20]
-	ldr r1, [r7, #0x6f8]
-	str r1, [r7, #0x98]
-	ldr r0, [r7, #0x44]
-	sub r0, r2, r0
-	bl FX_DivS32
-	add r0, r0, #0x78
-	str r0, [r7, #0x28]
-	ldr r0, [r7, #0x6f4]
-	add r0, r0, #1
-	str r0, [r7, #0x6f4]
-_0201E108:
-	ldr r1, [r7, #0x44]
-	add r0, r4, #0x12c000
-	cmp r1, r0
-	addlt sp, sp, #8
-	ldmltia sp!, {r3, r4, r5, r6, r7, pc}
-	mov r0, r7
-	bl Player__InitPhysics
-	ldr r1, [r7, #0x1c]
-	ldr r0, =0xEFFFEFFF
-	add r3, r7, #0x258
-	and r0, r1, r0
-	orr r0, r0, #0x80
-	str r0, [r7, #0x1c]
-	ldr r0, [r7, #0x5d8]
-	add r2, r7, #0x600
-	bic r0, r0, #0x380000
-	str r0, [r7, #0x5d8]
-	ldr r0, [r7, #0x5dc]
-	mov r1, #0
-	bic r0, r0, #0x20
-	str r0, [r7, #0x5dc]
-	strh r1, [r2, #0xde]
-	mov r4, #0x1e
-	add r0, r3, #0x400
-	strh r4, [r2, #0x98]
-	bl NNS_SndPlayerStopSeq
-	ldr r1, =0x000038E3
-	ldr r2, =0xFFFEEEF0
-	mov r0, r7
-	bl Player__Action_Spring
-	add r0, r7, #0x500
-	mov r2, #0x5a
-	ldr r1, =0x00000611
-	strh r2, [r0, #0xfa]
-	str r1, [r7, #0xd8]
-	ldr r0, [r7, #0x5dc]
-	ldr r1, =Player__OnDefend_Regular
-	bic r0, r0, #0x2000000
-	str r0, [r7, #0x5dc]
-	mov r0, #0x1000
-	str r1, [r7, #0x534]
-	bl SetStageRingScale
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
+    switch (player->gimmick.tripleGrindRailExit.state)
+    {
+        case TRIPLEGRINDRAILEXIT_STATE_EARLY_EXIT: {
+            player->objWork.prevPosition.x = player->objWork.position.x;
+            player->objWork.prevPosition.y = player->objWork.position.y;
+            player->objWork.prevPosition.z = player->objWork.position.z;
+            if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+            {
+                if (player->actionState != PLAYER_ACTION_GRIND_TRIPLE_RAIL)
+                {
+                    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IS_FALLING;
+                    player->objWork.velocity.x = player->objWork.velocity.y = 0;
+                    Player__ChangeAction(player, PLAYER_ACTION_GRIND_TRIPLE_RAIL);
+                    player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+                    PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_GRIND], 0x37);
+                }
+            }
+            else if ((player->objWork.velocity.x != 0) || (player->objWork.velocity.y != 0))
+            {
+                // player is not yet done jumping
+                player->gimmick.tripleGrindRailExit.xDistanceCircular = player->gimmick.tripleGrindRailExit.xDistanceCircular - player->objWork.velocity.x;
+                player->objWork.velocity.y += player->objWork.gravityStrength;
+                player->objWork.position.y += player->objWork.velocity.y;
+            }
+            s32 xDistanceCircular      = player->gimmick.tripleGrindRailExit.xDistanceCircular;
+            u16 oldDirY                = player->objWork.dir.y;
+            fx32 speedMove             = FLOAT_TO_FX32(0.099853515625);
+            player->objWork.dir.y      = ObjRoopMove16(player->objWork.dir.y, 0, speedMove);
+            u16 dirYPlus90             = player->objWork.dir.y + FLOAT_DEG_TO_IDX(90.0);
+            s32 index270               = (u16)(dirYPlus90 + FLOAT_DEG_TO_IDX(180.0));
+            player->objWork.position.x = posX + FX_MulInline(CosFX(index270), xDistanceCircular);
+            s32 dirYDiff               = (s16)(oldDirY - player->objWork.dir.y);
+            if (MATH_ABS(dirYDiff) < FLOAT_DEG_TO_IDX(2.2467041015625))
+            {
+                dirYDiff = (s16)oldDirY - (s16)player->objWork.dir.y;
+                if (dirYDiff < 0)
+                    dirYDiff = -dirYDiff;
+                u16 index2 = (s32)(u16)(FLOAT_DEG_TO_IDX(270.0) + FLOAT_DEG_TO_IDX(2.2467041015625) - dirYDiff);
+                player->objWork.position.x += FX_MulInline(CosFX(index2), xDistanceCircular);
+            }
+            player->objWork.userTimer = -FX_MulInline(SinFX(index270), xDistanceCircular);
+            player->objWork.move.x    = player->objWork.position.x - player->objWork.prevPosition.x;
+            player->objWork.move.y    = player->objWork.position.y - player->objWork.prevPosition.y;
+            player->objWork.move.z    = player->objWork.position.z - player->objWork.prevPosition.z;
+            if (player->objWork.dir.y != 0)
+                return;
+            player->gimmick.tripleGrindRailExit.state++;
+            return;
+        }
+        case TRIPLEGRINDRAILEXIT_STATE_START_WAITING_FOR_LAUNCH: {
+            player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT);
+            player->objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
+            player->objWork.velocity.x = player->gimmick.tripleGrindRailExit.fixedPlayerXVelocity;
+            s32 dividend               = posX + TRIPLEGRINDRAIL_EXIT_DISTANCE_TO_LAUNCH - player->objWork.position.x;
+            player->objWork.userWork   = 120 + FX_DivS32(dividend, player->objWork.velocity.x);
+            player->gimmick.tripleGrindRailExit.state++;
+        }
+            // fallthrough!
+        case TRIPLEGRINDRAILEXIT_STATE_WAIT_FOR_LAUNCH: {
+            if (player->objWork.position.x < (posX + TRIPLEGRINDRAIL_EXIT_DISTANCE_TO_LAUNCH))
+                return;
+            Player__InitPhysics(player);
+            player->objWork.moveFlag =
+                (player->objWork.moveFlag & ~(STAGE_TASK_MOVE_FLAG_DISABLE_FLOW | STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS)) | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+            player->playerFlag &= ~(PLAYER_FLAG_SLOWMO | PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_DISABLE_INPUT_READ);
+            player->gimmickFlag &= ~PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y;
+            player->gimmickCamOffsetY = 0;
+            player->inputLock         = 30;
+            StopStageSfx(&player->seqPlayers[PLAYER_SEQPLAYER_GRIND]);
+            fx32 velocityX = FLOAT_TO_FX32(3.555419921875);
+            fx32 velocityY = FLOAT_TO_FX32(-17.06640625);
+            Player__Action_Spring(player, velocityX, velocityY);
+            player->overSpeedLimitTimer     = 90;
+            player->objWork.gravityStrength = FLOAT_TO_FX32(0.379150390625);
+            player->gimmickFlag &= ~PLAYER_GIMMICK_WANT_GRAVITY_RESET;
+            ObjRect__SetOnDefend(&player->colliders[GAMEOBJECT_COLLIDER_WEAK], Player__OnDefend_Regular);
+            SetStageRingScale(FX_ONE);
+        }
+    }
 }
 
 void Player__Gimmick_WaterRun(Player *player)
