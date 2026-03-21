@@ -9,8 +9,8 @@
 // VARIABLES
 // --------------------
 
-static u16 brokeInstance;
-static u16 activeCount;
+static u16 sBrokeTutorialObj;
+static u16 sActiveInstanceCount;
 
 // --------------------
 // FUNCTIONS
@@ -32,12 +32,12 @@ BreakableObject *BreakableObject__Create(MapObject *mapObject, fx32 x, fx32 y, f
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 6);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_22);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
-    ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
-    ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_VULNERABLE);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_BODY, OBS_RECT_DEFPOWER_VULNERABLE);
 
     ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], BreakableObject__OnDefend);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.collisionObj           = 0;
+    work->gameWork.objWork.collisionObj           = NULL;
     work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
 
@@ -55,7 +55,7 @@ BreakableObject *BreakableObject__Create(MapObject *mapObject, fx32 x, fx32 y, f
         work->gameWork.collisionObject.work.ofst_x = -20;
         work->gameWork.collisionObject.work.ofst_y = -32;
 
-        activeCount++;
+        sActiveInstanceCount++;
         SetTaskDestructorEvent(task, BreakableObject__Destructor);
     }
     else
@@ -124,16 +124,16 @@ void BreakableObject__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_DEST_OBJ);
 
     if (gameState.stageID == STAGE_TUTORIAL)
-        brokeInstance = TRUE;
+        sBrokeTutorialObj = TRUE;
 }
 
 void BreakableObject__Destructor(Task *task)
 {
-    if (activeCount != 0)
-        activeCount--;
+    if (sActiveInstanceCount != 0)
+        sActiveInstanceCount--;
 
-    if (activeCount == 0)
-        brokeInstance = FALSE;
+    if (sActiveInstanceCount == 0)
+        sBrokeTutorialObj = FALSE;
 
     GameObject__Destructor(task);
 }
@@ -142,7 +142,7 @@ NONMATCH_FUNC void BreakableObject__State_Tutorial(BreakableObject *work)
 {
     // https://decomp.me/scratch/7nK2A -> 89.72%
 #ifdef NON_MATCHING
-    if (brokeInstance)
+    if (sBrokeTutorialObj)
     {
         ShakeScreen(SCREENSHAKE_MEDIUM_SHORT);
 
@@ -166,7 +166,7 @@ NONMATCH_FUNC void BreakableObject__State_Tutorial(BreakableObject *work)
     // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
-	ldr r1, =activeCount
+	ldr r1, =sActiveInstanceCount
 	mov r5, r0
 	ldrh r0, [r1, #2]
 	cmp r0, #0

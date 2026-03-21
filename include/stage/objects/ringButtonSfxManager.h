@@ -19,7 +19,7 @@ typedef struct RingButtonSfxManager_
 // VARIABLES
 // --------------------
 
-extern s32 RingButtonSfxManager__timerTable[32];
+extern s32 gRingButtonTimerTable[32];
 
 // --------------------
 // FUNCTIONS

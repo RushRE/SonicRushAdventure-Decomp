@@ -139,17 +139,17 @@ struct VRAMTexturePalBankManager
 // VARUAVKES
 // --------------------
 
-extern u16 objBankShift[2];
-extern u16 objBmpUse256K[2];
+extern u16 gObjBankShift[2];
+extern u16 gObjBmpUse256K[2];
 
 extern struct VRAMOBJExtPalBankManager objExtPalBankManager[2];
 extern struct VRAMOBJBankManager objBankManager[2];
 
-extern struct VRAMBGBankManager bgBankManager[2];
-extern struct VRAMBGExtPalBankManager bgExtPalBankManager[2];
+extern struct VRAMBGBankManager gBgBankManager[2];
+extern struct VRAMBGExtPalBankManager gBgExtPalBankManager[2];
 
-extern struct VRAMTextureBankManager textureBankManager;
-extern struct VRAMTexturePalBankManager texturePalBankManager;
+extern struct VRAMTextureBankManager gTextureBankManager;
+extern struct VRAMTexturePalBankManager gTexturePalBankManager;
 
 // --------------------
 // FUNCTIONS

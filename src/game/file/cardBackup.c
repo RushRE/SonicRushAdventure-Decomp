@@ -19,9 +19,9 @@ typedef u32 CardBackupType;
 // VARIABLES
 // --------------------
 
-static u16 cardLockID;
+static u16 sCardLockID;
 
-static const CARDBackupType backupTypeList[] = { CARD_BACKUP_TYPE_EEPROM_4KBITS, CARD_BACKUP_TYPE_EEPROM_64KBITS, CARD_BACKUP_TYPE_EEPROM_512KBITS, CARD_BACKUP_TYPE_FLASH_2MBITS };
+static const CARDBackupType sBackupTypeList[] = { CARD_BACKUP_TYPE_EEPROM_4KBITS, CARD_BACKUP_TYPE_EEPROM_64KBITS, CARD_BACKUP_TYPE_EEPROM_512KBITS, CARD_BACKUP_TYPE_FLASH_2MBITS };
 
 // --------------------
 // FUNCTION DECLS
@@ -50,7 +50,7 @@ BOOL InitCardBackupSize(void)
 
 BOOL ReadFromCardBackup(size_t src, void *dst, size_t size)
 {
-    u16 lockID = cardLockID;
+    u16 lockID = sCardLockID;
 
     if (CARD_GetBackupTotalSize() <= src + size)
         return FALSE;
@@ -69,7 +69,7 @@ BOOL ReadFromCardBackup(size_t src, void *dst, size_t size)
 
 BOOL WriteToCardBackup(size_t dst, void *src, size_t size)
 {
-    u16 lockID = cardLockID;
+    u16 lockID = sCardLockID;
 
     if (CARD_GetBackupTotalSize() <= dst + size)
         return FALSE;
@@ -93,19 +93,19 @@ BOOL InitCardBackupLockID(void)
     if (lockID == OS_LOCK_ID_ERROR)
         return FALSE;
 
-    cardLockID = lockID;
+    sCardLockID = lockID;
     return TRUE;
 }
 
 BOOL CheckCardBackupType(CardBackupType type)
 {
-    u16 lockID = cardLockID;
+    u16 lockID = sCardLockID;
 
     if (type >= CARDBACKUP_TYPE_COUNT)
         return FALSE;
 
     CARD_LockBackup(lockID);
-    BOOL success = CARD_IdentifyBackup(backupTypeList[type]);
+    BOOL success = CARD_IdentifyBackup(sBackupTypeList[type]);
     CARD_UnlockBackup(lockID);
     return success;
 }

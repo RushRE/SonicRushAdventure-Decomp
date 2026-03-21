@@ -196,7 +196,7 @@ void ExitStageClearSysEvent(void)
 
     if (gmCheckGameMode(GAMEMODE_VS_BATTLE) && (state->gameFlag & GAME_FLAG_10) != 0)
     {
-        EventID eventID = GetSysEventList()->requestedEventID;
+        EventID eventID = GetSysEventManager()->requestedEventID;
         if (eventID != SYSEVENT_VS_MENU && eventID != SYSEVENT_24)
         {
             return;

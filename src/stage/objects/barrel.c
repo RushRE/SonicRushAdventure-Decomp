@@ -54,7 +54,7 @@ static void Barrel_OnDefend_CaptureTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *
 // VARIABLES
 // --------------------
 
-static const s8 offsetTable[] = { 0, 2, 2, -2, -2, -2, 0, -2, 2, 2, -2, 0, 2, 0, -2, -2 };
+static const s8 sOffsetTable[] = { 0, 2, 2, -2, -2, -2, 0, -2, 2, 2, -2, 0, 2, 0, -2, -2 };
 
 // --------------------
 // FUNCTIONS
@@ -179,8 +179,8 @@ void Barrel_State_Sleeping(Barrel *work)
         {
             work->gameWork.objWork.userTimer--;
 
-            work->gameWork.objWork.offset.x = offsetTable[(((playerGameStatus.stageTimer >> 1) & 0x7) * 2) + 0];
-            work->gameWork.objWork.offset.y = offsetTable[(((playerGameStatus.stageTimer >> 1) & 0x7) * 2) + 1];
+            work->gameWork.objWork.offset.x = sOffsetTable[(((playerGameStatus.stageTimer >> 1) & 0x7) * 2) + 0];
+            work->gameWork.objWork.offset.y = sOffsetTable[(((playerGameStatus.stageTimer >> 1) & 0x7) * 2) + 1];
 
             if (work->gameWork.objWork.userTimer <= 0)
                 AnimatorSpriteDS__SetAnimation(&work->aniEyes, BARREL_ANI_EYES_SLEEP);
@@ -330,8 +330,8 @@ void Barrel_State_Close(Barrel *work)
             }
             else
             {
-                work->gameWork.objWork.offset.x = offsetTable[(((playerGameStatus.stageTimer >> 1) & 0x7) * 2) + 0];
-                work->gameWork.objWork.offset.y = offsetTable[(((playerGameStatus.stageTimer >> 1) & 0x7) * 2) + 1];
+                work->gameWork.objWork.offset.x = sOffsetTable[(((playerGameStatus.stageTimer >> 1) & 0x7) * 2) + 0];
+                work->gameWork.objWork.offset.y = sOffsetTable[(((playerGameStatus.stageTimer >> 1) & 0x7) * 2) + 1];
             }
             break;
 

@@ -69,7 +69,7 @@ static void (*getPlayerSpawnConfigForArea[CViDock::AREA_COUNT])(VecFx32 *positio
 };
 */
 
-static const CViDockBackAssetBundle dockBackAssets[1] = { { "bb/vi_dock.bb" } };
+static const CViDockBackAssetBundle sDockBackAssets[1] = { { "bb/vi_dock.bb" } };
 
 // --------------------
 // FUNCTIONS
@@ -279,23 +279,23 @@ void CViDockBack::Init(s32 dockArea, BOOL noAssetRelease, BOOL disableAnimations
             resPatternAnim   = NULL;
             resJointAnimDock = NULL;
 
-            BundleFileUnknown__LoadFileFromBundle(dockBackAssets[0].path, config->resModelDock, this->resModelDock);
+            BundleFileUnknown__LoadFileFromBundle(sDockBackAssets[0].path, config->resModelDock, this->resModelDock);
 
             if (config->resJointAnimDock != CVI3DOBJECT_RESOURCE_NONE)
             {
-                BundleFileUnknown__LoadFileFromBundle(dockBackAssets[0].path, config->resJointAnimDock, this->resJointAnimDock);
+                BundleFileUnknown__LoadFileFromBundle(sDockBackAssets[0].path, config->resJointAnimDock, this->resJointAnimDock);
                 resJointAnimDock = this->resJointAnimDock;
             }
 
             if (config->resTextureAnimDock != CVI3DOBJECT_RESOURCE_NONE)
             {
-                BundleFileUnknown__LoadFileFromBundle(dockBackAssets[0].path, config->resTextureAnimDock, this->resTextureAnim);
+                BundleFileUnknown__LoadFileFromBundle(sDockBackAssets[0].path, config->resTextureAnimDock, this->resTextureAnim);
                 resTextureAnim = this->resTextureAnim;
             }
 
             if (config->resPatternAnimDock != CVI3DOBJECT_RESOURCE_NONE)
             {
-                BundleFileUnknown__LoadFileFromBundle(dockBackAssets[0].path, config->resPatternAnimDock, this->resPatternAnim);
+                BundleFileUnknown__LoadFileFromBundle(sDockBackAssets[0].path, config->resPatternAnimDock, this->resPatternAnim);
                 resPatternAnim = this->resPatternAnim;
             }
 
@@ -330,13 +330,13 @@ void CViDockBack::Init(s32 dockArea, BOOL noAssetRelease, BOOL disableAnimations
         if (config->resModelShip != CVI3DOBJECT_RESOURCE_NONE)
         {
             void *resJointAnim = NULL;
-            BundleFileUnknown__LoadFileFromBundle(dockBackAssets[0].path, config->resModelShip, this->resModelShip);
+            BundleFileUnknown__LoadFileFromBundle(sDockBackAssets[0].path, config->resModelShip, this->resModelShip);
 
             if (disableAnimations == FALSE)
             {
                 if (config->resJointAnimShip != CVI3DOBJECT_RESOURCE_NONE)
                 {
-                    BundleFileUnknown__LoadFileFromBundle(dockBackAssets[0].path, config->resJointAnimShip, this->resJointAnimShip);
+                    BundleFileUnknown__LoadFileFromBundle(sDockBackAssets[0].path, config->resJointAnimShip, this->resJointAnimShip);
                     resJointAnim = this->resJointAnimShip;
                 }
             }

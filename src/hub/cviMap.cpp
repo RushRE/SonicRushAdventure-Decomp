@@ -29,8 +29,8 @@ NOT_DECOMPILED void _ZnwmPv(void);
 // VARIABLES
 // --------------------
 
-Task *mapTaskSingleton;
-Task *mapPaletteAnimationTaskSingleton;
+static Task *sCViMapTaskSingleton;
+static Task *sCViMapPaletteAnimationTaskSingleton;
 
 // --------------------
 // FUNCTIONS
@@ -39,14 +39,14 @@ Task *mapPaletteAnimationTaskSingleton;
 void CViMap::Create(void)
 {
 #ifdef NON_MATCHING
-    mapTaskSingleton = HubTaskCreate(CViMap::Main_Idle, CViMap::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16), CViMap);
+    sCViMapTaskSingleton = HubTaskCreate(CViMap::Main_Idle, CViMap::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16), CViMap);
 #else
     // TODO: use 'HubTaskCreate' when 'CViMap::CreateInternal' matches
-    // mapTaskSingleton = HubTaskCreate(CViMap::Main_Idle, CViMap::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16), CViMap);
-    mapTaskSingleton = CViMap::CreateInternal(CViMap::Main_Idle, CViMap::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16));
+    // sCViMapTaskSingleton = HubTaskCreate(CViMap::Main_Idle, CViMap::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16), CViMap);
+    sCViMapTaskSingleton = CViMap::CreateInternal(CViMap::Main_Idle, CViMap::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1040, TASK_GROUP(16));
 #endif
 
-    CViMap *work          = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work          = TaskGetWork(sCViMapTaskSingleton, CViMap);
     work->mapPos.x        = 0;
     work->mapPos.y        = 0;
     work->mapPrevPos.x    = 0;
@@ -105,41 +105,41 @@ _0215BAE0:
 
 void CViMap::Destroy(void)
 {
-    if (mapTaskSingleton != NULL)
+    if (sCViMapTaskSingleton != NULL)
     {
-        CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+        CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
         UNUSED(work);
 
-        DestroyTask(mapTaskSingleton);
+        DestroyTask(sCViMapTaskSingleton);
 
-        mapTaskSingleton = NULL;
+        sCViMapTaskSingleton = NULL;
     }
 }
 
 void CViMap::SetType(s32 type)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     switch (type)
     {
         case CViMap::TYPE_MAP_ACTIVE:
-            SetTaskMainEvent(mapTaskSingleton, CViMap::Main_Moving);
+            SetTaskMainEvent(sCViMapTaskSingleton, CViMap::Main_Moving);
             break;
 
         case CViMap::TYPE_DOCK_ACTIVE:
-            SetTaskMainEvent(mapTaskSingleton, CViMap::Main_Idle);
+            SetTaskMainEvent(sCViMapTaskSingleton, CViMap::Main_Idle);
             break;
 
         case CViMap::TYPE_CONSTRUCTION_CUTSCENE:
             work->cutsceneState = 6;
-            SetTaskMainEvent(mapTaskSingleton, CViMap::Main_ConstructionCutscene);
+            SetTaskMainEvent(sCViMapTaskSingleton, CViMap::Main_ConstructionCutscene);
             break;
     }
 }
 
 void CViMap::WarpToPosition(u16 x, u16 y)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     work->mapPos.x        = x;
     work->mapPos.y        = y;
@@ -153,7 +153,7 @@ void CViMap::WarpToPosition(u16 x, u16 y)
 
 void CViMap::TravelToPosition(u16 x, u16 y, u16 duration)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     work->mapTargetPos.x  = x;
     work->mapTargetPos.y  = y;
@@ -165,7 +165,7 @@ void CViMap::TravelToPosition(u16 x, u16 y, u16 duration)
 
 void CViMap::GetMapPosition(u16 *x, u16 *y)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     if (x != NULL)
         *x = work->mapPos.x;
@@ -176,14 +176,14 @@ void CViMap::GetMapPosition(u16 *x, u16 *y)
 
 MapArea CViMap::GetMapAreaFromMapIconTouchInput(void)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     return work->mapIcon.GetAreaFromTouchInput();
 }
 
 MapArea CViMap::GetMapAreaFromMapIconMarker(BOOL mustBeIdle)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     if (mustBeIdle && work->mapIcon.IsMoving())
         return MAPAREA_INVALID;
@@ -193,7 +193,7 @@ MapArea CViMap::GetMapAreaFromMapIconMarker(BOOL mustBeIdle)
 
 void CViMap::GoToMapArea(u32 mapArea, BOOL shouldTravel)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     u16 y, x;
     if (shouldTravel)
@@ -236,7 +236,7 @@ MapArea CViMap::GetChosenMapArea(void)
 
 void CViMap::StartShipConstructCutscene(s32 id)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     work->shipConstructionID      = id;
     work->decorConstructionID     = CVIMAP_DECOR_INVALID;
@@ -289,7 +289,7 @@ void CViMap::StartShipConstructCutscene(s32 id)
 
 void CViMap::StartDecorConstructCutscene(s32 id)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     work->shipConstructionID  = CViMap::CONSTRUCT_SHIP_INVALID;
     work->decorConstructionID = id;
@@ -317,7 +317,7 @@ void CViMap::StartDecorConstructCutscene(s32 id)
 
 void CViMap::StartShipUpgradeCutscene(s32 id)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     work->shipConstructionID      = CViMap::CONSTRUCT_SHIP_INVALID;
     work->decorConstructionID     = CVIMAP_DECOR_INVALID;
@@ -370,7 +370,7 @@ void CViMap::StartShipUpgradeCutscene(s32 id)
 
 void CViMap::TravelToConstructionPos(fx32 progress)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     u16 x = 32;
     u16 y = 40;
@@ -425,7 +425,7 @@ void CViMap::TravelToConstructionPos(fx32 progress)
 
 void CViMap::InitMaterialRingAppearConstructCutsceneState(void)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     const CViMapAreaConfig *config;
     if (work->shipConstructionID < CViMap::CONSTRUCT_SHIP_COUNT)
@@ -442,7 +442,7 @@ void CViMap::InitMaterialRingAppearConstructCutsceneState(void)
 
 BOOL CViMap::CheckMaterialRingAppearStateDone(void)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     u32 duration;
     if (work->shipConstructionID < CViMap::CONSTRUCT_SHIP_COUNT)
@@ -455,7 +455,7 @@ BOOL CViMap::CheckMaterialRingAppearStateDone(void)
 
 void CViMap::InitMaterialRingShrinkConstructCutsceneState(void)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     work->cutsceneState = 3;
     work->cutsceneTimer = 0;
@@ -463,14 +463,14 @@ void CViMap::InitMaterialRingShrinkConstructCutsceneState(void)
 
 BOOL CViMap::CheckMaterialRingShrinkStateDone(void)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     return work->cutsceneTimer >= 80;
 }
 
 void CViMap::AddDockToMap(u16 id)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     CViMap::InitDecorations(work);
 
@@ -482,7 +482,7 @@ void CViMap::AddDockToMap(u16 id)
 
 void CViMap::AddDecorationToMap(u16 id)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     const u16 *value = HubConfig__GetMapBackDecorID(id);
     if (HubConfig__CheckDecorConstructionIsBackground(id))
@@ -505,7 +505,7 @@ void CViMap::AddDecorationToMap(u16 id)
 
 void CViMap::InitShipBuiltConstructCutsceneState(u16 id)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     ReleaseHubBGCircleEffect(&work->bgCircleEffect);
     HubControl::InitEngineBForConstructionFinishedCutscene();
@@ -523,7 +523,7 @@ void CViMap::InitShipBuiltConstructCutsceneState(u16 id)
 
 void CViMap::InitDecorBuiltConstructCutsceneState(void)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     ReleaseHubBGCircleEffect(&work->bgCircleEffect);
     HubControl::InitEngineBForConstructionFinishedCutscene();
@@ -553,7 +553,7 @@ void CViMap::InitDecorBuiltConstructCutsceneState(void)
 
 void CViMap::InitShipUpgradedConstructCutsceneState(u16 id)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     ReleaseHubBGCircleEffect(&work->bgCircleEffect);
     HubControl::InitEngineBForConstructionFinishedCutscene();
@@ -571,7 +571,7 @@ void CViMap::InitShipUpgradedConstructCutsceneState(u16 id)
 
 void CViMap::InitAllFinishedConstructCutsceneState(void)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     CViMap::ReleaseUnknown2056FDC(work);
     work->cutsceneState = 6;
@@ -584,21 +584,21 @@ void CViMap::InitAllFinishedConstructCutsceneState(void)
 
 void CViMap::InitMapIcons(void)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     work->mapIcon.InitIcons();
 }
 
 void CViMap::EnableMapIcons(BOOL enabled)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     work->mapIcon.Configure(CViMapIcon::FLAG_SHOW_ISLAND_ICONS, enabled);
 }
 
 void CViMap::DrawMapCursor(s16 x, s16 y)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
 
     work->mapIcon.DrawCursor(x, y);
 }
@@ -607,10 +607,10 @@ void CViMapPaletteAnimation::Create()
 {
     CViMapPaletteAnimation::Destroy();
 
-    mapPaletteAnimationTaskSingleton = TaskCreate(CViMapPaletteAnimation::Main, CViMapPaletteAnimation::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1041,
+    sCViMapPaletteAnimationTaskSingleton = TaskCreate(CViMapPaletteAnimation::Main, CViMapPaletteAnimation::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1041,
                                                   TASK_GROUP(16), CViMapPaletteAnimation);
 
-    CViMapPaletteAnimation *work = TaskGetWork(mapPaletteAnimationTaskSingleton, CViMapPaletteAnimation);
+    CViMapPaletteAnimation *work = TaskGetWork(sCViMapPaletteAnimationTaskSingleton, CViMapPaletteAnimation);
 
     work->aniPaletteFile = FSRequestFileSync("bpa/vi_map.bpa", FSREQ_AUTO_ALLOC_HEAD);
     for (s32 i = 0; i < 3; i++)
@@ -621,16 +621,16 @@ void CViMapPaletteAnimation::Create()
 
 void CViMapPaletteAnimation::Destroy()
 {
-    if (mapPaletteAnimationTaskSingleton != NULL)
+    if (sCViMapPaletteAnimationTaskSingleton != NULL)
     {
-        DestroyTask(mapPaletteAnimationTaskSingleton);
-        mapPaletteAnimationTaskSingleton = NULL;
+        DestroyTask(sCViMapPaletteAnimationTaskSingleton);
+        sCViMapPaletteAnimationTaskSingleton = NULL;
     }
 }
 
 AnimatorSprite *CViMap::GetMaterialIconAnimator(u16 id)
 {
-    CViMap *work = TaskGetWork(mapTaskSingleton, CViMap);
+    CViMap *work = TaskGetWork(sCViMapTaskSingleton, CViMap);
     return &work->aniMaterialIcon[id];
 }
 
@@ -919,7 +919,7 @@ void CViMap::Destructor(Task *task)
     // HubTaskDestroy<CViMap>(task);
     CViMap::DestructorInternal(task);
 
-    mapTaskSingleton = NULL;
+    sCViMapTaskSingleton = NULL;
 }
 
 // TODO: should match when destructors are decompiled for 'CViMapIcon' & 'CViMapBack'
@@ -977,7 +977,7 @@ void CViMapPaletteAnimation::Destructor(Task *task)
         work->aniPaletteFile = NULL;
     }
 
-    mapPaletteAnimationTaskSingleton = NULL;
+    sCViMapPaletteAnimationTaskSingleton = NULL;
 }
 
 void CViMap::WarpToIconPosition(CViMap *work)

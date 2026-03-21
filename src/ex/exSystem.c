@@ -25,26 +25,26 @@
 
 struct TEMP_STATIC_VARS
 {
-    u8 exSysTask__lives;
+    u8 sLives;
 
-    exSysTask *exSysTask__Singleton;
-    Task *exSysTask__TaskSingleton;
+    exSysTask *sExSysTaskWorkSingleton;
+    Task *sExSysTaskSingleton;
 
-    BOOL exStageFinished;
-    BOOL exStageWillExit;
-    ExSysTaskStatus exSysTaskStatus;
+    BOOL sStageFinished;
+    BOOL sStageWillExist;
+    ExSysTaskStatus sStatus;
 };
 
 NOT_DECOMPILED struct TEMP_STATIC_VARS exSysTask__sVars;
 
-// NOT_DECOMPILED u8 exSysTask__lives;
+// NOT_DECOMPILED u8 sLives;
 
-// NOT_DECOMPILED exSysTask *exSysTask__Singleton;
-// NOT_DECOMPILED Task *exSysTask__TaskSingleton;
+// NOT_DECOMPILED exSysTask *sExSysTaskWorkSingleton;
+// NOT_DECOMPILED Task *sExSysTaskSingleton;
 
-// NOT_DECOMPILED BOOL exStageFinished;
-// NOT_DECOMPILED BOOL exStageWillExit;
-// NOT_DECOMPILED ExSysTaskStatus exSysTaskStatus;
+// NOT_DECOMPILED BOOL sStageFinished;
+// NOT_DECOMPILED BOOL sStageWillExist;
+// NOT_DECOMPILED ExSysTaskStatus sStatus;
 
 // --------------------
 // FUNCTION DECLS
@@ -79,26 +79,26 @@ static void SetupExSystemDisplay(exSysTask *work);
 
 s32 GetExSystemLifeCount(void)
 {
-    return exSysTask__sVars.exSysTask__lives;
+    return exSysTask__sVars.sLives;
 }
 
 void LoseExSystemLife(void)
 {
-    exSysTask__sVars.exSysTask__lives--;
+    exSysTask__sVars.sLives--;
 }
 
 NONMATCH_FUNC void InitExSystemStatus(void)
 {
     // https://decomp.me/scratch/BA0pP -> 68.79%
 #ifdef NON_MATCHING
-    exSysTask__sVars.exSysTaskStatus.finishMode    = EXFINISHMODE_RUNNING;
-    exSysTask__sVars.exSysTaskStatus.state         = EXSYSTASK_STATE_STARTED;
-    exSysTask__sVars.exSysTaskStatus.rings         = 50;
-    exSysTask__sVars.exSysTaskStatus.difficulty    = saveGame.stage.status.difficulty != DIFFICULTY_EASY ? EXSYS_DIFFICULTY_NORMAL : EXSYS_DIFFICULTY_EASY;
-    exSysTask__sVars.exSysTaskStatus.timeLimitMode = saveGame.stage.status.timeLimit != FALSE ? EXSYS_TIMELIMIT_ON : EXSYS_TIMELIMIT_OFF;
+    exSysTask__sVars.sStatus.finishMode    = EXFINISHMODE_RUNNING;
+    exSysTask__sVars.sStatus.state         = EXSYSTASK_STATE_STARTED;
+    exSysTask__sVars.sStatus.rings         = 50;
+    exSysTask__sVars.sStatus.difficulty    = saveGame.stage.status.difficulty != DIFFICULTY_EASY ? EXSYS_DIFFICULTY_NORMAL : EXSYS_DIFFICULTY_EASY;
+    exSysTask__sVars.sStatus.timeLimitMode = saveGame.stage.status.timeLimit != FALSE ? EXSYS_TIMELIMIT_ON : EXSYS_TIMELIMIT_OFF;
 
-    exSysTask__sVars.exSysTaskStatus.lives = GetExSystemLifeCount();
-    MI_CpuClear8(&exSysTask__sVars.exSysTaskStatus.time, sizeof(exSysTask__sVars.exSysTaskStatus.time));
+    exSysTask__sVars.sStatus.lives = GetExSystemLifeCount();
+    MI_CpuClear8(&exSysTask__sVars.sStatus.time, sizeof(exSysTask__sVars.sStatus.time));
 #else
     // clang-format off
 	stmdb sp!, {r3, lr}
@@ -138,20 +138,20 @@ NONMATCH_FUNC void InitExSystemStatus(void)
 
 ExSysTaskStatus *GetExSystemStatus(void)
 {
-    return &exSysTask__sVars.exSysTaskStatus;
+    return &exSysTask__sVars.sStatus;
 }
 
 BOOL CheckExStageFinished(void)
 {
-    return exSysTask__sVars.exStageFinished;
+    return exSysTask__sVars.sStageFinished;
 }
 
 void ExSystem_Main_Init(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
-    exSysTask__sVars.exSysTask__lives         = saveGame.stage.status.lives;
-    exSysTask__sVars.exSysTask__TaskSingleton = GetCurrentTask();
+    exSysTask__sVars.sLives         = saveGame.stage.status.lives;
+    exSysTask__sVars.sExSysTaskSingleton = GetCurrentTask();
 
     LoadExSystemAssets(work);
     SetupExSystemDisplay(work);
@@ -212,8 +212,8 @@ void ExSystem_Destructor(void)
     ReleaseAudioSystem();
     NNS_G3dGeUseFastDma(FALSE);
 
-    exSysTask__sVars.exSysTask__TaskSingleton = NULL;
-    exSysTask__sVars.exSysTask__Singleton     = NULL;
+    exSysTask__sVars.sExSysTaskSingleton = NULL;
+    exSysTask__sVars.sExSysTaskWorkSingleton     = NULL;
 }
 
 void ExSystem_Main_WaitForStageStarted(void)
@@ -339,7 +339,7 @@ void ExSystem_Main_ExitFadeOut(void)
 
     if (work->timer-- <= 0)
     {
-        exSysTask__sVars.exStageFinished = TRUE;
+        exSysTask__sVars.sStageFinished = TRUE;
         work->timer                      = 5;
 
         SetCurrentExTaskMainEvent(ExSystem_Main_DoStageExit);
@@ -370,7 +370,7 @@ void ExSystem_Main_StageCleared(void)
 
     if (work->timer-- <= 0)
     {
-        exSysTask__sVars.exStageFinished = TRUE;
+        exSysTask__sVars.sStageFinished = TRUE;
         work->timer                      = 5;
 
         SetCurrentExTaskMainEvent(ExSystem_Main_DoStageExit);
@@ -405,7 +405,7 @@ void ExSystem_Main_DeathFadeOut(void)
 
     if (work->timer-- <= 0)
     {
-        exSysTask__sVars.exStageFinished = TRUE;
+        exSysTask__sVars.sStageFinished = TRUE;
 
         if (GetExSystemStatus()->finishMode == EXFINISHMODE_GAME_OVER)
         {
@@ -433,7 +433,7 @@ void ExSystem_Main_StageRestartDelay(void)
     {
         DestroyExHUD();
         DestroyExGameSystem();
-        exSysTask__sVars.exStageFinished = FALSE;
+        exSysTask__sVars.sStageFinished = FALSE;
         work->timer                      = 15;
 
         SetCurrentExTaskMainEvent(ExSystem_Main_DoStageRestart);
@@ -448,7 +448,7 @@ void ExSystem_Main_DoStageRestart(void)
 
     if (work->timer-- <= 0)
     {
-        exSysTask__sVars.exStageWillExit = FALSE;
+        exSysTask__sVars.sStageWillExist = FALSE;
 
         InitExSystemStatus();
         CreateExDrawReqTask();
@@ -476,7 +476,7 @@ void ExSystem_Main_DoStageExit(void)
     {
         DestroyExHUD();
         DestroyExGameSystem();
-        exSysTask__sVars.exStageWillExit = TRUE;
+        exSysTask__sVars.sStageWillExist = TRUE;
         SetCurrentExTaskMainEvent(ExSystem_Main_EndStage);
 
         RunCurrentExTaskOnCheckStageFinishedEvent();
@@ -497,8 +497,8 @@ void CreateExSystem(void)
 {
     Task *task = ExTaskCreate(ExSystem_Main_Init, ExSystem_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(1), 0, EXTASK_TYPE_ALWAYSUPDATE, exSysTask);
 
-    exSysTask__sVars.exSysTask__Singleton = ExTaskGetWork(task, exSysTask);
-    TaskInitWork8(exSysTask__sVars.exSysTask__Singleton);
+    exSysTask__sVars.sExSysTaskWorkSingleton = ExTaskGetWork(task, exSysTask);
+    TaskInitWork8(exSysTask__sVars.sExSysTaskWorkSingleton);
 
     SetExTaskOnCheckStageFinishedEvent(task, ExSystem_OnCheckStageFinished);
 }
@@ -507,7 +507,7 @@ void *LoadExSystemFile(u16 id)
 {
     NNSFndArchive arc;
 
-    NNS_FndMountArchive(&arc, "ex", exSysTask__sVars.exSysTask__Singleton->archiveCommon);
+    NNS_FndMountArchive(&arc, "ex", exSysTask__sVars.sExSysTaskWorkSingleton->archiveCommon);
     void *memory = NNS_FndGetArchiveFileByIndex(&arc, id);
     NNS_FndUnmountArchive(&arc);
 
@@ -516,7 +516,7 @@ void *LoadExSystemFile(u16 id)
 
 void *GetExSystemDrawState(void)
 {
-    return exSysTask__sVars.exSysTask__Singleton->drawState;
+    return exSysTask__sVars.sExSysTaskWorkSingleton->drawState;
 }
 
 void LoadExSystemAssets(exSysTask *work)
@@ -538,7 +538,7 @@ void LoadExSystemAssets(exSysTask *work)
             break;
     }
 
-    work->sndArc = NNS_SndHeapAlloc(audioManagerSndHeap, 0x57800, NULL, 0, 0);
+    work->sndArc = NNS_SndHeapAlloc(gAudioManagerSndHeap, 0x57800, NULL, 0, 0);
     FSRequestFileSync("/extra/sound_data.sdat", work->sndArc);
     InitAudioSystemForStage(work->sndArc);
 }

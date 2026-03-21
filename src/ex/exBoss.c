@@ -17,7 +17,7 @@
 // --------------------
 
 // basically a re-implementation of 'SetExTaskMainEvent' since the compiler doesn't want an inline function.
-#define EXBOSS_SET_EXTASK_MAIN_EVENT(eventFunc) (GetExTask(exBossTaskSingleton)->main = (eventFunc))
+#define EXBOSS_SET_EXTASK_MAIN_EVENT(eventFunc) (GetExTask(sExBossTaskSingleton)->main = (eventFunc))
 
 // --------------------
 // ENUMS
@@ -100,17 +100,17 @@ static void HandleExBossMovementY(void);
 // VARIABLES
 // --------------------
 
-static s16 exBossRegenerateTimer;
-static void *exBossUnused;
-static void *exBossWorkSingleton;
-static void *exBossBeforeTaskSingleton;
-static void *exBossTaskSingleton;
-static BOOL exBossFightStarted;
+static s16 sExBossRegenerateTimer;
+static void *sExBossUnused;
+static void *sExBossWorkSingleton;
+static void *sExBossBeforeTaskSingleton;
+static void *sExBossTaskSingleton;
+static BOOL sExBossFightStarted;
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(exBossUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sExBossUnused)
 
-static ExTaskMain exBossAttackFuncTable[EXBOSS_ATTACK_COUNT] = {
+static ExTaskMain sExBossAttackFuncTable[EXBOSS_ATTACK_COUNT] = {
     [EXBOSS_ATTACK_IDLE_DRAGON_ONLY]                          = ExBoss_Action_Idle_DragonOnly,
     [EXBOSS_ATTACK_IDLE_METEOR_FIREBALL]                      = ExBoss_Action_Idle_MeteorFireball,
     [EXBOSS_ATTACK_IDLE_WAIT_DRAGON_ONLY]                     = ExBoss_Action_Idle_Wait_DragonOnly,
@@ -138,33 +138,33 @@ static ExTaskMain exBossAttackFuncTable[EXBOSS_ATTACK_COUNT] = {
 
 exBossSysAdminTask *GetExBossWork(void)
 {
-    return exBossWorkSingleton;
+    return sExBossWorkSingleton;
 }
 
 BOOL GetExBossFightStarted(void)
 {
-    return exBossFightStarted;
+    return sExBossFightStarted;
 }
 
 void SetExBossFightStarted(BOOL hasStarted)
 {
-    exBossFightStarted = hasStarted;
+    sExBossFightStarted = hasStarted;
 }
 
 void ExBoss_Main_Init(void)
 {
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
 
-    exBossTaskSingleton = GetCurrentTask();
-    exBossWorkSingleton = work;
+    sExBossTaskSingleton = GetCurrentTask();
+    sExBossWorkSingleton = work;
 
     work->maxHealth = EXBOSS_HEALTH_NONE;
 
     SetExBossFightStarted(TRUE);
     CreateExBossEarlyManager();
 
-    work->stateAttack     = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_DRAGON_ONLY];
-    work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_DRAGON_ONLY];
+    work->stateAttack     = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_DRAGON_ONLY];
+    work->nextAttackState = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_DRAGON_ONLY];
 
     LoadExBossAssets(&work->aniBoss);
     SetExDrawRequestPriority(&work->aniBoss.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -211,7 +211,7 @@ void ExBoss_Destructor(void)
 
     ReleaseExBossAssets(&work->aniBoss);
 
-    exBossTaskSingleton = NULL;
+    sExBossTaskSingleton = NULL;
 }
 
 void ExBoss_Main_WaitForTitleCard(void)
@@ -307,10 +307,10 @@ void ExBoss_Main_RegenerateHealth(void)
     AnimateExDrawRequestModel(&work->aniBoss);
     HandleExBossMovement();
 
-    if (exBossRegenerateTimer < (EXBOSS_HEALTH_MAX - 1))
+    if (sExBossRegenerateTimer < (EXBOSS_HEALTH_MAX - 1))
     {
-        exBossRegenerateTimer++;
-        GetExBossWork()->health = exBossRegenerateTimer;
+        sExBossRegenerateTimer++;
+        GetExBossWork()->health = sExBossRegenerateTimer;
     }
     else
     {
@@ -318,7 +318,7 @@ void ExBoss_Main_RegenerateHealth(void)
 
         if (work->aniBoss.model.translation.y <= FLOAT_TO_FX32(110.0))
         {
-            exBossRegenerateTimer      = EXBOSS_HEALTH_NONE;
+            sExBossRegenerateTimer      = EXBOSS_HEALTH_NONE;
             GetExSystemStatus()->state = EXSYSTASK_STATE_BOSS_FLEE_DONE;
             GetExBossIdleDuration();
 
@@ -361,7 +361,7 @@ void ExBoss_Main_Idle_DragonOnly(void)
         {
             s32 attackPercent = mtMathRand() % 100;
 
-            work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_METEOR_FIREBALL];
+            work->nextAttackState = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_METEOR_FIREBALL];
 
             switch (GetExPlayerWorker()->playerFlags.characterID)
             {
@@ -435,7 +435,7 @@ void ExBoss_Main_Idle_MeteorFireball(void)
     {
         s32 attackPercent = mtMathRand() % 100;
 
-        work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_DRAGON_ONLY];
+        work->nextAttackState = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_DRAGON_ONLY];
 
         switch (GetExPlayerWorker()->playerFlags.characterID)
         {
@@ -499,7 +499,7 @@ void ExBoss_Main_Idle_Wait_DragonOnly(void)
         s32 attackPercent = mtMathRand() % 100;
         UNUSED(attackPercent);
 
-        work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_DRAGON_ONLY];
+        work->nextAttackState = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_DRAGON_ONLY];
 
         switch (GetExPlayerWorker()->playerFlags.characterID)
         {
@@ -553,7 +553,7 @@ void ExBoss_Main_Idle_HomingLaserDragon(void)
         {
             s32 attackPercent = mtMathRand() % 100;
 
-            work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_METOR_FIREBALL_MAGMAWAVE];
+            work->nextAttackState = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_METOR_FIREBALL_MAGMAWAVE];
 
             switch (GetExPlayerWorker()->playerFlags.characterID)
             {
@@ -623,7 +623,7 @@ void ExBoss_Main_Idle_MeteorFireballMagmaWave(void)
     {
         s32 attackPercent = mtMathRand() % 100;
 
-        work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_WAIT_HOMINGLASER_DRAGON];
+        work->nextAttackState = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_WAIT_HOMINGLASER_DRAGON];
 
         switch (GetExPlayerWorker()->playerFlags.characterID)
         {
@@ -695,7 +695,7 @@ void ExBoss_Main_Idle_Wait_HomingLaserDragon(void)
         s32 attackPercent = mtMathRand() % 100;
         UNUSED(attackPercent);
 
-        work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_HOMINGLASER_DRAGON];
+        work->nextAttackState = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_HOMINGLASER_DRAGON];
 
         switch (GetExPlayerWorker()->playerFlags.characterID)
         {
@@ -749,7 +749,7 @@ void ExBoss_Main_Idle_HomingLaserDragon_Phase3(void)
         {
             s32 attackPercent = mtMathRand() % 100;
 
-            work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_METOR_FIREBALL_MAGMAWAVE_LINEMISSILE];
+            work->nextAttackState = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_METOR_FIREBALL_MAGMAWAVE_LINEMISSILE];
 
             switch (GetExPlayerWorker()->playerFlags.characterID)
             {
@@ -819,7 +819,7 @@ void ExBoss_Main_Idle_MeteorFireballMagmaWaveLineMissile(void)
     {
         s32 attackPercent = mtMathRand() % 100;
 
-        work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_WAIT_HOMINGLASER_DRAGON_PHASE3];
+        work->nextAttackState = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_WAIT_HOMINGLASER_DRAGON_PHASE3];
 
         switch (GetExPlayerWorker()->playerFlags.characterID)
         {
@@ -899,7 +899,7 @@ void ExBoss_Main_Idle_Wait_HomingLaserDragon_Phase3(void)
         s32 attackPercent = mtMathRand() % 100;
         UNUSED(attackPercent);
 
-        work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_HOMINGLASER_DRAGON_PHASE3];
+        work->nextAttackState = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_HOMINGLASER_DRAGON_PHASE3];
 
         switch (GetExPlayerWorker()->playerFlags.characterID)
         {
@@ -969,20 +969,20 @@ BOOL CreateExBoss(void)
 
 Task *GetExBossTask(void)
 {
-    return exBossTaskSingleton;
+    return sExBossTaskSingleton;
 }
 
 void DestroyExBoss(void)
 {
-    if (exBossTaskSingleton != NULL)
-        DestroyExTask(exBossTaskSingleton);
+    if (sExBossTaskSingleton != NULL)
+        DestroyExTask(sExBossTaskSingleton);
 }
 
 void ExBossEarlyManager_Main_Init(void)
 {
-    exBossSysAdminTask *work = ExTaskGetWork(exBossTaskSingleton, exBossSysAdminTask);
+    exBossSysAdminTask *work = ExTaskGetWork(sExBossTaskSingleton, exBossSysAdminTask);
 
-    exBossBeforeTaskSingleton = GetCurrentTask();
+    sExBossBeforeTaskSingleton = GetCurrentTask();
 
     SetCurrentExTaskMainEvent(ExBossEarlyManager_Main_PickNextAttack);
     ExBossEarlyManager_Main_PickNextAttack();
@@ -999,14 +999,14 @@ void ExBossEarlyManager_Destructor(void)
     exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
     UNUSED(work);
 
-    exBossBeforeTaskSingleton = NULL;
+    sExBossBeforeTaskSingleton = NULL;
 }
 
 void ExBossEarlyManager_Main_PickNextAttack(void)
 {
     s16 i;
 
-    exBossSysAdminTask *work = ExTaskGetWork(exBossTaskSingleton, exBossSysAdminTask);
+    exBossSysAdminTask *work = ExTaskGetWork(sExBossTaskSingleton, exBossSysAdminTask);
 
     if (work->flags.isAttackReady)
     {
@@ -1024,7 +1024,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
         {
             work->attackFlags.doMeteor = FALSE;
 
-            work->stateAttack = exBossAttackFuncTable[EXBOSS_ATTACK_METEOR];
+            work->stateAttack = sExBossAttackFuncTable[EXBOSS_ATTACK_METEOR];
             EXBOSS_SET_EXTASK_MAIN_EVENT(work->stateAttack);
 
             work->flags.isAttackReady = FALSE;
@@ -1035,7 +1035,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
         {
             work->attackFlags.doFireball = FALSE;
 
-            work->stateAttack = exBossAttackFuncTable[EXBOSS_ATTACK_FIREBALL];
+            work->stateAttack = sExBossAttackFuncTable[EXBOSS_ATTACK_FIREBALL];
             EXBOSS_SET_EXTASK_MAIN_EVENT(work->stateAttack);
 
             work->flags.isAttackReady = FALSE;
@@ -1046,7 +1046,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
         {
             work->attackFlags.doHomingLaser = FALSE;
 
-            work->stateAttack = exBossAttackFuncTable[EXBOSS_ATTACK_HOMING_LASER];
+            work->stateAttack = sExBossAttackFuncTable[EXBOSS_ATTACK_HOMING_LASER];
             EXBOSS_SET_EXTASK_MAIN_EVENT(work->stateAttack);
 
             work->flags.isAttackReady = FALSE;
@@ -1057,7 +1057,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
         {
             work->attackFlags.doDragon = FALSE;
 
-            work->stateAttack = exBossAttackFuncTable[EXBOSS_ATTACK_DRAGON];
+            work->stateAttack = sExBossAttackFuncTable[EXBOSS_ATTACK_DRAGON];
             EXBOSS_SET_EXTASK_MAIN_EVENT(work->stateAttack);
 
             work->flags.isAttackReady = FALSE;
@@ -1068,7 +1068,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
         {
             work->attackFlags.doMagmaWave = FALSE;
 
-            work->stateAttack = exBossAttackFuncTable[EXBOSS_ATTACK_MAGMA_WAVE];
+            work->stateAttack = sExBossAttackFuncTable[EXBOSS_ATTACK_MAGMA_WAVE];
             EXBOSS_SET_EXTASK_MAIN_EVENT(work->stateAttack);
 
             work->flags.isAttackReady = FALSE;
@@ -1079,7 +1079,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
         {
             work->attackFlags.doLineMissile = FALSE;
 
-            work->stateAttack = exBossAttackFuncTable[EXBOSS_ATTACK_LINE_MISSILE];
+            work->stateAttack = sExBossAttackFuncTable[EXBOSS_ATTACK_LINE_MISSILE];
             EXBOSS_SET_EXTASK_MAIN_EVENT(work->stateAttack);
 
             work->flags.isAttackReady = FALSE;
@@ -1116,8 +1116,8 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
                     work->health               = EXBOSS_HEALTH_CRITICAL;
                     GetExSystemStatus()->state = EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED;
 
-                    work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_HOMINGLASER_DRAGON];
-                    work->stateAttack     = exBossAttackFuncTable[EXBOSS_ATTACK_BEAT_PHASE1];
+                    work->nextAttackState = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_HOMINGLASER_DRAGON];
+                    work->stateAttack     = sExBossAttackFuncTable[EXBOSS_ATTACK_BEAT_PHASE1];
                     EXBOSS_SET_EXTASK_MAIN_EVENT(work->stateAttack);
 
                     work->flags.isAttackReady = FALSE;
@@ -1143,8 +1143,8 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
                     work->health               = EXBOSS_HEALTH_CRITICAL;
                     GetExSystemStatus()->state = EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED;
 
-                    work->nextAttackState = exBossAttackFuncTable[EXBOSS_ATTACK_IDLE_HOMINGLASER_DRAGON_PHASE3];
-                    work->stateAttack     = exBossAttackFuncTable[EXBOSS_ATTACK_BEAT_PHASE2];
+                    work->nextAttackState = sExBossAttackFuncTable[EXBOSS_ATTACK_IDLE_HOMINGLASER_DRAGON_PHASE3];
+                    work->stateAttack     = sExBossAttackFuncTable[EXBOSS_ATTACK_BEAT_PHASE2];
                     EXBOSS_SET_EXTASK_MAIN_EVENT(work->stateAttack);
 
                     work->flags.isAttackReady = FALSE;
@@ -1164,7 +1164,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
                     work->health               = EXBOSS_HEALTH_NONE;
                     GetExSystemStatus()->state = EXSYSTASK_STATE_STAGE_FINISHED;
 
-                    work->stateAttack = exBossAttackFuncTable[EXBOSS_ATTACK_DEFEATED];
+                    work->stateAttack = sExBossAttackFuncTable[EXBOSS_ATTACK_DEFEATED];
                     EXBOSS_SET_EXTASK_MAIN_EVENT(work->stateAttack);
 
                     work->flags.isAttackReady = FALSE;
@@ -1198,7 +1198,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
             {
                 PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_BIGDAMAGE);
 
-                work->stateAttack = exBossAttackFuncTable[EXBOSS_ATTACK_HURT];
+                work->stateAttack = sExBossAttackFuncTable[EXBOSS_ATTACK_HURT];
                 EXBOSS_SET_EXTASK_MAIN_EVENT(work->stateAttack);
 
                 work->flags.isAttackReady = FALSE;
@@ -1251,7 +1251,7 @@ void ExBossEarlyManager_Main_PickNextAttack(void)
 
 void ExBossEarlyManager_Main_WaitForAttack(void)
 {
-    exBossSysAdminTask *work = ExTaskGetWork(exBossTaskSingleton, exBossSysAdminTask);
+    exBossSysAdminTask *work = ExTaskGetWork(sExBossTaskSingleton, exBossSysAdminTask);
 
     if (work->flags.isAttackReady)
         SetCurrentExTaskMainEvent(ExBossEarlyManager_Main_PickNextAttack);
@@ -1261,7 +1261,7 @@ void ExBossEarlyManager_Main_WaitForAttack(void)
 
 BOOL CreateExBossEarlyManager(void)
 {
-    // NOTE: this allocates a task work struct 'exBossSysAdminBiforTask', which is never used!
+    // BUG: this allocates a task work struct 'exBossSysAdminBiforTask', which is never used!
     // this could likely be optimized to not create any struct, instead of using the 'exBossSysAdminTask' work size
     Task *task = ExTaskCreate(ExBossEarlyManager_Main_Init, ExBossEarlyManager_Destructor, TASK_PRIORITY_UPDATE_LIST_START + (0x3800 - 1), TASK_GROUP(5), 0, EXTASK_TYPE_REGULAR,
                               exBossSysAdminBiforTask);
@@ -1276,7 +1276,7 @@ BOOL CreateExBossEarlyManager(void)
 
 void HandleExBossMovement(void)
 {
-    exBossSysAdminTask *work = ExTaskGetWork(exBossTaskSingleton, exBossSysAdminTask);
+    exBossSysAdminTask *work = ExTaskGetWork(sExBossTaskSingleton, exBossSysAdminTask);
 
     if (work->moveDuration <= 0)
     {
@@ -1332,7 +1332,7 @@ void HandleExBossMovement(void)
 
 void HandleExBossMovementX(void)
 {
-    exBossSysAdminTask *work = ExTaskGetWork(exBossTaskSingleton, exBossSysAdminTask);
+    exBossSysAdminTask *work = ExTaskGetWork(sExBossTaskSingleton, exBossSysAdminTask);
 
     if (work->moveFlags.left)
     {
@@ -1362,7 +1362,7 @@ void HandleExBossMovementX(void)
 
 void HandleExBossMovementY(void)
 {
-    exBossSysAdminTask *work = ExTaskGetWork(exBossTaskSingleton, exBossSysAdminTask);
+    exBossSysAdminTask *work = ExTaskGetWork(sExBossTaskSingleton, exBossSysAdminTask);
 
     if (work->moveFlags.up)
     {

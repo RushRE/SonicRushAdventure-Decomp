@@ -11,9 +11,9 @@
 // VARIABLES
 // --------------------
 
-char archiveNameBuffer[0x40];
+static char sArchiveNameBuffer[0x40];
 
-u16 (*getSpriteGfxSize[])(void *filePtr) = { Sprite__GetSpriteSize1, Sprite__GetSpriteSize2, Sprite__GetSpriteSize3, Sprite__GetSpriteSize4 };
+u16 (*gGetSpriteGfxSize[])(void *filePtr) = { Sprite__GetSpriteSize1, Sprite__GetSpriteSize2, Sprite__GetSpriteSize3, Sprite__GetSpriteSize4 };
 
 // --------------------
 // FUNCTIONS
@@ -23,11 +23,11 @@ void *ObjDataSearchArchive(const char *path, NNSiFndArchiveHeader *archivePtr)
 {
     NNSFndArchive archive;
 
-    STD_CopyString(archiveNameBuffer, "obj:");
-    STD_ConcatenateString(archiveNameBuffer, path);
+    STD_CopyString(sArchiveNameBuffer, "obj:");
+    STD_ConcatenateString(sArchiveNameBuffer, path);
 
     NNS_FndMountArchive(&archive, "obj", archivePtr);
-    void *fileData = NNS_FndGetArchiveFileByName(archiveNameBuffer);
+    void *fileData = NNS_FndGetArchiveFileByName(sArchiveNameBuffer);
     NNS_FndUnmountArchive(&archive);
 
     return fileData;
@@ -171,10 +171,10 @@ void ObjActionLoadArchiveFile(OBS_DATA_WORK *work, const char *path, NNSiFndArch
     NNS_FndMountArchive(&arc, "obj", archive);
 
     void *fileData = ObjDataLoad(work, path, archive);
-    STD_CopyString(archiveNameBuffer, "obj:");
-    STD_ConcatenateString(archiveNameBuffer, path);
+    STD_CopyString(sArchiveNameBuffer, "obj:");
+    STD_ConcatenateString(sArchiveNameBuffer, path);
 
-    u32 fileSize   = FSRequestFileSize(archiveNameBuffer);
+    u32 fileSize   = FSRequestFileSize(sArchiveNameBuffer);
     work->fileData = HeapAllocHead(HEAP_USER, fileSize);
     work->referenceCount &= ~OBJDATA_FLAG_USES_ARCHIVE;
     MI_CpuCopy32(fileData, work->fileData, fileSize);
@@ -227,7 +227,7 @@ void ObjAction2dBACLoad(AnimatorSpriteDS *work, const char *path, u16 gfxSize, O
     if (gfxSize != OBJ_DATA_GFX_NONE)
     {
         if (gfxSize == OBJ_DATA_GFX_AUTO)
-            gfxSize = getSpriteGfxSize[g_obj.spriteMode](fileData);
+            gfxSize = gGetSpriteGfxSize[g_obj.spriteMode](fileData);
 
         if ((work->flags & ANIMATORSPRITEDS_FLAG_DISABLE_A) == 0)
             vramPixelsA = VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, gfxSize);

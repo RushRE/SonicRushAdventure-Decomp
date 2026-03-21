@@ -3,13 +3,6 @@
 #include <game/stage/gameSystem.h>
 
 // --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED const char *aActAcGmkJumpbo;
-NOT_DECOMPILED const char *aDfGmkJumpBoxDf;
-
-// --------------------
 // ENUMS
 // --------------------
 

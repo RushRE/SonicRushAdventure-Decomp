@@ -214,34 +214,34 @@ void OpeningBlazeNameSprite_Main_ExitSprite(void);
 // VARIABLES
 // --------------------
 
-static OpeningRenderCallbackConfig Opening__RenderCallbackList[16];
+static OpeningRenderCallbackConfig sRenderCallbackList[16];
 NOT_DECOMPILED u16 Opening__RenderCallbackCount;
 
-static const u16 blazeNameLetterAniList[11] = {
+static const u16 sBlazeNameLetterAniList[11] = {
     OPENING_NAMEANI_BLAZE_BIG_B,   OPENING_NAMEANI_BLAZE_BIG_L,   OPENING_NAMEANI_BLAZE_BIG_A,   OPENING_NAMEANI_BLAZE_BIG_Z, OPENING_NAMEANI_BLAZE_BIG_E, // BLAZE
     OPENING_NAMEANI_BLAZE_SMALL_T, OPENING_NAMEANI_BLAZE_SMALL_H, OPENING_NAMEANI_BLAZE_SMALL_E,                                                           // THE
     OPENING_NAMEANI_BLAZE_SMALL_C, OPENING_NAMEANI_BLAZE_SMALL_A, OPENING_NAMEANI_BLAZE_SMALL_T                                                            // CAT
 };
 
-static const u32 animOffsetForScene[OPENING_SCENE_COUNT] = {
+static const u32 sAnimOffsetForScene[OPENING_SCENE_COUNT] = {
     [OPENING_SCENE_ANI_OPENING_OVERHEAD] = 0,   [OPENING_SCENE_ANI_JETSKI_RIDE] = 8,  [OPENING_SCENE_ANI_SONIC_BLAZE_GLANCE] = 16,
     [OPENING_SCENE_ANI_TAILS_MARINE_WAVE] = 25, [OPENING_SCENE_CUTIN_CHARACTER] = 40, [OPENING_SCENE_ANI_TJETSKI_SKID] = 49
 };
 
-static const s32 sceneTypeList[OPENING_SCENE_COUNT] = {
+static const s32 sSceneTypeList[OPENING_SCENE_COUNT] = {
     [OPENING_SCENE_ANI_OPENING_OVERHEAD] = OPENING_SCENETYPE_ANIMATED,   [OPENING_SCENE_ANI_JETSKI_RIDE] = OPENING_SCENETYPE_ANIMATED,
     [OPENING_SCENE_ANI_SONIC_BLAZE_GLANCE] = OPENING_SCENETYPE_ANIMATED, [OPENING_SCENE_ANI_TAILS_MARINE_WAVE] = OPENING_SCENETYPE_ANIMATED,
     [OPENING_SCENE_CUTIN_CHARACTER] = OPENING_SCENETYPE_CUTIN,           [OPENING_SCENE_ANI_TJETSKI_SKID] = OPENING_SCENETYPE_ANIMATED
 };
 
-static const u16 sonicNameLetterAniList[16] = {
+static const u16 sSonicNameLetterAniList[16] = {
     OPENING_NAMEANI_SONIC_BIG_S,   OPENING_NAMEANI_SONIC_BIG_O,   OPENING_NAMEANI_SONIC_BIG_N,   OPENING_NAMEANI_SONIC_BIG_I,   OPENING_NAMEANI_SONIC_BIG_C, // SONIC
     OPENING_NAMEANI_SONIC_SMALL_T, OPENING_NAMEANI_SONIC_SMALL_H, OPENING_NAMEANI_SONIC_SMALL_E,                                                             // THE
     OPENING_NAMEANI_SONIC_SMALL_H, OPENING_NAMEANI_SONIC_SMALL_E, OPENING_NAMEANI_SONIC_SMALL_D, OPENING_NAMEANI_SONIC_SMALL_G, OPENING_NAMEANI_SONIC_SMALL_E,
     OPENING_NAMEANI_SONIC_SMALL_H, OPENING_NAMEANI_SONIC_SMALL_O, OPENING_NAMEANI_SONIC_SMALL_G // HEDGEHOG
 };
 
-static const Vec2Fx16 blazeNameLetterPositions[11] = {
+static const Vec2Fx16 sBlazeNameLetterPositions[11] = {
     { 212, 200 }, // B
     { 212, 236 }, // L
     { 212, 272 }, // A
@@ -257,7 +257,7 @@ static const Vec2Fx16 blazeNameLetterPositions[11] = {
     { 172, 368 }, // T
 };
 
-static const Vec2Fx16 sonicNameLetterPositions[16] = {
+static const Vec2Fx16 sSonicNameLetterPositions[16] = {
     { 44, 180 }, // S
     { 44, 142 }, // O
     { 44, 103 }, // N
@@ -278,7 +278,7 @@ static const Vec2Fx16 sonicNameLetterPositions[16] = {
     { 84, 24 },  // G
 };
 
-static const u32 sceneAnimatorList[OPENING_ANIMATED_SCENE_COUNT][15] = {
+static const u32 sSceneAnimatorList[OPENING_ANIMATED_SCENE_COUNT][15] = {
     [OPENING_ANIMATED_SCENE_OPENING_OVERHEAD]   = { 0, 2, 3, 4, 5, 6, 7, 9, 0, 0, 0, 0, 0, 0, 0 },
     [OPENING_ANIMATED_SCENE_JETSKI_RIDE]        = { 0, 3, 4, 5, 6, 7, 9, 10, 0, 0, 0, 0, 0, 0, 0 },
     [OPENING_ANIMATED_SCENE_SONIC_BLAZE_GLANCE] = { 0, 1, 3, 4, 5, 6, 7, 9, 10, 0, 0, 0, 0, 0, 0 },
@@ -543,10 +543,10 @@ void InitOpeningCameraForScene(Opening *work, s32 id)
         control->animators[i].work.flags |= ANIMATOR_FLAG_DISABLE_DRAW;
     }
 
-    s32 *animIDList    = sceneAnimatorList[id];
+    s32 *animIDList    = sSceneAnimatorList[id];
     s32 id2            = id;
-    u32 animOffset     = animOffsetForScene[id2++];
-    u32 nextAnimOffset = animOffsetForScene[id2];
+    u32 animOffset     = sAnimOffsetForScene[id2++];
+    u32 nextAnimOffset = sAnimOffsetForScene[id2];
 
     for (i = 0; i < 15; i++)
     {
@@ -570,7 +570,7 @@ NONMATCH_FUNC void OpeningRenderCallback(NNSG3dRS *rs)
     void *resMdl = renderObj->resMdl;
     for (c = 0; c < Opening__RenderCallbackCount; c++)
     {
-        callback = &Opening__RenderCallbackList[c];
+        callback = &sRenderCallbackList[c];
         if (callback->resMdl == resMdl)
         {
             if (callback->nodeDesc == NNS_G3dRSGetCurrentNodeDescID(rs))
@@ -593,7 +593,7 @@ NONMATCH_FUNC void OpeningRenderCallback(NNSG3dRS *rs)
 	ldr r2, [r0, #4]
 	ldrh r5, [r1, #0]
 	ldr lr, [r2, #4]
-	ldr r3, =Opening__RenderCallbackList
+	ldr r3, =sRenderCallbackList
 	cmp r5, #0
 	mov ip, #0
 	bls _0215A0B4
@@ -643,7 +643,7 @@ NONMATCH_FUNC void AddOpeningRenderCallback(NNSG3dResMdl *resMdl, const char *na
 {
     // https://decomp.me/scratch/LGGKH -> 85.75%
 #ifdef NON_MATCHING
-    OpeningRenderCallbackConfig *callback = &Opening__RenderCallbackList[Opening__RenderCallbackCount++];
+    OpeningRenderCallbackConfig *callback = &sRenderCallbackList[Opening__RenderCallbackCount++];
 
     s32 descID         = GetOpeningNodeDesc(resMdl, name);
     callback->resMdl   = resMdl;
@@ -655,7 +655,7 @@ NONMATCH_FUNC void AddOpeningRenderCallback(NNSG3dResMdl *resMdl, const char *na
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldr ip, =Opening__RenderCallbackCount
-	ldr r6, =Opening__RenderCallbackList
+	ldr r6, =sRenderCallbackList
 	ldrh r7, [ip]
 	mov r5, r0
 	mov r4, r2
@@ -985,7 +985,7 @@ void Opening_Main_Finished(void)
 
 s32 GetOpeningSceneType(s32 sceneID)
 {
-    return sceneTypeList[sceneID];
+    return sSceneTypeList[sceneID];
 }
 
 BOOL CompleteOpeningScene(Opening *work)
@@ -1514,13 +1514,13 @@ void CreateOpeningSonicNameSprite(Opening *parent)
 
     for (s32 i = 0; i < 16; i++)
     {
-        u16 anim = sonicNameLetterAniList[i];
+        u16 anim = sSonicNameLetterAniList[i];
 
         AnimatorSprite__Init(&work->aniLetters[i], spriteFile, anim, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_DRAW, FALSE, PIXEL_MODE_SPRITE,
-                             VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(spriteFile, sonicNameLetterAniList[i])), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
+                             VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(spriteFile, sSonicNameLetterAniList[i])), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
                              SPRITE_PRIORITY_0, SPRITE_ORDER_0);
-        work->aniLetters[i].pos.x = sonicNameLetterPositions[i].x;
-        work->aniLetters[i].pos.y = sonicNameLetterPositions[i].y;
+        work->aniLetters[i].pos.x = sSonicNameLetterPositions[i].x;
+        work->aniLetters[i].pos.y = sSonicNameLetterPositions[i].y;
         AnimatorSprite__ProcessAnimationFast(&work->aniLetters[i]);
     }
 }
@@ -1614,10 +1614,10 @@ void OpeningSonicNameSprite_Main_ShowName(void)
         }
         else
         {
-            if (work->aniLetters[work->nameLetterID - 1].pos.y < sonicNameLetterPositions[work->nameLetterID - 1].y)
+            if (work->aniLetters[work->nameLetterID - 1].pos.y < sSonicNameLetterPositions[work->nameLetterID - 1].y)
                 work->aniLetters[work->nameLetterID - 1].pos.y += 2;
             else
-                work->aniLetters[work->nameLetterID - 1].pos.y = sonicNameLetterPositions[work->nameLetterID - 1].y;
+                work->aniLetters[work->nameLetterID - 1].pos.y = sSonicNameLetterPositions[work->nameLetterID - 1].y;
         }
     }
     else
@@ -1702,13 +1702,13 @@ void CreateOpeningBlazeNameSprite(Opening *parent)
     void *spriteFile = FileUnknown__GetAOUFile(parent->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_NAME_BAC);
     for (s32 i = 0; i < 11; i++)
     {
-        u16 anim = blazeNameLetterAniList[i];
+        u16 anim = sBlazeNameLetterAniList[i];
 
         AnimatorSprite__Init(&work->aniLetters[i], spriteFile, anim, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_DRAW, FALSE, PIXEL_MODE_SPRITE,
-                             VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(spriteFile, blazeNameLetterAniList[i])), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
+                             VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(spriteFile, sBlazeNameLetterAniList[i])), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
                              SPRITE_PRIORITY_0, SPRITE_ORDER_0);
-        work->aniLetters[i].pos.x = blazeNameLetterPositions[i].x;
-        work->aniLetters[i].pos.y = blazeNameLetterPositions[i].y + 80;
+        work->aniLetters[i].pos.x = sBlazeNameLetterPositions[i].x;
+        work->aniLetters[i].pos.y = sBlazeNameLetterPositions[i].y + 80;
         AnimatorSprite__ProcessAnimationFast(&work->aniLetters[i]);
     }
 }
@@ -1803,10 +1803,10 @@ void OpeningBlazeNameSprite_Main_ShowName(void)
         }
         else
         {
-            if (work->aniLetters[work->nameLetterID - 1].pos.y > blazeNameLetterPositions[work->nameLetterID - 1].y + 80)
+            if (work->aniLetters[work->nameLetterID - 1].pos.y > sBlazeNameLetterPositions[work->nameLetterID - 1].y + 80)
                 work->aniLetters[work->nameLetterID - 1].pos.y -= 2;
             else
-                work->aniLetters[work->nameLetterID - 1].pos.y = blazeNameLetterPositions[work->nameLetterID - 1].y + 80;
+                work->aniLetters[work->nameLetterID - 1].pos.y = sBlazeNameLetterPositions[work->nameLetterID - 1].y + 80;
         }
     }
     else

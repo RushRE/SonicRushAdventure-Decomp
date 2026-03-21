@@ -179,6 +179,7 @@ $(BUILD_DIR)/src/game/save/saveGameCallbacks.o: OPTFLAGS := -O2,s
 $(BUILD_DIR)/src/stage/objects/cannon_0.o: OPTFLAGS := -O2,p
 $(BUILD_DIR)/src/stage/objects/diveStand_0.o: OPTFLAGS := -O2,p
 $(BUILD_DIR)/src/stage/objects/spikes_0.o: OPTFLAGS := -O2,p
+$(BUILD_DIR)/src/stage/objects/tripleGrindRail_0.o: OPTFLAGS := -O2,p
 
 MWCFLAGS           = $(DEFINES) $(OPTFLAGS) -sym on -enum int -lang c99 $(EXCCFLAGS) -gccext,on -proc $(PROC) -msgstyle gcc -gccinc -i ./include -i ./include/library -I$(WORK_DIR) -I$(WORK_DIR)/tools/cw/include/MSL_C -I$(WORK_DIR)/tools/cw/include/MSL_Extras -I$(WORK_DIR)/lib/include -I$(WORK_DIR)/lib/include/dwc/gs $(IPA_FLAG) -interworking $(INLINE_FLAG) -char signed -W all -W pedantic -W noimpl_signedunsigned -W noimplicitconv -W nounusedarg -W nomissingreturn -W error 
 

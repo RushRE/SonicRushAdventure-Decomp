@@ -9,22 +9,22 @@
 // VARIABLES
 // --------------------
 
-static Task *exTitleCardTaskSingleton;
-static Task *exTutorialMessageTaskSingleton;
+static Task *sTitleCardTaskSingleton;
+static Task *sTutorialMessageTaskSingleton;
 
-static EX_ACTION_BAC2D_WORK exTitleCardAniZoneIcon;
-static EX_ACTION_BAC2D_WORK exTitleCardAniBackdrop;
-static EX_ACTION_BAC2D_WORK exTitleCardAniZoneLetter_E;
-static EX_ACTION_BAC2D_WORK exTitleCardAniZoneLetter_X;
-static EX_ACTION_BAC2D_WORK exTitleCardAniZoneLetter_T;
-static EX_ACTION_BAC2D_WORK exTitleCardAniZoneNameTextJP;
-static EX_ACTION_BAC2D_WORK exTitleCardAniActBanner;
-static EX_ACTION_BAC2D_WORK exTitleCardAniReadyText;
-static EX_ACTION_BAC2D_WORK exTitleCardAniGoText;
-static EX_ACTION_BAC2D_WORK exTitleCardAniZoneLetter_A;
-static EX_ACTION_BAC2D_WORK exTitleCardAniZoneLetter_R;
+static EX_ACTION_BAC2D_WORK sTitleCardAniZoneIcon;
+static EX_ACTION_BAC2D_WORK sTitleCardAniBackdrop;
+static EX_ACTION_BAC2D_WORK sTitleCardAniZoneLetter_E;
+static EX_ACTION_BAC2D_WORK sTitleCardAniZoneLetter_X;
+static EX_ACTION_BAC2D_WORK sTitleCardAniZoneLetter_T;
+static EX_ACTION_BAC2D_WORK sTitleCardAniZoneNameTextJP;
+static EX_ACTION_BAC2D_WORK sTitleCardAniActBanner;
+static EX_ACTION_BAC2D_WORK sTitleCardAniReadyText;
+static EX_ACTION_BAC2D_WORK sTitleCardAniGoText;
+static EX_ACTION_BAC2D_WORK sTitleCardAniZoneLetter_A;
+static EX_ACTION_BAC2D_WORK sTitleCardAniZoneLetter_R;
 
-static u16 exTutorialMessageTextAnims[EXPLAYER_CHARACTER_COUNT][OS_LANGUAGE_CODE_MAX] = {
+static u16 sTutorialMessageTextAnims[EXPLAYER_CHARACTER_COUNT][OS_LANGUAGE_CODE_MAX] = {
     [EXPLAYER_CHARACTER_SONIC] = { [OS_LANGUAGE_JAPANESE] = EX_ACTCOM_ANI_TUTORIAL_TEXT_SONIC_JPN,
                                    [OS_LANGUAGE_ENGLISH]  = EX_ACTCOM_ANI_TUTORIAL_TEXT_SONIC_ENG,
                                    [OS_LANGUAGE_FRENCH]   = EX_ACTCOM_ANI_TUTORIAL_TEXT_SONIC_FRA,
@@ -40,7 +40,7 @@ static u16 exTutorialMessageTextAnims[EXPLAYER_CHARACTER_COUNT][OS_LANGUAGE_CODE
                                    [OS_LANGUAGE_SPANISH]  = EX_ACTCOM_ANI_TUTORIAL_TEXT_BLAZE_SPA },
 };
 
-static u16 exTutorialMessageTextScrollLimit[EXPLAYER_CHARACTER_COUNT][OS_LANGUAGE_CODE_MAX] = {
+static u16 sTutorialMessageTextScrollLimit[EXPLAYER_CHARACTER_COUNT][OS_LANGUAGE_CODE_MAX] = {
     [EXPLAYER_CHARACTER_SONIC] = { [OS_LANGUAGE_JAPANESE] = 392,
                                    [OS_LANGUAGE_ENGLISH]  = 488,
                                    [OS_LANGUAGE_FRENCH]   = 472,
@@ -133,14 +133,14 @@ void ExTutorialMessage_Main_Init(void)
 {
     exMsgTutorialTask *work = ExTaskGetWorkCurrent(exMsgTutorialTask);
 
-    exTutorialMessageTaskSingleton = GetCurrentTask();
+    sTutorialMessageTaskSingleton = GetCurrentTask();
 
     work->language     = GetExTutorialMessageLanguage();
     work->playerWorker = GetExPlayerWorker();
 
     for (u16 i = 0; i < EXPLAYER_CHARACTER_COUNT; i++)
     {
-        work->aniMessage[i].sprite.anim       = exTutorialMessageTextAnims[i][work->language];
+        work->aniMessage[i].sprite.anim       = sTutorialMessageTextAnims[i][work->language];
         work->aniMessage[i].sprite.paletteRow = PALETTE_ROW_3;
         SetupExHUDSprite(&work->aniMessage[i]);
         SetExDrawRequestPriority(&work->aniMessage[i].config, EXDRAWREQTASK_PRIORITY_HUD + 2);
@@ -184,7 +184,7 @@ void ExTutorialMessage_Destructor(void)
     ReleaseExHUDSprite(&work->aniMessage[EXPLAYER_CHARACTER_BLAZE]);
     ReleaseExHUDSprite(&work->aniBorder);
 
-    exTutorialMessageTaskSingleton = NULL;
+    sTutorialMessageTaskSingleton = NULL;
 }
 
 void ExTutorialMessage_Main_Active(void)
@@ -198,7 +198,7 @@ void ExTutorialMessage_Main_Active(void)
     AnimateExDrawRequestSprite2D(&work->aniMessage[character]);
     AnimateExDrawRequestSprite2D(&work->aniBorder);
 
-    s32 scrollLimit = exTutorialMessageTextScrollLimit[character][work->language];
+    s32 scrollLimit = sTutorialMessageTextScrollLimit[character][work->language];
 
     if (work->scrollPos <= -(scrollLimit - HW_LCD_CENTER_X))
         work->scrollPos = HW_LCD_CENTER_X;
@@ -236,8 +236,8 @@ BOOL CreateExTutorialMessage(void)
 
 void DestroyExTutorialMessage(void)
 {
-    if (exTutorialMessageTaskSingleton != NULL)
-        DestroyExTask(exTutorialMessageTaskSingleton);
+    if (sTutorialMessageTaskSingleton != NULL)
+        DestroyExTask(sTutorialMessageTaskSingleton);
 }
 
 // ExTitleCard
@@ -245,19 +245,19 @@ void ExTitleCard_Main_Init(void)
 {
     exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-    exTitleCardTaskSingleton = GetCurrentTask();
+    sTitleCardTaskSingleton = GetCurrentTask();
 
-    work->aniBackdrop                             = &exTitleCardAniBackdrop;
-    work->aniZoneNameTextJP                       = &exTitleCardAniZoneNameTextJP;
-    work->aniZoneIcon                             = &exTitleCardAniZoneIcon;
-    work->aniActBanner                            = &exTitleCardAniActBanner;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E] = &exTitleCardAniZoneLetter_E;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X] = &exTitleCardAniZoneLetter_X;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T] = &exTitleCardAniZoneLetter_T;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R] = &exTitleCardAniZoneLetter_R;
-    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A] = &exTitleCardAniZoneLetter_A;
-    work->aniReadyText                            = &exTitleCardAniReadyText;
-    work->aniGoText                               = &exTitleCardAniGoText;
+    work->aniBackdrop                             = &sTitleCardAniBackdrop;
+    work->aniZoneNameTextJP                       = &sTitleCardAniZoneNameTextJP;
+    work->aniZoneIcon                             = &sTitleCardAniZoneIcon;
+    work->aniActBanner                            = &sTitleCardAniActBanner;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E] = &sTitleCardAniZoneLetter_E;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X] = &sTitleCardAniZoneLetter_X;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T] = &sTitleCardAniZoneLetter_T;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R] = &sTitleCardAniZoneLetter_R;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A] = &sTitleCardAniZoneLetter_A;
+    work->aniReadyText                            = &sTitleCardAniReadyText;
+    work->aniGoText                               = &sTitleCardAniGoText;
 
     work->aniBackdrop->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_BACKDROP;
     work->aniBackdrop->sprite.paletteRow = PALETTE_ROW_4;
@@ -357,7 +357,7 @@ void ExTitleCard_Destructor(void)
 
     ReleaseExHUDSprite(work->aniGoText);
 
-    exTitleCardTaskSingleton = NULL;
+    sTitleCardTaskSingleton = NULL;
 }
 
 void ExTitleCard_Main_IntroDelay(void)
@@ -749,5 +749,5 @@ BOOL CreateExTitleCard(void)
 
 Task *GetExTitleCardTaskSingleton(void)
 {
-    return exTitleCardTaskSingleton;
+    return sTitleCardTaskSingleton;
 }

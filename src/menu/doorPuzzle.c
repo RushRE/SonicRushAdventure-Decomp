@@ -149,43 +149,43 @@ typedef struct DoorPuzzleDialogueEventConfig_
 // VARIABLES
 // --------------------
 
-static u16 stoneKeyAnimTable[DOORPUZZLE_STONE_KEY_COUNT] = { [0] = 0, [1] = 1, [2] = 2 };
+static u16 sStoneKeyAnimTable[DOORPUZZLE_STONE_KEY_COUNT] = { [0] = 0, [1] = 1, [2] = 2 };
 
-static u16 cutInAnimTable[DOORPUZZLE_STONE_KEY_COUNT] = { [0] = 26, [1] = 27, [2] = 28 };
+static u16 sCutInAnimTable[DOORPUZZLE_STONE_KEY_COUNT] = { [0] = 26, [1] = 27, [2] = 28 };
 
-static u16 stoneKeyAngleTable[DOORPUZZLE_STONE_KEY_COUNT] = { [0] = FLOAT_DEG_TO_IDX(90.0), [1] = FLOAT_DEG_TO_IDX(270.0), [2] = FLOAT_DEG_TO_IDX(180.0) };
+static u16 sStoneKeyAngleTable[DOORPUZZLE_STONE_KEY_COUNT] = { [0] = FLOAT_DEG_TO_IDX(90.0), [1] = FLOAT_DEG_TO_IDX(270.0), [2] = FLOAT_DEG_TO_IDX(180.0) };
 
-static u16 portraitFileTable[DOORPUZZLE_PORTRAIT_CHAR_COUNT] = { [DOORPUZZLE_PORTRAIT_CHAR_TAILS]  = ARCHIVE_DMPZ_LZ7_FILE_FACE_TIL_BAC,
+static u16 sPortraitFileTable[DOORPUZZLE_PORTRAIT_CHAR_COUNT] = { [DOORPUZZLE_PORTRAIT_CHAR_TAILS]  = ARCHIVE_DMPZ_LZ7_FILE_FACE_TIL_BAC,
                                                                  [DOORPUZZLE_PORTRAIT_CHAR_SONIC]  = ARCHIVE_DMPZ_LZ7_FILE_FACE_SON_BAC,
                                                                  [DOORPUZZLE_PORTRAIT_CHAR_BLAZE]  = ARCHIVE_DMPZ_LZ7_FILE_FACE_BLZ_BAC,
                                                                  [DOORPUZZLE_PORTRAIT_CHAR_MARINE] = ARCHIVE_DMPZ_LZ7_FILE_FACE_MRN_BAC };
 
-static Vec2Fx16 cutInPosTable[DOORPUZZLE_STONE_KEY_COUNT] = {
+static Vec2Fx16 sCutInPosTable[DOORPUZZLE_STONE_KEY_COUNT] = {
     [0] = { 48, 64 },
     [1] = { 128, 64 },
     [2] = { 208, 64 },
 };
 
-static u16 navigatorDialogueTable[6] = { [DOORPUZZLE_NAVLINE_EXPLAIN_MECHANICS] = DOORPUZZLE_MSGSEQ_CHECK_HINTS_AND_USE_STYLUS,
+static u16 sNavigatorDialogueTable[6] = { [DOORPUZZLE_NAVLINE_EXPLAIN_MECHANICS] = DOORPUZZLE_MSGSEQ_CHECK_HINTS_AND_USE_STYLUS,
                                          [DOORPUZZLE_NAVLINE_EXPLAIN_RETURN]    = DOORPUZZLE_MSGSEQ_PRESS_B_TO_RETURN,
                                          [DOORPUZZLE_NAVLINE_KEY_IN_PLACE]      = DOORPUZZLE_MSGSEQ_THATS_IT_YOUVE_GOT_IT,
                                          [DOORPUZZLE_NAVLINE_REMIND_MECHANICS]  = DOORPUZZLE_MSGSEQ_HEY_SONIC_CHECK_HINTS_AND_USE_STYLUS,
                                          [DOORPUZZLE_NAVLINE_REMIND_RETURN]     = DOORPUZZLE_MSGSEQ_PRESS_B_TO_RETURN,
                                          [DOORPUZZLE_NAVLINE_DID_CANCEL]        = DOORPUZZLE_MSGSEQ_LETS_GO_BACK_TO_SOUTHERN_ISLAND };
 
-static DoorPuzzleDialogueEventConfig eventDialogueConfig[DOORPUZZLE_EVENT_COUNT] = {
+static DoorPuzzleDialogueEventConfig sEventDialogueConfig[DOORPUZZLE_EVENT_COUNT] = {
     [DOORPUZZLE_EVENT_DISCOVERY] = { .msgSeqStart = DOORPUZZLE_MSGSEQ_WE_FOUND_IT, .msgSeqEnd = DOORPUZZLE_MSGSEQ_LOOKS_LIKE_THERES_SOMETHING_IN_THE_MIDDLE },
     [DOORPUZZLE_EVENT_NO_ACCESS] = { .msgSeqStart = DOORPUZZLE_MSGSEQ_WE_STILL_HAVENT_GATHERED_THE_HINTS, .msgSeqEnd = DOORPUZZLE_MSGSEQ_WE_STILL_HAVENT_GATHERED_THE_HINTS },
     [DOORPUZZLE_EVENT_HAVE_KEYS] = { .msgSeqStart = DOORPUZZLE_MSGSEQ_CHECK_HINTS_AND_USE_STYLUS, .msgSeqEnd = DOORPUZZLE_MSGSEQ_LETS_GO_BACK_TO_SOUTHERN_ISLAND },
 };
 
-static Vec2Fx16 stoneKeyPosTable[DOORPUZZLE_STONE_KEY_COUNT] = {
+static Vec2Fx16 sStoneKeyPosTable[DOORPUZZLE_STONE_KEY_COUNT] = {
     [0] = { 128, 58 },
     [1] = { 86, 133 },
     [2] = { 170, 133 },
 };
 
-static DoorPuzzleDialoguePortraitConfig characterPortraitConfig[DOORPUZZLE_PORTRAIT_COUNT] = {
+static DoorPuzzleDialoguePortraitConfig sCharacterPortraitConfig[DOORPUZZLE_PORTRAIT_COUNT] = {
     [DOORPUZZLE_PORTRAIT_TAILS_TALK]   = { .portraitID = DOORPUZZLE_PORTRAIT_CHAR_TAILS, .animID = 0 },
     [DOORPUZZLE_PORTRAIT_TAILS_AFFIRM] = { .portraitID = DOORPUZZLE_PORTRAIT_CHAR_TAILS, .animID = 1 },
     [DOORPUZZLE_PORTRAIT_SONIC_TALK]   = { .portraitID = DOORPUZZLE_PORTRAIT_CHAR_SONIC, .animID = 0 },
@@ -525,7 +525,7 @@ void DoorPuzzleDialogue_Create(DoorPuzzle *parent)
     i = 0;
     for (; i < DOORPUZZLE_PORTRAIT_CHAR_COUNT; i++)
     {
-        void *sprPortrait = FileUnknown__GetAOUFile(parent->archiveDoorPuzzle, portraitFileTable[i]);
+        void *sprPortrait = FileUnknown__GetAOUFile(parent->archiveDoorPuzzle, sPortraitFileTable[i]);
 
         AnimatorSprite__Init(&work->aniCharPortrait[i], sprPortrait, 0, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                              VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(sprPortrait)), PALETTE_MODE_OBJ, NULL, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
@@ -538,18 +538,18 @@ void DoorPuzzleDialogue_Create(DoorPuzzle *parent)
     s32 c = 0;
     for (; c < DOORPUZZLE_STONE_KEY_COUNT; c++)
     {
-        AnimatorSprite__Init(&work->aniCutInIcon[c], parent->sprCutin, cutInAnimTable[c], ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
+        AnimatorSprite__Init(&work->aniCutInIcon[c], parent->sprCutin, sCutInAnimTable[c], ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                              VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(parent->sprCutin)), PALETTE_MODE_OBJ, NULL, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
         work->aniCutInIcon[c].cParam.palette = c + PALETTE_ROW_1;
-        work->aniCutInIcon[c].pos.x          = cutInPosTable[c].x;
-        work->aniCutInIcon[c].pos.y          = cutInPosTable[c].y;
+        work->aniCutInIcon[c].pos.x          = sCutInPosTable[c].x;
+        work->aniCutInIcon[c].pos.y          = sCutInPosTable[c].y;
         AnimatorSprite__ProcessAnimationFast(&work->aniCutInIcon[c]);
 
         AnimatorSprite__Init(&work->aniCutInPanel[c], parent->sprCutin, 0, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                              VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(parent->sprCutin)), PALETTE_MODE_OBJ, NULL, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
         work->aniCutInPanel[c].cParam.palette = PALETTE_ROW_4;
-        work->aniCutInPanel[c].pos.x          = cutInPosTable[c].x;
-        work->aniCutInPanel[c].pos.y          = cutInPosTable[c].y;
+        work->aniCutInPanel[c].pos.x          = sCutInPosTable[c].x;
+        work->aniCutInPanel[c].pos.y          = sCutInPosTable[c].y;
         AnimatorSprite__ProcessAnimationFast(&work->aniCutInPanel[c]);
     }
 
@@ -611,18 +611,18 @@ void DoorPuzzleDialogue_Main_Active(void)
 
 void InitDoorPuzzleEventDialogue(DoorPuzzleDialogue *work)
 {
-    work->msgSequence = eventDialogueConfig[work->parent->eventID].msgSeqStart;
+    work->msgSequence = sEventDialogueConfig[work->parent->eventID].msgSeqStart;
 }
 
 BOOL AdvanceDoorPuzzleDialogueMsgSequence(DoorPuzzleDialogue *work)
 {
     work->msgSequence++;
-    return work->msgSequence > eventDialogueConfig[work->parent->eventID].msgSeqEnd;
+    return work->msgSequence > sEventDialogueConfig[work->parent->eventID].msgSeqEnd;
 }
 
 void SetDoorPuzzleDialogueNavMessage(DoorPuzzleDialogue *work, s32 id)
 {
-    work->msgSequence = navigatorDialogueTable[id];
+    work->msgSequence = sNavigatorDialogueTable[id];
 }
 
 void DoorPuzzleDialogue_StateDraw_InitOpenWindow(DoorPuzzleDialogue *work)
@@ -912,9 +912,9 @@ void DoorPuzzleDialogue_FontCallback(u32 type, FontAnimator *animator, void *arg
 
 void DrawDoorPuzzleDialogueCharacterPortrait(DoorPuzzleDialogue *work)
 {
-    u32 portraitID = characterPortraitConfig[work->portraitID].portraitID;
+    u32 portraitID = sCharacterPortraitConfig[work->portraitID].portraitID;
 
-    AnimatorSprite__SetAnimation(&work->aniCharPortrait[portraitID], characterPortraitConfig[work->portraitID].animID);
+    AnimatorSprite__SetAnimation(&work->aniCharPortrait[portraitID], sCharacterPortraitConfig[work->portraitID].animID);
     AnimatorSprite__ProcessAnimationFast(&work->aniCharPortrait[portraitID]);
     AnimatorSprite__DrawFrame(&work->aniCharPortrait[portraitID]);
 }
@@ -1073,7 +1073,7 @@ void CreateDoorPuzzleKeySys(DoorPuzzle *parent)
     work->parent = parent;
     for (s32 i = 0; i < DOORPUZZLE_STONE_KEY_COUNT; i++)
     {
-        DoorPuzzleKeySys_InitKey(work, i, stoneKeyPosTable[i].x, stoneKeyPosTable[i].y);
+        DoorPuzzleKeySys_InitKey(work, i, sStoneKeyPosTable[i].x, sStoneKeyPosTable[i].y);
     }
 
     work->seqPlayer = AllocSndHandle();
@@ -1209,10 +1209,10 @@ void DoorPuzzleKeySys_InitKey(DoorPuzzleKeySys *work, s32 id, s16 x, s16 y)
     key->pos.y         = y;
     key->pos.x         = x;
     key->pos.y         = y;
-    key->angle         = stoneKeyAngleTable[id];
+    key->angle         = sStoneKeyAngleTable[id];
 
     void *sprKey = FileUnknown__GetAOUFile(work->parent->archiveDoorPuzzle, ARCHIVE_DMPZ_LZ7_FILE_PANEL_BAC);
-    AnimatorSprite__Init(&work->stoneKeys[id].aniSprite, sprKey, stoneKeyAnimTable[id], ANIMATOR_FLAG_DISABLE_LOOPING, TRUE, PIXEL_MODE_SPRITE,
+    AnimatorSprite__Init(&work->stoneKeys[id].aniSprite, sprKey, sStoneKeyAnimTable[id], ANIMATOR_FLAG_DISABLE_LOOPING, TRUE, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(TRUE, Sprite__GetSpriteSize3(sprKey)), PALETTE_MODE_SUB_OBJ, 0, SPRITE_PRIORITY_3, SPRITE_ORDER_1);
     key->aniSprite.cParam.palette = id;
     key->aniSprite.pos.x          = key->pos.x;

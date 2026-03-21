@@ -19,12 +19,12 @@ struct ObjCollisionCount
 
 #include <nitro/dtcm_begin.h>
 
-static const OBS_DIFF_COLLISION *objCollisionData = NULL;
+static const OBS_DIFF_COLLISION *sObjCollisionData = NULL;
 
-struct ObjCollisionCount objCollisionCount;
+struct ObjCollisionCount gObjCollisionCount;
 
-StageTaskCollisionObj *objCollisionTable[OBJ_COLLISION_REGISTRATION_MAX];
-StageTaskCollisionObj *objNextCollisionTable[OBJ_COLLISION_REGISTRATION_MAX];
+StageTaskCollisionObj *gObjCollisionTable[OBJ_COLLISION_REGISTRATION_MAX];
+StageTaskCollisionObj *gObjNextCollisionTable[OBJ_COLLISION_REGISTRATION_MAX];
 
 #include <nitro/dtcm_end.h>
 
@@ -108,7 +108,7 @@ RUSH_INLINE s32 objMapGetBackFront(s8 sPix, s8 delta)
 
 RUSH_INLINE u8 objGetAttrData(u16 tileID)
 {
-    return objCollisionData->attrCollision[tileID];
+    return sObjCollisionData->attrCollision[tileID];
 }
 
 RUSH_INLINE void objDiffColDirMove(s32 *x, s32 *y, s8 step, u16 vec)
@@ -1113,7 +1113,7 @@ void objDiffCollisionDirHeightCheck(StageTask *work)
 
 void ObjSetDiffCollision(OBS_DIFF_COLLISION *collisionData)
 {
-    objCollisionData = collisionData;
+    sObjCollisionData = collisionData;
 }
 
 s32 ObjDiffCollisionFast(OBS_COL_CHK_DATA *colWork)
@@ -1124,26 +1124,26 @@ s32 ObjDiffCollisionFast(OBS_COL_CHK_DATA *colWork)
     s8 sPix;
     s8 delta = 8;
 
-    if (objCollisionData->diffCollision == NULL)
+    if (sObjCollisionData->diffCollision == NULL)
     {
         s32 dist;
 
         switch (colWork->vec)
         {
             case OBD_COL_DOWN:
-                dist = objCollisionData->bottom - colWork->y;
+                dist = sObjCollisionData->bottom - colWork->y;
                 break;
 
             case OBD_COL_UP:
-                dist = colWork->y - objCollisionData->top;
+                dist = colWork->y - sObjCollisionData->top;
                 break;
 
             case OBD_COL_LEFT:
-                dist = colWork->x - objCollisionData->left;
+                dist = colWork->x - sObjCollisionData->left;
                 break;
 
             case OBD_COL_RIGHT:
-                dist = objCollisionData->right - colWork->x;
+                dist = sObjCollisionData->right - colWork->x;
                 break;
         }
 
@@ -1205,24 +1205,24 @@ s32 ObjDiffCollision(OBS_COL_CHK_DATA *colWork)
     s8 deltaY = 0;
     s32 (*objGetMapColData)(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, u32 *pAttr);
 
-    if (objCollisionData->diffCollision == NULL)
+    if (sObjCollisionData->diffCollision == NULL)
     {
         switch (colWork->vec)
         {
             case OBD_COL_DOWN:
-                lCol = objCollisionData->bottom - colWork->y;
+                lCol = sObjCollisionData->bottom - colWork->y;
                 break;
 
             case OBD_COL_UP:
-                lCol = colWork->y - objCollisionData->top;
+                lCol = colWork->y - sObjCollisionData->top;
                 break;
 
             case OBD_COL_LEFT:
-                lCol = colWork->x - objCollisionData->left;
+                lCol = colWork->x - sObjCollisionData->left;
                 break;
 
             case OBD_COL_RIGHT:
-                lCol = objCollisionData->right - colWork->x;
+                lCol = sObjCollisionData->right - colWork->x;
                 break;
         }
         return MTM_MATH_CLIP(lCol, -31, 31);
@@ -1383,11 +1383,11 @@ u32 objGetMapBlockData(s32 x, s32 y, u8 plane)
     blockTileX = tileX - (TILE_BLOCK_TILE_COUNT_X * blockX);
     blockTileY = tileY - (TILE_BLOCK_TILE_COUNT_Y * blockY);
 
-    blockIndex = *(objCollisionData->mapLayout[plane] + (objCollisionData->blockWidth * blockY + blockX));
+    blockIndex = *(sObjCollisionData->mapLayout[plane] + (sObjCollisionData->blockWidth * blockY + blockX));
 
     tileID = (u32)((blockTileY * TILE_BLOCK_TILE_COUNT_X) + blockTileX);
 
-    return *(u16 *)((u32)objCollisionData->mapBlockset + ((blockIndex * TILE_SIZE_X * TILE_SIZE_Y * sizeof(u16)) + (tileID << 1)));
+    return *(u16 *)((u32)sObjCollisionData->mapBlockset + ((blockIndex * TILE_SIZE_X * TILE_SIZE_Y * sizeof(u16)) + (tileID << 1)));
 }
 
 s32 objGetMapColDataX(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, u32 *pAttr)
@@ -1399,25 +1399,25 @@ s32 objGetMapColDataX(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, 
 
     if (flags & OBJ_COL_FLAG_LIMIT_MAP_BOUNDS)
     {
-        if ((posX & ~7) > (objCollisionData->right - 1) || posX < (objCollisionData->left - 7))
+        if ((posX & ~7) > (sObjCollisionData->right - 1) || posX < (sObjCollisionData->left - 7))
         {
             cCol = 8;
             return cCol;
         }
 
-        if (((posX & ~7) + 0x8) > (objCollisionData->right - 1))
+        if (((posX & ~7) + 0x8) > (sObjCollisionData->right - 1))
         {
-            cCol = (s8)((objCollisionData->right - 1) & 0x7);
+            cCol = (s8)((sObjCollisionData->right - 1) & 0x7);
             if (cCol == 0)
                 cCol = 8;
 
             return cCol;
         }
 
-        if ((posX & ~7) < objCollisionData->left)
+        if ((posX & ~7) < sObjCollisionData->left)
         {
-            if (objCollisionData->left & 0x7)
-                cCol = (s8)(0x8 + (0x8 - (objCollisionData->left & 0x7)));
+            if (sObjCollisionData->left & 0x7)
+                cCol = (s8)(0x8 + (0x8 - (sObjCollisionData->left & 0x7)));
             else
                 cCol = 8;
 
@@ -1429,7 +1429,7 @@ s32 objGetMapColDataX(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, 
             return cCol;
         }
 
-        if (posY > (objCollisionData->bottom - 1) || posY < objCollisionData->top)
+        if (posY > (sObjCollisionData->bottom - 1) || posY < sObjCollisionData->top)
         {
             cCol = 8;
             return cCol;
@@ -1437,8 +1437,8 @@ s32 objGetMapColDataX(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, 
     }
     else
     {
-        posX = MTM_MATH_CLIP_3(posX, objCollisionData->left, objCollisionData->right - 1);
-        posY = MTM_MATH_CLIP_3(posY, objCollisionData->top, objCollisionData->bottom - 1);
+        posX = MTM_MATH_CLIP_3(posX, sObjCollisionData->left, sObjCollisionData->right - 1);
+        posY = MTM_MATH_CLIP_3(posY, sObjCollisionData->top, sObjCollisionData->bottom - 1);
     }
 
     blockTile = (u16)objGetMapBlockData(posX, posY, (u8)(flags & OBJ_COL_FLAG_USE_PLANE_B));
@@ -1449,7 +1449,7 @@ s32 objGetMapColDataX(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, 
     if (blockTile & TILE_FLIP_Y_MASK)
         tilePenetration = 7 - tilePenetration;
 
-    cCol = objCollisionData->diffCollision[(tileID << 3) + tilePenetration];
+    cCol = sObjCollisionData->diffCollision[(tileID << 3) + tilePenetration];
     cCol &= 0x0F;
 
     if (cCol & 0x08)
@@ -1480,7 +1480,7 @@ s32 objGetMapColDataX(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, 
     {
         u16 dir;
 
-        dir = (u16)(*(objCollisionData->dirCollision + tileID) << 8);
+        dir = (u16)(*(sObjCollisionData->dirCollision + tileID) << 8);
         if (blockTile & TILE_FLIP_Y_MASK)
         {
             dir = (u16)(-((s16)dir + 0x4000) - 0x4000);
@@ -1510,25 +1510,25 @@ s32 objGetMapColDataY(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, 
 
     if (flags & OBJ_COL_FLAG_LIMIT_MAP_BOUNDS)
     {
-        if ((posY & ~7) > (objCollisionData->bottom - 1) || posY < (objCollisionData->top - 7))
+        if ((posY & ~7) > (sObjCollisionData->bottom - 1) || posY < (sObjCollisionData->top - 7))
         {
             cCol = 8;
             return cCol;
         }
 
-        if (((posY & ~7) + 0x8) > (objCollisionData->bottom - 1))
+        if (((posY & ~7) + 0x8) > (sObjCollisionData->bottom - 1))
         {
-            cCol = (s8)((objCollisionData->bottom - 1) & 0x7);
+            cCol = (s8)((sObjCollisionData->bottom - 1) & 0x7);
             if (cCol == 0)
                 cCol = 8;
 
             return cCol;
         }
 
-        if ((posY & ~7) < objCollisionData->top)
+        if ((posY & ~7) < sObjCollisionData->top)
         {
-            if (objCollisionData->top & 0x7)
-                cCol = (s8)(0x8 + (0x8 - (objCollisionData->top & 0x7)));
+            if (sObjCollisionData->top & 0x7)
+                cCol = (s8)(0x8 + (0x8 - (sObjCollisionData->top & 0x7)));
             else
                 cCol = 8;
 
@@ -1540,7 +1540,7 @@ s32 objGetMapColDataY(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, 
             return cCol;
         }
 
-        if (posX > (objCollisionData->right - 1) || posX < objCollisionData->left)
+        if (posX > (sObjCollisionData->right - 1) || posX < sObjCollisionData->left)
         {
             cCol = 8;
             return cCol;
@@ -1548,8 +1548,8 @@ s32 objGetMapColDataY(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, 
     }
     else
     {
-        posX = MTM_MATH_CLIP_3(posX, objCollisionData->left, objCollisionData->right - 1);
-        posY = MTM_MATH_CLIP_3(posY, objCollisionData->top, objCollisionData->bottom - 1);
+        posX = MTM_MATH_CLIP_3(posX, sObjCollisionData->left, sObjCollisionData->right - 1);
+        posY = MTM_MATH_CLIP_3(posY, sObjCollisionData->top, sObjCollisionData->bottom - 1);
     }
 
     blockTile = (u16)objGetMapBlockData(posX, posY, (u8)(flags & OBJ_COL_FLAG_USE_PLANE_B));
@@ -1560,7 +1560,7 @@ s32 objGetMapColDataY(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, 
     if (blockTile & TILE_FLIP_X_MASK)
         tilePenetration = 7 - tilePenetration;
 
-    cCol = objCollisionData->diffCollision[(tileID << 3) + tilePenetration];
+    cCol = sObjCollisionData->diffCollision[(tileID << 3) + tilePenetration];
     cCol >>= 4;
 
     if (cCol & 0x08)
@@ -1591,7 +1591,7 @@ s32 objGetMapColDataY(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, 
     {
         u16 dir;
 
-        dir = (u16)(*(objCollisionData->dirCollision + tileID) << 8);
+        dir = (u16)(*(sObjCollisionData->dirCollision + tileID) << 8);
         if (blockTile & TILE_FLIP_X_MASK)
         {
             dir = (u16)(-(s16)dir);
@@ -1614,7 +1614,7 @@ s32 objGetMapColDataY(fx32 posX, fx32 posY, ObjCollisionFlags flags, u16 *pDir, 
 
 void ObjCollisionObjectRegist(StageTaskCollisionObj *work)
 {
-    if (objCollisionCount.nextCount < OBJ_COLLISION_REGISTRATION_MAX)
+    if (gObjCollisionCount.nextCount < OBJ_COLLISION_REGISTRATION_MAX)
     {
         StageTask *parent = work->parent;
         if (parent == NULL || !IsStageTaskDestroyedAny(parent))
@@ -1625,8 +1625,8 @@ void ObjCollisionObjectRegist(StageTaskCollisionObj *work)
             if (work->toucherObj != NULL && work->toucherObj->touchObj != work->parent)
                 work->toucherObj = NULL;
 
-            objNextCollisionTable[objCollisionCount.nextCount] = work;
-            objCollisionCount.nextCount++;
+            gObjNextCollisionTable[gObjCollisionCount.nextCount] = work;
+            gObjCollisionCount.nextCount++;
 
             VecFx32 position = { 0, 0, 0 };
             position         = work->pos;
@@ -1679,18 +1679,18 @@ void ObjCollisionObjectClear(void)
 {
     u16 i;
 
-    for (i = 0; i < objCollisionCount.nextCount; i++)
+    for (i = 0; i < gObjCollisionCount.nextCount; i++)
     {
-        objCollisionTable[i] = objNextCollisionTable[i];
+        gObjCollisionTable[i] = gObjNextCollisionTable[i];
     }
 
     for (; i < OBJ_COLLISION_REGISTRATION_MAX; i++)
     {
-        objNextCollisionTable[i] = NULL;
+        gObjNextCollisionTable[i] = NULL;
     }
 
-    objCollisionCount.curCount     = objCollisionCount.nextCount;
-    objCollisionCount.nextCount = 0;
+    gObjCollisionCount.curCount     = gObjCollisionCount.nextCount;
+    gObjCollisionCount.nextCount = 0;
 }
 
 void objCollsionOffsetSet(StageTaskCollisionObj *work, s16 *offsetX, s16 *offsetY)
@@ -1728,12 +1728,12 @@ s32 ObjCollisionObjectFastCheck(OBS_COL_CHK_DATA *colWork)
     OBS_COL_CHK_DATA colWorkCopy;
     MI_CpuCopy8(colWork, &colWorkCopy, sizeof(colWorkCopy));
 
-    if (objCollisionCount.curCount == 0)
+    if (gObjCollisionCount.curCount == 0)
         return penetration;
 
-    for (index = 0; index < objCollisionCount.curCount; ++index)
+    for (index = 0; index < gObjCollisionCount.curCount; ++index)
     {
-        StageTaskCollisionObj *collisionWork = objCollisionTable[index];
+        StageTaskCollisionObj *collisionWork = gObjCollisionTable[index];
 
         if (collisionWork->parent != NULL && (collisionWork->flag & STAGE_TASK_OBJCOLLISION_FLAG_DISABLED) == 0)
         {
@@ -1828,7 +1828,7 @@ s32 ObjCollisionObjectCheck(StageTask *work, OBS_COL_CHK_DATA *colWork)
     OBS_COL_CHK_DATA colWorkCopy;
     MI_CpuCopy8(colWork, &colWorkCopy, sizeof(colWorkCopy));
 
-    if (objCollisionCount.curCount == 0)
+    if (gObjCollisionCount.curCount == 0)
         return penetration;
 
     u16 angle;
@@ -1878,9 +1878,9 @@ s32 ObjCollisionObjectCheck(StageTask *work, OBS_COL_CHK_DATA *colWork)
             break;
     }
 
-    for (u16 index = 0; index < objCollisionCount.curCount; ++index)
+    for (u16 index = 0; index < gObjCollisionCount.curCount; ++index)
     {
-        StageTaskCollisionObj *collisionWork = objCollisionTable[index];
+        StageTaskCollisionObj *collisionWork = gObjCollisionTable[index];
 
         if (collisionWork->parent != work && (collisionWork->flag & STAGE_TASK_OBJCOLLISION_FLAG_DISABLED) == 0)
         {

@@ -1,25 +1,7 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
-	.rodata
-
-.public TripleGrindRail__LeafParticleDefaultScale
-TripleGrindRail__LeafParticleDefaultScale: // 0x021884D4
-    .word 0x1800, 0x1800, 0x1800
-	
-.public TripleGrindRail__MushroomDefaultScale
-TripleGrindRail__MushroomDefaultScale: // 0x021884E0
-    .word 0x1000, 0x1000, 0x1000
-	
-.public TripleGrindRail__ParticleIDs
-TripleGrindRail__ParticleIDs: // 0x021884EC
-    .hword 0, 1, 2, 3, 4, 5, 0, 2
-
 	.data
-	
-aActAcGmkGrd3lS: // 0x0218905C
-	.asciz "/act/ac_gmk_grd3l_spring.bac"
-	.align 4
 	
 aModGmkGrd3line: // 0x0218907C
 	.asciz "/mod/gmk_grd_3line.nsbmd"

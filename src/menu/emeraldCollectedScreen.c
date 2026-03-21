@@ -122,7 +122,7 @@ static struct EmeraldCollectedScreenStaticVars
     void *singleton;
 } sVars;
 
-static const EmeraldCollectedScreenAnimConfig decorationConfig[7] = {
+static const EmeraldCollectedScreenAnimConfig sDecorationConfig[7] = {
     { .resource    = EMERALDCOLLECTED_RESOURCE_HUD,
       .animID      = EMERALDCOLLECTED_HUD_ANI_EMERALDJEWEL_1,
       .pixelMode   = PIXEL_MODE_SPRITE,
@@ -180,7 +180,7 @@ static const EmeraldCollectedScreenAnimConfig decorationConfig[7] = {
       .oamOrder    = SPRITE_ORDER_30 },
 };
 
-static const EmeraldCollectedScreenAnimConfig chaosEmeraldConfig[9] = {
+static const EmeraldCollectedScreenAnimConfig sChaosEmeraldConfig[9] = {
     { .resource    = EMERALDCOLLECTED_RESOURCE_EMERALDS,
       .animID      = EMERALDCOLLECTED_EME_ANI_CHAOS_EMERALD_1,
       .pixelMode   = PIXEL_MODE_SPRITE,
@@ -254,7 +254,7 @@ static const EmeraldCollectedScreenAnimConfig chaosEmeraldConfig[9] = {
       .oamOrder    = SPRITE_ORDER_31 },
 };
 
-static const EmeraldCollectedScreenAnimConfig solEmeraldConfig[9] = {
+static const EmeraldCollectedScreenAnimConfig sSolEmeraldConfig[9] = {
     { .resource    = EMERALDCOLLECTED_RESOURCE_EMERALDS,
       .animID      = EMERALDCOLLECTED_EME_ANI_SOL_EMERALD_1,
       .pixelMode   = PIXEL_MODE_SPRITE,
@@ -547,7 +547,7 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenGraphics(EmeraldCollectedScreenWork
     InitBackground(&background, bgDown01, BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_3, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&background);
 
-    const EmeraldCollectedScreenAnimConfig *animConfig = decorationConfig;
+    const EmeraldCollectedScreenAnimConfig *animConfig = sDecorationConfig;
     i                                                  = 0;
     AnimatorSprite *aniJewel                           = work->animators;
     for (; i < 7; i++)
@@ -567,9 +567,9 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenGraphics(EmeraldCollectedScreenWork
 
     const EmeraldCollectedScreenAnimConfig *emeraldConfig;
     if (IsEmeraldCollectedScreenUsingChaosEmeralds())
-        emeraldConfig = chaosEmeraldConfig;
+        emeraldConfig = sChaosEmeraldConfig;
     else
-        emeraldConfig = solEmeraldConfig;
+        emeraldConfig = sSolEmeraldConfig;
 
     u32 e                      = 7;
     AnimatorSprite *aniEmerald = &work->animators[7];
@@ -739,7 +739,7 @@ _0215523E:
 	add r0, sp, #0xa4
 	bl DrawBackground
 	ldr r4, [sp, #0x28]
-	ldr r5, =decorationConfig
+	ldr r5, =sDecorationConfig
 	mov r6, #0
 	add r4, #8
 _021552A0:
@@ -780,11 +780,11 @@ _021552A0:
 	bl IsEmeraldCollectedScreenUsingChaosEmeralds
 	cmp r0, #0
 	beq _021552F8
-	ldr r0, =chaosEmeraldConfig
+	ldr r0, =sChaosEmeraldConfig
 	str r0, [sp, #0x2c]
 	b _021552FC
 _021552F8:
-	ldr r0, =solEmeraldConfig
+	ldr r0, =sSolEmeraldConfig
 	str r0, [sp, #0x2c]
 _021552FC:
 	mov r1, #0xb1
@@ -1125,7 +1125,7 @@ void HandleEmeraldCollectedScreenDrawing(EmeraldCollectedScreen *work)
         AnimatorSprite__DrawFrame(ani);
     }
 
-    const EmeraldCollectedScreenAnimConfig *config = &decorationConfig[0];
+    const EmeraldCollectedScreenAnimConfig *config = &sDecorationConfig[0];
     for (e = 0; e < 7; e++)
     {
         AnimatorSprite *aniEmerald;
@@ -1240,7 +1240,7 @@ void EmeraldCollectedScreen_State_InitMoveEmeraldIntoPlace(EmeraldCollectedScree
         return;
     }
 
-    const EmeraldCollectedScreenAnimConfig *config = &decorationConfig[process->currentEmerald];
+    const EmeraldCollectedScreenAnimConfig *config = &sDecorationConfig[process->currentEmerald];
 
     VecFx32 *targetPos = &process->emeraldTargetPos;
     targetPos->x       = 128 + (392 * (config->pos.x - 128));
@@ -1332,9 +1332,9 @@ void EmeraldCollectedScreen_State_EmeraldSparkle(EmeraldCollectedScreen *work)
 
     const EmeraldCollectedScreenAnimConfig *config;
     if (IsEmeraldCollectedScreenUsingChaosEmeralds())
-        config = chaosEmeraldConfig;
+        config = sChaosEmeraldConfig;
     else
-        config = solEmeraldConfig;
+        config = sSolEmeraldConfig;
 
     u32 i            = 0;
     s32 shineAniTime = 1;

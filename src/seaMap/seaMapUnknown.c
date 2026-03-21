@@ -30,7 +30,7 @@ void CreateSeaMapUnknown(void)
 {
     ReleaseAudioSystem();
     LoadAudioSndArc("snd/sys/sound_data.sdat");
-    NNS_SndArcLoadGroup(SND_SYS_GROUP_CHART, audioManagerSndHeap);
+    NNS_SndArcLoadGroup(SND_SYS_GROUP_CHART, gAudioManagerSndHeap);
 
     LoadSpriteButtonCursorSprite();
     LoadSpriteButtonTouchpadSprite();

@@ -11,28 +11,28 @@
 // VARIABLES
 // --------------------
 
-static s16 exRegularSonicInstanceCount;
-static s16 exSuperSonicInstanceCount;
-static s16 exSonicDashEffectInstanceCount;
-static s16 exSuperSonicSpriteInstanceCount;
-static void *exSonicDashEffectTaskSingleton;
-static u32 exSonicDashEffectTextureFileSize;
-static u32 exSonicDashEffectModelFileSize;
+static s16 sRegularSonicInstanceCount;
+static s16 sSuperSonicInstanceCount;
+static s16 sSonicDashEffectInstanceCount;
+static s16 sSuperSonicSpriteInstanceCount;
+static void *sSonicDashEffectTaskSingleton;
+static u32 sSonicDashEffectTextureFileSize;
+static u32 sSonicDashEffectModelFileSize;
 static void *superSonicJointAniResource;
-static void *exSonicDashEffectUnused;
-static void *exSonicDashEffectModelResource;
-static void *exSonicDashEffectLastSpawnedWorker;
-static void *exRegularSonicLastSpawnedWorker;
-static void *exSuperSonicSpriteResource;
-static void *exRegularSonicJointAniResource;
-static void *exRegularSonicModelResource;
-static void *exSuperSonicLastSpawnedWorker;
-static void *exSuperSonicModelResource;
-static void *exSonicDashEffectAnimResource[3];
-static u32 exSonicDashEffectAnimType[3];
+static void *sSonicDashEffectUnused;
+static void *sSonicDashEffectModelResource;
+static void *sSonicDashEffectLastSpawnedWorker;
+static void *sRegularSonicLastSpawnedWorker;
+static void *sSuperSonicSpriteResource;
+static void *sRegularSonicJointAniResource;
+static void *sRegularSonicModelResource;
+static void *sSuperSonicLastSpawnedWorker;
+static void *sSuperSonicModelResource;
+static void *sSonicDashEffectAnimResource[3];
+static u32 sSonicDashEffectAnimType[3];
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(exSonicDashEffectUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sSonicDashEffectUnused)
 
 // --------------------
 // FUNCTION DECLS
@@ -53,25 +53,25 @@ static void ExSonicDashEffect_Main_Active(void);
 // ExSonic
 void LoadExSuperSonicModel(EX_ACTION_NN_WORK *work)
 {
-    exSuperSonicLastSpawnedWorker = work;
+    sSuperSonicLastSpawnedWorker = work;
 
     InitExDrawRequestModel(work);
 
-    if (exSuperSonicInstanceCount == 0)
+    if (sSuperSonicInstanceCount == 0)
     {
-        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_SON_NSBMD, &exSuperSonicModelResource, TRUE, FALSE);
+        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_SON_NSBMD, &sSuperSonicModelResource, TRUE, FALSE);
 
         superSonicJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_SON_NSBCA);
-        NNS_G3dResDefaultSetup(exSuperSonicModelResource);
+        NNS_G3dResDefaultSetup(sSuperSonicModelResource);
 
-        void *oldMemory           = exSuperSonicModelResource;
-        exSuperSonicModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(exSuperSonicModelResource));
-        Asset3DSetup_CopyResourceData(oldMemory, exSuperSonicModelResource);
+        void *oldMemory           = sSuperSonicModelResource;
+        sSuperSonicModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(sSuperSonicModelResource));
+        Asset3DSetup_CopyResourceData(oldMemory, sSuperSonicModelResource);
         HeapFree(HEAP_USER, oldMemory);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exSuperSonicModelResource, 0, TRUE, TRUE);
+    AnimatorMDL__SetResource(&work->model.animator, sSuperSonicModelResource, 0, TRUE, TRUE);
     AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, superSonicJointAniResource, 0, NULL);
 
     work->model.primaryAnimType     = B3D_ANIM_JOINT_ANIM;
@@ -102,55 +102,55 @@ void LoadExSuperSonicModel(EX_ACTION_NN_WORK *work)
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
-    exSuperSonicInstanceCount++;
+    sSuperSonicInstanceCount++;
 }
 
 void SetExSuperSonicAnimation(EX_ACTION_NN_WORK *work, u16 anim)
 {
-    ExUtils_SetJointAnimation(work, exSuperSonicModelResource, NULL, superSonicJointAniResource, anim);
+    ExUtils_SetJointAnimation(work, sSuperSonicModelResource, NULL, superSonicJointAniResource, anim);
 }
 
 void ReleaseExSuperSonicModel(EX_ACTION_NN_WORK *work)
 {
-    if (exSuperSonicInstanceCount == 1)
+    if (sSuperSonicInstanceCount == 1)
     {
-        if (exSuperSonicModelResource != NULL)
-            NNS_G3dResDefaultRelease(exSuperSonicModelResource);
+        if (sSuperSonicModelResource != NULL)
+            NNS_G3dResDefaultRelease(sSuperSonicModelResource);
 
-        if (exSuperSonicModelResource != NULL)
-            HeapFree(HEAP_USER, exSuperSonicModelResource);
+        if (sSuperSonicModelResource != NULL)
+            HeapFree(HEAP_USER, sSuperSonicModelResource);
         else
-            exSuperSonicModelResource = NULL;
+            sSuperSonicModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    if (exSuperSonicInstanceCount > 0)
-        exSuperSonicInstanceCount--;
+    if (sSuperSonicInstanceCount > 0)
+        sSuperSonicInstanceCount--;
 }
 
 EX_ACTION_NN_WORK *GetExSuperSonicWorker(void)
 {
-    return exSuperSonicLastSpawnedWorker;
+    return sSuperSonicLastSpawnedWorker;
 }
 
 void LoadExRegularSonicModel(EX_ACTION_NN_WORK *work)
 {
-    exRegularSonicLastSpawnedWorker = work;
+    sRegularSonicLastSpawnedWorker = work;
 
     InitExDrawRequestModel(work);
 
-    if (exRegularSonicInstanceCount == 0)
+    if (sRegularSonicInstanceCount == 0)
     {
-        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_NSON_NSBMD, &exRegularSonicModelResource, TRUE, FALSE);
+        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_NSON_NSBMD, &sRegularSonicModelResource, TRUE, FALSE);
 
-        exRegularSonicJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_NSON_NSBCA);
-        CreateAsset3DSetup(exRegularSonicModelResource);
+        sRegularSonicJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_NSON_NSBCA);
+        CreateAsset3DSetup(sRegularSonicModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exRegularSonicModelResource, 0, TRUE, TRUE);
-    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exRegularSonicJointAniResource, 0, NULL);
+    AnimatorMDL__SetResource(&work->model.animator, sRegularSonicModelResource, 0, TRUE, TRUE);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, sRegularSonicJointAniResource, 0, NULL);
 
     work->model.primaryAnimType     = B3D_ANIM_JOINT_ANIM;
     work->model.primaryAnimResource = work->model.animator.currentAnimObj[B3D_ANIM_JOINT_ANIM];
@@ -178,80 +178,80 @@ void LoadExRegularSonicModel(EX_ACTION_NN_WORK *work)
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
-    exRegularSonicInstanceCount++;
+    sRegularSonicInstanceCount++;
 }
 
 void SetExRegularSonicAnimation(EX_ACTION_NN_WORK *work, u16 anim)
 {
-    ExUtils_SetJointAnimation(work, exRegularSonicModelResource, NULL, exRegularSonicJointAniResource, anim);
+    ExUtils_SetJointAnimation(work, sRegularSonicModelResource, NULL, sRegularSonicJointAniResource, anim);
 }
 
 void ReleaseExRegularSonicModel(EX_ACTION_NN_WORK *work)
 {
-    if (exRegularSonicInstanceCount == 1)
+    if (sRegularSonicInstanceCount == 1)
     {
-        if (exRegularSonicModelResource != NULL)
-            NNS_G3dResDefaultRelease(exRegularSonicModelResource);
+        if (sRegularSonicModelResource != NULL)
+            NNS_G3dResDefaultRelease(sRegularSonicModelResource);
 
-        if (exRegularSonicModelResource != NULL)
-            HeapFree(HEAP_USER, exRegularSonicModelResource);
+        if (sRegularSonicModelResource != NULL)
+            HeapFree(HEAP_USER, sRegularSonicModelResource);
         else
-            exRegularSonicModelResource = NULL;
+            sRegularSonicModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    if (exRegularSonicInstanceCount > 0)
-        exRegularSonicInstanceCount--;
+    if (sRegularSonicInstanceCount > 0)
+        sRegularSonicInstanceCount--;
 }
 
 // ExSonicDashEffect
 BOOL LoadExSonicDashEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    exSonicDashEffectLastSpawnedWorker = work;
+    sSonicDashEffectLastSpawnedWorker = work;
 
-    if (exSonicDashEffectModelFileSize != 0 && exSonicDashEffectTextureFileSize != 0)
+    if (sSonicDashEffectModelFileSize != 0 && sSonicDashEffectTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exSonicDashEffectModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sSonicDashEffectModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exSonicDashEffectTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sSonicDashEffectTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exSonicDashEffectModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sSonicDashEffectModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exSonicDashEffectInstanceCount == 0)
+    if (sSonicDashEffectInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SDASH_NSBMD, &exSonicDashEffectModelResource, &exSonicDashEffectModelFileSize, TRUE,
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SDASH_NSBMD, &sSonicDashEffectModelResource, &sSonicDashEffectModelFileSize, TRUE,
                                       FALSE);
 
-        exSonicDashEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SDASH_NSBCA);
-        exSonicDashEffectAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sSonicDashEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SDASH_NSBCA);
+        sSonicDashEffectAnimType[0]     = B3D_ANIM_JOINT_ANIM;
 
-        exSonicDashEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SDASH_NSBMA);
-        exSonicDashEffectAnimType[1]     = B3D_ANIM_MAT_ANIM;
+        sSonicDashEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SDASH_NSBMA);
+        sSonicDashEffectAnimType[1]     = B3D_ANIM_MAT_ANIM;
 
-        exSonicDashEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SDASH_NSBVA);
-        exSonicDashEffectAnimType[2]     = B3D_ANIM_VIS_ANIM;
+        sSonicDashEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SDASH_NSBVA);
+        sSonicDashEffectAnimType[2]     = B3D_ANIM_VIS_ANIM;
 
-        CreateAsset3DSetup(exSonicDashEffectModelResource);
+        CreateAsset3DSetup(sSonicDashEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exSonicDashEffectModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->model.animator, sSonicDashEffectModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
     for (; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exSonicDashEffectAnimType[i], exSonicDashEffectAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sSonicDashEffectAnimType[i], sSonicDashEffectAnimResource[i], 0, NULL);
     }
 
-    work->model.primaryAnimType     = exSonicDashEffectAnimType[1];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exSonicDashEffectAnimType[1]];
+    work->model.primaryAnimType     = sSonicDashEffectAnimType[1];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sSonicDashEffectAnimType[1]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -335,43 +335,43 @@ BOOL LoadExSonicDashEffectAssets(EX_ACTION_NN_WORK *work)
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
-    exSonicDashEffectInstanceCount++;
+    sSonicDashEffectInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExSonicDashEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exSonicDashEffectInstanceCount <= 1)
+    if (sSonicDashEffectInstanceCount <= 1)
     {
-        if (exSonicDashEffectModelResource != NULL)
-            NNS_G3dResDefaultRelease(exSonicDashEffectModelResource);
+        if (sSonicDashEffectModelResource != NULL)
+            NNS_G3dResDefaultRelease(sSonicDashEffectModelResource);
 
-        if (exSonicDashEffectAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exSonicDashEffectAnimResource[0]);
+        if (sSonicDashEffectAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sSonicDashEffectAnimResource[0]);
 
-        if (exSonicDashEffectAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exSonicDashEffectAnimResource[1]);
+        if (sSonicDashEffectAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sSonicDashEffectAnimResource[1]);
 
-        if (exSonicDashEffectAnimResource[2] != NULL)
-            NNS_G3dResDefaultRelease(exSonicDashEffectAnimResource[2]);
+        if (sSonicDashEffectAnimResource[2] != NULL)
+            NNS_G3dResDefaultRelease(sSonicDashEffectAnimResource[2]);
 
-        if (exSonicDashEffectModelResource != NULL)
-            HeapFree(HEAP_USER, exSonicDashEffectModelResource);
-        exSonicDashEffectModelResource = NULL;
+        if (sSonicDashEffectModelResource != NULL)
+            HeapFree(HEAP_USER, sSonicDashEffectModelResource);
+        sSonicDashEffectModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    if (exSonicDashEffectInstanceCount > 0)
-        exSonicDashEffectInstanceCount--;
+    if (sSonicDashEffectInstanceCount > 0)
+        sSonicDashEffectInstanceCount--;
 }
 
 void ExSonicDashEffect_Main_Init(void)
 {
     exSonDushEffectTask *work = ExTaskGetWorkCurrent(exSonDushEffectTask);
 
-    exSonicDashEffectTaskSingleton = GetCurrentTask();
+    sSonicDashEffectTaskSingleton = GetCurrentTask();
 
     LoadExSonicDashEffectAssets(&work->aniDash);
     SetExDrawRequestPriority(&work->aniDash.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -395,7 +395,7 @@ void ExSonicDashEffect_Destructor(void)
 
     ReleaseExSonicDashEffectAssets(&work->aniDash);
 
-    exSonicDashEffectTaskSingleton = NULL;
+    sSonicDashEffectTaskSingleton = NULL;
 }
 
 void ExSonicDashEffect_Main_Active(void)
@@ -422,7 +422,7 @@ void ExSonicDashEffect_Main_Active(void)
 
 BOOL CreateExSonicDashEffect(EX_ACTION_NN_WORK *parent)
 {
-    if (exSonicDashEffectTaskSingleton != NULL)
+    if (sSonicDashEffectTaskSingleton != NULL)
         DestroyExSonicDashEffect();
 
     Task *task = ExTaskCreate(ExSonicDashEffect_Main_Init, ExSonicDashEffect_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(5), 0, EXTASK_TYPE_REGULAR,
@@ -440,8 +440,8 @@ BOOL CreateExSonicDashEffect(EX_ACTION_NN_WORK *parent)
 
 void DestroyExSonicDashEffect(void)
 {
-    if (exSonicDashEffectTaskSingleton != NULL)
-        DestroyExTask(exSonicDashEffectTaskSingleton);
+    if (sSonicDashEffectTaskSingleton != NULL)
+        DestroyExTask(sSonicDashEffectTaskSingleton);
 }
 
 // ExSonicSprite
@@ -449,12 +449,12 @@ void LoadExSuperSonicSprite(EX_ACTION_BAC3D_WORK *work)
 {
     InitExDrawRequestSprite3D(work);
 
-    if (exSuperSonicSpriteInstanceCount == 0)
-        exSuperSonicSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
+    if (sSuperSonicSpriteInstanceCount == 0)
+        sSuperSonicSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
 
-    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exSuperSonicSpriteResource, 1), FALSE);
-    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exSuperSonicSpriteResource, 1), FALSE);
-    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exSuperSonicSpriteResource, EX_ACTCOM_ANI_SUPERSONIC, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
+    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(sSuperSonicSpriteResource, 1), FALSE);
+    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(sSuperSonicSpriteResource, 1), FALSE);
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, sSuperSonicSpriteResource, EX_ACTCOM_ANI_SUPERSONIC, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
                            vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
@@ -472,12 +472,12 @@ void LoadExSuperSonicSprite(EX_ACTION_BAC3D_WORK *work)
     work->hitChecker.box.size.z   = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position = &work->sprite.translation;
 
-    exSuperSonicSpriteInstanceCount++;
+    sSuperSonicSpriteInstanceCount++;
 }
 
 void ReleaseExSuperSonicSprite(EX_ACTION_BAC3D_WORK *work)
 {
     AnimatorSprite3D__Release(&work->sprite.animator);
 
-    exSuperSonicSpriteInstanceCount--;
+    sSuperSonicSpriteInstanceCount--;
 }

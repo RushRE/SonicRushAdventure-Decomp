@@ -18,65 +18,65 @@ typedef u16 (*TalkHelperFunc)(void);
 // VARIABLES
 // --------------------
 
-static const u16 missionTable_Tabby[] = { MISSION_9, MISSION_59, MISSION_49 };
+static const u16 sMissionTable_Tabby[] = { MISSION_9, MISSION_59, MISSION_49 };
 
-static const u16 missionIslandTable_Tabby[] = { MISSION_INVALID, MISSION_INVALID, MISSION_INVALID };
+static const u16 sMissionIslandTable_Tabby[] = { MISSION_INVALID, MISSION_INVALID, MISSION_INVALID };
 
-static const u16 missionTable_Daikun[] = { MISSION_39, MISSION_88, MISSION_91 };
+static const u16 sMissionTable_Daikun[] = { MISSION_39, MISSION_88, MISSION_91 };
 
-static const u16 missionIslandTable_Daikun[] = { MISSION_INVALID, SAVE_ISLAND_10, SAVE_ISLAND_12 };
+static const u16 sMissionIslandTable_Daikun[] = { MISSION_INVALID, SAVE_ISLAND_10, SAVE_ISLAND_12 };
 
-static const u16 missionIslandTable_Norman[] = { MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID };
+static const u16 sMissionIslandTable_Norman[] = { MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID };
 
-static const u16 missionTable_Norman[] = { MISSION_95, MISSION_96, MISSION_97, MISSION_98 };
+static const u16 sMissionTable_Norman[] = { MISSION_95, MISSION_96, MISSION_97, MISSION_98 };
 
-static const u16 missionIslandTable_Kylok[] = { MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID };
+static const u16 sMissionIslandTable_Kylok[] = { MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID };
 
-static const u16 missionTable_Kylok[] = { MISSION_6, MISSION_16, MISSION_26, MISSION_36, MISSION_47 };
+static const u16 sMissionTable_Kylok[] = { MISSION_6, MISSION_16, MISSION_26, MISSION_36, MISSION_47 };
 
-static const u16 missionValueTable_Daikun[] = { 7, 8, 10, 11, 13, 14 };
+static const u16 sMissionValueTable_Daikun[] = { 7, 8, 10, 11, 13, 14 };
 
-static const u16 missionValueTable_Tabby[] = { 10, 11, 13, 14, 16, 17 };
+static const u16 sMissionValueTable_Tabby[] = { 10, 11, 13, 14, 16, 17 };
 
-static const u16 missionTable_Setter[] = { MISSION_83, MISSION_84, MISSION_79, MISSION_89, MISSION_93, MISSION_85 };
+static const u16 sMissionTable_Setter[] = { MISSION_83, MISSION_84, MISSION_79, MISSION_89, MISSION_93, MISSION_85 };
 
-static const u16 missionIslandTable_Setter[] = { SAVE_ISLAND_6, SAVE_ISLAND_7, SAVE_ISLAND_4, SAVE_ISLAND_11, SAVE_ISLAND_13, SAVE_ISLAND_8 };
+static const u16 sMissionIslandTable_Setter[] = { SAVE_ISLAND_6, SAVE_ISLAND_7, SAVE_ISLAND_4, SAVE_ISLAND_11, SAVE_ISLAND_13, SAVE_ISLAND_8 };
 
-static const u16 missionTable_Gardon[7] = { MISSION_19, MISSION_77, MISSION_29, MISSION_86, MISSION_81, MISSION_69, MISSION_71 };
+static const u16 sMissionTable_Gardon[7] = { MISSION_19, MISSION_77, MISSION_29, MISSION_86, MISSION_81, MISSION_69, MISSION_71 };
 
-static const u16 missionIslandTable_Gardon[] = { MISSION_INVALID, SAVE_ISLAND_3, MISSION_INVALID, SAVE_ISLAND_9, SAVE_ISLAND_5, MISSION_INVALID, MISSION_INVALID };
+static const u16 sMissionIslandTable_Gardon[] = { MISSION_INVALID, SAVE_ISLAND_3, MISSION_INVALID, SAVE_ISLAND_9, SAVE_ISLAND_5, MISSION_INVALID, MISSION_INVALID };
 
-static const u16 missionValueTable_Norman[] = { 7, 8, 9, 10, 11, 12, 13, 14 };
+static const u16 sMissionValueTable_Norman[] = { 7, 8, 9, 10, 11, 12, 13, 14 };
 
-static const MissionHelpersProgressCheck missionProgressTable_Tabby[] = {
+static const MissionHelpersProgressCheck sMissionProgressTable_Tabby[] = {
     { .gameProgress = SAVE_PROGRESS_5, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
     { .gameProgress = SAVE_PROGRESS_26, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
     { .gameProgress = SAVE_PROGRESS_35, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
 };
 
-static const MissionHelpersProgressCheck missionProgressTable_Daikun[] = {
+static const MissionHelpersProgressCheck sMissionProgressTable_Daikun[] = {
     { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
     { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
     { .gameProgress = SAVE_PROGRESS_35, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
 };
 
-static const u16 missionValueTable_Kylok[] = { 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
+static const u16 sMissionValueTable_Kylok[] = { 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
 
-static const MissionHelpersProgressCheck missionProgressTable_Norman[] = {
+static const MissionHelpersProgressCheck sMissionProgressTable_Norman[] = {
     { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
     { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
     { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
     { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
 };
 
-static const u16 missionValueTable_Setter[] = { 8, 9, 11, 12, 14, 15, 17, 18, 20, 21, 23, 24 };
+static const u16 sMissionValueTable_Setter[] = { 8, 9, 11, 12, 14, 15, 17, 18, 20, 21, 23, 24 };
 
-static const u16 missionValueTable_Gardon[] = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
+static const u16 sMissionValueTable_Gardon[] = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
 
 static const u16 postGameMissionListMarine[] = { MISSION_2,  MISSION_7,  MISSION_13, MISSION_17, MISSION_23, MISSION_27, MISSION_33,
                                                  MISSION_37, MISSION_43, MISSION_48, MISSION_53, MISSION_57, MISSION_63, MISSION_67 };
 
-static const MissionHelpersProgressCheck missionProgressTable_Kylok[] = {
+static const MissionHelpersProgressCheck sMissionProgressTable_Kylok[] = {
     { .gameProgress = SAVE_PROGRESS_21, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
     { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
     { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
@@ -84,7 +84,7 @@ static const MissionHelpersProgressCheck missionProgressTable_Kylok[] = {
     { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
 };
 
-static const MissionHelpersProgressCheck missionProgressTable_Setter[] = {
+static const MissionHelpersProgressCheck sMissionProgressTable_Setter[] = {
     { .gameProgress = SAVE_PROGRESS_8, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
     { .gameProgress = SAVE_PROGRESS_9, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
     { .gameProgress = SAVE_PROGRESS_16, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
@@ -93,7 +93,7 @@ static const MissionHelpersProgressCheck missionProgressTable_Setter[] = {
     { .gameProgress = SAVE_PROGRESS_30, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
 };
 
-static const MissionHelpersProgressCheck missionProgressTable_Gardon[] = {
+static const MissionHelpersProgressCheck sMissionProgressTable_Gardon[] = {
     { .gameProgress = SAVE_PROGRESS_16, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
     { .gameProgress = SAVE_PROGRESS_21, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
     { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_0 },
@@ -103,7 +103,7 @@ static const MissionHelpersProgressCheck missionProgressTable_Gardon[] = {
     { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6 },
 };
 
-static const u16 messageControlFileTable[TALKINTERACTION_COUNT] = {
+static const u16 sMessageControlFileTable[TALKINTERACTION_COUNT] = {
     [TALKINTERACTION_TAILS]     = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_TK_TAILS_MCF,
     [TALKINTERACTION_MARINE]    = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_TK_RAC_MCF,
     [TALKINTERACTION_BLAZE]     = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_TK_BLZ_MCF,
@@ -128,7 +128,7 @@ static const u16 messageControlFileTable[TALKINTERACTION_COUNT] = {
     [TALKINTERACTION_MUZY]      = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_TK_MSC_MCF,
 };
 
-static const u16 talkInteractionList_Daikun[] = {
+static const u16 sTalkInteractionList_Daikun[] = {
     MISSION_INVALID,
     MISSION_INVALID,
     MISSION_INVALID,
@@ -179,7 +179,7 @@ static const u16 talkInteractionList_Daikun[] = {
     6,
 };
 
-static const u16 talkInteractionList_Muzy[] = {
+static const u16 sTalkInteractionList_Muzy[] = {
     MISSION_INVALID,
     MISSION_INVALID,
     MISSION_INVALID,
@@ -230,7 +230,7 @@ static const u16 talkInteractionList_Muzy[] = {
     1,
 };
 
-static const u16 talkInteractionList_Norman[] = {
+static const u16 sTalkInteractionList_Norman[] = {
     MISSION_INVALID,
     MISSION_INVALID,
     MISSION_INVALID,
@@ -281,7 +281,7 @@ static const u16 talkInteractionList_Norman[] = {
     6,
 };
 
-static const u16 talkInteractionList_Marine[] = {
+static const u16 sTalkInteractionList_Marine[] = {
     MISSION_INVALID,
     1,
     2,
@@ -332,7 +332,7 @@ static const u16 talkInteractionList_Marine[] = {
     23,
 };
 
-static const u16 talkInteractionList_Blaze[] = {
+static const u16 sTalkInteractionList_Blaze[] = {
     MISSION_INVALID,
     MISSION_INVALID,
     MISSION_INVALID,
@@ -383,11 +383,11 @@ static const u16 talkInteractionList_Blaze[] = {
     16,
 };
 
-static const u16 talkInteractionList_Setter[] = {
+static const u16 sTalkInteractionList_Setter[] = {
     MISSION_INVALID, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7,
 };
 
-static const u16 talkInteractionList_Tabby[] = {
+static const u16 sTalkInteractionList_Tabby[] = {
     MISSION_INVALID,
     MISSION_INVALID,
     MISSION_INVALID,
@@ -438,7 +438,7 @@ static const u16 talkInteractionList_Tabby[] = {
     9,
 };
 
-static const u16 talkInteractionList_Colonel[] = {
+static const u16 sTalkInteractionList_Colonel[] = {
     MISSION_INVALID,
     MISSION_INVALID,
     MISSION_INVALID,
@@ -489,7 +489,7 @@ static const u16 talkInteractionList_Colonel[] = {
     12,
 };
 
-static const u16 talkInteractionList_Gardon[] = {
+static const u16 sTalkInteractionList_Gardon[] = {
     MISSION_INVALID,
     MISSION_INVALID,
     MISSION_INVALID,
@@ -540,7 +540,7 @@ static const u16 talkInteractionList_Gardon[] = {
     9,
 };
 
-static const u16 talkInteractionList_Kylok[] = {
+static const u16 sTalkInteractionList_Kylok[] = {
     MISSION_INVALID,
     MISSION_INVALID,
     MISSION_INVALID,
@@ -591,7 +591,7 @@ static const u16 talkInteractionList_Kylok[] = {
     4,
 };
 
-static const u16 talkInteractionList_Tails[] = {
+static const u16 sTalkInteractionList_Tails[] = {
     MISSION_INVALID,
     9,
     7,
@@ -642,7 +642,7 @@ static const u16 talkInteractionList_Tails[] = {
     34,
 };
 
-static const u16 postGameMissionIslandListMuzy[] = {
+static const u16 sPostGameMissionIslandListMuzy[] = {
     MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID,
     MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID,
     MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID, MISSION_INVALID,
@@ -651,7 +651,7 @@ static const u16 postGameMissionIslandListMuzy[] = {
     SAVE_ISLAND_3,   SAVE_ISLAND_4,   SAVE_ISLAND_5,   SAVE_ISLAND_9,   SAVE_ISLAND_11,  SAVE_ISLAND_12,  SAVE_ISLAND_13,
 };
 
-static const u16 postGameMissionListMuzy[] = {
+static const u16 sPostGameMissionListMuzy[] = {
     MISSION_0,  MISSION_1,  MISSION_3,  MISSION_4,  MISSION_5,  MISSION_8,  MISSION_10, MISSION_11, MISSION_12, MISSION_14, MISSION_15, MISSION_18,
     MISSION_20, MISSION_21, MISSION_22, MISSION_24, MISSION_25, MISSION_28, MISSION_30, MISSION_31, MISSION_32, MISSION_34, MISSION_35, MISSION_38,
     MISSION_40, MISSION_41, MISSION_42, MISSION_44, MISSION_45, MISSION_46, MISSION_50, MISSION_51, MISSION_52, MISSION_54, MISSION_55, MISSION_56,
@@ -689,7 +689,7 @@ static u16 TalkHelpers__Interaction3_Muzy(void);
 // VARIABLES (PART 2)
 // --------------------
 
-static TalkHelperFunc talkInteractionTable2[TALKINTERACTION_COUNT] = {
+static TalkHelperFunc sTalkInteractionTable2[TALKINTERACTION_COUNT] = {
     [TALKINTERACTION_TAILS]     = TalkHelpers__Interaction2_Tails,
     [TALKINTERACTION_MARINE]    = NULL,
     [TALKINTERACTION_BLAZE]     = NULL,
@@ -714,32 +714,32 @@ static TalkHelperFunc talkInteractionTable2[TALKINTERACTION_COUNT] = {
     [TALKINTERACTION_MUZY]      = NULL,
 };
 
-static const u16 *talkInteractionTable0[TALKINTERACTION_COUNT] = {
-    [TALKINTERACTION_TAILS]     = talkInteractionList_Tails,
-    [TALKINTERACTION_MARINE]    = talkInteractionList_Marine,
-    [TALKINTERACTION_BLAZE]     = talkInteractionList_Blaze,
-    [TALKINTERACTION_TABBY]     = talkInteractionList_Tabby,
-    [TALKINTERACTION_COLONEL]   = talkInteractionList_Colonel,
-    [TALKINTERACTION_SETTER]    = talkInteractionList_Setter,
-    [TALKINTERACTION_COLONEL_2] = talkInteractionList_Colonel,
+static const u16 *sTalkInteractionTable0[TALKINTERACTION_COUNT] = {
+    [TALKINTERACTION_TAILS]     = sTalkInteractionList_Tails,
+    [TALKINTERACTION_MARINE]    = sTalkInteractionList_Marine,
+    [TALKINTERACTION_BLAZE]     = sTalkInteractionList_Blaze,
+    [TALKINTERACTION_TABBY]     = sTalkInteractionList_Tabby,
+    [TALKINTERACTION_COLONEL]   = sTalkInteractionList_Colonel,
+    [TALKINTERACTION_SETTER]    = sTalkInteractionList_Setter,
+    [TALKINTERACTION_COLONEL_2] = sTalkInteractionList_Colonel,
     [TALKINTERACTION_7]         = NULL,
     [TALKINTERACTION_8]         = NULL,
-    [TALKINTERACTION_TAILS_2]   = talkInteractionList_Tails,
-    [TALKINTERACTION_MARINE_2]  = talkInteractionList_Marine,
-    [TALKINTERACTION_TABBY_2]   = talkInteractionList_Tabby,
-    [TALKINTERACTION_KYLOK]     = talkInteractionList_Kylok,
-    [TALKINTERACTION_COLONEL_3] = talkInteractionList_Colonel,
-    [TALKINTERACTION_GARDON]    = talkInteractionList_Gardon,
-    [TALKINTERACTION_NORMAN]    = talkInteractionList_Norman,
-    [TALKINTERACTION_COLONEL_4] = talkInteractionList_Colonel,
-    [TALKINTERACTION_DAIKUN]    = talkInteractionList_Daikun,
-    [TALKINTERACTION_COLONEL_5] = talkInteractionList_Colonel,
-    [TALKINTERACTION_DAIKUN_2]  = talkInteractionList_Daikun,
-    [TALKINTERACTION_TABBY_3]   = talkInteractionList_Tabby,
-    [TALKINTERACTION_MUZY]      = talkInteractionList_Muzy,
+    [TALKINTERACTION_TAILS_2]   = sTalkInteractionList_Tails,
+    [TALKINTERACTION_MARINE_2]  = sTalkInteractionList_Marine,
+    [TALKINTERACTION_TABBY_2]   = sTalkInteractionList_Tabby,
+    [TALKINTERACTION_KYLOK]     = sTalkInteractionList_Kylok,
+    [TALKINTERACTION_COLONEL_3] = sTalkInteractionList_Colonel,
+    [TALKINTERACTION_GARDON]    = sTalkInteractionList_Gardon,
+    [TALKINTERACTION_NORMAN]    = sTalkInteractionList_Norman,
+    [TALKINTERACTION_COLONEL_4] = sTalkInteractionList_Colonel,
+    [TALKINTERACTION_DAIKUN]    = sTalkInteractionList_Daikun,
+    [TALKINTERACTION_COLONEL_5] = sTalkInteractionList_Colonel,
+    [TALKINTERACTION_DAIKUN_2]  = sTalkInteractionList_Daikun,
+    [TALKINTERACTION_TABBY_3]   = sTalkInteractionList_Tabby,
+    [TALKINTERACTION_MUZY]      = sTalkInteractionList_Muzy,
 };
 
-static TalkHelperFunc talkInteractionTable1[TALKINTERACTION_COUNT] = {
+static TalkHelperFunc sTalkInteractionTable1[TALKINTERACTION_COUNT] = {
     [TALKINTERACTION_TAILS]     = TalkHelpers__Interaction1_Tails,
     [TALKINTERACTION_MARINE]    = TalkHelpers__Interaction1_Marine,
     [TALKINTERACTION_BLAZE]     = NULL,
@@ -764,7 +764,7 @@ static TalkHelperFunc talkInteractionTable1[TALKINTERACTION_COUNT] = {
     [TALKINTERACTION_MUZY]      = TalkHelpers__Interaction1_Muzy,
 };
 
-static TalkHelperFunc talkInteractionTable3[TALKINTERACTION_COUNT] = {
+static TalkHelperFunc sTalkInteractionTable3[TALKINTERACTION_COUNT] = {
     [TALKINTERACTION_TAILS]     = NULL,
     [TALKINTERACTION_MARINE]    = TalkHelpers__Interaction3_Marine,
     [TALKINTERACTION_BLAZE]     = NULL,
@@ -796,36 +796,36 @@ static TalkHelperFunc talkInteractionTable3[TALKINTERACTION_COUNT] = {
 // TalkHelpers
 u16 TalkHelpers__GetInteractionCtrl(s32 id)
 {
-    return messageControlFileTable[id];
+    return sMessageControlFileTable[id];
 }
 
 u16 TalkHelpers__GetInteractionText1(s32 id)
 {
-    return talkInteractionTable0[id][TalkHelpers__GetInteraction0ID(id)];
+    return sTalkInteractionTable0[id][TalkHelpers__GetInteraction0ID(id)];
 }
 
 u16 TalkHelpers__GetInteractionText2(s32 id)
 {
-    if (talkInteractionTable1[id] == NULL)
+    if (sTalkInteractionTable1[id] == NULL)
         return MISSION_INVALID;
 
-    return talkInteractionTable1[id]();
+    return sTalkInteractionTable1[id]();
 }
 
 u16 TalkHelpers__GetInteractionText3(s32 id)
 {
-    if (talkInteractionTable2[id] == NULL)
+    if (sTalkInteractionTable2[id] == NULL)
         return MISSION_INVALID;
 
-    return talkInteractionTable2[id]();
+    return sTalkInteractionTable2[id]();
 }
 
 u16 TalkHelpers__GetInteractionText4(s32 id)
 {
-    if (talkInteractionTable3[id] == NULL)
+    if (sTalkInteractionTable3[id] == NULL)
         return MISSION_INVALID;
 
-    return talkInteractionTable3[id]();
+    return sTalkInteractionTable3[id]();
 }
 
 u16 TalkHelpers__GetInteraction0ID(s32 id)
@@ -955,8 +955,8 @@ u16 TalkHelpers__Interaction3_Marine(void)
 
 u16 TalkHelpers__Interaction3_Setter(void)
 {
-    u16 id = MissionHelpers__GetInteractionForMission(ARRAY_COUNT(missionTable_Setter), missionTable_Setter, (const u16 *)missionProgressTable_Setter, missionIslandTable_Setter,
-                                                      missionValueTable_Setter);
+    u16 id = MissionHelpers__GetInteractionForMission(ARRAY_COUNT(sMissionTable_Setter), sMissionTable_Setter, (const u16 *)sMissionProgressTable_Setter, sMissionIslandTable_Setter,
+                                                      sMissionValueTable_Setter);
 
     if (id == 23 && !MissionHelpers__CheckMissionCompleted(MISSION_84))
         return MISSION_INVALID;
@@ -966,39 +966,39 @@ u16 TalkHelpers__Interaction3_Setter(void)
 
 u16 TalkHelpers__Interaction3_Tabby(void)
 {
-    return MissionHelpers__GetInteractionForMission(ARRAY_COUNT(missionTable_Tabby), missionTable_Tabby, (const u16 *)missionProgressTable_Tabby, missionIslandTable_Tabby,
-                                                    missionValueTable_Tabby);
+    return MissionHelpers__GetInteractionForMission(ARRAY_COUNT(sMissionTable_Tabby), sMissionTable_Tabby, (const u16 *)sMissionProgressTable_Tabby, sMissionIslandTable_Tabby,
+                                                    sMissionValueTable_Tabby);
 }
 
 u16 TalkHelpers__Interaction3_Kylok(void)
 {
-    return MissionHelpers__GetInteractionForMission(ARRAY_COUNT(missionTable_Kylok), missionTable_Kylok, (const u16 *)missionProgressTable_Kylok, missionIslandTable_Kylok,
-                                                    missionValueTable_Kylok);
+    return MissionHelpers__GetInteractionForMission(ARRAY_COUNT(sMissionTable_Kylok), sMissionTable_Kylok, (const u16 *)sMissionProgressTable_Kylok, sMissionIslandTable_Kylok,
+                                                    sMissionValueTable_Kylok);
 }
 
 u16 TalkHelpers__Interaction3_Gardon(void)
 {
-    return MissionHelpers__GetInteractionForMission(ARRAY_COUNT(missionTable_Gardon), missionTable_Gardon, (const u16 *)missionProgressTable_Gardon, missionIslandTable_Gardon,
-                                                    missionValueTable_Gardon);
+    return MissionHelpers__GetInteractionForMission(ARRAY_COUNT(sMissionTable_Gardon), sMissionTable_Gardon, (const u16 *)sMissionProgressTable_Gardon, sMissionIslandTable_Gardon,
+                                                    sMissionValueTable_Gardon);
 }
 
 u16 TalkHelpers__Interaction3_Daikun(void)
 {
-    return MissionHelpers__GetInteractionForMission(ARRAY_COUNT(missionTable_Daikun), missionTable_Daikun, (const u16 *)missionProgressTable_Daikun, missionIslandTable_Daikun,
-                                                    missionValueTable_Daikun);
+    return MissionHelpers__GetInteractionForMission(ARRAY_COUNT(sMissionTable_Daikun), sMissionTable_Daikun, (const u16 *)sMissionProgressTable_Daikun, sMissionIslandTable_Daikun,
+                                                    sMissionValueTable_Daikun);
 }
 
 u16 TalkHelpers__Interaction3_Norman(void)
 {
-    return MissionHelpers__GetInteractionForMission(ARRAY_COUNT(missionTable_Norman), missionTable_Norman, (const u16 *)missionProgressTable_Norman, missionIslandTable_Norman,
-                                                    missionValueTable_Norman);
+    return MissionHelpers__GetInteractionForMission(ARRAY_COUNT(sMissionTable_Norman), sMissionTable_Norman, (const u16 *)sMissionProgressTable_Norman, sMissionIslandTable_Norman,
+                                                    sMissionValueTable_Norman);
 }
 
 u16 TalkHelpers__Interaction3_Muzy(void)
 {
-    for (s32 i = 0; i < (s32)ARRAY_COUNT(postGameMissionListMuzy); i++)
+    for (s32 i = 0; i < (s32)ARRAY_COUNT(sPostGameMissionListMuzy); i++)
     {
-        u16 id = postGameMissionListMuzy[i];
+        u16 id = sPostGameMissionListMuzy[i];
         if (!MissionHelpers__CheckMissionCompleted(id) && MissionHelpers__CheckMissionBeaten(id))
             return 2;
     }
@@ -1008,17 +1008,17 @@ u16 TalkHelpers__Interaction3_Muzy(void)
 
 s32 MissionHelpers__MuzyPostGameMissionCount(void)
 {
-    return ARRAY_COUNT(postGameMissionListMuzy);
+    return ARRAY_COUNT(sPostGameMissionListMuzy);
 }
 
 u16 MissionHelpers__GetMuzyPostGameMission(u16 id)
 {
-    return postGameMissionListMuzy[id];
+    return sPostGameMissionListMuzy[id];
 }
 
 u16 MissionHelpers__GetMuzyPostGameMissionIsland(u16 id)
 {
-    return postGameMissionIslandListMuzy[id];
+    return sPostGameMissionIslandListMuzy[id];
 }
 
 s32 MissionHelpers__MarinePostGameMissionCount(void)
@@ -1033,12 +1033,12 @@ u32 MissionHelpers__GetMarinePostGameMission(u16 id)
 
 s32 MissionHelpers__BlazeMissionCount(void)
 {
-    return ARRAY_COUNT(missionTable_Gardon);
+    return ARRAY_COUNT(sMissionTable_Gardon);
 }
 
 u16 MissionHelpers__GetBlazeMission(u16 id)
 {
-    return missionTable_Gardon[id];
+    return sMissionTable_Gardon[id];
 }
 
 u16 MissionHelpers__GetInteractionForMission(u32 count, const u16 *missionTable, const u16 *progressTable, const u16 *islandTable, const u16 *value)

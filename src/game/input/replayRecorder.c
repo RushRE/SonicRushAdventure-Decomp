@@ -19,10 +19,20 @@ static void ReplayRecorderTouch_Destructor(Task *task);
 static void ReplayRecorderTouch_Main(void);
 
 // --------------------
+// STRUCTS
+// --------------------
+
+struct ReplayState
+{
+    ReplayMode pad;
+    ReplayMode touch;
+};
+
+// --------------------
 // VARIABLES
 // --------------------
 
-struct ReplayState replayState;
+static struct ReplayState sReplayState;
 
 // --------------------
 // FUNCTIONS
@@ -31,25 +41,25 @@ struct ReplayState replayState;
 // Replay Manager
 ReplayMode GetPadReplayState(void)
 {
-    return replayState.pad;
+    return sReplayState.pad;
 }
 
 void SetPadReplayState(ReplayMode state)
 {
-    if (replayState.pad)
-        replayState.pad = state;
+    if (sReplayState.pad)
+        sReplayState.pad = state;
 }
 
 void SetTouchReplayState(ReplayMode state)
 {
-    if (replayState.touch)
-        replayState.touch = state;
+    if (sReplayState.touch)
+        sReplayState.touch = state;
 }
 
 void InitReplaySystem(void)
 {
-    replayState.pad   = REPLAY_MODE_NONE;
-    replayState.touch = REPLAY_MODE_NONE;
+    sReplayState.pad   = REPLAY_MODE_NONE;
+    sReplayState.touch = REPLAY_MODE_NONE;
 }
 
 // ReplayRecorder (button inputs)
@@ -74,7 +84,7 @@ void CreateReplayRecorderPadEx(ReplayRecorderType type, PadInputState *inputStat
         {
             case REPLAYRECORDER_TYPE_RECORD:
                 work->flags |= REPLAYRECORDER_FLAG_IS_RECORDING;
-                replayState.pad       = REPLAY_MODE_RECORD;
+                sReplayState.pad       = REPLAY_MODE_RECORD;
                 work->keyDataFile     = keyDataFile;
                 work->keyDataFileSize = keyDataFileSize;
                 MI_CpuFill8(work->keyDataFile, 0, work->keyDataFileSize);
@@ -84,7 +94,7 @@ void CreateReplayRecorderPadEx(ReplayRecorderType type, PadInputState *inputStat
 
             case REPLAYRECORDER_TYPE_PLAY_MEMORY:
                 work->flags |= REPLAYRECORDER_FLAG_IS_REPLAYING;
-                replayState.pad       = REPLAY_MODE_PLAYBACK;
+                sReplayState.pad       = REPLAY_MODE_PLAYBACK;
                 work->keyDataFile     = keyDataFile;
                 work->keyDataFileSize = keyDataFileSize;
                 mtMathSetRandSeed(work->keyDataFile->header.randSeed);
@@ -94,7 +104,7 @@ void CreateReplayRecorderPadEx(ReplayRecorderType type, PadInputState *inputStat
 
             case REPLAYRECORDER_TYPE_PLAY_FILE:
                 work->flags |= REPLAYRECORDER_FLAG_IS_REPLAYING;
-                replayState.pad   = REPLAY_MODE_PLAYBACK;
+                sReplayState.pad   = REPLAY_MODE_PLAYBACK;
                 work->keyDataFile = FSRequestFileSync(path, FSREQ_AUTO_ALLOC_HEAD);
                 work->flags |= REPLAYRECORDER_FLAG_IS_DEMO_PLAYBACK;
                 mtMathSetRandSeed(work->keyDataFile->header.randSeed);
@@ -112,7 +122,7 @@ void ReplayRecorderPad_Destructor(Task *task)
     if ((work->flags & REPLAYRECORDER_FLAG_IS_DEMO_PLAYBACK) != 0)
         HeapFree(HEAP_USER, work->keyDataFile);
 
-    replayState.pad = REPLAY_MODE_NONE;
+    sReplayState.pad = REPLAY_MODE_NONE;
 
     if (USING_GLOBAL_INPUT)
         EnablePadInput(FALSE);
@@ -123,12 +133,12 @@ void ReplayRecorderPad_Main(void)
     ReplayRecorderPad *work = TaskGetWorkCurrent(ReplayRecorderPad);
 
     // Mode change
-    if (work->mode != replayState.pad)
+    if (work->mode != sReplayState.pad)
     {
         work->frameDuration = 0;
         work->frameID       = 0;
 
-        switch (replayState.pad)
+        switch (sReplayState.pad)
         {
             default:
                 if (USING_GLOBAL_INPUT)
@@ -166,7 +176,7 @@ void ReplayRecorderPad_Main(void)
         }
     }
 
-    work->mode = replayState.pad;
+    work->mode = sReplayState.pad;
 
     if ((work->flags & REPLAYRECORDER_FLAG_IS_REPLAYING) != 0)
     {
@@ -195,7 +205,7 @@ void ReplayRecorderPad_Main(void)
         if (frame->duration == 0)
         {
             work->flags &= ~REPLAYRECORDER_FLAG_IS_REPLAYING;
-            replayState.pad     = REPLAY_MODE_FINISHED;
+            sReplayState.pad     = REPLAY_MODE_FINISHED;
             work->frameDuration = 0;
         }
     }
@@ -234,7 +244,7 @@ void ReplayRecorderPad_Main(void)
         if ((sizeof(KeyDataPadFrame) * work->frameID) >= (work->keyDataFileSize - 6))
         {
             work->flags &= ~REPLAYRECORDER_FLAG_IS_RECORDING;
-            replayState.pad = REPLAY_MODE_FINISHED;
+            sReplayState.pad = REPLAY_MODE_FINISHED;
         }
     }
 
@@ -276,7 +286,7 @@ void CreateReplayRecorderTouchEx(ReplayRecorderType type, TouchInputState *input
         {
             case REPLAYRECORDER_TYPE_RECORD:
                 work->flags |= REPLAYRECORDER_FLAG_IS_RECORDING;
-                replayState.touch     = REPLAY_MODE_RECORD;
+                sReplayState.touch     = REPLAY_MODE_RECORD;
                 work->keyDataFile     = keyDataFile;
                 work->keyDataFileSize = keyDataFileSize;
                 MI_CpuFill8(work->keyDataFile, 0, work->keyDataFileSize);
@@ -286,7 +296,7 @@ void CreateReplayRecorderTouchEx(ReplayRecorderType type, TouchInputState *input
 
             case REPLAYRECORDER_TYPE_PLAY_MEMORY:
                 work->flags |= REPLAYRECORDER_FLAG_IS_REPLAYING;
-                replayState.touch     = REPLAY_MODE_PLAYBACK;
+                sReplayState.touch     = REPLAY_MODE_PLAYBACK;
                 work->keyDataFile     = keyDataFile;
                 work->keyDataFileSize = keyDataFileSize;
                 mtMathSetRandSeed(work->keyDataFile->header.randSeed);
@@ -296,7 +306,7 @@ void CreateReplayRecorderTouchEx(ReplayRecorderType type, TouchInputState *input
 
             case REPLAYRECORDER_TYPE_PLAY_FILE:
                 work->flags |= REPLAYRECORDER_FLAG_IS_REPLAYING;
-                replayState.touch = REPLAY_MODE_PLAYBACK;
+                sReplayState.touch = REPLAY_MODE_PLAYBACK;
                 work->keyDataFile = FSRequestFileSync(path, FSREQ_AUTO_ALLOC_HEAD);
                 work->flags |= REPLAYRECORDER_FLAG_IS_DEMO_PLAYBACK;
                 mtMathSetRandSeed(work->keyDataFile->header.randSeed);
@@ -314,7 +324,7 @@ void ReplayRecorderTouch_Destructor(Task *task)
     if ((work->flags & REPLAYRECORDER_FLAG_IS_DEMO_PLAYBACK) != 0)
         HeapFree(HEAP_USER, work->keyDataFile);
 
-    replayState.touch = REPLAY_MODE_NONE;
+    sReplayState.touch = REPLAY_MODE_NONE;
 
     if (work->isTouchSamplingEnabled && !IsTouchSamplingEnabled())
     {
@@ -335,7 +345,7 @@ void ReplayRecorderTouch_Main(void)
     ReplayRecorderTouch *work = TaskGetWorkCurrent(ReplayRecorderTouch);
 
     // Mode change
-    if (work->mode != replayState.touch)
+    if (work->mode != sReplayState.touch)
     {
         if (work->mode == REPLAY_MODE_RECORD)
         {
@@ -348,7 +358,7 @@ void ReplayRecorderTouch_Main(void)
         work->frameDuration = 0;
         work->frameID       = 0;
 
-        switch (replayState.touch)
+        switch (sReplayState.touch)
         {
             default:
                 if (work->isTouchSamplingEnabled && !IsTouchSamplingEnabled())
@@ -407,7 +417,7 @@ void ReplayRecorderTouch_Main(void)
         }
     }
 
-    work->mode = replayState.touch;
+    work->mode = sReplayState.touch;
 
     if ((work->flags & REPLAYRECORDER_FLAG_IS_REPLAYING) != 0)
     {
@@ -444,7 +454,7 @@ void ReplayRecorderTouch_Main(void)
         if (frame->duration == 0)
         {
             work->flags &= ~REPLAYRECORDER_FLAG_IS_REPLAYING;
-            replayState.touch   = REPLAY_MODE_FINISHED;
+            sReplayState.touch   = REPLAY_MODE_FINISHED;
             work->frameDuration = 0;
         }
     }
@@ -488,7 +498,7 @@ void ReplayRecorderTouch_Main(void)
         if ((sizeof(KeyDataTouchFrame) * work->frameID) >= (work->keyDataFileSize - 6))
         {
             work->flags &= ~REPLAYRECORDER_FLAG_IS_RECORDING;
-            replayState.touch = REPLAY_MODE_FINISHED;
+            sReplayState.touch = REPLAY_MODE_FINISHED;
         }
     }
 

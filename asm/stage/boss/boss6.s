@@ -1276,7 +1276,7 @@ Boss6Ring__Create: // 0x02154BB8
 	add r6, r4, #0x370
 	orr r0, r0, #4
 	str r0, [r4, #0x230]
-	ldr r0, _02154D3C // =ringManagerWork
+	ldr r0, _02154D3C // =gRingManagerWork
 	mov r5, #0x10
 	ldr r1, [r0, #0]
 	add r1, r1, #0x15c
@@ -1303,7 +1303,7 @@ _02154D2C: .word GameObject__Destructor
 _02154D30: .word Boss6Ring__State_215C810
 _02154D34: .word Boss6Ring__Draw
 _02154D38: .word Boss6Ring__OnDefend
-_02154D3C: .word ringManagerWork
+_02154D3C: .word gRingManagerWork
 	arm_func_end Boss6Ring__Create
 
 	arm_func_start Boss6Stage__GetScrollSpeed
@@ -4048,7 +4048,7 @@ _021571A8:
 	bl Boss6Stage__Func_2155854
 	sub r0, r0, #1
 	mov r2, r0, lsl #6
-	ldr r0, _02157274 // =defaultSfxPlayer
+	ldr r0, _02157274 // =gDefaultSfxPlayer
 	ldr r1, _02157278 // =0x0000FFFF
 	bl NNS_SndPlayerSetTrackPitch
 _02157200:
@@ -4083,7 +4083,7 @@ _02157258:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_02157274: .word defaultSfxPlayer
+_02157274: .word gDefaultSfxPlayer
 _02157278: .word 0x0000FFFF
 	arm_func_end Boss6__OnDefend_215708C
 

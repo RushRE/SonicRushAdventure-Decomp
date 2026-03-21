@@ -8,10 +8,8 @@
 // --------------------
 
 #define TRIPLEGRINDRAILRINGLOSS_MAX_RINGS       64
-#define TRIPLEGRINDRAIL_ANI_COUNT               7
 #define TRIPLEGRINDRAIL_LEAF_COUNT              64
 #define TRIPLEGRINDRAIL_MUSHROOM_COUNT          8
-#define TRIPLEGRINDRAIL_MUSHROOM_DECORATION_ID  (TRIPLEGRINDRAIL_ANI_COUNT - 1)
 #define TRIPLEGRINDRAIL_X_OFFSET                FLOAT_TO_FX32(321.73095703125)
 #define TRIPLEGRINDRAIL_EXIT_DISTANCE_TO_LAUNCH FX32_FROM_WHOLE(300)
 #define TRIPLEGRINDRAIL_DISTANCE_BETWEEN_RAILS  FLOAT_TO_FX32(89.0947265625)
@@ -31,6 +29,20 @@ enum TripleGrindRailFlag_
 };
 typedef u32 TripleGrindRailFlag;
 
+enum TripleGrindRailParticleType_
+{
+    TRIPLEGRINDRAIL_PARTICLE_LEAF_GREEN_1,
+    TRIPLEGRINDRAIL_PARTICLE_LEAF_GREEN_2,
+    TRIPLEGRINDRAIL_PARTICLE_LEAF_BROWN_1,
+    TRIPLEGRINDRAIL_PARTICLE_LEAF_BROWN_2,
+    TRIPLEGRINDRAIL_PARTICLE_LEAF_GREEN_3,
+    TRIPLEGRINDRAIL_PARTICLE_LEAF_GREEN_4,
+    TRIPLEGRINDRAIL_PARTICLE_MUSHROOM,
+
+    TRIPLEGRINDRAIL_PARTICLE_COUNT,
+};
+typedef u16 TripleGrindRailParticleType;
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -41,14 +53,14 @@ typedef struct TripleGrindRailParticle_
     fx32 radius;
     fx32 y;
     u16 angle;
-    u16 id; // index into TripleGrindRail::aniDecorations, only meaningful for leaves (for mushrooms it is implicitly TRIPLEGRINDRAIL_MUSHROOM_DECORATION_ID)
+    TripleGrindRailParticleType type; // index into TripleGrindRail::aniDecorations, only meaningful for leaves (for mushrooms it is implicitly TRIPLEGRINDRAIL_PARTICLE_MUSHROOM)
 } TripleGrindRailParticle;
 
 typedef struct TripleGrindRail_
 {
     GameObjectTask gameWork;
     OBS_ACTION3D_NN_WORK aniTripleGrindRail;
-    AnimatorSprite3D aniDecorations[TRIPLEGRINDRAIL_ANI_COUNT];
+    AnimatorSprite3D aniDecorations[TRIPLEGRINDRAIL_PARTICLE_COUNT];
     AnimatorSprite3D aniRing;
     AnimatorSprite3D aniRingSparkle;
     TripleGrindRailFlag flags;

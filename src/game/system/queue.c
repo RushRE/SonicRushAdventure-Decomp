@@ -5,9 +5,9 @@
 // VARIABLES
 // --------------------
 
-u16 queueItemCount;
-QueueEntry *activeQueueList[QUEUE_MAX_ACTIVE_SIZE];
-QueueEntry reserveQueueList[QUEUE_MAX_ACTIVE_SIZE];
+static u16 sQueueItemCount;
+static QueueEntry *sActiveQueueList[QUEUE_MAX_ACTIVE_SIZE];
+static QueueEntry sReserveQueueList[QUEUE_MAX_ACTIVE_SIZE];
 
 // --------------------
 // FUNCTIONS
@@ -15,23 +15,23 @@ QueueEntry reserveQueueList[QUEUE_MAX_ACTIVE_SIZE];
 
 void InitQueueSystem(void)
 {
-    queueItemCount = 0;
+    sQueueItemCount = 0;
 
-    MI_CpuClear32(reserveQueueList, sizeof(reserveQueueList));
+    MI_CpuClear32(sReserveQueueList, sizeof(sReserveQueueList));
 
     for (s32 i = 0; i < QUEUE_MAX_ACTIVE_SIZE; i++)
     {
-        activeQueueList[i] = &reserveQueueList[i];
+        sActiveQueueList[i] = &sReserveQueueList[i];
     }
 }
 
 QueueEntry *AllocQueueEntry(void)
 {
-    if (queueItemCount >= QUEUE_MAX_ACTIVE_SIZE)
+    if (sQueueItemCount >= QUEUE_MAX_ACTIVE_SIZE)
         return HeapNull;
 
-    QueueEntry *entry = activeQueueList[queueItemCount];
-    queueItemCount++;
+    QueueEntry *entry = sActiveQueueList[sQueueItemCount];
+    sQueueItemCount++;
 
     return entry;
 }
@@ -40,7 +40,7 @@ void FreeQueueEntry(QueueEntry *entry)
 {
     if (HeapNull != entry)
     {
-        queueItemCount--;
-        activeQueueList[queueItemCount] = entry;
+        sQueueItemCount--;
+        sActiveQueueList[sQueueItemCount] = entry;
     }
 }

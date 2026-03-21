@@ -130,27 +130,6 @@ typedef struct Task_
 #endif
 } Task;
 
-typedef struct TaskList_
-{
-    u8 pauseLevel;
-    TaskListFlags flags;
-    s16 taskCount;
-    Task *updateListStart;
-    Task *curTask;
-    Task *updateListEnd;
-    Task *renderListEnd;
-    Task *renderListStart;
-} TaskList;
-
-// --------------------
-// VARIABLES
-// --------------------
-
-extern TaskList taskList;
-
-extern Task *activeTaskList[TASK_MAX_ACTIVE_SIZE];
-extern Task reserveTaskList[TASK_MAX_ACTIVE_SIZE];
-
 // --------------------
 // FUNCTIONS
 // --------------------

@@ -27,7 +27,7 @@ enum EffectBGCircleFlags
 // VARIABLES
 // --------------------
 
-static const u16 effectBGCircleFrameTable[] = { 0, 1, 2, 3, 4, 5 };
+static const u16 sEffectBGCircleFrameTable[] = { 0, 1, 2, 3, 4, 5 };
 
 // --------------------
 // FUNCTIONS
@@ -86,7 +86,7 @@ void ProcessHubBGCircleEffect(HubBGCircleEffect *work)
 {
     BOOL updatePixels = FALSE;
 
-    u16 frame = effectBGCircleFrameTable[FX_ModS32(FX_DivS32(work->animationTimer, 6), 6)];
+    u16 frame = sEffectBGCircleFrameTable[FX_ModS32(FX_DivS32(work->animationTimer, 6), 6)];
     if (frame != work->frame)
     {
         work->frame  = frame;

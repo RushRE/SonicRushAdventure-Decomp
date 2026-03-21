@@ -54,10 +54,10 @@ enum AllocatorHeap
 // VARIABLES
 // --------------------
 
-extern NNSFndAllocator heapSystemAllocator;
-extern NNSFndAllocator heapUserAllocator;
-extern NNSFndAllocator heapITCMAllocator;
-extern NNSFndAllocator heapDTCMAllocator;
+extern NNSFndAllocator gHeapSystemAllocator;
+extern NNSFndAllocator gHeapUserAllocator;
+extern NNSFndAllocator gHeapITCMAllocator;
+extern NNSFndAllocator gHeapDTCMAllocator;
 
 // --------------------
 // FUNCTIONS

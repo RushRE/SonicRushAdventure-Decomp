@@ -65,8 +65,8 @@ static void DecideNextSysEvent(void);
 
 struct SysEventControl
 {
-    Task *task;
-    SysEventList eventList;
+    Task *taskSingleton;
+    SysEventManager eventManager;
 };
 
 // --------------------
@@ -84,7 +84,7 @@ FS_EXTERN_OVERLAY(Cutscene);
 FS_EXTERN_OVERLAY(DWCUtility);
 FS_EXTERN_OVERLAY(ExBoss);
 
-const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
+const struct SysEvent sSysEventList[SYSEVENT_COUNT] = {
     // SYSEVENT_NONE
     {
         .initFunc    = NULL,
@@ -177,7 +177,8 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
         .resetFunc   = NULL,
         .initSysFunc = NULL,
         .exitSysFunc = ExitTitleCardSysEvent,
-        .nextEvents  = { SYSEVENT_TITLECARD, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR },
+        .nextEvents  = { SYSEVENT_TITLECARD, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR,
+                         SYSEVENT_VS_STAGE_CLEAR, SYSEVENT_VS_STAGE_CLEAR },
         .attribute   = 0,
         .overlay     = OVERLAY_NONE,
     },
@@ -790,7 +791,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 #endif
 };
 
-struct SysEventControl sysEventWork;
+static struct SysEventControl sSysEventWork;
 
 // --------------------
 // FUNCTIONS
@@ -799,26 +800,27 @@ struct SysEventControl sysEventWork;
 void CreateSysEventEx(const struct SysEvent *eventList, u32 eventCount, u32 eventID, BOOL createTask, u16 priority, TaskGroup group)
 {
     if (createTask)
-        sysEventWork.task = TaskCreateNoWork(SysEvent_Main, NULL, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSELEVEL_0, priority, group, "SysEvent");
+        sSysEventWork.taskSingleton =
+            TaskCreateNoWork(SysEvent_Main, NULL, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSELEVEL_0, priority, group, "SysEvent");
 
     // Init sysEvent list
-    SysEventList *list            = &sysEventWork.eventList;
-    list->eventList               = NULL;
-    list->eventListCount          = 0;
-    list->currentEventData        = NULL;
-    list->eventID_Opaque          = SYSEVENT_NONE;
-    list->nextEventData           = NULL;
-    list->requestedEventID_Opaque = SYSEVENT_NONE;
-    list->status                  = SYSEVENT_STATUS_IDLE;
+    SysEventManager *manager         = &sSysEventWork.eventManager;
+    manager->eventList               = NULL;
+    manager->eventListCount          = 0;
+    manager->currentEventData        = NULL;
+    manager->eventID_Opaque          = SYSEVENT_NONE;
+    manager->nextEventData           = NULL;
+    manager->requestedEventID_Opaque = SYSEVENT_NONE;
+    manager->status                  = SYSEVENT_STATUS_IDLE;
 
     // Properly setup sysEvent list
-    sysEventWork.eventList.eventList        = eventList;
-    sysEventWork.eventList.eventListCount   = eventCount;
-    sysEventWork.eventList.currentEventData = eventList;
-    sysEventWork.eventList.nextEventData    = NULL;
-    sysEventWork.eventList.currentEventID   = SYSEVENT_NONE;
-    sysEventWork.eventList.requestedEventID = SYSEVENT_NONE;
-    sysEventWork.eventList.status           = SYSEVENT_STATUS_IDLE;
+    sSysEventWork.eventManager.eventList        = eventList;
+    sSysEventWork.eventManager.eventListCount   = eventCount;
+    sSysEventWork.eventManager.currentEventData = eventList;
+    sSysEventWork.eventManager.nextEventData    = NULL;
+    sSysEventWork.eventManager.currentEventID   = SYSEVENT_NONE;
+    sSysEventWork.eventManager.requestedEventID = SYSEVENT_NONE;
+    sSysEventWork.eventManager.status           = SYSEVENT_STATUS_IDLE;
 
     RequestNewSysEventChange(eventID);
     NextSysEvent();
@@ -826,10 +828,10 @@ void CreateSysEventEx(const struct SysEvent *eventList, u32 eventCount, u32 even
 
 void SysEvent_Main(void)
 {
-    if (sysEventWork.eventList.status != SYSEVENT_STATUS_CHANGE_REQUESTED)
+    if (sSysEventWork.eventManager.status != SYSEVENT_STATUS_CHANGE_REQUESTED)
         return;
 
-    const struct SysEvent *prevEvent = sysEventWork.eventList.currentEventData;
+    const struct SysEvent *prevEvent = sSysEventWork.eventManager.currentEventData;
 
     if (prevEvent->exitFunc != NULL)
         prevEvent->exitFunc();
@@ -837,31 +839,31 @@ void SysEvent_Main(void)
     if (prevEvent->exitSysFunc != NULL)
         prevEvent->exitSysFunc();
 
-    sysEventWork.eventList.prevEventID    = sysEventWork.eventList.currentEventID;
-    sysEventWork.eventList.currentEventID = sysEventWork.eventList.requestedEventID;
+    sSysEventWork.eventManager.prevEventID    = sSysEventWork.eventManager.currentEventID;
+    sSysEventWork.eventManager.currentEventID = sSysEventWork.eventManager.requestedEventID;
 
-    const struct SysEvent *curEvent         = &sysEventWork.eventList.eventList[sysEventWork.eventList.requestedEventID];
-    sysEventWork.eventList.currentEventData = curEvent;
+    const struct SysEvent *curEvent             = &sSysEventWork.eventManager.eventList[sSysEventWork.eventManager.requestedEventID];
+    sSysEventWork.eventManager.currentEventData = curEvent;
 
     if (curEvent->overlay != OVERLAY_NONE)
     {
-        sysEventWork.eventList.status = SYSEVENT_STATUS_CHANGE_FINISHED;
+        sSysEventWork.eventManager.status = SYSEVENT_STATUS_CHANGE_FINISHED;
         RenderCore_ChangeOverlay(curEvent->overlay, SysEventChangeCallback);
 
-        sysEventWork.eventList.requestedEventID = SYSEVENT_INVALID;
+        sSysEventWork.eventManager.requestedEventID = SYSEVENT_INVALID;
         if (curEvent->nextEvents[1] <= SYSEVENT_NONE)
         {
-            sysEventWork.eventList.requestedEventID = curEvent->nextEvents[0];
+            sSysEventWork.eventManager.requestedEventID = curEvent->nextEvents[0];
             DecideNextSysEvent();
         }
     }
     else
     {
-        sysEventWork.eventList.requestedEventID = SYSEVENT_INVALID;
+        sSysEventWork.eventManager.requestedEventID = SYSEVENT_INVALID;
 
         if (curEvent->nextEvents[1] <= SYSEVENT_NONE)
         {
-            sysEventWork.eventList.requestedEventID = curEvent->nextEvents[0];
+            sSysEventWork.eventManager.requestedEventID = curEvent->nextEvents[0];
             DecideNextSysEvent();
         }
 
@@ -871,10 +873,10 @@ void SysEvent_Main(void)
 
 void SysEventChangeCallback(void)
 {
-    SysEventList *eventList      = &sysEventWork.eventList;
-    const struct SysEvent *event = sysEventWork.eventList.currentEventData;
+    SysEventManager *eventManager = &sSysEventWork.eventManager;
+    const struct SysEvent *event  = sSysEventWork.eventManager.currentEventData;
 
-    eventList->status = SYSEVENT_STATUS_IDLE;
+    eventManager->status = SYSEVENT_STATUS_IDLE;
 
     if (event->initSysFunc != NULL)
         event->initSysFunc();
@@ -883,40 +885,40 @@ void SysEventChangeCallback(void)
         event->initFunc();
 }
 
-SysEventList *GetSysEventList(void)
+SysEventManager *GetSysEventManager(void)
 {
-    return &sysEventWork.eventList;
+    return &sSysEventWork.eventManager;
 }
 
 void RequestSysEventChange(s32 id)
 {
-    sysEventWork.eventList.requestedEventCase = id;
-    RequestNewSysEventChange(sysEventWork.eventList.currentEventData->nextEvents[id]);
+    sSysEventWork.eventManager.requestedEventCase = id;
+    RequestNewSysEventChange(sSysEventWork.eventManager.currentEventData->nextEvents[id]);
 }
 
 void RequestNewSysEventChange(s32 id)
 {
-    if (id <= SYSEVENT_NONE || (s32)sysEventWork.eventList.eventListCount <= id)
+    if (id <= SYSEVENT_NONE || (s32)sSysEventWork.eventManager.eventListCount <= id)
         return;
 
-    sysEventWork.eventList.requestedEventID = id;
+    sSysEventWork.eventManager.requestedEventID = id;
     DecideNextSysEvent();
 }
 
 void NextSysEvent(void)
 {
-    const struct SysEvent *event = sysEventWork.eventList.currentEventData;
+    const struct SysEvent *event = sSysEventWork.eventManager.currentEventData;
 
-    if (sysEventWork.eventList.requestedEventID < SYSEVENT_NONE)
-        sysEventWork.eventList.requestedEventID = event->nextEvents[0];
+    if (sSysEventWork.eventManager.requestedEventID < SYSEVENT_NONE)
+        sSysEventWork.eventManager.requestedEventID = event->nextEvents[0];
 
-    sysEventWork.eventList.status = SYSEVENT_STATUS_CHANGE_REQUESTED;
+    sSysEventWork.eventManager.status = SYSEVENT_STATUS_CHANGE_REQUESTED;
 }
 
 void DecideNextSysEvent(void)
 {
-    if (sysEventWork.eventList.requestedEventID < SYSEVENT_NONE)
-        sysEventWork.eventList.requestedEventID = sysEventWork.eventList.currentEventData->nextEvents[0];
+    if (sSysEventWork.eventManager.requestedEventID < SYSEVENT_NONE)
+        sSysEventWork.eventManager.requestedEventID = sSysEventWork.eventManager.currentEventData->nextEvents[0];
 
-    sysEventWork.eventList.nextEventData = &sysEventWork.eventList.eventList[sysEventWork.eventList.requestedEventID];
+    sSysEventWork.eventManager.nextEventData = &sSysEventWork.eventManager.eventList[sSysEventWork.eventManager.requestedEventID];
 }

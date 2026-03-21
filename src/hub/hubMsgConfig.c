@@ -10,14 +10,14 @@
 // VARIABLES
 // --------------------
 
-static const HubPurchaseMsgConfig radioTowerPurchaseMsgConfig = {
+static const HubPurchaseMsgConfig sRadioTowerPurchaseMsgConfig = {
     .fileID        = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF,
     .interactionID = 9,
 };
 
-static const HubPurchaseMsgConfig infoPurchaseMsgConfig = { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_DECO_MCF, .interactionID = 6 };
+static const HubPurchaseMsgConfig sInfoPurchaseMsgConfig = { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_DECO_MCF, .interactionID = 6 };
 
-static const HubPurchaseMsgConfig decorationPurchaseMsgConfig[] = {
+static const HubPurchaseMsgConfig sDecorationPurchaseMsgConfig[] = {
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_DECO_MCF, .interactionID = 0 },
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_DECO_MCF, .interactionID = 2 },
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_DECO_MCF, .interactionID = 4 },
@@ -25,16 +25,16 @@ static const HubPurchaseMsgConfig decorationPurchaseMsgConfig[] = {
 
 // this appears to be an unused talk config for missions?
 // these files point to the text for the "Please select a mission" & related text
-FORCE_INCLUDE_ARRAY(HubPurchaseMsgConfig, missionMsgConfig, 3,
+FORCE_INCLUDE_ARRAY(HubPurchaseMsgConfig, sMissionMsgConfig, 3,
                     {
                         { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF, .interactionID = 0 },
                         { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF, .interactionID = 1 },
                         { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_MS_MCF, .interactionID = 2 },
                     })
 
-static const HubOptionsMsgConfig optionsMsgConfig = { .msgCtrlFile = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_OP_MCF, .msgTextID = { 0, 1, 2, 3, 4, 5, 0 } };
+static const HubOptionsMsgConfig sOptionsMsgConfig = { .msgCtrlFile = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_OP_MCF, .msgTextID = { 0, 1, 2, 3, 4, 5, 0 } };
 
-static const HubPurchaseMsgConfig constructionPurchaseMsgConfig[] = {
+static const HubPurchaseMsgConfig sConstructionPurchaseMsgConfig[] = {
     [SHIP_JET]       = { .fileID = CVIEVTCMN_RESOURCE_NONE, .interactionID = CVIEVTCMN_RESOURCE_NONE },
     [SHIP_BOAT]      = { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .interactionID = 1 },
     [SHIP_HOVER]     = { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .interactionID = 3 },
@@ -44,14 +44,14 @@ static const HubPurchaseMsgConfig constructionPurchaseMsgConfig[] = {
     [SHIP_DRILL] = { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .interactionID = 7 },
 };
 
-static const HubPurchaseMsgConfig shipUpgradePurchaseMsgConfig[] = {
+static const HubPurchaseMsgConfig sShipUpgradePurchaseMsgConfig[] = {
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 0 },  { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 2 },
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 4 },  { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 6 },
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 8 },  { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 10 },
     { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 12 }, { .fileID = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_PUP_MCF, .interactionID = 14 },
 };
 
-static const HubAnnounceMsgConfig announcementMsgConfig[CVITALKANNOUNCE_TYPE_COUNT] = {
+static const HubAnnounceMsgConfig sAnnouncementMsgConfig[CVITALKANNOUNCE_TYPE_COUNT] = {
     [CVITALKANNOUNCE_TYPE_UNLOCKED_JET]              = { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 5 },
     [CVITALKANNOUNCE_TYPE_UNLOCKED_BOAT]             = { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 9 },
     [CVITALKANNOUNCE_TYPE_UNLOCKED_HOVER]            = { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_BUILD_MPC, .sequence = 13 },
@@ -91,7 +91,7 @@ static const HubAnnounceMsgConfig announcementMsgConfig[CVITALKANNOUNCE_TYPE_COU
     [CVITALKANNOUNCE_TYPE_UPGRADED_SUBMARINE_LEVEL2] = { .mpcFile = ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_PUP_MPC, .sequence = 24 },
 };
 
-static const HubNpcMsgConfig npcMsgConfig[] = {
+static const HubNpcMsgConfig sNpcMsgConfig[] = {
     { .msgCtrlFile = CVIEVTCMN_RESOURCE_NONE, .msgTextID1 = CVIEVTCMN_RESOURCE_NONE, .msgTextID2 = CVIEVTCMN_RESOURCE_NONE, .msgTextID3 = CVIEVTCMN_RESOURCE_NONE },
     { .msgCtrlFile = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .msgTextID1 = 0, .msgTextID2 = CVIEVTCMN_RESOURCE_NONE, .msgTextID3 = CVIEVTCMN_RESOURCE_NONE },
     { .msgCtrlFile = ARCHIVE_VI_MSG_CTRL_LZ7_FILE_VI_MSGC_BUILD_MCF, .msgTextID1 = 2, .msgTextID2 = CVIEVTCMN_RESOURCE_NONE, .msgTextID3 = CVIEVTCMN_RESOURCE_NONE },
@@ -140,40 +140,40 @@ static const HubNpcMsgConfig npcMsgConfig[] = {
 
 const HubNpcMsgConfig *HubConfig__GetNpcMsgConfig(s32 id)
 {
-    return &npcMsgConfig[id];
+    return &sNpcMsgConfig[id];
 }
 
 const HubPurchaseMsgConfig *HubConfig__GetConstructionPurchaseMsgConfig(s32 id)
 {
-    return &constructionPurchaseMsgConfig[id];
+    return &sConstructionPurchaseMsgConfig[id];
 }
 
 const HubPurchaseMsgConfig *HubConfig__GetRadioTowerPurchaseMsgConfig(void)
 {
-    return &radioTowerPurchaseMsgConfig;
+    return &sRadioTowerPurchaseMsgConfig;
 }
 
 const HubPurchaseMsgConfig *HubConfig__GetDecorationPurchaseMsgConfig(s32 id)
 {
-    return &decorationPurchaseMsgConfig[id];
+    return &sDecorationPurchaseMsgConfig[id];
 }
 
 const HubPurchaseMsgConfig *HubConfig__GetShipUpgradePurchaseMsgConfig(s32 id)
 {
-    return &shipUpgradePurchaseMsgConfig[id];
+    return &sShipUpgradePurchaseMsgConfig[id];
 }
 
 const HubPurchaseMsgConfig *HubConfig__GetInfoPurchaseMsgConfig(void)
 {
-    return &infoPurchaseMsgConfig;
+    return &sInfoPurchaseMsgConfig;
 }
 
 const HubAnnounceMsgConfig *HubConfig__GetAnnounceMsgConfig(s32 id)
 {
-    return &announcementMsgConfig[id];
+    return &sAnnouncementMsgConfig[id];
 }
 
 const HubOptionsMsgConfig *HubConfig__GetOptionsMsgConfig(void)
 {
-    return &optionsMsgConfig;
+    return &sOptionsMsgConfig;
 }

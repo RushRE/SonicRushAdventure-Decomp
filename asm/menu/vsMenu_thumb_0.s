@@ -403,7 +403,7 @@ _02166ABC:
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 _02166AC8:
-	bl GetSysEventList
+	bl GetSysEventManager
 	mov r1, #0xe
 	ldrsh r0, [r0, r1]
 	cmp r0, #0x10

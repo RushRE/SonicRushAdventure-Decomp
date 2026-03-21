@@ -1292,7 +1292,7 @@ void InitZoneSysEvent(void)
 
 void ExitTitleCardSysEvent(void)
 {
-    SysEventList *list = GetSysEventList();
+    SysEventManager *list = GetSysEventManager();
 
     if ((list->currentEventID != SYSEVENT_TITLECARD || list->requestedEventID != SYSEVENT_STAGE_ACTIVE) && mainMemProcessor != MI_GetMainMemoryPriority())
         MI_SetMainMemoryPriority(mainMemProcessor);
@@ -2624,7 +2624,7 @@ void CreateReplayViewer(void)
 
 void ReplayViewer_Main(void)
 {
-    if ((gPlayer->playerFlag & PLAYER_FLAG_FINISHED_STAGE) == 0 && IsDrawFadeTaskFinished() && GetSysEventList()->currentEventID != SYSEVENT_TITLECARD
+    if ((gPlayer->playerFlag & PLAYER_FLAG_FINISHED_STAGE) == 0 && IsDrawFadeTaskFinished() && GetSysEventManager()->currentEventID != SYSEVENT_TITLECARD
         && (GetPadReplayState() == REPLAY_MODE_FINISHED || (padInput.btnPress & (PAD_BUTTON_A | PAD_BUTTON_B | PAD_BUTTON_START | PAD_BUTTON_X | PAD_BUTTON_Y)) != 0))
     {
         CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_REVERSE_BRIGHTNESS | DRAW_FADE_TASK_FLAG_DESTROY_ON_FINISHED, FLOAT_TO_FX32(2.0));

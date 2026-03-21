@@ -11,30 +11,30 @@
 // VARIABLES
 // --------------------
 
-static Task *exHUDBossGaugeTaskSingleton;
-static Task *exHUDTimeTaskSingleton;
-static Task *exHUDRingTaskSingleton;
-static Task *exHUDLifeTaskSingleton;
-static Task *exHUDAdminTaskSingleton;
-static struct exFixTimeTaskWorker exHUDTimeWorker;
+static Task *sHUDBossGaugeTaskSingleton;
+static Task *sHUDTimeTaskSingleton;
+static Task *sHUDRingTaskSingleton;
+static Task *sHUDLifeTaskSingleton;
+static Task *sHUDAdminTaskSingleton;
+static struct exFixTimeTaskWorker sHUDTimeWorker;
 
-static u16 exHUDTimeDigits1[10] = { EX_ACTCOM_ANI_COMMON_DIGIT_0, EX_ACTCOM_ANI_COMMON_DIGIT_1, EX_ACTCOM_ANI_COMMON_DIGIT_2, EX_ACTCOM_ANI_COMMON_DIGIT_3,
+static u16 sHUDTimeDigits1[10] = { EX_ACTCOM_ANI_COMMON_DIGIT_0, EX_ACTCOM_ANI_COMMON_DIGIT_1, EX_ACTCOM_ANI_COMMON_DIGIT_2, EX_ACTCOM_ANI_COMMON_DIGIT_3,
                                     EX_ACTCOM_ANI_COMMON_DIGIT_4, EX_ACTCOM_ANI_COMMON_DIGIT_5, EX_ACTCOM_ANI_COMMON_DIGIT_6, EX_ACTCOM_ANI_COMMON_DIGIT_7,
                                     EX_ACTCOM_ANI_COMMON_DIGIT_8, EX_ACTCOM_ANI_COMMON_DIGIT_9 };
 
-static u16 exHUDLifeDigits[10] = { EX_ACTCOM_ANI_LIFE_DIGIT_0, EX_ACTCOM_ANI_LIFE_DIGIT_1, EX_ACTCOM_ANI_LIFE_DIGIT_2, EX_ACTCOM_ANI_LIFE_DIGIT_3, EX_ACTCOM_ANI_LIFE_DIGIT_4,
+static u16 sHUDLifeDigits[10] = { EX_ACTCOM_ANI_LIFE_DIGIT_0, EX_ACTCOM_ANI_LIFE_DIGIT_1, EX_ACTCOM_ANI_LIFE_DIGIT_2, EX_ACTCOM_ANI_LIFE_DIGIT_3, EX_ACTCOM_ANI_LIFE_DIGIT_4,
                                    EX_ACTCOM_ANI_LIFE_DIGIT_5, EX_ACTCOM_ANI_LIFE_DIGIT_6, EX_ACTCOM_ANI_LIFE_DIGIT_7, EX_ACTCOM_ANI_LIFE_DIGIT_8, EX_ACTCOM_ANI_LIFE_DIGIT_9 };
 
-static u16 exHUDRingDigits1[10] = { EX_ACTCOM_ANI_COMMON_DIGIT_0, EX_ACTCOM_ANI_COMMON_DIGIT_1, EX_ACTCOM_ANI_COMMON_DIGIT_2, EX_ACTCOM_ANI_COMMON_DIGIT_3,
+static u16 sHUDRingDigits1[10] = { EX_ACTCOM_ANI_COMMON_DIGIT_0, EX_ACTCOM_ANI_COMMON_DIGIT_1, EX_ACTCOM_ANI_COMMON_DIGIT_2, EX_ACTCOM_ANI_COMMON_DIGIT_3,
                                     EX_ACTCOM_ANI_COMMON_DIGIT_4, EX_ACTCOM_ANI_COMMON_DIGIT_5, EX_ACTCOM_ANI_COMMON_DIGIT_6, EX_ACTCOM_ANI_COMMON_DIGIT_7,
                                     EX_ACTCOM_ANI_COMMON_DIGIT_8, EX_ACTCOM_ANI_COMMON_DIGIT_9 };
 
-static u16 exHUDTimeDigits2[10] = {
+static u16 sHUDTimeDigits2[10] = {
     EX_ACTCOM_ANI_ALERT_DIGIT_0, EX_ACTCOM_ANI_ALERT_DIGIT_1, EX_ACTCOM_ANI_ALERT_DIGIT_2, EX_ACTCOM_ANI_ALERT_DIGIT_3, EX_ACTCOM_ANI_ALERT_DIGIT_4,
     EX_ACTCOM_ANI_ALERT_DIGIT_5, EX_ACTCOM_ANI_ALERT_DIGIT_6, EX_ACTCOM_ANI_ALERT_DIGIT_7, EX_ACTCOM_ANI_ALERT_DIGIT_8, EX_ACTCOM_ANI_ALERT_DIGIT_9
 };
 
-static u16 exHUDRingDigits2[10] = {
+static u16 sHUDRingDigits2[10] = {
     EX_ACTCOM_ANI_ALERT_DIGIT_0, EX_ACTCOM_ANI_ALERT_DIGIT_1, EX_ACTCOM_ANI_ALERT_DIGIT_2, EX_ACTCOM_ANI_ALERT_DIGIT_3, EX_ACTCOM_ANI_ALERT_DIGIT_4,
     EX_ACTCOM_ANI_ALERT_DIGIT_5, EX_ACTCOM_ANI_ALERT_DIGIT_6, EX_ACTCOM_ANI_ALERT_DIGIT_7, EX_ACTCOM_ANI_ALERT_DIGIT_8, EX_ACTCOM_ANI_ALERT_DIGIT_9
 };
@@ -119,10 +119,10 @@ void ExTimeHUD_Main_Init(void)
 {
     exFixTimeTask *work = ExTaskGetWorkCurrent(exFixTimeTask);
 
-    exHUDTimeTaskSingleton = GetCurrentTask();
+    sHUDTimeTaskSingleton = GetCurrentTask();
 
     CreateExTimeGameplay();
-    work->worker = &exHUDTimeWorker;
+    work->worker = &sHUDTimeWorker;
 
     work->worker->aniTimeText.sprite.anim       = EX_ACTCOM_ANI_TIME_TEXT;
     work->worker->aniTimeText.sprite.paletteRow = PALETTE_ROW_2;
@@ -179,9 +179,9 @@ void ExTimeHUD_Main_Init(void)
         for (u16 j = 0; j < 10; j++)
         {
             if (i)
-                work->worker->aniDigit[i][j].sprite.anim = exHUDTimeDigits2[j];
+                work->worker->aniDigit[i][j].sprite.anim = sHUDTimeDigits2[j];
             else
-                work->worker->aniDigit[i][j].sprite.anim = exHUDTimeDigits1[j];
+                work->worker->aniDigit[i][j].sprite.anim = sHUDTimeDigits1[j];
 
             work->worker->aniDigit[i][j].sprite.paletteRow = PALETTE_ROW_2;
             SetupExHUDSprite(&work->worker->aniDigit[i][j]);
@@ -237,7 +237,7 @@ void ExTimeHUD_Destructor(void)
         ReleaseExHUDSprite(&work->worker->aniDigit[1][i]);
     }
 
-    exHUDTimeTaskSingleton = NULL;
+    sHUDTimeTaskSingleton = NULL;
 }
 
 void ExTimeHUD_Main_Active(void)
@@ -309,15 +309,15 @@ BOOL CreateExTimeHUD(void)
 
 void DestroyExTimeHUD(void)
 {
-    if (exHUDTimeTaskSingleton != NULL)
-        DestroyExTask(exHUDTimeTaskSingleton);
+    if (sHUDTimeTaskSingleton != NULL)
+        DestroyExTask(sHUDTimeTaskSingleton);
 }
 
 void ExRingCountHUD_Main_Init(void)
 {
     exFixRingTask *work = ExTaskGetWorkCurrent(exFixRingTask);
 
-    exHUDRingTaskSingleton = GetCurrentTask();
+    sHUDRingTaskSingleton = GetCurrentTask();
 
     work->aniRingBackdrop.sprite.anim       = EX_ACTCOM_ANI_RINGS_BACKDROP;
     work->aniRingBackdrop.sprite.paletteRow = PALETTE_ROW_1;
@@ -333,7 +333,7 @@ void ExRingCountHUD_Main_Init(void)
     u16 i;
     for (i = 0; i < ARRAY_COUNT(work->aniNumbers); i++)
     {
-        work->aniNumbers[i].sprite.anim       = exHUDRingDigits1[i];
+        work->aniNumbers[i].sprite.anim       = sHUDRingDigits1[i];
         work->aniNumbers[i].sprite.paletteRow = EX_ACTCOM_ANI_SONIC_BARRIER_HIT;
         SetupExHUDSprite(&work->aniNumbers[i]);
         SetExDrawRequestPriority(&work->aniNumbers[i].config, EXDRAWREQTASK_PRIORITY_HUD + 1);
@@ -346,7 +346,7 @@ void ExRingCountHUD_Main_Init(void)
 
     for (i = 0; i < ARRAY_COUNT(work->aniNumbersWarning); i++)
     {
-        work->aniNumbersWarning[i].sprite.anim       = exHUDRingDigits2[i];
+        work->aniNumbersWarning[i].sprite.anim       = sHUDRingDigits2[i];
         work->aniNumbersWarning[i].sprite.paletteRow = PALETTE_ROW_2;
         SetupExHUDSprite(&work->aniNumbersWarning[i]);
         SetExDrawRequestPriority(&work->aniNumbersWarning[i].config, EXDRAWREQTASK_PRIORITY_HUD + 1);
@@ -385,7 +385,7 @@ void ExRingCountHUD_Destructor(void)
         ReleaseExHUDSprite(&work->aniNumbersWarning[i]);
     }
 
-    exHUDRingTaskSingleton = NULL;
+    sHUDRingTaskSingleton = NULL;
 }
 
 void ExRingCountHUD_Main_Active(void)
@@ -479,15 +479,15 @@ BOOL CreateExRingCountHUD(void)
 
 void DestroyExRingCountHUD(void)
 {
-    if (exHUDRingTaskSingleton != NULL)
-        DestroyExTask(exHUDRingTaskSingleton);
+    if (sHUDRingTaskSingleton != NULL)
+        DestroyExTask(sHUDRingTaskSingleton);
 }
 
 void ExLifeCountHUD_Main_Init(void)
 {
     exFixRemainderTask *work = ExTaskGetWorkCurrent(exFixRemainderTask);
 
-    exHUDLifeTaskSingleton = GetCurrentTask();
+    sHUDLifeTaskSingleton = GetCurrentTask();
 
     work->aniPlayerIcon.sprite.anim       = EX_ACTCOM_ANI_LIVES_BACKDROP;
     work->aniPlayerIcon.sprite.paletteRow = PALETTE_ROW_0;
@@ -509,7 +509,7 @@ void ExLifeCountHUD_Main_Init(void)
 
     for (u16 i = 0; i < ARRAY_COUNT(work->aniNumbers); i++)
     {
-        work->aniNumbers[i].sprite.anim       = exHUDLifeDigits[i];
+        work->aniNumbers[i].sprite.anim       = sHUDLifeDigits[i];
         work->aniNumbers[i].sprite.paletteRow = PALETTE_ROW_2;
         SetupExHUDSprite(&work->aniNumbers[i]);
         SetExDrawRequestPriority(&work->aniNumbers[i].config, EXDRAWREQTASK_PRIORITY_HUD + 1);
@@ -544,7 +544,7 @@ void ExLifeCountHUD_Destructor(void)
         ReleaseExHUDSprite(&work->aniNumbers[i]);
     }
 
-    exHUDLifeTaskSingleton = NULL;
+    sHUDLifeTaskSingleton = NULL;
 }
 
 void ExLifeCountHUD_Main_Active(void)
@@ -591,15 +591,15 @@ BOOL CreateExLifeCountHUD(void)
 
 void DestroyExLifeCountHUD(void)
 {
-    if (exHUDLifeTaskSingleton != NULL)
-        DestroyExTask(exHUDLifeTaskSingleton);
+    if (sHUDLifeTaskSingleton != NULL)
+        DestroyExTask(sHUDLifeTaskSingleton);
 }
 
 void ExBossLifeGaugeHUD_Main_Init(void)
 {
     exFixBossLifeGaugeTask *work = ExTaskGetWorkCurrent(exFixBossLifeGaugeTask);
 
-    exHUDBossGaugeTaskSingleton = GetCurrentTask();
+    sHUDBossGaugeTaskSingleton = GetCurrentTask();
 
     work->boss                          = GetExBossWork();
     work->aniBossName.sprite.anim       = EX_ACTCOM_ANI_BOSSGAUGE_NAME;
@@ -669,7 +669,7 @@ void ExBossLifeGaugeHUD_Destructor(void)
         ReleaseExHUDSprite(&work->aniLifeGauge[i]);
     }
 
-    exHUDBossGaugeTaskSingleton = NULL;
+    sHUDBossGaugeTaskSingleton = NULL;
 }
 
 void ExBossLifeGaugeHUD_Main_HealthIdle(void)
@@ -836,8 +836,8 @@ BOOL CreateExBossLifeGaugeHUD(void)
 
 void DestroyExBossLifeGaugeHUD(void)
 {
-    if (exHUDBossGaugeTaskSingleton != NULL)
-        DestroyExTask(exHUDBossGaugeTaskSingleton);
+    if (sHUDBossGaugeTaskSingleton != NULL)
+        DestroyExTask(sHUDBossGaugeTaskSingleton);
 }
 
 void ExHUD_Main_Init(void)
@@ -848,7 +848,7 @@ void ExHUD_Main_Init(void)
     ExSysTaskStatus *status = GetExSystemStatus();
     UNUSED(status);
 
-    exHUDAdminTaskSingleton = GetCurrentTask();
+    sHUDAdminTaskSingleton = GetCurrentTask();
 
     SetCurrentExTaskMainEvent(ExHUD_Main_WaitForCommonHUD);
 }
@@ -869,7 +869,7 @@ void ExHUD_Destructor(void)
     DestroyExTimeHUD();
     DestroyExBossLifeGaugeHUD();
 
-    exHUDAdminTaskSingleton = NULL;
+    sHUDAdminTaskSingleton = NULL;
 }
 
 void ExHUD_Main_WaitForCommonHUD(void)
@@ -942,6 +942,6 @@ BOOL CreateExHUD(void)
 
 void DestroyExHUD(void)
 {
-    if (exHUDAdminTaskSingleton != NULL)
-        DestroyExTask(exHUDAdminTaskSingleton);
+    if (sHUDAdminTaskSingleton != NULL)
+        DestroyExTask(sHUDAdminTaskSingleton);
 }

@@ -147,11 +147,11 @@ NOT_DECOMPILED const Vec2Fx16 viMapBackSpriteDecorAltPositionList[CVIMAPBACK_DEC
 NOT_DECOMPILED const SpriteDecorConfigFunc ViMapBack__spriteDecorConfig1[CVIMAPBACK_DECORSPRITE_COUNT];
 NOT_DECOMPILED const SpriteDecorConfigFunc ViMapBack__spriteDecorConfig2[CVIMAPBACK_DECORSPRITE_COUNT];
 
-static const u8 ViMapBack__OamOrderList[] = { SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_29, SPRITE_ORDER_30, SPRITE_ORDER_30,
+static const u8 sOamOrderList[] = { SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_29, SPRITE_ORDER_30, SPRITE_ORDER_30,
                                               SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_30, SPRITE_ORDER_30,
                                               SPRITE_ORDER_29, SPRITE_ORDER_0,  SPRITE_ORDER_0,  SPRITE_ORDER_0 };
 
-static const CViMapBackAssetBundle mapBackAssets[1] = { { "bb/vi_map_back.bb" } };
+static const CViMapBackAssetBundle sCViMapBackAssets[1] = { { "bb/vi_map_back.bb" } };
 
 #ifndef NON_MATCHING
 NOT_DECOMPILED void *_ZTI13CViMapVmiFile;
@@ -590,12 +590,12 @@ void CViMapBack::LoadAssets()
 
     this->Release();
 
-    this->imageConfigFile = HeapAllocHead(HEAP_USER, GetBundleFileSize(mapBackAssets[0].path, BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_CONFIG_VMI));
-    ReadFileFromBundle(mapBackAssets[0].path, BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_CONFIG_VMI, this->imageConfigFile);
+    this->imageConfigFile = HeapAllocHead(HEAP_USER, GetBundleFileSize(sCViMapBackAssets[0].path, BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_CONFIG_VMI));
+    ReadFileFromBundle(sCViMapBackAssets[0].path, BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_CONFIG_VMI, this->imageConfigFile);
     this->vmiFile.Load(this->imageConfigFile);
 
-    this->imagePaletteFile = HeapAllocHead(HEAP_USER, GetBundleFileSize(mapBackAssets[0].path, BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_PALETTE_VMP));
-    ReadFileFromBundle(mapBackAssets[0].path, BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_PALETTE_VMP, this->imagePaletteFile);
+    this->imagePaletteFile = HeapAllocHead(HEAP_USER, GetBundleFileSize(sCViMapBackAssets[0].path, BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_PALETTE_VMP));
+    ReadFileFromBundle(sCViMapBackAssets[0].path, BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_PALETTE_VMP, this->imagePaletteFile);
     this->vmpFile.Load(this->imagePaletteFile);
 
     this->imagePixelFileCount = this->vmiFile.GetImageCount();
@@ -633,14 +633,14 @@ void CViMapBack::LoadAssets()
         if ((config->flags & CVIMAPDECOR_FLAG_USE_SUB_OBJ) != 0)
         {
             AnimatorSprite__Init(&this->aniDecoration[i], sprMapDecor, config->animID, ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_B, PIXEL_MODE_SPRITE,
-                                 VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, spriteSize), PALETTE_MODE_SUB_OBJ, NULL, SPRITE_PRIORITY_2, ViMapBack__OamOrderList[i]);
+                                 VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, spriteSize), PALETTE_MODE_SUB_OBJ, NULL, SPRITE_PRIORITY_2, sOamOrderList[i]);
             this->aniDecoration[i].cParam.palette = paletteRow;
             paletteRow++;
         }
         else
         {
             AnimatorSprite__Init(&this->aniDecoration[i], sprMapDecor, config->animID, ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_B, PIXEL_MODE_SPRITE,
-                                 VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, spriteSize), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_2, ViMapBack__OamOrderList[i]);
+                                 VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, spriteSize), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_2, sOamOrderList[i]);
             this->aniDecoration[i].cParam.palette = PALETTE_ROW_8;
         }
 
@@ -757,8 +757,8 @@ void CViMapBack::LoadImage(u16 id)
 {
     if (this->CheckImageLoaded(id) == FALSE)
     {
-        this->imagePixelFiles[id] = HeapAllocHead(HEAP_USER, GetBundleFileSize(mapBackAssets[0].path, id + BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_VMC));
-        ReadFileFromBundle(mapBackAssets[0].path, id + BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_VMC, this->imagePixelFiles[id]);
+        this->imagePixelFiles[id] = HeapAllocHead(HEAP_USER, GetBundleFileSize(sCViMapBackAssets[0].path, id + BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_VMC));
+        ReadFileFromBundle(sCViMapBackAssets[0].path, id + BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_VMC, this->imagePixelFiles[id]);
     }
 }
 

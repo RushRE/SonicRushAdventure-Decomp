@@ -23,8 +23,8 @@ extern const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT];
 // VARIABLES
 // --------------------
 
-u32 usedTempObjects[(1 + GAMEOBJECT_TEMPLIST_SIZE + (32 - 1)) / 32];
-MapObject tempObjectList[GAMEOBJECT_TEMPLIST_SIZE];
+static u32 sUsedTempObjects[(1 + GAMEOBJECT_TEMPLIST_SIZE + (32 - 1)) / 32];
+static MapObject sTempObjectList[GAMEOBJECT_TEMPLIST_SIZE];
 
 u8 StageTask__DefaultDiffData[512] = {
     ((0x8 << 0) | (0x8 << 4)), ((0x8 << 0) | (0x8 << 4)), ((0x8 << 0) | (0x8 << 4)), ((0x8 << 0) | (0x8 << 4)), ((0x8 << 0) | (0x8 << 4)), ((0x8 << 0) | (0x8 << 4)),
@@ -219,19 +219,19 @@ GameObjectTask *GameObject__SpawnObject(s32 id, fx32 x, fx32 y, u16 flags, s8 le
     s16 slot = GameObject__GetNextTempObjID();
     if (slot < GAMEOBJECT_TEMPLIST_SIZE)
     {
-        tempObjectList[slot].x         = MAPOBJECT_DESTROYED;
-        tempObjectList[slot].y         = MAPOBJECT_DESTROYED;
-        tempObjectList[slot].id        = id;
-        tempObjectList[slot].flags     = flags;
-        tempObjectList[slot].left      = left;
-        tempObjectList[slot].top       = top;
-        tempObjectList[slot].width     = width;
-        tempObjectList[slot].height    = height;
-        tempObjectList[slot].param.u16 = 0;
+        sTempObjectList[slot].x         = MAPOBJECT_DESTROYED;
+        sTempObjectList[slot].y         = MAPOBJECT_DESTROYED;
+        sTempObjectList[slot].id        = id;
+        sTempObjectList[slot].flags     = flags;
+        sTempObjectList[slot].left      = left;
+        sTempObjectList[slot].top       = top;
+        sTempObjectList[slot].width     = width;
+        sTempObjectList[slot].height    = height;
+        sTempObjectList[slot].param.u16 = 0;
 
-        work = stageObjectSpawnList[id](&tempObjectList[slot], x, y, param);
+        work = stageObjectSpawnList[id](&sTempObjectList[slot], x, y, param);
         if (work == NULL)
-            GameObject__ReleaseTempObj(&tempObjectList[slot]);
+            GameObject__ReleaseTempObj(&sTempObjectList[slot]);
     }
 
     return work;
@@ -656,9 +656,9 @@ s16 GameObject__GetNextTempObjID(void)
 
     for (slot = 0; slot < GAMEOBJECT_TEMPLIST_SIZE; slot++)
     {
-        if ((usedTempObjects[slot >> 5] & (1 << (slot & 0x1F))) == 0)
+        if ((sUsedTempObjects[slot >> 5] & (1 << (slot & 0x1F))) == 0)
         {
-            usedTempObjects[slot >> 5] |= (1 << (slot & 0x1F));
+            sUsedTempObjects[slot >> 5] |= (1 << (slot & 0x1F));
             return slot;
         }
     }
@@ -668,9 +668,9 @@ s16 GameObject__GetNextTempObjID(void)
 
 void GameObject__ReleaseTempObj(MapObject *obj)
 {
-    u32 id = ((size_t)obj - (size_t)tempObjectList) / sizeof(MapObject);
+    u32 id = ((size_t)obj - (size_t)sTempObjectList) / sizeof(MapObject);
 
-    usedTempObjects[id >> 5] &= ~(1 << (id & 0x1F));
+    sUsedTempObjects[id >> 5] &= ~(1 << (id & 0x1F));
 }
 
 void GameObject__ProcessPacketActions(GameObjectTask *work)

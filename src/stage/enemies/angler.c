@@ -53,7 +53,7 @@ enum AnglerAnimID
 // VARIABLES
 // --------------------
 
-static const char *spriteList[] = { "/act/ac_ene_angler.bac" };
+static const char *sSpriteList[] = { "/act/ac_ene_angler.bac" };
 
 // --------------------
 // FUNCTION DECLS
@@ -113,7 +113,7 @@ EnemyAngler *CreateAngler(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             break;
     }
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[0], GetObjectDataWork(OBJDATAWORK_9), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[0], GetObjectDataWork(OBJDATAWORK_9), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
 
@@ -151,7 +151,7 @@ EnemyAnglerShot *CreateAnglerShot(MapObject *mapObject, fx32 x, fx32 y, fx32 typ
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[0], GetObjectDataWork(OBJDATAWORK_9), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[0], GetObjectDataWork(OBJDATAWORK_9), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, ANGLER_ANI_MOVING, 41);

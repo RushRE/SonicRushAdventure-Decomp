@@ -9,25 +9,25 @@
 // --------------------
 
 // extern var if non-matching, otherwise it's a static var
-// this is because 'WhaleSplashB_ReferenceCount' & 'CondorImpact_ReferenceCount' swapped addresses in Boss1/Boss2 overlay so this fixes that when matching!
+// this is because 'sWhaleSplashBReferenceCount' & 'sCondorImpactReferenceCount' swapped addresses in Boss1/Boss2 overlay so this fixes that when matching!
 #ifdef NON_MATCHING
 #define NON_MATCHING_FIX static
 #else
 #define NON_MATCHING_FIX extern
 #endif
 
-NON_MATCHING_FIX u16 RexRage_ReferenceCount;
-NON_MATCHING_FIX u16 TitanFlashC_ReferenceCount;
-NON_MATCHING_FIX u16 RexHead_ReferenceCount;
-NON_MATCHING_FIX u16 RexBite_ReferenceCount;
-NON_MATCHING_FIX u16 HitB_ReferenceCount;
-NON_MATCHING_FIX u16 WhaleTsunami2_ReferenceCount;
-NON_MATCHING_FIX u16 WhaleTsunami1_ReferenceCount;
-NON_MATCHING_FIX u16 TitanFlashG_ReferenceCount;
-NON_MATCHING_FIX u16 HitA_ReferenceCount;
-NON_MATCHING_FIX u16 PirateLand_ReferenceCount;
-NON_MATCHING_FIX u16 WhaleSplashB_ReferenceCount;
-NON_MATCHING_FIX u16 CondorImpact_ReferenceCount;
+NON_MATCHING_FIX u16 sRexRageReferenceCount;
+NON_MATCHING_FIX u16 sTitanFlashCReferenceCount;
+NON_MATCHING_FIX u16 sRexHeadReferenceCount;
+NON_MATCHING_FIX u16 sRexBiteReferenceCount;
+NON_MATCHING_FIX u16 sHitBReferenceCount;
+NON_MATCHING_FIX u16 sWhaleTsunami2ReferenceCount;
+NON_MATCHING_FIX u16 sWhaleTsunami1ReferenceCount;
+NON_MATCHING_FIX u16 sTitanFlashGReferenceCount;
+NON_MATCHING_FIX u16 sHitAReferenceCount;
+NON_MATCHING_FIX u16 sPirateLandReferenceCount;
+NON_MATCHING_FIX u16 sWhaleSplashBReferenceCount;
+NON_MATCHING_FIX u16 sCondorImpactReferenceCount;
 
 // matching shenanigans
 #ifndef NON_MATCHING
@@ -38,7 +38,7 @@ static const char *_EXT_JOINT_ANIM = ".nsbca";
 static const char *_EXT_TEX_ANIM   = ".nsbta";
 #endif
 
-static const char *animationExtList[B3D_ANIM_MAX] = {
+static const char *sAnimationExtensions[B3D_ANIM_MAX] = {
     [B3D_ANIM_JOINT_ANIM] = ".nsbca", // joint animations
     [B3D_ANIM_MAT_ANIM]   = ".nsbma", // material animations
     [B3D_ANIM_PAT_ANIM]   = ".nsbtp", // pattern animations
@@ -53,12 +53,12 @@ static const char *animationExtList[B3D_ANIM_MAX] = {
 // Common FX
 BossFX3D *BossFX__CreateHitA(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z)
 {
-    return BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef_hit_a", B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, &HitA_ReferenceCount);
+    return BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef_hit_a", B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, &sHitAReferenceCount);
 }
 
 BossFX3D *BossFX__CreateHitB(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z)
 {
-    return BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef_hit_b", B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, &HitB_ReferenceCount);
+    return BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef_hit_b", B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, &sHitBReferenceCount);
 }
 
 BossFX2D *BossFX__CreateBomb(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z)
@@ -85,19 +85,19 @@ BossFX2D *BossFX__CreateBomb2(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z)
 BossFX3D *BossFX__CreateRexBite(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z)
 {
     return BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef1_bite", B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z,
-                            &RexBite_ReferenceCount);
+                            &sRexBiteReferenceCount);
 }
 
 BossFX3D *BossFX__CreateRexHead(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z)
 {
     return BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef1_head", B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x,
-                            y, z, &RexHead_ReferenceCount);
+                            y, z, &sRexHeadReferenceCount);
 }
 
 BossFX3D *BossFX__CreateRexRage(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z)
 {
     return BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef1_rage", B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x,
-                            y, z, &RexRage_ReferenceCount);
+                            y, z, &sRexRageReferenceCount);
 }
 
 BossFX2D *BossFX__CreateRexSmoke(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z)
@@ -292,7 +292,7 @@ BossFX3D *BossFX__CreateKrackenAngry(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z
 BossFX3D *BossFX__CreatePirateLand(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z)
 {
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef4_land", B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM,
-                                        flags, 0, x, y, z, &PirateLand_ReferenceCount);
+                                        flags, 0, x, y, z, &sPirateLandReferenceCount);
 
     effect->objWork.scale.x = FLOAT_TO_FX32(0.5);
     effect->objWork.scale.y = FLOAT_TO_FX32(0.5);
@@ -432,7 +432,7 @@ BossFX2D *BossFX__CreateWhaleSpout(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z)
 BossFX3D *BossFX__CreateWhaleTsunami1(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z)
 {
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef5_tunami1", B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, -1, x, y, z,
-                                        &WhaleTsunami1_ReferenceCount);
+                                        &sWhaleTsunami1ReferenceCount);
 
     effect->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
@@ -446,7 +446,7 @@ BossFX3D *BossFX__CreateWhaleTsunami1(BossFX3DFlags flags, fx32 x, fx32 y, fx32 
 BossFX3D *BossFX__CreateWhaleTsunami2(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z)
 {
     BossFX3D *effect =
-        BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef5_tunami2", B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, -1, x, y, z, &WhaleTsunami2_ReferenceCount);
+        BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef5_tunami2", B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, -1, x, y, z, &sWhaleTsunami2ReferenceCount);
 
     effect->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
@@ -461,7 +461,7 @@ BossFX3D *BossFX__CreateWhaleSplashB(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z
 {
 
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef5_splash_b", B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z,
-                                        &WhaleSplashB_ReferenceCount);
+                                        &sWhaleSplashBReferenceCount);
 
     effect->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
 
@@ -540,7 +540,7 @@ BossFX3D *BossFX__CreateCondorTackle(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z
 BossFX3D *BossFX__CreateCondorImpact(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z)
 {
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef6_impact", B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z,
-                                        &CondorImpact_ReferenceCount);
+                                        &sCondorImpactReferenceCount);
 
     effect->objWork.scale.x = FLOAT_TO_FX32(2.0);
     effect->objWork.scale.y = FLOAT_TO_FX32(2.0);
@@ -654,7 +654,7 @@ BossFX2D *BossFX__CreateTitanBomb(BossFX2DFlags flags, fx32 x, fx32 y, fx32 z)
 BossFX3D *BossFX__CreateTitanFlashG(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, FXMatrix33 *mtx)
 {
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef8_g_flash", B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z,
-                                        &TitanFlashG_ReferenceCount);
+                                        &sTitanFlashGReferenceCount);
 
     if (mtx != NULL)
         effect->aniModel.ani.work.rotation = *mtx;
@@ -669,7 +669,7 @@ BossFX3D *BossFX__CreateTitanFlashG(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z,
 BossFX3D *BossFX__CreateTitanFlashC(BossFX3DFlags flags, fx32 x, fx32 y, fx32 z, FXMatrix33 *mtx)
 {
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef8_c_flash", B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z,
-                                        &TitanFlashC_ReferenceCount);
+                                        &sTitanFlashCReferenceCount);
 
     if (mtx != NULL)
         effect->aniModel.ani.work.rotation = *mtx;
@@ -763,7 +763,7 @@ BossFX3D *BossFX3D__Create(size_t size, BossFX3DState state, const char *path, u
         if ((motionFlags & (1 << i)) != 0)
         {
             STD_CopyString(&fullPath[4], path);
-            STD_ConcatenateString(&fullPath[4], animationExtList[i]);
+            STD_ConcatenateString(&fullPath[4], sAnimationExtensions[i]);
 
             if (i != B3D_ANIM_PAT_ANIM)
             {

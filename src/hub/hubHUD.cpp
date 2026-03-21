@@ -26,7 +26,7 @@ struct HubHUDUserData
 // VARIABLES
 // --------------------
 
-static Task *taskSingleton;
+static Task *sHubHUDTaskSingleton;
 
 // --------------------
 // INLINE FUNCTIONS
@@ -60,9 +60,9 @@ RUSH_INLINE BOOL CheckTouchOnEnabled()
 
 void HubHUD::Create(void)
 {
-    taskSingleton = HubTaskCreate(HubHUD::Main_Idle, HubHUD::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1020, TASK_GROUP(16), HubHUD);
+    sHubHUDTaskSingleton = HubTaskCreate(HubHUD::Main_Idle, HubHUD::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1020, TASK_GROUP(16), HubHUD);
 
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     HubHUD::InitGraphics(work);
     work->unknown1 = 7;
@@ -70,10 +70,10 @@ void HubHUD::Create(void)
 
 void HubHUD::Destroy(void)
 {
-    if (taskSingleton != NULL)
+    if (sHubHUDTaskSingleton != NULL)
     {
-        DestroyTask(taskSingleton);
-        taskSingleton = NULL;
+        DestroyTask(sHubHUDTaskSingleton);
+        sHubHUDTaskSingleton = NULL;
     }
 }
 
@@ -82,7 +82,7 @@ void HubHUD::ConfigureViewButton(BOOL visible, BOOL enabled)
     if (visible == FALSE)
         enabled = FALSE;
 
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     if (visible)
     {
@@ -99,14 +99,14 @@ void HubHUD::ConfigureViewButton(BOOL visible, BOOL enabled)
 
 BOOL HubHUD::LookAroundEnabled(void)
 {
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     return (work->viewButton.flags & HubHUD::BUTTONFLAG_ACTIVE) != 0;
 }
 
 void HubHUD::DisableLookAround(void)
 {
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     work->viewButton.flags &= ~HubHUD::BUTTONFLAG_ACTIVE;
     HubHUD::EnableViewCursor(work);
@@ -114,7 +114,7 @@ void HubHUD::DisableLookAround(void)
 
 BOOL HubHUD::GetLookAroundBtnLeft(void)
 {
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     if ((work->viewButton.flags & HubHUD::BUTTONFLAG_ACTIVE) == 0)
         return FALSE;
@@ -124,7 +124,7 @@ BOOL HubHUD::GetLookAroundBtnLeft(void)
 
 BOOL HubHUD::GetLookAroundBtnUp(void)
 {
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     if ((work->viewButton.flags & HubHUD::BUTTONFLAG_ACTIVE) == 0)
         return FALSE;
@@ -134,7 +134,7 @@ BOOL HubHUD::GetLookAroundBtnUp(void)
 
 BOOL HubHUD::GetLookAroundBtnRight(void)
 {
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     if ((work->viewButton.flags & HubHUD::BUTTONFLAG_ACTIVE) == 0)
         return FALSE;
@@ -144,7 +144,7 @@ BOOL HubHUD::GetLookAroundBtnRight(void)
 
 BOOL HubHUD::GetLookAroundBtnDown(void)
 {
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     if ((work->viewButton.flags & HubHUD::BUTTONFLAG_ACTIVE) == 0)
         return FALSE;
@@ -154,14 +154,14 @@ BOOL HubHUD::GetLookAroundBtnDown(void)
 
 BOOL HubHUD::GetTouchHeld(void)
 {
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     return work->touchHeld;
 }
 
 void HubHUD::GetTouchMove(s16 *x, s16 *y)
 {
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     if (work->touchHeld)
     {
@@ -181,7 +181,7 @@ void HubHUD::GetTouchMove(s16 *x, s16 *y)
 
 void HubHUD::GetTouchPos(s16 *x, s16 *y)
 {
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     if (work->touchHeld)
     {
@@ -204,7 +204,7 @@ void HubHUD::ConfigureMenuButton(BOOL visible, BOOL enabled)
     if (visible == FALSE)
         enabled = FALSE;
 
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     if (visible)
         work->menuButton.flags |= HubHUD::BUTTONFLAG_VISIBLE;
@@ -216,7 +216,7 @@ void HubHUD::ConfigureMenuButton(BOOL visible, BOOL enabled)
 
 BOOL HubHUD::ShouldOpenMainMenu(void)
 {
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
     return work->openMainMenu;
 }
 
@@ -478,7 +478,7 @@ void HubHUD::Destructor(Task *task)
 
     HubTaskDestroy<HubHUD>(task);
 
-    taskSingleton = NULL;
+    sHubHUDTaskSingleton = NULL;
 }
 
 void HubHUD::EnableViewCursor(HubHUD *work)
@@ -611,7 +611,7 @@ void HubHUD::ConfigureTouchArea(HubHUD *work, s32 id, BOOL enabled)
 
 void HubHUD::TouchAreaCallback_ViewButton(TouchAreaResponse *response, TouchArea *area, void *userData)
 {
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     TouchAreaResponseFlags responseFlags = area->responseFlags;
     if ((work->touchAreaFlags[0] & HubHUD::TOUCHAREAFLAG_ENABLED) == 0 || (responseFlags & TOUCHAREA_RESPONSE_CHECK_RECT2) != 0)
@@ -650,7 +650,7 @@ void HubHUD::TouchAreaCallback_ViewButton(TouchAreaResponse *response, TouchArea
 
 void HubHUD::TouchAreaCallback_MenuButton(TouchAreaResponse *response, TouchArea *area, void *userData)
 {
-    HubHUD *work = TaskGetWork(taskSingleton, HubHUD);
+    HubHUD *work = TaskGetWork(sHubHUDTaskSingleton, HubHUD);
 
     TouchAreaResponseFlags responseFlags = area->responseFlags;
     if ((work->touchAreaFlags[1] & HubHUD::TOUCHAREAFLAG_ENABLED) == 0 || (responseFlags & TOUCHAREA_RESPONSE_CHECK_RECT2) != 0)

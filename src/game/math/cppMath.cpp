@@ -6,14 +6,14 @@
 // VARIABLES
 // --------------------
 
-extern void *heapITCM_EndAddr;
-extern void *heapUser_EndAddr;
-extern void *heapDTCM_EndAddr;
-extern void *heapSystem_StartAddr;
-extern void *heapSystem_EndAddr;
-extern void *heapUser_StartAddr;
-extern void *heapITCM_StartAddr;
-extern void *heapDTCM_StartAddr;
+extern void *gHeapITCM_EndAddr;
+extern void *gHeapUser_EndAddr;
+extern void *gHeapDTCM_EndAddr;
+extern void *gHeapSystem_StartAddr;
+extern void *gHeapSystem_EndAddr;
+extern void *gHeapUser_StartAddr;
+extern void *gHeapITCM_StartAddr;
+extern void *gHeapDTCM_StartAddr;
 
 // --------------------
 // FUNCTION DECLS
@@ -70,19 +70,19 @@ void operator delete(void *memory)
 {
     u32 heap;
 
-    if (memory >= heapSystem_StartAddr && memory < heapSystem_EndAddr)
+    if (memory >= gHeapSystem_StartAddr && memory < gHeapSystem_EndAddr)
     {
         heap = HEAP_SYSTEM;
     }
-    else if (memory >= heapUser_StartAddr && memory < heapUser_EndAddr)
+    else if (memory >= gHeapUser_StartAddr && memory < gHeapUser_EndAddr)
     {
         heap = HEAP_USER;
     }
-    else if (memory >= heapDTCM_StartAddr && memory < heapDTCM_EndAddr)
+    else if (memory >= gHeapDTCM_StartAddr && memory < gHeapDTCM_EndAddr)
     {
         heap = HEAP_DTCM;
     }
-    else if (memory >= heapITCM_StartAddr && memory < heapITCM_EndAddr)
+    else if (memory >= gHeapITCM_StartAddr && memory < gHeapITCM_EndAddr)
     {
         heap = HEAP_ITCM;
     }

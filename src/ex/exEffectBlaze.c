@@ -24,33 +24,33 @@ struct ExBlazeFireballEffectConfig
 // VARIABLES
 // --------------------
 
-static s16 exBlazeFireballChargingEffectInstanceCount;
-static s16 exBlazeFireballEffectInstanceCount;
-static s16 exBlazeFireballShotEffectInstanceCount;
+static s16 sBlazeFireballChargingEffectInstanceCount;
+static s16 sBlazeFireballEffectInstanceCount;
+static s16 sBlazeFireballShotEffectInstanceCount;
 
-static void *exEffectBlazeFireballUnused;
-static void *exBlazeFireballChargingEffectTaskSingleton;
-static void *exBlazeFireballEffectSpriteResource;
-static u32 exBlazeFireballShotEffectTextureFileSize;
-static u32 exBlazeFireballShotEffectModelFileSize;
-static void *exBlazeFireballShotEffectTaskSingleton;
-static void *exBlazeFireballShotEffectLastSpawnedWorker;
-static void *exBlazeFireballShotEffectModelResource;
-static void *exBlazeFireballEffectTaskSingleton;
-static u32 exBlazeFireballChargingEffectTextureFileSize;
-static u32 exBlazeFireballChargingEffectModelFileSize;
-static void *exEffectBlazeFireballShotUnused;
+static void *sBlazeFireballUnused;
+static void *sBlazeFireballChargingEffectTaskSingleton;
+static void *sBlazeFireballEffectSpriteResource;
+static u32 sBlazeFireballShotEffectTextureFileSize;
+static u32 sBlazeFireballShotEffectModelFileSize;
+static void *sBlazeFireballShotEffectTaskSingleton;
+static void *sBlazeFireballShotEffectLastSpawnedWorker;
+static void *sBlazeFireballShotEffectModelResource;
+static void *sBlazeFireballEffectTaskSingleton;
+static u32 sBlazeFireballChargingEffectTextureFileSize;
+static u32 sBlazeFireballChargingEffectModelFileSize;
+static void *sBlazeFireballShotUnused;
 static void *ExBlazeFireballChargingEffectLastSpawnedWorker;
-static void *exBlazeFireballChargingEffectModelResource;
-static void *exBlazeFireballChargingEffectAnimResource[2];
-static void *exBlazeFireballShotEffectAnimResource[4];
-static u32 exBlazeFireballShotEffectAnimType[4];
+static void *sBlazeFireballChargingEffectModelResource;
+static void *sBlazeFireballChargingEffectAnimResource[2];
+static void *sBlazeFireballShotEffectAnimResource[4];
+static u32 sBlazeFireballShotEffectAnimType[4];
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(exEffectBlazeFireballUnused)
-FORCE_INCLUDE_VARIABLE_BSS(exEffectBlazeFireballShotUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sBlazeFireballUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sBlazeFireballShotUnused)
 
-static struct ExBlazeFireballEffectConfig exBlazeFireballChargingEffectConfig[] = {
+static struct ExBlazeFireballEffectConfig sBlazeFireballChargingEffectConfig[] = {
     [0] = { .scale = { 0.1f, 0.1f, 0.1f }, .size = { 1.5f, 1.5f, 0.0f } }, [1] = { .scale = { 0.2f, 0.2f, 0.2f }, .size = { 2.0f, 2.0f, 0.0f } },
     [2] = { .scale = { 0.3f, 0.3f, 0.3f }, .size = { 3.5f, 3.5f, 0.0f } }, [3] = { .scale = { 1.0f, 1.0f, 1.0f }, .size = { 0.0f, 0.0f, 0.0f } },
     [4] = { .scale = { 1.5f, 1.5f, 1.5f }, .size = { 0.0f, 0.0f, 0.0f } }, [5] = { .scale = { 2.5f, 2.5f, 2.5f }, .size = { 0.0f, 0.0f, 0.0f } },
@@ -96,13 +96,13 @@ void LoadExBlazeFireballEffectAssets(EX_ACTION_BAC3D_WORK *work, u16 anim)
 {
     InitExDrawRequestSprite3D(work);
 
-    if (exBlazeFireballEffectInstanceCount == 0)
-        exBlazeFireballEffectSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
+    if (sBlazeFireballEffectInstanceCount == 0)
+        sBlazeFireballEffectSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
 
-    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exBlazeFireballEffectSpriteResource, 1), FALSE);
-    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exBlazeFireballEffectSpriteResource, 1), FALSE);
+    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(sBlazeFireballEffectSpriteResource, 1), FALSE);
+    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(sBlazeFireballEffectSpriteResource, 1), FALSE);
 
-    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBlazeFireballEffectSpriteResource, anim, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels, vramPalette);
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, sBlazeFireballEffectSpriteResource, anim, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels, vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
     work->hitChecker.type                        = EXHITCHECK_TYPE_ACTIVE_PLAYER;
@@ -121,49 +121,49 @@ void LoadExBlazeFireballEffectAssets(EX_ACTION_BAC3D_WORK *work, u16 anim)
     work->hitChecker.box.size.z   = FLOAT_TO_FX32(0.001);
     work->hitChecker.box.position = &work->sprite.translation;
 
-    exBlazeFireballEffectInstanceCount++;
+    sBlazeFireballEffectInstanceCount++;
 }
 
 void ReleaseExBlazeFireballEffectAssets(EX_ACTION_BAC3D_WORK *work)
 {
     AnimatorSprite3D__Release(&work->sprite.animator);
 
-    exBlazeFireballEffectInstanceCount--;
+    sBlazeFireballEffectInstanceCount--;
 }
 
 BOOL LoadExBlazeFireballChargingEffectAssets(EX_ACTION_NN_WORK *work)
 {
     ExBlazeFireballChargingEffectLastSpawnedWorker = work;
 
-    if (exBlazeFireballChargingEffectModelFileSize != 0 && exBlazeFireballChargingEffectTextureFileSize != 0)
+    if (sBlazeFireballChargingEffectModelFileSize != 0 && sBlazeFireballChargingEffectTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exBlazeFireballChargingEffectModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sBlazeFireballChargingEffectModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exBlazeFireballChargingEffectTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sBlazeFireballChargingEffectTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exBlazeFireballChargingEffectModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sBlazeFireballChargingEffectModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exBlazeFireballChargingEffectInstanceCount == 0)
+    if (sBlazeFireballChargingEffectInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_BLZFA_NSBMD, &exBlazeFireballChargingEffectModelResource,
-                                      &exBlazeFireballChargingEffectModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_BLZFA_NSBMD, &sBlazeFireballChargingEffectModelResource,
+                                      &sBlazeFireballChargingEffectModelFileSize, TRUE, FALSE);
 
-        exBlazeFireballChargingEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFA_NSBCA);
-        exBlazeFireballChargingEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFA_NSBVA);
+        sBlazeFireballChargingEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFA_NSBCA);
+        sBlazeFireballChargingEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFA_NSBVA);
 
-        CreateAsset3DSetup(exBlazeFireballChargingEffectModelResource);
+        CreateAsset3DSetup(sBlazeFireballChargingEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBlazeFireballChargingEffectModelResource, 0, FALSE, FALSE);
-    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exBlazeFireballChargingEffectAnimResource[0], 0, NULL);
-    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_VIS_ANIM, exBlazeFireballChargingEffectAnimResource[1], 0, NULL);
+    AnimatorMDL__SetResource(&work->model.animator, sBlazeFireballChargingEffectModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, sBlazeFireballChargingEffectAnimResource[0], 0, NULL);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_VIS_ANIM, sBlazeFireballChargingEffectAnimResource[1], 0, NULL);
 
     work->model.primaryAnimType     = B3D_ANIM_JOINT_ANIM;
     work->model.primaryAnimResource = work->model.animator.currentAnimObj[B3D_ANIM_JOINT_ANIM];
@@ -190,86 +190,86 @@ BOOL LoadExBlazeFireballChargingEffectAssets(EX_ACTION_NN_WORK *work)
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
-    exBlazeFireballChargingEffectInstanceCount++;
+    sBlazeFireballChargingEffectInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBlazeFireballChargingEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBlazeFireballChargingEffectInstanceCount <= 1)
+    if (sBlazeFireballChargingEffectInstanceCount <= 1)
     {
-        if (exBlazeFireballChargingEffectModelResource != NULL)
-            NNS_G3dResDefaultRelease(exBlazeFireballChargingEffectModelResource);
+        if (sBlazeFireballChargingEffectModelResource != NULL)
+            NNS_G3dResDefaultRelease(sBlazeFireballChargingEffectModelResource);
 
-        if (exBlazeFireballChargingEffectAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exBlazeFireballChargingEffectAnimResource[0]);
+        if (sBlazeFireballChargingEffectAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sBlazeFireballChargingEffectAnimResource[0]);
 
-        if (exBlazeFireballChargingEffectAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exBlazeFireballChargingEffectAnimResource[1]);
+        if (sBlazeFireballChargingEffectAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sBlazeFireballChargingEffectAnimResource[1]);
 
-        if (exBlazeFireballChargingEffectModelResource != NULL)
-            HeapFree(HEAP_USER, exBlazeFireballChargingEffectModelResource);
-        exBlazeFireballChargingEffectModelResource = NULL;
+        if (sBlazeFireballChargingEffectModelResource != NULL)
+            HeapFree(HEAP_USER, sBlazeFireballChargingEffectModelResource);
+        sBlazeFireballChargingEffectModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exBlazeFireballChargingEffectInstanceCount--;
+    sBlazeFireballChargingEffectInstanceCount--;
 }
 
 BOOL LoadExBlazeFireballShotEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    exBlazeFireballShotEffectLastSpawnedWorker = work;
+    sBlazeFireballShotEffectLastSpawnedWorker = work;
 
-    if (exBlazeFireballShotEffectModelFileSize != 0 && exBlazeFireballShotEffectTextureFileSize != 0)
+    if (sBlazeFireballShotEffectModelFileSize != 0 && sBlazeFireballShotEffectTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exBlazeFireballShotEffectModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sBlazeFireballShotEffectModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exBlazeFireballShotEffectTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sBlazeFireballShotEffectTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exBlazeFireballShotEffectModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sBlazeFireballShotEffectModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exBlazeFireballShotEffectInstanceCount == 0)
+    if (sBlazeFireballShotEffectInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_BLZFB_NSBMD, &exBlazeFireballShotEffectModelResource,
-                                      &exBlazeFireballShotEffectModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_BLZFB_NSBMD, &sBlazeFireballShotEffectModelResource,
+                                      &sBlazeFireballShotEffectModelFileSize, TRUE, FALSE);
 
-        exBlazeFireballShotEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFB_NSBVA);
-        exBlazeFireballShotEffectAnimType[0]     = B3D_ANIM_VIS_ANIM;
+        sBlazeFireballShotEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFB_NSBVA);
+        sBlazeFireballShotEffectAnimType[0]     = B3D_ANIM_VIS_ANIM;
 
-        exBlazeFireballShotEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFB_NSBCA);
-        exBlazeFireballShotEffectAnimType[1]     = B3D_ANIM_JOINT_ANIM;
+        sBlazeFireballShotEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFB_NSBCA);
+        sBlazeFireballShotEffectAnimType[1]     = B3D_ANIM_JOINT_ANIM;
 
-        exBlazeFireballShotEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFB_NSBMA);
-        exBlazeFireballShotEffectAnimType[2]     = B3D_ANIM_MAT_ANIM;
+        sBlazeFireballShotEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFB_NSBMA);
+        sBlazeFireballShotEffectAnimType[2]     = B3D_ANIM_MAT_ANIM;
 
-        exBlazeFireballShotEffectAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFB_NSBTP);
-        exBlazeFireballShotEffectAnimType[3]     = B3D_ANIM_PAT_ANIM;
+        sBlazeFireballShotEffectAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BLZFB_NSBTP);
+        sBlazeFireballShotEffectAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
-        CreateAsset3DSetup(exBlazeFireballShotEffectModelResource);
+        CreateAsset3DSetup(sBlazeFireballShotEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBlazeFireballShotEffectModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->model.animator, sBlazeFireballShotEffectModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
     for (; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exBlazeFireballShotEffectAnimType[i], exBlazeFireballShotEffectAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sBlazeFireballShotEffectAnimType[i], sBlazeFireballShotEffectAnimResource[i], 0, NULL);
     }
 
-    AnimatorMDL__SetAnimation(&work->model.animator, exBlazeFireballShotEffectAnimType[3], exBlazeFireballShotEffectAnimResource[3], 0,
-                              NNS_G3dGetTex(exBlazeFireballShotEffectModelResource));
+    AnimatorMDL__SetAnimation(&work->model.animator, sBlazeFireballShotEffectAnimType[3], sBlazeFireballShotEffectAnimResource[3], 0,
+                              NNS_G3dGetTex(sBlazeFireballShotEffectModelResource));
 
-    work->model.primaryAnimType     = exBlazeFireballShotEffectAnimType[1];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBlazeFireballShotEffectAnimType[1]];
+    work->model.primaryAnimType     = sBlazeFireballShotEffectAnimType[1];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sBlazeFireballShotEffectAnimType[1]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -293,45 +293,45 @@ BOOL LoadExBlazeFireballShotEffectAssets(EX_ACTION_NN_WORK *work)
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
-    exBlazeFireballShotEffectInstanceCount++;
+    sBlazeFireballShotEffectInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBlazeFireballShotEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBlazeFireballShotEffectInstanceCount <= 1)
+    if (sBlazeFireballShotEffectInstanceCount <= 1)
     {
-        if (exBlazeFireballShotEffectModelResource != NULL)
-            NNS_G3dResDefaultRelease(exBlazeFireballShotEffectModelResource);
+        if (sBlazeFireballShotEffectModelResource != NULL)
+            NNS_G3dResDefaultRelease(sBlazeFireballShotEffectModelResource);
 
-        if (exBlazeFireballShotEffectAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exBlazeFireballShotEffectAnimResource[0]);
+        if (sBlazeFireballShotEffectAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sBlazeFireballShotEffectAnimResource[0]);
 
-        if (exBlazeFireballShotEffectAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exBlazeFireballShotEffectAnimResource[1]);
+        if (sBlazeFireballShotEffectAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sBlazeFireballShotEffectAnimResource[1]);
 
-        if (exBlazeFireballShotEffectAnimResource[2] != NULL)
-            NNS_G3dResDefaultRelease(exBlazeFireballShotEffectAnimResource[2]);
+        if (sBlazeFireballShotEffectAnimResource[2] != NULL)
+            NNS_G3dResDefaultRelease(sBlazeFireballShotEffectAnimResource[2]);
 
-        if (exBlazeFireballShotEffectAnimResource[3] != NULL)
-            NNS_G3dResDefaultRelease(exBlazeFireballShotEffectAnimResource[3]);
+        if (sBlazeFireballShotEffectAnimResource[3] != NULL)
+            NNS_G3dResDefaultRelease(sBlazeFireballShotEffectAnimResource[3]);
 
-        if (exBlazeFireballShotEffectModelResource != NULL)
-            HeapFree(HEAP_USER, exBlazeFireballShotEffectModelResource);
-        exBlazeFireballShotEffectModelResource = NULL;
+        if (sBlazeFireballShotEffectModelResource != NULL)
+            HeapFree(HEAP_USER, sBlazeFireballShotEffectModelResource);
+        sBlazeFireballShotEffectModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exBlazeFireballShotEffectInstanceCount--;
+    sBlazeFireballShotEffectInstanceCount--;
 }
 
 void ExBlazeFireballEffect_Main_Init(void)
 {
     exEffectBlzFireTask *work = ExTaskGetWorkCurrent(exEffectBlzFireTask);
 
-    exBlazeFireballEffectTaskSingleton = GetCurrentTask();
+    sBlazeFireballEffectTaskSingleton = GetCurrentTask();
 
     LoadExBlazeFireballEffectAssets(&work->aniFire, EX_ACTCOM_ANI_BLAZE_FIRE);
 
@@ -359,7 +359,7 @@ void ExBlazeFireballEffect_Destructor(void)
 
     ReleaseExBlazeFireballEffectAssets(&work->aniFire);
 
-    exBlazeFireballEffectTaskSingleton = NULL;
+    sBlazeFireballEffectTaskSingleton = NULL;
 }
 
 void ExBlazeFireballEffect_Main_Charging(void)
@@ -393,45 +393,45 @@ void ExBlazeFireballEffect_Action_FireShot(void)
         if (work->parent->hitChecker.power < EXPLAYER_FIREBALL_REGULAR_POWER_NORMAL)
         {
             float scale;
-            MULTIPLY_FLOAT_FX(scale, exBlazeFireballChargingEffectConfig[0].scale.x)
+            MULTIPLY_FLOAT_FX(scale, sBlazeFireballChargingEffectConfig[0].scale.x)
             work->scale = scale;
 
             float sizeX;
-            MULTIPLY_FLOAT_FX(sizeX, exBlazeFireballChargingEffectConfig[0].size.x)
+            MULTIPLY_FLOAT_FX(sizeX, sBlazeFireballChargingEffectConfig[0].size.x)
             work->aniFire.hitChecker.box.size.x = sizeX;
 
             float sizeY;
-            MULTIPLY_FLOAT_FX(sizeY, exBlazeFireballChargingEffectConfig[0].size.y)
+            MULTIPLY_FLOAT_FX(sizeY, sBlazeFireballChargingEffectConfig[0].size.y)
             work->aniFire.hitChecker.box.size.y = sizeY;
         }
 
         if (work->parent->hitChecker.power >= EXPLAYER_FIREBALL_REGULAR_POWER_NORMAL)
         {
             float scale;
-            MULTIPLY_FLOAT_FX(scale, exBlazeFireballChargingEffectConfig[1].scale.x)
+            MULTIPLY_FLOAT_FX(scale, sBlazeFireballChargingEffectConfig[1].scale.x)
             work->scale = scale;
 
             float sizeX;
-            MULTIPLY_FLOAT_FX(sizeX, exBlazeFireballChargingEffectConfig[1].size.x)
+            MULTIPLY_FLOAT_FX(sizeX, sBlazeFireballChargingEffectConfig[1].size.x)
             work->aniFire.hitChecker.box.size.x = sizeX;
 
             float sizeY;
-            MULTIPLY_FLOAT_FX(sizeY, exBlazeFireballChargingEffectConfig[1].size.y)
+            MULTIPLY_FLOAT_FX(sizeY, sBlazeFireballChargingEffectConfig[1].size.y)
             work->aniFire.hitChecker.box.size.y = sizeY;
         }
 
         if (work->parent->hitChecker.power >= EXPLAYER_FIREBALL_CHARGED_POWER_NORMAL)
         {
             float scale;
-            MULTIPLY_FLOAT_FX(scale, exBlazeFireballChargingEffectConfig[2].scale.x)
+            MULTIPLY_FLOAT_FX(scale, sBlazeFireballChargingEffectConfig[2].scale.x)
             work->scale = scale;
 
             float sizeX;
-            MULTIPLY_FLOAT_FX(sizeX, exBlazeFireballChargingEffectConfig[2].size.x)
+            MULTIPLY_FLOAT_FX(sizeX, sBlazeFireballChargingEffectConfig[2].size.x)
             work->aniFire.hitChecker.box.size.x = sizeX;
 
             float sizeY;
-            MULTIPLY_FLOAT_FX(sizeY, exBlazeFireballChargingEffectConfig[2].size.y)
+            MULTIPLY_FLOAT_FX(sizeY, sBlazeFireballChargingEffectConfig[2].size.y)
             work->aniFire.hitChecker.box.size.y = sizeY;
         }
     }
@@ -440,45 +440,45 @@ void ExBlazeFireballEffect_Action_FireShot(void)
         if (work->parent->hitChecker.power < EXPLAYER_FIREBALL_REGULAR_POWER_EASY)
         {
             float scale;
-            MULTIPLY_FLOAT_FX(scale, exBlazeFireballChargingEffectConfig[0].scale.x)
+            MULTIPLY_FLOAT_FX(scale, sBlazeFireballChargingEffectConfig[0].scale.x)
             work->scale = scale;
 
             float sizeX;
-            MULTIPLY_FLOAT_FX(sizeX, exBlazeFireballChargingEffectConfig[0].size.x)
+            MULTIPLY_FLOAT_FX(sizeX, sBlazeFireballChargingEffectConfig[0].size.x)
             work->aniFire.hitChecker.box.size.x = sizeX;
 
             float sizeY;
-            MULTIPLY_FLOAT_FX(sizeY, exBlazeFireballChargingEffectConfig[0].size.y)
+            MULTIPLY_FLOAT_FX(sizeY, sBlazeFireballChargingEffectConfig[0].size.y)
             work->aniFire.hitChecker.box.size.y = sizeY;
         }
 
         if (work->parent->hitChecker.power >= EXPLAYER_FIREBALL_REGULAR_POWER_EASY)
         {
             float scale;
-            MULTIPLY_FLOAT_FX(scale, exBlazeFireballChargingEffectConfig[1].scale.x)
+            MULTIPLY_FLOAT_FX(scale, sBlazeFireballChargingEffectConfig[1].scale.x)
             work->scale = scale;
 
             float sizeX;
-            MULTIPLY_FLOAT_FX(sizeX, exBlazeFireballChargingEffectConfig[1].size.x)
+            MULTIPLY_FLOAT_FX(sizeX, sBlazeFireballChargingEffectConfig[1].size.x)
             work->aniFire.hitChecker.box.size.x = sizeX;
 
             float sizeY;
-            MULTIPLY_FLOAT_FX(sizeY, exBlazeFireballChargingEffectConfig[1].size.y)
+            MULTIPLY_FLOAT_FX(sizeY, sBlazeFireballChargingEffectConfig[1].size.y)
             work->aniFire.hitChecker.box.size.y = sizeY;
         }
 
         if (work->parent->hitChecker.power >= EXPLAYER_FIREBALL_CHARGED_POWER_EASY)
         {
             float scale;
-            MULTIPLY_FLOAT_FX(scale, exBlazeFireballChargingEffectConfig[2].scale.x)
+            MULTIPLY_FLOAT_FX(scale, sBlazeFireballChargingEffectConfig[2].scale.x)
             work->scale = scale;
 
             float sizeX;
-            MULTIPLY_FLOAT_FX(sizeX, exBlazeFireballChargingEffectConfig[2].size.x)
+            MULTIPLY_FLOAT_FX(sizeX, sBlazeFireballChargingEffectConfig[2].size.x)
             work->aniFire.hitChecker.box.size.x = sizeX;
 
             float sizeY;
-            MULTIPLY_FLOAT_FX(sizeY, exBlazeFireballChargingEffectConfig[2].size.y)
+            MULTIPLY_FLOAT_FX(sizeY, sBlazeFireballChargingEffectConfig[2].size.y)
             work->aniFire.hitChecker.box.size.y = sizeY;
         }
     }
@@ -549,7 +549,7 @@ void ExBlazeFireballChargingEffect_Main_Init(void)
 {
     exExEffectBlzFireTaMeTask *work = ExTaskGetWorkCurrent(exExEffectBlzFireTaMeTask);
 
-    exBlazeFireballChargingEffectTaskSingleton = GetCurrentTask();
+    sBlazeFireballChargingEffectTaskSingleton = GetCurrentTask();
 
     LoadExBlazeFireballChargingEffectAssets(&work->aniTaMe);
 
@@ -583,7 +583,7 @@ void ExBlazeFireballChargingEffect_Destructor(void)
 
     ReleaseExBlazeFireballChargingEffectAssets(&work->aniTaMe);
 
-    exBlazeFireballChargingEffectTaskSingleton = NULL;
+    sBlazeFireballChargingEffectTaskSingleton = NULL;
 }
 
 void ExBlazeFireballChargingEffect_Main_Active(void)
@@ -595,18 +595,18 @@ void ExBlazeFireballChargingEffect_Main_Active(void)
     if (work->parent->model.animID == ex_blz_fb_01 || work->parent->model.animID == ex_blz_fb_02)
     {
         float maxScale;
-        MULTIPLY_FLOAT_FX(maxScale, exBlazeFireballChargingEffectConfig[5].scale.x)
+        MULTIPLY_FLOAT_FX(maxScale, sBlazeFireballChargingEffectConfig[5].scale.x)
 
         if (work->scale >= (fx32)maxScale)
         {
             float scale;
-            MULTIPLY_FLOAT_FX(scale, exBlazeFireballChargingEffectConfig[5].scale.x)
+            MULTIPLY_FLOAT_FX(scale, sBlazeFireballChargingEffectConfig[5].scale.x)
             work->scale = scale;
         }
         else
         {
             float scale;
-            MULTIPLY_FLOAT_FX(scale, (exBlazeFireballChargingEffectConfig[5].scale.x - exBlazeFireballChargingEffectConfig[3].scale.x) / 120.0f)
+            MULTIPLY_FLOAT_FX(scale, (sBlazeFireballChargingEffectConfig[5].scale.x - sBlazeFireballChargingEffectConfig[3].scale.x) / 120.0f)
             work->scale += (fx32)scale;
         }
     }
@@ -652,7 +652,7 @@ void ExBlazeFireballShotEffect_Main_Init(void)
 {
     exEffectBlzFireShotTask *work = ExTaskGetWorkCurrent(exEffectBlzFireShotTask);
 
-    exBlazeFireballShotEffectTaskSingleton = GetCurrentTask();
+    sBlazeFireballShotEffectTaskSingleton = GetCurrentTask();
 
     LoadExBlazeFireballShotEffectAssets(&work->aniShot);
     SetExDrawRequestPriority(&work->aniShot.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -676,7 +676,7 @@ void ExBlazeFireballShotEffect_Destructor(void)
 
     ReleaseExBlazeFireballShotEffectAssets(&work->aniShot);
 
-    exBlazeFireballShotEffectTaskSingleton = NULL;
+    sBlazeFireballShotEffectTaskSingleton = NULL;
 }
 
 void ExBlazeFireballShotEffect_Main_Active(void)

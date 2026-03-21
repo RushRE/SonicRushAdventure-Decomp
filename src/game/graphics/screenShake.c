@@ -14,7 +14,7 @@
 // VARIABLES
 // --------------------
 
-static Task *screenShakeTask = NULL;
+static Task *sScreenShakeTaskSingleton = NULL;
 
 // --------------------
 // FUNCTION DECLS
@@ -33,18 +33,18 @@ ScreenShake *ShakeScreen(ScreenShakeType type)
 {
     if (type == SCREENSHAKE_GET_ACTIVE)
     {
-        if (screenShakeTask != NULL)
-            return TaskGetWork(screenShakeTask, ScreenShake);
+        if (sScreenShakeTaskSingleton != NULL)
+            return TaskGetWork(sScreenShakeTaskSingleton, ScreenShake);
         else
             return NULL;
     }
     else
     {
-        Task *task = screenShakeTask;
-        if (screenShakeTask == NULL)
+        Task *task = sScreenShakeTaskSingleton;
+        if (sScreenShakeTaskSingleton == NULL)
         {
             CreateScreenShake();
-            task = screenShakeTask;
+            task = sScreenShakeTaskSingleton;
 
             if (task == NULL)
                 return NULL;
@@ -70,11 +70,11 @@ ScreenShake *ShakeScreen(ScreenShakeType type)
 
 ScreenShake *ShakeScreenCycle(fx32 power, s32 angleSpeed, fx32 deceleration)
 {
-    Task *task = screenShakeTask;
-    if (screenShakeTask == NULL)
+    Task *task = sScreenShakeTaskSingleton;
+    if (sScreenShakeTaskSingleton == NULL)
     {
         CreateScreenShake();
-        task = screenShakeTask;
+        task = sScreenShakeTaskSingleton;
 
         if (task == NULL)
             return NULL;
@@ -95,19 +95,19 @@ ScreenShake *ShakeScreenCycle(fx32 power, s32 angleSpeed, fx32 deceleration)
 
 s32 GetScreenShakeOffsetX(void)
 {
-    if (screenShakeTask == NULL)
+    if (sScreenShakeTaskSingleton == NULL)
         return 0;
 
-    ScreenShake *work = TaskGetWork(screenShakeTask, ScreenShake);
+    ScreenShake *work = TaskGetWork(sScreenShakeTaskSingleton, ScreenShake);
     return work->offset.x;
 }
 
 s32 GetScreenShakeOffsetY(void)
 {
-    if (screenShakeTask == NULL)
+    if (sScreenShakeTaskSingleton == NULL)
         return 0;
 
-    ScreenShake *work = TaskGetWork(screenShakeTask, ScreenShake);
+    ScreenShake *work = TaskGetWork(sScreenShakeTaskSingleton, ScreenShake);
     return work->offset.y;
 }
 
@@ -117,7 +117,7 @@ void CreateScreenShake(void)
     if (task == HeapNull)
         return;
 
-    screenShakeTask = task;
+    sScreenShakeTaskSingleton = task;
 
     ScreenShake *work = TaskGetWork(task, ScreenShake);
     TaskInitWork16(work);
@@ -125,9 +125,9 @@ void CreateScreenShake(void)
 
 void DestroyScreenShake(void)
 {
-    if (screenShakeTask != NULL)
+    if (sScreenShakeTaskSingleton != NULL)
     {
-        ScreenShake *work = TaskGetWork(screenShakeTask, ScreenShake);
+        ScreenShake *work = TaskGetWork(sScreenShakeTaskSingleton, ScreenShake);
         TaskInitWork16(work);
     }
 }
@@ -372,5 +372,5 @@ void ScreenShake_Main(void)
 
 void ScreenShake_Destructor(Task *task)
 {
-    screenShakeTask = NULL;
+    sScreenShakeTaskSingleton = NULL;
 }

@@ -512,12 +512,12 @@ StageClear__LoadAssets: // 0x02156FB0
 	ldr r0, [r4, #8]
 	ldr r2, _02157100 // =aCldmCldmFixBac
 	lsl r1, r0, #3
-	ldr r0, _02157104 // =playerWork
+	ldr r0, _02157104 // =gPlayerModelFile
 	add r3, #0x14
 	ldr r0, [r0, r1]
 	mov r1, r5
 	str r0, [r4, #0xc]
-	ldr r0, _02157108 // =animationWork
+	ldr r0, _02157108 // =gPlayerMainAnimationFile
 	add r1, #0x10
 	ldr r0, [r0, #0]
 	str r0, [r5, #4]
@@ -662,8 +662,8 @@ _021570DA:
 	.align 2, 0
 _021570FC: .word gameArchiveCommon
 _02157100: .word aCldmCldmFixBac
-_02157104: .word playerWork
-_02157108: .word animationWork
+_02157104: .word gPlayerModelFile
+_02157108: .word gPlayerMainAnimationFile
 _0215710C: .word aCldmCldmBaseBb
 _02157110: .word aCldmCldmBsd
 _02157114: .word aNarcCldmTimeLz

@@ -16,7 +16,7 @@
 // VARIABLES
 // --------------------
 
-static DemoState demoState;
+static DemoState sDemoState;
 
 #ifndef NON_MATCHING
 // TODO: not sure how variable ordering works.... these variables force the order of the strings (01, 00, 02) to match the final rom!
@@ -25,7 +25,7 @@ static const char *TEMP_00 = "/keydat/pd_game00.dat";
 static const char *TEMP_01 = "/keydat/pd_game01.dat";
 #endif
 
-static DemoConfig demoList[] = {
+static DemoConfig sDemoList[] = {
     {
         .keydataPath  = "/keydat/pd_game00.dat",
         .spawnX       = FLOAT_TO_FX32(0.0),
@@ -71,20 +71,20 @@ void InitZoneDemoEvent(void)
 {
     GameState *state = GetGameState();
 
-    state->characterID[0]      = demoList[state->nextDemoID].characterID;
-    state->characterID[1]      = demoList[state->nextDemoID].characterID;
-    state->nextDemoCharacterID = demoList[state->nextDemoID].characterID ^ 1; // swap characters after every demo
+    state->characterID[0]      = sDemoList[state->nextDemoID].characterID;
+    state->characterID[1]      = sDemoList[state->nextDemoID].characterID;
+    state->nextDemoCharacterID = sDemoList[state->nextDemoID].characterID ^ 1; // swap characters after every demo
 
     state->gameFlag = GAME_FLAG_NONE;
     state->gameMode = GAMEMODE_DEMO;
-    state->stageID  = demoList[state->nextDemoID].stageID;
+    state->stageID  = sDemoList[state->nextDemoID].stageID;
     RequestSysEventChange(0); // SYSEVENT_LOAD_STAGE
 
-    demoState        = DEMOPLAYER_STATE_NOT_SKIPPED;
+    sDemoState        = DEMOPLAYER_STATE_NOT_SKIPPED;
     state->curDemoID = state->nextDemoID;
 
     state->nextDemoID++;
-    if (state->nextDemoID >= ARRAY_COUNT(demoList))
+    if (state->nextDemoID >= ARRAY_COUNT(sDemoList))
         state->nextDemoID = 0;
 
     NextSysEvent();
@@ -92,18 +92,18 @@ void InitZoneDemoEvent(void)
 
 const char *GetCurrentDemoPath(void)
 {
-    return demoList[gameState.curDemoID].keydataPath;
+    return sDemoList[gameState.curDemoID].keydataPath;
 }
 
 void GetDemoSpawnPosition(fx32 *x, fx32 *y)
 {
-    *x = demoList[gameState.curDemoID].spawnX;
-    *y = demoList[gameState.curDemoID].spawnY;
+    *x = sDemoList[gameState.curDemoID].spawnX;
+    *y = sDemoList[gameState.curDemoID].spawnY;
 }
 
 BOOL HasDemoSpawnPos(void)
 {
-    if (demoList[gameState.curDemoID].spawnX != 0 || demoList[gameState.curDemoID].spawnY != 0)
+    if (sDemoList[gameState.curDemoID].spawnX != 0 || sDemoList[gameState.curDemoID].spawnY != 0)
         return TRUE;
     else
         return FALSE;
@@ -158,7 +158,7 @@ void CreateDemoPlayer(void)
 
 u32 GetDemoState(void)
 {
-    return demoState;
+    return sDemoState;
 }
 
 void DemoPlayer_Destructor(Task *task)
@@ -183,14 +183,14 @@ void DemoPlayer_Main_PlaybackActive(void)
     {
         if (CheckPadButtonDown(PAD_BUTTON_A | PAD_BUTTON_B | PAD_BUTTON_START | PAD_BUTTON_X | PAD_BUTTON_Y) != 0 || TouchInput__IsTouchPush(&touchInput))
         {
-            demoState = DEMOPLAYER_STATE_WAS_SKIPPED;
+            sDemoState = DEMOPLAYER_STATE_WAS_SKIPPED;
             CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_REVERSE_BRIGHTNESS | DRAW_FADE_TASK_FLAG_DESTROY_ON_FINISHED, FLOAT_TO_FX32(4.0));
             NNS_SndPlayerStopSeqAll(4);
             SetCurrentTaskMainEvent(DemoPlayer_Main_FinishedPlayback);
         }
-        else if (work->timer >= demoList[gameState.curDemoID].demoDuration)
+        else if (work->timer >= sDemoList[gameState.curDemoID].demoDuration)
         {
-            demoState = DEMOPLAYER_STATE_NOT_SKIPPED;
+            sDemoState = DEMOPLAYER_STATE_NOT_SKIPPED;
             CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_REVERSE_BRIGHTNESS | DRAW_FADE_TASK_FLAG_DESTROY_ON_FINISHED, FLOAT_TO_FX32(1.0));
             NNS_SndPlayerStopSeqAll(16);
             SetCurrentTaskMainEvent(DemoPlayer_Main_FinishedPlayback);

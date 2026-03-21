@@ -51,7 +51,7 @@ static u32 GetPacketSize(ObjPacketHeader *header);
 // VARIABLES
 // --------------------
 
-static struct ObjPacketManager objPacketManager = {
+static struct ObjPacketManager sObjPacketManager = {
     .aid              = OBJ_PACKET_AID_AUTO,
     .clearSendBuffer  = WirelessManager__ClearSendBuffer,
     .getReceiveBuffer = WirelessManager__GetReceiveBuffer,
@@ -60,18 +60,18 @@ static struct ObjPacketManager objPacketManager = {
     .getSendBuffer    = WirelessManager__GetSendBuffer,
 };
 
-static void *receiveBufferStart;
-static void *sendBufferStart;
-static ObjSendPacket objPacketList[OBJ_PACKET_SEND_QUEUE_SIZE];
+static void *sReceiveBufferStart;
+static void *sSendBufferStart;
+static ObjSendPacket sObjPacketList[OBJ_PACKET_SEND_QUEUE_SIZE];
 
-extern u8 objPacketAIDList[0x10];
+extern u8 gObjPacketAIDList[0x10];
 
 // --------------------
 // INLINE FUNCTIONS
 // --------------------
 
-#define GetReceiveBufferStart(id) (u8*)objPacketManager.getReceiveBuffer(objPacketAIDList[id])
-#define GetReceiveBufferEnd(id) (u8*)((size_t)objPacketManager.minDataSize + (size_t)objPacketManager.getReceiveBuffer(objPacketAIDList[id]))
+#define GetReceiveBufferStart(id) (u8*)sObjPacketManager.getReceiveBuffer(gObjPacketAIDList[id])
+#define GetReceiveBufferEnd(id) (u8*)((size_t)sObjPacketManager.minDataSize + (size_t)sObjPacketManager.getReceiveBuffer(gObjPacketAIDList[id]))
 
 // --------------------
 // FUNCTIONS
@@ -79,42 +79,42 @@ extern u8 objPacketAIDList[0x10];
 
 void ObjPacket__Init(void *unknown, ObjPacketMode mode, size_t minDataSize)
 {
-    sendBufferStart = NULL;
-    MI_CpuClear8(objPacketList, sizeof(objPacketList));
-    receiveBufferStart = NULL;
+    sSendBufferStart = NULL;
+    MI_CpuClear8(sObjPacketList, sizeof(sObjPacketList));
+    sReceiveBufferStart = NULL;
 
     for (u8 i = 0; i < 0x10; i++)
     {
-        objPacketAIDList[i] = i;
+        gObjPacketAIDList[i] = i;
     }
 
-    objPacketManager.aid = OBJ_PACKET_AID_AUTO;
+    sObjPacketManager.aid = OBJ_PACKET_AID_AUTO;
     switch (mode)
     {
         case OBJPACKET_MODE_WIFI:
-            objPacketManager.getReceiveBuffer = GetDataTransferReceiveBuffer;
-            objPacketManager.getSendBuffer    = GetDataTransferSendBuffer;
-            objPacketManager.getCurrentAID    = DWC_GetMyAID;
-            objPacketManager.clearSendBuffer  = ClearDataTransferSendBuffer;
+            sObjPacketManager.getReceiveBuffer = GetDataTransferReceiveBuffer;
+            sObjPacketManager.getSendBuffer    = GetDataTransferSendBuffer;
+            sObjPacketManager.getCurrentAID    = DWC_GetMyAID;
+            sObjPacketManager.clearSendBuffer  = ClearDataTransferSendBuffer;
             break;
 
         // case OBJPACKET_MODE_WIRELESS:
         default:
-            objPacketManager.getReceiveBuffer = WirelessManager__GetReceiveBuffer;
-            objPacketManager.getSendBuffer    = WirelessManager__GetSendBuffer;
-            objPacketManager.getCurrentAID    = WH_GetCurrentAid;
-            objPacketManager.clearSendBuffer  = WirelessManager__ClearSendBuffer;
+            sObjPacketManager.getReceiveBuffer = WirelessManager__GetReceiveBuffer;
+            sObjPacketManager.getSendBuffer    = WirelessManager__GetSendBuffer;
+            sObjPacketManager.getCurrentAID    = WH_GetCurrentAid;
+            sObjPacketManager.clearSendBuffer  = WirelessManager__ClearSendBuffer;
             break;
     }
 
-    objPacketManager.minDataSize = minDataSize;
+    sObjPacketManager.minDataSize = minDataSize;
 }
 
 u16 ObjPacket__GetAIDIndex(u16 aid)
 {
     for (u16 i = 0; i < 0x10; i++)
     {
-        if (objPacketAIDList[i] == aid)
+        if (gObjPacketAIDList[i] == aid)
             return i;
     }
 
@@ -132,7 +132,7 @@ ObjSendPacket *InitPacketForSend(ObjSendPacket *packet, u16 type, u16 priority, 
     packet->header.type     = (u8)type;
     packet->header.priority = (u8)priority;
 
-    if (sendBufferStart == NULL)
+    if (sSendBufferStart == NULL)
     {
         if (packetSize == 0)
             packetSize = sizeof(ObjPacketHeader);
@@ -146,13 +146,13 @@ ObjSendPacket *InitPacketForSend(ObjSendPacket *packet, u16 type, u16 priority, 
 ObjSendPacket *ObjPacket__QueueSendPacket(void *packet, u16 type, u16 priority, u16 dataSize)
 {
     ObjSendPacket *packetWork = NULL;
-    ObjSendPacket *packetList = objPacketList;
+    ObjSendPacket *packetList = sObjPacketList;
 
     for (u16 i = 1; i < OBJ_PACKET_SEND_QUEUE_SIZE; i++)
     {
-        if (objPacketList[i].header.type == 0)
+        if (sObjPacketList[i].header.type == 0)
         {
-            packetWork = &objPacketList[i];
+            packetWork = &sObjPacketList[i];
             break;
         }
     }
@@ -197,18 +197,18 @@ ObjSendPacket *ObjPacket__QueueSendPacket(void *packet, u16 type, u16 priority, 
 
 void InitSendBuffer(void)
 {
-    ObjPacketBufferHeader *receiveBuffer = (ObjPacketBufferHeader *)objPacketManager.getReceiveBuffer(0);
+    ObjPacketBufferHeader *receiveBuffer = (ObjPacketBufferHeader *)sObjPacketManager.getReceiveBuffer(0);
     if (receiveBuffer->aid == OBJ_PACKET_AID_AUTO)
         return;
 
     for (u16 c = 0; c < whConfig_wmMaxChildCount + 1; c++)
     {
-        receiveBuffer = (ObjPacketBufferHeader *)objPacketManager.getReceiveBuffer(c);
+        receiveBuffer = (ObjPacketBufferHeader *)sObjPacketManager.getReceiveBuffer(c);
         if (receiveBuffer->identifier != OBJ_PACKET_IDENTIFIER)
             break;
 
         if (receiveBuffer->aid != OBJ_PACKET_AID_AUTO)
-            objPacketAIDList[c] = receiveBuffer->aid;
+            gObjPacketAIDList[c] = receiveBuffer->aid;
 
         receiveBuffer->aid = OBJ_PACKET_AID_AUTO;
     }
@@ -216,24 +216,24 @@ void InitSendBuffer(void)
 
 BOOL ObjPacket__WriteToSendBuffer(void)
 {
-    ObjSendPacket *next       = objPacketList[0].next;
-    ObjSendPacket *packetList = &objPacketList[0];
+    ObjSendPacket *next       = sObjPacketList[0].next;
+    ObjSendPacket *packetList = &sObjPacketList[0];
 
-    u8 *sendBuffer = objPacketManager.getSendBuffer();
+    u8 *sendBuffer = sObjPacketManager.getSendBuffer();
 
     u16 packetSize = 0;
-    objPacketManager.clearSendBuffer();
+    sObjPacketManager.clearSendBuffer();
 
     InitSendBuffer();
 
-    if (objPacketManager.aid == OBJ_PACKET_AID_AUTO)
-        objPacketManager.aid = objPacketManager.getCurrentAID();
+    if (sObjPacketManager.aid == OBJ_PACKET_AID_AUTO)
+        sObjPacketManager.aid = sObjPacketManager.getCurrentAID();
 
     ObjPacketBufferHeader sendBufferHeader;
     sendBufferHeader.identifier = OBJ_PACKET_IDENTIFIER;
-    sendBufferHeader.aid        = objPacketAIDList[objPacketManager.aid];
+    sendBufferHeader.aid        = gObjPacketAIDList[sObjPacketManager.aid];
     sendBufferHeader.param      = padInput.btnDown;
-    objPacketManager.aid        = objPacketManager.getCurrentAID();
+    sObjPacketManager.aid        = sObjPacketManager.getCurrentAID();
 
     MI_CpuCopy8(&sendBufferHeader, sendBuffer, sizeof(ObjPacketBufferHeader));
 
@@ -246,7 +246,7 @@ BOOL ObjPacket__WriteToSendBuffer(void)
             return FALSE;
         }
 
-        if (packetSize + GetPacketSize(&next->header) > objPacketManager.minDataSize)
+        if (packetSize + GetPacketSize(&next->header) > sObjPacketManager.minDataSize)
             return TRUE;
 
         MI_CpuCopy8(next, &sendBuffer[packetSize], sizeof(ObjPacketHeader));
@@ -269,7 +269,7 @@ BOOL ObjPacket__WriteToSendBuffer(void)
 
 void ObjPacket__PrepareReceivedPackets(void)
 {
-    receiveBufferStart = NULL;
+    sReceiveBufferStart = NULL;
 }
 
 void *ObjPacket__GetNextReceivedPacketData(s32 type, s32 id)
@@ -291,25 +291,25 @@ NONMATCH_FUNC ObjReceivePacket *ObjPacket__GetNextReceivedPacket(s32 type, s32 i
 
     InitSendBuffer();
 
-    ObjSendPacket *packet = (ObjSendPacket *)receiveBufferStart;
+    ObjSendPacket *packet = (ObjSendPacket *)sReceiveBufferStart;
 
     ObjReceivePacket *currentPacket;
     if (GetReceiveBufferStart(id) <= (u8 *)packet && GetReceiveBufferEnd(id) > (u8 *)packet)
     {
-        currentPacket      = (ObjReceivePacket *)((u8 *)receiveBufferStart + GetPacketSize(&packet->header));
-        receiveBufferStart = currentPacket;
+        currentPacket      = (ObjReceivePacket *)((u8 *)sReceiveBufferStart + GetPacketSize(&packet->header));
+        sReceiveBufferStart = currentPacket;
     }
     else
     {
         currentPacket      = (ObjReceivePacket *)((ObjPacketBufferHeader *)GetReceiveBufferStart(id))->data;
-        receiveBufferStart = currentPacket;
+        sReceiveBufferStart = currentPacket;
     }
 
     while (TRUE)
     {
-        if (GetReceiveBufferEnd(id) <= receiveBufferStart)
+        if (GetReceiveBufferEnd(id) <= sReceiveBufferStart)
         {
-            receiveBufferStart = NULL;
+            sReceiveBufferStart = NULL;
             return FALSE;
         }
 
@@ -319,14 +319,14 @@ NONMATCH_FUNC ObjReceivePacket *ObjPacket__GetNextReceivedPacket(s32 type, s32 i
         if (currentPacket->header.type == 0)
             return NULL;
 
-        currentPacket      = (ObjReceivePacket *)((u8 *)receiveBufferStart + GetPacketSize(&currentPacket->header));
-        receiveBufferStart = currentPacket;
+        currentPacket      = (ObjReceivePacket *)((u8 *)sReceiveBufferStart + GetPacketSize(&currentPacket->header));
+        sReceiveBufferStart = currentPacket;
     }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	ldr r4, =objPacketAIDList
-	ldr r2, =objPacketManager
+	ldr r4, =gObjPacketAIDList
+	ldr r2, =sObjPacketManager
 	mov r6, r1
 	mov r7, r0
 	ldrb r0, [r4, r6]
@@ -337,42 +337,42 @@ NONMATCH_FUNC ObjReceivePacket *ObjPacket__GetNextReceivedPacket(s32 type, s32 i
 	movne r0, #0
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	bl InitSendBuffer
-	ldr r2, =sendBufferStart
-	ldr r1, =objPacketManager
+	ldr r2, =sSendBufferStart
+	ldr r1, =sObjPacketManager
 	ldrb r0, [r4, r6]
 	ldr r5, [r2, #4]
 	ldr r1, [r1, #8]
 	blx r1
 	cmp r0, r5
 	bhi _02074E74
-	ldr r1, =objPacketManager
+	ldr r1, =sObjPacketManager
 	ldrb r0, [r4, r6]
 	ldr r1, [r1, #8]
 	blx r1
-	ldr r1, =objPacketManager
+	ldr r1, =sObjPacketManager
 	ldr r1, [r1, #0xc]
 	add r0, r1, r0
 	cmp r0, r5
 	bls _02074E74
 	mov r0, r5
 	bl GetPacketSize
-	ldr r1, =sendBufferStart
+	ldr r1, =sSendBufferStart
 	ldr r2, [r1, #4]
 	add r5, r2, r0
 	str r5, [r1, #4]
 	b _02074E90
 _02074E74:
-	ldr r1, =objPacketManager
+	ldr r1, =sObjPacketManager
 	ldrb r0, [r4, r6]
 	ldr r1, [r1, #8]
 	blx r1
-	ldr r1, =sendBufferStart
+	ldr r1, =sSendBufferStart
 	add r5, r0, #4
 	str r5, [r1, #4]
 _02074E90:
-	ldr r4, =objPacketAIDList
-	ldr r8, =sendBufferStart
-	ldr r9, =objPacketManager
+	ldr r4, =gObjPacketAIDList
+	ldr r8, =sSendBufferStart
+	ldr r9, =sObjPacketManager
 _02074E9C:
 	ldrb r0, [r4, r6]
 	ldr r1, [r9, #8]
@@ -382,7 +382,7 @@ _02074E9C:
 	add r0, r2, r0
 	cmp r0, r1
 	bhi _02074ECC
-	ldr r1, =sendBufferStart
+	ldr r1, =sSendBufferStart
 	mov r0, #0
 	str r0, [r1, #4]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
@@ -410,10 +410,10 @@ _02074ECC:
 
 u32 GetPacketSize(ObjPacketHeader *header)
 {
-    if (sendBufferStart == NULL)
+    if (sSendBufferStart == NULL)
         return header->size;
 
-    u32 size = *((u8 *)sendBufferStart + header->type);
+    u32 size = *((u8 *)sSendBufferStart + header->type);
     if (size == 0)
         return sizeof(ObjPacketHeader);
 

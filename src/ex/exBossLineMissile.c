@@ -27,25 +27,25 @@
 // VARIABLES
 // --------------------
 
-static s16 lineNeedleInstanceCount;
-static s16 lineMissileInstanceCount;
+static s16 sLineNeedleInstanceCount;
+static s16 sLineMissileInstanceCount;
 
-static void *lineMissileAnimResource[1];
-static u32 lineMissileAnimType[1];
-static Task *lineMissileTaskSingleton;
-static u32 lineMissileTextureFileSize;
-static u32 lineMissileModelFileSize;
-static void *lineNeedleModelResource;
-static EX_ACTION_NN_WORK *lineMissileLastSpawnedWorker;
-static void *lineMissileModelResource;
-static void *lineMissileUnused;
-static Task *lineNeedleTaskSingleton;
-static u32 lineNeedleTextureFileSize;
-static u32 lineNeedleModelFileSize;
-static void *lineNeedleUnused;
-static u32 lineNeedleAnimType[1];
-static EX_ACTION_NN_WORK *lineNeedleLastSpawnedWorker;
-static void *lineNeedleAnimResource[1];
+static void *sLineMissileAnimResource[1];
+static u32 sLineMissileAnimType[1];
+static Task *sLineMissileTaskSingleton;
+static u32 sLineMissileTextureFileSize;
+static u32 sLineMissileModelFileSize;
+static void *sLineNeedleModelResource;
+static EX_ACTION_NN_WORK *sLineMissileLastSpawnedWorker;
+static void *sLineMissileModelResource;
+static void *sLineMissileUnused;
+static Task *sLineNeedleTaskSingleton;
+static u32 sLineNeedleTextureFileSize;
+static u32 sLineNeedleModelFileSize;
+static void *sLineNeedleUnused;
+static u32 sLineNeedleAnimType[1];
+static EX_ACTION_NN_WORK *sLineNeedleLastSpawnedWorker;
+static void *sLineNeedleAnimResource[1];
 
 static VecFx32 missilePositions[EXBOSS_LINE_MISSILE_COUNT][EXBOSS_LINE_MISSILE_COUNT] = { {
                                                                                               { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(25.0), FLOAT_TO_FX32(50.0) },
@@ -102,8 +102,8 @@ static VecFx32 missilePositions[EXBOSS_LINE_MISSILE_COUNT][EXBOSS_LINE_MISSILE_C
                                                                                           } };
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(lineMissileUnused)
-FORCE_INCLUDE_VARIABLE_BSS(lineNeedleUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sLineMissileUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sLineNeedleUnused)
 
 // --------------------
 // FUNCTION DECLS
@@ -147,44 +147,44 @@ static void ExBoss_Action_FinishLineAttack(void);
 
 BOOL LoadExBossSpikedLineMissileAssets(EX_ACTION_NN_WORK *work)
 {
-    lineNeedleLastSpawnedWorker = work;
+    sLineNeedleLastSpawnedWorker = work;
 
-    if (lineNeedleModelFileSize != 0 && lineNeedleTextureFileSize != 0)
+    if (sLineNeedleModelFileSize != 0 && sLineNeedleTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < lineNeedleModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sLineNeedleModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < lineNeedleTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sLineNeedleTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < lineNeedleModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sLineNeedleModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (lineNeedleInstanceCount == 0)
+    if (sLineNeedleInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_MSLB_NSBMD, &lineNeedleModelResource, &lineNeedleModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_MSLB_NSBMD, &sLineNeedleModelResource, &sLineNeedleModelFileSize, TRUE, FALSE);
 
-        lineNeedleAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_MSLB_NSBTP);
-        lineNeedleAnimType[0]     = B3D_ANIM_PAT_ANIM;
+        sLineNeedleAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_MSLB_NSBTP);
+        sLineNeedleAnimType[0]     = B3D_ANIM_PAT_ANIM;
 
-        CreateAsset3DSetup(lineNeedleModelResource);
+        CreateAsset3DSetup(sLineNeedleModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
     AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(animator, lineNeedleModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(animator, sLineNeedleModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
-    for (; i < ARRAY_COUNT(lineNeedleAnimType); i++)
+    for (; i < ARRAY_COUNT(sLineNeedleAnimType); i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, lineNeedleAnimType[i], lineNeedleAnimResource[i], 0, NNS_G3dGetTex(lineNeedleModelResource));
+        AnimatorMDL__SetAnimation(&work->model.animator, sLineNeedleAnimType[i], sLineNeedleAnimResource[i], 0, NNS_G3dGetTex(sLineNeedleModelResource));
     }
 
-    work->model.primaryAnimType     = lineNeedleAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[lineNeedleAnimType[0]];
+    work->model.primaryAnimType     = sLineNeedleAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sLineNeedleAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -209,36 +209,36 @@ BOOL LoadExBossSpikedLineMissileAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z                = FLOAT_TO_FX32(6.0);
     work->hitChecker.box.position              = &work->model.translation;
 
-    lineNeedleInstanceCount++;
+    sLineNeedleInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBossSpikedLineMissileAssets(EX_ACTION_NN_WORK *work)
 {
-    if (lineNeedleInstanceCount <= 1)
+    if (sLineNeedleInstanceCount <= 1)
     {
-        if (lineNeedleModelResource)
-            NNS_G3dResDefaultRelease(lineNeedleModelResource);
+        if (sLineNeedleModelResource)
+            NNS_G3dResDefaultRelease(sLineNeedleModelResource);
 
-        if (lineNeedleAnimResource[0])
-            NNS_G3dResDefaultRelease(lineNeedleAnimResource[0]);
+        if (sLineNeedleAnimResource[0])
+            NNS_G3dResDefaultRelease(sLineNeedleAnimResource[0]);
 
-        if (lineNeedleModelResource)
-            HeapFree(HEAP_USER, lineNeedleModelResource);
-        lineNeedleModelResource = NULL;
+        if (sLineNeedleModelResource)
+            HeapFree(HEAP_USER, sLineNeedleModelResource);
+        sLineNeedleModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    lineNeedleInstanceCount--;
+    sLineNeedleInstanceCount--;
 }
 
 void ExBossSpikedLineMissile_Main_Init(void)
 {
     exBossLineNeedleTask *work = ExTaskGetWorkCurrent(exBossLineNeedleTask);
 
-    lineNeedleTaskSingleton = GetCurrentTask();
+    sLineNeedleTaskSingleton = GetCurrentTask();
 
     LoadExBossSpikedLineMissileAssets(&work->animator);
     SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -286,7 +286,7 @@ void ExBossSpikedLineMissile_Destructor(void)
 
     ReleaseExBossSpikedLineMissileAssets(&work->animator);
 
-    lineNeedleTaskSingleton = NULL;
+    sLineNeedleTaskSingleton = NULL;
 }
 
 void ExBossSpikedLineMissile_Main_Appear(void)
@@ -423,44 +423,44 @@ BOOL CreateExBossSpikedLineMissile(void)
 
 BOOL LoadExBossBluntLineMissileAssets(EX_ACTION_NN_WORK *work)
 {
-    lineMissileLastSpawnedWorker = work;
+    sLineMissileLastSpawnedWorker = work;
 
-    if (lineMissileModelFileSize != 0 && lineMissileTextureFileSize != 0)
+    if (sLineMissileModelFileSize != 0 && sLineMissileTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < lineMissileModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sLineMissileModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < lineMissileTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sLineMissileTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < lineMissileModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sLineMissileModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (lineMissileInstanceCount == 0)
+    if (sLineMissileInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_MSLA_NSBMD, &lineMissileModelResource, &lineMissileModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_MSLA_NSBMD, &sLineMissileModelResource, &sLineMissileModelFileSize, TRUE, FALSE);
 
-        lineMissileAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_MSLA_NSBTP);
-        lineMissileAnimType[0]     = B3D_ANIM_PAT_ANIM;
+        sLineMissileAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_MSLA_NSBTP);
+        sLineMissileAnimType[0]     = B3D_ANIM_PAT_ANIM;
 
-        CreateAsset3DSetup(lineMissileModelResource);
+        CreateAsset3DSetup(sLineMissileModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
     AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(animator, lineMissileModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(animator, sLineMissileModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
-    for (; i < ARRAY_COUNT(lineMissileAnimType); i++)
+    for (; i < ARRAY_COUNT(sLineMissileAnimType); i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, lineMissileAnimType[i], lineMissileAnimResource[i], 0, NNS_G3dGetTex(lineMissileModelResource));
+        AnimatorMDL__SetAnimation(&work->model.animator, sLineMissileAnimType[i], sLineMissileAnimResource[i], 0, NNS_G3dGetTex(sLineMissileModelResource));
     }
 
-    work->model.primaryAnimType     = lineMissileAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[lineMissileAnimType[0]];
+    work->model.primaryAnimType     = sLineMissileAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sLineMissileAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -485,35 +485,35 @@ BOOL LoadExBossBluntLineMissileAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z               = FLOAT_TO_FX32(6.0);
     work->hitChecker.box.position             = &work->model.translation;
 
-    lineMissileInstanceCount++;
+    sLineMissileInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBossBluntLineMissileAssets(EX_ACTION_NN_WORK *work)
 {
-    if (lineMissileInstanceCount <= 1)
+    if (sLineMissileInstanceCount <= 1)
     {
-        if (lineMissileModelResource)
-            NNS_G3dResDefaultRelease(lineMissileModelResource);
+        if (sLineMissileModelResource)
+            NNS_G3dResDefaultRelease(sLineMissileModelResource);
 
-        if (lineMissileAnimResource[0])
-            NNS_G3dResDefaultRelease(lineMissileAnimResource[0]);
+        if (sLineMissileAnimResource[0])
+            NNS_G3dResDefaultRelease(sLineMissileAnimResource[0]);
 
-        if (lineMissileModelResource)
-            HeapFree(HEAP_USER, lineMissileModelResource);
-        lineMissileModelResource = NULL;
+        if (sLineMissileModelResource)
+            HeapFree(HEAP_USER, sLineMissileModelResource);
+        sLineMissileModelResource = NULL;
     }
     AnimatorMDL__Release(&work->model.animator);
 
-    lineMissileInstanceCount--;
+    sLineMissileInstanceCount--;
 }
 
 void ExBossBluntLineMissile_Main_Init(void)
 {
     exBossLineMissileTask *work = ExTaskGetWorkCurrent(exBossLineMissileTask);
 
-    lineMissileTaskSingleton = GetCurrentTask();
+    sLineMissileTaskSingleton = GetCurrentTask();
 
     LoadExBossBluntLineMissileAssets(&work->animator);
     SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -559,7 +559,7 @@ void ExBossBluntLineMissile_Destructor(void)
 
     ReleaseExBossBluntLineMissileAssets(&work->animator);
 
-    lineMissileTaskSingleton = NULL;
+    sLineMissileTaskSingleton = NULL;
 }
 
 void ExBossBluntLineMissile_Main_Appear(void)

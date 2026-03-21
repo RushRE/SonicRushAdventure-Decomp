@@ -33,9 +33,9 @@ struct MenuNavSfx
 // VARIABLES
 // --------------------
 
-struct SysSoundManager *sysSoundManager;
+static struct SysSoundManager *sSysSoundManager;
 
-static const u16 seqArcForSysGroup[SYSSOUND_GROUP_COUNT] = {
+static const u16 sSeqArcForSysGroup[SYSSOUND_GROUP_COUNT] = {
     [SYSSOUND_GROUP_DL_PLAY]    = SND_SYS_SEQARC_ARC_DL_PLAY,    // Download Play
     [SYSSOUND_GROUP_TITLE_1]    = SND_SYS_SEQARC_ARC_TITLE,      // Title (1)
     [SYSSOUND_GROUP_TITLE_2]    = SND_SYS_SEQARC_ARC_TITLE,      // Title (2)
@@ -66,7 +66,7 @@ static const u16 seqArcForSysGroup[SYSSOUND_GROUP_COUNT] = {
     [SYSSOUND_GROUP_EMERALD]    = SND_SYS_SEQARC_ARC_EMERALD     // Emerald Collected
 };
 
-static const u16 sndGroupForSysGroup[SYSSOUND_GROUP_COUNT] = {
+static const u16 sSndGroupForSysGroup[SYSSOUND_GROUP_COUNT] = {
     [SYSSOUND_GROUP_DL_PLAY]    = SND_SYS_GROUP_DL_PLAY,    // Download Play
     [SYSSOUND_GROUP_TITLE_1]    = SND_SYS_GROUP_TITLE,      // Title (1)
     [SYSSOUND_GROUP_TITLE_2]    = SND_SYS_GROUP_TITLE,      // Title (2)
@@ -97,7 +97,7 @@ static const u16 sndGroupForSysGroup[SYSSOUND_GROUP_COUNT] = {
     [SYSSOUND_GROUP_EMERALD]    = SND_SYS_GROUP_EMERALD     // Emerald Collected
 };
 
-static const struct MenuNavSfx menuNavSfx[SYSSOUND_GROUP_COUNT] = {
+static const struct MenuNavSfx sMenuNavSfx[SYSSOUND_GROUP_COUNT] = {
     [SYSSOUND_GROUP_DL_PLAY] = { { [SYSSOUND_MENUNAV_DECIDE] = SND_SYS_SEQARC_ARC_DL_PLAY_SEQ_SE_D_DECIDE,
                                    [SYSSOUND_MENUNAV_CANCEL] = SND_SYS_SEQARC_ARC_DL_PLAY_SEQ_SE_D_CANCELL,
                                    [SYSSOUND_MENUNAV_CURSOR] = SND_SYS_SEQARC_ARC_DL_PLAY_SEQ_SE_D_CURSOL } }, // Download Play
@@ -218,7 +218,7 @@ static const struct MenuNavSfx menuNavSfx[SYSSOUND_GROUP_COUNT] = {
 // Admin
 void ExitSysSound(void)
 {
-    sysSoundManager = NULL;
+    sSysSoundManager = NULL;
 }
 
 void LoadSysSound(SysSoundGroupID id)
@@ -227,19 +227,19 @@ void LoadSysSound(SysSoundGroupID id)
         return;
 
     ReleaseSysSound();
-    sysSoundManager = HeapAllocHead(HEAP_SYSTEM, sizeof(struct SysSoundManager));
+    sSysSoundManager = HeapAllocHead(HEAP_SYSTEM, sizeof(struct SysSoundManager));
 
-    sysSoundManager->id          = id;
-    sysSoundManager->trackHandle = AllocSndHandle();
-    sysSoundManager->sfxHandle   = AllocSndHandle();
-    sysSoundManager->voiceHandle = AllocSndHandle();
-    sysSoundManager->seqNo       = SYSSOUND_ID_NONE;
-    sysSoundManager->curStreamNo = SYSSOUND_ID_NONE;
+    sSysSoundManager->id          = id;
+    sSysSoundManager->trackHandle = AllocSndHandle();
+    sSysSoundManager->sfxHandle   = AllocSndHandle();
+    sSysSoundManager->voiceHandle = AllocSndHandle();
+    sSysSoundManager->seqNo       = SYSSOUND_ID_NONE;
+    sSysSoundManager->curStreamNo = SYSSOUND_ID_NONE;
 
     LoadAudioSndArc("snd/sys/sound_data.sdat");
-    NNS_SndArcStrmInit(10, audioManagerSndHeap);
-    NNS_SndStrmHandleInit(&sysSoundManager->strmHandle);
-    NNS_SndArcLoadGroup(sndGroupForSysGroup[id], audioManagerSndHeap);
+    NNS_SndArcStrmInit(10, gAudioManagerSndHeap);
+    NNS_SndStrmHandleInit(&sSysSoundManager->strmHandle);
+    NNS_SndArcLoadGroup(sSndGroupForSysGroup[id], gAudioManagerSndHeap);
 }
 
 void LoadSysSoundVillage(void)
@@ -271,7 +271,7 @@ void LoadSysSoundVillage(void)
 
 void ReleaseSysSound(void)
 {
-    if (sysSoundManager != NULL)
+    if (sSysSoundManager != NULL)
     {
         StopSysTrack();
         StopSysSfx();
@@ -279,17 +279,17 @@ void ReleaseSysSound(void)
         StopSysStream();
         NNS_SndStopSoundAll();
 
-        FreeSndHandle(sysSoundManager->trackHandle);
-        sysSoundManager->trackHandle = NULL;
+        FreeSndHandle(sSysSoundManager->trackHandle);
+        sSysSoundManager->trackHandle = NULL;
 
-        FreeSndHandle(sysSoundManager->sfxHandle);
-        sysSoundManager->sfxHandle = NULL;
+        FreeSndHandle(sSysSoundManager->sfxHandle);
+        sSysSoundManager->sfxHandle = NULL;
 
-        FreeSndHandle(sysSoundManager->voiceHandle);
-        sysSoundManager->voiceHandle = NULL;
+        FreeSndHandle(sSysSoundManager->voiceHandle);
+        sSysSoundManager->voiceHandle = NULL;
 
-        HeapFree(HEAP_SYSTEM, sysSoundManager);
-        sysSoundManager = NULL;
+        HeapFree(HEAP_SYSTEM, sSysSoundManager);
+        sSysSoundManager = NULL;
     }
     else
     {
@@ -301,35 +301,35 @@ void ReleaseSysSound(void)
 
 s32 GetCurrentSysSoundGroup(void)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return SYSSOUND_GROUP_COUNT + 1;
 
-    return sysSoundManager->id;
+    return sSysSoundManager->id;
 }
 
 // Tracks
 void PlaySysTrack(s32 seqNo, BOOL alwaysPlay)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return;
 
-    if (alwaysPlay || sysSoundManager->seqNo != seqNo)
+    if (alwaysPlay || sSysSoundManager->seqNo != seqNo)
     {
         StopSysTrack();
-        NNS_SndArcLoadSeq(seqNo, audioManagerSndHeap);
-        PlayTrack(sysSoundManager->trackHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, seqNo);
+        NNS_SndArcLoadSeq(seqNo, gAudioManagerSndHeap);
+        PlayTrack(sSysSoundManager->trackHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, seqNo);
 
-        sysSoundManager->seqNo = seqNo;
+        sSysSoundManager->seqNo = seqNo;
     }
 }
 
 void PlaySysVillageTrack(BOOL alwaysPlay)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return;
 
     s32 seqNo;
-    switch (sysSoundManager->id)
+    switch (sSysSoundManager->id)
     {
         case 4:
             seqNo = SND_SYS_SEQ_SEQ_VILLAGE1_1;
@@ -360,128 +360,128 @@ void PlaySysVillageTrack(BOOL alwaysPlay)
 
 void StopSysTrack(void)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return;
 
-    if (sysSoundManager->trackHandle->player != NULL)
+    if (sSysSoundManager->trackHandle->player != NULL)
     {
-        StopStageSfx(sysSoundManager->trackHandle);
-        ReleaseStageSfx(sysSoundManager->trackHandle);
+        StopStageSfx(sSysSoundManager->trackHandle);
+        ReleaseStageSfx(sSysSoundManager->trackHandle);
     }
 
-    sysSoundManager->seqNo = SYSSOUND_ID_NONE;
+    sSysSoundManager->seqNo = SYSSOUND_ID_NONE;
 }
 
 void FadeSysTrack(s32 fadeFrame)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return;
 
-    if (sysSoundManager->trackHandle->player != NULL)
+    if (sSysSoundManager->trackHandle->player != NULL)
     {
-        FadeOutStageSfx(sysSoundManager->trackHandle, fadeFrame);
+        FadeOutStageSfx(sSysSoundManager->trackHandle, fadeFrame);
     }
 
-    sysSoundManager->seqNo = SYSSOUND_ID_NONE;
+    sSysSoundManager->seqNo = SYSSOUND_ID_NONE;
 }
 
 void SetSysTrackVolume(u16 volume)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return;
 
-    if (sysSoundManager->trackHandle == NULL)
+    if (sSysSoundManager->trackHandle == NULL)
         return;
 
-    NNS_SndPlayerSetVolume(sysSoundManager->trackHandle, volume);
+    NNS_SndPlayerSetVolume(sSysSoundManager->trackHandle, volume);
 }
 
 // Sfx/Voices
 void PlaySysSfx(s32 seqNo)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return;
 
-    if (seqArcForSysGroup[sysSoundManager->id] == SYSSOUND_ID_NONE)
+    if (sSeqArcForSysGroup[sSysSoundManager->id] == SYSSOUND_ID_NONE)
         return;
 
-    PlaySfxEx(sysSoundManager->sfxHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, seqArcForSysGroup[sysSoundManager->id], seqNo);
+    PlaySfxEx(sSysSoundManager->sfxHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, sSeqArcForSysGroup[sSysSoundManager->id], seqNo);
 }
 
 void PlaySysMenuNavSfx(SysSoundMenuNavSeq id)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return;
 
-    s32 seqNo = menuNavSfx[sysSoundManager->id].seqNo[id];
+    s32 seqNo = sMenuNavSfx[sSysSoundManager->id].seqNo[id];
     if (seqNo == SYSSOUND_ID_NONE)
         return;
 
-    PlaySfxEx(sysSoundManager->sfxHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, seqArcForSysGroup[sysSoundManager->id], seqNo);
+    PlaySfxEx(sSysSoundManager->sfxHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, sSeqArcForSysGroup[sSysSoundManager->id], seqNo);
 }
 
 void StopSysSfx(void)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return;
 
-    if (sysSoundManager->sfxHandle->player == NULL)
+    if (sSysSoundManager->sfxHandle->player == NULL)
         return;
 
-    StopStageSfx(sysSoundManager->sfxHandle);
-    ReleaseStageSfx(sysSoundManager->sfxHandle);
+    StopStageSfx(sSysSoundManager->sfxHandle);
+    ReleaseStageSfx(sSysSoundManager->sfxHandle);
 }
 
 // Unknown
 void StopSysVoice(void)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return;
 
-    if (sysSoundManager->voiceHandle->player == NULL)
+    if (sSysSoundManager->voiceHandle->player == NULL)
         return;
 
-    StopStageSfx(sysSoundManager->voiceHandle);
-    ReleaseStageSfx(sysSoundManager->voiceHandle);
+    StopStageSfx(sSysSoundManager->voiceHandle);
+    ReleaseStageSfx(sSysSoundManager->voiceHandle);
 }
 
 // Streams
 void PlaySysStream(s32 strmNo, BOOL alwaysPlay)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return;
 
-    if (alwaysPlay || sysSoundManager->curStreamNo != strmNo)
+    if (alwaysPlay || sSysSoundManager->curStreamNo != strmNo)
     {
         StopSysStream();
-        NNS_SndArcStrmStart(&sysSoundManager->strmHandle, strmNo, 0);
-        sysSoundManager->curStreamNo = strmNo;
+        NNS_SndArcStrmStart(&sSysSoundManager->strmHandle, strmNo, 0);
+        sSysSoundManager->curStreamNo = strmNo;
     }
 }
 
 void StopSysStream(void)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return;
 
-    if (sysSoundManager->strmHandle.player != NULL)
+    if (sSysSoundManager->strmHandle.player != NULL)
     {
-        NNS_SndArcStrmStop(&sysSoundManager->strmHandle, 0);
-        NNS_SndStrmHandleRelease(&sysSoundManager->strmHandle);
+        NNS_SndArcStrmStop(&sSysSoundManager->strmHandle, 0);
+        NNS_SndStrmHandleRelease(&sSysSoundManager->strmHandle);
     }
 
-    sysSoundManager->curStreamNo = SYSSOUND_ID_NONE;
+    sSysSoundManager->curStreamNo = SYSSOUND_ID_NONE;
 }
 
 void FadeSysStream(s32 fadeFrame)
 {
-    if (sysSoundManager == NULL)
+    if (sSysSoundManager == NULL)
         return;
 
-    if (sysSoundManager->strmHandle.player != NULL)
+    if (sSysSoundManager->strmHandle.player != NULL)
     {
-        NNS_SndArcStrmStop(&sysSoundManager->strmHandle, fadeFrame);
+        NNS_SndArcStrmStop(&sSysSoundManager->strmHandle, fadeFrame);
     }
 
-    sysSoundManager->curStreamNo = SYSSOUND_ID_NONE;
+    sSysSoundManager->curStreamNo = SYSSOUND_ID_NONE;
 }

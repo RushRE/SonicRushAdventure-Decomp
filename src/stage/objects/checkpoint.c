@@ -34,8 +34,8 @@ static BOOL CheckPlayerPassedLapCheckpoint(Checkpoint *work, Player *player);
 
 Checkpoint *CreateCheckpoint(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    // - destroy the checkpoint if we're in a mission that ISN"T a "reach the goal within the time limit" type
-    // - destroy the checkpoint if it's the alternate variant and we're not in a vs battle
+    // - Destroy the checkpoint if we're in a mission that ISN"T a "reach the goal within the time limit" type
+    // - Destroy the checkpoint if it's the alternate variant and we're not in a vs battle
     if ((gameState.gameMode == GAMEMODE_MISSION && gameState.missionType != MISSION_TYPE_REACH_GOAL_TIME_LIMIT)
         || (mapObject->id == MAPOBJECT_270 && gameState.gameMode != GAMEMODE_VS_BATTLE))
     {
@@ -261,11 +261,11 @@ void HandleLapCheckpointInteractions(Checkpoint *work)
         s32 lapCounterStore = playerGameStatus.playerLapCounter[0];
         s32 targetLapsStore = playerGameStatus.playerTargetLaps[0];
 
-        s32 playerCount = Player__GetPlayerCount();
+        s32 gPlayerCount = Player__GetPlayerCount();
         if (gameState.gameMode == GAMEMODE_TIMEATTACK)
-            playerCount = 1;
+            gPlayerCount = 1;
 
-        for (p = 0; p < playerCount; p++)
+        for (p = 0; p < gPlayerCount; p++)
         {
             Player *player = gPlayerList[p];
             if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0)

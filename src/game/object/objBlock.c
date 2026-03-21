@@ -23,9 +23,9 @@ static s32 objBlockColBlockFillThrough(OBS_COL_CHK_DATA *work);
 // VARIABLES
 // --------------------
 
-static const ObjBlockColFunc objBlockCollisionTable[] = { objBlockColEmpty, objBlockColBlockFill, objBlockColBlockFillThrough };
+static const ObjBlockColFunc sObjBlockCollisionTable[] = { objBlockColEmpty, objBlockColBlockFill, objBlockColBlockFillThrough };
 
-static const OBS_BLOCK_COLLISION *objCollisionData = NULL;
+static const OBS_BLOCK_COLLISION *sObjCollisionData = NULL;
 
 // --------------------
 // FUNCTIONS
@@ -33,7 +33,7 @@ static const OBS_BLOCK_COLLISION *objCollisionData = NULL;
 
 void ObjSetBlockCollision(OBS_BLOCK_COLLISION *collisionData)
 {
-    objCollisionData = collisionData;
+    sObjCollisionData = collisionData;
 }
 
 s32 ObjBlockCollision(OBS_COL_CHK_DATA *work)
@@ -41,26 +41,26 @@ s32 ObjBlockCollision(OBS_COL_CHK_DATA *work)
     s16 offsetX = 0;
     s16 offsetY = 0;
 
-    if (objCollisionData->pData[0] == NULL)
+    if (sObjCollisionData->pData[0] == NULL)
     {
         s32 dist;
 
         switch (work->vec)
         {
             case OBD_COL_DOWN:
-                dist = objCollisionData->bottom - work->y;
+                dist = sObjCollisionData->bottom - work->y;
                 break;
 
             case OBD_COL_UP:
-                dist = work->y - objCollisionData->top;
+                dist = work->y - sObjCollisionData->top;
                 break;
 
             case OBD_COL_RIGHT:
-                dist = objCollisionData->right - work->x;
+                dist = sObjCollisionData->right - work->x;
                 break;
 
             case OBD_COL_LEFT:
-                dist = work->x - objCollisionData->left;
+                dist = work->x - sObjCollisionData->left;
                 break;
         }
 
@@ -166,27 +166,27 @@ s32 objGetBlockColData(OBS_COL_CHK_DATA *work)
     }
     else
     {
-        x = objCollisionData->left;
+        x = sObjCollisionData->left;
         if (work->x >= x)
         {
-            x = objCollisionData->right - 1;
+            x = sObjCollisionData->right - 1;
             if (work->x <= x)
                 x = work->x;
         }
 
-        y = objCollisionData->top;
+        y = sObjCollisionData->top;
         if (work->y >= y)
         {
-            y = objCollisionData->bottom - 1;
+            y = sObjCollisionData->bottom - 1;
             if (work->y <= y)
                 y = work->y;
         }
     }
 
-    u32 id    = (y >> 4) * objCollisionData->width + (x >> 4);
-    u8 funcID = objCollisionData->pData[work->flag & OBJ_COL_FLAG_USE_PLANE_B][id];
+    u32 id    = (y >> 4) * sObjCollisionData->width + (x >> 4);
+    u8 funcID = sObjCollisionData->pData[work->flag & OBJ_COL_FLAG_USE_PLANE_B][id];
 
-    return objBlockCollisionTable[funcID](work);
+    return sObjBlockCollisionTable[funcID](work);
 }
 
 s32 objBlockColLimit(OBS_COL_CHK_DATA *work)
@@ -194,23 +194,23 @@ s32 objBlockColLimit(OBS_COL_CHK_DATA *work)
     switch (work->vec)
     {
         case OBD_COL_DOWN:
-            if (objCollisionData->bottom - 1 < work->y)
-                return objCollisionData->bottom - 1 - work->y;
+            if (sObjCollisionData->bottom - 1 < work->y)
+                return sObjCollisionData->bottom - 1 - work->y;
             // fall through
 
         case OBD_COL_UP:
-            if (objCollisionData->top > work->y)
-                return work->y - objCollisionData->top;
+            if (sObjCollisionData->top > work->y)
+                return work->y - sObjCollisionData->top;
             // fall through
 
         case OBD_COL_RIGHT:
-            if (objCollisionData->right - 1 < work->x)
-                return objCollisionData->right - 1 - work->x;
+            if (sObjCollisionData->right - 1 < work->x)
+                return sObjCollisionData->right - 1 - work->x;
             // fall through
 
         case OBD_COL_LEFT:
-            if (objCollisionData->left > work->x)
-                return work->x - objCollisionData->left;
+            if (sObjCollisionData->left > work->x)
+                return work->x - sObjCollisionData->left;
             break;
     }
 

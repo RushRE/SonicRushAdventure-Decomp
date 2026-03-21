@@ -17,10 +17,10 @@
 // VARIABLES
 // --------------------
 
-static s16 exBossHomingLaserActiveCount;
-static s16 exBossHomingLaserInstanceCount;
-static Task *exBossHomingLaserTaskSingleton;
-static void *exBossHomingLaserSpriteResource;
+static s16 sHomingLaserActiveCount;
+static s16 sHomingLaserInstanceCount;
+static Task *sHomingLaserTaskSingleton;
+static void *sHomingLaserSpriteResource;
 
 static u16 laserStartAngles[EXBOSS_HOMING_LASER_COUNT] = { FLOAT_DEG_TO_IDX(210.0), FLOAT_DEG_TO_IDX(180.0), FLOAT_DEG_TO_IDX(150.0),
                                                            FLOAT_DEG_TO_IDX(30.0),  FLOAT_DEG_TO_IDX(1.0),   FLOAT_DEG_TO_IDX(330.0) };
@@ -59,13 +59,13 @@ void LoadExBossHomingLaserAssets(EX_ACTION_BAC3D_WORK *work)
 {
     InitExDrawRequestSprite3D(work);
 
-    if (exBossHomingLaserInstanceCount == 0)
-        exBossHomingLaserSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
+    if (sHomingLaserInstanceCount == 0)
+        sHomingLaserSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
 
-    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exBossHomingLaserSpriteResource, 1), FALSE);
-    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exBossHomingLaserSpriteResource, 1), FALSE);
+    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(sHomingLaserSpriteResource, 1), FALSE);
+    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(sHomingLaserSpriteResource, 1), FALSE);
 
-    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBossHomingLaserSpriteResource, EX_ACTCOM_ANI_HOMING_LASER, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, sHomingLaserSpriteResource, EX_ACTCOM_ANI_HOMING_LASER, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
                            vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
@@ -84,32 +84,32 @@ void LoadExBossHomingLaserAssets(EX_ACTION_BAC3D_WORK *work)
     work->hitChecker.box.size.z   = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position = &work->sprite.translation;
 
-    exBossHomingLaserInstanceCount++;
+    sHomingLaserInstanceCount++;
 }
 
 void ReleaseExBossHomingLaserAssets(EX_ACTION_BAC3D_WORK *work)
 {
     AnimatorSprite3D__Release(&work->sprite.animator);
 
-    exBossHomingLaserInstanceCount--;
+    sHomingLaserInstanceCount--;
 }
 
 s32 GetActiveExBossHomingLaserCount(void)
 {
-    return exBossHomingLaserActiveCount;
+    return sHomingLaserActiveCount;
 }
 
 void ExBossHomingLaser_Main_Init(void)
 {
     exBossHomingLaserTask *work = ExTaskGetWorkCurrent(exBossHomingLaserTask);
 
-    exBossHomingLaserActiveCount++;
+    sHomingLaserActiveCount++;
 
     LoadExBossHomingLaserAssets(&work->aniSprite3D);
     SetExDrawRequestPriority(&work->aniSprite3D.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimAsOneShot(&work->aniSprite3D.config);
 
-    exBossHomingLaserTaskSingleton = GetCurrentTask();
+    sHomingLaserTaskSingleton = GetCurrentTask();
 
     work->position.x = work->parent->aniBoss.model.bossStaffPos.x;
     work->position.y = work->parent->aniBoss.model.bossStaffPos.y;
@@ -141,14 +141,14 @@ void ExBossHomingLaser_Destructor(void)
 {
     exBossHomingLaserTask *work = ExTaskGetWorkCurrent(exBossHomingLaserTask);
 
-    if (exBossHomingLaserActiveCount > 1)
-        exBossHomingLaserActiveCount--;
+    if (sHomingLaserActiveCount > 1)
+        sHomingLaserActiveCount--;
     else
-        exBossHomingLaserActiveCount = 0;
+        sHomingLaserActiveCount = 0;
 
     ReleaseExBossHomingLaserAssets(&work->aniSprite3D);
 
-    exBossHomingLaserTaskSingleton = NULL;
+    sHomingLaserTaskSingleton = NULL;
 }
 
 void ExBossHomingLaser_Main_MoveToStartPos(void)

@@ -185,7 +185,7 @@ typedef StageTask *(*SailObjectSpawnFunc)(SailEventManagerObject *mapObject);
 extern const u16 _0218B9AC[SHIP_COUNT];
 extern const u16 _0218B9B4[SHIP_COUNT];
 
-extern const SailObjectSpawnFunc sailObjectSpawnList[SAILMAPOBJECT_TYPE_COUNT][SAILMAPOBJECT_COUNT];
+extern const SailObjectSpawnFunc gSailObjectSpawnList[SAILMAPOBJECT_TYPE_COUNT][SAILMAPOBJECT_COUNT];
 
 // --------------------
 // FUNCTIONS

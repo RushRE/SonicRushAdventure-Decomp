@@ -21,7 +21,7 @@ static void SpriteButton_Main(void);
 static void SpriteButton_Destructor(Task *task);
 static void SpriteButton_Draw(SpriteButton *work);
 
-static void SpriteButtonTouchAreaResponceHandler(TouchAreaResponse *response, TouchArea *area, SpriteButton *work, s32 id);
+static void SpriteButtonTouchAreaResponseHandler(TouchAreaResponse *response, TouchArea *area, SpriteButton *work, s32 id);
 static void SpriteButtonTouchAreaCB_YesButton(TouchAreaResponse *response, TouchArea *area, void *context);
 static void SpriteButtonTouchAreaCB_NoButton(TouchAreaResponse *response, TouchArea *area, void *context);
 
@@ -29,9 +29,9 @@ static void SpriteButtonTouchAreaCB_NoButton(TouchAreaResponse *response, TouchA
 // VARIABLES
 // --------------------
 
-static Task *spriteButtonTask;
+static Task *sSpriteButtonTaskSingleton;
 
-static const SpriteButtonInfo spriteButtonConfig[2] = {
+static const SpriteButtonInfo sButtonConfig[2] = {
     { .animID = 9, .pos = { 92, 128 }, SpriteButtonTouchAreaCB_YesButton },
     { .animID = 12, .pos = { 164, 128 }, SpriteButtonTouchAreaCB_NoButton },
 };
@@ -53,7 +53,7 @@ NONMATCH_FUNC void CreateSpriteButton(SpriteButtonConfig *config)
     // registers and such are busted around VRAMSystem__VRAM_PALETTE_OBJ
 #ifdef NON_MATCHING
     Task *task       = TaskCreate(SpriteButton_Main, SpriteButton_Destructor, TASK_FLAG_NONE, 0, 0x64, TASK_GROUP(0), SpriteButton);
-    spriteButtonTask = task;
+    sSpriteButtonTaskSingleton = task;
 
     SpriteButton *work = TaskGetWork(task, SpriteButton);
     TaskInitWork16(work);
@@ -84,7 +84,7 @@ NONMATCH_FUNC void CreateSpriteButton(SpriteButtonConfig *config)
     {
         if ((config->activeButtons & (1 << i)) != 0)
         {
-            const SpriteButtonInfo *buttonConfig = &spriteButtonConfig[i];
+            const SpriteButtonInfo *buttonConfig = &sButtonConfig[i];
             SpriteButtonAnimator *button   = &work->animators[i];
 
             button->animID = buttonConfig->animID;
@@ -128,7 +128,7 @@ NONMATCH_FUNC void CreateSpriteButton(SpriteButtonConfig *config)
 	mov r4, #0x190
 	str r4, [sp, #8]
 	bl TaskCreate_
-	ldr r1, =spriteButtonTask
+	ldr r1, =sSpriteButtonTaskSingleton
 	str r0, [r1]
 	bl GetTaskWork_
 	mov r4, r0
@@ -181,7 +181,7 @@ _02002758:
 	mov r5, r0
 	str r1, [r4, #0x188]
 _0200276C:
-	ldr r7, =spriteButtonConfig
+	ldr r7, =sButtonConfig
 	add r8, r4, #0x20
 	mov r6, #0
 _02002778:
@@ -326,7 +326,7 @@ void SetSpriteButtonState(SpriteButtonAnimator *button, SpriteButtonState state)
 
 SpriteButton *GetSpriteButtonWork(void)
 {
-    return TaskGetWork(spriteButtonTask, SpriteButton);
+    return TaskGetWork(sSpriteButtonTaskSingleton, SpriteButton);
 }
 
 void SpriteButton_Main(void)
@@ -364,7 +364,7 @@ void SpriteButton_Destructor(Task *task)
     if (work->allocatedButtonSprite)
         ReleaseSpriteButtonYesNoButtonSprite();
 
-    spriteButtonTask = NULL;
+    sSpriteButtonTaskSingleton = NULL;
 }
 
 void SpriteButton_Draw(SpriteButton *work)
@@ -383,7 +383,7 @@ void SpriteButton_Draw(SpriteButton *work)
     }
 }
 
-void SpriteButtonTouchAreaResponceHandler(TouchAreaResponse *response, TouchArea *area, SpriteButton *work, s32 id)
+void SpriteButtonTouchAreaResponseHandler(TouchAreaResponse *response, TouchArea *area, SpriteButton *work, s32 id)
 {
     TouchAreaResponseFlags flags = area->responseFlags;
 
@@ -409,10 +409,10 @@ void SpriteButtonTouchAreaResponceHandler(TouchAreaResponse *response, TouchArea
 
 void SpriteButtonTouchAreaCB_YesButton(TouchAreaResponse *response, TouchArea *area, void *context)
 {
-    SpriteButtonTouchAreaResponceHandler(response, area, context, 0);
+    SpriteButtonTouchAreaResponseHandler(response, area, context, 0);
 }
 
 void SpriteButtonTouchAreaCB_NoButton(TouchAreaResponse *response, TouchArea *area, void *context)
 {
-    SpriteButtonTouchAreaResponceHandler(response, area, context, 1);
+    SpriteButtonTouchAreaResponseHandler(response, area, context, 1);
 }

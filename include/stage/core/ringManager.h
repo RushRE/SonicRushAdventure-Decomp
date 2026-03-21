@@ -79,7 +79,7 @@ typedef struct RingManager_
     AnimatorSprite3D aniRing3D;
     AnimatorSprite3D aniRingSparkle3D;
     u8 ringPenaltyCount[PLAYER_COUNT];
-    u8 playerCount;
+    u8 gPlayerCount;
     s16 penaltyMultiplier;
     Ring *stageListStart;
     Ring *stageListEnd;

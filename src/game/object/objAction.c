@@ -297,7 +297,7 @@ void ObjObjectActionAllocSprite(StageTask *work, size_t size, OBS_SPRITE_REF *re
     if (size == OBJ_DATA_GFX_AUTO)
     {
         if (work->obj_2d->fileWork)
-            gfxSize = getSpriteGfxSize[g_obj.spriteMode](work->obj_2d->fileWork->fileData);
+            gfxSize = gGetSpriteGfxSize[g_obj.spriteMode](work->obj_2d->fileWork->fileData);
     }
 
     work->obj_2d->ani.vramPixels[0] = ObjActionAllocSprite(&ref->engineRef[0], FALSE, gfxSize);

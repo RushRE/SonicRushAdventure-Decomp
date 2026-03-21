@@ -18,14 +18,14 @@
 // VARIABLES
 // --------------------
 
-static s16 exBossInstanceCount;
+static s16 sExBossInstanceCount;
 
-static void *exBossLastSpawnedWorker;
-static void *exBossModelResource;
-static void *exBossAnimResource[1];
-static void *exBossPaletteAnimResource[15];
+static void *sExBossLastSpawnedWorker;
+static void *sExBossModelResource;
+static void *sExBossAnimResource[1];
+static void *sExBossPaletteAnimResource[15];
 
-static const char *texturePaletteNameList[15] = {
+static const char *sTexturePaletteNameList[15] = {
     "ex_arm_pl",  "ex_arm_top_pl", "ex_back_pl", "ex_bl_pl",     "ex_engine_pl",  "ex_eye_pl",  "ex_hand_pl",    "ex_maga_pl",
     "ex_pipe_pl", "ex_setu_pl",    "ex_side_pl", "ex_stomac_pl", "ex_tue_top_pl", "ex_tuno_pl", "ex_under_b_pl",
 };
@@ -73,35 +73,35 @@ static void ExBoss_Main_Defeated(void);
 
 void LoadExBossAssets(EX_ACTION_NN_WORK *work)
 {
-    exBossLastSpawnedWorker = work;
+    sExBossLastSpawnedWorker = work;
 
     InitExDrawRequestModel(work);
 
-    if (exBossInstanceCount == 0)
+    if (sExBossInstanceCount == 0)
     {
-        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_BOSS_BODY_NSBMD, &exBossModelResource, FALSE, FALSE);
+        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_BOSS_BODY_NSBMD, &sExBossModelResource, FALSE, FALSE);
 
-        exBossAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_BOSS_NSBCA);
+        sExBossAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_BOSS_NSBCA);
 
-        NNS_G3dResDefaultSetup(exBossModelResource);
+        NNS_G3dResDefaultSetup(sExBossModelResource);
 
-        void *mdlResource   = exBossModelResource;
-        exBossModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(exBossModelResource));
-        Asset3DSetup_CopyResourceData(mdlResource, exBossModelResource);
+        void *mdlResource   = sExBossModelResource;
+        sExBossModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(sExBossModelResource));
+        Asset3DSetup_CopyResourceData(mdlResource, sExBossModelResource);
         HeapFree(HEAP_USER, mdlResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
     AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(animator, exBossModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(animator, sExBossModelResource, 0, FALSE, FALSE);
 
     animator->work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
     NNS_G3dRenderObjSetCallBack(&animator->renderObj, ExBoss_BossRenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
 
     u16 i = 0;
-    for (; i < ARRAY_COUNT(exBossAnimResource); i++)
+    for (; i < ARRAY_COUNT(sExBossAnimResource); i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exBossAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, sExBossAnimResource[i], 0, NULL);
     }
 
     work->model.primaryAnimType     = B3D_ANIM_JOINT_ANIM;
@@ -113,26 +113,26 @@ void LoadExBossAssets(EX_ACTION_NN_WORK *work)
             work->model.animator.animFlags[r] |= ANIMATORMDL_FLAG_CAN_LOOP;
     }
 
-    exBossPaletteAnimResource[0]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ARM_BPA);
-    exBossPaletteAnimResource[1]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ARM_TOP_BPA);
-    exBossPaletteAnimResource[2]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_BACK_BPA);
-    exBossPaletteAnimResource[3]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_BL_BPA);
-    exBossPaletteAnimResource[4]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ENGINE_BPA);
-    exBossPaletteAnimResource[5]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EYE_BPA);
-    exBossPaletteAnimResource[6]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_HAND_BPA);
-    exBossPaletteAnimResource[7]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_MAGA_BPA);
-    exBossPaletteAnimResource[8]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_PIPE_BPA);
-    exBossPaletteAnimResource[9]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_SETU_BPA);
-    exBossPaletteAnimResource[10] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_SIDE_BPA);
-    exBossPaletteAnimResource[11] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_STOMAC_BPA);
-    exBossPaletteAnimResource[12] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_TUE_TOP_BPA);
-    exBossPaletteAnimResource[13] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_TUNO_BPA);
-    exBossPaletteAnimResource[14] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_UNDER_B_BPA);
+    sExBossPaletteAnimResource[0]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ARM_BPA);
+    sExBossPaletteAnimResource[1]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ARM_TOP_BPA);
+    sExBossPaletteAnimResource[2]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_BACK_BPA);
+    sExBossPaletteAnimResource[3]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_BL_BPA);
+    sExBossPaletteAnimResource[4]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ENGINE_BPA);
+    sExBossPaletteAnimResource[5]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EYE_BPA);
+    sExBossPaletteAnimResource[6]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_HAND_BPA);
+    sExBossPaletteAnimResource[7]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_MAGA_BPA);
+    sExBossPaletteAnimResource[8]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_PIPE_BPA);
+    sExBossPaletteAnimResource[9]  = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_SETU_BPA);
+    sExBossPaletteAnimResource[10] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_SIDE_BPA);
+    sExBossPaletteAnimResource[11] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_STOMAC_BPA);
+    sExBossPaletteAnimResource[12] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_TUE_TOP_BPA);
+    sExBossPaletteAnimResource[13] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_TUNO_BPA);
+    sExBossPaletteAnimResource[14] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_UNDER_B_BPA);
 
     for (s16 p = 0; p < 15; p++)
     {
-        InitPaletteAnimator(&work->model.paletteAnimator[p], exBossPaletteAnimResource[p], 0, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_TEXTURE,
-                            VRAMKEY_TO_ADDR(Asset3DSetup_GetPaletteFromName(NNS_G3dGetTex(exBossModelResource), texturePaletteNameList[p])));
+        InitPaletteAnimator(&work->model.paletteAnimator[p], sExBossPaletteAnimResource[p], 0, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_TEXTURE,
+                            VRAMKEY_TO_ADDR(Asset3DSetup_GetPaletteFromName(NNS_G3dGetTex(sExBossModelResource), sTexturePaletteNameList[p])));
     }
 
     work->model.scale.x = FLOAT_TO_FX32(1.0);
@@ -155,25 +155,25 @@ void LoadExBossAssets(EX_ACTION_NN_WORK *work)
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_B;
 
-    exBossInstanceCount++;
+    sExBossInstanceCount++;
 }
 
 void SetExBossAnimation(EX_ACTION_NN_WORK *work, ExBossAnimIDs animID)
 {
-    ExUtils_SetJointAnimation(work, exBossModelResource, NULL, exBossAnimResource[0], animID);
+    ExUtils_SetJointAnimation(work, sExBossModelResource, NULL, sExBossAnimResource[0], animID);
 }
 
 void ReleaseExBossAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBossInstanceCount <= 1)
+    if (sExBossInstanceCount <= 1)
     {
-        if (exBossModelResource)
-            NNS_G3dResDefaultRelease(exBossModelResource);
+        if (sExBossModelResource != NULL)
+            NNS_G3dResDefaultRelease(sExBossModelResource);
 
-        if (exBossModelResource)
-            HeapFree(HEAP_USER, exBossModelResource);
+        if (sExBossModelResource != NULL)
+            HeapFree(HEAP_USER, sExBossModelResource);
         else
-            exBossModelResource = NULL;
+            sExBossModelResource = NULL;
     }
 
     for (s16 p = 0; p < 15; p++)
@@ -182,12 +182,12 @@ void ReleaseExBossAssets(EX_ACTION_NN_WORK *work)
     }
     AnimatorMDL__Release(&work->model.animator);
 
-    exBossInstanceCount--;
+    sExBossInstanceCount--;
 }
 
 EX_ACTION_NN_WORK *GetExBossAssets(void)
 {
-    return exBossLastSpawnedWorker;
+    return sExBossLastSpawnedWorker;
 }
 
 void ExBoss_BossRenderCallback(NNSG3dRS *rs)

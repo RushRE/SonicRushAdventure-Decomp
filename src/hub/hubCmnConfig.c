@@ -18,11 +18,11 @@
 // VARIABLES
 // --------------------
 
-static const HubNpcTalkActionConfig npcTalkActionOldDS     = { .talkActionType = CVIDOCKNPCTALK_ACTION, .talkActionParam = CVIDOCKNPCTALK_ACTION_OPEN_VS_MAIN_MENU };
-static const HubNpcTalkActionConfig npcTalkActionCommon    = { .talkActionType = CVIDOCKNPCTALK_NPC, .talkActionParam = 0 };
-static const HubNpcTalkActionConfig npcTalkActionHourglass = { .talkActionType = CVIDOCKNPCTALK_ACTION, .talkActionParam = CVIDOCKNPCTALK_ACTION_OPEN_STAGE_SELECT };
+static const HubNpcTalkActionConfig sNpcTalkActionOldDS     = { .talkActionType = CVIDOCKNPCTALK_ACTION, .talkActionParam = CVIDOCKNPCTALK_ACTION_OPEN_VS_MAIN_MENU };
+static const HubNpcTalkActionConfig sNpcTalkActionCommon    = { .talkActionType = CVIDOCKNPCTALK_NPC, .talkActionParam = 0 };
+static const HubNpcTalkActionConfig sNpcTalkActionHourglass = { .talkActionType = CVIDOCKNPCTALK_ACTION, .talkActionParam = CVIDOCKNPCTALK_ACTION_OPEN_STAGE_SELECT };
 
-static const CViPurchaseCostConfig radioTowerCost[] =
+static const CViPurchaseCostConfig sRadioTowerCost[] =
 {
     {
         .ringCost = 1000,
@@ -40,7 +40,7 @@ static const CViPurchaseCostConfig radioTowerCost[] =
     }
 };
 
-static const u16 mapBackDecorBackgroundConfig[] = {
+static const u16 sMapBackDecorBackgroundConfig[] = {
     [CVIMAPBACK_DECORBG_ISLAND]         = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_VMC),
     [CVIMAPBACK_DECORBG_BASE]           = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DOCK_BASE_VMC),
     [CVIMAPBACK_DECORBG_DOCK_JET]       = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DOCK_JET_VMC),
@@ -57,7 +57,7 @@ static const u16 mapBackDecorBackgroundConfig[] = {
     [CVIMAPBACK_DECORBG_DEC_MONUMENT]   = GET_CVIMAPBACK_IMAGE(BUNDLE_VI_MAP_BACK_FILE_RESOURCES_BB_VI_MAP_BACK_ISLAND_DEC_MONUMENT_VMC)
 };
 
-static const u16 mapBackDecorSpriteAnimator[] = { [CVIMAPBACK_DECORSPRITE_RADIO_TOWER]          = CVIMAPBACK_DECORSPRITE_ANIM_RADIO_TOWER,
+static const u16 sMapBackDecorSpriteAnimator[] = { [CVIMAPBACK_DECORSPRITE_RADIO_TOWER]          = CVIMAPBACK_DECORSPRITE_ANIM_RADIO_TOWER,
                                                   [CVIMAPBACK_DECORSPRITE_BALLOON]              = CVIMAPBACK_DECORSPRITE_ANIM_BALLOON,
                                                   [CVIMAPBACK_DECORSPRITE_WATERFALL_SPLASH]     = CVIMAPBACK_DECORSPRITE_ANIM_WATERFALL_SPLASH,
                                                   [CVIMAPBACK_DECORSPRITE_PALM_TREE_1]          = CVIMAPBACK_DECORSPRITE_ANIM_PALM_TREE,
@@ -73,7 +73,7 @@ static const u16 mapBackDecorSpriteAnimator[] = { [CVIMAPBACK_DECORSPRITE_RADIO_
                                                   [CVIMAPBACK_DECORSPRITE_FLOWER_GARDEN]        = CVIMAPBACK_DECORSPRITE_ANIM_FLOWER_GARDEN,
                                                   [CVIMAPBACK_DECORSPRITE_PRETTY_FLOWER_GARDEN] = CVIMAPBACK_DECORSPRITE_ANIM_PRETTY_FLOWER_GARDEN };
 
-static const u16 mapBackDecorID[CVIMAP_DECOR_COUNT] = { [CVIMAP_DECOR_DOCK_BEACH]           = CVIMAPBACK_DECORBG_DOCK_BEACH,
+static const u16 sMapBackDecorID[CVIMAP_DECOR_COUNT] = { [CVIMAP_DECOR_DOCK_BEACH]           = CVIMAPBACK_DECORBG_DOCK_BEACH,
                                                         [CVIMAP_DECOR_WATERFALL]            = CVIMAPBACK_DECORBG_DEC_WATERFALL,
                                                         [CVIMAP_DECOR_LIGHTHOUSE]           = CVIMAPBACK_DECORBG_DEC_LIGHTHOUSE,
                                                         [CVIMAP_DECOR_LAVA]                 = CVIMAPBACK_DECORBG_DEC_LAVA,
@@ -96,7 +96,7 @@ static const u16 mapBackDecorID[CVIMAP_DECOR_COUNT] = { [CVIMAP_DECOR_DOCK_BEACH
                                                         [CVIMAP_DECOR_FLOWER_GARDEN]        = CVIMAPBACK_DECORSPRITE_FLOWER_GARDEN,
                                                         [CVIMAP_DECOR_PRETTY_FLOWER_GARDEN] = CVIMAPBACK_DECORSPRITE_PRETTY_FLOWER_GARDEN };
 
-static const CViPurchaseCostConfig decorPurchaseCost[] =
+static const CViPurchaseCostConfig sDecorPurchaseCost[] =
 {
     {
         .ringCost = 600,
@@ -144,7 +144,7 @@ static const CViPurchaseCostConfig decorPurchaseCost[] =
     },
 };
 
-static const CViMapBackDecorConfig mapBackDecorSpriteConfig[] = {
+static const CViMapBackDecorConfig sMapBackDecorSpriteConfig[] = {
     [CVIMAPBACK_DECORSPRITE_ANIM_RADIO_TOWER]          = { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_RADIO_TOWER },
     [CVIMAPBACK_DECORSPRITE_ANIM_BALLOON]              = { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_BALLOON },
     [CVIMAPBACK_DECORSPRITE_ANIM_WATERFALL_SPLASH]     = { .flags = CVIMAPDECOR_FLAG_NONE, .animID = CVIMAPDECOR_ANI_WATERFALL_SPLASH },
@@ -160,13 +160,13 @@ static const CViMapBackDecorConfig mapBackDecorSpriteConfig[] = {
     [CVIMAPBACK_DECORSPRITE_ANIM_PRETTY_FLOWER_GARDEN] = { .flags = CVIMAPDECOR_FLAG_USE_SUB_OBJ, .animID = CVIMAPDECOR_ANI_PRETTY_FLOWER_GARDEN },
 };
 
-static const CViDockPreviewConfig dockPreviewConfig[] = {
+static const CViDockPreviewConfig sDockPreviewConfig[] = {
     { .dockArea = DOCKAREA_BASE, .unknown = 0 },  { .dockArea = DOCKAREA_JET, .unknown = 2 },       { .dockArea = DOCKAREA_BOAT, .unknown = 3 },
     { .dockArea = DOCKAREA_HOVER, .unknown = 4 }, { .dockArea = DOCKAREA_SUBMARINE, .unknown = 5 }, { .dockArea = DOCKAREA_BEACH, .unknown = 6 },
     { .dockArea = DOCKAREA_DRILL, .unknown = 8 },
 };
 
-static const CViPurchaseCostConfig shipBuildCost[] =
+static const CViPurchaseCostConfig sShipBuildCost[] =
 {
     [SHIP_JET] = 
     {
@@ -251,7 +251,7 @@ static const CViPurchaseCostConfig shipBuildCost[] =
     },
 };
 
-static const CViPurchaseCostConfig shipUpgradeCost[] =
+static const CViPurchaseCostConfig sShipUpgradeCost[] =
 {
     {
         .ringCost = 0,
@@ -374,7 +374,7 @@ static const CViPurchaseCostConfig shipUpgradeCost[] =
     },
 };
 
-static const CViMapAreaConfig mapAreaConfig[] = {
+static const CViMapAreaConfig sMapAreaConfig[] = {
     [SHIP_JET] = 
     {
         .dockArea            = DOCKAREA_JET,
@@ -442,7 +442,7 @@ static const CViMapAreaConfig mapAreaConfig[] = {
     },
 };
 
-static const CViDockBackAreaConfig dockBackAreaConfig[] = {
+static const CViDockBackAreaConfig sDockBackAreaConfig[] = {
     { .dockArea           = DOCKAREA_BASE,
       .resModelShip       = CVIEVTCMN_RESOURCE_NONE,
       .resJointAnimShip   = CVIEVTCMN_RESOURCE_NONE,
@@ -540,7 +540,7 @@ static const CViDockBackAreaConfig dockBackAreaConfig[] = {
       .dockRotationY      = FLOAT_DEG_TO_IDX(0.0) },
 };
 
-static const HubNpcSpawnConfig npcSpawnConfig[CVIDOCK_NPC_COUNT] = {
+static const HubNpcSpawnConfig sNpcSpawnConfig[CVIDOCK_NPC_COUNT] = {
     [CVIDOCK_NPC_BASE_TAILS] = { .type            = CVIDOCKNPC_TYPE_TAILS,
                                  .spawnAngle      = FLOAT_DEG_TO_IDX(0.0),
                                  .spawnX          = 9,
@@ -674,7 +674,7 @@ static const HubNpcSpawnConfig npcSpawnConfig[CVIDOCK_NPC_COUNT] = {
                                  .getActionConfig = HubConfig__GetNpcActionConfig_Muzy },
 };
 
-static const CViMapAreaConfig mapAreaUpgradeConfig[] = {
+static const CViMapAreaConfig sMapAreaUpgradeConfig[] = {
     [(2 * SHIP_JET) + (SHIP_LEVEL_1 - 1)] = { .dockArea            = DOCKAREA_INVALID,
                                               .mapArea             = MAPAREA_JET,
                                               .shipScale           = FLOAT_TO_FX32(0.0),
@@ -758,7 +758,7 @@ static const CViMapAreaConfig mapAreaUpgradeConfig[] = {
                                   .materials           = { SAVE_MATERIAL_RED, SAVE_MATERIAL_SILVER, SAVE_MATERIAL_AQUA, SAVE_MATERIAL_GOLD, SAVE_MATERIAL_BLACK, 0, 0, 0 } },
 };
 
-static const CViDockAreaConfig dockAreaConfig[] = {
+static const CViDockAreaConfig sDockAreaConfig[] = {
     [DOCKAREA_BASE] = { .dockArea       = DOCKAREA_BASE,
                         .mapArea        = MAPAREA_BASE,
                         .camOffset      = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(23.0) },
@@ -860,7 +860,7 @@ static const CViDockAreaConfig dockAreaConfig[] = {
     // No stage for DOCKAREA_DRILL
 };
 
-static const CViMapAreaIconConfig mapAreaIconConfig[] = {
+static const CViMapAreaIconConfig sMapAreaIconConfig[] = {
     [MAPAREA_BASE] = 
     {
         .position           = { 144, 148 },
@@ -964,77 +964,77 @@ static const CViMapAreaIconConfig mapAreaIconConfig[] = {
 
 const CViMapAreaIconConfig *HubConfig__GetDockMapIconConfig(u16 area)
 {
-    return &mapAreaIconConfig[area];
+    return &sMapAreaIconConfig[area];
 }
 
 const CViDockAreaConfig *HubConfig__GetDockStageConfig(u16 area)
 {
-    return &dockAreaConfig[area];
+    return &sDockAreaConfig[area];
 }
 
 const CViDockPreviewConfig *HubConfig__GetDockPreviewConfig(u16 area)
 {
-    return &dockPreviewConfig[area];
+    return &sDockPreviewConfig[area];
 }
 
 const CViMapAreaConfig *HubConfig__GetDockMapConfig(u16 area)
 {
-    return &mapAreaConfig[area];
+    return &sMapAreaConfig[area];
 }
 
 const CViMapAreaConfig *HubConfig__GetDockMapUnknownConfig(u16 area)
 {
-    return &mapAreaUpgradeConfig[area];
+    return &sMapAreaUpgradeConfig[area];
 }
 
 const CViPurchaseCostConfig *HubConfig__GetShipBuildCost(s32 id)
 {
-    return &shipBuildCost[id];
+    return &sShipBuildCost[id];
 }
 
 const CViPurchaseCostConfig *HubConfig__GetRadioTowerPurchaseCost(void)
 {
-    return &radioTowerCost[0];
+    return &sRadioTowerCost[0];
 }
 
 const CViPurchaseCostConfig *HubConfig__GetDecorPurchaseCost(s32 id)
 {
-    return &decorPurchaseCost[id];
+    return &sDecorPurchaseCost[id];
 }
 
 const CViPurchaseCostConfig *HubConfig__GetShipUpgradeCost(s32 id)
 {
-    return &shipUpgradeCost[id];
+    return &sShipUpgradeCost[id];
 }
 
 const CViDockBackAreaConfig *HubConfig__GetDockBackInfo(u16 id)
 {
-    return &dockBackAreaConfig[id];
+    return &sDockBackAreaConfig[id];
 }
 
 const HubNpcSpawnConfig *HubConfig__GetNpcConfig(u16 id)
 {
-    return &npcSpawnConfig[id];
+    return &sNpcSpawnConfig[id];
 }
 
 const u16 *HubConfig__GetMapBackDecorID(u16 id)
 {
-    return &mapBackDecorID[id];
+    return &sMapBackDecorID[id];
 }
 
 const u16 *HubConfig__GetMapBackDecorBackgroundConfig(u16 id)
 {
-    return &mapBackDecorBackgroundConfig[id];
+    return &sMapBackDecorBackgroundConfig[id];
 }
 
 const u16 *HubConfig__GetMapBackDecorSpriteAnimator(u16 id)
 {
-    return &mapBackDecorSpriteAnimator[id];
+    return &sMapBackDecorSpriteAnimator[id];
 }
 
 const CViMapBackDecorConfig *HubConfig__GetMapBackDecorSpriteConfig(u16 id)
 {
-    return &mapBackDecorSpriteConfig[id];
+    return &sMapBackDecorSpriteConfig[id];
 }
 
 // Island, Base, or any of the ship docks
@@ -1045,65 +1045,65 @@ BOOL HubConfig__CheckDecorConstructionIsBackground(u16 id)
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Tails(void)
 {
-    return &npcTalkActionCommon;
+    return &sNpcTalkActionCommon;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Marine(void)
 {
-    return &npcTalkActionCommon;
+    return &sNpcTalkActionCommon;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Blaze(void)
 {
-    return &npcTalkActionCommon;
+    return &sNpcTalkActionCommon;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Setter(void)
 {
-    return &npcTalkActionCommon;
+    return &sNpcTalkActionCommon;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Tabby(void)
 {
-    return &npcTalkActionCommon;
+    return &sNpcTalkActionCommon;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Colonel(void)
 {
-    return &npcTalkActionCommon;
+    return &sNpcTalkActionCommon;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Gardon(void)
 {
-    return &npcTalkActionCommon;
+    return &sNpcTalkActionCommon;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Daikun(void)
 {
-    return &npcTalkActionCommon;
+    return &sNpcTalkActionCommon;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Kylok(void)
 {
-    return &npcTalkActionCommon;
+    return &sNpcTalkActionCommon;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Muzy(void)
 {
-    return &npcTalkActionCommon;
+    return &sNpcTalkActionCommon;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Norman(void)
 {
-    return &npcTalkActionCommon;
+    return &sNpcTalkActionCommon;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_Hourglass(void)
 {
-    return &npcTalkActionHourglass;
+    return &sNpcTalkActionHourglass;
 }
 
 const HubNpcTalkActionConfig *HubConfig__GetNpcActionConfig_OldDS(void)
 {
-    return &npcTalkActionOldDS;
+    return &sNpcTalkActionOldDS;
 }

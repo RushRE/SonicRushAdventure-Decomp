@@ -39,14 +39,14 @@ enum ExRingConfigFlags
 // VARIABLES
 // --------------------
 
-static s16 exRingManagerActiveRingCount;
-static void *exLoopRingTaskSingleton;
-static void *exRingManagerTaskSingleton;
-static void *exRingLastCreatedTask;
+static s16 sRingManagerActiveRingCount;
+static void *sLoopRingTaskSingleton;
+static void *sRingManagerTaskSingleton;
+static void *sRingLastCreatedTask;
 static void *exEffectLoopRingTask__sprRing;
-static AnimatorSprite3D exRingAnimator;
+static AnimatorSprite3D sRingAnimator;
 
-static struct exRingConfig exRingSpawnTable2_Normal[] = {
+static struct exRingConfig sRingSpawnTable2_Normal[] = {
     {
         .spawnDelay     = 120,
         .velocity       = 1.0f,
@@ -96,7 +96,7 @@ static struct exRingConfig exRingSpawnTable2_Normal[] = {
     },
 };
 
-static struct exRingConfig exRingSpawnTable4_Normal[] = {
+static struct exRingConfig sRingSpawnTable4_Normal[] = {
     {
         .spawnDelay     = 120,
         .velocity       = 1.0f,
@@ -146,7 +146,7 @@ static struct exRingConfig exRingSpawnTable4_Normal[] = {
     },
 };
 
-static struct exRingConfig exRingSpawnTable2_Easy[] = {
+static struct exRingConfig sRingSpawnTable2_Easy[] = {
     {
         .spawnDelay     = 80,
         .velocity       = 1.0f,
@@ -214,7 +214,7 @@ static struct exRingConfig exRingSpawnTable2_Easy[] = {
     },
 };
 
-static struct exRingConfig exRingSpawnTable4_Easy[] = {
+static struct exRingConfig sRingSpawnTable4_Easy[] = {
     {
         .spawnDelay     = 80,
         .velocity       = 1.0f,
@@ -282,7 +282,7 @@ static struct exRingConfig exRingSpawnTable4_Easy[] = {
     },
 };
 
-static struct exRingConfig exRingSpawnTable3_Easy[] = {
+static struct exRingConfig sRingSpawnTable3_Easy[] = {
     {
         .spawnDelay     = 300,
         .velocity       = 1.0f,
@@ -560,7 +560,7 @@ static struct exRingConfig exRingSpawnTable3_Easy[] = {
     },
 };
 
-static struct exRingConfig exRingSpawnTable1_Normal[] = {
+static struct exRingConfig sRingSpawnTable1_Normal[] = {
     {
         .spawnDelay     = 300,
         .velocity       = 1.0f,
@@ -838,7 +838,7 @@ static struct exRingConfig exRingSpawnTable1_Normal[] = {
     },
 };
 
-static struct exRingConfig exRingSpawnTable3_Normal[] = {
+static struct exRingConfig sRingSpawnTable3_Normal[] = {
     {
         .spawnDelay     = 300,
         .velocity       = 1.0f,
@@ -1116,7 +1116,7 @@ static struct exRingConfig exRingSpawnTable3_Normal[] = {
     },
 };
 
-static struct exRingConfig exRingSpawnTable5_Normal[] = {
+static struct exRingConfig sRingSpawnTable5_Normal[] = {
     {
         .spawnDelay     = 300,
         .velocity       = 1.0f,
@@ -1394,7 +1394,7 @@ static struct exRingConfig exRingSpawnTable5_Normal[] = {
     },
 };
 
-static struct exRingConfig exRingSpawnTable5_Easy[] = {
+static struct exRingConfig sRingSpawnTable5_Easy[] = {
     {
         .spawnDelay     = 300,
         .velocity       = 1.0f,
@@ -1672,7 +1672,7 @@ static struct exRingConfig exRingSpawnTable5_Easy[] = {
     },
 };
 
-static struct exRingConfig exRingSpawnTable1_Easy[] = {
+static struct exRingConfig sRingSpawnTable1_Easy[] = {
     {
         .spawnDelay     = 300,
         .velocity       = 1.0f,
@@ -1950,7 +1950,7 @@ static struct exRingConfig exRingSpawnTable1_Easy[] = {
     },
 };
 
-static struct exRingConfig exRingSpawnTable0_Easy[] = {
+static struct exRingConfig sRingSpawnTable0_Easy[] = {
     {
         .spawnDelay     = 0,
         .velocity       = 1.0f,
@@ -2360,7 +2360,7 @@ static struct exRingConfig exRingSpawnTable0_Easy[] = {
     },
 };
 
-static struct exRingConfig exRingSpawnTable0_Normal[] = {
+static struct exRingConfig sRingSpawnTable0_Normal[] = {
     {
         .spawnDelay     = 0,
         .velocity       = 1.0f,
@@ -2770,16 +2770,16 @@ static struct exRingConfig exRingSpawnTable0_Normal[] = {
     },
 };
 
-static struct exRingTableConfig exRingManagerSpawnTableInfo = {
+static struct exRingTableConfig sRingManagerSpawnTableInfo = {
     .tableID    = 1,
-    .tableSizes = { ARRAY_COUNT(exRingSpawnTable0_Normal), ARRAY_COUNT(exRingSpawnTable1_Normal), ARRAY_COUNT(exRingSpawnTable2_Normal), ARRAY_COUNT(exRingSpawnTable3_Normal),
-                    ARRAY_COUNT(exRingSpawnTable4_Normal), ARRAY_COUNT(exRingSpawnTable5_Normal), ARRAY_COUNT(exRingSpawnTable0_Easy), ARRAY_COUNT(exRingSpawnTable1_Easy),
-                    ARRAY_COUNT(exRingSpawnTable2_Easy), ARRAY_COUNT(exRingSpawnTable3_Easy), ARRAY_COUNT(exRingSpawnTable4_Easy), ARRAY_COUNT(exRingSpawnTable5_Easy) }
+    .tableSizes = { ARRAY_COUNT(sRingSpawnTable0_Normal), ARRAY_COUNT(sRingSpawnTable1_Normal), ARRAY_COUNT(sRingSpawnTable2_Normal), ARRAY_COUNT(sRingSpawnTable3_Normal),
+                    ARRAY_COUNT(sRingSpawnTable4_Normal), ARRAY_COUNT(sRingSpawnTable5_Normal), ARRAY_COUNT(sRingSpawnTable0_Easy), ARRAY_COUNT(sRingSpawnTable1_Easy),
+                    ARRAY_COUNT(sRingSpawnTable2_Easy), ARRAY_COUNT(sRingSpawnTable3_Easy), ARRAY_COUNT(sRingSpawnTable4_Easy), ARRAY_COUNT(sRingSpawnTable5_Easy) }
 };
 
-static struct exRingConfig *exRingManagerSpawnConfig[] = {
-    exRingSpawnTable0_Normal, exRingSpawnTable1_Normal, exRingSpawnTable2_Normal, exRingSpawnTable3_Normal, exRingSpawnTable4_Normal, exRingSpawnTable5_Normal,
-    exRingSpawnTable0_Easy,   exRingSpawnTable1_Easy,   exRingSpawnTable2_Easy,   exRingSpawnTable3_Easy,   exRingSpawnTable4_Easy,   exRingSpawnTable5_Easy,
+static struct exRingConfig *sRingManagerSpawnConfig[] = {
+    sRingSpawnTable0_Normal, sRingSpawnTable1_Normal, sRingSpawnTable2_Normal, sRingSpawnTable3_Normal, sRingSpawnTable4_Normal, sRingSpawnTable5_Normal,
+    sRingSpawnTable0_Easy,   sRingSpawnTable1_Easy,   sRingSpawnTable2_Easy,   sRingSpawnTable3_Easy,   sRingSpawnTable4_Easy,   sRingSpawnTable5_Easy,
 };
 
 // --------------------
@@ -2822,7 +2822,7 @@ void ConfigureExRingManagerSpawning(void);
 BOOL ExRingManager_InitRingSprite(EX_ACTION_BAC3D_WORK *work)
 {
     InitExDrawRequestSprite3D(work);
-    MI_CpuCopy8(&exRingAnimator, &work->sprite.animator, sizeof(work->sprite.animator));
+    MI_CpuCopy8(&sRingAnimator, &work->sprite.animator, sizeof(work->sprite.animator));
 
     work->sprite.anim                  = EX_ACTCOM_ANI_RING;
     work->hitChecker.type              = EXHITCHECK_TYPE_RING;
@@ -2837,7 +2837,7 @@ BOOL ExRingManager_InitRingSprite(EX_ACTION_BAC3D_WORK *work)
     work->hitChecker.box.size.z        = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position      = &work->sprite.translation;
 
-    exRingManagerActiveRingCount++;
+    sRingManagerActiveRingCount++;
 
     return TRUE;
 }
@@ -2860,7 +2860,7 @@ void ReleaseExLoopRingAssets(EX_ACTION_BAC3D_WORK *work)
     if (work->sprite.anim == EX_ACTCOM_ANI_RING_SPARKLE)
         AnimatorSprite3D__Release(&work->sprite.animator);
 
-    exRingManagerActiveRingCount--;
+    sRingManagerActiveRingCount--;
 }
 
 void ExLoopRing_Main_Init(void)
@@ -2882,10 +2882,10 @@ void ExLoopRing_Main_Init(void)
         VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(textureSize, GRAPHICS_ENGINE_A);
         VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(paletteSize, GRAPHICS_ENGINE_A);
 
-        AnimatorSprite3D__Init(&exRingAnimator, ANIMATOR_FLAG_NONE, exEffectLoopRingTask__sprRing, EX_ACTCOM_ANI_RING, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels, vramPalette);
-        AnimatorSprite3D__ProcessAnimationFast(&exRingAnimator);
+        AnimatorSprite3D__Init(&sRingAnimator, ANIMATOR_FLAG_NONE, exEffectLoopRingTask__sprRing, EX_ACTCOM_ANI_RING, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels, vramPalette);
+        AnimatorSprite3D__ProcessAnimationFast(&sRingAnimator);
 
-        exLoopRingTaskSingleton = GetCurrentTask();
+        sLoopRingTaskSingleton = GetCurrentTask();
 
         SetCurrentExTaskMainEvent(ExLoopRing_Main_Animate);
     }
@@ -2905,9 +2905,9 @@ void ExLoopRing_Destructor(void)
     exEffectLoopRingTask *work = ExTaskGetWorkCurrent(exEffectLoopRingTask);
     UNUSED(work);
 
-    AnimatorSprite3D__Release(&exRingAnimator);
+    AnimatorSprite3D__Release(&sRingAnimator);
 
-    exLoopRingTaskSingleton = NULL;
+    sLoopRingTaskSingleton = NULL;
 }
 
 void ExLoopRing_Main_Animate(void)
@@ -2915,8 +2915,8 @@ void ExLoopRing_Main_Animate(void)
     exEffectLoopRingTask *work = ExTaskGetWorkCurrent(exEffectLoopRingTask);
     UNUSED(work);
 
-    if (exRingManagerActiveRingCount != 0)
-        AnimatorSprite3D__ProcessAnimationFast(&exRingAnimator);
+    if (sRingManagerActiveRingCount != 0)
+        AnimatorSprite3D__ProcessAnimationFast(&sRingAnimator);
 
     RunCurrentExTaskOnCheckStageFinishedEvent();
 }
@@ -2938,7 +2938,7 @@ void ExRing_Main_Init(void)
 {
     exEffectRingTask *work = ExTaskGetWorkCurrent(exEffectRingTask);
 
-    exRingLastCreatedTask = GetCurrentTask();
+    sRingLastCreatedTask = GetCurrentTask();
 
     if (!work->active)
     {
@@ -2966,7 +2966,7 @@ void ExRing_Destructor(void)
 
     ReleaseExLoopRingAssets(&work->aniRing);
 
-    exRingLastCreatedTask = NULL;
+    sRingLastCreatedTask = NULL;
 }
 
 void ExRing_Main_Ring(void)
@@ -3071,7 +3071,7 @@ void ExRingManager_Main_Init(void)
 {
     exEffectRingAdminTask *work = ExTaskGetWorkCurrent(exEffectRingAdminTask);
 
-    exRingManagerTaskSingleton = GetCurrentTask();
+    sRingManagerTaskSingleton = GetCurrentTask();
 
     CreateExLoopRing();
     ConfigureExRingManagerSpawning();
@@ -3079,8 +3079,8 @@ void ExRingManager_Main_Init(void)
     work->tablePos       = 0;
     work->tableLoopCount = 0;
 
-    work->spawnConfig = exRingManagerSpawnConfig[work->tableID][work->tablePos];
-    work->tableSize   = exRingManagerSpawnTableInfo.tableSizes[work->tableID];
+    work->spawnConfig = sRingManagerSpawnConfig[work->tableID][work->tablePos];
+    work->tableSize   = sRingManagerSpawnTableInfo.tableSizes[work->tableID];
 
     SetCurrentExTaskMainEvent(ExRingManager_Main_Active);
 }
@@ -3099,7 +3099,7 @@ void ExRingManager_Destructor(void)
     exEffectRingAdminTask *work = ExTaskGetWorkCurrent(exEffectRingAdminTask);
     UNUSED(work);
 
-    exRingManagerTaskSingleton = NULL;
+    sRingManagerTaskSingleton = NULL;
 }
 
 void ExRingManager_Main_Active(void)
@@ -3223,16 +3223,16 @@ void ExRingManager_Main_Active(void)
             work->tablePos++;
             if (work->tablePos < work->tableSize)
             {
-                work->spawnConfig = exRingManagerSpawnConfig[work->tableID][work->tablePos];
+                work->spawnConfig = sRingManagerSpawnConfig[work->tableID][work->tablePos];
             }
             else
             {
                 work->tableLoopCount++;
                 work->tablePos = 0;
 
-                work->spawnConfig = exRingManagerSpawnConfig[work->tableID][work->tablePos];
+                work->spawnConfig = sRingManagerSpawnConfig[work->tableID][work->tablePos];
 
-                work->tableSize = exRingManagerSpawnTableInfo.tableSizes[work->tableID];
+                work->tableSize = sRingManagerSpawnTableInfo.tableSizes[work->tableID];
             }
         }
 
@@ -3310,16 +3310,16 @@ void ConfigureExRingManagerSpawning(void)
         }
     }
 
-    if (exRingManagerSpawnTableInfo.tableID != tableID)
+    if (sRingManagerSpawnTableInfo.tableID != tableID)
     {
         work->tableID  = tableID;
         work->tablePos = 0;
 
-        work->spawnConfig = exRingManagerSpawnConfig[work->tableID][work->tablePos];
+        work->spawnConfig = sRingManagerSpawnConfig[work->tableID][work->tablePos];
 
         u8 curTable                         = work->tableID;
-        exRingManagerSpawnTableInfo.tableID = tableID;
-        work->tableSize                     = exRingManagerSpawnTableInfo.tableSizes[curTable];
+        sRingManagerSpawnTableInfo.tableID = tableID;
+        work->tableSize                     = sRingManagerSpawnTableInfo.tableSizes[curTable];
     }
 
     work->tableID = tableID;
@@ -3338,6 +3338,6 @@ void CreateExRingManager(void)
 
 void DestroyExRingManager(void)
 {
-    if (exRingManagerTaskSingleton != NULL)
-        DestroyExTask(exRingManagerTaskSingleton);
+    if (sRingManagerTaskSingleton != NULL)
+        DestroyExTask(sRingManagerTaskSingleton);
 }

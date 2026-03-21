@@ -10,10 +10,10 @@
 // VARIABLES
 // --------------------
 
-void *exStageModel;
-void *exStageTaskSingleton;
-void *exStageSingleton;
-void *exStageModelAnimations[3];
+static void *sExStageModel;
+static Task *sExStageTaskSingleton;
+static exStageTask *sExStageSingleton;
+static void *sExStageModelAnimations[3];
 
 // --------------------
 // FUNCTION DECLS
@@ -36,23 +36,23 @@ void LoadExStageAssets(EX_ACTION_NN_WORK *work)
 {
     InitExDrawRequestModel(work);
 
-    GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_STAGE_00_NSBMD, &exStageModel, FALSE, FALSE);
+    GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_STAGE_00_NSBMD, &sExStageModel, FALSE, FALSE);
 
-    exStageModelAnimations[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_STAGE_NSBCA);
-    exStageModelAnimations[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_STAGE_NSBTA);
-    exStageModelAnimations[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_STAGE_NSBMA);
-    NNS_G3dResDefaultSetup(exStageModel);
+    sExStageModelAnimations[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_STAGE_NSBCA);
+    sExStageModelAnimations[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_STAGE_NSBTA);
+    sExStageModelAnimations[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_STAGE_NSBMA);
+    NNS_G3dResDefaultSetup(sExStageModel);
 
-    void *oldMemory = exStageModel;
-    exStageModel    = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(oldMemory));
-    Asset3DSetup_CopyResourceData(oldMemory, exStageModel);
+    void *oldMemory = sExStageModel;
+    sExStageModel    = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(oldMemory));
+    Asset3DSetup_CopyResourceData(oldMemory, sExStageModel);
     HeapFree(HEAP_USER, oldMemory);
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exStageModel, 0, TRUE, TRUE);
-    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exStageModelAnimations[0], 0, NULL);
-    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_TEX_ANIM, exStageModelAnimations[1], 0, NULL);
-    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_MAT_ANIM, exStageModelAnimations[2], 0, NULL);
+    AnimatorMDL__SetResource(&work->model.animator, sExStageModel, 0, TRUE, TRUE);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, sExStageModelAnimations[0], 0, NULL);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_TEX_ANIM, sExStageModelAnimations[1], 0, NULL);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_MAT_ANIM, sExStageModelAnimations[2], 0, NULL);
 
     work->model.primaryAnimType     = B3D_ANIM_JOINT_ANIM;
     work->model.primaryAnimResource = work->model.animator.currentAnimObj[B3D_ANIM_JOINT_ANIM];
@@ -75,22 +75,22 @@ void LoadExStageAssets(EX_ACTION_NN_WORK *work)
 
 void ReleaseExStageAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exStageModel != NULL)
-        NNS_G3dResDefaultRelease(exStageModel);
+    if (sExStageModel != NULL)
+        NNS_G3dResDefaultRelease(sExStageModel);
 
-    if (exStageModelAnimations[0] != NULL)
-        NNS_G3dResDefaultRelease(exStageModelAnimations[0]);
+    if (sExStageModelAnimations[0] != NULL)
+        NNS_G3dResDefaultRelease(sExStageModelAnimations[0]);
 
-    if (exStageModelAnimations[1] != NULL)
-        NNS_G3dResDefaultRelease(exStageModelAnimations[1]);
+    if (sExStageModelAnimations[1] != NULL)
+        NNS_G3dResDefaultRelease(sExStageModelAnimations[1]);
 
-    if (exStageModelAnimations[2] != NULL)
-        NNS_G3dResDefaultRelease(exStageModelAnimations[2]);
+    if (sExStageModelAnimations[2] != NULL)
+        NNS_G3dResDefaultRelease(sExStageModelAnimations[2]);
 
-    if (exStageModel != NULL)
-        HeapFree(HEAP_USER, exStageModel);
+    if (sExStageModel != NULL)
+        HeapFree(HEAP_USER, sExStageModel);
     else
-        exStageModel = NULL;
+        sExStageModel = NULL;
 
     AnimatorMDL__Release(&work->model.animator);
 }
@@ -99,7 +99,7 @@ void ExStage_Main_Init(void)
 {
     exStageTask *work = ExTaskGetWorkCurrent(exStageTask);
 
-    exStageTaskSingleton = GetCurrentTask();
+    sExStageTaskSingleton = GetCurrentTask();
 
     LoadExStageAssets(&work->aniStage);
     SetExDrawRequestPriority(&work->aniStage.config, EXDRAWREQTASK_PRIORITY_DEFAULT - 0x800);
@@ -111,7 +111,7 @@ void ExStage_Main_Init(void)
     work->velocity.y = FLOAT_TO_FX32(1.0);
     work->velocity.z = FLOAT_TO_FX32(0.0);
 
-    exStageSingleton = work;
+    sExStageSingleton = work;
 
     SetCurrentExTaskMainEvent(ExStage_Main_Scrolling);
 }
@@ -128,7 +128,7 @@ void ExStage_Destructor(void)
 
     ReleaseExStageAssets(&work->aniStage);
 
-    exStageTaskSingleton = NULL;
+    sExStageTaskSingleton = NULL;
 }
 
 void ExStage_Main_Scrolling(void)
@@ -162,11 +162,11 @@ void CreateExStage(void)
 
 void DestroyExStage(void)
 {
-    if (exStageTaskSingleton != NULL)
-        DestroyExTask(exStageTaskSingleton);
+    if (sExStageTaskSingleton != NULL)
+        DestroyExTask(sExStageTaskSingleton);
 }
 
 exStageTask *GetExStageSingleton(void)
 {
-    return exStageSingleton;
+    return sExStageSingleton;
 }

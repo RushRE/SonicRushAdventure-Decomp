@@ -6,7 +6,7 @@
 // VARIABLES
 // --------------------
 
-s32 RingButtonSfxManager__timerTable[32];
+s32 gRingButtonTimerTable[32];
 
 // --------------------
 // FUNCTION DECLS
@@ -57,18 +57,18 @@ void RingButtonSfxManager_Destructor(Task *task)
         FreeSndHandle(work->sndHandle);
     }
 
-    RingButtonSfxManager__timerTable[work->type] = 0;
+    gRingButtonTimerTable[work->type] = 0;
 }
 
 void RingButtonSfxManager_Main(void)
 {
     RingButtonSfxManager *work = TaskGetWorkCurrent(RingButtonSfxManager);
 
-    if (RingButtonSfxManager__timerTable[work->type] != 1020)
+    if (gRingButtonTimerTable[work->type] != 1020)
     {
-        if (RingButtonSfxManager__timerTable[work->type] != 0)
+        if (gRingButtonTimerTable[work->type] != 0)
         {
-            RingButtonSfxManager__timerTable[work->type]--;
+            gRingButtonTimerTable[work->type]--;
         }
         else
         {
@@ -84,7 +84,7 @@ void RingButtonSfxManager_Main(void)
         {
             if (work->sndHandle != NULL)
             {
-                u32 timer = RingButtonSfxManager__timerTable[work->type];
+                u32 timer = gRingButtonTimerTable[work->type];
                 if (timer == 60)
                 {
                     NNS_SndPlayerSetTempoRatio(work->sndHandle, 512);

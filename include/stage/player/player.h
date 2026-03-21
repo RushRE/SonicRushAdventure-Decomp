@@ -385,7 +385,7 @@ enum PlayerParentFlag
 // STRUCTS
 // --------------------
 
-struct PlayerPhysicsTable
+struct PlayerPhysicsStats
 {
     fx32 acceleration;
     fx32 topSpeed;
@@ -613,7 +613,7 @@ typedef struct Player_
 // VARIABLES
 // --------------------
 
-extern void *playerArchive;
+extern void *gPlayerArchive;
 
 // --------------------
 // FUNCTIONS

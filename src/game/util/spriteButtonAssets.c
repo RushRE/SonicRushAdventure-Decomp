@@ -9,9 +9,9 @@
 // VARIABLES
 // --------------------
 
-static void *touchpadSprite;
-static void *cursorSprite;
-static void *buttonSprite;
+static void *sSprTouchpad;
+static void *sSprCursor;
+static void *sSprButton;
 
 // --------------------
 // FUNCTIONS
@@ -19,18 +19,18 @@ static void *buttonSprite;
 
 void LoadSpriteButtonCursorSprite(void)
 {
-    cursorSprite = ReadFileFromBundle("/bb/nl.bb", BUNDLE_NL_FILE_RESOURCES_BB_NL_CURSOR_TOUCH_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
+    sSprCursor = ReadFileFromBundle("/bb/nl.bb", BUNDLE_NL_FILE_RESOURCES_BB_NL_CURSOR_TOUCH_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
 }
 
 void ReleaseSpriteButtonCursorSprite(void)
 {
-    HeapFree(HEAP_USER, cursorSprite);
-    cursorSprite = NULL;
+    HeapFree(HEAP_USER, sSprCursor);
+    sSprCursor = NULL;
 }
 
 void *GetSpriteButtonCursorSprite(void)
 {
-    return cursorSprite;
+    return sSprCursor;
 }
 
 void LoadSpriteButtonYesNoButtonSprite(s32 language)
@@ -41,32 +41,32 @@ void LoadSpriteButtonYesNoButtonSprite(s32 language)
         [OS_LANGUAGE_ITALIAN] = BUNDLE_NL_FILE_RESOURCES_BB_NL_SPR_BUTTON_ITA_BAC,  [OS_LANGUAGE_SPANISH] = BUNDLE_NL_FILE_RESOURCES_BB_NL_SPR_BUTTON_SPA_BAC
     };
 
-    buttonSprite = ReadFileFromBundle("/bb/nl.bb", fileIDForLanguage[language], BINARYBUNDLE_AUTO_ALLOC_HEAD);
+    sSprButton = ReadFileFromBundle("/bb/nl.bb", fileIDForLanguage[language], BINARYBUNDLE_AUTO_ALLOC_HEAD);
 }
 
 void ReleaseSpriteButtonYesNoButtonSprite(void)
 {
-    HeapFree(HEAP_USER, buttonSprite);
-    buttonSprite = NULL;
+    HeapFree(HEAP_USER, sSprButton);
+    sSprButton = NULL;
 }
 
 void *GetSpriteButtonYesNoButtonSprite(void)
 {
-    return buttonSprite;
+    return sSprButton;
 }
 
 void LoadSpriteButtonTouchpadSprite(void)
 {
-    touchpadSprite = ReadFileFromBundle("/bb/nl.bb", BUNDLE_NL_FILE_RESOURCES_BB_NL_TOUCHPAD_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
+    sSprTouchpad = ReadFileFromBundle("/bb/nl.bb", BUNDLE_NL_FILE_RESOURCES_BB_NL_TOUCHPAD_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
 }
 
 void ReleaseSpriteButtonTouchpadSprite(void)
 {
-    HeapFree(HEAP_USER, touchpadSprite);
-    touchpadSprite = NULL;
+    HeapFree(HEAP_USER, sSprTouchpad);
+    sSprTouchpad = NULL;
 }
 
 void *GetSpriteButtonTouchpadSprite(void)
 {
-    return touchpadSprite;
+    return sSprTouchpad;
 }

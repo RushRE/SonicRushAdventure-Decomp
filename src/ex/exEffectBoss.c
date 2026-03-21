@@ -17,76 +17,76 @@
 // VARIABLES
 // --------------------
 
-static s16 exBossEffectHitInstanceCount;
-static s16 exBossEffectFireBallInstanceCount;
-static s16 exBossEffectFireInstanceCount;
-static s16 exBossEffectShotInstanceCount;
-static s16 exBossEffectHomingInstanceCount;
-static s16 exBossEffectFireBallShotInstanceCount;
+static s16 sExBossEffectHitInstanceCount;
+static s16 sExBossEffectFireBallInstanceCount;
+static s16 sExBossEffectFireInstanceCount;
+static s16 sExBossEffectShotInstanceCount;
+static s16 sExBossEffectHomingInstanceCount;
+static s16 sExBossEffectFireBallShotInstanceCount;
 
-static void *exBossEffectFireTaskSingleton;
-static void *exBossEffectFireUnused;
-static void *exBossEffectShotModelResource;
-static u32 exBossEffectFireBallModelFileSize;
-static BOOL exBossEffectHitEnabled;
-static void *exBossEffectHitLastSpawnedWorker;
-static void *exBossEffectShotLastSpawnedWorker;
-static void *exBossEffectHitUnused;
-static void *exBossEffectHomingTaskSingleton;
-static void *exBossEffectFireBallShotModelResource;
-static void *exBossEffectHomingUnused;
-static void *exBossEffectFireLastSpawnedWorker;
-static void *exBossEffectFireModelResource;
-static void *exBossEffectFireBallShotUnused;
-static BOOL exBossEffectShotEnabled;
-static void *exBossEffectShotTaskSingleton;
-static u32 exBossEffectShotTextureFileSize;
-static u32 exBossEffectFireBallShotModelFileSize;
-static void *exBossEffectFireBallUnused;
-static s32 exBossEffectFireEnabled;
-static void *exBossEffectFireBallShotLastSpawnedWorker;
-static u32 exBossEffectHitModelFileSize;
-static u32 exBossEffectFireTextureFileSize;
-static BOOL exBossEffectHomingEnabled;
-static u32 exBossEffectHomingTextureFileSize;
-static u32 exBossEffectFireModelFileSize;
-static void *exBossEffectShotUnused;
-static void *exBossEffectHomingLastSpawnedWorker;
-static void *exBossEffectHomingModelResource;
-static u32 exBossEffectHomingModelFileSize;
-static BOOL exBossEffectFireBallEnabled;
-static void *exBossEffectFireBallTaskSingleton;
-static u32 exBossEffectFireBallTextureFileSize;
-static u32 exBossEffectHitTextureFileSize;
-static void *exBossEffectHitModelResource;
-static void *exBossEffectFireBallLastSpawnedWorker;
-static void *exBossEffectFireBallModelResource;
-static void *exBossEffectHitTaskSingleton;
-static BOOL exBossEffectFireBallShotEnabled;
-static void *exBossEffectFireBallShotTaskSingleton;
-static u32 exBossEffectFireBallShotTextureFileSize;
-static u32 exBossEffectShotModelFileSize;
+static void *sExBossEffectFireTaskSingleton;
+static void *sExBossEffectFireUnused;
+static void *sExBossEffectShotModelResource;
+static u32 sExBossEffectFireBallModelFileSize;
+static BOOL sExBossEffectHitEnabled;
+static void *sExBossEffectHitLastSpawnedWorker;
+static void *sExBossEffectShotLastSpawnedWorker;
+static void *sExBossEffectHitUnused;
+static void *sExBossEffectHomingTaskSingleton;
+static void *sExBossEffectFireBallShotModelResource;
+static void *sExBossEffectHomingUnused;
+static void *sExBossEffectFireLastSpawnedWorker;
+static void *sExBossEffectFireModelResource;
+static void *sExBossEffectFireBallShotUnused;
+static BOOL sExBossEffectShotEnabled;
+static void *sExBossEffectShotTaskSingleton;
+static u32 sExBossEffectShotTextureFileSize;
+static u32 sExBossEffectFireBallShotModelFileSize;
+static void *sExBossEffectFireBallUnused;
+static s32 sExBossEffectFireEnabled;
+static void *sExBossEffectFireBallShotLastSpawnedWorker;
+static u32 sExBossEffectHitModelFileSize;
+static u32 sExBossEffectFireTextureFileSize;
+static BOOL sExBossEffectHomingEnabled;
+static u32 sExBossEffectHomingTextureFileSize;
+static u32 sExBossEffectFireModelFileSize;
+static void *sExBossEffectShotUnused;
+static void *sExBossEffectHomingLastSpawnedWorker;
+static void *sExBossEffectHomingModelResource;
+static u32 sExBossEffectHomingModelFileSize;
+static BOOL sExBossEffectFireBallEnabled;
+static void *sExBossEffectFireBallTaskSingleton;
+static u32 sExBossEffectFireBallTextureFileSize;
+static u32 sExBossEffectHitTextureFileSize;
+static void *sExBossEffectHitModelResource;
+static void *sExBossEffectFireBallLastSpawnedWorker;
+static void *sExBossEffectFireBallModelResource;
+static void *sExBossEffectHitTaskSingleton;
+static BOOL sExBossEffectFireBallShotEnabled;
+static void *sExBossEffectFireBallShotTaskSingleton;
+static u32 sExBossEffectFireBallShotTextureFileSize;
+static u32 sExBossEffectShotModelFileSize;
 
-static u32 exBossEffectHitAnimType[2];
-static u32 exBossEffectFireBallShotAnimType[2];
-static void *exBossEffectShotAnimResource[2];
-static u32 exBossEffectShotAnimType[2];
-static void *exBossEffectHitAnimResource[2];
-static void *exBossEffectFireBallShotAnimResource[2];
-static u32 exBossEffectHomingAnimType[4];
-static void *exBossEffectFireBallAnimResource[4];
-static void *exBossEffectFireAnimResource[4];
-static u32 exBossEffectFireBallAnimType[4];
-static u32 exBossEffectFireAnimType[4];
-static void *exBossEffectHomingAnimResource[4];
+static u32 sExBossEffectHitAnimType[2];
+static u32 sExBossEffectFireBallShotAnimType[2];
+static void *sExBossEffectShotAnimResource[2];
+static u32 sExBossEffectShotAnimType[2];
+static void *sExBossEffectHitAnimResource[2];
+static void *sExBossEffectFireBallShotAnimResource[2];
+static u32 sExBossEffectHomingAnimType[4];
+static void *sExBossEffectFireBallAnimResource[4];
+static void *sExBossEffectFireAnimResource[4];
+static u32 sExBossEffectFireBallAnimType[4];
+static u32 sExBossEffectFireAnimType[4];
+static void *sExBossEffectHomingAnimResource[4];
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(exBossEffectHitUnused)
-FORCE_INCLUDE_VARIABLE_BSS(exBossEffectFireBallShotUnused)
-FORCE_INCLUDE_VARIABLE_BSS(exBossEffectFireBallUnused)
-FORCE_INCLUDE_VARIABLE_BSS(exBossEffectHomingUnused)
-FORCE_INCLUDE_VARIABLE_BSS(exBossEffectShotUnused)
-FORCE_INCLUDE_VARIABLE_BSS(exBossEffectFireUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sExBossEffectHitUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sExBossEffectFireBallShotUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sExBossEffectFireBallUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sExBossEffectHomingUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sExBossEffectShotUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sExBossEffectFireUnused)
 
 // --------------------
 // FUNCTION DECLS
@@ -162,46 +162,46 @@ static void ExBossEffectFire_Main_Disappear(void);
 // exBossEffectHit
 BOOL LoadExBossEffectHitAssets(EX_ACTION_NN_WORK *work)
 {
-    exBossEffectHitLastSpawnedWorker = work;
+    sExBossEffectHitLastSpawnedWorker = work;
 
-    if (exBossEffectHitModelFileSize != 0 && exBossEffectHitTextureFileSize != 0)
+    if (sExBossEffectHitModelFileSize != 0 && sExBossEffectHitTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exBossEffectHitModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sExBossEffectHitModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exBossEffectHitTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sExBossEffectHitTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exBossEffectHitModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sExBossEffectHitModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exBossEffectHitInstanceCount == 0)
+    if (sExBossEffectHitInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_HITC_NSBMD, &exBossEffectHitModelResource, &exBossEffectHitModelFileSize, TRUE,
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_HITC_NSBMD, &sExBossEffectHitModelResource, &sExBossEffectHitModelFileSize, TRUE,
                                       FALSE);
 
-        exBossEffectHitAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HITC_NSBCA);
-        exBossEffectHitAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sExBossEffectHitAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HITC_NSBCA);
+        sExBossEffectHitAnimType[0]     = B3D_ANIM_JOINT_ANIM;
 
-        exBossEffectHitAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HITC_NSBTA);
-        exBossEffectHitAnimType[1]     = B3D_ANIM_TEX_ANIM;
+        sExBossEffectHitAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HITC_NSBTA);
+        sExBossEffectHitAnimType[1]     = B3D_ANIM_TEX_ANIM;
 
-        CreateAsset3DSetup(exBossEffectHitModelResource);
+        CreateAsset3DSetup(sExBossEffectHitModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBossEffectHitModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->model.animator, sExBossEffectHitModelResource, 0, FALSE, FALSE);
 
     for (u16 i = 0; i < 2; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectHitAnimType[i], exBossEffectHitAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectHitAnimType[i], sExBossEffectHitAnimResource[i], 0, NULL);
     }
 
-    work->model.primaryAnimType     = exBossEffectHitAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBossEffectHitAnimType[0]];
+    work->model.primaryAnimType     = sExBossEffectHitAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sExBossEffectHitAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -223,39 +223,39 @@ BOOL LoadExBossEffectHitAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z              = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position            = &work->model.translation;
 
-    exBossEffectHitInstanceCount++;
+    sExBossEffectHitInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBossEffectHitAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBossEffectHitInstanceCount <= 1)
+    if (sExBossEffectHitInstanceCount <= 1)
     {
-        if (exBossEffectHitModelResource != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectHitModelResource);
+        if (sExBossEffectHitModelResource != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectHitModelResource);
 
-        if (exBossEffectHitAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectHitAnimResource[0]);
+        if (sExBossEffectHitAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectHitAnimResource[0]);
 
-        if (exBossEffectHitAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectHitAnimResource[1]);
+        if (sExBossEffectHitAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectHitAnimResource[1]);
 
-        if (exBossEffectHitModelResource != NULL)
-            HeapFree(HEAP_USER, exBossEffectHitModelResource);
-        exBossEffectHitModelResource = NULL;
+        if (sExBossEffectHitModelResource != NULL)
+            HeapFree(HEAP_USER, sExBossEffectHitModelResource);
+        sExBossEffectHitModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exBossEffectHitInstanceCount--;
+    sExBossEffectHitInstanceCount--;
 }
 
 void ExBossEffectHit_Main_Init(void)
 {
     exBossEffectHitTask *work = ExTaskGetWorkCurrent(exBossEffectHitTask);
 
-    exBossEffectHitTaskSingleton = GetCurrentTask();
+    sExBossEffectHitTaskSingleton = GetCurrentTask();
 
     LoadExBossEffectHitAssets(&work->aniHit);
     SetExDrawRequestPriority(&work->aniHit.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -265,7 +265,7 @@ void ExBossEffectHit_Main_Init(void)
     work->aniHit.model.translation.y = work->parent->aniBoss.model.bossChestPos.y;
     work->aniHit.model.translation.z = work->parent->aniBoss.model.bossChestPos.z;
 
-    exBossEffectHitEnabled = TRUE;
+    sExBossEffectHitEnabled = TRUE;
 
     SetCurrentExTaskMainEvent(ExBossEffectHit_Main_Active);
 }
@@ -288,7 +288,7 @@ void ExBossEffectHit_Destructor(void)
 
     ReleaseExBossEffectHitAssets(&work->aniHit);
 
-    exBossEffectHitTaskSingleton = NULL;
+    sExBossEffectHitTaskSingleton = NULL;
 }
 
 void ExBossEffectHit_Main_Active(void)
@@ -334,46 +334,46 @@ BOOL CreateExBossEffectHit(void)
 // exBossEffectFireBallShot
 BOOL LoadExBossEffectFireballShotAssets(EX_ACTION_NN_WORK *work)
 {
-    exBossEffectFireBallShotLastSpawnedWorker = work;
+    sExBossEffectFireBallShotLastSpawnedWorker = work;
 
-    if (exBossEffectFireBallShotModelFileSize != 0 && exBossEffectFireBallShotTextureFileSize != 0)
+    if (sExBossEffectFireBallShotModelFileSize != 0 && sExBossEffectFireBallShotTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exBossEffectFireBallShotModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sExBossEffectFireBallShotModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exBossEffectFireBallShotTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sExBossEffectFireBallShotTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exBossEffectFireBallShotModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sExBossEffectFireBallShotModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exBossEffectFireBallShotInstanceCount == 0)
+    if (sExBossEffectFireBallShotInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FBSHK_NSBMD, &exBossEffectFireBallShotModelResource,
-                                      &exBossEffectFireBallShotModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FBSHK_NSBMD, &sExBossEffectFireBallShotModelResource,
+                                      &sExBossEffectFireBallShotModelFileSize, TRUE, FALSE);
 
-        exBossEffectFireBallShotAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FBSHK_NSBCA);
-        exBossEffectFireBallShotAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sExBossEffectFireBallShotAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FBSHK_NSBCA);
+        sExBossEffectFireBallShotAnimType[0]     = B3D_ANIM_JOINT_ANIM;
 
-        exBossEffectFireBallShotAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FBSHK_NSBVA);
-        exBossEffectFireBallShotAnimType[1]     = B3D_ANIM_VIS_ANIM;
+        sExBossEffectFireBallShotAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FBSHK_NSBVA);
+        sExBossEffectFireBallShotAnimType[1]     = B3D_ANIM_VIS_ANIM;
 
-        CreateAsset3DSetup(exBossEffectFireBallShotModelResource);
+        CreateAsset3DSetup(sExBossEffectFireBallShotModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBossEffectFireBallShotModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->model.animator, sExBossEffectFireBallShotModelResource, 0, FALSE, FALSE);
 
     for (u16 i = 0; i < 2; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectFireBallShotAnimType[i], exBossEffectFireBallShotAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectFireBallShotAnimType[i], sExBossEffectFireBallShotAnimResource[i], 0, NULL);
     }
 
-    work->model.primaryAnimType     = exBossEffectFireBallShotAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBossEffectFireBallShotAnimType[0]];
+    work->model.primaryAnimType     = sExBossEffectFireBallShotAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sExBossEffectFireBallShotAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -395,39 +395,39 @@ BOOL LoadExBossEffectFireballShotAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z                     = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.position                   = &work->model.translation;
 
-    exBossEffectFireBallShotInstanceCount++;
+    sExBossEffectFireBallShotInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBossEffectFireballShotAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBossEffectFireBallShotInstanceCount <= 1)
+    if (sExBossEffectFireBallShotInstanceCount <= 1)
     {
-        if (exBossEffectFireBallShotModelResource != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectFireBallShotModelResource);
+        if (sExBossEffectFireBallShotModelResource != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectFireBallShotModelResource);
 
-        if (exBossEffectFireBallShotAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectFireBallShotAnimResource[0]);
+        if (sExBossEffectFireBallShotAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectFireBallShotAnimResource[0]);
 
-        if (exBossEffectFireBallShotAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectFireBallShotAnimResource[1]);
+        if (sExBossEffectFireBallShotAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectFireBallShotAnimResource[1]);
 
-        if (exBossEffectFireBallShotModelResource != NULL)
-            HeapFree(HEAP_USER, exBossEffectFireBallShotModelResource);
-        exBossEffectFireBallShotModelResource = NULL;
+        if (sExBossEffectFireBallShotModelResource != NULL)
+            HeapFree(HEAP_USER, sExBossEffectFireBallShotModelResource);
+        sExBossEffectFireBallShotModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exBossEffectFireBallShotInstanceCount--;
+    sExBossEffectFireBallShotInstanceCount--;
 }
 
 void ExBossEffectFireballShot_Main_Init(void)
 {
     exBossEffectFireBallShotTask *work = ExTaskGetWorkCurrent(exBossEffectFireBallShotTask);
 
-    exBossEffectFireBallShotTaskSingleton = GetCurrentTask();
+    sExBossEffectFireBallShotTaskSingleton = GetCurrentTask();
 
     LoadExBossEffectFireballShotAssets(&work->aniShot);
     SetExDrawRequestPriority(&work->aniShot.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -437,7 +437,7 @@ void ExBossEffectFireballShot_Main_Init(void)
     work->aniShot.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
     work->aniShot.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
-    exBossEffectFireBallShotEnabled = TRUE;
+    sExBossEffectFireBallShotEnabled = TRUE;
 
     SetCurrentExTaskMainEvent(ExBossEffectFireballShot_Main_Active);
 }
@@ -460,7 +460,7 @@ void ExBossEffectFireballShot_Destructor(void)
 
     ReleaseExBossEffectFireballShotAssets(&work->aniShot);
 
-    exBossEffectFireBallShotTaskSingleton = 0;
+    sExBossEffectFireBallShotTaskSingleton = NULL;
 }
 
 void ExBossEffectFireballShot_Main_Active(void)
@@ -502,61 +502,61 @@ BOOL CreateExBossEffectFireballShot(void)
 
 void DisableExBossEffectFireballShot(void)
 {
-    exBossEffectFireBallShotEnabled = FALSE;
+    sExBossEffectFireBallShotEnabled = FALSE;
 }
 
 // exBossEffectFireBall
 BOOL LoadExBossEffectFireballAssets(EX_ACTION_NN_WORK *work)
 {
-    exBossEffectFireBallLastSpawnedWorker = work;
+    sExBossEffectFireBallLastSpawnedWorker = work;
 
-    if (exBossEffectFireBallModelFileSize != 0 && exBossEffectFireBallTextureFileSize != 0)
+    if (sExBossEffectFireBallModelFileSize != 0 && sExBossEffectFireBallTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exBossEffectFireBallModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sExBossEffectFireBallModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exBossEffectFireBallTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sExBossEffectFireBallTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exBossEffectFireBallModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sExBossEffectFireBallModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exBossEffectFireBallInstanceCount == 0)
+    if (sExBossEffectFireBallInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SFB_NSBMD, &exBossEffectFireBallModelResource, &exBossEffectFireBallModelFileSize,
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SFB_NSBMD, &sExBossEffectFireBallModelResource, &sExBossEffectFireBallModelFileSize,
                                       TRUE, FALSE);
 
-        exBossEffectFireBallAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFB_NSBCA);
-        exBossEffectFireBallAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sExBossEffectFireBallAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFB_NSBCA);
+        sExBossEffectFireBallAnimType[0]     = B3D_ANIM_JOINT_ANIM;
 
-        exBossEffectFireBallAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFB_NSBMA);
-        exBossEffectFireBallAnimType[1]     = B3D_ANIM_MAT_ANIM;
+        sExBossEffectFireBallAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFB_NSBMA);
+        sExBossEffectFireBallAnimType[1]     = B3D_ANIM_MAT_ANIM;
 
-        exBossEffectFireBallAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFB_NSBTA);
-        exBossEffectFireBallAnimType[2]     = B3D_ANIM_TEX_ANIM;
+        sExBossEffectFireBallAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFB_NSBTA);
+        sExBossEffectFireBallAnimType[2]     = B3D_ANIM_TEX_ANIM;
 
-        exBossEffectFireBallAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFB_NSBTP);
-        exBossEffectFireBallAnimType[3]     = B3D_ANIM_PAT_ANIM;
+        sExBossEffectFireBallAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFB_NSBTP);
+        sExBossEffectFireBallAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
-        CreateAsset3DSetup(exBossEffectFireBallModelResource);
+        CreateAsset3DSetup(sExBossEffectFireBallModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBossEffectFireBallModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->model.animator, sExBossEffectFireBallModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
     for (i = 0; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectFireBallAnimType[i], exBossEffectFireBallAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectFireBallAnimType[i], sExBossEffectFireBallAnimResource[i], 0, NULL);
     }
 
-    AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectFireBallAnimType[i], exBossEffectFireBallAnimResource[i], 0, NNS_G3dGetTex(exBossEffectFireBallModelResource));
+    AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectFireBallAnimType[i], sExBossEffectFireBallAnimResource[i], 0, NNS_G3dGetTex(sExBossEffectFireBallModelResource));
 
-    work->model.primaryAnimType     = exBossEffectFireBallAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBossEffectFireBallAnimType[0]];
+    work->model.primaryAnimType     = sExBossEffectFireBallAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sExBossEffectFireBallAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -578,7 +578,7 @@ BOOL LoadExBossEffectFireballAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z                 = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.position               = &work->model.translation;
 
-    exBossEffectFireBallInstanceCount++;
+    sExBossEffectFireBallInstanceCount++;
 
     return TRUE;
 }
@@ -588,14 +588,14 @@ void SetExBossEffectFireballAnimation(EX_ACTION_NN_WORK *work, u16 animID)
     u16 i = 0;
     for (; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectFireBallAnimType[i], exBossEffectFireBallAnimResource[i], animID, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectFireBallAnimType[i], sExBossEffectFireBallAnimResource[i], animID, NULL);
     }
 
-    AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectFireBallAnimType[i], exBossEffectFireBallAnimResource[i], animID,
-                              NNS_G3dGetTex(exBossEffectFireBallModelResource));
+    AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectFireBallAnimType[i], sExBossEffectFireBallAnimResource[i], animID,
+                              NNS_G3dGetTex(sExBossEffectFireBallModelResource));
 
-    work->model.primaryAnimType     = exBossEffectFireBallAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBossEffectFireBallAnimType[0]];
+    work->model.primaryAnimType     = sExBossEffectFireBallAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sExBossEffectFireBallAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -606,44 +606,44 @@ void SetExBossEffectFireballAnimation(EX_ACTION_NN_WORK *work, u16 animID)
 
 void ReleaseExBossEffectFireballAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBossEffectFireBallInstanceCount <= 1)
+    if (sExBossEffectFireBallInstanceCount <= 1)
     {
-        if (exBossEffectFireBallModelResource)
-            NNS_G3dResDefaultRelease(exBossEffectFireBallModelResource);
+        if (sExBossEffectFireBallModelResource)
+            NNS_G3dResDefaultRelease(sExBossEffectFireBallModelResource);
 
-        if (exBossEffectFireBallAnimResource[0])
-            NNS_G3dResDefaultRelease(exBossEffectFireBallAnimResource[0]);
+        if (sExBossEffectFireBallAnimResource[0])
+            NNS_G3dResDefaultRelease(sExBossEffectFireBallAnimResource[0]);
 
-        if (exBossEffectFireBallAnimResource[1])
-            NNS_G3dResDefaultRelease(exBossEffectFireBallAnimResource[1]);
+        if (sExBossEffectFireBallAnimResource[1])
+            NNS_G3dResDefaultRelease(sExBossEffectFireBallAnimResource[1]);
 
-        if (exBossEffectFireBallAnimResource[2])
-            NNS_G3dResDefaultRelease(exBossEffectFireBallAnimResource[2]);
+        if (sExBossEffectFireBallAnimResource[2])
+            NNS_G3dResDefaultRelease(sExBossEffectFireBallAnimResource[2]);
 
-        if (exBossEffectFireBallAnimResource[3])
-            NNS_G3dResDefaultRelease(exBossEffectFireBallAnimResource[3]);
+        if (sExBossEffectFireBallAnimResource[3])
+            NNS_G3dResDefaultRelease(sExBossEffectFireBallAnimResource[3]);
 
-        if (exBossEffectFireBallModelResource)
-            HeapFree(HEAP_USER, exBossEffectFireBallModelResource);
-        exBossEffectFireBallModelResource = NULL;
+        if (sExBossEffectFireBallModelResource)
+            HeapFree(HEAP_USER, sExBossEffectFireBallModelResource);
+        sExBossEffectFireBallModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exBossEffectFireBallInstanceCount--;
+    sExBossEffectFireBallInstanceCount--;
 }
 
 void ExBossEffectFireball_Main_Init(void)
 {
     exBossEffectFireBallTask *work = ExTaskGetWorkCurrent(exBossEffectFireBallTask);
 
-    exBossEffectFireBallTaskSingleton = GetCurrentTask();
+    sExBossEffectFireBallTaskSingleton = GetCurrentTask();
 
     LoadExBossEffectFireballAssets(&work->aniFire);
     SetExDrawRequestPriority(&work->aniFire.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimStopOnFinish(&work->aniFire.config);
 
-    exBossEffectFireBallEnabled = TRUE;
+    sExBossEffectFireBallEnabled = TRUE;
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FIRE_CHARGE);
 
@@ -668,7 +668,7 @@ void ExBossEffectFireball_Destructor(void)
 
     ReleaseExBossEffectFireballAssets(&work->aniFire);
 
-    exBossEffectFireBallTaskSingleton = NULL;
+    sExBossEffectFireBallTaskSingleton = NULL;
 }
 
 void ExBossEffectFireball_Main_Appear(void)
@@ -727,7 +727,7 @@ void ExBossEffectFireball_Main_Active(void)
         work->aniFire.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
         work->aniFire.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
-        if (exBossEffectFireBallEnabled == FALSE)
+        if (sExBossEffectFireBallEnabled == FALSE)
         {
             ExBossEffectFireball_Action_Disappear();
         }
@@ -797,60 +797,60 @@ BOOL CreateExBossEffectFireball(void)
 
 void DisableExBossEffectFireball(void)
 {
-    exBossEffectFireBallEnabled = FALSE;
+    sExBossEffectFireBallEnabled = FALSE;
 }
 
 // exBossEffectHoming
 BOOL LoadExEffectHomingAssets(EX_ACTION_NN_WORK *work)
 {
-    exBossEffectHomingLastSpawnedWorker = work;
+    sExBossEffectHomingLastSpawnedWorker = work;
 
-    if (exBossEffectHomingModelFileSize != 0 && exBossEffectHomingTextureFileSize != 0)
+    if (sExBossEffectHomingModelFileSize != 0 && sExBossEffectHomingTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exBossEffectHomingModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sExBossEffectHomingModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exBossEffectHomingTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sExBossEffectHomingTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exBossEffectHomingModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sExBossEffectHomingModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exBossEffectHomingInstanceCount == 0)
+    if (sExBossEffectHomingInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SHOMI_NSBMD, &exBossEffectHomingModelResource, &exBossEffectHomingModelFileSize,
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SHOMI_NSBMD, &sExBossEffectHomingModelResource, &sExBossEffectHomingModelFileSize,
                                       TRUE, FALSE);
 
-        exBossEffectHomingAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SHOMI_NSBCA);
-        exBossEffectHomingAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sExBossEffectHomingAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SHOMI_NSBCA);
+        sExBossEffectHomingAnimType[0]     = B3D_ANIM_JOINT_ANIM;
 
-        exBossEffectHomingAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SHOMI_NSBMA);
-        exBossEffectHomingAnimType[1]     = B3D_ANIM_MAT_ANIM;
+        sExBossEffectHomingAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SHOMI_NSBMA);
+        sExBossEffectHomingAnimType[1]     = B3D_ANIM_MAT_ANIM;
 
-        exBossEffectHomingAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SHOMI_NSBTA);
-        exBossEffectHomingAnimType[2]     = B3D_ANIM_TEX_ANIM;
+        sExBossEffectHomingAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SHOMI_NSBTA);
+        sExBossEffectHomingAnimType[2]     = B3D_ANIM_TEX_ANIM;
 
-        exBossEffectHomingAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SHOMI_NSBTP);
-        exBossEffectHomingAnimType[3]     = B3D_ANIM_PAT_ANIM;
+        sExBossEffectHomingAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SHOMI_NSBTP);
+        sExBossEffectHomingAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
-        CreateAsset3DSetup(exBossEffectHomingModelResource);
+        CreateAsset3DSetup(sExBossEffectHomingModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBossEffectHomingModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->model.animator, sExBossEffectHomingModelResource, 0, FALSE, FALSE);
 
     for (u16 i = 0; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectHomingAnimType[i], exBossEffectHomingAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectHomingAnimType[i], sExBossEffectHomingAnimResource[i], 0, NULL);
     }
 
-    AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectHomingAnimType[3], exBossEffectHomingAnimResource[3], 0, NNS_G3dGetTex(exBossEffectHomingModelResource));
+    AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectHomingAnimType[3], sExBossEffectHomingAnimResource[3], 0, NNS_G3dGetTex(sExBossEffectHomingModelResource));
 
-    work->model.primaryAnimType     = exBossEffectHomingAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBossEffectHomingAnimType[0]];
+    work->model.primaryAnimType     = sExBossEffectHomingAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sExBossEffectHomingAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -872,7 +872,7 @@ BOOL LoadExEffectHomingAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z               = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.position             = &work->model.translation;
 
-    exBossEffectHomingInstanceCount++;
+    sExBossEffectHomingInstanceCount++;
 
     return TRUE;
 }
@@ -881,13 +881,13 @@ void SetExBossEffectHomingAnimation(EX_ACTION_NN_WORK *work, u16 animID)
 {
     for (u16 i = 0; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectHomingAnimType[i], exBossEffectHomingAnimResource[i], animID, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectHomingAnimType[i], sExBossEffectHomingAnimResource[i], animID, NULL);
     }
 
-    AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectHomingAnimType[3], exBossEffectHomingAnimResource[3], animID, NNS_G3dGetTex(exBossEffectHomingModelResource));
+    AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectHomingAnimType[3], sExBossEffectHomingAnimResource[3], animID, NNS_G3dGetTex(sExBossEffectHomingModelResource));
 
-    work->model.primaryAnimType     = exBossEffectHomingAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBossEffectHomingAnimType[0]];
+    work->model.primaryAnimType     = sExBossEffectHomingAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sExBossEffectHomingAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -898,44 +898,44 @@ void SetExBossEffectHomingAnimation(EX_ACTION_NN_WORK *work, u16 animID)
 
 void ReleaseExBossEffectHomingAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBossEffectHomingInstanceCount <= 1)
+    if (sExBossEffectHomingInstanceCount <= 1)
     {
-        if (exBossEffectHomingModelResource != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectHomingModelResource);
+        if (sExBossEffectHomingModelResource != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectHomingModelResource);
 
-        if (exBossEffectHomingAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectHomingAnimResource[0]);
+        if (sExBossEffectHomingAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectHomingAnimResource[0]);
 
-        if (exBossEffectHomingAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectHomingAnimResource[1]);
+        if (sExBossEffectHomingAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectHomingAnimResource[1]);
 
-        if (exBossEffectHomingAnimResource[2] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectHomingAnimResource[2]);
+        if (sExBossEffectHomingAnimResource[2] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectHomingAnimResource[2]);
 
-        if (exBossEffectHomingAnimResource[3] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectHomingAnimResource[3]);
+        if (sExBossEffectHomingAnimResource[3] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectHomingAnimResource[3]);
 
-        if (exBossEffectHomingModelResource != NULL)
-            HeapFree(HEAP_USER, exBossEffectHomingModelResource);
-        exBossEffectHomingModelResource = NULL;
+        if (sExBossEffectHomingModelResource != NULL)
+            HeapFree(HEAP_USER, sExBossEffectHomingModelResource);
+        sExBossEffectHomingModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exBossEffectHomingInstanceCount--;
+    sExBossEffectHomingInstanceCount--;
 }
 
 void ExBossEffectHoming_Main_Init(void)
 {
     exBossEffectHomingTask *work = ExTaskGetWorkCurrent(exBossEffectHomingTask);
 
-    exBossEffectHomingTaskSingleton = GetCurrentTask();
+    sExBossEffectHomingTaskSingleton = GetCurrentTask();
 
     LoadExEffectHomingAssets(&work->aniHoming);
     SetExDrawRequestPriority(&work->aniHoming.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimStopOnFinish(&work->aniHoming.config);
 
-    exBossEffectHomingEnabled = TRUE;
+    sExBossEffectHomingEnabled = TRUE;
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_LASER_CHARGE);
 
@@ -960,7 +960,7 @@ void ExBossEffectHoming_Destructor(void)
 
     ReleaseExBossEffectHomingAssets(&work->aniHoming);
 
-    exBossEffectHomingTaskSingleton = NULL;
+    sExBossEffectHomingTaskSingleton = NULL;
 }
 
 void ExBossEffectHoming_Main_Appear(void)
@@ -1019,7 +1019,7 @@ void ExBossEffectHoming_Main_Active(void)
         work->aniHoming.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
         work->aniHoming.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
-        if (exBossEffectHomingEnabled == FALSE)
+        if (sExBossEffectHomingEnabled == FALSE)
         {
             ExBossEffectHoming_Action_Disappear();
         }
@@ -1089,52 +1089,52 @@ BOOL CreateExBossEffectHoming(void)
 
 void DisableExBossEffectHoming(void)
 {
-    exBossEffectHomingEnabled = FALSE;
+    sExBossEffectHomingEnabled = FALSE;
 }
 
 // exBossEffectShot
 BOOL LoadExBossEffectShotAssets(EX_ACTION_NN_WORK *work)
 {
-    exBossEffectShotLastSpawnedWorker = work;
+    sExBossEffectShotLastSpawnedWorker = work;
 
-    if (exBossEffectShotModelFileSize != 0 && exBossEffectShotTextureFileSize != 0)
+    if (sExBossEffectShotModelFileSize != 0 && sExBossEffectShotTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exBossEffectShotModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sExBossEffectShotModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exBossEffectShotTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sExBossEffectShotTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exBossEffectShotModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sExBossEffectShotModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exBossEffectShotInstanceCount == 0)
+    if (sExBossEffectShotInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FSHK_NSBMD, &exBossEffectShotModelResource, &exBossEffectShotModelFileSize, TRUE,
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FSHK_NSBMD, &sExBossEffectShotModelResource, &sExBossEffectShotModelFileSize, TRUE,
                                       FALSE);
 
-        exBossEffectShotAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FSHK_NSBCA);
-        exBossEffectShotAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sExBossEffectShotAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FSHK_NSBCA);
+        sExBossEffectShotAnimType[0]     = B3D_ANIM_JOINT_ANIM;
 
-        exBossEffectShotAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FSHK_NSBVA);
-        exBossEffectShotAnimType[1]     = B3D_ANIM_VIS_ANIM;
+        sExBossEffectShotAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FSHK_NSBVA);
+        sExBossEffectShotAnimType[1]     = B3D_ANIM_VIS_ANIM;
 
-        CreateAsset3DSetup(exBossEffectShotModelResource);
+        CreateAsset3DSetup(sExBossEffectShotModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBossEffectShotModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->model.animator, sExBossEffectShotModelResource, 0, FALSE, FALSE);
 
     for (u16 i = 0; i < 2; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectShotAnimType[i], exBossEffectShotAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectShotAnimType[i], sExBossEffectShotAnimResource[i], 0, NULL);
     }
 
-    work->model.primaryAnimType     = exBossEffectShotAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBossEffectShotAnimType[0]];
+    work->model.primaryAnimType     = sExBossEffectShotAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sExBossEffectShotAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -1156,39 +1156,39 @@ BOOL LoadExBossEffectShotAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z             = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.position           = &work->model.translation;
 
-    exBossEffectShotInstanceCount++;
+    sExBossEffectShotInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBossEffectShotAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBossEffectShotInstanceCount <= 1)
+    if (sExBossEffectShotInstanceCount <= 1)
     {
-        if (exBossEffectShotModelResource != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectShotModelResource);
+        if (sExBossEffectShotModelResource != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectShotModelResource);
 
-        if (exBossEffectShotAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectShotAnimResource[0]);
+        if (sExBossEffectShotAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectShotAnimResource[0]);
 
-        if (exBossEffectShotAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectShotAnimResource[1]);
+        if (sExBossEffectShotAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectShotAnimResource[1]);
 
-        if (exBossEffectShotModelResource != NULL)
-            HeapFree(HEAP_USER, exBossEffectShotModelResource);
-        exBossEffectShotModelResource = NULL;
+        if (sExBossEffectShotModelResource != NULL)
+            HeapFree(HEAP_USER, sExBossEffectShotModelResource);
+        sExBossEffectShotModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exBossEffectShotInstanceCount--;
+    sExBossEffectShotInstanceCount--;
 }
 
 void ExBossEffectShot_Main_Init(void)
 {
     exBossEffectShotTask *work = ExTaskGetWorkCurrent(exBossEffectShotTask);
 
-    exBossEffectShotTaskSingleton = GetCurrentTask();
+    sExBossEffectShotTaskSingleton = GetCurrentTask();
 
     LoadExBossEffectShotAssets(&work->aniShot);
     SetExDrawRequestPriority(&work->aniShot.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -1198,7 +1198,7 @@ void ExBossEffectShot_Main_Init(void)
     work->aniShot.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
     work->aniShot.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
-    exBossEffectShotEnabled = TRUE;
+    sExBossEffectShotEnabled = TRUE;
 
     SetCurrentExTaskMainEvent(ExBossEffectShot_Main_Active);
 }
@@ -1221,7 +1221,7 @@ void ExBossEffectShot_Destructor(void)
 
     ReleaseExBossEffectShotAssets(&work->aniShot);
 
-    exBossEffectShotTaskSingleton = NULL;
+    sExBossEffectShotTaskSingleton = NULL;
 }
 
 void ExBossEffectShot_Main_Active(void)
@@ -1267,54 +1267,54 @@ BOOL CreateExBossEffectShot(void)
 // exBossEffectFire
 BOOL LoadExBossEffectFireAssets(EX_ACTION_NN_WORK *work)
 {
-    exBossEffectFireLastSpawnedWorker = work;
+    sExBossEffectFireLastSpawnedWorker = work;
 
-    if (exBossEffectFireModelFileSize != 0 && exBossEffectFireTextureFileSize != 0)
+    if (sExBossEffectFireModelFileSize != 0 && sExBossEffectFireTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exBossEffectFireModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sExBossEffectFireModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exBossEffectFireTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sExBossEffectFireTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exBossEffectFireModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sExBossEffectFireModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exBossEffectFireInstanceCount == 0)
+    if (sExBossEffectFireInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SFIRE_NSBMD, &exBossEffectFireModelResource, &exBossEffectFireModelFileSize, TRUE,
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SFIRE_NSBMD, &sExBossEffectFireModelResource, &sExBossEffectFireModelFileSize, TRUE,
                                       FALSE);
 
-        exBossEffectFireAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFIRE_NSBCA);
-        exBossEffectFireAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sExBossEffectFireAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFIRE_NSBCA);
+        sExBossEffectFireAnimType[0]     = B3D_ANIM_JOINT_ANIM;
 
-        exBossEffectFireAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFIRE_NSBMA);
-        exBossEffectFireAnimType[1]     = B3D_ANIM_MAT_ANIM;
+        sExBossEffectFireAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFIRE_NSBMA);
+        sExBossEffectFireAnimType[1]     = B3D_ANIM_MAT_ANIM;
 
-        exBossEffectFireAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFIRE_NSBTA);
-        exBossEffectFireAnimType[2]     = B3D_ANIM_TEX_ANIM;
+        sExBossEffectFireAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFIRE_NSBTA);
+        sExBossEffectFireAnimType[2]     = B3D_ANIM_TEX_ANIM;
 
-        exBossEffectFireAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFIRE_NSBTP);
-        exBossEffectFireAnimType[3]     = B3D_ANIM_PAT_ANIM;
+        sExBossEffectFireAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SFIRE_NSBTP);
+        sExBossEffectFireAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
-        CreateAsset3DSetup(exBossEffectFireModelResource);
+        CreateAsset3DSetup(sExBossEffectFireModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBossEffectFireModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->model.animator, sExBossEffectFireModelResource, 0, FALSE, FALSE);
 
     for (u16 i = 0; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectFireAnimType[i], exBossEffectFireAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectFireAnimType[i], sExBossEffectFireAnimResource[i], 0, NULL);
     }
 
-    AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectFireAnimType[3], exBossEffectFireAnimResource[3], 0, NNS_G3dGetTex(exBossEffectFireModelResource));
+    AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectFireAnimType[3], sExBossEffectFireAnimResource[3], 0, NNS_G3dGetTex(sExBossEffectFireModelResource));
 
-    work->model.primaryAnimType     = exBossEffectFireAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBossEffectFireAnimType[0]];
+    work->model.primaryAnimType     = sExBossEffectFireAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sExBossEffectFireAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -1336,7 +1336,7 @@ BOOL LoadExBossEffectFireAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z             = FLOAT_TO_FX32(1.0);
     work->hitChecker.box.position           = &work->model.translation;
 
-    exBossEffectFireInstanceCount++;
+    sExBossEffectFireInstanceCount++;
 
     return TRUE;
 }
@@ -1345,13 +1345,13 @@ void SetExBossEffectFireAnimation(EX_ACTION_NN_WORK *work, u16 animID)
 {
     for (u16 i = 0; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectFireAnimType[i], exBossEffectFireAnimResource[i], animID, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectFireAnimType[i], sExBossEffectFireAnimResource[i], animID, NULL);
     }
 
-    AnimatorMDL__SetAnimation(&work->model.animator, exBossEffectFireAnimType[3], exBossEffectFireAnimResource[3], animID, NNS_G3dGetTex(exBossEffectFireModelResource));
+    AnimatorMDL__SetAnimation(&work->model.animator, sExBossEffectFireAnimType[3], sExBossEffectFireAnimResource[3], animID, NNS_G3dGetTex(sExBossEffectFireModelResource));
 
-    work->model.primaryAnimType     = exBossEffectFireAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBossEffectFireAnimType[0]];
+    work->model.primaryAnimType     = sExBossEffectFireAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sExBossEffectFireAnimType[0]];
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
         if (((1 << r) & (B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM)) != 0)
@@ -1361,44 +1361,44 @@ void SetExBossEffectFireAnimation(EX_ACTION_NN_WORK *work, u16 animID)
 
 void ReleaseExBossEffectFireAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBossEffectFireInstanceCount <= 1)
+    if (sExBossEffectFireInstanceCount <= 1)
     {
-        if (exBossEffectFireModelResource != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectFireModelResource);
+        if (sExBossEffectFireModelResource != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectFireModelResource);
 
-        if (exBossEffectFireAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectFireAnimResource[0]);
+        if (sExBossEffectFireAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectFireAnimResource[0]);
 
-        if (exBossEffectFireAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectFireAnimResource[1]);
+        if (sExBossEffectFireAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectFireAnimResource[1]);
 
-        if (exBossEffectFireAnimResource[2] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectFireAnimResource[2]);
+        if (sExBossEffectFireAnimResource[2] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectFireAnimResource[2]);
 
-        if (exBossEffectFireAnimResource[3] != NULL)
-            NNS_G3dResDefaultRelease(exBossEffectFireAnimResource[3]);
+        if (sExBossEffectFireAnimResource[3] != NULL)
+            NNS_G3dResDefaultRelease(sExBossEffectFireAnimResource[3]);
 
-        if (exBossEffectFireModelResource != NULL)
-            HeapFree(HEAP_USER, exBossEffectFireModelResource);
-        exBossEffectFireModelResource = NULL;
+        if (sExBossEffectFireModelResource != NULL)
+            HeapFree(HEAP_USER, sExBossEffectFireModelResource);
+        sExBossEffectFireModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exBossEffectFireInstanceCount--;
+    sExBossEffectFireInstanceCount--;
 }
 
 void ExBossEffectFire_Main_Init(void)
 {
     exBossEffectFireTask *work = ExTaskGetWorkCurrent(exBossEffectFireTask);
 
-    exBossEffectFireTaskSingleton = GetCurrentTask();
+    sExBossEffectFireTaskSingleton = GetCurrentTask();
 
     LoadExBossEffectFireAssets(&work->aniFire);
     SetExDrawRequestPriority(&work->aniFire.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimStopOnFinish(&work->aniFire.config);
 
-    exBossEffectFireEnabled = TRUE;
+    sExBossEffectFireEnabled = TRUE;
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FIRE_CHARGE);
 
@@ -1423,7 +1423,7 @@ void ExBossEffectFire_Destructor(void)
 
     ReleaseExBossEffectFireAssets(&work->aniFire);
 
-    exBossEffectFireTaskSingleton = NULL;
+    sExBossEffectFireTaskSingleton = NULL;
 }
 
 void ExBossEffectFire_Main_Appear(void)
@@ -1482,7 +1482,7 @@ void ExBossEffectFire_Main_Active(void)
         work->aniFire.model.translation.y = work->parent->aniBoss.model.bossStaffPos.y;
         work->aniFire.model.translation.z = work->parent->aniBoss.model.bossStaffPos.z;
 
-        if (exBossEffectFireEnabled == FALSE)
+        if (sExBossEffectFireEnabled == FALSE)
         {
             ExBossEffectFire_Action_Disappear();
         }
@@ -1552,5 +1552,5 @@ BOOL CreateExBossEffectFire(void)
 
 void DisableExBossEffectFire(void)
 {
-    exBossEffectFireEnabled = FALSE;
+    sExBossEffectFireEnabled = FALSE;
 }

@@ -9,7 +9,7 @@
 // VARIABLES
 // --------------------
 
-static const Vec2Fx16 PopSteam__offsetTable[4] = {
+static const Vec2Fx16 sOffsetTable[4] = {
     { -16, -28 },
     { -16, -28 },
     { -4, -16 },
@@ -83,7 +83,7 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
         work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
         work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
         
-        const Vec2Fx16 *offset = &PopSteam__offsetTable[mapObject->id - MAPOBJECT_84];
+        const Vec2Fx16 *offset = &sOffsetTable[mapObject->id - MAPOBJECT_84];
         work->gameWork.collisionObject.work.width     = 32;
         work->gameWork.collisionObject.work.height    = 32;
         work->gameWork.collisionObject.work.ofst_x    = offset->x;
@@ -324,7 +324,7 @@ _02166454:
 	strh r2, [r7, #0x92]
 	ldrh r3, [r7, #0x90]
 	add r2, r4, #0x300
-	ldr r8, =PopSteam__offsetTable
+	ldr r8, =sOffsetTable
 	strh r3, [r7, #0x50]
 	str r1, [r4, #0x13c]
 	str r4, [r4, #0x2d8]

@@ -46,19 +46,19 @@ struct BouncyMushroomUnknown
 // VARIABLES
 // --------------------
 
-static const Vec2Fx16 collisionOffsetTable[BOUNCYMUSHROOM_TYPE_COUNT] = {
+static const Vec2Fx16 sCollisionOffsetTable[BOUNCYMUSHROOM_TYPE_COUNT] = {
     [BOUNCYMUSHROOM_TYPE_U]  = { -96, -14 },
     [BOUNCYMUSHROOM_TYPE_UL] = { -78, -80 },
     [BOUNCYMUSHROOM_TYPE_UR] = { -72, -80 },
 };
 
-static const Vec2U16 collisionSizeTable[BOUNCYMUSHROOM_TYPE_COUNT] = {
+static const Vec2U16 sCollisionSizeTable[BOUNCYMUSHROOM_TYPE_COUNT] = {
     [BOUNCYMUSHROOM_TYPE_U]  = { 192, 24 },
     [BOUNCYMUSHROOM_TYPE_UL] = { 152, 152 },
     [BOUNCYMUSHROOM_TYPE_UR] = { 152, 152 },
 };
 
-static const HitboxRect hitboxTable[BOUNCYMUSHROOM_TYPE_COUNT][4] ={
+static const HitboxRect sHitboxTable[BOUNCYMUSHROOM_TYPE_COUNT][4] ={
 	[BOUNCYMUSHROOM_TYPE_U] = {
 		{ -108, -24, 108, 0 },
 		{ 0, 0, 0, 0 },
@@ -81,7 +81,7 @@ static const HitboxRect hitboxTable[BOUNCYMUSHROOM_TYPE_COUNT][4] ={
 	},
 };
 
-static const struct BouncyMushroomUnknown puffParticleConfig[BOUNCYMUSHROOM_TYPE_COUNT] =
+static const struct BouncyMushroomUnknown sPuffParticleConfig[BOUNCYMUSHROOM_TYPE_COUNT] =
 {
 	[BOUNCYMUSHROOM_TYPE_U] = {
     	.x = -0x54000,
@@ -130,7 +130,7 @@ static const char *_MATCHING_FIX_02 = "/df/gmk_flipmush_ur.df";
 static const char *_MATCHING_FIX_01 = "/df/gmk_flipmush_ul.df";
 #endif
 
-static const char *bounceMushCollisionList[BOUNCYMUSHROOM_TYPE_COUNT] = {
+static const char *sBounceMushCollisionList[BOUNCYMUSHROOM_TYPE_COUNT] = {
     [BOUNCYMUSHROOM_TYPE_U]  = "/df/gmk_flipmush_u.df",
     [BOUNCYMUSHROOM_TYPE_UL] = "/df/gmk_flipmush_ul.df",
     [BOUNCYMUSHROOM_TYPE_UR] = "/df/gmk_flipmush_ur.df",
@@ -189,12 +189,12 @@ BouncyMushroom *CreateBouncyMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 
             break;
     }
 
-    ObjObjectCollisionDifSet(&work->gameWork.objWork, bounceMushCollisionList[mushroomType], GetObjectDataWork(mushroomType + OBJDATAWORK_173), gameArchiveStage);
+    ObjObjectCollisionDifSet(&work->gameWork.objWork, sBounceMushCollisionList[mushroomType], GetObjectDataWork(mushroomType + OBJDATAWORK_173), gameArchiveStage);
     work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
-    work->gameWork.collisionObject.work.width  = collisionSizeTable[mushroomType].x;
-    work->gameWork.collisionObject.work.height = collisionSizeTable[mushroomType].y;
-    work->gameWork.collisionObject.work.ofst_x = collisionOffsetTable[mushroomType].x;
-    work->gameWork.collisionObject.work.ofst_y = collisionOffsetTable[mushroomType].y;
+    work->gameWork.collisionObject.work.width  = sCollisionSizeTable[mushroomType].x;
+    work->gameWork.collisionObject.work.height = sCollisionSizeTable[mushroomType].y;
+    work->gameWork.collisionObject.work.ofst_x = sCollisionOffsetTable[mushroomType].x;
+    work->gameWork.collisionObject.work.ofst_y = sCollisionOffsetTable[mushroomType].y;
     work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_IGNORE_PARENT_ANGLE;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_flipmush.bac", GetObjectDataWork(OBJDATAWORK_166), gameArchiveStage,
@@ -213,8 +213,8 @@ BouncyMushroom *CreateBouncyMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 
     {
         ObjRect__SetAttackStat(&work->colliders[i], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
         ObjRect__SetDefenceStat(&work->colliders[i], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-        ObjRect__SetBox2D(&work->colliders[i].rect, hitboxTable[mushroomType][i].left, hitboxTable[mushroomType][i].top, hitboxTable[mushroomType][i].right,
-                          hitboxTable[mushroomType][i].bottom);
+        ObjRect__SetBox2D(&work->colliders[i].rect, sHitboxTable[mushroomType][i].left, sHitboxTable[mushroomType][i].top, sHitboxTable[mushroomType][i].right,
+                          sHitboxTable[mushroomType][i].bottom);
         ObjRect__SetGroupFlags(&work->colliders[i], 2, 1);
         work->colliders[i].parent = &work->gameWork.objWork;
         ObjRect__SetOnDefend(&work->colliders[i], BouncyMushroom_OnDefend);
@@ -350,22 +350,22 @@ NONMATCH_FUNC void BouncyMushroom_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *
 
     u32 type = mapObject->id - MAPOBJECT_81;
 
-    fx32 spawnX   = mushroom->gameWork.objWork.position.x + puffParticleConfig[type].x;
-    fx32 spawnY   = mushroom->gameWork.objWork.position.y + puffParticleConfig[type].y;
-    fx32 velX     = puffParticleConfig[type].field_10;
-    fx32 velY     = puffParticleConfig[type].field_14;
-    fx32 field_20 = puffParticleConfig[type].field_20;
-    fx32 field_22 = puffParticleConfig[type].field_22;
+    fx32 spawnX   = mushroom->gameWork.objWork.position.x + sPuffParticleConfig[type].x;
+    fx32 spawnY   = mushroom->gameWork.objWork.position.y + sPuffParticleConfig[type].y;
+    fx32 velX     = sPuffParticleConfig[type].field_10;
+    fx32 velY     = sPuffParticleConfig[type].field_14;
+    fx32 field_20 = sPuffParticleConfig[type].field_20;
+    fx32 field_22 = sPuffParticleConfig[type].field_22;
 
     for (s32 i = 0; i < 5; i++)
     {
         u16 rand = mtMathRand();
         EffectBouncyMushroomPuff__Create(spawnX + FX32_FROM_WHOLE((field_20 & rand) - (field_20 >> 1)), spawnY + FX32_FROM_WHOLE((field_22 & rand) - (field_22 >> 1)), velX, velY);
 
-        spawnX += puffParticleConfig[type].field_8;
-        velX += puffParticleConfig[type].field_18;
-        spawnY += puffParticleConfig[type].field_C;
-        velY += puffParticleConfig[type].field_1C;
+        spawnX += sPuffParticleConfig[type].field_8;
+        velX += sPuffParticleConfig[type].field_18;
+        spawnY += sPuffParticleConfig[type].field_C;
+        velY += sPuffParticleConfig[type].field_1C;
     }
 #else
     // clang-format off
@@ -408,15 +408,15 @@ _021633C4:
 	ldr r1, [r6, #0x340]
 	mov r0, #0x24
 	ldrh r3, [r1, #2]
-	ldr r2, =puffParticleConfig
-	ldr r1, =puffParticleConfig+4
+	ldr r2, =sPuffParticleConfig
+	ldr r1, =sPuffParticleConfig+4
 	sub r3, r3, #0x51
 	mul r5, r3, r0
-	ldr r7, =puffParticleConfig+0x20
-	ldr r8, =puffParticleConfig+0x22
-	ldr r11, =puffParticleConfig+0x10
+	ldr r7, =sPuffParticleConfig+0x20
+	ldr r8, =sPuffParticleConfig+0x22
+	ldr r11, =sPuffParticleConfig+0x10
 	ldrh r9, [r7, r5]
-	ldr r10, =puffParticleConfig+0x14
+	ldr r10, =sPuffParticleConfig+0x14
 	add r0, r2, r5
 	ldr r3, [r2, r5]
 	ldr r7, [r11, r5]

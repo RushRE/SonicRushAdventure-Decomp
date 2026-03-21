@@ -25,11 +25,11 @@ typedef struct ObjDrawPaletteRow_
 // VARIABLES
 // --------------------
 
-static struct ObjDrawManager objDrawManager;
-static ObjDrawPaletteRow objDrawPaletteRow[32];
+static struct ObjDrawManager sObjDrawManager;
+static ObjDrawPaletteRow gObjDrawPaletteRow[32];
 
-GXRgb objDrawPalette1[0x100];
-GXRgb objDrawPalette2[0x100];
+GXRgb gObjDrawPalette1[0x100];
+GXRgb gObjDrawPalette2[0x100];
 
 // --------------------
 // FUNCTIONS
@@ -37,35 +37,35 @@ GXRgb objDrawPalette2[0x100];
 
 void ObjDrawInit(void)
 {
-    objDrawManager.managedRowStart = 0;
-    objDrawManager.managedRowEnd   = 15;
+    sObjDrawManager.managedRowStart = 0;
+    sObjDrawManager.managedRowEnd   = 15;
 
-    MI_CpuClear8(objDrawPalette2, sizeof(objDrawPalette2));
-    MI_CpuClear8(objDrawPalette1, sizeof(objDrawPalette1));
+    MI_CpuClear8(gObjDrawPalette2, sizeof(gObjDrawPalette2));
+    MI_CpuClear8(gObjDrawPalette1, sizeof(gObjDrawPalette1));
 
     ObjDrawInitRows();
 }
 
 void ObjDrawInitRows(void)
 {
-    MI_CpuClear8(objDrawPaletteRow, sizeof(objDrawPaletteRow));
+    MI_CpuClear8(gObjDrawPaletteRow, sizeof(gObjDrawPaletteRow));
 }
 
 void ObjDrawSetManagedRows(u8 managedRowStart, u8 managedRowEnd)
 {
-    objDrawManager.managedRowStart = managedRowStart;
-    objDrawManager.managedRowEnd   = managedRowEnd;
+    sObjDrawManager.managedRowStart = managedRowStart;
+    sObjDrawManager.managedRowEnd   = managedRowEnd;
 }
 
 void ObjDrawReleaseSpritePalette(u8 row)
 {
-    if ((row & 0xF) >= objDrawManager.managedRowStart && (row & 0xF) < objDrawManager.managedRowEnd)
+    if ((row & 0xF) >= sObjDrawManager.managedRowStart && (row & 0xF) < sObjDrawManager.managedRowEnd)
     {
-        if (objDrawPaletteRow[row].refCount != 0)
-            objDrawPaletteRow[row].refCount--;
+        if (gObjDrawPaletteRow[row].refCount != 0)
+            gObjDrawPaletteRow[row].refCount--;
 
-        if (objDrawPaletteRow[row].refCount == 0)
-            objDrawPaletteRow[row].flags = 0;
+        if (gObjDrawPaletteRow[row].refCount == 0)
+            gObjDrawPaletteRow[row].flags = 0;
     }
 }
 
@@ -73,29 +73,29 @@ u8 ObjDrawReleaseSprite(u8 id)
 {
     if (id >= OBJDRAW_SPRITE_FLAG_USE_ENGINE_B)
     {
-        for (s8 r = objDrawManager.managedRowStart + 16; r < objDrawManager.managedRowEnd + 16; r++)
+        for (s8 r = sObjDrawManager.managedRowStart + 16; r < sObjDrawManager.managedRowEnd + 16; r++)
         {
-            if (id == objDrawPaletteRow[r].flags)
+            if (id == gObjDrawPaletteRow[r].flags)
             {
-                if (objDrawPaletteRow[r].refCount != 0)
-                    objDrawPaletteRow[r].refCount--;
+                if (gObjDrawPaletteRow[r].refCount != 0)
+                    gObjDrawPaletteRow[r].refCount--;
 
-                if (objDrawPaletteRow[r].refCount == 0)
-                    objDrawPaletteRow[r].flags = 0;
+                if (gObjDrawPaletteRow[r].refCount == 0)
+                    gObjDrawPaletteRow[r].flags = 0;
             }
         }
     }
     else
     {
-        for (s8 r = objDrawManager.managedRowStart; r < objDrawManager.managedRowEnd; r++)
+        for (s8 r = sObjDrawManager.managedRowStart; r < sObjDrawManager.managedRowEnd; r++)
         {
-            if (id == objDrawPaletteRow[r].flags)
+            if (id == gObjDrawPaletteRow[r].flags)
             {
-                if (objDrawPaletteRow[r].refCount != 0)
-                    objDrawPaletteRow[r].refCount--;
+                if (gObjDrawPaletteRow[r].refCount != 0)
+                    gObjDrawPaletteRow[r].refCount--;
 
-                if (objDrawPaletteRow[r].refCount == 0)
-                    objDrawPaletteRow[r].flags = 0;
+                if (gObjDrawPaletteRow[r].refCount == 0)
+                    gObjDrawPaletteRow[r].flags = 0;
             }
         }
     }
@@ -105,8 +105,8 @@ u8 ObjDrawReleaseSprite(u8 id)
 
 u8 ObjDrawAllocSpritePalette(void *fileData, u16 animID, s16 flags)
 {
-    s8 managedRowStart = objDrawManager.managedRowStart;
-    s8 managedRowEnd   = objDrawManager.managedRowEnd;
+    s8 managedRowStart = sObjDrawManager.managedRowStart;
+    s8 managedRowEnd   = sObjDrawManager.managedRowEnd;
     if ((flags & (OBJDRAW_SPRITE_FLAG_USE_ENGINE_B | OBJDRAW_SPRITE_FLAG_USE_ENGINE_A)) != 0 && (flags & OBJDRAW_SPRITE_FLAG_USE_ENGINE_B) != 0)
     {
         managedRowStart += 16;
@@ -118,9 +118,9 @@ u8 ObjDrawAllocSpritePalette(void *fileData, u16 animID, s16 flags)
 		// check if id has already been allocated and return that row if so
         for (s8 i = managedRowStart; i < managedRowEnd; i++)
         {
-            if (objDrawPaletteRow[i].flags == flags)
+            if (gObjDrawPaletteRow[i].flags == flags)
             {
-                objDrawPaletteRow[i].refCount++;
+                gObjDrawPaletteRow[i].refCount++;
                 return i & 0xF;
             }
         }
@@ -130,9 +130,9 @@ u8 ObjDrawAllocSpritePalette(void *fileData, u16 animID, s16 flags)
     s8 r = managedRowStart;
     for (; r < managedRowEnd; r++)
     {
-        if (objDrawPaletteRow[r].refCount == 0)
+        if (gObjDrawPaletteRow[r].refCount == 0)
         {
-            objDrawPaletteRow[r].refCount++;
+            gObjDrawPaletteRow[r].refCount++;
             break;
         }
     }
@@ -145,7 +145,7 @@ u8 ObjDrawAllocSpritePalette(void *fileData, u16 animID, s16 flags)
     else
     {
 		// initialize palette row!
-        objDrawPaletteRow[r].flags = flags;
+        gObjDrawPaletteRow[r].flags = flags;
 
         if ((flags & (OBJDRAW_SPRITE_FLAG_USE_ENGINE_B | OBJDRAW_SPRITE_FLAG_USE_ENGINE_A)) != 0)
         {
@@ -188,11 +188,11 @@ void ObjDraw__TintSprite(void *fileData, u16 animID, u8 row, BOOL useEngineB)
     row &= 0xF;
     s32 c = row * 16;
 
-    MI_CpuCopy8(&((GXRgb *)animator.vramPalette)[16 * animator.cParam.palette], &objDrawPalette2[c], 0x10 * sizeof(GXRgb));
+    MI_CpuCopy8(&((GXRgb *)animator.vramPalette)[16 * animator.cParam.palette], &gObjDrawPalette2[c], 0x10 * sizeof(GXRgb));
 
     for (; c < ((row + 1) * 16); c++)
     {
-        objDrawPalette1[c] = ObjDraw__TintColor(objDrawPalette2[c], -10, -1, 0);
+        gObjDrawPalette1[c] = ObjDraw__TintColor(gObjDrawPalette2[c], -10, -1, 0);
     }
 }
 
@@ -258,8 +258,8 @@ NONMATCH_FUNC void ObjDraw__TintPaletteColors(u32 row, u32 start, u32 end, s16 i
     // https://decomp.me/scratch/kL4Iw -> 83.56%
 #ifdef NON_MATCHING
     u32 palettePos     = 16 * row;
-    GXRgb *palettePtr2 = &objDrawPalette1[palettePos];
-    GXRgb *palettePtr1 = &objDrawPalette2[palettePos];
+    GXRgb *palettePtr2 = &gObjDrawPalette1[palettePos];
+    GXRgb *palettePtr1 = &gObjDrawPalette2[palettePos];
 
     for (u32 c = start; c <= end; c++)
     {
@@ -276,8 +276,8 @@ NONMATCH_FUNC void ObjDraw__TintPaletteColors(u32 row, u32 start, u32 end, s16 i
 	str r0, [sp]
 	mov r0, r0
 	mov r11, r0, lsl #4
-	ldr r4, =objDrawPalette2
-	ldr r0, =objDrawPalette1
+	ldr r4, =gObjDrawPalette2
+	ldr r0, =gObjDrawPalette1
 	add r5, r4, r11, lsl #1
 	mov r10, r1
 	mov r9, r2
@@ -407,8 +407,8 @@ void ObjDraw__PaletteTex__Process(PaletteTexture *paletteTex, s16 iR, s16 iG, s1
 
 u8 ObjDrawGetRowForID(u8 id)
 {
-    u16 managedRowStart = objDrawManager.managedRowStart;
-    u16 managedRowEnd   = objDrawManager.managedRowEnd;
+    u16 managedRowStart = sObjDrawManager.managedRowStart;
+    u16 managedRowEnd   = sObjDrawManager.managedRowEnd;
     if ((id & OBJDRAW_SPRITE_FLAG_USE_ENGINE_B) != 0)
     {
         managedRowStart += 16;
@@ -417,7 +417,7 @@ u8 ObjDrawGetRowForID(u8 id)
 
     for (s16 i = managedRowStart; i < managedRowEnd; i++)
     {
-        if (id == objDrawPaletteRow[i].flags)
+        if (id == gObjDrawPaletteRow[i].flags)
         {
             return i & 0xF;
         }
@@ -430,8 +430,8 @@ NONMATCH_FUNC GXRgb *ObjDrawGetPaletteForID(u8 id)
 {
     // https://decomp.me/scratch/92sZN -> 58.93%
 #ifdef NON_MATCHING
-    u16 managedRowStart = objDrawManager.managedRowStart;
-    u16 managedRowEnd   = objDrawManager.managedRowEnd;
+    u16 managedRowStart = sObjDrawManager.managedRowStart;
+    u16 managedRowEnd   = sObjDrawManager.managedRowEnd;
     if ((id & OBJDRAW_SPRITE_FLAG_USE_ENGINE_B) != 0)
     {
         managedRowStart += 16;
@@ -441,7 +441,7 @@ NONMATCH_FUNC GXRgb *ObjDrawGetPaletteForID(u8 id)
     s16 i = managedRowStart;
     for (; i < managedRowEnd; i++)
     {
-        if (id == objDrawPaletteRow[i].flags)
+        if (id == gObjDrawPaletteRow[i].flags)
         {
             break;
         }
@@ -461,7 +461,7 @@ NONMATCH_FUNC GXRgb *ObjDrawGetPaletteForID(u8 id)
     }
 #else
     // clang-format off
-	ldr r1, =objDrawManager
+	ldr r1, =sObjDrawManager
 	tst r0, #0x800
 	ldrsb r3, [r1, #0]
 	ldrsb ip, [r1, #1]
@@ -477,7 +477,7 @@ _02075730:
 	cmp ip, r1, asr #16
 	mov r3, r1, asr #0x10
 	ble _02075768
-	ldr r2, =objDrawPaletteRow
+	ldr r2, =gObjDrawPaletteRow
 _02075744:
 	mov r1, r3, lsl #2
 	ldrsh r1, [r2, r1]

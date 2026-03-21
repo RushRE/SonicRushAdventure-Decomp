@@ -28,7 +28,7 @@ enum CrabAnimID
 // VARIABLES
 // --------------------
 
-static const char *spriteList[] = { "/act/ac_ene_crab.bac" };
+static const char *sSpriteList[] = { "/act/ac_ene_crab.bac" };
 
 // --------------------
 // FUNCTION DECLS
@@ -67,7 +67,7 @@ EnemyCrab *CreateCrab(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->xMax        = work->xMin + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_xRange);
     work->maxDistance = FX32_FROM_WHOLE(work->gameWork.mapObjectParam_maxDistance);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[0], GetObjectDataWork(OBJDATAWORK_10), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[0], GetObjectDataWork(OBJDATAWORK_10), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, CRAB_ANI_MOVING, 43);

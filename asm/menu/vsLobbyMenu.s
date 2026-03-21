@@ -38,7 +38,7 @@ VSLobbyMenu__Create: // 0x02163B54
 	mov r1, #0
 	ldr r0, [r0, #8]
 	str r1, [r0, #4]
-	bl GetSysEventList
+	bl GetSysEventManager
 	mov r1, #0xe
 	ldrsh r0, [r0, r1]
 	cmp r0, #0x10

@@ -304,7 +304,7 @@ VSStageClear__LoadAssets: // 0x0215AC10
 	push {r4, lr}
 	sub sp, #0x28
 	mov r4, r0
-	ldr r0, _0215AD78 // =playerWork
+	ldr r0, _0215AD78 // =gPlayerModelFile
 	mov r2, #0
 	ldr r1, [r0, #0]
 	mov r3, r2
@@ -312,7 +312,7 @@ VSStageClear__LoadAssets: // 0x0215AC10
 	ldr r0, [r0, #8]
 	sub r1, r2, #1
 	str r0, [r4, #4]
-	ldr r0, _0215AD7C // =animationWork
+	ldr r0, _0215AD7C // =gPlayerMainAnimationFile
 	ldr r0, [r0, #0]
 	str r0, [r4, #8]
 	ldr r0, _0215AD80 // =aNarcCldmVsNarc
@@ -481,8 +481,8 @@ _0215AD56:
 	add sp, #0x28
 	pop {r4, pc}
 	nop
-_0215AD78: .word playerWork
-_0215AD7C: .word animationWork
+_0215AD78: .word gPlayerModelFile
+_0215AD7C: .word gPlayerMainAnimationFile
 _0215AD80: .word aNarcCldmVsNarc
 _0215AD84: .word aCldmVsBac
 _0215AD88: .word aCldmVsCmnBac

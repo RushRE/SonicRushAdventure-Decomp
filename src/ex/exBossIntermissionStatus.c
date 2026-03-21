@@ -5,7 +5,7 @@
 // VARIABLES
 // --------------------
 
-static BOOL ExBoss_isBossFleeing;
+static BOOL sIsBossFleeing;
 
 // --------------------
 // FUNCTION DECLS
@@ -17,10 +17,10 @@ static BOOL ExBoss_isBossFleeing;
 
 BOOL ExBoss_IsBossFleeing(void)
 {
-    return ExBoss_isBossFleeing;
+    return sIsBossFleeing;
 }
 
 void ExBoss_SetBossFleeing(BOOL isFleeing)
 {
-    ExBoss_isBossFleeing = isFleeing;
+    sIsBossFleeing = isFleeing;
 }

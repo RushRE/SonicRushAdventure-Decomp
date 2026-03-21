@@ -44,10 +44,10 @@ enum PlayerSnowboardAnim
 // VARIABLES
 // --------------------
 
-static void *playerSnowboardWork;
-static Task *playerSnowboardTask;
+static PlayerSnowboard *sPlayerSnowboardSingleton;
+static Task *sPlayerSnowboardTaskSingleton;
 
-static u16 const animForAction[CHARACTER_COUNT][PLAYERSNOWBOARD_ACTION_COUNT] = {
+static u16 const sAnimForAction[CHARACTER_COUNT][PLAYERSNOWBOARD_ACTION_COUNT] = {
     [CHARACTER_SONIC] = {
         PLAYERSNOWBOARD_ANI_bd_com_fw,          // PLAYERSNOWBOARD_ACTION_START
         PLAYERSNOWBOARD_ANI_bd_com_walk,        // PLAYERSNOWBOARD_ACTION_1
@@ -130,15 +130,15 @@ PlayerSnowboard *SpawnLostPlayerSnowboard(fx32 type)
 
 void DestroyPlayerSnowboard(void)
 {
-    if (playerSnowboardTask != NULL)
+    if (sPlayerSnowboardTaskSingleton != NULL)
     {
-        PlayerSnowboard *work = TaskGetWork(playerSnowboardTask, PlayerSnowboard);
+        PlayerSnowboard *work = TaskGetWork(sPlayerSnowboardTaskSingleton, PlayerSnowboard);
 
         DestroyStageTask(&work->gameWork.objWork);
         NNS_G3dResDefaultRelease(work->gameWork.objWork.obj_3d->file[0]->fileData);
 
-        playerSnowboardTask = NULL;
-        playerSnowboardWork = NULL;
+        sPlayerSnowboardTaskSingleton = NULL;
+        sPlayerSnowboardSingleton = NULL;
     }
 }
 
@@ -146,14 +146,14 @@ void ChangePlayerSnowboardAction(Player *player, PlayerSnowboardAction action)
 {
     if (CheckIsPlayer1(player))
     {
-        PlayerSnowboard *work = playerSnowboardWork;
+        PlayerSnowboard *work = sPlayerSnowboardSingleton;
 
         if (work != NULL)
         {
             work->gameWork.objWork.obj_3d->ani.animFlags[B3D_ANIM_JOINT_ANIM] |= 4;
 
             AnimatorMDL__SetAnimation(&work->gameWork.objWork.obj_3d->ani, B3D_ANIM_JOINT_ANIM, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_JOINT_ANIM],
-                                      animForAction[((Player *)(work->gameWork.parent))->characterID][action], NULL);
+                                      sAnimForAction[((Player *)(work->gameWork.parent))->characterID][action], NULL);
 
             Player *parent = (Player *)work->gameWork.parent;
             if (parent != NULL)
@@ -185,11 +185,11 @@ static u16 const initialAnimList[CHARACTER_COUNT][2] = {
     if (task == HeapNull)
         return NULL;
 
-    playerSnowboardTask = task;
+    sPlayerSnowboardTaskSingleton = task;
 
     PlayerSnowboard *work = TaskGetWork(task, PlayerSnowboard);
     TaskInitWork8(work);
-    playerSnowboardWork = work;
+    sPlayerSnowboardSingleton = work;
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
@@ -217,7 +217,7 @@ static u16 const initialAnimList[CHARACTER_COUNT][2] = {
 
 void LosePlayerSnowboard(Player *player, fx32 velX)
 {
-    PlayerSnowboard *work = playerSnowboardWork;
+    PlayerSnowboard *work = sPlayerSnowboardSingleton;
     if (work != NULL)
     {
         ChangePlayerSnowboardAction(player, PLAYERSNOWBOARD_ACTION_WALK);
@@ -260,11 +260,11 @@ void PlayerSnowboard_Destructor(Task *task)
 {
     PlayerSnowboard *work = TaskGetWork(task, PlayerSnowboard);
 
-    if (playerSnowboardTask == task)
+    if (sPlayerSnowboardTaskSingleton == task)
     {
         NNS_G3dResDefaultRelease(work->gameWork.objWork.obj_3d->file[0]->fileData);
-        playerSnowboardWork = NULL;
-        playerSnowboardTask = NULL;
+        sPlayerSnowboardSingleton = NULL;
+        sPlayerSnowboardTaskSingleton = NULL;
     }
 
     GameObject__Destructor(task);

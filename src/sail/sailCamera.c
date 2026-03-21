@@ -195,7 +195,7 @@ void SailCamera_Main(void)
     BossArena__SetTracker1TargetPos(camera3D, tracker1.x, tracker1.y, tracker1.z);
     BossArena__SetTracker0TargetPos(camera3D, tracker0.x, tracker0.y, tracker0.z);
 
-    BossArena__SetNextPos(camera3D, GetScreenShakeOffsetX() >> shipShiftUnknown[shipType], GetScreenShakeOffsetY() >> shipShiftUnknown[shipType], 0);
+    BossArena__SetNextPos(camera3D, GetScreenShakeOffsetX() >> gShipShiftUnknown[shipType], GetScreenShakeOffsetY() >> gShipShiftUnknown[shipType], 0);
 
     if ((manager->flags & SAILMANAGER_FLAG_1) == 0)
     {

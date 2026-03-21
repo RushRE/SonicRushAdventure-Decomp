@@ -4,8 +4,8 @@
 // VARIABLES
 // --------------------
 
-static MicInputFlags inputFlags;
-MicInputState micInput;
+static MicInputFlags sInputFlags;
+MicInputState gMicInput;
 
 // --------------------
 // INLINE FUNCTIONS
@@ -26,14 +26,14 @@ RUSH_INLINE void TryInitPrevSamplingAddr(MicInputState *state)
 void InitMicInputSystem(void)
 {
     MIC_Init();
-    MI_CpuClear16(&micInput, sizeof(micInput));
+    MI_CpuClear16(&gMicInput, sizeof(gMicInput));
 }
 
 void UpdateMicInput(void)
 {
-    MicInputState *state = &micInput;
+    MicInputState *state = &gMicInput;
 
-    if ((inputFlags & MIC_INPUT_FLAG_ENABLED) != 0)
+    if ((sInputFlags & MIC_INPUT_FLAG_ENABLED) != 0)
     {
         state->prevSamplingAddr = state->samplingAddress;
         state->samplingAddress  = MIC_GetLastSamplingAddress();
@@ -81,5 +81,5 @@ void UpdateMicInput(void)
 
 BOOL IsMicInputEnabled(void)
 {
-    return (inputFlags & MIC_INPUT_FLAG_ENABLED) != 0;
+    return (sInputFlags & MIC_INPUT_FLAG_ENABLED) != 0;
 }

@@ -28,9 +28,9 @@ typedef struct TitleCardAnimConfig_
 // VARIABLES
 // --------------------
 
-static void *commonSprites;
-static void *archiveStage;
-static Task *titleCardTask;
+static void *sSprCommonSprites;
+static void *sArchiveStage;
+static Task *sTitleCardTaskSingleton;
 
 NOT_DECOMPILED TitleCardAnimConfig _0210DFA0[4];
 NOT_DECOMPILED TitleCardAnimConfig _0210DFB0[7];
@@ -48,13 +48,13 @@ void TitleCard__LoadCommonArchive(NNSiFndArchiveHeader *archive)
     NNSFndArchive arc;
 
     NNS_FndMountArchive(&arc, "sdm", archive);
-    commonSprites = NNS_FndGetArchiveFileByName("sdm:/stdm_com.bac");
+    sSprCommonSprites = NNS_FndGetArchiveFileByName("sdm:/stdm_com.bac");
     NNS_FndUnmountArchive(&arc);
 }
 
 void TitleCard__ReleaseCommonArchive(void)
 {
-    commonSprites = NULL;
+    sSprCommonSprites = NULL;
 }
 
 void TitleCard__LoadStageArchive(NNSiFndArchiveHeader *archive)
@@ -63,17 +63,17 @@ void TitleCard__LoadStageArchive(NNSiFndArchiveHeader *archive)
 
     NNS_FndMountArchive(&arc, "sdm", archive);
     void *filePtr = NNS_FndGetArchiveFileByIndex(&arc, ARC_MAP_FILE_TITLECARD_STAGE);
-    archiveStage  = HeapAllocHead(HEAP_USER, MI_GetUncompressedSize(filePtr));
-    RenderCore_CPUCopyCompressed(filePtr, archiveStage);
+    sArchiveStage  = HeapAllocHead(HEAP_USER, MI_GetUncompressedSize(filePtr));
+    RenderCore_CPUCopyCompressed(filePtr, sArchiveStage);
     NNS_FndUnmountArchive(&arc);
 }
 
 void TitleCard__ReleaseStageArchive(void)
 {
-    if (archiveStage != NULL)
+    if (sArchiveStage != NULL)
     {
-        HeapFree(HEAP_USER, archiveStage);
-        archiveStage = NULL;
+        HeapFree(HEAP_USER, sArchiveStage);
+        sArchiveStage = NULL;
     }
 }
 
@@ -81,7 +81,7 @@ void TitleCard__ReleaseStageArchive(void)
 void TitleCard__Create(void)
 {
     Task *task    = TaskCreate(TitleCard__Main, TitleCard__Destructor, TASK_FLAG_NONE, 2, TASK_PRIORITY_UPDATE_LIST_START + 0x109E, TASK_GROUP(3), TitleCard);
-    titleCardTask = task;
+    sTitleCardTaskSingleton = task;
 
     TitleCard *work = TaskGetWork(task, TitleCard);
     TaskInitWork16(work);
@@ -123,7 +123,7 @@ void TitleCard__Create(void)
 
 TitleCardProgress TitleCard__GetProgress(void)
 {
-    if (titleCardTask != NULL)
+    if (sTitleCardTaskSingleton != NULL)
         return TitleCard__GetWork()->progress;
     else
         return TITLECARD_PROGRESS_INITIAL;
@@ -143,15 +143,15 @@ void TitleCard__SetFinished(void)
 
 TitleCard *TitleCard__GetWork(void)
 {
-    return TaskGetWork(titleCardTask, TitleCard);
+    return TaskGetWork(sTitleCardTaskSingleton, TitleCard);
 }
 
 void TitleCard__LoadSprites(TitleCard *work)
 {
-    work->commonSprites = commonSprites;
+    work->commonSprites = sSprCommonSprites;
 
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "sde", archiveStage);
+    NNS_FndMountArchive(&arc, "sde", sArchiveStage);
     work->zoneSprites = NNS_FndGetArchiveFileByIndex(&arc, ARC_STDM_FILE_STAGE_SPRITES);
     NNS_FndUnmountArchive(&arc);
 }
@@ -713,7 +713,7 @@ void TitleCard__Destructor(Task *task)
     TitleCard__DestroyAnimators(work);
     TitleCard__DestroyReadyGoAnimators(work);
 
-    titleCardTask = NULL;
+    sTitleCardTaskSingleton = NULL;
 }
 
 void TitleCard__Draw(TitleCard *work)

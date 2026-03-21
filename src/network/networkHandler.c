@@ -38,24 +38,24 @@ struct TEMP_DWCFriendsMatchControl
 // VARIABLES
 // --------------------
 
-static u16 roomMaxPlayerCount;
-static DWCAllocFunc memAlloc;
-static Task *connectionManagerTask;
-static DWCFreeFunc memFree;
-static DWCAllocFunc unknownAlloc;
-static Task *dataTransferManagerTask;
-static Task *matchManagerTask;
-static Task *iNetManagerTask;
-static Task *leaderboardsManagerTask;
-static Task *ndManagerTask;
-static Task *storageManagerTask;
-static DWCFreeFunc unknownFree;
+static u16 sRoomMaxPlayerCount;
+static DWCAllocFunc sMemAlloc;
+static Task *sConnectionManagerTask;
+static DWCFreeFunc sMemFree;
+static DWCAllocFunc sUnknownAlloc;
+static Task *sDataTransferManagerTask;
+static Task *sMatchManagerTask;
+static Task *sINetManagerTask;
+static Task *sLeaderboardsManagerTask;
+static Task *sNdManagerTask;
+static Task *sStorageManagerTask;
+static DWCFreeFunc sUnknownFree;
 
-static DWCInetControl dwcINetControl;
+static DWCInetControl sDwcINetControl;
 
 // TODO: uncomment proper struct when it is matched
-// static DWCFriendsMatchControl dwcFriendsMatchControl;
-static struct TEMP_DWCFriendsMatchControl dwcFriendsMatchControl;
+// static DWCFriendsMatchControl sDwcFriendsMatchControl;
+static struct TEMP_DWCFriendsMatchControl sDwcFriendsMatchControl;
 
 // --------------------
 // FUNCTION DECLS
@@ -94,7 +94,7 @@ static void ConnectionManager_Main(void);
 static void ConnectionManager_Destructor(Task *task);
 static void ConnectionMatchedCallback(DWCError error, BOOL cancel, void *param);
 static void ConnectionClosedCallback(DWCError error, BOOL isLocal, BOOL isServer, u8 aid, int index, void *param);
-static void PrepareMatchMakingConnection(u8 roomMaxPlayerCount, u8 roomMinPlayerCount);
+static void PrepareMatchMakingConnection(u8 sRoomMaxPlayerCount, u8 roomMinPlayerCount);
 static void ConnectionManager_State_Connecting(ConnectionManager *work);
 static void ConnectionManager_State_Connected(ConnectionManager *work);
 static void ConnectionManager_State_ConnectionCancelled(ConnectionManager *work);
@@ -149,10 +149,10 @@ s32 InitNetwork(s32 mode)
     DWCAllocFunc allocFunc = allocFuncTable[mode];
     DWCFreeFunc freeFunc   = freeFuncTable[mode];
 
-    memAlloc     = allocFunc;
-    memFree      = freeFunc;
-    unknownAlloc = allocFunc;
-    unknownFree  = freeFunc;
+    sMemAlloc     = allocFunc;
+    sMemFree      = freeFunc;
+    sUnknownAlloc = allocFunc;
+    sUnknownFree  = freeFunc;
 
     void *dwcWork = HeapAllocHead(HEAP_SYSTEM, DWC_INIT_WORK_SIZE);
     s32 status    = DWC_Init(dwcWork);
@@ -166,7 +166,7 @@ void CreateINetManager(void)
 {
     Task *task      = TaskCreate(INetManager_Main, INetManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
                                  TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, INetManager);
-    iNetManagerTask = task;
+    sINetManagerTask = task;
 
     INetManager *work = TaskGetWork(task, INetManager);
     TaskInitWork16(work);
@@ -174,7 +174,7 @@ void CreateINetManager(void)
     work->state  = INetManager_State_Init;
     work->status = INETMANAGER_STATUS_IDLE;
 
-    DWC_InitInetEx(&dwcINetControl, 2, 1, 20);
+    DWC_InitInetEx(&sDwcINetControl, 2, 1, 20);
     DWC_SetAuthServer(DWC_CONNECTINET_AUTH_RELEASE);
     DWC_ConnectInetAsync();
 }
@@ -202,19 +202,19 @@ void DestroyINetManager(BOOL noCleanup)
             break;
     }
 
-    if (iNetManagerTask == NULL)
+    if (sINetManagerTask == NULL)
         return;
 
-    SetTaskFlags(iNetManagerTask, TASK_FLAG_NONE);
-    DestroyTask(iNetManagerTask);
+    SetTaskFlags(sINetManagerTask, TASK_FLAG_NONE);
+    DestroyTask(sINetManagerTask);
 }
 
 INetManagerStatus GetINetManagerStatus(void)
 {
-    if (iNetManagerTask == NULL)
+    if (sINetManagerTask == NULL)
         return INETMANAGER_STATUS_INACTIVE;
 
-    INetManager *work = TaskGetWork(iNetManagerTask, INetManager);
+    INetManager *work = TaskGetWork(sINetManagerTask, INetManager);
     return work->status;
 }
 
@@ -222,7 +222,7 @@ void CreateMatchManager(DWCUserData *userData, DWCAccFriendData *friendList, u16
 {
     Task *task       = TaskCreate(MatchManager_Main, MatchManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
                                   TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, MatchManager);
-    matchManagerTask = task;
+    sMatchManagerTask = task;
 
     MatchManager *work = TaskGetWork(task, MatchManager);
     TaskInitWork16(work);
@@ -233,7 +233,7 @@ void CreateMatchManager(DWCUserData *userData, DWCAccFriendData *friendList, u16
     work->friendCount = friendCount;
     work->status      = MATCHMANAGER_STATUS_IDLE;
 
-    DWC_InitFriendsMatch(&dwcFriendsMatchControl.control, work->userData, RUSH_DWC_PRODUCTID, RUSH_DWC_GAME_NAME, RUSH_DWC_SECRET_KEY, MATCHHANDLER_BUFFER_SIZE,
+    DWC_InitFriendsMatch(&sDwcFriendsMatchControl.control, work->userData, RUSH_DWC_PRODUCTID, RUSH_DWC_GAME_NAME, RUSH_DWC_SECRET_KEY, MATCHHANDLER_BUFFER_SIZE,
                          MATCHHANDLER_BUFFER_SIZE, work->friendList, work->friendCount);
 
     if (!DWC_LoginAsync(name, NULL, MatchLoginCallback, work))
@@ -246,20 +246,20 @@ void CreateMatchManager(DWCUserData *userData, DWCAccFriendData *friendList, u16
 void DestroyMatchManager(void)
 {
     DWC_ShutdownFriendsMatch();
-    if (matchManagerTask == NULL)
+    if (sMatchManagerTask == NULL)
         return;
 
     DWC_CloseConnectionsAsync();
 
     OSIntrMode enabled = OS_DisableInterrupts();
-    SetTaskFlags(matchManagerTask, 0);
-    DestroyTask(matchManagerTask);
+    SetTaskFlags(sMatchManagerTask, 0);
+    DestroyTask(sMatchManagerTask);
     OS_RestoreInterrupts(enabled);
 }
 
 void SetMatchFriendDeleteCallback(DWCDeleteFriendListCallback onFriendDeleted, void *param)
 {
-    if (matchManagerTask == NULL)
+    if (sMatchManagerTask == NULL)
         return;
 
     GetMatchManagerWork()->onFriendDeleted      = onFriendDeleted;
@@ -268,7 +268,7 @@ void SetMatchFriendDeleteCallback(DWCDeleteFriendListCallback onFriendDeleted, v
 
 MatchManagerStatus GetMatchManagerStatus(void)
 {
-    if (matchManagerTask == NULL)
+    if (sMatchManagerTask == NULL)
         return MATCHMANAGER_STATUS_INACTIVE;
 
     MatchManager *work = GetMatchManagerWork();
@@ -277,12 +277,12 @@ MatchManagerStatus GetMatchManagerStatus(void)
 
 void CreateConnectionManagerForAnybody(u8 maxPlayerCount, u8 minPlayerCount, u32 bufferSize, const char *addFilter, DWCEvalPlayerCallback evalPlayerCallback, void *evalParam)
 {
-    roomMaxPlayerCount = maxPlayerCount;
+    sRoomMaxPlayerCount = maxPlayerCount;
     InitMatchBuffers(GetMatchManagerWork(), bufferSize + sizeof(struct DataTransferBufferHeader), maxPlayerCount);
 
     Task *task            = TaskCreate(ConnectionManager_Main, ConnectionManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
                                        TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, ConnectionManager);
-    connectionManagerTask = task;
+    sConnectionManagerTask = task;
 
     ConnectionManager *work = TaskGetWork(task, ConnectionManager);
     TaskInitWork16(work);
@@ -297,12 +297,12 @@ void CreateConnectionManagerForAnybody(u8 maxPlayerCount, u8 minPlayerCount, u32
 
 void CreateConnectionManagerForFriends(u8 maxPlayerCount, u8 minPlayerCount, u32 bufferSize, DWCEvalPlayerCallback evalPlayerCallback, void *evalParam)
 {
-    roomMaxPlayerCount = maxPlayerCount;
+    sRoomMaxPlayerCount = maxPlayerCount;
     InitMatchBuffers(GetMatchManagerWork(), bufferSize + sizeof(struct DataTransferBufferHeader), maxPlayerCount);
 
     Task *task            = TaskCreate(ConnectionManager_Main, ConnectionManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
                                        TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, ConnectionManager);
-    connectionManagerTask = task;
+    sConnectionManagerTask = task;
 
     ConnectionManager *work = TaskGetWork(task, ConnectionManager);
     TaskInitWork16(work);
@@ -317,19 +317,19 @@ void CreateConnectionManagerForFriends(u8 maxPlayerCount, u8 minPlayerCount, u32
 
 void DestroyConnectionManager(void)
 {
-    if (connectionManagerTask == NULL)
+    if (sConnectionManagerTask == NULL)
         return;
 
-    SetTaskFlags(connectionManagerTask, 0);
-    DestroyTask(connectionManagerTask);
+    SetTaskFlags(sConnectionManagerTask, 0);
+    DestroyTask(sConnectionManagerTask);
 }
 
 ConnectionManagerStatus GetConnectionManagerStatus(void)
 {
-    if (connectionManagerTask == NULL)
+    if (sConnectionManagerTask == NULL)
         return CONNECTIONMANAGER_STATUS_INACTIVE;
 
-    ConnectionManager *work = TaskGetWork(connectionManagerTask, ConnectionManager);
+    ConnectionManager *work = TaskGetWork(sConnectionManagerTask, ConnectionManager);
     return work->status;
 }
 
@@ -340,7 +340,7 @@ void CreateDataTransferManager(void)
 
     Task *task = TaskCreate(DataTransferManager_Main, DataTransferManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
                             TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, DataTransferManager);
-    dataTransferManagerTask = task;
+    sDataTransferManagerTask = task;
 
     DataTransferManager *work = TaskGetWork(task, DataTransferManager);
     TaskInitWork16(work);
@@ -350,7 +350,7 @@ void CreateDataTransferManager(void)
     DWC_SetUserRecvCallback(DataTransferUserRecvCallback);
     DWC_SetUserRecvTimeoutCallback(DataTransferUserRecvTimeoutCallback);
 
-    for (u32 i = 0; i < roomMaxPlayerCount; i++)
+    for (u32 i = 0; i < sRoomMaxPlayerCount; i++)
     {
         DWC_SetRecvTimeoutTime(i, DATATRANSFER_TIMEOUT_TIME);
     }
@@ -358,11 +358,11 @@ void CreateDataTransferManager(void)
 
 void DestroyDataTransferManager(void)
 {
-    if (dataTransferManagerTask == NULL)
+    if (sDataTransferManagerTask == NULL)
         return;
 
-    SetTaskFlags(dataTransferManagerTask, 0);
-    DestroyTask(dataTransferManagerTask);
+    SetTaskFlags(sDataTransferManagerTask, 0);
+    DestroyTask(sDataTransferManagerTask);
 }
 
 void *GetDataTransferSendBuffer(void)
@@ -386,7 +386,7 @@ void ClearDataTransferAllBuffers(void)
     MatchManager *manager = GetMatchManagerWork();
 
     OSIntrMode enabled = OS_DisableInterrupts();
-    for (u32 i = 0; i < roomMaxPlayerCount; i++)
+    for (u32 i = 0; i < sRoomMaxPlayerCount; i++)
     {
         MI_CpuClear32(manager->receiveBuffer[i], manager->bufferSize);
         MI_CpuClear32(manager->receiveBufferStorage[i], manager->bufferSize);
@@ -425,16 +425,16 @@ void DestroyStorageManager(void)
 {
     DWC_LogoutFromStorageServer();
 
-    if (storageManagerTask == NULL)
+    if (sStorageManagerTask == NULL)
         return;
 
-    SetTaskFlags(storageManagerTask, 0);
-    DestroyTask(storageManagerTask);
+    SetTaskFlags(sStorageManagerTask, 0);
+    DestroyTask(sStorageManagerTask);
 }
 
 void DestroyNdManager(void)
 {
-    if (ndManagerTask == NULL)
+    if (sNdManagerTask == NULL)
         return;
 
     DWC_NdCleanupAsync(NdCleanupCallback);
@@ -444,8 +444,8 @@ void DestroyNdManager(void)
         OS_WaitVBlankIntr();
     }
 
-    SetTaskFlags(ndManagerTask, 0);
-    DestroyTask(ndManagerTask);
+    SetTaskFlags(sNdManagerTask, 0);
+    DestroyTask(sNdManagerTask);
 }
 
 BOOL CreateLeaderboardsManager(DWCUserData *profile)
@@ -455,7 +455,7 @@ BOOL CreateLeaderboardsManager(DWCUserData *profile)
 
     Task *task = TaskCreate(LeaderboardsManager_Main, LeaderboardsManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
                             TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, LeaderboardsManager);
-    leaderboardsManagerTask = task;
+    sLeaderboardsManagerTask = task;
 
     LeaderboardsManager *work = TaskGetWork(task, LeaderboardsManager);
     TaskInitWork16(work);
@@ -470,8 +470,8 @@ BOOL CreateLeaderboardsManager(DWCUserData *profile)
         case DWC_RNK_ERROR_INVALID_PARAMETER:
         case DWC_RNK_ERROR_INIT_INVALID_USERDATA:
         default:
-            SetTaskFlags(leaderboardsManagerTask, 0);
-            DestroyTask(leaderboardsManagerTask);
+            SetTaskFlags(sLeaderboardsManagerTask, 0);
+            DestroyTask(sLeaderboardsManagerTask);
             return FALSE;
 
         case DWC_RNK_SUCCESS:
@@ -485,16 +485,16 @@ void DestroyLeaderboardsManager(void)
 {
     DWC_RnkShutdown();
 
-    if (leaderboardsManagerTask == NULL)
+    if (sLeaderboardsManagerTask == NULL)
         return;
 
-    SetTaskFlags(leaderboardsManagerTask, 0);
-    DestroyTask(leaderboardsManagerTask);
+    SetTaskFlags(sLeaderboardsManagerTask, 0);
+    DestroyTask(sLeaderboardsManagerTask);
 }
 
 LeaderboardsManagerStatus GetLeaderboardsManagerStatus(void)
 {
-    if (leaderboardsManagerTask == NULL)
+    if (sLeaderboardsManagerTask == NULL)
         return LEADERBOARDSMANAGER_STATUS_INACTIVE;
 
     LeaderboardsManager *work = GetLeaderboardsManagerWork();
@@ -594,13 +594,13 @@ DWCRnkData *GetLeaderboardsRankData(s32 id)
 
 void *NetworkAlloc(DWCAllocType name, u32 size, int align)
 {
-    return memAlloc(size);
+    return sMemAlloc(size);
 }
 
 void NetworkFree(DWCAllocType name, void *ptr, u32 size)
 {
     if (ptr != NULL)
-        memFree(ptr);
+        sMemFree(ptr);
 }
 
 void INetManager_Main(void)
@@ -611,7 +611,7 @@ void INetManager_Main(void)
 
 void INetManager_Destructor(Task *task)
 {
-    iNetManagerTask = NULL;
+    sINetManagerTask = NULL;
 }
 
 void INetManager_State_Init(INetManager *work)
@@ -668,7 +668,7 @@ void INetManager_State_Disconnected(INetManager *work)
 
 MatchManager *GetMatchManagerWork(void)
 {
-    return TaskGetWork(matchManagerTask, MatchManager);
+    return TaskGetWork(sMatchManagerTask, MatchManager);
 }
 
 void InitMatchBuffers(MatchManager *work, size_t bufferSize, u32 maxPlayerCount)
@@ -682,13 +682,13 @@ void InitMatchBuffers(MatchManager *work, size_t bufferSize, u32 maxPlayerCount)
         return;
 
     work->bufferSize = bufferSize;
-    work->sendBuffer = memAlloc(bufferSize);
+    work->sendBuffer = sMemAlloc(bufferSize);
 
     for (u16 i = 0; i < maxPlayerCount; i++)
     {
-        work->receiveBuffer[i]        = memAlloc(bufferSize);
-        work->receiveBufferStorage[i] = memAlloc(bufferSize);
-        work->recvBuffer[i]           = memAlloc(bufferSize);
+        work->receiveBuffer[i]        = sMemAlloc(bufferSize);
+        work->receiveBufferStorage[i] = sMemAlloc(bufferSize);
+        work->recvBuffer[i]           = sMemAlloc(bufferSize);
 
         DWC_SetRecvBuffer(i, work->recvBuffer[i], bufferSize);
     }
@@ -702,16 +702,16 @@ void ReleaseMatchBuffers(MatchManager *work)
     if (work->bufferSize == 0)
         return;
 
-    memFree(work->sendBuffer);
+    sMemFree(work->sendBuffer);
     work->sendBuffer = 0;
 
     for (u16 i = 0; i < MATCH_BUFFER_COUNT; i++)
     {
         if (work->receiveBuffer[i] != NULL)
         {
-            memFree(work->receiveBuffer[i]);
-            memFree(work->receiveBufferStorage[i]);
-            memFree(work->recvBuffer[i]);
+            sMemFree(work->receiveBuffer[i]);
+            sMemFree(work->receiveBufferStorage[i]);
+            sMemFree(work->recvBuffer[i]);
 
             work->receiveBuffer[i]        = NULL;
             work->receiveBufferStorage[i] = NULL;
@@ -725,7 +725,7 @@ void ReleaseMatchBuffers(MatchManager *work)
 void MatchManager_Main(void)
 {
     int errorCode;
-    MatchManager *work = TaskGetWork(matchManagerTask, MatchManager);
+    MatchManager *work = TaskGetWork(sMatchManagerTask, MatchManager);
 
     DWC_ProcessFriendsMatch();
 
@@ -747,10 +747,10 @@ void MatchManager_Main(void)
 
 void MatchManager_Destructor(Task *task)
 {
-    MatchManager *work = TaskGetWork(matchManagerTask, MatchManager);
+    MatchManager *work = TaskGetWork(sMatchManagerTask, MatchManager);
     ReleaseMatchBuffers(work);
 
-    matchManagerTask = NULL;
+    sMatchManagerTask = NULL;
 }
 
 void MatchLoginCallback(DWCError error, int profileID, void *param)
@@ -855,7 +855,7 @@ void ConnectionManager_Main(void)
 
 void ConnectionManager_Destructor(Task *task)
 {
-    connectionManagerTask = NULL;
+    sConnectionManagerTask = NULL;
 }
 
 void ConnectionMatchedCallback(DWCError error, BOOL cancel, void *param)
@@ -929,13 +929,13 @@ void ConnectionManager_State_ConnectionError(ConnectionManager *work)
 
 DataTransferManager *GetDataTransferManagerWork(void)
 {
-    return TaskGetWork(dataTransferManagerTask, DataTransferManager);
+    return TaskGetWork(sDataTransferManagerTask, DataTransferManager);
 }
 
 void DataTransferManager_Main(void)
 {
     DataTransferManager *work = TaskGetWorkCurrent(DataTransferManager);
-    MatchManager *manager     = TaskGetWork(matchManagerTask, MatchManager);
+    MatchManager *manager     = TaskGetWork(sMatchManagerTask, MatchManager);
 
     if (GetMatchManagerStatus() != MATCHMANAGER_STATUS_SERVER_UPDATED)
         return;
@@ -947,7 +947,7 @@ void DataTransferManager_Main(void)
     myAID   = DWC_GetMyAID();
     enabled = OS_DisableInterrupts();
 
-    for (i = 0; i < roomMaxPlayerCount; i++)
+    for (i = 0; i < sRoomMaxPlayerCount; i++)
     {
         if (i == myAID)
         {
@@ -976,7 +976,7 @@ void DataTransferManager_Main(void)
 
             while (TRUE)
             {
-                for (i = 0; i < roomMaxPlayerCount; i++)
+                for (i = 0; i < sRoomMaxPlayerCount; i++)
                 {
                     if ((changedBitmap2 & (1 << i)) != 0)
                     {
@@ -1001,7 +1001,7 @@ void DataTransferManager_Main(void)
                 MatchManager_Main();
             }
 
-            for (i = 0; i < roomMaxPlayerCount; i++)
+            for (i = 0; i < sRoomMaxPlayerCount; i++)
             {
                 DWC_SetRecvTimeoutTime(i, DATATRANSFER_TIMEOUT_TIME);
             }
@@ -1019,21 +1019,21 @@ void DataTransferManager_Destructor(Task *task)
     DataTransferManager *work = TaskGetWork(task, DataTransferManager);
     UNUSED(work);
 
-    dataTransferManagerTask = NULL;
+    sDataTransferManagerTask = NULL;
 }
 
 void DataTransferUserRecvCallback(u8 aid, u8 *buffer, int size)
 {
-    if (matchManagerTask == NULL)
+    if (sMatchManagerTask == NULL)
         return;
 
     if (size <= sizeof(struct DataTransferBufferHeader))
         return;
 
-    if (roomMaxPlayerCount <= aid)
+    if (sRoomMaxPlayerCount <= aid)
         return;
 
-    MatchManager *manager = TaskGetWork(matchManagerTask, MatchManager);
+    MatchManager *manager = TaskGetWork(sMatchManagerTask, MatchManager);
 
     DataTransferBuffer *newBuffer = (DataTransferBuffer *)buffer;
     DataTransferBuffer *oldBuffer = manager->receiveBufferStorage[aid];
@@ -1054,18 +1054,18 @@ BOOL DataTransferShouldSendBitmap(u8 frequency)
 
 void NdCleanupCallback(void)
 {
-    NdManager *work = TaskGetWork(ndManagerTask, NdManager);
+    NdManager *work = TaskGetWork(sNdManagerTask, NdManager);
     work->status    = NDMANAGER_STATUS_IDLE;
 }
 
 NdManager *GetNdManagerWork(void)
 {
-    return TaskGetWork(ndManagerTask, NdManager);
+    return TaskGetWork(sNdManagerTask, NdManager);
 }
 
 LeaderboardsManager *GetLeaderboardsManagerWork(void)
 {
-    return TaskGetWork(leaderboardsManagerTask, LeaderboardsManager);
+    return TaskGetWork(sLeaderboardsManagerTask, LeaderboardsManager);
 }
 
 BOOL LoadLeaderboardsScore(LeaderboardsManager *work, u32 category, DWCRnkRegion region)
@@ -1130,7 +1130,7 @@ void LeaderboardsManager_Destructor(Task *task)
     LeaderboardsManager *work = TaskGetWork(task, LeaderboardsManager);
     UNUSED(work);
 
-    leaderboardsManagerTask = NULL;
+    sLeaderboardsManagerTask = NULL;
 }
 
 void LeaderboardsManager_State_Idle(LeaderboardsManager *work)

@@ -42,14 +42,14 @@ struct SailTrainingConfig
 // VARIABLES
 // --------------------
 
-static const struct SailTrainingConfig sailTrainingUnknown1[SHIP_COUNT] = {
+static const struct SailTrainingConfig sUnknown1[SHIP_COUNT] = {
     [SHIP_JET]       = { 0, 0, 3, 6, 9, 11 },
     [SHIP_BOAT]      = { 0, 0, 3, 6, 8, 0 },
     [SHIP_HOVER]     = { 0, 0, 3, 6, 11, 0 },
     [SHIP_SUBMARINE] = { 0, 0, 4, 8, 0, 0 },
 };
 
-static const struct SailTrainingConfig sailTrainingUnknown2[SHIP_COUNT] = {
+static const struct SailTrainingConfig sUnknown2[SHIP_COUNT] = {
     [SHIP_JET]       = { 0, 2, 5, 8, 11, 17 },
     [SHIP_BOAT]      = { 0, 2, 5, 8, 13, 0 },
     [SHIP_HOVER]     = { 0, 2, 5, 11, 17, 0 },
@@ -190,8 +190,8 @@ void SailTraining_Main_TrainingActive(void)
         {
             if (work->mode < SAILTRAINING_MODE_COUNT)
             {
-                voyageManager->field_6C = sailTrainingUnknown1[shipType].segmentID[work->mode];
-                voyageManager->field_6E = sailTrainingUnknown2[shipType].segmentID[work->mode];
+                voyageManager->field_6C = sUnknown1[shipType].segmentID[work->mode];
+                voyageManager->field_6E = sUnknown2[shipType].segmentID[work->mode];
             }
 
             if (work->state())
@@ -227,7 +227,7 @@ void SailTraining_Main_TrainingActive(void)
 
             if (voyageManager->field_6E == 0)
             {
-                if (sailTrainingUnknown2[shipType].segmentID[work->mode] <= (s32)voyageManager->curSegment)
+                if (sUnknown2[shipType].segmentID[work->mode] <= (s32)voyageManager->curSegment)
                 {
                     if ((work->flags & SAILTRAINING_FLAG_FINISHED) != 0)
                     {

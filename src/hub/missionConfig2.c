@@ -16,7 +16,7 @@ extern void InitStageMission(s32 id);
 // VARIABLES
 // --------------------
 
-static const u8 npcNameAnimForMission[MISSION_COUNT] = {
+static const u8 sNpcNameAnimForMission[MISSION_COUNT] = {
     // Regular missions
     [MISSION_0]  = 5,
     [MISSION_1]  = 4,
@@ -124,7 +124,7 @@ static const u8 npcNameAnimForMission[MISSION_COUNT] = {
     [MISSION_99] = 2,
 };
 
-static const u16 missionIndexFromSelection[MISSIONLIST_COUNT] = {
+static const u16 sMissionIndexFromSelection[MISSIONLIST_COUNT] = {
     // Regular missions
     [MISSIONLIST_1]  = MISSION_9,
     [MISSIONLIST_2]  = MISSION_83,
@@ -232,7 +232,7 @@ static const u16 missionIndexFromSelection[MISSIONLIST_COUNT] = {
     [MISSIONLIST_100] = MISSION_99,
 };
 
-static const u16 missionIDTable[MISSION_COUNT] = {
+static const u16 sMissionIDTable[MISSION_COUNT] = {
     // Regular missions
     [MISSION_0]  = MISSION_0,
     [MISSION_1]  = MISSION_1,
@@ -360,7 +360,7 @@ void MissionHelpers__StartMission(s32 id)
 
     if (id < MISSION_95)
     {
-        InitStageMission(missionIDTable[id]);
+        InitStageMission(sMissionIDTable[id]);
 
         if (MissionHelpers__CheckSonicMission(id))
         {
@@ -388,7 +388,7 @@ void MissionHelpers__StartMission(s32 id)
     }
     else
     {
-        InitSailEvent(missionIDTable[id]);
+        InitSailEvent(sMissionIDTable[id]);
         RequestNewSysEventChange(SYSEVENT_SAILING);
     }
 }
@@ -400,7 +400,7 @@ s32 MissionHelpers__GetMissionID(void)
 
 u16 MissionHelpers__GetMissionFromSelection(u16 id)
 {
-    return missionIndexFromSelection[id];
+    return sMissionIndexFromSelection[id];
 }
 
 void MissionHelpers__HandleCompletedMuzyMissions(void)
@@ -536,5 +536,5 @@ u16 MissionHelpers__GetSolEmeraldIDFromMissionID(s32 id)
 
 u16 MissionHelpers__GetNpcNameAnimForMission(u16 id)
 {
-    return npcNameAnimForMission[id];
+    return sNpcNameAnimForMission[id];
 }

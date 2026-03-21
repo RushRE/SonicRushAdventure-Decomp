@@ -84,15 +84,15 @@ enum ItemBoxAnimID
 // VARIABLES
 // --------------------
 
-static Task *itemBoxRewardTask;
+static Task *sItemBoxRewardTaskSingleton;
 
-static const u8 ringAmountTable[8]   = { 1, 5, 10, 30, 50, 10, 30, 5 };
-static const u8 ringAmountTableVS[8] = { 1, 5, 10, 30, 1, 10, 30, 5 };
+static const u8 sRingAmountTable[8]   = { 1, 5, 10, 30, 50, 10, 30, 5 };
+static const u8 sRingAmountTableVS[8] = { 1, 5, 10, 30, 1, 10, 30, 5 };
 
-static u8 vsRandomTable[8] = { ITEMBOX_TYPE_RINGS_RANDOM, ITEMBOX_TYPE_SLOWDOWN,     ITEMBOX_TYPE_RINGS_RANDOM, ITEMBOX_TYPE_CONFUSION,
-                               ITEMBOX_TYPE_RINGS_RANDOM, ITEMBOX_TYPE_TENSION_SWAP, ITEMBOX_TYPE_RINGS_RANDOM, ITEMBOX_TYPE_GRAB };
+static u8 sVSRandomTable[8] = { ITEMBOX_TYPE_RINGS_RANDOM, ITEMBOX_TYPE_SLOWDOWN,     ITEMBOX_TYPE_RINGS_RANDOM, ITEMBOX_TYPE_CONFUSION,
+                                ITEMBOX_TYPE_RINGS_RANDOM, ITEMBOX_TYPE_TENSION_SWAP, ITEMBOX_TYPE_RINGS_RANDOM, ITEMBOX_TYPE_GRAB };
 
-static const u8 rewardDrawFlagTable[16] = { 116, 116, 2, 2, 2, 2, 31, 31, 2, 31, 2, 2, 2, 0, 0, 0 };
+static const u8 sRewardDrawFlagTable[16] = { 116, 116, 2, 2, 2, 2, 31, 31, 2, 31, 2, 2, 2, 0, 0, 0 };
 
 // --------------------
 // FUNCTIONS
@@ -161,7 +161,7 @@ ItemBox *CreateItemBox(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     AnimatorSpriteDS *ani = &work->aniContents;
     ObjAction2dBACLoad(ani, "/ac_itm_box.bac", 2, GetObjectDataWork(OBJDATAWORK_70), gameArchiveCommon);
     ani->work.cParam.palette =
-        ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_70)->fileData, ITEMBOX_ANI_TYPE_START + mapObjectParam_Type, rewardDrawFlagTable[mapObjectParam_Type]);
+        ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_70)->fileData, ITEMBOX_ANI_TYPE_START + mapObjectParam_Type, sRewardDrawFlagTable[mapObjectParam_Type]);
     ani->cParam[0].palette = ani->cParam[1].palette = ani->work.cParam.palette;
     ani->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
 
@@ -203,9 +203,9 @@ void BreakItemBox(ItemBox *work, Player *player, s32 type)
             ringTableIndex = mtMathRandRepeat(8);
 
             if (gmCheckRingBattle())
-                ringAmount = ringAmountTableVS[ringTableIndex];
+                ringAmount = sRingAmountTableVS[ringTableIndex];
             else
-                ringAmount = ringAmountTable[ringTableIndex];
+                ringAmount = sRingAmountTable[ringTableIndex];
 
             Player__GiveRings(player, ringAmount);
             break;
@@ -278,9 +278,9 @@ void CreateItemBoxReward(s32 type)
     u8 value;
     s32 id;
 
-    if (itemBoxRewardTask != NULL)
+    if (sItemBoxRewardTaskSingleton != NULL)
     {
-        work = TaskGetWork(itemBoxRewardTask, ItemBoxReward);
+        work = TaskGetWork(sItemBoxRewardTaskSingleton, ItemBoxReward);
 
         work->objWork.flag &= ~STAGE_TASK_FLAG_DESTROYED;
 
@@ -288,11 +288,11 @@ void CreateItemBoxReward(s32 type)
         aniWork = work->objWork.obj_2d;
         if (aniWork->ani.work.animID != id)
         {
-            value = rewardDrawFlagTable[type];
-            if (rewardDrawFlagTable[aniWork->ani.work.animID - 1] != value)
+            value = sRewardDrawFlagTable[type];
+            if (sRewardDrawFlagTable[aniWork->ani.work.animID - 1] != value)
             {
                 ObjDrawReleaseSpritePalette(aniWork->ani.work.cParam.palette);
-                aniWork->ani.work.cParam.palette      = ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_70)->fileData, id, value);
+                aniWork->ani.work.cParam.palette = ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_70)->fileData, id, value);
                 aniWork->ani.cParam[0].palette = aniWork->ani.cParam[1].palette = aniWork->ani.work.cParam.palette;
                 aniWork->ani.work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
             }
@@ -302,13 +302,13 @@ void CreateItemBoxReward(s32 type)
     }
     else
     {
-        itemBoxRewardTask = CreateStageTask(ItemBoxReward_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), ItemBoxReward);
+        sItemBoxRewardTaskSingleton = CreateStageTask(ItemBoxReward_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), ItemBoxReward);
 
         nullValue = HeapNull;
-        if (itemBoxRewardTask == nullValue)
+        if (sItemBoxRewardTaskSingleton == nullValue)
             return;
 
-        work = TaskGetWork(itemBoxRewardTask, ItemBoxReward);
+        work = TaskGetWork(sItemBoxRewardTaskSingleton, ItemBoxReward);
         TaskInitWork8(work);
 
         work->objWork.flag |= STAGE_TASK_FLAG_NO_VRAM_B | STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
@@ -318,7 +318,7 @@ void CreateItemBoxReward(s32 type)
         ObjObjectAction2dBACLoad(&work->objWork, &work->aniReward, "/ac_itm_box.bac", GetObjectFileWork(OBJDATAWORK_70), gameArchiveCommon, 2);
 
         id = ITEMBOX_ANI_TYPE_START + type;
-        ObjActionAllocSpritePalette(&work->objWork, id, rewardDrawFlagTable[type]);
+        ObjActionAllocSpritePalette(&work->objWork, id, sRewardDrawFlagTable[type]);
         StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_6);
         StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
     }
@@ -362,17 +362,17 @@ void ItemBox_State_RandomVS(ItemBox *work)
     }
 
     AnimatorSpriteDS *ani = &work->aniContents;
-    s8 type               = vsRandomTable[id];
+    s8 type               = sVSRandomTable[id];
     mapObjectParam_Type   = type;
 
     if (ani->work.animID != ITEMBOX_ANI_TYPE_START + type)
     {
-        if (rewardDrawFlagTable[ani->work.animID - 1] != rewardDrawFlagTable[type])
+        if (sRewardDrawFlagTable[ani->work.animID - 1] != sRewardDrawFlagTable[type])
         {
             ObjDrawReleaseSpritePalette(ani->work.cParam.palette);
 
             ani->work.cParam.palette =
-                ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_70)->fileData, ITEMBOX_ANI_TYPE_START + mapObjectParam_Type, rewardDrawFlagTable[mapObjectParam_Type]);
+                ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_70)->fileData, ITEMBOX_ANI_TYPE_START + mapObjectParam_Type, sRewardDrawFlagTable[mapObjectParam_Type]);
             ani->cParam[0].palette = ani->cParam[1].palette = ani->work.cParam.palette;
             ani->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
         }
@@ -462,7 +462,7 @@ void ItemBox_Draw(void)
 
 void ItemBoxReward_Destructor(Task *task)
 {
-    itemBoxRewardTask = NULL;
+    sItemBoxRewardTaskSingleton = NULL;
     StageTask_Destructor(task);
 }
 

@@ -15,7 +15,7 @@
 // VARIABLES
 // --------------------
 
-Vec2Fx32 SeaMapCourseChangeView_shipPosition;
+Vec2Fx32 gSeaMapCourseChangeView_shipPosition;
 
 // --------------------
 // FUNCTION DECLS
@@ -39,7 +39,7 @@ void CreateSeaMapCourseChangeView(void)
 {
     ReleaseAudioSystem();
     LoadAudioSndArc("snd/sys/sound_data.sdat");
-    NNS_SndArcLoadGroup(SND_SYS_GROUP_CHART, audioManagerSndHeap);
+    NNS_SndArcLoadGroup(SND_SYS_GROUP_CHART, gAudioManagerSndHeap);
 
     LoadSpriteButtonCursorSprite();
     LoadSpriteButtonTouchpadSprite();
@@ -75,14 +75,14 @@ void CreateSeaMapCourseChangeView(void)
         }
     }
 
-    SeaMapManager__Func_2045BF8(seaMapViewUnknown2 - SeaMapCourseChangeView_02134174, &SeaMapCourseChangeView_shipPosition.x, &SeaMapCourseChangeView_shipPosition.y);
+    SeaMapManager__Func_2045BF8(seaMapViewUnknown2 - SeaMapCourseChangeView_02134174, &gSeaMapCourseChangeView_shipPosition.x, &gSeaMapCourseChangeView_shipPosition.y);
     SeaMapManager__RemoveAllNodes();
-    SeaMapView__SetViewPosition(SeaMapCourseChangeView_shipPosition.x, SeaMapCourseChangeView_shipPosition.y);
+    SeaMapView__SetViewPosition(gSeaMapCourseChangeView_shipPosition.x, gSeaMapCourseChangeView_shipPosition.y);
 
-    SeaMapManager__Func_2043B28(SeaMapCourseChangeView_shipPosition.x, SeaMapCourseChangeView_shipPosition.y, &x, &y);
+    SeaMapManager__Func_2043B28(gSeaMapCourseChangeView_shipPosition.x, gSeaMapCourseChangeView_shipPosition.y, &x, &y);
     SeaMapManager__AddNode(x, y);
 
-    SeaMapEventManager__CreateObject(SEAMAPOBJECT_BOAT_ICON, FX32_TO_WHOLE(SeaMapCourseChangeView_shipPosition.x), FX32_TO_WHOLE(SeaMapCourseChangeView_shipPosition.y), 0, 0, 0);
+    SeaMapEventManager__CreateObject(SEAMAPOBJECT_BOAT_ICON, FX32_TO_WHOLE(gSeaMapCourseChangeView_shipPosition.x), FX32_TO_WHOLE(gSeaMapCourseChangeView_shipPosition.y), 0, 0, 0);
 
     CreateNavTails(TRUE, gameState.sailShipType, NULL);
 

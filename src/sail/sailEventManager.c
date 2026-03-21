@@ -1586,7 +1586,7 @@ void SailEventManager__CreateObject2(SailEventManagerObject *object)
         if (shipType == SHIP_SUBMARINE)
             shipType--;
 
-        StageTask *objTask = sailObjectSpawnList[shipType][object->type](object);
+        StageTask *objTask = gSailObjectSpawnList[shipType][object->type](object);
         if ((object->flags & SAILMAPOBJECT_FLAG_20000000) == 0)
             object->objTask = objTask;
     }
@@ -1705,9 +1705,9 @@ void SailEventManager__Main(void)
                             }
                             else
                             {
-                                if (sailObjectSpawnList[shipType][object->type] != NULL)
+                                if (gSailObjectSpawnList[shipType][object->type] != NULL)
                                 {
-                                    object->objTask = sailObjectSpawnList[shipType][object->type](object);
+                                    object->objTask = gSailObjectSpawnList[shipType][object->type](object);
                                     work->activeObjectCount++;
                                 }
                             }

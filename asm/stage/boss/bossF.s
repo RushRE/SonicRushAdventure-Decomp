@@ -1702,19 +1702,19 @@ _0216942C:
 	ldr r1, [r5, #0x594]
 	cmp r4, r1
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r0, _02169488 // =bgmHandle
+	ldr r0, _02169488 // =gBGMHandle
 	mov r2, r1, asr #0xc
 	mov r1, #0x4000
 	bl NNS_SndPlayerSetTrackVolume
 	ldr r1, [r5, #0x594]
-	ldr r0, _02169488 // =bgmHandle
+	ldr r0, _02169488 // =gBGMHandle
 	mov r2, r1, asr #0xc
 	ldr r1, _0216948C // =0x00008220
 	rsb r2, r2, #0x7f
 	bl NNS_SndPlayerSetTrackVolume
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02169488: .word bgmHandle
+_02169488: .word gBGMHandle
 _0216948C: .word 0x00008220
 	arm_func_end BossFStage__HandleAudio
 
@@ -4101,7 +4101,7 @@ _0216B5CC:
 	bl PlaySfxEx
 	add r0, r7, #0x300
 	ldrh r2, [r0, #0x7e]
-	ldr r0, _0216B65C // =defaultSfxPlayer
+	ldr r0, _0216B65C // =gDefaultSfxPlayer
 	ldr r1, _0216B660 // =0x0000FFFF
 	mov r2, r2, lsl #6
 	bl NNS_SndPlayerSetTrackPitch
@@ -4129,7 +4129,7 @@ _0216B5CC:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0216B658: .word _021790A8
-_0216B65C: .word defaultSfxPlayer
+_0216B65C: .word gDefaultSfxPlayer
 _0216B660: .word 0x0000FFFF
 	arm_func_end BossF__OnDefend_216B334
 
@@ -18490,7 +18490,7 @@ _02178220:
 	bl PlaySfxEx
 _02178238:
 	ldr r1, [r4, #0x28]
-	ldr r0, _02178290 // =defaultSfxPlayer
+	ldr r0, _02178290 // =gDefaultSfxPlayer
 	rsb r1, r1, #0x3c
 	rsb r1, r1, #0x78
 	mov r2, #0
@@ -18513,7 +18513,7 @@ _02178280: .word 0x00196225
 _02178284: .word 0x3C6EF35F
 _02178288: .word 0x00000132
 _0217828C: .word 0x00000133
-_02178290: .word defaultSfxPlayer
+_02178290: .word gDefaultSfxPlayer
 	arm_func_end BossF__Func_21781A4
 
 	arm_func_start BossF__Func_2178294

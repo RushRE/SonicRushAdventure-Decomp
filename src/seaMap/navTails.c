@@ -42,7 +42,7 @@ typedef struct NavTailsAnimConfig3_
 // VARIABLES
 // --------------------
 
-static Task *navTailsTask;
+static Task *sNavTailsTaskSingleton;
 
 NOT_DECOMPILED void *_0210F648;
 NOT_DECOMPILED NavTailsAnimConfig3 NavTails__FontAniInfo[];
@@ -104,7 +104,7 @@ static void NavTails_StateDMA_EndChange(NavTails *work);
 void CreateNavTails(BOOL useEngineB, u32 shipType, FontWindow *window)
 {
     Task *task   = TaskCreate(NavTails_Main, NavTails_Destructor, TASK_FLAG_NONE, 0, 0x100, TASK_GROUP(0), NavTails);
-    navTailsTask = task;
+    sNavTailsTaskSingleton = task;
 
     NavTails *work = TaskGetWork(task, NavTails);
     TaskInitWork16(work);
@@ -129,14 +129,14 @@ void DestroyNavTails(void)
 {
     if (IsNavTailsActive())
     {
-        DestroyTask(navTailsTask);
-        navTailsTask = NULL;
+        DestroyTask(sNavTailsTaskSingleton);
+        sNavTailsTaskSingleton = NULL;
     }
 }
 
 BOOL IsNavTailsActive(void)
 {
-    return navTailsTask != NULL;
+    return sNavTailsTaskSingleton != NULL;
 }
 
 void NavTailsSpeak(u16 msgSequence, u16 duration)
@@ -211,7 +211,7 @@ void NavTails_Destructor(Task *task)
     if (work->fontFileData != NULL)
         HeapFree(HEAP_USER, work->fontFileData);
 
-    navTailsTask = NULL;
+    sNavTailsTaskSingleton = NULL;
 }
 
 void NavTails_Draw(NavTails *work)
@@ -252,7 +252,7 @@ void NavTails_Draw(NavTails *work)
 
 NavTails *GetNavTailsWork(void)
 {
-    return TaskGetWork(navTailsTask, NavTails);
+    return TaskGetWork(sNavTailsTaskSingleton, NavTails);
 }
 
 NONMATCH_FUNC void SetupDisplayForNavTails(BOOL useEngineB)

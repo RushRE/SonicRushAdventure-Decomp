@@ -25,30 +25,30 @@ enum ExBossMagmaEruptionAnimIDs_
 // VARIABLES
 // --------------------
 
-static s16 magmaWaveInstanceCount;
-static s16 magmaEruptionInstanceCount;
+static s16 sMagmaWaveInstanceCount;
+static s16 sMagmaEruptionInstanceCount;
 
-static u32 magmaWaveModelFileSize;
-static EX_ACTION_NN_WORK *magmaEruptionLastSpawnedWorker;
-static Task *magmaWaveTaskSingleton;
-static u32 magmaWaveWaveTextureFileSize;
-static void *magmaEruptionUnused;
-static void *magmaWaveUnused;
-static EX_ACTION_NN_WORK *magmaWaveLastSpawnedWorker;
-static void *magmaWaveModelResource;
-static void *magmaEruptionModelResource;
-static Task *magmaEruptionTaskSingleton;
-static u32 magmaEruptionTextureFileSize;
-static u32 magmaEruptionModelFileSize;
+static u32 sMagmaWaveModelFileSize;
+static EX_ACTION_NN_WORK *sMagmaEruptionLastSpawnedWorker;
+static Task *sMagmaWaveTaskSingleton;
+static u32 sMagmaWaveWaveTextureFileSize;
+static void *sMagmaEruptionUnused;
+static void *sMagmaWaveUnused;
+static EX_ACTION_NN_WORK *sMagmaWaveLastSpawnedWorker;
+static void *sMagmaWaveModelResource;
+static void *sMagmaEruptionModelResource;
+static Task *sMagmaEruptionTaskSingleton;
+static u32 sMagmaEruptionTextureFileSize;
+static u32 sMagmaEruptionModelFileSize;
 
-static B3DAnimationTypes magmaEruptionAnimType[2];
-static void *magmaEruptionAnimResource[2];
-static B3DAnimationTypes magmaWaveAnimType[4];
-static void *magmaWaveAnimResource[4];
+static B3DAnimationTypes sMagmaEruptionAnimType[2];
+static void *sMagmaEruptionAnimResource[2];
+static B3DAnimationTypes sMagmaWaveAnimType[4];
+static void *sMagmaWaveAnimResource[4];
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(magmaWaveUnused)
-FORCE_INCLUDE_VARIABLE_BSS(magmaEruptionUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sMagmaWaveUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sMagmaEruptionUnused)
 
 // --------------------
 // FUNCTION DECLS
@@ -101,46 +101,46 @@ void ExBoss_Main_FinishMagmaEruptionAttack(void);
 
 BOOL LoadExBossMagmeWaveAttackAssets(EX_ACTION_NN_WORK *work)
 {
-    magmaEruptionLastSpawnedWorker = work;
+    sMagmaEruptionLastSpawnedWorker = work;
 
-    if (magmaEruptionModelFileSize != 0 && magmaEruptionTextureFileSize != 0)
+    if (sMagmaEruptionModelFileSize != 0 && sMagmaEruptionTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < magmaEruptionModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sMagmaEruptionModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < magmaEruptionTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sMagmaEruptionTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < magmaEruptionModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sMagmaEruptionModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (magmaEruptionInstanceCount == 0)
+    if (sMagmaEruptionInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FCOL_NSBMD, &magmaEruptionModelResource, &magmaEruptionModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FCOL_NSBMD, &sMagmaEruptionModelResource, &sMagmaEruptionModelFileSize, TRUE, FALSE);
 
-        magmaEruptionAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FCOL_NSBCA);
-        magmaEruptionAnimType[0]     = B3D_ANIM_JOINT_ANIM;
-        magmaEruptionAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FCOL_NSBTA);
-        magmaEruptionAnimType[1]     = B3D_ANIM_TEX_ANIM;
+        sMagmaEruptionAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FCOL_NSBCA);
+        sMagmaEruptionAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sMagmaEruptionAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FCOL_NSBTA);
+        sMagmaEruptionAnimType[1]     = B3D_ANIM_TEX_ANIM;
 
-        CreateAsset3DSetup(magmaEruptionModelResource);
+        CreateAsset3DSetup(sMagmaEruptionModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
     AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(animator, magmaEruptionModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(animator, sMagmaEruptionModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
-    for (; i < ARRAY_COUNT(magmaEruptionAnimResource); i++)
+    for (; i < ARRAY_COUNT(sMagmaEruptionAnimResource); i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, magmaEruptionAnimType[i], magmaEruptionAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sMagmaEruptionAnimType[i], sMagmaEruptionAnimResource[i], 0, NULL);
     }
 
-    work->model.primaryAnimType     = magmaEruptionAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[magmaEruptionAnimType[0]];
+    work->model.primaryAnimType     = sMagmaEruptionAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sMagmaEruptionAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -162,20 +162,20 @@ BOOL LoadExBossMagmeWaveAttackAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z                    = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position                  = &work->model.translation;
 
-    magmaEruptionInstanceCount++;
+    sMagmaEruptionInstanceCount++;
 
     return TRUE;
 }
 
 void SetExBossMagmaAttackAnim(EX_ACTION_NN_WORK *work, u16 id)
 {
-    for (u16 i = 0; i < ARRAY_COUNT(magmaEruptionAnimResource); i++)
+    for (u16 i = 0; i < ARRAY_COUNT(sMagmaEruptionAnimResource); i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, magmaEruptionAnimType[i], magmaEruptionAnimResource[i], id, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sMagmaEruptionAnimType[i], sMagmaEruptionAnimResource[i], id, NULL);
     }
 
-    work->model.primaryAnimType     = magmaEruptionAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[magmaEruptionAnimType[0]];
+    work->model.primaryAnimType     = sMagmaEruptionAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sMagmaEruptionAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -186,31 +186,31 @@ void SetExBossMagmaAttackAnim(EX_ACTION_NN_WORK *work, u16 id)
 
 void ReleaseExBossMagmeWaveAttackAssets(EX_ACTION_NN_WORK *work)
 {
-    if (magmaEruptionInstanceCount <= 1)
+    if (sMagmaEruptionInstanceCount <= 1)
     {
-        if (magmaEruptionModelResource)
-            NNS_G3dResDefaultRelease(magmaEruptionModelResource);
+        if (sMagmaEruptionModelResource)
+            NNS_G3dResDefaultRelease(sMagmaEruptionModelResource);
 
-        if (magmaEruptionAnimResource[0])
-            NNS_G3dResDefaultRelease(magmaEruptionAnimResource[0]);
+        if (sMagmaEruptionAnimResource[0])
+            NNS_G3dResDefaultRelease(sMagmaEruptionAnimResource[0]);
 
-        if (magmaEruptionAnimResource[1])
-            NNS_G3dResDefaultRelease(magmaEruptionAnimResource[1]);
+        if (sMagmaEruptionAnimResource[1])
+            NNS_G3dResDefaultRelease(sMagmaEruptionAnimResource[1]);
 
-        if (magmaEruptionModelResource)
-            HeapFree(HEAP_USER, magmaEruptionModelResource);
-        magmaEruptionModelResource = NULL;
+        if (sMagmaEruptionModelResource)
+            HeapFree(HEAP_USER, sMagmaEruptionModelResource);
+        sMagmaEruptionModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
-    magmaEruptionInstanceCount--;
+    sMagmaEruptionInstanceCount--;
 }
 
 void ExBossMagmaEruption_Main_Init(void)
 {
     exBossMagmaAttackTask *work = ExTaskGetWorkCurrent(exBossMagmaAttackTask);
 
-    magmaEruptionTaskSingleton = GetCurrentTask();
+    sMagmaEruptionTaskSingleton = GetCurrentTask();
 
     LoadExBossMagmeWaveAttackAssets(&work->animator);
     SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -240,7 +240,7 @@ void ExBossMagmaEruption_Destructor(void)
 
     ReleaseExBossMagmeWaveAttackAssets(&work->animator);
 
-    magmaEruptionTaskSingleton = NULL;
+    sMagmaEruptionTaskSingleton = NULL;
 }
 
 void ExBossMagmaEruption_Main_Rise(void)
@@ -376,50 +376,50 @@ BOOL CreateExBossMagmaEruption(void)
 
 BOOL LoadExBossMagmaWaveAssets(EX_ACTION_NN_WORK *work)
 {
-    magmaWaveLastSpawnedWorker = work;
+    sMagmaWaveLastSpawnedWorker = work;
 
-    if (magmaWaveModelFileSize != 0 && magmaWaveWaveTextureFileSize != 0)
+    if (sMagmaWaveModelFileSize != 0 && sMagmaWaveWaveTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < magmaWaveModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sMagmaWaveModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < magmaWaveWaveTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sMagmaWaveWaveTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < magmaWaveModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sMagmaWaveModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (magmaWaveInstanceCount == 0)
+    if (sMagmaWaveInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_WAVE_NSBMD, &magmaWaveModelResource, &magmaWaveModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_WAVE_NSBMD, &sMagmaWaveModelResource, &sMagmaWaveModelFileSize, TRUE, FALSE);
 
-        magmaWaveAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_WAVE_NSBCA);
-        magmaWaveAnimType[0]     = B3D_ANIM_JOINT_ANIM;
-        magmaWaveAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_WAVE_NSBMA);
-        magmaWaveAnimType[1]     = B3D_ANIM_MAT_ANIM;
-        magmaWaveAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_WAVE_NSBTA);
-        magmaWaveAnimType[2]     = B3D_ANIM_TEX_ANIM;
-        magmaWaveAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_WAVE_NSBVA);
-        magmaWaveAnimType[3]     = B3D_ANIM_VIS_ANIM;
+        sMagmaWaveAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_WAVE_NSBCA);
+        sMagmaWaveAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sMagmaWaveAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_WAVE_NSBMA);
+        sMagmaWaveAnimType[1]     = B3D_ANIM_MAT_ANIM;
+        sMagmaWaveAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_WAVE_NSBTA);
+        sMagmaWaveAnimType[2]     = B3D_ANIM_TEX_ANIM;
+        sMagmaWaveAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_WAVE_NSBVA);
+        sMagmaWaveAnimType[3]     = B3D_ANIM_VIS_ANIM;
 
-        CreateAsset3DSetup(magmaWaveModelResource);
+        CreateAsset3DSetup(sMagmaWaveModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
     AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(animator, magmaWaveModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(animator, sMagmaWaveModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
-    for (; i < ARRAY_COUNT(magmaWaveAnimType); i++)
+    for (; i < ARRAY_COUNT(sMagmaWaveAnimType); i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, magmaWaveAnimType[i], magmaWaveAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sMagmaWaveAnimType[i], sMagmaWaveAnimResource[i], 0, NULL);
     }
 
-    work->model.primaryAnimType     = magmaWaveAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[magmaWaveAnimType[0]];
+    work->model.primaryAnimType     = sMagmaWaveAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sMagmaWaveAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -441,44 +441,44 @@ BOOL LoadExBossMagmaWaveAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z              = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position            = &work->model.translation;
 
-    magmaWaveInstanceCount++;
+    sMagmaWaveInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBossMagmaWaveAssets(EX_ACTION_NN_WORK *work)
 {
-    if (magmaWaveInstanceCount <= 1)
+    if (sMagmaWaveInstanceCount <= 1)
     {
-        if (magmaWaveModelResource)
-            NNS_G3dResDefaultRelease(magmaWaveModelResource);
+        if (sMagmaWaveModelResource)
+            NNS_G3dResDefaultRelease(sMagmaWaveModelResource);
 
-        if (magmaWaveAnimResource[0])
-            NNS_G3dResDefaultRelease(magmaWaveAnimResource[0]);
+        if (sMagmaWaveAnimResource[0])
+            NNS_G3dResDefaultRelease(sMagmaWaveAnimResource[0]);
 
-        if (magmaWaveAnimResource[1])
-            NNS_G3dResDefaultRelease(magmaWaveAnimResource[1]);
+        if (sMagmaWaveAnimResource[1])
+            NNS_G3dResDefaultRelease(sMagmaWaveAnimResource[1]);
 
-        if (magmaWaveAnimResource[2])
-            NNS_G3dResDefaultRelease(magmaWaveAnimResource[2]);
+        if (sMagmaWaveAnimResource[2])
+            NNS_G3dResDefaultRelease(sMagmaWaveAnimResource[2]);
 
-        if (magmaWaveAnimResource[3])
-            NNS_G3dResDefaultRelease(magmaWaveAnimResource[3]);
+        if (sMagmaWaveAnimResource[3])
+            NNS_G3dResDefaultRelease(sMagmaWaveAnimResource[3]);
 
-        if (magmaWaveModelResource)
-            HeapFree(HEAP_USER, magmaWaveModelResource);
-        magmaWaveModelResource = NULL;
+        if (sMagmaWaveModelResource)
+            HeapFree(HEAP_USER, sMagmaWaveModelResource);
+        sMagmaWaveModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
-    magmaWaveInstanceCount--;
+    sMagmaWaveInstanceCount--;
 }
 
 void ExBossMagmaWave_Main_Init(void)
 {
     exBossMagmeWaveTask *work = ExTaskGetWorkCurrent(exBossMagmeWaveTask);
 
-    magmaWaveTaskSingleton = GetCurrentTask();
+    sMagmaWaveTaskSingleton = GetCurrentTask();
 
     LoadExBossMagmaWaveAssets(&work->animator);
     SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -506,7 +506,7 @@ void ExBossMagmaWave_Destructor(void)
 
     ReleaseExBossMagmaWaveAssets(&work->animator);
 
-    magmaWaveTaskSingleton = NULL;
+    sMagmaWaveTaskSingleton = NULL;
 }
 
 void ExBossMagmaWave_Main_Active(void)

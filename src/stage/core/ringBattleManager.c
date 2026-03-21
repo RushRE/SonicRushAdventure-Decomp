@@ -6,7 +6,7 @@
 // VARIABLES
 // --------------------
 
-static Task *ringBattleManagerTask;
+static Task *sRingBattleManagerTaskSingleton;
 
 // --------------------
 // MAPOBJECT PARAMS
@@ -44,14 +44,14 @@ RUSH_INLINE u16 GetRingBattleRand(u32 *seed)
 
 void CreateRingBattleManager(void)
 {
-    if (ringBattleManagerTask != NULL)
+    if (sRingBattleManagerTaskSingleton != NULL)
         return;
 
     Task *task = TaskCreate(RingBattleManager_Main, RingBattleManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xFFF, TASK_GROUP(3), RingBattleManager);
     if (task == HeapNull)
         return;
 
-    ringBattleManagerTask = task;
+    sRingBattleManagerTaskSingleton = task;
 
     RingBattleManager *work = TaskGetWork(task, RingBattleManager);
     TaskInitWork8(work);
@@ -66,7 +66,7 @@ void CreateRingBattleManager(void)
 
 void AddButtonToRingBattleManager(RingButton *button)
 {
-    RingBattleManager *work = TaskGetWork(ringBattleManagerTask, RingBattleManager);
+    RingBattleManager *work = TaskGetWork(sRingBattleManagerTaskSingleton, RingBattleManager);
 
     if (work->ringButtonCount < RINGBATTLEMANAGER_ITEM_LIST_SIZE)
     {
@@ -80,7 +80,7 @@ void AddButtonToRingBattleManager(RingButton *button)
 
 void AddItemBoxToRingBattleManager(ItemBox *itemBox)
 {
-    RingBattleManager *work = TaskGetWork(ringBattleManagerTask, RingBattleManager);
+    RingBattleManager *work = TaskGetWork(sRingBattleManagerTaskSingleton, RingBattleManager);
 
     if (work->itemBoxCount < RINGBATTLEMANAGER_ITEM_LIST_SIZE)
     {
@@ -94,7 +94,7 @@ void AddItemBoxToRingBattleManager(ItemBox *itemBox)
 
 void RingBattleManager_OnButtonActivated(RingButton *button)
 {
-    RingBattleManager *manager = TaskGetWork(ringBattleManagerTask, RingBattleManager);
+    RingBattleManager *manager = TaskGetWork(sRingBattleManagerTaskSingleton, RingBattleManager);
 
     s32 type;
     if (button->gameWork.mapObject->id == MAPOBJECT_256)
@@ -118,9 +118,9 @@ void RingBattleManager_OnButtonActivated(RingButton *button)
 
 GameObjectTask *CreateRingBattleManagerObject(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    if (ringBattleManagerTask != NULL)
+    if (sRingBattleManagerTaskSingleton != NULL)
     {
-        RingBattleManager *work = TaskGetWork(ringBattleManagerTask, RingBattleManager);
+        RingBattleManager *work = TaskGetWork(sRingBattleManagerTaskSingleton, RingBattleManager);
 
         work->activateButtonCount = mapObjectParam_left;
         if (work->activateButtonCount < 1)
@@ -144,7 +144,7 @@ GameObjectTask *CreateRingBattleManagerObject(MapObject *mapObject, fx32 x, fx32
 
 void RingBattleManager_Destructor(Task *task)
 {
-    ringBattleManagerTask = NULL;
+    sRingBattleManagerTaskSingleton = NULL;
 }
 
 void RingBattleManager_Main(void)
@@ -160,7 +160,7 @@ void HandleRingBattleManagerButtons(RingBattleManager *work)
     {
         for (s32 i = 0; i < work->ringButtonCount; i++)
         {
-            if (RingButtonSfxManager__timerTable[work->ringButtonList[i]->gameWork.RingButton_mapObjectParam_id] == 0)
+            if (gRingButtonTimerTable[work->ringButtonList[i]->gameWork.RingButton_mapObjectParam_id] == 0)
             {
                 return;
             }
@@ -173,9 +173,9 @@ void HandleRingBattleManagerButtons(RingBattleManager *work)
             while (id < work->activateButtonCount && id < work->ringButtonCount)
             {
                 u16 buttonID = work->ringButtonList[(u16)FX_ModS32(GetRingBattleRand(&work->ringButtonRandSeed), work->ringButtonCount)]->gameWork.RingButton_mapObjectParam_id;
-                if (RingButtonSfxManager__timerTable[buttonID] != 0)
+                if (gRingButtonTimerTable[buttonID] != 0)
                 {
-                    RingButtonSfxManager__timerTable[buttonID] = 0;
+                    gRingButtonTimerTable[buttonID] = 0;
                     id++;
                 }
             }

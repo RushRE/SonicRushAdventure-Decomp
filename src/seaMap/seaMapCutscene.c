@@ -50,13 +50,13 @@ static void SeaMapCutscene_State_LaunchedToSkyBabylon(SeaMapCutscene *work);
 // VARIABLES
 // --------------------
 
-static const u16 sprPressStartTextFiles[8] = {
+static const u16 sSprPressStartTextFiles[8] = {
     [OS_LANGUAGE_JAPANESE] = BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_MSG_JPN_BAC, [OS_LANGUAGE_ENGLISH] = BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_MSG_ENG_BAC,
     [OS_LANGUAGE_FRENCH] = BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_MSG_FRA_BAC,   [OS_LANGUAGE_GERMAN] = BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_MSG_DEU_BAC,
     [OS_LANGUAGE_ITALIAN] = BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_MSG_ITA_BAC,  [OS_LANGUAGE_SPANISH] = BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_MSG_SPA_BAC,
 };
 
-static const SeaMapCutsceneStateFunc startStateForType[] = {
+static const SeaMapCutsceneStateFunc sStartStateForType[] = {
     SeaMapCutscene_State_InitCoralCave,
     SeaMapCutscene_State_InitSkyBabylon,
 };
@@ -72,8 +72,8 @@ void CreateSeaMapCutscene(void)
 
     ReleaseAudioSystem();
     LoadAudioSndArc("snd/sb1/sound_data.sdat");
-    NNS_SndArcLoadSeqArc(SND_SAIL_SEQARC_ARC_VOYAGE_SE, audioManagerSndHeap);
-    NNS_SndArcLoadBank(SND_SAIL_BANK_BANK_VOYAGE_SE, audioManagerSndHeap);
+    NNS_SndArcLoadSeqArc(SND_SAIL_SEQARC_ARC_VOYAGE_SE, gAudioManagerSndHeap);
+    NNS_SndArcLoadBank(SND_SAIL_BANK_BANK_VOYAGE_SE, gAudioManagerSndHeap);
 
     InitDisplayForSeaMapCutscene();
 
@@ -92,7 +92,7 @@ void CreateSeaMapCutscene(void)
 
     work->flags       = 0;
     work->brightness  = gfxControlA->brightness;
-    work->stateActive = startStateForType[SeaMapManager__GetUnknown1()];
+    work->stateActive = sStartStateForType[SeaMapManager__GetUnknown1()];
 
     TouchField__Init(&work->touchField);
     work->touchField.mode      = FALSE;
@@ -100,7 +100,7 @@ void CreateSeaMapCutscene(void)
 
     work->bgCutscene          = ReadFileFromBundle("bb/tkdm_down.bb", BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_BG_BBG, BINARYBUNDLE_AUTO_ALLOC_HEAD);
     work->sprPressStartButton = ReadFileFromBundle("bb/tkdm_down.bb", BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_CMN_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
-    work->sprPressStartText   = ReadFileFromBundle("bb/tkdm_down.bb", sprPressStartTextFiles[GetGameLanguage()], BINARYBUNDLE_AUTO_ALLOC_HEAD);
+    work->sprPressStartText   = ReadFileFromBundle("bb/tkdm_down.bb", sSprPressStartTextFiles[GetGameLanguage()], BINARYBUNDLE_AUTO_ALLOC_HEAD);
 
     seaMapViewMode     = 2;
     seaMapViewUnknown1 = 0;

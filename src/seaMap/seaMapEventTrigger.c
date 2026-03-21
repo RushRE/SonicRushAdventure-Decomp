@@ -10,14 +10,14 @@
 // VARIABLES
 // --------------------
 
-static u32 initialized;
+static u32 sInitialized;
 
 struct
 {
     NNSFndList allocatedListeners;
     SeaMapEventListener listenerStorage[SEAMAPEVENTTRIGGER_LISTENER_LIST_SIZE];
     SeaMapEventListener *availableListeners[SEAMAPEVENTTRIGGER_LISTENER_LIST_SIZE];
-} listenerList;
+} sListenerList;
 
 // --------------------
 // FUNCTION DECLS
@@ -32,7 +32,7 @@ static void InitSeaMapEventTriggerList(void);
 void InitSeaMapEventTriggerSystem(void)
 {
     InitSeaMapEventTriggerList();
-    initialized = TRUE;
+    sInitialized = TRUE;
 }
 
 void ReleaseSeaMapEventTriggerSystem(void)
@@ -43,12 +43,12 @@ void ReleaseSeaMapEventTriggerSystem(void)
 
 SeaMapEventListener *SeaMapEventTrigger_AddEventListener(SeaMapEventTriggerCallback callback, void *work)
 {
-    s32 slot = (SEAMAPEVENTTRIGGER_LISTENER_LIST_SIZE - 1) - listenerList.allocatedListeners.numObjects;
+    s32 slot = (SEAMAPEVENTTRIGGER_LISTENER_LIST_SIZE - 1) - sListenerList.allocatedListeners.numObjects;
 
-    SeaMapEventListener *listener = listenerList.availableListeners[slot];
-    listenerList.availableListeners[slot]  = NULL;
+    SeaMapEventListener *listener = sListenerList.availableListeners[slot];
+    sListenerList.availableListeners[slot]  = NULL;
 
-    NNS_FndAppendListObject(&listenerList.allocatedListeners, listener);
+    NNS_FndAppendListObject(&sListenerList.allocatedListeners, listener);
 
     listener->callback = callback;
     listener->work     = work;
@@ -58,19 +58,19 @@ SeaMapEventListener *SeaMapEventTrigger_AddEventListener(SeaMapEventTriggerCallb
 
 void SeaMapEventTrigger_RemoveEventListener(SeaMapEventListener *listener)
 {
-    NNS_FndRemoveListObject(&listenerList.allocatedListeners, listener);
+    NNS_FndRemoveListObject(&sListenerList.allocatedListeners, listener);
 
-    s32 slot                          = (SEAMAPEVENTTRIGGER_LISTENER_LIST_SIZE - 1) - listenerList.allocatedListeners.numObjects;
-    listenerList.availableListeners[slot] = listener;
+    s32 slot                          = (SEAMAPEVENTTRIGGER_LISTENER_LIST_SIZE - 1) - sListenerList.allocatedListeners.numObjects;
+    sListenerList.availableListeners[slot] = listener;
 
     MI_CpuClear16(listener, sizeof(*listener));
 }
 
 void SeaMapEventTrigger_DoEvent(SeaMapEventTriggerType type, void *eventData, s32 unknown)
 {
-    NNSFndList *list = &listenerList.allocatedListeners;
+    NNSFndList *list = &sListenerList.allocatedListeners;
 
-    SeaMapEventListener *listener = (SeaMapEventListener *)listenerList.allocatedListeners.headObject;
+    SeaMapEventListener *listener = (SeaMapEventListener *)sListenerList.allocatedListeners.headObject;
     while (listener != NULL)
     {
         listener->callback(type, listener->work, eventData, unknown);
@@ -81,12 +81,12 @@ void SeaMapEventTrigger_DoEvent(SeaMapEventTriggerType type, void *eventData, s3
 
 void InitSeaMapEventTriggerList(void)
 {
-    NNS_FND_INIT_LIST(&listenerList.allocatedListeners, SeaMapEventListener, link);
+    NNS_FND_INIT_LIST(&sListenerList.allocatedListeners, SeaMapEventListener, link);
 
     for (s32 i = 0; i < SEAMAPEVENTTRIGGER_LISTENER_LIST_SIZE; i++)
     {
-        listenerList.availableListeners[i] = &listenerList.listenerStorage[i];
+        sListenerList.availableListeners[i] = &sListenerList.listenerStorage[i];
     }
 
-    MI_CpuClear16(listenerList.listenerStorage, sizeof(listenerList.listenerStorage));
+    MI_CpuClear16(sListenerList.listenerStorage, sizeof(sListenerList.listenerStorage));
 }

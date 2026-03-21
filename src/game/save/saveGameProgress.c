@@ -1072,7 +1072,7 @@ void SaveGame__ChangeEvent(s32 sysEvent)
 
 void SaveGame__RestartEvent(void)
 {
-    SaveGame__ChangeEvent((u16)GetSysEventList()->currentEventID);
+    SaveGame__ChangeEvent((u16)GetSysEventManager()->currentEventID);
 }
 
 void SaveGame__StartCutscene(u16 cutsceneID, s32 nextEvent, BOOL flag)
@@ -1080,7 +1080,7 @@ void SaveGame__StartCutscene(u16 cutsceneID, s32 nextEvent, BOOL flag)
     u16 cutsceneIDList[] = { CUTSCENE_OCEAN_TORNADO_LAUNCH, CUTSCENE_AQUA_BLAST_LAUNCH, CUTSCENE_DEEP_TYPHOON_LAUNCH };
 
     if (nextEvent == SYSEVENT_NONE)
-        nextEvent = (u16)GetSysEventList()->currentEventID;
+        nextEvent = (u16)GetSysEventManager()->currentEventID;
 
     struct GameCutsceneState *state = &gameState.cutscene;
     state->nextSysEvent             = nextEvent;

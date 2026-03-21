@@ -148,13 +148,13 @@ struct DecorRect
 // VARIABLES
 // --------------------
 
-static DecorationSys *DecorationSys__WorkSingleton;
+static DecorationSys *sDecorationSysWorkSingleton;
 
-static u32 DecorationSys__TempDecorBitfield[(1 + STAGEDECOR_TEMPLIST_SIZE + (32 - 1)) / 32];
-static struct Unknown2189EAC decorUnknownList[4];
-static MapDecor DecorationSys__TempDecorList[STAGEDECOR_TEMPLIST_SIZE];
-static OBS_DATA_WORK decorFileList[20];
-static OBS_SPRITE_REF decorSpriteRefList[55];
+static u32 sTempDecorBitfield[(1 + STAGEDECOR_TEMPLIST_SIZE + (32 - 1)) / 32];
+static struct Unknown2189EAC sDecorUnknownList[4];
+static MapDecor sTempDecorList[STAGEDECOR_TEMPLIST_SIZE];
+static OBS_DATA_WORK sDecorFileList[20];
+static OBS_SPRITE_REF sDecorSpriteRefList[55];
 
 NOT_DECOMPILED void *DecorationSys__rangeTable;
 NOT_DECOMPILED void *DecorationSys__offsetTable;
@@ -206,7 +206,7 @@ static const struct DecorAsset decorAssets[DECOR_ASSET_COUNT] = {
 };
 */
 
-static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
+static const struct DecorConfig sDecorInfo[MAPDECOR_COUNT] = {
     [MAPDECOR_0] = { .assetID    = DECOR_ASSET_Flipmush,
                      .flags      = DECOR_FLAG_NONE,
                      .animID     = 1,
@@ -2953,7 +2953,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .type       = DECOR_COMMONTYPE_ANIMATED },
 };
 
-static s8 iceSparkleOffsetTable[16] = { 1, -52, -5, -44, 15, -32, -2, -30, 19, -23, -5, -21, 14, -6, -13, -4 };
+static s8 sIceSparkleOffsetTable[16] = { 1, -52, -5, -44, 15, -32, -2, -30, 19, -23, -5, -21, 14, -6, -13, -4 };
 
 // --------------------
 // FUNCTIONS
@@ -2966,7 +2966,7 @@ RUSH_INLINE const struct DecorAsset *GetDecorAsset(u8 id)
 
 void DecorationSys__Create(void)
 {
-    if (DecorationSys__WorkSingleton != NULL)
+    if (sDecorationSysWorkSingleton != NULL)
         return;
 
     Task *task = TaskCreate(DecorationSys__Main, DecorationSys__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(3), DecorationSys);
@@ -2976,7 +2976,7 @@ void DecorationSys__Create(void)
     DecorationSys *work = TaskGetWork(task, DecorationSys);
     TaskInitWork8(work);
 
-    DecorationSys__WorkSingleton = work;
+    sDecorationSysWorkSingleton = work;
 }
 
 StageDecoration *DecorationSys__Construct(size_t structSize, MapDecor *mapDecor, fx32 x, fx32 y, BOOL prepend)
@@ -3011,10 +3011,10 @@ void DecorationSys__DestroyDecor(StageDecoration *work)
 
 void DecorationSys__Release(void)
 {
-    if (DecorationSys__WorkSingleton == NULL)
+    if (sDecorationSysWorkSingleton == NULL)
         return;
 
-    StageDecoration *decor = DecorationSys__WorkSingleton->listStart;
+    StageDecoration *decor = sDecorationSysWorkSingleton->listStart;
     while (decor != NULL)
     {
         StageDecoration *next = decor->next;
@@ -3030,13 +3030,13 @@ StageDecoration *DecorationSys__CreateTempDecoration(s32 type, fx32 x, fx32 y)
     s32 slot = DecorationSys__GetNextTempSlot();
     if (slot < STAGEDECOR_TEMPLIST_SIZE)
     {
-        DecorationSys__TempDecorList[slot].x  = -1;
-        DecorationSys__TempDecorList[slot].y  = -1;
-        DecorationSys__TempDecorList[slot].id = type;
+        sTempDecorList[slot].x  = -1;
+        sTempDecorList[slot].y  = -1;
+        sTempDecorList[slot].id = type;
 
-        work = stageDecorationSpawnList[type](&DecorationSys__TempDecorList[slot], x, y, 0);
+        work = stageDecorationSpawnList[type](&sTempDecorList[slot], x, y, 0);
         if (work == NULL)
-            DecorationSys__ReleaseTempDecor(&DecorationSys__TempDecorList[slot]);
+            DecorationSys__ReleaseTempDecor(&sTempDecorList[slot]);
     }
 
     return work;
@@ -3048,7 +3048,7 @@ StageDecoration *DecorationSys__CreateCommonDecor2D(MapDecor *mapDecor, fx32 x, 
     const struct DecorConfig *config;
     const struct DecorAsset *asset;
 
-    config = &decorInfo[mapDecor->id];
+    config = &sDecorInfo[mapDecor->id];
 
     BOOL prepend = (config->flags & DECOR_FLAG_PREPEND) != 0;
 
@@ -3061,7 +3061,7 @@ StageDecoration *DecorationSys__CreateCommonDecor2D(MapDecor *mapDecor, fx32 x, 
 
     if ((config->flags & DECOR_FLAG_4) != 0 && (config->flags & DECOR_FLAG_10) == 0)
     {
-        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator, asset->path, &decorFileList[asset->fileID], gameArchiveStage, OBJ_DATA_GFX_AUTO);
+        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator, asset->path, &sDecorFileList[asset->fileID], gameArchiveStage, OBJ_DATA_GFX_AUTO);
         ObjActionAllocSpritePalette(&work->decorWork.objWork, config->animID2, config->animFlags2);
         StageTask__SetAnimation(&work->decorWork.objWork, config->animID);
     }
@@ -3069,14 +3069,14 @@ StageDecoration *DecorationSys__CreateCommonDecor2D(MapDecor *mapDecor, fx32 x, 
     {
         if ((config->flags & DECOR_FLAG_40) == 0)
         {
-            ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator, asset->path, &decorFileList[asset->fileID], gameArchiveStage, OBJ_DATA_GFX_NONE);
+            ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator, asset->path, &sDecorFileList[asset->fileID], gameArchiveStage, OBJ_DATA_GFX_NONE);
             ObjActionAllocSpritePalette(&work->decorWork.objWork, config->animID2, config->animFlags2);
             ObjObjectActionAllocSprite(&work->decorWork.objWork, Sprite__GetSpriteSize2FromAnim(work->animator.fileWork->fileData, config->animID),
-                                       &decorSpriteRefList[config->spriteID]);
+                                       &sDecorSpriteRefList[config->spriteID]);
             StageTask__SetAnimation(&work->decorWork.objWork, config->animID);
 
             AnimatorSpriteDS *ani = &work->decorWork.objWork.obj_2d->ani;
-            if ((decorSpriteRefList[config->spriteID].engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
+            if ((sDecorSpriteRefList[config->spriteID].engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
             {
                 ani->work.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS;
                 AnimatorSpriteDS__ProcessAnimationFast(ani);
@@ -3128,7 +3128,7 @@ StageDecoration *DecorationSys__CreateCommonDecor3D(MapDecor *mapDecor, fx32 x, 
     const struct DecorAsset *asset;
     const struct DecorAsset *asset2D;
 
-    config   = &decorInfo[mapDecor->id];
+    config   = &sDecorInfo[mapDecor->id];
     asset    = &decorAssets[config->assetID];
     config2D = &decorInfo3D[config->animFlags2];
     asset2D  = &decorAssets[config2D->assetID];
@@ -3142,22 +3142,22 @@ StageDecoration *DecorationSys__CreateCommonDecor3D(MapDecor *mapDecor, fx32 x, 
 
     if ((config->flags & DECOR_FLAG_4) != 0 && (config->flags & DECOR_FLAG_10) == 0)
     {
-        ObjObjectAction3dBACLoad(&work->decorWork.objWork, &work->animator3D, asset->path, OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, &decorFileList[asset->fileID], gameArchiveStage);
+        ObjObjectAction3dBACLoad(&work->decorWork.objWork, &work->animator3D, asset->path, OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, &sDecorFileList[asset->fileID], gameArchiveStage);
         StageTask__SetAnimation(&work->decorWork.objWork, config->animID);
 
-        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator2D, asset2D->path, &decorFileList[asset2D->fileID], gameArchiveStage, OBJ_DATA_GFX_AUTO);
+        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator2D, asset2D->path, &sDecorFileList[asset2D->fileID], gameArchiveStage, OBJ_DATA_GFX_AUTO);
         ObjActionAllocSpritePalette(&work->decorWork.objWork, config2D->animID2, config2D->animFlags2);
         DecorationSys__SetAnimation(&work->decorWork, config2D->animID);
     }
     else
     {
-        ObjObjectAction3dBACLoad(&work->decorWork.objWork, &work->animator3D, asset->path, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, &decorFileList[asset->fileID], gameArchiveStage);
+        ObjObjectAction3dBACLoad(&work->decorWork.objWork, &work->animator3D, asset->path, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, &sDecorFileList[asset->fileID], gameArchiveStage);
         ObjObjectActionAllocTexture(&work->decorWork.objWork, Sprite__GetTextureSizeFromAnim(work->animator3D.fileWork->fileData, config->animID),
-                                    Sprite__GetPaletteSizeFromAnim(work->animator3D.fileWork->fileData, config->animID), (OBS_TEXTURE_REF *)&decorSpriteRefList[config->spriteID]);
+                                    Sprite__GetPaletteSizeFromAnim(work->animator3D.fileWork->fileData, config->animID), (OBS_TEXTURE_REF *)&sDecorSpriteRefList[config->spriteID]);
         StageTask__SetAnimation(&work->decorWork.objWork, config->animID);
 
         AnimatorSprite3D *ani3D = &work->decorWork.objWork.obj_2dIn3d->ani;
-        if ((decorSpriteRefList[config->spriteID].engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
+        if ((sDecorSpriteRefList[config->spriteID].engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
         {
             ani3D->animatorSprite.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS;
             AnimatorSprite3D__ProcessAnimationFast(ani3D);
@@ -3165,14 +3165,14 @@ StageDecoration *DecorationSys__CreateCommonDecor3D(MapDecor *mapDecor, fx32 x, 
         }
         ani3D->animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
 
-        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator2D, asset->path, &decorFileList[asset2D->fileID], gameArchiveStage, OBJ_DATA_GFX_NONE);
+        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator2D, asset->path, &sDecorFileList[asset2D->fileID], gameArchiveStage, OBJ_DATA_GFX_NONE);
         ObjActionAllocSpritePalette(&work->decorWork.objWork, config2D->animID2, config2D->animFlags2);
         ObjObjectActionAllocSprite(&work->decorWork.objWork, Sprite__GetSpriteSize2FromAnim(work->animator2D.fileWork->fileData, config2D->animID),
-                                   &decorSpriteRefList[config2D->spriteID]);
+                                   &sDecorSpriteRefList[config2D->spriteID]);
         DecorationSys__SetAnimation(&work->decorWork, config2D->animID);
 
         AnimatorSpriteDS *ani = &work->decorWork.objWork.obj_2d->ani;
-        if ((decorSpriteRefList[config2D->spriteID].engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
+        if ((sDecorSpriteRefList[config2D->spriteID].engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
         {
             ani->work.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS;
             AnimatorSpriteDS__ProcessAnimationFast(ani);
@@ -3231,16 +3231,16 @@ void DecorationSys__Destructor(Task *task)
 {
     UNUSED(task);
 
-    if (DecorationSys__WorkSingleton == NULL)
+    if (sDecorationSysWorkSingleton == NULL)
         return;
 
     DecorationSys__Release();
-    DecorationSys__WorkSingleton = NULL;
+    sDecorationSysWorkSingleton = NULL;
 }
 
 void DecorationSys__Main(void)
 {
-    StageDecoration *decor = DecorationSys__WorkSingleton->listStart;
+    StageDecoration *decor = sDecorationSysWorkSingleton->listStart;
     while (decor != NULL)
     {
         StageDecoration *next = decor->next;
@@ -3449,17 +3449,17 @@ void DecorationSys__Destructor_21535B8(StageDecoration *work)
 
 void DecorationSys__AddEntry_Tail(StageDecoration *work)
 {
-    if (DecorationSys__WorkSingleton->listEnd != NULL)
+    if (sDecorationSysWorkSingleton->listEnd != NULL)
     {
-        DecorationSys__WorkSingleton->listEnd->next = work;
-        work->prev                                  = DecorationSys__WorkSingleton->listEnd;
+        sDecorationSysWorkSingleton->listEnd->next = work;
+        work->prev                                  = sDecorationSysWorkSingleton->listEnd;
         work->next                                  = NULL;
-        DecorationSys__WorkSingleton->listEnd       = work;
+        sDecorationSysWorkSingleton->listEnd       = work;
     }
     else
     {
-        DecorationSys__WorkSingleton->listEnd   = work;
-        DecorationSys__WorkSingleton->listStart = DecorationSys__WorkSingleton->listEnd;
+        sDecorationSysWorkSingleton->listEnd   = work;
+        sDecorationSysWorkSingleton->listStart = sDecorationSysWorkSingleton->listEnd;
 
         work->next = NULL;
         work->prev = NULL;
@@ -3468,17 +3468,17 @@ void DecorationSys__AddEntry_Tail(StageDecoration *work)
 
 void DecorationSys__AddEntry_Head(StageDecoration *work)
 {
-    if (DecorationSys__WorkSingleton->listStart != NULL)
+    if (sDecorationSysWorkSingleton->listStart != NULL)
     {
-        DecorationSys__WorkSingleton->listStart->prev = work;
-        work->next                                    = DecorationSys__WorkSingleton->listStart;
+        sDecorationSysWorkSingleton->listStart->prev = work;
+        work->next                                    = sDecorationSysWorkSingleton->listStart;
         work->prev                                    = NULL;
-        DecorationSys__WorkSingleton->listStart       = work;
+        sDecorationSysWorkSingleton->listStart       = work;
     }
     else
     {
-        DecorationSys__WorkSingleton->listEnd   = work;
-        DecorationSys__WorkSingleton->listStart = DecorationSys__WorkSingleton->listEnd;
+        sDecorationSysWorkSingleton->listEnd   = work;
+        sDecorationSysWorkSingleton->listStart = sDecorationSysWorkSingleton->listEnd;
         work->next                              = NULL;
         work->prev                              = NULL;
     }
@@ -3490,13 +3490,13 @@ void DecorationSys__RemoveEntry(StageDecoration *work)
     if (prev != NULL)
         prev->next = work->next;
     else
-        DecorationSys__WorkSingleton->listStart = work->next;
+        sDecorationSysWorkSingleton->listStart = work->next;
 
     StageDecoration *next = work->next;
     if (next != NULL)
         next->prev = work->prev;
     else
-        DecorationSys__WorkSingleton->listEnd = work->prev;
+        sDecorationSysWorkSingleton->listEnd = work->prev;
 }
 
 void DecorationSys__SpriteCallback_Default(BACFrameGroupBlock_Hitbox *block, AnimatorSprite *animator, StageDecoration *work)
@@ -3528,9 +3528,9 @@ s16 DecorationSys__GetNextTempSlot(void)
 
     for (slot = 0; slot < STAGEDECOR_TEMPLIST_SIZE; slot++)
     {
-        if ((DecorationSys__TempDecorBitfield[slot >> 5] & (1 << (slot & 0x1F))) == 0)
+        if ((sTempDecorBitfield[slot >> 5] & (1 << (slot & 0x1F))) == 0)
         {
-            DecorationSys__TempDecorBitfield[slot >> 5] |= (1 << (slot & 0x1F));
+            sTempDecorBitfield[slot >> 5] |= (1 << (slot & 0x1F));
             return slot;
         }
     }
@@ -3540,9 +3540,9 @@ s16 DecorationSys__GetNextTempSlot(void)
 
 void DecorationSys__ReleaseTempDecor(MapDecor *mapDecor)
 {
-    u32 slot = FX_DivS32((size_t)mapDecor - (size_t)DecorationSys__TempDecorList, 4);
+    u32 slot = FX_DivS32((size_t)mapDecor - (size_t)sTempDecorList, 4);
 
-    DecorationSys__TempDecorBitfield[slot >> 5] &= ~(1 << (slot & 0x1F));
+    sTempDecorBitfield[slot >> 5] &= ~(1 << (slot & 0x1F));
 }
 
 void DecorationSys__CreateWaterBubble(StageDecoration *work)
@@ -4352,8 +4352,8 @@ void DecorationSys__State_IceTree(StageDecoration *work)
         // BUG(?)
         // shouldn't it be "(type + 1) & 0xF" instead of "(type & 0xF) + 1"?
         // this could potentially cause a minor buffer overflow!
-        EffectIceSparkles *sparkle = EffectIceSparkles__Create(work->objWork.position.x + FX32_FROM_WHOLE(iceSparkleOffsetTable[type]),
-                                                               work->objWork.position.y + FX32_FROM_WHOLE(iceSparkleOffsetTable[type + 1]), 0, 0, 0);
+        EffectIceSparkles *sparkle = EffectIceSparkles__Create(work->objWork.position.x + FX32_FROM_WHOLE(sIceSparkleOffsetTable[type]),
+                                                               work->objWork.position.y + FX32_FROM_WHOLE(sIceSparkleOffsetTable[type + 1]), 0, 0, 0);
         if (sparkle != NULL)
             StageTask__SetAnimatorPriority(&sparkle->objWork, work->objWork.obj_2d->ani.work.oamPriority);
 
@@ -4557,7 +4557,7 @@ NONMATCH_FUNC s32 DecorationSys__CreateEmitterChild(s32 id)
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mvn r0, #0
-	ldr r3, =decorUnknownList
+	ldr r3, =sDecorUnknownList
 	mov r4, r0
 	mov ip, #0
 _02154B94:
@@ -4587,7 +4587,7 @@ _02154BC8:
 	mov r0, r5
 	mov r2, r1
 	bl DecorationSys__CreateTempDecoration
-	ldr r1, =decorUnknownList
+	ldr r1, =sDecorUnknownList
 	mov r2, r4, lsl #3
 	str r0, [r1, r4, lsl #3]
 	str r4, [r0, #0x2c]
@@ -4608,14 +4608,14 @@ _02154C0C:
 
 void DecorationSys__DestroyEmitterChild(s32 id)
 {
-    if (decorUnknownList[id].timer != 0)
+    if (sDecorUnknownList[id].timer != 0)
     {
-        decorUnknownList[id].timer--;
-        if (decorUnknownList[id].timer == 0)
+        sDecorUnknownList[id].timer--;
+        if (sDecorUnknownList[id].timer == 0)
         {
-            QueueDestroyStageTask(&decorUnknownList[id].lastDecor->objWork);
-            decorUnknownList[id].lastDecor = NULL;
-            decorUnknownList[id].lastType  = MAPDECOR_0;
+            QueueDestroyStageTask(&sDecorUnknownList[id].lastDecor->objWork);
+            sDecorUnknownList[id].lastDecor = NULL;
+            sDecorUnknownList[id].lastType  = MAPDECOR_0;
         }
     }
 }
@@ -4631,11 +4631,11 @@ void DecorationSys__InitCmn_Animated(StageDecoration *work)
 void DecorationSys__Destructor_Animated(StageDecoration *work)
 {
     s32 id = work->objWork.userTimer;
-    if (decorUnknownList[id].lastDecor == work)
+    if (sDecorUnknownList[id].lastDecor == work)
     {
-        decorUnknownList[id].lastDecor = NULL;
-        decorUnknownList[id].timer     = 0;
-        decorUnknownList[id].lastType  = MAPDECOR_0;
+        sDecorUnknownList[id].lastDecor = NULL;
+        sDecorUnknownList[id].timer     = 0;
+        sDecorUnknownList[id].lastType  = MAPDECOR_0;
     }
 
     DecorationSys__Destructor_21535B8(work);
@@ -4685,7 +4685,7 @@ void DecorationSys__InitCmn_Emitter(StageDecoration *work)
         s32 id = DecorationSys__CreateEmitterChild(type);
         if (id != -1)
         {
-            StageDecoration *lastDecor = decorUnknownList[id].lastDecor;
+            StageDecoration *lastDecor = sDecorUnknownList[id].lastDecor;
 
             work->objWork.userTimer = id;
             work->objWork.obj_2d    = lastDecor->objWork.obj_2d;

@@ -36,13 +36,13 @@ enum AvalancheFlags
 // VARIABLES
 // --------------------
 
-static fx32 moveSpeedTable_Near[CHARACTER_COUNT] = { [CHARACTER_SONIC] = FLOAT_TO_FX32(10.5), [CHARACTER_BLAZE] = FLOAT_TO_FX32(10.0) };
-static fx32 distanceTable_Start[CHARACTER_COUNT] = { [CHARACTER_SONIC] = FLOAT_TO_FX32(48.0), [CHARACTER_BLAZE] = FLOAT_TO_FX32(56.0) };
-static fx32 distanceTable_Near[CHARACTER_COUNT]  = { [CHARACTER_SONIC] = FLOAT_TO_FX32(48.0), [CHARACTER_BLAZE] = FLOAT_TO_FX32(56.0) };
-static fx32 distanceTable_Far[CHARACTER_COUNT]   = { [CHARACTER_SONIC] = FLOAT_TO_FX32(64.0), [CHARACTER_BLAZE] = FLOAT_TO_FX32(72.0) };
-static fx32 moveSpeedTable_Far[CHARACTER_COUNT]  = { [CHARACTER_SONIC] = FLOAT_TO_FX32(14.0), [CHARACTER_BLAZE] = FLOAT_TO_FX32(13.0) };
+static fx32 sMoveSpeedTable_Near[CHARACTER_COUNT] = { [CHARACTER_SONIC] = FLOAT_TO_FX32(10.5), [CHARACTER_BLAZE] = FLOAT_TO_FX32(10.0) };
+static fx32 sDistanceTable_Start[CHARACTER_COUNT] = { [CHARACTER_SONIC] = FLOAT_TO_FX32(48.0), [CHARACTER_BLAZE] = FLOAT_TO_FX32(56.0) };
+static fx32 sDistanceTable_Near[CHARACTER_COUNT]  = { [CHARACTER_SONIC] = FLOAT_TO_FX32(48.0), [CHARACTER_BLAZE] = FLOAT_TO_FX32(56.0) };
+static fx32 sDistanceTable_Far[CHARACTER_COUNT]   = { [CHARACTER_SONIC] = FLOAT_TO_FX32(64.0), [CHARACTER_BLAZE] = FLOAT_TO_FX32(72.0) };
+static fx32 sMoveSpeedTable_Far[CHARACTER_COUNT]  = { [CHARACTER_SONIC] = FLOAT_TO_FX32(14.0), [CHARACTER_BLAZE] = FLOAT_TO_FX32(13.0) };
 
-static u8 debrisTypeTable[8] = { 0, 1, 2, 0, 1, 2, 0, 1 };
+static u8 sDebrisTypeTable[8] = { 0, 1, 2, 0, 1, 2, 0, 1 };
 
 // --------------------
 // FUNCTION DECLS
@@ -254,21 +254,21 @@ void Avalanche_State_Active(Avalanche *work)
     if ((work->gameWork.flags & AVALANCHE_FLAG_TRACK_DISTANCE) != 0)
     {
         fx32 distance = gPlayer->objWork.position.x - work->gameWork.objWork.position.x;
-        if (distance >= distanceTable_Far[characterID])
+        if (distance >= sDistanceTable_Far[characterID])
         {
-            work->gameWork.objWork.groundVel = moveSpeedTable_Far[characterID];
+            work->gameWork.objWork.groundVel = sMoveSpeedTable_Far[characterID];
         }
-        else if (distance <= distanceTable_Near[characterID])
+        else if (distance <= sDistanceTable_Near[characterID])
         {
-            work->gameWork.objWork.groundVel = moveSpeedTable_Near[characterID];
+            work->gameWork.objWork.groundVel = sMoveSpeedTable_Near[characterID];
         }
     }
     else
     {
-        if (gPlayer->objWork.position.x - work->gameWork.objWork.position.x <= distanceTable_Start[characterID])
+        if (gPlayer->objWork.position.x - work->gameWork.objWork.position.x <= sDistanceTable_Start[characterID])
         {
             work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_USE_SLOPE_ACCELERATION;
-            work->gameWork.objWork.groundVel = moveSpeedTable_Near[characterID];
+            work->gameWork.objWork.groundVel = sMoveSpeedTable_Near[characterID];
             work->gameWork.flags |= AVALANCHE_FLAG_TRACK_DISTANCE;
         }
     }
@@ -288,7 +288,7 @@ void Avalanche_State_Active(Avalanche *work)
         fx32 velX = (mtMathRandRepeat(FLOAT_TO_FX32(1.0)) + FLOAT_TO_FX32(8.0));
         fx32 type = mtMathRandRepeat(8);
 
-        EffectAvalancheDebris__Create(debrisTypeTable[type], work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, velX, velY);
+        EffectAvalancheDebris__Create(sDebrisTypeTable[type], work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, velX, velY);
     }
 
     ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);

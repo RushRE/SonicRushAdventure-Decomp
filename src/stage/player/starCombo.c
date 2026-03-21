@@ -15,10 +15,10 @@
 // VARIABLES
 // --------------------
 
-static Task *trickConfetti;
-static void *trickAsset;
+static Task *sTrickConfettiTaskSingleton;
+static void *sSprTrickEffects;
 
-static VRAMPixelKey starComboVram[8][2];
+static VRAMPixelKey sSpriteVRAMTable[8][GRAPHICS_ENGINE_COUNT];
 
 NOT_DECOMPILED u32 ScoreBonus__DigitBase[];
 // static const u32 ScoreBonus__DigitBase[] = { 1, 10, 100, 1000, 10000 };
@@ -35,26 +35,26 @@ void StarCombo__SpawnConfetti(void)
 {
     static const u8 animList[] = { 0, 5, 6, 7, 8, 9, 10, 11 };
 
-    if (trickAsset == NULL)
+    if (sSprTrickEffects == NULL)
     {
         AnimatorSpriteDS animator;
 
-        trickAsset = ObjDataLoad(NULL, "/ac_eff_trick.bac", gameArchiveCommon);
+        sSprTrickEffects = ObjDataLoad(NULL, "/ac_eff_trick.bac", gameArchiveCommon);
 
-        AnimatorSpriteDS__Init(&animator, trickAsset, 0, 0, ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE,
-                               VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
-        animator.cParam[0].palette = 1;
-        animator.cParam[1].palette = 1;
+        AnimatorSpriteDS__Init(&animator, sSprTrickEffects, 0, ANIMATORSPRITEDS_FLAG_NONE, ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS, PIXEL_MODE_SPRITE, 0,
+                               PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, NULL, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+        animator.cParam[GRAPHICS_ENGINE_A].palette = PALETTE_ROW_1;
+        animator.cParam[GRAPHICS_ENGINE_B].palette = PALETTE_ROW_1;
         AnimatorSpriteDS__ProcessAnimationFast(&animator);
 
         for (s32 i = 0; i < 8; i++)
         {
-            starComboVram[i][0] = VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(trickAsset, animList[i]));
-            starComboVram[i][1] = VRAMSystem__AllocSpriteVram(TRUE, Sprite__GetSpriteSize2FromAnim(trickAsset, animList[i]));
+            sSpriteVRAMTable[i][GRAPHICS_ENGINE_A] = VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(sSprTrickEffects, animList[i]));
+            sSpriteVRAMTable[i][GRAPHICS_ENGINE_B] = VRAMSystem__AllocSpriteVram(TRUE, Sprite__GetSpriteSize2FromAnim(sSprTrickEffects, animList[i]));
 
-            AnimatorSpriteDS__Init(&animator, trickAsset, animList[i], 0, ANIMATOR_FLAG_UNCOMPRESSED_PIXELS | ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE,
-                                   starComboVram[i][0], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, starComboVram[i][1], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
-                                   SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+            AnimatorSpriteDS__Init(&animator, sSprTrickEffects, animList[i], ANIMATORSPRITEDS_FLAG_NONE, ANIMATOR_FLAG_UNCOMPRESSED_PIXELS | ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE,
+                                   sSpriteVRAMTable[i][GRAPHICS_ENGINE_A], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, sSpriteVRAMTable[i][GRAPHICS_ENGINE_B],
+                                   PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
             AnimatorSpriteDS__ProcessAnimationFast(&animator);
         }
 
@@ -66,21 +66,21 @@ void StarCombo__Destroy(void)
 {
     TrickConfetti__Destroy();
 
-    if (trickAsset != NULL)
+    if (sSprTrickEffects != NULL)
     {
         for (s32 i = 0; i < 8; i++)
         {
-            VRAMSystem__FreeSpriteVram(FALSE, starComboVram[i][0]);
-            VRAMSystem__FreeSpriteVram(TRUE, starComboVram[i][1]);
+            VRAMSystem__FreeSpriteVram(FALSE, sSpriteVRAMTable[i][GRAPHICS_ENGINE_A]);
+            VRAMSystem__FreeSpriteVram(TRUE, sSpriteVRAMTable[i][GRAPHICS_ENGINE_B]);
         }
 
-        trickAsset = NULL;
+        sSprTrickEffects = NULL;
     }
 }
 
 void StarCombo__PerformTrick(Player *player)
 {
-    if (trickAsset == NULL || !CheckIsPlayer1(player) || (player->gimmickFlag & PLAYER_GIMMICK_ALLOW_TRICK_COMBO) == 0)
+    if (sSprTrickEffects == NULL || !CheckIsPlayer1(player) || (player->gimmickFlag & PLAYER_GIMMICK_ALLOW_TRICK_COMBO) == 0)
         return;
 
     StarCombo *manager = player->starComboManager;
@@ -120,7 +120,7 @@ void StarCombo__PerformTrick(Player *player)
 
 void StarCombo__FinishTrickCombo(Player *player, BOOL performTrick)
 {
-    if (trickAsset != NULL)
+    if (sSprTrickEffects != NULL)
     {
         StarCombo *starCombo = player->starComboManager;
         if (starCombo)
@@ -157,7 +157,7 @@ void StarCombo__FinishTrickCombo(Player *player, BOOL performTrick)
 
 void StarCombo__FailCombo(Player *player)
 {
-    if (trickAsset != NULL)
+    if (sSprTrickEffects != NULL)
     {
         StarCombo *starCombo = player->starComboManager;
         if (starCombo)
@@ -180,7 +180,7 @@ NONMATCH_FUNC void StarCombo__InitScoreBonus(Player *player, s32 score)
     s32 d;
     s32 delay;
 
-    if (trickAsset == NULL || !CheckIsPlayer1(player))
+    if (sSprTrickEffects == NULL || !CheckIsPlayer1(player))
         return;
 
     scoreBonus = player->scoreBonus;
@@ -232,7 +232,7 @@ NONMATCH_FUNC void StarCombo__InitScoreBonus(Player *player, s32 score)
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r2, =trickAsset
+	ldr r2, =sSprTrickEffects
 	mov r5, r0
 	ldr r2, [r2, #0]
 	mov r4, r1
@@ -304,9 +304,9 @@ void StarCombo__DisplayConfetti(Player *player)
     static const s8 StarCombo__ConfettiAnimIDs[] = { 0, 1, 2, 3, 4, 5, 0, 1, 0, 1, 2, 3, 4, 5, 2, 3 };
 
     TrickConfettiParticle *particle;
-    if (trickConfetti && player->tensionPenalty <= 2)
+    if (sTrickConfettiTaskSingleton != NULL && player->tensionPenalty <= 2)
     {
-        TrickConfetti *work = TaskGetWork(trickConfetti, TrickConfetti);
+        TrickConfetti *work = TaskGetWork(sTrickConfettiTaskSingleton, TrickConfetti);
 
         s32 particleCount = player->starComboCount != 0 ? player->starComboCount + 4 : 8 >> player->tensionPenalty;
 
@@ -322,11 +322,11 @@ void StarCombo__DisplayConfetti(Player *player)
             particle->position.x = (u16)(mtMathRand() << 8) << 4; // Rand(0, HW_LCD_WIDTH) << 4
             particle->position.y = FLOAT_TO_FX32(HW_LCD_HEIGHT);
 
-            particle->velocity.x = velX - mtMathRandRepeat(0x8000);             // 4.0 - Rand(0.0, 8.0)
+            particle->velocity.x = velX - mtMathRandRepeat(0x8000);            // 4.0 - Rand(0.0, 8.0)
             particle->velocity.y = (velY & mtMathRand()) - FLOAT_TO_FX32(7.5); // Rand(0.0, 1.5) - 7.5;
 
-            particle->animID        = StarCombo__ConfettiAnimIDs[mtMathRandRepeat(16)];
-            particle->flags = MapSys__GetDispSelect() != GX_DISP_SELECT_SUB_MAIN;
+            particle->animID = StarCombo__ConfettiAnimIDs[mtMathRandRepeat(16)];
+            particle->flags  = MapSys__GetDispSelect() != GX_DISP_SELECT_SUB_MAIN;
         }
     }
 }
@@ -337,8 +337,8 @@ void StarCombo__SetStarAnimation(AnimatorSpriteDS *work, u16 anim)
 
     u8 id = animVramMap[anim];
 
-    work->vramPixels[0] = starComboVram[id][0];
-    work->vramPixels[1] = starComboVram[id][1];
+    work->vramPixels[GRAPHICS_ENGINE_A] = sSpriteVRAMTable[id][GRAPHICS_ENGINE_A];
+    work->vramPixels[GRAPHICS_ENGINE_B] = sSpriteVRAMTable[id][GRAPHICS_ENGINE_B];
     AnimatorSpriteDS__SetAnimation(work, anim);
 }
 
@@ -361,12 +361,12 @@ StarCombo *StarCombo__Create(Player *player)
     AnimatorSpriteDS *aniStar = work->starAnimators;
     for (i = 0; i < STARCOMBO_MAX_VISIBLE_STARS; i++)
     {
-        AnimatorSpriteDS__Init(aniStar, trickAsset, STARCOMBO_ANIM_IDLE, flags,
+        AnimatorSpriteDS__Init(aniStar, sSprTrickEffects, STARCOMBO_ANIM_IDLE, flags,
                                ANIMATOR_FLAG_DISABLE_SPRITE_PARTS | ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, PIXEL_MODE_SPRITE,
-                               starComboVram[0][0], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, starComboVram[0][1], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
-                               SPRITE_PRIORITY_0, SPRITE_ORDER_5);
-        aniStar->cParam[0].palette = 1;
-        aniStar->cParam[1].palette = 1;
+                               sSpriteVRAMTable[0][GRAPHICS_ENGINE_A], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, sSpriteVRAMTable[0][GRAPHICS_ENGINE_B],
+                               PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_5);
+        aniStar->cParam[GRAPHICS_ENGINE_A].palette = PALETTE_ROW_1;
+        aniStar->cParam[GRAPHICS_ENGINE_B].palette = PALETTE_ROW_1;
 
         aniStar++;
     }
@@ -456,7 +456,7 @@ void StarCombo__Main(void)
             if (TRUE)
             {
                 AnimatorSpriteDS *aniDigit1 = GetHUDTimeNumAnimator(FX_ModS32(work->starCount, 10), FALSE);
-                aniDigit1->flags    = ANIMATORSPRITEDS_FLAG_DISABLE_B;
+                aniDigit1->flags            = ANIMATORSPRITEDS_FLAG_DISABLE_B;
                 aniDigit1->position[0].x    = FX32_TO_WHOLE(work->digit1Position.x + work->digitROffsetX);
                 aniDigit1->position[0].y    = FX32_TO_WHOLE(work->digit1Position.y + work->digitOffsetY);
 
@@ -958,7 +958,7 @@ NONMATCH_FUNC void ScoreBonus__Main(void)
         {
 
             AnimatorSpriteDS *animator = GetHUDLifeNumAnimator(digits[digitCount], highScore);
-            animator->flags    = 0;
+            animator->flags            = 0;
             animator->work.flags |= flags;
             position.x = (FX32_FROM_WHOLE(offsetX + work->digitDelay[digitCount])) + playerPos.x;
             position.y = work->positionY + (FX32_FROM_WHOLE(-28 - 2 * work->digitDelay[digitCount])) + playerPos.y;
@@ -1183,14 +1183,14 @@ void ScoreBonus__Destructor(Task *task)
 
 void TrickConfetti__Create(void)
 {
-    static const u8 paletteRows[] = { 0, 0, 0, 1, 1, 1 };
+    static const u8 paletteRows[] = { PALETTE_ROW_0, PALETTE_ROW_0, PALETTE_ROW_0, PALETTE_ROW_1, PALETTE_ROW_1, PALETTE_ROW_1 };
 
     s32 i;
 
-    Task *task = TaskCreate(TrickConfetti__Main, 0, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3), TrickConfetti);
+    Task *task = TaskCreate(TrickConfetti__Main, NULL, TASK_FLAG_NONE, TASK_PAUSELEVEL_0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3), TrickConfetti);
     if (task != HeapNull)
     {
-        trickConfetti = task;
+        sTrickConfettiTaskSingleton = task;
 
         TrickConfetti *work = TaskGetWork(task, TrickConfetti);
         TaskInitWork16(work);
@@ -1203,23 +1203,23 @@ void TrickConfetti__Create(void)
         work->particleCount = TRICKCONFETTI_PARTICLE_LIST_SIZE;
         for (i = 0; i < TRICKCONFETTI_PARTICLE_TYPE_COUNT; i++)
         {
-            AnimatorSpriteDS__Init(&work->animators[i], trickAsset, (u16)(i + 6), 0,
+            AnimatorSpriteDS__Init(&work->animators[i], sSprTrickEffects, (u16)(i + 6), ANIMATORSPRITEDS_FLAG_NONE,
                                    ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS | ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK,
-                                   PIXEL_MODE_SPRITE, starComboVram[i + 2][0], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, starComboVram[i + 2][1], PALETTE_MODE_SPRITE,
-                                   VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_5);
+                                   PIXEL_MODE_SPRITE, sSpriteVRAMTable[i + 2][GRAPHICS_ENGINE_A], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
+                                   sSpriteVRAMTable[i + 2][GRAPHICS_ENGINE_B], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_5);
 
-            work->animators[i].work.cParam.palette      = paletteRows[i];
-            work->animators[i].cParam[0].palette = work->animators[i].cParam[1].palette = work->animators[i].work.cParam.palette;
+            work->animators[i].work.cParam.palette = paletteRows[i];
+            work->animators[i].cParam[GRAPHICS_ENGINE_A].palette = work->animators[i].cParam[GRAPHICS_ENGINE_B].palette = work->animators[i].work.cParam.palette;
         }
     }
 }
 
 void TrickConfetti__Destroy(void)
 {
-    if (trickConfetti != NULL)
+    if (sTrickConfettiTaskSingleton != NULL)
     {
-        DestroyTask(trickConfetti);
-        trickConfetti = NULL;
+        DestroyTask(sTrickConfettiTaskSingleton);
+        sTrickConfettiTaskSingleton = NULL;
     }
 }
 
@@ -1253,7 +1253,7 @@ void TrickConfetti__Main(void)
             particle->velocity.x = (s16)-particle->velocity.x;
 
         if (mtMathRandRepeat(32) == 0)
-            particle->velocity.y = 0;
+            particle->velocity.y = FLOAT_TO_FX32(0.0);
 
         particle->position.x += particle->velocity.x;
         particle->position.y += particle->velocity.y;

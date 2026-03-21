@@ -52,32 +52,32 @@
 // VARIABLES
 // --------------------
 
-u8 playerCount;
-static Task *curJingle;
-static fx32 startingPosY;
-void *playerArchive;
-static fx32 startingPosZ;
-static fx32 startingPosX;
+u8 gPlayerCount;
+static Task *sCurrentJingle;
+static fx32 sStartingPosY;
+void *gPlayerArchive;
+static fx32 sStartingPosZ;
+static fx32 sStartingPosX;
 
-OBS_DATA_WORK animationWork;
-OBS_DATA_WORK snowboardWork;
-static OBS_DATA_WORK spriteWork;
-OBS_DATA_WORK playerWork[CHARACTER_COUNT];
+OBS_DATA_WORK gPlayerMainAnimationFile;
+static OBS_DATA_WORK sPlayerSnowboardAnimationFile;
+static OBS_DATA_WORK sPlayerSpriteFile;
+OBS_DATA_WORK gPlayerModelFile[CHARACTER_COUNT];
 
 // clang-format off
-static const char *playerModelPath[CHARACTER_COUNT] = 
+static const char *sPlayerModelPath[CHARACTER_COUNT] = 
 { 
     [CHARACTER_SONIC] = "son.nsbmd", 
     [CHARACTER_BLAZE] = "blz.nsbmd" 
 };
 // clang-format on
 
-extern const struct PlayerPhysicsTable playerPhysicsTable[CHARACTER_COUNT];
+extern const struct PlayerPhysicsStats gPlayerPhysicsStats[CHARACTER_COUNT];
 
-extern const u8 *playerModelAnimForAction[CHARACTER_COUNT];
-extern const u8 *playerModelIndexForAction[CHARACTER_COUNT];
-extern const u8 *playerSpriteAnimForAction[CHARACTER_COUNT];
-extern const u8 *playerTailAnimForAction[CHARACTER_COUNT];
+extern const u8 *gPlayerModelAnimForAction[CHARACTER_COUNT];
+extern const u8 *gPlayerModelIndexForAction[CHARACTER_COUNT];
+extern const u8 *gPlayerSpriteAnimForAction[CHARACTER_COUNT];
+extern const u8 *gPlayerTailAnimForAction[CHARACTER_COUNT];
 
 // --------------------
 // INLINE FUNCTIONS
@@ -228,30 +228,30 @@ RUSH_INLINE void HandlePlayerTrickSuccess1(Player *player)
 
 void LoadPlayerAssets(void)
 {
-    ObjActionLoadArchiveFile(&playerWork[CHARACTER_SONIC], playerModelPath[CHARACTER_SONIC], playerArchive);
-    ObjActionLoadArchiveFile(&playerWork[CHARACTER_BLAZE], playerModelPath[CHARACTER_BLAZE], playerArchive);
+    ObjActionLoadArchiveFile(&gPlayerModelFile[CHARACTER_SONIC], sPlayerModelPath[CHARACTER_SONIC], gPlayerArchive);
+    ObjActionLoadArchiveFile(&gPlayerModelFile[CHARACTER_BLAZE], sPlayerModelPath[CHARACTER_BLAZE], gPlayerArchive);
 
-    ObjActionLoadModelTextures(&playerWork[CHARACTER_SONIC], NULL);
-    ObjActionLoadModelTextures(&playerWork[CHARACTER_BLAZE], NULL);
+    ObjActionLoadModelTextures(&gPlayerModelFile[CHARACTER_SONIC], NULL);
+    ObjActionLoadModelTextures(&gPlayerModelFile[CHARACTER_BLAZE], NULL);
 
-    ObjActionLoadArchiveFile(&spriteWork, "ac_ply.bac", playerArchive);
-    ObjActionLoadArchiveFile(&animationWork, "plycom.nsbca", playerArchive);
+    ObjActionLoadArchiveFile(&sPlayerSpriteFile, "ac_ply.bac", gPlayerArchive);
+    ObjActionLoadArchiveFile(&gPlayerMainAnimationFile, "plycom.nsbca", gPlayerArchive);
 
-    HeapFree(HEAP_USER, playerArchive);
-    playerArchive = NULL;
+    HeapFree(HEAP_USER, gPlayerArchive);
+    gPlayerArchive = NULL;
 }
 
 void ReleasePlayerAssets(void)
 {
-    ObjDataRelease(&playerWork[CHARACTER_SONIC]);
-    ObjDataRelease(&playerWork[CHARACTER_BLAZE]);
-    ObjDataRelease(&animationWork);
-    ObjDataRelease(&spriteWork);
+    ObjDataRelease(&gPlayerModelFile[CHARACTER_SONIC]);
+    ObjDataRelease(&gPlayerModelFile[CHARACTER_BLAZE]);
+    ObjDataRelease(&gPlayerMainAnimationFile);
+    ObjDataRelease(&sPlayerSpriteFile);
 
-    if (playerArchive != NULL)
+    if (gPlayerArchive != NULL)
     {
-        HeapFree(HEAP_USER, playerArchive);
-        playerArchive = NULL;
+        HeapFree(HEAP_USER, gPlayerArchive);
+        gPlayerArchive = NULL;
     }
 }
 
@@ -274,9 +274,9 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     TaskInitWork16(work);
 
     // static var config
-    work->controlID = playerCount;
-    work->cameraID  = playerCount;
-    playerCount++;
+    work->controlID = gPlayerCount;
+    work->cameraID  = gPlayerCount;
+    gPlayerCount++;
 
     // character config
     work->aidIndex    = aidIndex;
@@ -303,7 +303,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     work->objWork.displayFlag |= DISPLAY_FLAG_LOCK_LIGHT_DIR;
 
     // Load player model
-    ObjAction3dNNModelLoad(&work->objWork, &work->aniPlayerModel, playerModelPath[characterID], 1, &playerWork[(s32)characterID], NULL);
+    ObjAction3dNNModelLoad(&work->objWork, &work->aniPlayerModel, sPlayerModelPath[characterID], 1, &gPlayerModelFile[(s32)characterID], NULL);
 
     u16 oldNodeCount = work->aniPlayerModel.ani.renderObj.resMdl->info.numNode;
     AnimatorMDL__SetResource(&work->objWork.obj_3d->ani, work->objWork.obj_3d->resources[B3D_RESOURCE_MODEL], 0, FALSE, FALSE);
@@ -318,11 +318,11 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     work->aniPlayerModel.ani.work.matrixOpIDs[2] = MATRIX_OP_IDENTITY_ROTATE_TRANSLATE2_SCALE;
 
     // Load player animations
-    ObjAction3dNNMotionLoad(&work->objWork, &work->aniPlayerModel, "plycom.nsbca", &animationWork, NULL);
+    ObjAction3dNNMotionLoad(&work->objWork, &work->aniPlayerModel, "plycom.nsbca", &gPlayerMainAnimationFile, NULL);
     work->aniPlayerModel.ani.renderObj.recJntAnm = work->aniPlayerModel.ani.jntAnimResult =
-        NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniPlayerModel.resources[B3D_RESOURCE_MODEL]), idx));
+        NNS_G3dAllocRecBufferJnt(&gHeapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniPlayerModel.resources[B3D_RESOURCE_MODEL]), idx));
     work->aniPlayerModel.ani.renderObj.recMatAnm = work->aniPlayerModel.ani.matAnimResult =
-        NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniPlayerModel.resources[B3D_RESOURCE_MODEL]), idx));
+        NNS_G3dAllocRecBufferMat(&gHeapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniPlayerModel.resources[B3D_RESOURCE_MODEL]), idx));
 
     switch (characterID)
     {
@@ -333,9 +333,9 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
         case CHARACTER_BLAZE:
             AnimatorMDL__Init(&work->aniTailModel.ani, ANIMATOR_FLAG_NONE);
 
-            NNSG3dResFileHeader *resource                    = ObjDataLoad(&playerWork[characterID], playerModelPath[characterID], NULL);
+            NNSG3dResFileHeader *resource                    = ObjDataLoad(&gPlayerModelFile[characterID], sPlayerModelPath[characterID], NULL);
             work->aniTailModel.resources[B3D_RESOURCE_MODEL] = resource;
-            work->aniTailModel.file[B3D_RESOURCE_MODEL]      = &playerWork[characterID];
+            work->aniTailModel.file[B3D_RESOURCE_MODEL]      = &gPlayerModelFile[characterID];
 
             AnimatorMDL__SetResource(&work->aniTailModel.ani, resource, 2, FALSE, FALSE);
             work->aniTailModel.ani.work.scale.x = work->aniTailModel.ani.work.scale.y = work->aniTailModel.ani.work.scale.z = FLOAT_TO_FX32(3.3);
@@ -344,28 +344,28 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
             work->aniTailModel.ani.work.matrixOpIDs[1]                                                                      = MATRIX_OP_IDENTITY;
             work->aniTailModel.ani.work.matrixOpIDs[2]                                                                      = MATRIX_OP_IDENTITY_ROTATE_TRANSLATE2_SCALE;
 
-            work->aniTailModel.resources[B3D_RESOURCE_JOINT_ANIM] = ObjDataLoad(&animationWork, "plycom.nsbca", NULL);
-            work->aniTailModel.file[B3D_RESOURCE_JOINT_ANIM]      = &animationWork;
+            work->aniTailModel.resources[B3D_RESOURCE_JOINT_ANIM] = ObjDataLoad(&gPlayerMainAnimationFile, "plycom.nsbca", NULL);
+            work->aniTailModel.file[B3D_RESOURCE_JOINT_ANIM]      = &gPlayerMainAnimationFile;
 
             work->aniTailModel.ani.renderObj.recJntAnm = work->aniTailModel.ani.jntAnimResult =
-                NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniTailModel.resources[B3D_RESOURCE_MODEL]), idx));
+                NNS_G3dAllocRecBufferJnt(&gHeapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniTailModel.resources[B3D_RESOURCE_MODEL]), idx));
             work->aniTailModel.ani.renderObj.recMatAnm = work->aniTailModel.ani.matAnimResult =
-                NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniTailModel.resources[B3D_RESOURCE_MODEL]), idx));
+                NNS_G3dAllocRecBufferMat(&gHeapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniTailModel.resources[B3D_RESOURCE_MODEL]), idx));
             break;
     }
 
     // Load snowboard animations
     if (IsSnowboardStage())
     {
-        ObjDataLoad(&snowboardWork, "/mod/plybd.nsbca", gameArchiveStage);
-        work->snowboardAnims = (NNSG3dResFileHeader *)snowboardWork.fileData;
+        ObjDataLoad(&sPlayerSnowboardAnimationFile, "/mod/plybd.nsbca", gameArchiveStage);
+        work->snowboardAnims = (NNSG3dResFileHeader *)sPlayerSnowboardAnimationFile.fileData;
     }
 
-    ObjDraw__PaletteTex__Init(playerWork[characterID].fileData, &work->paletteTex);
+    ObjDraw__PaletteTex__Init(gPlayerModelFile[characterID].fileData, &work->paletteTex);
 
     // Init 2D "graphics" data
     // before you get your hopes up: this is just for colliders! The graphics have been entirely stripped from this file.
-    ObjObjectAction2dBACLoad(&work->objWork, &work->aniPlayerSprite, "/act/ac_ply.bac", &spriteWork, NULL, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->aniPlayerSprite, "/act/ac_ply.bac", &sPlayerSpriteFile, NULL, OBJ_DATA_GFX_NONE);
     work->aniPlayerSprite.ani.work.oamOrder = SPRITE_ORDER_13;
     work->aniPlayerSprite.ani.flags |= (ANIMATORSPRITEDS_FLAG_DISABLE_A | ANIMATORSPRITEDS_FLAG_3 | ANIMATORSPRITEDS_FLAG_4);
 
@@ -445,9 +445,9 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
 
     if (CheckIsPlayer1(work))
     {
-        startingPosX = FX32_TO_WHOLE(work->objWork.position.x);
-        startingPosY = FX32_TO_WHOLE(work->objWork.position.y);
-        startingPosZ = FX32_TO_WHOLE(work->objWork.position.z);
+        sStartingPosX = FX32_TO_WHOLE(work->objWork.position.x);
+        sStartingPosY = FX32_TO_WHOLE(work->objWork.position.y);
+        sStartingPosZ = FX32_TO_WHOLE(work->objWork.position.z);
     }
 
     work->actionGroundIdle(work);
@@ -670,9 +670,9 @@ void Player__InitState(Player *player)
 
 void Player__SaveStartingPosition(fx32 x, fx32 y, fx32 z)
 {
-    startingPosX = FX32_TO_WHOLE(x);
-    startingPosY = FX32_TO_WHOLE(y);
-    startingPosZ = FX32_TO_WHOLE(z);
+    sStartingPosX = FX32_TO_WHOLE(x);
+    sStartingPosY = FX32_TO_WHOLE(y);
+    sStartingPosZ = FX32_TO_WHOLE(z);
 
     if ((gameState.gameFlag & GAME_FLAG_REPLAY_GHOST_ACTIVE) != 0 && gPlayerList[1] != NULL)
     {
@@ -734,12 +734,12 @@ void Player__InitGimmick(Player *player, BOOL allowTricks)
 
 void Player__InitPhysics(Player *player)
 {
-    player->acceleration = playerPhysicsTable[player->characterID].acceleration;
+    player->acceleration = gPlayerPhysicsStats[player->characterID].acceleration;
 
     if (IsBossStage())
-        player->topSpeed = playerPhysicsTable[player->characterID].topSpeed >> 1;
+        player->topSpeed = gPlayerPhysicsStats[player->characterID].topSpeed >> 1;
     else
-        player->topSpeed = playerPhysicsTable[player->characterID].topSpeed;
+        player->topSpeed = gPlayerPhysicsStats[player->characterID].topSpeed;
 
     player->spdThresholdWalk  = player->topSpeed * 0.15;
     player->spdThresholdJog   = player->topSpeed * 0.3;
@@ -747,27 +747,27 @@ void Player__InitPhysics(Player *player)
     player->spdThresholdDash  = player->topSpeed * 0.7;
     player->spdThresholdBoost = player->topSpeed * 0.9;
 
-    player->deceleration              = playerPhysicsTable[player->characterID].deceleration;
-    player->initialSpindashPower      = playerPhysicsTable[player->characterID].rollingVelocity;
-    player->spindashChargePower       = playerPhysicsTable[player->characterID].rollingAcceleration;
-    player->spindashTopSpeed          = playerPhysicsTable[player->characterID].rollingTopSpeed;
-    player->rollingDeceleration       = playerPhysicsTable[player->characterID].rollingDeceleration;
-    player->topSpeed_Boost            = playerPhysicsTable[player->characterID].topSpeed_Boost;
-    player->acceleration_SuperBoost   = playerPhysicsTable[player->characterID].acceleration_SuperBoost;
-    player->topSpeed_SuperBoost       = playerPhysicsTable[player->characterID].topSpeed_SuperBoost;
-    player->deceleration_SuperBoost   = playerPhysicsTable[player->characterID].deceleration_SuperBoost;
-    player->minBoostVelocity          = playerPhysicsTable[player->characterID].minBoostVelocity;
-    player->slopeTopSpeedAccel        = playerPhysicsTable[player->characterID].slopeTopSpeedAccel;
-    player->jumpForce                 = playerPhysicsTable[player->characterID].jumpStrength;
-    player->airTimer                  = playerPhysicsTable[player->characterID].airTimer;
-    player->hurtInvulnDuration        = playerPhysicsTable[player->characterID].hurtInvulnDuration;
-    player->surfaceStickTimer         = playerPhysicsTable[player->characterID].surfaceStickTimer;
+    player->deceleration              = gPlayerPhysicsStats[player->characterID].deceleration;
+    player->initialSpindashPower      = gPlayerPhysicsStats[player->characterID].rollingVelocity;
+    player->spindashChargePower       = gPlayerPhysicsStats[player->characterID].rollingAcceleration;
+    player->spindashTopSpeed          = gPlayerPhysicsStats[player->characterID].rollingTopSpeed;
+    player->rollingDeceleration       = gPlayerPhysicsStats[player->characterID].rollingDeceleration;
+    player->topSpeed_Boost            = gPlayerPhysicsStats[player->characterID].topSpeed_Boost;
+    player->acceleration_SuperBoost   = gPlayerPhysicsStats[player->characterID].acceleration_SuperBoost;
+    player->topSpeed_SuperBoost       = gPlayerPhysicsStats[player->characterID].topSpeed_SuperBoost;
+    player->deceleration_SuperBoost   = gPlayerPhysicsStats[player->characterID].deceleration_SuperBoost;
+    player->minBoostVelocity          = gPlayerPhysicsStats[player->characterID].minBoostVelocity;
+    player->slopeTopSpeedAccel        = gPlayerPhysicsStats[player->characterID].slopeTopSpeedAccel;
+    player->jumpForce                 = gPlayerPhysicsStats[player->characterID].jumpStrength;
+    player->airTimer                  = gPlayerPhysicsStats[player->characterID].airTimer;
+    player->hurtInvulnDuration        = gPlayerPhysicsStats[player->characterID].hurtInvulnDuration;
+    player->surfaceStickTimer         = gPlayerPhysicsStats[player->characterID].surfaceStickTimer;
     player->objWork.slopeDirection    = FLOAT_TO_FX32(2.0);
-    player->objWork.slopeAcceleration = playerPhysicsTable[player->characterID].slopeAcceleration;
-    player->objWork.maxSlopeSpeed     = playerPhysicsTable[player->characterID].maxSlopeSpeed;
-    player->objWork.gravityStrength   = playerPhysicsTable[player->characterID].gravityStrength;
-    player->objWork.terminalVelocity  = playerPhysicsTable[player->characterID].terminalVelocity;
-    player->objWork.pushCap           = playerPhysicsTable[player->characterID].pushCap;
+    player->objWork.slopeAcceleration = gPlayerPhysicsStats[player->characterID].slopeAcceleration;
+    player->objWork.maxSlopeSpeed     = gPlayerPhysicsStats[player->characterID].maxSlopeSpeed;
+    player->objWork.gravityStrength   = gPlayerPhysicsStats[player->characterID].gravityStrength;
+    player->objWork.terminalVelocity  = gPlayerPhysicsStats[player->characterID].terminalVelocity;
+    player->objWork.pushCap           = gPlayerPhysicsStats[player->characterID].pushCap;
 
     if ((player->playerFlag & PLAYER_FLAG_IN_WATER) != 0)
     {
@@ -963,7 +963,7 @@ void Player__GiveHyperTrickEffect(Player *player)
         player->objWork.obj_3d->ani.speedMultiplier  = (player->objWork.obj_3d->ani.speedMultiplier << 1) + (player->objWork.obj_3d->ani.speedMultiplier >> 1);
         player->objWork.obj_2d->ani.work.animAdvance = player->objWork.obj_3d->ani.speedMultiplier;
 
-        if (playerTailAnimForAction[player->characterID])
+        if (gPlayerTailAnimForAction[player->characterID])
             player->aniTailModel.ani.speedMultiplier = player->objWork.obj_3d->ani.speedMultiplier;
     }
 
@@ -1024,12 +1024,12 @@ void Player__ChangeAction(Player *player, PlayerAction action)
 
     if (player->objWork.obj_3d != NULL)
     {
-        if (playerModelIndexForAction[characterID][lastAction] != playerModelIndexForAction[characterID][action])
+        if (gPlayerModelIndexForAction[characterID][lastAction] != gPlayerModelIndexForAction[characterID][action])
         {
             struct NNSG3dJntAnmResult_ *recJntAnm = player->aniPlayerModel.ani.renderObj.recJntAnm;
             struct NNSG3dMatAnmResult_ *recMatAnm = player->aniPlayerModel.ani.renderObj.recMatAnm;
 
-            AnimatorMDL__SetResource(&player->objWork.obj_3d->ani, player->objWork.obj_3d->resources[B3D_RESOURCE_MODEL], playerModelIndexForAction[characterID][action], FALSE,
+            AnimatorMDL__SetResource(&player->objWork.obj_3d->ani, player->objWork.obj_3d->resources[B3D_RESOURCE_MODEL], gPlayerModelIndexForAction[characterID][action], FALSE,
                                      FALSE);
             player->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
 
@@ -1044,25 +1044,25 @@ void Player__ChangeAction(Player *player, PlayerAction action)
             player->objWork.obj_3d->ani.animFlags[B3D_ANIM_JOINT_ANIM] &= ~ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
 
         if (action < PLAYER_ACTION_START_SNOWBOARD || action > PLAYER_ACTION_HURT_SNOWBOARD)
-            AnimatorMDL__SetAnimation(&player->objWork.obj_3d->ani, B3D_RESOURCE_MODEL, player->objWork.obj_3d->resources[1], playerModelAnimForAction[characterID][action], NULL);
+            AnimatorMDL__SetAnimation(&player->objWork.obj_3d->ani, B3D_RESOURCE_MODEL, player->objWork.obj_3d->resources[1], gPlayerModelAnimForAction[characterID][action], NULL);
         else
-            AnimatorMDL__SetAnimation(&player->objWork.obj_3d->ani, B3D_RESOURCE_MODEL, player->snowboardAnims, playerModelAnimForAction[characterID][action], NULL);
+            AnimatorMDL__SetAnimation(&player->objWork.obj_3d->ani, B3D_RESOURCE_MODEL, player->snowboardAnims, gPlayerModelAnimForAction[characterID][action], NULL);
 
         player->objWork.obj_3d->ani.speedMultiplier = animSpeed;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING;
     }
 
-    if (playerTailAnimForAction[characterID] != NULL)
+    if (gPlayerTailAnimForAction[characterID] != NULL)
     {
-        if (playerTailAnimForAction[characterID][action] != PLAYER_ANIM_NONE)
+        if (gPlayerTailAnimForAction[characterID][action] != PLAYER_ANIM_NONE)
         {
             player->playerFlag |= PLAYER_FLAG_TAIL_IS_ACTIVE;
 
             if (action < PLAYER_ACTION_START_SNOWBOARD || action > PLAYER_ACTION_HURT_SNOWBOARD)
                 AnimatorMDL__SetAnimation(&player->aniTailModel.ani, B3D_RESOURCE_MODEL, player->aniTailModel.resources[B3D_RESOURCE_JOINT_ANIM],
-                                          playerTailAnimForAction[characterID][action], NULL);
+                                          gPlayerTailAnimForAction[characterID][action], NULL);
             else
-                AnimatorMDL__SetAnimation(&player->aniTailModel.ani, B3D_RESOURCE_MODEL, player->snowboardAnims, playerTailAnimForAction[characterID][action], NULL);
+                AnimatorMDL__SetAnimation(&player->aniTailModel.ani, B3D_RESOURCE_MODEL, player->snowboardAnims, gPlayerTailAnimForAction[characterID][action], NULL);
 
             if (CheckIsPlayer1(player) && (player->objWork.displayFlag & DISPLAY_FLAG_ENABLE_ANIMATION_BLENDING) != 0)
                 player->aniTailModel.ani.animFlags[B3D_ANIM_JOINT_ANIM] |= ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
@@ -1079,7 +1079,7 @@ void Player__ChangeAction(Player *player, PlayerAction action)
 
     AnimatorSpriteDS *animator2D = &player->objWork.obj_2d->ani;
     animator2D->work.animAdvance = animSpeed;
-    AnimatorSpriteDS__SetAnimation(animator2D, playerSpriteAnimForAction[characterID][action]);
+    AnimatorSpriteDS__SetAnimation(animator2D, gPlayerSpriteAnimForAction[characterID][action]);
 }
 
 void Player__SetAnimFrame(Player *player, fx32 frame)
@@ -2232,7 +2232,7 @@ void Player__HandleRollingForces(Player *player)
     }
     else
     {
-        player->objWork.slopeAcceleration = playerPhysicsTable[player->characterID].rollSlopeAcceleration;
+        player->objWork.slopeAcceleration = gPlayerPhysicsStats[player->characterID].rollSlopeAcceleration;
         player->objWork.slopeDirection    = FLOAT_TO_FX32(1.0);
     }
 
@@ -2712,7 +2712,7 @@ void Player__Func_201301C(u16 id)
 
 void Player__SetP2Offset(fx32 x, fx32 y, fx32 z)
 {
-    if (playerCount >= PLAYER_COUNT)
+    if (gPlayerCount >= PLAYER_COUNT)
     {
         gPlayerList[1]->objWork.offset.x = x;
         gPlayerList[1]->objWork.offset.y = y;
@@ -2722,7 +2722,7 @@ void Player__SetP2Offset(fx32 x, fx32 y, fx32 z)
 
 s32 Player__GetPlayerCount(void)
 {
-    return playerCount;
+    return gPlayerCount;
 }
 
 void Player__Destructor(Task *task)
@@ -2777,9 +2777,9 @@ void Player__Destructor(Task *task)
     }
 
     if (IsSnowboardStage())
-        ObjDataRelease(&snowboardWork);
+        ObjDataRelease(&sPlayerSnowboardAnimationFile);
 
-    playerCount--;
+    gPlayerCount--;
     StageTask_Destructor(task);
 
     if (IsSnowboardStage())
@@ -3224,17 +3224,17 @@ void Player__In_Default(void)
     {
         work->slomoTimer--;
 
-        work->topSpeed              = playerPhysicsTable[work->characterID].topSpeed >> 2;
-        work->topSpeed_SuperBoost   = playerPhysicsTable[work->characterID].topSpeed_SuperBoost >> 1;
-        work->objWork.maxSlopeSpeed = playerPhysicsTable[work->characterID].maxSlopeSpeed >> 2;
-        work->minBoostVelocity      = playerPhysicsTable[work->characterID].minBoostVelocity >> 2;
+        work->topSpeed              = gPlayerPhysicsStats[work->characterID].topSpeed >> 2;
+        work->topSpeed_SuperBoost   = gPlayerPhysicsStats[work->characterID].topSpeed_SuperBoost >> 1;
+        work->objWork.maxSlopeSpeed = gPlayerPhysicsStats[work->characterID].maxSlopeSpeed >> 2;
+        work->minBoostVelocity      = gPlayerPhysicsStats[work->characterID].minBoostVelocity >> 2;
 
         if (work->slomoTimer == 0)
         {
-            work->topSpeed              = playerPhysicsTable[work->characterID].topSpeed;
-            work->topSpeed_SuperBoost   = playerPhysicsTable[work->characterID].topSpeed_SuperBoost;
-            work->objWork.maxSlopeSpeed = playerPhysicsTable[work->characterID].maxSlopeSpeed;
-            work->minBoostVelocity      = playerPhysicsTable[work->characterID].minBoostVelocity;
+            work->topSpeed              = gPlayerPhysicsStats[work->characterID].topSpeed;
+            work->topSpeed_SuperBoost   = gPlayerPhysicsStats[work->characterID].topSpeed_SuperBoost;
+            work->objWork.maxSlopeSpeed = gPlayerPhysicsStats[work->characterID].maxSlopeSpeed;
+            work->minBoostVelocity      = gPlayerPhysicsStats[work->characterID].minBoostVelocity;
         }
     }
 
@@ -3354,7 +3354,7 @@ void Player__In_Default(void)
                 work->objWork.obj_3d->ani.speedMultiplier  = FLOAT_TO_FX32(1.0);
                 work->objWork.obj_2d->ani.work.animAdvance = work->objWork.obj_3d->ani.speedMultiplier;
 
-                if (playerTailAnimForAction[work->characterID] != NULL)
+                if (gPlayerTailAnimForAction[work->characterID] != NULL)
                     work->aniTailModel.ani.speedMultiplier = FLOAT_TO_FX32(1.0);
             }
             else
@@ -3450,8 +3450,8 @@ void Player__Last_Default(void)
 
     if ((work->playerFlag & PLAYER_GIMMICK_WANT_GRAVITY_RESET) != 0)
     {
-        work->objWork.gravityStrength  = playerPhysicsTable[work->characterID].gravityStrength;
-        work->objWork.terminalVelocity = playerPhysicsTable[work->characterID].terminalVelocity;
+        work->objWork.gravityStrength  = gPlayerPhysicsStats[work->characterID].gravityStrength;
+        work->objWork.terminalVelocity = gPlayerPhysicsStats[work->characterID].terminalVelocity;
 
         work->playerFlag &= ~PLAYER_GIMMICK_WANT_GRAVITY_RESET;
 
@@ -3958,7 +3958,7 @@ void Player__State_GroundMove(Player *work)
                 }
             }
 
-            if (GetCurrentZoneID() == ZONE_BLIZZARD_PEAKS && GetSysEventList()->currentEventID == SYSEVENT_STAGE_ACTIVE)
+            if (GetCurrentZoneID() == ZONE_BLIZZARD_PEAKS && GetSysEventManager()->currentEventID == SYSEVENT_STAGE_ACTIVE)
             {
                 if (MATH_ABS(work->objWork.groundVel) >= work->spdThresholdRun && (playerGameStatus.stageTimer & 7) == 0)
                 {
@@ -4031,7 +4031,7 @@ void Player__Action_Roll(Player *player)
     player->colliders[1].onDefend = NULL;
     player->colliders[1].flag &= ~OBS_RECT_WORK_FLAG_NO_ONATTACK;
 
-    player->objWork.slopeAcceleration = playerPhysicsTable[player->characterID].rollSlopeAcceleration;
+    player->objWork.slopeAcceleration = gPlayerPhysicsStats[player->characterID].rollSlopeAcceleration;
     player->objWork.slopeDirection    = FLOAT_TO_FX32(1.0);
 
     switch (player->characterID)
@@ -5827,7 +5827,7 @@ void Player__HandleLapEventManager(Player *player)
 
         if (CheckIsPlayer1(player))
         {
-            startingPosX += FX32_TO_WHOLE(wrapOffset);
+            sStartingPosX += FX32_TO_WHOLE(wrapOffset);
             SetPlayerTrailOffset(wrapOffset);
         }
 
@@ -5917,11 +5917,11 @@ void Player__HandleMaxPush(Player *player)
         if ((player->playerFlag & PLAYER_FLAG_SUPERBOOST) != 0)
             player->objWork.pushCap = player->topSpeed_SuperBoost >> 1;
         else
-            player->objWork.pushCap = playerPhysicsTable[player->characterID].pushCap;
+            player->objWork.pushCap = gPlayerPhysicsStats[player->characterID].pushCap;
     }
     else
     {
-        player->objWork.pushCap = playerPhysicsTable[player->characterID].pushCap;
+        player->objWork.pushCap = gPlayerPhysicsStats[player->characterID].pushCap;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_CAN_PUSH;
     }
 }
@@ -6240,7 +6240,7 @@ void Player__HandleSuperBoost(Player *player)
 
 void Player__HandleBoost(Player *player)
 {
-    s32 boostActivationTime = playerPhysicsTable[player->characterID].boostActivationTime;
+    s32 boostActivationTime = gPlayerPhysicsStats[player->characterID].boostActivationTime;
 
     if (!IsBossStage())
     {
@@ -6368,8 +6368,8 @@ void Player__HandleWaterEntry(Player *player)
                     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_WATER);
                 }
 
-                player->objWork.gravityStrength  = playerPhysicsTable[player->characterID].gravityStrength;
-                player->objWork.terminalVelocity = playerPhysicsTable[player->characterID].terminalVelocity;
+                player->objWork.gravityStrength  = gPlayerPhysicsStats[player->characterID].gravityStrength;
+                player->objWork.terminalVelocity = gPlayerPhysicsStats[player->characterID].terminalVelocity;
             }
 
             player->playerFlag &= ~PLAYER_FLAG_IN_WATER;
@@ -6600,7 +6600,7 @@ void Player__HandleMissionComplete(Player *player)
     if (gameState.gameMode == GAMEMODE_MISSION)
     {
         BOOL finishedMission = FALSE;
-        if ((player->playerFlag & (PLAYER_FLAG_DEATH | PLAYER_FLAG_FINISHED_STAGE)) == 0 && GetSysEventList()->currentEventID == SYSEVENT_STAGE_ACTIVE)
+        if ((player->playerFlag & (PLAYER_FLAG_DEATH | PLAYER_FLAG_FINISHED_STAGE)) == 0 && GetSysEventManager()->currentEventID == SYSEVENT_STAGE_ACTIVE)
         {
             switch (gameState.missionType)
             {
@@ -6833,7 +6833,7 @@ void Player__ReceivePacket(Player *player)
         player->objWork.obj_2d->ani.work.animAdvance = playerPacket->animAdvance2D << 9;
         player->objWork.obj_3d->ani.speedMultiplier  = playerPacket->animAdvance2D << 9;
 
-        if (playerTailAnimForAction[player->characterID] != 0)
+        if (gPlayerTailAnimForAction[player->characterID] != 0)
             player->aniTailModel.ani.speedMultiplier = playerPacket->animAdvance2D << 9;
 
         player->objWork.displayFlag &= DISPLAY_FLAG_DISABLE_UPDATE;
@@ -6940,17 +6940,17 @@ void Player__WriteGhostFrame(Player *player)
     {
         PlayerGhostFrame *ghostBuffer = gameState.playerGhostWrite;
 
-        s16 x             = (s32)MTM_MATH_CLIP_S16((FX32_TO_WHOLE(player->objWork.position.x) - startingPosX), -128, 127);
+        s16 x             = (s32)MTM_MATH_CLIP_S16((FX32_TO_WHOLE(player->objWork.position.x) - sStartingPosX), -128, 127);
         ghostBuffer[id].x = x;
-        startingPosX += x;
+        sStartingPosX += x;
 
-        s16 y             = (s32)MTM_MATH_CLIP_S16((FX32_TO_WHOLE(player->objWork.position.y) - startingPosY), -128, 127);
+        s16 y             = (s32)MTM_MATH_CLIP_S16((FX32_TO_WHOLE(player->objWork.position.y) - sStartingPosY), -128, 127);
         ghostBuffer[id].y = y;
-        startingPosY += y;
+        sStartingPosY += y;
 
-        s16 z             = (s32)MTM_MATH_CLIP_S16((FX32_TO_WHOLE(player->objWork.position.z) - startingPosZ), -16, 15);
+        s16 z             = (s32)MTM_MATH_CLIP_S16((FX32_TO_WHOLE(player->objWork.position.z) - sStartingPosZ), -16, 15);
         ghostBuffer[id].z = z;
-        startingPosZ += (s8)z;
+        sStartingPosZ += (s8)z;
 
         ghostBuffer[id].angle = FX32_TO_WHOLE(player->objWork.dir.z);
 
@@ -7104,7 +7104,7 @@ void PlayPlayerJingle(Player *player, s16 nextTrack)
 {
     PlayerJingle *work;
 
-    if (curJingle == NULL)
+    if (sCurrentJingle == NULL)
     {
         Task *task = TaskCreate(PlayerJingle_Main, PlayerJingle_Destructor, TASK_FLAG_NONE, 3, TASK_PRIORITY_UPDATE_LIST_START + 12, TASK_GROUP(4), PlayerJingle);
         if (task == HeapNull)
@@ -7113,12 +7113,12 @@ void PlayPlayerJingle(Player *player, s16 nextTrack)
         work = TaskGetWork(task, PlayerJingle);
         TaskInitWork16(work);
 
-        curJingle       = task;
+        sCurrentJingle       = task;
         work->sndHandle = AllocSndHandle();
     }
     else
     {
-        work = TaskGetWork(curJingle, PlayerJingle);
+        work = TaskGetWork(sCurrentJingle, PlayerJingle);
     }
 
     work->player = player;
@@ -7143,7 +7143,7 @@ void PlayerJingle_Destructor(Task *task)
     if (work->sndHandle != NULL)
         FreeSndHandle(work->sndHandle);
 
-    curJingle = NULL;
+    sCurrentJingle = NULL;
 }
 
 void PlayerJingle_Main(void)

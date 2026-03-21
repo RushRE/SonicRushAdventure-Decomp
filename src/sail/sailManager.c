@@ -34,24 +34,24 @@ NOT_DECOMPILED void SailChallengeHUD__Create(void);
 // VARIABLES
 // --------------------
 
-static Task *sailManagerTask;
-static Task *sailUnknownTask;
+static Task *sSailManagerTaskSingleton;
+static Task *sSailUnknownTaskSingleton;
 
-u8 const shipShiftUnknown[SHIP_COUNT] = {
+u8 const gShipShiftUnknown[SHIP_COUNT] = {
     [SHIP_JET]       = 6, // jetski unknown
     [SHIP_BOAT]      = 3, // sailboat unknown
     [SHIP_HOVER]     = 6, // hovercraft unknown
     [SHIP_SUBMARINE] = 3  // subarmine unknown
 };
 
-static u8 bgmForShip[SHIP_COUNT] = {
+static u8 sBGMForShip[SHIP_COUNT] = {
     [SHIP_JET]       = SND_SAIL_SEQ_SEQ_WET_BIKE,   // jetski BGM
     [SHIP_BOAT]      = SND_SAIL_SEQ_SEQ_SAILING,    // sailboat BGM
     [SHIP_HOVER]     = SND_SAIL_SEQ_SEQ_HOVERCRAFT, // hovercraft BGM
     [SHIP_SUBMARINE] = SND_SAIL_SEQ_SEQ_SUBMARINE   // subarmine BGM
 };
 
-static const char *archiveForShip[SHIP_COUNT] = {
+static const char *sArchiveForShip[SHIP_COUNT] = {
     [SHIP_JET]       = "narc/sb_jet_lz7.narc",      // jetski Assets
     [SHIP_BOAT]      = "narc/sb_sailer_lz7.narc",   // sailboat Assets
     [SHIP_HOVER]     = "narc/sb_hover_lz7.narc",    // hovercraft Assets
@@ -67,8 +67,8 @@ void InitSailingSysEvent(void)
     GameState *state;
     BOOL replayActive = FALSE;
 
-    sailManagerTask = NULL;
-    sailUnknownTask = NULL;
+    sSailManagerTaskSingleton = NULL;
+    sSailUnknownTaskSingleton = NULL;
 
     GetSystemUnknown();
 
@@ -99,15 +99,15 @@ void InitSailingSysEvent(void)
     sndArcPath[6] += state->sailShipType; // change snd/sb1/ to snd/sb[x]/
     LoadAudioSndArc(sndArcPath);
 
-    NNS_SndArcLoadSeq(bgmForShip[state->sailShipType], audioManagerSndHeap);
-    NNS_SndArcLoadSeq(SND_SAIL_SEQ_SEQ_RETIRE, audioManagerSndHeap);
-    NNS_SndArcLoadSeq(SND_SAIL_SEQ_SEQ_RESULT, audioManagerSndHeap);
-    NNS_SndArcLoadSeq(SND_SAIL_SEQ_SEQ_DISCOVER, audioManagerSndHeap);
-    NNS_SndArcLoadSeqArc(SND_SAIL_SEQARC_ARC_VOYAGE_SE, audioManagerSndHeap);
-    NNS_SndArcLoadBank(SND_SAIL_BANK_BANK_VOYAGE_SE, audioManagerSndHeap);
+    NNS_SndArcLoadSeq(sBGMForShip[state->sailShipType], gAudioManagerSndHeap);
+    NNS_SndArcLoadSeq(SND_SAIL_SEQ_SEQ_RETIRE, gAudioManagerSndHeap);
+    NNS_SndArcLoadSeq(SND_SAIL_SEQ_SEQ_RESULT, gAudioManagerSndHeap);
+    NNS_SndArcLoadSeq(SND_SAIL_SEQ_SEQ_DISCOVER, gAudioManagerSndHeap);
+    NNS_SndArcLoadSeqArc(SND_SAIL_SEQARC_ARC_VOYAGE_SE, gAudioManagerSndHeap);
+    NNS_SndArcLoadBank(SND_SAIL_BANK_BANK_VOYAGE_SE, gAudioManagerSndHeap);
 
     if (state->sailShipType != SHIP_SUBMARINE)
-        PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, bgmForShip[state->sailShipType]);
+        PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, sBGMForShip[state->sailShipType]);
 
     if (state->sailRandSeed != 0)
         _mt_math_rand = state->sailRandSeed;
@@ -161,10 +161,10 @@ void InitSailingSysEvent(void)
 
 SailManager *SailManager__GetWork(void)
 {
-    if (sailManagerTask == NULL)
+    if (sSailManagerTaskSingleton == NULL)
         return NULL;
 
-    return TaskGetWork(sailManagerTask, SailManager);
+    return TaskGetWork(sSailManagerTaskSingleton, SailManager);
 }
 
 void SailManager__AddPlayerWeaponTask(StageTask *work)
@@ -201,9 +201,9 @@ SailManager *SailManager__Create(void)
     SailManager *work;
     GameState *state = GetGameState();
 
-    sailManagerTask = TaskCreate(SailManager__Main, SailManager__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_END - 5, TASK_GROUP(5), SailManager);
+    sSailManagerTaskSingleton = TaskCreate(SailManager__Main, SailManager__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_END - 5, TASK_GROUP(5), SailManager);
 
-    work = TaskGetWork(sailManagerTask, SailManager);
+    work = TaskGetWork(sSailManagerTaskSingleton, SailManager);
     TaskInitWork16(work);
 
     work->targetIslandID = -1;
@@ -256,7 +256,7 @@ SailManager *SailManager__Create(void)
     if (work->nextEvent == SYSEVENT_NONE)
         work->nextEvent = SYSEVENT_NONE;
 
-    FSRequestArchive(archiveForShip[work->shipType], &work->archive, TRUE);
+    FSRequestArchive(sArchiveForShip[work->shipType], &work->archive, TRUE);
 
     work->camera = CreateSailCamera();
     InitSailAssets();
@@ -356,7 +356,7 @@ void SailManager__Destructor(Task *task)
 
     StopSamplingTouchInput();
 
-    sailManagerTask = NULL;
+    sSailManagerTaskSingleton = NULL;
 }
 
 void SailManager__Main(void)
@@ -440,7 +440,7 @@ void SailManager__Main(void)
         SailRingManager_CheckPlayerCollisions(work->ringManager, work->sailPlayer);
 
     if (work->shipType == SHIP_SUBMARINE && work->timer == 30)
-        PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, bgmForShip[work->shipType]);
+        PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, sBGMForShip[work->shipType]);
 
     work->timer++;
     if ((work->flags & (SAILMANAGER_FLAG_1 | SAILMANAGER_FLAG_2)) == 0)
@@ -541,10 +541,10 @@ void SailManager__Main(void)
 
 SailUnknown2153770 *SailUnknown2153770__Create(void)
 {
-    sailUnknownTask =
+    sSailUnknownTaskSingleton =
         TaskCreate(SailUnknown2153770__Main, SailUnknown2153770__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xEFFF, TASK_GROUP(4), SailUnknown2153770);
 
-    SailUnknown2153770 *work = TaskGetWork(sailUnknownTask, SailUnknown2153770);
+    SailUnknown2153770 *work = TaskGetWork(sSailUnknownTaskSingleton, SailUnknown2153770);
     TaskInitWork16(work);
 
     return work;
@@ -552,7 +552,7 @@ SailUnknown2153770 *SailUnknown2153770__Create(void)
 
 void SailUnknown2153770__Destructor(Task *task)
 {
-    sailUnknownTask = NULL;
+    sSailUnknownTaskSingleton = NULL;
 }
 
 void SailUnknown2153770__Main(void)

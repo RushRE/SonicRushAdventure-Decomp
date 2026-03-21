@@ -188,17 +188,17 @@ typedef struct CutsceneFadeTask_
 // VARIABLES
 // --------------------
 
-static Task *cutsceneSystemTask;
+static Task *sCutsceneSystemTaskSingleton;
 
-extern CutsceneScriptEngineCommand *CutsceneScript_EngineCommandTable[];
-extern CutsceneScriptControlCommand *cutsceneScriptInstructionTable[];
+extern CutsceneScriptEngineCommand *gCutsceneScriptEngineCommandTable[];
+extern CutsceneScriptControlCommand *gCutsceneScriptInstructionTable[];
 
-static const NNSG3dResName camera2NodeName = { "node_camera2" };
-static const NNSG3dResName target2NodeName = { "node_target2" };
-static const NNSG3dResName target1NodeName = { "node_target" };
-static const NNSG3dResName cameraNodeName  = { "node_camera" };
-static const NNSG3dResName targetNodeName  = { "node_target" };
-static const NNSG3dResName camera1NodeName = { "node_camera" };
+static const NNSG3dResName sCamera2NodeName = { "node_camera2" };
+static const NNSG3dResName sTarget2NodeName = { "node_target2" };
+static const NNSG3dResName sTarget1NodeName = { "node_target" };
+static const NNSG3dResName sCameraNodeName  = { "node_camera" };
+static const NNSG3dResName sTargetNodeName  = { "node_target" };
+static const NNSG3dResName sCamera1NodeName = { "node_camera" };
 
 // --------------------
 // FUNCTIONS
@@ -289,7 +289,7 @@ CutsceneTextWorker *GetCutsceneScriptTextWorker(CutsceneSystem *work)
 
 void LoadCutsceneScript(CutsceneSystem *work, CutsceneScriptHeader *script)
 {
-    InitCutsceneScriptProcessor(work->cutscene, script, CutsceneScript_EngineCommandTable, 0);
+    InitCutsceneScriptProcessor(work->cutscene, script, gCutsceneScriptEngineCommandTable, 0);
     work->cutscene->status = CUTSCENESCRIPT_STATUS_LOADING;
 }
 
@@ -1676,7 +1676,7 @@ CutsceneScriptResult CutsceneScript_SoundCommand_LoadSndArcGroup(ScriptThread *t
 {
     s32 groupNo = CutsceneScript_GetFunctionParamRegister(thread, CUTSCENESCRIPT_REGISTER_R0);
 
-    NNS_SndArcLoadGroup(groupNo, audioManagerSndHeap);
+    NNS_SndArcLoadGroup(groupNo, gAudioManagerSndHeap);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
@@ -1685,7 +1685,7 @@ CutsceneScriptResult CutsceneScript_SoundCommand_LoadSndArcSeq(ScriptThread *thr
 {
     s32 seqNo = CutsceneScript_GetFunctionParamRegister(thread, CUTSCENESCRIPT_REGISTER_R0);
 
-    NNS_SndArcLoadSeq(seqNo, audioManagerSndHeap);
+    NNS_SndArcLoadSeq(seqNo, gAudioManagerSndHeap);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
@@ -1694,7 +1694,7 @@ CutsceneScriptResult CutsceneScript_SoundCommand_LoadSndArcSeqArc(ScriptThread *
 {
     s32 waveArcNo = CutsceneScript_GetFunctionParamRegister(thread, CUTSCENESCRIPT_REGISTER_R0);
 
-    NNS_SndArcLoadSeqArc(waveArcNo, audioManagerSndHeap);
+    NNS_SndArcLoadSeqArc(waveArcNo, gAudioManagerSndHeap);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
@@ -1703,7 +1703,7 @@ CutsceneScriptResult CutsceneScript_SoundCommand_LoadSndArcBank(ScriptThread *th
 {
     s32 seqArcNo = CutsceneScript_GetFunctionParamRegister(thread, CUTSCENESCRIPT_REGISTER_R0);
 
-    NNS_SndArcLoadBank(seqArcNo, audioManagerSndHeap);
+    NNS_SndArcLoadBank(seqArcNo, gAudioManagerSndHeap);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
@@ -2069,7 +2069,7 @@ CutsceneScriptResult CutsceneScript_ProcessThread(CutsceneScript *work, ScriptTh
 
         s32 type = (command->type >> 4) & 0xF;
         s32 id   = command->type & 0xF;
-        result   = cutsceneScriptInstructionTable[type][id](work, thread, command);
+        result   = gCutsceneScriptInstructionTable[type][id](work, thread, command);
 
         if (result == CUTSCENESCRIPT_RESULT_SUSPEND_RETURN)
         {
@@ -3644,13 +3644,13 @@ void CutsceneModelManager_RenderCallback_Single(NNSG3dRS *rs)
 {
     s32 node = NNS_G3dRSGetCurrentNodeDescID(rs);
 
-    s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &cameraNodeName);
+    s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &sCameraNodeName);
     if (cameraNodeIdx >= 0 && node == cameraNodeIdx)
     {
         NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_SYS);
     }
 
-    s32 targetNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &targetNodeName);
+    s32 targetNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &sTargetNodeName);
     if (targetNodeIdx >= 0 && node == targetNodeIdx)
     {
         NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_USER);
@@ -3665,13 +3665,13 @@ void CutsceneModelManager_RenderCallback_Double(NNSG3dRS *rs)
     {
         // case SWAPBUFFER3D_PRIMARY_TOP:
         default: {
-            s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &camera1NodeName);
+            s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &sCamera1NodeName);
             if (cameraNodeIdx >= 0 && node == cameraNodeIdx)
             {
                 NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_SYS);
             }
 
-            s32 targetNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &target1NodeName);
+            s32 targetNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &sTarget1NodeName);
             if (targetNodeIdx >= 0 && node == targetNodeIdx)
             {
                 NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_USER);
@@ -3680,13 +3680,13 @@ void CutsceneModelManager_RenderCallback_Double(NNSG3dRS *rs)
         break;
 
         case SWAPBUFFER3D_PRIMARY_BOTTOM: {
-            s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &camera2NodeName);
+            s32 cameraNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &sCamera2NodeName);
             if (cameraNodeIdx >= 0 && node == cameraNodeIdx)
             {
                 NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_SYS);
             }
 
-            s32 targetNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &target2NodeName);
+            s32 targetNodeIdx = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &sTarget2NodeName);
             if (targetNodeIdx >= 0 && node == targetNodeIdx)
             {
                 NNS_G3dGeStoreMtx(NNS_G3D_MTXSTACK_USER);
@@ -5418,9 +5418,9 @@ CutsceneScriptResult CutsceneScript_TextCommand_Draw(CutsceneTextWorker *text, S
 
 void CreateCutsceneSystem(void)
 {
-    cutsceneSystemTask = TaskCreate(CutsceneSystem_Main_Running, CutsceneSystem_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_GROUP(0), CutsceneSystem);
+    sCutsceneSystemTaskSingleton = TaskCreate(CutsceneSystem_Main_Running, CutsceneSystem_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_GROUP(0), CutsceneSystem);
 
-    InitCutsceneSystem(cutsceneSystemTask);
+    InitCutsceneSystem(sCutsceneSystemTaskSingleton);
 }
 
 void InitCutsceneSystem(Task *task)
@@ -5485,12 +5485,12 @@ void CutsceneSystem_Destructor(Task *task)
     CutsceneSystem *work = TaskGetWork(task, CutsceneSystem);
     HeapFree(HEAP_USER, work->script);
 
-    cutsceneSystemTask = NULL;
+    sCutsceneSystemTaskSingleton = NULL;
 }
 
 void CutsceneSystem_OnCutsceneFinish(CutsceneScript *work)
 {
-    SetTaskMainEvent(cutsceneSystemTask, CutsceneSystem_Main_NextSysEvent);
+    SetTaskMainEvent(sCutsceneSystemTaskSingleton, CutsceneSystem_Main_NextSysEvent);
 
     renderCoreGFXControlA.windowManager.visible = GX_WNDMASK_NONE;
     renderCoreGFXControlB.windowManager.visible = GX_WNDMASK_NONE;
@@ -5533,13 +5533,13 @@ void CutsceneSystem_StoreCanSkipFlag(CutsceneScript *work)
 
 void CutsceneSystem_Main_Running(void)
 {
-    CutsceneSystem *work = TaskGetWork(cutsceneSystemTask, CutsceneSystem);
+    CutsceneSystem *work = TaskGetWork(sCutsceneSystemTaskSingleton, CutsceneSystem);
     UNUSED(work);
 }
 
 void CutsceneSystem_Main_NextSysEvent(void)
 {
-    CutsceneSystem *work = TaskGetWork(cutsceneSystemTask, CutsceneSystem);
+    CutsceneSystem *work = TaskGetWork(sCutsceneSystemTaskSingleton, CutsceneSystem);
     DestroyCutsceneScript(work);
     DestroyCurrentTask();
 

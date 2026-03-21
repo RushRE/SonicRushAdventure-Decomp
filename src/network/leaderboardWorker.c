@@ -8,7 +8,7 @@
 // VARIABLES
 // --------------------
 
-static Task *leaderboardsWorkerTaskSingleton;
+static Task *sLeaderboardsWorkerTaskSingleton;
 
 NOT_DECOMPILED const char16 *LeaderboardWorker_NullName;
 
@@ -73,10 +73,10 @@ BOOL CreateLeaderboardWorker(s32 stage, BOOL wantUpload, BOOL flag)
     if (!MultibootManager__CheckHasProfile() || !MultibootManager__CheckValidConsole())
         return FALSE;
 
-    leaderboardsWorkerTaskSingleton =
+    sLeaderboardsWorkerTaskSingleton =
         TaskCreate(LeaderboardWorker_Main, LeaderboardWorker_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1010, TASK_GROUP(0), LeaderboardWorker);
 
-    LeaderboardWorker *work = TaskGetWork(leaderboardsWorkerTaskSingleton, LeaderboardWorker);
+    LeaderboardWorker *work = TaskGetWork(sLeaderboardsWorkerTaskSingleton, LeaderboardWorker);
 
     work->status        = LEADERBOARDWORKER_STATUS_WORKING;
     work->failedToLoad  = FALSE;
@@ -98,17 +98,17 @@ BOOL CreateLeaderboardWorker(s32 stage, BOOL wantUpload, BOOL flag)
 
 LeaderboardWorkerStatus GetLeaderboardWorkerStatus(void)
 {
-    if (leaderboardsWorkerTaskSingleton == NULL)
+    if (sLeaderboardsWorkerTaskSingleton == NULL)
         return LEADERBOARDWORKER_STATUS_INACTIVE;
 
-    return TaskGetWork(leaderboardsWorkerTaskSingleton, LeaderboardWorker)->status;
+    return TaskGetWork(sLeaderboardsWorkerTaskSingleton, LeaderboardWorker)->status;
 }
 
 void DestroyLeaderboardWorker(void)
 {
-    DestroyTask(leaderboardsWorkerTaskSingleton);
+    DestroyTask(sLeaderboardsWorkerTaskSingleton);
 
-    leaderboardsWorkerTaskSingleton = NULL;
+    sLeaderboardsWorkerTaskSingleton = NULL;
 }
 
 void LeaderboardWorker_Main(void)
@@ -121,7 +121,7 @@ void LeaderboardWorker_Main(void)
 
 void LeaderboardWorker_Destructor(Task *task)
 {
-    leaderboardsWorkerTaskSingleton = NULL;
+    sLeaderboardsWorkerTaskSingleton = NULL;
 }
 
 void LeaderboardWorker_State_TryStart(LeaderboardWorker *work)

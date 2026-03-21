@@ -9,24 +9,24 @@
 // VARIABLES
 // --------------------
 
-static u16 sonicBarrierHitCheckListSize;
-static u16 playerBodyHitCheckListSize;
-static u16 stageObjectHitCheckListSize;
-static u16 blazeFireballHitCheckListSize;
-static s16 exHitCheckTaskPauseLevel;
-static u16 repelledProjectileHitCheckListSize;
+static u16 sSonicBarrierHitCheckListSize;
+static u16 sPlayerBodyHitCheckListSize;
+static u16 sStageObjectHitCheckListSize;
+static u16 sBlazeFireballHitCheckListSize;
+static s16 sCurrentPauseLevel;
+static u16 sRepelledProjectileHitCheckListSize;
 
-static exHitCheck *sonicBarrierHitCheckList[5];
-static exHitCheck *playerBodyHitCheckList[10];
-static exHitCheck *repelledProjectileHitCheckList[10];
-static exHitCheck *blazeFireballHitCheckList[10];
-static exHitCheck *stageObjectHitCheckList[64];
+static exHitCheck *sSonicBarrierHitCheckList[5];
+static exHitCheck *sPlayerBodyHitCheckList[10];
+static exHitCheck *sRepelledProjectileHitCheckList[10];
+static exHitCheck *sBlazeFireballHitCheckList[10];
+static exHitCheck *sStageObjectHitCheckList[64];
 
-static BOOL isStageObjectHitCheckListAvailable        = TRUE;
-static BOOL isPlayerBodyHitCheckListAvailable         = TRUE;
-static BOOL isSonicBarrierHitCheckListAvailable       = TRUE;
-static BOOL isRepelledProjectileHitCheckListAvailable = TRUE;
-static BOOL isBlazeFireballHitCheckListAvailable      = TRUE;
+static BOOL sIsStageObjectHitCheckListAvailable        = TRUE;
+static BOOL sIsPlayerBodyHitCheckListAvailable         = TRUE;
+static BOOL sIsSonicBarrierHitCheckListAvailable       = TRUE;
+static BOOL sIsRepelledProjectileHitCheckListAvailable = TRUE;
+static BOOL sIsBlazeFireballHitCheckListAvailable      = TRUE;
 
 // --------------------
 // FUNCTION DECLS
@@ -52,19 +52,19 @@ static void exHitCheckTask_Main_Active(void);
 
 void exHitCheckTask_SetPauseLevel(s32 pauseLevel)
 {
-    if (pauseLevel > 0 && exHitCheckTaskPauseLevel <= 0)
-        exHitCheckTaskPauseLevel = pauseLevel;
+    if (pauseLevel > 0 && sCurrentPauseLevel <= 0)
+        sCurrentPauseLevel = pauseLevel;
 }
 
 BOOL exHitCheckTask_IsPaused(void)
 {
-    return exHitCheckTaskPauseLevel > 0;
+    return sCurrentPauseLevel > 0;
 }
 
 void exHitCheckTask_DecPauseLevel(void)
 {
-    if (exHitCheckTaskPauseLevel > 0)
-        exHitCheckTaskPauseLevel--;
+    if (sCurrentPauseLevel > 0)
+        sCurrentPauseLevel--;
 }
 
 void exHitCheckTask_InitHitChecker(exHitCheck *work)
@@ -85,12 +85,8 @@ NONMATCH_FUNC BOOL exHitCheckTask_CheckBoxOverlap(exHitCheckTaskUnknown *check1,
     check1X2 = check1->position->x - check1->size.x - check2->size.x;
     check1Y1 = check1->position->y + check1->size.y + check2->size.y;
     check1Y2 = check1->position->y - check1->size.y - check2->size.y;
-    
-    if (
-        check1X2 < check2->position->x 
-        && check1X1 > check2->position->x 
-        && check1Y1 > check2->position->y
-        && check1Y2 < check2->position->y)
+
+    if (check1X2 < check2->position->x && check1X1 > check2->position->x && check1Y1 > check2->position->y && check1Y2 < check2->position->y)
         return TRUE;
 
     return FALSE;
@@ -147,10 +143,10 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
     {
         if (work->type == EXHITCHECK_TYPE_RING && work->input.isRing == TRUE)
         {
-            if (isStageObjectHitCheckListAvailable)
+            if (sIsStageObjectHitCheckListAvailable)
             {
-                stageObjectHitCheckList[stageObjectHitCheckListSize] = work;
-                stageObjectHitCheckListSize++;
+                sStageObjectHitCheckList[sStageObjectHitCheckListSize] = work;
+                sStageObjectHitCheckListSize++;
             }
             else
             {
@@ -161,20 +157,20 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
         return FALSE;
     }
 
-    if (stageObjectHitCheckListSize >= 64)
-        isStageObjectHitCheckListAvailable = FALSE;
+    if (sStageObjectHitCheckListSize >= 64)
+        sIsStageObjectHitCheckListAvailable = FALSE;
 
-    if (playerBodyHitCheckListSize >= 10)
-        isPlayerBodyHitCheckListAvailable = FALSE;
+    if (sPlayerBodyHitCheckListSize >= 10)
+        sIsPlayerBodyHitCheckListAvailable = FALSE;
 
-    if (sonicBarrierHitCheckListSize >= 5)
-        isSonicBarrierHitCheckListAvailable = FALSE;
+    if (sSonicBarrierHitCheckListSize >= 5)
+        sIsSonicBarrierHitCheckListAvailable = FALSE;
 
-    if (repelledProjectileHitCheckListSize >= 10)
-        isRepelledProjectileHitCheckListAvailable = FALSE;
+    if (sRepelledProjectileHitCheckListSize >= 10)
+        sIsRepelledProjectileHitCheckListAvailable = FALSE;
 
-    if (blazeFireballHitCheckListSize >= 10)
-        isBlazeFireballHitCheckListAvailable = FALSE;
+    if (sBlazeFireballHitCheckListSize >= 10)
+        sIsBlazeFireballHitCheckListAvailable = FALSE;
 
     if (work->type == EXHITCHECK_TYPE_HAZARD)
     {
@@ -182,10 +178,10 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
             || (work->input.isBossFireBlue == TRUE || work->input.isBossMagmaWaveAttack == TRUE) || (work->input.isBossDragon == TRUE || work->input.isBluntLineMissile == TRUE)
             || (work->input.isSpikedLineMissile == TRUE || work->input.isBossHomingLaserTrail == TRUE))
         {
-            if (isStageObjectHitCheckListAvailable)
+            if (sIsStageObjectHitCheckListAvailable)
             {
-                stageObjectHitCheckList[stageObjectHitCheckListSize] = work;
-                stageObjectHitCheckListSize++;
+                sStageObjectHitCheckList[sStageObjectHitCheckListSize] = work;
+                sStageObjectHitCheckListSize++;
             }
             else
             {
@@ -196,10 +192,10 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
 
     if (work->type == EXHITCHECK_TYPE_INTRO_METEOR && work->input.isIntroMeteor == TRUE)
     {
-        if (isStageObjectHitCheckListAvailable)
+        if (sIsStageObjectHitCheckListAvailable)
         {
-            stageObjectHitCheckList[stageObjectHitCheckListSize] = work;
-            stageObjectHitCheckListSize++;
+            sStageObjectHitCheckList[sStageObjectHitCheckListSize] = work;
+            sStageObjectHitCheckListSize++;
         }
         else
         {
@@ -209,36 +205,36 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
 
     if (work->type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
     {
-        if (work->input.isSonicBarrierEffect == TRUE)
+        if (work->input.sIsSonicBarrierEffect == TRUE)
         {
-            if (isSonicBarrierHitCheckListAvailable)
+            if (sIsSonicBarrierHitCheckListAvailable)
             {
-                sonicBarrierHitCheckList[sonicBarrierHitCheckListSize] = work;
-                sonicBarrierHitCheckListSize++;
+                sSonicBarrierHitCheckList[sSonicBarrierHitCheckListSize] = work;
+                sSonicBarrierHitCheckListSize++;
             }
             else
             {
                 return FALSE;
             }
         }
-        else if (work->input.isRepelledProjectile == TRUE)
+        else if (work->input.sIsRepelledProjectile == TRUE)
         {
-            if (isRepelledProjectileHitCheckListAvailable)
+            if (sIsRepelledProjectileHitCheckListAvailable)
             {
-                repelledProjectileHitCheckList[repelledProjectileHitCheckListSize] = work;
-                repelledProjectileHitCheckListSize++;
+                sRepelledProjectileHitCheckList[sRepelledProjectileHitCheckListSize] = work;
+                sRepelledProjectileHitCheckListSize++;
             }
             else
             {
                 return FALSE;
             }
         }
-        else if (work->input.isBlazeFireballEffect == TRUE)
+        else if (work->input.sIsBlazeFireballEffect == TRUE)
         {
-            if (isBlazeFireballHitCheckListAvailable)
+            if (sIsBlazeFireballHitCheckListAvailable)
             {
-                blazeFireballHitCheckList[blazeFireballHitCheckListSize] = work;
-                blazeFireballHitCheckListSize++;
+                sBlazeFireballHitCheckList[sBlazeFireballHitCheckListSize] = work;
+                sBlazeFireballHitCheckListSize++;
             }
             else
             {
@@ -247,10 +243,10 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
         }
         else
         {
-            if (isPlayerBodyHitCheckListAvailable)
+            if (sIsPlayerBodyHitCheckListAvailable)
             {
-                playerBodyHitCheckList[playerBodyHitCheckListSize] = work;
-                playerBodyHitCheckListSize++;
+                sPlayerBodyHitCheckList[sPlayerBodyHitCheckListSize] = work;
+                sPlayerBodyHitCheckListSize++;
             }
             else
             {
@@ -261,10 +257,10 @@ NONMATCH_FUNC BOOL exHitCheckTask_AddHitCheck(exHitCheck *work)
 
     if (work->type == EXHITCHECK_TYPE_RING && work->input.isRing == TRUE)
     {
-        if (isStageObjectHitCheckListAvailable)
+        if (sIsStageObjectHitCheckListAvailable)
         {
-            stageObjectHitCheckList[stageObjectHitCheckListSize] = work;
-            stageObjectHitCheckListSize++;
+            sStageObjectHitCheckList[sStageObjectHitCheckListSize] = work;
+            sStageObjectHitCheckListSize++;
         }
         else
         {
@@ -310,12 +306,12 @@ _0216AEE0:
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _0216AF34
-	ldr r0, =isSonicBarrierHitCheckListAvailable
+	ldr r0, =sIsSonicBarrierHitCheckListAvailable
 	ldr r0, [r0, #0x10]
 	cmp r0, #0
 	beq _0216AF2C
-	ldr r0, =exHitCheckTaskPauseLevel
-	ldr r2, =stageObjectHitCheckList
+	ldr r0, =sCurrentPauseLevel
+	ldr r2, =sStageObjectHitCheckList
 	ldrh r3, [r0, #4]
 	add r1, r3, #1
 	str r4, [r2, r3, lsl #2]
@@ -328,34 +324,34 @@ _0216AF34:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _0216AF3C:
-	ldr r0, =exHitCheckTaskPauseLevel
+	ldr r0, =sCurrentPauseLevel
 	ldrh r1, [r0, #4]
 	cmp r1, #0x40
-	ldrhs r0, =isSonicBarrierHitCheckListAvailable
+	ldrhs r0, =sIsSonicBarrierHitCheckListAvailable
 	movhs r2, #0
 	strhs r2, [r0, #0x10]
-	ldr r0, =exHitCheckTaskPauseLevel
+	ldr r0, =sCurrentPauseLevel
 	ldrh r2, [r0, #8]
 	cmp r2, #0xa
-	ldrhs r0, =isSonicBarrierHitCheckListAvailable
+	ldrhs r0, =sIsSonicBarrierHitCheckListAvailable
 	movhs r3, #0
 	strhs r3, [r0, #0xc]
-	ldr r0, =exHitCheckTaskPauseLevel
+	ldr r0, =sCurrentPauseLevel
 	ldrh r3, [r0, #0xa]
 	cmp r3, #5
-	ldrhs r0, =isSonicBarrierHitCheckListAvailable
+	ldrhs r0, =sIsSonicBarrierHitCheckListAvailable
 	movhs r5, #0
 	strhs r5, [r0]
-	ldr r0, =exHitCheckTaskPauseLevel
+	ldr r0, =sCurrentPauseLevel
 	ldrh ip, [r0, #6]
 	cmp ip, #0xa
-	ldrhs r0, =isSonicBarrierHitCheckListAvailable
+	ldrhs r0, =sIsSonicBarrierHitCheckListAvailable
 	movhs r5, #0
 	strhs r5, [r0, #8]
-	ldr r0, =exHitCheckTaskPauseLevel
+	ldr r0, =sCurrentPauseLevel
 	ldrh lr, [r0, #2]
 	cmp lr, #0xa
-	ldrhs r0, =isSonicBarrierHitCheckListAvailable
+	ldrhs r0, =sIsSonicBarrierHitCheckListAvailable
 	movhs r5, #0
 	strhs r5, [r0, #4]
 	ldrb r0, [r4, #0]
@@ -398,12 +394,12 @@ _0216AF3C:
 	cmpne r0, #1
 	bne _0216B084
 _0216B050:
-	ldr r0, =isSonicBarrierHitCheckListAvailable
+	ldr r0, =sIsSonicBarrierHitCheckListAvailable
 	ldr r0, [r0, #0x10]
 	cmp r0, #0
 	beq _0216B07C
-	ldr r0, =exHitCheckTaskPauseLevel
-	ldr r6, =stageObjectHitCheckList
+	ldr r0, =sCurrentPauseLevel
+	ldr r6, =sStageObjectHitCheckList
 	ldrh r5, [r0, #4]
 	str r4, [r6, r1, lsl #2]
 	add r1, r5, #1
@@ -421,12 +417,12 @@ _0216B084:
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _0216B0D8
-	ldr r0, =isSonicBarrierHitCheckListAvailable
+	ldr r0, =sIsSonicBarrierHitCheckListAvailable
 	ldr r0, [r0, #0x10]
 	cmp r0, #0
 	beq _0216B0D0
-	ldr r0, =exHitCheckTaskPauseLevel
-	ldr r5, =stageObjectHitCheckList
+	ldr r0, =sCurrentPauseLevel
+	ldr r5, =sStageObjectHitCheckList
 	ldrh r6, [r0, #4]
 	add r1, r6, #1
 	str r4, [r5, r6, lsl #2]
@@ -444,12 +440,12 @@ _0216B0D8:
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _0216B12C
-	ldr r0, =isSonicBarrierHitCheckListAvailable
+	ldr r0, =sIsSonicBarrierHitCheckListAvailable
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _0216B124
-	ldr r0, =exHitCheckTaskPauseLevel
-	ldr r2, =sonicBarrierHitCheckList
+	ldr r0, =sCurrentPauseLevel
+	ldr r2, =sSonicBarrierHitCheckList
 	ldrh r1, [r0, #0xa]
 	str r4, [r2, r3, lsl #2]
 	add r1, r1, #1
@@ -464,12 +460,12 @@ _0216B12C:
 	mov r1, r1, lsr #0x1f
 	cmp r1, #1
 	bne _0216B174
-	ldr r0, =isSonicBarrierHitCheckListAvailable
+	ldr r0, =sIsSonicBarrierHitCheckListAvailable
 	ldr r0, [r0, #8]
 	cmp r0, #0
 	beq _0216B16C
-	ldr r0, =exHitCheckTaskPauseLevel
-	ldr r2, =repelledProjectileHitCheckList
+	ldr r0, =sCurrentPauseLevel
+	ldr r2, =sRepelledProjectileHitCheckList
 	ldrh r1, [r0, #6]
 	str r4, [r2, ip, lsl #2]
 	add r1, r1, #1
@@ -483,12 +479,12 @@ _0216B174:
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _0216B1B8
-	ldr r0, =isSonicBarrierHitCheckListAvailable
+	ldr r0, =sIsSonicBarrierHitCheckListAvailable
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	beq _0216B1B0
-	ldr r0, =exHitCheckTaskPauseLevel
-	ldr r2, =blazeFireballHitCheckList
+	ldr r0, =sCurrentPauseLevel
+	ldr r2, =sBlazeFireballHitCheckList
 	ldrh r1, [r0, #2]
 	str r4, [r2, lr, lsl #2]
 	add r1, r1, #1
@@ -498,12 +494,12 @@ _0216B1B0:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _0216B1B8:
-	ldr r0, =isSonicBarrierHitCheckListAvailable
+	ldr r0, =sIsSonicBarrierHitCheckListAvailable
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	beq _0216B1E4
-	ldr r0, =exHitCheckTaskPauseLevel
-	ldr r3, =playerBodyHitCheckList
+	ldr r0, =sCurrentPauseLevel
+	ldr r3, =sPlayerBodyHitCheckList
 	ldrh r1, [r0, #8]
 	str r4, [r3, r2, lsl #2]
 	add r1, r1, #1
@@ -521,12 +517,12 @@ _0216B1EC:
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _0216B240
-	ldr r0, =isSonicBarrierHitCheckListAvailable
+	ldr r0, =sIsSonicBarrierHitCheckListAvailable
 	ldr r0, [r0, #0x10]
 	cmp r0, #0
 	beq _0216B238
-	ldr r0, =exHitCheckTaskPauseLevel
-	ldr r2, =stageObjectHitCheckList
+	ldr r0, =sCurrentPauseLevel
+	ldr r2, =sStageObjectHitCheckList
 	ldrh r3, [r0, #4]
 	add r1, r3, #1
 	str r4, [r2, r3, lsl #2]
@@ -634,9 +630,9 @@ void exHitCheckTask_DoHitChecks(void)
             // Check stage ring interactions for sonic
             if (playerSonic->hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
             {
-                for (i = 0; i < stageObjectHitCheckListSize; i++)
+                for (i = 0; i < sStageObjectHitCheckListSize; i++)
                 {
-                    exHitCheck *other = stageObjectHitCheckList[i];
+                    exHitCheck *other = sStageObjectHitCheckList[i];
 
                     if (other->output.hasCollision != TRUE)
                     {
@@ -644,7 +640,7 @@ void exHitCheckTask_DoHitChecks(void)
                         {
                             if (exHitCheckTask_CheckBoxOverlap(&playerSonic->hitChecker.box, &other->box))
                             {
-                                other = stageObjectHitCheckList[i];
+                                other = sStageObjectHitCheckList[i];
 
                                 if (other->input.isRing && playerSonic->hitChecker.output.isHurt == FALSE)
                                 {
@@ -662,9 +658,9 @@ void exHitCheckTask_DoHitChecks(void)
             // Check stage ring interactions for blaze
             if (playerBlaze->hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
             {
-                for (i = 0; i < stageObjectHitCheckListSize; i++)
+                for (i = 0; i < sStageObjectHitCheckListSize; i++)
                 {
-                    exHitCheck *other = stageObjectHitCheckList[i];
+                    exHitCheck *other = sStageObjectHitCheckList[i];
 
                     if (other->output.hasCollision != TRUE)
                     {
@@ -672,7 +668,7 @@ void exHitCheckTask_DoHitChecks(void)
                         {
                             if (exHitCheckTask_CheckBoxOverlap(&playerBlaze->hitChecker.box, &other->box))
                             {
-                                other = stageObjectHitCheckList[i];
+                                other = sStageObjectHitCheckList[i];
 
                                 if (other->input.isRing && playerBlaze->hitChecker.output.isHurt == FALSE)
                                 {
@@ -689,91 +685,91 @@ void exHitCheckTask_DoHitChecks(void)
         }
         else
         {
-            if (playerSonic != NULL && playerBlaze != NULL && stageObjectHitCheckListSize != 0)
+            if (playerSonic != NULL && playerBlaze != NULL && sStageObjectHitCheckListSize != 0)
             {
-                if (sonicBarrierHitCheckListSize > 0)
+                if (sSonicBarrierHitCheckListSize > 0)
                 {
-                    for (i = 0; i < stageObjectHitCheckListSize; i++)
+                    for (i = 0; i < sStageObjectHitCheckListSize; i++)
                     {
-                        exHitCheck *other = stageObjectHitCheckList[i];
+                        exHitCheck *other = sStageObjectHitCheckList[i];
 
                         if ((other->box.position->z <= FLOAT_TO_FX32(65.0) && other->box.position->z >= FLOAT_TO_FX32(50.0)) || other->box.position->z == FLOAT_TO_FX32(0.0))
                         {
                             if (other->type == EXHITCHECK_TYPE_HAZARD || other->type == EXHITCHECK_TYPE_INTRO_METEOR)
                             {
-                                for (ii = 0; ii < sonicBarrierHitCheckListSize; ii++)
+                                for (ii = 0; ii < sSonicBarrierHitCheckListSize; ii++)
                                 {
-                                    if (exHitCheckTask_CheckBoxOverlap(&sonicBarrierHitCheckList[ii]->box, &stageObjectHitCheckList[i]->box))
+                                    if (exHitCheckTask_CheckBoxOverlap(&sSonicBarrierHitCheckList[ii]->box, &sStageObjectHitCheckList[i]->box))
                                     {
-                                        other = stageObjectHitCheckList[i];
+                                        other = sStageObjectHitCheckList[i];
 
                                         if (other->input.isBossMeteor)
                                         {
                                             if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
                                             {
-                                                if (sonicBarrierHitCheckList[ii]->power == EXPLAYER_BARRIER_CHARGED_POWER_NORMAL)
+                                                if (sSonicBarrierHitCheckList[ii]->power == EXPLAYER_BARRIER_CHARGED_POWER_NORMAL)
                                                 {
-                                                    sonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
+                                                    sSonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
 
-                                                    stageObjectHitCheckList[i]->output.hasCollision = TRUE;
-                                                    stageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-                                                    stageObjectHitCheckList[i]->power               = sonicBarrierHitCheckList[ii]->power;
+                                                    sStageObjectHitCheckList[i]->output.hasCollision = TRUE;
+                                                    sStageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+                                                    sStageObjectHitCheckList[i]->power               = sSonicBarrierHitCheckList[ii]->power;
                                                 }
                                             }
                                             else
                                             {
                                                 if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
                                                 {
-                                                    if (sonicBarrierHitCheckList[ii]->power == EXPLAYER_BARRIER_CHARGED_POWER_EASY)
+                                                    if (sSonicBarrierHitCheckList[ii]->power == EXPLAYER_BARRIER_CHARGED_POWER_EASY)
                                                     {
-                                                        sonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
+                                                        sSonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
 
-                                                        stageObjectHitCheckList[i]->output.hasCollision = TRUE;
-                                                        stageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-                                                        stageObjectHitCheckList[i]->power               = sonicBarrierHitCheckList[ii]->power;
+                                                        sStageObjectHitCheckList[i]->output.hasCollision = TRUE;
+                                                        sStageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+                                                        sStageObjectHitCheckList[i]->power               = sSonicBarrierHitCheckList[ii]->power;
                                                     }
                                                 }
                                             }
                                         }
                                         else if (other->input.isBossFireRed || other->input.isBossFireBlue)
                                         {
-                                            sonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
+                                            sSonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
 
-                                            stageObjectHitCheckList[i]->output.hasCollision = TRUE;
-                                            stageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-                                            stageObjectHitCheckList[i]->power               = sonicBarrierHitCheckList[ii]->power;
+                                            sStageObjectHitCheckList[i]->output.hasCollision = TRUE;
+                                            sStageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+                                            sStageObjectHitCheckList[i]->power               = sSonicBarrierHitCheckList[ii]->power;
                                         }
                                         else if (other->input.isBossDragon)
                                         {
-                                            sonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
+                                            sSonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
 
-                                            stageObjectHitCheckList[i]->output.hasCollision = TRUE;
-                                            stageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-                                            stageObjectHitCheckList[i]->power               = sonicBarrierHitCheckList[ii]->power;
+                                            sStageObjectHitCheckList[i]->output.hasCollision = TRUE;
+                                            sStageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+                                            sStageObjectHitCheckList[i]->power               = sSonicBarrierHitCheckList[ii]->power;
                                         }
                                         else if (other->input.isBluntLineMissile)
                                         {
-                                            sonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
+                                            sSonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
 
-                                            stageObjectHitCheckList[i]->output.hasCollision = TRUE;
-                                            stageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-                                            stageObjectHitCheckList[i]->power               = sonicBarrierHitCheckList[ii]->power;
+                                            sStageObjectHitCheckList[i]->output.hasCollision = TRUE;
+                                            sStageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+                                            sStageObjectHitCheckList[i]->power               = sSonicBarrierHitCheckList[ii]->power;
                                         }
                                         else if (other->input.isSpikedLineMissile)
                                         {
-                                            sonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
+                                            sSonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
                                         }
                                         else if (other->input.isBossHomingLaserTrail)
                                         {
-                                            sonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
+                                            sSonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
                                         }
                                         else
                                         {
-                                            sonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
+                                            sSonicBarrierHitCheckList[ii]->output.hasCollision = TRUE;
 
-                                            stageObjectHitCheckList[i]->output.hasCollision = TRUE;
-                                            stageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
-                                            stageObjectHitCheckList[i]->power               = sonicBarrierHitCheckList[ii]->power;
+                                            sStageObjectHitCheckList[i]->output.hasCollision = TRUE;
+                                            sStageObjectHitCheckList[i]->type                = EXHITCHECK_TYPE_ACTIVE_PLAYER;
+                                            sStageObjectHitCheckList[i]->power               = sSonicBarrierHitCheckList[ii]->power;
                                         }
                                     }
                                 }
@@ -782,30 +778,30 @@ void exHitCheckTask_DoHitChecks(void)
                     }
                 }
 
-                if (repelledProjectileHitCheckListSize > 0)
+                if (sRepelledProjectileHitCheckListSize > 0)
                 {
-                    for (i = 0; i < stageObjectHitCheckListSize; i++)
+                    for (i = 0; i < sStageObjectHitCheckListSize; i++)
                     {
-                        exHitCheck *other = stageObjectHitCheckList[i];
+                        exHitCheck *other = sStageObjectHitCheckList[i];
 
                         if ((other->box.position->z <= FLOAT_TO_FX32(65.0) && other->box.position->z >= FLOAT_TO_FX32(50.0)) || other->box.position->z == FLOAT_TO_FX32(0.0))
                         {
                             if (other->type == EXHITCHECK_TYPE_HAZARD)
                             {
-                                for (ii = 0; ii < repelledProjectileHitCheckListSize; ii++)
+                                for (ii = 0; ii < sRepelledProjectileHitCheckListSize; ii++)
                                 {
-                                    if (exHitCheckTask_CheckBoxOverlap(&repelledProjectileHitCheckList[ii]->box, &stageObjectHitCheckList[i]->box))
+                                    if (exHitCheckTask_CheckBoxOverlap(&sRepelledProjectileHitCheckList[ii]->box, &sStageObjectHitCheckList[i]->box))
                                     {
-                                        other = stageObjectHitCheckList[i];
+                                        other = sStageObjectHitCheckList[i];
 
                                         if (other->input.isBossFireRed == FALSE && other->input.isBossFireBlue == FALSE && other->input.isBossDragon == FALSE
                                             && other->input.isBluntLineMissile == FALSE && other->input.isBossHomingLaserTrail == FALSE)
                                         {
-                                            repelledProjectileHitCheckList[ii]->output.hasCollision = TRUE;
+                                            sRepelledProjectileHitCheckList[ii]->output.hasCollision = TRUE;
 
-                                            stageObjectHitCheckList[i]->output.isHurt       = TRUE;
-                                            stageObjectHitCheckList[i]->output.hasCollision = TRUE;
-                                            stageObjectHitCheckList[i]->power               = repelledProjectileHitCheckList[ii]->power;
+                                            sStageObjectHitCheckList[i]->output.isHurt       = TRUE;
+                                            sStageObjectHitCheckList[i]->output.hasCollision = TRUE;
+                                            sStageObjectHitCheckList[i]->power               = sRepelledProjectileHitCheckList[ii]->power;
                                         }
                                     }
                                 }
@@ -814,45 +810,45 @@ void exHitCheckTask_DoHitChecks(void)
                     }
                 }
 
-                if (blazeFireballHitCheckListSize > 0)
+                if (sBlazeFireballHitCheckListSize > 0)
                 {
-                    for (i = 0; i < stageObjectHitCheckListSize; i++)
+                    for (i = 0; i < sStageObjectHitCheckListSize; i++)
                     {
-                        exHitCheck *other = stageObjectHitCheckList[i];
+                        exHitCheck *other = sStageObjectHitCheckList[i];
 
                         if ((other->box.position->z <= FLOAT_TO_FX32(65.0) && other->box.position->z >= FLOAT_TO_FX32(50.0)) || other->box.position->z == FLOAT_TO_FX32(0.0))
                         {
                             if (other->type == EXHITCHECK_TYPE_HAZARD || other->type == EXHITCHECK_TYPE_INTRO_METEOR)
                             {
-                                for (ii = 0; ii < blazeFireballHitCheckListSize; ii++)
+                                for (ii = 0; ii < sBlazeFireballHitCheckListSize; ii++)
                                 {
-                                    if (exHitCheckTask_CheckBoxOverlap(&blazeFireballHitCheckList[ii]->box, &stageObjectHitCheckList[i]->box))
+                                    if (exHitCheckTask_CheckBoxOverlap(&sBlazeFireballHitCheckList[ii]->box, &sStageObjectHitCheckList[i]->box))
                                     {
-                                        other = stageObjectHitCheckList[i];
+                                        other = sStageObjectHitCheckList[i];
 
                                         if (other->input.isBossFireRed || other->input.isBossFireBlue)
                                         {
-                                            blazeFireballHitCheckList[ii]->output.hasCollision = TRUE;
+                                            sBlazeFireballHitCheckList[ii]->output.hasCollision = TRUE;
                                         }
                                         else if (other->input.isBossMagmaWaveAttack)
                                         {
-                                            blazeFireballHitCheckList[ii]->output.hasCollision = TRUE;
+                                            sBlazeFireballHitCheckList[ii]->output.hasCollision = TRUE;
                                         }
                                         else if (other->input.isBossDragon)
                                         {
                                             other->output.hasCollision = TRUE;
 
-                                            blazeFireballHitCheckList[ii]->output.hasCollision = TRUE;
+                                            sBlazeFireballHitCheckList[ii]->output.hasCollision = TRUE;
 
-                                            stageObjectHitCheckList[i]->power = blazeFireballHitCheckList[ii]->power;
+                                            sStageObjectHitCheckList[i]->power = sBlazeFireballHitCheckList[ii]->power;
                                         }
                                         else if (other->input.isBossHomingLaserTrail == FALSE)
                                         {
-                                            blazeFireballHitCheckList[ii]->output.hasCollision = TRUE;
+                                            sBlazeFireballHitCheckList[ii]->output.hasCollision = TRUE;
 
-                                            stageObjectHitCheckList[i]->output.isHurt       = TRUE;
-                                            stageObjectHitCheckList[i]->output.hasCollision = TRUE;
-                                            stageObjectHitCheckList[i]->power               = blazeFireballHitCheckList[ii]->power;
+                                            sStageObjectHitCheckList[i]->output.isHurt       = TRUE;
+                                            sStageObjectHitCheckList[i]->output.hasCollision = TRUE;
+                                            sStageObjectHitCheckList[i]->power               = sBlazeFireballHitCheckList[ii]->power;
                                         }
                                     }
                                 }
@@ -862,9 +858,9 @@ void exHitCheckTask_DoHitChecks(void)
                 }
                 if (playerSonic->hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
                 {
-                    for (i = 0; i < stageObjectHitCheckListSize; i++)
+                    for (i = 0; i < sStageObjectHitCheckListSize; i++)
                     {
-                        exHitCheck *other = stageObjectHitCheckList[i];
+                        exHitCheck *other = sStageObjectHitCheckList[i];
 
                         if (other->output.hasCollision != 1)
                         {
@@ -872,14 +868,14 @@ void exHitCheckTask_DoHitChecks(void)
                             {
                                 if (exHitCheckTask_CheckBoxOverlap(&playerSonic->hitChecker.box, &other->box))
                                 {
-                                    other = stageObjectHitCheckList[i];
+                                    other = sStageObjectHitCheckList[i];
 
                                     if (other->input.isIntroMeteor)
                                     {
                                         if (playerSonic->hitChecker.output.isHurt == FALSE)
                                         {
                                             if (GetExPlayerWorker()->dashTimer > 0)
-                                                stageObjectHitCheckList[i]->output.hasCollision = TRUE;
+                                                sStageObjectHitCheckList[i]->output.hasCollision = TRUE;
 
                                             playerSonic->hitChecker.output.isHurt = TRUE;
                                         }
@@ -938,12 +934,12 @@ void exHitCheckTask_DoHitChecks(void)
                                         {
                                             if (GetExPlayerWorker()->dashTimer > 0)
                                             {
-                                                stageObjectHitCheckList[i]->output.willExplodeOnContact = TRUE;
+                                                sStageObjectHitCheckList[i]->output.willExplodeOnContact = TRUE;
                                             }
                                             else
                                             {
-                                                stageObjectHitCheckList[i]->output.hasCollision = TRUE;
-                                                playerSonic->hitChecker.output.isHurt           = TRUE;
+                                                sStageObjectHitCheckList[i]->output.hasCollision = TRUE;
+                                                playerSonic->hitChecker.output.isHurt            = TRUE;
                                             }
                                         }
                                     }
@@ -986,9 +982,9 @@ void exHitCheckTask_DoHitChecks(void)
 
                 if (playerBlaze->hitChecker.type == EXHITCHECK_TYPE_ACTIVE_PLAYER)
                 {
-                    for (i = 0; i < stageObjectHitCheckListSize; i++)
+                    for (i = 0; i < sStageObjectHitCheckListSize; i++)
                     {
-                        exHitCheck *other = stageObjectHitCheckList[i];
+                        exHitCheck *other = sStageObjectHitCheckList[i];
 
                         if (other->output.hasCollision != 1)
                         {
@@ -996,7 +992,7 @@ void exHitCheckTask_DoHitChecks(void)
                             {
                                 if (exHitCheckTask_CheckBoxOverlap(&playerBlaze->hitChecker.box, &other->box))
                                 {
-                                    other = stageObjectHitCheckList[i];
+                                    other = sStageObjectHitCheckList[i];
 
                                     if (other->input.isIntroMeteor)
                                     {
@@ -1096,11 +1092,11 @@ void exHitCheckTask_Main_Init(void)
     exHitCheckTask *work = ExTaskGetWorkCurrent(exHitCheckTask);
     UNUSED(work);
 
-    stageObjectHitCheckListSize        = 0;
-    sonicBarrierHitCheckListSize       = 0;
-    repelledProjectileHitCheckListSize = 0;
-    playerBodyHitCheckListSize         = 0;
-    blazeFireballHitCheckListSize      = 0;
+    sStageObjectHitCheckListSize        = 0;
+    sSonicBarrierHitCheckListSize       = 0;
+    sRepelledProjectileHitCheckListSize = 0;
+    sPlayerBodyHitCheckListSize         = 0;
+    sBlazeFireballHitCheckListSize      = 0;
 
     SetCurrentExTaskMainEvent(exHitCheckTask_Main_Active);
 }
@@ -1110,17 +1106,17 @@ void exHitCheckTask_OnCheckStageFinished(void)
     exHitCheckTask *work = ExTaskGetWorkCurrent(exHitCheckTask);
     UNUSED(work);
 
-    isStageObjectHitCheckListAvailable        = TRUE;
-    isSonicBarrierHitCheckListAvailable       = TRUE;
-    isRepelledProjectileHitCheckListAvailable = TRUE;
-    isPlayerBodyHitCheckListAvailable         = TRUE;
-    isBlazeFireballHitCheckListAvailable      = TRUE;
+    sIsStageObjectHitCheckListAvailable        = TRUE;
+    sIsSonicBarrierHitCheckListAvailable       = TRUE;
+    sIsRepelledProjectileHitCheckListAvailable = TRUE;
+    sIsPlayerBodyHitCheckListAvailable         = TRUE;
+    sIsBlazeFireballHitCheckListAvailable      = TRUE;
 
-    stageObjectHitCheckListSize        = 0;
-    sonicBarrierHitCheckListSize       = 0;
-    repelledProjectileHitCheckListSize = 0;
-    playerBodyHitCheckListSize         = 0;
-    blazeFireballHitCheckListSize      = 0;
+    sStageObjectHitCheckListSize        = 0;
+    sSonicBarrierHitCheckListSize       = 0;
+    sRepelledProjectileHitCheckListSize = 0;
+    sPlayerBodyHitCheckListSize         = 0;
+    sBlazeFireballHitCheckListSize      = 0;
 
     if (CheckExStageFinished())
         DestroyCurrentExTask();
@@ -1131,17 +1127,17 @@ void exHitCheckTask_Destructor(void)
     exHitCheckTask *work = ExTaskGetWorkCurrent(exHitCheckTask);
     UNUSED(work);
 
-    isStageObjectHitCheckListAvailable        = TRUE;
-    isSonicBarrierHitCheckListAvailable       = TRUE;
-    isRepelledProjectileHitCheckListAvailable = TRUE;
-    isPlayerBodyHitCheckListAvailable         = TRUE;
-    isBlazeFireballHitCheckListAvailable      = TRUE;
+    sIsStageObjectHitCheckListAvailable        = TRUE;
+    sIsSonicBarrierHitCheckListAvailable       = TRUE;
+    sIsRepelledProjectileHitCheckListAvailable = TRUE;
+    sIsPlayerBodyHitCheckListAvailable         = TRUE;
+    sIsBlazeFireballHitCheckListAvailable      = TRUE;
 
-    stageObjectHitCheckListSize        = 0;
-    sonicBarrierHitCheckListSize       = 0;
-    repelledProjectileHitCheckListSize = 0;
-    playerBodyHitCheckListSize         = 0;
-    blazeFireballHitCheckListSize      = 0;
+    sStageObjectHitCheckListSize        = 0;
+    sSonicBarrierHitCheckListSize       = 0;
+    sRepelledProjectileHitCheckListSize = 0;
+    sPlayerBodyHitCheckListSize         = 0;
+    sBlazeFireballHitCheckListSize      = 0;
 }
 
 void exHitCheckTask_Main_Active(void)

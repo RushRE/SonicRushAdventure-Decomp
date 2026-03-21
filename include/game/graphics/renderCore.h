@@ -319,7 +319,7 @@ typedef struct RenderCoreGFXControl_
 // --------------------
 
 extern GXDispSelect renderCurrentDisplay;
-extern s32 renderDmaNo;
+extern s32 gRenderDMANo;
 
 extern SwapBufferControl renderCoreSwapBuffer;
 extern RenderCoreGFXControl renderCoreGFXControlB;

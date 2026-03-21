@@ -17,7 +17,7 @@ static void ThreadFunc_Create(SaveGameCreateManager *work);
 // VARIABLES
 // --------------------
 
-static const u32 saveTypes[SAVE_TYPE_COUNT] = { [SAVE_TYPE_ALL]                  = SAVE_BLOCK_FLAG_ALL,
+static const u32 sSaveTypes[SAVE_TYPE_COUNT] = { [SAVE_TYPE_ALL]                  = SAVE_BLOCK_FLAG_ALL,
                                                 [SAVE_TYPE_STAGE]                = SAVE_BLOCK_FLAG_STAGE,
                                                 [SAVE_TYPE_SYSTEM]               = SAVE_BLOCK_FLAG_SYSTEM,
                                                 [SAVE_TYPE_PROFILE]              = SAVE_BLOCK_FLAG_ONLINE_PROFILE,
@@ -39,7 +39,7 @@ static const u32 saveTypes[SAVE_TYPE_COUNT] = { [SAVE_TYPE_ALL]                 
 // SaveFile Saving
 BOOL TrySaveGameData(SaveTypes type)
 {
-    if (SaveGame__SaveData(&saveGame, saveTypes[type]) != SAVE_ERROR_CANT_LOAD)
+    if (SaveGame__SaveData(&saveGame, sSaveTypes[type]) != SAVE_ERROR_CANT_LOAD)
         return TRUE;
 
     gameState.lastSaveError = GAMESAVE_ERROR_CANT_SAVE;

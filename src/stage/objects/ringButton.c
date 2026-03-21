@@ -151,7 +151,7 @@ void RingButton_Destructor(Task *task)
     ObjAction2dBACRelease(GetObjectFileWork(OBJDATAWORK_106), &work->aniBase);
 
     if (gmCheckRingBattle())
-        RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = 0;
+        gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id] = 0;
 
     GameObject__Destructor(task);
 }
@@ -175,12 +175,12 @@ void RingButton_Action_Init(RingButton *work)
                 work->gameWork.objWork.position.x += FLOAT_TO_FX32(2.0);
         }
 
-        RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
+        gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
         UpdateRingButtonPalette(work, TRUE);
     }
     else
     {
-        if (RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id])
+        if (gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id])
         {
             if (work->gameWork.mapObject->id == MAPOBJECT_256)
             {
@@ -224,7 +224,7 @@ void RingButton_State_Vertical(RingButton *work)
         if (MATH_ABS(FX32_TO_WHOLE(work->gameWork.objWork.position.x) - (toucherObj->hitboxRect.left + FX32_TO_WHOLE(toucherObj->position.x))) < 14
             || MATH_ABS(FX32_TO_WHOLE(work->gameWork.objWork.position.x) - (toucherObj->hitboxRect.right + FX32_TO_WHOLE(toucherObj->position.x))) < 14)
         {
-            if (RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] == 0)
+            if (gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id] == 0)
             {
                 if (work->onActivated != NULL)
                     work->onActivated(work);
@@ -232,22 +232,22 @@ void RingButton_State_Vertical(RingButton *work)
 
             if (!gmCheckRingBattle())
             {
-                if (!RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id])
+                if (!gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id])
                 {
                     RingButtonSfxManager__Create(work->gameWork.RingButton_mapObjectParam_id, work->gameWork.mapObject->flags & RINGBUTTON_OBJFLAG_PLAY_SFX);
                     UpdateRingButtonPalette(work, TRUE);
                 }
-                RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] =
+                gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id] =
                     2 * (work->gameWork.mapObjectParam_reactivateTime1 + work->gameWork.mapObjectParam_reactivateTime2);
             }
             else
             {
-                if (!RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id])
+                if (!gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id])
                 {
                     GameObject__SendPacket(&work->gameWork, (Player *)toucherObj, GAMEOBJECT_PACKET_OBJ_COLLISION_1);
                     UpdateRingButtonPalette(work, TRUE);
                 }
-                RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
+                gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
             }
             activated = TRUE;
 
@@ -286,7 +286,7 @@ void RingButton_State_Vertical(RingButton *work)
         }
     }
 
-    if (!activated && RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] == 0)
+    if (!activated && gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id] == 0)
     {
         fx32 distance = MATH_ABS(work->gameWork.objWork.position.y - work->buttonPos.y);
         fx32 move     = 0;
@@ -320,7 +320,7 @@ void RingButton_State_Horizontal(RingButton *work)
         ((toucherObj->displayFlag & DISPLAY_FLAG_FLIP_X) == 0 && (work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0
          || (toucherObj->displayFlag & DISPLAY_FLAG_FLIP_X) != 0 && (work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0))
     {
-        if (RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] == 0)
+        if (gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id] == 0)
         {
             if (work->onActivated != NULL)
                 work->onActivated(work);
@@ -328,22 +328,22 @@ void RingButton_State_Horizontal(RingButton *work)
 
         if (!gmCheckRingBattle())
         {
-            if (!RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id])
+            if (!gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id])
             {
                 RingButtonSfxManager__Create(work->gameWork.RingButton_mapObjectParam_id, work->gameWork.mapObject->flags & RINGBUTTON_OBJFLAG_PLAY_SFX);
                 UpdateRingButtonPalette(work, TRUE);
             }
-            RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] =
+            gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id] =
                 2 * (work->gameWork.mapObjectParam_reactivateTime1 + work->gameWork.mapObjectParam_reactivateTime2);
         }
         else
         {
-            if (!RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id])
+            if (!gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id])
             {
                 GameObject__SendPacket(&work->gameWork, (Player *)toucherObj, GAMEOBJECT_PACKET_OBJ_COLLISION_1);
                 UpdateRingButtonPalette(work, TRUE);
             }
-            RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
+            gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
         }
         activated = TRUE;
 
@@ -381,7 +381,7 @@ void RingButton_State_Horizontal(RingButton *work)
         }
     }
 
-    if (!activated && RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] == 0)
+    if (!activated && gRingButtonTimerTable[work->gameWork.RingButton_mapObjectParam_id] == 0)
     {
         fx32 distance = MATH_ABS(work->gameWork.objWork.position.x - work->buttonPos.x);
         fx32 move     = 0;
@@ -426,7 +426,7 @@ void RingButton_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER && gmCheckRingBattle())
     {
         button->onActivated(button);
-        RingButtonSfxManager__timerTable[button->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
+        gRingButtonTimerTable[button->gameWork.RingButton_mapObjectParam_id] = RINGBUTTON_REACTIVATE_DURATION;
         UpdateRingButtonPalette(button, TRUE);
         button->gameWork.flags |= RINGBUTTON_FLAG_MOVE_BACK;
         button->gameWork.flags &= ~RINGBUTTON_FLAG_MOVE_FORWARD;

@@ -40,7 +40,7 @@ struct OAMManager
 // VARIABLES
 // --------------------
 
-extern GXOamAttr oamDefault;
+extern GXOamAttr gOAMDefault;
 
 // --------------------
 // FUNCTIONS

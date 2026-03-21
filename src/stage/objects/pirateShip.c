@@ -28,9 +28,9 @@ enum PirateShipFlags
 // VARIABLES
 // --------------------
 
-static s16 cannonBallShootIntervalTable[] = { 25, 15, 20, 15, 25, 5, 10, 20, 5, 15, 25, 20, 10, 25, 20, 15 };
-static s16 cannonBallSpawnPosTable[]      = { 0, -41, -37, -34, -21, -38, 39, -34, 0, -41, -37, -34, 22, -39, 39, -34 };
-static s16 cannonBallVelocityXTable[]     = { 56, -88, 108, -56, 72, -76, 64, -64, 80, -80, 96, -72, 48, -60, 88, -48 };
+static s16 sCannonBallShootIntervalTable[] = { 25, 15, 20, 15, 25, 5, 10, 20, 5, 15, 25, 20, 10, 25, 20, 15 };
+static s16 sCannonBallSpawnPosTable[]      = { 0, -41, -37, -34, -21, -38, 39, -34, 0, -41, -37, -34, 22, -39, 39, -34 };
+static s16 sCannonBallVelocityXTable[]     = { 56, -88, 108, -56, 72, -76, 64, -64, 80, -80, 96, -72, 48, -60, 88, -48 };
 
 // --------------------
 // FUNCTION DECLS
@@ -49,9 +49,9 @@ static void PirateShipCannonBall_OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect
 // INLINE FUNCTIONS
 // --------------------
 
-RUSH_INLINE OBS_SPRITE_REF *GetCannonBallSpriteRef(int arg0)
+RUSH_INLINE OBS_SPRITE_REF *GetCannonBallSpriteRef(int id)
 {
-  return GetObjectSpriteRef(arg0);
+    return GetObjectSpriteRef(id);
 }
 
 // --------------------
@@ -100,11 +100,8 @@ PirateShipCannonBall *CreatePirateShipCannonBall(MapObject *mapObject, fx32 x, f
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    work->gameWork.objWork.moveFlag |= 
-        STAGE_TASK_MOVE_FLAG_DISABLE_X_COLLISION_CHECK |
-        STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | 
-        STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | 
-        STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_X_COLLISION_CHECK | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT
+                                       | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_pirate_ship.bac", GetObjectDataWork(OBJDATAWORK_162), gameArchiveStage,
                              OBJ_DATA_GFX_NONE);
@@ -236,8 +233,8 @@ void PirateShip_State_Active(PirateShip *work)
     {
         PirateShipCannonBall *cannonBall;
 
-        fx32 spawnOffsetX = FX32_FROM_WHOLE(cannonBallSpawnPosTable[((2 * work->gameWork.objWork.userWork) & 0xF) + 0]);
-        fx32 spawnOffsetY = FX32_FROM_WHOLE(cannonBallSpawnPosTable[((2 * work->gameWork.objWork.userWork) & 0xF) + 1]);
+        fx32 spawnOffsetX = FX32_FROM_WHOLE(sCannonBallSpawnPosTable[((2 * work->gameWork.objWork.userWork) & 0xF) + 0]);
+        fx32 spawnOffsetY = FX32_FROM_WHOLE(sCannonBallSpawnPosTable[((2 * work->gameWork.objWork.userWork) & 0xF) + 1]);
 
         fx32 spawnX = work->gameWork.objWork.position.x + spawnOffsetX;
         fx32 spawnY = work->gameWork.objWork.position.y + spawnOffsetY;
@@ -250,13 +247,13 @@ void PirateShip_State_Active(PirateShip *work)
 
             fx32 speed = player->objWork.position.x - (work->gameWork.objWork.position.x + spawnOffsetX);
             if (velocity != FLOAT_TO_FX32(0.0))
-                speed += FX32_FROM_WHOLE(cannonBallVelocityXTable[work->gameWork.objWork.userWork & 0xF]);
+                speed += FX32_FROM_WHOLE(sCannonBallVelocityXTable[work->gameWork.objWork.userWork & 0xF]);
             cannonBall->gameWork.objWork.velocity.x += FX_DivS32(speed, FLOAT_TO_FX32(0.026));
         }
 
         PirateShipCannonBlast__Create(&work->gameWork.objWork, spawnOffsetX, spawnOffsetY);
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_PIRATE_FIRE);
-        work->gameWork.objWork.userTimer = cannonBallShootIntervalTable[work->gameWork.objWork.userWork];
+        work->gameWork.objWork.userTimer = sCannonBallShootIntervalTable[work->gameWork.objWork.userWork];
         work->gameWork.objWork.userWork  = (work->gameWork.objWork.userWork + 1) & 0xF;
     }
 }

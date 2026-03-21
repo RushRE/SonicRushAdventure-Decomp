@@ -30,7 +30,7 @@ enum DashRingAnimID
 // --------------------
 
 // clang-format off
-const Vec2Fx32 velocityTable[] = {
+static const Vec2Fx32 sVelocityTable[] = {
     {  FLOAT_TO_FX32(8.0),      FLOAT_TO_FX32(0.0) },		// DASHRING_VEL_RIGHT
     {  FLOAT_TO_FX32(5.65625),  FLOAT_TO_FX32(5.65625) },	// DASHRING_VEL_DOWN_RIGHT
     {  FLOAT_TO_FX32(0.0),      FLOAT_TO_FX32(8.0) },		// DASHRING_VEL_DOWN
@@ -107,7 +107,7 @@ DashRing *CreateDashRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
                            ObjActionAllocSprite(&animator->spriteRef->engineRef[1], TRUE, gfxSize), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_ORDER_2, SPRITE_ORDER_23);
 
     animator->ani.cParam[1].palette = animator->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
-    animator->ani.work.cParam.palette                                        = animator->ani.cParam[0].palette;
+    animator->ani.work.cParam.palette                                 = animator->ani.cParam[0].palette;
 
     ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
@@ -225,7 +225,7 @@ DashRing *CreateDashRingRainbow(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
                            PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(TRUE, gfxSize), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, 2, 23);
 
     animator->ani.cParam[1].palette = animator->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
-    animator->ani.work.cParam.palette                                        = animator->ani.cParam[0].palette;
+    animator->ani.work.cParam.palette                                 = animator->ani.cParam[0].palette;
 
     ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
@@ -342,8 +342,8 @@ void DashRing_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER && player != NULL)
     {
-        Player__Action_DashRing(player, dashRing->gameWork.objWork.position.x, dashRing->gameWork.objWork.position.y, velocityTable[dashRing->velocity].x,
-                                velocityTable[dashRing->velocity].y);
+        Player__Action_DashRing(player, dashRing->gameWork.objWork.position.x, dashRing->gameWork.objWork.position.y, sVelocityTable[dashRing->velocity].x,
+                                sVelocityTable[dashRing->velocity].y);
         Player__Action_AllowTrickCombos(player, &dashRing->gameWork);
 
         if ((dashRing->flags & DASHRING_FLAG_RAINBOW) != 0)

@@ -48,7 +48,7 @@ NOT_DECOMPILED void _ZN13CViDockCamera15SetDrawPipelineEv(CViDockCamera *work);
 // VARIABLES
 // --------------------
 
-static Task *taskSingleton;
+static Task *sCViDockTaskSingleton;
 
 // static const u16 ovl05_02172EB4[] = { 224, 111, 247, 123, 255, 127, 247, 123 };
 NOT_DECOMPILED const u16 ovl05_02172EB4[];
@@ -84,14 +84,14 @@ static void CViDock__DestroyInternal(Task *task);
 void CViDock::Create(void)
 {
 #ifdef NON_MATCHING
-    taskSingleton = HubTaskCreate(CViDock::Main_Init, CViDock::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16), CViDock);
+    sCViDockTaskSingleton = HubTaskCreate(CViDock::Main_Init, CViDock::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16), CViDock);
 #else
     // TODO: use 'HubTaskCreate' when 'CViDock__CreateInternal' matches
-    // taskSingleton = HubTaskCreate(CViDock::Main_Init, CViDock::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16), CViDock);
-    taskSingleton = CViDock__CreateInternal(CViDock::Main_Init, CViDock::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16));
+    // sCViDockTaskSingleton = HubTaskCreate(CViDock::Main_Init, CViDock::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16), CViDock);
+    sCViDockTaskSingleton = CViDock__CreateInternal(CViDock::Main_Init, CViDock::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1030, TASK_GROUP(16));
 #endif
 
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     work->area                = CViDock::AREA_INVALID;
     work->type                = CViDock::TYPE_INVALID;
@@ -156,16 +156,16 @@ _0215DB8C:
 
 void CViDock::Destroy(void)
 {
-    if (taskSingleton != NULL)
+    if (sCViDockTaskSingleton != NULL)
     {
-        DestroyTask(taskSingleton);
-        taskSingleton = NULL;
+        DestroyTask(sCViDockTaskSingleton);
+        sCViDockTaskSingleton = NULL;
     }
 }
 
 void CViDock::InitForPlayerControl(s32 area)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     CViDock::ReleaseUnknown(work);
     CViDock::ReleaseFontWindow(work);
@@ -187,12 +187,12 @@ void CViDock::InitForPlayerControl(s32 area)
 
     work->camera.SetType(CViDockCamera::TYPE_DOCK);
 
-    SetTaskMainEvent(taskSingleton, CViDock::Main_PlayerActive);
+    SetTaskMainEvent(sCViDockTaskSingleton, CViDock::Main_PlayerActive);
 }
 
 void CViDock::InitForDockChange(s32 nextArea, s32 area)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     CViDock::InitForInactive();
 
@@ -206,28 +206,28 @@ void CViDock::InitForDockChange(s32 nextArea, s32 area)
     work->isThreadBusy        = TRUE;
 
     CreateThreadWorker(&work->thread, CViDock::ThreadFunc, work, 24);
-    SetTaskMainEvent(taskSingleton, CViDock::Main_ChangingArea);
+    SetTaskMainEvent(sCViDockTaskSingleton, CViDock::Main_ChangingArea);
 }
 
 BOOL CViDock::CheckThreadIdle(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     return work->isThreadBusy == FALSE;
 }
 
 void CViDock::ReturnPlayerControl(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     work->camera.SetType(CViDockCamera::TYPE_DOCK);
 
-    SetTaskMainEvent(taskSingleton, CViDock::Main_PlayerActive);
+    SetTaskMainEvent(sCViDockTaskSingleton, CViDock::Main_PlayerActive);
 }
 
 void CViDock::InitForPreview(DockArea dockArea, BOOL waitForLoad)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     CViDock::ReleaseUnknown(work);
     CViDock::ReleaseFontWindow(work);
@@ -251,18 +251,18 @@ void CViDock::InitForPreview(DockArea dockArea, BOOL waitForLoad)
 
     if (waitForLoad)
     {
-        SetTaskMainEvent(taskSingleton, CViDock::Main_InitForPreviewDockChange);
+        SetTaskMainEvent(sCViDockTaskSingleton, CViDock::Main_InitForPreviewDockChange);
         work->nextAreaLoaded = FALSE;
     }
     else
     {
-        SetTaskMainEvent(taskSingleton, CViDock::Main_DockPreview);
+        SetTaskMainEvent(sCViDockTaskSingleton, CViDock::Main_DockPreview);
     }
 }
 
 void CViDock::InitForConstructionCutscene(s32 area)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     CViDock::ReleaseUnknown(work);
     CViDock::ReleaseFontWindow(work);
@@ -283,12 +283,12 @@ void CViDock::InitForConstructionCutscene(s32 area)
     CViDock::InitShipConstructCompletedMessage(work);
     CViDock::InitShipConstructedBG(work);
     work->camera.SetType(CViDockCamera::TYPE_CONSTRUCTION_CUTSCENE);
-    SetTaskMainEvent(taskSingleton, CViDock::Main_UpgradeShipSpin);
+    SetTaskMainEvent(sCViDockTaskSingleton, CViDock::Main_UpgradeShipSpin);
 }
 
 void CViDock::InitForInactive(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     work->environmentSfxTimer = 0;
 
@@ -302,26 +302,26 @@ void CViDock::InitForInactive(void)
     work->type     = CViDock::TYPE_INVALID;
     work->nextArea = CViDock::AREA_INVALID;
 
-    SetTaskMainEvent(taskSingleton, NULL);
+    SetTaskMainEvent(sCViDockTaskSingleton, NULL);
 }
 
 void CViDock::EnablePlayerInput(BOOL enabled)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     work->playerInputEnabled = enabled;
 }
 
 void CViDock::DrawShipConstructionFontWindow(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     CViDock::DrawFontWindow(work);
 }
 
 BOOL CViDock::DidExitArea(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     if (work->disableExitArea)
         return FALSE;
@@ -331,21 +331,21 @@ BOOL CViDock::DidExitArea(void)
 
 s32 CViDock::GetNextArea(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     return work->nextArea;
 }
 
 BOOL CViDock::HasActiveTalkAction(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     return work->talkActionType < CVIDOCKNPCTALK_COUNT;
 }
 
 void CViDock::GetTalkActionFromTalkingNpc(s32 *type, s32 *param)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     if (type != NULL)
         *type = work->talkActionType;
@@ -356,7 +356,7 @@ void CViDock::GetTalkActionFromTalkingNpc(s32 *type, s32 *param)
 
 s32 CViDock::GetTalkingNpcTalkCount(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     CViDockNpc *npc = work->talkNpc;
     if (npc != NULL)
@@ -367,7 +367,7 @@ s32 CViDock::GetTalkingNpcTalkCount(void)
 
 void CViDock::DecrementTalkingNpcTalkCount(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     CViDockNpc *npc = work->talkNpc;
     if (npc != NULL && npc->talkCount != 0)
@@ -376,10 +376,10 @@ void CViDock::DecrementTalkingNpcTalkCount(void)
 
 s32 CViDock::GetTalkingNpc(void)
 {
-    if (taskSingleton == NULL)
+    if (sCViDockTaskSingleton == NULL)
         return CVIDOCK_NPC_INVALID;
 
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     CViDockNpc *npc = work->talkNpc;
     if (npc == NULL)
@@ -390,7 +390,7 @@ s32 CViDock::GetTalkingNpc(void)
 
 void CViDock::SetTalkingNpc(s32 id)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     const HubNpcSpawnConfig *config = HubConfig__GetNpcConfig(id);
 
@@ -416,7 +416,7 @@ void CViDock::SetTalkingNpc(s32 id)
 
 void CViDock::StartTalkingToNpc(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     work->field_1470         = 1;
     work->movedCamForNpcTalk = FALSE;
@@ -453,15 +453,15 @@ void CViDock::StartTalkingToNpc(void)
         work->camDirection = camDirection.ToVecFx32Ref();
     }
 
-    SetTaskMainEvent(taskSingleton, CViDock::Main_TalkActive);
+    SetTaskMainEvent(sCViDockTaskSingleton, CViDock::Main_TalkActive);
 }
 
 void CViDock::MoveCameraForNpcTalk(BOOL a1, BOOL a2)
 {
-    if (taskSingleton == NULL)
+    if (sCViDockTaskSingleton == NULL)
         return;
 
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     if (work->field_1470 != 0 && work->talkNpc != 0)
     {
@@ -483,7 +483,7 @@ void CViDock::MoveCameraForNpcTalk(BOOL a1, BOOL a2)
 
 void CViDock::FinishTalkingToNpc(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     work->field_1470 = 0;
 
@@ -500,26 +500,26 @@ void CViDock::FinishTalkingToNpc(void)
     work->talkNpc         = NULL;
 
     work->player.AllowBored(TRUE);
-    SetTaskMainEvent(taskSingleton, CViDock::Main_PlayerActive);
+    SetTaskMainEvent(sCViDockTaskSingleton, CViDock::Main_PlayerActive);
 }
 
 BOOL CViDock::CheckNextDockAreaLoaded(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     return work->nextAreaLoaded;
 }
 
 void CViDock::SetCharactersEnabled(BOOL enabled)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     work->charactersEnabled = enabled;
 }
 
 void CViDock::SaveCharacterStates(void)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     u16 playerAngle          = work->player.currentTurnAngle;
     const VecFx32 &playerPos = work->player.position.ToConstVecFx32Ref();
@@ -542,7 +542,7 @@ void CViDock::SaveCharacterStates(void)
 
 void CViDock::LoadCharacterStates(BOOL loadAngle)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     if (HubState__CheckHasPlayerState(0))
     {
@@ -573,7 +573,7 @@ void CViDock::LoadCharacterStates(BOOL loadAngle)
 
 void CViDock::DisableExitArea(BOOL areaExitDisabled)
 {
-    CViDock *work = TaskGetWork(taskSingleton, CViDock);
+    CViDock *work = TaskGetWork(sCViDockTaskSingleton, CViDock);
 
     work->disableExitArea = areaExitDisabled;
 }
@@ -1889,7 +1889,7 @@ void CViDock::Destructor(Task *task)
     CViDock__DestroyInternal(task);
 #endif
 
-    taskSingleton = NULL;
+    sCViDockTaskSingleton = NULL;
 }
 
 #ifndef NON_MATCHING

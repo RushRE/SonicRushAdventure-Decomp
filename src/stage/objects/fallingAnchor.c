@@ -7,6 +7,10 @@
 #include <game/audio/spatialAudio.h>
 #include <stage/effects/slingDust.h>
 
+// --------------------
+// TEMP
+// --------------------
+
 NOT_DECOMPILED void *aActAcGmkAnchor_0;
 
 // --------------------

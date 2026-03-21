@@ -5,11 +5,11 @@
 // VARIABLES
 // --------------------
 
-GXOamAttr oamDefault;
+GXOamAttr gOAMDefault;
 
-static struct OAMManager oamManagerA;
-static struct OAMManager oamManagerB;
-static struct OAMManager *const oamManagers[2] = { &oamManagerA, &oamManagerB };
+static struct OAMManager sOAMManagerA;
+static struct OAMManager sOAMManagerB;
+static struct OAMManager *const sOAMManagers[2] = { &sOAMManagerA, &sOAMManagerB };
 
 // --------------------
 // FUNCTIONS
@@ -19,7 +19,7 @@ void InitOAMSystem(void)
 {
     for (u32 e = 0; e < 2; e++)
     {
-        struct OAMManager *manager = oamManagers[e];
+        struct OAMManager *manager = sOAMManagers[e];
 
         manager->count        = 0;
         manager->affineCount  = 0;
@@ -35,16 +35,16 @@ void InitOAMSystem(void)
 
 GXOamAttr *OAMSystem__Alloc(BOOL useEngineB, u32 order)
 {
-    struct OAMManager *manager = oamManagers[useEngineB];
+    struct OAMManager *manager = sOAMManagers[useEngineB];
 
     if (order >= OAMSYSTEM_OAM_COUNT)
         order = OAMSYSTEM_OAM_COUNT - 1;
 
     if (manager->count >= OAMSYSTEM_OAM_LIST_SIZE)
     {
-        oamDefault._3 = OAMSYSTEM_INVALID;
+        gOAMDefault._3 = OAMSYSTEM_INVALID;
 
-        return &oamDefault;
+        return &gOAMDefault;
     }
 
     manager->oamList3[manager->count]._3 = OAMSYSTEM_INVALID;
@@ -64,12 +64,12 @@ GXOamAttr *OAMSystem__Func_207D624(BOOL useEngineB, GXOamAttr *attr)
     if (attr->_3 == OAMSYSTEM_INVALID)
         return 0;
     else
-        return &oamManagers[useEngineB]->oamList3[attr->_3];
+        return &sOAMManagers[useEngineB]->oamList3[attr->_3];
 }
 
 u16 OAMSystem__AddAffineSprite(BOOL useEngineB, MtxFx22 *matrix)
 {
-    struct OAMManager *manager = oamManagers[useEngineB];
+    struct OAMManager *manager = sOAMManagers[useEngineB];
 
     if (matrix != NULL)
     {
@@ -97,7 +97,7 @@ u16 OAMSystem__AddAffineSprite(BOOL useEngineB, MtxFx22 *matrix)
 
 void OAMSystem__PrepareNewFrame(BOOL useEngineB)
 {
-    struct OAMManager *manager = oamManagers[useEngineB];
+    struct OAMManager *manager = sOAMManagers[useEngineB];
     u16 a;
     u32 i;
 
@@ -123,49 +123,49 @@ void OAMSystem__CopyToVRAM(BOOL useEngineB)
     static void *const oamAddress[] = { (void *)HW_OAM, (void *)HW_DB_OAM };
     static u32 const oamSize[]      = { HW_OAM_SIZE, HW_DB_OAM_SIZE };
 
-    struct OAMManager *manager = oamManagers[useEngineB];
+    struct OAMManager *manager = sOAMManagers[useEngineB];
 
     DC_StoreRange(manager->oamList1, oamSize[useEngineB]);
-    MI_DmaCopy32(renderDmaNo, manager->oamList1, oamAddress[useEngineB], oamSize[useEngineB]);
+    MI_DmaCopy32(gRenderDMANo, manager->oamList1, oamAddress[useEngineB], oamSize[useEngineB]);
     MI_CpuCopyFast(manager->oamList2, manager->oamList1, sizeof(manager->oamList1));
 }
 
 u32 OAMSystem__GetOAMCount(BOOL useEngineB)
 {
-    return oamManagers[useEngineB]->count;
+    return sOAMManagers[useEngineB]->count;
 }
 
 u16 OAMSystem__GetOAMAffineCount(BOOL useEngineB)
 {
-    return oamManagers[useEngineB]->affineCount;
+    return sOAMManagers[useEngineB]->affineCount;
 }
 
 u16 OAMSystem__GetOAMAffineOffset(BOOL useEngineB)
 {
-    return oamManagers[useEngineB]->affineOffset;
+    return sOAMManagers[useEngineB]->affineOffset;
 }
 
 void OAMSystem__SetOAMAffineOffset(BOOL useEngineB, u16 offset)
 {
-    oamManagers[useEngineB]->affineOffset = offset;
+    sOAMManagers[useEngineB]->affineOffset = offset;
 }
 
 GXOamAttr *OAMSystem__GetList1(BOOL useEngineB)
 {
-    return oamManagers[useEngineB]->oamList1;
+    return sOAMManagers[useEngineB]->oamList1;
 }
 
 GXOamAttr *OAMSystem__GetList2(BOOL useEngineB)
 {
-    return oamManagers[useEngineB]->oamList2;
+    return sOAMManagers[useEngineB]->oamList2;
 }
 
 GXOamAttr *OAMSystem__GetList3(BOOL useEngineB)
 {
-    return oamManagers[useEngineB]->oamList3;
+    return sOAMManagers[useEngineB]->oamList3;
 }
 
 u32 OAMSystem__GetListMap(BOOL useEngineB, u32 order)
 {
-    return oamManagers[useEngineB]->oamOrderMap1[order];
+    return sOAMManagers[useEngineB]->oamOrderMap1[order];
 }

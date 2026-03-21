@@ -21,10 +21,10 @@ void ObjectManager_Destructor(Task *task);
 // VARIABLES
 // --------------------
 
-static Task *obj_ptcb;
+static Task *objManagerTaskSingleton;
 struct ObjectManager g_obj;
 
-s8 const StageTask__shakeOffsetTable[] = { 1, 1, -1, -1, 2, 2, -2, -2, 4, 4, -4, -4, -4, 4, 4, -4 };
+s8 const gStageTaskShakeOffsetTable[] = { 1, 1, -1, -1, 2, 2, -2, -2, 4, 4, -4, -4, -4, 4, 4, -4 };
 
 // --------------------
 // FUNCTIONS
@@ -47,9 +47,11 @@ void CreateObjectManager(void)
     ObjCollisionObjectClear();
     ObjDrawInit();
 
-    if (obj_ptcb == NULL)
-        obj_ptcb =
+    if (objManagerTaskSingleton == NULL)
+    {
+        objManagerTaskSingleton =
             TaskCreateNoWork(ObjectManager_Main, ObjectManager_Destructor, TASK_FLAG_NONE, TASK_PAUSELEVEL_0, TASK_PRIORITY_UPDATE_LIST_END - 2, TASK_GROUP(5), "ObjectManager");
+    }
 }
 
 void ObjectManager_Main(void)
@@ -75,7 +77,7 @@ void ObjectManager_Main(void)
 
 void ObjectManager_Destructor(Task *task)
 {
-    obj_ptcb = NULL;
+    objManagerTaskSingleton = NULL;
 
     ObjSetBlockCollision(NULL);
     ObjSetDiffCollision(NULL);
@@ -311,8 +313,8 @@ void StageTask_Main(void)
 
         if (work->shakeTimer && (work->flag & STAGE_TASK_FLAG_DISABLE_SHAKE) == 0)
         {
-            work->offset.x += FX32_FROM_WHOLE(StageTask__shakeOffsetTable[FX32_TO_WHOLE(work->shakeTimer >> 1) & 0xF]);
-            work->offset.y += FX32_FROM_WHOLE(StageTask__shakeOffsetTable[(FX32_TO_WHOLE(work->shakeTimer >> 1) + 1) & 0xF]);
+            work->offset.x += FX32_FROM_WHOLE(gStageTaskShakeOffsetTable[FX32_TO_WHOLE(work->shakeTimer >> 1) & 0xF]);
+            work->offset.y += FX32_FROM_WHOLE(gStageTaskShakeOffsetTable[(FX32_TO_WHOLE(work->shakeTimer >> 1) + 1) & 0xF]);
         }
 
         u32 displayFlag;

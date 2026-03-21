@@ -16,8 +16,8 @@
 // VARIABLES
 // --------------------
 
-u32 systemFrameCounter;
-static u8 unknownArray[8];
+u32 gSystemFrameCounter;
+static u8 sUnknownArray[8];
 
 // --------------------
 // FUNCTIONS
@@ -59,7 +59,7 @@ void InitSystems(void)
     ReleaseAudioSystem();
     ReleaseAudioSystem();
     ReleaseAudioSystem();
-    MI_CpuClear16(unknownArray, sizeof(unknownArray));
+    MI_CpuClear16(sUnknownArray, sizeof(sUnknownArray));
     PM_SetAmp(PM_AMP_OFF);
 
     // Init 3D state
@@ -79,7 +79,7 @@ void InitSystems(void)
 
 void *GetSystemUnknown(void)
 {
-    return unknownArray;
+    return sUnknownArray;
 }
 
 void ResetRenderAffine(void)
@@ -101,7 +101,7 @@ void ResetRenderAffine(void)
 
 u32 GetSystemFrameCounter(void)
 {
-    return systemFrameCounter;
+    return gSystemFrameCounter;
 }
 
 void UnknownSystemHandler(void)

@@ -76,9 +76,9 @@ static void WaterSurface_CopyAltPalette(BOOL useEngineB);
 // VARIABLES
 // --------------------
 
-static struct WaterSurfaceWork *waterSurfaceWork;
+static struct WaterSurfaceWork *sWaterSurface;
 
-static const WaterSurfaceProcessFunc waterSurfaceProcessTable[STAGE_COUNT] = {
+static const WaterSurfaceProcessFunc sWaterSurfaceProcessTable[STAGE_COUNT] = {
     [STAGE_Z11]               = WaterSurface_Process_Zone1,
     [STAGE_Z12]               = WaterSurface_Process_Zone1,
     [STAGE_TUTORIAL]          = WaterSurface_Process_Zone1,
@@ -127,7 +127,7 @@ static const WaterSurfaceProcessFunc waterSurfaceProcessTable[STAGE_COUNT] = {
     [STAGE_HIDDEN_ISLAND_R3]  = NULL,
 };
 
-static const WaterSurfaceInitFunc waterSurfaceInitTable[STAGE_COUNT] = {
+static const WaterSurfaceInitFunc sWaterSurfaceInitTable[STAGE_COUNT] = {
     [STAGE_Z11]               = WaterSurface_Init_Zone1,
     [STAGE_Z12]               = WaterSurface_Init_Zone1,
     [STAGE_TUTORIAL]          = WaterSurface_Init_Zone1,
@@ -176,7 +176,7 @@ static const WaterSurfaceInitFunc waterSurfaceInitTable[STAGE_COUNT] = {
     [STAGE_HIDDEN_ISLAND_R3]  = NULL,
 };
 
-static const WaterSurfaceReleaseFunc waterSurfaceReleaseTable[STAGE_COUNT] = {
+static const WaterSurfaceReleaseFunc sWaterSurfaceReleaseTable[STAGE_COUNT] = {
     [STAGE_Z11]               = WaterSurface_Release_Zone1,
     [STAGE_Z12]               = WaterSurface_Release_Zone1,
     [STAGE_TUTORIAL]          = WaterSurface_Release_Zone1,
@@ -225,10 +225,10 @@ static const WaterSurfaceReleaseFunc waterSurfaceReleaseTable[STAGE_COUNT] = {
     [STAGE_HIDDEN_ISLAND_R3]  = NULL,
 };
 
-static void *underwaterPaletteTable[GRAPHICS_ENGINE_COUNT] = { [GRAPHICS_ENGINE_A] = VRAM_BG_PLTT, [GRAPHICS_ENGINE_B] = VRAM_DB_BG_PLTT };
-static void *surfacePaletteTable[GRAPHICS_ENGINE_COUNT]    = { [GRAPHICS_ENGINE_A] = VRAM_BG_PLTT, [GRAPHICS_ENGINE_B] = VRAM_DB_BG_PLTT };
-static void *spritePalette2Table[GRAPHICS_ENGINE_COUNT]    = { [GRAPHICS_ENGINE_A] = VRAM_OBJ_PLTT, [GRAPHICS_ENGINE_B] = VRAM_DB_OBJ_PLTT };
-static void *spritePalette1Table[GRAPHICS_ENGINE_COUNT]    = { [GRAPHICS_ENGINE_A] = VRAM_OBJ_PLTT, [GRAPHICS_ENGINE_B] = VRAM_DB_OBJ_PLTT };
+static void *sUnderwaterPaletteTable[GRAPHICS_ENGINE_COUNT] = { [GRAPHICS_ENGINE_A] = VRAM_BG_PLTT, [GRAPHICS_ENGINE_B] = VRAM_DB_BG_PLTT };
+static void *sSurfacePaletteTable[GRAPHICS_ENGINE_COUNT]    = { [GRAPHICS_ENGINE_A] = VRAM_BG_PLTT, [GRAPHICS_ENGINE_B] = VRAM_DB_BG_PLTT };
+static void *sSpritePalette2Table[GRAPHICS_ENGINE_COUNT]    = { [GRAPHICS_ENGINE_A] = VRAM_OBJ_PLTT, [GRAPHICS_ENGINE_B] = VRAM_DB_OBJ_PLTT };
+static void *sSpritePalette1Table[GRAPHICS_ENGINE_COUNT]    = { [GRAPHICS_ENGINE_A] = VRAM_OBJ_PLTT, [GRAPHICS_ENGINE_B] = VRAM_DB_OBJ_PLTT };
 
 // --------------------
 // FUNCTIONS
@@ -237,41 +237,41 @@ static void *spritePalette1Table[GRAPHICS_ENGINE_COUNT]    = { [GRAPHICS_ENGINE_
 // WaterSurface Management
 void InitWaterSurface(void)
 {
-    if (waterSurfaceInitTable[gameState.stageID] != NULL)
+    if (sWaterSurfaceInitTable[gameState.stageID] != NULL)
     {
-        waterSurfaceWork = HeapAllocHead(HEAP_USER, sizeof(struct WaterSurfaceWork));
-        MI_CpuClear16(waterSurfaceWork, sizeof(*waterSurfaceWork));
+        sWaterSurface = HeapAllocHead(HEAP_USER, sizeof(struct WaterSurfaceWork));
+        MI_CpuClear16(sWaterSurface, sizeof(*sWaterSurface));
 
-        waterSurfaceInitTable[gameState.stageID]();
+        sWaterSurfaceInitTable[gameState.stageID]();
     }
 }
 
 void ReleaseWaterSurface(void)
 {
-    if (waterSurfaceReleaseTable[gameState.stageID] != NULL)
-        waterSurfaceReleaseTable[gameState.stageID]();
+    if (sWaterSurfaceReleaseTable[gameState.stageID] != NULL)
+        sWaterSurfaceReleaseTable[gameState.stageID]();
 
-    if (waterSurfaceWork != NULL)
+    if (sWaterSurface != NULL)
     {
-        if (waterSurfaceWork->controlConfig != NULL)
-            HeapFree(HEAP_USER, waterSurfaceWork->controlConfig);
+        if (sWaterSurface->controlConfig != NULL)
+            HeapFree(HEAP_USER, sWaterSurface->controlConfig);
 
-        HeapFree(HEAP_USER, waterSurfaceWork);
-        waterSurfaceWork = NULL;
+        HeapFree(HEAP_USER, sWaterSurface);
+        sWaterSurface = NULL;
     }
 }
 
 void ProcessWaterSurface(void)
 {
-    if (waterSurfaceProcessTable[gameState.stageID] != NULL)
-        waterSurfaceProcessTable[gameState.stageID]();
+    if (sWaterSurfaceProcessTable[gameState.stageID] != NULL)
+        sWaterSurfaceProcessTable[gameState.stageID]();
 }
 
 void WaterSurface_Init_Zone1(void)
 {
-    waterSurfaceWork->flags |= WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE;
-    waterSurfaceWork->paletteSize1 = 240;
-    waterSurfaceWork->paletteSize2 = 256;
+    sWaterSurface->flags |= WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE;
+    sWaterSurface->paletteSize1 = 240;
+    sWaterSurface->paletteSize2 = 256;
     CreateWaterSurface();
 }
 
@@ -287,9 +287,9 @@ void WaterSurface_Process_Zone1(void)
 
 void WaterSurface_Init_Zone2(void)
 {
-    waterSurfaceWork->controlConfig = HeapAllocHead(HEAP_USER, sizeof(WaterSurfaceControlConfigZ2));
+    sWaterSurface->controlConfig = HeapAllocHead(HEAP_USER, sizeof(WaterSurfaceControlConfigZ2));
 
-    WaterSurfaceControlConfigZ2 *control = waterSurfaceWork->controlConfig;
+    WaterSurfaceControlConfigZ2 *control = sWaterSurface->controlConfig;
     MI_CpuClear16(control, sizeof(WaterSurfaceControlConfigZ2));
 
     void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z2_map.bpa", gameArchiveStage);
@@ -298,14 +298,14 @@ void WaterSurface_Init_Zone2(void)
 
 void WaterSurface_Release_Zone2(void)
 {
-    WaterSurfaceControlConfigZ2 *control = waterSurfaceWork->controlConfig;
+    WaterSurfaceControlConfigZ2 *control = sWaterSurface->controlConfig;
 
     ReleasePaletteAnimator(&control->aniPalette);
 }
 
 void WaterSurface_Process_Zone2(void)
 {
-    WaterSurfaceControlConfigZ2 *control = waterSurfaceWork->controlConfig;
+    WaterSurfaceControlConfigZ2 *control = sWaterSurface->controlConfig;
 
     AnimatePalette(&control->aniPalette);
     if (CheckPaletteAnimationIsValid(&control->aniPalette))
@@ -328,15 +328,15 @@ void WaterSurface_Init_Zone3(void)
 {
     u16 i;
 
-    waterSurfaceWork->controlConfig = HeapAllocHead(HEAP_USER, sizeof(WaterSurfaceControlConfigZ3));
+    sWaterSurface->controlConfig = HeapAllocHead(HEAP_USER, sizeof(WaterSurfaceControlConfigZ3));
 
-    WaterSurfaceControlConfigZ3 *control = waterSurfaceWork->controlConfig;
+    WaterSurfaceControlConfigZ3 *control = sWaterSurface->controlConfig;
     MI_CpuClear16(control, sizeof(WaterSurfaceControlConfigZ3));
 
-    waterSurfaceWork->flags |= WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1 | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2
+    sWaterSurface->flags |= WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1 | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2
                                | WATERSURFACE_FLAG_HAS_WATER_SURFACE;
-    waterSurfaceWork->paletteSize1 = 240;
-    waterSurfaceWork->paletteSize2 = 256;
+    sWaterSurface->paletteSize1 = 240;
+    sWaterSurface->paletteSize2 = 256;
 
     CreateWaterSurface();
 
@@ -349,7 +349,7 @@ void WaterSurface_Init_Zone3(void)
     for (i = 0; i < 6; i++)
     {
         void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z3_map_w.bpa", gameArchiveStage);
-        InitPaletteAnimator(&control->aniPaletteFG_W[i], paletteAniFile, i, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_SPRITE, waterSurfaceWork->underwaterPalette2);
+        InitPaletteAnimator(&control->aniPaletteFG_W[i], paletteAniFile, i, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_SPRITE, sWaterSurface->underwaterPalette2);
     }
     control->aniPaletteFG_W[6].userFlags |= ANIMATORBPA_FLAG_PAUSED;
 
@@ -364,7 +364,7 @@ void WaterSurface_Release_Zone3(void)
 {
     s32 i;
 
-    WaterSurfaceControlConfigZ3 *control = waterSurfaceWork->controlConfig;
+    WaterSurfaceControlConfigZ3 *control = sWaterSurface->controlConfig;
 
     ReleaseWaterSurfaceCommon();
 
@@ -390,9 +390,9 @@ NONMATCH_FUNC void WaterSurface_Process_Zone3(void)
 #ifdef NON_MATCHING
     s32 i;
 
-    WaterSurfaceControlConfigZ3 *control = waterSurfaceWork->controlConfig;
+    WaterSurfaceControlConfigZ3 *control = sWaterSurface->controlConfig;
 
-    waterSurfaceWork->flags &= ~WATERSURFACE_FLAG_40;
+    sWaterSurface->flags &= ~WATERSURFACE_FLAG_40;
     ProcessWaterSurfaceCommon();
 
     BOOL flag = FALSE;
@@ -438,11 +438,11 @@ NONMATCH_FUNC void WaterSurface_Process_Zone3(void)
 
             if (flag)
             {
-                SetPaletteAnimationTarget(&control->aniPaletteFG[i], PALETTE_MODE_SPRITE, waterSurfaceWork->surfacePalette2);
+                SetPaletteAnimationTarget(&control->aniPaletteFG[i], PALETTE_MODE_SPRITE, sWaterSurface->surfacePalette2);
                 DrawAnimatedPalette(&control->aniPaletteFG[i]);
                 DrawAnimatedPalette(&control->aniPaletteFG_W[i]);
 
-                waterSurfaceWork->flags |= WATERSURFACE_FLAG_40;
+                sWaterSurface->flags |= WATERSURFACE_FLAG_40;
             }
         }
     }
@@ -475,17 +475,17 @@ NONMATCH_FUNC void WaterSurface_Process_Zone3(void)
 
             if (flag)
             {
-                SetPaletteAnimationTarget(&control->aniPaletteBG[i], PALETTE_MODE_SPRITE, waterSurfaceWork->surfacePalette1);
+                SetPaletteAnimationTarget(&control->aniPaletteBG[i], PALETTE_MODE_SPRITE, sWaterSurface->surfacePalette1);
                 DrawAnimatedPalette(&control->aniPaletteBG[i]);
 
-                waterSurfaceWork->flags |= WATERSURFACE_FLAG_40;
+                sWaterSurface->flags |= WATERSURFACE_FLAG_40;
             }
         }
     }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	ldr r0, =waterSurfaceWork
+	ldr r0, =sWaterSurface
 	ldr r2, [r0, #0]
 	ldr r0, [r2, #0x9cc]
 	ldr r1, [r2, #0]
@@ -558,7 +558,7 @@ _0200D868:
 _0200D86C:
 	cmp r7, #0
 	beq _0200D8B0
-	ldr r2, =waterSurfaceWork
+	ldr r2, =sWaterSurface
 	mov r0, r5
 	ldr r2, [r2, #0]
 	mov r1, #0
@@ -568,7 +568,7 @@ _0200D86C:
 	bl DrawAnimatedPalette
 	mov r0, r6
 	bl DrawAnimatedPalette
-	ldr r0, =waterSurfaceWork
+	ldr r0, =sWaterSurface
 	ldr r1, [r0, #0]
 	ldr r0, [r1, #0]
 	orr r0, r0, #0x40
@@ -581,7 +581,7 @@ _0200D8B0:
 	blt _0200D7BC
 	ldr r0, [sp]
 	mov r8, #0
-	ldr r4, =waterSurfaceWork
+	ldr r4, =sWaterSurface
 	add r6, r0, #0x1c0
 	mov r5, r8
 	mov r11, #0x5000000
@@ -650,9 +650,9 @@ void WaterSurface_Init_Zone6(void)
 {
     u16 i;
 
-    waterSurfaceWork->controlConfig = HeapAllocHead(HEAP_USER, sizeof(WaterSurfaceControlConfigZ6));
+    sWaterSurface->controlConfig = HeapAllocHead(HEAP_USER, sizeof(WaterSurfaceControlConfigZ6));
 
-    WaterSurfaceControlConfigZ6 *control = waterSurfaceWork->controlConfig;
+    WaterSurfaceControlConfigZ6 *control = sWaterSurface->controlConfig;
     MI_CpuClear16(control, sizeof(WaterSurfaceControlConfigZ6));
 
     for (i = 0; i < 4; i++)
@@ -672,7 +672,7 @@ void WaterSurface_Release_Zone6(void)
 {
     s32 i;
 
-    WaterSurfaceControlConfigZ6 *control = waterSurfaceWork->controlConfig;
+    WaterSurfaceControlConfigZ6 *control = sWaterSurface->controlConfig;
 
     for (i = 0; i < 4; i++)
     {
@@ -689,7 +689,7 @@ void WaterSurface_Process_Zone6(void)
 {
     s32 i;
 
-    WaterSurfaceControlConfigZ6 *control = waterSurfaceWork->controlConfig;
+    WaterSurfaceControlConfigZ6 *control = sWaterSurface->controlConfig;
 
     for (i = 0; i < 4; i++)
     {
@@ -726,10 +726,10 @@ void WaterSurface_Process_Zone6(void)
 
 void WaterSurface_Init_Zone7(void)
 {
-    waterSurfaceWork->flags |= WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1 | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2
+    sWaterSurface->flags |= WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1 | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2
                                | WATERSURFACE_FLAG_HAS_WATER_SURFACE;
-    waterSurfaceWork->paletteSize1 = 240;
-    waterSurfaceWork->paletteSize2 = 256;
+    sWaterSurface->paletteSize1 = 240;
+    sWaterSurface->paletteSize2 = 256;
     CreateWaterSurface();
 }
 
@@ -746,90 +746,90 @@ void WaterSurface_Process_Zone7(void)
 // WaterSurface
 void CreateWaterSurface(void)
 {
-    OS_CreateVAlarm(&waterSurfaceWork->vAlarm[0]);
-    OS_CreateVAlarm(&waterSurfaceWork->vAlarm[1]);
+    OS_CreateVAlarm(&sWaterSurface->vAlarm[0]);
+    OS_CreateVAlarm(&sWaterSurface->vAlarm[1]);
 
-    if ((waterSurfaceWork->flags & WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1) != 0)
+    if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1) != 0)
     {
-        MI_CpuCopy32(VRAM_BG_PLTT, waterSurfaceWork->surfacePalette1, sizeof(waterSurfaceWork->surfacePalette1));
-        MI_CpuCopy32(VRAM_BG_PLTT, waterSurfaceWork->underwaterPalette1, sizeof(waterSurfaceWork->underwaterPalette1));
-        InitUnderwaterPalette(waterSurfaceWork->underwaterPalette1, waterSurfaceWork->paletteSize1);
+        MI_CpuCopy32(VRAM_BG_PLTT, sWaterSurface->surfacePalette1, sizeof(sWaterSurface->surfacePalette1));
+        MI_CpuCopy32(VRAM_BG_PLTT, sWaterSurface->underwaterPalette1, sizeof(sWaterSurface->underwaterPalette1));
+        InitUnderwaterPalette(sWaterSurface->underwaterPalette1, sWaterSurface->paletteSize1);
     }
 
-    if ((waterSurfaceWork->flags & WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2) != 0)
+    if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2) != 0)
     {
         GXVRamBGExtPltt sBGExtPltt = GX_ResetBankForBGExtPltt();
-        void *location             = bgExtPalBankManager->location[2];
+        void *location             = gBgExtPalBankManager->location[2];
 
-        MI_CpuCopy32(location, waterSurfaceWork->surfacePalette2, sizeof(waterSurfaceWork->surfacePalette2));
-        MI_CpuCopy32(location, waterSurfaceWork->underwaterPalette2, sizeof(waterSurfaceWork->underwaterPalette2));
+        MI_CpuCopy32(location, sWaterSurface->surfacePalette2, sizeof(sWaterSurface->surfacePalette2));
+        MI_CpuCopy32(location, sWaterSurface->underwaterPalette2, sizeof(sWaterSurface->underwaterPalette2));
         GX_SetBankForBGExtPltt(sBGExtPltt);
 
-        InitUnderwaterPalette(waterSurfaceWork->underwaterPalette2, waterSurfaceWork->paletteSize2);
+        InitUnderwaterPalette(sWaterSurface->underwaterPalette2, sWaterSurface->paletteSize2);
     }
 
-    if ((waterSurfaceWork->flags & WATERSURFACE_FLAG_HAS_WATER_SURFACE) != 0)
+    if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_WATER_SURFACE) != 0)
     {
         OBS_DATA_WORK *dataWork = ObjDataLoad(NULL, "/act/ac_eff_water.bac", gameArchiveStage);
 
-        AnimatorSprite__Init(&waterSurfaceWork->aniWaterSurface[0], dataWork, WATERBUBBLE_ANI_WATER_SURFACE, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_A,
+        AnimatorSprite__Init(&sWaterSurface->aniWaterSurface[0], dataWork, WATERBUBBLE_ANI_WATER_SURFACE, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_A,
                              PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 4), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_12);
 
-        AnimatorSprite__Init(&waterSurfaceWork->aniWaterSurface[1], dataWork, WATERBUBBLE_ANI_WATER_SURFACE, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_B,
+        AnimatorSprite__Init(&sWaterSurface->aniWaterSurface[1], dataWork, WATERBUBBLE_ANI_WATER_SURFACE, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_B,
                              PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(TRUE, 4), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_12);
 
         u16 paletteRow                               = ObjDrawAllocSpritePalette(dataWork, WATERBUBBLE_ANI_WATER_SURFACE, 33);
-        waterSurfaceWork->aniWaterSurface[0].cParam.palette = waterSurfaceWork->aniWaterSurface[1].cParam.palette = paletteRow;
+        sWaterSurface->aniWaterSurface[0].cParam.palette = sWaterSurface->aniWaterSurface[1].cParam.palette = paletteRow;
     }
 
-    if ((waterSurfaceWork->flags & (WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1 | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2))
+    if ((sWaterSurface->flags & (WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1 | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2))
         != 0)
     {
-        waterSurfaceWork->task = TaskCreateNoWork(WaterSurface_Main, 0, TASK_FLAG_NONE, 3, TASK_PRIORITY_RENDER_LIST_START + 0x0200, TASK_GROUP(3), "WaterSurface");
+        sWaterSurface->task = TaskCreateNoWork(WaterSurface_Main, 0, TASK_FLAG_NONE, 3, TASK_PRIORITY_RENDER_LIST_START + 0x0200, TASK_GROUP(3), "WaterSurface");
     }
 }
 
 void ReleaseWaterSurfaceCommon(void)
 {
-    OS_CancelVAlarm(&waterSurfaceWork->vAlarm[0]);
-    OS_CancelVAlarm(&waterSurfaceWork->vAlarm[1]);
+    OS_CancelVAlarm(&sWaterSurface->vAlarm[0]);
+    OS_CancelVAlarm(&sWaterSurface->vAlarm[1]);
 
     for (u32 i = 0; i < 2; i++)
     {
         WaterSurface_CopyPalette(i);
     }
 
-    if ((waterSurfaceWork->flags & WATERSURFACE_FLAG_HAS_WATER_SURFACE) != 0)
+    if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_WATER_SURFACE) != 0)
     {
-        AnimatorSprite__Release(&waterSurfaceWork->aniWaterSurface[0]);
-        AnimatorSprite__Release(&waterSurfaceWork->aniWaterSurface[1]);
+        AnimatorSprite__Release(&sWaterSurface->aniWaterSurface[0]);
+        AnimatorSprite__Release(&sWaterSurface->aniWaterSurface[1]);
         ObjDrawReleaseSprite(33);
     }
 }
 
 void ProcessWaterSurfaceCommon(void)
 {
-    if ((waterSurfaceWork->flags & WATERSURFACE_FLAG_HAS_WATER_SURFACE) != 0)
+    if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_WATER_SURFACE) != 0)
     {
-        AnimatorSprite__ProcessAnimationFast(&waterSurfaceWork->aniWaterSurface[0]);
-        AnimatorSprite__ProcessAnimationFast(&waterSurfaceWork->aniWaterSurface[1]);
+        AnimatorSprite__ProcessAnimationFast(&sWaterSurface->aniWaterSurface[0]);
+        AnimatorSprite__ProcessAnimationFast(&sWaterSurface->aniWaterSurface[1]);
     }
 
     for (s32 i = 0; i < 2; i++)
     {
         if ((mapCamera.camera[i].flags & MAPSYS_CAMERA_FLAG_2000000) == 0 && (mapCamera.camera[i].flags & MAPSYS_CAMERA_FLAG_1000000) != 0)
         {
-            if ((waterSurfaceWork->flags & WATERSURFACE_FLAG_HAS_WATER_SURFACE) != 0)
+            if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_WATER_SURFACE) != 0)
             {
                 fx32 surfacePosY = FX32_FROM_WHOLE(mapCamera.camera[i].waterLevel) - mapCamera.camera[i].disp_pos.y;
                 if (HW_LCD_HEIGHT * mapCamera.camera[i].scale.y > surfacePosY && surfacePosY >= 0)
                 {
                     s16 surfacePosX                            = -(FX32_TO_WHOLE(mapCamera.camera[i].disp_pos.x) & 0x3F);
-                    waterSurfaceWork->aniWaterSurface[i].pos.y = FX32_TO_WHOLE(surfacePosY);
+                    sWaterSurface->aniWaterSurface[i].pos.y = FX32_TO_WHOLE(surfacePosY);
                     for (; surfacePosX < HW_LCD_WIDTH; surfacePosX += 64)
                     {
-                        waterSurfaceWork->aniWaterSurface[i].pos.x = surfacePosX;
-                        AnimatorSprite__DrawFrame(&waterSurfaceWork->aniWaterSurface[i]);
+                        sWaterSurface->aniWaterSurface[i].pos.x = surfacePosX;
+                        AnimatorSprite__DrawFrame(&sWaterSurface->aniWaterSurface[i]);
                     }
                 }
             }
@@ -845,17 +845,17 @@ void WaterSurface_Main(void)
 
     for (i = 0; i < 2; i++)
     {
-        OS_CancelVAlarm(&waterSurfaceWork->vAlarm[i]);
+        OS_CancelVAlarm(&sWaterSurface->vAlarm[i]);
 
         if ((camera->flags & MAPSYS_CAMERA_FLAG_2000000) == 0 && (camera->flags & MAPSYS_CAMERA_FLAG_1000000) != 0)
         {
             fx32 waterLevel = FX32_FROM_WHOLE(camera->waterLevel) - camera->disp_pos.y;
             if (HW_LCD_HEIGHT * camera->scale.y < waterLevel)
             {
-                if ((waterSurfaceWork->flags & (16 << i)) == 0 || (waterSurfaceWork->flags & WATERSURFACE_FLAG_40) != 0)
+                if ((sWaterSurface->flags & (16 << i)) == 0 || (sWaterSurface->flags & WATERSURFACE_FLAG_40) != 0)
                 {
                     WaterSurface_CopyPalette(i);
-                    waterSurfaceWork->flags |= 16 << i;
+                    sWaterSurface->flags |= 16 << i;
                 }
             }
             else
@@ -863,37 +863,37 @@ void WaterSurface_Main(void)
                 if (waterLevel > 4 * camera->scale.y)
                 {
                     vAlarmCount                      = FX32_TO_WHOLE(FX_Div(waterLevel, camera->scale.y));
-                    waterSurfaceWork->vAlarmCount[i] = vAlarmCount;
+                    sWaterSurface->vAlarmCount[i] = vAlarmCount;
 
-                    if ((waterSurfaceWork->flags & (16 << i)) == 0 || (waterSurfaceWork->flags & WATERSURFACE_FLAG_40) != 0)
+                    if ((sWaterSurface->flags & (16 << i)) == 0 || (sWaterSurface->flags & WATERSURFACE_FLAG_40) != 0)
                     {
                         WaterSurface_CopyPalette(i);
-                        waterSurfaceWork->flags |= 16 << i;
+                        sWaterSurface->flags |= 16 << i;
                     }
 
-                    OS_SetVAlarm(&waterSurfaceWork->vAlarm[i], (s16)vAlarmCount, 7, WaterSurface_VAlarmCB_200E26C, INT_TO_VOID(i));
+                    OS_SetVAlarm(&sWaterSurface->vAlarm[i], (s16)vAlarmCount, 7, WaterSurface_VAlarmCB_200E26C, INT_TO_VOID(i));
                 }
                 else
                 {
-                    u32 prevFlags = waterSurfaceWork->flags;
+                    u32 prevFlags = sWaterSurface->flags;
 
-                    if ((waterSurfaceWork->flags & (16 << i)) == 0 && (waterSurfaceWork->flags & WATERSURFACE_FLAG_40) == 0)
-                        waterSurfaceWork->flags &= ~(WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1 | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2);
+                    if ((sWaterSurface->flags & (16 << i)) == 0 && (sWaterSurface->flags & WATERSURFACE_FLAG_40) == 0)
+                        sWaterSurface->flags &= ~(WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1 | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2);
 
                     WaterSurface_CopyAltPalette(i);
-                    waterSurfaceWork->flags &= ~(16 << i);
+                    sWaterSurface->flags &= ~(16 << i);
 
-                    if ((waterSurfaceWork->flags & (16 << i)) == 0 && (waterSurfaceWork->flags & WATERSURFACE_FLAG_40) == 0)
-                        waterSurfaceWork->flags |= prevFlags & (WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1 | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2);
+                    if ((sWaterSurface->flags & (16 << i)) == 0 && (sWaterSurface->flags & WATERSURFACE_FLAG_40) == 0)
+                        sWaterSurface->flags |= prevFlags & (WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1 | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2);
                 }
             }
         }
         else
         {
-            if ((waterSurfaceWork->flags & (16 << i)) == 0 || (waterSurfaceWork->flags & WATERSURFACE_FLAG_40) != 0)
+            if ((sWaterSurface->flags & (16 << i)) == 0 || (sWaterSurface->flags & WATERSURFACE_FLAG_40) != 0)
             {
                 WaterSurface_CopyPalette(i);
-                waterSurfaceWork->flags |= 16 << i;
+                sWaterSurface->flags |= 16 << i;
             }
         }
 
@@ -904,17 +904,17 @@ void WaterSurface_Main(void)
 void WaterSurface_VAlarmCB_200E26C(void *useEngineB)
 {
     WaterSurface_CopyAltPalette(VOID_TO_INT(useEngineB));
-    waterSurfaceWork->flags &= ~(16 << VOID_TO_INT(useEngineB));
+    sWaterSurface->flags &= ~(16 << VOID_TO_INT(useEngineB));
 
-    OS_SetVAlarm(&waterSurfaceWork->vAlarm[VOID_TO_INT(useEngineB)], 200, 7, WaterSurface_VAlarmCB_200E2CC, INT_TO_VOID(useEngineB));
+    OS_SetVAlarm(&sWaterSurface->vAlarm[VOID_TO_INT(useEngineB)], 200, 7, WaterSurface_VAlarmCB_200E2CC, INT_TO_VOID(useEngineB));
 }
 
 void WaterSurface_VAlarmCB_200E2CC(void *useEngineB)
 {
     WaterSurface_CopyPalette(VOID_TO_INT(useEngineB));
-    waterSurfaceWork->flags |= (16 << VOID_TO_INT(useEngineB));
+    sWaterSurface->flags |= (16 << VOID_TO_INT(useEngineB));
 
-    OS_SetVAlarm(&waterSurfaceWork->vAlarm[VOID_TO_INT(useEngineB)], waterSurfaceWork->vAlarmCount[VOID_TO_INT(useEngineB)], 7, WaterSurface_VAlarmCB_200E26C,
+    OS_SetVAlarm(&sWaterSurface->vAlarm[VOID_TO_INT(useEngineB)], sWaterSurface->vAlarmCount[VOID_TO_INT(useEngineB)], 7, WaterSurface_VAlarmCB_200E26C,
                  INT_TO_VOID(useEngineB));
 }
 
@@ -972,18 +972,18 @@ _0200E344:
 
 void WaterSurface_CopyPalette(BOOL useEngineB)
 {
-    DC_StoreRange(waterSurfaceWork->surfacePalette1, sizeof(waterSurfaceWork->surfacePalette1) * 2);
-    DC_StoreRange(objDrawPalette2, sizeof(objDrawPalette2));
+    DC_StoreRange(sWaterSurface->surfacePalette1, sizeof(sWaterSurface->surfacePalette1) * 2);
+    DC_StoreRange(gObjDrawPalette2, sizeof(gObjDrawPalette2));
     DC_WaitWriteBufferEmpty();
 
-    if ((waterSurfaceWork->flags & WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2) != 0)
+    if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2) != 0)
     {
         if (useEngineB)
         {
             GXVRamSubBGExtPltt sSubBGExtPltt = GX_ResetBankForSubBGExtPltt();
 
-            RenderCore_DMACopy(waterSurfaceWork->surfacePalette2, bgExtPalBankManager[useEngineB].location[2], 2 * waterSurfaceWork->paletteSize2);
-            RenderCore_DMACopy(waterSurfaceWork->surfacePalette2, bgExtPalBankManager[useEngineB].location[3], 2 * waterSurfaceWork->paletteSize2);
+            RenderCore_DMACopy(sWaterSurface->surfacePalette2, gBgExtPalBankManager[useEngineB].location[2], 2 * sWaterSurface->paletteSize2);
+            RenderCore_DMACopy(sWaterSurface->surfacePalette2, gBgExtPalBankManager[useEngineB].location[3], 2 * sWaterSurface->paletteSize2);
 
             GX_SetBankForSubBGExtPltt(sSubBGExtPltt);
         }
@@ -991,36 +991,36 @@ void WaterSurface_CopyPalette(BOOL useEngineB)
         {
             GXVRamBGExtPltt sBGExtPltt = GX_ResetBankForBGExtPltt();
 
-            RenderCore_DMACopy(waterSurfaceWork->surfacePalette2, bgExtPalBankManager[useEngineB].location[2], 2 * waterSurfaceWork->paletteSize2);
-            RenderCore_DMACopy(waterSurfaceWork->surfacePalette2, bgExtPalBankManager[useEngineB].location[3], 2 * waterSurfaceWork->paletteSize2);
+            RenderCore_DMACopy(sWaterSurface->surfacePalette2, gBgExtPalBankManager[useEngineB].location[2], 2 * sWaterSurface->paletteSize2);
+            RenderCore_DMACopy(sWaterSurface->surfacePalette2, gBgExtPalBankManager[useEngineB].location[3], 2 * sWaterSurface->paletteSize2);
 
             GX_SetBankForBGExtPltt(sBGExtPltt);
         }
     }
 
-    if ((waterSurfaceWork->flags & WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1) != 0)
-        RenderCore_DMACopy(waterSurfaceWork->surfacePalette1, surfacePaletteTable[useEngineB], 2 * waterSurfaceWork->paletteSize1);
+    if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1) != 0)
+        RenderCore_DMACopy(sWaterSurface->surfacePalette1, sSurfacePaletteTable[useEngineB], 2 * sWaterSurface->paletteSize1);
 
-    if ((waterSurfaceWork->flags & WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE) != 0)
+    if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE) != 0)
     {
-        RenderCore_DMACopy((u16 *)objDrawPalette2 + 48, (u16 *)spritePalette2Table[useEngineB] + 48, sizeof(objDrawPalette2) - (sizeof(GXRgb) * 48));
+        RenderCore_DMACopy((u16 *)gObjDrawPalette2 + 48, (u16 *)sSpritePalette2Table[useEngineB] + 48, sizeof(gObjDrawPalette2) - (sizeof(GXRgb) * 48));
     }
 }
 
 void WaterSurface_CopyAltPalette(BOOL useEngineB)
 {
-    DC_StoreRange(waterSurfaceWork->underwaterPalette1, sizeof(waterSurfaceWork->underwaterPalette1) * 2);
+    DC_StoreRange(sWaterSurface->underwaterPalette1, sizeof(sWaterSurface->underwaterPalette1) * 2);
     DC_WaitWriteBufferEmpty();
-    DC_StoreRange(objDrawPalette1, sizeof(objDrawPalette1));
+    DC_StoreRange(gObjDrawPalette1, sizeof(gObjDrawPalette1));
 
-    if ((waterSurfaceWork->flags & WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2) != 0)
+    if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2) != 0)
     {
         if (useEngineB)
         {
             GXVRamSubBGExtPltt sSubBGExtPltt = GX_ResetBankForSubBGExtPltt();
 
-            RenderCore_DMACopy(waterSurfaceWork->underwaterPalette2, bgExtPalBankManager[useEngineB].location[2], 2 * waterSurfaceWork->paletteSize2);
-            RenderCore_DMACopy(waterSurfaceWork->underwaterPalette2, bgExtPalBankManager[useEngineB].location[3], 2 * waterSurfaceWork->paletteSize2);
+            RenderCore_DMACopy(sWaterSurface->underwaterPalette2, gBgExtPalBankManager[useEngineB].location[2], 2 * sWaterSurface->paletteSize2);
+            RenderCore_DMACopy(sWaterSurface->underwaterPalette2, gBgExtPalBankManager[useEngineB].location[3], 2 * sWaterSurface->paletteSize2);
 
             GX_SetBankForSubBGExtPltt(sSubBGExtPltt);
         }
@@ -1028,19 +1028,19 @@ void WaterSurface_CopyAltPalette(BOOL useEngineB)
         {
             GXVRamBGExtPltt sBGExtPltt = GX_ResetBankForBGExtPltt();
 
-            RenderCore_DMACopy(waterSurfaceWork->underwaterPalette2, bgExtPalBankManager[useEngineB].location[2], 2 * waterSurfaceWork->paletteSize2);
-            RenderCore_DMACopy(waterSurfaceWork->underwaterPalette2, bgExtPalBankManager[useEngineB].location[3], 2 * waterSurfaceWork->paletteSize2);
+            RenderCore_DMACopy(sWaterSurface->underwaterPalette2, gBgExtPalBankManager[useEngineB].location[2], 2 * sWaterSurface->paletteSize2);
+            RenderCore_DMACopy(sWaterSurface->underwaterPalette2, gBgExtPalBankManager[useEngineB].location[3], 2 * sWaterSurface->paletteSize2);
 
             GX_SetBankForBGExtPltt(sBGExtPltt);
         }
     }
 
-    if ((waterSurfaceWork->flags & WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1) != 0)
-        RenderCore_DMACopy(waterSurfaceWork->underwaterPalette1, underwaterPaletteTable[useEngineB], 2 * waterSurfaceWork->paletteSize1);
+    if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1) != 0)
+        RenderCore_DMACopy(sWaterSurface->underwaterPalette1, sUnderwaterPaletteTable[useEngineB], 2 * sWaterSurface->paletteSize1);
 
-    if ((waterSurfaceWork->flags & WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE) != 0)
+    if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE) != 0)
     {
         DC_WaitWriteBufferEmpty();
-        RenderCore_DMACopy((u16 *)objDrawPalette1 + 48, (u16 *)spritePalette1Table[useEngineB] + 48, sizeof(objDrawPalette1) - (sizeof(GXRgb) * 48));
+        RenderCore_DMACopy((u16 *)gObjDrawPalette1 + 48, (u16 *)sSpritePalette1Table[useEngineB] + 48, sizeof(gObjDrawPalette1) - (sizeof(GXRgb) * 48));
     }
 }

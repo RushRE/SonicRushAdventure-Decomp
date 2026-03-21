@@ -28,7 +28,7 @@ typedef struct SailDemoPlayerDemo_
 // VARIABLES
 // --------------------
 
-static const SailDemoPlayerDemo sailDemoList[] = {
+static const SailDemoPlayerDemo sSailDemoList[] = {
     { .keyDataPad = "/keydat/pd_ship00.dat", .keyDataTouch = "/keydat/tp_ship00.dat", .duration = SECONDS_TO_FRAMES(20.0), .id = SAILMISSION_MISSION_JET }
 };
 
@@ -69,10 +69,10 @@ void CreateSailDemoPlayer(void)
 
     work->position.x = FLOAT_TO_FX32(128.0);
     work->position.y = FLOAT_TO_FX32(96.0);
-    CreateReplayRecorderPad(REPLAYRECORDER_TYPE_PLAY_FILE, &padInput, sailDemoList[state->curDemoID].keyDataPad, NULL, 0);
-    CreateReplayRecorderTouch(REPLAYRECORDER_TYPE_PLAY_FILE, &touchInput, sailDemoList[state->curDemoID].keyDataTouch, NULL, 0);
+    CreateReplayRecorderPad(REPLAYRECORDER_TYPE_PLAY_FILE, &padInput, sSailDemoList[state->curDemoID].keyDataPad, NULL, 0);
+    CreateReplayRecorderTouch(REPLAYRECORDER_TYPE_PLAY_FILE, &touchInput, sSailDemoList[state->curDemoID].keyDataTouch, NULL, 0);
 
-    InitSailEvent(sailDemoList[state->curDemoID].id);
+    InitSailEvent(sSailDemoList[state->curDemoID].id);
 }
 
 void SailDemoPlayer_State_Playback(StageTask *work)
@@ -106,7 +106,7 @@ void SailDemoPlayer_State_Playback(StageTask *work)
             CreateSailExitEvent();
         }
 
-        if (work->userTimer > sailDemoList[state->curDemoID].duration)
+        if (work->userTimer > sSailDemoList[state->curDemoID].duration)
         {
             RequestSysEventChange(6); // SYSEVENT_SPLASH_SCREEN
             CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_REVERSE_BRIGHTNESS | DRAW_FADE_TASK_FLAG_DESTROY_ON_FINISHED, FLOAT_TO_FX32(1.0));

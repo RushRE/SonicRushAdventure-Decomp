@@ -61,7 +61,7 @@ typedef struct MicInputState_
 // VARIABLES
 // --------------------
 
-extern MicInputState micInput;
+extern MicInputState gMicInput;
 
 // --------------------
 // FUNCTIONS

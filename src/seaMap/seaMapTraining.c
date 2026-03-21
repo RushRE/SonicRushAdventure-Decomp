@@ -29,7 +29,7 @@ struct SeaMapTrainingConfig
 // VARIABLES
 // --------------------
 
-static const struct SeaMapTrainingConfig seaMapTrainingSpriteButtonConfig = {
+static const struct SeaMapTrainingConfig sSpriteButtonConfig = {
     .anim    = { 0, 2, 4, 6, 8, 10, 0, 0 },
     .palette = { PALETTE_ROW_0, PALETTE_ROW_0, PALETTE_ROW_0 },
     .unknown = { 12, 24, 24, 12, 3, 3 },
@@ -90,7 +90,7 @@ void CreateSeaMapTraining(void)
 
     ReleaseAudioSystem();
     LoadAudioSndArc("snd/sys/sound_data.sdat");
-    NNS_SndArcLoadGroup(SND_SYS_GROUP_CHART, audioManagerSndHeap);
+    NNS_SndArcLoadGroup(SND_SYS_GROUP_CHART, gAudioManagerSndHeap);
 
     PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQ_SEQ_CHART);
 
@@ -128,7 +128,7 @@ void DestroySeaMapTraining(SeaMapTraining *work)
     ReleaseSpriteButtonTouchpadSprite();
     DestroyCurrentTask();
 
-    if (GetSysEventList()->prevEventID == SYSEVENT_RETURN_TO_HUB)
+    if (GetSysEventManager()->prevEventID == SYSEVENT_RETURN_TO_HUB)
     {
         gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
         RequestSysEventChange(1); // SYSEVENT_RETURN_TO_HUB
@@ -220,7 +220,7 @@ void InitSeaMapTrainingSprites(SeaMapTraining *work)
     const struct SeaMapTrainingConfig *config;
     SpriteButtonAnimator *trainingTextButton = &work->trainingTextButton;
 
-    config = &seaMapTrainingSpriteButtonConfig;
+    config = &sSpriteButtonConfig;
 
     trainingTextButton->animID = config->anim[GetGameLanguage()];
     for (s32 i = 0; i < 3; i++)
@@ -265,7 +265,7 @@ u32 GetSeaMapTrainingSpriteButtonSpriteSize(SeaMapTraining *work)
     s32 i;
     s32 a;
 
-    config = &seaMapTrainingSpriteButtonConfig;
+    config = &sSpriteButtonConfig;
 
     size = 0;
 

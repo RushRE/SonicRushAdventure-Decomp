@@ -21,7 +21,7 @@ enum CannonModelIDs_
 
 extern void Cannon_Destructor(Task *task);
 extern void Cannon_Draw(void);
-extern void Cannon_OnDefend_Entrry(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+extern void Cannon_OnDefend_Entry(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 extern void CannonFloor_State_Solid(CannonFloor *work);
 extern void CannonFloor_Collide(void);
@@ -70,7 +70,7 @@ Cannon *CreateCannon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -32, -96, 32, -56);
     ObjRect__SetAttackStat(&work->gameWork.colliders[0], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(&work->gameWork.colliders[0], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Cannon_OnDefend_Entrry);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Cannon_OnDefend_Entry);
     work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     work->gameWork.objWork.collisionObj = NULL;

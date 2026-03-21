@@ -60,13 +60,13 @@ static void LoadPixels_Unknown(PixelsQueueEntry *input, void *output);
 // VARIABLES
 // --------------------
 
-static PixelsQueueEntry *spriteListStart;
-static PixelsQueueEntry *spriteListEnd;
+static PixelsQueueEntry *sSpriteListStart;
+static PixelsQueueEntry *sSpriteListEnd;
 
-static PixelsQueueEntry *textureListEnd;
-static PixelsQueueEntry *textureListStart;
+static PixelsQueueEntry *sTextureListEnd;
+static PixelsQueueEntry *sTextureListStart;
 
-const u8 pixelFormatShift[BAC_FORMAT_COUNT] = {
+const u8 gPixelFormatShift[BAC_FORMAT_COUNT] = {
     [BAC_FORMAT_PLTT16_2D]  = 5, // GX_TEXFMT_PLTT16
     [BAC_FORMAT_PLTT256_2D] = 6, // GX_TEXFMT_PLTT256
     [BAC_FORMAT_DIRECT_2D]  = 7, // GX_TEXFMT_DIRECT
@@ -79,13 +79,13 @@ const u8 pixelFormatShift[BAC_FORMAT_COUNT] = {
     [BAC_FORMAT_COMP4x4_3D] = 4  // GX_TEXFMT_COMP4x4
 };
 
-static PixelsQueueReadFunc const pixelsReadTable[PIXEL_QUEUE_TYPE_COUNT] = { [PIXEL_QUEUE_TYPE_SPRITE]     = LoadPixels_Uncompressed,
+static PixelsQueueReadFunc const sPixelsReadTable[PIXEL_QUEUE_TYPE_COUNT] = { [PIXEL_QUEUE_TYPE_SPRITE]     = LoadPixels_Uncompressed,
                                                                              [PIXEL_QUEUE_TYPE_TEXTURE]    = LoadPixels_Compressed,
                                                                              [PIXEL_QUEUE_TYPE_BACKGROUND] = LoadPixels_Background,
                                                                              [PIXEL_QUEUE_TYPE_UNKNOWN]    = LoadPixels_Unknown };
 
 // clang-format off
-static u8 tileSizes[PIXEL_MODE_COUNT] = 
+static u8 sTileSizes[PIXEL_MODE_COUNT] = 
 { 
     [PIXEL_MODE_SPRITE]                 = 0,
     [PIXEL_MODE_TEXTURE]                = 0,
@@ -101,7 +101,7 @@ static u8 tileSizes[PIXEL_MODE_COUNT] =
     [PIXEL_MODE_BG_DCBMP_512x512]       = 2
 };
 
-static u16 backgroundSizes[PIXEL_MODE_COUNT][2] = 
+static u16 sBackgroundSizes[PIXEL_MODE_COUNT][2] = 
 { 
     [PIXEL_MODE_SPRITE]                 = { 0, 0 },
     [PIXEL_MODE_TEXTURE]                = { 0, 0 },
@@ -125,54 +125,54 @@ static u16 backgroundSizes[PIXEL_MODE_COUNT][2] =
 // Management
 void InitPixelsQueueSystem(void)
 {
-    spriteListStart = NULL;
-    spriteListEnd   = NULL;
+    sSpriteListStart = NULL;
+    sSpriteListEnd   = NULL;
 
-    textureListStart = NULL;
-    textureListEnd   = NULL;
+    sTextureListStart = NULL;
+    sTextureListEnd   = NULL;
 }
 
 // Queueing
 void ProcessSpritePixelQueue(void)
 {
-    PixelsQueueEntry *entry = spriteListStart;
+    PixelsQueueEntry *entry = sSpriteListStart;
     while (entry)
     {
-        pixelsReadTable[entry->type](entry, entry->vramPixels.address);
-        FreeQueueEntry((QueueEntry *)spriteListStart);
+        sPixelsReadTable[entry->type](entry, entry->vramPixels.address);
+        FreeQueueEntry((QueueEntry *)sSpriteListStart);
 
-        entry           = spriteListStart->next;
-        spriteListStart = entry;
-        if (spriteListStart == NULL)
-            spriteListEnd = NULL;
+        entry           = sSpriteListStart->next;
+        sSpriteListStart = entry;
+        if (sSpriteListStart == NULL)
+            sSpriteListEnd = NULL;
     }
 }
 
 void ProcessTexturePixelQueue(void)
 {
-    if (textureListStart == NULL)
+    if (sTextureListStart == NULL)
         return;
 
     GXVRamTex sTex = GX_ResetBankForTex();
 
-    PixelsQueueEntry *entry = textureListStart;
+    PixelsQueueEntry *entry = sTextureListStart;
     while (entry)
     {
         u32 key    = (entry->vramPixels.location & 0x7FFFF);
         u32 offset = key >> 17;
 
-        void *vram = textureBankManager.location[offset];
+        void *vram = gTextureBankManager.location[offset];
         vram += key;
         vram -= offset << 17;
 
-        pixelsReadTable[entry->type](entry, vram);
+        sPixelsReadTable[entry->type](entry, vram);
 
-        FreeQueueEntry((QueueEntry *)textureListStart);
+        FreeQueueEntry((QueueEntry *)sTextureListStart);
 
-        entry            = textureListStart->next;
-        textureListStart = entry;
-        if (textureListStart == NULL)
-            textureListEnd = NULL;
+        entry            = sTextureListStart->next;
+        sTextureListStart = entry;
+        if (sTextureListStart == NULL)
+            sTextureListEnd = NULL;
     }
     GX_SetBankForTex(sTex);
 }
@@ -203,14 +203,14 @@ void LoadUncompressedPixels(void *pixels, size_t pixelByteSize, PixelMode mode, 
     switch (mode)
     {
         case PIXEL_MODE_SPRITE:
-            listStart        = &spriteListStart;
-            listEnd          = &spriteListEnd;
+            listStart        = &sSpriteListStart;
+            listEnd          = &sSpriteListEnd;
             processQueueFunc = ProcessSpritePixelQueue;
             break;
 
         case PIXEL_MODE_TEXTURE:
-            listStart        = &textureListStart;
-            listEnd          = &textureListEnd;
+            listStart        = &sTextureListStart;
+            listEnd          = &sTextureListEnd;
             processQueueFunc = ProcessTexturePixelQueue;
             break;
     }
@@ -253,14 +253,14 @@ void LoadCompressedPixels(void *pixels, PixelMode mode, void *vramPixels)
     switch (mode)
     {
         case PIXEL_MODE_SPRITE:
-            listStart        = &spriteListStart;
-            listEnd          = &spriteListEnd;
+            listStart        = &sSpriteListStart;
+            listEnd          = &sSpriteListEnd;
             processQueueFunc = ProcessSpritePixelQueue;
             break;
 
         case PIXEL_MODE_TEXTURE:
-            listStart        = &textureListStart;
-            listEnd          = &textureListEnd;
+            listStart        = &sTextureListStart;
+            listEnd          = &sTextureListEnd;
             processQueueFunc = ProcessTexturePixelQueue;
             break;
     }
@@ -285,8 +285,8 @@ void QueueBackgroundPixels(void *pixels, s32 x, s32 y, s32 width, PixelMode mode
         return;
 
     s32 index   = mode;
-    u16 bgWidth = backgroundSizes[index][0];
-    u8 tileSize = tileSizes[index];
+    u16 bgWidth = sBackgroundSizes[index][0];
+    u8 tileSize = sTileSizes[index];
 
     entry->mode               = mode;
     entry->vramPixels.address = &((u8 *)vramPixels)[tileSize * (bgPlaceX + bgPlaceY * bgWidth)];
@@ -308,7 +308,7 @@ void QueueCompressedBackgroundPixels(void *pixels, u16 x, u16 y, u16 width, Pixe
     else
     {
         s32 index = mode;
-        QueueCompressedPixels(pixels, PIXEL_MODE_SPRITE, vramPixels + tileSizes[index] * (bgPlaceX + bgPlaceY * backgroundSizes[index][0]));
+        QueueCompressedPixels(pixels, PIXEL_MODE_SPRITE, vramPixels + sTileSizes[index] * (bgPlaceX + bgPlaceY * sBackgroundSizes[index][0]));
     }
 }
 
@@ -317,38 +317,38 @@ void LoadCompressedBackgroundPixels(void *pixels, u16 x, u16 y, u16 width, Pixel
     PixelsQueueEntry *prevStart;
     PixelsQueueEntry *prevEnd;
 
-    prevStart = spriteListStart;
-    prevEnd   = spriteListEnd;
+    prevStart = sSpriteListStart;
+    prevEnd   = sSpriteListEnd;
 
-    spriteListEnd   = NULL;
-    spriteListStart = NULL;
+    sSpriteListEnd   = NULL;
+    sSpriteListStart = NULL;
 
     QueueCompressedBackgroundPixels(pixels, x, y, width, mode, vramPixels, bgPlaceX, bgPlaceY, displayWidth, displayHeight);
     ProcessSpritePixelQueue();
 
-    spriteListStart = prevStart;
-    spriteListEnd   = prevEnd;
+    sSpriteListStart = prevStart;
+    sSpriteListEnd   = prevEnd;
 }
 
 void ClearPixelsQueue(void)
 {
-    for (QueueEntry *entry = (QueueEntry *)spriteListStart; entry != NULL;)
+    for (QueueEntry *entry = (QueueEntry *)sSpriteListStart; entry != NULL;)
     {
         FreeQueueEntry(entry);
 
-        entry           = (QueueEntry *)spriteListStart->next;
-        spriteListStart = (PixelsQueueEntry *)entry;
+        entry           = (QueueEntry *)sSpriteListStart->next;
+        sSpriteListStart = (PixelsQueueEntry *)entry;
     }
-    spriteListEnd = NULL;
+    sSpriteListEnd = NULL;
 
-    for (QueueEntry *entry = (QueueEntry *)textureListStart; entry != NULL;)
+    for (QueueEntry *entry = (QueueEntry *)sTextureListStart; entry != NULL;)
     {
         FreeQueueEntry(entry);
 
-        entry            = (QueueEntry *)textureListStart->next;
-        textureListStart = (PixelsQueueEntry *)entry;
+        entry            = (QueueEntry *)sTextureListStart->next;
+        sTextureListStart = (PixelsQueueEntry *)entry;
     }
-    textureListEnd = NULL;
+    sTextureListEnd = NULL;
 }
 
 PixelsQueueEntry *AddPixelQueueEntry(PixelMode mode)
@@ -362,14 +362,14 @@ PixelsQueueEntry *AddPixelQueueEntry(PixelMode mode)
         switch (mode)
         {
             case PIXEL_MODE_TEXTURE:
-                listStart = &textureListStart;
-                listEnd   = &textureListEnd;
+                listStart = &sTextureListStart;
+                listEnd   = &sTextureListEnd;
                 break;
 
             // case PIXEL_MODE_SPRITE:
             default:
-                listStart = &spriteListStart;
-                listEnd   = &spriteListEnd;
+                listStart = &sSpriteListStart;
+                listEnd   = &sSpriteListEnd;
                 break;
         }
 

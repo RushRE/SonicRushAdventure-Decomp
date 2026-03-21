@@ -5,8 +5,8 @@
 // VARIABLES
 // --------------------
 
-static Task *taskSingleton;
-static BOOL isTimeOver;
+static Task *sTimeGameplayTaskSingleton;
+static BOOL sIsTimeOver;
 
 // --------------------
 // FUNCTION DECLS
@@ -27,9 +27,9 @@ void ExTimeGameplay_Main_Init(void)
 {
     exTimeGamePlayTask *work = ExTaskGetWorkCurrent(exTimeGamePlayTask);
 
-    taskSingleton      = GetCurrentTask();
-    work->time         = &GetExSystemStatus()->time;
-    work->frameCounter = 0;
+    sTimeGameplayTaskSingleton = GetCurrentTask();
+    work->time                 = &GetExSystemStatus()->time;
+    work->frameCounter         = 0;
 
     SetCurrentExTaskMainEvent(ExTimeGameplay_Main_Active);
     ExTimeGameplay_Main_Active();
@@ -46,16 +46,17 @@ void ExTimeGameplay_Destructor(void)
     exTimeGamePlayTask *work = ExTaskGetWorkCurrent(exTimeGamePlayTask);
     UNUSED(work);
 
-    taskSingleton = NULL;
+    sTimeGameplayTaskSingleton = NULL;
 }
 
 void ExTimeGameplay_Main_Active(void)
 {
     exTimeGamePlayTask *work = ExTaskGetWorkCurrent(exTimeGamePlayTask);
 
-    isTimeOver = FALSE;
+    sIsTimeOver = FALSE;
 
-    if (GetExSystemStatus()->state != EXSYSTASK_STATE_STAGE_FINISHED && GetExSystemStatus()->state != EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED && GetExSystemStatus()->state != EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED)
+    if (GetExSystemStatus()->state != EXSYSTASK_STATE_STAGE_FINISHED && GetExSystemStatus()->state != EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED
+        && GetExSystemStatus()->state != EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED)
     {
         if (GetExSystemStatus()->state >= EXSYSTASK_STATE_BOSS_ACTIVE)
         {
@@ -79,7 +80,7 @@ void ExTimeGameplay_Main_Active(void)
                             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_COUNTDOWN);
 
                         work->time->seconds = 0;
-                        
+
                         work->time->tenSeconds++;
                         if (work->time->tenSeconds > 5)
                         {
@@ -113,7 +114,7 @@ void ExTimeGameplay_Action_TimeOver(void)
 {
     exTimeGamePlayTask *work = ExTaskGetWorkCurrent(exTimeGamePlayTask);
 
-    isTimeOver = TRUE;
+    sIsTimeOver = TRUE;
 
     work->time->minutes      = 9;
     work->time->tenSeconds   = 5;
@@ -148,16 +149,16 @@ BOOL CreateExTimeGameplay(void)
 
 void DestroyExTimeGameplay(void)
 {
-    if (taskSingleton != NULL)
-        DestroyExTask(taskSingleton);
+    if (sTimeGameplayTaskSingleton != NULL)
+        DestroyExTask(sTimeGameplayTaskSingleton);
 }
 
 BOOL CheckExTimeGameplayIsTimeOver(void)
 {
-    return isTimeOver;
+    return sIsTimeOver;
 }
 
 void ResetExTimeGameplayTimeOverFlag(void)
 {
-    isTimeOver = FALSE;
+    sIsTimeOver = FALSE;
 }

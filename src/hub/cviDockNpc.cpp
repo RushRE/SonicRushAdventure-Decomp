@@ -97,14 +97,14 @@ NOT_DECOMPILED void _ZNK8CVector317ToConstVecFx32RefEv(void);
 // VARIABLES
 // --------------------
 
-static const u16 resMatAnimFileTable[] = { BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_OLD_DS_NSBMA };
+static const u16 sResMatAnimFileTable[] = { BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_OLD_DS_NSBMA };
 
-static const VecFx32 npcHitboxSizeTable[] = {
+static const VecFx32 sNpcHitboxSizeTable[] = {
     { FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(6.0) },   // Regular
     { FLOAT_TO_FX32(12.0), FLOAT_TO_FX32(8.0), FLOAT_TO_FX32(12.0) }, // Big
 };
 
-static const u16 resModelFileTable[] = {
+static const u16 sResModelFileTable[] = {
     BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_BLZ_NSBMD,       // Blaze
     BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_TAILS_NSBMD,     // Tails
     BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_MARINE_NSBMD,    // Marine
@@ -120,7 +120,7 @@ static const u16 resModelFileTable[] = {
     BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_OLD_DS_NSBMD,    // OldDS
 };
 
-static const u16 resJointAnimFileTable[] = {
+static const u16 sResJointAnimFileTable[] = {
     BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_BLZ_NSBCA,       // Blaze
     BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_TAILS_NSBCA,     // Tails
     BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_MARINE_NSBCA,    // Marine
@@ -136,7 +136,7 @@ static const u16 resJointAnimFileTable[] = {
     BUNDLE_VI_NPC_FILE_RESOURCES_BB_VI_NPC_OLD_DS_NSBCA,    // OldDS
 };
 
-static const struct ViDockNpcAssetInfo resConfigFileTable[] = {
+static const struct ViDockNpcAssetInfo sResConfigFileTable[] = {
     // Blaze
     { CVIDOCKNPC_RESCMN_BLAZE, CVIDOCKNPC_RESCMN_BLAZE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CVIDOCKNPC_RESOURCE_NONE, CViDockNpc::ANI_IDLE, CViDockNpc::ANI_TALK,
       CVIDOCKNPC_SIZE_REGULAR, CViDockNpc::ANI_TAIL_IDLE, CViDockNpc::ANI_TAIL_TALK, 0, 0 },
@@ -191,8 +191,8 @@ static const struct ViDockNpcAssetInfo resConfigFileTable[] = {
 };
 
 // TODO: uncomment this when all funcs are decompiled, until then it doesn't seem like the variables want to to align properly?
-// static const CViDockNpcAssetBundle dockNpcAssets[1] = { { "bb/vi_npc.bb", 0x400 } };
-extern const CViDockNpcAssetBundle dockNpcAssets[1];
+// static const CViDockNpcAssetBundle sDockNpcAssets[1] = { { "bb/vi_npc.bb", 0x400 } };
+extern const CViDockNpcAssetBundle sDockNpcAssets[1];
 
 // --------------------
 // FUNCTIONS
@@ -292,23 +292,23 @@ void CViDockNpc::Init(s32 type, VecFx32 &position, u16 angle, BOOL snapToAngle)
     this->npcType = type;
     this->type    = HubConfig__GetNpcConfig(type)->type;
 
-    const ViDockNpcAssetInfo *config = &resConfigFileTable[this->type];
+    const ViDockNpcAssetInfo *config = &sResConfigFileTable[this->type];
 
-    this->model     = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resModelFileTable[config->modelIndex], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
-    this->aniJoints = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resJointAnimFileTable[config->animIndex], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+    this->model     = BundleFileUnknown__LoadFileFromBundle(sDockNpcAssets[0].path, sResModelFileTable[config->modelIndex], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+    this->aniJoints = BundleFileUnknown__LoadFileFromBundle(sDockNpcAssets[0].path, sResJointAnimFileTable[config->animIndex], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
 
     if (config->materialAnim != CVIDOCKNPC_RESOURCE_NONE)
-        this->aniMaterial = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resMatAnimFileTable[config->materialAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+        this->aniMaterial = BundleFileUnknown__LoadFileFromBundle(sDockNpcAssets[0].path, sResMatAnimFileTable[config->materialAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
 
-    // NOTE: is this bugged? shouldn't it utilise a unique table instead of 'resMatAnimFileTable'?
+    // NOTE: is this bugged? shouldn't it utilise a unique table instead of 'sResMatAnimFileTable'?
     if (config->visibilityAnim != CVIDOCKNPC_RESOURCE_NONE)
-        this->aniVisibility = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resMatAnimFileTable[config->visibilityAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+        this->aniVisibility = BundleFileUnknown__LoadFileFromBundle(sDockNpcAssets[0].path, sResMatAnimFileTable[config->visibilityAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
 
-    // NOTE: is this bugged? shouldn't it utilise a unique table instead of 'resMatAnimFileTable'?
+    // NOTE: is this bugged? shouldn't it utilise a unique table instead of 'sResMatAnimFileTable'?
     if (config->textureAnim != CVIDOCKNPC_RESOURCE_NONE)
-        this->aniTexture = BundleFileUnknown__LoadFileFromBundle(dockNpcAssets[0].path, resMatAnimFileTable[config->textureAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
+        this->aniTexture = BundleFileUnknown__LoadFileFromBundle(sDockNpcAssets[0].path, sResMatAnimFileTable[config->textureAnim], BUNDLEFILEUNKNOWN_AUTO_ALLOC_TAIL);
 
-    this->size = npcHitboxSizeTable[config->size];
+    this->size = sNpcHitboxSizeTable[config->size];
 
     if (config->ani2_Tail == CVIDOCKNPC_RESOURCE_NONE)
     {
@@ -382,7 +382,7 @@ void CViDockNpc::Release()
     this->size.y          = FLOAT_TO_FX32(0.0);
     this->size.z          = FLOAT_TO_FX32(0.0);
     this->initialAngle    = 0;
-    this->type            = ARRAY_COUNT(resConfigFileTable) + 1;
+    this->type            = ARRAY_COUNT(sResConfigFileTable) + 1;
 }
 
 void CViDockNpc::SetAngleForTalking(u16 angle)
@@ -390,10 +390,10 @@ void CViDockNpc::SetAngleForTalking(u16 angle)
     if (this->snapToAngle)
         this->targetTurnAngle = angle;
 
-    this->SetJointAnimForBody(resConfigFileTable[this->type].ani1_1, TRUE, TRUE, FALSE, FALSE);
+    this->SetJointAnimForBody(sResConfigFileTable[this->type].ani1_1, TRUE, TRUE, FALSE, FALSE);
 
-    if (resConfigFileTable[this->type].ani1_Tail != CVIDOCKNPC_RESOURCE_NONE)
-        this->SetJointAnimForTail(resConfigFileTable[this->type].ani1_Tail, TRUE, TRUE, FALSE, FALSE);
+    if (sResConfigFileTable[this->type].ani1_Tail != CVIDOCKNPC_RESOURCE_NONE)
+        this->SetJointAnimForTail(sResConfigFileTable[this->type].ani1_Tail, TRUE, TRUE, FALSE, FALSE);
 }
 
 void CViDockNpc::SetAngleForIdle()
@@ -401,10 +401,10 @@ void CViDockNpc::SetAngleForIdle()
     if (this->snapToAngle)
         this->targetTurnAngle = this->initialAngle;
 
-    this->SetJointAnimForBody(resConfigFileTable[this->type].ani2_1, TRUE, TRUE, FALSE, FALSE);
+    this->SetJointAnimForBody(sResConfigFileTable[this->type].ani2_1, TRUE, TRUE, FALSE, FALSE);
 
-    if (resConfigFileTable[this->type].ani2_Tail != CVIDOCKNPC_RESOURCE_NONE)
-        this->SetJointAnimForTail(resConfigFileTable[this->type].ani2_Tail, TRUE, TRUE, FALSE, FALSE);
+    if (sResConfigFileTable[this->type].ani2_Tail != CVIDOCKNPC_RESOURCE_NONE)
+        this->SetJointAnimForTail(sResConfigFileTable[this->type].ani2_Tail, TRUE, TRUE, FALSE, FALSE);
 }
 
 BOOL CViDockNpc::HandlePlayerSolidCollisions(VecFx32 *prevPlayerPos, const VecFx32 *curPlayerPos, VecFx32 *newPlayerPos, fx32 scale)
@@ -453,7 +453,7 @@ NONMATCH_FUNC BOOL CViDockNpc::CheckPlayerInTalkRange(VecFx32 *playerPos, u16 pl
 
     fx32 radius = MultiplyFX(x, x) + MultiplyFX(z, z);
 
-    const VecFx32 *size = &npcHitboxSizeTable[resConfigFileTable[this->type].size];
+    const VecFx32 *size = &sNpcHitboxSizeTable[sResConfigFileTable[this->type].size];
     fx32 scaledSize     = MultiplyFX(MATH_MAX(size->x, size->z), scale);
     scaledSize += (scaledSize >> 1);
 
@@ -499,13 +499,13 @@ NONMATCH_FUNC BOOL CViDockNpc::CheckPlayerInTalkRange(VecFx32 *playerPos, u16 pl
 	mov r9, #0xc
 	smull lr, r0, ip, ip
 	mul r8, r2, r9
-	ldr r2, =resConfigFileTable+0x07
+	ldr r2, =sResConfigFileTable+0x07
 	mov r3, r3, lsr #0xc
 	ldrb r8, [r2, r8]
 	adc r2, r1, #0
 	adds r1, lr, #0x800
 	smulbb r8, r8, r9
-	ldr r9, =npcHitboxSizeTable
+	ldr r9, =sNpcHitboxSizeTable
 	adc r10, r0, #0
 	mov r1, r1, lsr #0xc
 	add lr, r9, r8

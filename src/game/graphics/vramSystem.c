@@ -14,37 +14,37 @@
 // VARIABLES
 // --------------------
 
-static u8 paletteCount;
-static u8 textureCount;
+static u8 sPaletteCount;
+static u8 sTextureCount;
 
-static u16 objBankSize[2];
-static u16 objBankOffset[2];
+static u16 sObjBankSize[2];
+static u16 sObjBankOffset[2];
 
-static u16 objBankTileCount[2];
-u16 objBankShift[2];
+static u16 sObjBankTileCount[2];
+u16 gObjBankShift[2];
 static u16 bgBankSize[2];
-u16 objBmpUse256K[2];
+u16 gObjBmpUse256K[2];
 
-static u32 textureUnknown[2];
+static u32 sTextureUnknown[2];
 
 struct VRAMOBJExtPalBankManager objExtPalBankManager[2];
-struct VRAMOBJBankManager objBankManager[2];
+struct VRAMOBJBankManager sObjBankManager[2];
 
-struct VRAMBGBankManager bgBankManager[2];
-struct VRAMBGExtPalBankManager bgExtPalBankManager[2];
+struct VRAMBGBankManager gBgBankManager[2];
+struct VRAMBGExtPalBankManager gBgExtPalBankManager[2];
 
-struct VRAMTextureBankManager textureBankManager;
-struct VRAMTexturePalBankManager texturePalBankManager;
+struct VRAMTextureBankManager gTextureBankManager;
+struct VRAMTexturePalBankManager gTexturePalBankManager;
 
-static u16 vramTextureAllocTable[4 * VRAM_TEXTURE_BANK_SIZE];
-static u16 vramSpriteAllocTable[2][VRAM_SPRITE_BANK_SIZE];
-static u16 vramPaletteAllocTable[6 * VRAM_PALETTE_BANK_SIZE];
+static u16 sVRAMTextureAllocTable[4 * VRAM_TEXTURE_BANK_SIZE];
+static u16 sVRAMSpriteAllocTable[GRAPHICS_ENGINE_COUNT][VRAM_SPRITE_BANK_SIZE];
+static u16 sVRAMPaletteAllocTable[6 * VRAM_PALETTE_BANK_SIZE];
 
-static const u8 vramTextureAllocBankID_4Pal_4x4Comp[] = { 0, 2 };
-static const u8 vramTextureAllocBankID_4Pal[]  = { 3, 0, 2, 1 };
+static const u8 sVRAMTextureAllocBankID_4Pal_4x4Comp[] = { 0, 2 };
+static const u8 sVRAMTextureAllocBankID_4Pal_Uncomp[]  = { 3, 0, 2, 1 };
 
-static const u8 vramPaletteAllocBankID_4Pal[]   = { 0, 1, 2, 3 };
-static const u8 vramPaletteAllocBankID[] = { 4, 5, 1, 2, 3, 0 };
+static const u8 sVRAMPaletteAllocBankID_4Pal[]   = { 0, 1, 2, 3 };
+static const u8 sVRAMPaletteAllocBankID_Uncomp[] = { 4, 5, 1, 2, 3, 0 };
 
 // --------------------
 // FUNCTIONS
@@ -141,97 +141,97 @@ void VRAMSystem__Reset(void)
 
 void VRAMSystem__SetupBGBank(GXVRamBG bank)
 {
-    MI_CpuClear32(&bgBankManager[0], sizeof(bgBankManager[0]));
+    MI_CpuClear32(&gBgBankManager[0], sizeof(gBgBankManager[0]));
 
     bgBankSize[0] = 0;
     switch (bank)
     {
         case GX_VRAM_BG_16_F:
             bgBankSize[0]                = 16;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
             break;
 
         case GX_VRAM_BG_16_G:
             bgBankSize[0]                = 16;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_G);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_G);
             break;
 
         case GX_VRAM_BG_32_FG:
             bgBankSize[0]                = 32;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_G);
-            bgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_F);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_G);
+            gBgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_F);
             break;
 
         case GX_VRAM_BG_64_E:
             bgBankSize[0]                = 64;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
             break;
 
         case GX_VRAM_BG_96_EFG:
             bgBankSize[0]                = 96;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
-            bgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_F);
-            bgBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_G);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
+            gBgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_F);
+            gBgBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_G);
             break;
 
         case GX_VRAM_BG_128_A:
             bgBankSize[0]                = 128;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
             break;
 
         case GX_VRAM_BG_128_B:
             bgBankSize[0]                = 128;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
             break;
 
         case GX_VRAM_BG_128_C:
             bgBankSize[0]                = 128;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_C);
             break;
 
         case GX_VRAM_BG_128_D:
             bgBankSize[0]                = 128;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_D);
             break;
 
         case GX_VRAM_BG_256_AB:
             bgBankSize[0]                = 256;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
-            bgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            gBgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
             break;
 
         case GX_VRAM_BG_256_BC:
             bgBankSize[0]                = 256;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
-            bgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            gBgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_C);
             break;
 
         case GX_VRAM_BG_256_CD:
             bgBankSize[0]                = 256;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_C);
-            bgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            gBgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_D);
             break;
 
         case GX_VRAM_BG_384_ABC:
             bgBankSize[0]                = 384;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
-            bgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
-            bgBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            gBgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            gBgBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_C);
             break;
 
         case GX_VRAM_BG_384_BCD:
             bgBankSize[0]                = 384;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
-            bgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_C);
-            bgBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            gBgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            gBgBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_D);
             break;
 
         case GX_VRAM_BG_512_ABCD:
             bgBankSize[0]                = 512;
-            bgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
-            bgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
-            bgBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_C);
-            bgBankManager[0].location[3] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            gBgBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            gBgBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            gBgBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            gBgBankManager[0].location[3] = RAW_ADDRESS(HW_LCDC_VRAM_D);
             break;
 
         default:
@@ -244,53 +244,53 @@ void VRAMSystem__SetupBGBank(GXVRamBG bank)
 
 void VRAMSystem__SetupOBJBank(GXVRamOBJ bank, GXOBJVRamModeChar charMode, GXOBJVRamModeBmp bmpMode, u16 bankOffset, u16 tileCount)
 {
-    MI_CpuClear32(&objBankManager[0], sizeof(objBankManager[0]));
+    MI_CpuClear32(&sObjBankManager[0], sizeof(sObjBankManager[0]));
 
-    objBankSize[0] = 0;
+    sObjBankSize[0] = 0;
     switch (bank)
     {
         case GX_VRAM_OBJ_16_F:
-            objBankSize[0]                = 16;
-            objBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
+            sObjBankSize[0]                = 16;
+            sObjBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
             break;
 
         case GX_VRAM_OBJ_16_G:
-            objBankSize[0]                = 16;
-            objBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_G);
+            sObjBankSize[0]                = 16;
+            sObjBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_G);
             break;
 
         case GX_VRAM_OBJ_32_FG:
-            objBankSize[0]                = 32;
-            objBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
-            objBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_G);
+            sObjBankSize[0]                = 32;
+            sObjBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
+            sObjBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_G);
             break;
 
         case GX_VRAM_OBJ_64_E:
-            objBankSize[0]                = 64;
-            objBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
+            sObjBankSize[0]                = 64;
+            sObjBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
             break;
 
         case GX_VRAM_OBJ_96_EFG:
-            objBankSize[0]                = 96;
-            objBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
-            objBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_F);
-            objBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_G);
+            sObjBankSize[0]                = 96;
+            sObjBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
+            sObjBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_F);
+            sObjBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_G);
             break;
 
         case GX_VRAM_OBJ_128_A:
-            objBankSize[0]                = 128;
-            objBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            sObjBankSize[0]                = 128;
+            sObjBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
             break;
 
         case GX_VRAM_OBJ_128_B:
-            objBankSize[0]                = 128;
-            objBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            sObjBankSize[0]                = 128;
+            sObjBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
             break;
 
         case GX_VRAM_OBJ_256_AB:
-            objBankSize[0]                = 256;
-            objBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
-            objBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            sObjBankSize[0]                = 256;
+            sObjBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            sObjBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
             break;
 
         default:
@@ -303,27 +303,27 @@ void VRAMSystem__SetupOBJBank(GXVRamOBJ bank, GXOBJVRamModeChar charMode, GXOBJV
     switch (charMode)
     {
         case GX_OBJVRAMMODE_CHAR_1D_32K:
-            objBankShift[0] = 0;
+            gObjBankShift[0] = 0;
             break;
 
         case GX_OBJVRAMMODE_CHAR_1D_64K:
-            objBankShift[0] = 1;
+            gObjBankShift[0] = 1;
             break;
 
         case GX_OBJVRAMMODE_CHAR_1D_128K:
-            objBankShift[0] = 2;
+            gObjBankShift[0] = 2;
             break;
 
         case GX_OBJVRAMMODE_CHAR_1D_256K:
-            objBankShift[0] = 3;
+            gObjBankShift[0] = 3;
             break;
 
         case GX_OBJVRAMMODE_CHAR_2D:
-            objBankShift[0] = 0;
+            gObjBankShift[0] = 0;
             break;
 
         default:
-            objBankShift[0] = 0;
+            gObjBankShift[0] = 0;
             break;
     }
 
@@ -332,57 +332,57 @@ void VRAMSystem__SetupOBJBank(GXVRamOBJ bank, GXOBJVRamModeChar charMode, GXOBJV
     switch (bmpMode)
     {
         case GX_OBJVRAMMODE_BMP_1D_128K:
-            objBmpUse256K[0] = FALSE;
+            gObjBmpUse256K[0] = FALSE;
             break;
 
         case GX_OBJVRAMMODE_BMP_1D_256K:
-            objBmpUse256K[0] = TRUE;
+            gObjBmpUse256K[0] = TRUE;
             break;
 
         case GX_OBJVRAMMODE_BMP_2D_W128:
         case GX_OBJVRAMMODE_BMP_2D_W256:
-            objBmpUse256K[0] = FALSE;
+            gObjBmpUse256K[0] = FALSE;
             break;
 
         default:
-            objBmpUse256K[0] = FALSE;
+            gObjBmpUse256K[0] = FALSE;
             break;
     }
 
     GX_SetOBJVRamModeBmp(bmpMode);
 
-    objBankOffset[0]    = bankOffset;
-    objBankTileCount[0] = tileCount;
+    sObjBankOffset[0]    = bankOffset;
+    sObjBankTileCount[0] = tileCount;
 }
 
 void VRAMSystem__SetupBGExtPalBank(GXVRamBGExtPltt bank)
 {
-    MI_CpuClear32(&bgExtPalBankManager[0], sizeof(bgExtPalBankManager[0]));
+    MI_CpuClear32(&gBgExtPalBankManager[0], sizeof(gBgExtPalBankManager[0]));
 
     switch (bank)
     {
         case GX_VRAM_BGEXTPLTT_01_F:
-            bgExtPalBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
-            bgExtPalBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_F + (HW_VRAM_F_SIZE >> 1));
+            gBgExtPalBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
+            gBgExtPalBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_F + (HW_VRAM_F_SIZE >> 1));
             break;
 
         case GX_VRAM_BGEXTPLTT_23_G:
-            bgExtPalBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_G);
-            bgExtPalBankManager[0].location[3] = RAW_ADDRESS(HW_LCDC_VRAM_G + (HW_VRAM_G_SIZE >> 1));
+            gBgExtPalBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_G);
+            gBgExtPalBankManager[0].location[3] = RAW_ADDRESS(HW_LCDC_VRAM_G + (HW_VRAM_G_SIZE >> 1));
             break;
 
         case GX_VRAM_BGEXTPLTT_0123_E:
-            bgExtPalBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
-            bgExtPalBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 3));
-            bgExtPalBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 3) + (HW_VRAM_E_SIZE >> 3));
-            bgExtPalBankManager[0].location[3] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 3) + (HW_VRAM_E_SIZE >> 3) + (HW_VRAM_E_SIZE >> 3));
+            gBgExtPalBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
+            gBgExtPalBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 3));
+            gBgExtPalBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 3) + (HW_VRAM_E_SIZE >> 3));
+            gBgExtPalBankManager[0].location[3] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 3) + (HW_VRAM_E_SIZE >> 3) + (HW_VRAM_E_SIZE >> 3));
             break;
 
         case GX_VRAM_BGEXTPLTT_0123_FG:
-            bgExtPalBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
-            bgExtPalBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_F + (HW_VRAM_F_SIZE >> 1));
-            bgExtPalBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_G);
-            bgExtPalBankManager[0].location[3] = RAW_ADDRESS(HW_LCDC_VRAM_G + (HW_VRAM_G_SIZE >> 1));
+            gBgExtPalBankManager[0].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
+            gBgExtPalBankManager[0].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_F + (HW_VRAM_F_SIZE >> 1));
+            gBgExtPalBankManager[0].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_G);
+            gBgExtPalBankManager[0].location[3] = RAW_ADDRESS(HW_LCDC_VRAM_G + (HW_VRAM_G_SIZE >> 1));
             break;
 
         default:
@@ -417,25 +417,25 @@ void VRAMSystem__SetupOBJExtPalBank(GXVRamOBJExtPltt bank)
 
 void VRAMSystem__SetupSubBGBank(GXVRamSubBG bank)
 {
-    MI_CpuClear32(&bgBankManager[1], sizeof(bgBankManager[1]));
+    MI_CpuClear32(&gBgBankManager[1], sizeof(gBgBankManager[1]));
 
     bgBankSize[1] = 0;
     switch (bank)
     {
         case GX_VRAM_SUB_BG_128_C:
             bgBankSize[1]                = 128;
-            bgBankManager[1].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            gBgBankManager[1].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_C);
             break;
 
         case GX_VRAM_SUB_BG_32_H:
             bgBankSize[1]                = 32;
-            bgBankManager[1].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_H);
+            gBgBankManager[1].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_H);
             break;
 
         case GX_VRAM_SUB_BG_48_HI:
             bgBankSize[1]                = 48;
-            bgBankManager[1].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_H);
-            bgBankManager[1].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_I);
+            gBgBankManager[1].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_H);
+            gBgBankManager[1].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_I);
             break;
 
         default:
@@ -448,19 +448,19 @@ void VRAMSystem__SetupSubBGBank(GXVRamSubBG bank)
 
 void VRAMSystem__SetupSubOBJBank(GXVRamSubOBJ bank, GXOBJVRamModeChar charMode, GXOBJVRamModeBmp bmpMode, u16 bankOffset, u16 tileCount)
 {
-    MI_CpuClear32(&objBankManager[1], sizeof(objBankManager[1]));
+    MI_CpuClear32(&sObjBankManager[1], sizeof(sObjBankManager[1]));
 
-    objBankSize[1] = 0;
+    sObjBankSize[1] = 0;
     switch (bank)
     {
         case GX_VRAM_SUB_OBJ_128_D:
-            objBankSize[1]                = 128;
-            objBankManager[1].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            sObjBankSize[1]                = 128;
+            sObjBankManager[1].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_D);
             break;
 
         case GX_VRAM_SUB_OBJ_16_I:
-            objBankSize[1]                = 16;
-            objBankManager[1].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_I);
+            sObjBankSize[1]                = 16;
+            sObjBankManager[1].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_I);
             break;
 
         default:
@@ -473,25 +473,25 @@ void VRAMSystem__SetupSubOBJBank(GXVRamSubOBJ bank, GXOBJVRamModeChar charMode, 
     switch (charMode)
     {
         case GX_OBJVRAMMODE_CHAR_1D_32K:
-            objBankShift[1] = 0;
+            gObjBankShift[1] = 0;
             break;
 
         case GX_OBJVRAMMODE_CHAR_1D_64K:
-            objBankShift[1] = 1;
+            gObjBankShift[1] = 1;
             break;
 
         case GX_OBJVRAMMODE_CHAR_1D_128K:
-            objBankShift[1] = 2;
+            gObjBankShift[1] = 2;
             break;
 
         case GX_OBJVRAMMODE_CHAR_2D:
             // why does this use engineA's slot?
-            objBankShift[0] = 0;
+            gObjBankShift[0] = 0;
             break;
 
         // case GX_OBJVRAMMODE_CHAR_1D_256K:
         default:
-            objBankShift[1] = 0;
+            gObjBankShift[1] = 0;
             break;
     }
 
@@ -500,41 +500,41 @@ void VRAMSystem__SetupSubOBJBank(GXVRamSubOBJ bank, GXOBJVRamModeChar charMode, 
     switch (bmpMode)
     {
         case GX_OBJVRAMMODE_BMP_1D_128K:
-            objBmpUse256K[1] = FALSE;
+            gObjBmpUse256K[1] = FALSE;
             break;
 
         case GX_OBJVRAMMODE_BMP_1D_256K:
-            objBmpUse256K[1] = TRUE;
+            gObjBmpUse256K[1] = TRUE;
             break;
 
         case GX_OBJVRAMMODE_BMP_2D_W128:
         case GX_OBJVRAMMODE_BMP_2D_W256:
             // why does this use engineA's slot?
-            objBmpUse256K[0] = FALSE;
+            gObjBmpUse256K[0] = FALSE;
             break;
 
         default:
-            objBmpUse256K[1] = FALSE;
+            gObjBmpUse256K[1] = FALSE;
             break;
     }
 
     GXS_SetOBJVRamModeBmp(bmpMode);
 
-    objBankOffset[1]    = bankOffset;
-    objBankTileCount[1] = tileCount;
+    sObjBankOffset[1]    = bankOffset;
+    sObjBankTileCount[1] = tileCount;
 }
 
 void VRAMSystem__SetupSubBGExtPalBank(GXVRamSubBGExtPltt bank)
 {
-    MI_CpuClear32(&bgExtPalBankManager[1], sizeof(bgExtPalBankManager[1]));
+    MI_CpuClear32(&gBgExtPalBankManager[1], sizeof(gBgExtPalBankManager[1]));
 
     switch (bank)
     {
         case GX_VRAM_SUB_BGEXTPLTT_0123_H:
-            bgExtPalBankManager[1].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_H);
-            bgExtPalBankManager[1].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_H + (HW_VRAM_H_SIZE >> 2));
-            bgExtPalBankManager[1].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_H + (HW_VRAM_H_SIZE >> 2) + (HW_VRAM_H_SIZE >> 2));
-            bgExtPalBankManager[1].location[3] = RAW_ADDRESS(HW_LCDC_VRAM_H + (HW_VRAM_H_SIZE >> 2) + (HW_VRAM_H_SIZE >> 2) + (HW_VRAM_H_SIZE >> 2));
+            gBgExtPalBankManager[1].location[0] = RAW_ADDRESS(HW_LCDC_VRAM_H);
+            gBgExtPalBankManager[1].location[1] = RAW_ADDRESS(HW_LCDC_VRAM_H + (HW_VRAM_H_SIZE >> 2));
+            gBgExtPalBankManager[1].location[2] = RAW_ADDRESS(HW_LCDC_VRAM_H + (HW_VRAM_H_SIZE >> 2) + (HW_VRAM_H_SIZE >> 2));
+            gBgExtPalBankManager[1].location[3] = RAW_ADDRESS(HW_LCDC_VRAM_H + (HW_VRAM_H_SIZE >> 2) + (HW_VRAM_H_SIZE >> 2) + (HW_VRAM_H_SIZE >> 2));
             break;
 
         default:
@@ -565,100 +565,100 @@ void VRAMSystem__SetupSubOBJExtPalBank(GXVRamSubOBJExtPltt bank)
 
 void VRAMSystem__SetupTextureBank(GXVRamTex bank)
 {
-    MI_CpuClear32(&textureBankManager, sizeof(textureBankManager));
+    MI_CpuClear32(&gTextureBankManager, sizeof(gTextureBankManager));
 
     switch (bank)
     {
         case GX_VRAM_TEX_0_A:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
-            textureCount                   = 1;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            sTextureCount                   = 1;
             break;
 
         case GX_VRAM_TEX_0_B:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
-            textureCount                   = 1;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            sTextureCount                   = 1;
             break;
 
         case GX_VRAM_TEX_0_C:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_C);
-            textureCount                   = 1;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            sTextureCount                   = 1;
             break;
 
         case GX_VRAM_TEX_0_D:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_D);
-            textureCount                   = 1;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            sTextureCount                   = 1;
             break;
 
         case GX_VRAM_TEX_01_AB:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
-            textureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
-            textureCount                   = 2;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            gTextureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            sTextureCount                   = 2;
             break;
 
         case GX_VRAM_TEX_01_BC:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
-            textureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_C);
-            textureCount                   = 2;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            gTextureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            sTextureCount                   = 2;
             break;
 
         case GX_VRAM_TEX_01_CD:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_C);
-            textureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_D);
-            textureCount                   = 2;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            gTextureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            sTextureCount                   = 2;
             break;
 
         case GX_VRAM_TEX_012_ABC:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
-            textureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
-            textureBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_C);
-            textureCount                   = 3;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            gTextureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            gTextureBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            sTextureCount                   = 3;
             break;
 
         case GX_VRAM_TEX_012_BCD:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
-            textureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_C);
-            textureBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_D);
-            textureCount                   = 3;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            gTextureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            gTextureBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            sTextureCount                   = 3;
             break;
 
         case GX_VRAM_TEX_0123_ABCD:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
-            textureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
-            textureBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_C);
-            textureBankManager.location[3] = RAW_ADDRESS(HW_LCDC_VRAM_D);
-            textureCount                   = 4;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            gTextureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            gTextureBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            gTextureBankManager.location[3] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            sTextureCount                   = 4;
             break;
 
         case GX_VRAM_TEX_01_AC:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
-            textureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_C);
-            textureCount                   = 2;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            gTextureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            sTextureCount                   = 2;
             break;
 
         case GX_VRAM_TEX_01_AD:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
-            textureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_D);
-            textureCount                   = 2;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            gTextureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            sTextureCount                   = 2;
             break;
 
         case GX_VRAM_TEX_01_BD:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
-            textureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_D);
-            textureCount                   = 2;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            gTextureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            sTextureCount                   = 2;
             break;
 
         case GX_VRAM_TEX_012_ABD:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
-            textureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
-            textureBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_D);
-            textureCount                   = 3;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            gTextureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_B);
+            gTextureBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            sTextureCount                   = 3;
             break;
 
         case GX_VRAM_TEX_012_ACD:
-            textureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
-            textureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_C);
-            textureBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_D);
-            textureCount                   = 3;
+            gTextureBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_A);
+            gTextureBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_C);
+            gTextureBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_D);
+            sTextureCount                   = 3;
             break;
 
         default:
@@ -671,51 +671,51 @@ void VRAMSystem__SetupTextureBank(GXVRamTex bank)
 
 void VRAMSystem__SetupTexturePalBank(GXVRamTexPltt bank)
 {
-    MI_CpuClear32(&texturePalBankManager, sizeof(texturePalBankManager));
+    MI_CpuClear32(&gTexturePalBankManager, sizeof(gTexturePalBankManager));
 
     switch (bank)
     {
         case GX_VRAM_TEXPLTT_0_F:
-            texturePalBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
-            paletteCount                      = 1;
+            gTexturePalBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
+            sPaletteCount                      = 1;
             break;
 
         case GX_VRAM_TEXPLTT_0_G:
-            texturePalBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_G);
-            paletteCount                      = 1;
+            gTexturePalBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_G);
+            sPaletteCount                      = 1;
             break;
 
         case GX_VRAM_TEXPLTT_01_FG:
-            texturePalBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
-            texturePalBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_G);
-            paletteCount                      = 2;
+            gTexturePalBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_F);
+            gTexturePalBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_G);
+            sPaletteCount                      = 2;
             break;
 
         case GX_VRAM_TEXPLTT_0123_E:
-            texturePalBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
-            texturePalBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2));
-            texturePalBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2));
-            texturePalBankManager.location[3] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2));
-            paletteCount                      = 4;
+            gTexturePalBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
+            gTexturePalBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2));
+            gTexturePalBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2));
+            gTexturePalBankManager.location[3] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2));
+            sPaletteCount                      = 4;
             break;
 
         case GX_VRAM_TEXPLTT_01234_EF:
-            texturePalBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
-            texturePalBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2));
-            texturePalBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2));
-            texturePalBankManager.location[3] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2));
-            texturePalBankManager.location[4] = RAW_ADDRESS(HW_LCDC_VRAM_F);
-            paletteCount                      = 5;
+            gTexturePalBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
+            gTexturePalBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2));
+            gTexturePalBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2));
+            gTexturePalBankManager.location[3] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2));
+            gTexturePalBankManager.location[4] = RAW_ADDRESS(HW_LCDC_VRAM_F);
+            sPaletteCount                      = 5;
             break;
 
         case GX_VRAM_TEXPLTT_012345_EFG:
-            texturePalBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
-            texturePalBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2));
-            texturePalBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2));
-            texturePalBankManager.location[3] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2));
-            texturePalBankManager.location[4] = RAW_ADDRESS(HW_LCDC_VRAM_F);
-            texturePalBankManager.location[5] = RAW_ADDRESS(HW_LCDC_VRAM_G);
-            paletteCount                      = 6;
+            gTexturePalBankManager.location[0] = RAW_ADDRESS(HW_LCDC_VRAM_E);
+            gTexturePalBankManager.location[1] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2));
+            gTexturePalBankManager.location[2] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2));
+            gTexturePalBankManager.location[3] = RAW_ADDRESS(HW_LCDC_VRAM_E + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2) + (HW_VRAM_E_SIZE >> 2));
+            gTexturePalBankManager.location[4] = RAW_ADDRESS(HW_LCDC_VRAM_F);
+            gTexturePalBankManager.location[5] = RAW_ADDRESS(HW_LCDC_VRAM_G);
+            sPaletteCount                      = 6;
             break;
 
         default:
@@ -728,18 +728,18 @@ void VRAMSystem__SetupTexturePalBank(GXVRamTexPltt bank)
 
 void VRAMSystem__InitSpriteBuffer(BOOL useEngineB)
 {
-    MI_CpuClear16(vramSpriteAllocTable[useEngineB], sizeof(vramSpriteAllocTable[0]));
+    MI_CpuClear16(sVRAMSpriteAllocTable[useEngineB], sizeof(sVRAMSpriteAllocTable[0]));
 }
 
 VRAMPixelKey VRAMSystem__AllocSpriteVram(BOOL useEngineB, size_t size)
 {
-    u32 count = objBankTileCount[useEngineB];
+    u32 count = sObjBankTileCount[useEngineB];
 
     u32 location = 0;
     while (location < count)
     {
         // only allocate sprites if the buffer entry hasn't been used of course!
-        if (vramSpriteAllocTable[useEngineB][location] == 0)
+        if (sVRAMSpriteAllocTable[useEngineB][location] == 0)
         {
             // try to allocate 'size' entries sequentially
             u32 allocatedSize = 1;
@@ -751,7 +751,7 @@ VRAMPixelKey VRAMSystem__AllocSpriteVram(BOOL useEngineB, size_t size)
                     return HeapNull;
                 }
 
-                if (vramSpriteAllocTable[useEngineB][location + allocatedSize] != 0)
+                if (sVRAMSpriteAllocTable[useEngineB][location + allocatedSize] != 0)
                 {
                     location += allocatedSize;
                     break;
@@ -764,15 +764,15 @@ VRAMPixelKey VRAMSystem__AllocSpriteVram(BOOL useEngineB, size_t size)
             if (allocatedSize == size)
             {
                 u8 *vram                                       = (u8 *)VRAMSystem__VRAM_OBJ[useEngineB];
-                u32 id                                         = (objBankOffset[useEngineB] + location) << objBankShift[useEngineB];
-                vramSpriteAllocTable[useEngineB][location] = size;
+                u32 id                                         = (sObjBankOffset[useEngineB] + location) << gObjBankShift[useEngineB];
+                sVRAMSpriteAllocTable[useEngineB][location] = size;
 
                 return vram + (0x20 * id);
             }
         }
 
         // skip this sprite's children when advancing!
-        location += vramSpriteAllocTable[useEngineB][location];
+        location += sVRAMSpriteAllocTable[useEngineB][location];
     }
 
     // generic failure
@@ -784,17 +784,17 @@ void VRAMSystem__FreeSpriteVram(BOOL useEngineB, VRAMPixelKey key)
     if (key != HeapNull)
     {
         u32 spriteOffset = (size_t)key - (size_t)VRAMSystem__VRAM_OBJ[useEngineB];
-        u32 bufferOffset = spriteOffset >> (5 + objBankShift[useEngineB]);
+        u32 bufferOffset = spriteOffset >> (5 + gObjBankShift[useEngineB]);
 
-        vramSpriteAllocTable[useEngineB][bufferOffset - objBankOffset[useEngineB]] = 0;
+        sVRAMSpriteAllocTable[useEngineB][bufferOffset - sObjBankOffset[useEngineB]] = 0;
     }
 }
 
 void VRAMSystem__InitTextureBuffer(void)
 {
-    MI_CpuClear16(vramTextureAllocTable, sizeof(vramTextureAllocTable));
-    MI_CpuClear16(textureUnknown, sizeof(textureUnknown));
-    MI_CpuClear16(vramPaletteAllocTable, sizeof(vramPaletteAllocTable));
+    MI_CpuClear16(sVRAMTextureAllocTable, sizeof(sVRAMTextureAllocTable));
+    MI_CpuClear16(sTextureUnknown, sizeof(sTextureUnknown));
+    MI_CpuClear16(sVRAMPaletteAllocTable, sizeof(sVRAMPaletteAllocTable));
 }
 
 VRAMPixelKey VRAMSystem__AllocTexture(size_t size, BOOL is4x4comp)
@@ -808,8 +808,8 @@ VRAMPixelKey VRAMSystem__AllocTexture(size_t size, BOOL is4x4comp)
     {
         for (i = 0; i < 2; i++)
         {
-            u32 id = vramTextureAllocBankID_4Pal_4x4Comp[i];
-            if (id < textureCount)
+            u32 id = sVRAMTextureAllocBankID_4Pal_4x4Comp[i];
+            if (id < sTextureCount)
             {
                 VRAMPixelKey key = VRAMSystem__AllocTexFunc_4x4Comp(size, id);
                 if (key != NULL)
@@ -821,8 +821,8 @@ VRAMPixelKey VRAMSystem__AllocTexture(size_t size, BOOL is4x4comp)
     {
         for (i = 0; i < 4; i++)
         {
-            u32 id = vramTextureAllocBankID_4Pal[i];
-            if (id < textureCount)
+            u32 id = sVRAMTextureAllocBankID_4Pal_Uncomp[i];
+            if (id < sTextureCount)
             {
                 VRAMPixelKey key = VRAMSystem__AllocTexFunc_Normal(size, id);
                 if (key != NULL)
@@ -840,7 +840,7 @@ void VRAMSystem__FreeTexture(VRAMPixelKey key)
     {
         u32 textureLocation = (VRAMKEY_TO_KEY(key) & 0x7FFFF) >> 9;
 
-        if ((vramTextureAllocTable[textureLocation] & 0x8000) != 0)
+        if ((sVRAMTextureAllocTable[textureLocation] & 0x8000) != 0)
         {
             u32 textureLocation2 = 0;
             if (textureLocation < VRAM_TEXTURE_BANK_SIZE)
@@ -849,10 +849,10 @@ void VRAMSystem__FreeTexture(VRAMPixelKey key)
                 textureLocation2 = (textureLocation - VRAM_TEXTURE_BANK_SIZE) >> 1;
 
             textureLocation2 += VRAM_TEXTURE_BANK_SIZE;
-            vramTextureAllocTable[textureLocation2] = 0;
+            sVRAMTextureAllocTable[textureLocation2] = 0;
         }
 
-        vramTextureAllocTable[textureLocation] = 0;
+        sVRAMTextureAllocTable[textureLocation] = 0;
     }
 }
 
@@ -863,9 +863,9 @@ u32 VRAMSystem__GetTextureUnknown(void)
     u32 t;
 
     spareTextureCount = 0;
-    for (t = 0; t < textureCount; t++)
+    for (t = 0; t < sTextureCount; t++)
     {
-        u16 *buffer = &vramTextureAllocTable[t * VRAM_TEXTURE_BANK_SIZE];
+        u16 *buffer = &sVRAMTextureAllocTable[t * VRAM_TEXTURE_BANK_SIZE];
 
         for (i = 0; i < VRAM_TEXTURE_BANK_SIZE; i += buffer[i])
         {
@@ -882,7 +882,7 @@ u32 VRAMSystem__GetTextureUnknown(void)
 
 void VRAMSystem__InitPaletteBuffer(void)
 {
-    MI_CpuFill16(vramPaletteAllocTable, 0, sizeof(vramPaletteAllocTable));
+    MI_CpuFill16(sVRAMPaletteAllocTable, 0, sizeof(sVRAMPaletteAllocTable));
 }
 
 VRAMPaletteKey VRAMSystem__AllocPalette(size_t size, BOOL is4pltt)
@@ -896,20 +896,20 @@ VRAMPaletteKey VRAMSystem__AllocPalette(size_t size, BOOL is4pltt)
 
     if (is4pltt)
     {
-        allocTable = vramPaletteAllocBankID_4Pal;
+        allocTable = sVRAMPaletteAllocBankID_4Pal;
         count      = 4;
     }
     else
     {
         count      = 6;
-        allocTable = vramPaletteAllocBankID;
+        allocTable = sVRAMPaletteAllocBankID_Uncomp;
     }
 
     for (i = 0; i < count; i++)
     {
-        if (allocTable[i] < paletteCount)
+        if (allocTable[i] < sPaletteCount)
         {
-            VRAMPaletteKey key = VRAMSystem__AllocPalFunc(size, allocTable[i], &vramPaletteAllocTable[VRAM_PALETTE_BANK_SIZE * allocTable[i]], VRAM_PALETTE_BANK_SIZE, 4);
+            VRAMPaletteKey key = VRAMSystem__AllocPalFunc(size, allocTable[i], &sVRAMPaletteAllocTable[VRAM_PALETTE_BANK_SIZE * allocTable[i]], VRAM_PALETTE_BANK_SIZE, 4);
             if (key != NULL)
                 return key;
         }
@@ -923,7 +923,7 @@ void VRAMSystem__FreePalette(VRAMPaletteKey key)
     if ((VRAMKEY_TO_KEY(key) & VRAMSYSTEM_FLAG_ALLOCATED) != 0)
     {
         u32 paletteLocation                             = VRAMKEY_TO_KEY(key) & 0x1FFFF;
-        vramPaletteAllocTable[paletteLocation >> 5] = 0;
+        sVRAMPaletteAllocTable[paletteLocation >> 5] = 0;
     }
 }
 
@@ -934,9 +934,9 @@ u32 VRAMSystem__GetPaletteUnknown(void)
     u32 p;
 
     sparePaletteCount = 0;
-    for (p = 0; p < paletteCount; p++)
+    for (p = 0; p < sPaletteCount; p++)
     {
-        u16 *buffer = &vramPaletteAllocTable[p * VRAM_PALETTE_BANK_SIZE];
+        u16 *buffer = &sVRAMPaletteAllocTable[p * VRAM_PALETTE_BANK_SIZE];
 
         for (i = 0; i < VRAM_PALETTE_BANK_SIZE; i += buffer[i])
         {
@@ -953,7 +953,7 @@ u32 VRAMSystem__GetPaletteUnknown(void)
 
 void *VRAMSystem__GetTexturePaletteAddr(s32 id)
 {
-    return texturePalBankManager.location[id];
+    return gTexturePalBankManager.location[id];
 }
 
 NNSGfdTexKey VRAMSystem__AllocTexVram(u32 szByte, BOOL is4x4comp, u32 opt)
@@ -992,8 +992,8 @@ int VRAMSystem__FreePlttVram(NNSGfdPlttKey plttKey)
 
 VRAMPixelKey VRAMSystem__AllocTexFunc_4x4Comp(size_t size, s32 id)
 {
-    u16 *textureBuffer  = &vramTextureAllocTable[VRAM_TEXTURE_BANK_SIZE * id];
-    u16 *textureBuffer2 = &vramTextureAllocTable[(1 * VRAM_TEXTURE_BANK_SIZE)];
+    u16 *textureBuffer  = &sVRAMTextureAllocTable[VRAM_TEXTURE_BANK_SIZE * id];
+    u16 *textureBuffer2 = &sVRAMTextureAllocTable[(1 * VRAM_TEXTURE_BANK_SIZE)];
 
     u32 alignedSize = (u32)(size + 511) >> 9;
 
@@ -1084,7 +1084,7 @@ VRAMPixelKey VRAMSystem__AllocTexFunc_4x4Comp(size_t size, s32 id)
 
 VRAMPixelKey VRAMSystem__AllocTexFunc_Normal(size_t size, s32 id)
 {
-    u16 *textureBuffer = &vramTextureAllocTable[VRAM_TEXTURE_BANK_SIZE * id];
+    u16 *textureBuffer = &sVRAMTextureAllocTable[VRAM_TEXTURE_BANK_SIZE * id];
     u32 alignedSize    = (u32)(size + 511) >> 9;
 
     for (u32 location = 0; location < VRAM_TEXTURE_BANK_SIZE; location += textureBuffer[location])

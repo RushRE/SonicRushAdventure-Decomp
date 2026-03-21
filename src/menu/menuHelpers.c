@@ -5,10 +5,10 @@
 // VARIABLES
 // --------------------
 
-static const u16 leaderboardStageTable[] = { STAGE_Z11, STAGE_Z12, STAGE_Z21, STAGE_Z22, STAGE_Z31, STAGE_Z32, STAGE_Z41,
+static const u16 sLeaderboardStageTable[] = { STAGE_Z11, STAGE_Z12, STAGE_Z21, STAGE_Z22, STAGE_Z31, STAGE_Z32, STAGE_Z41,
                                              STAGE_Z42, STAGE_Z51, STAGE_Z52, STAGE_Z61, STAGE_Z62, STAGE_Z71, STAGE_Z72 };
 
-static const u16 stageSelectIDTable[STAGE_COUNT_NO_RACES] = {
+static const u16 sStageSelectIDTable[STAGE_COUNT_NO_RACES] = {
     [STAGE_Z11]               = 0,
     [STAGE_Z12]               = 1,
     [STAGE_TUTORIAL]          = 3,
@@ -54,7 +54,7 @@ static const u16 stageSelectIDTable[STAGE_COUNT_NO_RACES] = {
     [STAGE_HIDDEN_ISLAND_VS4] = 42,
 };
 
-static const u16 timeAttackRecordsIDTable[STAGE_COUNT] = {
+static const u16 sTimeAttackRecordsIDTable[STAGE_COUNT] = {
     [STAGE_Z11]               = 0,
     [STAGE_Z12]               = 1,
     [STAGE_TUTORIAL]          = 3,
@@ -104,7 +104,7 @@ static const u16 timeAttackRecordsIDTable[STAGE_COUNT] = {
 };
 
 // clang-format off
-static const SaveGameUnknown205D150 progressCheck_Unlocked[STAGE_BOSS_FINAL + 2] = {
+static const SaveGameUnknown205D150 sProgressCheck_Unlocked[STAGE_BOSS_FINAL + 2] = {
     [STAGE_Z11]               = { .gameProgress = SAVE_PROGRESS_3, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
     [STAGE_Z12]               = { .gameProgress = SAVE_PROGRESS_3, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_ZONE_DISCOVERED },
     [STAGE_TUTORIAL]          = { .gameProgress = SAVE_PROGRESS_1, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
@@ -135,7 +135,7 @@ static const SaveGameUnknown205D150 progressCheck_Unlocked[STAGE_BOSS_FINAL + 2]
     { .gameProgress = SAVE_PROGRESS_38, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6, .mode = SAVE_PROGRESS_MODE_COMMON },
 };
 
-static const SaveGameUnknown205D150 progressCheck_Cleared[STAGE_BOSS_FINAL + 2] = {
+static const SaveGameUnknown205D150 sProgressCheck_Cleared[STAGE_BOSS_FINAL + 2] = {
     [STAGE_Z11]               = { .gameProgress = SAVE_PROGRESS_3, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_ZONE_DISCOVERED },
     [STAGE_Z12]               = { .gameProgress = SAVE_PROGRESS_4, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
     [STAGE_TUTORIAL]          = { .gameProgress = SAVE_PROGRESS_1, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
@@ -173,28 +173,28 @@ static const SaveGameUnknown205D150 progressCheck_Cleared[STAGE_BOSS_FINAL + 2] 
 
 u16 MenuHelpers__GetStageIDForStageSelect(s32 id)
 {
-    return stageSelectIDTable[id];
+    return sStageSelectIDTable[id];
 }
 
 u16 MenuHelpers__GetStageIDForTimeAttackRecordsMenu(s32 id)
 {
-    return timeAttackRecordsIDTable[id];
+    return sTimeAttackRecordsIDTable[id];
 }
 
 u16 MenuHelpers__GetStageIDFromLeaderboardID(s32 id)
 {
-    return leaderboardStageTable[id];
+    return sLeaderboardStageTable[id];
 }
 
 s32 MenuHelpers__GetLeaderboardIDFromStageID(s32 id)
 {
-    for (s32 s = 0; s < (s32)ARRAY_COUNT(leaderboardStageTable); s++)
+    for (s32 s = 0; s < (s32)ARRAY_COUNT(sLeaderboardStageTable); s++)
     {
-        if (id == leaderboardStageTable[s])
+        if (id == sLeaderboardStageTable[s])
             return s;
     }
 
-    return (s32)ARRAY_COUNT(leaderboardStageTable);
+    return (s32)ARRAY_COUNT(sLeaderboardStageTable);
 }
 
 BOOL MenuHelpers__CheckProgress(s32 progress, BOOL checkStageCleared, BOOL useSystemProgress)
@@ -215,9 +215,9 @@ BOOL MenuHelpers__CheckProgress(s32 progress, BOOL checkStageCleared, BOOL useSy
 
         const SaveGameUnknown205D150 *progressCheck;
         if (checkStageCleared)
-            progressCheck = &progressCheck_Cleared[progress];
+            progressCheck = &sProgressCheck_Cleared[progress];
         else
-            progressCheck = &progressCheck_Unlocked[progress];
+            progressCheck = &sProgressCheck_Unlocked[progress];
 
         if (gameProgress >= progressCheck->gameProgress && zone5Progress >= progressCheck->zone5Progress && zone6Progress >= progressCheck->zone6Progress)
         {
@@ -273,9 +273,9 @@ BOOL MenuHelpers__CheckProgress(s32 progress, BOOL checkStageCleared, BOOL useSy
             // check deep core
             const SaveGameUnknown205D150 *progressCheck;
             if (checkStageCleared)
-                progressCheck = &progressCheck_Cleared[25];
+                progressCheck = &sProgressCheck_Cleared[25];
             else
-                progressCheck = &progressCheck_Unlocked[25];
+                progressCheck = &sProgressCheck_Unlocked[25];
 
             if (gameProgress >= progressCheck->gameProgress && zone5Progress >= progressCheck->zone5Progress && zone6Progress >= progressCheck->zone6Progress)
                 return TRUE;

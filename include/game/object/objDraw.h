@@ -37,8 +37,8 @@ typedef struct PaletteTexture_
 // VARIABLES
 // --------------------
 
-extern GXRgb objDrawPalette1[0x100];
-extern GXRgb objDrawPalette2[0x100];
+extern GXRgb gObjDrawPalette1[0x100];
+extern GXRgb gObjDrawPalette2[0x100];
 
 // --------------------
 // FUNCTIONS

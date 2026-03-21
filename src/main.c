@@ -6,7 +6,7 @@
 // EXTERNS
 // --------------------
 
-extern u32 systemFrameCounter;
+extern u32 gSystemFrameCounter;
 
 // User
 extern void InitGameState(void);
@@ -22,7 +22,7 @@ void NitroMain(void)
 
     while (TRUE)
     {
-        systemFrameCounter++;
+        gSystemFrameCounter++;
 
         UpdateGameLoop();
         RenderCore_WaitVBlank();

@@ -31,28 +31,28 @@ static u32 GetHeapTotalSizeInternal(NNSFndHeapHandle heap);
 // VARIABLES
 // --------------------
 
-void *heapITCM_EndAddr;
-void *heapUser_EndAddr;
-void *heapDTCM_EndAddr;
-static NNSFndHeapHandle heapDTCM;
-static NNSFndHeapHandle heapSystem;
-void *heapSystem_StartAddr;
-void *heapSystem_EndAddr;
-void *heapUser_StartAddr;
-void *heapITCM_StartAddr;
-static NNSFndHeapHandle heapITCM;
-void *heapDTCM_StartAddr;
-static NNSFndHeapHandle heapUser;
+void *gHeapITCM_EndAddr;
+void *gHeapUser_EndAddr;
+void *gHeapDTCM_EndAddr;
+static NNSFndHeapHandle sHeapDTCM;
+static NNSFndHeapHandle sHeapSystem;
+void *gHeapSystem_StartAddr;
+void *gHeapSystem_EndAddr;
+void *gHeapUser_StartAddr;
+void *gHeapITCM_StartAddr;
+static NNSFndHeapHandle sHeapITCM;
+void *gHeapDTCM_StartAddr;
+static NNSFndHeapHandle sHeapUser;
 
-static NNSFndAllocatorFunc heapUserAllocatorFunc;
-static NNSFndAllocatorFunc heapDTCMAllocatorFunc;
-static NNSFndAllocatorFunc heapITCMAllocatorFunc;
-static NNSFndAllocatorFunc heapSystemAllocatorFunc;
+static NNSFndAllocatorFunc sHeapUserAllocatorFunc;
+static NNSFndAllocatorFunc sHeapDTCMAllocatorFunc;
+static NNSFndAllocatorFunc sHeapITCMAllocatorFunc;
+static NNSFndAllocatorFunc sHeapSystemAllocatorFunc;
 
-NNSFndAllocator heapSystemAllocator;
-NNSFndAllocator heapUserAllocator;
-NNSFndAllocator heapITCMAllocator;
-NNSFndAllocator heapDTCMAllocator;
+NNSFndAllocator gHeapSystemAllocator;
+NNSFndAllocator gHeapUserAllocator;
+NNSFndAllocator gHeapITCMAllocator;
+NNSFndAllocator gHeapDTCMAllocator;
 
 // --------------------
 // FUNCTIONS
@@ -63,39 +63,39 @@ void InitAllocatorSystem(s32 sizeSystem, s32 sizeUser, s32 sizeITCM, s32 sizeDTC
     // Init addresses for system heap
     if (sizeSystem < 0)
         sizeSystem = -sizeSystem;
-    u8 *poolSystem       = (u8 *)OS_GetArenaLo(OS_ARENA_MAIN);
-    heapSystem_StartAddr = poolSystem;
-    heapSystem_EndAddr   = &poolSystem[sizeSystem];
+    u8 *poolSystem        = (u8 *)OS_GetArenaLo(OS_ARENA_MAIN);
+    gHeapSystem_StartAddr = poolSystem;
+    gHeapSystem_EndAddr   = &poolSystem[sizeSystem];
     OS_SetArenaLo(OS_ARENA_MAIN, &poolSystem[sizeSystem]);
-    heapSystem_EndAddr = OS_GetArenaLo(OS_ARENA_MAIN);
+    gHeapSystem_EndAddr = OS_GetArenaLo(OS_ARENA_MAIN);
 
     // Init addresses for user heap
     if (sizeUser < 0)
         sizeUser = -sizeUser;
-    u8 *poolUser       = (u8 *)OS_GetArenaLo(OS_ARENA_MAIN);
-    heapUser_StartAddr = poolUser;
-    heapUser_EndAddr   = &poolUser[sizeUser];
+    u8 *poolUser        = (u8 *)OS_GetArenaLo(OS_ARENA_MAIN);
+    gHeapUser_StartAddr = poolUser;
+    gHeapUser_EndAddr   = &poolUser[sizeUser];
     OS_SetArenaLo(OS_ARENA_MAIN, &poolUser[sizeUser]);
-    heapUser_EndAddr = OS_GetArenaLo(OS_ARENA_MAIN);
+    gHeapUser_EndAddr = OS_GetArenaLo(OS_ARENA_MAIN);
 
     // Init addresses for itcm heap
     if (sizeITCM < 0)
         sizeITCM = -sizeITCM;
-    u8 *poolITCM       = (u8 *)OS_GetArenaLo(OS_ARENA_ITCM);
-    heapITCM_StartAddr = poolITCM;
-    heapITCM_EndAddr   = &poolITCM[sizeITCM];
+    u8 *poolITCM        = (u8 *)OS_GetArenaLo(OS_ARENA_ITCM);
+    gHeapITCM_StartAddr = poolITCM;
+    gHeapITCM_EndAddr   = &poolITCM[sizeITCM];
     OS_SetArenaLo(OS_ARENA_ITCM, &poolITCM[sizeITCM]);
-    heapITCM_EndAddr = OS_GetArenaLo(OS_ARENA_ITCM);
+    gHeapITCM_EndAddr = OS_GetArenaLo(OS_ARENA_ITCM);
 
     // Init addresses for dtcm heap
     if (sizeDTCM < 0)
         sizeDTCM = -sizeDTCM;
-    u8 *poolDTCM       = (u8 *)OS_GetArenaLo(OS_ARENA_DTCM);
-    heapDTCM_StartAddr = poolDTCM;
-    heapDTCM_EndAddr   = &poolDTCM[sizeDTCM];
+    u8 *poolDTCM        = (u8 *)OS_GetArenaLo(OS_ARENA_DTCM);
+    gHeapDTCM_StartAddr = poolDTCM;
+    gHeapDTCM_EndAddr   = &poolDTCM[sizeDTCM];
     OS_SetArenaHi(OS_ARENA_DTCM, &poolDTCM[sizeDTCM]);
-    OS_SetArenaLo(OS_ARENA_DTCM, heapDTCM_EndAddr);
-    heapDTCM_EndAddr = OS_GetArenaLo(OS_ARENA_DTCM);
+    OS_SetArenaLo(OS_ARENA_DTCM, gHeapDTCM_EndAddr);
+    gHeapDTCM_EndAddr = OS_GetArenaLo(OS_ARENA_DTCM);
 
     // Create heaps
     CreateHeapSystem();
@@ -106,89 +106,89 @@ void InitAllocatorSystem(s32 sizeSystem, s32 sizeUser, s32 sizeITCM, s32 sizeDTC
 
 void CreateHeapSystem(void)
 {
-    void *endAddr   = heapSystem_EndAddr;
-    void *startAddr = heapSystem_StartAddr;
+    void *endAddr   = gHeapSystem_EndAddr;
+    void *startAddr = gHeapSystem_StartAddr;
 
     if (startAddr < endAddr)
     {
         NNSFndHeapHandle heap = NNS_FndCreateExpHeapEx(startAddr, endAddr - startAddr, 0);
-        heapSystem             = heap;
+        sHeapSystem           = heap;
         NNS_FndSetAllocModeForExpHeap(heap, 1);
 
-        MI_CpuClear32(&heapSystemAllocator, sizeof(heapSystemAllocator));
-        MI_CpuClear32(&heapSystemAllocatorFunc, sizeof(heapSystemAllocatorFunc));
+        MI_CpuClear32(&gHeapSystemAllocator, sizeof(gHeapSystemAllocator));
+        MI_CpuClear32(&sHeapSystemAllocatorFunc, sizeof(sHeapSystemAllocatorFunc));
 
-        heapSystemAllocatorFunc.pfAlloc = AllocForHeapSystem;
-        heapSystemAllocatorFunc.pfFree  = FreeForHeapSystem;
-        heapSystemAllocator.pFunc       = &heapSystemAllocatorFunc;
-        heapSystemAllocator.pHeap       = &heapSystem;
-        heapSystemAllocator.heapParam1  = 32;
+        sHeapSystemAllocatorFunc.pfAlloc = AllocForHeapSystem;
+        sHeapSystemAllocatorFunc.pfFree  = FreeForHeapSystem;
+        gHeapSystemAllocator.pFunc       = &sHeapSystemAllocatorFunc;
+        gHeapSystemAllocator.pHeap       = &sHeapSystem;
+        gHeapSystemAllocator.heapParam1  = 32;
     }
 }
 
 void CreateHeapUser(void)
 {
-    void *endAddr   = heapUser_EndAddr;
-    void *startAddr = heapUser_StartAddr;
+    void *endAddr   = gHeapUser_EndAddr;
+    void *startAddr = gHeapUser_StartAddr;
 
     if (startAddr < endAddr)
     {
         NNSFndHeapHandle heap = NNS_FndCreateExpHeapEx(startAddr, endAddr - startAddr, 0);
-        heapUser             = heap;
+        sHeapUser              = heap;
         NNS_FndSetAllocModeForExpHeap(heap, 1);
 
-        MI_CpuClear32(&heapUserAllocator, sizeof(heapUserAllocator));
-        MI_CpuClear32(&heapUserAllocatorFunc, sizeof(heapUserAllocatorFunc));
+        MI_CpuClear32(&gHeapUserAllocator, sizeof(gHeapUserAllocator));
+        MI_CpuClear32(&sHeapUserAllocatorFunc, sizeof(sHeapUserAllocatorFunc));
 
-        heapUserAllocatorFunc.pfAlloc = AllocForHeapUser;
-        heapUserAllocatorFunc.pfFree  = FreeForHeapUser;
-        heapUserAllocator.pFunc       = &heapUserAllocatorFunc;
-        heapUserAllocator.pHeap       = &heapUser;
-        heapUserAllocator.heapParam1  = 32;
+        sHeapUserAllocatorFunc.pfAlloc = AllocForHeapUser;
+        sHeapUserAllocatorFunc.pfFree  = FreeForHeapUser;
+        gHeapUserAllocator.pFunc       = &sHeapUserAllocatorFunc;
+        gHeapUserAllocator.pHeap       = &sHeapUser;
+        gHeapUserAllocator.heapParam1  = 32;
     }
 }
 
 void CreateHeapITCM(void)
 {
-    void *endAddr   = heapITCM_EndAddr;
-    void *startAddr = heapITCM_StartAddr;
+    void *endAddr   = gHeapITCM_EndAddr;
+    void *startAddr = gHeapITCM_StartAddr;
 
     if (startAddr < endAddr)
     {
         NNSFndHeapHandle heap = NNS_FndCreateExpHeapEx(startAddr, endAddr - startAddr, 0);
-        heapITCM              = heap;
+        sHeapITCM             = heap;
         NNS_FndSetAllocModeForExpHeap(heap, 1);
 
-        MI_CpuClear32(&heapITCMAllocator, sizeof(heapITCMAllocator));
-        MI_CpuClear32(&heapITCMAllocatorFunc, sizeof(heapITCMAllocatorFunc));
+        MI_CpuClear32(&gHeapITCMAllocator, sizeof(gHeapITCMAllocator));
+        MI_CpuClear32(&sHeapITCMAllocatorFunc, sizeof(sHeapITCMAllocatorFunc));
 
-        heapITCMAllocatorFunc.pfAlloc = AllocForHeapITCM;
-        heapITCMAllocatorFunc.pfFree  = FreeForHeapITCM;
-        heapITCMAllocator.pFunc       = &heapITCMAllocatorFunc;
-        heapITCMAllocator.pHeap       = &heapITCM;
-        heapITCMAllocator.heapParam1  = 4;
+        sHeapITCMAllocatorFunc.pfAlloc = AllocForHeapITCM;
+        sHeapITCMAllocatorFunc.pfFree  = FreeForHeapITCM;
+        gHeapITCMAllocator.pFunc       = &sHeapITCMAllocatorFunc;
+        gHeapITCMAllocator.pHeap       = &sHeapITCM;
+        gHeapITCMAllocator.heapParam1  = 4;
     }
 }
 
 void CreateHeapDTCM(void)
 {
-    void *endAddr   = heapDTCM_EndAddr;
-    void *startAddr = heapDTCM_StartAddr;
+    void *endAddr   = gHeapDTCM_EndAddr;
+    void *startAddr = gHeapDTCM_StartAddr;
 
     if (startAddr < endAddr)
     {
         NNSFndHeapHandle heap = NNS_FndCreateExpHeapEx(startAddr, endAddr - startAddr, 0);
-        heapDTCM              = heap;
+        sHeapDTCM             = heap;
         NNS_FndSetAllocModeForExpHeap(heap, 1);
 
-        MI_CpuClear32(&heapDTCMAllocator, sizeof(heapDTCMAllocator));
-        MI_CpuClear32(&heapDTCMAllocatorFunc, sizeof(heapDTCMAllocatorFunc));
+        MI_CpuClear32(&gHeapDTCMAllocator, sizeof(gHeapDTCMAllocator));
+        MI_CpuClear32(&sHeapDTCMAllocatorFunc, sizeof(sHeapDTCMAllocatorFunc));
 
-        heapDTCMAllocatorFunc.pfAlloc = AllocForHeapDTCM;
-        heapDTCMAllocatorFunc.pfFree  = FreeForHeapDTCM;
-        heapDTCMAllocator.pFunc       = &heapDTCMAllocatorFunc;
-        heapDTCMAllocator.pHeap       = &heapDTCM;
-        heapDTCMAllocator.heapParam1  = 4;
+        sHeapDTCMAllocatorFunc.pfAlloc = AllocForHeapDTCM;
+        sHeapDTCMAllocatorFunc.pfFree  = FreeForHeapDTCM;
+        gHeapDTCMAllocator.pFunc       = &sHeapDTCMAllocatorFunc;
+        gHeapDTCMAllocator.pHeap       = &sHeapDTCM;
+        gHeapDTCMAllocator.heapParam1  = 4;
     }
 }
 
@@ -198,7 +198,7 @@ void *_AllocHeadHEAP_SYSTEM(u32 size)
     if (size == 0)
         allocSize = 32;
 
-    return HeapAllocInternal(heapSystem, allocSize, 32);
+    return HeapAllocInternal(sHeapSystem, allocSize, 32);
 }
 
 void *_AllocTailHEAP_SYSTEM(u32 size)
@@ -207,7 +207,7 @@ void *_AllocTailHEAP_SYSTEM(u32 size)
     if (size == 0)
         allocSize = 32;
 
-    return HeapAllocInternal(heapSystem, allocSize, -32);
+    return HeapAllocInternal(sHeapSystem, allocSize, -32);
 }
 
 void _FreeHEAP_SYSTEM(void *memory)
@@ -215,15 +215,15 @@ void _FreeHEAP_SYSTEM(void *memory)
     if (HeapNull != memory)
     {
         OSIntrMode enable = OS_DisableInterrupts();
-        HeapFreeInternal(heapSystem, memory);
+        HeapFreeInternal(sHeapSystem, memory);
         OS_RestoreInterrupts(enable);
     }
 }
 
 s32 _GetHeapUnallocatedSizeHEAP_SYSTEM(void)
 {
-    if (heapSystem_StartAddr < heapSystem_EndAddr)
-        return GetHeapUnallocatedSizeInternal(heapSystem);
+    if (gHeapSystem_StartAddr < gHeapSystem_EndAddr)
+        return GetHeapUnallocatedSizeInternal(sHeapSystem);
     else
         return 0;
 }
@@ -234,7 +234,7 @@ void *_AllocHeadHEAP_USER(u32 size)
     if (size == 0)
         allocSize = 32;
 
-    return HeapAllocInternal(heapUser, allocSize, 32);
+    return HeapAllocInternal(sHeapUser, allocSize, 32);
 }
 
 void *_AllocTailHEAP_USER(u32 size)
@@ -243,7 +243,7 @@ void *_AllocTailHEAP_USER(u32 size)
     if (size == 0)
         allocSize = 32;
 
-    return HeapAllocInternal(heapUser, allocSize, -32);
+    return HeapAllocInternal(sHeapUser, allocSize, -32);
 }
 
 void _FreeHEAP_USER(void *memory)
@@ -251,15 +251,15 @@ void _FreeHEAP_USER(void *memory)
     if (HeapNull != memory)
     {
         OSIntrMode enable = OS_DisableInterrupts();
-        HeapFreeInternal(heapUser, memory);
+        HeapFreeInternal(sHeapUser, memory);
         OS_RestoreInterrupts(enable);
     }
 }
 
 s32 _GetHeapTotalSizeHEAP_USER(void)
 {
-    if (heapUser_StartAddr < heapUser_EndAddr)
-        return GetHeapTotalSizeInternal(heapUser);
+    if (gHeapUser_StartAddr < gHeapUser_EndAddr)
+        return GetHeapTotalSizeInternal(sHeapUser);
     else
         return 0;
 }
@@ -270,7 +270,7 @@ void *_AllocHeadHEAP_ITCM(u32 size)
     if (size == 0)
         allocSize = 4;
 
-    return HeapAllocInternal(heapITCM, allocSize, 4);
+    return HeapAllocInternal(sHeapITCM, allocSize, 4);
 }
 
 void *_AllocTailHEAP_ITCM(u32 size)
@@ -279,7 +279,7 @@ void *_AllocTailHEAP_ITCM(u32 size)
     if (size == 0)
         allocSize = 4;
 
-    return HeapAllocInternal(heapITCM, allocSize, -4);
+    return HeapAllocInternal(sHeapITCM, allocSize, -4);
 }
 
 void _FreeHEAP_ITCM(void *memory)
@@ -287,7 +287,7 @@ void _FreeHEAP_ITCM(void *memory)
     if (HeapNull != memory)
     {
         OSIntrMode enable = OS_DisableInterrupts();
-        HeapFreeInternal(heapITCM, memory);
+        HeapFreeInternal(sHeapITCM, memory);
         OS_RestoreInterrupts(enable);
     }
 }
@@ -298,7 +298,7 @@ void *_AllocHeadHEAP_DTCM(u32 size)
     if (size == 0)
         allocSize = 4;
 
-    return HeapAllocInternal(heapDTCM, allocSize, 4);
+    return HeapAllocInternal(sHeapDTCM, allocSize, 4);
 }
 
 void *_AllocTailHEAP_DTCM(u32 size)
@@ -307,7 +307,7 @@ void *_AllocTailHEAP_DTCM(u32 size)
     if (size == 0)
         allocSize = 4;
 
-    return HeapAllocInternal(heapDTCM, allocSize, -4);
+    return HeapAllocInternal(sHeapDTCM, allocSize, -4);
 }
 
 void _FreeHEAP_DTCM(void *memory)
@@ -315,7 +315,7 @@ void _FreeHEAP_DTCM(void *memory)
     if (HeapNull != memory)
     {
         OSIntrMode enable = OS_DisableInterrupts();
-        HeapFreeInternal(heapDTCM, memory);
+        HeapFreeInternal(sHeapDTCM, memory);
         OS_RestoreInterrupts(enable);
     }
 }

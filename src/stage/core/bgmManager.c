@@ -19,15 +19,15 @@ struct StageTrack
 // VARIABLES
 // --------------------
 
-static Task *bgmManagerTask;
-static BOOL storedProgNoTable;
-NNSSndHandle bgmHandle;
+static Task *sBGMManagerTaskSingleton;
+static BOOL sStoredProgNoTable;
+NNSSndHandle gBGMHandle;
 static BOOL usingUnderwaterBGM;
-static NNSSndHandle pinchBGMHandle;
+static NNSSndHandle sPinchBGMHandle;
 
-static u16 bgmTrackProgNo[SND_TRACK_NUM_PER_PLAYER] = { 0xFFFF, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static u16 sBGMTrackProgNo[SND_TRACK_NUM_PER_PLAYER] = { 0xFFFF, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-static const struct StageTrack trackForStage[STAGE_COUNT] = {
+static const struct StageTrack sTrackForStage[STAGE_COUNT] = {
     [STAGE_Z11] = { .trackID = 
     { 
         [CHARACTER_SONIC] = { SND_ZONE_SEQ_SEQ_1ACT1, SND_ZONE_SEQ_SEQ_1ACT1 },     // Sonic BGM (normal, pinch)
@@ -325,20 +325,20 @@ static void ManagedSfx_Main(void);
 // StageBGMManager
 void InitStageBGM(void)
 {
-    NNS_SndHandleInit(&bgmHandle);
-    NNS_SndHandleInit(&pinchBGMHandle);
+    NNS_SndHandleInit(&gBGMHandle);
+    NNS_SndHandleInit(&sPinchBGMHandle);
 
     usingUnderwaterBGM = FALSE;
-    storedProgNoTable  = FALSE;
+    sStoredProgNoTable  = FALSE;
 
-    MI_CpuFill16(bgmTrackProgNo, 0xFFFF, sizeof(bgmTrackProgNo));
+    MI_CpuFill16(sBGMTrackProgNo, 0xFFFF, sizeof(sBGMTrackProgNo));
 }
 
 void ReleaseStageBGM(void)
 {
     StopStageBGM();
-    ReleaseStageSfx(&bgmHandle);
-    ReleaseStageSfx(&pinchBGMHandle);
+    ReleaseStageSfx(&gBGMHandle);
+    ReleaseStageSfx(&sPinchBGMHandle);
 }
 
 void StartStageBGM(BOOL inWater)
@@ -348,19 +348,19 @@ void StartStageBGM(BOOL inWater)
 
     if (IsBossStage())
     {
-        StopStageSfx(&defaultTrackPlayer);
-        StopStageSfx(&bgmHandle);
-        StopStageSfx(&pinchBGMHandle);
-        PlayTrack(&bgmHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, trackForStage[stage].trackID[character][0]);
+        StopStageSfx(&gDefaultTrackPlayer);
+        StopStageSfx(&gBGMHandle);
+        StopStageSfx(&sPinchBGMHandle);
+        PlayTrack(&gBGMHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, sTrackForStage[stage].trackID[character][0]);
     }
     else
     {
         s32 volume = GetMusicVolume();
 
-        StopStageSfx(&bgmHandle);
-        StopStageSfx(&pinchBGMHandle);
-        NNS_SndArcPlayerStartSeq(&bgmHandle, trackForStage[stage].trackID[character][0]);
-        NNS_SndPlayerSetVolume(&bgmHandle, volume);
+        StopStageSfx(&gBGMHandle);
+        StopStageSfx(&sPinchBGMHandle);
+        NNS_SndArcPlayerStartSeq(&gBGMHandle, sTrackForStage[stage].trackID[character][0]);
+        NNS_SndPlayerSetVolume(&gBGMHandle, volume);
 
         usingUnderwaterBGM = FALSE;
 
@@ -376,8 +376,8 @@ void StopStageBGM(void)
 
 void FadeOutStageBGM(s32 fadeFrames)
 {
-    FadeOutStageSfx(&bgmHandle, fadeFrames);
-    FadeOutStageSfx(&pinchBGMHandle, fadeFrames);
+    FadeOutStageSfx(&gBGMHandle, fadeFrames);
+    FadeOutStageSfx(&sPinchBGMHandle, fadeFrames);
 }
 
 void ChangeStageBGMVariant(BOOL isInWater)
@@ -385,16 +385,16 @@ void ChangeStageBGMVariant(BOOL isInWater)
     if (!IsBossStage() && usingUnderwaterBGM != isInWater)
     {
         BOOL didVariantChange = FALSE;
-        if (bgmManagerTask == NULL)
+        if (sBGMManagerTaskSingleton == NULL)
             didVariantChange = HandleStageBGMVariantChange(isInWater);
 
         if (didVariantChange == FALSE)
         {
-            if (bgmManagerTask == NULL)
-                bgmManagerTask =
+            if (sBGMManagerTaskSingleton == NULL)
+                sBGMManagerTaskSingleton =
                     TaskCreate(StageBGMManager_Main, StageBGMManager_Destructor, TASK_FLAG_NONE, 3, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_GROUP(3), StageBGMManager);
 
-            StageBGMManager *work    = TaskGetWork(bgmManagerTask, StageBGMManager);
+            StageBGMManager *work    = TaskGetWork(sBGMManagerTaskSingleton, StageBGMManager);
             work->usingUnderwaterBGM = isInWater;
         }
     }
@@ -406,15 +406,15 @@ void ChangeBossBGMVariant(BOOL pinchTrack)
     {
         if (pinchTrack)
         {
-            StopStageSfx(&bgmHandle);
-            PlayTrack(&pinchBGMHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO,
-                      trackForStage[gameState.stageID].trackID[gameState.characterID[0]][1]);
+            StopStageSfx(&gBGMHandle);
+            PlayTrack(&sPinchBGMHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO,
+                      sTrackForStage[gameState.stageID].trackID[gameState.characterID[0]][1]);
         }
         else
         {
-            StopStageSfx(&pinchBGMHandle);
-            PlayTrack(&bgmHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO,
-                      trackForStage[gameState.stageID].trackID[gameState.characterID[0]][0]);
+            StopStageSfx(&sPinchBGMHandle);
+            PlayTrack(&gBGMHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO,
+                      sTrackForStage[gameState.stageID].trackID[gameState.characterID[0]][0]);
         }
     }
 }
@@ -426,21 +426,21 @@ void FadeStageBGMToTargetVolume(s32 volume, s32 duration, BOOL isInWater)
         s32 targetVolume = (volume * GetMusicVolume()) >> 7;
         if (isInWater)
         {
-            NNS_SndPlayerMoveVolume(&pinchBGMHandle, targetVolume, duration);
-            NNS_SndPlayerSetChannelPriority(&bgmHandle, 0);
-            NNS_SndPlayerSetChannelPriority(&pinchBGMHandle, 64);
+            NNS_SndPlayerMoveVolume(&sPinchBGMHandle, targetVolume, duration);
+            NNS_SndPlayerSetChannelPriority(&gBGMHandle, 0);
+            NNS_SndPlayerSetChannelPriority(&sPinchBGMHandle, 64);
         }
         else
         {
-            NNS_SndPlayerMoveVolume(&bgmHandle, targetVolume, duration);
-            NNS_SndPlayerSetChannelPriority(&bgmHandle, 64);
-            NNS_SndPlayerSetChannelPriority(&pinchBGMHandle, 0);
+            NNS_SndPlayerMoveVolume(&gBGMHandle, targetVolume, duration);
+            NNS_SndPlayerSetChannelPriority(&gBGMHandle, 64);
+            NNS_SndPlayerSetChannelPriority(&sPinchBGMHandle, 0);
         }
     }
     else
     {
-        NNS_SndPlayerMoveVolume(&bgmHandle, volume, duration);
-        NNS_SndPlayerMoveVolume(&pinchBGMHandle, volume, duration);
+        NNS_SndPlayerMoveVolume(&gBGMHandle, volume, duration);
+        NNS_SndPlayerMoveVolume(&sPinchBGMHandle, volume, duration);
     }
 }
 
@@ -480,8 +480,8 @@ void StageBGMManager_Main(void)
 
 void StageBGMManager_Destructor(Task *task)
 {
-    if (bgmManagerTask == task)
-        bgmManagerTask = NULL;
+    if (sBGMManagerTaskSingleton == task)
+        sBGMManagerTaskSingleton = NULL;
 }
 
 BOOL HandleStageBGMVariantChange(BOOL isInWater)
@@ -493,21 +493,21 @@ BOOL HandleStageBGMVariantChange(BOOL isInWater)
 
     ZoneID zoneID = GetCurrentZoneID();
 
-    if (bgmHandle.player == NULL)
+    if (gBGMHandle.player == NULL)
         return FALSE;
 
     SNDPlayerInfo sndInfo;
-    if (!NNS_SndPlayerReadDriverPlayerInfo(&bgmHandle, &sndInfo) || sndInfo.activeFlag == FALSE)
+    if (!NNS_SndPlayerReadDriverPlayerInfo(&gBGMHandle, &sndInfo) || sndInfo.activeFlag == FALSE)
         return FALSE;
 
     if (isInWater)
     {
-        if (storedProgNoTable)
+        if (sStoredProgNoTable)
         {
             for (t = 0; t < SND_TRACK_NUM_PER_PLAYER; t++)
             {
                 if ((sndInfo.trackBitMask & (1 << t)) != 0)
-                    SNDi_SetTrackParam(bgmHandle.player->playerNo, 1 << t, GetOffset(SNDTrack, prgNo), bgmTrackProgNo[t] + 20, GetSize(SNDTrack, prgNo));
+                    SNDi_SetTrackParam(gBGMHandle.player->playerNo, 1 << t, GetOffset(SNDTrack, prgNo), sBGMTrackProgNo[t] + 20, GetSize(SNDTrack, prgNo));
             }
         }
         else
@@ -515,30 +515,30 @@ BOOL HandleStageBGMVariantChange(BOOL isInWater)
             SNDTrackInfo trackInfo;
             for (t = 0; t < SND_TRACK_NUM_PER_PLAYER; t++)
             {
-                if ((sndInfo.trackBitMask & (1 << t)) != 0 && NNS_SndPlayerReadDriverTrackInfo(&bgmHandle, t, &trackInfo))
+                if ((sndInfo.trackBitMask & (1 << t)) != 0 && NNS_SndPlayerReadDriverTrackInfo(&gBGMHandle, t, &trackInfo))
                 {
-                    bgmTrackProgNo[t] = trackInfo.prgNo;
-                    SNDi_SetTrackParam(bgmHandle.player->playerNo, 1 << t, GetOffset(SNDTrack, prgNo), trackInfo.prgNo + 20, GetSize(SNDTrack, prgNo));
+                    sBGMTrackProgNo[t] = trackInfo.prgNo;
+                    SNDi_SetTrackParam(gBGMHandle.player->playerNo, 1 << t, GetOffset(SNDTrack, prgNo), trackInfo.prgNo + 20, GetSize(SNDTrack, prgNo));
                 }
             }
 
-            storedProgNoTable = TRUE;
+            sStoredProgNoTable = TRUE;
         }
 
         if (zoneID == ZONE_PLANT_KINGDOM)
         {
-            NNS_SndPlayerSetTrackModDepth(&bgmHandle, sndInfo.trackBitMask & (1 << 0), 99);
-            NNS_SndPlayerSetTrackModDepth(&bgmHandle, sndInfo.trackBitMask & ~(1 << 0), 79);
+            NNS_SndPlayerSetTrackModDepth(&gBGMHandle, sndInfo.trackBitMask & (1 << 0), 99);
+            NNS_SndPlayerSetTrackModDepth(&gBGMHandle, sndInfo.trackBitMask & ~(1 << 0), 79);
         }
         else if (zoneID == ZONE_CORAL_CAVE)
         {
-            NNS_SndPlayerSetTrackModDepth(&bgmHandle, sndInfo.trackBitMask & (1 << 0), 45);
-            NNS_SndPlayerSetTrackModDepth(&bgmHandle, sndInfo.trackBitMask & ~(1 << 0), 90);
+            NNS_SndPlayerSetTrackModDepth(&gBGMHandle, sndInfo.trackBitMask & (1 << 0), 45);
+            NNS_SndPlayerSetTrackModDepth(&gBGMHandle, sndInfo.trackBitMask & ~(1 << 0), 90);
         }
         else
         {
-            NNS_SndPlayerSetTrackModDepth(&bgmHandle, sndInfo.trackBitMask & ((1 << 0) | (1 << 1) | (1 << 2)), 45);
-            NNS_SndPlayerSetTrackModDepth(&bgmHandle, sndInfo.trackBitMask & ~((1 << 0) | (1 << 1) | (1 << 2)), 90);
+            NNS_SndPlayerSetTrackModDepth(&gBGMHandle, sndInfo.trackBitMask & ((1 << 0) | (1 << 1) | (1 << 2)), 45);
+            NNS_SndPlayerSetTrackModDepth(&gBGMHandle, sndInfo.trackBitMask & ~((1 << 0) | (1 << 1) | (1 << 2)), 90);
         }
     }
     else
@@ -546,17 +546,17 @@ BOOL HandleStageBGMVariantChange(BOOL isInWater)
         for (t = 0; t < SND_TRACK_NUM_PER_PLAYER; t++)
         {
             if ((sndInfo.trackBitMask & (1 << t)) != 0)
-                SNDi_SetTrackParam(bgmHandle.player->playerNo, 1 << t, 2, bgmTrackProgNo[t], 2);
+                SNDi_SetTrackParam(gBGMHandle.player->playerNo, 1 << t, 2, sBGMTrackProgNo[t], 2);
         }
 
         if (zoneID == ZONE_CORAL_CAVE)
         {
-            NNS_SndPlayerSetTrackModDepth(&bgmHandle, sndInfo.trackBitMask & ((1 << 1) | (1 << 2)), 50);
-            NNS_SndPlayerSetTrackModDepth(&bgmHandle, sndInfo.trackBitMask & ~((1 << 1) | (1 << 2)), 0);
+            NNS_SndPlayerSetTrackModDepth(&gBGMHandle, sndInfo.trackBitMask & ((1 << 1) | (1 << 2)), 50);
+            NNS_SndPlayerSetTrackModDepth(&gBGMHandle, sndInfo.trackBitMask & ~((1 << 1) | (1 << 2)), 0);
         }
         else
         {
-            NNS_SndPlayerSetTrackModDepth(&bgmHandle, sndInfo.trackBitMask, 0x00);
+            NNS_SndPlayerSetTrackModDepth(&gBGMHandle, sndInfo.trackBitMask, 0x00);
         }
     }
 

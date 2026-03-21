@@ -4,22 +4,22 @@
 // VARIABLES
 // --------------------
 
-static u8 voiceVolume;
-static u8 sfxVolume;
-static u8 musicVolume;
+static u8 sVoiceVolume;
+static u8 sSfxVolume;
+static u8 sBGMVolume;
 
-NNSSndHandle defaultSfxPlayer;
-NNSSndHeapHandle audioManagerSndHeap;
-static NNSSndHandle defaultAllocHandle;
-static void *audioHeapStart;
-static void *audioHeapEnd;
-NNSSndHandle defaultVoicePlayer;
-NNSSndHandle defaultTrackPlayer;
+NNSSndHandle gDefaultSfxPlayer;
+NNSSndHeapHandle gAudioManagerSndHeap;
+static NNSSndHandle sDefaultAllocHandle;
+static void *sAudioHeapStart;
+static void *sAudioHeapEnd;
+NNSSndHandle gDefaultVoicePlayer;
+NNSSndHandle gDefaultTrackPlayer;
 
-static NNSSndArc audioManagerSndArc;
+static NNSSndArc sAudioManagerSndArc;
 
-static NNSSndHandle audioManagerHandleList[AUDIOMANAGER_HANDLELIST_SIZE];
-static u8 audioManagerHandleState[AUDIOMANAGER_HANDLELIST_SIZE / 8];
+static NNSSndHandle sAudioManagerHandleList[AUDIOMANAGER_HANDLELIST_SIZE];
+static u8 sAudioManagerHandleState[AUDIOMANAGER_HANDLELIST_SIZE / 8];
 
 // --------------------
 // FUNCTIONS
@@ -33,57 +33,57 @@ void InitAudioSystem(size_t heapSize)
 {
     NNS_SndInit();
 
-    audioHeapStart = OS_GetArenaLo(OS_ARENA_MAIN);
-    audioHeapEnd   = (void *)((u8 *)audioHeapStart + heapSize);
-    OS_SetArenaLo(OS_ARENA_MAIN, audioHeapEnd);
+    sAudioHeapStart = OS_GetArenaLo(OS_ARENA_MAIN);
+    sAudioHeapEnd   = (void *)((u8 *)sAudioHeapStart + heapSize);
+    OS_SetArenaLo(OS_ARENA_MAIN, sAudioHeapEnd);
 
-    audioHeapEnd        = OS_GetArenaLo(OS_ARENA_MAIN);
-    audioManagerSndHeap = NNS_SndHeapCreate(audioHeapStart, (size_t)audioHeapEnd - (size_t)audioHeapStart);
+    sAudioHeapEnd        = OS_GetArenaLo(OS_ARENA_MAIN);
+    gAudioManagerSndHeap = NNS_SndHeapCreate(sAudioHeapStart, (size_t)sAudioHeapEnd - (size_t)sAudioHeapStart);
 
-    NNS_SndHandleInit(&defaultTrackPlayer);
-    NNS_SndHandleInit(&defaultSfxPlayer);
-    NNS_SndHandleInit(&defaultVoicePlayer);
+    NNS_SndHandleInit(&gDefaultTrackPlayer);
+    NNS_SndHandleInit(&gDefaultSfxPlayer);
+    NNS_SndHandleInit(&gDefaultVoicePlayer);
 
     for (u32 i = 0; i < AUDIOMANAGER_HANDLELIST_SIZE; i++)
     {
-        NNS_SndHandleInit(&audioManagerHandleList[i]);
+        NNS_SndHandleInit(&sAudioManagerHandleList[i]);
     }
 
-    NNS_SndHandleInit(&defaultAllocHandle);
-    MI_CpuFill8(audioManagerHandleState, 0, sizeof(audioManagerHandleState));
+    NNS_SndHandleInit(&sDefaultAllocHandle);
+    MI_CpuFill8(sAudioManagerHandleState, 0, sizeof(sAudioManagerHandleState));
 
-    musicVolume = AUDIOMANAGER_VOLUME_MAX;
-    sfxVolume   = AUDIOMANAGER_VOLUME_MAX;
-    voiceVolume = AUDIOMANAGER_VOLUME_MAX;
+    sBGMVolume   = AUDIOMANAGER_VOLUME_MAX;
+    sSfxVolume   = AUDIOMANAGER_VOLUME_MAX;
+    sVoiceVolume = AUDIOMANAGER_VOLUME_MAX;
 }
 
 void ReleaseAudioSystem(void)
 {
-    NNS_SndHandleReleaseSeq(&defaultTrackPlayer);
-    NNS_SndHandleReleaseSeq(&defaultSfxPlayer);
-    NNS_SndHandleReleaseSeq(&defaultVoicePlayer);
+    NNS_SndHandleReleaseSeq(&gDefaultTrackPlayer);
+    NNS_SndHandleReleaseSeq(&gDefaultSfxPlayer);
+    NNS_SndHandleReleaseSeq(&gDefaultVoicePlayer);
 
     ReleaseSndHandleList();
-    NNS_SndHeapClear(audioManagerSndHeap);
-    NNS_SndHeapDestroy(audioManagerSndHeap);
+    NNS_SndHeapClear(gAudioManagerSndHeap);
+    NNS_SndHeapDestroy(gAudioManagerSndHeap);
 
-    audioManagerSndHeap = NNS_SndHeapCreate(audioHeapStart, audioHeapEnd - audioHeapStart);
+    gAudioManagerSndHeap = NNS_SndHeapCreate(sAudioHeapStart, sAudioHeapEnd - sAudioHeapStart);
 
-    musicVolume = AUDIOMANAGER_VOLUME_MAX;
-    sfxVolume   = AUDIOMANAGER_VOLUME_MAX;
-    voiceVolume = AUDIOMANAGER_VOLUME_MAX;
+    sBGMVolume   = AUDIOMANAGER_VOLUME_MAX;
+    sSfxVolume   = AUDIOMANAGER_VOLUME_MAX;
+    sVoiceVolume = AUDIOMANAGER_VOLUME_MAX;
 }
 
 void LoadAudioSndArc(const char *path)
 {
-    NNS_SndArcInit(&audioManagerSndArc, path, audioManagerSndHeap, FALSE);
-    NNS_SndArcPlayerSetup(audioManagerSndHeap);
+    NNS_SndArcInit(&sAudioManagerSndArc, path, gAudioManagerSndHeap, FALSE);
+    NNS_SndArcPlayerSetup(gAudioManagerSndHeap);
 }
 
 void InitAudioSystemForStage(void *data)
 {
-    NNS_SndArcInitOnMemory(&audioManagerSndArc, data);
-    NNS_SndArcPlayerSetup(audioManagerSndHeap);
+    NNS_SndArcInitOnMemory(&sAudioManagerSndArc, data);
+    NNS_SndArcPlayerSetup(gAudioManagerSndHeap);
 }
 
 // ======
@@ -94,50 +94,50 @@ BOOL PlayTrack(NNSSndHandle *handle, s32 playerNo, s32 bankNo, s32 playerPrio, s
 {
     NNSSndHandle *handlePtr = handle;
     if (handle == NULL)
-        handlePtr = &defaultTrackPlayer;
+        handlePtr = &gDefaultTrackPlayer;
 
-    if (defaultTrackPlayer.player != NULL)
+    if (gDefaultTrackPlayer.player != NULL)
     {
-        StopStageSfx(&defaultTrackPlayer);
-        ReleaseStageSfx(&defaultTrackPlayer);
+        StopStageSfx(&gDefaultTrackPlayer);
+        ReleaseStageSfx(&gDefaultTrackPlayer);
     }
 
-    if (handlePtr != &defaultTrackPlayer)
+    if (handlePtr != &gDefaultTrackPlayer)
         ReleaseStageSfx(handlePtr);
 
     NNS_SndHandleInit(handlePtr);
     NNS_SndArcPlayerStartSeqEx(handlePtr, playerNo, bankNo, playerPrio, seqNo);
-    NNS_SndPlayerSetVolume(handlePtr, musicVolume);
+    NNS_SndPlayerSetVolume(handlePtr, sBGMVolume);
 }
 
 BOOL PlayTrackEx(NNSSndHandle *handle, s32 playerNo, s32 bankNo, s32 playerPrio, s32 seqArcNo, u32 seqNo)
 {
     NNSSndHandle *handlePtr = handle;
     if (handle == NULL)
-        handlePtr = &defaultTrackPlayer;
+        handlePtr = &gDefaultTrackPlayer;
 
-    if (defaultTrackPlayer.player != NULL)
+    if (gDefaultTrackPlayer.player != NULL)
     {
-        StopStageSfx(&defaultTrackPlayer);
-        ReleaseStageSfx(&defaultTrackPlayer);
+        StopStageSfx(&gDefaultTrackPlayer);
+        ReleaseStageSfx(&gDefaultTrackPlayer);
     }
 
-    if (handlePtr != &defaultTrackPlayer)
+    if (handlePtr != &gDefaultTrackPlayer)
         ReleaseStageSfx(handlePtr);
 
     NNS_SndHandleInit(handlePtr);
     NNS_SndArcPlayerStartSeqArcEx(handlePtr, playerNo, bankNo, playerPrio, seqArcNo, seqNo);
-    NNS_SndPlayerSetVolume(handlePtr, musicVolume);
+    NNS_SndPlayerSetVolume(handlePtr, sBGMVolume);
 }
 
 u8 GetMusicVolume(void)
 {
-    return musicVolume;
+    return sBGMVolume;
 }
 
 void SetMusicVolume(u8 volume)
 {
-    musicVolume = volume;
+    sBGMVolume = volume;
 }
 
 // ===
@@ -148,38 +148,38 @@ BOOL PlaySfx(NNSSndHandle *handle, s32 playerNo, s32 bankNo, s32 playerPrio, s32
 {
     NNSSndHandle *handlePtr = handle;
     if (handle == NULL)
-        handlePtr = &defaultSfxPlayer;
+        handlePtr = &gDefaultSfxPlayer;
 
     if (handlePtr->player != NULL)
         NNS_SndHandleReleaseSeq(handlePtr);
 
     NNS_SndHandleInit(handlePtr);
     NNS_SndArcPlayerStartSeqEx(handlePtr, playerNo, bankNo, playerPrio, seqNo);
-    NNS_SndPlayerSetVolume(handlePtr, sfxVolume);
+    NNS_SndPlayerSetVolume(handlePtr, sSfxVolume);
 }
 
 BOOL PlaySfxEx(NNSSndHandle *handle, s32 playerNo, s32 bankNo, s32 playerPrio, s32 seqArcNo, u32 seqNo)
 {
     NNSSndHandle *handlePtr = handle;
     if (handle == NULL)
-        handlePtr = &defaultSfxPlayer;
+        handlePtr = &gDefaultSfxPlayer;
 
     if (handlePtr->player != NULL)
         NNS_SndHandleReleaseSeq(handlePtr);
 
     NNS_SndHandleInit(handlePtr);
     NNS_SndArcPlayerStartSeqArcEx(handlePtr, playerNo, bankNo, playerPrio, seqArcNo, seqNo);
-    NNS_SndPlayerSetVolume(handlePtr, sfxVolume);
+    NNS_SndPlayerSetVolume(handlePtr, sSfxVolume);
 }
 
 u8 GetSfxVolume(void)
 {
-    return sfxVolume;
+    return sSfxVolume;
 }
 
 void SetSfxVolume(u8 volume)
 {
-    sfxVolume = volume;
+    sSfxVolume = volume;
 }
 
 // ======
@@ -190,38 +190,38 @@ BOOL PlayVoiceClip(NNSSndHandle *handle, s32 playerNo, s32 bankNo, s32 playerPri
 {
     NNSSndHandle *handlePtr = handle;
     if (handle == NULL)
-        handlePtr = &defaultVoicePlayer;
+        handlePtr = &gDefaultVoicePlayer;
 
     if (handlePtr->player != NULL)
         NNS_SndHandleReleaseSeq(handlePtr);
 
     NNS_SndHandleInit(handlePtr);
     NNS_SndArcPlayerStartSeqEx(handlePtr, playerNo, bankNo, playerPrio, seqNo);
-    NNS_SndPlayerSetVolume(handlePtr, voiceVolume);
+    NNS_SndPlayerSetVolume(handlePtr, sVoiceVolume);
 }
 
 BOOL PlayVoiceClipEx(NNSSndHandle *handle, s32 playerNo, s32 bankNo, s32 playerPrio, s32 seqArcNo, u32 seqNo)
 {
     NNSSndHandle *handlePtr = handle;
     if (handle == NULL)
-        handlePtr = &defaultVoicePlayer;
+        handlePtr = &gDefaultVoicePlayer;
 
     if (handlePtr->player != NULL)
         NNS_SndHandleReleaseSeq(handlePtr);
 
     NNS_SndHandleInit(handlePtr);
     NNS_SndArcPlayerStartSeqArcEx(handlePtr, playerNo, bankNo, playerPrio, seqArcNo, seqNo);
-    NNS_SndPlayerSetVolume(handlePtr, voiceVolume);
+    NNS_SndPlayerSetVolume(handlePtr, sVoiceVolume);
 }
 
 u8 GetVoiceVolume(void)
 {
-    return voiceVolume;
+    return sVoiceVolume;
 }
 
 void SetVoiceVolume(u8 volume)
 {
-    voiceVolume = volume;
+    sVoiceVolume = volume;
 }
 
 // ========
@@ -232,31 +232,31 @@ void ReleaseSndHandleList(void)
 {
     for (s32 i = 0; i < AUDIOMANAGER_HANDLELIST_SIZE; i++)
     {
-        NNS_SndHandleReleaseSeq(&audioManagerHandleList[i]);
+        NNS_SndHandleReleaseSeq(&sAudioManagerHandleList[i]);
     }
 
-    NNS_SndHandleReleaseSeq(&defaultAllocHandle);
-    MI_CpuFill8(audioManagerHandleState, 0, sizeof(audioManagerHandleState));
+    NNS_SndHandleReleaseSeq(&sDefaultAllocHandle);
+    MI_CpuFill8(sAudioManagerHandleState, 0, sizeof(sAudioManagerHandleState));
 }
 
 NNSSndHandle *AllocSndHandle(void)
 {
     for (u32 i = 0; i < AUDIOMANAGER_HANDLELIST_SIZE; i++)
     {
-        if ((audioManagerHandleState[i >> 3] & (1 << (i & 7))) == 0)
+        if ((sAudioManagerHandleState[i >> 3] & (1 << (i & 7))) == 0)
         {
-            audioManagerHandleState[i >> 3] |= (1 << (i & 7));
-            return &audioManagerHandleList[i];
+            sAudioManagerHandleState[i >> 3] |= (1 << (i & 7));
+            return &sAudioManagerHandleList[i];
         }
     }
 
-    NNS_SndHandleReleaseSeq(&defaultAllocHandle);
-    return &defaultAllocHandle;
+    NNS_SndHandleReleaseSeq(&sDefaultAllocHandle);
+    return &sDefaultAllocHandle;
 }
 
 void FreeSndHandle(NNSSndHandle *handle)
 {
-    if (&defaultAllocHandle == handle)
+    if (&sDefaultAllocHandle == handle)
     {
         NNS_SndHandleReleaseSeq(handle);
     }
@@ -264,10 +264,10 @@ void FreeSndHandle(NNSSndHandle *handle)
     {
         for (u32 i = 0; i < AUDIOMANAGER_HANDLELIST_SIZE; i++)
         {
-            if (&audioManagerHandleList[i] == handle)
+            if (&sAudioManagerHandleList[i] == handle)
             {
-                NNS_SndHandleReleaseSeq(&audioManagerHandleList[i]);
-                audioManagerHandleState[i >> 3] &= ~(1 << (i & 7));
+                NNS_SndHandleReleaseSeq(&sAudioManagerHandleList[i]);
+                sAudioManagerHandleState[i >> 3] &= ~(1 << (i & 7));
                 return;
             }
         }

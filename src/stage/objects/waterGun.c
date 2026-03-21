@@ -367,7 +367,7 @@ void WaterGun_Action_ResetGun(WaterGun *work)
         ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_water_graind_gun00.df", GetObjectFileWork(OBJDATAWORK_193), gameArchiveStage);
 
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ANGLE);
-        ProcessSpatialSfx(&defaultSfxPlayer, &work->gameWork.objWork.position);
+        ProcessSpatialSfx(&gDefaultSfxPlayer, &work->gameWork.objWork.position);
 
         SetTaskState(&work->gameWork.objWork, WaterGun_State_ResetGun);
         work->gameWork.objWork.userWork = 4;

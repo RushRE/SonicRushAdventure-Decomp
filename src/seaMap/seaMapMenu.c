@@ -12,10 +12,10 @@
 // VARIABLES
 // --------------------
 
-static const BOOL buttonStateTable1[] = { TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE };
-static const BOOL buttonStateTable2[] = { FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE };
+static const BOOL sButtonStateTable1[] = { TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE };
+static const BOOL sButtonStateTable2[] = { FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE };
 
-static const u16 islandInfoText_Cleared[SEAMAP_ISLAND_COUNT] = {
+static const u16 sIslandInfoText_Cleared[SEAMAP_ISLAND_COUNT] = {
     [SEAMAP_ISLAND_SOUTHERN_ISLAND]   = NAVTAILS_MSGSEQ_THATS_SOUTHERN_ISLAND,
     [SEAMAP_ISLAND_PLANT_KINGDOM]     = NAVTAILS_MSGSEQ_THATS_PLANT_KINGDOM,
     [SEAMAP_ISLAND_MACHINE_LABYRINTH] = NAVTAILS_MSGSEQ_THATS_MACHINE_LABYRINTH,
@@ -60,7 +60,7 @@ static const u16 islandInfoText_Cleared[SEAMAP_ISLAND_COUNT] = {
     [SEAMAP_ISLAND_41]                = NAVTAILS_MSGSEQ_NOTHING,
 };
 
-static const u16 islandInfoText_NotCleared[SEAMAP_ISLAND_COUNT] = {
+static const u16 sIslandInfoText_NotCleared[SEAMAP_ISLAND_COUNT] = {
     [SEAMAP_ISLAND_SOUTHERN_ISLAND]   = NAVTAILS_MSGSEQ_THATS_SOUTHERN_ISLAND,
     [SEAMAP_ISLAND_PLANT_KINGDOM]     = NAVTAILS_MSGSEQ_THATS_PLANT_KINGDOM,
     [SEAMAP_ISLAND_MACHINE_LABYRINTH] = NAVTAILS_MSGSEQ_THATS_MACHINE_LABYRINTH,
@@ -105,7 +105,7 @@ static const u16 islandInfoText_NotCleared[SEAMAP_ISLAND_COUNT] = {
     [SEAMAP_ISLAND_41]                = NAVTAILS_MSGSEQ_NOTHING,
 };
 
-static const s32 progressForIsland[SEAMAP_ISLAND_COUNT] = {
+static const s32 sProgressForIsland[SEAMAP_ISLAND_COUNT] = {
     [SEAMAP_ISLAND_SOUTHERN_ISLAND]   = 0,
     [SEAMAP_ISLAND_PLANT_KINGDOM]     = 0,
     [SEAMAP_ISLAND_MACHINE_LABYRINTH] = 4,
@@ -200,7 +200,7 @@ void CreateSeaMapMenu(BOOL useEngineB)
 
     ReleaseAudioSystem();
     LoadAudioSndArc("snd/sys/sound_data.sdat");
-    NNS_SndArcLoadGroup(SND_SYS_GROUP_CHART, audioManagerSndHeap);
+    NNS_SndArcLoadGroup(SND_SYS_GROUP_CHART, gAudioManagerSndHeap);
 
     Task *task                  = TaskCreate(SeaMapMenu_Main, SeaMapMenu_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xFF, TASK_GROUP(0), SeaMapMenu);
     SeaMapView__sVars.singleton = task;
@@ -214,7 +214,7 @@ void CreateSeaMapMenu(BOOL useEngineB)
 
     CHEVObject *obj = SeaMapEventManager__GetObjectFromID(gameState.field_80);
     SeaMapView__SetViewPosition(FX32_FROM_WHOLE(obj->position.x), FX32_FROM_WHOLE(obj->position.y));
-    SeaMapView__EnableMultipleButtons(&work->view, buttonStateTable1);
+    SeaMapView__EnableMultipleButtons(&work->view, sButtonStateTable1);
     SeaMapView__SetZoomLevel(&work->view, 0);
 
     SeaMapEventManager__Create();
@@ -241,10 +241,10 @@ u16 SeaMapMenu_GetIslandInfoText(u32 id)
             break;
 
         default:
-            if (MenuHelpers__CheckProgress(progressForIsland[id], TRUE, FALSE))
-                return islandInfoText_Cleared[id];
+            if (MenuHelpers__CheckProgress(sProgressForIsland[id], TRUE, FALSE))
+                return sIslandInfoText_Cleared[id];
             else
-                return islandInfoText_NotCleared[id];
+                return sIslandInfoText_NotCleared[id];
             break;
     }
 }
@@ -486,7 +486,7 @@ void SeaMapMenu_State_InitMenu(SeaMapMenu *work)
     SeaMapView__Func_203E898(&work->view);
 
     work->drawPadCursors = TRUE;
-    SeaMapView__EnableMultipleButtons(&work->view, buttonStateTable1);
+    SeaMapView__EnableMultipleButtons(&work->view, sButtonStateTable1);
 
     SeaMapView__SetButtonMode(&work->view, SeaMapManager__GetZoomLevel());
     NavTailsSpeak(NAVTAILS_MSGSEQ_SELECT_AN_ISLAND_TO_GO_TO, SECONDS_TO_FRAMES(10.0));
@@ -510,7 +510,7 @@ void SeaMapMenu_State_ProcessInputs(SeaMapMenu *work)
 
 void SeaMapMenu_State_InitIslandSelectedMenu(SeaMapMenu *work)
 {
-    SeaMapView__EnableMultipleButtons(&work->view, buttonStateTable2);
+    SeaMapView__EnableMultipleButtons(&work->view, sButtonStateTable2);
 
     if (work->selectedIsland->unlockID == 0)
         SeaMapView__EnableButton(&work->view, 7, TRUE);

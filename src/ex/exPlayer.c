@@ -21,17 +21,17 @@
 // VARIABLES
 // --------------------
 
-static void *exPlayerTaskSingleton;
-static void *exPlayerScreenMoverTaskSingleton;
-static VecFx32 *exPlayerScreenMoverTargetPos;
+static void *sExPlayerTaskSingleton;
+static void *sExPlayerScreenMoverTaskSingleton;
+static VecFx32 *sExPlayerScreenMoverTargetPos;
 
-static exPlayerAdminTaskWorker exPlayerWorker;
+static exPlayerAdminTaskWorker sExPlayerWorker;
 
-static struct exPlayerGraphics3D exPlayerAniSonic;
-static struct exPlayerGraphics3D exPlayerAniBlaze;
+static struct exPlayerGraphics3D sExPlayerAniSonic;
+static struct exPlayerGraphics3D sExPlayerAniBlaze;
 
-static s16 exPlayerUnknown2 = 2;
-static u32 exPlayerUnknown1 = 1;
+static s16 sExPlayerUnknown2 = 2;
+static u32 sExPlayerUnknown1 = 1;
 
 // --------------------
 // FUNCTION DECLS
@@ -121,20 +121,20 @@ extern void SetExDrawRequestGlobalModelConfigTimer(u8 duration);
 // ExPlayer helpers
 exPlayerAdminTaskWorker *GetExPlayerWorker(void)
 {
-    return &exPlayerWorker;
+    return &sExPlayerWorker;
 }
 
 // ExPlayerScreenMover
 void SetExPlayerScreenMoverTargetPos(VecFx32 *followPos)
 {
-    exPlayerScreenMoverTargetPos = followPos;
+    sExPlayerScreenMoverTargetPos = followPos;
 }
 
 void ExPlayerScreenMover_Main_Init(void)
 {
     exPlayerScreenMoveTask *work = ExTaskGetWorkCurrent(exPlayerScreenMoveTask);
 
-    exPlayerScreenMoverTaskSingleton = GetCurrentTask();
+    sExPlayerScreenMoverTaskSingleton = GetCurrentTask();
 
     work->cameraConfig[GRAPHICS_ENGINE_A] = GetExDrawCameraConfigA();
     work->cameraConfig[GRAPHICS_ENGINE_B] = GetExDrawCameraConfigB();
@@ -153,22 +153,22 @@ void ExPlayerScreenMover_Destructor(void)
     exPlayerScreenMoveTask *work = ExTaskGetWorkCurrent(exPlayerScreenMoveTask);
     UNUSED(work);
 
-    exPlayerScreenMoverTargetPos = NULL;
+    sExPlayerScreenMoverTargetPos = NULL;
 }
 
 void ExPlayerScreenMover_Main_Active(void)
 {
     exPlayerScreenMoveTask *work = ExTaskGetWorkCurrent(exPlayerScreenMoveTask);
 
-    s32 targetPos = 50 * (exPlayerScreenMoverTargetPos->x / 100);
+    s32 targetPos = 50 * (sExPlayerScreenMoverTargetPos->x / 100);
 
-    if (work->cameraConfig[GRAPHICS_ENGINE_A]->type == EXDRAW_CAMERACONFIG_1 && exPlayerScreenMoverTargetPos != NULL)
+    if (work->cameraConfig[GRAPHICS_ENGINE_A]->type == EXDRAW_CAMERACONFIG_1 && sExPlayerScreenMoverTargetPos != NULL)
     {
         work->cameraConfig[GRAPHICS_ENGINE_A]->nextCamera.view.camPos.x   = targetPos;
         work->cameraConfig[GRAPHICS_ENGINE_A]->nextCamera.view.camTarget.x = targetPos;
     }
 
-    if (work->cameraConfig[GRAPHICS_ENGINE_B]->type == EXDRAW_CAMERACONFIG_1 && exPlayerScreenMoverTargetPos != NULL)
+    if (work->cameraConfig[GRAPHICS_ENGINE_B]->type == EXDRAW_CAMERACONFIG_1 && sExPlayerScreenMoverTargetPos != NULL)
     {
         work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.view.camPos.x   = targetPos;
         work->cameraConfig[GRAPHICS_ENGINE_B]->nextCamera.view.camTarget.x = targetPos;
@@ -193,7 +193,7 @@ void ExPlayer_Main_Init(void)
 {
     exPlayerAdminTask *work = ExTaskGetWorkCurrent(exPlayerAdminTask);
 
-    exPlayerTaskSingleton = GetCurrentTask();
+    sExPlayerTaskSingleton = GetCurrentTask();
 
     CreateExPlayerScreenMover();
     LoadExSuperSonicModel(&work->aniSonic->manager);
@@ -238,9 +238,9 @@ void ExPlayer_Destructor(void)
     ReleaseExSuperSonicSprite(&work->spriteSonic);
     ReleaseExBurningBlazeSprite(&work->spriteBlaze);
 
-    DestroyExTask(exPlayerScreenMoverTaskSingleton);
+    DestroyExTask(sExPlayerScreenMoverTaskSingleton);
 
-    exPlayerTaskSingleton = NULL;
+    sExPlayerTaskSingleton = NULL;
 }
 
 void ExPlayer_Main_ControlLocked(void)
@@ -1662,8 +1662,8 @@ void ExPlayer_HandleDash(void)
 
     if (work->worker->dashTimer-- <= 0)
     {
-        exPlayerUnknown2        = 2;
-        exPlayerUnknown1        = 1;
+        sExPlayerUnknown2        = 2;
+        sExPlayerUnknown1        = 1;
         work->worker->dashTimer = 0;
     }
     else
@@ -1713,8 +1713,8 @@ void ExPlayer_HandleDash(void)
                     activeWorker->model.translation.y += work->worker->velocity.y;
             }
 
-            if (exPlayerUnknown2-- <= 0)
-                exPlayerUnknown2 = 2;
+            if (sExPlayerUnknown2-- <= 0)
+                sExPlayerUnknown2 = 2;
         }
     }
 }
@@ -1894,21 +1894,21 @@ void CreateExPlayer(void)
 
     TaskInitWork8(work);
 
-    MI_CpuClear8(&exPlayerAniSonic, sizeof(exPlayerAniSonic));
-    MI_CpuClear8(&exPlayerAniBlaze, sizeof(exPlayerAniBlaze));
-    MI_CpuClear8(&exPlayerWorker, sizeof(exPlayerWorker));
-    work->aniSonic = &exPlayerAniSonic;
-    work->aniBlaze = &exPlayerAniBlaze;
-    work->worker   = &exPlayerWorker;
+    MI_CpuClear8(&sExPlayerAniSonic, sizeof(sExPlayerAniSonic));
+    MI_CpuClear8(&sExPlayerAniBlaze, sizeof(sExPlayerAniBlaze));
+    MI_CpuClear8(&sExPlayerWorker, sizeof(sExPlayerWorker));
+    work->aniSonic = &sExPlayerAniSonic;
+    work->aniBlaze = &sExPlayerAniBlaze;
+    work->worker   = &sExPlayerWorker;
 }
 
 void DestroyExPlayer(void)
 {
-    if (exPlayerTaskSingleton != NULL)
-        DestroyExTask(exPlayerTaskSingleton);
+    if (sExPlayerTaskSingleton != NULL)
+        DestroyExTask(sExPlayerTaskSingleton);
 }
 
 VecFx32 *GetExPlayerPosition(void)
 {
-    return exPlayerWorker.position;
+    return sExPlayerWorker.position;
 }

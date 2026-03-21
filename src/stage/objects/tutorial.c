@@ -491,8 +491,8 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     FontAnimator__LoadPaletteFunc2(&work->fontAnimator);
     FontUnknown2058D78__LoadPalette2(&work->fontUnknown);
 
-    MI_CpuCopy8(((16 * sizeof(GXRgb)) * palette1) + VRAM_OBJ_PLTT, &objDrawPalette2[16 * palette1], 16 * sizeof(GXRgb));
-    MI_CpuCopy8(((16 * sizeof(GXRgb)) * palette1) + VRAM_OBJ_PLTT, &objDrawPalette1[16 * palette1], 16 * sizeof(GXRgb));
+    MI_CpuCopy8(((16 * sizeof(GXRgb)) * palette1) + VRAM_OBJ_PLTT, &gObjDrawPalette2[16 * palette1], 16 * sizeof(GXRgb));
+    MI_CpuCopy8(((16 * sizeof(GXRgb)) * palette1) + VRAM_OBJ_PLTT, &gObjDrawPalette1[16 * palette1], 16 * sizeof(GXRgb));
     FontAnimator__SetCallback(&work->fontAnimator, TutorialFontCallback, work);
     FontAnimator__SetMsgSequence(&work->fontAnimator, TUTORIAL_MSGSEQ_INTRO);
 
@@ -620,7 +620,7 @@ void Tutorial_State_Init(Tutorial *work)
 
 void Tutorial_State_Active(Tutorial *work)
 {
-    if (GetSysEventList()->currentEventID == SYSEVENT_STAGE_ACTIVE)
+    if (GetSysEventManager()->currentEventID == SYSEVENT_STAGE_ACTIVE)
     {
         if (work->stateScroll != NULL)
             work->stateScroll(work);
@@ -836,7 +836,7 @@ void Tutorial_StateScroll_Scrolling(Tutorial *work)
 // Talk States & actions
 void Tutorial_Action_Init(Tutorial *work)
 {
-    if (GetSysEventList()->currentEventID != SYSEVENT_STAGE_ACTIVE)
+    if (GetSysEventManager()->currentEventID != SYSEVENT_STAGE_ACTIVE)
     {
         work->stateTalk = Tutorial_StateTalk_WaitForEventChange;
     }
@@ -850,7 +850,7 @@ void Tutorial_Action_Init(Tutorial *work)
 
 void Tutorial_StateTalk_WaitForEventChange(Tutorial *work)
 {
-    if (GetSysEventList()->currentEventID == SYSEVENT_STAGE_ACTIVE)
+    if (GetSysEventManager()->currentEventID == SYSEVENT_STAGE_ACTIVE)
     {
         CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_FADE_TO_BLACK, FLOAT_TO_FX32(1.0));
 

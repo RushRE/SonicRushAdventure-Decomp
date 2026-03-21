@@ -20,7 +20,7 @@ NOT_DECOMPILED void _ull_mul(void);
 // TEMP
 // --------------------
 
-const u32 shipStepTable[SHIP_COUNT] = {
+const u32 sShipStepTable[SHIP_COUNT] = {
     [SHIP_JET] = FLOAT_TO_FX32(4.0), [SHIP_BOAT] = FLOAT_TO_FX32(14.0), [SHIP_HOVER] = FLOAT_TO_FX32(8.0), [SHIP_SUBMARINE] = FLOAT_TO_FX32(6.0)
 };
 
@@ -88,7 +88,7 @@ NONMATCH_FUNC void SailVoyageManager__Func_21574B4(SailVoyageManager *work)
     SailManager *manager = SailManager__GetWork();
 
     fx32 currentDistance = FLOAT_TO_FX32(0.0);
-    fx32 shipMove        = shipStepTable[SailManager__GetShipType()];
+    fx32 shipMove        = sShipStepTable[SailManager__GetShipType()];
 
     work->totalDistance = SeaMapManager__GetTotalDistance();
     if (manager->isRivalRace == FALSE)
@@ -172,7 +172,7 @@ NONMATCH_FUNC void SailVoyageManager__Func_21574B4(SailVoyageManager *work)
 	mov r4, #0
 	bl SailManager__GetShipType
 	lsl r1, r0, #2
-	ldr r0, =shipStepTable
+	ldr r0, =sShipStepTable
 	ldr r0, [r0, r1]
 	str r0, [sp]
 	bl SeaMapManager__GetTotalDistance
@@ -364,7 +364,7 @@ NONMATCH_FUNC void SailVoyageManager__Func_2157628(void)
     type     = 0;
     distance = -1;
 
-    denominator = shipStepTable[SailManager__GetShipType()];
+    denominator = sShipStepTable[SailManager__GetShipType()];
 
     work = SailManager__GetWork()->voyageManager;
 
@@ -448,7 +448,7 @@ NONMATCH_FUNC void SailVoyageManager__Func_2157628(void)
 	str r0, [sp, #4]
 	bl SailManager__GetShipType
 	lsl r1, r0, #2
-	ldr r0, =shipStepTable
+	ldr r0, =sShipStepTable
 	ldr r0, [r0, r1]
 	str r0, [sp]
 	bl SailManager__GetWork
@@ -1051,7 +1051,7 @@ void SailVoyageManager__Func_2157C34(SailVoyageManager *work)
                 {
                     if (segment->type < SAILVOYAGESEGMENT_TYPE_14 || (segment->type & 1) == 0)
                     {
-                        fx32 move = shipStepTable[SailManager__GetShipType()];
+                        fx32 move = sShipStepTable[SailManager__GetShipType()];
                         fx32 max  = 512;
                         fx32 min  = 128;
 
@@ -1138,7 +1138,7 @@ void SailVoyageManager__LoadSegment(SailVoyageManager *work, u8 type)
             case SAILVOYAGESEGMENT_TYPE_25:
             default: {
                 work->unknownDistance = work->unknownObjectDistance;
-                NNS_SndPlayerStopSeq(&defaultTrackPlayer, 0);
+                NNS_SndPlayerStopSeq(&gDefaultTrackPlayer, 0);
                 PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SAIL_SEQ_SEQ_DISCOVER);
                 manager->flags |= SAILMANAGER_FLAG_20;
                 SailPlayer__Action_ReachedGoal(player);

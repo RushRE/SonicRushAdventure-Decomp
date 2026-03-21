@@ -6,7 +6,7 @@
 // VARIABLES
 // --------------------
 
-static NNSSndHandle *bgmHandle;
+static NNSSndHandle *sBGMHandle;
 
 // --------------------
 // FUNCTIONS
@@ -16,17 +16,17 @@ void InitHubAudio(void)
 {
     LoadSysSoundVillage();
 
-    bgmHandle = AllocSndHandle();
+    sBGMHandle = AllocSndHandle();
 }
 
 void ReleaseHubAudio(BOOL releaseAudio)
 {
-    if (bgmHandle != NULL)
+    if (sBGMHandle != NULL)
     {
         ReleaseHubBGM();
 
-        FreeSndHandle(bgmHandle);
-        bgmHandle = NULL;
+        FreeSndHandle(sBGMHandle);
+        sBGMHandle = NULL;
     }
 
     if (releaseAudio)
@@ -54,24 +54,24 @@ void PlayHubItemJingle(void)
 {
     ReleaseHubBGM();
 
-    NNS_SndArcLoadSeq(SND_SYS_SEQ_SEQ_J_ITEM, audioManagerSndHeap);
-    PlayTrack(bgmHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQ_SEQ_J_ITEM);
+    NNS_SndArcLoadSeq(SND_SYS_SEQ_SEQ_J_ITEM, gAudioManagerSndHeap);
+    PlayTrack(sBGMHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQ_SEQ_J_ITEM);
 }
 
 void PlayHubDecorationJingle(void)
 {
     ReleaseHubBGM();
 
-    NNS_SndArcLoadSeq(SND_SYS_SEQ_SEQ_J_DECORATION, audioManagerSndHeap);
-    PlayTrack(bgmHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQ_SEQ_J_DECORATION);
+    NNS_SndArcLoadSeq(SND_SYS_SEQ_SEQ_J_DECORATION, gAudioManagerSndHeap);
+    PlayTrack(sBGMHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQ_SEQ_J_DECORATION);
 }
 
 void ReleaseHubBGM(void)
 {
-    if (bgmHandle != NULL && bgmHandle->player != NULL)
+    if (sBGMHandle != NULL && sBGMHandle->player != NULL)
     {
-        StopStageSfx(bgmHandle);
-        ReleaseStageSfx(bgmHandle);
+        StopStageSfx(sBGMHandle);
+        ReleaseStageSfx(sBGMHandle);
     }
 }
 

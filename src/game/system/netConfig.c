@@ -21,13 +21,13 @@ static BOOL OnCardPulledOut(void);
 
 void RunNetConfig(void)
 {
-    // Run DWCUtil library stuff
+    // Run DWCUtil library logic
     NetConfigMain();
 
     // Reset back into our engine
     UpdatePadInput();
     UpdateTouchInput();
-    RequestNewSysEventChange(GetSysEventList()->prevEventID);
+    RequestNewSysEventChange(GetSysEventManager()->prevEventID);
     NextSysEvent();
 }
 

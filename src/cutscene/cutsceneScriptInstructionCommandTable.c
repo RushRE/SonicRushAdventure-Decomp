@@ -4,34 +4,34 @@
 // VARIABLES
 // --------------------
 
-static CutsceneScriptControlCommand scriptEndInstructions[] =
+static CutsceneScriptControlCommand sScriptEndInstructions[] =
 {
     CutsceneScript_EndCommand_StopThreads,
     CutsceneScript_EndCommand_Continue,
     CutsceneScript_EndCommand_Suspend,
 };
 
-static CutsceneScriptControlCommand scriptEngineInstructions[] =
+static CutsceneScriptControlCommand sScriptEngineInstructions[] =
 {
 	NULL,
     CutsceneScript_EngineCommand_Execute,
 };
 
-static CutsceneScriptControlCommand scriptSwitchInstructions[] =
+static CutsceneScriptControlCommand sScriptSwitchInstructions[] =
 {
 	NULL,
     CutsceneScript_SwitchCommand_Case,
     CutsceneScript_SwitchCommand_Default,
 };
 
-static CutsceneScriptControlCommand scriptStackInstructions[] =
+static CutsceneScriptControlCommand sScriptStackInstructions[] =
 {
     NULL,
     CutsceneScript_StackCommand_Load,
     CutsceneScript_StackCommand_Store,
 };
 
-static CutsceneScriptControlCommand scriptFunctionInstructions[] =
+static CutsceneScriptControlCommand sScriptFunctionInstructions[] =
 {
     NULL,
     CutsceneScript_FunctionCommand_CallFunction,
@@ -40,7 +40,7 @@ static CutsceneScriptControlCommand scriptFunctionInstructions[] =
     CutsceneScript_FunctionCommand_End,
 };
 
-static CutsceneScriptControlCommand scriptBranchInstructions[] =
+static CutsceneScriptControlCommand sScriptBranchInstructions[] =
 {
     CutsceneScript_BranchCommand_BranchAlways,
     CutsceneScript_BranchCommand_BranchEqual,
@@ -51,7 +51,7 @@ static CutsceneScriptControlCommand scriptBranchInstructions[] =
     CutsceneScript_BranchCommand_BranchLess,
 };
 
-static CutsceneScriptControlCommand scriptComparisonInstructions[] =
+static CutsceneScriptControlCommand sScriptComparisonInstructions[] =
 {
     NULL,
     CutsceneScript_ComparisonCommand_Equal,
@@ -62,7 +62,7 @@ static CutsceneScriptControlCommand scriptComparisonInstructions[] =
     CutsceneScript_ComparisonCommand_GreaterEqual,
 };
 
-static CutsceneScriptControlCommand scriptArithmeticInstructions[] =
+static CutsceneScriptControlCommand sScriptArithmeticInstructions[] =
 {
     CutsceneScript_ArithmeticCommand_Assign,
     CutsceneScript_ArithmeticCommand_Add,
@@ -76,17 +76,17 @@ static CutsceneScriptControlCommand scriptArithmeticInstructions[] =
 };
 
 // this is put in a separate file for now to get the compilation order to match
-extern CutsceneScriptControlCommand scriptBitwiseInstructions[];
+extern CutsceneScriptControlCommand sScriptBitwiseInstructions[];
 
-CutsceneScriptControlCommand *cutsceneScriptInstructionTable[] =
+CutsceneScriptControlCommand *gCutsceneScriptInstructionTable[] =
 {
-    scriptEndInstructions,
-    scriptArithmeticInstructions,
-    scriptBitwiseInstructions,
-    scriptComparisonInstructions,
-    scriptSwitchInstructions,
-    scriptBranchInstructions,
-    scriptFunctionInstructions,
-    scriptEngineInstructions,
-    scriptStackInstructions,
+    sScriptEndInstructions,
+    sScriptArithmeticInstructions,
+    sScriptBitwiseInstructions,
+    sScriptComparisonInstructions,
+    sScriptSwitchInstructions,
+    sScriptBranchInstructions,
+    sScriptFunctionInstructions,
+    sScriptEngineInstructions,
+    sScriptStackInstructions,
 };

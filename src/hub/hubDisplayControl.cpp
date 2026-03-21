@@ -36,7 +36,7 @@
 // VARIABLES
 // --------------------
 
-extern HubControlNpcSpawnCheck const *hubNpcSpawnCheckTable[];
+extern HubControlNpcSpawnCheck const *gHubNpcSpawnCheckTable[];
 
 // --------------------
 // FUNCTIONS
@@ -717,7 +717,7 @@ BOOL HubControl::CanSpawnNpcType(s32 npcType)
 
 BOOL HubControl::CanSpawnNpc(s32 npcType)
 {
-    const HubControlNpcSpawnCheck *spawnCheck = hubNpcSpawnCheckTable[npcType];
+    const HubControlNpcSpawnCheck *spawnCheck = gHubNpcSpawnCheckTable[npcType];
 
     s32 i;
     u16 gameProgress;

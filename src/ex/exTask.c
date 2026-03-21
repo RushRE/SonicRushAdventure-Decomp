@@ -22,8 +22,8 @@ struct ExTaskMemoryLayout
 // VARIABLES
 // --------------------
 
-static Task *currentExTask;
-static BOOL disableExTaskUpdate;
+static Task *sCurrentExTask;
+static BOOL sDisableExTaskUpdate;
 
 // --------------------
 // FUNCTION DECLS
@@ -45,8 +45,8 @@ static void ExTask_Destructor_Regular(Task *task);
 
 void ExTask_Main_AlwaysUpdate(void)
 {
-    currentExTask = GetCurrentTask();
-    ExTask *task  = ExTaskGetTaskInternal(currentExTask);
+    sCurrentExTask = GetCurrentTask();
+    ExTask *task  = ExTaskGetTaskInternal(sCurrentExTask);
 
     if (GetExSystemStatus()->state == EXSYSTASK_STATE_STAGE_FINISHED)
     {
@@ -79,10 +79,10 @@ void ExTask_Main_Regular(void)
         padInput.btnPressRepeat = PAD_INPUT_NONE_MASK;
     }
 
-    currentExTask = GetCurrentTask();
-    ExTask *task  = ExTaskGetTaskInternal(currentExTask);
+    sCurrentExTask = GetCurrentTask();
+    ExTask *task  = ExTaskGetTaskInternal(sCurrentExTask);
 
-    if (disableExTaskUpdate)
+    if (sDisableExTaskUpdate)
         return;
 
     if (task->hitstopTimer > 0)
@@ -170,7 +170,7 @@ Task *ExTaskCreate_(ExTaskMain main, ExTaskDestructor destructor, u16 priority, 
 
 ExTask *GetExTaskCurrent(void)
 {
-    return TaskGetWork(currentExTask, ExTask);
+    return TaskGetWork(sCurrentExTask, ExTask);
 }
 
 void *GetExTaskWorkCurrent_(void)
@@ -205,5 +205,5 @@ void ExTask_State_Destroy(void)
 
 void EnableExTaskNoUpdate(BOOL enabled)
 {
-    disableExTaskUpdate = enabled;
+    sDisableExTaskUpdate = enabled;
 }

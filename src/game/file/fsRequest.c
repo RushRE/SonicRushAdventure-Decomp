@@ -5,16 +5,16 @@
 // VARIABLES
 // --------------------
 
-static AsyncFileWork *fsReqListEnd;
-static AsyncFileWork *fsReqListStart;
+static AsyncFileWork *sFSReqListEnd;
+static AsyncFileWork *sFSReqListStart;
 
-static void *fsReqTableStart;
-static void *fsReqTableEnd;
+static void *sFSReqTableStart;
+static void *sFSReqTableEnd;
 
-static s32 fsReqCount;
+static s32 sFSRequestCount;
 
-static AsyncFileWork *fsRequestQueue[FSREQ_LIST_SIZE];
-static AsyncFileWork fsRequestStorage[FSREQ_LIST_SIZE];
+static AsyncFileWork *sFSRequestQueue[FSREQ_LIST_SIZE];
+static AsyncFileWork sFSRequestStorage[FSREQ_LIST_SIZE];
 
 // --------------------
 // FUNCTION DECLS
@@ -37,30 +37,30 @@ void InitFSRequestSystem(size_t tableSize, u32 defaultDMA)
     // Init Addresses for file heap
     tableSize       = (tableSize + 3) & ~3;
     u8 *poolTable   = (u8 *)OS_GetArenaLo(OS_ARENA_MAIN);
-    fsReqTableStart = poolTable;
-    fsReqTableEnd   = &poolTable[tableSize];
+    sFSReqTableStart = poolTable;
+    sFSReqTableEnd   = &poolTable[tableSize];
     OS_SetArenaLo(OS_ARENA_MAIN, &poolTable[tableSize]);
-    fsReqTableEnd = OS_GetArenaLo(OS_ARENA_MAIN);
+    sFSReqTableEnd = OS_GetArenaLo(OS_ARENA_MAIN);
 
-    if (fsReqTableStart < fsReqTableEnd)
-        FS_LoadTable(fsReqTableStart, tableSize);
+    if (sFSReqTableStart < sFSReqTableEnd)
+        FS_LoadTable(sFSReqTableStart, tableSize);
 
-    fsReqCount = 0;
-    MI_CpuClear32(fsRequestStorage, sizeof(fsRequestStorage));
+    sFSRequestCount = 0;
+    MI_CpuClear32(sFSRequestStorage, sizeof(sFSRequestStorage));
 
     for (s32 i = 0; i < FSREQ_LIST_SIZE; i++)
     {
-        fsRequestQueue[i] = &fsRequestStorage[i];
+        sFSRequestQueue[i] = &sFSRequestStorage[i];
     }
 
-    fsReqListEnd   = FSRequestAddWork();
-    fsReqListStart = FSRequestAddWork();
+    sFSReqListEnd   = FSRequestAddWork();
+    sFSReqListStart = FSRequestAddWork();
 
-    fsReqListEnd->prev = NULL;
-    fsReqListEnd->next = fsReqListStart;
+    sFSReqListEnd->prev = NULL;
+    sFSReqListEnd->next = sFSReqListStart;
 
-    fsReqListStart->prev = fsReqListEnd;
-    fsReqListStart->next = NULL;
+    sFSReqListStart->prev = sFSReqListEnd;
+    sFSReqListStart->next = NULL;
 }
 
 void ProcessFSRequests(void)
@@ -126,10 +126,10 @@ AsyncFileWork *FSRequestFileASync(const char *path, void *userData)
     AsyncFileWork *file = FSRequestAddWork();
     MI_CpuClear16(file, sizeof(*file));
 
-    file->prev           = fsReqListStart->prev;
-    file->next           = fsReqListStart;
+    file->prev           = sFSReqListStart->prev;
+    file->next           = sFSReqListStart;
     file->prev->next     = file;
-    fsReqListStart->prev = file;
+    sFSReqListStart->prev = file;
 
     file->status   = FSREQ_STATUS_NEEDS_OPEN;
     file->userData = userData;
@@ -146,9 +146,9 @@ void ReleaseFSRequestWork(AsyncFileWork *file)
     file->prev->next = file->next;
     file->next->prev = file->prev;
 
-    u32 id             = fsReqCount - 1;
-    fsRequestQueue[id] = file;
-    fsReqCount--;
+    u32 id             = sFSRequestCount - 1;
+    sFSRequestQueue[id] = file;
+    sFSRequestCount--;
 
     if ((file->flags & FSREQ_FLAG_ALLOCATED_MEM) != 0 && (file->userData != FSREQ_AUTO_ALLOC_HEAD && file->userData != FSREQ_AUTO_ALLOC_TAIL))
     {
@@ -179,19 +179,19 @@ size_t FSRequestFileSize(const char *path)
 
 AsyncFileWork *FSRequestAddWork(void)
 {
-    if (fsReqCount < FSREQ_LIST_SIZE)
-        return fsRequestQueue[fsReqCount++];
+    if (sFSRequestCount < FSREQ_LIST_SIZE)
+        return sFSRequestQueue[sFSRequestCount++];
 
     return NULL;
 }
 
 AsyncFileWork *GetNextFSRequestWork(void)
 {
-    AsyncFileWork *work = fsReqListEnd->next;
+    AsyncFileWork *work = sFSReqListEnd->next;
 
-    if (work != fsReqListStart)
+    if (work != sFSReqListStart)
     {
-        while (work != fsReqListStart)
+        while (work != sFSReqListStart)
         {
             if (work->status > FSREQ_STATUS_ERROR_CANT_READ && (work->status < FSREQ_STATUS_CLOSED || work->status > FSREQ_STATUS_UNKNOWN3))
                 return work;

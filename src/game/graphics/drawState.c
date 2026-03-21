@@ -33,7 +33,7 @@ static void DrawState_SetupClearColor(DrawState *state);
 
 typedef void (*DrawStateFunc)(DrawState *state);
 
-DrawStateFunc DrawStateSystemSetupTable[] = {
+static DrawStateFunc sDrawStateSystemSetupTable[] = {
     DrawState_SetupLookAtMatrix,     // DRAWSTATE_LOOKAT
     DrawState_SetupProjectionMatrix, // DRAWSTATE_PROJECTION
     DrawState_SetupSwapBufferMode,   // DRAWSTATE_SWAPBUFFERMODE
@@ -71,7 +71,7 @@ void LoadDrawState(void *fileData, DrawStateSystems systems)
     for (u16 i = 0; i < DRAWSTATE_COUNT; i++)
     {
         if ((systems & (1 << i)))
-            DrawStateSystemSetupTable[i]((DrawState *)fileData);
+            sDrawStateSystemSetupTable[i]((DrawState *)fileData);
     }
 }
 

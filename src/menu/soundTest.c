@@ -111,7 +111,7 @@ static const char *aSndZ61 = "snd/z61/";
 static const char *aSndZ91 = "snd/z91/";
 #endif
 
-static const char *sndArcFolderTable[] = {
+static const char *sSndArcFolderTable[] = {
     "snd/sys/", "extra/",   "snd/sb1/", "snd/sb2/", "snd/sb3/", "snd/sb4/", "snd/z11/", "snd/z12/", "snd/z1b/", "snd/z1t/",
     "snd/z21/", "snd/z22/", "snd/z2b/", "snd/z31/", "snd/z32/", "snd/z3b/", "snd/z41/", "snd/z42/", "snd/z4b/", "snd/z51/",
     "snd/z52/", "snd/z5b/", "snd/z61/", "snd/z62/", "snd/z6b/", "snd/z71/", "snd/z72/", "snd/z7b/", "snd/z91/", "snd/zfb/",
@@ -1467,13 +1467,13 @@ void PlaySoundTestSong(SoundTest *work, u16 trackID)
     {
         char sndArcName[32];
         ReleaseSoundTestSoundPlayers(work, 0);
-        STD_CopyString(sndArcName, sndArcFolderTable[sndArcID]);
+        STD_CopyString(sndArcName, sSndArcFolderTable[sndArcID]);
         STD_ConcatenateString(sndArcName, "sound_data.sdat");
 
         if (CheckSoundTestSongIsStageArc(config, trackID) == FALSE)
         {
             LoadAudioSndArc(sndArcName);
-            NNS_SndArcLoadGroup(sndGroupID, audioManagerSndHeap);
+            NNS_SndArcLoadGroup(sndGroupID, gAudioManagerSndHeap);
         }
         else
         {
@@ -1505,7 +1505,7 @@ void PlaySoundTestSong(SoundTest *work, u16 trackID)
             break;
 
         case SOUNDTESTSONG_TYPE_STREAM:
-            NNS_SndArcStrmInit(10, audioManagerSndHeap);
+            NNS_SndArcStrmInit(10, gAudioManagerSndHeap);
             NNS_SndArcStrmStart(&work->strmHandle, id, 0);
             break;
     }
@@ -1567,15 +1567,15 @@ BOOL CheckSoundTestSongStopped(SoundTest *work)
     switch (GetSoundTestSongType(work->soundTest, work->curSongID))
     {
         case SOUNDTESTSONG_TYPE_BGM:
-            isValid = defaultTrackPlayer.player != NULL;
+            isValid = gDefaultTrackPlayer.player != NULL;
             break;
 
         case SOUNDTESTSONG_TYPE_SFX:
-            isValid = defaultSfxPlayer.player != NULL;
+            isValid = gDefaultSfxPlayer.player != NULL;
             break;
 
         case SOUNDTESTSONG_TYPE_VOICE_CLIP:
-            isValid = defaultVoicePlayer.player != NULL;
+            isValid = gDefaultVoicePlayer.player != NULL;
             break;
 
         case SOUNDTESTSONG_TYPE_STREAM:

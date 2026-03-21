@@ -113,7 +113,7 @@ struct SysEvent
     FSOverlayID overlay;
 };
 
-typedef struct SysEventList_
+typedef struct SysEventManager_
 {
     const struct SysEvent *eventList;
     u32 eventListCount;
@@ -144,20 +144,20 @@ typedef struct SysEventList_
     };
 
     SysEventStatus status;
-} SysEventList;
+} SysEventManager;
 
 // --------------------
 // VARIABLES
 // --------------------
 
-extern const struct SysEvent sysEventList[SYSEVENT_COUNT];
+extern const struct SysEvent sSysEventList[SYSEVENT_COUNT];
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
 void CreateSysEventEx(const struct SysEvent *eventList, u32 eventCount, u32 eventID, BOOL createTask, u16 priority, TaskGroup group);
-SysEventList *GetSysEventList(void);
+SysEventManager *GetSysEventManager(void);
 void RequestSysEventChange(s32 id);    // pick an event using current event's "next events" list
 void RequestNewSysEventChange(s32 id); // pick a sys event manually
 void NextSysEvent(void);
@@ -168,17 +168,17 @@ void NextSysEvent(void);
 
 RUSH_INLINE void CreateSysEvent(u32 eventID, BOOL createTask, u16 priority, TaskGroup group)
 {
-    CreateSysEventEx(sysEventList, ARRAY_COUNT(sysEventList), eventID, createTask, priority, group);
+    CreateSysEventEx(sSysEventList, ARRAY_COUNT(sSysEventList), eventID, createTask, priority, group);
 }
 
 RUSH_INLINE EventID GetCurSysEvent(void)
 {
-    return GetSysEventList()->currentEventID;
+    return GetSysEventManager()->currentEventID;
 }
 
 RUSH_INLINE EventID GetReqSysEvent(void)
 {
-    return GetSysEventList()->requestedEventID;
+    return GetSysEventManager()->requestedEventID;
 }
 
 #ifdef __cplusplus

@@ -303,7 +303,7 @@ void NetworkErrorMenu_Main(void)
         DestroyCurrentTask();
 
         s32 nextEvent = 0; // SYSEVENT_VS_MENU
-        switch (GetSysEventList()->prevEventID)
+        switch (GetSysEventManager()->prevEventID)
         {
             case SYSEVENT_19:
             case SYSEVENT_20:

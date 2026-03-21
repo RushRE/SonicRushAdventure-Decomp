@@ -123,7 +123,7 @@ typedef struct SailManager_
 // VARIABLES
 // --------------------
 
-extern u8 const shipShiftUnknown[SHIP_COUNT];
+extern u8 const gShipShiftUnknown[SHIP_COUNT];
 
 // --------------------
 // FUNCTIONS

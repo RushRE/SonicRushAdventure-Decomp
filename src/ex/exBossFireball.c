@@ -20,28 +20,28 @@
 // VARIABLES
 // --------------------
 
-static s16 fireballBlueInstanceCount;
-static s16 fireballRedInstanceCount;
-static u32 fireballRedModelFileSize;
-static void *fireballBlueLastSpawnedWorker;
-static Task *fireballRedLastSpawnedTask;
-static u32 fireballRedTextureFileSize;
-static void *fireballBlueUnused;
-static void *fireballBlueModelResource;
-static EX_ACTION_NN_WORK *fireballRedLastSpawnedWorker;
-static void *fireballRedModelResource;
-static void *fireballRedUnused;
-static Task *fireballBlueLastSpawnedTask;
-static u32 fireballBlueTextureFileSize;
-static u32 fireballBlueModelFileSize;
-static void *fireballRedAnimResource[4];
-static void *fireballBlueAnimResource[4];
-static B3DAnimationTypes fireballBlueAnimType[4];
-static B3DAnimationTypes fireballRedAnimType[4];
+static s16 sFireballBlueInstanceCount;
+static s16 sFireballRedInstanceCount;
+static u32 sFireballRedModelFileSize;
+static void *sFireballBlueLastSpawnedWorker;
+static Task *sFireballRedLastSpawnedTask;
+static u32 sFireballRedTextureFileSize;
+static void *sFireballBlueUnused;
+static void *sFireballBlueModelResource;
+static EX_ACTION_NN_WORK *sFireballRedLastSpawnedWorker;
+static void *sFireballRedModelResource;
+static void *sFireballRedUnused;
+static Task *sFireballBlueLastSpawnedTask;
+static u32 sFireballBlueTextureFileSize;
+static u32 sFireballBlueModelFileSize;
+static void *sFireballRedAnimResource[4];
+static void *sFireballBlueAnimResource[4];
+static B3DAnimationTypes sFireballBlueAnimType[4];
+static B3DAnimationTypes sFireballRedAnimType[4];
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(fireballRedUnused)
-FORCE_INCLUDE_VARIABLE_BSS(fireballBlueUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sFireballRedUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sFireballBlueUnused)
 
 // --------------------
 // FUNCTION DECLS
@@ -89,55 +89,55 @@ static void ExBoss_Action_FinishFireballAttack(void);
 
 BOOL LoadExBossFireBlueAssets(EX_ACTION_NN_WORK *work)
 {
-    fireballBlueLastSpawnedWorker = work;
+    sFireballBlueLastSpawnedWorker = work;
 
-    if (fireballBlueModelFileSize != 0 && fireballBlueTextureFileSize != 0)
+    if (sFireballBlueModelFileSize != 0 && sFireballBlueTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < fireballBlueModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sFireballBlueModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < fireballBlueTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sFireballBlueTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < fireballBlueModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sFireballBlueModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (fireballBlueInstanceCount == 0)
+    if (sFireballBlueInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FIRE2_NSBMD, &fireballBlueModelResource, &fireballBlueModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FIRE2_NSBMD, &sFireballBlueModelResource, &sFireballBlueModelFileSize, TRUE, FALSE);
 
-        fireballBlueAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBMA);
-        fireballBlueAnimType[0]     = B3D_ANIM_MAT_ANIM;
+        sFireballBlueAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBMA);
+        sFireballBlueAnimType[0]     = B3D_ANIM_MAT_ANIM;
 
-        fireballBlueAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBVA);
-        fireballBlueAnimType[1]     = B3D_ANIM_VIS_ANIM;
+        sFireballBlueAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBVA);
+        sFireballBlueAnimType[1]     = B3D_ANIM_VIS_ANIM;
 
-        fireballBlueAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBTA);
-        fireballBlueAnimType[2]     = B3D_ANIM_TEX_ANIM;
+        sFireballBlueAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBTA);
+        sFireballBlueAnimType[2]     = B3D_ANIM_TEX_ANIM;
 
-        fireballBlueAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBTP);
-        fireballBlueAnimType[3]     = B3D_ANIM_PAT_ANIM;
+        sFireballBlueAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBTP);
+        sFireballBlueAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
-        CreateAsset3DSetup(fireballBlueModelResource);
+        CreateAsset3DSetup(sFireballBlueModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
     AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(animator, fireballBlueModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(animator, sFireballBlueModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
     for (; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(animator, fireballBlueAnimType[i], fireballBlueAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(animator, sFireballBlueAnimType[i], sFireballBlueAnimResource[i], 0, NULL);
     }
 
-    AnimatorMDL__SetAnimation(animator, fireballBlueAnimType[i], fireballBlueAnimResource[i], 0, NNS_G3dGetTex(fireballBlueModelResource));
+    AnimatorMDL__SetAnimation(animator, sFireballBlueAnimType[i], sFireballBlueAnimResource[i], 0, NNS_G3dGetTex(sFireballBlueModelResource));
 
-    work->model.primaryAnimType     = fireballBlueAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[fireballBlueAnimType[0]];
+    work->model.primaryAnimType     = sFireballBlueAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sFireballBlueAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -156,44 +156,44 @@ BOOL LoadExBossFireBlueAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(4.0);
     work->hitChecker.box.position    = &work->model.translation;
 
-    fireballBlueInstanceCount++;
+    sFireballBlueInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBossFireBlueAssets(EX_ACTION_NN_WORK *work)
 {
-    if (fireballBlueInstanceCount <= 1)
+    if (sFireballBlueInstanceCount <= 1)
     {
-        if (fireballBlueModelResource != NULL)
-            NNS_G3dResDefaultRelease(fireballBlueModelResource);
+        if (sFireballBlueModelResource != NULL)
+            NNS_G3dResDefaultRelease(sFireballBlueModelResource);
 
-        if (fireballBlueAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(fireballBlueAnimResource[0]);
+        if (sFireballBlueAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sFireballBlueAnimResource[0]);
 
-        if (fireballBlueAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(fireballBlueAnimResource[1]);
+        if (sFireballBlueAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sFireballBlueAnimResource[1]);
 
-        if (fireballBlueAnimResource[2] != NULL)
-            NNS_G3dResDefaultRelease(fireballBlueAnimResource[2]);
+        if (sFireballBlueAnimResource[2] != NULL)
+            NNS_G3dResDefaultRelease(sFireballBlueAnimResource[2]);
 
-        if (fireballBlueAnimResource[3] != NULL)
-            NNS_G3dResDefaultRelease(fireballBlueAnimResource[3]);
+        if (sFireballBlueAnimResource[3] != NULL)
+            NNS_G3dResDefaultRelease(sFireballBlueAnimResource[3]);
 
-        if (fireballBlueModelResource != NULL)
-            HeapFree(HEAP_USER, fireballBlueModelResource);
-        fireballBlueModelResource = NULL;
+        if (sFireballBlueModelResource != NULL)
+            HeapFree(HEAP_USER, sFireballBlueModelResource);
+        sFireballBlueModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
-    fireballBlueInstanceCount--;
+    sFireballBlueInstanceCount--;
 }
 
 void ExBossFireBlue_Main_Init(void)
 {
     exBossFireBlueTask *work = ExTaskGetWorkCurrent(exBossFireBlueTask);
 
-    fireballBlueLastSpawnedTask = GetCurrentTask();
+    sFireballBlueLastSpawnedTask = GetCurrentTask();
     LoadExBossFireBlueAssets(&work->animator);
     SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimAsOneShot(&work->animator.config);
@@ -224,7 +224,7 @@ void ExBossFireBlue_Destructor(void)
     exBossFireBlueTask *work = ExTaskGetWorkCurrent(exBossFireBlueTask);
 
     ReleaseExBossFireBlueAssets(&work->animator);
-    fireballBlueLastSpawnedTask = NULL;
+    sFireballBlueLastSpawnedTask = NULL;
 }
 
 void ExBossFireBlue_Main_MoveFast(void)
@@ -444,54 +444,54 @@ BOOL CreateExBossFireBlue(void)
 
 BOOL LoadExBossFireRedAssets(EX_ACTION_NN_WORK *work)
 {
-    fireballRedLastSpawnedWorker = work;
+    sFireballRedLastSpawnedWorker = work;
 
-    if (fireballRedModelFileSize != 0 && fireballRedTextureFileSize != 0)
+    if (sFireballRedModelFileSize != 0 && sFireballRedTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < fireballRedModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sFireballRedModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < fireballRedTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sFireballRedTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < fireballRedModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sFireballRedModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
-    if (fireballRedInstanceCount == 0)
+    if (sFireballRedInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FIRE1_NSBMD, &fireballRedModelResource, &fireballRedModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FIRE1_NSBMD, &sFireballRedModelResource, &sFireballRedModelFileSize, TRUE, FALSE);
 
-        fireballRedAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBMA);
-        fireballRedAnimType[0]     = B3D_ANIM_MAT_ANIM;
+        sFireballRedAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBMA);
+        sFireballRedAnimType[0]     = B3D_ANIM_MAT_ANIM;
 
-        fireballRedAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBVA);
-        fireballRedAnimType[1]     = B3D_ANIM_VIS_ANIM;
+        sFireballRedAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBVA);
+        sFireballRedAnimType[1]     = B3D_ANIM_VIS_ANIM;
 
-        fireballRedAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBTA);
-        fireballRedAnimType[2]     = B3D_ANIM_TEX_ANIM;
+        sFireballRedAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBTA);
+        sFireballRedAnimType[2]     = B3D_ANIM_TEX_ANIM;
 
-        fireballRedAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBTP);
-        fireballRedAnimType[3]     = B3D_ANIM_PAT_ANIM;
+        sFireballRedAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBTP);
+        sFireballRedAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
-        CreateAsset3DSetup(fireballRedModelResource);
+        CreateAsset3DSetup(sFireballRedModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
     AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(animator, fireballRedModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(animator, sFireballRedModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
     for (; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(animator, fireballRedAnimType[i], fireballRedAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(animator, sFireballRedAnimType[i], sFireballRedAnimResource[i], 0, NULL);
     }
 
-    AnimatorMDL__SetAnimation(animator, fireballRedAnimType[i], fireballRedAnimResource[i], 0, NNS_G3dGetTex(fireballRedModelResource));
+    AnimatorMDL__SetAnimation(animator, sFireballRedAnimType[i], sFireballRedAnimResource[i], 0, NNS_G3dGetTex(sFireballRedModelResource));
 
-    work->model.primaryAnimType     = fireballRedAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[fireballRedAnimType[0]];
+    work->model.primaryAnimType     = sFireballRedAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sFireballRedAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -510,44 +510,44 @@ BOOL LoadExBossFireRedAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z      = FLOAT_TO_FX32(4.0);
     work->hitChecker.box.position    = &work->model.translation;
 
-    fireballRedInstanceCount++;
+    sFireballRedInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBossFireRedAssets(EX_ACTION_NN_WORK *work)
 {
-    if (fireballRedInstanceCount <= 1)
+    if (sFireballRedInstanceCount <= 1)
     {
-        if (fireballRedModelResource != NULL)
-            NNS_G3dResDefaultRelease(fireballRedModelResource);
+        if (sFireballRedModelResource != NULL)
+            NNS_G3dResDefaultRelease(sFireballRedModelResource);
 
-        if (fireballRedAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(fireballRedAnimResource[0]);
+        if (sFireballRedAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sFireballRedAnimResource[0]);
 
-        if (fireballRedAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(fireballRedAnimResource[1]);
+        if (sFireballRedAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sFireballRedAnimResource[1]);
 
-        if (fireballRedAnimResource[2] != NULL)
-            NNS_G3dResDefaultRelease(fireballRedAnimResource[2]);
+        if (sFireballRedAnimResource[2] != NULL)
+            NNS_G3dResDefaultRelease(sFireballRedAnimResource[2]);
 
-        if (fireballRedAnimResource[3] != NULL)
-            NNS_G3dResDefaultRelease(fireballRedAnimResource[3]);
+        if (sFireballRedAnimResource[3] != NULL)
+            NNS_G3dResDefaultRelease(sFireballRedAnimResource[3]);
 
-        if (fireballRedModelResource != NULL)
-            HeapFree(HEAP_USER, fireballRedModelResource);
-        fireballRedModelResource = NULL;
+        if (sFireballRedModelResource != NULL)
+            HeapFree(HEAP_USER, sFireballRedModelResource);
+        sFireballRedModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
-    fireballRedInstanceCount--;
+    sFireballRedInstanceCount--;
 }
 
 void ExBossFireRed_Main_Init(void)
 {
     exBossFireRedTask *work = ExTaskGetWorkCurrent(exBossFireRedTask);
 
-    fireballRedLastSpawnedTask = GetCurrentTask();
+    sFireballRedLastSpawnedTask = GetCurrentTask();
     LoadExBossFireRedAssets(&work->animator);
     SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
     SetExDrawRequestAnimAsOneShot(&work->animator.config);
@@ -577,7 +577,7 @@ void ExBossFireRed_Destructor(void)
     exBossFireRedTask *work = ExTaskGetWorkCurrent(exBossFireRedTask);
 
     ReleaseExBossFireRedAssets(&work->animator);
-    fireballRedLastSpawnedTask = NULL;
+    sFireballRedLastSpawnedTask = NULL;
 }
 
 void ExBossFireRed_Main_MoveFast(void)

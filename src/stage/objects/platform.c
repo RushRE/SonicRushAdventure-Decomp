@@ -19,8 +19,8 @@
 // VARIABLES
 // --------------------
 
-static s16 Platform__activeCount;
-static u32 Platform__value_218A48C;
+static s16 sActiveInstanceCount;
+static u32 sUnknownValue;
 
 // --------------------
 // FUNCTIONS
@@ -134,10 +134,10 @@ Platform *Platform__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     if (mapObject->id == MAPOBJECT_193)
     {
-        if (Platform__activeCount == 0 && Platform__value_218A48C == 0)
-            Platform__value_218A48C = playerGameStatus.stageTimer;
+        if (sActiveInstanceCount == 0 && sUnknownValue == 0)
+            sUnknownValue = playerGameStatus.stageTimer;
 
-        Platform__activeCount++;
+        sActiveInstanceCount++;
     }
 
     if (Player__UseUpsideDownGravity(work->gameWork.objWork.position.x, work->gameWork.objWork.position.y))
@@ -165,11 +165,11 @@ void Platform__Destructor(Task *task)
 
     if (work->gameWork.mapObject->id == MAPOBJECT_193)
     {
-        if (Platform__activeCount != 0)
-            Platform__activeCount--;
+        if (sActiveInstanceCount != 0)
+            sActiveInstanceCount--;
 
-        if (Platform__activeCount == 0)
-            Platform__value_218A48C = 0;
+        if (sActiveInstanceCount == 0)
+            sUnknownValue = 0;
     }
 
     GameObject__Destructor(task);

@@ -39,11 +39,11 @@
 // VARIABLES
 // --------------------
 
-static Task *hubControlTaskSingleton;
-static MIProcessor hubMiProcessor;
+static Task *sHubControlTaskSingleton;
+static MIProcessor sHubMiProcessor;
 
-static const u16 npcCountForArea[DOCKAREA_COUNT]   = { 9, 4, 3, 2, 2, 2, 0, 0 };
-static const u16 npcStartIDForArea[DOCKAREA_COUNT] = {
+static const u16 sNpcCountForArea[DOCKAREA_COUNT]   = { 9, 4, 3, 2, 2, 2, 0, 0 };
+static const u16 sNpcStartIDForArea[DOCKAREA_COUNT] = {
     CVIDOCK_NPC_BASE_TAILS, CVIDOCK_NPC_JET_TAILS, CVIDOCK_NPC_BOAT_COLONEL, CVIDOCK_NPC_HOVER_COLONEL, CVIDOCK_NPC_SUBMARINE_COLONEL, CVIDOCK_NPC_BEACH_TABBY, 0, 0
 };
 
@@ -166,7 +166,7 @@ void HubControl::HandleGameOverStartEvent(s32 startAction)
 
         HubControl::CreateForDock(DOCKAREA_BASE, FALSE, FALSE);
 
-        HubControl *work            = TaskGetWork(hubControlTaskSingleton, HubControl);
+        HubControl *work            = TaskGetWork(sHubControlTaskSingleton, HubControl);
         work->startWithGameOverTalk = TRUE;
         work->isStageGameOver       = isStageGameOver;
     }
@@ -231,87 +231,87 @@ void HubControl::InitForUnfinishedTutorial()
 
 void HubControl::DisableTouchInteractions()
 {
-    HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *work = TaskGetWork(sHubControlTaskSingleton, HubControl);
     work->touchFlags |= 1;
 }
 
 BOOL HubControl::TouchEnabled()
 {
-    HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *work = TaskGetWork(sHubControlTaskSingleton, HubControl);
     return (work->touchFlags & 1) == 0;
 }
 
 void *HubControl::GetSpriteFile(u16 id)
 {
-    HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *work = TaskGetWork(sHubControlTaskSingleton, HubControl);
 
     return FileUnknown__GetAOUFile(work->viActArchive, id);
 }
 
 void *HubControl::GetLocalizedSpriteFile(u16 id)
 {
-    HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *work = TaskGetWork(sHubControlTaskSingleton, HubControl);
 
     return FileUnknown__GetAOUFile(work->viActLocArchive, id);
 }
 
 void *HubControl::GetBackgroundFile(u16 id)
 {
-    HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *work = TaskGetWork(sHubControlTaskSingleton, HubControl);
 
     return FileUnknown__GetAOUFile(work->viBGArchive, id);
 }
 
 void *HubControl::GetMsgSequenceArchive()
 {
-    HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *work = TaskGetWork(sHubControlTaskSingleton, HubControl);
 
     return work->viMsgArchive;
 }
 
 void *HubControl::GetMsgControlArchive()
 {
-    HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *work = TaskGetWork(sHubControlTaskSingleton, HubControl);
 
     return work->viMsgCtrlArchive;
 }
 
 FontWindow *HubControl::GetFontWindow()
 {
-    HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *work = TaskGetWork(sHubControlTaskSingleton, HubControl);
 
     return &work->fontWindow;
 }
 
 void *HubControl::GetCharacterNameSprite()
 {
-    HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *work = TaskGetWork(sHubControlTaskSingleton, HubControl);
 
     return work->tkdmNameSprite;
 }
 
 void HubControl::InitMainMemoryPriorityForHub()
 {
-    hubMiProcessor = MI_GetMainMemoryPriority();
+    sHubMiProcessor = MI_GetMainMemoryPriority();
     MI_SetMainMemoryPriority(MI_PROCESSOR_ARM7);
 }
 
 void HubControl::ResetMainMemoryPriorityFromHub()
 {
-    if (hubMiProcessor != MI_PROCESSOR_ARM7 && hubMiProcessor != MI_PROCESSOR_ARM9)
-        hubMiProcessor = MI_PROCESSOR_ARM9;
+    if (sHubMiProcessor != MI_PROCESSOR_ARM7 && sHubMiProcessor != MI_PROCESSOR_ARM9)
+        sHubMiProcessor = MI_PROCESSOR_ARM9;
 
-    MI_SetMainMemoryPriority(hubMiProcessor);
+    MI_SetMainMemoryPriority(sHubMiProcessor);
 }
 
 void HubControl::CreateForMap(MapArea mapArea)
 {
     HubControl::InitDisplay();
 
-    hubControlTaskSingleton =
+    sHubControlTaskSingleton =
         HubTaskCreate(HubControl::Main_InitMap, HubControl::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1050, TASK_GROUP(16), HubControl);
 
-    HubControl *work      = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *work      = TaskGetWork(sHubControlTaskSingleton, HubControl);
     work->flags           = 0x10000;
     work->genericTimer    = 0;
     work->referenceTime   = 0;
@@ -372,10 +372,10 @@ void HubControl::CreateForDock(s32 dockArea, BOOL loadCharacterStates, BOOL disa
 {
     HubControl::InitDisplay();
 
-    hubControlTaskSingleton =
+    sHubControlTaskSingleton =
         HubTaskCreate(HubControl::Main_InitDock, HubControl::Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1050, TASK_GROUP(16), HubControl);
 
-    HubControl *work = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *work = TaskGetWork(sHubControlTaskSingleton, HubControl);
 
     work->flags           = 0x10000;
     work->genericTimer    = 0;
@@ -456,7 +456,7 @@ void HubControl::CreateForDock(s32 dockArea, BOOL loadCharacterStates, BOOL disa
 
 void HubControl::SetMapIconArea(MapArea mapArea)
 {
-    HubControl *work  = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *work  = TaskGetWork(sHubControlTaskSingleton, HubControl);
     work->mapIconArea = mapArea;
 }
 
@@ -1362,7 +1362,7 @@ void HubControl::Destructor(Task *task)
     work->Release();
     HubTaskDestroy<HubControl>(task);
 
-    hubControlTaskSingleton = NULL;
+    sHubControlTaskSingleton = NULL;
 }
 
 // CViHubAreaPreview
@@ -1394,7 +1394,7 @@ void CViHubAreaPreview::Destroy(HubControl *parent)
 
 void CViHubAreaPreview::Main()
 {
-    HubControl *hubControl = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *hubControl = TaskGetWork(sHubControlTaskSingleton, HubControl);
 
     s32 mapArea = CViMap::GetMapAreaFromMapIconMarker(FALSE);
     if (mapArea != hubControl->nextMapArea)
@@ -1436,7 +1436,7 @@ void CViHubAreaPreview::Main()
 
 void CViHubAreaPreview::Destructor(Task *task)
 {
-    HubControl *hubControl = TaskGetWork(hubControlTaskSingleton, HubControl);
+    HubControl *hubControl = TaskGetWork(sHubControlTaskSingleton, HubControl);
 
     hubControl->ReleaseAnimators();
 }
@@ -2113,9 +2113,9 @@ void HubControl::SetAreaSpritesForAreaChange(MapArea area)
         this->npcCount = 0;
         if (area < MAPAREA_COUNT)
         {
-            s32 npcCount = npcCountForArea[area];
+            s32 npcCount = sNpcCountForArea[area];
             s32 n;
-            u16 npcID = npcStartIDForArea[area];
+            u16 npcID = sNpcStartIDForArea[area];
 
             for (n = 0; n < npcCount; n++)
             {
@@ -2371,13 +2371,13 @@ void HubControl::ChangeEvent(s32 eventID, s32 selection)
 
     HubControl::ResetMainMemoryPriorityFromHub();
 
-    const s16 sysEventList[] = {
+    const s16 sSysEventList[] = {
         SYSEVENT_UPDATE_PROGRESS, SYSEVENT_SAILING,    SYSEVENT_MAIN_MENU,  SYSEVENT_DELETE_SAVE_MENU, SYSEVENT_PLAYER_NAME_MENU,
         SYSEVENT_VS_MENU,         SYSEVENT_24,         SYSEVENT_CUTSCENE,   SYSEVENT_CUTSCENE,         SYSEVENT_INVALID,
         SYSEVENT_LOAD_STAGE,      SYSEVENT_SOUND_TEST, SYSEVENT_VIKING_CUP, SYSEVENT_LOAD_STAGE,       SYSEVENT_CORRUPT_SAVE_WARNING,
     };
 
-    s16 sysEventID = sysEventList[eventID];
+    s16 sysEventID = sSysEventList[eventID];
     if (sysEventID >= 0)
         RequestNewSysEventChange(sysEventID);
 

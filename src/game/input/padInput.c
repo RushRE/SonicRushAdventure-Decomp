@@ -4,7 +4,7 @@
 // VARIABLES
 // --------------------
 
-static PadInputFlags inputFlags;
+static PadInputFlags sInputFlags;
 PadInputState padInput;
 
 // --------------------
@@ -13,7 +13,7 @@ PadInputState padInput;
 
 void InitPadInputSystem(void)
 {
-    inputFlags = PAD_INPUT_FLAG_NONE;
+    sInputFlags = PAD_INPUT_FLAG_NONE;
 
     InitPadInput(&padInput, NULL, NULL);
     ReadPadInput(&padInput, GetPadButtonMask());
@@ -21,7 +21,7 @@ void InitPadInputSystem(void)
 
 void UpdatePadInput(void)
 {
-    if ((inputFlags & PAD_INPUT_FLAG_DISABLED) == 0)
+    if ((sInputFlags & PAD_INPUT_FLAG_DISABLED) == 0)
     {
         ReadPadInput(&padInput, GetPadButtonMask());
     }
@@ -94,7 +94,7 @@ void ReadPadInput(PadInputState *state, PadButtonMask inputs)
 
 void EnablePadInput(BOOL enabled)
 {
-    inputFlags &= ~PAD_INPUT_FLAG_DISABLED;
+    sInputFlags &= ~PAD_INPUT_FLAG_DISABLED;
     if (enabled)
-        inputFlags |= PAD_INPUT_FLAG_DISABLED;
+        sInputFlags |= PAD_INPUT_FLAG_DISABLED;
 }

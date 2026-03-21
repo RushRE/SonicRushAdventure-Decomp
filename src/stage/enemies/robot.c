@@ -86,30 +86,45 @@ enum FlyingFishAttackState
 // VARIABLES
 // --------------------
 
-static const u16 spritePaletteIDList[ROBOT_TYPE_COUNT] = {
-    [ROBOT_TYPE_TRICERATOPS] = 20, [ROBOT_TYPE_FLYING_FISH] = 21, [ROBOT_TYPE_PTERODACTYL] = 20, [ROBOT_TYPE_SPANNER_BOT] = 37, [ROBOT_TYPE_STEAM_BLASTER] = 36
+static const u16 sSpritePaletteIDList[ROBOT_TYPE_COUNT] = {
+    [ROBOT_TYPE_TRICERATOPS]   = 20, // Formatting Comment
+    [ROBOT_TYPE_FLYING_FISH]   = 21, // Formatting Comment
+    [ROBOT_TYPE_PTERODACTYL]   = 20, // Formatting Comment
+    [ROBOT_TYPE_SPANNER_BOT]   = 37, // Formatting Comment
+    [ROBOT_TYPE_STEAM_BLASTER] = 36  // Formatting Comment
 };
 
-static const u32 dataWorkList[ROBOT_TYPE_COUNT] = { [ROBOT_TYPE_TRICERATOPS]   = OBJDATAWORK_3,
-                                                    [ROBOT_TYPE_FLYING_FISH]   = OBJDATAWORK_4,
-                                                    [ROBOT_TYPE_PTERODACTYL]   = OBJDATAWORK_5,
-                                                    [ROBOT_TYPE_SPANNER_BOT]   = OBJDATAWORK_6,
-                                                    [ROBOT_TYPE_STEAM_BLASTER] = OBJDATAWORK_7 };
-
-static const HitboxRect detectRange[ROBOT_TYPE_COUNT] = {
-    [ROBOT_TYPE_TRICERATOPS] = { -138, -40, -10, -8 }, [ROBOT_TYPE_FLYING_FISH] = { -190, -72, -10, -8 },   [ROBOT_TYPE_PTERODACTYL] = { -100, 30, -20, 128 },
-    [ROBOT_TYPE_SPANNER_BOT] = { -110, -72, -10, -8 }, [ROBOT_TYPE_STEAM_BLASTER] = { -110, -72, -10, -8 },
+static const u32 sDataWorkList[ROBOT_TYPE_COUNT] = {
+    [ROBOT_TYPE_TRICERATOPS]   = OBJDATAWORK_3, // Formatting Comment
+    [ROBOT_TYPE_FLYING_FISH]   = OBJDATAWORK_4, // Formatting Comment
+    [ROBOT_TYPE_PTERODACTYL]   = OBJDATAWORK_5, // Formatting Comment
+    [ROBOT_TYPE_SPANNER_BOT]   = OBJDATAWORK_6, // Formatting Comment
+    [ROBOT_TYPE_STEAM_BLASTER] = OBJDATAWORK_7, // Formatting Comment
 };
 
-static s16 colliderActivateDelay[ROBOT_TYPE_COUNT] = {
-    [ROBOT_TYPE_TRICERATOPS] = 120, [ROBOT_TYPE_FLYING_FISH] = 30, [ROBOT_TYPE_PTERODACTYL] = 60, [ROBOT_TYPE_SPANNER_BOT] = 240, [ROBOT_TYPE_STEAM_BLASTER] = 120
+static const HitboxRect sDetectRange[ROBOT_TYPE_COUNT] = {
+    [ROBOT_TYPE_TRICERATOPS]   = { -138, -40, -10, -8 }, // Formatting Comment
+    [ROBOT_TYPE_FLYING_FISH]   = { -190, -72, -10, -8 }, // Formatting Comment
+    [ROBOT_TYPE_PTERODACTYL]   = { -100, 30, -20, 128 }, // Formatting Comment
+    [ROBOT_TYPE_SPANNER_BOT]   = { -110, -72, -10, -8 }, // Formatting Comment
+    [ROBOT_TYPE_STEAM_BLASTER] = { -110, -72, -10, -8 }, // Formatting Comment
 };
 
-static const char *spriteList[ROBOT_TYPE_COUNT] = { [ROBOT_TYPE_TRICERATOPS]   = "/act/ac_ene_tri.bac",
-                                                    [ROBOT_TYPE_FLYING_FISH]   = "/act/ac_ene_fly_fish.bac",
-                                                    [ROBOT_TYPE_PTERODACTYL]   = "/act/ac_ene_ptera.bac",
-                                                    [ROBOT_TYPE_SPANNER_BOT]   = "/act/ac_ene_prot_span.bac",
-                                                    [ROBOT_TYPE_STEAM_BLASTER] = "/act/ac_ene_prot_damp.bac" };
+static s16 sColliderActivateDelay[ROBOT_TYPE_COUNT] = {
+    [ROBOT_TYPE_TRICERATOPS]   = 120, // Formatting Comment
+    [ROBOT_TYPE_FLYING_FISH]   = 30,  // Formatting Comment
+    [ROBOT_TYPE_PTERODACTYL]   = 60,  // Formatting Comment
+    [ROBOT_TYPE_SPANNER_BOT]   = 240, // Formatting Comment
+    [ROBOT_TYPE_STEAM_BLASTER] = 120, // Formatting Comment
+};
+
+static const char *sSpriteList[ROBOT_TYPE_COUNT] = {
+    [ROBOT_TYPE_TRICERATOPS]   = "/act/ac_ene_tri.bac",       // Formatting Comment
+    [ROBOT_TYPE_FLYING_FISH]   = "/act/ac_ene_fly_fish.bac",  // Formatting Comment
+    [ROBOT_TYPE_PTERODACTYL]   = "/act/ac_ene_ptera.bac",     // Formatting Comment
+    [ROBOT_TYPE_SPANNER_BOT]   = "/act/ac_ene_prot_span.bac", // Formatting Comment
+    [ROBOT_TYPE_STEAM_BLASTER] = "/act/ac_ene_prot_damp.bac", // Formatting Comment
+};
 
 // --------------------
 // FUNCTION DECLS
@@ -294,16 +309,16 @@ EnemyRobot *CreateRobot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     work->type = robotType;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[robotType], GetObjectDataWork(dataWorkList[robotType]), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[robotType], GetObjectDataWork(sDataWorkList[robotType]), gameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, spritePaletteIDList[robotType]);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, sSpritePaletteIDList[robotType]);
 
     if ((work->gameWork.objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT) == 0)
         StageTask__SetHitbox(&work->gameWork.objWork, -8, -10, 8, -2);
 
-    ObjRect__SetBox2D(&work->colliderDetect.rect, detectRange[robotType].left, detectRange[robotType].top, detectRange[robotType].right, detectRange[robotType].bottom);
+    ObjRect__SetBox2D(&work->colliderDetect.rect, sDetectRange[robotType].left, sDetectRange[robotType].top, sDetectRange[robotType].right, sDetectRange[robotType].bottom);
     ObjRect__SetAttackStat(&work->colliderDetect, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(&work->colliderDetect, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetGroupFlags(&work->colliderDetect, 2, 1);
@@ -909,7 +924,7 @@ void EnemyRobot_OnDefend_Detector(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         robot->detectPlayerPos.x = player->objWork.position.x;
         robot->detectPlayerPos.y = player->objWork.position.y;
         robot->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
-        robot->colliderActivateTimer = colliderActivateDelay[robot->type];
+        robot->colliderActivateTimer = sColliderActivateDelay[robot->type];
         robot->onDetect(robot);
     }
 }

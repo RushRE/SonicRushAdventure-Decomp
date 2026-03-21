@@ -202,7 +202,7 @@ SailRetireEvent__CreateFailText: // 0x0216E884
 	bl SailPlayer__HasRetired
 	cmp r0, #0
 	beq _0216E934
-	ldr r0, _0216E984 // =defaultTrackPlayer
+	ldr r0, _0216E984 // =gDefaultTrackPlayer
 	mov r1, #0
 	bl NNS_SndPlayerStopSeq
 	mov r0, #0
@@ -241,7 +241,7 @@ _0216E968:
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _0216E980: .word SailRetireEvent__Main
-_0216E984: .word defaultTrackPlayer
+_0216E984: .word gDefaultTrackPlayer
 _0216E988: .word gameState
 	arm_func_end SailRetireEvent__CreateFailText
 
@@ -1776,7 +1776,7 @@ _0216FDAC:
 	ldr r0, [r4, #0x24]
 	tst r0, #0x20
 	bne _0216FDF4
-	ldr r0, _0216FE5C // =defaultTrackPlayer
+	ldr r0, _0216FE5C // =gDefaultTrackPlayer
 	mov r1, #0
 	bl NNS_SndPlayerStopSeq
 	mov r0, #0
@@ -1821,7 +1821,7 @@ _0216FE30:
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_0216FE5C: .word defaultTrackPlayer
+_0216FE5C: .word gDefaultTrackPlayer
 _0216FE60: .word saveGame
 	arm_func_end SailHUDClearText__Func_216FD80
 
@@ -9202,7 +9202,7 @@ SailHUD__Func_2176578: // 0x02176578
 	cmp r0, #0
 	beq _021765F4
 	mov r0, r0, asr #1
-	ldr r1, _02176A70 // =StageTask__shakeOffsetTable
+	ldr r1, _02176A70 // =gStageTaskShakeOffsetTable
 	and r0, r0, #0xf
 	ldrsb r0, [r1, r0]
 	strh r0, [sp, #0x14]
@@ -9516,7 +9516,7 @@ _021769EC:
 	add sp, sp, #0x18
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
-_02176A70: .word StageTask__shakeOffsetTable
+_02176A70: .word gStageTaskShakeOffsetTable
 	arm_func_end SailHUD__Func_2176578
 
 	arm_func_start SailHUD__Func_2176A74
@@ -9536,7 +9536,7 @@ SailHUD__Func_2176A74: // 0x02176A74
 	cmp r0, #0
 	beq _02176AD8
 	mov r0, r0, asr #1
-	ldr r1, _02176C68 // =StageTask__shakeOffsetTable
+	ldr r1, _02176C68 // =gStageTaskShakeOffsetTable
 	and r0, r0, #0xf
 	ldrsb r0, [r1, r0]
 	strh r0, [sp]
@@ -9650,7 +9650,7 @@ _02176BD0:
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
-_02176C68: .word StageTask__shakeOffsetTable
+_02176C68: .word gStageTaskShakeOffsetTable
 	arm_func_end SailHUD__Func_2176A74
 
 	arm_func_start SailHUD__Func_2176C6C
@@ -9673,7 +9673,7 @@ SailHUD__Func_2176C6C: // 0x02176C6C
 	cmp r0, #0
 	beq _02176CDC
 	mov r0, r0, asr #1
-	ldr r1, _0217755C // =StageTask__shakeOffsetTable
+	ldr r1, _0217755C // =gStageTaskShakeOffsetTable
 	and r0, r0, #0xf
 	ldrsb r0, [r1, r0]
 	strh r0, [sp, #8]
@@ -10254,7 +10254,7 @@ _02177540:
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0217755C: .word StageTask__shakeOffsetTable
+_0217755C: .word gStageTaskShakeOffsetTable
 	arm_func_end SailHUD__Func_2176C6C
 
 	arm_func_start SailHUD__Func_2177560
@@ -10275,7 +10275,7 @@ SailHUD__Func_2177560: // 0x02177560
 	cmp r1, #0
 	beq _021775C8
 	mov r1, r1, asr #1
-	ldr r2, _02177784 // =StageTask__shakeOffsetTable
+	ldr r2, _02177784 // =gStageTaskShakeOffsetTable
 	and r1, r1, #0xf
 	ldrsb r1, [r2, r1]
 	strh r1, [sp]
@@ -10399,7 +10399,7 @@ _021776CC:
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02177784: .word StageTask__shakeOffsetTable
+_02177784: .word gStageTaskShakeOffsetTable
 _02177788: .word 0x0000100C
 	arm_func_end SailHUD__Func_2177560
 
@@ -10888,7 +10888,7 @@ SailHUD__Func_2177E0C: // 0x02177E0C
 	cmp r0, #0
 	beq _02177E6C
 	mov r0, r0, asr #1
-	ldr r1, _02177F04 // =StageTask__shakeOffsetTable
+	ldr r1, _02177F04 // =gStageTaskShakeOffsetTable
 	and r0, r0, #0xf
 	ldrsb r0, [r1, r0]
 	strh r0, [sp, #4]
@@ -10942,7 +10942,7 @@ _02177EDC:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02177F04: .word StageTask__shakeOffsetTable
+_02177F04: .word gStageTaskShakeOffsetTable
 	arm_func_end SailHUD__Func_2177E0C
 
 	arm_func_start SailHUD__Func_2177F08
@@ -10966,7 +10966,7 @@ SailHUD__Func_2177F08: // 0x02177F08
 	cmp r0, #0
 	beq _02177F7C
 	mov r0, r0, asr #1
-	ldr r1, _02178108 // =StageTask__shakeOffsetTable
+	ldr r1, _02178108 // =gStageTaskShakeOffsetTable
 	and r0, r0, #0xf
 	ldrsb r0, [r1, r0]
 	strh r0, [sp, #8]
@@ -11083,7 +11083,7 @@ _0217809C:
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02178108: .word StageTask__shakeOffsetTable
+_02178108: .word gStageTaskShakeOffsetTable
 	arm_func_end SailHUD__Func_2177F08
 
 	.data

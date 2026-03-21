@@ -7,7 +7,7 @@
 // VARIABLES
 // --------------------
 
-static Task *drawFadeTask;
+static Task *sDrawFadeTaskSingleton;
 
 // --------------------
 // FUNCTION DECLS
@@ -32,11 +32,11 @@ DrawFadeTask *CreateDrawFadeTask(DrawFadeTaskFlags flags, fx32 fadeSpeed)
     if (CheckTaskPaused(NULL))
         taskFlag = TASK_FLAG_IGNORE_PAUSELEVEL;
 
-    if (drawFadeTask != NULL)
+    if (sDrawFadeTaskSingleton != NULL)
     {
-        work         = TaskGetWork(drawFadeTask, DrawFadeTask);
+        work         = TaskGetWork(sDrawFadeTaskSingleton, DrawFadeTask);
         disableSetup = TRUE;
-        drawFadeTask->usrFlags |= taskFlag;
+        sDrawFadeTaskSingleton->usrFlags |= taskFlag;
     }
     else
     {
@@ -44,7 +44,7 @@ DrawFadeTask *CreateDrawFadeTask(DrawFadeTaskFlags flags, fx32 fadeSpeed)
         if (task == HeapNull)
             return NULL;
 
-        drawFadeTask = task;
+        sDrawFadeTaskSingleton = task;
         work         = TaskGetWork(task, DrawFadeTask);
         TaskInitWork16(work);
     }
@@ -69,7 +69,7 @@ DrawFadeTask *CreateDrawFadeTask(DrawFadeTaskFlags flags, fx32 fadeSpeed)
 
 void DrawFadeTask_Destructor(Task *task)
 {
-    drawFadeTask = NULL;
+    sDrawFadeTaskSingleton = NULL;
 }
 
 void DrawFadeTask_Main(void)
@@ -185,15 +185,15 @@ void SetDrawFadeTaskBrightness(DrawFadeTask *work)
 
 void DestroyDrawFadeTask(void)
 {
-    if (drawFadeTask != NULL)
-        DestroyTask(drawFadeTask);
+    if (sDrawFadeTaskSingleton != NULL)
+        DestroyTask(sDrawFadeTaskSingleton);
 }
 
 BOOL IsDrawFadeTaskFinished(void)
 {
-    if (drawFadeTask == NULL)
+    if (sDrawFadeTaskSingleton == NULL)
         return TRUE;
 
-    DrawFadeTask *work = TaskGetWork(drawFadeTask, DrawFadeTask);
+    DrawFadeTask *work = TaskGetWork(sDrawFadeTaskSingleton, DrawFadeTask);
     return (work->flags & DRAW_FADE_TASK_FLAG_FINISHED) != 0;
 }

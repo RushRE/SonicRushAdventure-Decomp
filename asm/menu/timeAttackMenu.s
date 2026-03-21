@@ -355,7 +355,7 @@ TimeAttackMenu__Setup: // 0x0216C7D4
 	mov r6, r0
 	bl GetTaskWork_
 	mov r4, r0
-	bl GetSysEventList
+	bl GetSysEventManager
 	mov r5, r0
 	ldr r2, _0216C9AC // =0x00001518
 	mov r0, #0
@@ -919,7 +919,7 @@ TimeAttackMenuBG__Create: // 0x0216CCA4
 	mov r5, #0
 	b _0216CCD0
 _0216CCC2:
-	bl GetSysEventList
+	bl GetSysEventManager
 	mov r1, #0xc
 	ldrsh r0, [r0, r1]
 	cmp r0, #7
@@ -3324,7 +3324,7 @@ TimeAttackMenu__Main_InitCharacterSelect: // 0x0216E080
 	lsr r0, r2, #0xf
 	orr r0, r1
 	str r0, [r2]
-	bl GetSysEventList
+	bl GetSysEventManager
 	mov r1, #0xc
 	ldrsh r0, [r0, r1]
 	cmp r0, #7
@@ -3359,7 +3359,7 @@ TimeAttackMenu__Main_216E0DC: // 0x0216E0DC
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl GetSysEventList
+	bl GetSysEventManager
 	mov r1, #0xc
 	ldrsh r0, [r0, r1]
 	cmp r0, #7

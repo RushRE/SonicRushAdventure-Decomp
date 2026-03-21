@@ -23,34 +23,34 @@ struct ExBarrierChargingEffectConfig
 // VARIABLES
 // --------------------
 
-static s16 exSonicBarrierHitEffectInstanceCount;
-static s16 exSonicBarrierEffectSpriteInstanceCount;
-static s16 exSonicBarrierChargingEffectInstanceCount;
+static s16 sSonicBarrierHitEffectInstanceCount;
+static s16 sSonicBarrierEffectSpriteInstanceCount;
+static s16 sSonicBarrierChargingEffectInstanceCount;
 
-static void *exSonicBarrierChargingEffectModelResource;
-static u32 exSonicBarrierChargingEffectTextureFileSize;
-static u32 exSonicBarrierChargingEffectModelFileSize;
-static void *exSonicBarrierEffectUnused;
-static u32 exSonicBarrierHitEffectTextureFileSize;
-static void *exSonicBarrierHitEffectUnused;
-static void *exSonicBarrierHitEffectModelResource;
-static void *exSonicBarrierHitEffectLastSpawnedWorker;
-static BOOL disableExSonicBarrierEffectSpawning;
-static Task *exSonicBarrierEffectTaskSingleton;
-static void *exSonicBarrierChargingEffectLastSpawnedWorker;
-static void *exSonicBarrierEffectSpriteResource;
-static Task *exSonicBarrierChargingEffectTaskSingleton;
-static Task *exSonicBarrierHitEffectTaskSingleton;
-static u32 exSonicBarrierHitEffectModelFileSize;
-static void *exSonicBarrierChargingEffectAnimResource[2];
-static void *exSonicBarrierHitEffectAnimResource[3];
-static u32 exSonicBarrierHitEffectAnimType[3];
+static void *sSonicBarrierChargingEffectModelResource;
+static u32 sSonicBarrierChargingEffectTextureFileSize;
+static u32 sSonicBarrierChargingEffectModelFileSize;
+static void *sSonicBarrierEffectUnused;
+static u32 sSonicBarrierHitEffectTextureFileSize;
+static void *sSonicBarrierHitEffectUnused;
+static void *sSonicBarrierHitEffectModelResource;
+static void *sSonicBarrierHitEffectLastSpawnedWorker;
+static BOOL sDisableSonicBarrierEffectSpawning;
+static Task *sSonicBarrierEffectTaskSingleton;
+static void *sSonicBarrierChargingEffectLastSpawnedWorker;
+static void *sSonicBarrierEffectSpriteResource;
+static Task *sSonicBarrierChargingEffectTaskSingleton;
+static Task *sSonicBarrierHitEffectTaskSingleton;
+static u32 sSonicBarrierHitEffectModelFileSize;
+static void *sSonicBarrierChargingEffectAnimResource[2];
+static void *sSonicBarrierHitEffectAnimResource[3];
+static u32 sSonicBarrierHitEffectAnimType[3];
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(exSonicBarrierEffectUnused)
-FORCE_INCLUDE_VARIABLE_BSS(exSonicBarrierHitEffectUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sSonicBarrierEffectUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sSonicBarrierHitEffectUnused)
 
-static struct ExBarrierChargingEffectConfig exSonicBarrierChargingEffectConfig[] = {
+static struct ExBarrierChargingEffectConfig sSonicBarrierChargingEffectConfig[] = {
     [0] = { .scale = { 1.0f, 1.0f, 1.0f }, .size = { 0.0f, 0.0f, 0.0f } },
     [1] = { .scale = { 2.5f, 2.5f, 2.5f }, .size = { 0.0f, 0.0f, 0.0f } },
     [2] = { .scale = { 2.5f, 2.5f, 2.5f }, .size = { 0.0f, 0.0f, 0.0f } },
@@ -95,50 +95,50 @@ static void ExSonicBarrierChargingEffect_Main_Active(void);
 
 BOOL LoadExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    exSonicBarrierHitEffectLastSpawnedWorker = work;
+    sSonicBarrierHitEffectLastSpawnedWorker = work;
 
-    if (exSonicBarrierHitEffectModelFileSize != 0 && exSonicBarrierHitEffectTextureFileSize != 0)
+    if (sSonicBarrierHitEffectModelFileSize != 0 && sSonicBarrierHitEffectTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exSonicBarrierHitEffectModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sSonicBarrierHitEffectModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exSonicBarrierHitEffectTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sSonicBarrierHitEffectTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exSonicBarrierHitEffectModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sSonicBarrierHitEffectModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exSonicBarrierHitEffectInstanceCount == 0)
+    if (sSonicBarrierHitEffectInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_HIT0_NSBMD, &exSonicBarrierHitEffectModelResource,
-                                      &exSonicBarrierHitEffectModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_HIT0_NSBMD, &sSonicBarrierHitEffectModelResource,
+                                      &sSonicBarrierHitEffectModelFileSize, TRUE, FALSE);
 
-        exSonicBarrierHitEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HIT0_NSBCA);
-        exSonicBarrierHitEffectAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sSonicBarrierHitEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HIT0_NSBCA);
+        sSonicBarrierHitEffectAnimType[0]     = B3D_ANIM_JOINT_ANIM;
 
-        exSonicBarrierHitEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HIT0_NSBMA);
-        exSonicBarrierHitEffectAnimType[1]     = B3D_ANIM_MAT_ANIM;
+        sSonicBarrierHitEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HIT0_NSBMA);
+        sSonicBarrierHitEffectAnimType[1]     = B3D_ANIM_MAT_ANIM;
 
-        exSonicBarrierHitEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HIT0_NSBVA);
-        exSonicBarrierHitEffectAnimType[2]     = B3D_ANIM_VIS_ANIM;
+        sSonicBarrierHitEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HIT0_NSBVA);
+        sSonicBarrierHitEffectAnimType[2]     = B3D_ANIM_VIS_ANIM;
 
-        CreateAsset3DSetup(exSonicBarrierHitEffectModelResource);
+        CreateAsset3DSetup(sSonicBarrierHitEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exSonicBarrierHitEffectModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->model.animator, sSonicBarrierHitEffectModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
     for (; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exSonicBarrierHitEffectAnimType[i], exSonicBarrierHitEffectAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sSonicBarrierHitEffectAnimType[i], sSonicBarrierHitEffectAnimResource[i], 0, NULL);
     }
 
-    work->model.primaryAnimType     = exSonicBarrierHitEffectAnimType[1];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exSonicBarrierHitEffectAnimType[1]];
+    work->model.primaryAnimType     = sSonicBarrierHitEffectAnimType[1];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sSonicBarrierHitEffectAnimType[1]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -162,42 +162,42 @@ BOOL LoadExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work)
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
-    exSonicBarrierHitEffectInstanceCount++;
+    sSonicBarrierHitEffectInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exSonicBarrierHitEffectInstanceCount <= 1)
+    if (sSonicBarrierHitEffectInstanceCount <= 1)
     {
-        if (exSonicBarrierHitEffectModelResource != NULL)
-            NNS_G3dResDefaultRelease(exSonicBarrierHitEffectModelResource);
+        if (sSonicBarrierHitEffectModelResource != NULL)
+            NNS_G3dResDefaultRelease(sSonicBarrierHitEffectModelResource);
 
-        if (exSonicBarrierHitEffectAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exSonicBarrierHitEffectAnimResource[0]);
+        if (sSonicBarrierHitEffectAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sSonicBarrierHitEffectAnimResource[0]);
 
-        if (exSonicBarrierHitEffectAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exSonicBarrierHitEffectAnimResource[1]);
+        if (sSonicBarrierHitEffectAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sSonicBarrierHitEffectAnimResource[1]);
 
-        if (exSonicBarrierHitEffectAnimResource[2] != NULL)
-            NNS_G3dResDefaultRelease(exSonicBarrierHitEffectAnimResource[2]);
+        if (sSonicBarrierHitEffectAnimResource[2] != NULL)
+            NNS_G3dResDefaultRelease(sSonicBarrierHitEffectAnimResource[2]);
 
-        if (exSonicBarrierHitEffectModelResource != NULL)
-            HeapFree(HEAP_USER, exSonicBarrierHitEffectModelResource);
-        exSonicBarrierHitEffectModelResource = NULL;
+        if (sSonicBarrierHitEffectModelResource != NULL)
+            HeapFree(HEAP_USER, sSonicBarrierHitEffectModelResource);
+        sSonicBarrierHitEffectModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exSonicBarrierHitEffectInstanceCount--;
+    sSonicBarrierHitEffectInstanceCount--;
 }
 
 void ExSonicBarrierHitEffect_Main_Init(void)
 {
     exEffectBarrierHitTask *work = ExTaskGetWorkCurrent(exEffectBarrierHitTask);
 
-    exSonicBarrierHitEffectTaskSingleton = GetCurrentTask();
+    sSonicBarrierHitEffectTaskSingleton = GetCurrentTask();
 
     LoadExSonicBarrierHitEffectAssets(&work->aniBarrier);
     SetExDrawRequestPriority(&work->aniBarrier.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -221,7 +221,7 @@ void ExSonicBarrierHitEffect_Destructor(void)
 
     ReleaseExSonicBarrierHitEffectAssets(&work->aniBarrier);
 
-    exSonicBarrierHitEffectTaskSingleton = NULL;
+    sSonicBarrierHitEffectTaskSingleton = NULL;
 }
 
 void ExSonicBarrierHitEffect_Main_Active(void)
@@ -270,13 +270,13 @@ void LoadExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work)
 {
     InitExDrawRequestSprite3D(work);
 
-    if (exSonicBarrierEffectSpriteInstanceCount == 0)
-        exSonicBarrierEffectSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
+    if (sSonicBarrierEffectSpriteInstanceCount == 0)
+        sSonicBarrierEffectSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
 
-    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exSonicBarrierEffectSpriteResource, 1), FALSE);
-    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exSonicBarrierEffectSpriteResource, 1), FALSE);
+    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(sSonicBarrierEffectSpriteResource, 1), FALSE);
+    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(sSonicBarrierEffectSpriteResource, 1), FALSE);
 
-    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exSonicBarrierEffectSpriteResource, EX_ACTCOM_ANI_SONIC_BARRIER_SHIELD, ANIMATOR_FLAG_DISABLE_LOOPING,
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, sSonicBarrierEffectSpriteResource, EX_ACTCOM_ANI_SONIC_BARRIER_SHIELD, ANIMATOR_FLAG_DISABLE_LOOPING,
                            vramPixels, vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
@@ -295,7 +295,7 @@ void LoadExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work)
     work->hitChecker.box.size.z   = FLOAT_TO_FX32(6.25);
     work->hitChecker.box.position = &work->sprite.translation;
 
-    exSonicBarrierEffectSpriteInstanceCount++;
+    sSonicBarrierEffectSpriteInstanceCount++;
 }
 
 void SetExSonicBarrierEffectAnimation(EX_ACTION_BAC3D_WORK *work, u16 anim)
@@ -308,14 +308,14 @@ void ReleaseExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work)
 {
     AnimatorSprite3D__Release(&work->sprite.animator);
 
-    exSonicBarrierEffectSpriteInstanceCount--;
+    sSonicBarrierEffectSpriteInstanceCount--;
 }
 
 void ExSonicBarrierEffect_Main_Init(void)
 {
     exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
-    exSonicBarrierEffectTaskSingleton = GetCurrentTask();
+    sSonicBarrierEffectTaskSingleton = GetCurrentTask();
 
     LoadExSonicBarrierEffectAssets(&work->aniBarrier);
     SetExDrawRequestPriority(&work->aniBarrier.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -364,7 +364,7 @@ void ExSonicBarrierEffect_Destructor(void)
 
     ReleaseExSonicBarrierEffectAssets(&work->aniBarrier);
 
-    exSonicBarrierEffectTaskSingleton = NULL;
+    sSonicBarrierEffectTaskSingleton = NULL;
 }
 
 void ExSonicBarrierEffect_Main_InitBarrierActive(void)
@@ -374,7 +374,7 @@ void ExSonicBarrierEffect_Main_InitBarrierActive(void)
     SetExSonicBarrierEffectAnimation(&work->aniBarrier, EX_ACTCOM_ANI_SONIC_BARRIER_ACTIVE);
     SetExDrawRequestAnimStopOnFinish(&work->aniBarrier.config);
 
-    disableExSonicBarrierEffectSpawning = FALSE;
+    sDisableSonicBarrierEffectSpawning = FALSE;
 
     work->aniBarrier.sprite.translation.x = work->parent->model.translation.x;
     work->aniBarrier.sprite.translation.y = work->parent->model.translation.y;
@@ -514,13 +514,13 @@ void ExSonicBarrierEffect_OnHitstopActive(void)
 
 void CreateExSonicBarrierEffect(EX_ACTION_NN_WORK *parent)
 {
-    if (disableExSonicBarrierEffectSpawning)
+    if (sDisableSonicBarrierEffectSpawning)
         return;
 
     Task *task = ExTaskCreate(ExSonicBarrierEffect_Main_Init, ExSonicBarrierEffect_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(5), 0, EXTASK_TYPE_REGULAR,
                               exEffectBarrierTask);
 
-    disableExSonicBarrierEffectSpawning = TRUE;
+    sDisableSonicBarrierEffectSpawning = TRUE;
 
     exEffectBarrierTask *work = ExTaskGetWork(task, exEffectBarrierTask);
     TaskInitWork8(work);
@@ -535,36 +535,36 @@ void CreateExSonicBarrierEffect(EX_ACTION_NN_WORK *parent)
 
 BOOL LoadExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    exSonicBarrierChargingEffectLastSpawnedWorker = work;
+    sSonicBarrierChargingEffectLastSpawnedWorker = work;
 
-    if (exSonicBarrierChargingEffectModelFileSize != 0 && exSonicBarrierChargingEffectTextureFileSize != 0)
+    if (sSonicBarrierChargingEffectModelFileSize != 0 && sSonicBarrierChargingEffectTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exSonicBarrierChargingEffectModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sSonicBarrierChargingEffectModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exSonicBarrierChargingEffectTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sSonicBarrierChargingEffectTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exSonicBarrierChargingEffectModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sSonicBarrierChargingEffectModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exSonicBarrierChargingEffectInstanceCount == 0)
+    if (sSonicBarrierChargingEffectInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SONSA_NSBMD, &exSonicBarrierChargingEffectModelResource,
-                                      &exSonicBarrierChargingEffectModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SONSA_NSBMD, &sSonicBarrierChargingEffectModelResource,
+                                      &sSonicBarrierChargingEffectModelFileSize, TRUE, FALSE);
 
-        exSonicBarrierChargingEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SONSA_NSBCA);
-        exSonicBarrierChargingEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SONSA_NSBVA);
-        CreateAsset3DSetup(exSonicBarrierChargingEffectModelResource);
+        sSonicBarrierChargingEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SONSA_NSBCA);
+        sSonicBarrierChargingEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SONSA_NSBVA);
+        CreateAsset3DSetup(sSonicBarrierChargingEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exSonicBarrierChargingEffectModelResource, 0, FALSE, FALSE);
-    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exSonicBarrierChargingEffectAnimResource[0], 0, NULL);
-    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_VIS_ANIM, exSonicBarrierChargingEffectAnimResource[1], 0, NULL);
+    AnimatorMDL__SetResource(&work->model.animator, sSonicBarrierChargingEffectModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, sSonicBarrierChargingEffectAnimResource[0], 0, NULL);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_VIS_ANIM, sSonicBarrierChargingEffectAnimResource[1], 0, NULL);
 
     work->model.primaryAnimType     = B3D_ANIM_JOINT_ANIM;
     work->model.primaryAnimResource = work->model.animator.currentAnimObj[B3D_ANIM_JOINT_ANIM];
@@ -591,39 +591,39 @@ BOOL LoadExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work)
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
-    exSonicBarrierChargingEffectInstanceCount++;
+    sSonicBarrierChargingEffectInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exSonicBarrierChargingEffectInstanceCount <= 1)
+    if (sSonicBarrierChargingEffectInstanceCount <= 1)
     {
-        if (exSonicBarrierChargingEffectModelResource != NULL)
-            NNS_G3dResDefaultRelease(exSonicBarrierChargingEffectModelResource);
+        if (sSonicBarrierChargingEffectModelResource != NULL)
+            NNS_G3dResDefaultRelease(sSonicBarrierChargingEffectModelResource);
 
-        if (exSonicBarrierChargingEffectAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exSonicBarrierChargingEffectAnimResource[0]);
+        if (sSonicBarrierChargingEffectAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sSonicBarrierChargingEffectAnimResource[0]);
 
-        if (exSonicBarrierChargingEffectAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exSonicBarrierChargingEffectAnimResource[1]);
+        if (sSonicBarrierChargingEffectAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sSonicBarrierChargingEffectAnimResource[1]);
 
-        if (exSonicBarrierChargingEffectModelResource != NULL)
-            HeapFree(HEAP_USER, exSonicBarrierChargingEffectModelResource);
-        exSonicBarrierChargingEffectModelResource = NULL;
+        if (sSonicBarrierChargingEffectModelResource != NULL)
+            HeapFree(HEAP_USER, sSonicBarrierChargingEffectModelResource);
+        sSonicBarrierChargingEffectModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exSonicBarrierChargingEffectInstanceCount--;
+    sSonicBarrierChargingEffectInstanceCount--;
 }
 
 void ExSonicBarrierChargingEffect_Main_Init(void)
 {
     exExEffectSonicBarrierTaMeTask *work = ExTaskGetWorkCurrent(exExEffectSonicBarrierTaMeTask);
 
-    exSonicBarrierChargingEffectTaskSingleton = GetCurrentTask();
+    sSonicBarrierChargingEffectTaskSingleton = GetCurrentTask();
 
     LoadExSonicBarrierChargingEffectAssets(&work->aniTaMe);
     SetExDrawRequestPriority(&work->aniTaMe.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -655,7 +655,7 @@ void ExSonicBarrierChargingEffect_Destructor(void)
 
     ReleaseExSonicBarrierChargingEffectAssets(&work->aniTaMe);
 
-    exSonicBarrierChargingEffectTaskSingleton = NULL;
+    sSonicBarrierChargingEffectTaskSingleton = NULL;
 }
 
 void ExSonicBarrierChargingEffect_Main_Active(void)
@@ -667,18 +667,18 @@ void ExSonicBarrierChargingEffect_Main_Active(void)
     if (GetExPlayerWorker()->barrierChargeTimer != 0)
     {
         float maxScale;
-        MULTIPLY_FLOAT_FX(maxScale, exSonicBarrierChargingEffectConfig[2].scale.x)
+        MULTIPLY_FLOAT_FX(maxScale, sSonicBarrierChargingEffectConfig[2].scale.x)
 
         if (work->scale >= (fx32)maxScale)
         {
             float scaleF;
-            MULTIPLY_FLOAT_FX(scaleF, exSonicBarrierChargingEffectConfig[2].scale.x)
+            MULTIPLY_FLOAT_FX(scaleF, sSonicBarrierChargingEffectConfig[2].scale.x)
             work->scale = scaleF;
         }
         else
         {
             float scaleF;
-            MULTIPLY_FLOAT_FX(scaleF, (exSonicBarrierChargingEffectConfig[2].scale.x - exSonicBarrierChargingEffectConfig[0].scale.x) / 120.0f)
+            MULTIPLY_FLOAT_FX(scaleF, (sSonicBarrierChargingEffectConfig[2].scale.x - sSonicBarrierChargingEffectConfig[0].scale.x) / 120.0f)
             work->scale += (fx32)scaleF;
         }
     }

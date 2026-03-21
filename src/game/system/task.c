@@ -1,13 +1,29 @@
 #include <game/system/task.h>
 
 // --------------------
+// STRUCTS
+// --------------------
+
+typedef struct TaskList_
+{
+    u8 pauseLevel;
+    TaskListFlags flags;
+    s16 taskCount;
+    Task *updateListStart;
+    Task *curTask;
+    Task *updateListEnd;
+    Task *renderListEnd;
+    Task *renderListStart;
+} TaskList;
+
+// --------------------
 // VARIABLES
 // --------------------
 
-TaskList taskList;
+static TaskList sTaskManager;
 
-Task *activeTaskList[TASK_MAX_ACTIVE_SIZE];
-Task reserveTaskList[TASK_MAX_ACTIVE_SIZE];
+static Task *sActiveTaskList[TASK_MAX_ACTIVE_SIZE];
+static Task sReserveTaskList[TASK_MAX_ACTIVE_SIZE];
 
 // --------------------
 // PRIVATE FUNCTIONS
@@ -23,74 +39,74 @@ static void FreeTask(Task *task);
 
 void InitTaskSystem(void)
 {
-    taskList.flags      = TASKLIST_FLAG_NONE;
-    taskList.pauseLevel = TASK_PAUSE_LOWEST;
-    taskList.taskCount  = 0;
+    sTaskManager.flags      = TASKLIST_FLAG_NONE;
+    sTaskManager.pauseLevel = TASK_PAUSE_LOWEST;
+    sTaskManager.taskCount  = 0;
 
-    MI_CpuClear32(reserveTaskList, sizeof(reserveTaskList));
+    MI_CpuClear32(sReserveTaskList, sizeof(sReserveTaskList));
 
     for (s32 i = 0; i < TASK_MAX_ACTIVE_SIZE; i++)
     {
-        activeTaskList[i] = &reserveTaskList[i];
+        sActiveTaskList[i] = &sReserveTaskList[i];
     }
 
-    taskList.updateListStart = AllocTask();
-    taskList.updateListEnd   = AllocTask();
-    taskList.renderListStart = AllocTask();
-    taskList.renderListEnd   = AllocTask();
+    sTaskManager.updateListStart = AllocTask();
+    sTaskManager.updateListEnd   = AllocTask();
+    sTaskManager.renderListStart = AllocTask();
+    sTaskManager.renderListEnd   = AllocTask();
 
-    taskList.updateListStart->prev       = NULL;
-    taskList.updateListStart->next       = taskList.updateListEnd;
-    taskList.updateListStart->main       = NULL;
-    taskList.updateListStart->dtor       = NULL;
-    taskList.updateListStart->usrFlags   = TASK_FLAG_DISABLE_EXTERNAL_DESTROY;
-    taskList.updateListStart->priority   = TASK_PRIORITY_UPDATE_LIST_START;
-    taskList.updateListStart->group      = TASK_GROUP_HIGHEST;
-    taskList.updateListStart->pauseLevel = TASK_PAUSE_HIGHEST;
+    sTaskManager.updateListStart->prev       = NULL;
+    sTaskManager.updateListStart->next       = sTaskManager.updateListEnd;
+    sTaskManager.updateListStart->main       = NULL;
+    sTaskManager.updateListStart->dtor       = NULL;
+    sTaskManager.updateListStart->usrFlags   = TASK_FLAG_DISABLE_EXTERNAL_DESTROY;
+    sTaskManager.updateListStart->priority   = TASK_PRIORITY_UPDATE_LIST_START;
+    sTaskManager.updateListStart->group      = TASK_GROUP_HIGHEST;
+    sTaskManager.updateListStart->pauseLevel = TASK_PAUSE_HIGHEST;
 
-    taskList.updateListEnd->prev       = taskList.updateListStart;
-    taskList.updateListEnd->next       = taskList.renderListStart;
-    taskList.updateListEnd->main       = NULL;
-    taskList.updateListEnd->dtor       = NULL;
-    taskList.updateListEnd->usrFlags   = TASK_FLAG_DISABLE_EXTERNAL_DESTROY;
-    taskList.updateListEnd->priority   = TASK_PRIORITY_UPDATE_LIST_END;
-    taskList.updateListEnd->group      = TASK_GROUP_HIGHEST;
-    taskList.updateListEnd->pauseLevel = TASK_PAUSE_HIGHEST;
+    sTaskManager.updateListEnd->prev       = sTaskManager.updateListStart;
+    sTaskManager.updateListEnd->next       = sTaskManager.renderListStart;
+    sTaskManager.updateListEnd->main       = NULL;
+    sTaskManager.updateListEnd->dtor       = NULL;
+    sTaskManager.updateListEnd->usrFlags   = TASK_FLAG_DISABLE_EXTERNAL_DESTROY;
+    sTaskManager.updateListEnd->priority   = TASK_PRIORITY_UPDATE_LIST_END;
+    sTaskManager.updateListEnd->group      = TASK_GROUP_HIGHEST;
+    sTaskManager.updateListEnd->pauseLevel = TASK_PAUSE_HIGHEST;
 
-    taskList.renderListStart->prev       = taskList.updateListEnd;
-    taskList.renderListStart->next       = taskList.renderListEnd;
-    taskList.renderListStart->main       = NULL;
-    taskList.renderListStart->dtor       = NULL;
-    taskList.renderListStart->usrFlags   = TASK_FLAG_DISABLE_EXTERNAL_DESTROY;
-    taskList.renderListStart->priority   = TASK_PRIORITY_RENDER_LIST_START;
-    taskList.renderListStart->group      = TASK_GROUP_HIGHEST;
-    taskList.renderListStart->pauseLevel = TASK_PAUSE_HIGHEST;
+    sTaskManager.renderListStart->prev       = sTaskManager.updateListEnd;
+    sTaskManager.renderListStart->next       = sTaskManager.renderListEnd;
+    sTaskManager.renderListStart->main       = NULL;
+    sTaskManager.renderListStart->dtor       = NULL;
+    sTaskManager.renderListStart->usrFlags   = TASK_FLAG_DISABLE_EXTERNAL_DESTROY;
+    sTaskManager.renderListStart->priority   = TASK_PRIORITY_RENDER_LIST_START;
+    sTaskManager.renderListStart->group      = TASK_GROUP_HIGHEST;
+    sTaskManager.renderListStart->pauseLevel = TASK_PAUSE_HIGHEST;
 
-    taskList.renderListEnd->prev       = taskList.renderListStart;
-    taskList.renderListEnd->next       = NULL;
-    taskList.renderListEnd->main       = NULL;
-    taskList.renderListEnd->dtor       = NULL;
-    taskList.renderListEnd->usrFlags   = TASK_FLAG_DISABLE_EXTERNAL_DESTROY;
-    taskList.renderListEnd->priority   = TASK_PRIORITY_RENDER_LIST_END;
-    taskList.renderListEnd->group      = TASK_GROUP_HIGHEST;
-    taskList.renderListEnd->pauseLevel = TASK_PAUSE_HIGHEST;
+    sTaskManager.renderListEnd->prev       = sTaskManager.renderListStart;
+    sTaskManager.renderListEnd->next       = NULL;
+    sTaskManager.renderListEnd->main       = NULL;
+    sTaskManager.renderListEnd->dtor       = NULL;
+    sTaskManager.renderListEnd->usrFlags   = TASK_FLAG_DISABLE_EXTERNAL_DESTROY;
+    sTaskManager.renderListEnd->priority   = TASK_PRIORITY_RENDER_LIST_END;
+    sTaskManager.renderListEnd->group      = TASK_GROUP_HIGHEST;
+    sTaskManager.renderListEnd->pauseLevel = TASK_PAUSE_HIGHEST;
 
-    taskList.curTask = taskList.updateListStart;
+    sTaskManager.curTask = sTaskManager.updateListStart;
 }
 
 void RunUpdateTaskList(void)
 {
-    RunTaskList(taskList.updateListStart, taskList.updateListEnd);
+    RunTaskList(sTaskManager.updateListStart, sTaskManager.updateListEnd);
 }
 
 void RunRenderTaskList(void)
 {
-    RunTaskList(taskList.renderListStart, taskList.renderListEnd);
+    RunTaskList(sTaskManager.renderListStart, sTaskManager.renderListEnd);
 }
 
 void ClearTaskLists(void)
 {
-    for (Task *task = taskList.updateListStart->next; task != taskList.updateListEnd;)
+    for (Task *task = sTaskManager.updateListStart->next; task != sTaskManager.updateListEnd;)
     {
         Task *next = task->next;
 
@@ -100,7 +116,7 @@ void ClearTaskLists(void)
         task = next;
     }
 
-    for (Task *task = taskList.renderListStart->next; task != taskList.renderListEnd;)
+    for (Task *task = sTaskManager.renderListStart->next; task != sTaskManager.renderListEnd;)
     {
         Task *next = task->next;
 
@@ -110,9 +126,9 @@ void ClearTaskLists(void)
         task = next;
     }
 
-    taskList.flags &= ~TASKLIST_FLAG_PRIORITY_ACTIVE;
-    if ((taskList.flags & TASKLIST_FLAG_PRIORITY_ENABLED) != 0)
-        taskList.flags |= TASKLIST_FLAG_PRIORITY_ACTIVE;
+    sTaskManager.flags &= ~TASKLIST_FLAG_PRIORITY_ACTIVE;
+    if ((sTaskManager.flags & TASKLIST_FLAG_PRIORITY_ENABLED) != 0)
+        sTaskManager.flags |= TASKLIST_FLAG_PRIORITY_ACTIVE;
 }
 
 #ifdef RUSH_DEBUG
@@ -146,12 +162,12 @@ Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags fl
         if (priority == TASK_PRIORITY_UPDATE_LIST_END)
         {
             // place task at the end of the list
-            next = taskList.updateListEnd;
+            next = sTaskManager.updateListEnd;
         }
         else
         {
             // place task at the start-ish of the list
-            next = taskList.updateListStart->next;
+            next = sTaskManager.updateListStart->next;
             while (priority >= next->priority)
             {
                 // loop...
@@ -164,12 +180,12 @@ Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags fl
         if (priority == TASK_PRIORITY_RENDER_LIST_END)
         {
             // place task at the end of the list
-            next = taskList.renderListEnd;
+            next = sTaskManager.renderListEnd;
         }
         else
         {
             // place task at the start-ish of the list
-            next = taskList.renderListStart->next;
+            next = sTaskManager.renderListStart->next;
             while (priority >= next->priority)
             {
                 // loop...
@@ -194,7 +210,7 @@ void DestroyTask(Task *task)
 {
     if (HeapNull != task && (task->sysFlags & TASK_SYSFLAG_INACTIVE) == 0)
     {
-        if ((task->usrFlags & TASK_FLAG_DISABLE_EXTERNAL_DESTROY) == 0 || taskList.curTask == task)
+        if ((task->usrFlags & TASK_FLAG_DISABLE_EXTERNAL_DESTROY) == 0 || sTaskManager.curTask == task)
         {
             if (task->dtor != NULL)
                 task->dtor(task);
@@ -210,18 +226,18 @@ void DestroyTask(Task *task)
 
 void DestroyCurrentTask(void)
 {
-    DestroyTask(taskList.curTask);
+    DestroyTask(sTaskManager.curTask);
 }
 
 void CloseTaskSystem(void)
 {
     Task *task = NULL;
-    for (task = taskList.updateListStart->next; task != taskList.updateListEnd; task = task->next)
+    for (task = sTaskManager.updateListStart->next; task != sTaskManager.updateListEnd; task = task->next)
     {
         DestroyTask(task);
     }
 
-    for (task = taskList.renderListStart->next; task != taskList.renderListEnd; task = task->next)
+    for (task = sTaskManager.renderListStart->next; task != sTaskManager.renderListEnd; task = task->next)
     {
         DestroyTask(task);
     }
@@ -230,7 +246,7 @@ void CloseTaskSystem(void)
 void DestroyTaskGroup(s32 group)
 {
     Task *task = NULL;
-    for (task = taskList.updateListStart->next; task != taskList.renderListEnd; task = task->next)
+    for (task = sTaskManager.updateListStart->next; task != sTaskManager.renderListEnd; task = task->next)
     {
         if (group == task->group)
             DestroyTask(task);
@@ -244,7 +260,7 @@ void SetTaskMainEvent(Task *task, TaskMain main)
 
 void SetCurrentTaskMainEvent(TaskMain main)
 {
-    taskList.curTask->main = main;
+    sTaskManager.curTask->main = main;
 }
 
 void SetTaskDestructorEvent(Task *task, TaskDestructor dtor)
@@ -254,7 +270,7 @@ void SetTaskDestructorEvent(Task *task, TaskDestructor dtor)
 
 Task *GetCurrentTask(void)
 {
-    return taskList.curTask;
+    return sTaskManager.curTask;
 }
 
 void *GetTaskWork_(Task *task)
@@ -264,7 +280,7 @@ void *GetTaskWork_(Task *task)
 
 void *GetCurrentTaskWork_(void)
 {
-    return taskList.curTask->workPtr;
+    return sTaskManager.curTask->workPtr;
 }
 
 void SetTaskFlags(Task *task, TaskFlags flags)
@@ -279,30 +295,30 @@ void SetTaskPauseLevel(Task *task, u8 pauseLevel)
 
 void StartTaskPause(u8 pauseLevel)
 {
-    taskList.flags |= TASKLIST_FLAG_PRIORITY_ENABLED;
-    taskList.pauseLevel = pauseLevel;
+    sTaskManager.flags |= TASKLIST_FLAG_PRIORITY_ENABLED;
+    sTaskManager.pauseLevel = pauseLevel;
 }
 
 void EndTaskPause(void)
 {
-    taskList.flags &= ~TASKLIST_FLAG_PRIORITY_ENABLED;
+    sTaskManager.flags &= ~TASKLIST_FLAG_PRIORITY_ENABLED;
 }
 
 BOOL CheckTaskPaused(u8 *pauseLevel)
 {
     if (pauseLevel != NULL)
-        *pauseLevel = taskList.pauseLevel;
+        *pauseLevel = sTaskManager.pauseLevel;
 
-    return (taskList.flags & TASKLIST_FLAG_PRIORITY_ENABLED) != 0;
+    return (sTaskManager.flags & TASKLIST_FLAG_PRIORITY_ENABLED) != 0;
 }
 
 Task *AllocTask(void)
 {
-    if (taskList.taskCount >= TASK_MAX_ACTIVE_SIZE)
+    if (sTaskManager.taskCount >= TASK_MAX_ACTIVE_SIZE)
         return HeapNull;
 
-    Task *next = activeTaskList[taskList.taskCount];
-    taskList.taskCount++;
+    Task *next = sActiveTaskList[sTaskManager.taskCount];
+    sTaskManager.taskCount++;
 
     return next;
 }
@@ -310,7 +326,7 @@ Task *AllocTask(void)
 void RunTaskList(Task *task, Task *lastTask)
 {
     task             = task->next;
-    taskList.curTask = task;
+    sTaskManager.curTask = task;
 
     while (task != lastTask)
     {
@@ -318,9 +334,9 @@ void RunTaskList(Task *task, Task *lastTask)
         {
             if (task->main != NULL)
             {
-                if ((taskList.flags & TASKLIST_FLAG_PRIORITY_ACTIVE) != 0)
+                if ((sTaskManager.flags & TASKLIST_FLAG_PRIORITY_ACTIVE) != 0)
                 {
-                    if ((task->usrFlags & TASK_FLAG_IGNORE_PAUSELEVEL) != 0 || taskList.pauseLevel < (u32)task->pauseLevel)
+                    if ((task->usrFlags & TASK_FLAG_IGNORE_PAUSELEVEL) != 0 || sTaskManager.pauseLevel < (u32)task->pauseLevel)
                     {
                         task->main();
                     }
@@ -333,7 +349,7 @@ void RunTaskList(Task *task, Task *lastTask)
         }
 
         task             = task->next;
-        taskList.curTask = task;
+        sTaskManager.curTask = task;
     }
 }
 
@@ -344,7 +360,7 @@ void FreeTask(Task *task)
         task->prev->next = task->next;
         task->next->prev = task->prev;
 
-        taskList.taskCount--;
-        activeTaskList[taskList.taskCount] = task;
+        sTaskManager.taskCount--;
+        sActiveTaskList[sTaskManager.taskCount] = task;
     }
 }

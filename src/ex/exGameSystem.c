@@ -10,7 +10,7 @@
 // VARIABLES
 // --------------------
 
-static Task *exGameSystemTaskSingleton;
+static Task *sExGameSystemTaskSingleton;
 
 // --------------------
 // FUNCTION DECLS
@@ -39,7 +39,7 @@ void ExGameSystem_Main_Init(void)
 {
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
 
-    exGameSystemTaskSingleton = GetCurrentTask();
+    sExGameSystemTaskSingleton = GetCurrentTask();
     TaskInitWork8(work);
 
     work->status = GetExSystemStatus();
@@ -73,7 +73,7 @@ void ExGameSystem_Destructor(void)
     DestroyExStage();
     DestroyExMeteorManager();
 
-    exGameSystemTaskSingleton = NULL;
+    sExGameSystemTaskSingleton = NULL;
 }
 
 void ExGameSystem_Main_WaitForTitleCardDone(void)
@@ -203,6 +203,6 @@ void CreateExGameSystem(void)
 
 void DestroyExGameSystem(void)
 {
-    if (exGameSystemTaskSingleton != NULL)
-        DestroyExTask(exGameSystemTaskSingleton);
+    if (sExGameSystemTaskSingleton != NULL)
+        DestroyExTask(sExGameSystemTaskSingleton);
 }

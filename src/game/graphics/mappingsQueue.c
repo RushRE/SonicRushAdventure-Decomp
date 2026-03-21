@@ -46,12 +46,12 @@ static void Mappings__ReadMappingsFunc2(MappingsQueueEntry *entry);
 // VARIABLES
 // --------------------
 
-static MappingsQueueEntry *mappingsListStart;
-static MappingsQueueEntry *mappingsListEnd;
+static MappingsQueueEntry *sMappingsListStart;
+static MappingsQueueEntry *sMappingsListEnd;
 
-static const MappingsQueueReadFunc readTable[] = { Mappings__ReadMappingsFunc1, Mappings__ReadMappingsFunc2 };
+static const MappingsQueueReadFunc sReadTable[] = { Mappings__ReadMappingsFunc1, Mappings__ReadMappingsFunc2 };
 
-static const struct MappingsQueueInfo mappingsQueueSystem = {
+static const struct MappingsQueueInfo sMappingsQueueSystem = {
     ._021120DC = {
         HW_BG_VRAM, HW_DB_BG_VRAM
     },
@@ -117,22 +117,22 @@ static const struct MappingsQueueInfo mappingsQueueSystem = {
 
 void InitMappingsQueueSystem(void)
 {
-    mappingsListStart = NULL;
-    mappingsListEnd   = NULL;
+    sMappingsListStart = NULL;
+    sMappingsListEnd   = NULL;
 }
 
 void Mappings__ReadList(void)
 {
-    MappingsQueueEntry *entry = mappingsListStart;
+    MappingsQueueEntry *entry = sMappingsListStart;
     while (entry)
     {
-        readTable[entry->type](entry);
-        FreeQueueEntry((QueueEntry *)mappingsListStart);
+        sReadTable[entry->type](entry);
+        FreeQueueEntry((QueueEntry *)sMappingsListStart);
 
-        entry             = mappingsListStart->next;
-        mappingsListStart = entry;
-        if (mappingsListStart == NULL)
-            mappingsListEnd = NULL;
+        entry             = sMappingsListStart->next;
+        sMappingsListStart = entry;
+        if (sMappingsListStart == NULL)
+            sMappingsListEnd = NULL;
     }
 }
 
@@ -149,7 +149,7 @@ NONMATCH_FUNC void Mappings__ReadMappingsCompressed(void *srcMappingsPtr, fx32 x
     else
         useEngineB = TRUE;
 
-    s32 tileSize = mappingsQueueSystem.bgTileSize[mode];
+    s32 tileSize = sMappingsQueueSystem.bgTileSize[mode];
 
     if (!flag)
     {
@@ -328,7 +328,7 @@ NONMATCH_FUNC void Mappings__ReadMappingsCompressed(void *srcMappingsPtr, fx32 x
     MappingsQueueEntry *entry = Mappings__AddToList();
     if (HeapNull != entry)
     {
-        s32 bgTileWidth          = mappingsQueueSystem.bgTileDimensions[mode][0];
+        s32 bgTileWidth          = sMappingsQueueSystem.bgTileDimensions[mode][0];
         entry->type              = 0;
         entry->dstMappingsStride = tileSize * bgTileWidth;
         entry->dstMappingsOffset = tileSize * (offsetX + offsetY * bgTileWidth);
@@ -372,7 +372,7 @@ _0207C604:
 	str r0, [sp, #8]
 _0207C60C:
 	ldr r0, [sp, #0x40]
-	ldr r1, =mappingsQueueSystem.bgTileSize
+	ldr r1, =sMappingsQueueSystem.bgTileSize
 	cmp r0, #0
 	ldrb r0, [r1, r9]
 	str r0, [sp, #0xc]
@@ -653,7 +653,7 @@ _0207CA20:
 	cmp r0, r4
 	addeq sp, sp, #0x18
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r2, =mappingsQueueSystem.bgTileDimensions
+	ldr r2, =sMappingsQueueSystem.bgTileDimensions
 	ldr r1, [sp, #0x4c]
 	ldrb r9, [r2, r9, lsl #1]
 	mov r3, r1, lsl #0xb
@@ -695,17 +695,17 @@ _0207CA20:
 void Mappings__LoadUnknown(void *srcMappingsPtr, fx32 x, fx32 y, s32 width, s32 flag, MappingsMode mode, u16 screenBaseA, u16 screenBaseBlock, u16 offsetX, u16 offsetY,
                            u16 displayWidth, u16 displayHeight)
 {
-    MappingsQueueEntry *prevStart = mappingsListStart;
-    MappingsQueueEntry *prevEnd   = mappingsListEnd;
+    MappingsQueueEntry *prevStart = sMappingsListStart;
+    MappingsQueueEntry *prevEnd   = sMappingsListEnd;
 
-    mappingsListStart = NULL;
-    mappingsListEnd   = NULL;
+    sMappingsListStart = NULL;
+    sMappingsListEnd   = NULL;
 
     Mappings__ReadMappingsCompressed(srcMappingsPtr, x, y, width, flag, mode, screenBaseA, screenBaseBlock, offsetX, offsetY, displayWidth, displayHeight);
     Mappings__ReadList();
 
-    mappingsListStart = prevStart;
-    mappingsListEnd   = prevEnd;
+    sMappingsListStart = prevStart;
+    sMappingsListEnd   = prevEnd;
 }
 
 void Mappings__ReadMappings2(void *mappingsPtr, fx32 x, fx32 y, s32 width, s32 flag, MappingsMode mode, u16 screenBaseA, u16 screenBaseBlock, u16 offsetX, u16 offsetY,
@@ -729,10 +729,10 @@ void Mappings__ReadMappings2(void *mappingsPtr, fx32 x, fx32 y, s32 width, s32 f
         void *vramLocation[] = { VRAM_BG, VRAM_DB_BG };
 
         MappingsQueueEntry *entry = Mappings__AddToList();
-        tileSize                  = mappingsQueueSystem.bgTileSize[mode];
+        tileSize                  = sMappingsQueueSystem.bgTileSize[mode];
         if (HeapNull != entry)
         {
-            u8 bgTileWidth           = mappingsQueueSystem.bgTileDimensions[mode][0];
+            u8 bgTileWidth           = sMappingsQueueSystem.bgTileDimensions[mode][0];
             entry->type              = 1;
             entry->dstMappingsStride = tileSize * bgTileWidth;
             entry->dstMappingsOffset = tileSize * (offsetX + offsetY * bgTileWidth);
@@ -749,29 +749,29 @@ void Mappings__ReadMappings2(void *mappingsPtr, fx32 x, fx32 y, s32 width, s32 f
 void Mappings__ReadMappings(void *srcMappingsPtr, fx32 x, fx32 y, s32 width, s32 flag, MappingsMode mode, u16 screenBaseA, u16 screenBaseBlock, u16 offsetX, u16 offsetY,
                             u16 displayWidth, u16 displayHeight)
 {
-    MappingsQueueEntry *prevStart = mappingsListStart;
-    MappingsQueueEntry *prevEnd   = mappingsListEnd;
+    MappingsQueueEntry *prevStart = sMappingsListStart;
+    MappingsQueueEntry *prevEnd   = sMappingsListEnd;
 
-    mappingsListStart = NULL;
-    mappingsListEnd   = NULL;
+    sMappingsListStart = NULL;
+    sMappingsListEnd   = NULL;
 
     Mappings__ReadMappings2(srcMappingsPtr, x, y, width, flag, mode, screenBaseA, screenBaseBlock, offsetX, offsetY, displayWidth, displayHeight);
     Mappings__ReadList();
 
-    mappingsListStart = prevStart;
-    mappingsListEnd   = prevEnd;
+    sMappingsListStart = prevStart;
+    sMappingsListEnd   = prevEnd;
 }
 
 void Mappings__ClearQueue(void)
 {
-    for (QueueEntry *entry = (QueueEntry *)mappingsListStart; entry != NULL;)
+    for (QueueEntry *entry = (QueueEntry *)sMappingsListStart; entry != NULL;)
     {
         FreeQueueEntry(entry);
 
-        entry             = (QueueEntry *)mappingsListStart->next;
-        mappingsListStart = (MappingsQueueEntry *)entry;
+        entry             = (QueueEntry *)sMappingsListStart->next;
+        sMappingsListStart = (MappingsQueueEntry *)entry;
         if (entry == NULL)
-            mappingsListEnd = NULL;
+            sMappingsListEnd = NULL;
     }
 }
 
@@ -780,12 +780,12 @@ static MappingsQueueEntry *Mappings__AddToList(void)
     MappingsQueueEntry *entry = (MappingsQueueEntry *)AllocQueueEntry();
     if (entry != HeapNull)
     {
-        if (mappingsListStart == NULL)
-            mappingsListStart = entry;
+        if (sMappingsListStart == NULL)
+            sMappingsListStart = entry;
         else
-            mappingsListEnd->next = entry;
+            sMappingsListEnd->next = entry;
 
-        mappingsListEnd = entry;
+        sMappingsListEnd = entry;
         entry->next     = NULL;
     }
     return entry;

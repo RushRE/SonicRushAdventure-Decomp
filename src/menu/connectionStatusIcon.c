@@ -33,13 +33,13 @@ typedef struct ConnectionStatusIconStaticVars_
     Task *task;
     void *archive;
     void *sprIcon;
-} ConnectionStatusIconStaticVars;
+} ConnectionStatusIconWork;
 
 // --------------------
 // VARIABLES
 // --------------------
 
-static ConnectionStatusIconStaticVars *staticVars;
+static ConnectionStatusIconWork *sConnectionIconWork;
 
 // --------------------
 // FUNCTION DECLS
@@ -55,19 +55,19 @@ static void ConnectionStatusIcon_Main(void);
 
 void LoadConnectionStatusIconAssets(void)
 {
-    if (staticVars != NULL)
+    if (sConnectionIconWork != NULL)
         return;
 
-    staticVars = HeapAllocHead(HEAP_SYSTEM, sizeof(ConnectionStatusIconStaticVars));
+    sConnectionIconWork = HeapAllocHead(HEAP_SYSTEM, sizeof(ConnectionStatusIconWork));
 
-    ConnectionStatusIconStaticVars *sVars = staticVars;
-    MI_CpuClear32(sVars, sizeof(ConnectionStatusIconStaticVars));
+    ConnectionStatusIconWork *sVars = sConnectionIconWork;
+    MI_CpuClear32(sVars, sizeof(ConnectionStatusIconWork));
     sVars->archive = ArchiveFile__Load("/narc/dmcmn_antenna_lz7.narc", ARCHIVEFILE_ID_NONE, ARCHIVEFILE_AUTO_ALLOC_HEAD_SYSTEM, ARCHIVEFILE_FLAG_IS_COMPRESSED, NULL);
 }
 
 void ReleaseConnectionStatusIconAssets(void)
 {
-    ConnectionStatusIconStaticVars *sVars = staticVars;
+    ConnectionStatusIconWork *sVars = sConnectionIconWork;
 
     if (sVars == NULL)
         return;
@@ -77,8 +77,8 @@ void ReleaseConnectionStatusIconAssets(void)
     HeapFree(HEAP_SYSTEM, sVars->archive);
     sVars->archive = NULL;
 
-    HeapFree(HEAP_SYSTEM, staticVars);
-    staticVars = NULL;
+    HeapFree(HEAP_SYSTEM, sConnectionIconWork);
+    sConnectionIconWork = NULL;
 }
 
 void CreateConnectionStatusIcon(ConnectionMode desiredConnectionMode, BOOL useEngineB, u8 paletteRow, u8 oamPriority, u8 oamOrder, s16 x, s16 y)
@@ -86,7 +86,7 @@ void CreateConnectionStatusIcon(ConnectionMode desiredConnectionMode, BOOL useEn
     ConnectionStatusIcon *work;
 
     ConnectionMode connectionMode         = desiredConnectionMode;
-    ConnectionStatusIconStaticVars *sVars = staticVars;
+    ConnectionStatusIconWork *sVars = sConnectionIconWork;
     BOOL noDraw                           = FALSE;
 
     if (sVars == NULL)
@@ -144,7 +144,7 @@ void CreateConnectionStatusIcon(ConnectionMode desiredConnectionMode, BOOL useEn
 
 void DestroyConnectionStatusIcon(void)
 {
-    ConnectionStatusIconStaticVars *sVars = staticVars;
+    ConnectionStatusIconWork *sVars = sConnectionIconWork;
 
     if (sVars == NULL || sVars->task == NULL)
         return;
@@ -189,9 +189,9 @@ u16 GetConnectionLinkLevelAnim(ConnectionMode connectionMode)
 void ConnectionStatusIcon_Main(void)
 {
     ConnectionStatusIcon *work;
-    ConnectionStatusIconStaticVars *sVars;
+    ConnectionStatusIconWork *sVars;
 
-    sVars = staticVars;
+    sVars = sConnectionIconWork;
     work  = TaskGetWorkCurrent(ConnectionStatusIcon);
 
     if (work->shouldDestroy)

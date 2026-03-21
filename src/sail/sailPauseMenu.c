@@ -98,7 +98,7 @@ void SailReplayPauseMenu_Main(void)
         if ((work->flags & SAILPAUSEMENU_FLAG_DID_PAUSE) != 0)
             BeginSysPause(work->prevPausePriority, TRUE, TRUE, TRUE);
 
-        NNS_SndPlayerMoveVolume(&defaultTrackPlayer, 0, 30);
+        NNS_SndPlayerMoveVolume(&gDefaultTrackPlayer, 0, 30);
         SailRetireEvent__CreateFadeOut();
         SetPadReplayState(REPLAY_MODE_PLAYBACK);
         SetTouchReplayState(REPLAY_MODE_PLAYBACK);
@@ -167,7 +167,7 @@ void SailPauseMenu_Main(void)
                 manager->nextEvent = 4;
                 manager->flags |= SAILMANAGER_FLAG_8;
                 manager->flags |= SAILMANAGER_FLAG_8000;
-                NNS_SndPlayerMoveVolume(&defaultTrackPlayer, 0, 30);
+                NNS_SndPlayerMoveVolume(&gDefaultTrackPlayer, 0, 30);
                 SailRetireEvent__CreateFadeOut();
                 break;
 
@@ -175,7 +175,7 @@ void SailPauseMenu_Main(void)
                 ResetSailState();
                 manager->nextEvent = 0;
                 manager->flags |= SAILMANAGER_FLAG_8;
-                NNS_SndPlayerMoveVolume(&defaultTrackPlayer, 0, 30);
+                NNS_SndPlayerMoveVolume(&gDefaultTrackPlayer, 0, 30);
                 SailRetireEvent__CreateFadeOut();
                 break;
         }

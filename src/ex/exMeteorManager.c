@@ -32,28 +32,28 @@ enum ExMeteorConfigFlags
 // VARIABLES
 // --------------------
 
-static s16 exBrokenMeteorInstanceCount;
-static s16 exMeteorInstanceCount;
+static s16 sBrokenMeteorInstanceCount;
+static s16 sMeteorInstanceCount;
 
-static void *exMeteorModelResource;
-static void *exMeteorLastSpawnedWorker;
-static u32 exMeteorModelFileSize;
-static void *exBrokenMeteorLastSpawnedWorker;
-static u32 exBrokenMeteorModelFileSize;
-static void *exBrokenMeteorModelResource;
-static u32 exBrokenMeteorTextureFileSize;
-static void *exMeteorUnused;
-static u32 exMeteorTextureFileSize;
-static void *exEffectMeteoAdminTask__TaskSingleton;
-static void *exBrokenMeteorUnused;
-static void *exBrokenMeteorAnimResource[2];
-static u32 exBrokenMeteorAnimType[2];
+static void *sMeteorModelResource;
+static void *sMeteorLastSpawnedWorker;
+static u32 sMeteorModelFileSize;
+static void *sBrokenMeteorLastSpawnedWorker;
+static u32 sBrokenMeteorModelFileSize;
+static void *sBrokenMeteorModelResource;
+static u32 sBrokenMeteorTextureFileSize;
+static void *sMeteorUnused;
+static u32 sMeteorTextureFileSize;
+static void *sExMeteorManagerTaskSingleton;
+static void *sBrokenMeteorUnused;
+static void *sBrokenMeteorAnimResource[2];
+static u32 sBrokenMeteorAnimType[2];
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(exMeteorUnused)
-FORCE_INCLUDE_VARIABLE_BSS(exBrokenMeteorUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sMeteorUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sBrokenMeteorUnused)
 
-static struct exMeteorConfig exMeteorSpawnTable0_Normal[] = {
+static struct exMeteorConfig sMeteorSpawnTable0_Normal[] = {
     {
         .spawnDelay     = SECONDS_TO_FRAMES(1.0),
         .velocity       = 0.75f,
@@ -121,7 +121,7 @@ static struct exMeteorConfig exMeteorSpawnTable0_Normal[] = {
     },
 };
 
-static struct exMeteorConfig exMeteorSpawnTable0_Easy[] = {
+static struct exMeteorConfig sMeteorSpawnTable0_Easy[] = {
     {
         .spawnDelay     = SECONDS_TO_FRAMES(1.0),
         .velocity       = 0.75f,
@@ -189,9 +189,9 @@ static struct exMeteorConfig exMeteorSpawnTable0_Easy[] = {
     },
 };
 
-static u16 exMeteorManagerSpawnTableInfo[] = { ARRAY_COUNT(exMeteorSpawnTable0_Normal), ARRAY_COUNT(exMeteorSpawnTable0_Easy) };
+static u16 sMeteorManagerSpawnTableInfo[] = { ARRAY_COUNT(sMeteorSpawnTable0_Normal), ARRAY_COUNT(sMeteorSpawnTable0_Easy) };
 
-static struct exMeteorConfig *exMeteorManagerSpawnConfig[] = { exMeteorSpawnTable0_Normal, exMeteorSpawnTable0_Easy };
+static struct exMeteorConfig *sMeteorManagerSpawnConfig[] = { sMeteorSpawnTable0_Normal, sMeteorSpawnTable0_Easy };
 
 // --------------------
 // FUNCTION DECLS
@@ -228,31 +228,31 @@ static void ConfigureExMeteorManagerSpawning(void);
 // ExMeteorManager helpers
 BOOL LoadExMeteorAssets(EX_ACTION_NN_WORK *work)
 {
-    exMeteorLastSpawnedWorker = work;
+    sMeteorLastSpawnedWorker = work;
 
-    if (exMeteorModelFileSize != 0 && exMeteorTextureFileSize != 0)
+    if (sMeteorModelFileSize != 0 && sMeteorTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exMeteorModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sMeteorModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exMeteorTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sMeteorTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exMeteorModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sMeteorModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exMeteorInstanceCount == 0)
+    if (sMeteorInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_METEO_NSBMD, &exMeteorModelResource, &exMeteorModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_METEO_NSBMD, &sMeteorModelResource, &sMeteorModelFileSize, TRUE, FALSE);
 
-        CreateAsset3DSetup(exMeteorModelResource);
+        CreateAsset3DSetup(sMeteorModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exMeteorModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->model.animator, sMeteorModelResource, 0, FALSE, FALSE);
 
     work->model.translation.z = FLOAT_TO_FX32(60.0);
     work->model.scale.x       = FLOAT_TO_FX32(1.0);
@@ -268,66 +268,66 @@ BOOL LoadExMeteorAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z            = FLOAT_TO_FX32(3.0);
     work->hitChecker.box.position          = &work->model.translation;
 
-    exMeteorInstanceCount++;
+    sMeteorInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExMeteorAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exMeteorInstanceCount <= 1)
+    if (sMeteorInstanceCount <= 1)
     {
-        if (exMeteorModelResource != NULL)
-            NNS_G3dResDefaultRelease(exMeteorModelResource);
+        if (sMeteorModelResource != NULL)
+            NNS_G3dResDefaultRelease(sMeteorModelResource);
 
-        if (exMeteorModelResource != NULL)
-            HeapFree(HEAP_USER, exMeteorModelResource);
-        exMeteorModelResource = NULL;
+        if (sMeteorModelResource != NULL)
+            HeapFree(HEAP_USER, sMeteorModelResource);
+        sMeteorModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exMeteorInstanceCount--;
+    sMeteorInstanceCount--;
 }
 
 BOOL LoadExBrokenMeteorAssets(EX_ACTION_NN_WORK *work)
 {
-    exBrokenMeteorLastSpawnedWorker = work;
+    sBrokenMeteorLastSpawnedWorker = work;
 
-    if (exBrokenMeteorModelFileSize != 0 && exBrokenMeteorTextureFileSize != 0)
+    if (sBrokenMeteorModelFileSize != 0 && sBrokenMeteorTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exBrokenMeteorModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sBrokenMeteorModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exBrokenMeteorTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sBrokenMeteorTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exBrokenMeteorModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sBrokenMeteorModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exBrokenMeteorInstanceCount == 0)
+    if (sBrokenMeteorInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_METEO_BR_NSBMD, &exBrokenMeteorModelResource, &exBrokenMeteorModelFileSize, TRUE,
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_METEO_BR_NSBMD, &sBrokenMeteorModelResource, &sBrokenMeteorModelFileSize, TRUE,
                                       FALSE);
 
-        exBrokenMeteorAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEO_BRK_NSBCA);
-        exBrokenMeteorAnimType[0]     = B3D_ANIM_JOINT_ANIM;
-        exBrokenMeteorAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEO_BRK_NSBVA);
-        exBrokenMeteorAnimType[1]     = B3D_ANIM_VIS_ANIM;
+        sBrokenMeteorAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEO_BRK_NSBCA);
+        sBrokenMeteorAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sBrokenMeteorAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEO_BRK_NSBVA);
+        sBrokenMeteorAnimType[1]     = B3D_ANIM_VIS_ANIM;
 
-        CreateAsset3DSetup(exBrokenMeteorModelResource);
+        CreateAsset3DSetup(sBrokenMeteorModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBrokenMeteorModelResource, 0, FALSE, FALSE);
-    AnimatorMDL__SetAnimation(&work->model.animator, exBrokenMeteorAnimType[0], exBrokenMeteorAnimResource[0], 0, NULL);
-    AnimatorMDL__SetAnimation(&work->model.animator, exBrokenMeteorAnimType[1], exBrokenMeteorAnimResource[1], 0, NULL);
+    AnimatorMDL__SetResource(&work->model.animator, sBrokenMeteorModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetAnimation(&work->model.animator, sBrokenMeteorAnimType[0], sBrokenMeteorAnimResource[0], 0, NULL);
+    AnimatorMDL__SetAnimation(&work->model.animator, sBrokenMeteorAnimType[1], sBrokenMeteorAnimResource[1], 0, NULL);
 
-    work->model.primaryAnimType     = exBrokenMeteorAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBrokenMeteorAnimType[0]];
+    work->model.primaryAnimType     = sBrokenMeteorAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sBrokenMeteorAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -349,32 +349,32 @@ BOOL LoadExBrokenMeteorAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z                  = FLOAT_TO_FX32(3.0);
     work->hitChecker.box.position                = &work->model.translation;
 
-    exBrokenMeteorInstanceCount++;
+    sBrokenMeteorInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBrokenMeteorAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBrokenMeteorInstanceCount <= 1)
+    if (sBrokenMeteorInstanceCount <= 1)
     {
-        if (exBrokenMeteorModelResource != NULL)
-            NNS_G3dResDefaultRelease(exBrokenMeteorModelResource);
+        if (sBrokenMeteorModelResource != NULL)
+            NNS_G3dResDefaultRelease(sBrokenMeteorModelResource);
 
-        if (exBrokenMeteorAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exBrokenMeteorAnimResource[0]);
+        if (sBrokenMeteorAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sBrokenMeteorAnimResource[0]);
 
-        if (exBrokenMeteorAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exBrokenMeteorAnimResource[1]);
+        if (sBrokenMeteorAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sBrokenMeteorAnimResource[1]);
 
-        if (exBrokenMeteorModelResource != NULL)
-            HeapFree(HEAP_USER, exBrokenMeteorModelResource);
-        exBrokenMeteorModelResource = NULL;
+        if (sBrokenMeteorModelResource != NULL)
+            HeapFree(HEAP_USER, sBrokenMeteorModelResource);
+        sBrokenMeteorModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exBrokenMeteorInstanceCount--;
+    sBrokenMeteorInstanceCount--;
 }
 
 // ExMeteor
@@ -587,15 +587,15 @@ void ExMeteorManager_Main_Init(void)
 {
     exEffectMeteoAdminTask *work = ExTaskGetWorkCurrent(exEffectMeteoAdminTask);
 
-    exEffectMeteoAdminTask__TaskSingleton = GetCurrentTask();
+    sExMeteorManagerTaskSingleton = GetCurrentTask();
 
     ConfigureExMeteorManagerSpawning();
     work->tablePos       = 0;
     work->tableLoopCount = 0;
 
-    work->spawnConfig = exMeteorManagerSpawnConfig[work->tableID][work->tablePos];
+    work->spawnConfig = sMeteorManagerSpawnConfig[work->tableID][work->tablePos];
 
-    work->tableSize = exMeteorManagerSpawnTableInfo[work->tableID];
+    work->tableSize = sMeteorManagerSpawnTableInfo[work->tableID];
 
     SetCurrentExTaskMainEvent(ExMeteorManager_Main_Active);
 }
@@ -614,7 +614,7 @@ void ExMeteorManager_Destructor(void)
     exEffectMeteoAdminTask *work = ExTaskGetWorkCurrent(exEffectMeteoAdminTask);
     UNUSED(work);
 
-    exEffectMeteoAdminTask__TaskSingleton = NULL;
+    sExMeteorManagerTaskSingleton = NULL;
 }
 
 void ExMeteorManager_Main_Active(void)
@@ -690,14 +690,14 @@ void ExMeteorManager_Main_Active(void)
             work->tablePos++;
             if (work->tablePos < work->tableSize)
             {
-                work->spawnConfig = exMeteorManagerSpawnConfig[work->tableID][work->tablePos];
+                work->spawnConfig = sMeteorManagerSpawnConfig[work->tableID][work->tablePos];
             }
             else
             {
                 work->tableLoopCount++;
                 work->tablePos = 0;
 
-                work->spawnConfig = exMeteorManagerSpawnConfig[work->tableID][work->tablePos];
+                work->spawnConfig = sMeteorManagerSpawnConfig[work->tableID][work->tablePos];
             }
         }
 
@@ -765,6 +765,6 @@ BOOL CreateExMeteorManager(void)
 
 void DestroyExMeteorManager(void)
 {
-    if (exEffectMeteoAdminTask__TaskSingleton != NULL)
-        DestroyExTask(exEffectMeteoAdminTask__TaskSingleton);
+    if (sExMeteorManagerTaskSingleton != NULL)
+        DestroyExTask(sExMeteorManagerTaskSingleton);
 }

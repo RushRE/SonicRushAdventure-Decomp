@@ -11,21 +11,21 @@
 // VARIABLES
 // --------------------
 
-static s16 exShockEffectInstanceCount;
-static s16 exSmallExplosionInstanceCount;
-static s16 exBigExplosionInstanceCount;
+static s16 sShockEffectInstanceCount;
+static s16 sSmallExplosionInstanceCount;
+static s16 sBigExplosionInstanceCount;
 
-static Task *exShockEffectTaskSingleton;
-static Task *exSmallExplosionTaskSingleton;
-static void *exShockEffectSpriteResource;
-static Task *exBigExplosionTaskSingleton;
-static void *exSmallExplosionSpriteResource;
-static void *exBigExplosionSpriteResource;
+static Task *sShockEffectTaskSingleton;
+static Task *sSmallExplosionTaskSingleton;
+static void *sShockEffectSpriteResource;
+static Task *sBigExplosionTaskSingleton;
+static void *sSmallExplosionSpriteResource;
+static void *sBigExplosionSpriteResource;
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(exSmallExplosionInstanceCount)
-FORCE_INCLUDE_VARIABLE_BSS(exSmallExplosionTaskSingleton)
-FORCE_INCLUDE_VARIABLE_BSS(exSmallExplosionSpriteResource)
+FORCE_INCLUDE_VARIABLE_BSS(sSmallExplosionInstanceCount)
+FORCE_INCLUDE_VARIABLE_BSS(sSmallExplosionTaskSingleton)
+FORCE_INCLUDE_VARIABLE_BSS(sSmallExplosionSpriteResource)
 
 // --------------------
 // FUNCTION DECLS
@@ -58,15 +58,15 @@ void LoadExExplosionSprite(EX_ACTION_BAC3D_WORK *work)
 {
     InitExDrawRequestSprite3D(work);
 
-    if (exBigExplosionInstanceCount == 0)
+    if (sBigExplosionInstanceCount == 0)
     {
-        exBigExplosionSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
+        sBigExplosionSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
     }
 
-    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exBigExplosionSpriteResource, 1), FALSE);
-    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exBigExplosionSpriteResource, 1), FALSE);
+    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(sBigExplosionSpriteResource, 1), FALSE);
+    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(sBigExplosionSpriteResource, 1), FALSE);
 
-    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBigExplosionSpriteResource, EX_ACTCOM_ANI_EXPLOSION_BIG, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, sBigExplosionSpriteResource, EX_ACTCOM_ANI_EXPLOSION_BIG, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
                            vramPalette);
 
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
@@ -86,21 +86,21 @@ void LoadExExplosionSprite(EX_ACTION_BAC3D_WORK *work)
     work->hitChecker.box.size.z   = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position = &work->sprite.translation;
 
-    exBigExplosionInstanceCount++;
+    sBigExplosionInstanceCount++;
 }
 
 void ReleaseExExplosionSprite(EX_ACTION_BAC3D_WORK *work)
 {
     AnimatorSprite3D__Release(&work->sprite.animator);
 
-    exBigExplosionInstanceCount--;
+    sBigExplosionInstanceCount--;
 }
 
 void ExExplosion_Main_Init(void)
 {
     exEffectBigBombTask *work = ExTaskGetWorkCurrent(exEffectBigBombTask);
 
-    exBigExplosionTaskSingleton = GetCurrentTask();
+    sBigExplosionTaskSingleton = GetCurrentTask();
 
     LoadExExplosionSprite(&work->aniExplosion);
     SetExDrawRequestPriority(&work->aniExplosion.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -129,7 +129,7 @@ void ExExplosion_Destructor(void)
 
     ReleaseExExplosionSprite(&work->aniExplosion);
 
-    exBigExplosionTaskSingleton = NULL;
+    sBigExplosionTaskSingleton = NULL;
 }
 
 void ExExplosion_Main_Active(void)
@@ -170,13 +170,13 @@ void LoadExShockEffectSprite(EX_ACTION_BAC3D_WORK *work)
 {
     InitExDrawRequestSprite3D(work);
 
-    if (exShockEffectInstanceCount == 0)
-        exShockEffectSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
+    if (sShockEffectInstanceCount == 0)
+        sShockEffectSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
 
-    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exShockEffectSpriteResource, 1), FALSE);
-    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exShockEffectSpriteResource, 1), FALSE);
+    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(sShockEffectSpriteResource, 1), FALSE);
+    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(sShockEffectSpriteResource, 1), FALSE);
 
-    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exShockEffectSpriteResource, EX_ACTCOM_ANI_SHOCK_EFFECT, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, sShockEffectSpriteResource, EX_ACTCOM_ANI_SHOCK_EFFECT, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
                            vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
@@ -192,7 +192,7 @@ void LoadExShockEffectSprite(EX_ACTION_BAC3D_WORK *work)
     work->hitChecker.box.size.z           = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position         = &work->sprite.translation;
 
-    exShockEffectInstanceCount++;
+    sShockEffectInstanceCount++;
 }
 
 void SetExShockEffectAnimation(EX_ACTION_BAC3D_WORK *work, u16 anim)
@@ -205,14 +205,14 @@ void ReleaseExShockEffectSprite(EX_ACTION_BAC3D_WORK *work)
 {
     AnimatorSprite3D__Release(&work->sprite.animator);
 
-    exShockEffectInstanceCount--;
+    sShockEffectInstanceCount--;
 }
 
 void ExShockEffect_Main_Init(void)
 {
     exEffectBiriBiriTask *work = ExTaskGetWorkCurrent(exEffectBiriBiriTask);
 
-    exShockEffectTaskSingleton = GetCurrentTask();
+    sShockEffectTaskSingleton = GetCurrentTask();
 
     LoadExShockEffectSprite(&work->aniShockEffect);
     SetExDrawRequestPriority(&work->aniShockEffect.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -241,7 +241,7 @@ void ExShockEffect_Destructor(void)
 
     ReleaseExShockEffectSprite(&work->aniShockEffect);
 
-    exShockEffectTaskSingleton = NULL;
+    sShockEffectTaskSingleton = NULL;
 }
 
 void ExShockEffect_Main_ShockAnimate(void)
@@ -293,7 +293,7 @@ void ExShockEffect_Main_ShockFinish(void)
 
 BOOL CreateExShockEffect(VecFx32 *targetPos)
 {
-    if (exShockEffectTaskSingleton != NULL)
+    if (sShockEffectTaskSingleton != NULL)
         return FALSE;
 
     Task *task =

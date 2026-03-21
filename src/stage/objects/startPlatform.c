@@ -197,7 +197,7 @@ void StartPlatform_State_Active(StartPlatform *work)
     if (player != NULL && player->objWork.objType == STAGE_OBJ_TYPE_PLAYER
         && work->gameWork.objWork.position.x + (FLOAT_TO_FX32(32.0) + FX32_FROM_WHOLE(colWork->work.ofst_x)) < player->objWork.position.x)
     {
-        if (GetSysEventList()->currentEventID == SYSEVENT_TITLECARD)
+        if (GetSysEventManager()->currentEventID == SYSEVENT_TITLECARD)
         {
             RequestSysEventChange(0); // SYSEVENT_STAGE_ACTIVE
             NextSysEvent();

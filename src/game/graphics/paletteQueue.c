@@ -63,14 +63,14 @@ static void LoadPalette_Compressed(PaletteQueueEntry *entry, void *output);
 // VARIABLES
 // --------------------
 
-static PaletteQueueEntry *spriteListStart;
-static PaletteQueueEntry *textureListEnd;
-static PaletteQueueEntry *textureListStart;
-static PaletteQueueEntry *spriteListEnd;
-static PaletteQueueEntry *backgroundListStart;
-static PaletteQueueEntry *backgroundListEnd;
+static PaletteQueueEntry *sSpriteListStart;
+static PaletteQueueEntry *sTextureListEnd;
+static PaletteQueueEntry *sTextureListStart;
+static PaletteQueueEntry *sSpriteListEnd;
+static PaletteQueueEntry *sBackgroundListStart;
+static PaletteQueueEntry *sBackgroundListEnd;
 
-static const struct PaletteQueueInfo paletteQueueSystem = {
+static const struct PaletteQueueInfo sPaletteQueueSystem = {
     .readTable = {
         [PALETTE_QUEUE_TYPE_UNCOMPRESSED] = LoadPalette_Uncompressed, [PALETTE_QUEUE_TYPE_COMPRESSED] = LoadPalette_Compressed
     },
@@ -103,54 +103,54 @@ static const struct PaletteQueueInfo paletteQueueSystem = {
 
 void InitPaletteQueueSystem(void)
 {
-    spriteListStart     = NULL;
-    spriteListEnd       = NULL;
-    textureListStart    = NULL;
-    textureListEnd      = NULL;
-    backgroundListStart = NULL;
-    backgroundListEnd   = NULL;
+    sSpriteListStart     = NULL;
+    sSpriteListEnd       = NULL;
+    sTextureListStart    = NULL;
+    sTextureListEnd      = NULL;
+    sBackgroundListStart = NULL;
+    sBackgroundListEnd   = NULL;
 }
 
 void ProcessSpritePaletteQueue(void)
 {
-    PaletteQueueEntry *entry = spriteListStart;
+    PaletteQueueEntry *entry = sSpriteListStart;
     while (entry)
     {
-        paletteQueueSystem.readTable[entry->type](entry, entry->dstPalette.address);
-        FreeQueueEntry((QueueEntry *)spriteListStart);
+        sPaletteQueueSystem.readTable[entry->type](entry, entry->dstPalette.address);
+        FreeQueueEntry((QueueEntry *)sSpriteListStart);
 
-        entry           = spriteListStart->next;
-        spriteListStart = entry;
-        if (spriteListStart == NULL)
-            spriteListEnd = NULL;
+        entry           = sSpriteListStart->next;
+        sSpriteListStart = entry;
+        if (sSpriteListStart == NULL)
+            sSpriteListEnd = NULL;
     }
 }
 
 void ProcessTexturePaletteQueue(void)
 {
-    if (textureListStart == NULL)
+    if (sTextureListStart == NULL)
         return;
 
     GXVRamTexPltt sTexPltt = GX_ResetBankForTexPltt();
 
-    PaletteQueueEntry *entry = textureListStart;
+    PaletteQueueEntry *entry = sTextureListStart;
     while (entry)
     {
         u32 key    = (entry->dstPalette.location & 0x1FFFF);
         u32 offset = key >> 14;
 
-        void *vram = texturePalBankManager.location[offset];
+        void *vram = gTexturePalBankManager.location[offset];
         vram += key;
         vram -= offset << 14;
 
-        paletteQueueSystem.readTable[entry->type](entry, vram);
+        sPaletteQueueSystem.readTable[entry->type](entry, vram);
 
-        FreeQueueEntry((QueueEntry *)textureListStart);
+        FreeQueueEntry((QueueEntry *)sTextureListStart);
 
-        entry            = textureListStart->next;
-        textureListStart = entry;
-        if (textureListStart == NULL)
-            textureListEnd = NULL;
+        entry            = sTextureListStart->next;
+        sTextureListStart = entry;
+        if (sTextureListStart == NULL)
+            sTextureListEnd = NULL;
     }
     GX_SetBankForTexPltt(sTexPltt);
 }
@@ -168,10 +168,10 @@ void ProcessBackgroundPaletteQueue(void)
     u32 offset;
     void *vram;
 
-    if (backgroundListStart == NULL)
+    if (sBackgroundListStart == NULL)
         return;
 
-    PaletteQueueEntry *entry = backgroundListStart;
+    PaletteQueueEntry *entry = sBackgroundListStart;
     while (entry)
     {
         vram = NULL;
@@ -183,7 +183,7 @@ void ProcessBackgroundPaletteQueue(void)
                 offset = key >> 13;
 
                 vram = (void *)(size_t)key;
-                vram += (size_t)bgExtPalBankManager[0].location[offset];
+                vram += (size_t)gBgExtPalBankManager[0].location[offset];
                 vram -= offset << 13;
 
                 if ((flags & 2) == 0)
@@ -213,7 +213,7 @@ void ProcessBackgroundPaletteQueue(void)
                 offset = key >> 13;
 
                 vram = (void *)(size_t)key;
-                vram += (size_t)bgExtPalBankManager[1].location[offset];
+                vram += (size_t)gBgExtPalBankManager[1].location[offset];
                 vram -= offset << 13;
 
                 if ((flags & 8) == 0)
@@ -242,13 +242,13 @@ void ProcessBackgroundPaletteQueue(void)
                 break;
         }
 
-        paletteQueueSystem.readTable[entry->type](entry, vram);
-        FreeQueueEntry((QueueEntry *)backgroundListStart);
+        sPaletteQueueSystem.readTable[entry->type](entry, vram);
+        FreeQueueEntry((QueueEntry *)sBackgroundListStart);
 
-        entry               = backgroundListStart->next;
-        backgroundListStart = entry;
-        if (backgroundListStart == NULL)
-            backgroundListEnd = NULL;
+        entry               = sBackgroundListStart->next;
+        sBackgroundListStart = entry;
+        if (sBackgroundListStart == NULL)
+            sBackgroundListEnd = NULL;
     }
 
     if ((flags & 2) != 0)
@@ -290,20 +290,20 @@ void LoadUncompressedPalette(void *srcPalettePtr, u16 colorCount, PaletteMode mo
     switch (mode)
     {
         case PALETTE_MODE_SPRITE:
-            listStart        = &spriteListStart;
-            listEnd          = &spriteListEnd;
+            listStart        = &sSpriteListStart;
+            listEnd          = &sSpriteListEnd;
             processQueueFunc = ProcessSpritePaletteQueue;
             break;
 
         case PALETTE_MODE_TEXTURE:
-            listStart        = &textureListStart;
-            listEnd          = &textureListEnd;
+            listStart        = &sTextureListStart;
+            listEnd          = &sTextureListEnd;
             processQueueFunc = ProcessTexturePaletteQueue;
             break;
 
         default:
-            listStart        = &backgroundListStart;
-            listEnd          = &backgroundListEnd;
+            listStart        = &sBackgroundListStart;
+            listEnd          = &sBackgroundListEnd;
             processQueueFunc = ProcessBackgroundPaletteQueue;
             break;
     }
@@ -346,20 +346,20 @@ void LoadCompressedPalette(void *srcPalettePtr, PaletteMode mode, size_t dest)
     switch (mode)
     {
         case PALETTE_MODE_SPRITE:
-            listStart        = &spriteListStart;
-            listEnd          = &spriteListEnd;
+            listStart        = &sSpriteListStart;
+            listEnd          = &sSpriteListEnd;
             processQueueFunc = ProcessSpritePaletteQueue;
             break;
 
         case PALETTE_MODE_TEXTURE:
-            listStart        = &textureListStart;
-            listEnd          = &textureListEnd;
+            listStart        = &sTextureListStart;
+            listEnd          = &sTextureListEnd;
             processQueueFunc = ProcessTexturePaletteQueue;
             break;
 
         default:
-            listStart        = &backgroundListStart;
-            listEnd          = &backgroundListEnd;
+            listStart        = &sBackgroundListStart;
+            listEnd          = &sBackgroundListEnd;
             processQueueFunc = ProcessBackgroundPaletteQueue;
             break;
     }
@@ -379,32 +379,32 @@ void LoadCompressedPalette(void *srcPalettePtr, PaletteMode mode, size_t dest)
 
 void ClearPaletteQueue(void)
 {
-    for (QueueEntry *entry = (QueueEntry *)spriteListStart; entry != NULL;)
+    for (QueueEntry *entry = (QueueEntry *)sSpriteListStart; entry != NULL;)
     {
         FreeQueueEntry(entry);
 
-        entry           = (QueueEntry *)spriteListStart->next;
-        spriteListStart = (PaletteQueueEntry *)entry;
+        entry           = (QueueEntry *)sSpriteListStart->next;
+        sSpriteListStart = (PaletteQueueEntry *)entry;
     }
-    spriteListEnd = NULL;
+    sSpriteListEnd = NULL;
 
-    for (QueueEntry *entry = (QueueEntry *)textureListStart; entry != NULL;)
+    for (QueueEntry *entry = (QueueEntry *)sTextureListStart; entry != NULL;)
     {
         FreeQueueEntry(entry);
 
-        entry            = (QueueEntry *)textureListStart->next;
-        textureListStart = (PaletteQueueEntry *)entry;
+        entry            = (QueueEntry *)sTextureListStart->next;
+        sTextureListStart = (PaletteQueueEntry *)entry;
     }
-    textureListEnd = NULL;
+    sTextureListEnd = NULL;
 
-    for (QueueEntry *entry = (QueueEntry *)backgroundListStart; entry != NULL;)
+    for (QueueEntry *entry = (QueueEntry *)sBackgroundListStart; entry != NULL;)
     {
         FreeQueueEntry(entry);
 
-        entry               = (QueueEntry *)backgroundListStart->next;
-        backgroundListStart = (PaletteQueueEntry *)entry;
+        entry               = (QueueEntry *)sBackgroundListStart->next;
+        sBackgroundListStart = (PaletteQueueEntry *)entry;
     }
-    backgroundListEnd = NULL;
+    sBackgroundListEnd = NULL;
 }
 
 void BrightenColors(GXRgb *srcColors, GXRgb *dstColors, u16 colorCount, u8 brightness)
@@ -557,18 +557,18 @@ static PaletteQueueEntry *AddPaletteQueueEntry(PaletteMode mode)
             case PALETTE_MODE_OBJ:
             case PALETTE_MODE_SUB_BG:
             case PALETTE_MODE_SUB_OBJ:
-                listStart = &backgroundListStart;
-                listEnd   = &backgroundListEnd;
+                listStart = &sBackgroundListStart;
+                listEnd   = &sBackgroundListEnd;
                 break;
 
             case PALETTE_MODE_TEXTURE:
-                listStart = &textureListStart;
-                listEnd   = &textureListEnd;
+                listStart = &sTextureListStart;
+                listEnd   = &sTextureListEnd;
                 break;
 
             default:
-                listStart = &spriteListStart;
-                listEnd   = &spriteListEnd;
+                listStart = &sSpriteListStart;
+                listEnd   = &sSpriteListEnd;
                 break;
         }
 

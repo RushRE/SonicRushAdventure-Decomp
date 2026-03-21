@@ -25,7 +25,7 @@ static BOOL SeaMapCollide_5(u32 x, u32 y);
 // VARIABLES
 // --------------------
 
-static const SeaMapCollisionFunc collisionTable[] = {
+static const SeaMapCollisionFunc sCollisionTable[] = {
     SeaMapCollide_0, SeaMapCollide_1, SeaMapCollide_2, SeaMapCollide_3, SeaMapCollide_4, SeaMapCollide_5, SeaMapCollide_6, SeaMapCollide_6,
     SeaMapCollide_6, SeaMapCollide_6, SeaMapCollide_6, SeaMapCollide_6, SeaMapCollide_6, SeaMapCollide_6, SeaMapCollide_6, SeaMapCollide_6,
 };
@@ -58,7 +58,7 @@ s32 SeaMapCollision__Collide(u16 x, u16 y, BOOL checkMapPixel)
     s32 type = SeaMapCollision__GetCollisionType(mapCol, x >> 3, y >> 3);
     u8 posX  = x & 7;
     u8 posY  = y & 7;
-    return collisionTable[type](posX, posY);
+    return sCollisionTable[type](posX, posY);
 }
 
 NONMATCH_FUNC BOOL SeaMapCollision__HandleCollisions(u16 outX, u16 outY, u16 inX, u16 inY, BOOL checkMapPixel, u16 *x, u16 *y)

@@ -14,15 +14,15 @@
 // VARIABLES
 // --------------------
 
-static ExPauseMenuAction exPauseMenuSelectedAction;
-static Task *exPauseMenuTaskSingleton;
+static ExPauseMenuAction sPauseMenuSelectedAction;
+static Task *sPauseMenuTaskSingleton;
 
-static u16 exPauseMenuPausedTextAnimTable[OS_LANGUAGE_CODE_MAX] = {
+static u16 sPauseMenuPausedTextAnimTable[OS_LANGUAGE_CODE_MAX] = {
     [OS_LANGUAGE_JAPANESE] = EX_ACTCOM_ANI_PAUSE_TEXT_JPN, [OS_LANGUAGE_ENGLISH] = EX_ACTCOM_ANI_PAUSE_TEXT_ENG, [OS_LANGUAGE_FRENCH] = EX_ACTCOM_ANI_PAUSE_TEXT_FRA,
     [OS_LANGUAGE_GERMAN] = EX_ACTCOM_ANI_PAUSE_TEXT_DEU,   [OS_LANGUAGE_ITALIAN] = EX_ACTCOM_ANI_PAUSE_TEXT_ITA, [OS_LANGUAGE_SPANISH] = EX_ACTCOM_ANI_PAUSE_TEXT_SPA
 };
 
-static u16 exPauseMenuBackButtonAnimTable[2][OS_LANGUAGE_CODE_MAX] = {
+static u16 sPauseMenuBackButtonAnimTable[2][OS_LANGUAGE_CODE_MAX] = {
     [0] = { [OS_LANGUAGE_JAPANESE] = EX_ACTCOM_ANI_BACK_BUTTON_JPN,
             [OS_LANGUAGE_ENGLISH]  = EX_ACTCOM_ANI_BACK_BUTTON_ENG,
             [OS_LANGUAGE_FRENCH]   = EX_ACTCOM_ANI_BACK_BUTTON_FRA,
@@ -38,7 +38,7 @@ static u16 exPauseMenuBackButtonAnimTable[2][OS_LANGUAGE_CODE_MAX] = {
             [OS_LANGUAGE_SPANISH]  = EX_ACTCOM_ANI_BACK_BUTTON_SELECTED_SPA },
 };
 
-static u16 exPauseMenuContinueButtonAnimTable[2][OS_LANGUAGE_CODE_MAX] = {
+static u16 sPauseMenuContinueButtonAnimTable[2][OS_LANGUAGE_CODE_MAX] = {
     [0] = { [OS_LANGUAGE_JAPANESE] = EX_ACTCOM_ANI_CONTINUE_BUTTON_JPN,
             [OS_LANGUAGE_ENGLISH]  = EX_ACTCOM_ANI_CONTINUE_BUTTON_ENG,
             [OS_LANGUAGE_FRENCH]   = EX_ACTCOM_ANI_CONTINUE_BUTTON_FRA,
@@ -79,7 +79,7 @@ void ExPauseMenu_Main_Init(void)
 {
     exPauseTask *work = ExTaskGetWorkCurrent(exPauseTask);
 
-    exPauseMenuTaskSingleton = GetCurrentTask();
+    sPauseMenuTaskSingleton = GetCurrentTask();
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_PAUSE);
 
@@ -114,7 +114,7 @@ void ExPauseMenu_Main_Init(void)
             break;
     }
 
-    work->aniPauseText.sprite.anim       = exPauseMenuPausedTextAnimTable[work->language];
+    work->aniPauseText.sprite.anim       = sPauseMenuPausedTextAnimTable[work->language];
     work->aniPauseText.sprite.paletteRow = PALETTE_ROW_8;
     SetupExHUDSprite(&work->aniPauseText);
     SetExDrawRequestPriority(&work->aniPauseText.config, EXDRAWREQTASK_PRIORITY_HUD);
@@ -128,7 +128,7 @@ void ExPauseMenu_Main_Init(void)
 
     for (u16 i = 0; i < 2; i++)
     {
-        work->aniContinueButton[i].sprite.anim       = exPauseMenuContinueButtonAnimTable[i][work->language];
+        work->aniContinueButton[i].sprite.anim       = sPauseMenuContinueButtonAnimTable[i][work->language];
         work->aniContinueButton[i].sprite.paletteRow = PALETTE_ROW_8;
         SetupExHUDSprite(&work->aniContinueButton[i]);
         SetExDrawRequestPriority(&work->aniContinueButton[i].config, EXDRAWREQTASK_PRIORITY_HUD);
@@ -139,7 +139,7 @@ void ExPauseMenu_Main_Init(void)
         work->aniContinueButton[i].config.display.disableAffine = TRUE;
         work->aniContinueButton[i].sprite.animator.oamPriority  = SPRITE_PRIORITY_0;
 
-        work->aniBackButton[i].sprite.anim       = exPauseMenuBackButtonAnimTable[i][work->language];
+        work->aniBackButton[i].sprite.anim       = sPauseMenuBackButtonAnimTable[i][work->language];
         work->aniBackButton[i].sprite.paletteRow = PALETTE_ROW_8;
         SetupExHUDSprite(&work->aniBackButton[i]);
         SetExDrawRequestPriority(&work->aniBackButton[i].config, EXDRAWREQTASK_PRIORITY_HUD);
@@ -185,7 +185,7 @@ void ExPauseMenu_Destructor(void)
         ReleaseExHUDSprite(&work->aniBackButton[i]);
     }
 
-    exPauseMenuTaskSingleton = NULL;
+    sPauseMenuTaskSingleton = NULL;
 }
 
 void ExPauseMenu_Main_EnterButtons(void)
@@ -376,16 +376,16 @@ void ExPauseMenu_Main_Exit(void)
         {
             if (work->buttonSelected[EXPAUSEMENU_BUTTON_CONTINUE])
             {
-                exPauseMenuSelectedAction = EXPAUSEMENU_ACTION_CONTINUE;
+                sPauseMenuSelectedAction = EXPAUSEMENU_ACTION_CONTINUE;
             }
             else if (work->buttonSelected[EXPAUSEMENU_BUTTON_BACK])
             {
-                exPauseMenuSelectedAction = EXPAUSEMENU_ACTION_BACK;
+                sPauseMenuSelectedAction = EXPAUSEMENU_ACTION_BACK;
             }
         }
         else
         {
-            exPauseMenuSelectedAction = EXPAUSEMENU_ACTION_CONTINUE;
+            sPauseMenuSelectedAction = EXPAUSEMENU_ACTION_CONTINUE;
         }
     }
 
@@ -430,12 +430,12 @@ BOOL CreateExPauseMenu(void)
 
     SetExTaskOnCheckStageFinishedEvent(task, ExPauseMenu_OnCheckStageFinished);
 
-    exPauseMenuSelectedAction = EXPAUSEMENU_ACTION_NONE;
+    sPauseMenuSelectedAction = EXPAUSEMENU_ACTION_NONE;
 
     return TRUE;
 }
 
 ExPauseMenuAction GetExPauseMenuSelectedAction(void)
 {
-    return exPauseMenuSelectedAction;
+    return sPauseMenuSelectedAction;
 }

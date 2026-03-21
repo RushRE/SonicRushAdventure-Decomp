@@ -49,7 +49,7 @@ void TryOpenPauseMenu(void)
             return;
     }
 
-    if (GetSysEventList()->currentEventID != SYSEVENT_TITLECARD && CreatePauseMenu())
+    if (GetSysEventManager()->currentEventID != SYSEVENT_TITLECARD && CreatePauseMenu())
     {
         if (CheckTaskPaused(NULL) == FALSE)
             BeginSysPause(TASK_PAUSELEVEL_2, TRUE, TRUE, TRUE);

@@ -34,7 +34,7 @@ struct CutsceneListEntry
 // VARIABLES
 // --------------------
 
-static const u16 cutsceneTransitionList[5][2] = {
+static const u16 sCutsceneTransitionList[5][2] = {
     { CUTSCENE_CORAL_CAVE_SURFACES_PART1, CUTSCENE_CORAL_CAVE_APPEARS },
     { CUTSCENE_CORAL_CAVE_APPEARS, CUTSCENE_CORAL_CAVE_SURFACES_PART2 },
     { CUTSCENE_HOVER_WHAT_HAUNTED_SHIP, CUTSCENE_HOVER_WHAT_BOAT },
@@ -42,7 +42,7 @@ static const u16 cutsceneTransitionList[5][2] = {
     { CUTSCENE_ARRIVAL_AT_PIRATES_ISLAND_DOOR, CUTSCENE_ARRIVAL_AT_PIRATES_ISLAND_ARRIVAL },
 };
 
-static const CutsceneListEntry cutsceneListEntryConfig[] = {
+static const CutsceneListEntry sCutsceneListEntryConfig[] = {
     { CUTSCENE_OPENING, 0, CVITALKMOVIELIST_UNLOCK_ALWAYS },
     { CUTSCENE_MARINE_APPEARS, 1, 6 },
     { CUTSCENE_ENCOUNTER, 2, 6 },
@@ -134,8 +134,8 @@ u16 CViTalkMovieList::GetNextCutscene(u16 id)
 {
     for (s32 i = 0; i < 5; i++)
     {
-        if (id == cutsceneTransitionList[i][0])
-            return cutsceneTransitionList[i][1];
+        if (id == sCutsceneTransitionList[i][0])
+            return sCutsceneTransitionList[i][1];
     }
 
     return CUTSCENE_NONE;
@@ -146,7 +146,7 @@ void CViTalkMovieList::ThreadFunc(void *arg)
     CViTalkMovieList *work = (CViTalkMovieList *)arg;
 
     work->mpcFile       = FileUnknown__GetAOUFile(HubControl::GetMsgSequenceArchive(), ARCHIVE_VI_MSG_ENG_FILE_VI_MSG_EV_DEMO_VIEWER_MPC);
-    work->cutsceneCount = ARRAY_COUNT(cutsceneListEntryConfig);
+    work->cutsceneCount = ARRAY_COUNT(sCutsceneListEntryConfig);
 
     work->InitDisplay();
     work->InitList();
@@ -170,11 +170,11 @@ void CViTalkMovieList::InitList()
         if (CViTalkMovieList::CheckCutsceneUnlocked(i))
         {
             entry->flags |= CVIEVTCMNLISTENTRY_FLAG_UNLOCKED;
-            entry->id = cutsceneListEntryConfig[i].id;
+            entry->id = sCutsceneListEntryConfig[i].id;
         }
         else
         {
-            entry->id = ARRAY_COUNT(cutsceneListEntryConfig);
+            entry->id = ARRAY_COUNT(sCutsceneListEntryConfig);
         }
     }
 
@@ -260,7 +260,7 @@ void CViTalkMovieList::Main_CloseWindow()
         s32 selection;
         if (work->eventSelectList.CheckSelectionMade())
         {
-            selection                        = cutsceneListEntryConfig[work->eventSelectList.GetSelectedEntry()].cutsceneID;
+            selection                        = sCutsceneListEntryConfig[work->eventSelectList.GetSelectedEntry()].cutsceneID;
             gameState.talk.lastSelectedMovie = work->eventSelectList.GetSelectedEntry();
         }
         else
@@ -295,7 +295,7 @@ void CViTalkMovieList::Destructor(Task *task)
 
 BOOL CViTalkMovieList::CheckCutsceneUnlocked(u16 id)
 {
-    u16 unlock = cutsceneListEntryConfig[id].unlock;
+    u16 unlock = sCutsceneListEntryConfig[id].unlock;
 
     if (unlock == CVITALKMOVIELIST_UNLOCK_ALWAYS)
         return TRUE;
@@ -316,13 +316,13 @@ u16 CViTalkMovieList::GetSelectionFromCutscene()
 
     for (i = 4; i >= 0; i--)
     {
-        if (id == cutsceneTransitionList[i][1])
-            id = cutsceneTransitionList[i][0];
+        if (id == sCutsceneTransitionList[i][1])
+            id = sCutsceneTransitionList[i][0];
     }
 
-    for (i = 0; i < (s32)ARRAY_COUNT(cutsceneListEntryConfig); i++)
+    for (i = 0; i < (s32)ARRAY_COUNT(sCutsceneListEntryConfig); i++)
     {
-        if (id == cutsceneListEntryConfig[i].cutsceneID)
+        if (id == sCutsceneListEntryConfig[i].cutsceneID)
             return i;
     }
 

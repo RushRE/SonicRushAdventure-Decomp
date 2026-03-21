@@ -29,41 +29,41 @@ enum ExBossMeteorLockOnAnimIDs_
 // VARIABLES
 // --------------------
 
-static s16 meteorLockOnInstanceCount;
-static s16 meteorInstanceCount;
-static s16 meteorBombInstanceCount;
+static s16 sMeteorLockOnInstanceCount;
+static s16 sMeteorInstanceCount;
+static s16 sMeteorBombInstanceCount;
 
-static u32 meteorBombModelFileSize;
-static EX_ACTION_NN_WORK *meteorBombLastSpawnedWorker;
-static void *meteorAnimResource[1];
-static void *meteorModelResource;
-static void *meteorUnused;
-static Task *meteorTaskSingleton;
-static u32 meteorTextureFileSize;
-static u32 meteorModelFileSize;
-static u32 meteorBombTextureFileSize;
-static EX_ACTION_NN_WORK *meteorLastSpawnedWorker;
-static u32 meteorAnimType[1];
-static u32 meteorLockOnTextureFileSize;
-static Task *meteorAdminTaskSingleton;
-static Task *meteorLockOnTaskSingleton;
-static u32 meteorLockOnModelFileSize;
-static void *meteorLockOnUnused;
-static EX_ACTION_NN_WORK *meteorLockOnLastSpawnedWorker;
-static void *meteorLockOnModelResource;
-static void *meteorBombModelResource;
-static Task *meteorBombTaskSingleton;
-static void *meteorBombUnused;
-static VecFx32 meteorLockOnPosition;
-static void *meteorLockOnAnimResource[3];
-static u32 meteorLockOnAnimType[3];
-static void *meteorBombAnimResource[4];
-static u32 meteorBombAnimType[4];
+static u32 sMeteorBombModelFileSize;
+static EX_ACTION_NN_WORK *sMeteorBombLastSpawnedWorker;
+static void *sMeteorAnimResource[1];
+static void *sMeteorModelResource;
+static void *sMeteorBossUnused;
+static Task *sMeteorTaskSingleton;
+static u32 sMeteorTextureFileSize;
+static u32 sMeteorModelFileSize;
+static u32 sMeteorBombTextureFileSize;
+static EX_ACTION_NN_WORK *sMeteorLastSpawnedWorker;
+static u32 sMeteorAnimType[1];
+static u32 sMeteorLockOnTextureFileSize;
+static Task *sMeteorAdminTaskSingleton;
+static Task *sMeteorLockOnTaskSingleton;
+static u32 sMeteorLockOnModelFileSize;
+static void *sMeteorLockOnUnused;
+static EX_ACTION_NN_WORK *sMeteorLockOnLastSpawnedWorker;
+static void *sMeteorLockOnModelResource;
+static void *sMeteorBombModelResource;
+static Task *sMeteorBombTaskSingleton;
+static void *sMeteorBombUnused;
+static VecFx32 sMeteorLockOnPosition;
+static void *sMeteorLockOnAnimResource[3];
+static u32 sMeteorLockOnAnimType[3];
+static void *sMeteorBombAnimResource[4];
+static u32 sMeteorBombAnimType[4];
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(meteorBombUnused)
-FORCE_INCLUDE_VARIABLE_BSS(meteorLockOnUnused)
-FORCE_INCLUDE_VARIABLE_BSS(meteorUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sMeteorBombUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sMeteorLockOnUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sMeteorBossUnused)
 
 // --------------------
 // FUNCTION DECLS
@@ -135,50 +135,50 @@ static void ExBoss_Action_FinishMeteorAttack(void);
 
 BOOL LoadExBossMeteorBombAssets(EX_ACTION_NN_WORK *work)
 {
-    meteorBombLastSpawnedWorker = work;
+    sMeteorBombLastSpawnedWorker = work;
 
-    if (meteorBombModelFileSize != 0 && meteorBombTextureFileSize != 0)
+    if (sMeteorBombModelFileSize != 0 && sMeteorBombTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < meteorBombModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sMeteorBombModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < meteorBombTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sMeteorBombTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < meteorBombModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sMeteorBombModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (meteorBombInstanceCount == 0)
+    if (sMeteorBombInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_METEXP_NSBMD, &meteorBombModelResource, &meteorBombModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_METEXP_NSBMD, &sMeteorBombModelResource, &sMeteorBombModelFileSize, TRUE, FALSE);
 
-        meteorBombAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEXP_NSBCA);
-        meteorBombAnimType[0]     = B3D_ANIM_JOINT_ANIM;
-        meteorBombAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEXP_NSBMA);
-        meteorBombAnimType[1]     = B3D_ANIM_MAT_ANIM;
-        meteorBombAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEXP_NSBTA);
-        meteorBombAnimType[2]     = B3D_ANIM_TEX_ANIM;
-        meteorBombAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEXP_NSBVA);
-        meteorBombAnimType[3]     = B3D_ANIM_VIS_ANIM;
+        sMeteorBombAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEXP_NSBCA);
+        sMeteorBombAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sMeteorBombAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEXP_NSBMA);
+        sMeteorBombAnimType[1]     = B3D_ANIM_MAT_ANIM;
+        sMeteorBombAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEXP_NSBTA);
+        sMeteorBombAnimType[2]     = B3D_ANIM_TEX_ANIM;
+        sMeteorBombAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEXP_NSBVA);
+        sMeteorBombAnimType[3]     = B3D_ANIM_VIS_ANIM;
 
-        CreateAsset3DSetup(meteorBombModelResource);
+        CreateAsset3DSetup(sMeteorBombModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
     AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(animator, meteorBombModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(animator, sMeteorBombModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
-    for (; i < ARRAY_COUNT(meteorBombAnimResource); i++)
+    for (; i < ARRAY_COUNT(sMeteorBombAnimResource); i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, meteorBombAnimType[i], meteorBombAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sMeteorBombAnimType[i], sMeteorBombAnimResource[i], 0, NULL);
     }
 
-    work->model.primaryAnimType     = meteorBombAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[meteorBombAnimType[0]];
+    work->model.primaryAnimType     = sMeteorBombAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sMeteorBombAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -202,44 +202,44 @@ BOOL LoadExBossMeteorBombAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z             = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position           = &work->model.translation;
 
-    meteorBombInstanceCount++;
+    sMeteorBombInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBossMeteorBombAssets(EX_ACTION_NN_WORK *work)
 {
-    if (meteorBombInstanceCount <= 1)
+    if (sMeteorBombInstanceCount <= 1)
     {
-        if (meteorBombModelResource)
-            NNS_G3dResDefaultRelease(meteorBombModelResource);
+        if (sMeteorBombModelResource)
+            NNS_G3dResDefaultRelease(sMeteorBombModelResource);
 
-        if (meteorBombAnimResource[0])
-            NNS_G3dResDefaultRelease(meteorBombAnimResource[0]);
+        if (sMeteorBombAnimResource[0])
+            NNS_G3dResDefaultRelease(sMeteorBombAnimResource[0]);
 
-        if (meteorBombAnimResource[1])
-            NNS_G3dResDefaultRelease(meteorBombAnimResource[1]);
+        if (sMeteorBombAnimResource[1])
+            NNS_G3dResDefaultRelease(sMeteorBombAnimResource[1]);
 
-        if (meteorBombAnimResource[2])
-            NNS_G3dResDefaultRelease(meteorBombAnimResource[2]);
+        if (sMeteorBombAnimResource[2])
+            NNS_G3dResDefaultRelease(sMeteorBombAnimResource[2]);
 
-        if (meteorBombAnimResource[3])
-            NNS_G3dResDefaultRelease(meteorBombAnimResource[3]);
+        if (sMeteorBombAnimResource[3])
+            NNS_G3dResDefaultRelease(sMeteorBombAnimResource[3]);
 
-        if (meteorBombModelResource)
-            HeapFree(HEAP_USER, meteorBombModelResource);
-        meteorBombModelResource = NULL;
+        if (sMeteorBombModelResource)
+            HeapFree(HEAP_USER, sMeteorBombModelResource);
+        sMeteorBombModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
-    meteorBombInstanceCount--;
+    sMeteorBombInstanceCount--;
 }
 
 void ExBossMeteorBomb_Main_Init(void)
 {
     exBossMeteBombTask *work = ExTaskGetWorkCurrent(exBossMeteBombTask);
 
-    meteorBombTaskSingleton = GetCurrentTask();
+    sMeteorBombTaskSingleton = GetCurrentTask();
 
     LoadExBossMeteorBombAssets(&work->animator);
     SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -281,7 +281,7 @@ void ExBossMeteorBomb_Destructor(void)
     exBossMeteBombTask *work = ExTaskGetWorkCurrent(exBossMeteBombTask);
 
     ReleaseExBossMeteorBombAssets(&work->animator);
-    meteorBombTaskSingleton = NULL;
+    sMeteorBombTaskSingleton = NULL;
 }
 
 void ExBossMeteorBomb_Main_Explode(void)
@@ -330,46 +330,46 @@ BOOL CreateExBossMeteorBomb(VecFx32 *targetPos)
 
 BOOL LoadExBossMeteorLockOnAssets(EX_ACTION_NN_WORK *work)
 {
-    meteorLockOnLastSpawnedWorker = work;
+    sMeteorLockOnLastSpawnedWorker = work;
 
-    if (meteorLockOnModelFileSize != 0 && meteorLockOnTextureFileSize != 0)
+    if (sMeteorLockOnModelFileSize != 0 && sMeteorLockOnTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < meteorLockOnModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sMeteorLockOnModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < meteorLockOnTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sMeteorLockOnTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < meteorLockOnModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sMeteorLockOnModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (meteorLockOnInstanceCount == 0)
+    if (sMeteorLockOnInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_TARG_NSBMD, &meteorLockOnModelResource, &meteorLockOnModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_TARG_NSBMD, &sMeteorLockOnModelResource, &sMeteorLockOnModelFileSize, TRUE, FALSE);
 
-        meteorLockOnAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_TARG_NSBCA);
-        meteorLockOnAnimType[0]     = B3D_ANIM_JOINT_ANIM;
-        meteorLockOnAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_TARG_NSBTA);
-        meteorLockOnAnimType[1]     = B3D_ANIM_TEX_ANIM;
+        sMeteorLockOnAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_TARG_NSBCA);
+        sMeteorLockOnAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sMeteorLockOnAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_TARG_NSBTA);
+        sMeteorLockOnAnimType[1]     = B3D_ANIM_TEX_ANIM;
 
-        CreateAsset3DSetup(meteorLockOnModelResource);
+        CreateAsset3DSetup(sMeteorLockOnModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
     AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(animator, meteorLockOnModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(animator, sMeteorLockOnModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
-    for (; i < ARRAY_COUNT(meteorLockOnAnimResource) - 1; i++)
+    for (; i < ARRAY_COUNT(sMeteorLockOnAnimResource) - 1; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, meteorLockOnAnimType[i], meteorLockOnAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sMeteorLockOnAnimType[i], sMeteorLockOnAnimResource[i], 0, NULL);
     }
 
-    work->model.primaryAnimType     = meteorLockOnAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[meteorLockOnAnimType[0]];
+    work->model.primaryAnimType     = sMeteorLockOnAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sMeteorLockOnAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -395,20 +395,20 @@ BOOL LoadExBossMeteorLockOnAssets(EX_ACTION_NN_WORK *work)
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
-    meteorLockOnInstanceCount++;
+    sMeteorLockOnInstanceCount++;
 
     return TRUE;
 }
 
 void SetExBossMeteorLockOnAnim(EX_ACTION_NN_WORK *work, u16 id)
 {
-    for (u16 i = 0; i < ARRAY_COUNT(meteorLockOnAnimResource) - 1; i++)
+    for (u16 i = 0; i < ARRAY_COUNT(sMeteorLockOnAnimResource) - 1; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, meteorLockOnAnimType[i], meteorLockOnAnimResource[i], id, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sMeteorLockOnAnimType[i], sMeteorLockOnAnimResource[i], id, NULL);
     }
 
-    work->model.primaryAnimType     = meteorLockOnAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[meteorLockOnAnimType[0]];
+    work->model.primaryAnimType     = sMeteorLockOnAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sMeteorLockOnAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -419,31 +419,31 @@ void SetExBossMeteorLockOnAnim(EX_ACTION_NN_WORK *work, u16 id)
 
 void ReleaseExBossMeteorLockOnAssets(EX_ACTION_NN_WORK *work)
 {
-    if (meteorLockOnInstanceCount <= 1)
+    if (sMeteorLockOnInstanceCount <= 1)
     {
-        if (meteorLockOnModelResource)
-            NNS_G3dResDefaultRelease(meteorLockOnModelResource);
+        if (sMeteorLockOnModelResource)
+            NNS_G3dResDefaultRelease(sMeteorLockOnModelResource);
 
-        if (meteorLockOnAnimResource[0])
-            NNS_G3dResDefaultRelease(meteorLockOnAnimResource[0]);
+        if (sMeteorLockOnAnimResource[0])
+            NNS_G3dResDefaultRelease(sMeteorLockOnAnimResource[0]);
 
-        if (meteorLockOnAnimResource[1])
-            NNS_G3dResDefaultRelease(meteorLockOnAnimResource[1]);
+        if (sMeteorLockOnAnimResource[1])
+            NNS_G3dResDefaultRelease(sMeteorLockOnAnimResource[1]);
 
-        if (meteorLockOnModelResource)
-            HeapFree(HEAP_USER, meteorLockOnModelResource);
-        meteorLockOnModelResource = NULL;
+        if (sMeteorLockOnModelResource)
+            HeapFree(HEAP_USER, sMeteorLockOnModelResource);
+        sMeteorLockOnModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
-    meteorLockOnInstanceCount--;
+    sMeteorLockOnInstanceCount--;
 }
 
 void ExBossMeteorLockOn_Main_Init(void)
 {
     exBossMeteLockOnTask *work = ExTaskGetWorkCurrent(exBossMeteLockOnTask);
 
-    meteorLockOnTaskSingleton = GetCurrentTask();
+    sMeteorLockOnTaskSingleton = GetCurrentTask();
     work->exploded            = FALSE;
 
     LoadExBossMeteorLockOnAssets(&work->animator);
@@ -478,7 +478,7 @@ void ExBossMeteorLockOn_Destructor(void)
     exBossMeteLockOnTask *work = ExTaskGetWorkCurrent(exBossMeteLockOnTask);
 
     ReleaseExBossMeteorLockOnAssets(&work->animator);
-    meteorLockOnTaskSingleton = NULL;
+    sMeteorLockOnTaskSingleton = NULL;
 }
 
 void ExBossMeteorLockOn_Main_Appear(void)
@@ -494,7 +494,7 @@ void ExBossMeteorLockOn_Main_Appear(void)
     {
         work->animator.model.translation.x = GetExPlayerPosition()->x;
         work->animator.model.translation.y = GetExPlayerPosition()->y;
-        work->animator.model.translation.z = meteorLockOnPosition.z + FLOAT_TO_FX32(5.0);
+        work->animator.model.translation.z = sMeteorLockOnPosition.z + FLOAT_TO_FX32(5.0);
 
         work->targetScale += FLOAT_TO_FX32(0.125);
 
@@ -533,7 +533,7 @@ void ExBossMeteorLockOn_Main_FinishAppearing(void)
     {
         work->animator.model.translation.x = GetExPlayerPosition()->x;
         work->animator.model.translation.y = GetExPlayerPosition()->y;
-        work->animator.model.translation.z = meteorLockOnPosition.z + FLOAT_TO_FX32(5.0);
+        work->animator.model.translation.z = sMeteorLockOnPosition.z + FLOAT_TO_FX32(5.0);
 
         work->targetScale += FLOAT_TO_FX32(0.1);
 
@@ -619,9 +619,9 @@ void ExBossMeteorLockOn_Action_LockOn(void)
     SetExBossMeteorLockOnAnim(&work->animator, ex_effe_targ2);
     SetExDrawRequestAnimStopOnFinish(&work->animator.config);
 
-    meteorLockOnPosition.x = work->animator.model.translation.x;
-    meteorLockOnPosition.y = work->animator.model.translation.y;
-    meteorLockOnPosition.z = work->animator.model.translation.z;
+    sMeteorLockOnPosition.x = work->animator.model.translation.x;
+    sMeteorLockOnPosition.y = work->animator.model.translation.y;
+    sMeteorLockOnPosition.z = work->animator.model.translation.z;
 
     NNS_G3dMdlSetMdlDiffAll(mdlResource, GX_RGB_888(0xFF, 0x00, 0x00));
 
@@ -704,44 +704,44 @@ BOOL CreateExBossMeteorLockOn(void)
 
 BOOL LoadExBossMeteorAssets(EX_ACTION_NN_WORK *work)
 {
-    meteorLastSpawnedWorker = work;
+    sMeteorLastSpawnedWorker = work;
 
-    if (meteorModelFileSize != 0 && meteorTextureFileSize != 0)
+    if (sMeteorModelFileSize != 0 && sMeteorTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < meteorModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sMeteorModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < meteorTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sMeteorTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < meteorModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sMeteorModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (meteorInstanceCount == 0)
+    if (sMeteorInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_METEF_NSBMD, &meteorModelResource, &meteorModelFileSize, TRUE, FALSE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_METEF_NSBMD, &sMeteorModelResource, &sMeteorModelFileSize, TRUE, FALSE);
 
-        meteorAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEF_NSBCA);
-        meteorAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sMeteorAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_METEF_NSBCA);
+        sMeteorAnimType[0]     = B3D_ANIM_JOINT_ANIM;
 
-        CreateAsset3DSetup(meteorModelResource);
+        CreateAsset3DSetup(sMeteorModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
     AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(animator, meteorModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(animator, sMeteorModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
-    for (; i < ARRAY_COUNT(meteorAnimType); i++)
+    for (; i < ARRAY_COUNT(sMeteorAnimType); i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, meteorAnimType[i], meteorAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sMeteorAnimType[i], sMeteorAnimResource[i], 0, NULL);
     }
 
-    work->model.primaryAnimType     = meteorAnimType[0];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[meteorAnimType[0]];
+    work->model.primaryAnimType     = sMeteorAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sMeteorAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -765,35 +765,35 @@ BOOL LoadExBossMeteorAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z         = FLOAT_TO_FX32(5.0);
     work->hitChecker.box.position       = &work->model.translation;
 
-    meteorInstanceCount++;
+    sMeteorInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBossMeteorAssets(EX_ACTION_NN_WORK *work)
 {
-    if (meteorInstanceCount <= 1)
+    if (sMeteorInstanceCount <= 1)
     {
-        if (meteorModelResource)
-            NNS_G3dResDefaultRelease(meteorModelResource);
+        if (sMeteorModelResource)
+            NNS_G3dResDefaultRelease(sMeteorModelResource);
 
-        if (meteorAnimResource[0])
-            NNS_G3dResDefaultRelease(meteorAnimResource[0]);
+        if (sMeteorAnimResource[0])
+            NNS_G3dResDefaultRelease(sMeteorAnimResource[0]);
 
-        if (meteorModelResource)
-            HeapFree(HEAP_USER, meteorModelResource);
-        meteorModelResource = NULL;
+        if (sMeteorModelResource)
+            HeapFree(HEAP_USER, sMeteorModelResource);
+        sMeteorModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
-    meteorInstanceCount--;
+    sMeteorInstanceCount--;
 }
 
 void ExBossMeteor_Main_Init(void)
 {
     exBossMeteMeteoTask *work = ExTaskGetWorkCurrent(exBossMeteMeteoTask);
 
-    meteorTaskSingleton = GetCurrentTask();
+    sMeteorTaskSingleton = GetCurrentTask();
 
     LoadExBossMeteorAssets(&work->animator);
     SetExDrawRequestPriority(&work->animator.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -807,8 +807,8 @@ void ExBossMeteor_Main_Init(void)
     work->startPosition.y = work->animator.model.translation.y;
     work->startPosition.z = work->animator.model.translation.z;
 
-    work->targetPosition.x = meteorLockOnPosition.x;
-    work->targetPosition.y = meteorLockOnPosition.y;
+    work->targetPosition.x = sMeteorLockOnPosition.x;
+    work->targetPosition.y = sMeteorLockOnPosition.y;
     work->targetPosition.z = FLOAT_TO_FX32(60.0);
 
     ExUtils_InitMeteorMover(&work->meteorMover, &work->startPosition, &work->targetPosition, 0.00078125f, 1.0f);
@@ -842,7 +842,7 @@ void ExBossMeteor_Destructor(void)
     work->exploded = TRUE;
 
     ReleaseExBossMeteorAssets(&work->animator);
-    meteorTaskSingleton = NULL;
+    sMeteorTaskSingleton = NULL;
 }
 
 void ExBossMeteor_Main_FallToLockOnPos(void)
@@ -884,8 +884,8 @@ void ExBossMeteor_Action_Impact(void)
 {
     exBossMeteMeteoTask *work = ExTaskGetWorkCurrent(exBossMeteMeteoTask);
 
-    work->animator.model.translation.x = meteorLockOnPosition.x;
-    work->animator.model.translation.y = meteorLockOnPosition.y;
+    work->animator.model.translation.x = sMeteorLockOnPosition.x;
+    work->animator.model.translation.y = sMeteorLockOnPosition.y;
     work->animator.model.translation.z = FLOAT_TO_FX32(60.0);
 
     work->timer = 3;
@@ -1009,7 +1009,7 @@ void ExBossMeteorAdmin_Main_Init(void)
     exBossMeteAdminTask *work = ExTaskGetWorkCurrent(exBossMeteAdminTask);
     UNUSED(work);
 
-    meteorAdminTaskSingleton = GetCurrentTask();
+    sMeteorAdminTaskSingleton = GetCurrentTask();
 
     SetCurrentExTaskMainEvent(ExBossMeteorAdmin_Main_WaitForLockOn);
     ExBossMeteorAdmin_Main_WaitForLockOn();
@@ -1029,7 +1029,7 @@ void ExBossMeteorAdmin_Destructor(void)
     exBossMeteAdminTask *work = ExTaskGetWorkCurrent(exBossMeteAdminTask);
     UNUSED(work);
 
-    meteorAdminTaskSingleton = NULL;
+    sMeteorAdminTaskSingleton = NULL;
 }
 
 void ExBossMeteorAdmin_Main_WaitForLockOn(void)

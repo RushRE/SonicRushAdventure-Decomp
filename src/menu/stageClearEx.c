@@ -70,21 +70,15 @@ enum StageClearExAnimID
 };
 
 // --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void _u32_div_f(void);
-
-// --------------------
 // VARIABLES
 // --------------------
 
-static Task *singleton;
+static Task *sStageClearExTaskSingleton;
 
-static const u8 timeBonusThreshold[8] = { 190, 180, 170, 160, 150, 140, 130, 120 };
-static const u8 ringBonusThreshold[8] = { 15, 20, 25, 30, 35, 40, 45, 50 };
-static const u32 timeBonusScore[9]    = { 10000, 15000, 20000, 25000, 30000, 34000, 38000, 42000, 45000 };
-static const u32 ringBonusScore[9]    = { 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000 };
+static const u8 sTimeBonusThreshold[8] = { 190, 180, 170, 160, 150, 140, 130, 120 };
+static const u8 sRingBonusThreshold[8] = { 15, 20, 25, 30, 35, 40, 45, 50 };
+static const u32 sTimeBonusScore[9]    = { 10000, 15000, 20000, 25000, 30000, 34000, 38000, 42000, 45000 };
+static const u32 sRingBonusScore[9]    = { 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000 };
 
 // --------------------
 // FUNCTION DECLS
@@ -139,15 +133,15 @@ static void StageClearEx_Main_DrawManager(void);
 
 void CreateStageClearEx(void)
 {
-    singleton = TaskCreate(StageClearEx_Main_Core, StageClearEx_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_GROUP(0), StageClearEx);
+    sStageClearExTaskSingleton = TaskCreate(StageClearEx_Main_Core, StageClearEx_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_GROUP(0), StageClearEx);
 
-    StageClearEx *work = TaskGetWork(singleton, StageClearEx);
+    StageClearEx *work = TaskGetWork(sStageClearExTaskSingleton, StageClearEx);
     InitStageClearEx(work);
 }
 
 void StageClearEx_Destructor(Task *task)
 {
-    singleton = NULL;
+    sStageClearExTaskSingleton = NULL;
 }
 
 void SetStageClearExState(StageClearEx *work, void (*state)(StageClearEx *work))
@@ -871,10 +865,10 @@ void DrawNumberForStageClearEx(AnimatorSprite *aniNumbers, s16 x, s16 y, u16 spa
 
 u32 CalcStageClearExTimeBonus(u32 time)
 {
-    for (u32 i = 0; i < ARRAY_COUNT(timeBonusThreshold); i++)
+    for (u32 i = 0; i < ARRAY_COUNT(sTimeBonusThreshold); i++)
     {
-        if (60 * timeBonusThreshold[i] <= time)
-            return timeBonusScore[i];
+        if (60 * sTimeBonusThreshold[i] <= time)
+            return sTimeBonusScore[i];
     }
 
     return 45000;
@@ -882,10 +876,10 @@ u32 CalcStageClearExTimeBonus(u32 time)
 
 u32 CalcStageClearExRingBonus(u32 rings)
 {
-    for (u32 i = 0; i < ARRAY_COUNT(ringBonusThreshold); i++)
+    for (u32 i = 0; i < ARRAY_COUNT(sRingBonusThreshold); i++)
     {
-        if (rings < ringBonusThreshold[i])
-            return ringBonusScore[i];
+        if (rings < sRingBonusThreshold[i])
+            return sRingBonusScore[i];
     }
 
     return 5000;
@@ -922,14 +916,14 @@ void StageClearEx_Main_Core(void)
 
 void StageClearEx_Main_AnimationManager(void)
 {
-    StageClearEx *work = TaskGetWork(singleton, StageClearEx);
+    StageClearEx *work = TaskGetWork(sStageClearExTaskSingleton, StageClearEx);
 
     HandleStageClearExAnimations(work);
 }
 
 void StageClearEx_Main_DrawManager(void)
 {
-    StageClearEx *work = TaskGetWork(singleton, StageClearEx);
+    StageClearEx *work = TaskGetWork(sStageClearExTaskSingleton, StageClearEx);
 
     HandleStageClearExDrawing(work);
 }

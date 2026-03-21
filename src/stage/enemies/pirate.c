@@ -103,57 +103,91 @@ enum HoverGunnerPirateAnimID
 // VARIABLES
 // --------------------
 
-static const u16 attackFrameTable[PIRATE_TYPE_COUNT] = {
-    [PIRATE_TYPE_KNIFE] = 0,     [PIRATE_TYPE_BAZOOKA] = 7,     [PIRATE_TYPE_BALLCHAIN] = 5,   [PIRATE_TYPE_BOMB] = 6,
-    [PIRATE_TYPE_SKELETON] = 13, [PIRATE_TYPE_HOVERBOMBER] = 5, [PIRATE_TYPE_HOVERGUNNER] = 7,
+static const u16 sAttackFrameTable[PIRATE_TYPE_COUNT] = {
+    [PIRATE_TYPE_KNIFE]       = 0,  // Formatting comment
+    [PIRATE_TYPE_BAZOOKA]     = 7,  // Formatting comment
+    [PIRATE_TYPE_BALLCHAIN]   = 5,  // Formatting comment
+    [PIRATE_TYPE_BOMB]        = 6,  // Formatting comment
+    [PIRATE_TYPE_SKELETON]    = 13, // Formatting comment
+    [PIRATE_TYPE_HOVERBOMBER] = 5,  // Formatting comment
+    [PIRATE_TYPE_HOVERGUNNER] = 7,  // Formatting comment
 };
 
-static const u16 spritePaletteIDList[PIRATE_TYPE_COUNT] = {
-    [PIRATE_TYPE_KNIFE] = 75,    [PIRATE_TYPE_BAZOOKA] = 76,     [PIRATE_TYPE_BALLCHAIN] = 77,   [PIRATE_TYPE_BOMB] = 78,
-    [PIRATE_TYPE_SKELETON] = 79, [PIRATE_TYPE_HOVERBOMBER] = 80, [PIRATE_TYPE_HOVERGUNNER] = 82,
+static const u16 sSpritePaletteIDList[PIRATE_TYPE_COUNT] = {
+    [PIRATE_TYPE_KNIFE]       = 75, // Formatting comment
+    [PIRATE_TYPE_BAZOOKA]     = 76, // Formatting comment
+    [PIRATE_TYPE_BALLCHAIN]   = 77, // Formatting comment
+    [PIRATE_TYPE_BOMB]        = 78, // Formatting comment
+    [PIRATE_TYPE_SKELETON]    = 79, // Formatting comment
+    [PIRATE_TYPE_HOVERBOMBER] = 80, // Formatting comment
+    [PIRATE_TYPE_HOVERGUNNER] = 82, // Formatting comment
 };
 
-static const s16 colliderActivateDelay[PIRATE_TYPE_COUNT] = {
-    [PIRATE_TYPE_KNIFE] = 120,    [PIRATE_TYPE_BAZOOKA] = 120,     [PIRATE_TYPE_BALLCHAIN] = 120,   [PIRATE_TYPE_BOMB] = 120,
-    [PIRATE_TYPE_SKELETON] = 120, [PIRATE_TYPE_HOVERBOMBER] = 120, [PIRATE_TYPE_HOVERGUNNER] = 120,
+static const s16 sColliderActivateDelay[PIRATE_TYPE_COUNT] = {
+    [PIRATE_TYPE_KNIFE]       = 120, // Formatting comment
+    [PIRATE_TYPE_BAZOOKA]     = 120, // Formatting comment
+    [PIRATE_TYPE_BALLCHAIN]   = 120, // Formatting comment
+    [PIRATE_TYPE_BOMB]        = 120, // Formatting comment
+    [PIRATE_TYPE_SKELETON]    = 120, // Formatting comment
+    [PIRATE_TYPE_HOVERBOMBER] = 120, // Formatting comment
+    [PIRATE_TYPE_HOVERGUNNER] = 120, // Formatting comment
 };
 
-static const u32 dataWorkTable[PIRATE_TYPE_COUNT] = {
-    [PIRATE_TYPE_KNIFE] = OBJDATAWORK_15,    [PIRATE_TYPE_BAZOOKA] = OBJDATAWORK_16,     [PIRATE_TYPE_BALLCHAIN] = OBJDATAWORK_17,   [PIRATE_TYPE_BOMB] = OBJDATAWORK_18,
-    [PIRATE_TYPE_SKELETON] = OBJDATAWORK_19, [PIRATE_TYPE_HOVERBOMBER] = OBJDATAWORK_20, [PIRATE_TYPE_HOVERGUNNER] = OBJDATAWORK_21,
+static const u32 sDataWorkTable[PIRATE_TYPE_COUNT] = {
+    [PIRATE_TYPE_KNIFE]       = OBJDATAWORK_15, // Formatting comment
+    [PIRATE_TYPE_BAZOOKA]     = OBJDATAWORK_16, // Formatting comment
+    [PIRATE_TYPE_BALLCHAIN]   = OBJDATAWORK_17, // Formatting comment
+    [PIRATE_TYPE_BOMB]        = OBJDATAWORK_18, // Formatting comment
+    [PIRATE_TYPE_SKELETON]    = OBJDATAWORK_19, // Formatting comment
+    [PIRATE_TYPE_HOVERBOMBER] = OBJDATAWORK_20, // Formatting comment
+    [PIRATE_TYPE_HOVERGUNNER] = OBJDATAWORK_21, // Formatting comment
 };
 
-static const Vec2Fx32 ballOffsetTable[4] = {
+static const Vec2Fx32 sBallOffsetTable[4] = {
     { FLOAT_TO_FX32(10.0), -FLOAT_TO_FX32(61.0) },
     { -FLOAT_TO_FX32(15.0), -FLOAT_TO_FX32(67.0) },
     { -FLOAT_TO_FX32(53.0), -FLOAT_TO_FX32(38.0) },
     { -FLOAT_TO_FX32(42.0), -FLOAT_TO_FX32(37.0) },
 };
 
-static const HitboxRect detectRange[PIRATE_TYPE_COUNT] = {
-    [PIRATE_TYPE_KNIFE] = { -100, -64, 0, 0 },       [PIRATE_TYPE_BAZOOKA] = { -100, -64, 0, 0 },  [PIRATE_TYPE_BALLCHAIN] = { -128, -64, 0, 0 },
-    [PIRATE_TYPE_BOMB] = { -100, -64, 0, 0 },        [PIRATE_TYPE_SKELETON] = { -100, -64, 0, 0 }, [PIRATE_TYPE_HOVERBOMBER] = { -73, 0, 23, 128 },
-    [PIRATE_TYPE_HOVERGUNNER] = { -150, 0, 0, 128 },
+static const HitboxRect sDetectRange[PIRATE_TYPE_COUNT] = {
+    [PIRATE_TYPE_KNIFE]       = { -100, -64, 0, 0 }, // Formatting comment
+    [PIRATE_TYPE_BAZOOKA]     = { -100, -64, 0, 0 }, // Formatting comment
+    [PIRATE_TYPE_BALLCHAIN]   = { -128, -64, 0, 0 }, // Formatting comment
+    [PIRATE_TYPE_BOMB]        = { -100, -64, 0, 0 }, // Formatting comment
+    [PIRATE_TYPE_SKELETON]    = { -100, -64, 0, 0 }, // Formatting comment
+    [PIRATE_TYPE_HOVERBOMBER] = { -73, 0, 23, 128 }, // Formatting comment
+    [PIRATE_TYPE_HOVERGUNNER] = { -150, 0, 0, 128 }, // Formatting comment
 };
 
-static const Vec2Fx32 foundPosTable[PIRATE_TYPE_COUNT] = {
-    [PIRATE_TYPE_KNIFE] = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) },       [PIRATE_TYPE_BAZOOKA] = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) },
-    [PIRATE_TYPE_BALLCHAIN] = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) },   [PIRATE_TYPE_BOMB] = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) },
-    [PIRATE_TYPE_SKELETON] = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) },    [PIRATE_TYPE_HOVERBOMBER] = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) },
-    [PIRATE_TYPE_HOVERGUNNER] = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) },
+static const Vec2Fx32 sFoundPosTable[PIRATE_TYPE_COUNT] = {
+    [PIRATE_TYPE_KNIFE]       = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) }, // Formatting comment
+    [PIRATE_TYPE_BAZOOKA]     = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) }, // Formatting comment
+    [PIRATE_TYPE_BALLCHAIN]   = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) }, // Formatting comment
+    [PIRATE_TYPE_BOMB]        = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) }, // Formatting comment
+    [PIRATE_TYPE_SKELETON]    = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) }, // Formatting comment
+    [PIRATE_TYPE_HOVERBOMBER] = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) }, // Formatting comment
+    [PIRATE_TYPE_HOVERGUNNER] = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0) }, // Formatting comment
 };
 
-static const Vec2Fx32 projectilePosTable[PIRATE_TYPE_COUNT] = {
-    [PIRATE_TYPE_KNIFE] = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0) },          [PIRATE_TYPE_BAZOOKA] = { -FLOAT_TO_FX32(18.0), -FLOAT_TO_FX32(39.0) },
-    [PIRATE_TYPE_BALLCHAIN] = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0) },      [PIRATE_TYPE_BOMB] = { -FLOAT_TO_FX32(20.0), -FLOAT_TO_FX32(50.0) },
-    [PIRATE_TYPE_SKELETON] = { -FLOAT_TO_FX32(25.0), -FLOAT_TO_FX32(60.0) },   [PIRATE_TYPE_HOVERBOMBER] = { -FLOAT_TO_FX32(25.0), FLOAT_TO_FX32(17.0) },
-    [PIRATE_TYPE_HOVERGUNNER] = { -FLOAT_TO_FX32(37.0), FLOAT_TO_FX32(17.0) },
+static const Vec2Fx32 sProjectilePosTable[PIRATE_TYPE_COUNT] = {
+    [PIRATE_TYPE_KNIFE]       = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0) },     // Formatting comment
+    [PIRATE_TYPE_BAZOOKA]     = { -FLOAT_TO_FX32(18.0), -FLOAT_TO_FX32(39.0) }, // Formatting comment
+    [PIRATE_TYPE_BALLCHAIN]   = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0) },     // Formatting comment
+    [PIRATE_TYPE_BOMB]        = { -FLOAT_TO_FX32(20.0), -FLOAT_TO_FX32(50.0) }, // Formatting comment
+    [PIRATE_TYPE_SKELETON]    = { -FLOAT_TO_FX32(25.0), -FLOAT_TO_FX32(60.0) }, // Formatting comment
+    [PIRATE_TYPE_HOVERBOMBER] = { -FLOAT_TO_FX32(25.0), FLOAT_TO_FX32(17.0) },  // Formatting comment
+    [PIRATE_TYPE_HOVERGUNNER] = { -FLOAT_TO_FX32(37.0), FLOAT_TO_FX32(17.0) },  // Formatting comment
 };
 
-static const char *spriteList[PIRATE_TYPE_COUNT] = {
-    [PIRATE_TYPE_KNIFE] = "/act/ac_ene_prt_knife.bac",       [PIRATE_TYPE_BAZOOKA] = "/act/ac_ene_prt_bazooka.bac", [PIRATE_TYPE_BALLCHAIN] = "/act/ac_ene_prt_hogun.bac",
-    [PIRATE_TYPE_BOMB] = "/act/ac_ene_prt_bomb.bac",         [PIRATE_TYPE_SKELETON] = "/act/ac_ene_p_skeleton.bac", [PIRATE_TYPE_HOVERBOMBER] = "/act/ac_ene_hobar_bomb.bac",
-    [PIRATE_TYPE_HOVERGUNNER] = "/act/ac_ene_hobar_gun.bac",
+static const char *sSpriteList[PIRATE_TYPE_COUNT] = {
+    [PIRATE_TYPE_KNIFE]       = "/act/ac_ene_prt_knife.bac",   // Formatting comment
+    [PIRATE_TYPE_BAZOOKA]     = "/act/ac_ene_prt_bazooka.bac", // Formatting comment
+    [PIRATE_TYPE_BALLCHAIN]   = "/act/ac_ene_prt_hogun.bac",   // Formatting comment
+    [PIRATE_TYPE_BOMB]        = "/act/ac_ene_prt_bomb.bac",    // Formatting comment
+    [PIRATE_TYPE_SKELETON]    = "/act/ac_ene_p_skeleton.bac",  // Formatting comment
+    [PIRATE_TYPE_HOVERBOMBER] = "/act/ac_ene_hobar_bomb.bac",  // Formatting comment
+    [PIRATE_TYPE_HOVERGUNNER] = "/act/ac_ene_hobar_gun.bac",   // Formatting comment
 };
 
 // --------------------
@@ -407,16 +441,16 @@ EnemyPirate *CreatePirate(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     work->type = pirateType;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[pirateType], GetObjectDataWork(dataWorkTable[pirateType]), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[pirateType], GetObjectDataWork(sDataWorkTable[pirateType]), gameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, spritePaletteIDList[pirateType]);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, sSpritePaletteIDList[pirateType]);
 
     if ((work->gameWork.objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT) == 0)
         StageTask__SetHitbox(&work->gameWork.objWork, -8, -10, 8, -2);
 
-    ObjRect__SetBox2D(&work->colliderDetect.rect, detectRange[pirateType].left, detectRange[pirateType].top, detectRange[pirateType].right, detectRange[pirateType].bottom);
+    ObjRect__SetBox2D(&work->colliderDetect.rect, sDetectRange[pirateType].left, sDetectRange[pirateType].top, sDetectRange[pirateType].right, sDetectRange[pirateType].bottom);
     ObjRect__SetAttackStat(&work->colliderDetect, OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(&work->colliderDetect, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     ObjRect__SetGroupFlags(&work->colliderDetect, 2, 1);
@@ -460,7 +494,7 @@ EnemyBazookaPirateShot *CreateBazookaPirateShot(MapObject *mapObject, fx32 x, fx
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -7, -7, 7, 7);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[PIRATE_TYPE_BAZOOKA], GetObjectDataWork(OBJDATAWORK_16), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_BAZOOKA], GetObjectDataWork(OBJDATAWORK_16), gameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -492,7 +526,7 @@ EnemyBallChainPirateBall *CreateBallChainPirateBall(MapObject *mapObject, fx32 x
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -13, -13, 13, 13);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[PIRATE_TYPE_BALLCHAIN], GetObjectDataWork(OBJDATAWORK_17), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_BALLCHAIN], GetObjectDataWork(OBJDATAWORK_17), gameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -525,7 +559,7 @@ EnemyBombPirateBomb *CreateBombPirateBomb(MapObject *mapObject, fx32 x, fx32 y, 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -6, -6, 6, 6);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[PIRATE_TYPE_BOMB], GetObjectDataWork(OBJDATAWORK_18), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_BOMB], GetObjectDataWork(OBJDATAWORK_18), gameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -557,7 +591,7 @@ EnemySkeletonPirateBone *CreateSkeletonPirateBone(MapObject *mapObject, fx32 x, 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -3, -3, 3, 3);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[PIRATE_TYPE_SKELETON], GetObjectDataWork(OBJDATAWORK_19), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_SKELETON], GetObjectDataWork(OBJDATAWORK_19), gameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -589,7 +623,7 @@ EnemyHoverBomberPirateBomb *CreateHoverBomberPirateBomb(MapObject *mapObject, fx
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -8, -8, 8, 8);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[PIRATE_TYPE_HOVERBOMBER], GetObjectDataWork(OBJDATAWORK_20), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_HOVERBOMBER], GetObjectDataWork(OBJDATAWORK_20), gameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -621,7 +655,7 @@ EnemyHoverGunnerPirateShot *CreateHoverGunnerPirateShot(MapObject *mapObject, fx
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -4, -4, 4, 4);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[PIRATE_TYPE_HOVERGUNNER], GetObjectDataWork(OBJDATAWORK_21), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_HOVERGUNNER], GetObjectDataWork(OBJDATAWORK_21), gameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -688,7 +722,7 @@ GameObjectTask *EnemyPirate_InitBallChain(EnemyBallChainPirateBall *work)
                                    | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     GameObject__InitFromObject(chainWork, work->gameWork.mapObject, 0, 0);
-    ObjObjectAction2dBACLoad(&chainWork->objWork, &chainWork->animator, spriteList[PIRATE_TYPE_BALLCHAIN], GetObjectDataWork(OBJDATAWORK_17), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&chainWork->objWork, &chainWork->animator, sSpriteList[PIRATE_TYPE_BALLCHAIN], GetObjectDataWork(OBJDATAWORK_17), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&chainWork->objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&chainWork->objWork, SPRITE_PRIORITY_2);
     ObjActionAllocSpritePalette(&chainWork->objWork, BALLCHAINPIRATE_ANI_MOVE, 77);
@@ -712,12 +746,12 @@ void EnemyBallChainPirateBall_State_Active(EnemyBallChainPirateBall *work)
     if (parent->gameWork.blinkTimer != 0)
     {
         work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = OBS_RECT_DEFPOWER_INVINCIBLE;
-        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].hitPower = OBS_RECT_HITPOWER_VULNERABLE;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].hitPower  = OBS_RECT_HITPOWER_VULNERABLE;
     }
     else
     {
         work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = OBS_RECT_DEFPOWER_DEFAULT;
-        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].hitPower = OBS_RECT_HITPOWER_DEFAULT;
+        work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].hitPower  = OBS_RECT_HITPOWER_DEFAULT;
     }
 
     if (work->stateBall != NULL)
@@ -1014,7 +1048,7 @@ void EnemyPirate_State_BazookaAttack(EnemyPirate *work)
 
     BOOL isDone = FALSE;
 
-    if (work->gameWork.objWork.obj_2d->ani.work.animFrameIndex == attackFrameTable[work->type] && work->didAttack == FALSE)
+    if (work->gameWork.objWork.obj_2d->ani.work.animFrameIndex == sAttackFrameTable[work->type] && work->didAttack == FALSE)
     {
         EnemyPirate_SpawnProjectile(work);
         work->didAttack = TRUE;
@@ -1080,12 +1114,12 @@ void EnemyPirate_State_BallChainAttack(EnemyPirate *work)
 
         if (id != 4)
         {
-            attack->ball->offset.x = ballOffsetTable[id].x;
-            attack->ball->offset.y = ballOffsetTable[id].y;
+            attack->ball->offset.x = sBallOffsetTable[id].x;
+            attack->ball->offset.y = sBallOffsetTable[id].y;
         }
     }
 
-    if (work->gameWork.objWork.obj_2d->ani.work.animFrameIndex == attackFrameTable[work->type] && work->didAttack == FALSE)
+    if (work->gameWork.objWork.obj_2d->ani.work.animFrameIndex == sAttackFrameTable[work->type] && work->didAttack == FALSE)
     {
         attack->ball->stateBall = EnemyBallChainPirateBall_StateBall_InitThrow;
         work->didAttack         = TRUE;
@@ -1120,10 +1154,10 @@ GameObjectTask *EnemyPirate_SpawnProjectile(EnemyPirate *work)
 {
     fx32 x;
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
-        x = work->gameWork.objWork.position.x - projectilePosTable[work->type].x;
+        x = work->gameWork.objWork.position.x - sProjectilePosTable[work->type].x;
     else
-        x = work->gameWork.objWork.position.x + projectilePosTable[work->type].x;
-    fx32 y = work->gameWork.objWork.position.y + projectilePosTable[work->type].y;
+        x = work->gameWork.objWork.position.x + sProjectilePosTable[work->type].x;
+    fx32 y = work->gameWork.objWork.position.y + sProjectilePosTable[work->type].y;
 
     s32 id;
     switch (work->type)
@@ -1607,11 +1641,11 @@ void EnemyPirate_OnDefend_DetectCommon(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect
     if ((pirate->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) != 0)
         return;
 
-    CreateEffectFound(&pirate->gameWork.objWork, foundPosTable[pirate->type].x, foundPosTable[pirate->type].y);
+    CreateEffectFound(&pirate->gameWork.objWork, sFoundPosTable[pirate->type].x, sFoundPosTable[pirate->type].y);
     pirate->detectPlayerPos.x = player->objWork.position.x;
     pirate->detectPlayerPos.y = player->objWork.position.y;
     pirate->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
-    pirate->colliderActivateTimer = colliderActivateDelay[pirate->type];
+    pirate->colliderActivateTimer = sColliderActivateDelay[pirate->type];
     pirate->onDetect(pirate);
 }
 
@@ -1636,10 +1670,10 @@ void EnemyPirate_OnDefend_DetectHoverGunner(OBS_RECT_WORK *rect1, OBS_RECT_WORK 
             return;
     }
 
-    CreateEffectFound(&pirate->gameWork.objWork, foundPosTable[pirate->type].x, foundPosTable[pirate->type].y);
+    CreateEffectFound(&pirate->gameWork.objWork, sFoundPosTable[pirate->type].x, sFoundPosTable[pirate->type].y);
     pirate->detectPlayerPos.x = player->objWork.position.x;
     pirate->detectPlayerPos.y = player->objWork.position.y;
     pirate->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_ENABLED;
-    pirate->colliderActivateTimer = colliderActivateDelay[pirate->type];
+    pirate->colliderActivateTimer = sColliderActivateDelay[pirate->type];
     pirate->onDetect(pirate);
 }

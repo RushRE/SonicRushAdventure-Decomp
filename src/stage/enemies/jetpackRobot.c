@@ -43,7 +43,7 @@ enum JetpackRobotMoveMode
 // VARIABLES
 // --------------------
 
-static const char *spriteList[] = { "/act/ac_ene_prot_jet.bac" };
+static const char *sSpriteList[] = { "/act/ac_ene_prot_jet.bac" };
 
 // --------------------
 // FUNCTION DECLS
@@ -103,7 +103,7 @@ EnemyJetpackRobot *CreateJetpackRobot(MapObject *mapObject, fx32 x, fx32 y, fx32
         work->move.maxDistanceDown = FLOAT_TO_FX32(20.0);
     }
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[0], GetObjectDataWork(OBJDATAWORK_8), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[0], GetObjectDataWork(OBJDATAWORK_8), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, JETPACKROBOT_ANI_HOVER, 40);

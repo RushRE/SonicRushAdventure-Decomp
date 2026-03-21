@@ -5,7 +5,7 @@
 // --------------------
 
 // this is put in a separate file for now to get the compilation order to match
-CutsceneScriptControlCommand scriptBitwiseInstructions[] =
+CutsceneScriptControlCommand sScriptBitwiseInstructions[] =
 {
 	NULL,
     CutsceneScript_BitwiseCommand_BitwiseAND,

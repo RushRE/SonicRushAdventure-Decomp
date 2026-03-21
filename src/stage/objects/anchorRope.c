@@ -27,9 +27,9 @@ enum AnchorRopeFlags
 // VARIABLES
 // --------------------
 
-static u16 modelIdxTable[ANCHORROPE_ANIMATOR_COUNT]    = { [ANCHORROPE_ANIMATOR_ANCHOR] = 0, [ANCHORROPE_ANIMATOR_ROPE] = 2 };
-static u16 spriteSizeTable[ANCHORROPE_ANIMATOR_COUNT]  = { [ANCHORROPE_ANIMATOR_ANCHOR] = 28, [ANCHORROPE_ANIMATOR_ROPE] = 16 };
-static u16 paletteFlagTable[ANCHORROPE_ANIMATOR_COUNT] = { [ANCHORROPE_ANIMATOR_ANCHOR] = 0, [ANCHORROPE_ANIMATOR_ROPE] = 72 };
+static u16 sModelIdxTable[ANCHORROPE_ANIMATOR_COUNT]    = { [ANCHORROPE_ANIMATOR_ANCHOR] = 0, [ANCHORROPE_ANIMATOR_ROPE] = 2 };
+static u16 sSpriteSizeTable[ANCHORROPE_ANIMATOR_COUNT]  = { [ANCHORROPE_ANIMATOR_ANCHOR] = 28, [ANCHORROPE_ANIMATOR_ROPE] = 16 };
+static u16 sPaletteFlagTable[ANCHORROPE_ANIMATOR_COUNT] = { [ANCHORROPE_ANIMATOR_ANCHOR] = 0, [ANCHORROPE_ANIMATOR_ROPE] = 72 };
 
 // --------------------
 // FUNCTION DECLS
@@ -67,15 +67,15 @@ AnchorRope *CreateAnchorRope(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 		// Init 3D graphics, these are the main graphics the devs want you to see
         AnimatorMDL *aniRope3D = &work->aniRope3D[i];
         AnimatorMDL__Init(aniRope3D, ANIMATOR_FLAG_NONE);
-        AnimatorMDL__SetResource(aniRope3D, work->resAnchorRope, modelIdxTable[i], FALSE, FALSE);
+        AnimatorMDL__SetResource(aniRope3D, work->resAnchorRope, sModelIdxTable[i], FALSE, FALSE);
         aniRope3D->work.scale.x = FLOAT_TO_FX32(3.3);
         aniRope3D->work.scale.y = FLOAT_TO_FX32(3.3);
         aniRope3D->work.scale.z = FLOAT_TO_FX32(3.3);
 
 		// Init 2D graphics, these are fallback graphics in the event this gets rendered on the screen without 3D support
         AnimatorSpriteDS *aniRope2D = &work->aniRope2D[i];
-        ObjAction2dBACLoad(aniRope2D, "/act/ac_gmk_anchor_rope.bac", spriteSizeTable[i], GetObjectDataWork(OBJDATAWORK_160), gameArchiveStage);
-        aniRope2D->work.cParam.palette = ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_160)->fileData, i, paletteFlagTable[i]);
+        ObjAction2dBACLoad(aniRope2D, "/act/ac_gmk_anchor_rope.bac", sSpriteSizeTable[i], GetObjectDataWork(OBJDATAWORK_160), gameArchiveStage);
+        aniRope2D->work.cParam.palette = ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_160)->fileData, i, sPaletteFlagTable[i]);
         aniRope2D->cParam[0].palette = aniRope2D->cParam[1].palette = aniRope2D->work.cParam.palette;
         aniRope2D->flags |= ANIMATORSPRITEDS_FLAG_DISABLE_A;
         AnimatorSpriteDS__SetAnimation(aniRope2D, i);

@@ -64,23 +64,23 @@ EnemySnowflakeHead *CreateSnowflakeHead(MapObject *mapObject, fx32 x, fx32 y, fx
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
     switch (mapObject->flags & SNOWFLAKEHEAD_OBJFLAG_TYPE_MASK)
     {
-        case 0:
+        case SNOWFLAKEHEAD_TYPE_IDLE:
             work->type = SNOWFLAKEHEAD_TYPE_IDLE;
             break;
 
-        case 1:
+        case SNOWFLAKEHEAD_TYPE_MOVING_RIGHT:
             work->type = SNOWFLAKEHEAD_TYPE_MOVING_RIGHT;
             break;
 
-        case 2:
+        case SNOWFLAKEHEAD_TYPE_MOVING_LEFT:
             work->type = SNOWFLAKEHEAD_TYPE_MOVING_LEFT;
             break;
 
-        case 3:
+        case SNOWFLAKEHEAD_TYPE_MOVING_UP:
             work->type = SNOWFLAKEHEAD_TYPE_MOVING_UP;
             break;
 
-        case 4:
+        case SNOWFLAKEHEAD_TYPE_MOVING_DOWN:
             work->type = SNOWFLAKEHEAD_TYPE_MOVING_DOWN;
             break;
     }

@@ -116,18 +116,6 @@ typedef struct ReplayRecorderTouch_
     u32 type;
 } ReplayRecorderTouch;
 
-struct ReplayState
-{
-    ReplayMode pad;
-    ReplayMode touch;
-};
-
-// --------------------
-// VARIABLES
-// --------------------
-
-extern struct ReplayState replayState;
-
 // --------------------
 // FUNCTIONS
 // --------------------

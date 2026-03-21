@@ -6346,7 +6346,7 @@ _02170BF4: .word Boss4__Func_2171874
 Boss4__Func_2170BF8: // _02170BF8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl GetSysEventList
+	bl GetSysEventManager
 	ldrsh r0, [r0, #0xc]
 	cmp r0, #0xd
 	beq _02170C18

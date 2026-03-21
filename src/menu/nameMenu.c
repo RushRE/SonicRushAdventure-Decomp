@@ -33,7 +33,7 @@ typedef void (*ChangePageVariantFunc)(NameMenuWorker *work, BOOL a2);
 // VARIABLES
 // --------------------
 
-NameMenuWorker *NameMenu__sVars;
+NameMenuWorker *sNameMenuWorkerSingleton;
 
 NOT_DECOMPILED u16 _021619E4[];
 NOT_DECOMPILED u16 _021619F8[];
@@ -71,69 +71,69 @@ void NameMenu__LoadAssets(void)
 {
     static const char *archiveList[1] = { "narc/dmni_lz7.narc" };
 
-    NameMenu__sVars = HeapAllocHead(HEAP_SYSTEM, sizeof(NameMenuWorker));
-    MI_CpuClear32(NameMenu__sVars, sizeof(NameMenuWorker));
+    sNameMenuWorkerSingleton = HeapAllocHead(HEAP_SYSTEM, sizeof(NameMenuWorker));
+    MI_CpuClear32(sNameMenuWorkerSingleton, sizeof(NameMenuWorker));
 
-    NameMenu__sVars->isActive = FALSE;
-    InitThreadWorker(&NameMenu__sVars->thread, 0);
+    sNameMenuWorkerSingleton->isActive = FALSE;
+    InitThreadWorker(&sNameMenuWorkerSingleton->thread, 0);
 
-    NameMenu__sVars->archiveDmni = BundleFileUnknown__LoadFile(archiveList[0], BUNDLEFILEUNKNOWN_AUTO_ALLOC_HEAD);
+    sNameMenuWorkerSingleton->archiveDmni = BundleFileUnknown__LoadFile(archiveList[0], BUNDLEFILEUNKNOWN_AUTO_ALLOC_HEAD);
 }
 
 void NameMenu__Create(u32 flags, SavePlayerName *name, FontWindow *fontWindow)
 {
-    NameMenu__sVars->isActive       = TRUE;
-    NameMenu__sVars->flags          = flags;
-    NameMenu__sVars->fontWindowPtr  = fontWindow;
-    NameMenu__sVars->applyName      = 0;
-    NameMenu__sVars->field_14       = 0;
-    NameMenu__sVars->menuSelection  = 4;
-    NameMenu__sVars->field_34       = 0;
-    NameMenu__sVars->selectionTimer = 0;
-    MI_CpuClear32(NameMenu__sVars->field_D1C, sizeof(NameMenu__sVars->field_D1C));
-    MI_CpuClear32(NameMenu__sVars->field_3C, sizeof(NameMenu__sVars->field_3C));
-    NameMenu__sVars->textPageID = 8;
+    sNameMenuWorkerSingleton->isActive       = TRUE;
+    sNameMenuWorkerSingleton->flags          = flags;
+    sNameMenuWorkerSingleton->fontWindowPtr  = fontWindow;
+    sNameMenuWorkerSingleton->applyName      = 0;
+    sNameMenuWorkerSingleton->field_14       = 0;
+    sNameMenuWorkerSingleton->menuSelection  = 4;
+    sNameMenuWorkerSingleton->field_34       = 0;
+    sNameMenuWorkerSingleton->selectionTimer = 0;
+    MI_CpuClear32(sNameMenuWorkerSingleton->field_D1C, sizeof(sNameMenuWorkerSingleton->field_D1C));
+    MI_CpuClear32(sNameMenuWorkerSingleton->field_3C, sizeof(sNameMenuWorkerSingleton->field_3C));
+    sNameMenuWorkerSingleton->textPageID = 8;
 
     if (name != NULL)
-        MI_CpuCopy16(name, &NameMenu__sVars->name, sizeof(NameMenu__sVars->name));
+        MI_CpuCopy16(name, &sNameMenuWorkerSingleton->name, sizeof(sNameMenuWorkerSingleton->name));
     else
-        MI_CpuFill16(&NameMenu__sVars->name, ' ', sizeof(NameMenu__sVars->name));
+        MI_CpuFill16(&sNameMenuWorkerSingleton->name, ' ', sizeof(sNameMenuWorkerSingleton->name));
 
-    NameMenu__SetupDisplay(NameMenu__sVars);
-    NameMenu__InitFontWindow(NameMenu__sVars);
+    NameMenu__SetupDisplay(sNameMenuWorkerSingleton);
+    NameMenu__InitFontWindow(sNameMenuWorkerSingleton);
 
-    NameMenu__sVars->task = TaskCreateNoWork(NameMenu__Main_Loading, NameMenu__Destructor, TASK_FLAG_NONE, 0, 0, TASK_GROUP(0), "NameMenu");
+    sNameMenuWorkerSingleton->task = TaskCreateNoWork(NameMenu__Main_Loading, NameMenu__Destructor, TASK_FLAG_NONE, 0, 0, TASK_GROUP(0), "NameMenu");
 
-    CreateThreadWorker(&NameMenu__sVars->thread, NameMenu__ThreadFunc, NameMenu__sVars, 24);
+    CreateThreadWorker(&sNameMenuWorkerSingleton->thread, NameMenu__ThreadFunc, sNameMenuWorkerSingleton, 24);
 }
 
 BOOL NameMenu__IsFinished(void)
 {
-    return !NameMenu__sVars->isActive;
+    return !sNameMenuWorkerSingleton->isActive;
 }
 
 BOOL NameMenu__ShouldApplyName(void)
 {
-    return NameMenu__sVars->applyName;
+    return sNameMenuWorkerSingleton->applyName;
 }
 
 SavePlayerName *NameMenu__GetName(void)
 {
-    return &NameMenu__sVars->name;
+    return &sNameMenuWorkerSingleton->name;
 }
 
 void NameMenu__ReleaseAssets(void)
 {
-    if (NameMenu__sVars->archiveDmni != NULL)
+    if (sNameMenuWorkerSingleton->archiveDmni != NULL)
     {
-        HeapFree(HEAP_USER, NameMenu__sVars->archiveDmni);
-        NameMenu__sVars->archiveDmni = NULL;
+        HeapFree(HEAP_USER, sNameMenuWorkerSingleton->archiveDmni);
+        sNameMenuWorkerSingleton->archiveDmni = NULL;
     }
 
-    ReleaseThreadWorker(&NameMenu__sVars->thread);
-    HeapFree(HEAP_SYSTEM, NameMenu__sVars);
+    ReleaseThreadWorker(&sNameMenuWorkerSingleton->thread);
+    HeapFree(HEAP_SYSTEM, sNameMenuWorkerSingleton);
 
-    NameMenu__sVars = NULL;
+    sNameMenuWorkerSingleton = NULL;
 }
 
 void NameMenu__Init(NameMenuWorker *work)
@@ -887,38 +887,38 @@ void NameMenu__ReleaseTouchField(NameMenuWorker *work)
 
 void NameMenu__Main_Loading(void)
 {
-    if (IsThreadWorkerFinished(&NameMenu__sVars->thread))
+    if (IsThreadWorkerFinished(&sNameMenuWorkerSingleton->thread))
     {
-        DrawBackground(&NameMenu__sVars->backgrounds[0]);
+        DrawBackground(&sNameMenuWorkerSingleton->backgrounds[0]);
 
-        NameMenu__SetTextPage(NameMenu__sVars, 2);
+        NameMenu__SetTextPage(sNameMenuWorkerSingleton, 2);
         for (s32 i = 0; i < 5; i++)
         {
-            NameMenu__SetUnknown(NameMenu__sVars, i, 0);
+            NameMenu__SetUnknown(sNameMenuWorkerSingleton, i, 0);
         }
 
-        NameMenu__sVars->state = NameMenu__State_FadeIn;
+        sNameMenuWorkerSingleton->state = NameMenu__State_FadeIn;
         SetCurrentTaskMainEvent(NameMenu__Main_Active);
     }
 }
 
 void NameMenu__Main_Active(void)
 {
-    if (NameMenu__sVars->state != NULL)
+    if (sNameMenuWorkerSingleton->state != NULL)
     {
-        TouchField__Process(&NameMenu__sVars->touchField);
-        NameMenu__sVars->state(NameMenu__sVars);
+        TouchField__Process(&sNameMenuWorkerSingleton->touchField);
+        sNameMenuWorkerSingleton->state(sNameMenuWorkerSingleton);
     }
     else
     {
         DestroyCurrentTask();
-        NameMenu__sVars->isActive = FALSE;
+        sNameMenuWorkerSingleton->isActive = FALSE;
     }
 }
 
 void NameMenu__Destructor(Task *task)
 {
-    NameMenu__Release(NameMenu__sVars);
+    NameMenu__Release(sNameMenuWorkerSingleton);
 }
 
 void NameMenu__State_FadeIn(NameMenuWorker *work)
@@ -1325,7 +1325,7 @@ NONMATCH_FUNC void NameMenu__State_Active(NameMenuWorker *work)
         }
     }
 
-    NameMenu__DrawMenu(NameMenu__sVars);
+    NameMenu__DrawMenu(sNameMenuWorkerSingleton);
 
     if (confirmPress)
     {
@@ -2003,7 +2003,7 @@ _0215FE94:
 	mov r0, #2
 	bl PlaySysMenuNavSfx
 _0215FEA0:
-	ldr r0, =NameMenu__sVars
+	ldr r0, =sNameMenuWorkerSingleton
 	ldr r0, [r0, #0]
 	bl NameMenu__DrawMenu
 	ldr r0, [sp]
@@ -2077,7 +2077,7 @@ void NameMenu__State_FadeOut(NameMenuWorker *work)
     if (done)
         work->state = NULL;
     else
-        NameMenu__DrawMenu(NameMenu__sVars);
+        NameMenu__DrawMenu(sNameMenuWorkerSingleton);
 }
 
 void NameMenu__SetCharacter(NameMenuWorker *work, char16 character)

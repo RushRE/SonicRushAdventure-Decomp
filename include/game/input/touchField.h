@@ -71,7 +71,7 @@ enum TouchAreaResponseFlags_
     TOUCHAREA_RESPONSE_4000            = 0x4000,
     TOUCHAREA_RESPONSE_8000            = 0x8000,
 
-    // Responce flags
+    // Response flags
     TOUCHAREA_RESPONSE_ENTERED_AREA_2    = 0x10000,
     TOUCHAREA_RESPONSE_20000             = 0x20000,
     TOUCHAREA_RESPONSE_40000             = 0x40000,

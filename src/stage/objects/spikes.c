@@ -31,7 +31,7 @@ static void Spikes2_State_Idle(Spikes *work);
 // VARIABLES
 // --------------------
 
-static u32 vramOffset[] = { 0x0000, 0x0A00, 0x0F00, 0x1200, 0x0000 };
+static u32 sVRAMOffsetTable[] = { 0x0000, 0x0A00, 0x0F00, 0x1200, 0x0000 };
 
 // --------------------
 // FUNCTIONS
@@ -52,7 +52,7 @@ Spikes *CreateSpikes2(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
     ObjRect__SetAttackStat(work->gameWork.colliders, OBS_RECT_WORK_ATTR_NORMAL, OBS_RECT_HITPOWER_DEFAULT);
     ObjRect__SetDefenceStat(work->gameWork.colliders, OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_NONE), OBS_RECT_DEFPOWER_INVINCIBLE);
-    work->gameWork.objWork.collisionObj           = 0;
+    work->gameWork.objWork.collisionObj           = NULL;
     work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
     work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_FLIP_TILE_ANGLE;
@@ -102,8 +102,8 @@ void SetSpikesAnimation(Spikes *work, u16 anim)
 {
     StageTask__SetAnimation(&work->gameWork.objWork, anim);
 
-    work->gameWork.objWork.obj_2d->ani.vramPixels[0] = work->gameWork.objWork.obj_2d->spriteRef->engineRef[0].vramPixels + vramOffset[anim];
-    work->gameWork.objWork.obj_2d->ani.vramPixels[1] = work->gameWork.objWork.obj_2d->spriteRef->engineRef[1].vramPixels + vramOffset[anim];
+    work->gameWork.objWork.obj_2d->ani.vramPixels[GRAPHICS_ENGINE_A] = work->gameWork.objWork.obj_2d->spriteRef->engineRef[GRAPHICS_ENGINE_A].vramPixels + sVRAMOffsetTable[anim];
+    work->gameWork.objWork.obj_2d->ani.vramPixels[GRAPHICS_ENGINE_B] = work->gameWork.objWork.obj_2d->spriteRef->engineRef[GRAPHICS_ENGINE_B].vramPixels + sVRAMOffsetTable[anim];
 }
 
 void Spikes_Action_Idle(Spikes *work)

@@ -27,7 +27,7 @@ typedef u8 SailSeaDrawMode;
 // VARIABLES
 // --------------------
 
-static const u8 startVertexForShipType[SHIP_COUNT] = { 5, 4, 5, 4 };
+static const u8 sStartVertexForShipType[SHIP_COUNT] = { 5, 4, 5, 4 };
 
 // --------------------
 // FUNCTION DECLS
@@ -205,7 +205,7 @@ void SailSea_InitVertices(SailSea *work)
     }
 
     // Init horizon (sea)
-    s16 posZ = FX_DivS32((s16)FX32_FROM_WHOLE((s32)(startVertexForShipType[shipType] + 1) - 6) + FLOAT_TO_FX32(6.0), 8);
+    s16 posZ = FX_DivS32((s16)FX32_FROM_WHOLE((s32)(sStartVertexForShipType[shipType] + 1) - 6) + FLOAT_TO_FX32(6.0), 8);
     vertex   = 0;
     for (z = 0; z < 8; z++)
     {
@@ -358,8 +358,8 @@ void SailSea_DrawSeaSegment(SailSea *work, SailSeaVertex *vertices, SailSeaDrawM
 
     if (mode == SAILSEA_DRAWMODE_SEA_OVERLAY)
     {
-        v     = startVertexForShipType[shipType];
-        v_u16 = startVertexForShipType[shipType];
+        v     = sStartVertexForShipType[shipType];
+        v_u16 = sStartVertexForShipType[shipType];
     }
 
     while (v < 7)

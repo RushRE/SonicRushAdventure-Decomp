@@ -19,7 +19,7 @@ typedef struct SailEventEntry_
 
 static const s32 _0211160C[] = { 1080000, 108000, 18000, 1800, 300, 30, 10, 1 };
 
-static const SailEventEntry sailMissionList[SAILMISSION_COUNT] = {
+static const SailEventEntry sSailMissionList[SAILMISSION_COUNT] = {
     // Training
     [SAILMISSION_TRAINING_JET_INTRO] = { MISSION_TYPE_TRAINING, 1, 1, SHIP_JET },
     [SAILMISSION_TRAINING_JET]       = { MISSION_TYPE_TRAINING, 1, 0, SHIP_JET },
@@ -73,10 +73,10 @@ NONMATCH_FUNC void InitSailEvent(s32 id)
     }
     else
     {
-        gameState.missionType                 = sailMissionList[id].type;
-        gameState.missionConfig.sail.courseID = sailMissionList[id].courseID;
-        gameState.missionConfig.sail.unknown  = sailMissionList[id].unknown;
-        gameState.sailShipType                = sailMissionList[id].shipType;
+        gameState.missionType                 = sSailMissionList[id].type;
+        gameState.missionConfig.sail.courseID = sSailMissionList[id].courseID;
+        gameState.missionConfig.sail.unknown  = sSailMissionList[id].unknown;
+        gameState.sailShipType                = sSailMissionList[id].shipType;
         gameState.sailVsJohnny                = FALSE;
         gameState.sailVsJohnnyID              = 0;
     }
@@ -98,7 +98,7 @@ NONMATCH_FUNC void InitSailEvent(s32 id)
 	str r2, [r1, #0xa0]
 	ldmia sp!, {r4, pc}
 _02063C9C:
-	ldr lr, =sailMissionList
+	ldr lr, =sSailMissionList
 	mov r4, r0, lsl #2
 	ldr ip, =0x0211162D
 	ldr r3, =0x0211162E

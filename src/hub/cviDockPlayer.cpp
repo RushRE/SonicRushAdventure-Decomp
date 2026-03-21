@@ -35,7 +35,7 @@ NOT_DECOMPILED void _ZN13CViDockPlayer7ReleaseEv(void);
 // VARIABLES
 // --------------------
 
-static const CViDockPlayerMoveConfig cviDockPlayerMoveConfig[2] = {
+static const CViDockPlayerMoveConfig sCViDockPlayerMoveConfig[2] = {
     { FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(0.0078125) },
     { FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(0.0625) },
 };
@@ -214,7 +214,7 @@ void CViDockPlayer::Process(fx32 speed)
 
     if (this->moveFlag < CViDockPlayer::MOVEFLAG_INVALID)
     {
-        const CViDockPlayerMoveConfig *config = &cviDockPlayerMoveConfig[this->moveFlag];
+        const CViDockPlayerMoveConfig *config = &sCViDockPlayerMoveConfig[this->moveFlag];
 
         if (this->velocity < config->minSpeed)
         {

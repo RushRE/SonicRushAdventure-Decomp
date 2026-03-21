@@ -6,9 +6,9 @@
 // VARIABLES
 // --------------------
 
-static Task *ScreenEffectTask;
+static Task *sScreenEffectTaskSingleton;
 
-static ScreenEffectEvent const defaultScreenEvents[] = {
+static ScreenEffectEvent const sDefaultScreenEvents[] = {
     {
         .color    = GX_RGBA_888(0xFF, 0xFF, 0xFF, 0xFF),
         .type     = 2,
@@ -37,9 +37,9 @@ void CreateScreenEffect(const ScreenEffectEvent *controller)
 {
     ScreenEffect *work;
 
-    if (ScreenEffectTask != NULL)
+    if (sScreenEffectTaskSingleton != NULL)
     {
-        work = TaskGetWork(ScreenEffectTask, ScreenEffect);
+        work = TaskGetWork(sScreenEffectTaskSingleton, ScreenEffect);
     }
     else
     {
@@ -47,7 +47,7 @@ void CreateScreenEffect(const ScreenEffectEvent *controller)
         if (task == HeapNull)
             return;
 
-        ScreenEffectTask = task;
+        sScreenEffectTaskSingleton = task;
         work             = TaskGetWork(task, ScreenEffect);
         TaskInitWork16(work);
 
@@ -58,7 +58,7 @@ void CreateScreenEffect(const ScreenEffectEvent *controller)
     if (controller != NULL)
         work->controller = controller;
     else
-        work->controller = defaultScreenEvents;
+        work->controller = sDefaultScreenEvents;
 
     work->timer = work->controller->duration;
     VRAM_SET_PALETTE_COLOR(VRAMSystem__VRAM_PALETTE_BG[GRAPHICS_ENGINE_A], 0, work->controller->color);
@@ -104,5 +104,5 @@ void ScreenEffect_Destructor(Task *task)
     GX_SetVisiblePlane(work->visiblePlane[0]);
     GXS_SetVisiblePlane(work->visiblePlane[1]);
 
-    ScreenEffectTask = NULL;
+    sScreenEffectTaskSingleton = NULL;
 }

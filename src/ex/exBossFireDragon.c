@@ -25,22 +25,22 @@
 // VARIABLES
 // --------------------
 
-static s16 exBossFireDragonInstanceCount;
-static s16 exBossFireDragonExplosionInstanceCount;
+static s16 sFireDragonInstanceCount;
+static s16 sFireDragonExplosionInstanceCount;
 
-static u32 exBossFireDragonTextureFileSize;
-static void *exBossFireDragonExplosionSpriteResource;
-static u32 exBossFireDragonUnused;
-static EX_ACTION_NN_WORK *exBossFireDragonLastSpawnedWorker;
-static void *exBossFireDragonModelResource;
-static Task *exBossFireDragonTaskSingleton;
-static u32 exBossFireDragonModelFileSize;
+static u32 sFireDragonTextureFileSize;
+static void *sFireDragonExplosionSpriteResource;
+static u32 sFireDragonUnused;
+static EX_ACTION_NN_WORK *sFireDragonLastSpawnedWorker;
+static void *sFireDragonModelResource;
+static Task *sFireDragonTaskSingleton;
+static u32 sFireDragonModelFileSize;
 
 // Interestingly, this array has 4 entries... So maybe at one point the boss was supposed to spawn 4 dragons instead of 3?
 static u16 dragonStartAngles[EXBOSS_FIRE_DRAGON_COUNT + 1] = { FLOAT_DEG_TO_IDX(135.0), FLOAT_DEG_TO_IDX(178.9948), FLOAT_DEG_TO_IDX(1.0), FLOAT_DEG_TO_IDX(45.0) };
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(exBossFireDragonUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sFireDragonUnused)
 
 // --------------------
 // FUNCTION DECLS
@@ -82,13 +82,13 @@ void LoadExBossFireDragonExplosionAssets(EX_ACTION_BAC3D_WORK *work)
 {
     InitExDrawRequestSprite3D(work);
 
-    if (exBossFireDragonExplosionInstanceCount == 0)
-        exBossFireDragonExplosionSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
+    if (sFireDragonExplosionInstanceCount == 0)
+        sFireDragonExplosionSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
 
-    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exBossFireDragonExplosionSpriteResource, 1), FALSE);
-    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exBossFireDragonExplosionSpriteResource, 1), FALSE);
+    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(sFireDragonExplosionSpriteResource, 1), FALSE);
+    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(sFireDragonExplosionSpriteResource, 1), FALSE);
 
-    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBossFireDragonExplosionSpriteResource, EX_ACTCOM_ANI_FIRE_DRAGON_EXPLODE_INDICATOR, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, sFireDragonExplosionSpriteResource, EX_ACTCOM_ANI_FIRE_DRAGON_EXPLODE_INDICATOR, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
                            vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
@@ -107,7 +107,7 @@ void LoadExBossFireDragonExplosionAssets(EX_ACTION_BAC3D_WORK *work)
     work->hitChecker.box.size.z   = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position = &work->sprite.translation;
 
-    exBossFireDragonExplosionInstanceCount++;
+    sFireDragonExplosionInstanceCount++;
 }
 
 void SetExBossFireDragonExplosionAnim(EX_ACTION_BAC3D_WORK *work, u16 id)
@@ -120,43 +120,43 @@ void ReleaseExBossFireDragonExplosionAssets(EX_ACTION_BAC3D_WORK *work)
 {
     AnimatorSprite3D__Release(&work->sprite.animator);
 
-    exBossFireDragonExplosionInstanceCount--;
+    sFireDragonExplosionInstanceCount--;
 }
 
 BOOL GetActiveExBossFireDragonCount(void)
 {
-    return exBossFireDragonInstanceCount;
+    return sFireDragonInstanceCount;
 }
 
 BOOL LoadExBossFireDragonAssets(EX_ACTION_NN_WORK *work)
 {
-    exBossFireDragonLastSpawnedWorker = work;
+    sFireDragonLastSpawnedWorker = work;
 
-    if (exBossFireDragonModelFileSize != 0 && exBossFireDragonTextureFileSize != 0)
+    if (sFireDragonModelFileSize != 0 && sFireDragonTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exBossFireDragonModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sFireDragonModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exBossFireDragonTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sFireDragonTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exBossFireDragonModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sFireDragonModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exBossFireDragonInstanceCount == 0)
+    if (sFireDragonInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SALA_NSBMD, &exBossFireDragonModelResource, &exBossFireDragonModelFileSize, TRUE,
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SALA_NSBMD, &sFireDragonModelResource, &sFireDragonModelFileSize, TRUE,
                                       FALSE);
 
-        CreateAsset3DSetup(exBossFireDragonModelResource);
+        CreateAsset3DSetup(sFireDragonModelResource);
     }
 
     AnimatorMDL *animator = &work->model.animator;
     AnimatorMDL__Init(animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(animator, exBossFireDragonModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(animator, sFireDragonModelResource, 0, FALSE, FALSE);
 
     work->model.translation.z = FLOAT_TO_FX32(0.0);
 
@@ -173,26 +173,26 @@ BOOL LoadExBossFireDragonAssets(EX_ACTION_NN_WORK *work)
     work->hitChecker.box.size.z         = FLOAT_TO_FX32(5.0);
     work->hitChecker.box.position       = &work->model.translation;
 
-    exBossFireDragonInstanceCount++;
+    sFireDragonInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBossFireDragonAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBossFireDragonInstanceCount <= 1)
+    if (sFireDragonInstanceCount <= 1)
     {
-        if (exBossFireDragonModelResource)
-            NNS_G3dResDefaultRelease(exBossFireDragonModelResource);
+        if (sFireDragonModelResource)
+            NNS_G3dResDefaultRelease(sFireDragonModelResource);
 
-        if (exBossFireDragonModelResource)
-            HeapFree(HEAP_USER, exBossFireDragonModelResource);
-        exBossFireDragonModelResource = 0;
+        if (sFireDragonModelResource)
+            HeapFree(HEAP_USER, sFireDragonModelResource);
+        sFireDragonModelResource = 0;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    exBossFireDragonInstanceCount--;
+    sFireDragonInstanceCount--;
 }
 
 void ExBossFireDragon_Main_Init(void)
@@ -202,7 +202,7 @@ void ExBossFireDragon_Main_Init(void)
     VecFx32 *playerPos = GetExPlayerPosition();
     UNUSED(playerPos);
 
-    exBossFireDragonTaskSingleton = GetCurrentTask();
+    sFireDragonTaskSingleton = GetCurrentTask();
 
     LoadExBossFireDragonAssets(&work->aniDragonModel);
     SetExDrawRequestPriority(&work->aniDragonModel.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -255,7 +255,7 @@ void ExBossFireDragon_Destructor(void)
     ReleaseExBossFireDragonAssets(&work->aniDragonModel);
     ReleaseExBossFireDragonExplosionAssets(&work->aniExplosion);
 
-    exBossFireDragonTaskSingleton = NULL;
+    sFireDragonTaskSingleton = NULL;
 }
 
 void ExBossFireDragon_Main_Move(void)

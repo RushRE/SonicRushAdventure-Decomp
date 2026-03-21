@@ -4,7 +4,7 @@
 // VARIABLES
 // --------------------
 
-const OSOwnerInfo ownerInfo = { 0 };
+const OSOwnerInfo gSystemOwnerInfo = { 0 };
 
 // TODO: these seem to require every reference to them to be in C code before they can be organised properly?
 /*

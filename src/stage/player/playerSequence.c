@@ -58,12 +58,6 @@
 #include <stage/objects/dreamWing.h>
 
 // --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void _s32_div_f(void);
-
-// --------------------
 // INLINE FUNCTIONS
 // --------------------
 

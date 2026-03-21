@@ -50,7 +50,7 @@ NOT_DECOMPILED StageTask *SailSubDepth__Create(SailEventManagerObject *mapObject
 // VARIABLES
 // --------------------
 
-const SailObjectSpawnFunc sailObjectSpawnList[SAILMAPOBJECT_TYPE_COUNT][SAILMAPOBJECT_COUNT] = {
+const SailObjectSpawnFunc gSailObjectSpawnList[SAILMAPOBJECT_TYPE_COUNT][SAILMAPOBJECT_COUNT] = {
     [SAILMAPOBJECT_TYPE_JET_HOVER] = {
         // Common Objects (Core)
         [SAILMAPOBJECT_ISLAND]  = NULL,                                              

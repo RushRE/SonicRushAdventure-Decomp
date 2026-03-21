@@ -39,10 +39,10 @@ extern "C"
 // VARIABLES
 // --------------------
 
-extern NNSSndHeapHandle audioManagerSndHeap;
-extern NNSSndHandle defaultSfxPlayer;
-extern NNSSndHandle defaultVoicePlayer;
-extern NNSSndHandle defaultTrackPlayer;
+extern NNSSndHeapHandle gAudioManagerSndHeap;
+extern NNSSndHandle gDefaultSfxPlayer;
+extern NNSSndHandle gDefaultVoicePlayer;
+extern NNSSndHandle gDefaultTrackPlayer;
 
 // --------------------
 // FUNCTIONS

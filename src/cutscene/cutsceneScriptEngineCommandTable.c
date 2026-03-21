@@ -4,17 +4,17 @@
 // VARIABLES
 // --------------------
 
-static const CutsceneScriptEngineCommand scriptUnknownCommands[] = { NULL };
+static const CutsceneScriptEngineCommand sScriptUnknownCommands[] = { NULL };
 
-static const CutsceneScriptEngineCommand scriptTextCommands[] = { CutsceneScript_TextCommand_Execute };
+static const CutsceneScriptEngineCommand sScriptTextCommands[] = { CutsceneScript_TextCommand_Execute };
 
-static const CutsceneScriptEngineCommand scriptBackgroundCommands[] = {
+static const CutsceneScriptEngineCommand sScriptBackgroundCommands[] = {
     CutsceneScript_BackgroundCommand_LoadBackgroundHandle,        CutsceneScript_BackgroundCommand_ReleaseBackgroundHandle,
     CutsceneScript_BackgroundCommand_ReleaseAllBackgroundHandles, CutsceneScript_BackgroundCommand_SetBackgroundPosition,
     CutsceneScript_BackgroundCommand_SetBackgroundHandleFlag,     CutsceneScript_BackgroundCommand_SetBackgroundFlag,
 };
 
-static const CutsceneScriptEngineCommand scriptSystemCommands[] = {
+static const CutsceneScriptEngineCommand sScriptSystemCommands[] = {
     NULL,
     CutsceneScript_SystemCommand_GetPadInputMask,
     CutsceneScript_SystemCommand_GetTouchPos,
@@ -23,14 +23,14 @@ static const CutsceneScriptEngineCommand scriptSystemCommands[] = {
     CutsceneScript_SystemCommand_GetBrightness,
 };
 
-static const CutsceneScriptEngineCommand scriptFileSystemCommands[] = {
+static const CutsceneScriptEngineCommand sScriptFileSystemCommands[] = {
     CutsceneScript_FileSystemCommand_AllocFileHandle,          CutsceneScript_FileSystemCommand_ReleaseFileHandle,
     CutsceneScript_FileSystemCommand_ReleaseAllFileHandles,    CutsceneScript_FileSystemCommand_MountArchive,
     CutsceneScript_FileSystemCommand_UnmountArchive,           CutsceneScript_FileSystemCommand_SetNextFileCompressedFlag,
     CutsceneScript_FileSystemCommand_SetNextFileASyncLoadFlag,
 };
 
-static const CutsceneScriptEngineCommand scriptModelCommands[] = {
+static const CutsceneScriptEngineCommand sScriptModelCommands[] = {
     CutsceneScript_ModelCommand_AllocModelHandle,       CutsceneScript_ModelCommand_ReleaseModelHandle,    CutsceneScript_ModelCommand_ReleaseModelHandles,
     CutsceneScript_ModelCommand_LoadModelResource,      CutsceneScript_ModelCommand_LoadModelAnimResource, CutsceneScript_ModelCommand_SetModelScale,
     CutsceneScript_ModelCommand_SetModelRotation,       CutsceneScript_ModelCommand_SetModelPosition,      CutsceneScript_ModelCommand_SetModelPosition2,
@@ -38,7 +38,7 @@ static const CutsceneScriptEngineCommand scriptModelCommands[] = {
     CutsceneScript_ModelCommand_SetModelRenderCallback, CutsceneScript_ModelCommand_LoadDrawState,         CutsceneScript_ModelCommand_CheckModelAnimFinished,
 };
 
-static const CutsceneScriptEngineCommand scriptSoundCommands[] = {
+static const CutsceneScriptEngineCommand sScriptSoundCommands[] = {
     CutsceneScript_SoundCommand_LoadSndArc,      CutsceneScript_SoundCommand_SetVolume,         CutsceneScript_SoundCommand_MoveVolume,
     CutsceneScript_SoundCommand_LoadSndArcGroup, CutsceneScript_SoundCommand_LoadSndArcSeq,     CutsceneScript_SoundCommand_LoadSndArcSeqArc,
     CutsceneScript_SoundCommand_LoadSndArcBank,  CutsceneScript_SoundCommand_PlayTrack,         CutsceneScript_SoundCommand_PlayTrackEx,
@@ -47,7 +47,7 @@ static const CutsceneScriptEngineCommand scriptSoundCommands[] = {
     CutsceneScript_SoundCommand_SetTrackPan,     CutsceneScript_SoundCommand_SetPlayerPriority,
 };
 
-static const CutsceneScriptEngineCommand scriptSpriteCommands[] = {
+static const CutsceneScriptEngineCommand sScriptSpriteCommands[] = {
     CutsceneScript_SpriteCommand_AllocSpriteHandle,
     CutsceneScript_SpriteCommand_ReleaseSpriteHandle,
     CutsceneScript_SpriteCommand_ReleaseAllSpriteHandles,
@@ -67,7 +67,7 @@ static const CutsceneScriptEngineCommand scriptSpriteCommands[] = {
     CutsceneScript_SpriteCommand_GetTouchAreaResponseFlags,
 };
 
-static const CutsceneScriptEngineCommand scriptScreenCommands[] = {
+static const CutsceneScriptEngineCommand sScriptScreenCommands[] = {
     CutsceneScript_ScreenCommand_InitVRAMSystem,
     CutsceneScript_ScreenCommand_SetupBGBank,
     CutsceneScript_ScreenCommand_SetupOBJBank,
@@ -96,8 +96,8 @@ static const CutsceneScriptEngineCommand scriptScreenCommands[] = {
     CutsceneScript_ScreenCommand_ShakeScreen2,
 };
 
-CutsceneScriptEngineCommand *CutsceneScript_EngineCommandTable[] = {
-    (CutsceneScriptEngineCommand *)scriptSystemCommands, (CutsceneScriptEngineCommand *)scriptScreenCommands,     (CutsceneScriptEngineCommand *)scriptFileSystemCommands,
-    (CutsceneScriptEngineCommand *)scriptSpriteCommands, (CutsceneScriptEngineCommand *)scriptBackgroundCommands, (CutsceneScriptEngineCommand *)scriptModelCommands,
-    (CutsceneScriptEngineCommand *)scriptSoundCommands,  (CutsceneScriptEngineCommand *)scriptTextCommands,       (CutsceneScriptEngineCommand *)scriptUnknownCommands,
+CutsceneScriptEngineCommand *gCutsceneScriptEngineCommandTable[] = {
+    (CutsceneScriptEngineCommand *)sScriptSystemCommands, (CutsceneScriptEngineCommand *)sScriptScreenCommands,     (CutsceneScriptEngineCommand *)sScriptFileSystemCommands,
+    (CutsceneScriptEngineCommand *)sScriptSpriteCommands, (CutsceneScriptEngineCommand *)sScriptBackgroundCommands, (CutsceneScriptEngineCommand *)sScriptModelCommands,
+    (CutsceneScriptEngineCommand *)sScriptSoundCommands,  (CutsceneScriptEngineCommand *)sScriptTextCommands,       (CutsceneScriptEngineCommand *)sScriptUnknownCommands,
 };

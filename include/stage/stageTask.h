@@ -266,7 +266,7 @@ struct StageTask_
 // VARIABLES
 // --------------------
 
-extern s8 const StageTask__shakeOffsetTable[];
+extern s8 const gStageTaskShakeOffsetTable[];
 
 // --------------------
 // FUNCTIONS

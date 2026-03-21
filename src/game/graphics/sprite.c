@@ -275,9 +275,9 @@ void Animator3D__MatrixOp_Callback(Animator3D *animator);
 // VARIABLES
 // --------------------
 
-extern u8 pixelFormatShift[BAC_FORMAT_COUNT];
+extern u8 gPixelFormatShift[BAC_FORMAT_COUNT];
 
-static const u16 formatPaletteColorCount[BAC_FORMAT_COUNT] = {
+static const u16 sFormatPaletteColorCount[BAC_FORMAT_COUNT] = {
     [BAC_FORMAT_PLTT16_2D]  = 16,  // GX_TEXFMT_PLTT16
     [BAC_FORMAT_PLTT256_2D] = 256, // GX_TEXFMT_PLTT256
     [BAC_FORMAT_DIRECT_2D]  = 0,   // GX_TEXFMT_DIRECT
@@ -290,7 +290,7 @@ static const u16 formatPaletteColorCount[BAC_FORMAT_COUNT] = {
     [BAC_FORMAT_COMP4x4_3D] = 0    // GX_TEXFMT_COMP4x4
 };
 
-static const u16 formatShapeTileCount[BAC_OAM_SHAPE_COUNT] = {
+static const u16 sFormatShapeTileCount[BAC_OAM_SHAPE_COUNT] = {
     [BAC_OAM_SHAPE_8x8]   = PIXEL_TO_TILE(8) * PIXEL_TO_TILE(8),   // BAC_OAM_SHAPE_8x8
     [BAC_OAM_SHAPE_16x16] = PIXEL_TO_TILE(16) * PIXEL_TO_TILE(16), // BAC_OAM_SHAPE_16x16
     [BAC_OAM_SHAPE_32x32] = PIXEL_TO_TILE(32) * PIXEL_TO_TILE(32), // BAC_OAM_SHAPE_32x32
@@ -305,10 +305,10 @@ static const u16 formatShapeTileCount[BAC_OAM_SHAPE_COUNT] = {
     [BAC_OAM_SHAPE_32x64] = PIXEL_TO_TILE(32) * PIXEL_TO_TILE(64)  // BAC_OAM_SHAPE_32x64
 };
 
-static const u32 initValuesCacheAffineSpriteIndices[]           = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
-static const u32 initValuesCacheAffineSpriteIndicesDSRotoZoom[] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
+static const u32 sInitValuesCacheAffineSpriteIndices[]           = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
+static const u32 sInitValuesCacheAffineSpriteIndicesDSRotoZoom[] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
 
-static const u32 drawListSprite3D[] = {
+static const u32 sDrawListSprite3D[] = {
     GX_PACK_OP(G3OP_TEXCOORD, G3OP_VTX_10, G3OP_TEXCOORD, G3OP_VTX_10),
     GX_PACK_TEXCOORD_PARAM(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0)),
     GX_PACK_VTX10_PARAM(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0)),
@@ -322,7 +322,7 @@ static const u32 drawListSprite3D[] = {
     GX_PACK_VTX10_PARAM(FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0)),
 };
 
-static const BACFrameFunc frameGroupFuncList[SPRITE_BLOCK_COUNT] = {
+static const BACFrameFunc sFrameGroupFuncList[SPRITE_BLOCK_COUNT] = {
     [SPRITE_BLOCK_END_FRAME]                 = (BACFrameFunc)BAC_FrameGroupFunc_EndFrame,
     [SPRITE_BLOCK_SPRITE_MAPPINGS]           = (BACFrameFunc)BAC_FrameGroupFunc_FrameAssembly,
     [SPRITE_BLOCK_SPRITE_GRAPHICS]           = (BACFrameFunc)BAC_FrameGroupFunc_SpriteParts,
@@ -337,7 +337,7 @@ static const BACFrameFunc frameGroupFuncList[SPRITE_BLOCK_COUNT] = {
     [SPRITE_BLOCK_UNUSED3]                   = (BACFrameFunc)BAC_FrameGroupFunc_Unused_11,
 };
 
-static const u16 spriteShapeSizes3D[2 * BAC_OAM_SHAPE_COUNT] = {
+static const u16 sSpriteShapeSizes3D[2 * BAC_OAM_SHAPE_COUNT] = {
     [(2 * BAC_OAM_SHAPE_8x8) + 0] = GX_TEXSIZE_S8,    [(2 * BAC_OAM_SHAPE_8x8) + 1] = GX_TEXSIZE_T8,    // BAC_OAM_SHAPE_8x8
     [(2 * BAC_OAM_SHAPE_16x16) + 0] = GX_TEXSIZE_S16, [(2 * BAC_OAM_SHAPE_16x16) + 1] = GX_TEXSIZE_T16, // BAC_OAM_SHAPE_16x16
     [(2 * BAC_OAM_SHAPE_32x32) + 0] = GX_TEXSIZE_S32, [(2 * BAC_OAM_SHAPE_32x32) + 1] = GX_TEXSIZE_T32, // BAC_OAM_SHAPE_32x32
@@ -352,7 +352,7 @@ static const u16 spriteShapeSizes3D[2 * BAC_OAM_SHAPE_COUNT] = {
     [(2 * BAC_OAM_SHAPE_32x64) + 0] = GX_TEXSIZE_S32, [(2 * BAC_OAM_SHAPE_32x64) + 1] = GX_TEXSIZE_T64, // BAC_OAM_SHAPE_32x64
 };
 
-static const Vec2U16 spriteShapeSizes2D[BAC_OAM_SHAPE_COUNT] = {
+static const Vec2U16 sSpriteShapeSizes2D[BAC_OAM_SHAPE_COUNT] = {
     [BAC_OAM_SHAPE_8x8]   = { 0x08, 0x08 }, // BAC_OAM_SHAPE_8x8
     [BAC_OAM_SHAPE_16x16] = { 0x10, 0x10 }, // BAC_OAM_SHAPE_16x16
     [BAC_OAM_SHAPE_32x32] = { 0x20, 0x20 }, // BAC_OAM_SHAPE_32x32
@@ -367,7 +367,7 @@ static const Vec2U16 spriteShapeSizes2D[BAC_OAM_SHAPE_COUNT] = {
     [BAC_OAM_SHAPE_32x64] = { 0x20, 0x40 }, // BAC_OAM_SHAPE_32x64
 };
 
-static const Animator3DMatrixFunc animator3DDrawCommandList[MATRIX_OP_COUNT] = {
+static const Animator3DMatrixFunc sAnimator3DDrawCommandList[MATRIX_OP_COUNT] = {
     [MATRIX_OP_NONE]                             = Animator3D__MatrixOp_None,
     [MATRIX_OP_IDENTITY]                         = Animator3D__MatrixOp_Identity,
     [MATRIX_OP_RESTORE_MTX]                      = Animator3D__MatrixOp_RestoreMtx,
@@ -401,7 +401,7 @@ static const Animator3DMatrixFunc animator3DDrawCommandList[MATRIX_OP_COUNT] = {
     [MATRIX_OP_CALLBACK]                         = Animator3D__MatrixOp_Callback,
 };
 
-static const GXTexFmt gxFormatForSpriteFormat[BAC_FORMAT_COUNT] = {
+static const GXTexFmt sGXFormatForSpriteFormat[BAC_FORMAT_COUNT] = {
     [BAC_FORMAT_PLTT16_2D]  = GX_TEXFMT_PLTT16,  // GX_TEXFMT_PLTT16
     [BAC_FORMAT_PLTT256_2D] = GX_TEXFMT_PLTT256, // GX_TEXFMT_PLTT256
     [BAC_FORMAT_DIRECT_2D]  = GX_TEXFMT_DIRECT,  // GX_TEXFMT_DIRECT
@@ -414,7 +414,7 @@ static const GXTexFmt gxFormatForSpriteFormat[BAC_FORMAT_COUNT] = {
     [BAC_FORMAT_COMP4x4_3D] = GX_TEXFMT_COMP4x4  // GX_TEXFMT_COMP4x4
 };
 
-static u8 spriteUnknown[0x40]; // unknown
+static u8 sSpriteUnknown[0x40]; // unknown
 
 // --------------------
 // HELPER MACROS
@@ -573,7 +573,7 @@ void AnimatorSprite__ProcessFrame(AnimatorSprite *animator)
         AnimatorSprite ani = *animator;
 
         ani.animSequenceOffset = ani.prevAnimSequenceOffset;
-        while ((frameGroupFuncList[GetAnimSequenceBlockFromAnimator(&ani)->blockID])(GetAnimSequenceBlockFromAnimator(&ani), &ani, NULL, NULL) != FRAME_BREAK)
+        while ((sFrameGroupFuncList[GetAnimSequenceBlockFromAnimator(&ani)->blockID])(GetAnimSequenceBlockFromAnimator(&ani), &ani, NULL, NULL) != FRAME_BREAK)
         {
             // looping...
         }
@@ -646,12 +646,12 @@ void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
 
         if ((frame->spriteList[0].attr0 & SPRITE_OAM_ATTR0_MODE) == (SPRITE_OAM_MODE_BITMAPOBJ << SPRITE_OAM_ATTR0_MODE_SHIFT))
         {
-            shapeShift   = objBmpUse256K[useEngineB];
+            shapeShift   = gObjBmpUse256K[useEngineB];
             vramLocation = SPRITE_OAM_ATTR2_NAME & ((size_t)(animator->vramPixels - VRAMSystem__VRAM_OBJ[animator->useEngineB]) >> (7 + shapeShift));
         }
         else
         {
-            shapeShift   = objBankShift[useEngineB];
+            shapeShift   = gObjBankShift[useEngineB];
             vramLocation = SPRITE_OAM_ATTR2_NAME & ((size_t)(animator->vramPixels - VRAMSystem__VRAM_OBJ[animator->useEngineB]) >> (5 + shapeShift));
 
             if (GetAnimHeaderBlockFromAnimator(animator)->anims[animator->animID].format != BAC_FORMAT_PLTT16_2D)
@@ -670,7 +670,7 @@ void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
             s32 placeY;
 
             u32 shape = ((sprite->attr0 & SPRITE_OAM_ATTR0_SHAPE) >> SPRITE_OAM_ATTR0_MOSAIC_SHIFT) | ((sprite->attr1 & SPRITE_OAM_ATTR1_SIZE) >> SPRITE_OAM_ATTR1_SIZE_SHIFT);
-            const Vec2U16 *shapeSizePtr = &spriteShapeSizes2D[shape];
+            const Vec2U16 *shapeSizePtr = &sSpriteShapeSizes2D[shape];
 
 #define OAM_X ((s16)(((u32)sprite->attr1 << 22) >> 16) >> 6)
 #define OAM_Y ((s16)(((u32)sprite->attr0 << 23) >> 16) >> 7)
@@ -692,13 +692,13 @@ void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
             {
                 if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
                 {
-                    vramLocation += (formatShapeTileCount[shape] + shift2) >> shapeShift << shift;
+                    vramLocation += (sFormatShapeTileCount[shape] + shift2) >> shapeShift << shift;
                 }
             }
             else
             {
                 dst = OAMSystem__Alloc(animator->useEngineB, animator->oamOrder);
-                if (&oamDefault == dst)
+                if (&gOAMDefault == dst)
                     return;
 
                 GXOamAttr *first     = animator->firstSprite;
@@ -716,7 +716,7 @@ void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
                     dst->attr2 =
                         (vramLocation & SPRITE_OAM_ATTR2_NAME) | (animator->oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT) | (sprite->attr2 + cParam) & SPRITE_OAM_ATTR2_CPARAM;
 
-                    vramLocation += (formatShapeTileCount[shape] + shift2) >> shapeShift << shift;
+                    vramLocation += (sFormatShapeTileCount[shape] + shift2) >> shapeShift << shift;
                 }
                 else
                 {
@@ -867,7 +867,7 @@ void AnimatorSprite__DrawFrameRotoZoom(AnimatorSprite *animator, fx32 scaleX, fx
 
     localFlagAffine |= (animator->spriteType << SPRITE_OAM_ATTR0_MODE_SHIFT);
 
-    ARRAY_COPY(cacheAffineSpriteIndices, initValuesCacheAffineSpriteIndices);
+    ARRAY_COPY(cacheAffineSpriteIndices, sInitValuesCacheAffineSpriteIndices);
 
     paletteOffset = animator->cParam.palette << SPRITE_OAM_ATTR2_CPARAM_SHIFT;
 
@@ -875,7 +875,7 @@ void AnimatorSprite__DrawFrameRotoZoom(AnimatorSprite *animator, fx32 scaleX, fx
 
     if ((frame->spriteList[0].attr0 & SPRITE_OAM_ATTR0_MODE) == (SPRITE_OAM_MODE_BITMAPOBJ << SPRITE_OAM_ATTR0_MODE_SHIFT))
     {
-        shift = objBmpUse256K[useEngineB];
+        shift = gObjBmpUse256K[useEngineB];
 
         void const *objBase = VRAMSystem__VRAM_OBJ[animator->useEngineB];
 
@@ -884,7 +884,7 @@ void AnimatorSprite__DrawFrameRotoZoom(AnimatorSprite *animator, fx32 scaleX, fx
     }
     else
     {
-        shift = objBankShift[useEngineB];
+        shift = gObjBankShift[useEngineB];
 
         void const *objBase     = VRAMSystem__VRAM_OBJ[animator->useEngineB];
         u32 animatorTilesOffset = animator->vramPixels - objBase;
@@ -902,7 +902,7 @@ void AnimatorSprite__DrawFrameRotoZoom(AnimatorSprite *animator, fx32 scaleX, fx
         shape = ((sprite->attr0 & SPRITE_OAM_ATTR0_SHAPE) >> SPRITE_OAM_ATTR0_MOSAIC_SHIFT) | ((sprite->attr1 & SPRITE_OAM_ATTR1_SIZE) >> SPRITE_OAM_ATTR1_SIZE_SHIFT);
 
         Vec2DOrInt sprite2DSize;
-        sprite2DSize.i = ((Vec2DOrInt const *)(&spriteShapeSizes2D[shape]))->i;
+        sprite2DSize.i = ((Vec2DOrInt const *)(&sSpriteShapeSizes2D[shape]))->i;
 
         u16 finalFlipsCurrentOAM = (localFlagHV ^ sprite->attr1);
 
@@ -941,7 +941,7 @@ void AnimatorSprite__DrawFrameRotoZoom(AnimatorSprite *animator, fx32 scaleX, fx
         {
             if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
             {
-                oamTileOffset += ((u32)(formatShapeTileCount[shape] + shiftMask) >> shift) << shiftTileOffset;
+                oamTileOffset += ((u32)(sFormatShapeTileCount[shape] + shiftMask) >> shift) << shiftTileOffset;
             }
         }
         else
@@ -982,13 +982,13 @@ void AnimatorSprite__DrawFrameRotoZoom(AnimatorSprite *animator, fx32 scaleX, fx
             {
                 if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
                 {
-                    oamTileOffset += ((u32)(formatShapeTileCount[shape] + shiftMask) >> shift) << shiftTileOffset;
+                    oamTileOffset += ((u32)(sFormatShapeTileCount[shape] + shiftMask) >> shift) << shiftTileOffset;
                 }
             }
             else
             {
                 GXOamAttr *dst = OAMSystem__Alloc(animator->useEngineB, animator->oamOrder);
-                if (&oamDefault == dst)
+                if (&gOAMDefault == dst)
                     return;
 
                 GXOamAttr *firstSprite = animator->firstSprite;
@@ -1011,7 +1011,7 @@ void AnimatorSprite__DrawFrameRotoZoom(AnimatorSprite *animator, fx32 scaleX, fx
 
                     dst->attr2 = tileOffsetAndOamPriority | colorParam;
 
-                    oamTileOffset += ((u32)(formatShapeTileCount[shape] + shiftMask) >> shift) << shiftTileOffset;
+                    oamTileOffset += ((u32)(sFormatShapeTileCount[shape] + shiftMask) >> shift) << shiftTileOffset;
                 }
                 else
                 {
@@ -1331,24 +1331,24 @@ void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
     if ((frame->spriteList[0].attr0 & SPRITE_OAM_ATTR0_MODE) == (SPRITE_OAM_MODE_BITMAPOBJ << SPRITE_OAM_ATTR0_MODE_SHIFT))
     {
         u32 diffA                       = animator->vramPixels[GRAPHICS_ENGINE_A] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_A];
-        vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (objBmpUse256K[GRAPHICS_ENGINE_A] + 7));
+        vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (gObjBmpUse256K[GRAPHICS_ENGINE_A] + 7));
 
         u32 diffB                       = animator->vramPixels[GRAPHICS_ENGINE_B] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_B];
-        vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (objBmpUse256K[GRAPHICS_ENGINE_B] + 7));
+        vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (gObjBmpUse256K[GRAPHICS_ENGINE_B] + 7));
 
-        shift[GRAPHICS_ENGINE_A] = objBmpUse256K[GRAPHICS_ENGINE_A];
-        shift[GRAPHICS_ENGINE_B] = objBmpUse256K[GRAPHICS_ENGINE_B];
+        shift[GRAPHICS_ENGINE_A] = gObjBmpUse256K[GRAPHICS_ENGINE_A];
+        shift[GRAPHICS_ENGINE_B] = gObjBmpUse256K[GRAPHICS_ENGINE_B];
     }
     else
     {
         u32 diffA                       = animator->vramPixels[GRAPHICS_ENGINE_A] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_A];
-        vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (objBankShift[GRAPHICS_ENGINE_A] + 5));
+        vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (gObjBankShift[GRAPHICS_ENGINE_A] + 5));
 
         u32 diffB                       = animator->vramPixels[GRAPHICS_ENGINE_B] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_B];
-        vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (objBankShift[GRAPHICS_ENGINE_B] + 5));
+        vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (gObjBankShift[GRAPHICS_ENGINE_B] + 5));
 
-        shift[GRAPHICS_ENGINE_A] = objBankShift[GRAPHICS_ENGINE_A];
-        shift[GRAPHICS_ENGINE_B] = objBankShift[GRAPHICS_ENGINE_B];
+        shift[GRAPHICS_ENGINE_A] = gObjBankShift[GRAPHICS_ENGINE_A];
+        shift[GRAPHICS_ENGINE_B] = gObjBankShift[GRAPHICS_ENGINE_B];
 
         if (GetAnimHeaderBlockFromAnimator(&animator->work)->anims[animator->work.animID].format != BAC_FORMAT_PLTT16_2D)
         {
@@ -1363,7 +1363,7 @@ void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
     {
         u32 shape = ((currentSprite->attr0 & SPRITE_OAM_ATTR0_SHAPE) >> (SPRITE_OAM_ATTR0_SHAPE_SHIFT - 2))
                     | ((currentSprite->attr1 & SPRITE_OAM_ATTR1_SIZE) >> SPRITE_OAM_ATTR1_SIZE_SHIFT);
-        shapeSize = &spriteShapeSizes2D[shape];
+        shapeSize = &sSpriteShapeSizes2D[shape];
 
         if (flagFlip & ANIMATORSPRITE_DRAWFRAME_HFLIP)
         {
@@ -1392,14 +1392,14 @@ void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
             {
                 if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
                 {
-                    vramLocation[graphicsEngine] += ((formatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
+                    vramLocation[graphicsEngine] += ((sFormatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
                 }
             }
             else
             {
                 GXOamAttr *oam;
                 oam = OAMSystem__Alloc(graphicsEngine, animator->work.oamOrder);
-                if (&oamDefault == oam)
+                if (&gOAMDefault == oam)
                     return;
 
                 GXOamAttr *first                     = animator->firstSprite[graphicsEngine];
@@ -1417,7 +1417,7 @@ void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
                     oam->attr2 = (vramLocation[graphicsEngine] & SPRITE_OAM_ATTR2_NAME) | (animator->work.oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT)
                                  | ((currentSprite->attr2 + paletteOffset[graphicsEngine]) & SPRITE_OAM_ATTR2_CPARAM);
 
-                    vramLocation[graphicsEngine] += ((formatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
+                    vramLocation[graphicsEngine] += ((sFormatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
                 }
                 else
                 {
@@ -1646,24 +1646,24 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
     if ((frame->spriteList[0].attr0 & SPRITE_OAM_ATTR0_MODE) == (SPRITE_OAM_MODE_BITMAPOBJ << SPRITE_OAM_ATTR0_MODE_SHIFT))
     {
         u32 diffA                       = animator->vramPixels[GRAPHICS_ENGINE_A] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_A];
-        vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (objBmpUse256K[GRAPHICS_ENGINE_A] + 7));
+        vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (gObjBmpUse256K[GRAPHICS_ENGINE_A] + 7));
 
         u32 diffB                       = animator->vramPixels[GRAPHICS_ENGINE_B] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_B];
-        vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (objBmpUse256K[GRAPHICS_ENGINE_B] + 7));
+        vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (gObjBmpUse256K[GRAPHICS_ENGINE_B] + 7));
 
-        shift[GRAPHICS_ENGINE_A] = objBmpUse256K[GRAPHICS_ENGINE_A];
-        shift[GRAPHICS_ENGINE_B] = objBmpUse256K[GRAPHICS_ENGINE_B];
+        shift[GRAPHICS_ENGINE_A] = gObjBmpUse256K[GRAPHICS_ENGINE_A];
+        shift[GRAPHICS_ENGINE_B] = gObjBmpUse256K[GRAPHICS_ENGINE_B];
     }
     else
     {
         u32 diffA                       = animator->vramPixels[GRAPHICS_ENGINE_A] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_A];
-        vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (objBankShift[GRAPHICS_ENGINE_A] + 5));
+        vramLocation[GRAPHICS_ENGINE_A] = SPRITE_OAM_ATTR2_NAME & (diffA >> (gObjBankShift[GRAPHICS_ENGINE_A] + 5));
 
         u32 diffB                       = animator->vramPixels[GRAPHICS_ENGINE_B] - VRAMSystem__VRAM_OBJ[GRAPHICS_ENGINE_B];
-        vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (objBankShift[GRAPHICS_ENGINE_B] + 5));
+        vramLocation[GRAPHICS_ENGINE_B] = SPRITE_OAM_ATTR2_NAME & (diffB >> (gObjBankShift[GRAPHICS_ENGINE_B] + 5));
 
-        shift[GRAPHICS_ENGINE_A] = objBankShift[GRAPHICS_ENGINE_A];
-        shift[GRAPHICS_ENGINE_B] = objBankShift[GRAPHICS_ENGINE_B];
+        shift[GRAPHICS_ENGINE_A] = gObjBankShift[GRAPHICS_ENGINE_A];
+        shift[GRAPHICS_ENGINE_B] = gObjBankShift[GRAPHICS_ENGINE_B];
 
         if (GetAnimHeaderBlockFromAnimator(&animator->work)->anims[animator->work.animID].format != BAC_FORMAT_PLTT16_2D)
         {
@@ -1676,7 +1676,7 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
 
     for (i = 0; i < frame->spriteCount; i++, currentOamAttr++)
     {
-        ARRAY_COPY(cacheAffineSpriteIndicesInitialValues, initValuesCacheAffineSpriteIndicesDSRotoZoom);
+        ARRAY_COPY(cacheAffineSpriteIndicesInitialValues, sInitValuesCacheAffineSpriteIndicesDSRotoZoom);
         hvFlipBits = (flagFlip & SPRITE_OAM_ATTR1_FLIP) >> SPRITE_OAM_ATTR1_FLIP_X_SHIFT;
 
         ARRAY_COPY(cacheAffineSpriteIndicesBothEngines, cacheAffineSpriteIndicesInitialValues);
@@ -1684,7 +1684,7 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
         u32 shape =
             ((currentOamAttr->attr0 & SPRITE_OAM_ATTR0_SHAPE) >> SPRITE_OAM_ATTR0_MOSAIC_SHIFT) | ((currentOamAttr->attr1 & SPRITE_OAM_ATTR1_SIZE) >> SPRITE_OAM_ATTR1_SIZE_SHIFT);
 
-        sprite2DSize.i       = ((Vec2DOrInt const *)(&spriteShapeSizes2D[shape]))->i;
+        sprite2DSize.i       = ((Vec2DOrInt const *)(&sSpriteShapeSizes2D[shape]))->i;
         u32 *ptrSprite2DSize = &sprite2DSize.i;
 
         u16 finalFlipsCurrentOAM         = flagFlip ^ currentOamAttr->attr1;
@@ -1717,7 +1717,7 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
             {
                 if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
                 {
-                    vramLocation[graphicsEngine] += ((formatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
+                    vramLocation[graphicsEngine] += ((sFormatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
                 }
             }
             else
@@ -1749,13 +1749,13 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
                 {
                     if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
                     {
-                        vramLocation[graphicsEngine] += ((formatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
+                        vramLocation[graphicsEngine] += ((sFormatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
                     }
                 }
                 else
                 {
                     GXOamAttr *res = OAMSystem__Alloc(graphicsEngine, animator->work.oamOrder);
-                    if (&oamDefault == res)
+                    if (&gOAMDefault == res)
                         return;
 
                     GXOamAttr *firstSprite               = animator->firstSprite[graphicsEngine];
@@ -1773,7 +1773,7 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
                         u32 tileOffsetAndOamPriority = (vramLocation[graphicsEngine] & SPRITE_OAM_ATTR2_NAME) | (animator->work.oamPriority << SPRITE_OAM_ATTR2_PRIORITY_SHIFT);
                         u32 colorParam               = (currentOamAttr->attr2 + paletteOffset[graphicsEngine]) & SPRITE_OAM_ATTR2_CPARAM;
                         res->attr2                   = tileOffsetAndOamPriority | colorParam;
-                        vramLocation[graphicsEngine] += ((u32)(formatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
+                        vramLocation[graphicsEngine] += ((u32)(sFormatShapeTileCount[shape] + shiftMask[graphicsEngine]) >> shift[graphicsEngine]) << shiftTileOffset;
                     }
                     else
                     {
@@ -2096,7 +2096,7 @@ _0208218C:
 	add r7, r6, #0x10
 	str r0, [sp, #0x30]
 	bne _02082228
-	ldr r3, =objBmpUse256K
+	ldr r3, =gObjBmpUse256K
 	ldr r2, =VRAMSystem__VRAM_OBJ
 	ldrh r0, [r3, #0]
 	ldr r5, [r10, #0x78]
@@ -2117,7 +2117,7 @@ _0208218C:
 	str r5, [sp, #0x54]
 	b _02082290
 _02082228:
-	ldr r0, =objBankShift
+	ldr r0, =gObjBankShift
 	ldr r3, =VRAMSystem__VRAM_OBJ
 	ldrh r1, [r0, #0]
 	ldr r5, [r10, #0x78]
@@ -2163,7 +2163,7 @@ _02082290:
 	str r0, [sp, #0x2c]
 	addls sp, sp, #0x120
 	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r5, =initValuesCacheAffineSpriteIndicesDSRotoZoom
+	ldr r5, =sInitValuesCacheAffineSpriteIndicesDSRotoZoom
 	add r4, sp, #0x60
 	ldmia r5!, {r0, r1, r2, r3}
 	stmia r4!, {r0, r1, r2, r3}
@@ -2182,7 +2182,7 @@ _02082310:
 	ldmia r9!, {r0, r1, r2, r3}
 	stmia r8!, {r0, r1, r2, r3}
 	ldr r0, [sp, #0xc]
-	ldr r5, =spriteShapeSizes2D
+	ldr r5, =sSpriteShapeSizes2D
 	cmp r0, #0
 	ldmia r9, {r0, r1, r2, r3}
 	stmia r8, {r0, r1, r2, r3}
@@ -2255,7 +2255,7 @@ _02082428:
 	add r0, r2, r0, lsl #2
 	str r0, [sp, #0x38]
 	mov r4, #0x200
-	ldr r0, =formatShapeTileCount
+	ldr r0, =sFormatShapeTileCount
 	mov r1, lr, lsl #1
 	ldrh r11, [r0, r1]
 	rsb r4, r4, #0
@@ -2366,7 +2366,7 @@ _020825D4:
 	ldrb r1, [r10, #0x57]
 	mov r0, r9
 	bl OAMSystem__Alloc
-	ldr r1, =oamDefault
+	ldr r1, =gOAMDefault
 	cmp r1, r0
 	addeq sp, sp, #0x120
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -2457,7 +2457,7 @@ _020826FC:
 
 void Sprite__InitUnknown(void)
 {
-    MI_CpuClear16(&spriteUnknown, sizeof(spriteUnknown));
+    MI_CpuClear16(&sSpriteUnknown, sizeof(sSpriteUnknown));
 }
 
 void AnimatorSpriteDS__SetAnimation2(AnimatorSpriteDS *animator, u16 animID)
@@ -2497,14 +2497,14 @@ void AnimatorMDL__Release(AnimatorMDL *animator)
         if (animator->currentAnimObj[i] != NULL)
         {
             NNS_G3dRenderObjRemoveAnmObj(&animator->renderObj, animator->currentAnimObj[i]);
-            NNS_G3dFreeAnmObj(&heapSystemAllocator, animator->currentAnimObj[i]);
+            NNS_G3dFreeAnmObj(&gHeapSystemAllocator, animator->currentAnimObj[i]);
             animator->currentAnimObj[i] = NULL;
         }
 
         if (animator->prevAnimObj[i] != NULL)
         {
             NNS_G3dRenderObjRemoveAnmObj(&animator->renderObj, animator->prevAnimObj[i]);
-            NNS_G3dFreeAnmObj(&heapSystemAllocator, animator->prevAnimObj[i]);
+            NNS_G3dFreeAnmObj(&gHeapSystemAllocator, animator->prevAnimObj[i]);
             animator->prevAnimObj[i] = NULL;
         }
     }
@@ -2515,7 +2515,7 @@ void AnimatorMDL__Release(AnimatorMDL *animator)
             NNS_G3dRenderObjResetFlag(&animator->renderObj, NNS_G3D_RENDEROBJ_FLAG_RECORD);
 
         animator->renderObj.recJntAnm = NULL;
-        NNS_G3dFreeRecBufferJnt(&heapSystemAllocator, animator->jntAnimResult);
+        NNS_G3dFreeRecBufferJnt(&gHeapSystemAllocator, animator->jntAnimResult);
         animator->jntAnimResult = NULL;
     }
 
@@ -2525,7 +2525,7 @@ void AnimatorMDL__Release(AnimatorMDL *animator)
             NNS_G3dRenderObjResetFlag(&animator->renderObj, NNS_G3D_RENDEROBJ_FLAG_RECORD);
 
         animator->renderObj.recMatAnm = NULL;
-        NNS_G3dFreeRecBufferMat(&heapSystemAllocator, animator->matAnimResult);
+        NNS_G3dFreeRecBufferMat(&gHeapSystemAllocator, animator->matAnimResult);
         animator->matAnimResult = NULL;
     }
 }
@@ -2536,12 +2536,12 @@ void AnimatorMDL__SetResource(AnimatorMDL *animator, const NNSG3dResFileHeader *
 
     if (setJoint)
     {
-        animator->renderObj.recJntAnm = animator->jntAnimResult = NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(resource), idx));
+        animator->renderObj.recJntAnm = animator->jntAnimResult = NNS_G3dAllocRecBufferJnt(&gHeapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(resource), idx));
     }
 
     if (setMaterial)
     {
-        animator->renderObj.recMatAnm = animator->matAnimResult = NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(resource), idx));
+        animator->renderObj.recMatAnm = animator->matAnimResult = NNS_G3dAllocRecBufferMat(&gHeapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(resource), idx));
     }
 }
 
@@ -2550,7 +2550,7 @@ void AnimatorMDL__SetAnimation(AnimatorMDL *animator, B3DAnimationTypes type, co
     if (animator->prevAnimObj[type] != NULL)
     {
         NNS_G3dRenderObjRemoveAnmObj(&animator->renderObj, animator->prevAnimObj[type]);
-        NNS_G3dFreeAnmObj(&heapSystemAllocator, animator->prevAnimObj[type]);
+        NNS_G3dFreeAnmObj(&gHeapSystemAllocator, animator->prevAnimObj[type]);
         animator->prevAnimObj[type] = NULL;
     }
 
@@ -2573,7 +2573,7 @@ void AnimatorMDL__SetAnimation(AnimatorMDL *animator, B3DAnimationTypes type, co
             if (animator->currentAnimObj[type] != NULL)
             {
                 NNS_G3dRenderObjRemoveAnmObj(&animator->renderObj, animator->currentAnimObj[type]);
-                NNS_G3dFreeAnmObj(&heapSystemAllocator, animator->currentAnimObj[type]);
+                NNS_G3dFreeAnmObj(&gHeapSystemAllocator, animator->currentAnimObj[type]);
                 animator->currentAnimObj[type] = NULL;
             }
             break;
@@ -2583,7 +2583,7 @@ void AnimatorMDL__SetAnimation(AnimatorMDL *animator, B3DAnimationTypes type, co
     }
 
     void *anim                     = NNS_G3dGetAnmByIdx(resource, animID);
-    animator->currentAnimObj[type] = NNS_G3dAllocAnmObj(&heapSystemAllocator, anim, animator->renderObj.resMdl);
+    animator->currentAnimObj[type] = NNS_G3dAllocAnmObj(&gHeapSystemAllocator, anim, animator->renderObj.resMdl);
     NNS_G3dAnmObjInit(animator->currentAnimObj[type], anim, animator->renderObj.resMdl, texResource);
     NNS_G3dRenderObjAddAnmObj(&animator->renderObj, animator->currentAnimObj[type]);
 
@@ -2617,7 +2617,7 @@ void AnimatorMDL__ProcessAnimation(AnimatorMDL *animator)
                 animator->animFlags[t] &= ~ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
                 animator->animFlags[t] |= ANIMATORMDL_FLAG_BLENDING_PAUSED;
                 NNS_G3dRenderObjRemoveAnmObj(&animator->renderObj, animator->prevAnimObj[t]);
-                NNS_G3dFreeAnmObj(&heapSystemAllocator, animator->prevAnimObj[t]);
+                NNS_G3dFreeAnmObj(&gHeapSystemAllocator, animator->prevAnimObj[t]);
                 animator->prevAnimObj[t] = NULL;
             }
         }
@@ -2823,7 +2823,7 @@ void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
     NNS_G3dGeColor(animator->color);
 
     u32 paletteAddr = (VRAMKEY_TO_KEY(GetSprite3DPaletteVRAM(animator)) & 0x1FFFF) + (animator->animatorSprite.cParam.palette * (16 * sizeof(GXRgb)));
-    NNS_G3dGeTexPlttBase(paletteAddr, gxFormatForSpriteFormat[format]);
+    NNS_G3dGeTexPlttBase(paletteAddr, sGXFormatForSpriteFormat[format]);
 
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
 
@@ -2837,7 +2837,7 @@ void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
     for (s = 0; s < frame->spriteCount; s++, sprite++)
     {
         u32 shape = ((sprite->attr0 & SPRITE_OAM_ATTR0_SHAPE) >> SPRITE_OAM_ATTR0_MOSAIC_SHIFT) | ((sprite->attr1 & SPRITE_OAM_ATTR1_SIZE) >> SPRITE_OAM_ATTR1_SIZE_SHIFT);
-        const Vec2U16 *size = &spriteShapeSizes2D[shape];
+        const Vec2U16 *size = &sSpriteShapeSizes2D[shape];
 
 #define OAM_X ((s16)(((u32)sprite->attr1 << 22) >> 16) >> 6)
 #define OAM_Y ((s16)(((u32)sprite->attr0 << 23) >> 16) >> 7)
@@ -2891,14 +2891,14 @@ void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
         if ((frame->flags & BAC_FRAME_FLAG_NO_TILE_ADVANCE) == 0)
         {
             pixelAddr = tileDataPos;
-            tileDataPos += formatShapeTileCount[shape] << pixelFormatShift[format];
+            tileDataPos += sFormatShapeTileCount[shape] << gPixelFormatShift[format];
         }
         else
         {
-            pixelAddr = tileDataPos + ((sprite->attr2 & SPRITE_OAM_ATTR2_NAME) << pixelFormatShift[format]);
+            pixelAddr = tileDataPos + ((sprite->attr2 & SPRITE_OAM_ATTR2_NAME) << gPixelFormatShift[format]);
         }
 
-        NNS_G3dGeTexImageParam(gxFormatForSpriteFormat[format], GX_TEXGEN_TEXCOORD, (GXTexSizeS)spriteShapeSizes3D[2 * shape], (GXTexSizeT)spriteShapeSizes3D[(2 * shape) + 1],
+        NNS_G3dGeTexImageParam(sGXFormatForSpriteFormat[format], GX_TEXGEN_TEXCOORD, (GXTexSizeS)sSpriteShapeSizes3D[2 * shape], (GXTexSizeT)sSpriteShapeSizes3D[(2 * shape) + 1],
                                GX_TEXREPEAT_NONE, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS, pixelAddr);
 
         NNS_G3dGeMtxMode(GX_MTXMODE_TEXTURE);
@@ -2907,7 +2907,7 @@ void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
         NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
         NNS_G3dGePushMtx();
         NNS_G3dGeMultMtx43(matTranslate.nnMtx);
-        NNS_G3dGeSendDL(drawListSprite3D, sizeof(drawListSprite3D));
+        NNS_G3dGeSendDL(sDrawListSprite3D, sizeof(sDrawListSprite3D));
         NNS_G3dGePopMtx(1);
     }
     NNS_G3dGeEnd();
@@ -3030,7 +3030,7 @@ BOOL Sprite__Animate(AnimatorSprite *animator, SpriteFrameCallback callback, voi
     }
 
     animator->prevAnimSequenceOffset = animator->animSequenceOffset;
-    while ((frameGroupFuncList[GetAnimSequenceBlockFromAnimator(animator)->blockID])(GetAnimSequenceBlockFromAnimator(animator), animator, callback, userData) != FRAME_BREAK)
+    while ((sFrameGroupFuncList[GetAnimSequenceBlockFromAnimator(animator)->blockID])(GetAnimSequenceBlockFromAnimator(animator), animator, callback, userData) != FRAME_BREAK)
     {
         // looping...
     }
@@ -3076,7 +3076,7 @@ BOOL Sprite__AnimateDS(AnimatorSpriteDS *animator, SpriteFrameCallback callback,
             curAnimator->vramPalette    = animator->vramPalette[i];
             curAnimator->cParam.palette = animator->cParam[i].palette;
 
-            while ((frameGroupFuncList[GetAnimSequenceBlockFromAnimator(curAnimator)->blockID])(GetAnimSequenceBlockFromAnimator(curAnimator), curAnimator, callback, userData)
+            while ((sFrameGroupFuncList[GetAnimSequenceBlockFromAnimator(curAnimator)->blockID])(GetAnimSequenceBlockFromAnimator(curAnimator), curAnimator, callback, userData)
                    != FRAME_BREAK)
             {
                 // looping...
@@ -3117,7 +3117,7 @@ void Sprite__AnimateManual(AnimatorSprite *animator, fx32 advance, SpriteFrameCa
             break;
 
         animator->prevAnimSequenceOffset = animator->animSequenceOffset;
-        while ((frameGroupFuncList[GetAnimSequenceBlockFromAnimator(animator)->blockID])(GetAnimSequenceBlockFromAnimator(animator), animator, callback, userData) != FRAME_BREAK)
+        while ((sFrameGroupFuncList[GetAnimSequenceBlockFromAnimator(animator)->blockID])(GetAnimSequenceBlockFromAnimator(animator), animator, callback, userData) != FRAME_BREAK)
         {
             // looping...
         }
@@ -3183,9 +3183,9 @@ s32 BAC_FrameGroupFunc_SpriteParts(BACFrameGroupBlock_SpriteParts *block, Animat
         {
             case PIXEL_MODE_SPRITE:
                 if ((GetFrameAssemblyFromAnimator(animator)->spriteList[0].attr0 & SPRITE_OAM_ATTR0_MODE) == (GX_OAM_MODE_BITMAPOBJ << SPRITE_OAM_ATTR0_MODE_SHIFT))
-                    offsetThing = objBmpUse256K[animator->useEngineB]; // bitmap
+                    offsetThing = gObjBmpUse256K[animator->useEngineB]; // bitmap
                 else
-                    offsetThing = objBankShift[animator->useEngineB]; // non-bitmap
+                    offsetThing = gObjBankShift[animator->useEngineB]; // non-bitmap
                 break;
 
             default:
@@ -3193,7 +3193,7 @@ s32 BAC_FrameGroupFunc_SpriteParts(BACFrameGroupBlock_SpriteParts *block, Animat
                 break;
         }
 
-        u32 tileSizeShift = offsetThing + pixelFormatShift[GetAnimHeaderBlockFromAnimator(animator)->anims[animator->animID].format];
+        u32 tileSizeShift = offsetThing + gPixelFormatShift[GetAnimHeaderBlockFromAnimator(animator)->anims[animator->animID].format];
 
         for (; pos < block->header.blockSize; pos += sizeof(struct BACFrameSpritePart))
         {
@@ -3251,7 +3251,7 @@ NONMATCH_FUNC s32 BAC_FrameGroupFunc_Palette(BACFrameGroupBlock_Palette *block, 
         }
 
         if (colorCount == 0)
-            colorCount = formatPaletteColorCount[Sprite__GetFormatFromAnim(animator->fileData, animator->animID)];
+            colorCount = sFormatPaletteColorCount[Sprite__GetFormatFromAnim(animator->fileData, animator->animID)];
 
         paletteFunc(srcPalettePtr, colorCount, animator->paletteMode, (size_t)destPalettePtr);
     }
@@ -3308,7 +3308,7 @@ _02083AE8:
 	bne _02083B04
 	ldrh r1, [r6, #0xc]
 	bl Sprite__GetFormatFromAnim
-	ldr r1, =formatPaletteColorCount
+	ldr r1, =sFormatPaletteColorCount
 	mov r0, r0, lsl #1
 	ldrh r1, [r1, r0]
 _02083B04:
@@ -3408,7 +3408,7 @@ void Animator3D__HandleMatrixOperations(Animator3D *animator, u32 flags)
 
     for (s32 i = 0; i < ANIMATOR3D_MATRIXOP_COUNT && animator->matrixOpIDs[i] != MATRIX_OP_NONE; i++)
     {
-        animator3DDrawCommandList[animator->matrixOpIDs[i]](animator);
+        sAnimator3DDrawCommandList[animator->matrixOpIDs[i]](animator);
     }
 }
 

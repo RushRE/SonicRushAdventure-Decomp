@@ -691,7 +691,7 @@ void *LoadAlloc_FromTail(const char *path)
 
 void *LoadAlloc_Snd(const char *path)
 {
-    return NNS_SndHeapAlloc(audioManagerSndHeap, 0x60400, NULL, 0, 0);
+    return NNS_SndHeapAlloc(gAudioManagerSndHeap, 0x60400, NULL, 0, 0);
 }
 
 void PreLoad_SoundArchiveZone(GMS_GAMEDAT_LOAD_CONTEXT *state)
@@ -733,7 +733,7 @@ void PostLoad_InitMapFar(AsyncFileWork *file, const char *path)
 void PostLoad_InitPlayerArchive(AsyncFileWork *file, const char *path)
 {
     void *archive = HeapAllocTail(HEAP_USER, MI_GetUncompressedSize(file->userData));
-    playerArchive = archive;
+    gPlayerArchive = archive;
     RenderCore_CPUCopyCompressed(file->userData, archive);
     HeapFree(HEAP_USER, file->userData);
 

@@ -11,10 +11,10 @@
 // VARIABLES
 // --------------------
 
-static ExDrawLightConfig lightConfig;
+static ExDrawLightConfig sLightConfig;
 
-static ExDrawCameraConfig currentCameraConfigA;
-static ExDrawCameraConfig currentCameraConfigB;
+static ExDrawCameraConfig sCurrentCameraConfigA;
+static ExDrawCameraConfig sCurrentCameraConfigB;
 
 // --------------
 // FUNCTION DECLS
@@ -330,59 +330,59 @@ void LoadExDrawCameraConfig_4(ExDrawCameraConfig *work)
 
 void LoadExDrawConfig(ExDrawReqTaskCameraConfigType currentCameraType, ExDrawReqLightType lightType)
 {
-    InitExDrawCameraConfig(&currentCameraConfigA);
-    currentCameraConfigA.useEngineB = GRAPHICS_ENGINE_A;
+    InitExDrawCameraConfig(&sCurrentCameraConfigA);
+    sCurrentCameraConfigA.useEngineB = GRAPHICS_ENGINE_A;
 
-    InitExDrawCameraConfig(&currentCameraConfigB);
-    currentCameraConfigB.useEngineB = GRAPHICS_ENGINE_B;
+    InitExDrawCameraConfig(&sCurrentCameraConfigB);
+    sCurrentCameraConfigB.useEngineB = GRAPHICS_ENGINE_B;
 
     switch (currentCameraType)
     {
         case EXDRAW_CAMERACONFIG_1:
-            LoadExDrawCameraConfig_1(&currentCameraConfigA);
-            LoadExDrawCameraConfig_1(&currentCameraConfigB);
+            LoadExDrawCameraConfig_1(&sCurrentCameraConfigA);
+            LoadExDrawCameraConfig_1(&sCurrentCameraConfigB);
             break;
 
         case EXDRAW_CAMERACONFIG_2:
-            LoadExDrawCameraConfig_2(&currentCameraConfigA);
-            LoadExDrawCameraConfig_2(&currentCameraConfigB);
+            LoadExDrawCameraConfig_2(&sCurrentCameraConfigA);
+            LoadExDrawCameraConfig_2(&sCurrentCameraConfigB);
             break;
 
         case EXDRAW_CAMERACONFIG_3:
-            LoadExDrawCameraConfig_3(&currentCameraConfigA);
-            LoadExDrawCameraConfig_3(&currentCameraConfigB);
+            LoadExDrawCameraConfig_3(&sCurrentCameraConfigA);
+            LoadExDrawCameraConfig_3(&sCurrentCameraConfigB);
             break;
 
         case EXDRAW_CAMERACONFIG_4:
-            LoadExDrawCameraConfig_4(&currentCameraConfigA);
-            LoadExDrawCameraConfig_4(&currentCameraConfigB);
+            LoadExDrawCameraConfig_4(&sCurrentCameraConfigA);
+            LoadExDrawCameraConfig_4(&sCurrentCameraConfigB);
             break;
 
         default:
-            LoadExDrawCameraConfig_1(&currentCameraConfigA);
-            LoadExDrawCameraConfig_1(&currentCameraConfigB);
+            LoadExDrawCameraConfig_1(&sCurrentCameraConfigA);
+            LoadExDrawCameraConfig_1(&sCurrentCameraConfigB);
             break;
     }
-    InitExDrawLightConfig(&lightConfig);
+    InitExDrawLightConfig(&sLightConfig);
 
-    lightConfig.nextLight.dir.x = FLOAT_TO_FX32(0.0);
-    lightConfig.nextLight.dir.y = FLOAT_TO_FX32(0.0);
-    lightConfig.nextLight.dir.z = -FLOAT_TO_FX32(1.0);
+    sLightConfig.nextLight.dir.x = FLOAT_TO_FX32(0.0);
+    sLightConfig.nextLight.dir.y = FLOAT_TO_FX32(0.0);
+    sLightConfig.nextLight.dir.z = -FLOAT_TO_FX32(1.0);
 
-    lightConfig.nextLight.color = GX_RGB_888(0xFF, 0xFF, 0xFF);
+    sLightConfig.nextLight.color = GX_RGB_888(0xFF, 0xFF, 0xFF);
 }
 
 ExDrawCameraConfig *GetExDrawCameraConfigA(void)
 {
-    return &currentCameraConfigA;
+    return &sCurrentCameraConfigA;
 }
 
 ExDrawCameraConfig *GetExDrawCameraConfigB(void)
 {
-    return &currentCameraConfigB;
+    return &sCurrentCameraConfigB;
 }
 
 ExDrawLightConfig *GetExDrawLightConfig(void)
 {
-    return &lightConfig;
+    return &sLightConfig;
 }

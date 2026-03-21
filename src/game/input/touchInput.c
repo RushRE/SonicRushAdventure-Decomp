@@ -5,9 +5,9 @@
 // VARIABLES
 // --------------------
 
-static TouchInputFlags inputFlags;
+static TouchInputFlags sInputFlags;
 TouchInputState touchInput;
-static TPData touchInputBuffer[TOUCH_INPUT_DATABUFFER_SIZE];
+static TPData sTouchInputBuffer[TOUCH_INPUT_DATABUFFER_SIZE];
 
 // --------------------
 // PRIVATE FUNCTIONS
@@ -23,12 +23,12 @@ void TouchInputSampleAuto(void);
 
 RUSH_INLINE BOOL IsTouchInputEnabled_Internal(void)
 {
-    return (inputFlags & TOUCH_INPUT_FLAG_ENABLED) != 0;
+    return (sInputFlags & TOUCH_INPUT_FLAG_ENABLED) != 0;
 }
 
 RUSH_INLINE BOOL IsTouchSamplingEnabled_Internal(void)
 {
-    return (inputFlags & TOUCH_INPUT_FLAG_SAMPLING_ENABLED) != 0;
+    return (sInputFlags & TOUCH_INPUT_FLAG_SAMPLING_ENABLED) != 0;
 }
 
 RUSH_INLINE void SetTouchInputBit(u16 *val, int shift, BOOL b)
@@ -44,7 +44,7 @@ RUSH_INLINE void ClearTouchInputState(void)
 RUSH_INLINE void ClearTouchInputBuffers(void)
 {
     ClearTouchInputState();
-    MI_CpuClear16(touchInputBuffer, sizeof(touchInputBuffer));
+    MI_CpuClear16(sTouchInputBuffer, sizeof(sTouchInputBuffer));
 }
 
 // --------------------
@@ -55,7 +55,7 @@ void InitTouchInputSystem(void)
 {
     TPCalibrateParam param;
 
-    inputFlags = TOUCH_INPUT_FLAG_NONE;
+    sInputFlags = TOUCH_INPUT_FLAG_NONE;
     ClearTouchInputBuffers();
     TP_SetCallback(TPCallback);
 
@@ -101,14 +101,14 @@ void ResetTouchInput(void)
     ClearTouchInputBuffers();
 
     touchInput.core.sampleFreq = 1;
-    inputFlags |= TOUCH_INPUT_FLAG_ENABLED;
+    sInputFlags |= TOUCH_INPUT_FLAG_ENABLED;
 }
 
 void ReleaseTouchInput(void)
 {
     touchInput.core.sampleFreq = 0;
     ClearTouchInputState();
-    inputFlags &= ~TOUCH_INPUT_FLAG_ENABLED;
+    sInputFlags &= ~TOUCH_INPUT_FLAG_ENABLED;
 }
 
 void StartSamplingTouchInput(u8 frequence)
@@ -129,8 +129,8 @@ void StartSamplingTouchInput(u8 frequence)
         ClearTouchInputBuffers();
 
         touchInput.core.sampleFreq = frequence;
-        if (TP_RequestAutoSamplingStart(0, touchInput.core.sampleFreq, touchInputBuffer, TOUCH_INPUT_DATABUFFER_SIZE) == TP_RESULT_SUCCESS)
-            inputFlags |= (TOUCH_INPUT_FLAG_ENABLED | TOUCH_INPUT_FLAG_SAMPLING_ENABLED);
+        if (TP_RequestAutoSamplingStart(0, touchInput.core.sampleFreq, sTouchInputBuffer, TOUCH_INPUT_DATABUFFER_SIZE) == TP_RESULT_SUCCESS)
+            sInputFlags |= (TOUCH_INPUT_FLAG_ENABLED | TOUCH_INPUT_FLAG_SAMPLING_ENABLED);
     }
 }
 
@@ -143,7 +143,7 @@ void StopSamplingTouchInput(void)
     }
 
     ClearTouchInputState();
-    inputFlags &= ~(TOUCH_INPUT_FLAG_ENABLED | TOUCH_INPUT_FLAG_SAMPLING_ENABLED);
+    sInputFlags &= ~(TOUCH_INPUT_FLAG_ENABLED | TOUCH_INPUT_FLAG_SAMPLING_ENABLED);
 }
 
 void ApplyTouchInputState(TouchInputState *state, TouchInputStateCore *updatedState)
@@ -259,7 +259,7 @@ void TouchInputSampleAuto(void)
 
     u8 sampleIndex             = (latestIndex - sampleFreq + 6);
     TouchInputStateCore *state = &touchInput.core;
-    TPData *rawBuffer          = touchInputBuffer;
+    TPData *rawBuffer          = sTouchInputBuffer;
 
     // init calibrated points
     for (i = 0; i < sampleFreq; i++)

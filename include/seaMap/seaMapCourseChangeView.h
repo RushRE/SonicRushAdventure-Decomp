@@ -18,7 +18,7 @@ typedef struct SeaMapCourseChangeView_
 // VARIABLES
 // --------------------
 
-extern Vec2Fx32 SeaMapCourseChangeView_shipPosition;
+extern Vec2Fx32 gSeaMapCourseChangeView_shipPosition;
 
 // --------------------
 // FUNCTIONS

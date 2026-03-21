@@ -76,14 +76,14 @@ enum DolphinHoopAnimIDs
 // VARIABLES
 // --------------------
 
-static u8 hoopPriorityConfig[DOLPHINHOOP_TYPE_COUNT][2] = {
+static u8 sHoopPriorityConfig[DOLPHINHOOP_TYPE_COUNT][2] = {
     [DOLPHINHOOP_TYPE_LEFT_MID] = { SPRITE_PRIORITY_1, SPRITE_PRIORITY_2 },     [DOLPHINHOOP_TYPE_LEFT_NEAR] = { SPRITE_PRIORITY_1, SPRITE_PRIORITY_1 },
     [DOLPHINHOOP_TYPE_RIGHT_MID] = { SPRITE_PRIORITY_1, SPRITE_PRIORITY_2 },    [DOLPHINHOOP_TYPE_RIGHT_FAR] = { SPRITE_PRIORITY_2, SPRITE_PRIORITY_2 },
     [DOLPHINHOOP_TYPE_CENTER_MID] = { SPRITE_PRIORITY_1, SPRITE_PRIORITY_1 },   [DOLPHINHOOP_TYPE_END_MID] = { SPRITE_PRIORITY_1, SPRITE_PRIORITY_1 },
     [DOLPHINHOOP_TYPE_CENTER_CLOSE] = { SPRITE_PRIORITY_1, SPRITE_PRIORITY_1 }, [DOLPHINHOOP_TYPE_CENTER_FAR] = { SPRITE_PRIORITY_2, SPRITE_PRIORITY_2 },
 };
 
-static u16 hoopAnimConfig[DOLPHINHOOP_TYPE_COUNT][2] = {
+static u16 sHoopAnimConfig[DOLPHINHOOP_TYPE_COUNT][2] = {
     [DOLPHINHOOP_TYPE_LEFT_MID]     = { DOLPHINHOOP_ANI_LEFT_MID_FRONT, DOLPHINHOOP_ANI_LEFT_MID_BACK },
     [DOLPHINHOOP_TYPE_LEFT_NEAR]    = { DOLPHINHOOP_ANI_LEFT_NEAR_FRONT, DOLPHINHOOP_ANI_LEFT_NEAR_BACK },
     [DOLPHINHOOP_TYPE_RIGHT_MID]    = { DOLPHINHOOP_ANI_RIGHT_MID_FRONT, DOLPHINHOOP_ANI_RIGHT_MID_BACK },
@@ -279,12 +279,12 @@ NONMATCH_FUNC DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 
         paletteFlags = 98;
     else
         paletteFlags = 99;
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, hoopAnimConfig[work->type][0], paletteFlags);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, sHoopAnimConfig[work->type][0], paletteFlags);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
-    StageTask__SetAnimatorPriority(&work->gameWork.objWork, hoopPriorityConfig[work->type][0]);
-    StageTask__SetAnimation(&work->gameWork.objWork, hoopAnimConfig[work->type][0]);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, sHoopPriorityConfig[work->type][0]);
+    StageTask__SetAnimation(&work->gameWork.objWork, sHoopAnimConfig[work->type][0]);
 
-    if (hoopAnimConfig[work->type][1] != DOLPHINHOOP_ANI_NONE)
+    if (sHoopAnimConfig[work->type][1] != DOLPHINHOOP_ANI_NONE)
     {
         AnimatorSpriteDS *aniRingBack = &work->aniRingBack;
         ObjAction2dBACLoad(aniRingBack, "/act/ac_gmk_dolphin_hoop.bac", OBJ_DATA_GFX_AUTO, GetObjectDataWork(OBJDATAWORK_171), gameArchiveStage);
@@ -293,9 +293,9 @@ NONMATCH_FUNC DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 
         aniRingBack->cParam[0].palette = aniRingBack->cParam[1].palette = aniRingBack->work.cParam.palette;
 
         aniRingBack->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
-        AnimatorSpriteDS__SetAnimation(&work->aniRingBack, hoopAnimConfig[work->type][1]);
+        AnimatorSpriteDS__SetAnimation(&work->aniRingBack, sHoopAnimConfig[work->type][1]);
         StageTask__SetOAMOrder(&aniRingBack->work, SPRITE_ORDER_23);
-        StageTask__SetOAMPriority(&aniRingBack->work, hoopPriorityConfig[work->type][1]);
+        StageTask__SetOAMPriority(&aniRingBack->work, sHoopPriorityConfig[work->type][1]);
     }
 
     work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
@@ -390,7 +390,7 @@ NONMATCH_FUNC DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 
 	moveq r2, #0x62
 	movne r2, #0x63
 	mov r2, r2, lsl #0x10
-	ldr r0, =hoopAnimConfig
+	ldr r0, =sHoopAnimConfig
 	mov r1, r1, lsl #2
 	ldrh r1, [r0, r1]
 	mov r0, r4
@@ -401,13 +401,13 @@ NONMATCH_FUNC DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 
 	bl StageTask__SetAnimatorOAMOrder
 	add r0, r4, #0x400
 	ldrh r2, [r0, #8]
-	ldr r1, =hoopPriorityConfig
+	ldr r1, =sHoopPriorityConfig
 	mov r0, r4
 	ldrb r1, [r1, r2, lsl #1]
 	bl StageTask__SetAnimatorPriority
 	add r0, r4, #0x400
 	ldrh r2, [r0, #8]
-	ldr r1, =hoopAnimConfig
+	ldr r1, =sHoopAnimConfig
 	mov r0, r4
 	mov r2, r2, lsl #2
 	ldrh r1, [r1, r2]
@@ -640,7 +640,7 @@ void DolphinHoop_Destructor(Task *task)
 {
     DolphinHoop *work = TaskGetWork(task, DolphinHoop);
 
-    if (hoopAnimConfig[work->type][1] != DOLPHINHOOP_ANI_NONE)
+    if (sHoopAnimConfig[work->type][1] != DOLPHINHOOP_ANI_NONE)
         ObjAction2dBACRelease(GetObjectDataWork(OBJDATAWORK_171), &work->aniRingBack);
 
     GameObject__Destructor(task);
@@ -728,6 +728,6 @@ void DolphinHoop_Draw(void)
                         NULL);
 
     // Draw back sprite (if it exists!)
-    if (hoopAnimConfig[work->type][1] != DOLPHINHOOP_ANI_NONE)
+    if (sHoopAnimConfig[work->type][1] != DOLPHINHOOP_ANI_NONE)
         StageTask__Draw2DEx(&work->aniRingBack, &work->gameWork.objWork.position, NULL, &work->gameWork.objWork.scale, &work->gameWork.objWork.displayFlag, NULL, NULL);
 }

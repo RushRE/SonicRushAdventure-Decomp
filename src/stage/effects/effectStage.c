@@ -91,7 +91,7 @@ NOT_DECOMPILED void *_02118FBC;
 NOT_DECOMPILED void *_0210EA44;
 NOT_DECOMPILED void *_0202B670;
 NOT_DECOMPILED void *_0202C470;
-extern void *EffectButtonPrompt__states[];
+extern void *gEffectButtonPromptStateTable[];
 NOT_DECOMPILED void *_02118FB4;
 NOT_DECOMPILED u16 EffectButtonPrompt_animIDs[];
 NOT_DECOMPILED void *_02119324;
@@ -121,7 +121,7 @@ NOT_DECOMPILED void *_0210EA5C;
 // VARIABLES
 // --------------------
 
-extern RingManager *ringManagerWork;
+extern RingManager *gRingManagerWork;
 
 // --------------------
 // FUNCTIONS
@@ -1336,7 +1336,7 @@ void EffectMedal__State_202D514(EffectMedal *work)
 
             if (useObjDrawPalette)
             {
-                SetPaletteAnimationTarget(&work->aniPalette, PALETTE_MODE_SPRITE, &objDrawPalette2[16 * work->objWork.obj_2d->ani.cParam[0].palette]);
+                SetPaletteAnimationTarget(&work->aniPalette, PALETTE_MODE_SPRITE, &gObjDrawPalette2[16 * work->objWork.obj_2d->ani.cParam[0].palette]);
                 DrawAnimatedPalette(&work->aniPalette);
             }
         }
@@ -1392,7 +1392,7 @@ NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 
 {
     // will match when "/ac_itm_ring.bac" is decompiled
 #ifdef NON_MATCHING
-    if (ringManagerWork == NULL)
+    if (gRingManagerWork == NULL)
         return NULL;
 
     EffectRingSparkle *work = CreateEffect(EffectRingSparkle, NULL);
@@ -1402,8 +1402,8 @@ NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 
     SetTaskDestructorEvent(EffectTask__sVars.lastCreatedTask, EffectRingSparkle__Destructor);
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_itm_ring.bac", GetObjectFileWork(OBJDATAWORK_153), gameArchiveCommon, OBJ_DATA_GFX_NONE);
-    work->objWork.obj_2d->ani.vramPixels[0]     = ringManagerWork->aniRingSparkle.vramPixels[0];
-    work->objWork.obj_2d->ani.vramPixels[1]     = ringManagerWork->aniRingSparkle.vramPixels[1];
+    work->objWork.obj_2d->ani.vramPixels[0]     = gRingManagerWork->aniRingSparkle.vramPixels[0];
+    work->objWork.obj_2d->ani.vramPixels[1]     = gRingManagerWork->aniRingSparkle.vramPixels[1];
     work->objWork.obj_2d->ani.cParam[1].palette = 2;
     work->objWork.obj_2d->ani.cParam[0].palette = work->objWork.obj_2d->ani.cParam[1].palette;
     work->objWork.obj_2d->ani.work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
@@ -1427,7 +1427,7 @@ NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #8
-	ldr r4, =ringManagerWork
+	ldr r4, =gRingManagerWork
 	mov r8, r0
 	ldr r0, [r4, #0]
 	mov r7, r1
@@ -1460,7 +1460,7 @@ NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 
 	add r1, r4, #0x168
 	ldr r2, =aAcItmRingBac_0
 	bl ObjObjectAction2dBACLoad
-	ldr r1, =ringManagerWork
+	ldr r1, =gRingManagerWork
 	ldr r2, [r4, #0x128]
 	ldr r0, [r1, #0]
 	mov r3, #2
@@ -1546,7 +1546,7 @@ NONMATCH_FUNC EffectButtonPrompt *EffectButtonPrompt__Create(StageTask *parent, 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     work->objWork.position.y -= FLOAT_TO_FX32(32.0);
-    SetTaskState(&work->objWork, EffectButtonPrompt__states[type]);
+    SetTaskState(&work->objWork, gEffectButtonPromptStateTable[type]);
 
     return work;
 #else
@@ -1593,7 +1593,7 @@ NONMATCH_FUNC EffectButtonPrompt *EffectButtonPrompt__Create(StageTask *parent, 
 	mov r1, #0
 	bl StageTask__SetAnimatorPriority
 	ldr r1, [r4, #0x1c]
-	ldr r0, =EffectButtonPrompt__states
+	ldr r0, =gEffectButtonPromptStateTable
 	orr r2, r1, #0x2000
 	str r2, [r4, #0x1c]
 	ldr r2, [r4, #0x20]

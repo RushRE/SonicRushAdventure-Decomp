@@ -4644,7 +4644,7 @@ _02175FA6:
 	mov r3, #0
 	mov r2, r1
 	mul r2, r0
-	ldr r0, _02176084 // =playerPhysicsTable
+	ldr r0, _02176084 // =gPlayerPhysicsStats
 	ldr r0, [r0, r2]
 	ldr r2, _02176088 // =0x00000999
 	asr r1, r0, #0x1f
@@ -4711,7 +4711,7 @@ _0217603A:
 	ldrb r0, [r4, r2]
 	mov r1, #0x58
 	mov r3, r0
-	ldr r0, _02176084 // =playerPhysicsTable
+	ldr r0, _02176084 // =gPlayerPhysicsStats
 	mul r3, r1
 	ldr r3, [r0, r3]
 	mov r0, r2
@@ -4739,7 +4739,7 @@ _02176074:
 	pop {r4, r5, r6, r7, pc}
 	nop
 _02176080: .word gPlayer
-_02176084: .word playerPhysicsTable
+_02176084: .word gPlayerPhysicsStats
 _02176088: .word 0x00000999
 _0217608C: .word 0x0210E980
 _02176090: .word 0x00000199

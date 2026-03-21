@@ -237,7 +237,7 @@ enum PlayerSpriteAnimationID
     PLAYER_SPRITEANI_UNUSED_36,
 };
 
-// TODO: use these in modelAnimForActionSonic/Blaze where appropriate
+// TODO: use these in sModelAnimForActionSonic/Blaze where appropriate
 enum PlayerBoardModelAnimationID
 {
     // Common Animations
@@ -306,7 +306,7 @@ enum PlayerBoardModelAnimationID
 // VARIABLES
 // --------------------
 
-static u8 const modelAnimForActionSonic[PLAYER_ACTION_COUNT] = {
+static u8 const sModelAnimForActionSonic[PLAYER_ACTION_COUNT] = {
     PLAYER_MODELANI_com_turn01,       // PLAYER_ACTION_TURNING
     PLAYER_MODELANI_son_fw,           // PLAYER_ACTION_IDLE
     PLAYER_MODELANI_com_squat,        // PLAYER_ACTION_CROUCH
@@ -431,7 +431,7 @@ static u8 const modelAnimForActionSonic[PLAYER_ACTION_COUNT] = {
     PLAYER_MODELANI_son_walk6         // PLAYER_ACTION_BOSS6_RUN
 };
 
-static u8 const spriteAnimForActionBlaze[PLAYER_ACTION_COUNT] = {
+static u8 const sSpriteAnimForActionBlaze[PLAYER_ACTION_COUNT] = {
     PLAYER_SPRITEANI_TURNING,          // PLAYER_ACTION_TURNING
     PLAYER_SPRITEANI_IDLE,             // PLAYER_ACTION_IDLE
     PLAYER_SPRITEANI_CROUCH,           // PLAYER_ACTION_CROUCH
@@ -556,7 +556,7 @@ static u8 const spriteAnimForActionBlaze[PLAYER_ACTION_COUNT] = {
     PLAYER_SPRITEANI_WALK6             // PLAYER_ACTION_BOSS6_RUN
 };
 
-static u8 const modelIndexForActionSonic[PLAYER_ACTION_COUNT] = {
+static u8 const sModelIndexForActionSonic[PLAYER_ACTION_COUNT] = {
     PLAYERMODEL_PLAYER, // PLAYER_ACTION_TURNING
     PLAYERMODEL_PLAYER, // PLAYER_ACTION_IDLE
     PLAYERMODEL_PLAYER, // PLAYER_ACTION_CROUCH
@@ -681,7 +681,7 @@ static u8 const modelIndexForActionSonic[PLAYER_ACTION_COUNT] = {
     PLAYERMODEL_PLAYER  // PLAYER_ACTION_BOSS6_RUN
 };
 
-static u8 const modelIndexForActionBlaze[PLAYER_ACTION_COUNT] = {
+static u8 const sModelIndexForActionBlaze[PLAYER_ACTION_COUNT] = {
     PLAYERMODEL_PLAYER, // PLAYER_ACTION_TURNING
     PLAYERMODEL_PLAYER, // PLAYER_ACTION_IDLE
     PLAYERMODEL_PLAYER, // PLAYER_ACTION_CROUCH
@@ -806,7 +806,7 @@ static u8 const modelIndexForActionBlaze[PLAYER_ACTION_COUNT] = {
     PLAYERMODEL_PLAYER  // PLAYER_ACTION_BOSS6_RUN
 };
 
-static u8 const spriteAnimForActionSonic[PLAYER_ACTION_COUNT] = {
+static u8 const sSpriteAnimForActionSonic[PLAYER_ACTION_COUNT] = {
     PLAYER_SPRITEANI_TURNING,          // PLAYER_ACTION_TURNING
     PLAYER_SPRITEANI_IDLE,             // PLAYER_ACTION_IDLE
     PLAYER_SPRITEANI_CROUCH,           // PLAYER_ACTION_CROUCH
@@ -931,7 +931,7 @@ static u8 const spriteAnimForActionSonic[PLAYER_ACTION_COUNT] = {
     PLAYER_SPRITEANI_WALK6             // PLAYER_ACTION_BOSS6_RUN
 };
 
-static u8 const tailAnimForActionBlaze[PLAYER_ACTION_COUNT] = {
+static u8 const sTailAnimForActionBlaze[PLAYER_ACTION_COUNT] = {
     PLAYER_MODELANI_blz_t_turn01,    // PLAYER_ACTION_TURNING
     PLAYER_MODELANI_blz_t_fw,        // PLAYER_ACTION_IDLE
     PLAYER_MODELANI_blz_t_squat,     // PLAYER_ACTION_CROUCH
@@ -1056,7 +1056,7 @@ static u8 const tailAnimForActionBlaze[PLAYER_ACTION_COUNT] = {
     PLAYER_MODELANI_blz_t_walk6      // PLAYER_ACTION_BOSS6_RUN
 };
 
-static u8 const modelAnimForActionBlaze[PLAYER_ACTION_COUNT] = {
+static u8 const sModelAnimForActionBlaze[PLAYER_ACTION_COUNT] = {
     PLAYER_MODELANI_com_turn01,       // PLAYER_ACTION_TURNING
     PLAYER_MODELANI_blz_fw,           // PLAYER_ACTION_IDLE
     PLAYER_MODELANI_com_squat,        // PLAYER_ACTION_CROUCH
@@ -1182,29 +1182,29 @@ static u8 const modelAnimForActionBlaze[PLAYER_ACTION_COUNT] = {
 };
 
 // clang-format off
-const u8 *playerTailAnimForAction[CHARACTER_COUNT] = { 
+const u8 *gPlayerTailAnimForAction[CHARACTER_COUNT] = { 
     [CHARACTER_SONIC] = NULL, 
-    [CHARACTER_BLAZE] = tailAnimForActionBlaze
+    [CHARACTER_BLAZE] = sTailAnimForActionBlaze
 };
 
-const u8 *playerModelIndexForAction[CHARACTER_COUNT] = { 
-    [CHARACTER_SONIC] = modelIndexForActionSonic, 
-    [CHARACTER_BLAZE] = modelIndexForActionBlaze 
+const u8 *gPlayerModelIndexForAction[CHARACTER_COUNT] = { 
+    [CHARACTER_SONIC] = sModelIndexForActionSonic, 
+    [CHARACTER_BLAZE] = sModelIndexForActionBlaze 
 };
 
-const u8 *playerSpriteAnimForAction[CHARACTER_COUNT] = { 
-    [CHARACTER_SONIC] = spriteAnimForActionSonic, 
-    [CHARACTER_BLAZE] = spriteAnimForActionBlaze 
+const u8 *gPlayerSpriteAnimForAction[CHARACTER_COUNT] = { 
+    [CHARACTER_SONIC] = sSpriteAnimForActionSonic, 
+    [CHARACTER_BLAZE] = sSpriteAnimForActionBlaze 
 };
 
-const u8 *playerModelAnimForAction[CHARACTER_COUNT] = { 
-    [CHARACTER_SONIC] = modelAnimForActionSonic, 
-    [CHARACTER_BLAZE] = modelAnimForActionBlaze 
+const u8 *gPlayerModelAnimForAction[CHARACTER_COUNT] = { 
+    [CHARACTER_SONIC] = sModelAnimForActionSonic, 
+    [CHARACTER_BLAZE] = sModelAnimForActionBlaze 
 };
 // clang-format on
 
-const struct PlayerPhysicsTable playerPhysicsTable[CHARACTER_COUNT] = {
-    // Sonic's physics table
+const struct PlayerPhysicsStats gPlayerPhysicsStats[CHARACTER_COUNT] = {
+    // Sonic's physics stats
     [CHARACTER_SONIC] = {
         .acceleration            = FLOAT_TO_FX32(0.09375),
         .topSpeed                = FLOAT_TO_FX32(9.0),
@@ -1232,7 +1232,7 @@ const struct PlayerPhysicsTable playerPhysicsTable[CHARACTER_COUNT] = {
         .pushCap                 = FLOAT_TO_FX32(1.75),
     },
 
-    // Blaze's physics table
+    // Blaze's physics stats
     [CHARACTER_BLAZE] = {
         .acceleration            = FLOAT_TO_FX32(0.1328125),
         .topSpeed                = FLOAT_TO_FX32(8.5),

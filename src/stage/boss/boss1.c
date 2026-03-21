@@ -151,33 +151,33 @@ NOT_DECOMPILED const s32 Boss1__attackTablePhase4_2[4];
 NOT_DECOMPILED const s32 Boss1__attackTablePhase3_1[4];
 NOT_DECOMPILED const s32 Boss1__attackTablePhase3_2[4];
 
-static const fx32 chargeKnockbackPower[BOSS1_HIT_COMBO_MAX + 1] = { FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.9), FLOAT_TO_FX32(0.8),
+static const fx32 sChargeKnockbackPower[BOSS1_HIT_COMBO_MAX + 1] = { FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.9), FLOAT_TO_FX32(0.8),
                                                                     FLOAT_TO_FX32(0.7), FLOAT_TO_FX32(0.6), FLOAT_TO_FX32(0.5) };
 
-static const fx32 chargeRecoilPower[BOSS1_HIT_COMBO_MAX + 1] = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.1), FLOAT_TO_FX32(0.2),
+static const fx32 sChargeRecoilPower[BOSS1_HIT_COMBO_MAX + 1] = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.1), FLOAT_TO_FX32(0.2),
                                                                  FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.5) };
 
-static const fx32 damageModifierTable[BOSS1_HIT_COMBO_MAX + 1] = { FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.75), FLOAT_TO_FX32(0.5),
+static const fx32 sDamageModifierTable[BOSS1_HIT_COMBO_MAX + 1] = { FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.75), FLOAT_TO_FX32(0.5),
                                                                    FLOAT_TO_FX32(0.4), FLOAT_TO_FX32(0.3),  FLOAT_TO_FX32(0.2) };
 
-static const s32 dropUnknownTable[5] = { FLOAT_TO_FX32(16.169921875), FLOAT_TO_FX32(16.169921875), FLOAT_TO_FX32(329.669921875), FLOAT_TO_FX32(1303.169921875),
+static const s32 sDropUnknownTable[5] = { FLOAT_TO_FX32(16.169921875), FLOAT_TO_FX32(16.169921875), FLOAT_TO_FX32(329.669921875), FLOAT_TO_FX32(1303.169921875),
                                          FLOAT_TO_FX32(0.0) };
 
-static const s32 biteTypes[BOSS1_PHASE_COUNT][4] = {
+static const s32 sBiteTypes[BOSS1_PHASE_COUNT][4] = {
     [BOSS1_PHASE_1] = { 0, 0, 0, 0 },
     [BOSS1_PHASE_2] = { 0, 0, 1, 2 },
     [BOSS1_PHASE_3] = { 0, 1, 2, 3 },
     [BOSS1_PHASE_4] = { 1, 2, 3, 3 },
 };
 
-static const fx32 knockbackPower[BOSS1_PHASE_COUNT][BOSS1_HIT_COMBO_MAX + 1] = {
+static const fx32 sKnockbackPower[BOSS1_PHASE_COUNT][BOSS1_HIT_COMBO_MAX + 1] = {
     [BOSS1_PHASE_1] = { FLOAT_TO_FX32(0.8), FLOAT_TO_FX32(2.4), FLOAT_TO_FX32(2.4), FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(4.0) },
     [BOSS1_PHASE_2] = { FLOAT_TO_FX32(0.8), FLOAT_TO_FX32(2.4), FLOAT_TO_FX32(2.4), FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(4.0) },
     [BOSS1_PHASE_3] = { FLOAT_TO_FX32(1.6), FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(2.8), FLOAT_TO_FX32(2.8), FLOAT_TO_FX32(2.8) },
     [BOSS1_PHASE_4] = { FLOAT_TO_FX32(1.6), FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(2.0), FLOAT_TO_FX32(2.8), FLOAT_TO_FX32(2.8), FLOAT_TO_FX32(2.8) },
 };
 
-static const Boss1ChargeConfig chargeConfigTable[DIFFICULTY_COUNT][BOSS1_PHASE_COUNT] =
+static const Boss1ChargeConfig sChargeConfigTable[DIFFICULTY_COUNT][BOSS1_PHASE_COUNT] =
 {	
     [DIFFICULTY_EASY] = {
         [BOSS1_PHASE_1] = {
@@ -232,7 +232,7 @@ static const Boss1ChargeConfig chargeConfigTable[DIFFICULTY_COUNT][BOSS1_PHASE_C
     },
 };
 
-static const Boss1BiteConfig biteConfig[DIFFICULTY_COUNT][BOSS1_PHASE_COUNT] =
+static const Boss1BiteConfig sBiteConfig[DIFFICULTY_COUNT][BOSS1_PHASE_COUNT] =
 {	
     [DIFFICULTY_EASY] = {
         [BOSS1_PHASE_1] = {
@@ -303,7 +303,7 @@ static const Boss1BiteConfig biteConfig[DIFFICULTY_COUNT][BOSS1_PHASE_COUNT] =
     },
 };
 
-static const Boss1HeadSlamConfig headSlamTable[DIFFICULTY_COUNT][BOSS1_PHASE_COUNT] =
+static const Boss1HeadSlamConfig sHeadSlamTable[DIFFICULTY_COUNT][BOSS1_PHASE_COUNT] =
 {	
     [DIFFICULTY_EASY] = {
         [BOSS1_PHASE_1] = {
@@ -1419,7 +1419,7 @@ u16 Boss1Stage__GetBaseDamageValue(void)
 
 fx32 Boss1Stage__GetDamageModifier(Boss1Stage *work)
 {
-    return damageModifierTable[Boss1Stage__GetCappedComboCount(work)];
+    return sDamageModifierTable[Boss1Stage__GetCappedComboCount(work)];
 }
 
 fx32 Boss1Stage__GetDmgMultiplier2(Boss1Stage *work)
@@ -1443,11 +1443,11 @@ s32 Boss1Stage__GetBiteType(Boss1Stage *work)
 {
     if (gmCheckMissionType(MISSION_TYPE_BOSS_REMATCH))
     {
-        return biteTypes[BOSS1_PHASE_4][mtMathRandRepeat(4)];
+        return sBiteTypes[BOSS1_PHASE_4][mtMathRandRepeat(4)];
     }
     else
     {
-        return biteTypes[Boss1Stage__GetBossPhase(work)][mtMathRandRepeat(4)];
+        return sBiteTypes[Boss1Stage__GetBossPhase(work)][mtMathRandRepeat(4)];
     }
 }
 
@@ -1455,11 +1455,11 @@ const Boss1BiteConfig *Boss1Stage__GetBiteConfig(Boss1Stage *work)
 {
     if (gmCheckMissionType(MISSION_TYPE_BOSS_REMATCH))
     {
-        return &biteConfig[gameState.difficulty][BOSS1_PHASE_4];
+        return &sBiteConfig[gameState.difficulty][BOSS1_PHASE_4];
     }
     else
     {
-        return &biteConfig[gameState.difficulty][Boss1Stage__GetBossPhase(work)];
+        return &sBiteConfig[gameState.difficulty][Boss1Stage__GetBossPhase(work)];
     }
 }
 
@@ -1472,11 +1472,11 @@ fx32 Boss1Stage__GetKnockbackPower(Boss1Stage *work)
 {
     if (gmCheckMissionType(MISSION_TYPE_BOSS_REMATCH))
     {
-        return knockbackPower[BOSS1_PHASE_4][Boss1Stage__GetCappedComboCount(work)];
+        return sKnockbackPower[BOSS1_PHASE_4][Boss1Stage__GetCappedComboCount(work)];
     }
     else
     {
-        return knockbackPower[Boss1Stage__GetBossPhase(work)][Boss1Stage__GetCappedComboCount(work)];
+        return sKnockbackPower[Boss1Stage__GetBossPhase(work)][Boss1Stage__GetCappedComboCount(work)];
     }
 }
 
@@ -1484,33 +1484,33 @@ const Boss1ChargeConfig *Boss1Stage__GetChargeConfig(Boss1Stage *work)
 {
     if (gmCheckMissionType(MISSION_TYPE_BOSS_REMATCH))
     {
-        return &chargeConfigTable[gameState.difficulty][BOSS1_PHASE_4];
+        return &sChargeConfigTable[gameState.difficulty][BOSS1_PHASE_4];
     }
     else
     {
-        return &chargeConfigTable[gameState.difficulty][Boss1Stage__GetBossPhase(work)];
+        return &sChargeConfigTable[gameState.difficulty][Boss1Stage__GetBossPhase(work)];
     }
 }
 
 fx32 Boss1Stage__GetChargeKnockbackPower(Boss1Stage *work)
 {
-    return chargeKnockbackPower[Boss1Stage__GetCappedComboCount(work)];
+    return sChargeKnockbackPower[Boss1Stage__GetCappedComboCount(work)];
 }
 
 fx32 Boss1Stage__GetChargeRecoilPower(Boss1Stage *work)
 {
-    return chargeRecoilPower[Boss1Stage__GetCappedComboCount(work)];
+    return sChargeRecoilPower[Boss1Stage__GetCappedComboCount(work)];
 }
 
 const Boss1HeadSlamConfig *Boss1Stage__GetHeadSlamConfig(Boss1Stage *work)
 {
     if (gmCheckMissionType(MISSION_TYPE_BOSS_REMATCH))
     {
-        return &headSlamTable[gameState.difficulty][BOSS1_PHASE_4];
+        return &sHeadSlamTable[gameState.difficulty][BOSS1_PHASE_4];
     }
     else
     {
-        return &headSlamTable[gameState.difficulty][Boss1Stage__GetBossPhase(work)];
+        return &sHeadSlamTable[gameState.difficulty][Boss1Stage__GetBossPhase(work)];
     }
 }
 
@@ -1696,7 +1696,7 @@ _021554D4:
 	cmp r0, #3
 	bne _02155534
 	ldr r2, [r4, #4]
-	ldr r1, =dropUnknownTable
+	ldr r1, =sDropUnknownTable
 	mov r3, #0
 _021554FC:
 	add r0, r4, r3, lsl #2
@@ -1719,7 +1719,7 @@ _02155534:
 	cmp r1, r0
 	bgt _02155580
 	ldr r1, [r4, #0x18]
-	ldr r0, =dropUnknownTable
+	ldr r0, =sDropUnknownTable
 	ldr r2, [r4, #4]
 	ldr r0, [r0, r1, lsl #2]
 	mov r3, #1
@@ -1805,7 +1805,7 @@ void Boss1Stage__DrawStage(Boss1Stage *work)
 
     for (s32 i = 1; i < 7; i++)
     {
-        y -= dropUnknownTable[control->meshParts[i - 1]];
+        y -= sDropUnknownTable[control->meshParts[i - 1]];
         Boss1Stage__DrawStagePart(work, y, control->meshParts[i]);
     }
 }
@@ -3722,7 +3722,7 @@ void Boss1__OnDefend_Core(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         else
         {
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOSS_DAMAGE);
-            NNS_SndPlayerSetTrackPitch(&defaultSfxPlayer, 0xFFFF, Boss1Stage__GetCappedComboCount(boss->stage) << 6);
+            NNS_SndPlayerSetTrackPitch(&gDefaultSfxPlayer, 0xFFFF, Boss1Stage__GetCappedComboCount(boss->stage) << 6);
         }
 
         if (phase != Boss1Stage__GetBossPhase(boss->stage))
@@ -3783,7 +3783,7 @@ void Boss1__OnDefend_Core_Charging(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             else
             {
                 PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOSS_DAMAGE);
-                NNS_SndPlayerSetTrackPitch(&defaultSfxPlayer, 0xFFFF, Boss1Stage__GetCappedComboCount(boss->stage) << 6);
+                NNS_SndPlayerSetTrackPitch(&gDefaultSfxPlayer, 0xFFFF, Boss1Stage__GetCappedComboCount(boss->stage) << 6);
             }
 
             if (phase != Boss1Stage__GetBossPhase(boss->stage))

@@ -13,20 +13,20 @@
 // VARIABLES
 // --------------------
 
-static u16 curGroupFlagList[OBS_RECT_GROUP_COUNT];
-static u16 nextGroupFlagList[OBS_RECT_GROUP_COUNT];
+static u16 sCurGroupFlagList[OBS_RECT_GROUP_COUNT];
+static u16 sNextGroupFlagList[OBS_RECT_GROUP_COUNT];
 
-static OBS_RECT_WORK *nextGroupRectList[OBS_RECT_REGISTER_MAX];
-static OBS_RECT_WORK *curGroupRectList[OBS_RECT_REGISTER_MAX];
+static OBS_RECT_WORK *sNextGroupRectList[OBS_RECT_REGISTER_MAX];
+static OBS_RECT_WORK *sCurGroupRectList[OBS_RECT_REGISTER_MAX];
 
-static u8 curGroupListCount[OBS_RECT_GROUP_COUNT];
-static u8 nextGroupListCount[OBS_RECT_GROUP_COUNT];
+static u8 sCurGroupListCount[OBS_RECT_GROUP_COUNT];
+static u8 sNextGroupListCount[OBS_RECT_GROUP_COUNT];
 
-static u8 calledNoHit;
-static u16 nextTotalRegCount;
-static u16 curTotalRegCount;
-static u32 prevAttackerFlag;
-static u32 prevDefenderFlag;
+static u8 sCalledNoHit;
+static u16 sNextTotalRegCount;
+static u16 sCurTotalRegCount;
+static u32 sPrevAttackerFlag;
+static u32 sPrevDefenderFlag;
 
 // --------------------
 // INLINE FUNCTIONS
@@ -122,45 +122,45 @@ void ObjRect__HitAgain(OBS_RECT_WORK *work)
 
 void ObjRect__CheckInit(void)
 {
-    MI_CpuClear8(curGroupRectList, sizeof(curGroupRectList));
-    MI_CpuClear8(nextGroupRectList, sizeof(nextGroupRectList));
+    MI_CpuClear8(sCurGroupRectList, sizeof(sCurGroupRectList));
+    MI_CpuClear8(sNextGroupRectList, sizeof(sNextGroupRectList));
 
-    MI_CpuClear8(curGroupListCount, sizeof(curGroupListCount));
-    MI_CpuClear8(nextGroupListCount, sizeof(nextGroupListCount));
+    MI_CpuClear8(sCurGroupListCount, sizeof(sCurGroupListCount));
+    MI_CpuClear8(sNextGroupListCount, sizeof(sNextGroupListCount));
 
-    MI_CpuClear8(curGroupFlagList, sizeof(curGroupFlagList));
-    MI_CpuClear8(nextGroupFlagList, sizeof(nextGroupFlagList));
+    MI_CpuClear8(sCurGroupFlagList, sizeof(sCurGroupFlagList));
+    MI_CpuClear8(sNextGroupFlagList, sizeof(sNextGroupFlagList));
 
-    curTotalRegCount  = 0;
-    nextTotalRegCount = 0;
-    prevAttackerFlag  = 0;
-    prevDefenderFlag  = 0;
-    calledNoHit       = FALSE;
+    sCurTotalRegCount  = 0;
+    sNextTotalRegCount = 0;
+    sPrevAttackerFlag  = 0;
+    sPrevDefenderFlag  = 0;
+    sCalledNoHit       = FALSE;
 }
 
 void ObjRect__CheckOut(void)
 {
-    MI_CpuCopy8(nextGroupRectList, curGroupRectList, sizeof(curGroupRectList));
-    MI_CpuClear8(nextGroupRectList, sizeof(nextGroupRectList));
+    MI_CpuCopy8(sNextGroupRectList, sCurGroupRectList, sizeof(sCurGroupRectList));
+    MI_CpuClear8(sNextGroupRectList, sizeof(sNextGroupRectList));
 
-    MI_CpuCopy8(nextGroupListCount, curGroupListCount, sizeof(curGroupListCount));
-    MI_CpuClear8(nextGroupListCount, sizeof(nextGroupListCount));
+    MI_CpuCopy8(sNextGroupListCount, sCurGroupListCount, sizeof(sCurGroupListCount));
+    MI_CpuClear8(sNextGroupListCount, sizeof(sNextGroupListCount));
 
-    MI_CpuCopy8(nextGroupFlagList, curGroupFlagList, sizeof(curGroupFlagList));
-    MI_CpuClear8(nextGroupFlagList, sizeof(nextGroupFlagList));
+    MI_CpuCopy8(sNextGroupFlagList, sCurGroupFlagList, sizeof(sCurGroupFlagList));
+    MI_CpuClear8(sNextGroupFlagList, sizeof(sNextGroupFlagList));
 
-    curTotalRegCount  = nextTotalRegCount;
-    nextTotalRegCount = 0;
+    sCurTotalRegCount  = sNextTotalRegCount;
+    sNextTotalRegCount = 0;
 
-    for (u16 g = 0; g < (curTotalRegCount - 1); g++)
+    for (u16 g = 0; g < (sCurTotalRegCount - 1); g++)
     {
-        for (u16 i = (u16)(curTotalRegCount - 1); i > g; i--)
+        for (u16 i = (u16)(sCurTotalRegCount - 1); i > g; i--)
         {
-            if ((s32)(curGroupRectList[i]->groupFlags & 0xFF) < (s32)(curGroupRectList[i - 1]->groupFlags & 0xFF))
+            if ((s32)(sCurGroupRectList[i]->groupFlags & 0xFF) < (s32)(sCurGroupRectList[i - 1]->groupFlags & 0xFF))
             {
-                OBS_RECT_WORK *work     = curGroupRectList[i - 1];
-                curGroupRectList[i - 1] = curGroupRectList[i];
-                curGroupRectList[i]     = work;
+                OBS_RECT_WORK *work     = sCurGroupRectList[i - 1];
+                sCurGroupRectList[i - 1] = sCurGroupRectList[i];
+                sCurGroupRectList[i]     = work;
             }
         }
     }
@@ -176,13 +176,13 @@ void ObjRect__Register(OBS_RECT_WORK *work)
         if ((work->groupFlags & (1 << g)) == 0)
             continue;
 
-        if (nextTotalRegCount >= OBS_RECT_REGISTER_MAX)
+        if (sNextTotalRegCount >= OBS_RECT_REGISTER_MAX)
             return;
 
-        nextGroupRectList[nextTotalRegCount] = work;
-        nextGroupFlagList[g] |= work->groupFlags;
-        nextGroupListCount[g]++;
-        nextTotalRegCount++;
+        sNextGroupRectList[sNextTotalRegCount] = work;
+        sNextGroupFlagList[g] |= work->groupFlags;
+        sNextGroupListCount[g]++;
+        sNextTotalRegCount++;
         break;
     }
 }
@@ -196,15 +196,15 @@ void ObjRect__CheckAllGroup(void)
     if ((g_obj.flag & OBJECTMANAGER_FLAG_EARLY_SORT_OBJRECT) != 0)
         ObjRect__CheckOut();
 
-    prevAttackerFlag = 0;
-    prevDefenderFlag = 0;
-    calledNoHit      = FALSE;
+    sPrevAttackerFlag = 0;
+    sPrevDefenderFlag = 0;
+    sCalledNoHit      = FALSE;
 
-    u16 count = curTotalRegCount;
+    u16 count = sCurTotalRegCount;
     for (i = 0; i < count; i++)
     {
-        if (curGroupRectList[i] != NULL && (curGroupRectList[i]->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0)
-            curGroupRectList[i]->flag &= ~OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME;
+        if (sCurGroupRectList[i] != NULL && (sCurGroupRectList[i]->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0)
+            sCurGroupRectList[i]->flag &= ~OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME;
     }
 
     atkGroupOffset = 0;
@@ -213,27 +213,27 @@ void ObjRect__CheckAllGroup(void)
         defGroupOffset = 0;
         for (u8 j = 0; j < OBS_RECT_GROUP_COUNT; j++)
         {
-            if (curGroupListCount[j] != 0 && (curGroupFlagList[i] & (0x100 << j)) != 0)
-                ObjRect__CheckGroup(&curGroupRectList[atkGroupOffset], &curGroupRectList[defGroupOffset], curGroupListCount[i], curGroupListCount[j], j);
+            if (sCurGroupListCount[j] != 0 && (sCurGroupFlagList[i] & (0x100 << j)) != 0)
+                ObjRect__CheckGroup(&sCurGroupRectList[atkGroupOffset], &sCurGroupRectList[defGroupOffset], sCurGroupListCount[i], sCurGroupListCount[j], j);
 
-            defGroupOffset += curGroupListCount[j];
+            defGroupOffset += sCurGroupListCount[j];
         }
-        atkGroupOffset += curGroupListCount[i];
+        atkGroupOffset += sCurGroupListCount[i];
     }
 
-    count = curTotalRegCount;
+    count = sCurTotalRegCount;
     for (i = 0; i < count; i++)
     {
-        if (curGroupRectList[i] != NULL)
+        if (sCurGroupRectList[i] != NULL)
         {
-            if ((curGroupRectList[i]->flag & OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME) != 0)
+            if ((sCurGroupRectList[i]->flag & OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME) != 0)
             {
-                curGroupRectList[i]->flag |= OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
-                curGroupRectList[i]->flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME;
+                sCurGroupRectList[i]->flag |= OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME;
+                sCurGroupRectList[i]->flag &= ~OBS_RECT_WORK_FLAG_SYS_WILL_ATK_THIS_FRAME;
             }
 
-            if ((curGroupRectList[i]->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0 && (curGroupRectList[i]->flag & OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME) == 0)
-                curGroupRectList[i]->flag &= ~OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER;
+            if ((sCurGroupRectList[i]->flag & OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR) != 0 && (sCurGroupRectList[i]->flag & OBS_RECT_WORK_FLAG_SYS_HAD_ATK_THIS_FRAME) == 0)
+                sCurGroupRectList[i]->flag &= ~OBS_RECT_WORK_FLAG_NO_ONATTACK_ONENTER;
         }
     }
 
@@ -250,15 +250,15 @@ OBS_RECT_WORK *ObjRect__RegistGet(u8 groupMask, s16 groupIdx)
     {
         if ((groupMask & (1 << index)) != 0)
         {
-            if (groupIdx < curGroupListCount[index])
-                return curGroupRectList[groupOffset + groupIdx];
+            if (groupIdx < sCurGroupListCount[index])
+                return sCurGroupRectList[groupOffset + groupIdx];
 
-            groupIdx -= curGroupListCount[index];
-            groupOffset += curGroupListCount[index];
+            groupIdx -= sCurGroupListCount[index];
+            groupOffset += sCurGroupListCount[index];
         }
         else
         {
-            groupOffset += curGroupListCount[index];
+            groupOffset += sCurGroupListCount[index];
         }
     }
 
@@ -274,15 +274,15 @@ OBS_RECT_WORK *ObjRect__RegistGetNext(u8 groupMask, s16 groupIdx)
     {
         if ((groupMask & (1 << index)) != 0)
         {
-            if (groupIdx < nextGroupListCount[index])
-                return nextGroupRectList[groupOffset + groupIdx];
+            if (groupIdx < sNextGroupListCount[index])
+                return sNextGroupRectList[groupOffset + groupIdx];
 
-            groupIdx -= nextGroupListCount[index];
-            groupOffset += nextGroupListCount[index];
+            groupIdx -= sNextGroupListCount[index];
+            groupOffset += sNextGroupListCount[index];
         }
         else
         {
-            groupOffset += nextGroupListCount[index];
+            groupOffset += sNextGroupListCount[index];
         }
     }
 
@@ -470,8 +470,8 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
 {
     u16 result = 0;
 
-    prevAttackerFlag = attacker->flag;
-    prevDefenderFlag = defender->flag;
+    sPrevAttackerFlag = attacker->flag;
+    sPrevDefenderFlag = defender->flag;
 
     if ((attacker->flag & OBS_RECT_WORK_FLAG_SYS_HAD_DEF_THIS_FRAME) != 0 && (defender->flag & OBS_RECT_WORK_FLAG_SYS_WILL_DEF_THIS_FRAME) != 0)
         return result;
@@ -501,9 +501,9 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
                 attacker->onAttack(attacker, defender);
         }
 
-        if (calledNoHit != FALSE)
+        if (sCalledNoHit != FALSE)
         {
-            calledNoHit = FALSE;
+            sCalledNoHit = FALSE;
             return result;
         }
 
@@ -519,9 +519,9 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
                 defender->onDefend(attacker, defender);
         }
 
-        if (calledNoHit != FALSE)
+        if (sCalledNoHit != FALSE)
         {
-            calledNoHit = FALSE;
+            sCalledNoHit = FALSE;
             return result;
         }
 
@@ -540,9 +540,9 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
 
 void ObjRect__FuncNoHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-    rect1->flag = prevAttackerFlag;
-    rect2->flag = prevDefenderFlag;
-    calledNoHit = TRUE;
+    rect1->flag = sPrevAttackerFlag;
+    rect2->flag = sPrevDefenderFlag;
+    sCalledNoHit = TRUE;
 }
 
 BOOL ObjRect__RectCheck(OBS_RECT *rect1, OBS_RECT *rect2)

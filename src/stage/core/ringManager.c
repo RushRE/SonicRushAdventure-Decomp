@@ -47,11 +47,11 @@ static BOOL RingManager_RectCollide_Circular(OBS_RECT *rect1, OBS_RECT *rect2); 
 // VARIABLES
 // --------------------
 
-static Task *ringManagerTask;
-RingManager *ringManagerWork;
+static Task *sRingManagerTaskSingleton;
+RingManager *gRingManagerWork;
 
-static fx32 stageRingScale = FLOAT_TO_FX32(1.0);
-s16 spillRingGravityStrength = FLOAT_TO_FX32(0.0703125);
+static fx32 sStageRingScale   = FLOAT_TO_FX32(1.0);
+s16 gSpillRingGravityStrength = FLOAT_TO_FX32(0.0703125);
 
 // --------------------
 // FUNCTIONS
@@ -63,59 +63,59 @@ RingManager *CreateRingManager(void)
     if (task == HeapNull)
         return NULL;
 
-    ringManagerTask = task;
+    sRingManagerTaskSingleton = task;
 
-    ringManagerWork = TaskGetWork(task, RingManager);
-    TaskInitWork16(ringManagerWork);
+    gRingManagerWork = TaskGetWork(task, RingManager);
+    TaskInitWork16(gRingManagerWork);
 
-    ringManagerWork->playerCount = 1;
+    gRingManagerWork->gPlayerCount = 1;
     if (gmCheckVsBattleFlag())
-        ringManagerWork->playerCount = PLAYER_COUNT;
+        gRingManagerWork->gPlayerCount = PLAYER_COUNT;
 
-    Ring *ringStorage = ringManagerWork->ringListStorage;
+    Ring *ringStorage = gRingManagerWork->ringListStorage;
     for (s32 i = 0; i < RINGMANAGER_RING_LIST_COUNT; i++)
     {
-        ringManagerWork->ringList[i] = &ringStorage[i];
+        gRingManagerWork->ringList[i] = &ringStorage[i];
     }
 
-    stageRingScale = FLOAT_TO_FX32(1.0);
+    sStageRingScale = FLOAT_TO_FX32(1.0);
 
     if (gmCheckStage(STAGE_Z2B) || gmCheckStage(STAGE_Z3B))
-        ringManagerWork->rectCollideFunc = RingManager_RectCollide_Circular;
+        gRingManagerWork->rectCollideFunc = RingManager_RectCollide_Circular;
     else
-        ringManagerWork->rectCollideFunc = RingManager_RectCollide_Flat;
+        gRingManagerWork->rectCollideFunc = RingManager_RectCollide_Flat;
 
     if (gmCheckStage(STAGE_Z4B) || gmCheckStage(STAGE_Z5B))
-        ringManagerWork->stageCollideFunc = RingManager_StageCollide_Boss;
+        gRingManagerWork->stageCollideFunc = RingManager_StageCollide_Boss;
     else
-        ringManagerWork->stageCollideFunc = RingManager_StageCollide_Flat;
+        gRingManagerWork->stageCollideFunc = RingManager_StageCollide_Flat;
 
     if (gameState.stageID == STAGE_Z6B)
-        ringManagerWork->penaltyMultiplier = FLOAT_TO_FX32(2.0);
+        gRingManagerWork->penaltyMultiplier = FLOAT_TO_FX32(2.0);
 
     if (IsBossStage())
     {
         switch (gameState.stageID)
         {
             case STAGE_Z2B:
-                ringManagerWork->drawRing    = RingManager_DrawRing_BossCircular;
-                ringManagerWork->drawSparkle = RingManager_DrawSparkle_BossCircular;
+                gRingManagerWork->drawRing    = RingManager_DrawRing_BossCircular;
+                gRingManagerWork->drawSparkle = RingManager_DrawSparkle_BossCircular;
                 break;
 
             case STAGE_Z3B:
-                ringManagerWork->drawRing    = RingManager_DrawRing_BossCircular;
-                ringManagerWork->drawSparkle = RingManager_DrawSparkle_BossCircular;
+                gRingManagerWork->drawRing    = RingManager_DrawRing_BossCircular;
+                gRingManagerWork->drawSparkle = RingManager_DrawSparkle_BossCircular;
                 break;
 
             default:
-                ringManagerWork->drawRing    = RingManager_DrawRing_BossFlat;
-                ringManagerWork->drawSparkle = RingManager_DrawSparkle_BossFlat;
+                gRingManagerWork->drawRing    = RingManager_DrawRing_BossFlat;
+                gRingManagerWork->drawSparkle = RingManager_DrawSparkle_BossFlat;
                 break;
         }
 
         void *spriteFile = ObjDataLoad(NULL, "/ac_itm_ring3d.bac", gameArchiveCommon);
 
-        AnimatorSprite3D *ani = &ringManagerWork->aniRing3D;
+        AnimatorSprite3D *ani = &gRingManagerWork->aniRing3D;
         AnimatorSprite3D__Init(ani, ANIMATOR_FLAG_NONE, spriteFile, RING_ANI_RING,
                                ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK,
                                VRAMSystem__AllocTexture(128, FALSE), VRAMSystem__AllocPalette(16, FALSE));
@@ -125,7 +125,7 @@ RingManager *CreateRingManager(void)
         AnimatorSprite3D__ProcessAnimationFast(ani);
         ani->animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
 
-        ani = &ringManagerWork->aniRingSparkle3D;
+        ani = &gRingManagerWork->aniRingSparkle3D;
         AnimatorSprite3D__Init(ani, ANIMATOR_FLAG_NONE, spriteFile, RING_ANI_SPARKLE,
                                ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS,
                                VRAMSystem__AllocTexture(768, FALSE), VRAMSystem__AllocPalette(16, FALSE));
@@ -137,19 +137,19 @@ RingManager *CreateRingManager(void)
     }
     else
     {
-        ringManagerWork->drawRing    = RingManager_DrawRing_ZoneAct;
-        ringManagerWork->drawSparkle = RingManager_DrawSparkle_ZoneAct;
+        gRingManagerWork->drawRing    = RingManager_DrawRing_ZoneAct;
+        gRingManagerWork->drawSparkle = RingManager_DrawSparkle_ZoneAct;
 
         void *spriteFile = ObjDataLoad(NULL, "/ac_itm_ring.bac", gameArchiveCommon);
 
-        AnimatorSpriteDS *ani = &ringManagerWork->aniRing;
+        AnimatorSpriteDS *ani = &gRingManagerWork->aniRing;
         AnimatorSpriteDS__Init(ani, spriteFile, RING_ANI_RING, 0, ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK,
                                PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 2), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
                                VRAMSystem__AllocSpriteVram(TRUE, 2), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_1, SPRITE_ORDER_11);
         ani->cParam[0].palette = PALETTE_ROW_2;
         ani->cParam[1].palette = PALETTE_ROW_2;
 
-        ani = &ringManagerWork->aniRingSparkle;
+        ani = &gRingManagerWork->aniRingSparkle;
         AnimatorSpriteDS__Init(ani, spriteFile, RING_ANI_SPARKLE, 0, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS | ANIMATOR_FLAG_DISABLE_PALETTES,
                                PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 16), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
                                VRAMSystem__AllocSpriteVram(TRUE, 16), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_1, SPRITE_ORDER_11);
@@ -163,12 +163,12 @@ RingManager *CreateRingManager(void)
         ObjDraw__TintSprite(spriteFile, RING_ANI_RING, 2, TRUE);
     }
 
-    return ringManagerWork;
+    return gRingManagerWork;
 }
 
 Ring *CreateSpillRing(fx32 x, fx32 y, fx32 z, fx32 velocityX, fx32 velocityY, RingFlag flag)
 {
-    if (ringManagerWork == NULL)
+    if (gRingManagerWork == NULL)
         return NULL;
 
     Ring *ring = CreateRingInstance();
@@ -202,7 +202,7 @@ Ring *CreateSpillRing(fx32 x, fx32 y, fx32 z, fx32 velocityX, fx32 velocityY, Ri
 
 Ring *CreateStageRing3D(MapRing *mapRing, fx32 x, fx32 y, fx32 z)
 {
-    if (ringManagerWork == NULL)
+    if (gRingManagerWork == NULL)
         return NULL;
 
     if (gmCheckMissionType(MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING))
@@ -224,7 +224,7 @@ Ring *CreateStageRing3D(MapRing *mapRing, fx32 x, fx32 y, fx32 z)
     ring->velocity.x = 0;
     ring->velocity.y = 0;
 
-    ring->scale.x = ring->scale.y = ring->scale.z = stageRingScale;
+    ring->scale.x = ring->scale.y = ring->scale.z = sStageRingScale;
 
     ring->timer = 0;
     ring->flag  = RING_FLAG_NONE;
@@ -262,7 +262,7 @@ void CreateLoseRingEffect(Player *player, s32 rings)
 
     RingFlag flag = RING_FLAG_IS_SPILLRING | ((playerID << 4) & 0x10);
 
-    if (ringManagerWork == NULL)
+    if (gRingManagerWork == NULL)
         return;
 
     if (rings > player->rings)
@@ -278,12 +278,12 @@ void CreateLoseRingEffect(Player *player, s32 rings)
     if (spillRingCount > RINGMANAGER_RING_SPILL_MAX)
         spillRingCount = RINGMANAGER_RING_SPILL_MAX;
 
-    ringManagerWork->flags |= RINGMANAGER_FLAG_PENALTY_ACTIVE_P1 << playerID;
+    gRingManagerWork->flags |= RINGMANAGER_FLAG_PENALTY_ACTIVE_P1 << playerID;
 
     if ((player->objWork.flag & STAGE_TASK_FLAG_ON_PLANE_B) != 0 && (player->gimmickFlag & PLAYER_GIMMICK_DISABLE_RINGS_ON_PLANE_B) == 0)
         flag |= RING_FLAG_USE_PLANE_B;
 
-    ringAngle += (ringManagerWork->ringPenaltyCount[playerID] << 8);
+    ringAngle += (gRingManagerWork->ringPenaltyCount[playerID] << 8);
     for (r = 0; r < spillRingCount; r++)
     {
         if (ringAngle >= 0)
@@ -311,13 +311,13 @@ void CreateLoseRingEffect(Player *player, s32 rings)
         }
     }
 
-    if (ringManagerWork->ringPenaltyCount[playerID] < penaltyCap[gameState.difficulty])
-        ringManagerWork->ringPenaltyCount[playerID]++;
+    if (gRingManagerWork->ringPenaltyCount[playerID] < penaltyCap[gameState.difficulty])
+        gRingManagerWork->ringPenaltyCount[playerID]++;
 }
 
 RingManager *GetRingManagerWork(void)
 {
-    return ringManagerWork;
+    return gRingManagerWork;
 }
 
 void SetStageRingScale(fx32 scale)
@@ -325,12 +325,12 @@ void SetStageRingScale(fx32 scale)
     if (!IsBossStage() && scale > FLOAT_TO_FX32(2.0))
         scale = FLOAT_TO_FX32(2.0);
 
-    stageRingScale = scale;
+    sStageRingScale = scale;
 }
 
 fx32 GetStageRingScale(void)
 {
-    return stageRingScale;
+    return sStageRingScale;
 }
 
 void HandleRingMagnetEffect(Player *player)
@@ -339,23 +339,23 @@ void HandleRingMagnetEffect(Player *player)
 
     if ((player->playerFlag & PLAYER_FLAG_SHIELD_MAGNET) == 0)
     {
-        next = ringManagerWork->attractRingListStart;
+        next = gRingManagerWork->attractRingListStart;
         if (next != NULL)
         {
-            if (ringManagerWork->stageListEnd != NULL)
+            if (gRingManagerWork->stageListEnd != NULL)
             {
-                ringManagerWork->stageListEnd->next         = next;
-                ringManagerWork->attractRingListStart->prev = ringManagerWork->stageListEnd;
-                ringManagerWork->stageListEnd               = ringManagerWork->attractRingListEnd;
+                gRingManagerWork->stageListEnd->next         = next;
+                gRingManagerWork->attractRingListStart->prev = gRingManagerWork->stageListEnd;
+                gRingManagerWork->stageListEnd               = gRingManagerWork->attractRingListEnd;
             }
             else
             {
-                ringManagerWork->stageListStart = next;
-                ringManagerWork->stageListEnd   = ringManagerWork->attractRingListEnd;
+                gRingManagerWork->stageListStart = next;
+                gRingManagerWork->stageListEnd   = gRingManagerWork->attractRingListEnd;
             }
 
-            ringManagerWork->attractRingListEnd   = NULL;
-            ringManagerWork->attractRingListStart = ringManagerWork->attractRingListEnd;
+            gRingManagerWork->attractRingListEnd   = NULL;
+            gRingManagerWork->attractRingListStart = gRingManagerWork->attractRingListEnd;
         }
     }
     else
@@ -381,7 +381,7 @@ void HandleRingMagnetEffect(Player *player)
         rectPlayer.front  = -RINGMANAGER_PLAYER_ATTRACT_SIZE;
         rectPlayer.back   = RINGMANAGER_PLAYER_ATTRACT_SIZE;
 
-        next = ringManagerWork->stageListStart;
+        next = gRingManagerWork->stageListStart;
         while (next != NULL)
         {
             Ring *ring = next;
@@ -390,7 +390,7 @@ void HandleRingMagnetEffect(Player *player)
             rectRing.pos.x = FX32_TO_WHOLE(ring->position.x);
             rectRing.pos.y = FX32_TO_WHOLE(ring->position.y);
             rectRing.pos.z = FX32_TO_WHOLE(ring->position.z);
-            if (ringManagerWork->rectCollideFunc(&rectPlayer, &rectRing))
+            if (gRingManagerWork->rectCollideFunc(&rectPlayer, &rectRing))
             {
                 ring->flag &= ~RING_FLAG_ATTRACT_P2;
                 ring->flag |= (player->controlID & 1);
@@ -403,35 +403,35 @@ void HandleRingMagnetEffect(Player *player)
 
 Ring *CreateRingInstance(void)
 {
-    if (ringManagerWork->usedRingCount >= RINGMANAGER_RING_LIST_COUNT)
+    if (gRingManagerWork->usedRingCount >= RINGMANAGER_RING_LIST_COUNT)
         return NULL;
 
-    Ring *ring = ringManagerWork->ringList[ringManagerWork->usedRingCount];
-    ringManagerWork->usedRingCount++;
+    Ring *ring = gRingManagerWork->ringList[gRingManagerWork->usedRingCount];
+    gRingManagerWork->usedRingCount++;
     return ring;
 }
 
 void DestroyRingInstance(Ring *ring)
 {
-    ringManagerWork->usedRingCount--;
-    ringManagerWork->ringList[ringManagerWork->usedRingCount] = ring;
+    gRingManagerWork->usedRingCount--;
+    gRingManagerWork->ringList[gRingManagerWork->usedRingCount] = ring;
 }
 
 void AddRingToStageList(Ring *ring)
 {
-    if (ringManagerWork->stageListEnd != NULL)
+    if (gRingManagerWork->stageListEnd != NULL)
     {
-        ringManagerWork->stageListEnd->next = ring;
-        ring->prev                          = ringManagerWork->stageListEnd;
-        ring->next                          = NULL;
-        ringManagerWork->stageListEnd       = ring;
+        gRingManagerWork->stageListEnd->next = ring;
+        ring->prev                           = gRingManagerWork->stageListEnd;
+        ring->next                           = NULL;
+        gRingManagerWork->stageListEnd       = ring;
     }
     else
     {
-        ringManagerWork->stageListEnd   = ring;
-        ringManagerWork->stageListStart = ringManagerWork->stageListEnd;
-        ring->next                      = NULL;
-        ring->prev                      = NULL;
+        gRingManagerWork->stageListEnd   = ring;
+        gRingManagerWork->stageListStart = gRingManagerWork->stageListEnd;
+        ring->next                       = NULL;
+        ring->prev                       = NULL;
     }
 }
 
@@ -440,29 +440,29 @@ void RemoveRingFromStageList(Ring *ring)
     if (ring->prev != NULL)
         ring->prev->next = ring->next;
     else
-        ringManagerWork->stageListStart = ring->next;
+        gRingManagerWork->stageListStart = ring->next;
 
     if (ring->next != NULL)
         ring->next->prev = ring->prev;
     else
-        ringManagerWork->stageListEnd = ring->prev;
+        gRingManagerWork->stageListEnd = ring->prev;
 }
 
 void AddRingToTwinkleList(Ring *ring)
 {
-    if (ringManagerWork->twinkleListEnd != NULL)
+    if (gRingManagerWork->twinkleListEnd != NULL)
     {
-        ringManagerWork->twinkleListEnd->next = ring;
-        ring->prev                            = ringManagerWork->twinkleListEnd;
-        ring->next                            = NULL;
-        ringManagerWork->twinkleListEnd       = ring;
+        gRingManagerWork->twinkleListEnd->next = ring;
+        ring->prev                             = gRingManagerWork->twinkleListEnd;
+        ring->next                             = NULL;
+        gRingManagerWork->twinkleListEnd       = ring;
     }
     else
     {
-        ringManagerWork->twinkleListEnd   = ring;
-        ringManagerWork->twinkleListStart = ringManagerWork->twinkleListEnd;
-        ring->next                        = NULL;
-        ring->prev                        = NULL;
+        gRingManagerWork->twinkleListEnd   = ring;
+        gRingManagerWork->twinkleListStart = gRingManagerWork->twinkleListEnd;
+        ring->next                         = NULL;
+        ring->prev                         = NULL;
     }
 }
 
@@ -471,29 +471,29 @@ void RemoveRingFromTwinkleList(Ring *ring)
     if (ring->prev != NULL)
         ring->prev->next = ring->next;
     else
-        ringManagerWork->twinkleListStart = ring->next;
+        gRingManagerWork->twinkleListStart = ring->next;
 
     if (ring->next != NULL)
         ring->next->prev = ring->prev;
     else
-        ringManagerWork->twinkleListEnd = ring->prev;
+        gRingManagerWork->twinkleListEnd = ring->prev;
 }
 
 void AddRingToAttractList(Ring *ring)
 {
-    if (ringManagerWork->attractRingListEnd != NULL)
+    if (gRingManagerWork->attractRingListEnd != NULL)
     {
-        ringManagerWork->attractRingListEnd->next = ring;
-        ring->prev                                = ringManagerWork->attractRingListEnd;
-        ring->next                                = NULL;
-        ringManagerWork->attractRingListEnd       = ring;
+        gRingManagerWork->attractRingListEnd->next = ring;
+        ring->prev                                 = gRingManagerWork->attractRingListEnd;
+        ring->next                                 = NULL;
+        gRingManagerWork->attractRingListEnd       = ring;
     }
     else
     {
-        ringManagerWork->attractRingListEnd   = ring;
-        ringManagerWork->attractRingListStart = ringManagerWork->attractRingListEnd;
-        ring->next                            = NULL;
-        ring->prev                            = NULL;
+        gRingManagerWork->attractRingListEnd   = ring;
+        gRingManagerWork->attractRingListStart = gRingManagerWork->attractRingListEnd;
+        ring->next                             = NULL;
+        ring->prev                             = NULL;
     }
 }
 
@@ -502,29 +502,29 @@ void RemoveRingFromAttractList(Ring *ring)
     if (ring->prev != NULL)
         ring->prev->next = ring->next;
     else
-        ringManagerWork->attractRingListStart = ring->next;
+        gRingManagerWork->attractRingListStart = ring->next;
 
     if (ring->next != NULL)
         ring->next->prev = ring->prev;
     else
-        ringManagerWork->attractRingListEnd = ring->prev;
+        gRingManagerWork->attractRingListEnd = ring->prev;
 }
 
 void AddRingToSpillList(Ring *ring)
 {
-    if (ringManagerWork->spillListEnd != NULL)
+    if (gRingManagerWork->spillListEnd != NULL)
     {
-        ringManagerWork->spillListEnd->next = ring;
-        ring->prev                          = ringManagerWork->spillListEnd;
-        ring->next                          = NULL;
-        ringManagerWork->spillListEnd       = ring;
+        gRingManagerWork->spillListEnd->next = ring;
+        ring->prev                           = gRingManagerWork->spillListEnd;
+        ring->next                           = NULL;
+        gRingManagerWork->spillListEnd       = ring;
     }
     else
     {
-        ringManagerWork->spillListEnd   = ring;
-        ringManagerWork->spillListStart = ringManagerWork->spillListEnd;
-        ring->next                      = NULL;
-        ring->prev                      = NULL;
+        gRingManagerWork->spillListEnd   = ring;
+        gRingManagerWork->spillListStart = gRingManagerWork->spillListEnd;
+        ring->next                       = NULL;
+        ring->prev                       = NULL;
     }
 }
 
@@ -533,17 +533,17 @@ void RemoveRingFromSpillList(Ring *ring)
     if (ring->prev != NULL)
         ring->prev->next = ring->next;
     else
-        ringManagerWork->spillListStart = ring->next;
+        gRingManagerWork->spillListStart = ring->next;
 
     if (ring->next != NULL)
         ring->next->prev = ring->prev;
     else
-        ringManagerWork->spillListEnd = ring->prev;
+        gRingManagerWork->spillListEnd = ring->prev;
 }
 
 void RingManager_Destructor(Task *task)
 {
-    for (Ring *ring = ringManagerWork->stageListStart; ring != NULL; ring = ring->next)
+    for (Ring *ring = gRingManagerWork->stageListStart; ring != NULL; ring = ring->next)
     {
         if (ring->eveRef != NULL)
             ring->eveRef->x = FX32_TO_WHOLE(ring->position.x);
@@ -551,17 +551,17 @@ void RingManager_Destructor(Task *task)
 
     if (IsBossStage())
     {
-        AnimatorSprite3D__Release(&ringManagerWork->aniRing3D);
-        AnimatorSprite3D__Release(&ringManagerWork->aniRingSparkle3D);
+        AnimatorSprite3D__Release(&gRingManagerWork->aniRing3D);
+        AnimatorSprite3D__Release(&gRingManagerWork->aniRingSparkle3D);
     }
     else
     {
-        AnimatorSpriteDS__Release(&ringManagerWork->aniRing);
-        AnimatorSpriteDS__Release(&ringManagerWork->aniRingSparkle);
+        AnimatorSpriteDS__Release(&gRingManagerWork->aniRing);
+        AnimatorSpriteDS__Release(&gRingManagerWork->aniRingSparkle);
     }
 
-    ringManagerTask = NULL;
-    ringManagerWork = NULL;
+    sRingManagerTaskSingleton = NULL;
+    gRingManagerWork          = NULL;
 }
 
 void RingManager_Main(void)
@@ -573,11 +573,11 @@ void RingManager_Main(void)
     Player *player;
     BOOL collected;
 
-    if ((ringManagerWork->flags & RINGMANAGER_FLAG_INACTIVE) != 0)
+    if ((gRingManagerWork->flags & RINGMANAGER_FLAG_INACTIVE) != 0)
         return;
 
     OBS_RECT playerRect[PLAYER_COUNT];
-    for (p = 0; p < ringManagerWork->playerCount; p++)
+    for (p = 0; p < gRingManagerWork->gPlayerCount; p++)
     {
         player                  = gPlayerList[p];
         OBS_RECT_WORK *collider = &player->colliders[0];
@@ -656,9 +656,9 @@ void RingManager_Main(void)
     ringRect.front  = 8;
 
     if (IsBossStage())
-        AnimatorSprite3D__ProcessAnimationFast(&ringManagerWork->aniRing3D);
+        AnimatorSprite3D__ProcessAnimationFast(&gRingManagerWork->aniRing3D);
     else
-        AnimatorSpriteDS__ProcessAnimationFast(&ringManagerWork->aniRing);
+        AnimatorSpriteDS__ProcessAnimationFast(&gRingManagerWork->aniRing);
 
     // -------------
     // RING SPARKLES
@@ -666,10 +666,10 @@ void RingManager_Main(void)
 
     if (IsBossStage())
     {
-        AnimatorSprite *ani = &ringManagerWork->aniRingSparkle3D.animatorSprite;
+        AnimatorSprite *ani = &gRingManagerWork->aniRingSparkle3D.animatorSprite;
         AnimatorSprite__SetAnimation(ani, 1);
 
-        ring      = ringManagerWork->twinkleListEnd;
+        ring      = gRingManagerWork->twinkleListEnd;
         lastTimer = 0;
         while (ring != NULL)
         {
@@ -680,7 +680,7 @@ void RingManager_Main(void)
                 lastTimer = ring->timer;
             }
 
-            ringManagerWork->drawSparkle(ring);
+            gRingManagerWork->drawSparkle(ring);
 
             ring->timer++;
             if (ring->timer >= RINGMANAGER_RING_SPARKLE_LIFETIME)
@@ -694,10 +694,10 @@ void RingManager_Main(void)
     }
     else
     {
-        AnimatorSpriteDS *ani = &ringManagerWork->aniRingSparkle;
+        AnimatorSpriteDS *ani = &gRingManagerWork->aniRingSparkle;
         AnimatorSpriteDS__SetAnimation(ani, 1);
 
-        ring      = ringManagerWork->twinkleListEnd;
+        ring      = gRingManagerWork->twinkleListEnd;
         lastTimer = 0;
         while (ring != NULL)
         {
@@ -708,7 +708,7 @@ void RingManager_Main(void)
                 lastTimer = ring->timer;
             }
 
-            ringManagerWork->drawSparkle(ring);
+            gRingManagerWork->drawSparkle(ring);
 
             ring->timer++;
             if (ring->timer >= RINGMANAGER_RING_SPARKLE_LIFETIME)
@@ -725,7 +725,7 @@ void RingManager_Main(void)
     // STAGE RINGS
     // -------------
 
-    next = ringManagerWork->stageListStart;
+    next = gRingManagerWork->stageListStart;
     while (next)
     {
         ring = next;
@@ -741,25 +741,25 @@ void RingManager_Main(void)
         }
         else
         {
-            ringManagerWork->drawRing(ring);
+            gRingManagerWork->drawRing(ring);
 
             p         = 0;
             collected = FALSE;
-            for (; p < ringManagerWork->playerCount; p++)
+            for (; p < gRingManagerWork->gPlayerCount; p++)
             {
                 ringRect.pos.x = FX32_TO_WHOLE(ring->position.x);
                 ringRect.pos.y = FX32_TO_WHOLE(ring->position.y);
                 ringRect.pos.z = FX32_TO_WHOLE(ring->position.z);
 
                 player = gPlayerList[p];
-                if (ringManagerWork->rectCollideFunc(&playerRect[p], &ringRect))
+                if (gRingManagerWork->rectCollideFunc(&playerRect[p], &ringRect))
                 {
                     collected = TRUE;
                     Player__GiveRings(player, 1);
                     if (IsBossStage())
                     {
-                        if (ringManagerWork->ringPenaltyCount[p])
-                            ringManagerWork->ringPenaltyCount[p]--;
+                        if (gRingManagerWork->ringPenaltyCount[p])
+                            gRingManagerWork->ringPenaltyCount[p]--;
                     }
                 }
             }
@@ -777,7 +777,7 @@ void RingManager_Main(void)
     // ATTRACT RINGS
     // -------------
 
-    next = ringManagerWork->attractRingListStart;
+    next = gRingManagerWork->attractRingListStart;
     while (next)
     {
         ring = next;
@@ -814,18 +814,18 @@ void RingManager_Main(void)
 
                 ring->position.z = z;
             }
-            ringManagerWork->drawRing(ring);
+            gRingManagerWork->drawRing(ring);
 
             p         = 0;
             collected = FALSE;
-            for (; p < ringManagerWork->playerCount; p++)
+            for (; p < gRingManagerWork->gPlayerCount; p++)
             {
                 ringRect.pos.x = FX32_TO_WHOLE(ring->position.x);
                 ringRect.pos.y = FX32_TO_WHOLE(ring->position.y);
                 ringRect.pos.z = FX32_TO_WHOLE(ring->position.z);
 
                 player = gPlayerList[p];
-                if (ringManagerWork->rectCollideFunc(&playerRect[p], &ringRect))
+                if (gRingManagerWork->rectCollideFunc(&playerRect[p], &ringRect))
                 {
                     collected = TRUE;
                     Player__GiveRings(player, 1);
@@ -845,7 +845,7 @@ void RingManager_Main(void)
     // SPILLED RINGS
     // -------------
 
-    next = ringManagerWork->spillListStart;
+    next = gRingManagerWork->spillListStart;
     while (next)
     {
         ring = next;
@@ -865,9 +865,9 @@ void RingManager_Main(void)
             else
                 ring->position.y += ring->velocity.y;
 
-            ring->velocity.y += spillRingGravityStrength;
+            ring->velocity.y += gSpillRingGravityStrength;
 
-            ringManagerWork->stageCollideFunc(ring);
+            gRingManagerWork->stageCollideFunc(ring);
 
             ring->timer--;
             if (ring->timer == 0)
@@ -881,14 +881,14 @@ void RingManager_Main(void)
                 {
                     p         = 0;
                     collected = FALSE;
-                    for (; p < ringManagerWork->playerCount; p++)
+                    for (; p < gRingManagerWork->gPlayerCount; p++)
                     {
                         ringRect.pos.x = FX32_TO_WHOLE(ring->position.x);
                         ringRect.pos.y = FX32_TO_WHOLE(ring->position.y);
                         ringRect.pos.z = 0;
 
                         player = gPlayerList[p];
-                        if (ringManagerWork->rectCollideFunc(&playerRect[p], &ringRect))
+                        if (gRingManagerWork->rectCollideFunc(&playerRect[p], &ringRect))
                         {
                             collected = TRUE;
 
@@ -897,8 +897,8 @@ void RingManager_Main(void)
                             if (ringStageCount < PLAYER_MAX_RINGS)
                                 player->ringStageCount--;
 
-                            if ((ringManagerWork->flags & (RINGMANAGER_FLAG_PENALTY_ACTIVE_P1 << p)) != 0)
-                                ringManagerWork->flags &= ~(RINGMANAGER_FLAG_PENALTY_ACTIVE_P1 << p);
+                            if ((gRingManagerWork->flags & (RINGMANAGER_FLAG_PENALTY_ACTIVE_P1 << p)) != 0)
+                                gRingManagerWork->flags &= ~(RINGMANAGER_FLAG_PENALTY_ACTIVE_P1 << p);
                         }
                     }
 
@@ -912,7 +912,7 @@ void RingManager_Main(void)
 
                 // handle flashing
                 if (ring->timer > 32 || (ring->timer & 2) != 0)
-                    ringManagerWork->drawRing(ring);
+                    gRingManagerWork->drawRing(ring);
             }
         }
     }
@@ -923,22 +923,22 @@ void RingManager_Main(void)
 
     if (gmCheckRingBattle())
     {
-        for (p = 0; p < ringManagerWork->playerCount; p++)
+        for (p = 0; p < gRingManagerWork->gPlayerCount; p++)
         {
-            ringManagerWork->ringPenaltyCount[p] = 0;
+            gRingManagerWork->ringPenaltyCount[p] = 0;
         }
     }
     else
     {
-        if (ringManagerWork->spillListStart == NULL)
+        if (gRingManagerWork->spillListStart == NULL)
         {
-            for (p = 0; p < ringManagerWork->playerCount; p++)
+            for (p = 0; p < gRingManagerWork->gPlayerCount; p++)
             {
                 // clear ring penalty flag if player collected every spilled ring
-                if ((ringManagerWork->flags & (RINGMANAGER_FLAG_PENALTY_ACTIVE_P1 << p)) != 0)
+                if ((gRingManagerWork->flags & (RINGMANAGER_FLAG_PENALTY_ACTIVE_P1 << p)) != 0)
                 {
-                    ringManagerWork->ringPenaltyCount[p] = 0;
-                    ringManagerWork->flags &= ~(RINGMANAGER_FLAG_PENALTY_ACTIVE_P1 << p);
+                    gRingManagerWork->ringPenaltyCount[p] = 0;
+                    gRingManagerWork->flags &= ~(RINGMANAGER_FLAG_PENALTY_ACTIVE_P1 << p);
                 }
             }
         }
@@ -1061,11 +1061,11 @@ void RingManager_StageCollide_Boss(Ring *ring)
     {
         ring->velocity.y -= (ring->velocity.y >> 2);
 
-        if (ringManagerWork->penaltyMultiplier != 0)
+        if (gRingManagerWork->penaltyMultiplier != 0)
         {
             if ((ring->flag & RING_FLAG_IS_SPILLRING) != 0)
             {
-                fx32 maxYVelocity = ringManagerWork->penaltyMultiplier * ringManagerWork->ringPenaltyCount[0];
+                fx32 maxYVelocity = gRingManagerWork->penaltyMultiplier * gRingManagerWork->ringPenaltyCount[0];
                 if (ring->velocity.y > maxYVelocity)
                     ring->velocity.y = maxYVelocity;
             }
@@ -1105,16 +1105,16 @@ void RingManager_DrawRing_ZoneAct(Ring *ring)
         displayFlags |= DISPLAY_FLAG_FLIP_Y;
 
     if (ring->scale.x <= FLOAT_TO_FX32(1.0))
-        ringManagerWork->aniRing.work.flags &= ~ANIMATOR_FLAG_ENABLE_SCALE;
+        gRingManagerWork->aniRing.work.flags &= ~ANIMATOR_FLAG_ENABLE_SCALE;
     else
-        ringManagerWork->aniRing.work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
+        gRingManagerWork->aniRing.work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
 
-    StageTask__Draw2DEx(&ringManagerWork->aniRing, &ring->position, 0, &ring->scale, &displayFlags, NULL, NULL);
+    StageTask__Draw2DEx(&gRingManagerWork->aniRing, &ring->position, 0, &ring->scale, &displayFlags, NULL, NULL);
 }
 
 void RingManager_DrawRing_BossFlat(Ring *ring)
 {
-    RingManager *work = ringManagerWork;
+    RingManager *work = gRingManagerWork;
 
     work->aniRing3D.work.translation.x = ring->position.x;
     work->aniRing3D.work.translation.y = -ring->position.y;
@@ -1124,12 +1124,12 @@ void RingManager_DrawRing_BossFlat(Ring *ring)
 
 void RingManager_DrawRing_BossCircular(Ring *ring)
 {
-    RingManager *work = ringManagerWork;
+    RingManager *work = gRingManagerWork;
 
     work->aniRing3D.work.translation.y = -ring->position.y;
 
     BossStage_GetCirclePos(ring->position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
-                                        &work->aniRing3D.work.translation.x, &work->aniRing3D.work.translation.z);
+                           &work->aniRing3D.work.translation.x, &work->aniRing3D.work.translation.z);
 
     AnimatorSprite3D__Draw(&work->aniRing3D);
 }
@@ -1141,16 +1141,16 @@ void RingManager_DrawSparkle_ZoneAct(Ring *ring)
         displayFlags |= DISPLAY_FLAG_FLIP_Y;
 
     if (ring->scale.x <= FLOAT_TO_FX32(1.0))
-        ringManagerWork->aniRingSparkle.work.flags &= ~ANIMATOR_FLAG_ENABLE_SCALE;
+        gRingManagerWork->aniRingSparkle.work.flags &= ~ANIMATOR_FLAG_ENABLE_SCALE;
     else
-        ringManagerWork->aniRingSparkle.work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
+        gRingManagerWork->aniRingSparkle.work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
 
-    StageTask__Draw2DEx(&ringManagerWork->aniRingSparkle, &ring->position, 0, &ring->scale, &displayFlags, NULL, NULL);
+    StageTask__Draw2DEx(&gRingManagerWork->aniRingSparkle, &ring->position, 0, &ring->scale, &displayFlags, NULL, NULL);
 }
 
 void RingManager_DrawSparkle_BossFlat(Ring *ring)
 {
-    RingManager *work = ringManagerWork;
+    RingManager *work = gRingManagerWork;
 
     work->aniRingSparkle3D.work.translation.x = ring->position.x;
     work->aniRingSparkle3D.work.translation.y = -ring->position.y;
@@ -1160,12 +1160,12 @@ void RingManager_DrawSparkle_BossFlat(Ring *ring)
 
 void RingManager_DrawSparkle_BossCircular(Ring *ring)
 {
-    RingManager *work = ringManagerWork;
+    RingManager *work = gRingManagerWork;
 
     work->aniRingSparkle3D.work.translation.y = -ring->position.y;
 
     BossStage_GetCirclePos(ring->position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
-                                        &work->aniRingSparkle3D.work.translation.x, &work->aniRingSparkle3D.work.translation.z);
+                           &work->aniRingSparkle3D.work.translation.x, &work->aniRingSparkle3D.work.translation.z);
 
     AnimatorSprite3D__Draw(&work->aniRingSparkle3D);
 }

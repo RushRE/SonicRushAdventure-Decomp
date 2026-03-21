@@ -64,9 +64,9 @@ enum CannonPathFlags_
 // VARIABLES
 // --------------------
 
-static BOOL canDrawRings;
-static fx32 cannonPosZ;
-static fx32 playerPosZ;
+static BOOL sCanDrawRings;
+static fx32 sCannonPosZ;
+static fx32 sPlayerPosZ;
 
 // --------------------
 // FUNCTION DECLS
@@ -76,7 +76,7 @@ void Cannon_Destructor(Task *task);
 static void Cannon_State_PlayerEntered(Cannon *work);
 static void Cannon_State_LaunchedPlayer(Cannon *work);
 void Cannon_Draw(void);
-void Cannon_OnDefend_Entrry(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void Cannon_OnDefend_Entry(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 void CannonFloor_State_Solid(CannonFloor *work);
 void CannonFloor_Collide(void);
@@ -108,9 +108,9 @@ CannonPath *CreateCannonPath(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     SetTaskState(&work->gameWork.objWork, CannonPath_State_PlayerLaunched);
 
-    playerPosZ   = FLOAT_TO_FX32(0.0);
-    cannonPosZ   = FLOAT_TO_FX32(0.0);
-    canDrawRings = FALSE;
+    sPlayerPosZ   = FLOAT_TO_FX32(0.0);
+    sCannonPosZ   = FLOAT_TO_FX32(0.0);
+    sCanDrawRings = FALSE;
 
     work->pathRemaining = FX32_FROM_WHOLE(mapObjectParam_pathTravelLength << 6) - FLOAT_TO_FX32(128.0);
     if (work->pathRemaining < FLOAT_TO_FX32(64.0))
@@ -126,7 +126,7 @@ CannonPath *CreateCannonPath(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
 fx32 GetCannonPlayerPosZ(void)
 {
-    return playerPosZ;
+    return sPlayerPosZ;
 }
 
 CannonRing *CreateCannonRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
@@ -297,7 +297,7 @@ void Cannon_State_PlayerEntered(Cannon *work)
 
 void Cannon_State_LaunchedPlayer(Cannon *work)
 {
-    work->gameWork.objWork.offset.z = playerPosZ;
+    work->gameWork.objWork.offset.z = sPlayerPosZ;
 }
 
 void Cannon_Draw(void)
@@ -308,7 +308,7 @@ void Cannon_Draw(void)
     Cannon *work = TaskGetWorkCurrent(Cannon);
 
     StageDisplayFlags displayFlag = work->gameWork.objWork.displayFlag;
-    if (playerPosZ != FLOAT_TO_FX32(0.0))
+    if (sPlayerPosZ != FLOAT_TO_FX32(0.0))
         displayFlag &= ~DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
     AnimatorMDL *aniCannon0 = &work->aniCannon[0];
@@ -322,7 +322,7 @@ void Cannon_Draw(void)
 
     position.x = work->gameWork.objWork.position.x + work->gameWork.objWork.offset.x;
     position.y = work->gameWork.objWork.position.y - FLOAT_TO_FX32(39.0) + work->gameWork.objWork.offset.y;
-    position.z = work->gameWork.objWork.position.z + playerPosZ;
+    position.z = work->gameWork.objWork.position.z + sPlayerPosZ;
     StageTask__Draw3DEx(&aniCannon0->work, &position, NULL, NULL, &displayFlag, NULL, NULL, NULL);
 
     AnimatorMDL *aniCannon1 = &work->aniCannon[1];
@@ -333,11 +333,11 @@ void Cannon_Draw(void)
 
     position.x = work->gameWork.objWork.position.x + work->gameWork.objWork.offset.x;
     position.y = work->gameWork.objWork.position.y + work->gameWork.objWork.offset.y;
-    position.z = work->gameWork.objWork.position.z + playerPosZ;
+    position.z = work->gameWork.objWork.position.z + sPlayerPosZ;
     StageTask__Draw3DEx(&aniCannon1->work, &position, NULL, NULL, &displayFlag, NULL, NULL, NULL);
 }
 
-void Cannon_OnDefend_Entrry(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void Cannon_OnDefend_Entry(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     Cannon *cannon = (Cannon *)rect2->parent;
     Player *player = (Player *)rect1->parent;
@@ -399,9 +399,9 @@ void Cannon_OnDefend_Entrry(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
 void CannonFloor_State_Solid(CannonFloor *work)
 {
-    if (cannonPosZ != FLOAT_TO_FX32(500.0))
+    if (sCannonPosZ != FLOAT_TO_FX32(500.0))
     {
-        work->gameWork.objWork.offset.z = cannonPosZ;
+        work->gameWork.objWork.offset.z = sCannonPosZ;
         work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     }
     else
@@ -432,9 +432,9 @@ void CannonFloor_Collide(void)
 
 void CannonPath_Destructor(Task *task)
 {
-    playerPosZ   = FLOAT_TO_FX32(0.0);
-    cannonPosZ   = FLOAT_TO_FX32(0.0);
-    canDrawRings = FALSE;
+    sPlayerPosZ   = FLOAT_TO_FX32(0.0);
+    sCannonPosZ   = FLOAT_TO_FX32(0.0);
+    sCanDrawRings = FALSE;
 
     GameObject__Destructor(task);
 }
@@ -446,9 +446,9 @@ void CannonPath_State_PlayerLaunched(CannonPath *work)
     if (CheckPlayerGimmickObj(player, work) == FALSE)
     {
         work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
-        playerPosZ   = FLOAT_TO_FX32(0.0);
-        cannonPosZ   = FLOAT_TO_FX32(0.0);
-        canDrawRings = FALSE;
+        sPlayerPosZ   = FLOAT_TO_FX32(0.0);
+        sCannonPosZ   = FLOAT_TO_FX32(0.0);
+        sCanDrawRings = FALSE;
     }
     else
     {
@@ -470,11 +470,11 @@ void CannonPath_State_PlayerLaunched(CannonPath *work)
                 work->gameWork.objWork.position.y += work->launchVelocity.y;
                 work->gameWork.objWork.position.z += work->launchVelocity.z;
 
-                playerPosZ += FLOAT_TO_FX32(10.0);
-                if (playerPosZ >= FLOAT_TO_FX32(35.0) - work->gameWork.objWork.position.z)
-                    playerPosZ = FLOAT_TO_FX32(35.0) - work->gameWork.objWork.position.z;
+                sPlayerPosZ += FLOAT_TO_FX32(10.0);
+                if (sPlayerPosZ >= FLOAT_TO_FX32(35.0) - work->gameWork.objWork.position.z)
+                    sPlayerPosZ = FLOAT_TO_FX32(35.0) - work->gameWork.objWork.position.z;
 
-                cannonPosZ = playerPosZ;
+                sCannonPosZ = sPlayerPosZ;
 
                 if (work->gameWork.objWork.position.y < work->cannonPos.y - FLOAT_TO_FX32(192.0))
                 {
@@ -482,12 +482,12 @@ void CannonPath_State_PlayerLaunched(CannonPath *work)
 
                     work->gameWork.objWork.position.y = work->cannonPos.y - FLOAT_TO_FX32(192.0);
 
-                    playerPosZ = FLOAT_TO_FX32(35.0);
-                    cannonPosZ = FLOAT_TO_FX32(500.0);
+                    sPlayerPosZ = FLOAT_TO_FX32(35.0);
+                    sCannonPosZ = FLOAT_TO_FX32(500.0);
 
                     work->gameWork.objWork.position.z = FLOAT_TO_FX32(0.0);
 
-                    canDrawRings                    = TRUE;
+                    sCanDrawRings                    = TRUE;
                     work->gameWork.objWork.userFlag = CANNONPATH_FLAG_NONE;
 
                     EffectCannonFireSpeedLines__Create(&work->gameWork.objWork);
@@ -511,10 +511,10 @@ void CannonPath_State_PlayerLaunched(CannonPath *work)
                     work->pathFinishStartPos = work->gameWork.objWork.position;
 
                     work->percent                     = FLOAT_TO_FX32(0.0);
-                    work->gameWork.objWork.position.z = playerPosZ + FLOAT_TO_FX32(400.0);
+                    work->gameWork.objWork.position.z = sPlayerPosZ + FLOAT_TO_FX32(400.0);
 
-                    playerPosZ   = -FLOAT_TO_FX32(400.0);
-                    canDrawRings = FALSE;
+                    sPlayerPosZ   = -FLOAT_TO_FX32(400.0);
+                    sCanDrawRings = FALSE;
 
                     work->gameWork.objWork.userFlag = CANNONPATH_FLAG_FINISHED_TRAVERSE;
                 }
@@ -533,8 +533,8 @@ void CannonPath_State_PlayerLaunched(CannonPath *work)
                 work->gameWork.objWork.position.y = mtLerpEx(work->percent, work->pathFinishStartPos.y, work->pathFinishTargetPos.y, 1);
                 fx32 z                            = mtLerpEx2(work->percent, -FLOAT_TO_FX32(400.0), FLOAT_TO_FX32(0.0), 1);
 
-                playerPosZ = z;
-                cannonPosZ = z;
+                sPlayerPosZ = z;
+                sCannonPosZ = z;
 
                 if (work->percent >= FLOAT_TO_FX32(1.0))
                 {
@@ -570,7 +570,7 @@ NONMATCH_FUNC void CannonRing_Draw(void)
 
     StageDisplayFlags displayFlag = work->gameWork.objWork.displayFlag & ~DISPLAY_FLAG_DISABLE_LOOPING;
 
-    if (canDrawRings == FALSE)
+    if (sCanDrawRings == FALSE)
         return;
 
     if (work->gameWork.objWork.position.x >= camera->disp_pos.x && work->gameWork.objWork.position.x <= camera->disp_pos.x + FLOAT_TO_FX32(256.0))
@@ -580,7 +580,7 @@ NONMATCH_FUNC void CannonRing_Draw(void)
         VecFx32 position;
         position.x = camera->disp_pos.x + MultiplyFX(FLOAT_TO_FX32(1.0), screenX);
         position.y = camera->disp_pos.y + FLOAT_TO_FX32(241.0) + MultiplyFX(-FLOAT_TO_FX32(0.9375), screenX);
-        position.z = playerPosZ + FLOAT_TO_FX32(600.0) + MultiplyFX(-FLOAT_TO_FX32(4.6875), screenX);
+        position.z = sPlayerPosZ + FLOAT_TO_FX32(600.0) + MultiplyFX(-FLOAT_TO_FX32(4.6875), screenX);
 
         StageTask__Draw3DEx(&work->aniRing.work, &position, NULL, NULL, &work->gameWork.objWork.displayFlag, NULL, NULL, NULL);
 
@@ -594,7 +594,7 @@ NONMATCH_FUNC void CannonRing_Draw(void)
 	ldr r5, =mapCamera
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	ldr r0, =cannonPosZ
+	ldr r0, =sCannonPosZ
 	ldr r2, [r4, #0x20]
 	ldr r1, [r0, #8]
 	bic r2, r2, #4

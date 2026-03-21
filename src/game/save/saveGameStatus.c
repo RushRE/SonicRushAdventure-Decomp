@@ -9,7 +9,7 @@
 // TEMP
 // --------------------
 
-static const u8 missionForSolEmerald[7] = { 19, 77, 29, 86, 81, 69, 71 };
+static const u8 sMissionForSolEmerald[7] = { 19, 77, 29, 86, 81, 69, 71 };
 
 // --------------------
 // VARIABLES
@@ -78,7 +78,7 @@ u32 SaveGame__GetChaosEmeraldCount(SaveBlockChart *work)
 
 BOOL SaveGame__HasSolEmerald(SaveBlockStage *work, u8 id)
 {
-    u8 missionState = (work->missionState[missionForSolEmerald[id] / 4] >> ((missionForSolEmerald[id] % 4) << 1)) & 3;
+    u8 missionState = (work->missionState[sMissionForSolEmerald[id] / 4] >> ((sMissionForSolEmerald[id] % 4) << 1)) & 3;
 
     return missionState >= MISSION_STATE_BEATEN;
 }
@@ -101,20 +101,20 @@ NONMATCH_FUNC void SaveGame__SetSolEmeraldCollected(SaveBlockStage *work, u8 id)
 {
     // https://decomp.me/scratch/U8DdT -> 52.44%
 #ifdef NON_MATCHING
-    u32 shift       = (missionForSolEmerald[id] % 4) << 1;
-    u8 missionState = (work->missionState[missionForSolEmerald[id] / 4] >> shift) & 3;
+    u32 shift       = (sMissionForSolEmerald[id] % 4) << 1;
+    u8 missionState = (work->missionState[sMissionForSolEmerald[id] / 4] >> shift) & 3;
 
     if (missionState < MISSION_STATE_BEATEN)
     {
         u8 newState = missionState & ~(3 << shift);
 
-        work->missionState[missionForSolEmerald[id] / 4] = newState;
-        work->missionState[missionForSolEmerald[id] / 4] |= MISSION_STATE_BEATEN << shift;
+        work->missionState[sMissionForSolEmerald[id] / 4] = newState;
+        work->missionState[sMissionForSolEmerald[id] / 4] |= MISSION_STATE_BEATEN << shift;
     }
 #else
     // clang-format off
 	push {r4, r5}
-	ldr r2, =missionForSolEmerald
+	ldr r2, =sMissionForSolEmerald
 	add r0, #0xc
 	ldrb r2, [r2, r1]
 	mov r5, #3

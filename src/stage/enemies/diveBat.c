@@ -67,9 +67,9 @@ struct DiveBatInstance
 // VARIABLES
 // --------------------
 
-static struct DiveBatInstance instanceList[3];
+static struct DiveBatInstance sInstanceList[3];
 
-static Vec2U16 childPositions[] = {
+static Vec2U16 sChildPositions[] = {
     { FLOAT_TO_FX32(6.9677734375), FLOAT_TO_FX32(2.48291015625) },
     { FLOAT_TO_FX32(1.879638671875), FLOAT_TO_FX32(9.741455078125) },
     { FLOAT_TO_FX32(2.0966796875), FLOAT_TO_FX32(4.2314453125) },
@@ -194,14 +194,14 @@ void EnemyDiveBat_Destructor(Task *task)
 
     if (work->gameWork.mapObject->id == MAPOBJECT_348)
     {
-        if (instanceList[work->type].entity == work)
-            instanceList[work->type].entity = NULL;
+        if (sInstanceList[work->type].entity == work)
+            sInstanceList[work->type].entity = NULL;
     }
     else
     {
-        if (work->type != DIVEBAT_TYPE_NONE && instanceList[work->type].count != 0)
+        if (work->type != DIVEBAT_TYPE_NONE && sInstanceList[work->type].count != 0)
         {
-            instanceList[work->type].count--;
+            sInstanceList[work->type].count--;
         }
     }
     GameObject__Destructor(task);
@@ -212,26 +212,26 @@ EnemyDiveBat *CreateDiveBatChild(MapObject *mapObject)
     u8 type = (mapObject->flags & DIVEBAT_OBJFLAG_TYPE_MASK) - 1;
 
     EnemyDiveBat *child;
-    if (instanceList[type].count || instanceList[type].entity != NULL && (instanceList[type].entity->gameWork.objWork.flag & 4) == 0)
+    if (sInstanceList[type].count || sInstanceList[type].entity != NULL && (sInstanceList[type].entity->gameWork.objWork.flag & 4) == 0)
     {
-        if (instanceList[type].count >= DIVEBAT_INSTANCE_MAX)
+        if (sInstanceList[type].count >= DIVEBAT_INSTANCE_MAX)
             return NULL;
 
-        child = instanceList[type].entity;
+        child = sInstanceList[type].entity;
     }
     else
     {
-        child = SpawnStageObjectEx(MAPOBJECT_348, childPositions[type].x, childPositions[type].y, EnemyDiveBat, mapObject->flags, mapObject->left, mapObject->top, mapObject->width,
+        child = SpawnStageObjectEx(MAPOBJECT_348, sChildPositions[type].x, sChildPositions[type].y, EnemyDiveBat, mapObject->flags, mapObject->left, mapObject->top, mapObject->width,
                                    mapObject->height, type);
         if (child == NULL)
             return NULL;
 
-        instanceList[type].entity = child;
-        instanceList[type].timer  = 0;
-        instanceList[type].flags  = DIVEBAT_INSTANCEFLAG_NONE;
+        sInstanceList[type].entity = child;
+        sInstanceList[type].timer  = 0;
+        sInstanceList[type].flags  = DIVEBAT_INSTANCEFLAG_NONE;
     }
 
-    instanceList[type].count++;
+    sInstanceList[type].count++;
 
     return child;
 }
@@ -245,11 +245,11 @@ void EnemyDiveBat_Action_InitParent(EnemyDiveBat *work)
 
 void EnemyDiveBat_State_Parent(EnemyDiveBat *work)
 {
-    EnemyDiveBat *enemy = instanceList[work->type].entity;
+    EnemyDiveBat *enemy = sInstanceList[work->type].entity;
 
     if (enemy != NULL)
     {
-        if ((instanceList[work->type].flags & DIVEBAT_INSTANCEFLAG_SHOULD_ATTACK) != 0)
+        if ((sInstanceList[work->type].flags & DIVEBAT_INSTANCEFLAG_SHOULD_ATTACK) != 0)
         {
             EnemyDiveBat_Action_Attack(work);
         }
@@ -278,7 +278,7 @@ void EnemyDiveBat_Draw_Parent(void)
 {
     EnemyDiveBat *work = TaskGetWorkCurrent(EnemyDiveBat);
 
-    StageTask__Draw2D(&work->gameWork.objWork, &instanceList[work->type].entity->gameWork.objWork.obj_2d->ani);
+    StageTask__Draw2D(&work->gameWork.objWork, &sInstanceList[work->type].entity->gameWork.objWork.obj_2d->ani);
 }
 
 void EnemyDiveBat_Action_Init(EnemyDiveBat *work)
@@ -305,17 +305,17 @@ void EnemyDiveBat_State_Moving(EnemyDiveBat *work)
 
     if (work->gameWork.mapObject->id == MAPOBJECT_348)
     {
-        if (instanceList[work->type].count == 0)
+        if (sInstanceList[work->type].count == 0)
         {
             DestroyStageTask(&work->gameWork.objWork);
             return;
         }
 
-        if (instanceList[work->type].timer != 0)
+        if (sInstanceList[work->type].timer != 0)
         {
-            instanceList[work->type].timer--;
-            if (instanceList[work->type].timer == 0)
-                instanceList[work->type].flags |= DIVEBAT_INSTANCEFLAG_SHOULD_ATTACK;
+            sInstanceList[work->type].timer--;
+            if (sInstanceList[work->type].timer == 0)
+                sInstanceList[work->type].flags |= DIVEBAT_INSTANCEFLAG_SHOULD_ATTACK;
         }
     }
     else if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
@@ -408,15 +408,15 @@ void EnemyDiveBat_Action_Attack(EnemyDiveBat *work)
     {
         if (work->type != DIVEBAT_TYPE_NONE)
         {
-            if ((instanceList[work->type].flags & DIVEBAT_INSTANCEFLAG_SHOULD_ATTACK) == 0 && instanceList[work->type].timer == 0)
-                instanceList[work->type].timer = 16;
+            if ((sInstanceList[work->type].flags & DIVEBAT_INSTANCEFLAG_SHOULD_ATTACK) == 0 && sInstanceList[work->type].timer == 0)
+                sInstanceList[work->type].timer = 16;
 
             SetTaskOutFunc(&work->gameWork.objWork, NULL);
 
             work->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_UPDATE | DISPLAY_FLAG_DISABLE_DRAW);
 
-            if (instanceList[work->type].count != 0)
-                instanceList[work->type].count--;
+            if (sInstanceList[work->type].count != 0)
+                sInstanceList[work->type].count--;
 
             work->type = DIVEBAT_TYPE_NONE;
         }

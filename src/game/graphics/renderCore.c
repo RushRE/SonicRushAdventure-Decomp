@@ -35,23 +35,23 @@ static PMLCDTarget GetLCDTarget(void);
 // VARIABLES
 // --------------------
 
-extern const OSOwnerInfo ownerInfo;
+extern const OSOwnerInfo gSystemOwnerInfo;
 
-static s32 dmaRenderCount;
-static void (*vBlankCallback)(void);
+static s32 sDMARenderCount;
+static void (*sVBlankCallback)(void);
 static RenderCoreFlags renderFlags;
 GXDispSelect renderCurrentDisplay;
-static u32 vBlankCount;
-static u32 targetVBlankCount;
-static RenderCoreFlags prevRenderFlags;
-static s32 resetParam;
-s32 renderDmaNo;
+static u32 sVBlankCount;
+static u32 sTargetVBlankCount;
+static RenderCoreFlags sPrevRenderFlags;
+static s32 sResetParam;
+s32 gRenderDMANo;
 
 SwapBufferControl renderCoreSwapBuffer;
-static OverlayControl overlayState;
-static FoldDeviceControl foldControl;
-static OSVAlarm vblankAlarm;
-static DMAController renderDMAManagers[4];
+static OverlayControl sOverlayControl;
+static FoldDeviceControl sFoldControl;
+static OSVAlarm sVBlankAlarm;
+static DMAController sRenderDMAManagers[4];
 RenderCoreGFXControl renderCoreGFXControlB;
 RenderCoreGFXControl renderCoreGFXControlA;
 
@@ -110,7 +110,7 @@ void OnVBlank(void)
 {
     u32 i;
 
-    DMAController *dmaControl = renderDMAManagers;
+    DMAController *dmaControl = sRenderDMAManagers;
     for (i = 0; i < 4; i++, dmaControl++)
     {
         if ((dmaControl->flags & DMACONTROL_FLAG_DISABLE_VBLANK_UPDATE) == 0)
@@ -169,13 +169,13 @@ void OnVBlank(void)
             MI_CpuCopy32(&window.registers, windowRegister[i], sizeof(WindowPlaneManagerRegisters));
         }
 
-        OS_CancelVAlarm(&vblankAlarm);
-        OS_SetVAlarm(&vblankAlarm, 262, 263, OnVAlarmActivated, NULL);
+        OS_CancelVAlarm(&sVBlankAlarm);
+        OS_SetVAlarm(&sVBlankAlarm, 262, 263, OnVAlarmActivated, NULL);
     }
 
-    vBlankCount++;
-    if (vBlankCallback != NULL)
-        vBlankCallback();
+    sVBlankCount++;
+    if (sVBlankCallback != NULL)
+        sVBlankCallback();
 
     OS_SetIrqCheckFlag(OS_IE_V_BLANK);
 }
@@ -194,7 +194,7 @@ void OnVAlarmActivated(void *arg)
 // Game
 void InitGameSystems(u32 dmaNo, u32 defaultDMA, s32 main1HeapSize, s32 main2HeapSize, s32 itcmHeapSize, s32 dtcmHeapSize, s32 audioHeapSize, s32 fsHeapSize)
 {
-    renderDmaNo = dmaNo;
+    gRenderDMANo = dmaNo;
 
     OS_SetIrqFunction(OS_IE_V_BLANK, OnVBlank);
     OS_EnableIrqMask(TRUE);
@@ -228,7 +228,7 @@ void InitGameSystems(u32 dmaNo, u32 defaultDMA, s32 main1HeapSize, s32 main2Heap
 
     CARD_SetPulledOutCallback(OnCardPulledOut);
 
-    OS_GetOwnerInfo((OSOwnerInfo *)&ownerInfo);
+    OS_GetOwnerInfo((OSOwnerInfo *)&gSystemOwnerInfo);
 }
 
 void UpdateGameLoop(void)
@@ -248,7 +248,7 @@ void UpdateGameLoop(void)
 
     RenderCore_HandleDeviceFold();
     RefreshSwapBufferFlags();
-    UpdateLoadedOverlays(&overlayState);
+    UpdateLoadedOverlays(&sOverlayControl);
     RunUpdateTaskList();
     ProcessFSRequests();
 
@@ -260,10 +260,10 @@ void UpdateGameLoop(void)
 
     for (u32 i = 0; i < 4; i++)
     {
-        renderDMAManagers[i].flags |= DMACONTROL_FLAG_ENABLE_SWAP_BUFFER;
+        sRenderDMAManagers[i].flags |= DMACONTROL_FLAG_ENABLE_SWAP_BUFFER;
     }
 
-    prevRenderFlags = renderFlags;
+    sPrevRenderFlags = renderFlags;
 }
 
 // RenderCore
@@ -271,7 +271,7 @@ void UpdateDrawLoop(void)
 {
     u32 i;
 
-    RenderCoreFlags prevFlags = prevRenderFlags;
+    RenderCoreFlags prevFlags = sPrevRenderFlags;
     GX_SetDispSelect(renderCurrentDisplay);
 
     // Update Engine A
@@ -280,13 +280,13 @@ void UpdateDrawLoop(void)
         control = &renderCoreGFXControlA;
         DC_StoreRange(control, sizeof(RenderCoreGFXControl));
         DC_WaitWriteBufferEmpty();
-        MI_DmaCopy32(renderDmaNo, control->bgPosition, &reg_G2_BG0OFS, sizeof(control->bgPosition));
+        MI_DmaCopy32(gRenderDMANo, control->bgPosition, &reg_G2_BG0OFS, sizeof(control->bgPosition));
         if ((prevFlags & RENDERCORE_FLAG_UPDATE_WINDOW_PLANE) == 0)
         {
-            MI_DmaCopy32(renderDmaNo, &control->windowManager.registers, &reg_G2_WIN0H, sizeof(control->windowManager.registers));
+            MI_DmaCopy32(gRenderDMANo, &control->windowManager.registers, &reg_G2_WIN0H, sizeof(control->windowManager.registers));
             GX_SetVisibleWnd(control->windowManager.visible);
         }
-        MI_DmaCopy16(renderDmaNo, &control->blendManager, &reg_G2_BLDCNT, sizeof(control->blendManager));
+        MI_DmaCopy16(gRenderDMANo, &control->blendManager, &reg_G2_BLDCNT, sizeof(control->blendManager));
         GX_SetMasterBrightness(control->brightness);
         reg_G2_MOSAIC = control->mosaicSize;
         G2_SetBG2Affine(&control->affineBG2.matrix, control->affineBG2.centerX, control->affineBG2.centerY, control->affineBG2.x, control->affineBG2.y);
@@ -302,13 +302,13 @@ void UpdateDrawLoop(void)
         control = &renderCoreGFXControlB;
         DC_StoreRange(control, sizeof(RenderCoreGFXControl));
         DC_WaitWriteBufferEmpty();
-        MI_DmaCopy32(renderDmaNo, control->bgPosition, &reg_G2S_DB_BG0OFS, sizeof(control->bgPosition));
+        MI_DmaCopy32(gRenderDMANo, control->bgPosition, &reg_G2S_DB_BG0OFS, sizeof(control->bgPosition));
         if ((prevFlags & RENDERCORE_FLAG_UPDATE_WINDOW_PLANE) == 0)
         {
-            MI_DmaCopy32(renderDmaNo, &control->windowManager.registers, &reg_G2S_DB_WIN0H, sizeof(control->windowManager.registers));
+            MI_DmaCopy32(gRenderDMANo, &control->windowManager.registers, &reg_G2S_DB_WIN0H, sizeof(control->windowManager.registers));
             GXS_SetVisibleWnd(control->windowManager.visible);
         }
-        MI_DmaCopy16(renderDmaNo, &control->blendManager, &reg_G2S_DB_BLDCNT, sizeof(control->blendManager));
+        MI_DmaCopy16(gRenderDMANo, &control->blendManager, &reg_G2S_DB_BLDCNT, sizeof(control->blendManager));
         GXS_SetMasterBrightness(control->brightness);
         reg_G2S_DB_MOSAIC = control->mosaicSize;
         G2S_SetBG2Affine(&control->affineBG2.matrix, control->affineBG2.centerX, control->affineBG2.centerY, control->affineBG2.x, control->affineBG2.y);
@@ -320,7 +320,7 @@ void UpdateDrawLoop(void)
     }
 
     // Update DMAs
-    DMAController *dmaControl = renderDMAManagers;
+    DMAController *dmaControl = sRenderDMAManagers;
     for (i = 0; i < 4; i++)
     {
         if ((dmaControl->flags & DMACONTROL_FLAG_DISABLE_VBLANK_UPDATE) != 0)
@@ -343,23 +343,23 @@ void UpdateDrawLoop(void)
     NNS_SndMain();
 
     // Finish
-    MI_WaitDma(renderDmaNo);
-    dmaRenderCount++;
+    MI_WaitDma(gRenderDMANo);
+    sDMARenderCount++;
 }
 
 u32 RenderCore_GetTargetVBlankCount(void)
 {
-    return targetVBlankCount;
+    return sTargetVBlankCount;
 }
 
 void RenderCore_SetTargetVBlankCount(u32 target)
 {
-    targetVBlankCount = target;
+    sTargetVBlankCount = target;
 }
 
 void RenderCore_WaitVBlank(void)
 {
-    while (targetVBlankCount > vBlankCount)
+    while (sTargetVBlankCount > sVBlankCount)
     {
         OS_WaitVBlankIntr();
     }
@@ -368,12 +368,12 @@ void RenderCore_WaitVBlank(void)
         G3_SwapBuffers(renderCoreSwapBuffer.sortMode, renderCoreSwapBuffer.bufferMode);
 
     OS_WaitVBlankIntr();
-    vBlankCount = 0;
+    sVBlankCount = 0;
 }
 
 void RenderCore_SetVBlankCallback(void (*callback)(void))
 {
-    vBlankCallback = callback;
+    sVBlankCallback = callback;
 }
 
 void RenderCore_PerformSoftReset(void)
@@ -381,15 +381,15 @@ void RenderCore_PerformSoftReset(void)
     GX_SetMasterBrightness(RENDERCORE_BRIGHTNESS_WHITE);
     GXS_SetMasterBrightness(RENDERCORE_BRIGHTNESS_WHITE);
 
-    if ((overlayState.flags & OVERLAYCONTROL_FLAG_OVERLAY_LOADED) != 0)
-        FS_UnloadOverlay(MI_PROCESSOR_ARM9, overlayState.prevID);
+    if ((sOverlayControl.flags & OVERLAYCONTROL_FLAG_OVERLAY_LOADED) != 0)
+        FS_UnloadOverlay(MI_PROCESSOR_ARM9, sOverlayControl.prevID);
 
-    OS_ResetSystem(resetParam | RENDERCORE_RESETPARAM_FLAG);
+    OS_ResetSystem(sResetParam | RENDERCORE_RESETPARAM_FLAG);
 }
 
 u32 RenderCore_GetResetParam(void)
 {
-    return resetParam;
+    return sResetParam;
 }
 
 void RenderCore_CPUCopy(void *input, void *output, u32 length)
@@ -447,7 +447,7 @@ void RenderCore_DMACopy(const void *srcPixels, void *dstPixels, u32 srcSize)
 
         if (alignedSize != 0)
         {
-            MI_DmaCopy32(renderDmaNo, srcPixels, dstPixels, alignedSize);
+            MI_DmaCopy32(gRenderDMANo, srcPixels, dstPixels, alignedSize);
             srcPixelsPtr += alignedSize;
             dstPixelsPtr += alignedSize;
             size &= 3;
@@ -455,7 +455,7 @@ void RenderCore_DMACopy(const void *srcPixels, void *dstPixels, u32 srcSize)
     }
 
     if (size)
-        MI_DmaCopy16(renderDmaNo, srcPixelsPtr, dstPixelsPtr, size);
+        MI_DmaCopy16(gRenderDMANo, srcPixelsPtr, dstPixelsPtr, size);
 }
 
 void RenderCore_CPUCopyCompressed(void *input, void *output)
@@ -484,13 +484,13 @@ void RenderCore_CPUCopyCompressed(void *input, void *output)
 
 void RenderCore_ChangeOverlay(int overlayID, void (*changeCB)(void))
 {
-    overlayState.nextID           = overlayID;
-    overlayState.onOverlayChanged = changeCB;
+    sOverlayControl.nextID           = overlayID;
+    sOverlayControl.onOverlayChanged = changeCB;
 }
 
 void RenderCore_PrepareDMA(u32 id, void *src2, void *src1, void *dst, u32 size)
 {
-    DMAController *dmaControl = &renderDMAManagers[id];
+    DMAController *dmaControl = &sRenderDMAManagers[id];
 
     OSIntrMode enabled    = OS_DisableInterrupts();
     dmaControl->dmaDest   = dst;
@@ -505,14 +505,14 @@ void RenderCore_PrepareDMA(u32 id, void *src2, void *src1, void *dst, u32 size)
 void RenderCore_StopDMA(u32 id)
 {
     OSIntrMode enabled          = OS_DisableInterrupts();
-    renderDMAManagers[id].flags = DMACONTROL_FLAG_NONE;
+    sRenderDMAManagers[id].flags = DMACONTROL_FLAG_NONE;
     MI_StopDma(id);
     OS_RestoreInterrupts(enabled);
 }
 
 void RenderCore_PrepareDMASwapBuffer(u8 id)
 {
-    DMAController *dmaControl = &renderDMAManagers[id];
+    DMAController *dmaControl = &sRenderDMAManagers[id];
 
     OSIntrMode enabled = OS_DisableInterrupts();
     DC_StoreRange(dmaControl->dmaSrc[dmaControl->bufferID], HW_LCD_HEIGHT * dmaControl->size);
@@ -522,35 +522,35 @@ void RenderCore_PrepareDMASwapBuffer(u8 id)
 
 void *RenderCore_GetDMASrc(u8 id)
 {
-    return renderDMAManagers[id].dmaSrc[renderDMAManagers[id].bufferID];
+    return sRenderDMAManagers[id].dmaSrc[sRenderDMAManagers[id].bufferID];
 }
 
 FoldDeviceMode RenderCore_GetNextFoldMode(void)
 {
-    return foldControl.nextMode;
+    return sFoldControl.nextMode;
 }
 
 void RenderCore_SetNextFoldMode(FoldDeviceMode mode)
 {
-    foldControl.nextMode = mode;
+    sFoldControl.nextMode = mode;
 }
 
 void RenderCore_HandleDeviceFold(void)
 {
     if (PAD_DetectFold())
     {
-        if (foldControl.isFolded != TRUE)
+        if (sFoldControl.isFolded != TRUE)
         {
-            foldControl.isFolded = TRUE;
-            foldControl.target   = GetLCDTarget();
+            sFoldControl.isFolded = TRUE;
+            sFoldControl.target   = GetLCDTarget();
         }
         else
         {
-            if (foldControl.mode == foldControl.nextMode && foldControl.nextMode != 0)
+            if (sFoldControl.mode == sFoldControl.nextMode && sFoldControl.nextMode != 0)
                 return;
         }
 
-        switch (foldControl.nextMode)
+        switch (sFoldControl.nextMode)
         {
             case FOLD_TOGGLE_SLEEP:
                 PM_GoSleepMode(PM_TRIGGER_COVER_OPEN | PM_TRIGGER_CARD, PM_PAD_LOGIC_OR, PAD_INPUT_NONE_MASK);
@@ -570,16 +570,16 @@ void RenderCore_HandleDeviceFold(void)
                 break;
         }
 
-        foldControl.mode = foldControl.nextMode;
+        sFoldControl.mode = sFoldControl.nextMode;
     }
     else
     {
-        if (!foldControl.isFolded)
+        if (!sFoldControl.isFolded)
             return;
 
-        foldControl.isFolded = FALSE;
+        sFoldControl.isFolded = FALSE;
 
-        switch (foldControl.mode)
+        switch (sFoldControl.mode)
         {
             case FOLD_TOGGLE_SLEEP:
                 while (!PM_SetLCDPower(PM_LCD_POWER_ON))
@@ -587,8 +587,8 @@ void RenderCore_HandleDeviceFold(void)
                     // Waiting for it...
                 }
 
-                if (foldControl.target != PM_LCD_INVALID)
-                    PM_SetBackLight(foldControl.target, PM_BACKLIGHT_ON);
+                if (sFoldControl.target != PM_LCD_INVALID)
+                    PM_SetBackLight(sFoldControl.target, PM_BACKLIGHT_ON);
 
                 GX_DispOn();
                 GXS_DispOn();
@@ -600,17 +600,17 @@ void RenderCore_HandleDeviceFold(void)
                     // Waiting for it...
                 }
 
-                if (foldControl.target == PM_LCD_INVALID)
+                if (sFoldControl.target == PM_LCD_INVALID)
                     return;
 
-                PM_SetBackLight(foldControl.target, PM_BACKLIGHT_ON);
+                PM_SetBackLight(sFoldControl.target, PM_BACKLIGHT_ON);
                 break;
 
             case FOLD_TOGGLE_BACKLIGHT:
-                if (foldControl.target == PM_LCD_INVALID)
+                if (sFoldControl.target == PM_LCD_INVALID)
                     return;
 
-                PM_SetBackLight(foldControl.target, PM_BACKLIGHT_ON);
+                PM_SetBackLight(sFoldControl.target, PM_BACKLIGHT_ON);
                 break;
         }
     }
@@ -618,12 +618,12 @@ void RenderCore_HandleDeviceFold(void)
 
 const u8 *RenderCore_GetLanguagePtr(void)
 {
-    return &ownerInfo.language;
+    return &gSystemOwnerInfo.language;
 }
 
 u32 RenderCore_GetDMARenderCount(void)
 {
-    return dmaRenderCount;
+    return sDMARenderCount;
 }
 
 void RenderCore_DisableSoftReset(BOOL enabled)
@@ -738,16 +738,16 @@ void RenderCore_ChangeBlendBrightness(u32 addr, int brightness)
 void InitRenderCore(void)
 {
     renderFlags       = RENDERCORE_FLAG_NONE;
-    prevRenderFlags   = RENDERCORE_FLAG_NONE;
-    targetVBlankCount = 0;
-    vBlankCount       = 0;
-    resetParam        = *(u32 *)HW_RESET_PARAMETER_BUF;
+    sPrevRenderFlags   = RENDERCORE_FLAG_NONE;
+    sTargetVBlankCount = 0;
+    sVBlankCount       = 0;
+    sResetParam        = *(u32 *)HW_RESET_PARAMETER_BUF;
 
-    MI_CpuClear16(renderDMAManagers, sizeof(renderDMAManagers));
+    MI_CpuClear16(sRenderDMAManagers, sizeof(sRenderDMAManagers));
 
-    MI_CpuClear16(&foldControl, sizeof(foldControl));
-    foldControl.mode     = FOLD_TOGGLE_SLEEP;
-    foldControl.nextMode = FOLD_TOGGLE_SLEEP;
+    MI_CpuClear16(&sFoldControl, sizeof(sFoldControl));
+    sFoldControl.mode     = FOLD_TOGGLE_SLEEP;
+    sFoldControl.nextMode = FOLD_TOGGLE_SLEEP;
 
     // ???
     MtxFx22 matrix;
@@ -771,12 +771,12 @@ void InitRenderCore(void)
     renderCoreSwapBuffer.sortMode   = GX_SORTMODE_AUTO;
     renderCoreSwapBuffer.bufferMode = GX_BUFFERMODE_W;
 
-    MI_CpuClear32(&overlayState, sizeof(overlayState));
-    overlayState.prevID = OVERLAY_NONE;
-    overlayState.nextID = OVERLAY_NONE;
+    MI_CpuClear32(&sOverlayControl, sizeof(sOverlayControl));
+    sOverlayControl.prevID = OVERLAY_NONE;
+    sOverlayControl.nextID = OVERLAY_NONE;
 
-    OS_CreateVAlarm(&vblankAlarm);
-    dmaRenderCount = 0;
+    OS_CreateVAlarm(&sVBlankAlarm);
+    sDMARenderCount = 0;
 }
 
 void UpdateLoadedOverlays(OverlayControl *state)

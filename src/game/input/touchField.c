@@ -5,34 +5,34 @@
 // TYPES
 // --------------------
 
-typedef void (*TouchResponceCallback)(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+typedef void (*TouchResponseCallback)(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
 
 // --------------------
 // FUNCTION DECLS
 // --------------------
 
 static BOOL TouchField__ProcessSingle(TouchField *work, TouchArea *area, BOOL doBoundsCheck);
-static void TouchField__ResponceCallback_0(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
-static void TouchField__ResponceCallback_1(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
-static void TouchField__ResponceCallback_2(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
-static void TouchField__ResponceCallback_3(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
-static void TouchField__ResponceCallback_4(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
-static void TouchField__ResponceCallback_5(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
-static void TouchField__ResponceCallback_6(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
-static void TouchField__ResponceCallback_7(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
-static void TouchField__ResponceCallback_8(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
-static void TouchField__ResponceCallback_9(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
-static void TouchField__ResponceCallback_10(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
-static void TouchField__ResponceCallback_11(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+static void TouchField__ResponseCallback_0(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+static void TouchField__ResponseCallback_1(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+static void TouchField__ResponseCallback_2(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+static void TouchField__ResponseCallback_3(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+static void TouchField__ResponseCallback_4(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+static void TouchField__ResponseCallback_5(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+static void TouchField__ResponseCallback_6(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+static void TouchField__ResponseCallback_7(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+static void TouchField__ResponseCallback_8(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+static void TouchField__ResponseCallback_9(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+static void TouchField__ResponseCallback_10(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
+static void TouchField__ResponseCallback_11(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context);
 
 // --------------------
 // VARIABLES
 // --------------------
 
-static const TouchResponceCallback responceCallbackTable[12] = {
-    TouchField__ResponceCallback_0, TouchField__ResponceCallback_1, TouchField__ResponceCallback_2,  TouchField__ResponceCallback_3,
-    TouchField__ResponceCallback_4, TouchField__ResponceCallback_5, TouchField__ResponceCallback_6,  TouchField__ResponceCallback_7,
-    TouchField__ResponceCallback_8, TouchField__ResponceCallback_9, TouchField__ResponceCallback_10, TouchField__ResponceCallback_11,
+static const TouchResponseCallback sResponseCallbackTable[12] = {
+    TouchField__ResponseCallback_0, TouchField__ResponseCallback_1, TouchField__ResponseCallback_2,  TouchField__ResponseCallback_3,
+    TouchField__ResponseCallback_4, TouchField__ResponseCallback_5, TouchField__ResponseCallback_6,  TouchField__ResponseCallback_7,
+    TouchField__ResponseCallback_8, TouchField__ResponseCallback_9, TouchField__ResponseCallback_10, TouchField__ResponseCallback_11,
 };
 
 // --------------------
@@ -695,7 +695,7 @@ BOOL TouchField__ProcessSingle(TouchField *work, TouchArea *area, BOOL doBoundsC
         for (i = 0; i < 12; i++)
         {
             if ((area->responseFlags & responseFlags) != 0)
-                responceCallbackTable[i](responseFlags, area, callback, arg);
+                sResponseCallbackTable[i](responseFlags, area, callback, arg);
 
             responseFlags <<= 1;
         }
@@ -707,102 +707,102 @@ BOOL TouchField__ProcessSingle(TouchField *work, TouchArea *area, BOOL doBoundsC
     return (area->responseFlags & TOUCHAREA_RESPONSE_IN_BOUNDS) != 0;
 }
 
-void TouchField__ResponceCallback_0(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
+void TouchField__ResponseCallback_0(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
 {
-    TouchAreaResponseFlags responceFlags;
+    TouchAreaResponseFlags responseFlags;
 
-    responceFlags = response;
-    callback((TouchAreaResponse *)&responceFlags, area, context);
+    responseFlags = response;
+    callback((TouchAreaResponse *)&responseFlags, area, context);
 }
 
-void TouchField__ResponceCallback_1(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
+void TouchField__ResponseCallback_1(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
 {
-    TouchAreaResponseFlags responceFlags;
+    TouchAreaResponseFlags responseFlags;
 
-    responceFlags = response;
-    callback((TouchAreaResponse *)&responceFlags, area, context);
+    responseFlags = response;
+    callback((TouchAreaResponse *)&responseFlags, area, context);
 }
 
-void TouchField__ResponceCallback_2(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
+void TouchField__ResponseCallback_2(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
 {
-    TouchAreaResponseFlags responceFlags;
+    TouchAreaResponseFlags responseFlags;
 
-    responceFlags = response;
-    callback((TouchAreaResponse *)&responceFlags, area, context);
+    responseFlags = response;
+    callback((TouchAreaResponse *)&responseFlags, area, context);
 }
 
-void TouchField__ResponceCallback_3(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
+void TouchField__ResponseCallback_3(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
 {
-    TouchAreaResponseFlags responceFlags;
+    TouchAreaResponseFlags responseFlags;
 
-    responceFlags = response;
-    callback((TouchAreaResponse *)&responceFlags, area, context);
+    responseFlags = response;
+    callback((TouchAreaResponse *)&responseFlags, area, context);
 }
 
-void TouchField__ResponceCallback_4(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
+void TouchField__ResponseCallback_4(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
 {
-    TouchAreaResponseFlags responceFlags;
+    TouchAreaResponseFlags responseFlags;
 
-    responceFlags = response;
-    callback((TouchAreaResponse *)&responceFlags, area, context);
+    responseFlags = response;
+    callback((TouchAreaResponse *)&responseFlags, area, context);
 }
 
-void TouchField__ResponceCallback_5(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
+void TouchField__ResponseCallback_5(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
 {
-    TouchAreaResponseFlags responceFlags;
+    TouchAreaResponseFlags responseFlags;
 
-    responceFlags = response;
-    callback((TouchAreaResponse *)&responceFlags, area, context);
+    responseFlags = response;
+    callback((TouchAreaResponse *)&responseFlags, area, context);
 }
 
-void TouchField__ResponceCallback_6(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
+void TouchField__ResponseCallback_6(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
 {
-    TouchAreaResponseFlags responceFlags;
+    TouchAreaResponseFlags responseFlags;
 
-    responceFlags = response;
-    callback((TouchAreaResponse *)&responceFlags, area, context);
+    responseFlags = response;
+    callback((TouchAreaResponse *)&responseFlags, area, context);
 }
 
-void TouchField__ResponceCallback_7(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
+void TouchField__ResponseCallback_7(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
 {
-    TouchAreaResponse responceState;
+    TouchAreaResponse responseState;
 
-    responceState.flags  = response;
-    responceState.move.x = (s16)touchInput.on.x - (s16)area->touchPos.x;
-    responceState.move.y = (s16)touchInput.on.y - (s16)area->touchPos.y;
-    callback(&responceState, area, context);
+    responseState.flags  = response;
+    responseState.move.x = (s16)touchInput.on.x - (s16)area->touchPos.x;
+    responseState.move.y = (s16)touchInput.on.y - (s16)area->touchPos.y;
+    callback(&responseState, area, context);
 }
 
-void TouchField__ResponceCallback_8(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
+void TouchField__ResponseCallback_8(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
 {
-    TouchAreaResponseFlags responceFlags;
+    TouchAreaResponseFlags responseFlags;
 
-    responceFlags = response;
-    callback((TouchAreaResponse *)&responceFlags, area, context);
+    responseFlags = response;
+    callback((TouchAreaResponse *)&responseFlags, area, context);
 }
 
-void TouchField__ResponceCallback_9(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
+void TouchField__ResponseCallback_9(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
 {
-    TouchAreaResponseFlags responceFlags;
+    TouchAreaResponseFlags responseFlags;
 
-    responceFlags = response;
-    callback((TouchAreaResponse *)&responceFlags, area, context);
+    responseFlags = response;
+    callback((TouchAreaResponse *)&responseFlags, area, context);
 }
 
-void TouchField__ResponceCallback_10(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
+void TouchField__ResponseCallback_10(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
 {
-    TouchAreaResponse responceState;
+    TouchAreaResponse responseState;
 
-    responceState.flags  = response;
-    responceState.move.x = (s16)touchInput.on.x - (s16)area->touchPos.x;
-    responceState.move.y = (s16)touchInput.on.y - (s16)area->touchPos.y;
-    callback(&responceState, area, context);
+    responseState.flags  = response;
+    responseState.move.x = (s16)touchInput.on.x - (s16)area->touchPos.x;
+    responseState.move.y = (s16)touchInput.on.y - (s16)area->touchPos.y;
+    callback(&responseState, area, context);
 }
 
-void TouchField__ResponceCallback_11(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
+void TouchField__ResponseCallback_11(TouchAreaResponseFlags response, TouchArea *area, TouchAreaCallback callback, void *context)
 {
-    TouchAreaResponseFlags responceFlags;
+    TouchAreaResponseFlags responseFlags;
 
-    responceFlags = response;
-    callback((TouchAreaResponse *)&responceFlags, area, context);
+    responseFlags = response;
+    callback((TouchAreaResponse *)&responseFlags, area, context);
 }

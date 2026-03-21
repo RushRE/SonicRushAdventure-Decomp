@@ -34,7 +34,7 @@ NOT_DECOMPILED StageTask *SailExplosionHazard__Create(VecFx32 *position);
 // VARIABLES
 // --------------------
 
-static const s16 oscillateTable[] = { FLOAT_TO_FX32(0.03125),  FLOAT_TO_FX32(0.0625),  FLOAT_TO_FX32(0.03125),  FLOAT_TO_FX32(0.0078125),
+static const s16 sOscillateTable[] = { FLOAT_TO_FX32(0.03125),  FLOAT_TO_FX32(0.0625),  FLOAT_TO_FX32(0.03125),  FLOAT_TO_FX32(0.0078125),
                                       -FLOAT_TO_FX32(0.03125), -FLOAT_TO_FX32(0.0625), -FLOAT_TO_FX32(0.03125), -FLOAT_TO_FX32(0.0078125) };
 
 NOT_DECOMPILED const char *aSbLandBac;
@@ -870,13 +870,13 @@ void SailObject_ShakeScreen(StageTask *work, s32 timer)
 
     if (timer != 0)
     {
-        fx32 shakeX = FX32_FROM_WHOLE(StageTask__shakeOffsetTable[timer & 0xF]);
-        fx32 shakeY = FX32_FROM_WHOLE(StageTask__shakeOffsetTable[(timer + 1) & 0xF]);
+        fx32 shakeX = FX32_FROM_WHOLE(gStageTaskShakeOffsetTable[timer & 0xF]);
+        fx32 shakeY = FX32_FROM_WHOLE(gStageTaskShakeOffsetTable[(timer + 1) & 0xF]);
 
-        work->offset.x += shakeX >> shipShiftUnknown[shipType];
-        work->offset.y += shakeY >> shipShiftUnknown[shipType];
+        work->offset.x += shakeX >> gShipShiftUnknown[shipType];
+        work->offset.y += shakeY >> gShipShiftUnknown[shipType];
         if ((work->flag & STAGE_TASK_FLAG_UNKNOWN) == 0)
-            work->offset.z += shakeX >> shipShiftUnknown[shipType];
+            work->offset.z += shakeX >> gShipShiftUnknown[shipType];
     }
 }
 
@@ -2209,13 +2209,13 @@ void SailObject_Func_2166C04(StageTask *work, VecFx32 *position)
 
 void SailObject_Oscillate(StageTask *work)
 {
-    work->velocity.y += oscillateTable[(work->userTimer >> 2) & 0x7];
+    work->velocity.y += sOscillateTable[(work->userTimer >> 2) & 0x7];
     work->userTimer++;
 }
 
 void SailIce_State_Oscillate(StageTask *work)
 {
-    work->velocity.y = -oscillateTable[(work->userTimer >> 2) & 0x7] >> 2;
+    work->velocity.y = -sOscillateTable[(work->userTimer >> 2) & 0x7] >> 2;
     work->userTimer++;
 }
 
@@ -6252,7 +6252,7 @@ void SailIslandSeagull_State_Flying(StageTask *work)
     NNS_G3dMdlSetMdlAlphaAll(work->obj_3d->ani.renderObj.resMdl, parent->obj_2dIn3d->ani.polygonAttr.alpha);
 
     work->userWork--;
-    work->velocity.y = oscillateTable[(work->userWork >> 2) & 0x7] >> 2;
+    work->velocity.y = sOscillateTable[(work->userWork >> 2) & 0x7] >> 2;
 
     work->dir.y += work->userTimer;
 
@@ -6290,7 +6290,7 @@ void SailFish_State_Swimming(StageTask *work)
             work->dir.y = ObjRoopMove16(work->dir.y, FLOAT_DEG_TO_IDX(90.0), FLOAT_DEG_TO_IDX(2.8125));
     }
 
-    worker->voyageVelocity.y += oscillateTable[(work->userWork >> 2) & 0x7] >> 1;
+    worker->voyageVelocity.y += sOscillateTable[(work->userWork >> 2) & 0x7] >> 1;
 
     worker->voyageVelocity.x = MultiplyFX(FLOAT_TO_FX32(0.75), SinFX(work->dir.y));
     worker->voyageVelocity.z = MultiplyFX(FLOAT_TO_FX32(0.75), CosFX(work->dir.y));
@@ -6338,8 +6338,8 @@ void SailIslandFish_State_Swimming(StageTask *work)
     work->userWork--;
     work->userTimer++;
 
-    work->velocity.y          = oscillateTable[(work->userWork >> 2) & 0x7];
-    worker->voyageScrollSpeed = 2 * oscillateTable[(work->userTimer >> 3) & 0x7];
+    work->velocity.y          = sOscillateTable[(work->userWork >> 2) & 0x7];
+    worker->voyageScrollSpeed = 2 * sOscillateTable[(work->userTimer >> 3) & 0x7];
 
     work->velocity.x = MultiplyFX(worker->voyageScrollSpeed, CosFX(work->dir.y));
     work->velocity.z = MultiplyFX(worker->voyageScrollSpeed, SinFX(work->dir.y));
@@ -6367,7 +6367,7 @@ void SailGoalChaosEmerald_State_Idle(StageTask *work)
     SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
     SailManager *manager             = SailManager__GetWork();
 
-    worker->voyageVelocity.y = oscillateTable[(work->userTimer >> 2) & 0x7] >> 2;
+    worker->voyageVelocity.y = sOscillateTable[(work->userTimer >> 2) & 0x7] >> 2;
     work->userTimer++;
 
     SailObject_HandleVoyageVelocity(work);
@@ -6441,7 +6441,7 @@ void SailGoal_State_Active(StageTask *work)
     SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
     SailManager *manager             = SailManager__GetWork();
 
-    worker->voyageVelocity.y = oscillateTable[(work->userTimer >> 2) & 0x7] >> 2;
+    worker->voyageVelocity.y = sOscillateTable[(work->userTimer >> 2) & 0x7] >> 2;
     work->userTimer++;
 
     SailObject_HandleVoyageVelocity(work);
@@ -6487,7 +6487,7 @@ void SailGoalText_State_Active(StageTask *work)
 
     SailVoyageManager *voyageManager = SailManager__GetWork()->voyageManager;
 
-    worker->voyageVelocity.y = oscillateTable[(work->userTimer >> 2) & 0x7] >> 2;
+    worker->voyageVelocity.y = sOscillateTable[(work->userTimer >> 2) & 0x7] >> 2;
     work->userTimer++;
 
     SailObject_HandleVoyageVelocity(work);

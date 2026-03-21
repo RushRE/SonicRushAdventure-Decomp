@@ -11,28 +11,28 @@
 // VARIABLES
 // --------------------
 
-static s16 exRegularBlazeInstanceCount;
-static s16 exBurningBlazeInstanceCount;
-static s16 exBlazeDashEffectInstanceCount;
-static s16 exBurningBlazeSpriteInstanceCount;
-static void *exBlazeDashEffectTaskSingleton;
-static u32 exBlazeDashEffectTextureFileSize;
-static u32 exBlazeDashEffectModelFileSize;
-static void *exBurningBlazeJointAniResource;
-static void *exBlazeDashEffectUnused;
-static void *exBlazeDashEffectModelResource;
-static void *exBlazeDashEffectLastSpawnedWorker;
-static void *exRegularBlazeLastSpawnedWorker;
-static void *exBurningBlazeSpriteResource;
-static void *exRegularBlazeJointAniResource;
-static void *exRegularBlazeModelResource;
-static void *exBurningBlazeLastSpawnedWorker;
-static void *exBurningBlazeModelResource;
-static void *exBlazeDashEffectAnimResource[3];
-static B3DAnimationTypes exBlazeDashEffectAnimType[3];
+static s16 sExRegularBlazeInstanceCount;
+static s16 sExBurningBlazeInstanceCount;
+static s16 sExBlazeDashEffectInstanceCount;
+static s16 sExBurningBlazeSpriteInstanceCount;
+static void *sExBlazeDashEffectTaskSingleton;
+static u32 sExBlazeDashEffectTextureFileSize;
+static u32 sExBlazeDashEffectModelFileSize;
+static void *sExBurningBlazeJointAniResource;
+static void *sExBlazeDashEffectUnused;
+static void *sExBlazeDashEffectModelResource;
+static void *sExBlazeDashEffectLastSpawnedWorker;
+static void *sExRegularBlazeLastSpawnedWorker;
+static void *sExBurningBlazeSpriteResource;
+static void *sExRegularBlazeJointAniResource;
+static void *sExRegularBlazeModelResource;
+static void *sExBurningBlazeLastSpawnedWorker;
+static void *sExBurningBlazeModelResource;
+static void *sExBlazeDashEffectAnimResource[3];
+static B3DAnimationTypes sExBlazeDashEffectAnimType[3];
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(exBlazeDashEffectUnused)
+FORCE_INCLUDE_VARIABLE_BSS(sExBlazeDashEffectUnused)
 
 // --------------------
 // FUNCTION DECLS
@@ -51,26 +51,26 @@ static void ExBlazeDashEffect_Main_Active(void);
 
 void LoadExBurningBlazeModel(EX_ACTION_NN_WORK *work)
 {
-    exBurningBlazeLastSpawnedWorker = work;
+    sExBurningBlazeLastSpawnedWorker = work;
 
     InitExDrawRequestModel(work);
 
-    if (exBurningBlazeInstanceCount == 0)
+    if (sExBurningBlazeInstanceCount == 0)
     {
-        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_BLZ_NSBMD, &exBurningBlazeModelResource, TRUE, FALSE);
+        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_BLZ_NSBMD, &sExBurningBlazeModelResource, TRUE, FALSE);
 
-        exBurningBlazeJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_BLZ_NSBCA);
-        NNS_G3dResDefaultSetup(exBurningBlazeModelResource);
+        sExBurningBlazeJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_BLZ_NSBCA);
+        NNS_G3dResDefaultSetup(sExBurningBlazeModelResource);
 
-        void *oldMemory             = exBurningBlazeModelResource;
-        exBurningBlazeModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(exBurningBlazeModelResource));
-        Asset3DSetup_CopyResourceData(oldMemory, exBurningBlazeModelResource);
+        void *oldMemory             = sExBurningBlazeModelResource;
+        sExBurningBlazeModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup_GetResourceSize(sExBurningBlazeModelResource));
+        Asset3DSetup_CopyResourceData(oldMemory, sExBurningBlazeModelResource);
         HeapFree(HEAP_USER, oldMemory);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBurningBlazeModelResource, 0, TRUE, TRUE);
-    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exBurningBlazeJointAniResource, 0, NULL);
+    AnimatorMDL__SetResource(&work->model.animator, sExBurningBlazeModelResource, 0, TRUE, TRUE);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, sExBurningBlazeJointAniResource, 0, NULL);
 
     work->model.primaryAnimType     = B3D_ANIM_JOINT_ANIM;
     work->model.primaryAnimResource = work->model.animator.currentAnimObj[B3D_ANIM_JOINT_ANIM];
@@ -99,55 +99,55 @@ void LoadExBurningBlazeModel(EX_ACTION_NN_WORK *work)
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
-    exBurningBlazeInstanceCount++;
+    sExBurningBlazeInstanceCount++;
 }
 
 void SetExBurningBlazeAnimation(EX_ACTION_NN_WORK *work, u16 anim)
 {
-    ExUtils_SetJointAnimation(work, exBurningBlazeModelResource, NULL, exBurningBlazeJointAniResource, anim);
+    ExUtils_SetJointAnimation(work, sExBurningBlazeModelResource, NULL, sExBurningBlazeJointAniResource, anim);
 }
 
 void ReleaseExBurningBlazeModel(EX_ACTION_NN_WORK *work)
 {
-    if (exBurningBlazeInstanceCount == 1)
+    if (sExBurningBlazeInstanceCount == 1)
     {
-        if (exBurningBlazeModelResource != NULL)
-            NNS_G3dResDefaultRelease(exBurningBlazeModelResource);
+        if (sExBurningBlazeModelResource != NULL)
+            NNS_G3dResDefaultRelease(sExBurningBlazeModelResource);
 
-        if (exBurningBlazeModelResource != NULL)
-            HeapFree(HEAP_USER, exBurningBlazeModelResource);
+        if (sExBurningBlazeModelResource != NULL)
+            HeapFree(HEAP_USER, sExBurningBlazeModelResource);
         else
-            exBurningBlazeModelResource = NULL;
+            sExBurningBlazeModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    if (exBurningBlazeInstanceCount > 0)
-        exBurningBlazeInstanceCount--;
+    if (sExBurningBlazeInstanceCount > 0)
+        sExBurningBlazeInstanceCount--;
 }
 
 EX_ACTION_NN_WORK *GetExBurningBlazeWorker(void)
 {
-    return exBurningBlazeLastSpawnedWorker;
+    return sExBurningBlazeLastSpawnedWorker;
 }
 
 void LoadExRegularBlazeModel(EX_ACTION_NN_WORK *work)
 {
-    exRegularBlazeLastSpawnedWorker = work;
+    sExRegularBlazeLastSpawnedWorker = work;
 
     InitExDrawRequestModel(work);
 
-    if (exRegularBlazeInstanceCount == 0)
+    if (sExRegularBlazeInstanceCount == 0)
     {
-        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_NBLZ_NSBMD, &exRegularBlazeModelResource, TRUE, FALSE);
+        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_NBLZ_NSBMD, &sExRegularBlazeModelResource, TRUE, FALSE);
 
-        exRegularBlazeJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_NBLZ_NSBCA);
-        CreateAsset3DSetup(exRegularBlazeModelResource);
+        sExRegularBlazeJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_NBLZ_NSBCA);
+        CreateAsset3DSetup(sExRegularBlazeModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exRegularBlazeModelResource, 0, TRUE, TRUE);
-    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exRegularBlazeJointAniResource, 0, NULL);
+    AnimatorMDL__SetResource(&work->model.animator, sExRegularBlazeModelResource, 0, TRUE, TRUE);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, sExRegularBlazeJointAniResource, 0, NULL);
 
     work->model.primaryAnimType     = B3D_ANIM_JOINT_ANIM;
     work->model.primaryAnimResource = work->model.animator.currentAnimObj[B3D_ANIM_JOINT_ANIM];
@@ -175,79 +175,79 @@ void LoadExRegularBlazeModel(EX_ACTION_NN_WORK *work)
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
-    exRegularBlazeInstanceCount++;
+    sExRegularBlazeInstanceCount++;
 }
 
 void SetExRegularBlazeAnimation(EX_ACTION_NN_WORK *work, u16 anim)
 {
-    ExUtils_SetJointAnimation(work, exRegularBlazeModelResource, NULL, exRegularBlazeJointAniResource, anim);
+    ExUtils_SetJointAnimation(work, sExRegularBlazeModelResource, NULL, sExRegularBlazeJointAniResource, anim);
 }
 
 void ReleaseExRegularBlazeModel(EX_ACTION_NN_WORK *work)
 {
-    if (exRegularBlazeInstanceCount == 1)
+    if (sExRegularBlazeInstanceCount == 1)
     {
-        if (exRegularBlazeModelResource != NULL)
-            NNS_G3dResDefaultRelease(exRegularBlazeModelResource);
+        if (sExRegularBlazeModelResource != NULL)
+            NNS_G3dResDefaultRelease(sExRegularBlazeModelResource);
 
-        if (exRegularBlazeModelResource != NULL)
-            HeapFree(HEAP_USER, exRegularBlazeModelResource);
+        if (sExRegularBlazeModelResource != NULL)
+            HeapFree(HEAP_USER, sExRegularBlazeModelResource);
         else
-            exRegularBlazeModelResource = NULL;
+            sExRegularBlazeModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    if (exRegularBlazeInstanceCount > 0)
-        exRegularBlazeInstanceCount--;
+    if (sExRegularBlazeInstanceCount > 0)
+        sExRegularBlazeInstanceCount--;
 }
 
 BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    exBlazeDashEffectLastSpawnedWorker = work;
+    sExBlazeDashEffectLastSpawnedWorker = work;
 
-    if (exBlazeDashEffectModelFileSize != 0 && exBlazeDashEffectTextureFileSize != 0)
+    if (sExBlazeDashEffectModelFileSize != 0 && sExBlazeDashEffectTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exBlazeDashEffectModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < sExBlazeDashEffectModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exBlazeDashEffectTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < sExBlazeDashEffectTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exBlazeDashEffectModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < sExBlazeDashEffectModelFileSize)
             return FALSE;
     }
 
     InitExDrawRequestModel(work);
 
-    if (exBlazeDashEffectInstanceCount == 0)
+    if (sExBlazeDashEffectInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_BDASH_NSBMD, &exBlazeDashEffectModelResource, &exBlazeDashEffectModelFileSize, TRUE,
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_BDASH_NSBMD, &sExBlazeDashEffectModelResource, &sExBlazeDashEffectModelFileSize, TRUE,
                                       FALSE);
 
-        exBlazeDashEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BDASH_NSBCA);
-        exBlazeDashEffectAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        sExBlazeDashEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BDASH_NSBCA);
+        sExBlazeDashEffectAnimType[0]     = B3D_ANIM_JOINT_ANIM;
 
-        exBlazeDashEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BDASH_NSBMA);
-        exBlazeDashEffectAnimType[1]     = B3D_ANIM_MAT_ANIM;
+        sExBlazeDashEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BDASH_NSBMA);
+        sExBlazeDashEffectAnimType[1]     = B3D_ANIM_MAT_ANIM;
 
-        exBlazeDashEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BDASH_NSBVA);
-        exBlazeDashEffectAnimType[2]     = B3D_ANIM_VIS_ANIM;
+        sExBlazeDashEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BDASH_NSBVA);
+        sExBlazeDashEffectAnimType[2]     = B3D_ANIM_VIS_ANIM;
 
-        CreateAsset3DSetup(exBlazeDashEffectModelResource);
+        CreateAsset3DSetup(sExBlazeDashEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBlazeDashEffectModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->model.animator, sExBlazeDashEffectModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
     for (; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exBlazeDashEffectAnimType[i], exBlazeDashEffectAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, sExBlazeDashEffectAnimType[i], sExBlazeDashEffectAnimResource[i], 0, NULL);
     }
 
-    work->model.primaryAnimType     = exBlazeDashEffectAnimType[1];
-    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBlazeDashEffectAnimType[1]];
+    work->model.primaryAnimType     = sExBlazeDashEffectAnimType[1];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[sExBlazeDashEffectAnimType[1]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -331,43 +331,43 @@ BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
 
     work->config.control.activeScreens = EXDRAWREQTASKCONFIG_SCREEN_A;
 
-    exBlazeDashEffectInstanceCount++;
+    sExBlazeDashEffectInstanceCount++;
 
     return TRUE;
 }
 
 void ReleaseExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBlazeDashEffectInstanceCount <= 1)
+    if (sExBlazeDashEffectInstanceCount <= 1)
     {
-        if (exBlazeDashEffectModelResource != NULL)
-            NNS_G3dResDefaultRelease(exBlazeDashEffectModelResource);
+        if (sExBlazeDashEffectModelResource != NULL)
+            NNS_G3dResDefaultRelease(sExBlazeDashEffectModelResource);
 
-        if (exBlazeDashEffectAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exBlazeDashEffectAnimResource[0]);
+        if (sExBlazeDashEffectAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(sExBlazeDashEffectAnimResource[0]);
 
-        if (exBlazeDashEffectAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exBlazeDashEffectAnimResource[1]);
+        if (sExBlazeDashEffectAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(sExBlazeDashEffectAnimResource[1]);
 
-        if (exBlazeDashEffectAnimResource[2] != NULL)
-            NNS_G3dResDefaultRelease(exBlazeDashEffectAnimResource[2]);
+        if (sExBlazeDashEffectAnimResource[2] != NULL)
+            NNS_G3dResDefaultRelease(sExBlazeDashEffectAnimResource[2]);
 
-        if (exBlazeDashEffectModelResource != NULL)
-            HeapFree(HEAP_USER, exBlazeDashEffectModelResource);
-        exBlazeDashEffectModelResource = NULL;
+        if (sExBlazeDashEffectModelResource != NULL)
+            HeapFree(HEAP_USER, sExBlazeDashEffectModelResource);
+        sExBlazeDashEffectModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    if (exBlazeDashEffectInstanceCount > 0)
-        exBlazeDashEffectInstanceCount--;
+    if (sExBlazeDashEffectInstanceCount > 0)
+        sExBlazeDashEffectInstanceCount--;
 }
 
 void ExBlazeDashEffect_Main_Init(void)
 {
     exBlzDushEffectTask *work = ExTaskGetWorkCurrent(exBlzDushEffectTask);
 
-    exBlazeDashEffectTaskSingleton = GetCurrentTask();
+    sExBlazeDashEffectTaskSingleton = GetCurrentTask();
 
     LoadExBlazeDashEffectAssets(&work->aniDash);
     SetExDrawRequestPriority(&work->aniDash.config, EXDRAWREQTASK_PRIORITY_DEFAULT);
@@ -391,7 +391,7 @@ void ExBlazeDashEffect_Destructor(void)
 
     ReleaseExBlazeDashEffectAssets(&work->aniDash);
 
-    exBlazeDashEffectTaskSingleton = NULL;
+    sExBlazeDashEffectTaskSingleton = NULL;
 }
 
 void ExBlazeDashEffect_Main_Active(void)
@@ -418,7 +418,7 @@ void ExBlazeDashEffect_Main_Active(void)
 
 BOOL CreateExBlazeDashEffect(EX_ACTION_NN_WORK *parent)
 {
-    if (exBlazeDashEffectTaskSingleton != NULL)
+    if (sExBlazeDashEffectTaskSingleton != NULL)
         DestroyExBlazeDashEffect();
 
     if (parent == NULL)
@@ -439,20 +439,20 @@ BOOL CreateExBlazeDashEffect(EX_ACTION_NN_WORK *parent)
 
 void DestroyExBlazeDashEffect(void)
 {
-    if (exBlazeDashEffectTaskSingleton != NULL)
-        DestroyExTask(exBlazeDashEffectTaskSingleton);
+    if (sExBlazeDashEffectTaskSingleton != NULL)
+        DestroyExTask(sExBlazeDashEffectTaskSingleton);
 }
 
 void LoadExBurningBlazeSprite(EX_ACTION_BAC3D_WORK *work)
 {
     InitExDrawRequestSprite3D(work);
 
-    if (exBurningBlazeSpriteInstanceCount == 0)
-        exBurningBlazeSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
+    if (sExBurningBlazeSpriteInstanceCount == 0)
+        sExBurningBlazeSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
 
-    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exBurningBlazeSpriteResource, 1), FALSE);
-    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exBurningBlazeSpriteResource, 1), FALSE);
-    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBurningBlazeSpriteResource, EX_ACTCOM_ANI_BURNINGBLAZE, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
+    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(sExBurningBlazeSpriteResource, 1), FALSE);
+    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(sExBurningBlazeSpriteResource, 1), FALSE);
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, sExBurningBlazeSpriteResource, EX_ACTCOM_ANI_BURNINGBLAZE, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
                            vramPalette);
     work->sprite.animator.polygonAttr.xluDepthUpdate = TRUE;
 
@@ -470,12 +470,12 @@ void LoadExBurningBlazeSprite(EX_ACTION_BAC3D_WORK *work)
     work->hitChecker.box.size.z   = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position = &work->sprite.translation;
 
-    exBurningBlazeSpriteInstanceCount++;
+    sExBurningBlazeSpriteInstanceCount++;
 }
 
 void ReleaseExBurningBlazeSprite(EX_ACTION_BAC3D_WORK *work)
 {
     AnimatorSprite3D__Release(&work->sprite.animator);
 
-    exBurningBlazeSpriteInstanceCount--;
+    sExBurningBlazeSpriteInstanceCount--;
 }

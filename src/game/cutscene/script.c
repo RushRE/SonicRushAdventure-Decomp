@@ -49,7 +49,7 @@ static const char *aAykTkdm01 = "ayk/tkdm01";
 static const char *aAykPtdm00 = "ayk/ptdm00";
 #endif
 
-static const struct CutsceneInfo cutsceneList[CUTSCENE_COUNT] = {
+static const struct CutsceneInfo sCutsceneList[CUTSCENE_COUNT] = {
     [CUTSCENE_NONE]                               = { .scriptID = SCRIPT_UNKNOWN_2, .startParam = 0x00000000 },
     [CUTSCENE_OPENING]                            = { .scriptID = SCRIPT_PLDM_00, .startParam = 0x10000022 },
     [CUTSCENE_MARINE_APPEARS]                     = { .scriptID = SCRIPT_PLDM_01, .startParam = 0x10000043 },
@@ -132,7 +132,7 @@ static const struct CutsceneInfo cutsceneList[CUTSCENE_COUNT] = {
     [CUTSCENE_WE_WILL_MEET_AGAIN]                 = { .scriptID = SCRIPT_PLDM_01, .startParam = 0x10000050 },
 };
 
-static struct ScriptFile scriptList[CUTSCENE_COUNT] = {
+static struct ScriptFile sScriptList[CUTSCENE_COUNT] = {
     [SCRIPT_NONE]    = { .file = "", .extension = "" },
     [SCRIPT_PLDM_00] = { .file = "ayk/pldm00", .extension = "_lz7.ayk" },
     [SCRIPT_PLDM_01] = { .file = "ayk/pldm01", .extension = "_lz7.ayk" },
@@ -149,7 +149,7 @@ void *LoadCutsceneScriptFile(u32 cutsceneID)
 {
     char filePath[32] = { 0 };
 
-    struct ScriptFile *script = &scriptList[cutsceneList[cutsceneID].scriptID];
+    struct ScriptFile *script = &sScriptList[sCutsceneList[cutsceneID].scriptID];
     STD_CopyString(filePath, script->file);
     STD_ConcatenateString(filePath, "_jpn");
     STD_ConcatenateString(filePath, script->extension);
@@ -159,7 +159,7 @@ void *LoadCutsceneScriptFile(u32 cutsceneID)
 
 u32 GetScriptStartParam(u32 cutsceneID)
 {
-    return cutsceneList[cutsceneID].startParam;
+    return sCutsceneList[cutsceneID].startParam;
 }
 
 u32 GetScriptCanSkipFlagIn(void)

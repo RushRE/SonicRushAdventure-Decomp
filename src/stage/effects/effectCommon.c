@@ -100,16 +100,16 @@ static const char *aNsbva = ".nsbva";
 static const char *aNsbta = ".nsbta";
 #endif
 
-static const char *iceSparklesSprite[2] = { "/act/ac_eff_ice_kira.bac", "/act/ac_eff_water_kira.bac" };
+static const char *sIceSparklesSprite[2] = { "/act/ac_eff_ice_kira.bac", "/act/ac_eff_water_kira.bac" };
 
-static const char *animationType[B3D_ANIM_MAX] = {
+static const char *sAnimationExtension[B3D_ANIM_MAX] = {
     [B3D_ANIM_JOINT_ANIM] = ".nsbca", [B3D_ANIM_MAT_ANIM] = ".nsbma", [B3D_ANIM_PAT_ANIM] = ".nsbtp", [B3D_ANIM_TEX_ANIM] = ".nsbta", [B3D_ANIM_VIS_ANIM] = ".nsbva"
 };
 
-static u16 goalJewelSpriteSize[10] = { 29, 22, 32, 9, 29, 36, 22, 32, 9, 36 };
+static u16 sGoalJewelSpriteSize[10] = { 29, 22, 32, 9, 29, 36, 22, 32, 9, 36 };
 
 typedef void (*EffectButtonPromptState)(EffectButtonPrompt *work);
-EffectButtonPromptState const EffectButtonPrompt__states[2] = { EffectButtonPrompt__State_DPadUp, EffectButtonPrompt__State_JumpButton };
+EffectButtonPromptState const gEffectButtonPromptStateTable[2] = { EffectButtonPrompt__State_DPadUp, EffectButtonPrompt__State_JumpButton };
 
 // --------------------
 // FUNCTION DECLS
@@ -219,7 +219,7 @@ void LoadEffectTask3DAsset(EffectTask3D *work, const char *path, OBS_DATA_WORK *
             if ((resourceFlags & (1 << r)) != 0)
             {
                 STD_CopyString(tempPath, path);
-                STD_ConcatenateString(tempPath, animationType[r]);
+                STD_ConcatenateString(tempPath, sAnimationExtension[r]);
 
                 work->files[r] = ObjDataLoad(NULL, tempPath, archive);
 
@@ -1170,7 +1170,7 @@ EffectIceSparkles *EffectIceSparkles__Create(fx32 x, fx32 y, fx32 velX, fx32 vel
     if (!work)
         return 0;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, iceSparklesSprite[type], GetObjectDataWork(type + OBJDATAWORK_154), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, sIceSparklesSprite[type], GetObjectDataWork(type + OBJDATAWORK_154), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, _0210EA44[type]);
     StageTask__SetAnimation(&work->objWork, 0);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -1251,7 +1251,7 @@ EffectGoalJewel *EffectGoalJewel__Create(u16 type, fx32 x, fx32 y, fx32 velX, fx
         return NULL;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->aniEffect, "/ac_eff_goal_jewel.bac", GetObjectDataWork(OBJDATAWORK_128), gameArchiveCommon, OBJ_DATA_GFX_NONE);
-    ObjObjectActionAllocSprite(&work->objWork, goalJewelSpriteSize[type], GetObjectSpriteRef(2 * type + OBJDATAWORK_129));
+    ObjObjectActionAllocSprite(&work->objWork, sGoalJewelSpriteSize[type], GetObjectSpriteRef(2 * type + OBJDATAWORK_129));
     ObjActionAllocSpritePalette(&work->objWork, type, 23);
     StageTask__SetAnimation(&work->objWork, type);
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;

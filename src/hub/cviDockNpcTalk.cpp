@@ -21,11 +21,11 @@
 // VARIABLES
 // --------------------
 
-static u32 selection;
+static u32 sSelection;
 
-CViDockNpcGroupTalk talkAction = { CVIDOCKNPCTALK_ACTION_INVALID };
+CViDockNpcGroupTalk sTalkAction = { CVIDOCKNPCTALK_ACTION_INVALID };
 
-DockNpcGroupFunc talkActionTable[CVIDOCKNPCTALK_COUNT] = {
+DockNpcGroupFunc sTalkActionTable[CVIDOCKNPCTALK_COUNT] = {
     CViDockNpcTalk::Create,                 // CVIDOCKNPCTALK_NPC
     CViTalkSailPrompt::Create,              // CVIDOCKNPCTALK_SAILPROMPT
     CViTalkPurchase::Create,                // CVIDOCKNPCTALK_PURCHASE
@@ -45,29 +45,29 @@ DockNpcGroupFunc talkActionTable[CVIDOCKNPCTALK_COUNT] = {
 
 void CViDockNpcTalk::CreateTalk(s32 type, s32 param)
 {
-    talkAction.action = CVIDOCKNPCTALK_ACTION_INVALID;
+    sTalkAction.action = CVIDOCKNPCTALK_ACTION_INVALID;
 
-    talkActionTable[type](param);
+    sTalkActionTable[type](param);
 }
 
 u32 CViDockNpcTalk::GetTalkAction(void)
 {
-    return talkAction.action;
+    return sTalkAction.action;
 }
 
 u32 CViDockNpcTalk::GetSelection(void)
 {
-    return selection;
+    return sSelection;
 }
 
 void CViDockNpcTalk::SetTalkAction(u32 action)
 {
-    talkAction.action = action;
+    sTalkAction.action = action;
 }
 
 void CViDockNpcTalk::SetSelection(s32 param)
 {
-    selection = param;
+    sSelection = param;
 }
 
 void CViDockNpcTalk::CreateMissionClearTalk(s32 param)
@@ -76,7 +76,7 @@ void CViDockNpcTalk::CreateMissionClearTalk(s32 param)
 
     if (gameState.clearedMission == FALSE)
     {
-        // "Aw, that's too bad. No worries, though, ay, mate? No worries, though, ay, mate?"
+        // "Aw, that's too bad. No worries, though, ay, mate?"
         talkParam = 7;
     }
     else
@@ -96,7 +96,7 @@ void CViDockNpcTalk::CreateUnknown(s32 param)
 
 void CViDockNpcTalk::CreateTalkAction(s32 param)
 {
-    talkAction.action = param;
+    sTalkAction.action = param;
 }
 
 void CViDockNpcTalk::Create(s32 messageID)
@@ -280,9 +280,9 @@ void CViDockNpcTalk::Main(void)
                 break;
 
             case CViEvtCmnTalk::ACTION_TALK_PURCHASED_INFO: {
-                s32 selection = work->eventTalk.GetSelection();
-                if (!SaveGame__GetProgressFlags_0x100000(selection))
-                    SaveGame__SetProgressFlags_0x100000(selection);
+                s32 sSelection = work->eventTalk.GetSelection();
+                if (!SaveGame__GetProgressFlags_0x100000(sSelection))
+                    SaveGame__SetProgressFlags_0x100000(sSelection);
 
                 CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
             }

@@ -41,11 +41,11 @@ typedef struct exDrawReqTask_
 
 NOT_DECOMPILED u16 exDrawFadeTask__word_2176444[4];
 
-static u16 requestListSize;
-static exDrawRequest *requestBuffer;
-static exDrawRequest *nextRequestList;
-static exDrawRequest *currentRequestList;
-static exDrawReqTaskConfig globalModelConfig;
+static u16 sRequestListSize;
+static exDrawRequest *sRequestBuffer;
+static exDrawRequest *sNextRequestList;
+static exDrawRequest *sCurrentRequestList;
+static exDrawReqTaskConfig sGlobalModelConfig;
 
 // --------------------
 // FUNCTION DECLS
@@ -1759,7 +1759,7 @@ void ExDrawReqTask_Main_Init(void)
 {
     exDrawReqTask *work = ExTaskGetWorkCurrent(exDrawReqTask);
 
-    requestBuffer = HeapAllocHead(HEAP_USER, EXDRAWREQ_REQUEST_LIST_SIZE * sizeof(exDrawRequest));
+    sRequestBuffer = HeapAllocHead(HEAP_USER, EXDRAWREQ_REQUEST_LIST_SIZE * sizeof(exDrawRequest));
     InitExDrawRequestList();
     InitAllExDrawRequests(work->currentRequest);
     InitExDrawGlobalConfig();
@@ -1782,16 +1782,16 @@ void ExDrawReqTask_Destructor(void)
     exDrawReqTask *work = ExTaskGetWorkCurrent(exDrawReqTask);
     UNUSED(work);
 
-    HeapFree(HEAP_USER, requestBuffer);
-    requestBuffer = NULL;
+    HeapFree(HEAP_USER, sRequestBuffer);
+    sRequestBuffer = NULL;
 }
 
 void ExDrawReqTask_Main_Process(void)
 {
     exDrawReqTask *work = ExTaskGetWorkCurrent(exDrawReqTask);
 
-    exDrawRequest *request = currentRequestList;
-    for (work->currentRequest = currentRequestList; request != NULL; work->currentRequest = request)
+    exDrawRequest *request = sCurrentRequestList;
+    for (work->currentRequest = sCurrentRequestList; request != NULL; work->currentRequest = request)
     {
         if (request->slot == 0 || request->priority == EXDRAWREQTASK_PRIORITY_LOWEST || request->drawWork == NULL || request->type == EXDRAWREQTASK_TYPE_NONE)
             break;
@@ -1843,14 +1843,14 @@ void CreateExDrawReqTask(void)
 
 void AddExDrawRequest(void *work, exDrawReqTaskConfig *config)
 {
-    if (CheckExStageFinished() == FALSE && requestListSize < EXDRAWREQ_REQUEST_LIST_SIZE)
+    if (CheckExStageFinished() == FALSE && sRequestListSize < EXDRAWREQ_REQUEST_LIST_SIZE)
     {
-        exDrawRequest *request = nextRequestList;
-        exDrawRequest *next    = currentRequestList;
+        exDrawRequest *request = sNextRequestList;
+        exDrawRequest *next    = sCurrentRequestList;
 
         request->type = config->graphics.drawType;
 
-        exDrawRequest **requestList = &currentRequestList;
+        exDrawRequest **requestList = &sCurrentRequestList;
         exHitCheckTask_DoArenaBoundsCheck(work, request->type);
 
         if (request->type == EXDRAWREQTASK_TYPE_SPRITE2D)
@@ -1870,8 +1870,8 @@ void AddExDrawRequest(void *work, exDrawReqTaskConfig *config)
             MI_CpuCopy8(work, &request->trail, sizeof(request->trail));
         }
 
-        requestListSize++;
-        request->slot     = requestListSize;
+        sRequestListSize++;
+        request->slot     = sRequestListSize;
         request->priority = config->priority;
         request->drawWork = work;
 
@@ -1886,7 +1886,7 @@ void AddExDrawRequest(void *work, exDrawReqTaskConfig *config)
         *requestList  = request;
         request->next = next;
 
-        nextRequestList++;
+        sNextRequestList++;
     }
 }
 
@@ -1894,7 +1894,7 @@ void InitAllExDrawRequests(void *list)
 {
     for (u16 i = 0; i < EXDRAWREQ_REQUEST_LIST_SIZE; i++)
     {
-        InitExDrawRequest(&requestBuffer[i]);
+        InitExDrawRequest(&sRequestBuffer[i]);
     }
 }
 
@@ -1911,9 +1911,9 @@ void InitExDrawRequest(void *req)
 
 void InitExDrawRequestList(void)
 {
-    nextRequestList    = requestBuffer;
-    currentRequestList = NULL;
-    requestListSize    = 0;
+    sNextRequestList    = sRequestBuffer;
+    sCurrentRequestList = NULL;
+    sRequestListSize    = 0;
 }
 
 void SetExDrawRequestPriority(exDrawReqTaskConfig *work, ExDrawReqTaskPriority priority)
@@ -1947,12 +1947,12 @@ void Stop3DExDrawRequestAnimation(exDrawReqTaskConfig *config)
 
 exDrawReqTaskConfig *GetExDrawGlobalConfig(void)
 {
-    return &globalModelConfig;
+    return &sGlobalModelConfig;
 }
 
 void InitExDrawGlobalConfig(void)
 {
-    MI_CpuClear8(&globalModelConfig, sizeof(globalModelConfig));
+    MI_CpuClear8(&sGlobalModelConfig, sizeof(sGlobalModelConfig));
 }
 
 BOOL SetExDrawRequestGlobalModelConfigTimer(u8 duration)

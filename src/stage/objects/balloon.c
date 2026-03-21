@@ -128,7 +128,7 @@ Balloon *CreateBalloon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         }
 
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_REGENERATION);
-        ProcessSpatialSfx(&defaultSfxPlayer, &work->gameWork.objWork.position);
+        ProcessSpatialSfx(&gDefaultSfxPlayer, &work->gameWork.objWork.position);
     }
 
     return work;

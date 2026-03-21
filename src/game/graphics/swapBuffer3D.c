@@ -1279,14 +1279,14 @@ void SwapBuffer3D_VBlankCallback(void)
 
         if (G3X_IsGeometryBusy() == FALSE)
         {
-            MI_DmaCopy32(renderDmaNo, renderCoreGFXControlA.bgPosition, &reg_G2_BG0OFS, sizeof(renderCoreGFXControlA.bgPosition));
+            MI_DmaCopy32(gRenderDMANo, renderCoreGFXControlA.bgPosition, &reg_G2_BG0OFS, sizeof(renderCoreGFXControlA.bgPosition));
 
             {
-                MI_DmaCopy32(renderDmaNo, &renderCoreGFXControlA.windowManager.registers, &reg_G2_WIN0H, sizeof(renderCoreGFXControlA.windowManager.registers));
+                MI_DmaCopy32(gRenderDMANo, &renderCoreGFXControlA.windowManager.registers, &reg_G2_WIN0H, sizeof(renderCoreGFXControlA.windowManager.registers));
                 GX_SetVisibleWnd(renderCoreGFXControlA.windowManager.visible);
             }
 
-            MI_DmaCopy16(renderDmaNo, &renderCoreGFXControlA.blendManager, &reg_G2_BLDCNT, sizeof(renderCoreGFXControlA.blendManager));
+            MI_DmaCopy16(gRenderDMANo, &renderCoreGFXControlA.blendManager, &reg_G2_BLDCNT, sizeof(renderCoreGFXControlA.blendManager));
 
             reg_G2_MOSAIC = renderCoreGFXControlA.mosaicSize;
 
@@ -1340,14 +1340,14 @@ void SwapBuffer3D_VBlankCallback(void)
 
         if (G3X_IsGeometryBusy() == FALSE)
         {
-            MI_DmaCopy32(renderDmaNo, renderCoreGFXControlA.bgPosition, &reg_G2_BG0OFS, sizeof(renderCoreGFXControlA.bgPosition));
+            MI_DmaCopy32(gRenderDMANo, renderCoreGFXControlA.bgPosition, &reg_G2_BG0OFS, sizeof(renderCoreGFXControlA.bgPosition));
 
             {
-                MI_DmaCopy32(renderDmaNo, &renderCoreGFXControlA.windowManager.registers, &reg_G2_WIN0H, sizeof(renderCoreGFXControlA.windowManager.registers));
+                MI_DmaCopy32(gRenderDMANo, &renderCoreGFXControlA.windowManager.registers, &reg_G2_WIN0H, sizeof(renderCoreGFXControlA.windowManager.registers));
                 GX_SetVisibleWnd(renderCoreGFXControlA.windowManager.visible);
             }
 
-            MI_DmaCopy16(renderDmaNo, &renderCoreGFXControlA.blendManager, &reg_G2_BLDCNT, sizeof(renderCoreGFXControlA.blendManager));
+            MI_DmaCopy16(gRenderDMANo, &renderCoreGFXControlA.blendManager, &reg_G2_BLDCNT, sizeof(renderCoreGFXControlA.blendManager));
 
             reg_G2_MOSAIC = renderCoreGFXControlA.mosaicSize;
 

@@ -202,19 +202,19 @@ static const s16 Boss2__ballTargetAngleVelocityTable[BOSS2_PHASE_COUNT][BOSS2_BA
     [BOSS2_PHASE_4] = { 0xC0, 0xA0, 0x80 },
 };
 
-static const fx16 ballWeights_Normal[BOSS2_BALL_COUNT] = {
+static const fx16 sBallWeights_Normal[BOSS2_BALL_COUNT] = {
     [BOSS2_BALL_S] = FLOAT_TO_FX32(4.0),
     [BOSS2_BALL_M] = FLOAT_TO_FX32(2.6),
     [BOSS2_BALL_L] = FLOAT_TO_FX32(2.0),
 };
 
-static const s16 phaseHealthThreshold[BOSS2_PHASE_COUNT - 1] = {
+static const s16 sPhaseHealthThreshold[BOSS2_PHASE_COUNT - 1] = {
     [BOSS2_PHASE_2 - 1] = 0x3A0,
     [BOSS2_PHASE_3 - 1] = 0x280,
     [BOSS2_PHASE_4 - 1] = 0x140,
 };
 
-static const fx16 ballWeights_Heavy[BOSS2_BALL_COUNT] = {
+static const fx16 sBallWeights_Heavy[BOSS2_BALL_COUNT] = {
     [BOSS2_BALL_S] = FLOAT_TO_FX32(3.0),
     [BOSS2_BALL_M] = FLOAT_TO_FX32(2.0),
     [BOSS2_BALL_L] = FLOAT_TO_FX32(1.5),
@@ -227,7 +227,7 @@ static const s32 Boss2__activeArmCountTable[BOSS2_PHASE_COUNT] = {
     [BOSS2_PHASE_4] = (3) - 1,
 };
 
-static const fx32 baseDamageTable[DIFFICULTY_COUNT] = { [DIFFICULTY_EASY] = FLOAT_TO_FX32(1.0), [DIFFICULTY_NORMAL] = FLOAT_TO_FX32(1.0) };
+static const fx32 sBaseDamageTable[DIFFICULTY_COUNT] = { [DIFFICULTY_EASY] = FLOAT_TO_FX32(1.0), [DIFFICULTY_NORMAL] = FLOAT_TO_FX32(1.0) };
 
 static const struct Boss2TimerConfig Boss2__dropAttackConfigTable[DIFFICULTY_COUNT][BOSS2_PHASE_COUNT] =
 {
@@ -285,25 +285,25 @@ static const char *Boss2__paletteNames[] = {
 
 #else
 
-static const fx16 ballWeights_Normal[BOSS2_BALL_COUNT] = {
+static const fx16 sBallWeights_Normal[BOSS2_BALL_COUNT] = {
     [BOSS2_BALL_S] = FLOAT_TO_FX32(4.0),
     [BOSS2_BALL_M] = FLOAT_TO_FX32(2.6),
     [BOSS2_BALL_L] = FLOAT_TO_FX32(2.0),
 };
 
-static const s16 phaseHealthThreshold[BOSS2_PHASE_COUNT - 1] = {
+static const s16 sPhaseHealthThreshold[BOSS2_PHASE_COUNT - 1] = {
     [BOSS2_PHASE_2 - 1] = HUD_BOSS_HEALTH_PERCENT(0.90625),
     [BOSS2_PHASE_3 - 1] = HUD_BOSS_HEALTH_PERCENT(0.625),
     [BOSS2_PHASE_4 - 1] = HUD_BOSS_HEALTH_PERCENT(0.3125),
 };
 
-static const fx16 ballWeights_Heavy[BOSS2_BALL_COUNT] = {
+static const fx16 sBallWeights_Heavy[BOSS2_BALL_COUNT] = {
     [BOSS2_BALL_S] = FLOAT_TO_FX32(3.0),
     [BOSS2_BALL_M] = FLOAT_TO_FX32(2.0),
     [BOSS2_BALL_L] = FLOAT_TO_FX32(1.5),
 };
 
-static const fx32 baseDamageTable[DIFFICULTY_COUNT] = {
+static const fx32 sBaseDamageTable[DIFFICULTY_COUNT] = {
     [DIFFICULTY_EASY]   = FLOAT_TO_FX32(1.0),
     [DIFFICULTY_NORMAL] = FLOAT_TO_FX32(1.0),
 };
@@ -334,8 +334,8 @@ NOT_DECOMPILED const fx32 Boss2__ballScales[BOSS2_BALL_COUNT];
 
 #endif
 
-static void (*originalPlayerDrawFunc)(void);
-static Task *bossStageTaskSingleton;
+static void (*sOriginalPlayerDrawFunc)(void);
+static Task *sBossStageTaskSingleton;
 
 // --------------------
 // FUNCTION DECLS
@@ -528,9 +528,9 @@ Boss2Stage *CreateBoss2Stage(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 {
     NNSFndArchive arc;
 
-    bossStageTaskSingleton = CreateStageTask(Boss2Stage_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), Boss2Stage);
+    sBossStageTaskSingleton = CreateStageTask(Boss2Stage_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), Boss2Stage);
 
-    Boss2Stage *work = TaskGetWork(bossStageTaskSingleton, Boss2Stage);
+    Boss2Stage *work = TaskGetWork(sBossStageTaskSingleton, Boss2Stage);
     TaskInitWork16(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
@@ -1175,7 +1175,7 @@ void DrawBossStagePlayer(void)
     if ((work->objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0)
     {
         BossHelpers__Arena__GetPlayerDrawMtx(work, BOSS2_STAGE_START, BOSS2_STAGE_END, BOSS2_STAGE_RADIUS);
-        originalPlayerDrawFunc();
+        sOriginalPlayerDrawFunc();
     }
 }
 
@@ -1198,7 +1198,7 @@ Boss2Phase GetBossPhase(Boss2Stage *work)
     Boss2Phase p = BOSS2_PHASE_1;
     for (; p < BOSS2_PHASE_COUNT - 1; p++)
     {
-        if (phaseHealthThreshold[p] < health)
+        if (sPhaseHealthThreshold[p] < health)
             break;
     }
 
@@ -1210,7 +1210,7 @@ fx32 GetBossBaseDamage(Boss2Stage *work, s32 ballType)
     UNUSED(work);
     UNUSED(ballType);
 
-    return baseDamageTable[gameState.difficulty];
+    return sBaseDamageTable[gameState.difficulty];
 }
 
 fx32 GetBallBaseDamage(Boss2Stage *work, s32 ballType)
@@ -1244,11 +1244,11 @@ fx16 GetBallWeight(Boss2Stage *work, s32 ballType)
 {
     if (gmCheckMissionType(MISSION_TYPE_BOSS_REMATCH))
     {
-        return ballWeights_Heavy[ballType];
+        return sBallWeights_Heavy[ballType];
     }
     else
     {
-        return ballWeights_Normal[ballType];
+        return sBallWeights_Normal[ballType];
     }
 }
 
@@ -1460,7 +1460,7 @@ void Boss2Stage_Destructor(Task *task)
 
     renderCoreSwapBuffer.sortMode = GX_SORTMODE_AUTO;
 
-    bossStageTaskSingleton = NULL;
+    sBossStageTaskSingleton = NULL;
 
     GameObject__Destructor(task);
 }
@@ -1587,7 +1587,7 @@ NONMATCH_FUNC void Boss2Stage_StageState_Init_Part1(Boss2Stage *work)
     camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane2_BG3 = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_BG3 = TRUE;
     camera3D_A->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane2_OBJ = camera3D_B->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_OBJ = TRUE;
 
-    originalPlayerDrawFunc = gPlayer->objWork.ppOut;
+    sOriginalPlayerDrawFunc = gPlayer->objWork.ppOut;
     SetTaskOutFunc(&gPlayer->objWork, DrawBossStagePlayer);
     gPlayer->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_POSITION;
 
@@ -1814,7 +1814,7 @@ NONMATCH_FUNC void Boss2Stage_StageState_Init_Part1(Boss2Stage *work)
 	orr r0, r1, r0, lsr #19
 	strh r0, [r4, #0x20]
 	ldr ip, [r2]
-	ldr r1, =originalPlayerDrawFunc
+	ldr r1, =sOriginalPlayerDrawFunc
 	ldr r4, [ip, #0xfc]
 	add r0, r5, #0x300
 	str r4, [r1]
@@ -2741,7 +2741,7 @@ void Boss2Drop_DropState_CreateDropFX(Boss2Drop *work)
 
 void Boss2Drop_DropState_DropFall(Boss2Drop *work)
 {
-    Boss2Stage *stage = TaskGetWork(bossStageTaskSingleton, Boss2Stage);
+    Boss2Stage *stage = TaskGetWork(sBossStageTaskSingleton, Boss2Stage);
 
     fx32 targetY = -stage->groundHeight;
     targetY -= FLOAT_TO_FX32(120.0);

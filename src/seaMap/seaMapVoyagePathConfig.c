@@ -15,8 +15,8 @@
 // VARIABLES
 // --------------------
 
-static BOOL initialized;
-static NNSFndList pathNodeList;
+static BOOL sInitialized;
+static NNSFndList sPathNodeList;
 
 // --------------------
 // FUNCTION DECLS
@@ -43,10 +43,10 @@ static u8 SeaMapVoyagePathConfig_GetLV(fx32 x, fx32 y);
 
 BOOL InitSeaMapVoyagePathConfig(void)
 {
-    if (initialized == FALSE)
+    if (sInitialized == FALSE)
     {
         SeaMapVoyagePathConfig_InitList();
-        initialized = TRUE;
+        sInitialized = TRUE;
     }
 
     ReleaseSeaMapVoyagePathConfig();
@@ -70,12 +70,12 @@ void ReleaseSeaMapVoyagePathConfig(void)
 
 s32 SeaMapVoyagePathConfig_GetNodeCount(void)
 {
-    return pathNodeList.numObjects;
+    return sPathNodeList.numObjects;
 }
 
 SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_GetNode(u16 id)
 {
-    NNSFndList *list = &pathNodeList;
+    NNSFndList *list = &sPathNodeList;
 
     SeaMapVoyagePathConfigNodeLink *next = NULL;
 
@@ -339,15 +339,15 @@ BOOL SeaMapVoyagePathConfig_AddLVNode(fx32 distance, fx32 x, fx32 y)
 
 void SeaMapVoyagePathConfig_InitList(void)
 {
-    NNS_FND_INIT_LIST(&pathNodeList, SeaMapVoyagePathConfigNodeLink, link);
+    NNS_FND_INIT_LIST(&sPathNodeList, SeaMapVoyagePathConfigNodeLink, link);
 }
 
 SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_AddNode(SeaMapVoyagePathConfigNode *node)
 {
-    NNSFndList *list = &pathNodeList;
+    NNSFndList *list = &sPathNodeList;
 
     SeaMapVoyagePathConfigNodeLink *link;
-    if (pathNodeList.numObjects < SEAMAPVOYAGEPATHCONFIG_OBJECT_LIST_SIZE)
+    if (sPathNodeList.numObjects < SEAMAPVOYAGEPATHCONFIG_OBJECT_LIST_SIZE)
     {
         link = HeapAllocTail(HEAP_SYSTEM, sizeof(*link));
         NNS_FndAppendListObject(list, link);
@@ -364,9 +364,9 @@ SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_AddNode(SeaMapVoyagePathC
 
 void SeaMapVoyagePathConfig_RemoveAllNodes(void)
 {
-    NNSFndList *list = &pathNodeList;
+    NNSFndList *list = &sPathNodeList;
 
-    SeaMapVoyagePathConfigNodeLink *link = pathNodeList.headObject;
+    SeaMapVoyagePathConfigNodeLink *link = sPathNodeList.headObject;
     while (link != NULL)
     {
         NNS_FndRemoveListObject(list, link);
@@ -378,9 +378,9 @@ void SeaMapVoyagePathConfig_RemoveAllNodes(void)
 
 SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_FindNodeFromType(u32 type)
 {
-    NNSFndList *list = &pathNodeList;
+    NNSFndList *list = &sPathNodeList;
 
-    SeaMapVoyagePathConfigNodeLink *link = pathNodeList.tailObject;
+    SeaMapVoyagePathConfigNodeLink *link = sPathNodeList.tailObject;
 
     while (link != NULL)
     {
@@ -395,9 +395,9 @@ SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_FindNodeFromType(u32 type
 
 SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_FindNodeFromMapObject(u32 type, CHEVObject *work)
 {
-    NNSFndList *list = &pathNodeList;
+    NNSFndList *list = &sPathNodeList;
 
-    SeaMapVoyagePathConfigNodeLink *link = pathNodeList.tailObject;
+    SeaMapVoyagePathConfigNodeLink *link = sPathNodeList.tailObject;
 
     while (link != NULL)
     {
@@ -459,8 +459,8 @@ u8 SeaMapVoyagePathConfig_GetLV(fx32 x, fx32 y)
 
 void SeaMapVoyagePathConfig_StoreShipState(fx32 x, fx32 y, fx32 distance)
 {
-    SeaMapCourseChangeView_shipPosition.x = x;
-    SeaMapCourseChangeView_shipPosition.y = y;
+    gSeaMapCourseChangeView_shipPosition.x = x;
+    gSeaMapCourseChangeView_shipPosition.y = y;
 
     fx32 prevDistance               = seaMapViewUnknown2;
     seaMapViewUnknown2              = distance;

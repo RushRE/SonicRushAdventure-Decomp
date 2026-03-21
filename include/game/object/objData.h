@@ -58,7 +58,7 @@ typedef struct OBS_DATA_WORK_
 // VARIABLES
 // --------------------
 
-extern u16 (*getSpriteGfxSize[])(void *filePtr);
+extern u16 (*gGetSpriteGfxSize[])(void *filePtr);
 
 // --------------------
 // FUNCTIONS
