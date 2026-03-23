@@ -276,55 +276,33 @@ void FlowerPipe__OnDefend_216174C(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     Player__Action_PipeEnter(player, &pipe->gameWork, angle + FLOAT_DEG_TO_IDX(180.0), FlowerPipe__dword_21883A0[pipe->gameWork.objWork.userFlag]);
 }
 
-NONMATCH_FUNC void SteamPipe__OnDefend_21617B0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void SteamPipe__OnDefend_21617B0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    SteamPipe *pipe = (SteamPipe *)rect2->parent;
+    Player *player  = (Player *)rect1->parent;
+    if ((pipe == NULL) || (player == NULL))
+        return;
+    if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
+        return;
+    if (CheckPlayerGimmickObj(player, pipe))
+        return;
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS) == 0)
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r4, [r1, #0x1c]
-	ldr r5, [r0, #0x1c]
-	cmp r4, #0
-	cmpne r5, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5, #0]
-	cmp r0, #1
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r0, [r5, #0x6d8]
-	cmp r0, r4
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r0, [r5, #0x1c]
-	tst r0, #0x200
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r0, [r4, #0x340]
-	mov r2, #0
-	ldrsb ip, [r0, #6]
-	ldr lr, [r4, #0x24]
-	ldr r0, =SteamPipe__dword_2188390
-	cmp ip, #0
-	ldr r1, [r0, lr, lsl #2]
-	ldrgt r0, =SteamPipe__dword_2188398
-	mov r3, r2
-	ldrgt r0, [r0, lr, lsl #2]
-	mlagt r1, ip, r0, r1
-	cmp lr, #1
-	movls r2, #1
-	cmp lr, #0
-	moveq r3, #0
-	beq _02161834
-	cmp lr, #1
-	moveq r3, #1
-_02161834:
-	mov r0, r5
-	bl Player__Action_PipeExit
-	mov r0, r5
-	mov r1, r4
-	bl Player__Action_AllowTrickCombos
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    BOOL allowTricks = FALSE;
+    u32 userFlag     = pipe->gameWork.objWork.userFlag;
+    u32 type         = 0;
+    fx32 velocity    = SteamPipe__dword_2188390[userFlag];
+    if (pipe->gameWork.mapObject->left > 0)
+        velocity = pipe->gameWork.mapObject->left * SteamPipe__dword_2188398[userFlag] + velocity;
+    if (userFlag <= 1)
+        allowTricks = TRUE;
+    if (userFlag == 0)
+        type = 0;
+    else if (userFlag == 1)
+        type = 1;
+    Player__Action_PipeExit(player, velocity, allowTricks, type);
+    Player__Action_AllowTrickCombos(player, &pipe->gameWork);
 }
 
 void FlowerPipe__OnDefend_2161854(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
