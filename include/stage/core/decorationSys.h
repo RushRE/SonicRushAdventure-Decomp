@@ -9,7 +9,7 @@
 // CONSTANTS
 // --------------------
 
-#define STAGEDECOR_TEMPLIST_SIZE 32
+#define DECORATIONSYS_TEMPLIST_SIZE 32
 
 // --------------------
 // TYPES
@@ -43,15 +43,7 @@ struct StageDecoration_
     StageTask objWork;
 
     OBS_RECT_WORK rect[2];
-    s32 field_1E8;
-    s32 field_1EC;
-    s32 field_1F0;
-    s32 field_1F4;
-    s32 field_1F8;
-    s32 field_1FC;
-    s32 field_200;
-    s32 field_204;
-    s32 field_208;
+    s32 field_1E8[9];
     MapDecor *mapDecor;
     Vec2Fx32 originPos;
     u32 flags;
@@ -99,14 +91,14 @@ void DecorationSys__Release(void);
 StageDecoration *DecorationSys__CreateTempDecoration(s32 type, fx32 x, fx32 y);
 StageDecoration *DecorationSys__CreateCommonDecor2D(MapDecor *mapDecor, fx32 x, fx32 y, s32 type);
 StageDecoration *DecorationSys__CreateCommonDecor3D(MapDecor *mapDecor, fx32 x, fx32 y, s32 type);
-StageDecoration *DecorationSys__CreateUnknown2153118(MapDecor *mapDecor, fx32 x, fx32 y, s32 type);
+StageDecoration *DecorationSys__CreateBubbleEmitter(MapDecor *mapDecor, fx32 x, fx32 y, s32 type);
 void DecorationSys__Destructor(Task *task);
 void DecorationSys__Main(void);
 void DecorationSys__Decor_Main(StageDecoration *work);
 void DecorationSys__Draw(StageDecoration *work);
 void DecorationSys__ReleaseDecor(StageDecoration *work);
 void DecorationSys__InitMapDecor(StageDecoration *work, MapDecor *mapDecor, fx32 x, fx32 y);
-void DecorationSys__Destructor_21535B8(StageDecoration *work);
+void DecorationSys__Destructor_Common(StageDecoration *work);
 void DecorationSys__AddEntry_Tail(StageDecoration *work);
 void DecorationSys__AddEntry_Head(StageDecoration *work);
 void DecorationSys__RemoveEntry(StageDecoration *work);
@@ -114,7 +106,7 @@ void DecorationSys__SpriteCallback_Default(BACFrameGroupBlock_Hitbox *block, Ani
 void DecorationSys__Collide_Default(StageDecoration *work);
 s16 DecorationSys__GetNextTempSlot(void);
 void DecorationSys__ReleaseTempDecor(MapDecor *mapDecor);
-void DecorationSys__CreateWaterBubble(StageDecoration *work);
+void DecorationSys__State_BubbleEmitter_Active(StageDecoration *work);
 void DecorationSys__InitCmn_Breakable(StageDecoration *work);
 void DecorationSys__OnDefend_Breakable(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void DecorationSys__InitCmn_WhalePointCloud(StageDecoration *work);
@@ -131,17 +123,17 @@ void DecorationSys__OnDefend_Icicle(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void DecorationSys__InitCmn_IceTree(StageDecoration *work);
 void DecorationSys__State_IceTree(StageDecoration *work);
 void DecorationSys__CreateTripleGrindRailLeaf(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 anim);
-void DecorationSys__State_215475C(StageDecoration *work);
-void DecorationSys__CreateUnknown21547D4(MapDecor *mapDecor, fx32 x, fx32 y, s32 type);
-void DecorationSys__State_21548A8(StageDecoration *work);
-void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-s32 DecorationSys__CreateEmitterChild(s32 id);
-void DecorationSys__DestroyEmitterChild(s32 id);
-void DecorationSys__InitCmn_Animated(StageDecoration *work);
-void DecorationSys__Destructor_Animated(StageDecoration *work);
-void DecorationSys__Draw_Animated(StageDecoration *work);
-void DecorationSys__InitCmn_Emitter(StageDecoration *work);
-void DecorationSys__Destructor_EmitterChild(StageDecoration *work);
+void DecorationSys__State_TripleGrindRailLeaf_Active(StageDecoration *work);
+StageDecoration *DecorationSys__CreateSurfaceDebris(MapDecor *mapDecor, fx32 x, fx32 y, s32 type);
+void DecorationSys__State_SurfaceDebris_Active(StageDecoration *work);
+void DecorationSys__OnDefend_SurfaceDebris(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+s32 DecorationSys__CreateChildAnimator(s32 id);
+void DecorationSys__DestroyChildAnimator(s32 id);
+void DecorationSys__InitCmn_AnimatedInstance(StageDecoration *work);
+void DecorationSys__Destructor_AnimatedInstance(StageDecoration *work);
+void DecorationSys__Draw_AnimatedInstance(StageDecoration *work);
+void DecorationSys__InitCmn_AnimatedGlobal(StageDecoration *work);
+void DecorationSys__Destructor_AnimatedGlobal(StageDecoration *work);
 void DecorationSys__SetAnimation(StageDecoration *work, u16 anim);
 
 #endif // RUSH_DECORATIONSYS_H

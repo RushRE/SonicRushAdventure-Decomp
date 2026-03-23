@@ -36,8 +36,8 @@ DecorationSys__initTable: // 0x021876A0
 	.word DecorationSys__InitCmn_SkyBabylonNearCloud
 	.word DecorationSys__InitCmn_Icicle
 	.word DecorationSys__InitCmn_IceTree
-	.word DecorationSys__InitCmn_Animated
-	.word DecorationSys__InitCmn_Emitter
+	.word DecorationSys__InitCmn_AnimatedInstance
+	.word DecorationSys__InitCmn_AnimatedGlobal
 
 .public _021876CC
 _021876CC: // 0x021876CC
