@@ -319,195 +319,79 @@ void FlowerPipe__OnDefend_2161854(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     player->objWork.hitstopTimer = FlowerPipe__dword_21883A8[pipe->gameWork.objWork.userFlag];
 }
 
-NONMATCH_FUNC void FlowerPipe__OnDefend_216188C(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void FlowerPipe__OnDefend_216188C(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    FlowerPipe *pipe = (FlowerPipe *)rect2->parent;
+    Player *player   = (Player *)rect1->parent;
+    if ((pipe == NULL) || (player == NULL))
+        return;
+    if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
+        return;
+    if (CheckPlayerGimmickObj(player, pipe))
+        return;
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS) == 0)
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	ldr r2, [r1, #0x1c]
-	ldr r1, [r0, #0x1c]
-	cmp r2, #0
-	cmpne r1, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r0, [r1, #0]
-	cmp r0, #1
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r0, [r1, #0x6d8]
-	cmp r0, r2
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r0, [r1, #0x1c]
-	tst r0, #0x200
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r0, [r2, #0x28]
-	mov r5, #0
-	cmp r0, #6
-	sub r10, r5, #0x4000
-	ldr r6, [r2, #0x44]
-	ldr r7, [r2, #0x48]
-	bne _02161A14
-	ldr r8, =FlowerPipe__dword_2188F54
-	ldr r9, =FlowerPipe__dword_2188F2C
-	ldr r11, =_mt_math_rand
-	mov r4, r5
-_021618F4:
-	ldr r3, [r11, #0]
-	ldr r2, =0x00196225
-	ldr r0, =0x3C6EF35F
-	mov r1, r7
-	mla r0, r3, r2, r0
-	mov r3, r2
-	ldr r2, =0x3C6EF35F
-	mla r2, r0, r3, r2
-	str r2, [r11]
-	str r5, [sp]
-	ldr r2, [r11, #0]
-	mov r0, r0, lsr #0x10
-	mov r2, r2, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r2, r2, lsl #0x10
-	mov r3, r0, lsr #0x10
-	mov r0, r2, lsr #0x10
-	and r2, r0, #3
-	and r0, r3, #3
-	ldr r3, [r8], #4
-	sub r2, r2, #1
-	add r2, r3, r2, lsl #10
-	ldr r3, [r9], #4
-	sub r0, r0, #1
-	add r3, r3, r0, lsl #11
-	add r0, r6, r10
-	bl EffectFlowerPipePetal__Create
-	eor r0, r5, #1
-	add r4, r4, #1
-	mov r0, r0, lsl #0x10
-	cmp r4, #5
-	add r10, r10, #0x2000
-	mov r5, r0, lsr #0x10
-	blt _021618F4
-	mov r10, #0
-	mov r4, #0x4000
-	ldr r8, =_mt_math_rand
-	ldr r11, =0x3C6EF35F
-	sub r9, r10, #0x2400
-	rsb r4, r4, #0
-_02161994:
-	ldr r2, [r8, #0]
-	ldr r0, =0x00196225
-	mov r1, r7
-	mla r0, r2, r0, r11
-	ldr r2, =0x00196225
-	mov r3, r0, lsr #0x10
-	mla r2, r0, r2, r11
-	str r2, [r8]
-	str r5, [sp]
-	ldr r2, [r8, #0]
-	mov r0, r2, lsr #0x10
-	mov r2, r0, lsl #0x10
-	mov r0, r3, lsl #0x10
-	mov r3, r0, lsr #0x10
-	mov r2, r2, lsr #0x10
-	and r0, r2, #7
-	sub r2, r0, #3
-	mov r3, r3, lsl #0x1d
-	add r0, r6, r9
-	mov r2, r2, lsl #0xc
-	sub r3, r4, r3, lsr #18
-	bl EffectFlowerPipeSeed__Create
-	add r0, r5, #1
-	mov r0, r0, lsl #0x10
-	mov r5, r0, lsr #0x10
-	cmp r5, #3
-	add r10, r10, #1
-	movhs r5, #0
-	cmp r10, #0xa
-	add r9, r9, #0x800
-	blt _02161994
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-_02161A14:
-	ldr r4, =FlowerPipe__dword_2188F40
-	ldr r8, =FlowerPipe__dword_2188F68
-	ldr r11, =_mt_math_rand
-	mov r9, r5
-_02161A24:
-	ldr r3, [r11, #0]
-	ldr r2, =0x00196225
-	ldr r1, =0x3C6EF35F
-	mov r0, r6
-	mla r1, r3, r2, r1
-	mov r3, r2
-	ldr r2, =0x3C6EF35F
-	mla r2, r1, r3, r2
-	str r2, [r11]
-	str r5, [sp]
-	ldr r2, [r11, #0]
-	mov r1, r1, lsr #0x10
-	mov r2, r2, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r2, r2, lsl #0x10
-	mov r3, r1, lsr #0x10
-	mov r1, r2, lsr #0x10
-	and r2, r1, #3
-	and r1, r3, #3
-	ldr r3, [r4], #4
-	sub r2, r2, #1
-	add r2, r3, r2, lsl #10
-	ldr r3, [r8], #4
-	sub r1, r1, #1
-	add r3, r3, r1, lsl #11
-	add r1, r7, r10
-	bl EffectFlowerPipePetal__Create
-	eor r0, r5, #1
-	add r9, r9, #1
-	mov r0, r0, lsl #0x10
-	cmp r9, #5
-	add r10, r10, #0x2000
-	mov r5, r0, lsr #0x10
-	blt _02161A24
-	mov r10, #0
-	mov r4, #0x3000
-	ldr r8, =_mt_math_rand
-	ldr r11, =0x3C6EF35F
-	sub r9, r10, #0x2400
-	rsb r4, r4, #0
-_02161AC4:
-	ldr r2, [r8, #0]
-	ldr r0, =0x00196225
-	mov r1, r7
-	mla r0, r2, r0, r11
-	ldr r2, =0x00196225
-	mla r2, r0, r2, r11
-	str r2, [r8]
-	str r5, [sp]
-	ldr r2, [r8, #0]
-	mov r0, r0, lsr #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r3, r0, lsr #0x10
-	and r2, r2, #7
-	sub r0, r2, #3
-	mov r2, r0, lsl #0xb
-	mov r3, r3, lsl #0x1d
-	add r0, r6, r9
-	add r2, r2, #0x3000
-	sub r3, r4, r3, lsr #18
-	bl EffectFlowerPipeSeed__Create
-	add r0, r5, #1
-	mov r0, r0, lsl #0x10
-	mov r5, r0, lsr #0x10
-	cmp r5, #3
-	add r10, r10, #1
-	movhs r5, #0
-	cmp r10, #0xa
-	add r9, r9, #0x800
-	blt _02161AC4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
+    s32 i;
+    u16 type              = 0;
+    fx32 coordinateOffset = FX32_FROM_WHOLE(-4);
+    fx32 posX             = pipe->gameWork.objWork.position.x;
+    fx32 posY             = pipe->gameWork.objWork.position.y;
+    if (pipe->gameWork.objWork.userWork == 6)
+    {
+        // For MAPOBJECT_116, upwards exit
+        const fx32 *petalBaseXVelocity = FlowerPipe__dword_2188F54;
+        const fx32 *petalBaseYVelocity = FlowerPipe__dword_2188F2C;
+        for (i = 0; i < 5; i++, coordinateOffset += FX32_FROM_WHOLE(2),
+            type ^= 1 // Alternate between ac_gmk_pipe_flw.bac's animations 3 and 4
+        )
+        {
+            u32 randY = mtMathRandRange2(-1, 3); // Range ultimately reduced to [-0.5; 1.5], a multiple of 0.5 is drawn
+            u32 randX = mtMathRandRange2(-1, 3); // Range ultimately reduced to [-0.25; 0.75], a multiple of 0.25 is drawn
+            fx32 velX = *(petalBaseXVelocity++) + (randX << (FX32_SHIFT - 2));
+            fx32 velY = *(petalBaseYVelocity++) + (randY << (FX32_SHIFT - 1));
+            EffectFlowerPipePetal__Create(posX + coordinateOffset, posY, velX, velY, type);
+        }
+        for (i = 0, coordinateOffset = FLOAT_TO_FX32(-2.25); i < 10; i++)
+        {
+            u32 randY = mtMathRand();
+            u32 randX = mtMathRandRange2(-3, 5);
+            fx32 velX = FX32_FROM_WHOLE(randX);
+            fx32 velY = FX32_FROM_WHOLE(-4) - ((FX32_FROM_WHOLE(randY) << 17) >> 18); // The random range is reduced to [-2; 1.5], a multiple of 0.5 is drawn
+            EffectFlowerPipeSeed__Create(posX + coordinateOffset, posY, velX, velY, type);
+            // In fine, alternate between ac_gmk_pipe_flw.bac's animations 5, 6 and 7
+            type++;
+            if (type >= 3)
+                type = 0;
+            coordinateOffset += FLOAT_TO_FX32(0.5);
+        }
+    }
+    else
+    {
+        // MAPOBJECT_117, an exit shooting the player to the up-right.
+        const fx32 *petalBaseXVelocity = FlowerPipe__dword_2188F40;
+        const fx32 *petalBaseYVelocity = FlowerPipe__dword_2188F68;
+        for (i = 0; i < 5; i++, coordinateOffset += FX32_FROM_WHOLE(2), type ^= 1)
+        {
+            u32 randY = mtMathRandRange2(-1, 3);
+            u32 randX = mtMathRandRange2(-1, 3);
+            fx32 velX = *(petalBaseXVelocity++) + (randX << (FX32_SHIFT - 2));
+            fx32 velY = *(petalBaseYVelocity++) + (randY << (FX32_SHIFT - 1));
+            EffectFlowerPipePetal__Create(posX, posY + coordinateOffset, velX, velY, type);
+        }
+        for (i = 0, coordinateOffset = FLOAT_TO_FX32(-2.25); i < 10; i++)
+        {
+            u32 randY = mtMathRand();
+            u32 randX = mtMathRandRange2(-3, 5);
+            fx32 velX = (randX << (FX32_SHIFT - 1)) + FX32_FROM_WHOLE(3);
+            fx32 velY = FX32_FROM_WHOLE(-3) - ((FX32_FROM_WHOLE(randY) << 17) >> 18);
+            EffectFlowerPipeSeed__Create(posX + coordinateOffset, posY, velX, velY, type);
+            type++;
+            if (type >= 3)
+                type = 0;
+            coordinateOffset += FLOAT_TO_FX32(0.5);
+        }
+    }
 }
 
 void SteamPipe__State_2161B64(SteamPipe *work)
