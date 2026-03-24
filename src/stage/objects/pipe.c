@@ -21,10 +21,10 @@ typedef struct SteamPipeCollisionRect_
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED const fx32 SteamPipe__dword_2188390[];
-NOT_DECOMPILED const fx32 SteamPipe__dword_2188398[];
-NOT_DECOMPILED const fx32 FlowerPipe__dword_21883A0[];
-NOT_DECOMPILED const fx32 FlowerPipe__dword_21883A8[];
+static const fx32 FlowerPipe__dword_21883A8[2]                = { FLOAT_TO_FX32(16.0), FLOAT_TO_FX32(32.0) };
+static const fx32 FlowerPipe__dword_21883A0[2]                = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0) };
+static const fx32 SteamPipe__dword_2188398[2]                 = { FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(0.5) };
+static const fx32 SteamPipe__dword_2188390[2]                 = { FLOAT_TO_FX32(10.0), FLOAT_TO_FX32(10.0) };
 static const SteamPipeCollisionRect SteamPipe__stru_21883B0[] = {
     { 24, 48, -24, -24 }, { 48, 24, -24, 0 }, { 24, 48, -24, -24 }, { 48, 24, -24, 0 }, { 40, 48, -24, -24 }, { 48, 40, -24, -16 }, { 40, 48, -24, -24 }, { 48, 40, -24, -16 },
 };
@@ -33,9 +33,10 @@ NOT_DECOMPILED fx32 FlowerPipe__dword_2188F2C[];
 NOT_DECOMPILED fx32 FlowerPipe__dword_2188F40[];
 NOT_DECOMPILED fx32 FlowerPipe__dword_2188F54[];
 NOT_DECOMPILED fx32 FlowerPipe__dword_2188F68[];
-
-NOT_DECOMPILED const char aActAcGmkPipeFl_0[];
-NOT_DECOMPILED const char aActAcGmkPipeSt[];
+// fx32 FlowerPipe__dword_2188F2C[] = { 0xFFFFA800, 0xFFFFA000, 0xFFFF9800, 0xFFFFA000, 0xFFFFA800 };
+// fx32 FlowerPipe__dword_2188F40[] = { 0x5000, 0x5800, 0x6000, 0x6800, 0x7000 };
+// fx32 FlowerPipe__dword_2188F54[] = { 0xFFFFD000, 0xFFFFD800, 0, 0x2800, 0x3000 };
+// fx32 FlowerPipe__dword_2188F68[] = { 0xFFFFA000, 0xFFFF9000, 0xFFFFA000, 0xFFFF9000, 0xFFFFA000 };
 
 // --------------------
 // FUNCTIONS
@@ -52,7 +53,8 @@ FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkPipeFl_0, GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_pipe_flw.bac", GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage,
+                             OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_0);
 
@@ -158,7 +160,8 @@ SteamPipe *SteamPipe__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkPipeSt, GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_pipe_steam.bac", GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage,
+                             OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_0);
     ObjRect__SetAttackStat(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, OBS_RECT_HITPOWER_VULNERABLE);
