@@ -21,22 +21,18 @@ typedef struct SteamPipeCollisionRect_
 // VARIABLES
 // --------------------
 
-static const fx32 FlowerPipe__dword_21883A8[2]                = { FLOAT_TO_FX32(16.0), FLOAT_TO_FX32(32.0) };
 static const fx32 FlowerPipe__dword_21883A0[2]                = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0) };
-static const fx32 SteamPipe__dword_2188398[2]                 = { FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(0.5) };
+static const fx32 FlowerPipe__dword_21883A8[2]                = { FLOAT_TO_FX32(16.0), FLOAT_TO_FX32(32.0) };
 static const fx32 SteamPipe__dword_2188390[2]                 = { FLOAT_TO_FX32(10.0), FLOAT_TO_FX32(10.0) };
+static const fx32 SteamPipe__dword_2188398[2]                 = { FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(0.5) };
 static const SteamPipeCollisionRect SteamPipe__stru_21883B0[] = {
     { 24, 48, -24, -24 }, { 48, 24, -24, 0 }, { 24, 48, -24, -24 }, { 48, 24, -24, 0 }, { 40, 48, -24, -24 }, { 48, 40, -24, -16 }, { 40, 48, -24, -24 }, { 48, 40, -24, -16 },
 };
 
-NOT_DECOMPILED fx32 FlowerPipe__dword_2188F2C[];
-NOT_DECOMPILED fx32 FlowerPipe__dword_2188F40[];
-NOT_DECOMPILED fx32 FlowerPipe__dword_2188F54[];
-NOT_DECOMPILED fx32 FlowerPipe__dword_2188F68[];
-// fx32 FlowerPipe__dword_2188F2C[] = { 0xFFFFA800, 0xFFFFA000, 0xFFFF9800, 0xFFFFA000, 0xFFFFA800 };
-// fx32 FlowerPipe__dword_2188F40[] = { 0x5000, 0x5800, 0x6000, 0x6800, 0x7000 };
-// fx32 FlowerPipe__dword_2188F54[] = { 0xFFFFD000, 0xFFFFD800, 0, 0x2800, 0x3000 };
-// fx32 FlowerPipe__dword_2188F68[] = { 0xFFFFA000, 0xFFFF9000, 0xFFFFA000, 0xFFFF9000, 0xFFFFA000 };
+fx32 FlowerPipe__dword_2188F54[] = { FLOAT_TO_FX32(-3.0), FLOAT_TO_FX32(-2.5), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(2.5), FLOAT_TO_FX32(3.0) };
+fx32 FlowerPipe__dword_2188F2C[] = { FLOAT_TO_FX32(-5.5), FLOAT_TO_FX32(-6.0), FLOAT_TO_FX32(-6.5), FLOAT_TO_FX32(-6.0), FLOAT_TO_FX32(-5.5) };
+fx32 FlowerPipe__dword_2188F40[] = { FLOAT_TO_FX32(5.0), FLOAT_TO_FX32(5.5), FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(6.5), FLOAT_TO_FX32(7.0) };
+fx32 FlowerPipe__dword_2188F68[] = { FLOAT_TO_FX32(-6.0), FLOAT_TO_FX32(-7.0), FLOAT_TO_FX32(-6.0), FLOAT_TO_FX32(-7.0), FLOAT_TO_FX32(-6.0) };
 
 // --------------------
 // FUNCTIONS
