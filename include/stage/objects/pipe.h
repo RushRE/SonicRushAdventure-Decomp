@@ -7,15 +7,23 @@
 // STRUCTS
 // --------------------
 
-typedef struct FlowerPipe_
+typedef struct Pipe_
 {
     GameObjectTask gameWork;
-} FlowerPipe;
+} Pipe;
+typedef Pipe FlowerPipe; // from Plant Kingdom
+typedef Pipe SteamPipe;  // from Machine Labyrinth
 
-typedef struct SteamPipe_
+// --------------------
+// ENUMS
+// --------------------
+
+enum PipeType
 {
-    GameObjectTask gameWork;
-} SteamPipe;
+    PIPE_TYPE_FLOWER,
+    PIPE_TYPE_STEAM,
+    PIPE_TYPE_COUNT
+};
 
 // --------------------
 // FUNCTIONS
@@ -24,16 +32,17 @@ typedef struct SteamPipe_
 FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 SteamPipe *SteamPipe__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-void SteamPipe__State_2161728(SteamPipe *work);
-void FlowerPipe__OnDefend_216174C(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void SteamPipe__OnDefend_21617B0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void FlowerPipe__OnDefend_2161854(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void FlowerPipe__OnDefend_216188C(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void Pipe__State_PlayerNotEntered(Pipe *work);
+void Pipe__OnDefend_Exit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
-void SteamPipe__State_2161B64(SteamPipe *work);
-void SteamPipe__State_2161BB0(SteamPipe *work);
-void SteamPipe__State_2161D20(SteamPipe *work);
-void SteamPipe__OnDefend_2161DA0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void SteamPipe__OnDefend_2161DE0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void FlowerPipe__OnDefend_Enter(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void FlowerPipe__OnDefend_Exit_FreezePlayerBeforeLaunch(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void FlowerPipe__OnDefend_Exit_LaunchSeedsAndPetals(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+
+void SteamPipe__State_WaitToCloseEntrance(SteamPipe *work);
+void SteamPipe__State_Exit_WaitToShowSteamAndDust(SteamPipe *work);
+void SteamPipe__State_Exit_PlayerLaunchedOut(SteamPipe *work);
+void SteamPipe__OnDefend_Enter(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void SteamPipe__OnDefend_Exit_FreezePlayerAndOpenDoor(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 #endif // RUSH_PIPE_H
