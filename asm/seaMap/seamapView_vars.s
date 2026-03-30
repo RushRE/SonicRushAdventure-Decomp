@@ -35,15 +35,15 @@ dword_210F76C: // 0x0210F76C
 
 .public byte_210F774
 byte_210F774: // byte_210F774
-	.byte 0, 0, 1, 0, 2, 0, 0x1F, 0
+	.byte 0, 0, 1, 0, 2, 0
 
-.public byte_210F77C
-byte_210F77C: // byte_210F77C
-	.byte 0x1F, 2, 0xFF, 3, 0xE0, 3
+.public byte_210F77A
+byte_210F77A: // byte_210F77A
+	.hword 0x1F, 0x21F, 0x3FF, 0x3E0
 
 .public word_210F782
 word_210F782: // word_210F782
-	// .hword PAD_BUTTON_B, PAD_BUTTON_R, PAD_BUTTON_L, 0, 0, 0, 0, 0, 0
+	// .hword PAD_BUTTON_B, PAD_BUTTON_R, PAD_BUTTON_L, PAD_INPUT_NONE_MASK, PAD_INPUT_NONE_MASK, PAD_INPUT_NONE_MASK, PAD_INPUT_NONE_MASK, PAD_INPUT_NONE_MASK, PAD_INPUT_NONE_MASK
 	.hword 2, 0x100, 0x200, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000
 
 .public SeaMapView__VoyageDistance
@@ -92,7 +92,7 @@ stru_210F7E4: // 0x0210F7E4
 	.byte 0                   // field_9
 	.byte 0                   // field_A
 	.byte 0                   // field_B
-	.word 2                   // vramPixels
+	.word 2                   // spriteSize
 	.hword 0x80               // x
 	.hword 0x52               // y
 	.byte 1, 2, 3             // paletteRows
@@ -104,7 +104,7 @@ stru_210F7E4: // 0x0210F7E4
 	.byte 0                   // field_9
 	.byte 0                   // field_A
 	.byte 0                   // field_B
-	.word 3                   // vramPixels
+	.word 3                   // spriteSize
 	.hword 0x80               // x
 	.hword 0x72               // y
 	.byte 1, 2, 3             // paletteRows
@@ -116,18 +116,18 @@ stru_210F7E4: // 0x0210F7E4
 	.byte 0                   // field_9
 	.byte 0                   // field_A
 	.byte 0                   // field_B
-	.word 2                   // vramPixels
+	.word 2                   // spriteSize
 	.hword 0x80               // x
 	.hword 0x52               // y
 	.byte 1, 2, 3             // paletteRows
 	.byte 0
 
 .public stru_210F82C
-stru_210F82C: // stru_210F82C
+stru_210F82C: // 0x0210F82C
     .byte 4                   // animID
 	.byte 4                   // oamOrder
 	.align 4
-	.word 1                   // vramPixels
+	.word 1                   // spriteSize
 	.hword 0x10               // x
 	.hword 0xB0               // y
 	.byte 1, 2, 3             // paletteRows
@@ -136,7 +136,7 @@ stru_210F82C: // stru_210F82C
 	.byte 0x10                // animID
 	.byte 4                   // oamOrder
 	.align 4
-	.word 0                   // vramPixels
+	.word 0                   // spriteSize
 	.hword 0xF0               // x
 	.hword 0xB0               // y
 	.byte 1, 2, 3             // paletteRows
@@ -145,7 +145,7 @@ stru_210F82C: // stru_210F82C
 	.byte 0x13                // animID
 	.byte 4                   // oamOrder
 	.align 4
-	.word 4                   // vramPixels
+	.word 4                   // spriteSize
 	.hword 0xD0               // x
 	.hword 0xB0               // y
 	.byte 1, 2, 3             // paletteRows
@@ -154,7 +154,7 @@ stru_210F82C: // stru_210F82C
 	.byte 0xD                 // animID
 	.byte 4                   // oamOrder
 	.align 4
-	.word 2                   // vramPixels
+	.word 2                   // spriteSize
 	.hword 0x50               // x
 	.hword 0xB4               // y
 	.byte 1, 2, 3             // paletteRows
@@ -163,7 +163,7 @@ stru_210F82C: // stru_210F82C
 	.byte 0xA                 // animID
 	.byte 4                   // oamOrder
 	.align 4
-	.word 3                   // vramPixels
+	.word 3                   // spriteSize
 	.hword 0x94               // x
 	.hword 0xB4               // y
 	.byte 1, 2, 3             // paletteRows

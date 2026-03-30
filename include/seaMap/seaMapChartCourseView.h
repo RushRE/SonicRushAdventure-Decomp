@@ -116,7 +116,7 @@ NOT_DECOMPILED void SeaMapChartCourseView__Func_2040D28(SeaMapChartCourseView *w
 NOT_DECOMPILED void SeaMapChartCourseView__Func_2040DE0(SeaMapChartCourseView *work);
 NOT_DECOMPILED void SeaMapChartCourseView__State_2040EEC(SeaMapChartCourseView *work);
 NOT_DECOMPILED void SeaMapChartCourseView__SetTouchCallback(SeaMapChartCourseView *work, s32 mode);
-NOT_DECOMPILED BOOL SeaMapChartCourseView__Func_2040FE8(SeaMapChartCourseView *work, int a2, int a3, int a4);
+NOT_DECOMPILED BOOL SeaMapChartCourseView__Func_2040FE8(SeaMapChartCourseView *work, u8 x, u8 y);
 NOT_DECOMPILED void SeaMapChartCourseView__Func_2041048(SeaMapChartCourseView *work);
 NOT_DECOMPILED void SeaMapChartCourseView__Func_2041104(int a1, int a2, int a3);
 NOT_DECOMPILED BOOL SeaMapChartCourseView__Func_2041268(void);

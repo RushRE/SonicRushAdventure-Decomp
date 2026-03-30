@@ -184,7 +184,7 @@ NOT_DECOMPILED void SeaMapManager__LoadBackgroundPalette(SeaMapManager *work);
 NOT_DECOMPILED void SeaMapManager__Main(void);
 NOT_DECOMPILED void SeaMapManager__Destructor(Task *task);
 NOT_DECOMPILED void SeaMapManager__State_2044DC8(SeaMapManager *work);
-NOT_DECOMPILED void SeaMapManager__DrawNodeLine2(u32 a1, u32 a2, u32 a3, u32 a4, u16 a5);
+NOT_DECOMPILED void SeaMapManager__DrawNodeLine2(u16 x1, u16 y1, u16 x2, u16 y2, u16 type);
 NOT_DECOMPILED void SeaMapManager__DrawNodeLine(s32 x, s32 y, u32 a3);
 NOT_DECOMPILED void SeaMapManager__Func_2044F24(s16 a1, s16 a2);
 NOT_DECOMPILED void SeaMapManager__ClearUnknownPtr(void);
