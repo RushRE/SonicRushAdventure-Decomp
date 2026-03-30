@@ -56,6 +56,7 @@
 #include <stage/objects/slingshot.h>
 #include <stage/objects/corkscrewPath.h>
 #include <stage/objects/dreamWing.h>
+#include <stage/objects/pipe.h>
 
 // --------------------
 // INLINE FUNCTIONS
@@ -877,17 +878,17 @@ void Player__Action_PipeEnter(Player *player, GameObjectTask *other, u16 angle, 
         player->playerFlag &= ~PLAYER_FLAG_USER_FLAG;
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
         player->gimmickFlag |= PLAYER_GIMMICK_HIDE_SUPERBOOST;
-        player->objWork.groundVel     = FLOAT_TO_FX32(0.0);
-        player->objWork.velocity.x    = FLOAT_TO_FX32(0.0);
-        player->objWork.velocity.y    = FLOAT_TO_FX32(0.0);
-        player->objWork.dir.z         = FLOAT_DEG_TO_IDX(0.0);
-        player->objWork.userWork      = 0;
-        player->objWork.userTimer     = timer;
-        player->gimmick.pipe.angle    = angle;
-        player->gimmick.pipe.startX   = player->objWork.position.x;
-        player->gimmick.pipe.startY   = player->objWork.position.y;
-        player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
-        player->blinkTimer            = 0;
+        player->objWork.groundVel                            = FLOAT_TO_FX32(0.0);
+        player->objWork.velocity.x                           = FLOAT_TO_FX32(0.0);
+        player->objWork.velocity.y                           = FLOAT_TO_FX32(0.0);
+        player->objWork.dir.z                                = FLOAT_DEG_TO_IDX(0.0);
+        player->objWork.userWork                             = 0;
+        player->objWork.userTimer                            = timer;
+        player->gimmick.pipe.angle                           = angle;
+        player->gimmick.pipe.startX                          = player->objWork.position.x;
+        player->gimmick.pipe.startY                          = player->objWork.position.y;
+        player->colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = PLAYER_DEFPOWER_INVINCIBLE;
+        player->blinkTimer                                   = 0;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
 
         PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], sfxJump[player->characterID]);
@@ -896,7 +897,7 @@ void Player__Action_PipeEnter(Player *player, GameObjectTask *other, u16 angle, 
 
 void Player__State_PipeTravel(Player *work)
 {
-    work->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
+    work->colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = PLAYER_DEFPOWER_INVINCIBLE;
 
     switch (work->objWork.userWork)
     {
@@ -976,21 +977,22 @@ void Player__State_PipeTravel(Player *work)
 
 void Player__Action_PipeExit(Player *player, fx32 velocity, BOOL allowTricks, u32 type)
 {
-    const s8 sfxEject[2] = { SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FLOWER_EJECT, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_STEAM_PIPE };
+    const s8 sfxEject[PIPE_TYPE_COUNT] = { SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FLOWER_EJECT, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_STEAM_PIPE };
 
     if (StageTaskStateMatches(&player->objWork, Player__State_PipeTravel))
     {
-        if (type >= 2)
-            type = 0;
+        if (type >= PIPE_TYPE_COUNT)
+            type = PIPE_TYPE_FLOWER;
 
         s32 orientation = player->objWork.dir.z >> 13;
         if ((player->playerFlag & PLAYER_FLAG_USER_FLAG) != 0)
-            orientation = (orientation + 4) & 7;
+            orientation = (orientation + (FLOAT_DEG_TO_IDX(180.0) >> 13)) & 7;
 
         if (velocity == FLOAT_TO_FX32(0.0))
             velocity = (s16)MATH_ABS(player->objWork.groundVel);
 
-        fx32 velocity2 = MultiplyFX(velocity, SinFX(FLOAT_DEG_TO_IDX(45.0)));
+        // base velocity for both X and Y when launched at a multiple of 45 but not 90 degrees
+        fx32 velocity45 = MultiplyFX(velocity, SinFX(FLOAT_DEG_TO_IDX(45.0)));
 
         player->gimmickObj = NULL;
         player->objWork.moveFlag |= (STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_IDLE_ACCELERATION | STAGE_TASK_MOVE_FLAG_USE_SLOPE_ACCELERATION | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY);
@@ -1009,44 +1011,44 @@ void Player__Action_PipeExit(Player *player, fx32 velocity, BOOL allowTricks, u3
 
         switch (orientation)
         {
-            case 0:
+            case FLOAT_DEG_TO_IDX(0.0) >> 13:
             default:
                 player->objWork.velocity.x = velocity;
                 break;
 
-            case 1:
-                player->objWork.velocity.x = velocity2;
-                player->objWork.velocity.y = velocity2;
+            case FLOAT_DEG_TO_IDX(45.0) >> 13:
+                player->objWork.velocity.x = velocity45;
+                player->objWork.velocity.y = velocity45;
                 break;
 
-            case 2:
+            case FLOAT_DEG_TO_IDX(90.0) >> 13:
                 player->objWork.velocity.y = velocity;
                 break;
 
-            case 3:
+            case FLOAT_DEG_TO_IDX(135.0) >> 13:
                 player->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
-                player->objWork.velocity.x = -velocity2;
-                player->objWork.velocity.y = velocity2;
+                player->objWork.velocity.x = -velocity45;
+                player->objWork.velocity.y = velocity45;
                 break;
 
-            case 4:
+            case FLOAT_DEG_TO_IDX(180.0) >> 13:
                 player->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
                 player->objWork.velocity.x = -velocity;
                 break;
 
-            case 5:
+            case FLOAT_DEG_TO_IDX(225.0) >> 13:
                 player->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
-                player->objWork.velocity.x = -velocity2;
-                player->objWork.velocity.y = -velocity2;
+                player->objWork.velocity.x = -velocity45;
+                player->objWork.velocity.y = -velocity45;
                 break;
 
-            case 6:
+            case FLOAT_DEG_TO_IDX(270.0) >> 13:
                 player->objWork.velocity.y = -velocity;
                 break;
 
-            case 7:
-                player->objWork.velocity.x = velocity2;
-                player->objWork.velocity.y = -velocity2;
+            case FLOAT_DEG_TO_IDX(315.0) >> 13:
+                player->objWork.velocity.x = velocity45;
+                player->objWork.velocity.y = -velocity45;
                 break;
         }
 
@@ -1054,7 +1056,7 @@ void Player__Action_PipeExit(Player *player, fx32 velocity, BOOL allowTricks, u3
         if (allowTricks)
             player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS;
 
-        player->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
+        player->colliders[GAMEOBJECT_COLLIDER_WEAK].defPower = PLAYER_DEFPOWER_NORMAL;
     }
 }
 
