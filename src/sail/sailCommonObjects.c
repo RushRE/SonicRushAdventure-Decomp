@@ -37,15 +37,27 @@ NOT_DECOMPILED StageTask *SailExplosionHazard__Create(VecFx32 *position);
 static const s16 sOscillateTable[] = { FLOAT_TO_FX32(0.03125),  FLOAT_TO_FX32(0.0625),  FLOAT_TO_FX32(0.03125),  FLOAT_TO_FX32(0.0078125),
                                       -FLOAT_TO_FX32(0.03125), -FLOAT_TO_FX32(0.0625), -FLOAT_TO_FX32(0.03125), -FLOAT_TO_FX32(0.0078125) };
 
-NOT_DECOMPILED const char *aSbLandBac;
-NOT_DECOMPILED const char *aSbMineBac_0;
-NOT_DECOMPILED const char *aSbBomberBac;
-NOT_DECOMPILED const char *aSbCloudBac_0;
-NOT_DECOMPILED const char *aSbBuoyNsbmd_0;
-NOT_DECOMPILED const char *aSbBuoyNsbca;
-NOT_DECOMPILED const char *aSbSeagullBac;
-NOT_DECOMPILED const char *aSbSeagullNsbmd_0;
-NOT_DECOMPILED const char *aSbStoneNsbmd_0;
+#ifdef NON_MATCHING
+#define aSbLandBac "/sb_land.bac"
+#define aSbMineBac_0 "sb_mine.bac"
+#define aSbBomberBac "sb_bomber.bac"
+#define aSbCloudBac_0 "sb_cloud.bac"
+#define aSbBuoyNsbmd_0 "sb_buoy.nsbmd"
+#define aSbBuoyNsbca "sb_buoy.nsbca"
+#define aSbSeagullBac "sb_seagull.bac"
+#define aSbSeagullNsbmd_0 "sb_seagull.nsbmd"
+#define aSbStoneNsbmd_0 "sb_stone.nsbmd"
+#else
+NOT_DECOMPILED const char aSbLandBac[];
+NOT_DECOMPILED const char aSbMineBac_0[];
+NOT_DECOMPILED const char aSbBomberBac[];
+NOT_DECOMPILED const char aSbCloudBac_0[];
+NOT_DECOMPILED const char aSbBuoyNsbmd_0[];
+NOT_DECOMPILED const char aSbBuoyNsbca[];
+NOT_DECOMPILED const char aSbSeagullBac[];
+NOT_DECOMPILED const char aSbSeagullNsbmd_0[];
+NOT_DECOMPILED const char aSbStoneNsbmd_0[];
+#endif
 
 // --------------------
 // FUNCTION DECLS
@@ -927,10 +939,8 @@ void SailObject_SetCollisionOffset(StageTask *work, VecFx32 *position)
     }
 }
 
-NONMATCH_FUNC StageTask *CreateSailIsland(SailEventManagerObject *mapObject)
+StageTask *CreateSailIsland(SailEventManagerObject *mapObject)
 {
-    // should match when 'aSbLandBac' is decompiled
-#ifdef NON_MATCHING
     StageTask *work;
     SailObject *worker;
 
@@ -942,7 +952,7 @@ NONMATCH_FUNC StageTask *CreateSailIsland(SailEventManagerObject *mapObject)
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
     UNUSED(worker);
 
-    ObjObjectAction3dBACLoad(work, NULL, "/sb_land.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_18), SailManager__GetArchive());
+    ObjObjectAction3dBACLoad(work, NULL, aSbLandBac, OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_18), SailManager__GetArchive());
     SailObject_InitCommon(work);
     SailObject_InitFromMapObject(work, mapObject);
 
@@ -981,103 +991,10 @@ NONMATCH_FUNC StageTask *CreateSailIsland(SailEventManagerObject *mapObject)
     }
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r7, r0
-	bl SailManager__GetWork
-	mov r5, r0
-	mov r0, #0xb10
-	mov r1, #1
-	bl CreateStageTaskEx_
-	mov r4, r0
-	mov r1, #1
-	bl StageTask__SetType
-	mov r0, r4
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r0, #0x12
-	bl GetObjectFileWork
-	mov r6, r0
-	bl SailManager__GetArchive
-	ldr r3, =0x0000FFFF
-	ldr r2, =aSbLandBac
-	stmia sp, {r3, r6}
-	str r0, [sp, #8]
-	mov r1, #0
-	mov r0, r4
-	bl ObjObjectAction3dBACLoad
-	mov r0, r4
-	bl SailObject_InitCommon
-	mov r0, r4
-	mov r1, r7
-	bl SailObject_InitFromMapObject
-	ldr r0, [r7, #0x38]
-	mov r2, #0x1d
-	str r0, [r4, #0x2c]
-	ldr r3, [r4, #0x134]
-	mov r1, #7
-	ldr r0, [r3, #0xf4]
-	bic r0, r0, #0x3f000000
-	orr r0, r0, #0x30000000
-	str r0, [r3, #0xf4]
-	ldr r3, [r4, #0x134]
-	ldr r0, [r3, #0xf4]
-	bic r0, r0, #0x8000
-	str r0, [r3, #0xf4]
-	ldr r0, [r4, #0x134]
-	strb r2, [r0, #0xa]
-	ldr r0, [r4, #0x134]
-	strb r1, [r0, #0xb]
-	bl SailManager__GetShipType
-	cmp r0, #3
-	moveq r0, #0x2000
-	movne r0, #0x680
-	rsb r0, r0, #0
-	str r0, [r4, #0x48]
-	ldr r1, [r4, #0x2c]
-	ldr r0, [r5, #4]
-	cmp r1, r0
-	beq _02165C50
-	ldr r1, =SailIsland_State_Other
-	ldr r0, =SailIsland_Draw_Other
-	str r1, [r4, #0xf4]
-	str r0, [r4, #0xfc]
-	ldr r0, [r4, #0x18]
-	orr r0, r0, #0x10
-	str r0, [r4, #0x18]
-	bl SailManager__GetShipType
-	cmp r0, #1
-	bne _02165C74
-	mov r0, #0x200
-	rsb r0, r0, #0
-	str r0, [r4, #0x48]
-	b _02165C74
-_02165C50:
-	ldr r0, =SailIsland_Draw_Destination
-	str r0, [r4, #0xfc]
-	bl SailManager__GetShipType
-	cmp r0, #3
-	mov r0, r4
-	bne _02165C70
-	bl CreateSailFishForDestination
-	b _02165C74
-_02165C70:
-	bl CreateSailSeagullForDestination
-_02165C74:
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC StageTask *CreateSailMine(SailEventManagerObject *mapObject)
+StageTask *CreateSailMine(SailEventManagerObject *mapObject)
 {
-    // should match when 'aSbMineBac_0' is decompiled
-#ifdef NON_MATCHING
     StageTask *work;
     SailObject *worker;
 
@@ -1088,7 +1005,7 @@ NONMATCH_FUNC StageTask *CreateSailMine(SailEventManagerObject *mapObject)
 
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
 
-    ObjObjectAction3dBACLoad(work, 0, "sb_mine.bac", OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectDataWork(OBJDATAWORK_2), SailManager__GetArchive());
+    ObjObjectAction3dBACLoad(work, 0, aSbMineBac_0, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectDataWork(OBJDATAWORK_2), SailManager__GetArchive());
     ObjObjectActionAllocTexture(work, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectTextureRef(OBJDATAWORK_54));
     work->obj_2dIn3d->ani.animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
     SailObject_InitCommon(work);
@@ -1128,117 +1045,10 @@ NONMATCH_FUNC StageTask *CreateSailMine(SailEventManagerObject *mapObject)
     SetTaskState(work, SailMine_State_Active);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0xc
-	mov r7, r0
-	bl SailManager__GetWork
-	mov r6, r0
-	bl CreateStageTask_
-	mov r4, r0
-	mov r1, #1
-	bl StageTask__SetType
-	mov r0, r4
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r5, r0
-	mov r0, #2
-	bl GetObjectFileWork
-	mov r8, r0
-	bl SailManager__GetArchive
-	mov r1, #0
-	stmia sp, {r1, r8}
-	str r0, [sp, #8]
-	ldr r2, =aSbMineBac_0
-	mov r0, r4
-	mov r3, r1
-	bl ObjObjectAction3dBACLoad
-	mov r0, #0x36
-	bl GetObjectFileWork
-	mov r1, #0
-	mov r3, r0
-	mov r0, r4
-	mov r2, r1
-	bl ObjObjectActionAllocTexture
-	ldr r2, [r4, #0x134]
-	mov r0, r4
-	ldr r1, [r2, #0xcc]
-	orr r1, r1, #0x18
-	str r1, [r2, #0xcc]
-	bl SailObject_InitCommon
-	mov r1, r7
-	mov r0, r4
-	bl SailObject_InitFromMapObject
-	ldr r1, [r4, #0x48]
-	mov r0, #0x12c
-	sub r1, r1, #0x1000
-	str r1, [r4, #0x48]
-	str r0, [r5, #0x118]
-	bl SailManager__GetShipType
-	cmp r0, #2
-	moveq r0, #0x1800
-	streq r0, [r5, #0x120]
-	streq r0, [r5, #0x11c]
-	ldr r1, [r4, #0x134]
-	mov r2, #0x1c
-	ldr r0, [r1, #0xf4]
-	mov r3, #7
-	bic r0, r0, #0x8000
-	str r0, [r1, #0xf4]
-	ldr r1, [r4, #0x134]
-	mov r0, r4
-	strb r2, [r1, #0xa]
-	ldr r2, [r4, #0x134]
-	add r1, r5, #0x28
-	strb r3, [r2, #0xb]
-	ldr r2, [r4, #0x24]
-	mov r3, #0xc00
-	orr r2, r2, #2
-	orr r2, r2, #0x40000
-	str r2, [r4, #0x24]
-	mov r2, #0
-	str r3, [r5, #0x124]
-	bl SailObject_InitColliderForCommon
-	mov r1, #0
-	mov r0, r4
-	mov r3, r1
-	mov r2, #0x600
-	bl SailObject_InitColliderBox
-	ldr r0, [r6, #0x24]
-	tst r0, #0x1000
-	ldrne r0, [r5, #0x98]
-	movne r0, r0, asr #1
-	strne r0, [r5, #0x98]
-	bl SailManager__GetShipType
-	cmp r0, #2
-	moveq r0, #0x900
-	streq r0, [r5, #0x50]
-	bl SailManager__GetShipType
-	cmp r0, #1
-	bne _02165E04
-	mov r0, #0x2000
-	str r0, [r5, #0x50]
-	ldr r0, [r4, #0x24]
-	orr r0, r0, #0x20000
-	str r0, [r4, #0x24]
-_02165E04:
-	mov r0, r4
-	bl StageTask__InitSeqPlayer
-	ldr r1, =SailMine_State_Active
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC StageTask *CreateSailBomb(SailEventManagerObject *mapObject)
+StageTask *CreateSailBomb(SailEventManagerObject *mapObject)
 {
-    // should match when 'aSbBomberBac' is decompiled
-#ifdef NON_MATCHING
     StageTask *work;
     SailObject *worker;
 
@@ -1247,7 +1057,7 @@ NONMATCH_FUNC StageTask *CreateSailBomb(SailEventManagerObject *mapObject)
 
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
 
-    ObjObjectAction3dBACLoad(work, NULL, "sb_bomber.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_103), SailManager__GetArchive());
+    ObjObjectAction3dBACLoad(work, NULL, aSbBomberBac, OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_103), SailManager__GetArchive());
     SailObject_InitCommon(work);
     SailObject_InitFromMapObject(work, mapObject);
     work->position.y -= FLOAT_TO_FX32(1.0);
@@ -1269,77 +1079,6 @@ NONMATCH_FUNC StageTask *CreateSailBomb(SailEventManagerObject *mapObject)
     SailBomb_Action_Init(work);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r7, r0
-	bl CreateStageTask_
-	mov r4, r0
-	mov r1, #1
-	bl StageTask__SetType
-	mov r0, r4
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r5, r0
-	mov r0, #0x67
-	bl GetObjectFileWork
-	mov r6, r0
-	bl SailManager__GetArchive
-	ldr r3, =0x0000FFFF
-	ldr r2, =aSbBomberBac
-	stmia sp, {r3, r6}
-	str r0, [sp, #8]
-	mov r1, #0
-	mov r0, r4
-	bl ObjObjectAction3dBACLoad
-	mov r0, r4
-	bl SailObject_InitCommon
-	mov r1, r7
-	mov r0, r4
-	bl SailObject_InitFromMapObject
-	ldr r0, [r4, #0x48]
-	sub r0, r0, #0x1000
-	str r0, [r4, #0x48]
-	bl SailManager__GetShipType
-	cmp r0, #2
-	moveq r0, #0x1800
-	streq r0, [r5, #0x120]
-	streq r0, [r5, #0x11c]
-	mov r0, #0x12c
-	str r0, [r5, #0x118]
-	ldr r1, [r4, #0x134]
-	mov r2, #0x1c
-	ldr r0, [r1, #0xf4]
-	mov r3, #7
-	bic r0, r0, #0x8000
-	str r0, [r1, #0xf4]
-	ldr r1, [r4, #0x134]
-	mov r0, r4
-	strb r2, [r1, #0xa]
-	ldr r2, [r4, #0x134]
-	add r1, r5, #0x28
-	strb r3, [r2, #0xb]
-	ldr r3, [r4, #0x24]
-	mov r2, #0
-	orr r3, r3, #2
-	str r3, [r4, #0x24]
-	bl SailObject_InitColliderForCommon
-	mov r1, #0
-	mov r0, r4
-	mov r3, r1
-	mov r2, #0x600
-	bl SailObject_InitColliderBox
-	mov r0, r4
-	bl StageTask__InitSeqPlayer
-	mov r0, r4
-	bl SailBomb_Action_Init
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC void CreateSailFogCloudsForVoyage(void)
@@ -1466,10 +1205,8 @@ _02165F9C:
 #endif
 }
 
-NONMATCH_FUNC StageTask *CreateSailFogCloud(SailEventManagerObject *mapObject)
+StageTask *CreateSailFogCloud(SailEventManagerObject *mapObject)
 {
-    // should match when 'aSbCloudBac_0' is decompiled
-#ifdef NON_MATCHING
     StageTask *work;
     SailObject *worker;
 
@@ -1478,7 +1215,7 @@ NONMATCH_FUNC StageTask *CreateSailFogCloud(SailEventManagerObject *mapObject)
 
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
 
-    ObjObjectAction3dBACLoad(work, NULL, "sb_cloud.bac", OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectFileWork(OBJDATAWORK_23), SailManager__GetArchive());
+    ObjObjectAction3dBACLoad(work, NULL, aSbCloudBac_0, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectFileWork(OBJDATAWORK_23), SailManager__GetArchive());
 
     u16 anim = ObjDispRandRepeat(4);
     if (anim > 2)
@@ -1515,164 +1252,10 @@ NONMATCH_FUNC StageTask *CreateSailFogCloud(SailEventManagerObject *mapObject)
     SetTaskState(work, SailFogCloud_State_Active);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r6, r0
-	ldr r0, =0x00001060
-	mov r1, #1
-	bl CreateStageTaskEx_
-	mov r4, r0
-	mov r1, #1
-	bl StageTask__SetType
-	mov r0, r4
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r5, r0
-	mov r0, #0x17
-	bl GetObjectFileWork
-	mov r7, r0
-	bl SailManager__GetArchive
-	mov r1, #0
-	stmia sp, {r1, r7}
-	str r0, [sp, #8]
-	ldr r2, =aSbCloudBac_0
-	mov r0, r4
-	mov r3, r1
-	bl ObjObjectAction3dBACLoad
-	ldr r2, =_obj_disp_rand
-	ldr r0, =0x00196225
-	ldr r3, [r2, #0]
-	ldr r1, =0x3C6EF35F
-	mla r0, r3, r0, r1
-	str r0, [r2]
-	mov r0, r0, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	and r7, r0, #3
-	ldr r2, [r4, #0x134]
-	cmp r7, #2
-	ldr r0, [r2, #0x90]
-	movhi r7, #0
-	cmp r0, #1
-	beq _02166170
-	cmp r0, #2
-	beq _02166180
-	cmp r0, #3
-	beq _02166190
-	b _0216619C
-_02166170:
-	mov r1, r7
-	add r0, r2, #0x90
-	bl AnimatorSprite__SetAnimation
-	b _0216619C
-_02166180:
-	mov r1, r7
-	add r0, r2, #0x90
-	bl AnimatorSpriteDS__SetAnimation
-	b _0216619C
-_02166190:
-	mov r1, r7
-	add r0, r2, #0x90
-	bl AnimatorSpriteDS__SetAnimation2
-_0216619C:
-	mov r0, r7, lsl #1
-	add r0, r0, #0x38
-	bl GetObjectFileWork
-	mov r1, #0
-	mov r3, r0
-	mov r0, r4
-	mov r2, r1
-	bl ObjObjectActionAllocTexture
-	ldr r2, [r4, #0x134]
-	mov r0, r4
-	ldr r1, [r2, #0xcc]
-	orr r1, r1, #0x18
-	str r1, [r2, #0xcc]
-	bl SailObject_InitCommon
-	mov r0, r4
-	mov r1, r6
-	bl SailObject_InitFromMapObject
-	ldrh r0, [r6, #0x2e]
-	mov r2, #0x1d
-	mov ip, #7
-	str r0, [r5, #0x138]
-	ldr r0, [r6, #0x28]
-	ldr r6, =_obj_disp_rand
-	str r0, [r5, #0x13c]
-	ldr r1, [r4, #0x134]
-	ldr r3, =0x00196225
-	ldr r0, [r1, #0xf4]
-	ldr r5, =0x3C6EF35F
-	bic r0, r0, #0x8000
-	str r0, [r1, #0xf4]
-	ldr r0, [r4, #0x134]
-	ldr r1, =0x00007FFF
-	strb r2, [r0, #0xa]
-	ldr r0, [r4, #0x134]
-	mov r2, #0x800
-	strb ip, [r0, #0xb]
-	ldr r0, [r6, #0]
-	mla ip, r0, r3, r5
-	mov r0, ip, lsr #0x10
-	mov r0, r0, lsl #0x10
-	and r0, r1, r0, lsr #16
-	add r1, r0, #0x7000
-	adds r0, r2, r1, lsl #7
-	mov r2, r0, lsr #0xc
-	mov r0, r1, asr #0x1f
-	mov r0, r0, lsl #7
-	orr r0, r0, r1, lsr #25
-	adc r0, r0, #0
-	str ip, [r6]
-	orr r2, r2, r0, lsl #20
-	str r2, [r4, #0x38]
-	str r2, [r4, #0x3c]
-	str r2, [r4, #0x40]
-	ldr r0, [r6, #0]
-	ldr r2, =_obj_disp_rand
-	mla r1, r0, r3, r5
-	mov r0, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	str r1, [r6]
-	mov r0, r0, lsr #0x10
-	tst r0, #1
-	ldrne r0, [r4, #0x3c]
-	ldr r1, =0x3C6EF35F
-	rsbne r0, r0, #0
-	strne r0, [r4, #0x3c]
-	ldr r0, =0x00196225
-	ldr r3, [r2, #0]
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	str r1, [r2]
-	tst r0, #1
-	ldrne r0, [r4, #0x38]
-	ldr r1, =SailFogCloud_State_Active
-	rsbne r0, r0, #0
-	strne r0, [r4, #0x38]
-	ldr r0, [r4, #0x18]
-	orr r0, r0, #0x10
-	str r0, [r4, #0x18]
-	ldr r2, [r4, #0x24]
-	mov r0, r4
-	orr r2, r2, #1
-	str r2, [r4, #0x24]
-	str r1, [r4, #0xf4]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC StageTask *CreateSailSkyCloud(s32 type)
+StageTask *CreateSailSkyCloud(s32 type)
 {
-    // should match when 'aSbCloudBac_0' is decompiled
-#ifdef NON_MATCHING
     StageTask *work;
     SailObject *worker;
 
@@ -1681,7 +1264,7 @@ NONMATCH_FUNC StageTask *CreateSailSkyCloud(s32 type)
 
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
 
-    ObjObjectAction3dBACLoad(work, NULL, "sb_cloud.bac", OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectFileWork(OBJDATAWORK_23), SailManager__GetArchive());
+    ObjObjectAction3dBACLoad(work, NULL, aSbCloudBac_0, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectFileWork(OBJDATAWORK_23), SailManager__GetArchive());
 
     u16 anim = ObjDispRandRepeat(2);
     Animator2D__SetAnimation(&work->obj_2dIn3d->ani.animatorSprite, anim);
@@ -1747,270 +1330,6 @@ NONMATCH_FUNC StageTask *CreateSailSkyCloud(s32 type)
     SetTaskState(work, SailSkyCloud_State_Active);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r6, r0
-	bl CreateStageTask_
-	mov r4, r0
-	mov r1, #1
-	bl StageTask__SetType
-	mov r0, r4
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r5, r0
-	mov r0, #0x17
-	bl GetObjectFileWork
-	mov r7, r0
-	bl SailManager__GetArchive
-	mov r1, #0
-	stmia sp, {r1, r7}
-	str r0, [sp, #8]
-	ldr r2, =aSbCloudBac_0
-	mov r0, r4
-	mov r3, r1
-	bl ObjObjectAction3dBACLoad
-	ldr r2, =_obj_disp_rand
-	ldr r0, =0x00196225
-	ldr r3, [r2, #0]
-	ldr r1, =0x3C6EF35F
-	mla r0, r3, r0, r1
-	str r0, [r2]
-	mov r0, r0, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	ldr r2, [r4, #0x134]
-	and r7, r0, #1
-	ldr r0, [r2, #0x90]
-	cmp r0, #1
-	beq _021663B8
-	cmp r0, #2
-	beq _021663C8
-	cmp r0, #3
-	beq _021663D8
-	b _021663E4
-_021663B8:
-	mov r1, r7
-	add r0, r2, #0x90
-	bl AnimatorSprite__SetAnimation
-	b _021663E4
-_021663C8:
-	mov r1, r7
-	add r0, r2, #0x90
-	bl AnimatorSpriteDS__SetAnimation
-	b _021663E4
-_021663D8:
-	mov r1, r7
-	add r0, r2, #0x90
-	bl AnimatorSpriteDS__SetAnimation2
-_021663E4:
-	mov r0, r7, lsl #1
-	add r0, r0, #0x38
-	bl GetObjectFileWork
-	mov r1, #0
-	mov r3, r0
-	mov r0, r4
-	mov r2, r1
-	bl ObjObjectActionAllocTexture
-	ldr r2, [r4, #0x134]
-	mov r0, r4
-	ldr r1, [r2, #0xcc]
-	orr r1, r1, #0x18
-	str r1, [r2, #0xcc]
-	bl SailObject_InitCommon
-	ldr r0, [r4, #0x134]
-	mov r1, #0x1d
-	strb r1, [r0, #0xa]
-	ldr r0, [r4, #0x134]
-	mov r1, #7
-	ldr r2, =_obj_disp_rand
-	strb r1, [r0, #0xb]
-	ldr r3, [r2, #0]
-	ldr r0, =0x00196225
-	ldr r1, =0x3C6EF35F
-	mov ip, #0
-	mla r7, r3, r0, r1
-	mov r3, r7, lsr #0x10
-	str r7, [r2]
-	mov r3, r3, lsl #0x10
-	mov r3, r3, lsr #0x10
-	and r3, r3, #0x3f
-	add r3, r3, #0x20
-	str r3, [r4, #0x28]
-	str ip, [r4, #0x2c]
-	cmp r6, #0
-	beq _02166580
-	ldr r3, [r2, #0]
-	ldr r6, =0x00001FFF
-	mla r7, r3, r0, r1
-	mov r3, r7, lsr #0x10
-	mov r3, r3, lsl #0x10
-	and r3, r6, r3, lsr #16
-	str r7, [r2]
-	add r3, r3, #0x10000
-	str r3, [r5, #0x13c]
-	ldr lr, [r2]
-	sub r7, r6, #1
-	mla r3, lr, r0, r1
-	mov lr, r3, lsr #0x10
-	mov lr, lr, lsl #0x10
-	and lr, r7, lr, lsr #16
-	sub r7, r6, #0x1000
-	sub r7, r7, lr
-	mov r7, r7, lsl #0x10
-	str r3, [r2]
-	mov r3, r7, lsr #0x10
-	str r3, [r5, #0x138]
-	ldr r3, [r2, #0]
-	sub r7, r6, #0x1000
-	mla lr, r3, r0, r1
-	mov r3, lr, lsr #0x10
-	mov r3, r3, lsl #0x10
-	and r3, r7, r3, lsr #16
-	str lr, [r2]
-	sub r3, r3, #0x2000
-	str r3, [r4, #0x48]
-	ldr r7, [r2, #0]
-	sub r3, r6, #0x1000
-	mla r0, r7, r0, r1
-	mov r1, r0, lsr #0x10
-	mov r1, r1, lsl #0x10
-	and r1, r3, r1, lsr #16
-	add r3, r1, #0x8000
-	mov r1, r3, asr #0x1f
-	mov r6, r1, lsl #7
-	mov r1, #0x800
-	adds r7, r1, r3, lsl #7
-	orr r6, r6, r3, lsr #25
-	adc r1, r6, ip
-	mov r3, r7, lsr #0xc
-	str r0, [r2]
-	orr r3, r3, r1, lsl #20
-	str r3, [r4, #0x38]
-	str r3, [r4, #0x3c]
-	str r3, [r4, #0x40]
-	bl SailManager__GetShipType
-	cmp r0, #1
-	bne _02166674
-	ldr r0, [r5, #0x13c]
-	mov r0, r0, lsl #2
-	str r0, [r5, #0x13c]
-	ldr r0, [r5, #0x138]
-	mov r0, r0, lsl #2
-	str r0, [r5, #0x138]
-	ldr r0, [r4, #0x48]
-	mov r0, r0, lsl #2
-	str r0, [r4, #0x48]
-	ldr r0, [r4, #0x38]
-	mov r0, r0, lsl #2
-	str r0, [r4, #0x38]
-	str r0, [r4, #0x3c]
-	str r0, [r4, #0x40]
-	b _02166674
-_02166580:
-	ldr r5, [r4, #0x20]
-	mov r3, #0x80000
-	orr r5, r5, #0x20000
-	str r5, [r4, #0x20]
-	str r3, [r4, #0x44]
-	mov r3, #0x60000
-	str r3, [r4, #0x48]
-	ldr r3, [r2, #0]
-	sub r6, ip, #0x370
-	mla r5, r3, r0, r1
-	mov r3, r5, lsr #0x10
-	mov r3, r3, lsl #0x10
-	str r5, [r2]
-	mov r3, r3, lsr #0x10
-	and r3, r3, #0x7e
-	ldr r5, [r4, #0x44]
-	rsb r3, r3, #0x3f
-	add r3, r5, r3, lsl #12
-	str r3, [r4, #0x44]
-	ldr r3, [r2, #0]
-	ldr r5, =0x00003FFF
-	mla r7, r3, r0, r1
-	mov r3, r7, lsr #0x10
-	mov r3, r3, lsl #0x10
-	str r7, [r2]
-	mov r3, r3, lsr #0x10
-	and r3, r3, #0x7e
-	ldr r7, [r4, #0x48]
-	rsb r3, r3, #0x3f
-	add r3, r7, r3, lsl #12
-	str r3, [r4, #0x48]
-	str r6, [r4, #0x4c]
-	ldr r3, [r2, #0]
-	ldr r6, =0x00001FFE
-	mla r7, r3, r0, r1
-	mov r3, r7, lsr #0x10
-	mov r3, r3, lsl #0x10
-	and r3, r5, r3, lsr #16
-	str r7, [r2]
-	add r3, r3, #0x6000
-	str r3, [r4, #0x38]
-	str r3, [r4, #0x3c]
-	str r3, [r4, #0x40]
-	ldr r3, [r2, #0]
-	mov r5, #8
-	mla r7, r3, r0, r1
-	mov r3, r7, lsr #0x10
-	mov r3, r3, lsl #0x10
-	and r3, r6, r3, lsr #16
-	str r7, [r2]
-	rsb r3, r3, r6, lsr #1
-	str r3, [r4, #0x98]
-	ldr r3, [r2, #0]
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	and r0, r6, r0, lsr #16
-	str r1, [r2]
-	rsb r0, r0, r6, lsr #1
-	str r0, [r4, #0x9c]
-	str r5, [r4, #0xa0]
-_02166674:
-	ldr r2, =_obj_disp_rand
-	ldr r0, =0x00196225
-	ldr r3, [r2, #0]
-	ldr r1, =0x3C6EF35F
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	str r1, [r2]
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	tst r0, #1
-	ldrne r0, [r4, #0x3c]
-	ldr r2, =_obj_disp_rand
-	rsbne r0, r0, #0
-	strne r0, [r4, #0x3c]
-	ldr r0, =0x00196225
-	ldr r3, [r2, #0]
-	ldr r1, =0x3C6EF35F
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	str r1, [r2]
-	tst r0, #1
-	ldrne r0, [r4, #0x38]
-	ldr r1, =SailSkyCloud_State_Active
-	rsbne r0, r0, #0
-	strne r0, [r4, #0x38]
-	ldr r0, [r4, #0x18]
-	orr r0, r0, #0x10
-	str r0, [r4, #0x18]
-	ldr r2, [r4, #0x24]
-	mov r0, r4
-	orr r2, r2, #1
-	str r2, [r4, #0x24]
-	str r1, [r4, #0xf4]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 void SailObject_LookAtPlayer(StageTask *work)
@@ -2282,10 +1601,8 @@ void SailObject_ProcessColliders(void)
     }
 }
 
-NONMATCH_FUNC StageTask *CreateSailBuoy(SailEventManagerObject *mapObject)
+StageTask *CreateSailBuoy(SailEventManagerObject *mapObject)
 {
-    // should match when 'aSbBuoyNsbmd_0' & 'aSbBuoyNsbca' are decompiled
-#ifdef NON_MATCHING
     StageTask *work;
     SailObject *worker;
 
@@ -2294,10 +1611,10 @@ NONMATCH_FUNC StageTask *CreateSailBuoy(SailEventManagerObject *mapObject)
 
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
 
-    ObjAction3dNNModelLoad(work, NULL, "sb_buoy.nsbmd", 0, GetObjectFileWork(OBJDATAWORK_28), SailManager__GetArchive());
+    ObjAction3dNNModelLoad(work, NULL, aSbBuoyNsbmd_0, 0, GetObjectFileWork(OBJDATAWORK_28), SailManager__GetArchive());
     if (SailManager__GetShipType() != SHIP_SUBMARINE)
     {
-        ObjAction3dNNMotionLoad(work, NULL, "sb_buoy.nsbca", GetObjectFileWork(OBJDATAWORK_29), SailManager__GetArchive());
+        ObjAction3dNNMotionLoad(work, NULL, aSbBuoyNsbca, GetObjectFileWork(OBJDATAWORK_29), SailManager__GetArchive());
         AnimatorMDL__SetAnimation(&work->obj_3d->ani, 0, work->obj_3d->resources[B3D_RESOURCE_JOINT_ANIM], 0, NULL);
         SailObject_SetAnimSpeed(work, FLOAT_TO_FX32(2.0));
         work->displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -2352,154 +1669,6 @@ NONMATCH_FUNC StageTask *CreateSailBuoy(SailEventManagerObject *mapObject)
     SailBuoy_Action_Init(work);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0x14
-	mov r6, r0
-	bl CreateStageTask_
-	mov r4, r0
-	mov r1, #1
-	bl StageTask__SetType
-	mov r0, r4
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r5, r0
-	mov r0, #0x1c
-	bl GetObjectFileWork
-	mov r7, r0
-	bl SailManager__GetArchive
-	str r7, [sp]
-	str r0, [sp, #4]
-	mov r0, r4
-	mov r1, #0
-	ldr r2, =aSbBuoyNsbmd_0
-	mov r3, r1
-	bl ObjAction3dNNModelLoad
-	bl SailManager__GetShipType
-	cmp r0, #3
-	beq _02166FCC
-	mov r0, #0x1d
-	bl GetObjectFileWork
-	mov r7, r0
-	bl SailManager__GetArchive
-	str r0, [sp]
-	ldr r2, =aSbBuoyNsbca
-	mov r0, r4
-	mov r3, r7
-	mov r1, #0
-	bl ObjAction3dNNMotionLoad
-	ldr r0, [r4, #0x12c]
-	mov r1, #0
-	str r1, [sp]
-	ldr r2, [r0, #0x148]
-	mov r3, r1
-	bl AnimatorMDL__SetAnimation
-	mov r0, r4
-	mov r1, #0x2000
-	bl SailObject_SetAnimSpeed
-	ldr r0, [r4, #0x20]
-	orr r0, r0, #4
-	str r0, [r4, #0x20]
-_02166FCC:
-	ldr r0, [r4, #0x12c]
-	mov r1, #1
-	ldr r0, [r0, #0x94]
-	mov r2, #0
-	bl NNS_G3dMdlSetMdlEmi
-	ldr r0, [r4, #0x12c]
-	mov r1, #1
-	ldr r0, [r0, #0x94]
-	mov r2, #0
-	bl NNS_G3dMdlSetMdlLightEnableFlag
-	mov r0, r4
-	bl SailObject_InitCommon
-	mov r0, r4
-	mov r1, r6
-	bl SailObject_InitFromMapObject
-	ldr r0, [r6, #0x28]
-	str r0, [r4, #0x28]
-	ldr r0, [r4, #0x18]
-	orr r0, r0, #2
-	str r0, [r4, #0x18]
-	ldr r0, [r4, #0x24]
-	orr r0, r0, #0x80000
-	str r0, [r4, #0x24]
-	bl SailManager__GetShipType
-	ldr r2, [r4, #0x38]
-	cmp r0, #1
-	mov r0, #0x800
-	mov r1, r2, asr #0x1f
-	beq _0216705C
-	mov r1, r1, lsl #0xb
-	adds r3, r0, r2, lsl #11
-	orr r1, r1, r2, lsr #21
-	adc r0, r1, #0
-	mov r6, r3, lsr #0xc
-	orr r6, r6, r0, lsl #20
-	b _02167118
-_0216705C:
-	mov r1, r1, lsl #0xa
-	adds r6, r0, r2, lsl #10
-	orr r1, r1, r2, lsr #22
-	adc r3, r1, #0
-	mov r6, r6, lsr #0xc
-	mov r0, r4
-	add r1, r5, #0x28
-	mov r2, #0
-	orr r6, r6, r3, lsl #20
-	bl SailObject_InitColliderForCommon
-	mov r0, r4
-	add r1, r5, #0xa0
-	mov r2, #3
-	bl SailObject_InitColliderForCommon
-	mov r0, r4
-	mov r1, #0
-	bl SailObject_InitColliderForObject
-	mov r1, #0
-	sub r0, r1, #0x1800
-	str r0, [sp, #0xc]
-	mov r0, r4
-	mov r2, #0x1c00
-	add r3, sp, #8
-	str r1, [sp, #8]
-	str r1, [sp, #0x10]
-	bl SailObject_InitColliderBox
-	mov r0, #0
-	str r0, [sp, #8]
-	str r0, [sp, #0x10]
-	sub r0, r0, #0x4a00
-	str r0, [sp, #0xc]
-	mov r0, r4
-	mov r1, #3
-	mov r2, #0x1800
-	add r3, sp, #8
-	bl SailObject_InitColliderBox
-	ldr r1, [r4, #0x18]
-	mov r0, #0x96000
-	bic r1, r1, #2
-	str r1, [r4, #0x18]
-	str r0, [r5, #0x120]
-	str r0, [r5, #0x11c]
-	ldr r0, =0x000005DC
-	str r0, [r5, #0x118]
-	ldr r0, [r4, #0x24]
-	orr r0, r0, #0x2040000
-	str r0, [r4, #0x24]
-_02167118:
-	str r6, [r4, #0x38]
-	str r6, [r4, #0x3c]
-	mov r0, r4
-	str r6, [r4, #0x40]
-	bl StageTask__InitSeqPlayer
-	mov r0, r4
-	bl SailBuoy_Action_Init
-	mov r0, r4
-	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 void CreateSailBuoyForSegment(SailVoyageSegment *voyageSegment)
@@ -2576,10 +1745,8 @@ void CreateSailBuoyForGoal(SailVoyageSegment *voyageSegment)
     NNS_FndAppendListObject(&eventManager->stageObjectList, buoyR);
 }
 
-NONMATCH_FUNC StageTask *CreateSailUnusedSeagull(SailEventManagerObject *mapObject)
+StageTask *CreateSailUnusedSeagull(SailEventManagerObject *mapObject)
 {
-    // should match when 'aSbSeagullBac' is decompiled
-#ifdef NON_MATCHING
     StageTask *work;
     SailObject *worker;
 
@@ -2591,7 +1758,7 @@ NONMATCH_FUNC StageTask *CreateSailUnusedSeagull(SailEventManagerObject *mapObje
 
     // NOTE: "sb_seagull.bac" is not found anywhere in th game's files.
     // So even if this object were to be spawned in, it'd be invisible.
-    ObjObjectAction3dBACLoad(work, NULL, "sb_seagull.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_30), SailManager__GetArchive());
+    ObjObjectAction3dBACLoad(work, NULL, aSbSeagullBac, OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_30), SailManager__GetArchive());
     work->obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
     work->obj_2dIn3d->ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
     work->displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -2603,60 +1770,10 @@ NONMATCH_FUNC StageTask *CreateSailUnusedSeagull(SailEventManagerObject *mapObje
     SailUnusedSeagull_Action_Init(work);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0xc
-	mov r5, r0
-	bl CreateStageTask_
-	mov r4, r0
-	mov r1, #1
-	bl StageTask__SetType
-	mov r0, r4
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r0, #0x1e
-	bl GetObjectFileWork
-	mov r6, r0
-	bl SailManager__GetArchive
-	ldr r3, =0x0000FFFF
-	ldr r2, =aSbSeagullBac
-	stmia sp, {r3, r6}
-	str r0, [sp, #8]
-	mov r1, #0
-	mov r0, r4
-	bl ObjObjectAction3dBACLoad
-	ldr r0, [r4, #0x134]
-	mov r1, #0x1d
-	strb r1, [r0, #0xa]
-	ldr r1, [r4, #0x134]
-	mov r2, #7
-	strb r2, [r1, #0xb]
-	ldr r1, [r4, #0x20]
-	mov r0, r4
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	bl SailObject_InitCommon
-	mov r1, r5
-	mov r0, r4
-	bl SailObject_InitFromMapObject
-	ldr r1, [r4, #0x18]
-	mov r0, r4
-	orr r1, r1, #2
-	str r1, [r4, #0x18]
-	bl SailUnusedSeagull_Action_Init
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC StageTask *CreateSailSeagull(SailEventManagerObject *mapObject)
+StageTask *CreateSailSeagull(SailEventManagerObject *mapObject)
 {
-    // should match when 'aSbSeagullNsbmd_0' is decompiled
-#ifdef NON_MATCHING
     StageTask *work;
     SailObject *worker;
 
@@ -2666,7 +1783,7 @@ NONMATCH_FUNC StageTask *CreateSailSeagull(SailEventManagerObject *mapObject)
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
     UNUSED(worker);
 
-    ObjAction3dNNModelLoad(work, NULL, "sb_seagull.nsbmd", 0, GetObjectFileWork(OBJDATAWORK_31), SailManager__GetArchive());
+    ObjAction3dNNModelLoad(work, NULL, aSbSeagullNsbmd_0, 0, GetObjectFileWork(OBJDATAWORK_31), SailManager__GetArchive());
     SailObject_InitCommon(work);
     SailObject_InitFromMapObject(work, mapObject);
     work->flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
@@ -2674,51 +1791,10 @@ NONMATCH_FUNC StageTask *CreateSailSeagull(SailEventManagerObject *mapObject)
     SailSeagull_Action_Init(work);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #8
-	mov r6, r0
-	bl CreateStageTask_
-	mov r5, r0
-	mov r1, #1
-	bl StageTask__SetType
-	mov r0, r5
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r0, #0x1f
-	bl GetObjectFileWork
-	mov r4, r0
-	bl SailManager__GetArchive
-	str r4, [sp]
-	str r0, [sp, #4]
-	mov r0, r5
-	mov r1, #0
-	ldr r2, =aSbSeagullNsbmd_0
-	mov r3, r1
-	bl ObjAction3dNNModelLoad
-	mov r0, r5
-	bl SailObject_InitCommon
-	mov r1, r6
-	mov r0, r5
-	bl SailObject_InitFromMapObject
-	ldr r1, [r5, #0x18]
-	mov r0, r5
-	orr r1, r1, #2
-	str r1, [r5, #0x18]
-	bl SailSeagull_Action_Init
-	mov r0, r5
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC StageTask *CreateSailIslandSeagull(StageTask *parent)
+StageTask *CreateSailIslandSeagull(StageTask *parent)
 {
-    // should match when 'aSbSeagullNsbmd_0' is decompiled
-#ifdef NON_MATCHING
     StageTask *work;
     SailObject *worker;
 
@@ -2728,7 +1804,7 @@ NONMATCH_FUNC StageTask *CreateSailIslandSeagull(StageTask *parent)
     worker = StageTask__AllocateWorker(work, sizeof(SailObject));
     UNUSED(worker);
 
-    ObjAction3dNNModelLoad(work, NULL, "sb_seagull.nsbmd", 0, GetObjectFileWork(OBJDATAWORK_31), SailManager__GetArchive());
+    ObjAction3dNNModelLoad(work, NULL, aSbSeagullNsbmd_0, 0, GetObjectFileWork(OBJDATAWORK_31), SailManager__GetArchive());
     SailObject_InitCommon(work);
     StageTask__SetParent(work, parent, 0);
 
@@ -2743,72 +1819,6 @@ NONMATCH_FUNC StageTask *CreateSailIslandSeagull(StageTask *parent)
     SailIslandSeagull_Action_Init(work);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #8
-	mov r6, r0
-	bl CreateStageTask_
-	mov r4, r0
-	mov r1, #1
-	bl StageTask__SetType
-	mov r0, r4
-	mov r1, #0x1a0
-	bl StageTask__AllocateWorker
-	mov r0, #0x1f
-	bl GetObjectFileWork
-	mov r5, r0
-	bl SailManager__GetArchive
-	str r5, [sp]
-	mov r1, #0
-	str r0, [sp, #4]
-	ldr r2, =aSbSeagullNsbmd_0
-	mov r0, r4
-	mov r3, r1
-	bl ObjAction3dNNModelLoad
-	mov r0, r4
-	bl SailObject_InitCommon
-	mov r1, r6
-	mov r0, r4
-	mov r2, #0
-	bl StageTask__SetParent
-	ldr r0, [r4, #0x18]
-	ldr ip, =_obj_disp_rand
-	orr r0, r0, #0x12
-	str r0, [r4, #0x18]
-	ldr r0, [r4, #0x1c]
-	ldr r1, =0x00196225
-	orr r0, r0, #0x2000
-	str r0, [r4, #0x1c]
-	ldr lr, [ip]
-	ldr r2, =0x3C6EF35F
-	ldr r0, [r4, #0x12c]
-	mla r1, lr, r1, r2
-	str r1, [ip]
-	mov r1, r1, lsr #0x10
-	ldr r3, =0x000001FF
-	mov r1, r1, lsl #0x10
-	and r1, r3, r1, lsr #16
-	add r2, r1, #0x1200
-	mov r1, r2, asr #0x1f
-	mov r3, r1, lsl #9
-	mov r1, #0x800
-	orr r3, r3, r2, lsr #23
-	adds r2, r1, r2, lsl #9
-	adc r1, r3, #0
-	mov r2, r2, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	str r2, [r0, #0x18]
-	str r2, [r0, #0x1c]
-	str r2, [r0, #0x20]
-	mov r0, r4
-	bl SailIslandSeagull_Action_Init
-	mov r0, r4
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC void CreateSailSeagullForSegment(SailVoyageSegment *voyageSegment)

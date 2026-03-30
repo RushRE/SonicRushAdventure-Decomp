@@ -24,7 +24,7 @@ typedef struct Slingshot_
     AnimatorSpriteDS aniMachine;
     AnimatorSpriteDS aniCounterweight;
     Vec2Fx32 offset;
-    s16 anglePercent;
+    s16 angleStep;
 } Slingshot;
 
 typedef struct SlingshotRock_

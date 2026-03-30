@@ -147,7 +147,7 @@ void Slingshot_State_Idle(Slingshot *work)
 {
     Player *player = (Player *)work->gameWork.parent;
 
-    if (player != NULL && !CheckPlayerGimmickObj(player, work))
+    if (player != NULL && CheckPlayerGimmickObj(player, work) == FALSE)
         work->gameWork.parent = NULL;
 
     Slingshot_HandleRockPosition(work);
@@ -157,14 +157,14 @@ void Slingshot_State_Activated(Slingshot *work)
 {
     Player *player = (Player *)work->gameWork.parent;
 
-    if (player != NULL && !CheckPlayerGimmickObj(player, work))
+    if (player != NULL && CheckPlayerGimmickObj(player, work) == FALSE)
         work->gameWork.parent = NULL;
 
-    work->anglePercent -= FLOAT_TO_FX32(0.015625);
-    if (work->anglePercent < FLOAT_TO_FX32(0.1875))
-        work->anglePercent = FLOAT_TO_FX32(0.1875);
+    work->angleStep -= FLOAT_DEG_TO_IDX(0.3515625);
+    if (work->angleStep < FLOAT_DEG_TO_IDX(4.21875))
+        work->angleStep = FLOAT_DEG_TO_IDX(4.21875);
 
-    work->gameWork.objWork.dir.z = AkMath__Func_2002D28(work->gameWork.objWork.dir.z, FLOAT_DEG_TO_IDX(90.0), work->anglePercent);
+    work->gameWork.objWork.dir.z = AkMath__StepTowardsAngle(work->gameWork.objWork.dir.z, FLOAT_DEG_TO_IDX(90.0), work->angleStep);
     Slingshot_HandleRockPosition(work);
 
     if (work->gameWork.objWork.dir.z == FLOAT_DEG_TO_IDX(90.0))
@@ -234,7 +234,7 @@ void Slingshot_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     slingshot->gameWork.parent = &player->objWork;
     Player__Action_EnterSlingshot(player, &slingshot->gameWork);
-    slingshot->anglePercent = FLOAT_TO_FX32(0.3125);
+    slingshot->angleStep = FLOAT_DEG_TO_IDX(7.03125);
     SetTaskState(&slingshot->gameWork.objWork, Slingshot_State_Activated);
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_CATAPULT);
 }
@@ -335,7 +335,7 @@ void SlingshotRock_State_Launched(SlingshotRock *work)
 
     if ((work->gameWork.objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_ANY) != 0)
     {
-        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
+        DestroyStageTask(&work->gameWork.objWork);
 
         EffectSlingDust__Create(work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, -FLOAT_TO_FX32(2.0) - (mtMathRandRepeat(128) << 4),
                                 -FLOAT_TO_FX32(3.0) - (mtMathRandRepeat(128) << 4), 0);

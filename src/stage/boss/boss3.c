@@ -74,11 +74,19 @@ NOT_DECOMPILED VecFx32 _0217A928[6];
 NOT_DECOMPILED void *_0217A970;
 NOT_DECOMPILED void *_0217AA18;
 
-NOT_DECOMPILED const char *aStage00;
-NOT_DECOMPILED const char *aExc_3;
-NOT_DECOMPILED const char *aBody_0;
-NOT_DECOMPILED const char *aMouth;
-NOT_DECOMPILED const char *aArmHit;
+#ifdef NON_MATCHING
+#define aStage00 "stage_00"
+#define aExc_3 "exc"
+#define aBody_0 "body"
+#define aMouth "mouth"
+#define aArmHit "arm_hit"
+#else
+NOT_DECOMPILED const char aStage00[];
+NOT_DECOMPILED const char aExc_3[];
+NOT_DECOMPILED const char aBody_0[];
+NOT_DECOMPILED const char aMouth[];
+NOT_DECOMPILED const char aArmHit[];
+#endif
 
 // --------------------
 // FUNCTION DECLS
@@ -8684,46 +8692,14 @@ void Boss3SplatInk__Action_DecideNextAction(Boss3SplatInk *work, s32 action)
     work->stateInk(work);
 }
 
-NONMATCH_FUNC void Boss3SplatInk__StateInk_216760C(Boss3SplatInk *work)
+void Boss3SplatInk__StateInk_216760C(Boss3SplatInk *work)
 {
-    // Should match when 'aExc_3' is decompiled
-#ifdef NON_MATCHING
     work->stateInk = Boss3SplatInk__StateInk_216767C;
 
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, aExc_3, gameArchiveStage);
     BossHelpers__SetAnimation(&work->animatormdl410, B3D_ANIM_JOINT_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_INK_NSBCA), 0, NULL, TRUE);
     NNS_FndUnmountArchive(&arc);
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #0x70
-	ldr r1, =Boss3SplatInk__StateInk_216767C
-	mov r4, r0
-	str r1, [r4, #0x378]
-	ldr r0, =gameArchiveStage
-	ldr r1, =aExc_3
-	ldr r2, [r0, #0]
-	add r0, sp, #8
-	bl NNS_FndMountArchive
-	add r0, sp, #8
-	mov r1, #0x1a
-	bl NNS_FndGetArchiveFileByIndex
-	mov r1, #0
-	mov r2, r0
-	str r1, [sp]
-	mov r0, #1
-	str r0, [sp, #4]
-	mov r3, r1
-	add r0, r4, #0x410
-	bl BossHelpers__SetAnimation
-	add r0, sp, #8
-	bl NNS_FndUnmountArchive
-	add sp, sp, #0x70
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void Boss3SplatInk__StateInk_216767C(Boss3SplatInk *work)
@@ -8767,46 +8743,14 @@ void Boss3SplatInk__StateInk_2167780(Boss3SplatInk *work)
     // Do nothing
 }
 
-NONMATCH_FUNC void Boss3SplatInk__StateInk_2167784(Boss3SplatInk *work)
+void Boss3SplatInk__StateInk_2167784(Boss3SplatInk *work)
 {
-    // Should match when 'aExc_3' is decompiled
-#ifdef NON_MATCHING
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
-    BossHelpers__SetAnimation(&work->animatormdl554, B3D_ANIM_MAT_ANIM, NNS_FndGetArchiveFileByIndex(&archivePtr, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_INK_NSBMA), 0, NULL, FALSE);
+    NNS_FndMountArchive(&arc, aExc_3, gameArchiveStage);
+    BossHelpers__SetAnimation(&work->animatormdl554, B3D_ANIM_MAT_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_INK_NSBMA), 0, NULL, FALSE);
     NNS_FndUnmountArchive(&arc);
 
     work->stateInk = Boss3SplatInk__StateInk_21677F4;
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #0x70
-	ldr r1, =gameArchiveStage
-	mov r4, r0
-	ldr r2, [r1, #0]
-	ldr r1, =aExc_3
-	add r0, sp, #8
-	bl NNS_FndMountArchive
-	add r0, sp, #8
-	mov r1, #0x1b
-	bl NNS_FndGetArchiveFileByIndex
-	mov r3, #0
-	str r3, [sp]
-	add r1, r4, #0x154
-	mov r2, r0
-	add r0, r1, #0x400
-	mov r1, #1
-	str r3, [sp, #4]
-	bl BossHelpers__SetAnimation
-	add r0, sp, #8
-	bl NNS_FndUnmountArchive
-	ldr r0, =Boss3SplatInk__StateInk_21677F4
-	str r0, [r4, #0x378]
-	add sp, sp, #0x70
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void Boss3SplatInk__StateInk_21677F4(Boss3SplatInk *work)
@@ -8931,69 +8875,19 @@ void Boss3DimInk__Action_2167BBC(s32 a1)
     swapBuffer->gfxControl[GRAPHICS_ENGINE_B].blendManager.coefficient.value5      = MATH_ABS(FX32_TO_WHOLE(MultiplyFX(a1, FLOAT_TO_FX32(16.0))));
 }
 
-NONMATCH_FUNC void Boss3DimInk__StateInk_2167C44(Boss3DimInk *work)
+void Boss3DimInk__StateInk_2167C44(Boss3DimInk *work)
 {
-    // Should match when 'aExc_3' is decompiled
-#ifdef NON_MATCHING
     work->field_3CC = FLOAT_TO_FX32(0.0);
     work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_DRAW;
     work->field_3C8 = 0;
 
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, aExc_3, gameArchiveStage);
     BossHelpers__SetAnimation(&work->aniModel2, B3D_ANIM_JOINT_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_BLD_NSBCA), 0, NULL, FALSE);
     BossHelpers__SetAnimation(&work->aniModel2, B3D_ANIM_TEX_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_BLD_NSBTA), 0, NULL, FALSE);
     NNS_FndUnmountArchive(&arc);
 
     work->stateInk = Boss3DimInk__StateInk_2167CFC;
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #0x70
-	mov r4, r0
-	mov r2, #0
-	str r2, [r4, #0x3cc]
-	ldr r1, [r4, #0x20]
-	add r0, r4, #0x300
-	bic r1, r1, #0x20
-	str r1, [r4, #0x20]
-	strh r2, [r0, #0xc8]
-	ldr r1, =gameArchiveStage
-	add r0, sp, #8
-	ldr r2, [r1, #0]
-	ldr r1, =aExc_3
-	bl NNS_FndMountArchive
-	add r0, sp, #8
-	mov r1, #0x1d
-	bl NNS_FndGetArchiveFileByIndex
-	mov r1, #0
-	str r1, [sp]
-	add ip, r4, #0x114
-	mov r2, r0
-	mov r3, r1
-	add r0, ip, #0x400
-	str r1, [sp, #4]
-	bl BossHelpers__SetAnimation
-	add r0, sp, #8
-	mov r1, #0x1e
-	bl NNS_FndGetArchiveFileByIndex
-	mov r2, r0
-	mov r3, #0
-	add r0, r4, #0x114
-	str r3, [sp]
-	add r0, r0, #0x400
-	mov r1, #3
-	str r3, [sp, #4]
-	bl BossHelpers__SetAnimation
-	add r0, sp, #8
-	bl NNS_FndUnmountArchive
-	ldr r0, =Boss3DimInk__StateInk_2167CFC
-	str r0, [r4, #0x378]
-	add sp, sp, #0x70
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void Boss3DimInk__StateInk_2167CFC(Boss3DimInk *work)
@@ -9002,76 +8896,20 @@ void Boss3DimInk__StateInk_2167CFC(Boss3DimInk *work)
         work->stateInk = Boss3DimInk__StateInk_2167D18;
 }
 
-NONMATCH_FUNC void Boss3DimInk__StateInk_2167D18(Boss3DimInk *work)
+void Boss3DimInk__StateInk_2167D18(Boss3DimInk *work)
 {
-    // Should match when 'aExc_3' is decompiled
-#ifdef NON_MATCHING
     work->field_3C8 = 1;
 
     NNSFndArchive arc;
-    NNS_FndMountArchive(&archivePtr, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, aExc_3, gameArchiveStage);
     BossHelpers__SetAnimation(&work->aniModel3, B3D_ANIM_JOINT_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_BLD_NSBCA), 1, NULL, TRUE);
     BossHelpers__SetAnimation(&work->aniModel3, B3D_ANIM_TEX_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_BLD_NSBTA), 1, NULL, TRUE);
-    NNS_FndUnmountArchive(&archivePtr);
+    NNS_FndUnmountArchive(&arc);
 
     work->field_3CA = 120;
     Boss3DimInk__Action_2167B48(work, work->stage->boss->playerPos);
 
     work->stateInk = Boss3DimInk__StateInk_2167DE8;
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #0x70
-	mov r4, r0
-	ldr r1, =gameArchiveStage
-	add r0, r4, #0x300
-	mov r2, #1
-	strh r2, [r0, #0xc8]
-	ldr r2, [r1, #0]
-	ldr r1, =aExc_3
-	add r0, sp, #8
-	bl NNS_FndMountArchive
-	add r0, sp, #8
-	mov r1, #0x1d
-	bl NNS_FndGetArchiveFileByIndex
-	mov r1, #0
-	add ip, r4, #0x258
-	mov r2, r0
-	str r1, [sp]
-	mov r3, #1
-	add r0, ip, #0x400
-	str r3, [sp, #4]
-	bl BossHelpers__SetAnimation
-	add r0, sp, #8
-	mov r1, #0x1e
-	bl NNS_FndGetArchiveFileByIndex
-	mov r2, r0
-	mov r0, #0
-	str r0, [sp]
-	add r0, r4, #0x258
-	mov r3, #1
-	add r0, r0, #0x400
-	mov r1, #3
-	str r3, [sp, #4]
-	bl BossHelpers__SetAnimation
-	add r0, sp, #8
-	bl NNS_FndUnmountArchive
-	mov r1, #0x78
-	add r0, r4, #0x300
-	strh r1, [r0, #0xca]
-	ldr r1, [r4, #0x374]
-	mov r0, r4
-	ldr r1, [r1, #0x374]
-	add r1, r1, #0xa00
-	ldrh r1, [r1, #0xd6]
-	bl Boss3DimInk__Action_2167B48
-	ldr r0, =Boss3DimInk__StateInk_2167DE8
-	str r0, [r4, #0x378]
-	add sp, sp, #0x70
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void Boss3DimInk__StateInk_2167DE8(Boss3DimInk *work)

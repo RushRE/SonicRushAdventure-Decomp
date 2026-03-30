@@ -160,12 +160,12 @@ NONMATCH_FUNC void AnchorRope_State_PlayerSpin(AnchorRope *work)
     }
     else
     {
-        work->angleSpeed = ObjSpdUpSet(work->angleSpeed, -FLOAT_TO_FX32(0.25), FLOAT_TO_FX32(0.46875));
-        work->angleDistance += MATH_ABS(work->angleSpeed);
+        work->angleStep = ObjSpdUpSet(work->angleStep, -FLOAT_DEG_TO_IDX(5.625), FLOAT_DEG_TO_IDX(10.546875));
+        work->angleDistance += MATH_ABS(work->angleStep);
         work->anchorAngle.x = ObjRoopMove16(work->anchorAngle.x, FLOAT_DEG_TO_IDX(270.0), FLOAT_DEG_TO_IDX(1.40625));
         work->ropeAngle.x   = ObjRoopMove16(work->ropeAngle.x, FLOAT_DEG_TO_IDX(0.0), FLOAT_DEG_TO_IDX(0.3515625));
-        work->anchorAngle.y += work->angleSpeed;
-        work->ropeAngle.y += work->angleSpeed;
+        work->anchorAngle.y += work->angleStep;
+        work->ropeAngle.y += work->angleStep;
 
         work->anchorPos -= FLOAT_TO_FX32(1.3125);
         if (work->anchorPos < FLOAT_TO_FX32(42.0))
@@ -306,8 +306,8 @@ void AnchorRope_State_ReleasedPlayer(AnchorRope *work)
 {
     work->anchorAngle.x = ObjRoopMove16(work->anchorAngle.x, work->targetAnchorAngle.x, FLOAT_DEG_TO_IDX(1.40625));
     work->ropeAngle.x   = ObjRoopMove16(work->ropeAngle.x, work->targetRopeAngle.x, FLOAT_DEG_TO_IDX(0.3515625));
-    work->anchorAngle.y = AkMath__Func_2002D28(work->anchorAngle.y, work->targetAnchorAngle.y, work->angleSpeed);
-    work->ropeAngle.y   = AkMath__Func_2002D28(work->ropeAngle.y, work->targetRopeAngle.y, work->angleSpeed);
+    work->anchorAngle.y = AkMath__StepTowardsAngle(work->anchorAngle.y, work->targetAnchorAngle.y, work->angleStep);
+    work->ropeAngle.y   = AkMath__StepTowardsAngle(work->ropeAngle.y, work->targetRopeAngle.y, work->angleStep);
 
     work->anchorPos += FLOAT_TO_FX32(2.625);
     if (work->anchorPos > FLOAT_TO_FX32(144.0))
@@ -392,7 +392,7 @@ void AnchorRope_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         anchorRope->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
         anchorRope->anchorPos                 = FLOAT_TO_FX32(144.0);
-        anchorRope->angleSpeed                = -FLOAT_TO_FX32(0.25);
+        anchorRope->angleStep                = -FLOAT_DEG_TO_IDX(5.625);
         anchorRope->angleDistance             = FLOAT_TO_FX32(0.0);
         anchorRope->gameWork.objWork.userFlag = 0;
 

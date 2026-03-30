@@ -77,7 +77,7 @@ struct SoundTestAnimConfig
 // VARIABLES
 // --------------------
 
-// force correct string order when compiling a matching func
+// force correct string order when compiling a matching rom
 #ifndef NON_MATCHING
 static const char *aExtra  = "extra/";
 static const char *aSndZ42 = "snd/z42/";

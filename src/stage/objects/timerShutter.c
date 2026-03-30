@@ -10,7 +10,11 @@
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void *aActAcGmkTimerS;
+#ifdef NON_MATCHING
+#define aActAcGmkTimerS "/act/ac_gmk_timer_shutter.bac"
+#else
+NOT_DECOMPILED const char aActAcGmkTimerS[];
+#endif
 
 // --------------------
 // MAPOBJECT PARAMS
@@ -82,8 +86,7 @@ NONMATCH_FUNC TimerShutter *CreateTimerShutter(MapObject *mapObject, fx32 x, fx3
     s16 secondsDigit2 = FX_ModS32(seconds, 10);
     s16 minutesDigit2 = FX_DivS32(minutes, 10);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_timer_shutter.bac", GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage,
-                             OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkTimerS, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 24, GetObjectSpriteRef(OBJDATAWORK_118));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 4, 93);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
@@ -91,8 +94,8 @@ NONMATCH_FUNC TimerShutter *CreateTimerShutter(MapObject *mapObject, fx32 x, fx3
     StageTask__SetAnimation(&work->gameWork.objWork, TIMERSHUTTER_ANI_WATER_DISPENSER);
 
     AnimatorSpriteDS *aniShutter = &work->aniShutter;
-    ObjAction2dBACLoad(aniShutter, "/act/ac_gmk_timer_shutter.bac", 17, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage);
-    aniShutter->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    ObjAction2dBACLoad(aniShutter, aActAcGmkTimerS, 17, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage);
+    aniShutter->work.cParam.palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     aniShutter->cParam[0].palette = aniShutter->cParam[1].palette = aniShutter->work.cParam.palette;
 
     aniShutter->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
@@ -109,8 +112,8 @@ NONMATCH_FUNC TimerShutter *CreateTimerShutter(MapObject *mapObject, fx32 x, fx3
     AnimatorSpriteDS *aniTimeDigit = work->aniTimeDigits;
     for (s16 i = 0; i < 4; i++)
     {
-        ObjAction2dBACLoad(aniTimeDigit, "/act/ac_gmk_timer_shutter.bac", 2, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage);
-        aniTimeDigit->work.cParam.palette      = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, timeAnims[i], 95);
+        ObjAction2dBACLoad(aniTimeDigit, aActAcGmkTimerS, 2, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage);
+        aniTimeDigit->work.cParam.palette = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, timeAnims[i], 95);
         aniTimeDigit->cParam[0].palette = aniTimeDigit->cParam[1].palette = aniTimeDigit->work.cParam.palette;
         aniTimeDigit->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
         AnimatorSpriteDS__SetAnimation(aniTimeDigit, timeAnims[i]);
@@ -385,10 +388,8 @@ _0218037C:
 #endif
 }
 
-NONMATCH_FUNC TimerShutterWater *CreateTimerShutterWater(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+TimerShutterWater *CreateTimerShutterWater(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    // should match when aActAcGmkTimerS is decompiled
-#ifdef NON_MATCHING
     Task *task = CreateStageTask(TimerShutterWater_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1801, TASK_GROUP(2), TimerShutterWater);
     if (task == HeapNull)
         return NULL;
@@ -400,7 +401,7 @@ NONMATCH_FUNC TimerShutterWater *CreateTimerShutterWater(MapObject *mapObject, f
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_timer_shutter.bac", GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage, 8);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkTimerS, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage, 8);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 16, 93);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -408,8 +409,8 @@ NONMATCH_FUNC TimerShutterWater *CreateTimerShutterWater(MapObject *mapObject, f
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
     AnimatorSpriteDS *aniWater = &work->aniWater;
-    ObjAction2dBACLoad(aniWater, "/act/ac_gmk_timer_shutter.bac", 16, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage);
-    aniWater->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    ObjAction2dBACLoad(aniWater, aActAcGmkTimerS, 16, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage);
+    aniWater->work.cParam.palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     aniWater->cParam[0].palette = aniWater->cParam[1].palette = aniWater->work.cParam.palette;
     aniWater->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__SetAnimation(aniWater, TIMERSHUTTER_ANI_WATERSPLASH);
@@ -429,137 +430,6 @@ NONMATCH_FUNC TimerShutterWater *CreateTimerShutterWater(MapObject *mapObject, f
     SetTaskOutFunc(&work->gameWork.objWork, TimerShutterWater_Draw);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	ldr r3, =0x00001801
-	mov r7, r0
-	str r3, [sp]
-	mov r0, #2
-	mov r6, r1
-	mov r5, r2
-	mov r2, #0
-	str r0, [sp, #4]
-	ldr r4, =0x00000408
-	ldr r0, =StageTask_Main
-	ldr r1, =TimerShutterWater_Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	ldr r2, =0x00000408
-	mov r4, r0
-	mov r1, #0
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldr r1, [r4, #0x1c]
-	mov r0, #0x75
-	orr r1, r1, #0x2100
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x18]
-	orr r1, r1, #0x10
-	str r1, [r4, #0x18]
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	mov r1, #8
-	ldr r2, [r0, #0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	ldr r2, =aActAcGmkTimerS
-	add r1, r4, #0x168
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0x10
-	mov r2, #0x5d
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	mov r0, r4
-	mov r1, #0x10
-	bl StageTask__SetAnimation
-	ldr r0, [r4, #0x20]
-	add r5, r4, #0x364
-	orr r0, r0, #4
-	str r0, [r4, #0x20]
-	mov r0, #0x75
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r2, [r1, #0]
-	ldr r1, =aActAcGmkTimerS
-	str r2, [sp]
-	mov r0, r5
-	mov r2, #0x10
-	bl ObjAction2dBACLoad
-	ldr r1, [r4, #0x128]
-	mov r0, r5
-	ldrh r2, [r1, #0x50]
-	mov r1, #0x11
-	strh r2, [r5, #0x50]
-	strh r2, [r5, #0x92]
-	strh r2, [r5, #0x90]
-	ldr r2, [r5, #0x3c]
-	orr r2, r2, #0x10
-	str r2, [r5, #0x3c]
-	bl AnimatorSpriteDS__SetAnimation
-	mov r0, r5
-	mov r1, #0x17
-	bl StageTask__SetOAMOrder
-	mov r0, r5
-	mov r1, #2
-	bl StageTask__SetOAMPriority
-	mov r2, #0
-	str r4, [r4, #0x234]
-	add r0, r4, #0x218
-	sub r1, r2, #0x14
-	mov r3, #0x14
-	str r2, [sp]
-	bl ObjRect__SetBox2D
-	mov r1, #0
-	mov r2, r1
-	add r0, r4, #0x218
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r4, #0x218
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, =TimerShutterWater_OnDefend
-	mov r0, #0x40000
-	str r1, [r4, #0x23c]
-	ldr r1, [r4, #0x230]
-	rsb r0, r0, #0
-	orr r1, r1, #0x400
-	str r1, [r4, #0x230]
-	str r0, [r4, #0x2c]
-	ldr r1, =TimerShutterWater_State_Active
-	ldr r0, =TimerShutterWater_Draw
-	str r1, [r4, #0xf4]
-	str r0, [r4, #0xfc]
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 void TimerShutter_Destructor(Task *task)

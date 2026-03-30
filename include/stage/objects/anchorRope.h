@@ -38,7 +38,7 @@ typedef struct AnchorRope_
     VecU16 anchorAngle;
     VecU16 ropeAngle;
     fx32 anchorPos;
-    s16 angleSpeed;
+    s16 angleStep;
     s32 angleDistance;
     VecU16 targetAnchorAngle;
     VecU16 targetRopeAngle;

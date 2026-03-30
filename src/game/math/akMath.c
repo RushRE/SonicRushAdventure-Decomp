@@ -34,26 +34,23 @@ void AkMath__Func_2002C98(s32 radiusX, s32 radiusY, fx32 *x, fx32 *y, u16 angle)
     *y = MultiplyFX(radiusX, SinFX(angle)) + MultiplyFX(radiusY, CosFX(angle));
 }
 
-u16 AkMath__Func_2002D28(u16 angle, u16 targetAngle, s16 percent)
+u16 AkMath__StepTowardsAngle(u16 angle, u16 targetAngle, s16 step)
 {
-    u16 angleDist;
+    u16 remain;
 
     if (angle == targetAngle)
         return targetAngle;
 
-    if (percent >= 0)
-        angleDist = targetAngle - angle;
+    if (step >= 0)
+        remain = targetAngle - angle;
     else
-        angleDist = angle - targetAngle;
+        remain = angle - targetAngle;
 
-    if (angleDist > MATH_ABS(percent))
-    {
-        angle = angle + percent;
-    }
+    if (remain > MATH_ABS(step))
+        angle = angle + step;
     else
-    {
         angle = targetAngle;
-    }
+
     return angle;
 }
 

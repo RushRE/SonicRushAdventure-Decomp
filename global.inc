@@ -188,7 +188,7 @@
 .public AkUtilFrameToTime
 .public AkMath__Func_2002C40
 .public AkMath__Func_2002C98
-.public AkMath__Func_2002D28
+.public AkMath__StepTowardsAngle
 .public AkMath__BlendColors
 .public InitSkipTitleCardEvent
 .public InitZoneSysEvent

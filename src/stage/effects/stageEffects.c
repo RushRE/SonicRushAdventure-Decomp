@@ -84,36 +84,6 @@
 // TEMP
 // --------------------
 
-NOT_DECOMPILED const char *aActAcEffWaterB_0;
-NOT_DECOMPILED const char *aAcEffFoundBac;
-NOT_DECOMPILED const char *aNsbmd;
-NOT_DECOMPILED const char *aActAcGmkTruckJ;
-NOT_DECOMPILED const char *aActAcGmkTruckJ_0;
-NOT_DECOMPILED const char *aBpaGmkMedal;
-NOT_DECOMPILED const char *aActAcDecCoralB;
-NOT_DECOMPILED const char *aActAcDecSakuBa;
-NOT_DECOMPILED const char *aEffeStartdash;
-NOT_DECOMPILED const char *aActAcGmkBreakO;
-NOT_DECOMPILED const char *aAcEffGoalJewel;
-NOT_DECOMPILED const char *aActAcGmkFlipmu;
-NOT_DECOMPILED const char *aActAcGmkPipeFl;
-NOT_DECOMPILED const char *aActAcGmkPipeFl;
-NOT_DECOMPILED const char *aActAcEffSteamD;
-NOT_DECOMPILED const char *aActAcGmkSteamE;
-NOT_DECOMPILED const char *aActAcGmkSteamF;
-NOT_DECOMPILED const char *aModGmkPistonEf;
-NOT_DECOMPILED const char *aActAcGmkIceBlo;
-NOT_DECOMPILED const char *aActAcGmkTruckB;
-NOT_DECOMPILED const char *aActAcGmkSnowsl;
-NOT_DECOMPILED const char *aActAcGmkSnowsl;
-NOT_DECOMPILED const char *aActAcGmkPirate;
-NOT_DECOMPILED const char *aActAcGmkSlingD;
-NOT_DECOMPILED const char *aModSbBazooka;
-NOT_DECOMPILED const char *aActAcGmkAirEfB;
-NOT_DECOMPILED const char *aActAcGmkMedal;
-NOT_DECOMPILED const char *aAcItmRingBac_0;
-NOT_DECOMPILED const char *aAcFixKeyLittle;
-
 NOT_DECOMPILED u8 RegularShield__matList[];
 NOT_DECOMPILED u8 RegularShield__shpList[];
 

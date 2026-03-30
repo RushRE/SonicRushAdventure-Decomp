@@ -87,35 +87,26 @@
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void *_02118FBC;
-NOT_DECOMPILED void *_0210EA44;
-NOT_DECOMPILED void *_0202B670;
-NOT_DECOMPILED void *_0202C470;
 extern void *gEffectButtonPromptStateTable[];
-NOT_DECOMPILED void *_02118FB4;
 NOT_DECOMPILED u16 EffectButtonPrompt_animIDs[];
-NOT_DECOMPILED void *_02119324;
-NOT_DECOMPILED void *_0211930C;
 
-NOT_DECOMPILED const char *aActAcGmkSnowsl;
-NOT_DECOMPILED const char *aActAcGmkPirate;
-NOT_DECOMPILED const char *aActAcGmkSlingD;
-NOT_DECOMPILED const char *aModSbBazooka;
-NOT_DECOMPILED const char *aActAcGmkAirEfB;
-NOT_DECOMPILED const char *aActAcGmkMedal;
-NOT_DECOMPILED const char *aAcItmRingBac_0;
-NOT_DECOMPILED const char *aAcFixKeyLittle;
-NOT_DECOMPILED const char *aActAcGmkTruckJ;
-NOT_DECOMPILED const char *aActAcGmkTruckJ_0;
-NOT_DECOMPILED const char *aBpaGmkMedal;
-
-NOT_DECOMPILED u8 RegularShield__matList[];
-NOT_DECOMPILED u8 RegularShield__shpList[];
-
-NOT_DECOMPILED u8 MagnetShield__matList[];
-NOT_DECOMPILED u8 MagnetShield__shpList[];
-
-NOT_DECOMPILED void *_0210EA5C;
+#ifdef NON_MATCHING
+#define aActAcGmkAirEfB "/act/ac_gmk_air_ef.bac"
+#define aAcItmRingBac_0 "/ac_itm_ring.bac"
+#define aAcFixKeyLittle "/ac_fix_key_little.bac"
+#define aActAcGmkMedal "/act/ac_gmk_medal"
+#define _0211930C ".bac"
+#define aBpaGmkMedal "/bpa/gmk_medal"
+#define _02119324 ".bpa"
+#else
+NOT_DECOMPILED const char aActAcGmkAirEfB[];
+NOT_DECOMPILED const char aActAcGmkMedal[];
+NOT_DECOMPILED const char aAcItmRingBac_0[];
+NOT_DECOMPILED const char aAcFixKeyLittle[];
+NOT_DECOMPILED const char aBpaGmkMedal[];
+NOT_DECOMPILED const char _0211930C[];
+NOT_DECOMPILED const char _02119324[];
+#endif
 
 // --------------------
 // VARIABLES
@@ -1011,10 +1002,8 @@ void EffectIceSparklesSpawner__State_202D19C(EffectIceSparklesSpawner *work)
 }
 
 // EffectMedal
-NONMATCH_FUNC EffectMedal *EffectMedal__Create(StageTask *parent)
+EffectMedal *EffectMedal__Create(StageTask *parent)
 {
-    // will match when the strings are decompiled
-#ifdef NON_MATCHING
     EffectMedal *work = CreateEffect(EffectMedal, parent);
     if (work == NULL)
         return NULL;
@@ -1087,9 +1076,9 @@ NONMATCH_FUNC EffectMedal *EffectMedal__Create(StageTask *parent)
     id[0] = FX_DivS32(animID, 10) + '0';
     id[1] = FX_ModS32(animID, 10) + '0';
     id[2] = 0;
-    STD_CopyString(path, "/act/ac_gmk_medal");
+    STD_CopyString(path, aActAcGmkMedal);
     STD_ConcatenateString(path, id);
-    STD_ConcatenateString(path, ".bac");
+    STD_ConcatenateString(path, _0211930C);
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->aniSprite, path, GetObjectDataWork(OBJDATAWORK_156), 0, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, 108);
@@ -1098,9 +1087,9 @@ NONMATCH_FUNC EffectMedal *EffectMedal__Create(StageTask *parent)
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_13);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
 
-    STD_CopyString(path, "/bpa/gmk_medal");
+    STD_CopyString(path, aBpaGmkMedal);
     STD_ConcatenateString(path, id);
-    STD_ConcatenateString(path, ".bpa");
+    STD_ConcatenateString(path, _02119324);
 
     InitPaletteAnimator(&work->aniPalette, ObjDataLoad(GetObjectDataWork(OBJDATAWORK_157), path, NULL), 0, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_SPRITE,
                         VRAMKEY_TO_ADDR(&((u16 *)VRAM_OBJ_PLTT)[16 * work->objWork.obj_2d->ani.cParam[0].palette]));
@@ -1115,182 +1104,6 @@ NONMATCH_FUNC EffectMedal *EffectMedal__Create(StageTask *parent)
     SetTaskState(&work->objWork, EffectMedal__State_202D514);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0x4c
-	mov r1, r0
-	mov r0, #0x23c
-	bl CreateEffectTask
-	movs r4, r0
-	addeq sp, sp, #0x4c
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, pc}
-	ldr r0, =EffectTask__sVars
-	ldr r1, =EffectMedal__Destructor
-	ldr r0, [r0, #0]
-	bl SetTaskDestructorEvent
-	ldr r0, =gameState
-	ldrh r0, [r0, #0x28]
-	cmp r0, #0x16
-	addls pc, pc, r0, lsl #2
-	b _0202D2F8
-_0202D29C: // jump table
-	b _0202D2F8 // case 0
-	b _0202D300 // case 1
-	b _0202D2F8 // case 2
-	b _0202D2F8 // case 3
-	b _0202D308 // case 4
-	b _0202D310 // case 5
-	b _0202D2F8 // case 6
-	b _0202D318 // case 7
-	b _0202D320 // case 8
-	b _0202D2F8 // case 9
-	b _0202D2F8 // case 10
-	b _0202D328 // case 11
-	b _0202D330 // case 12
-	b _0202D2F8 // case 13
-	b _0202D338 // case 14
-	b _0202D340 // case 15
-	b _0202D2F8 // case 16
-	b _0202D348 // case 17
-	b _0202D350 // case 18
-	b _0202D2F8 // case 19
-	b _0202D2F8 // case 20
-	b _0202D358 // case 21
-	b _0202D360 // case 22
-_0202D2F8:
-	mov r5, #0
-	b _0202D364
-_0202D300:
-	mov r5, #1
-	b _0202D364
-_0202D308:
-	mov r5, #2
-	b _0202D364
-_0202D310:
-	mov r5, #3
-	b _0202D364
-_0202D318:
-	mov r5, #4
-	b _0202D364
-_0202D320:
-	mov r5, #5
-	b _0202D364
-_0202D328:
-	mov r5, #6
-	b _0202D364
-_0202D330:
-	mov r5, #7
-	b _0202D364
-_0202D338:
-	mov r5, #8
-	b _0202D364
-_0202D340:
-	mov r5, #9
-	b _0202D364
-_0202D348:
-	mov r5, #0xa
-	b _0202D364
-_0202D350:
-	mov r5, #0xb
-	b _0202D364
-_0202D358:
-	mov r5, #0xc
-	b _0202D364
-_0202D360:
-	mov r5, #0xd
-_0202D364:
-	mov r0, r5
-	mov r1, #0xa
-	bl FX_DivS32
-	add r2, r0, #0x30
-	mov r0, r5
-	mov r1, #0xa
-	strb r2, [sp, #8]
-	bl FX_ModS32
-	add r3, r0, #0x30
-	mov r2, #0
-	ldr r1, =aActAcGmkMedal
-	add r0, sp, #0xb
-	strb r3, [sp, #9]
-	strb r2, [sp, #0xa]
-	bl STD_CopyString
-	add r0, sp, #0xb
-	add r1, sp, #8
-	bl STD_ConcatenateString
-	ldr r1, =_0211930C
-	add r0, sp, #0xb
-	bl STD_ConcatenateString
-	mov r0, #0x9c
-	bl GetObjectFileWork
-	mov r3, r0
-	mov r0, #0
-	str r0, [sp]
-	ldr r1, =0x0000FFFF
-	mov r0, r4
-	str r1, [sp, #4]
-	add r1, r4, #0x168
-	add r2, sp, #0xb
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0
-	mov r2, #0x6c
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimation
-	ldr r3, [r4, #0x128]
-	mov r0, r4
-	ldr r2, [r3, #0x3c]
-	mov r1, #0xd
-	orr r2, r2, #0x200
-	str r2, [r3, #0x3c]
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	ldr r1, =aBpaGmkMedal
-	add r0, sp, #0xb
-	bl STD_CopyString
-	add r0, sp, #0xb
-	add r1, sp, #8
-	bl STD_ConcatenateString
-	ldr r1, =_02119324
-	add r0, sp, #0xb
-	bl STD_ConcatenateString
-	mov r0, #0x9d
-	bl GetObjectFileWork
-	add r1, sp, #0xb
-	mov r2, #0
-	bl ObjDataLoad
-	mov r2, #0
-	str r2, [sp]
-	ldr r3, [r4, #0x128]
-	mov r1, r0
-	ldrh ip, [r3, #0x90]
-	add r0, r4, #0x218
-	mov r3, #2
-	mov ip, ip, lsl #5
-	add ip, ip, #0x200
-	add ip, ip, #0x5000000
-	str ip, [sp, #4]
-	bl InitPaletteAnimator
-	ldr r1, [r4, #0x48]
-	mov r0, #0
-	sub r1, r1, #0x20000
-	str r1, [r4, #0x48]
-	str r0, [r4, #0x38]
-	str r0, [r4, #0x3c]
-	sub r0, r0, #0x7000
-	str r0, [r4, #0x9c]
-	ldr r1, =EffectMedal__State_202D514
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #0x4c
-	ldmia sp!, {r4, r5, pc}
-// clang-format on
-#endif
 }
 
 void EffectMedal__Destructor(Task *task)
@@ -1388,10 +1201,8 @@ void EffectMedal__State_202D514(EffectMedal *work)
 }
 
 // EffectRingSparkle
-NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, fx32 accX, fx32 accY)
+EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, fx32 accX, fx32 accY)
 {
-    // will match when "/ac_itm_ring.bac" is decompiled
-#ifdef NON_MATCHING
     if (gRingManagerWork == NULL)
         return NULL;
 
@@ -1401,7 +1212,7 @@ NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 
 
     SetTaskDestructorEvent(EffectTask__sVars.lastCreatedTask, EffectRingSparkle__Destructor);
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_itm_ring.bac", GetObjectFileWork(OBJDATAWORK_153), gameArchiveCommon, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, aAcItmRingBac_0, GetObjectFileWork(OBJDATAWORK_153), gameArchiveCommon, OBJ_DATA_GFX_NONE);
     work->objWork.obj_2d->ani.vramPixels[0]     = gRingManagerWork->aniRingSparkle.vramPixels[0];
     work->objWork.obj_2d->ani.vramPixels[1]     = gRingManagerWork->aniRingSparkle.vramPixels[1];
     work->objWork.obj_2d->ani.cParam[1].palette = 2;
@@ -1423,93 +1234,6 @@ NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 
     SetTaskState(&work->objWork, EffectTask_State_DestroyAfterAnimation);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #8
-	ldr r4, =gRingManagerWork
-	mov r8, r0
-	ldr r0, [r4, #0]
-	mov r7, r1
-	cmp r0, #0
-	mov r6, r2
-	mov r5, r3
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	mov r0, #0x218
-	mov r1, #0
-	bl CreateEffectTask
-	movs r4, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	ldr r0, =EffectTask__sVars
-	ldr r1, =EffectRingSparkle__Destructor
-	ldr r0, [r0, #0]
-	bl SetTaskDestructorEvent
-	mov r0, #0x99
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveCommon
-	mov r3, r0
-	ldr r1, [r1, #0]
-	mov r0, #0
-	str r1, [sp]
-	str r0, [sp, #4]
-	mov r0, r4
-	add r1, r4, #0x168
-	ldr r2, =aAcItmRingBac_0
-	bl ObjObjectAction2dBACLoad
-	ldr r1, =gRingManagerWork
-	ldr r2, [r4, #0x128]
-	ldr r0, [r1, #0]
-	mov r3, #2
-	ldr ip, [r0, #0x130]
-	mov r0, r4
-	str ip, [r2, #0x78]
-	ldr r1, [r1, #0]
-	ldr r2, [r4, #0x128]
-	ldr ip, [r1, #0x134]
-	mov r1, #1
-	str ip, [r2, #0x7c]
-	ldr r2, [r4, #0x128]
-	strh r3, [r2, #0x92]
-	ldr r3, [r4, #0x128]
-	ldrh r2, [r3, #0x92]
-	strh r2, [r3, #0x90]
-	ldr r3, [r4, #0x128]
-	ldr r2, [r3, #0x3c]
-	orr r2, r2, #0x10
-	str r2, [r3, #0x3c]
-	bl StageTask__SetAnimation
-	mov r0, r4
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	str r8, [r4, #0x44]
-	str r7, [r4, #0x48]
-	str r6, [r4, #0x98]
-	str r5, [r4, #0x9c]
-	ldr r1, [sp, #0x20]
-	ldr r0, [sp, #0x24]
-	str r1, [r4, #0xa4]
-	str r0, [r4, #0xa8]
-	mov r2, #0
-	str r2, [sp]
-	str r2, [sp, #4]
-	mov r0, r4
-	mov r1, #0x10
-	mov r3, r2
-	bl InitEffectTaskViewCheck
-	ldr r1, =EffectTask_State_DestroyAfterAnimation
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-// clang-format on
-#endif
 }
 
 void EffectRingSparkle__Destructor(Task *task)
@@ -1522,20 +1246,19 @@ void EffectRingSparkle__Destructor(Task *task)
     StageTask_Destructor(task);
 }
 
-// EffectButtonPrompt
-// static const u8 EffectButtonPrompt_animIDs[2]                               = { 1, 0 };
-
 NONMATCH_FUNC EffectButtonPrompt *EffectButtonPrompt__Create(StageTask *parent, s32 type)
 {
-    // will match when "/ac_fix_key_little.bac" is decompiled
+    // will match when EffectButtonPrompt_animIDs & gEffectButtonPromptStateTable are decompiled
 #ifdef NON_MATCHING
+    static u8 animIDs[2]                               = { 1, 0 };
+    static void (*states[2])(EffectButtonPrompt *work) = { EffectButtonPrompt__State_DPadUp, EffectButtonPrompt__State_JumpButton };
 
     EffectButtonPrompt *work = CreateEffect(EffectButtonPrompt, parent);
 
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_fix_key_little.bac", GetObjectFileWork(OBJDATAWORK_152), gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, aAcFixKeyLittle, GetObjectFileWork(OBJDATAWORK_152), gameArchiveCommon, OBJ_DATA_GFX_AUTO);
     work->objWork.obj_2d->ani.cParam[1].palette = 1;
     work->objWork.obj_2d->ani.cParam[0].palette = work->objWork.obj_2d->ani.cParam[1].palette;
     work->objWork.obj_2d->ani.work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;

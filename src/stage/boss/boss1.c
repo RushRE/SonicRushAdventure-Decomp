@@ -152,16 +152,16 @@ NOT_DECOMPILED const s32 Boss1__attackTablePhase3_1[4];
 NOT_DECOMPILED const s32 Boss1__attackTablePhase3_2[4];
 
 static const fx32 sChargeKnockbackPower[BOSS1_HIT_COMBO_MAX + 1] = { FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.9), FLOAT_TO_FX32(0.8),
-                                                                    FLOAT_TO_FX32(0.7), FLOAT_TO_FX32(0.6), FLOAT_TO_FX32(0.5) };
+                                                                     FLOAT_TO_FX32(0.7), FLOAT_TO_FX32(0.6), FLOAT_TO_FX32(0.5) };
 
 static const fx32 sChargeRecoilPower[BOSS1_HIT_COMBO_MAX + 1] = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.1), FLOAT_TO_FX32(0.2),
-                                                                 FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.5) };
+                                                                  FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.5) };
 
 static const fx32 sDamageModifierTable[BOSS1_HIT_COMBO_MAX + 1] = { FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.75), FLOAT_TO_FX32(0.5),
-                                                                   FLOAT_TO_FX32(0.4), FLOAT_TO_FX32(0.3),  FLOAT_TO_FX32(0.2) };
+                                                                    FLOAT_TO_FX32(0.4), FLOAT_TO_FX32(0.3),  FLOAT_TO_FX32(0.2) };
 
 static const s32 sDropUnknownTable[5] = { FLOAT_TO_FX32(16.169921875), FLOAT_TO_FX32(16.169921875), FLOAT_TO_FX32(329.669921875), FLOAT_TO_FX32(1303.169921875),
-                                         FLOAT_TO_FX32(0.0) };
+                                          FLOAT_TO_FX32(0.0) };
 
 static const s32 sBiteTypes[BOSS1_PHASE_COUNT][4] = {
     [BOSS1_PHASE_1] = { 0, 0, 0, 0 },
@@ -379,14 +379,30 @@ NOT_DECOMPILED s32 *Boss1__attackTablesPhase1[4];
 NOT_DECOMPILED s32 **Boss1__attackTablesForPhase[4];
 NOT_DECOMPILED s32 *Boss1__attackTablesPhase2[4];
 NOT_DECOMPILED s32 *Boss1__attackTablesPhase4[4];
+
+#ifdef NON_MATCHING
+static const char *Boss1__paletteNameTable[24] = {
+    "z1_ago_pl",     "z1_arm_a_pl", "z1_arm_b_pl",  "z1_asimoto_pl",   "z1_asisaki_pl", "z1_body_a_pl",  "z1_hand_pl",     "z1_head_pl",
+    "z1_hiza_pl",    "z1_join2_pl", "z1_join_pl",   "z1_kuti_pl",      "z1_leg_a_pl",   "z1_legjoin_pl", "z1_setuzoku_pl", "z1_stomac_pl",
+    "z1_tail2_b_pl", "z1_tuno_pl",  "z1_uleg_a_pl", "z1_uleg_side_pl", "z1_unit2_pl",   "z1_unit_pl",    "z1_unit_b_pl",   "z1_week_pl",
+};
+
+#define Boss1__path_none ""
+#define aBoss1Nsbca      "/boss1.nsbca"
+#define aBoss1Nsbva      "/boss1.nsbva"
+#define aBodyNeck        "weak"
+#define aWeak            "body_neck"
+#define aExc_2           "exc"
+#else
 NOT_DECOMPILED const char *Boss1__paletteNameTable[24];
-NOT_DECOMPILED const char *aZ1UlegSidePl;
-NOT_DECOMPILED const char *Boss1__path_none;
-NOT_DECOMPILED const char *aBoss1Nsbca;
-NOT_DECOMPILED const char *aBoss1Nsbva;
-NOT_DECOMPILED const char *aBodyNeck;
-NOT_DECOMPILED const char *aWeak;
-NOT_DECOMPILED const char *aExc_2;
+
+NOT_DECOMPILED const char Boss1__path_none[];
+NOT_DECOMPILED const char aBoss1Nsbca[];
+NOT_DECOMPILED const char aBoss1Nsbva[];
+NOT_DECOMPILED const char aBodyNeck[];
+NOT_DECOMPILED const char aWeak[];
+NOT_DECOMPILED const char aExc_2[];
+#endif
 
 // --------------------
 // FUNCTION DECLS
@@ -793,7 +809,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 
     Boss1Stage__GetBackground(&work->background);
 
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniBossMain, "", 0, &bossAssetFiles[0], NULL);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniBossMain, Boss1__path_none, 0, &bossAssetFiles[0], NULL);
     work->gameWork.objWork.obj_3d             = NULL;
     work->aniBossMain.ani.work.scale.x        = FLOAT_TO_FX32(3.3);
     work->aniBossMain.ani.work.scale.y        = FLOAT_TO_FX32(3.3);
@@ -801,21 +817,21 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     work->aniBossMain.ani.work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
     work->aniBossMain.ani.work.matrixOpIDs[1] = MATRIX_OP_NONE;
 
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniBossMain, "/boss1.nsbca", NULL, gameArchiveStage);
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniBossMain, "/boss1.nsbva", NULL, gameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniBossMain, aBoss1Nsbca, NULL, gameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniBossMain, aBoss1Nsbva, NULL, gameArchiveStage);
     NNS_G3dRenderObjSetCallBack(&work->aniBossMain.ani.renderObj, BossHelpers__Model__RenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
-    BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, "weak", MTXSTACK_WEAK, NULL, NULL);
-    BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, "body_neck", MTXSTACK_BODY_NECK, Boss1__NeckRenderCallback, work);
+    BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, aWeak, MTXSTACK_WEAK, NULL, NULL);
+    BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, aBodyNeck, MTXSTACK_BODY_NECK, Boss1__NeckRenderCallback, work);
 
     OBS_ACTION3D_NN_WORK *aniBossSub = &work->aniBossSub1;
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniBossSub, "", 2, &bossAssetFiles[0], NULL);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniBossSub, Boss1__path_none, 2, &bossAssetFiles[0], NULL);
     work->gameWork.objWork.obj_3d = NULL;
     aniBossSub->ani.work.scale.x  = FLOAT_TO_FX32(3.3);
     aniBossSub->ani.work.scale.y  = FLOAT_TO_FX32(200.0);
     aniBossSub->ani.work.scale.z  = FLOAT_TO_FX32(3.3);
 
     aniBossSub = &work->aniBossSub2;
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniBossSub, "", 1, &bossAssetFiles[0], NULL);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniBossSub, Boss1__path_none, 1, &bossAssetFiles[0], NULL);
     work->gameWork.objWork.obj_3d       = NULL;
     aniBossSub->ani.work.scale.x        = FLOAT_TO_FX32(3.3);
     aniBossSub->ani.work.scale.y        = FLOAT_TO_FX32(3.3);
@@ -823,7 +839,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     aniBossSub->ani.work.matrixOpIDs[0] = MATRIX_OP_NONE;
 
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, aExc_2, gameArchiveStage);
     for (s32 i = 0; i < 24; i++)
     {
         InitPaletteAnimator(&work->aniPalette[i], NNS_FndGetArchiveFileByIndex(&arc, i + ARCHIVE_Z1BOSS_ACT_LZ7_FILE_BOSS1_Z1_AGO_BPA), 0, ANIMATORBPA_FLAG_NONE,
@@ -1551,10 +1567,8 @@ u32 Boss1Stage__GetCappedComboCount(Boss1Stage *work)
     return Boss1Stage__GetHitComboCount(work);
 }
 
-NONMATCH_FUNC void Boss1Stage__SetupAnimators(Boss1Stage *work)
+void Boss1Stage__SetupAnimators(Boss1Stage *work)
 {
-    // will match when strings are decompiled
-#ifdef NON_MATCHING
     Boss1StageDropControl *control = &work->dropControl;
 
     control->state = 0;
@@ -1562,7 +1576,7 @@ NONMATCH_FUNC void Boss1Stage__SetupAnimators(Boss1Stage *work)
     for (s32 i = 0; i < BOSS1STAGE_MESH_COUNT; i++)
     {
         OBS_ACTION3D_NN_WORK *animator = &work->dropControl.aniStage[i];
-        ObjAction3dNNModelLoad(&work->gameWork.objWork, animator, "", i, &bossAssetFiles[1], NULL);
+        ObjAction3dNNModelLoad(&work->gameWork.objWork, animator, Boss1__path_none, i, &bossAssetFiles[1], NULL);
         work->gameWork.objWork.obj_3d    = NULL;
         animator->ani.work.scale.x       = FLOAT_TO_FX32(1.0);
         animator->ani.work.scale.y       = FLOAT_TO_FX32(1.0);
@@ -1571,8 +1585,8 @@ NONMATCH_FUNC void Boss1Stage__SetupAnimators(Boss1Stage *work)
     }
 
     OBS_ACTION3D_NN_WORK *animator = &work->dropControl.aniStage[1];
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, animator, "/boss1.nsbca", NULL, gameArchiveStage);
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, animator, "/boss1.nsbva", NULL, gameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, animator, aBoss1Nsbca, NULL, gameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, animator, aBoss1Nsbva, NULL, gameArchiveStage);
 
     BossHelpers__SetAnimation(&animator->ani, B3D_ANIM_JOINT_ANIM, animator->resources[B3D_RESOURCE_JOINT_ANIM], ANI_bs1_stage_01, NULL, FALSE);
     BossHelpers__SetAnimation(&animator->ani, B3D_ANIM_VIS_ANIM, animator->resources[B3D_RESOURCE_VIS_ANIM], ANI_bs1_stage_01, NULL, FALSE);
@@ -1583,86 +1597,6 @@ NONMATCH_FUNC void Boss1Stage__SetupAnimators(Boss1Stage *work)
         control->meshParts[i] = BOSS1STAGE_PART_DROP_HOLE_1;
     }
     control->field_14 = 0x3E8000;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #8
-	mov r10, r0
-	mov r8, #0
-	ldr r6, =bossAssetFiles+8
-	str r8, [r10, #0x3b4]
-	add r7, r10, #0x3b4
-	add r9, r10, #0x3e8
-	mov r5, r8
-	mov r4, r8
-	mov r11, #0x1000
-_02155384:
-	str r6, [sp]
-	ldr r2, =Boss1__path_none
-	mov r0, r10
-	mov r1, r9
-	mov r3, r8
-	str r5, [sp, #4]
-	bl ObjAction3dNNModelLoad
-	str r4, [r10, #0x12c]
-	str r11, [r9, #0x18]
-	str r11, [r9, #0x1c]
-	add r8, r8, #1
-	ldr r0, =0x00141BB2
-	str r11, [r9, #0x20]
-	str r0, [r9, #0x48]
-	cmp r8, #5
-	add r9, r9, #0x17c
-	blt _02155384
-	ldr r0, =gameArchiveStage
-	add r5, r10, #0x164
-	ldr r6, [r0, #0]
-	ldr r2, =aBoss1Nsbca
-	mov r0, r10
-	mov r3, r4
-	add r1, r5, #0x400
-	str r6, [sp]
-	bl ObjAction3dNNMotionLoad
-	ldr r0, =gameArchiveStage
-	ldr r2, =aBoss1Nsbva
-	ldr r4, [r0, #0]
-	mov r0, r10
-	add r1, r5, #0x400
-	mov r3, #0
-	str r4, [sp]
-	bl ObjAction3dNNMotionLoad
-	mov r1, #0
-	str r1, [sp]
-	str r1, [sp, #4]
-	ldr r2, [r5, #0x548]
-	add r0, r5, #0x400
-	mov r3, #0x46
-	bl BossHelpers__SetAnimation
-	mov r0, #0
-	str r0, [sp]
-	str r0, [sp, #4]
-	ldr r2, [r5, #0x558]
-	add r0, r5, #0x400
-	mov r1, #4
-	mov r3, #0x46
-	bl BossHelpers__SetAnimation
-	mov r0, #0
-	str r0, [r7, #0x18]
-	mov r2, #1
-	mov r1, #2
-_02155458:
-	add r0, r7, r2, lsl #2
-	add r2, r2, #1
-	str r1, [r0, #0x18]
-	cmp r2, #7
-	blt _02155458
-	mov r0, #0x3e8000
-	str r0, [r7, #0x14]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC void Boss1Stage__HandleDrop(Boss1Stage *work)

@@ -7,9 +7,15 @@
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void *aModGmkDolphinN_0;
-NOT_DECOMPILED void *aModGmkDolphinN;
-NOT_DECOMPILED void *aActAcGmkDolphi;
+#ifdef NON_MATCHING
+#define aModGmkDolphinN_0 "/mod/gmk_dolphin.nsbmd"
+#define aModGmkDolphinN "/mod/gmk_dolphin.nsbca"
+#define aActAcGmkDolphi "/act/ac_gmk_dolphin_hoop.bac"
+#else
+NOT_DECOMPILED const char aModGmkDolphinN_0[];
+NOT_DECOMPILED const char aModGmkDolphinN[];
+NOT_DECOMPILED const char aActAcGmkDolphi[];
+#endif
 
 // --------------------
 // CONSTANTS
@@ -255,10 +261,8 @@ NONMATCH_FUNC Dolphin *CreateDolphin(MapObject *mapObject, fx32 x, fx32 y, fx32 
 #endif
 }
 
-NONMATCH_FUNC DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    // should match when 'aActAcGmkDolphi' and other strings are decompiled
-#ifdef NON_MATCHING
     Task *task = CreateStageTask(DolphinHoop_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), DolphinHoop);
     if (task == HeapNull)
         return NULL;
@@ -271,7 +275,7 @@ NONMATCH_FUNC DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dolphin_hoop.bac", GetObjectDataWork(OBJDATAWORK_171), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkDolphi, GetObjectDataWork(OBJDATAWORK_171), gameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
 
     s32 paletteFlags;
@@ -287,7 +291,7 @@ NONMATCH_FUNC DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 
     if (sHoopAnimConfig[work->type][1] != DOLPHINHOOP_ANI_NONE)
     {
         AnimatorSpriteDS *aniRingBack = &work->aniRingBack;
-        ObjAction2dBACLoad(aniRingBack, "/act/ac_gmk_dolphin_hoop.bac", OBJ_DATA_GFX_AUTO, GetObjectDataWork(OBJDATAWORK_171), gameArchiveStage);
+        ObjAction2dBACLoad(aniRingBack, aActAcGmkDolphi, OBJ_DATA_GFX_AUTO, GetObjectDataWork(OBJDATAWORK_171), gameArchiveStage);
 
         aniRingBack->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
         aniRingBack->cParam[0].palette = aniRingBack->cParam[1].palette = aniRingBack->work.cParam.palette;
@@ -325,199 +329,6 @@ NONMATCH_FUNC DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 
     SetTaskState(&work->gameWork.objWork, DolphinHoop_State_Active);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r3, #0x1800
-	mov r7, r0
-	mov r6, r1
-	mov r5, r2
-	str r3, [sp]
-	mov r0, #2
-	mov r2, #0
-	str r0, [sp, #4]
-	ldr r4, =0x0000040C
-	ldr r0, =StageTask_Main
-	ldr r1, =DolphinHoop_Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	ldr r2, =0x0000040C
-	mov r4, r0
-	mov r1, #0
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldrh r2, [r7, #2]
-	add r1, r4, #0x400
-	mov r0, #0xab
-	sub r2, r2, #0xd8
-	strh r2, [r1, #8]
-	ldr r1, [r4, #0x1c]
-	orr r1, r1, #0x2100
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x20]
-	orr r1, r1, #0x100
-	str r1, [r4, #0x20]
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	ldr r1, =0x0000FFFF
-	ldr r2, [r0, #0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	ldr r2, =aActAcGmkDolphi
-	add r1, r4, #0x168
-	bl ObjObjectAction2dBACLoad
-	ldrh r0, [r7, #2]
-	cmp r0, #0xdd
-	add r0, r4, #0x400
-	ldrh r1, [r0, #8]
-	moveq r2, #0x62
-	movne r2, #0x63
-	mov r2, r2, lsl #0x10
-	ldr r0, =sHoopAnimConfig
-	mov r1, r1, lsl #2
-	ldrh r1, [r0, r1]
-	mov r0, r4
-	mov r2, r2, asr #0x10
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	add r0, r4, #0x400
-	ldrh r2, [r0, #8]
-	ldr r1, =sHoopPriorityConfig
-	mov r0, r4
-	ldrb r1, [r1, r2, lsl #1]
-	bl StageTask__SetAnimatorPriority
-	add r0, r4, #0x400
-	ldrh r2, [r0, #8]
-	ldr r1, =sHoopAnimConfig
-	mov r0, r4
-	mov r2, r2, lsl #2
-	ldrh r1, [r1, r2]
-	bl StageTask__SetAnimation
-	add r0, r4, #0x400
-	ldrh r2, [r0, #8]
-	ldr r1, =0x02189BF2
-	ldr r0, =0x0000FFFF
-	mov r2, r2, lsl #2
-	ldrh r1, [r1, r2]
-	cmp r1, r0
-	beq _02181B94
-	mov r0, #0xab
-	add r5, r4, #0x364
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r6, [r1, #0]
-	ldr r1, =aActAcGmkDolphi
-	ldr r2, =0x0000FFFF
-	mov r0, r5
-	str r6, [sp]
-	bl ObjAction2dBACLoad
-	ldr r0, [r4, #0x128]
-	add r1, r4, #0x400
-	ldrh r3, [r0, #0x50]
-	ldr r2, =0x02189BF2
-	mov r0, r5
-	strh r3, [r5, #0x50]
-	strh r3, [r5, #0x92]
-	strh r3, [r5, #0x90]
-	ldr r3, [r5, #0x3c]
-	orr r3, r3, #0x10
-	str r3, [r5, #0x3c]
-	ldrh r1, [r1, #8]
-	mov r1, r1, lsl #2
-	ldrh r1, [r2, r1]
-	bl AnimatorSpriteDS__SetAnimation
-	mov r0, r5
-	mov r1, #0x17
-	bl StageTask__SetOAMOrder
-	add r1, r4, #0x400
-	ldrh r2, [r1, #8]
-	ldr r1, =0x02189BE1
-	mov r0, r5
-	ldrb r1, [r1, r2, lsl #1]
-	bl StageTask__SetOAMPriority
-_02181B94:
-	mov r2, #0x1c
-	sub r1, r2, #0x2c
-	str r4, [r4, #0x234]
-	mov r5, #0x10
-	str r5, [sp]
-	str r2, [sp, #4]
-	mov r3, r1
-	add r0, r4, #0x218
-	sub r2, r2, #0x38
-	str r5, [sp, #8]
-	bl ObjRect__SetBox3D
-	mov r1, #0
-	mov r2, r1
-	add r0, r4, #0x218
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r4, #0x218
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, =DolphinHoop_OnDefend
-	add r0, r4, #0x400
-	str r1, [r4, #0x23c]
-	ldr r1, [r4, #0x230]
-	orr r1, r1, #0x400
-	str r1, [r4, #0x230]
-	ldrh r0, [r0, #8]
-	cmp r0, #7
-	addls pc, pc, r0, lsl #2
-	b _02181C40
-_02181C08: // jump table
-	b _02181C40 // case 0
-	b _02181C28 // case 1
-	b _02181C40 // case 2
-	b _02181C34 // case 3
-	b _02181C40 // case 4
-	b _02181C40 // case 5
-	b _02181C28 // case 6
-	b _02181C34 // case 7
-_02181C28:
-	mov r0, #0x5a000
-	str r0, [r4, #0x4c]
-	b _02181C40
-_02181C34:
-	mov r0, #0x5a000
-	rsb r0, r0, #0
-	str r0, [r4, #0x4c]
-_02181C40:
-	ldrh r0, [r7, #4]
-	ldr r1, =DolphinHoop_State_Active
-	tst r0, #1
-	ldrne r0, [r4, #0x20]
-	orrne r0, r0, #1
-	strne r0, [r4, #0x20]
-	ldr r0, =DolphinHoop_Draw
-	str r0, [r4, #0xfc]
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 void Dolphin_Action_BeginRide(Dolphin *work)
