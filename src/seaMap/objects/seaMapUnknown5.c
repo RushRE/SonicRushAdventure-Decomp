@@ -16,7 +16,7 @@ static void SeaMapUnknown5_Destructor(Task *task);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapUnknown5(CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapUnknown5(const CHEVObjectType *objectType, CHEVObject *mapObject)
 {
     SeaMapUnknown5 *work;
 

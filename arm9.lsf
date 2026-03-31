@@ -86,7 +86,8 @@ Static arm9
     Object src/seaMap/seaMapPenPalette.o
     Object asm/seaMap/seaMapManager.o
     Object asm/seaMap/seaMapManagerNodeList.o
-    Object asm/seaMap/seaMapEventManager.o
+    Object asm/seaMap/seaMapEventManager_vars.o
+    Object src/seaMap/seaMapEventManager.o
     Object asm/seaMap/seaMapIslandDrawIcon.o
     Object asm/seaMap/seaMapIslandIcon.o
     Object src/seaMap/objects/seaMapJohnnyIcon.o

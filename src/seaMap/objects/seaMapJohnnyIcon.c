@@ -17,7 +17,7 @@ static void SeaMapJohnnyIcon_Destructor(Task *task);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapJohnnyIcon(CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapJohnnyIcon(const CHEVObjectType *objectType, CHEVObject *mapObject)
 {
     SeaMapJohnnyIcon *work;
 

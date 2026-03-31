@@ -211,9 +211,9 @@ void SailSeaMapView_HandleProgress(SailSeaMapView *work)
 
     u16 angle = SailSeaMapView_GetNodeAngle(prevNode, nextNode);
     if (angle >= FLOAT_DEG_TO_IDX(90.0) && angle < FLOAT_DEG_TO_IDX(270.0))
-        SeaMapEventManager__SetBoatFlipX(&work->boatIcon->objWork, 1);
+        SeaMapEventManager__SetBoatFlipX(work->boatIcon, TRUE);
     else
-        SeaMapEventManager__SetBoatFlipX(&work->boatIcon->objWork, 0);
+        SeaMapEventManager__SetBoatFlipX(work->boatIcon, FALSE);
 }
 
 u16 SailSeaMapView_GetNodeAngle(SeaMapManagerNode *nextNode, SeaMapManagerNode *prevNode)

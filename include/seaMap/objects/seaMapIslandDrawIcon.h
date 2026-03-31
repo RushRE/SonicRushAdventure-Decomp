@@ -26,7 +26,7 @@ struct SeaMapIslandDrawIcon_
 NOT_DECOMPILED BOOL SeaMapIslandDrawIcon__CanDrawFrom(CHEVObject *mapObject);
 NOT_DECOMPILED BOOL SeaMapIslandDrawIcon__IsActive(SeaMapIslandDrawIcon *work);
 NOT_DECOMPILED BOOL SeaMapIslandDrawIcon__IsEnabled(CHEVObject *mapObject);
-NOT_DECOMPILED SeaMapObject *SeaMapIslandDrawIcon__Create(CHEVObjectType *objectType, CHEVObject *mapObject);
+NOT_DECOMPILED SeaMapObject *SeaMapIslandDrawIcon__Create(const CHEVObjectType *objectType, CHEVObject *mapObject);
 NOT_DECOMPILED void SeaMapIslandDrawIcon__Main(void);
 NOT_DECOMPILED void SeaMapIslandDrawIcon__Destructor(Task *task);
 NOT_DECOMPILED void SeaMapIslandDrawIcon__TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData);

@@ -168,15 +168,15 @@ BOOL SeaMapVoyagePathConfig_AddMapObjectNodesAtEnd(fx32 distance, fx32 x, fx32 y
     {
         CHEVObject *mapObject           = &objectLayout->entries[i];
         u32 mapObjectType               = SeaMapEventManager__GetObjectType(mapObject);
-        CHEVObjectType *mapObjectConfig = &SeaMapEventManager__ObjectList[mapObjectType];
+        const CHEVObjectType *mapObjectConfig = &gSeaMapObjectTypeList[mapObjectType];
 
-        if (mapObjectConfig->viewCheck != NULL)
+        if (mapObjectConfig->viewCheckFunc != NULL)
         {
             if (mapObjectType == SEAMAPOBJECT_ISLAND_ICON_1 || mapObjectType == SEAMAPOBJECT_ISLAND_ICON_2)
             {
                 if ((mapObject->flags2 & 1) != 0)
                 {
-                    if (SeaMapManager__GetSaveFlag(mapObject->unlockID) && mapObjectConfig->viewCheck(mapObject, x, y, TRUE))
+                    if (SeaMapManager__GetSaveFlag(mapObject->unlockID) && mapObjectConfig->viewCheckFunc(mapObject, x, y, TRUE))
                     {
                         MI_CpuClear16(&node, sizeof(node));
                         node.distance       = distance;
@@ -194,7 +194,7 @@ BOOL SeaMapVoyagePathConfig_AddMapObjectNodesAtEnd(fx32 distance, fx32 x, fx32 y
                     switch (mapObject->unlockID)
                     {
                         case 3:
-                            if (mapObjectConfig->viewCheck(mapObject, x, y, TRUE))
+                            if (mapObjectConfig->viewCheckFunc(mapObject, x, y, TRUE))
                             {
                                 MI_CpuClear16(&node, sizeof(node));
                                 node.type1.unlockID = 1;
@@ -203,7 +203,7 @@ BOOL SeaMapVoyagePathConfig_AddMapObjectNodesAtEnd(fx32 distance, fx32 x, fx32 y
                             break;
 
                         case 14:
-                            if (mapObjectConfig->viewCheck(mapObject, x, y, TRUE))
+                            if (mapObjectConfig->viewCheckFunc(mapObject, x, y, TRUE))
                             {
                                 MI_CpuClear16(&node, sizeof(node));
                                 node.type1.unlockID = 3;
@@ -212,7 +212,7 @@ BOOL SeaMapVoyagePathConfig_AddMapObjectNodesAtEnd(fx32 distance, fx32 x, fx32 y
                             break;
 
                         case 40:
-                            if (mapObjectConfig->viewCheck(mapObject, x, y, TRUE))
+                            if (mapObjectConfig->viewCheckFunc(mapObject, x, y, TRUE))
                             {
                                 MI_CpuClear16(&node, sizeof(node));
                                 node.type1.unlockID = 8;
@@ -247,15 +247,15 @@ BOOL SeaMapVoyagePathConfig_AddMapObjectNodesAtPos(fx32 distance, fx32 x, fx32 y
     {
         CHEVObject *mapObject           = &objectLayout->entries[i];
         u32 mapObjectType               = SeaMapEventManager__GetObjectType(mapObject);
-        CHEVObjectType *mapObjectConfig = &SeaMapEventManager__ObjectList[mapObjectType];
+        const CHEVObjectType *mapObjectConfig = &gSeaMapObjectTypeList[mapObjectType];
 
-        if (mapObjectConfig->viewCheck != NULL)
+        if (mapObjectConfig->viewCheckFunc != NULL)
         {
             if (mapObjectType == SEAMAPOBJECT_ISLAND_ICON_1 || mapObjectType == SEAMAPOBJECT_ISLAND_ICON_2)
             {
                 if ((mapObject->flags2 & 1) != 0)
                 {
-                    if (mapObjectConfig->viewCheck(mapObject, x, y, FALSE))
+                    if (mapObjectConfig->viewCheckFunc(mapObject, x, y, FALSE))
                     {
                         MI_CpuClear16(&node, sizeof(node));
                         node.distance       = distance;
@@ -281,7 +281,7 @@ BOOL SeaMapVoyagePathConfig_AddMapObjectNodesAtPos(fx32 distance, fx32 x, fx32 y
                         break;
                 }
 
-                if (SeaMapVoyagePathConfig_FindNodeFromMapObject(type, mapObject) == NULL && mapObjectConfig->viewCheck(mapObject, x, y, FALSE))
+                if (SeaMapVoyagePathConfig_FindNodeFromMapObject(type, mapObject) == NULL && mapObjectConfig->viewCheckFunc(mapObject, x, y, FALSE))
                 {
                     MI_CpuClear16(&node, sizeof(node));
                     node.type          = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_4;

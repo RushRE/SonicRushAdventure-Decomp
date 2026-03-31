@@ -1143,7 +1143,7 @@ void SailVoyageManager__LoadSegment(SailVoyageManager *work, u8 type)
                 manager->flags |= SAILMANAGER_FLAG_20;
                 SailPlayer__Action_ReachedGoal(player);
 
-                s32 unlockID = SeaMapEventManager__Func_2046CE8((s16)manager->targetIslandID);
+                s32 unlockID = SeaMapEventManager__Func_2046CE8(manager->targetIslandID);
                 if ((manager->flags & SAILMANAGER_FLAG_FREEZE_DAYTIME_TIMER) == 0)
                 {
                     if (!SeaMapEventManager__CheckFeatureUnlocked(unlockID))

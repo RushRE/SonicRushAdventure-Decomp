@@ -21,7 +21,7 @@ void SeaMapCoralCaveIcon_State_Active(SeaMapCoralCaveIcon *work);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapCoralCaveIcon(CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapCoralCaveIcon(const CHEVObjectType *objectType, CHEVObject *mapObject)
 {
     SeaMapCoralCaveIcon *work;
 
@@ -78,7 +78,7 @@ void SeaMapCoralCaveIcon_Destructor(Task *task)
     SeaMapEventManager__SetObjectAsInactive(&work->objWork);
     SeaMapEventManager__DestroyObject(&work->objWork);
 
-    if (SeaMapEventManager__Singleton != NULL)
+    if (gSeaMapEventManagerTaskSingleton != NULL)
         SeaMapEventManager__GetWork()->coralCaveIcon = NULL;
 }
 

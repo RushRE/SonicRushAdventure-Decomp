@@ -20,7 +20,7 @@ static void SeaMapSkyBabylonIcon_State_Hovering(SeaMapSkyBabylonIcon *work);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapSkyBabylonIcon(CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapSkyBabylonIcon(const CHEVObjectType *objectType, CHEVObject *mapObject)
 {
     SeaMapSkyBabylonIcon *work;
 
@@ -86,7 +86,7 @@ void SeaMapSkyBabylonIcon_Destructor(Task *task)
     SeaMapEventManager__SetObjectAsInactive(&work->objWork);
     SeaMapEventManager__DestroyObject(&work->objWork);
 
-    if (SeaMapEventManager__Singleton != NULL)
+    if (gSeaMapEventManagerTaskSingleton != NULL)
         SeaMapEventManager__GetWork()->skyBabylonIcon = NULL;
 }
 

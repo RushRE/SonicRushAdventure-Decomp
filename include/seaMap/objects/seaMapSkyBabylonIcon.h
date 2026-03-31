@@ -21,7 +21,7 @@ typedef struct SeaMapSkyBabylonIcon_
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapSkyBabylonIcon(CHEVObjectType *objectType, CHEVObject *mapObject);
+SeaMapObject *CreateSeaMapSkyBabylonIcon(const CHEVObjectType *objectType, CHEVObject *mapObject);
 
 // States
 void SeaMapSkyBabylonIcon_State_BeginAppear(SeaMapSkyBabylonIcon *work);

@@ -13,7 +13,7 @@ static void SeaMapTargetFlagIcon_Destructor(Task *task);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapTargetFlagIcon(CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapTargetFlagIcon(const CHEVObjectType *objectType, CHEVObject *mapObject)
 {
     SeaMapManager *manager = SeaMapManager__GetWork();
 

@@ -15,7 +15,7 @@ static void SeaMapDSPopup_Destructor(Task *task);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapDSPopup(CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapDSPopup(const CHEVObjectType *objectType, CHEVObject *mapObject)
 {
     SeaMapManager *manager = SeaMapManager__GetWork();
 
@@ -71,6 +71,6 @@ void SeaMapDSPopup_Destructor(Task *task)
     SeaMapEventManager__SetObjectAsInactive(&work->objWork);
     SeaMapEventManager__DestroyObject(&work->objWork);
 
-    if (SeaMapEventManager__Singleton != NULL)
+    if (gSeaMapEventManagerTaskSingleton != NULL)
         SeaMapEventManager__GetWork()->dsPopup = NULL;
 }

@@ -38,7 +38,7 @@ typedef struct SeaMapSparkles_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED SeaMapObject *SeaMapSparkles__Create(CHEVObjectType *objectType, CHEVObject *mapObject);
+NOT_DECOMPILED SeaMapObject *SeaMapSparkles__Create(const CHEVObjectType *objectType, CHEVObject *mapObject);
 NOT_DECOMPILED void SeaMapSparkles__Main(void);
 NOT_DECOMPILED void SeaMapSparkles__Destructor(Task *task);
 

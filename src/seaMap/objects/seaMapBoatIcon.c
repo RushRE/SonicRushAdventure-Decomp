@@ -20,7 +20,7 @@ static void SeaMapBoatIcon_Destructor(Task *task);
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC SeaMapObject *CreateSeaMapBoatIcon(CHEVObjectType *objectType, CHEVObject *mapObject)
+NONMATCH_FUNC SeaMapObject *CreateSeaMapBoatIcon(const CHEVObjectType *objectType, CHEVObject *mapObject)
 {
     // https://decomp.me/scratch/SdnL9 -> 99.67%
     // should match when 'SeaMapStylusIcon_AnimIDs' is properly decompiled, as 'SeaMapBoatIcon__shipAnimIDs' is needed here

@@ -1581,9 +1581,9 @@
 .public SeaMapEventManager__Func_20471B8
 .public SeaMapEventManager__IslandEnabled
 .public SeaMapEventManager__GetWork
-.public SeaMapEventManager__SpawnObjects1
-.public SeaMapEventManager__SpawnObjects2
-.public SeaMapEventManager__Func_20473C0
+.public SeaMapEventManager_SpawnInitialObjects
+.public SeaMapEventManager_Main
+.public SeaMapEventManager_Destructor
 .public SeaMapEventManager__InitMapObject
 .public SeaMapEventManager__DestroyObject
 .public SeaMapEventManager__ObjectInBounds
@@ -6701,8 +6701,8 @@
 .public SeaMapSparkles__AnimIDs2
 .public SeaMapBoatIcon__shipAnimIDs
 .public SeaMapEventManager__FeatureUnlockList
-.public SeaMapEventManager__ProgressUnlockList
-.public SeaMapEventManager__ObjectList
+.public sIslandProgressUnlockList
+.public gSeaMapObjectTypeList
 .public MPC__decodeShiftTable
 .public FontAnimator__Palettes
 .public cutsceneList
@@ -7868,7 +7868,7 @@
 .public gSeaMapViewExitEvent
 .public gSeaMapViewStoredVoyageDist
 .public SeaMapManager__sVars
-.public SeaMapEventManager__Singleton
+.public gSeaMapEventManagerTaskSingleton
 .public SeaMapEventTrigger_sVars
 .public SeaMapEventTrigger_objectList
 .public SeaMapEventTrigger_objectListUnknown

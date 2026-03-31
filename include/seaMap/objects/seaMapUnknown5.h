@@ -16,7 +16,7 @@ typedef struct SeaMapUnknown5_
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapUnknown5(CHEVObjectType *objectType, CHEVObject *mapObject);
+SeaMapObject *CreateSeaMapUnknown5(const CHEVObjectType *objectType, CHEVObject *mapObject);
 
 // View Check
 BOOL SeaMapUnknown5_ViewCheck(CHEVObject *mapObject, fx32 x, fx32 y, BOOL flag);

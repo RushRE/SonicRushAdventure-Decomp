@@ -8,16 +8,16 @@
 // STRUCTS
 // --------------------
 
-typedef struct SeaMapBoatIcon_
+struct SeaMapBoatIcon_
 {
     SeaMapObject objWork;
     AnimatorSprite aniBoat;
-} SeaMapBoatIcon;
+};
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapBoatIcon(CHEVObjectType *objectType, CHEVObject *mapObject);
+SeaMapObject *CreateSeaMapBoatIcon(const CHEVObjectType *objectType, CHEVObject *mapObject);
 
 #endif // RUSH_SEAMAPBOATICON_H

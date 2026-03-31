@@ -24,6 +24,6 @@ typedef struct SeaMapStylusIcon_
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapStylusIcon(CHEVObjectType *objectType, CHEVObject *mapObject);
+SeaMapObject *CreateSeaMapStylusIcon(const CHEVObjectType *objectType, CHEVObject *mapObject);
 
 #endif // RUSH_SEAMAPSTYLUSICON_H

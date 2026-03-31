@@ -128,12 +128,12 @@ u8 SaveGame__GetProgressCounter(void)
     return gameState.saveFile.progressCounter;
 }
 
-s32 SaveGame__GetZone5Progress(void)
+SaveProgressZone5 SaveGame__GetZone5Progress(void)
 {
     return saveGame.stage.progress.zone5Progress;
 }
 
-void SaveGame__SetZone5Progress(s32 progress)
+void SaveGame__SetZone5Progress(SaveProgressZone5 progress)
 {
     saveGame.stage.progress.zone5Progress = progress;
     gameState.saveFile.progressCounter    = 0;
@@ -143,12 +143,12 @@ void SaveGame__SetZone5Progress(s32 progress)
     SaveGame__ApplySystemProgress();
 }
 
-s32 SaveGame__GetZone6Progress(void)
+SaveProgressZone6 SaveGame__GetZone6Progress(void)
 {
     return saveGame.stage.progress.zone6Progress;
 }
 
-void SaveGame__SetZone6Progress(s32 progress)
+void SaveGame__SetZone6Progress(SaveProgressZone6 progress)
 {
     saveGame.stage.progress.zone6Progress = progress;
     gameState.saveFile.progressCounter    = 0;

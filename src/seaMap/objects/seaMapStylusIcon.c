@@ -36,7 +36,7 @@ static void SeaMapStylusIcon_State_StylusRelease(SeaMapStylusIcon *work);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapStylusIcon(CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapStylusIcon(const CHEVObjectType *objectType, CHEVObject *mapObject)
 {
     SeaMapStylusIcon *work;
 
