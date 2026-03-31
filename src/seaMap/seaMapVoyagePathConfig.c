@@ -462,7 +462,7 @@ void SeaMapVoyagePathConfig_StoreShipState(fx32 x, fx32 y, fx32 distance)
     gSeaMapCourseChangeView_shipPosition.x = x;
     gSeaMapCourseChangeView_shipPosition.y = y;
 
-    fx32 prevDistance               = seaMapViewUnknown2;
-    seaMapViewUnknown2              = distance;
+    fx32 prevDistance               = gSeaMapViewStoredVoyageDist;
+    gSeaMapViewStoredVoyageDist     = distance;
     SeaMapCourseChangeView_02134174 = prevDistance;
 }

@@ -47,7 +47,7 @@ void CreateSeaMapUnknown(void)
     SeaMapChartCourseView__Create(FALSE, gameState.sailShipType, 0);
     
     CHEVObject *obj = SeaMapEventManager__GetObjectFromID(gameState.field_80);
-    SeaMapView__SetViewPosition(FX32_FROM_WHOLE(obj->position.x), FX32_FROM_WHOLE(obj->position.y));
+    SetSeaMapViewPosition(FX32_FROM_WHOLE(obj->position.x), FX32_FROM_WHOLE(obj->position.y));
 
     CreateNavTails(TRUE, gameState.sailShipType, NULL);
 
@@ -83,14 +83,14 @@ void DestroySeaMapUnknown(SeaMapUnknown *work)
     ReleaseSpriteButtonTouchpadSprite();
     DestroyCurrentTask();
 
-    switch (SeaMapView__Func_203DCB4())
+    switch (GetSeaMapViewExitEvent())
     {
-        case 1:
+        case SEAMAPVIEW_EXIT_CONFIRM:
             SaveGame__SetProgressType(SAVE_PROGRESSTYPE_2);
             RequestSysEventChange(0); // SYSEVENT_SAILING
             break;
 
-        case 2:
+        case SEAMAPVIEW_EXIT_BACK:
             gameState.talk.state.hubStartAction = HUB_STARTACTION_RESUME_HUB;
             RequestSysEventChange(1); // SYSEVENT_RETURN_TO_HUB
             break;

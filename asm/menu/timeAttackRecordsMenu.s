@@ -3865,7 +3865,7 @@ _0217A83A:
 	bl MenuHelpers__GetStageIDForTimeAttackRecordsMenu
 	mov r1, #0
 	mov r2, #1
-	bl MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckStageCleared
 _0217A848:
 	cmp r0, #0
 	beq _0217A85A

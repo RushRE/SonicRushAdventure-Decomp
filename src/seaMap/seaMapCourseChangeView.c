@@ -61,23 +61,23 @@ void CreateSeaMapCourseChangeView(void)
     u16 y, x;
     while (TRUE)
     {
-        SeaMapManager__Func_2045BF8(seaMapViewUnknown2 - SeaMapCourseChangeView_02134174, &inX, &inY);
+        SeaMapManager__Func_2045BF8(gSeaMapViewStoredVoyageDist - SeaMapCourseChangeView_02134174, &inX, &inY);
         SeaMapManager__Func_2043B60(inX, inY, &nodeX, &nodeY);
         if (!SeaMapCollision__Collide(nodeX, nodeY, TRUE))
             break;
 
-        seaMapViewUnknown2 -= FLOAT_TO_FX32(0.5);
+        gSeaMapViewStoredVoyageDist -= FLOAT_TO_FX32(0.5);
 
-        if (SeaMapCourseChangeView_02134174 > seaMapViewUnknown2)
+        if (SeaMapCourseChangeView_02134174 > gSeaMapViewStoredVoyageDist)
         {
-            seaMapViewUnknown2 = SeaMapCourseChangeView_02134174;
+            gSeaMapViewStoredVoyageDist = SeaMapCourseChangeView_02134174;
             break;
         }
     }
 
-    SeaMapManager__Func_2045BF8(seaMapViewUnknown2 - SeaMapCourseChangeView_02134174, &gSeaMapCourseChangeView_shipPosition.x, &gSeaMapCourseChangeView_shipPosition.y);
+    SeaMapManager__Func_2045BF8(gSeaMapViewStoredVoyageDist - SeaMapCourseChangeView_02134174, &gSeaMapCourseChangeView_shipPosition.x, &gSeaMapCourseChangeView_shipPosition.y);
     SeaMapManager__RemoveAllNodes();
-    SeaMapView__SetViewPosition(gSeaMapCourseChangeView_shipPosition.x, gSeaMapCourseChangeView_shipPosition.y);
+    SetSeaMapViewPosition(gSeaMapCourseChangeView_shipPosition.x, gSeaMapCourseChangeView_shipPosition.y);
 
     SeaMapManager__Func_2043B28(gSeaMapCourseChangeView_shipPosition.x, gSeaMapCourseChangeView_shipPosition.y, &x, &y);
     SeaMapManager__AddNode(x, y);
@@ -118,14 +118,14 @@ void DestroySeaMapCourseChangeView(SeaMapCourseChangeView *work)
     ReleaseSpriteButtonTouchpadSprite();
     DestroyCurrentTask();
 
-    switch (SeaMapView__Func_203DCB4())
+    switch (GetSeaMapViewExitEvent())
     {
-        case 1:
+        case SEAMAPVIEW_EXIT_CONFIRM:
             SaveGame__SetProgressType(SAVE_PROGRESSTYPE_2);
             RequestSysEventChange(0); // SYSEVENT_SAILING
             break;
 
-        case 2:
+        case SEAMAPVIEW_EXIT_BACK:
             ResetSailState();
             gameState.talk.state.hubStartAction = HUB_STARTACTION_NONE;
             RequestSysEventChange(1); // SYSEVENT_RETURN_TO_HUB

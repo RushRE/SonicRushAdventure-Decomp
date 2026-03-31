@@ -588,7 +588,7 @@ SeaMapIslandDrawIcon__Main: // 0x02047FC0
 	ldr r0, [r4, #0x88]
 	bic r0, r0, #0x40
 	str r0, [r4, #0x88]
-	bl SeaMapView__GetMode
+	bl GetSeaMapViewType
 	cmp r0, #3
 	beq _02048000
 	cmp r0, #4
@@ -666,7 +666,7 @@ SeaMapIslandDrawIcon__TouchAreaCallback: // 0x020480D0
 	mov r7, r0
 	mov r5, r2
 	ldr r4, [r6, #0x14]
-	bl SeaMapView__GetMode
+	bl GetSeaMapViewType
 	cmp r0, #3
 	cmpne r0, #4
 	ldr r0, [r7, #0]
@@ -675,7 +675,7 @@ SeaMapIslandDrawIcon__TouchAreaCallback: // 0x020480D0
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	tst r4, #0x800
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	bl SeaMapView__GetMode
+	bl GetSeaMapViewType
 	cmp r0, #3
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	bl SeaMapEventManager__GetWork2
@@ -687,7 +687,7 @@ SeaMapIslandDrawIcon__TouchAreaCallback: // 0x020480D0
 	mov r1, #2
 	str r5, [r4, #4]
 	bl SetSpriteButtonState
-	bl SeaMapView__GetTouchArea
+	bl GetSeaMapViewTouchArea
 	mov r1, r6
 	bl TouchField__Func_206EAC4
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}

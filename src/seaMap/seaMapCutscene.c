@@ -102,8 +102,8 @@ void CreateSeaMapCutscene(void)
     work->sprPressStartButton = ReadFileFromBundle("bb/tkdm_down.bb", BUNDLE_TKDM_DOWN_FILE_RESOURCES_BB_TKDM_DOWN_DOWN_CMN_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
     work->sprPressStartText   = ReadFileFromBundle("bb/tkdm_down.bb", sSprPressStartTextFiles[GetGameLanguage()], BINARYBUNDLE_AUTO_ALLOC_HEAD);
 
-    seaMapViewMode     = 2;
-    seaMapViewUnknown1 = 0;
+    gSeaMapViewType      = SEAMAPVIEW_TYPE_CUTSCENE;
+    gSeaMapViewExitEvent = SEAMAPVIEW_EXIT_NONE;
 
     SeaMapManager__Create(FALSE, SHIP_MENU, FALSE);
 

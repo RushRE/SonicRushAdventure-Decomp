@@ -197,7 +197,7 @@ s32 MenuHelpers__GetLeaderboardIDFromStageID(s32 id)
     return (s32)ARRAY_COUNT(sLeaderboardStageTable);
 }
 
-BOOL MenuHelpers__CheckProgress(s32 progress, BOOL checkStageCleared, BOOL useSystemProgress)
+BOOL MenuHelpers__CheckStageCleared(s32 stage, BOOL checkStageCleared, BOOL useSystemProgress)
 {
     SaveGameProgress *saveProgress;
     if (useSystemProgress)
@@ -209,15 +209,15 @@ BOOL MenuHelpers__CheckProgress(s32 progress, BOOL checkStageCleared, BOOL useSy
     u32 zone5Progress = saveProgress->zone5Progress;
     u32 zone6Progress = saveProgress->zone6Progress;
 
-    if (progress <= STAGE_BOSS_FINAL)
+    if (stage <= STAGE_BOSS_FINAL)
     {
         // check regular stages up until (and including) the final boss
 
         const SaveGameUnknown205D150 *progressCheck;
         if (checkStageCleared)
-            progressCheck = &sProgressCheck_Cleared[progress];
+            progressCheck = &sProgressCheck_Cleared[stage];
         else
-            progressCheck = &sProgressCheck_Unlocked[progress];
+            progressCheck = &sProgressCheck_Unlocked[stage];
 
         if (gameProgress >= progressCheck->gameProgress && zone5Progress >= progressCheck->zone5Progress && zone6Progress >= progressCheck->zone6Progress)
         {
@@ -245,10 +245,10 @@ BOOL MenuHelpers__CheckProgress(s32 progress, BOOL checkStageCleared, BOOL useSy
     }
     else
     {
-        if (progress <= STAGE_HIDDEN_ISLAND_16)
+        if (stage <= STAGE_HIDDEN_ISLAND_16)
         {
             // check if hidden islands are unlocked
-            s32 islandProgress = SaveGame__GetIslandProgress(saveProgress, (u16)(progress - STAGE_HIDDEN_ISLAND_3));
+            s32 islandProgress = SaveGame__GetIslandProgress(saveProgress, (u16)(stage - STAGE_HIDDEN_ISLAND_3));
             if (checkStageCleared)
             {
                 if (islandProgress >= SAVE_ISLAND_STATE_BEATEN)
@@ -264,10 +264,10 @@ BOOL MenuHelpers__CheckProgress(s32 progress, BOOL checkStageCleared, BOOL useSy
         {
             // check everything else
 
-            if (progress <= STAGE_HIDDEN_ISLAND_VS4)
+            if (stage <= STAGE_HIDDEN_ISLAND_VS4)
                 return TRUE; // all VS islands are always unlocked
 
-            if (progress <= STAGE_HIDDEN_ISLAND_R3)
+            if (stage <= STAGE_HIDDEN_ISLAND_R3)
                 return TRUE; // all race islands are always unlocked
 
             // check deep core

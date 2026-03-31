@@ -28,6 +28,14 @@ enum SpriteButtonState_
 };
 typedef u16 SpriteButtonState;
 
+enum SpriteButtonTouchCursorAnimID
+{
+    SPRITE_BUTTON_CURSORANI_POINTER,
+    SPRITE_BUTTON_CURSORANI_INDICATOR_V,
+    SPRITE_BUTTON_CURSORANI_INDICATOR_H,
+    SPRITE_BUTTON_CURSORANI_CROSS,
+};
+
 // --------------------
 // STRUCTS
 // --------------------

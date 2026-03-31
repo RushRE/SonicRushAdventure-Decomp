@@ -13,6 +13,25 @@
 // ENUMS
 // --------------------
 
+enum SeaMapViewType_
+{
+    SEAMAPVIEW_TYPE_NONE,
+    SEAMAPVIEW_TYPE_MENU,
+    SEAMAPVIEW_TYPE_CUTSCENE,
+    SEAMAPVIEW_TYPE_3,
+    SEAMAPVIEW_TYPE_4,
+    SEAMAPVIEW_TYPE_SAILING,
+};
+typedef u32 SeaMapViewType;
+
+enum SeaMapViewExitEvent_
+{
+    SEAMAPVIEW_EXIT_NONE,
+    SEAMAPVIEW_EXIT_CONFIRM,
+    SEAMAPVIEW_EXIT_BACK,
+};
+typedef u32 SeaMapViewExitEvent;
+
 enum SeaMapIsland
 {
     SEAMAP_ISLAND_SOUTHERN_ISLAND,
@@ -68,7 +87,7 @@ enum SeaMapIsland
 typedef struct SeaMapViewZoomControl
 {
     BOOL useEngineB;
-    u16 mode;
+    u16 zoomState;
 } SeaMapViewZoomControl;
 
 typedef struct SeaMapView_
@@ -78,10 +97,10 @@ typedef struct SeaMapView_
     s16 targetBrightness;
     SeaMapManagerAssets *assets;
     Vec2Fx32 position;
-    Vec2Fx32 moveDist2;
+    Vec2Fx32 globalMoveDist;
     Vec2Fx32 lastMoveDist;
-    Vec2Fx32 moveDist1;
-    void *vramPixels[5];
+    Vec2Fx32 areaLocalMoveDist;
+    VRAMPixelKey vramPixels[5];
     SpriteButtonAnimator buttonAnimators[8];
     AnimatorSprite aniPenMarker;
     AnimatorSprite aniTouchCursor;
@@ -91,107 +110,75 @@ typedef struct SeaMapView_
     s32 selectedButton;
     u16 nodeCount;
     s32 totalVoyageDist;
-    fx32 currentVoyageDist;
+    fx32 remainingVoyageDist;
     GXRgb paletteColor1;
     GXRgb paletteColor2;
-    s16 field_7A4;
-    u8 field_7A6;
-    u8 field_7A7;
+    s16 indicatorFlashTimer;
     NNSSndHandle *sndHandle;
-    s32 field_7AC;
-    s32 field_7B0;
+    s32 unknown1;
+    s32 unknown2;
 } SeaMapView;
-
-// TEMP
-// will be split into separate variables when seaMapView is properly decompiled!
-typedef struct SeaMapViewStaticVars_
-{
-    Task *singleton;
-    u32 mode;
-    u32 unknown1;
-    u32 unknown2;
-} SeaMapViewStaticVars;
 
 // --------------------
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED fx32 SeaMapCourseChangeView_02134174;
+extern fx32 SeaMapCourseChangeView_02134174;
 
-extern SeaMapViewStaticVars SeaMapView__sVars;
-extern u32 seaMapViewMode;
-extern u32 seaMapViewUnknown1;
-extern fx32 seaMapViewUnknown2;
+extern Task* gSeaMapTaskSingleton;
+extern SeaMapViewType gSeaMapViewType;
+extern SeaMapViewExitEvent gSeaMapViewExitEvent;
+extern fx32 gSeaMapViewStoredVoyageDist;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-u32 SeaMapView__GetMode(void);
-s32 SeaMapView__Func_203DCB4(void);
-BOOL SeaMapView__IsActive(void);
-void SeaMapView__SetViewPosition(s32 x, s32 y);
-TouchArea *SeaMapView__GetTouchArea(void);
-BOOL SeaMapView__Func_203DD44(void);
-void SeaMapView__InitZoomControl(SeaMapViewZoomControl *work, BOOL useEngineB);
-BOOL SeaMapView__CanZoomIn(SeaMapViewZoomControl *work);
-BOOL SeaMapView__HandleZoomIn(SeaMapViewZoomControl *work);
-BOOL SeaMapView__CanZoomOut(SeaMapViewZoomControl *work);
-BOOL SeaMapView__HandleZoomOut(SeaMapViewZoomControl *work);
-SeaMapView *SeaMapView__GetWork(void);
-void SeaMapView__InitView(SeaMapView *work, BOOL useEngineB, ShipType shipType, BOOL allocateSprites);
-void SeaMapView__ReleaseAssets(SeaMapView *work);
-void SeaMapView__Func_203E898(SeaMapView *work);
-void SeaMapView__Func_203E8A8(SeaMapView *work);
-void SeaMapView__Func_203E914(SeaMapView *work);
-u16 SeaMapView__GetCursorSpriteSize(void);
-void SeaMapView__InitTouchCursor(SeaMapView *work, s32 mode);
-void SeaMapView__AllocateSprites(SeaMapView *work);
-void SeaMapView__ReleaseSprites(SeaMapView *work);
-u32 SeaMapView__Func_203ECA0(SeaMapView *work, s32 id);
-u32 SeaMapView__Func_203ECF4(SeaMapView *work, s32 id);
-BOOL SeaMapView__IsButtonActive(SeaMapView *work, s32 id);
-BOOL SeaMapView__IsTouchAreaActive(SeaMapView *work, s32 id);
-void SeaMapView__EnableTouchArea(SeaMapView *work, s32 id, BOOL enabled);
-void SeaMapView__EnableButton(SeaMapView *work, s32 id, BOOL enabled);
-void SeaMapView__EnableMultipleButtons(SeaMapView *work, const u32 *states);
-void SeaMapView__SetButtonMode(SeaMapView *work, s32 mode);
-void SeaMapView__ProcessButtons(SeaMapView *work);
-void SeaMapView__SetZoomLevel(SeaMapView *work, s32 mode);
-void SeaMapView__ProcessPadInputs(SeaMapView *work);
-void SeaMapView__Func_203F344(SeaMapView *work);
-void SeaMapView__Func_203F35C(SeaMapView *work, BOOL highPriority);
-void SeaMapView__SetTouchAreaCallback(SeaMapView *work, TouchAreaCallback callback);
-void SeaMapView__TouchAreaCallback2(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-void SeaMapView__TouchAreaCallback(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-void SeaMapView__OnButtonPressed(TouchAreaResponse *response, TouchArea *touchArea, void *userData, u32 id);
-void SeaMapView__ButtonCallback1(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-void SeaMapView__ButtonCallback2(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-void SeaMapView__ButtonCallback3(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-void SeaMapView__ButtonCallback4(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-void SeaMapView__ButtonCallback5(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-void SeaMapView__ButtonCallback6(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-void SeaMapView__ButtonCallback7(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-void SeaMapView__ButtonCallback8(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-void SeaMapView__DrawPenMarker(SeaMapView *work);
-void SeaMapView__DrawButtons(SeaMapView *work);
-void SeaMapView__DrawTouchCursor(SeaMapView *work);
-void SeaMapView__DrawPadCursors(SeaMapView *work);
-void SeaMapView__Func_203F770(SeaMapView *work);
-BOOL SeaMapView__FadeToBlack(SeaMapView *work);
-BOOL SeaMapView__FadeActiveScreen(SeaMapView *work);
-BOOL SeaMapView__FadeOtherScreen(SeaMapView *work);
-void SeaMapView__DrawVoyagePath(void);
-void SeaMapView__DrawVoyagePath_Zoom0(void);
-void SeaMapView__DrawVoyagePath_Zoom1(void);
-void SeaMapView__DrawVoyagePath_Zoom2(void);
-void SeaMapView__Func_203FAD4(void);
-void SeaMapView__Func_203FB10(void);
-void SeaMapView__Func_203FB78(void);
-void SeaMapView__Func_203FBE8(void);
-s32 SeaMapView__Func_203FC7C(SeaMapView *work, u16 x, u16 y);
-void SeaMapView__Func_203FE44(SeaMapView *work);
-void SeaMapView__Func_203FE80(SeaMapView *work);
+SeaMapViewType GetSeaMapViewType(void);
+SeaMapViewExitEvent GetSeaMapViewExitEvent(void);
+BOOL IsSeaMapViewActive(void);
+void SetSeaMapViewPosition(s32 x, s32 y);
+TouchArea *GetSeaMapViewTouchArea(void);
+BOOL IsSeaMapViewVoyageInProgress(void);
+void InitSeaMapViewZoomControl(SeaMapViewZoomControl *work, BOOL useEngineB);
+BOOL SeaMapView_HandleZoomIn_Intro(SeaMapViewZoomControl *work);
+BOOL SeaMapView_HandleZoomIn_Outro(SeaMapViewZoomControl *work);
+BOOL SeaMapView_HandleZoomOut_Intro(SeaMapViewZoomControl *work);
+BOOL SeaMapView_HandleZoomOut_Outro(SeaMapViewZoomControl *work);
+void SeaMapView_ResetIndicatorFlashTimer(SeaMapView *work);
+void SeaMapView_ProcessIndicatorFlashTimer(SeaMapView *work);
+void SeaMapView_SetVoyagePathColors(SeaMapView *work);
+SeaMapView *GetSeaMapViewWork(void);
+void SeaMapView_InitTouchCursor(SeaMapView *work, s32 id);
+void InitSeaMapView(SeaMapView *work, BOOL useEngineB, ShipType shipType, BOOL allocateSprites);
+void ReleaseSeaMapView(SeaMapView *work);
+BOOL IsSeaMapViewButtonActive(SeaMapView *work, s32 id);
+BOOL IsSeaMapViewTouchAreaActive(SeaMapView *work, s32 id);
+void SeaMapView_EnableTouchArea(SeaMapView *work, s32 id, BOOL enabled);
+void SeaMapView_EnableButton(SeaMapView *work, s32 id, BOOL enabled);
+void SeaMapView_EnableMultipleButtons(SeaMapView *work, const u32 *states);
+void SeaMapView_SetZoomLevelForZoomButtons(SeaMapView *work, SeaMapZoomLevel zoomLevel);
+void SeaMapView_ProcessButtonInputs(SeaMapView *work);
+void SeaMapView_SetZoomLevel(SeaMapView *work, SeaMapZoomLevel level);
+void SeaMapView_ProcessMapInputs(SeaMapView *work);
+void SeaMapView_ClearLocalMoveInputs(SeaMapView *work);
+void SeaMapView_SetTouchAreaPriority(SeaMapView *work, BOOL highPriority);
+void SeaMapView_SetTouchAreaCallback(SeaMapView *work, TouchAreaCallback callback);
+void SeaMapView_TouchAreaCallback_Inactive(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+void SeaMapView_TouchAreaCallback_Active(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+void SeaMapView_DrawPenMarker(SeaMapView *work);
+void SeaMapView_DrawButtons(SeaMapView *work);
+void SeaMapView_DrawTouchCursor(SeaMapView *work);
+void SeaMapView_DrawIndicators(SeaMapView *work);
+void SeaMapView_ReadPosition(SeaMapView *work);
+BOOL SeaMapView_FadeActiveScreen_ToDefault(SeaMapView *work);
+BOOL SeaMapView_FadeActiveScreen_ToTarget(SeaMapView *work);
+BOOL SeaMapView_FadeOtherScreen_ToTarget(SeaMapView *work);
+void SeaMapView_DrawFinalizedVoyagePath(void);
+void SeaMapView_DrawWIPVoyagePath(void);
+s32 SeaMapView_TryAddVoyagePathNode(SeaMapView *work, u16 x, u16 y);
+void SeaMapView_ClearVoyagePath(SeaMapView *work);
+void SeaMapView_CalculateVoyagePath(SeaMapView *work);
 
 // --------------------
 // INLINE FUNCTIONS

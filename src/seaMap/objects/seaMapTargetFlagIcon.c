@@ -17,10 +17,10 @@ SeaMapObject *CreateSeaMapTargetFlagIcon(CHEVObjectType *objectType, CHEVObject 
 {
     SeaMapManager *manager = SeaMapManager__GetWork();
 
-    u32 mode = SeaMapView__GetMode();
-    switch (mode)
+    SeaMapViewType type = GetSeaMapViewType();
+    switch (type)
     {
-        case 2:
+        case SEAMAPVIEW_TYPE_CUTSCENE:
             return 0;
 
         default:
@@ -28,7 +28,7 @@ SeaMapObject *CreateSeaMapTargetFlagIcon(CHEVObjectType *objectType, CHEVObject 
     }
 
     // Check if there's a flag that needs displaying
-    u32 count = SaveGame__Func_205D65C(mode);
+    u32 count = SaveGame__Func_205D65C(type);
     u16 i     = 0;
     for (; i < count; i++)
     {

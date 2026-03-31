@@ -45,5 +45,5 @@ void SailExitEvent_Main(void)
 
 BOOL CheckSailExitEventHasMap(void)
 {
-    return seaMapViewMode == 5;
+    return gSeaMapViewType == SEAMAPVIEW_TYPE_SAILING;
 }

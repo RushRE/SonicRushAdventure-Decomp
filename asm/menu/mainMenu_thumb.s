@@ -7134,7 +7134,7 @@ _021560D4: .word MainMenu__Func_21560D8
 MainMenu__Func_21560D8: // 0x021560D8
 	push {r4, lr}
 	mov r4, r0
-	bl SeaMapView__IsActive
+	bl IsSeaMapViewActive
 	cmp r0, #0
 	bne _021560EC
 	ldr r1, _021560F0 // =MainMenu__Func_21560F4
@@ -7150,7 +7150,7 @@ _021560F0: .word MainMenu__Func_21560F4
 MainMenu__Func_21560F4: // 0x021560F4
 	push {r3, r4, r5, lr}
 	mov r4, r0
-	bl SeaMapView__Func_203DCB4
+	bl GetSeaMapViewExitEvent
 	mov r5, r0
 	bl ReleaseSpriteButtonTouchpadSprite
 	bl ReleaseSpriteButtonCursorSprite

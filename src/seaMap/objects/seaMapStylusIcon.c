@@ -53,7 +53,7 @@ SeaMapObject *CreateSeaMapStylusIcon(CHEVObjectType *objectType, CHEVObject *map
     work->speed = FLOAT_TO_FX32(1.0f / 120.0f);
 
     // Init stylus sprite
-    AnimatorSprite__Init(&work->aniStylus, manager->assets.sprChCommon, 125, ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, manager->useEngineB,
+    AnimatorSprite__Init(&work->aniStylus, manager->assets.sprChCommon, SEAMAP_CHCOM_ANI_125, ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, manager->useEngineB,
                          PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(manager->useEngineB, SeaMapStylusIcon_GetSpriteSize()), PALETTE_MODE_SPRITE,
                          VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[manager->useEngineB]), SPRITE_PRIORITY_0, SPRITE_ORDER_1);
 
@@ -68,7 +68,7 @@ NONMATCH_FUNC u32 SeaMapStylusIcon_GetSpriteSize(void)
 {
     // will match 'SeaMapStylusIcon_AnimIDs' is decompiled
 #ifdef NON_MATCHING
-    u16 animIDs[] = { 125, 126, 127 };
+    u16 animIDs[] = { SEAMAP_CHCOM_ANI_125, SEAMAP_CHCOM_ANI_126, SEAMAP_CHCOM_ANI_127 };
 
     void *sprFile = SeaMapManager__GetWork()->assets.sprChCommon;
     

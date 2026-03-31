@@ -1054,7 +1054,7 @@ _0216430E:
 	ldrb r0, [r5, #0]
 	mov r1, #0
 	mov r2, #1
-	bl MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckStageCleared
 	cmp r0, #0
 	beq _02164322
 	mov r0, r7
@@ -1074,7 +1074,7 @@ _02164332:
 	ldrb r0, [r6, #0]
 	mov r1, #0
 	mov r2, #1
-	bl MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckStageCleared
 	cmp r0, #0
 	beq _02164346
 	mov r0, r7

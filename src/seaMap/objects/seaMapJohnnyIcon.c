@@ -57,7 +57,7 @@ void SeaMapJohnnyIcon_Main(void)
     }
     else
     {
-        if (SeaMapView__GetMode() == 5)
+        if (GetSeaMapViewType() == SEAMAPVIEW_TYPE_SAILING)
         {
             ViewRect viewRect;
             fx32 y, x;

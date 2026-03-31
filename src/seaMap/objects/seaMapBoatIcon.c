@@ -36,7 +36,7 @@ NONMATCH_FUNC SeaMapObject *CreateSeaMapBoatIcon(CHEVObjectType *objectType, CHE
 
     SeaMapEventManager__InitMapObject(&work->objWork, task, objectType, mapObject);
 
-    u16 shipAnimIDs[SHIP_COUNT + 1] = { 0, 1, 2, 3, 0 };
+    u16 shipAnimIDs[SHIP_COUNT + 1] = { SEAMAP_CHCOM_ANI_0, SEAMAP_CHCOM_ANI_1, SEAMAP_CHCOM_ANI_2, SEAMAP_CHCOM_ANI_3, SEAMAP_CHCOM_ANI_0 };
 
     s32 shipType = SeaMapManager__GetWork()->shipType;
     if (shipType >= SHIP_MENU)

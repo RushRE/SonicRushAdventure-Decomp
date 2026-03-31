@@ -1118,7 +1118,7 @@ _0215E198:
 	ldrh r0, [r0, #0]
 	mov r1, r7
 	mov r2, r7
-	bl MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckStageCleared
 	cmp r0, #0
 	bne _0215E1B4
 	ldr r1, [sp]
@@ -1159,7 +1159,7 @@ _0215E1E4:
 	bl MenuHelpers__GetStageIDForStageSelect
 	mov r1, #0
 	mov r2, r1
-	bl MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckStageCleared
 	cmp r0, #0
 	bne _0215E25E
 	ldr r1, _0215E298 // =0x000013EC
@@ -1190,7 +1190,7 @@ _0215E222:
 	ldrh r0, [r0, #0]
 	mov r1, r7
 	mov r2, #1
-	bl MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckStageCleared
 	cmp r0, #0
 	bne _0215E23E
 	ldr r1, [sp]

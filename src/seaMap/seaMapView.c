@@ -11,13 +11,13 @@
 // STRUCTS
 // --------------------
 
-struct SeaMapView_CursorAnimInfo
+struct CursorConfig
 {
     u8 anim;
     u8 paletteRow;
 };
 
-struct SeaMap__AnimInfo
+struct LocalizedButtonConfig
 {
     u8 animIDs[6];
     u8 field_8;
@@ -30,7 +30,7 @@ struct SeaMap__AnimInfo
     u8 paletteRows[3];
 };
 
-struct SeaMap__AnimInfo2
+struct ButtonConfig
 {
     u8 animID;
     u8 oamOrder;
@@ -40,80 +40,259 @@ struct SeaMap__AnimInfo2
     u8 paletteRows[3];
 };
 
-struct SeaMap__TouchCallbackInfo
+struct ButtonTouchAreaConfig
 {
     u16 priority;
     TouchAreaCallback callback;
 };
 
 // --------------------
+// FUNCTION DECLS
+// --------------------
+
+static u16 GetSeaMapViewCursorSpriteSize(void);
+static void AllocateSeaMapViewSprites(SeaMapView *work);
+static void ReleaseSeaMapViewSprites(SeaMapView *work);
+static u32 SeaMapView_GetButtonConfigSpriteSize(SeaMapView *work, s32 id);
+static u32 SeaMapView_GetLocButtonConfigSpriteSize(SeaMapView *work, s32 id);
+static void SeaMapView_OnButtonPressed(TouchAreaResponse *response, TouchArea *touchArea, void *userData, u32 id);
+static void SeaMapView_ButtonCallback1(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback2(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback3(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback4(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback5(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback6(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback7(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback8(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_DrawFinalizedVoyagePath_Zoom_Nearest(void);
+static void SeaMapView_DrawFinalizedVoyagePath_Zoom_Middle(void);
+static void SeaMapView_DrawFinalizedVoyagePath_Zoom_Farthest(void);
+static void SeaMapView_DrawWIPVoyagePath_Zoom_Nearest(void);
+static void SeaMapView_DrawWIPVoyagePath_Zoom_Middle(void);
+static void SeaMapView_DrawWIPVoyagePath_Zoom_Farthest(void);
+
+// --------------------
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED void *dword_210F76C;
-NOT_DECOMPILED struct SeaMapView_CursorAnimInfo byte_210F774[];
-NOT_DECOMPILED GXRgb byte_210F77A[];
-NOT_DECOMPILED u16 word_210F782[];
-NOT_DECOMPILED fx32 SeaMapView__VoyageDistance[SHIP_COUNT];
-NOT_DECOMPILED struct SeaMap__TouchCallbackInfo stru_210F7A4[];
-NOT_DECOMPILED struct SeaMap__AnimInfo stru_210F7E4[];
-NOT_DECOMPILED struct SeaMap__AnimInfo2 stru_210F82C[];
+SeaMapViewType gSeaMapViewType;
+Task *gSeaMapTaskSingleton;
+SeaMapViewExitEvent gSeaMapViewExitEvent;
+fx32 gSeaMapViewStoredVoyageDist;
+
+#ifdef NON_MATCHING
+static const struct CursorConfig sCursorAnimConfigList[3] = {
+    { .anim = SPRITE_BUTTON_CURSORANI_POINTER, .paletteRow = PALETTE_ROW_0 },
+    { .anim = SPRITE_BUTTON_CURSORANI_INDICATOR_V, .paletteRow = PALETTE_ROW_0 },
+    { .anim = SPRITE_BUTTON_CURSORANI_INDICATOR_H, .paletteRow = PALETTE_ROW_0 },
+};
+#else
+// This needs to be split so the addresses all get linked properly?
+// It doesn't seem very safe, so it's been ifdef'd into a safer alternative when non-matching
+static const struct CursorConfig sCursorAnimConfigList[1] = {
+    { .anim = SPRITE_BUTTON_CURSORANI_POINTER, .paletteRow = PALETTE_ROW_0 },
+};
+
+static const struct CursorConfig sCursorAnimConfigList_2[2] = {
+    { .anim = SPRITE_BUTTON_CURSORANI_INDICATOR_V, .paletteRow = PALETTE_ROW_0 },
+    { .anim = SPRITE_BUTTON_CURSORANI_INDICATOR_H, .paletteRow = PALETTE_ROW_0 },
+};
+#endif
+
+static const GXRgb byte_210F77A[4] = { 0x1F, 0x21F, 0x3FF, 0x3E0 };
+
+static const u16 sButtonPadMask[8] = { PAD_BUTTON_B,        PAD_BUTTON_R,        PAD_BUTTON_L,        PAD_INPUT_NONE_MASK,
+                                       PAD_INPUT_NONE_MASK, PAD_INPUT_NONE_MASK, PAD_INPUT_NONE_MASK, PAD_INPUT_NONE_MASK };
+
+static const fx32 sShipMaxVoyageDistance[SHIP_COUNT] = {
+    [SHIP_JET]       = 88,  // How far the Jetski can travel
+    [SHIP_BOAT]      = 176, // How far the Sailboat can travel
+    [SHIP_HOVER]     = 144, // How far the Hovercraft can travel
+    [SHIP_SUBMARINE] = 176  // How far the Submarine can travel
+};
+
+static const struct ButtonTouchAreaConfig sButtonTouchAreaConfigList[8] = {
+    {
+        .priority = 0,
+        .callback = SeaMapView_ButtonCallback1,
+    },
+
+    {
+        .priority = 0,
+        .callback = SeaMapView_ButtonCallback2,
+    },
+
+    {
+        .priority = 0,
+        .callback = SeaMapView_ButtonCallback3,
+    },
+
+    {
+        .priority = 0,
+        .callback = SeaMapView_ButtonCallback4,
+    },
+
+    {
+        .priority = 0,
+        .callback = SeaMapView_ButtonCallback5,
+    },
+
+    {
+        .priority = 0,
+        .callback = SeaMapView_ButtonCallback6,
+    },
+
+    {
+        .priority = 0,
+        .callback = SeaMapView_ButtonCallback7,
+    },
+
+    {
+        .priority = 0,
+        .callback = SeaMapView_ButtonCallback8,
+    },
+};
+
+static const struct LocalizedButtonConfig sLocalizedButtonConfigList[3] = {
+    {
+        .animIDs     = { SEAMAP_CHCOM_ANI_47, SEAMAP_CHCOM_ANI_56, SEAMAP_CHCOM_ANI_65, SEAMAP_CHCOM_ANI_74, SEAMAP_CHCOM_ANI_83, SEAMAP_CHCOM_ANI_92 },
+        .field_8     = 0,
+        .field_9     = 0,
+        .oamOrder    = SPRITE_ORDER_4,
+        .field_B     = 0,
+        .spriteSlot  = 2,
+        .x           = HW_LCD_CENTER_X,
+        .y           = 82,
+        .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
+    },
+
+    {
+        .animIDs     = { SEAMAP_CHCOM_ANI_50, SEAMAP_CHCOM_ANI_59, SEAMAP_CHCOM_ANI_68, SEAMAP_CHCOM_ANI_77, SEAMAP_CHCOM_ANI_86, SEAMAP_CHCOM_ANI_95 },
+        .field_8     = 0,
+        .field_9     = 0,
+        .oamOrder    = SPRITE_ORDER_4,
+        .field_B     = 0,
+        .spriteSlot  = 3,
+        .x           = HW_LCD_CENTER_X,
+        .y           = 114,
+        .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
+    },
+
+    {
+        .animIDs     = { SEAMAP_CHCOM_ANI_53, SEAMAP_CHCOM_ANI_62, SEAMAP_CHCOM_ANI_71, SEAMAP_CHCOM_ANI_80, SEAMAP_CHCOM_ANI_89, SEAMAP_CHCOM_ANI_98 },
+        .field_8     = 0,
+        .field_9     = 0,
+        .oamOrder    = SPRITE_ORDER_4,
+        .field_B     = 0,
+        .spriteSlot  = 2,
+        .x           = HW_LCD_CENTER_X,
+        .y           = 82,
+        .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
+    },
+};
+
+static const struct ButtonConfig sButtonConfigList[5] = {
+    {
+        .animID      = SEAMAP_CHCOM_ANI_4,
+        .oamOrder    = SPRITE_ORDER_4,
+        .spriteSlot  = 1,
+        .x           = 16,
+        .y           = 176,
+        .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
+    },
+
+    {
+        .animID      = SEAMAP_CHCOM_ANI_16,
+        .oamOrder    = SPRITE_ORDER_4,
+        .spriteSlot  = 0,
+        .x           = 240,
+        .y           = 176,
+        .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
+    },
+
+    {
+        .animID      = SEAMAP_CHCOM_ANI_19,
+        .oamOrder    = SPRITE_ORDER_4,
+        .spriteSlot  = 4,
+        .x           = 208,
+        .y           = 176,
+        .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
+    },
+
+    {
+        .animID      = SEAMAP_CHCOM_ANI_13,
+        .oamOrder    = SPRITE_ORDER_4,
+        .spriteSlot  = 2,
+        .x           = 80,
+        .y           = 180,
+        .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
+    },
+
+    {
+        .animID      = SEAMAP_CHCOM_ANI_10,
+        .oamOrder    = SPRITE_ORDER_4,
+        .spriteSlot  = 3,
+        .x           = 148,
+        .y           = 180,
+        .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
+    },
+};
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-u32 SeaMapView__GetMode(void)
+SeaMapViewType GetSeaMapViewType(void)
 {
-    return SeaMapView__sVars.mode;
+    return gSeaMapViewType;
 }
 
-s32 SeaMapView__Func_203DCB4(void)
+SeaMapViewExitEvent GetSeaMapViewExitEvent(void)
 {
-    return SeaMapView__sVars.unknown1;
+    return gSeaMapViewExitEvent;
 }
 
-BOOL SeaMapView__IsActive(void)
+BOOL IsSeaMapViewActive(void)
 {
-    return SeaMapView__sVars.singleton != NULL;
+    return gSeaMapTaskSingleton != NULL;
 }
 
-void SeaMapView__SetViewPosition(s32 x, s32 y)
+void SetSeaMapViewPosition(s32 x, s32 y)
 {
-    SeaMapView *work = SeaMapView__GetWork();
+    SeaMapView *work = GetSeaMapViewWork();
 
     work->position.x = x - (HW_LCD_CENTER_X * SeaMapManager__GetZoomInScale());
     work->position.y = y - (HW_LCD_CENTER_Y * SeaMapManager__GetZoomInScale());
 
-    work->moveDist2.x = work->moveDist2.y = 0;
+    work->globalMoveDist.x = work->globalMoveDist.y = 0;
 }
 
-TouchArea *SeaMapView__GetTouchArea(void)
+TouchArea *GetSeaMapViewTouchArea(void)
 {
-    SeaMapView *work = TaskGetWork(SeaMapView__sVars.singleton, SeaMapView);
+    SeaMapView *work = TaskGetWork(gSeaMapTaskSingleton, SeaMapView);
 
     return &work->touchArea;
 }
 
-BOOL SeaMapView__Func_203DD44(void)
+BOOL IsSeaMapViewVoyageInProgress(void)
 {
-    SeaMapView *work = SeaMapView__GetWork();
+    SeaMapView *work = GetSeaMapViewWork();
 
-    return work->currentVoyageDist <= FLOAT_TO_FX32(1.0);
+    return work->remainingVoyageDist <= FLOAT_TO_FX32(1.0);
 }
 
-void SeaMapView__InitZoomControl(SeaMapViewZoomControl *work, BOOL useEngineB)
+void InitSeaMapViewZoomControl(SeaMapViewZoomControl *work, BOOL useEngineB)
 {
     MI_CpuClear16(work, sizeof(*work));
 
     work->useEngineB = useEngineB;
 }
 
-BOOL SeaMapView__CanZoomIn(SeaMapViewZoomControl *work)
+BOOL SeaMapView_HandleZoomIn_Intro(SeaMapViewZoomControl *work)
 {
     RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[work->useEngineB];
 
-    switch (work->mode)
+    switch (work->zoomState)
     {
         default:
         case 0:
@@ -126,7 +305,7 @@ BOOL SeaMapView__CanZoomIn(SeaMapViewZoomControl *work)
             gfxControl->windowManager.registers.win0InPlane.value = GX_PLANEMASK_ALL | 0xFF;
             gfxControl->windowManager.registers.winOutPlane.value = GX_PLANEMASK_NONE;
             RenderCore_DisableWindowPlaneUpdate(TRUE);
-            work->mode = 1;
+            work->zoomState = 1;
             // FallThrough
 
         case 1:
@@ -146,7 +325,7 @@ BOOL SeaMapView__CanZoomIn(SeaMapViewZoomControl *work)
                 GX_SetVisiblePlane(GX_PLANEMASK_NONE);
             else
                 GXS_SetVisiblePlane(GX_PLANEMASK_NONE);
-            work->mode = 2;
+            work->zoomState = 2;
             // FallThrough
 
         case 2:
@@ -154,11 +333,11 @@ BOOL SeaMapView__CanZoomIn(SeaMapViewZoomControl *work)
     }
 }
 
-BOOL SeaMapView__HandleZoomIn(SeaMapViewZoomControl *work)
+BOOL SeaMapView_HandleZoomIn_Outro(SeaMapViewZoomControl *work)
 {
     RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[work->useEngineB];
 
-    switch (work->mode)
+    switch (work->zoomState)
     {
         default:
         case 0:
@@ -175,7 +354,7 @@ BOOL SeaMapView__HandleZoomIn(SeaMapViewZoomControl *work)
                 GX_SetVisiblePlane(GX_PLANEMASK_ALL);
             else
                 GXS_SetVisiblePlane(GX_PLANEMASK_ALL);
-            work->mode = 1;
+            work->zoomState = 1;
             // FallThrough
 
         case 1:
@@ -190,7 +369,7 @@ BOOL SeaMapView__HandleZoomIn(SeaMapViewZoomControl *work)
 
             gfxControl->windowManager.visible = FALSE;
             RenderCore_DisableWindowPlaneUpdate(FALSE);
-            work->mode = 2;
+            work->zoomState = 2;
             // FallThrough
 
         case 2:
@@ -198,11 +377,11 @@ BOOL SeaMapView__HandleZoomIn(SeaMapViewZoomControl *work)
     }
 }
 
-BOOL SeaMapView__CanZoomOut(SeaMapViewZoomControl *work)
+BOOL SeaMapView_HandleZoomOut_Intro(SeaMapViewZoomControl *work)
 {
     RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[work->useEngineB];
 
-    switch (work->mode)
+    switch (work->zoomState)
     {
         default:
         case 0:
@@ -217,7 +396,7 @@ BOOL SeaMapView__CanZoomOut(SeaMapViewZoomControl *work)
             gfxControl->windowManager.registers.win0Y1 -= 9;
             gfxControl->windowManager.registers.win0X2 += 12;
             gfxControl->windowManager.registers.win0Y2 += 9;
-            work->mode = 1;
+            work->zoomState = 1;
             return FALSE;
 
         case 1:
@@ -242,7 +421,7 @@ BOOL SeaMapView__CanZoomOut(SeaMapViewZoomControl *work)
                 GX_SetVisiblePlane(GX_PLANEMASK_NONE);
             else
                 GXS_SetVisiblePlane(GX_PLANEMASK_NONE);
-            work->mode = 2;
+            work->zoomState = 2;
             // FallThrough
 
         case 2:
@@ -250,11 +429,11 @@ BOOL SeaMapView__CanZoomOut(SeaMapViewZoomControl *work)
     }
 }
 
-BOOL SeaMapView__HandleZoomOut(SeaMapViewZoomControl *work)
+BOOL SeaMapView_HandleZoomOut_Outro(SeaMapViewZoomControl *work)
 {
     RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[work->useEngineB];
 
-    switch (work->mode)
+    switch (work->zoomState)
     {
         default:
         case 0:
@@ -271,7 +450,7 @@ BOOL SeaMapView__HandleZoomOut(SeaMapViewZoomControl *work)
                 GX_SetVisiblePlane(GX_PLANEMASK_ALL);
             else
                 GXS_SetVisiblePlane(GX_PLANEMASK_ALL);
-            work->mode = 1;
+            work->zoomState = 1;
             // FallThrough
 
         case 1:
@@ -286,7 +465,7 @@ BOOL SeaMapView__HandleZoomOut(SeaMapViewZoomControl *work)
 
             gfxControl->windowManager.visible = FALSE;
             RenderCore_DisableWindowPlaneUpdate(FALSE);
-            work->mode = 2;
+            work->zoomState = 2;
             // FallThrough
 
         case 2:
@@ -294,23 +473,23 @@ BOOL SeaMapView__HandleZoomOut(SeaMapViewZoomControl *work)
     }
 }
 
-SeaMapView *SeaMapView__GetWork(void)
+SeaMapView *GetSeaMapViewWork(void)
 {
-    SeaMapView *work = TaskGetWork(SeaMapView__sVars.singleton, SeaMapView);
+    SeaMapView *work = TaskGetWork(gSeaMapTaskSingleton, SeaMapView);
 
     return work;
 }
 
-void SeaMapView__InitView(SeaMapView *work, BOOL useEngineB, ShipType shipType, BOOL allocateSprites)
+void InitSeaMapView(SeaMapView *work, BOOL useEngineB, ShipType shipType, BOOL allocateSprites)
 {
     SeaMapManager *manager;
     u32 i;
     s32 language = GetGameLanguage();
 
     HitboxRect rect;
-    struct SeaMap__AnimInfo *info;
-    struct SeaMap__AnimInfo2 *info2;
-    struct SeaMap__TouchCallbackInfo *touchInfo;
+    const struct LocalizedButtonConfig *locButtonConfig;
+    const struct ButtonConfig *buttonConfig;
+    const struct ButtonTouchAreaConfig *touchInfo;
     SpriteButtonAnimator *aniButton;
 
     manager = SeaMapManager__GetWork();
@@ -324,60 +503,61 @@ void SeaMapView__InitView(SeaMapView *work, BOOL useEngineB, ShipType shipType, 
 
     if ((s32)shipType < SHIP_COUNT)
     {
-        work->currentVoyageDist = work->totalVoyageDist = FX32_FROM_WHOLE(SeaMapView__VoyageDistance[shipType]);
+        work->remainingVoyageDist = work->totalVoyageDist = FX32_FROM_WHOLE(sShipMaxVoyageDistance[shipType]);
     }
-    SeaMapView__Func_203FE44(work);
+    SeaMapView_ClearVoyagePath(work);
 
     AnimatorSprite *aniPenMarker = &work->aniPenMarker;
-    AnimatorSprite__Init(aniPenMarker, work->assets->sprChCommon, 38, ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK,
-                         work->useEngineB, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(work->useEngineB, Sprite__GetSpriteSize1FromAnim(work->assets->sprChCommon, 38)),
-                         PALETTE_MODE_SPRITE, VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[work->useEngineB]), SPRITE_PRIORITY_0, SPRITE_ORDER_6);
+    AnimatorSprite__Init(aniPenMarker, work->assets->sprChCommon, SEAMAP_CHCOM_ANI_38,
+                         ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, work->useEngineB, PIXEL_MODE_SPRITE,
+                         VRAMSystem__AllocSpriteVram(work->useEngineB, Sprite__GetSpriteSize1FromAnim(work->assets->sprChCommon, SEAMAP_CHCOM_ANI_38)), PALETTE_MODE_SPRITE,
+                         VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[work->useEngineB]), SPRITE_PRIORITY_0, SPRITE_ORDER_6);
     aniPenMarker->cParam.alpha = PALETTE_ROW_4;
 
     work->allocateSprites = allocateSprites;
     if (allocateSprites)
     {
-        SeaMapView__AllocateSprites(work);
+        AllocateSeaMapViewSprites(work);
 
         aniButton = work->buttonAnimators;
         for (i = 0; i < 8; i++)
         {
             if (i < 5)
             {
-                info2 = &stru_210F82C[i];
+                buttonConfig = &sButtonConfigList[i];
 
-                aniButton->animID = info2->animID;
+                aniButton->animID = buttonConfig->animID;
                 for (u32 r = 0; r < 3; r++)
                 {
-                    aniButton->paletteRow[r] = info2->paletteRows[r];
+                    aniButton->paletteRow[r] = buttonConfig->paletteRows[r];
                 }
 
                 AnimatorSprite__Init(&aniButton->animator, work->assets->sprChCommon, aniButton->animID, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, useEngineB, PIXEL_MODE_SPRITE,
-                                     work->vramPixels[info2->spriteSlot], PALETTE_MODE_SPRITE, VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[useEngineB]), SPRITE_PRIORITY_0,
-                                     info2->oamOrder);
+                                     work->vramPixels[buttonConfig->spriteSlot], PALETTE_MODE_SPRITE, VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[useEngineB]), SPRITE_PRIORITY_0,
+                                     buttonConfig->oamOrder);
                 aniButton->animator.cParam.palette = aniButton->paletteRow[0];
-                aniButton->animator.pos.x          = info2->x;
-                aniButton->animator.pos.y          = info2->y;
+                aniButton->animator.pos.x          = buttonConfig->x;
+                aniButton->animator.pos.y          = buttonConfig->y;
             }
             else
             {
-                info = &stru_210F7E4[i - 5];
+                locButtonConfig = &sLocalizedButtonConfigList[i - 5];
 
-                aniButton->animID = info->animIDs[language];
+                aniButton->animID = locButtonConfig->animIDs[language];
                 for (u32 r = 0; r < 3; r++)
                 {
-                    aniButton->paletteRow[r] = info->paletteRows[r];
+                    aniButton->paletteRow[r] = locButtonConfig->paletteRows[r];
                 }
 
-                AnimatorSprite__Init(&aniButton->animator, work->assets->sprChCommon, info->animIDs[GetGameLanguage()], ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, useEngineB,
-                                     PIXEL_MODE_SPRITE, work->vramPixels[info->spriteSlot], PALETTE_MODE_SPRITE, VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[useEngineB]),
-                                     SPRITE_PRIORITY_0, info->oamOrder);
+                AnimatorSprite__Init(&aniButton->animator, work->assets->sprChCommon, locButtonConfig->animIDs[GetGameLanguage()], ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK,
+                                     useEngineB, PIXEL_MODE_SPRITE, work->vramPixels[locButtonConfig->spriteSlot], PALETTE_MODE_SPRITE,
+                                     VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[useEngineB]), SPRITE_PRIORITY_0, locButtonConfig->oamOrder);
                 aniButton->animator.cParam.palette = aniButton->paletteRow[0];
-                aniButton->animator.pos.x          = info->x;
-                aniButton->animator.pos.y          = info->y;
+                aniButton->animator.pos.x          = locButtonConfig->x;
+                aniButton->animator.pos.y          = locButtonConfig->y;
             }
 
-            touchInfo = &stru_210F7A4[i];
+            touchInfo = &sButtonTouchAreaConfigList[i];
 
             AnimatorSprite__GetBlockData(&aniButton->animator, 0, &rect);
             TouchField__InitAreaShape(&aniButton->touchArea, &aniButton->animator.pos, TouchField__PointInRect, (TouchRectUnknown *)&rect, touchInfo->callback, work);
@@ -392,18 +572,19 @@ void SeaMapView__InitView(SeaMapView *work, BOOL useEngineB, ShipType shipType, 
         rect.top     = 0;
         rect.right   = HW_LCD_WIDTH;
         rect.bottom  = HW_LCD_HEIGHT;
-        TouchField__InitAreaShape(&work->touchArea, &pos, TouchField__PointInRect, (TouchRectUnknown *)&rect, SeaMapView__TouchAreaCallback, work);
+        TouchField__InitAreaShape(&work->touchArea, &pos, TouchField__PointInRect, (TouchRectUnknown *)&rect, SeaMapView_TouchAreaCallback_Active, work);
         TouchField__AddArea(&manager->touchField, &work->touchArea, 8);
 
-        AnimatorSprite *aniTouchCursor = &work->aniTouchCursor;
-        AnimatorSprite__Init(aniTouchCursor, GetSpriteButtonCursorSprite(), byte_210F774[0].anim, ANIMATOR_FLAG_NONE, useEngineB, PIXEL_MODE_SPRITE,
-                             VRAMSystem__AllocSpriteVram(useEngineB, SeaMapView__GetCursorSpriteSize()), PALETTE_MODE_SPRITE,
+        const struct CursorConfig *cursorInfoList = &sCursorAnimConfigList[0];
+        const struct CursorConfig *cursorInfo     = &cursorInfoList[0];
+        AnimatorSprite *aniTouchCursor            = &work->aniTouchCursor;
+        AnimatorSprite__Init(aniTouchCursor, GetSpriteButtonCursorSprite(), cursorInfoList->anim, ANIMATOR_FLAG_NONE, useEngineB, PIXEL_MODE_SPRITE,
+                             VRAMSystem__AllocSpriteVram(useEngineB, GetSeaMapViewCursorSpriteSize()), PALETTE_MODE_SPRITE,
                              VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[useEngineB]), SPRITE_PRIORITY_0, SPRITE_ORDER_0);
-        aniTouchCursor->cParam.palette = byte_210F774[0].paletteRow;
-        SeaMapView__InitTouchCursor(work, -1);
+        aniTouchCursor->cParam.palette = cursorInfoList->paletteRow;
+        SeaMapView_InitTouchCursor(work, -1);
 
-        struct SeaMapView_CursorAnimInfo *cursorInfoList = &byte_210F774[1];
-        struct SeaMapView_CursorAnimInfo *cursorInfo;
+        cursorInfoList = &sCursorAnimConfigList_2[0];
         for (i = 0; i < 2; i++)
         {
             cursorInfo = &cursorInfoList[i];
@@ -417,8 +598,8 @@ void SeaMapView__InitView(SeaMapView *work, BOOL useEngineB, ShipType shipType, 
         }
 
         AnimatorSprite *aniTextBorder = &work->aniTextBorder;
-        AnimatorSprite__Init(aniTextBorder, work->assets->sprChCommon, 46, ANIMATOR_FLAG_NONE, useEngineB, PIXEL_MODE_SPRITE,
-                             VRAMSystem__AllocSpriteVram(useEngineB, Sprite__GetSpriteSize1FromAnim(work->assets->sprChCommon, 46)), PALETTE_MODE_SPRITE,
+        AnimatorSprite__Init(aniTextBorder, work->assets->sprChCommon, SEAMAP_CHCOM_ANI_46, ANIMATOR_FLAG_NONE, useEngineB, PIXEL_MODE_SPRITE,
+                             VRAMSystem__AllocSpriteVram(useEngineB, Sprite__GetSpriteSize1FromAnim(work->assets->sprChCommon, SEAMAP_CHCOM_ANI_46)), PALETTE_MODE_SPRITE,
                              VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[useEngineB]), SPRITE_PRIORITY_0, SPRITE_ORDER_5);
         aniTextBorder->cParam.palette = PALETTE_ROW_4;
         AnimatorSprite__ProcessAnimationFast(aniTextBorder);
@@ -427,7 +608,7 @@ void SeaMapView__InitView(SeaMapView *work, BOOL useEngineB, ShipType shipType, 
     }
 }
 
-void SeaMapView__ReleaseAssets(SeaMapView *work)
+void ReleaseSeaMapView(SeaMapView *work)
 {
     u32 i;
     SeaMapManager *manager = SeaMapManager__GetWork();
@@ -441,7 +622,7 @@ void SeaMapView__ReleaseAssets(SeaMapView *work)
         for (i = 0; i < 2; i++)
             AnimatorSprite__Release(&work->aniPadCursor[i]);
 
-        SeaMapView__ReleaseSprites(work);
+        ReleaseSeaMapViewSprites(work);
         TouchField__RemoveArea(&manager->touchField, &work->touchArea);
 
         for (i = 0; i < 8; i++)
@@ -451,32 +632,32 @@ void SeaMapView__ReleaseAssets(SeaMapView *work)
     }
 }
 
-void SeaMapView__Func_203E898(SeaMapView *work)
+void SeaMapView_ResetIndicatorFlashTimer(SeaMapView *work)
 {
-    work->field_7A4 = -30;
+    work->indicatorFlashTimer = -30;
 }
 
-void SeaMapView__Func_203E8A8(SeaMapView *work)
+void SeaMapView_ProcessIndicatorFlashTimer(SeaMapView *work)
 {
     if ((IsTouchInputEnabled() && TouchInput__IsTouchOn(&touchInput)) || (padInput.btnDown & (PAD_KEY_DOWN | PAD_KEY_UP | PAD_KEY_LEFT | PAD_KEY_RIGHT)) != 0)
     {
-        SeaMapView__Func_203E898(work);
+        SeaMapView_ResetIndicatorFlashTimer(work);
     }
     else
     {
-        work->field_7A4++;
-        if (work->field_7A4 > 255)
-            work->field_7A4 = 0;
+        work->indicatorFlashTimer++;
+        if (work->indicatorFlashTimer > 255)
+            work->indicatorFlashTimer = 0;
     }
 }
 
-NONMATCH_FUNC void SeaMapView__Func_203E914(SeaMapView *work)
+NONMATCH_FUNC void SeaMapView_SetVoyagePathColors(SeaMapView *work)
 {
-	// https://decomp.me/scratch/2Qb7n -> 58.36%
+    // https://decomp.me/scratch/2Qb7n -> 58.36%
 #ifdef NON_MATCHING
-    fx32 distancePercent = FX_Div(work->currentVoyageDist, work->totalVoyageDist);
+    fx32 distancePercent = FX_Div(work->remainingVoyageDist, work->totalVoyageDist);
     fx32 oneThirdFX32    = FX_DivS32(FLOAT_TO_FX32(1.0), 3);
-    u32 quadrant        = FX32_TO_WHOLE(FX_Div(distancePercent, oneThirdFX32));
+    u32 quadrant         = FX32_TO_WHOLE(FX_Div(distancePercent, oneThirdFX32));
 
     GXRgb color;
     if (quadrant < 3)
@@ -485,9 +666,19 @@ NONMATCH_FUNC void SeaMapView__Func_203E914(SeaMapView *work)
         fx32 y  = byte_210F77A[quadrant + 1];
         fx32 x  = byte_210F77A[quadrant];
 
-        color = (32 * ((MultiplyFX(((FX32_FROM_WHOLE((y >> GX_RGB_G_SHIFT) & 0x1F) & 0xFFFFFFF) - FX32_FROM_WHOLE((x >> GX_RGB_G_SHIFT) & 0x1F)), v7) + FX32_FROM_WHOLE((x >> GX_RGB_G_SHIFT) & 0x1F)) >> 12)) & 0x1FFFFF
-             | ((16 * (MultiplyFX(((FX32_FROM_WHOLE((y >> GX_RGB_R_SHIFT) & 0x1F) & 0xFFFFFFF) - FX32_FROM_WHOLE((x >> GX_RGB_R_SHIFT) & 0x1F)), v7) + FX32_FROM_WHOLE((x >> GX_RGB_R_SHIFT) & 0x1F))) >> 16)
-             | (MultiplyFX(((FX32_FROM_WHOLE((y >> GX_RGB_B_SHIFT) & 0x1F) & 0xFFFFFFF) - FX32_FROM_WHOLE((x >> GX_RGB_B_SHIFT) & 0x1F)), v7) + FX32_FROM_WHOLE((x >> GX_RGB_B_SHIFT) & 0x1F) >> 12 << 10) & 0x3FFFFFF;
+        color = (32
+                 * ((MultiplyFX(((FX32_FROM_WHOLE((y >> GX_RGB_G_SHIFT) & 0x1F) & 0xFFFFFFF) - FX32_FROM_WHOLE((x >> GX_RGB_G_SHIFT) & 0x1F)), v7)
+                     + FX32_FROM_WHOLE((x >> GX_RGB_G_SHIFT) & 0x1F))
+                    >> 12))
+                    & 0x1FFFFF
+                | ((16
+                    * (MultiplyFX(((FX32_FROM_WHOLE((y >> GX_RGB_R_SHIFT) & 0x1F) & 0xFFFFFFF) - FX32_FROM_WHOLE((x >> GX_RGB_R_SHIFT) & 0x1F)), v7)
+                       + FX32_FROM_WHOLE((x >> GX_RGB_R_SHIFT) & 0x1F)))
+                   >> 16)
+                | (MultiplyFX(((FX32_FROM_WHOLE((y >> GX_RGB_B_SHIFT) & 0x1F) & 0xFFFFFFF) - FX32_FROM_WHOLE((x >> GX_RGB_B_SHIFT) & 0x1F)), v7)
+                       + FX32_FROM_WHOLE((x >> GX_RGB_B_SHIFT) & 0x1F)
+                   >> 12 << 10)
+                      & 0x3FFFFFF;
     }
     else
     {
@@ -495,12 +686,12 @@ NONMATCH_FUNC void SeaMapView__Func_203E914(SeaMapView *work)
     }
 
     work->paletteColor1 = color;
-    work->paletteColor2 = GX_RGB(((work->paletteColor1 >> GX_RGB_R_SHIFT) & 0x1F) >> 1, ((work->paletteColor1 >> GX_RGB_G_SHIFT) & 0x1F) >> 1,
-                                 ((work->paletteColor1 >> GX_RGB_B_SHIFT) & 0x1F) >> 1);
+    work->paletteColor2 =
+        GX_RGB(((work->paletteColor1 >> GX_RGB_R_SHIFT) & 0x1F) >> 1, ((work->paletteColor1 >> GX_RGB_G_SHIFT) & 0x1F) >> 1, ((work->paletteColor1 >> GX_RGB_B_SHIFT) & 0x1F) >> 1);
 
-    QueueUncompressedPalette(&work->paletteColor1, 1, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((u16*)(void*)VRAMSystem__VRAM_PALETTE_BG[work->useEngineB])[255]));
-    LoadUncompressedPalette(&work->paletteColor1, 1, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((u16*)(void*)VRAMSystem__VRAM_PALETTE_OBJ[work->useEngineB])[78]));
-    LoadUncompressedPalette(&work->paletteColor2, 1, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((u16*)(void*)VRAMSystem__VRAM_PALETTE_OBJ[work->useEngineB])[79]));
+    QueueUncompressedPalette(&work->paletteColor1, 1, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((u16 *)(void *)VRAMSystem__VRAM_PALETTE_BG[work->useEngineB])[255]));
+    LoadUncompressedPalette(&work->paletteColor1, 1, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((u16 *)(void *)VRAMSystem__VRAM_PALETTE_OBJ[work->useEngineB])[78]));
+    LoadUncompressedPalette(&work->paletteColor2, 1, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((u16 *)(void *)VRAMSystem__VRAM_PALETTE_OBJ[work->useEngineB])[79]));
     work->aniPenMarker.animAdvance = MultiplyFX(distancePercent, FLOAT_TO_FX32(0.7)) + FLOAT_TO_FX32(0.3);
 #else
     // clang-format off
@@ -639,38 +830,39 @@ _0203EA40:
 #endif
 }
 
-u16 SeaMapView__GetCursorSpriteSize(void)
+u16 GetSeaMapViewCursorSpriteSize(void)
 {
-    return Sprite__GetSpriteSize1FromAnim(GetSpriteButtonCursorSprite(), byte_210F774[0].anim);
+    const struct CursorConfig *cursorConfig = &sCursorAnimConfigList[0];
+    return Sprite__GetSpriteSize1FromAnim(GetSpriteButtonCursorSprite(), cursorConfig->anim);
 }
 
-void SeaMapView__InitTouchCursor(SeaMapView *work, s32 mode)
+void SeaMapView_InitTouchCursor(SeaMapView *work, s32 id)
 {
     AnimatorSprite *aniCursor = &work->aniTouchCursor;
-    if (mode == -1)
+    if (id == -1)
     {
         aniCursor->flags |= ANIMATOR_FLAG_DISABLE_DRAW;
     }
     else
     {
-        struct SeaMapView_CursorAnimInfo *info = &byte_210F774[mode];
-        AnimatorSprite__SetAnimation(&work->aniTouchCursor, info->anim);
+        const struct CursorConfig *cursorConfig = &sCursorAnimConfigList[id];
+        AnimatorSprite__SetAnimation(&work->aniTouchCursor, cursorConfig->anim);
         aniCursor->flags &= ~ANIMATOR_FLAG_DISABLE_DRAW;
-        aniCursor->cParam.alpha = info->paletteRow;
+        aniCursor->cParam.alpha = cursorConfig->paletteRow;
         AnimatorSprite__ProcessAnimationFast(aniCursor);
     }
 }
 
-void SeaMapView__AllocateSprites(SeaMapView *work)
+void AllocateSeaMapViewSprites(SeaMapView *work)
 {
     MI_CpuClear32(work->vramPixels, sizeof(work->vramPixels));
 
     u32 i;
 
-    struct SeaMap__AnimInfo2 *info2_ptr;
-    struct SeaMap__AnimInfo *info_ptr;
-    struct SeaMap__AnimInfo *info;
-    struct SeaMap__AnimInfo2 *info2;
+    const struct ButtonConfig *buttonConfig_ptr;
+    const struct LocalizedButtonConfig *locButtonConfig_ptr;
+    const struct LocalizedButtonConfig *locButtonConfig;
+    const struct ButtonConfig *buttonConfig;
 
     for (i = 0; i < 8; i++)
     {
@@ -679,17 +871,17 @@ void SeaMapView__AllocateSprites(SeaMapView *work)
 
         if (i < 5)
         {
-            info2_ptr = &stru_210F82C[i];
-            info2     = info2_ptr;
-            allocSize = SeaMapView__Func_203ECA0(work, i);
-            allocSlot = info2->spriteSlot;
+            buttonConfig_ptr = &sButtonConfigList[i];
+            buttonConfig     = buttonConfig_ptr;
+            allocSize        = SeaMapView_GetButtonConfigSpriteSize(work, i);
+            allocSlot        = buttonConfig->spriteSlot;
         }
         else
         {
-            info_ptr  = &stru_210F7E4[i - 5];
-            info      = info_ptr;
-            allocSize = SeaMapView__Func_203ECF4(work, i);
-            allocSlot = info->spriteSlot;
+            locButtonConfig_ptr = &sLocalizedButtonConfigList[i - 5];
+            locButtonConfig     = locButtonConfig_ptr;
+            allocSize           = SeaMapView_GetLocButtonConfigSpriteSize(work, i);
+            allocSlot           = locButtonConfig->spriteSlot;
         }
 
         if (VOID_TO_INT(work->vramPixels[allocSlot]) < allocSize)
@@ -705,7 +897,7 @@ void SeaMapView__AllocateSprites(SeaMapView *work)
     }
 }
 
-void SeaMapView__ReleaseSprites(SeaMapView *work)
+void ReleaseSeaMapViewSprites(SeaMapView *work)
 {
     for (u32 i = 0; i < 5; i++)
     {
@@ -717,32 +909,32 @@ void SeaMapView__ReleaseSprites(SeaMapView *work)
     }
 }
 
-u32 SeaMapView__Func_203ECA0(SeaMapView *work, s32 id)
+u32 SeaMapView_GetButtonConfigSpriteSize(SeaMapView *work, s32 id)
 {
-    struct SeaMap__AnimInfo2 *info2 = &stru_210F82C[id];
+    const struct ButtonConfig *buttonConfig = &sButtonConfigList[id];
 
-    u32 size      = Sprite__GetSpriteSize1FromAnim(work->assets->sprChCommon, info2->animID);
+    u32 size      = Sprite__GetSpriteSize1FromAnim(work->assets->sprChCommon, buttonConfig->animID);
     u32 allocSize = size;
 
-    size = Sprite__GetSpriteSize1FromAnim(work->assets->sprChCommon, 1 + info2->animID);
+    size = Sprite__GetSpriteSize1FromAnim(work->assets->sprChCommon, 1 + buttonConfig->animID);
     if (allocSize < size)
         allocSize = size;
 
     return allocSize;
 }
 
-u32 SeaMapView__Func_203ECF4(SeaMapView *work, s32 id)
+u32 SeaMapView_GetLocButtonConfigSpriteSize(SeaMapView *work, s32 id)
 {
-    struct SeaMap__AnimInfo *info = &stru_210F7E4[id - 5];
+    const struct LocalizedButtonConfig *locButtonConfig = &sLocalizedButtonConfigList[id - 5];
 
     u32 allocSize = 0;
     for (u32 i = 0; i < 8; i++)
     {
-        u16 size = Sprite__GetSpriteSize1FromAnim(work->assets->sprChCommon, 1 + info->animIDs[i]);
+        u16 size = Sprite__GetSpriteSize1FromAnim(work->assets->sprChCommon, 1 + locButtonConfig->animIDs[i]);
         if (allocSize < size)
             allocSize = size;
 
-        size = Sprite__GetSpriteSize1FromAnim(work->assets->sprChCommon, info->animIDs[i]);
+        size = Sprite__GetSpriteSize1FromAnim(work->assets->sprChCommon, locButtonConfig->animIDs[i]);
         if (allocSize < size)
             allocSize = size;
     }
@@ -750,17 +942,17 @@ u32 SeaMapView__Func_203ECF4(SeaMapView *work, s32 id)
     return allocSize;
 }
 
-BOOL SeaMapView__IsButtonActive(SeaMapView *work, s32 id)
+BOOL IsSeaMapViewButtonActive(SeaMapView *work, s32 id)
 {
     return (work->buttonAnimators[id].animator.flags & ANIMATOR_FLAG_DISABLE_DRAW) == 0;
 }
 
-BOOL SeaMapView__IsTouchAreaActive(SeaMapView *work, s32 id)
+BOOL IsSeaMapViewTouchAreaActive(SeaMapView *work, s32 id)
 {
     return (work->buttonAnimators[id].touchArea.responseFlags & TOUCHAREA_RESPONSE_DISABLED) == 0;
 }
 
-void SeaMapView__EnableTouchArea(SeaMapView *work, s32 id, BOOL enabled)
+void SeaMapView_EnableTouchArea(SeaMapView *work, s32 id, BOOL enabled)
 {
     SpriteButtonAnimator *button = &work->buttonAnimators[id];
 
@@ -776,7 +968,7 @@ void SeaMapView__EnableTouchArea(SeaMapView *work, s32 id, BOOL enabled)
     }
 }
 
-void SeaMapView__EnableButton(SeaMapView *work, s32 id, BOOL enabled)
+void SeaMapView_EnableButton(SeaMapView *work, s32 id, BOOL enabled)
 {
     SpriteButtonAnimator *aniButton = &work->buttonAnimators[id];
 
@@ -785,17 +977,17 @@ void SeaMapView__EnableButton(SeaMapView *work, s32 id, BOOL enabled)
     {
         if (id < 5)
         {
-            struct SeaMap__AnimInfo2 *info = &stru_210F82C[id];
+            const struct ButtonConfig *buttonConfig = &sButtonConfigList[id];
 
-            x = info->x;
-            y = info->y;
+            x = buttonConfig->x;
+            y = buttonConfig->y;
         }
         else
         {
-            struct SeaMap__AnimInfo *info = &stru_210F7E4[id - 5];
+            const struct LocalizedButtonConfig *locButtonConfig = &sLocalizedButtonConfigList[id - 5];
 
-            x = info->x;
-            y = info->y;
+            x = locButtonConfig->x;
+            y = locButtonConfig->y;
         }
 
         aniButton->animator.flags &= ~ANIMATOR_FLAG_DISABLE_DRAW;
@@ -810,20 +1002,20 @@ void SeaMapView__EnableButton(SeaMapView *work, s32 id, BOOL enabled)
     SetSpriteButtonPosition(aniButton, x, y);
 }
 
-void SeaMapView__EnableMultipleButtons(SeaMapView *work, const u32 *states)
+void SeaMapView_EnableMultipleButtons(SeaMapView *work, const u32 *states)
 {
     for (u32 i = 0; i < 8; i++)
-        SeaMapView__EnableButton(work, i, states[i]);
+        SeaMapView_EnableButton(work, i, states[i]);
 }
 
-void SeaMapView__SetButtonMode(SeaMapView *work, s32 mode)
+void SeaMapView_SetZoomLevelForZoomButtons(SeaMapView *work, SeaMapZoomLevel zoomLevel)
 {
-    SeaMapView__EnableButton(work, 1, TRUE);
-    SeaMapView__EnableButton(work, 2, TRUE);
+    SeaMapView_EnableButton(work, 1, TRUE);
+    SeaMapView_EnableButton(work, 2, TRUE);
 
-    switch (mode)
+    switch (zoomLevel)
     {
-        case 0:
+        case SEAMAP_ZOOM_NEAREST:
             SetSpriteButtonState(&work->buttonAnimators[1], SPRITE_BUTTON_STATE_SELECTED);
             work->buttonAnimators[1].touchArea.responseFlags |= TOUCHAREA_RESPONSE_DISABLED;
 
@@ -831,7 +1023,7 @@ void SeaMapView__SetButtonMode(SeaMapView *work, s32 mode)
             work->buttonAnimators[2].touchArea.responseFlags &= ~TOUCHAREA_RESPONSE_DISABLED;
             break;
 
-        case 1:
+        case SEAMAP_ZOOM_MIDDLE:
             SetSpriteButtonState(&work->buttonAnimators[1], SPRITE_BUTTON_STATE_IDLE);
             work->buttonAnimators[1].touchArea.responseFlags &= ~TOUCHAREA_RESPONSE_DISABLED;
 
@@ -839,7 +1031,7 @@ void SeaMapView__SetButtonMode(SeaMapView *work, s32 mode)
             work->buttonAnimators[2].touchArea.responseFlags &= ~TOUCHAREA_RESPONSE_DISABLED;
             break;
 
-        case 2:
+        case SEAMAP_ZOOM_FARTHEST:
             SetSpriteButtonState(&work->buttonAnimators[1], SPRITE_BUTTON_STATE_IDLE);
             work->buttonAnimators[1].touchArea.responseFlags &= ~TOUCHAREA_RESPONSE_DISABLED;
 
@@ -849,13 +1041,13 @@ void SeaMapView__SetButtonMode(SeaMapView *work, s32 mode)
     }
 }
 
-void SeaMapView__ProcessButtons(SeaMapView *work)
+void SeaMapView_ProcessButtonInputs(SeaMapView *work)
 {
     if ((IsTouchInputEnabled() == FALSE || TouchInput__IsTouchOn(&touchInput) == FALSE) && SeaMapManager__GetWork()->touchFieldActive)
     {
         for (u32 i = 0; i < 8; i++)
         {
-            if (SeaMapView__IsButtonActive(work, i) && SeaMapView__IsTouchAreaActive(work, i) && (padInput.btnPress & word_210F782[i]) != 0)
+            if (IsSeaMapViewButtonActive(work, i) && IsSeaMapViewTouchAreaActive(work, i) && (padInput.btnPress & sButtonPadMask[i]) != 0)
             {
                 work->selectedButton = i;
                 break;
@@ -864,26 +1056,26 @@ void SeaMapView__ProcessButtons(SeaMapView *work)
     }
 }
 
-void SeaMapView__SetZoomLevel(SeaMapView *work, s32 mode)
+void SeaMapView_SetZoomLevel(SeaMapView *work, SeaMapZoomLevel level)
 {
-    SeaMapView__SetButtonMode(work, mode);
+    SeaMapView_SetZoomLevelForZoomButtons(work, level);
 
     s32 x1 = work->position.x;
     s32 y1 = work->position.y;
 
     s32 zoomX = work->position.x + HW_LCD_CENTER_X * SeaMapManager__GetZoomInScale();
     s32 zoomY = work->position.y + HW_LCD_CENTER_Y * SeaMapManager__GetZoomInScale();
-    SeaMapManager__SetZoomLevel(mode);
+    SeaMapManager__SetZoomLevel(level);
     s32 x2 = zoomX - HW_LCD_CENTER_X * SeaMapManager__GetZoomInScale();
     s32 y2 = zoomY - HW_LCD_CENTER_Y * SeaMapManager__GetZoomInScale();
 
-    work->moveDist2.x += MultiplyFX(x2 - x1, SeaMapManager__GetZoomOutScale());
-    work->moveDist2.y += MultiplyFX(y2 - y1, SeaMapManager__GetZoomOutScale());
+    work->globalMoveDist.x += MultiplyFX(x2 - x1, SeaMapManager__GetZoomOutScale());
+    work->globalMoveDist.y += MultiplyFX(y2 - y1, SeaMapManager__GetZoomOutScale());
 
     SeaMapManager__EnableDrawFlags(15);
 }
 
-void SeaMapView__ProcessPadInputs(SeaMapView *work)
+void SeaMapView_ProcessMapInputs(SeaMapView *work)
 {
     if (SeaMapManager__GetWork()->touchFieldActive && (IsTouchInputEnabled() == FALSE || TouchInput__IsTouchOn(&touchInput) == FALSE) && SeaMapManager__GetWork()->touchFieldActive
         && (padInput.btnDown & (PAD_KEY_DOWN | PAD_KEY_UP | PAD_KEY_LEFT | PAD_KEY_RIGHT)) != 0)
@@ -906,9 +1098,9 @@ void SeaMapView__ProcessPadInputs(SeaMapView *work)
     }
 
     fx32 zoomScale = SeaMapManager__GetZoomInScale();
-    work->position.x += MultiplyFX(zoomScale, work->moveDist2.x);
-    work->position.y += MultiplyFX(zoomScale, work->moveDist2.y);
-    work->moveDist2.x = work->moveDist2.y = 0;
+    work->position.x += MultiplyFX(zoomScale, work->globalMoveDist.x);
+    work->position.y += MultiplyFX(zoomScale, work->globalMoveDist.y);
+    work->globalMoveDist.x = work->globalMoveDist.y = 0;
     work->position.x += MultiplyFX(zoomScale, work->lastMoveDist.x);
     work->position.y += MultiplyFX(zoomScale, work->lastMoveDist.y);
 
@@ -919,19 +1111,19 @@ void SeaMapView__ProcessPadInputs(SeaMapView *work)
     work->lastMoveDist.y = MTM_MATH_CLIP(work->lastMoveDist.y, -FLOAT_TO_FX32(32.0), FLOAT_TO_FX32(32.0));
 
     if (MATH_ABS(work->lastMoveDist.x) < FLOAT_TO_FX32(0.05))
-        work->lastMoveDist.x = 0;
+        work->lastMoveDist.x = FLOAT_TO_FX32(0.0);
 
     if (MATH_ABS(work->lastMoveDist.y) < FLOAT_TO_FX32(0.05))
-        work->lastMoveDist.y = 0;
+        work->lastMoveDist.y = FLOAT_TO_FX32(0.0);
 }
 
-void SeaMapView__Func_203F344(SeaMapView *work)
+void SeaMapView_ClearLocalMoveInputs(SeaMapView *work)
 {
     work->lastMoveDist.x = work->lastMoveDist.y = 0;
-    work->moveDist1.x = work->moveDist1.y = 0;
+    work->areaLocalMoveDist.x = work->areaLocalMoveDist.y = 0;
 }
 
-void SeaMapView__Func_203F35C(SeaMapView *work, BOOL highPriority)
+void SeaMapView_SetTouchAreaPriority(SeaMapView *work, BOOL highPriority)
 {
     u32 priority;
     if (highPriority)
@@ -943,17 +1135,17 @@ void SeaMapView__Func_203F35C(SeaMapView *work, BOOL highPriority)
     TouchField__UpdateAreaPriority(&manager->touchField, &work->touchArea, priority);
 }
 
-void SeaMapView__SetTouchAreaCallback(SeaMapView *work, TouchAreaCallback callback)
+void SeaMapView_SetTouchAreaCallback(SeaMapView *work, TouchAreaCallback callback)
 {
     work->touchArea.callback = callback;
 }
 
-void SeaMapView__TouchAreaCallback2(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_TouchAreaCallback_Inactive(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
     // Do nothing.
 }
 
-void SeaMapView__TouchAreaCallback(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_TouchAreaCallback_Active(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
     SeaMapView *work = (SeaMapView *)userData;
 
@@ -963,15 +1155,15 @@ void SeaMapView__TouchAreaCallback(TouchAreaResponse *response, TouchArea *touch
     {
         case TOUCHAREA_RESPONSE_ENTERED_AREA_ALT:
             work->lastMoveDist.x = work->lastMoveDist.y = 0;
-            work->moveDist1.x = work->moveDist1.y = 0;
-            SeaMapView__InitTouchCursor(work, 0);
+            work->areaLocalMoveDist.x = work->areaLocalMoveDist.y = 0;
+            SeaMapView_InitTouchCursor(work, 0);
             break;
 
         case TOUCHAREA_RESPONSE_EXITED_AREA_ALT:
             if ((areaFlags & TOUCHAREA_RESPONSE_CHECK_RECT2) == 0)
             {
-                work->lastMoveDist.x = work->moveDist1.x;
-                work->lastMoveDist.y = work->moveDist1.y;
+                work->lastMoveDist.x = work->areaLocalMoveDist.x;
+                work->lastMoveDist.y = work->areaLocalMoveDist.y;
 
                 if (MATH_ABS(work->lastMoveDist.x) < FLOAT_TO_FX32(3.0))
                     work->lastMoveDist.x = FLOAT_TO_FX32(0.0);
@@ -979,23 +1171,23 @@ void SeaMapView__TouchAreaCallback(TouchAreaResponse *response, TouchArea *touch
                 if (MATH_ABS(work->lastMoveDist.y) < FLOAT_TO_FX32(3.0))
                     work->lastMoveDist.y = FLOAT_TO_FX32(0.0);
 
-                SeaMapView__InitTouchCursor(work, -1);
+                SeaMapView_InitTouchCursor(work, -1);
             }
             break;
 
         case TOUCHAREA_RESPONSE_MOVED_IN_AREA_ALT:
             if ((areaFlags & TOUCHAREA_RESPONSE_CHECK_RECT2) == 0)
             {
-                work->moveDist1.x = FX32_FROM_WHOLE(-response->move.x);
-                work->moveDist1.y = FX32_FROM_WHOLE(-response->move.y);
-                work->moveDist2.x = FX32_FROM_WHOLE(-response->move.x);
-                work->moveDist2.y = FX32_FROM_WHOLE(-response->move.y);
+                work->areaLocalMoveDist.x = FX32_FROM_WHOLE(-response->move.x);
+                work->areaLocalMoveDist.y = FX32_FROM_WHOLE(-response->move.y);
+                work->globalMoveDist.x    = FX32_FROM_WHOLE(-response->move.x);
+                work->globalMoveDist.y    = FX32_FROM_WHOLE(-response->move.y);
             }
             break;
     }
 }
 
-void SeaMapView__OnButtonPressed(TouchAreaResponse *response, TouchArea *touchArea, void *userData, u32 id)
+void SeaMapView_OnButtonPressed(TouchAreaResponse *response, TouchArea *touchArea, void *userData, u32 id)
 {
     SeaMapView *work = (SeaMapView *)userData;
 
@@ -1025,47 +1217,47 @@ void SeaMapView__OnButtonPressed(TouchAreaResponse *response, TouchArea *touchAr
     }
 }
 
-void SeaMapView__ButtonCallback1(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback1(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView__OnButtonPressed(response, touchArea, userData, 0);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, 0);
 }
 
-void SeaMapView__ButtonCallback2(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback2(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView__OnButtonPressed(response, touchArea, userData, 1);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, 1);
 }
 
-void SeaMapView__ButtonCallback3(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback3(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView__OnButtonPressed(response, touchArea, userData, 2);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, 2);
 }
 
-void SeaMapView__ButtonCallback4(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback4(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView__OnButtonPressed(response, touchArea, userData, 3);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, 3);
 }
 
-void SeaMapView__ButtonCallback5(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback5(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView__OnButtonPressed(response, touchArea, userData, 4);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, 4);
 }
 
-void SeaMapView__ButtonCallback6(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback6(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView__OnButtonPressed(response, touchArea, userData, 5);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, 5);
 }
 
-void SeaMapView__ButtonCallback7(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback7(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView__OnButtonPressed(response, touchArea, userData, 6);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, 6);
 }
 
-void SeaMapView__ButtonCallback8(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback8(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView__OnButtonPressed(response, touchArea, userData, 7);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, 7);
 }
 
-void SeaMapView__DrawPenMarker(SeaMapView *work)
+void SeaMapView_DrawPenMarker(SeaMapView *work)
 {
     AnimatorSprite *aniPenMarker = &work->aniPenMarker;
     if (SeaMapManager__GetNodeCount() == 0)
@@ -1078,7 +1270,7 @@ void SeaMapView__DrawPenMarker(SeaMapView *work)
     AnimatorSprite__DrawFrame(aniPenMarker);
 }
 
-void SeaMapView__DrawButtons(SeaMapView *work)
+void SeaMapView_DrawButtons(SeaMapView *work)
 {
     u32 i;
     SpriteButtonAnimator *aniButton = work->buttonAnimators;
@@ -1104,7 +1296,7 @@ void SeaMapView__DrawButtons(SeaMapView *work)
     }
 }
 
-void SeaMapView__DrawTouchCursor(SeaMapView *work)
+void SeaMapView_DrawTouchCursor(SeaMapView *work)
 {
     if ((IsTouchInputEnabled() == FALSE || TouchInput__IsTouchOn(&touchInput) == FALSE))
         return;
@@ -1115,9 +1307,9 @@ void SeaMapView__DrawTouchCursor(SeaMapView *work)
     AnimatorSprite__DrawFrame(aniTouchCursor);
 }
 
-void SeaMapView__DrawPadCursors(SeaMapView *work)
+void SeaMapView_DrawIndicators(SeaMapView *work)
 {
-    if (work->field_7A4 >= 0 && ((work->field_7A4 >> 5) & 1) != 0)
+    if (work->indicatorFlashTimer >= 0 && ((work->indicatorFlashTimer >> 5) & 1) != 0)
     {
         AnimatorSprite *aniCursor0 = &work->aniPadCursor[0];
         if ((aniCursor0->flags & ANIMATOR_FLAG_DISABLE_DRAW) == 0)
@@ -1151,7 +1343,7 @@ void SeaMapView__DrawPadCursors(SeaMapView *work)
     }
 }
 
-void SeaMapView__Func_203F770(SeaMapView *work)
+void SeaMapView_ReadPosition(SeaMapView *work)
 {
     SeaMapManager__Func_2043974(work->position.x, work->position.y);
 
@@ -1159,7 +1351,7 @@ void SeaMapView__Func_203F770(SeaMapView *work)
     work->position.y = SeaMapManager__GetYPos();
 }
 
-BOOL SeaMapView__FadeToBlack(SeaMapView *work)
+BOOL SeaMapView_FadeActiveScreen_ToDefault(SeaMapView *work)
 {
     RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[work->useEngineB];
 
@@ -1181,7 +1373,7 @@ BOOL SeaMapView__FadeToBlack(SeaMapView *work)
     return gfxControl->brightness == RENDERCORE_BRIGHTNESS_DEFAULT;
 }
 
-BOOL SeaMapView__FadeActiveScreen(SeaMapView *work)
+BOOL SeaMapView_FadeActiveScreen_ToTarget(SeaMapView *work)
 {
     RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[work->useEngineB];
 
@@ -1203,7 +1395,7 @@ BOOL SeaMapView__FadeActiveScreen(SeaMapView *work)
     return work->targetBrightness == gfxControl->brightness;
 }
 
-BOOL SeaMapView__FadeOtherScreen(SeaMapView *work)
+BOOL SeaMapView_FadeOtherScreen_ToTarget(SeaMapView *work)
 {
     RenderCoreGFXControl *gfxControl;
     if (work->useEngineB == GRAPHICS_ENGINE_A)
@@ -1229,29 +1421,29 @@ BOOL SeaMapView__FadeOtherScreen(SeaMapView *work)
     return work->targetBrightness == gfxControl->brightness;
 }
 
-void SeaMapView__DrawVoyagePath(void)
+void SeaMapView_DrawFinalizedVoyagePath(void)
 {
     SeaMapManager__ClearUnknownPtr();
 
     switch (SeaMapManager__GetZoomLevel())
     {
-        case 0:
-            SeaMapView__DrawVoyagePath_Zoom0();
+        case SEAMAP_ZOOM_NEAREST:
+            SeaMapView_DrawFinalizedVoyagePath_Zoom_Nearest();
             break;
 
-        case 1:
-            SeaMapView__DrawVoyagePath_Zoom1();
+        case SEAMAP_ZOOM_MIDDLE:
+            SeaMapView_DrawFinalizedVoyagePath_Zoom_Middle();
             break;
 
-        case 2:
-            SeaMapView__DrawVoyagePath_Zoom2();
+        case SEAMAP_ZOOM_FARTHEST:
+            SeaMapView_DrawFinalizedVoyagePath_Zoom_Farthest();
             break;
     }
 
     SeaMapManager__EnableDrawFlags(8);
 }
 
-void SeaMapView__DrawVoyagePath_Zoom0(void)
+void SeaMapView_DrawFinalizedVoyagePath_Zoom_Nearest(void)
 {
     if (SeaMapManager__GetNodeCount() < 2)
         return;
@@ -1269,7 +1461,7 @@ void SeaMapView__DrawVoyagePath_Zoom0(void)
     } while (nextNode);
 }
 
-void SeaMapView__DrawVoyagePath_Zoom1(void)
+void SeaMapView_DrawFinalizedVoyagePath_Zoom_Middle(void)
 {
     if (SeaMapManager__GetNodeCount() < 2)
         return;
@@ -1291,7 +1483,7 @@ void SeaMapView__DrawVoyagePath_Zoom1(void)
     } while (nextNode);
 }
 
-void SeaMapView__DrawVoyagePath_Zoom2(void)
+void SeaMapView_DrawFinalizedVoyagePath_Zoom_Farthest(void)
 {
     if (SeaMapManager__GetNodeCount() < 2)
         return;
@@ -1313,25 +1505,25 @@ void SeaMapView__DrawVoyagePath_Zoom2(void)
     } while (nextNode);
 }
 
-void SeaMapView__Func_203FAD4(void)
+void SeaMapView_DrawWIPVoyagePath(void)
 {
     switch (SeaMapManager__GetZoomLevel())
     {
-        case 0:
-            SeaMapView__Func_203FB10();
+        case SEAMAP_ZOOM_NEAREST:
+            SeaMapView_DrawWIPVoyagePath_Zoom_Nearest();
             break;
 
-        case 1:
-            SeaMapView__Func_203FB78();
+        case SEAMAP_ZOOM_MIDDLE:
+            SeaMapView_DrawWIPVoyagePath_Zoom_Middle();
             break;
 
-        case 2:
-            SeaMapView__Func_203FBE8();
+        case SEAMAP_ZOOM_FARTHEST:
+            SeaMapView_DrawWIPVoyagePath_Zoom_Farthest();
             break;
     }
 }
 
-void SeaMapView__Func_203FB10(void)
+void SeaMapView_DrawWIPVoyagePath_Zoom_Nearest(void)
 {
     if (SeaMapManager__GetNodeCount() < 2)
         return;
@@ -1346,7 +1538,7 @@ void SeaMapView__Func_203FB10(void)
     SeaMapManager__EnableDrawFlags(8);
 }
 
-void SeaMapView__Func_203FB78(void)
+void SeaMapView_DrawWIPVoyagePath_Zoom_Middle(void)
 {
     if (SeaMapManager__GetNodeCount() < 2)
         return;
@@ -1363,7 +1555,7 @@ void SeaMapView__Func_203FB78(void)
     SeaMapManager__EnableDrawFlags(8);
 }
 
-void SeaMapView__Func_203FBE8(void)
+void SeaMapView_DrawWIPVoyagePath_Zoom_Farthest(void)
 {
     if (SeaMapManager__GetNodeCount() < 2)
         return;
@@ -1380,9 +1572,9 @@ void SeaMapView__Func_203FBE8(void)
     SeaMapManager__EnableDrawFlags(8);
 }
 
-NONMATCH_FUNC s32 SeaMapView__Func_203FC7C(SeaMapView *work, u16 x, u16 y)
+NONMATCH_FUNC s32 SeaMapView_TryAddVoyagePathNode(SeaMapView *work, u16 x, u16 y)
 {
-	// https://decomp.me/scratch/9MJ6z -> 87.14%
+    // https://decomp.me/scratch/9MJ6z -> 87.14%
 #ifdef NON_MATCHING
     VecFx32 direction;
     s32 result = 0;
@@ -1407,22 +1599,22 @@ NONMATCH_FUNC s32 SeaMapView__Func_203FC7C(SeaMapView *work, u16 x, u16 y)
     }
 
     SeaMapManager__AddNode(x, y);
-    if (work->currentVoyageDist < SeaMapManager__GetEndNode()->distance)
+    if (work->remainingVoyageDist < SeaMapManager__GetEndNode()->distance)
     {
         VEC_Set(&direction, FX32_FROM_WHOLE(x - lastX), FX32_FROM_WHOLE(y - lastY), FLOAT_TO_FX32(0.0));
         VEC_Normalize(&direction, &direction);
 
-        x      = lastX + FX32_FROM_WHOLE(MultiplyFX(direction.x, work->currentVoyageDist));
-        y      = lastY + FX32_FROM_WHOLE(MultiplyFX(direction.y, work->currentVoyageDist));
+        x      = lastX + FX32_FROM_WHOLE(MultiplyFX(direction.x, work->remainingVoyageDist));
+        y      = lastY + FX32_FROM_WHOLE(MultiplyFX(direction.y, work->remainingVoyageDist));
         result = -2;
     }
 
     SeaMapManager__RemoveNode();
     SeaMapManager__AddNode(x, y);
 
-    work->currentVoyageDist = work->currentVoyageDist - SeaMapManager__GetEndNode()->distance;
-    if (work->currentVoyageDist < 0)
-        work->currentVoyageDist = 0;
+    work->remainingVoyageDist = work->remainingVoyageDist - SeaMapManager__GetEndNode()->distance;
+    if (work->remainingVoyageDist < FLOAT_TO_FX32(0.0))
+        work->remainingVoyageDist = FLOAT_TO_FX32(0.0);
 
     return result;
 #else
@@ -1548,24 +1740,24 @@ _0203FE0C:
 #endif
 }
 
-void SeaMapView__Func_203FE44(SeaMapView *work)
+void SeaMapView_ClearVoyagePath(SeaMapView *work)
 {
     SeaMapManager__RemoveAllNodes();
 
-    work->currentVoyageDist = work->totalVoyageDist - SeaMapView__sVars.unknown2;
-    if (work->currentVoyageDist < 0)
-        work->currentVoyageDist = 0;
+    work->remainingVoyageDist = work->totalVoyageDist - gSeaMapViewStoredVoyageDist;
+    if (work->remainingVoyageDist < FLOAT_TO_FX32(0.0))
+        work->remainingVoyageDist = FLOAT_TO_FX32(0.0);
 
     work->nodeCount = 0;
 }
 
-void SeaMapView__Func_203FE80(SeaMapView *work)
+void SeaMapView_CalculateVoyagePath(SeaMapView *work)
 {
     SeaMapManager__Func_2045E58(work->nodeCount);
 
     work->nodeCount = SeaMapManager__GetNodeCount();
 
-    work->currentVoyageDist = work->totalVoyageDist - SeaMapView__sVars.unknown2 - SeaMapManager__GetTotalDistance();
-    if (work->currentVoyageDist < 0)
-        work->currentVoyageDist = 0;
+    work->remainingVoyageDist = work->totalVoyageDist - gSeaMapViewStoredVoyageDist - SeaMapManager__GetTotalDistance();
+    if (work->remainingVoyageDist < FLOAT_TO_FX32(0.0))
+        work->remainingVoyageDist = FLOAT_TO_FX32(0.0);
 }

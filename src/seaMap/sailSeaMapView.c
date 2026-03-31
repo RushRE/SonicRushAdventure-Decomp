@@ -30,8 +30,8 @@ static void SailSeaMapView_State_Idle(SailSeaMapView *work);
 
 void CreateSailSeaMapView(ShipType type)
 {
-    seaMapViewMode     = 5;
-    seaMapViewUnknown1 = 0;
+    gSeaMapViewType      = SEAMAPVIEW_TYPE_SAILING;
+    gSeaMapViewExitEvent = SEAMAPVIEW_EXIT_NONE;
 
     s16 prevBrightness = VRAMSystem__GFXControl[GRAPHICS_ENGINE_B]->brightness;
     SeaMapManager__Create(GRAPHICS_ENGINE_B, type, TRUE);
@@ -39,32 +39,31 @@ void CreateSailSeaMapView(ShipType type)
 
     SeaMapManager__LoadMapBackground();
 
-    SeaMapView__sVars.singleton =
-        TaskCreate(SailSeaMapView_Main, SailSeaMapView_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xFF, TASK_GROUP(0), SailSeaMapView);
-    SailSeaMapView *work = TaskGetWork(SeaMapView__sVars.singleton, SailSeaMapView);
+    gSeaMapTaskSingleton = TaskCreate(SailSeaMapView_Main, SailSeaMapView_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xFF, TASK_GROUP(0), SailSeaMapView);
+    SailSeaMapView *work = TaskGetWork(gSeaMapTaskSingleton, SailSeaMapView);
     TaskInitWork16(work);
 
-    SeaMapView__InitView(&work->view, GRAPHICS_ENGINE_B, type, FALSE);
+    InitSeaMapView(&work->view, GRAPHICS_ENGINE_B, type, FALSE);
     SeaMapManager__LoadNodeList();
-    SeaMapView__DrawVoyagePath();
+    SeaMapView_DrawFinalizedVoyagePath();
 
     work->state = SailSeaMapView_State_FadeOut;
 
     SeaMapManagerNode *startNode = SeaMapManager__GetStartNode();
     SeaMapManager__GetPosition2(startNode->position.x, startNode->position.y, &work->position.x, &work->position.y);
 
-    SeaMapView__EnableMultipleButtons(&work->view, sSailSeaMapViewButtonStates);
+    SeaMapView_EnableMultipleButtons(&work->view, sSailSeaMapViewButtonStates);
     SeaMapEventManager__Create();
 
     work->boatIcon = (SeaMapBoatIcon *)SeaMapEventManager__CreateObject(SEAMAPOBJECT_BOAT_ICON, FX32_TO_WHOLE(work->position.x), FX32_TO_WHOLE(work->position.y), 0, 0, 0);
-    SeaMapView__SetViewPosition(work->position.x, work->position.y);
-    
+    SetSeaMapViewPosition(work->position.x, work->position.y);
+
     InitSeaMapVoyagePathConfig();
 }
 
 void DestroySailSeaMapView(void)
 {
-    DestroyTask(SeaMapView__sVars.singleton);
+    DestroyTask(gSeaMapTaskSingleton);
     SeaMapEventManager__Destroy();
     SeaMapManager__Destroy();
 }
@@ -82,7 +81,7 @@ void SailSeaMapView_GetPosition(fx32 *x, fx32 *y)
 
 SailSeaMapView *SailSeaMapView_GetWork(void)
 {
-    return TaskGetWork(SeaMapView__sVars.singleton, SailSeaMapView);
+    return TaskGetWork(gSeaMapTaskSingleton, SailSeaMapView);
 }
 
 fx32 SailSeaMapView_GetVoyageCompetionPercent(void)
@@ -158,15 +157,15 @@ void SailSeaMapView_Destructor(Task *task)
     SailSeaMapView *work = TaskGetWork(task, SailSeaMapView);
 
     ReleaseSeaMapVoyagePathConfig();
-    SeaMapView__ReleaseAssets(&work->view);
+    ReleaseSeaMapView(&work->view);
 
-    seaMapViewMode              = 0;
-    SeaMapView__sVars.singleton = NULL;
+    gSeaMapViewType      = SEAMAPVIEW_TYPE_NONE;
+    gSeaMapTaskSingleton = NULL;
 }
 
 void SailSeaMapView_FinalizePosition(SailSeaMapView *work)
 {
-    SeaMapView__Func_203F770(&work->view);
+    SeaMapView_ReadPosition(&work->view);
 }
 
 void SailSeaMapView_HandleProgress(SailSeaMapView *work)
@@ -228,18 +227,18 @@ void SailSeaMapView_PreparePosition(SailSeaMapView *work)
 
     SeaMapManager__Func_2043A04(work->position.x, work->position.y, &x, &y);
     if (x < 64 || x > (HW_LCD_WIDTH - 64) || y < 48 || y > (HW_LCD_HEIGHT - 48))
-        SeaMapView__SetViewPosition(work->position.x, work->position.y);
+        SetSeaMapViewPosition(work->position.x, work->position.y);
 }
 
 void SailSeaMapView_State_FadeOut(SailSeaMapView *work)
 {
-    if (SeaMapView__FadeToBlack(&work->view))
+    if (SeaMapView_FadeActiveScreen_ToDefault(&work->view))
         work->state = SailSeaMapView_State_ConfigureButtons;
 }
 
 void SailSeaMapView_State_ConfigureButtons(SailSeaMapView *work)
 {
-    SeaMapView__EnableMultipleButtons(&work->view, sSailSeaMapViewButtonStates);
+    SeaMapView_EnableMultipleButtons(&work->view, sSailSeaMapViewButtonStates);
 
     work->state = SailSeaMapView_State_Idle;
     work->state(work);

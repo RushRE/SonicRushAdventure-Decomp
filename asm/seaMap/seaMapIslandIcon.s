@@ -56,7 +56,7 @@ _02048490:
 	bl SeaMapManager__GetSaveFlag
 	cmp r0, #0
 	bne _02048594
-	bl SeaMapView__GetMode
+	bl GetSeaMapViewType
 	cmp r0, #3
 	cmpne r0, #4
 	beq _020484EC
@@ -108,7 +108,7 @@ _02048534:
 	mov r2, r5
 	mov r3, r4
 	bl SeaMapEventManager__InitMapObject
-	bl SeaMapView__GetMode
+	bl GetSeaMapViewType
 	cmp r0, #5
 	bne _02048580
 	ldr r0, _020485D8 // =SeaMapIslandIcon__Destructor2

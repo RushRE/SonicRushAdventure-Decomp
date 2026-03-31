@@ -554,7 +554,7 @@ BOOL SaveGame__CheckProgressIsHuntingForClues(void);
 BOOL SaveGame__CanBuyInfoHint(void);
 void SaveGame__BuyInfoHint(void);
 BOOL SaveGame__CheckProgressIsAllEmeraldsCollected(void);
-s32 SaveGame__Func_205D65C(s32 a1);
+s32 SaveGame__Func_205D65C(s32 seaMapViewType);
 s32 SaveGame__Func_205D758(s32 a1);
 ShipLevel SaveGame__GetShipUpgradeStatus(u16 id);
 ShipLevel SaveGame__GetShipUpgradeStatus_(u16 id, u32 flags);

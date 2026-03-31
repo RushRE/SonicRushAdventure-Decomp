@@ -130,7 +130,7 @@ NOT_DECOMPILED SeaMapManager *SeaMapManager__GetWork(void);
 NOT_DECOMPILED void SeaMapManager__EnableTouchField(BOOL enabled);
 NOT_DECOMPILED void SeaMapManager__EnableDrawFlags(u32 flags);
 NOT_DECOMPILED void SeaMapManager__SetZoomLevel(u32 level);
-NOT_DECOMPILED u32 SeaMapManager__GetZoomLevel(void);
+NOT_DECOMPILED SeaMapZoomLevel SeaMapManager__GetZoomLevel(void);
 NOT_DECOMPILED fx32 SeaMapManager__GetZoomOutScale(void);
 NOT_DECOMPILED fx32 SeaMapManager__GetZoomInScale(void);
 NOT_DECOMPILED void SeaMapManager__Draw(SeaMapManager *work);

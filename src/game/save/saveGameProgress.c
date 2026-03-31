@@ -1608,7 +1608,7 @@ BOOL SaveGame__CheckProgressIsAllEmeraldsCollected(void)
     return SaveGame__GetGameProgress() >= SAVE_PROGRESS_37;
 }
 
-NONMATCH_FUNC s32 SaveGame__Func_205D65C(s32 id)
+NONMATCH_FUNC s32 SaveGame__Func_205D65C(s32 seaMapViewType)
 {
 #ifdef NON_MATCHING
 

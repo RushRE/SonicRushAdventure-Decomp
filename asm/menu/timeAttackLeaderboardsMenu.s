@@ -3336,7 +3336,7 @@ _02178454:
 	bl MenuHelpers__GetStageIDFromLeaderboardID
 	mov r1, r5
 	mov r2, r4
-	bl MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckStageCleared
 	cmp r0, #0
 	bne _021784A8
 	add r2, r6, #1
