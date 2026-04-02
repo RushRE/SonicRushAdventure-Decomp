@@ -674,49 +674,13 @@ void SeaMapEventManager__UnlockSkyBabylon(void)
     icon->state                = SeaMapSkyBabylonIcon_State_BeginAppear;
 }
 
-NONMATCH_FUNC void SeaMapEventManager__Func_20471B8(AnimatorSprite *animator, SpriteFrameCallback callback, void *userData)
+void SeaMapEventManager__Func_20471B8(AnimatorSprite *animator, SpriteFrameCallback callback, void *userData)
 {
-    // https://decomp.me/scratch/wzkRm -> 81.82%
-#ifdef NON_MATCHING
-    u16 new_var3;
-    u16 count = 1 + RenderCore_GetTargetVBlankCount();
-
-    u16 i    = count - 1;
-    new_var3 = i;
-    while (new_var3)
+    u16 i = RenderCore_GetTargetVBlankCount() + 1;
+    while (i--) 
     {
-        new_var3 = i;
         AnimatorSprite__ProcessAnimation(animator, callback, userData);
-        i--;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r6, r0
-	mov r5, r1
-	mov r4, r2
-	bl RenderCore_GetTargetVBlankCount
-	add r0, r0, #1
-	mov r0, r0, lsl #0x10
-	movs r0, r0, lsr #0x10
-	sub r0, r0, #1
-	mov r0, r0, lsl #0x10
-	mov r7, r0, lsr #0x10
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-_020471E8:
-	mov r0, r6
-	mov r1, r5
-	mov r2, r4
-	bl AnimatorSprite__ProcessAnimation
-	sub r0, r7, #1
-	mov r0, r0, lsl #0x10
-	cmp r7, #0
-	mov r7, r0, lsr #0x10
-	bne _020471E8
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 BOOL SeaMapEventManager__IslandEnabled(u32 id)
@@ -765,10 +729,8 @@ void SeaMapEventManager_SpawnInitialObjects(void)
     }
 }
 
-NONMATCH_FUNC void SeaMapEventManager_Main(void)
+void SeaMapEventManager_Main(void)
 {
-    // https://decomp.me/scratch/Cn2jV -> 98.88% minor register mismatches
-#ifdef NON_MATCHING
     SeaMapEventManager *work;
     CHEV *layout;
     u16 i;
@@ -788,58 +750,11 @@ NONMATCH_FUNC void SeaMapEventManager_Main(void)
             objectType = &gSeaMapObjectTypeList[mapObject->type];
 
             if (SeaMapEventManager__ObjectInBounds(&mapObject->position, objectType->viewBounds))
-                objectType->createFunc(objectType, &layout->entries[i]);
+                objectType->createFunc(objectType, mapObject);
         }
     }
 
     SeaMapEventManager__Func_20471B8(&work->aniTargetFlag, NULL, NULL);
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	bl GetCurrentTaskWork_
-	mov r11, r0
-	bl SeaMapManager__GetWork
-	ldr r7, [r0, #0x160]
-	mov r8, #0
-	ldrh r0, [r7, #0]
-	cmp r0, #0
-	bls _020473A8
-	ldr r5, =gSeaMapObjectTypeList
-	add r6, r7, #2
-	mov r4, #0x12
-_02047350:
-	mla r9, r8, r4, r6
-	mov r0, r9
-	bl SeaMapEventManager__ObjectIsActive
-	cmp r0, #0
-	beq _02047390
-	ldrh r1, [r9, #0]
-	add r0, r9, #2
-	add r10, r5, r1, lsl #4
-	add r1, r10, #4
-	bl SeaMapEventManager__ObjectInBounds
-	cmp r0, #0
-	beq _02047390
-	ldr r2, [r10, #8]
-	mov r0, r10
-	mov r1, r9
-	blx r2
-_02047390:
-	ldrh r1, [r7, #0]
-	add r0, r8, #1
-	mov r0, r0, lsl #0x10
-	cmp r1, r0, lsr #16
-	mov r8, r0, lsr #0x10
-	bhi _02047350
-_020473A8:
-	mov r1, #0
-	mov r2, r1
-	add r0, r11, #0x1f0
-	bl SeaMapEventManager__Func_20471B8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
 }
 
 void SeaMapEventManager_Destructor(Task *task)
