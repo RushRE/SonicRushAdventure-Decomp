@@ -280,9 +280,9 @@ void CViDockNpcTalk::Main(void)
                 break;
 
             case CViEvtCmnTalk::ACTION_TALK_PURCHASED_INFO: {
-                s32 sSelection = work->eventTalk.GetSelection();
-                if (!SaveGame__GetProgressFlags_0x100000(sSelection))
-                    SaveGame__SetProgressFlags_0x100000(sSelection);
+                s32 selection = work->eventTalk.GetSelection();
+                if (!SaveGame__GetProgressFlags_0x100000(selection))
+                    SaveGame__SetProgressFlags_0x100000(selection);
 
                 CViDockNpcTalk::SetTalkAction(CVIDOCKNPCTALK_ACTION_NONE);
             }

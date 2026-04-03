@@ -11,6 +11,21 @@
 // ENUMS
 // --------------------
 
+enum NavTailsSprite_
+{
+    NAVTAILS_SPRITE_NONE = 1,
+    NAVTAILS_SPRITE_IDLE,
+    NAVTAILS_SPRITE_EXPLAIN,
+    NAVTAILS_SPRITE_CONFUSED,
+    NAVTAILS_SPRITE_GOOD_LUCK,
+    NAVTAILS_SPRITE_GUIDE,
+    NAVTAILS_SPRITE_DENY,
+
+    NAVTAILS_SPRITE_COUNT,
+    NAVTAILS_SPRITE_ID_OFFSET = NAVTAILS_SPRITE_NONE,
+};
+typedef u32 NavTailsSprite;
+
 enum NavTailsMsgSequences
 {
     NAVTAILS_MSGSEQ_NONE,
@@ -87,16 +102,16 @@ typedef struct NavTailsAssets_
     void *bgMsgWindow[4];
     void *mpcText;
     void *bgTails;
-    u32 tailsSpriteID;
+    NavTailsSprite tailsSpriteID;
 } NavTailsAssets;
 
 typedef struct NavTails_
 {
-    BOOL useEngineB;
+    GraphicsEngine graphicsEngine;
     NavTailsAssets assets;
     struct NavTailsDMA
     {
-        u32 tailsBackgroundID;
+        NavTailsSprite tailsBackgroundID;
         u16 buffer[2][HW_LCD_HEIGHT];
         u16 updateID;
         u16 timer;
@@ -119,14 +134,14 @@ typedef struct NavTails_
     AnimatorSprite aniShipIcon[4];
     AnimatorSprite aniLifeNumbers[2];
     AnimatorSprite aniChart[27];
-    AnimatorSprite aniUnknown[5];
+    AnimatorSprite aniTalkIcon[5];
 } NavTails;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-void CreateNavTails(BOOL useEngineB, u32 shipType, FontWindow *window);
+void CreateNavTails(GraphicsEngine graphicsEngine, u32 shipType, FontWindow *window);
 void DestroyNavTails(void);
 BOOL IsNavTailsActive(void);
 void NavTailsSpeak(u16 msgSequence, u16 duration);

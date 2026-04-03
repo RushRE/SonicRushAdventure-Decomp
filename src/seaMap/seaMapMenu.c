@@ -212,12 +212,12 @@ void CreateSeaMapMenu(BOOL useEngineB)
 
     work->state = SeaMapMenu_State_FadeIn;
 
-    CHEVObject *obj = SeaMapEventManager__GetObjectFromID(gameState.field_80);
+    SeaMapLayoutObject *obj = SeaMapEventManager_GetObjectFromID(gameState.landedIslandID);
     SetSeaMapViewPosition(FX32_FROM_WHOLE(obj->position.x), FX32_FROM_WHOLE(obj->position.y));
     SeaMapView_EnableMultipleButtons(&work->view, sButtonStateTable1);
     SeaMapView_SetZoomLevel(&work->view, SEAMAP_ZOOM_NEAREST);
 
-    SeaMapEventManager__Create();
+    CreateSeaMapEventManager();
 
     PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQ_SEQ_CHART);
 }
@@ -254,7 +254,7 @@ BOOL SeaMapMenu_HandleIslandSelected(SeaMapMenu *work)
     SeaMapManager *mapManager = SeaMapManager__GetWork();
     UNUSED(mapManager);
 
-    SeaMapEventManager *manager = SeaMapEventManager__GetWork2();
+    SeaMapEventManager *manager = GetSeaMapEventManagerWork2();
 
     BOOL didAction = TRUE;
     switch (manager->lastTouchedIconType)
@@ -262,7 +262,7 @@ BOOL SeaMapMenu_HandleIslandSelected(SeaMapMenu *work)
         case SEAMAPOBJECT_ISLAND_DRAW_ICON:
             PlayChartSfx(SND_SYS_SEQARC_ARC_CHART_SEQ_SE_CURSOL);
             work->selectedIsland = manager->lastTouchedIcon->objWork.mapObject;
-            SeaMapEventManager__Func_2046A78();
+            SeaMapEventManager_ClearLastTouchedIcon();
             work->state = SeaMapMenu_State_InitIslandSelectedMenu;
             break;
 
@@ -309,8 +309,8 @@ BOOL SeaMapMenu_ProcessIslandSelectedButtons(SeaMapMenu *work)
     {
         case 5:
         case 7:
-            gameState.field_80   = work->selectedIsland->unlockID;
-            gSeaMapViewExitEvent = SEAMAPVIEW_EXIT_CONFIRM;
+            gameState.landedIslandID = work->selectedIsland->id;
+            gSeaMapViewExitEvent     = SEAMAPVIEW_EXIT_CONFIRM;
             PlayChartSfx(SND_SYS_SEQARC_ARC_CHART_SEQ_SE_V_DECIDE);
             NNS_SndPlayerStopSeqBySeqNo(SND_SYS_SEQ_SEQ_CHART, 16);
             work->state = SeaMapMenu_State_FadeOut;
@@ -345,7 +345,7 @@ void SeaMapMenu_Main(void)
     else
     {
         DestroyCurrentTask();
-        SeaMapEventManager__Destroy();
+        DestroySeaMapEventManager();
         SeaMapManager__Destroy();
     }
 }
@@ -500,7 +500,7 @@ void SeaMapMenu_State_ProcessInputs(SeaMapMenu *work)
     SeaMapView_ProcessMapInputs(&work->view);
     SeaMapView_ProcessButtonInputs(&work->view);
 
-    if (SeaMapEventManager__GetWork2()->lastTouchedIconType != -1)
+    if (GetSeaMapEventManagerWork2()->lastTouchedIconType != -1)
         SeaMapMenu_HandleIslandSelected(work);
     else
         SeaMapMenu_ProcessMainButtons(work);
@@ -512,7 +512,7 @@ void SeaMapMenu_State_InitIslandSelectedMenu(SeaMapMenu *work)
 {
     SeaMapView_EnableMultipleButtons(&work->view, sButtonStateTable2);
 
-    if (work->selectedIsland->unlockID == 0)
+    if (work->selectedIsland->id == SEAMAPMANAGER_DISCOVER_SOUTHERN_ISLAND)
         SeaMapView_EnableButton(&work->view, 7, TRUE);
     else
         SeaMapView_EnableButton(&work->view, 5, TRUE);
@@ -525,7 +525,7 @@ void SeaMapMenu_State_InitIslandSelectedMenu(SeaMapMenu *work)
     SeaMapView_ClearLocalMoveInputs(&work->view);
     SeaMapView_ProcessMapInputs(&work->view);
 
-    NavTailsSpeak(SeaMapMenu_GetIslandInfoText(work->selectedIsland->unlockID), 0);
+    NavTailsSpeak(SeaMapMenu_GetIslandInfoText(work->selectedIsland->id), 0);
 
     work->state(work);
 }

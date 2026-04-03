@@ -3,14 +3,6 @@
 
 	.rodata
 
-.public _021107B4
-_021107B4: // 0x021107B4
-    .hword 0x4D, 0xFFFF, 0x4E, 0xFFFF, 0x4F
-
-.public _021107BE
-_021107BE: // 0x021107BE
-    .hword 0, 1, 1, 1, 0
-
 .public _021107C8
 _021107C8: // 0x021107C8
     .hword 3, 3, 0, 0xA, 0, 1 // SaveGame::Unknown2119CCC
@@ -298,26 +290,3 @@ _02110D48: // 0x02110D48
     .hword 0x1D, 0x1E, 0    // SaveGame::Unknown205D65C
     .hword 0x1D, 0x1E, 0    // SaveGame::Unknown205D65C
     .hword 0x1D, 0x1E, 0    // SaveGame::Unknown205D65C
-
-	.data
-	
-.public SaveGame__unknownProgress1Unknown
-SaveGame__unknownProgress1Unknown:
-	.word 0x00000000, 0x021108A0, 0x021108D0, 0x021107D4, 0x00000000
-
-.public SaveGame__unknownProgress2Unknown
-SaveGame__unknownProgress2Unknown:
-	.word 0x00000000, 0x21108AC, 0x211087C, 0x2110A18, 0x211084C, 0x2110858, 0x00000000
-
-.public SaveGame__gameProgressUnknown
-SaveGame__gameProgressUnknown:
-	.word 0x02110C84, 0x02110940, 0x02110A48, 0x021107C8
-	.word 0x02110834, 0x02110870, 0x021107EC, 0x02110840
-	.word 0x00000000, 0x00000000, 0x021107F8, 0x0211081C
-	.word 0x02110888, 0x02110AD8, 0x021108F8, 0x02110994
-	.word 0x00000000, 0x021107E0, 0x02110828, 0x021108C4
-	.word 0x02110910, 0x00000000, 0x00000000, 0x021108B8
-	.word 0x00000000, 0x00000000, 0x00000000, 0x02110810
-	.word 0x02110928, 0x02110804, 0x00000000, 0x02110894
-	.word 0x02110A78, 0x02110864, 0x02110AA8, 0x00000000 
-	.word 0x00000000, 0x00000000, 0x00000000, 0x00000000

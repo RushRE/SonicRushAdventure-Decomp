@@ -23,6 +23,6 @@ typedef struct SeaMapCoralCaveIcon_
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapCoralCaveIcon(const CHEVObjectType *objectType, CHEVObject *mapObject);
+SeaMapObject *CreateSeaMapCoralCaveIcon(const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject);
 
 #endif // RUSH_SEAMAPCORALCAVEICON_H

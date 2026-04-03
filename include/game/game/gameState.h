@@ -279,7 +279,7 @@ typedef struct GameState_
         } sail;
     } missionConfig;
     BOOL clearedMission;
-    s32 field_80;
+    u32 landedIslandID;
     SeaMapManagerNodeList seaMapNodeList;
     u32 sailUnknownFlags;
     ShipType sailShipType;

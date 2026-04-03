@@ -19,6 +19,6 @@ typedef struct SeaMapDSPopup_
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapDSPopup(const CHEVObjectType *objectType, CHEVObject *mapObject);
+SeaMapObject *CreateSeaMapDSPopup(const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject);
 
 #endif // RUSH_SEAMAPDSPOPUP_H

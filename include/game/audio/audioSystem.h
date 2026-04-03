@@ -161,6 +161,16 @@ RUSH_INLINE void ReleaseStageVoiceClip(NNSSndHandle *handle)
     NNS_SndHandleReleaseSeq(handle);
 }
 
+RUSH_INLINE void StopAllSfxInstancesOf(u32 arcID, u32 sfxID)
+{
+    NNS_SndPlayerStopSeqBySeqArcIdx(arcID, sfxID, 0);
+}
+
+RUSH_INLINE void FadeOutAllSfxInstancesOf(u32 arcID, u32 sfxID, u32 frames)
+{
+    NNS_SndPlayerStopSeqBySeqArcIdx(arcID, sfxID, frames);
+}
+
 #ifdef __cplusplus
 }
 #endif

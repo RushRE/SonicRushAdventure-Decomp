@@ -105,14 +105,14 @@ typedef struct SBBUnknown2_
 typedef struct SBBUnknown_
 {
     u32 offset;
-    u16 field_4;
-    u16 field_6;
+    u16 count;
+    u16 unknown;
 } SBBUnknown;
 
 typedef struct SBBUnknownHeader_
 {
     u32 headerSize;
-    SBBUnknown entries[1];
+    SBBUnknown entries[0];
 } SBBUnknownHeader;
 
 typedef struct SBBObject_

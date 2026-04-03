@@ -46,10 +46,10 @@ void CreateSeaMapUnknown(void)
 
     SeaMapChartCourseView__Create(FALSE, gameState.sailShipType, 0);
     
-    CHEVObject *obj = SeaMapEventManager__GetObjectFromID(gameState.field_80);
-    SetSeaMapViewPosition(FX32_FROM_WHOLE(obj->position.x), FX32_FROM_WHOLE(obj->position.y));
+    SeaMapLayoutObject *landedIsland = SeaMapEventManager_GetObjectFromID(gameState.landedIslandID);
+    SetSeaMapViewPosition(FX32_FROM_WHOLE(landedIsland->position.x), FX32_FROM_WHOLE(landedIsland->position.y));
 
-    CreateNavTails(TRUE, gameState.sailShipType, NULL);
+    CreateNavTails(GRAPHICS_ENGINE_B, gameState.sailShipType, NULL);
 
     PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQ_SEQ_CHART);
 

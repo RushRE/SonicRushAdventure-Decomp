@@ -42,7 +42,7 @@ enum SpriteButtonTouchCursorAnimID
 
 typedef struct SpriteButtonConfig_
 {
-    BOOL useEngineB;
+    volatile GraphicsEngine useEngineB;
     TouchField *touchField;
     VRAMPixelKey vramPixels[2];
     u16 paletteRow[3];

@@ -13,7 +13,7 @@ static void SeaMapTargetFlagIcon_Destructor(Task *task);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapTargetFlagIcon(const CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapTargetFlagIcon(const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject)
 {
     SeaMapManager *manager = SeaMapManager__GetWork();
 
@@ -21,18 +21,18 @@ SeaMapObject *CreateSeaMapTargetFlagIcon(const CHEVObjectType *objectType, CHEVO
     switch (type)
     {
         case SEAMAPVIEW_TYPE_CUTSCENE:
-            return 0;
+            return NULL;
 
         default:
             break;
     }
 
     // Check if there's a flag that needs displaying
-    u32 count = SaveGame__Func_205D65C(type);
+    u16 count = SaveGame__GetTargetFlagIconCount(type);
     u16 i     = 0;
     for (; i < count; i++)
     {
-        if (mapObject->unlockID == SaveGame__Func_205D758(i))
+        if (mapObject->id == SaveGame__GetTargetFlagIcon(i))
             break;
     }
 
@@ -45,8 +45,8 @@ SeaMapObject *CreateSeaMapTargetFlagIcon(const CHEVObjectType *objectType, CHEVO
     SeaMapTargetFlagIcon *work = TaskGetWork(task, SeaMapTargetFlagIcon);
     TaskInitWork16(work);
 
-    SeaMapEventManager__InitMapObject(&work->objWork, task, objectType, mapObject);
-    SeaMapEventManager__SetObjectAsActive(&work->objWork);
+    InitSeaMapEventManagerObject(&work->objWork, task, objectType, mapObject);
+    SeaMapEventManager_SetObjectAsActive(&work->objWork);
 
     return &work->objWork;
 }
@@ -55,15 +55,15 @@ void SeaMapTargetFlagIcon_Main(void)
 {
     SeaMapTargetFlagIcon *work = TaskGetWorkCurrent(SeaMapTargetFlagIcon);
 
-    if (!SeaMapEventManager__ObjectInBounds(&work->objWork.position, work->objWork.objectType->viewBounds))
+    if (!SeaMapEventManager_CheckVisible(&work->objWork.position, work->objWork.objectType->viewBounds))
     {
         DestroyCurrentTask();
     }
     else
     {
-        SeaMapEventManager *manager = SeaMapEventManager__GetWork();
+        SeaMapEventManager *manager = GetSeaMapEventManagerWork();
 
-        SeaMapEventManager__Func_20474FC(&work->objWork.position, &manager->aniTargetFlag.pos);
+        SeaMapEventManager_GetMapLocalPosition(&work->objWork.position, &manager->aniTargetFlag.pos);
         AnimatorSprite__DrawFrame(&manager->aniTargetFlag);
     }
 }
@@ -72,6 +72,6 @@ void SeaMapTargetFlagIcon_Destructor(Task *task)
 {
     SeaMapTargetFlagIcon *work = TaskGetWork(task, SeaMapTargetFlagIcon);
 
-    SeaMapEventManager__SetObjectAsInactive(&work->objWork);
-    SeaMapEventManager__DestroyObject(&work->objWork);
+    SeaMapEventManager_SetObjectAsInactive(&work->objWork);
+    DestroySeaMapEventManagerObject(&work->objWork);
 }

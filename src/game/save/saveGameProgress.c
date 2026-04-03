@@ -19,31 +19,155 @@ typedef struct SaveGameUnknown205D65C_
     u16 zone6Progress;
 } SaveGameUnknown205D65C;
 
+typedef struct SaveGameUnknown205D65C_2_
+{
+    u16 zoneID;
+    u16 minProgress;
+    u16 maxProgress;
+} SaveGameUnknown205D65C_2;
+
 // --------------------
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void (*SaveGame__UnknownTable2[])(void);
-NOT_DECOMPILED BOOL (*SaveGame__ProgressCheckTable[])(s32 id);
-NOT_DECOMPILED void (*SaveGame__UnknownTable1[])(SaveGameNextAction *state);
-NOT_DECOMPILED SaveGameNextAction *SaveGame__gameProgressUnknown[SAVE_PROGRESS_COUNT];
-NOT_DECOMPILED SaveGameNextAction *SaveGame__unknownProgress1Unknown[SAVE_ZONE5_PROGRESS_COUNT];
-NOT_DECOMPILED SaveGameNextAction *SaveGame__unknownProgress2Unknown[SAVE_ZONE6_PROGRESS_COUNT];
-NOT_DECOMPILED u16 _021108DC[];
-NOT_DECOMPILED u16 _021108EA[];
-NOT_DECOMPILED u32 SaveGame_ShipUnlockProgress[];
-NOT_DECOMPILED u16 SaveGame__hiddenIslandList[];
-NOT_DECOMPILED u16 SaveGame__nextStage[];
+static const u16 _021107BE[5] = { 0, 1, 1, 1, 0 };
+static const u16 _021107B4[5] = { CUTSCENE_EGG_WIZARD_DESTROYED, CUTSCENE_INVALID, CUTSCENE_EX_ENDING, CUTSCENE_INVALID, CUTSCENE_WE_WILL_MEET_AGAIN };
 
-NOT_DECOMPILED u16 _021107BE[5];
-NOT_DECOMPILED u16 _021107B4[5];
-NOT_DECOMPILED u16 _02110B70[42];
-NOT_DECOMPILED SaveGameUnknown205D150 _02110C20[];
-NOT_DECOMPILED SaveGameUnknown205D65C _02110D00[];
-NOT_DECOMPILED u16 _02110D12[];
-NOT_DECOMPILED u16 _02110D2A[];
-NOT_DECOMPILED u16 _02110B20[];
-NOT_DECOMPILED u16 _02110D48[];
+NOT_DECOMPILED const void (*SaveGame__UnknownTable2[])(void);
+NOT_DECOMPILED const BOOL (*SaveGame__ProgressCheckTable[])(s32 id);
+NOT_DECOMPILED const void (*SaveGame__UnknownTable1[])(const SaveGameNextAction *state);
+NOT_DECOMPILED const u16 _021108DC[];
+NOT_DECOMPILED const u16 _021108EA[];
+NOT_DECOMPILED const u16 SaveGame__hiddenIslandList[];
+NOT_DECOMPILED const u16 SaveGame__nextStage[];
+NOT_DECOMPILED const u16 _02110B20[40];
+NOT_DECOMPILED const u16 _02110B70[42];
+
+NOT_DECOMPILED const SaveGameUnknown205D150 _02110C20[];
+NOT_DECOMPILED const u32 SaveGame_ShipUnlockProgress[];
+NOT_DECOMPILED const SaveGameUnknown205D65C _02110D00[3];
+NOT_DECOMPILED const SaveGameUnknown205D65C_2 _02110D12[4];
+NOT_DECOMPILED const u16 _02110D2A[15];
+NOT_DECOMPILED const SaveGameUnknown205D65C _02110D48[15];
+
+/*
+static const SaveGameUnknown205D65C _02110D48[15] =
+{
+    { .gameProgress = 2, .zone5Progress = 5, .zone6Progress = 0          },
+    { .gameProgress = 5, .zone5Progress = 8, .zone6Progress = 0          },
+    { .gameProgress = 0xE, .zone5Progress = 0x10, .zone6Progress = 0     },
+    { .gameProgress = 0x12, .zone5Progress = 0x15, .zone6Progress = 0    },
+    { .gameProgress = 0x17, .zone5Progress = 0x19, .zone6Progress = 1    },
+    { .gameProgress = 0x17, .zone5Progress = 0x19, .zone6Progress = 2    },
+    { .gameProgress = 0x1A, .zone5Progress = 0x23, .zone6Progress = 0    },
+    { .gameProgress = 0x23, .zone5Progress = 0x24, .zone6Progress = 0    },
+    { .gameProgress = 0xA, .zone5Progress = 0xE, .zone6Progress = 0      },
+    { .gameProgress = 0x17, .zone5Progress = 0x19, .zone6Progress = 3    },
+    { .gameProgress = 0x17, .zone5Progress = 0x19, .zone6Progress = 4    },
+    { .gameProgress = 0x11, .zone5Progress = 0x12, .zone6Progress = 0    },
+    { .gameProgress = 0x1D, .zone5Progress = 0x1E, .zone6Progress = 0    },
+    { .gameProgress = 0x1D, .zone5Progress = 0x1E, .zone6Progress = 0    },
+    { .gameProgress = 0x1D, .zone5Progress = 0x1E, .zone6Progress = 0    },
+};
+*/
+
+NOT_DECOMPILED const SaveGameNextAction _021108A0[];
+NOT_DECOMPILED const SaveGameNextAction _021108D0[];
+NOT_DECOMPILED const SaveGameNextAction _021107D4[];
+
+NOT_DECOMPILED const SaveGameNextAction _021108AC[];
+NOT_DECOMPILED const SaveGameNextAction _0211087C[];
+NOT_DECOMPILED const SaveGameNextAction _02110A18[];
+NOT_DECOMPILED const SaveGameNextAction _0211084C[];
+NOT_DECOMPILED const SaveGameNextAction _02110858[];
+
+NOT_DECOMPILED const SaveGameNextAction _02110C84[];
+NOT_DECOMPILED const SaveGameNextAction _02110940[];
+NOT_DECOMPILED const SaveGameNextAction _02110A48[];
+NOT_DECOMPILED const SaveGameNextAction _021107C8[];
+NOT_DECOMPILED const SaveGameNextAction _02110834[];
+NOT_DECOMPILED const SaveGameNextAction _02110870[];
+NOT_DECOMPILED const SaveGameNextAction _021107EC[];
+NOT_DECOMPILED const SaveGameNextAction _02110840[];
+NOT_DECOMPILED const SaveGameNextAction _021107F8[];
+NOT_DECOMPILED const SaveGameNextAction _0211081C[];
+NOT_DECOMPILED const SaveGameNextAction _02110888[];
+NOT_DECOMPILED const SaveGameNextAction _02110AD8[];
+NOT_DECOMPILED const SaveGameNextAction _021108F8[];
+NOT_DECOMPILED const SaveGameNextAction _02110994[];
+NOT_DECOMPILED const SaveGameNextAction _021107E0[];
+NOT_DECOMPILED const SaveGameNextAction _02110828[];
+NOT_DECOMPILED const SaveGameNextAction _021108C4[];
+NOT_DECOMPILED const SaveGameNextAction _02110910[];
+NOT_DECOMPILED const SaveGameNextAction _021108B8[];
+NOT_DECOMPILED const SaveGameNextAction _02110810[];
+NOT_DECOMPILED const SaveGameNextAction _02110928[];
+NOT_DECOMPILED const SaveGameNextAction _02110804[];
+NOT_DECOMPILED const SaveGameNextAction _02110894[];
+NOT_DECOMPILED const SaveGameNextAction _02110A78[];
+NOT_DECOMPILED const SaveGameNextAction _02110864[];
+NOT_DECOMPILED const SaveGameNextAction _02110AA8[];
+
+static const SaveGameNextAction *SaveGame__gameProgressUnknown[SAVE_PROGRESS_COUNT] = {
+    [SAVE_PROGRESS_0]  = _02110C84, // Formatting Comment
+    [SAVE_PROGRESS_1]  = _02110940, // Formatting Comment
+    [SAVE_PROGRESS_2]  = _02110A48, // Formatting Comment
+    [SAVE_PROGRESS_3]  = _021107C8, // Formatting Comment
+    [SAVE_PROGRESS_4]  = _02110834, // Formatting Comment
+    [SAVE_PROGRESS_5]  = _02110870, // Formatting Comment
+    [SAVE_PROGRESS_6]  = _021107EC, // Formatting Comment
+    [SAVE_PROGRESS_7]  = _02110840, // Formatting Comment
+    [SAVE_PROGRESS_8]  = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_9]  = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_10] = _021107F8, // Formatting Comment
+    [SAVE_PROGRESS_11] = _0211081C, // Formatting Comment
+    [SAVE_PROGRESS_12] = _02110888, // Formatting Comment
+    [SAVE_PROGRESS_13] = _02110AD8, // Formatting Comment
+    [SAVE_PROGRESS_14] = _021108F8, // Formatting Comment
+    [SAVE_PROGRESS_15] = _02110994, // Formatting Comment
+    [SAVE_PROGRESS_16] = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_17] = _021107E0, // Formatting Comment
+    [SAVE_PROGRESS_18] = _02110828, // Formatting Comment
+    [SAVE_PROGRESS_19] = _021108C4, // Formatting Comment
+    [SAVE_PROGRESS_20] = _02110910, // Formatting Comment
+    [SAVE_PROGRESS_21] = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_22] = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_23] = _021108B8, // Formatting Comment
+    [SAVE_PROGRESS_24] = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_25] = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_26] = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_27] = _02110810, // Formatting Comment
+    [SAVE_PROGRESS_28] = _02110928, // Formatting Comment
+    [SAVE_PROGRESS_29] = _02110804, // Formatting Comment
+    [SAVE_PROGRESS_30] = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_31] = _02110894, // Formatting Comment
+    [SAVE_PROGRESS_32] = _02110A78, // Formatting Comment
+    [SAVE_PROGRESS_33] = _02110864, // Formatting Comment
+    [SAVE_PROGRESS_34] = _02110AA8, // Formatting Comment
+    [SAVE_PROGRESS_35] = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_36] = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_37] = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_38] = NULL,      // Formatting Comment
+    [SAVE_PROGRESS_39] = NULL,      // Formatting Comment
+};
+
+static const SaveGameNextAction *SaveGame__unknownProgress1Unknown[SAVE_ZONE5_PROGRESS_COUNT] = {
+    [SAVE_ZONE5_PROGRESS_0] = NULL,      // Formatting Comment
+    [SAVE_ZONE5_PROGRESS_1] = _021108A0, // Formatting Comment
+    [SAVE_ZONE5_PROGRESS_2] = _021108D0, // Formatting Comment
+    [SAVE_ZONE5_PROGRESS_3] = _021107D4, // Formatting Comment
+    [SAVE_ZONE5_PROGRESS_4] = NULL       // Formatting Comment
+};
+
+static const SaveGameNextAction *SaveGame__unknownProgress2Unknown[SAVE_ZONE6_PROGRESS_COUNT] = {
+    [SAVE_ZONE6_PROGRESS_0] = NULL,      // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_1] = _021108AC, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_2] = _0211087C, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_3] = _02110A18, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_4] = _0211084C, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_5] = _02110858, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_6] = NULL       // Formatting Comment
+};
 
 // --------------------
 // VARIABLES
@@ -366,7 +490,7 @@ void SaveGame__ClearCallback_Stage(SaveGame *save, SaveBlockFlags blockFlags)
 
 void SaveGame__UpdateProgress(void)
 {
-    SaveGameNextAction *state = SaveGame__GetNextActionFromProgress();
+    const SaveGameNextAction *state = SaveGame__GetNextActionFromProgress();
     if (state != NULL && state->table1Pos < 8)
     {
         SaveGame__UnknownTable1[state->table1Pos](state);
@@ -377,9 +501,9 @@ void SaveGame__UpdateProgress(void)
     }
 }
 
-SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
+const SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
 {
-    SaveGameNextAction *config;
+    const SaveGameNextAction *config;
 
     u16 gameProgress;
     u16 zone5Progress;
@@ -880,19 +1004,19 @@ void SaveGame__UpdateProgress2_Type10(void)
 
 void SaveGame__UpdateProgress2_Type11(void)
 {
-    u16 stage = _02110B70[gameState.field_80];
+    u16 stage = _02110B70[gameState.landedIslandID];
 
-    if (gameState.field_80 == 14 && SaveGame__GetGameProgress() < SAVE_PROGRESS_17)
+    if (gameState.landedIslandID == SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND && SaveGame__GetGameProgress() < SAVE_PROGRESS_17)
     {
         SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
         SaveGame__StartCutscene(CUTSCENE_KYLOK_ISLAND_EMPTY, SYSEVENT_UPDATE_PROGRESS, TRUE);
     }
-    else if (gameState.field_80 == 14 && SaveGame__GetGameProgress() > SAVE_PROGRESS_17)
+    else if (gameState.landedIslandID == SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND && SaveGame__GetGameProgress() > SAVE_PROGRESS_17)
     {
         SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
         SaveGame__StartCutscene(CUTSCENE_DAIKUN_ISLAND_EMPTY, SYSEVENT_UPDATE_PROGRESS, TRUE);
     }
-    else if (gameState.field_80 == 12 && SaveGame__GetZone6Progress() > SAVE_ZONE6_PROGRESS_1)
+    else if (gameState.landedIslandID == SEAMAPMANAGER_DISCOVER_DAIKUN_ISLAND && SaveGame__GetZone6Progress() > SAVE_ZONE6_PROGRESS_1)
     {
         SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
         SaveGame__StartCutscene(CUTSCENE_DAIKUN_ISLAND_EMPTY, SYSEVENT_UPDATE_PROGRESS, TRUE);
@@ -992,10 +1116,10 @@ BOOL SaveGame__ProgressCheck_Type10(s32 id)
 
 BOOL SaveGame__ProgressCheck_Type11(s32 id)
 {
-    return id == gameState.field_80;
+    return id == gameState.landedIslandID;
 }
 
-void SaveGame__UpdateProgress1_Func_205CB60(SaveGameNextAction *action)
+void SaveGame__UpdateProgress1_Func_205CB60(const SaveGameNextAction *action)
 {
     u16 cutscene = action->id;
 
@@ -1018,32 +1142,32 @@ void SaveGame__UpdateProgress1_Func_205CB60(SaveGameNextAction *action)
     SaveGame__StartCutscene(cutscene, action->nextSysEvent, FALSE);
 }
 
-void SaveGame__UpdateProgress1_Func_205CBC4(SaveGameNextAction *action)
+void SaveGame__UpdateProgress1_Func_205CBC4(const SaveGameNextAction *action)
 {
     SaveGame__StartTutorial();
 }
 
-void SaveGame__UpdateProgress1_Func_205CBD0(SaveGameNextAction *action)
+void SaveGame__UpdateProgress1_Func_205CBD0(const SaveGameNextAction *action)
 {
     SaveGame__StartEvent37();
 }
 
-void SaveGame__UpdateProgress1_Func_205CBDC(SaveGameNextAction *action)
+void SaveGame__UpdateProgress1_Func_205CBDC(const SaveGameNextAction *action)
 {
     SaveGame__StartSailJetTraining();
 }
 
-void SaveGame__UpdateProgress1_Func_205CBE8(SaveGameNextAction *action)
+void SaveGame__UpdateProgress1_Func_205CBE8(const SaveGameNextAction *action)
 {
     SaveGame__StartHubMenu();
 }
 
-void SaveGame__UpdateProgress1_Func_205CBF4(SaveGameNextAction *action)
+void SaveGame__UpdateProgress1_Func_205CBF4(const SaveGameNextAction *action)
 {
     SaveGame__StartDoorPuzzle(action->id);
 }
 
-void SaveGame__UpdateProgress1_Func_205CC04(SaveGameNextAction *action)
+void SaveGame__UpdateProgress1_Func_205CC04(const SaveGameNextAction *action)
 {
     if (action->id == 0)
         SeaMapManager__SetUnknown1(0);
@@ -1054,7 +1178,7 @@ void SaveGame__UpdateProgress1_Func_205CC04(SaveGameNextAction *action)
     SaveGame__ChangeEvent(SYSEVENT_SEAMAPCUTSCENE);
 }
 
-void SaveGame__UpdateProgress1_Func_205CC3C(SaveGameNextAction *action)
+void SaveGame__UpdateProgress1_Func_205CC3C(const SaveGameNextAction *action)
 {
     if (action->id == 24)
         SaveGame__EnableStateFlags(2);
@@ -1337,7 +1461,7 @@ BOOL SaveGame__Func_205D150(s32 stageID)
     BOOL result = FALSE;
     if (stageID <= STAGE_BOSS_FINAL)
     {
-        SaveGameUnknown205D150 *progress = &_02110C20[stageID];
+        const SaveGameUnknown205D150 *progress = &_02110C20[stageID];
 
         if (progress->gameProgress != 0xFF && progress->gameProgress != gameProgress)
         {
@@ -1608,162 +1732,79 @@ BOOL SaveGame__CheckProgressIsAllEmeraldsCollected(void)
     return SaveGame__GetGameProgress() >= SAVE_PROGRESS_37;
 }
 
-NONMATCH_FUNC s32 SaveGame__Func_205D65C(s32 seaMapViewType)
+u16 SaveGame__GetTargetFlagIconCount(s32 seaMapViewType)
 {
-#ifdef NON_MATCHING
+    u8 gameProgress = SaveGame__GetGameProgress();
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #4
-	bl SaveGame__GetGameProgress
-	and r10, r0, #0xff
-	bl SaveGame__GetZone5Progress
-	strb r0, [sp]
-	bl SaveGame__GetZone6Progress
-	mov r8, #0
-	ldr r9, =_02110D48
-	ldr r6, =_02110D12
-	mov r7, r8
-	strb r0, [sp, #1]
-	add r5, sp, #0
-	mov r4, #6
-_0205D694:
-	ldrh r0, [r9, #0]
-	cmp r10, r0
-	blt _0205D734
-	ldrh r0, [r9, #2]
-	cmp r10, r0
-	bge _0205D734
-	ldrh r0, [r9, #4]
-	sub r0, r0, #1
-	mov r0, r0, lsl #0x10
-	movs r0, r0, asr #0x10
-	bmi _0205D6E8
-	smulbb r0, r0, r4
-	ldrh r1, [r6, r0]
-	add r2, r6, r0
-	ldrh r0, [r2, #2]
-	ldrb r1, [r5, r1]
-	cmp r1, r0
-	blt _0205D734
-	ldrh r0, [r2, #4]
-	cmp r1, r0
-	bge _0205D734
-_0205D6E8:
-	cmp r7, #0xc
-	blt _0205D728
-	cmp r7, #0xe
-	bgt _0205D728
-	sub r0, r7, #0xc
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl SaveGame__GetProgressFlags_0x100000
-	cmp r0, #0
-	beq _0205D734
-	sub r0, r7, #0xc
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl SaveGame__HasDoorPuzzlePiece
-	cmp r0, #0
-	bne _0205D734
-_0205D728:
-	add r0, r8, #1
-	mov r0, r0, lsl #0x10
-	mov r8, r0, lsr #0x10
-_0205D734:
-	add r7, r7, #1
-	cmp r7, #0xf
-	add r9, r9, #6
-	blt _0205D694
-	mov r0, r8
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+    u8 zoneProgressList[2];
+    zoneProgressList[0] = SaveGame__GetZone5Progress();
+    zoneProgressList[1] = SaveGame__GetZone6Progress();
 
-// clang-format on
-#endif
+    s32 i;
+    u16 count = 0;
+    for (i = 0; i < 15; i++)
+    {
+        const SaveGameUnknown205D65C *progress1 = &_02110D48[i];
+
+        if (gameProgress >= progress1->gameProgress && gameProgress < progress1->zone5Progress)
+        {
+            s16 id = (progress1->zone6Progress - 1);
+
+            if (id >= 0)
+            {
+                const SaveGameUnknown205D65C_2 *progress2 = &_02110D12[id];
+                u8 zoneProgress                           = zoneProgressList[progress2->zoneID];
+
+                if (zoneProgress < progress2->minProgress || zoneProgress >= progress2->maxProgress)
+                    continue;
+            }
+
+            if (i < 12 || i > 14 || SaveGame__GetProgressFlags_0x100000((u16)(i - 12)) && SaveGame__HasDoorPuzzlePiece((u16)(i - 12)) == FALSE)
+                count++;
+        }
+    }
+
+    return count;
 }
 
-NONMATCH_FUNC s32 SaveGame__Func_205D758(s32 id)
+s32 SaveGame__GetTargetFlagIcon(s32 targetIndex)
 {
-#ifdef NON_MATCHING
+    u8 gameProgress = SaveGame__GetGameProgress();
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	mov r10, r0
-	bl SaveGame__GetGameProgress
-	and r9, r0, #0xff
-	bl SaveGame__GetZone5Progress
-	strb r0, [sp]
-	bl SaveGame__GetZone6Progress
-	mov r7, #0
-	ldr r8, =_02110D48
-	ldr r5, =_02110D12
-	mov r6, r7
-	strb r0, [sp, #1]
-	add r4, sp, #0
-	mov r11, #6
-_0205D790:
-	ldrh r0, [r8, #0]
-	cmp r9, r0
-	blt _0205D848
-	ldrh r0, [r8, #2]
-	cmp r9, r0
-	bge _0205D848
-	ldrh r0, [r8, #4]
-	sub r0, r0, #1
-	mov r0, r0, lsl #0x10
-	movs r0, r0, asr #0x10
-	bmi _0205D7E4
-	smulbb r0, r0, r11
-	ldrh r1, [r5, r0]
-	add r2, r5, r0
-	ldrh r0, [r2, #2]
-	ldrb r1, [r4, r1]
-	cmp r1, r0
-	blt _0205D848
-	ldrh r0, [r2, #4]
-	cmp r1, r0
-	bge _0205D848
-_0205D7E4:
-	cmp r6, #0xc
-	blt _0205D824
-	cmp r6, #0xe
-	bgt _0205D824
-	sub r0, r6, #0xc
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl SaveGame__GetProgressFlags_0x100000
-	cmp r0, #0
-	beq _0205D848
-	sub r0, r6, #0xc
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl SaveGame__HasDoorPuzzlePiece
-	cmp r0, #0
-	bne _0205D848
-_0205D824:
-	cmp r10, r7
-	bne _0205D83C
-	ldr r0, =_02110D2A
-	mov r1, r6, lsl #1
-	ldrh r0, [r0, r1]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-_0205D83C:
-	add r0, r7, #1
-	mov r0, r0, lsl #0x10
-	mov r7, r0, lsr #0x10
-_0205D848:
-	add r6, r6, #1
-	cmp r6, #0xf
-	add r8, r8, #6
-	blt _0205D790
-	mov r0, #0x2a
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    u8 zoneProgressList[2];
+    zoneProgressList[0] = SaveGame__GetZone5Progress();
+    zoneProgressList[1] = SaveGame__GetZone6Progress();
 
-// clang-format on
-#endif
+    s32 i;
+    u16 index = 0;
+    for (i = 0; i < 15; i++)
+    {
+        const SaveGameUnknown205D65C *progress1 = &_02110D48[i];
+
+        if (gameProgress >= progress1->gameProgress && gameProgress < progress1->zone5Progress)
+        {
+            s16 id = (progress1->zone6Progress - 1);
+
+            if (id >= 0)
+            {
+                const SaveGameUnknown205D65C_2 *progress2 = &_02110D12[id];
+                u8 zoneProgress                           = zoneProgressList[progress2->zoneID];
+
+                if (zoneProgress < progress2->minProgress || zoneProgress >= progress2->maxProgress)
+                    continue;
+            }
+
+            if (i < 12 || i > 14 || SaveGame__GetProgressFlags_0x100000((u16)(i - 12)) && SaveGame__HasDoorPuzzlePiece((u16)(i - 12)) == FALSE)
+            {
+                if (targetIndex == index)
+                    return _02110D2A[i];
+
+                index++;
+            }
+        }
+    }
+
+    return SEAMAPMANAGER_DISCOVER_42;
 }
 
 ShipLevel SaveGame__GetShipUpgradeStatus(u16 id)

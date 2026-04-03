@@ -15,7 +15,7 @@ typedef struct SeaMapMenu_
     void (*prevState)(struct SeaMapMenu_ *work);
     void (*state)(struct SeaMapMenu_ *work);
     BOOL isClosed;
-    CHEVObject *selectedIsland;
+    SeaMapLayoutObject *selectedIsland;
     BOOL drawPadCursors;
 } SeaMapMenu;
 

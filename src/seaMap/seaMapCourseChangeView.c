@@ -63,7 +63,7 @@ void CreateSeaMapCourseChangeView(void)
     {
         SeaMapManager__Func_2045BF8(gSeaMapViewStoredVoyageDist - SeaMapCourseChangeView_02134174, &inX, &inY);
         SeaMapManager__Func_2043B60(inX, inY, &nodeX, &nodeY);
-        if (!SeaMapCollision__Collide(nodeX, nodeY, TRUE))
+        if (SeaMapCollision__Collide(nodeX, nodeY, TRUE) == FALSE)
             break;
 
         gSeaMapViewStoredVoyageDist -= FLOAT_TO_FX32(0.5);
@@ -82,9 +82,9 @@ void CreateSeaMapCourseChangeView(void)
     SeaMapManager__Func_2043B28(gSeaMapCourseChangeView_shipPosition.x, gSeaMapCourseChangeView_shipPosition.y, &x, &y);
     SeaMapManager__AddNode(x, y);
 
-    SeaMapEventManager__CreateObject(SEAMAPOBJECT_BOAT_ICON, FX32_TO_WHOLE(gSeaMapCourseChangeView_shipPosition.x), FX32_TO_WHOLE(gSeaMapCourseChangeView_shipPosition.y), 0, 0, 0);
+    SeaMapEventManager_CreateObject(SEAMAPOBJECT_BOAT_ICON, FX32_TO_WHOLE(gSeaMapCourseChangeView_shipPosition.x), FX32_TO_WHOLE(gSeaMapCourseChangeView_shipPosition.y), 0, 0, 0);
 
-    CreateNavTails(TRUE, gameState.sailShipType, NULL);
+    CreateNavTails(GRAPHICS_ENGINE_B, gameState.sailShipType, NULL);
 
     PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQ_SEQ_CHART);
 
@@ -165,11 +165,11 @@ void SeaMapCourseChangeView_State_FadeIn(SeaMapCourseChangeView *work)
     {
         RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[i];
 
-        if (gfxControl->brightness > 0)
+        if (gfxControl->brightness > RENDERCORE_BRIGHTNESS_DEFAULT)
         {
             gfxControl->brightness--;
         }
-        else if (gfxControl->brightness < 0)
+        else if (gfxControl->brightness < RENDERCORE_BRIGHTNESS_DEFAULT)
         {
             gfxControl->brightness++;
         }

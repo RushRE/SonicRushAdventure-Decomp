@@ -47,11 +47,8 @@ void InitSpriteButtonConfig(SpriteButtonConfig *config, BOOL useEngineB, SpriteB
     config->activeButtons = activeButtons;
 }
 
-NONMATCH_FUNC void CreateSpriteButton(SpriteButtonConfig *config)
+void CreateSpriteButton(SpriteButtonConfig *config)
 {
-    // https://decomp.me/scratch/NyJfr -> 96.94%
-    // registers and such are busted around VRAMSystem__VRAM_PALETTE_OBJ
-#ifdef NON_MATCHING
     Task *task       = TaskCreate(SpriteButton_Main, SpriteButton_Destructor, TASK_FLAG_NONE, 0, 0x64, TASK_GROUP(0), SpriteButton);
     sSpriteButtonTaskSingleton = task;
 
@@ -80,7 +77,7 @@ NONMATCH_FUNC void CreateSpriteButton(SpriteButtonConfig *config)
         work->allocatedButtonSprite = 1;
     }
 
-    for (u32 i = 0; i < 2; i++)
+    for (u32 i = 0; i < GRAPHICS_ENGINE_COUNT; i++)
     {
         if ((config->activeButtons & (1 << i)) != 0)
         {
@@ -105,165 +102,14 @@ NONMATCH_FUNC void CreateSpriteButton(SpriteButtonConfig *config)
             button->animator.pos.x = buttonConfig->pos.x;
             button->animator.pos.y = buttonConfig->pos.y;
 
-            TouchRectUnknown rect;
-            AnimatorSprite__GetBlockData(&button->animator, 0, &rect.box);
+            HitboxRect hitbox;
+            AnimatorSprite__GetBlockData(&button->animator, 0, &hitbox);
 
-            TouchField__InitAreaShape(&button->touchArea, &button->animator.pos, TouchField__PointInRect, &rect, buttonConfig->callback, work);
+            TouchField__InitAreaShape(&button->touchArea, &button->animator.pos, TouchField__PointInRect, (TouchRectUnknown*)&hitbox, buttonConfig->callback, work);
             TouchField__AddArea(work->touchFieldPtr, &button->touchArea, 0);
             SetSpriteButtonState(button, SPRITE_BUTTON_STATE_IDLE);
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
-	sub sp, sp, #0x24
-	mov r1, #0x64
-	mov r9, r0
-	mov r2, #0
-	str r1, [sp]
-	ldr r0, =SpriteButton_Main
-	ldr r1, =SpriteButton_Destructor
-	mov r3, r2
-	str r2, [sp, #4]
-	mov r4, #0x190
-	str r4, [sp, #8]
-	bl TaskCreate_
-	ldr r1, =sSpriteButtonTaskSingleton
-	str r0, [r1]
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, r4
-	mov r0, #0
-	mov r2, #0x190
-	bl MIi_CpuClear16
-	mov r0, r9
-	mov r1, r4
-	mov r2, #0x20
-	bl MIi_CpuCopy16
-	mvn r0, #0
-	str r0, [r4, #0x18c]
-	ldr r0, [r9, #4]
-	cmp r0, #0
-	strne r0, [r4, #0x16c]
-	bne _02002710
-	add r0, r4, #0x170
-	str r0, [r4, #0x16c]
-	bl TouchField__Init
-	ldr r0, [r4, #0x16c]
-	mov r1, #0
-	str r1, [r0, #0xc]
-_02002710:
-	bl GetSpriteButtonYesNoButtonSprite
-	movs r5, r0
-	bne _0200276C
-	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0, #0]
-	cmp r0, #5
-	addls pc, pc, r0, lsl #2
-	b _02002754
-_02002730: // jump table
-	b _02002748 // case 0
-	b _02002748 // case 1
-	b _02002748 // case 2
-	b _02002748 // case 3
-	b _02002748 // case 4
-	b _02002748 // case 5
-_02002748:
-	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0, #0]
-	b _02002758
-_02002754:
-	mov r0, #1
-_02002758:
-	bl LoadSpriteButtonYesNoButtonSprite
-	bl GetSpriteButtonYesNoButtonSprite
-	mov r1, #1
-	mov r5, r0
-	str r1, [r4, #0x188]
-_0200276C:
-	ldr r7, =sButtonConfig
-	add r8, r4, #0x20
-	mov r6, #0
-_02002778:
-	ldr r1, [r9, #0x18]
-	mov r0, #1
-	tst r1, r0, lsl r6
-	beq _02002880
-	ldrb r0, [r7, #0]
-	mov r2, #0
-	strh r0, [r8, #0xa2]
-_02002794:
-	add r0, r9, r2, lsl #1
-	ldrh r1, [r0, #0x10]
-	add r0, r8, r2, lsl #1
-	add r2, r2, #1
-	strh r1, [r0, #0x9c]
-	cmp r2, #3
-	blo _02002794
-	add r0, r9, r6, lsl #2
-	ldr r0, [r0, #8]
-	cmp r0, #0
-	bne _020027DC
-	mov r1, r6, lsl #0x10
-	mov r0, r5
-	mov r1, r1, lsr #0x10
-	bl GetSpriteButtonSpriteAllocSize
-	mov r1, r0
-	ldr r0, [r9, #0]
-	bl VRAMSystem__AllocSpriteVram
-_020027DC:
-	ldr r2, [r9, #0]
-	mov r1, #0
-	str r2, [sp]
-	str r1, [sp, #4]
-	str r0, [sp, #8]
-	str r1, [sp, #0xc]
-	ldr r2, [r9, #0]
-	ldr r1, =VRAMSystem__VRAM_PALETTE_OBJ
-	mov r0, r8
-	ldr r2, [r1, r2, lsl #2]
-	mov r1, r5
-	str r2, [sp, #0x10]
-	ldrb r2, [r9, #0x1c]
-	mov r3, #0x800
-	str r2, [sp, #0x14]
-	ldrb r2, [r9, #0x1d]
-	str r2, [sp, #0x18]
-	ldrh r2, [r8, #0xa2]
-	bl AnimatorSprite__Init
-	ldrsh r1, [r7, #2]
-	add r2, sp, #0x1c
-	mov r0, r8
-	strh r1, [r8, #8]
-	ldrsh r3, [r7, #4]
-	mov r1, #0
-	strh r3, [r8, #0xa]
-	bl AnimatorSprite__GetBlockData
-	ldr r1, [r7, #8]
-	ldr r2, =TouchField__PointInRect
-	stmia sp, {r1, r4}
-	add r0, r8, #0x64
-	add r1, r8, #8
-	add r3, sp, #0x1c
-	bl TouchField__InitAreaShape
-	ldr r0, [r4, #0x16c]
-	add r1, r8, #0x64
-	mov r2, #0
-	bl TouchField__AddArea
-	mov r0, r8
-	mov r1, #0
-	bl SetSpriteButtonState
-_02002880:
-	add r6, r6, #1
-	cmp r6, #2
-	add r7, r7, #0xc
-	add r8, r8, #0xa4
-	blo _02002778
-	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
-
-// clang-format on
-#endif
 }
 
 void DestroySpriteButton(void)

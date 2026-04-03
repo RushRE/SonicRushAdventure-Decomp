@@ -4,12 +4,6 @@
 #include <game/save/saveGame.h>
 
 // --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void *SeaMapStylusIcon_AnimIDs;
-
-// --------------------
 // FUNCTION DECLS
 // --------------------
 
@@ -36,7 +30,7 @@ static void SeaMapStylusIcon_State_StylusRelease(SeaMapStylusIcon *work);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapStylusIcon(const CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapStylusIcon(const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject)
 {
     SeaMapStylusIcon *work;
 
@@ -47,7 +41,7 @@ SeaMapObject *CreateSeaMapStylusIcon(const CHEVObjectType *objectType, CHEVObjec
     work = TaskGetWork(task, SeaMapStylusIcon);
     TaskInitWork16(work);
 
-    SeaMapEventManager__InitMapObject(&work->objWork, task, objectType, mapObject);
+    InitSeaMapEventManagerObject(&work->objWork, task, objectType, mapObject);
 
     work->state = SeaMapStylusIcon_State_BeginPressDelay;
     work->speed = FLOAT_TO_FX32(1.0f / 120.0f);
@@ -59,15 +53,13 @@ SeaMapObject *CreateSeaMapStylusIcon(const CHEVObjectType *objectType, CHEVObjec
 
     work->aniStylus.cParam.palette = PALETTE_ROW_14;
 
-    SeaMapEventManager__SetObjectAsActive(&work->objWork);
+    SeaMapEventManager_SetObjectAsActive(&work->objWork);
 
     return &work->objWork;
 }
 
-NONMATCH_FUNC u32 SeaMapStylusIcon_GetSpriteSize(void)
+u32 SeaMapStylusIcon_GetSpriteSize(void)
 {
-    // will match 'SeaMapStylusIcon_AnimIDs' is decompiled
-#ifdef NON_MATCHING
     u16 animIDs[] = { SEAMAP_CHCOM_ANI_125, SEAMAP_CHCOM_ANI_126, SEAMAP_CHCOM_ANI_127 };
 
     void *sprFile = SeaMapManager__GetWork()->assets.sprChCommon;
@@ -81,38 +73,6 @@ NONMATCH_FUNC u32 SeaMapStylusIcon_GetSpriteSize(void)
     }
 
     return requiredSize;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	sub sp, sp, #8
-	ldr r0, =SeaMapStylusIcon_AnimIDs
-	ldrh r2, [r0, #0]
-	ldrh r1, [r0, #2]
-	ldrh r0, [r0, #4]
-	strh r2, [sp]
-	strh r1, [sp, #2]
-	strh r0, [sp, #4]
-	bl SeaMapManager__GetWork
-	mov r6, #0
-	ldr r5, [r0, #0x15c]
-	mov r7, r6
-	add r4, sp, #0
-_0204923C:
-	mov r0, r7, lsl #1
-	ldrh r1, [r4, r0]
-	mov r0, r5
-	bl Sprite__GetSpriteSize1FromAnim
-	cmp r6, r0
-	add r7, r7, #1
-	movlo r6, r0
-	cmp r7, #3
-	blo _0204923C
-	mov r0, r6
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 void SeaMapStylusIcon_Main(void)
@@ -121,8 +81,8 @@ void SeaMapStylusIcon_Main(void)
 
     work->state(work);
 
-    SeaMapEventManager__Func_20474FC(&work->objWork.position, &work->aniStylus.pos);
-    SeaMapEventManager__Func_20471B8(&work->aniStylus, 0, 0);
+    SeaMapEventManager_GetMapLocalPosition(&work->objWork.position, &work->aniStylus.pos);
+    SeaMapEventManager_ProcessAnimator(&work->aniStylus, 0, 0);
     AnimatorSprite__DrawFrame(&work->aniStylus);
 }
 
@@ -132,8 +92,8 @@ void SeaMapStylusIcon_Destructor(Task *task)
 
     AnimatorSprite__Release(&work->aniStylus);
 
-    SeaMapEventManager__SetObjectAsInactive(&work->objWork);
-    SeaMapEventManager__DestroyObject(&work->objWork);
+    SeaMapEventManager_SetObjectAsInactive(&work->objWork);
+    DestroySeaMapEventManagerObject(&work->objWork);
 }
 
 void SeaMapStylusIcon_State_BeginPressDelay(SeaMapStylusIcon *work)

@@ -17,18 +17,18 @@
 typedef struct SeaMapSparkles_
 {
     SeaMapObject objWork;
-    BOOL useEngineB;
+    volatile GraphicsEngine useEngineB;
     AnimatorSprite animators[SEAMAPSPARKLES_PARTICLE_COUNT];
     void *vramPixels[4];
     Vec2Fx32 positions[SEAMAPSPARKLES_PARTICLE_COUNT];
-    u32 velocity[SEAMAPSPARKLES_PARTICLE_COUNT];
+    fx32 velocity[SEAMAPSPARKLES_PARTICLE_COUNT];
     u16 angles[SEAMAPSPARKLES_PARTICLE_COUNT];
     u16 timers[SEAMAPSPARKLES_PARTICLE_COUNT];
     u16 animIDs[SEAMAPSPARKLES_PARTICLE_COUNT];
-    u32 field_1DA4;
-    u16 field_1DA8;
+    fx32 initialVelocity;
+    u16 initialLifeTime;
     u16 spawnDuration;
-    u16 lifeDuration;
+    u16 emitterLifeTime;
     u16 spriteCount;
     u16 timer;
     u16 spawnTimer;
@@ -38,8 +38,6 @@ typedef struct SeaMapSparkles_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED SeaMapObject *SeaMapSparkles__Create(const CHEVObjectType *objectType, CHEVObject *mapObject);
-NOT_DECOMPILED void SeaMapSparkles__Main(void);
-NOT_DECOMPILED void SeaMapSparkles__Destructor(Task *task);
+SeaMapObject *CreateSeaMapSparkles(const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject);
 
 #endif // RUSH_SEAMAPSPARKLES_H

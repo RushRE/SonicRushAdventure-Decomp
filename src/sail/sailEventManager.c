@@ -21,6 +21,13 @@
 NOT_DECOMPILED void SailJetRaceGoalHUD__Create(s32 a1, s32 a2, BOOL isGoal);
 
 // --------------------
+// MACROS
+// --------------------
+
+#define GetSBBUnknownHeader(sbbFile) ((SBBUnknownHeader *)&((u8 *)(sbbFile))[(sbbFile)->headerSize])
+#define GetSBBBlockList(unknownHeader)     (SBBSegment *)((u8 *)(unknownHeader) + (unknownHeader)->headerSize);
+
+// --------------------
 // VARIABLES
 // --------------------
 
@@ -122,14 +129,24 @@ SailEventManager *SailEventManager__Create(void)
 
 NONMATCH_FUNC void SailEventManager__LoadLayout(void)
 {
-    // https://decomp.me/scratch/eU9jc -> 93.12%
+    // https://decomp.me/scratch/BzCkA -> 98.94%
+	// Mainly just register mismatches
 #ifdef NON_MATCHING
     SailEventManager *eventManager = SailManager__GetWork()->eventManager;
     SailVoyageManager *voyage      = SailManager__GetWork()->voyageManager;
     SailManager *manager           = SailManager__GetWork();
 
-    u16 segmentID = 1;
-    u16 unknownID = 0;
+    SBBUnknownHeader *unknownHeader;
+    SBBSegment *segmentList;
+    SBBSegment *block2;
+    SailVoyageSegment *voyageSegment;
+    s32 prevSegment;
+    u16 segmentID;
+    u16 unknownID;
+    SBBUnknown *unknownEntryList;
+
+    segmentID = 1;
+    unknownID = 0;
 
     SBBFile *sbbFile = GetObjectDataWork(OBJDATAWORK_51)->fileData;
 
@@ -155,58 +172,58 @@ NONMATCH_FUNC void SailEventManager__LoadLayout(void)
 
     if (manager->isRivalRace == TRUE || manager->missionID != 0)
     {
-        u16 v8 = 0;
-        u16 id = 0;
+        segmentID = 0;
+        u16 v8    = 0;
 
-        SBBUnknownHeader *unknownHeader = (SBBUnknownHeader *)((u8 *)eventManager->sbbFile + eventManager->sbbFile->headerSize);
-        SBBSegment *blockList2          = (SBBSegment *)((u8 *)unknownHeader + unknownHeader->headerSize);
-        voyage->segmentCount            = unknownHeader->entries[0].field_4 + 1;
+        unknownHeader        = GetSBBUnknownHeader(eventManager->sbbFile);
+        segmentList          = (SBBSegment *)((u8 *)GetSBBUnknownHeader(eventManager->sbbFile) + unknownHeader->headerSize);
+        voyage->segmentCount = unknownHeader->entries[0].count + 1;
 
-        for (; id < SAILVOYAGEMANAGER_SEGMENT_LIST_SIZE - 1; id++)
+        for (; segmentID < SAILVOYAGEMANAGER_SEGMENT_LIST_SIZE - 1; segmentID++)
         {
-            SBBSegment *block2 = &blockList2[id];
+            block2 = &segmentList[segmentID];
 
-            SailVoyageSegment *segment2 = &voyage->segmentList[id];
+            voyageSegment = &voyage->segmentList[segmentID];
 
-            segment2->header2EntryID = 0;
-            segment2->blockID        = id;
+            voyageSegment->header2EntryID = 0;
+            voyageSegment->blockID        = segmentID;
 
             if (SailManager__GetShipType() == SHIP_BOAT)
             {
-                segment2->turn           = 0;
-                segment2->targetSeaAngle = block2->field_A << 8;
+                voyageSegment->turn           = 0;
+                voyageSegment->targetSeaAngle = block2->field_A << 8;
             }
             else
             {
-                segment2->targetSeaAngle = 0;
-                segment2->turn           = block2->field_A << 8;
+                voyageSegment->targetSeaAngle = 0;
+                voyageSegment->turn           = block2->field_A << 8;
             }
 
-            segment2->type = 0;
+            voyageSegment->type = 0;
 
             if ((block2->flags & 4) != 0)
             {
-                segment2->header2EntryID = 12;
-                SailJetRaceGoalHUD__Create(v8, id, FALSE);
-                v8 = id;
+                voyageSegment->header2EntryID = 12;
+                SailJetRaceGoalHUD__Create(v8, segmentID, FALSE);
+                v8 = segmentID;
             }
 
-            if (id == unknownHeader->entries[0].field_4)
+            if (segmentID == unknownHeader->entries[0].count)
                 break;
         }
 
-        SailJetRaceGoalHUD__Create(v8, id, TRUE);
+        SailJetRaceGoalHUD__Create(v8, segmentID, TRUE);
 
-        s32 prevSegment                       = id - 1;
+        prevSegment                           = segmentID - 1;
         voyage->segmentList[prevSegment].turn = 0;
-        voyage->segmentList[id].turn          = 0;
+        voyage->segmentList[segmentID].turn   = 0;
         voyage->segmentList[prevSegment].type = SAILVOYAGESEGMENT_TYPE_26;
-        voyage->segmentList[id].type          = SAILVOYAGESEGMENT_TYPE_27;
+        voyage->segmentList[segmentID].type   = SAILVOYAGESEGMENT_TYPE_27;
 
         if ((manager->flags & SAILMANAGER_FLAG_FREEZE_DAYTIME_TIMER) != 0 && manager->missionQuota != 0)
         {
             voyage->segmentList[prevSegment].type = SAILVOYAGESEGMENT_TYPE_14;
-            voyage->segmentList[id].type          = SAILVOYAGESEGMENT_TYPE_15;
+            voyage->segmentList[segmentID].type   = SAILVOYAGESEGMENT_TYPE_15;
         }
     }
     else
@@ -214,6 +231,7 @@ NONMATCH_FUNC void SailEventManager__LoadLayout(void)
         if (manager->missionType == MISSION_TYPE_REACH_GOAL)
         {
             SailJetRaceGoalHUD__Create(0, voyage->segmentCount, TRUE);
+
             voyage->segmentList[voyage->segmentCount - 1].turn = 0;
             voyage->segmentList[voyage->segmentCount].turn     = 0;
             voyage->segmentList[voyage->segmentCount - 1].type = SAILVOYAGESEGMENT_TYPE_26;
@@ -225,12 +243,12 @@ NONMATCH_FUNC void SailEventManager__LoadLayout(void)
             if (segmentID == voyage->segmentCount)
                 break;
 
-            SailVoyageSegment *voyageSegment = &voyage->segmentList[segmentID];
+            voyageSegment = &voyage->segmentList[segmentID];
 
-            SBBUnknownHeader *unknownHeader = (SBBUnknownHeader *)&((u8 *)sbbFile)[sbbFile->headerSize];
-            SBBSegment *blockList           = (SBBSegment *)((u8 *)unknownHeader + unknownHeader->headerSize);
+            unknownHeader = GetSBBUnknownHeader(sbbFile);
+            segmentList   = GetSBBBlockList(unknownHeader);
 
-            SBBUnknown *unknownEntryList = unknownHeader->entries;
+            unknownEntryList = unknownHeader->entries;
 
             s32 blockID;
             if (eventManager->field_34)
@@ -307,14 +325,19 @@ NONMATCH_FUNC void SailEventManager__LoadLayout(void)
                 {
                     u16 value = mtMathRand();
 
-                    s32 unknown2ID            = value - unknown->field_4 * FX_DivS32(value, unknown->field_4);
-                    SBBUnknown2 *unknown2List = (SBBUnknown2 *)&((u8 *)sbbFile)[sbbFile->headerSize + unknown->offset];
+                    s32 unknown2ID = value - unknown->count * FX_DivS32(value, unknown->count);
+
+                    size_t ptr = unknown->offset;
+                    ptr += (size_t)(((u8 *)sbbFile) + sbbFile->headerSize + sizeof(SBBUnknownHeader));
+                    SBBUnknown2 *unknown2List = (SBBUnknown2 *)ptr;
+
+                    blockID = unknown2List[unknown2ID].field_0;
 
                     i = 1;
                     while (TRUE)
                     {
-                        SBBSegment *curBlock = &blockList[unknown2List[unknown2ID].field_0 + i - 1];
-                        if ((curBlock->flags & 1) == 0)
+                        SBBSegment *curSegment = &segmentList[blockID + i - 1];
+                        if ((curSegment->flags & 1) == 0)
                             break;
 
                         i++;
@@ -323,16 +346,16 @@ NONMATCH_FUNC void SailEventManager__LoadLayout(void)
                 } while ((s32)(segmentID + i) > voyage->segmentCount);
             }
 
-            SBBSegment *segment = &blockList[blockID];
-            if ((segment->flags & 1) != 0)
+            segmentList += blockID;
+            if ((segmentList->flags & 1) != 0)
                 eventManager->field_34 = blockID;
 
-            if (voyageSegment->type < SAILVOYAGESEGMENT_TYPE_14 && (segment->flags & 1) != 0)
+            if (voyageSegment->type < SAILVOYAGESEGMENT_TYPE_14 && (segmentList->flags & 1) != 0)
                 voyageSegment->type += SAILVOYAGESEGMENT_TYPE_7;
 
             voyageSegment->header2EntryID = unknownID;
             voyageSegment->blockID        = blockID;
-            voyageSegment->targetSeaAngle = segment->field_A << 8;
+            voyageSegment->targetSeaAngle = segmentList->field_A << 8;
 
             if (SailManager__GetShipType() == SHIP_SUBMARINE)
             {

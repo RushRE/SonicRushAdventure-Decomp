@@ -11,7 +11,7 @@ typedef BOOL (*SeaMapCollisionFunc)(u32 x, u32 y);
 // FUNCTION DECLS
 // --------------------
 
-static s32 SeaMapCollision__GetCollisionType(void *mapCol, u16 x, u16 y);
+static SeaMapCollisionType SeaMapCollision__GetCollisionType(void *mapCol, u16 x, u16 y);
 static void SeaMapCollision__SetMapCollision(void *mapCol, u16 x, u16 y, u32 newValue);
 static BOOL SeaMapCollide_6(u32 x, u32 y);
 static BOOL SeaMapCollide_0(u32 x, u32 y);
@@ -26,15 +26,29 @@ static BOOL SeaMapCollide_5(u32 x, u32 y);
 // --------------------
 
 static const SeaMapCollisionFunc sCollisionTable[] = {
-    SeaMapCollide_0, SeaMapCollide_1, SeaMapCollide_2, SeaMapCollide_3, SeaMapCollide_4, SeaMapCollide_5, SeaMapCollide_6, SeaMapCollide_6,
-    SeaMapCollide_6, SeaMapCollide_6, SeaMapCollide_6, SeaMapCollide_6, SeaMapCollide_6, SeaMapCollide_6, SeaMapCollide_6, SeaMapCollide_6,
+    [SEAMAP_COLLISION_0]  = SeaMapCollide_0, // Unknown
+    [SEAMAP_COLLISION_1]  = SeaMapCollide_1, // Unknown
+    [SEAMAP_COLLISION_2]  = SeaMapCollide_2, // Unknown
+    [SEAMAP_COLLISION_3]  = SeaMapCollide_3, // Unknown
+    [SEAMAP_COLLISION_4]  = SeaMapCollide_4, // Unknown
+    [SEAMAP_COLLISION_5]  = SeaMapCollide_5, // Unknown
+    [SEAMAP_COLLISION_6]  = SeaMapCollide_6, // Unknown
+    [SEAMAP_COLLISION_7]  = SeaMapCollide_6, // Unknown
+    [SEAMAP_COLLISION_8]  = SeaMapCollide_6, // Unknown
+    [SEAMAP_COLLISION_9]  = SeaMapCollide_6, // Unknown
+    [SEAMAP_COLLISION_10] = SeaMapCollide_6, // Unknown
+    [SEAMAP_COLLISION_11] = SeaMapCollide_6, // Unknown
+    [SEAMAP_COLLISION_12] = SeaMapCollide_6, // Unknown
+    [SEAMAP_COLLISION_13] = SeaMapCollide_6, // Unknown
+    [SEAMAP_COLLISION_14] = SeaMapCollide_6, // Unknown
+    [SEAMAP_COLLISION_15] = SeaMapCollide_6, // Unknown
 };
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-s32 SeaMapCollision__GetCollisionAtPoint(u16 x, u16 y)
+SeaMapCollisionType SeaMapCollision_GetCollisionAtPoint(u16 x, u16 y)
 {
     void *mapCol = SeaMapManager__GetWork()->assets.mapCollision;
 
@@ -51,13 +65,13 @@ s32 SeaMapCollision__Collide(u16 x, u16 y, BOOL checkMapPixel)
         u16 mapY;
         SeaMapManager__Func_2043BEC(x, y, &mapX, &mapY);
 
-        if (SeaMapManager__GetMapPixel(mapX, mapY) != 0)
+        if (SeaMapManager__GetMapPixel(mapX, mapY) != SEAMAPMANAGER_PIXEL_DISCOVERED)
             return FALSE;
     }
 
-    s32 type = SeaMapCollision__GetCollisionType(mapCol, x >> 3, y >> 3);
-    u8 posX  = x & 7;
-    u8 posY  = y & 7;
+    SeaMapCollisionType type = SeaMapCollision__GetCollisionType(mapCol, x >> 3, y >> 3);
+    u8 posX                  = x & 7;
+    u8 posY                  = y & 7;
     return sCollisionTable[type](posX, posY);
 }
 
@@ -335,10 +349,10 @@ void SeaMapCollision__UpdateMapCollision(void)
     u16 y;
 
     const u32 values[4][7] = {
-        { 0, 2, 1, 1, 1, 3, 0 }, // This comment is to keep row formatting
-        { 2, 1, 1, 1, 1, 1, 3 }, // This comment is to keep row formatting
-        { 1, 1, 1, 1, 1, 1, 1 }, // This comment is to keep row formatting
-        { 5, 1, 1, 1, 1, 1, 4 }, // This comment is to keep row formatting
+        { SEAMAP_COLLISION_0, SEAMAP_COLLISION_2, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_3, SEAMAP_COLLISION_0 },
+        { SEAMAP_COLLISION_2, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_3 },
+        { SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1 },
+        { SEAMAP_COLLISION_5, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_1, SEAMAP_COLLISION_4 },
     };
 
     for (y = 0; y < 4; y++)
@@ -350,11 +364,11 @@ void SeaMapCollision__UpdateMapCollision(void)
     }
 }
 
-s32 SeaMapCollision__GetCollisionType(void *mapCol, u16 x, u16 y)
+SeaMapCollisionType SeaMapCollision__GetCollisionType(void *mapCol, u16 x, u16 y)
 {
-    struct CHCollision *chcl = (struct CHCollision *)mapCol;
+    struct SeaMapCollisionLayout *collisionLayout = (struct SeaMapCollisionLayout *)mapCol;
 
-    struct CHCollisionValue *value = &chcl->data[y * (chcl->header.width >> 1) + (x >> 1)];
+    struct SeaMapCollisionLayoutValue *value = &collisionLayout->data[y * (collisionLayout->header.width >> 1) + (x >> 1)];
     if ((x & 1) != 0)
         return value->value2;
     else
@@ -363,9 +377,9 @@ s32 SeaMapCollision__GetCollisionType(void *mapCol, u16 x, u16 y)
 
 void SeaMapCollision__SetMapCollision(void *mapCol, u16 x, u16 y, u32 newValue)
 {
-    struct CHCollision *chcl = (struct CHCollision *)mapCol;
+    struct SeaMapCollisionLayout *collisionLayout = (struct SeaMapCollisionLayout *)mapCol;
 
-    struct CHCollisionValue *value = &chcl->data[y * (chcl->header.width >> 1) + (x >> 1)];
+    struct SeaMapCollisionLayoutValue *value = &collisionLayout->data[y * (collisionLayout->header.width >> 1) + (x >> 1)];
 
     if ((x & 1) != 0)
         value->value2 = newValue;

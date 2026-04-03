@@ -20,7 +20,7 @@ BOOL SailAudio__CheckSequencePlaying(NNSSndHandle *handle, s32 id);
 
 RUSH_INLINE void SailAudio__StopSequence(s32 id)
 {
-    NNS_SndPlayerStopSeqBySeqArcIdx(SND_SAIL_SEQARC_ARC_VOYAGE_SE, id, 0);
+    StopAllSfxInstancesOf(SND_SAIL_SEQARC_ARC_VOYAGE_SE, id);
 }
 
 #endif // !RUSH_SAILAUDIO_H

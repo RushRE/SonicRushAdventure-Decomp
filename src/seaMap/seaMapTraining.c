@@ -15,24 +15,56 @@
 #include <resources/bb/ch/ch_training.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum SeaMapTrainingChCommonAnimIDs
+{
+    SEAMAPTRAINING_CHCOM_ANI_TRAINING_1_JP,
+    SEAMAPTRAINING_CHCOM_ANI_TRAINING_2_JP,
+    SEAMAPTRAINING_CHCOM_ANI_TRAINING_1_EN,
+    SEAMAPTRAINING_CHCOM_ANI_TRAINING_2_EN,
+    SEAMAPTRAINING_CHCOM_ANI_TRAINING_1_FR,
+    SEAMAPTRAINING_CHCOM_ANI_TRAINING_2_FR,
+    SEAMAPTRAINING_CHCOM_ANI_TRAINING_1_DE,
+    SEAMAPTRAINING_CHCOM_ANI_TRAINING_2_DE,
+    SEAMAPTRAINING_CHCOM_ANI_TRAINING_1_IT,
+    SEAMAPTRAINING_CHCOM_ANI_TRAINING_2_IT,
+    SEAMAPTRAINING_CHCOM_ANI_TRAINING_1_ES,
+    SEAMAPTRAINING_CHCOM_ANI_TRAINING_2_ES,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 
 struct SeaMapTrainingConfig
 {
-    u8 anim[8];
+    u8 anim[OS_LANGUAGE_CODE_MAX + 2];
     u8 palette[3];
-    u16 unknown[6];
+    u16 unknown[OS_LANGUAGE_CODE_MAX];
 };
 
 // --------------------
 // VARIABLES
 // --------------------
 
-static const struct SeaMapTrainingConfig sSpriteButtonConfig = {
-    .anim    = { 0, 2, 4, 6, 8, 10, 0, 0 },
+static const struct SeaMapTrainingConfig sTrainingTextConfig = {
+    .anim = { [OS_LANGUAGE_JAPANESE] = SEAMAPTRAINING_CHCOM_ANI_TRAINING_1_JP,
+              [OS_LANGUAGE_ENGLISH]  = SEAMAPTRAINING_CHCOM_ANI_TRAINING_1_EN,
+              [OS_LANGUAGE_FRENCH]   = SEAMAPTRAINING_CHCOM_ANI_TRAINING_1_FR,
+              [OS_LANGUAGE_GERMAN]   = SEAMAPTRAINING_CHCOM_ANI_TRAINING_1_DE,
+              [OS_LANGUAGE_ITALIAN]  = SEAMAPTRAINING_CHCOM_ANI_TRAINING_1_IT,
+              [OS_LANGUAGE_SPANISH]  = SEAMAPTRAINING_CHCOM_ANI_TRAINING_1_ES },
+
     .palette = { PALETTE_ROW_0, PALETTE_ROW_0, PALETTE_ROW_0 },
-    .unknown = { 12, 24, 24, 12, 3, 3 },
+
+    .unknown = { [OS_LANGUAGE_JAPANESE] = 12,
+                 [OS_LANGUAGE_ENGLISH]  = 24,
+                 [OS_LANGUAGE_FRENCH]   = 24,
+                 [OS_LANGUAGE_GERMAN]   = 12,
+                 [OS_LANGUAGE_ITALIAN]  = 3,
+                 [OS_LANGUAGE_SPANISH]  = 3 },
 };
 
 // --------------------
@@ -86,7 +118,7 @@ void CreateSeaMapTraining(void)
     InitSeaMapTrainingBackground(work);
     InitSeaMapTrainingSprites(work);
 
-    CreateNavTails(TRUE, SHIP_JET, NULL);
+    CreateNavTails(GRAPHICS_ENGINE_B, SHIP_JET, NULL);
 
     ReleaseAudioSystem();
     LoadAudioSndArc("snd/sys/sound_data.sdat");
@@ -220,7 +252,7 @@ void InitSeaMapTrainingSprites(SeaMapTraining *work)
     const struct SeaMapTrainingConfig *config;
     SpriteButtonAnimator *trainingTextButton = &work->trainingTextButton;
 
-    config = &sSpriteButtonConfig;
+    config = &sTrainingTextConfig;
 
     trainingTextButton->animID = config->anim[GetGameLanguage()];
     for (s32 i = 0; i < 3; i++)
@@ -265,7 +297,7 @@ u32 GetSeaMapTrainingSpriteButtonSpriteSize(SeaMapTraining *work)
     s32 i;
     s32 a;
 
-    config = &sSpriteButtonConfig;
+    config = &sTrainingTextConfig;
 
     size = 0;
 

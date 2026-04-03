@@ -18,23 +18,115 @@ extern "C"
 // ENUMS
 // --------------------
 
+enum SeaMapManagerSaveFlag_
+{
+    SEAMAPMANAGER_DISCOVER_SOUTHERN_ISLAND,
+    SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM,
+    SEAMAPMANAGER_DISCOVER_MACHINE_LABYRINTH,
+    SEAMAPMANAGER_DISCOVER_CORAL_CAVE,
+    SEAMAPMANAGER_DISCOVER_HAUNTED_SHIP,
+    SEAMAPMANAGER_DISCOVER_BLIZZARD_PEAKS,
+    SEAMAPMANAGER_DISCOVER_SKY_BABYLON,
+    SEAMAPMANAGER_DISCOVER_PIRATES_ISLAND,
+    SEAMAPMANAGER_DISCOVER_BIG_SWELL,
+    SEAMAPMANAGER_DISCOVER_DEEP_CORE,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_1,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_2,
+    SEAMAPMANAGER_DISCOVER_DAIKUN_ISLAND,
+    SEAMAPMANAGER_DISCOVER_13, // Unknown
+    SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_3,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_4,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_5,
+    SEAMAPMANAGER_DISCOVER_18, // Unknown
+    SEAMAPMANAGER_DISCOVER_19, // Unknown
+    SEAMAPMANAGER_DISCOVER_20, // Unknown
+    SEAMAPMANAGER_DISCOVER_21, // Unknown
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_6,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_7,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_8,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_9,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_10,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_11,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_12,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_13,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_14,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_15,
+    SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_16,
+    SEAMAPMANAGER_DISCOVER_33, // Unknown
+    SEAMAPMANAGER_DISCOVER_34, // Unknown
+    SEAMAPMANAGER_DISCOVER_35, // Unknown
+    SEAMAPMANAGER_DISCOVER_36, // Unknown
+    SEAMAPMANAGER_DISCOVER_37, // Unknown
+    SEAMAPMANAGER_DISCOVER_38, // Unknown
+    SEAMAPMANAGER_DISCOVER_39, // Unknown
+    SEAMAPMANAGER_DISCOVER_40, // Unknown
+    SEAMAPMANAGER_DISCOVER_41, // Unknown
+    SEAMAPMANAGER_DISCOVER_42, // Unknown
+    SEAMAPMANAGER_DISCOVER_43, // Unknown
+    SEAMAPMANAGER_DISCOVER_44, // Unknown
+    SEAMAPMANAGER_DISCOVER_45, // Unused
+    SEAMAPMANAGER_DISCOVER_46, // Unused
+    SEAMAPMANAGER_DISCOVER_47, // Unused
+    SEAMAPMANAGER_DISCOVER_48, // Unused
+    SEAMAPMANAGER_DISCOVER_49, // Unused
+    SEAMAPMANAGER_DISCOVER_50, // Unused
+    SEAMAPMANAGER_DISCOVER_51, // Unused
+    SEAMAPMANAGER_DISCOVER_52, // Unused
+    SEAMAPMANAGER_DISCOVER_53, // Unused
+    SEAMAPMANAGER_DISCOVER_54, // Unused
+    SEAMAPMANAGER_DISCOVER_55, // Unused
+    SEAMAPMANAGER_DISCOVER_56, // Unused
+    SEAMAPMANAGER_DISCOVER_VS_JOHNNY_1,
+    SEAMAPMANAGER_DISCOVER_VS_JOHNNY_2,
+    SEAMAPMANAGER_DISCOVER_VS_JOHNNY_3,
+    SEAMAPMANAGER_DISCOVER_VS_JOHNNY_4,
+    SEAMAPMANAGER_DISCOVER_VS_JOHNNY_5,
+    SEAMAPMANAGER_DISCOVER_VS_JOHNNY_6,
+    SEAMAPMANAGER_DISCOVER_VS_JOHNNY_7,
+};
+typedef u32 SeaMapManagerSaveFlag;
+
+
+enum SeaMapManagerMapPixel_
+{
+    SEAMAPMANAGER_PIXEL_DISCOVERED,
+    SEAMAPMANAGER_PIXEL_UNDISCOVERED,
+};
+typedef s32 SeaMapManagerMapPixel;
+
+enum SeaMapCollisionType_
+{
+	SEAMAP_COLLISION_0,
+	SEAMAP_COLLISION_1,
+	SEAMAP_COLLISION_2,
+	SEAMAP_COLLISION_3,
+	SEAMAP_COLLISION_4,
+	SEAMAP_COLLISION_5,
+	SEAMAP_COLLISION_6,
+	SEAMAP_COLLISION_7,
+	SEAMAP_COLLISION_8,
+	SEAMAP_COLLISION_9,
+	SEAMAP_COLLISION_10,
+	SEAMAP_COLLISION_11,
+	SEAMAP_COLLISION_12,
+	SEAMAP_COLLISION_13,
+	SEAMAP_COLLISION_14,
+	SEAMAP_COLLISION_15,
+};
+typedef u8 SeaMapCollisionType;
+
 // --------------------
 // STRUCTS
 // --------------------
 
-struct CHHeader
+struct SeaMapLayoutHeader
 {
     u16 width;
     u16 height;
 };
 
-struct CHBlock
-{
-    struct CHHeader header;
-    u8 data[1];
-};
-
-struct CHAttributeValue
+struct SeaMapAttributeLayoutValue
 {
     u8 value1 : 4;
     u8 value2 : 4;
@@ -48,40 +140,40 @@ struct CHLVValue
     u8 value4 : 2;
 };
 
-struct CHCollisionValue
+struct SeaMapCollisionLayoutValue
 {
-    u8 value1 : 4;
-    u8 value2 : 4;
+    SeaMapCollisionType value1 : 4;
+    SeaMapCollisionType value2 : 4;
 };
 
-struct CHAttributes
+struct SeaMapAttributeLayout
 {
-    struct CHHeader header;
-    struct CHAttributeValue data[1]; // unknown-length array
+    struct SeaMapLayoutHeader header;
+    struct SeaMapAttributeLayoutValue data[1]; // C-variable length array
 };
 
 struct CHLV
 {
-    struct CHHeader header;
-    struct CHLVValue data[1]; // unknown-length array
+    struct SeaMapLayoutHeader header;
+    struct CHLVValue data[1]; // C-variable length array
 };
 
-struct CHCollision
+struct SeaMapCollisionLayout
 {
-    struct CHHeader header;
-    struct CHCollisionValue data[1]; // unknown-length array
+    struct SeaMapLayoutHeader header;
+    struct SeaMapCollisionLayoutValue data[1]; // C-variable length array
 };
 
 typedef struct SeaMapManagerAssets_
 {
     void *sprChCommon;
-    CHEV *objectLayout;
-    struct CHAttributes *chat;
+    SeaMapObjectLayout *objectLayout;
+    struct SeaMapAttributeLayout *attributeLayout;
     struct CHLV *chlv;
     void *mapMask[3];
     void *mapIsland[3];
     void *mapSea[3];
-    struct CHCollision *mapCollision;
+    struct SeaMapCollisionLayout *mapCollision;
 } SeaMapManagerAssets;
 
 typedef struct SeaMapManager_
@@ -143,7 +235,7 @@ NOT_DECOMPILED fx32 SeaMapManager__GetXPos(void);
 NOT_DECOMPILED fx32 SeaMapManager__GetYPos(void);
 NOT_DECOMPILED void SeaMapManager__GetPosition(fx32 inX, fx32 inY, fx32 *x, fx32 *y);
 NOT_DECOMPILED void SeaMapManager__Func_2043A04(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043A80(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
+NOT_DECOMPILED void SeaMapManager__ConvertWorldPosToMapPos(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
 NOT_DECOMPILED void SeaMapManager__Func_2043A9C(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
 NOT_DECOMPILED void SeaMapManager__Func_2043AD4(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
 NOT_DECOMPILED void SeaMapManager__Func_2043B0C(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
@@ -157,14 +249,14 @@ NOT_DECOMPILED void SeaMapManager__Func_2043BEC(fx32 inX, fx32 inY, fx16 *x, fx1
 NOT_DECOMPILED void SeaMapManager__Func_2043C08(fx32 inX, fx32 inY, fx32 *x, fx32 *y);
 NOT_DECOMPILED void SeaMapManager__ClearSaveFlags(u8 *flags);
 NOT_DECOMPILED BOOL SeaMapManager__GetSaveFlag_(u8 *flags, u32 id);
-NOT_DECOMPILED BOOL SeaMapManager__GetSaveFlag(u32 id);
+NOT_DECOMPILED BOOL SeaMapManager__GetSaveFlag(SeaMapManagerSaveFlag id);
 NOT_DECOMPILED void SeaMapManager__SetSaveFlag_(u8 *flags, u32 id, BOOL state);
-NOT_DECOMPILED void SeaMapManager__SetSaveFlag(u32 id, BOOL state);
+NOT_DECOMPILED void SeaMapManager__SetSaveFlag(SeaMapManagerSaveFlag id, BOOL state);
 NOT_DECOMPILED void SeaMapManager__LoadMapBackground(void);
-NOT_DECOMPILED s32 SeaMapManager__GetMapPixel(u16 x, u16 y);
+NOT_DECOMPILED SeaMapManagerMapPixel SeaMapManager__GetMapPixel(u16 x, u16 y);
 NOT_DECOMPILED void SeaMapManager__Func_2043FDC(s32 x, s32 y);
-NOT_DECOMPILED void SeaMapManager__Func_2044268(s32 x, u32 y, u32 a3, u32 a4);
-NOT_DECOMPILED void SeaMapManager__Func_20442C8(u32 x, s32 y, s32 a3, s32 a4);
+NOT_DECOMPILED void SeaMapManager__Func_2044268(u16 x, u16 y, u16 a3, u16 a4);
+NOT_DECOMPILED void SeaMapManager__Func_20442C8(u16 x, u16 y, u16 a3, u16 a4);
 NOT_DECOMPILED void SeaMapManager__ClearGlobalNodeList(void);
 NOT_DECOMPILED void SeaMapManager__UpdateGlobalNodeList(void);
 NOT_DECOMPILED void SeaMapManager__LoadNodeList(void);

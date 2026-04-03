@@ -7,6 +7,8 @@
 #include <sail/sailCommonObjects.h>
 #include <game/object/obj.h>
 
+#include <seaMap/objects/seaMapJohnnyIcon.h>
+
 // Objects
 #include <sail/objects/sailGoal.h>
 
@@ -406,22 +408,22 @@ NONMATCH_FUNC void SailVoyageManager__Func_2157628(void)
                 case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_0:
                     break;
 
-                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_1:
+                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ISLAND_ARRIVAL:
                     SailVoyageManager__SeaMapObjectUnknownType1(link, id);
                     break;
 
-                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_2:
+                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ATTRIBUTE:
                     type = SailVoyageManager__SeaMapObjectUnknownType2(link);
                     break;
 
-                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_3:
+                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_LV:
                     unknown = SailVoyageManager__SeaMapObjectUnknownType3(link);
                     break;
 
-                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_4:
+                case SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ENCOUNTER:
                     SailVoyageManager__SeaMapObjectUnknownType4(link, id);
 
-                    if ((link->node.type4.chevRef->flags2 & 1) != 0)
+                    if ((link->node.type4.seaMapObject->usrFlags & SEAMAPJOHNNYICON_FLAG_STORY_EVENT) != 0)
                     {
                         state->sailUnknown4 = unknown4;
                     }
@@ -432,7 +434,7 @@ NONMATCH_FUNC void SailVoyageManager__Func_2157628(void)
                     break;
             }
 
-            if (link->node.type == SEAMAPVOYAGEPATHCONFIGNODE_TYPE_1 || link->node.type == SEAMAPVOYAGEPATHCONFIGNODE_TYPE_4)
+            if (link->node.type == SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ISLAND_ARRIVAL || link->node.type == SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ENCOUNTER)
                 break;
         }
     }
@@ -623,7 +625,7 @@ void SailVoyageManager__SeaMapObjectUnknownType1(SeaMapVoyagePathConfigNodeLink 
     s32 prevSegment;
     switch (work->node.type1.type)
     {
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE1TYPE_END:
+        case SEAMAPVOYAGEPATHCONFIGNODE_ARRIVAL_END:
             prevSegment                 = segmentCount - 1;
             voyageManager->segmentCount = segmentCount;
 
@@ -632,7 +634,7 @@ void SailVoyageManager__SeaMapObjectUnknownType1(SeaMapVoyagePathConfigNodeLink 
             voyageManager->unknownObjectDistance          = work->node.distance;
             break;
 
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE1TYPE_GOAL:
+        case SEAMAPVOYAGEPATHCONFIGNODE_ARRIVAL_GOAL:
             prevSegment                 = segmentCount - 1;
             voyageManager->segmentCount = segmentCount;
 
@@ -640,10 +642,10 @@ void SailVoyageManager__SeaMapObjectUnknownType1(SeaMapVoyagePathConfigNodeLink 
             voyageManager->segmentList[segmentCount].type = SAILVOYAGESEGMENT_TYPE_15;
 
             voyageManager->unknownObjectDistance = work->node.distance;
-            manager->targetIslandID              = work->node.type1.unlockID;
+            manager->targetIslandID              = work->node.type1.id;
             break;
 
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE1TYPE_COLLISION:
+        case SEAMAPVOYAGEPATHCONFIGNODE_ARRIVAL_COLLISION:
             voyageManager->segmentCount          = segmentCount;
             voyageManager->unknownObjectDistance = work->node.distance;
 
@@ -691,17 +693,17 @@ void SailVoyageManager__SeaMapObjectUnknownType4(SeaMapVoyagePathConfigNodeLink 
     s32 prevSegment;
     switch (work->node.type4.type)
     {
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE4TYPE_RIVAL_RACE:
+        case SEAMAPVOYAGEPATHCONFIGNODE_ENCOUNTER_RIVAL_RACE:
             prevSegment                                   = segmentCount - 1;
             voyageManager->segmentCount                   = segmentCount;
             voyageManager->segmentList[prevSegment].type  = SAILVOYAGESEGMENT_TYPE_22;
             voyageManager->segmentList[segmentCount].type = SAILVOYAGESEGMENT_TYPE_23;
 
-            manager->field_8                     = work->node.type4.chevRef->unlockID;
+            manager->field_8                     = work->node.type4.seaMapObject->id;
             voyageManager->unknownObjectDistance = work->node.distance;
             break;
 
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE4TYPE_UNKNOWN:
+        case SEAMAPVOYAGEPATHCONFIGNODE_ENCOUNTER_UNKNOWN:
             prevSegment                                   = segmentCount - 1;
             voyageManager->segmentCount                   = segmentCount;
             voyageManager->segmentList[prevSegment].type  = SAILVOYAGESEGMENT_TYPE_24;
@@ -724,25 +726,25 @@ u8 SailVoyageManager__SeaMapObjectUnknownType2(SeaMapVoyagePathConfigNodeLink *w
 
     switch (work->node.type2.attribute)
     {
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE2TYPE_0:
+        case SEAMAPVOYAGEPATHCONFIGNODE_ATTRIBUTE_0:
             return SAILVOYAGESEGMENT_TYPE_0;
 
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE2TYPE_1:
+        case SEAMAPVOYAGEPATHCONFIGNODE_ATTRIBUTE_1:
             return SAILVOYAGESEGMENT_TYPE_5;
 
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE2TYPE_2:
+        case SEAMAPVOYAGEPATHCONFIGNODE_ATTRIBUTE_2:
             return SAILVOYAGESEGMENT_TYPE_3;
 
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE2TYPE_3:
+        case SEAMAPVOYAGEPATHCONFIGNODE_ATTRIBUTE_3:
             if (SailManager__GetShipType() == SHIP_HOVER)
                 return SAILVOYAGESEGMENT_TYPE_2;
             else
                 return SAILVOYAGESEGMENT_TYPE_1;
 
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE2TYPE_4:
+        case SEAMAPVOYAGEPATHCONFIGNODE_ATTRIBUTE_4:
             return SAILVOYAGESEGMENT_TYPE_6;
 
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE2TYPE_5:
+        case SEAMAPVOYAGEPATHCONFIGNODE_ATTRIBUTE_5:
             return SAILVOYAGESEGMENT_TYPE_4;
     }
 
@@ -755,14 +757,14 @@ u8 SailVoyageManager__SeaMapObjectUnknownType3(SeaMapVoyagePathConfigNodeLink *w
 
     switch (work->node.type3.lv)
     {
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE3TYPE_0:
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE3TYPE_1:
+        case SEAMAPVOYAGEPATHCONFIGNODE_LV_0:
+        case SEAMAPVOYAGEPATHCONFIGNODE_LV_1:
             return 0;
 
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE3TYPE_2:
+        case SEAMAPVOYAGEPATHCONFIGNODE_LV_2:
             return work->node.type3.lv - 1;
 
-        case SEAMAPVOYAGEPATHCONFIGNODE_TYPE3TYPE_3:
+        case SEAMAPVOYAGEPATHCONFIGNODE_LV_3:
             return work->node.type3.lv - 1;
     }
 
@@ -1143,13 +1145,13 @@ void SailVoyageManager__LoadSegment(SailVoyageManager *work, u8 type)
                 manager->flags |= SAILMANAGER_FLAG_20;
                 SailPlayer__Action_ReachedGoal(player);
 
-                s32 unlockID = SeaMapEventManager__Func_2046CE8(manager->targetIslandID);
+                s32 discoverID = SeaMapEventManager_GetDiscoverableIslandID(manager->targetIslandID);
                 if ((manager->flags & SAILMANAGER_FLAG_FREEZE_DAYTIME_TIMER) == 0)
                 {
-                    if (!SeaMapEventManager__CheckFeatureUnlocked(unlockID))
+                    if (!SeaMapEventManager_CheckIslandUnlocked(discoverID))
                         manager->flags |= SAILMANAGER_FLAG_80000;
 
-                    SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_TYPE_7, INT_TO_VOID(manager->targetIslandID), 0);
+                    SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_EVENT_ISLAND_DISCOVERY, INT_TO_VOID(manager->targetIslandID), NULL);
                 }
             }
             break;
@@ -1206,12 +1208,12 @@ void SailVoyageManager__FindVisibleIslands(SailVoyageManager *work)
     {
         for (i = 0; i < work->visibleIslandCount; i++)
         {
-            work->visibleIslandIDList[i] = work->visibleIslandList[i].object->unlockID;
+            work->visibleIslandIDList[i] = work->visibleIslandList[i].object->id;
         }
         u16 prevIslandCount = work->visibleIslandCount;
 
         work->visibleIslandCount = SAILVOYAGEMANAGER_MAX_VISIBLE_ISLANDS;
-        SeaMapEventManager__FindVisibleIslands(work->targetUnknownX, work->targetUnknownZ, FLOAT_TO_FX32(64.0), work->visibleIslandList, &work->visibleIslandCount);
+        SeaMapEventManager_FindVisibleIslands(work->targetUnknownX, work->targetUnknownZ, FLOAT_TO_FX32(64.0), work->visibleIslandList, &work->visibleIslandCount);
 
         for (i = 0; i < work->visibleIslandCount; i++)
         {
@@ -1219,10 +1221,10 @@ void SailVoyageManager__FindVisibleIslands(SailVoyageManager *work)
 
             for (v = 0; v < prevIslandCount; v++)
             {
-                if (work->visibleIslandIDList[v] == work->visibleIslandList[i].object->unlockID)
+                if (work->visibleIslandIDList[v] == work->visibleIslandList[i].object->id)
                     canCreateIsland = FALSE;
 
-                if (manager->targetIslandID == work->visibleIslandList[i].object->unlockID)
+                if (manager->targetIslandID == work->visibleIslandList[i].object->id)
                     canCreateIsland = FALSE;
             }
 
@@ -1236,7 +1238,7 @@ void SailVoyageManager__FindVisibleIslands(SailVoyageManager *work)
                 islandObject.voyagePosition = work->position;
                 islandObject.type           = SAILMAPOBJECT_ISLAND;
                 islandObject.viewRange      = 0x180;
-                islandObject.param          = work->visibleIslandList[i].object->unlockID;
+                islandObject.param          = work->visibleIslandList[i].object->id;
                 SailEventManager__LoadObject(&islandObject);
             }
         }

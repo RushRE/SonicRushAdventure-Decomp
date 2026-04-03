@@ -311,7 +311,7 @@ NONMATCH_FUNC void SpringCrystal_HandleInteractions(OBS_RECT_WORK *rect1, OBS_RE
 
     SetTaskState(&springCrystal->gameWork.objWork, SpringCrystal_State_Activated);
 
-    NNS_SndPlayerStopSeqBySeqArcIdx(SND_ZONE_SEQARC_GAME_SE, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SPRING_CRYSTAL, 0);
+    StopAllSfxInstancesOf(SND_ZONE_SEQARC_GAME_SE, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SPRING_CRYSTAL);
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SPRING_CRYSTAL);
 #else
     // clang-format off

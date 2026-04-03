@@ -18,6 +18,6 @@ struct SeaMapBoatIcon_
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapBoatIcon(const CHEVObjectType *objectType, CHEVObject *mapObject);
+SeaMapObject *CreateSeaMapBoatIcon(const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject);
 
 #endif // RUSH_SEAMAPBOATICON_H

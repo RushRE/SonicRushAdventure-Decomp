@@ -290,7 +290,7 @@ _020461B8:
 	mov r1, r1, lsl #0xd
 	mov r0, r0, lsr #0x10
 	mov r1, r1, lsr #0x10
-	bl SeaMapCollision__GetCollisionAtPoint
+	bl SeaMapCollision_GetCollisionAtPoint
 	ldr ip, [sp, #0x10]
 	ldr r2, [sp, #8]
 	ldr r3, [sp, #0xc]

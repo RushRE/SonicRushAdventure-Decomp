@@ -20,7 +20,7 @@ static void SeaMapSkyBabylonIcon_State_Hovering(SeaMapSkyBabylonIcon *work);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapSkyBabylonIcon(const CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapSkyBabylonIcon(const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject)
 {
     SeaMapSkyBabylonIcon *work;
 
@@ -28,7 +28,7 @@ SeaMapObject *CreateSeaMapSkyBabylonIcon(const CHEVObjectType *objectType, CHEVO
 
     Task *task =
         TaskCreate(SeaMapSkyBabylonIcon_Main, SeaMapSkyBabylonIcon_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x111, TASK_GROUP(1), SeaMapSkyBabylonIcon);
-    SeaMapEventManager__GetWork()->skyBabylonIcon = task;
+    GetSeaMapEventManagerWork()->skyBabylonIcon = task;
 
     work = TaskGetWork(task, SeaMapSkyBabylonIcon);
     TaskInitWork16(work);
@@ -38,7 +38,7 @@ SeaMapObject *CreateSeaMapSkyBabylonIcon(const CHEVObjectType *objectType, CHEVO
     else
         work->state = SeaMapSkyBabylonIcon_State_Hidden;
 
-    SeaMapEventManager__InitMapObject(&work->objWork, task, objectType, mapObject);
+    InitSeaMapEventManagerObject(&work->objWork, task, objectType, mapObject);
 
     // Init island sprite
     AnimatorSprite__Init(&work->aniIcon, manager->assets.sprChCommon, objectType->animID, ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK,
@@ -46,8 +46,8 @@ SeaMapObject *CreateSeaMapSkyBabylonIcon(const CHEVObjectType *objectType, CHEVO
                          VRAMSystem__AllocSpriteVram(manager->useEngineB, Sprite__GetSpriteSize1FromAnim(manager->assets.sprChCommon, objectType->animID)), PALETTE_MODE_SPRITE,
                          VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[manager->useEngineB]), SPRITE_PRIORITY_0, SPRITE_ORDER_13);
 
-    work->aniIcon.pos.x   = mapObject->position.x;
-    work->aniIcon.pos.y   = mapObject->position.y;
+    work->aniIcon.pos.x          = mapObject->position.x;
+    work->aniIcon.pos.y          = mapObject->position.y;
     work->aniIcon.cParam.palette = objectType->palette;
 
     // Init island shadow sprite
@@ -57,7 +57,7 @@ SeaMapObject *CreateSeaMapSkyBabylonIcon(const CHEVObjectType *objectType, CHEVO
 
     work->aniShadow.cParam.palette = PALETTE_ROW_9;
 
-    SeaMapEventManager__SetObjectAsActive(&work->objWork);
+    SeaMapEventManager_SetObjectAsActive(&work->objWork);
 
     return &work->objWork;
 }
@@ -66,13 +66,13 @@ void SeaMapSkyBabylonIcon_Main(void)
 {
     SeaMapSkyBabylonIcon *work = TaskGetWorkCurrent(SeaMapSkyBabylonIcon);
 
-    if (!SeaMapEventManager__ObjectInBounds(&work->objWork.position, work->objWork.objectType->viewBounds))
+    if (!SeaMapEventManager_CheckVisible(&work->objWork.position, work->objWork.objectType->viewBounds))
     {
         DestroyCurrentTask();
     }
     else
     {
-        work->angle += 182;
+        work->angle += FLOAT_DEG_TO_IDX(1.0);
         work->state(work);
     }
 }
@@ -83,11 +83,11 @@ void SeaMapSkyBabylonIcon_Destructor(Task *task)
 
     AnimatorSprite__Release(&work->aniIcon);
     AnimatorSprite__Release(&work->aniShadow);
-    SeaMapEventManager__SetObjectAsInactive(&work->objWork);
-    SeaMapEventManager__DestroyObject(&work->objWork);
+    SeaMapEventManager_SetObjectAsInactive(&work->objWork);
+    DestroySeaMapEventManagerObject(&work->objWork);
 
     if (gSeaMapEventManagerTaskSingleton != NULL)
-        SeaMapEventManager__GetWork()->skyBabylonIcon = NULL;
+        GetSeaMapEventManagerWork()->skyBabylonIcon = NULL;
 }
 
 void SeaMapSkyBabylonIcon_State_Hidden(SeaMapSkyBabylonIcon *work)
@@ -112,7 +112,7 @@ void SeaMapSkyBabylonIcon_State_Appear(SeaMapSkyBabylonIcon *work)
     pos.x = work->objWork.position.x;
     pos.y = work->objWork.position.y + oscillation;
 
-    SeaMapEventManager__Func_20474FC(&pos, &work->aniIcon.pos);
+    SeaMapEventManager_GetMapLocalPosition(&pos, &work->aniIcon.pos);
     AnimatorSprite__ProcessAnimationFast(&work->aniIcon);
     AnimatorSprite__DrawFrame(&work->aniIcon);
 
@@ -144,7 +144,7 @@ void SeaMapSkyBabylonIcon_State_Hovering(SeaMapSkyBabylonIcon *work)
     pos.x = work->objWork.position.x;
     pos.y = work->objWork.position.y + oscillation;
 
-    SeaMapEventManager__Func_20474FC(&pos, &work->aniIcon.pos);
+    SeaMapEventManager_GetMapLocalPosition(&pos, &work->aniIcon.pos);
     AnimatorSprite__ProcessAnimationFast(&work->aniIcon);
 
     work->aniShadow.pos.x = work->aniIcon.pos.x;

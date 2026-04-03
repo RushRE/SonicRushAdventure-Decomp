@@ -107,13 +107,13 @@ enum SaveProgress_
     SAVE_PROGRESS_9,  // built ocean tornado
     SAVE_PROGRESS_10, // visited ocean tornado dock
     SAVE_PROGRESS_11, // ???
-    SAVE_PROGRESS_12, // ???
+    SAVE_PROGRESS_12, // encountered johnny for the first time
     SAVE_PROGRESS_13, // cleared hidden island 1
     SAVE_PROGRESS_14, // cleared coral cave act 1
     SAVE_PROGRESS_15, // cleared coral cave act 2
     SAVE_PROGRESS_16, // cleared coral cave boss
     SAVE_PROGRESS_17, // built radio tower
-    SAVE_PROGRESS_18, // ???
+    SAVE_PROGRESS_18, // visited kylok's island
     SAVE_PROGRESS_19, // cleared haunted ship act 1
     SAVE_PROGRESS_20, // cleared haunted ship act 2
     SAVE_PROGRESS_21, // cleared haunted ship boss
@@ -158,7 +158,7 @@ enum SaveProgressZone6_
 {
     SAVE_ZONE6_PROGRESS_0, // ???
     SAVE_ZONE6_PROGRESS_1, // ???
-    SAVE_ZONE6_PROGRESS_2, // ???
+    SAVE_ZONE6_PROGRESS_2, // visited daikun's island
     SAVE_ZONE6_PROGRESS_3, // cleared hidden island 2
     SAVE_ZONE6_PROGRESS_4, // cleared sky babylon act 2
     SAVE_ZONE6_PROGRESS_5, // cleared sky babylon act 2
@@ -203,20 +203,20 @@ typedef s32 SaveIslandState;
 
 enum SaveIslandProgress
 {
-    SAVE_ISLAND_0,
-    SAVE_ISLAND_1,
-    SAVE_ISLAND_2,
-    SAVE_ISLAND_3,
-    SAVE_ISLAND_4,
-    SAVE_ISLAND_5,
-    SAVE_ISLAND_6,
-    SAVE_ISLAND_7,
-    SAVE_ISLAND_8,
-    SAVE_ISLAND_9,
-    SAVE_ISLAND_10,
-    SAVE_ISLAND_11,
-    SAVE_ISLAND_12,
-    SAVE_ISLAND_13,
+    SAVE_ISLAND_HIDDEN_ISLAND_3,
+    SAVE_ISLAND_HIDDEN_ISLAND_4,
+    SAVE_ISLAND_HIDDEN_ISLAND_5,
+    SAVE_ISLAND_HIDDEN_ISLAND_6,
+    SAVE_ISLAND_HIDDEN_ISLAND_7,
+    SAVE_ISLAND_HIDDEN_ISLAND_8,
+    SAVE_ISLAND_HIDDEN_ISLAND_9,
+    SAVE_ISLAND_HIDDEN_ISLAND_10,
+    SAVE_ISLAND_HIDDEN_ISLAND_11,
+    SAVE_ISLAND_HIDDEN_ISLAND_12,
+    SAVE_ISLAND_HIDDEN_ISLAND_13,
+    SAVE_ISLAND_HIDDEN_ISLAND_14,
+    SAVE_ISLAND_HIDDEN_ISLAND_15,
+    SAVE_ISLAND_HIDDEN_ISLAND_16,
 
     SAVE_ISLAND_COUNT,
 };
@@ -465,7 +465,7 @@ void SaveGame__SetDoneFirstShipVoyage(s32 id);
 BOOL SaveGame__HasDoneFirstShipVoyage(s32 id);
 void SaveGame__ClearCallback_Stage(SaveGame *save, SaveBlockFlags blockFlags);
 void SaveGame__UpdateProgress(void);
-SaveGameNextAction *SaveGame__GetNextActionFromProgress(void);
+const SaveGameNextAction *SaveGame__GetNextActionFromProgress(void);
 void SaveGame__UpdateProgress2_Type0(void);
 void SaveGame__UpdateProgress2_Type1(void);
 void SaveGame__UpdateProgress2_Type2(void);
@@ -492,14 +492,14 @@ BOOL SaveGame__ProgressCheck_Type9(s32 id);
 BOOL SaveGame__ProgressCheck_Type10(s32 id);
 BOOL SaveGame__ProgressCheck_Type11(s32 id);
 
-void SaveGame__UpdateProgress1_Func_205CB60(SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CBC4(SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CBD0(SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CBDC(SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CBE8(SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CBF4(SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CC04(SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CC3C(SaveGameNextAction *action);
+void SaveGame__UpdateProgress1_Func_205CB60(const SaveGameNextAction *action);
+void SaveGame__UpdateProgress1_Func_205CBC4(const SaveGameNextAction *action);
+void SaveGame__UpdateProgress1_Func_205CBD0(const SaveGameNextAction *action);
+void SaveGame__UpdateProgress1_Func_205CBDC(const SaveGameNextAction *action);
+void SaveGame__UpdateProgress1_Func_205CBE8(const SaveGameNextAction *action);
+void SaveGame__UpdateProgress1_Func_205CBF4(const SaveGameNextAction *action);
+void SaveGame__UpdateProgress1_Func_205CC04(const SaveGameNextAction *action);
+void SaveGame__UpdateProgress1_Func_205CC3C(const SaveGameNextAction *action);
 
 void SaveGame__ChangeEvent(s32 sysEvent);
 void SaveGame__RestartEvent(void);
@@ -554,8 +554,8 @@ BOOL SaveGame__CheckProgressIsHuntingForClues(void);
 BOOL SaveGame__CanBuyInfoHint(void);
 void SaveGame__BuyInfoHint(void);
 BOOL SaveGame__CheckProgressIsAllEmeraldsCollected(void);
-s32 SaveGame__Func_205D65C(s32 seaMapViewType);
-s32 SaveGame__Func_205D758(s32 a1);
+u16 SaveGame__GetTargetFlagIconCount(s32 seaMapViewType);
+s32 SaveGame__GetTargetFlagIcon(s32 targetIndex);
 ShipLevel SaveGame__GetShipUpgradeStatus(u16 id);
 ShipLevel SaveGame__GetShipUpgradeStatus_(u16 id, u32 flags);
 

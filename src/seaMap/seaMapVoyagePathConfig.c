@@ -4,6 +4,7 @@
 #include <seaMap/seaMapView.h>
 #include <seaMap/seaMapEventManager.h>
 #include <seaMap/seaMapCourseChangeView.h>
+#include <seaMap/objects/seaMapIslandIcon.h>
 
 // --------------------
 // MACROS
@@ -33,7 +34,7 @@ static void SeaMapVoyagePathConfig_InitList(void);
 static SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_AddNode(SeaMapVoyagePathConfigNode *node);
 static void SeaMapVoyagePathConfig_RemoveAllNodes(void);
 static SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_FindNodeFromType(u32 type);
-static SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_FindNodeFromMapObject(u32 type, CHEVObject *work);
+static SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_FindNodeFromMapObject(SeaMapVoyagePathConfigNodeType4Type type, SeaMapLayoutObject *mapObject);
 static u8 SeaMapVoyagePathConfig_GetAttribute(fx32 x, fx32 y);
 static u8 SeaMapVoyagePathConfig_GetLV(fx32 x, fx32 y);
 
@@ -131,8 +132,8 @@ BOOL SeaMapVoyagePathConfig_AddNodesAlongPath(fx32 curDistance, fx32 curX, fx32 
 
         MI_CpuClear16(&node, sizeof(node));
         node.distance   = totalDistance;
-        node.type       = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_1;
-        node.type1.type = SEAMAPVOYAGEPATHCONFIGNODE_TYPE1TYPE_END;
+        node.type       = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ISLAND_ARRIVAL;
+        node.type1.type = SEAMAPVOYAGEPATHCONFIGNODE_ARRIVAL_END;
         SeaMapVoyagePathConfig_AddNode(&node);
         return TRUE;
     }
@@ -148,8 +149,8 @@ BOOL SeaMapVoyagePathConfig_AddNodesAlongPath(fx32 curDistance, fx32 curX, fx32 
         {
             MI_CpuClear16(&node, sizeof(node));
             node.distance   = prevDistance;
-            node.type       = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_1;
-            node.type1.type = SEAMAPVOYAGEPATHCONFIGNODE_TYPE1TYPE_COLLISION;
+            node.type       = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ISLAND_ARRIVAL;
+            node.type1.type = SEAMAPVOYAGEPATHCONFIGNODE_ARRIVAL_COLLISION;
             SeaMapVoyagePathConfig_AddNode(&node);
             return TRUE;
         }
@@ -162,27 +163,27 @@ BOOL SeaMapVoyagePathConfig_AddMapObjectNodesAtEnd(fx32 distance, fx32 x, fx32 y
 {
     SeaMapVoyagePathConfigNode node;
 
-    CHEV *objectLayout = SeaMapManager__GetWork()->assets.objectLayout;
+    SeaMapObjectLayout *layout = SeaMapManager__GetWork()->assets.objectLayout;
 
-    for (u16 i = 0; i < objectLayout->count; i++)
+    for (u16 i = 0; i < layout->count; i++)
     {
-        CHEVObject *mapObject           = &objectLayout->entries[i];
-        u32 mapObjectType               = SeaMapEventManager__GetObjectType(mapObject);
-        const CHEVObjectType *mapObjectConfig = &gSeaMapObjectTypeList[mapObjectType];
+        SeaMapLayoutObject *mapObject                 = &layout->objectList[i];
+        u32 mapObjectType                             = SeaMapEventManager_GetObjectType(mapObject);
+        const SeaMapLayoutObjectType *mapObjectConfig = &gSeaMapObjectTypeList[mapObjectType];
 
-        if (mapObjectConfig->viewCheckFunc != NULL)
+        if (mapObjectConfig->arrivalCheck != NULL)
         {
-            if (mapObjectType == SEAMAPOBJECT_ISLAND_ICON_1 || mapObjectType == SEAMAPOBJECT_ISLAND_ICON_2)
+            if (mapObjectType == SEAMAPOBJECT_ISLAND_ICON_ELIPSE || mapObjectType == SEAMAPOBJECT_ISLAND_ICON_RECT)
             {
-                if ((mapObject->flags2 & 1) != 0)
+                if ((mapObject->usrFlags & SEAMAPISLANDICON_FLAG_DISCOVERABLE_VIA_VOYAGE) != 0)
                 {
-                    if (SeaMapManager__GetSaveFlag(mapObject->unlockID) && mapObjectConfig->viewCheckFunc(mapObject, x, y, TRUE))
+                    if (SeaMapManager__GetSaveFlag(mapObject->id) && mapObjectConfig->arrivalCheck(mapObject, x, y, TRUE))
                     {
                         MI_CpuClear16(&node, sizeof(node));
-                        node.distance       = distance;
-                        node.type           = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_1;
-                        node.type1.type     = SEAMAPVOYAGEPATHCONFIGNODE_TYPE1TYPE_GOAL;
-                        node.type1.unlockID = SeaMapEventManager__Func_2046CE8(mapObject->unlockID);
+                        node.distance   = distance;
+                        node.type       = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ISLAND_ARRIVAL;
+                        node.type1.type = SEAMAPVOYAGEPATHCONFIGNODE_ARRIVAL_GOAL;
+                        node.type1.id   = SeaMapEventManager_GetDiscoverableIslandID(mapObject->id);
                         SeaMapVoyagePathConfig_AddNode(&node);
                         return TRUE;
                     }
@@ -191,32 +192,32 @@ BOOL SeaMapVoyagePathConfig_AddMapObjectNodesAtEnd(fx32 distance, fx32 x, fx32 y
                 {
                     BOOL canAdd = FALSE;
 
-                    switch (mapObject->unlockID)
+                    switch (mapObject->id)
                     {
-                        case 3:
-                            if (mapObjectConfig->viewCheckFunc(mapObject, x, y, TRUE))
+                        case SEAMAPMANAGER_DISCOVER_CORAL_CAVE:
+                            if (mapObjectConfig->arrivalCheck(mapObject, x, y, TRUE))
                             {
                                 MI_CpuClear16(&node, sizeof(node));
-                                node.type1.unlockID = 1;
-                                canAdd              = TRUE;
+                                node.type1.id = SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM;
+                                canAdd        = TRUE;
                             }
                             break;
 
-                        case 14:
-                            if (mapObjectConfig->viewCheckFunc(mapObject, x, y, TRUE))
+                        case SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND:
+                            if (mapObjectConfig->arrivalCheck(mapObject, x, y, TRUE))
                             {
                                 MI_CpuClear16(&node, sizeof(node));
-                                node.type1.unlockID = 3;
-                                canAdd              = TRUE;
+                                node.type1.id = SEAMAPMANAGER_DISCOVER_CORAL_CAVE;
+                                canAdd        = TRUE;
                             }
                             break;
 
-                        case 40:
-                            if (mapObjectConfig->viewCheckFunc(mapObject, x, y, TRUE))
+                        case SEAMAPMANAGER_DISCOVER_40:
+                            if (mapObjectConfig->arrivalCheck(mapObject, x, y, TRUE))
                             {
                                 MI_CpuClear16(&node, sizeof(node));
-                                node.type1.unlockID = 8;
-                                canAdd              = TRUE;
+                                node.type1.id = SEAMAPMANAGER_DISCOVER_BIG_SWELL;
+                                canAdd        = TRUE;
                             }
                             break;
                     }
@@ -224,8 +225,8 @@ BOOL SeaMapVoyagePathConfig_AddMapObjectNodesAtEnd(fx32 distance, fx32 x, fx32 y
                     if (canAdd)
                     {
                         node.distance   = distance;
-                        node.type       = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_1;
-                        node.type1.type = SEAMAPVOYAGEPATHCONFIGNODE_TYPE1TYPE_GOAL;
+                        node.type       = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ISLAND_ARRIVAL;
+                        node.type1.type = SEAMAPVOYAGEPATHCONFIGNODE_ARRIVAL_GOAL;
                         SeaMapVoyagePathConfig_AddNode(&node);
                         return TRUE;
                     }
@@ -241,27 +242,27 @@ BOOL SeaMapVoyagePathConfig_AddMapObjectNodesAtPos(fx32 distance, fx32 x, fx32 y
 {
     SeaMapVoyagePathConfigNode node;
 
-    CHEV *objectLayout = SeaMapManager__GetWork()->assets.objectLayout;
+    SeaMapObjectLayout *layout = SeaMapManager__GetWork()->assets.objectLayout;
 
-    for (u16 i = 0; i < objectLayout->count; i++)
+    for (u16 i = 0; i < layout->count; i++)
     {
-        CHEVObject *mapObject           = &objectLayout->entries[i];
-        u32 mapObjectType               = SeaMapEventManager__GetObjectType(mapObject);
-        const CHEVObjectType *mapObjectConfig = &gSeaMapObjectTypeList[mapObjectType];
+        SeaMapLayoutObject *mapObject                 = &layout->objectList[i];
+        u32 mapObjectType                             = SeaMapEventManager_GetObjectType(mapObject);
+        const SeaMapLayoutObjectType *mapObjectConfig = &gSeaMapObjectTypeList[mapObjectType];
 
-        if (mapObjectConfig->viewCheckFunc != NULL)
+        if (mapObjectConfig->arrivalCheck != NULL)
         {
-            if (mapObjectType == SEAMAPOBJECT_ISLAND_ICON_1 || mapObjectType == SEAMAPOBJECT_ISLAND_ICON_2)
+            if (mapObjectType == SEAMAPOBJECT_ISLAND_ICON_ELIPSE || mapObjectType == SEAMAPOBJECT_ISLAND_ICON_RECT)
             {
-                if ((mapObject->flags2 & 1) != 0)
+                if ((mapObject->usrFlags & SEAMAPISLANDICON_FLAG_DISCOVERABLE_VIA_VOYAGE) != 0)
                 {
-                    if (mapObjectConfig->viewCheckFunc(mapObject, x, y, FALSE))
+                    if (mapObjectConfig->arrivalCheck(mapObject, x, y, FALSE))
                     {
                         MI_CpuClear16(&node, sizeof(node));
-                        node.distance       = distance;
-                        node.type           = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_1;
-                        node.type1.type     = SEAMAPVOYAGEPATHCONFIGNODE_TYPE1TYPE_GOAL;
-                        node.type1.unlockID = SeaMapEventManager__Func_2046CE8(mapObject->unlockID);
+                        node.distance   = distance;
+                        node.type       = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ISLAND_ARRIVAL;
+                        node.type1.type = SEAMAPVOYAGEPATHCONFIGNODE_ARRIVAL_GOAL;
+                        node.type1.id   = SeaMapEventManager_GetDiscoverableIslandID(mapObject->id);
                         SeaMapVoyagePathConfig_AddNode(&node);
                         return TRUE;
                     }
@@ -272,22 +273,22 @@ BOOL SeaMapVoyagePathConfig_AddMapObjectNodesAtPos(fx32 distance, fx32 x, fx32 y
                 s32 type;
                 switch (mapObjectType)
                 {
-                    case SEAMAPOBJECT_UNKNOWN:
-                        type = SEAMAPVOYAGEPATHCONFIGNODE_TYPE4TYPE_UNKNOWN;
+                    case SEAMAPOBJECT_UNKNOWN_ENCOUNTER:
+                        type = SEAMAPVOYAGEPATHCONFIGNODE_ENCOUNTER_UNKNOWN;
                         break;
 
                     case SEAMAPOBJECT_JOHNNY_ICON:
-                        type = SEAMAPVOYAGEPATHCONFIGNODE_TYPE4TYPE_RIVAL_RACE;
+                        type = SEAMAPVOYAGEPATHCONFIGNODE_ENCOUNTER_RIVAL_RACE;
                         break;
                 }
 
-                if (SeaMapVoyagePathConfig_FindNodeFromMapObject(type, mapObject) == NULL && mapObjectConfig->viewCheckFunc(mapObject, x, y, FALSE))
+                if (SeaMapVoyagePathConfig_FindNodeFromMapObject(type, mapObject) == NULL && mapObjectConfig->arrivalCheck(mapObject, x, y, FALSE))
                 {
                     MI_CpuClear16(&node, sizeof(node));
-                    node.type          = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_4;
-                    node.type4.chevRef = mapObject;
-                    node.distance      = distance;
-                    node.type4.type    = type;
+                    node.type               = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ENCOUNTER;
+                    node.type4.seaMapObject = mapObject;
+                    node.distance           = distance;
+                    node.type4.type         = type;
                     SeaMapVoyagePathConfig_AddNode(&node);
                 }
             }
@@ -301,13 +302,13 @@ BOOL SeaMapVoyagePathConfig_AddAttrNode(fx32 distance, fx32 x, fx32 y)
 {
     u8 attribute = SeaMapVoyagePathConfig_GetAttribute(x, y);
 
-    SeaMapVoyagePathConfigNodeLink *foundObject = SeaMapVoyagePathConfig_FindNodeFromType(SEAMAPVOYAGEPATHCONFIGNODE_TYPE_2);
+    SeaMapVoyagePathConfigNodeLink *foundObject = SeaMapVoyagePathConfig_FindNodeFromType(SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ATTRIBUTE);
     if (foundObject == NULL || foundObject->node.type2.attribute != attribute)
     {
         SeaMapVoyagePathConfigNode node;
         MI_CpuClear16(&node, sizeof(node));
         node.distance        = distance;
-        node.type            = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_2;
+        node.type            = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ATTRIBUTE;
         node.type2.attribute = attribute;
         SeaMapVoyagePathConfig_AddNode(&node);
 
@@ -321,13 +322,13 @@ BOOL SeaMapVoyagePathConfig_AddLVNode(fx32 distance, fx32 x, fx32 y)
 {
     u8 lv = SeaMapVoyagePathConfig_GetLV(x, y);
 
-    SeaMapVoyagePathConfigNodeLink *foundObject = SeaMapVoyagePathConfig_FindNodeFromType(SEAMAPVOYAGEPATHCONFIGNODE_TYPE_3);
+    SeaMapVoyagePathConfigNodeLink *foundObject = SeaMapVoyagePathConfig_FindNodeFromType(SEAMAPVOYAGEPATHCONFIGNODE_TYPE_LV);
     if (foundObject == NULL || foundObject->node.type3.lv != lv)
     {
         SeaMapVoyagePathConfigNode node;
         MI_CpuClear16(&node, sizeof(node));
         node.distance = distance;
-        node.type     = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_3;
+        node.type     = SEAMAPVOYAGEPATHCONFIGNODE_TYPE_LV;
         node.type3.lv = lv;
         SeaMapVoyagePathConfig_AddNode(&node);
 
@@ -393,7 +394,7 @@ SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_FindNodeFromType(u32 type
     return link;
 }
 
-SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_FindNodeFromMapObject(u32 type, CHEVObject *work)
+SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_FindNodeFromMapObject(SeaMapVoyagePathConfigNodeType4Type type, SeaMapLayoutObject *mapObject)
 {
     NNSFndList *list = &sPathNodeList;
 
@@ -401,7 +402,7 @@ SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_FindNodeFromMapObject(u32
 
     while (link != NULL)
     {
-        if (link->node.type == SEAMAPVOYAGEPATHCONFIGNODE_TYPE_4 && link->node.type4.type == type && link->node.type4.chevRef == work)
+        if (link->node.type == SEAMAPVOYAGEPATHCONFIGNODE_TYPE_ENCOUNTER && link->node.type4.type == type && link->node.type4.seaMapObject == mapObject)
             break;
 
         link = NNS_FndGetPrevListObject(list, link);
@@ -412,7 +413,7 @@ SeaMapVoyagePathConfigNodeLink *SeaMapVoyagePathConfig_FindNodeFromMapObject(u32
 
 u8 SeaMapVoyagePathConfig_GetAttribute(fx32 x, fx32 y)
 {
-    struct CHAttributes *chat = SeaMapManager__GetWork()->assets.chat;
+    struct SeaMapAttributeLayout *attributeLayout = SeaMapManager__GetWork()->assets.attributeLayout;
 
     s32 sx = FX32_TO_WHOLE(x);
     s32 sy = FX32_TO_WHOLE(y);
@@ -420,7 +421,7 @@ u8 SeaMapVoyagePathConfig_GetAttribute(fx32 x, fx32 y)
     u16 px = sx >> 3;
     u16 py = sy >> 3;
 
-    struct CHAttributeValue *value = &chat->data[py * (chat->header.width >> 1) + (px >> 1)];
+    struct SeaMapAttributeLayoutValue *value = &attributeLayout->data[py * (attributeLayout->header.width >> 1) + (px >> 1)];
     if ((px & 1) != 0)
         return value->value2;
     else

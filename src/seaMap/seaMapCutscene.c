@@ -7,6 +7,8 @@
 #include <game/input/padInput.h>
 #include <game/file/binaryBundle.h>
 
+#include <seaMap/objects/seaMapIslandIcon.h>
+
 // resources
 #include <resources/bb/tkdm_down.h>
 
@@ -26,7 +28,7 @@ static void SeaMapCutscene_Main_FadeIn(void);
 static void SeaMapCutscene_Main_Active(void);
 static void SeaMapCutscene_Main_FadeOut(void);
 static void SeaMapCutscene_Destructor(Task *task);
-static CHEVObject *GetIslandIconForSeaMapCutscene(void);
+static SeaMapLayoutObject *GetCoralCaveIslandIconForSeaMapCutscene(void);
 
 // Coral Cave states
 static void SeaMapCutscene_State_InitCoralCave(SeaMapCutscene *work);
@@ -110,7 +112,7 @@ void CreateSeaMapCutscene(void)
     gfxControlA->brightness = work->brightness;
     SeaMapManager__EnableTouchField(FALSE);
     SeaMapManager__LoadMapBackground();
-    SeaMapEventManager__Create();
+    CreateSeaMapEventManager();
 
     GXS_SetGraphicsMode(GX_BGMODE_0);
 
@@ -263,7 +265,7 @@ void SeaMapCutscene_Main_FadeOut(void)
     else
     {
         DestroyCurrentTask();
-        SeaMapEventManager__Destroy();
+        DestroySeaMapEventManager();
         SeaMapManager__Destroy();
         RequestSysEventChange(0); // SYSEVENT_UPDATE_PROGRESS
         NextSysEvent();
@@ -287,19 +289,19 @@ void SeaMapCutscene_Destructor(Task *task)
     ReleaseAudioSystem();
 }
 
-CHEVObject *GetIslandIconForSeaMapCutscene(void)
+SeaMapLayoutObject *GetCoralCaveIslandIconForSeaMapCutscene(void)
 {
-    CHEV *chev = SeaMapManager__GetWork()->assets.objectLayout;
+    SeaMapObjectLayout *layout = SeaMapManager__GetWork()->assets.objectLayout;
 
-    for (u16 i = 0; i < chev->count; i++)
+    for (u16 i = 0; i < layout->count; i++)
     {
-        CHEVObject *object = &chev->entries[i];
-        s32 type           = SeaMapEventManager__GetObjectType(object);
+        SeaMapLayoutObject *mapObject = &layout->objectList[i];
+        s32 type                      = SeaMapEventManager_GetObjectType(mapObject);
 
-        if ((s32)type == SEAMAPOBJECT_ISLAND_ICON_1 || type == SEAMAPOBJECT_ISLAND_ICON_2)
+        if ((s32)type == SEAMAPOBJECT_ISLAND_ICON_ELIPSE || type == SEAMAPOBJECT_ISLAND_ICON_RECT)
         {
-            if ((object->flags2 & 1) == 0 && object->unlockID == 14)
-                return object;
+            if ((mapObject->usrFlags & SEAMAPISLANDICON_FLAG_DISCOVERABLE_VIA_VOYAGE) == 0 && mapObject->id == SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND)
+                return mapObject;
         }
     }
 
@@ -323,18 +325,18 @@ void SeaMapCutscene_StateAlways_CoralCave(SeaMapCutscene *work)
 
 void SeaMapCutscene_State_WaitForCoralCaveAppear(SeaMapCutscene *work)
 {
-    if (work->coralCave.timer++ > 60)
+    if (work->coralCave.timer++ > SECONDS_TO_FRAMES(1.0))
         work->stateActive = SeaMapCutscene_State_CoralCaveAppear;
 }
 
 void SeaMapCutscene_State_CoralCaveAppear(SeaMapCutscene *work)
 {
-    CHEVObject *obj        = SeaMapEventManager__GetObjectFromID(3);
-    CHEVObject *islandIcon = GetIslandIconForSeaMapCutscene();
+    SeaMapLayoutObject *coralCaveDrawIcon   = SeaMapEventManager_GetObjectFromID(SEAMAPMANAGER_DISCOVER_CORAL_CAVE);
+    SeaMapLayoutObject *coralCaveIslandIcon = GetCoralCaveIslandIconForSeaMapCutscene();
 
-    SeaMapEventManager__CreateObject(SEAMAPOBJECT_ISLAND_ICON_1, islandIcon->position.x, islandIcon->position.y, 0, &islandIcon->box, 0);
-    SeaMapEventManager__CreateObject(SEAMAPOBJECT_SPARKLES_1, obj->position.x, obj->position.y - 32, 0, NULL, 0);
-    SeaMapEventManager__UnlockCoralCave();
+    SeaMapEventManager_CreateObject(SEAMAPOBJECT_ISLAND_ICON_ELIPSE, coralCaveIslandIcon->position.x, coralCaveIslandIcon->position.y, 0, &coralCaveIslandIcon->box, 0);
+    SeaMapEventManager_CreateObject(SEAMAPOBJECT_SPARKLES_MAJOR_ISLAND, coralCaveDrawIcon->position.x, coralCaveDrawIcon->position.y - 32, 0, NULL, 0);
+    SeaMapEventManager_UnlockCoralCave();
     PlaySailSfx(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_GOAL);
 
     work->coralCave.timer = 0;
@@ -343,27 +345,27 @@ void SeaMapCutscene_State_CoralCaveAppear(SeaMapCutscene *work)
 
 void SeaMapCutscene_State_CoralCaveAppeared(SeaMapCutscene *work)
 {
-    if (work->coralCave.timer++ > 180)
+    if (work->coralCave.timer++ > SECONDS_TO_FRAMES(3.0))
         SetCurrentTaskMainEvent(SeaMapCutscene_Main_FadeOut);
 }
 
 void SeaMapCutscene_State_InitSkyBabylon(SeaMapCutscene *work)
 {
-    CHEVObject *obj = SeaMapEventManager__GetObjectFromID(6);
-    SeaMapManager__Func_2043974(FX32_FROM_WHOLE(obj->position.x - HW_LCD_CENTER_X), FX32_FROM_WHOLE(obj->position.y - HW_LCD_CENTER_Y));
+    SeaMapLayoutObject *skyBabylonDrawIcon = SeaMapEventManager_GetObjectFromID(SEAMAPMANAGER_DISCOVER_SKY_BABYLON);
+    SeaMapManager__Func_2043974(FX32_FROM_WHOLE(skyBabylonDrawIcon->position.x - HW_LCD_CENTER_X), FX32_FROM_WHOLE(skyBabylonDrawIcon->position.y - HW_LCD_CENTER_Y));
 
     work->stateActive = SeaMapCutscene_State_WaitForSkyBabylonAppear;
     work->stateAlways = SeaMapCutscene_StateAlways_SkyBabylon;
 
     MI_CpuClear16(&work->skyBabylon, sizeof(work->skyBabylon));
 
-    CHEVObject *obj2 = SeaMapEventManager__GetObjectFromID(11);
+    SeaMapLayoutObject *hiddenIsland2DrawIcon = SeaMapEventManager_GetObjectFromID(SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_2);
 
-    s32 unlockID = gameState.sailShipType;
+    s32 id = gameState.sailShipType;
     if (gameState.sailShipType != SHIP_JET && gameState.sailShipType != SHIP_HOVER)
-        unlockID = 2;
+        id = SEAMAPMANAGER_DISCOVER_MACHINE_LABYRINTH;
 
-    work->skyBabylon.boat = SeaMapEventManager__CreateObject(SEAMAPOBJECT_BOAT_ICON, obj2->position.x, obj2->position.y + 8, 0, NULL, unlockID);
+    work->skyBabylon.boat = SeaMapEventManager_CreateObject(SEAMAPOBJECT_BOAT_ICON, hiddenIsland2DrawIcon->position.x, hiddenIsland2DrawIcon->position.y + 8, 0, NULL, id);
 }
 
 void SeaMapCutscene_StateAlways_SkyBabylon(SeaMapCutscene *work)
@@ -373,16 +375,16 @@ void SeaMapCutscene_StateAlways_SkyBabylon(SeaMapCutscene *work)
 
 void SeaMapCutscene_State_WaitForSkyBabylonAppear(SeaMapCutscene *work)
 {
-    if (work->skyBabylon.timer++ > 60)
+    if (work->skyBabylon.timer++ > SECONDS_TO_FRAMES(1.0))
         work->stateActive = SeaMapCutscene_State_SkyBabylonAppear;
 }
 
 void SeaMapCutscene_State_SkyBabylonAppear(SeaMapCutscene *work)
 {
-    CHEVObject *obj = SeaMapEventManager__GetObjectFromID(6);
+    SeaMapLayoutObject *islandDrawIcon = SeaMapEventManager_GetObjectFromID(SEAMAPMANAGER_DISCOVER_SKY_BABYLON);
 
-    SeaMapEventManager__UnlockSkyBabylon();
-    SeaMapEventManager__CreateObject(SEAMAPOBJECT_SPARKLES_1, obj->position.x, obj->position.y - 32, 0, NULL, 0);
+    SeaMapEventManager_UnlockSkyBabylon();
+    SeaMapEventManager_CreateObject(SEAMAPOBJECT_SPARKLES_MAJOR_ISLAND, islandDrawIcon->position.x, islandDrawIcon->position.y - 32, 0, NULL, 0);
     PlaySailSfx(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_GOAL);
 
     work->skyBabylon.timer = 0;
@@ -391,14 +393,14 @@ void SeaMapCutscene_State_SkyBabylonAppear(SeaMapCutscene *work)
 
 void SeaMapCutscene_State_SkyBabylonAppeared(SeaMapCutscene *work)
 {
-    if (work->skyBabylon.timer++ > 180)
+    if (work->skyBabylon.timer++ > SECONDS_TO_FRAMES(3.0))
         work->stateActive = SeaMapCutscene_State_SkyBabylonBoatLaunch;
 }
 
 void SeaMapCutscene_State_SkyBabylonBoatLaunch(SeaMapCutscene *work)
 {
     work->skyBabylon.startPos  = FX32_FROM_WHOLE(work->skyBabylon.boat->position.y);
-    work->skyBabylon.targetY   = FX32_FROM_WHOLE(SeaMapEventManager__GetObjectFromID(6)->position.y);
+    work->skyBabylon.targetY   = FX32_FROM_WHOLE(SeaMapEventManager_GetObjectFromID(SEAMAPMANAGER_DISCOVER_SKY_BABYLON)->position.y);
     work->skyBabylon.targetPos = work->skyBabylon.startPos + MultiplyFX(FLOAT_TO_FX32(0.2), work->skyBabylon.targetY - work->skyBabylon.startPos);
     work->skyBabylon.percent   = FLOAT_TO_FX32(0.0);
 

@@ -101,12 +101,12 @@ _020408DC:
 	mov r1, #0
 	bl SeaMapView_SetZoomLevel
 _020408E4:
-	bl SeaMapEventManager__Create
+	bl CreateSeaMapEventManager
 	cmp r5, #0
 	cmpne r5, #1
 	addne sp, sp, #0xc
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	bl SeaMapEventManager__CreateDSPopup
+	bl CreateSeaMapEventManagerDSPopup
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	.align 2, 0
@@ -138,7 +138,7 @@ SeaMapChartCourseView__Destroy: // 0x02040940
 	ldr r0, _02040974 // =gSeaMapTaskSingleton
 	mov r1, #0
 	str r1, [r0]
-	bl SeaMapEventManager__Destroy
+	bl DestroySeaMapEventManager
 	bl SeaMapManager__Destroy
 	bl DestroyNavTails
 	ldmia sp!, {r3, pc}
@@ -428,7 +428,7 @@ SeaMapChartCourseView__Func_2040D28: // 0x02040D28
 	sub sp, sp, #0xc
 	mov r5, r0
 	bl SeaMapManager__GetWork
-	bl SeaMapEventManager__GetWork2
+	bl GetSeaMapEventManagerWork2
 	mov r6, r0
 	ldr r0, [r6, #0]
 	mov r4, #1
@@ -445,7 +445,7 @@ SeaMapChartCourseView__Func_2040D28: // 0x02040D28
 	bl PlaySfxEx
 	ldr r0, [r6, #4]
 	str r0, [r5, #0x9c4]
-	bl SeaMapEventManager__Func_2046A78
+	bl SeaMapEventManager_ClearLastTouchedIcon
 	ldr r1, [r5, #0x9c4]
 	add r2, sp, #8
 	ldrsh r0, [r1, #0xc]
@@ -687,10 +687,10 @@ SeaMapChartCourseView__Func_2041048: // 0x02041048
 	ldmia sp!, {r4, r5, r6, pc}
 _02041094:
 	ldr r0, [r4, #0x9c4]
-	bl SeaMapEventManager__Func_2046A94
+	bl SeaMapEventManager_ClearDrawIconButtonState
 	mov r0, #0
 	str r0, [r4, #0x9c4]
-	bl SeaMapEventManager__Func_2046A78
+	bl SeaMapEventManager_ClearLastTouchedIcon
 	ldr r1, _020410F4 // =dword_210FAD0
 	mov r0, r4
 	bl SeaMapView_EnableMultipleButtons
@@ -1422,7 +1422,7 @@ SeaMapChartCourseView__State_2041A18: // 0x02041A18
 	bl SeaMapView_ProcessMapInputs
 	mov r0, r4
 	bl SeaMapView_ProcessButtonInputs
-	bl SeaMapEventManager__GetWork2
+	bl GetSeaMapEventManagerWork2
 	ldr r1, [r0, #0]
 	mvn r0, #0
 	cmp r1, r0
@@ -1478,7 +1478,7 @@ _02041AD8: .word SeaMapChartCourseView__State_2041ADC
 SeaMapChartCourseView__State_2041ADC: // 0x02041ADC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl SeaMapEventManager__GetWork2
+	bl GetSeaMapEventManagerWork2
 	mov r0, r4
 	bl SeaMapView_ProcessMapInputs
 	bl IsTouchInputEnabled
@@ -1734,7 +1734,7 @@ SeaMapChartCourseView__Func_2041E3C: // 0x02041E3C
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, pc}
 	mov r0, r4
-	bl SeaMapEventManager__GetObjectType
+	bl SeaMapEventManager_GetObjectType
 	cmp r0, #2
 	cmpne r0, #3
 	ldmneia sp!, {r3, r4, r5, pc}
@@ -1996,10 +1996,10 @@ SeaMapChartCourseView__Func_20421AC: // 0x020421AC
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, pc}
 	mov r0, #0
-	bl SeaMapEventManager__GetObjectFromID
+	bl SeaMapEventManager_GetObjectFromID
 	mov r5, r0
 	mov r0, #1
-	bl SeaMapEventManager__GetObjectFromID
+	bl SeaMapEventManager_GetObjectFromID
 	mov r1, #0x16
 	str r1, [sp]
 	ldrsh r1, [r5, #4]
@@ -2010,7 +2010,7 @@ SeaMapChartCourseView__Func_20421AC: // 0x020421AC
 	mov r2, r2, lsl #0xc
 	mov r0, ip, lsl #0xc
 	mov r3, r3, lsl #0xc
-	bl SeaMapEventManager__CreateStylusIcon
+	bl CreateSeaMapEventManagerStylusIcon
 	str r0, [r4, #0x8d8]
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end SeaMapChartCourseView__Func_20421AC
@@ -2022,7 +2022,7 @@ SeaMapChartCourseView__Func_2042208: // 0x02042208
 	ldr r0, [r4, #0x8d8]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	bl SeaMapEventManager__DestroyStylusIcon
+	bl DestroySeaMapEventManagerStylusIcon
 	mov r0, #0
 	str r0, [r4, #0x8d8]
 	ldmia sp!, {r4, pc}
@@ -2266,7 +2266,7 @@ SeaMapChartCourseView__State_2042524: // 0x02042524
 	mov r0, #0
 	bl SeaMapManager__EnableTouchField
 	mov r0, #0
-	bl SeaMapEventManager__GetObjectFromID
+	bl SeaMapEventManager_GetObjectFromID
 	ldrsh r1, [r0, #4]
 	ldrsh r2, [r0, #2]
 	mov r1, r1, lsl #0xc
@@ -2431,7 +2431,7 @@ _02042718:
 	bl SeaMapView_SetZoomLevel
 _02042724:
 	mov r0, #0
-	bl SeaMapEventManager__GetObjectFromID
+	bl SeaMapEventManager_GetObjectFromID
 	ldrsh r1, [r0, #4]
 	ldrsh r2, [r0, #2]
 	mov r1, r1, lsl #0xc
@@ -2504,7 +2504,7 @@ SeaMapChartCourseView__State_20427D8: // 0x020427D8
 	mov r0, #1
 	str r2, [r1, #0x8f4]
 	bl SeaMapManager__EnableTouchField
-	bl SeaMapEventManager__CreateDSPopup
+	bl CreateSeaMapEventManagerDSPopup
 	mov r0, r4
 	bl SeaMapView_ResetIndicatorFlashTimer
 	mov r1, #1
@@ -2577,7 +2577,7 @@ _020428F8:
 	ldr r0, [r5, #0xad0]
 	cmp r0, #0x258000
 	ldmleia sp!, {r4, r5, r6, pc}
-	bl SeaMapEventManager__DestroyDSPopup
+	bl DestroySeaMapEventManagerDSPopup
 	ldr r0, _02042930 // =SeaMapChartCourseView__State_2042934
 	str r0, [r5, #0x7c4]
 	ldmia sp!, {r4, r5, r6, pc}
@@ -2656,10 +2656,10 @@ SeaMapChartCourseView__State_20429F8: // 0x020429F8
 	mov r5, r0
 	mov r0, #0
 	add r4, r5, #0x1d4
-	bl SeaMapEventManager__GetObjectFromID
+	bl SeaMapEventManager_GetObjectFromID
 	mov r6, r0
 	mov r0, #1
-	bl SeaMapEventManager__GetObjectFromID
+	bl SeaMapEventManager_GetObjectFromID
 	add r3, r4, #0x900
 	ldrsh r1, [r3, #2]
 	ldrsh r8, [r6, #2]
@@ -2764,10 +2764,10 @@ SeaMapChartCourseView__State_2042B5C: // 0x02042B5C
 	mov r4, r0
 	bl SeaMapView_SetZoomLevel
 	mov r0, #0
-	bl SeaMapEventManager__GetObjectFromID
+	bl SeaMapEventManager_GetObjectFromID
 	mov r5, r0
 	mov r0, #1
-	bl SeaMapEventManager__GetObjectFromID
+	bl SeaMapEventManager_GetObjectFromID
 	ldrsh r2, [r0, #2]
 	ldrsh r3, [r5, #2]
 	ldrsh r1, [r5, #4]
@@ -2834,7 +2834,7 @@ SeaMapChartCourseView__State_2042C2C: // 0x02042C2C
 	str r0, [r4, #0xab0]
 	mov r0, #1
 	bl SeaMapManager__EnableTouchField
-	bl SeaMapEventManager__CreateDSPopup
+	bl CreateSeaMapEventManagerDSPopup
 	ldr r1, _02042C68 // =SeaMapChartCourseView__State_2042C6C
 	mov r0, r4
 	str r1, [r4, #0x7c4]
@@ -2874,7 +2874,7 @@ SeaMapChartCourseView__State_2042CB0: // 0x02042CB0
 	bl SeaMapView_ProcessMapInputs
 	mov r0, r4
 	bl SeaMapView_ProcessButtonInputs
-	bl SeaMapEventManager__GetWork2
+	bl GetSeaMapEventManagerWork2
 	ldr r1, [r0, #0]
 	mvn r0, #0
 	cmp r1, r0
@@ -2942,7 +2942,7 @@ SeaMapChartCourseView__State_2042D98: // 0x02042D98
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r5, r4, #0x1d4
-	bl SeaMapEventManager__GetWork2
+	bl GetSeaMapEventManagerWork2
 	mov r0, r4
 	bl SeaMapView_ProcessMapInputs
 	bl IsTouchInputEnabled
@@ -3275,7 +3275,7 @@ _02043218:
 	ldr r1, [sp, #4]
 	mov r2, r6
 	mov r3, r5
-	bl SeaMapManager__Func_2043A80
+	bl SeaMapManager__ConvertWorldPosToMapPos
 	ldrh r0, [sp, #2]
 	ldrh r1, [sp]
 	mov r2, r4
@@ -3293,7 +3293,7 @@ _0204325C:
 	ldr r1, [sp, #4]
 	add r2, sp, #2
 	add r3, sp, #0
-	bl SeaMapManager__Func_2043A80
+	bl SeaMapManager__ConvertWorldPosToMapPos
 	mov r2, #3
 	ldrh r0, [sp, #2]
 	ldrh r1, [sp]

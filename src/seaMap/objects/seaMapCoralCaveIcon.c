@@ -21,7 +21,7 @@ void SeaMapCoralCaveIcon_State_Active(SeaMapCoralCaveIcon *work);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapCoralCaveIcon(const CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapCoralCaveIcon(const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject)
 {
     SeaMapCoralCaveIcon *work;
 
@@ -29,7 +29,7 @@ SeaMapObject *CreateSeaMapCoralCaveIcon(const CHEVObjectType *objectType, CHEVOb
 
     Task *task =
         TaskCreate(SeaMapCoralCaveIcon_Main, SeaMapCoralCaveIcon_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x111, TASK_GROUP(1), SeaMapCoralCaveIcon);
-    SeaMapEventManager__GetWork()->coralCaveIcon = task;
+    GetSeaMapEventManagerWork()->coralCaveIcon = task;
 
     work = TaskGetWork(task, SeaMapCoralCaveIcon);
     TaskInitWork16(work);
@@ -39,7 +39,7 @@ SeaMapObject *CreateSeaMapCoralCaveIcon(const CHEVObjectType *objectType, CHEVOb
     else
         work->state = SeaMapCoralCaveIcon_State_Hidden;
 
-    SeaMapEventManager__InitMapObject(&work->objWork, task, objectType, mapObject);
+    InitSeaMapEventManagerObject(&work->objWork, task, objectType, mapObject);
 
     // Init island sprite
     AnimatorSprite__Init(&work->aniIcon, manager->assets.sprChCommon, objectType->animID, ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK,
@@ -51,7 +51,7 @@ SeaMapObject *CreateSeaMapCoralCaveIcon(const CHEVObjectType *objectType, CHEVOb
     work->aniIcon.pos.y   = mapObject->position.y;
     work->aniIcon.cParam.palette = objectType->palette;
 
-    SeaMapEventManager__SetObjectAsActive(&work->objWork);
+    SeaMapEventManager_SetObjectAsActive(&work->objWork);
 
     return &work->objWork;
 }
@@ -60,7 +60,7 @@ void SeaMapCoralCaveIcon_Main(void)
 {
     SeaMapCoralCaveIcon *work = TaskGetWorkCurrent(SeaMapCoralCaveIcon);
 
-    if (SeaMapEventManager__ObjectInBounds(&work->objWork.position, work->objWork.objectType->viewBounds) == FALSE)
+    if (SeaMapEventManager_CheckVisible(&work->objWork.position, work->objWork.objectType->viewBounds) == FALSE)
     {
         DestroyCurrentTask();
     }
@@ -75,11 +75,11 @@ void SeaMapCoralCaveIcon_Destructor(Task *task)
     SeaMapCoralCaveIcon *work = TaskGetWork(task, SeaMapCoralCaveIcon);
 
     AnimatorSprite__Release(&work->aniIcon);
-    SeaMapEventManager__SetObjectAsInactive(&work->objWork);
-    SeaMapEventManager__DestroyObject(&work->objWork);
+    SeaMapEventManager_SetObjectAsInactive(&work->objWork);
+    DestroySeaMapEventManagerObject(&work->objWork);
 
     if (gSeaMapEventManagerTaskSingleton != NULL)
-        SeaMapEventManager__GetWork()->coralCaveIcon = NULL;
+        GetSeaMapEventManagerWork()->coralCaveIcon = NULL;
 }
 
 void SeaMapCoralCaveIcon_State_Hidden(SeaMapCoralCaveIcon *work)
@@ -89,7 +89,7 @@ void SeaMapCoralCaveIcon_State_Hidden(SeaMapCoralCaveIcon *work)
 
 void SeaMapCoralCaveIcon_State_BeginAppearing(SeaMapCoralCaveIcon *work)
 {
-    AnimatorSprite__SetAnimation(&work->aniIcon, 129);
+    AnimatorSprite__SetAnimation(&work->aniIcon, SEAMAP_CHCOM_ANI_129);
     work->aniIcon.flags &= ~ANIMATOR_FLAG_DISABLE_LOOPING;
 
     work->state = SeaMapCoralCaveIcon_State_Appearing;
@@ -98,7 +98,7 @@ void SeaMapCoralCaveIcon_State_BeginAppearing(SeaMapCoralCaveIcon *work)
 
 void SeaMapCoralCaveIcon_State_Appearing(SeaMapCoralCaveIcon *work)
 {
-    SeaMapEventManager__Func_20474FC(&work->objWork.position, &work->aniIcon.pos);
+    SeaMapEventManager_GetMapLocalPosition(&work->objWork.position, &work->aniIcon.pos);
     AnimatorSprite__ProcessAnimationFast(&work->aniIcon);
     AnimatorSprite__DrawFrame(&work->aniIcon);
 
@@ -108,7 +108,7 @@ void SeaMapCoralCaveIcon_State_Appearing(SeaMapCoralCaveIcon *work)
 
 void SeaMapCoralCaveIcon_State_BeginActive(SeaMapCoralCaveIcon *work)
 {
-    AnimatorSprite__SetAnimation(&work->aniIcon, 128);
+    AnimatorSprite__SetAnimation(&work->aniIcon, SEAMAP_CHCOM_ANI_128);
     work->aniIcon.flags |= ANIMATOR_FLAG_DISABLE_LOOPING;
 
     work->state = SeaMapCoralCaveIcon_State_Active;
@@ -117,7 +117,7 @@ void SeaMapCoralCaveIcon_State_BeginActive(SeaMapCoralCaveIcon *work)
 
 void SeaMapCoralCaveIcon_State_Active(SeaMapCoralCaveIcon *work)
 {
-    SeaMapEventManager__Func_20474FC(&work->objWork.position, &work->aniIcon.pos);
+    SeaMapEventManager_GetMapLocalPosition(&work->objWork.position, &work->aniIcon.pos);
     AnimatorSprite__ProcessAnimationFast(&work->aniIcon);
 
     if (SeaMapManager__GetWork()->zoomLevel == 0)

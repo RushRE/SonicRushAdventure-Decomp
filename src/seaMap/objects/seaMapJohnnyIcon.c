@@ -17,20 +17,22 @@ static void SeaMapJohnnyIcon_Destructor(Task *task);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapJohnnyIcon(const CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapJohnnyIcon(const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject)
 {
     SeaMapJohnnyIcon *work;
 
     SeaMapManager *manager = SeaMapManager__GetWork();
     UNUSED(manager);
 
-    if ((mapObject->flags2 & 1) != 0)
+    if ((mapObject->usrFlags & SEAMAPJOHNNYICON_FLAG_STORY_EVENT) != 0)
     {
+        // Hide this icon if we've encountered johnny for the first time
         if (SaveGame__GetGameProgress() >= SAVE_PROGRESS_12)
             return NULL;
     }
     else
     {
+        // Hide this icon if we've yet to encounter johnny for the first time
         if (SaveGame__GetGameProgress() < SAVE_PROGRESS_12)
             return NULL;
     }
@@ -40,8 +42,8 @@ SeaMapObject *CreateSeaMapJohnnyIcon(const CHEVObjectType *objectType, CHEVObjec
     work = TaskGetWork(task, SeaMapJohnnyIcon);
     TaskInitWork16(work);
 
-    SeaMapEventManager__InitMapObject(&work->objWork, task, objectType, mapObject);
-    SeaMapEventManager__SetObjectAsActive(&work->objWork);
+    InitSeaMapEventManagerObject(&work->objWork, task, objectType, mapObject);
+    SeaMapEventManager_SetObjectAsActive(&work->objWork);
 
     return &work->objWork;
 }
@@ -50,8 +52,8 @@ void SeaMapJohnnyIcon_Main(void)
 {
     SeaMapJohnnyIcon *work = TaskGetWorkCurrent(SeaMapJohnnyIcon);
 
-    CHEVObject *mapObject = work->objWork.mapObject;
-    if (SeaMapEventManager__ObjectInBounds(&work->objWork.position, work->objWork.objectType->viewBounds) == FALSE)
+    SeaMapLayoutObject *mapObject = work->objWork.mapObject;
+    if (SeaMapEventManager_CheckVisible(&work->objWork.position, work->objWork.objectType->viewBounds) == FALSE)
     {
         DestroyCurrentTask();
     }
@@ -62,25 +64,25 @@ void SeaMapJohnnyIcon_Main(void)
             ViewRect viewRect;
             fx32 y, x;
 
-            SeaMapEventManager__GetViewRect(&mapObject->box, mapObject->position.x, mapObject->position.y, &viewRect);
+            SeaMapEventManager_GetViewRect(&mapObject->box, mapObject->position.x, mapObject->position.y, &viewRect);
             SailSeaMapView_GetPosition(&x, &y);
 
-            if (SeaMapEventManager__PointInViewRect(viewRect.left, viewRect.top, viewRect.right, viewRect.bottom, x, y))
-                SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_TYPE_5, mapObject, 0);
+            if (SeaMapEventManager_PointInViewRect(viewRect.left, viewRect.top, viewRect.right, viewRect.bottom, x, y))
+                SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_EVENT_RIVAL_ENCOUNTER, mapObject, NULL);
         }
 
-        if (SeaMapEventManager__Func_204756C(mapObject))
+        if (SeaMapEventManager_CheckObjectPosDiscoveredOnMap(mapObject))
         {
-            SeaMapEventManager *manager = SeaMapEventManager__GetWork();
+            SeaMapEventManager *manager = GetSeaMapEventManagerWork();
             UNUSED(manager);
 
             AnimatorSprite *aniJohnny;
-            if (SeaMapManager__GetSaveFlag(mapObject->unlockID))
-                aniJohnny = &SeaMapEventManager__GetWork()->aniJohnnyDefeated;
+            if (SeaMapManager__GetSaveFlag(mapObject->id))
+                aniJohnny = &GetSeaMapEventManagerWork()->aniJohnnyDefeated;
             else
-                aniJohnny = &SeaMapEventManager__GetWork()->aniJohnny;
+                aniJohnny = &GetSeaMapEventManagerWork()->aniJohnny;
 
-            SeaMapEventManager__Func_20474FC(&work->objWork.position, &aniJohnny->pos);
+            SeaMapEventManager_GetMapLocalPosition(&work->objWork.position, &aniJohnny->pos);
             AnimatorSprite__DrawFrame(aniJohnny);
         }
     }
@@ -90,22 +92,24 @@ void SeaMapJohnnyIcon_Destructor(Task *task)
 {
     SeaMapJohnnyIcon *work = TaskGetWork(task, SeaMapJohnnyIcon);
 
-    SeaMapEventManager__SetObjectAsInactive(&work->objWork);
-    SeaMapEventManager__DestroyObject(&work->objWork);
+    SeaMapEventManager_SetObjectAsInactive(&work->objWork);
+    DestroySeaMapEventManagerObject(&work->objWork);
 }
 
-BOOL SeaMapJohnnyIcon_ViewCheck(CHEVObject *mapObject, fx32 x, fx32 y, BOOL flag)
+BOOL SeaMapJohnnyIcon_ArrivalCheck(SeaMapLayoutObject *mapObject, fx32 x, fx32 y, BOOL ignoreDiscoveryCheck)
 {
-    if ((mapObject->flags2 & 1) != 0)
+    if ((mapObject->usrFlags & SEAMAPJOHNNYICON_FLAG_STORY_EVENT) != 0)
     {
+        // Hide this icon if we've encountered johnny for the first time
         if (SaveGame__GetGameProgress() >= SAVE_PROGRESS_12)
             return FALSE;
     }
     else
     {
+        // Hide this icon if we've yet to encounter johnny for the first time
         if (SaveGame__GetGameProgress() < SAVE_PROGRESS_12)
             return FALSE;
     }
 
-    return SeaMapEventManager__ViewRectCheck2(mapObject, x, y);
+    return SeaMapEventManager_ViewElipseCheck(mapObject, x, y);
 }

@@ -675,8 +675,8 @@ BOOL TitleCard__CheckIsFinished(TitleCard *work)
     if ((work->flags & TITLECARD_FLAG_IS_FINISHED) == 0)
         return FALSE;
 
-    NNS_SndPlayerStopSeqBySeqArcIdx(SND_ZONE_SEQARC_GAME_SE, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TITLE, 0);
-    NNS_SndPlayerStopSeqBySeqArcIdx(SND_ZONE_SEQARC_GAME_SE, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SONIC, 0);
+    StopAllSfxInstancesOf(SND_ZONE_SEQARC_GAME_SE, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TITLE);
+    StopAllSfxInstancesOf(SND_ZONE_SEQARC_GAME_SE, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SONIC);
 
     work->state = TitleCard__State_FinishExitNameplate;
     work->state(work);

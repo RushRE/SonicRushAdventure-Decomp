@@ -31,15 +31,15 @@ Task *CreateSeaMapPenPalette(SeaMapView *parent)
     work->useEngineB       = parent->useEngineB;
     TaskInitWork16(work);
 
-    MIi_CpuCopy16((const void *)VRAMSystem__VRAM_PALETTE_BG[parent->useEngineB], work->palette1, sizeof(work->palette1));
-    MIi_CpuCopy16((const void *)VRAMSystem__VRAM_PALETTE_OBJ[parent->useEngineB], work->palette2, sizeof(work->palette2));
+    MI_CpuCopy16((const void *)VRAMSystem__VRAM_PALETTE_BG[parent->useEngineB], work->paletteBG, sizeof(work->paletteBG));
+    MI_CpuCopy16((const void *)VRAMSystem__VRAM_PALETTE_OBJ[parent->useEngineB], work->paletteOBJ, sizeof(work->paletteOBJ));
 
-    work->palette1[255] = parent->paletteColor1;
-    work->palette2[78]  = parent->paletteColor1;
-    work->palette2[79]  = parent->paletteColor2;
+    VRAM_SET_PALETTE_COLOR(work->paletteBG, 255, parent->paletteColor1);
+    VRAM_SET_PALETTE_COLOR(work->paletteOBJ, 78, parent->paletteColor1);
+    VRAM_SET_PALETTE_COLOR(work->paletteOBJ, 79, parent->paletteColor2);
 
-    MIi_CpuCopy16(work->palette1, work->paletteStore1, sizeof(work->palette1));
-    MIi_CpuCopy16(work->palette2, work->paletteStore2, sizeof(work->palette2));
+    MI_CpuCopy16(work->paletteBG, work->paletteStoreBG, sizeof(work->paletteBG));
+    MI_CpuCopy16(work->paletteOBJ, work->paletteStoreOBJ, sizeof(work->paletteOBJ));
 
     return task;
 }
@@ -72,8 +72,8 @@ void SeaMapPenPalette_Main(void)
 
     DC_StoreRange(work, sizeof(*work));
 
-    RenderCore_DMACopy(work->paletteStore1, (const void *)VRAMSystem__VRAM_PALETTE_BG[work->useEngineB], 0x100 * sizeof(GXRgb));
-    RenderCore_DMACopy(work->paletteStore2, (const void *)VRAMSystem__VRAM_PALETTE_OBJ[work->useEngineB], 0xF0 * sizeof(GXRgb));
+    RenderCore_DMACopy(work->paletteStoreBG, (const void *)VRAMSystem__VRAM_PALETTE_BG[work->useEngineB], 0x100 * sizeof(GXRgb));
+    RenderCore_DMACopy(work->paletteStoreOBJ, (const void *)VRAMSystem__VRAM_PALETTE_OBJ[work->useEngineB], 0xF0 * sizeof(GXRgb));
 
     switch (work->mode)
     {
@@ -81,8 +81,8 @@ void SeaMapPenPalette_Main(void)
             break;
 
         case 1:
-            DarkenColors(work->paletteStore1, work->paletteStore1, 0x100, 1);
-            DarkenColors(work->paletteStore2, work->paletteStore2, 0xF0, 1);
+            DarkenColors(work->paletteStoreBG, work->paletteStoreBG, 0x100, 1);
+            DarkenColors(work->paletteStoreOBJ, work->paletteStoreOBJ, 0xF0, 1);
 
             work->timer++;
             if (work->timer >= 8)
@@ -93,8 +93,8 @@ void SeaMapPenPalette_Main(void)
             break;
 
         case 2:
-            LerpColors(work->paletteStore1, work->palette1, work->paletteStore1, 0x100, 1);
-            LerpColors(work->paletteStore2, work->palette2, work->paletteStore2, 0xF0, 1);
+            LerpColors(work->paletteStoreBG, work->paletteBG, work->paletteStoreBG, 0x100, 1);
+            LerpColors(work->paletteStoreOBJ, work->paletteOBJ, work->paletteStoreOBJ, 0xF0, 1);
 
             work->timer++;
             if (work->timer > 8)

@@ -78,7 +78,6 @@ Static arm9
     
     ## SEA MAP ##
     Object src/seaMap/navTails.o
-    Object asm/seaMap/navTails_vars.o
     Object src/seaMap/seaMapCommon.o
     Object src/seaMap/seaMapView.o
     Object src/seaMap/seaMapMenu.o
@@ -86,19 +85,7 @@ Static arm9
     Object src/seaMap/seaMapPenPalette.o
     Object asm/seaMap/seaMapManager.o
     Object asm/seaMap/seaMapManagerNodeList.o
-    Object asm/seaMap/seaMapEventManager_vars.o
     Object src/seaMap/seaMapEventManager.o
-    Object asm/seaMap/seaMapIslandDrawIcon.o
-    Object asm/seaMap/seaMapIslandIcon.o
-    Object src/seaMap/objects/seaMapJohnnyIcon.o
-    Object src/seaMap/objects/seaMapUnknown5.o
-    Object src/seaMap/objects/seaMapTargetFlagIcon.o
-    Object src/seaMap/objects/seaMapBoatIcon.o
-    Object src/seaMap/objects/seaMapStylusIcon.o
-    Object src/seaMap/objects/seaMapDSPopup.o
-    Object src/seaMap/objects/seaMapCoralCaveIcon.o
-    Object src/seaMap/objects/seaMapSkyBabylonIcon.o
-    Object asm/seaMap/seaMapSparkles.o
     Object src/seaMap/seaMapCollision.o
     Object src/seaMap/seaMapEventTrigger.o
     Object src/seaMap/seaMapVoyagePathConfig.o

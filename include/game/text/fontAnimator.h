@@ -105,7 +105,7 @@ NOT_DECOMPILED void FontAnimator__LoadMPCFile(FontAnimator *work, void *file);
 NOT_DECOMPILED void FontAnimator__SetCallbackType(FontAnimator *work, u32 type);
 NOT_DECOMPILED void FontAnimator__InitStartPos(FontAnimator *work, s32 x, s16 align);
 NOT_DECOMPILED void FontAnimator__AdvanceLine(FontAnimator *work, s16 a2);
-NOT_DECOMPILED void FontAnimator__AdvanceXPos(FontAnimator *work, u16 a2);
+NOT_DECOMPILED void FontAnimator__AdvanceXPos(FontAnimator *work, s16 advance);
 NOT_DECOMPILED void FontAnimator__GetMsgPosition(FontAnimator *work, s16 *x, s16 *y);
 NOT_DECOMPILED void FontAnimator__SetCallback(FontAnimator *work, FontCallback callback, void *context);
 NOT_DECOMPILED void FontAnimator__SetMsgSequence(FontAnimator *work, u16 id);

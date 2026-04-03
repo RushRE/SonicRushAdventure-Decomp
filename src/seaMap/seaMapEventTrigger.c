@@ -37,7 +37,7 @@ void InitSeaMapEventTriggerSystem(void)
 
 void ReleaseSeaMapEventTriggerSystem(void)
 {
-    SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_TYPE_8, NULL, 0);
+    SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_EVENT_SHUTDOWN, NULL, NULL);
     InitSeaMapEventTriggerList();
 }
 
@@ -66,14 +66,14 @@ void SeaMapEventTrigger_RemoveEventListener(SeaMapEventListener *listener)
     MI_CpuClear16(listener, sizeof(*listener));
 }
 
-void SeaMapEventTrigger_DoEvent(SeaMapEventTriggerType type, void *eventData, s32 unknown)
+void SeaMapEventTrigger_DoEvent(SeaMapEventTriggerType type, void *eventData, void* param)
 {
     NNSFndList *list = &sListenerList.allocatedListeners;
 
     SeaMapEventListener *listener = (SeaMapEventListener *)sListenerList.allocatedListeners.headObject;
     while (listener != NULL)
     {
-        listener->callback(type, listener->work, eventData, unknown);
+        listener->callback(type, listener->work, eventData, param);
 
         listener = (SeaMapEventListener *)NNS_FndGetNextListObject(list, listener);
     }

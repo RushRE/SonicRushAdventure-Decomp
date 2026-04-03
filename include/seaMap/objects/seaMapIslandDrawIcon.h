@@ -23,15 +23,6 @@ struct SeaMapIslandDrawIcon_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED BOOL SeaMapIslandDrawIcon__CanDrawFrom(CHEVObject *mapObject);
-NOT_DECOMPILED BOOL SeaMapIslandDrawIcon__IsActive(SeaMapIslandDrawIcon *work);
-NOT_DECOMPILED BOOL SeaMapIslandDrawIcon__IsEnabled(CHEVObject *mapObject);
-NOT_DECOMPILED SeaMapObject *SeaMapIslandDrawIcon__Create(const CHEVObjectType *objectType, CHEVObject *mapObject);
-NOT_DECOMPILED void SeaMapIslandDrawIcon__Main(void);
-NOT_DECOMPILED void SeaMapIslandDrawIcon__Destructor(Task *task);
-NOT_DECOMPILED void SeaMapIslandDrawIcon__TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData);
-NOT_DECOMPILED void SeaMapIslandDrawIcon__RectCheck1(Vec2Fx16 *pos, HitboxRect *rect);
-NOT_DECOMPILED void SeaMapIslandDrawIcon__RectCheck2(Vec2Fx16 *pos, HitboxRect *rect);
-NOT_DECOMPILED void SeaMapIslandDrawIcon__CreateSparkles(CHEVObject *mapObject);
+SeaMapObject *CreateSeaMapIslandDrawIcon(const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject);
 
 #endif // RUSH_SEAMAPISLANDDRAWICON_H

@@ -4310,7 +4310,7 @@ void SailIsland_State_Other(StageTask *work)
 
     for (u16 i = 0; i < voyageManager->visibleIslandCount; i++)
     {
-        if (work->userTimer == voyageManager->visibleIslandList[i].object->unlockID)
+        if (work->userTimer == voyageManager->visibleIslandList[i].object->id)
         {
             work->position.x = FX32_FROM_WHOLE(voyageManager->visibleIslandList[i].object->position.x);
             work->position.z = FX32_FROM_WHOLE(voyageManager->visibleIslandList[i].object->position.y);

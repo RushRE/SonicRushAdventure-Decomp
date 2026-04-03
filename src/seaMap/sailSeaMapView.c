@@ -53,9 +53,9 @@ void CreateSailSeaMapView(ShipType type)
     SeaMapManager__GetPosition2(startNode->position.x, startNode->position.y, &work->position.x, &work->position.y);
 
     SeaMapView_EnableMultipleButtons(&work->view, sSailSeaMapViewButtonStates);
-    SeaMapEventManager__Create();
+    CreateSeaMapEventManager();
 
-    work->boatIcon = (SeaMapBoatIcon *)SeaMapEventManager__CreateObject(SEAMAPOBJECT_BOAT_ICON, FX32_TO_WHOLE(work->position.x), FX32_TO_WHOLE(work->position.y), 0, 0, 0);
+    work->boatIcon = (SeaMapBoatIcon *)SeaMapEventManager_CreateObject(SEAMAPOBJECT_BOAT_ICON, FX32_TO_WHOLE(work->position.x), FX32_TO_WHOLE(work->position.y), 0, 0, 0);
     SetSeaMapViewPosition(work->position.x, work->position.y);
 
     InitSeaMapVoyagePathConfig();
@@ -64,7 +64,7 @@ void CreateSailSeaMapView(ShipType type)
 void DestroySailSeaMapView(void)
 {
     DestroyTask(gSeaMapTaskSingleton);
-    SeaMapEventManager__Destroy();
+    DestroySeaMapEventManager();
     SeaMapManager__Destroy();
 }
 
@@ -187,15 +187,15 @@ void SailSeaMapView_HandleProgress(SailSeaMapView *work)
             work->storedVoyageProgress = progress;
             break;
 
-        case 3: // 'SailSeaMapView_GetNodesFromPercent' never returns 3? this logic doesn't appear to ever be called!
+        case 3: // NOTE: 'SailSeaMapView_GetNodesFromPercent' never returns 3? this logic doesn't appear to ever be called.
             work->useStoredProgress = TRUE;
-            SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_TYPE_3, NULL, 0);
+            SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_EVENT_SAILING_UNKNOWN, NULL, NULL);
             break;
 
         case 4:
             work->storedVoyageProgress = progress;
             work->useStoredProgress    = TRUE;
-            SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_TYPE_4, NULL, 0);
+            SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_EVENT_REACHED_END, NULL, NULL);
             break;
     }
 
@@ -211,9 +211,9 @@ void SailSeaMapView_HandleProgress(SailSeaMapView *work)
 
     u16 angle = SailSeaMapView_GetNodeAngle(prevNode, nextNode);
     if (angle >= FLOAT_DEG_TO_IDX(90.0) && angle < FLOAT_DEG_TO_IDX(270.0))
-        SeaMapEventManager__SetBoatFlipX(work->boatIcon, TRUE);
+        SeaMapEventManager_SetBoatDirection(work->boatIcon, TRUE);
     else
-        SeaMapEventManager__SetBoatFlipX(work->boatIcon, FALSE);
+        SeaMapEventManager_SetBoatDirection(work->boatIcon, FALSE);
 }
 
 u16 SailSeaMapView_GetNodeAngle(SeaMapManagerNode *nextNode, SeaMapManagerNode *prevNode)

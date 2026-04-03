@@ -161,7 +161,7 @@ void SailTraining_Main_Init(void)
             SailTrainingDialog__Create(0xFFFE);
             work->flags |= SAILTRAINING_FLAG_CREATED_GOOD_LUCK_DIALOG;
             manager->nextEvent      = 1;
-            manager->targetIslandID = 1;
+            manager->targetIslandID = SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM;
         }
         else
         {
@@ -213,7 +213,7 @@ void SailTraining_Main_TrainingActive(void)
                 else
                 {
                     manager->nextEvent      = 1;
-                    manager->targetIslandID = 1;
+                    manager->targetIslandID = SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM;
                 }
 
                 DestroyCurrentTask();

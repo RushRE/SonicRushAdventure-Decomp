@@ -16,6 +16,6 @@ typedef struct SeaMapTargetFlagIcon_
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapTargetFlagIcon(const CHEVObjectType *objectType, CHEVObject *mapObject);
+SeaMapObject *CreateSeaMapTargetFlagIcon(const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject);
 
 #endif // RUSH_SEAMAPTARGETFLAGICON_H

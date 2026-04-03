@@ -13,7 +13,7 @@
 #include <seaMap/objects/seaMapJohnnyIcon.h>
 #include <seaMap/objects/seaMapSkyBabylonIcon.h>
 #include <seaMap/objects/seaMapTargetFlagIcon.h>
-#include <seaMap/objects/seaMapUnknown5.h>
+#include <seaMap/objects/seaMapUnknownEncounter.h>
 #include <seaMap/objects/seaMapSparkles.h>
 
 // --------------------
@@ -30,31 +30,105 @@
 
 Task *gSeaMapEventManagerTaskSingleton;
 
-NOT_DECOMPILED const u16 SeaMapStylusIcon_AnimIDs[];
-NOT_DECOMPILED const u16 SeaMapSparkles__AnimIDs1[];
-NOT_DECOMPILED const u16 SeaMapSparkles__AnimIDs2[];
-NOT_DECOMPILED const u32 SeaMapBoatIcon__shipAnimIDs[];
-
-const s32 sIslandFeatureUnlockList[] = {
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41,
+static const s32 sIslandUnlockList[42] = {
+    [SEAMAPMANAGER_DISCOVER_SOUTHERN_ISLAND]   = SEAMAPMANAGER_DISCOVER_SOUTHERN_ISLAND,
+    [SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM]     = SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM,
+    [SEAMAPMANAGER_DISCOVER_MACHINE_LABYRINTH] = SEAMAPMANAGER_DISCOVER_MACHINE_LABYRINTH,
+    [SEAMAPMANAGER_DISCOVER_CORAL_CAVE]        = SEAMAPMANAGER_DISCOVER_CORAL_CAVE,
+    [SEAMAPMANAGER_DISCOVER_HAUNTED_SHIP]      = SEAMAPMANAGER_DISCOVER_HAUNTED_SHIP,
+    [SEAMAPMANAGER_DISCOVER_BLIZZARD_PEAKS]    = SEAMAPMANAGER_DISCOVER_BLIZZARD_PEAKS,
+    [SEAMAPMANAGER_DISCOVER_SKY_BABYLON]       = SEAMAPMANAGER_DISCOVER_SKY_BABYLON,
+    [SEAMAPMANAGER_DISCOVER_PIRATES_ISLAND]    = SEAMAPMANAGER_DISCOVER_PIRATES_ISLAND,
+    [SEAMAPMANAGER_DISCOVER_BIG_SWELL]         = SEAMAPMANAGER_DISCOVER_BIG_SWELL,
+    [SEAMAPMANAGER_DISCOVER_DEEP_CORE]         = SEAMAPMANAGER_DISCOVER_DEEP_CORE,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_1]   = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_1,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_2]   = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_2,
+    [SEAMAPMANAGER_DISCOVER_DAIKUN_ISLAND]     = SEAMAPMANAGER_DISCOVER_DAIKUN_ISLAND,
+    [SEAMAPMANAGER_DISCOVER_13]                = SEAMAPMANAGER_DISCOVER_13,
+    [SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND]      = SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_3]   = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_3,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_4]   = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_4,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_5]   = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_5,
+    [SEAMAPMANAGER_DISCOVER_18]                = SEAMAPMANAGER_DISCOVER_18,
+    [SEAMAPMANAGER_DISCOVER_19]                = SEAMAPMANAGER_DISCOVER_19,
+    [SEAMAPMANAGER_DISCOVER_20]                = SEAMAPMANAGER_DISCOVER_20,
+    [SEAMAPMANAGER_DISCOVER_21]                = SEAMAPMANAGER_DISCOVER_21,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_6]   = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_6,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_7]   = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_7,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_8]   = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_8,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_9]   = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_9,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_10]  = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_10,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_11]  = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_11,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_12]  = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_12,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_13]  = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_13,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_14]  = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_14,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_15]  = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_15,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_16]  = SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_16,
+    [SEAMAPMANAGER_DISCOVER_33]                = SEAMAPMANAGER_DISCOVER_33,
+    [SEAMAPMANAGER_DISCOVER_34]                = SEAMAPMANAGER_DISCOVER_34,
+    [SEAMAPMANAGER_DISCOVER_35]                = SEAMAPMANAGER_DISCOVER_35,
+    [SEAMAPMANAGER_DISCOVER_36]                = SEAMAPMANAGER_DISCOVER_36,
+    [SEAMAPMANAGER_DISCOVER_37]                = SEAMAPMANAGER_DISCOVER_37,
+    [SEAMAPMANAGER_DISCOVER_38]                = SEAMAPMANAGER_DISCOVER_38,
+    [SEAMAPMANAGER_DISCOVER_39]                = SEAMAPMANAGER_DISCOVER_39,
+    [SEAMAPMANAGER_DISCOVER_40]                = SEAMAPMANAGER_DISCOVER_40,
+    [SEAMAPMANAGER_DISCOVER_41]                = SEAMAPMANAGER_DISCOVER_41,
 };
 
-const SaveProgress sIslandProgressUnlockList[] = { SAVE_PROGRESS_0,  SAVE_PROGRESS_1,  SAVE_PROGRESS_2,  SAVE_PROGRESS_3,  SAVE_PROGRESS_4,  SAVE_PROGRESS_5,  SAVE_PROGRESS_6,
-                                                   SAVE_PROGRESS_7,  SAVE_PROGRESS_8,  SAVE_PROGRESS_10, SAVE_PROGRESS_11, SAVE_PROGRESS_12, SAVE_PROGRESS_13, SAVE_PROGRESS_14,
-                                                   SAVE_PROGRESS_14, SAVE_PROGRESS_15, SAVE_PROGRESS_16, SAVE_PROGRESS_17, SAVE_PROGRESS_19, SAVE_PROGRESS_20, SAVE_PROGRESS_21,
-                                                   SAVE_PROGRESS_23, SAVE_PROGRESS_24, SAVE_PROGRESS_2,  SAVE_PROGRESS_3,  SAVE_PROGRESS_4,  SAVE_PROGRESS_3,  SAVE_PROGRESS_4,
-                                                   SAVE_PROGRESS_4,  SAVE_PROGRESS_5,  SAVE_PROGRESS_6,  SAVE_PROGRESS_25, SAVE_PROGRESS_27, SAVE_PROGRESS_28, SAVE_PROGRESS_29,
-                                                   SAVE_PROGRESS_30, SAVE_PROGRESS_31, SAVE_PROGRESS_33, SAVE_PROGRESS_34, SAVE_PROGRESS_35, SAVE_PROGRESS_35, SAVE_PROGRESS_36,
-                                                   SAVE_PROGRESS_37, SAVE_PROGRESS_38, SAVE_PROGRESS_39 };
+static const SaveProgress sIslandProgressUnlockList[45] = { [SEAMAPMANAGER_DISCOVER_SOUTHERN_ISLAND]   = SAVE_PROGRESS_0,
+                                                            [SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM]     = SAVE_PROGRESS_1,
+                                                            [SEAMAPMANAGER_DISCOVER_MACHINE_LABYRINTH] = SAVE_PROGRESS_2,
+                                                            [SEAMAPMANAGER_DISCOVER_CORAL_CAVE]        = SAVE_PROGRESS_3,
+                                                            [SEAMAPMANAGER_DISCOVER_HAUNTED_SHIP]      = SAVE_PROGRESS_4,
+                                                            [SEAMAPMANAGER_DISCOVER_BLIZZARD_PEAKS]    = SAVE_PROGRESS_5,
+                                                            [SEAMAPMANAGER_DISCOVER_SKY_BABYLON]       = SAVE_PROGRESS_6,
+                                                            [SEAMAPMANAGER_DISCOVER_PIRATES_ISLAND]    = SAVE_PROGRESS_7,
+                                                            [SEAMAPMANAGER_DISCOVER_BIG_SWELL]         = SAVE_PROGRESS_8,
+                                                            [SEAMAPMANAGER_DISCOVER_DEEP_CORE]         = SAVE_PROGRESS_10,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_1]   = SAVE_PROGRESS_11,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_2]   = SAVE_PROGRESS_12,
+                                                            [SEAMAPMANAGER_DISCOVER_DAIKUN_ISLAND]     = SAVE_PROGRESS_13,
+                                                            [SEAMAPMANAGER_DISCOVER_13]                = SAVE_PROGRESS_14,
+                                                            [SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND]      = SAVE_PROGRESS_14,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_3]   = SAVE_PROGRESS_15,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_4]   = SAVE_PROGRESS_16,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_5]   = SAVE_PROGRESS_17,
+                                                            [SEAMAPMANAGER_DISCOVER_18]                = SAVE_PROGRESS_19,
+                                                            [SEAMAPMANAGER_DISCOVER_19]                = SAVE_PROGRESS_20,
+                                                            [SEAMAPMANAGER_DISCOVER_20]                = SAVE_PROGRESS_21,
+                                                            [SEAMAPMANAGER_DISCOVER_21]                = SAVE_PROGRESS_23,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_6]   = SAVE_PROGRESS_24,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_7]   = SAVE_ZONE5_PROGRESS_2,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_8]   = SAVE_ZONE5_PROGRESS_3,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_9]   = SAVE_ZONE5_PROGRESS_4,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_10]  = SAVE_ZONE6_PROGRESS_3,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_11]  = SAVE_ZONE6_PROGRESS_4,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_12]  = SAVE_ZONE6_PROGRESS_4,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_13]  = SAVE_ZONE6_PROGRESS_5,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_14]  = SAVE_ZONE6_PROGRESS_6,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_15]  = SAVE_PROGRESS_25,
+                                                            [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_16]  = SAVE_PROGRESS_27,
+                                                            [SEAMAPMANAGER_DISCOVER_33]                = SAVE_PROGRESS_28,
+                                                            [SEAMAPMANAGER_DISCOVER_34]                = SAVE_PROGRESS_29,
+                                                            [SEAMAPMANAGER_DISCOVER_35]                = SAVE_PROGRESS_30,
+                                                            [SEAMAPMANAGER_DISCOVER_36]                = SAVE_PROGRESS_31,
+                                                            [SEAMAPMANAGER_DISCOVER_37]                = SAVE_PROGRESS_33,
+                                                            [SEAMAPMANAGER_DISCOVER_38]                = SAVE_PROGRESS_34,
+                                                            [SEAMAPMANAGER_DISCOVER_39]                = SAVE_PROGRESS_35,
+                                                            [SEAMAPMANAGER_DISCOVER_40]                = SAVE_PROGRESS_35,
+                                                            [SEAMAPMANAGER_DISCOVER_41]                = SAVE_PROGRESS_36,
+                                                            [SEAMAPMANAGER_DISCOVER_42]                = SAVE_PROGRESS_37,
+                                                            [SEAMAPMANAGER_DISCOVER_43]                = SAVE_PROGRESS_38,
+                                                            [SEAMAPMANAGER_DISCOVER_44]                = SAVE_PROGRESS_39 };
 
-const CHEVObjectType gSeaMapObjectTypeList[SEAMAPOBJECT_COUNT] = {
+const SeaMapLayoutObjectType gSeaMapObjectTypeList[SEAMAPOBJECT_COUNT] = {
     [SEAMAPOBJECT_ISLAND_DRAW_ICON] =
     {
         .animID        = SEAMAP_CHCOM_ANI_42,
         .palette       = PALETTE_ROW_4,
         .viewBounds    = { 16, 16 },
-        .createFunc    = SeaMapIslandDrawIcon__Create,
-        .viewCheckFunc = NULL,
+        .createFunc    = CreateSeaMapIslandDrawIcon,
+        .arrivalCheck  = NULL,
     },
 
     [SEAMAPOBJECT_UNUSED] = 
@@ -63,25 +137,25 @@ const CHEVObjectType gSeaMapObjectTypeList[SEAMAPOBJECT_COUNT] = {
         .palette       = PALETTE_ROW_0,
         .viewBounds    = { 0, 0 },
         .createFunc    = 0,
-        .viewCheckFunc = NULL,
+        .arrivalCheck  = NULL,
     },
 
-    [SEAMAPOBJECT_ISLAND_ICON_1] = 
+    [SEAMAPOBJECT_ISLAND_ICON_ELIPSE] = 
     {
         .animID        = SEAMAP_CHCOM_ANI_0,
         .palette       = PALETTE_ROW_0,
         .viewBounds    = { 64, 64 },
-        .createFunc    = SeaMapIslandIcon__Create,
-        .viewCheckFunc = SeaMapIslandIcon__ViewCheck,
+        .createFunc    = CreateSeaMapIslandIcon,
+        .arrivalCheck  = SeaMapIslandIcon_ArrivalCheck,
     },
 
-    [SEAMAPOBJECT_ISLAND_ICON_2] = 
+    [SEAMAPOBJECT_ISLAND_ICON_RECT] = 
     {
         .animID        = SEAMAP_CHCOM_ANI_0,
         .palette       = PALETTE_ROW_0,
         .viewBounds    = { 64, 64 },
-        .createFunc    = SeaMapIslandIcon__Create,
-        .viewCheckFunc = SeaMapIslandIcon__ViewCheck,
+        .createFunc    = CreateSeaMapIslandIcon,
+        .arrivalCheck  = SeaMapIslandIcon_ArrivalCheck,
     },
 
     [SEAMAPOBJECT_JOHNNY_ICON] = 
@@ -90,16 +164,16 @@ const CHEVObjectType gSeaMapObjectTypeList[SEAMAPOBJECT_COUNT] = {
         .palette       = PALETTE_ROW_0,
         .viewBounds    = { 16, 16 },
         .createFunc    = CreateSeaMapJohnnyIcon,
-        .viewCheckFunc = SeaMapJohnnyIcon_ViewCheck,
+        .arrivalCheck  = SeaMapJohnnyIcon_ArrivalCheck,
     },
 
-    [SEAMAPOBJECT_UNKNOWN] = 
+    [SEAMAPOBJECT_UNKNOWN_ENCOUNTER] = 
     {
         .animID        = SEAMAP_CHCOM_ANI_0,
         .palette       = PALETTE_ROW_0,
         .viewBounds    = { 16, 16 },
-        .createFunc    = CreateSeaMapUnknown5,
-        .viewCheckFunc = SeaMapUnknown5_ViewCheck,
+        .createFunc    = CreateSeaMapUnknownEncounter,
+        .arrivalCheck  = SeaMapUnknownEncounter_ArrivalCheck,
     },
 
     [SEAMAPOBJECT_CORAL_CAVE_ICON] = 
@@ -108,7 +182,7 @@ const CHEVObjectType gSeaMapObjectTypeList[SEAMAPOBJECT_COUNT] = {
         .palette       = PALETTE_ROW_8,
         .viewBounds    = { 28, 36 },
         .createFunc    = CreateSeaMapCoralCaveIcon,
-        .viewCheckFunc = NULL,
+        .arrivalCheck  = NULL,
     },
 
     [SEAMAPOBJECT_SKY_BABYLON_ICON] = 
@@ -117,7 +191,7 @@ const CHEVObjectType gSeaMapObjectTypeList[SEAMAPOBJECT_COUNT] = {
         .palette       = PALETTE_ROW_9,
         .viewBounds    = { 28, 36 },
         .createFunc    = CreateSeaMapSkyBabylonIcon,
-        .viewCheckFunc = NULL,
+        .arrivalCheck  = NULL,
     },
 
     [SEAMAPOBJECT_TARGET_FLAG_ICON] = 
@@ -126,7 +200,7 @@ const CHEVObjectType gSeaMapObjectTypeList[SEAMAPOBJECT_COUNT] = {
         .palette       = PALETTE_ROW_4,
         .viewBounds    = { 32, 32 },
         .createFunc    = CreateSeaMapTargetFlagIcon,
-        .viewCheckFunc = NULL,
+        .arrivalCheck  = NULL,
     },
 
     [SEAMAPOBJECT_BOAT_ICON] = 
@@ -135,7 +209,7 @@ const CHEVObjectType gSeaMapObjectTypeList[SEAMAPOBJECT_COUNT] = {
         .palette       = PALETTE_ROW_14,
         .viewBounds    = { 0, 0 },
         .createFunc    = CreateSeaMapBoatIcon,
-        .viewCheckFunc = NULL,
+        .arrivalCheck  = NULL,
     },
 
     [SEAMAPOBJECT_STYLUS_PROMPT] = 
@@ -144,7 +218,7 @@ const CHEVObjectType gSeaMapObjectTypeList[SEAMAPOBJECT_COUNT] = {
         .palette       = PALETTE_ROW_14,
         .viewBounds    = { 0, 0 },
         .createFunc    = CreateSeaMapStylusIcon,
-        .viewCheckFunc = NULL,
+        .arrivalCheck  = NULL,
     },
 
     [SEAMAPOBJECT_DS_POPUP] = 
@@ -153,25 +227,25 @@ const CHEVObjectType gSeaMapObjectTypeList[SEAMAPOBJECT_COUNT] = {
         .palette       = PALETTE_ROW_2,
         .viewBounds    = { 0, 0 },
         .createFunc    = CreateSeaMapDSPopup,
-        .viewCheckFunc = NULL,
+        .arrivalCheck  = NULL,
     },
 
-    [SEAMAPOBJECT_SPARKLES_1] = 
+    [SEAMAPOBJECT_SPARKLES_MAJOR_ISLAND] = 
     {
         .animID        = SEAMAP_CHCOM_ANI_0,
         .palette       = PALETTE_ROW_5,
         .viewBounds    = { 0, 0 },
-        .createFunc    = SeaMapSparkles__Create,
-        .viewCheckFunc = NULL,
+        .createFunc    = CreateSeaMapSparkles,
+        .arrivalCheck  = NULL,
     },
 
-    [SEAMAPOBJECT_SPARKLES_2] = 
+    [SEAMAPOBJECT_SPARKLES_MINOR_ISLAND] = 
     {
         .animID        = SEAMAP_CHCOM_ANI_0,
         .palette       = PALETTE_ROW_5,
         .viewBounds    = { 0, 0 },
-        .createFunc    = SeaMapSparkles__Create,
-        .viewCheckFunc = NULL,
+        .createFunc    = CreateSeaMapSparkles,
+        .arrivalCheck  = NULL,
     },
 };
 
@@ -185,31 +259,31 @@ extern void SeaMapCoralCaveIcon_State_BeginAppearing(SeaMapCoralCaveIcon *work);
 // FUNCTIONS
 // --------------------
 
-BOOL SeaMapEventManager__CheckFeatureUnlocked(u32 id)
+BOOL SeaMapEventManager_CheckIslandUnlocked(u32 id)
 {
     switch (id)
     {
         default:
-            return SeaMapManager__GetSaveFlag(sIslandFeatureUnlockList[id]);
+            return SeaMapManager__GetSaveFlag(sIslandUnlockList[id]);
 
-        case 0:
+        case SEAMAPMANAGER_DISCOVER_SOUTHERN_ISLAND:
             return TRUE;
 
-        case 1:
+        case SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM:
             return SaveGame__GetGameProgress() >= SAVE_PROGRESS_3;
 
-        case 3:
+        case SEAMAPMANAGER_DISCOVER_CORAL_CAVE:
             return SaveGame__GetGameProgress() >= SAVE_PROGRESS_14;
 
-        case 6:
+        case SEAMAPMANAGER_DISCOVER_SKY_BABYLON:
             return SaveGame__GetZone6Progress() >= SAVE_ZONE6_PROGRESS_4;
 
-        case 8:
+        case SEAMAPMANAGER_DISCOVER_BIG_SWELL:
             return SaveGame__GetGameProgress() >= SAVE_PROGRESS_35;
     }
 }
 
-void SeaMapEventManager__Create(void)
+void CreateSeaMapEventManager(void)
 {
     Task *task = TaskCreate(SeaMapEventManager_Main, SeaMapEventManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x110, TASK_GROUP(0), SeaMapEventManager);
     gSeaMapEventManagerTaskSingleton = task;
@@ -217,9 +291,9 @@ void SeaMapEventManager__Create(void)
     SeaMapEventManager *work = TaskGetWork(task, SeaMapEventManager);
     TaskInitWork16(work);
 
-    SeaMapEventManager__Func_2046A78();
+    SeaMapEventManager_ClearLastTouchedIcon();
 
-    for (s32 i = 0; i < 16; i++)
+    for (s32 i = 0; i < SEAMAPEVENTMANAGER_CREATE_OBJECT_LIST_SIZE; i++)
     {
         work->objectList[i].type = SEAMAPOBJECT_DESTROYED;
     }
@@ -252,7 +326,7 @@ void SeaMapEventManager__Create(void)
     SeaMapEventManager_SpawnInitialObjects();
 }
 
-void SeaMapEventManager__Destroy(void)
+void DestroySeaMapEventManager(void)
 {
     if (gSeaMapEventManagerTaskSingleton == NULL)
         return;
@@ -261,14 +335,14 @@ void SeaMapEventManager__Destroy(void)
     DestroyTask(gSeaMapEventManagerTaskSingleton);
 }
 
-SeaMapObject *SeaMapEventManager__CreateObject(s32 type, s16 x, s16 y, u8 flags, HitboxRect *box, s16 unlockID)
+SeaMapObject *SeaMapEventManager_CreateObject(s32 type, s16 x, s16 y, u8 flags, HitboxRect *box, s16 id)
 {
-    SeaMapEventManager *work         = SeaMapEventManager__GetWork();
-    const CHEVObjectType *objectType = &gSeaMapObjectTypeList[type];
+    SeaMapEventManager *work                 = GetSeaMapEventManagerWork();
+    const SeaMapLayoutObjectType *objectType = &gSeaMapObjectTypeList[type];
 
-    CHEVObject *mapObject = NULL;
-    s32 i                 = 0;
-    for (; i < 16; i++)
+    SeaMapLayoutObject *mapObject = NULL;
+    s32 i                         = 0;
+    for (; i < SEAMAPEVENTMANAGER_CREATE_OBJECT_LIST_SIZE; i++)
     {
         if (work->objectList[i].type == SEAMAPOBJECT_DESTROYED)
         {
@@ -281,69 +355,68 @@ SeaMapObject *SeaMapEventManager__CreateObject(s32 type, s16 x, s16 y, u8 flags,
     mapObject->type       = type;
     mapObject->position.x = x;
     mapObject->position.y = y;
-    mapObject->flags1     = 0x80;
-    mapObject->flags2     = flags;
+    mapObject->sysFlags   = SEAMAPLAYOUTOBJECT_SYSFLAG_NON_MAP_OBJECT;
+    mapObject->usrFlags   = flags;
     if (box)
         MI_CpuCopy16(box, &mapObject->box, sizeof(mapObject->box));
-    mapObject->unlockID = unlockID;
+    mapObject->id = id;
     return objectType->createFunc(objectType, mapObject);
 }
 
-SeaMapEventManager *SeaMapEventManager__GetWork2(void)
+SeaMapEventManager *GetSeaMapEventManagerWork2(void)
 {
-    return SeaMapEventManager__GetWork();
+    return GetSeaMapEventManagerWork();
 }
 
-void SeaMapEventManager__Func_2046A78(void)
+void SeaMapEventManager_ClearLastTouchedIcon(void)
 {
-    SeaMapEventManager *work = SeaMapEventManager__GetWork2();
+    SeaMapEventManager *work = GetSeaMapEventManagerWork2();
 
     work->lastTouchedIconType = -1;
-    work->lastTouchedIcon     = 0;
+    work->lastTouchedIcon     = NULL;
 }
 
-void SeaMapEventManager__Func_2046A94(void *a1)
+void SeaMapEventManager_ClearDrawIconButtonState(SeaMapIslandDrawIcon *icon)
 {
-    // TODO: what is this type?
-    SetSpriteButtonState((SpriteButtonAnimator *)((u8 *)a1 + 16), SPRITE_BUTTON_STATE_IDLE);
+    SetSpriteButtonState(&icon->aniDrawIcon, SPRITE_BUTTON_STATE_IDLE);
 }
 
-CHEVObject *SeaMapEventManager__GetObjectFromID(u32 id)
+SeaMapLayoutObject *SeaMapEventManager_GetObjectFromID(u32 id)
 {
-    CHEV *layout = SeaMapManager__GetWork()->assets.objectLayout;
+    SeaMapObjectLayout *layout = SeaMapManager__GetWork()->assets.objectLayout;
 
-    CHEVObject *mapObjectList = layout->entries;
-    u16 *indexCount           = (u16 *)&layout->entries[layout->count];
-    for (u16 i = 0; i < *indexCount; i++)
+    SeaMapLayoutObject *mapObjectList        = layout->objectList;
+    SeaMapObjectLayoutDrawIconList *iconList = (SeaMapObjectLayoutDrawIconList *)&layout->objectList[layout->count];
+    for (u16 i = 0; i < iconList->count; i++)
     {
-        CHEVObject *mapObject = &mapObjectList[indexCount[i + 1]];
+        SeaMapLayoutObject *mapObject = &mapObjectList[iconList->iconList[i]];
 
-        if (mapObject->unlockID == id)
+        if (mapObject->id == id)
             return mapObject;
     }
 
     return NULL;
 }
 
-void SeaMapEventManager__FindVisibleIslands(fx32 shipX, fx32 shipY, fx32 distanceThreshold, SeaMapVoyageVisibleIsland *islandList, u16 *islandCount)
+void SeaMapEventManager_FindVisibleIslands(fx32 shipX, fx32 shipY, fx32 distanceThreshold, SeaMapVoyageVisibleIsland *islandList, u16 *islandCount)
 {
-    CHEV *layout = SeaMapManager__GetWork()->assets.objectLayout;
+    SeaMapObjectLayout *layout = SeaMapManager__GetWork()->assets.objectLayout;
 
-    *islandCount              = 0;
-    CHEVObject *mapObjectList = layout->entries;
-    u16 *indexCount           = (u16 *)&layout->entries[layout->count];
-    for (u16 i = 0; i < *indexCount; i++)
+    *islandCount                             = 0;
+    SeaMapLayoutObject *mapObjectList        = layout->objectList;
+    SeaMapObjectLayoutDrawIconList *iconList = (SeaMapObjectLayoutDrawIconList *)&layout->objectList[layout->count];
+    for (u16 i = 0; i < iconList->count; i++)
     {
-        CHEVObject *mapObject = &mapObjectList[indexCount[i + 1]];
+        SeaMapLayoutObject *mapObject = &mapObjectList[iconList->iconList[i]];
 
-        switch (mapObject->unlockID)
+        switch (mapObject->id)
         {
-            case 3:
-                if (SeaMapManager__GetSaveFlag(3) == FALSE)
+            case SEAMAPMANAGER_DISCOVER_CORAL_CAVE:
+                if (SeaMapManager__GetSaveFlag(SEAMAPMANAGER_DISCOVER_CORAL_CAVE) == FALSE)
                     continue;
                 break;
 
-            case 6:
+            case SEAMAPMANAGER_DISCOVER_SKY_BABYLON:
                 continue;
 
             default:
@@ -358,14 +431,14 @@ void SeaMapEventManager__FindVisibleIslands(fx32 shipX, fx32 shipY, fx32 distanc
         fx32 radius;
         if (localX > localY)
         {
-            fx32 x = MultiplyFX(localX, 0xF5E);
-            fx32 y = MultiplyFX(localY, 0x65D);
+            fx32 x = MultiplyFX(localX, FLOAT_TO_FX32(0.96045));
+            fx32 y = MultiplyFX(localY, FLOAT_TO_FX32(0.397705078125));
             radius = x + y;
         }
         else
         {
-            fx32 y = MultiplyFX(localY, 0xF5E);
-            fx32 x = MultiplyFX(localX, 0x65D);
+            fx32 y = MultiplyFX(localY, FLOAT_TO_FX32(0.96045));
+            fx32 x = MultiplyFX(localX, FLOAT_TO_FX32(0.397705078125));
             radius = y + x;
         }
 
@@ -378,254 +451,254 @@ void SeaMapEventManager__FindVisibleIslands(fx32 shipX, fx32 shipY, fx32 distanc
     }
 }
 
-u32 SeaMapEventManager__GetObjectType(CHEVObject *mapObject)
+u32 SeaMapEventManager_GetObjectType(SeaMapLayoutObject *mapObject)
 {
     return mapObject->type & ~SEAMAPOBJECT_TYPE_MASK_ACTIVE;
 }
 
-BOOL SeaMapEventManager__ObjectIsActive(CHEVObject *mapObject)
+BOOL SeaMapEventManager__IsObjectActive(SeaMapLayoutObject *mapObject)
 {
     return (mapObject->type & SEAMAPOBJECT_TYPE_MASK_ACTIVE) == 0;
 }
 
-u32 SeaMapEventManager__Func_2046CE8(s16 id)
+u32 SeaMapEventManager_GetDiscoverableIslandID(s16 id)
 {
     switch (id)
     {
         default:
-        case 0:
-            return 0;
+        case SEAMAPMANAGER_DISCOVER_SOUTHERN_ISLAND:
+            return SEAMAPMANAGER_DISCOVER_SOUTHERN_ISLAND;
 
-        case 1:
-            return 1;
+        case SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM:
+            return SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM;
 
-        case 2:
-            return 2;
+        case SEAMAPMANAGER_DISCOVER_MACHINE_LABYRINTH:
+            return SEAMAPMANAGER_DISCOVER_MACHINE_LABYRINTH;
 
-        case 3:
-            return 3;
+        case SEAMAPMANAGER_DISCOVER_CORAL_CAVE:
+            return SEAMAPMANAGER_DISCOVER_CORAL_CAVE;
 
-        case 4:
-            return 4;
+        case SEAMAPMANAGER_DISCOVER_HAUNTED_SHIP:
+            return SEAMAPMANAGER_DISCOVER_HAUNTED_SHIP;
 
-        case 5:
-            return 5;
+        case SEAMAPMANAGER_DISCOVER_BLIZZARD_PEAKS:
+            return SEAMAPMANAGER_DISCOVER_BLIZZARD_PEAKS;
 
-        case 6:
-            return 6;
+        case SEAMAPMANAGER_DISCOVER_SKY_BABYLON:
+            return SEAMAPMANAGER_DISCOVER_SKY_BABYLON;
 
-        case 7:
-            return 7;
+        case SEAMAPMANAGER_DISCOVER_PIRATES_ISLAND:
+            return SEAMAPMANAGER_DISCOVER_PIRATES_ISLAND;
 
-        case 8:
-            return 8;
+        case SEAMAPMANAGER_DISCOVER_BIG_SWELL:
+            return SEAMAPMANAGER_DISCOVER_BIG_SWELL;
 
-        case 9:
-            return 9;
+        case SEAMAPMANAGER_DISCOVER_DEEP_CORE:
+            return SEAMAPMANAGER_DISCOVER_DEEP_CORE;
 
-        case 10:
-            return 10;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_1:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_1;
 
-        case 11:
-            return 11;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_2:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_2;
 
-        case 12:
-            return 12;
+        case SEAMAPMANAGER_DISCOVER_DAIKUN_ISLAND:
+            return SEAMAPMANAGER_DISCOVER_DAIKUN_ISLAND;
 
-        case 13:
-            return 13;
+        case SEAMAPMANAGER_DISCOVER_13:
+            return SEAMAPMANAGER_DISCOVER_13;
 
-        case 14:
-            return 14;
+        case SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND:
+            return SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND;
 
-        case 15:
-            return 15;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_3:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_3;
 
-        case 16:
-            return 16;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_4:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_4;
 
-        case 17:
-            return 17;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_5:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_5;
 
-        case 18:
-            return 18;
+        case SEAMAPMANAGER_DISCOVER_18:
+            return SEAMAPMANAGER_DISCOVER_18;
 
-        case 19:
-            return 19;
+        case SEAMAPMANAGER_DISCOVER_19:
+            return SEAMAPMANAGER_DISCOVER_19;
 
-        case 20:
-            return 20;
+        case SEAMAPMANAGER_DISCOVER_20:
+            return SEAMAPMANAGER_DISCOVER_20;
 
-        case 21:
-            return 21;
+        case SEAMAPMANAGER_DISCOVER_21:
+            return SEAMAPMANAGER_DISCOVER_21;
 
-        case 22:
-            return 22;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_6:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_6;
 
-        case 23:
-            return 23;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_7:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_7;
 
-        case 24:
-            return 24;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_8:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_8;
 
-        case 25:
-            return 25;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_9:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_9;
 
-        case 26:
-            return 26;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_10:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_10;
 
-        case 27:
-            return 27;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_11:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_11;
 
-        case 28:
-            return 28;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_12:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_12;
 
-        case 29:
-            return 29;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_13:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_13;
 
-        case 30:
-            return 30;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_14:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_14;
 
-        case 31:
-            return 31;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_15:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_15;
 
-        case 32:
-            return 32;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_16:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_16;
 
-        case 33:
-            return 33;
+        case SEAMAPMANAGER_DISCOVER_33:
+            return SEAMAPMANAGER_DISCOVER_33;
 
-        case 34:
-            return 34;
+        case SEAMAPMANAGER_DISCOVER_34:
+            return SEAMAPMANAGER_DISCOVER_34;
 
-        case 35:
-            return 35;
+        case SEAMAPMANAGER_DISCOVER_35:
+            return SEAMAPMANAGER_DISCOVER_35;
 
-        case 36:
-            return 36;
+        case SEAMAPMANAGER_DISCOVER_36:
+            return SEAMAPMANAGER_DISCOVER_36;
 
-        case 37:
-            return 37;
+        case SEAMAPMANAGER_DISCOVER_37:
+            return SEAMAPMANAGER_DISCOVER_37;
 
-        case 38:
-            return 38;
+        case SEAMAPMANAGER_DISCOVER_38:
+            return SEAMAPMANAGER_DISCOVER_38;
 
-        case 39:
-            return 39;
+        case SEAMAPMANAGER_DISCOVER_39:
+            return SEAMAPMANAGER_DISCOVER_39;
 
-        case 40:
-            return 40;
+        case SEAMAPMANAGER_DISCOVER_40:
+            return SEAMAPMANAGER_DISCOVER_40;
 
-        case 41:
-            return 41;
+        case SEAMAPMANAGER_DISCOVER_41:
+            return SEAMAPMANAGER_DISCOVER_41;
     }
 }
 
-u32 SeaMapEventManager__Func_2046EEC(u32 id)
+u32 SeaMapEventManager_GetLandableIslandID(u32 id)
 {
     switch (id)
     {
         default:
-        case 0:
-            return 0;
+        case SEAMAPMANAGER_DISCOVER_SOUTHERN_ISLAND:
+            return SEAMAPMANAGER_DISCOVER_SOUTHERN_ISLAND;
 
-        case 1:
-            return 1;
+        case SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM:
+            return SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM;
 
-        case 2:
-            return 2;
+        case SEAMAPMANAGER_DISCOVER_MACHINE_LABYRINTH:
+            return SEAMAPMANAGER_DISCOVER_MACHINE_LABYRINTH;
 
-        case 3:
-            return 3;
+        case SEAMAPMANAGER_DISCOVER_CORAL_CAVE:
+            return SEAMAPMANAGER_DISCOVER_CORAL_CAVE;
 
-        case 4:
-            return 4;
+        case SEAMAPMANAGER_DISCOVER_HAUNTED_SHIP:
+            return SEAMAPMANAGER_DISCOVER_HAUNTED_SHIP;
 
-        case 5:
-            return 5;
+        case SEAMAPMANAGER_DISCOVER_BLIZZARD_PEAKS:
+            return SEAMAPMANAGER_DISCOVER_BLIZZARD_PEAKS;
 
-        case 6:
-            return 6;
+        case SEAMAPMANAGER_DISCOVER_SKY_BABYLON:
+            return SEAMAPMANAGER_DISCOVER_SKY_BABYLON;
 
-        case 7:
-            return 7;
+        case SEAMAPMANAGER_DISCOVER_PIRATES_ISLAND:
+            return SEAMAPMANAGER_DISCOVER_PIRATES_ISLAND;
 
-        case 8:
-            return 8;
+        case SEAMAPMANAGER_DISCOVER_BIG_SWELL:
+            return SEAMAPMANAGER_DISCOVER_BIG_SWELL;
 
-        case 9:
-            return 9;
+        case SEAMAPMANAGER_DISCOVER_DEEP_CORE:
+            return SEAMAPMANAGER_DISCOVER_DEEP_CORE;
 
-        case 10:
-            return 10;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_1:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_1;
 
-        case 11:
-            return 11;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_2:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_2;
 
-        case 12:
-            return 12;
+        case SEAMAPMANAGER_DISCOVER_DAIKUN_ISLAND:
+            return SEAMAPMANAGER_DISCOVER_DAIKUN_ISLAND;
 
-        case 13:
-            return 13;
+        case SEAMAPMANAGER_DISCOVER_13:
+            return SEAMAPMANAGER_DISCOVER_13;
 
-        case 14:
-            return 14;
+        case SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND:
+            return SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND;
 
-        case 15:
-            return 15;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_3:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_3;
 
-        case 16:
-            return 16;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_4:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_4;
 
-        case 17:
-            return 17;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_5:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_5;
 
-        case 22:
-            return 22;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_6:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_6;
 
-        case 23:
-            return 23;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_7:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_7;
 
-        case 24:
-            return 24;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_8:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_8;
 
-        case 25:
-            return 25;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_9:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_9;
 
-        case 26:
-            return 26;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_10:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_10;
 
-        case 27:
-            return 27;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_11:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_11;
 
-        case 28:
-            return 28;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_12:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_12;
 
-        case 29:
-            return 29;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_13:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_13;
 
-        case 30:
-            return 30;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_14:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_14;
 
-        case 31:
-            return 31;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_15:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_15;
 
-        case 32:
-            return 32;
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_16:
+            return SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_16;
     }
 }
 
-void SeaMapEventManager__SetBoatFlipX(SeaMapBoatIcon *boat, BOOL enabled)
+void SeaMapEventManager_SetBoatDirection(SeaMapBoatIcon *boat, BOOL facingLeft)
 {
-    if (enabled)
+    if (facingLeft)
         boat->aniBoat.flags &= ~ANIMATOR_FLAG_FLIP_X;
     else
         boat->aniBoat.flags |= ANIMATOR_FLAG_FLIP_X;
 }
 
-SeaMapObject *SeaMapEventManager__CreateStylusIcon(fx32 startX, fx32 startY, fx32 endX, fx32 endY, s16 speed)
+SeaMapObject *CreateSeaMapEventManagerStylusIcon(fx32 startX, fx32 startY, fx32 endX, fx32 endY, s16 speed)
 {
-    SeaMapStylusIcon *icon = (SeaMapStylusIcon *)SeaMapEventManager__CreateObject(SEAMAPOBJECT_STYLUS_PROMPT, 0, 0, 0, NULL, 0);
+    SeaMapStylusIcon *icon = (SeaMapStylusIcon *)SeaMapEventManager_CreateObject(SEAMAPOBJECT_STYLUS_PROMPT, 0, 0, 0, NULL, 0);
     icon->startPos.x       = startX;
     icon->startPos.y       = startY;
     icon->endPos.x         = endX;
@@ -635,7 +708,7 @@ SeaMapObject *SeaMapEventManager__CreateStylusIcon(fx32 startX, fx32 startY, fx3
     return &icon->objWork;
 }
 
-void SeaMapEventManager__DestroyStylusIcon(SeaMapObject *work)
+void DestroySeaMapEventManagerStylusIcon(SeaMapObject *work)
 {
     if (work->task != NULL)
     {
@@ -644,46 +717,46 @@ void SeaMapEventManager__DestroyStylusIcon(SeaMapObject *work)
     }
 }
 
-void SeaMapEventManager__CreateDSPopup(void)
+void CreateSeaMapEventManagerDSPopup(void)
 {
-    if (SeaMapEventManager__GetWork()->dsPopup == NULL)
-        SeaMapEventManager__CreateObject(SEAMAPOBJECT_DS_POPUP, HW_LCD_CENTER_X, HW_LCD_CENTER_Y, 0, NULL, 0);
+    if (GetSeaMapEventManagerWork()->dsPopup == NULL)
+        SeaMapEventManager_CreateObject(SEAMAPOBJECT_DS_POPUP, HW_LCD_CENTER_X, HW_LCD_CENTER_Y, 0, NULL, 0);
 }
 
-void SeaMapEventManager__DestroyDSPopup(void)
+void DestroySeaMapEventManagerDSPopup(void)
 {
-    if (SeaMapEventManager__GetWork()->dsPopup != NULL)
-        DestroyTask(SeaMapEventManager__GetWork()->dsPopup);
+    if (GetSeaMapEventManagerWork()->dsPopup != NULL)
+        DestroyTask(GetSeaMapEventManagerWork()->dsPopup);
 }
 
-void SeaMapEventManager__UnlockCoralCave(void)
+void SeaMapEventManager_UnlockCoralCave(void)
 {
-    if (SeaMapEventManager__GetWork()->coralCaveIcon == NULL)
+    if (GetSeaMapEventManagerWork()->coralCaveIcon == NULL)
         return;
 
-    SeaMapCoralCaveIcon *icon = TaskGetWork(SeaMapEventManager__GetWork()->coralCaveIcon, SeaMapCoralCaveIcon);
+    SeaMapCoralCaveIcon *icon = TaskGetWork(GetSeaMapEventManagerWork()->coralCaveIcon, SeaMapCoralCaveIcon);
     icon->state               = SeaMapCoralCaveIcon_State_BeginAppearing;
 }
 
-void SeaMapEventManager__UnlockSkyBabylon(void)
+void SeaMapEventManager_UnlockSkyBabylon(void)
 {
-    if (SeaMapEventManager__GetWork()->skyBabylonIcon == NULL)
+    if (GetSeaMapEventManagerWork()->skyBabylonIcon == NULL)
         return;
 
-    SeaMapSkyBabylonIcon *icon = TaskGetWork(SeaMapEventManager__GetWork()->skyBabylonIcon, SeaMapSkyBabylonIcon);
+    SeaMapSkyBabylonIcon *icon = TaskGetWork(GetSeaMapEventManagerWork()->skyBabylonIcon, SeaMapSkyBabylonIcon);
     icon->state                = SeaMapSkyBabylonIcon_State_BeginAppear;
 }
 
-void SeaMapEventManager__Func_20471B8(AnimatorSprite *animator, SpriteFrameCallback callback, void *userData)
+void SeaMapEventManager_ProcessAnimator(AnimatorSprite *animator, SpriteFrameCallback callback, void *userData)
 {
     u16 i = RenderCore_GetTargetVBlankCount() + 1;
-    while (i--) 
+    while (i--)
     {
         AnimatorSprite__ProcessAnimation(animator, callback, userData);
     }
 }
 
-BOOL SeaMapEventManager__IslandEnabled(u32 id)
+BOOL SeaMapEventManager_CheckIslandDiscovered(u32 id)
 {
     s32 progress = sIslandProgressUnlockList[id];
 
@@ -692,39 +765,39 @@ BOOL SeaMapEventManager__IslandEnabled(u32 id)
         default:
             return progress <= SaveGame__GetGameProgress();
 
-        case CH_ISLANDDRAWICON_UNKNOWN_HIDDEN_ISLAND_7:
-        case CH_ISLANDDRAWICON_UNKNOWN_HIDDEN_ISLAND_8:
-        case CH_ISLANDDRAWICON_UNKNOWN_HIDDEN_ISLAND_9:
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_7:
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_8:
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_9:
             return progress <= SaveGame__GetZone5Progress();
 
-        case CH_ISLANDDRAWICON_UNKNOWN_HIDDEN_ISLAND_10:
-        case CH_ISLANDDRAWICON_UNKNOWN_HIDDEN_ISLAND_11:
-        case CH_ISLANDDRAWICON_UNKNOWN_HIDDEN_ISLAND_12:
-        case CH_ISLANDDRAWICON_UNKNOWN_HIDDEN_ISLAND_13:
-        case CH_ISLANDDRAWICON_UNKNOWN_HIDDEN_ISLAND_14:
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_10:
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_11:
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_12:
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_13:
+        case SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_14:
             return progress <= SaveGame__GetZone6Progress();
     }
 }
 
-SeaMapEventManager *SeaMapEventManager__GetWork(void)
+SeaMapEventManager *GetSeaMapEventManagerWork(void)
 {
     return TaskGetWork(gSeaMapEventManagerTaskSingleton, SeaMapEventManager);
 }
 
 void SeaMapEventManager_SpawnInitialObjects(void)
 {
-    CHEV *layout = SeaMapManager__GetWork()->assets.objectLayout;
+    SeaMapObjectLayout *layout = SeaMapManager__GetWork()->assets.objectLayout;
 
     for (u16 i = 0; i < layout->count; i++)
     {
-        CHEVObject *mapObject = &layout->entries[i];
+        SeaMapLayoutObject *mapObject = &layout->objectList[i];
 
-        if (SeaMapEventManager__ObjectIsActive(mapObject))
+        if (SeaMapEventManager__IsObjectActive(mapObject))
         {
-            const CHEVObjectType *objectType = &gSeaMapObjectTypeList[mapObject->type];
+            const SeaMapLayoutObjectType *objectType = &gSeaMapObjectTypeList[mapObject->type];
 
-            if ((mapObject->flags1 & 1) != 0)
-                objectType->createFunc(objectType, &layout->entries[i]);
+            if ((mapObject->sysFlags & SEAMAPLAYOUTOBJECT_SYSFLAG_SPAWN_INSTANTLY) != 0)
+                objectType->createFunc(objectType, &layout->objectList[i]);
         }
     }
 }
@@ -732,10 +805,10 @@ void SeaMapEventManager_SpawnInitialObjects(void)
 void SeaMapEventManager_Main(void)
 {
     SeaMapEventManager *work;
-    CHEV *layout;
+    SeaMapObjectLayout *layout;
     u16 i;
-    CHEVObject *mapObject;
-    const CHEVObjectType *objectType;
+    SeaMapLayoutObject *mapObject;
+    const SeaMapLayoutObjectType *objectType;
 
     work = TaskGetWorkCurrent(SeaMapEventManager);
 
@@ -743,18 +816,18 @@ void SeaMapEventManager_Main(void)
 
     for (i = 0; i < layout->count; i++)
     {
-        mapObject = &layout->entries[i];
+        mapObject = &layout->objectList[i];
 
-        if (SeaMapEventManager__ObjectIsActive(mapObject))
+        if (SeaMapEventManager__IsObjectActive(mapObject))
         {
             objectType = &gSeaMapObjectTypeList[mapObject->type];
 
-            if (SeaMapEventManager__ObjectInBounds(&mapObject->position, objectType->viewBounds))
+            if (SeaMapEventManager_CheckVisible(&mapObject->position, objectType->viewBounds))
                 objectType->createFunc(objectType, mapObject);
         }
     }
 
-    SeaMapEventManager__Func_20471B8(&work->aniTargetFlag, NULL, NULL);
+    SeaMapEventManager_ProcessAnimator(&work->aniTargetFlag, NULL, NULL);
 }
 
 void SeaMapEventManager_Destructor(Task *task)
@@ -768,7 +841,7 @@ void SeaMapEventManager_Destructor(Task *task)
     gSeaMapEventManagerTaskSingleton = NULL;
 }
 
-void SeaMapEventManager__InitMapObject(SeaMapObject *work, Task *task, const CHEVObjectType *objectType, CHEVObject *mapObject)
+void InitSeaMapEventManagerObject(SeaMapObject *work, Task *task, const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject)
 {
     work->task       = task;
     work->objectType = objectType;
@@ -777,15 +850,15 @@ void SeaMapEventManager__InitMapObject(SeaMapObject *work, Task *task, const CHE
     work->position.y = mapObject->position.y;
 }
 
-void SeaMapEventManager__DestroyObject(SeaMapObject *work)
+void DestroySeaMapEventManagerObject(SeaMapObject *work)
 {
-    CHEVObject *mapObject = work->mapObject;
+    SeaMapLayoutObject *mapObject = work->mapObject;
 
-    if ((mapObject->flags1 & 0x80) != 0)
+    if ((mapObject->sysFlags & SEAMAPLAYOUTOBJECT_SYSFLAG_NON_MAP_OBJECT) != 0)
         mapObject->type = SEAMAPOBJECT_DESTROYED;
 }
 
-NONMATCH_FUNC BOOL SeaMapEventManager__ObjectInBounds(Vec2Fx16 *objPos, const s8 *viewBounds)
+NONMATCH_FUNC BOOL SeaMapEventManager_CheckVisible(Vec2Fx16 *objPos, const s8 *viewBounds)
 {
     // https://decomp.me/scratch/eq7RZ -> 64.52%
 #ifdef NON_MATCHING
@@ -868,42 +941,42 @@ _020474F4:
 #endif
 }
 
-void SeaMapEventManager__Func_20474FC(Vec2Fx16 *pos1, Vec2Fx16 *pos2)
+void SeaMapEventManager_GetMapLocalPosition(Vec2Fx16 *worldPosition, Vec2Fx16 *mapLocalPosition)
 {
     fx32 zoomScale = SeaMapManager__GetZoomOutScale();
 
-    pos2->x = FX32_TO_WHOLE(zoomScale * (pos1->x - FX32_TO_WHOLE(SeaMapManager__GetXPos())));
-    pos2->y = FX32_TO_WHOLE(zoomScale * (pos1->y - FX32_TO_WHOLE(SeaMapManager__GetYPos())));
+    mapLocalPosition->x = FX32_TO_WHOLE(zoomScale * (worldPosition->x - FX32_TO_WHOLE(SeaMapManager__GetXPos())));
+    mapLocalPosition->y = FX32_TO_WHOLE(zoomScale * (worldPosition->y - FX32_TO_WHOLE(SeaMapManager__GetYPos())));
 }
 
-void SeaMapEventManager__SetObjectAsActive(SeaMapObject *work)
+void SeaMapEventManager_SetObjectAsActive(SeaMapObject *work)
 {
     work->mapObject->type |= SEAMAPOBJECT_TYPE_MASK_ACTIVE;
 }
 
-void SeaMapEventManager__SetObjectAsInactive(SeaMapObject *work)
+void SeaMapEventManager_SetObjectAsInactive(SeaMapObject *work)
 {
     work->mapObject->type &= ~SEAMAPOBJECT_TYPE_MASK_ACTIVE;
 }
 
-BOOL SeaMapEventManager__Func_204756C(CHEVObject *mapObject)
+BOOL SeaMapEventManager_CheckObjectPosDiscoveredOnMap(SeaMapLayoutObject *mapObject)
 {
     u16 y;
     u16 x;
 
-    SeaMapManager__Func_2043A80(FX32_FROM_WHOLE(mapObject->position.x), FX32_FROM_WHOLE(mapObject->position.y), &x, &y);
-    return SeaMapManager__GetMapPixel(x, y) == 0;
+    SeaMapManager__ConvertWorldPosToMapPos(FX32_FROM_WHOLE(mapObject->position.x), FX32_FROM_WHOLE(mapObject->position.y), &x, &y);
+    return SeaMapManager__GetMapPixel(x, y) == SEAMAPMANAGER_PIXEL_DISCOVERED;
 }
 
-void SeaMapEventManager__GetViewRect2(HitboxRect *rect, fx32 x, fx32 y, s32 *startX, s32 *startY, s32 *width, s32 *height)
+void SeaMapEventManager_GetViewElipse(HitboxRect *rect, fx32 x, fx32 y, s32 *centerX, s32 *centerY, s32 *width, s32 *height)
 {
-    *width  = ((rect->right - rect->left) << (FX32_SHIFT - 1));
-    *height = ((rect->bottom - rect->top) << (FX32_SHIFT - 1));
-    *startX = FX32_FROM_WHOLE(x + ((rect->left + rect->right) >> 1));
-    *startY = FX32_FROM_WHOLE(y + ((rect->top + rect->bottom) >> 1));
+    *width   = ((rect->right - rect->left) << (FX32_SHIFT - 1));
+    *height  = ((rect->bottom - rect->top) << (FX32_SHIFT - 1));
+    *centerX = FX32_FROM_WHOLE(x + ((rect->left + rect->right) >> 1));
+    *centerY = FX32_FROM_WHOLE(y + ((rect->top + rect->bottom) >> 1));
 }
 
-void SeaMapEventManager__GetViewRect(HitboxRect *rect, fx32 x, fx32 y, ViewRect *viewRect)
+void SeaMapEventManager_GetViewRect(HitboxRect *rect, fx32 x, fx32 y, ViewRect *viewRect)
 {
     viewRect->left   = FX32_FROM_WHOLE(x + rect->left);
     viewRect->top    = FX32_FROM_WHOLE(y + rect->top);
@@ -911,12 +984,12 @@ void SeaMapEventManager__GetViewRect(HitboxRect *rect, fx32 x, fx32 y, ViewRect 
     viewRect->bottom = FX32_FROM_WHOLE(y + rect->bottom);
 }
 
-BOOL SeaMapEventManager__PointInViewRect2(s32 startX, s32 startY, s32 width, s32 height, fx32 x, fx32 y)
+BOOL SeaMapEventManager_PointInViewElipse(s32 centerX, s32 centerY, s32 width, s32 height, fx32 x, fx32 y)
 {
-    fx32 distX1  = x - startX;
+    fx32 distX1  = x - centerX;
     fx32 radiusX = MATH_ABS(distX1);
 
-    fx32 distY1  = y - startY;
+    fx32 distY1  = y - centerY;
     fx32 radiusY = MATH_ABS(distY1);
 
     if (radiusX >= radiusY)
@@ -928,26 +1001,42 @@ BOOL SeaMapEventManager__PointInViewRect2(s32 startX, s32 startY, s32 width, s32
     return FX_Div(MultiplyFX(distX1, distX1), MultiplyFX(width, width)) + FX_Div(MultiplyFX(distY1, distY1), MultiplyFX(height, height)) <= FLOAT_TO_FX32(1.0);
 }
 
-BOOL SeaMapEventManager__PointInViewRect(s32 left, s32 top, s32 right, s32 bottom, fx32 x, fx32 y)
+BOOL SeaMapEventManager_PointInViewRect(s32 left, s32 top, s32 right, s32 bottom, fx32 x, fx32 y)
 {
     return left <= x && x <= right && top <= y && y <= bottom;
 }
 
-BOOL SeaMapEventManager__ViewRectCheck(CHEVObject *mapObject, fx32 x, fx32 y)
+BOOL SeaMapEventManager_ViewRectCheck(SeaMapLayoutObject *mapObject, fx32 x, fx32 y)
 {
     ViewRect viewRect;
 
-    SeaMapEventManager__GetViewRect(&mapObject->box, mapObject->position.x, mapObject->position.y, &viewRect);
-    return SeaMapEventManager__PointInViewRect(viewRect.left, viewRect.top, viewRect.right, viewRect.bottom, x, y) != FALSE;
+    SeaMapEventManager_GetViewRect(&mapObject->box, mapObject->position.x, mapObject->position.y, &viewRect);
+    return SeaMapEventManager_PointInViewRect(viewRect.left, viewRect.top, viewRect.right, viewRect.bottom, x, y) != FALSE;
 }
 
-BOOL SeaMapEventManager__ViewRectCheck2(CHEVObject *mapObject, fx32 x, fx32 y)
+BOOL SeaMapEventManager_ViewElipseCheck(SeaMapLayoutObject *mapObject, fx32 x, fx32 y)
 {
-    s32 startY;
-    s32 startX;
+    s32 centerY;
+    s32 centerX;
     s32 height;
     s32 width;
 
-    SeaMapEventManager__GetViewRect2(&mapObject->box, mapObject->position.x, mapObject->position.y, &startX, &startY, &width, &height);
-    return SeaMapEventManager__PointInViewRect2(startX, startY, width, height, x, y) != FALSE;
+    SeaMapEventManager_GetViewElipse(&mapObject->box, mapObject->position.x, mapObject->position.y, &centerX, &centerY, &width, &height);
+    return SeaMapEventManager_PointInViewElipse(centerX, centerY, width, height, x, y) != FALSE;
 }
+
+// --------------------
+// OBJECTS
+// --------------------
+
+#include "objects/seaMapIslandDrawIcon.c"
+#include "objects/seaMapIslandIcon.c"
+#include "objects/seaMapJohnnyIcon.c"
+#include "objects/seaMapUnknownEncounter.c"
+#include "objects/seaMapTargetFlagIcon.c"
+#include "objects/seaMapBoatIcon.c"
+#include "objects/seaMapStylusIcon.c"
+#include "objects/seaMapDSPopup.c"
+#include "objects/seaMapCoralCaveIcon.c"
+#include "objects/seaMapSkyBabylonIcon.c"
+#include "objects/seaMapSparkles.c"

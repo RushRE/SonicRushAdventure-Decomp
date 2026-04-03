@@ -439,8 +439,8 @@ _02043A50:
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	arm_func_end SeaMapManager__Func_2043A04
 
-	arm_func_start SeaMapManager__Func_2043A80
-SeaMapManager__Func_2043A80: // 0x02043A80
+	arm_func_start SeaMapManager__ConvertWorldPosToMapPos
+SeaMapManager__ConvertWorldPosToMapPos: // 0x02043A80
 	cmp r2, #0
 	movne r0, r0, asr #0xf
 	strneh r0, [r2]
@@ -448,7 +448,7 @@ SeaMapManager__Func_2043A80: // 0x02043A80
 	movne r0, r1, asr #0xf
 	strneh r0, [r3]
 	bx lr
-	arm_func_end SeaMapManager__Func_2043A80
+	arm_func_end SeaMapManager__ConvertWorldPosToMapPos
 
 	arm_func_start SeaMapManager__Func_2043A9C
 SeaMapManager__Func_2043A9C: // 0x02043A9C

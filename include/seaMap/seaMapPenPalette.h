@@ -11,10 +11,10 @@ typedef struct SeaMapPenPalette_
 {
     BOOL useEngineB;
     u32 mode;
-    GXRgb palette1[256];
-    GXRgb palette2[256];
-    GXRgb paletteStore1[256];
-    GXRgb paletteStore2[256];
+    GXRgb paletteBG[256];
+    GXRgb paletteOBJ[256];
+    GXRgb paletteStoreBG[256];
+    GXRgb paletteStoreOBJ[256];
     u16 timer;
 } SeaMapPenPalette;
 

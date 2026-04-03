@@ -15,17 +15,17 @@ static void SeaMapDSPopup_Destructor(Task *task);
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *CreateSeaMapDSPopup(const CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapDSPopup(const SeaMapLayoutObjectType *objectType, SeaMapLayoutObject *mapObject)
 {
     SeaMapManager *manager = SeaMapManager__GetWork();
 
     Task *task = TaskCreate(SeaMapDSPopup_Main, SeaMapDSPopup_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x111, TASK_GROUP(1), SeaMapDSPopup);
-    SeaMapEventManager__GetWork()->dsPopup = task;
+    GetSeaMapEventManagerWork()->dsPopup = task;
 
     SeaMapDSPopup *work = TaskGetWork(task, SeaMapDSPopup);
     TaskInitWork16(work);
 
-    SeaMapEventManager__InitMapObject(&work->objWork, task, objectType, mapObject);
+    InitSeaMapEventManagerObject(&work->objWork, task, objectType, mapObject);
     work->timer = 384;
 
     AnimatorSprite__Init(&work->aniSprite, GetSpriteButtonTouchpadSprite(), objectType->animID, ANIMATOR_FLAG_DISABLE_LOOPING, manager->useEngineB, PIXEL_MODE_SPRITE,
@@ -35,7 +35,7 @@ SeaMapObject *CreateSeaMapDSPopup(const CHEVObjectType *objectType, CHEVObject *
     work->aniSprite.pos.x   = mapObject->position.x;
     work->aniSprite.pos.y   = mapObject->position.y;
     work->aniSprite.cParam.palette = objectType->palette;
-    SeaMapEventManager__SetObjectAsActive(&work->objWork);
+    SeaMapEventManager_SetObjectAsActive(&work->objWork);
 
     return &work->objWork;
 }
@@ -52,7 +52,7 @@ void SeaMapDSPopup_Main(void)
 
     if (work->timer-- != 0)
     {
-        SeaMapEventManager__Func_20471B8(&work->aniSprite, 0, 0);
+        SeaMapEventManager_ProcessAnimator(&work->aniSprite, NULL, NULL);
         AnimatorSprite__DrawFrame(&work->aniSprite);
     }
     else
@@ -65,12 +65,12 @@ void SeaMapDSPopup_Destructor(Task *task)
 {
     SeaMapDSPopup *work = TaskGetWork(task, SeaMapDSPopup);
 
-    NNS_SndPlayerStopSeqBySeqArcIdx(SND_SYS_SEQARC_ARC_CHART, SND_SYS_SEQARC_ARC_CHART_SEQ_SE_C_DS, 0);
+    StopAllSfxInstancesOf(SND_SYS_SEQARC_ARC_CHART, SND_SYS_SEQARC_ARC_CHART_SEQ_SE_C_DS);
 
     AnimatorSprite__Release(&work->aniSprite);
-    SeaMapEventManager__SetObjectAsInactive(&work->objWork);
-    SeaMapEventManager__DestroyObject(&work->objWork);
+    SeaMapEventManager_SetObjectAsInactive(&work->objWork);
+    DestroySeaMapEventManagerObject(&work->objWork);
 
     if (gSeaMapEventManagerTaskSingleton != NULL)
-        SeaMapEventManager__GetWork()->dsPopup = NULL;
+        GetSeaMapEventManagerWork()->dsPopup = NULL;
 }
