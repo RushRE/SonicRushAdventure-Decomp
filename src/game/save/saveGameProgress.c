@@ -9,165 +9,113 @@
 #include <seaMap/seaMapManager.h>
 
 // --------------------
+// TYPES
+// --------------------
+
+typedef struct SaveGameNextAction_ SaveGameNextAction;
+
+typedef void (*SaveUnknown1)(const SaveGameNextAction *state);
+typedef void (*SaveUnknown2)(void);
+typedef BOOL (*SaveProgressCheck)(s32 param);
+
+// --------------------
+// ENUMS
+// --------------------
+
+enum SaveProgressEvent
+{
+    SAVE_PROGRESSEVENT_START_CUTSCENE,
+    SAVE_PROGRESSEVENT_START_TUTORIAL,
+    SAVE_PROGRESSEVENT_START_SAIL_TRAINING,
+    SAVE_PROGRESSEVENT_START_SAIL_JET_TRAINING,
+    SAVE_PROGRESSEVENT_RETURN_TO_HUB,
+    SAVE_PROGRESSEVENT_START_DOOR_PUZZLE,
+    SAVE_PROGRESSEVENT_START_SEA_MAP_CUTSCENE,
+    SAVE_PROGRESSEVENT_START_ISLAND_ARRIVAL,
+
+    SAVE_PROGRESSEVENT_COUNT,
+
+    SAVE_PROGRESSEVENT_NO_CHECK = SAVE_PROGRESSEVENT_COUNT + 1,
+};
+
+enum SaveSeaMapCutsceneType
+{
+    SAVE_SEAMAPCUTSCENE_CORAL_CAVE_APPEARS,
+    SAVE_SEAMAPCUTSCENE_TO_SKY_BABYLON,
+};
+
+enum SaveStageClearExtraCheck
+{
+    SAVE_STAGECLEAR_EXTRACHECK_ANY_NONE,
+    SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT1,
+    SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT2,
+    SAVE_STAGECLEAR_EXTRACHECK_ANY_ZONE_5ACT1,
+    SAVE_STAGECLEAR_EXTRACHECK_ANY_ZONE_5ACT2,
+    SAVE_STAGECLEAR_EXTRACHECK_ANY_ZONE_6ACT1,
+    SAVE_STAGECLEAR_EXTRACHECK_ANY_ZONE_6ACT2,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 
-typedef struct SaveGameUnknown205D65C_
+struct SaveGameNextAction_
 {
-    u16 gameProgress;
-    u16 zone5Progress;
-    u16 zone6Progress;
-} SaveGameUnknown205D65C;
+    u16 type;
+    u16 progressCheckValue;
+    u16 eventType;
+    u16 eventParam;
+    u16 nextSysEvent;
+    u16 allowProgressIncrement;
+};
 
-typedef struct SaveGameUnknown205D65C_2_
+typedef struct StageProgressCheck_
 {
-    u16 zoneID;
-    u16 minProgress;
-    u16 maxProgress;
-} SaveGameUnknown205D65C_2;
+    u8 gameProgress;
+    u8 zone5Progress;
+    u8 zone6Progress;
+    u8 extraCheck;
+} StageProgressCheck;
 
 // --------------------
-// TEMP
+// FUNCTION DECLS
 // --------------------
 
-static const u16 _021107BE[5] = { 0, 1, 1, 1, 0 };
-static const u16 _021107B4[5] = { CUTSCENE_EGG_WIZARD_DESTROYED, CUTSCENE_INVALID, CUTSCENE_EX_ENDING, CUTSCENE_INVALID, CUTSCENE_WE_WILL_MEET_AGAIN };
+static const SaveGameNextAction *SaveGame__GetNextActionFromProgress(void);
+static void SaveGame_ProgressUpdateEvent_ReturnToHub(void);
+static void SaveGame_ProgressUpdateEvent_SeaMap_Unknown(void);
+static void SaveGame_ProgressUpdateEvent_BeginSailing(void);
+static void SaveGame_ProgressUpdateEvent_IslandArrival(void);
+static void SaveGame_ProgressUpdateEvent_AdvanceStage(void);
+static void SaveGame_ProgressUpdateEvent_StageClear(void);
+static void SaveGame_ProgressUpdateEvent_BeginRivalRace(void);
+static void SaveGame_ProgressUpdateEvent_FinishRivalRace(void);
+static void SaveGame_ProgressUpdateEvent_ExPrologue(void);
+static void SaveGame_ProgressUpdateEvent_ExEpilogue(void);
+static void SaveGame_ProgressUpdateEvent_DoorPuzzleComplete(void);
+static void SaveGame_ProgressUpdateEvent_NonStageIslandArrival(void);
 
-NOT_DECOMPILED const void (*SaveGame__UnknownTable2[])(void);
-NOT_DECOMPILED const BOOL (*SaveGame__ProgressCheckTable[])(s32 id);
-NOT_DECOMPILED const void (*SaveGame__UnknownTable1[])(const SaveGameNextAction *state);
-NOT_DECOMPILED const u16 _021108DC[];
-NOT_DECOMPILED const u16 _021108EA[];
-NOT_DECOMPILED const u16 SaveGame__hiddenIslandList[];
-NOT_DECOMPILED const u16 SaveGame__nextStage[];
-NOT_DECOMPILED const u16 _02110B20[40];
-NOT_DECOMPILED const u16 _02110B70[42];
+static BOOL SaveGame_ProgressCheck_ReturnToHub(s32 param);
+static BOOL SaveGame_ProgressCheck_SeaMap_Unknown(s32 param);
+static BOOL SaveGame_ProgressCheck_BeginSailing(s32 param);
+static BOOL SaveGame_ProgressCheck_IslandArrival(s32 param);
+static BOOL SaveGame_ProgressCheck_AdvanceStage(s32 param);
+static BOOL SaveGame_ProgressCheck_StageClear(s32 param);
+static BOOL SaveGame_ProgressCheck_BeginRivalRace(s32 param);
+static BOOL SaveGame_ProgressCheck_FinishRivalRace(s32 param);
+static BOOL SaveGame_ProgressCheck_ExPrologue(s32 param);
+static BOOL SaveGame_ProgressCheck_ExEpilogue(s32 param);
+static BOOL SaveGame_ProgressCheck_DoorPuzzleComplete(s32 param);
+static BOOL SaveGame_ProgressCheck_NonStageIslandArrival(s32 param);
 
-NOT_DECOMPILED const SaveGameUnknown205D150 _02110C20[];
-NOT_DECOMPILED const u32 SaveGame_ShipUnlockProgress[];
-NOT_DECOMPILED const SaveGameUnknown205D65C _02110D00[3];
-NOT_DECOMPILED const SaveGameUnknown205D65C_2 _02110D12[4];
-NOT_DECOMPILED const u16 _02110D2A[15];
-NOT_DECOMPILED const SaveGameUnknown205D65C _02110D48[15];
-
-/*
-static const SaveGameUnknown205D65C _02110D48[15] =
-{
-    { .gameProgress = 2, .zone5Progress = 5, .zone6Progress = 0          },
-    { .gameProgress = 5, .zone5Progress = 8, .zone6Progress = 0          },
-    { .gameProgress = 0xE, .zone5Progress = 0x10, .zone6Progress = 0     },
-    { .gameProgress = 0x12, .zone5Progress = 0x15, .zone6Progress = 0    },
-    { .gameProgress = 0x17, .zone5Progress = 0x19, .zone6Progress = 1    },
-    { .gameProgress = 0x17, .zone5Progress = 0x19, .zone6Progress = 2    },
-    { .gameProgress = 0x1A, .zone5Progress = 0x23, .zone6Progress = 0    },
-    { .gameProgress = 0x23, .zone5Progress = 0x24, .zone6Progress = 0    },
-    { .gameProgress = 0xA, .zone5Progress = 0xE, .zone6Progress = 0      },
-    { .gameProgress = 0x17, .zone5Progress = 0x19, .zone6Progress = 3    },
-    { .gameProgress = 0x17, .zone5Progress = 0x19, .zone6Progress = 4    },
-    { .gameProgress = 0x11, .zone5Progress = 0x12, .zone6Progress = 0    },
-    { .gameProgress = 0x1D, .zone5Progress = 0x1E, .zone6Progress = 0    },
-    { .gameProgress = 0x1D, .zone5Progress = 0x1E, .zone6Progress = 0    },
-    { .gameProgress = 0x1D, .zone5Progress = 0x1E, .zone6Progress = 0    },
-};
-*/
-
-NOT_DECOMPILED const SaveGameNextAction _021108A0[];
-NOT_DECOMPILED const SaveGameNextAction _021108D0[];
-NOT_DECOMPILED const SaveGameNextAction _021107D4[];
-
-NOT_DECOMPILED const SaveGameNextAction _021108AC[];
-NOT_DECOMPILED const SaveGameNextAction _0211087C[];
-NOT_DECOMPILED const SaveGameNextAction _02110A18[];
-NOT_DECOMPILED const SaveGameNextAction _0211084C[];
-NOT_DECOMPILED const SaveGameNextAction _02110858[];
-
-NOT_DECOMPILED const SaveGameNextAction _02110C84[];
-NOT_DECOMPILED const SaveGameNextAction _02110940[];
-NOT_DECOMPILED const SaveGameNextAction _02110A48[];
-NOT_DECOMPILED const SaveGameNextAction _021107C8[];
-NOT_DECOMPILED const SaveGameNextAction _02110834[];
-NOT_DECOMPILED const SaveGameNextAction _02110870[];
-NOT_DECOMPILED const SaveGameNextAction _021107EC[];
-NOT_DECOMPILED const SaveGameNextAction _02110840[];
-NOT_DECOMPILED const SaveGameNextAction _021107F8[];
-NOT_DECOMPILED const SaveGameNextAction _0211081C[];
-NOT_DECOMPILED const SaveGameNextAction _02110888[];
-NOT_DECOMPILED const SaveGameNextAction _02110AD8[];
-NOT_DECOMPILED const SaveGameNextAction _021108F8[];
-NOT_DECOMPILED const SaveGameNextAction _02110994[];
-NOT_DECOMPILED const SaveGameNextAction _021107E0[];
-NOT_DECOMPILED const SaveGameNextAction _02110828[];
-NOT_DECOMPILED const SaveGameNextAction _021108C4[];
-NOT_DECOMPILED const SaveGameNextAction _02110910[];
-NOT_DECOMPILED const SaveGameNextAction _021108B8[];
-NOT_DECOMPILED const SaveGameNextAction _02110810[];
-NOT_DECOMPILED const SaveGameNextAction _02110928[];
-NOT_DECOMPILED const SaveGameNextAction _02110804[];
-NOT_DECOMPILED const SaveGameNextAction _02110894[];
-NOT_DECOMPILED const SaveGameNextAction _02110A78[];
-NOT_DECOMPILED const SaveGameNextAction _02110864[];
-NOT_DECOMPILED const SaveGameNextAction _02110AA8[];
-
-static const SaveGameNextAction *SaveGame__gameProgressUnknown[SAVE_PROGRESS_COUNT] = {
-    [SAVE_PROGRESS_0]  = _02110C84, // Formatting Comment
-    [SAVE_PROGRESS_1]  = _02110940, // Formatting Comment
-    [SAVE_PROGRESS_2]  = _02110A48, // Formatting Comment
-    [SAVE_PROGRESS_3]  = _021107C8, // Formatting Comment
-    [SAVE_PROGRESS_4]  = _02110834, // Formatting Comment
-    [SAVE_PROGRESS_5]  = _02110870, // Formatting Comment
-    [SAVE_PROGRESS_6]  = _021107EC, // Formatting Comment
-    [SAVE_PROGRESS_7]  = _02110840, // Formatting Comment
-    [SAVE_PROGRESS_8]  = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_9]  = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_10] = _021107F8, // Formatting Comment
-    [SAVE_PROGRESS_11] = _0211081C, // Formatting Comment
-    [SAVE_PROGRESS_12] = _02110888, // Formatting Comment
-    [SAVE_PROGRESS_13] = _02110AD8, // Formatting Comment
-    [SAVE_PROGRESS_14] = _021108F8, // Formatting Comment
-    [SAVE_PROGRESS_15] = _02110994, // Formatting Comment
-    [SAVE_PROGRESS_16] = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_17] = _021107E0, // Formatting Comment
-    [SAVE_PROGRESS_18] = _02110828, // Formatting Comment
-    [SAVE_PROGRESS_19] = _021108C4, // Formatting Comment
-    [SAVE_PROGRESS_20] = _02110910, // Formatting Comment
-    [SAVE_PROGRESS_21] = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_22] = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_23] = _021108B8, // Formatting Comment
-    [SAVE_PROGRESS_24] = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_25] = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_26] = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_27] = _02110810, // Formatting Comment
-    [SAVE_PROGRESS_28] = _02110928, // Formatting Comment
-    [SAVE_PROGRESS_29] = _02110804, // Formatting Comment
-    [SAVE_PROGRESS_30] = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_31] = _02110894, // Formatting Comment
-    [SAVE_PROGRESS_32] = _02110A78, // Formatting Comment
-    [SAVE_PROGRESS_33] = _02110864, // Formatting Comment
-    [SAVE_PROGRESS_34] = _02110AA8, // Formatting Comment
-    [SAVE_PROGRESS_35] = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_36] = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_37] = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_38] = NULL,      // Formatting Comment
-    [SAVE_PROGRESS_39] = NULL,      // Formatting Comment
-};
-
-static const SaveGameNextAction *SaveGame__unknownProgress1Unknown[SAVE_ZONE5_PROGRESS_COUNT] = {
-    [SAVE_ZONE5_PROGRESS_0] = NULL,      // Formatting Comment
-    [SAVE_ZONE5_PROGRESS_1] = _021108A0, // Formatting Comment
-    [SAVE_ZONE5_PROGRESS_2] = _021108D0, // Formatting Comment
-    [SAVE_ZONE5_PROGRESS_3] = _021107D4, // Formatting Comment
-    [SAVE_ZONE5_PROGRESS_4] = NULL       // Formatting Comment
-};
-
-static const SaveGameNextAction *SaveGame__unknownProgress2Unknown[SAVE_ZONE6_PROGRESS_COUNT] = {
-    [SAVE_ZONE6_PROGRESS_0] = NULL,      // Formatting Comment
-    [SAVE_ZONE6_PROGRESS_1] = _021108AC, // Formatting Comment
-    [SAVE_ZONE6_PROGRESS_2] = _0211087C, // Formatting Comment
-    [SAVE_ZONE6_PROGRESS_3] = _02110A18, // Formatting Comment
-    [SAVE_ZONE6_PROGRESS_4] = _0211084C, // Formatting Comment
-    [SAVE_ZONE6_PROGRESS_5] = _02110858, // Formatting Comment
-    [SAVE_ZONE6_PROGRESS_6] = NULL       // Formatting Comment
-};
+static void SaveGame_ProgressEvent_StartCutscene(const SaveGameNextAction *action);
+static void SaveGame_ProgressEvent_StartTutorial(const SaveGameNextAction *action);
+static void SaveGame_ProgressEvent_StartSailTraining(const SaveGameNextAction *action);
+static void SaveGame_ProgressEvent_StartSailJetTraining(const SaveGameNextAction *action);
+static void SaveGame_ProgressEvent_ReturnToHub(const SaveGameNextAction *action);
+static void SaveGame_ProgressEvent_StartDoorPuzzle(const SaveGameNextAction *action);
+static void SaveGame_ProgressEvent_StartSeaMapCutscene(const SaveGameNextAction *action);
+static void SaveGame_ProgressEvent_StartIslandArrival(const SaveGameNextAction *action);
 
 // --------------------
 // VARIABLES
@@ -177,6 +125,940 @@ SaveGame saveGame;
 
 // assert that the size is always the same as the final game
 STATIC_ASSERT_MATCHING(sizeof(SaveGame) == 0x1A68, SAVE_GAME_DOES_NOT_MATCH)
+
+static const u16 sZone5ProgressCounterList[SAVE_ZONE5_PROGRESS_COUNT] = {
+    [SAVE_ZONE5_PROGRESS_0] = 0, // Formatting Comment
+    [SAVE_ZONE5_PROGRESS_1] = 1, // Formatting Comment
+    [SAVE_ZONE5_PROGRESS_2] = 1, // Formatting Comment
+    [SAVE_ZONE5_PROGRESS_3] = 1, // Formatting Comment
+    [SAVE_ZONE5_PROGRESS_4] = 0  // Formatting Comment
+};
+
+static const u16 sExEpilogueCutsceneList[5] = { CUTSCENE_EGG_WIZARD_DESTROYED, CUTSCENE_INVALID, CUTSCENE_EX_ENDING, CUTSCENE_INVALID, CUTSCENE_WE_WILL_MEET_AGAIN };
+
+static const u16 sZone6ProgressCounterList[SAVE_ZONE6_PROGRESS_COUNT] = {
+    [SAVE_ZONE6_PROGRESS_0] = 0, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_1] = 1, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_2] = 1, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_3] = 4, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_4] = 1, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_5] = 1, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_6] = 0  // Formatting Comment
+};
+
+static const u16 sExPrologueCutsceneList[] = { CUTSCENE_EX_PROLOGUE,
+                                               CUTSCENE_EGGMANS_DOUBLE_APPEARANCE_3D,
+                                               CUTSCENE_MAGMA_HURRICANE_COMPLETE,
+                                               CUTSCENE_MAGMA_HURRICANE_LAUNCH,
+                                               CUTSCENE_EGGMANS_THE_SOURCE_OF_POWER_3D,
+                                               CUTSCENE_SONIC_AND_BLAZE_TRANSFORM,
+                                               CUTSCENE_FINAL_BATTLE_EGG_WIZARD };
+
+static const u16 sOptionalHiddenIslandStageList[SAVE_ISLAND_COUNT] = {
+    [SAVE_ISLAND_HIDDEN_ISLAND_3]  = STAGE_HIDDEN_ISLAND_3,  // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_4]  = STAGE_HIDDEN_ISLAND_4,  // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_5]  = STAGE_HIDDEN_ISLAND_5,  // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_6]  = STAGE_HIDDEN_ISLAND_6,  // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_7]  = STAGE_HIDDEN_ISLAND_7,  // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_8]  = STAGE_HIDDEN_ISLAND_8,  // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_9]  = STAGE_HIDDEN_ISLAND_9,  // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_10] = STAGE_HIDDEN_ISLAND_10, // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_11] = STAGE_HIDDEN_ISLAND_11, // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_12] = STAGE_HIDDEN_ISLAND_12, // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_13] = STAGE_HIDDEN_ISLAND_13, // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_14] = STAGE_HIDDEN_ISLAND_14, // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_15] = STAGE_HIDDEN_ISLAND_15, // Formatting Comment
+    [SAVE_ISLAND_HIDDEN_ISLAND_16] = STAGE_HIDDEN_ISLAND_16, // Formatting Comment
+};
+
+static const SaveUnknown1 sProgressEventList[SAVE_PROGRESSEVENT_COUNT] = {
+    [SAVE_PROGRESSEVENT_START_CUTSCENE]          = SaveGame_ProgressEvent_StartCutscene,
+    [SAVE_PROGRESSEVENT_START_TUTORIAL]          = SaveGame_ProgressEvent_StartTutorial,
+    [SAVE_PROGRESSEVENT_START_SAIL_TRAINING]     = SaveGame_ProgressEvent_StartSailTraining,
+    [SAVE_PROGRESSEVENT_START_SAIL_JET_TRAINING] = SaveGame_ProgressEvent_StartSailJetTraining,
+    [SAVE_PROGRESSEVENT_RETURN_TO_HUB]           = SaveGame_ProgressEvent_ReturnToHub,
+    [SAVE_PROGRESSEVENT_START_DOOR_PUZZLE]       = SaveGame_ProgressEvent_StartDoorPuzzle,
+    [SAVE_PROGRESSEVENT_START_SEA_MAP_CUTSCENE]  = SaveGame_ProgressEvent_StartSeaMapCutscene,
+    [SAVE_PROGRESSEVENT_START_ISLAND_ARRIVAL]    = SaveGame_ProgressEvent_StartIslandArrival,
+};
+
+static const SaveGameNextAction sSaveNextAction_Zone6Progress3[] = {
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_HIDDEN_ISLAND_2,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_TO_SKY_BABYLON,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_HIDDEN_ISLAND_2,
+      .eventType              = SAVE_PROGRESSEVENT_START_SEA_MAP_CUTSCENE,
+      .eventParam             = SAVE_SEAMAPCUTSCENE_TO_SKY_BABYLON,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_HIDDEN_ISLAND_2,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_ARRIVAL_AT_SKY_BABYLON,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_HIDDEN_ISLAND_2,
+      .eventType              = SAVE_PROGRESSEVENT_START_ISLAND_ARRIVAL,
+      .eventParam             = STAGE_Z61,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress2[] = {
+    { .type                   = SAVE_PROGRESSTYPE_SEAMAP_UNKNOWN,
+      .progressCheckValue     = 0,
+      .eventType              = SAVE_PROGRESSEVENT_START_SAIL_TRAINING,
+      .eventParam             = 0,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_BEGIN_SAILING,
+      .progressCheckValue     = SHIP_JET,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_WAVE_CYCLONE_LAUNCH,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_BEGIN_SAILING,
+      .progressCheckValue     = SHIP_JET,
+      .eventType              = SAVE_PROGRESSEVENT_START_SAIL_JET_TRAINING,
+      .eventParam             = 0,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z11,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_ARRIVAL_AT_PLANT_KINGDOM,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const u16 sGameProgressCounterList[SAVE_PROGRESS_COUNT] = {
+    [SAVE_PROGRESS_0]  = 9, // Formatting Comment
+    [SAVE_PROGRESS_1]  = 2, // Formatting Comment
+    [SAVE_PROGRESS_2]  = 4, // Formatting Comment
+    [SAVE_PROGRESS_3]  = 1, // Formatting Comment
+    [SAVE_PROGRESS_4]  = 1, // Formatting Comment
+    [SAVE_PROGRESS_5]  = 1, // Formatting Comment
+    [SAVE_PROGRESS_6]  = 1, // Formatting Comment
+    [SAVE_PROGRESS_7]  = 1, // Formatting Comment
+    [SAVE_PROGRESS_8]  = 0, // Formatting Comment
+    [SAVE_PROGRESS_9]  = 0, // Formatting Comment
+    [SAVE_PROGRESS_10] = 1, // Formatting Comment
+    [SAVE_PROGRESS_11] = 1, // Formatting Comment
+    [SAVE_PROGRESS_12] = 1, // Formatting Comment
+    [SAVE_PROGRESS_13] = 6, // Formatting Comment
+    [SAVE_PROGRESS_14] = 2, // Formatting Comment
+    [SAVE_PROGRESS_15] = 3, // Formatting Comment
+    [SAVE_PROGRESS_16] = 0, // Formatting Comment
+    [SAVE_PROGRESS_17] = 1, // Formatting Comment
+    [SAVE_PROGRESS_18] = 1, // Formatting Comment
+    [SAVE_PROGRESS_19] = 1, // Formatting Comment
+    [SAVE_PROGRESS_20] = 2, // Formatting Comment
+    [SAVE_PROGRESS_21] = 0, // Formatting Comment
+    [SAVE_PROGRESS_22] = 0, // Formatting Comment
+    [SAVE_PROGRESS_23] = 1, // Formatting Comment
+    [SAVE_PROGRESS_24] = 0, // Formatting Comment
+    [SAVE_PROGRESS_25] = 0, // Formatting Comment
+    [SAVE_PROGRESS_26] = 1, // Formatting Comment
+    [SAVE_PROGRESS_27] = 1, // Formatting Comment
+    [SAVE_PROGRESS_28] = 2, // Formatting Comment
+    [SAVE_PROGRESS_29] = 1, // Formatting Comment
+    [SAVE_PROGRESS_30] = 0, // Formatting Comment
+    [SAVE_PROGRESS_31] = 1, // Formatting Comment
+    [SAVE_PROGRESS_32] = 4, // Formatting Comment
+    [SAVE_PROGRESS_33] = 1, // Formatting Comment
+    [SAVE_PROGRESS_34] = 4, // Formatting Comment
+    [SAVE_PROGRESS_35] = 0, // Formatting Comment
+    [SAVE_PROGRESS_36] = 0, // Formatting Comment
+    [SAVE_PROGRESS_37] = 0, // Formatting Comment
+    [SAVE_PROGRESS_38] = 0, // Formatting Comment
+    [SAVE_PROGRESS_39] = 0, // Formatting Comment
+};
+
+static const u16 sLandedIslandStageTable[42] = {
+    [SEAMAPMANAGER_DISCOVER_SOUTHERN_ISLAND]   = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_PLANT_KINGDOM]     = STAGE_Z11,
+    [SEAMAPMANAGER_DISCOVER_MACHINE_LABYRINTH] = STAGE_Z21,
+    [SEAMAPMANAGER_DISCOVER_CORAL_CAVE]        = STAGE_Z31,
+    [SEAMAPMANAGER_DISCOVER_HAUNTED_SHIP]      = STAGE_Z41,
+    [SEAMAPMANAGER_DISCOVER_BLIZZARD_PEAKS]    = STAGE_Z51,
+    [SEAMAPMANAGER_DISCOVER_SKY_BABYLON]       = STAGE_Z61,
+    [SEAMAPMANAGER_DISCOVER_PIRATES_ISLAND]    = STAGE_Z71,
+    [SEAMAPMANAGER_DISCOVER_BIG_SWELL]         = STAGE_BOSS_FINAL,
+    [SEAMAPMANAGER_DISCOVER_DEEP_CORE]         = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_1]   = STAGE_HIDDEN_ISLAND_1,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_2]   = STAGE_HIDDEN_ISLAND_2,
+    [SEAMAPMANAGER_DISCOVER_DAIKUN_ISLAND]     = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_13]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND]      = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_3]   = STAGE_HIDDEN_ISLAND_3,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_4]   = STAGE_HIDDEN_ISLAND_4,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_5]   = STAGE_HIDDEN_ISLAND_5,
+    [SEAMAPMANAGER_DISCOVER_18]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_19]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_20]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_21]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_6]   = STAGE_HIDDEN_ISLAND_6,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_7]   = STAGE_HIDDEN_ISLAND_7,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_8]   = STAGE_HIDDEN_ISLAND_8,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_9]   = STAGE_HIDDEN_ISLAND_9,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_10]  = STAGE_HIDDEN_ISLAND_10,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_11]  = STAGE_HIDDEN_ISLAND_11,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_12]  = STAGE_HIDDEN_ISLAND_12,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_13]  = STAGE_HIDDEN_ISLAND_13,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_14]  = STAGE_HIDDEN_ISLAND_14,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_15]  = STAGE_HIDDEN_ISLAND_15,
+    [SEAMAPMANAGER_DISCOVER_HIDDEN_ISLAND_16]  = STAGE_HIDDEN_ISLAND_16,
+    [SEAMAPMANAGER_DISCOVER_33]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_34]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_35]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_36]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_37]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_38]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_39]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_40]                = STAGE_NONE,
+    [SEAMAPMANAGER_DISCOVER_41]                = STAGE_NONE,
+};
+
+static const u16 sZoneNextStageTable[STAGE_COUNT] = {
+    [STAGE_Z11]               = STAGE_Z12,
+    [STAGE_Z12]               = STAGE_Z1B,
+    [STAGE_TUTORIAL]          = STAGE_TUTORIAL,
+    [STAGE_Z1B]               = STAGE_Z1B,
+    [STAGE_Z21]               = STAGE_Z22,
+    [STAGE_Z22]               = STAGE_Z2B,
+    [STAGE_Z2B]               = STAGE_Z2B,
+    [STAGE_Z31]               = STAGE_Z32,
+    [STAGE_Z32]               = STAGE_Z3B,
+    [STAGE_HIDDEN_ISLAND_1]   = STAGE_HIDDEN_ISLAND_1,
+    [STAGE_Z3B]               = STAGE_Z3B,
+    [STAGE_Z41]               = STAGE_Z42,
+    [STAGE_Z42]               = STAGE_Z4B,
+    [STAGE_Z4B]               = STAGE_Z4B,
+    [STAGE_Z51]               = STAGE_Z52,
+    [STAGE_Z52]               = STAGE_Z5B,
+    [STAGE_Z5B]               = STAGE_Z5B,
+    [STAGE_Z61]               = STAGE_Z62,
+    [STAGE_Z62]               = STAGE_Z6B,
+    [STAGE_HIDDEN_ISLAND_2]   = STAGE_HIDDEN_ISLAND_2,
+    [STAGE_Z6B]               = STAGE_Z6B,
+    [STAGE_Z71]               = STAGE_Z72,
+    [STAGE_Z72]               = STAGE_Z7B,
+    [STAGE_Z7B]               = STAGE_Z7B,
+    [STAGE_BOSS_FINAL]        = STAGE_BOSS_FINAL,
+    [STAGE_HIDDEN_ISLAND_3]   = STAGE_HIDDEN_ISLAND_3,
+    [STAGE_HIDDEN_ISLAND_4]   = STAGE_HIDDEN_ISLAND_4,
+    [STAGE_HIDDEN_ISLAND_5]   = STAGE_HIDDEN_ISLAND_5,
+    [STAGE_HIDDEN_ISLAND_6]   = STAGE_HIDDEN_ISLAND_6,
+    [STAGE_HIDDEN_ISLAND_7]   = STAGE_HIDDEN_ISLAND_7,
+    [STAGE_HIDDEN_ISLAND_8]   = STAGE_HIDDEN_ISLAND_8,
+    [STAGE_HIDDEN_ISLAND_9]   = STAGE_HIDDEN_ISLAND_9,
+    [STAGE_HIDDEN_ISLAND_10]  = STAGE_HIDDEN_ISLAND_10,
+    [STAGE_HIDDEN_ISLAND_11]  = STAGE_HIDDEN_ISLAND_11,
+    [STAGE_HIDDEN_ISLAND_12]  = STAGE_HIDDEN_ISLAND_12,
+    [STAGE_HIDDEN_ISLAND_13]  = STAGE_HIDDEN_ISLAND_13,
+    [STAGE_HIDDEN_ISLAND_14]  = STAGE_HIDDEN_ISLAND_14,
+    [STAGE_HIDDEN_ISLAND_15]  = STAGE_HIDDEN_ISLAND_15,
+    [STAGE_HIDDEN_ISLAND_16]  = STAGE_HIDDEN_ISLAND_16,
+    [STAGE_HIDDEN_ISLAND_VS1] = STAGE_HIDDEN_ISLAND_VS1,
+    [STAGE_HIDDEN_ISLAND_VS2] = STAGE_HIDDEN_ISLAND_VS2,
+    [STAGE_HIDDEN_ISLAND_VS3] = STAGE_HIDDEN_ISLAND_VS3,
+    [STAGE_HIDDEN_ISLAND_VS4] = STAGE_HIDDEN_ISLAND_VS4,
+    [STAGE_HIDDEN_ISLAND_R1]  = STAGE_Z11,
+    [STAGE_HIDDEN_ISLAND_R2]  = STAGE_Z11,
+    [STAGE_HIDDEN_ISLAND_R3]  = STAGE_Z11,
+};
+
+static const StageProgressCheck sStageProgressCheckList[STAGE_COUNT_NON_OPTIONAL] = {
+    [STAGE_Z11] = { .gameProgress  = SAVE_PROGRESS_3,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT1 },
+
+    [STAGE_Z12] = { .gameProgress  = SAVE_PROGRESS_3,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT2 },
+
+    [STAGE_TUTORIAL] = { .gameProgress  = SAVE_PROGRESS_0,
+                         .zone5Progress = SAVE_PROGRESS_INVALID,
+                         .zone6Progress = SAVE_PROGRESS_INVALID,
+                         .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_NONE },
+
+    [STAGE_Z1B] = { .gameProgress  = SAVE_PROGRESS_4,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_NONE },
+
+    [STAGE_Z21] = { .gameProgress  = SAVE_PROGRESS_6,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT1 },
+
+    [STAGE_Z22] = { .gameProgress  = SAVE_PROGRESS_6,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT2 },
+
+    [STAGE_Z2B] = { .gameProgress  = SAVE_PROGRESS_7,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_NONE },
+
+    [STAGE_Z31] = { .gameProgress  = SAVE_PROGRESS_14,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT1 },
+
+    [STAGE_Z32] = { .gameProgress  = SAVE_PROGRESS_14,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT2 },
+
+    [STAGE_HIDDEN_ISLAND_1] = { .gameProgress  = SAVE_PROGRESS_13,
+                                .zone5Progress = SAVE_PROGRESS_INVALID,
+                                .zone6Progress = SAVE_PROGRESS_INVALID,
+                                .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_NONE },
+
+    [STAGE_Z3B] = { .gameProgress  = SAVE_PROGRESS_15,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_NONE },
+
+    [STAGE_Z41] = { .gameProgress  = SAVE_PROGRESS_19,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT1 },
+
+    [STAGE_Z42] = { .gameProgress  = SAVE_PROGRESS_19,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT2 },
+
+    [STAGE_Z4B] = { .gameProgress  = SAVE_PROGRESS_20,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_NONE },
+
+    [STAGE_Z51] = { .gameProgress  = SAVE_PROGRESS_INVALID,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_2,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ZONE_5ACT1 },
+
+    [STAGE_Z52] = { .gameProgress  = SAVE_PROGRESS_INVALID,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_2,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ZONE_5ACT2 },
+
+    [STAGE_Z5B] = { .gameProgress  = SAVE_PROGRESS_INVALID,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_3,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_NONE },
+
+    [STAGE_Z61] = { .gameProgress  = SAVE_PROGRESS_INVALID,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_4,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ZONE_6ACT1 },
+
+    [STAGE_Z62] = { .gameProgress  = SAVE_PROGRESS_INVALID,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_4,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ZONE_6ACT2 },
+
+    [STAGE_HIDDEN_ISLAND_2] = { .gameProgress  = SAVE_PROGRESS_INVALID,
+                                .zone5Progress = SAVE_PROGRESS_INVALID,
+                                .zone6Progress = SAVE_ZONE6_PROGRESS_3,
+                                .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_NONE },
+
+    [STAGE_Z6B] = { .gameProgress  = SAVE_PROGRESS_INVALID,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_5,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_NONE },
+
+    [STAGE_Z71] = { .gameProgress  = SAVE_PROGRESS_33,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT1 },
+
+    [STAGE_Z72] = { .gameProgress  = SAVE_PROGRESS_33,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT2 },
+
+    [STAGE_Z7B] = { .gameProgress  = SAVE_PROGRESS_34,
+                    .zone5Progress = SAVE_PROGRESS_INVALID,
+                    .zone6Progress = SAVE_PROGRESS_INVALID,
+                    .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_NONE },
+
+    [STAGE_BOSS_FINAL] = { .gameProgress  = SAVE_PROGRESS_35,
+                           .zone5Progress = SAVE_PROGRESS_INVALID,
+                           .zone6Progress = SAVE_PROGRESS_INVALID,
+                           .extraCheck    = SAVE_STAGECLEAR_EXTRACHECK_ANY_NONE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress3[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z1B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_GHOST_REX_APPOACHES,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Zone6Progress2[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_HIDDEN_ISLAND_2,
+      .eventType              = SAVE_PROGRESSEVENT_NO_CHECK,
+      .eventParam             = 0,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Zone6Progress1[] = {
+    { .type                   = SAVE_PROGRESSTYPE_NON_STAGE_ISLAND_ARRIVAL,
+      .progressCheckValue     = SEAMAPMANAGER_DISCOVER_DAIKUN_ISLAND,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_DAIKUN_DISCOVERED,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress6[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z2B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_IMPOSING_GHOST_PENDULUM,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress27[] = {
+    { .type                   = SAVE_PROGRESSTYPE_BEGIN_SAILING,
+      .progressCheckValue     = SHIP_SUBMARINE,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_DEEP_TYPHOON_LAUNCH,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress10[] = {
+    { .type                   = SAVE_PROGRESSTYPE_BEGIN_SAILING,
+      .progressCheckValue     = SHIP_BOAT,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_OCEAN_TORNADO_LAUNCH,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress4[] = {
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z1B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_FOUND_GREEN_MATERIAL,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress34[] = {
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z7B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_AFTER_THEM,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z7B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_ARRIVAL_AT_BIG_SWELL,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z7B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_DUEL_WITH_GHOST_TITAN,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z7B,
+      .eventType              = SAVE_PROGRESSEVENT_START_ISLAND_ARRIVAL,
+      .eventParam             = STAGE_BOSS_FINAL,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress0[] = {
+    { .type                   = SAVE_PROGRESSTYPE_NO_CHECK,
+      .progressCheckValue     = 0,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_OPENING,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_NO_CHECK,
+      .progressCheckValue     = 0,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_MARINE_APPEARS,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_NO_CHECK,
+      .progressCheckValue     = 0,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_ENCOUNTER,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_NO_CHECK,
+      .progressCheckValue     = 0,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_RICKETY_SHIP_LAUNCH,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_NO_CHECK,
+      .progressCheckValue     = 0,
+      .eventType              = SAVE_PROGRESSEVENT_RETURN_TO_HUB,
+      .eventParam             = 0,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_NO_CHECK,
+      .progressCheckValue     = 0,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_GET_THE_MATERIAL,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_NO_CHECK,
+      .progressCheckValue     = 0,
+      .eventType              = SAVE_PROGRESSEVENT_START_TUTORIAL,
+      .eventParam             = 0,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_NO_CHECK,
+      .progressCheckValue     = 0,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_FOUND_MATERIAL,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_NO_CHECK,
+      .progressCheckValue     = 0,
+      .eventType              = SAVE_PROGRESSEVENT_RETURN_TO_HUB,
+      .eventParam             = 0,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = FALSE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress14[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z3B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_WHISKER_APPEARS_3D,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z3B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_REUNION_3D,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveUnknown2 sProgressUpdateEventList[SAVE_PROGRESSTYPE_COUNT] = {
+    [SAVE_PROGRESSTYPE_RETURN_TO_HUB]            = SaveGame_ProgressUpdateEvent_ReturnToHub,
+    [SAVE_PROGRESSTYPE_SEAMAP_UNKNOWN]           = SaveGame_ProgressUpdateEvent_SeaMap_Unknown,
+    [SAVE_PROGRESSTYPE_BEGIN_SAILING]            = SaveGame_ProgressUpdateEvent_BeginSailing,
+    [SAVE_PROGRESSTYPE_ISLAND_ARRIVAL]           = SaveGame_ProgressUpdateEvent_IslandArrival,
+    [SAVE_PROGRESSTYPE_ADVANCE_STAGE]            = SaveGame_ProgressUpdateEvent_AdvanceStage,
+    [SAVE_PROGRESSTYPE_STAGE_CLEAR]              = SaveGame_ProgressUpdateEvent_StageClear,
+    [SAVE_PROGRESSTYPE_BEGIN_RIVAL_RACE]         = SaveGame_ProgressUpdateEvent_BeginRivalRace,
+    [SAVE_PROGRESSTYPE_FINISH_RIVAL_RACE]        = SaveGame_ProgressUpdateEvent_FinishRivalRace,
+    [SAVE_PROGRESSTYPE_EX_PROLOGUE]              = SaveGame_ProgressUpdateEvent_ExPrologue,
+    [SAVE_PROGRESSTYPE_EX_EPILOGUE]              = SaveGame_ProgressUpdateEvent_ExEpilogue,
+    [SAVE_PROGRESSTYPE_DOOR_PUZZLE_COMPLETE]     = SaveGame_ProgressUpdateEvent_DoorPuzzleComplete,
+    [SAVE_PROGRESSTYPE_NON_STAGE_ISLAND_ARRIVAL] = SaveGame_ProgressUpdateEvent_NonStageIslandArrival,
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress17[] = {
+    { .type                   = SAVE_PROGRESSTYPE_NON_STAGE_ISLAND_ARRIVAL,
+      .progressCheckValue     = SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_KYLOK_FOUND,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress18[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z41,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_ARRIVAL_AT_HAUNTED_SHIP,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress19[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z4B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_HAIR_RAISING_GHOST_PIRATE,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress23[] = {
+    { .type                   = SAVE_PROGRESSTYPE_BEGIN_SAILING,
+      .progressCheckValue     = SHIP_HOVER,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_AQUA_BLAST_LAUNCH,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress29[] = {
+    { .type                   = SAVE_PROGRESSTYPE_RETURN_TO_HUB,
+      .progressCheckValue     = TRUE,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_COLLECTED_THE_CLUES,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress5[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z21,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_ARRIVAL_AT_MACHINE_LABYRINTH,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress33[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z7B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_CLASH_WITH_WHISKER_AND_JOHNNY,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress12[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_HIDDEN_ISLAND_1,
+      .eventType              = SAVE_PROGRESSEVENT_NO_CHECK,
+      .eventParam             = 0,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress13[] = {
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_HIDDEN_ISLAND_1,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_CORAL_CAVE_SURFACES_PART1,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_HIDDEN_ISLAND_1,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_CORAL_CAVE_APPEARS,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_HIDDEN_ISLAND_1,
+      .eventType              = SAVE_PROGRESSEVENT_START_SEA_MAP_CUTSCENE,
+      .eventParam             = SAVE_SEAMAPCUTSCENE_CORAL_CAVE_APPEARS,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_HIDDEN_ISLAND_1,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_CORAL_CAVE_SURFACES_PART2,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_HIDDEN_ISLAND_1,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_ARRIVAL_AT_CORAL_CAVE,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_HIDDEN_ISLAND_1,
+      .eventType              = SAVE_PROGRESSEVENT_START_ISLAND_ARRIVAL,
+      .eventParam             = STAGE_Z31,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress1[] = {
+    { .type                   = SAVE_PROGRESSTYPE_RETURN_TO_HUB,
+      .progressCheckValue     = FALSE,
+      .eventType              = SAVE_PROGRESSEVENT_RETURN_TO_HUB,
+      .eventParam             = 0,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = FALSE },
+
+    { .type                   = SAVE_PROGRESSTYPE_RETURN_TO_HUB,
+      .progressCheckValue     = FALSE,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_WAVE_CYCLONE_COMPLETE,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress15[] = {
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z3B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_THIS_IS_BLAZES_WORLD,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z3B,
+      .eventType              = SAVE_PROGRESSEVENT_RETURN_TO_HUB,
+      .eventParam             = 0,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_RETURN_TO_HUB,
+      .progressCheckValue     = FALSE,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_BUILDING_A_RADIO_TOWER,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress7[] = {
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z2B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_FOUND_BRONZE_MATERIAL,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Zone6Progress5[] = {
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z6B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_LEGENDARY_ANCIENT_RUINS_2,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Zone5Progress1[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z51,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_ARRIVAL_AT_BLIZZARD_PEAKS,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress20[] = {
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z4B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = 0x22,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z4B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_HOVER_WHAT_BOAT,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Zone5Progress3[] = {
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z5B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_LEGENDARY_ANCIENT_RUINS_1,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress11[] = {
+    { .type                   = SAVE_PROGRESSTYPE_BEGIN_RIVAL_RACE,
+      .progressCheckValue     = 0,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_JOHNNY_APPEARS,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress28[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z71,
+      .eventType              = SAVE_PROGRESSEVENT_START_DOOR_PUZZLE,
+      .eventParam             = 0,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_RETURN_TO_HUB,
+      .progressCheckValue     = FALSE,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_PIRATES_ISLAND_DISCOVERED,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Zone6Progress4[] = {
+    { .type                   = SAVE_PROGRESSTYPE_STAGE_CLEAR,
+      .progressCheckValue     = STAGE_Z62,
+      .eventType              = SAVE_PROGRESSEVENT_NO_CHECK,
+      .eventParam             = 0,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Zone5Progress2[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z5B,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_FREEZING_GHOST_WHALE,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress32[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z71,
+      .eventType              = SAVE_PROGRESSEVENT_START_DOOR_PUZZLE,
+      .eventParam             = 1,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = FALSE },
+
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z71,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_ARRIVAL_AT_PIRATES_ISLAND_ENTRANCE,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z71,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_ARRIVAL_AT_PIRATES_ISLAND_DOOR,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z71,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_ARRIVAL_AT_PIRATES_ISLAND_ARRIVAL,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveGameNextAction sSaveNextAction_Progress31[] = {
+    { .type                   = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+      .progressCheckValue     = STAGE_Z71,
+      .eventType              = SAVE_PROGRESSEVENT_START_CUTSCENE,
+      .eventParam             = CUTSCENE_INVADING_PIRATES_ISLAND,
+      .nextSysEvent           = SYSEVENT_NONE,
+      .allowProgressIncrement = TRUE },
+};
+
+static const SaveProgressCheck sProgressCheckTable[] = {
+    [SAVE_PROGRESSTYPE_RETURN_TO_HUB]            = SaveGame_ProgressCheck_ReturnToHub,
+    [SAVE_PROGRESSTYPE_SEAMAP_UNKNOWN]           = SaveGame_ProgressCheck_SeaMap_Unknown,
+    [SAVE_PROGRESSTYPE_BEGIN_SAILING]            = SaveGame_ProgressCheck_BeginSailing,
+    [SAVE_PROGRESSTYPE_ISLAND_ARRIVAL]           = SaveGame_ProgressCheck_IslandArrival,
+    [SAVE_PROGRESSTYPE_ADVANCE_STAGE]            = SaveGame_ProgressCheck_AdvanceStage,
+    [SAVE_PROGRESSTYPE_STAGE_CLEAR]              = SaveGame_ProgressCheck_StageClear,
+    [SAVE_PROGRESSTYPE_BEGIN_RIVAL_RACE]         = SaveGame_ProgressCheck_BeginRivalRace,
+    [SAVE_PROGRESSTYPE_FINISH_RIVAL_RACE]        = SaveGame_ProgressCheck_FinishRivalRace,
+    [SAVE_PROGRESSTYPE_EX_PROLOGUE]              = SaveGame_ProgressCheck_ExPrologue,
+    [SAVE_PROGRESSTYPE_EX_EPILOGUE]              = SaveGame_ProgressCheck_ExEpilogue,
+    [SAVE_PROGRESSTYPE_DOOR_PUZZLE_COMPLETE]     = SaveGame_ProgressCheck_DoorPuzzleComplete,
+    [SAVE_PROGRESSTYPE_NON_STAGE_ISLAND_ARRIVAL] = SaveGame_ProgressCheck_NonStageIslandArrival,
+};
+
+static const SaveGameNextAction *sGameProgressUnknown[SAVE_PROGRESS_COUNT] = {
+    [SAVE_PROGRESS_0]  = sSaveNextAction_Progress0,  // Formatting Comment
+    [SAVE_PROGRESS_1]  = sSaveNextAction_Progress1,  // Formatting Comment
+    [SAVE_PROGRESS_2]  = sSaveNextAction_Progress2,  // Formatting Comment
+    [SAVE_PROGRESS_3]  = sSaveNextAction_Progress3,  // Formatting Comment
+    [SAVE_PROGRESS_4]  = sSaveNextAction_Progress4,  // Formatting Comment
+    [SAVE_PROGRESS_5]  = sSaveNextAction_Progress5,  // Formatting Comment
+    [SAVE_PROGRESS_6]  = sSaveNextAction_Progress6,  // Formatting Comment
+    [SAVE_PROGRESS_7]  = sSaveNextAction_Progress7,  // Formatting Comment
+    [SAVE_PROGRESS_8]  = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_9]  = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_10] = sSaveNextAction_Progress10, // Formatting Comment
+    [SAVE_PROGRESS_11] = sSaveNextAction_Progress11, // Formatting Comment
+    [SAVE_PROGRESS_12] = sSaveNextAction_Progress12, // Formatting Comment
+    [SAVE_PROGRESS_13] = sSaveNextAction_Progress13, // Formatting Comment
+    [SAVE_PROGRESS_14] = sSaveNextAction_Progress14, // Formatting Comment
+    [SAVE_PROGRESS_15] = sSaveNextAction_Progress15, // Formatting Comment
+    [SAVE_PROGRESS_16] = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_17] = sSaveNextAction_Progress17, // Formatting Comment
+    [SAVE_PROGRESS_18] = sSaveNextAction_Progress18, // Formatting Comment
+    [SAVE_PROGRESS_19] = sSaveNextAction_Progress19, // Formatting Comment
+    [SAVE_PROGRESS_20] = sSaveNextAction_Progress20, // Formatting Comment
+    [SAVE_PROGRESS_21] = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_22] = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_23] = sSaveNextAction_Progress23, // Formatting Comment
+    [SAVE_PROGRESS_24] = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_25] = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_26] = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_27] = sSaveNextAction_Progress27, // Formatting Comment
+    [SAVE_PROGRESS_28] = sSaveNextAction_Progress28, // Formatting Comment
+    [SAVE_PROGRESS_29] = sSaveNextAction_Progress29, // Formatting Comment
+    [SAVE_PROGRESS_30] = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_31] = sSaveNextAction_Progress31, // Formatting Comment
+    [SAVE_PROGRESS_32] = sSaveNextAction_Progress32, // Formatting Comment
+    [SAVE_PROGRESS_33] = sSaveNextAction_Progress33, // Formatting Comment
+    [SAVE_PROGRESS_34] = sSaveNextAction_Progress34, // Formatting Comment
+    [SAVE_PROGRESS_35] = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_36] = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_37] = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_38] = NULL,                       // Formatting Comment
+    [SAVE_PROGRESS_39] = NULL,                       // Formatting Comment
+};
+
+static const SaveGameNextAction *sZone5ProgressUnknown[SAVE_ZONE5_PROGRESS_COUNT] = {
+    [SAVE_ZONE5_PROGRESS_0] = NULL,                           // Formatting Comment
+    [SAVE_ZONE5_PROGRESS_1] = sSaveNextAction_Zone5Progress1, // Formatting Comment
+    [SAVE_ZONE5_PROGRESS_2] = sSaveNextAction_Zone5Progress2, // Formatting Comment
+    [SAVE_ZONE5_PROGRESS_3] = sSaveNextAction_Zone5Progress3, // Formatting Comment
+    [SAVE_ZONE5_PROGRESS_4] = NULL                            // Formatting Comment
+};
+
+static const SaveGameNextAction *sZone6ProgressUnknown[SAVE_ZONE6_PROGRESS_COUNT] = {
+    [SAVE_ZONE6_PROGRESS_0] = NULL,                           // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_1] = sSaveNextAction_Zone6Progress1, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_2] = sSaveNextAction_Zone6Progress2, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_3] = sSaveNextAction_Zone6Progress3, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_4] = sSaveNextAction_Zone6Progress4, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_5] = sSaveNextAction_Zone6Progress5, // Formatting Comment
+    [SAVE_ZONE6_PROGRESS_6] = NULL                            // Formatting Comment
+};
 
 // --------------------
 // FUNCTIONS
@@ -223,26 +1105,26 @@ void SaveGame__SetGameProgress(SaveProgress progress)
 
     if (progress < SAVE_PROGRESS_29)
     {
-        saveGame.stage.progress.flags &= ~(2 | 4 | 8);
+        saveGame.stage.progress.flags &= ~(SAVE_PROGRESSFLAG_HAS_DOOR_PUZZLE_PIECE_1 | SAVE_PROGRESSFLAG_HAS_DOOR_PUZZLE_PIECE_2 | SAVE_PROGRESSFLAG_HAS_DOOR_PUZZLE_PIECE_3);
     }
     else if (progress >= SAVE_PROGRESS_30)
     {
-        saveGame.stage.progress.flags |= (2 | 4 | 8);
+        saveGame.stage.progress.flags |= (SAVE_PROGRESSFLAG_HAS_DOOR_PUZZLE_PIECE_1 | SAVE_PROGRESSFLAG_HAS_DOOR_PUZZLE_PIECE_2 | SAVE_PROGRESSFLAG_HAS_DOOR_PUZZLE_PIECE_3);
     }
 
     if (progress <= SAVE_PROGRESS_17)
-        saveGame.stage.progress.flags &= ~0x10;
+        saveGame.stage.progress.flags &= ~SAVE_PROGRESSFLAG_UNLOCKED_MOVIE_LIST;
 
-    SaveGame__RemoveProgressFlags_0x100();
-    SaveGame__RemoveProgressFlags_0x200();
-    SaveGame__RemoveProgressFlags_0x400();
+    SaveGame__RemoveProgressFlags_ZoneAct1Clear();
+    SaveGame__RemoveProgressFlags_Zone5Act1Clear();
+    SaveGame__RemoveProgressFlags_Zone6Act1Clear();
 
     if (progress >= SAVE_PROGRESS_2)
-        saveGame.stage.progress.flags |= 0x80000;
+        saveGame.stage.progress.flags |= SAVE_PROGRESSFLAG_HAS_SAVED;
     else
-        saveGame.stage.progress.flags &= ~0x80000;
+        saveGame.stage.progress.flags &= ~SAVE_PROGRESSFLAG_HAS_SAVED;
 
-    saveGame.stage.progress.flags &= ~(0x100000 | 0x200000 | 0x400000);
+    saveGame.stage.progress.flags &= ~(SAVE_PROGRESSFLAG_BOUGHT_HINT_1 | SAVE_PROGRESSFLAG_BOUGHT_HINT_2 | SAVE_PROGRESSFLAG_BOUGHT_HINT_3);
 
     SaveGame__ApplySystemProgress();
 }
@@ -261,9 +1143,9 @@ void SaveGame__SetZone5Progress(SaveProgressZone5 progress)
 {
     saveGame.stage.progress.zone5Progress = progress;
     gameState.saveFile.progressCounter    = 0;
-    saveGame.stage.progress.flags &= ~1;
+    saveGame.stage.progress.flags &= ~SAVE_PROGRESSFLAG_INCREMENTED_ZONE6_PROGRESS;
 
-    SaveGame__RemoveProgressFlags_0x200();
+    SaveGame__RemoveProgressFlags_Zone5Act1Clear();
     SaveGame__ApplySystemProgress();
 }
 
@@ -276,9 +1158,9 @@ void SaveGame__SetZone6Progress(SaveProgressZone6 progress)
 {
     saveGame.stage.progress.zone6Progress = progress;
     gameState.saveFile.progressCounter    = 0;
-    saveGame.stage.progress.flags |= 1;
+    saveGame.stage.progress.flags |= SAVE_PROGRESSFLAG_INCREMENTED_ZONE6_PROGRESS;
 
-    SaveGame__RemoveProgressFlags_0x400();
+    SaveGame__RemoveProgressFlags_Zone6Act1Clear();
     SaveGame__ApplySystemProgress();
 }
 
@@ -289,12 +1171,12 @@ void SaveGame__IncrementUnknown2ForUnknown(void)
 
 BOOL SaveGame__HasDoorPuzzlePiece(u16 id)
 {
-    return (saveGame.stage.progress.flags & (2 << id)) != 0;
+    return (saveGame.stage.progress.flags & (SAVE_PROGRESSFLAG_HAS_DOOR_PUZZLE_PIECE_1 << id)) != 0;
 }
 
 void SaveGame__GetPuzzlePiece(u16 id)
 {
-    saveGame.stage.progress.flags |= (2 << id);
+    saveGame.stage.progress.flags |= (SAVE_PROGRESSFLAG_HAS_DOOR_PUZZLE_PIECE_1 << id);
     SaveGame__ApplySystemProgress();
 }
 
@@ -383,7 +1265,7 @@ void SaveGame__GsExit(u16 value)
 
 void SaveGame__UnlockShip(u16 shipID, u16 shipLevel)
 {
-    u32 id = 0x800 << (2 * shipID) << (shipLevel - 1);
+    u32 id = SAVE_PROGRESSFLAG_UPGRADED_SHIP_LV1_JET << (2 * shipID) << (shipLevel - 1);
 
     SaveGameProgress *progress = &saveGame.stage.progress;
 
@@ -450,7 +1332,7 @@ BOOL SaveGame__Func_205BEDC(void)
 
 void SaveGame_SetPlayerHasSavedFlag(void)
 {
-    saveGame.stage.progress.flags |= 0x80000;
+    saveGame.stage.progress.flags |= SAVE_PROGRESSFLAG_HAS_SAVED;
     SaveGame__ApplySystemProgress();
 }
 
@@ -462,7 +1344,7 @@ BOOL SaveGame_CheckPlayerHasSavedFlag(void)
     if (saveGame.stage.progress.gameProgress < SAVE_PROGRESS_1)
         return FALSE;
 
-    return (saveGame.system.progress.flags & 0x80000) != 0;
+    return (saveGame.system.progress.flags & SAVE_PROGRESSFLAG_HAS_SAVED) != 0;
 }
 
 void SaveGame__SetDoneFirstShipVoyage(s32 id)
@@ -491,13 +1373,13 @@ void SaveGame__ClearCallback_Stage(SaveGame *save, SaveBlockFlags blockFlags)
 void SaveGame__UpdateProgress(void)
 {
     const SaveGameNextAction *state = SaveGame__GetNextActionFromProgress();
-    if (state != NULL && state->table1Pos < 8)
+    if (state != NULL && state->eventType < SAVE_PROGRESSEVENT_COUNT)
     {
-        SaveGame__UnknownTable1[state->table1Pos](state);
+        sProgressEventList[state->eventType](state);
     }
     else
     {
-        SaveGame__UnknownTable2[SaveGame__GetProgressType()]();
+        sProgressUpdateEventList[SaveGame__GetProgressType()]();
     }
 }
 
@@ -518,17 +1400,17 @@ const SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
     progressCounter = SaveGame__GetProgressCounter();
     progressType    = SaveGame__GetProgressType();
 
-    if (progressType == SAVE_PROGRESSTYPE_4)
-        progressType = SAVE_PROGRESSTYPE_3;
+    if (progressType == SAVE_PROGRESSTYPE_ADVANCE_STAGE)
+        progressType = SAVE_PROGRESSTYPE_ISLAND_ARRIVAL;
 
-    if (progressType == SAVE_PROGRESSTYPE_5)
+    if (progressType == SAVE_PROGRESSTYPE_STAGE_CLEAR)
     {
-        if (SaveGame__Func_205D150(gameState.stageID))
+        if (SaveGame__CanStageClearIncrementProgress(gameState.stageID))
         {
             SaveGame__GsExit(0);
         }
     }
-    else if (progressType == SAVE_PROGRESSTYPE_9)
+    else if (progressType == SAVE_PROGRESSTYPE_EX_EPILOGUE)
     {
         if (SaveGame__GetGameProgress() < SAVE_PROGRESS_39)
         {
@@ -541,16 +1423,16 @@ const SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
     switch (gameProgress)
     {
         default:
-            count = _02110B20[gameProgress];
+            count = sGameProgressCounterList[gameProgress];
             if (progressCounter < count)
             {
-                config = SaveGame__gameProgressUnknown[gameProgress];
+                config = sGameProgressUnknown[gameProgress];
 
                 if (config != NULL)
                 {
                     config += progressCounter;
 
-                    if (config->type < SAVE_PROGRESSTYPE_COUNT && (config->type != progressType || !SaveGame__ProgressCheckTable[progressType](config->progressCheckValue)))
+                    if (config->type < SAVE_PROGRESSTYPE_COUNT && (config->type != progressType || sProgressCheckTable[progressType](config->progressCheckValue) == FALSE))
                     {
                         config = NULL;
                     }
@@ -581,20 +1463,20 @@ const SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
             // fallthrough
 
         case SAVE_PROGRESS_24:
-            // this was probably an inline function?
+            // this was probably an inlined function
             if (0 == NULL)
             {
-                count = _021107BE[zone5Progress];
+                count = sZone5ProgressCounterList[zone5Progress];
 
                 if (progressCounter < count)
                 {
-                    config = SaveGame__unknownProgress1Unknown[zone5Progress];
+                    config = sZone5ProgressUnknown[zone5Progress];
 
                     if (config != NULL)
                     {
                         config += progressCounter;
 
-                        if (config->type < SAVE_PROGRESSTYPE_COUNT && (config->type != progressType || !SaveGame__ProgressCheckTable[progressType](config->progressCheckValue)))
+                        if (config->type < SAVE_PROGRESSTYPE_COUNT && (config->type != progressType || !sProgressCheckTable[progressType](config->progressCheckValue)))
                         {
                             config = NULL;
                         }
@@ -608,7 +1490,7 @@ const SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
                                 }
                                 else
                                 {
-                                    SaveGame__IncrementUnknownProgress1();
+                                    SaveGame__IncrementZone5Progress();
                                     SaveGame__ResetProgressCounter();
                                 }
                             }
@@ -621,16 +1503,16 @@ const SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
 
             if (config == NULL)
             {
-                count = _021108DC[zone6Progress];
+                count = sZone6ProgressCounterList[zone6Progress];
 
                 if (progressCounter < count)
                 {
-                    config = SaveGame__unknownProgress2Unknown[zone6Progress];
+                    config = sZone6ProgressUnknown[zone6Progress];
                     if (config != NULL)
                     {
                         config += progressCounter;
 
-                        if (config->type < SAVE_PROGRESSTYPE_COUNT && (config->type != progressType || !SaveGame__ProgressCheckTable[progressType](config->progressCheckValue)))
+                        if (config->type < SAVE_PROGRESSTYPE_COUNT && (config->type != progressType || !sProgressCheckTable[progressType](config->progressCheckValue)))
                         {
                             config = NULL;
                         }
@@ -644,7 +1526,7 @@ const SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
                                 }
                                 else
                                 {
-                                    SaveGame__IncrementUnknownProgress2();
+                                    SaveGame__IncrementZone6Progress();
                                     SaveGame__ResetProgressCounter();
                                 }
                             }
@@ -660,17 +1542,17 @@ const SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
     return config;
 }
 
-void SaveGame__UpdateProgress2_Type0(void)
+void SaveGame_ProgressUpdateEvent_ReturnToHub(void)
 {
     SaveGame__ChangeEvent(SYSEVENT_RETURN_TO_HUB);
 }
 
-void SaveGame__UpdateProgress2_Type1(void)
+void SaveGame_ProgressUpdateEvent_SeaMap_Unknown(void)
 {
     SaveGame__StartSeaMapUnknown();
 }
 
-void SaveGame__UpdateProgress2_Type2(void)
+void SaveGame_ProgressUpdateEvent_BeginSailing(void)
 {
     if (SaveGame__GetStateFlag(1) || gameState.sailUnknown1 != 0)
     {
@@ -703,13 +1585,13 @@ void SaveGame__UpdateProgress2_Type2(void)
                 break;
         }
 
-        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_2);
+        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_BEGIN_SAILING);
         SaveGame__EnableStateFlags(1);
         SaveGame__StartCutscene(cutscene, SYSEVENT_UPDATE_PROGRESS, TRUE);
     }
 }
 
-void SaveGame__UpdateProgress2_Type3(void)
+void SaveGame_ProgressUpdateEvent_IslandArrival(void)
 {
     if (gameState.stageID == STAGE_Z71 && SaveGame__GetGameProgress() < SAVE_PROGRESS_33)
     {
@@ -726,53 +1608,53 @@ void SaveGame__UpdateProgress2_Type3(void)
     }
 }
 
-void SaveGame__UpdateProgress2_Type4(void)
+void SaveGame_ProgressUpdateEvent_AdvanceStage(void)
 {
     SaveGame__StartStoryMode();
 }
 
-void SaveGame__UpdateProgress2_Type5(void)
+void SaveGame_ProgressUpdateEvent_StageClear(void)
 {
     u32 stageID = gameState.stageID;
     if (stageID == STAGE_Z11)
     {
         if (SaveGame__GetGameProgress() == SAVE_PROGRESS_3)
-            SaveGame__SetProgressFlags_0x100();
+            SaveGame__SetProgressFlags_ZoneAct1Clear();
     }
     else if (stageID == STAGE_Z21)
     {
         if (SaveGame__GetGameProgress() == SAVE_PROGRESS_6)
-            SaveGame__SetProgressFlags_0x100();
+            SaveGame__SetProgressFlags_ZoneAct1Clear();
     }
     else if (stageID == STAGE_Z31)
     {
         if (SaveGame__GetGameProgress() == SAVE_PROGRESS_14)
-            SaveGame__SetProgressFlags_0x100();
+            SaveGame__SetProgressFlags_ZoneAct1Clear();
     }
     else if (stageID == STAGE_Z41)
     {
         if (SaveGame__GetGameProgress() == SAVE_PROGRESS_19)
-            SaveGame__SetProgressFlags_0x100();
+            SaveGame__SetProgressFlags_ZoneAct1Clear();
     }
     else if (stageID == STAGE_Z51)
     {
         if (SaveGame__GetZone5Progress() == SAVE_ZONE5_PROGRESS_2)
-            SaveGame__SetProgressFlags_0x200();
+            SaveGame__SetProgressFlags_Zone5Act1Clear();
     }
     else if (stageID == STAGE_Z61)
     {
         if (SaveGame__GetZone6Progress() == SAVE_ZONE6_PROGRESS_4)
-            SaveGame__SetProgressFlags_0x400();
+            SaveGame__SetProgressFlags_Zone6Act1Clear();
     }
     else if (stageID == STAGE_Z71)
     {
         if (SaveGame__GetGameProgress() == SAVE_PROGRESS_33)
-            SaveGame__SetProgressFlags_0x100();
+            SaveGame__SetProgressFlags_ZoneAct1Clear();
     }
 
     for (s32 s = 0; s < SAVE_ISLAND_COUNT; s++)
     {
-        if (stageID == SaveGame__hiddenIslandList[s] && SaveGame__GetIslandProgress(&saveGame.stage.progress, s) < SAVE_ISLAND_STATE_BEATEN)
+        if (stageID == sOptionalHiddenIslandStageList[s] && SaveGame__GetIslandProgress(&saveGame.stage.progress, s) < SAVE_ISLAND_STATE_BEATEN)
         {
             SaveGame__SetIslandProgress(&saveGame.stage.progress, s, SAVE_ISLAND_STATE_BEATEN);
             break;
@@ -788,12 +1670,12 @@ void SaveGame__UpdateProgress2_Type5(void)
     }
     else
     {
-        u32 nextStage = SaveGame__nextStage[stageID];
+        u32 nextStage = sZoneNextStageTable[stageID];
         if (stageID != nextStage)
         {
             // next stage (act) lined up, so advance to the next stage.
             gameState.stageID = nextStage;
-            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_4);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_ADVANCE_STAGE);
         }
         else if (stageID == STAGE_BOSS_FINAL)
         {
@@ -832,7 +1714,7 @@ void SaveGame__UpdateProgress2_Type5(void)
             {
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_29)
                 {
-                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
                     SaveGame__StartCutscene(CUTSCENE_MYSTERIOUS_MARKER_NO_1, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
@@ -841,7 +1723,7 @@ void SaveGame__UpdateProgress2_Type5(void)
                     if (!SaveGame__HasDoorPuzzlePiece(0))
                     {
                         SaveGame__GetPuzzlePiece(0);
-                        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+                        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
                         SaveGame__StartCutscene(CUTSCENE_CLUE_NO_1, SYSEVENT_UPDATE_PROGRESS, TRUE);
                         return;
                     }
@@ -851,7 +1733,7 @@ void SaveGame__UpdateProgress2_Type5(void)
             {
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_29)
                 {
-                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
                     SaveGame__StartCutscene(CUTSCENE_MYSTERIOUS_MARKER_NO_2, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
@@ -859,7 +1741,7 @@ void SaveGame__UpdateProgress2_Type5(void)
                 if (!SaveGame__HasDoorPuzzlePiece(1))
                 {
                     SaveGame__GetPuzzlePiece(1);
-                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
                     SaveGame__StartCutscene(CUTSCENE_CLUE_NO_2, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
@@ -868,7 +1750,7 @@ void SaveGame__UpdateProgress2_Type5(void)
             {
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_29)
                 {
-                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+                    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
                     SaveGame__StartCutscene(CUTSCENE_MYSTERIOUS_MARKER_NO_1, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
@@ -877,33 +1759,33 @@ void SaveGame__UpdateProgress2_Type5(void)
                     if (!SaveGame__HasDoorPuzzlePiece(2))
                     {
                         SaveGame__GetPuzzlePiece(2);
-                        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+                        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
                         SaveGame__StartCutscene(CUTSCENE_CLUE_NO_3, SYSEVENT_UPDATE_PROGRESS, TRUE);
                         return;
                     }
                 }
             }
 
-            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
         }
 
         SaveGame__RestartEvent();
     }
 }
 
-void SaveGame__UpdateProgress2_Type6(void)
+void SaveGame_ProgressUpdateEvent_BeginRivalRace(void)
 {
     gameState.saveFile.chaosEmeraldID = -1;
     gameState.saveFile.solEmeraldID   = -1;
     SaveGame__StartSailRivalRace();
 }
 
-void SaveGame__UpdateProgress2_Type7(void)
+void SaveGame_ProgressUpdateEvent_FinishRivalRace(void)
 {
     gameState.sailShipType = gameState.sailStoredShipType;
 
     u8 emerald = gameState.saveFile.chaosEmeraldID;
-    if (emerald < 7 && !SaveGame__HasChaosEmerald(&saveGame.chart, emerald))
+    if (emerald < 7 && SaveGame__HasChaosEmerald(&saveGame.chart, emerald) == FALSE)
     {
         SaveGame__SetChaosEmeraldCollected(&saveGame.chart, emerald);
         gameState.saveFile.solEmeraldID = -1;
@@ -915,7 +1797,7 @@ void SaveGame__UpdateProgress2_Type7(void)
     }
 }
 
-void SaveGame__UpdateProgress2_Type8(void)
+void SaveGame_ProgressUpdateEvent_ExPrologue(void)
 {
     if (SaveGame__GetProgressCounter() >= 7)
     {
@@ -926,17 +1808,17 @@ void SaveGame__UpdateProgress2_Type8(void)
     }
     else
     {
-        u16 id = _021108EA[SaveGame__GetProgressCounter()];
+        u16 cutscene = sExPrologueCutsceneList[SaveGame__GetProgressCounter()];
         SaveGame__IncrementUnknown2ForUnknown();
-        SaveGame__StartCutscene(id, SYSEVENT_UPDATE_PROGRESS, SaveGame__GetGameProgress() >= SAVE_PROGRESS_38);
+        SaveGame__StartCutscene(cutscene, SYSEVENT_UPDATE_PROGRESS, SaveGame__GetGameProgress() >= SAVE_PROGRESS_38);
     }
 }
 
-void SaveGame__UpdateProgress2_Type9(void)
+void SaveGame_ProgressUpdateEvent_ExEpilogue(void)
 {
     if (gameState.saveFile.field_52 == 1)
     {
-        if (!SaveGame__GetProgressCounter())
+        if (SaveGame__GetProgressCounter() == 0)
         {
             SaveGame__IncrementUnknown2ForUnknown();
             SaveGame__ChangeEvent(SYSEVENT_STAGE_CLEAR_EX);
@@ -948,84 +1830,87 @@ void SaveGame__UpdateProgress2_Type9(void)
             SaveGame__ChangeEvent(SYSEVENT_MAIN_MENU);
         }
     }
-    else if (SaveGame__GetProgressCounter() >= 5)
-    {
-        SaveGame__ResetProgressCounter();
-
-        if (SaveGame__GetGameProgress() <= SAVE_PROGRESS_38)
-            SaveGame__SetGameProgress(SAVE_PROGRESS_39);
-
-        gameState.creditsMode = CREDITS_MODE_EXTRA_BOSS_STAGE_SELECT;
-        SaveGame__ChangeEvent(SYSEVENT_CREDITS);
-    }
     else
     {
-        u32 id       = SaveGame__GetProgressCounter();
-        u16 cutscene = _021107B4[id];
-
-        SaveGame__IncrementUnknown2ForUnknown();
-
-        if (cutscene != CUTSCENE_INVALID)
+        if (SaveGame__GetProgressCounter() >= 5)
         {
-            BOOL canSkip;
-            if (SaveGame__GetGameProgress() >= SAVE_PROGRESS_39)
-                canSkip = TRUE;
-            else
-                canSkip = FALSE;
+            SaveGame__ResetProgressCounter();
 
-            struct GameCutsceneState *cutsceneState = &gameState.cutscene;
-            cutsceneState->nextSysEvent             = SYSEVENT_UPDATE_PROGRESS;
-            cutsceneState->canSkip                  = canSkip;
-            cutsceneState->cutsceneID               = cutscene;
+            if (SaveGame__GetGameProgress() <= SAVE_PROGRESS_38)
+                SaveGame__SetGameProgress(SAVE_PROGRESS_39);
 
-            SaveGame__ChangeEvent(SYSEVENT_CUTSCENE);
+            gameState.creditsMode = CREDITS_MODE_EXTRA_BOSS_STAGE_SELECT;
+            SaveGame__ChangeEvent(SYSEVENT_CREDITS);
         }
         else
         {
-            if (id == 1)
+            u32 id       = SaveGame__GetProgressCounter();
+            u16 cutscene = sExEpilogueCutsceneList[id];
+
+            SaveGame__IncrementUnknown2ForUnknown();
+
+            if (cutscene != CUTSCENE_INVALID)
             {
-                SaveGame__ChangeEvent(SYSEVENT_STAGE_CLEAR_EX);
+                BOOL canSkip;
+                if (SaveGame__GetGameProgress() >= SAVE_PROGRESS_39)
+                    canSkip = TRUE;
+                else
+                    canSkip = FALSE;
+
+                struct GameCutsceneState *cutsceneState = &gameState.cutscene;
+                cutsceneState->nextSysEvent             = SYSEVENT_UPDATE_PROGRESS;
+                cutsceneState->canSkip                  = canSkip;
+                cutsceneState->cutsceneID               = cutscene;
+
+                SaveGame__ChangeEvent(SYSEVENT_CUTSCENE);
             }
             else
             {
-                gameState.creditsMode = CREDITS_MODE_EXTRA_BOSS;
-                SaveGame__ChangeEvent(SYSEVENT_CREDITS);
+                if (id == 1)
+                {
+                    SaveGame__ChangeEvent(SYSEVENT_STAGE_CLEAR_EX);
+                }
+                else
+                {
+                    gameState.creditsMode = CREDITS_MODE_EXTRA_BOSS;
+                    SaveGame__ChangeEvent(SYSEVENT_CREDITS);
+                }
             }
         }
     }
 }
 
-void SaveGame__UpdateProgress2_Type10(void)
+void SaveGame_ProgressUpdateEvent_DoorPuzzleComplete(void)
 {
     SaveGame__IncrementUnknown2ForUnknown();
-    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_3);
+    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_ISLAND_ARRIVAL);
     SaveGame__RestartEvent();
 }
 
-void SaveGame__UpdateProgress2_Type11(void)
+void SaveGame_ProgressUpdateEvent_NonStageIslandArrival(void)
 {
-    u16 stage = _02110B70[gameState.landedIslandID];
+    u16 stage = sLandedIslandStageTable[gameState.landedIslandID];
 
     if (gameState.landedIslandID == SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND && SaveGame__GetGameProgress() < SAVE_PROGRESS_17)
     {
-        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
         SaveGame__StartCutscene(CUTSCENE_KYLOK_ISLAND_EMPTY, SYSEVENT_UPDATE_PROGRESS, TRUE);
     }
     else if (gameState.landedIslandID == SEAMAPMANAGER_DISCOVER_KYLOK_ISLAND && SaveGame__GetGameProgress() > SAVE_PROGRESS_17)
     {
-        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
         SaveGame__StartCutscene(CUTSCENE_DAIKUN_ISLAND_EMPTY, SYSEVENT_UPDATE_PROGRESS, TRUE);
     }
     else if (gameState.landedIslandID == SEAMAPMANAGER_DISCOVER_DAIKUN_ISLAND && SaveGame__GetZone6Progress() > SAVE_ZONE6_PROGRESS_1)
     {
-        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
         SaveGame__StartCutscene(CUTSCENE_DAIKUN_ISLAND_EMPTY, SYSEVENT_UPDATE_PROGRESS, TRUE);
     }
     else
     {
         for (s32 i = 0; i < SAVE_ISLAND_COUNT; i++)
         {
-            if (stage == SaveGame__hiddenIslandList[i] && SaveGame__GetIslandProgress(&saveGame.stage.progress, i) < SAVE_ISLAND_STATE_UNLOCKED)
+            if (stage == sOptionalHiddenIslandStageList[i] && SaveGame__GetIslandProgress(&saveGame.stage.progress, i) < SAVE_ISLAND_STATE_UNLOCKED)
             {
                 SaveGame__SetIslandProgress(&saveGame.stage.progress, i, SAVE_ISLAND_STATE_UNLOCKED);
                 SaveGame__ApplySystemProgress();
@@ -1036,20 +1921,20 @@ void SaveGame__UpdateProgress2_Type11(void)
         if (stage < STAGE_COUNT)
         {
             gameState.stageID = stage;
-            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_3);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_ISLAND_ARRIVAL);
             SaveGame__RestartEvent();
         }
         else
         {
-            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
             SaveGame__RestartEvent();
         }
     }
 }
 
-BOOL SaveGame__ProgressCheck_Type0(s32 id)
+BOOL SaveGame_ProgressCheck_ReturnToHub(s32 param)
 {
-    if (id == 1)
+    if (param == TRUE)
     {
         if (!SaveGame__HasDoorPuzzlePiece(0))
             return FALSE;
@@ -1064,64 +1949,64 @@ BOOL SaveGame__ProgressCheck_Type0(s32 id)
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheck_Type1(s32 id)
+BOOL SaveGame_ProgressCheck_SeaMap_Unknown(s32 param)
 {
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheck_Type2(s32 id)
+BOOL SaveGame_ProgressCheck_BeginSailing(s32 param)
 {
-    return id == gameState.sailShipType;
+    return param == gameState.sailShipType;
 }
 
-BOOL SaveGame__ProgressCheck_Type3(s32 id)
+BOOL SaveGame_ProgressCheck_IslandArrival(s32 param)
 {
-    return id == gameState.stageID;
+    return param == gameState.stageID;
 }
 
-BOOL SaveGame__ProgressCheck_Type4(s32 id)
+BOOL SaveGame_ProgressCheck_AdvanceStage(s32 param)
 {
     return FALSE;
 }
 
-BOOL SaveGame__ProgressCheck_Type5(s32 id)
+BOOL SaveGame_ProgressCheck_StageClear(s32 param)
 {
-    return id == gameState.stageID;
+    return param == gameState.stageID;
 }
 
-BOOL SaveGame__ProgressCheck_Type6(s32 id)
+BOOL SaveGame_ProgressCheck_BeginRivalRace(s32 param)
 {
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheck_Type7(s32 id)
+BOOL SaveGame_ProgressCheck_FinishRivalRace(s32 param)
 {
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheck_Type8(s32 id)
+BOOL SaveGame_ProgressCheck_ExPrologue(s32 param)
 {
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheck_Type9(s32 id)
+BOOL SaveGame_ProgressCheck_ExEpilogue(s32 param)
 {
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheck_Type10(s32 id)
+BOOL SaveGame_ProgressCheck_DoorPuzzleComplete(s32 param)
 {
     return TRUE;
 }
 
-BOOL SaveGame__ProgressCheck_Type11(s32 id)
+BOOL SaveGame_ProgressCheck_NonStageIslandArrival(s32 param)
 {
-    return id == gameState.landedIslandID;
+    return param == gameState.landedIslandID;
 }
 
-void SaveGame__UpdateProgress1_Func_205CB60(const SaveGameNextAction *action)
+void SaveGame_ProgressEvent_StartCutscene(const SaveGameNextAction *action)
 {
-    u16 cutscene = action->id;
+    u16 cutscene = action->eventParam;
 
     if (cutscene == CUTSCENE_LEGENDARY_ANCIENT_RUINS_1)
     {
@@ -1136,55 +2021,55 @@ void SaveGame__UpdateProgress1_Func_205CB60(const SaveGameNextAction *action)
     else
     {
         if (cutscene == CUTSCENE_KYLOK_FOUND || cutscene == CUTSCENE_DAIKUN_DISCOVERED)
-            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
     }
 
     SaveGame__StartCutscene(cutscene, action->nextSysEvent, FALSE);
 }
 
-void SaveGame__UpdateProgress1_Func_205CBC4(const SaveGameNextAction *action)
+void SaveGame_ProgressEvent_StartTutorial(const SaveGameNextAction *action)
 {
     SaveGame__StartTutorial();
 }
 
-void SaveGame__UpdateProgress1_Func_205CBD0(const SaveGameNextAction *action)
+void SaveGame_ProgressEvent_StartSailTraining(const SaveGameNextAction *action)
 {
-    SaveGame__StartEvent37();
+    SaveGame__StartSailTraining();
 }
 
-void SaveGame__UpdateProgress1_Func_205CBDC(const SaveGameNextAction *action)
+void SaveGame_ProgressEvent_StartSailJetTraining(const SaveGameNextAction *action)
 {
     SaveGame__StartSailJetTraining();
 }
 
-void SaveGame__UpdateProgress1_Func_205CBE8(const SaveGameNextAction *action)
+void SaveGame_ProgressEvent_ReturnToHub(const SaveGameNextAction *action)
 {
     SaveGame__StartHubMenu();
 }
 
-void SaveGame__UpdateProgress1_Func_205CBF4(const SaveGameNextAction *action)
+void SaveGame_ProgressEvent_StartDoorPuzzle(const SaveGameNextAction *action)
 {
-    SaveGame__StartDoorPuzzle(action->id);
+    SaveGame__StartDoorPuzzle(action->eventParam);
 }
 
-void SaveGame__UpdateProgress1_Func_205CC04(const SaveGameNextAction *action)
+void SaveGame_ProgressEvent_StartSeaMapCutscene(const SaveGameNextAction *action)
 {
-    if (action->id == 0)
+    if (action->eventParam == SAVE_SEAMAPCUTSCENE_CORAL_CAVE_APPEARS)
         SeaMapManager__SetUnknown1(0);
     else
         SeaMapManager__SetUnknown1(1);
 
-    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_5);
+    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_STAGE_CLEAR);
     SaveGame__ChangeEvent(SYSEVENT_SEAMAPCUTSCENE);
 }
 
-void SaveGame__UpdateProgress1_Func_205CC3C(const SaveGameNextAction *action)
+void SaveGame_ProgressEvent_StartIslandArrival(const SaveGameNextAction *action)
 {
-    if (action->id == 24)
+    if (action->eventParam == STAGE_BOSS_FINAL)
         SaveGame__EnableStateFlags(2);
 
-    gameState.stageID = action->id;
-    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_3);
+    gameState.stageID = action->eventParam;
+    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_ISLAND_ARRIVAL);
     SaveGame__RestartEvent();
 }
 
@@ -1232,7 +2117,7 @@ void SaveGame__StartTutorial(void)
     SaveGame__ChangeEvent(SYSEVENT_LOAD_STAGE);
 }
 
-void SaveGame__StartEvent37(void)
+void SaveGame__StartSailTraining(void)
 {
     SaveGame__ChangeEvent(SYSEVENT_SEAMAP_TRAINING);
 }
@@ -1296,7 +2181,7 @@ void SaveGame__StartDoorPuzzle(BOOL flag)
             gameState.doorPuzzleEvent = DOORPUZZLE_EVENT_HAVE_KEYS;
     }
 
-    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_10);
+    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_DOOR_PUZZLE_COMPLETE);
     SaveGame__ChangeEvent(SYSEVENT_DOOR_PUZZLE);
 }
 
@@ -1309,7 +2194,7 @@ void SaveGame__StartStageSelect(void)
 
 void SaveGame__StartEmeraldCollected(void)
 {
-    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_7);
+    SaveGame__SetProgressType(SAVE_PROGRESSTYPE_FINISH_RIVAL_RACE);
     SaveGame__ChangeEvent(SYSEVENT_EMERALD_COLLECTED);
 }
 
@@ -1318,12 +2203,12 @@ void SaveGame__IncrementGameProgress(void)
     SaveGame__SetGameProgress(saveGame.stage.progress.gameProgress + 1);
 }
 
-void SaveGame__IncrementUnknownProgress1(void)
+void SaveGame__IncrementZone5Progress(void)
 {
     SaveGame__SetZone5Progress(saveGame.stage.progress.zone5Progress + 1);
 }
 
-void SaveGame__IncrementUnknownProgress2(void)
+void SaveGame__IncrementZone6Progress(void)
 {
     SaveGame__SetZone6Progress(saveGame.stage.progress.zone6Progress + 1);
 }
@@ -1367,34 +2252,36 @@ void SaveGame__ApplySystemProgress(void)
     {
         systemProgress->gameProgress = stageProgress->gameProgress;
 
-        if ((stageProgress->flags & 0x100) != 0)
-            systemProgress->flags |= 0x100;
+        if ((stageProgress->flags & SAVE_PROGRESSFLAG_ANY_ACT1_CLEAR) != 0)
+            systemProgress->flags |= SAVE_PROGRESSFLAG_ANY_ACT1_CLEAR;
         else
-            systemProgress->flags &= ~0x100;
+            systemProgress->flags &= ~SAVE_PROGRESSFLAG_ANY_ACT1_CLEAR;
     }
     else
     {
-        if (systemProgress->gameProgress == stageProgress->gameProgress && (stageProgress->flags & 0x100) != 0)
-            systemProgress->flags |= 0x100;
+        if (systemProgress->gameProgress == stageProgress->gameProgress && (stageProgress->flags & SAVE_PROGRESSFLAG_ANY_ACT1_CLEAR) != 0)
+            systemProgress->flags |= SAVE_PROGRESSFLAG_ANY_ACT1_CLEAR;
     }
 
     if (systemProgress->zone5Progress <= stageProgress->zone5Progress)
     {
         systemProgress->zone5Progress = stageProgress->zone5Progress;
 
-        if (stageProgress->zone5Progress == SAVE_ZONE5_PROGRESS_2 && (stageProgress->flags & 0x200) != 0)
-            systemProgress->flags |= 0x200;
+        if (stageProgress->zone5Progress == SAVE_ZONE5_PROGRESS_2 && (stageProgress->flags & SAVE_PROGRESSFLAG_ZONE5_ACT1_CLEAR) != 0)
+            systemProgress->flags |= SAVE_PROGRESSFLAG_ZONE5_ACT1_CLEAR;
     }
 
     if (systemProgress->zone6Progress <= stageProgress->zone6Progress)
     {
         systemProgress->zone6Progress = stageProgress->zone6Progress;
 
-        if (stageProgress->zone6Progress == SAVE_ZONE6_PROGRESS_4 && (stageProgress->flags & 0x400) != 0)
-            systemProgress->flags |= 0x400;
+        if (stageProgress->zone6Progress == SAVE_ZONE6_PROGRESS_4 && (stageProgress->flags & SAVE_PROGRESSFLAG_ZONE6_ACT1_CLEAR) != 0)
+            systemProgress->flags |= SAVE_PROGRESSFLAG_ZONE6_ACT1_CLEAR;
     }
 
-    systemProgress->flags |= stageProgress->flags & ~(0x1 | 0x700 | 0xFFF00000);
+    systemProgress->flags |= stageProgress->flags
+                             & ~(SAVE_PROGRESSFLAG_INCREMENTED_ZONE6_PROGRESS
+                                 | (SAVE_PROGRESSFLAG_ANY_ACT1_CLEAR | SAVE_PROGRESSFLAG_ZONE5_ACT1_CLEAR | SAVE_PROGRESSFLAG_ZONE6_ACT1_CLEAR) | (0xFFF << 20));
 
     for (s32 i = 0; i < SAVE_ISLAND_COUNT; i++)
     {
@@ -1404,109 +2291,109 @@ void SaveGame__ApplySystemProgress(void)
     }
 }
 
-void SaveGame__SetProgressFlags_0x100(void)
+void SaveGame__SetProgressFlags_ZoneAct1Clear(void)
 {
-    saveGame.stage.progress.flags |= 0x100;
+    saveGame.stage.progress.flags |= SAVE_PROGRESSFLAG_ANY_ACT1_CLEAR;
 }
 
-void SaveGame__SetProgressFlags_0x200(void)
+void SaveGame__SetProgressFlags_Zone5Act1Clear(void)
 {
-    saveGame.stage.progress.flags |= 0x200;
+    saveGame.stage.progress.flags |= SAVE_PROGRESSFLAG_ZONE5_ACT1_CLEAR;
 }
 
-void SaveGame__SetProgressFlags_0x400(void)
+void SaveGame__SetProgressFlags_Zone6Act1Clear(void)
 {
-    saveGame.stage.progress.flags |= 0x400;
+    saveGame.stage.progress.flags |= SAVE_PROGRESSFLAG_ZONE6_ACT1_CLEAR;
 }
 
-void SaveGame__RemoveProgressFlags_0x100(void)
+void SaveGame__RemoveProgressFlags_ZoneAct1Clear(void)
 {
-    saveGame.stage.progress.flags &= ~0x100;
+    saveGame.stage.progress.flags &= ~SAVE_PROGRESSFLAG_ANY_ACT1_CLEAR;
 }
 
-void SaveGame__RemoveProgressFlags_0x200(void)
+void SaveGame__RemoveProgressFlags_Zone5Act1Clear(void)
 {
-    saveGame.stage.progress.flags &= ~0x200;
+    saveGame.stage.progress.flags &= ~SAVE_PROGRESSFLAG_ZONE5_ACT1_CLEAR;
 }
 
-void SaveGame__RemoveProgressFlags_0x400(void)
+void SaveGame__RemoveProgressFlags_Zone6Act1Clear(void)
 {
-    saveGame.stage.progress.flags &= ~0x400;
+    saveGame.stage.progress.flags &= ~SAVE_PROGRESSFLAG_ZONE6_ACT1_CLEAR;
 }
 
-BOOL SaveGame__Func_205D150(s32 stageID)
+BOOL SaveGame__CanStageClearIncrementProgress(s32 stageID)
 {
     u8 gameProgress  = SaveGame__GetGameProgress();
     u8 zone5Progress = SaveGame__GetZone5Progress();
     u8 zone6Progress = SaveGame__GetZone6Progress();
 
-    BOOL flag100;
-    if ((saveGame.stage.progress.flags & 0x100) != 0)
-        flag100 = TRUE;
+    BOOL zoneAct1Clear;
+    if ((saveGame.stage.progress.flags & SAVE_PROGRESSFLAG_ANY_ACT1_CLEAR) != 0)
+        zoneAct1Clear = TRUE;
     else
-        flag100 = FALSE;
+        zoneAct1Clear = FALSE;
 
-    BOOL flag200;
-    if ((saveGame.stage.progress.flags & 0x200) != 0)
-        flag200 = TRUE;
+    BOOL zone5Act1Clear;
+    if ((saveGame.stage.progress.flags & SAVE_PROGRESSFLAG_ZONE5_ACT1_CLEAR) != 0)
+        zone5Act1Clear = TRUE;
     else
-        flag200 = FALSE;
+        zone5Act1Clear = FALSE;
 
-    BOOL flag400;
-    if ((saveGame.stage.progress.flags & 0x400) != 0)
-        flag400 = TRUE;
+    BOOL zone6Act1Clear;
+    if ((saveGame.stage.progress.flags & SAVE_PROGRESSFLAG_ZONE6_ACT1_CLEAR) != 0)
+        zone6Act1Clear = TRUE;
     else
-        flag400 = FALSE;
+        zone6Act1Clear = FALSE;
 
     BOOL result = FALSE;
     if (stageID <= STAGE_BOSS_FINAL)
     {
-        const SaveGameUnknown205D150 *progress = &_02110C20[stageID];
+        const StageProgressCheck *progressCheck = &sStageProgressCheckList[stageID];
 
-        if (progress->gameProgress != 0xFF && progress->gameProgress != gameProgress)
+        if (progressCheck->gameProgress != SAVE_PROGRESS_INVALID && progressCheck->gameProgress != gameProgress)
         {
             return FALSE;
         }
 
-        if (progress->zone5Progress != 0xFF && progress->zone5Progress != zone5Progress)
+        if (progressCheck->zone5Progress != SAVE_PROGRESS_INVALID && progressCheck->zone5Progress != zone5Progress)
         {
             return FALSE;
         }
 
-        if (progress->zone6Progress != 0xFF && progress->zone6Progress != zone6Progress)
+        if (progressCheck->zone6Progress != SAVE_PROGRESS_INVALID && progressCheck->zone6Progress != zone6Progress)
         {
             return FALSE;
         }
 
-        switch (progress->mode)
+        switch (progressCheck->extraCheck)
         {
-            case 1:
-                if (flag100)
+            case SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT1:
+                if (zoneAct1Clear)
                     return FALSE;
                 break;
 
-            case 2:
-                if (!flag100)
+            case SAVE_STAGECLEAR_EXTRACHECK_ANY_ACT2:
+                if (!zoneAct1Clear)
                     return FALSE;
                 break;
 
-            case 3:
-                if (flag200)
+            case SAVE_STAGECLEAR_EXTRACHECK_ANY_ZONE_5ACT1:
+                if (zone5Act1Clear)
                     return FALSE;
                 break;
 
-            case 4:
-                if (!flag200)
+            case SAVE_STAGECLEAR_EXTRACHECK_ANY_ZONE_5ACT2:
+                if (!zone5Act1Clear)
                     return FALSE;
                 break;
 
-            case 5:
-                if (flag400)
+            case SAVE_STAGECLEAR_EXTRACHECK_ANY_ZONE_6ACT1:
+                if (zone6Act1Clear)
                     return FALSE;
                 break;
 
-            case 6:
-                if (!flag400)
+            case SAVE_STAGECLEAR_EXTRACHECK_ANY_ZONE_6ACT2:
+                if (!zone6Act1Clear)
                     return FALSE;
                 break;
         }
@@ -1516,311 +2403,8 @@ BOOL SaveGame__Func_205D150(s32 stageID)
     else
     {
         if (stageID <= STAGE_HIDDEN_ISLAND_5)
-            return !SaveGame__HasDoorPuzzlePiece(stageID - STAGE_HIDDEN_ISLAND_3);
+            return SaveGame__HasDoorPuzzlePiece(stageID - STAGE_HIDDEN_ISLAND_3) == FALSE;
         else
             return FALSE;
     }
 }
-
-NONMATCH_FUNC BOOL SaveGame__IsShipUnlocked(ShipType ship)
-{
-    // will match when shipUnlockProgress (0x02110CF0) is decompiled
-#ifdef NON_MATCHING
-    u32 shipUnlockProgress[] = { SAVE_PROGRESS_2, SAVE_PROGRESS_9, SAVE_PROGRESS_22, SAVE_PROGRESS_26 };
-
-    return SaveGame__GetGameProgress() >= shipUnlockProgress[ship];
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #0x10
-	ldr r1, =SaveGame_ShipUnlockProgress
-	add ip, sp, #0
-	mov r4, r0
-	ldmia r1, {r0, r1, r2, r3}
-	stmia ip, {r0, r1, r2, r3}
-	bl SaveGame__GetGameProgress
-	add r1, sp, #0
-	ldr r1, [r1, r4, lsl #2]
-	cmp r0, r1
-	movge r0, #1
-	movlt r0, #0
-	add sp, sp, #0x10
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
-}
-
-BOOL SaveGame__BlazeUnlocked(void)
-{
-    return SaveGame__GetGameProgress() >= SAVE_PROGRESS_16;
-}
-
-BOOL SaveGame__CheckZoneBeaten(s32 id)
-{
-    SaveProgress gameProgress = SaveGame__GetGameProgress();
-    s32 zone5Progress         = SaveGame__GetZone5Progress();
-    s32 zone6Progress         = SaveGame__GetZone6Progress();
-
-    switch (id)
-    {
-        case ZONE_PLANT_KINGDOM:
-            if (gameProgress >= SAVE_PROGRESS_5)
-                return TRUE;
-            break;
-
-        case ZONE_MACHINE_LABYRINTH:
-            if (gameProgress >= SAVE_PROGRESS_8)
-                return TRUE;
-            break;
-
-        case ZONE_CORAL_CAVE:
-            if (gameProgress >= SAVE_PROGRESS_16)
-                return TRUE;
-            break;
-
-        case ZONE_HAUNTED_SHIP:
-            if (gameProgress >= SAVE_PROGRESS_21)
-                return TRUE;
-            break;
-
-        case ZONE_BLIZZARD_PEAKS:
-            if (zone5Progress >= SAVE_ZONE5_PROGRESS_4)
-                return TRUE;
-            break;
-
-        case ZONE_SKY_BABYLON:
-            if (zone6Progress >= SAVE_ZONE6_PROGRESS_6)
-                return TRUE;
-            break;
-
-        case ZONE_PIRATES_ISLAND:
-            if (gameProgress >= SAVE_PROGRESS_35)
-                return TRUE;
-            break;
-
-        case ZONE_BIG_SWELL:
-            if (gameProgress >= SAVE_PROGRESS_36)
-                return TRUE;
-            break;
-
-        case ZONE_DEEP_CORE:
-            if (gameProgress >= SAVE_PROGRESS_39)
-                return TRUE;
-            break;
-    }
-
-    return FALSE;
-}
-
-BOOL SaveGame__HasBeatenTutorial(void)
-{
-    return SaveGame__GetGameProgress() >= SAVE_PROGRESS_1;
-}
-
-BOOL SaveGame__GetProgressFlags_0x1(void)
-{
-    return (saveGame.stage.progress.flags & 1) == 0;
-}
-
-BOOL SaveGame__CheckProgress12(void)
-{
-    return SaveGame__GetGameProgress() >= SAVE_PROGRESS_12;
-}
-
-BOOL SaveGame__CheckProgressZone5OrZone6NotClear(void)
-{
-    if (SaveGame__GetGameProgress() != SAVE_PROGRESS_24)
-        return FALSE;
-
-    if (SaveGame__GetZone5Progress() != SAVE_ZONE5_PROGRESS_4)
-        return FALSE;
-
-    return SaveGame__GetZone6Progress() == SAVE_ZONE6_PROGRESS_6;
-}
-
-BOOL SaveGame__CheckProgress30(void)
-{
-    return SaveGame__GetGameProgress() == SAVE_PROGRESS_30;
-}
-
-BOOL SaveGame__CheckProgress15(void)
-{
-    return SaveGame__GetGameProgress() == SAVE_PROGRESS_15 && SaveGame__GetProgressCounter() >= 1;
-}
-
-BOOL SaveGame__CheckProgressForShip(u32 id)
-{
-    SaveProgress progress;
-    switch (id)
-    {
-        case SHIP_BOAT - 1:
-            progress = SAVE_PROGRESS_9;
-            break;
-
-        case SHIP_HOVER - 1:
-            progress = SAVE_PROGRESS_22;
-            break;
-
-        case SHIP_SUBMARINE - 1:
-            progress = SAVE_PROGRESS_26;
-            break;
-    }
-
-    return progress == SaveGame__GetGameProgress();
-}
-
-BOOL SaveGame__GetProgressFlags_0x10(void)
-{
-    return (saveGame.stage.progress.flags & 0x10) != 0;
-}
-
-void SaveGame__SetProgressFlags_0x10(void)
-{
-    saveGame.stage.progress.flags |= 0x10;
-}
-
-BOOL SaveGame__CanBuyDecoration(u16 id)
-{
-    s32 gameProgress  = SaveGame__GetGameProgress();
-    s32 zone5Progress = SaveGame__GetZone5Progress();
-    s32 zone6Progress = SaveGame__GetZone6Progress();
-
-    if (gameProgress >= _02110D00[id].gameProgress && zone5Progress >= _02110D00[id].zone5Progress && zone6Progress >= _02110D00[id].zone6Progress)
-        return TRUE;
-    else
-        return FALSE;
-}
-
-BOOL SaveGame__GetBoughtDecoration(u16 id)
-{
-    return (saveGame.stage.progress.flags & (0x20 << id)) != 0;
-}
-
-void SaveGame__SetBoughtDecoration(u16 id)
-{
-    saveGame.stage.progress.flags |= 0x20 << id;
-}
-
-BOOL SaveGame__GetProgressFlags_0x100000(u32 id)
-{
-    return (saveGame.stage.progress.flags & (0x100000 << id)) != 0;
-}
-
-void SaveGame__SetProgressFlags_0x100000(u32 id)
-{
-    saveGame.stage.progress.flags |= 0x100000 << id;
-}
-
-BOOL SaveGame__CheckProgressIsHuntingForClues(void)
-{
-    return SaveGame__GetGameProgress() == SAVE_PROGRESS_29;
-}
-
-BOOL SaveGame__CanBuyInfoHint(void)
-{
-    return saveGame.stage.ringCount >= 800;
-}
-
-void SaveGame__BuyInfoHint(void)
-{
-    saveGame.stage.ringCount -= 800;
-}
-
-BOOL SaveGame__CheckProgressIsAllEmeraldsCollected(void)
-{
-    return SaveGame__GetGameProgress() >= SAVE_PROGRESS_37;
-}
-
-u16 SaveGame__GetTargetFlagIconCount(s32 seaMapViewType)
-{
-    u8 gameProgress = SaveGame__GetGameProgress();
-
-    u8 zoneProgressList[2];
-    zoneProgressList[0] = SaveGame__GetZone5Progress();
-    zoneProgressList[1] = SaveGame__GetZone6Progress();
-
-    s32 i;
-    u16 count = 0;
-    for (i = 0; i < 15; i++)
-    {
-        const SaveGameUnknown205D65C *progress1 = &_02110D48[i];
-
-        if (gameProgress >= progress1->gameProgress && gameProgress < progress1->zone5Progress)
-        {
-            s16 id = (progress1->zone6Progress - 1);
-
-            if (id >= 0)
-            {
-                const SaveGameUnknown205D65C_2 *progress2 = &_02110D12[id];
-                u8 zoneProgress                           = zoneProgressList[progress2->zoneID];
-
-                if (zoneProgress < progress2->minProgress || zoneProgress >= progress2->maxProgress)
-                    continue;
-            }
-
-            if (i < 12 || i > 14 || SaveGame__GetProgressFlags_0x100000((u16)(i - 12)) && SaveGame__HasDoorPuzzlePiece((u16)(i - 12)) == FALSE)
-                count++;
-        }
-    }
-
-    return count;
-}
-
-s32 SaveGame__GetTargetFlagIcon(s32 targetIndex)
-{
-    u8 gameProgress = SaveGame__GetGameProgress();
-
-    u8 zoneProgressList[2];
-    zoneProgressList[0] = SaveGame__GetZone5Progress();
-    zoneProgressList[1] = SaveGame__GetZone6Progress();
-
-    s32 i;
-    u16 index = 0;
-    for (i = 0; i < 15; i++)
-    {
-        const SaveGameUnknown205D65C *progress1 = &_02110D48[i];
-
-        if (gameProgress >= progress1->gameProgress && gameProgress < progress1->zone5Progress)
-        {
-            s16 id = (progress1->zone6Progress - 1);
-
-            if (id >= 0)
-            {
-                const SaveGameUnknown205D65C_2 *progress2 = &_02110D12[id];
-                u8 zoneProgress                           = zoneProgressList[progress2->zoneID];
-
-                if (zoneProgress < progress2->minProgress || zoneProgress >= progress2->maxProgress)
-                    continue;
-            }
-
-            if (i < 12 || i > 14 || SaveGame__GetProgressFlags_0x100000((u16)(i - 12)) && SaveGame__HasDoorPuzzlePiece((u16)(i - 12)) == FALSE)
-            {
-                if (targetIndex == index)
-                    return _02110D2A[i];
-
-                index++;
-            }
-        }
-    }
-
-    return SEAMAPMANAGER_DISCOVER_42;
-}
-
-ShipLevel SaveGame__GetShipUpgradeStatus(u16 id)
-{
-    return SaveGame__GetShipUpgradeStatus_(id, saveGame.stage.progress.flags);
-}
-
-ShipLevel SaveGame__GetShipUpgradeStatus_(u16 id, u32 flags)
-{
-    if ((flags & (0x800 << (2 * id))) == 0)
-        return SHIP_LEVEL_0;
-
-    if ((flags & ((0x800 << (2 * id)) << 1)) != 0)
-        return SHIP_LEVEL_2;
-
-    return SHIP_LEVEL_1;
-}
-
-#include <nitro/codereset.h>

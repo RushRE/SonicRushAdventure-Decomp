@@ -76,20 +76,22 @@ typedef u32 SaveBlockFlags;
 
 enum SaveProgressType_
 {
-    SAVE_PROGRESSTYPE_0,
-    SAVE_PROGRESSTYPE_1,
-    SAVE_PROGRESSTYPE_2,
-    SAVE_PROGRESSTYPE_3,
-    SAVE_PROGRESSTYPE_4,
-    SAVE_PROGRESSTYPE_5,
-    SAVE_PROGRESSTYPE_6,
-    SAVE_PROGRESSTYPE_7,
-    SAVE_PROGRESSTYPE_8,
-    SAVE_PROGRESSTYPE_9,
-    SAVE_PROGRESSTYPE_10,
-    SAVE_PROGRESSTYPE_11,
+    SAVE_PROGRESSTYPE_RETURN_TO_HUB,
+    SAVE_PROGRESSTYPE_SEAMAP_UNKNOWN,
+    SAVE_PROGRESSTYPE_BEGIN_SAILING,
+    SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
+    SAVE_PROGRESSTYPE_ADVANCE_STAGE,
+    SAVE_PROGRESSTYPE_STAGE_CLEAR,
+    SAVE_PROGRESSTYPE_BEGIN_RIVAL_RACE,
+    SAVE_PROGRESSTYPE_FINISH_RIVAL_RACE,
+    SAVE_PROGRESSTYPE_EX_PROLOGUE,
+    SAVE_PROGRESSTYPE_EX_EPILOGUE,
+    SAVE_PROGRESSTYPE_DOOR_PUZZLE_COMPLETE,
+    SAVE_PROGRESSTYPE_NON_STAGE_ISLAND_ARRIVAL,
 
     SAVE_PROGRESSTYPE_COUNT,
+
+    SAVE_PROGRESSTYPE_NO_CHECK = SAVE_PROGRESSTYPE_COUNT + 1,
 };
 typedef s32 SaveProgressType;
 
@@ -106,7 +108,7 @@ enum SaveProgress_
     SAVE_PROGRESS_8,  // cleared machine labyrinth boss
     SAVE_PROGRESS_9,  // built ocean tornado
     SAVE_PROGRESS_10, // visited ocean tornado dock
-    SAVE_PROGRESS_11, // ???
+    SAVE_PROGRESS_11, // entered ocean tornado
     SAVE_PROGRESS_12, // encountered johnny for the first time
     SAVE_PROGRESS_13, // cleared hidden island 1
     SAVE_PROGRESS_14, // cleared coral cave act 1
@@ -119,14 +121,14 @@ enum SaveProgress_
     SAVE_PROGRESS_21, // cleared haunted ship boss
     SAVE_PROGRESS_22, // built aqua blast
     SAVE_PROGRESS_23, // visited aqua blast dock
-    SAVE_PROGRESS_24, // blizzard peaks or sky babylon has yet to be cleared
+    SAVE_PROGRESS_24, // bentered aqua blast & blizzard peaks or sky babylon has yet to be cleared
     SAVE_PROGRESS_25, // cleared blizzard peaks and sky babylon
     SAVE_PROGRESS_26, // built deep typhoon
     SAVE_PROGRESS_27, // visited deep typhoon dock
-    SAVE_PROGRESS_28, // ???
+    SAVE_PROGRESS_28, // entered deep typhoon
     SAVE_PROGRESS_29, // hunting for door puzzle keys
-    SAVE_PROGRESS_30, // ???
-    SAVE_PROGRESS_31, // collected all door puzzle keys
+    SAVE_PROGRESS_30, // collected all door puzzle keys
+    SAVE_PROGRESS_31, // marine is missing
     SAVE_PROGRESS_32, // cleared door puzzle
     SAVE_PROGRESS_33, // cleared pirates island act 1
     SAVE_PROGRESS_34, // cleared pirates island act 2
@@ -137,14 +139,16 @@ enum SaveProgress_
     SAVE_PROGRESS_39, // cleared deep core
 
     SAVE_PROGRESS_COUNT,
+
+    SAVE_PROGRESS_INVALID = 0xFF,
 };
 typedef s32 SaveProgress;
 
 // Blizzard peaks progress
 enum SaveProgressZone5_
 {
-    SAVE_ZONE5_PROGRESS_0, // ???
-    SAVE_ZONE5_PROGRESS_1, // ???
+    SAVE_ZONE5_PROGRESS_0, // game progress is less than 'SAVE_PROGRESS_24'
+    SAVE_ZONE5_PROGRESS_1, // can progress blizzard peaks plotline
     SAVE_ZONE5_PROGRESS_2, // cleared blizzard peaks act 1
     SAVE_ZONE5_PROGRESS_3, // cleared blizzard peaks act 2
     SAVE_ZONE5_PROGRESS_4, // cleared blizzard peaks boss
@@ -156,8 +160,8 @@ typedef s32 SaveProgressZone5;
 // Sky babylon progress
 enum SaveProgressZone6_
 {
-    SAVE_ZONE6_PROGRESS_0, // ???
-    SAVE_ZONE6_PROGRESS_1, // ???
+    SAVE_ZONE6_PROGRESS_0, // game progress is less than 'SAVE_PROGRESS_24'
+    SAVE_ZONE6_PROGRESS_1, // can progress sky babylon plotline
     SAVE_ZONE6_PROGRESS_2, // visited daikun's island
     SAVE_ZONE6_PROGRESS_3, // cleared hidden island 2
     SAVE_ZONE6_PROGRESS_4, // cleared sky babylon act 2
@@ -167,6 +171,45 @@ enum SaveProgressZone6_
     SAVE_ZONE6_PROGRESS_COUNT,
 };
 typedef s32 SaveProgressZone6;
+
+enum SaveProgressFlags_
+{
+    SAVE_PROGRESSFLAG_NONE = 0x00,
+
+    SAVE_PROGRESSFLAG_INCREMENTED_ZONE6_PROGRESS  = 1 << 0,
+    SAVE_PROGRESSFLAG_HAS_DOOR_PUZZLE_PIECE_1     = 1 << 1,
+    SAVE_PROGRESSFLAG_HAS_DOOR_PUZZLE_PIECE_2     = 1 << 2,
+    SAVE_PROGRESSFLAG_HAS_DOOR_PUZZLE_PIECE_3     = 1 << 3,
+    SAVE_PROGRESSFLAG_UNLOCKED_MOVIE_LIST         = 1 << 4,
+    SAVE_PROGRESSFLAG_BOUGHT_DECORATION_1         = 1 << 5,
+    SAVE_PROGRESSFLAG_BOUGHT_DECORATION_2         = 1 << 6,
+    SAVE_PROGRESSFLAG_BOUGHT_DECORATION_3         = 1 << 7,
+    SAVE_PROGRESSFLAG_ANY_ACT1_CLEAR              = 1 << 8,
+    SAVE_PROGRESSFLAG_ZONE5_ACT1_CLEAR            = 1 << 9,
+    SAVE_PROGRESSFLAG_ZONE6_ACT1_CLEAR            = 1 << 10,
+    SAVE_PROGRESSFLAG_UPGRADED_SHIP_LV1_JET       = 1 << 11,
+    SAVE_PROGRESSFLAG_UPGRADED_SHIP_LV2_JET       = 1 << 12,
+    SAVE_PROGRESSFLAG_UPGRADED_SHIP_LV1_BOAT      = 1 << 13,
+    SAVE_PROGRESSFLAG_UPGRADED_SHIP_LV2_BOAT      = 1 << 14,
+    SAVE_PROGRESSFLAG_UPGRADED_SHIP_LV1_HOVER     = 1 << 15,
+    SAVE_PROGRESSFLAG_UPGRADED_SHIP_LV2_HOVER     = 1 << 16,
+    SAVE_PROGRESSFLAG_UPGRADED_SHIP_LV1_SUBMARINE = 1 << 17,
+    SAVE_PROGRESSFLAG_UPGRADED_SHIP_LV2_SUBMARINE = 1 << 18,
+    SAVE_PROGRESSFLAG_HAS_SAVED                   = 1 << 19,
+    SAVE_PROGRESSFLAG_BOUGHT_HINT_1               = 1 << 20,
+    SAVE_PROGRESSFLAG_BOUGHT_HINT_2               = 1 << 21,
+    SAVE_PROGRESSFLAG_BOUGHT_HINT_3               = 1 << 22,
+    SAVE_PROGRESSFLAG_800000                      = 1 << 23,
+    SAVE_PROGRESSFLAG_1000000                     = 1 << 24,
+    SAVE_PROGRESSFLAG_2000000                     = 1 << 25,
+    SAVE_PROGRESSFLAG_4000000                     = 1 << 26,
+    SAVE_PROGRESSFLAG_8000000                     = 1 << 27,
+    SAVE_PROGRESSFLAG_10000000                    = 1 << 28,
+    SAVE_PROGRESSFLAG_20000000                    = 1 << 29,
+    SAVE_PROGRESSFLAG_40000000                    = 1 << 30,
+    SAVE_PROGRESSFLAG_80000000                    = 1 << 31,
+};
+typedef u32 SaveProgressFlags;
 
 enum SaveVsRecordType_
 {
@@ -221,15 +264,6 @@ enum SaveIslandProgress
     SAVE_ISLAND_COUNT,
 };
 
-enum SaveProgressMode_
-{
-    SAVE_PROGRESS_MODE_COMMON,
-    SAVE_PROGRESS_MODE_ZONE_DISCOVERED,
-    SAVE_PROGRESS_MODE_ZONE5_DISCOVERED,
-    SAVE_PROGRESS_MODE_ZONE6_DISCOVERED,
-};
-typedef u8 SaveProgressMode;
-
 enum SaveStageRank_
 {
     SAVE_STAGE_RANK_S,
@@ -262,7 +296,7 @@ typedef struct SaveRecordTime_
 
 typedef struct SaveGameProgress_
 {
-    u32 flags;
+    SaveProgressFlags flags;
     u8 gameProgress;
     u8 zone5Progress;
     u8 zone6Progress;
@@ -405,24 +439,6 @@ typedef struct SaveGame_
     SaveBlockOnlineLeaderboards leaderboards;
 } SaveGame;
 
-typedef struct SaveGameUnknown2119CCC_
-{
-    u16 type;
-    u16 progressCheckValue;
-    u16 table1Pos;
-    u16 id;
-    u16 nextSysEvent;
-    u16 allowProgressIncrement;
-} SaveGameNextAction;
-
-typedef struct SaveGameUnknown205D150_
-{
-    u8 gameProgress;
-    u8 zone5Progress;
-    u8 zone6Progress;
-    u8 mode;
-} SaveGameUnknown205D150;
-
 // --------------------
 // VARIABLES
 // --------------------
@@ -465,47 +481,12 @@ void SaveGame__SetDoneFirstShipVoyage(s32 id);
 BOOL SaveGame__HasDoneFirstShipVoyage(s32 id);
 void SaveGame__ClearCallback_Stage(SaveGame *save, SaveBlockFlags blockFlags);
 void SaveGame__UpdateProgress(void);
-const SaveGameNextAction *SaveGame__GetNextActionFromProgress(void);
-void SaveGame__UpdateProgress2_Type0(void);
-void SaveGame__UpdateProgress2_Type1(void);
-void SaveGame__UpdateProgress2_Type2(void);
-void SaveGame__UpdateProgress2_Type3(void);
-void SaveGame__UpdateProgress2_Type4(void);
-void SaveGame__UpdateProgress2_Type5(void);
-void SaveGame__UpdateProgress2_Type6(void);
-void SaveGame__UpdateProgress2_Type7(void);
-void SaveGame__UpdateProgress2_Type8(void);
-void SaveGame__UpdateProgress2_Type9(void);
-void SaveGame__UpdateProgress2_Type10(void);
-void SaveGame__UpdateProgress2_Type11(void);
-
-BOOL SaveGame__ProgressCheck_Type0(s32 id);
-BOOL SaveGame__ProgressCheck_Type1(s32 id);
-BOOL SaveGame__ProgressCheck_Type2(s32 id);
-BOOL SaveGame__ProgressCheck_Type3(s32 id);
-BOOL SaveGame__ProgressCheck_Type4(s32 id);
-BOOL SaveGame__ProgressCheck_Type5(s32 id);
-BOOL SaveGame__ProgressCheck_Type6(s32 id);
-BOOL SaveGame__ProgressCheck_Type7(s32 id);
-BOOL SaveGame__ProgressCheck_Type8(s32 id);
-BOOL SaveGame__ProgressCheck_Type9(s32 id);
-BOOL SaveGame__ProgressCheck_Type10(s32 id);
-BOOL SaveGame__ProgressCheck_Type11(s32 id);
-
-void SaveGame__UpdateProgress1_Func_205CB60(const SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CBC4(const SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CBD0(const SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CBDC(const SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CBE8(const SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CBF4(const SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CC04(const SaveGameNextAction *action);
-void SaveGame__UpdateProgress1_Func_205CC3C(const SaveGameNextAction *action);
 
 void SaveGame__ChangeEvent(s32 sysEvent);
 void SaveGame__RestartEvent(void);
 void SaveGame__StartCutscene(u16 cutsceneID, s32 nextEvent, BOOL flag);
 void SaveGame__StartTutorial(void);
-void SaveGame__StartEvent37(void);
+void SaveGame__StartSailTraining(void);
 void SaveGame__StartSailJetTraining(void);
 void SaveGame__StartHubMenu(void);
 void SaveGame__StartSeaMapUnknown(void);
@@ -517,8 +498,8 @@ void SaveGame__StartDoorPuzzle(BOOL flag);
 void SaveGame__StartStageSelect(void);
 void SaveGame__StartEmeraldCollected(void);
 void SaveGame__IncrementGameProgress(void);
-void SaveGame__IncrementUnknownProgress1(void);
-void SaveGame__IncrementUnknownProgress2(void);
+void SaveGame__IncrementZone5Progress(void);
+void SaveGame__IncrementZone6Progress(void);
 void SaveGame__IncrementProgressCounter(void);
 void SaveGame__ResetProgressCounter(void);
 s32 SaveGame__GetProgressType(void);
@@ -526,30 +507,30 @@ BOOL SaveGame__GetStateFlag(u16 id);
 void SaveGame__EnableStateFlags(u16 mask);
 void SaveGame__DisableStateFlags(u16 mask);
 void SaveGame__ApplySystemProgress(void);
-void SaveGame__SetProgressFlags_0x100(void);
-void SaveGame__SetProgressFlags_0x200(void);
-void SaveGame__SetProgressFlags_0x400(void);
-void SaveGame__RemoveProgressFlags_0x100(void);
-void SaveGame__RemoveProgressFlags_0x200(void);
-void SaveGame__RemoveProgressFlags_0x400(void);
-BOOL SaveGame__Func_205D150(s32 stageID);
+void SaveGame__SetProgressFlags_ZoneAct1Clear(void);
+void SaveGame__SetProgressFlags_Zone5Act1Clear(void);
+void SaveGame__SetProgressFlags_Zone6Act1Clear(void);
+void SaveGame__RemoveProgressFlags_ZoneAct1Clear(void);
+void SaveGame__RemoveProgressFlags_Zone5Act1Clear(void);
+void SaveGame__RemoveProgressFlags_Zone6Act1Clear(void);
+BOOL SaveGame__CanStageClearIncrementProgress(s32 stageID);
 BOOL SaveGame__IsShipUnlocked(ShipType ship);
 BOOL SaveGame__BlazeUnlocked(void);
 BOOL SaveGame__CheckZoneBeaten(s32 id);
 BOOL SaveGame__HasBeatenTutorial(void);
 BOOL SaveGame__GetProgressFlags_0x1(void);
-BOOL SaveGame__CheckProgress12(void);
+BOOL SaveGame__HasEncounteredJohnny(void);
 BOOL SaveGame__CheckProgressZone5OrZone6NotClear(void);
 BOOL SaveGame__CheckProgress30(void);
 BOOL SaveGame__CheckProgress15(void);
 BOOL SaveGame__CheckProgressForShip(u32 id);
-BOOL SaveGame__GetProgressFlags_0x10(void);
-void SaveGame__SetProgressFlags_0x10(void);
+BOOL SaveGame__GetProgressFlags_UnlockedMovieList(void);
+void SaveGame__SetProgressFlags_UnlockedMovieList(void);
 BOOL SaveGame__CanBuyDecoration(u16 id);
 BOOL SaveGame__GetBoughtDecoration(u16 id);
 void SaveGame__SetBoughtDecoration(u16 id);
-BOOL SaveGame__GetProgressFlags_0x100000(u32 id);
-void SaveGame__SetProgressFlags_0x100000(u32 id);
+BOOL SaveGame__GetProgressFlags_HintInfoPurchased(u32 id);
+void SaveGame__SetProgressFlags_HintInfoPurchased(u32 id);
 BOOL SaveGame__CheckProgressIsHuntingForClues(void);
 BOOL SaveGame__CanBuyInfoHint(void);
 void SaveGame__BuyInfoHint(void);

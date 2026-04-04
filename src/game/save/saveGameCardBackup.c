@@ -11,6 +11,16 @@
 
 #define SAVEGAME_FILE_SIGNATURE "sonic_rush2"
 
+// Blocks are aligned to 0x80 bytes when written to card
+#define SAVEGAME_PAGE_SIZE              0x80
+#define SAVEGAME_PAGE_PADDING(byteSize) (SAVEGAME_PAGE_SIZE - ((byteSize) % SAVEGAME_PAGE_SIZE))
+
+// Determine block write size
+#define SAVEGAME_BLOCK_CARD_SIZE(blockSize)        ((2 * (blockSize)) + sizeof(SaveIOBlockHeader))
+
+// Determine Block write size (aligned upwards to 0x80 bytes)
+#define SAVEGAME_BLOCK_PADDED_CARD_SIZE(blockSize) (SAVEGAME_BLOCK_CARD_SIZE(blockSize) + SAVEGAME_PAGE_PADDING(SAVEGAME_BLOCK_CARD_SIZE(blockSize)))
+
 // --------------------
 // TYPES
 // --------------------
@@ -37,37 +47,108 @@ typedef struct SaveIOBlock_
 // TEMP
 // --------------------
 
-NOT_DECOMPILED const char *aSonicRush2;
+NOT_DECOMPILED const char aSonicRush2[];
 
 // --------------------
 // VARIABLES
 // --------------------
 
-const SaveGameCallback SaveGame__SaveCallbacks[1]  = { SaveGame__SaveCallback_OnlineProfile };
-const SaveGameCallback SaveGame__LoadCallbacks[1]  = { SaveGame__LoadCallback_Unknown };
-const SaveGameCallback SaveGame__ClearCallbacks[3] = { SeaMapManager__SaveClearCallback_Chart, SaveGame__ClearCallback_Stage, SaveGame__ClearCallback_Common };
+const SaveGameCallback sSaveWriteCallbackList[1] = { SaveGame__SaveCallback_OnlineProfile };
+const SaveGameCallback sSaveReadCallbackList[1]  = { SaveGame__LoadCallback_Unknown };
+const SaveGameCallback sSaveClearCallbackList[3] = { SeaMapManager__SaveClearCallback_Chart, SaveGame__ClearCallback_Stage, SaveGame__ClearCallback_Common };
 
-const size_t savedataBlockSizes[9] = { 0x00,
-                                       sizeof(saveGame.system),
-                                       sizeof(saveGame.stage),
-                                       sizeof(saveGame.chart),
-                                       sizeof(saveGame.timeAttack),
-                                       sizeof(saveGame.vikingCup),
-                                       sizeof(saveGame.vsRecords),
-                                       sizeof(saveGame.onlineProfile),
-                                       sizeof(saveGame.leaderboards) };
+const size_t sSaveGameBlockSizes[9] = {
+    // [None] Block Size
+    0x00,
 
-const size_t _02110DDC[9] = { 0x00, 0x00, 0x80, 0x400, 0x1200, 0x1B00, 0x1D80, 0x1E00, 0x2600 };
+    // [System] Block Size
+    sizeof(saveGame.system),
 
-const size_t savedataBlockOffsets[9] = { 0x00,
-                                         offsetof(SaveGame, system),
-                                         offsetof(SaveGame, stage),
-                                         offsetof(SaveGame, chart),
-                                         offsetof(SaveGame, timeAttack),
-                                         offsetof(SaveGame, vikingCup),
-                                         offsetof(SaveGame, vsRecords),
-                                         offsetof(SaveGame, onlineProfile),
-                                         offsetof(SaveGame, leaderboards) };
+    // [Stage] Block Size
+    sizeof(saveGame.stage),
+
+    // [Chart] Block Size
+    sizeof(saveGame.chart),
+
+    // [Time Attack] Block Size
+    sizeof(saveGame.timeAttack),
+
+    // [Viking Cup] Block Size
+    sizeof(saveGame.vikingCup),
+
+    // [VS Records] Block Size
+    sizeof(saveGame.vsRecords),
+
+    // [Online Profile] Block Size
+    sizeof(saveGame.onlineProfile),
+
+    // [Leaderboards] Block Size
+    sizeof(saveGame.leaderboards)
+};
+
+const size_t sSaveGameBlockCardOffsets[9] = {
+    // [None] Block GameCard Offset
+    0x00,
+
+    // [System] Block GameCard Offset
+    0x00,
+
+    // [Stage] Block GameCard Offset
+    SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.system)),
+
+    // [Chart] Block GameCard Offset
+    SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.system)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.stage)),
+
+    // [Time Attack] Block GameCard Offset
+    SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.system)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.stage)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.chart)),
+
+    // [Viking Cup] Block GameCard Offset
+    SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.system)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.stage)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.chart))
+        + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.timeAttack)),
+
+    // [VS Records] Block GameCard Offset
+    SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.system)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.stage)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.chart))
+        + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.timeAttack)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.vikingCup)),
+
+    // [Online Profile] Block GameCard Offset
+    SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.system)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.stage)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.chart))
+        + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.timeAttack)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.vikingCup))
+        + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.vsRecords)),
+
+    // [Leaderboards] Block GameCard Offset
+    SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.system)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.stage)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.chart))
+        + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.timeAttack)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.vikingCup))
+        + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.vsRecords)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.onlineProfile)),
+};
+
+const size_t sSaveGameBlockStructOffsets[9] = {
+    // [None] Block Struct Offset
+    0x00,
+
+    // [System] Block Struct Offset
+    offsetof(SaveGame, system),
+
+    // [Stage] Block Struct Offset
+    offsetof(SaveGame, stage),
+
+    // [Chart] Block Struct Offset
+    offsetof(SaveGame, chart),
+
+    // [Time Attack] Block Struct Offset
+    offsetof(SaveGame, timeAttack),
+
+    // [Viking Cup] Block Struct Offset
+    offsetof(SaveGame, vikingCup),
+
+    // [VS Records] Block Struct Offset
+    offsetof(SaveGame, vsRecords),
+
+    // [Online Profile] Block Struct Offset
+    offsetof(SaveGame, onlineProfile),
+
+    // [Leaderboards] Block Struct Offset
+    offsetof(SaveGame, leaderboards)
+};
 
 // --------------------
 // FUNCTIONS
@@ -91,13 +172,13 @@ void SaveGame__ClearData(SaveGame *work, SaveBlockFlags flags)
         for (s32 b = 0; b < SAVE_BLOCK_COUNT; b++)
         {
             if (((1 << b) & flags) != 0)
-                MI_CpuClear16((u8 *)work + savedataBlockOffsets[b], savedataBlockSizes[b]);
+                MI_CpuClear16((u8 *)work + sSaveGameBlockStructOffsets[b], sSaveGameBlockSizes[b]);
         }
     }
 
-    for (s32 i = 0; i < ARRAY_COUNT(SaveGame__ClearCallbacks); i++)
+    for (s32 i = 0; i < ARRAY_COUNT(sSaveClearCallbackList); i++)
     {
-        SaveGame__ClearCallbacks[i](work, flags);
+        sSaveClearCallbackList[i](work, flags);
     }
 }
 
@@ -195,7 +276,7 @@ _0205D99E:
 	b _0205DE5E
 _0205D9D0:
 	mov r4, #0
-	ldr r6, =SaveGame__SaveCallbacks
+	ldr r6, =sSaveWriteCallbackList
 	b _0205D9E2
 _0205D9D6:
 	lsl r2, r4, #2
@@ -216,10 +297,10 @@ _0205D9F0:
 	mov r0, #1
 	str r0, [sp, #0x44]
 	ldr r0, [sp, #0x40]
-	ldr r1, =savedataBlockSizes
+	ldr r1, =sSaveGameBlockSizes
 	lsl r0, r0, #2
 	ldr r4, [r1, r0]
-	ldr r1, =savedataBlockOffsets
+	ldr r1, =sSaveGameBlockStructOffsets
 	lsl r5, r4, #1
 	add r5, #8
 	str r0, [sp, #8]
@@ -267,7 +348,7 @@ _0205DA4C:
 	add r5, r5, #1
 	cmp r5, #2
 	blt _0205DA4C
-	ldr r1, =_02110DDC
+	ldr r1, =sSaveGameBlockCardOffsets
 	ldr r0, [sp, #8]
 	lsl r7, r4, #1
 	ldr r4, [r1, r0]
@@ -331,7 +412,7 @@ _0205DAD4:
 	ldr r0, [sp, #0x1c]
 	mov r6, #0x37
 	lsl r7, r0, #2
-	ldr r0, =_02110DDC
+	ldr r0, =sSaveGameBlockCardOffsets
 	mov r4, #0
 	ldr r0, [r0, r7]
 	add r5, sp, #0xa0
@@ -421,7 +502,7 @@ _0205DB66:
 	lsr r2, r0, #0x10
 	cmp r2, #3
 	blt _0205DB32
-	ldr r0, =savedataBlockSizes
+	ldr r0, =sSaveGameBlockSizes
 	mov r6, #0
 	ldr r5, [r0, r7]
 	lsl r0, r5, #1
@@ -577,7 +658,7 @@ _0205DCAE:
 	bne _0205DD5A
 	mov r0, #1
 	str r0, [sp, #0x20]
-	ldr r0, =savedataBlockOffsets
+	ldr r0, =sSaveGameBlockStructOffsets
 	lsl r4, r5, #1
 	add r4, #8
 	ldr r7, [r0, r7]
@@ -659,7 +740,7 @@ _0205DD56:
 _0205DD5A:
 	mov r0, #0
 	str r0, [sp, #0x34]
-	ldr r0, =savedataBlockOffsets
+	ldr r0, =sSaveGameBlockStructOffsets
 	lsl r6, r5, #1
 	ldr r0, [r0, r7]
 	add r6, #8
@@ -742,7 +823,7 @@ _0205DDF4:
 	cmp r0, #3
 	bne _0205DE22
 _0205DE02:
-	ldr r0, =_02110DDC
+	ldr r0, =sSaveGameBlockCardOffsets
 	mov r1, #0x37
 	lsl r1, r1, #8
 	mul r1, r3
@@ -809,10 +890,8 @@ _0205DE68:
 #endif
 }
 
-NONMATCH_FUNC SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
+SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
 {
-	// fully matching, just needs 'aSonicRush2' to be decompiled to be completed
-#ifdef NON_MATCHING
     SaveErrorTypes error     = SAVE_ERROR_NONE;
     MATHCRC32Table *crcTable = HeapAllocHead(HEAP_USER, sizeof(MATHCRC32Table));
 
@@ -826,7 +905,7 @@ NONMATCH_FUNC SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
 
     if (ReadFromCardBackup(0, signature, sizeof(SAVEGAME_FILE_SIGNATURE)))
     {
-        s32 valid = STD_CompareNString(signature, SAVEGAME_FILE_SIGNATURE, sizeof(SAVEGAME_FILE_SIGNATURE)) == 0;
+        s32 valid = STD_CompareNString(signature, aSonicRush2, sizeof(SAVEGAME_FILE_SIGNATURE)) == 0;
 
         if (valid == 0)
         {
@@ -849,7 +928,7 @@ NONMATCH_FUNC SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
     {
         char signatureW[sizeof(SAVEGAME_FILE_SIGNATURE)];
         MI_CpuClear16(signatureW, sizeof(SAVEGAME_FILE_SIGNATURE));
-        STD_CopyLStringZeroFill(signatureW, SAVEGAME_FILE_SIGNATURE, sizeof(SAVEGAME_FILE_SIGNATURE));
+        STD_CopyLStringZeroFill(signatureW, aSonicRush2, sizeof(SAVEGAME_FILE_SIGNATURE));
 
         u8 new_var2 = new_var4; // this is needed to trick the compiler into compiling the 'id < 1' loop
         if (WriteToCardBackup(0, signatureW, sizeof(SAVEGAME_FILE_SIGNATURE)) == FALSE)
@@ -861,7 +940,7 @@ NONMATCH_FUNC SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
             u32 id;
             for (id = new_var2; id < 1; id++)
             {
-                SaveGame__SaveCallbacks[id](work, SAVE_BLOCK_FLAG_UNKNOWN | SAVE_BLOCK_FLAG_ALL);
+                sSaveWriteCallbackList[id](work, SAVE_BLOCK_FLAG_UNKNOWN | SAVE_BLOCK_FLAG_ALL);
             }
 
             BOOL success;
@@ -873,8 +952,8 @@ NONMATCH_FUNC SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
             {
                 success = TRUE;
 
-                size_t size   = savedataBlockSizes[b];
-                size_t offset = savedataBlockOffsets[b];
+                size_t size   = sSaveGameBlockSizes[b];
+                size_t offset = sSaveGameBlockStructOffsets[b];
 
                 size_t blockByteSize;
                 size_t blockWriteSize;
@@ -902,7 +981,7 @@ NONMATCH_FUNC SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
 
                 for (u32 s = 0; s < 4; s++)
                 {
-                    if (!WriteToCardBackup(_02110DDC[b] + (0x3700 * (u16)s + 0x80), block, sizeof(SaveIOBlockHeader) + 2 * size))
+                    if (!WriteToCardBackup(sSaveGameBlockCardOffsets[b] + (0x3700 * (u16)s + 0x80), block, sizeof(SaveIOBlockHeader) + 2 * size))
                         success = FALSE;
                 }
 
@@ -920,204 +999,6 @@ NONMATCH_FUNC SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
         HeapFree(HEAP_USER, crcTable);
 
     return error;
-#else
-    // clang-format off
-	push {r4, r5, r6, r7, lr}
-	sub sp, #0x34
-	str r0, [sp]
-	mov r0, #0
-	str r0, [sp, #0x18]
-	mov r0, #1
-	lsl r0, r0, #0xa
-	bl _AllocHeadHEAP_USER
-	ldr r1, =0xEDB88320
-	str r0, [sp, #0x14]
-	bl MATHi_CRC32InitTableRev
-	mov r0, #0xc
-	mov r5, #0
-	bl _AllocHeadHEAP_USER
-	mov r4, r0
-	mov r0, r5
-	mov r1, r4
-	mov r2, #0xc
-	bl ReadFromCardBackup
-	cmp r0, #0
-	beq _0205DEC6
-	ldr r1, =aSonicRush2
-	mov r0, r4
-	mov r2, #0xc
-	bl STD_CompareNString
-	cmp r0, #0
-	bne _0205DEBC
-	mov r0, #1
-	b _0205DEBE
-_0205DEBC:
-	mov r0, r5
-_0205DEBE:
-	cmp r0, #0
-	bne _0205DEC8
-	mov r5, #1
-	b _0205DEC8
-_0205DEC6:
-	mov r5, #2
-_0205DEC8:
-	mov r0, r4
-	bl _FreeHEAP_USER
-	cmp r5, #0
-	beq _0205DEE0
-	cmp r5, #1
-	beq _0205DEE0
-	cmp r5, #2
-	bne _0205DEE0
-	mov r0, #2
-	str r0, [sp, #0x18]
-	b _0205DFEE
-_0205DEE0:
-	mov r0, #0
-	add r1, sp, #0x28
-	mov r2, #0xc
-	bl MIi_CpuClear16
-	ldr r1, =aSonicRush2
-	add r0, sp, #0x28
-	mov r2, #0xc
-	bl STD_CopyLStringZeroFill
-	mov r0, #0
-	add r1, sp, #0x28
-	mov r2, #0xc
-	bl WriteToCardBackup
-	cmp r0, #0
-	bne _0205DF08
-	mov r0, #2
-	str r0, [sp, #0x18]
-	b _0205DFEE
-_0205DF08:
-	mov r5, #0
-	ldr r6, =0x000001FF
-	ldr r4, =SaveGame__SaveCallbacks
-	b _0205DF1C
-_0205DF10:
-	lsl r2, r5, #2
-	ldr r0, [sp]
-	ldr r2, [r4, r2]
-	mov r1, r6
-	blx r2
-	add r5, r5, #1
-_0205DF1C:
-	cmp r5, #1
-	blo _0205DF10
-	mov r0, #1
-	str r0, [sp, #8]
-	str r0, [sp, #0xc]
-_0205DF26:
-	mov r0, #1
-	str r0, [sp, #0x10]
-	ldr r0, [sp, #0xc]
-	ldr r1, =savedataBlockSizes
-	lsl r0, r0, #2
-	ldr r4, [r1, r0]
-	ldr r1, =savedataBlockOffsets
-	lsl r5, r4, #1
-	add r5, #8
-	str r0, [sp, #4]
-	ldr r7, [r1, r0]
-	mov r0, r5
-	bl _AllocHeadHEAP_USER
-	mov r6, r0
-	mov r0, #0
-	mov r1, r6
-	mov r2, r5
-	bl MIi_CpuClear16
-	mov r0, #0
-	str r0, [sp, #0x20]
-	sub r0, r0, #1
-	str r0, [sp, #0x24]
-	ldr r0, [sp, #0x14]
-	add r1, sp, #0x24
-	add r2, sp, #0x20
-	mov r3, #4
-	bl MATHi_CRC32UpdateRev
-	ldr r2, [sp]
-	ldr r0, [sp, #0x14]
-	add r1, sp, #0x24
-	add r2, r2, r7
-	mov r3, r4
-	bl MATHi_CRC32UpdateRev
-	ldr r0, [sp, #0x24]
-	mov r5, #0
-	mvn r0, r0
-	str r0, [r6]
-	mov r0, r6
-	str r0, [sp, #0x1c]
-	add r0, #8
-	str r5, [r6, #4]
-	str r0, [sp, #0x1c]
-_0205DF82:
-	ldr r0, [sp]
-	mov r2, r4
-	ldr r1, [sp, #0x1c]
-	mul r2, r5
-	add r1, r1, r2
-	add r0, r0, r7
-	mov r2, r4
-	bl MIi_CpuCopy16
-	add r5, r5, #1
-	cmp r5, #2
-	blt _0205DF82
-	ldr r1, =_02110DDC
-	ldr r0, [sp, #4]
-	lsl r7, r4, #1
-	ldr r4, [r1, r0]
-	mov r5, #0
-	add r7, #8
-_0205DFA6:
-	lsl r0, r5, #0x10
-	lsr r1, r0, #0x10
-	mov r0, #0x37
-	lsl r0, r0, #8
-	mul r0, r1
-	add r0, #0x80
-	add r0, r4, r0
-	mov r1, r6
-	mov r2, r7
-	bl WriteToCardBackup
-	cmp r0, #0
-	bne _0205DFC4
-	mov r0, #0
-	str r0, [sp, #0x10]
-_0205DFC4:
-	add r5, r5, #1
-	cmp r5, #4
-	blo _0205DFA6
-	mov r0, r6
-	bl _FreeHEAP_USER
-	ldr r0, [sp, #0x10]
-	cmp r0, #0
-	bne _0205DFDA
-	mov r0, #0
-	str r0, [sp, #8]
-_0205DFDA:
-	ldr r0, [sp, #0xc]
-	add r0, r0, #1
-	str r0, [sp, #0xc]
-	cmp r0, #9
-	blt _0205DF26
-	ldr r0, [sp, #8]
-	cmp r0, #0
-	bne _0205DFEE
-	mov r0, #1
-	str r0, [sp, #0x18]
-_0205DFEE:
-	ldr r0, [sp, #0x14]
-	cmp r0, #0
-	beq _0205DFF8
-	bl _FreeHEAP_USER
-_0205DFF8:
-	ldr r0, [sp, #0x18]
-	add sp, #0x34
-	pop {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC SaveErrorTypes SaveGame__LoadData(SaveGame *work, u32 *corruptFlags, u32 *otherFlags)
@@ -1151,7 +1032,7 @@ NONMATCH_FUNC SaveErrorTypes SaveGame__LoadData(SaveGame *work, u32 *corruptFlag
 	bl MIi_CpuClear16
 	mov r5, #0
 	ldr r6, =0x000001FE
-	ldr r4, =SaveGame__ClearCallbacks
+	ldr r4, =sSaveClearCallbackList
 	b _0205E066
 _0205E05A:
 	lsl r2, r5, #2
@@ -1209,16 +1090,16 @@ _0205E0BA:
 	ldr r0, [sp, #0x40]
 	mov r5, #0
 	lsl r1, r0, #2
-	ldr r0, =_02110DDC
+	ldr r0, =sSaveGameBlockCardOffsets
 	str r5, [sp, #0x14]
 	ldr r0, [r0, r1]
 	mov r4, r5
 	str r0, [sp, #0x38]
-	ldr r0, =savedataBlockSizes
+	ldr r0, =sSaveGameBlockSizes
 	add r6, sp, #0x64
 	ldr r0, [r0, r1]
 	str r0, [sp, #0x3c]
-	ldr r0, =savedataBlockOffsets
+	ldr r0, =sSaveGameBlockStructOffsets
 	ldr r0, [r0, r1]
 	str r0, [sp, #0x48]
 	b _0205E100
@@ -1657,7 +1538,7 @@ _0205E3FE:
 	bl MIi_CpuClear16
 	mov r4, #0
 	ldr r6, =0x000001FE
-	ldr r5, =SaveGame__ClearCallbacks
+	ldr r5, =sSaveClearCallbackList
 	b _0205E424
 _0205E418:
 	lsl r2, r4, #2
@@ -1671,7 +1552,7 @@ _0205E424:
 	blo _0205E418
 _0205E428:
 	mov r4, #1
-	ldr r6, =savedataBlockOffsets
+	ldr r6, =sSaveGameBlockStructOffsets
 	mov r5, r4
 _0205E42E:
 	ldr r0, [sp, #4]
@@ -1686,7 +1567,7 @@ _0205E42E:
 	ldr r1, [sp]
 	add r0, r0, r3
 	add r1, r1, r3
-	ldr r3, =savedataBlockSizes
+	ldr r3, =sSaveGameBlockSizes
 	ldr r2, [r3, r2]
 	bl MIi_CpuCopy16
 _0205E44E:
@@ -1694,7 +1575,7 @@ _0205E44E:
 	cmp r4, #9
 	blt _0205E42E
 	mov r4, #0
-	ldr r5, =SaveGame__LoadCallbacks
+	ldr r5, =sSaveReadCallbackList
 	b _0205E464
 _0205E45A:
 	lsl r1, r4, #2

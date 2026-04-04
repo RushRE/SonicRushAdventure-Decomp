@@ -2,11 +2,36 @@
 #include <game/save/saveGame.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum SaveProgressMode_
+{
+    SAVE_PROGRESS_EXTRACHECK_COMMON,
+    SAVE_PROGRESS_EXTRACHECK_ZONE_DISCOVERED,
+    SAVE_PROGRESS_EXTRACHECK_ZONE5_DISCOVERED,
+    SAVE_PROGRESS_EXTRACHECK_ZONE6_DISCOVERED,
+};
+typedef u8 SaveProgressMode;
+
+// --------------------
+// STRUCTS
+// --------------------
+
+typedef struct StageProgressCheck_
+{
+    u8 gameProgress;
+    u8 zone5Progress;
+    u8 zone6Progress;
+    u8 extraCheck;
+} StageProgressCheck;
+
+// --------------------
 // VARIABLES
 // --------------------
 
 static const u16 sLeaderboardStageTable[] = { STAGE_Z11, STAGE_Z12, STAGE_Z21, STAGE_Z22, STAGE_Z31, STAGE_Z32, STAGE_Z41,
-                                             STAGE_Z42, STAGE_Z51, STAGE_Z52, STAGE_Z61, STAGE_Z62, STAGE_Z71, STAGE_Z72 };
+                                              STAGE_Z42, STAGE_Z51, STAGE_Z52, STAGE_Z61, STAGE_Z62, STAGE_Z71, STAGE_Z72 };
 
 static const u16 sStageSelectIDTable[STAGE_COUNT_NO_RACES] = {
     [STAGE_Z11]               = 0,
@@ -103,69 +128,271 @@ static const u16 sTimeAttackRecordsIDTable[STAGE_COUNT] = {
     [STAGE_HIDDEN_ISLAND_R3]  = 45,
 };
 
-// clang-format off
-static const SaveGameUnknown205D150 sProgressCheck_Unlocked[STAGE_BOSS_FINAL + 2] = {
-    [STAGE_Z11]               = { .gameProgress = SAVE_PROGRESS_3, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z12]               = { .gameProgress = SAVE_PROGRESS_3, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_ZONE_DISCOVERED },
-    [STAGE_TUTORIAL]          = { .gameProgress = SAVE_PROGRESS_1, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z1B]               = { .gameProgress = SAVE_PROGRESS_4, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z21]               = { .gameProgress = SAVE_PROGRESS_6, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z22]               = { .gameProgress = SAVE_PROGRESS_6, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_ZONE_DISCOVERED },
-    [STAGE_Z2B]               = { .gameProgress = SAVE_PROGRESS_7, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z31]               = { .gameProgress = SAVE_PROGRESS_14, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z32]               = { .gameProgress = SAVE_PROGRESS_14, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_ZONE_DISCOVERED },
-    [STAGE_HIDDEN_ISLAND_1]   = { .gameProgress = SAVE_PROGRESS_13, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z3B]               = { .gameProgress = SAVE_PROGRESS_15, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z41]               = { .gameProgress = SAVE_PROGRESS_19, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z42]               = { .gameProgress = SAVE_PROGRESS_19, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_ZONE_DISCOVERED },
-    [STAGE_Z4B]               = { .gameProgress = SAVE_PROGRESS_20, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z51]               = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_2, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z52]               = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_2, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_ZONE5_DISCOVERED },
-    [STAGE_Z5B]               = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_3, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z61]               = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_4, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z62]               = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_4, .mode = SAVE_PROGRESS_MODE_ZONE6_DISCOVERED },
-    [STAGE_HIDDEN_ISLAND_2]   = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_3, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z6B]               = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_5, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z71]               = { .gameProgress = SAVE_PROGRESS_33, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z72]               = { .gameProgress = SAVE_PROGRESS_33, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6, .mode = SAVE_PROGRESS_MODE_ZONE_DISCOVERED },
-    [STAGE_Z7B]               = { .gameProgress = SAVE_PROGRESS_34, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_BOSS_FINAL]        = { .gameProgress = SAVE_PROGRESS_35, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6, .mode = SAVE_PROGRESS_MODE_COMMON },
+static const StageProgressCheck sProgressCheck_Unlocked[STAGE_COUNT_NON_OPTIONAL + 1] = {
+    [STAGE_Z11] = { .gameProgress  = SAVE_PROGRESS_3,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z12] = { .gameProgress  = SAVE_PROGRESS_3,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE_DISCOVERED },
+
+    [STAGE_TUTORIAL] = { .gameProgress  = SAVE_PROGRESS_1,
+                         .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                         .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                         .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z1B] = { .gameProgress  = SAVE_PROGRESS_4,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z21] = { .gameProgress  = SAVE_PROGRESS_6,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z22] = { .gameProgress  = SAVE_PROGRESS_6,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE_DISCOVERED },
+
+    [STAGE_Z2B] = { .gameProgress  = SAVE_PROGRESS_7,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z31] = { .gameProgress  = SAVE_PROGRESS_14,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z32] = { .gameProgress  = SAVE_PROGRESS_14,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE_DISCOVERED },
+
+    [STAGE_HIDDEN_ISLAND_1] = { .gameProgress  = SAVE_PROGRESS_13,
+                                .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                                .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                                .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z3B] = { .gameProgress  = SAVE_PROGRESS_15,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z41] = { .gameProgress  = SAVE_PROGRESS_19,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z42] = { .gameProgress  = SAVE_PROGRESS_19,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE_DISCOVERED },
+
+    [STAGE_Z4B] = { .gameProgress  = SAVE_PROGRESS_20,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z51] = { .gameProgress  = SAVE_PROGRESS_24,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_2,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z52] = { .gameProgress  = SAVE_PROGRESS_24,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_2,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE5_DISCOVERED },
+
+    [STAGE_Z5B] = { .gameProgress  = SAVE_PROGRESS_24,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_3,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z61] = { .gameProgress  = SAVE_PROGRESS_24,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_4,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z62] = { .gameProgress  = SAVE_PROGRESS_24,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_4,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE6_DISCOVERED },
+
+    [STAGE_HIDDEN_ISLAND_2] = { .gameProgress  = SAVE_PROGRESS_24,
+                                .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                                .zone6Progress = SAVE_ZONE6_PROGRESS_3,
+                                .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z6B] = { .gameProgress  = SAVE_PROGRESS_24,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_5,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z71] = { .gameProgress  = SAVE_PROGRESS_33,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_4,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_6,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z72] = { .gameProgress  = SAVE_PROGRESS_33,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_4,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_6,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE_DISCOVERED },
+
+    [STAGE_Z7B] = { .gameProgress  = SAVE_PROGRESS_34,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_4,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_6,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_BOSS_FINAL] = { .gameProgress  = SAVE_PROGRESS_35,
+                           .zone5Progress = SAVE_ZONE5_PROGRESS_4,
+                           .zone6Progress = SAVE_ZONE6_PROGRESS_6,
+                           .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
 
     // Deep Core progress check
-    { .gameProgress = SAVE_PROGRESS_38, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6, .mode = SAVE_PROGRESS_MODE_COMMON },
+    [1 + STAGE_BOSS_FINAL] = { .gameProgress  = SAVE_PROGRESS_38,
+                               .zone5Progress = SAVE_ZONE5_PROGRESS_4,
+                               .zone6Progress = SAVE_ZONE6_PROGRESS_6,
+                               .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
 };
 
-static const SaveGameUnknown205D150 sProgressCheck_Cleared[STAGE_BOSS_FINAL + 2] = {
-    [STAGE_Z11]               = { .gameProgress = SAVE_PROGRESS_3, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_ZONE_DISCOVERED },
-    [STAGE_Z12]               = { .gameProgress = SAVE_PROGRESS_4, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_TUTORIAL]          = { .gameProgress = SAVE_PROGRESS_1, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z1B]               = { .gameProgress = SAVE_PROGRESS_5, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z21]               = { .gameProgress = SAVE_PROGRESS_6, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_ZONE_DISCOVERED },
-    [STAGE_Z22]               = { .gameProgress = SAVE_PROGRESS_7, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z2B]               = { .gameProgress = SAVE_PROGRESS_8, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z31]               = { .gameProgress = SAVE_PROGRESS_14, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_ZONE_DISCOVERED },
-    [STAGE_Z32]               = { .gameProgress = SAVE_PROGRESS_15, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_HIDDEN_ISLAND_1]   = { .gameProgress = SAVE_PROGRESS_14, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z3B]               = { .gameProgress = SAVE_PROGRESS_16, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z41]               = { .gameProgress = SAVE_PROGRESS_19, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_ZONE_DISCOVERED },
-    [STAGE_Z42]               = { .gameProgress = SAVE_PROGRESS_20, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z4B]               = { .gameProgress = SAVE_PROGRESS_21, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z51]               = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_2, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_ZONE5_DISCOVERED },
-    [STAGE_Z52]               = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_3, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z5B]               = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_0, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z61]               = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_4, .mode = SAVE_PROGRESS_MODE_ZONE6_DISCOVERED },
-    [STAGE_Z62]               = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_5, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_HIDDEN_ISLAND_2]   = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_4, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z6B]               = { .gameProgress = SAVE_PROGRESS_24, .zone5Progress = SAVE_ZONE5_PROGRESS_0, .zone6Progress = SAVE_ZONE6_PROGRESS_6, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z71]               = { .gameProgress = SAVE_PROGRESS_33, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6, .mode = SAVE_PROGRESS_MODE_ZONE_DISCOVERED },
-    [STAGE_Z72]               = { .gameProgress = SAVE_PROGRESS_34, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_Z7B]               = { .gameProgress = SAVE_PROGRESS_35, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6, .mode = SAVE_PROGRESS_MODE_COMMON },
-    [STAGE_BOSS_FINAL]        = { .gameProgress = SAVE_PROGRESS_36, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6, .mode = SAVE_PROGRESS_MODE_COMMON },
+static const StageProgressCheck sProgressCheck_Cleared[STAGE_COUNT_NON_OPTIONAL + 1] = {
+    [STAGE_Z11] = { .gameProgress  = SAVE_PROGRESS_3,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE_DISCOVERED },
+
+    [STAGE_Z12] = { .gameProgress  = SAVE_PROGRESS_4,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_TUTORIAL] = { .gameProgress  = SAVE_PROGRESS_1,
+                         .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                         .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                         .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z1B] = { .gameProgress  = SAVE_PROGRESS_5,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z21] = { .gameProgress  = SAVE_PROGRESS_6,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE_DISCOVERED },
+
+    [STAGE_Z22] = { .gameProgress  = SAVE_PROGRESS_7,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z2B] = { .gameProgress  = SAVE_PROGRESS_8,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z31] = { .gameProgress  = SAVE_PROGRESS_14,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE_DISCOVERED },
+
+    [STAGE_Z32] = { .gameProgress  = SAVE_PROGRESS_15,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_HIDDEN_ISLAND_1] = { .gameProgress  = SAVE_PROGRESS_14,
+                                .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                                .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                                .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z3B] = { .gameProgress  = SAVE_PROGRESS_16,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z41] = { .gameProgress  = SAVE_PROGRESS_19,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE_DISCOVERED },
+
+    [STAGE_Z42] = { .gameProgress  = SAVE_PROGRESS_20,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z4B] = { .gameProgress  = SAVE_PROGRESS_21,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z51] = { .gameProgress  = SAVE_PROGRESS_24,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_2,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE5_DISCOVERED },
+
+    [STAGE_Z52] = { .gameProgress  = SAVE_PROGRESS_24,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_3,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z5B] = { .gameProgress  = SAVE_PROGRESS_24,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_4,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_0,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z61] = { .gameProgress  = SAVE_PROGRESS_24,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_4,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE6_DISCOVERED },
+
+    [STAGE_Z62] = { .gameProgress  = SAVE_PROGRESS_24,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_5,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_HIDDEN_ISLAND_2] = { .gameProgress  = SAVE_PROGRESS_24,
+                                .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                                .zone6Progress = SAVE_ZONE6_PROGRESS_4,
+                                .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z6B] = { .gameProgress  = SAVE_PROGRESS_24,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_0,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_6,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z71] = { .gameProgress  = SAVE_PROGRESS_33,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_4,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_6,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_ZONE_DISCOVERED },
+
+    [STAGE_Z72] = { .gameProgress  = SAVE_PROGRESS_34,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_4,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_6,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_Z7B] = { .gameProgress  = SAVE_PROGRESS_35,
+                    .zone5Progress = SAVE_ZONE5_PROGRESS_4,
+                    .zone6Progress = SAVE_ZONE6_PROGRESS_6,
+                    .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
+
+    [STAGE_BOSS_FINAL] = { .gameProgress  = SAVE_PROGRESS_36,
+                           .zone5Progress = SAVE_ZONE5_PROGRESS_4,
+                           .zone6Progress = SAVE_ZONE6_PROGRESS_6,
+                           .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
 
     // Deep Core progress check
-    { .gameProgress = SAVE_PROGRESS_39, .zone5Progress = SAVE_ZONE5_PROGRESS_4, .zone6Progress = SAVE_ZONE6_PROGRESS_6, .mode = SAVE_PROGRESS_MODE_COMMON },
+    [1 + STAGE_BOSS_FINAL] = { .gameProgress  = SAVE_PROGRESS_39,
+                               .zone5Progress = SAVE_ZONE5_PROGRESS_4,
+                               .zone6Progress = SAVE_ZONE6_PROGRESS_6,
+                               .extraCheck    = SAVE_PROGRESS_EXTRACHECK_COMMON },
 };
-// clang-format on
 
 // --------------------
 // FUNCTIONS
@@ -213,7 +440,7 @@ BOOL MenuHelpers__CheckStageCleared(s32 stage, BOOL checkStageCleared, BOOL useS
     {
         // check regular stages up until (and including) the final boss
 
-        const SaveGameUnknown205D150 *progressCheck;
+        const StageProgressCheck *progressCheck;
         if (checkStageCleared)
             progressCheck = &sProgressCheck_Cleared[stage];
         else
@@ -221,23 +448,23 @@ BOOL MenuHelpers__CheckStageCleared(s32 stage, BOOL checkStageCleared, BOOL useS
 
         if (gameProgress >= progressCheck->gameProgress && zone5Progress >= progressCheck->zone5Progress && zone6Progress >= progressCheck->zone6Progress)
         {
-            switch (progressCheck->mode)
+            switch (progressCheck->extraCheck)
             {
-                case SAVE_PROGRESS_MODE_COMMON:
+                case SAVE_PROGRESS_EXTRACHECK_COMMON:
                     return TRUE;
 
-                case SAVE_PROGRESS_MODE_ZONE_DISCOVERED:
-                    if (gameProgress > progressCheck->gameProgress || (saveProgress->flags & 0x100) != 0)
+                case SAVE_PROGRESS_EXTRACHECK_ZONE_DISCOVERED:
+                    if (gameProgress > progressCheck->gameProgress || (saveProgress->flags & SAVE_PROGRESSFLAG_ANY_ACT1_CLEAR) != 0)
                         return TRUE;
                     break;
 
-                case SAVE_PROGRESS_MODE_ZONE5_DISCOVERED:
-                    if (zone5Progress > progressCheck->zone5Progress || (saveProgress->flags & 0x200) != 0)
+                case SAVE_PROGRESS_EXTRACHECK_ZONE5_DISCOVERED:
+                    if (zone5Progress > progressCheck->zone5Progress || (saveProgress->flags & SAVE_PROGRESSFLAG_ZONE5_ACT1_CLEAR) != 0)
                         return TRUE;
                     break;
 
-                case SAVE_PROGRESS_MODE_ZONE6_DISCOVERED:
-                    if (zone6Progress > progressCheck->zone6Progress || (saveProgress->flags & 0x400) != 0)
+                case SAVE_PROGRESS_EXTRACHECK_ZONE6_DISCOVERED:
+                    if (zone6Progress > progressCheck->zone6Progress || (saveProgress->flags & SAVE_PROGRESSFLAG_ZONE6_ACT1_CLEAR) != 0)
                         return TRUE;
                     break;
             }
@@ -271,11 +498,11 @@ BOOL MenuHelpers__CheckStageCleared(s32 stage, BOOL checkStageCleared, BOOL useS
                 return TRUE; // all race islands are always unlocked
 
             // check deep core
-            const SaveGameUnknown205D150 *progressCheck;
+            const StageProgressCheck *progressCheck;
             if (checkStageCleared)
-                progressCheck = &sProgressCheck_Cleared[25];
+                progressCheck = &sProgressCheck_Cleared[STAGE_BOSS_FINAL + 1];
             else
-                progressCheck = &sProgressCheck_Unlocked[25];
+                progressCheck = &sProgressCheck_Unlocked[STAGE_BOSS_FINAL + 1];
 
             if (gameProgress >= progressCheck->gameProgress && zone5Progress >= progressCheck->zone5Progress && zone6Progress >= progressCheck->zone6Progress)
                 return TRUE;

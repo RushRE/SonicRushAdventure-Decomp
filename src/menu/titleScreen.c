@@ -315,7 +315,7 @@ void ChangeEventForTitleScreen(TitleScreenNextEvent id)
     {
         case TITLESCREEN_NEXTEVENT_HUB:
             gameState.talk.state.hubStartAction = HUB_STARTACTION_NONE;
-            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
             // fallthrough
 
         case TITLESCREEN_NEXTEVENT_DEMO:

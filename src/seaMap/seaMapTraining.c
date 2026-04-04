@@ -167,7 +167,7 @@ void DestroySeaMapTraining(SeaMapTraining *work)
     }
     else
     {
-        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_2);
+        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_BEGIN_SAILING);
         RequestSysEventChange(0); // SYSEVENT_UPDATE_PROGRESS
     }
 

@@ -3963,7 +3963,7 @@ _02171B3C:
 	beq _02171B60
 	mov r0, #4
 	strh r0, [r5, #0x24]
-	bl SaveGame__CheckProgress12
+	bl SaveGame__HasEncounteredJohnny
 	cmp r0, #0
 	moveq r0, #6
 	streqh r0, [r5, #0x24]

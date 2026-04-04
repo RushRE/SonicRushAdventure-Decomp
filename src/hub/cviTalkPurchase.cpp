@@ -297,9 +297,9 @@ void CViTalkPurchase::Main_ApplyPurchase(void)
             break;
 
         case CViEvtCmnTalk::ACTION_TALK_PURCHASED_INFO:
-            if (!SaveGame__GetProgressFlags_0x100000(0))
+            if (!SaveGame__GetProgressFlags_HintInfoPurchased(0))
             {
-                SaveGame__SetProgressFlags_0x100000(0);
+                SaveGame__SetProgressFlags_HintInfoPurchased(0);
                 SaveGame__BuyInfoHint();
             }
 

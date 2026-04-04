@@ -1159,10 +1159,10 @@ u16 TalkHelpers__Interaction2_Tabby(void)
 
 u16 TalkHelpers__Interaction2_Kylok(void)
 {
-    if (SaveGame__GetProgressFlags_0x10())
+    if (SaveGame__GetProgressFlags_UnlockedMovieList())
         return MISSION_INVALID;
 
-    SaveGame__SetProgressFlags_0x10();
+    SaveGame__SetProgressFlags_UnlockedMovieList();
     return 1;
 }
 

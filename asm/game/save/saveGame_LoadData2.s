@@ -1,10 +1,10 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 	
-.public savedataBlockOffsets
-.public savedataBlockSizes
-.public SaveGame__ClearCallbacks
-.public _02110DDC
+.public sSaveGameBlockStructOffsets
+.public sSaveGameBlockSizes
+.public sSaveClearCallbackList
+.public sSaveGameBlockCardOffsets
 
 	.text
 
@@ -42,7 +42,7 @@ _0205E4CA:
 _0205E4D4:
 	mov r0, #0
 	str r0, [sp, #0x4c]
-	ldr r1, _0205E7C4 // =savedataBlockSizes
+	ldr r1, _0205E7C4 // =sSaveGameBlockSizes
 	ldr r0, [sp, #4]
 	ldr r0, [r1, r0]
 	str r0, [sp, #0x54]
@@ -58,7 +58,7 @@ _0205E4D4:
 	str r0, [sp, #0x14]
 	add r0, #0x80
 	str r0, [sp, #0x14]
-	ldr r1, _0205E7C8 // =_02110DDC
+	ldr r1, _0205E7C8 // =sSaveGameBlockCardOffsets
 	ldr r0, [sp, #4]
 	ldr r2, [sp, #0x50]
 	ldr r1, [r1, r0]
@@ -164,7 +164,7 @@ _0205E5C0:
 	add r6, r6, #1
 	cmp r6, #2
 	blt _0205E5A2
-	ldr r1, _0205E7C8 // =_02110DDC
+	ldr r1, _0205E7C8 // =sSaveGameBlockCardOffsets
 	ldr r0, [sp, #4]
 	ldr r2, [sp, #0x50]
 	ldr r1, [r1, r0]
@@ -201,7 +201,7 @@ _0205E600:
 _0205E606:
 	mov r0, #0
 	str r0, [sp, #0x20]
-	ldr r1, _0205E7C4 // =savedataBlockSizes
+	ldr r1, _0205E7C4 // =sSaveGameBlockSizes
 	ldr r0, [sp, #4]
 	ldr r0, [r1, r0]
 	str r0, [sp, #0xc]
@@ -209,7 +209,7 @@ _0205E606:
 	mov r4, #0
 	str r0, [sp, #0x1c]
 	mov r7, #0x37
-	ldr r1, _0205E7C8 // =_02110DDC
+	ldr r1, _0205E7C8 // =sSaveGameBlockCardOffsets
 	ldr r0, [sp, #4]
 	str r4, [sp, #0x3c]
 	ldr r0, [r1, r0]
@@ -438,8 +438,8 @@ _0205E7A2:
 	b _0205E7E0
 	nop
 _0205E7C0: .word 0xEDB88320
-_0205E7C4: .word savedataBlockSizes
-_0205E7C8: .word _02110DDC
+_0205E7C4: .word sSaveGameBlockSizes
+_0205E7C8: .word sSaveGameBlockCardOffsets
 _0205E7CC:
 	cmp r6, #4
 	bne _0205E7D4
@@ -613,9 +613,9 @@ _0205E8FC:
 	lsl r0, r5
 	tst r0, r6
 	beq _0205E916
-	ldr r1, _0205EAE8 // =savedataBlockOffsets
+	ldr r1, _0205EAE8 // =sSaveGameBlockStructOffsets
 	lsl r3, r5, #2
-	ldr r2, _0205EAEC // =savedataBlockSizes
+	ldr r2, _0205EAEC // =sSaveGameBlockSizes
 	ldr r1, [r1, r3]
 	ldr r2, [r2, r3]
 	mov r0, #0
@@ -627,7 +627,7 @@ _0205E916:
 	blt _0205E8FC
 _0205E91C:
 	mov r5, #0
-	ldr r7, _0205EAF0 // =SaveGame__ClearCallbacks
+	ldr r7, _0205EAF0 // =sSaveClearCallbackList
 	b _0205E92E
 _0205E922:
 	lsl r2, r5, #2
@@ -639,7 +639,7 @@ _0205E922:
 _0205E92E:
 	cmp r5, #3
 	blo _0205E922
-	ldr r1, _0205EAE8 // =savedataBlockOffsets
+	ldr r1, _0205EAE8 // =sSaveGameBlockStructOffsets
 	ldr r0, [sp, #4]
 	ldr r2, [sp, #0xc]
 	ldr r0, [r1, r0]
@@ -659,7 +659,7 @@ _0205E948:
 	str r0, [sp, #0x18]
 	b _0205EA9A
 _0205E95A:
-	ldr r1, _0205EAF4 // =_02110DDC
+	ldr r1, _0205EAF4 // =sSaveGameBlockCardOffsets
 	ldr r0, [sp, #4]
 	ldr r4, [r1, r0]
 	mov r0, r7
@@ -799,7 +799,7 @@ _0205EA5C:
 	add r4, r4, #1
 	cmp r4, #2
 	blt _0205EA5C
-	ldr r1, _0205EAF4 // =_02110DDC
+	ldr r1, _0205EAF4 // =sSaveGameBlockCardOffsets
 	ldr r0, [sp, #4]
 	mov r2, r7
 	ldr r1, [r1, r0]
@@ -862,8 +862,8 @@ _0205EAD8:
 	nop
 _0205EAE0: .word 0x000001FE
 _0205EAE4: .word 0x00001A68
-_0205EAE8: .word savedataBlockOffsets
-_0205EAEC: .word savedataBlockSizes
-_0205EAF0: .word SaveGame__ClearCallbacks
-_0205EAF4: .word _02110DDC
+_0205EAE8: .word sSaveGameBlockStructOffsets
+_0205EAEC: .word sSaveGameBlockSizes
+_0205EAF0: .word sSaveClearCallbackList
+_0205EAF4: .word sSaveGameBlockCardOffsets
 	thumb_func_end SaveGame__LoadData2

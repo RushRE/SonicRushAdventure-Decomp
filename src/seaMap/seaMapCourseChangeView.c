@@ -121,7 +121,7 @@ void DestroySeaMapCourseChangeView(SeaMapCourseChangeView *work)
     switch (GetSeaMapViewExitEvent())
     {
         case SEAMAPVIEW_EXIT_CONFIRM:
-            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_2);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_BEGIN_SAILING);
             RequestSysEventChange(0); // SYSEVENT_SAILING
             break;
 

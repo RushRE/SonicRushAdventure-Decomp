@@ -451,9 +451,9 @@ void StartDoorPuzzleFadeOut(DoorPuzzle *work, s32 delay)
 void ChangeEventForDoorPuzzle(DoorPuzzle *work)
 {
     if ((work->flags & DOORPUZZLE_FLAG_ALL_KEYS_IN_PLACE) != 0)
-        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_10);
+        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_DOOR_PUZZLE_COMPLETE);
     else
-        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_0);
+        SaveGame__SetProgressType(SAVE_PROGRESSTYPE_RETURN_TO_HUB);
 
     RequestSysEventChange(0); // SYSEVENT_UPDATE_PROGRESS
     NextSysEvent();

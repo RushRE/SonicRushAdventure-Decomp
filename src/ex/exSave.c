@@ -20,7 +20,7 @@ void EndExBossStage(ExFinishMode mode)
             playerGameStatus.stageTimer += 10 * GetExSystemStatus()->time.tenSeconds;
             playerGameStatus.stageTimer = 60 * (playerGameStatus.stageTimer + 60 * GetExSystemStatus()->time.minutes);
             saveGame.stage.status.lives = GetExSystemLifeCount();
-            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_9);
+            SaveGame__SetProgressType(SAVE_PROGRESSTYPE_EX_EPILOGUE);
             RequestSysEventChange(0); // SYSEVENT_TITLE
             break;
 

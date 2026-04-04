@@ -539,7 +539,7 @@ void HubControl::Main_InitMap()
             if (mapArea == MAPAREA_DRILL)
             {
                 work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-                work->nextSelectionID = SAVE_PROGRESSTYPE_8;
+                work->nextSelectionID = SAVE_PROGRESSTYPE_EX_PROLOGUE;
             }
             else if (mapArea == MAPAREA_TUTORIAL)
             {
@@ -614,7 +614,7 @@ void HubControl::Main_MapIdle()
                 if (iconArea == DOCKAREA_BEACH)
                 {
                     work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-                    work->nextSelectionID = SAVE_PROGRESSTYPE_8;
+                    work->nextSelectionID = SAVE_PROGRESSTYPE_EX_PROLOGUE;
                 }
                 else if (iconArea == DOCKAREA_DRILL)
                 {
@@ -922,7 +922,7 @@ void HubControl::Main_DoTalkAction()
             work->SaveState(FALSE);
             HubControl::StartSailing(work->dockArea, FALSE);
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = SAVE_PROGRESSTYPE_1;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_SEAMAP_UNKNOWN;
             CViDock::EnablePlayerInput(FALSE);
             HubControl::TryFadeOutBGM(work);
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
@@ -1067,7 +1067,7 @@ void HubControl::Main_DoTalkAction()
 
         case CVIDOCKNPCTALK_ACTION_SAVE_GAME:
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = SAVE_PROGRESSTYPE_0;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_RETURN_TO_HUB;
             CViDock::EnablePlayerInput(FALSE);
             HubControl::TryFadeOutBGM(work);
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
@@ -1096,7 +1096,7 @@ void HubControl::Main_DoTalkAction()
             break;
 
         case CVIDOCKNPCTALK_ACTION_TALKPURCHASE_INFO:
-            if (SaveGame__GetProgressFlags_0x100000(0) || SaveGame__HasDoorPuzzlePiece(0))
+            if (SaveGame__GetProgressFlags_HintInfoPurchased(0) || SaveGame__HasDoorPuzzlePiece(0))
                 CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_NPC, 38);
             else
                 CViDockNpcTalk::CreateTalk(CVIDOCKNPCTALK_PURCHASE, CViTalkPurchase::PURCHASE_INFO);
@@ -1279,7 +1279,7 @@ void HubControl::Main_FinishForcedMapAreaChange()
         else if (work->mapIconArea == MAPAREA_TUTORIAL)
         {
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = SAVE_PROGRESSTYPE_0;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_RETURN_TO_HUB;
             work->flags |= 0x10000;
             HubControl::TryFadeOutBGM(work);
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
@@ -1313,7 +1313,7 @@ void HubControl::Main_FadeOutForStoryEvent()
         else if (SaveGame__CheckProgress15())
         {
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = SAVE_PROGRESSTYPE_0;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_RETURN_TO_HUB;
             work->flags |= 0x10000;
             HubControl::TryFadeOutBGM(work);
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);
@@ -1333,12 +1333,12 @@ void HubControl::Main_PrepareCutsceneStart()
         if (work->cutsceneID == 0xFFFE)
         {
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = SAVE_PROGRESSTYPE_8;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_EX_PROLOGUE;
         }
         else if (work->cutsceneID == 0xFFFF)
         {
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = SAVE_PROGRESSTYPE_0;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_RETURN_TO_HUB;
         }
         else
         {
