@@ -332,7 +332,7 @@ typedef struct HubPurchaseMsgConfig_
 typedef struct Unknown2171914_
 {
     u32 dockArea;
-    u32 unknown;
+    u32 unused;
 } CViDockPreviewConfig;
 
 typedef struct CViMapBackDecorConfig_

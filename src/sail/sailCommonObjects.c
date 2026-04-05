@@ -885,10 +885,10 @@ void SailObject_ShakeScreen(StageTask *work, s32 timer)
         fx32 shakeX = FX32_FROM_WHOLE(gStageTaskShakeOffsetTable[timer & 0xF]);
         fx32 shakeY = FX32_FROM_WHOLE(gStageTaskShakeOffsetTable[(timer + 1) & 0xF]);
 
-        work->offset.x += shakeX >> gShipShiftUnknown[shipType];
-        work->offset.y += shakeY >> gShipShiftUnknown[shipType];
+        work->offset.x += shakeX >> gShipShakeDampenTable[shipType];
+        work->offset.y += shakeY >> gShipShakeDampenTable[shipType];
         if ((work->flag & STAGE_TASK_FLAG_UNKNOWN) == 0)
-            work->offset.z += shakeX >> gShipShiftUnknown[shipType];
+            work->offset.z += shakeX >> gShipShakeDampenTable[shipType];
     }
 }
 

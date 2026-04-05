@@ -113,6 +113,8 @@ enum SeaMapCollisionType_
 	SEAMAP_COLLISION_13,
 	SEAMAP_COLLISION_14,
 	SEAMAP_COLLISION_15,
+    
+	SEAMAP_COLLISION_COUNT,
 };
 typedef u8 SeaMapCollisionType;
 
@@ -301,25 +303,6 @@ NOT_DECOMPILED u32 SeaMapManager__GetNodeCount(void);
 NOT_DECOMPILED fx32 SeaMapManager__GetTotalDistance(void);
 NOT_DECOMPILED void SeaMapManager__GetLastNodePosition(fx16 *x, fx16 *y);
 NOT_DECOMPILED void SeaMapManager__Func_2045E58(u32 nodeCount);
-
-NOT_DECOMPILED void SeaMapManagerNodeList__Init(SeaMapManagerNodeList *work);
-NOT_DECOMPILED void SeaMapManagerNodeList__Release(SeaMapManagerNodeList *work);
-NOT_DECOMPILED SeaMapManagerNode *SeaMapManagerNodeList__CopyNodes(SeaMapManagerNodeList *list1, SeaMapManagerNodeList *list2);
-NOT_DECOMPILED fx32 SeaMapManagerNodeList__GetNodeDistance(SeaMapManagerNode *node);
-NOT_DECOMPILED SeaMapManagerNode *SeaMapManagerNodeList__CopyNodesEx(SeaMapManagerNodeList *list1, SeaMapManagerNodeList *list2, u32 count);
-NOT_DECOMPILED SeaMapManagerNodeGroup *SeaMapManagerNodeList__AddGroup(SeaMapManagerNodeList *list);
-NOT_DECOMPILED u32 SeaMapManagerNodeList__RemoveLastGroup(SeaMapManagerNodeList *list);
-NOT_DECOMPILED SeaMapManagerNodeGroup *SeaMapManagerNodeList__GetLastGroup(SeaMapManagerNodeList *list);
-NOT_DECOMPILED u32 SeaMapManagerNodeList__GetGroupAvailableSize(SeaMapManagerNodeList *list);
-NOT_DECOMPILED SeaMapManagerNode *SeaMapManagerNodeList__AddNode(SeaMapManagerNodeList *list);
-NOT_DECOMPILED u32 SeaMapManagerNodeList__RemoveLastNode(SeaMapManagerNodeList *list);
-NOT_DECOMPILED void SeaMapManagerNodeList__RemoveAllNodes(SeaMapManagerNodeList *list);
-NOT_DECOMPILED void SeaMapManagerNodeList__CopyNode(SeaMapManagerNode *src, SeaMapManagerNode *dst);
-NOT_DECOMPILED void SeaMapManagerNodeList__Func_204611C(SeaMapManagerNodeList *list, u32 count);
-NOT_DECOMPILED void SeaMapManagerNodeList__Func_2046154(s32 x1, s32 y1, s32 x2, s32 y2);
-NOT_DECOMPILED void SeaMapManagerNodeList__Func_2046240(SeaMapManagerNodeList *list, u32 count);
-NOT_DECOMPILED void SeaMapManagerNodeList__Func_204634C(SeaMapManagerNodeList *list, u32 count);
-NOT_DECOMPILED void SeaMapManagerNodeList__Func_204652C(SeaMapManagerNodeList *list, u32 count);
 
 #ifdef __cplusplus
 }

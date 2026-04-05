@@ -1,21 +1,51 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <seaMap/seaMapChartCourseView.h>
+#include <seaMap/navTails.h>
+#include <seaMap/seaMapCollision.h>
+#include <seaMap/seaMapEventTrigger.h>
+#include <seaMap/seaMapPenPalette.h>
+#include <game/graphics/renderCore.h>
 
-.public VRAMSystem__GFXControl
-.public VRAMSystem__VRAM_PALETTE_OBJ
+// --------------------
+// VARIABLES
+// --------------------
 
-	.text
+NOT_DECOMPILED const void *word_210FA0C;
+NOT_DECOMPILED const void *word_210FA10;
+NOT_DECOMPILED const void *word_210FA16;
+NOT_DECOMPILED const void *stru_210FA1C;
+NOT_DECOMPILED const void *stru_210FA24;
+NOT_DECOMPILED const void *stru_210FA2C;
+NOT_DECOMPILED const void *stru_210FA34;
+NOT_DECOMPILED const void *stru_210FA3C;
+NOT_DECOMPILED const void *stru_210FA44;
+NOT_DECOMPILED const void *byte_210FA4C;
+NOT_DECOMPILED const void *byte_210FA4D;
+NOT_DECOMPILED const void *stru_210FA58;
+NOT_DECOMPILED const void *stru_210FA68;
+NOT_DECOMPILED const void *byte_210FA78;
+NOT_DECOMPILED const void *dword_210FA90;
+NOT_DECOMPILED const void *dword_210FAB0;
+NOT_DECOMPILED const void *dword_210FAD0;
+NOT_DECOMPILED const void *dword_210FAF0;
 
-	arm_func_start SeaMapChartCourseView__Create
-SeaMapChartCourseView__Create: // 0x02040788
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC void SeaMapChartCourseView__Create(BOOL useEngineB, ShipType shipType, s32 mode)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
-	ldr r4, _02040904 // =VRAMSystem__GFXControl
+	ldr r4, =VRAMSystem__GFXControl
 	mov r7, r0
 	mov r5, r2
-	ldr r6, _02040908 // =gSeaMapViewType
+	ldr r6, =gSeaMapViewType
 	mov ip, #3
-	ldr r3, _0204090C // =gSeaMapViewExitEvent
+	ldr r3, =gSeaMapViewExitEvent
 	mov r2, #0
 	ldr r4, [r4, r7, lsl #2]
 	str ip, [r6]
@@ -28,27 +58,27 @@ SeaMapChartCourseView__Create: // 0x02040788
 	mov r0, #0xff
 	mov r2, #0
 	str r0, [sp]
-	ldr r0, _02040910 // =0x00000ADC
+	ldr r0, =0x00000ADC
 	str r2, [sp, #4]
 	str r0, [sp, #8]
-	ldr r0, _02040914 // =SeaMapChartCourseView__Main
-	ldr r1, _02040918 // =SeaMapChartCourseView__Destructor
+	ldr r0, =SeaMapChartCourseView__Main
+	ldr r1, =SeaMapChartCourseView__Destructor
 	mov r3, r2
 	bl TaskCreate_
-	ldr r1, _0204091C // =gSeaMapTaskSingleton
+	ldr r1, =gSeaMapTaskSingleton
 	str r0, [r1]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0
 	mov r1, r4
-	ldr r2, _02040910 // =0x00000ADC
+	ldr r2, =0x00000ADC
 	bl MIi_CpuClear16
 	cmp r5, #1
 	beq _02040838
-	ldr r2, _02040920 // =gSeaMapViewStoredVoyageDist
+	ldr r2, =gSeaMapViewStoredVoyageDist
 	mov r3, #0
-	ldr r1, _02040924 // =SeaMapCourseChangeView_02134174
-	ldr r0, _02040928 // =gameState
+	ldr r1, =SeaMapCourseChangeView_02134174
+	ldr r0, =gameState
 	str r3, [r2]
 	str r3, [r1]
 	str r3, [r0, #0xb0]
@@ -59,21 +89,21 @@ _02040838:
 	mov r3, #1
 	bl InitSeaMapView
 	cmp r5, #2
-	ldrne r1, _0204092C // =SeaMapChartCourseView__State_2041978
-	ldrne r0, _02040930 // =SeaMapChartCourseView__Draw_2041440
+	ldrne r1, =SeaMapChartCourseView__State_2041978
+	ldrne r0, =SeaMapChartCourseView__Draw_2041440
 	bne _02040870
 	add r0, r4, #0x1d4
 	add r0, r0, #0x800
 	bl TouchField__Init
-	ldr r1, _02040934 // =SeaMapChartCourseView__State_2042524
-	ldr r0, _02040938 // =SeaMapChartCourseView__Draw_20414A0
+	ldr r1, =SeaMapChartCourseView__State_2042524
+	ldr r0, =SeaMapChartCourseView__Draw_20414A0
 _02040870:
 	str r1, [r4, #0x7c4]
 	str r0, [r4, #0x7c8]
 	mov r0, r4
 	str r5, [r4, #0x7b4]
 	bl SeaMapChartCourseView__Func_2040B90
-	ldr r1, _0204093C // =dword_210FAD0
+	ldr r1, =dword_210FAD0
 	mov r0, r4
 	bl SeaMapView_EnableMultipleButtons
 	cmp r5, #1
@@ -109,47 +139,43 @@ _020408E4:
 	bl CreateSeaMapEventManagerDSPopup
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02040904: .word VRAMSystem__GFXControl
-_02040908: .word gSeaMapViewType
-_0204090C: .word gSeaMapViewExitEvent
-_02040910: .word 0x00000ADC
-_02040914: .word SeaMapChartCourseView__Main
-_02040918: .word SeaMapChartCourseView__Destructor
-_0204091C: .word gSeaMapTaskSingleton
-_02040920: .word gSeaMapViewStoredVoyageDist
-_02040924: .word SeaMapCourseChangeView_02134174
-_02040928: .word gameState
-_0204092C: .word SeaMapChartCourseView__State_2041978
-_02040930: .word SeaMapChartCourseView__Draw_2041440
-_02040934: .word SeaMapChartCourseView__State_2042524
-_02040938: .word SeaMapChartCourseView__Draw_20414A0
-_0204093C: .word dword_210FAD0
-	arm_func_end SeaMapChartCourseView__Create
 
-	arm_func_start SeaMapChartCourseView__Destroy
-SeaMapChartCourseView__Destroy: // 0x02040940
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Destroy(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _02040974 // =gSeaMapTaskSingleton
+	ldr r0, =gSeaMapTaskSingleton
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl DestroyTask
-	ldr r0, _02040974 // =gSeaMapTaskSingleton
+	ldr r0, =gSeaMapTaskSingleton
 	mov r1, #0
 	str r1, [r0]
 	bl DestroySeaMapEventManager
 	bl SeaMapManager__Destroy
 	bl DestroyNavTails
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02040974: .word gSeaMapTaskSingleton
-	arm_func_end SeaMapChartCourseView__Destroy
 
-	arm_func_start SeaMapChartCourseView__Func_2040978
-SeaMapChartCourseView__Func_2040978: // 0x02040978
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapChartCourseView__Func_2040978(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r0, _020409A8 // =gSeaMapTaskSingleton
+	ldr r0, =gSeaMapTaskSingleton
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	moveq r0, #0
@@ -160,12 +186,17 @@ SeaMapChartCourseView__Func_2040978: // 0x02040978
 	moveq r0, #1
 	movne r0, #0
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_020409A8: .word gSeaMapTaskSingleton
-	arm_func_end SeaMapChartCourseView__Func_2040978
 
-	arm_func_start SeaMapChartCourseView__TouchAreaCallback
-SeaMapChartCourseView__TouchAreaCallback: // 0x020409AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__TouchAreaCallback(TouchAreaResponse *response, TouchArea *area, void *userData)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -195,7 +226,7 @@ _02040A08:
 	tst r1, #0x800
 	addne sp, sp, #8
 	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r1, _02040B8C // =touchInput
+	ldr r1, =touchInput
 	mov r0, r4
 	ldrh r3, [r1, #0x14]
 	ldrh r2, [r1, #0x16]
@@ -251,7 +282,7 @@ _02040AD8:
 	tst r1, #0x800
 	addne sp, sp, #8
 	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r1, _02040B8C // =touchInput
+	ldr r1, =touchInput
 	mov r0, r4
 	ldrh r3, [r1, #0x14]
 	ldrh r2, [r1, #0x16]
@@ -295,18 +326,23 @@ _02040B78:
 	strh r1, [r0, #0xb0]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02040B8C: .word touchInput
-	arm_func_end SeaMapChartCourseView__TouchAreaCallback
 
-	arm_func_start SeaMapChartCourseView__Func_2040B90
-SeaMapChartCourseView__Func_2040B90: // 0x02040B90
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2040B90(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
 	mov r10, r0
 	mov r7, #0
-	ldr r9, _02040C4C // =byte_210FA4C
-	ldr r5, _02040C50 // =VRAMSystem__VRAM_PALETTE_OBJ
+	ldr r9, =byte_210FA4C
+	ldr r5, =VRAMSystem__VRAM_PALETTE_OBJ
 	add r8, r10, #0x7d0
 	mov r6, r7
 	mov r11, #0x800
@@ -349,13 +385,17 @@ _02040BB8:
 	blo _02040BB8
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02040C4C: .word byte_210FA4C
-_02040C50: .word VRAMSystem__VRAM_PALETTE_OBJ
-	arm_func_end SeaMapChartCourseView__Func_2040B90
 
-	arm_func_start SeaMapChartCourseView__Func_2040C54
-SeaMapChartCourseView__Func_2040C54: // 0x02040C54
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2040C54(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	add r5, r0, #0x7d0
 	mov r4, #0
@@ -367,10 +407,17 @@ _02040C60:
 	add r5, r5, #0x64
 	blo _02040C60
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapChartCourseView__Func_2040C54
 
-	arm_func_start SeaMapChartCourseView__Func_2040C7C
-SeaMapChartCourseView__Func_2040C7C: // 0x02040C7C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2040C7C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -392,14 +439,14 @@ _02040CAC:
 	mov r3, r1
 	str ip, [sp, #4]
 	bl PlaySfxEx
-	ldr r0, _02040D1C // =gSeaMapViewExitEvent
+	ldr r0, =gSeaMapViewExitEvent
 	mov r1, #2
 	str r1, [r0]
 	ldr r0, [r5, #0x7b4]
 	cmp r0, #2
-	ldreq r0, _02040D20 // =SeaMapChartCourseView__State_20431D4
+	ldreq r0, =SeaMapChartCourseView__State_20431D4
 	streq r0, [r5, #0x7c4]
-	ldrne r0, _02040D24 // =SeaMapChartCourseView__State_2041E30
+	ldrne r0, =SeaMapChartCourseView__State_2041E30
 	strne r0, [r5, #0x7c4]
 	b _02040D08
 _02040CF4:
@@ -416,14 +463,17 @@ _02040D08:
 	str r1, [r5, #0x790]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02040D1C: .word gSeaMapViewExitEvent
-_02040D20: .word SeaMapChartCourseView__State_20431D4
-_02040D24: .word SeaMapChartCourseView__State_2041E30
-	arm_func_end SeaMapChartCourseView__Func_2040C7C
 
-	arm_func_start SeaMapChartCourseView__Func_2040D28
-SeaMapChartCourseView__Func_2040D28: // 0x02040D28
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2040D28(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -459,9 +509,9 @@ SeaMapChartCourseView__Func_2040D28: // 0x02040D28
 	bl SeaMapManager__AddNode
 	ldr r0, [r5, #0x7b4]
 	cmp r0, #2
-	ldreq r0, _02040DD8 // =SeaMapChartCourseView__State_2042D14
+	ldreq r0, =SeaMapChartCourseView__State_2042D14
 	streq r0, [r5, #0x7c4]
-	ldrne r0, _02040DDC // =SeaMapChartCourseView__State_2041A68
+	ldrne r0, =SeaMapChartCourseView__State_2041A68
 	strne r0, [r5, #0x7c4]
 	b _02040DCC
 _02040DC8:
@@ -470,13 +520,17 @@ _02040DCC:
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	.align 2, 0
-_02040DD8: .word SeaMapChartCourseView__State_2042D14
-_02040DDC: .word SeaMapChartCourseView__State_2041A68
-	arm_func_end SeaMapChartCourseView__Func_2040D28
 
-	arm_func_start SeaMapChartCourseView__Func_2040DE0
-SeaMapChartCourseView__Func_2040DE0: // 0x02040DE0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2040DE0(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -505,7 +559,7 @@ _02040E14:
 	bne _02040E60
 	bl SeaMapManager__GetNodeCount
 	cmp r0, #1
-	ldrls r0, _02040EE0 // =SeaMapChartCourseView__State_2041DD0
+	ldrls r0, =SeaMapChartCourseView__State_2041DD0
 	strls r0, [r5, #0x7c4]
 	bls _02040ECC
 	mov r0, r5
@@ -528,9 +582,9 @@ _02040E6C:
 	bl SeaMapChartCourseView__Func_2042208
 	ldr r0, [r5, #0x7b4]
 	cmp r0, #2
-	ldreq r0, _02040EE4 // =SeaMapChartCourseView__State_2042FA8
+	ldreq r0, =SeaMapChartCourseView__State_2042FA8
 	streq r0, [r5, #0x7c4]
-	ldrne r0, _02040EE8 // =SeaMapChartCourseView__State_2041C64
+	ldrne r0, =SeaMapChartCourseView__State_2041C64
 	strne r0, [r5, #0x7c4]
 	b _02040ECC
 _02040EB0:
@@ -549,14 +603,17 @@ _02040ECC:
 	str r1, [r5, #0x790]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02040EE0: .word SeaMapChartCourseView__State_2041DD0
-_02040EE4: .word SeaMapChartCourseView__State_2042FA8
-_02040EE8: .word SeaMapChartCourseView__State_2041C64
-	arm_func_end SeaMapChartCourseView__Func_2040DE0
 
-	arm_func_start SeaMapChartCourseView__State_2040EEC
-SeaMapChartCourseView__State_2040EEC: // 0x02040EEC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2040EEC(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -579,7 +636,7 @@ _02040F14:
 	ldr r0, [r5, #0x9c8]
 	cmp r0, #0
 	cmpne r0, #1
-	ldreq r0, _02040F9C // =SeaMapChartCourseView__State_2041A68
+	ldreq r0, =SeaMapChartCourseView__State_2041A68
 	streq r0, [r5, #0x7c4]
 	b _02040F88
 _02040F4C:
@@ -591,9 +648,9 @@ _02040F4C:
 	mov r3, r1
 	str r0, [sp, #4]
 	bl PlaySfxEx
-	ldr r0, _02040FA0 // =gSeaMapViewExitEvent
+	ldr r0, =gSeaMapViewExitEvent
 	mov r2, #2
-	ldr r1, _02040FA4 // =SeaMapChartCourseView__State_2041E30
+	ldr r1, =SeaMapChartCourseView__State_2041E30
 	str r2, [r0]
 	str r1, [r5, #0x7c4]
 	b _02040F88
@@ -605,14 +662,17 @@ _02040F88:
 	str r1, [r5, #0x790]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02040F9C: .word SeaMapChartCourseView__State_2041A68
-_02040FA0: .word gSeaMapViewExitEvent
-_02040FA4: .word SeaMapChartCourseView__State_2041E30
-	arm_func_end SeaMapChartCourseView__State_2040EEC
 
-	arm_func_start SeaMapChartCourseView__SetTouchCallback
-SeaMapChartCourseView__SetTouchCallback: // 0x02040FA8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__SetTouchCallback(SeaMapChartCourseView *work, s32 mode)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	movs r4, r1
 	mov r5, r0
@@ -621,22 +681,26 @@ SeaMapChartCourseView__SetTouchCallback: // 0x02040FA8
 	beq _02040FD0
 	b _02040FD8
 _02040FC4:
-	ldr r1, _02040FE0 // =SeaMapChartCourseView__TouchAreaCallback
+	ldr r1, =SeaMapChartCourseView__TouchAreaCallback
 	bl SeaMapView_SetTouchAreaCallback
 	b _02040FD8
 _02040FD0:
-	ldr r1, _02040FE4 // =SeaMapView_TouchAreaCallback_Active
+	ldr r1, =SeaMapView_TouchAreaCallback_Active
 	bl SeaMapView_SetTouchAreaCallback
 _02040FD8:
 	str r4, [r5, #0x9c8]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02040FE0: .word SeaMapChartCourseView__TouchAreaCallback
-_02040FE4: .word SeaMapView_TouchAreaCallback_Active
-	arm_func_end SeaMapChartCourseView__SetTouchCallback
 
-	arm_func_start SeaMapChartCourseView__Func_2040FE8
-SeaMapChartCourseView__Func_2040FE8: // 0x02040FE8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapChartCourseView__Func_2040FE8(SeaMapChartCourseView *work, u8 x, u8 y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -662,10 +726,17 @@ _0204103C:
 	mov r0, #0
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end SeaMapChartCourseView__Func_2040FE8
 
-	arm_func_start SeaMapChartCourseView__Func_2041048
-SeaMapChartCourseView__Func_2041048: // 0x02041048
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2041048(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x7b4]
@@ -691,34 +762,36 @@ _02041094:
 	mov r0, #0
 	str r0, [r4, #0x9c4]
 	bl SeaMapEventManager_ClearLastTouchedIcon
-	ldr r1, _020410F4 // =dword_210FAD0
+	ldr r1, =dword_210FAD0
 	mov r0, r4
 	bl SeaMapView_EnableMultipleButtons
 	mov r0, r4
 	bl SeaMapView_ClearVoyagePath
 	bl SeaMapView_DrawFinalizedVoyagePath
-	ldr r1, _020410F8 // =SeaMapView_TouchAreaCallback_Active
+	ldr r1, =SeaMapView_TouchAreaCallback_Active
 	mov r0, r4
 	bl SeaMapView_SetTouchAreaCallback
 	ldr r0, [r4, #0x7b4]
 	cmp r0, #2
-	ldrne r0, _020410FC // =SeaMapChartCourseView__State_20419B0
+	ldrne r0, =SeaMapChartCourseView__State_20419B0
 	strne r0, [r4, #0x7c4]
 	ldmneia sp!, {r4, r5, r6, pc}
 	mov r1, #0
-	ldr r0, _02041100 // =SeaMapChartCourseView__State_2042C6C
+	ldr r0, =SeaMapChartCourseView__State_2042C6C
 	str r1, [r4, #0xab8]
 	str r0, [r4, #0x7c4]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_020410F4: .word dword_210FAD0
-_020410F8: .word SeaMapView_TouchAreaCallback_Active
-_020410FC: .word SeaMapChartCourseView__State_20419B0
-_02041100: .word SeaMapChartCourseView__State_2042C6C
-	arm_func_end SeaMapChartCourseView__Func_2041048
 
-	arm_func_start SeaMapChartCourseView__Func_2041104
-SeaMapChartCourseView__Func_2041104: // 0x02041104
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2041104(int a1, int a2, int a3)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r5, r1
@@ -764,8 +837,8 @@ _02041190:
 	cmp r1, #0
 	rsblt r1, r1, #0
 	cmp r0, r1
-	ldr r2, _02041260 // =0x00000F5E
-	ldr r3, _02041264 // =0x0000065D
+	ldr r2, =0x00000F5E
+	ldr r3, =0x0000065D
 	mov ip, #0
 	ble _02041208
 	umull lr, r6, r0, r2
@@ -810,16 +883,20 @@ _0204124C:
 	movle r0, #0
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02041260: .word 0x00000F5E
-_02041264: .word 0x0000065D
-	arm_func_end SeaMapChartCourseView__Func_2041104
 
-	arm_func_start SeaMapChartCourseView__Func_2041268
-SeaMapChartCourseView__Func_2041268: // 0x02041268
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapChartCourseView__Func_2041268(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
-	ldr r0, _020413B0 // =touchInput
+	ldr r0, =touchInput
 	add r2, sp, #2
 	ldrh r1, [r0, #0x16]
 	ldrh r4, [r0, #0x14]
@@ -840,7 +917,7 @@ SeaMapChartCourseView__Func_2041268: // 0x02041268
 	add r2, sp, #4
 	add r3, sp, #6
 	bl SeaMapManager__Func_2043AD4
-	ldr r0, _020413B0 // =touchInput
+	ldr r0, =touchInput
 	ldrsh r1, [sp, #6]
 	ldrh r3, [r0, #0x16]
 	ldrh r2, [r0, #0x14]
@@ -853,8 +930,8 @@ SeaMapChartCourseView__Func_2041268: // 0x02041268
 	cmp r1, #0
 	rsblt r1, r1, #0
 	cmp r0, r1
-	ldr r2, _020413B4 // =0x00000F5E
-	ldr r3, _020413B8 // =0x0000065D
+	ldr r2, =0x00000F5E
+	ldr r3, =0x0000065D
 	mov ip, #0
 	ble _02041350
 	umull lr, r6, r0, r2
@@ -902,14 +979,17 @@ _020413A4:
 	mov r0, #0
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_020413B0: .word touchInput
-_020413B4: .word 0x00000F5E
-_020413B8: .word 0x0000065D
-	arm_func_end SeaMapChartCourseView__Func_2041268
 
-	arm_func_start SeaMapChartCourseView__Main
-SeaMapChartCourseView__Main: // 0x020413BC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -922,10 +1002,17 @@ SeaMapChartCourseView__Main: // 0x020413BC
 	mov r0, r4
 	blx r1
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapChartCourseView__Main
 
-	arm_func_start SeaMapChartCourseView__Destructor
-SeaMapChartCourseView__Destructor: // 0x020413EC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetTaskWork_
 	mov r4, r0
@@ -940,19 +1027,23 @@ SeaMapChartCourseView__Destructor: // 0x020413EC
 _02041418:
 	mov r0, r4
 	bl ReleaseSeaMapView
-	ldr r1, _02041438 // =gSeaMapViewType
+	ldr r1, =gSeaMapViewType
 	mov r2, #0
-	ldr r0, _0204143C // =gSeaMapTaskSingleton
+	ldr r0, =gSeaMapTaskSingleton
 	str r2, [r1]
 	str r2, [r0]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02041438: .word gSeaMapViewType
-_0204143C: .word gSeaMapTaskSingleton
-	arm_func_end SeaMapChartCourseView__Destructor
 
-	arm_func_start SeaMapChartCourseView__Draw_2041440
-SeaMapChartCourseView__Draw_2041440: // 0x02041440
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Draw_2041440(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapChartCourseView__Func_204153C
@@ -978,10 +1069,17 @@ _02041468:
 	mov r0, r4
 	bl SeaMapView_SetVoyagePathColors
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapChartCourseView__Draw_2041440
 
-	arm_func_start SeaMapChartCourseView__Draw_20414A0
-SeaMapChartCourseView__Draw_20414A0: // 0x020414A0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Draw_20414A0(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r1, r5, #0x1d4
@@ -1023,10 +1121,17 @@ _02041514:
 	add r0, r4, #0x28
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapChartCourseView__Draw_20414A0
 
-	arm_func_start SeaMapChartCourseView__Func_204153C
-SeaMapChartCourseView__Func_204153C: // 0x0204153C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_204153C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r5, r0
 	add r0, r5, #0x7d0
@@ -1067,7 +1172,7 @@ _020415B0:
 	mov r0, r6
 	bl AnimatorSprite__DrawFrame
 	ldr r0, [r5, #0x79c]
-	ldr r1, _020416CC // =0x04000280
+	ldr r1, =0x04000280
 	mov r2, #0
 	strh r2, [r1]
 	mov r0, r0, asr #0xc
@@ -1079,7 +1184,7 @@ _020415F4:
 	ldrh r0, [r1, #0]
 	tst r0, #0x8000
 	bne _020415F4
-	ldr r1, _020416D0 // =0x040002A0
+	ldr r1, =0x040002A0
 	ldr r0, [r1, #0]
 	sub r1, r1, #0x20
 	mov r0, r0, lsl #0x10
@@ -1088,7 +1193,7 @@ _02041614:
 	ldrh r0, [r1, #0]
 	tst r0, #0x8000
 	bne _02041614
-	ldr r0, _020416D4 // =0x040002A8
+	ldr r0, =0x040002A8
 	mov r1, #8
 	ldr r0, [r0, #0]
 	mov r0, r0, lsl #0x10
@@ -1133,35 +1238,48 @@ _02041680:
 	mov r0, r5
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_020416CC: .word 0x04000280
-_020416D0: .word 0x040002A0
-_020416D4: .word 0x040002A8
-	arm_func_end SeaMapChartCourseView__Func_204153C
 
-	arm_func_start SeaMapChartCourseView__Func_20416D8
-SeaMapChartCourseView__Func_20416D8: // 0x020416D8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_20416D8(SeaMapChartCourseView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r0, r0, lsl #3
 	add r0, r0, #0x1c
 	strh r0, [r1]
 	mov r0, #8
 	strh r0, [r2]
 	bx lr
-	arm_func_end SeaMapChartCourseView__Func_20416D8
 
-	arm_func_start SeaMapChartCourseView__Func_20416F0
-SeaMapChartCourseView__Func_20416F0: // 0x020416F0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_20416F0(SeaMapChartCourseView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r2, [r0, #0x7c4]
-	ldr r1, _02041704 // =SeaMapChartCourseView__State_2041708
+	ldr r1, =SeaMapChartCourseView__State_2041708
 	str r2, [r0, #0x7c0]
 	str r1, [r0, #0x7c4]
 	bx lr
-	.align 2, 0
-_02041704: .word SeaMapChartCourseView__State_2041708
-	arm_func_end SeaMapChartCourseView__Func_20416F0
 
-	arm_func_start SeaMapChartCourseView__State_2041708
-SeaMapChartCourseView__State_2041708: // 0x02041708
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2041708(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -1180,33 +1298,43 @@ SeaMapChartCourseView__State_2041708: // 0x02041708
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
-	ldr r1, _02041768 // =SeaMapChartCourseView__State_204176C
+	ldr r1, =SeaMapChartCourseView__State_204176C
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02041768: .word SeaMapChartCourseView__State_204176C
-	arm_func_end SeaMapChartCourseView__State_2041708
 
-	arm_func_start SeaMapChartCourseView__State_204176C
-SeaMapChartCourseView__State_204176C: // 0x0204176C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_204176C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x3b8
 	add r0, r0, #0x400
 	bl SeaMapView_HandleZoomIn_Intro
 	cmp r0, #0
-	ldrne r0, _02041790 // =SeaMapChartCourseView__State_2041794
+	ldrne r0, =SeaMapChartCourseView__State_2041794
 	strne r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02041790: .word SeaMapChartCourseView__State_2041794
-	arm_func_end SeaMapChartCourseView__State_204176C
 
-	arm_func_start SeaMapChartCourseView__State_2041794
-SeaMapChartCourseView__State_2041794: // 0x02041794
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2041794(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetZoomLevel
@@ -1232,17 +1360,22 @@ _020417D0:
 	ldr r1, [r4, #4]
 	add r0, r0, #0x400
 	bl InitSeaMapViewZoomControl
-	ldr r1, _02041800 // =SeaMapChartCourseView__State_2041804
+	ldr r1, =SeaMapChartCourseView__State_2041804
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02041800: .word SeaMapChartCourseView__State_2041804
-	arm_func_end SeaMapChartCourseView__State_2041794
 
-	arm_func_start SeaMapChartCourseView__State_2041804
-SeaMapChartCourseView__State_2041804: // 0x02041804
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2041804(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x3b8
@@ -1255,21 +1388,32 @@ SeaMapChartCourseView__State_2041804: // 0x02041804
 	str r1, [r4, #0x7c4]
 	bl SeaMapManager__EnableTouchField
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapChartCourseView__State_2041804
 
-	arm_func_start SeaMapChartCourseView__Func_2041834
-SeaMapChartCourseView__Func_2041834: // 0x02041834
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2041834(SeaMapChartCourseView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r2, [r0, #0x7c4]
-	ldr r1, _02041848 // =SeaMapChartCourseView__Func_204184C
+	ldr r1, =SeaMapChartCourseView__Func_204184C
 	str r2, [r0, #0x7c0]
 	str r1, [r0, #0x7c4]
 	bx lr
-	.align 2, 0
-_02041848: .word SeaMapChartCourseView__Func_204184C
-	arm_func_end SeaMapChartCourseView__Func_2041834
 
-	arm_func_start SeaMapChartCourseView__Func_204184C
-SeaMapChartCourseView__Func_204184C: // 0x0204184C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_204184C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -1288,33 +1432,43 @@ SeaMapChartCourseView__Func_204184C: // 0x0204184C
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
-	ldr r1, _020418AC // =SeaMapChartCourseView__Func_20418B0
+	ldr r1, =SeaMapChartCourseView__Func_20418B0
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_020418AC: .word SeaMapChartCourseView__Func_20418B0
-	arm_func_end SeaMapChartCourseView__Func_204184C
 
-	arm_func_start SeaMapChartCourseView__Func_20418B0
-SeaMapChartCourseView__Func_20418B0: // 0x020418B0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_20418B0(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x3b8
 	add r0, r0, #0x400
 	bl SeaMapView_HandleZoomOut_Intro
 	cmp r0, #0
-	ldrne r0, _020418D4 // =SeaMapChartCourseView__Func_20418D8
+	ldrne r0, =SeaMapChartCourseView__Func_20418D8
 	strne r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_020418D4: .word SeaMapChartCourseView__Func_20418D8
-	arm_func_end SeaMapChartCourseView__Func_20418B0
 
-	arm_func_start SeaMapChartCourseView__Func_20418D8
-SeaMapChartCourseView__Func_20418D8: // 0x020418D8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_20418D8(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetZoomLevel
@@ -1340,17 +1494,22 @@ _02041914:
 	ldr r1, [r4, #4]
 	add r0, r0, #0x400
 	bl InitSeaMapViewZoomControl
-	ldr r1, _02041944 // =SeaMapChartCourseView__Func_2041948
+	ldr r1, =SeaMapChartCourseView__Func_2041948
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02041944: .word SeaMapChartCourseView__Func_2041948
-	arm_func_end SeaMapChartCourseView__Func_20418D8
 
-	arm_func_start SeaMapChartCourseView__Func_2041948
-SeaMapChartCourseView__Func_2041948: // 0x02041948
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2041948(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x3b8
@@ -1363,10 +1522,17 @@ SeaMapChartCourseView__Func_2041948: // 0x02041948
 	str r1, [r4, #0x7c4]
 	bl SeaMapManager__EnableTouchField
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapChartCourseView__Func_2041948
 
-	arm_func_start SeaMapChartCourseView__State_2041978
-SeaMapChartCourseView__State_2041978: // 0x02041978
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2041978(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapView_FadeActiveScreen_ToDefault
@@ -1374,25 +1540,29 @@ SeaMapChartCourseView__State_2041978: // 0x02041978
 	ldmeqia sp!, {r4, pc}
 	ldr r0, [r4, #0x7b4]
 	cmp r0, #1
-	ldreq r0, _020419A8 // =SeaMapChartCourseView__State_2041A68
+	ldreq r0, =SeaMapChartCourseView__State_2041A68
 	streq r0, [r4, #0x7c4]
-	ldrne r0, _020419AC // =SeaMapChartCourseView__State_20419B0
+	ldrne r0, =SeaMapChartCourseView__State_20419B0
 	strne r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_020419A8: .word SeaMapChartCourseView__State_2041A68
-_020419AC: .word SeaMapChartCourseView__State_20419B0
-	arm_func_end SeaMapChartCourseView__State_2041978
 
-	arm_func_start SeaMapChartCourseView__State_20419B0
-SeaMapChartCourseView__State_20419B0: // 0x020419B0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20419B0(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _02041A0C // =gSeaMapViewType
+	ldr r1, =gSeaMapViewType
 	mov r2, #3
 	mov r4, r0
 	str r2, [r1]
 	bl SeaMapView_ResetIndicatorFlashTimer
-	ldr r1, _02041A10 // =dword_210FAD0
+	ldr r1, =dword_210FAD0
 	mov r0, r4
 	bl SeaMapView_EnableMultipleButtons
 	bl SeaMapManager__GetZoomLevel
@@ -1404,19 +1574,22 @@ SeaMapChartCourseView__State_20419B0: // 0x020419B0
 	bl NavTailsSpeak
 	mov r0, #1
 	str r0, [r4, #0x9cc]
-	ldr r1, _02041A14 // =SeaMapChartCourseView__State_2041A18
+	ldr r1, =SeaMapChartCourseView__State_2041A18
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02041A0C: .word gSeaMapViewType
-_02041A10: .word dword_210FAD0
-_02041A14: .word SeaMapChartCourseView__State_2041A18
-	arm_func_end SeaMapChartCourseView__State_20419B0
 
-	arm_func_start SeaMapChartCourseView__State_2041A18
-SeaMapChartCourseView__State_2041A18: // 0x02041A18
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2041A18(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapView_ProcessMapInputs
@@ -1438,18 +1611,25 @@ SeaMapChartCourseView__State_2041A18: // 0x02041A18
 _02041A60:
 	bl SeaMapChartCourseView__Func_2040C7C
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapChartCourseView__State_2041A18
 
-	arm_func_start SeaMapChartCourseView__State_2041A68
-SeaMapChartCourseView__State_2041A68: // 0x02041A68
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2041A68(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _02041AD0 // =gSeaMapViewType
+	ldr r1, =gSeaMapViewType
 	mov r2, #4
 	mov r4, r0
 	str r2, [r1]
 	bl SeaMapView_ResetIndicatorFlashTimer
 	mov r2, #1
-	ldr r1, _02041AD4 // =dword_210FAF0
+	ldr r1, =dword_210FAF0
 	mov r0, r4
 	str r2, [r4, #0x9cc]
 	bl SeaMapView_EnableMultipleButtons
@@ -1463,19 +1643,22 @@ SeaMapChartCourseView__State_2041A68: // 0x02041A68
 	mov r0, r4
 	mov r1, #0
 	bl SeaMapView_SetTouchAreaPriority
-	ldr r1, _02041AD8 // =SeaMapChartCourseView__State_2041ADC
+	ldr r1, =SeaMapChartCourseView__State_2041ADC
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02041AD0: .word gSeaMapViewType
-_02041AD4: .word dword_210FAF0
-_02041AD8: .word SeaMapChartCourseView__State_2041ADC
-	arm_func_end SeaMapChartCourseView__State_2041A68
 
-	arm_func_start SeaMapChartCourseView__State_2041ADC
-SeaMapChartCourseView__State_2041ADC: // 0x02041ADC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2041ADC(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl GetSeaMapEventManagerWork2
@@ -1484,7 +1667,7 @@ SeaMapChartCourseView__State_2041ADC: // 0x02041ADC
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _02041B48
-	ldr r0, _02041C60 // =touchInput
+	ldr r0, =touchInput
 	ldrh r1, [r0, #0x12]
 	tst r1, #4
 	beq _02041B48
@@ -1507,7 +1690,7 @@ _02041B48:
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _02041BFC
-	ldr r0, _02041C60 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #8
 	beq _02041BFC
@@ -1555,7 +1738,7 @@ _02041BFC:
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _02041C4C
-	ldr r0, _02041C60 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #1
 	beq _02041C4C
@@ -1578,17 +1761,22 @@ _02041C4C:
 	mov r0, r4
 	bl SeaMapChartCourseView__Func_2040DE0
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02041C60: .word touchInput
-	arm_func_end SeaMapChartCourseView__State_2041ADC
 
-	arm_func_start SeaMapChartCourseView__State_2041C64
-SeaMapChartCourseView__State_2041C64: // 0x02041C64
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2041C64(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x20
 	mov r4, r0
 	mov r2, #0
-	ldr r1, _02041CFC // =dword_210FA90
+	ldr r1, =dword_210FA90
 	str r2, [r4, #0x9cc]
 	bl SeaMapView_EnableMultipleButtons
 	ldr r1, [r4, #4]
@@ -1618,17 +1806,21 @@ SeaMapChartCourseView__State_2041C64: // 0x02041C64
 	mov r0, #0x2b
 	mov r1, #0
 	bl NavTailsSpeak
-	ldr r0, _02041D00 // =SeaMapChartCourseView__State_2041D04
+	ldr r0, =SeaMapChartCourseView__State_2041D04
 	str r0, [r4, #0x7c4]
 	add sp, sp, #0x20
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02041CFC: .word dword_210FA90
-_02041D00: .word SeaMapChartCourseView__State_2041D04
-	arm_func_end SeaMapChartCourseView__State_2041C64
 
-	arm_func_start SeaMapChartCourseView__State_2041D04
-SeaMapChartCourseView__State_2041D04: // 0x02041D04
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2041D04(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -1650,9 +1842,9 @@ _02041D2C:
 	str r0, [sp, #4]
 	bl PlaySfxEx
 	bl SeaMapManager__UpdateGlobalNodeList
-	ldr r0, _02041DC4 // =gSeaMapViewExitEvent
+	ldr r0, =gSeaMapViewExitEvent
 	mov r2, #1
-	ldr r1, _02041DC8 // =SeaMapChartCourseView__State_2041E30
+	ldr r1, =SeaMapChartCourseView__State_2041E30
 	str r2, [r0]
 	add sp, sp, #8
 	str r1, [r4, #0x7c4]
@@ -1675,25 +1867,28 @@ _02041D70:
 	ldr r0, [r4, #0x9c8]
 	cmp r0, #0
 	cmpne r0, #1
-	ldreq r0, _02041DCC // =SeaMapChartCourseView__State_2041A68
+	ldreq r0, =SeaMapChartCourseView__State_2041A68
 	streq r0, [r4, #0x7c4]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02041DC4: .word gSeaMapViewExitEvent
-_02041DC8: .word SeaMapChartCourseView__State_2041E30
-_02041DCC: .word SeaMapChartCourseView__State_2041A68
-	arm_func_end SeaMapChartCourseView__State_2041D04
 
-	arm_func_start SeaMapChartCourseView__State_2041DD0
-SeaMapChartCourseView__State_2041DD0: // 0x02041DD0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2041DD0(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _02041E18 // =dword_210FAB0
+	ldr r1, =dword_210FAB0
 	mov r4, r0
 	mov r2, #0
 	str r2, [r4, #0x9cc]
 	bl SeaMapView_EnableMultipleButtons
-	ldr r1, _02041E1C // =SeaMapView_TouchAreaCallback_Inactive
+	ldr r1, =SeaMapView_TouchAreaCallback_Inactive
 	mov r0, r4
 	bl SeaMapView_SetTouchAreaCallback
 	mov r0, r4
@@ -1702,32 +1897,45 @@ SeaMapChartCourseView__State_2041DD0: // 0x02041DD0
 	mov r0, #0x2b
 	mov r1, #0
 	bl NavTailsSpeak
-	ldr r0, _02041E20 // =SeaMapChartCourseView__State_2041E24
+	ldr r0, =SeaMapChartCourseView__State_2041E24
 	str r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02041E18: .word dword_210FAB0
-_02041E1C: .word SeaMapView_TouchAreaCallback_Inactive
-_02041E20: .word SeaMapChartCourseView__State_2041E24
-	arm_func_end SeaMapChartCourseView__State_2041DD0
 
-	arm_func_start SeaMapChartCourseView__State_2041E24
-SeaMapChartCourseView__State_2041E24: // 0x02041E24
-	ldr ip, _02041E2C // =SeaMapChartCourseView__State_2040EEC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2041E24(SeaMapChartCourseView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =SeaMapChartCourseView__State_2040EEC
 	bx ip
-	.align 2, 0
-_02041E2C: .word SeaMapChartCourseView__State_2040EEC
-	arm_func_end SeaMapChartCourseView__State_2041E24
 
-	arm_func_start SeaMapChartCourseView__State_2041E30
-SeaMapChartCourseView__State_2041E30: // 0x02041E30
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2041E30(SeaMapChartCourseView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r1, #1
 	str r1, [r0, #0x7cc]
 	bx lr
-	arm_func_end SeaMapChartCourseView__State_2041E30
 
-	arm_func_start SeaMapChartCourseView__Func_2041E3C
-SeaMapChartCourseView__Func_2041E3C: // 0x02041E3C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2041E3C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r1
 	mov r4, r2
@@ -1745,10 +1953,17 @@ SeaMapChartCourseView__Func_2041E3C: // 0x02041E3C
 	moveq r0, #1
 	streq r0, [r5, #0xab8]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapChartCourseView__Func_2041E3C
 
-	arm_func_start SeaMapChartCourseView__Func_2041E80
-SeaMapChartCourseView__Func_2041E80: // 0x02041E80
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2041E80(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	add r6, r0, #0x1d4
 	add r0, r6, #0x900
@@ -1793,12 +2008,19 @@ _02041EEC:
 _02041F18:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end SeaMapChartCourseView__Func_2041E80
 
-	arm_func_start SeaMapChartCourseView__Func_2041F20
-SeaMapChartCourseView__Func_2041F20: // 0x02041F20
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2041F20(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	ldr r3, _02041F88 // =byte_210FA78
+	ldr r3, =byte_210FA78
 	mov r2, #0xb
 	mla r5, r1, r2, r3
 	mov r7, #0
@@ -1825,12 +2047,17 @@ _02041F48:
 	blt _02041F44
 	mov r0, r7
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	.align 2, 0
-_02041F88: .word byte_210FA78
-	arm_func_end SeaMapChartCourseView__Func_2041F20
 
-	arm_func_start SeaMapChartCourseView__Func_2041F8C
-SeaMapChartCourseView__Func_2041F8C: // 0x02041F8C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2041F8C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r3, [r0, #0]
 	add r0, r2, #0x1d4
@@ -1872,16 +2099,23 @@ _02042004:
 	mov r1, #0
 	bl SetSpriteButtonState
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapChartCourseView__Func_2041F8C
 
-	arm_func_start SeaMapChartCourseView__Func_204201C
-SeaMapChartCourseView__Func_204201C: // 0x0204201C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_204201C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x24
 	mov r9, r0
 	add r0, r9, #0x1d4
 	add r5, r0, #0x800
-	ldr r2, _02042168 // =byte_210FA78
+	ldr r2, =byte_210FA78
 	mov r8, r1
 	mov r0, #0xb
 	mla r4, r8, r0, r2
@@ -1923,7 +2157,7 @@ _02042090:
 	mov r1, r0
 	mov r0, r7
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, _0204216C // =VRAMSystem__VRAM_PALETTE_OBJ
+	ldr r1, =VRAMSystem__VRAM_PALETTE_OBJ
 	str r7, [sp]
 	mov r2, #0
 	str r2, [sp, #4]
@@ -1948,8 +2182,8 @@ _02042090:
 	mov r1, #0
 	add r2, sp, #0x1c
 	bl AnimatorSprite__GetBlockData
-	ldr r1, _02042170 // =SeaMapChartCourseView__Func_2041F8C
-	ldr r2, _02042174 // =TouchField__PointInRect
+	ldr r1, =SeaMapChartCourseView__Func_2041F8C
+	ldr r2, =TouchField__PointInRect
 	stmia sp, {r1, r9}
 	add r0, r6, #0x64
 	add r1, r6, #8
@@ -1964,15 +2198,17 @@ _02042090:
 	bl SetSpriteButtonState
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
-	.align 2, 0
-_02042168: .word byte_210FA78
-_0204216C: .word VRAMSystem__VRAM_PALETTE_OBJ
-_02042170: .word SeaMapChartCourseView__Func_2041F8C
-_02042174: .word TouchField__PointInRect
-	arm_func_end SeaMapChartCourseView__Func_204201C
 
-	arm_func_start SeaMapChartCourseView__Func_2042178
-SeaMapChartCourseView__Func_2042178: // 0x02042178
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2042178(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	add r0, r0, #0x1d4
 	add r4, r0, #0x800
@@ -1986,10 +2222,17 @@ SeaMapChartCourseView__Func_2042178: // 0x02042178
 	mov r2, #0xa4
 	bl MIi_CpuClear16
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapChartCourseView__Func_2042178
 
-	arm_func_start SeaMapChartCourseView__Func_20421AC
-SeaMapChartCourseView__Func_20421AC: // 0x020421AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_20421AC(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	add r4, r0, #0x1d4
 	ldr r0, [r4, #0x8d8]
@@ -2013,10 +2256,23 @@ SeaMapChartCourseView__Func_20421AC: // 0x020421AC
 	bl CreateSeaMapEventManagerStylusIcon
 	str r0, [r4, #0x8d8]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapChartCourseView__Func_20421AC
 
-	arm_func_start SeaMapChartCourseView__Func_2042208
-SeaMapChartCourseView__Func_2042208: // 0x02042208
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__Func_2042208(SeaMapChartCourseView *work)
+{
+    // https://decomp.me/scratch/pOFOA -> 76.67%
+#ifdef NON_MATCHING
+    SeaMapStylusIcon *stylusIcon = work->stylusIcon;
+    if (stylusIcon != NULL)
+    {
+        DestroySeaMapEventManagerStylusIcon(&stylusIcon->objWork);
+        work->stylusIcon = NULL;
+    }
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	add r4, r0, #0x1d4
 	ldr r0, [r4, #0x8d8]
@@ -2026,10 +2282,28 @@ SeaMapChartCourseView__Func_2042208: // 0x02042208
 	mov r0, #0
 	str r0, [r4, #0x8d8]
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapChartCourseView__Func_2042208
 
-	arm_func_start SeaMapChartCourseView__StartNavTailsTalk
-SeaMapChartCourseView__StartNavTailsTalk: // 0x0204222C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__StartNavTailsTalk(SeaMapChartCourseView *work, SeaMapChartCourseViewNavTailsTalk *seqList, s16 seqCount,
+                                                            void (*nextState)(SeaMapChartCourseView *work), s32 a5)
+{
+    // https://decomp.me/scratch/9PaS1 -> 81.05%
+#ifdef NON_MATCHING
+    work->navTailsSequenceList  = seqList;
+    work->navTailsSequenceCount = seqCount;
+    work->nextState             = nextState;
+    work->navTailsSequenceID    = 0;
+    work->field_9F8             = a5;
+
+    StopStageSfx(work->view.sndHandle);
+
+    work->view.unknown1 = 0;
+    work->state          = SeaMapChartCourseView__State_2042278;
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x1d4
@@ -2044,16 +2318,21 @@ SeaMapChartCourseView__StartNavTailsTalk: // 0x0204222C
 	ldr r0, [r4, #0x7a8]
 	bl NNS_SndPlayerStopSeq
 	mov r1, #0
-	ldr r0, _02042274 // =SeaMapChartCourseView__State_2042278
+	ldr r0, =SeaMapChartCourseView__State_2042278
 	str r1, [r4, #0x7ac]
 	str r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02042274: .word SeaMapChartCourseView__State_2042278
-	arm_func_end SeaMapChartCourseView__StartNavTailsTalk
 
-	arm_func_start SeaMapChartCourseView__State_2042278
-SeaMapChartCourseView__State_2042278: // 0x02042278
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042278(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r4, r5, #0x1d4
@@ -2062,7 +2341,7 @@ SeaMapChartCourseView__State_2042278: // 0x02042278
 	bl SeaMapView_ProcessMapInputs
 	ldr r0, [r4, #0x824]
 	cmp r0, #0
-	ldreq r0, _020422CC // =SeaMapChartCourseView__State_204231C
+	ldreq r0, =SeaMapChartCourseView__State_204231C
 	streq r0, [r5, #0x7c4]
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r5
@@ -2071,17 +2350,21 @@ SeaMapChartCourseView__State_2042278: // 0x02042278
 	str r0, [r4, #0x8e0]
 	bl SetSeaMapPenPaletteMode
 	mov r1, #1
-	ldr r0, _020422D0 // =SeaMapChartCourseView__State_20422D4
+	ldr r0, =SeaMapChartCourseView__State_20422D4
 	str r1, [r5, #0x9d0]
 	str r0, [r5, #0x7c4]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_020422CC: .word SeaMapChartCourseView__State_204231C
-_020422D0: .word SeaMapChartCourseView__State_20422D4
-	arm_func_end SeaMapChartCourseView__State_2042278
 
-	arm_func_start SeaMapChartCourseView__State_20422D4
-SeaMapChartCourseView__State_20422D4: // 0x020422D4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20422D4(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0xab4]
@@ -2091,21 +2374,25 @@ SeaMapChartCourseView__State_20422D4: // 0x020422D4
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _02042308
-	ldr r0, _02042314 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #1
 	ldmneia sp!, {r4, pc}
 _02042308:
-	ldr r0, _02042318 // =SeaMapChartCourseView__State_204231C
+	ldr r0, =SeaMapChartCourseView__State_204231C
 	str r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02042314: .word touchInput
-_02042318: .word SeaMapChartCourseView__State_204231C
-	arm_func_end SeaMapChartCourseView__State_20422D4
 
-	arm_func_start SeaMapChartCourseView__State_204231C
-SeaMapChartCourseView__State_204231C: // 0x0204231C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_204231C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	add r0, r4, #0x1d4
@@ -2128,17 +2415,22 @@ SeaMapChartCourseView__State_204231C: // 0x0204231C
 	str r0, [r5, #0xd0]
 	str r0, [r5, #0xcc]
 _02042370:
-	ldr r1, _02042384 // =SeaMapChartCourseView__State_2042388
+	ldr r1, =SeaMapChartCourseView__State_2042388
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_02042384: .word SeaMapChartCourseView__State_2042388
-	arm_func_end SeaMapChartCourseView__State_204231C
 
-	arm_func_start SeaMapChartCourseView__State_2042388
-SeaMapChartCourseView__State_2042388: // 0x02042388
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042388(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -2205,7 +2497,7 @@ _02042460:
 	ldrh r1, [r4, #0x1e]
 	ldrh r0, [r4, #0x1c]
 	cmp r1, r0
-	ldrlo r0, _020424D4 // =SeaMapChartCourseView__State_204231C
+	ldrlo r0, =SeaMapChartCourseView__State_204231C
 	addlo sp, sp, #8
 	strlo r0, [r6, #0x7c4]
 	ldmloia sp!, {r4, r5, r6, pc}
@@ -2215,7 +2507,7 @@ _02042460:
 	ldr r0, [r4, #0xe0]
 	mov r1, #2
 	bl SetSeaMapPenPaletteMode
-	ldr r0, _020424D8 // =SeaMapChartCourseView__State_20424DC
+	ldr r0, =SeaMapChartCourseView__State_20424DC
 	add sp, sp, #8
 	str r0, [r6, #0x7c4]
 	ldmia sp!, {r4, r5, r6, pc}
@@ -2226,13 +2518,17 @@ _020424BC:
 	blx r1
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_020424D4: .word SeaMapChartCourseView__State_204231C
-_020424D8: .word SeaMapChartCourseView__State_20424DC
-	arm_func_end SeaMapChartCourseView__State_2042388
 
-	arm_func_start SeaMapChartCourseView__State_20424DC
-SeaMapChartCourseView__State_20424DC: // 0x020424DC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20424DC(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r4, r5, #0x1d4
@@ -2251,12 +2547,19 @@ SeaMapChartCourseView__State_20424DC: // 0x020424DC
 	str r1, [r5, #0x7c4]
 	blx r1
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapChartCourseView__State_20424DC
 
-	arm_func_start SeaMapChartCourseView__State_2042524
-SeaMapChartCourseView__State_2042524: // 0x02042524
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042524(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _02042584 // =dword_210FAD0
+	ldr r1, =dword_210FAD0
 	mov r4, r0
 	bl SeaMapView_EnableMultipleButtons
 	bl SeaMapManager__GetZoomLevel
@@ -2274,103 +2577,134 @@ SeaMapChartCourseView__State_2042524: // 0x02042524
 	bl SetSeaMapViewPosition
 	mov r0, r4
 	bl SeaMapView_ProcessMapInputs
-	ldr r1, _02042588 // =SeaMapChartCourseView__State_204258C
+	ldr r1, =SeaMapChartCourseView__State_204258C
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02042584: .word dword_210FAD0
-_02042588: .word SeaMapChartCourseView__State_204258C
-	arm_func_end SeaMapChartCourseView__State_2042524
 
-	arm_func_start SeaMapChartCourseView__State_204258C
-SeaMapChartCourseView__State_204258C: // 0x0204258C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_204258C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapView_FadeActiveScreen_ToDefault
 	cmp r0, #0
-	ldrne r0, _020425A8 // =SeaMapChartCourseView__State_20425AC
+	ldrne r0, =SeaMapChartCourseView__State_20425AC
 	strne r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_020425A8: .word SeaMapChartCourseView__State_20425AC
-	arm_func_end SeaMapChartCourseView__State_204258C
 
-	arm_func_start SeaMapChartCourseView__State_20425AC
-SeaMapChartCourseView__State_20425AC: // 0x020425AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20425AC(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r2, _020425CC // =SeaMapChartCourseView__State_20425D0
+	ldr r2, =SeaMapChartCourseView__State_20425D0
 	add r1, r0, #0xa00
 	mov r3, #0
 	strh r3, [r1, #0xd8]
 	str r2, [r0, #0x7c4]
 	blx r2
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_020425CC: .word SeaMapChartCourseView__State_20425D0
-	arm_func_end SeaMapChartCourseView__State_20425AC
 
-	arm_func_start SeaMapChartCourseView__State_20425D0
-SeaMapChartCourseView__State_20425D0: // 0x020425D0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20425D0(SeaMapChartCourseView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	add r1, r0, #0x1d4
 	add r1, r1, #0x900
 	ldrh r3, [r1, #4]
 	add r2, r3, #1
 	strh r2, [r1, #4]
 	cmp r3, #0x3c
-	ldrhi r1, _020425F4 // =SeaMapChartCourseView__State_20425F8
+	ldrhi r1, =SeaMapChartCourseView__State_20425F8
 	strhi r1, [r0, #0x7c4]
 	bx lr
-	.align 2, 0
-_020425F4: .word SeaMapChartCourseView__State_20425F8
-	arm_func_end SeaMapChartCourseView__State_20425D0
 
-	arm_func_start SeaMapChartCourseView__State_20425F8
-SeaMapChartCourseView__State_20425F8: // 0x020425F8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20425F8(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r1, _02042614 // =stru_210FA1C
+	ldr r1, =stru_210FA1C
 	mov r2, #1
-	ldr r3, _02042618 // =SeaMapChartCourseView__State_204261C
+	ldr r3, =SeaMapChartCourseView__State_204261C
 	str r2, [sp]
 	bl SeaMapChartCourseView__StartNavTailsTalk
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02042614: .word stru_210FA1C
-_02042618: .word SeaMapChartCourseView__State_204261C
-	arm_func_end SeaMapChartCourseView__State_20425F8
 
-	arm_func_start SeaMapChartCourseView__State_204261C
-SeaMapChartCourseView__State_204261C: // 0x0204261C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_204261C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r2, _0204263C // =SeaMapChartCourseView__State_2042640
+	ldr r2, =SeaMapChartCourseView__State_2042640
 	add r1, r0, #0xa00
 	mov r3, #0
 	strh r3, [r1, #0xd8]
 	str r2, [r0, #0x7c4]
 	blx r2
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0204263C: .word SeaMapChartCourseView__State_2042640
-	arm_func_end SeaMapChartCourseView__State_204261C
 
-	arm_func_start SeaMapChartCourseView__State_2042640
-SeaMapChartCourseView__State_2042640: // 0x02042640
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042640(SeaMapChartCourseView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	add r1, r0, #0x1d4
 	add r1, r1, #0x900
 	ldrh r3, [r1, #4]
 	add r2, r3, #1
 	strh r2, [r1, #4]
 	cmp r3, #0x1e
-	ldrhi r1, _02042664 // =SeaMapChartCourseView__State_2042668
+	ldrhi r1, =SeaMapChartCourseView__State_2042668
 	strhi r1, [r0, #0x7c4]
 	bx lr
-	.align 2, 0
-_02042664: .word SeaMapChartCourseView__State_2042668
-	arm_func_end SeaMapChartCourseView__State_2042640
 
-	arm_func_start SeaMapChartCourseView__State_2042668
-SeaMapChartCourseView__State_2042668: // 0x02042668
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042668(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -2387,33 +2721,43 @@ SeaMapChartCourseView__State_2042668: // 0x02042668
 	mov r3, r1
 	str ip, [sp, #4]
 	bl PlaySfxEx
-	ldr r1, _020426C0 // =SeaMapChartCourseView__State_TryZoomIn
+	ldr r1, =SeaMapChartCourseView__State_TryZoomIn
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_020426C0: .word SeaMapChartCourseView__State_TryZoomIn
-	arm_func_end SeaMapChartCourseView__State_2042668
 
-	arm_func_start SeaMapChartCourseView__State_TryZoomIn
-SeaMapChartCourseView__State_TryZoomIn: // 0x020426C4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_TryZoomIn(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x3b8
 	add r0, r0, #0x400
 	bl SeaMapView_HandleZoomIn_Intro
 	cmp r0, #0
-	ldrne r0, _020426E8 // =SeaMapChartCourseView__State_20426EC
+	ldrne r0, =SeaMapChartCourseView__State_20426EC
 	strne r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_020426E8: .word SeaMapChartCourseView__State_20426EC
-	arm_func_end SeaMapChartCourseView__State_TryZoomIn
 
-	arm_func_start SeaMapChartCourseView__State_20426EC
-SeaMapChartCourseView__State_20426EC: // 0x020426EC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20426EC(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetZoomLevel
@@ -2443,17 +2787,22 @@ _02042724:
 	ldr r1, [r4, #4]
 	add r0, r0, #0x400
 	bl InitSeaMapViewZoomControl
-	ldr r1, _0204276C // =SeaMapChartCourseView__State_ZoomIn
+	ldr r1, =SeaMapChartCourseView__State_ZoomIn
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0204276C: .word SeaMapChartCourseView__State_ZoomIn
-	arm_func_end SeaMapChartCourseView__State_20426EC
 
-	arm_func_start SeaMapChartCourseView__State_ZoomIn
-SeaMapChartCourseView__State_ZoomIn: // 0x02042770
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_ZoomIn(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x3b8
@@ -2463,33 +2812,41 @@ SeaMapChartCourseView__State_ZoomIn: // 0x02042770
 	ldmeqia sp!, {r4, pc}
 	bl SeaMapManager__GetZoomLevel
 	cmp r0, #0
-	ldrne r0, _020427A8 // =SeaMapChartCourseView__State_204261C
+	ldrne r0, =SeaMapChartCourseView__State_204261C
 	strne r0, [r4, #0x7c4]
-	ldreq r0, _020427AC // =SeaMapChartCourseView__State_20427B0
+	ldreq r0, =SeaMapChartCourseView__State_20427B0
 	streq r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_020427A8: .word SeaMapChartCourseView__State_204261C
-_020427AC: .word SeaMapChartCourseView__State_20427B0
-	arm_func_end SeaMapChartCourseView__State_ZoomIn
 
-	arm_func_start SeaMapChartCourseView__State_20427B0
-SeaMapChartCourseView__State_20427B0: // 0x020427B0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20427B0(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r1, _020427D0 // =stru_210FA58
+	ldr r1, =stru_210FA58
 	mov ip, #1
-	ldr r3, _020427D4 // =SeaMapChartCourseView__State_20427D8
+	ldr r3, =SeaMapChartCourseView__State_20427D8
 	mov r2, #2
 	str ip, [sp]
 	bl SeaMapChartCourseView__StartNavTailsTalk
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_020427D0: .word stru_210FA58
-_020427D4: .word SeaMapChartCourseView__State_20427D8
-	arm_func_end SeaMapChartCourseView__State_20427B0
 
-	arm_func_start SeaMapChartCourseView__State_20427D8
-SeaMapChartCourseView__State_20427D8: // 0x020427D8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20427D8(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetWork
@@ -2511,17 +2868,22 @@ SeaMapChartCourseView__State_20427D8: // 0x020427D8
 	mov r0, r4
 	str r1, [r4, #0x9cc]
 	bl SeaMapView_SetTouchAreaPriority
-	ldr r1, _02042840 // =SeaMapChartCourseView__State_2042844
+	ldr r1, =SeaMapChartCourseView__State_2042844
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02042840: .word SeaMapChartCourseView__State_2042844
-	arm_func_end SeaMapChartCourseView__State_20427D8
 
-	arm_func_start SeaMapChartCourseView__State_2042844
-SeaMapChartCourseView__State_2042844: // 0x02042844
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042844(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	bl SeaMapManager__GetWork
@@ -2533,7 +2895,7 @@ SeaMapChartCourseView__State_2042844: // 0x02042844
 	mov r0, r5
 	bl SeaMapChartCourseView__Func_2040DE0
 	mov r0, r5
-	ldr r1, _0204292C // =word_210FA16
+	ldr r1, =word_210FA16
 	mov r2, #3
 	bl SeaMapChartCourseView__Func_2041E80
 	bl SeaMapManager__GetZoomLevel
@@ -2578,16 +2940,20 @@ _020428F8:
 	cmp r0, #0x258000
 	ldmleia sp!, {r4, r5, r6, pc}
 	bl DestroySeaMapEventManagerDSPopup
-	ldr r0, _02042930 // =SeaMapChartCourseView__State_2042934
+	ldr r0, =SeaMapChartCourseView__State_2042934
 	str r0, [r5, #0x7c4]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0204292C: .word word_210FA16
-_02042930: .word SeaMapChartCourseView__State_2042934
-	arm_func_end SeaMapChartCourseView__State_2042844
 
-	arm_func_start SeaMapChartCourseView__State_2042934
-SeaMapChartCourseView__State_2042934: // 0x02042934
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042934(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r1, #0
@@ -2596,38 +2962,46 @@ SeaMapChartCourseView__State_2042934: // 0x02042934
 	mov r0, #0
 	bl SeaMapManager__EnableTouchField
 	mov r2, #1
-	ldr r1, _02042970 // =stru_210FA3C
-	ldr r3, _02042974 // =SeaMapChartCourseView__State_2042978
+	ldr r1, =stru_210FA3C
+	ldr r3, =SeaMapChartCourseView__State_2042978
 	mov r0, r4
 	str r2, [sp]
 	bl SeaMapChartCourseView__StartNavTailsTalk
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_02042970: .word stru_210FA3C
-_02042974: .word SeaMapChartCourseView__State_2042978
-	arm_func_end SeaMapChartCourseView__State_2042934
 
-	arm_func_start SeaMapChartCourseView__State_2042978
-SeaMapChartCourseView__State_2042978: // 0x02042978
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042978(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetZoomLevel
 	cmp r0, #0
-	ldreq r0, _020429A4 // =SeaMapChartCourseView__State_20429AC
-	ldrne r0, _020429A8 // =SeaMapChartCourseView__State_2042B04
+	ldreq r0, =SeaMapChartCourseView__State_20429AC
+	ldrne r0, =SeaMapChartCourseView__State_2042B04
 	str r0, [r4, #0x7c4]
 	ldr r1, [r4, #0x7c4]
 	mov r0, r4
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_020429A4: .word SeaMapChartCourseView__State_20429AC
-_020429A8: .word SeaMapChartCourseView__State_2042B04
-	arm_func_end SeaMapChartCourseView__State_2042978
 
-	arm_func_start SeaMapChartCourseView__State_20429AC
-SeaMapChartCourseView__State_20429AC: // 0x020429AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20429AC(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetWork
@@ -2636,7 +3010,7 @@ SeaMapChartCourseView__State_20429AC: // 0x020429AC
 	add r2, r2, #0x80000
 	str r2, [r1, #0x8f0]
 	ldr r0, [r0, #8]
-	ldr r2, _020429F4 // =SeaMapChartCourseView__State_20429F8
+	ldr r2, =SeaMapChartCourseView__State_20429F8
 	add r0, r0, #0x60000
 	str r0, [r1, #0x8f4]
 	add r0, r1, #0x900
@@ -2646,12 +3020,17 @@ SeaMapChartCourseView__State_20429AC: // 0x020429AC
 	str r2, [r4, #0x7c4]
 	blx r2
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_020429F4: .word SeaMapChartCourseView__State_20429F8
-	arm_func_end SeaMapChartCourseView__State_20429AC
 
-	arm_func_start SeaMapChartCourseView__State_20429F8
-SeaMapChartCourseView__State_20429F8: // 0x020429F8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20429F8(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r5, r0
 	mov r0, #0
@@ -2676,7 +3055,7 @@ SeaMapChartCourseView__State_20429F8: // 0x020429F8
 	mov r2, r2, asr #1
 	blt _02042A64
 	mov r6, #0x1000
-	ldr r0, _02042B00 // =SeaMapChartCourseView__State_2042C04
+	ldr r0, =SeaMapChartCourseView__State_2042C04
 	strh r6, [r3, #2]
 	str r0, [r5, #0x7c4]
 _02042A64:
@@ -2721,44 +3100,59 @@ _02042AC4:
 	bne _02042AC4
 	bl SetSeaMapViewPosition
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	.align 2, 0
-_02042B00: .word SeaMapChartCourseView__State_2042C04
-	arm_func_end SeaMapChartCourseView__State_20429F8
 
-	arm_func_start SeaMapChartCourseView__State_2042B04
-SeaMapChartCourseView__State_2042B04: // 0x02042B04
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042B04(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x3b8
 	ldr r1, [r4, #4]
 	add r0, r0, #0x400
 	bl InitSeaMapViewZoomControl
-	ldr r1, _02042B30 // =SeaMapChartCourseView__State_2042B34
+	ldr r1, =SeaMapChartCourseView__State_2042B34
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02042B30: .word SeaMapChartCourseView__State_2042B34
-	arm_func_end SeaMapChartCourseView__State_2042B04
 
-	arm_func_start SeaMapChartCourseView__State_2042B34
-SeaMapChartCourseView__State_2042B34: // 0x02042B34
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042B34(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x3b8
 	add r0, r0, #0x400
 	bl SeaMapView_HandleZoomIn_Intro
 	cmp r0, #0
-	ldrne r0, _02042B58 // =SeaMapChartCourseView__State_2042B5C
+	ldrne r0, =SeaMapChartCourseView__State_2042B5C
 	strne r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02042B58: .word SeaMapChartCourseView__State_2042B5C
-	arm_func_end SeaMapChartCourseView__State_2042B34
 
-	arm_func_start SeaMapChartCourseView__State_2042B5C
-SeaMapChartCourseView__State_2042B5C: // 0x02042B5C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042B5C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r1, #0
 	mov r4, r0
@@ -2785,70 +3179,88 @@ SeaMapChartCourseView__State_2042B5C: // 0x02042B5C
 	ldr r1, [r4, #4]
 	add r0, r0, #0x400
 	bl InitSeaMapViewZoomControl
-	ldr r1, _02042BD8 // =SeaMapChartCourseView__State_2042BDC
+	ldr r1, =SeaMapChartCourseView__State_2042BDC
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02042BD8: .word SeaMapChartCourseView__State_2042BDC
-	arm_func_end SeaMapChartCourseView__State_2042B5C
 
-	arm_func_start SeaMapChartCourseView__State_2042BDC
-SeaMapChartCourseView__State_2042BDC: // 0x02042BDC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042BDC(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x3b8
 	add r0, r0, #0x400
 	bl SeaMapView_HandleZoomIn_Outro
 	cmp r0, #0
-	ldrne r0, _02042C00 // =SeaMapChartCourseView__State_2042C04
+	ldrne r0, =SeaMapChartCourseView__State_2042C04
 	strne r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02042C00: .word SeaMapChartCourseView__State_2042C04
-	arm_func_end SeaMapChartCourseView__State_2042BDC
 
-	arm_func_start SeaMapChartCourseView__State_2042C04
-SeaMapChartCourseView__State_2042C04: // 0x02042C04
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042C04(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r1, _02042C24 // =stru_210FA68
+	ldr r1, =stru_210FA68
 	mov ip, #1
-	ldr r3, _02042C28 // =SeaMapChartCourseView__State_2042C2C
+	ldr r3, =SeaMapChartCourseView__State_2042C2C
 	mov r2, #2
 	str ip, [sp]
 	bl SeaMapChartCourseView__StartNavTailsTalk
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02042C24: .word stru_210FA68
-_02042C28: .word SeaMapChartCourseView__State_2042C2C
-	arm_func_end SeaMapChartCourseView__State_2042C04
 
-	arm_func_start SeaMapChartCourseView__State_2042C2C
-SeaMapChartCourseView__State_2042C2C: // 0x02042C2C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042C2C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, _02042C64 // =SeaMapChartCourseView__Func_2041E3C
+	ldr r0, =SeaMapChartCourseView__Func_2041E3C
 	mov r1, r4
 	bl SeaMapEventTrigger_AddEventListener
 	str r0, [r4, #0xab0]
 	mov r0, #1
 	bl SeaMapManager__EnableTouchField
 	bl CreateSeaMapEventManagerDSPopup
-	ldr r1, _02042C68 // =SeaMapChartCourseView__State_2042C6C
+	ldr r1, =SeaMapChartCourseView__State_2042C6C
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02042C64: .word SeaMapChartCourseView__Func_2041E3C
-_02042C68: .word SeaMapChartCourseView__State_2042C6C
-	arm_func_end SeaMapChartCourseView__State_2042C2C
 
-	arm_func_start SeaMapChartCourseView__State_2042C6C
-SeaMapChartCourseView__State_2042C6C: // 0x02042C6C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042C6C(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _02042CA8 // =gSeaMapViewType
+	ldr r1, =gSeaMapViewType
 	mov r2, #3
 	mov r4, r0
 	str r2, [r1]
@@ -2857,18 +3269,22 @@ SeaMapChartCourseView__State_2042C6C: // 0x02042C6C
 	mov r0, r4
 	str r1, [r4, #0x9cc]
 	bl SeaMapChartCourseView__Func_20421AC
-	ldr r1, _02042CAC // =SeaMapChartCourseView__State_2042CB0
+	ldr r1, =SeaMapChartCourseView__State_2042CB0
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02042CA8: .word gSeaMapViewType
-_02042CAC: .word SeaMapChartCourseView__State_2042CB0
-	arm_func_end SeaMapChartCourseView__State_2042C6C
 
-	arm_func_start SeaMapChartCourseView__State_2042CB0
-SeaMapChartCourseView__State_2042CB0: // 0x02042CB0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042CB0(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapView_ProcessMapInputs
@@ -2890,25 +3306,30 @@ SeaMapChartCourseView__State_2042CB0: // 0x02042CB0
 _02042CF8:
 	bl SeaMapChartCourseView__Func_2040C7C
 _02042CFC:
-	ldr r1, _02042D10 // =word_210FA0C
+	ldr r1, =word_210FA0C
 	mov r0, r4
 	mov r2, #2
 	bl SeaMapChartCourseView__Func_2041E80
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02042D10: .word word_210FA0C
-	arm_func_end SeaMapChartCourseView__State_2042CB0
 
-	arm_func_start SeaMapChartCourseView__State_2042D14
-SeaMapChartCourseView__State_2042D14: // 0x02042D14
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042D14(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _02042D8C // =gSeaMapViewType
+	ldr r1, =gSeaMapViewType
 	mov r2, #4
 	mov r4, r0
 	str r2, [r1]
 	bl SeaMapView_ResetIndicatorFlashTimer
 	mov r2, #1
-	ldr r1, _02042D90 // =dword_210FAF0
+	ldr r1, =dword_210FAF0
 	mov r0, r4
 	str r2, [r4, #0x9cc]
 	bl SeaMapView_EnableMultipleButtons
@@ -2926,19 +3347,22 @@ SeaMapChartCourseView__State_2042D14: // 0x02042D14
 	bl SeaMapManager__EnableTouchField
 	mov r0, r4
 	bl SeaMapChartCourseView__Func_20421AC
-	ldr r1, _02042D94 // =SeaMapChartCourseView__State_2042D98
+	ldr r1, =SeaMapChartCourseView__State_2042D98
 	mov r0, r4
 	str r1, [r4, #0x7c4]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02042D8C: .word gSeaMapViewType
-_02042D90: .word dword_210FAF0
-_02042D94: .word SeaMapChartCourseView__State_2042D98
-	arm_func_end SeaMapChartCourseView__State_2042D14
 
-	arm_func_start SeaMapChartCourseView__State_2042D98
-SeaMapChartCourseView__State_2042D98: // 0x02042D98
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042D98(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r5, r4, #0x1d4
@@ -2948,7 +3372,7 @@ SeaMapChartCourseView__State_2042D98: // 0x02042D98
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _02042E08
-	ldr r0, _02042F90 // =touchInput
+	ldr r0, =touchInput
 	ldrh r1, [r0, #0x12]
 	tst r1, #4
 	beq _02042E08
@@ -2971,7 +3395,7 @@ _02042E08:
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _02042E88
-	ldr r0, _02042F90 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #8
 	beq _02042E88
@@ -3005,7 +3429,7 @@ _02042E88:
 	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _02042ED8
-	ldr r0, _02042F90 // =touchInput
+	ldr r0, =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #1
 	beq _02042ED8
@@ -3034,8 +3458,8 @@ _02042ED8:
 	str r1, [r5, #0x8ec]
 	bl SeaMapManager__EnableTouchField
 	mov r2, #1
-	ldr r1, _02042F94 // =stru_210FA2C
-	ldr r3, _02042F98 // =SeaMapChartCourseView__State_2042D14
+	ldr r1, =stru_210FA2C
+	ldr r3, =SeaMapChartCourseView__State_2042D14
 	mov r0, r4
 	str r2, [sp]
 	bl SeaMapChartCourseView__StartNavTailsTalk
@@ -3047,7 +3471,7 @@ _02042F1C:
 	ldr r0, [r4, #0x79c]
 	ldr r1, [r4, #0x798]
 	bl FX_Div
-	ldr r1, _02042F9C // =0x00000199
+	ldr r1, =0x00000199
 	cmp r0, r1
 	bge _02042F6C
 	mov r1, #1
@@ -3055,14 +3479,14 @@ _02042F1C:
 	str r1, [r5, #0x8e8]
 	bl SeaMapManager__EnableTouchField
 	mov r2, #1
-	ldr r1, _02042FA0 // =stru_210FA24
-	ldr r3, _02042F98 // =SeaMapChartCourseView__State_2042D14
+	ldr r1, =stru_210FA24
+	ldr r3, =SeaMapChartCourseView__State_2042D14
 	mov r0, r4
 	str r2, [sp]
 	bl SeaMapChartCourseView__StartNavTailsTalk
 	ldmia sp!, {r3, r4, r5, pc}
 _02042F6C:
-	ldr r1, _02042FA4 // =word_210FA10
+	ldr r1, =word_210FA10
 	mov r0, r4
 	mov r2, #3
 	bl SeaMapChartCourseView__Func_2041E80
@@ -3071,17 +3495,17 @@ _02042F6C:
 	mov r0, r4
 	bl SeaMapChartCourseView__Func_2040DE0
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02042F90: .word touchInput
-_02042F94: .word stru_210FA2C
-_02042F98: .word SeaMapChartCourseView__State_2042D14
-_02042F9C: .word 0x00000199
-_02042FA0: .word stru_210FA24
-_02042FA4: .word word_210FA10
-	arm_func_end SeaMapChartCourseView__State_2042D98
 
-	arm_func_start SeaMapChartCourseView__State_2042FA8
-SeaMapChartCourseView__State_2042FA8: // 0x02042FA8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2042FA8(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x24
 	mov r4, r0
@@ -3091,7 +3515,7 @@ SeaMapChartCourseView__State_2042FA8: // 0x02042FA8
 	cmp r0, #0
 	beq _02043050
 	mov r2, #0
-	ldr r1, _02043070 // =dword_210FA90
+	ldr r1, =dword_210FA90
 	mov r0, r4
 	str r2, [r4, #0x9cc]
 	bl SeaMapView_EnableMultipleButtons
@@ -3120,28 +3544,30 @@ SeaMapChartCourseView__State_2042FA8: // 0x02042FA8
 	mov r0, #0x2b
 	mov r1, #0
 	bl NavTailsSpeak
-	ldr r0, _02043074 // =SeaMapChartCourseView__State_2043080
+	ldr r0, =SeaMapChartCourseView__State_2043080
 	add sp, sp, #0x24
 	str r0, [r4, #0x7c4]
 	ldmia sp!, {r3, r4, r5, r6, pc}
 _02043050:
-	ldr r1, _02043078 // =stru_210FA34
+	ldr r1, =stru_210FA34
 	mov r2, #1
-	ldr r3, _0204307C // =SeaMapChartCourseView__State_2042D14
+	ldr r3, =SeaMapChartCourseView__State_2042D14
 	mov r0, r4
 	str r2, [sp]
 	bl SeaMapChartCourseView__StartNavTailsTalk
 	add sp, sp, #0x24
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	.align 2, 0
-_02043070: .word dword_210FA90
-_02043074: .word SeaMapChartCourseView__State_2043080
-_02043078: .word stru_210FA34
-_0204307C: .word SeaMapChartCourseView__State_2042D14
-	arm_func_end SeaMapChartCourseView__State_2042FA8
 
-	arm_func_start SeaMapChartCourseView__State_2043080
-SeaMapChartCourseView__State_2043080: // 0x02043080
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2043080(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -3162,9 +3588,9 @@ _020430A8:
 	mov r3, r1
 	str r0, [sp, #4]
 	bl PlaySfxEx
-	ldr r0, _0204313C // =gSeaMapViewExitEvent
+	ldr r0, =gSeaMapViewExitEvent
 	mov r2, #1
-	ldr r1, _02043140 // =SeaMapChartCourseView__State_2043148
+	ldr r1, =SeaMapChartCourseView__State_2043148
 	str r2, [r0]
 	add sp, sp, #8
 	str r1, [r4, #0x7c4]
@@ -3187,68 +3613,82 @@ _020430E8:
 	ldr r0, [r4, #0x9c8]
 	cmp r0, #0
 	cmpne r0, #1
-	ldreq r0, _02043144 // =SeaMapChartCourseView__State_2042D14
+	ldreq r0, =SeaMapChartCourseView__State_2042D14
 	streq r0, [r4, #0x7c4]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0204313C: .word gSeaMapViewExitEvent
-_02043140: .word SeaMapChartCourseView__State_2043148
-_02043144: .word SeaMapChartCourseView__State_2042D14
-	arm_func_end SeaMapChartCourseView__State_2043080
 
-	arm_func_start SeaMapChartCourseView__State_2043148
-SeaMapChartCourseView__State_2043148: // 0x02043148
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2043148(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r2, [r4, #4]
-	ldr r0, _02043178 // =VRAMSystem__GFXControl
+	ldr r0, =VRAMSystem__GFXControl
 	mov r1, #0x3f
 	ldr r0, [r0, r2, lsl #2]
 	sub r2, r1, #0x40
 	add r0, r0, #0x20
 	bl RenderCore_SetBlendBrightness
-	ldr r0, _0204317C // =SeaMapChartCourseView__State_2043180
+	ldr r0, =SeaMapChartCourseView__State_2043180
 	str r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02043178: .word VRAMSystem__GFXControl
-_0204317C: .word SeaMapChartCourseView__State_2043180
-	arm_func_end SeaMapChartCourseView__State_2043148
 
-	arm_func_start SeaMapChartCourseView__State_2043180
-SeaMapChartCourseView__State_2043180: // 0x02043180
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_2043180(SeaMapChartCourseView *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r2, [r0, #4]
-	ldr r1, _020431A8 // =VRAMSystem__GFXControl
+	ldr r1, =VRAMSystem__GFXControl
 	ldr r2, [r1, r2, lsl #2]
 	ldrh r1, [r2, #0x24]
 	cmp r1, #4
 	addlo r0, r1, #1
-	ldrhs r1, _020431AC // =SeaMapChartCourseView__State_20431B0
+	ldrhs r1, =SeaMapChartCourseView__State_20431B0
 	strloh r0, [r2, #0x24]
 	strhs r1, [r0, #0x7c4]
 	bx lr
-	.align 2, 0
-_020431A8: .word VRAMSystem__GFXControl
-_020431AC: .word SeaMapChartCourseView__State_20431B0
-	arm_func_end SeaMapChartCourseView__State_2043180
 
-	arm_func_start SeaMapChartCourseView__State_20431B0
-SeaMapChartCourseView__State_20431B0: // 0x020431B0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20431B0(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r1, _020431CC // =stru_210FA44
+	ldr r1, =stru_210FA44
 	mov r2, #1
-	ldr r3, _020431D0 // =SeaMapChartCourseView__State_20431D4
+	ldr r3, =SeaMapChartCourseView__State_20431D4
 	str r2, [sp]
 	bl SeaMapChartCourseView__StartNavTailsTalk
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_020431CC: .word stru_210FA44
-_020431D0: .word SeaMapChartCourseView__State_20431D4
-	arm_func_end SeaMapChartCourseView__State_20431B0
 
-	arm_func_start SeaMapChartCourseView__State_20431D4
-SeaMapChartCourseView__State_20431D4: // 0x020431D4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapChartCourseView__State_20431D4(SeaMapChartCourseView *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r11, r0
@@ -3300,7 +3740,7 @@ _0204325C:
 	mov r3, r2
 	bl SeaMapManager__Func_20442C8
 	ldr r1, [r11, #4]
-	ldr r0, _020432B8 // =VRAMSystem__GFXControl
+	ldr r0, =VRAMSystem__GFXControl
 	ldr r0, [r0, r1, lsl #2]
 	add r0, r0, #0x20
 	bl RenderCore_DisableBlending
@@ -3308,114 +3748,7 @@ _0204325C:
 	str r0, [r11, #0x7cc]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_020432B8: .word VRAMSystem__GFXControl
-	arm_func_end SeaMapChartCourseView__State_20431D4
 
-	.rodata
-	
-.public word_210FA0C
-word_210FA0C: // 0x0210FA0C
-	.hword 51, 52
-
-.public word_210FA10
-word_210FA10: // 0x0210FA10
-	.hword 54, 51, 55
-
-.public word_210FA16
-word_210FA16: // 0x0210FA16
-	.hword 49, 46, 47
-
-.public stru_210FA1C
-stru_210FA1C: // 0x0210FA1C
-	.hword 0x2E // navTailsSequence
-	.align 4
-	.word 1                   // dword4
-
-.public stru_210FA24
-stru_210FA24: // 0x0210FA24
-	.hword 0x37 // navTailsSequence
-	.align 4
-	.word 1                   // dword4
-
-.public stru_210FA2C
-stru_210FA2C: // 0x0210FA2C
-	.hword 0x39 // navTailsSequence
-	.align 4
-	.word 1                   // dword4
-
-.public stru_210FA34
-stru_210FA34: // 0x0210FA34
-	.hword 0x38 // navTailsSequence
-	.align 4
-	.word 1                   // dword4
-
-.public stru_210FA3C
-stru_210FA3C: // 0x0210FA3C
-	.hword 0x32 // navTailsSequence
-	.align 4
-	.word 1                   // dword4
-
-.public stru_210FA44
-stru_210FA44: // 0x0210FA44
-	.hword 0x3A // navTailsSequence
-	.align 4
-	.word 2                   // dword4
-
-.public byte_210FA4C
-byte_210FA4C: // 0x0210FA4C
-	.byte 0x19
-
-.public byte_210FA4D
-byte_210FA4D: // 0x0210FA4D
-	.byte 3  
-	.byte 0x1A
-	.byte    3
-	.byte 0x1B
-	.byte    3
-	.byte 0x1C
-	.byte    2
-	.byte 0x1C
-	.byte    2
-	.byte    0
-	.byte    0
-
-.public stru_210FA58
-stru_210FA58: // 0x0210FA58
-	.hword 0x2F // navTailsSequence
-	.align 4
-	.word 0 // dword4
-	.hword 0x30 // navTailsSequence
-	.align 4
-	.word 1 // dword4
-
-.public stru_210FA68
-stru_210FA68: // 0x0210FA68
-	.hword 0x33 // navTailsSequence
-	.align 4
-	.word 0 // dword4
-	.hword 0x34 // navTailsSequence
-	.align 4
-	.word 1 // dword4
-
-.public byte_210FA78
-byte_210FA78: // 0x0210FA78
-	.byte 0x67, 0x6B, 0x6F, 0x73, 0x77, 0x7B, 0, 0, 0xF, 0xF, 0xF
-	.byte 0x65, 0x69, 0x6D, 0x71, 0x75, 0x79, 0, 0, 0xF, 0xF, 0xF
-	.align 4
-
-.public dword_210FA90
-dword_210FA90: // 0x0210FA90
-	.word 0, 0, 0, 0, 0, 0, 0, 0
-
-.public dword_210FAB0
-dword_210FAB0: // 0x0210FAB0
-	.word 0, 0, 0, 0, 0, 0, 1, 1
-
-.public dword_210FAD0
-dword_210FAD0: // 0x0210FAD0
-	.word 1, 1, 1, 0, 0, 0, 0, 0
-
-.public dword_210FAF0
-dword_210FAF0: // 0x0210FAF0
-	.word 0, 1, 1, 1, 1, 0, 0, 0, 0x2400600, 0x1200300, 0xC00200
+// clang-format on
+#endif
+}

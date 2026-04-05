@@ -3,6 +3,7 @@
 
 #include <global.h>
 #include <game/input/touchInput.h>
+#include <seaMap/seaMapManagerNodeList.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -199,30 +200,6 @@ enum SeaMapChCommonAnimIDs
     SEAMAP_CHCOM_ANI_146,
     SEAMAP_CHCOM_ANI_147,
 };
-
-// --------------------
-// STRUCTS
-// --------------------
-
-typedef struct SeaMapManagerNode_
-{
-    NNSFndLink link;
-    TouchPos position;
-    fx32 distance;
-} SeaMapManagerNode;
-
-typedef struct SeaMapManagerNodeGroup_
-{
-    NNSFndLink link;
-    SeaMapManagerNode entryList[64];
-    u16 entryCount;
-} SeaMapManagerNodeGroup;
-
-typedef struct SeaMapManagerNodeList_
-{
-    NNSFndList nodes;
-    NNSFndList groups;
-} SeaMapManagerNodeList;
 
 #ifdef __cplusplus
 }

@@ -37,25 +37,25 @@ NOT_DECOMPILED void SailChallengeHUD__Create(void);
 static Task *sSailManagerTaskSingleton;
 static Task *sSailUnknownTaskSingleton;
 
-u8 const gShipShiftUnknown[SHIP_COUNT] = {
-    [SHIP_JET]       = 6, // jetski unknown
-    [SHIP_BOAT]      = 3, // sailboat unknown
-    [SHIP_HOVER]     = 6, // hovercraft unknown
-    [SHIP_SUBMARINE] = 3  // subarmine unknown
+u8 const gShipShakeDampenTable[SHIP_COUNT] = {
+    [SHIP_JET]       = 6, // jetski shake dampen value
+    [SHIP_BOAT]      = 3, // sailboat shake dampen value
+    [SHIP_HOVER]     = 6, // hovercraft shake dampen value
+    [SHIP_SUBMARINE] = 3  // submarine shake dampen value
 };
 
 static u8 sBGMForShip[SHIP_COUNT] = {
     [SHIP_JET]       = SND_SAIL_SEQ_SEQ_WET_BIKE,   // jetski BGM
     [SHIP_BOAT]      = SND_SAIL_SEQ_SEQ_SAILING,    // sailboat BGM
     [SHIP_HOVER]     = SND_SAIL_SEQ_SEQ_HOVERCRAFT, // hovercraft BGM
-    [SHIP_SUBMARINE] = SND_SAIL_SEQ_SEQ_SUBMARINE   // subarmine BGM
+    [SHIP_SUBMARINE] = SND_SAIL_SEQ_SEQ_SUBMARINE   // submarine BGM
 };
 
 static const char *sArchiveForShip[SHIP_COUNT] = {
     [SHIP_JET]       = "narc/sb_jet_lz7.narc",      // jetski Assets
     [SHIP_BOAT]      = "narc/sb_sailer_lz7.narc",   // sailboat Assets
     [SHIP_HOVER]     = "narc/sb_hover_lz7.narc",    // hovercraft Assets
-    [SHIP_SUBMARINE] = "narc/sb_submarine_lz7.narc" // subarmine Assets
+    [SHIP_SUBMARINE] = "narc/sb_submarine_lz7.narc" // submarine Assets
 };
 
 // --------------------

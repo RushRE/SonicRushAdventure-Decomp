@@ -8,6 +8,7 @@
 #include <hub/hubAudio.h>
 #include <game/audio/sysSound.h>
 #include <hub/hubConfig.h>
+#include <hub/dockCommon.h>
 #include <hub/missionConfig.h>
 #include <hub/hubState.h>
 #include <game/game/gameState.h>
@@ -42,9 +43,26 @@
 static Task *sHubControlTaskSingleton;
 static MIProcessor sHubMiProcessor;
 
-static const u16 sNpcCountForArea[DOCKAREA_COUNT]   = { 9, 4, 3, 2, 2, 2, 0, 0 };
-static const u16 sNpcStartIDForArea[DOCKAREA_COUNT] = {
-    CVIDOCK_NPC_BASE_TAILS, CVIDOCK_NPC_JET_TAILS, CVIDOCK_NPC_BOAT_COLONEL, CVIDOCK_NPC_HOVER_COLONEL, CVIDOCK_NPC_SUBMARINE_COLONEL, CVIDOCK_NPC_BEACH_TABBY, 0, 0
+static const u16 sNpcCountForArea[MAPAREA_COUNT] = {
+    [MAPAREA_BASE]      = 9, // Formatting Comment
+    [MAPAREA_JET]       = 4, // Formatting Comment
+    [MAPAREA_BOAT]      = 3, // Formatting Comment
+    [MAPAREA_HOVER]     = 2, // Formatting Comment
+    [MAPAREA_SUBMARINE] = 2, // Formatting Comment
+    [MAPAREA_BEACH]     = 2, // Formatting Comment
+    [MAPAREA_DRILL]     = 0, // Formatting Comment
+    [MAPAREA_TUTORIAL]  = 0  // Formatting Comment
+};
+
+static const u16 sNpcStartIDForArea[MAPAREA_COUNT] = {
+    [MAPAREA_BASE]      = CVIDOCK_NPC_BASE_TAILS,        // Formatting Comment
+    [MAPAREA_JET]       = CVIDOCK_NPC_JET_TAILS,         // Formatting Comment
+    [MAPAREA_BOAT]      = CVIDOCK_NPC_BOAT_COLONEL,      // Formatting Comment
+    [MAPAREA_HOVER]     = CVIDOCK_NPC_HOVER_COLONEL,     // Formatting Comment
+    [MAPAREA_SUBMARINE] = CVIDOCK_NPC_SUBMARINE_COLONEL, // Formatting Comment
+    [MAPAREA_BEACH]     = CVIDOCK_NPC_BEACH_TABBY,       // Formatting Comment
+    [MAPAREA_DRILL]     = 0,                             // Formatting Comment
+    [MAPAREA_TUTORIAL]  = 0                              // Formatting Comment
 };
 
 // --------------------
@@ -611,12 +629,12 @@ void HubControl::Main_MapIdle()
             }
             else
             {
-                if (iconArea == DOCKAREA_BEACH)
+                if (iconArea == MAPAREA_DRILL)
                 {
                     work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
                     work->nextSelectionID = SAVE_PROGRESSTYPE_EX_PROLOGUE;
                 }
-                else if (iconArea == DOCKAREA_DRILL)
+                else if (iconArea == MAPAREA_TUTORIAL)
                 {
                     work->nextEvent       = HUBEVENT_START_TUTORIAL;
                     work->nextSelectionID = 0;

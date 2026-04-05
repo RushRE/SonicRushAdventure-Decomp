@@ -1,29 +1,58 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <seaMap/seaMapManager.h>
+#include <seaMap/seaMapEventTrigger.h>
+#include <seaMap/seaMapCollision.h>
+#include <game/graphics/renderCore.h>
+#include <game/save/saveGame.h>
+#include <game/file/binaryBundle.h>
 
-	.bss
-	
-.public SeaMapManager__sVars
-SeaMapManager__sVars: // 0x02134188
-	.space 0x14
 
-	.text
+// --------------------
+// VARIABLES
+// --------------------
 
-	arm_func_start SeaMapManager__SaveClearCallback_Chart
-SeaMapManager__SaveClearCallback_Chart: // 0x02043548
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	tst r1, #8
-	ldmeqia sp!, {r4, pc}
-	add r0, r4, #0x1d0
-	bl SeaMapManager__ClearSeaMap
-	add r0, r4, #0x890
-	bl SeaMapManager__ClearSaveFlags
-	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__SaveClearCallback_Chart
+struct SeaMapManager__StaticVars
+{
+  Task *singleton;
+  NNSiFndArchiveHeader *archiveCH;
+  s32 field_8;
+  s32 field_C;
+  NNSiFndArchiveHeader *archiveSeaMap;
+};
 
-	arm_func_start SeaMapManager__Create
-SeaMapManager__Create: // 0x0204356C
+
+// --------------------
+// VARIABLES
+// --------------------
+
+static struct SeaMapManager__StaticVars SeaMapManager__sVars;
+
+NOT_DECOMPILED const fx32 SeaMapManager__ZoomOutScaleTable[3];
+NOT_DECOMPILED const fx32 SeaMapManager__ZoomInScaleTable[3];
+NOT_DECOMPILED const void *_0210FB34;
+NOT_DECOMPILED const void *dword_210FB40;
+
+NOT_DECOMPILED const char aBbChBb[];
+NOT_DECOMPILED const char aCh[];
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+void SeaMapManager__SaveClearCallback_Chart(SaveGame *save, SaveBlockFlags blockFlags)
+{
+    if ((blockFlags & SAVE_BLOCK_FLAG_CHART) != 0)
+    {
+        SeaMapManager__ClearSeaMap(&save->chart);
+        SeaMapManager__ClearSaveFlags(save->chart.flags);
+    }
+}
+
+NONMATCH_FUNC void SeaMapManager__Create(BOOL useEngineB, ShipType shipType, BOOL isSailing)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	mov r4, r1
@@ -38,11 +67,11 @@ SeaMapManager__Create: // 0x0204356C
 	str r2, [sp, #4]
 	mov r0, #0x19c
 	str r0, [sp, #8]
-	ldr r0, _02043670 // =SeaMapManager__Main
-	ldr r1, _02043674 // =SeaMapManager__Destructor
+	ldr r0, =SeaMapManager__Main
+	ldr r1, =SeaMapManager__Destructor
 	mov r3, r2
 	bl TaskCreate_
-	ldr r1, _02043678 // =SeaMapManager__sVars
+	ldr r1, =SeaMapManager__sVars
 	str r0, [r1]
 	bl GetTaskWork_
 	mov r6, r0
@@ -50,17 +79,17 @@ SeaMapManager__Create: // 0x0204356C
 	mov r1, r6
 	mov r2, #0x19c
 	bl MIi_CpuClear16
-	ldr r0, _0204367C // =0x0000A098
+	ldr r0, =0x0000A098
 	bl _AllocHeadHEAP_USER
 	str r0, [r6, #0x138]
 	mov r0, #0
 	ldr r1, [r6, #0x138]
-	ldr r2, _0204367C // =0x0000A098
+	ldr r2, =0x0000A098
 	bl MIi_CpuClear16
 	str r5, [r6, #0x158]
 	mov r0, #0
 	str r0, [r6]
-	ldr r1, _02043680 // =SeaMapManager__State_2044DC8
+	ldr r1, =SeaMapManager__State_2044DC8
 	add r0, r6, #0x13c
 	str r1, [r6, #0x198]
 	str r4, [r6, #0x194]
@@ -90,64 +119,84 @@ _02043660:
 	bl SeaMapManager__EnableDrawFlags
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	.align 2, 0
-_02043670: .word SeaMapManager__Main
-_02043674: .word SeaMapManager__Destructor
-_02043678: .word SeaMapManager__sVars
-_0204367C: .word 0x0000A098
-_02043680: .word SeaMapManager__State_2044DC8
-	arm_func_end SeaMapManager__Create
 
-	arm_func_start SeaMapManager__Destroy
-SeaMapManager__Destroy: // 0x02043684
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Destroy(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__Release
 	bl SeaMapManager__IsActive
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl ReleaseSeaMapEventTriggerSystem
-	ldr r0, _020436AC // =SeaMapManager__sVars
+	ldr r0, =SeaMapManager__sVars
 	ldr r0, [r0, #0]
 	bl DestroyTask
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_020436AC: .word SeaMapManager__sVars
-	arm_func_end SeaMapManager__Destroy
 
-	arm_func_start SeaMapManager__IsActive
-SeaMapManager__IsActive: // 0x020436B0
-	ldr r0, _020436C8 // =SeaMapManager__sVars
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapManager__IsActive(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, =SeaMapManager__sVars
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	movne r0, #1
 	moveq r0, #0
 	bx lr
-	.align 2, 0
-_020436C8: .word SeaMapManager__sVars
-	arm_func_end SeaMapManager__IsActive
 
-	arm_func_start SeaMapManager__GetWork
-SeaMapManager__GetWork: // 0x020436CC
-	ldr r0, _020436DC // =SeaMapManager__sVars
-	ldr ip, _020436E0 // =GetTaskWork_
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC SeaMapManager *SeaMapManager__GetWork(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, =SeaMapManager__sVars
+	ldr ip, =GetTaskWork_
 	ldr r0, [r0, #0]
 	bx ip
-	.align 2, 0
-_020436DC: .word SeaMapManager__sVars
-_020436E0: .word GetTaskWork_
-	arm_func_end SeaMapManager__GetWork
 
-	arm_func_start SeaMapManager__EnableTouchField
-SeaMapManager__EnableTouchField: // 0x020436E4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__EnableTouchField(BOOL enabled)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetWork
 	str r4, [r0, #0x154]
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__EnableTouchField
 
-	arm_func_start SeaMapManager__EnableDrawFlags
-SeaMapManager__EnableDrawFlags: // 0x020436F8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__EnableDrawFlags(u32 flags)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetWork
@@ -155,10 +204,17 @@ SeaMapManager__EnableDrawFlags: // 0x020436F8
 	orr r1, r1, r4
 	str r1, [r0, #0x134]
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__EnableDrawFlags
 
-	arm_func_start SeaMapManager__SetZoomLevel
-SeaMapManager__SetZoomLevel: // 0x02043714
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__SetZoomLevel(u32 level)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl SeaMapManager__GetWork
@@ -170,42 +226,66 @@ SeaMapManager__SetZoomLevel: // 0x02043714
 	mov r0, r4
 	bl SeaMapManager__LoadBackgroundPalette
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapManager__SetZoomLevel
 
-	arm_func_start SeaMapManager__GetZoomLevel
-SeaMapManager__GetZoomLevel: // 0x02043740
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC SeaMapZoomLevel SeaMapManager__GetZoomLevel(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #0]
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapManager__GetZoomLevel
 
-	arm_func_start SeaMapManager__GetZoomOutScale
-SeaMapManager__GetZoomOutScale: // 0x02043750
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC fx32 SeaMapManager__GetZoomOutScale(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
 	ldr r1, [r0, #0]
-	ldr r0, _02043768 // =SeaMapManager__ZoomOutScaleTable
+	ldr r0, =SeaMapManager__ZoomOutScaleTable
 	ldr r0, [r0, r1, lsl #2]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02043768: .word SeaMapManager__ZoomOutScaleTable
-	arm_func_end SeaMapManager__GetZoomOutScale
 
-	arm_func_start SeaMapManager__GetZoomInScale
-SeaMapManager__GetZoomInScale: // 0x0204376C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC fx32 SeaMapManager__GetZoomInScale(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
 	ldr r1, [r0, #0]
-	ldr r0, _02043784 // =SeaMapManager__ZoomInScaleTable
+	ldr r0, =SeaMapManager__ZoomInScaleTable
 	ldr r0, [r0, r1, lsl #2]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02043784: .word SeaMapManager__ZoomInScaleTable
-	arm_func_end SeaMapManager__GetZoomInScale
 
-	arm_func_start SeaMapManager__Draw
-SeaMapManager__Draw: // 0x02043788
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Draw(SeaMapManager *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x134]
@@ -231,10 +311,17 @@ _020437C8:
 	mov r0, r4
 	bl SeaMapManager__Draw3
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__Draw
 
-	arm_func_start SeaMapManager__Draw0
-SeaMapManager__Draw0: // 0x020437E0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Draw0(SeaMapManager *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetZoomOutScale
@@ -257,10 +344,17 @@ SeaMapManager__Draw0: // 0x020437E0
 	str r1, [r4, #0x20]
 	bl DrawBackground
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__Draw0
 
-	arm_func_start SeaMapManager__Draw1
-SeaMapManager__Draw1: // 0x02043838
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Draw1(SeaMapManager *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetZoomOutScale
@@ -283,10 +377,17 @@ SeaMapManager__Draw1: // 0x02043838
 	str r1, [r4, #0x68]
 	bl DrawBackground
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__Draw1
 
-	arm_func_start SeaMapManager__Draw2
-SeaMapManager__Draw2: // 0x02043890
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Draw2(SeaMapManager *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetZoomOutScale
@@ -309,10 +410,17 @@ SeaMapManager__Draw2: // 0x02043890
 	str r1, [r4, #0xb0]
 	bl DrawBackground
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__Draw2
 
-	arm_func_start SeaMapManager__Draw3
-SeaMapManager__Draw3: // 0x020438E8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Draw3(SeaMapManager *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x138]
@@ -340,19 +448,24 @@ SeaMapManager__Draw3: // 0x020438E8
 	bl DC_StoreRange
 	add r0, r4, #0x6c00
 	ldr r4, [r5, #0x158]
-	ldr r3, _02043970 // =VRAMSystem__VRAM_BG
+	ldr r3, =VRAMSystem__VRAM_BG
 	mov r1, #0x3000
 	ldr r3, [r3, r4, lsl #2]
 	mov r2, #0
 	add r3, r3, #0x18000
 	bl QueueUncompressedPixels
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02043970: .word VRAMSystem__VRAM_BG
-	arm_func_end SeaMapManager__Draw3
 
-	arm_func_start SeaMapManager__Func_2043974
-SeaMapManager__Func_2043974: // 0x02043974
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043974(fx32 x, fx32 y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -364,26 +477,47 @@ SeaMapManager__Func_2043974: // 0x02043974
 	add r3, r3, #8
 	bl SeaMapManager__Func_2043C08
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapManager__Func_2043974
 
-	arm_func_start SeaMapManager__GetXPos
-SeaMapManager__GetXPos: // 0x020439A0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC fx32 SeaMapManager__GetXPos(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #4]
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapManager__GetXPos
 
-	arm_func_start SeaMapManager__GetYPos
-SeaMapManager__GetYPos: // 0x020439B0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC fx32 SeaMapManager__GetYPos(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #8]
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapManager__GetYPos
 
-	arm_func_start SeaMapManager__GetPosition
-SeaMapManager__GetPosition: // 0x020439C0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__GetPosition(fx32 inX, fx32 inY, fx32 *x, fx32 *y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r6, r2
 	mov r8, r0
@@ -401,10 +535,17 @@ SeaMapManager__GetPosition: // 0x020439C0
 	mlane r1, r0, r7, r1
 	strne r1, [r5]
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end SeaMapManager__GetPosition
 
-	arm_func_start SeaMapManager__Func_2043A04
-SeaMapManager__Func_2043A04: // 0x02043A04
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043A04(fx32 inX, fx32 inY, fx16 *x, fx16 *y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r6, r2
 	mov r8, r0
@@ -437,10 +578,16 @@ _02043A50:
 	mov r0, r1, asr #0xc
 	strh r0, [r5]
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end SeaMapManager__Func_2043A04
 
-	arm_func_start SeaMapManager__ConvertWorldPosToMapPos
-SeaMapManager__ConvertWorldPosToMapPos: // 0x02043A80
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__ConvertWorldPosToMapPos(fx32 inX, fx32 inY, fx16 *x, fx16 *y){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	cmp r2, #0
 	movne r0, r0, asr #0xf
 	strneh r0, [r2]
@@ -448,10 +595,17 @@ SeaMapManager__ConvertWorldPosToMapPos: // 0x02043A80
 	movne r0, r1, asr #0xf
 	strneh r0, [r3]
 	bx lr
-	arm_func_end SeaMapManager__ConvertWorldPosToMapPos
 
-	arm_func_start SeaMapManager__Func_2043A9C
-SeaMapManager__Func_2043A9C: // 0x02043A9C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043A9C(fx32 inX, fx32 inY, fx16 *x, fx16 *y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r2
@@ -466,10 +620,17 @@ SeaMapManager__Func_2043A9C: // 0x02043A9C
 	bl SeaMapManager__Func_2043B28
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapManager__Func_2043A9C
 
-	arm_func_start SeaMapManager__Func_2043AD4
-SeaMapManager__Func_2043AD4: // 0x02043AD4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043AD4(fx32 inX, fx32 inY, fx16 *x, fx16 *y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r2
@@ -484,10 +645,16 @@ SeaMapManager__Func_2043AD4: // 0x02043AD4
 	bl SeaMapManager__Func_2043A04
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapManager__Func_2043AD4
 
-	arm_func_start SeaMapManager__Func_2043B0C
-SeaMapManager__Func_2043B0C: // 0x02043B0C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043B0C(fx32 inX, fx32 inY, fx16 *x, fx16 *y){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	cmp r2, #0
 	movne r0, r0, asr #2
 	strneh r0, [r2]
@@ -495,10 +662,16 @@ SeaMapManager__Func_2043B0C: // 0x02043B0C
 	movne r0, r1, asr #2
 	strneh r0, [r3]
 	bx lr
-	arm_func_end SeaMapManager__Func_2043B0C
 
-	arm_func_start SeaMapManager__Func_2043B28
-SeaMapManager__Func_2043B28: // 0x02043B28
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043B28(fx32 inX, fx32 inY, fx16 *x, fx16 *y){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	cmp r2, #0
 	movne r0, r0, asr #0xd
 	strneh r0, [r2]
@@ -506,10 +679,16 @@ SeaMapManager__Func_2043B28: // 0x02043B28
 	movne r0, r1, asr #0xd
 	strneh r0, [r3]
 	bx lr
-	arm_func_end SeaMapManager__Func_2043B28
 
-	arm_func_start SeaMapManager__GetPosition2
-SeaMapManager__GetPosition2: // 0x02043B44
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__GetPosition2(fx32 inX, fx32 inY, fx32 *x, fx32 *y){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	cmp r2, #0
 	movne r0, r0, lsl #0xd
 	strne r0, [r2]
@@ -517,10 +696,16 @@ SeaMapManager__GetPosition2: // 0x02043B44
 	movne r0, r1, lsl #0xd
 	strne r0, [r3]
 	bx lr
-	arm_func_end SeaMapManager__GetPosition2
 
-	arm_func_start SeaMapManager__Func_2043B60
-SeaMapManager__Func_2043B60: // 0x02043B60
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043B60(fx32 inX, fx32 inY, fx16 *x, fx16 *y){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	cmp r2, #0
 	movne r0, r0, asr #0xc
 	strneh r0, [r2]
@@ -528,10 +713,17 @@ SeaMapManager__Func_2043B60: // 0x02043B60
 	movne r0, r1, asr #0xc
 	strneh r0, [r3]
 	bx lr
-	arm_func_end SeaMapManager__Func_2043B60
 
-	arm_func_start SeaMapManager__Func_2043B7C
-SeaMapManager__Func_2043B7C: // 0x02043B7C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043B7C(fx32 inX, fx32 inY, fx16 *x, fx16 *y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r2
@@ -546,10 +738,16 @@ SeaMapManager__Func_2043B7C: // 0x02043B7C
 	bl SeaMapManager__Func_2043B60
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapManager__Func_2043B7C
 
-	arm_func_start SeaMapManager__Func_2043BB4
-SeaMapManager__Func_2043BB4: // 0x02043BB4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043BB4(fx32 inX, fx32 inY, fx16 *x, fx16 *y){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	cmp r2, #0
 	movne r0, r0, lsl #1
 	strneh r0, [r2]
@@ -557,10 +755,16 @@ SeaMapManager__Func_2043BB4: // 0x02043BB4
 	movne r0, r1, lsl #1
 	strneh r0, [r3]
 	bx lr
-	arm_func_end SeaMapManager__Func_2043BB4
 
-	arm_func_start SeaMapManager__Func_2043BD0
-SeaMapManager__Func_2043BD0: // 0x02043BD0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043BD0(fx32 inX, fx32 inY, fx16 *x, fx16 *y){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	cmp r2, #0
 	movne r0, r0, asr #1
 	strneh r0, [r2]
@@ -568,10 +772,16 @@ SeaMapManager__Func_2043BD0: // 0x02043BD0
 	movne r0, r1, asr #1
 	strneh r0, [r3]
 	bx lr
-	arm_func_end SeaMapManager__Func_2043BD0
 
-	arm_func_start SeaMapManager__Func_2043BEC
-SeaMapManager__Func_2043BEC: // 0x02043BEC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043BEC(fx32 inX, fx32 inY, fx16 *x, fx16 *y){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	cmp r2, #0
 	movne r0, r0, asr #3
 	strneh r0, [r2]
@@ -579,10 +789,17 @@ SeaMapManager__Func_2043BEC: // 0x02043BEC
 	movne r0, r1, asr #3
 	strneh r0, [r3]
 	bx lr
-	arm_func_end SeaMapManager__Func_2043BEC
 
-	arm_func_start SeaMapManager__Func_2043C08
-SeaMapManager__Func_2043C08: // 0x02043C08
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043C08(fx32 inX, fx32 inY, fx32 *x, fx32 *y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r7, r0
 	mov r6, r1
@@ -610,40 +827,63 @@ _02043C60:
 	str r7, [r5]
 	str r6, [r4]
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end SeaMapManager__Func_2043C08
 
-	arm_func_start SeaMapManager__ClearSaveFlags
-SeaMapManager__ClearSaveFlags: // 0x02043C6C
-	ldr ip, _02043C80 // =MIi_CpuClear32
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__ClearSaveFlags(u8 *flags){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =MIi_CpuClear32
 	mov r1, r0
 	mov r0, #0
 	mov r2, #8
 	bx ip
-	.align 2, 0
-_02043C80: .word MIi_CpuClear32
-	arm_func_end SeaMapManager__ClearSaveFlags
 
-	arm_func_start SeaMapManager__GetSaveFlag_
-SeaMapManager__GetSaveFlag_: // 0x02043C84
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapManager__GetSaveFlag_(u8 *flags, u32 id){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldrb r0, [r0, r1, asr #3]
 	and r1, r1, #7
 	mov r2, #1
 	and r0, r0, r2, lsl r1
 	bx lr
-	arm_func_end SeaMapManager__GetSaveFlag_
 
-	arm_func_start SeaMapManager__GetSaveFlag
-SeaMapManager__GetSaveFlag: // 0x02043C98
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL SeaMapManager__GetSaveFlag(SeaMapManagerSaveFlag id)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetSaveBlockFlags
 	mov r1, r4
 	bl SeaMapManager__GetSaveFlag_
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__GetSaveFlag
 
-	arm_func_start SeaMapManager__SetSaveFlag_
-SeaMapManager__SetSaveFlag_: // 0x02043CB0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__SetSaveFlag_(u8 *flags, u32 id, BOOL state){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	cmp r2, #0
 	mov r3, #1
 	beq _02043CD0
@@ -659,10 +899,17 @@ _02043CD0:
 	and r2, ip, r2
 	strb r2, [r0, r1, asr #3]
 	bx lr
-	arm_func_end SeaMapManager__SetSaveFlag_
 
-	arm_func_start SeaMapManager__SetSaveFlag
-SeaMapManager__SetSaveFlag: // 0x02043CE8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__SetSaveFlag(SeaMapManagerSaveFlag id, BOOL state)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -671,10 +918,17 @@ SeaMapManager__SetSaveFlag: // 0x02043CE8
 	mov r2, r4
 	bl SeaMapManager__SetSaveFlag_
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapManager__SetSaveFlag
 
-	arm_func_start SeaMapManager__LoadMapBackground
-SeaMapManager__LoadMapBackground: // 0x02043D08
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__LoadMapBackground(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	bl SeaMapManager__GetWork
@@ -707,7 +961,7 @@ _02043D34:
 	add r0, r6, #4
 	mov r1, #0x6c00
 	bl DC_StoreRange
-	ldr r0, _02043FA8 // =SeaMapManager__sVars
+	ldr r0, =SeaMapManager__sVars
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	addne sp, sp, #8
@@ -849,12 +1103,17 @@ _02043E88:
 	bl DC_StoreRange
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02043FA8: .word SeaMapManager__sVars
-	arm_func_end SeaMapManager__LoadMapBackground
 
-	arm_func_start SeaMapManager__GetMapPixel
-SeaMapManager__GetMapPixel: // 0x02043FAC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC SeaMapManagerMapPixel SeaMapManager__GetMapPixel(u16 x, u16 y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -867,10 +1126,17 @@ SeaMapManager__GetMapPixel: // 0x02043FAC
 	mov r2, #1
 	and r0, r0, r2, lsl r1
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapManager__GetMapPixel
 
-	arm_func_start SeaMapManager__Func_2043FDC
-SeaMapManager__Func_2043FDC: // 0x02043FDC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2043FDC(s32 x, s32 y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -904,7 +1170,7 @@ SeaMapManager__Func_2043FDC: // 0x02043FDC
 	mov r1, #2
 	strh r2, [r4, r3]
 	bl DC_StoreRange
-	ldr r0, _02044264 // =SeaMapManager__sVars
+	ldr r0, =SeaMapManager__sVars
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	addne sp, sp, #8
@@ -1034,12 +1300,17 @@ _02044120:
 	bl DC_StoreRange
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02044264: .word SeaMapManager__sVars
-	arm_func_end SeaMapManager__Func_2043FDC
 
-	arm_func_start SeaMapManager__Func_2044268
-SeaMapManager__Func_2044268: // 0x02044268
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2044268(u16 x, u16 y, u16 a3, u16 a4)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r1
 	mov r4, r3
@@ -1067,10 +1338,17 @@ _020442B0:
 	mov r8, r0, lsr #0x10
 	bhi _02044284
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end SeaMapManager__Func_2044268
 
-	arm_func_start SeaMapManager__Func_20442C8
-SeaMapManager__Func_20442C8: // 0x020442C8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_20442C8(u16 x, u16 y, u16 a3, u16 a4)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
 	str r0, [sp]
@@ -1197,104 +1475,144 @@ _02044464:
 _204449C: // 0x0204449C
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end SeaMapManager__Func_20442C8
 
-	arm_func_start SeaMapManager__ClearGlobalNodeList
-SeaMapManager__ClearGlobalNodeList: // 0x020444A4
-	ldr ip, _020444B0 // =SeaMapManagerNodeList__Release
-	ldr r0, _020444B4 // =gameState+0x00000084
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__ClearGlobalNodeList(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =ReleaseSeaMapManagerNodeList
+	ldr r0, =gameState+0x00000084
 	bx ip
-	.align 2, 0
-_020444B0: .word SeaMapManagerNodeList__Release
-_020444B4: .word gameState+0x00000084
-	arm_func_end SeaMapManager__ClearGlobalNodeList
 
-	arm_func_start SeaMapManager__UpdateGlobalNodeList
-SeaMapManager__UpdateGlobalNodeList: // 0x020444B8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__UpdateGlobalNodeList(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #0x138]
-	ldr r5, _020444E4 // =gameState+0x00000084
+	ldr r5, =gameState+0x00000084
 	add r4, r0, #0x2080
 	mov r0, r5
-	bl SeaMapManagerNodeList__Release
+	bl ReleaseSeaMapManagerNodeList
 	mov r1, r5
 	add r0, r4, #0x8000
-	bl SeaMapManagerNodeList__CopyNodes
+	bl SeaMapManagerNodeList_CopyList
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_020444E4: .word gameState+0x00000084
-	arm_func_end SeaMapManager__UpdateGlobalNodeList
 
-	arm_func_start SeaMapManager__LoadNodeList
-SeaMapManager__LoadNodeList: // 0x020444E8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__LoadNodeList(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #0x138]
 	add r4, r0, #0x2080
 	add r0, r4, #0x8000
-	bl SeaMapManagerNodeList__Release
-	ldr r0, _02044510 // =gameState+0x00000084
+	bl ReleaseSeaMapManagerNodeList
+	ldr r0, =gameState+0x00000084
 	add r1, r4, #0x8000
-	bl SeaMapManagerNodeList__CopyNodes
+	bl SeaMapManagerNodeList_CopyList
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02044510: .word gameState+0x00000084
-	arm_func_end SeaMapManager__LoadNodeList
 
-	arm_func_start SeaMapManager__SetUnknown1
-SeaMapManager__SetUnknown1: // 0x02044514
-	ldr r1, _02044520 // =SeaMapManager__sVars
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__SetUnknown1(s32 a1){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r1, =SeaMapManager__sVars
 	str r0, [r1, #8]
 	bx lr
-	.align 2, 0
-_02044520: .word SeaMapManager__sVars
-	arm_func_end SeaMapManager__SetUnknown1
 
-	arm_func_start SeaMapManager__GetUnknown1
-SeaMapManager__GetUnknown1: // 0x02044524
-	ldr r0, _02044530 // =SeaMapManager__sVars
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 SeaMapManager__GetUnknown1(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, =SeaMapManager__sVars
 	ldr r0, [r0, #8]
 	bx lr
-	.align 2, 0
-_02044530: .word SeaMapManager__sVars
-	arm_func_end SeaMapManager__GetUnknown1
 
-	arm_func_start SeaMapManager__ClearSeaMap
-SeaMapManager__ClearSeaMap: // 0x02044534
-	ldr ip, _02044548 // =MIi_CpuClear32
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__ClearSeaMap(void *saveBlockChart){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =MIi_CpuClear32
 	mov r1, r0
 	mvn r0, #0
 	mov r2, #0x6c0
 	bx ip
-	.align 2, 0
-_02044548: .word MIi_CpuClear32
-	arm_func_end SeaMapManager__ClearSeaMap
 
-	arm_func_start SeaMapManager__GetSaveBlockFlags
-SeaMapManager__GetSaveBlockFlags: // 0x0204454C
-	ldr r0, _02044554 // =saveGame+0x00000890
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC u8 *SeaMapManager__GetSaveBlockFlags(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, =saveGame+0x00000890
 	bx lr
-	.align 2, 0
-_02044554: .word saveGame+0x00000890
-	arm_func_end SeaMapManager__GetSaveBlockFlags
 
-	arm_func_start SeaMapManager__GetSaveMap
-SeaMapManager__GetSaveMap: // 0x02044558
-	ldr r0, _02044560 // =saveGame+0x000001D0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC u32 *SeaMapManager__GetSaveMap(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, =saveGame+0x000001D0
 	bx lr
-	.align 2, 0
-_02044560: .word saveGame+0x000001D0
-	arm_func_end SeaMapManager__GetSaveMap
 
-	arm_func_start SeaMapManager__InitArchives
-SeaMapManager__InitArchives: // 0x02044564
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__InitArchives(ShipType shipType, BOOL isSailing)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	mov r4, r1
 	bl SeaMapManager__Release
 	mov r1, #0
-	ldr r0, _0204468C // =aBbChBb
+	ldr r0, =aBbChBb
 	sub r2, r1, #1
 	bl ReadFileFromBundle
 	mov r5, r0
@@ -1302,7 +1620,7 @@ SeaMapManager__InitArchives: // 0x02044564
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
-	ldr r2, _02044690 // =SeaMapManager__sVars
+	ldr r2, =SeaMapManager__sVars
 	mov r0, r5
 	str r1, [r2, #4]
 	bl RenderCore_CPUCopyCompressed
@@ -1359,7 +1677,7 @@ _02044638:
 _02044640:
 	mov r6, #1
 _02044644:
-	ldr r0, _0204468C // =aBbChBb
+	ldr r0, =aBbChBb
 	mov r1, r6
 	mvn r2, #0
 	bl ReadFileFromBundle
@@ -1368,51 +1686,60 @@ _02044644:
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
-	ldr r2, _02044690 // =SeaMapManager__sVars
+	ldr r2, =SeaMapManager__sVars
 	mov r0, r5
 	str r1, [r2, #0x10]
 	bl RenderCore_CPUCopyCompressed
 	mov r0, r5
 	bl _FreeHEAP_USER
-	ldr r0, _02044690 // =SeaMapManager__sVars
+	ldr r0, =SeaMapManager__sVars
 	str r4, [r0, #0xc]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0204468C: .word aBbChBb
-_02044690: .word SeaMapManager__sVars
-	arm_func_end SeaMapManager__InitArchives
 
-	arm_func_start SeaMapManager__Release
-SeaMapManager__Release: // 0x02044694
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Release(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r1, _020446D8 // =SeaMapManager__sVars
+	ldr r1, =SeaMapManager__sVars
 	ldr r0, [r1, #4]
 	cmp r0, #0
 	ldreq r1, [r1, #0x10]
 	cmpeq r1, #0
 	ldmeqia sp!, {r3, pc}
 	bl _FreeHEAP_USER
-	ldr r0, _020446D8 // =SeaMapManager__sVars
+	ldr r0, =SeaMapManager__sVars
 	mov r1, #0
 	str r1, [r0, #4]
 	ldr r0, [r0, #0x10]
 	bl _FreeHEAP_USER
-	ldr r0, _020446D8 // =SeaMapManager__sVars
+	ldr r0, =SeaMapManager__sVars
 	mov r1, #0
 	str r1, [r0, #0x10]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_020446D8: .word SeaMapManager__sVars
-	arm_func_end SeaMapManager__Release
 
-	arm_func_start SeaMapManager__LoadAssets
-SeaMapManager__LoadAssets: // 0x020446DC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__LoadAssets(SeaMapManagerAssets *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x68
-	ldr r1, _02044808 // =SeaMapManager__sVars
+	ldr r1, =SeaMapManager__sVars
 	mov r4, r0
 	ldr r2, [r1, #4]
-	ldr r1, _0204480C // =aCh
+	ldr r1, =aCh
 	add r0, sp, #0
 	bl NNS_FndMountArchive
 	add r0, sp, #0
@@ -1433,8 +1760,8 @@ SeaMapManager__LoadAssets: // 0x020446DC
 	str r0, [r4, #0xc]
 	add r0, sp, #0
 	bl NNS_FndUnmountArchive
-	ldr r2, _02044808 // =SeaMapManager__sVars
-	ldr r1, _0204480C // =aCh
+	ldr r2, =SeaMapManager__sVars
+	ldr r1, =aCh
 	ldr r2, [r2, #0x10]
 	add r0, sp, #0
 	bl NNS_FndMountArchive
@@ -1482,13 +1809,17 @@ SeaMapManager__LoadAssets: // 0x020446DC
 	bl NNS_FndUnmountArchive
 	add sp, sp, #0x68
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02044808: .word SeaMapManager__sVars
-_0204480C: .word aCh
-	arm_func_end SeaMapManager__LoadAssets
 
-	arm_func_start SeaMapManager__InitBackgrounds
-SeaMapManager__InitBackgrounds: // 0x02044810
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__InitBackgrounds(SeaMapManager *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x30
 	mov r5, r0
@@ -1510,9 +1841,9 @@ _0204484C:
 _02044854:
 	ldr r4, [r5, #0x170]
 _02044858:
-	ldr r1, _02044A14 // =VRAMSystem__VRAM_PALETTE_BG
+	ldr r1, =VRAMSystem__VRAM_PALETTE_BG
 	mov r2, #0
-	ldr r0, _02044A18 // =VRAMSystem__VRAM_BG
+	ldr r0, =VRAMSystem__VRAM_BG
 	str r2, [sp]
 	ldr r0, [r0, r3, lsl #2]
 	ldr r1, [r1, r3, lsl #2]
@@ -1531,7 +1862,7 @@ _02044858:
 	mov r0, #0x18
 	str r0, [sp, #0x2c]
 	ldr r3, [r5, #0x158]
-	ldr r2, _02044A1C // =0x000003C3
+	ldr r2, =0x000003C3
 	mov r1, r4
 	add r0, r5, #0x14
 	bl InitBackgroundEx
@@ -1553,9 +1884,9 @@ _020448EC:
 _020448F4:
 	ldr r4, [r5, #0x17c]
 _020448F8:
-	ldr r1, _02044A14 // =VRAMSystem__VRAM_PALETTE_BG
+	ldr r1, =VRAMSystem__VRAM_PALETTE_BG
 	mov r2, #1
-	ldr r0, _02044A18 // =VRAMSystem__VRAM_BG
+	ldr r0, =VRAMSystem__VRAM_BG
 	str r2, [sp]
 	mov r3, #0
 	ldr r0, [r0, ip, lsl #2]
@@ -1598,9 +1929,9 @@ _02044994:
 _0204499C:
 	ldr r4, [r5, #0x188]
 _020449A0:
-	ldr r1, _02044A14 // =VRAMSystem__VRAM_PALETTE_BG
+	ldr r1, =VRAMSystem__VRAM_PALETTE_BG
 	mov r2, #2
-	ldr r0, _02044A18 // =VRAMSystem__VRAM_BG
+	ldr r0, =VRAMSystem__VRAM_BG
 	str r2, [sp]
 	mov r2, #0
 	ldr r0, [r0, r3, lsl #2]
@@ -1621,23 +1952,26 @@ _020449A0:
 	mov r0, #0x18
 	str r0, [sp, #0x2c]
 	ldr r3, [r5, #0x158]
-	ldr r2, _02044A1C // =0x000003C3
+	ldr r2, =0x000003C3
 	mov r1, r4
 	add r0, r5, #0xa4
 	bl InitBackgroundEx
 	add sp, sp, #0x30
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02044A14: .word VRAMSystem__VRAM_PALETTE_BG
-_02044A18: .word VRAMSystem__VRAM_BG
-_02044A1C: .word 0x000003C3
-	arm_func_end SeaMapManager__InitBackgrounds
 
-	arm_func_start SeaMapManager__SetupDisplay
-SeaMapManager__SetupDisplay: // 0x02044A20
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__SetupDisplay(BOOL useEngineB)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
-	ldr r1, _02044C14 // =VRAMSystem__GFXControl
+	ldr r1, =VRAMSystem__GFXControl
 	mov r5, r0
 	ldr r4, [r1, r5, lsl #2]
 	mov r0, #0
@@ -1658,8 +1992,8 @@ SeaMapManager__SetupDisplay: // 0x02044A20
 	mov r1, #3
 	mov r2, #0
 	bl GX_SetGraphicsMode
-	ldr r0, _02044C18 // =0x04000008
-	ldr r1, _02044C1C // =0x00004014
+	ldr r0, =0x04000008
+	ldr r1, =0x00004014
 	ldrh r2, [r0, #0]
 	add r1, r1, #0x1f0
 	and r2, r2, #0x43
@@ -1711,8 +2045,8 @@ SeaMapManager__SetupDisplay: // 0x02044A20
 _02044B44:
 	mov r0, #3
 	bl GXS_SetGraphicsMode
-	ldr r0, _02044C20 // =0x04001008
-	ldr r1, _02044C1C // =0x00004014
+	ldr r0, =0x04001008
+	ldr r1, =0x00004014
 	ldrh r2, [r0, #0]
 	add r1, r1, #0x1f0
 	and r2, r2, #0x43
@@ -1754,23 +2088,24 @@ _02044B44:
 	str r1, [sp]
 	ldr r1, [sp, #8]
 	bl VRAMSystem__SetupSubOBJBank
-	ldr r1, _02044C24 // =0x04001000
+	ldr r1, =0x04001000
 	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1f00
 	str r0, [r1]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_02044C14: .word VRAMSystem__GFXControl
-_02044C18: .word 0x04000008
-_02044C1C: .word 0x00004014
-_02044C20: .word 0x04001008
-_02044C24: .word 0x04001000
-	arm_func_end SeaMapManager__SetupDisplay
 
-	arm_func_start SeaMapManager__GetOBJBankInfo
-SeaMapManager__GetOBJBankInfo: // 0x02044C28
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__GetOBJBankInfo(BOOL useEngineB, GXOBJVRamModeChar *bankMode, u16 *bankSize)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r1
 	mov r5, r2
@@ -1808,10 +2143,17 @@ _02044C9C:
 	mov r0, #0x10
 	str r0, [r4]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapManager__GetOBJBankInfo
 
-	arm_func_start SeaMapManager__LoadBackgroundPixels
-SeaMapManager__LoadBackgroundPixels: // 0x02044CB0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__LoadBackgroundPixels(SeaMapManager *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x18]
@@ -1830,10 +2172,17 @@ SeaMapManager__LoadBackgroundPixels: // 0x02044CB0
 	ldr r2, [r4, #0xc8]
 	bl LoadCompressedPixels
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__LoadBackgroundPixels
 
-	arm_func_start SeaMapManager__LoadBackgroundPalette
-SeaMapManager__LoadBackgroundPalette: // 0x02044CF8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__LoadBackgroundPalette(SeaMapManager *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x18]
@@ -1842,10 +2191,17 @@ SeaMapManager__LoadBackgroundPalette: // 0x02044CF8
 	ldr r2, [r4, #0x30]
 	bl LoadCompressedPalette
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__LoadBackgroundPalette
 
-	arm_func_start SeaMapManager__Main
-SeaMapManager__Main: // 0x02044D18
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -1876,35 +2232,53 @@ _02044D38:
 	ldr r0, [r4, #8]
 	str r0, [r4, #0x10]
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__Main
 
-	arm_func_start SeaMapManager__Destructor
-SeaMapManager__Destructor: // 0x02044D8C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, [r4, #0x138]
 	add r0, r0, #0x2080
 	add r0, r0, #0x8000
-	bl SeaMapManagerNodeList__Release
+	bl ReleaseSeaMapManagerNodeList
 	ldr r0, [r4, #0x138]
 	bl _FreeHEAP_USER
 	mov r1, #0
-	ldr r0, _02044DC4 // =SeaMapManager__sVars
+	ldr r0, =SeaMapManager__sVars
 	str r1, [r4, #0x138]
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02044DC4: .word SeaMapManager__sVars
-	arm_func_end SeaMapManager__Destructor
 
-	arm_func_start SeaMapManager__State_2044DC8
-SeaMapManager__State_2044DC8: // 0x02044DC8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__State_2044DC8(SeaMapManager *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	bx lr
-	arm_func_end SeaMapManager__State_2044DC8
 
-	arm_func_start SeaMapManager__DrawNodeLine2
-SeaMapManager__DrawNodeLine2: // 0x02044DCC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__DrawNodeLine2(u16 x1, u16 y1, u16 x2, u16 y2, u16 type)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x10
 	mov r7, r0
@@ -1943,10 +2317,17 @@ _02044E30:
 	bl SeaMapManager__Func_2045798
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SeaMapManager__DrawNodeLine2
 
-	arm_func_start SeaMapManager__DrawNodeLine
-SeaMapManager__DrawNodeLine: // 0x02044E60
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__DrawNodeLine(s32 x, s32 y, u32 a3)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r2
 	mov r7, r0
@@ -1997,10 +2378,17 @@ _02044EA4:
 	str r4, [sp]
 	bl SeaMapManager__Func_2045128
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SeaMapManager__DrawNodeLine
 
-	arm_func_start SeaMapManager__Func_2044F24
-SeaMapManager__Func_2044F24: // 0x02044F24
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2044F24(s16 a1, s16 a2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r5, r0
 	mov r4, r1
@@ -2016,7 +2404,7 @@ _02044F44:
 	mov r0, #0x60
 	mla r0, r6, r0, r1
 	mov r2, #0
-	ldr r7, _0204504C // =dword_210FB40
+	ldr r7, =dword_210FB40
 	b _02045034
 _02044F64:
 	add r6, r5, r2
@@ -2079,12 +2467,17 @@ _02045040:
 	cmp r3, #0x60
 	blt _02044F44
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0204504C: .word dword_210FB40
-	arm_func_end SeaMapManager__Func_2044F24
 
-	arm_func_start SeaMapManager__ClearUnknownPtr
-SeaMapManager__ClearUnknownPtr: // 0x02045050
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__ClearUnknownPtr(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
 	ldr r1, [r0, #0x138]
@@ -2092,10 +2485,17 @@ SeaMapManager__ClearUnknownPtr: // 0x02045050
 	mov r2, #0x6c00
 	bl MIi_CpuClear32
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapManager__ClearUnknownPtr
 
-	arm_func_start SeaMapManager__Func_204506C
-SeaMapManager__Func_204506C: // 0x0204506C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_204506C(Vec2Fx32 *a1, Vec2Fx32 *a2, Vec2Fx32 *a3, Vec2Fx32 *a4)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r5, [r1, #0]
 	ldmia r0, {ip, lr}
@@ -2132,10 +2532,17 @@ SeaMapManager__Func_204506C: // 0x0204506C
 	add r0, r2, r0
 	str r0, [r3, #4]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SeaMapManager__Func_204506C
 
-	arm_func_start SeaMapManager__ResetPtr1Ptr2
-SeaMapManager__ResetPtr1Ptr2: // 0x020450FC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__ResetPtr1Ptr2(void *ptr1, void *ptr2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	mov r1, r0
@@ -2147,10 +2554,17 @@ SeaMapManager__ResetPtr1Ptr2: // 0x020450FC
 	mov r2, #0x240
 	bl MIi_CpuClear16
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__ResetPtr1Ptr2
 
-	arm_func_start SeaMapManager__Func_2045128
-SeaMapManager__Func_2045128: // 0x02045128
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2045128(u8 *a1, u16 *ptr1, u16 *ptr2, u32 pos, u32 size)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldr r5, [sp, #0x20]
 	add r1, r1, r3, lsl #1
@@ -2185,10 +2599,17 @@ _02045184:
 	mov r3, r3, lsr #0x10
 	bhi _02045148
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	arm_func_end SeaMapManager__Func_2045128
 
-	arm_func_start SeaMapManager__Func_20451A4
-SeaMapManager__Func_20451A4: // 0x020451A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_20451A4(Vec2Fx32 *a1, Vec2Fx32 *a2, Vec2Fx32 *a3, Vec2Fx32 *a4, u32 *a5, u32 *a6, s32 a7)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x10
 	mov r4, #0
@@ -2220,7 +2641,7 @@ SeaMapManager__Func_20451A4: // 0x020451A4
 	mov r1, r0, lsl #1
 	mov ip, r1, lsl #1
 	add r1, r1, #1
-	ldr r3, _020452EC // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
@@ -2271,12 +2692,17 @@ SeaMapManager__Func_20451A4: // 0x020451A4
 	mov r0, r9
 	add sp, sp, #0x10
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	.align 2, 0
-_020452EC: .word FX_SinCosTable_
-	arm_func_end SeaMapManager__Func_20451A4
 
-	arm_func_start SeaMapManager__Func_20452F0
-SeaMapManager__Func_20452F0: // 0x020452F0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_20452F0(s32 a1, s32 a2, s32 a3, s32 a4, u32 a5, u32 *a6, u32 *a7, u32 *a8, u32 *a9)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r6, [sp, #0x10]
 	ldr r5, [sp, #0x14]
@@ -2316,10 +2742,17 @@ _0204536C:
 	str r0, [lr]
 	str r2, [ip]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end SeaMapManager__Func_20452F0
 
-	arm_func_start SeaMapManager__Func_2045380
-SeaMapManager__Func_2045380: // 0x02045380
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2045380(u32 *a1, u32 *a2, s32 *a3, s32 *a4, s32 a5, s32 a6)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	str r2, [sp, #4]
@@ -2410,7 +2843,7 @@ _0204548C:
 	bge _0204557C
 	cmp r2, #0x300
 	blt _020454E0
-	ldr r1, _02045794 // =0x000002FF
+	ldr r1, =0x000002FF
 	mov r0, r4, lsl #1
 	strh r1, [r6, r0]
 	b _0204557C
@@ -2427,7 +2860,7 @@ _020454F0:
 	movlt r5, #0
 	mov r11, r5, lsl #0xc
 	mov ip, r0, asr #0x1f
-	ldr lr, _02045794 // =0x000002FF
+	ldr lr, =0x000002FF
 	b _0204556C
 _02045514:
 	ldr r1, [r8, #4]
@@ -2548,7 +2981,7 @@ _02045674:
 	ldmgeia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	cmp r7, #0x300
 	blt _020456DC
-	ldr r1, _02045794 // =0x000002FF
+	ldr r1, =0x000002FF
 	mov r0, r5, lsl #1
 	add sp, sp, #0xc
 	strh r1, [r6, r0]
@@ -2567,7 +3000,7 @@ _020456F0:
 	movmi ip, #0
 	mov r10, ip, lsl #0xc
 	mov r11, r0, asr #0x1f
-	ldr r2, _02045794 // =0x000002FF
+	ldr r2, =0x000002FF
 	mov r1, #0
 	mov lr, #0x800
 	b _02045778
@@ -2604,12 +3037,17 @@ _02045778:
 	blt _0204571C
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02045794: .word 0x000002FF
-	arm_func_end SeaMapManager__Func_2045380
 
-	arm_func_start SeaMapManager__Func_2045798
-SeaMapManager__Func_2045798: // 0x02045798
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2045798(u8 *a1, u16 *ptr1, u16 *ptr2, s32 a4, u16 a5, u16 a6, u16 a7, u16 a8)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x54
 	ldrh r5, [sp, #0x74]
@@ -2686,10 +3124,17 @@ SeaMapManager__Func_2045798: // 0x02045798
 	bl SeaMapManager__Func_2045128
 	add sp, sp, #0x54
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	arm_func_end SeaMapManager__Func_2045798
 
-	arm_func_start SeaMapManager__DrawLine
-SeaMapManager__DrawLine: // 0x020458C8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__DrawLine(u8 *pixels, u16 startX, u16 startY, u16 endX, u16 endY)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr lr, [sp, #0x28]
 	sub r4, r3, r1
@@ -2795,10 +3240,17 @@ _02045A28:
 	mov r11, r3, lsr #0x10
 	bhs _020459F0
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end SeaMapManager__DrawLine
 
-	arm_func_start SeaMapManager__Func_2045A58
-SeaMapManager__Func_2045A58: // 0x02045A58
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2045A58(s32 a1, s16 a2, u32 a3, s32 a4, s32 a5)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	mov r4, r2, lsr #1
@@ -2855,7 +3307,7 @@ _02045B08:
 	mov r4, r1, lsl #1
 	mov r10, r6
 	cmp r6, #0x300
-	ldrge r10, _02045BF4 // =0x000002FF
+	ldrge r10, =0x000002FF
 	strh r5, [r3, r4]
 	strh r10, [r9, r4]
 _02045B38:
@@ -2868,7 +3320,7 @@ _02045B38:
 	mov r4, r7, lsl #1
 	mov r10, r0
 	cmp r0, #0x300
-	ldrge r10, _02045BF4 // =0x000002FF
+	ldrge r10, =0x000002FF
 	strh r5, [r3, r4]
 	strh r10, [r9, r4]
 _02045B68:
@@ -2882,7 +3334,7 @@ _02045B68:
 	mov r10, r10, lsl #1
 	mov r5, r6
 	cmp r6, #0x300
-	ldrge r5, _02045BF4 // =0x000002FF
+	ldrge r5, =0x000002FF
 	strh r4, [r3, r10]
 	strh r5, [r9, r10]
 _02045B9C:
@@ -2896,7 +3348,7 @@ _02045B9C:
 	mov r4, r4, lsl #1
 	mov r10, r0
 	cmp r0, #0x300
-	ldrge r10, _02045BF4 // =0x000002FF
+	ldrge r10, =0x000002FF
 	strh r5, [r3, r4]
 	strh r10, [r9, r4]
 _02045BD0:
@@ -2909,12 +3361,17 @@ _02045BD0:
 	ble _02045AE4
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02045BF4: .word 0x000002FF
-	arm_func_end SeaMapManager__Func_2045A58
 
-	arm_func_start SeaMapManager__Func_2045BF8
-SeaMapManager__Func_2045BF8: // 0x02045BF8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2045BF8(fx32 targetDistance, fx32 *x, fx32 *y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r0
 	mov r6, r1
@@ -2934,7 +3391,7 @@ SeaMapManager__Func_2045BF8: // 0x02045BF8
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 _02045C3C:
 	mov r0, r7
-	bl SeaMapManagerNodeList__GetNodeDistance
+	bl SeaMapManagerNodeList_GetNodeDistance
 	mov r1, r0
 	cmp r8, r1
 	bgt _02045CD0
@@ -2982,10 +3439,17 @@ _02045CD0:
 	mov r3, r5
 	bl SeaMapManager__GetPosition2
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end SeaMapManager__Func_2045BF8
 
-	arm_func_start SeaMapManager__AddNode
-SeaMapManager__AddNode: // 0x02045CFC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__AddNode(u16 x, u16 y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -2993,56 +3457,91 @@ SeaMapManager__AddNode: // 0x02045CFC
 	ldr r0, [r0, #0x138]
 	add r0, r0, #0x2080
 	add r0, r0, #0x8000
-	bl SeaMapManagerNodeList__AddNode
+	bl SeaMapManagerNodeList_AddNode
 	strh r5, [r0, #8]
 	strh r4, [r0, #0xa]
-	bl SeaMapManagerNodeList__GetNodeDistance
+	bl SeaMapManagerNodeList_GetNodeDistance
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapManager__AddNode
 
-	arm_func_start SeaMapManager__RemoveNode
-SeaMapManager__RemoveNode: // 0x02045D2C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC u32 SeaMapManager__RemoveNode(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #0x138]
 	add r0, r0, #0x2080
 	add r0, r0, #0x8000
-	bl SeaMapManagerNodeList__RemoveLastNode
+	bl SeaMapManagerNodeList_RemoveLastNode
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapManager__RemoveNode
 
-	arm_func_start SeaMapManager__RemoveAllNodes
-SeaMapManager__RemoveAllNodes: // 0x02045D48
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__RemoveAllNodes(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 _02045D4C:
 	bl SeaMapManager__RemoveNode
 	cmp r0, #0
 	bne _02045D4C
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapManager__RemoveAllNodes
 
-	arm_func_start SeaMapManager__GetStartNode
-SeaMapManager__GetStartNode: // 0x02045D5C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC SeaMapManagerNode *SeaMapManager__GetStartNode(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #0x138]
 	add r0, r0, #0xa000
 	ldr r0, [r0, #0x80]
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapManager__GetStartNode
 
-	arm_func_start SeaMapManager__GetEndNode
-SeaMapManager__GetEndNode: // 0x02045D74
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC SeaMapManagerNode *SeaMapManager__GetEndNode(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #0x138]
 	add r0, r0, #0xa000
 	ldr r0, [r0, #0x84]
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapManager__GetEndNode
 
-	arm_func_start SeaMapManager__GetNextNode
-SeaMapManager__GetNextNode: // 0x02045D8C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC SeaMapManagerNode *SeaMapManager__GetNextNode(SeaMapManagerNode *node)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetWork
@@ -3052,10 +3551,17 @@ SeaMapManager__GetNextNode: // 0x02045D8C
 	add r0, r0, #0x8000
 	bl NNS_FndGetNextListObject
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__GetNextNode
 
-	arm_func_start SeaMapManager__GetPrevNode
-SeaMapManager__GetPrevNode: // 0x02045DB0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC SeaMapManagerNode *SeaMapManager__GetPrevNode(SeaMapManagerNode *node)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetWork
@@ -3065,20 +3571,34 @@ SeaMapManager__GetPrevNode: // 0x02045DB0
 	add r0, r0, #0x8000
 	bl NNS_FndGetPrevListObject
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__GetPrevNode
 
-	arm_func_start SeaMapManager__GetNodeCount
-SeaMapManager__GetNodeCount: // 0x02045DD4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC u32 SeaMapManager__GetNodeCount(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #0x138]
 	add r0, r0, #0xa000
 	ldrh r0, [r0, #0x88]
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapManager__GetNodeCount
 
-	arm_func_start SeaMapManager__GetTotalDistance
-SeaMapManager__GetTotalDistance: // 0x02045DEC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC fx32 SeaMapManager__GetTotalDistance(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, #0
 	bl SeaMapManager__GetWork
@@ -3096,10 +3616,17 @@ _02045E0C:
 _02045E20:
 	mov r0, r4
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__GetTotalDistance
 
-	arm_func_start SeaMapManager__GetLastNodePosition
-SeaMapManager__GetLastNodePosition: // 0x02045E28
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__GetLastNodePosition(fx16 *x, fx16 *y)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -3112,10 +3639,17 @@ SeaMapManager__GetLastNodePosition: // 0x02045E28
 	ldrh r0, [r1, #0xa]
 	strh r0, [r4]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapManager__GetLastNodePosition
 
-	arm_func_start SeaMapManager__Func_2045E58
-SeaMapManager__Func_2045E58: // 0x02045E58
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SeaMapManager__Func_2045E58(u32 nodeCount)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__GetWork
@@ -3123,37 +3657,9 @@ SeaMapManager__Func_2045E58: // 0x02045E58
 	mov r1, r4
 	add r0, r0, #0x2080
 	add r0, r0, #0x8000
-	bl SeaMapManagerNodeList__Func_204611C
+	bl SeaMapManagerNodeList_CompressNodeList
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapManager__Func_2045E58
 
-	.rodata
-
-.public SeaMapManager__ZoomOutScaleTable
-SeaMapManager__ZoomOutScaleTable: // 0x0210FB1C
-	.word 0x1000, 0x800, 0x555
-
-.public SeaMapManager__ZoomInScaleTable
-SeaMapManager__ZoomInScaleTable: // 0x0210FB28
-	.word 0x1000, 0x2000, 0x3000
-
-_0210FB34:
-	.word 0x00, 0x00, 0x00
-	// .align 0x10
-
-
-.public dword_210FB40
-dword_210FB40: // 0x0210FB40 
-	.word 0, 0xFF, 0xFF00, 0xFFFF, 0xFF0000, 0xFF00FF, 0xFFFF00
-	.word 0xFFFFFF, 0xFF000000, 0xFF0000FF, 0xFF00FF00, 0xFF00FFFF
-	.word 0xFFFF0000, 0xFFFF00FF, 0xFFFFFF00, 0xFFFFFFFF
-
-	.data
-	
-aBbChBb: // 0x0211993C
-	.asciz "/bb/ch.bb"
-	.align 4
-
-aCh: // 0x02119948
-	.asciz "ch"
-	.align 4
+// clang-format on
+#endif
+}

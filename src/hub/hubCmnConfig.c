@@ -161,9 +161,9 @@ static const CViMapBackDecorConfig sMapBackDecorSpriteConfig[] = {
 };
 
 static const CViDockPreviewConfig sDockPreviewConfig[] = {
-    { .dockArea = DOCKAREA_BASE, .unknown = 0 },  { .dockArea = DOCKAREA_JET, .unknown = 2 },       { .dockArea = DOCKAREA_BOAT, .unknown = 3 },
-    { .dockArea = DOCKAREA_HOVER, .unknown = 4 }, { .dockArea = DOCKAREA_SUBMARINE, .unknown = 5 }, { .dockArea = DOCKAREA_BEACH, .unknown = 6 },
-    { .dockArea = DOCKAREA_DRILL, .unknown = 8 },
+    { .dockArea = DOCKAREA_BASE, .unused = 0 },  { .dockArea = DOCKAREA_JET, .unused = 2 },       { .dockArea = DOCKAREA_BOAT, .unused = 3 },
+    { .dockArea = DOCKAREA_HOVER, .unused = 4 }, { .dockArea = DOCKAREA_SUBMARINE, .unused = 5 }, { .dockArea = DOCKAREA_BEACH, .unused = 6 },
+    { .dockArea = DOCKAREA_DRILL, .unused = 8 },
 };
 
 static const CViPurchaseCostConfig sShipBuildCost[] =

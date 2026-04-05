@@ -81,10 +81,12 @@ Static arm9
     Object src/seaMap/seaMapCommon.o
     Object src/seaMap/seaMapView.o
     Object src/seaMap/seaMapMenu.o
-    Object asm/menu/seaMapChartCourseView.o
+    Object src/seaMap/seaMapChartCourseView.o
+    Object asm/seaMap/seaMapChartCourseView_vars.o
     Object src/seaMap/seaMapPenPalette.o
-    Object asm/seaMap/seaMapManager.o
-    Object asm/seaMap/seaMapManagerNodeList.o
+    Object src/seaMap/seaMapManager.o
+    Object asm/seaMap/seaMapManager_vars.o
+    Object src/seaMap/seaMapManagerNodeList.o
     Object src/seaMap/seaMapEventManager.o
     Object src/seaMap/seaMapCollision.o
     Object src/seaMap/seaMapEventTrigger.o
