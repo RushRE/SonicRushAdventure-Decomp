@@ -67,103 +67,29 @@ HoverCrystal *CreateHoverCrystal(MapObject *mapObject, fx32 x, fx32 y, fx32 type
     return work;
 }
 
-NONMATCH_FUNC void HoverCrystal_State_Active(HoverCrystal *work)
+void HoverCrystal_State_Active(HoverCrystal *work)
 {
-    // https://decomp.me/scratch/TV9jq -> 73.29%
-#ifdef NON_MATCHING
-    if (work->gameWork.objWork.userTimer-- <= 0)
+    work->gameWork.objWork.userTimer--;
+    if (work->gameWork.objWork.userTimer <= 0)
     {
         fx32 offsetX = work->gameWork.objWork.position.x - FLOAT_TO_FX32(16.0) + FX32_FROM_WHOLE(mtMathRandRepeat(48));
 
         fx32 y    = work->gameWork.objWork.position.y;
-        fx32 posY = y + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_top);
+        fx32 posY = y + FX32_FROM_WHOLE(work->gameWork.mapObject->top);
 
         if ((work->gameWork.objWork.userWork & 1) != 0)
-            y = work->gameWork.mapObjectParam_height;
+            posY += FX32_FROM_WHOLE(work->gameWork.mapObject->height - 15);
 
-        if ((work->gameWork.objWork.userWork & 1) != 0)
-            posY += FX32_TO_WHOLE(y - 15);
+        fx32 offsetY = posY + FX32_FROM_WHOLE(mtMathRandRepeat(16));
 
-        fx32 offsetY = posY + (u16)FX32_FROM_WHOLE(mtMathRand());
+        fx32 velX = (work->gameWork.objWork.position.x - offsetX) >> 10;
+        fx32 velY = (work->gameWork.objWork.position.y - offsetY) >> 10;
 
-        EffectHoverCrystalSparkle__Create(offsetX, offsetY, (work->gameWork.objWork.position.x - offsetX) >> 10, (work->gameWork.objWork.position.y - offsetY) >> 10,
-                                          (work->gameWork.objWork.position.x - offsetX) >> 10, (work->gameWork.objWork.position.y - offsetY) >> 10);
+        EffectHoverCrystalSparkle__Create(offsetX, offsetY, velX, velY, velX, velY);
 
         work->gameWork.objWork.userTimer = mtMathRandRepeat(4) + 4;
         work->gameWork.objWork.userWork++;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r0, [r4, #0x2c]
-	sub r0, r0, #1
-	cmp r0, #0
-	addgt sp, sp, #8
-	str r0, [r4, #0x2c]
-	ldmgtia sp!, {r3, r4, r5, pc}
-	ldr r3, =_mt_math_rand
-	ldr r0, =0x00196225
-	ldr r5, [r3, #0]
-	ldr r1, =0x3C6EF35F
-	mla r2, r5, r0, r1
-	str r2, [r3]
-	ldr ip, [r4, #0x340]
-	mov r0, r2, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov lr, r0, lsr #0x10
-	ldr r0, [r4, #0x28]
-	ldrsb r1, [ip, #7]
-	ldr r3, [r4, #0x48]
-	tst r0, #1
-	add r1, r3, r1, lsl #12
-	ldrneb r3, [ip, #9]
-	ldr ip, =0x3C6EF35F
-	ldr r5, [r4, #0x44]
-	subne r3, r3, #0xf
-	addne r1, r1, r3, lsl #12
-	ldr r3, =0x00196225
-	sub r5, r5, #0x10000
-	mla r3, r2, r3, ip
-	and lr, lr, #0x2f
-	add r0, r5, lr, lsl #12
-	ldr lr, =_mt_math_rand
-	mov r2, r3, lsr #0x10
-	str r3, [lr]
-	mov r2, r2, lsl #0x10
-	mov r3, r2, lsr #0x10
-	mov ip, r3, lsl #0x1c
-	ldr r2, [r4, #0x44]
-	ldr r3, [r4, #0x48]
-	sub r2, r2, r0
-	add r1, r1, ip, lsr #16
-	mov r2, r2, asr #0xa
-	sub r3, r3, r1
-	str r2, [sp]
-	mov r3, r3, asr #0xa
-	str r3, [sp, #4]
-	bl EffectHoverCrystalSparkle__Create
-	ldr r2, =_mt_math_rand
-	ldr r0, =0x00196225
-	ldr r3, [r2, #0]
-	ldr r1, =0x3C6EF35F
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	and r0, r0, #3
-	str r1, [r2]
-	add r0, r0, #4
-	str r0, [r4, #0x2c]
-	ldr r0, [r4, #0x28]
-	add r0, r0, #1
-	str r0, [r4, #0x28]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
 }
 
 void HoverCrystal_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)

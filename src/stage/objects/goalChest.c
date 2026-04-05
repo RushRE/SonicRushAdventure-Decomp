@@ -115,7 +115,7 @@ NONMATCH_FUNC GoalChest *CreateGoalChest(MapObject *mapObject, fx32 x, fx32 y, f
     VEC_Set(&work->aniChestEffect.work.scale, FLOAT_TO_FX32(1.65), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(2.2));
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_USE_DEFAULT_DRAW;
 
-    work->gameWork.objWork.collisionObj      = NULL;
+    work->gameWork.objWork.collisionObj           = NULL;
     work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
     work->gameWork.collisionObject.work.width     = 64;
@@ -435,8 +435,8 @@ void GoalChest_State_Opened(GoalChest *work)
                 u16 type = FX_ModS32(work->gameWork.objWork.userTimer, jewelTypeCount);
 
                 EffectGoalJewel__Create(type, work->gameWork.objWork.position.x + FX32_FROM_WHOLE(mtMathRandRepeat(16) - 7),
-                                          work->gameWork.objWork.position.y - FLOAT_TO_FX32(32.0), FX32_FROM_WHOLE(mtMathRandRepeat(8) - 3),
-                                          -FLOAT_TO_FX32(5.0) - (u16)((u16)(FX32_FROM_WHOLE((u32)mtMathRand()) << 2) >> 2));
+                                        work->gameWork.objWork.position.y - FLOAT_TO_FX32(32.0), FX32_FROM_WHOLE(mtMathRandRepeat(8) - 3),
+                                        -FLOAT_TO_FX32(5.0) - FX32_FROM_WHOLE(mtMathRandRepeat(4)));
             }
 
             if (work->aniChestEffect.work.scale.x != FLOAT_TO_FX32(3.3))
@@ -569,9 +569,9 @@ void SpawnGoalChestJewel(GoalChest *work, u16 type)
         camY = g_obj.camera[0].y;
     }
 
-    fx32 velY          = -FLOAT_TO_FX32(2.0) - (u16)((u16)(FX32_FROM_WHOLE((u32)mtMathRand()) << 2) >> 2);
-    fx32 offsetY       = -FLOAT_TO_FX32(12.0);
-    fx32 offsetX       = (u32)(FX32_FROM_WHOLE((u32)mtMathRand()) >> 12 << 24) >> 12;
+    fx32 velY               = -FLOAT_TO_FX32(2.0) - FX32_FROM_WHOLE(mtMathRandRepeat(4));
+    fx32 offsetY            = -FLOAT_TO_FX32(12.0);
+    fx32 offsetX            = FX32_FROM_WHOLE(mtMathRandRepeat(0x100));
     EffectGoalJewel *effect = EffectGoalJewel__Create(type, camX + offsetX, camY + offsetY, FLOAT_TO_FX32(0.0), velY);
     effect->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 }

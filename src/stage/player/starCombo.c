@@ -319,7 +319,7 @@ void StarCombo__DisplayConfetti(Player *player)
             if (particle == NULL)
                 break;
 
-            particle->position.x = (u16)(mtMathRand() << 8) << 4; // Rand(0, HW_LCD_WIDTH) << 4
+            particle->position.x = FLOAT_TO_FX32(mtMathRand() & (HW_LCD_WIDTH - 1));
             particle->position.y = FLOAT_TO_FX32(HW_LCD_HEIGHT);
 
             particle->velocity.x = velX - mtMathRandRepeat(0x8000);            // 4.0 - Rand(0.0, 8.0)

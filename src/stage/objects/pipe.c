@@ -376,10 +376,10 @@ void FlowerPipe__OnDefend_Exit_LaunchSeedsAndPetals(OBS_RECT_WORK *rect1, OBS_RE
         }
         for (i = 0, coordinateOffset = FLOAT_TO_FX32(-2.25); i < FLOWER_PIPE_EXIT_SEED_COUNT; i++)
         {
-            u32 randY = mtMathRand();
+            u32 randY = mtMathRandRepeat(8);
             u32 randX = mtMathRandRange2(-3, 5);
             fx32 velX = FX32_FROM_WHOLE(randX);
-            fx32 velY = FX32_FROM_WHOLE(-4) - ((FX32_FROM_WHOLE(randY) << 17) >> 18); // The random range is reduced to [-2; 1.5], a multiple of 0.5 is drawn
+            fx32 velY = FX32_FROM_WHOLE(-4) - (randY << (FX32_SHIFT - 1)); // The random range is reduced to [-2; 1.5], a multiple of 0.5 is drawn
             EffectFlowerPipeSeed__Create(objectPosX + coordinateOffset, objectPosY, velX, velY, type);
             // In fine, alternate between ac_gmk_pipe_flw.bac's animations 5, 6 and 7
             type++;
@@ -403,10 +403,10 @@ void FlowerPipe__OnDefend_Exit_LaunchSeedsAndPetals(OBS_RECT_WORK *rect1, OBS_RE
         }
         for (i = 0, coordinateOffset = FLOAT_TO_FX32(-2.25); i < FLOWER_PIPE_EXIT_SEED_COUNT; i++)
         {
-            u32 randY = mtMathRand();
+            u32 randY = mtMathRandRepeat(8);
             u32 randX = mtMathRandRange2(-3, 5);
             fx32 velX = (randX << (FX32_SHIFT - 1)) + FX32_FROM_WHOLE(3);
-            fx32 velY = FX32_FROM_WHOLE(-3) - ((FX32_FROM_WHOLE(randY) << 17) >> 18);
+            fx32 velY = FX32_FROM_WHOLE(-3) - (randY << (FX32_SHIFT - 1));
             EffectFlowerPipeSeed__Create(objectPosX + coordinateOffset, objectPosY, velX, velY, type);
             type++;
             if (type >= 3)

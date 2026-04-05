@@ -3013,7 +3013,16 @@ static const struct DecorConfig sDecorInfo[MAPDECOR_COUNT] = {
                        .type         = DECOR_COMMONTYPE_ANIMATED_INSTANCE },
 };
 
-static s8 sIceSparkleOffsetTable[16] = { 1, -52, -5, -44, 15, -32, -2, -30, 19, -23, -5, -21, 14, -6, -13, -4 };
+static s8 sIceSparkleOffsetTable[16] = {
+    1,   -52, // [X, Y]
+    -5,  -44, // [X, Y]
+    15,  -32, // [X, Y]
+    -2,  -30, // [X, Y]
+    19,  -23, // [X, Y]
+    -5,  -21, // [X, Y]
+    14,  -6,  // [X, Y]
+    -13, -4   // [X, Y]
+};
 
 // --------------------
 // FUNCTIONS
@@ -4470,12 +4479,8 @@ void DecorationSys__State_IceTree(StageDecoration *work)
     work->objWork.userTimer--;
     if (work->objWork.userTimer <= 0)
     {
-        u32 type = mtMathRandRepeat(16);
-        type     = (type << 0x1D) >> 0x1C;
+        u32 type = mtMathRandRepeat(8) << 1;
 
-        // BUG(?)
-        // shouldn't it be "(type + 1) & 0xF" instead of "(type & 0xF) + 1"?
-        // this could potentially cause a minor buffer overflow!
         EffectIceSparkles *sparkle = EffectIceSparkles__Create(work->objWork.position.x + FX32_FROM_WHOLE(sIceSparkleOffsetTable[type]),
                                                                work->objWork.position.y + FX32_FROM_WHOLE(sIceSparkleOffsetTable[type + 1]), 0, 0, 0);
         if (sparkle != NULL)

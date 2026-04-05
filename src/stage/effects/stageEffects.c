@@ -858,10 +858,10 @@ EffectFlameDust *CreateEffectFlameDust(Player *player, fx32 velX, fx32 velY, Eff
             velX += FX32_FROM_WHOLE(mtMathRandRange(-4, 4));
             velY += FX32_FROM_WHOLE(mtMathRandRange(-4, 4));
 
-            work->objWork.userTimer = (playerGameStatus.stageTimer << 28) >> 16;
+            work->objWork.userTimer = (playerGameStatus.stageTimer & 0xF) << 12;
             work->objWork.move.x    = velX;
             work->objWork.move.y    = velY;
-            work->objWork.userWork  = 512;
+            work->objWork.userWork  = FLOAT_TO_FX32(0.125);
             work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
 
             SetTaskState(&work->objWork, EffectFlameDust_State_Type2);

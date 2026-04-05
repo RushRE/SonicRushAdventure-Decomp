@@ -948,9 +948,7 @@ void TripleGrindRail__CreateLeafParticle(TripleGrindRailParticle *particle)
     s32 randVal                 = mtMathRandRepeat(0x40) - 0x1F;
     particle->radius            = randVal * FLOAT_TO_FX32(3.2998046875) + TRIPLEGRINDRAIL_X_OFFSET;
     particle->angle             = FLOAT_DEG_TO_IDX(299.99267578125);
-    int bitShiftKeep3LowestBits = sizeof(s32) * 8 - 3; // Keep only 3 bits (8-element array)
-    u32 randIndex               = (u32)(((s32)mtMathRand()) << bitShiftKeep3LowestBits) >> bitShiftKeep3LowestBits;
-    particle->type              = particleTypeList[randIndex];
+    particle->type              = particleTypeList[mtMathRand() & 0x7];
 }
 
 void TripleGrindRail__CreateMushroomParticle(TripleGrindRailParticle *particle)

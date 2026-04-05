@@ -258,7 +258,7 @@ void EnemyFireSkull_Action_FlyAway(EnemyFireSkull *work)
     SetTaskState(&work->gameWork.objWork, EnemyFireSkull_State_FlyAway);
 
     work->gameWork.objWork.userTimer = 120;
-    work->gameWork.objWork.userWork  = (u16)(((playerGameStatus.stageTimer << 0x1B) >> 0x13) + FLOAT_DEG_TO_IDX(270.0));
+    work->gameWork.objWork.userWork  = (u16)(((playerGameStatus.stageTimer & 0x1F) << 8) + FLOAT_DEG_TO_IDX(270.0));
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
         work->gameWork.objWork.userWork = (u16)(work->gameWork.objWork.userWork - FLOAT_DEG_TO_IDX(90.0));
 

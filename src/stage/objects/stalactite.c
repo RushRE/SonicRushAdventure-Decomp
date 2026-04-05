@@ -345,9 +345,7 @@ void Stalactite_StateWeakPoint_Hit(Stalactite *work)
             {
                 fx32 velX   = FX32_FROM_WHOLE(mtMathRandRange2(-64, 64));
                 fx32 velY   = FX32_FROM_WHOLE(-mtMathRandRepeat(4));
-                u32 offsetY = (mtMathRand());
-                offsetY <<= 16 + 10;
-                offsetY >>= 16 - 2;
+                u32 offsetY = FX32_FROM_WHOLE(mtMathRandRepeat(64));
 
                 CreateStalactiteParticle(work, work->gameWork.objWork.position.x + velX, work->gameWork.objWork.position.y - FLOAT_TO_FX32(208.0) + offsetY, velX >> 4, velY,
                                          particleTypeTable[i & 7]);
@@ -364,9 +362,7 @@ void Stalactite_StateWeakPoint_Hit(Stalactite *work)
     if ((work->gameWork.objWork.userWork & 0xFFFF) == 0)
     {
         fx32 type   = mtMathRandRepeat(8);
-        u32 offsetY = mtMathRand();
-        offsetY <<= 16 + 10;
-        offsetY >>= 16 - 2;
+        u32 offsetY = FX32_FROM_WHOLE(mtMathRandRepeat(64));
         fx32 offsetX = FX32_FROM_WHOLE(mtMathRandRange2(-64, 64));
 
         CreateStalactiteParticle(work, work->gameWork.objWork.position.x + offsetX, work->gameWork.objWork.position.y - FLOAT_TO_FX32(208.0) + offsetY, FLOAT_TO_FX32(0.0),
@@ -391,9 +387,7 @@ void Stalactite_StateWeakPoint_Falling(Stalactite *work)
         {
             fx32 velX   = FX32_FROM_WHOLE(mtMathRandRange2(-32, 32));
             fx32 velY   = FX32_FROM_WHOLE(-mtMathRandRepeat(8));
-            u32 offsetY = FX32_FROM_WHOLE(mtMathRand());
-            offsetY <<= 16;
-            offsetY >>= 16;
+            u32 offsetY = FX32_FROM_WHOLE(mtMathRandRepeat(16));
 
             CreateStalactiteParticle(work, fallingStalactite->gameWork.objWork.position.x + velX, fallingStalactite->gameWork.objWork.position.y + FLOAT_TO_FX32(62.0) + offsetY,
                                      velX >> 4, velY, particleTypeTable[i & 7]);

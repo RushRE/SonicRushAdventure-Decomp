@@ -775,11 +775,8 @@ void MapSys__Func_20091F0(s32 id)
     mapCamera.camera[id].flags &= ~MAPSYS_CAMERA_FLAG_80;
 }
 
-NONMATCH_FUNC s32 MapSys__GetScreenSwapPos(fx32 x)
+s32 MapSys__GetScreenSwapPos(fx32 x)
 {
-    // https://decomp.me/scratch/p8G4k -> 99.25%
-    // Minor register mismatches
-#ifdef NON_MATCHING
     enum
     {
         CAMERA_FOCUS_TOP,
@@ -790,8 +787,8 @@ NONMATCH_FUNC s32 MapSys__GetScreenSwapPos(fx32 x)
     fx32 y;
     fx32 prevFindPos;
     BOOL foundBottom = FALSE;
-    s32 width;
-    s32 height;
+    int width;
+    int height;
 
     mapCameraZones = mapSysFiles.mapCameraZones;
 
@@ -803,9 +800,8 @@ NONMATCH_FUNC s32 MapSys__GetScreenSwapPos(fx32 x)
     {
         s32 dataPos = y * width + FX32_TO_WHOLE(x >> 6);
 
-        u16 pos   = dataPos >> 2;
-        u16 shift = (u32)dataPos << 30u >> 29u; // (dataPos << 1) & 7;
-        u16 focus = (mapCameraZones->data[pos] >> (shift)) & 3;
+        u16 shift = (u32)(dataPos & 3) << 1;
+        u16 focus = (mapCameraZones->data[(u16)(dataPos >> 2)] >> (shift)) & 3;
 
         if (foundBottom == FALSE && focus != CAMERA_FOCUS_TOP)
         {
@@ -828,66 +824,6 @@ NONMATCH_FUNC s32 MapSys__GetScreenSwapPos(fx32 x)
     }
 
     return 0;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	ldr r1, =sMapSystemTask
-	mov r3, #0
-	cmp r0, #0
-	ldr r1, [r1, #0x1c]
-	movlt r5, r3
-	blt _02009244
-	ldr r4, =mapCamera+0x000000E0
-	ldrh r4, [r4, #0x4a]
-	mov r4, r4, lsl #0xc
-	sub r5, r4, #1
-	cmp r0, r5
-	movle r5, r0
-_02009244:
-	ldrh lr, [r1, #2]
-	ldrh r4, [r1, #0]
-	mov r0, #0
-	cmp lr, #0
-	ble _020092D0
-	mov ip, r0
-	mov r7, #1
-_02009260:
-	add r9, ip, r5, asr #18
-	mov r6, r9, lsl #0xe
-	add r8, r1, r6, lsr #16
-	mov r6, r9, lsl #0x1e
-	mov r6, r6, lsr #0x1d
-	mov r6, r6, lsl #0x10
-	ldrb r8, [r8, #4]
-	mov r6, r6, lsr #0x10
-	cmp r3, #0
-	mov r6, r8, asr r6
-	and r6, r6, #3
-	bne _020092AC
-	cmp r6, #0
-	beq _020092AC
-	cmp r6, #1
-	moveq r0, r0, lsl #0x12
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	mov r3, r7
-	mov r2, r0
-_020092AC:
-	cmp r3, #1
-	cmpeq r6, #1
-	addeq r0, r2, r0
-	moveq r0, r0, lsl #0x11
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	add r0, r0, #1
-	cmp r0, lr
-	add ip, ip, r4
-	blt _02009260
-_020092D0:
-	bl IsBossStage
-	mov r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-
-// clang-format on
-#endif
 }
 
 void MapSys__GetCameraPositionCB(fx32 *x, fx32 *y)
