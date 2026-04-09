@@ -154,7 +154,7 @@ void SeaMapTraining_Destructor(Task *task)
 
 void DestroySeaMapTraining(SeaMapTraining *work)
 {
-    SeaMapChartCourseView__Destroy();
+    DestroySeaMapChartCourseView();
 
     ReleaseSpriteButtonCursorSprite();
     ReleaseSpriteButtonTouchpadSprite();
@@ -408,14 +408,14 @@ void SeaMapTraining_State_HideButton(SeaMapTraining *work)
 
 void SeaMapTraining_State_InitChartCourseViewTutorial(SeaMapTraining *work)
 {
-    SeaMapChartCourseView__Create(FALSE, SHIP_JET, 2);
+    CreateSeaMapChartCourseView(GRAPHICS_ENGINE_A, SHIP_JET, SEAMAPCHARTCOURSEVIEW_TYPE_TRAINING);
 
     work->state = SeaMapTraining_State_WaitForChartCourseViewTutorialFinished;
 }
 
 void SeaMapTraining_State_WaitForChartCourseViewTutorialFinished(SeaMapTraining *work)
 {
-    if (SeaMapChartCourseView__Func_2040978() == FALSE)
+    if (IsSeaMapChartCourseViewFinished() == FALSE)
     {
         NNS_SndPlayerStopSeqAll(60);
 

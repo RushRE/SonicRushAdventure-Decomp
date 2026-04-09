@@ -3,7 +3,7 @@
 #include <seaMap/seaMapCollision.h>
 #include <seaMap/seaMapView.h>
 #include <seaMap/seaMapEventManager.h>
-#include <seaMap/seaMapCourseChangeView.h>
+#include <seaMap/seaMapCourseChangeMenu.h>
 #include <seaMap/objects/seaMapIslandIcon.h>
 
 // --------------------
@@ -460,10 +460,10 @@ u8 SeaMapVoyagePathConfig_GetLV(fx32 x, fx32 y)
 
 void SeaMapVoyagePathConfig_StoreShipState(fx32 x, fx32 y, fx32 distance)
 {
-    gSeaMapCourseChangeView_shipPosition.x = x;
-    gSeaMapCourseChangeView_shipPosition.y = y;
+    gSeaMapCourseChangeMenu_shipPosition.x = x;
+    gSeaMapCourseChangeMenu_shipPosition.y = y;
 
     fx32 prevDistance               = gSeaMapViewStoredVoyageDist;
     gSeaMapViewStoredVoyageDist     = distance;
-    SeaMapCourseChangeView_02134174 = prevDistance;
+    SeaMapCourseChangeMenu_02134174 = prevDistance;
 }

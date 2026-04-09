@@ -82,8 +82,7 @@ Static arm9
     Object src/seaMap/seaMapView.o
     Object src/seaMap/seaMapMenu.o
     Object src/seaMap/seaMapChartCourseView.o
-    Object asm/seaMap/seaMapChartCourseView_vars.o
-    Object src/seaMap/seaMapPenPalette.o
+    Object src/seaMap/seaMapBrightnessModifier.o
     Object src/seaMap/seaMapManager.o
     Object asm/seaMap/seaMapManager_vars.o
     Object src/seaMap/seaMapManagerNodeList.o
@@ -91,7 +90,7 @@ Static arm9
     Object src/seaMap/seaMapCollision.o
     Object src/seaMap/seaMapEventTrigger.o
     Object src/seaMap/seaMapVoyagePathConfig.o
-    Object src/seaMap/seaMapCourseChangeView.o
+    Object src/seaMap/seaMapCourseChangeMenu.o
     
     ## GAME CORE ##
     Object src/game/file/archiveFile.o
@@ -598,7 +597,7 @@ Overlay Menus1
     Object asm/menu/vsConnectionMenu.o              # thumb code
     Object asm/menu/timeAttackMenu.o                # thumb code
     Object asm/menu/timeAttackRankList.o            # thumb code
-    Object src/seaMap/seaMapUnknown.o
+    Object src/seaMap/seaMapChartCourseMenu.o
     Object src/seaMap/seaMapCutscene.o
     Object src/seaMap/seaMapTraining.o
     Object asm/menu/vsFriendsListMenu.o             # arm code

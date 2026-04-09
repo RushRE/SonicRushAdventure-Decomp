@@ -1,4 +1,4 @@
-#include <seaMap/seaMapCourseChangeView.h>
+#include <seaMap/seaMapCourseChangeMenu.h>
 #include <seaMap/seaMapChartCourseView.h>
 #include <seaMap/navTails.h>
 #include <seaMap/seaMapCollision.h>
@@ -15,27 +15,31 @@
 // VARIABLES
 // --------------------
 
-Vec2Fx32 gSeaMapCourseChangeView_shipPosition;
+Vec2Fx32 gSeaMapCourseChangeMenu_shipPosition;
 
 // --------------------
 // FUNCTION DECLS
 // --------------------
 
-static void SeaMapCourseChangeView_Main(void);
-static void SeaMapCourseChangeView_Destructor(Task *task);
-static void DestroySeaMapCourseChangeView(SeaMapCourseChangeView *work);
-static void SeaMapCourseChangeView_DrawText(SeaMapCourseChangeView *work);
-static void InitDisplayForSeaMapCourseChangeView(void);
-static void SeaMapCourseChangeView_State_Init(SeaMapCourseChangeView *work);
-static void SeaMapCourseChangeView_State_FadeIn(SeaMapCourseChangeView *work);
-static void SeaMapCourseChangeView_State_Active(SeaMapCourseChangeView *work);
-static void SeaMapCourseChangeView_State_FadeOut(SeaMapCourseChangeView *work);
+static void SeaMapCourseChangeMenu_Main(void);
+static void SeaMapCourseChangeMenu_Destructor(Task *task);
+
+static void DestroySeaMapCourseChangeMenu(SeaMapCourseChangeMenu *work);
+
+static void SeaMapCourseChangeMenu_DrawText(SeaMapCourseChangeMenu *work);
+
+static void InitDisplayForSeaMapCourseChangeMenu(void);
+
+static void SeaMapCourseChangeMenu_State_Init(SeaMapCourseChangeMenu *work);
+static void SeaMapCourseChangeMenu_State_FadeIn(SeaMapCourseChangeMenu *work);
+static void SeaMapCourseChangeMenu_State_Active(SeaMapCourseChangeMenu *work);
+static void SeaMapCourseChangeMenu_State_FadeOut(SeaMapCourseChangeMenu *work);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-void CreateSeaMapCourseChangeView(void)
+void CreateSeaMapCourseChangeMenu(void)
 {
     ReleaseAudioSystem();
     LoadAudioSndArc("snd/sys/sound_data.sdat");
@@ -45,15 +49,15 @@ void CreateSeaMapCourseChangeView(void)
     LoadSpriteButtonTouchpadSprite();
 
     Task *task =
-        TaskCreate(SeaMapCourseChangeView_Main, SeaMapCourseChangeView_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(0), SeaMapCourseChangeView);
+        TaskCreate(SeaMapCourseChangeMenu_Main, SeaMapCourseChangeMenu_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(0), SeaMapCourseChangeMenu);
 
-    SeaMapCourseChangeView *work = TaskGetWork(task, SeaMapCourseChangeView);
+    SeaMapCourseChangeMenu *work = TaskGetWork(task, SeaMapCourseChangeMenu);
     TaskInitWork16(work);
 
-    work->state = SeaMapCourseChangeView_State_Init;
+    work->state = SeaMapCourseChangeMenu_State_Init;
 
-    InitDisplayForSeaMapCourseChangeView();
-    SeaMapChartCourseView__Create(FALSE, gameState.sailShipType, 1);
+    InitDisplayForSeaMapCourseChangeMenu();
+    CreateSeaMapChartCourseView(GRAPHICS_ENGINE_A, gameState.sailShipType, SEAMAPCHARTCOURSEVIEW_TYPE_CHANGE_COURSE);
     SeaMapManager__LoadNodeList();
 
     u16 nodeY, nodeX;
@@ -61,28 +65,28 @@ void CreateSeaMapCourseChangeView(void)
     u16 y, x;
     while (TRUE)
     {
-        SeaMapManager__Func_2045BF8(gSeaMapViewStoredVoyageDist - SeaMapCourseChangeView_02134174, &inX, &inY);
+        SeaMapManager__Func_2045BF8(gSeaMapViewStoredVoyageDist - SeaMapCourseChangeMenu_02134174, &inX, &inY);
         SeaMapManager__Func_2043B60(inX, inY, &nodeX, &nodeY);
         if (SeaMapCollision__Collide(nodeX, nodeY, TRUE) == FALSE)
             break;
 
         gSeaMapViewStoredVoyageDist -= FLOAT_TO_FX32(0.5);
 
-        if (SeaMapCourseChangeView_02134174 > gSeaMapViewStoredVoyageDist)
+        if (SeaMapCourseChangeMenu_02134174 > gSeaMapViewStoredVoyageDist)
         {
-            gSeaMapViewStoredVoyageDist = SeaMapCourseChangeView_02134174;
+            gSeaMapViewStoredVoyageDist = SeaMapCourseChangeMenu_02134174;
             break;
         }
     }
 
-    SeaMapManager__Func_2045BF8(gSeaMapViewStoredVoyageDist - SeaMapCourseChangeView_02134174, &gSeaMapCourseChangeView_shipPosition.x, &gSeaMapCourseChangeView_shipPosition.y);
+    SeaMapManager__Func_2045BF8(gSeaMapViewStoredVoyageDist - SeaMapCourseChangeMenu_02134174, &gSeaMapCourseChangeMenu_shipPosition.x, &gSeaMapCourseChangeMenu_shipPosition.y);
     SeaMapManager__RemoveAllNodes();
-    SetSeaMapViewPosition(gSeaMapCourseChangeView_shipPosition.x, gSeaMapCourseChangeView_shipPosition.y);
+    SetSeaMapViewPosition(gSeaMapCourseChangeMenu_shipPosition.x, gSeaMapCourseChangeMenu_shipPosition.y);
 
-    SeaMapManager__Func_2043B28(gSeaMapCourseChangeView_shipPosition.x, gSeaMapCourseChangeView_shipPosition.y, &x, &y);
+    SeaMapManager__Func_2043B28(gSeaMapCourseChangeMenu_shipPosition.x, gSeaMapCourseChangeMenu_shipPosition.y, &x, &y);
     SeaMapManager__AddNode(x, y);
 
-    SeaMapEventManager_CreateObject(SEAMAPOBJECT_BOAT_ICON, FX32_TO_WHOLE(gSeaMapCourseChangeView_shipPosition.x), FX32_TO_WHOLE(gSeaMapCourseChangeView_shipPosition.y), 0, 0, 0);
+    SeaMapEventManager_CreateObject(SEAMAPOBJECT_BOAT_ICON, FX32_TO_WHOLE(gSeaMapCourseChangeMenu_shipPosition.x), FX32_TO_WHOLE(gSeaMapCourseChangeMenu_shipPosition.y), 0, NULL, 0);
 
     CreateNavTails(GRAPHICS_ENGINE_B, gameState.sailShipType, NULL);
 
@@ -91,29 +95,29 @@ void CreateSeaMapCourseChangeView(void)
     ResetTouchInput();
 }
 
-void SeaMapCourseChangeView_Main(void)
+void SeaMapCourseChangeMenu_Main(void)
 {
-    SeaMapCourseChangeView *work = TaskGetWorkCurrent(SeaMapCourseChangeView);
+    SeaMapCourseChangeMenu *work = TaskGetWorkCurrent(SeaMapCourseChangeMenu);
 
     work->state(work);
 
     if (!work->destroyQueued)
-        SeaMapCourseChangeView_DrawText(work);
+        SeaMapCourseChangeMenu_DrawText(work);
     else
-        DestroySeaMapCourseChangeView(work);
+        DestroySeaMapCourseChangeMenu(work);
 }
 
-void SeaMapCourseChangeView_Destructor(Task *task)
+void SeaMapCourseChangeMenu_Destructor(Task *task)
 {
-    SeaMapCourseChangeView *work = TaskGetWork(task, SeaMapCourseChangeView);
+    SeaMapCourseChangeMenu *work = TaskGetWork(task, SeaMapCourseChangeMenu);
     UNUSED(work);
 
     ReleaseAudioSystem();
 }
 
-void DestroySeaMapCourseChangeView(SeaMapCourseChangeView *work)
+void DestroySeaMapCourseChangeMenu(SeaMapCourseChangeMenu *work)
 {
-    SeaMapChartCourseView__Destroy();
+    DestroySeaMapChartCourseView();
     ReleaseSpriteButtonCursorSprite();
     ReleaseSpriteButtonTouchpadSprite();
     DestroyCurrentTask();
@@ -135,12 +139,12 @@ void DestroySeaMapCourseChangeView(SeaMapCourseChangeView *work)
     NextSysEvent();
 }
 
-void SeaMapCourseChangeView_DrawText(SeaMapCourseChangeView *work)
+void SeaMapCourseChangeMenu_DrawText(SeaMapCourseChangeMenu *work)
 {
     // Do nothing, there's no text to draw.
 }
 
-void InitDisplayForSeaMapCourseChangeView(void)
+void InitDisplayForSeaMapCourseChangeMenu(void)
 {
     VRAMSystem__Reset();
 
@@ -153,12 +157,12 @@ void InitDisplayForSeaMapCourseChangeView(void)
     renderCurrentDisplay = GX_DISP_SELECT_SUB_MAIN;
 }
 
-void SeaMapCourseChangeView_State_Init(SeaMapCourseChangeView *work)
+void SeaMapCourseChangeMenu_State_Init(SeaMapCourseChangeMenu *work)
 {
-    work->state = SeaMapCourseChangeView_State_FadeIn;
+    work->state = SeaMapCourseChangeMenu_State_FadeIn;
 }
 
-void SeaMapCourseChangeView_State_FadeIn(SeaMapCourseChangeView *work)
+void SeaMapCourseChangeMenu_State_FadeIn(SeaMapCourseChangeMenu *work)
 {
     BOOL done = TRUE;
     for (s32 i = 0; i < GRAPHICS_ENGINE_COUNT; i++)
@@ -179,19 +183,19 @@ void SeaMapCourseChangeView_State_FadeIn(SeaMapCourseChangeView *work)
     }
 
     if (done)
-        work->state = SeaMapCourseChangeView_State_Active;
+        work->state = SeaMapCourseChangeMenu_State_Active;
 }
 
-void SeaMapCourseChangeView_State_Active(SeaMapCourseChangeView *work)
+void SeaMapCourseChangeMenu_State_Active(SeaMapCourseChangeMenu *work)
 {
-    if (SeaMapChartCourseView__Func_2040978() == FALSE)
+    if (IsSeaMapChartCourseViewFinished() == FALSE)
     {
         NNS_SndPlayerStopSeqBySeqNo(SND_SYS_SEQ_SEQ_CHART, 16);
-        work->state = SeaMapCourseChangeView_State_FadeOut;
+        work->state = SeaMapCourseChangeMenu_State_FadeOut;
     }
 }
 
-void SeaMapCourseChangeView_State_FadeOut(SeaMapCourseChangeView *work)
+void SeaMapCourseChangeMenu_State_FadeOut(SeaMapCourseChangeMenu *work)
 {
     BOOL done = TRUE;
     for (s32 i = 0; i < GRAPHICS_ENGINE_COUNT; i++)

@@ -372,7 +372,7 @@ void SeaMapEventManager_ClearLastTouchedIcon(void)
 {
     SeaMapEventManager *work = GetSeaMapEventManagerWork2();
 
-    work->lastTouchedIconType = -1;
+    work->lastTouchedIconType = SEAMAPOBJECT_NONE;
     work->lastTouchedIcon     = NULL;
 }
 

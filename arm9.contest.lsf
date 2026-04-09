@@ -178,7 +178,7 @@ Static arm9
     Object src/seaMap/seaMapView.o
     Object src/seaMap/seaMapMenu.o
     Object asm/menu/seaMapChartCourseView.o
-    Object src/seaMap/seaMapPenPalette.o
+    Object src/seaMap/seaMapBrightnessModifier.o
     Object asm/seaMap/seaMapManager.o
     Object asm/seaMap/seaMapManagerNodeList.o
     Object asm/seaMap/seaMapEventManager.o
@@ -196,7 +196,7 @@ Static arm9
     Object src/seaMap/seaMapCollision.o
     Object src/seaMap/seaMapEventTrigger.o
     Object src/seaMap/seaMapVoyagePathConfig.o
-    Object src/seaMap/seaMapCourseChangeView.o
+    Object src/seaMap/seaMapCourseChangeMenu.o
     
     ## GAME CORE ##
     Object src/game/file/archiveFile.o

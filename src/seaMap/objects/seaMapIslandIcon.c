@@ -111,8 +111,8 @@ SeaMapObject *CreateSeaMapIslandIcon(const SeaMapLayoutObjectType *objectType, S
                                   SeaMapIslandIcon);
                 break;
 
-            case SEAMAPVIEW_TYPE_3:
-            case SEAMAPVIEW_TYPE_4:
+            case SEAMAPVIEW_TYPE_CHART_COURSE_NAVIGATION:
+            case SEAMAPVIEW_TYPE_CHART_COURSE_DRAWING:
                 task = TaskCreate(SeaMapIslandIcon_Main_ChartCourse, SeaMapIslandIcon_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x111, TASK_GROUP(1),
                                   SeaMapIslandIcon);
                 break;

@@ -23,10 +23,10 @@
 #include <menu/doorPuzzle.h>
 #include <menu/soundTest.h>
 #include <menu/credits.h>
-#include <seaMap/seaMapCourseChangeView.h>
+#include <seaMap/seaMapCourseChangeMenu.h>
 #include <menu/networkErrorMenu.h>
 #include <hub/hubControl.hpp>
-#include <seaMap/seaMapUnknown.h>
+#include <seaMap/seaMapChartCourseMenu.h>
 #include <seaMap/seaMapCutscene.h>
 #include <seaMap/seaMapTraining.h>
 #include <menu/vsMenu.h>
@@ -657,9 +657,9 @@ const struct SysEvent sSysEventList[SYSEVENT_COUNT] = {
         .overlay     = FS_OVERLAY_ID(Cutscene),
     },
 
-    // SYSEVENT_SEAMAP_UNKNOWN
+    // SYSEVENT_SEAMAP_CHART_COURSE_MENU
     {
-        .initFunc    = CreateSeaMapUnknown,
+        .initFunc    = CreateSeaMapChartCourseMenu,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,
@@ -671,7 +671,7 @@ const struct SysEvent sSysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_CHANGE_CHARTED_COURSE
     {
-        .initFunc    = CreateSeaMapCourseChangeView,
+        .initFunc    = CreateSeaMapCourseChangeMenu,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

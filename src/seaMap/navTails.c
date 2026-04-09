@@ -344,7 +344,7 @@ void NavTailsSpeak(u16 msgSequence, u16 duration)
     }
 }
 
-u16 CheckNavTailsSpeaking(void)
+u16 GetNavTailsActiveSpeakMsg(void)
 {
     NavTails *work = GetNavTailsWork();
     return MessageController__GetCurrentSequence(&work->fontAnimator.msgControl);
@@ -937,7 +937,7 @@ void NavTails_StateTalk_Speaking(NavTails *work)
         work->speakDuration--;
         if (work->speakDuration == 0)
         {
-            if (CheckNavTailsSpeaking())
+            if (GetNavTailsActiveSpeakMsg() != NAVTAILS_MSGSEQ_NONE)
             {
                 NavTailsSpeak(NAVTAILS_MSGSEQ_NONE, 1);
             }
@@ -957,7 +957,7 @@ void NavTails_StateTalk_SpeakDelay(NavTails *work)
         FontAnimator__LoadCharacters(&work->fontAnimator, 1);
         FontAnimator__Draw(&work->fontAnimator);
 
-        if (CheckNavTailsSpeaking() && work->windowMode == 0)
+        if (GetNavTailsActiveSpeakMsg() != NAVTAILS_MSGSEQ_NONE && work->windowMode == 0)
         {
             InitNavTailsBG_MsgWindow(work, GetNavTailsWindowForDialog(work));
             SetNavTailsWindowMode(work, TRUE);

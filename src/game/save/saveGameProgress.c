@@ -83,7 +83,7 @@ typedef struct StageProgressCheck_
 
 static const SaveGameNextAction *SaveGame__GetNextActionFromProgress(void);
 static void SaveGame_ProgressUpdateEvent_ReturnToHub(void);
-static void SaveGame_ProgressUpdateEvent_SeaMap_Unknown(void);
+static void SaveGame_ProgressUpdateEvent_SeaMapChartCourseMenu(void);
 static void SaveGame_ProgressUpdateEvent_BeginSailing(void);
 static void SaveGame_ProgressUpdateEvent_IslandArrival(void);
 static void SaveGame_ProgressUpdateEvent_AdvanceStage(void);
@@ -96,7 +96,7 @@ static void SaveGame_ProgressUpdateEvent_DoorPuzzleComplete(void);
 static void SaveGame_ProgressUpdateEvent_NonStageIslandArrival(void);
 
 static BOOL SaveGame_ProgressCheck_ReturnToHub(s32 param);
-static BOOL SaveGame_ProgressCheck_SeaMap_Unknown(s32 param);
+static BOOL SaveGame_ProgressCheck_SeaMapChartCourseMenu(s32 param);
 static BOOL SaveGame_ProgressCheck_BeginSailing(s32 param);
 static BOOL SaveGame_ProgressCheck_IslandArrival(s32 param);
 static BOOL SaveGame_ProgressCheck_AdvanceStage(s32 param);
@@ -213,7 +213,7 @@ static const SaveGameNextAction sSaveNextAction_Zone6Progress3[] = {
 };
 
 static const SaveGameNextAction sSaveNextAction_Progress2[] = {
-    { .type                   = SAVE_PROGRESSTYPE_SEAMAP_UNKNOWN,
+    { .type                   = SAVE_PROGRESSTYPE_SEAMAP_CHART_COURSE_MENU,
       .progressCheckValue     = 0,
       .eventType              = SAVE_PROGRESSEVENT_START_SAIL_TRAINING,
       .eventParam             = 0,
@@ -682,7 +682,7 @@ static const SaveGameNextAction sSaveNextAction_Progress14[] = {
 
 static const SaveUnknown2 sProgressUpdateEventList[SAVE_PROGRESSTYPE_COUNT] = {
     [SAVE_PROGRESSTYPE_RETURN_TO_HUB]            = SaveGame_ProgressUpdateEvent_ReturnToHub,
-    [SAVE_PROGRESSTYPE_SEAMAP_UNKNOWN]           = SaveGame_ProgressUpdateEvent_SeaMap_Unknown,
+    [SAVE_PROGRESSTYPE_SEAMAP_CHART_COURSE_MENU] = SaveGame_ProgressUpdateEvent_SeaMapChartCourseMenu,
     [SAVE_PROGRESSTYPE_BEGIN_SAILING]            = SaveGame_ProgressUpdateEvent_BeginSailing,
     [SAVE_PROGRESSTYPE_ISLAND_ARRIVAL]           = SaveGame_ProgressUpdateEvent_IslandArrival,
     [SAVE_PROGRESSTYPE_ADVANCE_STAGE]            = SaveGame_ProgressUpdateEvent_AdvanceStage,
@@ -986,7 +986,7 @@ static const SaveGameNextAction sSaveNextAction_Progress31[] = {
 
 static const SaveProgressCheck sProgressCheckTable[] = {
     [SAVE_PROGRESSTYPE_RETURN_TO_HUB]            = SaveGame_ProgressCheck_ReturnToHub,
-    [SAVE_PROGRESSTYPE_SEAMAP_UNKNOWN]           = SaveGame_ProgressCheck_SeaMap_Unknown,
+    [SAVE_PROGRESSTYPE_SEAMAP_CHART_COURSE_MENU] = SaveGame_ProgressCheck_SeaMapChartCourseMenu,
     [SAVE_PROGRESSTYPE_BEGIN_SAILING]            = SaveGame_ProgressCheck_BeginSailing,
     [SAVE_PROGRESSTYPE_ISLAND_ARRIVAL]           = SaveGame_ProgressCheck_IslandArrival,
     [SAVE_PROGRESSTYPE_ADVANCE_STAGE]            = SaveGame_ProgressCheck_AdvanceStage,
@@ -1547,9 +1547,9 @@ void SaveGame_ProgressUpdateEvent_ReturnToHub(void)
     SaveGame__ChangeEvent(SYSEVENT_RETURN_TO_HUB);
 }
 
-void SaveGame_ProgressUpdateEvent_SeaMap_Unknown(void)
+void SaveGame_ProgressUpdateEvent_SeaMapChartCourseMenu(void)
 {
-    SaveGame__StartSeaMapUnknown();
+    SaveGame__StartSeaMapChartCourseMenu();
 }
 
 void SaveGame_ProgressUpdateEvent_BeginSailing(void)
@@ -1949,7 +1949,7 @@ BOOL SaveGame_ProgressCheck_ReturnToHub(s32 param)
     return TRUE;
 }
 
-BOOL SaveGame_ProgressCheck_SeaMap_Unknown(s32 param)
+BOOL SaveGame_ProgressCheck_SeaMapChartCourseMenu(s32 param)
 {
     return TRUE;
 }
@@ -2137,9 +2137,9 @@ void SaveGame__StartHubMenu(void)
     SaveGame__ChangeEvent(SYSEVENT_RETURN_TO_HUB);
 }
 
-void SaveGame__StartSeaMapUnknown(void)
+void SaveGame__StartSeaMapChartCourseMenu(void)
 {
-    SaveGame__ChangeEvent(SYSEVENT_SEAMAP_UNKNOWN);
+    SaveGame__ChangeEvent(SYSEVENT_SEAMAP_CHART_COURSE_MENU);
 }
 
 void SaveGame__StartSailing(void)

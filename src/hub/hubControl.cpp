@@ -940,7 +940,7 @@ void HubControl::Main_DoTalkAction()
             work->SaveState(FALSE);
             HubControl::StartSailing(work->dockArea, FALSE);
             work->nextEvent       = HUBEVENT_UPDATE_PROGRESS;
-            work->nextSelectionID = SAVE_PROGRESSTYPE_SEAMAP_UNKNOWN;
+            work->nextSelectionID = SAVE_PROGRESSTYPE_SEAMAP_CHART_COURSE_MENU;
             CViDock::EnablePlayerInput(FALSE);
             HubControl::TryFadeOutBGM(work);
             SetCurrentTaskMainEvent(HubControl::Main_FadeOutForEventChange);

@@ -1,4 +1,4 @@
-#include <seaMap/seaMapUnknown.h>
+#include <seaMap/seaMapChartCourseMenu.h>
 #include <seaMap/navTails.h>
 #include <seaMap/seaMapChartCourseView.h>
 #include <game/graphics/renderCore.h>
@@ -12,21 +12,21 @@
 // FUNCTIONS
 // --------------------
 
-static void SeaMapUnknown_Main(void);
-static void SeaMapUnknown_Destructor(Task *task);
-static void DestroySeaMapUnknown(SeaMapUnknown *work);
-static void SeaMapUnknown_DrawText(SeaMapUnknown *work);
-static void InitDisplayForSeaMapUnknown(void);
-static void SeaMapUnknown_State_Init(SeaMapUnknown *work);
-static void SeaMapUnknown_State_FadeIn(SeaMapUnknown *work);
-static void SeaMapUnknown_State_Active(SeaMapUnknown *work);
-static void SeaMapUnknown_State_FadeOut(SeaMapUnknown *work);
+static void SeaMapChartCourseMenu_Main(void);
+static void SeaMapChartCourseMenu_Destructor(Task *task);
+static void DestroySeaMapChartCourseMenu(SeaMapChartCourseMenu *work);
+static void SeaMapChartCourseMenu_DrawText(SeaMapChartCourseMenu *work);
+static void InitDisplayForSeaMapChartCourseMenu(void);
+static void SeaMapChartCourseMenu_State_Init(SeaMapChartCourseMenu *work);
+static void SeaMapChartCourseMenu_State_FadeIn(SeaMapChartCourseMenu *work);
+static void SeaMapChartCourseMenu_State_Active(SeaMapChartCourseMenu *work);
+static void SeaMapChartCourseMenu_State_FadeOut(SeaMapChartCourseMenu *work);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-void CreateSeaMapUnknown(void)
+void CreateSeaMapChartCourseMenu(void)
 {
     ReleaseAudioSystem();
     LoadAudioSndArc("snd/sys/sound_data.sdat");
@@ -35,16 +35,16 @@ void CreateSeaMapUnknown(void)
     LoadSpriteButtonCursorSprite();
     LoadSpriteButtonTouchpadSprite();
 
-    Task *task = TaskCreate(SeaMapUnknown_Main, SeaMapUnknown_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(0), SeaMapUnknown);
+    Task *task = TaskCreate(SeaMapChartCourseMenu_Main, SeaMapChartCourseMenu_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(0), SeaMapChartCourseMenu);
 
-    SeaMapUnknown *work = TaskGetWork(task, SeaMapUnknown);
+    SeaMapChartCourseMenu *work = TaskGetWork(task, SeaMapChartCourseMenu);
     TaskInitWork16(work);
 
-    work->state = SeaMapUnknown_State_Init;
+    work->state = SeaMapChartCourseMenu_State_Init;
 
-    InitDisplayForSeaMapUnknown();
+    InitDisplayForSeaMapChartCourseMenu();
 
-    SeaMapChartCourseView__Create(FALSE, gameState.sailShipType, 0);
+    CreateSeaMapChartCourseView(GRAPHICS_ENGINE_A, gameState.sailShipType, SEAMAPCHARTCOURSEVIEW_TYPE_CHART_COURSE);
     
     SeaMapLayoutObject *landedIsland = SeaMapEventManager_GetObjectFromID(gameState.landedIslandID);
     SetSeaMapViewPosition(FX32_FROM_WHOLE(landedIsland->position.x), FX32_FROM_WHOLE(landedIsland->position.y));
@@ -56,29 +56,29 @@ void CreateSeaMapUnknown(void)
     ResetTouchInput();
 }
 
-void SeaMapUnknown_Main(void)
+void SeaMapChartCourseMenu_Main(void)
 {
-    SeaMapUnknown *work = TaskGetWorkCurrent(SeaMapUnknown);
+    SeaMapChartCourseMenu *work = TaskGetWorkCurrent(SeaMapChartCourseMenu);
 
     work->state(work);
 
     if (!work->destroyQueued)
-        SeaMapUnknown_DrawText(work);
+        SeaMapChartCourseMenu_DrawText(work);
     else
-        DestroySeaMapUnknown(work);
+        DestroySeaMapChartCourseMenu(work);
 }
 
-void SeaMapUnknown_Destructor(Task *task)
+void SeaMapChartCourseMenu_Destructor(Task *task)
 {
-    SeaMapUnknown *work = TaskGetWork(task, SeaMapUnknown);
+    SeaMapChartCourseMenu *work = TaskGetWork(task, SeaMapChartCourseMenu);
     UNUSED(work);
 
     ReleaseAudioSystem();
 }
 
-void DestroySeaMapUnknown(SeaMapUnknown *work)
+void DestroySeaMapChartCourseMenu(SeaMapChartCourseMenu *work)
 {
-    SeaMapChartCourseView__Destroy();
+    DestroySeaMapChartCourseView();
     ReleaseSpriteButtonCursorSprite();
     ReleaseSpriteButtonTouchpadSprite();
     DestroyCurrentTask();
@@ -99,12 +99,12 @@ void DestroySeaMapUnknown(SeaMapUnknown *work)
     NextSysEvent();
 }
 
-void SeaMapUnknown_DrawText(SeaMapUnknown *work)
+void SeaMapChartCourseMenu_DrawText(SeaMapChartCourseMenu *work)
 {
     // Do nothing, there's no text to draw.
 }
 
-void InitDisplayForSeaMapUnknown(void)
+void InitDisplayForSeaMapChartCourseMenu(void)
 {
     VRAMSystem__Reset();
 
@@ -117,12 +117,12 @@ void InitDisplayForSeaMapUnknown(void)
     renderCurrentDisplay = GX_DISP_SELECT_SUB_MAIN;
 }
 
-void SeaMapUnknown_State_Init(SeaMapUnknown *work)
+void SeaMapChartCourseMenu_State_Init(SeaMapChartCourseMenu *work)
 {
-    work->state = SeaMapUnknown_State_FadeIn;
+    work->state = SeaMapChartCourseMenu_State_FadeIn;
 }
 
-void SeaMapUnknown_State_FadeIn(SeaMapUnknown *work)
+void SeaMapChartCourseMenu_State_FadeIn(SeaMapChartCourseMenu *work)
 {
     BOOL done = TRUE;
     for (s32 i = 0; i < GRAPHICS_ENGINE_COUNT; i++)
@@ -143,19 +143,19 @@ void SeaMapUnknown_State_FadeIn(SeaMapUnknown *work)
     }
 
     if (done)
-        work->state = SeaMapUnknown_State_Active;
+        work->state = SeaMapChartCourseMenu_State_Active;
 }
 
-void SeaMapUnknown_State_Active(SeaMapUnknown *work)
+void SeaMapChartCourseMenu_State_Active(SeaMapChartCourseMenu *work)
 {
-    if (SeaMapChartCourseView__Func_2040978() == FALSE)
+    if (IsSeaMapChartCourseViewFinished() == FALSE)
     {
         NNS_SndPlayerStopSeqBySeqNo(SND_SYS_SEQ_SEQ_CHART, 16);
-        work->state = SeaMapUnknown_State_FadeOut;
+        work->state = SeaMapChartCourseMenu_State_FadeOut;
     }
 }
 
-void SeaMapUnknown_State_FadeOut(SeaMapUnknown *work)
+void SeaMapChartCourseMenu_State_FadeOut(SeaMapChartCourseMenu *work)
 {
     BOOL done = TRUE;
     for (s32 i = 0; i < GRAPHICS_ENGINE_COUNT; i++)

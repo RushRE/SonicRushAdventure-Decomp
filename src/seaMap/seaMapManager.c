@@ -34,6 +34,8 @@ NOT_DECOMPILED const void *dword_210FB40;
 NOT_DECOMPILED const char aBbChBb[];
 NOT_DECOMPILED const char aCh[];
 
+// FORCE_INCLUDE_ARRAY(u16, sSeaMapManagerUnknown, 6, {0x600, 0x240, 0x300, 0x120, 0x200, 0xC0})
+
 // --------------------
 // FUNCTIONS
 // --------------------
@@ -718,7 +720,7 @@ NONMATCH_FUNC void SeaMapManager__Func_2043B60(fx32 inX, fx32 inY, fx16 *x, fx16
 #endif
 }
 
-NONMATCH_FUNC void SeaMapManager__Func_2043B7C(fx32 inX, fx32 inY, fx16 *x, fx16 *y)
+NONMATCH_FUNC void SeaMapManager__Func_2043B7C(u8 inX, u8 inY, fx16 *x, fx16 *y)
 {
 #ifdef NON_MATCHING
 

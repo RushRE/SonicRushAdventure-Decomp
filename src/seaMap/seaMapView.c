@@ -20,10 +20,8 @@ struct CursorConfig
 struct LocalizedButtonConfig
 {
     u8 animIDs[6];
-    u8 field_8;
-    u8 field_9;
+    u8 _padding[2];
     u8 oamOrder;
-    u8 field_B;
     u32 spriteSlot;
     s16 x;
     s16 y;
@@ -56,14 +54,14 @@ static void ReleaseSeaMapViewSprites(SeaMapView *work);
 static u32 SeaMapView_GetButtonConfigSpriteSize(SeaMapView *work, s32 id);
 static u32 SeaMapView_GetLocButtonConfigSpriteSize(SeaMapView *work, s32 id);
 static void SeaMapView_OnButtonPressed(TouchAreaResponse *response, TouchArea *touchArea, void *userData, u32 id);
-static void SeaMapView_ButtonCallback1(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-static void SeaMapView_ButtonCallback2(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-static void SeaMapView_ButtonCallback3(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-static void SeaMapView_ButtonCallback4(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-static void SeaMapView_ButtonCallback5(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-static void SeaMapView_ButtonCallback6(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-static void SeaMapView_ButtonCallback7(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
-static void SeaMapView_ButtonCallback8(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback_Back(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback_ZoomIn(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback_ZoomOut(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback_ConfirmPath(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback_CancelPath(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback_Land(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback_Cancel(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
+static void SeaMapView_ButtonCallback_ReturnToVillage(TouchAreaResponse *response, TouchArea *touchArea, void *userData);
 static void SeaMapView_DrawFinalizedVoyagePath_Zoom_Nearest(void);
 static void SeaMapView_DrawFinalizedVoyagePath_Zoom_Middle(void);
 static void SeaMapView_DrawFinalizedVoyagePath_Zoom_Farthest(void);
@@ -111,79 +109,102 @@ static const fx32 sShipMaxVoyageDistance[SHIP_COUNT] = {
     [SHIP_SUBMARINE] = 176  // How far the Submarine can travel
 };
 
-static const struct ButtonTouchAreaConfig sButtonTouchAreaConfigList[8] = {
+static const struct ButtonTouchAreaConfig sButtonTouchAreaConfigList[SEAMAPVIEW_BUTTON_COUNT] = {
+    [SEAMAPVIEW_BUTTON_BACK] = 
     {
         .priority = 0,
-        .callback = SeaMapView_ButtonCallback1,
+        .callback = SeaMapView_ButtonCallback_Back,
     },
 
+    [SEAMAPVIEW_BUTTON_ZOOM_IN] = 
     {
         .priority = 0,
-        .callback = SeaMapView_ButtonCallback2,
+        .callback = SeaMapView_ButtonCallback_ZoomIn,
     },
 
+    [SEAMAPVIEW_BUTTON_ZOOM_OUT] = 
     {
         .priority = 0,
-        .callback = SeaMapView_ButtonCallback3,
+        .callback = SeaMapView_ButtonCallback_ZoomOut,
     },
 
+    [SEAMAPVIEW_BUTTON_CONFIRM_PATH] = 
     {
         .priority = 0,
-        .callback = SeaMapView_ButtonCallback4,
+        .callback = SeaMapView_ButtonCallback_ConfirmPath,
     },
 
+    [SEAMAPVIEW_BUTTON_CANCEL_PATH] = 
     {
         .priority = 0,
-        .callback = SeaMapView_ButtonCallback5,
+        .callback = SeaMapView_ButtonCallback_CancelPath,
     },
 
+    [SEAMAPVIEW_BUTTON_LAND] = 
     {
         .priority = 0,
-        .callback = SeaMapView_ButtonCallback6,
+        .callback = SeaMapView_ButtonCallback_Land,
     },
 
+    [SEAMAPVIEW_BUTTON_CANCEL] = 
     {
         .priority = 0,
-        .callback = SeaMapView_ButtonCallback7,
+        .callback = SeaMapView_ButtonCallback_Cancel,
     },
 
+    [SEAMAPVIEW_BUTTON_RETURN_VILLAGE] = 
     {
         .priority = 0,
-        .callback = SeaMapView_ButtonCallback8,
+        .callback = SeaMapView_ButtonCallback_ReturnToVillage,
     },
 };
 
-static const struct LocalizedButtonConfig sLocalizedButtonConfigList[3] = {
+static const struct LocalizedButtonConfig sLocalizedButtonConfigList[SEAMAPVIEW_BUTTON_COUNT - SEAMAPVIEW_BUTTON_NON_LOC_COUNT] = {
+    [SEAMAPVIEW_BUTTON_LAND - SEAMAPVIEW_BUTTON_NON_LOC_COUNT] =
     {
-        .animIDs     = { SEAMAP_CHCOM_ANI_47, SEAMAP_CHCOM_ANI_56, SEAMAP_CHCOM_ANI_65, SEAMAP_CHCOM_ANI_74, SEAMAP_CHCOM_ANI_83, SEAMAP_CHCOM_ANI_92 },
-        .field_8     = 0,
-        .field_9     = 0,
+        .animIDs = { 
+            [OS_LANGUAGE_JAPANESE] = SEAMAP_CHCOM_ANI_47, 
+            [OS_LANGUAGE_ENGLISH] = SEAMAP_CHCOM_ANI_56, 
+            [OS_LANGUAGE_FRENCH] =  SEAMAP_CHCOM_ANI_65, 
+            [OS_LANGUAGE_GERMAN] =  SEAMAP_CHCOM_ANI_74, 
+            [OS_LANGUAGE_ITALIAN] = SEAMAP_CHCOM_ANI_83, 
+            [OS_LANGUAGE_SPANISH] = SEAMAP_CHCOM_ANI_92 
+        },
         .oamOrder    = SPRITE_ORDER_4,
-        .field_B     = 0,
         .spriteSlot  = 2,
         .x           = HW_LCD_CENTER_X,
         .y           = 82,
         .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
     },
 
+    [SEAMAPVIEW_BUTTON_CANCEL - SEAMAPVIEW_BUTTON_NON_LOC_COUNT] =
     {
-        .animIDs     = { SEAMAP_CHCOM_ANI_50, SEAMAP_CHCOM_ANI_59, SEAMAP_CHCOM_ANI_68, SEAMAP_CHCOM_ANI_77, SEAMAP_CHCOM_ANI_86, SEAMAP_CHCOM_ANI_95 },
-        .field_8     = 0,
-        .field_9     = 0,
+        .animIDs = { 
+            [OS_LANGUAGE_JAPANESE] = SEAMAP_CHCOM_ANI_50, 
+            [OS_LANGUAGE_ENGLISH] = SEAMAP_CHCOM_ANI_59, 
+            [OS_LANGUAGE_FRENCH] = SEAMAP_CHCOM_ANI_68, 
+            [OS_LANGUAGE_GERMAN] = SEAMAP_CHCOM_ANI_77, 
+            [OS_LANGUAGE_ITALIAN] = SEAMAP_CHCOM_ANI_86, 
+            [OS_LANGUAGE_SPANISH] = SEAMAP_CHCOM_ANI_95 
+        },
         .oamOrder    = SPRITE_ORDER_4,
-        .field_B     = 0,
         .spriteSlot  = 3,
         .x           = HW_LCD_CENTER_X,
         .y           = 114,
         .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
     },
 
+    [SEAMAPVIEW_BUTTON_RETURN_VILLAGE - SEAMAPVIEW_BUTTON_NON_LOC_COUNT] =
     {
-        .animIDs     = { SEAMAP_CHCOM_ANI_53, SEAMAP_CHCOM_ANI_62, SEAMAP_CHCOM_ANI_71, SEAMAP_CHCOM_ANI_80, SEAMAP_CHCOM_ANI_89, SEAMAP_CHCOM_ANI_98 },
-        .field_8     = 0,
-        .field_9     = 0,
+        .animIDs = { 
+            [OS_LANGUAGE_JAPANESE] = SEAMAP_CHCOM_ANI_53, 
+            [OS_LANGUAGE_ENGLISH] = SEAMAP_CHCOM_ANI_62, 
+            [OS_LANGUAGE_FRENCH] = SEAMAP_CHCOM_ANI_71, 
+            [OS_LANGUAGE_GERMAN] = SEAMAP_CHCOM_ANI_80, 
+            [OS_LANGUAGE_ITALIAN] = SEAMAP_CHCOM_ANI_89, 
+            [OS_LANGUAGE_SPANISH] = SEAMAP_CHCOM_ANI_98 
+        },
         .oamOrder    = SPRITE_ORDER_4,
-        .field_B     = 0,
         .spriteSlot  = 2,
         .x           = HW_LCD_CENTER_X,
         .y           = 82,
@@ -191,7 +212,8 @@ static const struct LocalizedButtonConfig sLocalizedButtonConfigList[3] = {
     },
 };
 
-static const struct ButtonConfig sButtonConfigList[5] = {
+static const struct ButtonConfig sButtonConfigList[SEAMAPVIEW_BUTTON_NON_LOC_COUNT] = {
+    [SEAMAPVIEW_BUTTON_BACK] =
     {
         .animID      = SEAMAP_CHCOM_ANI_4,
         .oamOrder    = SPRITE_ORDER_4,
@@ -201,6 +223,7 @@ static const struct ButtonConfig sButtonConfigList[5] = {
         .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
     },
 
+    [SEAMAPVIEW_BUTTON_ZOOM_IN] =
     {
         .animID      = SEAMAP_CHCOM_ANI_16,
         .oamOrder    = SPRITE_ORDER_4,
@@ -210,6 +233,7 @@ static const struct ButtonConfig sButtonConfigList[5] = {
         .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
     },
 
+    [SEAMAPVIEW_BUTTON_ZOOM_OUT] =
     {
         .animID      = SEAMAP_CHCOM_ANI_19,
         .oamOrder    = SPRITE_ORDER_4,
@@ -219,6 +243,7 @@ static const struct ButtonConfig sButtonConfigList[5] = {
         .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
     },
 
+    [SEAMAPVIEW_BUTTON_CONFIRM_PATH] =
     {
         .animID      = SEAMAP_CHCOM_ANI_13,
         .oamOrder    = SPRITE_ORDER_4,
@@ -228,6 +253,7 @@ static const struct ButtonConfig sButtonConfigList[5] = {
         .paletteRows = { PALETTE_ROW_1, PALETTE_ROW_2, PALETTE_ROW_3 },
     },
 
+    [SEAMAPVIEW_BUTTON_CANCEL_PATH] =
     {
         .animID      = SEAMAP_CHCOM_ANI_10,
         .oamOrder    = SPRITE_ORDER_4,
@@ -498,7 +524,7 @@ void InitSeaMapView(SeaMapView *work, BOOL useEngineB, ShipType shipType, BOOL a
 
     work->useEngineB       = useEngineB;
     work->assets           = &SeaMapManager__GetWork()->assets;
-    work->selectedButton   = -1;
+    work->selectedButton   = SEAMAPVIEW_BUTTON_NONE;
     work->targetBrightness = VRAMSystem__GFXControl[useEngineB]->brightness;
 
     if ((s32)shipType < SHIP_COUNT)
@@ -520,9 +546,9 @@ void InitSeaMapView(SeaMapView *work, BOOL useEngineB, ShipType shipType, BOOL a
         AllocateSeaMapViewSprites(work);
 
         aniButton = work->buttonAnimators;
-        for (i = 0; i < 8; i++)
+        for (i = 0; i < SEAMAPVIEW_BUTTON_COUNT; i++)
         {
-            if (i < 5)
+            if (i < SEAMAPVIEW_BUTTON_NON_LOC_COUNT)
             {
                 buttonConfig = &sButtonConfigList[i];
 
@@ -541,7 +567,7 @@ void InitSeaMapView(SeaMapView *work, BOOL useEngineB, ShipType shipType, BOOL a
             }
             else
             {
-                locButtonConfig = &sLocalizedButtonConfigList[i - 5];
+                locButtonConfig = &sLocalizedButtonConfigList[i - SEAMAPVIEW_BUTTON_NON_LOC_COUNT];
 
                 aniButton->animID = locButtonConfig->animIDs[language];
                 for (u32 r = 0; r < 3; r++)
@@ -864,12 +890,12 @@ void AllocateSeaMapViewSprites(SeaMapView *work)
     const struct LocalizedButtonConfig *locButtonConfig;
     const struct ButtonConfig *buttonConfig;
 
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < SEAMAPVIEW_BUTTON_COUNT; i++)
     {
         u32 allocSize;
         u32 allocSlot;
 
-        if (i < 5)
+        if (i < SEAMAPVIEW_BUTTON_NON_LOC_COUNT)
         {
             buttonConfig_ptr = &sButtonConfigList[i];
             buttonConfig     = buttonConfig_ptr;
@@ -878,7 +904,7 @@ void AllocateSeaMapViewSprites(SeaMapView *work)
         }
         else
         {
-            locButtonConfig_ptr = &sLocalizedButtonConfigList[i - 5];
+            locButtonConfig_ptr = &sLocalizedButtonConfigList[i - SEAMAPVIEW_BUTTON_NON_LOC_COUNT];
             locButtonConfig     = locButtonConfig_ptr;
             allocSize           = SeaMapView_GetLocButtonConfigSpriteSize(work, i);
             allocSlot           = locButtonConfig->spriteSlot;
@@ -968,14 +994,14 @@ void SeaMapView_EnableTouchArea(SeaMapView *work, s32 id, BOOL enabled)
     }
 }
 
-void SeaMapView_EnableButton(SeaMapView *work, s32 id, BOOL enabled)
+void SeaMapView_EnableButton(SeaMapView *work, SeaMapViewButton id, BOOL enabled)
 {
     SpriteButtonAnimator *aniButton = &work->buttonAnimators[id];
 
     s16 x, y;
     if (enabled)
     {
-        if (id < 5)
+        if (id < SEAMAPVIEW_BUTTON_NON_LOC_COUNT)
         {
             const struct ButtonConfig *buttonConfig = &sButtonConfigList[id];
 
@@ -984,7 +1010,7 @@ void SeaMapView_EnableButton(SeaMapView *work, s32 id, BOOL enabled)
         }
         else
         {
-            const struct LocalizedButtonConfig *locButtonConfig = &sLocalizedButtonConfigList[id - 5];
+            const struct LocalizedButtonConfig *locButtonConfig = &sLocalizedButtonConfigList[id - SEAMAPVIEW_BUTTON_NON_LOC_COUNT];
 
             x = locButtonConfig->x;
             y = locButtonConfig->y;
@@ -1004,14 +1030,14 @@ void SeaMapView_EnableButton(SeaMapView *work, s32 id, BOOL enabled)
 
 void SeaMapView_EnableMultipleButtons(SeaMapView *work, const u32 *states)
 {
-    for (u32 i = 0; i < 8; i++)
+    for (u32 i = 0; i < SEAMAPVIEW_BUTTON_COUNT; i++)
         SeaMapView_EnableButton(work, i, states[i]);
 }
 
 void SeaMapView_SetZoomLevelForZoomButtons(SeaMapView *work, SeaMapZoomLevel zoomLevel)
 {
-    SeaMapView_EnableButton(work, 1, TRUE);
-    SeaMapView_EnableButton(work, 2, TRUE);
+    SeaMapView_EnableButton(work, SEAMAPVIEW_BUTTON_ZOOM_IN, TRUE);
+    SeaMapView_EnableButton(work, SEAMAPVIEW_BUTTON_ZOOM_OUT, TRUE);
 
     switch (zoomLevel)
     {
@@ -1045,7 +1071,7 @@ void SeaMapView_ProcessButtonInputs(SeaMapView *work)
 {
     if ((IsTouchInputEnabled() == FALSE || TouchInput__IsTouchOn(&touchInput) == FALSE) && SeaMapManager__GetWork()->touchFieldActive)
     {
-        for (u32 i = 0; i < 8; i++)
+        for (u32 i = 0; i < SEAMAPVIEW_BUTTON_COUNT; i++)
         {
             if (IsSeaMapViewButtonActive(work, i) && IsSeaMapViewTouchAreaActive(work, i) && (padInput.btnPress & sButtonPadMask[i]) != 0)
             {
@@ -1217,44 +1243,44 @@ void SeaMapView_OnButtonPressed(TouchAreaResponse *response, TouchArea *touchAre
     }
 }
 
-void SeaMapView_ButtonCallback1(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback_Back(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView_OnButtonPressed(response, touchArea, userData, 0);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, SEAMAPVIEW_BUTTON_BACK);
 }
 
-void SeaMapView_ButtonCallback2(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback_ZoomIn(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView_OnButtonPressed(response, touchArea, userData, 1);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, SEAMAPVIEW_BUTTON_ZOOM_IN);
 }
 
-void SeaMapView_ButtonCallback3(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback_ZoomOut(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView_OnButtonPressed(response, touchArea, userData, 2);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, SEAMAPVIEW_BUTTON_ZOOM_OUT);
 }
 
-void SeaMapView_ButtonCallback4(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback_ConfirmPath(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView_OnButtonPressed(response, touchArea, userData, 3);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, SEAMAPVIEW_BUTTON_CONFIRM_PATH);
 }
 
-void SeaMapView_ButtonCallback5(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback_CancelPath(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView_OnButtonPressed(response, touchArea, userData, 4);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, SEAMAPVIEW_BUTTON_CANCEL_PATH);
 }
 
-void SeaMapView_ButtonCallback6(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback_Land(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView_OnButtonPressed(response, touchArea, userData, 5);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, SEAMAPVIEW_BUTTON_LAND);
 }
 
-void SeaMapView_ButtonCallback7(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback_Cancel(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView_OnButtonPressed(response, touchArea, userData, 6);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, SEAMAPVIEW_BUTTON_CANCEL);
 }
 
-void SeaMapView_ButtonCallback8(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
+void SeaMapView_ButtonCallback_ReturnToVillage(TouchAreaResponse *response, TouchArea *touchArea, void *userData)
 {
-    SeaMapView_OnButtonPressed(response, touchArea, userData, 7);
+    SeaMapView_OnButtonPressed(response, touchArea, userData, SEAMAPVIEW_BUTTON_RETURN_VILLAGE);
 }
 
 void SeaMapView_DrawPenMarker(SeaMapView *work)

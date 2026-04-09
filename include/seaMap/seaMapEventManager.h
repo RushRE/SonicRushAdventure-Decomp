@@ -49,6 +49,8 @@ enum SeaMapObjectIDs
     SEAMAPOBJECT_SPARKLES_MINOR_ISLAND, // Minor island discovery (hidden islands + extras)
 
     SEAMAPOBJECT_COUNT,
+
+    SEAMAPOBJECT_NONE = -1,
 };
 
 enum SeaMapLayoutObjectSysFlags_

@@ -178,7 +178,7 @@ void ExSystem_Main_Init(void)
     cameraA->gfxControl[GRAPHICS_ENGINE_A].blendManager.blendControl.plane2_OBJ = cameraB->gfxControl[GRAPHICS_ENGINE_B].blendManager.blendControl.plane2_OBJ;
 
     SwapBuffer3D *camera = GetSwapBuffer3DWork();
-    RenderCore_SetBlendBrightnessExt(VOID_TO_INT(&camera->gfxControl[1].blendManager), 16, 1, 31, 31, 0);
+    RenderCore_SetBlendBrightnessExt(VOID_TO_INT(&camera->gfxControl[GRAPHICS_ENGINE_B].blendManager), 16, 1, 31, 31, 0);
     InitExSystemStatus();
     LoadExDrawConfig(EXDRAW_CAMERACONFIG_1, EXDRAWREQ_LIGHT_BLUE);
     CreateExDrawReqTask();

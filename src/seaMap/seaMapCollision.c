@@ -55,7 +55,7 @@ SeaMapCollisionType SeaMapCollision_GetCollisionAtPoint(u16 x, u16 y)
     return SeaMapCollision__GetCollisionType(mapCol, x, y);
 }
 
-s32 SeaMapCollision__Collide(u16 x, u16 y, BOOL checkMapPixel)
+BOOL SeaMapCollision__Collide(u16 x, u16 y, BOOL checkMapPixel)
 {
     void *mapCol = SeaMapManager__GetWork()->assets.mapCollision;
 

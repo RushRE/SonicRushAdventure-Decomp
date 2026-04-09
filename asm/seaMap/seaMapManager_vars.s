@@ -3,6 +3,10 @@
 
 	.rodata
 
+.public sSeaMapManagerUnknown
+sSeaMapManagerUnknown: // 0x0210FA78
+	.hword 0x600, 0x240, 0x300, 0x120, 0x200, 0xC0
+
 .public SeaMapManager__ZoomOutScaleTable
 SeaMapManager__ZoomOutScaleTable: // 0x0210FB1C
 	.word 0x1000, 0x800, 0x555

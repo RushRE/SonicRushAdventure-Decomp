@@ -3,6 +3,33 @@
 #include <game/graphics/renderCore.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum SpriteButtonAnimIDs
+{
+    SPRITE_BUTTON_ANI_YES_1_IDLE,
+    SPRITE_BUTTON_ANI_YES_1_HOVERED,
+    SPRITE_BUTTON_ANI_YES_1_SELECTED,
+
+    SPRITE_BUTTON_ANI_NO_1_IDLE,
+    SPRITE_BUTTON_ANI_NO_1_HOVERED,
+    SPRITE_BUTTON_ANI_NO_1_SELECTED,
+
+    SPRITE_BUTTON_ANI_OK_IDLE,
+    SPRITE_BUTTON_ANI_OK_HOVERED,
+    SPRITE_BUTTON_ANI_OK_SELECTED,
+
+    SPRITE_BUTTON_ANI_YES_2_IDLE,
+    SPRITE_BUTTON_ANI_YES_2_HOVERED,
+    SPRITE_BUTTON_ANI_YES_2_SELECTED,
+
+    SPRITE_BUTTON_ANI_NO_2_IDLE,
+    SPRITE_BUTTON_ANI_NO_2_HOVERED,
+    SPRITE_BUTTON_ANI_NO_2_SELECTED,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -32,8 +59,8 @@ static void SpriteButtonTouchAreaCB_NoButton(TouchAreaResponse *response, TouchA
 static Task *sSpriteButtonTaskSingleton;
 
 static const SpriteButtonInfo sButtonConfig[2] = {
-    { .animID = 9, .pos = { 92, 128 }, SpriteButtonTouchAreaCB_YesButton },
-    { .animID = 12, .pos = { 164, 128 }, SpriteButtonTouchAreaCB_NoButton },
+    { .animID = SPRITE_BUTTON_ANI_YES_2_IDLE, .pos = { 92, 128 }, SpriteButtonTouchAreaCB_YesButton },
+    { .animID = SPRITE_BUTTON_ANI_NO_2_IDLE, .pos = { 164, 128 }, SpriteButtonTouchAreaCB_NoButton },
 };
 
 // --------------------
@@ -49,7 +76,7 @@ void InitSpriteButtonConfig(SpriteButtonConfig *config, BOOL useEngineB, SpriteB
 
 void CreateSpriteButton(SpriteButtonConfig *config)
 {
-    Task *task       = TaskCreate(SpriteButton_Main, SpriteButton_Destructor, TASK_FLAG_NONE, 0, 0x64, TASK_GROUP(0), SpriteButton);
+    Task *task       = TaskCreate(SpriteButton_Main, SpriteButton_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x64, TASK_GROUP(0), SpriteButton);
     sSpriteButtonTaskSingleton = task;
 
     SpriteButton *work = TaskGetWork(task, SpriteButton);
@@ -74,7 +101,7 @@ void CreateSpriteButton(SpriteButtonConfig *config)
     {
         LoadSpriteButtonYesNoButtonSprite(GetGameLanguage());
         sprButton                   = GetSpriteButtonYesNoButtonSprite();
-        work->allocatedButtonSprite = 1;
+        work->allocatedButtonSprite = TRUE;
     }
 
     for (u32 i = 0; i < GRAPHICS_ENGINE_COUNT; i++)
@@ -118,7 +145,7 @@ void DestroySpriteButton(void)
     work->destroyRequested   = TRUE;
 }
 
-s32 GetSelectedSpriteButton(void)
+SpriteButtonID GetSelectedSpriteButton(void)
 {
     SpriteButton *work = GetSpriteButtonWork();
     return work->selectedButton;
@@ -135,13 +162,13 @@ void SetSpriteButtonPosition(SpriteButtonAnimator *button, s16 x, s16 y)
 
 size_t GetSpriteButtonSpriteAllocSize(void *spriteFile, u16 animID)
 {
-    size_t size = Sprite__GetSpriteSize1FromAnim(spriteFile, (s32)animID);
+    size_t size = Sprite__GetSpriteSize1FromAnim(spriteFile, (s32)(animID + SPRITE_BUTTON_STATE_IDLE));
 
-    size_t size1 = Sprite__GetSpriteSize1FromAnim(spriteFile, animID + 1);
+    size_t size1 = Sprite__GetSpriteSize1FromAnim(spriteFile, animID + SPRITE_BUTTON_STATE_HOVERED);
     if (size < size1)
         size = size1;
 
-    size_t size2 = Sprite__GetSpriteSize1FromAnim(spriteFile, animID + 2);
+    size_t size2 = Sprite__GetSpriteSize1FromAnim(spriteFile, animID + SPRITE_BUTTON_STATE_SELECTED);
     if (size < size2)
         size = size2;
 
@@ -154,15 +181,15 @@ void SetSpriteButtonState(SpriteButtonAnimator *button, SpriteButtonState state)
     switch (state)
     {
         case SPRITE_BUTTON_STATE_IDLE:
-            anim = button->animID;
+            anim = button->animID + SPRITE_BUTTON_STATE_IDLE;
             break;
 
         case SPRITE_BUTTON_STATE_HOVERED:
-            anim = button->animID + 1;
+            anim = button->animID + SPRITE_BUTTON_STATE_HOVERED;
             break;
 
         case SPRITE_BUTTON_STATE_SELECTED:
-            anim = button->animID + 2;
+            anim = button->animID + SPRITE_BUTTON_STATE_SELECTED;
             break;
     }
 
@@ -194,7 +221,7 @@ void SpriteButton_Destructor(Task *task)
 {
     SpriteButton *work = TaskGetWork(task, SpriteButton);
 
-    for (u32 i = 0; i < 2; i++)
+    for (u32 i = 0; i < SPRITE_BUTTON_COUNT; i++)
     {
         SpriteButtonAnimator *button = &work->animators[i];
 
@@ -215,7 +242,7 @@ void SpriteButton_Destructor(Task *task)
 
 void SpriteButton_Draw(SpriteButton *work)
 {
-    for (u32 i = 0; i < 2; i++)
+    for (u32 i = 0; i < SPRITE_BUTTON_COUNT; i++)
     {
         if ((work->config.activeButtons & (1 << i)) != 0)
         {
@@ -255,10 +282,10 @@ void SpriteButtonTouchAreaResponseHandler(TouchAreaResponse *response, TouchArea
 
 void SpriteButtonTouchAreaCB_YesButton(TouchAreaResponse *response, TouchArea *area, void *context)
 {
-    SpriteButtonTouchAreaResponseHandler(response, area, context, 0);
+    SpriteButtonTouchAreaResponseHandler(response, area, context, SPRITE_BUTTON_YES);
 }
 
 void SpriteButtonTouchAreaCB_NoButton(TouchAreaResponse *response, TouchArea *area, void *context)
 {
-    SpriteButtonTouchAreaResponseHandler(response, area, context, 1);
+    SpriteButtonTouchAreaResponseHandler(response, area, context, SPRITE_BUTTON_NO);
 }

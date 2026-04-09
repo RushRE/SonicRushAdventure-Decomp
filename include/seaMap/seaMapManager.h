@@ -63,6 +63,7 @@ enum SeaMapManagerSaveFlag_
     SEAMAPMANAGER_DISCOVER_40, // Unknown
     SEAMAPMANAGER_DISCOVER_41, // Unknown
     SEAMAPMANAGER_DISCOVER_42, // Unknown
+    
     SEAMAPMANAGER_DISCOVER_43, // Unknown
     SEAMAPMANAGER_DISCOVER_44, // Unknown
     SEAMAPMANAGER_DISCOVER_45, // Unused
@@ -84,6 +85,9 @@ enum SeaMapManagerSaveFlag_
     SEAMAPMANAGER_DISCOVER_VS_JOHNNY_5,
     SEAMAPMANAGER_DISCOVER_VS_JOHNNY_6,
     SEAMAPMANAGER_DISCOVER_VS_JOHNNY_7,
+
+    SEAMAPMANAGER_DISCOVER_COUNT,
+    SEAMAPMANAGER_DISCOVER_ISLAND_COUNT = 42,
 };
 typedef u32 SeaMapManagerSaveFlag;
 
@@ -244,7 +248,7 @@ NOT_DECOMPILED void SeaMapManager__Func_2043B0C(fx32 inX, fx32 inY, fx16 *x, fx1
 NOT_DECOMPILED void SeaMapManager__Func_2043B28(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
 NOT_DECOMPILED void SeaMapManager__GetPosition2(fx32 inX, fx32 inY, fx32 *x, fx32 *y);
 NOT_DECOMPILED void SeaMapManager__Func_2043B60(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043B7C(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
+NOT_DECOMPILED void SeaMapManager__Func_2043B7C(u8 inX, u8 inY, fx16 *x, fx16 *y);
 NOT_DECOMPILED void SeaMapManager__Func_2043BB4(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
 NOT_DECOMPILED void SeaMapManager__Func_2043BD0(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
 NOT_DECOMPILED void SeaMapManager__Func_2043BEC(fx32 inX, fx32 inY, fx16 *x, fx16 *y);

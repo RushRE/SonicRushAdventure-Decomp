@@ -77,7 +77,7 @@ typedef u32 SaveBlockFlags;
 enum SaveProgressType_
 {
     SAVE_PROGRESSTYPE_RETURN_TO_HUB,
-    SAVE_PROGRESSTYPE_SEAMAP_UNKNOWN,
+    SAVE_PROGRESSTYPE_SEAMAP_CHART_COURSE_MENU,
     SAVE_PROGRESSTYPE_BEGIN_SAILING,
     SAVE_PROGRESSTYPE_ISLAND_ARRIVAL,
     SAVE_PROGRESSTYPE_ADVANCE_STAGE,
@@ -489,7 +489,7 @@ void SaveGame__StartTutorial(void);
 void SaveGame__StartSailTraining(void);
 void SaveGame__StartSailJetTraining(void);
 void SaveGame__StartHubMenu(void);
-void SaveGame__StartSeaMapUnknown(void);
+void SaveGame__StartSeaMapChartCourseMenu(void);
 void SaveGame__StartSailing(void);
 void SaveGame__StartStoryMode(void);
 void SaveGame__StartSailRivalRace(void);

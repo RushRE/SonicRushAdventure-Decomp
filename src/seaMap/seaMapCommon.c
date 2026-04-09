@@ -4,4 +4,4 @@
 // VARIABLES
 // --------------------
 
-fx32 SeaMapCourseChangeView_02134174;
+fx32 SeaMapCourseChangeMenu_02134174;

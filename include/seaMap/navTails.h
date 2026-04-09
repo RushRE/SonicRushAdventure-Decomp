@@ -51,7 +51,7 @@ enum NavTailsMsgSequences
     NAVTAILS_MSGSEQ_THATS_HIDDEN_ISLAND_1,
     NAVTAILS_MSGSEQ_THATS_HIDDEN_ISLAND_2,
     NAVTAILS_MSGSEQ_THATS_DAIKUNS_ISLAND,
-    NAVTAILS_MSGSEQ_NOTHING,
+    NAVTAILS_MSGSEQ_NOTHING, // NOTE: This is the literal text "nothing", this is NOT *nothing*!
     NAVTAILS_MSGSEQ_THATS_KYLOKS_ISLAND,
     NAVTAILS_MSGSEQ_LOOKS_LIKE_NO_ONE_IS_HERE,
     NAVTAILS_MSGSEQ_THATS_HIDDEN_ISLAND_3,
@@ -145,7 +145,7 @@ void CreateNavTails(GraphicsEngine graphicsEngine, u32 shipType, FontWindow *win
 void DestroyNavTails(void);
 BOOL IsNavTailsActive(void);
 void NavTailsSpeak(u16 msgSequence, u16 duration);
-u16 CheckNavTailsSpeaking(void);
+u16 GetNavTailsActiveSpeakMsg(void);
 BOOL CheckNavTailsLastDialog(void);
 
 #endif // RUSH_NAVTAILS_H

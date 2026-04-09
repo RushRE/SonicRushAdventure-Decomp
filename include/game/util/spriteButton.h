@@ -20,6 +20,15 @@ enum SpriteButtonActiveButtons_
 };
 typedef u32 SpriteButtonActiveButtons;
 
+enum SpriteButtonID_
+{
+    SPRITE_BUTTON_YES,
+    SPRITE_BUTTON_NO,
+    
+    SPRITE_BUTTON_COUNT,
+};
+typedef s32 SpriteButtonID;
+
 enum SpriteButtonState_
 {
     SPRITE_BUTTON_STATE_IDLE,
@@ -44,8 +53,9 @@ typedef struct SpriteButtonConfig_
 {
     volatile GraphicsEngine useEngineB;
     TouchField *touchField;
-    VRAMPixelKey vramPixels[2];
+    VRAMPixelKey vramPixels[SPRITE_BUTTON_COUNT];
     u16 paletteRow[3];
+    u16 field_16;
     SpriteButtonActiveButtons activeButtons;
     SpritePriority oamPriority;
     SpriteOrder oamOrder;
@@ -62,12 +72,12 @@ typedef struct SpriteButtonAnimator_
 typedef struct SpriteButton_
 {
     SpriteButtonConfig config;
-    SpriteButtonAnimator animators[2];
+    SpriteButtonAnimator animators[SPRITE_BUTTON_COUNT];
     BOOL destroyRequested;
     TouchField *touchFieldPtr;
     TouchField touchField;
     BOOL allocatedButtonSprite;
-    u32 selectedButton;
+    SpriteButtonID selectedButton;
 } SpriteButton;
 
 // --------------------
@@ -91,7 +101,7 @@ void *GetSpriteButtonTouchpadSprite(void);
 void InitSpriteButtonConfig(SpriteButtonConfig *config, BOOL useEngineB, SpriteButtonActiveButtons activeButtons);
 void CreateSpriteButton(SpriteButtonConfig *config);
 void DestroySpriteButton(void);
-s32 GetSelectedSpriteButton(void);
+SpriteButtonID GetSelectedSpriteButton(void);
 void SetSpriteButtonPosition(SpriteButtonAnimator *button, s16 x, s16 y);
 size_t GetSpriteButtonSpriteAllocSize(void *spriteFile, u16 animID);
 void SetSpriteButtonState(SpriteButtonAnimator *button, SpriteButtonState state);

@@ -306,12 +306,12 @@ void SeaMapIslandDrawIcon_Main(void)
 
     switch (GetSeaMapViewType())
     {
-        case SEAMAPVIEW_TYPE_3:
+        case SEAMAPVIEW_TYPE_CHART_COURSE_NAVIGATION:
             if (CanDrawFromSeaMapIslandDrawIcon(work->objWork.mapObject) == FALSE)
                 work->aniDrawIcon.touchArea.responseFlags |= TOUCHAREA_RESPONSE_DISABLED;
             break;
 
-        case SEAMAPVIEW_TYPE_4:
+        case SEAMAPVIEW_TYPE_CHART_COURSE_DRAWING:
         case SEAMAPVIEW_TYPE_SAILING:
             work->aniDrawIcon.touchArea.responseFlags |= TOUCHAREA_RESPONSE_DISABLED;
             break;
@@ -352,12 +352,12 @@ void SeaMapIslandDrawIcon_TouchAreaCallback(TouchAreaResponse *response, TouchAr
 
     switch (GetSeaMapViewType())
     {
-        case SEAMAPVIEW_TYPE_3:
-        case SEAMAPVIEW_TYPE_4:
+        case SEAMAPVIEW_TYPE_CHART_COURSE_NAVIGATION:
+        case SEAMAPVIEW_TYPE_CHART_COURSE_DRAWING:
             switch (response->flags)
             {
                 case TOUCHAREA_RESPONSE_ENTERED_AREA_ALT:
-                    if ((areaFlags & TOUCHAREA_RESPONSE_CHECK_RECT2) == 0 && GetSeaMapViewType() == SEAMAPVIEW_TYPE_3)
+                    if ((areaFlags & TOUCHAREA_RESPONSE_CHECK_RECT2) == 0 && GetSeaMapViewType() == SEAMAPVIEW_TYPE_CHART_COURSE_NAVIGATION)
                     {
                         SeaMapEventManager *eventManager = GetSeaMapEventManagerWork2();
 

@@ -18,8 +18,8 @@ enum SeaMapViewType_
     SEAMAPVIEW_TYPE_NONE,
     SEAMAPVIEW_TYPE_MENU,
     SEAMAPVIEW_TYPE_CUTSCENE,
-    SEAMAPVIEW_TYPE_3,
-    SEAMAPVIEW_TYPE_4,
+    SEAMAPVIEW_TYPE_CHART_COURSE_NAVIGATION,
+    SEAMAPVIEW_TYPE_CHART_COURSE_DRAWING,
     SEAMAPVIEW_TYPE_SAILING,
 };
 typedef u32 SeaMapViewType;
@@ -32,53 +32,27 @@ enum SeaMapViewExitEvent_
 };
 typedef u32 SeaMapViewExitEvent;
 
-enum SeaMapIsland
+enum SeaMapViewButton_
 {
-    SEAMAP_ISLAND_SOUTHERN_ISLAND,
-    SEAMAP_ISLAND_PLANT_KINGDOM,
-    SEAMAP_ISLAND_MACHINE_LABYRINTH,
-    SEAMAP_ISLAND_CORAL_CAVE,
-    SEAMAP_ISLAND_HAUNTED_SHIP,
-    SEAMAP_ISLAND_BLIZZARD_PEAKS,
-    SEAMAP_ISLAND_SKY_BABYLON,
-    SEAMAP_ISLAND_PIRATES_ISLAND,
-    SEAMAP_ISLAND_BIG_SWELL,
-    SEAMAP_ISLAND_DEEP_CORE,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_1,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_2,
-    SEAMAP_ISLAND_DAIKUN_ISLAND,
-    SEAMAP_ISLAND_13,
-    SEAMAP_ISLAND_KYLOK_ISLAND,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_3,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_4,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_5,
-    SEAMAP_ISLAND_18,
-    SEAMAP_ISLAND_19,
-    SEAMAP_ISLAND_20,
-    SEAMAP_ISLAND_21,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_6,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_7,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_8,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_9,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_10,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_11,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_12,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_13,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_14,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_15,
-    SEAMAP_ISLAND_HIDDEN_ISLAND_16,
-    SEAMAP_ISLAND_33,
-    SEAMAP_ISLAND_34,
-    SEAMAP_ISLAND_35,
-    SEAMAP_ISLAND_36,
-    SEAMAP_ISLAND_37,
-    SEAMAP_ISLAND_38,
-    SEAMAP_ISLAND_39,
-    SEAMAP_ISLAND_40,
-    SEAMAP_ISLAND_41,
+    // Non-localized buttons (no text)
+    SEAMAPVIEW_BUTTON_BACK,
+    SEAMAPVIEW_BUTTON_ZOOM_IN,
+    SEAMAPVIEW_BUTTON_ZOOM_OUT,
+    SEAMAPVIEW_BUTTON_CONFIRM_PATH,
+    SEAMAPVIEW_BUTTON_CANCEL_PATH,
 
-    SEAMAP_ISLAND_COUNT,
+    // Localized buttons (text)
+    SEAMAPVIEW_BUTTON_LAND,
+    SEAMAPVIEW_BUTTON_CANCEL,
+    SEAMAPVIEW_BUTTON_RETURN_VILLAGE,
+
+    SEAMAPVIEW_BUTTON_COUNT,
+    SEAMAPVIEW_BUTTON_NON_LOC_COUNT = SEAMAPVIEW_BUTTON_LAND,
+    SEAMAPVIEW_BUTTON_LOC_COUNT = SEAMAPVIEW_BUTTON_COUNT - SEAMAPVIEW_BUTTON_NON_LOC_COUNT,
+
+    SEAMAPVIEW_BUTTON_NONE = -1,
 };
+typedef s32 SeaMapViewButton;
 
 // --------------------
 // STRUCTS
@@ -115,15 +89,15 @@ typedef struct SeaMapView_
     GXRgb paletteColor2;
     s16 indicatorFlashTimer;
     NNSSndHandle *sndHandle;
-    s32 unknown1;
-    s32 unknown2;
+    BOOL isPlayingDrawMoveSfx;
+    u16 drawMoveSfxTimer;
 } SeaMapView;
 
 // --------------------
 // VARIABLES
 // --------------------
 
-extern fx32 SeaMapCourseChangeView_02134174;
+extern fx32 SeaMapCourseChangeMenu_02134174;
 
 extern Task* gSeaMapTaskSingleton;
 extern SeaMapViewType gSeaMapViewType;
@@ -152,10 +126,10 @@ SeaMapView *GetSeaMapViewWork(void);
 void SeaMapView_InitTouchCursor(SeaMapView *work, s32 id);
 void InitSeaMapView(SeaMapView *work, BOOL useEngineB, ShipType shipType, BOOL allocateSprites);
 void ReleaseSeaMapView(SeaMapView *work);
-BOOL IsSeaMapViewButtonActive(SeaMapView *work, s32 id);
-BOOL IsSeaMapViewTouchAreaActive(SeaMapView *work, s32 id);
-void SeaMapView_EnableTouchArea(SeaMapView *work, s32 id, BOOL enabled);
-void SeaMapView_EnableButton(SeaMapView *work, s32 id, BOOL enabled);
+BOOL IsSeaMapViewButtonActive(SeaMapView *work, SeaMapViewButton id);
+BOOL IsSeaMapViewTouchAreaActive(SeaMapView *work, SeaMapViewButton id);
+void SeaMapView_EnableTouchArea(SeaMapView *work, SeaMapViewButton id, BOOL enabled);
+void SeaMapView_EnableButton(SeaMapView *work, SeaMapViewButton id, BOOL enabled);
 void SeaMapView_EnableMultipleButtons(SeaMapView *work, const u32 *states);
 void SeaMapView_SetZoomLevelForZoomButtons(SeaMapView *work, SeaMapZoomLevel zoomLevel);
 void SeaMapView_ProcessButtonInputs(SeaMapView *work);
@@ -192,6 +166,11 @@ RUSH_INLINE void PlayChartSfx(enum SND_SYS_SEQARC_ARC_CHART sfxID)
 RUSH_INLINE void PlayHandleChartSfx(NNSSndHandle *handle, enum SND_SYS_SEQARC_ARC_CHART sfxID)
 {
     PlaySfxEx(handle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQARC_ARC_CHART, sfxID);
+}
+
+RUSH_INLINE void StopChartSfx(NNSSndHandle *handle)
+{
+    NNS_SndPlayerStopSeq(handle, 0);
 }
 
 #endif // RUSH_SEAMAPVIEW_H
