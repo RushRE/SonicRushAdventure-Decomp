@@ -1495,7 +1495,7 @@
 .public SeaMapManager__GetMapPixel
 .public SeaMapManager__DiscoverMap_Pixel
 .public SeaMapManager__DiscoverMap_Rect
-.public SeaMapManager__DiscoverMap_Elipse
+.public SeaMapManager__DiscoverMap_Ellipse
 .public SeaMapManager__ClearGlobalNodeList
 .public SeaMapManager__UpdateGlobalNodeList
 .public SeaMapManager__LoadNodeList
@@ -1591,12 +1591,12 @@
 .public SeaMapEventManager_SetObjectAsActive
 .public SeaMapEventManager_SetObjectAsInactive
 .public SeaMapEventManager_CheckObjectPosDiscoveredOnMap
-.public SeaMapEventManager_GetViewElipse
+.public SeaMapEventManager_GetViewEllipse
 .public SeaMapEventManager_GetViewRect
-.public SeaMapEventManager_PointInViewElipse
+.public SeaMapEventManager_PointInViewEllipse
 .public SeaMapEventManager_PointInViewRect
 .public SeaMapEventManager_ViewRectCheck
-.public SeaMapEventManager_ViewElipseCheck
+.public SeaMapEventManager_ViewEllipseCheck
 .public SeaMapIslandDrawIcon__CanDrawFrom
 .public SeaMapIslandDrawIcon__IsActive
 .public SeaMapIslandDrawIcon__IsEnabled

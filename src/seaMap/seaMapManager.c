@@ -807,7 +807,7 @@ void SeaMapManager__DiscoverMap_Rect(u16 left, u16 top, u16 right, u16 bottom)
     }
 }
 
-NONMATCH_FUNC void SeaMapManager__DiscoverMap_Elipse(u16 centerX, u16 centerY, u16 radiusX, u16 radiusY)
+NONMATCH_FUNC void SeaMapManager__DiscoverMap_Ellipse(u16 centerX, u16 centerY, u16 radiusX, u16 radiusY)
 {
 #ifdef NON_MATCHING
 

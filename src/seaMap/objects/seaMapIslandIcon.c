@@ -16,7 +16,7 @@ extern const SaveProgress sIslandProgressUnlockList[];
 // FUNCTION DECLS
 // --------------------
 
-void SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Elipse(Vec2Fx16 *pos, HitboxRect *rect);
+void SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Ellipse(Vec2Fx16 *pos, HitboxRect *rect);
 void SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Rect(Vec2Fx16 *pos, HitboxRect *rect);
 void CreateSparklesForSeaMapIslandIcon(SeaMapLayoutObject *mapObject);
 
@@ -30,7 +30,7 @@ static BOOL IsSeaMapIslandIconVisibleOnVoyage(SeaMapLayoutObject *mapObject);
 // FUNCTIONS
 // --------------------
 
-void SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Elipse(Vec2Fx16 *pos, HitboxRect *rect)
+void SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Ellipse(Vec2Fx16 *pos, HitboxRect *rect)
 {
     u16 bottom;
     u16 right;
@@ -44,7 +44,7 @@ void SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Elipse(Vec2Fx16 *pos, HitboxRect 
 
     SeaMapManager__Func_2043BEC(left, top, &left, &top);
     SeaMapManager__Func_2043BEC(right, bottom, &right, &bottom);
-    SeaMapManager__DiscoverMap_Elipse((left + right) >> 1, (top + bottom) >> 1, (right - left + 1) >> 1, (bottom - top + 1) >> 1);
+    SeaMapManager__DiscoverMap_Ellipse((left + right) >> 1, (top + bottom) >> 1, (right - left + 1) >> 1, (bottom - top + 1) >> 1);
 
     SeaMapManager__EnableDrawFlags(SEAMAPMANAGER_DRAWFLAG_MAPMASK);
 }
@@ -94,7 +94,7 @@ SeaMapObject *CreateSeaMapIslandIcon(const SeaMapLayoutObjectType *objectType, S
             return NULL;
 
         if (mapObject->type == SEAMAPOBJECT_ISLAND_ICON_ELIPSE)
-            SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Elipse(&mapObject->position, &mapObject->box);
+            SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Ellipse(&mapObject->position, &mapObject->box);
         else
             SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Rect(&mapObject->position, &mapObject->box);
 
@@ -135,7 +135,7 @@ SeaMapObject *CreateSeaMapIslandIcon(const SeaMapLayoutObjectType *objectType, S
     else
     {
         if (mapObject->type == SEAMAPOBJECT_ISLAND_ICON_ELIPSE)
-            SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Elipse(&mapObject->position, &mapObject->box);
+            SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Ellipse(&mapObject->position, &mapObject->box);
         else
             SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Rect(&mapObject->position, &mapObject->box);
 
@@ -181,14 +181,14 @@ void SeaMapIslandIcon_Main_Sailing(void)
             fx32 height;
             fx32 width;
 
-            SeaMapEventManager_GetViewElipse(&mapObject->box, mapObject->position.x, mapObject->position.y, &centerX, &centerY, &width, &height);
-            if (SeaMapEventManager_PointInViewElipse(centerX, centerY, width, height, x, y))
+            SeaMapEventManager_GetViewEllipse(&mapObject->box, mapObject->position.x, mapObject->position.y, &centerX, &centerY, &width, &height);
+            if (SeaMapEventManager_PointInViewEllipse(centerX, centerY, width, height, x, y))
             {
                 SeaMapEventTrigger_DoEvent(SEAMAPEVENTTRIGGER_EVENT_ISLAND_ON_SAIL_MAP, mapObject, NULL);
                 if (work->wasIslandDiscovered)
                 {
                     CreateSparklesForSeaMapIslandIcon(mapObject);
-                    SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Elipse(&mapObject->position, &mapObject->box);
+                    SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Ellipse(&mapObject->position, &mapObject->box);
                     SeaMapManager__SetSaveFlag(mapObject->id, TRUE);
                     DestroyCurrentTask();
                 }
@@ -254,13 +254,13 @@ BOOL IsSeaMapIslandIconVisibleOnVoyage(SeaMapLayoutObject *mapObject)
         fx32 y;
         fx32 x;
 
-        SeaMapEventManager_GetViewElipse(&mapObject->box, mapObject->position.x, mapObject->position.y, &centerX, &centerY, &width, &height);
+        SeaMapEventManager_GetViewEllipse(&mapObject->box, mapObject->position.x, mapObject->position.y, &centerX, &centerY, &width, &height);
 
         curNode = SeaMapManager__GetStartNode();
         while (curNode)
         {
             SeaMapManager__GetPosition2(curNode->position.x, curNode->position.y, &x, &y);
-            if (SeaMapEventManager_PointInViewElipse(centerX, centerY, width, height, x, y))
+            if (SeaMapEventManager_PointInViewEllipse(centerX, centerY, width, height, x, y))
                 return TRUE;
 
             curNode = SeaMapManager__GetNextNode(curNode);
@@ -294,7 +294,7 @@ BOOL SeaMapIslandIcon_ArrivalCheck(SeaMapLayoutObject *mapObject, fx32 x, fx32 y
         if (ignoreDiscoveryCheck || SeaMapManager__GetSaveFlag(mapObject->id) == FALSE)
         {
             if (SeaMapEventManager_GetObjectType(mapObject) == SEAMAPOBJECT_ISLAND_ICON_ELIPSE)
-                return SeaMapEventManager_ViewElipseCheck(mapObject, x, y);
+                return SeaMapEventManager_ViewEllipseCheck(mapObject, x, y);
 
             return SeaMapEventManager_ViewRectCheck(mapObject, x, y);
         }
@@ -304,7 +304,7 @@ BOOL SeaMapIslandIcon_ArrivalCheck(SeaMapLayoutObject *mapObject, fx32 x, fx32 y
         if (sIslandProgressUnlockList[mapObject->id] <= SaveGame__GetGameProgress())
         {
             if (SeaMapEventManager_GetObjectType(mapObject) == SEAMAPOBJECT_ISLAND_ICON_ELIPSE)
-                return SeaMapEventManager_ViewElipseCheck(mapObject, x, y);
+                return SeaMapEventManager_ViewEllipseCheck(mapObject, x, y);
 
             return SeaMapEventManager_ViewRectCheck(mapObject, x, y);
         }

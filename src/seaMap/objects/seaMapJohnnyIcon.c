@@ -111,5 +111,5 @@ BOOL SeaMapJohnnyIcon_ArrivalCheck(SeaMapLayoutObject *mapObject, fx32 x, fx32 y
             return FALSE;
     }
 
-    return SeaMapEventManager_ViewElipseCheck(mapObject, x, y);
+    return SeaMapEventManager_ViewEllipseCheck(mapObject, x, y);
 }

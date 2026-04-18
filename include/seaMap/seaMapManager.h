@@ -312,7 +312,7 @@ void SeaMapManager__LoadMapBackground(void);
 SeaMapManagerMapPixel SeaMapManager__GetMapPixel(u16 x, u16 y);
 void SeaMapManager__DiscoverMap_Pixel(s32 x, s32 y);
 void SeaMapManager__DiscoverMap_Rect(u16 left, u16 top, u16 right, u16 bottom);
-void SeaMapManager__DiscoverMap_Elipse(u16 centerX, u16 centerY, u16 radiusX, u16 radiusY);
+void SeaMapManager__DiscoverMap_Ellipse(u16 centerX, u16 centerY, u16 radiusX, u16 radiusY);
 void SeaMapManager__ClearGlobalNodeList(void);
 void SeaMapManager__UpdateGlobalNodeList(void);
 void SeaMapManager__LoadNodeList(void);

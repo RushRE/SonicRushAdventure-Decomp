@@ -170,11 +170,11 @@ void SeaMapEventManager_GetMapLocalPosition(Vec2Fx16 *a1, Vec2Fx16 *a2);
 void SeaMapEventManager_SetObjectAsActive(SeaMapObject *work);
 void SeaMapEventManager_SetObjectAsInactive(SeaMapObject *work);
 BOOL SeaMapEventManager_CheckObjectPosDiscoveredOnMap(SeaMapLayoutObject *mapObject);
-void SeaMapEventManager_GetViewElipse(HitboxRect *rect, fx32 x, fx32 y, s32 *centerX, s32 *centerY, s32 *width, s32 *height);
+void SeaMapEventManager_GetViewEllipse(HitboxRect *rect, fx32 x, fx32 y, s32 *centerX, s32 *centerY, s32 *width, s32 *height);
 void SeaMapEventManager_GetViewRect(HitboxRect *rect, fx32 x, fx32 y, ViewRect *viewRect);
-BOOL SeaMapEventManager_PointInViewElipse(s32 centerX, s32 centerY, s32 width, s32 height, fx32 x, fx32 y);
+BOOL SeaMapEventManager_PointInViewEllipse(s32 centerX, s32 centerY, s32 width, s32 height, fx32 x, fx32 y);
 BOOL SeaMapEventManager_PointInViewRect(s32 left, s32 top, s32 right, s32 bottom, fx32 x, fx32 y);
 BOOL SeaMapEventManager_ViewRectCheck(SeaMapLayoutObject *mapObject, fx32 x, fx32 y);
-BOOL SeaMapEventManager_ViewElipseCheck(SeaMapLayoutObject *mapObject, fx32 x, fx32 y);
+BOOL SeaMapEventManager_ViewEllipseCheck(SeaMapLayoutObject *mapObject, fx32 x, fx32 y);
 
 #endif // RUSH_SEAMAPEVENTMANAGER_H

@@ -968,7 +968,7 @@ BOOL SeaMapEventManager_CheckObjectPosDiscoveredOnMap(SeaMapLayoutObject *mapObj
     return SeaMapManager__GetMapPixel(x, y) == SEAMAPMANAGER_PIXEL_DISCOVERED;
 }
 
-void SeaMapEventManager_GetViewElipse(HitboxRect *rect, fx32 x, fx32 y, s32 *centerX, s32 *centerY, s32 *width, s32 *height)
+void SeaMapEventManager_GetViewEllipse(HitboxRect *rect, fx32 x, fx32 y, s32 *centerX, s32 *centerY, s32 *width, s32 *height)
 {
     *width   = ((rect->right - rect->left) << (FX32_SHIFT - 1));
     *height  = ((rect->bottom - rect->top) << (FX32_SHIFT - 1));
@@ -984,7 +984,7 @@ void SeaMapEventManager_GetViewRect(HitboxRect *rect, fx32 x, fx32 y, ViewRect *
     viewRect->bottom = FX32_FROM_WHOLE(y + rect->bottom);
 }
 
-BOOL SeaMapEventManager_PointInViewElipse(s32 centerX, s32 centerY, s32 width, s32 height, fx32 x, fx32 y)
+BOOL SeaMapEventManager_PointInViewEllipse(s32 centerX, s32 centerY, s32 width, s32 height, fx32 x, fx32 y)
 {
     fx32 distX1  = x - centerX;
     fx32 radiusX = MATH_ABS(distX1);
@@ -1014,15 +1014,15 @@ BOOL SeaMapEventManager_ViewRectCheck(SeaMapLayoutObject *mapObject, fx32 x, fx3
     return SeaMapEventManager_PointInViewRect(viewRect.left, viewRect.top, viewRect.right, viewRect.bottom, x, y) != FALSE;
 }
 
-BOOL SeaMapEventManager_ViewElipseCheck(SeaMapLayoutObject *mapObject, fx32 x, fx32 y)
+BOOL SeaMapEventManager_ViewEllipseCheck(SeaMapLayoutObject *mapObject, fx32 x, fx32 y)
 {
     s32 centerY;
     s32 centerX;
     s32 height;
     s32 width;
 
-    SeaMapEventManager_GetViewElipse(&mapObject->box, mapObject->position.x, mapObject->position.y, &centerX, &centerY, &width, &height);
-    return SeaMapEventManager_PointInViewElipse(centerX, centerY, width, height, x, y) != FALSE;
+    SeaMapEventManager_GetViewEllipse(&mapObject->box, mapObject->position.x, mapObject->position.y, &centerX, &centerY, &width, &height);
+    return SeaMapEventManager_PointInViewEllipse(centerX, centerY, width, height, x, y) != FALSE;
 }
 
 // --------------------

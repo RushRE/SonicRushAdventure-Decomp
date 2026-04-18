@@ -206,7 +206,7 @@ void SailSeaMapView_HandleProgress(SailSeaMapView *work)
     u16 unknownX;
     SeaMapManager__GetPosition2(nodeX, nodeY, &work->position.x, &work->position.y);
     SeaMapManager__Func_2043B0C(nodeX, nodeY, &unknownX, &unknownY);
-    SeaMapManager__DiscoverMap_Elipse(unknownX, unknownY, 3, 3);
+    SeaMapManager__DiscoverMap_Ellipse(unknownX, unknownY, 3, 3);
     SeaMapManager__EnableDrawFlags(SEAMAPMANAGER_DRAWFLAG_MAPMASK);
 
     work->boatIcon->objWork.position.x = FX32_TO_WHOLE(work->position.x);
