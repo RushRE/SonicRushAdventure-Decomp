@@ -8,7 +8,7 @@
 
 	.text
 
-// https://decomp.me/scratch/3UIwx -> 57.17%
+// https://decomp.me/scratch/3UIwx -> 80.24%
 	thumb_func_start SaveGame__LoadData2
 SaveGame__LoadData2: // 0x0205E49C
 	push {r3, r4, r5, r6, r7, lr}

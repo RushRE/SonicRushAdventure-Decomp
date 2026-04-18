@@ -79,10 +79,9 @@ void SaveGame__SaveCallback_OnlineProfile(SaveGame *save, SaveBlockFlags blockFl
     }
 }
 
-void SaveGame__LoadCallback_Unknown(SaveGame *save, SaveBlockFlags blockFlags)
+void SaveGame__LoadCallback_Unknown(SaveGame *save)
 {
     UNUSED(save);
-    UNUSED(blockFlags);
 
     // Nothing to do.
 }

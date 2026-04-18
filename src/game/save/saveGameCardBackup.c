@@ -16,7 +16,7 @@
 #define SAVEGAME_PAGE_PADDING(byteSize) (SAVEGAME_PAGE_SIZE - ((byteSize) % SAVEGAME_PAGE_SIZE))
 
 // Determine block write size
-#define SAVEGAME_BLOCK_CARD_SIZE(blockSize)        ((2 * (blockSize)) + sizeof(SaveIOBlockHeader))
+#define SAVEGAME_BLOCK_CARD_SIZE(blockSize) ((2 * (blockSize)) + sizeof(SaveIOBlockHeader))
 
 // Determine Block write size (aligned upwards to 0x80 bytes)
 #define SAVEGAME_BLOCK_PADDED_CARD_SIZE(blockSize) (SAVEGAME_BLOCK_CARD_SIZE(blockSize) + SAVEGAME_PAGE_PADDING(SAVEGAME_BLOCK_CARD_SIZE(blockSize)))
@@ -26,6 +26,7 @@
 // --------------------
 
 typedef void (*SaveGameCallback)(SaveGame *saveGame, SaveBlockFlags blockFlags);
+typedef void (*SaveReadGameCallback)(SaveGame *saveGame);
 
 // --------------------
 // STRUCTS
@@ -53,9 +54,9 @@ NOT_DECOMPILED const char aSonicRush2[];
 // VARIABLES
 // --------------------
 
-const SaveGameCallback sSaveWriteCallbackList[1] = { SaveGame__SaveCallback_OnlineProfile };
-const SaveGameCallback sSaveReadCallbackList[1]  = { SaveGame__LoadCallback_Unknown };
-const SaveGameCallback sSaveClearCallbackList[3] = { SeaMapManager__SaveClearCallback_Chart, SaveGame__ClearCallback_Stage, SaveGame__ClearCallback_Common };
+const SaveGameCallback sSaveWriteCallbackList[1]    = { SaveGame__SaveCallback_OnlineProfile };
+const SaveReadGameCallback sSaveReadCallbackList[1] = { SaveGame__LoadCallback_Unknown };
+const SaveGameCallback sSaveClearCallbackList[3]    = { SeaMapManager__SaveClearCallback_Chart, SaveGame__ClearCallback_Stage, SaveGame__ClearCallback_Common };
 
 const size_t sSaveGameBlockSizes[9] = {
     // [None] Block Size
@@ -121,6 +122,13 @@ const size_t sSaveGameBlockCardOffsets[9] = {
         + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.vsRecords)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.onlineProfile)),
 };
 
+// Size of a save file on the GameCard
+#define SAVEGAME_FILE_PADDED_CARD_SIZE                                                                                                                                             \
+    (SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.system)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.stage)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.chart))   \
+        + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.timeAttack)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.vikingCup))                                               \
+        + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.vsRecords)) + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.onlineProfile))                                            \
+        + SAVEGAME_BLOCK_PADDED_CARD_SIZE(sizeof(saveGame.leaderboards)))
+
 const size_t sSaveGameBlockStructOffsets[9] = {
     // [None] Block Struct Offset
     0x00,
@@ -156,6 +164,43 @@ const size_t sSaveGameBlockStructOffsets[9] = {
 
 #include <nitro/code16.h>
 
+// --------------------
+// INLINE FUNCTIONS
+// --------------------
+
+#define GetSaveCRC(context, crc32_t, blockBuffer, blockSize, pageID)                                                                                                               \
+    {                                                                                                                                                                              \
+        MATH_CRC32Init(context);                                                                                                                                                   \
+        MATH_CRC32Update(crc32_t, context, &((SaveIOBlock *)blockBuffer)->header.writeCount, sizeof(((SaveIOBlock *)blockBuffer)->header.writeCount));                             \
+        MATH_CRC32Update(crc32_t, context, &((SaveIOBlock *)blockBuffer)->data[blockSize * pageID], blockSize);                                                                    \
+    }
+
+RUSH_INLINE BOOL CheckBlockValid(size_t cardOffset, SaveIOBlockHeader *blockHeaders)
+{
+    for (u16 p = 0; p < 4; p++)
+    {
+        if (!ReadFromCardBackup(cardOffset + SAVEGAME_FILE_PADDED_CARD_SIZE * p + SAVEGAME_PAGE_SIZE, &blockHeaders[p], sizeof(blockHeaders[p])))
+        {
+            return FALSE;
+        }
+    }
+
+    return TRUE;
+}
+
+RUSH_INLINE BOOL CanWriteToCard()
+{
+    char signatureW[sizeof(SAVEGAME_FILE_SIGNATURE)];
+    MI_CpuClear16(signatureW, sizeof(SAVEGAME_FILE_SIGNATURE));
+    STD_CopyLStringZeroFill(signatureW, aSonicRush2, sizeof(SAVEGAME_FILE_SIGNATURE));
+
+    return WriteToCardBackup(0, signatureW, sizeof(SAVEGAME_FILE_SIGNATURE));
+}
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
 BOOL SaveGame__InitSaveSize(void)
 {
     return InitCardBackupSize();
@@ -184,8 +229,180 @@ void SaveGame__ClearData(SaveGame *work, SaveBlockFlags flags)
 
 NONMATCH_FUNC SaveErrorTypes SaveGame__SaveData(SaveGame *work, SaveBlockFlags flags)
 {
+    // https://decomp.me/scratch/biLfi -> 23.57%
 #ifdef NON_MATCHING
+    SaveErrorTypes error     = SAVE_ERROR_NONE;
+    MATHCRC32Table *crcTable = HeapAllocHead(HEAP_USER, sizeof(MATHCRC32Table));
 
+    void *signature;
+    u16 headerError;
+
+    MATH_CRC32InitTable(crcTable);
+
+    flags &= ~(1 << SAVE_BLOCK_UNKNOWN);
+
+    headerError = 0; // no issue!
+    signature   = HeapAllocHead(HEAP_USER, sizeof(SAVEGAME_FILE_SIGNATURE));
+
+    if (ReadFromCardBackup(0, signature, sizeof(SAVEGAME_FILE_SIGNATURE)))
+    {
+        s32 valid = STD_CompareNString(signature, aSonicRush2, sizeof(SAVEGAME_FILE_SIGNATURE)) == 0;
+
+        if (valid == 0)
+        {
+            headerError = 1; // invalid signature
+        }
+    }
+    else
+    {
+        headerError = 2; // can't read signature
+    }
+
+    HeapFree(HEAP_USER, signature);
+
+    s32 new_var4 = 0;
+    if (headerError != 0 && headerError != 1 && headerError == 2)
+    {
+        if (headerError != 1)
+        {
+            error = SAVE_ERROR_CANT_LOAD;
+            goto END_FUNC;
+        }
+        else
+        {
+            flags |= 1;
+        }
+    }
+
+    {
+        u8 new_var2 = new_var4; // this is needed to trick the compiler into compiling the 'id < 1' loop
+        if ((flags & 1) != 0 && CanWriteToCard() == FALSE)
+        {
+            error = SAVE_ERROR_CANT_LOAD;
+        }
+        else
+        {
+            u32 id;
+            for (id = new_var2; id < 1; id++)
+            {
+                sSaveWriteCallbackList[id](work, flags);
+            }
+
+            if ((flags & 1) != 0)
+            {
+                BOOL success;
+                s32 b;
+                BOOL blockSuccess;
+
+                blockSuccess = TRUE;
+                for (b = 1; b < 9; b++)
+                {
+                    success = TRUE;
+
+                    size_t size   = sSaveGameBlockSizes[b];
+                    size_t offset = sSaveGameBlockStructOffsets[b];
+
+                    size_t blockByteSize;
+                    size_t blockWriteSize;
+                    blockByteSize  = size << 1;
+                    blockWriteSize = blockByteSize + sizeof(SaveIOBlockHeader);
+
+                    SaveIOBlock *block = (SaveIOBlock *)HeapAllocHead(HEAP_USER, blockWriteSize);
+                    MI_CpuClear16(block, blockWriteSize);
+
+                    MATHCRC32Context context;
+                    u32 writeCount;
+                    writeCount = 0;
+                    context    = -1;
+                    MATH_CRC32Update(crcTable, &context, &writeCount, sizeof(writeCount));
+                    MATH_CRC32Update(crcTable, &context, (u8 *)work + offset, size);
+
+                    block->header.checksum   = ~context;
+                    block->header.writeCount = 0;
+                    u8 *save_ptr             = (u8 *)work;
+                    s32 i;
+                    for (i = 0; i < 2; i++)
+                    {
+                        MI_CpuCopy16(save_ptr + offset, &block->data[size * i], size);
+                    }
+
+                    for (u32 s = 0; s < 4; s++)
+                    {
+                        if (!WriteToCardBackup(sSaveGameBlockCardOffsets[b] + (0x3700 * (u16)s + 0x80), block, sizeof(SaveIOBlockHeader) + 2 * size))
+                            success = FALSE;
+                    }
+
+                    HeapFree(HEAP_USER, block);
+                    if (!success)
+                        blockSuccess = FALSE;
+                }
+
+                if (!blockSuccess)
+                    error = SAVE_ERROR_INVALID_FORMAT;
+            }
+            else
+            {
+                BOOL success;
+                s32 b;
+                BOOL blockSuccess;
+
+                error = SAVE_ERROR_NONE;
+                for (b = 1; b < 9; b++)
+                {
+                    if ((flags & (1 << b)) != 0)
+                    {
+                        success = TRUE;
+
+                        size_t size   = sSaveGameBlockSizes[b];
+                        size_t offset = sSaveGameBlockStructOffsets[b];
+
+                        size_t blockByteSize;
+                        size_t blockWriteSize;
+                        blockByteSize  = size << 1;
+                        blockWriteSize = blockByteSize + sizeof(SaveIOBlockHeader);
+
+                        SaveIOBlock *block = (SaveIOBlock *)HeapAllocHead(HEAP_USER, blockWriteSize);
+                        MI_CpuClear16(block, blockWriteSize);
+
+                        MATHCRC32Context context;
+                        u32 writeCount;
+                        writeCount = 0;
+                        context    = -1;
+                        MATH_CRC32Update(crcTable, &context, &writeCount, sizeof(writeCount));
+                        MATH_CRC32Update(crcTable, &context, (u8 *)work + offset, size);
+
+                        block->header.checksum   = ~context;
+                        block->header.writeCount = 0;
+                        u8 *save_ptr             = (u8 *)work;
+                        s32 i;
+                        for (i = 0; i < 2; i++)
+                        {
+                            MI_CpuCopy16(save_ptr + offset, &block->data[size * i], size);
+                        }
+
+                        for (u32 s = 0; s < 4; s++)
+                        {
+                            if (!WriteToCardBackup(sSaveGameBlockCardOffsets[b] + (0x3700 * (u16)s + 0x80), block, sizeof(SaveIOBlockHeader) + 2 * size))
+                                success = FALSE;
+                        }
+
+                        HeapFree(HEAP_USER, block);
+                        if (!success)
+                            blockSuccess = FALSE;
+                    }
+                }
+
+                if (!blockSuccess)
+                    error = SAVE_ERROR_INVALID_FORMAT;
+            }
+        }
+    }
+
+END_FUNC:
+    if (crcTable != NULL)
+        HeapFree(HEAP_USER, crcTable);
+
+    return error;
 #else
     // clang-format off
 	push {r4, r5, r6, r7, lr}
@@ -926,12 +1143,8 @@ SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
     }
     else
     {
-        char signatureW[sizeof(SAVEGAME_FILE_SIGNATURE)];
-        MI_CpuClear16(signatureW, sizeof(SAVEGAME_FILE_SIGNATURE));
-        STD_CopyLStringZeroFill(signatureW, aSonicRush2, sizeof(SAVEGAME_FILE_SIGNATURE));
-
         u8 new_var2 = new_var4; // this is needed to trick the compiler into compiling the 'id < 1' loop
-        if (WriteToCardBackup(0, signatureW, sizeof(SAVEGAME_FILE_SIGNATURE)) == FALSE)
+        if (CanWriteToCard() == FALSE)
         {
             error = SAVE_ERROR_CANT_LOAD;
         }
@@ -966,11 +1179,11 @@ SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
                 MATHCRC32Context context;
                 u32 writeCount;
                 writeCount = 0;
-                context    = -1;
+                MATH_CRC32Init(&context);
                 MATH_CRC32Update(crcTable, &context, &writeCount, sizeof(writeCount));
                 MATH_CRC32Update(crcTable, &context, (u8 *)work + offset, size);
 
-                block->header.checksum   = ~context;
+                block->header.checksum   = MATH_CRC32GetHash(&context);
                 block->header.writeCount = 0;
                 u8 *save_ptr             = (u8 *)work;
                 s32 i;
@@ -981,7 +1194,7 @@ SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
 
                 for (u32 s = 0; s < 4; s++)
                 {
-                    if (!WriteToCardBackup(sSaveGameBlockCardOffsets[b] + (0x3700 * (u16)s + 0x80), block, sizeof(SaveIOBlockHeader) + 2 * size))
+                    if (!WriteToCardBackup(sSaveGameBlockCardOffsets[b] + (0x3700 * (u16)s + SAVEGAME_PAGE_SIZE), block, sizeof(SaveIOBlockHeader) + 2 * size))
                         success = FALSE;
                 }
 
@@ -1003,8 +1216,260 @@ SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
 
 NONMATCH_FUNC SaveErrorTypes SaveGame__LoadData(SaveGame *work, u32 *corruptFlags, u32 *otherFlags)
 {
+    // https://decomp.me/scratch/0XtIL -> 59.33%
 #ifdef NON_MATCHING
+    SaveErrorTypes error = SAVE_ERROR_NONE;
+    *corruptFlags        = 0;
+    *otherFlags          = 0;
 
+    MATHCRC32Table *crc32_t = HeapAllocHead(HEAP_USER, sizeof(MATHCRC32Table));
+
+    void *signature;
+
+    MATH_CRC32InitTable(crc32_t);
+
+    SaveGame *saveGame = HeapAllocHead(HEAP_USER, sizeof(SaveGame));
+    MI_CpuClear16(saveGame, sizeof(*saveGame));
+
+    u32 id;
+    for (id = 0; id < 3; id++)
+    {
+        sSaveClearCallbackList[id](work, SAVE_BLOCK_FLAG_ALL);
+    }
+
+    error     = SAVE_ERROR_NONE; // no issue!
+    signature = HeapAllocHead(HEAP_USER, sizeof(SAVEGAME_FILE_SIGNATURE));
+
+    if (ReadFromCardBackup(0, signature, sizeof(SAVEGAME_FILE_SIGNATURE)))
+    {
+        s32 valid = STD_CompareNString(signature, aSonicRush2, sizeof(SAVEGAME_FILE_SIGNATURE)) == 0;
+
+        if (valid == 0)
+        {
+            error = SAVE_ERROR_INVALID_FORMAT; // invalid signature
+        }
+    }
+    else
+    {
+        error = SAVE_ERROR_CANT_LOAD; // can't read signature
+    }
+
+    HeapFree(HEAP_USER, signature);
+
+    if (error == SAVE_ERROR_NONE)
+    {
+        for (s32 b = 1; b < 9; b++)
+        {
+            SaveIOBlockHeader blockHeaders[4];
+            SaveIOBlockHeader *blockHeaderPtrs[4];
+            s32 saveError = 0;
+
+            size_t blockSize             = sSaveGameBlockSizes[b];
+            SaveIOBlock *blockReadBuffer = NULL;
+            void *blockBuffer            = HeapAllocHead(HEAP_USER, blockSize);
+            u32 blockError               = 0;
+
+            u32 cardOffset = sSaveGameBlockCardOffsets[b];
+
+            if (!CheckBlockValid(cardOffset, blockHeaders))
+            {
+                blockError = 2;
+            }
+            else
+            {
+                for (u16 c = 0; c < 4; c++)
+                {
+                    blockHeaderPtrs[c] = &blockHeaders[c];
+                }
+
+                for (u16 i = 0; (s32)i < 3; i++)
+                {
+                    for (u16 c = 0; (s32)c < 3; c++)
+                    {
+                        SaveIOBlockHeader *header = blockHeaderPtrs[c];
+                        u32 v14                   = header->writeCount;
+                        u32 v15                   = header->checksum;
+                        u32 v16                   = *(u32 *)(v14 + 4);
+                        u32 v17                   = *(u32 *)(v15 + 4);
+
+                        BOOL flag = FALSE;
+                        if (v17 > v16)
+                        {
+                            flag = TRUE;
+                        }
+                        else
+                        {
+                            if (v17 == v16 && v15 > v14)
+                                flag = TRUE;
+                        }
+
+                        if (flag)
+                        {
+                            header->checksum   = v14;
+                            header->writeCount = v15;
+                        }
+                    }
+                }
+
+                size_t blockReadSize   = 2 * blockSize + 8;
+                blockReadBuffer        = HeapAllocHead(HEAP_USER, blockReadSize);
+                size_t blockDataSize16 = 2 * blockSize;
+
+                u16 id = 0;
+                for (; id < 4; id++)
+                {
+                    u16 cardPage = 0;
+                    for (; cardPage < 4; cardPage++)
+                    {
+                        if (&blockHeaders[cardPage] == blockHeaderPtrs[id])
+                            break;
+                    }
+
+                    s32 validSections = 0;
+                    u32 sectionError;
+                    if (!ReadFromCardBackup(cardOffset + 0x3700 * cardPage + 0x80, blockReadBuffer, blockReadSize))
+                    {
+                        sectionError = 2;
+                    }
+                    else
+                    {
+                        size_t blockDataSize = FX_DivS32(blockDataSize16, 2);
+                        for (u32 s = 0; s < 2; s++)
+                        {
+                            if (CheckSaveCRC(crc32_t, blockReadBuffer, blockDataSize, s))
+                                validSections |= 1 << s;
+                        }
+
+                        if (validSections == 0)
+                        {
+                            sectionError = 4;
+                        }
+                        else if (validSections != (1 | 2))
+                        {
+                            sectionError = 3;
+                        }
+                        else
+                        {
+                            sectionError = 0;
+                        }
+                    }
+
+                    if (sectionError == 0 || sectionError == 3)
+                    {
+                        u16 s = 0;
+                        for (; s < 2 && ((1 << s) & validSections) == 0; s++)
+                        {
+                            // loopin
+                        }
+
+                        MI_CpuCopy16(&blockReadBuffer->data[s * blockSize], blockBuffer, blockSize);
+
+                        if (sectionError == 3)
+                            blockError = 3;
+
+                        break;
+                    }
+
+                    if (sectionError == 4)
+                        blockError = 3;
+                }
+
+                if (id == 4)
+                {
+                    blockError = 4;
+                }
+                else
+                {
+                    while (id < 4)
+                    {
+                        u16 cardPage = 0;
+                        for (; cardPage < 4; cardPage++)
+                        {
+                            if (&blockHeaders[cardPage] == blockHeaderPtrs[id])
+                                break;
+                        }
+
+                        u32 sectionError;
+                        if (!ReadFromCardBackup(cardOffset + 0x3700 * cardPage + 0x80, blockReadBuffer, blockReadSize))
+                        {
+                            sectionError = 2;
+                        }
+                        else
+                        {
+                            u32 validSections    = 0;
+                            size_t blockDataSize = FX_DivS32(blockDataSize16, 2);
+                            for (s32 s = 0; s < 2; s++)
+                            {
+                                if (CheckSaveCRC(crc32_t, blockReadBuffer, blockDataSize, s))
+                                    validSections |= 1 << s;
+                            }
+
+                            if (validSections)
+                            {
+                                if (validSections == (1 | 2))
+                                    sectionError = 0;
+                                else
+                                    sectionError = 3;
+                            }
+                            else
+                            {
+                                sectionError = 4;
+                            }
+                        }
+
+                        if (sectionError == 3 || sectionError == 4)
+                            blockError = 3;
+
+                        id++;
+                    }
+                }
+            }
+
+            if (blockBuffer != NULL)
+                HeapFree(HEAP_USER, blockBuffer);
+
+            switch (blockError)
+            {
+                case 2:
+                    error = SAVE_ERROR_CANT_LOAD;
+                    goto LABEL_91;
+
+                case 3:
+                    *otherFlags |= 1 << b;
+                    break;
+
+                case 4:
+                    *corruptFlags |= 1 << b;
+                    break;
+            }
+        }
+    }
+
+LABEL_91:
+    if (error == SAVE_ERROR_INVALID_FORMAT || error == SAVE_ERROR_CANT_LOAD)
+    {
+        *corruptFlags = 0;
+        *otherFlags   = 0;
+
+        MI_CpuClear16(saveGame, sizeof(*saveGame));
+        for (id = 0; id < 3; id++)
+        {
+            sSaveClearCallbackList[id](work, SAVE_BLOCK_FLAG_ALL);
+        }
+    }
+
+    for (id = 0; id < 1; id++)
+    {
+        sSaveReadCallbackList[id](work);
+    }
+
+    if (crc32_t != NULL)
+        HeapFree(HEAP_USER, crc32_t);
+
+    if (saveGame != NULL)
+        HeapFree(HEAP_USER, saveGame);
+
+    return error;
 #else
     // clang-format off
 	push {r4, r5, r6, r7, lr}
@@ -1603,5 +2068,398 @@ _0205E47C:
 // clang-format on
 #endif
 }
+
+// https://decomp.me/scratch/3UIwx -> 80.24%
+#if 0
+SaveErrorTypes SaveGame__LoadData2(u32 flags)
+{
+    SaveErrorTypes error     = SAVE_ERROR_NONE;
+    MATHCRC32Table *crc32_t = HeapAllocHead(HEAP_USER, sizeof(MATHCRC32Table));
+    MATH_CRC32InitTable(crc32_t);
+    
+    for (s32 b = 1; b < 9; b++)
+    {
+        if ((blockFlags & (1 << b)) != 0)
+        {
+            for (u16 p = 0; p < 4; p++)
+            {
+                s32 saveError = 0;
+                size_t blockSize = sSaveGameBlockSizes[b];
+                size_t readSize = 2 * blockSize + 8;
+                SaveIOBlock *blockBuffer = HeapAllocHead(HEAP_USER, readSize);
+                if (!ReadFromCardBackup(sSaveGameBlockCardOffsets[b] + 0x3700 * p + SAVEGAME_PAGE_SIZE, blockBuffer, readSize))
+                {
+                    saveError = 2;
+                }
+                else
+                {
+                    u32 length = FX_DivS32(2 * blockSize, 2);
+                    
+                    s32 validSections = 0;
+                    for (u32 i = 0; i < 2; i++)
+                    {
+                        u32 checksum = blockBuffer->header.checksum;
+                        MATHCRC32Context context;
+                        GetSaveCRC(&context, crc32_t, blockBuffer, length, i);
+                        
+                        if (checksum == MATH_CRC32GetHash(&context))
+                            validSections |= 1 << i;
+                    }
+                    
+                    if (validSections != 3)
+                    {
+                        if (validSections == 0)
+                        {
+                            saveError = 4;
+                        }
+                        else
+                        {
+                            s32 id = 0;
+                            while (id < 2)
+                            {
+                                if (((1 << id) & validSections) != 0)
+                                    break;
+                                
+                                id++;
+                            }
+
+                            void *src = &blockBuffer->data[id * blockSize];
+                            for (s32 s = 0; s < 2; s++)
+                            {
+                                if (((1 << s) & validSections) == 0)
+                                    MI_CpuCopy16(src, &blockBuffer->data[blockSize * s], blockSize);
+                            }
+                            
+                            if (!WriteToCardBackup(sSaveGameBlockCardOffsets[b] + 0x3700 * p + SAVEGAME_PAGE_SIZE, blockBuffer, readSize))
+                                saveError = 4;
+                        }
+                    }
+                }
+                
+                if (blockBuffer != NULL)
+                    HeapFree(HEAP_USER, blockBuffer);
+                
+                if (saveError != 0 && saveError == 2)
+                {
+                    error = SAVE_ERROR_CANT_LOAD;
+                    goto FUNC_END;
+                }
+            }
+            
+            SaveIOBlockHeader blockHeaders[4];
+            SaveIOBlockHeader *blockHeaderPtrs[4];
+            s32 saveError = 0;
+            
+            size_t blockSize = sSaveGameBlockSizes[b];
+            SaveIOBlock *blockReadBuffer  = NULL;
+            void *blockBuffer  = HeapAllocHead(HEAP_USER, blockSize);
+            u32 blockError = 0;
+            
+            u32 cardOffset = sSaveGameBlockCardOffsets[b];
+                
+            if (!CheckBlockValid(cardOffset, blockHeaders))
+            {
+                blockError = 2;
+            }
+            else
+            {
+                for (u16 c = 0; c < 4; c++)
+                {
+                    blockHeaderPtrs[c] = &blockHeaders[c];
+                }
+                
+                for (u16 i = 0; (s32)i < 3; i++)
+                {
+                    for (u16 c = 0; (s32)c < 3; c++)
+                    {                        
+                        SaveIOBlockHeader *header = blockHeaderPtrs[c];
+                        u32 v14 = header->writeCount;
+                        u32 v15 = header->checksum;
+                        u32 v16 = *(u32 *)(v14 + 4);
+                        u32 v17 = *(u32 *)(v15 + 4);
+                        
+                        BOOL flag = FALSE;
+                        if (v17 > v16)
+                        {
+                            flag = TRUE;
+                        }
+                        else
+                        {
+                            if (v17 == v16 && v15 > v14)
+                                flag = TRUE;
+                        }
+                        
+                        if (flag)
+                        {
+                            header->checksum   = v14;
+                            header->writeCount = v15;
+                        }
+                    }
+                }
+                
+                size_t blockReadSize = 2 * blockSize + 8;
+                blockReadBuffer = HeapAllocHead(HEAP_USER, blockReadSize);
+                
+                u16 id = 0;
+                for (; id < 4; id++)
+                {
+                    u16 cardPage = 0;
+                    for (; cardPage < 4; cardPage++)
+                    {
+                        if (&blockHeaders[cardPage] == blockHeaderPtrs[id])
+                            break;
+                    }
+
+                    s32 validSections = 0;
+                    u32 sectionError;
+                    if (!ReadFromCardBackup(cardOffset + 0x3700 * cardPage + SAVEGAME_PAGE_SIZE, blockReadBuffer, blockReadSize))
+                    {
+                        sectionError = 2;
+                    }
+                    else
+                    {
+                        size_t blockDataSize = FX_DivS32(2 * blockSize, 2);
+                        for (u32 s = 0; s < 2; s++)
+                        {
+                            u32 checksum = blockReadBuffer->header.checksum;
+                            MATHCRC32Context context;
+                            GetSaveCRC(&context, crc32_t, blockReadBuffer, blockDataSize, s);
+                            
+                            if (checksum == MATH_CRC32GetHash(&context))
+                                validSections |= 1 << s;
+                        }
+                        
+                        if (validSections == 0)
+                        {
+                            sectionError = 4;
+                        }
+                        else if (validSections != (1 | 2))
+                        {
+                            sectionError = 3;
+                        }
+                        else
+                        {
+                            sectionError = 0;
+                        }
+                    }
+                            
+                    if (sectionError == 0 || sectionError == 3)
+                    {
+                        u16 s = 0;
+                        for (; s < 2; s++)
+                        {
+                            if (((1 << s) & validSections) != 0)
+                                break;
+                        }
+                        
+                        MI_CpuCopy16(&blockReadBuffer->data[s * blockSize], blockBuffer, blockSize);
+                        
+                        if (sectionError == 3)
+                            blockError = 3;
+                        
+                        break;
+                    }
+                    
+                    if (sectionError == 4)
+                        blockError = 3;
+                }
+                
+                if (id == 4)
+                {
+                    blockError = 4;
+                }
+                else
+                {
+                    while (id < 4)
+                    {
+                        u16 cardPage = 0;
+                        for (; cardPage < 4; cardPage++)
+                        {
+                            if (&blockHeaders[cardPage] == blockHeaderPtrs[id])
+                                break;
+                        }
+
+                        u32 sectionError;
+                        if (!ReadFromCardBackup(cardOffset + 0x3700 * cardPage + SAVEGAME_PAGE_SIZE, blockReadBuffer, blockReadSize))
+                        {
+                            sectionError = 2;
+                        }
+                        else
+                        {
+                            u32 validSections = 0;
+                            size_t blockDataSize = FX_DivS32(2 * blockSize, 2);
+                            for (s32 s = 0; s < 2; s++)
+                            {
+                                u32 checksum = blockReadBuffer->header.checksum;
+                                MATHCRC32Context context;
+                                GetSaveCRC(&context, crc32_t, blockReadBuffer, blockDataSize, s);
+                                
+                                if (checksum == MATH_CRC32GetHash(&context))
+                                    validSections |= 1 << s;
+                            }
+                            
+                            if (validSections)
+                            {
+                                if (validSections == (1 | 2))
+                                    sectionError = 0;
+                                else
+                                    sectionError = 3;
+                            }
+                            else
+                            {
+                                sectionError = 4;
+                            }
+                        }
+                        
+                        if (sectionError == 3 || sectionError == 4)
+                            blockError = 3;
+                        
+                        id++;
+                    }
+                }
+            }
+            
+            if (blockReadBuffer != NULL)
+                HeapFree(HEAP_USER, blockReadBuffer);
+            
+            if (blockError == 2)
+            {
+                saveError = 2;
+            }
+            else
+            {
+                if (blockError == 4)
+                {
+                    SaveGame *saveGameClearBuffer;
+#ifdef RUSH_BUG_FIX
+                    saveGameClearBuffer = HeapAllocHead(HEAP_USER, sizeof(*saveGameClearBuffer));
+#else
+                    // This allocation is incorrectly sized: it should be sizeof(*saveGameClearBuffer)
+                    // However it was likely written as sizeof(saveGameClearBuffer) by mistake
+                    saveGameClearBuffer = HeapAllocHead(HEAP_USER, sizeof(saveGameClearBuffer));
+#endif
+                    
+                    u32 blockClearFlags = 1 << b;
+                    if (((1 << b) & SAVE_BLOCK_FLAG_ALL) == SAVE_BLOCK_FLAG_ALL)
+                    {
+                        MI_CpuClear16(saveGameClearBuffer, sizeof(SaveGame));
+                    }
+                    else
+                    {
+                        for (s32 bc = 0; bc < 9; bc++)
+                        {
+                            if (((1 << bc) & blockClearFlags) != 0)
+                            {
+                                MI_CpuClear16(&((u8*)saveGameClearBuffer)[sSaveGameBlockStructOffsets[bc]], sSaveGameBlockSizes[bc]);
+                            }
+                        }
+                    }
+                    
+                    for (s32 i = 0; i < 3; i++)
+                    {
+                        sSaveClearCallbackList[i](saveGameClearBuffer, blockClearFlags);
+                    }
+                    
+                    MI_CpuCopy16(&((u8*)saveGameClearBuffer)[sSaveGameBlockStructOffsets[b]], blockBuffer, blockSize);
+                    
+                    HeapFree(HEAP_USER, saveGameClearBuffer);
+                }
+                
+                size_t blockReadSize = 2 * blockSize + 8;
+                for (u16 p = 0; p < 4; p++)
+                {
+                    u32 blockCardOffset = sSaveGameBlockCardOffsets[b];
+                    
+                    blockReadBuffer  = HeapAllocHead(HEAP_USER, blockReadSize);
+                    
+                    size_t cardOffset = 0x3700 * p + SAVEGAME_PAGE_SIZE;
+                    u32 sectionError;
+                    if (!ReadFromCardBackup(blockCardOffset + cardOffset, blockReadBuffer, blockReadSize))
+                    {
+                        sectionError = 2;
+                    }
+                    else
+                    {
+                        u32 blockLength = FX_DivS32(2 * blockSize, 2);
+                        u32 validSections = 0;
+                        for (u32 s = 0; s < 2; s++)
+                        {
+                            u32 checksum = blockReadBuffer->header.checksum;
+                            MATHCRC32Context context;
+                            GetSaveCRC(&context, crc32_t, blockReadBuffer, blockLength, s);
+                            
+                            if (checksum == MATH_CRC32GetHash(&context))
+                                validSections |= 1 << s;
+                        }
+                        
+                        if (validSections == 0)
+                        {
+                            sectionError = 4;
+                        }
+                        else if (validSections != (1 | 2))
+                        {
+                            sectionError = 3;
+                        }
+                        else
+                        {
+                            sectionError = 0;
+                        }
+                    }
+                    
+                    HeapFree(HEAP_USER, blockReadBuffer);
+                    
+                    if (sectionError == 2)
+                    {
+                        saveError = 2;
+                        break;
+                    }
+                    
+                    if (sectionError == 4)
+                    {
+                        SaveIOBlock *blockWriteBuffer = HeapAllocHead(HEAP_USER, blockReadSize);
+                        MI_CpuClear16(blockWriteBuffer, blockReadSize);
+                        
+                        u32 writeCount = 0;
+                        MATHCRC32Context context;
+                        MATH_CRC32Init(&context);
+                        MATH_CRC32Update(crc32_t, &context, &writeCount, sizeof(writeCount));
+                        MATH_CRC32Update(crc32_t, &context, blockBuffer, blockSize);
+                        
+                        blockWriteBuffer->header.checksum  = MATH_CRC32GetHash(&context);
+                        blockWriteBuffer->header.writeCount = 0;
+                        for (s32 s = 0; s < 2; s++)
+                        {
+                            MI_CpuCopy16(blockBuffer, &blockWriteBuffer->data[blockSize * s], blockSize);
+                        }
+                        
+                        if (WriteToCardBackup(sSaveGameBlockCardOffsets[b] + cardOffset, blockWriteBuffer, blockReadSize))
+                            saveError = 4;
+                        
+                        HeapFree(HEAP_USER, blockWriteBuffer);
+                    }
+                }
+            }
+                        
+            if (blockBuffer != NULL)
+                HeapFree(HEAP_USER, blockBuffer);
+                        
+            if (saveError == 2)
+            {
+                error = SAVE_ERROR_CANT_LOAD;
+                break;
+            }
+            
+            if (saveError == 4)
+                error = SAVE_ERROR_INVALID_FORMAT;
+        }
+    }
+FUNC_END:
+
+    if (crc32_t != NULL)
+        HeapFree(HEAP_USER, crc32_t);
+                
+    return error;
+}
+#endif
 
 #include <nitro/codereset.h>

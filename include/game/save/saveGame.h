@@ -551,7 +551,7 @@ SaveErrorTypes SaveGame__LoadData2(u32 flags);
 // Callbacks
 void SaveGame__ClearCallback_Common(SaveGame *save, SaveBlockFlags blockFlags);
 void SaveGame__SaveCallback_OnlineProfile(SaveGame *save, SaveBlockFlags blockFlags);
-void SaveGame__LoadCallback_Unknown(SaveGame *save, SaveBlockFlags blockFlags);
+void SaveGame__LoadCallback_Unknown(SaveGame *save);
 
 // Status
 size_t SaveGame__GetPlayerNameLength(SaveBlockSystem *work);
