@@ -54,12 +54,12 @@ void SaveGame__GiveRings(SaveBlockStage *work, s32 amount)
 
 BOOL SaveGame__HasChaosEmerald(SaveBlockChart *work, u8 id)
 {
-    return SeaMapManager__GetSaveFlag_(work->flags, id + 57);
+    return SeaMapManager__GetSaveFlag_((SeaMapManagerMapFlags *)work->flags, SEAMAPMANAGER_DISCOVER_VS_JOHNNY_1 + id);
 }
 
 void SaveGame__SetChaosEmeraldCollected(SaveBlockChart *work, u8 id)
 {
-    return SeaMapManager__SetSaveFlag_(work->flags, id + 57, TRUE);
+    return SeaMapManager__SetSaveFlag_((SeaMapManagerMapFlags *)work->flags, SEAMAPMANAGER_DISCOVER_VS_JOHNNY_1 + id, TRUE);
 }
 
 u32 SaveGame__GetChaosEmeraldCount(SaveBlockChart *work)
@@ -99,17 +99,17 @@ u32 SaveGame__GetSolEmeraldCount(SaveBlockStage *work)
 
 NONMATCH_FUNC void SaveGame__SetSolEmeraldCollected(SaveBlockStage *work, u8 id)
 {
-    // https://decomp.me/scratch/U8DdT -> 52.44%
+    // https://decomp.me/scratch/U8DdT -> 75.13%
 #ifdef NON_MATCHING
-    u32 shift       = (sMissionForSolEmerald[id] % 4) << 1;
-    u8 missionState = (work->missionState[sMissionForSolEmerald[id] / 4] >> shift) & 3;
+    s32 div   = sMissionForSolEmerald[id] / 4;
+    s32 shift = (sMissionForSolEmerald[id] % 4) << 1;
+
+    u8 missionState = (work->missionState[div] >> shift) & 3;
 
     if (missionState < MISSION_STATE_BEATEN)
     {
-        u8 newState = missionState & ~(3 << shift);
-
-        work->missionState[sMissionForSolEmerald[id] / 4] = newState;
-        work->missionState[sMissionForSolEmerald[id] / 4] |= MISSION_STATE_BEATEN << shift;
+        work->missionState[div] = missionState & ~(3 << shift);
+        work->missionState[div] |= (u8)(MISSION_STATE_BEATEN << shift);
     }
 #else
     // clang-format off

@@ -1098,7 +1098,7 @@ void SeaMapView_SetZoomLevel(SeaMapView *work, SeaMapZoomLevel level)
     work->globalMoveDist.x += MultiplyFX(x2 - x1, SeaMapManager__GetZoomOutScale());
     work->globalMoveDist.y += MultiplyFX(y2 - y1, SeaMapManager__GetZoomOutScale());
 
-    SeaMapManager__EnableDrawFlags(15);
+    SeaMapManager__EnableDrawFlags(SEAMAPMANAGER_DRAWFLAG_ALL);
 }
 
 void SeaMapView_ProcessMapInputs(SeaMapView *work)
@@ -1466,7 +1466,7 @@ void SeaMapView_DrawFinalizedVoyagePath(void)
             break;
     }
 
-    SeaMapManager__EnableDrawFlags(8);
+    SeaMapManager__EnableDrawFlags(SEAMAPMANAGER_DRAWFLAG_UNKNOWN);
 }
 
 void SeaMapView_DrawFinalizedVoyagePath_Zoom_Nearest(void)
@@ -1561,7 +1561,7 @@ void SeaMapView_DrawWIPVoyagePath_Zoom_Nearest(void)
     SeaMapManager__DrawNodeLine(prevNode->position.x, prevNode->position.y, 2);
     SeaMapManager__DrawNodeLine(nextNode->position.x, nextNode->position.y, 2);
 
-    SeaMapManager__EnableDrawFlags(8);
+    SeaMapManager__EnableDrawFlags(SEAMAPMANAGER_DRAWFLAG_UNKNOWN);
 }
 
 void SeaMapView_DrawWIPVoyagePath_Zoom_Middle(void)
@@ -1578,7 +1578,7 @@ void SeaMapView_DrawWIPVoyagePath_Zoom_Middle(void)
     u16 y2 = nextNode->position.y / 2;
     SeaMapManager__DrawNodeLine2(x1, y1, x2, y2, 1);
 
-    SeaMapManager__EnableDrawFlags(8);
+    SeaMapManager__EnableDrawFlags(SEAMAPMANAGER_DRAWFLAG_UNKNOWN);
 }
 
 void SeaMapView_DrawWIPVoyagePath_Zoom_Farthest(void)
@@ -1595,7 +1595,7 @@ void SeaMapView_DrawWIPVoyagePath_Zoom_Farthest(void)
     u16 y2 = FX_DivS32(nextNode->position.y, 3);
     SeaMapManager__DrawNodeLine2(x1, y1, x2, y2, 1);
 
-    SeaMapManager__EnableDrawFlags(8);
+    SeaMapManager__EnableDrawFlags(SEAMAPMANAGER_DRAWFLAG_UNKNOWN);
 }
 
 NONMATCH_FUNC s32 SeaMapView_TryAddVoyagePathNode(SeaMapView *work, u16 x, u16 y)

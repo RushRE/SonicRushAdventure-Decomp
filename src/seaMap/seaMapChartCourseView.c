@@ -2034,11 +2034,11 @@ void SeaMapChartCourseView_State_TrainingFadeOut(SeaMapChartCourseView *work)
         {
             SeaMapManager__Func_2045BF8(progress, &worldX, &worldY);
             SeaMapManager__ConvertWorldPosToMapPos(worldX, worldY, &mapX, &mapY);
-            SeaMapManager__Func_20442C8(mapX, mapY, 3, 3);
+            SeaMapManager__DiscoverMap_Elipse(mapX, mapY, 3, 3);
         }
         SeaMapManager__Func_2045BF8(distance, &worldX, &worldY);
         SeaMapManager__ConvertWorldPosToMapPos(worldX, worldY, &mapX, &mapY);
-        SeaMapManager__Func_20442C8(mapX, mapY, 3, 3);
+        SeaMapManager__DiscoverMap_Elipse(mapX, mapY, 3, 3);
 
         RenderCore_DisableBlending(&VRAMSystem__GFXControl[work->view.useEngineB]->blendManager);
         work->isFinished = TRUE;

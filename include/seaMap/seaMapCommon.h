@@ -46,6 +46,8 @@ enum SeaMapZoomLevel_
     SEAMAP_ZOOM_NEAREST,
     SEAMAP_ZOOM_MIDDLE,
     SEAMAP_ZOOM_FARTHEST,
+    
+    SEAMAP_ZOOM_COUNT,
 };
 typedef u32 SeaMapZoomLevel;
 

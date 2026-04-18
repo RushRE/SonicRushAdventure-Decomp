@@ -44,9 +44,9 @@ void SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Elipse(Vec2Fx16 *pos, HitboxRect 
 
     SeaMapManager__Func_2043BEC(left, top, &left, &top);
     SeaMapManager__Func_2043BEC(right, bottom, &right, &bottom);
-    SeaMapManager__Func_20442C8((left + right) >> 1, (top + bottom) >> 1, (right - left + 1) >> 1, (bottom - top + 1) >> 1);
+    SeaMapManager__DiscoverMap_Elipse((left + right) >> 1, (top + bottom) >> 1, (right - left + 1) >> 1, (bottom - top + 1) >> 1);
 
-    SeaMapManager__EnableDrawFlags(1);
+    SeaMapManager__EnableDrawFlags(SEAMAPMANAGER_DRAWFLAG_MAPMASK);
 }
 
 void SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Rect(Vec2Fx16 *pos, HitboxRect *rect)
@@ -63,9 +63,9 @@ void SeaMapIslandDrawIcon_MarkMapDiscoveryArea_Rect(Vec2Fx16 *pos, HitboxRect *r
 
     SeaMapManager__Func_2043BEC(left, top, &left, &top);
     SeaMapManager__Func_2043BEC(right, bottom, &right, &bottom);
-    SeaMapManager__Func_2044268(left, top, right, bottom);
+    SeaMapManager__DiscoverMap_Rect(left, top, right, bottom);
 
-    SeaMapManager__EnableDrawFlags(1);
+    SeaMapManager__EnableDrawFlags(SEAMAPMANAGER_DRAWFLAG_MAPMASK);
 }
 
 void CreateSparklesForSeaMapIslandIcon(SeaMapLayoutObject *mapObject)

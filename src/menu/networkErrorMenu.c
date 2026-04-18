@@ -98,20 +98,20 @@ void CreateNetworkErrorMenu(BOOL isDownloadPlayEnd)
 
         Background background;
         InitBackgroundEx(&background, bgBaseDown, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_A, BACKGROUND_0, PALETTE_MODE_SPRITE, vramPalette, PIXEL_MODE_SPRITE, vramPixels,
-                         MAPPINGS_MODE_TEXT_256x256_A, 0, 30, 0, 0, 32, 24);
+                         MAPPINGS_MODE_TEXT_256x256_A, 0, 30, 0, 0, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
         DrawBackground(&background);
         if (!isDownloadPlayEnd)
         {
             InitBackgroundEx(&background, bgBaseUpMark, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_A, BACKGROUND_1, PALETTE_MODE_SPRITE, vramPalette, PIXEL_MODE_SPRITE, vramPixels,
-                             MAPPINGS_MODE_TEXT_256x256_A, 0, 31, 0, 0, 32, 0x11u);
+                             MAPPINGS_MODE_TEXT_256x256_A, 0, 31, 0, 0, BG_DISPLAY_FULL_WIDTH, PIXEL_TO_TILE(136));
             DrawBackground(&background);
             InitBackgroundEx(&background, bgBaseUp, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_A, BACKGROUND_1, PALETTE_MODE_SPRITE, vramPalette, PIXEL_MODE_SPRITE, vramPixels,
-                             MAPPINGS_MODE_TEXT_256x256_A, 0, 31, 0, 17, 32, 7u);
+                             MAPPINGS_MODE_TEXT_256x256_A, 0, 31, 0, 17, BG_DISPLAY_FULL_WIDTH, PIXEL_TO_TILE(56));
             DrawBackground(&background);
         }
         InitBackgroundEx(&background, bgBaseDown, BACKGROUND_FLAG_LOAD_ALL, GRAPHICS_ENGINE_B, BACKGROUND_0, PALETTE_MODE_SPRITE,
                          VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_BG[GRAPHICS_ENGINE_B]), PIXEL_MODE_SPRITE, VRAMKEY_TO_ADDR(VRAMSystem__VRAM_BG[GRAPHICS_ENGINE_B]),
-                         MAPPINGS_MODE_TEXT_256x256_B, 0, 29, 0, 0, 32, 24);
+                         MAPPINGS_MODE_TEXT_256x256_B, 0, 29, 0, 0, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
         DrawBackground(&background);
 
 #ifdef RUSH_CONTEST
@@ -122,7 +122,7 @@ void CreateNetworkErrorMenu(BOOL isDownloadPlayEnd)
             void *bgEndBaseDown = FileUnknown__GetAOUFile(work->archiveDmwfError, ARCHIVE_DMWF_ERROR_LZ7_FILE_DMWL_END_BASE_DOWN_PL_BBG);
 
             InitBackgroundEx(&background, bgEndBaseDown, BACKGROUND_FLAG_DISABLE_PIXELS | BACKGROUND_FLAG_DISABLE_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, GRAPHICS_ENGINE_A,
-                             BACKGROUND_0, PALETTE_MODE_SPRITE, vramPixels, PIXEL_MODE_SPRITE, vramPalette, MAPPINGS_MODE_, MAPPINGS_MODE_TEXT_256x256_A, 30, 0, 0,
+                             BACKGROUND_0, PALETTE_MODE_SPRITE, vramPixels, PIXEL_MODE_SPRITE, vramPalette, MAPPINGS_MODE_TEXT_256x256_A, 0, 30, 0, 0,
                              BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
             DrawBackground(&background);
 

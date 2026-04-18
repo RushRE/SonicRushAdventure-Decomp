@@ -15,6 +15,13 @@ extern "C"
 #endif
 
 // --------------------
+// CONSTANTS
+// --------------------
+
+#define SEAMAP_WIDTH 192
+#define SEAMAP_HEIGHT 72
+
+// --------------------
 // ENUMS
 // --------------------
 
@@ -63,7 +70,7 @@ enum SeaMapManagerSaveFlag_
     SEAMAPMANAGER_DISCOVER_40, // Unknown
     SEAMAPMANAGER_DISCOVER_41, // Unknown
     SEAMAPMANAGER_DISCOVER_42, // Unknown
-    
+
     SEAMAPMANAGER_DISCOVER_43, // Unknown
     SEAMAPMANAGER_DISCOVER_44, // Unknown
     SEAMAPMANAGER_DISCOVER_45, // Unused
@@ -91,7 +98,6 @@ enum SeaMapManagerSaveFlag_
 };
 typedef u32 SeaMapManagerSaveFlag;
 
-
 enum SeaMapManagerMapPixel_
 {
     SEAMAPMANAGER_PIXEL_DISCOVERED,
@@ -99,26 +105,39 @@ enum SeaMapManagerMapPixel_
 };
 typedef s32 SeaMapManagerMapPixel;
 
+enum SeaMapManagerDrawFlags_
+{
+    SEAMAPMANAGER_DRAWFLAG_NONE = 0x00,
+
+    SEAMAPMANAGER_DRAWFLAG_MAPMASK = 1 << 0,
+    SEAMAPMANAGER_DRAWFLAG_MAPISLAND = 1 << 1,
+    SEAMAPMANAGER_DRAWFLAG_MAPSEA = 1 << 2,
+    SEAMAPMANAGER_DRAWFLAG_UNKNOWN = 1 << 3,
+
+    SEAMAPMANAGER_DRAWFLAG_ALL = SEAMAPMANAGER_DRAWFLAG_MAPMASK | SEAMAPMANAGER_DRAWFLAG_MAPISLAND | SEAMAPMANAGER_DRAWFLAG_MAPSEA | SEAMAPMANAGER_DRAWFLAG_UNKNOWN,
+};
+typedef u32 SeaMapManagerDrawFlags;
+
 enum SeaMapCollisionType_
 {
-	SEAMAP_COLLISION_0,
-	SEAMAP_COLLISION_1,
-	SEAMAP_COLLISION_2,
-	SEAMAP_COLLISION_3,
-	SEAMAP_COLLISION_4,
-	SEAMAP_COLLISION_5,
-	SEAMAP_COLLISION_6,
-	SEAMAP_COLLISION_7,
-	SEAMAP_COLLISION_8,
-	SEAMAP_COLLISION_9,
-	SEAMAP_COLLISION_10,
-	SEAMAP_COLLISION_11,
-	SEAMAP_COLLISION_12,
-	SEAMAP_COLLISION_13,
-	SEAMAP_COLLISION_14,
-	SEAMAP_COLLISION_15,
-    
-	SEAMAP_COLLISION_COUNT,
+    SEAMAP_COLLISION_0,
+    SEAMAP_COLLISION_1,
+    SEAMAP_COLLISION_2,
+    SEAMAP_COLLISION_3,
+    SEAMAP_COLLISION_4,
+    SEAMAP_COLLISION_5,
+    SEAMAP_COLLISION_6,
+    SEAMAP_COLLISION_7,
+    SEAMAP_COLLISION_8,
+    SEAMAP_COLLISION_9,
+    SEAMAP_COLLISION_10,
+    SEAMAP_COLLISION_11,
+    SEAMAP_COLLISION_12,
+    SEAMAP_COLLISION_13,
+    SEAMAP_COLLISION_14,
+    SEAMAP_COLLISION_15,
+
+    SEAMAP_COLLISION_COUNT,
 };
 typedef u8 SeaMapCollisionType;
 
@@ -176,18 +195,49 @@ typedef struct SeaMapManagerAssets_
     SeaMapObjectLayout *objectLayout;
     struct SeaMapAttributeLayout *attributeLayout;
     struct CHLV *chlv;
-    void *mapMask[3];
-    void *mapIsland[3];
-    void *mapSea[3];
+    void *mapMask[SEAMAP_ZOOM_COUNT];
+    void *mapIsland[SEAMAP_ZOOM_COUNT];
+    void *mapSea[SEAMAP_ZOOM_COUNT];
     struct SeaMapCollisionLayout *mapCollision;
 } SeaMapManagerAssets;
 
+typedef struct SeaMapManagerUnknown_
+{
+    u8 field_0[96 * 288];
+    u32 pixelBuffer[96 / 2][128 / 2];
+    u16 ptr1[288];
+    u16 ptr2[288];
+    SeaMapManagerNodeList nodeList;
+} SeaMapManagerUnknown;
+
+typedef struct SeaMapManagerMapLayout_
+{
+    u32 layout[SEAMAP_HEIGHT / 32][SEAMAP_WIDTH / 32];
+} SeaMapManagerMapLayout;
+
+typedef struct SeaMapManagerMapFlags_
+{
+    u8 values[256 / 32];
+} SeaMapManagerMapFlags;
+
 typedef struct SeaMapManager_
 {
-    s32 zoomLevel;
+    SeaMapZoomLevel zoomLevel;
     Vec2Fx32 position;
     Vec2Fx32 lastPosition;
-    Background backgrounds[3];
+
+    union
+    {
+        struct
+        {
+            Background mapMask;
+            Background mapIsland;
+            Background mapSea;
+        };
+
+        Background array[3];
+    } backgrounds;
+
     s32 field_EC;
     s32 field_F0;
     s32 field_F4;
@@ -206,8 +256,8 @@ typedef struct SeaMapManager_
     s32 field_128;
     s32 field_12C;
     s32 field_130;
-    u32 drawFlags;
-    void *unknownPtr;
+    SeaMapManagerDrawFlags drawFlags;
+    SeaMapManagerUnknown *unknownPtr;
     TouchField touchField;
     BOOL touchFieldActive;
     BOOL useEngineB;
@@ -220,93 +270,93 @@ typedef struct SeaMapManager_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void SeaMapManager__SaveClearCallback_Chart(SaveGame *save, SaveBlockFlags blockFlags);
-NOT_DECOMPILED void SeaMapManager__Create(BOOL useEngineB, ShipType shipType, BOOL isSailing);
-NOT_DECOMPILED void SeaMapManager__Destroy(void);
-NOT_DECOMPILED BOOL SeaMapManager__IsActive(void);
-NOT_DECOMPILED SeaMapManager *SeaMapManager__GetWork(void);
-NOT_DECOMPILED void SeaMapManager__EnableTouchField(BOOL enabled);
-NOT_DECOMPILED void SeaMapManager__EnableDrawFlags(u32 flags);
-NOT_DECOMPILED void SeaMapManager__SetZoomLevel(u32 level);
-NOT_DECOMPILED SeaMapZoomLevel SeaMapManager__GetZoomLevel(void);
-NOT_DECOMPILED fx32 SeaMapManager__GetZoomOutScale(void);
-NOT_DECOMPILED fx32 SeaMapManager__GetZoomInScale(void);
-NOT_DECOMPILED void SeaMapManager__Draw(SeaMapManager *work);
-NOT_DECOMPILED void SeaMapManager__Draw0(SeaMapManager *work);
-NOT_DECOMPILED void SeaMapManager__Draw1(SeaMapManager *work);
-NOT_DECOMPILED void SeaMapManager__Draw2(SeaMapManager *work);
-NOT_DECOMPILED void SeaMapManager__Draw3(SeaMapManager *work);
-NOT_DECOMPILED void SeaMapManager__Func_2043974(fx32 x, fx32 y);
-NOT_DECOMPILED fx32 SeaMapManager__GetXPos(void);
-NOT_DECOMPILED fx32 SeaMapManager__GetYPos(void);
-NOT_DECOMPILED void SeaMapManager__GetPosition(fx32 inX, fx32 inY, fx32 *x, fx32 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043A04(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__ConvertWorldPosToMapPos(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043A9C(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043AD4(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043B0C(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043B28(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__GetPosition2(fx32 inX, fx32 inY, fx32 *x, fx32 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043B60(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043B7C(u8 inX, u8 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043BB4(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043BD0(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043BEC(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2043C08(fx32 inX, fx32 inY, fx32 *x, fx32 *y);
-NOT_DECOMPILED void SeaMapManager__ClearSaveFlags(u8 *flags);
-NOT_DECOMPILED BOOL SeaMapManager__GetSaveFlag_(u8 *flags, u32 id);
-NOT_DECOMPILED BOOL SeaMapManager__GetSaveFlag(SeaMapManagerSaveFlag id);
-NOT_DECOMPILED void SeaMapManager__SetSaveFlag_(u8 *flags, u32 id, BOOL state);
-NOT_DECOMPILED void SeaMapManager__SetSaveFlag(SeaMapManagerSaveFlag id, BOOL state);
-NOT_DECOMPILED void SeaMapManager__LoadMapBackground(void);
-NOT_DECOMPILED SeaMapManagerMapPixel SeaMapManager__GetMapPixel(u16 x, u16 y);
-NOT_DECOMPILED void SeaMapManager__Func_2043FDC(s32 x, s32 y);
-NOT_DECOMPILED void SeaMapManager__Func_2044268(u16 x, u16 y, u16 a3, u16 a4);
-NOT_DECOMPILED void SeaMapManager__Func_20442C8(u16 x, u16 y, u16 a3, u16 a4);
-NOT_DECOMPILED void SeaMapManager__ClearGlobalNodeList(void);
-NOT_DECOMPILED void SeaMapManager__UpdateGlobalNodeList(void);
-NOT_DECOMPILED void SeaMapManager__LoadNodeList(void);
-NOT_DECOMPILED void SeaMapManager__SetUnknown1(s32 a1);
-NOT_DECOMPILED s32 SeaMapManager__GetUnknown1(void);
-NOT_DECOMPILED void SeaMapManager__ClearSeaMap(void *saveBlockChart);
-NOT_DECOMPILED u8 *SeaMapManager__GetSaveBlockFlags(void);
-NOT_DECOMPILED u32 *SeaMapManager__GetSaveMap(void);
-NOT_DECOMPILED void SeaMapManager__InitArchives(ShipType shipType, BOOL isSailing);
-NOT_DECOMPILED void SeaMapManager__Release(void);
-NOT_DECOMPILED void SeaMapManager__LoadAssets(SeaMapManagerAssets *work);
-NOT_DECOMPILED void SeaMapManager__InitBackgrounds(SeaMapManager *work);
-NOT_DECOMPILED void SeaMapManager__SetupDisplay(BOOL useEngineB);
-NOT_DECOMPILED void SeaMapManager__GetOBJBankInfo(BOOL useEngineB, GXOBJVRamModeChar *bankMode, u16 *bankSize);
-NOT_DECOMPILED void SeaMapManager__LoadBackgroundPixels(SeaMapManager *work);
-NOT_DECOMPILED void SeaMapManager__LoadBackgroundPalette(SeaMapManager *work);
-NOT_DECOMPILED void SeaMapManager__Main(void);
-NOT_DECOMPILED void SeaMapManager__Destructor(Task *task);
-NOT_DECOMPILED void SeaMapManager__State_2044DC8(SeaMapManager *work);
-NOT_DECOMPILED void SeaMapManager__DrawNodeLine2(u16 x1, u16 y1, u16 x2, u16 y2, u16 type);
-NOT_DECOMPILED void SeaMapManager__DrawNodeLine(s32 x, s32 y, u32 a3);
-NOT_DECOMPILED void SeaMapManager__Func_2044F24(s16 a1, s16 a2);
-NOT_DECOMPILED void SeaMapManager__ClearUnknownPtr(void);
-NOT_DECOMPILED void SeaMapManager__Func_204506C(Vec2Fx32 *a1, Vec2Fx32 *a2, Vec2Fx32 *a3, Vec2Fx32 *a4);
-NOT_DECOMPILED void SeaMapManager__ResetPtr1Ptr2(void *ptr1, void *ptr2);
-NOT_DECOMPILED void SeaMapManager__Func_2045128(u8 *a1, u16 *ptr1, u16 *ptr2, u32 pos, u32 size);
-NOT_DECOMPILED void SeaMapManager__Func_20451A4(Vec2Fx32 *a1, Vec2Fx32 *a2, Vec2Fx32 *a3, Vec2Fx32 *a4, u32 *a5, u32 *a6, s32 a7);
-NOT_DECOMPILED void SeaMapManager__Func_20452F0(s32 a1, s32 a2, s32 a3, s32 a4, u32 a5, u32 *a6, u32 *a7, u32 *a8, u32 *a9);
-NOT_DECOMPILED void SeaMapManager__Func_2045380(u32 *a1, u32 *a2, s32 *a3, s32 *a4, s32 a5, s32 a6);
-NOT_DECOMPILED void SeaMapManager__Func_2045798(u8 *a1, u16 *ptr1, u16 *ptr2, s32 a4, u16 a5, u16 a6, u16 a7, u16 a8);
-NOT_DECOMPILED void SeaMapManager__DrawLine(u8 *pixels, u16 startX, u16 startY, u16 endX, u16 endY);
-NOT_DECOMPILED void SeaMapManager__Func_2045A58(s32 a1, s16 a2, u32 a3, s32 a4, s32 a5);
-NOT_DECOMPILED void SeaMapManager__Func_2045BF8(fx32 targetDistance, fx32 *x, fx32 *y);
-NOT_DECOMPILED void SeaMapManager__AddNode(u16 x, u16 y);
-NOT_DECOMPILED u32 SeaMapManager__RemoveNode(void);
-NOT_DECOMPILED void SeaMapManager__RemoveAllNodes(void);
-NOT_DECOMPILED SeaMapManagerNode *SeaMapManager__GetStartNode(void);
-NOT_DECOMPILED SeaMapManagerNode *SeaMapManager__GetEndNode(void);
-NOT_DECOMPILED SeaMapManagerNode *SeaMapManager__GetNextNode(SeaMapManagerNode *node);
-NOT_DECOMPILED SeaMapManagerNode *SeaMapManager__GetPrevNode(SeaMapManagerNode *node);
-NOT_DECOMPILED u32 SeaMapManager__GetNodeCount(void);
-NOT_DECOMPILED fx32 SeaMapManager__GetTotalDistance(void);
-NOT_DECOMPILED void SeaMapManager__GetLastNodePosition(fx16 *x, fx16 *y);
-NOT_DECOMPILED void SeaMapManager__Func_2045E58(u32 nodeCount);
+void SeaMapManager__SaveClearCallback_Chart(SaveGame *save, SaveBlockFlags blockFlags);
+void SeaMapManager__Create(BOOL useEngineB, ShipType shipType, BOOL isSailing);
+void SeaMapManager__Destroy(void);
+BOOL SeaMapManager__IsActive(void);
+SeaMapManager *SeaMapManager__GetWork(void);
+void SeaMapManager__EnableTouchField(BOOL enabled);
+void SeaMapManager__EnableDrawFlags(SeaMapManagerDrawFlags flags);
+void SeaMapManager__SetZoomLevel(SeaMapZoomLevel level);
+SeaMapZoomLevel SeaMapManager__GetZoomLevel(void);
+fx32 SeaMapManager__GetZoomOutScale(void);
+fx32 SeaMapManager__GetZoomInScale(void);
+void SeaMapManager__Draw(SeaMapManager *work);
+void SeaMapManager__Draw_MapMask(SeaMapManager *work);
+void SeaMapManager__Draw_MapIsland(SeaMapManager *work);
+void SeaMapManager__Draw_MapSea(SeaMapManager *work);
+void SeaMapManager__Draw_Unknown(SeaMapManager *work);
+void SeaMapManager__Func_2043974(fx32 x, fx32 y);
+fx32 SeaMapManager__GetXPos(void);
+fx32 SeaMapManager__GetYPos(void);
+void SeaMapManager__GetPosition(fx32 inX, fx32 inY, fx32 *x, fx32 *y);
+void SeaMapManager__Func_2043A04(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
+void SeaMapManager__ConvertWorldPosToMapPos(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
+void SeaMapManager__Func_2043A9C(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
+void SeaMapManager__Func_2043AD4(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
+void SeaMapManager__Func_2043B0C(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
+void SeaMapManager__Func_2043B28(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
+void SeaMapManager__GetPosition2(fx32 inX, fx32 inY, fx32 *x, fx32 *y);
+void SeaMapManager__Func_2043B60(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
+void SeaMapManager__Func_2043B7C(u8 inX, u8 inY, fx16 *x, fx16 *y);
+void SeaMapManager__Func_2043BB4(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
+void SeaMapManager__Func_2043BD0(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
+void SeaMapManager__Func_2043BEC(fx32 inX, fx32 inY, fx16 *x, fx16 *y);
+void SeaMapManager__Func_2043C08(fx32 inX, fx32 inY, fx32 *x, fx32 *y);
+void SeaMapManager__ClearSaveFlags(u8 *flags);
+BOOL SeaMapManager__GetSaveFlag_(SeaMapManagerMapFlags *flags, s32 id);
+BOOL SeaMapManager__GetSaveFlag(SeaMapManagerSaveFlag id);
+void SeaMapManager__SetSaveFlag_(SeaMapManagerMapFlags *flags, s32 id, BOOL state);
+void SeaMapManager__SetSaveFlag(SeaMapManagerSaveFlag id, BOOL state);
+void SeaMapManager__LoadMapBackground(void);
+SeaMapManagerMapPixel SeaMapManager__GetMapPixel(u16 x, u16 y);
+void SeaMapManager__DiscoverMap_Pixel(s32 x, s32 y);
+void SeaMapManager__DiscoverMap_Rect(u16 left, u16 top, u16 right, u16 bottom);
+void SeaMapManager__DiscoverMap_Elipse(u16 centerX, u16 centerY, u16 radiusX, u16 radiusY);
+void SeaMapManager__ClearGlobalNodeList(void);
+void SeaMapManager__UpdateGlobalNodeList(void);
+void SeaMapManager__LoadNodeList(void);
+void SeaMapManager__SetUnknown1(s32 a1);
+s32 SeaMapManager__GetUnknown1(void);
+void SeaMapManager__ClearSeaMap(void *saveBlockChart);
+SeaMapManagerMapFlags *SeaMapManager__GetSaveBlockFlags(void);
+SeaMapManagerMapLayout *SeaMapManager__GetSaveMap(void);
+void SeaMapManager__InitArchives(ShipType shipType, BOOL isSailing);
+void SeaMapManager__Release(void);
+void SeaMapManager__LoadAssets(SeaMapManagerAssets *work);
+void SeaMapManager__InitBackgrounds(SeaMapManager *work);
+void SeaMapManager__SetupDisplay(BOOL useEngineB);
+void SeaMapManager__GetOBJBankInfo(BOOL useEngineB, GXOBJVRamModeChar *bankMode, u16 *bankSize);
+void SeaMapManager__LoadBackgroundPixels(SeaMapManager *work);
+void SeaMapManager__LoadBackgroundPalette(SeaMapManager *work);
+void SeaMapManager__Main(void);
+void SeaMapManager__Destructor(Task *task);
+void SeaMapManager__State_2044DC8(SeaMapManager *work);
+void SeaMapManager__DrawNodeLine2(u16 x1, u16 y1, u16 x2, u16 y2, u16 type);
+void SeaMapManager__DrawNodeLine(s32 x, s32 y, u32 a3);
+void SeaMapManager__Func_2044F24(u16 x, u16 y);
+void SeaMapManager__ClearUnknownPtr(void);
+void SeaMapManager__Func_204506C(Vec2Fx32 *a1, MtxFx22 *mtx, Vec2Fx32 *a3, Vec2Fx32 *a4);
+void SeaMapManager__ResetPtr1Ptr2(void *ptr1, void *ptr2);
+void SeaMapManager__Func_2045128(u8 *a1, u16 *ptr1, u16 *ptr2, u32 pos, u32 size);
+void SeaMapManager__Func_20451A4(Vec2Fx32 *a1, Vec2Fx32 *a2, Vec2Fx32 *a3, Vec2Fx32 *a4, u32 *a5, u32 *a6, s32 a7);
+void SeaMapManager__Func_20452F0(s32 a1, s32 a2, s32 a3, s32 a4, u32 a5, u32 *a6, u32 *a7, u32 *a8, u32 *a9);
+void SeaMapManager__Func_2045380(u32 *a1, u32 *a2, s32 *a3, s32 *a4, s32 a5, s32 a6);
+void SeaMapManager__DrawThickLine(u8 *field_0, u16 *ptr1, u16 *ptr2, u16 x1, u16 y1, u16 x2, u16 y2, u16 thickness);
+void SeaMapManager__DrawThinLine(u8 *pixels, u16 startX, u16 startY, u16 endX, u16 endY);
+void SeaMapManager__Func_2045A58(s32 a1, s16 a2, u32 a3, s32 a4, s32 a5);
+void SeaMapManager__Func_2045BF8(fx32 targetDistance, fx32 *x, fx32 *y);
+fx32 SeaMapManager__AddNode(u16 x, u16 y);
+u32 SeaMapManager__RemoveNode(void);
+void SeaMapManager__RemoveAllNodes(void);
+SeaMapManagerNode *SeaMapManager__GetStartNode(void);
+SeaMapManagerNode *SeaMapManager__GetEndNode(void);
+SeaMapManagerNode *SeaMapManager__GetNextNode(SeaMapManagerNode *node);
+SeaMapManagerNode *SeaMapManager__GetPrevNode(SeaMapManagerNode *node);
+u32 SeaMapManager__GetNodeCount(void);
+fx32 SeaMapManager__GetTotalDistance(void);
+void SeaMapManager__GetLastNodePosition(fx16 *x, fx16 *y);
+void SeaMapManager__Func_2045E58(u32 nodeCount);
 
 #ifdef __cplusplus
 }
