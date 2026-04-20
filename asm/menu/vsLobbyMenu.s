@@ -163,7 +163,7 @@ VSLobbyMenu__Func_2163C6C: // 0x02163C6C
 	push {r4, lr}
 	ldr r0, _02163C9C // =VSLobbyMenu__sVars
 	ldr r4, [r0, #8]
-	bl MultibootManager__Func_2061A24
+	bl VSRoomManager__Func_2061A24
 	cmp r0, #0
 	beq _02163C96
 	mov r0, #0xe2
@@ -448,7 +448,7 @@ VSLobbyMenu__SetupDisplay: // 0x02163E2C
 	bl SetupDisplayForZone
 	b _02163E54
 _02163E3E:
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _02163E4E
 	mov r0, #1
@@ -595,17 +595,17 @@ VSLobbyMenu__Func_2163F60: // 0x02163F60
 	mov r0, #1
 	tst r0, r1
 	beq _02163FDA
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0xc
 	beq _02163F82
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0x14
 	bne _02163FDA
 _02163F82:
-	bl MultibootManager__Func_2061A24
+	bl VSRoomManager__Func_2061A24
 	cmp r0, #0
 	beq _02163FDA
-	bl MultibootManager__Func_2061BD4
+	bl VSRoomManager__GetUnknown2
 	ldrh r2, [r4, #0xe]
 	ldrh r1, [r0, #0xe]
 	orr r1, r2
@@ -650,10 +650,10 @@ _02163FDA:
 	mov r0, #2
 	tst r0, r1
 	beq _0216402C
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	bne _02164010
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	bne _02164010
 	ldrb r1, [r4, #7]
@@ -1138,7 +1138,7 @@ VSLobbyMenu__Main1: // 0x02164394
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0xc
 	bgt _021643AC
 	bge _021643FE
@@ -1157,16 +1157,16 @@ _021643AC:
 	beq _021643C6
 	pop {r4, pc}
 _021643C0:
-	bl MultibootManager__Func_20613E4
+	bl VSRoomManager__Func_20613E4
 	pop {r4, pc}
 _021643C6:
-	bl MultibootManager__Create
+	bl CreateVSRoomManager
 	pop {r4, pc}
 _021643CC:
 	mov r0, #1
 	bl RequestSysEventChange
 	bl NextSysEvent
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _021643EE
 	bl VSLobbyMenu__Func_2163D90
@@ -1175,13 +1175,13 @@ _021643CC:
 	bl ReleaseStageCommonAssets
 	bl ReleaseStageCommonArchives
 _021643EE:
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	ldr r0, [r4, #8]
 	bl DestroyTask
 	bl DestroyCurrentTask
 	pop {r4, pc}
 _021643FE:
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	beq _0216440A
 	mov r1, #0
@@ -1192,7 +1192,7 @@ _0216440C:
 	mov r0, #0xe2
 	lsl r0, r0, #2
 	str r1, [r4, r0]
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	mov r1, #0xe
 	lsl r1, r1, #6
 	str r0, [r4, r1]
@@ -1212,15 +1212,15 @@ VSLobbyMenu__Main_2164428: // 0x02164428
 	mov r0, #0xe3
 	lsl r0, r0, #2
 	add r5, r4, r0
-	bl MultibootManager__Func_2061BD4
+	bl VSRoomManager__GetUnknown2
 	mov r6, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _02164476
 	mov r0, #1
 	bl RequestSysEventChange
 	bl NextSysEvent
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _02164466
 	bl VSLobbyMenu__Func_2163D90
@@ -1229,13 +1229,13 @@ VSLobbyMenu__Main_2164428: // 0x02164428
 	bl ReleaseStageCommonAssets
 	bl ReleaseStageCommonArchives
 _02164466:
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	ldr r0, [r4, #8]
 	bl DestroyTask
 	bl DestroyCurrentTask
 	pop {r4, r5, r6, pc}
 _02164476:
-	bl MultibootManager__Func_2061A24
+	bl VSRoomManager__Func_2061A24
 	cmp r0, #0
 	beq _021644C0
 	mov r0, r6
@@ -1261,8 +1261,8 @@ _02164476:
 	str r0, [r5]
 	mov r0, r5
 	mov r1, #0x10
-	bl MultibootManager__Func_2061A98
-	bl MultibootManager__Func_206193C
+	bl VSRoomManager__SendData
+	bl VSRoomManager__PrepareSendBuffer
 	ldr r0, _021644C4 // =VSLobbyMenu__Main_21644C8
 	bl SetCurrentTaskMainEvent
 _021644C0:
@@ -1276,13 +1276,13 @@ VSLobbyMenu__Main_21644C8: // 0x021644C8
 	push {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _0216450A
 	mov r0, #1
 	bl RequestSysEventChange
 	bl NextSysEvent
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _021644FA
 	bl VSLobbyMenu__Func_2163D90
@@ -1291,19 +1291,19 @@ VSLobbyMenu__Main_21644C8: // 0x021644C8
 	bl ReleaseStageCommonAssets
 	bl ReleaseStageCommonArchives
 _021644FA:
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	ldr r0, [r4, #8]
 	bl DestroyTask
 	bl DestroyCurrentTask
 	pop {r3, r4, r5, pc}
 _0216450A:
-	bl MultibootManager__Func_20619B4
+	bl VSRoomManager__Func_20619B4
 	cmp r0, #0
 	beq _02164538
 	mov r0, #0xe3
 	lsl r0, r0, #2
 	add r5, r4, r0
-	bl MultibootManager__Func_2061BD4
+	bl VSRoomManager__GetUnknown2
 	ldr r1, [r5, #8]
 	ldr r0, [r0, #8]
 	orr r0, r1
@@ -1328,10 +1328,10 @@ VSLobbyMenu__Main_2164540: // 0x02164540
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r5, _02164608 // =gameState
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	bne _02164586
-	bl MultibootManager__Func_2060D34
+	bl VSRoomManager__IsUsingGlobalRoom
 	cmp r0, #0
 	beq _02164586
 	mov r0, r5
@@ -1368,7 +1368,7 @@ _02164586:
 	beq _021645EE
 	mov r0, #1
 	str r0, [r5, #0x14]
-	bl MultibootManager__Func_2060DC4
+	bl VSRoomManager__GetBattleMode
 	cmp r0, #0
 	bne _021645B0
 	mov r0, #0
@@ -1381,7 +1381,7 @@ _021645B2:
 	ldr r0, _0216460C // =0xFFFFFBCF
 	and r0, r1
 	str r0, [r5, #0x10]
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _021645CE
 	ldr r1, [r5, #0x10]
@@ -1390,7 +1390,7 @@ _021645B2:
 	str r0, [r5, #0x10]
 	b _021645E8
 _021645CE:
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	ldr r1, [r5, #0x10]
 	bne _021645E2
@@ -1407,13 +1407,13 @@ _021645E8:
 	bl VSLobbyMenu__InitAssets
 	pop {r3, r4, r5, pc}
 _021645EE:
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	beq _021645FC
 	bl VSLobbyMenu__InitAssets
 	pop {r3, r4, r5, pc}
 _021645FC:
-	bl MultibootManager__Func_20618A8
+	bl VSRoomManager__Func_20618A8
 	ldr r0, _02164610 // =VSLobbyMenu__Main_2164614
 	bl SetCurrentTaskMainEvent
 	pop {r3, r4, r5, pc}
@@ -1428,7 +1428,7 @@ VSLobbyMenu__Main_2164614: // 0x02164614
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	beq _0216462A
 	cmp r0, #0x14
@@ -1438,7 +1438,7 @@ _0216462A:
 	mov r0, #1
 	bl RequestSysEventChange
 	bl NextSysEvent
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _0216464C
 	bl VSLobbyMenu__Func_2163D90
@@ -1447,7 +1447,7 @@ _0216462A:
 	bl ReleaseStageCommonAssets
 	bl ReleaseStageCommonArchives
 _0216464C:
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	ldr r0, [r4, #8]
 	bl DestroyTask
 	bl DestroyCurrentTask
@@ -1605,7 +1605,7 @@ _0216477A:
 	mov r2, #0
 	bl FontFile__InitFromPath
 	mov r4, #6
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	bne _021647B4
 	mov r5, #1
@@ -1613,7 +1613,7 @@ _0216477A:
 	orr r4, r5
 	b _021647C6
 _021647B4:
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	beq _021647C2
 	mov r6, #0
@@ -1635,20 +1635,20 @@ _021647C6:
 	mov r2, #7
 	mov r3, #1
 	bl VSState__Func_2163510
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	bne _021647F8
 	bl SaveGame__GetOnlineScore
 	str r0, [sp, #0x1c]
-	bl MultibootManager__Func_2060D9C
+	bl VSRoomManager__GetOpponentScore
 	str r0, [sp, #0x18]
 _021647F8:
 	ldr r1, [sp, #0x1c]
 	mov r0, r6
 	bl VSState__SetPlayerInfo
-	bl MultibootManager__Func_2060D4C
+	bl VSRoomManager__GetOpponentName
 	mov r6, r0
-	bl MultibootManager__Func_2060D74
+	bl VSRoomManager__GetOpponentNameLength
 	mov r2, r0
 	ldr r3, [sp, #0x18]
 	mov r0, r5
@@ -1696,7 +1696,7 @@ _021647F8:
 	strh r2, [r0, r1]
 	sub r1, r1, #2
 	strh r2, [r0, r1]
-	bl MultibootManager__Func_206193C
+	bl VSRoomManager__PrepareSendBuffer
 	ldr r0, _02164894 // =VSLobbyMenu__Main_2164898
 	bl SetCurrentTaskMainEvent
 	add sp, #0x70
@@ -1713,14 +1713,14 @@ VSLobbyMenu__Main_2164898: // 0x02164898
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _021648B0
 	ldr r0, _02164900 // =VSLobbyMenu__Main_2164E64
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _021648B0:
-	bl MultibootManager__Func_20619B4
+	bl VSRoomManager__Func_20619B4
 	cmp r0, #0
 	beq _021648FE
 	mov r0, #0xe1
@@ -1770,7 +1770,7 @@ VSLobbyMenu__Main_216490C: // 0x0216490C
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _02164924
 	ldr r0, _0216495C // =VSLobbyMenu__Main_2164E64
@@ -1811,7 +1811,7 @@ VSLobbyMenu__Main_2164968: // 0x02164968
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _02164980
 	ldr r0, _021649C8 // =VSLobbyMenu__Main_2164E64
@@ -1868,7 +1868,7 @@ VSLobbyMenu__Main_21649D0: // 0x021649D0
 	lsl r0, r0, #2
 	mov r6, #1
 	add r5, r7, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _021649F4
 	ldr r0, _02164C00 // =VSLobbyMenu__Main_2164E64
@@ -2079,10 +2079,10 @@ _02164B64:
 	mov r0, #8
 	tst r0, r1
 	beq _02164BFA
-	bl MultibootManager__Func_2061A24
+	bl VSRoomManager__Func_2061A24
 	cmp r0, #0
 	beq _02164B82
-	bl MultibootManager__Func_2061BD4
+	bl VSRoomManager__GetUnknown2
 	ldrb r0, [r0, #0xc]
 	strb r0, [r5, #0xc]
 	ldrh r0, [r5, #0xe]
@@ -2147,7 +2147,7 @@ _02164BD6:
 	ldr r0, _02164C14 // =gameState
 _02164BEE:
 	str r1, [r0, #0xc]
-	bl MultibootManager__Func_206193C
+	bl VSRoomManager__PrepareSendBuffer
 	ldr r0, _02164C1C // =VSLobbyMenu__Main_2164C20
 	bl SetCurrentTaskMainEvent
 _02164BFA:
@@ -2169,7 +2169,7 @@ VSLobbyMenu__Main_2164C20: // 0x02164C20
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _02164C38
 	ldr r0, _02164C84 // =VSLobbyMenu__Main_2164E64
@@ -2185,7 +2185,7 @@ _02164C38:
 	bl VSLobbyMenu__Func_2163F60
 	mov r0, r4
 	bl VSLobbyMenu__Func_21640E0
-	bl MultibootManager__Func_20619B4
+	bl VSRoomManager__Func_20619B4
 	cmp r0, #0
 	beq _02164C82
 	mov r0, #0xe3
@@ -2221,7 +2221,7 @@ VSLobbyMenu__Main_2164C8C: // 0x02164C8C
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _02164CA4
 	ldr r0, _02164D08 // =VSLobbyMenu__Main_2164E64
@@ -2266,7 +2266,7 @@ _02164CF2:
 	ldr r0, _02164D10 // =0xFFFFEFFF
 	and r0, r1
 	str r0, [r4]
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 	ldr r0, _02164D14 // =VSLobbyMenu__Main_2164D18
 	bl SetCurrentTaskMainEvent
 _02164D04:
@@ -2286,7 +2286,7 @@ VSLobbyMenu__Main_2164D18: // 0x02164D18
 	bl VSLobbyMenu__Func_2163F60
 	mov r0, r4
 	bl VSLobbyMenu__Func_21640E0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	beq _02164D38
 	cmp r0, #0x15
@@ -2383,7 +2383,7 @@ _02164DCA:
 	bl RequestSysEventChange
 	bl NextSysEvent
 	bl ReleaseSysSound
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _02164E46
 	mov r0, #1
@@ -2391,7 +2391,7 @@ _02164DCA:
 	lsl r0, r0, #0xc
 	tst r0, r1
 	beq _02164E28
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _02164E22
 	bl VSLobbyMenu__Func_2163D90
@@ -2402,7 +2402,7 @@ _02164E22:
 	bl VSStageSelectMenu__Func_2160C60
 	b _02164E40
 _02164E28:
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _02164E40
 	bl VSLobbyMenu__Func_2163D90
@@ -2414,7 +2414,7 @@ _02164E40:
 	mov r0, #1
 	bl RequestSysEventChange
 _02164E46:
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	ldr r0, [r4, #8]
 	bl DestroyTask
 	bl DestroyCurrentTask
@@ -2513,17 +2513,17 @@ VSLobbyMenu__Main2: // 0x02164F10
 	push {r4, lr}
 	ldr r0, _02164F34 // =VSLobbyMenu__sVars
 	ldr r4, [r0, #8]
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0x18
 	beq _02164F32
-	bl MultibootManager__Func_2061A24
+	bl VSRoomManager__Func_2061A24
 	cmp r0, #0
 	beq _02164F32
 	mov r0, #0xe3
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0x10
-	bl MultibootManager__Func_2061A98
+	bl VSRoomManager__SendData
 _02164F32:
 	pop {r4, pc}
 	.align 2, 0

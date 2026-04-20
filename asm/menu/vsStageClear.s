@@ -17,7 +17,7 @@ VSStageClear__Create: // 0x0215A98C
 	bl RenderCore_StopDMA
 	mov r0, #1
 	bl RenderCore_StopDMA
-	bl MultibootManager__Create
+	bl CreateVSRoomManager
 	ldr r0, _0215A9CC // =0x00002001
 	mov r2, #0
 	str r0, [sp]
@@ -214,13 +214,13 @@ VSStageClear__Func_215AB08: // 0x0215AB08
 	ldr r0, [r4, r0]
 	cmp r0, #0
 	beq _0215AB74
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _0215AB70
 	bl ReleaseStageCommonAssets
 	bl ReleaseStageCommonArchives
 _0215AB70:
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 _0215AB74:
 	mov r0, r4
 	bl VSStageClear__Func_215AEB0
@@ -913,7 +913,7 @@ _0215B0A6:
 	mov r0, #8
 	orr r0, r1
 	str r0, [r5, #0x3c]
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	beq _0215B0FA
 	mov r7, #0
@@ -923,7 +923,7 @@ _0215B0FA:
 	mov r7, #1
 	mov r5, #0
 _0215B0FE:
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #0
 	beq _0215B110
 	cmp r0, #1
@@ -950,9 +950,9 @@ _0215B110:
 	lsr r0, r0, #0x18
 	mov r1, #0
 	bl VSState__SetPlayerInfo
-	bl MultibootManager__Func_2060D4C
+	bl VSRoomManager__GetOpponentName
 	mov r4, r0
-	bl MultibootManager__Func_2060D74
+	bl VSRoomManager__GetOpponentNameLength
 	mov r2, r0
 	lsl r0, r5, #0x18
 	lsr r0, r0, #0x18
@@ -979,11 +979,11 @@ _0215B156:
 	mov r1, r0
 	mov r0, #0
 	bl VSState__SetPlayerInfo
-	bl MultibootManager__Func_2060D4C
+	bl VSRoomManager__GetOpponentName
 	mov r4, r0
-	bl MultibootManager__Func_2060D74
+	bl VSRoomManager__GetOpponentNameLength
 	mov r5, r0
-	bl MultibootManager__Func_2060D9C
+	bl VSRoomManager__GetOpponentScore
 	mov r3, r0
 	mov r0, #1
 	mov r1, r4
@@ -1259,13 +1259,13 @@ _0215B2AE:
 	beq _0215B40C
 	b _0215B426
 _0215B3F0:
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	bne _0215B3FC
 	mov r5, #0
 	b _0215B426
 _0215B3FC:
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	beq _0215B408
 	mov r5, #0
@@ -1274,13 +1274,13 @@ _0215B408:
 	mov r5, #1
 	b _0215B426
 _0215B40C:
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	bne _0215B418
 	mov r5, #1
 	b _0215B426
 _0215B418:
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	beq _0215B424
 	mov r5, #1
@@ -1525,7 +1525,7 @@ VSStageClearResults__Create: // 0x0215B604
 	mov r7, r6
 	b _0215B660
 _0215B61E:
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	bne _0215B638
 	ldr r0, [r5, #4]
@@ -1539,7 +1539,7 @@ _0215B632:
 	mov r7, #6
 	b _0215B660
 _0215B638:
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	ldr r0, [r5, #4]
 	beq _0215B652
@@ -1794,7 +1794,7 @@ VSStageClearScoreDisplay__Create: // 0x0215B848
 	add r0, r4, r0
 	add r5, #0x50
 	str r0, [sp, #0x2c]
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	bne _0215B86C
 	ldr r1, [r5, #0xc]
@@ -1804,7 +1804,7 @@ VSStageClearScoreDisplay__Create: // 0x0215B848
 	str r1, [r0, #0x14]
 	b _0215B88A
 _0215B86C:
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	beq _0215B880
 	ldr r1, [r5, #0xc]
@@ -2283,14 +2283,14 @@ VSStageClearPlayerNames__Create: // 0x0215BC34
 	add r1, #0x6c
 	lsr r2, r6, #0xf
 	bl MIi_CpuCopy16
-	bl MultibootManager__Func_2060D74
+	bl VSRoomManager__GetOpponentNameLength
 	mov r1, r4
 	mov r6, r0
 	mov r0, #0
 	add r1, #0x7e
 	mov r2, #0x12
 	bl MIi_CpuClear16
-	bl MultibootManager__Func_2060D4C
+	bl VSRoomManager__GetOpponentName
 	mov r1, r4
 	add r1, #0x7e
 	lsl r2, r6, #1
@@ -2344,14 +2344,14 @@ VSStageClearPlayerNames__Create: // 0x0215BC34
 	mov r1, #4
 	mov r2, #0
 	bl QueueUncompressedPalette
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	bne _0215BCF8
 	mov r2, #0
 	mov r6, #1
 	b _0215BD0A
 _0215BCF8:
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	beq _0215BD06
 	mov r2, #0
@@ -3445,7 +3445,7 @@ _0215C5F0:
 _0215C5F4:
 	mov r5, #2
 _0215C5F6:
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #0
 	beq _0215C608
 	cmp r0, #1
@@ -3471,10 +3471,10 @@ _0215C616:
 _0215C620:
 	ldr r4, _0215C660 // =SaveGame__AddNetworkRingBattleRecord
 _0215C622:
-	bl MultibootManager__Func_2060D34
+	bl VSRoomManager__IsUsingGlobalRoom
 	cmp r0, #0
 	beq _0215C636
-	bl MultibootManager__Func_2060D9C
+	bl VSRoomManager__GetOpponentScore
 	mov r1, r0
 	mov r0, r5
 	bl SaveGame__UpdateOnlineScore
@@ -3517,7 +3517,7 @@ _0215C674: .word gameState
 	thumb_func_start VSStageClear__Main
 VSStageClear__Main: // 0x0215C678
 	push {r3, lr}
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0xc
 	bgt _0215C68A
 	bge _0215C6E6
@@ -3546,21 +3546,21 @@ _0215C6A0:
 	str r1, [r0, #0x64]
 	mov r1, #0
 	str r1, [r0, #0x60]
-	bl MultibootManager__Func_206150C
-	bl MultibootManager__Func_2060C9C
+	bl VSRoomManager__Func_206150C
+	bl DestroyVSRoomManager
 	bl DestroyCurrentTask
 	pop {r3, pc}
 _0215C6C2:
 	mov r0, #2
 	bl RequestSysEventChange
 	bl NextSysEvent
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _0215C6DC
 	bl ReleaseStageCommonAssets
 	bl ReleaseStageCommonArchives
 _0215C6DC:
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	bl DestroyCurrentTask
 	pop {r3, pc}
 _0215C6E6:
@@ -3577,7 +3577,7 @@ _0215C6F8: .word VSStageClear__Main_215C6FC
 	thumb_func_start VSStageClear__Main_215C6FC
 VSStageClear__Main_215C6FC: // 0x0215C6FC
 	push {r3, lr}
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	beq _0215C70A
 	cmp r0, #0x18
@@ -3586,13 +3586,13 @@ _0215C70A:
 	mov r0, #2
 	bl RequestSysEventChange
 	bl NextSysEvent
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _0215C724
 	bl ReleaseStageCommonAssets
 	bl ReleaseStageCommonArchives
 _0215C724:
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	bl DestroyCurrentTask
 	pop {r3, pc}
 _0215C72E:
@@ -3602,17 +3602,17 @@ _0215C72E:
 	mov r0, #3
 	bl RequestSysEventChange
 	bl NextSysEvent
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _0215C750
 	bl ReleaseStageCommonAssets
 	bl ReleaseStageCommonArchives
 _0215C750:
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	bl DestroyCurrentTask
 	pop {r3, pc}
 _0215C75A:
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #0
 	beq _0215C76C
 	cmp r0, #1
@@ -3621,12 +3621,12 @@ _0215C75A:
 	beq _0215C778
 	pop {r3, pc}
 _0215C76C:
-	bl MultibootManager__Func_206193C
+	bl VSRoomManager__PrepareSendBuffer
 	ldr r0, _0215C784 // =VSStageClear__Main_215C7C4
 	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _0215C778:
-	bl MultibootManager__Func_20618A8
+	bl VSRoomManager__Func_20618A8
 	ldr r0, _0215C788 // =VSStageClear__Main_215C78C
 	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
@@ -3638,7 +3638,7 @@ _0215C788: .word VSStageClear__Main_215C78C
 	thumb_func_start VSStageClear__Main_215C78C
 VSStageClear__Main_215C78C: // 0x0215C78C
 	push {r3, lr}
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	beq _0215C7A0
 	cmp r0, #0x13
@@ -3650,11 +3650,11 @@ _0215C7A0:
 	mov r0, #2
 	bl RequestSysEventChange
 	bl NextSysEvent
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	bl DestroyCurrentTask
 	pop {r3, pc}
 _0215C7B4:
-	bl MultibootManager__Func_206193C
+	bl VSRoomManager__PrepareSendBuffer
 	ldr r0, _0215C7C0 // =VSStageClear__Main_215C7C4
 	bl SetCurrentTaskMainEvent
 _0215C7BE:
@@ -3666,28 +3666,28 @@ _0215C7C0: .word VSStageClear__Main_215C7C4
 	thumb_func_start VSStageClear__Main_215C7C4
 VSStageClear__Main_215C7C4: // 0x0215C7C4
 	push {r3, lr}
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _0215C7F2
 	mov r0, #2
 	bl RequestSysEventChange
 	bl NextSysEvent
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _0215C7E8
 	bl ReleaseStageCommonAssets
 	bl ReleaseStageCommonArchives
 _0215C7E8:
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	bl DestroyCurrentTask
 	pop {r3, pc}
 _0215C7F2:
-	bl MultibootManager__Func_20619B4
+	bl VSRoomManager__Func_20619B4
 	cmp r0, #0
 	beq _0215C80C
 	bl GetCurrentTask
 	bl VSStageClear__Func_215A9EC
-	bl MultibootManager__Func_206193C
+	bl VSRoomManager__PrepareSendBuffer
 	ldr r0, _0215C810 // =VSStageClear__Main_215C814
 	bl SetCurrentTaskMainEvent
 _0215C80C:
@@ -3699,14 +3699,14 @@ _0215C810: .word VSStageClear__Main_215C814
 	thumb_func_start VSStageClear__Main_215C814
 VSStageClear__Main_215C814: // 0x0215C814
 	push {r3, lr}
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _0215C826
 	mov r0, #2
 	bl VSStageClear__Func_215AB9C
 	pop {r3, pc}
 _0215C826:
-	bl MultibootManager__Func_20619B4
+	bl VSRoomManager__Func_20619B4
 	cmp r0, #0
 	beq _0215C85A
 	ldr r1, _0215C85C // =renderCoreGFXControlA+0x00000040
@@ -3745,7 +3745,7 @@ VSStageClear__Main_215C864: // 0x0215C864
 	ldr r0, _0215C8B8 // =VSStageClear__Singleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _0215C882
 	mov r0, #2
@@ -3753,9 +3753,9 @@ VSStageClear__Main_215C864: // 0x0215C864
 	add sp, #0x10
 	pop {r4, pc}
 _0215C882:
-	bl MultibootManager__Func_2061BD4
+	bl VSRoomManager__GetUnknown2
 	mov r4, r0
-	bl MultibootManager__Func_2061A24
+	bl VSRoomManager__Func_2061A24
 	cmp r0, #0
 	beq _0215C8A2
 	mov r0, r4
@@ -3764,7 +3764,7 @@ _0215C882:
 	bl MI_CpuCopy8
 	add r0, sp, #0
 	mov r1, #0x10
-	bl MultibootManager__Func_2061A98
+	bl VSRoomManager__SendData
 _0215C8A2:
 	ldrh r1, [r4, #0xe]
 	mov r0, #5
@@ -3785,7 +3785,7 @@ _0215C8BC: .word VSStageClear__Main_215C984
 VSStageClear__Main_215C8C0: // 0x0215C8C0
 	push {r3, lr}
 	sub sp, #0x10
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _0215C8D6
 	mov r0, #2
@@ -3793,14 +3793,14 @@ VSStageClear__Main_215C8C0: // 0x0215C8C0
 	add sp, #0x10
 	pop {r3, pc}
 _0215C8D6:
-	bl MultibootManager__Func_2061A24
+	bl VSRoomManager__Func_2061A24
 	cmp r0, #0
 	beq _0215C916
-	bl MultibootManager__Func_2061BD4
+	bl VSRoomManager__GetUnknown2
 	add r1, sp, #0
 	mov r2, #0x10
 	bl MI_CpuCopy8
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	add r1, sp, #0
 	beq _0215C8FA
@@ -3816,7 +3816,7 @@ _0215C900:
 	strh r0, [r1, #0xe]
 	add r0, sp, #0
 	mov r1, #0x10
-	bl MultibootManager__Func_2061A98
+	bl VSRoomManager__SendData
 	ldr r0, _0215C91C // =VSStageClear__Singleton
 	ldr r1, _0215C920 // =VSStageClear__Main_215C984
 	ldr r0, [r0, #0]
@@ -3833,7 +3833,7 @@ _0215C920: .word VSStageClear__Main_215C984
 VSStageClear__Main_215C924: // 0x0215C924
 	push {r3, lr}
 	sub sp, #0x10
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _0215C93A
 	mov r0, #2
@@ -3841,14 +3841,14 @@ VSStageClear__Main_215C924: // 0x0215C924
 	add sp, #0x10
 	pop {r3, pc}
 _0215C93A:
-	bl MultibootManager__Func_2061A24
+	bl VSRoomManager__Func_2061A24
 	cmp r0, #0
 	beq _0215C978
-	bl MultibootManager__Func_2061BD4
+	bl VSRoomManager__GetUnknown2
 	add r1, sp, #0
 	mov r2, #0x10
 	bl MI_CpuCopy8
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	add r1, sp, #0
 	beq _0215C95E
@@ -3863,7 +3863,7 @@ _0215C962:
 	strh r0, [r1, #0xe]
 	add r0, sp, #0
 	mov r1, #0x10
-	bl MultibootManager__Func_2061A98
+	bl VSRoomManager__SendData
 	ldr r0, _0215C97C // =VSStageClear__Singleton
 	ldr r1, _0215C980 // =VSStageClear__Main_215C984
 	ldr r0, [r0, #0]
@@ -3880,7 +3880,7 @@ _0215C980: .word VSStageClear__Main_215C984
 VSStageClear__Main_215C984: // 0x0215C984
 	push {r4, lr}
 	sub sp, #0x10
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _0215C99A
 	mov r0, #2
@@ -3888,9 +3888,9 @@ VSStageClear__Main_215C984: // 0x0215C984
 	add sp, #0x10
 	pop {r4, pc}
 _0215C99A:
-	bl MultibootManager__Func_2061BD4
+	bl VSRoomManager__GetUnknown2
 	mov r4, r0
-	bl MultibootManager__Func_2061A24
+	bl VSRoomManager__Func_2061A24
 	cmp r0, #0
 	beq _0215C9BA
 	mov r0, r4
@@ -3899,7 +3899,7 @@ _0215C99A:
 	bl MI_CpuCopy8
 	add r0, sp, #0
 	mov r1, #0x10
-	bl MultibootManager__Func_2061A98
+	bl VSRoomManager__SendData
 _0215C9BA:
 	ldrh r1, [r4, #0xe]
 	mov r0, #5
@@ -3923,13 +3923,13 @@ _0215C9D0:
 	mvn r1, r1
 	lsl r0, r0, #2
 	str r1, [r2, r0]
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	bne _0215C9F4
 	mov r0, #0
-	bl MultibootManager__Func_2061888
+	bl VSRoomManager__Func_2061888
 _0215C9F4:
-	bl MultibootManager__Func_206193C
+	bl VSRoomManager__PrepareSendBuffer
 	ldr r0, _0215CA08 // =VSStageClear__Singleton
 	ldr r1, _0215CA10 // =VSStageClear__Main_215CA14
 	ldr r0, [r0, #0]
@@ -3947,7 +3947,7 @@ _0215CA10: .word VSStageClear__Main_215CA14
 VSStageClear__Main_215CA14: // 0x0215CA14
 	push {r4, r5, r6, lr}
 	sub sp, #0x10
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bne _0215CA2A
 	mov r0, #2
@@ -3955,9 +3955,9 @@ VSStageClear__Main_215CA14: // 0x0215CA14
 	add sp, #0x10
 	pop {r4, r5, r6, pc}
 _0215CA2A:
-	bl MultibootManager__Func_2061BD4
+	bl VSRoomManager__GetUnknown2
 	mov r4, r0
-	bl MultibootManager__Func_2061A24
+	bl VSRoomManager__Func_2061A24
 	cmp r0, #0
 	beq _0215CA4A
 	mov r0, r4
@@ -3966,9 +3966,9 @@ _0215CA2A:
 	bl MI_CpuCopy8
 	add r0, sp, #0
 	mov r1, #0x10
-	bl MultibootManager__Func_2061A98
+	bl VSRoomManager__SendData
 _0215CA4A:
-	bl MultibootManager__Func_20619B4
+	bl VSRoomManager__Func_20619B4
 	cmp r0, #0
 	beq _0215CAE8
 	ldrh r1, [r4, #0xe]
@@ -3978,7 +3978,7 @@ _0215CA4A:
 	beq _0215CAD4
 	ldr r5, _0215CAEC // =gameState
 	mov r6, #0
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	ldrh r1, [r4, #0xe]
 	beq _0215CA7C
@@ -4022,13 +4022,13 @@ _0215CAA0:
 _0215CAAE:
 	mov r0, #1
 	bl RequestSysEventChange
-	bl MultibootManager__Func_2060CF0
+	bl VSRoomManager__GetUsingNetwork
 	cmp r0, #2
 	bne _0215CAC2
-	bl MultibootManager__Func_2061824
+	bl VSRoomManager__Func_2061824
 	b _0215CAC6
 _0215CAC2:
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 _0215CAC6:
 	ldr r0, _0215CAF0 // =VSStageClear__Singleton
 	ldr r1, _0215CAF4 // =VSStageClear__Main_215CAFC
@@ -4060,7 +4060,7 @@ VSStageClear__Main_215CAFC: // 0x0215CAFC
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	beq _0215CB16
 	cmp r0, #0x11
@@ -4073,7 +4073,7 @@ _0215CB16:
 	bl VSStageClear__Func_215AB9C
 	pop {r4, pc}
 _0215CB1E:
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	ldr r1, _0215CB48 // =0x000018C8
 	mov r0, #0
 	str r0, [r4, r1]
@@ -5088,7 +5088,7 @@ VSStageClearButtons__Main_215D338: // 0x0215D338
 	mov r7, r0
 	ldr r0, _0215D57C // =0x00001428
 	add r4, r7, r0
-	bl MultibootManager__Func_2061BD4
+	bl VSRoomManager__GetUnknown2
 	ldrh r1, [r0, #0xe]
 	mov r0, #5
 	mov r6, #0

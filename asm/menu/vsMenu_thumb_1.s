@@ -970,7 +970,7 @@ VSMenu__Main_2167950: // 0x02167950
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0x11
 	bgt _0216796C
 	bge _021679AA
@@ -1861,10 +1861,10 @@ VSMenu__Main_2168120: // 0x02168120
 	sub sp, #8
 	mov r0, #4
 	bl VSMenu__Func_21667F0
-	bl MultibootManager__Func_2061638
+	bl VSRoomManager__InitNetwork
 	cmp r0, #0
 	beq _02168188
-	bl MultibootManager__CheckHasProfile
+	bl VSRoomManager__CheckHasProfile
 	cmp r0, #0
 	bne _0216815C
 	mov r0, #0x1e
@@ -1881,7 +1881,7 @@ VSMenu__Main_2168120: // 0x02168120
 	add sp, #8
 	pop {r3, pc}
 _0216815C:
-	bl MultibootManager__CheckValidConsole
+	bl VSRoomManager__CheckValidConsole
 	cmp r0, #0
 	bne _021681AC
 	mov r0, #0x20
@@ -1979,7 +1979,7 @@ _02168220:
 	mov r2, #0xb
 	mov r3, r0
 	bl CreateConnectionStatusIcon
-	bl MultibootManager__Func_2061654
+	bl VSRoomManager__Func_2061654
 	mov r0, #0x23
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _0216827C // =VSMenu__Singleton
@@ -2014,7 +2014,7 @@ _0216828C: .word VSMenu__Main_216770C
 VSMenu__Main_2168290: // 0x02168290
 	push {r3, lr}
 	sub sp, #8
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0x11
 	bgt _021682B6
 	cmp r0, #0xf
@@ -2037,7 +2037,7 @@ _021682B6:
 	add sp, #8
 	pop {r3, pc}
 _021682BE:
-	bl MultibootManager__Func_2061918
+	bl VSRoomManager__Func_2061918
 	cmp r0, #0
 	beq _021682F6
 	ldr r0, _02168330 // =0x0000FFFF
@@ -2154,7 +2154,7 @@ _021683B4:
 	mov r2, #0xb
 	mov r3, r0
 	bl CreateConnectionStatusIcon
-	bl MultibootManager__Func_2061654
+	bl VSRoomManager__Func_2061654
 	mov r0, #0x23
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168410 // =VSMenu__Singleton
@@ -2357,7 +2357,7 @@ _02168594:
 	bl CreateConnectionStatusIcon
 	ldr r0, _02168604 // =saveGame
 	bl SaveGame__DeleteOnlineProfile_KeepFriends
-	bl MultibootManager__Func_2061654
+	bl VSRoomManager__Func_2061654
 	mov r0, #0x23
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168608 // =VSMenu__Singleton
@@ -2455,7 +2455,7 @@ _02168698: .word VSMenu__Main_21686EC
 	thumb_func_start VSMenu__Main_216869C
 VSMenu__Main_216869C: // 0x0216869C
 	push {r3, lr}
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 	ldr r0, _021686AC // =VSMenu__Main_21686B0
 	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
@@ -2466,7 +2466,7 @@ _021686AC: .word VSMenu__Main_21686B0
 	thumb_func_start VSMenu__Main_21686B0
 VSMenu__Main_21686B0: // 0x021686B0
 	push {r3, lr}
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bgt _021686BE
 	beq _021686D0
@@ -2863,7 +2863,7 @@ _02168A2C: .word VSMenu__Main_2168AFC
 	thumb_func_start VSMenu__Main_2168A30
 VSMenu__Main_2168A30: // 0x02168A30
 	push {r3, lr}
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	beq _02168A40
 	cmp r0, #0x19
@@ -3070,18 +3070,18 @@ VSMenu__Main_2168C0C: // 0x02168C0C
 	bl VSMenu__CheckNetworkMessageMain
 	cmp r0, #0
 	beq _02168C3A
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	beq _02168C22
 	cmp r0, #0x19
 	bne _02168C30
 _02168C22:
-	bl MultibootManager__Func_2060C9C
-	bl MultibootManager__Func_2061C58
-	bl MultibootManager__Create
+	bl DestroyVSRoomManager
+	bl VSRoomManager__Func_2061C58
+	bl CreateVSRoomManager
 	b _02168C34
 _02168C30:
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 _02168C34:
 	ldr r0, _02168C3C // =VSMenu__Main_2168C40
 	bl SetCurrentTaskMainEvent
@@ -3095,7 +3095,7 @@ _02168C3C: .word VSMenu__Main_2168C40
 VSMenu__Main_2168C40: // 0x02168C40
 	push {r3, lr}
 	sub sp, #8
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bgt _02168C52
 	beq _02168C68
@@ -3482,7 +3482,7 @@ _02168F88: .word VSMenu__Func_2167860
 	thumb_func_start VSMenu__Main_2168F8C
 VSMenu__Main_2168F8C: // 0x02168F8C
 	push {r3, lr}
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0x11
 	bne _02168F9E
 	mov r0, #4
@@ -3528,7 +3528,7 @@ _02168FE4: .word VSMenu__Main_2168FE8
 	thumb_func_start VSMenu__Main_2168FE8
 VSMenu__Main_2168FE8: // 0x02168FE8
 	push {r3, lr}
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	beq _02168FF8
 	cmp r0, #0x19
@@ -3583,7 +3583,7 @@ _02169058:
 	bne _02169096
 	ldr r0, _021690A8 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0x11
 	bne _0216908E
 	ldr r0, _021690AC // =VSMenu__Main_21686EC
@@ -3746,7 +3746,7 @@ VSMenu__Main_21691D8: // 0x021691D8
 	ldr r0, _02169230 // =VSMenu__Singleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	bl MultibootManager__Func_2061638
+	bl VSRoomManager__InitNetwork
 	cmp r0, #0
 	beq _0216920C
 	ldr r0, _02169234 // =0x0000FFFF
@@ -3826,7 +3826,7 @@ VSMenu__Main_2169288: // 0x02169288
 	ldr r0, _021692B4 // =VSMenu__Singleton
 	ldr r0, [r0, #0]
 	bl VSMenu__Destroy
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	bl ReleaseSysSound
 	mov r0, #0x21
 	bl RequestNewSysEventChange
@@ -3877,7 +3877,7 @@ VSMenu__Main_21692F0: // 0x021692F0
 	ldr r0, _02169320 // =VSMenu__Singleton
 	ldr r0, [r0, #0]
 	bl VSMenu__Destroy
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	bl ReleaseSysSound
 	mov r0, #0x1a
 	bl RequestNewSysEventChange
@@ -3928,7 +3928,7 @@ VSMenu__Main_216935C: // 0x0216935C
 	ldr r0, _0216938C // =VSMenu__Singleton
 	ldr r0, [r0, #0]
 	bl VSMenu__Destroy
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	bl ReleaseSysSound
 	mov r0, #0x20
 	bl RequestNewSysEventChange

@@ -256,7 +256,7 @@ _02160C5C: .word VSStageSelect__sVars
 	thumb_func_start VSStageSelectMenu__Func_2160C60
 VSStageSelectMenu__Func_2160C60: // 0x02160C60
 	push {r3, lr}
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _02160C72
 	bl ReleaseStageCommonArchives
@@ -2340,7 +2340,7 @@ _02161C2C:
 	mov r0, #1
 	tst r0, r1
 	beq _02161C4A
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _02161C4A
 	ldr r0, [r7, #0x1c]
@@ -2477,7 +2477,7 @@ _02161D38:
 	bne _02161D62
 	mov r0, #6
 	bl PlaySysSfx
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _02161D58
 	ldr r1, _02161DAC // =VSStageSelectMenu__State_2161DE8
@@ -2499,7 +2499,7 @@ _02161D62:
 	bl NNS_SndPlayerStopSeq
 	mov r0, #6
 	bl PlaySysSfx
-	bl MultibootManager__Func_2060D28
+	bl VSRoomManager__CheckUsingNetwork_2
 	cmp r0, #0
 	beq _02161D8A
 	ldr r1, _02161DAC // =VSStageSelectMenu__State_2161DE8
@@ -2572,10 +2572,10 @@ VSStageSelectMenu__State_2161DE8: // 0x02161DE8
 	bl VSStageSelectMenu__SetState
 	pop {r3, r4, r5, r6, r7, pc}
 _02161E0C:
-	bl MultibootManager__Func_2061A24
+	bl VSRoomManager__Func_2061A24
 	cmp r0, #0
 	beq _02161E5A
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	mov r0, #2
 	mov r1, #0
 	bl VSLobbyMenu__Func_2163CE0
@@ -2601,7 +2601,7 @@ _02161E2C:
 	add r5, #0xc
 	cmp r6, #0xc
 	blo _02161E2C
-	bl MultibootManager__Func_206193C
+	bl VSRoomManager__PrepareSendBuffer
 	ldr r0, [sp]
 	ldr r1, _02161E64 // =VSStageSelectMenu__State_2161E68
 	bl VSStageSelectMenu__SetState
@@ -2628,13 +2628,13 @@ VSStageSelectMenu__State_2161E68: // 0x02161E68
 	bl VSStageSelectMenu__SetState
 	pop {r4, pc}
 _02161E82:
-	bl MultibootManager__Func_2061A24
+	bl VSRoomManager__Func_2061A24
 	cmp r0, #0
 	beq _02161E9E
-	bl MultibootManager__Func_20619B4
+	bl VSRoomManager__Func_20619B4
 	cmp r0, #0
 	beq _02161E9E
-	bl MultibootManager__Func_206193C
+	bl VSRoomManager__PrepareSendBuffer
 	ldr r1, _02161EA4 // =VSStageSelectMenu__State_2161EA8
 	mov r0, r4
 	bl VSStageSelectMenu__SetState
@@ -2660,7 +2660,7 @@ VSStageSelectMenu__State_2161EA8: // 0x02161EA8
 	bl VSStageSelectMenu__SetState
 	pop {r4, pc}
 _02161EC2:
-	bl MultibootManager__Func_20619B4
+	bl VSRoomManager__Func_20619B4
 	cmp r0, #0
 	beq _02161ED8
 	mov r0, #3
@@ -2679,7 +2679,7 @@ _02161EE0: .word VSStageSelectMenu__State_2161EE4
 VSStageSelectMenu__State_2161EE4: // 0x02161EE4
 	push {r4, lr}
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bgt _02161EF4
 	beq _02161F28
@@ -2707,11 +2707,11 @@ _02161F06: // jump table
 	.hword _02161F20 - _02161F06 - 2 // case 9
 	.hword _02161F22 - _02161F06 - 2 // case 10
 _02161F1C:
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 _02161F20:
 	pop {r4, pc}
 _02161F22:
-	bl MultibootManager__Func_206147C
+	bl VSRoomManager__Func_206147C
 _02161F26:
 	pop {r4, pc}
 _02161F28:
@@ -2726,7 +2726,7 @@ _02161F28:
 	bl VSStageSelectMenu__SetState
 	pop {r4, pc}
 _02161F3E:
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	beq _02161F4E
 	mov r0, #1
@@ -2767,7 +2767,7 @@ VSStageSelectMenu__State_2161F7C: // 0x02161F7C
 	beq _02161FB2
 	pop {r4, pc}
 _02161F92:
-	bl MultibootManager__Func_2060D0C
+	bl VSRoomManager__IsHost
 	cmp r0, #0
 	beq _02161FA2
 	mov r0, #1
@@ -2803,7 +2803,7 @@ _02161FD0: .word VSStageSelectMenu__State_2161B28
 VSStageSelectMenu__State_2161FD4: // 0x02161FD4
 	push {r4, lr}
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0xe
 	bgt _02161FE8
 	bge _02161FF6
@@ -2819,7 +2819,7 @@ _02161FE8:
 	cmp r0, #0x16
 	b _02162016
 _02161FF6:
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 	pop {r4, pc}
 _02161FFC:
 	mov r0, #1
@@ -2848,7 +2848,7 @@ _02162024: .word VSStageSelectMenu__State_2162028
 VSStageSelectMenu__State_2162028: // 0x02162028
 	push {r4, lr}
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0xe
 	bgt _02162044
 	cmp r0, #0xd
@@ -2863,7 +2863,7 @@ _0216203E:
 _02162044:
 	cmp r0, #0x16
 	bne _02162068
-	bl MultibootManager__Func_206147C
+	bl VSRoomManager__Func_206147C
 	pop {r4, pc}
 _0216204E:
 	mov r0, #1
@@ -3025,7 +3025,7 @@ _02162188: .word VSStageSelectMenu__State_2161B28
 VSStageSelectMenu__State_216218C: // 0x0216218C
 	push {r4, lr}
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0xe
 	bgt _021621AE
 	cmp r0, #0xb
@@ -3050,10 +3050,10 @@ _021621B6:
 	beq _021621C2
 	b _021621E6
 _021621BC:
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 	pop {r4, pc}
 _021621C2:
-	bl MultibootManager__Func_20613E4
+	bl VSRoomManager__Func_20613E4
 	pop {r4, pc}
 _021621C8:
 	mov r0, #1

@@ -229,7 +229,8 @@ Static arm9
     Object asm/game/save/saveGame_vars_thumb.o
     Object src/game/save/saveGame_2.o
     Object src/game/audio/sysSound.o
-    Object asm/network/multibootManager.o
+    Object src/network/vsRoomManager_0.o
+    Object src/network/vsRoomManager.o
     Object asm/sail/vikingCupManager.o
     Object src/game/save/corruptSaveWarning.o
     Object asm/game/save/saveSpriteButton.o

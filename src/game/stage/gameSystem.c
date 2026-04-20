@@ -2006,7 +2006,7 @@ void GameSystem_Main_Early(void)
             if (DWC_UpdateConnection() || DWC_GetNumConnectionHost() != 2 || DWC_GetLastError(NULL))
                 playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_NETWORK_ERROR;
         }
-        else if (WirelessManager__GetField8() == 7)
+        else if (WirelessManager__GetStatus() == 7)
         {
             playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_NETWORK_ERROR;
         }
@@ -2607,7 +2607,7 @@ void HandleNetworkError(void)
     else
     {
         gameState.displayDWCErrorCode = FALSE;
-        MultibootManager__Func_206789C(0);
+        WirelessManager__Func_206789C(0);
         RenderCore_SetNextFoldMode(FOLD_TOGGLE_SLEEP);
         RenderCore_DisableSoftReset(FALSE);
     }

@@ -136,14 +136,28 @@ static void LeaderboardsManager_State_Error(LeaderboardsManager *work);
 // FUNCTIONS
 // --------------------
 
-s32 InitNetwork(s32 mode)
+s32 InitNetwork(NetworkAllocMode mode)
 {
     static DWCAllocFunc allocFuncTable[] = {
-        _AllocHeadHEAP_SYSTEM, _AllocTailHEAP_SYSTEM, _AllocHeadHEAP_USER, _AllocTailHEAP_USER, _AllocHeadHEAP_ITCM, _AllocTailHEAP_ITCM, _AllocHeadHEAP_DTCM, _AllocTailHEAP_DTCM,
+        [NETWORK_ALLOC_MODE_HEAP_SYSTEM_HEAD] = _AllocHeadHEAP_SYSTEM, // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_SYSTEM_TAIL] = _AllocTailHEAP_SYSTEM, // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_USER_HEAD]   = _AllocHeadHEAP_USER,   // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_USER_TAIL]   = _AllocTailHEAP_USER,   // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_ITCM_HEAD]   = _AllocHeadHEAP_ITCM,   // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_ITCM_TAIL]   = _AllocTailHEAP_ITCM,   // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_DTCM_HEAD]   = _AllocHeadHEAP_DTCM,   // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_DTCM_TAIL]   = _AllocTailHEAP_DTCM,   // Formatting Comment
     };
 
     static DWCFreeFunc freeFuncTable[] = {
-        _FreeHEAP_SYSTEM, _FreeHEAP_SYSTEM, _FreeHEAP_USER, _FreeHEAP_USER, _FreeHEAP_ITCM, _FreeHEAP_ITCM, _FreeHEAP_DTCM, _FreeHEAP_DTCM,
+        [NETWORK_ALLOC_MODE_HEAP_SYSTEM_HEAD] = _FreeHEAP_SYSTEM, // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_SYSTEM_TAIL] = _FreeHEAP_SYSTEM, // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_USER_HEAD]   = _FreeHEAP_USER,   // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_USER_TAIL]   = _FreeHEAP_USER,   // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_ITCM_HEAD]   = _FreeHEAP_ITCM,   // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_ITCM_TAIL]   = _FreeHEAP_ITCM,   // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_DTCM_HEAD]   = _FreeHEAP_DTCM,   // Formatting Comment
+        [NETWORK_ALLOC_MODE_HEAP_DTCM_TAIL]   = _FreeHEAP_DTCM,   // Formatting Comment
     };
 
     DWCAllocFunc allocFunc = allocFuncTable[mode];
@@ -164,8 +178,8 @@ s32 InitNetwork(s32 mode)
 
 void CreateINetManager(void)
 {
-    Task *task      = TaskCreate(INetManager_Main, INetManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
-                                 TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, INetManager);
+    Task *task       = TaskCreate(INetManager_Main, INetManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
+                                  TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, INetManager);
     sINetManagerTask = task;
 
     INetManager *work = TaskGetWork(task, INetManager);
@@ -220,8 +234,8 @@ INetManagerStatus GetINetManagerStatus(void)
 
 void CreateMatchManager(DWCUserData *userData, DWCAccFriendData *friendList, u16 friendCount, const char16 *name)
 {
-    Task *task       = TaskCreate(MatchManager_Main, MatchManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
-                                  TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, MatchManager);
+    Task *task        = TaskCreate(MatchManager_Main, MatchManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
+                                   TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, MatchManager);
     sMatchManagerTask = task;
 
     MatchManager *work = TaskGetWork(task, MatchManager);
@@ -280,8 +294,8 @@ void CreateConnectionManagerForAnybody(u8 maxPlayerCount, u8 minPlayerCount, u32
     sRoomMaxPlayerCount = maxPlayerCount;
     InitMatchBuffers(GetMatchManagerWork(), bufferSize + sizeof(struct DataTransferBufferHeader), maxPlayerCount);
 
-    Task *task            = TaskCreate(ConnectionManager_Main, ConnectionManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
-                                       TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, ConnectionManager);
+    Task *task             = TaskCreate(ConnectionManager_Main, ConnectionManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
+                                        TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, ConnectionManager);
     sConnectionManagerTask = task;
 
     ConnectionManager *work = TaskGetWork(task, ConnectionManager);
@@ -300,8 +314,8 @@ void CreateConnectionManagerForFriends(u8 maxPlayerCount, u8 minPlayerCount, u32
     sRoomMaxPlayerCount = maxPlayerCount;
     InitMatchBuffers(GetMatchManagerWork(), bufferSize + sizeof(struct DataTransferBufferHeader), maxPlayerCount);
 
-    Task *task            = TaskCreate(ConnectionManager_Main, ConnectionManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
-                                       TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, ConnectionManager);
+    Task *task             = TaskCreate(ConnectionManager_Main, ConnectionManager_Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, TASK_PAUSE_LOWEST,
+                                        TASK_PRIORITY_UPDATE_LIST_START, TASK_GROUP_HIGHEST - 2, ConnectionManager);
     sConnectionManagerTask = task;
 
     ConnectionManager *work = TaskGetWork(task, ConnectionManager);

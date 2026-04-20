@@ -244,7 +244,7 @@ _0216AA70:
 _0216AB76:
 	mov r0, #1
 _0216AB78:
-	bl MultibootManager__Func_20612D4
+	bl VSRoomManager__Func_20612D4
 	mov r4, #0
 	b _0216ABD4
 _0216AB80:
@@ -269,7 +269,7 @@ _0216AB98:
 _0216ABA2:
 	mov r0, #0
 _0216ABA4:
-	bl MultibootManager__Func_20616C4
+	bl VSRoomManager__Func_20616C4
 	mov r4, #0
 	b _0216ABD4
 _0216ABAC:
@@ -287,11 +287,11 @@ _0216ABAC:
 _0216ABC4:
 	mov r0, #1
 _0216ABC6:
-	bl MultibootManager__Func_2060DE0
+	bl VSRoomManager__SetBattleMode
 	mov r4, #0
 	b _0216ABD4
 _0216ABCE:
-	bl MultibootManager__Func_2060F04
+	bl VSRoomManager__Func_2060F04
 	mov r4, #1
 _0216ABD4:
 	bl SaveGame__GetOnlineScore
@@ -641,7 +641,7 @@ _0216AE86:
 	mov r0, #2
 	tst r0, r6
 	bne _0216AEB0
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 	add sp, #0x34
 	pop {r4, r5, r6, r7, pc}
 _0216AE9C:
@@ -687,7 +687,7 @@ VSConnectionMenu__TouchCallback_3: // 0x0216AEDC
 	mov r0, #2
 	tst r0, r1
 	beq _0216AEFA
-	bl MultibootManager__Func_2061808
+	bl VSRoomManager__Func_2061808
 _0216AEFA:
 	mov r0, #1
 	bl PlaySysMenuNavSfx
@@ -890,7 +890,7 @@ _0216B07A:
 	str r1, [r0, #0xc]
 	b _0216B0DA
 _0216B080:
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bgt _0216B08C
 	beq _0216B0C0
@@ -957,7 +957,7 @@ VSConnectionMenu__Main_216B0F0: // 0x0216B0F0
 	push {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bgt _0216B104
 	beq _0216B124
@@ -1006,7 +1006,7 @@ VSConnectionMenu__Main_216B144: // 0x0216B144
 	bl GetCurrentTaskWork_
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #2
 	bgt _0216B16C
 	cmp r0, #0
@@ -1046,9 +1046,9 @@ _0216B194:
 	mov r1, #2
 	mov r2, #0
 	bl VSState__Func_2163784
-	bl MultibootManager__Func_2060D4C
+	bl VSRoomManager__GetOpponentName
 	mov r4, r0
-	bl MultibootManager__Func_2060D74
+	bl VSRoomManager__GetOpponentNameLength
 	mov r2, r0
 	mov r0, #1
 	mov r1, r4
@@ -1090,7 +1090,7 @@ VSConnectionMenu__Main_216B1FC: // 0x0216B1FC
 	ldrh r4, [r0, #0x10]
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #2
 	bgt _0216B224
 	cmp r0, #0
@@ -1124,7 +1124,7 @@ _0216B23A:
 	cmp r0, #2
 	beq _0216B292
 _0216B25A:
-	bl MultibootManager__Func_2061C20
+	bl VSRoomManager__Func_2061C20
 	cmp r0, #0
 	bne _0216B288
 	ldr r0, _0216B2F0 // =padInput
@@ -1138,7 +1138,7 @@ _0216B25A:
 	tst r0, r1
 	beq _0216B27E
 _0216B278:
-	bl MultibootManager__Func_2060ECC
+	bl VSRoomManager__Func_2060ECC
 	b _0216B29E
 _0216B27E:
 	ldr r0, _0216B2F4 // =VSConnectionMenu__TouchCallback_None
@@ -1151,7 +1151,7 @@ _0216B288:
 	bl VSMenu__SetTouchCallback
 	pop {r4, pc}
 _0216B292:
-	bl MultibootManager__Func_2060E78
+	bl VSRoomManager__Func_2060E78
 	ldr r0, _0216B2F8 // =VSConnectionMenu__Main_216B304
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
@@ -1228,7 +1228,7 @@ VSConnectionMenu__Main_216B304: // 0x0216B304
 	strh r0, [r4, #8]
 	mov r0, r4
 	bl AnimatorSprite__DrawFrame
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0xc
 	bgt _0216B376
 	bge _0216B3BE
@@ -1258,7 +1258,7 @@ _0216B384:
 	bl VSConnectionMenu__Func_216AD1C
 	pop {r4, r5, r6, pc}
 _0216B38C:
-	bl MultibootManager__Func_2061C20
+	bl VSRoomManager__Func_2061C20
 	cmp r0, #0
 	bne _0216B3B4
 	ldr r0, _0216B420 // =padInput
@@ -1304,7 +1304,7 @@ _0216B3BE:
 _0216B3F2:
 	mov r0, #1
 	bl PlaySysMenuNavSfx
-	bl MultibootManager__Func_2060ECC
+	bl VSRoomManager__Func_2060ECC
 	mov r0, #1
 	mov r1, r0
 	mov r2, #0
@@ -1803,7 +1803,7 @@ VSConnectionMenu__Main_216B810: // 0x0216B810
 _0216B83C:
 	b _0216B98C
 _0216B83E:
-	bl MultibootManager__Func_2060FA0
+	bl VSRoomManager__LoadUnknownListEntries
 	mov r0, #0x32
 	mov r2, r5
 	lsl r0, r0, #4
@@ -1816,7 +1816,7 @@ _0216B84E:
 	cmp r2, r0
 	bne _0216B84E
 _0216B856:
-	bl MultibootManager__Func_206107C
+	bl VSRoomManager__FindAvailableUnknownListSlot
 	ldr r1, _0216B9D4 // =0x0000070A
 	strh r0, [r5, r1]
 	ldrh r2, [r5, r1]
@@ -1870,10 +1870,10 @@ _0216B8B4:
 	mov r6, r7
 	mov r0, r4
 	add r6, #0x10
-	bl MultibootManager__Func_20610F8
+	bl VSRoomManager__GetUnknownOpponentNameLength
 	str r0, [sp, #0x1c]
 	mov r0, r4
-	bl MultibootManager__Func_20610BC
+	bl VSRoomManager__GetUnknownOpponentName
 	ldr r2, [sp, #0x1c]
 	mov r1, r6
 	lsl r2, r2, #1
@@ -1883,10 +1883,10 @@ _0216B8B4:
 	mov r0, #0
 	strh r0, [r6, r1]
 	mov r0, r4
-	bl MultibootManager__Func_2061194
+	bl VSRoomManager__Func_2061194
 	strh r0, [r7, #4]
 	mov r0, r4
-	bl MultibootManager__Func_206112C
+	bl VSRoomManager__GetUnknownOpponentBattleMode
 	str r0, [r7, #8]
 	mov r0, #0
 	str r0, [sp]
@@ -2032,14 +2032,14 @@ _0216BA18:
 	ldr r0, [r4, r0]
 	cmp r0, #4
 	blo _0216BA30
-	bl MultibootManager__Func_2060FA0
+	bl VSRoomManager__LoadUnknownListEntries
 	ldr r0, _0216BB88 // =0x0000074C
 	mov r1, #0
 	str r1, [r4, r0]
 _0216BA30:
 	ldr r0, _0216BB8C // =0x0000070A
 	ldrh r6, [r5, r0]
-	bl MultibootManager__Func_206107C
+	bl VSRoomManager__FindAvailableUnknownListSlot
 	cmp r6, r0
 	beq _0216BA4A
 	mov r0, #2
@@ -2056,11 +2056,11 @@ _0216BA4A:
 _0216BA54:
 	lsl r0, r4, #0x10
 	lsr r0, r0, #0x10
-	bl MultibootManager__Func_206112C
+	bl VSRoomManager__GetUnknownOpponentBattleMode
 	str r0, [r6, #8]
 	lsl r0, r4, #0x10
 	lsr r0, r0, #0x10
-	bl MultibootManager__Func_2061160
+	bl VSRoomManager__GetUnknownOpponentUnknown
 	str r0, [r6, #0xc]
 	ldrh r0, [r5, r7]
 	add r4, r4, #1
@@ -2068,7 +2068,7 @@ _0216BA54:
 	cmp r4, r0
 	blo _0216BA54
 _0216BA72:
-	bl MultibootManager__Func_206107C
+	bl VSRoomManager__FindAvailableUnknownListSlot
 	cmp r0, #0
 	bne _0216BA7C
 	b _0216BB80
@@ -2314,12 +2314,12 @@ _0216BBDA:
 	ldr r1, _0216BCA0 // =0x00000708
 	ldr r0, [sp, #0x28]
 	ldrh r0, [r0, r1]
-	bl MultibootManager__Func_20610BC
+	bl VSRoomManager__GetUnknownOpponentName
 	mov r4, r0
 	ldr r1, _0216BCA0 // =0x00000708
 	ldr r0, [sp, #0x28]
 	ldrh r0, [r0, r1]
-	bl MultibootManager__Func_20610F8
+	bl VSRoomManager__GetUnknownOpponentNameLength
 	mov r2, r0
 	mov r0, #0
 	mov r1, r4
@@ -2351,7 +2351,7 @@ VSConnectionMenu__Main_216BCA8: // 0x0216BCA8
 	bne _0216BCE2
 	ldr r0, _0216BCE4 // =0x00000708
 	ldrh r0, [r5, r0]
-	bl MultibootManager__Func_20611B0
+	bl VSRoomManager__Func_20611B0
 	ldr r0, _0216BCE8 // =VSConnectionMenu__TouchCallback_None
 	mov r1, #0
 	bl VSMenu__SetTouchCallback
@@ -2403,7 +2403,7 @@ VSConnectionMenu__Main_216BCF4: // 0x0216BCF4
 	strh r0, [r4, #8]
 	mov r0, r4
 	bl AnimatorSprite__DrawFrame
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0xc
 	bgt _0216BD5E
 	bge _0216BDAE
@@ -2431,7 +2431,7 @@ _0216BD6E:
 	add sp, #8
 	pop {r3, r4, r5, pc}
 _0216BD78:
-	bl MultibootManager__Func_2061C20
+	bl VSRoomManager__Func_2061C20
 	cmp r0, #0
 	bne _0216BDA2
 	ldr r0, _0216BE50 // =padInput
@@ -2480,7 +2480,7 @@ _0216BDAE:
 _0216BDE4:
 	mov r0, #1
 	bl PlaySysMenuNavSfx
-	bl MultibootManager__Func_2061298
+	bl VSRoomManager__Func_2061298
 	bl VSState__GetFlags
 	bl VSState__Func_21630F0
 	mov r0, #0xf
@@ -2708,7 +2708,7 @@ VSConnectionMenu__Main_216BFD0: // 0x0216BFD0
 	bl GetCurrentTaskWork_
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #7
 	bgt _0216BFFA
 	cmp r0, #6
@@ -2752,9 +2752,9 @@ _0216C022:
 	mov r1, #2
 	mov r2, #0
 	bl VSState__Func_2163784
-	bl MultibootManager__Func_2060D4C
+	bl VSRoomManager__GetOpponentName
 	mov r4, r0
-	bl MultibootManager__Func_2060D74
+	bl VSRoomManager__GetOpponentNameLength
 	mov r2, r0
 	mov r0, #1
 	mov r1, r4
@@ -2794,7 +2794,7 @@ VSConnectionMenu__Main_216C08C: // 0x0216C08C
 	ldrh r4, [r0, #0x10]
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #7
 	bgt _0216C0B6
 	cmp r0, #6
@@ -2841,10 +2841,10 @@ _0216C0EC:
 	tst r0, r1
 	beq _0216C16E
 _0216C102:
-	bl MultibootManager__Func_20613BC
+	bl VSRoomManager__Func_20613BC
 	b _0216C11E
 _0216C108:
-	bl MultibootManager__Func_2061360
+	bl VSRoomManager__Func_2061360
 	mov r0, #1
 	mov r1, #3
 	mov r2, #0
@@ -2924,7 +2924,7 @@ VSConnectionMenu__Main_216C180: // 0x0216C180
 	strh r0, [r4, #8]
 	mov r0, r4
 	bl AnimatorSprite__DrawFrame
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0xa
 	bgt _0216C1FC
 	cmp r0, #0
@@ -2973,7 +2973,7 @@ _0216C216:
 	tst r0, r1
 	beq _0216C278
 _0216C22C:
-	bl MultibootManager__Func_20613BC
+	bl VSRoomManager__Func_20613BC
 	b _0216C24E
 _0216C232:
 	ldr r0, _0216C280 // =VSConnectionMenu__Main_216C288
@@ -3045,7 +3045,7 @@ VSConnectionMenu__Main_216C288: // 0x0216C288
 	strh r0, [r4, #8]
 	mov r0, r4
 	bl AnimatorSprite__DrawFrame
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0xa
 	bgt _0216C302
 	cmp r0, #0
@@ -3127,7 +3127,7 @@ VSConnectionMenu__Main_216C36C: // 0x0216C36C
 	cmp r0, #0
 	beq _0216C390
 	bl DestroyDrawFadeTask
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 	ldr r0, _0216C394 // =VSConnectionMenu__Main_216C398
 	bl SetCurrentTaskMainEvent
 _0216C390:
@@ -3139,7 +3139,7 @@ _0216C394: .word VSConnectionMenu__Main_216C398
 	thumb_func_start VSConnectionMenu__Main_216C398
 VSConnectionMenu__Main_216C398: // 0x0216C398
 	push {r3, lr}
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bgt _0216C3A6
 	beq _0216C3C2
@@ -3177,7 +3177,7 @@ VSConnectionMenu__Main_216C3D4: // 0x0216C3D4
 	bl GetCurrentTaskWork_
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bgt _0216C3EE
 	beq _0216C410
@@ -3231,7 +3231,7 @@ _0216C42C:
 _0216C44A:
 	mov r0, #1
 	bl PlaySysMenuNavSfx
-	bl MultibootManager__Func_2061808
+	bl VSRoomManager__Func_2061808
 	mov r0, #1
 	bl VSConnectionMenu__Func_216AD1C
 	pop {r3, pc}
@@ -3246,7 +3246,7 @@ VSConnectionMenu__Main_216C464: // 0x0216C464
 	bl GetCurrentTaskWork_
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bgt _0216C47E
 	beq _0216C492
@@ -3273,11 +3273,11 @@ _0216C49A:
 _0216C4A2:
 	ldr r0, _0216C4D8 // =VSConnectionMenu__Main_216C4DC
 	bl SetCurrentTaskMainEvent
-	bl MultibootManager__Func_2060D4C
+	bl VSRoomManager__GetOpponentName
 	mov r5, r0
-	bl MultibootManager__Func_2060D74
+	bl VSRoomManager__GetOpponentNameLength
 	mov r4, r0
-	bl MultibootManager__Func_2060D9C
+	bl VSRoomManager__GetOpponentScore
 	mov r3, r0
 	mov r0, #1
 	mov r1, r5

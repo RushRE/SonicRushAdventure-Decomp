@@ -69,6 +69,19 @@ enum DataTransferMode_
 };
 typedef u32 DataTransferMode;
 
+enum NetworkAllocMode_
+{
+    NETWORK_ALLOC_MODE_HEAP_SYSTEM_HEAD,
+    NETWORK_ALLOC_MODE_HEAP_SYSTEM_TAIL,
+    NETWORK_ALLOC_MODE_HEAP_USER_HEAD,
+    NETWORK_ALLOC_MODE_HEAP_USER_TAIL,
+    NETWORK_ALLOC_MODE_HEAP_ITCM_HEAD,
+    NETWORK_ALLOC_MODE_HEAP_ITCM_TAIL,
+    NETWORK_ALLOC_MODE_HEAP_DTCM_HEAD,
+    NETWORK_ALLOC_MODE_HEAP_DTCM_TAIL,
+};
+typedef u32 NetworkAllocMode;
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -156,7 +169,7 @@ typedef struct LeaderboardsManager_
 // --------------------
 
 // Network
-s32 InitNetwork(s32 mode);
+s32 InitNetwork(NetworkAllocMode mode);
 
 // iNet
 void CreateINetManager(void);

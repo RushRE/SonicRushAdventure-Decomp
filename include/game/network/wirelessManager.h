@@ -5,6 +5,7 @@
 #include <game/network/wh.h>
 #include <game/network/wfs.h>
 #include <game/network/mbp.h>
+#include <game/save/saveGame.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -40,6 +41,84 @@ enum WFSState_
     WFS_STATE_ERROR,
 };
 typedef u32 WFSState;
+
+// --------------------
+// STRUCTS
+// --------------------
+
+typedef struct WirelessManager_Unknown2067A18_
+{
+    u8 bssID[6];
+    char16 name[9];
+    u16 nameLength;
+    u16 field_1A;
+    u16 field_1C;
+} WirelessManager_Unknown2067A18;
+
+typedef struct WirelessManager_Unknown20681A0_
+{
+  u8 field_0;
+  u8 nameLength;
+  char16 name[9];
+  u8 __padding[2];
+  u8 bssID[6];
+} WirelessManager_Unknown20681A0;
+
+typedef struct WirelessManager__Unknown_
+{
+    s32 field_0;
+    u8 bssid[6];
+    s32 field_C;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+    s32 field_20;
+    s32 field_24;
+    s32 field_28;
+    s32 field_2C;
+    s32 field_30;
+    u16 field_34;
+    u16 field_36;
+    s32 field_38;
+    s32 field_3C;
+    s32 field_40;
+    s32 field_44;
+    s32 field_48;
+    s32 field_4C;
+    struct
+    {
+        u16 name[SAVEGAME_MAX_NAME_LEN];
+        u16 _padding;
+        u16 nameLength;
+        u32 battleMode;
+    } opponent;
+    s32 field_68;
+    s32 field_6C;
+    s32 field_70;
+    s32 field_74;
+    s32 field_78;
+    s32 field_7C;
+    s32 field_80;
+    s32 field_84;
+    s32 field_88;
+    s32 field_8C;
+    s32 field_90;
+    s32 field_94;
+    s32 field_98;
+    s32 field_9C;
+    s32 field_A0;
+    s32 field_A4;
+    s32 field_A8;
+    s32 field_AC;
+    s32 field_B0;
+    s32 field_B4;
+    s32 field_B8;
+    s32 field_BC;
+    u32 field_C0;
+    u16 field_C4;
+    u16 field_C6;
+} WirelessManager__Unknown;
 
 // --------------------
 // VARIABLES
@@ -79,38 +158,38 @@ NOT_DECOMPILED u32 whConfig_dword_213645C;
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void WirelessManager__InitAllocator(void);
-NOT_DECOMPILED void WirelessManager__Create(void);
-NOT_DECOMPILED void Task__Unknown20674C4__Create(void);
-NOT_DECOMPILED void WirelessManager__Create2(void);
-NOT_DECOMPILED void WirelessManager__Create3(void);
-NOT_DECOMPILED void MultibootManager__Func_206789C(s32 a1);
-NOT_DECOMPILED void MultibootManager__Func_20679A8(void);
-NOT_DECOMPILED void MultibootManager__Func_20679B4(void);
-NOT_DECOMPILED void MultibootManager__Func_20679C0(void);
-NOT_DECOMPILED void MultibootManager__Func_20679CC(void);
-NOT_DECOMPILED void MultibootManager__Func_2067A18(void);
-NOT_DECOMPILED void MultibootManager__Func_2067A48(void);
-NOT_DECOMPILED void MultibootManager__Func_2067A88(void);
-NOT_DECOMPILED void MultibootManager__Func_2067AE8(void);
+NOT_DECOMPILED void WirelessManager__InitAllocator(s32 mode1, s32 mode2);
+NOT_DECOMPILED void WirelessManager__Create(u8 a1, u16 a2, u16 a3, void *param, u16 paramSize);
+NOT_DECOMPILED void WirelessManager__Create1(u16 *a1, s32 a2, u16 a3, void *param, u16 paramSize);
+NOT_DECOMPILED void WirelessManager__Create2(u8 a1, u16 a2, u16 a3, void *param, u16 paramSize);
+NOT_DECOMPILED void WirelessManager__Create3(u16 *a1, u16 a3, void *param, u16 paramSize);
+NOT_DECOMPILED void WirelessManager__Func_206789C(s32 a1);
+NOT_DECOMPILED s32 WirelessManager__Func_20679A8(void);
+NOT_DECOMPILED WirelessManager__Unknown *WirelessManager__GetEntry2(u16 id);
+NOT_DECOMPILED void WirelessManager__RemoveEntry2(u16 id);
+NOT_DECOMPILED void WirelessManager__Func_20679CC(u16 id);
+NOT_DECOMPILED WirelessManager_Unknown2067A18 *WirelessManager__Func_2067A18(s32 id);
+NOT_DECOMPILED void WirelessManager__Func_2067A48(u16 *a1);
+NOT_DECOMPILED void WirelessManager__Func_2067A88(u16 *a1);
+NOT_DECOMPILED void WirelessManager__Func_2067AE8(void);
 NOT_DECOMPILED void *WirelessManager__GetSendBuffer(void);
 NOT_DECOMPILED void *WirelessManager__GetReceiveBuffer(u32 id);
 NOT_DECOMPILED void WirelessManager__ClearSendBuffer(void);
-NOT_DECOMPILED void MultibootManager__Func_2067B50(void);
-NOT_DECOMPILED void WirelessManager__Create4(void);
-NOT_DECOMPILED void WirelessManager__Create5(void);
-NOT_DECOMPILED void WirelessManager__Func_2067DF4(void);
-NOT_DECOMPILED void WirelessManager__Func_2067F00(void);
-NOT_DECOMPILED void WirelessManager__Func_2067F40(void);
-NOT_DECOMPILED void Task__Unknown2067FA0__Create(void);
-NOT_DECOMPILED void WirelessManager__Func_2068060(void);
-NOT_DECOMPILED void WirelessManager__Func_2068160(void);
-NOT_DECOMPILED void WirelessManager__Func_20681A0(void);
+NOT_DECOMPILED void WirelessManager__ClearUnknownBuffer(void);
+NOT_DECOMPILED void WirelessManager__Create4(u16 *a1, s32 a2, u16 a3, u16 a4, void *param, u16 paramSize);
+NOT_DECOMPILED void WirelessManager__Create5(u16 *a1, u16 a2, u16 a3, void *param, u16 paramSize);
+NOT_DECOMPILED void WirelessManager__Func_2067DF4(s32 a1);
+NOT_DECOMPILED void WirelessManager__Func_2067F00(u16 *a1);
+NOT_DECOMPILED void WirelessManager__Func_2067F40(u16 *a1);
+NOT_DECOMPILED void WirelessManager__Create6(MBGameRegistry *gameRegistry, s32 a2);
+NOT_DECOMPILED void WirelessManager__Func_2068060(void *work);
+NOT_DECOMPILED void WirelessManager__Func_2068160(u16 *a1);
+NOT_DECOMPILED WirelessManager_Unknown20681A0 *WirelessManager__Func_20681A0(s32 id);
 NOT_DECOMPILED void WirelessManager__Func_20681D0(void);
-NOT_DECOMPILED void WirelessManager__Func_20681F8(void);
+NOT_DECOMPILED u32 WirelessManager__Func_20681F8(void);
 NOT_DECOMPILED void WirelessManager__Func_2068214(void);
 NOT_DECOMPILED u32 WirelessManager__Func_2068234(void);
-NOT_DECOMPILED s32 WirelessManager__GetField8(void);
+NOT_DECOMPILED s32 WirelessManager__GetStatus(void);
 NOT_DECOMPILED u32 WirelessManager__Func_2068284(u32 bitmap);
 NOT_DECOMPILED WMLinkLevel WirelessManager__GetLinkLevel(void);
 NOT_DECOMPILED void WirelessManager__StartMBP(void);
@@ -162,7 +241,7 @@ NOT_DECOMPILED void WirelessManager__State_206966C(void);
 NOT_DECOMPILED void WirelessManager__State_20696A0(void);
 NOT_DECOMPILED void WirelessManager__State_20696C4(void);
 NOT_DECOMPILED void WirelessManager__Func_2069794(void);
-NOT_DECOMPILED void MultibootManager__Func_2069838(void);
+NOT_DECOMPILED void WirelessManager__Func_2069838(void);
 NOT_DECOMPILED void Task__Unknown2067FA0__Main(void);
 NOT_DECOMPILED void Task__Unknown2067FA0__Destructor(void);
 NOT_DECOMPILED void WirelessManager__State_20698CC(void);

@@ -411,14 +411,14 @@ _0216C840:
 	lsl r1, r1, #0xc
 	bl CreateDrawFadeTask
 _0216C84A:
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0x18
 	bne _0216C862
-	bl MultibootManager__Create
-	bl MultibootManager__GetField8
+	bl CreateVSRoomManager
+	bl VSRoomManager__GetStatus
 	cmp r0, #0x16
 	beq _0216C862
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 _0216C862:
 	bl TimeAttackMenu__LoadArchives
 	mov r0, #0xc
@@ -632,7 +632,7 @@ TimeAttackMenu__Destroy: // 0x0216C9F0
 	bl ReleaseSysSound
 _0216CA5A:
 	bl TimeAttackMenu__ReleaseArchives
-	bl MultibootManager__Func_2060C9C
+	bl DestroyVSRoomManager
 	pop {r4, pc}
 	.align 2, 0
 _0216CA64: .word 0x00000E2C
@@ -2362,10 +2362,10 @@ _0216D808: .word TimeAttackMenu__Singleton
 TimeAttackMenu__Main_216D80C: // 0x0216D80C
 	push {r3, lr}
 	sub sp, #8
-	bl MultibootManager__Func_2061638
+	bl VSRoomManager__InitNetwork
 	cmp r0, #0
 	beq _0216D88A
-	bl MultibootManager__CheckHasProfile
+	bl VSRoomManager__CheckHasProfile
 	cmp r0, #0
 	bne _0216D850
 	mov r0, #0x11
@@ -2388,7 +2388,7 @@ TimeAttackMenu__Main_216D80C: // 0x0216D80C
 	add sp, #8
 	pop {r3, pc}
 _0216D850:
-	bl MultibootManager__CheckValidConsole
+	bl VSRoomManager__CheckValidConsole
 	cmp r0, #0
 	bne _0216D8BC
 	mov r0, #0x13
@@ -2508,7 +2508,7 @@ _0216D946:
 	mov r2, #0xe
 	mov r3, r1
 	bl CreateConnectionStatusIcon
-	bl MultibootManager__Func_2061654
+	bl VSRoomManager__Func_2061654
 	mov r0, #0x16
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216D998 // =0x0000150C
@@ -2542,7 +2542,7 @@ TimeAttackMenu__Main_216D9A8: // 0x0216D9A8
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0x11
 	bgt _0216D9D8
 	cmp r0, #0xf
@@ -2565,7 +2565,7 @@ _0216D9D8:
 	add sp, #8
 	pop {r4, pc}
 _0216D9E0:
-	bl MultibootManager__Func_2061918
+	bl VSRoomManager__Func_2061918
 	cmp r0, #0
 	beq _0216DA0C
 	ldr r0, _0216DA58 // =0x0000FFFF
@@ -2697,7 +2697,7 @@ _0216DAFA:
 	mov r2, #0xe
 	mov r3, r1
 	bl CreateConnectionStatusIcon
-	bl MultibootManager__Func_2061654
+	bl VSRoomManager__Func_2061654
 	mov r0, #0x16
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216DB4C // =0x0000150C
@@ -2919,7 +2919,7 @@ _0216DD02:
 	bl CreateConnectionStatusIcon
 	ldr r0, _0216DD7C // =saveGame
 	bl SaveGame__DeleteOnlineProfile_KeepFriends
-	bl MultibootManager__Func_2061654
+	bl VSRoomManager__Func_2061654
 	mov r0, #0x16
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216DD80 // =0x0000150C
@@ -3047,7 +3047,7 @@ _0216DE44: .word 0x000014FC
 	thumb_func_start TimeAttackMenu__Main_216DE48
 TimeAttackMenu__Main_216DE48: // 0x0216DE48
 	push {r3, lr}
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 	ldr r0, _0216DE58 // =TimeAttackMenu__Main_216DE5C
 	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
@@ -3062,7 +3062,7 @@ TimeAttackMenu__Main_216DE5C: // 0x0216DE5C
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bgt _0216DE74
 	beq _0216DE86
@@ -3120,18 +3120,18 @@ TimeAttackMenu__Main_216DEC4: // 0x0216DEC4
 	add r0, #0x30
 	mov r1, #1
 	bl MainMenu__Func_2156790
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	beq _0216DEEA
 	cmp r0, #0x19
 	bne _0216DEF8
 _0216DEEA:
-	bl MultibootManager__Func_2060C9C
-	bl MultibootManager__Func_2061C58
-	bl MultibootManager__Create
+	bl DestroyVSRoomManager
+	bl VSRoomManager__Func_2061C58
+	bl CreateVSRoomManager
 	b _0216DEFC
 _0216DEF8:
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 _0216DEFC:
 	ldr r0, _0216DF08 // =TimeAttackMenu__Main_216DF0C
 	bl SetCurrentTaskMainEvent
@@ -3150,7 +3150,7 @@ TimeAttackMenu__Main_216DF0C: // 0x0216DF0C
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bgt _0216DF28
 	beq _0216DF3E
@@ -3402,7 +3402,7 @@ _0216E140:
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216E148:
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0xc
 	bne _0216E158
 	ldr r0, _0216E178 // =TimeAttackMenu__Main_216DEB0
@@ -3657,7 +3657,7 @@ TimeAttackMenu__Main_216E36C: // 0x0216E36C
 	ldr r0, _0216E3D4 // =TimeAttackMenu__Singleton
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	bl MultibootManager__Func_2061638
+	bl VSRoomManager__InitNetwork
 	cmp r0, #0
 	beq _0216E3A0
 	ldr r0, _0216E3D8 // =0x0000FFFF
@@ -4379,7 +4379,7 @@ TimeAttackMenu__Main_216E9A4: // 0x0216E9A4
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	beq _0216E9BE
 	cmp r0, #0x19
@@ -4545,7 +4545,7 @@ _0216EB10: .word TimeAttackMenu__Main_216E50C
 	thumb_func_start TimeAttackMenu__Main_216EB14
 TimeAttackMenu__Main_216EB14: // 0x0216EB14
 	push {r3, lr}
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 	ldr r0, _0216EB24 // =TimeAttackMenu__Main_216EB28
 	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
@@ -4556,7 +4556,7 @@ _0216EB24: .word TimeAttackMenu__Main_216EB28
 	thumb_func_start TimeAttackMenu__Main_216EB28
 TimeAttackMenu__Main_216EB28: // 0x0216EB28
 	push {r3, lr}
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bgt _0216EB36
 	beq _0216EB48
@@ -4641,7 +4641,7 @@ TimeAttackMenu__Main_216EBD4: // 0x0216EBD4
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	beq _0216EBEE
 	cmp r0, #0x19
@@ -4813,7 +4813,7 @@ _0216ED4C: .word TimeAttackMenu__Main_216E50C
 	thumb_func_start TimeAttackMenu__Main_216ED50
 TimeAttackMenu__Main_216ED50: // 0x0216ED50
 	push {r3, lr}
-	bl MultibootManager__Func_206150C
+	bl VSRoomManager__Func_206150C
 	ldr r0, _0216ED60 // =TimeAttackMenu__Main_216ED64
 	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
@@ -4824,7 +4824,7 @@ _0216ED60: .word TimeAttackMenu__Main_216ED64
 	thumb_func_start TimeAttackMenu__Main_216ED64
 TimeAttackMenu__Main_216ED64: // 0x0216ED64
 	push {r3, lr}
-	bl MultibootManager__GetField8
+	bl VSRoomManager__GetStatus
 	cmp r0, #0
 	bgt _0216ED72
 	beq _0216ED84

@@ -2,7 +2,7 @@
 #include <network/networkHandler.h>
 #include <game/save/saveManager.h>
 #include <game/util/akUtil.h>
-#include <game/network/multibootManager.h>
+#include <game/network/vsRoomManager.h>
 
 // --------------------
 // VARIABLES
@@ -70,7 +70,7 @@ RUSH_INLINE s32 GetNameLength(SavePlayerName *name)
 
 BOOL CreateLeaderboardWorker(s32 stage, BOOL wantUpload, BOOL flag)
 {
-    if (!MultibootManager__CheckHasProfile() || !MultibootManager__CheckValidConsole())
+    if (!VSRoomManager__CheckHasProfile() || !VSRoomManager__CheckValidConsole())
         return FALSE;
 
     sLeaderboardsWorkerTaskSingleton =
@@ -126,7 +126,7 @@ void LeaderboardWorker_Destructor(Task *task)
 
 void LeaderboardWorker_State_TryStart(LeaderboardWorker *work)
 {
-    if (MultibootManager__GetField8() != 17)
+    if (VSRoomManager__GetStatus() != VSROOMMANAGER_STATUS_17)
     {
         LeaderboardWorker_Action_Error(work);
         return;
@@ -160,7 +160,7 @@ void LeaderboardWorker_State_TryStart(LeaderboardWorker *work)
 
 void LeaderboardWorker_State_BeginWorking(LeaderboardWorker *work)
 {
-    if (MultibootManager__GetField8() != 17 || GetLeaderboardsManagerStatus() == LEADERBOARDSMANAGER_STATUS_ERROR)
+    if (VSRoomManager__GetStatus() != VSROOMMANAGER_STATUS_17 || GetLeaderboardsManagerStatus() == LEADERBOARDSMANAGER_STATUS_ERROR)
     {
         LeaderboardWorker_Action_Error(work);
         return;
@@ -189,7 +189,7 @@ void LeaderboardWorker_State_BeginWorking(LeaderboardWorker *work)
 
 void LeaderboardWorker_State_UploadingScore(LeaderboardWorker *work)
 {
-    if (MultibootManager__GetField8() != 17 || GetLeaderboardsManagerStatus() == LEADERBOARDSMANAGER_STATUS_ERROR)
+    if (VSRoomManager__GetStatus() != VSROOMMANAGER_STATUS_17 || GetLeaderboardsManagerStatus() == LEADERBOARDSMANAGER_STATUS_ERROR)
     {
         LeaderboardWorker_Action_Error(work);
         return;
@@ -221,7 +221,7 @@ void LeaderboardWorker_State_UploadingScore(LeaderboardWorker *work)
 
 void LeaderboardWorker_State_LoadingRanks_Top(LeaderboardWorker *work)
 {
-    if (MultibootManager__GetField8() != 17 || GetLeaderboardsManagerStatus() == LEADERBOARDSMANAGER_STATUS_ERROR)
+    if (VSRoomManager__GetStatus() != VSROOMMANAGER_STATUS_17 || GetLeaderboardsManagerStatus() == LEADERBOARDSMANAGER_STATUS_ERROR)
     {
         LeaderboardWorker_Action_Error(work);
         return;
@@ -259,7 +259,7 @@ void LeaderboardWorker_State_LoadingRanks_Top(LeaderboardWorker *work)
 
 void LeaderboardWorker_State_LoadingRanks_Near(LeaderboardWorker *work)
 {
-    if (MultibootManager__GetField8() != 17 || GetLeaderboardsManagerStatus() == LEADERBOARDSMANAGER_STATUS_ERROR)
+    if (VSRoomManager__GetStatus() != VSROOMMANAGER_STATUS_17 || GetLeaderboardsManagerStatus() == LEADERBOARDSMANAGER_STATUS_ERROR)
     {
         LeaderboardWorker_Action_Error(work);
         return;
@@ -292,7 +292,7 @@ void LeaderboardWorker_State_LoadingRanks_Near(LeaderboardWorker *work)
 
 void LeaderboardWorker_State_SavingRanks(LeaderboardWorker *work)
 {
-    if (MultibootManager__GetField8() != 17 || GetLeaderboardsManagerStatus() == LEADERBOARDSMANAGER_STATUS_ERROR)
+    if (VSRoomManager__GetStatus() != VSROOMMANAGER_STATUS_17 || GetLeaderboardsManagerStatus() == LEADERBOARDSMANAGER_STATUS_ERROR)
     {
         LeaderboardWorker_Action_Error(work);
         return;
@@ -378,8 +378,8 @@ void LeaderboardWorker_Action_SavedRanks(LeaderboardWorker *work)
 
 void LeaderboardWorker_Action_Error(LeaderboardWorker *work)
 {
-    if (MultibootManager__GetField8() != 0)
-        MultibootManager__Func_2061BF0(work->failedToLoad);
+    if (VSRoomManager__GetStatus() != VSROOMMANAGER_STATUS_0)
+        VSRoomManager__Func_2061BF0(work->failedToLoad);
 
     DestroyLeaderboardsManager();
 

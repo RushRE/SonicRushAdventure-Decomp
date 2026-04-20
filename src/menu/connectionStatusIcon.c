@@ -94,7 +94,7 @@ void CreateConnectionStatusIcon(ConnectionMode desiredConnectionMode, BOOL useEn
 
     if (desiredConnectionMode == CONNECTION_MODE_AUTO)
     {
-        if (WirelessManager__GetField8())
+        if (WirelessManager__GetStatus())
         {
             connectionMode = CONNECTION_MODE_WIRELESS;
         }

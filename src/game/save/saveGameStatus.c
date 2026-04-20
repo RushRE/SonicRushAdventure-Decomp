@@ -510,7 +510,7 @@ SavePlayerName *SaveGame__GetFriendName(u16 id)
     return &saveGame.onlineProfile.friendNames[id];
 }
 
-void SaveGame__SetFrontFriendName(SavePlayerName *name)
+void SaveGame__SetFrontFriendName(char16 *name)
 {
     SaveGame__SetFriendName(0, name);
 }
@@ -595,7 +595,7 @@ u64 SaveGame__GetFriendKeyFromName_Internal(SavePlayerName *name)
     return friendKey;
 }
 
-void SaveGame__SetFriendName(u16 id, SavePlayerName *name)
+void SaveGame__SetFriendName(u16 id, char16 *name)
 {
     s32 i = 0;
 
@@ -603,10 +603,10 @@ void SaveGame__SetFriendName(u16 id, SavePlayerName *name)
 
     for (; i < SAVEGAME_MAX_NAME_LEN; i++)
     {
-        if (name->text[i] == 0)
+        if (name[i] == 0)
             break;
 
-        friendName->text[i] = name->text[i];
+        friendName->text[i] = name[i];
     }
 
     for (; i < SAVEGAME_MAX_NAME_LEN; i++)

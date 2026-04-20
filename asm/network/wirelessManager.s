@@ -1,6 +1,230 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+
+.public WirelessManager__sVars
+WirelessManager__sVars: // 0x02135EC0
+	.space 0x18 
+	
+.public WirelessManager__sendBufferQueue
+WirelessManager__sendBufferQueue: // 0x002135ED8
+	.space 18 * 0x4
+	
+.public Task__Unknown20673B0__byte_2135F20
+Task__Unknown20673B0__byte_2135F20: // 02135F20
+	.space 32 * 0x1
+	
+.public WirelessManager__gameInfo
+WirelessManager__gameInfo: // 0x02135F40
+	.space 0x80
+	
+.public WirelessManager__sendBuffer
+WirelessManager__sendBuffer: // 0x02135FC0
+	.space 128 * 0x04 
+	
+.public word_21361C0
+word_21361C0: // 0x021361C0
+	.space 144 * 0x04
+
+.public whConfig_sChannelBusyRatio
+whConfig_sChannelBusyRatio: // 0x02136400
+	.space 0x02
+
+.public whConfig_sConnectBitmap
+whConfig_sConnectBitmap: // 0x02136402
+	.space 0x02
+
+.public whConfig_sChannelIndex
+whConfig_sChannelIndex: // 0x02136404
+	.space 0x02
+
+.public whConfig_wmMaxParentSize
+whConfig_wmMaxParentSize: // 0x02136406
+	.space 0x02
+
+.public whConfig_sMyAid
+whConfig_sMyAid: // 0x02136408
+	.space 0x02
+
+.public whConfig_sChannel
+whConfig_sChannel: // 0x0213640A
+	.space 0x02
+
+.public whConfig_wmMinDataSize
+whConfig_wmMinDataSize: // 0x0213640C
+	.space 0x02
+
+.public whConfig_sChannelBitmap
+whConfig_sChannelBitmap: // 0x0213640E
+	.space 0x02
+
+.public whConfig_wmMaxChildCount
+whConfig_wmMaxChildCount: // 0x02136410
+	.space 0x02
+
+.public whConfig_sAutoConnectFlag
+whConfig_sAutoConnectFlag: // 0x02136412
+	.space 0x02
+
+.public whConfig_wmMaxChildSize
+whConfig_wmMaxChildSize: // 0x02136414
+	.space 0x02
+	.align 4
+
+.public whConfig_dword_2136418
+whConfig_dword_2136418: // 0x02136418
+	.space 0x04
+
+.public whConfig_sSysState
+whConfig_sSysState: // 0x0213641C
+	.space 0x04
+
+.public whConfig_whAllocFunc
+whConfig_whAllocFunc: // 0x02136420
+	.space 0x04
+
+.public whConfig_sReceiverFunc
+whConfig_sReceiverFunc: // 0x02136424
+	.space 0x04
+
+.public whConfig_sScanCallback
+whConfig_sScanCallback: // 0x02136428
+	.space 0x04
+
+.public whConfig_sConnectMode
+whConfig_sConnectMode: // 0x0213642C
+	.space 0x04
+
+.public whConfig_sParentWEPKeyGenerator
+whConfig_sParentWEPKeyGenerator: // 0x02136430
+	.space 0x04
+
+.public whConfig_sRecvBufferSize
+whConfig_sRecvBufferSize: // 0x02136434
+	.space 0x04
+
+.public whConfig_sPictoCatchFlag
+whConfig_sPictoCatchFlag: // 0x02136438
+	.space 0x04
+
+.public whConfig_sRand
+whConfig_sRand: // 0x0213643C
+	.space 0x04
+
+.public whConfig_whFreeFunc
+whConfig_whFreeFunc: // 0x02136440
+	.space 0x04
+
+.public whConfig_wh_trace
+whConfig_wh_trace: // 0x02136444
+	.space 0x04
+
+.public whConfig_sSendBufferSize
+whConfig_sSendBufferSize: // 0x02136448
+	.space 0x04
+
+.public whConfig_sErrCode
+whConfig_sErrCode: // 0x0213644C
+	.space 0x04
+
+.public whConfig_sJudgeAcceptFunc
+whConfig_sJudgeAcceptFunc: // 0x02136450
+	.space 0x04
+
+.public whConfig_dword_2136454
+whConfig_dword_2136454: // 0x02136454
+	.space 0x04
+
+.public whConfig_dword_2136458
+whConfig_dword_2136458: // 0x02136458
+	.space 0x04
+
+.public whConfig_dword_213645C
+whConfig_dword_213645C: // 0x0213645C
+	.space 0x04
+
+
+.public sWEPKey
+sWEPKey: // 0x02136460
+	.space 16 * 0x02
+	
+.public sScanParam
+sScanParam: // 0x02136480
+	.space 0x20 // WMScanParam
+	
+.public sParentParam
+sParentParam: // 0x021364A0
+	.space 0x40 // WMParentParam
+	
+.public sBssDesc
+sBssDesc: // 0x021364E0
+	.space 0xC0 // WMBssDesc
+	
+.public sDataSet
+sDataSet: // 0x021365A0
+	.space 0x200 // WMDataSet
+	
+.public sWMKeySetBuf
+sWMKeySetBuf: // 0x021367A0
+	.space 0x820 // WMKeySetBuf
+	
+.public WMDataSharingInfo
+WMDataSharingInfo: // 0x02136FC0
+	.space 0x820 // WMDataSharingInfo
+	
+.public sConnectionSsid
+sConnectionSsid: // 0x021377E0
+	.space 32 * 0x01
+	
+.public sSendBuffer
+sSendBuffer: // 0x02137800
+	.space 544 * 0x01
+	
+.public sRecvBuffer
+sRecvBuffer: // 0x02137A20
+	.space 0x480 * 0x01
+	
+.public sWmBuffer
+sWmBuffer: // 0x02137EA0
+	.space 0xF00 * 0x01
+	
+.public wfsi_work
+wfsi_work: // 0x02138DA0
+	.space 0x4 // WFSWork*
+	
+.public WFS__init_flag
+WFS__init_flag: // 0x02138DA4
+	.space 0x4
+	
+.public wfsi_debug_enable
+wfsi_debug_enable: // 0x02138DA8
+	.space 0x4
+	
+.public wfsi_task
+wfsi_task: // 0x02138DAC
+	.space 0x4CC // WFSiTask
+	
+.public sFilebuf
+sFilebuf: // 0x02139278
+	.space 0x4 // u8*
+	
+.public dword_213927C
+dword_213927C: // 0x0213927C
+	.space 0x4
+	
+.public sCWork
+sCWork: // 0x02139280
+	.space 0x4 // u32*
+	
+.public mbpState
+mbpState: // 0x02139284
+	.space 0x0E // MBPState
+	
+.public childInfo
+childInfo: // 0x02139292
+	.space 15 * 0x1E
+
 	.text
 
 	arm_func_start WirelessManager__InitAllocator
@@ -274,8 +498,8 @@ _020674BC: .word WirelessManager__JudgeAcceptFunc
 _020674C0: .word WirelessManager__gameInfo
 	arm_func_end WirelessManager__Create
 
-	arm_func_start Task__Unknown20674C4__Create
-Task__Unknown20674C4__Create: // 0x020674C4
+	arm_func_start WirelessManager__Create1
+WirelessManager__Create1: // 0x020674C4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	mov r5, r3
@@ -371,7 +595,7 @@ _02067624: .word WirelessManager__State_2068DD4
 _02067628: .word 0x00400342
 _0206762C: .word WirelessManager__JudgeAcceptFunc
 _02067630: .word WirelessManager__gameInfo
-	arm_func_end Task__Unknown20674C4__Create
+	arm_func_end WirelessManager__Create1
 
 	arm_func_start WirelessManager__Create2
 WirelessManager__Create2: // 0x02067634
@@ -539,8 +763,8 @@ _02067894: .word 0x00400342
 _02067898: .word Task__Unknown20673B0__byte_2135F20
 	arm_func_end WirelessManager__Create3
 
-	arm_func_start MultibootManager__Func_206789C
-MultibootManager__Func_206789C: // 0x0206789C
+	arm_func_start WirelessManager__Func_206789C
+WirelessManager__Func_206789C: // 0x0206789C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	cmp r0, #0
 	mov r6, #1
@@ -597,7 +821,7 @@ _02067948:
 	cmp r6, #0
 	bne _020678DC
 	bl WirelessManager__ClearSendBuffer
-	bl MultibootManager__Func_2067B50
+	bl WirelessManager__ClearUnknownBuffer
 	b _02067970
 _0206795C:
 	bl WMi_CheckInitialized
@@ -621,37 +845,37 @@ _02067970:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _020679A4: .word WirelessManager__sVars
-	arm_func_end MultibootManager__Func_206789C
+	arm_func_end WirelessManager__Func_206789C
 
-	arm_func_start MultibootManager__Func_20679A8
-MultibootManager__Func_20679A8: // 0x020679A8
+	arm_func_start WirelessManager__Func_20679A8
+WirelessManager__Func_20679A8: // 0x020679A8
 	ldr ip, _020679B0 // =WirelessManager__Func_2068360
 	bx ip
 	.align 2, 0
 _020679B0: .word WirelessManager__Func_2068360
-	arm_func_end MultibootManager__Func_20679A8
+	arm_func_end WirelessManager__Func_20679A8
 
-	arm_func_start MultibootManager__Func_20679B4
-MultibootManager__Func_20679B4: // 0x020679B4
+	arm_func_start WirelessManager__GetEntry2
+WirelessManager__GetEntry2: // 0x020679B4
 	ldr ip, _020679BC // =WirelessManager__Func_2068380
 	bx ip
 	.align 2, 0
 _020679BC: .word WirelessManager__Func_2068380
-	arm_func_end MultibootManager__Func_20679B4
+	arm_func_end WirelessManager__GetEntry2
 
-	arm_func_start MultibootManager__Func_20679C0
-MultibootManager__Func_20679C0: // 0x020679C0
+	arm_func_start WirelessManager__RemoveEntry2
+WirelessManager__RemoveEntry2: // 0x020679C0
 	ldr ip, _020679C8 // =WirelessManager__Func_20683A8
 	bx ip
 	.align 2, 0
 _020679C8: .word WirelessManager__Func_20683A8
-	arm_func_end MultibootManager__Func_20679C0
+	arm_func_end WirelessManager__RemoveEntry2
 
-	arm_func_start MultibootManager__Func_20679CC
-MultibootManager__Func_20679CC: // 0x020679CC
+	arm_func_start WirelessManager__Func_20679CC
+WirelessManager__Func_20679CC: // 0x020679CC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl WirelessManager__GetField8
+	bl WirelessManager__GetStatus
 	cmp r0, #4
 	ldmneia sp!, {r4, pc}
 	bl WH_GetSystemState
@@ -670,10 +894,10 @@ _020679F0:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02067A14: .word WirelessManager__sVars
-	arm_func_end MultibootManager__Func_20679CC
+	arm_func_end WirelessManager__Func_20679CC
 
-	arm_func_start MultibootManager__Func_2067A18
-MultibootManager__Func_2067A18: // 0x02067A18
+	arm_func_start WirelessManager__Func_2067A18
+WirelessManager__Func_2067A18: // 0x02067A18
 	stmdb sp!, {r4, lr}
 	ldr r1, _02067A44 // =WirelessManager__sVars
 	mov r4, r0
@@ -687,10 +911,10 @@ MultibootManager__Func_2067A18: // 0x02067A18
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02067A44: .word WirelessManager__sVars
-	arm_func_end MultibootManager__Func_2067A18
+	arm_func_end WirelessManager__Func_2067A18
 
-	arm_func_start MultibootManager__Func_2067A48
-MultibootManager__Func_2067A48: // 0x02067A48
+	arm_func_start WirelessManager__Func_2067A48
+WirelessManager__Func_2067A48: // 0x02067A48
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02067A84 // =WirelessManager__sVars
 	mov r5, r0
@@ -708,10 +932,10 @@ MultibootManager__Func_2067A48: // 0x02067A48
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02067A84: .word WirelessManager__sVars
-	arm_func_end MultibootManager__Func_2067A48
+	arm_func_end WirelessManager__Func_2067A48
 
-	arm_func_start MultibootManager__Func_2067A88
-MultibootManager__Func_2067A88: // 0x02067A88
+	arm_func_start WirelessManager__Func_2067A88
+WirelessManager__Func_2067A88: // 0x02067A88
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02067AE4 // =WirelessManager__sVars
 	mov r5, r0
@@ -737,10 +961,10 @@ MultibootManager__Func_2067A88: // 0x02067A88
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02067AE4: .word WirelessManager__sVars
-	arm_func_end MultibootManager__Func_2067A88
+	arm_func_end WirelessManager__Func_2067A88
 
-	arm_func_start MultibootManager__Func_2067AE8
-MultibootManager__Func_2067AE8: // 0x02067AE8
+	arm_func_start WirelessManager__Func_2067AE8
+WirelessManager__Func_2067AE8: // 0x02067AE8
 	cmp r0, #0
 	ldreq r0, _02067B14 // =WirelessManager__sVars
 	ldreq r1, [r0, #0x10]
@@ -754,7 +978,7 @@ MultibootManager__Func_2067AE8: // 0x02067AE8
 	bx lr
 	.align 2, 0
 _02067B14: .word WirelessManager__sVars
-	arm_func_end MultibootManager__Func_2067AE8
+	arm_func_end WirelessManager__Func_2067AE8
 
 	arm_func_start WirelessManager__GetSendBuffer
 WirelessManager__GetSendBuffer: // 0x02067B18
@@ -785,8 +1009,8 @@ _02067B48: .word MIi_CpuClear32
 _02067B4C: .word WirelessManager__sendBuffer
 	arm_func_end WirelessManager__ClearSendBuffer
 
-	arm_func_start MultibootManager__Func_2067B50
-MultibootManager__Func_2067B50: // 0x02067B50
+	arm_func_start WirelessManager__ClearUnknownBuffer
+WirelessManager__ClearUnknownBuffer: // 0x02067B50
 	ldr ip, _02067B64 // =MIi_CpuClear32
 	ldr r1, _02067B68 // =word_21361C0
 	mov r0, #0
@@ -795,7 +1019,7 @@ MultibootManager__Func_2067B50: // 0x02067B50
 	.align 2, 0
 _02067B64: .word MIi_CpuClear32
 _02067B68: .word word_21361C0
-	arm_func_end MultibootManager__Func_2067B50
+	arm_func_end WirelessManager__ClearUnknownBuffer
 
 	arm_func_start WirelessManager__Create4
 WirelessManager__Create4: // 0x02067B6C
@@ -1030,7 +1254,7 @@ _02067EA0:
 	cmp r6, #0
 	bne _02067E38
 	bl WirelessManager__ClearSendBuffer
-	bl MultibootManager__Func_2067B50
+	bl WirelessManager__ClearUnknownBuffer
 	b _02067EC8
 _02067EB4:
 	bl WMi_CheckInitialized
@@ -1106,8 +1330,8 @@ WirelessManager__Func_2067F40: // 0x02067F40
 _02067F9C: .word WirelessManager__sVars
 	arm_func_end WirelessManager__Func_2067F40
 
-	arm_func_start Task__Unknown2067FA0__Create
-Task__Unknown2067FA0__Create: // 0x02067FA0
+	arm_func_start WirelessManager__Create6
+WirelessManager__Create6: // 0x02067FA0
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	mov r3, #0
@@ -1157,7 +1381,7 @@ _02068050: .word Task__Unknown2067FA0__Destructor
 _02068054: .word WirelessManager__sVars
 _02068058: .word WirelessManager__State_2068994
 _0206805C: .word 0x00400342
-	arm_func_end Task__Unknown2067FA0__Create
+	arm_func_end WirelessManager__Create6
 
 	arm_func_start WirelessManager__Func_2068060
 WirelessManager__Func_2068060: // 0x02068060
@@ -1334,8 +1558,8 @@ WirelessManager__Func_2068234: // 0x02068234
 _02068258: .word WirelessManager__sVars
 	arm_func_end WirelessManager__Func_2068234
 
-	arm_func_start WirelessManager__GetField8
-WirelessManager__GetField8: // 0x0206825C
+	arm_func_start WirelessManager__GetStatus
+WirelessManager__GetStatus: // 0x0206825C
 	stmdb sp!, {r3, lr}
 	ldr r0, _02068280 // =WirelessManager__sVars
 	ldr r0, [r0, #0x14]
@@ -1347,7 +1571,7 @@ WirelessManager__GetField8: // 0x0206825C
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02068280: .word WirelessManager__sVars
-	arm_func_end WirelessManager__GetField8
+	arm_func_end WirelessManager__GetStatus
 
 	arm_func_start WirelessManager__Func_2068284
 WirelessManager__Func_2068284: // 0x02068284
@@ -1568,7 +1792,7 @@ _0206851C:
 	mov r2, #0
 	mov r0, #2
 	str r2, [r1, #4]
-	bl MultibootManager__Func_2069838
+	bl WirelessManager__Func_2069838
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 _02068534:
 	bl OS_WaitVBlankIntr
@@ -1593,7 +1817,7 @@ _02068574:
 	mov r2, #0
 	mov r0, #2
 	str r2, [r1, #4]
-	bl MultibootManager__Func_2069838
+	bl WirelessManager__Func_2069838
 _02068588:
 	mov r8, #0
 	ldr r5, _020685F4 // =WirelessManager__sendBufferQueue
@@ -1647,7 +1871,7 @@ WirelessManager__Func_2068614: // 0x02068614
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl WirelessManager__ClearSendBuffer
-	bl MultibootManager__Func_2067B50
+	bl WirelessManager__ClearUnknownBuffer
 	ldr r1, _02068670 // =WirelessManager__sendBufferQueue
 	mov r0, #0
 	mov r2, #0x40
@@ -1689,7 +1913,7 @@ WirelessManager__Main1: // 0x02068678
 	add r1, r0, #1
 	mov r0, #3
 	strh r1, [r4, #0x1a]
-	bl MultibootManager__Func_2069838
+	bl WirelessManager__Func_2069838
 	b _020686BC
 _020686B4:
 	addlo r0, r0, #1
@@ -1712,7 +1936,7 @@ WirelessManager__Main3: // 0x020686CC
 	add r1, r0, #1
 	mov r0, #3
 	strh r1, [r4, #0x1a]
-	bl MultibootManager__Func_2069838
+	bl WirelessManager__Func_2069838
 	b _02068700
 _020686F8:
 	addlo r0, r0, #1
@@ -1956,7 +2180,7 @@ WirelessManager__State_20689B4: // 0x020689B4
 	cmp r0, #0
 	bne _020689EC
 	mov r0, #1
-	bl MultibootManager__Func_2069838
+	bl WirelessManager__Func_2069838
 	ldmia sp!, {r4, pc}
 _020689EC:
 	mov r1, #0
@@ -2015,7 +2239,7 @@ WirelessManager__State_2068A78: // 0x02068A78
 	ldr r0, _02068AB4 // =WirelessManager__Func_2069794
 	bl Task__Unknown2068430__Create
 	mov r0, #1
-	bl MultibootManager__Func_2067AE8
+	bl WirelessManager__Func_2067AE8
 	mov r1, #0
 	ldr r0, _02068AB8 // =WirelessManager__State_2068ABC
 	strh r1, [r4, #0x1a]
@@ -2560,7 +2784,7 @@ WirelessManager__State_2069190: // 0x02069190
 	ldr r0, _020691C8 // =WirelessManager__Func_2069794
 	bl Task__Unknown2068430__Create
 	mov r0, #1
-	bl MultibootManager__Func_2067AE8
+	bl WirelessManager__Func_2067AE8
 	mov r1, #0
 	ldr r0, _020691CC // =WirelessManager__State_20691D0
 	strh r1, [r4, #0x1a]
@@ -2606,7 +2830,7 @@ _02069208: // jump table
 	b _02069234 // case 10
 _02069234:
 	mov r0, #2
-	bl MultibootManager__Func_2069838
+	bl WirelessManager__Func_2069838
 	ldmia sp!, {r4, pc}
 _02069240:
 	mov r0, #0
@@ -2749,7 +2973,7 @@ _020693D4: // jump table
 	b _02069400 // case 10
 _02069400:
 	mov r0, #2
-	bl MultibootManager__Func_2069838
+	bl WirelessManager__Func_2069838
 	ldmia sp!, {r3, r4, r5, pc}
 _0206940C:
 	mov r0, #0
@@ -2880,7 +3104,7 @@ _02069598: // jump table
 	b _020695C4 // case 10
 _020695C4:
 	mov r0, #2
-	bl MultibootManager__Func_2069838
+	bl WirelessManager__Func_2069838
 	ldmia sp!, {r3, r4, r5, pc}
 _020695D0:
 	mov r0, #0
@@ -2931,7 +3155,7 @@ WirelessManager__State_206966C: // 0x0206966C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #0
-	bl MultibootManager__Func_2067AE8
+	bl WirelessManager__Func_2067AE8
 	add r0, r4, #0x1a00
 	ldrh r0, [r0, #0xee]
 	bl WirelessManager__Func_2068614
@@ -3016,7 +3240,7 @@ _02069778:
 	cmp r7, #0
 	bne _0206970C
 	bl WirelessManager__ClearSendBuffer
-	bl MultibootManager__Func_2067B50
+	bl WirelessManager__ClearUnknownBuffer
 _02069788:
 	mov r0, #0
 	strh r0, [r4, #0x1a]
@@ -3071,14 +3295,14 @@ _02069820:
 	cmp r6, #0
 	bne _020697B4
 	mov r0, #2
-	bl MultibootManager__Func_2069838
+	bl WirelessManager__Func_2069838
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02069834: .word WirelessManager__sVars
 	arm_func_end WirelessManager__Func_2069794
 
-	arm_func_start MultibootManager__Func_2069838
-MultibootManager__Func_2069838: // 0x02069838
+	arm_func_start WirelessManager__Func_2069838
+WirelessManager__Func_2069838: // 0x02069838
 	stmdb sp!, {r4, lr}
 	ldr r1, _02069864 // =WirelessManager__sVars
 	mov r4, r0
@@ -3093,7 +3317,7 @@ MultibootManager__Func_2069838: // 0x02069838
 	.align 2, 0
 _02069864: .word WirelessManager__sVars
 _02069868: .word WirelessManager__State_20696C4
-	arm_func_end MultibootManager__Func_2069838
+	arm_func_end WirelessManager__Func_2069838
 
 	arm_func_start Task__Unknown2067FA0__Main
 Task__Unknown2067FA0__Main: // 0x0206986C
@@ -3106,7 +3330,7 @@ Task__Unknown2067FA0__Main: // 0x0206986C
 	add r1, r0, #1
 	mov r0, #3
 	strh r1, [r4, #0x1a]
-	bl MultibootManager__Func_2069838
+	bl WirelessManager__Func_2069838
 	b _020698A0
 _02069898:
 	addlo r0, r0, #1
