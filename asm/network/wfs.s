@@ -17,14 +17,18 @@ wfsi_debug_enable: // 0x02138DA8
 	
 .public wfsi_task
 wfsi_task: // 0x02138DAC
-	.space 0x4CC // WFSiTask
+	.space 0x4C8 // WFSiTask
+	
+.public WFS_allocFunc
+WFS_allocFunc: // 0x0213927C
+	.space 0x4
 	
 .public sFilebuf
 sFilebuf: // 0x02139278
 	.space 0x4 // u8*
 	
-.public dword_213927C
-dword_213927C: // 0x0213927C
+.public WFS_freeFunc
+WFS_freeFunc: // 0x0213927C
 	.space 0x4
 	
 .public sCWork

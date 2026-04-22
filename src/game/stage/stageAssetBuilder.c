@@ -607,7 +607,7 @@ GameDataFileReqStatus GameDataLoadFileReq(const GMS_GAMEDAT_LOAD_INFO *loadInfo,
         }
 
         case GAMEDATA_FILEREQ_MODE_2: {
-            u32 oldBitmap     = context->connectBitmap;
+            u16 oldBitmap     = context->connectBitmap;
             context->connectBitmap = WH_GetConnectBitmap();
             if (WirelessManager__Func_2068284(oldBitmap) > WirelessManager__Func_2068284(context->connectBitmap))
             {

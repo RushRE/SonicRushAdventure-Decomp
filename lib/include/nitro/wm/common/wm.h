@@ -551,7 +551,7 @@ typedef struct WMParentParam
     u16 rsv[4];
 } WMParentParam, WMpparam;
 
-typedef struct WMGameInfo
+typedef struct WMGameInfo_
 {
     u16 magicNumber;
     u8 ver;
@@ -578,7 +578,7 @@ typedef struct WMGameInfo
     };
 } WMGameInfo, WMgameInfo;
 
-typedef struct WMBssDesc
+typedef struct WMBssDesc_
 {
     u16 length;
     u16 rssi;
@@ -602,7 +602,7 @@ typedef struct WMBssDesc
 
 } WMBssDesc, WMbssDesc;
 
-typedef struct WMOtherElements
+typedef struct WMOtherElements_
 {
     u8 count;
     u8 rsv[3];
@@ -615,7 +615,7 @@ typedef struct WMOtherElements
     } element[WM_SCAN_OTHER_ELEMENT_MAX];
 } WMOtherElements;
 
-typedef struct WMScanParam
+typedef struct WMScanParam_
 {
     WMBssDesc *scanBuf;
     u16 channel;
@@ -625,7 +625,7 @@ typedef struct WMScanParam
 
 } WMScanParam, WMscanParam;
 
-typedef struct WMScanExParam
+typedef struct WMScanExParam_
 {
     WMBssDesc *scanBuf;
     u16 scanBufSize;
@@ -643,7 +643,7 @@ typedef struct WMScanExParam
 #endif
 } WMScanExParam, WMscanExParam;
 
-typedef struct WMMPParam
+typedef struct WMMPParam_
 {
     u32 mask;
 
@@ -663,7 +663,7 @@ typedef struct WMMPParam
     u8 ignoreSizePrecheckMode;
 } WMMPParam;
 
-typedef struct WMStatus
+typedef struct WMStatus_
 {
     u16 state;
     u16 BusyApiid;
@@ -806,7 +806,7 @@ typedef struct WMStatus
     OSTick mp_lifeTimeTick;
 } WMStatus, WMstatus;
 
-typedef struct WMArm7Buf
+typedef struct WMArm7Buf_
 {
     WMStatus *status;
 
@@ -820,7 +820,7 @@ typedef struct WMArm7Buf
     u32 requestBuf[512 / sizeof(u32)];
 } WMArm7Buf, WMarm7Buf;
 
-typedef struct WMArm9Buf
+typedef struct WMArm9Buf_
 {
     WMArm7Buf *WM7;
     WMStatus *status;
@@ -842,7 +842,7 @@ typedef struct WMArm9Buf
     u8 reserved1[WM_ARM9WM_BUF_SIZE - (20 + 4 + 4 * WM_NUM_OF_CALLBACK + 4 + (4 + 4) * WM_NUM_OF_PORT + 6)];
 } WMArm9Buf, WMarm9Buf;
 
-typedef struct WMStartScanReq
+typedef struct WMStartScanReq_
 {
     u16 apiid;
     u16 channel;
@@ -851,7 +851,7 @@ typedef struct WMStartScanReq
     u8 bssid[WM_SIZE_BSSID];
 } WMStartScanReq, WMstartScanReq;
 
-typedef struct WMStartScanExReq
+typedef struct WMStartScanExReq_
 {
     u16 apiid;
     u16 channelList;
@@ -870,7 +870,7 @@ typedef struct WMStartScanExReq
 #endif
 } WMStartScanExReq, WMstartScanExReq;
 
-typedef struct WMStartConnectReq
+typedef struct WMStartConnectReq_
 {
     u16 apiid;
     u16 reserved;
@@ -881,7 +881,7 @@ typedef struct WMStartConnectReq
     u16 authMode;
 } WMStartConnectReq, WMstartConnectReq;
 
-typedef struct WMMeasureChannelReq
+typedef struct WMMeasureChannelReq_
 {
     u16 apiid;
     u16 ccaMode;
@@ -890,7 +890,7 @@ typedef struct WMMeasureChannelReq
     u16 measureTime;
 } WMMeasureChannelReq, WMmeasureChannelReq;
 
-typedef struct WMSetMPParameterReq
+typedef struct WMSetMPParameterReq_
 {
     u16 apiid;
     u16 reserved;
@@ -898,7 +898,7 @@ typedef struct WMSetMPParameterReq
     WMMPParam param;
 } WMSetMPParameterReq;
 
-typedef struct WMStartMPReq
+typedef struct WMStartMPReq_
 {
     u16 apiid;
     u16 rsv1;
@@ -910,7 +910,7 @@ typedef struct WMStartMPReq
     WMMPParam param;
 } WMStartMPReq;
 
-typedef struct WMStartTestModeReq
+typedef struct WMStartTestModeReq_
 {
     u16 apiid;
     u16 control;
@@ -919,13 +919,13 @@ typedef struct WMStartTestModeReq
     u16 channel;
 } WMStartTestModeReq, WMstartTestModeReq;
 
-typedef struct WMStartTestRxModeReq
+typedef struct WMStartTestRxModeReq_
 {
     u16 apiid;
     u16 channel;
 } WMStartTestRxModeReq, WMstartTestRxModeReq;
 
-typedef struct WMCallback
+typedef struct WMCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -933,7 +933,7 @@ typedef struct WMCallback
     u16 wlResult;
 } WMCallback;
 
-typedef struct WMStartParentCallback
+typedef struct WMStartParentCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -948,7 +948,7 @@ typedef struct WMStartParentCallback
     u16 childSize;
 } WMStartParentCallback, WMstartParentCallback;
 
-typedef struct WMStartScanCallback
+typedef struct WMStartScanCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -964,7 +964,7 @@ typedef struct WMStartScanCallback
     WMGameInfo gameInfo;
 } WMStartScanCallback, WMstartScanCallback;
 
-typedef struct WMStartScanExCallback
+typedef struct WMStartScanExCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -978,7 +978,7 @@ typedef struct WMStartScanExCallback
     u16 linkLevel[WM_SCAN_EX_PARENT_MAX];
 } WMStartScanExCallback, WMstartScanExCallback;
 
-typedef struct WMStartConnectCallback
+typedef struct WMStartConnectCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -993,7 +993,7 @@ typedef struct WMStartConnectCallback
     u16 childSize;
 } WMStartConnectCallback, WMstartConnectCallback;
 
-typedef struct WMDisconnectCallback
+typedef struct WMDisconnectCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -1003,7 +1003,7 @@ typedef struct WMDisconnectCallback
     u16 disconnectedBitmap;
 } WMDisconnectCallback;
 
-typedef struct WMSetMPParameterCallback
+typedef struct WMSetMPParameterCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -1029,7 +1029,7 @@ typedef struct WMStartMPCallback
     u16 reserved2;
 } WMStartMPCallback, WMstartMPCallback;
 
-typedef struct WMStartDCFCallback
+typedef struct WMStartDCFCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -1039,7 +1039,7 @@ typedef struct WMStartDCFCallback
 
 } WMStartDCFCallback, WMstartDCFCallback;
 
-typedef struct WMMeasureChannelCallback
+typedef struct WMMeasureChannelCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -1049,7 +1049,7 @@ typedef struct WMMeasureChannelCallback
     u16 ccaBusyRatio;
 } WMMeasureChannelCallback, WMmeasureChannelCallback;
 
-typedef struct WMGetWirelessCounterCallback
+typedef struct WMGetWirelessCounterCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -1088,7 +1088,7 @@ typedef struct WMGetWirelessCounterCallback
     u32 MPKeyResponseError[15];
 } WMGetWirelessCounterCallback, WMgetWirelessCounterCallback;
 
-typedef struct WMIndCallback
+typedef struct WMIndCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -1096,7 +1096,7 @@ typedef struct WMIndCallback
     u16 reason;
 } WMIndCallback, WMindCallback;
 
-typedef struct WMPortSendCallback
+typedef struct WMPortSendCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -1121,7 +1121,7 @@ typedef struct WMPortSendCallback
     u16 maxRecvDataSize;
 } WMPortSendCallback;
 
-typedef struct WMPortRecvCallback
+typedef struct WMPortRecvCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -1143,7 +1143,7 @@ typedef struct WMPortRecvCallback
     u16 maxRecvDataSize;
 } WMPortRecvCallback;
 
-typedef struct WMBeaconRecvIndCallback
+typedef struct WMBeaconRecvIndCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -1154,7 +1154,7 @@ typedef struct WMBeaconRecvIndCallback
     WMGameInfo gameInfo;
 } WMBeaconRecvIndCallback;
 
-typedef struct WMStartTestModeCallback
+typedef struct WMStartTestModeCallback_
 {
     u16 apiid;
     u16 errcode;
@@ -1164,7 +1164,7 @@ typedef struct WMStartTestModeCallback
     u16 RFMDflag;
 } WMStartTestModeCallback;
 
-typedef struct WMStopTestRxModeCallback
+typedef struct WMStopTestRxModeCallback_
 {
     u16 apiid;
     u16 errcode;

@@ -9,6 +9,19 @@ extern "C"
 #endif
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum WFSState_
+{
+    WFS_STATE_STOP,
+    WFS_STATE_IDLE,
+    WFS_STATE_READY,
+    WFS_STATE_ERROR,
+};
+typedef u32 WFSState;
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
@@ -43,9 +56,9 @@ NOT_DECOMPILED void WFS_InitChild(void);
 NOT_DECOMPILED void WFS_Start(void);
 NOT_DECOMPILED void WFS_End(void);
 NOT_DECOMPILED s32 WFS_GetStatus(void);
-NOT_DECOMPILED void WFS_GetBusyBitmap(void);
+NOT_DECOMPILED u32 WFS_GetBusyBitmap(void);
 NOT_DECOMPILED u32 WFS_Func_206D9B4(void);
-NOT_DECOMPILED void WFS_EnableSync(void);
+NOT_DECOMPILED void WFS_EnableSync(u16 sync_bitmap);
 NOT_DECOMPILED void WFS_SetDebugMode(void);
 NOT_DECOMPILED void WFSi_NotifyBusy(void);
 NOT_DECOMPILED void WFSi_TaskThread(void);

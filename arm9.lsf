@@ -135,7 +135,8 @@ Static arm9
     Object src/game/save/saveInitManager.o
     Object src/game/save/saveInitMessage.o
     Object asm/game/unknown/unknown2066510.o
-    Object asm/network/wirelessManager.o
+    Object src/network/wirelessManager.o
+    Object src/network/wirelessManager_1.o
     Object asm/network/wh.o
     Object asm/network/wfs.o
     Object asm/network/mbp.o

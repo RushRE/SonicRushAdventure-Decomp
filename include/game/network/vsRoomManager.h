@@ -4,6 +4,7 @@
 #include <global.h>
 #include <game/system/task.h>
 #include <game/save/saveGame.h>
+#include <game/network/wirelessManager.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -318,8 +319,8 @@ void VSRoomManager__Func_2063B6C(void);
 void VSRoomManager__Func_2063B80(void);
 void VSRoomManager__Func_2063B94(void);
 void VSRoomManager__Func_2063BA8(void);
-u16 *VSRoomManager__Func_2063BBC(void);
-u16 *VSRoomManager__Func_2063BC8(void);
+WirelessManager_Unknown2068160 *VSRoomManager__Func_2063BBC(void);
+WirelessManager_Unknown2067A88 *VSRoomManager__Func_2063BC8(void);
 BOOL VSRoomManager__AddFriend(DWCAccFriendData *friend, char16 *name, u16 nameLength);
 
 #ifdef __cplusplus
