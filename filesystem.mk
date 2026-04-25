@@ -439,6 +439,9 @@ TOOL_FILES := .archivepack
 .PHONY: filesystem clean-filesystem clean-fs
 
 filesystem_extract:
+	@echo "--------------------------------"
+	@echo "Extracting Files..."
+	@echo "--------------------------------"
 	$(ROMEXTRACT) --rom baserom.nds --fileTable FileTable.txt
 
 filesystem_pack: $(SOURCE_FILES)
@@ -450,10 +453,21 @@ endif
 endif
 
 filesystem: $(SOURCE_FILES)
+	@echo "--------------------------------"
+	@echo "Extracting Files..."
+	@echo "--------------------------------"
 	$(ROMEXTRACT) --rom baserom.nds --fileTable FileTable.txt
+	
+	@echo "--------------------------------"
+	@echo "Packing Archives..."
+	@echo "--------------------------------"
 	$(ARCHIVEPACK) resources
+
 ifeq ($(COMPARE),1)
 ifneq ($(GAME_VERSION),RUSH_CONTEST)
+	@echo "--------------------------------"
+	@echo "Comparing Files with original..."
+	@echo "--------------------------------"
 	$(SHA1SUM) --quiet -c $(WORK_DIR)/$(buildname)/filesystem.sha1
 endif
 endif

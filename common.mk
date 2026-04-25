@@ -314,10 +314,24 @@ $(SBIN): build/%.sbin: build/%.elf
 endif
 
 ifeq ($(COMPARE),1)
+	@echo "--------------------------------"
+	@echo "Comparing bin with original..."
+	@echo "--------------------------------"
 	$(SHA1SUM) -c $*.sha1
 endif
 
 $(ELF): $(ALL_OBJS)
+	@echo "--------------------------------"
+	@echo "Building LCF..."
+	@echo "--------------------------------"
 	$(MAKE) $(LCF)
+	
+	@echo "--------------------------------"
+	@echo "Building Response file..."
+	@echo "--------------------------------"
 	$(MAKE) $(RESPONSE)
+
+	@echo "--------------------------------"
+	@echo "Linking..."
+	@echo "--------------------------------"
 	cd $(BUILD_DIR) && LM_LICENSE_FILE=$(BACK_REL)/$(LM_LICENSE_FILE) $(WINE) $(MWLD) $(MWLDFLAGS) $(LIBS) -o $(BACK_REL)/$(ELF) $(LCF:$(BUILD_DIR)/%=%) @$(RESPONSE:$(BUILD_DIR)/%=%) $(CRT0_OBJ)

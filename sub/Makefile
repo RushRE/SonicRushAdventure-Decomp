@@ -28,7 +28,14 @@ tidy:
 clean: tidy
 
 all:
+	@echo "--------------------------------"
+	@echo "Patching mwasarm (arm7)..."
+	@echo "--------------------------------"
 	$(MAKE) patch_mwasmarm 
+	
+	@echo "--------------------------------"
+	@echo "Building arm7 binary..."
+	@echo "--------------------------------"
 	$(MAKE) target
 
 target: $(SBIN) $(ELF)

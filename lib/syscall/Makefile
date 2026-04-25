@@ -21,7 +21,14 @@ INSTALL_PREFIX ?= $(WORK_DIR)/lib/ARM9-TS
 INSTALL_LIBDIR := $(INSTALL_PREFIX)/lib
 
 all: 
+	@echo "--------------------------------"
+	@echo "Patching mwasarm (syscall)..."
+	@echo "--------------------------------"
 	$(MAKE) patch_mwasmarm
+	
+	@echo "--------------------------------"
+	@echo "Building syscall library..."
+	@echo "--------------------------------"
 	$(MAKE) $(LIB)
 
 $(LIB): $(ALL_OBJS)

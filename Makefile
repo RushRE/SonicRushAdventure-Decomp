@@ -38,8 +38,24 @@ HEADER_TEMPLATE := $(buildname)/rom_header_template.sbin
 MAKEFLAGS += --no-print-directory
 
 all:
+	@echo "================================"
+	@echo "Building ROM: $(buildname)"
+	@echo "================================"
+	
+	@echo "--------------------------------"
+	@echo "Building tools..."
+	@echo "--------------------------------"
 	$(MAKE) tools
+	
+	@echo "--------------------------------"
+	@echo "Patching mwasarm..."
+	@echo "--------------------------------"
 	$(MAKE) patch_mwasmarm
+	
+	@echo "--------------------------------"
+	@echo "Building ROM..."
+	@echo "--------------------------------"
+
 	$(MAKE) $(ROM)
 
 tidy:
@@ -76,9 +92,15 @@ $(ALL_OBJS): files_for_compile
 $(ELF): files_for_compile libsyscall
 
 libsyscall: files_for_compile
+	@echo "--------------------------------"
+	@echo "Compiling syscall module..."
+	@echo "--------------------------------"
 	$(MAKE) -C lib/syscall all install INSTALL_PREFIX=$(abspath $(WORK_DIR)/$(BUILD_DIR)) GAME_CODE=$(GAME_CODE)
 
 $(SBIN_LZ): $(BUILD_DIR)/component.files
+	@echo "--------------------------------"
+	@echo "Compressing static binaries..."
+	@echo "--------------------------------"
 	$(COMPSTATIC) -9 -c -f $<
 
 $(BUILD_DIR)/component.files: arm9 ;
@@ -86,13 +108,27 @@ $(BUILD_DIR)/component.files: arm9 ;
 $(HEADER_TEMPLATE): ;
 
 $(ROM): $(ROMSPEC) filesystem arm9_lz arm7 $(BANNER)
+	@echo "--------------------------------"
+	@echo "Compiling ROM..."
+	@echo "--------------------------------"
 	$(WINE) $(MAKEROM) $(MAKEROM_FLAGS) $(MAKEROM_DEFINES) -DBUILD_DIR=$(BUILD_DIR) -DNITROFS_FILES="$(NITROFS_FILES:resources/%=%)" -DTITLE_NAME="$(TITLE_NAME)" -DROM_PADDING="$(ROM_PADDING)" -DREMASTER_VERSION="$(REMASTER_VERSION)" -DBNR="$(BANNER)" -DHEADER_TEMPLATE="$(HEADER_TEMPLATE)" $< $@
+	
+	@echo "--------------------------------"
+	@echo "Applying ROM CRC..."
+	@echo "--------------------------------"
 	$(FIXROM) $@ --secure-crc $(SECURE_CRC) --game-code $(GAME_CODE)
+
 ifeq ($(COMPARE),1)
+	@echo "--------------------------------"
+	@echo "Comparing ROM with original..."
+	@echo "--------------------------------"
 	$(SHA1SUM) -c $(buildname)/rom.sha1
 endif
 
 $(BANNER): $(BANNER_SPEC) $(ICON_PNG:%.png=%.nbfp) $(ICON_PNG:%.png=%.nbfc)
+	@echo "--------------------------------"
+	@echo "Building Banner..."
+	@echo "--------------------------------"
 	$(WINE) $(MAKEBNR) $< $@
 
 # TODO: move to NitroSDK makefile
